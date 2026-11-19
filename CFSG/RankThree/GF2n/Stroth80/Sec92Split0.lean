@@ -266,7 +266,7 @@ theorem alpha_good [IsSimpleGroup S] (hD : AlphaData ρ Vt Wt ψ) {LB LA : Subgr
     have hu' : (ψ u⁻¹).2 = 1 := by rw [map_inv, Prod.snd_inv, hu, inv_one]
     rw [rho_conj_apply, hf _ (hXinv _ hu' x hx), rho_rho_inv]
   let F₁ : Subgroup S := (F.map ψ).comap (MonoidHom.inl S S)
-  haveI : F₁.Normal := ⟨fun s hs t => by
+  have : F₁.Normal := ⟨fun s hs t => by
     obtain ⟨f, hf, hfs⟩ := hs
     obtain ⟨u, hu⟩ := hD.surj (t, 1)
     refine ⟨u * f * u⁻¹, hconjF u (by rw [hu]) f hf, ?_⟩
@@ -316,7 +316,7 @@ theorem alpha_second [IsSimpleGroup S] (hD : AlphaData ρ Vt Wt ψ) {LB LA : Sub
         exact h1.symm }
   have hmemK : ∀ k, k ∈ K₂ ↔ ∀ m ∈ ψ.ker, ∀ y ∈ Wt, ρ (k * m * k⁻¹) y - y = ρ m y - y :=
     fun k => Iff.rfl
-  haveI hK₂n : K₂.Normal := ⟨fun k hk γ m hm y hy => by
+  have hK₂n : K₂.Normal := ⟨fun k hk γ m hm y hy => by
     rw [show γ * k * γ⁻¹ * m * (γ * k * γ⁻¹)⁻¹ = γ * (k * (γ⁻¹ * m * γ⁻¹⁻¹) * k⁻¹) * γ⁻¹ by
         group, alpha_conj, hk _ (conj_mem_ker hm) _ (hD.W_inv _ y hy), ← alpha_conj,
       show γ * (γ⁻¹ * m * γ⁻¹⁻¹) * γ⁻¹ = m by group]⟩
@@ -326,7 +326,7 @@ theorem alpha_second [IsSimpleGroup S] (hD : AlphaData ρ Vt Wt ψ) {LB LA : Sub
   obtain ⟨g₁, hg₁L, hg₁⟩ := h1
   have hg₁K : g₁ ∈ K₂ := fun m hm y hy => hD.alpha_good hP hg₁L (by rw [hg₁]) hm hy
   let K₂' : Subgroup S := (K₂.map ψ).comap (MonoidHom.inr S S)
-  haveI : K₂'.Normal := ⟨fun s hs t => by
+  have : K₂'.Normal := ⟨fun s hs t => by
     obtain ⟨k, hk, hks⟩ := hs
     obtain ⟨u, hu⟩ := hD.surj (1, t)
     refine ⟨u * k * u⁻¹, hK₂n.conj_mem k hk u, ?_⟩

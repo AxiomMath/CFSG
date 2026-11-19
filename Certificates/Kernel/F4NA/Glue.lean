@@ -19,10 +19,10 @@ open CFSG.KC.F4NA CFSG.KC.F4Salt CFSG.RankThree.PartOne.F106 CFSG.LieType.Simpli
   CFSG.Blueprint
 
 theorem getD_toArray (l : List ℕ) (i : ℕ) : l.toArray.getD i 0 = l.getD i 0 := by
-  simp only [Array.getD, List.size_toArray, List.getElem_toArray, List.getD_eq_getElem?_getD]
+  simp only [Array.getD, List.size_toArray, List.getD_eq_getElem?_getD]
   split
-  · simp_all [List.getElem?_eq_getElem]
-  · simp_all [List.getElem?_eq_none]
+  · simp_all
+  · simp_all
 
 theorem tb_eq (i : ℕ) : f4ThreeCert.tabArr.getD i 0 = f4ThreeCert.tab.getD i 0 :=
   getD_toArray _ i

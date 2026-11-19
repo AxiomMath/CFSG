@@ -73,7 +73,7 @@ private theorem exists_nbr_ne (h : SubdivCubic Γ Δ sm) {y : V} (hy : y ∈ Δ)
   · exact ⟨q, hq, fun hqa => hpq (hpa.trans hqa.symm)⟩
   · exact ⟨p, hp, hpa⟩
 
-private theorem exists_ray (h : SubdivCubic Γ Δ sm) {e y : V} (he : e ∈ Δ) (hesm : ¬ sm e)
+private theorem exists_ray (h : SubdivCubic Γ Δ sm) {e y : V} (_he : e ∈ Δ) (hesm : ¬ sm e)
     (hy : y ∈ Δ) (hey : Γ.Adj e y) :
     ∃ a b c d : V, Γ.Adj y a ∧ a ≠ e ∧ Γ.Adj a b ∧ b ≠ y ∧ Γ.Adj b c ∧ c ≠ a ∧ Γ.Adj c d ∧
       d ≠ b ∧ a ∈ Δ ∧ b ∈ Δ ∧ c ∈ Δ ∧ d ∈ Δ ∧ sm d := by
@@ -119,7 +119,7 @@ theorem exists_arc (h : SubdivCubic Γ Δ sm) {e : V} (he : e ∈ Δ) (hesm : ¬
     obtain rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl :
         i = 0 ∨ i = 1 ∨ i = 2 ∨ i = 3 ∨ i = 4 ∨ i = 5 ∨ i = 6 ∨ i = 7 ∨ i = 8 ∨ i = 9 ∨
           i = 10 := by omega
-    all_goals first | assumption | exact h₁.1 | exact h₂.1 | exact he
+    all_goals first | assumption | exact h₁.1 | exact h₂.1
 
 private abbrev SmVert (Δ : Set V) (sm : V → Prop) : Type := {y : V // y ∈ Δ ∧ sm y}
 
@@ -325,7 +325,7 @@ private theorem sigma_fix5 [Finite A] {N : Subgroup A} [MulAction ↥N (SmVert �
       ∃ n ∈ N, n • y = y ∧ n • e = e')
     (y₀ : SmVert Δ sm) (Q : Arc (sigmaGraph Γ Δ sm) 5) (a : ↥N)
     (hQ : ∀ i, i ≤ 5 → a • Q.vert i = Q.vert i) : ∀ w : SmVert Δ sm, a • w = w := by
-  haveI : Nonempty (SmVert Δ sm) := ⟨y₀⟩
+  have : Nonempty (SmVert Δ sm) := ⟨y₀⟩
   exact fixes_of_fixes_fiveArc (W := SmVert Δ sm) (Γ := sigmaGraph Γ Δ sm)
     ⟨sigma_preconnected h⟩ (sigma_card h) (sigma_adj_smul hadj hval) (sigma_htrans hval htrans)
     (fun _ => inferInstance) (sigma_hloc h hadj hval hloc) Q a hQ
@@ -364,7 +364,7 @@ theorem fixes_of_fixes_arc (h : SubdivCubic Γ Δ sm) {n : A} (hn : n ∈ N) (P 
         have h₃ : ¬ k % 2 = 0 := by omega
         by_contra hs
         exact h₃ (h₂.1 (h₁.2 hs))
-  letI : MulAction ↥N (SmVert Δ sm) := smAct N hNΔ hNsm
+  let : MulAction ↥N (SmVert Δ sm) := smAct N hNΔ hNsm
   have hval : ∀ (a : ↥N) (y : SmVert Δ sm), ((a • y : SmVert Δ sm) : V) = (a : A) • (y : V) :=
     fun _ _ => rfl
   obtain ⟨Q, hQvert⟩ : ∃ Q : Arc (sigmaGraph Γ Δ sm) 5,
@@ -455,7 +455,7 @@ theorem fixes_nbrs_of_fixes (h : SubdivCubic Γ Δ sm) {n : A} (hn : n ∈ N) {y
     smul_eq_of_fix_edge h hadjn hnΔ hy hsm he₂ hny (hfy e₂ he₂) hy₂ h₂ hy₂y
   have hny₃ : n • y₃ = y₃ :=
     smul_eq_of_fix_edge h hadjn hnΔ hy hsm he₃ hny (hfy e₃ he₃) hy₃ h₃ hy₃y
-  letI : MulAction ↥N (SmVert Δ sm) := smAct N hNΔ hNsm
+  let : MulAction ↥N (SmVert Δ sm) := smAct N hNΔ hNsm
   have hval : ∀ (a : ↥N) (y : SmVert Δ sm), ((a • y : SmVert Δ sm) : V) = (a : A) • (y : V) :=
     fun _ _ => rfl
   have hfixS : ∀ (z : V) (hz : z ∈ Δ) (hzs : sm z), n • z = z → (∀ v, Γ.Adj z v → n • v = v) →

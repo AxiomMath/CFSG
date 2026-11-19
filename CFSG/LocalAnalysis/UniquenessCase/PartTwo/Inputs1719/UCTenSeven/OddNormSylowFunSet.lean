@@ -63,7 +63,7 @@ theorem mem_centralizer_of_commute_funSet {X : Type} [Group X] [Finite X]
   have hyzpow : (y * z) ^ p ^ j = 1 := by
     have hc : Commute y z := hcomm_yz
     rw [hc.mul_pow, hyj, hzpow, mul_one]
-  obtain ⟨k, hk⟩ := P.isPGroup' ⟨y * z, hyzP⟩
+  obtain ⟨k, hk⟩ := P.isPGroup ⟨y * z, hyzP⟩
   have hk' : (y * z) ^ 2 ^ k = 1 := by
     simpa using congrArg Subtype.val hk
   have hdvd2 : orderOf (y * z) ∣ 2 ^ k := orderOf_dvd_of_pow_eq_one hk'

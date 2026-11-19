@@ -19,10 +19,10 @@ theorem lit_isSimpleGroup_alt6 : IsSimpleGroup (alternatingGroup (Fin 6)) :=
 theorem lit_orbit_ne_five {S : Type*} [Finite S] [MulAction (alternatingGroup (Fin 6)) S]
     (s : S) : (orbit (alternatingGroup (Fin 6)) s).ncard ≠ 5 := by
   intro h5
-  haveI := lit_isSimpleGroup_alt6
+  have := lit_isSimpleGroup_alt6
   set H := stabilizer (alternatingGroup (Fin 6)) s with hH
   have hidx : H.index = 5 := by rw [hH, index_stabilizer, h5]
-  haveI : H.FiniteIndex := ⟨by omega⟩
+  have : H.FiniteIndex := ⟨by omega⟩
   have hdvd : H.normalCore.index ∣ Nat.factorial H.index := by
     rw [Subgroup.normalCore_eq_ker, Subgroup.index_ker, Subgroup.index_eq_card,
       ← Nat.card_perm]
@@ -84,7 +84,7 @@ theorem lit_alt6_orbit_univ {S : Type*} [Finite S] [MulAction (alternatingGroup 
     have h1 := lit_five_dvd_orbit hk5 hfree t
     have h2 := lit_orbit_ne_five t
     rw [← Nat.card_coe_set_eq] at h2
-    haveI : Nonempty (orbit (alternatingGroup (Fin 6)) t) := ⟨⟨t, mem_orbit_self t⟩⟩
+    have : Nonempty (orbit (alternatingGroup (Fin 6)) t) := ⟨⟨t, mem_orbit_self t⟩⟩
     have h3 : 0 < Nat.card (orbit (alternatingGroup (Fin 6)) t) := Nat.card_pos
     omega
   by_contra hne
@@ -118,7 +118,7 @@ theorem lit_alt6_transitive {P S : Type*} [Group P] [Finite S] (hS : Nat.card S 
   have hρ' : ∀ g, ρ' (ψ g) = ρ g := fun g =>
     MonoidHom.liftOfRightInverse_comp_apply ψ (Function.surjInv hψ)
       (Function.rightInverse_surjInv hψ) ⟨ρ, hle⟩ g
-  letI : MulAction (alternatingGroup (Fin 6)) S := MulAction.compHom S ρ'
+  let : MulAction (alternatingGroup (Fin 6)) S := MulAction.compHom S ρ'
   intro s s'
   have horb := lit_alt6_orbit_univ hS hn (fun t => by
     have : (ψ n) • t = ρ n t := by
@@ -169,7 +169,7 @@ theorem lit_alt6_transitive_group {P V : Type*} [Group P] [Group V] [Finite V]
     (hV : Nat.card V = 16) (ρ : P →* MulAut V) (ψ : P →* alternatingGroup (Fin 6))
     (hψ : Function.Surjective ψ) (hker : ∀ g, ψ g = 1 ↔ ρ g = 1) :
     ∀ v w : V, v ≠ 1 → w ≠ 1 → ∃ g : P, ρ g v = w := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨k, hk⟩ := exists_prime_orderOf_dvd_card' (G := alternatingGroup (Fin 6)) 5
     (by rw [lit_card_alt6]; norm_num)
   obtain ⟨n, rfl⟩ := hψ k
@@ -185,7 +185,7 @@ theorem lit_alt6_transitive_group {P V : Type*} [Group P] [Group V] [Finite V]
   have hfree := lit_free_mulAut hV (ρ n) hn5 hnt
   have hS : Nat.card {v : V // v ≠ 1} = 15 := by
     classical
-    haveI := Fintype.ofFinite V
+    have := Fintype.ofFinite V
     rw [Nat.card_eq_fintype_card, Fintype.card_subtype_compl (fun v : V => v = 1),
       Fintype.card_subtype_eq, ← Nat.card_eq_fintype_card, hV]
   have hstab : ∀ (g : P) (v : V), (MulAut.toPerm V (ρ g)) v ≠ 1 ↔ v ≠ 1 := fun g v => by
@@ -196,7 +196,7 @@ theorem lit_alt6_transitive_group {P V : Type*} [Group P] [Group V] [Finite V]
         (MulAut.toPerm V (ρ g)) (hstab g)
       map_one' := by
         ext v
-        simp [lit_toPerm_apply]
+        simp
       map_mul' := fun g h => by
         ext v
         simp [lit_toPerm_apply] }

@@ -134,7 +134,7 @@ private theorem exists_fpf_cyclic_suzuki {a : ℕ} {K : Type} [Field K] (ha : 2 
     rw [← map_pow, hl', map_one]
   have hfixpow : ∀ x : K, σ x = x → x ^ (2 ^ m) = x := by
     intro x hx
-    letI : Fintype (RingHom.eqLocusField (RingEquiv.toRingHom σ) (RingHom.id K)) :=
+    let : Fintype (RingHom.eqLocusField (RingEquiv.toRingHom σ) (RingHom.id K)) :=
       Fintype.ofFinite _
     have hxF : x ∈ RingHom.eqLocusField (RingEquiv.toRingHom σ) (RingHom.id K) := hx
     have hp := FiniteField.pow_card
@@ -190,7 +190,7 @@ theorem exists_fpf_cyclic_of_order_three {T : Type} [Group T] {n : ℕ}
     obtain rfl : n = 3 := by omega
     obtain ⟨X, hX, hinv, hfree⟩ :=
       CFSG.RankThree.PartTwo.KFacts.KP7.exists_thirteen_fixedPointFree_of_suzukiModel hSz α hα
-    haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
     exact ⟨X, isCyclic_of_prime_card hX, hinv, hfree, Or.inl hX⟩
   · have hK' : Nat.card K = 2 ^ (2 * a + 1) := by rw [hK, hn]
     obtain ⟨F₀, hcyc, hinv, hfpf, m, hodd, hm3, hcard⟩ :=

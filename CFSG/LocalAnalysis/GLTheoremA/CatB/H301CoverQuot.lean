@@ -16,7 +16,7 @@ variable {K S : Type} [Group K] [Group S]
 theorem isSolvable_of_map_le (π : K →* S) (hker : π.ker ≤ Subgroup.center K) {H : Subgroup K}
     {X : Subgroup S} (hX : Group.IsSolvable X) (hHX : H.map π ≤ X) : Group.IsSolvable H := by
   let φ : H →* X := (π.comp H.subtype).codRestrict X fun h => hHX ⟨h, h.2, rfl⟩
-  haveI : Group.IsSolvable φ.ker := by
+  have : Group.IsSolvable φ.ker := by
     refine Group.isSolvable_of_comm fun a b => ?_
     have ha : ((a : H) : K) ∈ Subgroup.center K := hker (by
       have h1 : φ a = 1 := a.2
@@ -28,13 +28,14 @@ theorem isSolvable_of_map_le (π : K →* S) (hker : π.ker ≤ Subgroup.center 
 theorem glaPLayer_eq_bot_of_map_le [Finite K] (π : K →* S) (hker : π.ker ≤ Subgroup.center K)
     {H : Subgroup K} {X : Subgroup S} (hX : Group.IsSolvable X) (hHX : H.map π ≤ X) :
     GLAPLayer 3 H = ⊥ := by
-  haveI := isSolvable_of_map_le π hker hX hHX
+  have := isSolvable_of_map_le π hker hX hHX
   exact glaPLayer_eq_bot_of_isSolvable Nat.prime_three
 
 section Lift
 
 variable [Finite K]
 
+omit [Finite K] in
 theorem mem_of_two_elem {π : K →* S} (hker : π.ker ≤ Subgroup.center K)
     (hk3 : Nat.card π.ker = 3) {Rh : Subgroup K} (hRh2 : IsPGroup 2 Rh) {g : K}
     (hg : π g ∈ Rh.map π) {n : ℕ} (hgn : g ^ (2 ^ n) = 1) : g ∈ Rh := by
@@ -65,6 +66,7 @@ theorem mem_of_two_elem {π : K →* S} (hker : π.ker ≤ Subgroup.center K)
   rw [hgz, hz1, one_mul]
   exact hr
 
+omit [Finite K] in
 theorem mem_normalizer_of_map {π : K →* S} (hker : π.ker ≤ Subgroup.center K)
     (hk3 : Nat.card π.ker = 3) {Rh : Subgroup K} (hRh2 : IsPGroup 2 Rh) {b : K}
     (hb : π b ∈ Subgroup.normalizer ((Rh.map π : Subgroup S) : Set S)) :

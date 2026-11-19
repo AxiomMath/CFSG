@@ -588,7 +588,7 @@ public theorem CFSG.exists_prime_isPGroup_of_nilpotent_of_proper_characteristic_
       intro hPtop
       exact hno p hpprime (by
         have htop_p : IsPGroup p ↥(⊤ : Subgroup K) := by
-          exact P.isPGroup'.of_equiv (MulEquiv.subgroupCongr hPtop)
+          exact P.isPGroup.of_equiv (MulEquiv.subgroupCongr hPtop)
         exact htop_p.of_equiv Subgroup.topEquiv)
     exact hproper (P : Subgroup K) hP_char hP_ne_top
   have hsup_le :

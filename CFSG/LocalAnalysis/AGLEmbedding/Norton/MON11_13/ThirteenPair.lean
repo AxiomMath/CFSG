@@ -16,7 +16,7 @@ section Algebra
 
 variable {G : Type*} [Group G]
 
-theorem inversion_conj {x a h : G} (hh : h * h = 1) (hha : Commute h a) (hhx : h * x * h = x⁻¹) :
+theorem inversion_conj {x a h : G} (_hh : h * h = 1) (hha : Commute h a) (hhx : h * x * h = x⁻¹) :
     h * (a * x * a⁻¹) * h = (a * x * a⁻¹)⁻¹ := by
   have h1 : h * a = a * h := hha.eq
   have h2 : a⁻¹ * h = h * a⁻¹ := (hha.inv_right.eq).symm
@@ -27,7 +27,7 @@ theorem inversion_conj {x a h : G} (hh : h * h = 1) (hha : Commute h a) (hhx : h
     _ = (a * x * a⁻¹)⁻¹ := by simp only [mul_inv_rev, inv_inv, mul_assoc]
 
 theorem heisenberg_inversion_of_subgroup {H : Subgroup G} {x a z t : G} (hxH : x ∈ H) (haH : a ∈ H)
-    (hzH : z ∈ H) (htH : t ∈ H) (hx : x ^ 13 = 1) (hz : z ≠ 1) (hzx : Commute z x)
+    (_hzH : z ∈ H) (htH : t ∈ H) (hx : x ^ 13 = 1) (hz : z ≠ 1) (hzx : Commute z x)
     (hza : Commute z a) (hcomm : ⁅x, a * x * a⁻¹⁆ = z) (ht : t * t = 1) (hta : Commute t a)
     (htx : t * x * t = x⁻¹) :
     ∃ x y h : H, x ^ 13 = 1 ∧ y ^ 13 = 1 ∧ ⁅x, y⁆ ≠ 1 ∧ Commute ⁅x, y⁆ x ∧ Commute ⁅x, y⁆ y ∧
@@ -124,7 +124,7 @@ theorem thirteen_heisenberg_inversion :
     exact h7.symm
   have htx : wordLin thirteenT0 * wordLin thirteenX * wordLin thirteenT0 =
       (wordLin thirteenX)⁻¹ := by
-    simp only [wordLin_append, hxi, mul_assoc] at h6
+    simp only [wordLin_append, hxi] at h6
     simpa [mul_assoc] using h6
   exact heisenberg_inversion_of_subgroup (wordLin_mem_Gmat _) (wordLin_mem_Gmat _)
     (wordLin_mem_Gmat _) (wordLin_mem_Gmat _) hx h8 hzx hza hcomm ht hta htx

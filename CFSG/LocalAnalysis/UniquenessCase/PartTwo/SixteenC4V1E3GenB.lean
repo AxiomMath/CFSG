@@ -15,10 +15,12 @@ variable {F : Type} [Field F] [Finite F] {σ : F ≃+* F}
 @[expose] def s16c4v1e3_TvIn (Γ : Subgroup ↥(SUid σ 4)) (a : Fin 4 → F) : Prop :=
   ∀ c : F, c + σ c = 0 → ∀ t : ↥(SUid σ 4), (∀ v, t • v = v + (c * herm σ a v) • a) → t ∈ Γ
 
+omit [Finite F] in
 theorem s16c4v1e3_tvIn_mono {Γ Γ' : Subgroup ↥(SUid σ 4)} (h : Γ ≤ Γ') {a : Fin 4 → F}
     (ha : s16c4v1e3_TvIn Γ a) : s16c4v1e3_TvIn Γ' a :=
   fun c hc t ht => h (ha c hc t ht)
 
+omit [Finite F] in
 theorem s16c4v1e3_tvIn_step (hσ : IsUnitaryInvolution σ) {Γ : Subgroup ↥(SUid σ 4)}
     {a x : Fin 4 → F} (ha : herm σ a a = 0) (hΓa : s16c4v1e3_TvIn Γ a)
     (hΓx : s16c4v1e3_TvIn Γ x) {c : F} (hc : c + σ c = 0) :
@@ -37,6 +39,7 @@ theorem s16c4v1e3_tvIn_step (hσ : IsUnitaryInvolution σ) {Γ : Subgroup ↥(SU
   rw [hu']
   exact Γ.mul_mem (Γ.mul_mem ht' hγ) (Γ.inv_mem ht')
 
+omit [Finite F] in
 theorem s16c4v1e3_tvIn_of_mem {W : Submodule F (Fin 4 → F)}
     (hti : ∀ u ∈ W, ∀ u' ∈ W, herm σ u u' = 0) {a : Fin 4 → F} (ha : a ∈ W) :
     s16c4v1e3_TvIn (PW (σ := σ) W) a := by
@@ -47,6 +50,7 @@ theorem s16c4v1e3_tvIn_of_mem {W : Submodule F (Fin 4 → F)}
     exact W.smul_mem _ ha
   · rw [ht w, hti a ha w hw, mul_zero, zero_smul, add_zero]
 
+omit [Finite F] in
 theorem s16c4v1e3_tvIn_conj {Γ : Subgroup ↥(SUid σ 4)} (g : ↥(SUid σ 4)) {a : Fin 4 → F}
     (ha : s16c4v1e3_TvIn Γ a) :
     s16c4v1e3_TvIn (Γ.map (MulAut.conj g).toMonoidHom) (g • a) := by
@@ -181,6 +185,7 @@ theorem s16c4v1e3_tvIn_isotropic (hσ : IsUnitaryInvolution σ) (h2 : (2 : F) = 
       (c := (herm σ w w'')⁻¹) hc
     rwa [inv_mul_cancel₀ hc0, one_smul, add_comm] at hstep
 
+omit [Finite F] in
 theorem s16c4v1e3_eq_top_of_tvIn (hσ : IsUnitaryInvolution σ) {Γ : Subgroup ↥(SUid σ 4)}
     (hΓ : ∀ a : Fin 4 → F, herm σ a a = 0 → s16c4v1e3_TvIn Γ a) : Γ = ⊤ := by
   refine eq_top_iff.2 ?_

@@ -28,7 +28,7 @@ theorem mem_center_of_scalar {x : ↥(unitarySU 2 n K d)} {c : K}
   simp [Matrix.mul_diagonal, Matrix.diagonal_mul, mul_comm]
 
 theorem exists_pair [Finite K] [Finite L'] (hM : Model φ) (hK : Nat.card K = (2 ^ n) ^ 2)
-    (hd : 4 ≤ d) (hp : p.Prime) (hpq : p ∣ 2 ^ n + 1) {R : Type} [Group R] {ψ : L' →* R}
+    (hd : 4 ≤ d) (_hp : p.Prime) (hpq : p ∣ 2 ^ n + 1) {R : Type} [Group R] {ψ : L' →* R}
     (hψ : Function.Surjective ψ) (hkerψ : ψ.ker ≤ Subgroup.center L')
     (hZR : Subgroup.center R = ⊥) {A : Subgroup (MulAut L')} (hAp : ∀ a ∈ A, a ^ p = 1)
     (hdiag : ∀ a ∈ A, ∃ t : Fin d → K, ActsDiagU φ a t) {U : Subgroup R} (hU1 : U ≠ ⊥)

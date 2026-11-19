@@ -21,7 +21,7 @@ section Pure
 theorem exists_omega_of_card_four {F : Type} [Field F] [Finite F] (h4 : Nat.card F = 4) :
     ∃ ω : F, ω ^ 2 + ω + 1 = 0 := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hcard : Fintype.card F = 4 := by rw [← Nat.card_eq_fintype_card]; exact h4
   obtain ⟨ω, hω0, hω1⟩ : ∃ ω : F, ω ≠ 0 ∧ ω ≠ 1 := by
     by_contra hcon
@@ -152,14 +152,14 @@ theorem entryMat_mul_self (k : Type) [Field k] [CharP k 2] : entryMat k * entryM
     simp
   · have hne : (ptsW.get i).2 ≠ (ptsW.get r).2 := fun h =>
       hir (Fin.ext (ptsW_getElem_snd_inj i.2 r.2 h))
-    rw [if_neg hne, if_neg hir]
+    rw [ite_eq_right hne, ite_eq_right hir]
     simp
 
 theorem twF1Residual_holds : TwF1Residual hf K hK σ hσ := by
   unfold TwF1Residual
   intro hf1 k _ _ _ _ m ρ y χ J hρ _ ht hJ hχ
   subst hJ
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK4 : Nat.card K = 4 := by rw [hK, hf1]; norm_num
   have hσ2 : ∀ c, σ c = c ^ 2 := fun c => by rw [hσ c, hf1]; norm_num
   obtain ⟨ω, hω⟩ := exists_omega_of_card_four hK4
@@ -178,11 +178,11 @@ theorem twF1Residual_holds : TwF1Residual hf K hK σ hσ := by
     by_cases hE : entry (ptsW.get i).2 (ptsW.get j).2 = true
     · have hne : ¬ twChi27 σ (nWord hf hK σ hσ w0word * (ptG hf hK σ hσ ω hmem (ptsW.get i))⁻¹ *
           ptG hf hK σ hσ ω hmem (ptsW.get j)) = 0 := fun h0 => hz.1 h0 hE
-      rw [if_neg hne]
-      simp only [entryMat, Matrix.of_apply, if_pos hE]
+      rw [ite_eq_right hne]
+      simp only [entryMat, Matrix.of_apply, ite_eq_left hE]
     · have h0 := hz.2 hE
-      rw [if_pos h0]
-      simp only [entryMat, Matrix.of_apply, if_neg hE]
+      rw [ite_eq_left h0]
+      simp only [entryMat, Matrix.of_apply, ite_eq_right hE]
   have hU : IsUnit (Matrix.of fun i j : Fin ptsW.length =>
       ((fm : (Fin m → k) →ₗ[k] k) ∘ₗ
         ρ (nWord hf hK σ hσ w0word * (ptG hf hK σ hσ ω hmem (ptsW.get i))⁻¹))

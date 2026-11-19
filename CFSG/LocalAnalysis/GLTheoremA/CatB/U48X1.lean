@@ -35,7 +35,7 @@ theorem layer_criterion {X M : Subgroup G} {y : G}
     {Q : Subgroup G} (hQ : IsPGroup 3 Q)
     (hQM : Q ≤ ⁅M ⊓ Subgroup.centralizer ({y} : Set G), M ⊓ Subgroup.centralizer ({y} : Set G)⁆) :
     Q ≤ GLAPLayer 3 (M ⊓ Subgroup.centralizer ({y} : Set G)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hZ := center_pquot_eq_bot_of_u48 hM hcat
   set e := pqModelP hZ hcat with he
   have hyM : y ∈ M := hyc.1
@@ -177,7 +177,7 @@ theorem layer_criterion {X M : Subgroup G} {y : G}
     Nat.Coprime.pow_left n ((Nat.Prime.coprime_iff_not_dvd Nat.prime_three).2 hcardQ)
   have hone : orderOf (QuotientGroup.mk' JA xA) = 1 :=
     Nat.Coprime.eq_one_of_dvd (Nat.Coprime.coprime_dvd_left hord1 hcop) hord2
-  haveI := hJAn
+  have := hJAn
   have hxJA : xA ∈ JA := (QuotientGroup.eq_one_iff xA).1 (orderOf_eq_one_iff.1 hone)
   have hxJ : x ∈ J := Subgroup.mem_subgroupOf.1 (Subgroup.mem_subgroupOf.1 hxJA)
   rw [hJl']

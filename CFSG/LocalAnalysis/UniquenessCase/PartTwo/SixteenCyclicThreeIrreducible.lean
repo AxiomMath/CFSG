@@ -54,7 +54,7 @@ theorem cyclic_three_rank_six_s1_irreducible
     (z : MulAut (Vtil V₀ V hV)) (hz : orderOf z = 3)
     (hgen : lBar V₀ V hV L = Subgroup.zpowers z)
     (e : Vtil V₀ V hV ≃* Multiplicative (Fin 3 → OmegaField))
-    (he : ∀ w : Vtil V₀ V hV,
+    (_he : ∀ w : Vtil V₀ V hV,
       Multiplicative.toAdd (e (z w)) = CFSG.LinearAlgebra.omega • Multiplicative.toAdd (e w))
     (ρ : Mbar D.M V₀ V hV →* coordinateSemilinearGroup 3 OmegaField)
     (hρ : ∀ (g : Mbar D.M V₀ V hV) (w : Vtil V₀ V hV),

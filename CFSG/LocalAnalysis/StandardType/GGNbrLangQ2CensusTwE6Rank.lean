@@ -53,7 +53,7 @@ theorem q2c_twE6_rank {p d : ℕ} {lab : LargeEvenLabel} (hlab : lab.tag = .twE6
     have h0 : n = 0 := by omega
     subst h0
     simp only [pow_zero, one_pow] at hK
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     have h2 : 1 < Nat.card K := by
       rw [Nat.card_eq_fintype_card]
       exact Fintype.one_lt_card

@@ -28,7 +28,7 @@ theorem s16c1_G47_coord_elem {U N : Subgroup G} (hNU : N ≤ U)
       group
     rw [h2]
     exact hn
-  letI := hnormal
+  let := hnormal
   let Q := ↥U ⧸ N.subgroupOf U
   have hQcomm : ∀ a b : Q, a * b = b * a := by
     intro a b
@@ -61,7 +61,7 @@ theorem s16c1_G47_coord_elem {U N : Subgroup G} (hNU : N ≤ U)
     if h : g ∈ U then (e ((⟨g, h⟩ : ↥U) : Q)).toAdd else 0
   have hκ_mem : ∀ g (h : g ∈ U), κ g = (e ((⟨g, h⟩ : ↥U) : Q)).toAdd := by
     intro g h
-    simp only [κ, dif_pos h]
+    simp only [κ, dite_eq_left h]
   refine ⟨κ, ?_, ?_, ?_⟩
   · intro u hu u' hu'
     rw [hκ_mem (u * u') (U.mul_mem hu hu'), hκ_mem u hu, hκ_mem u' hu']
@@ -81,6 +81,7 @@ theorem s16c1_G47_coord_elem {U N : Subgroup G} (hNU : N ≤ U)
       rw [ha, MulEquiv.apply_symm_apply]
     rw [h, toAdd_ofAdd]
 
+omit [Finite G] in
 theorem s16c1_G47_coord_dual {K U B N : Subgroup G} (hUK : U ≤ K) (hBK : B ≤ K)
     (hN : N = U ⊓ B) (hKcomm : ∀ k ∈ K, ∀ k' ∈ K, ⁅k, k'⁆ ∈ N)
     (hNcent : ∀ n ∈ N, ∀ k ∈ K, k * n = n * k)
@@ -270,7 +271,7 @@ theorem s16c1_G47_coord_dual {K U B N : Subgroup G} (hUK : U ≤ K) (hBK : B ≤
   have htop : φ.range = ⊤ := by
     apply Subgroup.eq_top_of_card_eq
     rw [hrange, Nat.card_congr (Multiplicative.toAdd), Nat.card_fun]
-    simp [Nat.card_zmod]
+    simp
   have hsurjφ : Function.Surjective φ := MonoidHom.range_eq_top.mp htop
   refine ⟨κB, hBadd, hBker, ?_, hpair⟩
   intro y
@@ -330,7 +331,7 @@ theorem s16c1_G47_coord {K U B N : Subgroup G} (hUK : U ≤ K) (hBK : B ≤ K)
     have hspec2 := hspec.2.choose_spec
     have hwd' := hwd u hu hex.choose hspec.1 b hb hex.choose_spec.2.choose hspec2.1
       hspec2.2
-    simp only [κ, dif_pos hex]
+    simp only [κ, dite_eq_left hex]
     rw [← hwd'.1, ← hwd'.2]
   refine ⟨κ, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
   · intro k1 hk1 k2 hk2
@@ -358,7 +359,7 @@ theorem s16c1_G47_coord {K U B N : Subgroup G} (hUK : U ≤ K) (hBK : B ≤ K)
       _ = Sum.elim (κU u1) (κB b1) + Sum.elim (κU u2) (κB b2) := by
             rw [hUc, hBadd b1 hb1 b2 hb2]
             funext i
-            rcases i with i | i <;> simp [Sum.elim, add_assoc]
+            rcases i with i | i <;> simp [Sum.elim]
       _ = κ (u1 * b1) + κ (u2 * b2) := by
             rw [hκ u1 hu1 b1 hb1, hκ u2 hu2 b2 hb2]
   · intro k hk

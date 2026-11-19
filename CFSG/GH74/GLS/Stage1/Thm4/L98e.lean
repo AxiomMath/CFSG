@@ -37,11 +37,11 @@ theorem P_conj (hC : IVK_5_1f) (hF : Step9_8_Fstar) (h96 : Lemma9_6) {n : ℕ} (
   · rw [huz]
   have htK := h.t_mem_K h96 hF hcov
   have htC : t ∈ Cz z := h.std.t_cen
-  haveI : (K.subgroupOf (Cz z)).Normal := h.K_normal_C
+  have : (K.subgroupOf (Cz z)).Normal := h.K_normal_C
   have hyp := h.hypC hF hn8 hn11 hcov
   have hconj := core_P_conj (N := pPrimeCore 2 ↥(Cz z)) (K := K.subgroupOf (Cz z))
     (S := S.subgroupOf (Cz z)) hC hyp odd_card_pPrimeCore h.sylowC
-    (zc := ⟨z, h.z_cen⟩) h.z_mem (fun k hk => Subtype.ext (h.z_comm hk))
+    (zc := ⟨z, CFSG.GH74.GLS.Stage1.Thm4.Ctx98.z_cen⟩) h.z_mem (fun k hk => Subtype.ext (h.z_comm hk))
     (by rw [Subgroup.orderOf_mk]; exact h.z_ord)
     (t := ⟨t, htC⟩) ⟨h.std.t_mem, htK⟩ (by rw [Subgroup.orderOf_mk]; exact h.std.t_ord)
     (fun heq => h.t_ne_z (congrArg Subtype.val heq)) h.z_mem_S
@@ -54,7 +54,7 @@ theorem P_conj (hC : IVK_5_1f) (hF : Step9_8_Fstar) (h96 : Lemma9_6) {n : ℕ} (
 
 theorem relIndex_le (hA : IVK_5_1_index) (hF : Step9_8_Fstar) {n : ℕ} (hn8 : 8 ≤ n) (hn11 : n ≤ 11)
     (hcov : IsDoubleCoverOfAlt Lh n) : (S ⊓ K).relIndex S ≤ 2 := by
-  haveI : (K.subgroupOf (Cz z)).Normal := h.K_normal_C
+  have : (K.subgroupOf (Cz z)).Normal := h.K_normal_C
   have hyp := h.hypC hF hn8 hn11 hcov
   have hle := core_relIndex_le (N := pPrimeCore 2 ↥(Cz z)) (K := K.subgroupOf (Cz z))
     (S := S.subgroupOf (Cz z)) hA hyp odd_card_pPrimeCore h.sylowC.isPGroup

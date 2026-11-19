@@ -58,7 +58,7 @@ theorem noIrr_aut {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2)
   have hSJ : (S₀ : Subgroup Y) ≤ J := fun x hx => hJ (Subgroup.le_normalizer hx)
   obtain ⟨T, hTJ, hTc, hTodd, hTS, hgen⟩ := hS S₀ J hJ
   obtain ⟨hS2', hSJ', hTJ', hTc', hTodd', hTS', hgen'⟩ :=
-    borelLike_map cj S₀.isPGroup' hSJ hTJ hTc hTodd hTS hgen
+    borelLike_map cj S₀.isPGroup hSJ hTJ hTc hTodd hTS hgen
   have hself : ∀ g ∈ inn Y, g ∈ Subgroup.normalizer (J' : Set (MulAut Y)) → g ∈ J' := by
     rintro _ ⟨x, rfl⟩ hx
     have hxJ := iff_of_mem_normalizer_map_conj hinj hx
@@ -68,8 +68,8 @@ theorem noIrr_aut {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2)
     exact ⟨x, mem_of_mem_normalizer S₀ hSJ hJ hxn, rfl⟩
   have hcyc' : ∀ A : Subgroup (MulAut Y), A ≤ perfectJoin J' → IsPGroup p A → IsCyclic A :=
     fun A hA hAp => isCyclic_of_le_perfectJoin_map cj hinj hcyc hA hAp
-  obtain ⟨hEq, hab⟩ := borelLike_facts S₀.isPGroup' hSJ hTJ hTc hTodd hTS hgen
-  have hdec := exists_torus_mul S₀.isPGroup' hSJ hTJ hTc hTodd hTS hgen
+  obtain ⟨hEq, hab⟩ := borelLike_facts S₀.isPGroup hSJ hTJ hTc hTodd hTS hgen
+  have hdec := exists_torus_mul S₀.isPGroup hSJ hTJ hTc hTodd hTS hgen
   have R2' : U ≤ inn Y → U ≤ J' → y ∉ inn Y →
       ∀ u ∈ U, ∃ k : ℕ, y * u * y⁻¹ * (u ^ k)⁻¹ ∈ twoCore J' := by
     intro _ hUJ'' _ u hu

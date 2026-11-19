@@ -30,6 +30,7 @@ variable {L : Type} [Field L] [IsAlgClosed L]
 @[expose] def twTheta (L : Type) [Field L] : ModGL Tag.E6 L :=
   canonicalRep (coxeterSystem Tag.E6) L twNeg * tw6P L
 
+omit [IsAlgClosed L] in
 theorem canonicalRep_mem_mono (w : WeylGroup Tag.E6) :
     canonicalRep (coxeterSystem Tag.E6) L w ∈ monomialSubgroup Tag.E6 L :=
   Subgroup.mem_sup_right (canonicalRep_mem_closure (coxeterSystem Tag.E6) L w)
@@ -97,6 +98,7 @@ theorem twTheta_conj_on_Q :
     _ = n₀ * (m₀ * y * m₀⁻¹) * n₀⁻¹ := by rw [h1]
     _ = g * y * g⁻¹ := by rw [hg]; group
 
+omit [IsAlgClosed L] in
 theorem twNeg_twistHomE6_mul_mem_torus (Fr : L →+* L) (s : WeylGroup Tag.E6) :
     canonicalRep (coxeterSystem Tag.E6) L twNeg *
       twistHomE6 Fr (canonicalRep (coxeterSystem Tag.E6) L s) *
@@ -121,6 +123,7 @@ theorem twNeg_twistHomE6_mul_mem_torus (Fr : L →+* L) (s : WeylGroup Tag.E6) :
       _ = 1 := by rw [twNeg_mul_self]; group
   rwa [e] at h
 
+omit [IsAlgClosed L] in
 theorem mem_heisM_of_conj_mem {a : Fin Tag.E6.rank → Lˣ} {s : WeylGroup Tag.E6}
     (hs : ∀ α, IsRoot Tag.E6 α → (rootChar a α = 1 ↔ s • α ∈ parabolicRoots Tag.E6 d4Support))
     {x : ModGL Tag.E6 L}
@@ -147,6 +150,7 @@ theorem mem_heisM_of_conj_mem {a : Fin Tag.E6.rank → Lˣ} {s : WeylGroup Tag.E
   rw [← this]
   exact hg'
 
+omit [IsAlgClosed L] in
 theorem twC0_mem_heisM {a : Fin Tag.E6.rank → Lˣ} {s : WeylGroup Tag.E6}
     (hs : ∀ α, IsRoot Tag.E6 α → (rootChar a α = 1 ↔ s • α ∈ parabolicRoots Tag.E6 d4Support))
     {h : ModGL Tag.E6 L} (hh : h ∈ torusGroup Tag.E6 L ⊔ subsystemGroup Tag.E6 L d4Support)

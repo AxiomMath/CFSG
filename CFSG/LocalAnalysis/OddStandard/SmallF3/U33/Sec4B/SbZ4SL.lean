@@ -67,7 +67,7 @@ theorem center_Qtau (htau : ∀ a ∈ ctxQ t tau x₁ x₂ rho, tau * a * tau⁻
           _ = 1 := by rw [← h5]; group
       exact hg.y_ne_one (hall x₁ hg.x₁_mem_Q)
   · intro a ha
-    have haQ : a ∈ ctxQ t tau x₁ x₂ rho := hg.Y_le_Q ha
+    have haQ : a ∈ ctxQ t tau x₁ x₂ rho := CFSG.OddStandard.SmallF3.HarrisU33.Z4Pre.Y_le_Q ha
     refine ⟨mem_sup_left haQ, mem_centralizer_iff.mpr fun h hh => ?_⟩
     have hP : ctxQ t tau x₁ x₂ rho ⊔ zpowers tau ≤ centralizer ({a} : Set G) := by
       refine sup_le (fun q hq => ?_) (Subgroup.zpowers_le.mpr ?_)

@@ -111,7 +111,7 @@ theorem isSylowTwoOf_map {φ : X →* X'} (hφ : Function.Surjective φ) {S : Su
 theorem isSylowTwoOf_of_sylow (P : Sylow 2 X) :
     IsSylowTwoOf (P : Subgroup X) ⊤ := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  refine ⟨le_top, P.isPGroup', ?_⟩
+  refine ⟨le_top, P.isPGroup, ?_⟩
   rw [← Subgroup.relIndex, Subgroup.relIndex_top_right]
   exact P.not_dvd_index
 

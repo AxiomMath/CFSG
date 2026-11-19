@@ -39,7 +39,7 @@ theorem qTwoLMFrameC_not_psuTrivialMultiplier_four : ¬ PSUTrivialMultiplier 4 :
   have hPSp : StatedClassicalModel
       (↥(StatedSp 2 (ZMod 3)) ⧸ Subgroup.center ↥(StatedSp 2 (ZMod 3))) .PSp 2 3 1 :=
     CFSG.LieType.Universal.Symplectic.statedClassicalModel_center_quotient 2 (ZMod 3) hadm
-      (by simpa using hcard3)
+      (by simp)
   have hPSU := CFSG.ClassicalModels.statedClassicalModel_PSU_four_two_of_PSp_two_three hPSp
   have hL : LieModel
       (↥(StatedSp 2 (ZMod 3)) ⧸ Subgroup.center ↥(StatedSp 2 (ZMod 3))) .PSU 4 2 1 :=

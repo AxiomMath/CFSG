@@ -18,9 +18,9 @@ theorem exists_noncomm_of_simple {M : Type} [Group M]
     (hd : p ∣ Nat.card M) (hne : Nat.card M ≠ p) : ∃ a b : M, a * b ≠ b * a := by
   by_contra h
   push Not at h
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' p hd
-  haveI hN : (zpowers x).Normal := ⟨fun n hn g => by
+  have hN : (zpowers x).Normal := ⟨fun n hn g => by
     have : g * n * g⁻¹ = n := by rw [h g n]; group
     rw [this]; exact hn⟩
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (zpowers x) with h1 | h1
@@ -57,8 +57,8 @@ theorem u52_center (K : Type) [Field K] [Finite K] (hK : Nat.card K = (2 ^ 1) ^ 
     center (StatedProj (StatedSU 5 (2 ^ 1) K)) = ⊥ := by
   have hmod := model_SU K 5 (by norm_num) hK
   have hcard := CFSG.Open.StatedAPI.card_of_statedClassicalModel_psu_five_two hmod
-  haveI := u52_finite K hK
-  haveI := CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel hmod
+  have := u52_finite K hK
+  have := CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel hmod
   exact center_eq_bot_of_noncomm
     (exists_noncomm_of_simple Nat.prime_two (by rw [hcard]; norm_num) (by rw [hcard]; norm_num))
 

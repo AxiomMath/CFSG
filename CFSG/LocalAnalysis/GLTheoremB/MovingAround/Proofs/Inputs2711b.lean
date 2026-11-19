@@ -59,7 +59,7 @@ theorem sporadicOnePair_of_autRank {L : Type} [Group L] [Finite L] {p : ℕ} (hp
   by_contra hnot
   obtain ⟨f⟩ := hname
   obtain ⟨g⟩ := hBr name
-  haveI : IsSimpleGroup (L ⧸ Subgroup.center L) := hLq.2
+  have : IsSimpleGroup (L ⧸ Subgroup.center L) := hLq.2
   have hnab := CFSG.HardMathSupport.Solomon.Coordinator.exists_noncomm_of_isQuasisimple hLq
   have hout := hOut (L ⧸ Subgroup.center L) inferInstance hnab name ⟨f⟩
   have h2 := SporFacts.pRank_aut_le_two_of_offPair hp hp2 hLq hnot (hOff name) (f.trans g.symm) hout
@@ -73,6 +73,7 @@ section Transfer
 
 variable {X : Type} [Group X] [Finite X] {p : ℕ}
 
+omit [Finite X] in
 theorem inf_centralizer_eq_of_inner {L : Subgroup X} {e k : X}
     (hc : k⁻¹ * e ∈ Subgroup.centralizer (L : Set X)) :
     L ⊓ Subgroup.centralizer ({e} : Set X) = L ⊓ Subgroup.centralizer ({k} : Set X) := by
@@ -160,7 +161,7 @@ theorem false_of_constrainedShape (hp : p.Prime) (hBr : SporadicBridges) {name :
       apply σ.injective
       rw [map_mul, map_mul, σ.apply_symm_apply, hy]
   rw [hmap] at hI'
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier name) := Finite.of_equiv _ σ.toEquiv
+  have : Finite (CFSG.Blueprint.NativeSporadic.Carrier name) := Finite.of_equiv _ σ.toEquiv
   have hσ1 : σ s ≠ 1 := fun h => hs1 (σ.injective (h.trans (map_one σ).symm))
   have hσp : σ s ^ p = 1 := by rw [← map_pow, hsp, map_one]
   exact CFSG.HardMathSupport.Dickson.I271.no_glaPComponent_of_pConstrainedShape hp
@@ -206,8 +207,8 @@ section Certified
 theorem inputI2711ChevPSpor_of_outer_pairs (hC : Inputs2711.InputI2711ChevPOuter)
     (hS : InputI2711SporPairs) : Inputs27.InputI2711ChevPSpor :=
   Inputs2711.inputI2711ChevPSpor_of_residuals
-    (fun G _ _ p hp => CFSG.LocalAnalysis.GLTheoremA.lBalanceAt_holds G p hp)
-    (fun p hp hp2 => CFSG.LocalAnalysis.GLTheoremA.kdChevInner_of hp hp2
+    (fun G _ _ _p hp => CFSG.LocalAnalysis.GLTheoremA.lBalanceAt_holds G _p hp)
+    (fun _p hp hp2 => CFSG.LocalAnalysis.GLTheoremA.kdChevInner_of hp hp2
       (CFSG.HardMathSupport.Dickson.KD.kdCharP_holds hp hp2)
       (CFSG.LocalAnalysis.GLTheoremA.kdAmbSolv_holds hp hp2
         CFSG.LocalAnalysis.GLTheoremA.u42_fixSubgroup_solvable))
@@ -219,7 +220,7 @@ theorem inputI2711ChevPSpor_of_outer_pairs (hC : Inputs2711.InputI2711ChevPOuter
         CFSG.HardMathSupport.Timmesfeld.Coordinator.sporadicBMData_holds)
       (CFSG.HardMathSupport.Dickson.I271.mcl_constrainedShape_three
         CFSG.HardMathSupport.Timmesfeld.SporadicBalance.oPrimeCoreTrivialAt_McL)
-      (fun k hk1 hk5 => CFSG.HardMathSupport.Dickson.I271.pConstrainedShape_Ly_five _
+      (fun _k hk1 hk5 => CFSG.HardMathSupport.Dickson.I271.pConstrainedShape_Ly_five _
         ⟨MulEquiv.refl _⟩ (orderOf_eq_prime hk5 hk1)) hS)
 
 end Certified

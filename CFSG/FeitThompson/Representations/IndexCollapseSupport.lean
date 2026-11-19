@@ -153,11 +153,11 @@ theorem map_hallCoreQuotBotHom_map_conjQuotientAut (M : Subgroup G) (u : ↥M)
   constructor
   · rintro ⟨_, ⟨v, hv, rfl⟩, rfl⟩
     exact ⟨_, ⟨v, hv, rfl⟩, by
-      simp only [MulEquiv.coe_toMonoidHom, MonoidHom.coe_coe, MulAut.conj_apply]
+      simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
       exact (hallCoreQuotBotHom_conjQuotientAut M u v).symm⟩
   · rintro ⟨_, ⟨v, hv, rfl⟩, rfl⟩
     exact ⟨_, ⟨v, hv, rfl⟩, by
-      simp only [MulEquiv.coe_toMonoidHom, MonoidHom.coe_coe, MulAut.conj_apply]
+      simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
       exact hallCoreQuotBotHom_conjQuotientAut M u v⟩
 
 theorem map_hallCoreQuotBotHom_comap {M X : Subgroup G}

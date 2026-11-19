@@ -11,27 +11,33 @@ open CFSG.Monster.B.Geometry Module
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 private lemma plh_Vsub_mono {n c c' : ℕ} (h : c ≤ c') :
     Vsub (K := K) n c ≤ Vsub (K := K) n c' := by
   intro v hv j hj
   exact hv j (le_trans h hj)
 
+omit [Finite K] in
 private lemma plh_e0_mem_Vsub1 : (Pi.single 0 (1 : K) : Fin 4 → K) ∈ Vsub (K := K) 4 1 := by
   intro j hj
   exact Pi.single_eq_of_ne' (M := fun _ => K) (i := 0) (i' := j)
     (by rintro rfl; omega) (1 : K)
 
+omit [Finite K] in
 private lemma plh_e0_ne_zero : (Pi.single 0 (1 : K) : Fin 4 → K) ≠ 0 := by
   intro h
   exact (one_ne_zero : (1 : K) ≠ 0) (by simpa using congrFun h 0)
 
+omit [Finite K] in
 private lemma plh_Vsub_one_eq_span_e0 :
     Vsub (K := K) 4 1 = K ∙ (Pi.single 0 (1 : K) : Fin 4 → K) :=
   eq_span_singleton_of_mem_of_finrank_eq_one
     (finrank_Vsub (K := K) (n := 4) (by norm_num : 1 ≤ 4)) plh_e0_mem_Vsub1 plh_e0_ne_zero
 
+omit [Finite K] in
 private lemma plh_finrank_fin4 : finrank K (Fin 4 → K) = 4 := by simp
 
+omit [Finite K] in
 private lemma plh_ne_top_of_finrank_eq_three {T : Submodule K (Fin 4 → K)}
     (h : finrank K T = 3) : T ≠ ⊤ := by
   intro htop
@@ -56,7 +62,7 @@ private lemma plh_exists_plane (L H' : Submodule K (Fin 4 → K))
     have : (Pi.single 0 (1 : K) : Fin 4 → K) ∈ H' ⊓ Vsub 4 1 :=
       Submodule.mem_inf.mpr ⟨he0H', he0V1⟩
     rw [hH'V1] at this
-    exact he0ne (by simpa using this)
+    exact he0ne (by simp at this)
   have hV2H'sup : H' ⊔ Vsub 4 2 = ⊤ := by
     apply Submodule.eq_top_of_finrank_eq
     have hle : finrank K ↥(H' ⊔ Vsub 4 2) ≤ 4 := by
@@ -93,7 +99,7 @@ private lemma plh_exists_plane (L H' : Submodule K (Fin 4 → K))
     have : (Pi.single 0 (1 : K) : Fin 4 → K) ∈ L ⊓ Vsub 4 2 :=
       Submodule.mem_inf.mpr ⟨hmem, he0V2⟩
     rw [hLV2] at this
-    exact he0ne (by simpa using this)
+    exact he0ne (by simp at this)
   have hfinLV1 : finrank K ↥(L ⊔ Vsub 4 1) = 3 := by
     rw [plh_Vsub_one_eq_span_e0,
       Submodule.finrank_sup_span_singleton (K := K) he0L, hL]
@@ -140,7 +146,7 @@ private lemma plh_exists_plane (L H' : Submodule K (Fin 4 → K))
       have : (Pi.single 0 (1 : K) : Fin 4 → K) ∈ L ⊓ Vsub 4 2 :=
         Submodule.mem_inf.mpr ⟨he0L', he0V2⟩
       rw [hLV2] at this
-      exact he0ne (by simpa using this)
+      exact he0ne (by simp at this)
     · have hcw : c • w = (Pi.single 0 (1 : K) : Fin 4 → K) - l := by
         rw [eq_sub_iff_add_eq]
         simpa [add_comm] using hsum

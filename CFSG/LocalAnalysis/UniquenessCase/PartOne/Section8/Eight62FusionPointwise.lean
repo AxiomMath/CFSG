@@ -46,7 +46,7 @@ private theorem exists_mem_forall_aux
           rw [Subgroup.subgroupOf_map_subtype, inf_of_le_left inf_le_right]
       _ ≤ (Qh : Subgroup H).map H.subtype := Subgroup.map_mono hCHQh
   have hZQ : Z ≤ Q := hZCH.trans hCQ
-  have hQ3 : IsPGroup 3 Q := Qh.isPGroup'.map H.subtype
+  have hQ3 : IsPGroup 3 Q := Qh.isPGroup.map H.subtype
   have hQM : Q ≤ M :=
     CFSG.LocalAnalysis.UniquenessCase.PartOne.Section9.le_of_mem_uniqueSet_of_isPGroup
       hmax hZU hZQ hQ3

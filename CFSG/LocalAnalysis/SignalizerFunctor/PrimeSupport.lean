@@ -71,7 +71,7 @@ theorem signalizer_compatible_prime_support
     (elementary_abelian_isPGroup prime actor elementary) target_coprime
   let embedded := (sylow : Subgroup target).map target.subtype
   have embedded_le : embedded ≤ target := Subgroup.map_subtype_le _
-  have embedded_pgroup : IsPGroup groupPrime embedded := sylow.isPGroup'.map target.subtype
+  have embedded_pgroup : IsPGroup groupPrime embedded := sylow.isPGroup.map target.subtype
   have embedded_coprime : Nat.Coprime prime (Nat.card embedded) :=
     target_coprime.of_dvd_right (Subgroup.card_dvd_of_le embedded_le)
   have embedded_normalized : actor ≤ Subgroup.normalizer (embedded : Set GroupType) := by

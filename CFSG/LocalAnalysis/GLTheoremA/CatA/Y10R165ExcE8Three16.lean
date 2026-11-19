@@ -37,10 +37,10 @@ private theorem concl165_e8Model (F : Type) [Field F] [Finite F] [CharP F 2]
     Concl165 (adjointGroup Tag.E8 F) p q Ã := by
   classical
   let L := AlgebraicClosure F
-  haveI : CharP L 2 :=
+  have : CharP L 2 :=
     charP_of_injective_algebraMap (algebraMap F L).injective 2
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed F
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed F
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hpL : (p : L) ≠ 0 := by
     rw [ne_eq, CharP.cast_eq_zero_iff L 2]
     exact fun h => hp2 ((Nat.prime_dvd_prime_iff_eq Nat.prime_two hp).1 h).symm
@@ -113,14 +113,14 @@ private theorem concl165_e8Model (F : Type) [Field F] [Finite F] [CharP F 2]
   exact concl165_of_e8T3_model (hE6 := hE6) (hε := hε) (hf := hn) (hK := hcard)
     (hp := hp) (hp3 := hp3) (hpf := hpf) (hq2 := hq2ε) (n := n₀) (hnm := hnm)
     (hnW := hnW) (g0 := g0) (hg0C := hg0C) (hg0 := hg0) (hperf := hperf)
-    (hconj := hconj) (hAe := hAe) (hΩ := hΩ) (hζ := hζ) (hq := hq) (hq2' := hq2)
-    (hqp := hqp) (hJQ := hJQ) (hF := hF)
+    (hconj := hconj) (hAe := hAe) (hΩ := hΩ) (hζ := hζ) (_hq := hq) (_hq2' := hq2)
+    (_hqp := hqp) (hJQ := hJQ) (hF := hF)
 
 theorem e8Model165At_three : E8Model165At 3 := by
   intro F hField hFinite hChar n p q hcard hn hp hp2 hrk hq hq2 hqp hqdiv Ã hAe hΩ hmax hA3
-  letI : Field F := hField
-  letI : Finite F := hFinite
-  letI : CharP F 2 := hChar
+  let : Field F := hField
+  let : Finite F := hFinite
+  let : CharP F 2 := hChar
   have hp3 : 3 < p := three_lt_of_card hcard hp hp2 hrk
   have hpf : (p : ℤ) ∣ (Nat.card F : ℤ) ^ 2 + 1 * (Nat.card F : ℤ) + 1 := by
     simpa using three_dvd_card_sq_add_int hcard hp hp2 hrk
@@ -129,9 +129,9 @@ theorem e8Model165At_three : E8Model165At 3 := by
 
 theorem e8Model165At_six : E8Model165At 6 := by
   intro F hField hFinite hChar n p q hcard hn hp hp2 hrk hq hq2 hqp hqdiv Ã hAe hΩ hmax hA3
-  letI : Field F := hField
-  letI : Finite F := hFinite
-  letI : CharP F 2 := hChar
+  let : Field F := hField
+  let : Finite F := hFinite
+  let : CharP F 2 := hChar
   have hp3 : 3 < p := by have := seven_le_of_rk2Ord_six hp hp2 hrk; omega
   have hpf : (p : ℤ) ∣ (Nat.card F : ℤ) ^ 2 + (-1) * (Nat.card F : ℤ) + 1 := by
     have h : p ∣ (2 ^ n) ^ 2 - 2 ^ n + 1 := dvd_two_pow_sq_sub_of_rk2Ord_six hp hp2 hrk

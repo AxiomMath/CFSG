@@ -51,7 +51,7 @@ theorem twHighIsotropic_twoX_of_frame (h : TwE6HeisFrameNormalizesR) :
       exact dvd_pow_self 3 (by omega)
     omega
   obtain ⟨K₁, hK₁, hroot⟩ := exists_cubeExt K
-  haveI := hK₁
+  have := hK₁
   have hinj := twistedE6InndiagConj_injective hp hf hK σ hσ
   have hcE : ∀ x : twistedE6RootGroup K σ,
       twistedE6InndiagConj K σ ⟨x, le_sup_left (b := twistedE6DiagGL K σ) x.2⟩ =
@@ -72,7 +72,7 @@ theorem twHighIsotropic_twoX_of_frame (h : TwE6HeisFrameNormalizesR) :
     rintro _ ⟨x, -, rfl⟩
     exact Subgroup.mem_sup_left ⟨x, rfl⟩
   have hEab : CFSG.IsElementaryAbelian 3 E := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hcomm : IsMulCommutative E := IsPGroup.isMulCommutative_of_card_eq_prime_sq hcardE
     have hexpE : Monoid.exponent E ∣ 3 := by
       refine Monoid.exponent_dvd_iff_forall_pow_eq_one.mpr ?_

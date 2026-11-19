@@ -52,11 +52,11 @@ theorem homotopic_nil_of_part {z u : V} (p : G.Walk u u)
 theorem joinWalk_of_eq [DecidableEq ι] {a b x : V} (hab : part a ≠ part b) (h : part a = part x) :
     joinWalk part hadj hab x =
       .cons (hadj a b hab) (.cons (hadj b x fun e => hab (h.trans e.symm)) .nil) :=
-  dif_pos h
+  dite_eq_left h
 
 theorem joinWalk_of_ne [DecidableEq ι] {a b x : V} (hab : part a ≠ part b) (h : part a ≠ part x) :
     joinWalk part hadj hab x = .cons (hadj a x h) .nil :=
-  dif_neg h
+  dite_eq_right h
 
 theorem mem_support_joinWalk [DecidableEq ι] {a b x v : V} (hab : part a ≠ part b)
     (hv : v ∈ (joinWalk part hadj hab x).support) : v = a ∨ v = b ∨ v = x := by

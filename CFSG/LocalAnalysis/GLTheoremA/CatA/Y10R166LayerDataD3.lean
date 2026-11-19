@@ -46,9 +46,9 @@ theorem eichler_add_smul_pair {p q : V} (hp : Q p = 0) (hq : Q q = 0) (hpq : pol
     rw [polar_smul_right_eq, hpq, mul_zero]
   refine LinearEquiv.ext fun x => ?_
   rw [eichler_apply hQ1 hP1, eichler_apply hp hP2]
-  simp only [polar_add_left, polar_add_right, polar_smul_left_eq, polar_smul_right_eq,
-    polar_self_eq_zero hp, polar_self_eq_zero hq, hpq, hpq', hQ2, hQ3, mul_zero, add_zero,
-    sub_zero, zero_mul, add_smul, zero_smul, smul_add, smul_smul]
+  simp only [polar_add_right, polar_smul_right_eq,
+    hQ2, hQ3, add_zero,
+    zero_mul, smul_add, smul_smul]
   module
 
 end EichlerPlane
@@ -80,27 +80,30 @@ theorem two_ne_one_fin (hm : 4 ≤ m) : (2 : Fin m) ≠ 1 := by
   rw [Nat.mod_eq_of_lt (by omega), Nat.mod_eq_of_lt (by omega)] at h2
   omega
 
+omit [Finite F] [CharP F 2] in
 theorem torusParam_apply (hm : 4 ≤ m) (ζ : Fˣ) (k : Fin m) :
     torusParam m ζ k = if k = 0 ∨ k = 1 then ζ else 1 := by
   by_cases h0 : k = 0
   · subst h0
-    rw [if_pos (Or.inl rfl), torusParam, Pi.mul_apply, Pi.mulSingle_eq_same,
+    rw [ite_eq_left (Or.inl rfl), torusParam, Pi.mul_apply, Pi.mulSingle_eq_same,
       Pi.mulSingle_eq_of_ne (Ne.symm (one_ne_zero_fin hm)), mul_one]
   by_cases h1 : k = 1
   · subst h1
-    rw [if_pos (Or.inr rfl), torusParam, Pi.mul_apply, Pi.mulSingle_eq_same,
+    rw [ite_eq_left (Or.inr rfl), torusParam, Pi.mul_apply, Pi.mulSingle_eq_same,
       Pi.mulSingle_eq_of_ne (one_ne_zero_fin hm), one_mul]
-  · rw [if_neg (by tauto), torusParam, Pi.mul_apply,
+  · rw [ite_eq_right (by tauto), torusParam, Pi.mul_apply,
       Pi.mulSingle_eq_of_ne (M := fun _ => Fˣ) h0, Pi.mulSingle_eq_of_ne (M := fun _ => Fˣ) h1,
       one_mul]
 
+omit [Finite F] [CharP F 2] in
 private theorem torusParam_apply_two (ζ : Fˣ) (k : Fin m) :
     torusParamTwo m ζ k = if k = 2 then ζ else 1 := by
   by_cases h2 : k = 2
   · subst h2
-    rw [if_pos rfl, torusParamTwo, Pi.mulSingle_eq_same]
-  · rw [if_neg h2, torusParamTwo, Pi.mulSingle_eq_of_ne (M := fun _ => Fˣ) h2]
+    rw [ite_eq_left rfl, torusParamTwo, Pi.mulSingle_eq_same]
+  · rw [ite_eq_right h2, torusParamTwo, Pi.mulSingle_eq_of_ne (M := fun _ => Fˣ) h2]
 
+omit [Finite F] [CharP F 2] in
 theorem frameEntry_torusParam_ne (hm : 4 ≤ m) (h : IsHypFrame (coordinateQuadPlus m F)
     (plusFrameLeft m) (plusFrameRight m)) {ζ : Fˣ} (hζ1 : ζ ≠ 1) (hζinv : ζ⁻¹ ≠ ζ)
     {i : Fin (2 * m)} (hi0 : i ≠ plusFrameLeft m 0) (hi1 : i ≠ plusFrameLeft m 1) :
@@ -113,19 +116,19 @@ theorem frameEntry_torusParam_ne (hm : 4 ≤ m) (h : IsHypFrame (coordinateQuadP
     · exact absurd (by rw [hk0]) hi0
     by_cases hk1 : k = 1
     · exact absurd (by rw [hk1]) hi1
-    rw [if_neg (by tauto)]
+    rw [ite_eq_right (by tauto)]
     exact fun e => hζ1 e.symm
   · by_cases hrb : ∃ k, plusFrameRight m k = i
     · obtain ⟨k, hk⟩ := hrb
       subst hk
       rw [h.frameEntry_right, torusParam_apply hm]
       by_cases hk0 : k = 0
-      · rw [if_pos (Or.inl hk0)]
+      · rw [ite_eq_left (Or.inl hk0)]
         exact hζinv
       by_cases hk1 : k = 1
-      · rw [if_pos (Or.inr hk1)]
+      · rw [ite_eq_left (Or.inr hk1)]
         exact hζinv
-      · rw [if_neg (by tauto)]
+      · rw [ite_eq_right (by tauto)]
         exact fun e => hζ1 (by rw [← e, inv_one])
     · rw [frameEntry_of_forall_ne (t := torusParam m ζ)
         (fun k hk => hra ⟨k, hk.symm⟩) (fun k hk => hrb ⟨k, hk.symm⟩)]
@@ -141,34 +144,43 @@ variable [NeZero m]
 @[expose] noncomputable def framePair (k : Fin m) : HypPair (coordinateQuadPlus m F) :=
   (isHypCoord_coordinateQuadPlus (K := F) k).hypPair
 
+omit [Finite F] [CharP F 2] [NeZero m] in
 private theorem framePair_e (k : Fin m) : (framePair (F := F) k).e = frameE m k := rfl
 
+omit [Finite F] [CharP F 2] [NeZero m] in
 private theorem framePair_f (k : Fin m) : (framePair (F := F) k).f = frameF m k := rfl
 
+omit [Finite F] [CharP F 2] [NeZero m] in
 private theorem frameE_apply_self (k : Fin m) : frameE (K := F) m k (plusFrameLeft m k) = 1 :=
   Pi.single_eq_same ..
 
+omit [Finite F] [CharP F 2] [NeZero m] in
 private theorem frameE_apply_of_ne {k : Fin m} {i : Fin (2 * m)} (h : i ≠ plusFrameLeft m k) :
     frameE (K := F) m k i = 0 := Pi.single_eq_of_ne (M := fun _ => F) h 1
 
+omit [Finite F] [CharP F 2] [NeZero m] in
 private theorem frameF_apply_self (k : Fin m) : frameF (K := F) m k (plusFrameRight m k) = 1 :=
   Pi.single_eq_same ..
 
+omit [Finite F] [CharP F 2] [NeZero m] in
 private theorem frameF_apply_of_ne {k : Fin m} {i : Fin (2 * m)} (h : i ≠ plusFrameRight m k) :
     frameF (K := F) m k i = 0 := Pi.single_eq_of_ne (M := fun _ => F) h 1
 
+omit [Finite F] [CharP F 2] [NeZero m] in
 private theorem frameLin_frameE (h : IsHypFrame (coordinateQuadPlus m F) (plusFrameLeft m)
     (plusFrameRight m)) (t : Fin m → Fˣ) (k : Fin m) :
     frameLin (plusFrameLeft m) (plusFrameRight m) t (frameE (K := F) m k) =
       ((t k : Fˣ) : F) • frameE (K := F) m k :=
   h.frameLin_single_left t k
 
+omit [Finite F] [CharP F 2] [NeZero m] in
 private theorem frameLin_frameF (h : IsHypFrame (coordinateQuadPlus m F) (plusFrameLeft m)
     (plusFrameRight m)) (t : Fin m → Fˣ) (k : Fin m) :
     frameLin (plusFrameLeft m) (plusFrameRight m) t (frameF (K := F) m k) =
       (((t k)⁻¹ : Fˣ) : F) • frameF (K := F) m k :=
   h.frameLin_single_right t k
 
+omit [Finite F] [CharP F 2] in
 theorem framePair_orth (hm : 4 ≤ m) :
     (framePair (F := F) (m := m) 0).Orth (framePair (F := F) (m := m) 1) := by
   have h := isHypFrame_plus (K := F) m
@@ -196,7 +208,7 @@ theorem apply_single_eq_zero_of_commute {t : Fin m → Kˣ} {g : (ι → K) ≃�
     · subst hjk
       simp
     · rw [Pi.single_eq_of_ne hjk]
-      simp [Pi.single_eq_of_ne hjk]
+      simp
   have h := congrFun (LinearEquiv.congr_fun hg (Pi.single k 1)) i
   rw [LinearEquiv.mul_apply, LinearEquiv.mul_apply, hsingle, map_smul, frameLin_apply,
     Pi.smul_apply, smul_eq_mul] at h
@@ -214,6 +226,7 @@ section Eigenspaces
 
 variable [NeZero m]
 
+omit [Finite F] [CharP F 2] in
 theorem frameEntry_torusParam_inv_ne (hm : 4 ≤ m)
     (h : IsHypFrame (coordinateQuadPlus m F) (plusFrameLeft m) (plusFrameRight m)) {ζ : Fˣ}
     (hζ1 : ζ ≠ 1) (hζinv : ζ⁻¹ ≠ ζ) {i : Fin (2 * m)}
@@ -225,12 +238,12 @@ theorem frameEntry_torusParam_inv_ne (hm : 4 ≤ m)
     subst hk
     rw [h.frameEntry_left, torusParam_apply hm]
     by_cases hk0 : k = 0
-    · rw [if_pos (Or.inl hk0)]
+    · rw [ite_eq_left (Or.inl hk0)]
       exact hζinv.symm
     by_cases hk1 : k = 1
-    · rw [if_pos (Or.inr hk1)]
+    · rw [ite_eq_left (Or.inr hk1)]
       exact hζinv.symm
-    · rw [if_neg (by tauto)]
+    · rw [ite_eq_right (by tauto)]
       exact hζinv1.symm
   · by_cases hrb : ∃ k, plusFrameRight m k = i
     · obtain ⟨k, hk⟩ := hrb
@@ -240,12 +253,13 @@ theorem frameEntry_torusParam_inv_ne (hm : 4 ≤ m)
       · exact absurd hk0 (fun e => hi0 (by rw [e]))
       by_cases hk1 : k = 1
       · exact absurd hk1 (fun e => hi1 (by rw [e]))
-      · rw [if_neg (by tauto)]
+      · rw [ite_eq_right (by tauto)]
         exact fun e => hζinv1 (by rw [← e, inv_one])
     · rw [frameEntry_of_forall_ne (t := torusParam m ζ)
         (fun k hk => hra ⟨k, hk.symm⟩) (fun k hk => hrb ⟨k, hk.symm⟩)]
       exact fun e => hζinv1 e.symm
 
+omit [Finite F] [CharP F 2] in
 theorem apply_frameE_eq_smul (hm : 4 ≤ m)
     (h : IsHypFrame (coordinateQuadPlus m F) (plusFrameLeft m) (plusFrameRight m)) {ζ : Fˣ}
     (hζ1 : ζ ≠ 1) (hζinv : ζ⁻¹ ≠ ζ) {g : (Fin (2 * m) → F) ≃ₗ[F] (Fin (2 * m) → F)}
@@ -276,6 +290,7 @@ theorem apply_frameE_eq_smul (hm : 4 ≤ m)
     exact apply_single_eq_zero_of_commute hg
       (by rw [hval]; exact frameEntry_torusParam_ne hm h hζ1 hζinv hi0 hi1)
 
+omit [Finite F] [CharP F 2] in
 theorem apply_frameF_eq_smul (hm : 4 ≤ m)
     (h : IsHypFrame (coordinateQuadPlus m F) (plusFrameLeft m) (plusFrameRight m)) {ζ : Fˣ}
     (hζ1 : ζ ≠ 1) (hζinv : ζ⁻¹ ≠ ζ) {g : (Fin (2 * m) → F) ≃ₗ[F] (Fin (2 * m) → F)}
@@ -319,6 +334,7 @@ noncomputable def planeE : Submodule F (Fin (2 * m) → F) :=
 noncomputable def planeF' : Submodule F (Fin (2 * m) → F) :=
   Submodule.span F {frameF (K := F) m 0, frameF (K := F) m 1}
 
+omit [Finite F] [CharP F 2] in
 theorem polar_planes (horth : (framePair (F := F) (m := m) 0).Orth
     (framePair (F := F) (m := m) 1)) {a b γ δ : F} :
     polar (coordinateQuadPlus m F) (a • frameE (K := F) m 0 + b • frameE (K := F) m 1)
@@ -341,8 +357,7 @@ theorem polar_planes (horth : (framePair (F := F) (m := m) 0).Orth
     exact horth.fe
   have hf3 : polar (coordinateQuadPlus m F) (frameE (K := F) m 1) (frameF (K := F) m 1) = 1 :=
     (framePair (F := F) (m := m) 1).polar_ef
-  simp only [polar_add_left, polar_add_right, polar_smul_left_eq, polar_smul_right_eq, h00, h01,
-    h10, h11, hf0, hf1, hf2, hf3, mul_zero, mul_one, add_zero, zero_add]
+  simp only [polar_add_left, polar_add_right, polar_smul_left_eq, polar_smul_right_eq, hf0, hf1, hf2, hf3, mul_zero, mul_one, add_zero, zero_add]
   ring
 
 end LeviFix
@@ -420,14 +435,14 @@ theorem eichler_mem_leviFix_of_planes (hm : 4 ≤ m)
       (1 - γ * a) • frameE (K := F) m 0 + (-(γ * b)) • frameE (K := F) m 1 := by
     rw [eichler_apply hQu huw]
     simp only [polar_add_right, polar_smul_right_eq, h00, h01, hf00, hf01, hQw, mul_zero, mul_one,
-      add_zero, zero_mul]
+      add_zero]
     module
   have hE1 : eichler (coordinateQuadPlus m F) (a • frameE (K := F) m 0 + b • frameE (K := F) m 1)
       (γ • frameF (K := F) m 0 + δ • frameF (K := F) m 1) (frameE (K := F) m 1) =
       (-(δ * a)) • frameE (K := F) m 0 + (1 - δ * b) • frameE (K := F) m 1 := by
     rw [eichler_apply hQu huw]
     simp only [polar_add_right, polar_smul_right_eq, h10, h11, hf10, hf11, hQw, mul_zero, mul_one,
-      add_zero, zero_mul]
+      add_zero]
     module
   have hF0 : eichler (coordinateQuadPlus m F) (a • frameE (K := F) m 0 + b • frameE (K := F) m 1)
       (γ • frameF (K := F) m 0 + δ • frameF (K := F) m 1) (frameF (K := F) m 0) =
@@ -497,6 +512,7 @@ section Normal
 
 variable [NeZero m]
 
+omit [CharP F 2] in
 theorem frameLin_mem_centralizer_leviFix (hm : 4 ≤ m) {t : Fin m → Fˣ} (ht : t 0 = t 1) :
     frameLin (plusFrameLeft m) (plusFrameRight m) t ∈
       Subgroup.centralizer ((leviFix (orthDerived (coordinateQuadPlus m F))
@@ -661,6 +677,7 @@ section Order
 
 variable [NeZero m]
 
+omit [CharP F 2] in
 theorem isQuasisimple_leviFix (hm : 4 ≤ m) (hF4 : 4 ≤ Nat.card F) :
     CFSG.IsQuasisimple ↥(leviFix (orthDerived (coordinateQuadPlus m F))
       (framePair (F := F) (m := m) 0) (framePair (F := F) (m := m) 1)) := by

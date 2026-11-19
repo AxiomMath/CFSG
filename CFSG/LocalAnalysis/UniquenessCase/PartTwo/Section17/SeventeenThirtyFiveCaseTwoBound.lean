@@ -72,7 +72,7 @@ theorem caseTwo_three_six
   have hKcomp : K ∈ compBar D.M V₀ V h.isElemAbelian :=
     barSub_mem_compBar_of_ne_bot h hL hne
   have hKleM : K ≤ Mbar := hKcomp.1
-  have hKmem : K ∈ conjSet K Mbar := ⟨1, Mbar.one_mem, by ext x; simp [MulAut.conj_apply]⟩
+  have hKmem : K ∈ conjSet K Mbar := ⟨1, Mbar.one_mem, by ext x; simp⟩
   have hKleH : K ≤ H := le_iSup₂_of_le (f := fun X (_ : X ∈ conjSet K Mbar) => X) K hKmem le_rfl
   have hKZ : K ≤ stabSub Z := hKleH.trans (CFSG.Quasithin.RonanF918.le_stabSub_fixV H)
   have hZK : Z ≤ fixV K := fixV_anti hKleH

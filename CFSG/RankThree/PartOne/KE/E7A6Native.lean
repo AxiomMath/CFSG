@@ -40,7 +40,7 @@ theorem mem_subsystemTorus_e7a6 {g : ModGL Tag.E7 K} :
     | mem x hx =>
       obtain ⟨i, hi, t, rfl⟩ := hx
       rcases (mem_e7a6support i).1 hi with rfl | rfl | rfl | rfl | rfl | rfl
-      · exact ⟨t, 1, 1, 1, 1, 1, by simp only [e7a6TorusElt, torusElt_one, mul_one, one_mul]⟩
+      · exact ⟨t, 1, 1, 1, 1, 1, by simp only [e7a6TorusElt, torusElt_one, mul_one]⟩
       · exact ⟨1, t, 1, 1, 1, 1, by simp only [e7a6TorusElt, torusElt_one, mul_one, one_mul]⟩
       · exact ⟨1, 1, t, 1, 1, 1, by simp only [e7a6TorusElt, torusElt_one, mul_one, one_mul]⟩
       · exact ⟨1, 1, 1, t, 1, 1, by simp only [e7a6TorusElt, torusElt_one, mul_one, one_mul]⟩

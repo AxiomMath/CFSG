@@ -27,6 +27,7 @@ theorem R_normalized {m r : G} (hm : m ∈ M) (hr : r ∈ Rc X) : m * r * m⁻¹
   pCoreOf_normalized_of_normal (fun _ hm' _ hc => Theta.conj_mem_centralizer_of_mem S hm' hc) hm hr
 
 omit S in
+omit [Finite G] in
 theorem card_conj (g : G) : Nat.card ↥(conjSubgroup g (Rc X)) = Nat.card ↥(Rc X) :=
   Subgroup.card_map_of_injective (MulAut.conj g).injective
 
@@ -77,6 +78,7 @@ theorem conj_normalized {g c τ : G} (hc : g⁻¹ * c * g ∈ M) (hτ : τ ∈ c
   exact h
 
 omit S in
+omit [Finite G] in
 theorem two_pow_of_mem_conj {g τ : G} (hτ : τ ∈ conjSubgroup g (Rc X)) :
     ∃ j : ℕ, τ ^ (2 ^ j) = 1 := by
   have h0 : g⁻¹ * τ * g ∈ Rc X := mem_conjSubgroup.1 hτ
@@ -98,7 +100,7 @@ section Cfg
 
 variable (C : Cfg G M X n)
 
-theorem Q_le_K : CFSG.Open.pCoreOf 2 M ≤ C.K := fun q hq =>
+theorem Q_le_K : CFSG.Open.pCoreOf 2 M ≤ C.K := fun _q hq =>
   C.mem_K.2 ⟨pCoreOf_le_self M hq, C.theta_Q C.S.five_le_degree hq⟩
 
 theorem K_comm_W {k w : G} (hk : k ∈ C.K) (hw : w ∈ blockU X) : k * w = w * k := by

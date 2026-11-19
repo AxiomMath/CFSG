@@ -20,7 +20,7 @@ theorem k_SL3TwoAutPowerMap_holds :
   classical
   obtain ⟨hq, hL3⟩ := hSL3
   have hn : 1 ≤ n := (CFSG.Blueprint.LieModel.admissible hL3).2.1
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hidx : ¬ 2 ∣ S.index := by
     have h := hS.2.2
     rwa [show (S.subgroupOf ⊤).index = S.index from Subgroup.relIndex_top_right S] at h
@@ -28,7 +28,7 @@ theorem k_SL3TwoAutPowerMap_holds :
   have hU : (U : Subgroup Y) = S := IsPGroup.toSylow_coe hS.isPGroup hidx
   obtain ⟨K, hKf, hKfin, hKchar, αc, hcard, hα, hαc, hαU⟩ :=
     exists_cover_sylow_of_odd_center hq hL3 hodd U
-  haveI : CharP K 2 := hKchar
+  have : CharP K 2 := hKchar
   have hαU' : (unitriangular 3 K).map αc = S := by rw [hαU, hU]
   have hoddker : Odd (Nat.card αc.ker) :=
     odd_card_ker_of_le_scalars (n := 3) (by norm_num) hαc

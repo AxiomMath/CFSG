@@ -39,7 +39,7 @@ theorem pointsHyp (S : Setting G M L) : ∃ z, PointsHyp (blockU L) L z := by
     by_contra h
     push Not at h
     have hsP : s ∈ blockQ L := S.mem_blockQ_of_forall_conj_eq hsL h
-    obtain ⟨n, hn⟩ := S.blockQ_isPGroup ⟨s, hsP⟩
+    obtain ⟨n, hn⟩ := (CFSG.CGT.Hall82.Setting.blockQ_isPGroup (L := L)) ⟨s, hsP⟩
     have hpow : s ^ (2 ^ n) = 1 := by simpa using congrArg Subtype.val hn
     have hdvd : orderOf s ∣ 2 ^ n := orderOf_dvd_of_pow_eq_one hpow
     rw [hs5] at hdvd
@@ -51,7 +51,7 @@ theorem pointsHyp (S : Setting G M L) : ∃ z, PointsHyp (blockU L) L z := by
     · exact Or.inr h
   · exact ⟨216 * Nat.card (blockQ L), by rw [S.card_eq_1080_mul_card_blockQ]; ring⟩
   · intro h25
-    obtain ⟨n, hn⟩ := S.blockQ_isPGroup.exists_card_eq
+    obtain ⟨n, hn⟩ := (CFSG.CGT.Hall82.Setting.blockQ_isPGroup (L := L)).exists_card_eq
     rw [S.card_eq_1080_mul_card_blockQ, hn] at h25
     have hcop : Nat.Coprime 25 (2 ^ n) := (by norm_num : Nat.Coprime 25 2).pow_right n
     have hd : 25 ∣ 1080 := hcop.dvd_of_dvd_mul_right h25
@@ -111,7 +111,7 @@ noncomputable def psiSub (S : Setting G M L)
 
 theorem mem_psiSub (S : Setting G M L)
     (hc : HexaCoord (blockU L) R (hallPts (blockU L) L) rep) {A : Subgroup G}
-    (hA : A ≤ M) {x : Equiv.Perm (Fin 64)} :
+    (_hA : A ≤ M) {x : Equiv.Perm (Fin 64)} :
     x ∈ S.psiSub hc A ↔ ∃ a ∈ A, ∃ ha : a ∈ M, S.psiM hc ⟨a, ha⟩ = x := by
   rw [psiSub, Subgroup.mem_map]
   constructor
@@ -245,7 +245,7 @@ theorem card_inf_centralizer_singleton (S : Setting G M L)
       invFun := fun v => ⟨rep v.1, ?_⟩
       left_inv := ?_
       right_inv := ?_ }
-  · simp only [fixPts, Set.mem_setOf_eq, Set.mem_singleton_iff, forall_eq]
+  · simp only [fixPts, Set.mem_ofPred_eq, Set.mem_singleton_iff, forall_eq]
     apply (conj_rep_eq_iff S hc m (hc.equiv.symm ⟨x.1, (Subgroup.mem_inf.mp x.2).1⟩)).mp
     rw [hc.rep_symm]
     have hcomm : (m : G) * x.1 = x.1 * (m : G) :=
@@ -373,7 +373,7 @@ theorem centralizer_blockU_eq (S : Setting G M L) :
 
 theorem blockU_le_pCoreOf (S : Setting G M L) :
     blockU L ≤ CFSG.Open.pCoreOf 2 M := by
-  have hV2 : IsPGroup 2 (blockU L) := S.blockQ_isPGroup.to_le S.blockU_le_blockQ
+  have hV2 : IsPGroup 2 (blockU L) := (CFSG.CGT.Hall82.Setting.blockQ_isPGroup (L := L)).to_le S.blockU_le_blockQ
   refine CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2 ?_ ?_ hV2
   · exact fun v hv => S.le (CFSG.LieType.BorelTits.pCoreOf_le 2 L (S.blockU_le_blockQ hv))
   · exact le_of_eq S.normalizer_blockU_eq.symm
@@ -501,7 +501,7 @@ theorem le_pCoreOf_of_le_centralizer (S : Setting G M L)
     {X : Subgroup G} (hX : IsPGroup 2 X) (hXM : X ≤ M)
     (hXV : X ≤ Subgroup.centralizer (blockU L : Set G)) :
     X ≤ CFSG.Open.pCoreOf 2 M := by
-  have hV2 : IsPGroup 2 (blockU L) := S.blockQ_isPGroup.to_le S.blockU_le_blockQ
+  have hV2 : IsPGroup 2 (blockU L) := (CFSG.CGT.Hall82.Setting.blockQ_isPGroup (L := L)).to_le S.blockU_le_blockQ
   have hXVN : X ≤ Subgroup.normalizer (blockU L : Set G) := by
     rw [S.normalizer_blockU_eq]
     exact hXM

@@ -130,7 +130,7 @@ theorem false_of_lieModel_l44_twisted [Finite G] (hC : CentData z ι) (hx : IsCo
   have h7 := seven_dvd_card_inf_of_lieModel_l44 (N := Kh) (A := Agrp ι) hle hn hperf hS hA
     eA.symm (z_mem_centralizer_x₂ hC) hd hz hC.mul_self htA hd2 hdt hdA hdout
     (seven_dvd_card_pair_d_x₂ hC hx hP2 hp)
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   obtain ⟨u, huord⟩ := exists_prime_orderOf_dvd_card' (G :=
     ↥(centralizer ({ι (swap 0 1)} : Set G) ⊓ centralizer ({z * ι τ₀} : Set G) ⊓
       centralizer (Kh : Set G))) 7 h7

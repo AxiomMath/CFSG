@@ -23,9 +23,9 @@ theorem q2_commutative_of_unitaryLift {P : Type} [Group P] {M : Subgroup (MulAut
     IsMulCommutative ((M.map (MulAut.congr θ).toMonoidHom).comap
       (CFSG.HardMathSupport.C14Cl.uniConj hE d)) := by
   obtain ⟨a, mD, D, hDf, hD, ψL, G, hG, hlift⟩ := h
-  letI : Field D := hDf
-  haveI : Finite E := hE.finite
-  haveI : Finite D := hD.finite
+  let : Field D := hDf
+  have : Finite E := hE.finite
+  have : Finite D := hD.finite
   have hcardE : Nat.card E = (2 ^ m) ^ 2 := by rw [hE.card, ← pow_mul, mul_comm]
   have hdq : ¬ (d = 3 ∧ 2 ^ m = 2) := fun ⟨h3, h2⟩ =>
     hdm ⟨h3, Nat.pow_right_injective (le_refl 2) (h2.trans (by norm_num : (2 : ℕ) = 2 ^ 1))⟩

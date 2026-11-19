@@ -191,7 +191,7 @@ private theorem exists_mem_normalizer_not_mem {X S : Subgroup G} (hS : IsPGroup 
       exact this
     have := Subgroup.card_le_of_le hSX
     omega
-  obtain ⟨⟨y, hyS⟩, hyN, hyX⟩ := SetLike.exists_of_lt
+  obtain ⟨⟨y, hyS⟩, hyN, hyX⟩ := _root_.IsConcreteLE.exists_of_lt
     (Group.normalizerCondition_of_isNilpotent (X.subgroupOf S) hlt')
   refine ⟨y, hyS, mem_normalizer_iff.2 fun h => ⟨fun hh => ?_, fun hh => ?_⟩, fun h => hyX h⟩
   · exact (mem_normalizer_iff.1 hyN ⟨h, hXS hh⟩).1 hh
@@ -353,11 +353,11 @@ theorem sylow_of_char
     have hlt : Nat.card (Tm A z D) < Nat.card S :=
       lt_of_le_of_ne (Subgroup.card_le_of_le hTS)
         fun hc => hne (Subgroup.eq_of_le_of_card_ge hTS hc.ge)
-    obtain ⟨y, hyS, hyN, hyT⟩ := exists_mem_normalizer_not_mem S.isPGroup' hTS hlt
+    obtain ⟨y, hyS, hyN, hyT⟩ := exists_mem_normalizer_not_mem S.isPGroup hTS hlt
     have hPS : Tm A z D ⊔ zpowers y ≤ S := sup_le hTS (zpowers_le.2 hyS)
     have hPE : Tm A z D ⊔ zpowers y ≤ normalizer (E θ c.hn8 : Set G) :=
       sup_le (h.Tm_le_normalizer_E c) (zpowers_le.2 (hchar y hyN))
-    have h1 := h.sylow_normE c (S.isPGroup'.to_le hPS) le_sup_left hPE
+    have h1 := h.sylow_normE c (S.isPGroup.to_le hPS) le_sup_left hPE
     exact hyT (h1 ▸ mem_sup_right (mem_zpowers y))
   rw [heq]
   exact S.not_dvd_index

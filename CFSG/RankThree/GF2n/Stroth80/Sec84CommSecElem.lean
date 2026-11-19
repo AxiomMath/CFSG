@@ -9,8 +9,8 @@ namespace CFSG.RankThree.GF2n.Stroth80
 open scoped commutatorElement
 
 theorem commSec_elem {G : Type} [Group G] [Finite G] {N Q : Subgroup G} {x : G}
-    (hNab : ∀ a ∈ N, ∀ b ∈ N, ⁅a, b⁆ ∈ Q) (hQN : Q ≤ N)
-    (hxN : ∀ n ∈ N, x * n * x⁻¹ ∈ N) (hxQ : ∀ q ∈ Q, x * q * x⁻¹ ∈ Q)
+    (hNab : ∀ a ∈ N, ∀ b ∈ N, ⁅a, b⁆ ∈ Q) (_hQN : Q ≤ N)
+    (hxN : ∀ n ∈ N, x * n * x⁻¹ ∈ N) (_hxQ : ∀ q ∈ Q, x * q * x⁻¹ ∈ Q)
     (hNQ : ∀ n ∈ N, ∀ q ∈ Q, n * q * n⁻¹ ∈ Q) :
     ∀ y ∈ CommSec N Q x, ∃ n ∈ N, ∃ q ∈ Q, y = ⁅n, x⁆ * q := by
   have K1 : ∀ a b : G,

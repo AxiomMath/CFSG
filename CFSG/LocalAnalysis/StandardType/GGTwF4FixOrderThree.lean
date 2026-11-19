@@ -30,7 +30,7 @@ theorem twF4_ggAutFixedSubgroup_mulEquiv_unitarySU
       ↥(CFSG.ClassicalGroups.UnitaryFlag.unitarySU 2 (2 * a + 1)
         (GaloisField 2 (2 * (2 * a + 1))) 3)) := by
   classical
-  haveI : CharP K CFSG.LieType.Ree.ReeTag.F4.prime := charP_two_of_card hK
+  have : CharP K CFSG.LieType.Ree.ReeTag.F4.prime := charP_two_of_card hK
   obtain ⟨s, hs⟩ := chevIDImage_subset_inn_twF4 ha K hK hτI
   obtain ⟨e0⟩ := gff_nonempty_centerQuot_equiv_reeGamma ha hK
   let y : CFSG.LieType.Ree.ReeTag.F4.reeGamma K a := e0 s
@@ -61,7 +61,7 @@ theorem twF4_ggAutFixedSubgroup_mulEquiv_unitarySU
       have h' : e0 s = 1 := h
       rw [h', map_one])
     rw [hs1, map_one]
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hy : orderOf y = 3 := orderOf_eq_prime hy3 hy1
   have hconj : ∀ x : LargeEvenCenterQuot (LargeEvenTwF4H a K),
       MulAut.conj y (e0 x) = e0 (MulAut.conj s x) := by

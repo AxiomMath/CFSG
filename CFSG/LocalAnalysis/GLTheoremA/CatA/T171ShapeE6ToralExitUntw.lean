@@ -22,15 +22,15 @@ private theorem e6exit_entrywiseFrobGL_baseChange
     (hK : Nat.card K = 2 ^ n) (y : ModGL Tag.E6 K) :
     entrywiseFrobGL Tag.E6 Ω 2 n (baseChangeGL (algebraMap K Ω) y) =
       baseChangeGL (algebraMap K Ω) y := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
   have hcomp : (iterateFrobenius Ω 2 n).comp (algebraMap K Ω) = algebraMap K Ω := by
     refine RingHom.ext fun c => ?_
     change (iterateFrobenius Ω 2 n) (algebraMap K Ω c) = algebraMap K Ω c
     rw [iterateFrobenius_def, ← map_pow]
     congr 1
     rw [← hK]
-    simpa [Nat.card_eq_fintype_card] using FiniteField.pow_card c
+    simp [Nat.card_eq_fintype_card]
   rw [entrywiseFrobGL, CFSG.LieType.Chevalley.units_map_entrywiseHom_eq_baseChangeGL,
     CFSG.LieType.Chevalley.baseChangeGL_baseChangeGL, hcomp]
 
@@ -43,11 +43,11 @@ private theorem e6exit_congr_symm_congr {R C : Type*} [Group R] [Group C]
 theorem e6BigToralExit_of (h : E6LangTorusExit) : E6BigToralExit := by
   intro G _ _ L J A d b n K _ _ hn hK h3 hS θ E hE3 hEcard hEI hEd hEb
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_two_of_card (m := n) (by rw [hK])
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_two_of_card (m := n) (by rw [hK])
   let Ω := AlgebraicClosure K
-  haveI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
-  haveI : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
+  have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
+  have : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
   let ρ : TableBExc.RecipeGroup Tag.E6 K ≃* adjointGroup Tag.E6 K :=
     TableBExc.recipeEquiv Tag.E6 K
   let θ' : ↥L ⧸ Subgroup.center ↥L ≃* TableBExc.RecipeGroup Tag.E6 K := θ

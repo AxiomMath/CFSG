@@ -25,6 +25,7 @@ section Algebra
 
 variable {R : Type*} [CommRing R] {I : Finset ι}
 
+omit [Fintype ι] in
 lemma Splits.mem_iff_of_ne_zero {M : Matrix ι ι R} (hM : Splits I M) {a c : ι} (h : M a c ≠ 0) :
     a ∈ I ↔ c ∈ I := by
   constructor
@@ -35,6 +36,7 @@ lemma Splits.mem_iff_of_ne_zero {M : Matrix ι ι R} (hM : Splits I M) {a c : ι
     by_contra ha
     exact h (hM a c ⟨fun h => absurd h ha, fun h => absurd hc h⟩)
 
+omit [DecidableEq ι] in
 lemma mulVec_apply_eq_blk_of_splits (M : Matrix ι ι R) (y : ι → R) (hM : Splits I M) {a : ι}
     (ha : a ∈ I) : (M *ᵥ y) a = (blk I M *ᵥ (fun b : I => y b)) ⟨a, ha⟩ := by
   rw [Matrix.mulVec_apply_eq_sum, Matrix.mulVec_apply_eq_sum]
@@ -61,18 +63,21 @@ theorem Splits.mul {M N : Matrix ι ι R} (hM : Splits I M) (hN : Splits I N) : 
   · exact (hab.mp hb) hb
   · exact hb (hab.mpr hb)
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem Splits.transpose {M : Matrix ι ι R} (hM : Splits I M) : Splits I Mᵀ := by
   intro a b hab
   rw [Matrix.transpose_apply]
   exact hM b a ⟨fun hb ha => (hab.mp ha) hb, fun ha => by_contra fun hb => ha (hab.mpr hb)⟩
 
+omit [Fintype ι] in
 theorem blk_one : blk I (1 : Matrix ι ι R) = 1 := by
   ext a b
   simp only [blk, Matrix.submatrix_apply, Matrix.one_apply]
   by_cases h : a = b
-  · rw [if_pos h, if_pos (congrArg Subtype.val h)]
-  · rw [if_neg h, if_neg (fun hh => h (Subtype.ext hh))]
+  · rw [ite_eq_left h, ite_eq_left (congrArg Subtype.val h)]
+  · rw [ite_eq_right h, ite_eq_right (fun hh => h (Subtype.ext hh))]
 
+omit [DecidableEq ι] in
 theorem Splits.blk_mul {M : Matrix ι ι R} (hM : Splits I M) (N : Matrix ι ι R) :
     blk I (M * N) = blk I M * blk I N := by
   ext a b
@@ -81,10 +86,12 @@ theorem Splits.blk_mul {M : Matrix ι ι R} (hM : Splits I M) (N : Matrix ι ι 
   rw [Finset.sum_subset (Finset.subset_univ I) (fun x _ hx => by
     rw [hM (a : ι) x ⟨fun _ => hx, fun _ => a.2⟩, zero_mul])]
 
+omit [Fintype ι] [DecidableEq ι] [CommRing R] in
 theorem blk_transpose (M : Matrix ι ι R) : blk I Mᵀ = (blk I M)ᵀ := by
   ext a b
   simp only [blk, Matrix.submatrix_apply, Matrix.transpose_apply]
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem blk_map {S : Type*} [CommRing S] (M : Matrix ι ι R) (f : R →+* S) :
     blk I (M.map f) = (blk I M).map f := by
   ext a b
@@ -109,7 +116,7 @@ theorem Splits.isUnit_blk {M : Matrix ι ι K} (hM : Splits I M) (hu : IsUnit M)
     · rw [mulVec_apply_eq_blk_of_splits M yhat hM ha]
       have hfun : (fun b : I => yhat (b : ι)) = y := by
         funext b
-        simp only [yhat, dif_pos b.2]
+        simp only [yhat, dite_eq_left b.2]
       rw [hfun]
       exact congr_fun hy0 ⟨a, ha⟩
     · rw [Matrix.mulVec_apply_eq_sum]
@@ -117,13 +124,13 @@ theorem Splits.isUnit_blk {M : Matrix ι ι K} (hM : Splits I M) (hu : IsUnit M)
       intro c _
       by_cases hc : c ∈ I
       · rw [hM a c ⟨fun h => absurd h ha, fun h => absurd hc h⟩, zero_mul]
-      · simp only [yhat, dif_neg hc, mul_zero]
+      · simp only [yhat, dite_eq_right hc, mul_zero]
   have hinj : Function.Injective M.mulVec := Matrix.mulVec_injective_iff_isUnit.2 hu
   have hzero : yhat = 0 := hinj (by rw [hMvec, Matrix.mulVec_zero])
   apply hy
   funext i
   have := congr_fun hzero (i : ι)
-  simpa [yhat, dif_pos i.2] using this
+  simpa [yhat, dite_eq_left i.2] using this
 
 end Field
 
@@ -141,6 +148,7 @@ variable {J : Type*} [Group J] [Finite J] {Ω : Type*} [Field Ω] [IsAlgClosed �
     rw [map_mul]
     exact (hQ g).blk_mul (Q h)
 
+omit [Finite J] [IsAlgClosed Ω] [CharP Ω 2] in
 theorem blkHom_apply (I : Finset ι) (Q : J →* Matrix ι ι Ω) (hQ : ∀ g, Splits I (Q g)) (g : J) :
     blkHom I Q hQ g = blk I (Q g) :=
   rfl
@@ -191,6 +199,7 @@ theorem entries_eq_of_commute_diagonal {A : Type*} (w : A → ι → K) {M : Mat
   simp only [Matrix.mul_diagonal, Matrix.diagonal_mul] at ha
   exact (mul_left_cancel₀ h (ha.trans (mul_comm _ _))).symm
 
+omit [DecidableEq ι] in
 theorem splits_fiber_of_forall {κ : Type*} [DecidableEq κ] (c : ι → κ) {M : Matrix ι ι K}
     (hM : ∀ a b, M a b ≠ 0 → c a = c b) (k : κ) :
     Splits (Finset.univ.filter fun a => c a = k) M := by

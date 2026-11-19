@@ -21,12 +21,12 @@ theorem unitaryCoverAt_four {n : ℕ} {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = (2 ^ n) ^ 2) (hn : 2 ≤ n) : LineU.UnitaryCoverAt n 4 K := by
   have hU : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 n K :=
     CFSG.StandardType.TableBU.unitaryFieldData_of_card hK (by omega)
-  haveI : CharP K 2 := hU.charP
+  have : CharP K 2 := hU.charP
   have hq : 4 ≤ 2 ^ n :=
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn
   have hperf : commutator (unitarySU 2 n K 4) = ⊤ := by
-    haveI := CFSG.LieType.Steinberg.CentralExt.SUClosed.isPerfect_statedSU hK (le_refl 4)
+    have := CFSG.LieType.Steinberg.CentralExt.SUClosed.isPerfect_statedSU hK (le_refl 4)
     exact Group.IsPerfect.commutator_eq_top
   refine LineU.unitaryCoverAt_of_section hperf ?_
   intro E _ _ π hπ hcen
@@ -37,10 +37,10 @@ theorem unitaryCoverOddAt_four_two (K : Type) [Field K] [Finite K] (hK : Nat.car
     Line63.UnitaryCoverOddAt 1 4 K := by
   have hU : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 1 K :=
     ⟨Nat.prime_two, le_rfl, by norm_num [hK]⟩
-  haveI : CharP K 2 := hU.charP
+  have : CharP K 2 := hU.charP
   have hF : Nat.card K = (2 ^ 1) ^ 2 := by norm_num [hK]
   refine LineU.unitaryCoverOddAt_of_section ?_ ?_
-  · haveI := CFSG.LieType.Steinberg.CentralExt.SUClosed.isPerfect_statedSU hF
+  · have := CFSG.LieType.Steinberg.CentralExt.SUClosed.isPerfect_statedSU hF
       (show 4 ≤ 4 by norm_num)
     exact Group.IsPerfect.commutator_eq_top
   · intro E _ _ π hπ hcen hodd
@@ -186,7 +186,7 @@ theorem exists_diagonal_cover_of_unitary_four_two_red
     have hx := hxind l0 (ggGamma X hN b l0) hrel
     simpa [ggQuotHom_apply, ψQ, qLift_mk] using hx
   have hperfSU : commutator (unitarySU 2 1 F 4) = ⊤ := by
-    haveI := CFSG.LieType.Steinberg.CentralExt.SUClosed.isPerfect_statedSU hF' (le_refl 4)
+    have := CFSG.LieType.Steinberg.CentralExt.SUClosed.isPerfect_statedSU hF' (le_refl 4)
     exact Group.IsPerfect.commutator_eq_top
   obtain ⟨φQ, hMQ, hdiagQ⟩ := exists_diagModel_coprime_odd (p := 3) hF' (by norm_num)
     Nat.prime_three (by norm_num) (by norm_num) (unitaryCoverOddAt_four_two F hF) hψQ hkerQ

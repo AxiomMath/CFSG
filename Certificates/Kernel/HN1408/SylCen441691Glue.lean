@@ -63,9 +63,9 @@ theorem card_filter_range (n : ℕ) (f : ℕ → Bool) :
   | succ n ih =>
     rw [Finset.range_add_one, Finset.filter_insert, List.range_succ, List.countP_append]
     by_cases hf : f n = true
-    · rw [if_pos hf, Finset.card_insert_of_notMem (fun h => by simp at h), ih]
+    · rw [ite_eq_left hf, Finset.card_insert_of_notMem (fun h => by simp at h), ih]
       simp [hf]
-    · rw [if_neg hf, ih]
+    · rw [ite_eq_right hf, ih]
       simp [Bool.eq_false_iff.2 hf]
 
 theorem card_subgroup_eq_ncard {G : Type*} [Group G] (H : Subgroup G) :
@@ -82,7 +82,7 @@ theorem card_center_S : Nat.card ↥(wordSubgroup sWords ⊓
       (((Finset.range 2048).filter fun i => syCenPt 5 i = true).image x : Set _) := by
     ext g
     simp only [SetLike.mem_coe, mem_inf, Finset.coe_image, Finset.coe_filter, Finset.mem_range,
-      Set.mem_image, Set.mem_setOf_eq]
+      Set.mem_image, Set.mem_ofPred_eq]
     constructor
     · rintro ⟨hg, hgc⟩
       obtain ⟨i, hi, rfl⟩ := (R.mem _).1 hg

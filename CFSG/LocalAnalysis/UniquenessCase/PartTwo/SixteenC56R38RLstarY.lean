@@ -43,7 +43,7 @@ theorem exists_Y_of_factors (D : Data G) (h127 : R127 D) (h119 : F11.R119 D)
   classical
   have hMs : D.M ≤ stabTil V₀ V :=
     le_stabTil h.pairFacts.le_normalizer h.pairFacts.le_normalizer₀
-  haveI hNor := s15_Three_cTilde_normal (D := D) hV hMs
+  have hNor := s15_Three_cTilde_normal (D := D) hV hMs
   obtain ⟨e, he⟩ := s15_Three_barImage_equiv (D := D) hV hMs
   set T : Fin n → Subgroup (F11.MBar11 D.M V₀ V) :=
     fun j => ((N j).subgroupOf (Mbar D.M V₀ V hV)).map e.symm.toMonoidHom with hT
@@ -58,7 +58,7 @@ theorem exists_Y_of_factors (D : Data G) (h127 : R127 D) (h119 : F11.R119 D)
     Nat.card_congr (hTe j).some.toEquiv
   have hT3 : ∀ j, 3 ∣ Nat.card ↥(T j) := fun j => (hTcard j) ▸ hN3 j
   have hTq : ∀ j, CFSG.Open.IsQuasisimple ↥(T j) := fun j => by
-    haveI := hTS j
+    have := hTS j
     exact P22y.isQuasisimple_of_isSimpleGroup (hTZ j)
   have hTcomm : ∀ k l, k ≠ l → ∀ x ∈ T k, ∀ y ∈ T l, x * y = y * x := by
     rintro k l hkl _ ⟨a, ha, rfl⟩ _ ⟨b, hb, rfl⟩
@@ -120,7 +120,7 @@ theorem exists_Y_of_factors (D : Data G) (h127 : R127 D) (h119 : F11.R119 D)
     exact h3.symm
   have hR : CFSG.pCore 2 ↥Y ≤ f.ker := by
     rw [← Subgroup.map_eq_bot_iff]
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hfr : f.range = ⨆ k, T k := hfrange.trans hX
     refine P22y.eq_bot_of_isPGroup_two hTcomm' hTind hTS hT3 hTZ (CFSG.pCore_isPGroup.map f)
       ?_ ?_
@@ -142,8 +142,8 @@ theorem exists_Y_of_factors (D : Data G) (h127 : R127 D) (h119 : F11.R119 D)
   have hR' : ∀ y ∈ CFSG.pCore 2 ↥Y, (y : G) ∈ F11.CTilde D.M V₀ V :=
     fun y hy => (hfker y).1 (hR hy)
   have hsol : Group.IsSolvable ↥(Y ⊓ F11.CTilde D.M V₀ V) := by
-    haveI := uc22p20a_isSolvable_oinf Y
-    exact solvable_of_solvable_injective (f := Subgroup.inclusion hYC)
+    have := uc22p20a_isSolvable_oinf Y
+    exact Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hYC)
       (Subgroup.inclusion_injective hYC)
   set Nall : Subgroup (MulAut (Vtil V₀ V hV)) := ⨆ j, N j with hNall
   have hNallN : (Nall.subgroupOf (Mbar D.M V₀ V hV)).Normal := by

@@ -109,7 +109,7 @@ theorem z7M_ne_one : z7M ≠ 1 := by
   decide +kernel
 
 theorem orderOf_z7 : orderOf z7 = 7 := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hpow : z7 ^ 7 = 1 := by
     apply mat6_injective
     rw [map_pow, mat6_z7, z7M_pow_seven, map_one]
@@ -121,7 +121,7 @@ theorem orderOf_z7 : orderOf z7 = 7 := by
 
 theorem noCommute37_H6 : NoCommute37 H6 := by
   intro y z hy hz hyz
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hzc : Nat.card (Subgroup.zpowers z) = 7 := by rw [Nat.card_zpowers, hz]
   have hz7c : Nat.card (Subgroup.zpowers z7) = 7 := by rw [Nat.card_zpowers, orderOf_z7]
   have hzP : IsPGroup 7 (Subgroup.zpowers z) :=

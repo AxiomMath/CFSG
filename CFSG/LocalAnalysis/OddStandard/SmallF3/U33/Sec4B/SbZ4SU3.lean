@@ -12,6 +12,7 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau : G}
 
+omit [Finite G] in
 theorem z4_mem_zpowers_of_mul_self {g c : G} (hgg : g * g = 1) (hc : c ∈ zpowers g) :
     c = 1 ∨ c = g := by
   obtain ⟨n, rfl⟩ := Subgroup.mem_zpowers_iff.mp hc
@@ -96,12 +97,12 @@ theorem mem_Q_of_comm_p (htau : ∀ a ∈ ctxQ t tau x₁ x₂ rho, tau * a * ta
     have h' : x₁ ^ 2 = (x₂ ^ 2)⁻¹ := eq_inv_of_mul_eq_one_right h
     rwa [hx2sq_inv] at h'
   have comm_p₃ : z4Comm t p₃ = x₂ ^ 2 * x₁ ^ 2 := by
-    rw [hp₃, hg.comm_mul hg.t_mem_X (hV.V'_le_Q hg.toZ4Pre hV.v₂_mem)
+    rw [hp₃, hg.comm_mul CFSG.OddStandard.SmallF3.HarrisU33.Z4Pre.t_mem_X (hV.V'_le_Q hg.toZ4Pre hV.v₂_mem)
         (hV.V'_le_Q hg.toZ4Pre hV.v₁_mem),
       hV.comm_v₂ hg.toZ4Pre, hV.comm_v₁ hg.toZ4Pre]
   have K2 : t * p₃ ≠ p₃ * t := by
     intro hcomm
-    have h1c : z4Comm t p₃ = 1 := hg.comm_eq_one_iff.mpr hcomm
+    have h1c : z4Comm t p₃ = 1 := CFSG.OddStandard.SmallF3.HarrisU33.Z4Pre.comm_eq_one_iff.mpr hcomm
     rw [comm_p₃] at h1c
     exact K1 h1c
   have hx1neg2 : x₁⁻¹ * x₁⁻¹ = x₁ * x₁ := by

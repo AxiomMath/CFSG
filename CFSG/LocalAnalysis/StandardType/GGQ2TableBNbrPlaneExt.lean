@@ -125,17 +125,17 @@ private theorem tbnpe_refl_apply {t n : ℕ} {e : PlaneRaw.V t} {c : Fin (n + 1)
     smul_eq_mul, tbnpeRoot_apply, tbnpeCoroot_apply]
   by_cases hka : k = c x.castSucc
   · subst hka
-    simp only [if_neg hne, if_true]
+    simp only [ite_eq_right hne, ite_true]
     ring_nf
     rw [pow_two, tbnpe_sq (he x.castSucc)]
     ring
   · by_cases hkb : k = c x.succ
     · subst hkb
-      simp only [if_neg hka, if_true]
+      simp only [ite_eq_right hka, ite_true]
       ring_nf
       rw [pow_two, tbnpe_sq (he x.succ)]
       ring
-    · simp only [if_neg hka, if_neg hkb]
+    · simp only [ite_eq_right hka, ite_eq_right hkb]
       ring
 
 private theorem tbnpe_root_zero_iff {t n : ℕ} {e : PlaneRaw.V t} {c : Fin (n + 1) → Fin t}

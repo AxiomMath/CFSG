@@ -15,7 +15,7 @@ theorem ggHalf_card_ge_of_orbit {G X : Type} [Group G] [MulAction G X] [Finite G
     (hinj : Function.Injective fun i => h i • x) (hT : T ≤ H) (hfix : ∀ t ∈ T, t • x = x)
     (s : ℕ) (hs : s ≤ Nat.card T) : k * s ≤ Nat.card H := by
   classical
-  haveI hfinOrbit : Finite (MulAction.orbit H x) :=
+  have hfinOrbit : Finite (MulAction.orbit H x) :=
     (Set.finite_range (fun g : H => g • x)).to_subtype
   have hcard : Nat.card H = (MulAction.orbit H x).ncard * Nat.card (MulAction.stabilizer H x) := by
     have h := (MulAction.stabilizer H x).card_mul_index
@@ -150,7 +150,7 @@ theorem ggHalf_card_ge_semidirect {G : Type} [Group G] [Finite G] (J : Subgroup 
       calc (j2 : G)⁻¹ * (j1 : G)
           = (j2 : G)⁻¹ * ((j1 : G) * (z1 : G)) * (z1 : G)⁻¹ := by simp [mul_assoc]
         _ = (j2 : G)⁻¹ * ((j2 : G) * (z2 : G)) * (z1 : G)⁻¹ := by rw [heq']
-        _ = (z2 : G) * (z1 : G)⁻¹ := by simp [mul_assoc]
+        _ = (z2 : G) * (z1 : G)⁻¹ := by simp
     have hJ : (j2 : G)⁻¹ * (j1 : G) ∈ J :=
       Subgroup.mul_mem J (Subgroup.inv_mem J j2.2) j1.2
     have hZ : (z2 : G) * (z1 : G)⁻¹ ∈ Z :=

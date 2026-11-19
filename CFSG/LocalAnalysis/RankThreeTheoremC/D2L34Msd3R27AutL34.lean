@@ -20,6 +20,7 @@ section Helpers
 open CFSG.LocalAnalysis.ComponentInitial.LinearFlag (projectiveSL)
 open CFSG.RankThree.PartTwo.KFacts.L34
 
+omit [Finite X] in
 private theorem mem_of_pow_mem_of_coprime {H : Subgroup X} {x : X} {a b : ℕ}
     (ha : x ^ a ∈ H) (hb : x ^ b ∈ H) (hab : Nat.Coprime a b) : x ∈ H := by
   have h := Nat.gcd_eq_gcd_ab a b
@@ -30,6 +31,7 @@ private theorem mem_of_pow_mem_of_coprime {H : Subgroup X} {x : X} {a b : ℕ}
   rw [hx]
   exact mul_mem (zpow_mem ha _) (zpow_mem hb _)
 
+omit [Finite X] in
 private theorem isPGroup_zpowers_of_pow_eq_one {p : ℕ} {x : X} {j : ℕ} (h : x ^ p ^ j = 1) :
     IsPGroup p (Subgroup.zpowers x) := by
   rintro ⟨y, hy⟩
@@ -38,6 +40,7 @@ private theorem isPGroup_zpowers_of_pow_eq_one {p : ℕ} {x : X} {j : ℕ} (h : 
   simp only [SubgroupClass.coe_pow, OneMemClass.coe_one]
   rw [← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast, h, one_zpow]
 
+omit [Finite X] in
 private theorem exists_autEmbedding {d : TauCeti.ValidLieTypeIndex} (hd : IsL34Index d)
     {K : Subgroup X} (hKn : K.Normal) (hC : Subgroup.centralizer (K : Set X) = ⊥)
     (he : Nonempty (K ≃* (TauCeti.CFSGIndex.lie d).Group)) :
@@ -68,6 +71,7 @@ private theorem exists_autEmbedding {d : TauCeti.ValidLieTypeIndex} (hd : IsL34I
   rw [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, h1]
   exact congrArg ψ (Subtype.ext (MulAut.conjNormal_apply x k))
 
+omit [Finite X] in
 private theorem centralizer_facts {d : TauCeti.ValidLieTypeIndex} (hd : IsL34Index d)
     {K : Subgroup X} (hKn : K.Normal) (hC : Subgroup.centralizer (K : Set X) = ⊥)
     (he : Nonempty (K ≃* (TauCeti.CFSGIndex.lie d).Group)) {Ab : Subgroup X}
@@ -102,7 +106,7 @@ private theorem centralizer_facts {d : TauCeti.ValidLieTypeIndex} (hd : IsL34Ind
   let α : X →* MulAut (projectiveSL 3 F) :=
     (MulAut.conj (MulAut.conj g)⁻¹).toMonoidHom.comp ι
   have hα : ∀ x, α x = (MulAut.conj g)⁻¹ * ι x * MulAut.conj g := fun x => by
-    simp [α, MulAut.conj_apply]
+    simp [α]
   have hfix : ∀ c ∈ Subgroup.centralizer (Ab : Set X), ∀ y ∈ eZero F, α c y = y := by
     intro c hc y hy
     obtain ⟨a, haA, hay⟩ := hmemE y hy
@@ -174,6 +178,7 @@ private theorem centralizer_facts {d : TauCeti.ValidLieTypeIndex} (hd : IsL34Ind
       _ = betaAut σ * MulAut.conj (e⁻¹ * e') * (betaAut σ)⁻¹ := by rw [hβinv]
       _ = MulAut.conj (e⁻¹ * e') := key
 
+omit [Finite X] in
 private theorem card_facts {d : TauCeti.ValidLieTypeIndex} (hd : IsL34Index d)
     {K : Subgroup X} (hKn : K.Normal) (hC : Subgroup.centralizer (K : Set X) = ⊥)
     (he : Nonempty (K ≃* (TauCeti.CFSGIndex.lie d).Group)) :
@@ -185,11 +190,12 @@ private theorem card_facts {d : TauCeti.ValidLieTypeIndex} (hd : IsL34Index d)
 
 end Helpers
 
+omit [Finite X] in
 theorem l34_index_eq_six_or_twelve
     {d : TauCeti.ValidLieTypeIndex} (hd : IsL34Index d) {K : Subgroup X} (hKn : K.Normal)
     (hC : Subgroup.centralizer (K : Set X) = ⊥)
     (he : Nonempty (K ≃* (TauCeti.CFSGIndex.lie d).Group)) {Ab : Subgroup X}
-    (hAel : IsElemAbelian 3 Ab) (hA9 : Nat.card Ab = 3 ^ 2) (hAK : Ab ≤ K)
+    (_hAel : IsElemAbelian 3 Ab) (hA9 : Nat.card Ab = 3 ^ 2) (hAK : Ab ≤ K)
     (hcent : ¬ Subgroup.centralizer (Ab : Set X) ≤ Ab) (h27 : 27 ∣ Nat.card X) :
     K.index = 6 ∨ K.index = 12 := by
   have : K.Normal := hKn
@@ -226,7 +232,7 @@ theorem l34_exists_outer_three_normalizing
     {d : TauCeti.ValidLieTypeIndex} (hd : IsL34Index d) {K : Subgroup X} (hKn : K.Normal)
     (hC : Subgroup.centralizer (K : Set X) = ⊥)
     (he : Nonempty (K ≃* (TauCeti.CFSGIndex.lie d).Group)) {Ab : Subgroup X}
-    (hAel : IsElemAbelian 3 Ab) (hA9 : Nat.card Ab = 3 ^ 2) (hAK : Ab ≤ K)
+    (_hAel : IsElemAbelian 3 Ab) (hA9 : Nat.card Ab = 3 ^ 2) (hAK : Ab ≤ K)
     (hcent : ¬ Subgroup.centralizer (Ab : Set X) ≤ Ab) (h6 : K.index = 6) {Tb : Subgroup X}
     (hTb : IsSylowTwoOf Tb (Subgroup.normalizer (Ab : Set X))) :
     ∃ s ∈ Subgroup.normalizer (Ab : Set X),

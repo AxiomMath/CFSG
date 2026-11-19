@@ -43,7 +43,7 @@ theorem nclIn_le_nclIn_of_isCyclic {p : ℕ} [Fact p.Prime] {H X H' : Subgroup G
   have hJH : J ≤ H := nclIn_le_self H X
   have hcycJ : ∀ T : Sylow p J, IsCyclic T := by
     intro T
-    have hTp : IsPGroup p ((T : Subgroup J).map J.subtype) := T.isPGroup'.map J.subtype
+    have hTp : IsPGroup p ((T : Subgroup J).map J.subtype) := T.isPGroup.map J.subtype
     have hc := hcyc _ (Subgroup.map_subtype_le _) hTp
     let e := (Subgroup.equivMapOfInjective (T : Subgroup J) J.subtype J.subtype_injective).symm
     exact isCyclic_of_surjective e.toMonoidHom e.surjective

@@ -14,40 +14,40 @@ variable {K : Type*} [Field K]
 
 theorem cf_apply (ξ : Cube K) (I : Set.powersetCard (Fin 6) 3) : cf K ξ I.val = coord K ξ I := by
   unfold cf
-  rw [dif_pos (Set.powersetCard.card_eq I)]
+  rw [dite_eq_left (Set.powersetCard.card_eq I)]
 
 theorem cf_of_card_ne (ξ : Cube K) {s : Finset (Fin 6)} (h : s.card ≠ 3) : cf K ξ s = 0 := by
   unfold cf
-  rw [dif_neg h]
+  rw [dite_eq_right h]
 
 theorem cf_add (ξ η : Cube K) (s : Finset (Fin 6)) : cf K (ξ + η) s = cf K ξ s + cf K η s := by
   by_cases h : s.card = 3
-  · simp only [cf, dif_pos h, coord_add]
-  · simp only [cf, dif_neg h, add_zero]
+  · simp only [cf, dite_eq_left h, coord_add]
+  · simp only [cf, dite_eq_right h, add_zero]
 
 theorem cf_sub (ξ η : Cube K) (s : Finset (Fin 6)) : cf K (ξ - η) s = cf K ξ s - cf K η s := by
   by_cases h : s.card = 3
-  · simp only [cf, dif_pos h, coord_sub]
-  · simp only [cf, dif_neg h, sub_zero]
+  · simp only [cf, dite_eq_left h, coord_sub]
+  · simp only [cf, dite_eq_right h, sub_zero]
 
 theorem cf_smul (c : K) (ξ : Cube K) (s : Finset (Fin 6)) : cf K (c • ξ) s = c * cf K ξ s := by
   by_cases h : s.card = 3
-  · simp only [cf, dif_pos h, coord_smul, smul_eq_mul]
-  · simp only [cf, dif_neg h, mul_zero]
+  · simp only [cf, dite_eq_left h, coord_smul]
+  · simp only [cf, dite_eq_right h, mul_zero]
 
 theorem cf_zero (s : Finset (Fin 6)) : cf K (0 : Cube K) s = 0 := by
   by_cases h : s.card = 3
-  · simp only [cf, dif_pos h, coord_zero]
-  · simp only [cf, dif_neg h]
+  · simp only [cf, dite_eq_left h, coord_zero]
+  · simp only [cf, dite_eq_right h]
 
 theorem cf_cubeBasis (I : Set.powersetCard (Fin 6) 3) (s : Finset (Fin 6)) :
     cf K (cubeBasis K I) s = if s = I.val then 1 else 0 := by
   by_cases h : s.card = 3
-  · simp only [cf, dif_pos h, coord_cubeBasis]
+  · simp only [cf, dite_eq_left h, coord_cubeBasis]
     by_cases hs : s = I.val
     · subst hs; simp
-    · rw [if_neg hs, if_neg]; intro h'; exact hs (congrArg Subtype.val h').symm
-  · rw [cf_of_card_ne _ h, if_neg]
+    · rw [ite_eq_right hs, ite_eq_right]; intro h'; exact hs (congrArg Subtype.val h').symm
+  · rw [cf_of_card_ne _ h, ite_eq_right]
     intro hs; exact h (hs ▸ Set.powersetCard.card_eq I)
 
 theorem cf_rho_transv [CharP K 2] (i j : Fin 6) (hij : i ≠ j) (c : K) (ξ : Cube K)
@@ -60,21 +60,21 @@ theorem cf_rho_transv [CharP K 2] (i j : Fin 6) (hij : i ≠ j) (c : K) (ξ : Cu
     · have hc : (insert j (s.erase i)).card = 3 := by
         rw [Finset.card_insert_of_notMem (fun h' => h.2 (Finset.mem_of_mem_erase h')),
           Finset.card_erase_of_mem h.1, hs]
-      rw [if_pos h]
+      rw [ite_eq_left h]
       have key' := key
-      rw [dif_pos h] at key'
-      simp only [cf, dif_pos hs, dif_pos hc]
+      rw [dite_eq_left h] at key'
+      simp only [cf, dite_eq_left hs, dite_eq_left hc]
       exact key'
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       have key' := key
-      rw [dif_neg h] at key'
-      simp only [cf, dif_pos hs]
+      rw [dite_eq_right h] at key'
+      simp only [cf, dite_eq_left hs]
       simpa using key'
   · have h1 := cf_of_card_ne (rho K (transvGL K i j hij c) ξ) hs
     have h2 := cf_of_card_ne ξ hs
     rw [h1, h2]
     by_cases h : i ∈ s ∧ j ∉ s
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       have hc : (insert j (s.erase i)).card ≠ 3 := by
         rw [Finset.card_insert_of_notMem (fun h' => h.2 (Finset.mem_of_mem_erase h')),
           Finset.card_erase_of_mem h.1]
@@ -84,7 +84,7 @@ theorem cf_rho_transv [CharP K 2] (i j : Fin 6) (hij : i ≠ j) (c : K) (ξ : Cu
         omega
       rw [cf_of_card_ne ξ hc]
       simp
-    · rw [if_neg h]; simp
+    · rw [ite_eq_right h]; simp
 
 @[expose] def mset (m : ℕ) : Finset (Fin 6) :=
   Finset.univ.filter (fun i : Fin 6 => m.testBit i.val)
@@ -129,9 +129,9 @@ theorem cfm_rho_transv [CharP K 2] (i j : Fin 6) (hij : i ≠ j) (c : K) (ξ : C
   have hmem : ∀ x : Fin 6, x ∈ mset m ↔ m.testBit x.val = true := by
     intro x; simp [mset]
   by_cases h : m.testBit i.val = true ∧ m.testBit j.val = false
-  · rw [if_pos h, if_pos ⟨(hmem i).mpr h.1, fun h' => by simpa [h.2] using (hmem j).mp h'⟩]
+  · rw [ite_eq_left h, ite_eq_left ⟨(hmem i).mpr h.1, fun h' => by simpa [h.2] using (hmem j).mp h'⟩]
     rw [← mset_move ⟨m, hm⟩ i j h.1 h.2]
-  · rw [if_neg h, if_neg]
+  · rw [ite_eq_right h, ite_eq_right]
     intro h'
     exact h ⟨(hmem i).mp h'.1, by
       cases hj : m.testBit j.val
@@ -215,7 +215,7 @@ theorem mem_span_of_recon {n : ℕ} (g : Fin n → Cube K) (p : Fin n → ℕ) {
 
 theorem cfm_zero_of_fixed [CharP K 2] (Pos : Fin 6 → Fin 6 → Prop) {ξ : Cube K}
     (h : ∀ (i j : Fin 6) (hij : i ≠ j), Pos i j → rho K (transvGL K i j hij 1) ξ = ξ)
-    (m : ℕ) (hm : m < 64)
+    (m : ℕ) (_hm : m < 64)
     (hmv : ∃ i j : Fin 6, i ≠ j ∧ Pos i j ∧ m.testBit j.val = true ∧ m.testBit i.val = false) :
     cfm K ξ m = 0 := by
   obtain ⟨i, j, hij, hP, hj, hi⟩ := hmv
@@ -247,8 +247,8 @@ theorem cfm_ub_mask (a b d : Fin 6) (hab : a < b) (hbd : b < d) (m : ℕ) (hm : 
   rw [cfm_ub]
   have := mset_eq_iff a b d ⟨m, hm⟩ hab hbd
   by_cases h : m = 2 ^ a.val + 2 ^ b.val + 2 ^ d.val
-  · rw [if_pos h, if_pos (this.mpr h)]
-  · rw [if_neg h, if_neg (fun h' => h (this.mp h'))]
+  · rw [ite_eq_left h, ite_eq_left (this.mpr h)]
+  · rw [ite_eq_right h, ite_eq_right (fun h' => h (this.mp h'))]
 
 theorem exists_mask3 {m : ℕ} (hm : m < 64) (hc : (mset m).card = 3) :
     m = 7 ∨ m = 11 ∨ m = 13 ∨ m = 14 ∨ m = 19 ∨ m = 21 ∨ m = 22 ∨ m = 25 ∨ m = 26 ∨ m = 28 ∨

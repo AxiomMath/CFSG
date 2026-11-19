@@ -123,7 +123,7 @@ private theorem s16c13bc_map_conj_map_conj {T : Type*} [CommGroup T] (A : Subgro
 private theorem s16c13bc_map_conj_one {T : Type*} [CommGroup T] (A : Subgroup (MulAut T)) :
     A.map (MulAut.conj (1 : MulAut T)).toMonoidHom = A := by
   ext z
-  simp [Subgroup.mem_map, MulAut.conj_apply]
+  simp [Subgroup.mem_map]
 
 theorem s16c13bc_exists_other_conj (D : Data G) {V₀ V L : Subgroup G} (hV : IsElemAbelian 2 V)
     (hH : Hyp151 D V₀ V L) (hs : s15 D.M V₀ V hV L = 2) :
@@ -163,7 +163,7 @@ theorem s16c13bc_exists_other_conj (D : Data G) {V₀ V L : Subgroup G} (hV : Is
   have hconjinv : ((MulAut.conj g₂)⁻¹).toMonoidHom =
       (MulAut.conj g₂⁻¹).toMonoidHom := by
     ext z
-    simp [MulAut.conj_apply]
+    simp
   have hbar : barSub V₀ V hV (conjSubgroup L (x : G)) =
       (lBar V₀ V hV L).map (MulAut.conj g₂⁻¹).toMonoidHom := by
     rw [s15_Infra_barSub_conjSubgroup V₀ V hV x.2 L, hxg₂]
@@ -209,7 +209,7 @@ theorem s16c13bc_case168_9 (D : Data G) {V L : Subgroup G} {hV : IsElemAbelian 2
   have hinj : Function.Injective (MulAut.conj g).toMonoidHom := (MulAut.conj g).injective
   have hBcard : Nat.card ↥B = 168 := by
     rw [hB, Subgroup.card_map_of_injective hinj, hLcard]
-  haveI : Group.IsPerfect ↥(lBar ⊥ V hV L) := Group.isPerfect_def.2 hLp
+  have : Group.IsPerfect ↥(lBar ⊥ V hV L) := Group.isPerfect_def.2 hLp
   have hBp : _root_.commutator ↥B = ⊤ :=
     Group.isPerfect_def.1 (Group.IsPerfect.map (H := lBar ⊥ V hV L) (MulAut.conj g).toMonoidHom)
   have hBc : Subgroup.center ↥B = ⊥ := s16c13bc_center_map_eq_bot _ hinj hLc

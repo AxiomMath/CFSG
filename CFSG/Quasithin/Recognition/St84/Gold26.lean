@@ -32,7 +32,7 @@ private def altLetter (P₁ P₂ : Subgroup G) : Set G :=
     x ∈ altLetter P₁ P₂ ↔ (x ∈ P₁ ∧ x ∉ P₁ ⊓ P₂) ∨ (x ∈ P₂ ∧ x ∉ P₁ ⊓ P₂) :=
   Iff.rfl
 
-private def DiffSide (P₁ P₂ : Subgroup G) (x y : G) : Prop :=
+private def DiffSide (P₁ _P₂ : Subgroup G) (x y : G) : Prop :=
   (x ∈ P₁ ∧ y ∉ P₁) ∨ (x ∉ P₁ ∧ y ∈ P₁)
 
 private theorem DiffSide.symm {x y : G} (h : DiffSide P₁ P₂ x y) : DiffSide P₁ P₂ y x :=
@@ -262,29 +262,36 @@ variable {α₁ α₂ : V} {P₁ P₂ : Subgroup G}
 local notation "aV" x:max => aVOf P₁ α₁ α₂ x
 local notation "cV" x:max => cVOf P₁ α₁ α₂ x
 
+omit [MulAction G V] in
 private theorem aV_of_mem {x : G} (h : x ∈ P₁) : aV x = α₁ := by
   simp [aVOf, h]
 
+omit [MulAction G V] in
 private theorem aV_of_not_mem {x : G} (h : x ∉ P₁) : aV x = α₂ := by
   simp [aVOf, h]
 
+omit [MulAction G V] in
 private theorem cV_of_mem {x : G} (h : x ∈ P₁) : cV x = α₂ := by
   simp [cVOf, h]
 
+omit [MulAction G V] in
 private theorem cV_of_not_mem {x : G} (h : x ∉ P₁) : cV x = α₁ := by
   simp [cVOf, h]
 
+omit [MulAction G V] in
 private theorem aV_ne_cV {x : G} (h : α₁ ≠ α₂) : aV x ≠ cV x := by
   by_cases hx : x ∈ P₁
   · rw [aV_of_mem hx, cV_of_mem hx]; exact h
   · rw [aV_of_not_mem hx, cV_of_not_mem hx]; exact h.symm
 
+omit [MulAction G V] in
 private theorem aV_mem_pair (x : G) : aV x ∈ ({α₁, α₂} : Set V) := by
   simp only [Set.mem_insert_iff, Set.mem_singleton_iff]
   by_cases h : x ∈ P₁
   · exact Or.inl (aV_of_mem h)
   · exact Or.inr (aV_of_not_mem h)
 
+omit [MulAction G V] in
 private theorem pair_subset_aV_cV (x : G) : ({α₁, α₂} : Set V) ⊆ ({aV x, cV x} : Set V) := by
   intro z hz
   simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hz ⊢
@@ -329,18 +336,21 @@ private theorem cV_moved {x : G} (h₁ : P₁ ⊓ MulAction.stabilizer G α₂ =
     rw [h₂] at hmem
     exact not_mem_inf_of_mem_altLetter hx hmem
 
-private theorem adj_aV_cV (h12 : Γ.Adj α₁ α₂) {x : G} (hx : x ∈ altLetter P₁ P₂) :
+omit [MulAction G V] in
+private theorem adj_aV_cV (h12 : Γ.Adj α₁ α₂) {x : G} (_hx : x ∈ altLetter P₁ P₂) :
     Γ.Adj (aV x) (cV x) := by
   by_cases h : x ∈ P₁
   · rw [aV_of_mem h, cV_of_mem h]; exact h12
   · rw [aV_of_not_mem h, cV_of_not_mem h]; exact h12.symm
 
-private theorem cV_eq_aV {x y : G} (hx : x ∈ altLetter P₁ P₂) (hy : y ∈ altLetter P₁ P₂)
+omit [MulAction G V] in
+private theorem cV_eq_aV {x y : G} (_hx : x ∈ altLetter P₁ P₂) (_hy : y ∈ altLetter P₁ P₂)
     (hd : DiffSide P₁ P₂ x y) : cV x = aV y := by
   rcases hd with ⟨h1, h2⟩ | ⟨h1, h2⟩
   · rw [cV_of_mem h1, aV_of_not_mem h2]
   · rw [cV_of_not_mem h1, aV_of_mem h2]
 
+omit [MulAction G V] in
 private theorem aV_eq_cV {x y : G} (hx : x ∈ altLetter P₁ P₂) (hy : y ∈ altLetter P₁ P₂)
     (hd : DiffSide P₁ P₂ x y) : aV x = cV y :=
   (cV_eq_aV hy hx hd.symm).symm
@@ -353,6 +363,7 @@ private theorem same_side_of_diff {x y z : G} (hxy : DiffSide P₁ P₂ x y) (hy
   · exact ⟨fun h => absurd h a, fun h => absurd h d⟩
   · exact ⟨fun _ => absurd b c, fun _ => absurd b c⟩
 
+omit [MulAction G V] in
 private theorem cV_eq_cV {x z : G} (hxz : x ∈ P₁ ↔ z ∈ P₁) : cV x = cV z := by
   by_cases h : x ∈ P₁
   · rw [cV_of_mem h, cV_of_mem (hxz.mp h)]

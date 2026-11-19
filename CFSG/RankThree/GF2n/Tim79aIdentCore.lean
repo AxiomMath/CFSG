@@ -138,7 +138,7 @@ theorem false_of_ubar_gen (hc : MinCex M V Q P H) {h : G} (hh : h ∈ H)
   rw [inf_conjSubgroup_eq_bot_of_isTI hc.ti hne] at hxV
   exact hxV
 
-theorem exists_lift_conj (hc : MinCex M V Q P H) (hd : Sec23Data V H) {w a₀ : XbarZ V H}
+theorem exists_lift_conj (hc : MinCex M V Q P H) (_hd : Sec23Data V H) {w a₀ : XbarZ V H}
     (hw : a₀ ∈ conjSubgroup w (VZ V H)) (ha₀ : a₀ ≠ 1) :
     ∃ (r : ↥(xOf V H)) (a : ↥H), xToZ hc.V_le_H r = w ∧ (a : G) ∈ conjSubgroup (r : G) V ∧
       ∃ y : Xbar V H, y ∈ Dy V H ∧ (y : Hbar V H) = piBar V H a ∧ projZ V H y = a₀ := by
@@ -171,7 +171,7 @@ theorem exists_lift_conj (hc : MinCex M V Q P H) (hd : Sec23Data V H) {w a₀ : 
       apply hy1
       rw [hyeq, h1]
       group
-    have hmem := hc.conj_mem_dbarOf (y := piBar V H rH) (hc.barOf_V_subset_dbarOf hvbar hv1)
+    have hmem := CFSG.RankThree.GF2n.Tim79a.MinCex.conj_mem_dbarOf (y := piBar V H rH) (CFSG.RankThree.GF2n.Tim79a.MinCex.barOf_V_subset_dbarOf hvbar hv1)
     show (y : Hbar V H) ∈ dbarOf V H
     rw [hyeq]
     exact hmem

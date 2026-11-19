@@ -88,7 +88,7 @@ public theorem CFSG.theorem_7_3
     section7HStarFamily.mem_family hQ₁
   have hQ₂fam : Q₂ ∈ section7HFamily (⊤ : Subgroup G) A ({q} : Set Nat.Primes) :=
     section7HStarFamily.mem_family hQ₂
-  letI : Fact q.val.Prime := ⟨q.2⟩
+  let : Fact q.val.Prime := ⟨q.2⟩
   let C : Subgroup G := Subgroup.centralizer (A : Set G)
   let S₀ : Sylow q.val C := Classical.choice (Sylow.nonempty (p := q.val) (G := C))
   have hS₀_ne_bot : (S₀ : Subgroup C) ≠ ⊥ :=
@@ -103,7 +103,7 @@ public theorem CFSG.theorem_7_3
         (H := (S₀ : Subgroup C)) (f := C.subtype) C.subtype_injective).1 (by
           simpa [S] using hSbot)
   have hS_q : IsPGroup q.val S := by
-    simpa [S] using IsPGroup.map (p := q.val) (H := (S₀ : Subgroup C)) S₀.isPGroup' C.subtype
+    simpa [S] using IsPGroup.map (p := q.val) (H := (S₀ : Subgroup C)) S₀.isPGroup C.subtype
   have hSfam : S ∈ section7HFamily (⊤ : Subgroup G) A ({q} : Set Nat.Primes) := by
     refine ⟨le_top, isPiSubgroup_singleton_of_isPGroup hS_q, ?_⟩
     exact (le_centralizer_of_le_centralizer hS_le_C).trans (centralizer_le_normalizer S)
@@ -129,16 +129,16 @@ public theorem CFSG.theorem_7_3
       rw [hQ₂bot] at hR_eq_Q₂
       exact hR_eq_Q₂
     exact hR_ne_bot hRbot
-  letI : Nontrivial ↥Q₁ := Q₁.nontrivial_iff_ne_bot.mpr hQ₁_ne_bot
-  letI : Nontrivial ↥Q₂ := Q₂.nontrivial_iff_ne_bot.mpr hQ₂_ne_bot
+  let : Nontrivial ↥Q₁ := Q₁.nontrivial_iff_ne_bot.mpr hQ₁_ne_bot
+  let : Nontrivial ↥Q₂ := Q₂.nontrivial_iff_ne_bot.mpr hQ₂_ne_bot
   have hcenterRank' : 1 < groupRank (Subgroup.center A) :=
     lt_of_lt_of_le (by decide : 1 < 2) hcenterRank
   obtain ⟨p, B, hBp, hBcomm, hBrank⟩ :=
     exists_pSubgroup_two_le_generatorRank_of_one_lt_groupRank
       (R := Subgroup.center A) hcenterRank'
-  letI : Fact p.val.Prime := ⟨p.2⟩
-  letI : CommGroup B := IsMulCommutative.instCommGroup
-  letI : Fact (IsPGroup p.val B) := ⟨hBp⟩
+  let : Fact p.val.Prime := ⟨p.2⟩
+  let : CommGroup B := IsMulCommutative.instCommGroup
+  let : Fact (IsPGroup p.val B) := ⟨hBp⟩
   have hB_noncyc : ¬ IsCyclic B := not_isCyclic_of_two_le_generatorRank hBrank
   have hB_ne_bot : B ≠ ⊥ := by
     intro hBbot
@@ -159,8 +159,8 @@ public theorem CFSG.theorem_7_3
   obtain ⟨n₁, hQ₁card⟩ := hQ₁q.exists_card_eq
   obtain ⟨n₂, hQ₂card⟩ := hQ₂q.exists_card_eq
   let ιBA : B →* A := (Subgroup.center A).subtype.comp B.subtype
-  haveI : Subgroup.Normalizes A Q₁ := ⟨hQ₁fam.2.2⟩
-  letI : MulDistribMulAction (↥B) (↥Q₁) := MulDistribMulAction.compHom (↥Q₁) ιBA
+  have : Subgroup.Normalizes A Q₁ := ⟨hQ₁fam.2.2⟩
+  let : MulDistribMulAction (↥B) (↥Q₁) := MulDistribMulAction.compHom (↥Q₁) ιBA
   have hcopBQ₁ : Nat.Coprime p.val (Nat.card Q₁) := by
     rw [hQ₁card]
     simpa using Nat.coprime_pow_primes 1 n₁ p.2 q.2 hpval_ne_qval
@@ -216,8 +216,8 @@ public theorem CFSG.theorem_7_3
     intro s hs
     exact ⟨hS_le_H₁ hs, hS_le_R hs⟩
   obtain ⟨f, hf⟩ := lemma_7_1 hA hq hQ₁ hR hAH₁ hH₁proper hH₁Q₁ hH₁R
-  haveI : Subgroup.Normalizes A Q₂ := ⟨hQ₂fam.2.2⟩
-  letI : MulDistribMulAction (↥B) (↥Q₂) := MulDistribMulAction.compHom (↥Q₂) ιBA
+  have : Subgroup.Normalizes A Q₂ := ⟨hQ₂fam.2.2⟩
+  let : MulDistribMulAction (↥B) (↥Q₂) := MulDistribMulAction.compHom (↥Q₂) ιBA
   have hcopBQ₂ : Nat.Coprime p.val (Nat.card Q₂) := by
     rw [hQ₂card]
     simpa using Nat.coprime_pow_primes 1 n₂ p.2 q.2 hpval_ne_qval

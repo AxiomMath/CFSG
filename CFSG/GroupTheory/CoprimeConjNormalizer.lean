@@ -45,7 +45,7 @@ theorem exists_mul_mem_normalizer_of_conj_le_sup {K Bs L : Subgroup G}
   have hcopH : Nat.Coprime (Nat.card K) (Nat.card H) := by rw [hHcard]; exact hcop
   obtain ⟨k, hk, hconj⟩ :=
     exists_conj_mem_of_le_sup (U := K) (H := H) (W := Bs) hHK hBsK
-      (Subgroup.inf_eq_bot_of_coprime hcop) hHle hcopH
+      ((Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcop))) hHle hcopH
   have hmaple : Bs.map (MulAut.conj (k * n)).toMonoidHom ≤ Bs := by
     rintro _ ⟨b, hb, rfl⟩
     have hnb : n * b * n⁻¹ ∈ H := ⟨b, hb, rfl⟩

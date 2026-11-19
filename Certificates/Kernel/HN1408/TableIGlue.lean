@@ -178,7 +178,7 @@ theorem r4 : RecFacts nWords3 16 TI4.cnt TI4.T TI4.PL := by
     (fun i hi => penumSl_spec hp i (Nat.zero_le _) (by omega) hi)
     (fun i hi => slK_spec hs i (Nat.zero_le _) (by omega) hi)
     (fun c hc' => slK_spec hc c (Nat.zero_le _) (by change c < Nat.mul TI4.cnt 8; omega)
-      (by change c < Nat.mul TI4.cnt 8; omega))
+      (by omega))
 
 
 theorem headL_spec {k m cnt : Nat} {L : List Table} {G GI GJ T PL : Nat → Nat}
@@ -239,7 +239,7 @@ theorem img1 : blkImageOK blkData1 120 = true := by
     (fun i hi => penumSl_spec hp i (Nat.zero_le _) (by omega) hi)
     (fun i hi => slK_spec hs i (Nat.zero_le _) (by omega) hi)
     (fun c hc' => slK_spec hc c (Nat.zero_le _) (by change c < Nat.mul TL1.cnt 4; omega)
-      (by change c < Nat.mul TL1.cnt 4; omega))
+      (by omega))
 
 theorem img3 : blkImageOK blkData3 60 = true := by
   obtain ⟨hh, hp, hs, hc⟩ := kL3'
@@ -250,7 +250,7 @@ theorem img3 : blkImageOK blkData3 60 = true := by
     (fun i hi => penumSl_spec hp i (Nat.zero_le _) (by omega) hi)
     (fun i hi => slK_spec hs i (Nat.zero_le _) (by omega) hi)
     (fun c hc' => slK_spec hc c (Nat.zero_le _) (by change c < Nat.mul TL3.cnt 4; omega)
-      (by change c < Nat.mul TL3.cnt 4; omega))
+      (by omega))
 
 theorem img2 : blkImageOK blkData2 20160 = true := by
   have hc : TL2.cnt = 20160 := (headL_spec kL2h).2.2.1
@@ -420,7 +420,7 @@ theorem tI3 : tableI3OK = true := by
       Nat.beq (TI3.T i) (WK wordZ₁) = false ∧ Nat.beq (TI3.T i) (WK (wordA ++ wordZ₁)) = false := by
     intro i hi
     have h := allN_spec t6 i (by rw [← (headI_spec kH3).2.2.1]; exact hi)
-    simp only [CFSG.KC.BfsPin.strictB_app, bAnd_iff] at h
+    simp only [bAnd_iff] at h
     obtain ⟨a, b, c⟩ := h
     refine ⟨?_, ?_, ?_⟩
     · cases e : Nat.beq (TI3.T i) (WK wordA)

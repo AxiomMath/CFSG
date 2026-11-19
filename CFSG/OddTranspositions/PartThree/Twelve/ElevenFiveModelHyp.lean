@@ -87,22 +87,22 @@ theorem fiveForm_orthComp_clause (n : ℕ) (ε π : Bool) {a v w : Fin (n + 1) �
     rw [fiveForm_comm n ε v a]
     exact hav
   have hord := orderOf_fiveReflOf_mul n ε π ha haπ hv hvπ hva
-  rw [if_neg hav] at hord
+  rw [ite_eq_right hav] at hord
   by_cases hsq : fiveForm n ε a v ^ 2 = fiveForm n ε a a * fiveForm n ε v v
   · have hsq' : (fiveForm n ε v a) ^ 2 = fiveForm n ε a a * fiveForm n ε v v := by
       rw [fiveForm_comm n ε v a]
       exact hsq
     have ho5 : orderOf (fiveReflOf n ε a * fiveReflOf n ε v) = 5 := by
-      rw [hord, if_pos hsq]
-    rw [if_pos ho5, hQw, hsq']
+      rw [hord, ite_eq_left hsq]
+    rw [ite_eq_left ho5, hQw, hsq']
     field_simp [ha]
     ring
   · have ho3 : orderOf (fiveReflOf n ε a * fiveReflOf n ε v) = 3 := by
-      rw [hord, if_neg hsq]
+      rw [hord, ite_eq_right hsq]
     have hβ2 : (fiveForm n ε v a) ^ 2 ≠ fiveForm n ε a a * fiveForm n ε v v := by
       rw [fiveForm_comm n ε v a]
       exact hsq
-    rw [if_neg (by rw [ho3]; norm_num), hQw]
+    rw [ite_eq_right (by rw [ho3]; norm_num), hQw]
     refine ⟨zmod5_proj_ne _ _ _ ha hβ2, ?_⟩
     have hsqb : IsSquare ((fiveForm n ε v a) ^ 2) := ⟨_, by ring⟩
     have hsqp : IsSquare (fiveForm n ε a a * fiveForm n ε v v) :=
@@ -238,7 +238,7 @@ theorem exists_hyperplane_vector_proj {k : ℕ} (hk : 4 ≤ k) {ε π : Bool}
         (Commute (QuotientGroup.mk r : fiveProjective k ε π) s ↔
           ((r : GL (Fin (k + 1)) (ZMod 5)) : Matrix (Fin (k + 1)) (Fin (k + 1)) (ZMod 5)) *ᵥ w =
             w) := by
-  simp only [fiveProjClass, Set.mem_setOf_eq] at hs
+  simp only [fiveProjClass, Set.mem_ofPred_eq] at hs
   obtain ⟨rv, hrv, hsv⟩ := hs
   subst s
   have ha : fiveForm k ε a a ≠ 0 := fiveForm_self_ne_zero_of_not_commute hra hsa
@@ -260,7 +260,7 @@ theorem exists_hyperplane_vector_proj {k : ℕ} (hk : 4 ≤ k) {ε π : Bool}
     rw [Subgroup.coe_mul, hra, hrv_eq]
   have hodd_rv : Odd (orderOf (ra * rv)) := by
     have hord := orderOf_fiveReflOf_mul k ε π ha haπ hv hvπ hva
-    rw [if_neg hav] at hord
+    rw [ite_eq_right hav] at hord
     rw [hcoe_order, hord]
     split_ifs <;> decide
   have hordeq : orderOf ((QuotientGroup.mk ra : fiveProjective k ε π) * QuotientGroup.mk rv) =

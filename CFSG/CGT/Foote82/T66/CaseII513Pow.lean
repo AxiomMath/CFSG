@@ -79,7 +79,7 @@ theorem exists_conj_normalizing [Finite Γ] {G P : Subgroup Γ} {a b y : Γ} (hy
     refine ⟨Rs, (Subgroup.eq_of_le_of_card_ge hRs ?_).symm⟩
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hRX).toEquiv, hRc]
     have h1 := hmaxX ((Rs : Subgroup ↥X).map X.subtype) (Subgroup.map_subtype_le _)
-      (Rs.isPGroup'.map _)
+      (Rs.isPGroup.map _)
     rwa [Subgroup.card_map_of_injective X.subtype_injective] at h1
   obtain ⟨A, hA⟩ := hsyl P hPX hP2 rfl
   obtain ⟨B, hB⟩ := hsyl P' hP'X (hP2.map _) hcardP'
@@ -146,6 +146,9 @@ namespace SD
 variable {c : Ctx G L z v H₁ ψ} {g r s : GLV V} {S : Subgroup (GLV V)} (sd : SD c g r s S)
 include sd
 
+omit sd in
+include c in
+variable (c) in
 theorem u_mul_u : (g * z * g⁻¹) * (g * z * g⁻¹) = 1 := by
   calc (g * z * g⁻¹) * (g * z * g⁻¹) = g * (z * z) * g⁻¹ := by group
     _ = 1 := by rw [c.z_mul_z, mul_one, mul_inv_cancel]
@@ -167,6 +170,7 @@ theorem pow_four_PB {b : GLV V} (hb : b ∈ PB r s) : b ^ 4 = 1 := by
     rw [show (4 : ℕ) = 2 * 2 from rfl, pow_mul,
       show (s * r ^ i) ^ 2 = (s * r ^ i) * (s * r ^ i) from sq _, h2, one_pow]
 
+omit [Finite V] sd in
 theorem x_mem_PB : r * r ∈ PB r s :=
   (PB r s).mul_mem (Subgroup.mem_sup_left (Subgroup.mem_zpowers r))
     (Subgroup.mem_sup_left (Subgroup.mem_zpowers r))
@@ -252,7 +256,7 @@ theorem sq_and_not_fourth {n : GLV V}
     have hx : (n * p * n⁻¹) ^ 4 = r * r := by
       rw [← MulAut.conj_apply, ← map_pow, h4, MulAut.conj_apply, hnz]
     rw [hab, (Commute.mul_pow (sd.comm a ha b hb) 4), sd.pow_four_PB hb, mul_one] at hx
-    have h1 : r * r ∈ P₁ ⊓ P₂ := ⟨hx ▸ P₁.pow_mem ha 4, sd.x_mem_PB⟩
+    have h1 : r * r ∈ P₁ ⊓ P₂ := ⟨hx ▸ P₁.pow_mem ha 4, CFSG.CGT.Foote82.CaseII.SD.x_mem_PB⟩
     rw [sd.inf_eq] at h1
     exact sd.x_ne_one h1
 
@@ -270,7 +274,7 @@ theorem exists_pd (hs : CaseIISplit) (haut : CaseIIAut) (hG1 : CaseIIG1) (hG9 : 
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨r, s, S, sd⟩ := d.exists_sd hs haut hG1
   set u := g * z * g⁻¹ with hu
-  have hu2 : u * u = 1 := sd.u_mul_u
+  have hu2 : u * u = 1 := (CFSG.CGT.Foote82.CaseII.SD.u_mul_u c)
   have hui : u⁻¹ = u := inv_eq_of_mul_eq_one_right hu2
   set P₁ := PA S u with hP₁
   set P₂ := PB r s with hP₂

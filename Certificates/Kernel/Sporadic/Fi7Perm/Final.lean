@@ -88,12 +88,12 @@ theorem words_eq (hB : Bridge) : ∀ e ∈ SL, wordElt e.2.2 = g17 e.1 := by
         · rw [Int.natAbs_neg, Int.natAbs_natCast]
         · rw [Int.natAbs_natCast]
       by_cases h5 : z ≤ 5
-      · rw [letU_small h5, genG_letter z hz2 h5, if_pos (by rw [habs]; omega)]
+      · rw [letU_small h5, genG_letter z hz2 h5, ite_eq_left (by rw [habs]; omega)]
       · obtain ⟨hlt, e', he', he'k⟩ := hz'.resolve_left h5
         rw [hen] at hlt
         obtain ⟨e'', he'', he''k, hfu⟩ := findU_spec ⟨e', he', he'k⟩
         have hIH := ih _ hlt e'' he'' he''k
-        rw [if_neg (by rw [habs]; omega), habs, if_pos hlt]
+        rw [ite_eq_right (by rw [habs]; omega), habs, ite_eq_left hlt]
         unfold letU
         rw [ble_ne h5, lIf_false]
         have hsh : Nat.sub (Nat.shiftRight z 1) 3 = z / 2 - 3 := by
@@ -101,12 +101,12 @@ theorem words_eq (hB : Bridge) : ∀ e ∈ SL, wordElt e.2.2 = g17 e.1 := by
         have hland : Nat.land z 1 = z % 2 := Nat.and_one_is_mod z
         rw [hsh, hfu, hland]
         by_cases hev : z % 2 = 0
-        · have hd : decC z = ((z / 2 : ℕ) : ℤ) := by unfold decC; rw [if_neg (by omega)]
+        · have hd : decC z = ((z / 2 : ℕ) : ℤ) := by unfold decC; rw [ite_eq_right (by omega)]
           rw [beq_of hev, lIf_true, hIH, g17,
-            if_pos (by rw [hd]; exact_mod_cast (by omega : 0 < z / 2))]
-        · have hd : decC z = -((z / 2 : ℕ) : ℤ) := by unfold decC; rw [if_pos (by omega)]
+            ite_eq_left (by rw [hd]; exact_mod_cast (by omega : 0 < z / 2))]
+        · have hd : decC z = -((z / 2 : ℕ) : ℤ) := by unfold decC; rw [ite_eq_left (by omega)]
           rw [beq_ne hev, lIf_false, wordElt_invC hB (sl_codes e'' he''), hIH, g17,
-            if_neg (by rw [hd]; omega)]
+            ite_eq_right (by rw [hd]; omega)]
   exact fun e he => key e.1 e he rfl
 
 theorem has_roots : ∀ k ∈ [0, 1, 66, 67, 1082, 1083, 1084, 1085, 1086, 1203, 1204, 1205],

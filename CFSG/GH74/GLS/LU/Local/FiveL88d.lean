@@ -78,7 +78,7 @@ theorem Cfg8.E_inf_Cz (c : Cfg8 G p f z S K₁ K₂ t u H w₁ X₁ Y v) :
     rw [hb1, hd1, mul_one, mul_one]
     exact ha
   · intro x hx
-    exact ⟨c.X2_le_E hx, Subgroup.mem_centralizer_singleton_iff.mpr (c.hc.cz₂ (c.X2_le_K2 hx))⟩
+    exact ⟨CFSG.GH74.GLS.LU.Local.Five.Cfg.X2_le_E hx, Subgroup.mem_centralizer_singleton_iff.mpr (c.hc.cz₂ (c.X2_le_K2 hx))⟩
 
 theorem Cfg8.QQ_five (c : Cfg8 G p f z S K₁ K₂ t u H w₁ X₁ Y v) :
     IsPGroup 5 ↥(QQ (EE v t w₁ X₁)) :=

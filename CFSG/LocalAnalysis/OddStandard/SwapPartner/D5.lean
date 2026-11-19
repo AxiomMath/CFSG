@@ -17,7 +17,7 @@ private theorem centData_ne_one (hC : CentData z ι) : z ≠ 1 := by
   rw [hC.order] at h2
   exact absurd h2 (by norm_num)
 
-private theorem Egrp_le_Dgrp (hC : CentData z ι) (hg : GElt z ι g) :
+private theorem Egrp_le_Dgrp (_hC : CentData z ι) (hg : GElt z ι g) :
     Egrp z ι ≤ Dgrp z g := by
   apply sup_le
   · apply Subgroup.zpowers_le.2
@@ -32,7 +32,7 @@ private theorem eq_z_or_eq_x1_of_mem_Egrp_of_isConj (hC : CentData z ι)
     w = z ∨ w = ι τ₀ := by
   obtain ⟨i, j, rfl⟩ := (mem_Egrp_iff hC).1 hw
   fin_cases i <;> fin_cases j <;>
-    simp only [Fin.val_zero, Fin.val_one, pow_zero, pow_one, one_mul, mul_one] at hc
+    simp only [pow_zero, pow_one, one_mul, mul_one] at hc
   · exact absurd (isConj_one_left.mp hc) (centData_ne_one hC)
   · right
     simp
@@ -59,7 +59,7 @@ private theorem isConj_g_of_isConj_z_mul (hC : CentData z ι) (hg : GElt z ι g)
     IsConj z g := by
   obtain ⟨i, j, rfl⟩ := (mem_Egrp_iff hC).1 he
   fin_cases i <;> fin_cases j <;>
-    simp only [Fin.val_zero, Fin.val_one, pow_zero, pow_one, one_mul, mul_one] at hc
+    simp only [pow_zero, pow_one, one_mul, mul_one] at hc
   · simpa using hc
   · exfalso
     have h2 : (g * ι τ₀) * (g * ι τ₀) = 1 := mul_self_of_isConj hC hc
@@ -134,7 +134,7 @@ theorem mem_Dgrp_iff (hC : CentData z ι) (hg : GElt z ι g) {c : G} :
       exact (Dgrp z g).mul_mem (Subgroup.subset_closure (by simp)) (Egrp_le_Dgrp hC hg he)
 
 theorem card_Dgrp (hC : CentData z ι) (hg : GElt z ι g) : Nat.card (Dgrp z g) = 8 := by
-  haveI : Finite (Egrp z ι) :=
+  have : Finite (Egrp z ι) :=
     (Nat.card_pos_iff.1 (by rw [card_Egrp hC]; norm_num)).2
   let f : Egrp z ι ⊕ Egrp z ι → Dgrp z g := fun s =>
     match s with
@@ -234,11 +234,11 @@ theorem Dgrp_eq_of_isPGroup [Finite G] (hC : CentData z ι) (hP2 : ¬ IsConj z (
   have hDne : (Dgrp z g).subgroupOf P ≠ ⊤ := by
     intro htop
     exact hne (le_antisymm (Subgroup.subgroupOf_eq_top.1 htop) hDP)
-  haveI : Group.IsNilpotent ↥P := IsPGroup.isNilpotent hP
+  have : Group.IsNilpotent ↥P := IsPGroup.isNilpotent hP
   have hnc : NormalizerCondition ↥P := Group.normalizerCondition_of_isNilpotent
   have hlt : (Dgrp z g).subgroupOf P < normalizer ((Dgrp z g).subgroupOf P) :=
     hnc _ (lt_top_iff_ne_top.2 hDne)
-  obtain ⟨-, x, hxN, hxD⟩ := SetLike.lt_iff_le_and_exists.1 hlt
+  obtain ⟨-, x, hxN, hxD⟩ := IsConcreteLE.lt_iff_le_and_exists.1 hlt
   have hxNG : (x : G) ∈ normalizer ((Dgrp z g : Subgroup G) : Set G) := by
     have h2 : x ∈ (normalizer ((Dgrp z g : Subgroup G) : Set G)).subgroupOf P := by
       rw [Subgroup.subgroupOf_normalizer_eq hDP]
@@ -269,7 +269,7 @@ private theorem not_two_dvd_relIndex_of_le [Finite G] (hC : CentData z ι)
     apply Subgroup.map_injective K.subtype_injective
     rw [Subgroup.map_subgroupOf_eq_of_le hDK]
     exact heq.symm
-  haveI : (P : Subgroup ↥K).FiniteIndex := inferInstance
+  have : (P : Subgroup ↥K).FiniteIndex := inferInstance
   have hndvd : ¬ 2 ∣ (P : Subgroup ↥K).index := P.not_dvd_index
   rw [← hD'eq] at hndvd
   exact hndvd

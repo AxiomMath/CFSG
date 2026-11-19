@@ -536,14 +536,14 @@ theorem burnsideF48s_g22_core (hX : Nat.card ↥burnsideF48s_g22X = 12096) {Y : 
     · exact ⟨3, burnsideF48s_g22_L_memP2 (by decide), rfl⟩
     · exact ⟨5, burnsideF48s_g22_L_memP2 (by decide), rfl⟩
   obtain ⟨hfin, hcardP⟩ := burnsideF48s_g22_card_PG k hk
-  haveI := hfin
+  have := hfin
   have hYle := burnsideF48s_core_card_le (L := L) (f₁ := f₁) (f₂ := f₂) h12 hgen hcov1 hcov2 hY
   have hk1 : k = 1 := by
     by_contra hne
-    rw [if_neg hne] at hcardP
+    rw [ite_eq_right hne] at hcardP
     omega
   subst hk1
-  rw [if_pos rfl] at hcardP
+  rw [ite_eq_left rfl] at hcardP
   have hD : ∀ r ∈ burnsideF48s_g22Ws 1, burnsideF48s_ev L r = 1 := by
     intro r hr
     rcases List.mem_append.1 hr with h | h
@@ -552,7 +552,7 @@ theorem burnsideF48s_g22_core (hX : Nat.card ↥burnsideF48s_g22X = 12096) {Y : 
     · rw [List.mem_singleton] at h
       rw [h]
       exact burnsideF48s_g22_rels_X.2
-  haveI : Finite ↥burnsideF48s_g22X := Nat.finite_of_card_ne_zero (by rw [hX]; norm_num)
+  have : Finite ↥burnsideF48s_g22X := Nat.finite_of_card_ne_zero (by rw [hX]; norm_num)
   exact burnsideF48s_core_gen h12 hgen burnsideF48s_g22_sup hcov1 hcov2 hD hY
     (by rw [hX]; exact hcardP) (by rw [hX]; exact hcard)
 

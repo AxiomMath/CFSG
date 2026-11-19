@@ -123,7 +123,7 @@ theorem C0_inf_centralizer_Ec :
     Nat.odd_iff.2 (Nat.two_dvd_ne_zero.1 (MonoidHom.not_dvd_card_ker_transferSylow P hPn))
   have hodd_ker : ∀ z : ↥Z, Odd (orderOf z) → z ∈ φ.ker := by
     intro z hz
-    obtain ⟨j, hj⟩ := P.isPGroup' (φ z)
+    obtain ⟨j, hj⟩ := P.isPGroup (φ z)
     have h1 : orderOf (φ z) ∣ 2 ^ j := orderOf_dvd_of_pow_eq_one hj
     have h2 : orderOf (φ z) ∣ orderOf z := orderOf_map_dvd φ z
     have hcop : Nat.gcd (2 ^ j) (orderOf z) = 1 :=
@@ -161,7 +161,7 @@ theorem C0_inf_centralizer_Ec :
   have hKo1 : Ko = ⊥ := hc.eq_bot_of_normal_odd hKoM hKon hKoodd
   have hker1 : φ.ker = ⊥ := (Subgroup.map_eq_bot_iff_of_injective _ Z.subtype_injective).1 hKo1
   have hinj : Function.Injective φ := (MonoidHom.ker_eq_bot_iff φ).1 hker1
-  have hZ2 : IsPGroup 2 ↥Z := P.isPGroup'.of_injective φ hinj
+  have hZ2 : IsPGroup 2 ↥Z := P.isPGroup.of_injective φ hinj
   exact hEsyl.eq_of_le hEZ le_rfl hZ2
 
 end Basic

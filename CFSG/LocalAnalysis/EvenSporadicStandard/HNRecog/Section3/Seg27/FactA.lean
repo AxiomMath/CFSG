@@ -12,9 +12,9 @@ namespace CFSG.EvenSporadicStandard.HNRecog.Section3
 theorem seg27_orbit_ncard_of_A6 {Y : Subgroup (Equiv.Perm (Fin 8))}
     (e : ↥Y ≃* alternatingGroup (Fin 6)) (x : Fin 8) :
     (MulAction.orbit Y x).ncard = 1 ∨ (MulAction.orbit Y x).ncard = 6 := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) :=
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) :=
     alternatingGroup.isSimpleGroup (by norm_num [Nat.card_fin])
-  haveI : IsSimpleGroup ↥Y := e.isSimpleGroup
+  have : IsSimpleGroup ↥Y := e.isSimpleGroup
   have hcardY : Nat.card ↥Y = 360 :=
     calc Nat.card ↥Y = Nat.card (alternatingGroup (Fin 6)) := Nat.card_congr e.toEquiv
       _ = ((6 : ℕ).factorial / 2) := by rw [nat_card_alternatingGroup, Nat.card_fin]
@@ -115,7 +115,7 @@ theorem seg27_eq_altFix_of_A6 {Y : Subgroup (Equiv.Perm (Fin 8))}
   obtain ⟨x, hx6⟩ := hex
   have hcompl : (MulAction.orbit Y x)ᶜ.ncard = 2 := by
     have h : Nat.card (Fin 8) = 2 + (MulAction.orbit Y x).ncard := by
-      simp [hx6, Nat.card_fin]
+      simp [hx6]
     exact Set.ncard_compl_of_ncard_eq_add (MulAction.orbit Y x) h
   obtain ⟨p, q, hpq, hpqset⟩ := Set.ncard_eq_two.mp hcompl
   refine ⟨p, q, hpq, ?_⟩

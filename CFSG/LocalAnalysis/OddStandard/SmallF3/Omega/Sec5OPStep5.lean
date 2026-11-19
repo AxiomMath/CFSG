@@ -17,6 +17,7 @@ open Subgroup CFSG.Open CFSG.GH74.GLS.Th2.P412
 variable {G : Type} [Group G] [Finite G] {X : Type} [Group X] {t z : G} {T : Subgroup G}
   {π : ↥(centralizer ({z} : Set G)) →* X}
 
+omit [Finite G] in
 private theorem sec5op5_img_eq_cls {t z : G} {T : Subgroup G}
     {π : ↥(centralizer ({z} : Set G)) →* X} (hyp : Sec5OPHyp t z T π)
     {x : Sec5GBar (sec5op_Tb z T π)} (hx : x ∈ Sec5GImg (sec5op_Tb z T π)) :
@@ -35,6 +36,7 @@ private theorem sec5op5_img_eq_cls {t z : G} {T : Subgroup G}
   rw [← hax, hthis]
   rfl
 
+omit [Finite G] in
 private theorem sec5op5_cls_mem_img {t z : G} {T : Subgroup G}
     {π : ↥(centralizer ({z} : Set G)) →* X} (hyp : Sec5OPHyp t z T π) {τ : G} (hτ : τ ∈ T) :
     sec5op_cls hyp ⟨τ, hyp.TY hτ⟩ ∈ Sec5GImg (sec5op_Tb z T π) := by
@@ -48,7 +50,7 @@ private theorem sec5op5_cls_mem_img {t z : G} {T : Subgroup G}
 private theorem sec5op5_orderOf_cls_t {t z : G} {T : Subgroup G}
     {π : ↥(centralizer ({z} : Set G)) →* X} (hyp : Sec5OPHyp t z T π) :
     orderOf (sec5op_cls hyp ⟨t, sec5op_t_mem_Y t z⟩) = 2 := by
-  haveI : Finite X := Finite.of_surjective π hyp.surj
+  have : Finite X := Finite.of_surjective π hyp.surj
   have htt : t * t = 1 := by
     have h := pow_orderOf_eq_one t
     rw [hyp.ht, pow_two] at h
@@ -73,7 +75,7 @@ private theorem sec5op5_orderOf_cls_t {t z : G} {T : Subgroup G}
     simpa [pow_two] using htt
   have hcX2 : π ⟨t, sec5op_Y_le hyp.tH (sec5op_t_mem_Y t z)⟩ ^ 2 = 1 := by
     rw [← map_pow, htH2, map_one]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcXorder : orderOf (π ⟨t, sec5op_Y_le hyp.tH (sec5op_t_mem_Y t z)⟩) = 2 :=
     orderOf_eq_prime hcX2 hcXne
   have hpi_eq : sec5g_pi (sec5op_Tb z T π)
@@ -119,9 +121,9 @@ theorem sec5op_rho_eq_one
     exact congrArg (sec5op_cls hyp) (Subtype.ext (hkT τ hτ))
   ·
     obtain ⟨F, hF, hFfin, h5F, h8F, ⟨e⟩, P, hP⟩ := sec5g_caseII_field hII
-    letI : Field F := hF
-    letI : Finite F := hFfin
-    haveI : Finite X := Finite.of_surjective π hyp.surj
+    let : Field F := hF
+    let : Finite F := hFfin
+    have : Finite X := Finite.of_surjective π hyp.surj
     set u : Sec5GBar (sec5op_Tb z T π) := sec5op_cls hyp ⟨t, sec5op_t_mem_Y t z⟩ with hu_def
     have hu : orderOf u = 2 := by
       rw [hu_def]
@@ -160,7 +162,7 @@ theorem sec5op_rho_eq_one
       rw [← hycls, sec5op_rho_cls hyp hk ⟨y, hy⟩]
       exact congrArg (sec5op_cls hyp) (Subtype.ext (hkY y hy hyt hyodd))
     have hfix := sec5op_fix_centralizer (sec5op_rho z T π ⟨k, hk⟩)
-      (P : Subgroup (Sec5GBar (sec5op_Tb z T π))) P.isPGroup' hidx hPc hPfix hodd
+      (P : Subgroup (Sec5GBar (sec5op_Tb z T π))) P.isPGroup hidx hPc hPfix hodd
     have hc2 : Odd (orderOf (⟨k, hk⟩ : ↥(centralizer ({z} : Set G)))) := by
       simpa only [Subgroup.orderOf_mk] using hkodd
     exact l2aut_action_odd_trivial e h5F h8F (sec5op_rho z T π) (c := ⟨k, hk⟩) hc2 hu hfix

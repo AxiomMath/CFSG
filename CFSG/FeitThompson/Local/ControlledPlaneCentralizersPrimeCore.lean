@@ -230,7 +230,7 @@ theorem le_pComplCoreIn_centralizer_of_mem_center [Finite G] [IsSimpleGroup G]
     exact ((mem_centralizer_iff.1 hzc) x hx).symm
   have hAP : A ≤ (P : Subgroup G) := hAself ▸ inf_le_right
   have hAX : A ≤ X := hAP.trans hPX
-  have hzpow : IsPGroup p ↥(zpowers z) := P.isPGroup'.to_le (by rwa [Subgroup.zpowers_le])
+  have hzpow : IsPGroup p ↥(zpowers z) := P.isPGroup.to_le (by rwa [Subgroup.zpowers_le])
   have hXtop : X ≠ ⊤ := centralizer_singleton_ne_top_of_isPGroup hGnc hp hz1 hzpow
   have hXsolv : Group.IsSolvable ↥X := hsolv X hXtop
   have hXodd : Odd (Nat.card ↥X) := (odd_natCard_lt_natCard_of_ne_top hGodd hXtop).2
@@ -282,7 +282,7 @@ theorem le_pComplCoreIn_of_mem_controlledPlane [Finite G] [IsSimpleGroup G]
   ·
     set X : Subgroup G := centralizer ({b} : Set G) with hXdef
     have hbP : b ∈ (P : Subgroup G) := hBP hbB
-    have hbpow : IsPGroup p ↥(zpowers b) := P.isPGroup'.to_le (by rwa [Subgroup.zpowers_le])
+    have hbpow : IsPGroup p ↥(zpowers b) := P.isPGroup.to_le (by rwa [Subgroup.zpowers_le])
     have hXtop : X ≠ ⊤ := centralizer_singleton_ne_top_of_isPGroup hGnc hp hb1 hbpow
     have hXsolv : Group.IsSolvable ↥X := hsolv X hXtop
     have hXodd : Odd (Nat.card ↥X) := (odd_natCard_lt_natCard_of_ne_top hGodd hXtop).2
@@ -290,13 +290,13 @@ theorem le_pComplCoreIn_of_mem_controlledPlane [Finite G] [IsSimpleGroup G]
     have hP₁X : P₁ ≤ X := inf_le_right
     have hP₁P : P₁ ≤ (P : Subgroup G) := inf_le_left
     have hP₁p : IsPGroup p ↥(P₁.subgroupOf X) :=
-      (P.isPGroup'.to_le hP₁P).comap_of_injective X.subtype X.subtype_injective
+      (P.isPGroup.to_le hP₁P).comap_of_injective X.subtype X.subtype_injective
     obtain ⟨Q, hQ⟩ := hP₁p.exists_le_sylow
     set P₂ : Subgroup G := (Q : Subgroup ↥X).map X.subtype with hP₂def
     have hP₂X : P₂ ≤ X := Subgroup.map_subtype_le _
     have hP₂card : Nat.card ↥P₂ = p ^ (Nat.card ↥X).factorization p := by
       rw [hP₂def, Subgroup.card_map_of_injective X.subtype_injective, Q.card_eq_multiplicity]
-    have hP₂p : IsPGroup p ↥P₂ := Q.isPGroup'.map _
+    have hP₂p : IsPGroup p ↥P₂ := Q.isPGroup.map _
     have hP₁P₂ : P₁ ≤ P₂ := by
       rw [hP₂def, ← Subgroup.map_subgroupOf_eq_of_le hP₁X]
       exact Subgroup.map_mono hQ
@@ -304,7 +304,7 @@ theorem le_pComplCoreIn_of_mem_controlledPlane [Finite G] [IsSimpleGroup G]
       intro R
       rw [R.card_eq_multiplicity, P.card_eq_multiplicity]
     have hP₁norm : ((P₁.subgroupOf P₂).Normal) :=
-      normal_subgroupOf_of_isPGroup_sylow hp hPsylow P.isPGroup' hP₂p hBP hBnormal hBcard hbB hb1
+      normal_subgroupOf_of_isPGroup_sylow hp hPsylow P.isPGroup hP₂p hBP hBnormal hBcard hbB hb1
         hP₁P₂
     have hP₂normP₁ : P₂ ≤ normalizer (P₁ : Set G) :=
       Subgroup.le_normalizer_of_normal_subgroupOf (hK := hP₁norm) hP₁P₂
@@ -352,7 +352,7 @@ theorem le_pComplCoreIn_of_mem_controlledPlane [Finite G] [IsSimpleGroup G]
     have hzpowX : (zpowers z : Subgroup G) ≤ X := by
       rw [Subgroup.zpowers_le]; exact hZX hzZ
     have hzpow : IsPGroup p ↥(zpowers z) :=
-      P.isPGroup'.to_le (by rw [Subgroup.zpowers_le]; exact hZP hzZ)
+      P.isPGroup.to_le (by rw [Subgroup.zpowers_le]; exact hZP hzZ)
     have hcentEq : X ⊓ centralizer ((zpowers z : Subgroup G) : Set G)
         = X ⊓ centralizer ({z} : Set G) := by
       rw [Subgroup.zpowers_eq_closure, Subgroup.centralizer_closure]

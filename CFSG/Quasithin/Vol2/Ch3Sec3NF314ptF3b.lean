@@ -18,7 +18,7 @@ open scoped commutatorElement
 theorem f3_sylow_TL {G : Type} [Group G] [Finite G] {T TL : Subgroup G} {e : G}
     (hT : CFSG.Open.quasithinIsSylowTwo T) (hTL : TL ≤ T)
     (hTL' : T ⊓ Subgroup.centralizer ({e} : Set G) = TL)
-    (hTidx : Nat.card T ≤ 2 * Nat.card TL) (heT : e ∈ T) (he1 : e ≠ 1) (he2 : e ^ 2 = 1)
+    (hTidx : Nat.card T ≤ 2 * Nat.card TL) (_heT : e ∈ T) (he1 : e ≠ 1) (he2 : e ^ 2 = 1)
     (hnot : ¬ ∃ g : G, g⁻¹ * e * g ∈ CFSG.Open.quasithinOmegaOneCenter T) :
     CFSG.QuasithinUnique.IsSylowTwoOf TL (Subgroup.centralizer ({e} : Set G)) := by
   have hTLG : TL ≤ Subgroup.centralizer ({e} : Set G) := by

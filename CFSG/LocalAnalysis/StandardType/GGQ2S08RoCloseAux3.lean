@@ -67,8 +67,8 @@ theorem ggQ2s08r4_conj_eq_of_lin
 theorem ggQ2s08r4_final
     {G : Type} [Group G] {Bs L : Subgroup G} {x : G}
      [Finite G] {B : Subgroup G} {D J : Subgroup G}
-    (hS : GGQTwoSetting 3 B Bs x L D J)
-    {g : G} (hg : g ∈ Subgroup.normalizer (Bs : Set G))
+    (_hS : GGQTwoSetting 3 B Bs x L D J)
+    {g : G} (_hg : g ∈ Subgroup.normalizer (Bs : Set G))
     (hL : L.map (MulAut.conj g).toMonoidHom ≤ ggG0 3 B x L D J)
     (hK : ∀ (y : G) (K : Subgroup G), GGNbr 3 B x D J y K →
       K.map (MulAut.conj g).toMonoidHom ≤ ggG0 3 B x L D J) :
@@ -91,7 +91,7 @@ theorem ggQ2s08r4_final
 theorem ggQ2s08r4_reduce
     {G : Type} [Group G] {Bs L : Subgroup G} {x : G}
      [Finite G] {B : Subgroup G} {D J : Subgroup G}
-    (hS : GGQTwoSetting 3 B Bs x L D J) (M : GGQ2LDatum 3 Bs L x)
+    (_hS : GGQTwoSetting 3 B Bs x L D J) (M : GGQ2LDatum 3 Bs L x)
     {N : ℕ} (h2 : 2 ≤ N) (f : Fin N → M.V) (hf : GGQ2S08ROFrame M f)
     (hD : ∀ g : M.V ≃ₗ[ZMod 3] M.V, GGQ2S08MonoEven f g →
       ∃ (k : G) (φ : MulAut ↥Bs), GGQ2Ind Bs k φ ∧

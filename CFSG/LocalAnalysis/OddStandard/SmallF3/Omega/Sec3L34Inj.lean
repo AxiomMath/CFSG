@@ -13,7 +13,7 @@ variable {G : Type} [Group G]
 
 private theorem odd_card_oddCore' (X : Type*) [Group X] [Finite X] :
     Odd (Nat.card (CFSG.oddCore X)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [CFSG.oddCore_eq_piCore, ← CFSG.pPrimeCore_eq_piCore 2 (G := X)]
   exact Nat.coprime_two_left.mp (CFSG.pPrimeCore_coprime_card (p := 2) (G := X))
 
@@ -24,7 +24,7 @@ theorem injective_mk_comp_of_odd {A : Type} [Group A] (N : Subgroup A) [N.Normal
   intro g hg
   have hmem : f g ∈ N := (QuotientGroup.eq_one_iff (f g)).mp (by simpa using hg)
   have hcard : Nat.card (QuaternionGroup 2) = 8 := by
-    haveI : NeZero 2 := ⟨by norm_num⟩
+    have : NeZero 2 := ⟨by norm_num⟩
     rw [Nat.card_eq_fintype_card, QuaternionGroup.card]
   have h8 : orderOf g ∣ 8 := by
     rw [← hcard]

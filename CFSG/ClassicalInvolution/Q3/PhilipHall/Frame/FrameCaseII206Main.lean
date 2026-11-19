@@ -47,7 +47,7 @@ theorem Std20Frame.exists_inZ_of_mem_M
         (Subgroup.le_normalizer (Subgroup.inv_mem _ hrX)) ho
       rw [inv_inv] at h2
       exact Subgroup.inv_mem _ (Subgroup.mul_mem _ h2 ho)
-    exact eq_one_of_mem_oddCoreOf_of_mem S.isPGroup' h1 (Subgroup.mul_mem _ hrS hrS)
+    exact eq_one_of_mem_oddCoreOf_of_mem S.isPGroup h1 (Subgroup.mul_mem _ hrS hrS)
   obtain ⟨q, hq⟩ := exists_conj_of_mul_odd hr2 (TwinExact.odd_orderOf_of_mem_oddCoreOf ho) hc2
   have hrg : (q * g) * z * (q * g)⁻¹ = r := by
     calc (q * g) * z * (q * g)⁻¹ = q * (g * z * g⁻¹) * q⁻¹ := by group
@@ -79,7 +79,7 @@ theorem Std20Frame.conj_not_mem_M
       oddCoreOf (conjSub g (sec20X (CoreAssembly.conjClass K) z K K')) := by
     rw [Thompson.oddCoreOf_conjSub_eq]
     exact conj_mem_conjSub hyo
-  have h3 := eq_one_of_mem_oddCoreOf_of_mem S.isPGroup' h2 h1
+  have h3 := eq_one_of_mem_oddCoreOf_of_mem S.isPGroup h2 h1
   rw [e1] at h3
   apply hsZ
   rw [← inv_mul_eq_one.mp h3]
@@ -151,7 +151,7 @@ theorem Std20Frame.closed_of_concl203_of_core (c8 : Concl20_8 S K' R) (c3 : Conc
     · exact d.mem_normalizer_conj c8 (g := 1) (by group) hsz
   have hzT : z ∈ Subgroup.closure ({t, z} : Set G) := Subgroup.subset_closure (by simp)
   have htT : t ∈ Subgroup.closure ({t, z} : Set G) := Subgroup.subset_closure (by simp)
-  rcases inner_or_inner_mul eB (S.isPGroup'.to_le hTS) hTN hzT hn1 htT with h' | h'
+  rcases inner_or_inner_mul eB (S.isPGroup.to_le hTS) hTN hzT hn1 htT with h' | h'
   · exact hn2 h'
   · rw [inv_eq_of_mul_eq_one_right hz2, ← hzt] at h'
     exact hn3 h'

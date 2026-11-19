@@ -148,10 +148,10 @@ theorem exists_pair_of_stable {T : Set Cd} (hTE : ∀ y ∈ T, y ∈ E0 ∧ y �
       if (∃ y' ∈ T, y' ∈ clsSet i) then ![1, 22, 22, 231, 231, 1540] i else 0 := by
     intro i
     by_cases h : ∃ y' ∈ T, y' ∈ clsSet i
-    · rw [if_pos h, ← ncard_clsSet i]
+    · rw [ite_eq_left h, ← ncard_clsSet i]
       congr 1
       exact Set.inter_eq_right.2 (hsat i h)
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       have : T ∩ clsSet i = ∅ := Set.eq_empty_of_forall_notMem fun y hy => h ⟨y, hy.1, hy.2⟩
       rw [this, Set.ncard_empty]
   have hsum' : (if (∃ y' ∈ T, y' ∈ clsSet 0) then 1 else 0) +

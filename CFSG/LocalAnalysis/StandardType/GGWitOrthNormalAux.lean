@@ -25,7 +25,7 @@ private lemma owNm_conj_mem_classRefl {p : ℕ} (hp : p.Prime) {U V : Type} [Add
     {Q' : QuadraticForm (ZMod p) V} (e : U ≃ₗ[ZMod p] V) (he : ∀ v, Q' (e v) = Q v)
     {c : ZMod p} {t : U ≃ₗ[ZMod p] U} (ht : t ∈ ClassRefl p Q c) :
     e.symm.trans (t.trans e) ∈ ClassRefl p Q' c := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   change autConj e t ∈ ClassRefl p Q' c
   rcases ht with ⟨hr, hiso, a, hQa, hta⟩
   refine ⟨⟨?_, ?_⟩, ?_, e a, ?_, ?_⟩
@@ -52,7 +52,7 @@ private lemma owNm_conj_mem_classRefl {p : ℕ} (hp : p.Prime) {U V : Type} [Add
   · rw [he, hQa]
   · rw [autConj_apply, e.symm_apply_apply, hta, map_neg]
 
-theorem owNm_classRefl_transport_aux {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {U V : Type}
+theorem owNm_classRefl_transport_aux {p : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2) {U V : Type}
     [AddCommGroup U] [Module (ZMod p) U] [AddCommGroup V] [Module (ZMod p) V]
     (Q : QuadraticForm (ZMod p) U) (Q' : QuadraticForm (ZMod p) V) (e : U ≃ₗ[ZMod p] V)
     (he : ∀ v, Q' (e v) = Q v) (c : ZMod p)
@@ -61,7 +61,7 @@ theorem owNm_classRefl_transport_aux {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {U
     ∃ φ : ↥A ≃* ↥A', ∀ g : ↥A,
       ((φ g : ↥A') : V ≃ₗ[ZMod p] V) = e.symm.trans (((g : ↥A) : U ≃ₗ[ZMod p] U).trans e) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have he' : ∀ w, Q (e.symm w) = Q' w := fun w => by
     simpa using (he (e.symm w)).symm
   have himage : (⇑(autConj e).toMonoidHom) '' ClassRefl p Q c = ClassRefl p Q' c := by
@@ -117,7 +117,7 @@ theorem owNm_classRefl_transport_aux {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {U
   refine ⟨φ, fun g => ?_⟩
   rfl
 
-theorem owNm_absIrred_transport_aux {p : ℕ} (hp : p.Prime) {U V : Type}
+theorem owNm_absIrred_transport_aux {p : ℕ} (_hp : p.Prime) {U V : Type}
     [AddCommGroup U] [Module (ZMod p) U] [AddCommGroup V] [Module (ZMod p) V]
     (e : U ≃ₗ[ZMod p] V) {A : Subgroup (U ≃ₗ[ZMod p] U)}
     {A' : Subgroup (V ≃ₗ[ZMod p] V)} (φ : ↥A ≃* ↥A')
@@ -207,7 +207,7 @@ theorem owNm_orth_normal_aux {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {U : Type}
     ∃ (e : U ≃ₗ[ZMod p] (Fin (Module.finrank (ZMod p) U) → ZMod p))
       (w : Fin (Module.finrank (ZMod p) U) → ZMod p),
       (∀ i, w i ≠ 0) ∧ ∀ v, Q v = ∑ i, w i * (e v i) ^ 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h2 : (2 : ZMod p) ≠ 0 := by
     intro hzero
     have hd : p ∣ 2 := (ZMod.natCast_eq_zero_iff 2 p).mp (by simpa using hzero)
@@ -215,7 +215,7 @@ theorem owNm_orth_normal_aux {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {U : Type}
     have hge : 2 ≤ p := hp.two_le
     have hp2' : p = 2 := by omega
     exact hp2 hp2'
-  haveI : Invertible (2 : ZMod p) := invertibleOfNonzero h2
+  have : Invertible (2 : ZMod p) := invertibleOfNonzero h2
   exact owNm_orth_normal_field (ZMod p) Q hQ
 
 end Transport

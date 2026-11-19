@@ -12,6 +12,7 @@ open scoped Pointwise
 variable {Y : Type} [Group Y] [Finite Y] {P : Subgroup Y} {x k : Y} {K₁ K₂ Q : Subgroup Y}
   {a b t : Y}
 
+omit [Finite Y] in
 theorem zpow_eq_iff_zmod {a : Y} (ha : orderOf a = 9) {m n : ℤ} :
     a ^ m = a ^ n ↔ (m : ZMod 9) = (n : ZMod 9) := by
   rw [zpow_eq_zpow_iff_modEq, ha, ZMod.intCast_eq_intCast_iff]
@@ -28,6 +29,7 @@ variable (sd : SwapData P K₁ K₂ Q a b t)
 
 include sd
 
+omit [Finite Y] in
 theorem symm : SwapData P K₂ K₁ Q b a t := by
   refine ⟨sd.two.symm, ?_, sd.t_norm, (sd.two.swap_of_ne (g := t) (by
     rw [sd.t_swap]
@@ -35,9 +37,11 @@ theorem symm : SwapData P K₂ K₁ Q b a t := by
   obtain ⟨h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11, h12, h13, h14⟩ := sd.q
   exact ⟨h1, h2, h3, h4, h5, h6, h7, h9, h8, h11, h10, by rw [h12, sup_comm], h14, h13⟩
 
+omit [Finite Y] in
 theorem P_conj {g : Y} (hg : g ∈ P) : t * g * t⁻¹ ∈ P :=
   (mem_normalizer_iff.mp sd.t_norm g).mp hg
 
+omit [Finite Y] in
 theorem conj_a {y : Y} (hy : y ∈ zpowers a) : t * y * t⁻¹ ∈ zpowers b := by
   rw [← sd.q.S₁_eq] at hy
   rw [← sd.q.S₂_eq]
@@ -45,6 +49,7 @@ theorem conj_a {y : Y} (hy : y ∈ zpowers a) : t * y * t⁻¹ ∈ zpowers b := 
   have : t * y * t⁻¹ ∈ K₁.map (MulAut.conj t).toMonoidHom := ⟨y, hy.2, rfl⟩
   rwa [sd.t_swap] at this
 
+omit [Finite Y] in
 theorem conj_b {y : Y} (hy : y ∈ zpowers b) : t * y * t⁻¹ ∈ zpowers a :=
   sd.symm.conj_a hy
 
@@ -65,8 +70,9 @@ theorem t_norm_Q : t ∈ normalizer (Q : Set Y) := by
       rw [Subgroup.card_map_of_injective (MulAut.conj t).injective])
   exact mem_normalizer_iff_map_conj_eq.mpr heq
 
+omit [Finite Y] in
 theorem cube_mem {g : Y} (hg : g ∈ P) : g ^ 3 ∈ Q := by
-  haveI : (Q.subgroupOf P).Normal :=
+  have : (Q.subgroupOf P).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer sd.q.Q_le).mpr sd.q.P_norm
   have hidx : (Q.subgroupOf P).index = 3 := by
     have h := Subgroup.index_mul_card (Q.subgroupOf P)
@@ -78,16 +84,19 @@ theorem cube_mem {g : Y} (hg : g ∈ P) : g ^ 3 ∈ Q := by
   rw [hidx] at this
   exact mem_subgroupOf.mp this
 
+omit [Finite Y] in
 theorem P_eq_sup {u : Y} (hu : u ∈ P) (huQ : u ∉ Q) : zpowers u ⊔ Q = P := by
   refine sd.q.Q_max _ (lt_of_le_of_ne le_sup_right fun h' => huQ ?_)
     (sup_le (zpowers_le.mpr hu) sd.q.Q_le)
   rw [h']
   exact mem_sup_left (mem_zpowers u)
 
+omit [Finite Y] in
 theorem a_mem_Q : a ∈ Q := by
   rw [sd.q.Q_eq]
   exact mem_sup_left (mem_zpowers a)
 
+omit [Finite Y] in
 theorem b_mem_Q : b ∈ Q := by
   rw [sd.q.Q_eq]
   exact mem_sup_right (mem_zpowers b)
@@ -115,6 +124,7 @@ theorem exists_pow_mul {g : Y} (hg : g ∈ P) (hgQ : g ∉ Q) :
     exact (mem_normalizer_iff.mp sd.t_norm_Q g).mpr this
   exact ⟨r, by omega, (g ^ 3) ^ s * q, hq', hgq⟩
 
+omit [Finite Y] in
 theorem comm_of_pow_comm {g c : Y} (hg3 : g ^ 3 ∈ Q) (hc : c ∈ Q) {r : ℕ} (hr : r = 1 ∨ r = 2)
     (h : g ^ r * c = c * g ^ r) : g * c = c * g := by
   rcases hr with rfl | rfl
@@ -172,6 +182,7 @@ theorem cent_Q {g : Y} (hg : g ∈ P) (h : g * a = a * g) : ∀ y ∈ Q, g * y =
       (zpowers_le.mpr (mem_centralizer_singleton_iff.mpr (sd.cent_ab hg h).symm))
   exact (mem_centralizer_singleton_iff.mp (hle hy)).symm
 
+omit [Finite Y] in
 theorem not_cent_Q {g : Y} (hg : g ∈ P) (hgQ : g ∉ Q) : ¬ ∀ y ∈ Q, g * y = y * g := by
   intro hc
   have hle : P ≤ centralizer ({g} : Set Y) := by

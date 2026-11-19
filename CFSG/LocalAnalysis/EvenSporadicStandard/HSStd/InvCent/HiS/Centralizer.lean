@@ -24,7 +24,7 @@ theorem exists_order_five_commute {G : Type*} [Group G] [Finite G] {g : G}
     rw [Nat.card_congr f.toEquiv, card_perm_fin_five]
   have h5quot : 5 ∣ Nat.card (↥C ⧸ O) := by rw [hquot]; norm_num
   have hdvd : 5 ∣ Nat.card ↥C := dvd_trans h5quot (Subgroup.card_quotient_dvd_card O)
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨k, hk⟩ := exists_prime_orderOf_dvd_card' (G := ↥C) 5 hdvd
   refine ⟨(k : G), ?_, ?_⟩
   · rw [Subgroup.orderOf_coe, hk]
@@ -40,11 +40,11 @@ theorem false_of_simple_le_centralizer {G : Type*} [Group G] [Finite G] {g : G}
   let O : Subgroup ↥C := fusionOddCore ↥C
   let X' : Subgroup ↥C := X.subgroupOf C
   let eX : X' ≃* ↥X := Subgroup.subgroupOfEquivOfLe hX
-  haveI : IsSimpleGroup ↥X' := eX.isSimpleGroup
+  have : IsSimpleGroup ↥X' := eX.isSimpleGroup
   let ψ : ↥C →* Equiv.Perm (Fin 5) := f.toMonoidHom.comp (QuotientGroup.mk' O)
   let ψ' : ↥X' →* Equiv.Perm (Fin 5) := ψ.comp X'.subtype
   let N : Subgroup ↥X' := ψ'.ker
-  haveI : N.Normal := inferInstance
+  have : N.Normal := inferInstance
   have hcardX' : Nat.card ↥X' = 360 := by
     rw [Nat.card_congr eX.toEquiv, hcard]
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal N with hN | hN

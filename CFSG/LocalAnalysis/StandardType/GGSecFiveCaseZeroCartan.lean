@@ -32,7 +32,7 @@ private lemma cartanB_step_zmod {p : ℕ} [Fact p.Prime] {m : ℕ} {i j : Fin m}
   · by_cases h2 : i.val + 1 = j.val
     · have hB : ((CartanMatrix.B m i j : ℤ) : ZMod p) = -1 := by
         simp only [CartanMatrix.B, Matrix.of_apply]
-        rw [if_neg h1, if_pos h2, if_neg hjne]
+        rw [ite_eq_right h1, ite_eq_left h2, ite_eq_right hjne]
         norm_num
       rw [hB]
       have h3 : ¬ i = ⟨j.val + 1, hj⟩ := by
@@ -45,7 +45,7 @@ private lemma cartanB_step_zmod {p : ℕ} [Fact p.Prime] {m : ℕ} {i j : Fin m}
     · by_cases h3 : i = ⟨j.val + 1, hj⟩
       · have hB : ((CartanMatrix.B m i j : ℤ) : ZMod p) = -1 := by
           simp only [CartanMatrix.B, Matrix.of_apply]
-          rw [if_neg h1, if_neg h2, if_pos (show j.val + 1 = i.val from by
+          rw [ite_eq_right h1, ite_eq_right h2, ite_eq_left (show j.val + 1 = i.val from by
             have hval := congrArg Fin.val h3
             simp only at hval
             omega)]
@@ -64,11 +64,11 @@ private lemma cartanB_step_zmod {p : ℕ} [Fact p.Prime] {m : ℕ} {i j : Fin m}
         simp [h3, h5, h6]
       · have hB : ((CartanMatrix.B m i j : ℤ) : ZMod p) = 0 := by
           simp only [CartanMatrix.B, Matrix.of_apply]
-          rw [if_neg h1, if_neg h2]
+          rw [ite_eq_right h1, ite_eq_right h2]
           have hji : ¬ j.val + 1 = i.val := by
             intro h
             exact h3 (Fin.ext h.symm)
-          rw [if_neg hji]
+          rw [ite_eq_right hji]
           norm_num
         rw [hB]
         have h4 : ¬ i.val + 1 = j.val + 1 := by
@@ -98,15 +98,15 @@ private lemma cartanB_last_zmod {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {m : �
   · by_cases h2 : i.val + 1 = last.val
     · have hB : ((CartanMatrix.B m i last : ℤ) : ZMod p) = -2 := by
         simp only [CartanMatrix.B, Matrix.of_apply]
-        rw [if_neg h1, if_pos h2, if_pos hlast]
+        rw [ite_eq_right h1, ite_eq_left h2, ite_eq_left hlast]
         norm_num
       rw [hB, hcneg]
       simp [h1, h2]
     · have hB : ((CartanMatrix.B m i last : ℤ) : ZMod p) = 0 := by
         simp only [CartanMatrix.B, Matrix.of_apply]
-        rw [if_neg h1, if_neg h2]
+        rw [ite_eq_right h1, ite_eq_right h2]
         have h3 : ¬ last.val + 1 = i.val := by omega
-        rw [if_neg h3]
+        rw [ite_eq_right h3]
         norm_num
       rw [hB, mul_zero]
       simp [h1, h2]
@@ -285,9 +285,9 @@ theorem ggCZ_coordsB (hp2 : p ≠ 2) (hNT : GGNoTransvection p Bs) {m : ℕ} (hm
             exact hh'
         by_cases hjt : i.val < j.val
         · have hm : pj ∈ Finset.Ici i := hmem.mpr hjt
-          rw [if_pos hm, if_pos hjt]
+          rw [ite_eq_left hm, ite_eq_left hjt]
         · have hm : pj ∉ Finset.Ici i := fun hh => hjt (hmem.mp hh)
-          rw [if_neg hm, if_neg hjt]
+          rw [ite_eq_right hm, ite_eq_right hjt]
     rw [hsum1, hsum2]
     by_cases hlt : i.val < j.val
     · have hle : i ≤ j := Fin.le_def.mpr (le_of_lt hlt)
@@ -385,7 +385,7 @@ theorem ggCZ_coordsF4 (hp2 : p ≠ 2) (hNT : GGNoTransvection p Bs) {A : Subgrou
     fin_cases i <;> fin_cases j <;>
       simp [e, φ, e0, e1, e2, e3, p0, p1, p2, p3, c, CartanMatrix.F₄,
         map_add, map_smul, hP] <;>
-      try field_simp [zmod_two_ne_zero hp2] <;> ring
+      try field_simp [zmod_two_ne_zero hp2]; try ring
   have he12 : e 1 - e 2 = h 0 := by
     simp [e, e1, e2, e3]
   have he23 : e 2 - e 3 = h 1 := by

@@ -95,7 +95,7 @@ theorem idxOfList_spec (P : List (List ℕ)) (hP : P.Nodup) :
     have ham : a ∉ idxOfList P := fun h => ha ((hm a).1 h)
     rw [hfold]
     refine ⟨?_, ?_, ?_⟩
-    · rw [Std.HashMap.size_insert, if_neg ham, hs, List.length_append, List.length_singleton]
+    · rw [Std.HashMap.size_insert, ite_eq_right ham, hs, List.length_append, List.length_singleton]
     · intro x
       rw [Std.HashMap.mem_insert, hm, beq_iff_eq, List.mem_append, List.mem_singleton]
       tauto
@@ -109,8 +109,8 @@ theorem idxOfList_spec (P : List (List ℕ)) (hP : P.Nodup) :
         simp only [Bool.false_eq_true, ↓reduceIte, List.mem_append, List.mem_singleton, hx,
           or_false]
         by_cases hxP : x ∈ P
-        · rw [if_pos hxP, if_pos hxP, List.idxOf_append_of_mem hxP]
-        · rw [if_neg hxP, if_neg hxP]
+        · rw [ite_eq_left hxP, ite_eq_left hxP, List.idxOf_append_of_mem hxP]
+        · rw [ite_eq_right hxP, ite_eq_right hxP]
 
 theorem rowsOf_toArray (L : List (List ℕ)) :
     rowsOf L.toArray = L.toArray.map fun t =>
@@ -118,16 +118,16 @@ theorem rowsOf_toArray (L : List (List ℕ)) :
   simp only [rowsOf, idxOfList, List.foldl_toArray']
 
 theorem getD_toArray {α : Type} (L : List α) (i : ℕ) (d : α) : L.toArray.getD i d = L.getD i d := by
-  simp only [Array.getD, List.size_toArray, List.getElem_toArray]
-  split <;> simp_all [List.getD_eq_getElem]
+  simp only [Array.getD, List.size_toArray]
+  split <;> simp_all
 
 theorem getD_map_toArray {α β : Type} (L : List α) (f : α → β) (i : ℕ) (d : β) :
     (L.toArray.map f).getD i d = if h : i < L.length then f L[i] else d := by
   by_cases h : i < L.length
-  · rw [Array.getD_eq_getD_getElem?, dif_pos h, Array.getElem?_map, List.getElem?_toArray,
+  · rw [Array.getD_eq_getD_getElem?, dite_eq_left h, Array.getElem?_map, List.getElem?_toArray,
       List.getElem?_eq_getElem h]
     rfl
-  · rw [Array.getD_eq_getD_getElem?, dif_neg h, Array.getElem?_map, List.getElem?_toArray,
+  · rw [Array.getD_eq_getD_getElem?, dite_eq_right h, Array.getElem?_map, List.getElem?_toArray,
       List.getElem?_eq_none (by omega)]
     rfl
 
@@ -140,17 +140,17 @@ theorem lookup_rowsOf (L : List (List ℕ)) (hnd : L.Nodup) (i j : ℕ) :
   have hg := (idxOfList_spec L hnd).2.2
   rw [lookup, rowsOf_toArray, getD_map_toArray]
   by_cases hi : i < L.length
-  · rw [dif_pos hi]
+  · rw [dite_eq_left hi]
     by_cases hinv : isInv L[i] = true
-    · rw [if_pos hinv, getD_map_toArray]
+    · rw [ite_eq_left hinv, getD_map_toArray]
       by_cases hj : j < L.length
-      · rw [dif_pos hj, hg, List.getD_eq_getElem _ _ hi, List.getD_eq_getElem _ _ hj,
-          if_pos (show i < L.length ∧ isInv L[i] = true ∧ j < L.length from ⟨hi, hinv, hj⟩)]
-      · rw [dif_neg hj, if_neg (fun h => hj h.2.2)]
-    · rw [if_neg hinv,
-        if_neg (fun h => hinv (by rw [List.getD_eq_getElem _ _ hi] at h; exact h.2.1))]
+      · rw [dite_eq_left hj, hg, List.getD_eq_getElem _ _ hi, List.getD_eq_getElem _ _ hj,
+          ite_eq_left (show i < L.length ∧ isInv L[i] = true ∧ j < L.length from ⟨hi, hinv, hj⟩)]
+      · rw [dite_eq_right hj, ite_eq_right (fun h => hj h.2.2)]
+    · rw [ite_eq_right hinv,
+        ite_eq_right (fun h => hinv (by rw [List.getD_eq_getElem _ _ hi] at h; exact h.2.1))]
       simp
-  · rw [dif_neg hi, if_neg (fun h => hi h.1)]
+  · rw [dite_eq_right hi, ite_eq_right (fun h => hi h.1)]
     simp
 
 theorem dig_encT : ∀ (t : List ℕ), (∀ x ∈ t, x < 32) → ∀ i, dig (encT t) i = t.getD i 0
@@ -198,7 +198,7 @@ theorem rowGo_spec {EP : ℕ} {RB : List ℕ} {i T : ℕ} :
 theorem zeroSeg_spec {RB : List ℕ} {i : ℕ} (h : zeroSeg RB i = true) {j : ℕ} (hj : j < 1024) :
     lookK RB i j = 0 := by
   rw [zeroSeg, beq_iff_eq] at h
-  rw [lookK, if_pos hj, show 10 * (1024 * (i % 32) + j) = 10240 * (i % 32) + 10 * j by ring,
+  rw [lookK, ite_eq_left hj, show 10 * (1024 * (i % 32) + j) = 10240 * (i % 32) + 10 * j by ring,
     Nat.shiftRight_add]
   generalize RB.getD (i / 32) 0 >>> (10240 * (i % 32)) = Y at h ⊢
   have hd : 2 ^ (10 * j) * 2 ^ (10 + (10230 - 10 * j)) ∣ Y := by
@@ -248,7 +248,7 @@ theorem Hyps.prod {L : List (List ℕ)} {K : List ℕ} {EP : ℕ} {RB : List ℕ
     {i j : ℕ} (hi : i < 1024) (hinv : isInv (L.getD i []) = true) (hj : j < 1024) :
     tmul (L.getD i []) (L.getD j []) = L.getD (lookK RB i j) [] := by
   have hr := h.rows i hi
-  rw [rowsAt, if_pos hinv] at hr
+  rw [rowsAt, ite_eq_left hinv] at hr
   have hKl : K.length = 1024 := by rw [← h.kt, List.length_map, h.len]
   have e1 := rowGo_spec K 0 hr j (by rw [hKl]; exact hj)
   rw [zero_add, h.kAt, h.kAt, tmulK_encT (h.validAt hi) (h.validAt hj),
@@ -264,22 +264,22 @@ theorem Hyps.lookup_eq {L : List (List ℕ)} {K : List ℕ} {EP : ℕ} {RB : Lis
   by_cases hi : i < 1024
   · by_cases hinv : isInv (L.getD i []) = true
     · by_cases hj : j < 1024
-      · rw [if_pos ⟨hi, hinv, hj⟩, h.prod hi hinv hj]
+      · rw [ite_eq_left ⟨hi, hinv, hj⟩, h.prod hi hinv hj]
         have hk := lookK_lt RB i j
         have hkL : lookK RB i j < L.length := by rw [h.len]; exact hk
-        rw [List.getD_eq_getElem _ _ hkL, if_pos (List.getElem_mem hkL),
+        rw [List.getD_eq_getElem _ _ hkL, ite_eq_left (List.getElem_mem hkL),
           List.Nodup.idxOf_getElem h.nodup _ hkL]
-      · rw [if_neg (by omega)]
+      · rw [ite_eq_right (by omega)]
         unfold lookK
-        rw [if_neg hj]
-    · rw [if_neg (by tauto)]
+        rw [ite_eq_right hj]
+    · rw [ite_eq_right (by tauto)]
       by_cases hj : j < 1024
       · have hr := h.rows i hi
-        rw [rowsAt, if_neg hinv] at hr
+        rw [rowsAt, ite_eq_right hinv] at hr
         exact (zeroSeg_spec hr hj).symm
       · unfold lookK
-        rw [if_neg hj]
-  · rw [if_neg (by omega), lookK_of_ge RB h.rb (by omega)]
+        rw [ite_eq_right hj]
+  · rw [ite_eq_right (by omega), lookK_of_ge RB h.rb (by omega)]
 
 theorem cols_eq (L : List (List ℕ)) : colsTab L.toArray = colsK L := by
   funext i
@@ -520,7 +520,6 @@ theorem dfsK_eq (hP : planesB = true) (mulIdx : ℕ → ℕ → ℕ) (cols : ℕ
     unfold childrenK children
     refine congrArg (fun x => decide (V.length * F.length ≤ 2 ^ 11) && cand.all x)
       (funext fun c => ?_)
-    beta_reduce
     have hF' : ∀ m ∈ extF cols F c, m < 4096 := fun m hm => by
       unfold extF at hm
       exact hF m (List.mem_filter.1 hm).1
@@ -538,7 +537,6 @@ theorem dfsSubK_eq (hP : planesB = true) (RB : List ℕ) (L : List (List ℕ)) (
   have hF : ∀ m ∈ List.range 4096, m < 4096 := fun m hm => List.mem_range.1 hm
   unfold dfsSubK dfsSub childrenSubK childrenSub
   refine congrArg sub.all (funext fun c => ?_)
-  beta_reduce
   have hF' : ∀ m ∈ extF (colsK L) (List.range 4096) c, m < 4096 := fun m hm => by
     unfold extF at hm
     exact hF m (List.mem_filter.1 hm).1

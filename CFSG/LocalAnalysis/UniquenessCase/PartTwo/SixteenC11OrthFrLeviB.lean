@@ -101,7 +101,6 @@ theorem s16c11_fr_hat_isometry {m : ℕ} (hm : m = 3 ∨ m = 4)
       S16C11FrQ (m - 2) (v ∘ s16c11_fr_emb m (s16c11_fr_bound3 hm)) from
     CFSG.GroupTheory.WeirSylow.apply_mulVec_of_mem_isometryCore h.2
       (v ∘ s16c11_fr_emb m (s16c11_fr_bound3 hm))]
-  try ring
 
 theorem s16c11_fr_hat_fixes {m : ℕ} (hm : m = 3 ∨ m = 4)
     (h : ↥(S16C11FrO (m - 2))) (i : Fin 2) :
@@ -158,8 +157,7 @@ theorem s16c11_fr_hat_mul_inv {m : ℕ} (hm : m = 3 ∨ m = 4)
         Matrix.GeneralLinearGroup (S16C11FrIdx (m - 2)) (ZMod 2)) : Matrix (S16C11FrIdx (m - 2))
         (S16C11FrIdx (m - 2)) (ZMod 2))) = 1 from by
       rw [← Units.val_mul, mul_inv_cancel, Units.val_one]]
-    simp only [Matrix.fromBlocks_multiply, Matrix.one_mul, Matrix.mul_one, Matrix.zero_mul,
-      Matrix.mul_zero, add_zero, zero_add, Matrix.fromBlocks_one]
+    simp only [Matrix.mul_one, Matrix.fromBlocks_one]
   rw [s16c11_fr_hat, s16c11_fr_hat,
     ← Matrix.coe_reindexRingEquiv (ZMod 2) (s16c11_fr_part m (s16c11_fr_bound3 hm))]
   rw [← map_mul, hD, map_one]

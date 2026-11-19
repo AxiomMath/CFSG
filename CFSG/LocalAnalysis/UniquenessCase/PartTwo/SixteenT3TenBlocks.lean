@@ -19,12 +19,12 @@ theorem s16t_ten_blocks {T : Type} [CommGroup T] [Finite T] (hT : ∀ t : T, t ^
     ∃ Y : Fin 4 → Subgroup T, S16tTenBlocks X A Y p := by
   classical
   have hpp : p.Prime := by rcases hp with rfl | rfl <;> norm_num
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have hp2 : p ≠ 2 := by rcases hp with rfl | rfl <;> norm_num
   have hoddp : Odd p := by rcases hp with rfl | rfl <;> decide
   have hAc : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a := fun a ha b hb =>
     congrArg Subtype.val (s16t_blk_comm_of_isElemAbelianOfRank hA ⟨a, ha⟩ ⟨b, hb⟩)
-  letI : CommGroup ↥A := { (inferInstance : Group ↥A) with
+  let : CommGroup ↥A := { (inferInstance : Group ↥A) with
     mul_comm := fun x y => Subtype.ext (hAc x x.2 y y.2) }
   have hAp : ∀ a ∈ A, a ^ p = 1 := fun a ha => by
     simpa using congrArg Subtype.val (s16t_blk_pow_of_isElemAbelianOfRank hA ⟨a, ha⟩)
@@ -36,7 +36,7 @@ theorem s16t_ten_blocks {T : Type} [CommGroup T] [Finite T] (hT : ∀ t : T, t ^
       simpa [MulEquiv.coe_toMonoidHom, MulAut.conj_apply] using hAn m hm a ha
     · intro a ha
       refine Subgroup.mem_map.2 ⟨m⁻¹ * a * m, hAn m⁻¹ (X.inv_mem hm) a ha, ?_⟩
-      simp [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, mul_assoc]
+      simp [MulAut.conj_apply, mul_assoc]
   set Lg : Subgroup (MulAut T) := L.map (MulAut.conj g).toMonoidHom with hLgdef
   set W : Subgroup T := commSub ⊤ L with hWdef
   set Wg : Subgroup T := W.map g.toMonoidHom with hWgdef
@@ -139,11 +139,11 @@ theorem s16t_ten_blocks {T : Type} [CommGroup T] [Finite T] (hT : ∀ t : T, t ^
   let Yb : Idx → Subgroup T := fun B => fixV (B : Subgroup (MulAut T))
   have hind : iSupIndep Yb := hHB.1
   have hsup_all : (⨆ B : Idx, Yb B) = ⊤ := hHB.2
-  haveI : Fintype Idx := Fintype.ofFinite Idx
+  have : Fintype Idx := Fintype.ofFinite Idx
   have hBspec : ∀ B : Idx, (B : Subgroup (MulAut T)) ≤ A ∧
       Nat.card ↥(B : Subgroup (MulAut T)) * p = Nat.card ↥A ∧
       fixV (B : Subgroup (MulAut T)) ≠ ⊥ := fun B => by
-    simpa only [Idx, s16t_blk_Hyp, Set.mem_setOf_eq] using B.2
+    simpa only [Idx, s16t_blk_Hyp, Set.mem_ofPred_eq] using B.2
   have hBcard : ∀ B : Idx, Nat.card ↥(B : Subgroup (MulAut T)) = p ^ 2 := by
     intro B
     have h1 : Nat.card ↥(B : Subgroup (MulAut T)) * p = p ^ 3 := by
@@ -360,7 +360,7 @@ theorem s16t_ten_blocks {T : Type} [CommGroup T] [Finite T] (hT : ∀ t : T, t ^
   have hmem_map : ∀ x ∈ X, ∀ B : Idx,
       ((B : Subgroup (MulAut T)).map (MulAut.conj x).toMonoidHom) ∈ Idx := by
     intro x hx B
-    simp only [Idx, s16t_blk_Hyp, Set.mem_setOf_eq]
+    simp only [Idx, s16t_blk_Hyp, Set.mem_ofPred_eq]
     refine ⟨?_, ?_, ?_⟩
     · exact (Subgroup.map_mono (hBspec B).1).trans (le_of_eq (hAn_map x hx))
     · rw [Subgroup.card_map_of_injective (MulAut.conj x).injective, hBcard B, hAcard]

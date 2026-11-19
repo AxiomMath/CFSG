@@ -14,15 +14,16 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {M V Q P H : Subgroup G}
 
+omit [Finite G] in
 theorem BigEndHyp.exists_sp_data (h : BigEndHyp M V Q P H)
     (hZ : Subgroup.center (Xbar V H) = ⊥) :
-    ∃ (f n : ℕ) (hn : 2 ≤ n) (hf : 2 ≤ f), 2 ^ f = qBar V H ∧
+    ∃ (f n : ℕ) (hn : 2 ≤ n) (_hf : 2 ≤ f), 2 ^ f = qBar V H ∧
       ∃ (Φ : ↥(StatedSp n (GaloisField 2 f)) ≃* Xbar V H)
         (g : ↥(StatedSp n (GaloisField 2 f))),
       ((conjSub ((Symplectic.rootDatum n (GaloisField 2 f)).rootGroup
         ((Pi.single (⟨n - 1, by omega⟩ : Fin n) 1 : Fin n → ℤ))) g).map
           Φ.toMonoidHom = Vy V H) := by
-  obtain ⟨f, hf, h2f, n, hn, Φ₀, hΦ₀, hΔ⟩ := h.three
+  obtain ⟨f, _hf, h2f, n, hn, Φ₀, hΦ₀, hΔ⟩ := h.three
   have hf2 : 2 ≤ f := by
     rcases Nat.lt_or_ge f 2 with hlt | hge
     · interval_cases f

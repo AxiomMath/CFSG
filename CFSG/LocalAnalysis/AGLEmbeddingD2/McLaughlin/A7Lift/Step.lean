@@ -21,6 +21,7 @@ variable {X : Type} [Group X] [Finite X] {T : Subgroup X} {L : Subgroup (X ⧸ g
 
 namespace SevenCtx0
 
+omit [Finite X] in
 private theorem eq_one_of_mem_pow_mul_eq_one (c : SevenCtx0 T L)
     {Rs : Subgroup (X ⧸ gnC T)} (hRp : IsPGroup 2 Rs) {k m : X ⧸ gnC T}
     (hkR : k ∈ Rs) (hmL : m ∈ L) (hkc : ∀ l ∈ L, k * l * k⁻¹ = l) {n : ℕ}
@@ -50,6 +51,7 @@ private theorem eq_one_of_mem_pow_mul_eq_one (c : SevenCtx0 T L)
   have hg : k ^ Nat.gcd (2 ^ j) (2 * n + 1) = 1 := pow_gcd_eq_one.2 ⟨hj', hkn1⟩
   rwa [hcop.gcd_eq_one, pow_one] at hg
 
+omit [Finite X] in
 private theorem normalizer_wP_of_le_img (c : SevenCtx0 T L) {R : Subgroup X}
     (hRL : R ≤ nL T L) {P : Subgroup (Perm (Fin 7))} (hQP : c.img R ≤ P) :
     R.map (QuotientGroup.mk' (gnC T)) ≤
@@ -80,6 +82,7 @@ private theorem normalizer_wP_of_le_img (c : SevenCtx0 T L) {R : Subgroup X}
     have := key r⁻¹ (Rs.inv_mem hr) _ h
     simpa [mul_assoc] using this
 
+omit [Finite X] in
 private theorem sign_theta_eq_one_of_odd_order (c : SevenCtx0 T L) {W Rs : Subgroup (X ⧸ gnC T)}
     (hHL : W ⊔ Rs ≤ nLs T L) {h : X ⧸ gnC T} (hh : h ∈ W ⊔ Rs)
     (hho : Odd (orderOf h)) :
@@ -94,6 +97,7 @@ private theorem sign_theta_eq_one_of_odd_order (c : SevenCtx0 T L) {W Rs : Subgr
   · rw [h, hord.neg_one_pow] at h1
     exact absurd h1 (by decide)
 
+omit [Finite X] in
 private theorem odd_base (c : SevenCtx0 T L) {R : Subgroup X} (hRL : R ≤ nL T L)
     {P : Subgroup (Perm (Fin 7))}
     (hRLs : R.map (QuotientGroup.mk' (gnC T)) ≤ nLs T L) (hQP : c.img R ≤ P)
@@ -138,6 +142,7 @@ private theorem odd_base (c : SevenCtx0 T L) {R : Subgroup X} (hRL : R ≤ nL T 
     exact h1
   exact ⟨w, r, hw, hr, rfl, fun _ => hrA⟩
 
+omit [Finite X] in
 private theorem odd_reduction (c : SevenCtx0 T L) {R : Subgroup X} (hRL : R ≤ nL T L)
     {P : Subgroup (Perm (Fin 7))}
     (hRLs : R.map (QuotientGroup.mk' (gnC T)) ≤ nLs T L)
@@ -181,6 +186,7 @@ private theorem odd_reduction (c : SevenCtx0 T L) {R : Subgroup X} (hRL : R ≤ 
   exact ⟨k, m, hkR, hmL, hkc, hmk, hm_eq, hm_eq ▸ hho⟩
 
 
+omit [Finite X] in
 private theorem odd_mem_L_of_mem_wP_sup (c : SevenCtx0 T L) {R : Subgroup X}
     (hRL : R ≤ nL T L) (hRp : IsPGroup 2 (R.map (QuotientGroup.mk' (gnC T))))
     {P : Subgroup (Perm (Fin 7))} (hQP : c.img R ≤ P)
@@ -257,10 +263,10 @@ theorem escape_of_concl1Gen (c : SevenCtx0 T L) (hX : GNSetting X T)
     (hQP : c.img R ≤ P) (hPQ : P ≠ c.img R)
     (hQL : ∀ σ ∈ c.img R ⊓ alternatingGroup (Fin 7), ∃ (t : X) (ht : t ∈ R),
       QuotientGroup.mk' (gnC T) t ∈ L ∧ c.θ ⟨t, hRL ht⟩ = σ)
-    {H M : Subgroup X} (hmin : MinParabolic H R M) (hRH : R ≤ H)
+    {H M : Subgroup X} (_hmin : MinParabolic H R M) (hRH : R ≤ H)
     (hmap : H.map (QuotientGroup.mk' (gnC T)) = c.wP P ⊔ R.map (QuotientGroup.mk' (gnC T)))
     (himg : c.imgS (c.wP P ⊔ R.map (QuotientGroup.mk' (gnC T))) = P)
-    (hker : ∀ y : ↥(nLs T L), (y : X ⧸ gnC T) ∈ c.wP P ⊔ R.map (QuotientGroup.mk' (gnC T)) →
+    (_hker : ∀ y : ↥(nLs T L), (y : X ⧸ gnC T) ∈ c.wP P ⊔ R.map (QuotientGroup.mk' (gnC T)) →
       c.θs y = 1 → (y : X ⧸ gnC T) ∈ R.map (QuotientGroup.mk' (gnC T)))
     (hC : Concl1Gen C₁ C₂ H R) :
     c.wP P ≤ gnImg T (Subgroup.centralizer (C₁ : Set X)) ∨

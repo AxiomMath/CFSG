@@ -187,13 +187,13 @@ theorem exists_zeta_frobenius_twE6Three
     {K : Type} [Field K] [Finite K] {n : ℕ} (hK : Nat.card K = (2 ^ n) ^ 2) :
     ∃ (ζ : (AlgebraicClosure K)ˣ) (Fr : AlgebraicClosure K →+* AlgebraicClosure K),
       ζ ^ 3 = 1 ∧ orderOf ζ = 3 ∧ ∀ c, Fr c = c ^ 2 ^ n := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
     (by rw [Fintype.card_eq_nat_card, hK, ← pow_mul, mul_comm])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
-  haveI : IsAlgClosed (AlgebraicClosure K) := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed (AlgebraicClosure K) := IsAlgClosure.isAlgClosed K
   obtain ⟨ζ, hζp⟩ := CFSG.LieType.SeitzGeneration.exists_primitiveRoot_units
     (L := AlgebraicClosure K) (ℓ := 2) Nat.prime_two Nat.prime_three (by norm_num)
   refine ⟨ζ, iterateFrobenius (AlgebraicClosure K) 2 n, hζp.pow_eq_one,
@@ -235,7 +235,7 @@ private theorem iSup_ggKGTwJ_ne_twE6Three
           (Multiplicative.toAdd (κ a)) ≠
           ExcSplitRootGen.excRefl (p := 3) j.1 (Multiplicative.toAdd (κ a))),
       ggKGTwJ F i.1) = ⊤ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hiff : ∀ i : {γ : Fin Tag.E6.rank → ℤ // IsRoot Tag.E6 γ},
       (∃ a : A, ExcSplitRootGen.excRefl (p := 3) i.1
         (Multiplicative.toAdd (κ a)) ≠
@@ -323,7 +323,7 @@ theorem ggTorusRootGenAvoidKG_twE6Three_of_lss92
   have hkerdata : ∀ z ∈ ψ.ker, z ^ 3 = 1 ∧ Odd (orderOf z) :=
     ker_pow_three_and_odd_twE6Three (K := K) (n := n) hn3 hK hψ hker hperf ε
   let ι := {γ : Fin Tag.E6.rank → ℤ // IsRoot Tag.E6 γ}
-  haveI : Nonempty ι := ⟨⟨Pi.single 0 1, isRoot_single Tag.E6 0⟩⟩
+  have : Nonempty ι := ⟨⟨Pi.single 0 1, isRoot_single Tag.E6 0⟩⟩
   let s : ι → (Fin 6 → ZMod 3) → Fin 6 → ZMod 3 :=
     fun i => ExcSplitRootGen.excRefl (p := 3) i.1
   let S : ι → Subgroup ↥(twistedE6RootGroup K σ) := fun i => ggKGTwJ F i.1
@@ -372,7 +372,7 @@ theorem ggTwE6ThreePlusKGAvoid_of_lss92
   rw [← hw, TwE6Transport.recipeConj_eq]
   refine MulEquiv.ext fun x => ?_
   rw [MulAut.congr_apply, MulAut.congr_apply, MulEquiv.symm_symm]
-  simp only [MulEquiv.trans_apply, MulEquiv.symm_apply_apply, MulEquiv.apply_symm_apply]
+  simp only [MulEquiv.trans_apply, MulEquiv.symm_apply_apply]
 
 namespace TwE6ThreeRootGen
 

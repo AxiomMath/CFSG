@@ -19,7 +19,7 @@ theorem nonempty_quot_pCore_oPPrimeHull_of_surjective {p : ℕ} [Fact p.Prime] {
         CFSG.pCore p ↥(oPPrimeHull p (⊤ : Subgroup M)) ≃*
       ↥(oPPrimeHull p (⊤ : Subgroup N))) := by
   classical
-  haveI : Finite N := Finite.of_surjective π hπ
+  have : Finite N := Finite.of_surjective π hπ
   let HM : Subgroup M := oPPrimeHull p (⊤ : Subgroup M)
   let Y : Subgroup N := oPPrimeHull p (⊤ : Subgroup N)
   have hY : HM.map π = Y := by
@@ -43,8 +43,8 @@ theorem nonempty_quot_pCore_oPPrimeHull_of_surjective {p : ℕ} [Fact p.Prime] {
     exact ⟨n, Subtype.ext (Subtype.ext (by simpa using congrArg Subtype.val hn))⟩
   obtain ⟨e⟩ := nonempty_quot_pCore_mulEquiv_of_surjective (p := p) f hfs hfk
   have hYpc : CFSG.pCore p ↥Y = ⊥ := by
-    haveI : Y.Normal := oPPrimeHull_top_normal p
-    haveI : (CFSG.pCore p ↥Y).Characteristic := CFSG.pCore_characteristic
+    have : Y.Normal := oPPrimeHull_top_normal p
+    have : (CFSG.pCore p ↥Y).Characteristic := CFSG.pCore_characteristic
     have hKn : ((CFSG.pCore p ↥Y).map Y.subtype).Normal :=
       ConjAct.normal_of_characteristic_of_normal
     have hKp : IsPGroup p ↥((CFSG.pCore p ↥Y).map Y.subtype) :=
@@ -71,8 +71,8 @@ theorem nonempty_oPPrimeHull_quot_pCore_mulEquiv {p : ℕ} [Fact p.Prime] {X : T
       (↥(oPPrimeHull p φ.range) ⧸ CFSG.pCore p ↥(oPPrimeHull p φ.range))) := by
   classical
   let Q : Subgroup X := CFSG.pCore p X
-  haveI hQn : Q.Normal := CFSG.pCore_normal
-  haveI : Finite ↥φ.range := Finite.of_surjective φ.rangeRestrict φ.rangeRestrict_surjective
+  have hQn : Q.Normal := CFSG.pCore_normal
+  have : Finite ↥φ.range := Finite.of_surjective φ.rangeRestrict φ.rangeRestrict_surjective
   have hker : IsPGroup p φ.rangeRestrict.ker := by
     rw [MonoidHom.ker_rangeRestrict]
     exact (CFSG.pCore_isPGroup.to_subgroup ((φ.ker).subgroupOf Q)).of_equiv
@@ -128,7 +128,7 @@ theorem ker_le_pCore_of_exists_pow_mem {p : ℕ} [Fact p.Prime] {X M : Type} [Gr
     show ((QuotientGroup.mk' (CFSG.pCore p X)) z) ^ p ^ k = 1
     rw [← map_pow, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff]
     exact hk
-  haveI hNn : ((φ.ker).map (QuotientGroup.mk' (CFSG.pCore p X))).Normal :=
+  have hNn : ((φ.ker).map (QuotientGroup.mk' (CFSG.pCore p X))).Normal :=
     (MonoidHom.normal_ker φ).map _ (QuotientGroup.mk'_surjective _)
   have hNle : (φ.ker).map (QuotientGroup.mk' (CFSG.pCore p X)) ≤
       CFSG.pCore p (X ⧸ CFSG.pCore p X) := le_sSup ⟨hNn, hNp⟩
@@ -153,16 +153,16 @@ theorem exists_smallSymp_rep {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {X : Type}
               c * B u v)) := by
   classical
   let Q : Subgroup X := CFSG.pCore p X
-  haveI hQn : Q.Normal := CFSG.pCore_normal
+  have hQn : Q.Normal := CFSG.pCore_normal
   have hQp : IsPGroup p ↥Q := CFSG.pCore_isPGroup
   have hr : CFSG.Open.pRank p (⊤ : Subgroup ↥Q) ≤ 3 := by
     rw [← CFSG.SectionRank.pRank_eq_pRank_top_subgroup]
     exact hQ
   obtain ⟨W, hWac, hWmod, hWfin, ρ, hρker, hdim⟩ :=
     CFSG.LocalAnalysis.RankThreeTheoremC.AutSection.hasSmallSympModel (q := p) hp2 hQp hr
-  letI : AddCommGroup W := hWac
-  letI : Module (ZMod p) W := hWmod
-  letI : Module.Finite (ZMod p) W := hWfin
+  let : AddCommGroup W := hWac
+  let : Module (ZMod p) W := hWmod
+  let : Module.Finite (ZMod p) W := hWfin
   let κ : X →* MulAut ↥Q := MulAut.conjNormal
   let φ : X →* (Module.End (ZMod p) W)ˣ := ρ.comp κ
   have hkey : ∀ x ∈ φ.ker, ∃ k : ℕ, x ^ p ^ k ∈ CFSG.pCore p X := by
@@ -179,12 +179,12 @@ theorem exists_smallSymp_rep {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {X : Type}
 
 theorem sixThreeOneAt_of_lists {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hL : LinearListAt p)
     (hS : SympListAt p) : SixThreeOneAt p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro X _ _ hC hQ hXrank
   obtain ⟨W, hWac, hWmod, hWfin, φ, hker, hdim⟩ := exists_smallSymp_rep hp2 hC hQ
-  letI : AddCommGroup W := hWac
-  letI : Module (ZMod p) W := hWmod
-  letI : Module.Finite (ZMod p) W := hWfin
+  let : AddCommGroup W := hWac
+  let : Module (ZMod p) W := hWmod
+  let : Module.Finite (ZMod p) W := hWfin
   let H : Subgroup (Module.End (ZMod p) W)ˣ := oPPrimeHull p φ.range
   have hH : oPPrimeHull p H = H := oPPrimeHull_oPPrimeHull p φ.range
   have hlist : SixThreeOneList p (↥H ⧸ CFSG.pCore p ↥H) := by

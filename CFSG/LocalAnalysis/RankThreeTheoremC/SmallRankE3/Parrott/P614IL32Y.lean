@@ -108,7 +108,7 @@ theorem exists_T_Y (hyp : Hyp P M x z H S) (hα : HasPrimeConstraint (G := M) 3)
     rw [normalizer_eq_top_iff.mpr inferInstance]
     exact le_top
   obtain ⟨T', hT'syl, -, hPT'⟩ := CFSG.Goldschmidt.G310.exists_invariant_sylow_containing
-    Nat.prime_three Nat.prime_two P.isPGroup' hD3 hPD bot_le hbot2 hPbot
+    Nat.prime_three Nat.prime_two P.isPGroup hD3 hPD bot_le hbot2 hPbot
   obtain ⟨c, hc, hTc⟩ := CFSG.Goldschmidt.G310.exists_conj_of_invariant_sylows
     Nat.prime_three Nat.prime_two hB3 hD3 hBD hT'syl hTsyl (hBP.trans hPT') hBT
   have hcM : c ∈ M := CFSG.AGLEmbedding.glbPrimeCore_le 3 M (mem_inf.mp hc).1
@@ -137,7 +137,7 @@ theorem exists_T_Y (hyp : Hyp P M x z H S) (hα : HasPrimeConstraint (G := M) 3)
     obtain ⟨E, hEY, -, hEc⟩ := pRank_attained 3 Y (by omega)
     rw [hY3] at hEc
     exact (show 27 = 3 ^ 3 by norm_num) ▸ hEc ▸ Subgroup.card_le_of_le hEY
-  exact ⟨T, Y, hTsyl, hST, hBT, htT, P.isPGroup'.map _, hYM, hBY, hYT,
+  exact ⟨T, Y, hTsyl, hST, hBT, htT, P.isPGroup.map _, hYM, hBY, hYT,
     centralizes_map_of_fix hzφ hyp.central.centralizes,
     center_map_of_fix (MulAut.conj c).injective hzφ hpl.center, hY3, hY27⟩
 
@@ -166,7 +166,7 @@ theorem false_of_elemAbelian_le_normalizer (hyp : Hyp P M x z H S)
   have hA : ∀ e ∈ E, e * x * e⁻¹ ∈ (B : Set G) \ {1} := fun e he =>
     ⟨(mem_normalizer_iff.1 (hEB he) x).1 hxB, fun h1 => hx1 (conj_eq_one_iff.1 h1)⟩
   have hcardA : Nat.card ↥((B : Set G) \ {1}) = 8 := by
-    rw [Nat.card_coe_set_eq, Set.ncard_diff_singleton_of_mem (one_mem B), ← Nat.card_coe_set_eq]
+    rw [Nat.card_coe_set_eq, Set.ncard_sdiff_singleton_of_mem (one_mem B), ← Nat.card_coe_set_eq]
     change Nat.card ↥B - 1 = 8
     rw [hpl.card_eq]
     norm_num

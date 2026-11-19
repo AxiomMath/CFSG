@@ -12,22 +12,26 @@ variable {G : Type} [Group G] [Finite G] {t g : G} {Lam P S U P1 : Subgroup G}
 
 namespace NtAbs
 
+omit [Finite G] in
 theorem P_le_P0 (h : NtAbs t g Lam P S U P1) : P ≤ normIn P1 Lam := by
   rw [normIn]
   exact le_inf h.P_le h.P_le_normalizer
 
+omit [Finite G] in
 theorem g_mem_P0 (h : NtAbs t g Lam P S U P1) : g ∈ normIn P1 Lam := by
   rw [normIn, Subgroup.mem_inf]
   refine ⟨h.g_mem, ?_⟩
   rw [Subgroup.mem_normalizer_iff_map_conj_eq]
   simpa [conjSub] using h.g_norm_Lam
 
-theorem Z1_le_P0 (h : NtAbs t g Lam P S U P1) : centIn P1 Lam ≤ normIn P1 Lam := by
+omit [Finite G] in
+theorem Z1_le_P0 (_h : NtAbs t g Lam P S U P1) : centIn P1 Lam ≤ normIn P1 Lam := by
   intro x hx
   rw [centIn, Subgroup.mem_inf] at hx
   rw [normIn, Subgroup.mem_inf]
   exact ⟨hx.1, Subgroup.centralizer_le_normalizer (Lam : Set G) hx.2⟩
 
+omit [Finite G] in
 theorem U0_le_P0 (h : NtAbs t g Lam P S U P1) :
     conjSub t (centIn P1 Lam) ≤ normIn P1 Lam := by
   intro x hx
@@ -41,7 +45,8 @@ theorem U0_le_P0 (h : NtAbs t g Lam P S U P1) :
     exact inv_eq_of_mul_eq_one_left ht
   simpa [htinv] using hc'
 
-theorem P0_normalizes_Z1 (h : NtAbs t g Lam P S U P1) :
+omit [Finite G] in
+theorem P0_normalizes_Z1 (_h : NtAbs t g Lam P S U P1) :
     ∀ y ∈ normIn P1 Lam, ∀ u ∈ centIn P1 Lam, y * u * y⁻¹ ∈ centIn P1 Lam := by
   intro y hy u hu
   rw [normIn, Subgroup.mem_inf] at hy
@@ -58,6 +63,7 @@ theorem P0_normalizes_Z1 (h : NtAbs t g Lam P S U P1) :
       _ = y * (u * (y⁻¹ * l * y)) * y⁻¹ := by rw [hcomm]
       _ = (y * u * y⁻¹) * l := by group
 
+omit [Finite G] in
 theorem P0_normalizes_U0 (h : NtAbs t g Lam P S U P1) :
     ∀ y ∈ normIn P1 Lam, ∀ u ∈ conjSub t (centIn P1 Lam),
       y * u * y⁻¹ ∈ conjSub t (centIn P1 Lam) := by
@@ -74,6 +80,7 @@ theorem P0_normalizes_U0 (h : NtAbs t g Lam P S U P1) :
   rw [hy'_def]
   group
 
+omit [Finite G] in
 theorem U_le_U0 (h : NtAbs t g Lam P S U P1) : U ≤ conjSub t (centIn P1 Lam) := by
   have hUt : conjSub t U ≤ centIn P1 Lam := by
     intro v hv
@@ -87,6 +94,7 @@ theorem U_le_U0 (h : NtAbs t g Lam P S U P1) : U ≤ conjSub t (centIn P1 Lam) :
   calc U = conjSub t (conjSub t U) := (conjSub_conjSub_of_sq h.t_sq U).symm
     _ ≤ conjSub t (centIn P1 Lam) := Subgroup.map_mono hUt
 
+omit [Finite G] in
 theorem Z1_inf_U0 (h : NtAbs t g Lam P S U P1) :
     centIn P1 Lam ⊓ conjSub t (centIn P1 Lam) = ⊥ := by
   refine le_antisymm ?_ bot_le
@@ -110,6 +118,7 @@ theorem Z1_inf_U0 (h : NtAbs t g Lam P S U P1) :
       _ = t * (l * c) * t⁻¹ := by rw [hcl]
       _ = (t * l * t⁻¹) * (t * c * t⁻¹) := by group
 
+omit [Finite G] in
 theorem Z1_comm_U0 (h : NtAbs t g Lam P S U P1) :
     ∀ a ∈ centIn P1 Lam, ∀ b ∈ conjSub t (centIn P1 Lam), a * b = b * a := by
   intro a ha b hb

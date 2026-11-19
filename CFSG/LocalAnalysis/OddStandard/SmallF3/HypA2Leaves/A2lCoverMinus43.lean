@@ -15,15 +15,15 @@ theorem a2lCoverMinus43_holds
     (hC : HypA2.ChevOddInChev2) :
     a2lCoverOn fun S _ => LieModel S .POmegaMinus 4 3 1 := by
   intro K _ _ hq h2 hZ hm
-  haveI : Group.IsPerfect K := hq.1
+  have : Group.IsPerfect K := hq.1
   obtain ⟨-, F, _, _, hcard, b, c, hirr, ⟨e⟩⟩ := hm.statedClassicalModel (by decide)
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   have hF3 : Fintype.card F = 3 := by
     rw [← Nat.card_eq_fintype_card, hcard]
     norm_num
   have hk : ringChar F ≠ 2 := a2l_ringChar_ne_two (by rw [hF3]; decide)
   have h2F : (2 : F) ≠ 0 := Ring.two_ne_zero hk
-  haveI := a2l_finite_spinMinus hirr 4
+  have := a2l_finite_spinMinus hirr 4
   have hN : Nat.card (center (spinGroup (quadMinus 4 F b c))) < 2 * 2 := by
     have := a2l_card_center_spinMinus_four_le_two hirr h2F
     omega

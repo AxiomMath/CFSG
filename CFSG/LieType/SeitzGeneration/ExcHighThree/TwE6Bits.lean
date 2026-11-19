@@ -121,12 +121,8 @@ theorem bit_pair_inj [CharP K 2] {ω : K} (hω : ω ^ 2 + ω + 1 = 0) (a b a' b'
         | exact h1 (by linear_combination -h)
         | exact h1 (by linear_combination h - h2K)
         | exact h1 (by linear_combination -h - h2K)
-        | exact h1 (by linear_combination h + h2K)
-        | exact h1 (by linear_combination -h + h2K)
         | exact h0 (by linear_combination h)
         | exact h0 (by linear_combination -h)
-        | exact h0 (by linear_combination h - h2K)
-        | exact h0 (by linear_combination -h - h2K)
         | exact one_ne_zero (α := K) (by linear_combination h)
         | exact one_ne_zero (α := K) (by linear_combination -h))
 

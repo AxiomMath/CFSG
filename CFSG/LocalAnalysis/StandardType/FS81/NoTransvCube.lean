@@ -135,7 +135,7 @@ theorem cube_eq_single (h : TransvSetup b₀ K E) (hP : TransvP1 b₀ K E P₁) 
   funext l
   by_cases hlk : l = k
   · rw [hlk, Pi.single_eq_same]
-  rw [Pi.single_apply, if_neg hlk]
+  rw [Pi.single_apply, ite_eq_right hlk]
   by_cases hl0 : l = 0
   · rw [hl0, hc0]
   obtain ⟨d, hdN, s, hs, hs0, hds, hslk⟩ := hdiag k l hk hl0 hlk

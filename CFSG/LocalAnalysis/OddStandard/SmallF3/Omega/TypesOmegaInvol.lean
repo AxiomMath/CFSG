@@ -169,7 +169,7 @@ private lemma aux_signOf_eq_neg_one_pow {x : RegularFormClass (ZMod 3)} (hr : Ev
       exact (by decide : (-1 : ℤˣ) ≠ 1) this
     · intro h0
       rw [signOf]
-      exact if_neg h0
+      exact ite_eq_right h0
   by_cases hev : Even (x.rank / 2)
   · rw [(aux_neg_one_pow_units_eq_one_iff _).mpr hev]
     rw [signOf_eq_one_iff, RegularFormClass.signedDiscr_eq_sign_add_discr, hcross,
@@ -194,6 +194,7 @@ private lemma aux_signOf_eq_neg_one_pow {x : RegularFormClass (ZMod 3)} (hr : Ev
       rw [hd0, add_zero]
       exact aux_squareClass_neg_one_ne_zero
 
+omit [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V] in
 private lemma aux_list_prod_pair (l : List V) (f : V → (ZMod 3)ˣ) :
     (l.map (fun v => ((-1 : (ZMod 3)ˣ), squareClassHom (f v)))).prod =
       (((-1 : (ZMod 3)ˣ) ^ l.length, squareClassHom ((l.map f).prod))) := by
@@ -205,7 +206,8 @@ private lemma aux_list_prod_pair (l : List V) (f : V → (ZMod 3)ˣ) :
     simp only [List.map_cons, List.prod_cons, List.length_cons, ih, pow_succ, map_mul]
     exact Prod.ext (mul_comm _ _) rfl
 
-private lemma aux_prod_reflect_eq_of_span (hQ : Q.Nondegenerate) {t : OGroup Q} (htt : t * t = 1)
+omit [FiniteDimensional (ZMod 3) V] in
+private lemma aux_prod_reflect_eq_of_span (_hQ : Q.Nondegenerate) {t : OGroup Q} (htt : t * t = 1)
     {l : List V} (hl0 : ∀ a ∈ l, Q a ≠ 0)
     (hpair : l.Pairwise (fun a b => polar Q a b = 0))
     (hspan : Submodule.span (ZMod 3) {x | x ∈ l} = commSp t) :

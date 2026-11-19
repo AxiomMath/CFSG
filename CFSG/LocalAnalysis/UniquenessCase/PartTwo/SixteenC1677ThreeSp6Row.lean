@@ -22,8 +22,8 @@ private theorem s168e3_sp6_pRank_top
     {H : Subgroup (MulAut (Vtil V₀ V hV))} (hSp : IsSpn H 6 1) :
     3 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup ↥H) := by
   obtain ⟨-, K', hKf, hKfin, hKcard, ⟨e⟩⟩ := hSp
-  letI : Field K' := hKf
-  letI : Finite K' := hKfin
+  let : Field K' := hKf
+  let : Finite K' := hKfin
   have hcardK : Nat.card K' = 2 := by simpa using hKcard
   have hle : 3 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup (StatedSp 3 K')) :=
     CFSG.RankThree.PartTwo.Sec19.Census194.RonanC194.le_pRank_statedSp

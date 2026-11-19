@@ -13,6 +13,7 @@ open Subgroup CFSG.EvenSporadicStandard.HNRecog.HaradaLA
 variable {G : Type} [Group G] [Finite G] {t z z₁ : G} {ι : Elem2 6 →* G} {zv : V6}
   {R0 F : Subgroup G}
 
+omit [Finite G] in
 private lemma coordElt_injective (hι : Function.Injective ι) :
     Function.Injective (coordElt ι) := by
   intro u v huv
@@ -32,6 +33,7 @@ theorem Setting25.card_N (h : Setting25 G t z z₁ ι zv R0 F) :
     Nat.card (normalizer (ι.range : Set G)) = 64 * 25920 := by
   rw [← card_inducedGroup_mul h.injective_ι h.centralizer_le, h.omega, h.card_omega]
 
+omit [Finite G] in
 theorem Setting25.range_le_K (h : Setting25 G t z z₁ ι zv R0 F) : ι.range ≤ Kgrp ι z := by
   intro x hx
   refine ⟨Subgroup.le_normalizer hx, ?_⟩
@@ -47,6 +49,7 @@ theorem Setting25.range_le_K (h : Setting25 G t z z₁ ι zv R0 F) : ι.range �
     _ = ι b * ι a := map_mul ι b a
     _ = z * x := by rw [hb, ha]
 
+omit [Finite G] in
 theorem Setting25.mem_K_iff (h : Setting25 G t z z₁ ι zv R0 F) {x : G} :
     x ∈ Kgrp ι z ↔ ∃ g : Equiv.Perm V6, Acts ι x g ∧ g zv = zv := by
   constructor
@@ -70,6 +73,7 @@ theorem Setting25.mem_K_iff (h : Setting25 G t z z₁ ι zv R0 F) {x : G} :
         _ = z := h.coord_z
     exact mul_inv_eq_iff_eq_mul.mp h2
 
+omit [Finite G] in
 theorem Setting25.mem_actImage_K_iff (h : Setting25 G t z z₁ ι zv R0 F) {g : Equiv.Perm V6} :
     g ∈ actImage ι (Kgrp ι z) ↔ g ∈ OmegaMinus ∧ g zv = zv := by
   have hKle : Kgrp ι z ≤ normalizer (ι.range : Set G) := inf_le_left
@@ -91,6 +95,7 @@ theorem Setting25.mem_actImage_K_iff (h : Setting25 G t z z₁ ι zv R0 F) {g : 
     obtain ⟨n, hn, hng⟩ := h2
     exact ⟨n, (h.mem_K_iff).mpr ⟨g, hng, hgz⟩, hng⟩
 
+omit [Finite G] in
 theorem Setting25.exists_mem_N_acts (h : Setting25 G t z z₁ ι zv R0 F) {g : Equiv.Perm V6}
     (hg : g ∈ OmegaMinus) : ∃ n ∈ normalizer (ι.range : Set G), Acts ι n g := by
   have hg' : g ∈ actImage ι (normalizer (ι.range : Set G)) := by
@@ -98,11 +103,13 @@ theorem Setting25.exists_mem_N_acts (h : Setting25 G t z z₁ ι zv R0 F) {g : E
     exact hg
   exact hg'
 
+omit [Finite G] in
 theorem Setting25.exists_mem_K_acts (h : Setting25 G t z z₁ ι zv R0 F) {g : Equiv.Perm V6}
     (hg : g ∈ OmegaMinus) (hgz : g zv = zv) : ∃ k ∈ Kgrp ι z, Acts ι k g := by
   have hmem : g ∈ actImage ι (Kgrp ι z) := (h.mem_actImage_K_iff).mpr ⟨hg, hgz⟩
   exact hmem
 
+omit [Finite G] in
 theorem Setting25.exists_acts_of_mem_K (h : Setting25 G t z z₁ ι zv R0 F) {k : G}
     (hk : k ∈ Kgrp ι z) : ∃ g ∈ OmegaMinus, g zv = zv ∧ Acts ι k g := by
   obtain ⟨g, hg, hgz⟩ := (h.mem_K_iff).mp hk
@@ -112,7 +119,7 @@ theorem Setting25.exists_acts_of_mem_K (h : Setting25 G t z z₁ ι zv R0 F) {k 
 
 theorem Setting25.card_K (h : Setting25 G t z z₁ ι zv R0 F) : Nat.card (Kgrp ι z) = 61440 := by
   let N : Subgroup G := normalizer (ι.range : Set G)
-  letI : MulAction ↥N G :=
+  let : MulAction ↥N G :=
     MulAction.compHom G (ConjAct.toConjAct.toMonoidHom.comp N.subtype)
   have smul_eq : ∀ (n : ↥N) (x : G), n • x = n.1 * x * n.1⁻¹ := by
     intro n x
@@ -179,6 +186,7 @@ theorem Setting25.card_K (h : Setting25 G t z z₁ ι zv R0 F) : Nat.card (Kgrp 
     exact h.card_N
   omega
 
+omit [Finite G] in
 theorem Setting25.exists_n_z₁ (h : Setting25 G t z z₁ ι zv R0 F) :
     ∃ n ∈ normalizer (ι.range : Set G), n * z₁ * n⁻¹ = z := by
   obtain ⟨v, hv, hlam, hqm⟩ := h.coords_z₁

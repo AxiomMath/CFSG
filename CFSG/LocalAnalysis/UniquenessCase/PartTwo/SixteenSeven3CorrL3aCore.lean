@@ -14,10 +14,10 @@ open CFSG.Quasithin
 private lemma s16c167_exists_pair_ne_one_of_exp_two {G : Type*} [Group G] [Finite G]
     (hcard : Nat.card G = 4) (hexp : ∀ x : G, x * x = 1) :
     ∃ a b : G, a ≠ 1 ∧ b ≠ 1 ∧ a ≠ b := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype G := Fintype.ofFinite G
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype G := Fintype.ofFinite G
   have hcard' : Fintype.card G = 4 := by rw [← Nat.card_eq_fintype_card, hcard]
-  haveI : Nontrivial G :=
+  have : Nontrivial G :=
     Fintype.one_lt_card_iff_nontrivial.mp (by rw [hcard']; norm_num)
   obtain ⟨a, ha⟩ : ∃ a : G, a ≠ 1 := exists_ne 1
   have hza : Nat.card (Subgroup.zpowers a) = 2 := by
@@ -29,7 +29,7 @@ private lemma s16c167_exists_pair_ne_one_of_exp_two {G : Type*} [Group G] [Finit
     have hc : Nat.card (Subgroup.zpowers a) = Nat.card G := by rw [htop, Subgroup.card_top]
     rw [hza, hcard] at hc
     norm_num at hc
-  obtain ⟨b, -, hbnot⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨b, -, hbnot⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   refine ⟨a, b, ha, ?_, ?_⟩
   · intro hb1
     exact hbnot (by rw [hb1]; exact Subgroup.one_mem _)
@@ -44,10 +44,10 @@ theorem s16c167_klein_pair {W : Type} [CommGroup W] [Finite W]
     ∃ z c d : MulAut W, z ∈ L ∧ z ≠ 1 ∧ (∀ y ∈ L, y * z = z * y) ∧ c ∈ E ∧ d ∈ E ∧
       c ≠ 1 ∧ c * z = z * c ∧ d * z = z⁻¹ * d := by
   classical
-  haveI hExt : CFSG.IsExtraspecial 3 ↥L := hL.1
+  have hExt : CFSG.IsExtraspecial 3 ↥L := hL.1
   have hZcard : Nat.card (Subgroup.center ↥L) = 3 :=
     CFSG.IsExtraspecial.center_order_p 3 ↥L
-  haveI : Finite ↥(Subgroup.center ↥L) :=
+  have : Finite ↥(Subgroup.center ↥L) :=
     Nat.finite_of_card_ne_zero (by rw [hZcard]; norm_num)
   have hZne : Subgroup.center ↥L ≠ ⊥ :=
     (Subgroup.one_lt_card_iff_ne_bot (Subgroup.center ↥L)).mp (by rw [hZcard]; norm_num)

@@ -15,16 +15,19 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem t75_conjSubgroup_eq (T : Subgroup G) (g : G) :
     CFSG.CGT.Timmesfeld75.conjSubgroup g T = conjSubgroup T g⁻¹ := by
   ext x
   rw [CFSG.CGT.Timmesfeld75.mem_conjSubgroup, mem_conjSubgroup_iff]
   simp
 
+omit [Finite G] in
 private theorem conjSubgroup_inf (g : G) (U V : Subgroup G) :
     conjSubgroup (U ⊓ V) g = conjSubgroup U g ⊓ conjSubgroup V g :=
   Subgroup.map_inf_eq U V (MulAut.conj g⁻¹).toMonoidHom (MulAut.conj g⁻¹).injective
 
+omit [Finite G] in
 theorem card_conjSubgroup' (g : G) (T : Subgroup G) :
     Nat.card (conjSubgroup T g) = Nat.card T :=
   Subgroup.card_map_of_injective (MulAut.conj g⁻¹).injective
@@ -137,12 +140,14 @@ theorem commute_mem_normalizer {V : Subgroup G} (hTI : CFSG.CGT.Timmesfeld75.IsT
       subst hy
       exact hc
 
+omit [Finite G] in
 theorem isElemAbelian_conjSubgroup' {V : Subgroup G} (hV : IsElemAbelian 2 V) (g : G) :
     IsElemAbelian 2 (conjSubgroup V g) := by
   have h := CFSG.CGT.Timmesfeld75.isElemAbelian_conjSubgroup hV g⁻¹
   rw [t75_conjSubgroup_eq] at h
   simpa using h
 
+omit [Finite G] in
 theorem isTI_conj {V : Subgroup G} (hTI : CFSG.CGT.Timmesfeld75.IsTI V) (g : G) :
     CFSG.CGT.Timmesfeld75.IsTI (conjSubgroup V g) := by
   have h := CFSG.RankThree.GF2n.isTI_conjSubgroup hTI g⁻¹
@@ -183,7 +188,7 @@ theorem nVSub_comm_bSub {V : Subgroup G}
   exact mul_inv_eq_one.mp h
 
 theorem bSub_inf_centralizer_eq_bot {V : Subgroup G}
-    (hTI : CFSG.CGT.Timmesfeld75.IsTI V) {g : G} (hg : conjSubgroup V g ≠ V)
+    (hTI : CFSG.CGT.Timmesfeld75.IsTI V) {g : G} (_hg : conjSubgroup V g ≠ V)
     {x : G} (hxV : x ∈ V) (hxU : x ∉ nVSub V g) :
     bSub V g ⊓ Subgroup.centralizer ({x} : Set G) = ⊥ := by
   apply le_bot_iff.mp
@@ -201,7 +206,7 @@ theorem bSub_inf_centralizer_eq_bot {V : Subgroup G}
     exact (hxU (mem_nVSub.mpr ⟨hxV, hxN⟩)).elim
 
 theorem nVSub_inf_centralizer_eq_bot {V : Subgroup G}
-    (hTI : CFSG.CGT.Timmesfeld75.IsTI V) {g : G} (hg : conjSubgroup V g ≠ V)
+    (hTI : CFSG.CGT.Timmesfeld75.IsTI V) {g : G} (_hg : conjSubgroup V g ≠ V)
     {y : G} (hyW : y ∈ conjSubgroup V g) (hyB : y ∉ bSub V g) :
     nVSub V g ⊓ Subgroup.centralizer ({y} : Set G) = ⊥ := by
   apply le_bot_iff.mp
@@ -218,6 +223,7 @@ theorem nVSub_inf_centralizer_eq_bot {V : Subgroup G}
           exact (Subgroup.mem_centralizer_iff.mp huC y (Set.mem_singleton y)).symm)
     exact (hyB (mem_bSub.mpr ⟨hyW, hyN⟩)).elim
 
+omit [Finite G] in
 private theorem commute_commutator_of_mem_normalizer {V : Subgroup G}
     (hV : IsElemAbelian 2 V) {v b : G} (hv : v ∈ V) (hb2 : b * b = 1)
     (hbN : b ∈ normalizer (V : Set G)) : b * ⁅v, b⁆ = ⁅v, b⁆ * b := by
@@ -423,6 +429,7 @@ theorem sup_nVSub_bSub_le_pCoreOf {V : Subgroup G} (hV : IsElemAbelian 2 V)
     (CFSG.CGT.Timmesfeld75.isPGroup_two_of_isElemAbelian
       (isElemAbelian_sup_nVSub_bSub hV hTI hg))
 
+omit [Finite G] in
 theorem prop24Setup {V : Subgroup G} (hV : IsElemAbelian 2 V)
     (hTI : CFSG.CGT.Timmesfeld75.IsTI V) {g : G}
     (hU : nVSub V g ≠ ⊥) (hne : nVSub V g ≠ V) :

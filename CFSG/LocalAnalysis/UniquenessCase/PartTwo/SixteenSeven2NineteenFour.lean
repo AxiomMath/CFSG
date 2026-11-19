@@ -11,6 +11,7 @@ open scoped Pointwise
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 private theorem s16c167_mem_zpowers_eq_one_or {e x : MulAut W} (he2 : e * e = 1) (he1 : e ≠ 1)
     (hx : x ∈ Subgroup.zpowers e) : x = 1 ∨ x = e := by
   have hord : orderOf e = 2 := orderOf_eq_prime (by rwa [pow_two]) he1
@@ -24,6 +25,7 @@ private theorem s16c167_mem_zpowers_eq_one_or {e x : MulAut W} (he2 : e * e = 1)
     have hk' : k = 2 * (k / 2) + 1 := by omega
     rw [hk', zpow_add, zpow_mul, zpow_ofNat, pow_two, he2, one_zpow, one_mul, zpow_one]
 
+omit [Finite W] in
 private theorem s16c167_isPGroup_two {E : Subgroup (MulAut W)} (hE : ∀ e ∈ E, e * e = 1) :
     IsPGroup 2 ↥E :=
   fun g => ⟨1, Subtype.ext (by simpa [pow_two] using hE g.1 g.2)⟩

@@ -158,6 +158,7 @@ theorem isSylowTwoOf_sup_ch615 {K B S : Subgroup G} (hBS : B ≤ S) (hS2 : IsPGr
   intro hd
   exact h2 (h3 ▸ Dvd.dvd.mul_left hd _)
 
+omit [Finite G] in
 theorem charTwo_of_le_ch615 {Y P : Subgroup G} (hYP : Y ≤ P) (hP : CharTwo P)
     (hR : pCoreOf 2 P ≤ Y) : CharTwo Y := CFSG.QuasithinUnique.CharTwo.of_pCoreOf_le hP hYP hR
 

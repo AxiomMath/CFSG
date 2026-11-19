@@ -37,11 +37,11 @@ open CFSG.ComponentClassification.FixedCommutingProduct (fixedSubgroup)
 
 theorem szBorel_holds : SzBorel := by
   intro S _ _ f hS R hR2 hRne
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨T, hRT⟩ := hR2.exists_le_sylow
   obtain ⟨-, -, D, hD, -⟩ := CFSG.Quasithin.SBc2.exists_data hS T
   exact ⟨T, CFSG.Quasithin.H13.Cor332.normalizer_le_of_stronglyEmbedded hD.se hRne hRT,
-    CFSG.Quasithin.H13.Cor332.isSolvable_normalizer_of_cyclic T.isPGroup' hD.cyc hD.sup⟩
+    CFSG.Quasithin.H13.Cor332.isSolvable_normalizer_of_cyclic T.isPGroup hD.cyc hD.sup⟩
 
 theorem szOutOdd_holds : SzOutOdd := by
   intro S _ _ f hS

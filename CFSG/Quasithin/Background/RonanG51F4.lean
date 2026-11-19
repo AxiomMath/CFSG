@@ -246,7 +246,7 @@ theorem U2_eq_image_odd {t : Equiv.Perm (Fin 6)}
       have hprod : t * (a : Equiv.Perm (Fin 6))⁻¹ * swap 0 1 = 1 := by
         have hav : (a : Equiv.Perm (Fin 6)) = swap 0 1 * t := rfl
         rw [hav, _root_.mul_inv_rev, Equiv.swap_inv]
-        simp [mul_assoc, Equiv.swap_mul_self]
+        simp [Equiv.swap_mul_self]
       rw [← lTensor_comp_eq e τ hτ, ← lTensor_comp_eq e τ hτ, hprod]
       exact lTensor_one_apply e τ hτ x'
   · rintro ⟨x, hx, rfl⟩
@@ -305,19 +305,19 @@ theorem f4_decomposition {V : Type} [AddCommGroup V]
     (τ : Representation (ZMod 2) (Equiv.Perm (Fin 6)) V)
     (hτ : ∀ g v, e (τ g v) = kronHom g *ᵥ e v) :
     ∃ U₁ U₂ : Submodule (GaloisField 2 2) (TensorProduct (ZMod 2) (GaloisField 2 2) V),
-      (∀ g : ↥(alternatingGroup (Fin 6)), ∀ x ∈ U₁,
-        LinearMap.lTensor (GaloisField 2 2) (τ (g : Equiv.Perm (Fin 6))) x ∈ U₁) ∧
-      (∀ g : ↥(alternatingGroup (Fin 6)), ∀ x ∈ U₂,
-        LinearMap.lTensor (GaloisField 2 2) (τ (g : Equiv.Perm (Fin 6))) x ∈ U₂) ∧
+      (∀ g : ↥(alternatingGroup (Fin 6)), ∀ _x ∈ U₁,
+        LinearMap.lTensor (GaloisField 2 2) (τ (g : Equiv.Perm (Fin 6))) _x ∈ U₁) ∧
+      (∀ g : ↥(alternatingGroup (Fin 6)), ∀ _x ∈ U₂,
+        LinearMap.lTensor (GaloisField 2 2) (τ (g : Equiv.Perm (Fin 6))) _x ∈ U₂) ∧
       IsCompl U₁ U₂ ∧ Module.finrank (GaloisField 2 2) U₁ = 8 ∧
-      (∀ t : Equiv.Perm (Fin 6), t ∉ alternatingGroup (Fin 6) →
+      (∀ _t : Equiv.Perm (Fin 6), _t ∉ alternatingGroup (Fin 6) →
         (U₂ : Set (TensorProduct (ZMod 2) (GaloisField 2 2) V)) =
-          (LinearMap.lTensor (GaloisField 2 2) (τ t)) '' (U₁ : Set _)) ∧
+          (LinearMap.lTensor (GaloisField 2 2) (τ _t)) '' (U₁ : Set _)) ∧
       (U₂ : Set (TensorProduct (ZMod 2) (GaloisField 2 2) V)) =
         (LinearMap.rTensor V
           (AddMonoidHom.toZModLinearMap 2
             (frobeniusEquiv (GaloisField 2 2) 2).toAddEquiv.toAddMonoidHom)) '' (U₁ : Set _) :=
-  ⟨U1 e, U2 e, fun g x hx => lTensor_mem_U1 e τ hτ g hx, fun g x hx => lTensor_mem_U2 e τ hτ g hx,
-    isCompl_U1_U2 e, finrank_U1 e, fun t ht => U2_eq_image_odd e τ hτ ht, U2_eq_image_frob e⟩
+  ⟨U1 e, U2 e, fun g _x hx => lTensor_mem_U1 e τ hτ g hx, fun g _x hx => lTensor_mem_U2 e τ hτ g hx,
+    isCompl_U1_U2 e, finrank_U1 e, fun _t ht => U2_eq_image_odd e τ hτ ht, U2_eq_image_frob e⟩
 
 end CFSG.Quasithin.RonanG51

@@ -54,7 +54,7 @@ theorem le_twoLocalPrimeRank (p : ℕ) (hp : p.Prime) {G : Type} [Group G] [Fini
 
 theorem two_card_le {Y : Type} [Group Y] [Finite Y] (Q : Subgroup Y) (hQ : IsPGroup 2 Q) :
     Nat.card Q ≤ 2 ^ (Nat.card Y).factorization 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨a, ha⟩ := IsPGroup.iff_card.1 hQ
   have hdvd : Nat.card Q ∣ Nat.card Y := Subgroup.card_subgroup_dvd_card Q
   rw [ha] at hdvd ⊢
@@ -65,7 +65,7 @@ theorem two_card_le {Y : Type} [Group Y] [Finite Y] (Q : Subgroup Y) (hQ : IsPGr
 
 theorem card_sylow_two {Y : Type} [Group Y] [Finite Y] (Q : Sylow 2 Y) :
     Nat.card Q = 2 ^ (Nat.card Y).factorization 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact Sylow.card_eq_multiplicity Q
 
 def sylowOfCard {Y : Type} [Group Y] [Finite Y] (S : Subgroup Y) (hS : IsPGroup 2 S)
@@ -90,7 +90,7 @@ theorem exists_sylow_lift {Y : Type} [Group Y] [Finite Y] (N : Subgroup Y) [N.No
     ∃ S : Subgroup Y, S ≤ P.comap (QuotientGroup.mk' N) ∧ IsPGroup 2 S ∧
       Nat.card S = 2 ^ (Nat.card (P.comap (QuotientGroup.mk' N))).factorization 2 ∧
       S.map (QuotientGroup.mk' N) = P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set π : Y →* Y ⧸ N := QuotientGroup.mk' N with hπ
   set X : Subgroup Y := P.comap π with hX
   have hNX : N ≤ X := by
@@ -105,11 +105,11 @@ theorem exists_sylow_lift {Y : Type} [Group Y] [Finite Y] (N : Subgroup Y) [N.No
     rintro _ ⟨x, -, rfl⟩
     exact x.2
   have hQ₀X : Q₀ ≤ X := hQ₀N.trans hNX
-  have hQ₀2 : IsPGroup 2 Q₀ := Q.isPGroup'.map N.subtype
+  have hQ₀2 : IsPGroup 2 Q₀ := Q.isPGroup.map N.subtype
   have hQX : IsPGroup 2 (Q₀.subgroupOf X) := IsPGroup.comap_subtype hQ₀2
   obtain ⟨SX, hSX⟩ := hQX.exists_le_sylow
   set S : Subgroup Y := (SX : Subgroup ↥X).map X.subtype with hS
-  have hS2 : IsPGroup 2 S := SX.isPGroup'.map X.subtype
+  have hS2 : IsPGroup 2 S := SX.isPGroup.map X.subtype
   have hSX_le : S ≤ X := Subgroup.map_subtype_le _
   have hcardS : Nat.card S = 2 ^ (Nat.card X).factorization 2 := by
     rw [hS, Subgroup.card_map_of_injective X.subtype_injective, card_sylow_two SX]
@@ -165,7 +165,7 @@ theorem frattini_step {Y : Type} [Group Y] [Finite Y] (N : Subgroup Y) [N.Normal
     (m : Y) (hm : QuotientGroup.mk' N m ∈ Subgroup.normalizer (P : Set (Y ⧸ N))) :
     ∃ n x : Y, x ∈ P.comap (QuotientGroup.mk' N) ∧ m = n * x ∧
       n ∈ Subgroup.normalizer (S : Set Y) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set π : Y →* Y ⧸ N := QuotientGroup.mk' N with hπ
   set X : Subgroup Y := P.comap π with hX
   set Mπ : Subgroup Y := (Subgroup.normalizer (P : Set (Y ⧸ N))).comap π with hMπ
@@ -184,7 +184,7 @@ theorem frattini_step {Y : Type} [Group Y] [Finite Y] (N : Subgroup Y) [N.Normal
     rw [map_mul, map_mul, map_inv]
     exact key
   set X' : Subgroup Mπ := X.subgroupOf Mπ with hX'
-  haveI : X'.Normal := hXn
+  have : X'.Normal := hXn
   set S'' : Subgroup Mπ := S.subgroupOf Mπ with hS''
   have hS''X : S'' ≤ X' := by
     intro s hs
@@ -246,8 +246,8 @@ theorem core_lift {Y : Type} [Group Y] [Finite Y] (N : Subgroup Y) [N.Normal]
     (hE : CFSG.Open.IsElemAbelian 3 E) (k : ℕ) (hk : Nat.card ↥E = 3 ^ k) :
     ∃ S T : Subgroup Y, IsPGroup 2 S ∧ S ≠ ⊥ ∧ T ≤ Subgroup.normalizer (S : Set Y) ∧
       CFSG.Open.IsElemAbelian 3 T ∧ Nat.card ↥T = 3 ^ k := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set π : Y →* Y ⧸ N := QuotientGroup.mk' N with hπ
   obtain ⟨S₀, hS₀X, hS₀2, hS₀card, hS₀P⟩ := exists_sylow_lift N P hP
   set Mπ : Subgroup Y := (Subgroup.normalizer (P : Set (Y ⧸ N))).comap π with hMπ
@@ -302,7 +302,7 @@ theorem core_lift {Y : Type} [Group Y] [Finite Y] (N : Subgroup Y) [N.Normal]
   set T : Subgroup Y := (T₀ : Subgroup ↥P₀).map P₀.subtype with hT
   have hTcard : Nat.card ↥T = 3 ^ k := by
     rw [hT, Subgroup.card_map_of_injective P₀.subtype_injective, hT₀card]
-  have hT3 : IsPGroup 3 T := T₀.isPGroup'.map P₀.subtype
+  have hT3 : IsPGroup 3 T := T₀.isPGroup.map P₀.subtype
   have hTP₀ : T ≤ P₀ := by
     rintro _ ⟨t, -, rfl⟩
     exact t.2
@@ -373,8 +373,8 @@ theorem exists_elemAbelian_of_pRank_ge {H : Type} [Group H] [Finite H] (M : Subg
 theorem lift_twoLocal_rank {G : Type} [Group G] [Finite G] {C K : Subgroup G} (hKC : K ≤ C)
     (M : Subgroup (CFSG.Yardstones.Md0ec50421ce4.PQuot 3 K)) (hM : CFSG.Open.IsTwoLocal M)
     (h5 : 5 ≤ CFSG.Open.pRank 3 M) : 5 ≤ CFSG.Open.twoLocalPrimeRank 3 ↥C := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : (CFSG.pPrimeCore 3 ↥K).Normal := CFSG.pPrimeCore_normal
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : (CFSG.pPrimeCore 3 ↥K).Normal := CFSG.pPrimeCore_normal
   obtain ⟨P, hP1, hP2, hMP⟩ := hM
   obtain ⟨E, hEM, hE, k, hk5, hkcard⟩ := exists_elemAbelian_of_pRank_ge M h5
   have hN3 : ¬ 3 ∣ Nat.card ↥(CFSG.pPrimeCore 3 ↥K) :=

@@ -16,11 +16,13 @@ open CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
 
 variable (K : Type) [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] in
 theorem nm_sq (i : Fin Tag.E6.rank) : e6Data_valid.nm K i ^ 2 = 1 := by
   rw [e6Data_valid.nm_sq K i]
   have h1 : (-1 : Kˣ) = 1 := Units.ext (CharTwo.neg_eq (1 : K))
   rw [h1, e6Data_valid.hm_one]
 
+omit [Finite K] in
 theorem nm_isLiftable :
     (CFSG.LieType.RootSystem.coxeterMatrix (isFiniteType_cartan .E6)).IsLiftable
       (e6Data_valid.nm K) := by
@@ -74,6 +76,7 @@ theorem nm_isLiftable :
 def weylHom : WeylGroup .E6 →* e6Data_valid.minGroup K :=
   (coxeterSystem .E6).lift ⟨e6Data_valid.nm K, nm_isLiftable K⟩
 
+omit [Finite K] in
 @[simp] theorem weylHom_simple (i : Fin Tag.E6.rank) :
     weylHom K (simple .E6 i) = e6Data_valid.nm K i :=
   (coxeterSystem .E6).lift_apply_simple (nm_isLiftable K) i
@@ -96,6 +99,7 @@ theorem weylHom_isogeny (w : WeylGroup .E6) :
     exact CFSG.HardMathSupport.Timmesfeld.CrossChar.e6Isogeny_nt_eq i 1
   exact DFunLike.congr_fun he w
 
+omit [Finite K] in
 theorem sigma_weylHom (θ : K →+* K) (w : WeylGroup .E6) :
     sigma K θ (weylHom K w) = weylHom K (weylTwist TwistTag.E6 w) := by
   have he : (sigma K θ).comp (weylHom K) =
@@ -109,6 +113,7 @@ theorem sigma_weylHom (θ : K →+* K) (w : WeylGroup .E6) :
     rw [weylHom_simple, hs, weylHom_simple, sigma_nm]
   exact DFunLike.congr_fun he w
 
+omit [Finite K] in
 theorem weylHom_conj_xm (w : WeylGroup .E6) {γ : Fin Tag.E6.rank → ℤ}
     (hγ : IsRoot .E6 γ) (c : K) :
     weylHom K w * e6Data_valid.xm K γ c * (weylHom K w)⁻¹ =
@@ -152,6 +157,7 @@ private def foldedWeyl (i : Fin Tag.F4.rank) : WeylGroup .E6 :=
     simple .E6 (nd 2) * simple .E6 (nd 4),
     simple .E6 (nd 0) * simple .E6 (nd 5)] i
 
+omit [Finite K] in
 private theorem weylHom_foldedWeyl (i : Fin Tag.F4.rank) :
     weylHom K (foldedWeyl i) = nHatE K i := by
   fin_cases i
@@ -167,6 +173,7 @@ private theorem weylHom_foldedWeyl (i : Fin Tag.F4.rank) :
 private def foldedWord (ω : List (Fin Tag.F4.rank)) : WeylGroup .E6 :=
   (ω.map foldedWeyl).prod
 
+omit [Finite K] in
 private theorem weylHom_foldedWord (ω : List (Fin Tag.F4.rank)) :
     weylHom K (foldedWord ω) = nWord K ω := by
   induction ω with
@@ -229,6 +236,7 @@ theorem frameLongest_rho (v : Fin Tag.E6.rank → ℤ) :
   rw [frameLongest_smul]
   exact frameW_rho v
 
+omit [Finite K] in
 theorem langMM_one : langMM K 1 = weylHom K frameLongest := by
   have hj : ∀ j : Fin 4, frameM K 1 j = weylHom K (frameReflection j) := by
     intro j
@@ -267,6 +275,7 @@ private theorem frameLongest_conj_weylTwist (w : WeylGroup .E6) :
   have hneg : ∀ v : Fin Tag.E6.rank → ℤ, rho (-v) = -rho v := fun _ => rfl
   simp only [hneg, rho_rho, smul_neg, neg_neg]
 
+omit [Finite K] in
 theorem langConj_weylHom_mem_fixedGroup (θ : K →+* K) (hθ : ∀ c, θ (θ c) = c)
     {l : K} (hl : θ l = l + 1) (w : WeylGroup .E6) :
     langG K θ l * weylHom K w * (langG K θ l)⁻¹ ∈ fixedGroup K θ := by
@@ -293,6 +302,7 @@ def langWeylHom (θ : K →+* K) (hθ : ∀ c, θ (θ c) = c) {l : K}
   ((MulAut.conj (langG K θ l)).toMonoidHom.comp (weylHom K)).codRestrict
     (fixedGroup K θ) (langConj_weylHom_mem_fixedGroup K θ hθ hl)
 
+omit [Finite K] in
 theorem langWeylHom_apply (θ : K →+* K) (hθ : ∀ c, θ (θ c) = c) {l : K}
     (hl : θ l = l + 1) (w : WeylGroup .E6) :
     (langWeylHom K θ hθ hl w : e6Data_valid.minGroup K) =

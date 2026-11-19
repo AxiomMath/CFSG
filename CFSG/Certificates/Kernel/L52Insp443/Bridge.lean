@@ -129,7 +129,7 @@ theorem gD_val {c : ℕ} (h : unitK c = true) : ((gD c : G) : Mat) = mdec c := b
   have hu : IsUnit (mdec c) := by
     rw [isUnit_iff_rank5, ← rankK_mcode, mcode_mdec hc, hr]
   unfold gD
-  rw [dif_pos hu]
+  rw [dite_eq_left hu]
   rfl
 
 theorem mcode_gD {c : ℕ} (h : unitK c = true) : mcode ((gD c : G) : Mat) = c := by
@@ -157,7 +157,6 @@ theorem rep_of_tabK {g : G} {T : Table} (hT : tabK (mcode (g : Mat)) T = true) :
     rw [ptVec_eq, ptVec_eq]
     change (g : Mat) *ᵥ bvo 5 0 (i + 1) = bvo 5 0 (ap T i + 1)
     rw [← hmv]
-    change bvo 5 0 (mvK (mcode (g : Mat)) (i + 1)) = _
     rw [show mvK (mcode (g : Mat)) (i + 1) = ap T i + 1 from hi'])
   rw [e]
 

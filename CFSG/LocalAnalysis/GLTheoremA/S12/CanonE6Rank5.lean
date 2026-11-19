@@ -173,7 +173,7 @@ theorem omegaMinusRank5_holds :
   have h2 : rk ≠ 2 := by omega
   have h3 : rk ≠ 3 := by omega
   dsimp only [CFSG.Assembly.LargeEvenRawDatum] at hraw
-  rw [if_neg h2, if_neg h3] at hraw
+  rw [ite_eq_right h2, ite_eq_right h3] at hraw
   obtain ⟨K, _, _, hK, b, c, hbc, -, -, θ, -⟩ := hraw
   exact exists_rank_of_ggTorusLift hL θ (by norm_num) (by omega : 5 ≤ rk - 1)
     (ggOrthRestTorusLiftInput_holds.1 K 2 (rk - 1) 5 b c hK (by omega) Nat.prime_five

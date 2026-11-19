@@ -153,6 +153,7 @@ private theorem ptPerp_traceSet_eq_spanSet_aux (hP : IsGeneralizedPolygon Γ 4)
   · intro hz
     exact ⟨color_eq_zero_of_mem_span hP hT hx hxy hz, hz⟩
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 private theorem ptPerp_pair_eq_neighborSet_aux (hP : IsGeneralizedPolygon Γ 4)
     (c : Γ.Coloring (Fin 2)) {x y : V} (hx : c x = 0) (hxy : Γ.dist x y = 2) :
     ptPerp Γ c ({x, y} : Set V) = Γ.neighborSet (commonNeighbor hP hxy) := by
@@ -389,7 +390,7 @@ theorem ptPerp_ptPerp_starLine (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ
     · rw [hpt, ptPerp_traceSet_eq_spanSet_aux hP hT c hx hd4]
       exact hspan.symm
 
-theorem ncard_ptPerp_singleton (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
+theorem ncard_ptPerp_singleton (hP : IsGeneralizedPolygon Γ 4) (_hT : IsThick Γ)
     (c : Γ.Coloring (Fin 2)) {s t : ℕ}
     (hdeg : ∀ v, Γ.degree v = if c v = 0 then t + 1 else s + 1) {u : V} (hu : c u = 0) :
     (ptPerp Γ c {u}).ncard = s * t + s + 1 := by
@@ -462,7 +463,7 @@ theorem ncard_of_isOvoid (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
     intro L hL
     have hset : Γ.neighborSet L ∩ X = {f L} := by
       dsimp only [f]
-      rw [dif_pos hL]
+      rw [dite_eq_left hL]
       exact (Set.ncard_eq_one.mp (hX.2 L hL)).choose_spec
     have hmem : f L ∈ Γ.neighborSet L ∩ X := by
       rw [hset]
@@ -502,7 +503,7 @@ theorem ncard_of_isOvoid (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
           exact h.symm
         · intro h
           exact ⟨color_eq_one_of_adj_of_color_eq_zero hbc h, h.symm⟩
-      rw [hEq, card_neighborFinset_eq_degree, hdeg b, if_pos hbc]
+      rw [hEq, card_neighborFinset_eq_degree, hdeg b, ite_eq_left hbc]
     rw [hsetEq, hrow]
   have hsum' : Ls.card = P.card * (t + 1) := by
     rw [hsum]
@@ -541,13 +542,13 @@ theorem higman_s_le_t_sq (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
         have h1 : c v = 1 := (hdc0 v).mp h
         rw [hc0] at h1
         exact absurd h1 (by decide)
-      rw [hdeg v, if_pos hc0, if_neg hdc0']
+      rw [hdeg v, ite_eq_left hc0, ite_eq_right hdc0']
     · have hc1 : c v = 1 := by
         rcases hfin (c v) with h | h
         · exact absurd h hc0
         · exact h
       have hdc0' : dc v = 0 := (hdc0 v).mpr hc1
-      rw [hdeg v, if_neg hc0, if_pos hdc0']
+      rw [hdeg v, ite_eq_right hc0, ite_eq_left hdc0']
   obtain ⟨L, hL⟩ := exists_line hP hT c
   have hdcL : dc L = 0 := (hdc0 L).mpr hL
   have hpos : 0 < (Finset.univ.filter fun y => Γ.dist L y = 4).card := by

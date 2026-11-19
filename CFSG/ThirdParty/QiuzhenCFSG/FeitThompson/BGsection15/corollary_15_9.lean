@@ -194,7 +194,7 @@ private theorem CFSG.section15_ambientSylow_isPGroup
     {M : Subgroup G} {p : Nat.Primes} (S : Sylow p.val M) :
     IsPGroup p.val (section10AmbientSylowSubgroup M S) := by
   change IsPGroup p.val ((S : Subgroup M).map M.subtype)
-  exact IsPGroup.map (p := p.val) (H := (S : Subgroup M)) S.isPGroup' M.subtype
+  exact IsPGroup.map (p := p.val) (H := (S : Subgroup M)) S.isPGroup M.subtype
 
 private theorem CFSG.section15_exists_rankTwo_in_ambientSylow_of_tau2
     {M : Subgroup G} (_hM : M ∈ section9MaximalSubgroups G) {p : Nat.Primes}
@@ -210,7 +210,7 @@ private theorem CFSG.section15_exists_rankTwo_in_ambientSylow_of_tau2
   have hS_noncyc : ¬ IsCyclic (S : Subgroup M) := by
     intro hS_cyc
     have hle : groupRank (S : Subgroup M) ≤ 1 := by
-      letI : IsCyclic (S : Subgroup M) := hS_cyc
+      let : IsCyclic (S : Subgroup M) := hS_cyc
       exact groupRank_le_one_of_isCyclic (S : Subgroup M)
     omega
   let Pamb : Subgroup G := section10AmbientSylowSubgroup M S
@@ -237,7 +237,7 @@ private theorem CFSG.section15_ambientSylow_isSylow_of_hall
       section10AmbientSylowSubgroup H S = section10AmbientSylowSubgroup K Q := by
   classical
   rcases hHall with ⟨hKH, hHallK⟩
-  haveI : Fact q.val.Prime := ⟨q.2⟩
+  have : Fact q.val.Prime := ⟨q.2⟩
   have hQamb_le_H : section10AmbientSylowSubgroup K Q ≤ H := by
     intro x hx
     rcases Subgroup.mem_map.mp hx with ⟨y, _hy, rfl⟩
@@ -342,7 +342,7 @@ private theorem CFSG.section15_corollary15_9_ambientSylow_U_noncyclic
       (G := G) (K := section10AmbientSylowSubgroup U R) (A := A) (p := r)
       hAleR ⟨hAcard, hAelem⟩
   have hRank_le : groupRank (section10AmbientSylowSubgroup U R) ≤ 1 := by
-    letI : IsCyclic (section10AmbientSylowSubgroup U R) := hcyc
+    let : IsCyclic (section10AmbientSylowSubgroup U R) := hcyc
     exact groupRank_le_one_of_isCyclic (section10AmbientSylowSubgroup U R)
   omega
 
@@ -361,7 +361,7 @@ private theorem CFSG.section15_corollary15_9_normalizer_ambientSylow_U_le_M
   classical
   have hPp : IsPGroup r.val (section10AmbientSylowSubgroup U R) := by
     change IsPGroup r.val ((R : Subgroup U).map U.subtype)
-    exact IsPGroup.map (p := r.val) (H := (R : Subgroup U)) R.isPGroup' U.subtype
+    exact IsPGroup.map (p := r.val) (H := (R : Subgroup U)) R.isPGroup U.subtype
   exact corollary_12_10_d
     (G := G) (M := M) (P := section10AmbientSylowSubgroup U R) (p := r)
     hM hrσM hPp
@@ -754,7 +754,7 @@ private theorem CFSG.section15_subgroupCentralizerIn_eq_bot_of_regular
   classical
   apply le_bot_iff.mp
   intro y hy
-  haveI : Nontrivial X := (Subgroup.nontrivial_iff_ne_bot (H := X)).2 hXne
+  have : Nontrivial X := (Subgroup.nontrivial_iff_ne_bot (H := X)).2 hXne
   obtain ⟨xX, hxXne⟩ := exists_ne (1 : X)
   let x : G := xX
   have hxX : x ∈ X := xX.property
@@ -815,7 +815,7 @@ private theorem CFSG.section15_normalizer_le_of_unique_centralizer_primeOrder
     intro hNCXtop
     have hCXnormal : (Subgroup.centralizer (X : Set G)).Normal :=
       Subgroup.normalizer_eq_top_iff.mp hNCXtop
-    letI : IsSimpleGroup G := IsMinCE.simple
+    let : IsSimpleGroup G := IsMinCE.simple
     rcases hCXnormal.eq_bot_or_eq_top with hCXbot | hCXtop
     · have hXne : X ≠ ⊥ := by
         rcases hX with ⟨_hXA, p, hXcard⟩
@@ -823,12 +823,12 @@ private theorem CFSG.section15_normalizer_le_of_unique_centralizer_primeOrder
         have hcard_bot : Nat.card X = 1 := (Subgroup.card_eq_one (H := X)).2 hXbot
         have hp_one : p.val = 1 := hXcard.symm.trans hcard_bot
         exact (Nat.Prime.ne_one p.property) hp_one
-      haveI : Nontrivial X := (Subgroup.nontrivial_iff_ne_bot (H := X)).2 hXne
+      have : Nontrivial X := (Subgroup.nontrivial_iff_ne_bot (H := X)).2 hXne
       obtain ⟨x, hxX, hxne⟩ := Subgroup.exists_ne_one_of_nontrivial X
       rcases hX with ⟨_hXA, p, hXcard⟩
       have hXle_zpow : X ≤ Subgroup.zpowers x := by
         intro y hyX
-        haveI : Fact p.val.Prime := ⟨p.2⟩
+        have : Fact p.val.Prime := ⟨p.2⟩
         have hySub :
             (⟨y, hyX⟩ : X) ∈ Subgroup.zpowers (⟨x, hxX⟩ : X) :=
           mem_zpowers_of_prime_card
@@ -837,7 +837,7 @@ private theorem CFSG.section15_normalizer_le_of_unique_centralizer_primeOrder
             (by simpa using hxne)
         rcases Subgroup.mem_zpowers_iff.mp hySub with ⟨n, hn⟩
         exact Subgroup.mem_zpowers_iff.mpr ⟨n, congrArg Subtype.val hn⟩
-      letI : IsMulCommutative X :=
+      let : IsMulCommutative X :=
         section15_isMulCommutative_of_le
           (H := Subgroup.zpowers x) (K := X) (Subgroup.zpowers_isMulCommutative x)
           hXle_zpow
@@ -967,7 +967,7 @@ private theorem CFSG.section15_corollary15_9_zpowers_le_prop14_U
       ⟨_hprime, _hcomm, hUHall, hreg, _hnormComp⟩
   have hUnormKU : section10NormalIn U (K ⊔ U) :=
     hKUdata.2.2.2.2.2.2
-  haveI : (U.subgroupOf (K ⊔ U)).Normal := hUnormKU.2
+  have : (U.subgroupOf (K ⊔ U)).Normal := hUnormKU.2
   let π : Set Nat.Primes := (section14KappaPrimes N ∪ section10SigmaPrimes N)ᶜ
   have hUHallKU : section12HallSubgroupIn π U (K ⊔ U) := by
     exact section15_hallSubgroupIn_of_le_overgroup
@@ -979,7 +979,7 @@ private theorem CFSG.section15_corollary15_9_zpowers_le_prop14_U
     · exact section15_tau2_not_mem_kappa (G := G) (M := N) hrτ2 hrκ
     · exact hrτ2.1 hrσ
   have hXp : IsPGroup r.val (X.subgroupOf (K ⊔ U)) := by
-    haveI : Fact r.val.Prime := ⟨r.property⟩
+    have : Fact r.val.Prime := ⟨r.property⟩
     have hXpG : IsPGroup r.val X := by
       refine IsPGroup.of_card (p := r.val) (G := X) (n := 1) ?_
       simp [X, hxᵣorder, pow_one]
@@ -1113,7 +1113,7 @@ private theorem CFSG.section15_corollary15_9_inter_eq_k_of_chosen_factors
     have hCUK_bot : subgroupCentralizerIn U K = ⊥ :=
       section15_subgroupCentralizerIn_eq_bot_of_regular hKne hreg
     have hEcomm : IsMulCommutative E := by
-      letI : IsCyclic E := hEcyc
+      let : IsCyclic E := hEcyc
       infer_instance
     have huE : u ∈ E := by
       have hu_eq : u = y * k⁻¹ := by

@@ -57,31 +57,31 @@ private lemma ggQ2xBC4a_simplePair_mem (D : GGQ2Lin 3) (k : D.ι) :
 private lemma ggQ2xBC4a_rootFun_eq_coroot (i : Fin 4) (h : (i:ℕ)+1 < 4) (ε : ZMod 3) :
     ggBCRootFun 4 ε i = ggBCCoroot 4 ε i := by
   funext j
-  simp only [ggBCRootFun, ggBCCoroot, if_pos h]
+  simp only [ggBCRootFun, ggBCCoroot, ite_eq_left h]
 
 private lemma ggQ2xBC4a_rootFun_last (i : Fin 4) (h : ¬ (i:ℕ)+1 < 4) (ε : ZMod 3) :
     ggBCRootFun 4 ε i = (Pi.single i (2/ε) : GGBCV 4) := by
   funext j
-  rw [ggBCRootFun, if_neg h]
+  rw [ggBCRootFun, ite_eq_right h]
   by_cases hj : (j:ℕ)+1 = 4
-  · rw [if_pos hj]
+  · rw [ite_eq_left hj]
     have hji : j = i := by apply Fin.ext; omega
     subst hji
     rw [Pi.single_eq_same]
-  · rw [if_neg hj, Pi.single_eq_of_ne]
+  · rw [ite_eq_right hj, Pi.single_eq_of_ne]
     intro hh
     exact hj (by rw [hh]; omega)
 
 private lemma ggQ2xBC4a_coroot_last (i : Fin 4) (h : ¬ (i:ℕ)+1 < 4) (ε : ZMod 3) :
     ggBCCoroot 4 ε i = (Pi.single i ε : GGBCV 4) := by
   funext j
-  rw [ggBCCoroot, if_neg h]
+  rw [ggBCCoroot, ite_eq_right h]
   by_cases hj : (j:ℕ)+1 = 4
-  · rw [if_pos hj]
+  · rw [ite_eq_left hj]
     have hji : j = i := by apply Fin.ext; omega
     subst hji
     rw [Pi.single_eq_same]
-  · rw [if_neg hj, Pi.single_eq_of_ne]
+  · rw [ite_eq_right hj, Pi.single_eq_of_ne]
     intro hh
     exact hj (by rw [hh]; omega)
 
@@ -173,7 +173,7 @@ private lemma ggQ2xBC4a_form_eq (D : GGQ2Lin 3) (hbas : D.Basis) (e : Fin 4 ≃ 
   have hcard : Fintype.card (Fin 4) = finrank (ZMod 3) (GGBCV 4) := by
     change Fintype.card (Fin 4) = finrank (ZMod 3) (Fin 4 → ZMod 3)
     rw [Module.finrank_pi]
-  haveI : Nonempty (Fin 4) := ⟨⟨0, by omega⟩⟩
+  have : Nonempty (Fin 4) := ⟨⟨0, by omega⟩⟩
   let bu : Basis (Fin 4) (ZMod 3) (GGBCV 4) :=
     basisOfLinearIndependentOfCardEqFinrank hli hcard
   have hbu : ⇑bu = ggBCCoroot 4 ε := coe_basisOfLinearIndependentOfCardEqFinrank hli hcard
@@ -255,7 +255,7 @@ private theorem ggQ2xBC4_S1 (D : GGQ2Lin 3) (hbas : D.Basis) (e : Fin 4 ≃ D.ι
     rw [h1, Module.reflection_apply (τ w) h, Module.reflection_apply w hh',
       map_sub, map_smul, LinearEquiv.apply_symm_apply]
     ext i
-    simp only [Pi.sub_apply, Pi.smul_apply, smul_eq_mul, LinearMap.comp_apply]
+    simp only [Pi.sub_apply, Pi.smul_apply, smul_eq_mul]
     rfl
   have hgA' : Module.reflection hh' ∈ A := by rw [← hg_refl]; exact hgA
   obtain ⟨ε'', hε'', hφ''⟩ :=
@@ -410,7 +410,7 @@ private theorem ggQ2xBC4_W_eq : ggBCW 4 = Subgroup.closure (Set.range ggQ2xBC4_r
   · rw [Subgroup.closure_le]
     rintro t ⟨i, rfl⟩
     exact Subgroup.subset_closure ⟨ggBCCoroot 4 1 i,
-      by simp only [ggBCRoots, Set.mem_setOf_eq]; fin_cases i <;> decide,
+      by simp only [ggBCRoots, Set.mem_ofPred_eq]; fin_cases i <;> decide,
       ggQ2xBC4_cc i, rfl⟩
 
 private theorem ggQ2xBC4_wt_cases (z : GGBCV 4) (hz : z ⬝ᵥ z ≠ 0) :
@@ -952,7 +952,7 @@ private lemma ggQ2xBC4b_pad_length {c : ℕ} (hc : c < 3 ^ 16) :
     (Nat.digits_length_le_iff (b := 3) (k := 16) (by norm_num) c).mpr hc
   omega
 
-private lemma ggQ2xBC4b_pad_getD {c k : ℕ} (hc : c < 3 ^ 16) (hk : k < 16) :
+private lemma ggQ2xBC4b_pad_getD {c k : ℕ} (_hc : c < 3 ^ 16) (hk : k < 16) :
     (ggQ2xBC4b_pad c).getD k 0 = c / 3 ^ k % 3 := by
   unfold ggQ2xBC4b_pad
   by_cases hkL : k < (Nat.digits 3 c).length
@@ -969,7 +969,7 @@ private lemma ggQ2xBC4b_pad_getD {c k : ℕ} (hc : c < 3 ^ 16) (hk : k < 16) :
         (Nat.pow_le_pow_right (by norm_num) hLk)
     rw [Nat.div_eq_of_lt hlt]
 
-private lemma ggQ2xBC4b_pad_ofDigits {c : ℕ} (hc : c < 3 ^ 16) :
+private lemma ggQ2xBC4b_pad_ofDigits {c : ℕ} (_hc : c < 3 ^ 16) :
     Nat.ofDigits 3 (ggQ2xBC4b_pad c) = c := by
   unfold ggQ2xBC4b_pad
   rw [Nat.ofDigits_append, Nat.ofDigits_replicate_zero, Nat.mul_zero, Nat.add_zero,
@@ -1235,7 +1235,7 @@ private lemma ggQ2xBC4b_gm_refl (z : GGBCV 4) (hz : z ⬝ᵥ z ≠ 0) :
   change ggBCRefl z hz (Pi.single j 1) i = ggQ2xBC4b_reflM z i j
   rw [ggQ2x_ggBCRefl_apply]
   simp only [Pi.add_apply, Pi.smul_apply, smul_eq_mul, dotProduct_single_one,
-    ggQ2xBC4b_reflM, Pi.single_apply, eq_comm]
+    ggQ2xBC4b_reflM, Pi.single_apply]
 
 private lemma ggQ2xBC4b_gm_refl_mem_M (z : GGBCV 4) (hz : z ⬝ᵥ z ≠ 0) :
     ggQ2xBC4b_gm (ggBCRefl z hz) ∈ ggQ2xBC4b_M := by
@@ -1369,13 +1369,13 @@ private lemma ggQ2xBC4c_add_smul_single (i : Fin 4) (v : GGBCV 4) :
     if j ∈ ({i} : Finset (Fin 4)) then -v j else v j
   by_cases hji : j = i
   · subst j
-    rw [if_pos (Finset.mem_singleton_self i)]
+    rw [ite_eq_left (Finset.mem_singleton_self i)]
     simp only [Pi.add_apply, Pi.smul_apply, Pi.single_eq_same, smul_eq_mul, mul_one]
     have h2 : ∀ x : ZMod 3, x + x = -x := by decide
     exact h2 (v i)
   · have hsingle : (Pi.single i (1 : ZMod 3) : GGBCV 4) j = 0 :=
       Pi.single_eq_of_ne (M := fun _ => ZMod 3) hji (1 : ZMod 3)
-    rw [if_neg (by simpa [Finset.mem_singleton] using hji)]
+    rw [ite_eq_right (by simpa [Finset.mem_singleton] using hji)]
     simp only [Pi.add_apply, Pi.smul_apply, hsingle, smul_zero, add_zero]
 
 private lemma ggQ2xBC4c_single_refl (i : Fin 4) (v : GGBCV 4)
@@ -1546,10 +1546,10 @@ private theorem ggQ2xBC4_core (A : Subgroup (GGBCV 4 ≃ₗ[ZMod 3] GGBCV 4)) (h
             funext i
             show (if i ∈ S then -z₀ i else z₀ i) = z i
             by_cases hi : i ∈ S
-            · rw [if_pos hi]
+            · rw [ite_eq_left hi]
               have hne : z₀ i ≠ z i := (Finset.mem_filter.mp hi).2
               exact (ggQ2xBC4c_eq_neg_of_ne (z₀ i) (z i) (hz0nz i) (hznz i) hne).symm
-            · rw [if_neg hi]
+            · rw [ite_eq_right hi]
               by_contra hne
               exact hi (Finset.mem_filter.mpr ⟨Finset.mem_univ i, hne⟩)
           rw [← hflip]
@@ -1928,13 +1928,13 @@ theorem ggQ2_cell_BC4 (D : GGQ2Lin 3) (hbas : D.Basis) (e : Fin 4 ≃ D.ι)
     (hx : ∀ v, (∀ g ∈ D.parab {k | k ≠ D.a}, g v = v) ↔ v ∈ Submodule.span (ZMod 3) {x})
     (hy : ∀ v, (∀ g ∈ D.parab {k | k ≠ D.b}, g v = v) ↔ v ∈ Submodule.span (ZMod 3) {y})
     (A : Subgroup (D.V ≃ₗ[ZMod 3] D.V)) (hW : D.weyl ≤ A) (hTF : TransvectionFree A)
-    (hR : D.FCell A) :
+    (_hR : D.FCell A) :
     (∃ u ∈ Submodule.span (ZMod 3) {x, y}, u ≠ 0 ∧ ∀ φ ∈ A, ∃ r ∈ reflGp A,
       Submodule.span (ZMod 3) {φ u} = Submodule.span (ZMod 3) {r u}) ∨
     (∀ φ ∈ A, ∀ w ∈ Submodule.span (ZMod 3) {x, y}, w ≠ 0 → ∃ r ∈ reflGp A,
       ∃ w' ∈ Submodule.span (ZMod 3) {x, y}, w' ≠ 0 ∧
         Submodule.span (ZMod 3) {φ w} = Submodule.span (ZMod 3) {r w'}) := by
-  clear hR
+  clear _hR
   obtain ⟨τ, hs, hmapW, hS1'⟩ := ggQ2xBC4_coords D hbas e hB A hW hTF
   have hW' : ggBCW 4 ≤ A.map (ggLinConj τ).toMonoidHom := by
     rw [← hmapW]

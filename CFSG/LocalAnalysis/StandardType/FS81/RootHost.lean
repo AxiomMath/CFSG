@@ -115,7 +115,7 @@ theorem rootHost_D6 {G : Type} [Group G] [Finite G] {b₀ : G} {K E : Subgroup G
   have h3K : 3 ∣ Nat.card K := by
     have h := K.orderOf_dvd_natCard hb1K
     rwa [B.ord 1] at h
-  haveI : Nontrivial ↥K := by
+  have : Nontrivial ↥K := by
     rw [Subgroup.nontrivial_iff_ne_bot]
     intro hbot
     have hb1bot : B.b 1 ∈ (⊥ : Subgroup G) := hbot ▸ hb1K

@@ -39,7 +39,7 @@ theorem exists_odd_pow_mem {Y : Type*} [Group Y] [Finite Y] {N P : Subgroup Y}
     (hn : (P.subgroupOf N).Normal) (hodd : Odd (P.subgroupOf N).index) :
     ∀ g ∈ N, ∃ m : ℕ, Odd m ∧ g ^ m ∈ P := by
   intro g hg
-  haveI := hn
+  have := hn
   let g' : ↥N := ⟨g, hg⟩
   refine ⟨orderOf (QuotientGroup.mk g' : ↥N ⧸ P.subgroupOf N), ?_, ?_⟩
   · exact Odd.of_dvd_nat hodd (by

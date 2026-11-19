@@ -39,6 +39,7 @@ namespace ShapeData
 
 variable {P Q₀ : Subgroup X}
 
+omit [Finite X] in
 theorem mem_normalizer (hD : ShapeData P Q₀) {g : X} (hg : g ∈ Subgroup.normalizer (P : Set X)) :
     g ∈ Subgroup.normalizer (Q₀ : Set X) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -49,7 +50,7 @@ theorem mem_normalizer (hD : ShapeData P Q₀) {g : X} (hg : g ∈ Subgroup.norm
 
 theorem not_dvd_card (S : Sylow 3 X) {Q₀ : Subgroup X} (hD : ShapeData (S : Subgroup X) Q₀) :
     ¬ 3 ^ 6 ∣ Nat.card X := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h1 := Sylow.card_eq_multiplicity S
   rw [hD.card] at h1
   have hfac : (Nat.card X).factorization 3 = 5 :=
@@ -71,7 +72,7 @@ theorem false_of_le_alt (K : Subgroup X) {n : ℕ} (hn5 : 5 ≤ n)
         (K.subtype.comp e.symm.toMonoidHom) (K.subtype_injective.comp e.symm.injective)
     have := hD.pRank_le_three S
     omega
-  · haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
+  · have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
     have hdvd : 3 ^ 5 ∣ Nat.card K := hD.card ▸ Subgroup.card_dvd_of_le hSK
     have hcard : Nat.card K = Nat.card (alternatingGroup (Fin n)) := Nat.card_congr e.toEquiv
     have h2 : 2 * Nat.card (alternatingGroup (Fin n)) = n.factorial := by
@@ -96,7 +97,7 @@ section J3
 theorem false_of_le_J3 (K : Subgroup X) (e : K ≃* (TauCeti.CFSGIndex.sporadic .J3).Group)
     (S : Sylow 3 X) {Q₀ : Subgroup X} (hD : ShapeData (S : Subgroup X) Q₀)
     (hSK : (S : Subgroup X) ≤ K) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hF := CFSG.AGLEmbedding.kFactJ3Sylow K ⟨e⟩ (S.subtype hSK)
   obtain ⟨s, hsN, -, hs⟩ := hF.singer
   have hsX : (s : X) ∈ Subgroup.normalizer ((S : Subgroup X) : Set X) :=

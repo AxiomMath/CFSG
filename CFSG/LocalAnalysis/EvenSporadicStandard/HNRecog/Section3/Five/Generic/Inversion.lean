@@ -51,7 +51,7 @@ theorem exists_inverted_element {K N : Subgroup G} [Finite K] (hNK : N ≤ K)
     ∃ σ ∈ N, orderOf σ = p ∧ a * σ * a = σ⁻¹ := by
   classical
   let N' : Subgroup K := N.subgroupOf K
-  haveI hN'mem : N'.Normal := hNn
+  have hN'mem : N'.Normal := hNn
   let e : ↥N' ≃* ↥N := Subgroup.subgroupOfEquivOfLe hNK
   have hcardN' : Nat.card ↥N' = Nat.card ↥N := Nat.card_congr e.toEquiv
   have hodd' : ¬ 2 ∣ Nat.card ↥N' := by rwa [hcardN']
@@ -64,9 +64,9 @@ theorem exists_inverted_element {K N : Subgroup G} [Finite K] (hNK : N ≤ K)
   have hT2 : IsPGroup 2 T := IsPGroup.of_card_dvd_pow (n := 1) (by
     rw [Nat.card_zpowers]
     simpa using (orderOf_dvd_iff_pow_eq_one.mpr (by simpa [pow_two] using hak2)))
-  letI : MulDistribMulAction T ↥N' :=
+  let : MulDistribMulAction T ↥N' :=
     MulDistribMulAction.compHom ↥N' ((MulAut.conjNormal (H := N')).comp T.subtype)
-  haveI : Finite (Sylow p ↥N') :=
+  have : Finite (Sylow p ↥N') :=
     Sylow.finite_of_finiteIndex (default : Sylow p ↥N')
   have hcardSyl_dvd : Nat.card (Sylow p ↥N') ∣ Nat.card ↥N' :=
     (Sylow.card_dvd_index (default : Sylow p ↥N')).trans
@@ -118,7 +118,7 @@ theorem exists_inverted_element {K N : Subgroup G} [Finite K] (hNK : N ≤ K)
     exact Subgroup.card_dvd_of_le hle
   have hleCP : C ≤ (P : Subgroup ↥N') := fun x hx => hx.1
   have hCbot : C = ⊥ := by
-    rcases (P.isPGroup'.to_le hleCP).card_eq_or_dvd with hone | hpdvd
+    rcases (P.isPGroup.to_le hleCP).card_eq_or_dvd with hone | hpdvd
     · exact C.eq_bot_of_card_eq hone
     · exact absurd (hpdvd.trans hCdiv) hC
   have hφ : MulAut.conjNormal (H := N') ak * MulAut.conjNormal (H := N') ak = 1 := by

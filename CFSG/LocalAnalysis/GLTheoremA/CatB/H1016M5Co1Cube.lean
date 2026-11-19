@@ -39,7 +39,7 @@ private theorem cube_facts_of {G : Type} [Group G] [Finite G] {Q A0 : Subgroup G
     (hPx0 : P x0) :
     (∀ E : Subgroup G, IsElemAbelian 5 E → Nat.card E ≤ 5 ^ 3) ∧
       ∀ E : Subgroup G, IsElemAbelian 5 E → Nat.card E = 5 ^ 3 → ∃ j ∈ E, P j := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have key : ∀ E : Subgroup G, IsElemAbelian 5 E → 125 ≤ Nat.card E →
       ∃ g : G, E.map (MulAut.conj g).toMonoidHom = A0 := by
     intro E hE h125
@@ -89,7 +89,7 @@ private theorem g1_fixFree (hG : GOK) (v : Fin 24 → ZMod 2)
 
 theorem co1FiveCubeFacts_holds : Co1FiveCubeFacts := by
   have hG : GOK := Certificates.certificate13670
-  haveI : Finite ↥GA := Nat.finite_of_card_ne_zero (by rw [card_GA_eq]; norm_num)
+  have : Finite ↥GA := Nat.finite_of_card_ne_zero (by rw [card_GA_eq]; norm_num)
   exact cube_facts_of (Q := Qsub) (A0 := A0 hG)
     (by rw [card_Qsub hG, factorization_card_GA_five]; norm_num) (card_A0 hG)
     (fun A hAQ hA h125 => KD264Gen.Co15.le_A0 hG Certificates.certificate10145 hAQ hA h125)

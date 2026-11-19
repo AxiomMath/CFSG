@@ -80,7 +80,7 @@ theorem isElemAbelian2_preim {E : Subgroup (AEQ 8)} (hE : E ≤ aeBar8) (hsq : �
     exact hsq _ hgE
   exact congrArg Subtype.val this
 
-theorem isPGroup_preim {E : Subgroup (AEQ 8)} (hE : E ≤ aeBar8) (hsq : ∀ a ∈ E, a * a = 1)
+theorem isPGroup_preim {E : Subgroup (AEQ 8)} (hE : E ≤ aeBar8) (_hsq : ∀ a ∈ E, a * a = 1)
     (hcard : Nat.card E = 64) : IsPGroup 2 (preim P E) :=
   IsPGroup.of_card (n := 6) (by rw [card_preim P hE, hcard]; norm_num)
 

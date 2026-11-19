@@ -24,8 +24,7 @@ theorem coe_levHom_of_eq {A : Matrix.SpecialLinearGroup (Fin 2) h.fixedField} {t
   ext i j
   rw [levMat_apply, u4xbMat_apply]
   simp only [slMat, hA, Matrix.map_apply, Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero,
-    Matrix.cons_val_one, Matrix.empty_val', Matrix.cons_val_fin_one, Matrix.head_cons,
-    Subfield.coe_subtype, Subfield.coe_one, Subfield.coe_zero]
+    Matrix.cons_val_one, Matrix.empty_val', Matrix.cons_val_fin_one, Subfield.coe_subtype, Subfield.coe_one, Subfield.coe_zero]
   rcases ix_cases i with rfl | rfl | rfl | rfl <;> rcases ix_cases j with rfl | rfl | rfl | rfl <;>
     simp [one_apply, ie1, ie2, if1, if2]
 

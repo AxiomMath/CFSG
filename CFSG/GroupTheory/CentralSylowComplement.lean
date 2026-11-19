@@ -33,7 +33,7 @@ theorem exists_complement_of_central_sylow {Q X : Subgroup G}
     exact le_top
   obtain ⟨K, hKn, hKp, hKidx, -, -, hcompl, -, hKinf, -, -⟩ :=
     burnside_normal_complement P hnorm
-  letI : K.Normal := hKn
+  let : K.Normal := hKn
   let O : Subgroup G := K.map X.subtype
   have hOX : O ≤ X := Subgroup.map_subtype_le K
   have hmemO : ∀ {x : G} (hx : x ∈ X), x ∈ O ↔ (⟨x, hx⟩ : X) ∈ K := by
@@ -46,7 +46,7 @@ theorem exists_complement_of_central_sylow {Q X : Subgroup G}
     · intro hxK
       exact ⟨(⟨x, hx⟩ : X), hxK, rfl⟩
   have hpow : IsPGroup p (X ⧸ K) := by
-    obtain ⟨n, hn⟩ := P.isPGroup'.exists_card_eq
+    obtain ⟨n, hn⟩ := P.isPGroup.exists_card_eq
     refine IsPGroup.of_card (n := n) ?_
     rw [← Subgroup.index_eq_card, hKidx]
     exact hn
@@ -117,7 +117,7 @@ theorem relIndex_not_dvd_of_maximal {Q Y : Subgroup G} (hQY : Q ≤ Y)
   obtain ⟨P, hQP⟩ := IsPGroup.exists_le_sylow hQp
   let P' : Subgroup G := (P : Subgroup Y).map Y.subtype
   have hP'le : P' ≤ Y := Subgroup.map_subtype_le (H := Y) (P : Subgroup Y)
-  have hP'p : IsPGroup p P' := P.isPGroup'.map Y.subtype
+  have hP'p : IsPGroup p P' := P.isPGroup.map Y.subtype
   have hQleP' : Q ≤ P' := by
     rw [← Subgroup.map_subgroupOf_eq_of_le hQY]
     exact Subgroup.map_mono hQP

@@ -98,7 +98,7 @@ private theorem isaacs_15_15_exists_prime_actor
     exact ha (by simpa using habot)
   rcases Nat.exists_prime_and_dvd hcard_ne_one with
     ⟨p, hp, hpdvd⟩
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   obtain ⟨b0, hb0_order⟩ :=
     exists_prime_orderOf_dvd_card'
       (G := Subgroup.zpowers a) p hpdvd
@@ -126,8 +126,8 @@ private theorem isaacs_15_15_no_nontrivial_conj_of_fpf
   classical
   let φ : H →* MulAut N := MulDistribMulAction.toMulAut H N
   let SD := N ⋊[φ] H
-  letI : Group SD := inferInstanceAs (Group (N ⋊[φ] H))
-  letI : Finite SD :=
+  let : Group SD := inferInstanceAs (Group (N ⋊[φ] H))
+  let : Finite SD :=
     Finite.of_equiv (N × H)
       (SemidirectProduct.equivProd (N := N) (G := H) (φ := φ)).symm
   let inl := SemidirectProduct.inl (φ := φ)
@@ -139,7 +139,7 @@ private theorem isaacs_15_15_no_nontrivial_conj_of_fpf
     simpa [KN, inl, rightHom, φ] using
       (SemidirectProduct.range_inl_eq_ker_rightHom
         (N := N) (G := H) (φ := φ))
-  letI : KN.Normal := hKNker.symm ▸ rightHom.normal_ker
+  let : KN.Normal := hKNker.symm ▸ rightHom.normal_ker
   have hKN : KN ≠ ⊥ := by
     intro hbot
     have hxmem : inl x ∈ (⊥ : Subgroup SD) := by

@@ -15,6 +15,7 @@ section Lift
 
 variable {G : Type} [Group G] [Finite G] {N : Subgroup G} [N.Normal]
 
+omit [Finite G] in
 theorem le_sup_of_map_eq {V R : Subgroup G} (h : V.map (QuotientGroup.mk' N) = R.map (QuotientGroup.mk' N)) :
     V ≤ R ⊔ N := by
   intro x hx
@@ -57,6 +58,7 @@ theorem exists_conj_le_of_le_sup (hN : Odd (Nat.card N)) {M P : Subgroup G} (hP 
   rw [conjSub_le_iff, inv_inv]
   exact hPQ.trans hQle
 
+omit [Finite G] in
 theorem le_sup_of_map_le {V R : Subgroup G}
     (h : V.map (QuotientGroup.mk' N) ≤ R.map (QuotientGroup.mk' N)) : V ≤ R ⊔ N := by
   intro x hx

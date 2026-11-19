@@ -84,7 +84,7 @@ theorem tildeU_inf_fixed_eq_bot (hB : D321Base M Mp T L V t) (h3 : D321Three Mp 
     show b = 1 from congrArg Subtype.val hb1, mul_one]
 
 theorem smul_eq_of_pElement (hB : D321Base M Mp T L V t) (h3 : D321Three Mp L) {p : ℕ}
-    (hp : p.Prime) (hp2 : p ≠ 2) (hpL : ¬ p ∣ Nat.card ↥L) {y : MulAut W} (hyM : y ∈ M)
+    (hp : p.Prime) (_hp2 : p ≠ 2) (hpL : ¬ p ∣ Nat.card ↥L) {y : MulAut W} (hyM : y ∈ M)
     (hyL : ∀ l ∈ L, y * l = l * y)
     (hyp : letI := qAct hB.hD.hyp.Mp_normal;
       ∀ q ∈ tilde Mp ⊤ (commV L), (⟨y, hyM⟩ : ↥M) ^ p • q = q) :

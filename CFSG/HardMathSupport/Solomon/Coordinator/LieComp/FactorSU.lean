@@ -11,7 +11,7 @@ open CFSG.Open
 
 private theorem exists_pow_of_card_sq {K : Type} [Field K] [Fintype K] {q : ℕ}
     (hK : Fintype.card K = q ^ 2) : ∃ f : ℕ, 1 ≤ f ∧ q = ringChar K ^ f ∧ (ringChar K).Prime := by
-  haveI := ringChar.charP K
+  have := ringChar.charP K
   obtain ⟨n, hp, hn⟩ := FiniteField.card K (ringChar K)
   have hq : q ∣ ringChar K ^ (n : ℕ) := by
     rw [← hn, hK]

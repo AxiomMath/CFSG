@@ -22,12 +22,12 @@ theorem le_parabGen {W P : Subgroup G} (hN : normalizer (W : Set G) ≤ P)
 
 theorem pCoreOf_le_sylow [Finite G] (W : Sylow 2 G) {P : Subgroup G} (hWP : (W : Subgroup G) ≤ P) :
     pCoreOf 2 P ≤ (W : Subgroup G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQ2 : IsPGroup 2 (pCoreOf 2 P) := pCoreOf_isPGroup 2 P
   have hWN : (W : Subgroup G) ≤ normalizer (pCoreOf 2 P : Set G) :=
     hWP.trans (le_normalizer_pCoreOf 2 P)
   have hsup : IsPGroup 2 ((W : Subgroup G) ⊔ pCoreOf 2 P : Subgroup G) :=
-    W.isPGroup'.to_sup_of_normal_right' hQ2 hWN
+    W.isPGroup.to_sup_of_normal_right' hQ2 hWN
   have := W.maximal_isPGroup.eq_of_ge hsup le_sup_left
   exact le_sup_right.trans this.le
 
@@ -77,7 +77,7 @@ theorem normalizer_map_le [Finite G] {G' : Type*} [Group G'] (ψ : G →* G')
     have h2 : g * w * g⁻¹ ∈ (W : Subgroup G) ⊔ ψ.ker := by
       rw [← Subgroup.comap_map_eq]
       exact h1
-    obtain ⟨m, hm⟩ := W.isPGroup' ⟨w, hw⟩
+    obtain ⟨m, hm⟩ := W.isPGroup ⟨w, hw⟩
     have hm' : w ^ 2 ^ m = 1 := congrArg Subtype.val hm
     refine mem_of_sup_central hker hodd h2 m ?_
     rw [conj_pow, hm']
@@ -102,7 +102,7 @@ theorem map_parabGen_le [Finite G] {G' : Type*} [Group G'] (ψ : G →* G')
     (hψ : Function.Surjective ψ) (hker : ψ.ker ≤ center G)
     (hodd : ∀ x ∈ ψ.ker, Odd (orderOf x)) (W : Sylow 2 G) :
     (parabGen (W : Subgroup G)).map ψ ≤ parabGen ((W : Subgroup G).map ψ) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [Subgroup.map_le_iff_le_comap]
   refine iSup₂_le fun P hP => ?_
   obtain ⟨hNP, hcore⟩ := hP
@@ -151,7 +151,7 @@ theorem map_parabGen_le [Finite G] {G' : Type*} [Group G'] (ψ : G →* G')
 theorem hasParGen_of_surjective [Finite G] {G' : Type*} [Group G'] (ψ : G →* G')
     (hψ : Function.Surjective ψ) (hker : ψ.ker ≤ center G)
     (hodd : ∀ x ∈ ψ.ker, Odd (orderOf x)) (h : HasParGen G) : HasParGen G' := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨W, hW⟩ := h
   refine ⟨W.mapSurjective hψ, ?_⟩
   rw [Sylow.coe_mapSurjective]
@@ -178,7 +178,7 @@ theorem hasParGen_of_mulEquiv [Finite G] {G' : Type*} [Group G'] (e : G ≃* G')
 
 theorem hasParGen_iff_forall [Finite G] :
     HasParGen G ↔ ∀ W : Sylow 2 G, parabGen (W : Subgroup G) = ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine ⟨fun ⟨W, hW⟩ W' => ?_, fun h => ⟨Nonempty.some inferInstance, h _⟩⟩
   obtain ⟨g, rfl⟩ := MulAction.exists_smul_eq G W W'
   have hconj : ((g • W : Sylow 2 G) : Subgroup G) =

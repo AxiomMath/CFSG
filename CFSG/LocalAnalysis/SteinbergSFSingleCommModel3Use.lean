@@ -19,6 +19,7 @@ section Use
 variable {G : Type} [Group G] [Finite G] [IsSimpleGroup G] {L : Subgroup G} {K : Type} [Field K]
   [CharP K 2] [Finite K] {n : ℕ} {φ : L ≃* antiSp K} {t : G} {i : Axis}
 
+omit [IsSimpleGroup G] in
 theorem model3_center_eq_U (hS : SCSetting L K n φ t i) (hH : SixHConclusion φ t i)
     (hM : Model3Sub (Ytor φ i) (Vtor φ t i i) (Nat.card K)) :
     Vtor φ t i i ⊓ centralizer (Vtor φ t i i : Set G) = U φ i := by
@@ -48,7 +49,7 @@ theorem model3_use_M_eq {K : Type} [Field K] [CharP K 2] :
   have e : ((RootStandard.upperSL (1 : K) : SL₂ K) : Matrix (Fin 2) (Fin 2) K) =
       !![1, 1; 0, 1] := rfl
   rw [e, Matrix.adjugate_fin_two_of]
-  simp [Matrix.mul_fin_two, CharTwo.neg_eq, h2]
+  simp [CharTwo.neg_eq, h2]
 
 theorem model3_use_M_order {K : Type} [Field K] [CharP K 2] :
     (RootStandard.upperSL (1 : K) * (FullCenterWeyl.swapSL⁻¹ * RootStandard.upperSL (1 : K) *
@@ -61,17 +62,19 @@ theorem model3_use_M_order {K : Type} [Field K] [CharP K 2] :
   · apply Subtype.ext
     rw [Matrix.SpecialLinearGroup.coe_pow, hM]
     rw [pow_succ, pow_succ, pow_one]
-    simp [Matrix.mul_fin_two, h2, Matrix.one_fin_two]
+    simp [h2, Matrix.one_fin_two]
   · intro h
     have := congrArg (fun A : SL₂ K => (A : Matrix (Fin 2) (Fin 2) K) 0 0) h
     simp [hM] at this
 
+omit [IsSimpleGroup G] in
 theorem sixK_k4a_of_model3 (hS : SCSetting L K n φ t i) (hH : SixHConclusion φ t i)
     (hM : Model3Sub (Ytor φ i) (Vtor φ t i i) (Nat.card K)) : K4aConcl φ i := by
   intro x hx hxx
   obtain ⟨y, hy, hyx⟩ := hM.involution x hx hxx
   exact ⟨y, hy, by rwa [model3_center_eq_U hS hH hM] at hyx⟩
 
+omit [IsSimpleGroup G] in
 theorem sixEmb_e2_of_model3 (hS : SCSetting L K n φ t i) (hH : SixHConclusion φ t i)
     (he1 : EmbE1Concl φ i) (hM : Model3Sub (Ytor φ i) (Vtor φ t i i) (Nat.card K)) :
     EmbGenConcl φ t i := by

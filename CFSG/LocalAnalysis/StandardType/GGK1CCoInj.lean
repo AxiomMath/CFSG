@@ -12,23 +12,23 @@ open CFSG.LocalAnalysis.ComponentInitial.SymplecticFlag (proj)
 open CFSG.LocalAnalysis.ComponentInitial.UnitaryHigher (proj_bijective_of_charTwo)
 
 theorem ggK1CCo_component_inj {p nf d r : ℕ} {K : Type} [Field K] [Finite K]
-    (hK : Nat.card K = 2 ^ nf) (hnf : 1 ≤ nf)
+    (hK : Nat.card K = 2 ^ nf) (_hnf : 1 ≤ nf)
     {x : ↥(StatedSp r K)} {m : List ℕ} (F : ggK1CCo_Family p nf d r K x m)
     {i j : F.ι} (hi : CFSG.IsQuasisimple ↥⁅F.A i, F.A i⁆)
     (hj : CFSG.IsQuasisimple ↥⁅F.A j, F.A j⁆)
     (h : (⁅F.A i, F.A i⁆).map (proj r K) = (⁅F.A j, F.A j⁆).map (proj r K)) : i = j := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 :=
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 :=
     charP_of_card_eq_prime_pow (p := 2) (f := nf)
       (by rw [← Nat.card_eq_fintype_card]; exact hK)
-  haveI : NeZero r := by
+  have : NeZero r := by
     rcases Nat.eq_zero_or_pos r with hr | hr
     · exfalso
       subst hr
-      haveI : Subsingleton (StatedSp 0 K) := inferInstance
-      haveI : Subsingleton ↥⁅F.A i, F.A i⁆ := inferInstance
-      haveI : Nontrivial ↥⁅F.A i, F.A i⁆ := CFSG.LocalCores.isQuasisimple_nontrivial hi
+      have : Subsingleton (StatedSp 0 K) := inferInstance
+      have : Subsingleton ↥⁅F.A i, F.A i⁆ := inferInstance
+      have : Nontrivial ↥⁅F.A i, F.A i⁆ := CFSG.LocalCores.isQuasisimple_nontrivial hi
       obtain ⟨a, b, hab⟩ := (inferInstance : Nontrivial ↥⁅F.A i, F.A i⁆).exists_pair_ne
       exact hab (Subsingleton.elim a b)
     · exact ⟨hr.ne'⟩

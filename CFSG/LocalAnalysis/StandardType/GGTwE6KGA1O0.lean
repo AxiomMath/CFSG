@@ -63,9 +63,9 @@ theorem exists_zpowers_of_inf_twInndiagAut_eq_bot {f : ℕ} (hf : 1 ≤ f) (h3 :
   let C := ↥(graphFixedRootGroup TwistTag.E6 K (frobQ 2 f))
   obtain ⟨Θ, hΘ⟩ := o0_exists_theta hf
   have hfodd : Odd f := o0_odd_of_three_dvd h3
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite C := inferInstance
-  haveI : Finite U := inferInstance
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite C := inferInstance
+  have : Finite U := inferInstance
   have hne1 : ∃ t ∈ U, t ≠ 1 := by
     by_contra h
     push Not at h

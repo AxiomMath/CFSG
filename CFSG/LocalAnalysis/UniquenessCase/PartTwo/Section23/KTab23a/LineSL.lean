@@ -96,7 +96,7 @@ private noncomputable def rootHom (d : ℕ) [NeZero d] (K : Type) [Field K] :
     apply Subtype.ext
     apply Matrix.GeneralLinearGroup.ext
     intro i j
-    simp [rootElem, mkOfDetNeZero_coe]
+    simp [rootElem]
   map_mul' x y := by
     apply Subtype.ext
     apply Matrix.GeneralLinearGroup.ext

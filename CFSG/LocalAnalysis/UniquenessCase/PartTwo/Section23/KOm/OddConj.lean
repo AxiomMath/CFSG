@@ -56,7 +56,7 @@ theorem exists_mem_conj_eq_pow {G : Type*} [Group G] [Finite G] {U B : Subgroup 
   let B' : Subgroup G := B.map (MulAut.conj t₀).toMonoidHom
   have hUX : U ≤ X := by rw [hXdef]; exact le_sup_left
   have hBX : B ≤ X := by rw [hXdef]; exact le_sup_right
-  have hinfUB : U ⊓ B = ⊥ := Subgroup.inf_eq_bot_of_coprime hcop
+  have hinfUB : U ⊓ B = ⊥ := (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcop))
   have hB'X : B' ≤ X := by
     rintro x hx
     obtain ⟨g, hg, rfl⟩ := Subgroup.mem_map.mp hx
@@ -92,7 +92,7 @@ theorem exists_mem_conj_eq_pow {G : Type*} [Group G] [Finite G] {U B : Subgroup 
     ext x
     simp
   have hmul : ((U.subgroupOf X : Set ↥X) * (B.subgroupOf X : Set ↥X)) = Set.univ := by
-    haveI : (U.subgroupOf X).Normal := hNnormal
+    have : (U.subgroupOf X).Normal := hNnormal
     rw [← Subgroup.normal_mul (U.subgroupOf X) (B.subgroupOf X), hsup]
     rfl
   have hcompK : (U.subgroupOf X).IsComplement' (B.subgroupOf X) :=

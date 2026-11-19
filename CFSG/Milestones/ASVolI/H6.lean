@@ -320,8 +320,8 @@ private def H61_adjEquiv : ↥Adj3 ≃ H61_TZ where
     CFSG.QuasithinUnique.Setup.Family.mem_traceZero_iff_trace.2 ((H61_mem_Adj3 _).1 x.2)⟩
   invFun y := ⟨Multiplicative.ofAdd (y : H61_M3), (H61_mem_Adj3 _).2
     (CFSG.QuasithinUnique.Setup.Family.mem_traceZero_iff_trace.1 y.2)⟩
-  left_inv x := Subtype.ext rfl
-  right_inv y := Subtype.ext rfl
+  left_inv _x := Subtype.ext rfl
+  right_inv _y := Subtype.ext rfl
 
 private theorem H61_natCard_Adj3 : Nat.card Adj3 = 256 :=
   (Nat.card_congr H61_adjEquiv).trans CFSG.QuasithinUnique.Setup.Family.natCard_traceZero
@@ -575,7 +575,7 @@ theorem as_H_6_1 : H_6_1 := by
     rw [H61_natCard_Adj3, H61_natCard_V3] at h'
     omega
   · intro A _ _ h2 act hirr
-    letI : Module (ZMod 2) (Additive A) := AddCommGroup.zmodModule (n := 2) (fun x => by
+    let : Module (ZMod 2) (Additive A) := AddCommGroup.zmodModule (n := 2) (fun x => by
       rw [two_nsmul]
       apply Additive.toMul.injective
       rw [toMul_add, toMul_zero, ← sq]
@@ -668,7 +668,7 @@ private theorem h64_le_jacobson {R N S : Type} [Ring R] [AddCommGroup N] [Module
   rcases eq_top_or_exists_le_coatom L with h | ⟨m, hm, hLm⟩
   · exact absurd h hL
   have hJm : Module.jacobson R N ≤ m := sInf_le (s := {n : Submodule R N | IsCoatom n}) hm
-  haveI : IsSimpleModule R (N ⧸ Module.jacobson R N) := IsSimpleModule.congr e
+  have : IsSimpleModule R (N ⧸ Module.jacobson R N) := IsSimpleModule.congr e
   have key : m = Module.jacobson R N := by
     rcases IsSimpleOrder.eq_bot_or_eq_top (m.map (Module.jacobson R N).mkQ) with h0 | htop
     · have h1 := Submodule.comap_map_mkQ (Module.jacobson R N) m
@@ -711,7 +711,7 @@ theorem as_H_6_4 : H_6_4 := by
   by_cases hAK : A ≤ K
   · exact Or.inl hAK
   refine Or.inr ?_
-  haveI : IsNoetherian R M := (isFiniteLength_iff_isNoetherian_isArtinian.mp hfin).1
+  have : IsNoetherian R M := (isFiniteLength_iff_isNoetherian_isArtinian.mp hfin).1
   have hJ : ∀ L : Submodule R ↥A, L ≠ ⊤ → L ≤ Module.jacobson R ↥A :=
     fun L hL => h64_le_jacobson e L hL
   let φ : ↥A →ₗ[R] S := e.toLinearMap ∘ₗ (Module.jacobson R ↥A).mkQ
@@ -923,7 +923,7 @@ private theorem line_decide : ∀ F : Finset (Fin 3 → ZMod 2), (0 : Fin 3 → 
 private theorem natCard_submod_field {K : Type} [Field K] [Fintype K] {V : Type} [AddCommGroup V]
     {inst : Module K V} [Finite V] (W : Submodule K V) :
     Nat.card W = Fintype.card K ^ Module.finrank K W := by
-  haveI : Module.Finite K V := Module.Finite.of_finite
+  have : Module.Finite K V := Module.Finite.of_finite
   rw [Module.natCard_eq_pow_finrank (K := K) (V := W), Nat.card_eq_fintype_card]
 
 private theorem natCard_of_finrank_two (l : Submodule (ZMod 2) (Fin 3 → ZMod 2))
@@ -968,7 +968,7 @@ private theorem card_of_rk_two {A : Type} [CommGroup A] [Finite A] (hA : ∀ a :
 
 private theorem natCard_toAddSubgroup {A : Type} [CommGroup A] (W : Subgroup A) :
     Nat.card ↥(W.toAddSubgroup) = Nat.card ↥W :=
-  Nat.card_congr (Equiv.subtypeEquiv Additive.ofMul (fun a => Iff.rfl))
+  Nat.card_congr (Equiv.subtypeEquiv Additive.ofMul (fun _a => Iff.rfl))
 
 private theorem mem_Lpt (k : GL (Fin 3) (ZMod 2)) (p : Fin 3 → ZMod 2) :
     k ∈ Lpt p ↔ ∀ v ∈ ({p} : Set (Fin 3 → ZMod 2)), (k : Matrix (Fin 3) (Fin 3) (ZMod 2)).mulVec v = v :=
@@ -1020,7 +1020,7 @@ private theorem mem_Ll_iff (g : Matrix.SpecialLinearGroup (Fin 3) (ZMod 2)) :
     have h0 := (h (fun i => if i = 0 then 1 else 0) (by simp [mem_line0])).1
     have h1 := (h (fun i => if i = 1 then 1 else 0) (by simp [mem_line0])).1
     rw [slGL_coe, mem_line0] at h0 h1
-    simp [Matrix.mulVec, dotProduct, Fin.sum_univ_three] at h0 h1
+    simp [Matrix.mulVec, dotProduct] at h0 h1
     exact ⟨h0, h1⟩
 
 
@@ -1153,7 +1153,7 @@ private theorem kappa_injective (p : Fin 3 → ZMod 2) (q₁ q₂ : GL (Fin 3) (
   exact h3
 
 
-private noncomputable def cosetFintype (p : Fin 3 → ZMod 2) : Fintype (GL (Fin 3) (ZMod 2) ⧸ Lpt p) :=
+@[instance_reducible] private noncomputable def cosetFintype (p : Fin 3 → ZMod 2) : Fintype (GL (Fin 3) (ZMod 2) ⧸ Lpt p) :=
   Fintype.ofFinite _
 
 attribute [local instance] cosetFintype
@@ -1214,7 +1214,7 @@ private noncomputable def PhiInvFun (p : Fin 3 → ZMod 2) (hp : p ≠ 0)
 private theorem PhiInvFun_zero (p : Fin 3 → ZMod 2) (hp : p ≠ 0) (F : GL (Fin 3) (ZMod 2) ⧸ Lpt p → ZMod 2) :
     PhiInvFun p hp F 0 = 0 := by
   unfold PhiInvFun
-  rw [dif_pos rfl]
+  rw [dite_eq_left rfl]
 
 private theorem PhiInv_mem (p : Fin 3 → ZMod 2) (hp : p ≠ 0) (F : GL (Fin 3) (ZMod 2) ⧸ Lpt p → ZMod 2)
     (hF : ∑ q, F q = 0) :
@@ -1234,7 +1234,7 @@ private theorem PhiInv_mem (p : Fin 3 → ZMod 2) (hp : p ≠ 0) (F : GL (Fin 3)
         ∑ w : {v : Fin 3 → ZMod 2 // v ≠ 0}, F ((kappaEquiv p hp).symm w) := by
       apply Finset.sum_congr rfl
       intro w _
-      rw [dif_neg w.2]
+      rw [dite_eq_right w.2]
     rw [hh]
     exact (Equiv.sum_comp (kappaEquiv p hp).symm F).trans hF
 
@@ -1468,9 +1468,8 @@ private theorem mem_permCore_iff (p : Fin 3 → ZMod 2)
     x ∈ CFSG.ASVolI.ChH.permCore (GL (Fin 3) (ZMod 2) ⧸ Lpt p) ↔
       ∑ q : GL (Fin 3) (ZMod 2) ⧸ Lpt p, Multiplicative.toAdd x q = 0 := by
   unfold CFSG.ASVolI.ChH.permCore
-  simp only [Multiplicative.mem_toSubgroup, AddMonoidHom.mem_ker, AddMonoidHom.finset_sum_apply,
+  simp only [Multiplicative.mem_toSubgroup, AddMonoidHom.mem_ker, AddMonoidHom.finsetSum_apply,
     Pi.evalAddMonoidHom_apply]
-  rfl
 
 private theorem mem_Adj3_iff (y : AdjAmb) : y ∈ Adj3 ↔ (Multiplicative.toAdd y).trace = 0 := by
   simp [Adj3]
@@ -1499,7 +1498,7 @@ private theorem PhiFun_PhiInvCore (p : Fin 3 → ZMod 2) (hp : p ≠ 0)
   rw [PhiInvCore_val, CFSG.Quasithin.H6.vecOf_idxOf]
   unfold PhiInvFun
   have hq : kappa p q ≠ 0 := kappa_ne_zero p hp q
-  rw [dif_neg hq]
+  rw [dite_eq_right hq]
   have hsymm : (kappaEquiv p hp).symm ⟨kappa p q, hq⟩ = q := by
     apply (kappaEquiv p hp).injective
     apply Subtype.ext
@@ -1516,7 +1515,7 @@ private theorem PhiInvCore_PhiFun (p : Fin 3 → ZMod 2) (hp : p ≠ 0) (f : CFS
   simp only [toAdd_ofAdd]
   unfold PhiInvFun
   by_cases h0 : CFSG.Quasithin.H6.vecOf i = 0
-  · rw [dif_pos h0]
+  · rw [dite_eq_left h0]
     have hi : i = 0 := by
       have h' : i = CFSG.Quasithin.H6.idxOf (CFSG.Quasithin.H6.vecOf i) :=
         (CFSG.Quasithin.H6.idxOf_vecOf i).symm
@@ -1525,7 +1524,7 @@ private theorem PhiInvCore_PhiFun (p : Fin 3 → ZMod 2) (hp : p ≠ 0) (f : CFS
       decide
     rw [hi]
     exact ((CFSG.Quasithin.H6.mem_coreSub.1 f.2).1).symm
-  · rw [dif_neg h0]
+  · rw [dite_eq_right h0]
     unfold PhiFun coreVal
     rw [kappa_kappaEquiv_symm p hp _ h0, CFSG.Quasithin.H6.idxOf_vecOf]
 
@@ -1536,7 +1535,7 @@ private theorem PhiFun_injective (p : Fin 3 → ZMod 2) (hp : p ≠ 0) (f g : CF
   rw [← hf, ← hg]
   congr 1
   apply Subtype.ext
-  simp only [toAdd_ofAdd]
+  simp only
   exact h
 
 private theorem permLH_mem (p : Fin 3 → ZMod 2) (h : GL (Fin 3) (ZMod 2))
@@ -1722,8 +1721,8 @@ private theorem PhiInvFun_add (p : Fin 3 → ZMod 2) (hp : p ≠ 0) (F G : GL (F
     PhiInvFun p hp (F + G) v = PhiInvFun p hp F v + PhiInvFun p hp G v := by
   unfold PhiInvFun
   by_cases h : v = 0
-  · simp only [dif_pos h, add_zero]
-  · simp only [dif_neg h, Pi.add_apply]
+  · simp only [dite_eq_left h, add_zero]
+  · simp only [dite_eq_right h, Pi.add_apply]
 
 private theorem PhiInvCore_mul (p : Fin 3 → ZMod 2) (hp : p ≠ 0)
     (x y : ↥(permCore (GL (Fin 3) (ZMod 2) ⧸ Lpt p))) :
@@ -1861,7 +1860,7 @@ private theorem caseCoreSt (A : Type) [CommGroup A] (p : Fin 3 → ZMod 2) (hp :
           (Multiplicative.ofAdd (PhiFun p (E a).1), Multiplicative.ofAdd (E a).2.1) *
             (Multiplicative.ofAdd (PhiFun p (E b).1), Multiplicative.ofAdd (E b).2.1)
         rw [hEmul]
-        simp only [Prod.fst_add, Prod.snd_add, PhiFun_add, AddSubgroup.coe_add]
+        simp only [Prod.fst_add, Prod.snd_add]
         rfl)) ?_ ?_ ?_
   · intro a b hab
     have h1 : PhiFun p (E a).1 = PhiFun p (E b).1 := Multiplicative.ofAdd.injective (congrArg Prod.fst hab)
@@ -2091,7 +2090,7 @@ theorem as_H_6_5 : H_6_5 := by
   have hsetLl : {y : Additive A | ∃ g ∈ CFSG.Quasithin.H6.Ll, ρ g (Additive.ofMul m) = y} =
       Additive.toMul ⁻¹' ((fun h => act h m) '' (Lln l : Set (GL (Fin 3) (ZMod 2)))) := by
     ext y
-    simp only [Set.mem_setOf_eq, Set.mem_preimage, Set.mem_image, SetLike.mem_coe]
+    simp only [Set.mem_ofPred_eq, Set.mem_preimage, Set.mem_image, SetLike.mem_coe]
     constructor
     · rintro ⟨g, hg, rfl⟩
       exact ⟨c * slGL g * c⁻¹, hmemLl g hg, by rw [hρ]; rfl⟩
@@ -2264,7 +2263,7 @@ private noncomputable def betaAdj (u w : AdjAmb) : ZMod 2 :=
 private theorem betaAdj_mul_left (u u' w : AdjAmb) (hu : u ∈ Adj3) (hu' : u' ∈ Adj3) (hw : w ∈ Adj3) :
     betaAdj (u * u') w = betaAdj u w + betaAdj u' w := by
   unfold betaAdj
-  rw [dif_pos ⟨Subgroup.mul_mem _ hu hu', hw⟩, dif_pos ⟨hu, hw⟩, dif_pos ⟨hu', hw⟩]
+  rw [dite_eq_left ⟨Subgroup.mul_mem _ hu hu', hw⟩, dite_eq_left ⟨hu, hw⟩, dite_eq_left ⟨hu', hw⟩]
   have h1 : iotaInv ⟨u * u', Subgroup.mul_mem _ hu hu'⟩ = iotaInv ⟨u, hu⟩ + iotaInv ⟨u', hu'⟩ :=
     iotaInv_mul ⟨u, hu⟩ ⟨u', hu'⟩
   rw [h1, map_add, AddMonoidHom.add_apply]
@@ -2272,7 +2271,7 @@ private theorem betaAdj_mul_left (u u' w : AdjAmb) (hu : u ∈ Adj3) (hu' : u' �
 private theorem betaAdj_mul_right (u w w' : AdjAmb) (hu : u ∈ Adj3) (hw : w ∈ Adj3) (hw' : w' ∈ Adj3) :
     betaAdj u (w * w') = betaAdj u w + betaAdj u w' := by
   unfold betaAdj
-  rw [dif_pos ⟨hu, Subgroup.mul_mem _ hw hw'⟩, dif_pos ⟨hu, hw⟩, dif_pos ⟨hu, hw'⟩]
+  rw [dite_eq_left ⟨hu, Subgroup.mul_mem _ hw hw'⟩, dite_eq_left ⟨hu, hw⟩, dite_eq_left ⟨hu, hw'⟩]
   have h1 : iotaInv ⟨w * w', Subgroup.mul_mem _ hw hw'⟩ = iotaInv ⟨w, hw⟩ + iotaInv ⟨w', hw'⟩ :=
     iotaInv_mul ⟨w, hw⟩ ⟨w', hw'⟩
   rw [h1, map_add]
@@ -2280,7 +2279,7 @@ private theorem betaAdj_mul_right (u w w' : AdjAmb) (hu : u ∈ Adj3) (hw : w �
 private theorem betaAdj_adj (g : GL (Fin 3) (ZMod 2)) (u w : AdjAmb) (hu : u ∈ Adj3) (hw : w ∈ Adj3) :
     betaAdj (adjAmbAct g u) (adjAmbAct g w) = betaAdj u w := by
   unfold betaAdj
-  rw [dif_pos ⟨adjAmbAct_mem g u hu, adjAmbAct_mem g w hw⟩, dif_pos ⟨hu, hw⟩]
+  rw [dite_eq_left ⟨adjAmbAct_mem g u hu, adjAmbAct_mem g w hw⟩, dite_eq_left ⟨hu, hw⟩]
   have h1 : iotaInv ⟨adjAmbAct g u, adjAmbAct_mem g u hu⟩ =
       CFSG.Quasithin.H6.ρSt (slGL.symm g) (iotaInv ⟨u, hu⟩) := iotaInv_smul g ⟨u, hu⟩
   have h2 : iotaInv ⟨adjAmbAct g w, adjAmbAct_mem g w hw⟩ =
@@ -2291,7 +2290,7 @@ private theorem betaAdj_adj (g : GL (Fin 3) (ZMod 2)) (u w : AdjAmb) (hu : u ∈
 private theorem betaAdj_nondeg (u : AdjAmb) (hu : u ∈ Adj3) (hu1 : u ≠ 1) :
     ∃ w ∈ Adj3, betaAdj u w ≠ 0 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   apply hu1
   have hx : iotaInv ⟨u, hu⟩ = 0 := by
     apply CFSG.Quasithin.H6.stForm_nondeg
@@ -2299,7 +2298,7 @@ private theorem betaAdj_nondeg (u : AdjAmb) (hu : u ∈ Adj3) (hu1 : u ≠ 1) :
     have hw : Multiplicative.ofAdd y.1 ∈ Adj3 := (mem_Adj3_iff _).2 (CFSG.Quasithin.H6.mem_stSub.1 y.2)
     have h0 := hcon _ hw
     unfold betaAdj at h0
-    rw [dif_pos ⟨hu, hw⟩] at h0
+    rw [dite_eq_left ⟨hu, hw⟩] at h0
     have hy : iotaInv ⟨Multiplicative.ofAdd y.1, hw⟩ = y := by
       apply Subtype.ext
       rfl
@@ -2889,7 +2888,7 @@ private theorem ncc_transport (c : GL (Fin 3) (ZMod 2)) (H H' : Subgroup (GL (Fi
       {i : ℕ | i < n ∧ ∃ f ∈ {f : AdjAmb → AdjAmb | ∃ g ∈ H, f = fun x => adjAmbAct g x},
         ∃ u ∈ S (i + 1), f u * u⁻¹ ∉ S i} := by
     ext i
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     constructor
     · rintro ⟨hi, f, ⟨g', hg', rfl⟩, u, hu, hnot⟩
       refine ⟨hi, fun x => adjAmbAct (c⁻¹ * g' * c) x, ⟨c⁻¹ * g' * c, hH' g' hg', rfl⟩,
@@ -3046,7 +3045,7 @@ private theorem ncc_chief_one (acts : Set (AdjAmb → AdjAmb)) (Y : Subgroup Adj
   · exact Or.inl (le_antisymm h hXW)
   right
   refine le_antisymm hWY ?_
-  obtain ⟨w, hwW, hwX⟩ := SetLike.not_le_iff_exists.mp h
+  obtain ⟨w, hwW, hwX⟩ := IsConcreteLE.not_le_iff_exists.mp h
   have hwY : w ∈ Y := hWY hwW
   have hw1 : Multiplicative.toAdd w i j = 1 := by
     rcases ncc_z2 (Multiplicative.toAdd w i j) with h0 | h1
@@ -3073,7 +3072,7 @@ private theorem ncc_chief_two (acts : Set (AdjAmb → AdjAmb)) (Y : Subgroup Adj
   · exact Or.inl (le_antisymm h hXW)
   right
   refine le_antisymm hWY ?_
-  obtain ⟨w, hwW, hwX⟩ := SetLike.not_le_iff_exists.mp h
+  obtain ⟨w, hwW, hwX⟩ := IsConcreteLE.not_le_iff_exists.mp h
   have hwY : w ∈ Y := hWY hwW
   have hab : ¬ (Multiplicative.toAdd w i j = 0 ∧ Multiplicative.toAdd w k l = 0) :=
     fun hh => hwX ⟨hh.2, hh.1, hwY⟩
@@ -3113,7 +3112,7 @@ private theorem ncc_chief_two (acts : Set (AdjAmb → AdjAmb)) (Y : Subgroup Adj
 private theorem ncc_cf_one (acts : Set (AdjAmb → AdjAmb)) (Y : Subgroup AdjAmb) (i j : Fin 3)
     (hY : IsActsInv acts Y) (hX : IsActsInv acts (nccCut Y i j)) (y : AdjAmb) (hy : y ∈ Y)
     (hyij : Multiplicative.toAdd y i j ≠ 0) : IsChiefFactorUnder acts (nccCut Y i j) Y :=
-  ⟨SetLike.lt_iff_le_and_exists.2 ⟨fun _ hx => hx.2, y, hy, fun h => hyij h.1⟩, hX, hY,
+  ⟨IsConcreteLE.lt_iff_le_and_exists.2 ⟨fun _ hx => hx.2, y, hy, fun h => hyij h.1⟩, hX, hY,
     ncc_chief_one acts Y i j⟩
 
 private theorem ncc_cf_two (acts : Set (AdjAmb → AdjAmb)) (Y : Subgroup AdjAmb) (i j k l : Fin 3)
@@ -3124,7 +3123,7 @@ private theorem ncc_cf_two (acts : Set (AdjAmb → AdjAmb)) (Y : Subgroup AdjAmb
         ¬ (Multiplicative.toAdd (f r) i j = 0 ∧ Multiplicative.toAdd (f r) k l = 0) ∧
         ¬ (Multiplicative.toAdd (f r) i j = a ∧ Multiplicative.toAdd (f r) k l = b)) :
     IsChiefFactorUnder acts (nccCut (nccCut Y i j) k l) Y := by
-  refine ⟨SetLike.lt_iff_le_and_exists.2 ⟨fun _ hx => hx.2.2, ?_⟩, hX, hY,
+  refine ⟨IsConcreteLE.lt_iff_le_and_exists.2 ⟨fun _ hx => hx.2.2, ?_⟩, hX, hY,
     ncc_chief_two acts Y i j k l hhom hX hwit⟩
   obtain ⟨r, hr, hra, -, -⟩ := hwit 1 0 (by decide)
   exact ⟨r, hr, fun h => absurd (h.2.1.symm.trans hra) (by decide)⟩
@@ -3178,7 +3177,7 @@ private theorem ncc_chain (acts : Set (AdjAmb → AdjAmb)) (S1 S2 S3 S4 : Subgro
   · rw [Set.ncard_eq_three]
     refine ⟨0, 2, 4, by norm_num, by norm_num, by norm_num, ?_⟩
     ext i
-    simp only [Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
+    simp only [Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
     constructor
     · rintro ⟨hi, f, hf, u, hu, hfu⟩
       interval_cases i
@@ -3439,10 +3438,10 @@ private theorem ncc_Ll_inv {g : GL (Fin 3) (ZMod 2)} (hg : g ∈ nccLlG) :
       rw [ncc_mem_Adj3, x22, add_zero] at htr; exact ncc_z2_eq htr
     refine ⟨?_, ?_, h3'⟩
     · rw [ncc_toAdd_act, ncc_mul3]
-      simp only [b20, x10, x20, x01, x21, x22, x11, zero_mul, mul_zero, zero_add, add_zero]
+      simp only [b20, x10, x20, x01, x21, x22, x11, mul_zero, zero_add, add_zero]
       linear_combination (Multiplicative.toAdd x 0 0) * h10
     · rw [ncc_toAdd_act, ncc_mul3]
-      simp only [b21, x10, x20, x01, x21, x22, x11, zero_mul, mul_zero, zero_add, add_zero]
+      simp only [b21, x10, x20, x01, x21, x22, x11, mul_zero, zero_add, add_zero]
       linear_combination (Multiplicative.toAdd x 0 0) * h01
   have h1 : ∀ x ∈ nccLl1, adjAmbAct g x ∈ nccLl1 := by
     rintro x ⟨x00, hx2⟩
@@ -3750,7 +3749,7 @@ private theorem Setup.max_N1 (S : Setup ρ U₁ U₂ U₃ U₄ K₂ K₃) :
     right
     have hx : ∃ x ∈ N', x ∉ U₂ ⊔ U₃ ⊔ U₄ := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hN (le_antisymm (fun x hx => hcon x hx) hle)
     obtain ⟨x, hxN', hxN⟩ := hx
     obtain ⟨a, ha, b, hb, c, hc, d, hd, rfl⟩ := S.decomp x
@@ -3795,7 +3794,7 @@ private theorem Setup.max_N4 (S : Setup ρ U₁ U₂ U₃ U₄ K₂ K₃) :
     right
     have hx : ∃ x ∈ N', x ∉ U₁ ⊔ U₂ ⊔ U₃ := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hN (le_antisymm (fun x hx => hcon x hx) hle)
     obtain ⟨x, hxN', hxN⟩ := hx
     obtain ⟨a, ha, b, hb, c, hc, d, hd, rfl⟩ := S.decomp x
@@ -3844,7 +3843,7 @@ private theorem Setup.max_N2 (S : Setup ρ U₁ U₂ U₃ U₄ K₂ K₃) :
     right
     have hx : ∃ x ∈ N', x ∉ K₂ ⊔ (U₁ ⊔ U₃ ⊔ U₄) := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hN (le_antisymm (fun x hx => hcon x hx) hle)
     obtain ⟨x, hxN', hxN⟩ := hx
     obtain ⟨a, ha, b, hb, c, hc, d, hd, rfl⟩ := S.decomp x
@@ -3890,7 +3889,7 @@ private theorem Setup.max_N3 (S : Setup ρ U₁ U₂ U₃ U₄ K₂ K₃) :
     right
     have hx : ∃ x ∈ N', x ∉ K₃ ⊔ (U₁ ⊔ U₂ ⊔ U₄) := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hN (le_antisymm (fun x hx => hcon x hx) hle)
     obtain ⟨x, hxN', hxN⟩ := hx
     obtain ⟨a, ha, b, hb, c, hc, d, hd, rfl⟩ := S.decomp x
@@ -4177,7 +4176,7 @@ private theorem card_T {T : Subgroup (GL (Fin 3) (ZMod 2))} {p : V3} {l : Submod
       simpa [MulAut.conj_apply, mul_assoc] using h1
     · intro hy
       refine ⟨c * y * c⁻¹, hcB y hy, ?_⟩
-      simp [MulAut.conj_apply, mul_assoc]
+      simp [mul_assoc]
   rw [← Subgroup.card_map_of_injective (f := (MulAut.conj c⁻¹).toMonoidHom)
     (MulAut.conj c⁻¹).injective, hmap, B0_card]
 
@@ -4281,7 +4280,7 @@ private def coreV : Subgroup (Multiplicative (V3 → ZMod 2)) := AddSubgroup.toS
 
 private theorem mem_coreV (F : Multiplicative (V3 → ZMod 2)) :
     F ∈ coreV ↔ Multiplicative.toAdd F 0 = 0 ∧ ∑ v : V3, Multiplicative.toAdd F v = 0 := by
-  simp [coreV, coreAdd, AddMonoidHom.mem_ker, Finset.sum_apply]
+  simp [coreV, coreAdd, AddMonoidHom.mem_ker]
 
 private def U1F : Subgroup MF := (⊤ : Subgroup (Multiplicative (ZMod 2))).map constHom
 
@@ -4504,7 +4503,7 @@ private theorem exists_fixed_pgroup {G : Type*} [Group G] {M : Type*} [CommGroup
     (ρ : G →* MulAut M) (H : Subgroup G) (hH : IsPGroup 2 H) (W : Subgroup M)
     (hWi : ∀ g ∈ H, ∀ u ∈ W, ρ g u ∈ W) (hW : W ≠ ⊥) (hexp : ∀ x : M, x ^ 2 = 1) :
     ∃ w ∈ W, w ≠ 1 ∧ ∀ g ∈ H, ρ g w = w := by
-  letI : MulAction H W :=
+  let : MulAction H W :=
     { smul := fun h w => ⟨ρ (h : G) (w : M), hWi (h : G) h.2 w w.2⟩
       one_smul := fun w => Subtype.ext (by
         show ρ ((1 : H) : G) (w : M) = (w : M)
@@ -4711,12 +4710,12 @@ private theorem socle2 (W : Subgroup MF) (hWU : W ≤ U2F) (hWi : ∀ g, ∀ u �
   rw [hFeq] at hwW
   refine socle_fun W hWi _ _ ?_ hwW
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   apply hw1
   rw [hFeq, hcon.1, hcon.2]
   apply Multiplicative.toAdd.injective
   funext φ
-  simp [fstAdd] <;> rfl
+  simp [fstAdd]
 
 end FlagH62
 
@@ -4898,12 +4897,12 @@ private theorem socle3 (W : Subgroup MF) (hWU : W ≤ U3F) (hWi : ∀ g, ∀ u �
   rw [hGeq] at hwW
   refine socle_fun3 W hWi _ _ ?_ hwW
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   apply hw1
   rw [hGeq, hcon.1, hcon.2]
   apply Multiplicative.toAdd.injective
   funext a
-  simp [sndAdd] <;> rfl
+  simp [sndAdd]
 
 end FlagH62
 
@@ -5119,7 +5118,7 @@ private theorem psiHom_apply (F : Multiplicative (V3 → ZMod 2)) :
     psiHom F =
       Multiplicative.ofAdd (Multiplicative.toAdd F 0, ∑ v : V3, Multiplicative.toAdd F v) := by
   apply Multiplicative.toAdd.injective
-  simp [psiHom, psiAdd, AddMonoidHom.finset_sum_apply]
+  simp [psiHom, psiAdd]
 
 private theorem psiHom_surj : Function.Surjective psiHom := by
   rintro y
@@ -5151,7 +5150,7 @@ private theorem card_coreV : Nat.card ↥coreV = 64 := by
   rw [hker] at h
   have hG : Nat.card (Multiplicative (V3 → ZMod 2)) = 256 := by
     rw [show Nat.card (Multiplicative (V3 → ZMod 2)) = Nat.card (V3 → ZMod 2) from rfl,
-      Nat.card_fun, Nat.card_zmod, show Nat.card V3 = 8 by simp [Nat.card_fun]]
+      Nat.card_fun, Nat.card_zmod, show Nat.card V3 = 8 by simp]
     norm_num
   have hG' : Nat.card (Multiplicative (ZMod 2 × ZMod 2)) = 4 := by
     rw [show Nat.card (Multiplicative (ZMod 2 × ZMod 2)) = Nat.card (ZMod 2 × ZMod 2) from rfl,
@@ -6570,12 +6569,12 @@ private noncomputable def invOfEquiv {X : Type*} [Fintype X] (e : X ≃ {v : V3 
 private theorem invOfEquiv_zero {X : Type*} [Fintype X] (e : X ≃ {v : V3 // v ≠ 0})
     (F : X → ZMod 2) : invOfEquiv e F 0 = 0 := by
   unfold invOfEquiv
-  rw [dif_pos rfl]
+  rw [dite_eq_left rfl]
 
 private theorem invOfEquiv_apply {X : Type*} [Fintype X] (e : X ≃ {v : V3 // v ≠ 0})
     (F : X → ZMod 2) (q : X) : invOfEquiv e F (e q).1 = F q := by
   unfold invOfEquiv
-  rw [dif_neg (e q).2]
+  rw [dite_eq_right (e q).2]
   exact congrArg F (e.symm_apply_apply q)
 
 private theorem sum_invOfEquiv {X : Type*} [Fintype X] (e : X ≃ {v : V3 // v ≠ 0})
@@ -6586,7 +6585,7 @@ private theorem sum_invOfEquiv {X : Type*} [Fintype X] (e : X ≃ {v : V3 // v �
     apply Finset.sum_congr rfl
     intro w _
     unfold invOfEquiv
-    rw [dif_neg w.2]
+    rw [dite_eq_right w.2]
   rw [h2]
   exact Equiv.sum_comp e.symm F
 
@@ -6793,7 +6792,7 @@ private noncomputable def dualKappaEquiv {l : Submodule (ZMod 2) V3} {a : V3}
         obtain ⟨q, hq⟩ := dualKappa_surj hal ha0 w.1 w.2
         exact ⟨q, Subtype.ext hq⟩⟩
 
-private noncomputable def cosetFintypeLln (l : Submodule (ZMod 2) V3) :
+@[instance_reducible] private noncomputable def cosetFintypeLln (l : Submodule (ZMod 2) V3) :
     Fintype (GL (Fin 3) (ZMod 2) ⧸ Lln l) :=
   Fintype.ofFinite _
 
@@ -6804,9 +6803,8 @@ private theorem mem_permCore_iffLln (l : Submodule (ZMod 2) V3)
     x ∈ CFSG.ASVolI.ChH.permCore (GL (Fin 3) (ZMod 2) ⧸ Lln l) ↔
       ∑ q : GL (Fin 3) (ZMod 2) ⧸ Lln l, Multiplicative.toAdd x q = 0 := by
   unfold CFSG.ASVolI.ChH.permCore
-  simp only [Multiplicative.mem_toSubgroup, AddMonoidHom.mem_ker, AddMonoidHom.finset_sum_apply,
+  simp only [Multiplicative.mem_toSubgroup, AddMonoidHom.mem_ker, AddMonoidHom.finsetSum_apply,
     Pi.evalAddMonoidHom_apply]
-  rfl
 
 private noncomputable def gammaD {l : Submodule (ZMod 2) V3} {a : V3}
     (hal : ∀ v : V3, v ∈ l ↔ a ⬝ᵥ v = 0) :
@@ -6986,7 +6984,7 @@ private noncomputable def isoRad : Multiplicative V3 × Multiplicative V3 ≃* �
 
 private theorem card_multV3 : Nat.card (Multiplicative V3) = 8 := by
   show Nat.card V3 = 8
-  simp [Nat.card_fun]
+  simp
 
 private theorem card_rad : Nat.card ↥(K2F ⊔ K3F) = 64 := by
   rw [← Nat.card_congr isoRad.toEquiv, Nat.card_prod, card_multV3]

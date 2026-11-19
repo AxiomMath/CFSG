@@ -53,8 +53,8 @@ theorem uc22s2112u_l2_inv {L B T : Subgroup G} {p f : ℕ} (hp : p.Prime) (hp2 :
       inducedBarInfAutHom L ⟨b, hBN hb⟩ ∈ (MulAut.conj : BarInf L →* MulAut (BarInf L)).range) :
     ∃ t ∈ T, ∀ b ∈ B, t * b * t⁻¹ = b⁻¹ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨e⟩ := CFSG.Quasithin.H13.NQCore.nonempty_mulEquiv_psl2_odd
     (CFSG.Blueprint.LieModel.statedClassicalModel hLp (by decide))
   have hf1 : 1 ≤ f := hLp.admissible.2.1
@@ -81,7 +81,7 @@ theorem uc22s2112u_l2_inv {L B T : Subgroup G} {p f : ℕ} (hp : p.Prime) (hp2 :
     rw [hZ, mem_bot] at hc
     exact e.injective (by rw [hc, map_one])
   let eX : BarInf L ≃* ↥X := MonoidHom.ofInjective hinj
-  haveI : Finite ↥X := Finite.of_equiv _ eX.toEquiv
+  have : Finite ↥X := Finite.of_equiv _ eX.toEquiv
   set Bφ : Subgroup (MulAut (BarInf L)) := (B.subgroupOf N).map φ with hBφdef
   set Sφ : Subgroup (MulAut (BarInf L)) := ((T ⊓ N).subgroupOf N).map φ with hSφdef
   have hBX : Bφ ≤ X := by
@@ -177,7 +177,7 @@ theorem uc22s2112u_l2_false {D : Data G} {Ch : Choice2011 G} (h5 : S21_5 D Ch)
     (c : Ctx21 D (Choice214U D)) (hn3 : 3 ≤ c.n) {L : Subgroup G} (hL : L ∈ calC D.M)
     {p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hLp : LieModel (BarInf L) .PSL 2 p f)
     (hfaith : ∀ b ∈ c.B0, CentralizesBar b L → b = 1)
-    (hinn : ∀ b (hb : b ∈ c.B0) (hbN : b ∈ normalizer (L : Set G)),
+    (hinn : ∀ b (_hb : b ∈ c.B0) (hbN : b ∈ normalizer (L : Set G)),
       inducedBarInfAutHom L ⟨b, hbN⟩ ∈ (MulAut.conj : BarInf L →* MulAut (BarInf L)).range) :
     False := by
   let c₀ : Ctx21 D Ch :=
@@ -191,7 +191,7 @@ theorem uc22s2112u_l2_false {D : Data G} {Ch : Choice2011 G} (h5 : S21_5 D Ch)
       rw [c.hpi]
       exact ⟨hr, hrd⟩
     exact hpi.2
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hB3 : ¬ IsPGroup 3 ↥c.B0 := by
     intro h3
     obtain ⟨k, hk⟩ := h3.exists_card_eq
@@ -201,12 +201,12 @@ theorem uc22s2112u_l2_false {D : Data G} {Ch : Choice2011 G} (h5 : S21_5 D Ch)
     intro h
     rw [h] at hB3
     exact hB3 IsPGroup.of_bot
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨t, htT, ht⟩ := uc22s2112u_l2_inv hp hp2 hLp (uc22p2214_isSylowOf_inf D.sylowM hL.1)
     D.sylowM.isPGroup hBN hBT hBab hBo hB3
-    (fun b hb h1 => hfaith b hb
-      (uc22s2113_centralizesBar_of_inducedBarInfAutHom_eq_one hL.2.2 (hBN hb) h1))
-    (fun b hb => hinn b hb (hBN hb))
+    (fun b _hb h1 => hfaith b _hb
+      (uc22s2113_centralizesBar_of_inducedBarInfAutHom_eq_one hL.2.2 (hBN _hb) h1))
+    (fun b _hb => hinn b _hb (hBN _hb))
   obtain ⟨hi, -⟩ := c.hch
   exact hi hne t htT (uc22s2112u_mem_normalizer_of_inv ht) ht
 

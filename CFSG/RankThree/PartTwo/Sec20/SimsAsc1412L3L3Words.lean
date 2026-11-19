@@ -18,7 +18,7 @@ variable {F : Type} [Field F]
 private theorem det_one_add_smul_vecMulVec (u w : Fin 3 → F) (c : F) :
     (1 + c • Matrix.vecMulVec u w).det = 1 + c * (w ⬝ᵥ u) := by
   rw [Matrix.det_fin_three]
-  simp [Matrix.vecMulVec_apply, Matrix.one_apply, dotProduct, Fin.sum_univ_succ]
+  simp [Matrix.vecMulVec_apply, dotProduct, Fin.sum_univ_succ]
   ring
 
 private theorem vecMulVec_mul_self_of_dotProduct_eq_zero {u w : Fin 3 → F} (h : w ⬝ᵥ u = 0) :

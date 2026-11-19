@@ -77,7 +77,7 @@ theorem y7c_N_eq_K_of_normal (c : K7Abs ρ t J Q P M6 M7) (hK : CFSG.IsComponent
     (hJK : J ≤ K ⊔ conjSub t K) (hnorm : ∀ g : Γ, conjSub g K = K) :
     Subgroup.normalClosure (J : Set Γ) = K := by
   rw [y7c_N_eq_ncK c hK hJK]
-  haveI : K.Normal := ⟨fun n hn g => by
+  have : K.Normal := ⟨fun n hn g => by
     have h1 : g * n * g⁻¹ ∈ conjSub g K := y7c_mul_mem_conjSub (g := g) hn
     rwa [hnorm g] at h1⟩
   exact Subgroup.normalClosure_eq_self K

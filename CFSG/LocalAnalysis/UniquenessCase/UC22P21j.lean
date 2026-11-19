@@ -12,6 +12,7 @@ open CFSG.LocalAnalysis.UniquenessCase.UC22.Ext
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem uc22p21j_normal_of_conjClosure_eq {M L : Subgroup G} (hLM : L ≤ M) (h : L = conjClosure M L) :
     (L.subgroupOf M).Normal := by
   have hle : ∀ g ∈ M, L.map (MulAut.conj g).toMonoidHom ≤ L := fun g hg =>
@@ -49,12 +50,12 @@ theorem uc22p21j_normal_of_s21_17 (D : Data G) (Ch : Choice2011 G) (h17 : S21_17
 
 theorem uc22p21j_normal_of_sp4 (D : Data G) (Ch : Choice2011 G) (hN : S21_Normal D Ch)
     (h1930 : H1930 D) (c : Ctx22b D Ch) {K : Subgroup G} (hKC : K ∈ calC D.M) {n : ℕ}
-    (hsp : IsSp4 ↥(mbarImage D.M c.V K) n) (hodd : Odd n) : (K.subgroupOf D.M).Normal :=
+    (hsp : IsSp4 ↥(mbarImage D.M c.V K) n) (_hodd : Odd n) : (K.subgroupOf D.M).Normal :=
   hN h1930 c.toCtx21 K hKC (Or.inl ⟨n, uc22p22a_shape_sp4 D c hKC hsp⟩)
 
 theorem uc22p21j_normal_of_su3 (D : Data G) (Ch : Choice2011 G) (hN : S21_Normal D Ch)
     (h1930 : H1930 D) (c : Ctx22b D Ch) {K : Subgroup G} (hKC : K ∈ calC D.M) {n : ℕ}
-    (hsu : IsSU3 ↥(mbarImage D.M c.V K) n) (hmod : n ≡ 1 [MOD 6]) : (K.subgroupOf D.M).Normal :=
+    (hsu : IsSU3 ↥(mbarImage D.M c.V K) n) (_hmod : n ≡ 1 [MOD 6]) : (K.subgroupOf D.M).Normal :=
   hN h1930 c.toCtx21 K hKC (Or.inr ⟨n, uc22p22a_shape_su3 D c hKC hsu⟩)
 
 theorem uc22p21j_s22_15_of (D : Data G) (Ch : Choice2011 G) (hK147 : K147) (h22V : S22_V D Ch)
@@ -67,7 +68,7 @@ theorem uc22p21j_s22_15_of (D : Data G) (Ch : Choice2011 G) (hK147 : K147) (h22V
   have hel : CFSG.Open.IsElemAbelian 2 c.V := (h22V h1930 c).1.1.1.2.2.2
   have hn : c.n ≤ n := h14 h1930 c p hp K n hK
   have h9' : ¬ MBarGT D.M ⊥ c.V (c.n + 1) := h9 h1930 c
-  haveI := uc22p22d_nontrivial hJ1 hK
+  have := uc22p22d_nontrivial hJ1 hK
   have hKV : ¬ K ≤ centralizer (c.V : Set G) := fun hle =>
     (Subgroup.nontrivial_iff_ne_bot _).1 inferInstance
       ((uc22br4_mbarImage_eq_bot_iff D.M c.V K c.hVM hKM).2 hle)
@@ -125,7 +126,7 @@ theorem uc22p21j_s22_17_of (D : Data G) (Ch : Choice2011 G) (hK147 : K147) (h22V
   have hred : TwoReduced D.M c.V := (h22V h1930 c).1.2.2
   have hn : c.n ≤ n := h14 h1930 c p hp K n hK
   have h9' : ¬ MBarGT D.M ⊥ c.V (c.n + 1) := h9 h1930 c
-  haveI := uc22p22d_nontrivial hJ1 hK
+  have := uc22p22d_nontrivial hJ1 hK
   have hnt : mbarImage D.M c.V K ≠ ⊥ := (Subgroup.nontrivial_iff_ne_bot _).1 inferInstance
   have hKV : ¬ K ≤ centralizer (c.V : Set G) := fun hle =>
     hnt ((uc22br4_mbarImage_eq_bot_iff D.M c.V K c.hVM hKM).2 hle)

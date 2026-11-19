@@ -183,10 +183,10 @@ lemma l34g_card_closure_pair_le_eight {G : Type*} [Group G] {x y : G}
     rcases hform z.1 z.2 with ⟨m, hm⟩ | ⟨m, hm⟩
     · refine ⟨(m, 0), Subtype.ext ?_⟩
       show (if (0 : ZMod 2) = 0 then x ^ m.val else x ^ m.val * y) = z.1
-      rw [if_pos rfl]; exact hm.symm
+      rw [ite_eq_left rfl]; exact hm.symm
     · refine ⟨(m, 1), Subtype.ext ?_⟩
       show (if (1 : ZMod 2) = 0 then x ^ m.val else x ^ m.val * y) = z.1
-      rw [if_neg (by decide : (1 : ZMod 2) ≠ 0)]; exact hm.symm
+      rw [ite_eq_right (by decide : (1 : ZMod 2) ≠ 0)]; exact hm.symm
   have hcard := Nat.card_le_card_of_surjective _ hsurj
   have : Nat.card (ZMod 4 × ZMod 2) = 8 := by
     rw [Nat.card_prod, Nat.card_eq_fintype_card, Nat.card_eq_fintype_card, ZMod.card, ZMod.card]

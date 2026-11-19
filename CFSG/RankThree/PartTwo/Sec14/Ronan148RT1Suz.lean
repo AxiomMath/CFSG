@@ -81,7 +81,7 @@ theorem row143_of_oPrimeCore {S : Type} [Group S] [Finite S] (hS : IsSimpleGroup
       rw [hYtop, Subgroup.card_top]
       exact h3
   ·
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hgo : orderOf g = 3 := orderOf_eq_prime hg3 hg1
     rw [RonanK429H.autFix_conj] at hYfix hYsub
     set C := Subgroup.centralizer ({g} : Set S) with hC
@@ -104,7 +104,7 @@ theorem rowOf143_spor_suz : RowOf143 (Sec4.Spor .Suz) := by
   have e' : S ≃* Blueprint.NativeSporadic.Carrier .Suz := e.trans b'.symm
   have hout : Nat.card (Outer S) ∣ 2 := by
     rw [Nat.card_congr (equivalence e').toEquiv, CFSG.Sporadic.SuzOddCore.outer_carrier_suz.1]
-  haveI := hS
+  have := hS
   have hOP := CFSG.HardMathSupport.Timmesfeld.SporadicBalance.sporadicOPrimeHolds_Suz_three S ⟨e'⟩
   refine row143_of_oPrimeCore hS hnc h3 hout fun s hs => ?_
   have h := hOP s hs

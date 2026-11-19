@@ -74,7 +74,7 @@ theorem ThCore.centralizer_t_split (C : ThCore G) (hMF : GlueMFacts) :
     apply Subtype.ext
     rw [Subgroup.coe_mul, Subgroup.coe_mul]
     exact Subgroup.mem_centralizer_singleton_iff.mp g.2
-  haveI : (Subgroup.zpowers tT).Normal := Subgroup.normal_of_le_center hcen
+  have : (Subgroup.zpowers tT).Normal := Subgroup.normal_of_le_center hcen
   have hG1 := C.exists_g23One htM hMF.card_centralizer_t hMF.g1
     (QuotientGroup.mk' (Subgroup.zpowers tT)) (QuotientGroup.mk'_surjective _)
     (QuotientGroup.ker_mk' _)
@@ -186,7 +186,7 @@ theorem iota_DJtoY
   have h : φ₁ = φ₂ := by
     apply DJ_hom_ext
     intro j
-    simp only [φ₁, φ₂, MonoidHom.comp_apply, MonoidHom.coe_coe]
+    simp only [φ₁, φ₂, MonoidHom.comp_apply, _root_.MonoidHom.coe_ofClass]
     by_cases h5 : j = 5
     · subst h5
       apply Subtype.ext
@@ -308,8 +308,7 @@ theorem ThCore.exists_glueAt (C : ThCore G)
   have hf : Function.Injective f := by
     intro x₁ x₂ h
     have h' := congrArg Subtype.val h
-    simp only [f, MonoidHom.codRestrict_apply, MonoidHom.comp_apply, Subgroup.coe_subtype,
-      MonoidHom.coe_coe] at h'
+    simp only [f] at h'
     have h'' := ψ'₁.symm.injective (Subtype.ext h')
     have h3 := congrArg Subtype.val h''
     rw [ThCore.coe_psiDY, ThCore.coe_psiDY] at h3

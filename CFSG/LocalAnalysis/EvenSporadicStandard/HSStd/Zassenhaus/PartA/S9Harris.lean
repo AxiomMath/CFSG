@@ -23,9 +23,11 @@ section Transport
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem H2Prop.transport {T T' : G} (h : T = T') (hp : H2Prop (QuotT T)) : H2Prop (QuotT T') := by
   subst h; exact hp
 
+omit [Finite G] in
 theorem nonempty_quotT_transport {T T' : G} (h : T = T')
     (hp : Nonempty (QuotT T ≃* NativeSporadic.HS)) : Nonempty (QuotT T' ≃* NativeSporadic.HS) := by
   subst h; exact hp

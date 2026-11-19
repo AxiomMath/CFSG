@@ -15,6 +15,7 @@ open CFSG.Open CFSG.QuasithinUnique CFSG.LieType.BorelTits CFSG.Sporadic.RuSchre
 
 variable {A : Type} [Group A] [Finite A]
 
+omit [Finite A] in
 theorem pb_comm_sq {V : Subgroup A} (hV : IsElemAbelian 2 V) (e : G₀ ≃* A) :
     (∀ a ∈ pb e V, ∀ b ∈ pb e V, a * b = b * a) ∧ ∀ a ∈ pb e V, a * a = 1 := by
   refine ⟨fun a ha b hb => ?_, fun a ha => ?_⟩
@@ -33,6 +34,7 @@ theorem pb_comm_sq {V : Subgroup A} (hV : IsElemAbelian 2 V) (e : G₀ ≃* A) :
 section Five
 
 
+omit [Finite A] in
 theorem false_vz_core {L V MK : Subgroup A} (h : KConfig A L V MK) (e : G₀ ≃* A)
     (hUV : img e u32 ≤ V) (hx : e ⟨x32, ruC_le x32_memC⟩ ∈ L) : False := by
   set V' := pb e V with hV'
@@ -92,6 +94,7 @@ theorem false_vz_core {L V MK : Subgroup A} (h : KConfig A L V MK) (e : G₀ ≃
   rw [apply_mem_iff_mem_pb e, pb_centralizer, hVeq] at hC
   exact commut_not_mem hC.2
 
+omit [Finite A] in
 theorem false_vz {L V MK : Subgroup A} (h : KConfig A L V MK) (e : G₀ ≃* A)
     (hUV : img e u32 ≤ V) {y : G₀} (hyM : e y ∈ L)
     (hyN : (y : Equiv.Perm (Fin 4060)) ∈ Subgroup.normalizer (u32 : Set (Equiv.Perm (Fin 4060))))
@@ -107,6 +110,7 @@ theorem false_vz {L V MK : Subgroup A} (h : KConfig A L V MK) (e : G₀ ≃* A)
     Subgroup.mem_normalizer_iff_map_conj_eq.mp hnN
   exact false_vz_core h (conjE e n⁻¹) (by rw [img_conjE, e1]; exact hUV) hxM
 
+omit [Finite A] in
 theorem false_w16_core {L V MK : Subgroup A} (h : KConfig A L V MK) (e : G₀ ≃* A)
     (hUV : img e u16 ≤ V) (hx : e ⟨x16, wG_mem _⟩ ∈ L) : False := by
   set V' := pb e V with hV'
@@ -203,6 +207,7 @@ theorem false_w16_core {L V MK : Subgroup A} (h : KConfig A L V MK) (e : G₀ �
       exact absurd h3 (by norm_num)
     exact false_vz h e' hUV2 hyM hyN ⟨1, hy5⟩ hy1
 
+omit [Finite A] in
 theorem false_w16 {L V MK : Subgroup A} (h : KConfig A L V MK) (e : G₀ ≃* A)
     (hUV : img e u16 ≤ V) {y : G₀} (hyM : e y ∈ L)
     (hyN : (y : Equiv.Perm (Fin 4060)) ∈ Subgroup.normalizer (u16 : Set (Equiv.Perm (Fin 4060))))
@@ -223,6 +228,7 @@ end Five
 section Sixty
 
 
+omit [Finite A] in
 theorem config_e64 {L V MK : Subgroup A} (h : KConfig A L V MK) (e : G₀ ≃* A)
     {U : Subgroup (Equiv.Perm (Fin 4060))} (hU : U ≤ ruP) (hUV : img e U ≤ V)
     (hCU : ruP ⊓ Subgroup.centralizer (U : Set (Equiv.Perm (Fin 4060))) ≤ u64) :
@@ -302,6 +308,7 @@ end Sixty
 section Seven
 
 
+omit [Finite A] in
 theorem config_e {L V MK : Subgroup A} (h : KConfig A L V MK) (e : G₀ ≃* A)
     (hEV : img e uE ≤ V) (hxE : e ⟨xE, ruN_le xE_memN⟩ ∈ L) :
     V = img e uE ∧ IsPGroup 2 ↥(Subgroup.centralizer (V : Set A)) := by

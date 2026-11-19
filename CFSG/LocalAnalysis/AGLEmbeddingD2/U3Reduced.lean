@@ -144,7 +144,7 @@ theorem normalizer_eq_of_u3 [Fact p.Prime] (hKU6 : KFactUnitaryBorelMaximal)
   have hRK := h.sylow_le_of_u3 hd hn e
   have := h.normal
   have hN : Subgroup.normalizer ((R : Subgroup X) : Set X) ≤ X₀ :=
-    h.normalizer_le_of_rank _ h.sylow_le R.isPGroup' h.pRank_eq.ge
+    h.normalizer_le_of_rank _ h.sylow_le R.isPGroup h.pRank_eq.ge
   have hNK : Subgroup.normalizer (((R.subtype hRK : Subgroup K)) : Set K) ≤ X₀.subgroupOf K := by
     intro k hk
     rw [Sylow.coe_subtype, ← Subgroup.subgroupOf_normalizer_eq hRK] at hk
@@ -228,7 +228,7 @@ theorem dichotomy_of_u3 [Fact p.Prime] (hKU2 : KFactUnitarySylowStructure)
     have hwWU : w ∈ W ⊓ (R : Subgroup X) := ⟨hw, hCU hwC⟩
     rwa [hWU] at hwWU
   · right
-    have : Group.IsNilpotent (R : Subgroup X) := R.isPGroup'.isNilpotent
+    have : Group.IsNilpotent (R : Subgroup X) := R.isPGroup.isNilpotent
     have hNn : ((W ⊓ (R : Subgroup X)).subgroupOf (R : Subgroup X)).Normal := by
       refine (Subgroup.normal_subgroupOf_iff_le_normalizer inf_le_right).mpr ?_
       exact (le_inf (hRX₀.trans hX₀W) Subgroup.le_normalizer).trans
@@ -259,7 +259,7 @@ theorem le_of_isPGroup_of_normal (h : D2AlmostSimple p X R A X₀ K) {W : Subgro
     (hX₀W : X₀ ≤ Subgroup.normalizer (W : Set X)) (hWp : IsPGroup p W) : W ≤ R := by
   have : Fact p.Prime := ⟨h.prime⟩
   have hsup : IsPGroup p (W ⊔ (R : Subgroup X) : Subgroup X) :=
-    hWp.to_sup_of_normal_left' R.isPGroup' (h.sylow_le.trans hX₀W)
+    hWp.to_sup_of_normal_left' R.isPGroup (h.sylow_le.trans hX₀W)
   exact (R.maximal_isPGroup.eq_of_ge hsup le_sup_right) ▸ le_sup_left
 
 theorem isSolvable_of_u3 [Fact p.Prime] (hKU6 : KFactUnitaryBorelMaximal)
@@ -295,7 +295,7 @@ theorem primeComplementCore_eq_bot_of_u3 [Fact p.Prime] (hKU2 : KFactUnitarySylo
   refine primeComplementCore_eq_bot_of_dichotomy
     (Z := (R : Subgroup X) ⊓ Subgroup.centralizer ((R : Subgroup X) : Set X))
     (fun W hW hWn => h.dichotomy_of_u3 hKU2 hKU5 hKU6 hd hn e hW hWn)
-    (R.isPGroup'.to_inf_left) ?_
+    (R.isPGroup.to_inf_left) ?_
   intro hbot
   rw [hbot, Subgroup.card_bot] at hZcard
   exact h.prime.one_lt.ne hZcard

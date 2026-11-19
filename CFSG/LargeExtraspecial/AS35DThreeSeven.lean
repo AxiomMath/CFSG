@@ -169,7 +169,7 @@ theorem commute_of_sub_mem_span {U : Submodule (ZMod 2) S.Qt} (hU2 : finrank (ZM
         _ = 0 := by rw [this, sub_self]
     rw [polar_comm (⇑S.q) b a] at h3
     rcases zmod2_cases c₁ with h4 | h4 <;> rcases zmod2_cases (polar S.q a b) with h5 | h5 <;>
-      rw [h4, h5] at h3 ⊢ <;> first | rfl | exact absurd h3 (by decide)
+      rw [h4, h5] at h3 ⊢ <;> (exact absurd h3 (by decide))
   have e2 : c₂ = polar S.q a b := by
     have := TauCeti.QuadraticMap.polar_apply_of_mem_orthogonalGroup h2 a w₀
     rw [hσ2a, hσ2w, polar_add_left, polar_add_right, polar_add_right, polar_smul_left,
@@ -180,7 +180,7 @@ theorem commute_of_sub_mem_span {U : Submodule (ZMod 2) S.Qt} (hU2 : finrank (ZM
             ring
         _ = 0 := by rw [this, sub_self]
     rcases zmod2_cases c₂ with h4 | h4 <;> rcases zmod2_cases (polar S.q a b) with h5 | h5 <;>
-      rw [h4, h5] at h3 ⊢ <;> first | rfl | exact absurd h3 (by decide)
+      rw [h4, h5] at h3 ⊢ <;> (exact absurd h3 (by decide))
   refine LinearEquiv.ext fun v => ?_
   change σ₁ (σ₂ v) = σ₂ (σ₁ v)
   set s := polar S.q u v with hs

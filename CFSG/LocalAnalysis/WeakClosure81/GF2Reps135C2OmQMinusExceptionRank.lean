@@ -121,7 +121,7 @@ theorem omq_omMinus_exception_rank (h1s : OmqMinusWeightVectorShort) (h2 : OmqRa
     congr 1
     refine Prod.ext ?_ ?_
     · funext l
-      fin_cases l <;> simp [Pi.single_apply, sub_eq_add_neg]
+      fin_cases l <;> simp [sub_eq_add_neg]
     · simp [sub_eq_add_neg]
   exact omq_omMinus_rank_of_weight_orbit h2 hn hirr ι ι' hxr hs hw0 hwt hinj horb hmove
 

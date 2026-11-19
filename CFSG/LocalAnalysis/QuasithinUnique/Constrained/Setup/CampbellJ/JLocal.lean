@@ -61,6 +61,7 @@ theorem adm (hp : PartnerCoreJ P Fp Zp) : Adm P Fp := by
 theorem isElemAbelian_fp (hp : PartnerCoreJ P Fp Zp) : CFSG.Open.IsElemAbelian 2 Fp :=
   hp.adm.isElemAbelian
 
+omit [Finite G] in
 theorem zp_le_fp (hp : PartnerCoreJ P Fp Zp) : Zp ≤ Fp := by
   rw [← hp.commJ, Subgroup.commutator_le]
   intro j hj f hf
@@ -82,6 +83,7 @@ theorem zp_le_thompsonJ (hp : PartnerCoreJ P Fp Zp) : Zp ≤ CFSG.Quasithin.thom
 theorem isElemAbelian_zp (hp : PartnerCoreJ P Fp Zp) : CFSG.Open.IsElemAbelian 2 Zp :=
   isElemAbelian_mono hp.isElemAbelian_fp hp.zp_le_fp
 
+omit [Finite G] in
 theorem commA_le (hp : PartnerCoreJ P Fp Zp) {A : Subgroup G}
     (hA : CFSG.Quasithin.IsMaxElemAbelian P A) : ⁅A, Fp⁆ ≤ Zp := by
   rcases hp.commA A hA with h | h

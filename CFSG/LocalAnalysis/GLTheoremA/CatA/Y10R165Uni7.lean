@@ -141,6 +141,7 @@ theorem blockEnd_mem_sesqSpecialUnitaryGroupLE (hp : p.Prime) (hpF : (p : K) ≠
   rw [hglue, det_glue, hdetrestr]
   simp
 
+omit [FiniteDimensional K V] in
 theorem pointwiseStab_le_centralizer_blockEnd_sesq (hp : p.Prime) (hpF : (p : K) ≠ 0)
     (hA : IsElemAbelian p A) {B : V →ₛₗ[h.bar] V →ₗ[K] K} (hB : InvariantSesq A B)
     (hrefl : B.IsRefl) (hBn : B.SeparatingLeft) {H : Subgroup (V ≃ₗ[K] V)}
@@ -191,6 +192,7 @@ theorem pointwiseStab_le_centralizer_blockEnd_sesq (hp : p.Prime) (hpF : (p : K)
       blockEnd_apply_of_ker A hp hpF hA t ht D hr, map_add, hgfix _ hmem]
   rw [LHS, RHS]
 
+omit [FiniteDimensional K V] in
 theorem ker_projBlock_eq_ker_blockEnd_sub_one (hp : p.Prime) (hpF : (p : K) ≠ 0)
     (hA : IsElemAbelian p A) (t : Hyperplane A p → ↥A) (ht : ∀ D, t D ∉ D.1)
     (D : Hyperplane A p) :
@@ -247,6 +249,7 @@ theorem pointwiseStab_normal_in_centralizer [Finite K] (hp : p.Prime) (hpF : (p 
     simpa using (congrArg Subtype.val h).symm
   exact centralizer_mapsTo_blockSpace A hp hpF hA t ht hcomm hx
 
+omit [FiniteDimensional K V] in
 theorem dvd_card_pointwiseStab_sesq [Finite K] (hp : p.Prime) (hpF : (p : K) ≠ 0)
     (hA : IsElemAbelian p A) (t : Hyperplane A p → ↥A) (ht : ∀ D, t D ∉ D.1)
     (hbH : ∀ D, blockEnd A hp hpF hA t ht D ∈ sesqSpecialUnitaryGroupLE B)
@@ -299,17 +302,17 @@ variable {W : Type} [AddCommGroup W] [Module K W] [FiniteDimensional K W]
 
 private theorem aeval_map_bar_pow (P : K[X]) (x : AlgebraicClosure K) :
     (Polynomial.aeval x (P.map h.bar)) ^ (2 ^ n) = Polynomial.aeval (x ^ (2 ^ n)) P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := h.charP
-  haveI : CharP (AlgebraicClosure K) 2 := charP_of_injective_algebraMap
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := h.charP
+  have : CharP (AlgebraicClosure K) 2 := charP_of_injective_algebraMap
     (algebraMap K (AlgebraicClosure K)).injective 2
   induction P using Polynomial.induction_on with
   | C a =>
       rw [Polynomial.map_C, Polynomial.aeval_C, Polynomial.aeval_C, UnitaryFieldData.bar_apply,
         ← map_pow, ← pow_mul]
       rw [show 2 ^ n * 2 ^ n = Nat.card K from by rw [h.card]; ring]
-      haveI : Finite K := h.finite
-      haveI : Fintype K := Fintype.ofFinite K
+      have : Finite K := h.finite
+      have : Fintype K := Fintype.ofFinite K
       rw [Nat.card_eq_fintype_card, FiniteField.pow_card]
   | add p q hp hq =>
       rw [Polynomial.map_add, Polynomial.aeval_add, Polynomial.aeval_add, add_pow_char_pow, hp, hq]
@@ -362,14 +365,14 @@ private theorem aeval_inv_pow_of_root {B : W →ₛₗ[h.bar] W →ₗ[K] K} (hB
 
 
 
-private theorem exists_eigenvalue [Finite K] {B : W →ₛₗ[h.bar] W →ₗ[K] K} (hBsym : B.IsSymm)
-    (hBsep : B.SeparatingLeft) {g : W ≃ₗ[K] W} (hg : ∀ x y, B (g x) (g y) = B x y)
+private theorem exists_eigenvalue [Finite K] {B : W →ₛₗ[h.bar] W →ₗ[K] K} (_hBsym : B.IsSymm)
+    (_hBsep : B.SeparatingLeft) {g : W ≃ₗ[K] W} (_hg : ∀ x y, B (g x) (g y) = B x y)
     (hp : p.Prime) (hp2 : p ≠ 2) (hgp : g ^ p = 1) (hg1 : g ≠ 1) :
     ∃ ζ : AlgebraicClosure K, ζ ≠ 1 ∧ ζ ^ p = 1 ∧
       Polynomial.aeval ζ (LinearMap.charpoly (g : W →ₗ[K] W)) = 0 := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CharP K 2 := h.charP
+  have : Fact p.Prime := ⟨hp⟩
+  have : CharP K 2 := h.charP
   have hpK : (p : K) ≠ 0 := by
     intro h
     have h2 : (2 : ℕ) ∣ p := (CharP.cast_eq_zero_iff K 2 p).mp h
@@ -417,8 +420,8 @@ theorem orderOf_neg_le_finrank [Finite K] {B : W →ₛₗ[h.bar] W →ₗ[K] K}
     (hp : p.Prime) (hp2 : p ≠ 2) (hgp : g ^ p = 1) (hg1 : g ≠ 1) :
     orderOf (-(2 ^ n : ZMod p)) ≤ Module.finrank K W := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨ζ, hζ1, hζp, hroot⟩ := exists_eigenvalue hBsym hBsep hg hp hp2 hgp hg1
   have hζ0 : ζ ≠ 0 := by
     rintro rfl
@@ -484,7 +487,7 @@ theorem orderOf_neg_le_finrank [Finite K] {B : W →ₛₗ[h.bar] W →ₗ[K] K}
     | zero =>
         have h1 : ((-(2 ^ n) : ZMod p) ^ 0) = 1 := pow_zero _
         rw [h1]
-        haveI : Fact (1 < p) := ⟨hp.one_lt⟩
+        have : Fact (1 < p) := ⟨hp.one_lt⟩
         rw [ZMod.val_one p]
         simpa using hroot
     | succ k ih =>

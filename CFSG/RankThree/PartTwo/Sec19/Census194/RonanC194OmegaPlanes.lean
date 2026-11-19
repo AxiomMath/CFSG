@@ -120,17 +120,16 @@ theorem planeHyp_orth_disjoint {i j i' j' : κ} (hij : i ≠ j) (hij' : i' ≠ j
     (hij'' : i ≠ j') (hi'j : i' ≠ j) (hjj' : j ≠ j') :
     (F.planeHyp i j hij).Orth (F.planeHyp i' j' hij') :=
   F.plane_orth hii'
-    (by simp [hyp, F.injX.eq_iff, F.injY.eq_iff, F.X_ne_Y, F.Y_ne_X, hij'', hij''.symm])
-    (by simp [hyp, F.injX.eq_iff, F.injY.eq_iff, F.X_ne_Y, F.Y_ne_X, hi'j, hi'j.symm])
-    (by simp [hyp, hypF, F.injX.eq_iff, F.injY.eq_iff, F.X_ne_Y, F.Y_ne_X, hij'', hij''.symm,
-      hi'j, hi'j.symm, hjj', hjj'.symm])
+    (by simp [hyp, F.injX.eq_iff, F.injY.eq_iff, F.X_ne_Y, F.Y_ne_X, hij''])
+    (by simp [hyp, F.injX.eq_iff, F.injY.eq_iff, F.X_ne_Y, F.Y_ne_X, hi'j])
+    (by simp [hyp, hypF, F.injX.eq_iff, F.injY.eq_iff, F.X_ne_Y, F.Y_ne_X, hij'', hi'j, hjj'])
 
 theorem planeHyp_orth_swap [CharP K 2] {i j : κ} (hij : i ≠ j) :
     (F.planeHyp i j hij).Orth (F.planeHyp j i hij.symm) :=
   F.plane_orth hij
-    (by simp [hyp, F.injX.eq_iff, F.injY.eq_iff, F.X_ne_Y, F.Y_ne_X, CharTwo.add_self_eq_zero])
-    (by simp [hyp, F.injX.eq_iff, F.injY.eq_iff, F.X_ne_Y, F.Y_ne_X, CharTwo.add_self_eq_zero])
-    (by simp [hyp, hypF, F.injX.eq_iff, F.injY.eq_iff, F.X_ne_Y, F.Y_ne_X, hij, hij.symm,
+    (by simp [hyp, F.X_ne_Y, F.Y_ne_X, CharTwo.add_self_eq_zero])
+    (by simp [hyp, F.X_ne_Y, F.Y_ne_X, CharTwo.add_self_eq_zero])
+    (by simp [hyp, hypF, F.injX.eq_iff, F.injY.eq_iff, F.X_ne_Y, F.Y_ne_X, hij.symm,
       CharTwo.add_self_eq_zero])
 
 theorem four_le_pRank_three [Fintype ι] [Finite K] [CharP K 2] (F : PairFrame (Fin 4) Q) :

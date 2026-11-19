@@ -15,12 +15,13 @@ open Subgroup CFSG.LocalAnalysis.RankThreeUC
 
 variable {G : Type} [Group G] [Finite G]
 
-theorem kernel_eq_bot_or_le {M X V₀ V K : Subgroup G} (hXM : X ≤ M) (hKM : K ≤ M)
+omit [Finite G] in
+theorem kernel_eq_bot_or_le {M X V₀ V K : Subgroup G} (_hXM : X ≤ M) (hKM : K ≤ M)
     (hKX : K ≤ normalizer (X : Set G)) (hV : M ≤ normalizer (V : Set G))
     (hV₀ : M ≤ normalizer (V₀ : Set G))
     (hirr : Section6.IsIrreducibleUnder K X) :
     X ⊓ centralizerOnQuotient M V₀ V = ⊥ ∨ X ≤ centralizerOnQuotient M V₀ V := by
-  haveI := centralizerOnQuotientIn_normal hV hV₀
+  have := centralizerOnQuotientIn_normal hV hV₀
   have hnorm : K ≤ normalizer ((X ⊓ centralizerOnQuotient M V₀ V : Subgroup G) : Set G) := by
     have key : ∀ k ∈ K, ∀ x ∈ X ⊓ centralizerOnQuotient M V₀ V,
         k * x * k⁻¹ ∈ X ⊓ centralizerOnQuotient M V₀ V := by

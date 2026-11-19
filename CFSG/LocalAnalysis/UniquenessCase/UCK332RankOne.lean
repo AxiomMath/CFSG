@@ -76,7 +76,7 @@ theorem inf_eq_bot_of_kFactCentralOmega (hCO : KFactCentralOmega) {K A₀ : Subg
   obtain ⟨S⟩ := (inferInstance : Nonempty (Sylow 3 ↥K))
   apply hCO ↥K hKq hcat hZ hrk' S
   intro a ha b hb ha3 hb3
-  have hQ : IsPGroup 3 ((S : Subgroup ↥K).map K.subtype) := S.isPGroup'.map K.subtype
+  have hQ : IsPGroup 3 ((S : Subgroup ↥K).map K.subtype) := S.isPGroup.map K.subtype
   have hab := hΩ _ hQ (a : G) ⟨a, ha, rfl⟩ (by simpa using congrArg Subtype.val ha3)
     (b : G) ⟨b, hb, rfl⟩ (by simpa using congrArg Subtype.val hb3)
   exact Subtype.ext (by simpa using hab)
@@ -120,7 +120,7 @@ theorem exists_eq_sup_zpowers_of_card_nine {K E A₀ : Subgroup G} (hEel : IsEle
   by_cases hEK : E ⊓ K = ⊥
   · obtain ⟨e, heE, heA⟩ : ∃ e ∈ E, e ∉ A₀ := by
       by_contra hno
-      push_neg at hno
+      push Not at hno
       have := Subgroup.card_le_of_le (show E ≤ A₀ from hno)
       rw [hEcard, hA₀card] at this
       omega
@@ -268,12 +268,12 @@ theorem exists_elt_of_k332 (h332 : CFSG.LocalAnalysis.UniquenessCase.UCK.K332Thr
     (CFSG.Open.IsElemAbelian.isPGroup hEel).comap_subtype
   obtain ⟨P, hE'P⟩ := hE'p.exists_le_sylow
   set S : Subgroup G := (P : Subgroup ↥T).map T.subtype with hSdef
-  have hSp : IsPGroup 3 S := P.isPGroup'.map T.subtype
+  have hSp : IsPGroup 3 S := P.isPGroup.map T.subtype
   have hES : E ≤ S := fun x hx =>
     ⟨⟨x, hET hx⟩, hE'P (Subgroup.mem_subgroupOf.mpr hx), rfl⟩
   have hSsyl : CFSG.ABGLocalTools.IsSylowOf 3 S T := ⟨P, rfl⟩
   have hPsyl : CFSG.ABGLocalTools.IsSylowOf 3 (P : Subgroup ↥T) ⊤ :=
-    (CFSG.ABGLocalTools.isSylowOf_iff (p := 3)).2 ⟨le_top, P.isPGroup', by
+    (CFSG.ABGLocalTools.isSylowOf_iff (p := 3)).2 ⟨le_top, P.isPGroup, by
       rw [Subgroup.relIndex_top_right]
       exact P.not_dvd_index⟩
   have hΩP : ∀ x ∈ (P : Subgroup ↥T), x ^ 3 = 1 → ∀ y ∈ (P : Subgroup ↥T), y ^ 3 = 1 →

@@ -265,7 +265,7 @@ private theorem sec11c_eq_of_orderOf_eq_two_of_isCyclic {G : Type*} [Group G] {K
     [Finite K] (hK : IsCyclic K) {x y : G} (hx : x ∈ K) (hy : y ∈ K)
     (hx2 : orderOf x = 2) (hy2 : orderOf y = 2) : x = y := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have h2 : 2 ∣ Fintype.card K := by
     rw [← Nat.card_eq_fintype_card, ← hx2]
     exact Subgroup.orderOf_dvd_natCard K hx
@@ -282,7 +282,7 @@ private theorem sec11c_eq_of_orderOf_eq_two_of_isCyclic {G : Type*} [Group G] {K
 private theorem sec11c_eq_z_of_mem_zpowers_of_sq [Finite G] {D : Subgroup G} {t t' z : G}
     (h : Sec11cDih G D t t' z) {x : G} (hx : x ∈ zpowers (t * t')) (hx2 : x * x = 1)
     (hx1 : x ≠ 1) : x = z := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact sec11c_eq_of_orderOf_eq_two_of_isCyclic (Subgroup.isCyclic_zpowers (t * t')) hx
     (z_mem_zpowers h) (orderOf_eq_prime (by rw [pow_two]; exact hx2) hx1)
     (orderOf_eq_prime (by rw [pow_two]; exact h.z_sq) h.z_ne)
@@ -371,7 +371,7 @@ theorem mem_class_iff [Finite G] (h : Sec11cDih G D t t' z) (k : ℤ) :
 theorem conj_form [Finite G] (h : Sec11cDih G D t t' z) {y : G}
     (hyD : ∀ d ∈ D, y * d * y⁻¹ ∈ D) (hyz : y * z = z * y) :
     ∃ a b : ℤ, y * t * y⁻¹ = t * (t * t') ^ a ∧ y * (t * t') * y⁻¹ = (t * t') ^ b ∧ Odd b := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set ρ := t * t' with hρ
   have htD : t ∈ D := by rw [h.eq]; exact Subgroup.mem_sup_left (Subgroup.mem_zpowers t)
   have ht'D : t' ∈ D := by rw [h.eq]; exact Subgroup.mem_sup_right (Subgroup.mem_zpowers t')

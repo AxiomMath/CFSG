@@ -79,7 +79,7 @@ theorem triD4_card_fixField {K : Type} [Field K] [Finite K] {Q : ℕ} (hK : Nat.
       rw [hK', h0] at h1
       simp at h1
     · omega
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf δ = 3 := orderOf_eq_prime hδ3 hδ1
   obtain ⟨-, -, -, -, -, hA⟩ :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_automorphism_fixed_field_cardinality hp hf hK'

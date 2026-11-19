@@ -67,7 +67,7 @@ theorem card_closure_klein {M : Type} [AddCommGroup M] [Module (ZMod 2) M] (a b 
   have : Nat.card φ.range = Nat.card (Fin 2 → ZMod 2) :=
     Nat.card_congr (AddMonoidHom.ofInjective hinj).toEquiv.symm
   rw [this]
-  simp [Nat.card_fun, Nat.card_zmod]
+  simp
 
 instance (k : Fin 2) (y : V4) : Decidable (linePred k y) :=
   match k with

@@ -22,7 +22,7 @@ theorem blk_mem_TD {d : Equiv.Perm (Fin 8)} (hd : d ∈ D) : blk (d, 1) ∈ TD :
     rw [D, map_closure_list, closure_le]
     intro x hx
     simp only [List.map_cons, List.map_nil, MonoidHom.comp_apply, MonoidHom.inl_apply, blk_pu,
-      blk_pv, Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false] at hx
+      blk_pv, Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false] at hx
     rcases hx with rfl | rfl <;> exact subset_closure (by simp)
   exact h1 (mem_map_of_mem _ hd)
 
@@ -100,7 +100,7 @@ theorem TD_le_map_phi (hβ : IsBeta L (Tb ⊓ L) β) : TD ≤ Tb.map (hS.phi β)
     rw [hS.phi_of_mem_L' (hS.mem_L'_of_mem_conj hsL), beta_conj_congr β _ hsL (by group)]
   rw [TD, closure_le]
   intro x hx
-  simp only [Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false] at hx
+  simp only [Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false] at hx
   rcases hx with rfl | rfl | rfl | rfl
   · rw [← blk_pu]
     exact h1 _ (subset_closure (by simp))

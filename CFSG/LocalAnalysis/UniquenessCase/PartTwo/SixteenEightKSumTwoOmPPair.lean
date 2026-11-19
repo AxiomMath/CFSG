@@ -43,9 +43,9 @@ theorem s16k_omegaPlus_pair_fix {K : Type} [Field K] [Finite K] (hK : Nat.card K
     ∃ B : Subgroup ↥(StatedOmega (StatedQuadPlus m K)), IsPGroup 3 B ∧ ¬ IsCyclic ↥B ∧ ∀ g ∈ B,
       natAct (StatedOmega (StatedQuadPlus m K)) g a = a ∧
         natAct (StatedOmega (StatedQuadPlus m K)) g b = b := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := by
-    haveI : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := by
+    have : Fintype K := Fintype.ofFinite K
     have hcard : Fintype.card K = 2 := by rwa [Nat.card_eq_fintype_card] at hK
     exact charP_of_card_eq_prime (p := 2) hcard
   set av : Fin m ⊕ Fin m → K := Multiplicative.toAdd a with hav

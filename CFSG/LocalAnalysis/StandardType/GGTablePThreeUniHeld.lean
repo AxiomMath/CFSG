@@ -22,7 +22,7 @@ theorem heldFlagGU {K : Type} [Field K] [Finite K] [CharP K 2] {n q : ℕ} (hK :
       ∀ y ∈ G, y ∈ Subgroup.normalizer (T : Set (GL (Fin n) K)) →
         ∀ w ∈ W, (y : Matrix (Fin n) (Fin n) K) *ᵥ w ∈ W := by
   obtain ⟨f, -, rfl⟩ := ToralCensus.exists_eq_two_pow_of_card_eq_sq hK
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK' : Nat.card K = (2 ^ f) ^ 2 := hK
   set R : Subgroup G := T.subgroupOf G with hR
   have hRne : R ≠ ⊥ := by

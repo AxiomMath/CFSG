@@ -35,7 +35,7 @@ theorem sylow_kernel_eq_bot_of_inf_ker_eq_bot [Group.IsPerfect E] (π : E →* S
         MonoidHom.mem_ker.2 (by rw [map_mul, map_inv, hxy, mul_inv_cancel])⟩
     rw [hQ, Subgroup.mem_bot] at h1
     exact mul_inv_eq_one.1 h1
-  have hR'p : IsPGroup r R' := R.isPGroup'.map Q.subtype
+  have hR'p : IsPGroup r R' := R.isPGroup.map Q.subtype
   have hcardR' : Nat.card R' = r ^ (Nat.card Q).factorization r := by
     rw [hR', Subgroup.card_map_of_injective Q.subtype_injective, Sylow.card_eq_multiplicity]
   have hcardπR' : Nat.card (R'.map π) = Nat.card R' := by
@@ -48,7 +48,7 @@ theorem sylow_kernel_eq_bot_of_inf_ker_eq_bot [Group.IsPerfect E] (π : E →* S
   have hπP : (P : Subgroup E).map π = R'.map π := by
     have hle : R'.map π ≤ (P : Subgroup E).map π := Subgroup.map_mono hRP
     refine (Subgroup.eq_of_le_of_card_ge hle ?_).symm
-    obtain ⟨T, hT⟩ := (P.isPGroup'.map π).exists_le_sylow
+    obtain ⟨T, hT⟩ := (P.isPGroup.map π).exists_le_sylow
     calc Nat.card ((P : Subgroup E).map π) ≤ Nat.card (T : Subgroup S) :=
           Subgroup.card_le_of_le hT
       _ = r ^ (Nat.card S).factorization r := Sylow.card_eq_multiplicity T
@@ -79,7 +79,7 @@ theorem sylow_kernel_eq_bot_of_inf_ker_eq_bot [Group.IsPerfect E] (π : E →* S
   have hcP : (c : E) ∈ (P : Subgroup E) :=
     CFSG.ShultStronglyClosedTI.central_pSubgroup_le_sylow P
       ((Cp : Subgroup π.ker).map π.ker.subtype) ((Subgroup.map_subtype_le _).trans hC)
-      (Cp.isPGroup'.map π.ker.subtype) (Subgroup.mem_map.2 ⟨c, hc, rfl⟩)
+      (Cp.isPGroup.map π.ker.subtype) (Subgroup.mem_map.2 ⟨c, hc, rfl⟩)
   have h1 := hcomm _ (CFSG.ShultStronglyClosedTI.central_element_mem_sylow_derived P
     ⟨(c : E), hcP⟩ hcZ)
   have h2 : (c : E) = 1 := hinj _ h1 1 R'.one_mem (by rw [map_one]; exact c.2)
@@ -128,7 +128,7 @@ theorem isCyclic_of_isPGroup_GL_three {k : Type} [Field k] [Fintype k] {p : ℕ}
       exact (Nat.Prime.coprime_iff_not_dvd hr.out).2 h1
   obtain ⟨T⟩ := (inferInstance : Nonempty (Sylow r S))
   set T' : Subgroup (GL (Fin 3) k) := (T : Subgroup S).map S.subtype with hT'
-  have hT'p : IsPGroup r T' := T.isPGroup'.map S.subtype
+  have hT'p : IsPGroup r T' := T.isPGroup.map S.subtype
   obtain ⟨R₀, hR₀⟩ := hT'p.exists_le_sylow
   have hq3 : q ^ 3 - 1 ≠ 0 := by
     have : 2 ≤ q := Fintype.one_lt_card
@@ -136,7 +136,7 @@ theorem isCyclic_of_isPGroup_GL_three {k : Type} [Field k] [Fintype k] {p : ℕ}
     omega
   have hR₀eq : (R₀ : Subgroup (GL (Fin 3) k)) = T' := by
     refine (Subgroup.eq_of_le_of_card_ge hR₀ ?_).symm
-    obtain ⟨j, hj⟩ := IsPGroup.iff_card.1 R₀.isPGroup'
+    obtain ⟨j, hj⟩ := IsPGroup.iff_card.1 R₀.isPGroup
     have hdvd : r ^ j ∣ q ^ 3 - 1 := by
       have h := hj ▸ Subgroup.card_subgroup_dvd_card (R₀ : Subgroup (GL (Fin 3) k))
       rw [hGL] at h
@@ -693,7 +693,7 @@ theorem even_unitary_three_perfect_odd_extension_trivial
   refine eq_bot_of_forall_sylow_eq_bot _ fun r hr _ Cp => ?_
   by_cases hr2 : r = 2
   · subst hr2
-    obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 Cp.isPGroup'
+    obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 Cp.isPGroup
     have h1 : Nat.card (Cp : Subgroup π.ker) ∣ Nat.card π.ker := Subgroup.card_subgroup_dvd_card _
     have hk0 : k = 0 := by
       by_contra hk0
@@ -717,7 +717,7 @@ theorem even_unitary_three_perfect_odd_extension_trivial
   refine CFSG.ShultStronglyClosedTI.central_cover_cyclic_sylow_kernel_eq_bot π hπ hcen Cp T ?_
   set T' : Subgroup (GL (Fin 3) K) :=
     (T : Subgroup (StatedSU 3 (2 ^ f) K)).map (StatedSU 3 (2 ^ f) K).subtype with hT'def
-  have hT' : IsPGroup r T' := T.isPGroup'.map _
+  have hT' : IsPGroup r T' := T.isPGroup.map _
   suffices IsCyclic T' from isCyclic_of_surjective
     ((T : Subgroup (StatedSU 3 (2 ^ f) K)).equivMapOfInjective _
       (StatedSU 3 (2 ^ f) K).subtype_injective).symm.toMonoidHom

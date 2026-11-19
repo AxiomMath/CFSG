@@ -60,7 +60,7 @@ theorem card_inf_centralizer_le (h : Hyp326 G n P) {L : Subgroup G}
     at hcard
   exact hcard
 
-theorem excluded_numerics {n k a q t : ℕ} (hn : 1 ≤ n) (hk : k = 2 ∨ k = 4)
+theorem excluded_numerics {n k a q t : ℕ} (_hn : 1 ≤ n) (hk : k = 2 ∨ k = 4)
     (ha : a = 3 ^ (3 * n + 1)) (hq : q ≤ 3 ^ n) (haq : a ≤ q * 3 ^ k) (ht : t = 3 ^ (k + 1))
     (hta : t ≤ a) : False := by
   have h1 : a ≤ 3 ^ (n + k) := by

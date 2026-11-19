@@ -103,9 +103,9 @@ theorem nonempty_mulEquiv_a5WrTwo_of_components (L₁ : Subgroup N)
       have hx1 : v * w * v⁻¹ = 1 := hdisj (v * w * v⁻¹) hmem w hw rfl
       calc w = v⁻¹ * (v * w * v⁻¹) * v := by group
         _ = 1 := by rw [hx1]; group
-    haveI : Subsingleton L₁ :=
+    have : Subsingleton L₁ :=
       ⟨fun x y => Subtype.ext (by rw [hL1bot x x.2, hL1bot y y.2])⟩
-    haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by simp)
+    have : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by simp)
     exact not_subsingleton (alternatingGroup (Fin 5)) e₁.injective.subsingleton
   exact nonempty_mulEquiv_a5WrTwo (L := φ.range) (MonoidHom.ofInjective hφinj) hφindex hvnot hv2
     hswapφ

@@ -40,13 +40,13 @@ theorem q01C_spec {K T DF : ℕ → ℕ} {Gk j n i : ℕ} (h : q01C K T DF Gk j 
   obtain ⟨h3, h4⟩ := (CFSG.KS.bAnd_iff _ _).1 h
   refine ⟨h1, fun t ht => CFSG.KS.allN_spec h2 t ht, h3, fun hf => ?_, fun hf hc => ?_⟩
   · have e : Nat.beq (qpE (T i) 3) 1 = true := Eq.mpr Nat.beq_eq hf
-    rw [bRec_eq, if_pos e, sB_eq] at h4
+    rw [bRec_eq, ite_eq_left e, sB_eq] at h4
     obtain ⟨h5, h6⟩ := (CFSG.KS.bAnd_iff _ _).1 h4
     exact ⟨blt_of h5, h6⟩
   · have e : ¬ (Nat.beq (qpE (T i) 3) 1 = true) := by
       rw [Nat.beq_eq]
       exact hf
-    rw [bRec_eq, if_neg e, bRec_eq, if_pos hc] at h4
+    rw [bRec_eq, ite_eq_right e, bRec_eq, ite_eq_left hc] at h4
     exact blt_of h4
 
 variable {g : ℕ → Equiv.Perm (Fin 3510)} {pp pj : ℕ → ℕ} {lt : ℕ → ℕ → ℕ} {n m : ℕ}

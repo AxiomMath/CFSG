@@ -36,7 +36,7 @@ theorem exists_phiTwoTorus
         baseChangeGL (algebraMap K (AlgebraicClosure K))
             ((T (ofAdd t) : adjointGroup τ K) : ModGL τ K) =
           g0 * rootDiagUnit τ (TableBExc.E6Three.zetaVec ζ hζ t) * g0⁻¹ := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   classical
   let f : (Fin τ.rank → ZMod p) →+ (Fin τ.rank → ZMod p) :=
     { toFun := ExcFrames.frameCoord τ p
@@ -104,7 +104,7 @@ private theorem frobenius_baseChangeGL
     refine RingHom.ext fun c => ?_
     rw [RingHom.comp_apply, hFr, ← map_pow]
     congr 1
-    letI : Fintype K := Fintype.ofFinite K
+    let : Fintype K := Fintype.ofFinite K
     rw [Nat.card_eq_fintype_card]
     exact FiniteField.pow_card c
   calc
@@ -164,7 +164,7 @@ theorem torusAct_eq_neg_of_langFrame
           ((ι₀ (ofAdd s) : adjointGroup τ K) : ModGL τ K) =
         g0 * ExcFrames.frameDiag ζ hζ s * g0⁻¹)
     (s : Fin τ.rank → ZMod p) : TableBExc.torusAct τ p w s = -s := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   have hq : (Nat.card K : ZMod p) = -1 := by
     have h1 : (Nat.card K : ZMod p) + 1 = 0 := by
       rw [← Nat.cast_one, ← Nat.cast_add]

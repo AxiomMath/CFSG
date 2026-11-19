@@ -83,7 +83,7 @@ theorem fusion_in_sylow {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2)
       refine ⟨x, hx, ?_⟩
       simp
     obtain ⟨s, hs, z, hz, hnz⟩ :=
-      normalizer_eq_mul_centralizer hp2 hΩ hQ.1 S.isPGroup' hQ.2.1 n hn
+      normalizer_eq_mul_centralizer hp2 hΩ hQ.1 S.isPGroup hQ.2.1 n hn
     refine ⟨m * s, (S : Subgroup L).mul_mem hm hs.1, ?_⟩
     have hsN : s ∈ Subgroup.normalizer (Q : Set L) := hs.2
     have h1 : s⁻¹ * (c⁻¹ * x * c) * s ∈ Q := (Subgroup.mem_normalizer_iff''.mp hsN _).mp hx'Q
@@ -141,7 +141,7 @@ theorem not_dvd_card_of_perfect {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2)
     rw [eq_top_iff, ← Subgroup.map_le_map_iff_of_injective (S : Subgroup L).subtype_injective,
       h1, h2]
     exact hle
-  have : Group.IsNilpotent (S : Subgroup L) := S.isPGroup'.isNilpotent
+  have : Group.IsNilpotent (S : Subgroup L) := S.isPGroup.isNilpotent
   have hsub : Subsingleton (S : Subgroup L) :=
     CFSG.ComponentClassification.SolvableKernelContainment.perfect_solvable_subsingleton
   have hcard : Nat.card (S : Subgroup L) = 1 := Nat.card_eq_one_iff_unique.mpr ⟨hsub, inferInstance⟩

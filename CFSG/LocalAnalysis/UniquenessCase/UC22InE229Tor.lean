@@ -17,10 +17,11 @@ open scoped MatrixGroups
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem uc22ine229_exists_torus_of_isL2 {n : ℕ} (h : IsL2 X n) :
     ∃ H : Subgroup X, (∀ x ∈ H, ∀ y ∈ H, x * y = y * x) ∧ Nat.card H = 2 ^ n - 1 := by
   obtain ⟨-, K, hKf, hKfin, hK, ⟨e₁⟩⟩ := LieModel.statedClassicalModel h (by decide)
-  haveI : CharP K 2 := uc22pwlie_charP_two hK
+  have : CharP K 2 := uc22pwlie_charP_two hK
   let e₀ : X ≃* SL(2, K) := e₁.trans
     ((CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 2 K).symm.trans
       (CFSG.Timmesfeld.RankOne.psl2EquivSL2 K))
@@ -30,6 +31,7 @@ theorem uc22ine229_exists_torus_of_isL2 {n : ℕ} (h : IsL2 X n) :
     rw [← map_mul, ← map_mul, ← map_mul, ← map_mul, mul_comm μ ν]
   · rw [Subgroup.card_map_of_injective e₀.symm.injective, card_torusSL, hK]
 
+omit [Finite X] in
 theorem uc22ine229_exists_torus_of_isSz {n : ℕ} (h : IsSz X n) :
     ∃ H : Subgroup X, (∀ x ∈ H, ∀ y ∈ H, x * y = y * x) ∧ Nat.card H = 2 ^ n - 1 := by
   obtain ⟨-, -, a, ha, K, _, _, hn, hcard, ⟨e₀⟩⟩ := LieModel.suzukiModel h
@@ -45,7 +47,7 @@ theorem uc22ine229_rank_facts {n p r : ℕ}
     (hX : (IsL2 X n ∧ ¬ p ∣ 2 ^ n + 1) ∨ (IsSz X n ∧ ¬ p ∣ 2 ^ (2 * n) + 1)) (hp : p.Prime)
     (hp2 : p ≠ 2) (hr : r.Prime) (hr2 : r ≠ 2) (hrn : r ∣ 2 ^ n - 1) :
     CFSG.Open.pRank r (⊤ : Subgroup X) ≤ 1 ∧ r ∣ Nat.card X ∧ ¬ p ∣ Nat.card (Sylow r X) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hn : 1 ≤ n := by
     rcases hX with ⟨h, -⟩ | ⟨h, -⟩
     · exact (LieModel.admissible h).2.1

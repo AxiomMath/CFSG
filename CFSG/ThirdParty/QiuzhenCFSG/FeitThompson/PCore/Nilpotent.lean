@@ -18,7 +18,7 @@ public theorem CFSG.nilpotent_top_le_pCore_sup_pPrimeCore
     (hQnil : Group.IsNilpotent Q) :
     (⊤ : Subgroup Q) ≤ pCore p Q ⊔ pPrimeCore p Q := by
   classical
-  haveI : Group.IsNilpotent Q := hQnil
+  have : Group.IsNilpotent Q := hQnil
   have hnilTop : Group.IsNilpotent (↥(⊤ : Subgroup Q)) := by
     exact Group.nilpotent_of_mulEquiv
       (G := Q) (G' := ↥(⊤ : Subgroup Q))
@@ -34,7 +34,7 @@ public theorem CFSG.nilpotent_top_le_pCore_sup_pPrimeCore
     exact le_sup_left
   · have hqprime : Nat.Prime q.1 :=
       Nat.prime_of_mem_primeFactors q.1.2
-    letI : Fact (Nat.Prime q.1) := ⟨hqprime⟩
+    let : Fact (Nat.Prime q.1) := ⟨hqprime⟩
     obtain ⟨n, hn⟩ :=
       (pCore_isPGroup (G := Q) (p := q.1)).exists_card_eq
     have hcop : Nat.Coprime p (Nat.card (pCore q.1 Q)) := by

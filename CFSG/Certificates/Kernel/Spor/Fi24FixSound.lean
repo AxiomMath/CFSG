@@ -164,8 +164,8 @@ theorem cntFix_eq (S : ℕ → ℕ) (TG : ℕ → ℕ → ℕ) (w u : List ℕ) 
   have e : Nat.add lo t = lo + t := rfl
   rw [e]
   by_cases hc : walk TG u (walk TG w (S (lo + t))) = walk TG w (S (lo + t))
-  · rw [if_pos hc, if_pos (by rw [Nat.beq_eq]; exact hc)]
-  · rw [if_neg hc, if_neg (by rw [Nat.beq_eq]; exact hc)]
+  · rw [ite_eq_left hc, ite_eq_left (by rw [Nat.beq_eq]; exact hc)]
+  · rw [ite_eq_right hc, ite_eq_right (by rw [Nat.beq_eq]; exact hc)]
 
 theorem aliveEnum_spec {LVs A : ℕ → ℕ} {nC N lo m : ℕ}
     (h : CFSG.KC.Fi24Act.aliveEnum LVs A nC N lo m = true) : lo + m ≤ N ∧ ∀ t < m,
@@ -180,7 +180,7 @@ theorem aliveEnum_spec {LVs A : ℕ → ℕ} {nC N lo m : ℕ}
   simp only [letB_eq, andB_iff, Nat.blt_eq] at this
   obtain ⟨h1, h2, h3⟩ := this
   refine ⟨h1, h2, fun hlt => ?_⟩
-  rw [brec_eq, if_pos (by rw [Nat.blt_eq]; exact hlt), Nat.blt_eq] at h3
+  rw [brec_eq, ite_eq_left (by rw [Nat.blt_eq]; exact hlt), Nat.blt_eq] at h3
   exact h3
 
 theorem bitAt_eq (z o : ℕ) : bitAt z o = (z.testBit o).toNat := by
@@ -188,6 +188,7 @@ theorem bitAt_eq (z o : ℕ) : bitAt z o = (z.testBit o).toNat := by
   change (z >>> o) &&& 1 = _
   rw [Nat.and_one_is_mod, Nat.toNat_testBit, Nat.shiftRight_eq_div_pow]
 
+set_option exponentiation.threshold 781 in
 theorem RM_eq : RM = 2 ^ 781 - 1 := by
   change 1 <<< 781 - 1 = _
   rw [Nat.shiftLeft_eq, Nat.one_mul]
@@ -205,14 +206,14 @@ theorem entOK_spec {z1 z2 o v : ℕ} (h : entOK z1 z2 o v = true) :
   obtain ⟨h1, h2⟩ := h
   constructor
   · by_cases hv : v = 1
-    · rw [if_pos (by rw [Nat.beq_eq]; exact hv)] at h1
+    · rw [ite_eq_left (by rw [Nat.beq_eq]; exact hv)] at h1
       cases hb : z1.testBit o <;> simp_all
-    · rw [if_neg (by rw [Nat.beq_eq]; exact hv)] at h1
+    · rw [ite_eq_right (by rw [Nat.beq_eq]; exact hv)] at h1
       cases hb : z1.testBit o <;> simp_all
   · by_cases hv : v = 2
-    · rw [if_pos (by rw [Nat.beq_eq]; exact hv)] at h2
+    · rw [ite_eq_left (by rw [Nat.beq_eq]; exact hv)] at h2
       cases hb : z2.testBit o <;> simp_all
-    · rw [if_neg (by rw [Nat.beq_eq]; exact hv)] at h2
+    · rw [ite_eq_right (by rw [Nat.beq_eq]; exact hv)] at h2
       cases hb : z2.testBit o <;> simp_all
 
 theorem trit_eq (x s : ℕ) (hs : s < 4) : trit x s = x / 3 ^ s % 3 := by
@@ -270,7 +271,7 @@ theorem rowsZOK_spec {P1 P2 : ℕ} (h : rowsZOK P1 P2 = true) : ∀ j < 781, ∀
   rw [brec_eq] at h1
   constructor
   · intro hj2
-    rw [if_pos (by rw [Nat.blt_eq]; exact hj2), andB_iff, Nat.beq_eq, Nat.beq_eq] at h1
+    rw [ite_eq_left (by rw [Nat.blt_eq]; exact hj2), andB_iff, Nat.beq_eq, Nat.beq_eq] at h1
     obtain ⟨a, b⟩ := h1
     rw [← hrow, ← hrow, a, b]
     refine ⟨?_, Nat.zero_testBit i⟩
@@ -280,7 +281,7 @@ theorem rowsZOK_spec {P1 P2 : ℕ} (h : rowsZOK P1 P2 = true) : ∀ j < 781, ∀
     · simp [e]
     · simp [e, Ne.symm e]
   · intro hj2 hi2
-    rw [if_neg (by rw [Nat.blt_eq]; omega), andB_iff, Nat.beq_eq, Nat.beq_eq] at h1
+    rw [ite_eq_right (by rw [Nat.blt_eq]; omega), andB_iff, Nat.beq_eq, Nat.beq_eq] at h1
     obtain ⟨a, b⟩ := h1
     rw [← hrow, ← hrow]
     have ea := congrArg (fun x => x.testBit (i - 253)) a

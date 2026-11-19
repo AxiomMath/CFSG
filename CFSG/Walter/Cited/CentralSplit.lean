@@ -102,7 +102,7 @@ theorem commutator_eq_top_of_card_sixty {X : Type*} [Group X] [IsSimpleGroup X]
 
 theorem isCyclic_sylow_of_card_sixty {X : Type*} [Group X] [Finite X] (hX : Nat.card X = 60)
     (p : ℕ) [hp : Fact p.Prime] (hp2 : p ≠ 2) (R : Sylow p X) : IsCyclic R := by
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp R.isPGroup'
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp R.isPGroup
   have hdvd : p ^ k ∣ 60 := hk ▸ hX ▸ Subgroup.card_subgroup_dvd_card _
   have hk1 : k ≤ 1 := by
     by_contra hk2

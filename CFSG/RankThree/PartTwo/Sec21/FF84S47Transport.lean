@@ -142,7 +142,7 @@ theorem natCard_trX (e : ↥L ≃* ↥A) {X : Subgroup G} (hX : X ≤ L) :
   rw [Subgroup.card_map_of_injective hinj]
   exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hX).toEquiv
 
-theorem isEA_iff {K : Type*} [Group K] (p : ℕ) (hp : 0 < p) (X : Subgroup K) :
+theorem isEA_iff {K : Type*} [Group K] (p : ℕ) (_hp : 0 < p) (X : Subgroup K) :
     IsElementaryAbelian p X ↔ (∀ a ∈ X, ∀ c ∈ X, a * c = c * a) ∧ ∀ a ∈ X, a ^ p = 1 := by
   constructor
   · intro h

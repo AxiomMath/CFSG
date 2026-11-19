@@ -56,7 +56,7 @@ private theorem autRestrict_maps_subgroupOf {α : MulAut G} {T : Subgroup G}
 private theorem eq_of_pow_three_eq_one_of_card_three {X : Type*} [Fintype X] (f : Function.End X)
     (hcard : Fintype.card X = 3) (hf : f ^ 3 = 1) (x : X) (hx : f x = x) : ∀ y, f y = y := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hmod := Equiv.Perm.card_fixedPoints_modEq (f := f) (p := 3) (n := 1) (by simpa using hf)
   have hcard_eq : Fintype.card {z : X // f z = z} = Fintype.card ↑(Function.fixedPoints f) :=
     Fintype.card_congr (Equiv.refl _)
@@ -82,9 +82,9 @@ private theorem autRestrict_quot_eq {α : MulAut G} {T : Subgroup G} (hα : α ^
   have hcard : Nat.card (↥T ⧸ (fixSub α).subgroupOf T) = 3 := by
     rw [← Subgroup.index_eq_card]
     exact hidx
-  haveI : Finite (↥T ⧸ (fixSub α).subgroupOf T) :=
+  have : Finite (↥T ⧸ (fixSub α).subgroupOf T) :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
-  letI : Fintype (↥T ⧸ (fixSub α).subgroupOf T) := Fintype.ofFinite _
+  let : Fintype (↥T ⧸ (fixSub α).subgroupOf T) := Fintype.ofFinite _
   have hcomp := autRestrict_maps_subgroupOf (α := α) hTα
   let f : Function.End (↥T ⧸ (fixSub α).subgroupOf T) :=
     Quotient.map' (autRestrict hTα) (fun a b hab =>

@@ -29,11 +29,12 @@ theorem false_of_four_le_pRank_top (e : K ≃* M) {Q : Sylow 5 K}
   have := h45.trans hcard
   norm_num at this
 
+omit [Finite M] in
 theorem false_of_not_cyclic_derived (e : K ≃* M) {Q : Sylow 5 K}
     (hQ : IsMulCommutative (Q : Subgroup K)) {U : Subgroup M} (hU : IsPGroup 5 U)
     (hUd : ¬ IsCyclic ↥⁅U, U⁆) : False := by
   have hU' : IsPGroup 5 (U.map e.symm.toMonoidHom) := hU.map _
-  haveI := isMulCommutative_of_isPGroup hQ hU'
+  have := isMulCommutative_of_isPGroup hQ hU'
   have hcomm : ∀ a b : U, a * b = b * a := fun a b => by
     have h1 := mul_comm' (⟨e.symm (a : M), Subgroup.mem_map_of_mem _ a.2⟩ :
       U.map e.symm.toMonoidHom) ⟨e.symm (b : M), Subgroup.mem_map_of_mem _ b.2⟩

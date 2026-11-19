@@ -99,10 +99,11 @@ variable
 @[expose] noncomputable def yamadaSeries (d : G2Data L K) (t : G) : Fin 7 → Subgroup G :=
   ![⊥, yamadaU₁ d t, yamadaY₂ d t, yamadaW₃ d t, yamadaF₅ d t, yamadaM₆ d t, yamadaP d t]
 
+omit [Finite K] [CharP K 2] in
 private theorem t_mem_normalizer_S (h : Setup G L f t) (d : G2Data L K) :
     t ∈ normalizer (d.S : Set G) :=
   Subgroup.centralizer_le_normalizer _
-    (mem_centralizer_iff.2 fun s hs => mem_centralizer_singleton_iff.1 (h.S_le_centralizer d hs))
+    (mem_centralizer_iff.2 fun _s hs => mem_centralizer_singleton_iff.1 (h.S_le_centralizer d hs))
 
 private theorem yamadaP_inf_centralizer_eq_S (hW : CFSG.Walter.WalterOrderForm)
     (h : Setup G L f t) (d : G2Data L K) (hK : Nat.card K = 2 ^ f) (hQ : h.QFacts d) :
@@ -264,15 +265,15 @@ theorem yamadaP_conj_coset (hW : CFSG.Walter.WalterOrderForm) (h : Setup G L f t
     intro i
     fin_cases i
     · exact SeriesPAux.isElementaryAbelian_quotient_of_elemModulo e1
-    · haveI := SeriesPAux.normal_subgroupOf_of_elemModulo hU₁Y₂ e2
+    · have := SeriesPAux.normal_subgroupOf_of_elemModulo hU₁Y₂ e2
       exact SeriesPAux.isElementaryAbelian_quotient_of_elemModulo e2
-    · haveI := SeriesPAux.normal_subgroupOf_of_elemModulo hY₂W₃ e3
+    · have := SeriesPAux.normal_subgroupOf_of_elemModulo hY₂W₃ e3
       exact SeriesPAux.isElementaryAbelian_quotient_of_elemModulo e3
-    · haveI := SeriesPAux.normal_subgroupOf_of_elemModulo hW₃F₅ e4
+    · have := SeriesPAux.normal_subgroupOf_of_elemModulo hW₃F₅ e4
       exact SeriesPAux.isElementaryAbelian_quotient_of_elemModulo e4
-    · haveI := SeriesPAux.normal_subgroupOf_of_elemModulo hF₅M₆ e5
+    · have := SeriesPAux.normal_subgroupOf_of_elemModulo hF₅M₆ e5
       exact SeriesPAux.isElementaryAbelian_quotient_of_elemModulo e5
-    · haveI := SeriesPAux.normal_subgroupOf_of_elemModulo hM₆P e6
+    · have := SeriesPAux.normal_subgroupOf_of_elemModulo hM₆P e6
       exact SeriesPAux.isElementaryAbelian_quotient_of_elemModulo e6
   have hcard : ∀ i : Fin 6, Nat.card (yamadaSeries d t i.succ ⊓ centralizer {t} : Subgroup G) ^ 2 =
       Nat.card (yamadaSeries d t i.succ) := by

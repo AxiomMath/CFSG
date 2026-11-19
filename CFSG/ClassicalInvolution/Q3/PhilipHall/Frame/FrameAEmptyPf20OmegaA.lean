@@ -54,7 +54,7 @@ theorem conjInvariant_omegaAFam (hΩ : HypOmegaGen Ω) (C : Subgroup G) :
 
 theorem hypOmegaGen_omegaAFam (hΩ : HypOmegaGen Ω) (C : Subgroup G) :
     HypOmegaGen (omegaAFam Ω C) :=
-  ((TwinADescent.clauses_of_cores hΩ C (fun M hM => hM)).restrict C).hypOmegaGen (conjInvariant_omegaAFam hΩ C)
+  ((TwinADescent.clauses_of_cores hΩ C (fun _M hM => hM)).restrict C).hypOmegaGen (conjInvariant_omegaAFam hΩ C)
 
 theorem typeRHyp_omegaAFam (h : TypeRHyp Ω) (C : Subgroup G) : TypeRHyp (omegaAFam Ω C) where
   hyp := hypOmegaGen_omegaAFam h.hyp C
@@ -65,7 +65,7 @@ theorem typeRHyp_omegaAFam (h : TypeRHyp Ω) (C : Subgroup G) : TypeRHyp (omegaA
       set L : Subgroup G := tightCore (J ⊓ C) with hL
       let ι : ↥L →* ↥J := Subgroup.inclusion hLJ
       set N' : Subgroup ↥L := (classicalInvolutionOddCore ↥J).comap ι with hN'
-      haveI : N'.Normal := Subgroup.Normal.comap inferInstance ι
+      have : N'.Normal := Subgroup.Normal.comap inferInstance ι
       have hinj : Function.Injective ι := Subgroup.inclusion_injective hLJ
       have hodd : Odd (Nat.card N') := by
         have h1 : Nat.card ↥N' = Nat.card ↥(N'.map ι) :=

@@ -59,7 +59,7 @@ theorem extend_mem_of_conj_eq (ζ : Kˣ) (hζ : IsPrimitiveRoot ζ 3) (φ : MulA
     change Q (fourCubeHom ζ hζ.pow_eq_one p) ∈ E
     rw [hall]
     exact ⟨_, rfl⟩
-  letI : Fintype E := MonoidHom.fintypeRange (fourCubeHom ζ hζ.pow_eq_one)
+  let : Fintype E := MonoidHom.fintypeRange (fourCubeHom ζ hζ.pow_eq_one)
   have hn4 : n ∈ Subgroup.normalizer (E : Set (adjointGroup .E7 K)) :=
     Subgroup.mem_normalizer_fintype hclose
   apply mem_ggAutomizer_iff.mpr
@@ -115,7 +115,7 @@ theorem threeFiveOne_dvd_fourCube_automizer (ζ : Kˣ) (hζ : IsPrimitiveRoot ζ
       (fourCubeHom ζ hζ.pow_eq_one).range) := by
   classical
   let E := (fourCubeHom ζ hζ.pow_eq_one).range
-  letI : Fintype E := MonoidHom.fintypeRange (fourCubeHom ζ hζ.pow_eq_one)
+  let : Fintype E := MonoidHom.fintypeRange (fourCubeHom ζ hζ.pow_eq_one)
   let H := ggAutomizer (⊤ : Subgroup (adjointGroup .E7 K)) E
   let ψ := extendToFourCube ζ hζ
   let S := H.comap ψ

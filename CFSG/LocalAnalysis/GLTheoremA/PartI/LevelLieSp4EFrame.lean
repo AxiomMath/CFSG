@@ -26,9 +26,9 @@ theorem kLevel_le_two_of_k2' {p : ℕ} {S : Type} [Group S] (h : catalogIs S (k2
     kLevel p S ≤ 2 := by
   unfold kLevel
   by_cases h1 : IsChevSimple p S
-  · rw [if_pos h1]
+  · rw [ite_eq_left h1]
     norm_num
-  · rw [if_neg h1, if_pos h]
+  · rw [ite_eq_right h1, ite_eq_left h]
 
 theorem pSimple_map_equiv' {G G' : Type} [Group G] [Group G'] (p : ℕ) (e : G ≃* G')
     (K : Subgroup G) : Nonempty (PSimple p (K.map e.toMonoidHom) ≃* PSimple p K) := by
@@ -53,7 +53,6 @@ theorem map_centralizer_equiv' {G G' : Type} [Group G] [Group G'] (e : G ≃* G'
     refine ⟨e.symm x, ?_, by simp⟩
     rw [SetLike.mem_coe, Subgroup.mem_centralizer_singleton_iff]
     apply e.injective
-    change e (e.symm x * s) = e (s * e.symm x)
     rw [map_mul, map_mul, MulEquiv.apply_symm_apply]
     exact hx
 
@@ -92,10 +91,12 @@ theorem isSimpleGroup_SL2 [Finite K] (hK : Nat.card K = 8) : IsSimpleGroup ↥(S
       QuotientGroup.quotientBot
   exact e.symm.isSimpleGroup
 
+omit [CharP K 2] in
 theorem nat_card_SL2 [Finite K] (hK : Nat.card K = 8) : Nat.card ↥(StatedSL 2 K) = 504 := by
   rw [card_statedSL_two, hK]
   norm_num
 
+omit [CharP K 2] in
 theorem not_comm_SL2 [Finite K] : ¬ IsMulCommutative ↥(StatedSL 2 K) := by
   intro h
   let a : ↥(StatedSL 2 K) := ⟨Matrix.GeneralLinearGroup.mkOfDetNeZero !![1, 1; 0, 1]
@@ -108,7 +109,7 @@ theorem not_comm_SL2 [Finite K] : ¬ IsMulCommutative ↥(StatedSL 2 K) := by
       simp [Matrix.det_fin_two]⟩
   have hab := h.is_comm.comm a b
   have hm := congrArg (fun x : ↥(StatedSL 2 K) => ((x : GL (Fin 2) K) : Matrix (Fin 2) (Fin 2) K)) hab
-  simp [a, b, Matrix.mul_apply, Fin.sum_univ_two, Matrix.GeneralLinearGroup.mkOfDetNeZero] at hm
+  simp [a, b, Matrix.GeneralLinearGroup.mkOfDetNeZero] at hm
 
 theorem not_comm_of_mulEquiv {G G' : Type} [Group G] [Group G'] (e : G ≃* G')
     (h : ¬ IsMulCommutative G') : ¬ IsMulCommutative G := by
@@ -119,6 +120,7 @@ theorem not_comm_of_mulEquiv {G G' : Type} [Group G] [Group G'] (e : G ≃* G')
   have := congrArg e hab
   simpa only [map_mul, MulEquiv.apply_symm_apply] using this
 
+omit [CharP K 2] in
 theorem catalog_SL2 [Fintype K] (hK : Nat.card K = 8) : catalogIs ↥(StatedSL 2 K) (k2 3) := by
   let q : TauCeti.PrimePower := ⟨2, 3, Nat.prime_two, by norm_num⟩
   have hq8 : q.p ^ q.exponent = 8 := by norm_num [q]
@@ -141,7 +143,7 @@ theorem catalog_SL2 [Fintype K] (hK : Nat.card K = 8) : catalogIs ↥(StatedSL 2
       QuotientGroup.quotientBot
   let e : (TauCeti.ValidLieTypeIndex.Group ⟨TauCeti.LieTypeIndex.A 1 q, hv⟩) ≃* ↥(StatedSL 2 F) :=
     e1.trans (e2.trans e3)
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hcardK : Fintype.card K = Fintype.card F := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hK, hF]
   let φ : K ≃+* F := FiniteField.ringEquivOfCardEq hcardK
@@ -162,7 +164,7 @@ noncomputable def eD0 : ↥(StatedSL 2 K) ≃* ↥(D0 K) :=
   MonoidHom.ofInjective (iotaH_injective (K := K))
 
 theorem isSimpleGroup_D0 [Finite K] (hK : Nat.card K = 8) : IsSimpleGroup ↥(D0 K) := by
-  haveI := isSimpleGroup_SL2 hK
+  have := isSimpleGroup_SL2 hK
   exact (eD0 (K := K)).symm.isSimpleGroup
 
 theorem card_D0 [Finite K] (hK : Nat.card K = 8) : Nat.card ↥(D0 K) = 504 :=
@@ -188,7 +190,7 @@ theorem typeA_kLevel [Fintype K] (hK : Nat.card K = 8) {A : ↥(StatedSp 2 K)} (
   have hcard : Fintype.card K = 8 := by
     rw [← Nat.card_eq_fintype_card]
     exact hK
-  haveI : IsSimpleGroup ↥(D0 K) := isSimpleGroup_D0 hK
+  have : IsSimpleGroup ↥(D0 K) := isSimpleGroup_D0 hK
   have h3' : mat A ^ 3 = 1 := by
     have := congrArg (fun x : ↥(StatedSp 2 K) => ((x : GL Ix K) : Matrix Ix Ix K)) hA3
     unfold mat

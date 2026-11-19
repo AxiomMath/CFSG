@@ -74,7 +74,7 @@ theorem top_of_sup_central {G : Type} [Group G] (R Z : Subgroup G) (hZ : Z ≤ S
         QuotientGroup.mk w * QuotientGroup.mk z := by
       rw [← QuotientGroup.mk_mul, ← QuotientGroup.mk_mul, hzw]
     simp only [commutatorElement_def, QuotientGroup.mk_mul, QuotientGroup.mk_inv, hmu, hmv,
-      one_mul, inv_one]
+      one_mul]
     rw [mul_inv_eq_one, mul_inv_eq_iff_eq_mul]
     exact hc
   rw [eq_top_iff, ← hperf]; exact hle

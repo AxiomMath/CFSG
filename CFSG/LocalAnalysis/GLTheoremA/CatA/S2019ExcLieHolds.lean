@@ -102,7 +102,7 @@ theorem s2019Omega_of_excComp {p : ℕ} (hp : p.Prime) {S B D J : Subgroup Ω} [
     intro y hy x _
     have hy1 : y = 1 := e.injective (by rw [map_one]; exact (Subgroup.mem_inf.1 hy).2)
     rw [hy1, mul_one, one_mul]
-  haveI : Finite G := Finite.of_equiv _ e.toEquiv
+  have : Finite G := Finite.of_equiv _ e.toEquiv
   have hJ₂ := (CFSG.glaPComponent_map_bijective_of_ker_le_center hp e.toMonoidHom hsubG).1 _ hJ₁
   rw [← fixSubgroup_transAut] at hJ₂
   have hT₂ : IsPGroup 2 ((T₀.map ψ).map e.toMonoidHom) := by
@@ -118,7 +118,7 @@ theorem s2019Omega_of_excComp {p : ℕ} (hp : p.Prime) {S B D J : Subgroup Ω} [
     refine (Subgroup.map_mono (Subgroup.map_mono hJ₀N |>.trans
       (Subgroup.le_normalizer_map ψ))).trans (Subgroup.le_normalizer_map _)
   set L : Subgroup G := (J₀.map ψ).map e.toMonoidHom with hL
-  haveI : Group.IsPerfect ↥J := Subgroup.isPerfect_iff.2 hJperf
+  have : Group.IsPerfect ↥J := Subgroup.isPerfect_iff.2 hJperf
   let θ : ↥B →* MulAut (↥J ⧸ Subgroup.center ↥J) :=
     (CFSG.ComponentClassification.PerfectAutomorphisms.centerQuotientHom ↥J).comp
       ((Subgroup.normalizerMonoidHom J).comp (Subgroup.inclusion hBJ))
@@ -217,12 +217,12 @@ section Holds
 theorem s2019FactExceptionalLie_holds (hsec : S2019ExcSecRank) (hree : S2019ExcCompNotRee) :
     S2019FactExceptionalLie := by
   intro p q hp hp2 hq hq2 hqp Ω _ _ S B D J hSn hSq hSp hcat hBel hSB hrank
-  haveI := hSn
+  have := hSn
   obtain ⟨i, hi, ⟨e₀⟩⟩ := hcat
   let e : ↥S ⧸ Subgroup.center ↥S ≃* i.Group := (pSimpleEquivQuotCenter hSp).symm.trans e₀
-  haveI : Finite i.Group := Finite.of_equiv _ e.toEquiv
-  haveI hSs : IsSimpleGroup (↥S ⧸ Subgroup.center ↥S) := hSq.2
-  haveI : IsSimpleGroup i.Group := e.symm.isSimpleGroup
+  have : Finite i.Group := Finite.of_equiv _ e.toEquiv
+  have hSs : IsSimpleGroup (↥S ⧸ Subgroup.center ↥S) := hSq.2
+  have : IsSimpleGroup i.Group := e.symm.isSimpleGroup
   have hSperf : ⁅S, S⁆ = S := commutator_self_eq_of_isQuasisimple hSq
   have hna : ∃ a b : i.Group, a * b ≠ b * a := by
     by_contra hcon

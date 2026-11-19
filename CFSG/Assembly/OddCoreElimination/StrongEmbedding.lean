@@ -217,7 +217,7 @@ private theorem centralizer_le_normalizer_of_sylow_le
     exact M.inv_mem_iff.mp hinv
   have hFn : F.Normal := hQn.comap π
   have hRF : R ≤ F := inf_le_left
-  have hRp : IsPGroup 2 (R.subgroupOf F) := (TS.isPGroup'.to_le inf_le_right).comap_subtype
+  have hRp : IsPGroup 2 (R.subgroupOf F) := (TS.isPGroup.to_le inf_le_right).comap_subtype
   have hRidx : ¬ 2 ∣ (R.subgroupOf F).index := by
     have h1 := Subgroup.card_mul_index (R.subgroupOf F)
     have hRF' : Nat.card (R.subgroupOf F) = Nat.card Q :=
@@ -256,7 +256,7 @@ private theorem centralizer_le_normalizer_of_involution
     rw [hT₁def, Subgroup.card_map_of_injective C.subtype_injective]
     exact T0.card_eq_multiplicity
   have htT₁ : t ∈ T₁ := ⟨_, mem_sylow_centralizer T0 ht, rfl⟩
-  obtain ⟨S', hS'⟩ := (T0.isPGroup'.map C.subtype).exists_le_sylow
+  obtain ⟨S', hS'⟩ := (T0.isPGroup.map C.subtype).exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq G S' S
   have hmapS : ∀ x ∈ (S' : Subgroup G), g * x * g⁻¹ ∈ (S : Subgroup G) := by
     intro x hx

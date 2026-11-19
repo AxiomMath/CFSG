@@ -74,7 +74,7 @@ private theorem ggStdSubUnitaryAux_label_arith {lab : LargeEvenLabel}
     · exact absurd h1 (by simp [markTag, hl2])
     · by_cases hl3 : l = 3
       · have h := h2
-        simp [markRank, hl2, hl3] at h
+        simp [markRank, hl3] at h
         exact absurd h.symm hd4
       · exact absurd h1 (by simp [markTag, hl2, hl3])
   case G2der => exact absurd hc (by simp [markChar])
@@ -190,7 +190,7 @@ theorem ggConfig_exists_abelianPreimage_psu {G : Type} [Group G] [Finite G] {p :
     exact hdm ⟨hd3', hm1⟩
   have hEadm : CFSG.Open.StatedLieAdmissible .PSU d 2 m :=
     ⟨Nat.prime_two, hE.one_le, hd3, hne⟩
-  haveI : Finite E := hE.finite
+  have : Finite E := hE.finite
   have hcardE : Nat.card E = (2 ^ m) ^ 2 := by
     rw [hE.card, ← pow_mul, Nat.mul_comm]
   have hSCM : CFSG.Open.StatedClassicalModel

@@ -229,7 +229,7 @@ private lemma r891_exists_sylow_containing {e : ℕ} {y b : X}
       obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hz
       exact (hyb.zpow_right k).eq.symm
   obtain ⟨P₀, hP₀le⟩ := hApg.exists_le_sylow
-  have hP₀IsPGroup : IsPGroup 3 (P₀ : Subgroup X) := P₀.isPGroup'
+  have hP₀IsPGroup : IsPGroup 3 (P₀ : Subgroup X) := P₀.isPGroup
   have hP₀IsSylow : IsSylowOf 3 (P₀ : Subgroup X) ⊤ :=
     CFSG.ABGLocalTools.isSylowOf_iff.mpr
       ⟨le_top, hP₀IsPGroup, by simpa using P₀.not_dvd_index⟩

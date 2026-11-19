@@ -19,7 +19,7 @@ theorem noncomp_D_nonabelian (h : Hyp326 G n P) {D : Subgroup G} (hD : D.Normal)
   have hEab : CFSG.Open.IsElemAbelian 3 D := ⟨hcomm, hexp⟩
   have hDJ : D ≤ jOf P :=
     (jOf_spec h).2.2.2.2 D hDP (hD.subgroupOf P) hEab
-  haveI : IsMulCommutative (jOf P) := ((jOf_spec h).2.1).1
+  have : IsMulCommutative (jOf P) := ((jOf_spec h).2.1).1
   have hJD : jOf P ≤ Subgroup.centralizer (D : Set G) :=
     (Subgroup.le_centralizer (jOf P)).trans (Subgroup.centralizer_le hDJ)
   exact hA (hJD.trans hCD)
@@ -43,14 +43,14 @@ theorem noncomp_n_eq_one (h : Hyp326 G n P) {D : Subgroup G} (hD : D.Normal)
 
 private lemma isMulCommutative_of_card_dvd_nine {H : Type*} [Group H] [Finite H]
     (h : Nat.card H ∣ 9) : IsMulCommutative H := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have h9 : Nat.card H ∣ 3 ^ 2 := by
     rw [show (3 : ℕ) ^ 2 = 9 by norm_num]
     exact h
   obtain ⟨k, hk, hkH⟩ :=
     (Nat.dvd_prime_pow (p := 3) (m := 2) (show Nat.Prime 3 by norm_num)).mp h9
   interval_cases k
-  · haveI : Subsingleton H :=
+  · have : Subsingleton H :=
       Finite.card_le_one_iff_subsingleton.mp (by simpa using hkH.le)
     infer_instance
   · exact (isCyclic_of_prime_card (p := 3) (by simpa using hkH)).isMulCommutative

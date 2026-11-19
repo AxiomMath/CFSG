@@ -122,7 +122,7 @@ theorem sylow_quaternion (h : IsDoubleCoverA7 π z) (P : Sylow 2 E) :
     rw [hvx] at hle hc1
     exact (Subgroup.eq_of_le_of_card_ge hle (by rw [hc1, hV])).symm
   rcases (CFSG.BenderSuzuki.External.huppert_III_8_2_pgroup_unique_order_prime_subgroup
-    Nat.prime_two P.isPGroup' hunique).2 rfl with hcyc | ⟨n, hn3, ⟨eq⟩⟩
+    Nat.prime_two P.isPGroup hunique).2 rfl with hcyc | ⟨n, hn3, ⟨eq⟩⟩
   · exact absurd hcyc hnc
   · have hne : NeZero (2 ^ (n - 2)) := ⟨pow_ne_zero _ two_ne_zero⟩
     have h1 : Nat.card (QuaternionGroup (2 ^ (n - 2))) = 4 * 2 ^ (n - 2) := by

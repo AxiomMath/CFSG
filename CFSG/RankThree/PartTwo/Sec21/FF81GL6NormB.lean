@@ -62,11 +62,11 @@ private theorem nb_pair_expand {a : Fin 6} (ha : a.val < 3) {x : Fin 6 → ZMod 
   funext r
   by_cases h1 : r = a
   · rw [h1]
-    simp [Pi.single_apply, hne]
+    simp [hne]
   · by_cases h2 : r = a + 3
     · rw [h2]
-      simp [Pi.single_apply, hne.symm]
-    · simp [Pi.single_apply, h1, h2, hx r h1 h2]
+      simp [hne.symm]
+    · simp [h1, h2, hx r h1 h2]
 
 private theorem nb_zero_of_pair {a : Fin 6} (ha : a.val < 3) {x : Fin 6 → ZMod 2}
     (hx : OnPair a x) (h1 : x a = 0) (h2 : x (a + 3) = 0) : x = 0 := by
@@ -106,9 +106,9 @@ private theorem nb_e_eq {a : Fin 6} (ha : a.val < 3) {x y : Fin 6 → ZMod 2} (h
   · by_cases h2 : r = a + 3
     · rw [h2]
       simp only [Pi.single_apply, Pi.add_apply, Pi.smul_apply, smul_eq_mul]
-      rw [if_neg hne.symm]
+      rw [ite_eq_right hne.symm]
       exact (nb_two_mul _ _).symm
-    · simp [Pi.single_apply, h1, hx r h1 h2, hy r h1 h2]
+    · simp [h1, hx r h1 h2, hy r h1 h2]
 
 private theorem nb_f_eq {a : Fin 6} (ha : a.val < 3) {x y : Fin 6 → ZMod 2} (hx : OnPair a x)
     (hy : OnPair a y) (hK : x a * y (a + 3) + x (a + 3) * y a = 1) :
@@ -122,9 +122,9 @@ private theorem nb_f_eq {a : Fin 6} (ha : a.val < 3) {x y : Fin 6 → ZMod 2} (h
   · by_cases h2 : r = a
     · rw [h2]
       simp only [Pi.single_apply, Pi.add_apply, Pi.smul_apply, smul_eq_mul]
-      rw [if_neg hne]
+      rw [ite_eq_right hne]
       exact (nb_two_mul _ _).symm
-    · simp [Pi.single_apply, h1, h2, hx r h2 h1, hy r h2 h1]
+    · simp [h1, hx r h2 h1, hy r h2 h1]
 
 theorem Bf_same {a : Fin 6} (ha : a.val < 3) {x y : Fin 6 → ZMod 2} (hx : OnPair a x)
     (hy : OnPair a y) (hx0 : x ≠ 0) (hy0 : y ≠ 0) (hxy : x ≠ y) : Bf x y = 1 := by

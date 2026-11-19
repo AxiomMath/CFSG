@@ -19,7 +19,7 @@ theorem corootPair_eq_iform_of_symmetrizer_eq_one (hτ : ∀ i, τ.symmetrizer i
   rw [corootPair, iform_self_eq_two hτ hα, Int.mul_ediv_cancel_left _ (by norm_num)]
 
 theorem iform_single_single_of_ne (hτ : ∀ i, τ.symmetrizer i i = 1) {i j : Fin τ.rank}
-    (hij : i ≠ j) :
+    (_hij : i ≠ j) :
     iform (Pi.single i 1 : Fin τ.rank → ℤ) (Pi.single j 1) = τ.cartan i j := by
   rw [iform_single_left, hτ i, one_mul,
     Finset.sum_eq_single j (fun k _ hk => by simp [Pi.single_eq_of_ne hk])

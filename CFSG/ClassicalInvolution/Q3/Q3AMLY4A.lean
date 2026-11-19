@@ -77,7 +77,7 @@ theorem sylow_inf_layer (hs : Std8 Ω K J S R T W z t)
     (hY : nbrLayer Ω K z = exactCore3 z J ⊔ oddCoreOf (nbrLayer Ω K z)) :
     (S : Subgroup G) ⊓ nbrLayer Ω K z = T := by
   have hTX := isSylow2In_T_layer hs hY
-  exact hTX.eq_of_le S.isPGroup'.to_inf_left inf_le_right (le_inf hs.hT.2.2 hTX.1)
+  exact hTX.eq_of_le S.isPGroup.to_inf_left inf_le_right (le_inf hs.hT.2.2 hTX.1)
 
 theorem exists_conj_of_nbr_thin (hΩ : HypOmegaMod Ω) {K N₀ N : Subgroup G} {z : G}
     (hz : IsUniqueInvolution K z) (hN₀ : N₀ ∈ omegaNbr Ω K) (hN : N ∈ omegaNbr Ω K)

@@ -48,15 +48,15 @@ private theorem sympCell_label {X : Type} [Group X] {J : Subgroup X} {P : LargeE
 private theorem one_le_n_of_ggHasLabel_A {N : Type} [Group N] {r n : ℕ}
     (h : GGHasLabel (⟨.A, r, n⟩ : LargeEvenLabel) N) : 1 ≤ n := by
   obtain ⟨K, hK, hKfin, hKcard, -⟩ := h
-  haveI := hK
-  haveI := hKfin
+  have := hK
+  have := hKfin
   exact one_le_of_card_eq_two_pow hKcard
 
 private theorem one_le_n_of_ggHasLabel_C {N : Type} [Group N] {r n : ℕ}
     (h : GGHasLabel (⟨.C, r, n⟩ : LargeEvenLabel) N) : 1 ≤ n := by
   obtain ⟨K, hK, hKfin, hKcard, -⟩ := h
-  haveI := hK
-  haveI := hKfin
+  have := hK
+  have := hKfin
   exact one_le_of_card_eq_two_pow hKcard
 
 private theorem two_le_of_three_dvd_two_pow_sub_one {n : ℕ} (hn : 1 ≤ n)

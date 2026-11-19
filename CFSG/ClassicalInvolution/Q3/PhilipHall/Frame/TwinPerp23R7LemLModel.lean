@@ -159,8 +159,8 @@ theorem false_of_far (F : TwinDisc.ExitO2.Q8Fam G Φ) {k : ℕ} (hk : 5 ≤ k) {
     (hsurj : ∀ α ∈ 𝒜, ∀ (h : α.card = 4) (b : Bool), ∃ L ∈ Φ,
       (L.subgroupOf (pSpan Φ)).map φ = AE.memBar α h b)
     (hdisj : ∀ α ∈ 𝒜, α.card = 4 → ∃ β ∈ 𝒜, ∃ (_ : β.card = 4), Disjoint α β)
-    {K K' : Subgroup G} (hK : K ∈ Φ) (hne : K' ≠ K)
-    (hperp : ∀ J ∈ Φ, J ≠ K → J ≤ Subgroup.normalizer (K : Set G) → J = K') (hK' : K' ∈ Φ) :
+    {K K' : Subgroup G} (hK : K ∈ Φ) (_hne : K' ≠ K)
+    (hperp : ∀ J ∈ Φ, J ≠ K → J ≤ Subgroup.normalizer (K : Set G) → J = K') (_hK' : K' ∈ Φ) :
     False := by
   have hlabel' : ∀ L ∈ Φ, ∃ (α : Finset (Fin k)) (h : α.card = 4) (b : Bool),
       (L.subgroupOf (pSpan Φ)).map φ = AE.memBar α h b := fun L hL => by

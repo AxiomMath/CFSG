@@ -129,7 +129,7 @@ theorem ggRC_absIrred_of_connected {p : ℕ} [Fact p.Prime] {V : Type} [AddCommG
       intro i
       rw [hc i, LinearMap.smul_apply, LinearMap.id_apply, hcst i]
     ·
-      haveI : IsEmpty ι := not_nonempty_iff.mp hempty
+      have : IsEmpty ι := not_nonempty_iff.mp hempty
       refine ⟨0, ?_⟩
       apply LinearMap.ext
       intro x

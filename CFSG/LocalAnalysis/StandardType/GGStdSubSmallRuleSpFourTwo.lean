@@ -47,11 +47,12 @@ theorem not_isQuasisimple_commutator_of_solvable {G : Type*} [Group G] {A : Subg
     (hA : Group.IsSolvable ↥A) : ¬ CFSG.IsQuasisimple ↥⁅A, A⁆ := by
   intro hQ
   have hle : ⁅A, A⁆ ≤ A := Subgroup.commutator_le_self _
-  haveI : Group.IsSolvable ↥⁅A, A⁆ :=
+  have : Group.IsSolvable ↥⁅A, A⁆ :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hle)
       (Subgroup.inclusion_injective hle)
   exact not_solvable_of_quasisimple hQ this
 
+omit [CharP K 2] in
 theorem fixedFactor_solvable_of_two (hK : Nat.card K = 2) {x : StatedSp m K}
     (blocks : SpPrimaryBlocks 2 1 3 x (proj m K x))
     (hmem : (X - 1 : K[X]) ∈ primaryFactors (spEnd x)) (hd : spFixedDim x = 2) :
@@ -75,7 +76,7 @@ theorem selfDual_solvable_of_le (hK : Nat.card K = 2) {x : StatedSp m K}
     (hn : primaryMultiplicity (spEnd x) (SpFin.h3 K) ≤ 3)
     (hpos : 1 ≤ primaryMultiplicity (spEnd x) (SpFin.h3 K)) :
     Group.IsSolvable ↥(spSupported x {SpFin.h3 K}) := by
-  haveI : Fact (Irreducible (SpFin.h3 K)) := ⟨SpFin.h3_irreducible hK⟩
+  have : Fact (Irreducible (SpFin.h3 K)) := ⟨SpFin.h3_irreducible hK⟩
   obtain ⟨d, hd2, -, -, -, -, -, -, -, hE, -, Hf, hHf, hHfl, -, -, φ, -⟩ :=
     (blocks.selfDual ⟨SpFin.h3 K, hmem⟩ SpFin.h3_ne_X_sub_one SpFin.h3_reciprocal).exists_half
   have hd1 : d = 1 := by
@@ -91,7 +92,7 @@ theorem selfDual_solvable_of_le (hK : Nat.card K = 2) {x : StatedSp m K}
   exact solvable_of_card_two_three (a := a) (b := b) (by rw [hcardφ, hab])
 
 theorem not_isComponentOf_of_two (hK : Nat.card K = 2) {x : StatedSp 4 K} (hx3 : x ^ 3 = 1)
-    (hx1 : x ≠ 1) (blocks : SpPrimaryBlocks 2 1 3 x (proj 4 K x)) (hd : spFixedDim x = 2)
+    (_hx1 : x ≠ 1) (blocks : SpPrimaryBlocks 2 1 3 x (proj 4 K x)) (hd : spFixedDim x = 2)
     {Q : Subgroup (StatedSp 4 K)}
     (hQ : CFSG.Assembly.IsComponentOf Q (Subgroup.centralizer ({x} : Set _))) : False := by
   classical
@@ -100,7 +101,7 @@ theorem not_isComponentOf_of_two (hK : Nat.card K = 2) {x : StatedSp 4 K} (hx3 :
     rw [CharP.cast_eq_zero_iff K 2] at h
     norm_num at h
   have hsq := (altPrimaryData_spLin hpK hx3).squarefree
-  haveI : Finite (reciprocalOrbits (spEnd x)) :=
+  have : Finite (reciprocalOrbits (spEnd x)) :=
     (Set.Finite.image _ (Finset.finite_toSet _)).to_subtype
   obtain ⟨hcomm, -, hjoin⟩ := blocks.directProduct
   have hfixconj : fixSubgroup (MulAut.conj ((MonoidHom.id (StatedSp 4 K)) x)) =
@@ -146,7 +147,7 @@ theorem not_isComponentOf_of_two (hK : Nat.card K = 2) {x : StatedSp 4 K} (hx3 :
     · have hO' : (O : Set K[X]) = {SpFin.h3 K} := by
         rw [← hO2, SpFin.h3_reciprocal, Set.pair_eq_singleton]
       rw [hO']
-      haveI : Fact (Irreducible (SpFin.h3 K)) := ⟨SpFin.h3_irreducible hK⟩
+      have : Fact (Irreducible (SpFin.h3 K)) := ⟨SpFin.h3_irreducible hK⟩
       have h1 := finrank_primaryComponent (spEnd x) (SpFin.h3 K)
       rw [SpFin.h3_natDegree] at h1
       have h1' : finrank K (primaryComponent (spEnd x) (SpFin.h3 K)) =

@@ -81,7 +81,7 @@ theorem rootGroup_sup_zpowers_eichler (hQ : (polarBilin Q).Nondegenerate) {u u' 
   rw [hy']
   exact mul_mem (mul_mem hxX (le_sup_left (b := Subgroup.zpowers x) h1)) (inv_mem hxX)
 
-theorem exists_mem_rootGroup_mul_eq {u u' : V} (hu : Q u = 0) (hu' : Q u' = 0)
+theorem exists_mem_rootGroup_mul_eq {u u' : V} (hu : Q u = 0) (_hu' : Q u' = 0)
     (huu' : polar Q u u' ≠ 0) {g : V ≃ₗ[K] V}
     (hg : g ∈ TauCeti.QuadraticMap.orthogonalGroup Q) (hgu : g u = u) :
     ∃ s ∈ rootGroup Q u, ∃ h ∈ TauCeti.QuadraticMap.orthogonalGroup Q, h u = u ∧ h u' = u' ∧

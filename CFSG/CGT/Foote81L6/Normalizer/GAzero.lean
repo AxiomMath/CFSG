@@ -89,7 +89,7 @@ theorem eq_A_or_eq_Astar {A₀ : Subgroup G} (hle : A₀ ≤ D.A ⊔ (zpowers D.
     (hs : ∀ x ∈ A₀, D.s * x * D.s⁻¹ ∈ A₀) (ht : ∀ x ∈ A₀, D.t * x * D.t⁻¹ ∈ A₀) :
     A₀ = D.A ∨ A₀ = D.Astar := by
   classical
-  haveI : Finite A₀ := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite A₀ := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hbZ : D.b ∈ zpowers D.b₀ ⊔ zpowers D.b₁ :=
     mul_mem (mem_sup_left (mem_zpowers _)) (mem_sup_right (mem_zpowers _))
   have hbA₀ : D.b ∉ A₀ := fun h => D.b_ne_one (by
@@ -160,10 +160,10 @@ theorem eq_A_or_eq_Astar {A₀ : Subgroup G} (hle : A₀ ≤ D.A ⊔ (zpowers D.
     omega
   by_cases hA : A₀ ≤ D.A
   · left
-    haveI := D.finite_A
+    have := D.finite_A
     exact eq_of_le_of_card_ge hA (by rw [D.card_A, hcard]; norm_num)
   · right
-    obtain ⟨x₁, hx₁, hx₁A⟩ := SetLike.not_le_iff_exists.1 hA
+    obtain ⟨x₁, hx₁, hx₁A⟩ := IsConcreteLE.not_le_iff_exists.1 hA
     obtain ⟨u₁, hu₁, hx₁u⟩ := hform x₁ hx₁
     have hx₁eq : x₁ = u₁ * D.b := hx₁u.resolve_left (fun h => hx₁A (h ▸ hu₁))
     have hu₁1 : u₁ ≠ 1 := fun h => hbA₀ (by rw [hx₁eq, h, one_mul] at hx₁; exact hx₁)
@@ -222,7 +222,7 @@ theorem eq_A_or_eq_Astar {A₀ : Subgroup G} (hle : A₀ ≤ D.A ⊔ (zpowers D.
         exact hgen hu hu1 hua
     have hcAs : Nat.card D.Astar = 4 := by
       rw [show Nat.card D.Astar = Nat.card D.star.A from rfl, D.star.card_A]; norm_num
-    haveI : Finite D.Astar := Nat.finite_of_card_ne_zero (by rw [hcAs]; norm_num)
+    have : Finite D.Astar := Nat.finite_of_card_ne_zero (by rw [hcAs]; norm_num)
     exact eq_of_le_of_card_ge hle' (by rw [hcAs, hcard])
 
 theorem exists_E64_s {W : Subgroup G} (hW : IsFourIn D.B₀ W) :

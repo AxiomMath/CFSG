@@ -17,7 +17,7 @@ namespace NineEightFour
 
 theorem relPPrimeCore_eq_map {p : ℕ} (hp : p.Prime) (C : Subgroup G) :
     relPPrimeCore p C = (primeComplementCore (G := ↥C) p).map C.subtype := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   apply le_antisymm
   · refine sSup_le fun N hN => ?_
     obtain ⟨hNC, hNn, hNc⟩ := hN
@@ -44,7 +44,7 @@ theorem exists_nineCore {p : ℕ} {P : Sylow p G} {M H₁ R₁ H₀ Q₀ : Subgr
     (he : D1Escape p P M H₁ R₁) (hQ : IsAGLQ p M Q₀) (hQH : Q₀ ≤ H₀)
     (hH₀ : GLBIsMaxTwoLocal H₀) (hH₀M : ¬ H₀ ≤ M) :
     ∃ (k : ℕ) (E : Subgroup G), AGL81C.NineCore G M p Q₀ H₀ E k := by
-  haveI := hS.simple
+  have := hS.simple
   obtain ⟨k, E, hE⟩ := exists_isStdE_of_isAGLQ he hQ
   exact ⟨k, E, standingGen_of_setting hS, he.maxTwoLocal_M, he.prime, he.ne_two, hQ.1, hQ.2.1,
     ⟨twoLocal_ne_top hS.nonab _ hH₀.1, hQH, hH₀M⟩, hE⟩
@@ -53,7 +53,7 @@ end NineEightFour
 
 theorem agl81NineEightFour_holds : AGL81NineEightFour G := by
   intro hS p P M H₁ R₁ he H₀ Q₀ hQ hQH hH₀ hH₀M _ hb3
-  haveI : Fact p.Prime := ⟨he.prime⟩
+  have : Fact p.Prime := ⟨he.prime⟩
   obtain ⟨k, E, hcore⟩ := NineEightFour.exists_nineCore hS he hQ hQH hH₀ hH₀M
   have h3 : pCoreOf 2 (H₀ ⊓ M) = pCoreOf 2 H₀ := by
     by_cases hJ : AGL81C.pLayerIn p H₀ ≤ M

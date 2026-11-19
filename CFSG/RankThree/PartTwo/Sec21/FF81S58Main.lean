@@ -14,9 +14,9 @@ variable {G : Type} [Group G] [Finite G]
 theorem op_two_inf_eq_bot_of_model {K : Subgroup G} {t₀ : G} (hKt : K ≤ Cen t₀)
     (hm : StatedClassicalModel K .PSp 3 2 1) : Op 2 (Cen t₀) ⊓ K = ⊥ := by
   have hTp : IsPGroup 2 (Op 2 (Cen t₀)) := S59.op_two_isPGroup' t₀
-  haveI : IsSimpleGroup K :=
+  have : IsSimpleGroup K :=
     CFSG.ClassicalGroups.Symplectic.isSimpleGroup_of_statedClassicalModel_PSp K 3 2 1 hm
-  haveI hn : ((Op 2 (Cen t₀) ⊓ K).subgroupOf K).Normal := ⟨fun n hn g => by
+  have hn : ((Op 2 (Cen t₀) ⊓ K).subgroupOf K).Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     exact ⟨S59.op_two_conj' (hKt g.2) hn.1, K.mul_mem (K.mul_mem g.2 hn.2) (K.inv_mem g.2)⟩⟩
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((Op 2 (Cen t₀) ⊓ K).subgroupOf K) with h | h
@@ -35,15 +35,17 @@ theorem op_two_inf_eq_bot_of_model {K : Subgroup G} {t₀ : G} (hKt : K ≤ Cen 
     have := Nat.Prime.dvd_of_dvd_pow Nat.prime_three h3
     omega
 
+omit [Finite G] in
 theorem cen_le_nor_op_two (t₀ : G) : Cen t₀ ≤ Nor (Op 2 (Cen t₀)) := fun g hg =>
   Subgroup.mem_normalizer_iff.mpr fun s => ⟨fun hs => S59.op_two_conj' hg hs, fun hs => by
     have := S59.op_two_conj' ((Cen t₀).inv_mem hg) hs
     rwa [show g⁻¹ * (g * s * g⁻¹) * g⁻¹⁻¹ = s by group] at this⟩
 
+omit [Finite G] in
 theorem setMul_eq_coe_sup {H K : Subgroup G} (h : K ≤ Nor H) : setMul H K = ↑(H ⊔ K) := by
   rw [Subgroup.coe_mul_of_right_le_normalizer_left H K h]
   ext x
-  simp only [setMul, Set.mem_setOf_eq, Set.mem_mul]
+  simp only [setMul, Set.mem_ofPred_eq, Set.mem_mul]
   constructor
   · rintro ⟨a, ha, k, hk, rfl⟩; exact ⟨a, ha, k, hk, rfl⟩
   · rintro ⟨a, ha, k, hk, rfl⟩; exact ⟨a, ha, k, hk, rfl⟩

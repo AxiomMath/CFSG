@@ -20,14 +20,14 @@ private theorem brec_or' (x b : Bool) : (Bool.rec x true b : Bool) = (b || x) :=
 private theorem brec_beq' {α : Sort _} (a b : α) (x y : ℕ) :
     (Bool.rec a b (Nat.beq x y) : α) = if x = y then b else a := by
   cases h : Nat.beq x y
-  · rw [if_neg (Nat.ne_of_beq_eq_false h)]
-  · rw [if_pos (Nat.eq_of_beq_eq_true h)]
+  · rw [ite_eq_right (Nat.ne_of_beq_eq_false h)]
+  · rw [ite_eq_left (Nat.eq_of_beq_eq_true h)]
 
 private theorem brec_ble' {α : Sort _} (a b : α) (x y : ℕ) :
     (Bool.rec a b (Nat.ble x y) : α) = if x ≤ y then b else a := by
   cases h : Nat.ble x y
-  · rw [if_neg (fun h' => absurd (Nat.ble_eq_true_of_le h') (by rw [h]; decide))]
-  · rw [if_pos (Nat.le_of_ble_eq_true h)]
+  · rw [ite_eq_right (fun h' => absurd (Nat.ble_eq_true_of_le h') (by rw [h]; decide))]
+  · rw [ite_eq_left (Nat.le_of_ble_eq_true h)]
 
 private theorem nat_mod3 (a b : ℕ) : Nat.mod a b = a % b := rfl
 
@@ -126,7 +126,7 @@ theorem step3_spec (p : Pattern) (k₀ m₀ s : ZMod (2 ^ 3 - 1)) (b sc : ℕ)
     simp only [hl, h0, ↓reduceIte, hw]
     split_ifs <;> simp only [Multiset.insert_eq_cons, Multiset.map_cons, Multiset.map_singleton,
       Multiset.sum_cons, Multiset.sum_singleton, Multiset.map_zero, Multiset.sum_zero, g3,
-      Nat.mul_eq, Nat.add_eq, h1, h5, add_zero]
+      Nat.mul_eq, Nat.add_eq, h1, h5]
   · have h0 : Nat.mod lo 2 = 1 := by
       rw [Int.not_even_iff_odd] at hl
       obtain ⟨k, hk⟩ := hl
@@ -203,7 +203,7 @@ theorem allWin3_of (p : Pattern) (k₀ m₀ : ZMod (2 ^ 3 - 1))
   exact ⟨winOK3_of p k₀ m₀ 0 d (by omega) (hw 0 (by omega) d (by omega)),
     winOK3_of p k₀ m₀ 1 d (by omega) (hw 1 le_rfl d (by omega))⟩
 
-theorem okThreeK_eq (p : Pattern) (k m : ℕ) (hk : k < 6) (hm : m < 6) :
+theorem okThreeK_eq (p : Pattern) (k m : ℕ) (_hk : k < 6) (_hm : m < 6) :
     okThreeK p (k + 1) (m + 1) =
       okThree p ((k + 1 : ℕ) : ZMod (2 ^ 3 - 1)) ((m + 1 : ℕ) : ZMod (2 ^ 3 - 1)) := by
   have hT : ∀ c : ℕ, c < 7 →

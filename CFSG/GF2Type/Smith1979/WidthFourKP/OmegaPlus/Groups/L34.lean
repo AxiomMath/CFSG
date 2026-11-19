@@ -20,12 +20,12 @@ theorem card_of_lieModel_l34 (h : CFSG.Blueprint.LieModel X .PSL 3 2 2) :
 
 theorem center_eq_bot_of_lieModel_l34 (h : CFSG.Blueprint.LieModel X .PSL 3 2 2) :
     Subgroup.center X = ⊥ := by
-  haveI : IsSimpleGroup X :=
+  have : IsSimpleGroup X :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) h
   have hcard := card_of_lieModel_l34 h
   have hnc : ¬ IsMulCommutative X := by
     intro hcomm
-    haveI : IsMulCommutative X := hcomm
+    have : IsMulCommutative X := hcomm
     have hp : (Nat.card X).Prime := (Group.is_simple_iff_prime_card).mp inferInstance
     rw [hcard] at hp
     exact (by norm_num : ¬ Nat.Prime 20160) hp

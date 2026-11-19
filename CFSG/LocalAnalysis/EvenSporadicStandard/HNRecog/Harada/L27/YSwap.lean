@@ -103,8 +103,8 @@ theorem eq_or_inf_eq_bot_of_le_sup {Y : Type*} [Group Y] {T₁ T₂ F : Subgroup
     Subgroup.normal_subgroupOf_of_le_normalizer hFn₁
   have hnorm₂ : (T₂.subgroupOf F).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hFn₂
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by simp)
-  haveI : IsSimpleGroup F := eF.isSimpleGroup
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup F := eF.isSimpleGroup
   have hFcard : Nat.card F = 60 := by
     rw [Nat.card_congr eF.toEquiv, card_alternatingGroup_five]
   have hcase₁ : T₁.subgroupOf F = ⊥ ∨ F ≤ T₁ := by
@@ -115,8 +115,8 @@ theorem eq_or_inf_eq_bot_of_le_sup {Y : Type*} [Group Y] {T₁ T₂ F : Subgroup
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (T₂.subgroupOf F) with h | h
     · exact Or.inl h
     · exact Or.inr (Subgroup.subgroupOf_eq_top.mp h)
-  haveI : Finite T₁ := Nat.finite_of_card_ne_zero (by rw [h₁]; norm_num)
-  haveI : Finite T₂ := Nat.finite_of_card_ne_zero (by rw [h₂]; norm_num)
+  have : Finite T₁ := Nat.finite_of_card_ne_zero (by rw [h₁]; norm_num)
+  have : Finite T₂ := Nat.finite_of_card_ne_zero (by rw [h₂]; norm_num)
   rcases hcase₁ with hbot₁ | hle₁
   · rcases hcase₂ with hbot₂ | hle₂
     · right; right
@@ -207,7 +207,7 @@ private theorem centralizes_left_of_diagonal {Y : Type*} [Group Y] {T₁ T₂ F 
       exact Subgroup.mem_bot.mp hmem
     exact Subtype.ext (mul_inv_eq_one.mp hone)
   have haOf_surj : Function.Surjective aOf := by
-    haveI : Finite T₁ := Nat.finite_of_card_ne_zero (by rw [h₁]; norm_num)
+    have : Finite T₁ := Nat.finite_of_card_ne_zero (by rw [h₁]; norm_num)
     exact (haOf_inj.bijective_of_nat_card_le (by simp [h₁, hFc])).2
   intro t ht
   obtain ⟨f, hf⟩ := haOf_surj ⟨t, ht⟩

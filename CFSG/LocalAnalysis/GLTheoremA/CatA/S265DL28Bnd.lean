@@ -73,6 +73,7 @@ private theorem psl2_aut_card_le {K : Type} [Field K] [Finite K] {p : ℕ} (hp :
 
 variable {Ω : Type} [Group Ω] [Finite Ω]
 
+omit [Finite Ω] in
 theorem three_dvd_card_of_l28 {K : Subgroup Ω} (hL : catalogIs (PSimple 3 K) tyL28) :
     3 ∣ Nat.card K := by
   have h1 : Nat.card (PSimple 3 K) ∣ Nat.card K :=
@@ -84,17 +85,17 @@ theorem card_B_le_of_l28 {S B T : Subgroup Ω} {x : Ω} {D K : Subgroup Ω} (h :
     (hL : catalogIs (PSimple 3 K) tyL28) : Nat.card B ≤ 3 ^ 4 := by
   obtain ⟨-, -, hDcard, -, -, hKcomp, -⟩ := h.cfg.std
   have hKq : CFSG.Open.IsQuasisimple ↥K := hKcomp.2.2
-  haveI : Nontrivial (PSimple 3 K) := by
+  have : Nontrivial (PSimple 3 K) := by
     refine Finite.one_lt_card_iff_nontrivial.1 ?_
     rw [s265d_card_l28 hL]
     norm_num
   obtain ⟨θ⟩ := SF.nonempty_centerQuot_equiv_pSimple (p := 3) hKq
   obtain ⟨F, _, _, hF, ⟨ePSL⟩⟩ := s265d_l28_psl_model hL
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 3)
+  have : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 3)
     (by rw [← Nat.card_eq_fintype_card]; exact hF)
-  haveI : NeZero ((3 : ℕ) : F) :=
+  have : NeZero ((3 : ℕ) : F) :=
     ⟨fun h3 => by have := (CharP.cast_eq_zero_iff F 2 3).1 h3; omega⟩
   obtain ⟨X, hXel, hBX, -⟩ := SF.exists_aut_nl h (θ.trans ePSL)
   have hXle : Nat.card X ≤ 3 ^ 2 := psl2_aut_card_le Nat.prime_three (by norm_num) hXel

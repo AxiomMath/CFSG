@@ -86,7 +86,7 @@ public theorem secondCase_psl2_fixedAmbientSylow_decomposition
   classical
   have hSleM : (c.S : Subgroup G) ≤ w.M := hSleE.trans d.E_component.1
   have hSMp : IsPGroup 2 ((c.S : Subgroup G).subgroupOf w.M) :=
-    c.S.isPGroup'.comap_subtype
+    c.S.isPGroup.comap_subtype
   have hSMidx : ¬ 2 ∣ ((c.S : Subgroup G).subgroupOf w.M).index := by
     have hdvd : ((c.S : Subgroup G).subgroupOf w.M).index ∣
         (c.S : Subgroup G).index := by
@@ -97,7 +97,7 @@ public theorem secondCase_psl2_fixedAmbientSylow_decomposition
     exact c.S.not_dvd_index (h2.trans hdvd)
   let SM : Sylow 2 (↥w.M) := hSMp.toSylow hSMidx
   have hSEp : IsPGroup 2 ((c.S : Subgroup G).subgroupOf d.E) :=
-    c.S.isPGroup'.comap_subtype
+    c.S.isPGroup.comap_subtype
   have hSEidx : ¬ 2 ∣ ((c.S : Subgroup G).subgroupOf d.E).index := by
     have hdvd : ((c.S : Subgroup G).subgroupOf d.E).index ∣
         (c.S : Subgroup G).index := by

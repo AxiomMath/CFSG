@@ -29,7 +29,7 @@ private theorem l10se8_inner_range
     {β : Fin (ggU .E8 n f).D.rank → ℤ} (hβ : β ∈ (ggU .E8 n f).D.roots)
     (u : (ggU .E8 n f).K) :
     GGRootNormInner ((ggRootSub (ggU .E8 n f).D φ β u).subgroupOf φ.range) := by
-  haveI : CharP (GaloisField 2 f) 2 := inferInstance
+  have : CharP (GaloisField 2 f) 2 := inferInstance
   have hZ : Subgroup.center (ggU .E8 n f).K = ⊥ := by
     change Subgroup.center (adjointGroup .E8 (GaloisField 2 f)) = ⊥
     exact center_adjointGroup_eq_bot

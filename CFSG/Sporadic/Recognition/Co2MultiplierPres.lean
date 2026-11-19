@@ -84,7 +84,7 @@ theorem card_PG_co2RelsI_le (hM : Finite (PG 6 mclRels) ∧ Nat.card (PG 6 mclRe
     rw [Subgroup.closure_le]
     rintro _ ⟨x, hx, rfl⟩
     have hx6 : x.val < 6 := by
-      simp only [hT, subsetOf, Set.mem_setOf_eq, List.mem_filter, List.contains_iff_mem] at hx
+      simp only [hT, subsetOf, Set.mem_ofPred_eq, List.mem_filter, List.contains_iff_mem] at hx
       have := hx.2
       simp at this
       omega

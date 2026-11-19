@@ -12,6 +12,7 @@ namespace O1218Proof
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isTwoLocal_normalizer_pCoreOf {H : Subgroup G} (h : pCoreOf 2 H ≠ ⊥) :
     IsTwoLocal (Subgroup.normalizer (pCoreOf 2 H : Set G)) ∧
       H ≤ Subgroup.normalizer (pCoreOf 2 H : Set G) := by
@@ -36,7 +37,7 @@ theorem le_of_isTwoLocal_of_mem_sigmaA (hS : Standing G) (hUC : rankThreeUC G) {
     {E : Subgroup G} (hEM : E ≤ M) (hE : IsElemAbelian p E) (hEc : Nat.card E = p ^ 2)
     {H : Subgroup G} (hH : IsTwoLocal H) (hEH : E ≤ H) : H ≤ M := by
   have hpp : p.Prime := sigmaA_prime p hp
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have hEp : IsPGroup p E := elementary_isPGroup p E hE
   obtain ⟨Q, hEQ⟩ := hEp.exists_le_sylow
   obtain ⟨M₁, hcw⟩ := exists_isCoreWitness hUC hp Q

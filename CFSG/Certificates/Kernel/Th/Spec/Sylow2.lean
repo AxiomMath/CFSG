@@ -58,7 +58,7 @@ private theorem mark_pcSub (D : Sylow2Data)
       D.ThS_tm5 D.ThS_tm6 D.ThS_tm7 D.ThS_up D.ThS_dg D.ThS_ONE = true)
     {J : Subgroup (GL (Fin 248) (ZMod 2))}
     (hslp : ∀ r, 0 < r → r < D.sf1 → RegIn (⊤ : Subgroup J) D.ThS_RBp2 r)
-    (hslp1 : runSlp D.ThS_RBp2 D.ThS_c D.ThS_rm D.ThS_ONE D.cs1 3 = D.sf1)
+    (_hslp1 : runSlp D.ThS_RBp2 D.ThS_c D.ThS_rm D.ThS_ONE D.cs1 3 = D.sf1)
     (hpos : 0 < runSlp D.ThS_RBp2 D.ThS_c D.ThS_rm D.ThS_ONE D.cs1 3)
     (hlt : runSlp D.ThS_RBp2 D.ThS_c D.ThS_rm D.ThS_ONE D.cs1 3 < 2048)
     (hprGL : regsIn D.ThS_GL2 11 D.sf1 = true) (hl0 : D.l0 = D.cs1)
@@ -130,8 +130,8 @@ private theorem div_seedMonoid (D : Sylow2Data) {J : Subgroup (GL (Fin 248) (ZMo
     (hpg : IsPGroup 2 (pcSub J D.ThS_RBp2 D.ThS_PR2 0 15)) :
     2 ^ 15 ∣ Nat.card (CFSG.Blueprint.NativeSporadic.seedMonoid 2 248 1
       (String.ofList D.ThSeed_LA) (String.ofList D.ThSeed_LB))ˣ := by
-  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
-  haveI : Finite (GL (Fin 248) (ZMod 2)) :=
+  have : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  have : Finite (GL (Fin 248) (ZMod 2)) :=
     CFSG.KS.J4Hub.finite_GL (d := 248) (p := 2) (by norm_num)
   obtain ⟨m, hm⟩ := IsPGroup.iff_card.mp hpg
   rw [hm] at hlow

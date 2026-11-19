@@ -21,6 +21,7 @@ namespace CaseBU
 
 variable {K : Subgroup G} {P₁ P₂ : Set (Subgroup G)} {g u h e : G} {T : Subgroup G}
 
+omit [Finite G] in
 private theorem endAE_K_mem (c : CaseBU Ω K P₁ P₂ g u h e T) : K ∈ Ω := by
   have hmem : conjSub g K ∈ dComp Ω K := by
     rw [c.dcomp]
@@ -34,6 +35,7 @@ private theorem endAE_K_mem (c : CaseBU Ω K P₁ P₂ g u h e T) : K ∈ Ω := 
   have hK' := c.hyp.thmD.hyp.conjInvariant g⁻¹ _ hJΩ
   rwa [conjSub_inv_conjSub] at hK'
 
+omit [Finite G] in
 private theorem endAE_mem_Omega₁ (c : CaseBU Ω K P₁ P₂ g u h e T) {L : Subgroup G} (hL : L ∈ P₁) :
     L ∈ Ω := by
   by_cases hLK : L = K
@@ -47,6 +49,7 @@ private theorem endAE_mem_Omega₁ (c : CaseBU Ω K P₁ P₂ g u h e T) {L : Su
     · exact absurd h1 hLK
     · exact hM.1
 
+omit [Finite G] in
 private theorem endAE_mem_Omega (c : CaseBU Ω K P₁ P₂ g u h e T) {L : Subgroup G} (hL : L ∈ P₂) :
     L ∈ Ω := by
   have hmem : L ∈ dComp Ω K := by
@@ -58,15 +61,18 @@ private theorem endAE_mem_Omega (c : CaseBU Ω K P₁ P₂ g u h e T) {L : Subgr
     exact absurd hL (Set.disjoint_left.mp c.disj c.hK)
   · exact hM.1
 
+omit [Finite G] in
 private theorem endAE_conj_sub (c : CaseBU Ω K P₁ P₂ g u h e T) :
     conjSub g '' P₁ ⊆ P₂ := by
   rintro _ ⟨L, hL, rfl⟩
   exact (c.swap _).mpr (by rw [conjSub_inv_conjSub]; exact hL)
 
+omit [Finite G] in
 private theorem endAE_sub_centMembers (c : CaseBU Ω K P₁ P₂ g u h e T) :
     P₂ ⊆ Generic.centMembers Ω u :=
   fun L hL => ⟨endAE_mem_Omega c hL, c.P₂_u L hL⟩
 
+omit [Finite G] in
 private theorem endAE_conj_injective (g : G) :
     Function.Injective (conjSub g : Subgroup G → Subgroup G) := by
   intro L L' hLL'
@@ -75,13 +81,13 @@ private theorem endAE_conj_injective (g : G) :
     _ = L' := conjSub_inv_conjSub g L'
 
 private theorem endAE_disjoint_four {m : ℕ} (hm : 8 ≤ m) :
-    ∃ (α β : Finset (Fin m)) (hα : α.card = 4) (hβ : β.card = 4), Disjoint α β := by
+    ∃ (α β : Finset (Fin m)) (_hα : α.card = 4) (_hβ : β.card = 4), Disjoint α β := by
   let ι₁ : Fin 4 ↪ Fin m := Fin.castLEEmb (by omega)
   let ι₂ : Fin 4 ↪ Fin m :=
     ⟨fun i => ⟨i.val + 4, by omega⟩, fun a b hab => by
       apply Fin.ext
       have := congrArg Fin.val hab
-      simp only [Fin.mk.injEq] at this
+      simp only at this
       omega⟩
   refine ⟨Finset.univ.map ι₁, Finset.univ.map ι₂, by simp, by simp, ?_⟩
   rw [Finset.disjoint_left]

@@ -140,7 +140,7 @@ theorem false_of_exp_two_hom {J G : Type*} [Group J] [Group G] (ι : J →* G) {
   map_mul' := by
     rintro (a | a) (b | b) <;>
       simp [DihedralGroup.r_mul_r, DihedralGroup.r_mul_sr, DihedralGroup.sr_mul_r,
-        DihedralGroup.sr_mul_sr] <;> decide
+        DihedralGroup.sr_mul_sr]; decide
 
 theorem mult_zmod_two_sq (g : Multiplicative (ZMod 2)) : g ^ 2 = 1 := by
   revert g

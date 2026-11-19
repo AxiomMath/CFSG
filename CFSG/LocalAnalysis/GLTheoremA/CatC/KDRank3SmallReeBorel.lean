@@ -48,7 +48,7 @@ theorem hIn_one : hIn hK 1 = 1 := by
 
 theorem commute_z (t b c : K) : uIn hK t b c * uIn hK 0 0 1 = uIn hK 0 0 1 * uIn hK t b c := by
   rw [uIn_mul, uIn_mul]
-  congr 1 <;> simp [smallReeSigma_zero] <;> ring
+  congr 1 <;> simp [smallReeSigma_zero]; ring
 
 theorem central_z {u : ReeTag.G2.reeGamma K 1} (hu : u ∈ ub K) :
     u * uIn hK 0 0 1 = uIn hK 0 0 1 * u := by
@@ -71,7 +71,7 @@ theorem eq_one_of_hIn_mem_ub {s : Kˣ} (hs : hIn hK s ∈ ub K) : s = 1 := by
     rw [hcomm, mul_assoc, mul_inv_cancel, mul_one]
   rw [conj_z hK s] at hz
   have h3 : (s : K) ^ 3 = 1 := (uIn_inj hK hz).2.2
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hc : Fintype.card K = 27 := by rw [← Nat.card_eq_fintype_card, hK]; norm_num
   have h26 : (s : K) ^ 26 = 1 := by
     have := FiniteField.pow_card_sub_one_eq_one (s : K) s.ne_zero
@@ -93,7 +93,7 @@ theorem eq_one_of_sq_mem_ub {x : ReeTag.G2.reeGamma K 1} (hx : x ∈ ub K) (hx2 
     have h : (2 : K) * t = 0 := by linear_combination ht2
     exact (mul_eq_zero.1 h).resolve_left (two_ne_zero_of_charP)
   subst ht
-  simp only [smallReeSigma_zero, mul_zero, zero_mul, add_zero, zero_add, sub_zero] at hb2 hc2
+  simp only [smallReeSigma_zero, mul_zero, zero_mul, add_zero, sub_zero] at hb2 hc2
   have hb : b = 0 := by
     have h : (2 : K) * b = 0 := by linear_combination hb2
     exact (mul_eq_zero.1 h).resolve_left (two_ne_zero_of_charP)
@@ -204,7 +204,7 @@ theorem exists_fix_three (hK : Nat.card K = 3 ^ (2 * 1 + 1)) {k : ReeTag.G2.reeG
     (hk3 : k ^ 3 = 1) (hk : k ≠ 1) :
     ∃ g : ReeTag.G2.reeGamma K 1, ∀ ω : ReeTag.G2.reeGamma K 1 ⧸ bor K,
       k • ω = ω ↔ ω = g • (QuotientGroup.mk 1 : ReeTag.G2.reeGamma K 1 ⧸ bor K) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf k = 3 := orderOf_eq_prime hk3 hk
   have hzk : IsPGroup 3 (Subgroup.zpowers k) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hord]; norm_num)

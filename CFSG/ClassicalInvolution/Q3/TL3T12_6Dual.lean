@@ -25,6 +25,7 @@ structure SecHyp (r : ℕ) (Ω P : Set (Subgroup G)) : Prop where
   e2 : ∀ L ∈ P, ∀ u : G, IsUniqueInvolution L u → ∃ Q : Subgroup G, Q ≤ pSpan P ∧
     (∀ x ∈ pSpan P, ∀ q ∈ Q, x * q * x⁻¹ ∈ Q) ∧ IsPGroup 2 Q ∧ u ∈ Q
 
+omit [Finite G] in
 theorem pSpan_restrictFamily_eq_top (P : Set (Subgroup G)) :
     pSpan (restrictFamily P (pSpan P)) = ⊤ := by
   have hLX : ∀ L ∈ P, L ≤ pSpan P := fun L hL => le_pSpan hL

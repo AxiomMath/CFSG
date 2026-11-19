@@ -18,6 +18,7 @@ namespace ExCfg
 
 variable {X : Type} [Group X] {φ : ↥(conjClosure V H) →* X} {p : ℕ}
 
+omit [Finite G] in
 private lemma inf_centralizer_map_comap_eq
     (hZ : ∀ q : ↥(conjClosure V H),
       φ q ∈ (Subgroup.center ↥(fusionOddCore X)).map (fusionOddCore X).subtype →
@@ -71,7 +72,7 @@ theorem card_img_comap_eq (c : ExCfg M V₀ V U S H φ p)
   rw [Subgroup.relIndex_comap]
   rw [Subgroup.map_comap_eq, MonoidHom.range_eq_top_of_surjective φ c.bar.surjective,
     top_inf_eq]
-  haveI := c.extra
+  have := c.extra
   have hZc_le : (Subgroup.center ↥(fusionOddCore X)).map (fusionOddCore X).subtype ≤
       fusionOddCore X := Subgroup.map_subtype_le _
   have hZc_card : Nat.card ((Subgroup.center ↥(fusionOddCore X)).map

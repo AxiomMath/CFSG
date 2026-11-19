@@ -100,7 +100,7 @@ theorem onanR1 : Finite (PG _ R1) ∧ Nat.card (PG _ R1) ≤ 3753792 := by
     have hj : j.val < 6 := lt_of_lt_of_eq j.isLt r1_length
     have hb := List.all_eq_true.mp alpha_T2_mem j.val (List.mem_range.mpr hj)
     have ha : j.val < 256 ∧ byte T2.amap j.val ≠ 0 := ⟨by omega, by simpa using hb⟩
-    exact ⟨j.val, (ha : KB.inAlpha T2.amap j.val), (dif_pos j.isLt).trans rfl⟩
+    exact ⟨j.val, (ha : KB.inAlpha T2.amap j.val), (dite_eq_left j.isLt).trans rfl⟩
   exact (KB.finite_card_le_of_top htop c).imp id fun h => h.trans (Nat.le_of_ble_eq_true rfl)
 
 end CertificateChecks.KernelBounds

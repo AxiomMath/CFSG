@@ -100,7 +100,7 @@ theorem pRank_top_le_three_of_mem_uniqueSet {G : Type} [Group G] [Finite G] {D :
     exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hZC).toEquiv
   have hZp : IsPGroup 3 (Z.subgroupOf C) := IsPGroup.of_card (n := 1) (by rw [hZ'card]; norm_num)
   obtain ⟨S, hZS⟩ := hZp.exists_le_sylow
-  have hS3 : IsPGroup 3 (S.map C.subtype) := (S.isPGroup').map C.subtype
+  have hS3 : IsPGroup 3 (S.map C.subtype) := (S.isPGroup).map C.subtype
   have hZS' : Z ≤ S.map C.subtype := by
     have h := Subgroup.map_mono (f := C.subtype) hZS
     rwa [Subgroup.subgroupOf_map_subtype, inf_of_le_left hZC] at h

@@ -125,7 +125,7 @@ theorem card_E_inf_Q : Nat.card ↥(c.E ⊓ Q z) = 2 ^ 7 := by
 
 theorem r1_mem_E (hJ : HypJ4 G z) : c.r₁ ∈ c.E := by
   let W : Submodule (ZMod 2) c.S.Qt := c.S.clSub (c.E ⊓ Q z)
-  haveI : Finite c.S.Qt := Finite.of_equiv _ c.ψ.symm.toEquiv
+  have : Finite c.S.Qt := Finite.of_equiv _ c.ψ.symm.toEquiv
   have hWne : W ≠ ⊥ := by
     intro hbot
     have hsub : c.E ⊓ Q z ≤ Subgroup.zpowers z := by
@@ -180,9 +180,9 @@ theorem r1_mem_E (hJ : HypJ4 G z) : c.r₁ ∈ c.E := by
         ((c.S.ρ (inc t₂) : c.S.Qt ≃ₗ[ZMod 2] c.S.Qt) w.1)
     rw [map_mul, map_mul]
     rfl
-  letI : MulAction ↥T ↥W :=
+  let : MulAction ↥T ↥W :=
     { smul := act, one_smul := hsmul_one, mul_smul := hsmul_mul }
-  have hT2 : IsPGroup 2 ↥T := c.T.isPGroup'
+  have hT2 : IsPGroup 2 ↥T := c.T.isPGroup
   obtain ⟨b, hbfix, hb0⟩ :=
     hT2.exists_fixed_point_of_prime_dvd_card_of_fixed_point ↥W hdvd (by
       intro t
@@ -247,7 +247,7 @@ theorem exists_G1_conj_of_conj_mem_E {g : G} (hg : g * z * g⁻¹ ∈ c.E) :
     rw [Subgroup.map_map]
     congr 1
     ext x
-    simp [P, h, MulAut.conj_apply, mul_assoc]
+    simp [h, MulAut.conj_apply, mul_assoc]
   have hAcomm : IsMulCommutative ↥A := by
     rw [hAeq]
     exact (CFSG.isMulCommutative_map_mulEquiv_iff (MulAut.conj (g * h)⁻¹) c.E).mpr

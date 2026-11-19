@@ -90,6 +90,7 @@ open CFSG.Open CFSG.RankThreeCoreUniqueness.Helpers CFSG.LocalAnalysis.RankThree
 
 variable {G : Type} [Group G] [Finite G] {M : Subgroup G} {p : ℕ} {Q H E : Subgroup G} {k : ℕ}
 
+omit [Finite G] in
 private theorem starImg_sSup (p : ℕ) (H : Subgroup G) (S : Set (Subgroup G))
     (hS : ∀ Y ∈ S, Y ≤ H) : starImg p H (sSup S) = sSup (starImg p H '' S) := by
   have hsup : sSup S ≤ H := sSup_le hS
@@ -119,7 +120,7 @@ private theorem starImg_sSup (p : ℕ) (H : Subgroup G) (S : Set (Subgroup G))
 
 private theorem inf_sup_le_of_normal_right {X : Type*} [Group X] {K B D : Subgroup X}
     (hK : K.Normal) (hDB : D ≤ B) : B ⊓ (K ⊔ D) ≤ (B ⊓ K) ⊔ D := by
-  letI := hK
+  let := hK
   intro x hx
   have hxK : x ∈ K ⊔ D := hx.2
   change x ∈ (↑(K ⊔ D) : Set X) at hxK
@@ -139,7 +140,7 @@ theorem kStar_eq_sSup_of_not_le (h : NineSettingGen G M p Q H E k) (hL : ¬ pLay
       sSup {C : Subgroup (StarGroup p H) | CFSG.IsComponent C ∧ ¬ C ≤ starImg p H M} := by
   have hkSub : kSub p M H = sSup {Y : Subgroup G | IsPComponentIn p Y H ∧ ¬ Y ≤ M} := by
     unfold kSub
-    rw [if_neg hL]
+    rw [ite_eq_right hL]
   have hSS := starImg_sSup p H {Y : Subgroup G | IsPComponentIn p Y H ∧ ¬ Y ≤ M}
     (fun Y hY => hY.1.1)
   rw [kStar_eq_starImg, hkSub, hSS]
@@ -160,14 +161,14 @@ theorem layer_eq_kStar_sup_of_not_le (h : NineSettingGen G M p Q H E k)
   rw [CFSG.layer.eq_sSup, h.kStar_eq_sSup_of_not_le hL, ← sSup_union]
   congr 1
   ext C
-  simp only [Set.mem_setOf_eq, Set.mem_union]
+  simp only [Set.mem_ofPred_eq, Set.mem_union]
   tauto
 
 theorem kSub_normal_of_top_le (h : NineSettingGen G M p Q H E k) (hL : ¬ pLayerIn p H ≤ M)
     (hH : (⊤ : Subgroup (StarGroup p H)) ≤ (CFSG.layer (StarGroup p H) ⊔
       centralizer (CFSG.layer (StarGroup p H) : Set (StarGroup p H))) ⊔ starImg p H M) :
     ((kSub p M H).subgroupOf H).Normal := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   let O : Subgroup ↥H := primeComplementCore (G := ↥H) p
   let π : ↥H →* StarGroup p H := QuotientGroup.mk' O
   let Lstar : Subgroup (StarGroup p H) := CFSG.layer (StarGroup p H)
@@ -222,7 +223,7 @@ theorem kSub_normal_of_top_le (h : NineSettingGen G M p Q H E k) (hL : ¬ pLayer
         (z : G) * a * (z : G)⁻¹ ∈ kSub p M H := by
       intro z hz a ha
       unfold kSub at ha ⊢
-      rw [if_neg hL] at ha ⊢
+      rw [ite_eq_right hL] at ha ⊢
       refine conj_mem_sSup (S := {Y : Subgroup G | IsPComponentIn p Y H ∧ ¬ Y ≤ M}) ?_ ha
       intro Y hY
       have hY1 : IsPComponentIn p (Y.map (MulAut.conj (z : G)).toMonoidHom) H :=
@@ -295,7 +296,7 @@ theorem eq_kSub_sup_of_top_le (h : NineSettingGen G M p Q H E k)
       centralizer (CFSG.layer (StarGroup p H) : Set (StarGroup p H))) ⊔ starImg p H M)
     (hY : centralizer (CFSG.layer (StarGroup p H) : Set (StarGroup p H)) ≤ starImg p H M) :
     H = kSub p M H ⊔ (H ⊓ M) := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   let O : Subgroup ↥H := primeComplementCore (G := ↥H) p
   let π : ↥H →* StarGroup p H := QuotientGroup.mk' O
   let Kstar : Subgroup (StarGroup p H) := kStar p M H
@@ -355,7 +356,7 @@ theorem xSub_le_of_centralizer_le (h713 : SevenOneThree) (hI : NineTenInputs)
     (hQN : starImg p H Q ≤ compNormalizer (StarGroup p H)) (hL : ¬ pLayerIn p H ≤ M)
     (hY : centralizer (CFSG.layer (StarGroup p H) : Set (StarGroup p H)) ≤ starImg p H M) :
     xSub p M H ≤ M := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   have hH := h.top_le_layer_sup_centralizer_sup h713 hI hH2 hp hQ hNQ hQN
   let O : Subgroup ↥H := primeComplementCore (G := ↥H) p
   let π : ↥H →* StarGroup p H := QuotientGroup.mk' O
@@ -371,7 +372,7 @@ theorem xSub_le_of_centralizer_le (h713 : SevenOneThree) (hI : NineTenInputs)
     sSup {C : Subgroup (StarGroup p H) | CFSG.IsComponent C ∧ C ≤ Mstar}
   have hKnorm : Kstar.Normal :=
     (h.kSub_normal_of_top_le hL hH).map π (QuotientGroup.mk'_surjective O)
-  haveI : Kstar.Normal := hKnorm
+  have : Kstar.Normal := hKnorm
   have hlayer : CFSG.layer (StarGroup p H) = Kstar ⊔ A :=
     h.layer_eq_kStar_sup_of_not_le hL
   have hA_le : A ≤ Mstar := sSup_le fun C hC => hC.2
@@ -452,7 +453,7 @@ theorem xSub_le_of_centralizer_le (h713 : SevenOneThree) (hI : NineTenInputs)
       exact hKnorm.subgroupOf B
     have hPp' : IsPGroup p ((B ⊓ Kstar).subgroupOf B) :=
       hPp.comap_subtype (K := B)
-    haveI : ((B ⊓ Kstar).subgroupOf B).Normal := hKn
+    have : ((B ⊓ Kstar).subgroupOf B).Normal := hKn
     have hle := IsPGroup.le_sylow_of_normal hPp' Syl
     have hmap := Subgroup.map_mono (f := B.subtype) hle
     rw [Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr inf_le_left, hSyl] at hmap

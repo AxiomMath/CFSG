@@ -41,7 +41,7 @@ theorem ds81Lemma210_even
     CFSG.ComponentClassification.CatLeafProof.lieOrderFormulasInput Y t n 2 f hadm hm
   obtain ⟨Yh, _, π, hπ, hcomm, hker, hk2⟩ := hext
   have hYne : Nat.card Y ≠ 0 := Nat.card_pos.ne'
-  haveI : Finite Yh := by
+  have : Finite Yh := by
     refine Nat.finite_of_card_ne_zero ?_
     rw [CFSG.GH74.Generic.card_eq_card_mul_card_ker π hπ, hk2]
     omega

@@ -110,7 +110,7 @@ theorem y2l_card_ge {N : ℕ} [NeZero N] (hN1 : 1 < N) (hN : ∀ z : ZMod N, z +
     (h7 : ∀ d : Fin 3 → ZMod N, d ≠ 0 → d + d = 0 → y2l_psi N u v w d ≠ 1)
     [Finite (closure ({u, v, w, r, s} : Set G))] :
     8 * N ^ 3 ≤ Nat.card (closure ({u, v, w, r, s} : Set G)) := by
-  haveI : Fact (1 < N) := ⟨hN1⟩
+  have : Fact (1 < N) := ⟨hN1⟩
   set H := closure ({u, v, w, r, s} : Set G)
   have hmem : ∀ y ∈ ({u, v, w, r, s} : Set G), y ∈ H := fun y hy => subset_closure hy
   have huH := hmem u (by simp)

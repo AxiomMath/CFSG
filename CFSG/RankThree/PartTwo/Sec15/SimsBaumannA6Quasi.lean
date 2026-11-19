@@ -13,6 +13,7 @@ open CFSG.QuasithinUnique CFSG.QuasithinUnique.A6Facts
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 private theorem sba6q_mem_of_max {A : Subgroup X} (hA : CFSG.Assembly.IsElemAbelian 3 A)
     (hAmax : ∀ B : Subgroup X, CFSG.Assembly.IsElemAbelian 3 B → A ≤ B → B = A) {a : X}
     (ha3 : a ^ 3 = 1) (haE : A ≤ Subgroup.centralizer ({a} : Set X)) : a ∈ A := by
@@ -286,6 +287,7 @@ private theorem sba6q_rho_mem_psl {A S Y : Subgroup X}
 
 end Middle
 
+omit [Finite X] in
 private theorem sba6q_mem_normalizer (g : X) :
     g ∈ Subgroup.normalizer ((oResidual 2 X : Subgroup X) : Set X) := by
   have hn : (oResidual 2 X).Normal := Stage1.Thm6.Prod.oResidual_normal 2 X
@@ -312,7 +314,7 @@ private theorem sba6q_isPGroup_quotient [(oResidual 2 X).Normal] :
 private theorem sba6q_sup_sylow_eq_top (P : Sylow 2 X) :
     oResidual 2 X ⊔ (P : Subgroup X) = ⊤ := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : (oResidual 2 X).Normal := Stage1.Thm6.Prod.oResidual_normal 2 X
+  have : (oResidual 2 X).Normal := Stage1.Thm6.Prod.oResidual_normal 2 X
   have h1 : (oResidual 2 X ⊔ (P : Subgroup X)).index ∣ (oResidual 2 X).index :=
     Subgroup.index_dvd_of_le le_sup_left
   have h2 : (oResidual 2 X ⊔ (P : Subgroup X)).index ∣ (P : Subgroup X).index :=
@@ -339,6 +341,7 @@ private theorem sba6q_pCoreOf_top_le :
   exact CFSG.LieType.BorelTits.le_pCore 2 hnorm
     (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 (⊤ : Subgroup X))
 
+omit [Finite X] in
 private theorem sba6q_exists_mul_eq {x : X} {a b : ℕ} (hab : Nat.Coprime a b)
     (hx : orderOf x = a * b) :
     ∃ y z : X, y ∈ Subgroup.zpowers x ∧ z ∈ Subgroup.zpowers x ∧ x = y * z ∧
@@ -369,7 +372,7 @@ private theorem sba6q_ker_le
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P⟩ : Nonempty (Sylow 2 X) := inferInstance
   have hLP := sba6q_sup_sylow_eq_top P
-  have hP2 : IsPGroup 2 (P : Subgroup X) := P.isPGroup'
+  have hP2 : IsPGroup 2 (P : Subgroup X) := P.isPGroup
   obtain ⟨a, m, hm, hom⟩ := Nat.exists_eq_two_pow_mul_odd (orderOf_pos k).ne'
   obtain ⟨y, z, hy, hz, hkyz, hya, hzm⟩ := sba6q_exists_mul_eq
     (Nat.Coprime.pow_left a (Nat.coprime_two_left.mpr hm)) hom

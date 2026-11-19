@@ -40,7 +40,7 @@ open CFSG.Quasithin (StatedGU)
 theorem uniqueElemSylow_statedGU_of_div_eq_three (L : Type) [Field L] [Finite L] {q : ℕ}
     (hL : Nat.card L = q ^ 2) (hq : ¬ 3 ∣ q) {n : ℕ}
     (hn : n / orderOf (-(q : ZMod 3)) = 3) : UniqueElemSylow 3 3 (StatedGU n q L) := by
-  letI := Fintype.ofFinite L
+  let := Fintype.ofFinite L
   have hL' : Fintype.card L = q ^ 2 := by rwa [← Nat.card_eq_fintype_card]
   have hq2 : 2 ≤ q := by
     have h1 : 1 < Fintype.card L := Fintype.one_lt_card
@@ -61,7 +61,7 @@ theorem uniqueElemSylow_statedSU_of_mod_three_eq_one (L : Type) [Field L] [Finit
     (hL : Nat.card L = q ^ 2) (hq : q % 3 = 1) {n : ℕ} (hn : n = 6 ∨ n = 7) :
     UniqueElemSylow 3 3 (StatedSU n q L) := by
   open CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.WeakClosure in
-  letI := Fintype.ofFinite L
+  let := Fintype.ofFinite L
   obtain ⟨f, hqf, hdata⟩ := exists_unitaryFieldData L (q := q) (by rwa [← Nat.card_eq_fintype_card])
   have hGU := uniqueElemSylow_statedGU_of_div_eq_three L hL (by omega) (n := n)
     (by rw [orderOf_neg_natCast_zmod_three_of_mod_eq_one hq]; omega)
@@ -76,7 +76,7 @@ theorem uniqueElemSylow_statedSU_of_mod_three_eq_one (L : Type) [Field L] [Finit
 theorem uniqueElemSylow_statedProj_statedSU_of_mod_three_eq_one (L : Type) [Field L] [Finite L]
     {q : ℕ} (hL : Nat.card L = q ^ 2) (hq : q % 3 = 1) {n : ℕ} (hn : n = 6 ∨ n = 7) :
     UniqueElemSylow 3 3 (StatedProj (StatedSU n q L)) := by
-  letI := Fintype.ofFinite L
+  let := Fintype.ofFinite L
   obtain ⟨f, hqf, hdata⟩ := exists_unitaryFieldData L (q := q) (by rwa [← Nat.card_eq_fintype_card])
   refine UniqueElemSylow.statedProj (d := q + 1) (by omega) (fun c hc => ?_)
     (uniqueElemSylow_statedSU_of_mod_three_eq_one L hL hq hn)

@@ -140,7 +140,7 @@ private theorem eq_baseA {D : Subgroup (GL (Fin 8) (ZMod 3))} (hDS : D ≤ sylS)
     (hD : ∀ d ∈ D, ∀ d' ∈ D, d * d' = d' * d) (h27 : 27 ≤ Nat.card D) : D = baseA := by
   refine eq_of_le_of_card_ge ?_ (by rw [card_baseA]; exact h27)
   by_contra hDA
-  obtain ⟨y, hyD, hyA⟩ := SetLike.not_le_iff_exists.1 hDA
+  obtain ⟨y, hyD, hyA⟩ := IsConcreteLE.not_le_iff_exists.1 hDA
   obtain ⟨n, hn, u, hu, rfl⟩ := exists_of_mem_sylS (hDS hyD)
   have hn0 : n ≠ 0 := by rintro rfl; rw [pow_zero, one_mul] at hyA; exact hyA hu
   have hcap : baseA ⊓ D ≤ zpowers gb := by

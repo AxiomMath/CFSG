@@ -56,9 +56,11 @@ variable {K : Type} [Field K] [Finite K] {Ω : Type} [Field Ω] [Algebra K Ω] [
     [Algebra K Ω] : twistedE6RootGroup K σ →* ModGL Tag.E6 Ω :=
   (baseChangeGL (algebraMap K Ω)).comp (twistedE6RootGroup K σ).subtype
 
+omit [Finite K] [IsAlgClosure K Ω] in
 theorem modelEmb_injective (σ : K ≃+* K) : Function.Injective (modelEmb K σ Ω) :=
   (baseChangeGL_injective _).comp (Subgroup.subtype_injective _)
 
+omit [Finite K] in
 theorem modelDescent (hK : Nat.card K = (2 ^ 1) ^ 2) (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ 2 ^ 1)
     (Fr : Ω →+* Ω) (hFr : ∀ c, Fr c = c ^ 2 ^ 1) {g : ModGL Tag.E6 Ω}
     (hg : g ∈ adjointGroup Tag.E6 Ω) (hgn : g⁻¹ * twistE6 Ω Fr g = TwistedDiag.n0 Ω) :
@@ -66,9 +68,10 @@ theorem modelDescent (hK : Nat.card K = (2 ^ 1) ^ 2) (σ : K ≃+* K) (hσ : ∀
   langDescent_twE6 (K := K) (L := Ω) (ℓ := 2) (f := 1) Nat.prime_two le_rfl hK σ hσ hFr
     (modelDatum Fr hFr hg hgn) rfl (by norm_num) (by norm_num)
 
+omit [IsAlgClosure K Ω] in
 theorem charP_two_of_card (hK : Nat.card K = (2 ^ 1) ^ 2) : CharP Ω 2 := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI hcharK : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2)
+  have : Fintype K := Fintype.ofFinite K
+  have hcharK : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2)
     (by rw [← Nat.card_eq_fintype_card, hK]; norm_num)
   exact charP_of_injective_algebraMap (algebraMap K Ω).injective 2
 
@@ -77,7 +80,7 @@ theorem exists_modelSetup [IsAlgClosed Ω] (hK : Nat.card K = (2 ^ 1) ^ 2) (σ :
     {g : ModGL Tag.E6 Ω} (hg : g ∈ adjointGroup Tag.E6 Ω)
     (hgn : g⁻¹ * twistE6 Ω Fr g = TwistedDiag.n0 Ω) :
     ∃ S : LangSetup Tag.E6 Ω 5, S.D = modelDatum Fr hFr hg hgn := by
-  haveI := charP_two_of_card (K := K) (Ω := Ω) hK
+  have := charP_two_of_card (K := K) (Ω := Ω) hK
   have hq2 : (2 ^ 1 : ℕ) = 2 := by norm_num
   have hqpow : IsPrimePow (modelDatum Fr hFr hg hgn).q ∧
       (((modelDatum Fr hFr hg hgn).q : ℕ) : Ω) = 0 := by
@@ -132,14 +135,17 @@ theorem psi6_mem_torus [IsAlgClosed Ω] (Fr : Ω →+* Ω) (hFr : ∀ c, Fr c = 
     twistedE6RootGroup K σ →* ModGL Tag.E6 Ω :=
   (MulAut.conj g⁻¹).toMonoidHom.comp (modelEmb K σ Ω)
 
+omit [Finite K] [IsAlgClosure K Ω] in
 theorem modelPhi_apply (σ : K ≃+* K) (g : ModGL Tag.E6 Ω) (c : twistedE6RootGroup K σ) :
     modelPhi σ g c = g⁻¹ * modelEmb K σ Ω c * g := by
-  simp [modelPhi, MulAut.conj_apply]
+  simp [modelPhi]
 
+omit [Finite K] [IsAlgClosure K Ω] in
 theorem modelPhi_injective (σ : K ≃+* K) (g : ModGL Tag.E6 Ω) :
     Function.Injective (modelPhi (K := K) (Ω := Ω) σ g) :=
   (MulAut.conj g⁻¹).injective.comp (modelEmb_injective σ)
 
+omit [Finite K] in
 theorem range_modelPhi (hK : Nat.card K = (2 ^ 1) ^ 2) (σ : K ≃+* K)
     (hσ : ∀ c, σ c = c ^ 2 ^ 1) (Fr : Ω →+* Ω) (hFr : ∀ c, Fr c = c ^ 2 ^ 1)
     {g : ModGL Tag.E6 Ω} (hg : g ∈ adjointGroup Tag.E6 Ω)

@@ -15,7 +15,7 @@ open CFSG.ComponentClassification.PSL3Four
 theorem kFactL34Graph :
     KFactL34Graph := by
   intro X _ _ K hKn hC hL P hPK hPsyl u huK hu3 huN W hW hWN hWC
-  haveI := hKn
+  have := hKn
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨ε, ψ, hψinj, hψR, hψK⟩ := KFactProofs.Stroth.L34Embed.exists_embedding_R hC hL
   have hKcard : Nat.card K = 20160 := by

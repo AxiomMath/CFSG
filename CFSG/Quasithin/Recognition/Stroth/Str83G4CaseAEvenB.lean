@@ -62,7 +62,7 @@ theorem caseA_even_mem_caseAS
 
 theorem caseA_even_commutator_X_le
     {a : ℕ}
-    (hfr : Str83G4Frame L1 L2 S a) (hA : str83R L1 L2 S ≤ Q1 L1 L2 S) {b : ℕ}
+    (hfr : Str83G4Frame L1 L2 S a) (_hA : str83R L1 L2 S ≤ Q1 L1 L2 S) {b : ℕ}
     {x : GPath (f112Amalgam L1 L2 S).graphHat b} (hx : caseACritPath L1 L2 S b x) (hbe : Even b)
     (hb : 5 ≤ b) {l : f112Gamma L1 L2 S} (hl : l ∈ CosetGeom.nbrs (x 0)) :
     ⁅caseAX l, caseAEvenXInf b x⁆ ≤ caseAEvenXInf b x := by
@@ -103,7 +103,7 @@ private lemma caseA_even_F_le_centralizer
     {x : GPath (f112Amalgam L1 L2 S).graphHat b} (hx : caseACritPath L1 L2 S b x)
     (hbe : Even b) (hb : 5 ≤ b) {l : f112Gamma L1 L2 S} (hl : l ∈ CosetGeom.nbrs (x 0))
     (hl1 : l ≠ x 1) {u : (f112Amalgam L1 L2 S).Ghat} (hu : u ∈ caseAX l)
-    (huQ : u ∉ CosetGeom.Qy (x (b - 1))) :
+    (_huQ : u ∉ CosetGeom.Qy (x (b - 1))) :
     caseAEvenF b x l ≤ caseAX (x (b - 1)) ⊓
       Subgroup.centralizer ({u} : Set (f112Amalgam L1 L2 S).Ghat) := by
   have hconn : (f112Amalgam L1 L2 S).graphHat.Connected := CosetGeom.connected rfl
@@ -166,7 +166,7 @@ private lemma caseA_even_F_le_centralizer
 
 private lemma caseA_even_E5_count
     {a : ℕ}
-    (hfr : Str83G4Frame L1 L2 S a) (hA : str83R L1 L2 S ≤ Q1 L1 L2 S) {b : ℕ}
+    (hfr : Str83G4Frame L1 L2 S a) (_hA : str83R L1 L2 S ≤ Q1 L1 L2 S) {b : ℕ}
     {x : GPath (f112Amalgam L1 L2 S).graphHat b} (hx : caseACritPath L1 L2 S b x) (hbe : Even b)
     (hb : 5 ≤ b) {l : f112Gamma L1 L2 S} (hl : l ∈ CosetGeom.nbrs (x 0)) (hl1 : l ≠ x 1)
     {u : (f112Amalgam L1 L2 S).Ghat} (hu : u ∈ caseAX l)
@@ -190,9 +190,9 @@ private lemma caseA_even_E5_count
     have hne := CosetGeom.vtype_ne_of_adj hlA
     rw [hx.type_two] at hne
     cases h : CosetGeom.vtype l <;> simp_all
-  haveI hstabfin : Finite ↥(CosetGeom.stab (x (b - 1))) :=
+  have hstabfin : Finite ↥(CosetGeom.stab (x (b - 1))) :=
     caseA_finite_stab L1 L2 S (x (b - 1))
-  haveI hXfin : Finite ↥(caseAX (x (b - 1))) :=
+  have hXfin : Finite ↥(caseAX (x (b - 1))) :=
     Finite.of_injective (Subgroup.inclusion (caseA_X_le_stab hfr (x (b - 1))))
       (Subgroup.inclusion_injective (caseA_X_le_stab hfr (x (b - 1))))
   have hF_le_C := caseA_even_F_le_centralizer hfr hx hbe hb hl hl1 hu huQ
@@ -260,8 +260,8 @@ private lemma caseA_even_E5_count
         Subgroup.centralizer ({u} : Set (f112Amalgam L1 L2 S).Ghat)).relIndex
         (caseAX (x (b - 1))) := hM7.trans hmodle
   have hFrelX_ne : (caseAEvenF b x l).relIndex (caseAX (x (b - 1))) ≠ 0 := by
-    haveI : ((caseAEvenF b x l).subgroupOf (caseAX (x (b - 1)))).FiniteIndex := inferInstance
-    haveI : (caseAEvenF b x l).IsFiniteRelIndex (caseAX (x (b - 1))) :=
+    have : ((caseAEvenF b x l).subgroupOf (caseAX (x (b - 1)))).FiniteIndex := inferInstance
+    have : (caseAEvenF b x l).IsFiniteRelIndex (caseAX (x (b - 1))) :=
       Subgroup.isFiniteRelIndex_iff_finiteIndex.mpr inferInstance
     exact Subgroup.relIndex_ne_zero
   have hCleF : (caseAX (x (b - 1)) ⊓
@@ -325,7 +325,7 @@ theorem caseA_even_relIndex_F
     {x : GPath (f112Amalgam L1 L2 S).graphHat b} (hx : caseACritPath L1 L2 S b x) (hbe : Even b)
     (hb : 5 ≤ b) {l : f112Gamma L1 L2 S} (hl : l ∈ CosetGeom.nbrs (x 0)) (hl1 : l ≠ x 1) :
     (caseAEvenF b x l).relIndex (caseAEvenXInf b x) = 2 ^ (2 * a + 1) := by
-  obtain ⟨u, hu, huQ⟩ := SetLike.not_le_iff_exists.mp
+  obtain ⟨u, hu, huQ⟩ := IsConcreteLE.not_le_iff_exists.mp
     (caseA_even_not_X_le_Qy_pred hfr hx hbe hb hl hl1)
   exact (caseA_even_E5_count hfr hA hx hbe hb hl hl1 hu huQ).2.2.2
 

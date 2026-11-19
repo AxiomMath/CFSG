@@ -89,12 +89,10 @@ private theorem rk2_not_dvd_card_adjointF4 {K : Type} [Field K] [Finite K] {p n 
     rcases hm with rfl | rfl | rfl | rfl | rfl | rfl | rfl
     · simp [CFSG.RankThree.Chevalley.exhaustionPhi, Polynomial.cyclotomic_one]
     · simp [CFSG.RankThree.Chevalley.exhaustionPhi, Polynomial.cyclotomic_two]
-    · simp [CFSG.RankThree.Chevalley.exhaustionPhi,
-        CFSG.LieType.SeitzGeneration.cyclotomic_three_eq]
+    · simp [CFSG.RankThree.Chevalley.exhaustionPhi]
     · simp [CFSG.RankThree.Chevalley.exhaustionPhi,
         CFSG.LieType.SeitzGeneration.cyclotomic_four_eq]
-    · simp [CFSG.RankThree.Chevalley.exhaustionPhi,
-        CFSG.LieType.SeitzGeneration.cyclotomic_six_eq]
+    · simp [CFSG.RankThree.Chevalley.exhaustionPhi]
     · simp [CFSG.RankThree.Chevalley.exhaustionPhi,
         CFSG.LieType.SeitzGeneration.cyclotomic_eight_eq]
     · simp [CFSG.RankThree.Chevalley.exhaustionPhi,
@@ -112,22 +110,22 @@ private theorem rk2_not_dvd_card_adjointF4 {K : Type} [Field K] [Finite K] {p n 
 private theorem rk2_card_le_three_pow_four (K : Type) [Field K] [Finite K] [CharP K 2]
     {E : Subgroup (adjointGroup .F4 K)} (hE : IsElemAbelian 3 E) : Nat.card E ≤ 3 ^ 4 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, -, hfcard⟩ := FiniteField.card K 2
   have hcard : Nat.card K = 2 ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card, hfcard]
   have hfpos : 0 < (f : ℕ) := f.pos
   let K' := GaloisField 2 (2 * (f : ℕ))
-  haveI : Field K' := inferInstance
-  haveI : Finite K' := inferInstance
-  haveI : Fintype K' := Fintype.ofFinite K'
+  have : Field K' := inferInstance
+  have : Finite K' := inferInstance
+  have : Fintype K' := Fintype.ofFinite K'
   have hK'card : Nat.card K' = (2 ^ (f : ℕ)) ^ 2 := by
     rw [GaloisField.card 2 (2 * (f : ℕ)) (by omega), ← pow_mul]
     ring_nf
   have hK'four : Nat.card K' = 4 ^ (f : ℕ) := by
     rw [hK'card, ← pow_mul, mul_comm (f : ℕ) 2, pow_mul]
     norm_num
-  haveI : CharP K' 2 := charP_of_card_eq_prime_pow (R := K') (f := 2 * (f : ℕ)) (p := 2) (by
+  have : CharP K' 2 := charP_of_card_eq_prime_pow (R := K') (f := 2 * (f : ℕ)) (p := 2) (by
     rw [← Nat.card_eq_fintype_card, hK'card]; ring_nf)
   obtain ⟨φ⟩ := CFSG.HardMathSupport.Lang.AnisoE6.nonempty_ringHom_of_card_sq
     (ℓ := 2) (f := (f : ℕ)) hcard hK'card
@@ -148,15 +146,15 @@ theorem rk2_pRank_adjointF4_le (K : Type) [Field K] [Finite K] {n p : ℕ}
     CFSG.Open.pRank p (⊤ : Subgroup (adjointGroup .F4 K)) ≤
       rk2Cnt [(2, true), (6, true), (8, true), (12, true)] (rk2Ord p n) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (adjointGroup .F4 K) := CFSG.LieType.Chevalley.generated_group_finite .F4 K
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (adjointGroup .F4 K) := CFSG.LieType.Chevalley.generated_group_finite .F4 K
   have hn : 1 ≤ n := by
     by_contra h
     have h0 : n = 0 := by omega
     rw [h0, pow_zero] at hK
     have := Finite.one_lt_card (α := K)
     omega
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two hn hK
   have hq : ((Nat.card K : ℕ) : ZMod p) = (2 : ZMod p) ^ n := by
@@ -268,14 +266,14 @@ theorem rk2_pRank_adjointF4_le (K : Type) [Field K] [Finite K] {n p : ℕ}
       simp
 
 theorem rk2_pRank_three_adjointF4_le (K : Type) [Field K] [Finite K] [CharP K 2] (n : ℕ)
-    (hK : Nat.card K = 2 ^ n) :
+    (_hK : Nat.card K = 2 ^ n) :
     CFSG.Open.pRank 3 (⊤ : Subgroup (adjointGroup .F4 K)) ≤ 4 := by
   refine CFSG.SectionRank.pRank_le (by norm_num : 1 < 3) (H := ⊤) ?_
   intro E _ hE
   exact rk2_card_le_three_pow_four K hE
 
 private theorem rk2_not_dvd_center_F4 (X : Type) [Group X] [Finite X] (lab : GLALabel) (p : ℕ)
-    (hL : Rk2IsLabel X lab) (htag : lab.tag = .F4) (hp : p.Prime) (hp2 : p ≠ 2)
+    (hL : Rk2IsLabel X lab) (_htag : lab.tag = .F4) (hp : p.Prime) (hp2 : p ≠ 2)
     (hn : 1 ≤ lab.n) {F : Type} [Field F] [Finite F]
     (hcardF : Nat.card F = 2 ^ lab.n)
     (e0 : (X ⧸ Subgroup.center X) ≃* CFSG.Blueprint.AdjointQuotient .F4 F) :
@@ -283,21 +281,21 @@ private theorem rk2_not_dvd_center_F4 (X : Type) [Group X] [Finite X] (lab : GLA
   classical
   obtain ⟨hQ, -, -⟩ := rk2_model_of_isLabel hL
   have hQ' : CFSG.IsQuasisimple X := (CFSG.Foundations.SteinbergCA.quasisimple_iff _).2.2.1.2 hQ
-  haveI : CharP F 2 :=
+  have : CharP F 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two hn hcardF
-  haveI : Finite (adjointGroup .F4 F) := CFSG.LieType.Chevalley.generated_group_finite .F4 F
-  haveI : Finite (CFSG.Blueprint.AdjointQuotient .F4 F) :=
+  have : Finite (adjointGroup .F4 F) := CFSG.LieType.Chevalley.generated_group_finite .F4 F
+  have : Finite (CFSG.Blueprint.AdjointQuotient .F4 F) :=
     Finite.of_surjective (QuotientGroup.mk' (Subgroup.center (adjointGroup .F4 F)))
       (QuotientGroup.mk'_surjective _)
   have hperfG : Group.IsPerfect (adjointGroup .F4 F) :=
     CFSG.LieType.Steinberg.Adjoint.isPerfect_f4 F
   have hperfQ : Group.IsPerfect (CFSG.Blueprint.AdjointQuotient .F4 F) :=
     Group.IsPerfect.ofSurjective (QuotientGroup.mk'_surjective _)
-  haveI : Finite (CFSG.RankThree.PerfectCover.hopfMultiplier
+  have : Finite (CFSG.RankThree.PerfectCover.hopfMultiplier
       (CFSG.Blueprint.AdjointQuotient .F4 F)) :=
     CFSG.RankThree.PerfectCover.finite_hopfMultiplier hperfQ
-  haveI : Finite (CFSG.Open.griessHopfMultiplier (CFSG.Blueprint.AdjointQuotient .F4 F)) :=
+  have : Finite (CFSG.Open.griessHopfMultiplier (CFSG.Blueprint.AdjointQuotient .F4 F)) :=
     Finite.of_equiv _ (CFSG.RankThree.PerfectCover.hopfMultiplierEquivGriess _).symm.toEquiv
   have h1 := CFSG.GH74.GLS.Stage2.Signalizer.Odd87.card_center_dvd_hopf hQ' e0
   intro hpd
@@ -319,7 +317,7 @@ private theorem rk2_not_dvd_center_F4 (X : Type) [Group X] [Finite X] (lab : GLA
       have hK4 : Nat.card F = 2 ^ 2 := by simpa using hcardF
       have hsub := (CFSG.LieType.Steinberg.CentralExt.FieldFour.f4_four_hopfMultiplier
         (K := F) hK4).2
-      haveI : Subsingleton (CFSG.Open.griessHopfMultiplier
+      have : Subsingleton (CFSG.Open.griessHopfMultiplier
           (CFSG.Blueprint.AdjointQuotient .F4 F)) := hsub
       have hcardM : Nat.card (CFSG.Open.griessHopfMultiplier
           (CFSG.Blueprint.AdjointQuotient .F4 F)) = 1 := Nat.card_unique
@@ -331,7 +329,7 @@ private theorem rk2_not_dvd_center_F4 (X : Type) [Group X] [Finite X] (lab : GLA
         _ ≤ 2 ^ lab.n := Nat.pow_le_pow_right (by norm_num) h3
     have hsub := (CFSG.LieType.Steinberg.CentralExt.AdjointClosed.f4_hopfMultiplier
       (K := F) h5).2
-    haveI : Subsingleton (CFSG.Open.griessHopfMultiplier
+    have : Subsingleton (CFSG.Open.griessHopfMultiplier
         (CFSG.Blueprint.AdjointQuotient .F4 F)) := hsub
     have hcardM : Nat.card (CFSG.Open.griessHopfMultiplier
         (CFSG.Blueprint.AdjointQuotient .F4 F)) = 1 := Nat.card_unique
@@ -342,7 +340,7 @@ theorem rk2_pRank_le_F4 (X : Type) [Group X] [Finite X] (lab : GLALabel) (p : �
     (hL : Rk2IsLabel X lab) (htag : lab.tag = .F4) (hp : p.Prime) (hp2 : p ≠ 2) :
     CFSG.Open.pRank p (⊤ : Subgroup X) ≤ rk2Mult lab (rk2Ord p lab.n) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, hl, hM⟩ := rk2_model_of_isLabel hL
   have hn : 1 ≤ lab.n := hl.1
   have hM' : CFSG.Blueprint.LieModel (X ⧸ Subgroup.center X) .F4 0 2 lab.n := by
@@ -354,8 +352,8 @@ theorem rk2_pRank_le_F4 (X : Type) [Group X] [Finite X] (lab : GLALabel) (p : �
   simp only [CFSG.Blueprint.ChevalleyExceptionalModel,
     CFSG.Blueprint.UntwistedChevalleyModel] at hCE
   obtain ⟨F, hF, hFin, hcardF, ⟨e0⟩⟩ := hCE.2
-  letI : Field F := hF
-  letI : Finite F := hFin
+  let : Field F := hF
+  let : Finite F := hFin
   let χ : CFSG.Blueprint.AdjointQuotient .F4 F ≃* adjointGroup .F4 F :=
     (QuotientGroup.quotientMulEquivOfEq
       (CFSG.LieType.Chevalley.center_adjointGroup_eq_bot (τ := .F4) (K := F))).trans

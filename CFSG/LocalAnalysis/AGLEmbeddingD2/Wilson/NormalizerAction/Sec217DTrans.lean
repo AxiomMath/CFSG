@@ -27,7 +27,7 @@ theorem acts_pow {g : G} {f : ZMod 3 × ZMod 3 → ZMod 3 × ZMod 3} (h : Acts a
 theorem kap_nsmul (hca : c * a = a * c) (ha3 : a ^ 3 = 1) (hc3 : c ^ 3 = 1)
     (x : ZMod 3 × ZMod 3) (n : ℕ) : kap a c (n • x) = kap a c x ^ n := by
   induction n with
-  | zero => simp [kap_zero hca ha3 hc3]
+  | zero => simp [kap_zero]
   | succ n ih => rw [succ_nsmul, kap_add hca ha3 hc3, ih, pow_succ]
 
 theorem kap_one_zero : kap a c (1, 0) = c := by
@@ -110,9 +110,9 @@ theorem transvection_on_D {u v x t : G} {k : ℕ} (hk : Odd k)
     simp only [id]
     calc kap a c y = (kap a c y * x) * x⁻¹ := by group
       _ = x * kap a c y * x⁻¹ := by rw [← this]
-  have hfw : Acts a c (x * v ^ k) (id ∘ fv^[k]) := acts_mul hca ha3 hc3 ha1 hc1 hnot hfx (acts_pow hfv k)
+  have hfw : Acts a c (x * v ^ k) (id ∘ fv^[k]) := acts_mul hfx (acts_pow hfv k)
   have htw : t * (x * v ^ k) = u := by rw [ht]; group
-  have hftw : Acts a c u (ft ∘ (id ∘ fv^[k])) := htw ▸ acts_mul hca ha3 hc3 ha1 hc1 hnot hft hfw
+  have hftw : Acts a c u (ft ∘ (id ∘ fv^[k])) := htw ▸ acts_mul hft hfw
   have hfuw : ft ∘ (id ∘ fv^[k]) = fu := acts_unique hca ha3 hc3 ha1 hc1 hnot hftw hfu
   have hadd_u := acts_add hca ha3 hc3 ha1 hc1 hnot hfu
   have hadd_v := acts_add hca ha3 hc3 ha1 hc1 hnot hfv
@@ -139,7 +139,7 @@ theorem transvection_on_D {u v x t : G} {k : ℕ} (hk : Odd k)
     intro g f hg h8 y
     have h1 := acts_pow hg 8
     rw [h8] at h1
-    have h2 := acts_unique hca ha3 hc3 ha1 hc1 hnot h1 (acts_one hca ha3 hc3 ha1 hc1 hnot)
+    have h2 := acts_unique hca ha3 hc3 ha1 hc1 hnot h1 (acts_one)
     exact congrFun h2 y
   have hu8' : ∀ y, (ap U)^[8] y = y := by rw [← hfuU']; exact hit hfu hu8
   have hv8' : ∀ y, (ap V)^[8] y = y := by rw [← hfvV']; exact hit hfv hv8
@@ -189,7 +189,7 @@ theorem transvection_on_D {u v x t : G} {k : ℕ} (hk : Odd k)
   refine ⟨kap a c d, (mem_D_iff hca ha3 hc3).2 ⟨d, rfl⟩, ?_, ?_, ?_, ?_⟩
   · intro h
     apply hd0
-    exact kap_inj hca ha3 hc3 ha1 hc1 hnot (h.trans (kap_zero hca ha3 hc3).symm)
+    exact kap_inj hca ha3 hc3 ha1 hc1 hnot (h.trans (kap_zero).symm)
   · rw [hkd, hdfix]
   · refine ⟨kap a c v0, (mem_D_iff hca ha3 hc3).2 ⟨v0, rfl⟩, ?_⟩
     rw [hkd, hv0, kap_add hca ha3 hc3]
@@ -198,7 +198,7 @@ theorem transvection_on_D {u v x t : G} {k : ℕ} (hk : Odd k)
     obtain ⟨κ, hκ⟩ := hall w
     refine ⟨κ.val, ?_⟩
     have hsm : ((κ * d.1, κ * d.2) : ZMod 3 × ZMod 3) = κ.val • d := by
-      ext <;> simp [nsmul_eq_mul, ZMod.natCast_zmod_val]
+      ext <;> simp [nsmul_eq_mul]
     rw [hkd, hκ, hsm, kap_add hca ha3 hc3, kap_nsmul hca ha3 hc3]
 
 end DTrans

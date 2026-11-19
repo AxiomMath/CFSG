@@ -136,7 +136,7 @@ theorem uniSeitzPlanes_twE6_inner_three_two :
       ¬ NormalizesRSubgroup d E := by
   rintro ⟨d, hv⟩ p hp hp2 hpd _ E hE hc ⟨hin, rfl, ⟨q, hq, hmod, hne2⟩, hn⟩
   obtain rfl : d = .twistedE6 q := hq
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   obtain ⟨K, _, σ, hK, hσ, ⟨e⟩⟩ := exists_catEquiv_twistedE6 q hv
   have hfin : Finite K := Nat.finite_of_card_ne_zero (by
     rw [hK]

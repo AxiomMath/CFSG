@@ -33,7 +33,7 @@ theorem eq_one_of_comm_mem_coprime {K₁ O : Subgroup G} (hO : Nat.Coprime 5 (Na
     rintro _ ⟨y, hy, rfl⟩
     exact Subgroup.mem_subgroupOf.1 hy
   have hle : O' ≤ GLAPPrimeCore 5 ↥K₁ := le_sSup ⟨hO'n, hO'c⟩
-  haveI := hs
+  have := hs
   have hZ : Subgroup.center (barOf 5 K₁) = ⊥ :=
     CFSG.HardMathSupport.Timmesfeld.Coordinator.center_eq_bot_of_isSimpleGroup hnab
   set π := QuotientGroup.mk' (GLAPPrimeCore 5 ↥K₁) with hπ
@@ -99,10 +99,12 @@ theorem comm_mem_core_of_ne_pComponent {X L L' : Subgroup G} (hL : GLAPComponent
     rw [e]
     exact h1
 
+omit [Finite G] in
 theorem mem_centModIn {R L : Subgroup G} {r : G} :
     r ∈ centModIn R L ↔ r ∈ R ∧ r ∈ Subgroup.normalizer (L : Set G) ∧
       ∀ l ∈ L, l * r * l⁻¹ * r⁻¹ ∈ GLAPPrimeCoreOf 5 L := Iff.rfl
 
+omit [Finite G] in
 theorem conj_mem_centModIn {R L : Subgroup G} (hRL : R ≤ Subgroup.normalizer (L : Set G)) {g c : G}
     (hg : g ∈ R) (hc : c ∈ centModIn R L) : g * c * g⁻¹ ∈ centModIn R L := by
   obtain ⟨hcR, hcN, hcL⟩ := mem_centModIn.1 hc
@@ -144,7 +146,7 @@ theorem eq_one_of_centralizes_bar {L K₁ A₀ R : Subgroup G} (hK₁L : K₁ �
     (hRp : IsPGroup 5 ↥R) (hRL : R ≤ Subgroup.normalizer (L : Set G))
     (hZ : omegaOne 5 (centerOf R) ≤ A₀) {r : G} (hr : r ∈ R)
     (hc : ∀ l ∈ L, l * r * l⁻¹ * r⁻¹ ∈ GLAPPrimeCoreOf 5 L) : r = 1 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   set C := centModIn R L with hC
   have hCR : C ≤ R := fun x hx => hx.1
   have hCn : (C.subgroupOf R).Normal := by
@@ -171,6 +173,7 @@ theorem eq_one_of_centralizes_bar {L K₁ A₀ R : Subgroup G} (hK₁L : K₁ �
   have e : (k * z * k⁻¹ * z⁻¹)⁻¹ = z * k * z⁻¹ * k⁻¹ := by group
   rwa [e] at h1
 
+omit [Finite G] in
 theorem comm_mem_of_centMod {L : Subgroup G} {r : G} (h : CFSG.Yardstones.Md0ec50421ce4.CentMod 5 L r) :
     ∀ l ∈ L, l * r * l⁻¹ * r⁻¹ ∈ GLAPPrimeCoreOf 5 L := fun l hl => by
   have h1 : ⁅l, r⁆ ∈ (⁅L, Subgroup.zpowers r⁆ : Subgroup G) :=
@@ -203,7 +206,7 @@ theorem step6_false_of_single (h119 : Lemma119Statement) (hres : InputD4UpRank) 
     (hK₁L : K₁ ≤ L) : False := by
   obtain ⟨rfl, -⟩ := hb
   have hp : Nat.Prime 5 := by norm_num
-  haveI : Fact (Nat.Prime 5) := ⟨hp⟩
+  have : Fact (Nat.Prime 5) := ⟨hp⟩
   have hS := h.toCex117Base.toSec11.toSec10Fails
   have hsc := lemma104_ii_holds hS h.pair
   obtain ⟨hrk, -, -, -⟩ := h119 h

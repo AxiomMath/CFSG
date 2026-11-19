@@ -12,12 +12,13 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {V T A K S X : Subgroup G} {p : ℕ} {g x : G}
 
+omit [Finite G] in
 private theorem nine3_conjSubgroup_iSup {ι : Sort*} (B : ι → Subgroup G) (g : G) :
     conjSubgroup (⨆ i, B i) g = ⨆ i, conjSubgroup (B i) g := by
   simp only [CFSG.Quasithin.conjSubgroup]
   exact Subgroup.map_iSup _ _
 
-private theorem nine3_commutator_mem_nineI (hc : Nine3Choice V T A K S X p g x)
+private theorem nine3_commutator_mem_nineI (_hc : Nine3Choice V T A K S X p g x)
     {i w : G} (hi : i ∈ nineI V K) (hw : w ∈ K) : ⁅i, w⁆ ∈ nineI V K := by
   have hwi : w * i * w⁻¹ ∈ nineI V K := by
     have hconj := Nine3Core.conjSubgroup_nineI (V := V) (K := K) (K.inv_mem hw)
@@ -35,7 +36,7 @@ private theorem nine3_commutator_mem_nineI (hc : Nine3Choice V T A K S X p g x)
 
 theorem nine3_conj_inf_nineW (hc : Nine3Choice V T A K S X p g x) (hI : Nine3IFacts V K S) :
     conjSubgroup A x ⊓ centralizer (A : Set G) = ⊥ ∧ conjSubgroup A x ⊓ nineW V S = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTI := hc.core.hyp7.2.2
   have hAx_eq : conjSubgroup A x = conjSubgroup V (g * x) := by
     rw [← hc.V_g, CFSG.Quasithin.conjSubgroup_conjSubgroup]

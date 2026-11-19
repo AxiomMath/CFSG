@@ -62,7 +62,7 @@ theorem splitTorusFun_spec {h : UnitaryFieldData p f K} {r ε : ℕ} {μ : Subgr
       Matrix.diagonal_mul_diagonal]
     congr 1
     funext z
-    rcases z with i | k | i <;> simp [torusEntries, map_mul, mul_inv, mul_comm]
+    rcases z with i | k | i <;> simp [torusEntries, map_mul, mul_comm]
 
 @[simp] theorem splitTorusHom_apply {h : UnitaryFieldData p f K} {r ε : ℕ} {μ : Subgroup Kˣ}
     (hμ : SplitInv h μ) (x : Fin r → μ) :
@@ -261,7 +261,7 @@ theorem torusFunOfRatio_spec {h : UnitaryFieldData p f K} {r ε : ℕ} {M : Type
       Matrix.diagonal_mul_diagonal]
     congr 1
     funext z
-    rcases z with i | k | i <;> simp [torusEntries, map_mul, mul_inv, mul_comm]
+    rcases z with i | k | i <;> simp [torusEntries, map_mul, mul_comm]
 
 @[simp] theorem torusHomOfRatio_apply {h : UnitaryFieldData p f K} {r ε : ℕ} {M : Type*}
     [Monoid M] {a : M →* (Fin r → Kˣ)}
@@ -281,15 +281,15 @@ theorem coe_torusHomOfRatio {h : UnitaryFieldData p f K} {r ε : ℕ} {M : Type*
 
 theorem invPairParams_apply_left {i j : Fin r} (hij : i ≠ j) (t : Kˣ) :
     invPairParams i j t i = t := by
-  simp [invPairParams, Pi.mulSingle_apply, hij]
+  simp [invPairParams, hij]
 
 theorem invPairParams_apply_right {i j : Fin r} (hij : i ≠ j) (t : Kˣ) :
     invPairParams i j t j = t⁻¹ := by
-  simp [invPairParams, Pi.mulSingle_apply, hij]
+  simp [invPairParams, hij]
 
 theorem invPairParams_apply_of_ne {i j k : Fin r} (hki : k ≠ i) (hkj : k ≠ j) (t : Kˣ) :
     invPairParams i j t k = 1 := by
-  simp [invPairParams, Pi.mulSingle_apply, hki, hkj]
+  simp [invPairParams, hki, hkj]
 
 theorem torusRatio_mulSingle (h : UnitaryFieldData p f K) (i : Fin r) (t : Kˣ) :
     torusRatio h (Pi.mulSingle i t : Fin r → Kˣ) (1 : Fin ε → Kˣ) =
@@ -307,7 +307,7 @@ theorem torusRatio_mulSingle (h : UnitaryFieldData p f K) (i : Fin r) (t : Kˣ) 
   rw [hprod]
   simp
 
-theorem torusRatio_invPairParams (h : UnitaryFieldData p f K) {i j : Fin r} (hij : i ≠ j)
+theorem torusRatio_invPairParams (h : UnitaryFieldData p f K) {i j : Fin r} (_hij : i ≠ j)
     (t : Kˣ) : torusRatio h (invPairParams i j t) (1 : Fin ε → Kˣ) = 1 := by
   have hsplit : invPairParams i j t =
       (Pi.mulSingle i t : Fin r → Kˣ) * Pi.mulSingle j t⁻¹ := rfl

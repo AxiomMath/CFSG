@@ -138,7 +138,7 @@ private theorem frameData_hQζ {K : Type} [Field K] [Finite K] [CharP K 2] {d : 
       glin x (Φ (Pi.single i u, 0)) ≠ Φ (Pi.single i u, 0)) →
       ∀ u, Q (Φ (Pi.single i (AdjoinRoot.root g * u), 0)) =
         Q (Φ (Pi.single i u, 0)) := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   rintro i ⟨x, hx, u₀, hu₀⟩ u
   obtain ⟨k, hk⟩ := hexp x hx
   have hinv : ∀ v, Q (Φ (Pi.single i (AdjoinRoot.root g ^ k i * v), 0)) =
@@ -201,7 +201,7 @@ private theorem frameData_hβnd {K : Type} [Field K] {d : ℕ}
     obtain ⟨⟨d, w⟩, rfl⟩ := Φ.surjective y
     rw [hdec, Finset.sum_eq_single i]
     · have h0 : Φ ((0 : Fin s → AdjoinRoot g), (0 : κ → K)) = 0 := map_zero Φ
-      simp [Pi.single_eq_same, hu (d i), h0, LinearMap.map_zero₂]
+      simp [Pi.single_eq_same, hu (d i), h0]
     · intro j _ hj
       simp [Pi.single_eq_of_ne hj]
     · intro h
@@ -254,15 +254,15 @@ private theorem torus_hζβ {K : Type} [Field K] [Finite K] [CharP K 2] {d : ℕ
     {Q : QuadraticForm K (Fin d → K)} {g : K[X]} [Fact (Irreducible g)] {p : ℕ}
     {X : Subgroup (GL (Fin d) K)} (hp : p.Prime) (hpq : p ∣ Nat.card K + 1)
     (hgd : g ∣ cyclotomic p K) (D : FrameData Q g p X) :
-    ∃ b : Basis (Fin 2) K (AdjoinRoot g),
+    ∃ _b : Basis (Fin 2) K (AdjoinRoot g),
       ∀ u v, D.β (AdjoinRoot.root g * u) (AdjoinRoot.root g * v) = D.β u v := by
   have hp2 : p ≠ 2 := ne_two_of_dvd_card_add_one hpq
   have hpK : (p : K) ≠ 0 := TableBSymp.natCast_ne_zero_of_charTwo hp hp2
-  let b : Basis (Fin 2) K (AdjoinRoot g) :=
+  let _b : Basis (Fin 2) K (AdjoinRoot g) :=
     (CoordSL.rootPB g).basis.reindex (finCongr (rootPB_dim_eq_two hp hp2 hpK hgd hpq))
-  refine ⟨b, ?_⟩
+  refine ⟨_b, ?_⟩
   intro u v
-  have h1 := bilin_apply_det b D.hβ (Algebra.lmul K (AdjoinRoot g) (AdjoinRoot.root g)) u v
+  have h1 := bilin_apply_det _b D.hβ (Algebra.lmul K (AdjoinRoot g) (AdjoinRoot.root g)) u v
   rw [← Algebra.norm_apply, norm_root_eq_one hp hp2 hpK hgd hpq, one_mul] at h1
   exact h1
 
@@ -274,7 +274,7 @@ private theorem exists_torusExt {K : Type} [Field K] {d : ℕ}
       (∀ f i (h : D.act i), ext f i = f (eJ.symm ⟨i, h⟩)) ∧
       (∀ f i, ¬ D.act i → ext f i = 1) ∧ Function.Injective ext := by
   classical
-  haveI : Fintype {i : Fin D.s // D.act i} := Fintype.ofFinite _
+  have : Fintype {i : Fin D.s // D.act i} := Fintype.ofFinite _
   obtain ⟨k, ⟨eJ⟩⟩ : ∃ k : ℕ, Nonempty (Fin k ≃ {i : Fin D.s // D.act i}) :=
     ⟨_, ⟨(Fintype.equivFin {i : Fin D.s // D.act i}).symm⟩⟩
   obtain ⟨ext, hext_act, hext_nact⟩ : ∃ ext : (Fin k → Multiplicative (ZMod p)) →*
@@ -303,17 +303,17 @@ private theorem exists_torusGL {K : Type} [Field K] [Finite K] [CharP K 2] {d : 
     {X : Subgroup (GL (Fin d) K)} (hp : p.Prime) (hpq : p ∣ Nat.card K + 1)
     (hgd : g ∣ cyclotomic p K) (hζp : AdjoinRoot.root g ^ p = 1)
     (hζo : IsPrimitiveRoot (AdjoinRoot.root g) p) (D : FrameData Q g p X) :
-    ∃ (b : Basis (Fin 2) K (AdjoinRoot g))
-      (hζβ : ∀ u v, D.β (AdjoinRoot.root g * u) (AdjoinRoot.root g * v) = D.β u v)
+    ∃ (_b : Basis (Fin 2) K (AdjoinRoot g))
+      (_hζβ : ∀ u v, D.β (AdjoinRoot.root g * u) (AdjoinRoot.root g * v) = D.β u v)
       (torGL : (Fin D.s → Multiplicative (ZMod p)) →* GL (Fin d) K),
       (∀ F, torGL F = frameGL D.Φ (torEquiv hζp F)) ∧ Function.Injective torGL := by
-  obtain ⟨b, hζβ⟩ := torus_hζβ hp hpq hgd D
-  refine ⟨b, hζβ, (Matrix.GeneralLinearGroup.toLin.symm.toMonoidHom).comp
+  obtain ⟨_b, _hζβ⟩ := torus_hζβ hp hpq hgd D
+  refine ⟨_b, _hζβ, (Matrix.GeneralLinearGroup.toLin.symm.toMonoidHom).comp
     ((sesqUnitaryGroup (QuadraticMap.polarBilin Q)).subtype.comp
-      (torHom (K := K) hζp D.hdec hζβ)), fun F => rfl, ?_⟩
+      (torHom (K := K) hζp D.hdec _hζβ)), fun F => rfl, ?_⟩
   rw [MonoidHom.coe_comp, MonoidHom.coe_comp]
   exact Matrix.GeneralLinearGroup.toLin.symm.injective.comp
-    (Subtype.val_injective.comp (torHom_injective hζp D.hdec hζβ hζo))
+    (Subtype.val_injective.comp (torHom_injective hζp D.hdec _hζβ hζo))
 
 private structure TorusSetup {K : Type} [Field K] [Finite K] [CharP K 2] {d : ℕ}
     {Q : QuadraticForm K (Fin d → K)} {g : K[X]} [Fact (Irreducible g)] {p : ℕ} [NeZero p]
@@ -422,7 +422,7 @@ private theorem torus_XT {K : Type} [Field K] [Finite K] [CharP K 2] {d : ℕ}
     {Q : QuadraticForm K (Fin d → K)} {g : K[X]} [Fact (Irreducible g)] {p : ℕ} [NeZero p]
     {X : Subgroup (GL (Fin d) K)} {hζp : AdjoinRoot.root g ^ p = 1}
     {D : FrameData Q g p X} (TS : TorusSetup hζp D)
-    (hζo : IsPrimitiveRoot (AdjoinRoot.root g) p) :
+    (_hζo : IsPrimitiveRoot (AdjoinRoot.root g) p) :
     X ≤ torusT TS := by
   intro x hx
   obtain ⟨kx, hkx⟩ := D.hact x hx
@@ -469,8 +469,6 @@ private theorem torus_tor {K : Type} [Field K] [Finite K] [CharP K 2] {d : ℕ}
   let f0 : Fin TS.k → Multiplicative (ZMod p) := fun a =>
     ofAdd ((kk (TS.eJ a : Fin D.s) : ℕ) : ZMod p)
   refine ⟨TS.torGL (TS.ext f0), ⟨f0, rfl⟩, fun dvec w => ?_⟩
-  change glin (TS.torGL (TS.ext f0)) (D.Φ (dvec, w)) =
-    D.Φ (fun i => AdjoinRoot.root g ^ kk i * dvec i, w)
   rw [TS.htorGL, glin_apply, frameGL_mulVec, torEquiv_apply]
   congr 2
   funext i
@@ -492,7 +490,7 @@ theorem exists_frameTorus {K : Type} [Field K] [Finite K] [CharP K 2] {d : ℕ}
   classical
   have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨D⟩ := exists_frameData hnd hp hpq hgd hX hXc hXp
-  letI := D.fintype
+  let := D.fintype
   have hp2 : p ≠ 2 := ne_two_of_dvd_card_add_one hpq
   have hpK : (p : K) ≠ 0 := TableBSymp.natCast_ne_zero_of_charTwo hp hp2
   have hζo := NSFrame.root_isPrimitiveRoot (g := g) hp hpK hgd
@@ -547,7 +545,7 @@ theorem linearEquiv_frame_block {K : Type} [Field K] {d : ℕ} {L : Type} [Field
     (h : L → (Fin d → K))) hfg) y
 
 private theorem exists_cyclotomic_factor {K : Type} [Field K] {p : ℕ} (hp : p.Prime)
-    (hpq : p ∣ Nat.card K + 1) :
+    (_hpq : p ∣ Nat.card K + 1) :
     ∃ g : K[X], Irreducible g ∧ g ∣ cyclotomic p K := by
   have hne : ¬ IsUnit (cyclotomic p K) := by
     rw [Polynomial.isUnit_iff_degree_eq_zero, degree_eq_natDegree (cyclotomic_ne_zero p _),
@@ -596,7 +594,7 @@ private theorem exists_scaleForms {K : Type} [Field K] [Finite K] [CharP K 2] {d
     {E F : Subgroup (GL (Fin d) K)} {DE : FrameTorus Q g p E} {DF : FrameTorus Q g p F}
     {π : {i : Fin DF.s // DF.act i} ↪ {i : Fin DE.s // DE.act i}}
     {b : Basis (Fin 2) K (AdjoinRoot g)} (hFne : ∃ i : Fin DF.s, DF.act i)
-    (hp : p.Prime) (hpq : p ∣ Nat.card K + 1) (hgd : g ∣ cyclotomic p K) :
+    (hp : p.Prime) (hpq : p ∣ Nat.card K + 1) (_hgd : g ∣ cyclotomic p K) :
     Nonempty (ScaleForms DE DF π b) := by
   obtain ⟨i0, hi0⟩ := hFne
   have hp2 : p ≠ 2 := ne_two_of_dvd_card_add_one hpq
@@ -695,13 +693,13 @@ private structure WittInd {K : Type} [Field K] [Finite K] [CharP K 2] {d : ℕ}
     {Q : QuadraticForm K (Fin d → K)} {g : K[X]} [Fact (Irreducible g)] {p : ℕ}
     {E F : Subgroup (GL (Fin d) K)} (DE : FrameTorus Q g p E) (DF : FrameTorus Q g p F) where
   kk : ℕ
-  eIdx : Fin kk ≃ (Σ a : {i : Fin DF.s // DF.act i}, Fin 2)
+  eIdx : Fin kk ≃ (Σ _a : {i : Fin DF.s // DF.act i}, Fin 2)
 
 private theorem exists_wittInd {K : Type} [Field K] [Finite K] [CharP K 2] {d : ℕ}
     {Q : QuadraticForm K (Fin d → K)} {g : K[X]} [Fact (Irreducible g)] {p : ℕ}
     {E F : Subgroup (GL (Fin d) K)} (DE : FrameTorus Q g p E) (DF : FrameTorus Q g p F) :
     Nonempty (WittInd DE DF) := by
-  haveI : Fintype (Σ a : {i : Fin DF.s // DF.act i}, Fin 2) := Fintype.ofFinite _
+  have : Fintype (Σ a : {i : Fin DF.s // DF.act i}, Fin 2) := Fintype.ofFinite _
   exact ⟨WittInd.mk (Fintype.card (Σ a : {i : Fin DF.s // DF.act i}, Fin 2))
     (Fintype.equivFin _).symm⟩
 
@@ -712,8 +710,8 @@ private theorem witt_li_F {K : Type} [Field K] [Finite K] [CharP K 2] {d : ℕ}
     LinearIndependent K (fun t : Fin I.kk =>
       DF.Φ (Pi.single ((I.eIdx t).1 : Fin DF.s) (b (I.eIdx t).2), 0)) := by
   classical
-  letI := DF.fintype
-  haveI : Finite DF.κ := Finite.of_fintype _
+  let := DF.fintype
+  have : Finite DF.κ := Finite.of_fintype _
   let bsrcF : Basis (((i : Fin DF.s) × Fin 2) ⊕ DF.κ) K
       ((Fin DF.s → AdjoinRoot g) × (DF.κ → K)) :=
     (Pi.basis (fun _ : Fin DF.s => b)).prod (Pi.basisFun K DF.κ)
@@ -722,8 +720,7 @@ private theorem witt_li_F {K : Type} [Field K] [Finite K] [CharP K 2] {d : ℕ}
       bVF (Sum.inl x) = DF.Φ (Pi.single x.1 (b x.2), 0) := by
     intro x
     obtain ⟨i, j⟩ := x
-    simp [bVF, bsrcF, Module.Basis.map_apply, Pi.basis_apply, Module.Basis.prod_apply,
-      Pi.basisFun_apply]
+    simp [bVF, bsrcF, Module.Basis.map_apply, Pi.basis_apply, Module.Basis.prod_apply]
   let f : (Σ a : {i : Fin DF.s // DF.act i}, Fin 2) →
       ((i : Fin DF.s) × Fin 2) ⊕ DF.κ := fun t => Sum.inl ⟨(t.1 : Fin DF.s), t.2⟩
   have hf : Function.Injective f := by
@@ -753,8 +750,8 @@ private theorem witt_li_E {K : Type} [Field K] [Finite K] [CharP K 2] {d : ℕ}
       DE.Φ (Pi.single (((π (I.eIdx t).1 : {i : Fin DE.s // DE.act i}) : Fin DE.s))
         (lam * b (I.eIdx t).2), 0)) := by
   classical
-  letI := DE.fintype
-  haveI : Finite DE.κ := Finite.of_fintype _
+  let := DE.fintype
+  have : Finite DE.κ := Finite.of_fintype _
   let b' : Basis (Fin 2) K (AdjoinRoot g) := b.map (SpNS.mulEquivL lam hlamne)
   have hb' : ∀ j, b' j = lam * b j := fun j => by simp [b', SpNS.mulEquivL_apply]
   let bsrcE : Basis (((i : Fin DE.s) × Fin 2) ⊕ DE.κ) K
@@ -765,8 +762,7 @@ private theorem witt_li_E {K : Type} [Field K] [Finite K] [CharP K 2] {d : ℕ}
       bVE (Sum.inl x) = DE.Φ (Pi.single x.1 (b' x.2), 0) := by
     intro x
     obtain ⟨i, j⟩ := x
-    simp [bVE, bsrcE, Module.Basis.map_apply, Pi.basis_apply, Module.Basis.prod_apply,
-      Pi.basisFun_apply]
+    simp [bVE, bsrcE, Module.Basis.map_apply, Pi.basis_apply, Module.Basis.prod_apply]
   let f : (Σ a : {i : Fin DF.s // DF.act i}, Fin 2) →
       ((i : Fin DE.s) × Fin 2) ⊕ DE.κ := fun t =>
     Sum.inl ⟨((π t.1 : {i : Fin DE.s // DE.act i}) : Fin DE.s), t.2⟩
@@ -952,14 +948,14 @@ private theorem exists_kE {K : Type} [Field K] [Finite K] [CharP K 2] {d : ℕ}
   have hkE0 : ∀ i, ¬ DE.act i → kE i = 0 := by
     intro i hi
     simp only [kE]
-    rw [dif_neg]
+    rw [dite_eq_right]
     rintro ⟨a, ha⟩
     exact hi (ha ▸ (π a).2)
   have hkE_nimage : ∀ i, (¬ ∃ a : {i : Fin DF.s // DF.act i},
       (π a : Fin DE.s) = i) → kE i = 0 := by
     intro i hi
     simp only [kE]
-    rw [dif_neg hi]
+    rw [dite_eq_right hi]
   have hkE_image : ∀ a : {i : Fin DF.s // DF.act i},
       kE ((π a : {i : Fin DE.s // DE.act i}) : Fin DE.s) = kx (a : Fin DF.s) := by
     intro a
@@ -970,7 +966,7 @@ private theorem exists_kE {K : Type} [Field K] [Finite K] [CharP K 2] {d : ℕ}
     have hchoose : Classical.choose (⟨a, rfl⟩ : ∃ b : {i : Fin DF.s // DF.act i},
         (π b : Fin DE.s) = (π a : Fin DE.s)) = a := π.injective hwit
     simp only [kE]
-    rw [dif_pos ⟨a, rfl⟩, hchoose]
+    rw [dite_eq_left ⟨a, rfl⟩, hchoose]
   exact ⟨KEImage.mk kE hkE0 hkE_nimage hkE_image⟩
 
 private structure KEData {K : Type} [Field K] [Finite K] [CharP K 2] {d : ℕ}
@@ -1314,18 +1310,18 @@ theorem exists_conj_le_of_maxCard {K : Type} [Field K] [Finite K] [CharP K 2] {d
   have : Fintype K := Fintype.ofFinite K
   have hpK : (p : K) ≠ 0 := TableBSymp.natCast_ne_zero_of_charTwo hp hp2
   obtain ⟨g, hg, hgd⟩ := exists_cyclotomic_factor hp hpq
-  haveI : Fact (Irreducible g) := ⟨hg⟩
+  have : Fact (Irreducible g) := ⟨hg⟩
   have : Module.Finite K (AdjoinRoot g) := (CoordSL.rootPB g).finite
   have : Finite (AdjoinRoot g) := Module.finite_of_finite K
   have hζo := NSFrame.root_isPrimitiveRoot (g := g) hp hpK hgd
   have hζ1 : AdjoinRoot.root g ≠ 1 := hζo.ne_one hp.one_lt
   obtain ⟨DE⟩ := exists_frameTorus (Q := Q) hnd hT hp hpq hgd hE hEc hEp
   obtain ⟨DF⟩ := exists_frameTorus (Q := Q) hnd hT hp hpq hgd hF hFc hFp
-  letI := DE.fintype
-  letI := DF.fintype
+  let := DE.fintype
+  let := DF.fintype
   obtain ⟨hE_eq, ha_le⟩ := eq_T_of_maxCard (DE := DE) (DF := DF) hEmax hp
-  haveI : Fintype {i : Fin DF.s // DF.act i} := Fintype.ofFinite _
-  haveI : Fintype {i : Fin DE.s // DE.act i} := Fintype.ofFinite _
+  have : Fintype {i : Fin DF.s // DF.act i} := Fintype.ofFinite _
+  have : Fintype {i : Fin DE.s // DE.act i} := Fintype.ofFinite _
   obtain ⟨π⟩ := Function.Embedding.nonempty_of_card_le (by
     simpa [Nat.card_eq_fintype_card] using ha_le)
   let b : Basis (Fin 2) K (AdjoinRoot g) :=

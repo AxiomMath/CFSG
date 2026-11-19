@@ -55,6 +55,7 @@ private theorem exists_pow_three_eq_one_of_mem_ltri {X : Type*} [Group X] {F : T
   · rw [map_pow, map_mul, haπ, ht]
     exact pow_three_utriElt_mul_ltriElt (inv_mul_cancel₀ ht0)
 
+omit [Finite G] in
 private theorem map_ne_one_of_inf_eq_bot {X K R : Subgroup G} {Y : Type*} [Group Y]
     {π : ↥X →* Y} (hker : π.ker = R.subgroupOf X) (hKR : K ⊓ R = ⊥) {x : ↥X}
     (hx : (x : G) ∈ K) (hx1 : x ≠ 1) : π x ≠ 1 := by
@@ -396,9 +397,9 @@ theorem Sec5Hyp.stmt56_of_stmt56a (hS : Sec5Hyp M V) (h56a : Sec5.Stmt56a M V) :
   intro U hU U' hU' hcap
   obtain ⟨F, hF, hFin, hChar, π, hsurj, hker, hcardF, hπU, hπU'⟩ :=
     h56a U hU U' hU' hcap
-  letI := hF
-  letI := hFin
-  letI := hChar
+  let := hF
+  let := hFin
+  let := hChar
   have hut : utri F ≠ ltri F := by
     rw [Tim77.utri_eq_upperUnipotent, Sec2.ltri_eq_lowerUnipotent]
     exact RankOne.upperUnipotent_ne_lowerUnipotent F

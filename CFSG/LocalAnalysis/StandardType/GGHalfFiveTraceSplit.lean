@@ -26,7 +26,7 @@ private theorem f4Omega_sq_ne_omega : f4Omega ^ 2 ≠ f4Omega := by
   exact f4Omega_ne_one h3.symm
 
 private theorem f4Omega_isPrimitiveRoot : IsPrimitiveRoot f4Omega 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hord : orderOf f4Omega = 3 := orderOf_eq_prime f4Omega_pow_three f4Omega_ne_one
   rw [← hord]
   exact IsPrimitiveRoot.orderOf f4Omega
@@ -51,7 +51,7 @@ private theorem ker_aeval_prod_X_sub_C_eq_iSup {V : Type*} [AddCommGroup V] [Mod
     congr 1
     ext v
     simp [LinearMap.mem_ker, Polynomial.aeval_X, Polynomial.aeval_C, LinearMap.sub_apply,
-      Module.End.mem_eigenspace_iff, Algebra.algebraMap_eq_smul_one, sub_eq_zero]
+      Algebra.algebraMap_eq_smul_one, sub_eq_zero]
 
 private theorem iSup_eigenspace_eq_top_of_pow_three {V : Type*} [AddCommGroup V] [Module F4 V]
     (Z : Module.End F4 V) (hZ : Z ^ 3 = 1) :
@@ -67,17 +67,17 @@ private theorem iSup_eigenspace_eq_top_of_pow_three {V : Type*} [AddCommGroup V]
 
 private theorem perfect_hom_eq_one {G M : Type*} [Group G] [CommMonoid M]
     (hG : Group.IsPerfect G) (f : G →* M) (g : G) : f g = 1 := by
-  haveI := hG
+  have := hG
   let f' : G →* Mˣ :=
     { toFun := fun x => ⟨f x, f x⁻¹, by rw [← map_mul, mul_inv_cancel, map_one],
         by rw [← map_mul, inv_mul_cancel, map_one]⟩,
       map_one' := Units.ext (map_one f),
       map_mul' := fun x y => Units.ext (map_mul f x y) }
-  haveI : IsMulCommutative ↥f'.range :=
+  have : IsMulCommutative ↥f'.range :=
     ⟨⟨fun a b => Subtype.ext (by
       rw [Subgroup.coe_mul, Subgroup.coe_mul]
       exact mul_comm (a : Mˣ) (b : Mˣ))⟩⟩
-  haveI : Group.IsPerfect ↥f'.range := Group.IsPerfect.range (f := f')
+  have : Group.IsPerfect ↥f'.range := Group.IsPerfect.range (f := f')
   have h1 : (⟨f' g, ⟨g, rfl⟩⟩ : f'.range) = ⟨1, ⟨1, map_one f'⟩⟩ := Subsingleton.elim _ _
   have h2 : f' g = 1 := congrArg Subtype.val h1
   change (f' g : M) = 1
@@ -365,7 +365,7 @@ private theorem exists_natural_three_fixed_line_aux
     · exact ⟨2, by decide, h2⟩
   have hDj : ∀ j : Fin 3, j ≠ 0 → j ≠ k → D j = 0 := by
     intro j hj0 hjk
-    fin_cases j <;> fin_cases k <;> simp_all <;> omega
+    fin_cases j <;> fin_cases k <;> simp_all
   have hres0 : ∀ s, ρi 0 s = 1 := fun s =>
     sl3_hom_trivial_of_finrank_le_two (V := N 0)
       (by change D 0 ≤ 2; rw [hD0]; norm_num) (ρi 0) s
@@ -490,7 +490,7 @@ private theorem exists_natural_three_fixed_line_aux
       rw [Submodule.coe_prodEquivOfIsCompl'] at h
       exact h.symm
     have hc : (ρ s) (c : Fin 4 → F4) = (c : Fin 4 → F4) :=
-      hfix 0 s (c : Fin 4 → F4) (by simpa [C] using c.2) (hres0 s)
+      hfix 0 s (c : Fin 4 → F4) (by simp [C]) (hres0 s)
     have hw : (ρ s) (w : Fin 4 → F4) = ((ρW s w : W) : Fin 4 → F4) := rfl
     have hEv : E v = (eC c, eW w) := by rw [hv, hE_add c w]
     calc
@@ -531,7 +531,7 @@ private theorem exists_natural_three_fixed_line_aux
     have htj : ∀ j : Fin 3, j ≠ 0 → j ≠ k → t j = 0 := by
       intro j hj0 hjk
       have hNj : N j = ⊥ := (Submodule.finrank_eq_zero (S := N j)).mp (hDj j hj0 hjk)
-      haveI : Subsingleton ↥(N j) := by
+      have : Subsingleton ↥(N j) := by
         rw [hNj]
         exact ⟨fun a b => Subtype.ext (by
           have ha : (a : Fin 4 → F4) = 0 := (Submodule.mem_bot F4).mp a.2

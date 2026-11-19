@@ -36,8 +36,8 @@ theorem twoLocalWhen_PSU_even (hLie : LieOrderFormulasInput) :
       omega
     · exact h0
   have hp2 : p ≠ 2 := by omega
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, hform, -⟩ := hLie K .PSU n 2 f hadm hmodel
   have hpn : ¬ p ∣ 2 * (n - 1) := by
     intro h
@@ -59,7 +59,7 @@ theorem twoLocalWhen_PSU_even (hLie : LieOrderFormulasInput) :
         (if Even i then (2 ^ f) ^ i - 1 else (2 ^ f) ^ i + 1) := by
       have := Finset.dvd_prod_of_mem
         (fun i => if Even i then (2 ^ f) ^ i - 1 else (2 ^ f) ^ i + 1) hmem
-      simp only [hev, if_true] at this
+      simp only [hev, ite_true] at this
       exact hferm.trans this
     have hnum : p ∣ lieOrderNumerator .PSU n (2 ^ f) := Dvd.dvd.mul_left hprod _
     rw [← hform] at hnum
@@ -71,10 +71,10 @@ theorem twoLocalWhen_PSU_even (hLie : LieOrderFormulasInput) :
   have hppd := fun k => ppd_dvd_iff hrm hm hcorr hp hpn k
   have hr : r.Prime := hrm.1
   obtain ⟨-, F, hF, hFfin, hFcard, ⟨e⟩⟩ := hcl0
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hFcard' : Fintype.card F = 2 ^ (2 * f) := by
     rw [← Nat.card_eq_fintype_card, hFcard, ← pow_mul, mul_comm]
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow hFcard'
+  have : CharP F 2 := charP_of_card_eq_prime_pow hFcard'
   have hFq : Nat.card F = (2 ^ (p * f₀)) ^ 2 := by rw [hFcard, hf]
   have hFpow : ∀ k : ℕ, Nat.card F ^ k = (2 ^ (p * f₀)) ^ (2 * k) := fun k => by
     rw [hFq, ← pow_mul]
@@ -122,7 +122,7 @@ theorem twoLocalWhen_PSU_even (hLie : LieOrderFormulasInput) :
     have hmem : n - 1 ∈ Finset.Icc 2 n := Finset.mem_Icc.2 ⟨by omega, by omega⟩
     have := Finset.dvd_prod_of_mem
       (fun i => if Even i then (2 ^ f₀) ^ i - 1 else (2 ^ f₀) ^ i + 1) hmem
-    simp only [hnodd', if_false] at this
+    simp only [hnodd', ite_false] at this
     exact Dvd.dvd.mul_left (hrA.trans this) _
   have hnum0 : lieOrderNumerator .PSU n (2 ^ f₀) ≠ 0 := by
     simp only [lieOrderNumerator]

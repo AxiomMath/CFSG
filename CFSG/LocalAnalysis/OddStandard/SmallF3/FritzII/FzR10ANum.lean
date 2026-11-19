@@ -48,7 +48,7 @@ private theorem fzrAux_vAct_lt (Mt Ms Ml : Mat) {v q : ℕ} (hq : q < 64) :
 private theorem fzrAux_xor_lt_eight {v w : ℕ} (hv : v < 8) (hw : w < 8) : v ^^^ w < 8 := by
   simpa using Nat.xor_lt_two_pow (n := 3) hv hw
 
-theorem fzr_a_emA_lt (Mt Ms Ml : Mat) {x y : ℕ} (hx : x < 512) (hy : y < 512) :
+theorem fzr_a_emA_lt (Mt Ms Ml : Mat) {x y : ℕ} (_hx : x < 512) (_hy : y < 512) :
     emA Mt Ms Ml x y < 512 := by
   have h1 : addP (x % 64) (vAct Mt Ms Ml (x / 64 % 8) (y % 64)) < 64 := fzr_a_addP_lt _ _
   have h2 : x / 64 % 8 < 8 := Nat.mod_lt _ (by norm_num)
@@ -111,7 +111,7 @@ private theorem fzrAux_mu_mul (S : FzR10ASet t tau lam rho Z E W Q R T P a b)
     _ = (fzrAElt a b p * fzrAV t tau lam v) * (fzrAElt a b q * fzrAV t tau lam w) := by group
 
 theorem fzrAMu_mul (S : FzR10ASet t tau lam rho Z E W Q R T P a b)
-    (hM : FzR10AMats t tau lam a b Mt Ms Ml) {n m : ℕ} (hn : n < 512) (hm : m < 512) :
+    (hM : FzR10AMats t tau lam a b Mt Ms Ml) {n m : ℕ} (_hn : n < 512) (_hm : m < 512) :
     fzrAMu a b t tau lam (emA Mt Ms Ml n m) = fzrAMu a b t tau lam n * fzrAMu a b t tau lam m := by
   have hemA : emA Mt Ms Ml n m = addP (n % 64) (vAct Mt Ms Ml (n / 64 % 8) (m % 64))
       + 64 * ((n / 64 % 8) ^^^ (m / 64 % 8)) := rfl

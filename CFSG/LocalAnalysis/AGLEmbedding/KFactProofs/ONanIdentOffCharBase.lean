@@ -126,7 +126,7 @@ theorem glbCore_eq_top_of_seitz (hS : KFactSeitzRankTwo) {K : Type} [Group K] [F
     (hex : ¬ IsD2SeitzException p d.1) (T : Sylow p K) (hT : ¬ IsCyclic (T : Subgroup K)) :
     GLBCore p 1 (T : Subgroup K) = ⊤ := by
   have : Fact p.Prime := ⟨hp⟩
-  have : Fact (IsPGroup p (T : Subgroup K)) := ⟨T.isPGroup'⟩
+  have : Fact (IsPGroup p (T : Subgroup K)) := ⟨T.isPGroup⟩
   obtain ⟨E, -, hEcard, hEel⟩ := CFSG.lemma_4_5_a hp2 hT
   set E₀ : Subgroup K := E.map (T : Subgroup K).subtype with hE₀
   have hEel' : IsElemAbelian p E :=

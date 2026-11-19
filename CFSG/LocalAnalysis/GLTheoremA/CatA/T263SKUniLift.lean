@@ -21,7 +21,7 @@ theorem normOne_commute {z : ↥(gramSU h (idGram K d))}
 
 theorem normOne_eq_one_of_sq (hd : 0 < d) {z : ↥(gramSU h (idGram K d))}
     (hz : z ∈ normOneScalars h (gramSU h (idGram K d)) d) (hz2 : z ^ 2 = 1) : z = 1 := by
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   obtain ⟨c, -, -, hc⟩ := hz
   have h1 : ((z ^ 2 : ↥(gramSU h (idGram K d))) : GL (Fin d) K) = 1 := by
     rw [hz2]

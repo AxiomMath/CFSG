@@ -21,12 +21,12 @@ theorem s16k_card_mul_card_ker_dvd_griess {X S : Type} [Group X] [Finite X] [Gro
     (hX : Group.IsPerfect X) (π : X →* S) (hπ : Function.Surjective π)
     (hk : π.ker ≤ Subgroup.center X) :
     Nat.card (griessHopfMultiplier X) * Nat.card π.ker ∣ Nat.card (griessHopfMultiplier S) := by
-  haveI : Finite S := Finite.of_surjective π hπ
-  haveI : Nonempty S := ⟨1⟩
-  haveI : Group.IsPerfect X := hX
+  have : Finite S := Finite.of_surjective π hπ
+  have : Nonempty S := ⟨1⟩
+  have : Group.IsPerfect X := hX
   let E := HopfCover X
-  haveI : Finite E := finite_hopfCover hX
-  haveI : Group.IsPerfect E := hopfCover_isPerfect
+  have : Finite E := finite_hopfCover hX
+  have : Group.IsPerfect E := hopfCover_isPerfect
   let q : E →* S := π.comp (hopfCoverMap X)
   have hq : Function.Surjective q := hπ.comp (hopfCoverMap_surjective (S := X))
   have hkq : q.ker ≤ Subgroup.center E := by
@@ -71,10 +71,10 @@ theorem s16k_mult_sl3_four (hGA : CFSG.Open.GriessAllModelsStatement) {X : Type}
     [Finite X] (h : IsSLn X 3 2) :
     Nat.card (Subgroup.center X) = 3 ∧ Nat.card (CFSG.Open.griessHopfMultiplier X) ∣ 16 := by
   obtain ⟨K, hKfield, hKfinite, hKcard, ⟨e⟩⟩ := h
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
+  let : Field K := hKfield
+  let : Finite K := hKfinite
   have hK4 : Nat.card K = 4 := by rw [hKcard]; norm_num
-  haveI : Finite (StatedSL 3 K) := Finite.of_surjective e e.surjective
+  have : Finite (StatedSL 3 K) := Finite.of_surjective e e.surjective
   have hcenter : Nat.card (Subgroup.center X) = 3 := by
     rw [Nat.card_congr (Subgroup.centerCongr e).toEquiv]
     exact CFSG.Open.StatedCenterThree.card_center_statedSL_three (K := K)

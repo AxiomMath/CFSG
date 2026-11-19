@@ -82,10 +82,10 @@ theorem burnsideF429_card_le_two_mul_of [Finite G] {S A : Subgroup G} {t : G} (h
       if p.1 then t * (p.2 : G) else (p.2 : G)) (φ a) = a := by
     intro a
     by_cases ha : (a : G) ∈ S
-    · have e : φ a = (false, ⟨a, a.2, ha⟩) := dif_pos ha
+    · have e : φ a = (false, ⟨a, a.2, ha⟩) := dite_eq_left ha
       rw [e]
       rfl
-    · have e : φ a = (true, ⟨t * a, hmemX a ha⟩) := dif_neg ha
+    · have e : φ a = (true, ⟨t * a, hmemX a ha⟩) := dite_eq_right ha
       rw [e]
       show t * (t * (a : G)) = a
       rw [← mul_assoc, htt, one_mul]

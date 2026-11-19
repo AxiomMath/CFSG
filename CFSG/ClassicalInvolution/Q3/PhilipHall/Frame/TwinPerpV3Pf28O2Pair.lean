@@ -61,7 +61,7 @@ theorem centralizer_zpowers_eq {K : Type} [Group K] (x : K) :
 theorem oddCoreIn_le_oddCoreIn_of_inO2 {z u : G} (hz2 : IsPGroup 2 (Subgroup.zpowers z))
     (hzu : z * u = u * z) (hA : InO2C u z) (hB : InO2C z u) :
     oddCoreIn (Subgroup.centralizer ({z} : Set G)) ≤ oddCoreIn (Subgroup.centralizer ({u} : Set G)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set H : Subgroup G := Subgroup.centralizer ({u} : Set G) with hH
   set N : Subgroup G := oddCoreIn (Subgroup.centralizer ({z} : Set G)) with hN
   have hNH : N ≤ H := oddCoreIn_le_centralizer_of_inO2 hA

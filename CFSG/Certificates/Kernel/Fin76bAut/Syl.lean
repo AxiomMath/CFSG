@@ -25,7 +25,7 @@ theorem ptK_pos {G T PL POS SRT SRI : ℕ → ℕ} {k cnt i : ℕ}
   obtain ⟨-, -, hp, -⟩ := h
   have h1 := allN_iff.1 hp j hj
   rw [strictB_eq] at h1
-  simp only [bAnd_eq, Bool.and_eq_true] at h1
+  simp only [Bool.and_eq_true] at h1
   exact ⟨_, Nat.le_of_ble_eq_true h1.1, beq_t.1 h1.2.1⟩
 
 theorem eSylHdK_spec {cnt kS cntS : ℕ} {T SP ST SPL : ℕ → ℕ}
@@ -189,7 +189,7 @@ theorem ea_le_of_checks (pd : PosData R T cnt Φ) (hcard : Nat.card (MulAut H) =
     have h2 : (γ '' ((A : Set (MulAut H)) \ {1})).ncard = ((A : Set (MulAut H)) \ {1}).ncard :=
       Set.ncard_image_of_injective _ γ.injective
     have h3 : ((A : Set (MulAut H)) \ {1}).ncard = Nat.card A - 1 := by
-      rw [Set.ncard_diff_singleton_of_mem (one_mem A)]
+      rw [Set.ncard_sdiff_singleton_of_mem (one_mem A)]
       rfl
     rw [h1, hYimg, h2, h3]
     omega

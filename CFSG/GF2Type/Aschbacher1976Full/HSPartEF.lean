@@ -11,16 +11,16 @@ variable {G : Type} [Group G] [Finite G] {z : G} {T V : Subgroup G}
 
 theorem pCoreOf_normalizer_eq (hset : HSSetting G z) (hV : HSV z T V) :
     CFSG.Open.pCoreOf 2 (Subgroup.normalizer (V : Set G)) = Subgroup.centralizer (V : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hCN : Subgroup.centralizer (V : Set G) ≤ Subgroup.normalizer (V : Set G) :=
     Subgroup.centralizer_le_normalizer _
   obtain ⟨θ, hθs, hθk⟩ := hsAut_exists_SL gl3Stmt_holds hset hV
-  haveI : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 3) (ZMod 2)) := by
-    haveI := CFSG.ComponentClassification.GHarris.isSimpleGroup_GL32_gh
+  have : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 3) (ZMod 2)) := by
+    have := CFSG.ComponentClassification.GHarris.isSimpleGroup_GL32_gh
     exact CFSG.ComponentClassification.GHarris.SL32EquivGL32.isSimpleGroup
   apply le_antisymm
   · rintro x ⟨y, hy, rfl⟩
-    haveI hnormal : ((CFSG.pCore 2 ↥(Subgroup.normalizer (V : Set G))).map θ).Normal :=
+    have hnormal : ((CFSG.pCore 2 ↥(Subgroup.normalizer (V : Set G))).map θ).Normal :=
       CFSG.pCore_normal.map θ hθs
     have h2 : IsPGroup 2 ↥((CFSG.pCore 2 ↥(Subgroup.normalizer (V : Set G))).map θ) :=
       CFSG.pCore_isPGroup.map θ
@@ -55,7 +55,7 @@ theorem pCoreOf_normalizer_eq (hset : HSSetting G z) (hV : HSV z T V) :
 theorem quasithinGenFitting_normalizer_eq (hset : HSSetting G z) (hV : HSV z T V) :
     CFSG.Open.quasithinGenFitting (Subgroup.normalizer (V : Set G)) =
       Subgroup.centralizer (V : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp := pCoreOf_normalizer_eq hset hV
   have key : CFSG.Open.quasithinGenFitting (Subgroup.normalizer (V : Set G)) =
       CFSG.Open.pCoreOf 2 (Subgroup.normalizer (V : Set G)) := by

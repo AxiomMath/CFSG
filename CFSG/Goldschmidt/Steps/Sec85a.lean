@@ -146,7 +146,7 @@ theorem qCoreOf_two_le_centralizer (hset : GoldSetting G S A) (h4 : Nat.card A =
     {H : Subgroup G} (hAH : A ≤ H) : qCoreOf H 2 ≤ Subgroup.centralizer (A : Set G) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hR : IsPGroup 2 (A ⊔ qCoreOf H 2 : Subgroup G) :=
-    IsPGroup.to_sup_of_normal_right' (S.isPGroup'.to_le hset.le) (qCoreOf_isPGroup H 2)
+    IsPGroup.to_sup_of_normal_right' (S.isPGroup.to_le hset.le) (qCoreOf_isPGroup H 2)
       (hAH.trans (le_normalizer_of_isNormalIn (qCoreOf_normal_in H 2)))
   exact le_sup_right.trans (pGroup_le_centralizer hset h4 hR le_sup_left)
 

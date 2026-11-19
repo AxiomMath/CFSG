@@ -60,20 +60,20 @@ theorem exists_flagPsiX (hK : Nat.card K = (2 ^ f) ^ 2) {x : FlagK K 4}
 
 theorem flagPsiX_mem (hK : Nat.card K = (2 ^ f) ^ 2) {x : FlagK K 4}
     (hx : x ∈ refSet K 4 [0, 2, 4]) : flagPsiX hK x ∈ refSet K 4 [0, 2, 4] := by
-  rw [flagPsiX, dif_pos hx]
+  rw [flagPsiX, dite_eq_left hx]
   exact (Classical.choose_spec (exists_flagPsiX hK hx)).1
 
 theorem flagPsiX_E_one (hK : Nat.card K = (2 ^ f) ^ 2) {x : FlagK K 4}
     (hx : x ∈ refSet K 4 [0, 2, 4]) :
     (flagPsiX hK x).E 1 = Submodule.span K (jShiftInv K f '' (x.E 3 : Set (Fin 4 → K))) := by
-  rw [flagPsiX, dif_pos hx]
+  rw [flagPsiX, dite_eq_left hx]
   exact (Classical.choose_spec (exists_flagPsiX hK hx)).2.1
 
 theorem flagPsiX_E_three (hK : Nat.card K = (2 ^ f) ^ 2) {x : FlagK K 4}
     (hx : x ∈ refSet K 4 [0, 2, 4]) :
     (flagPsiX hK x).E 3 =
       Vsub 4 2 ⊔ Submodule.span K (jShift K f '' (x.E 1 : Set (Fin 4 → K))) := by
-  rw [flagPsiX, dif_pos hx]
+  rw [flagPsiX, dite_eq_left hx]
   exact (Classical.choose_spec (exists_flagPsiX hK hx)).2.2
 
 theorem flagPsiX_flagPsiX (hK : Nat.card K = (2 ^ f) ^ 2) {x : FlagK K 4}
@@ -270,7 +270,7 @@ theorem exists_opp_flagPsiX (hK : Nat.card K = (2 ^ f) ^ 2) :
 theorem mem_flagPsiXMax_iff (hK : Nat.card K = (2 ^ f) ^ 2) {x : FlagK K 4} :
     x ∈ flagPsiXMax hK ↔ x ∈ refSet K 4 [0, 2, 4] ∧
       x.E 3 ≠ Vsub 4 2 ⊔ Submodule.span K (jShift K f '' (x.E 1 : Set (Fin 4 → K))) := by
-  haveI : Finite ((symCox 3).parabolic (cutTypes 3 [0, 2, 4])) := Subtype.finite
+  have : Finite ((symCox 3).parabolic (cutTypes 3 [0, 2, 4])) := Subtype.finite
   have hmax : flagPsiXMax hK = {x | x ∈ refSet K 4 [0, 2, 4] ∧
       flagδ 3 x (flagPsiX hK x) = longest (symCox 3) (cutTypes 3 [0, 2, 4])} := by
     ext x
@@ -313,7 +313,7 @@ theorem set22x_eq_flipSet (hK : Nat.card K = (2 ^ f) ^ 2) :
   ext E
   constructor
   · intro hE
-    simp only [set22x, Set.mem_setOf_eq] at hE
+    simp only [set22x, Set.mem_ofPred_eq] at hE
     obtain ⟨hEfar, hEcond⟩ := hE
     refine ⟨(isFar_iff_mem_farSet isCut_22 hstd).mpr hEfar, ?_⟩
     rw [resProj_eq_gateFlag isCut_22 hEfar hstd, mem_flagPsiXMax_iff hK]
@@ -327,7 +327,7 @@ theorem set22x_eq_flipSet (hK : Nat.card K = (2 ^ f) ^ 2) :
   · intro hE
     obtain ⟨hEfar, hEmax⟩ := hE
     have hfar : E ∈ farSet 4 [0, 2, 4] := (isFar_iff_mem_farSet isCut_22 hstd).mp hEfar
-    simp only [set22x, Set.mem_setOf_eq]
+    simp only [set22x, Set.mem_ofPred_eq]
     rw [resProj_eq_gateFlag isCut_22 hfar hstd, mem_flagPsiXMax_iff hK] at hEmax
     refine ⟨hfar, ?_⟩
     have hg1 : (gateFlag isCut_22 hfar).E 1 = blockU K 4 [0, 2, 4] E.E 0 1 := by

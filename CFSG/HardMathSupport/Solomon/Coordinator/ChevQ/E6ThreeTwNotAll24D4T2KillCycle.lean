@@ -129,7 +129,7 @@ theorem kc_exists_kill_root_cycle (hτ : τ = .D4 ∨ τ = .E6 ∨ τ = .E7 ∨ 
   obtain ⟨cl, hcl⟩ : ∃ cl : ℕ → KernelComponent χ,
       ∀ m, cl m = ⟦⟨(ρ ^ m) α, hr m⟩⟧ := ⟨_, fun m => rfl⟩
   have hfinS : (kernelRoots χ).Finite := (finite_setOf_isRoot τ).subset fun γ hγ => hγ.1
-  haveI : Finite (kernelRoots χ) := hfinS.to_subtype
+  have : Finite (kernelRoots χ) := hfinS.to_subtype
   obtain ⟨i₀, j₀, hij₀, hfij⟩ := Finite.exists_ne_map_eq_of_infinite
     (fun m : ℕ => (⟨(ρ ^ m) α, hr m⟩ : kernelRoots χ))
   have hper : ∀ i j : ℕ, i < j → (ρ ^ i) α = (ρ ^ j) α → (ρ ^ (j - i)) α = α := by

@@ -111,7 +111,7 @@ theorem Hyp.s56y_eps_L (hd : d.Hyp) (ε : ↥(centralizer ({d.t} : Set G)) →* 
     rfl
   exact h2.symm.trans h1
 
-theorem Hyp.s56_L_le_A0 (hd : d.Hyp) {A₀ : Subgroup G} (htA : d.t ∉ A₀)
+theorem Hyp.s56_L_le_A0 (hd : d.Hyp) {A₀ : Subgroup G} (_htA : d.t ∉ A₀)
     (hcov : ∀ x ∈ centralizer ({d.t} : Set G), x ∈ A₀ ∨ d.t * x ∈ A₀) : d.L ≤ A₀ := by
   obtain ⟨ε, hε⟩ := s56y_exists_eps hd.t_mul_self hcov
   intro l hl

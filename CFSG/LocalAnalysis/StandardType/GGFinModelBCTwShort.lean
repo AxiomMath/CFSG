@@ -71,7 +71,7 @@ private theorem ggPinnedXPairInjPos
   have hkey := pinnedX_list_prod_injective L hnd hL
     (fun γ => if γ = α then c₁ else c₂) (fun γ => if γ = α then e₁ else e₂) hmap
   exact ⟨by simpa using hkey α (by simp [L]),
-    by simpa only [if_neg (Ne.symm hne)] using hkey β (by simp [L])⟩
+    by simpa only [ite_eq_right (Ne.symm hne)] using hkey β (by simp [L])⟩
 
 private theorem ggPinnedXPairInjNeg
     {R : Type} [CommRing R]
@@ -99,7 +99,7 @@ private theorem ggPinnedXPairInjNeg
   have hkey := ggPinnedXListInjNeg L hnd hL
     (fun γ => if γ = α then c₁ else c₂) (fun γ => if γ = α then e₁ else e₂) hmap
   exact ⟨by simpa using hkey α (by simp [L]),
-    by simpa only [if_neg (Ne.symm hne)] using hkey β (by simp [L])⟩
+    by simpa only [ite_eq_right (Ne.symm hne)] using hkey β (by simp [L])⟩
 
 theorem ggPinnedXPairInj
     {R : Type} [CommRing R]

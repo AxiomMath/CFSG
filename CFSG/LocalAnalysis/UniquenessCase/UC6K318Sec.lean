@@ -15,6 +15,7 @@ section AlgClosed
 variable {K V : Type*} [Field K] [IsAlgClosed K] [AddCommGroup V] [Module K V]
   [FiniteDimensional K V]
 
+omit [IsAlgClosed K] in
 theorem prime_dvd_of_pow_eq_one {s : ℕ} [hs : Fact s.Prime] {ω : K} (hω1 : ω ≠ 1) {j : ℕ}
     (hωs : ω ^ (s ^ j) = 1) {m : ℕ} (hm : ω ^ m = 1) : s ∣ m := by
   obtain ⟨i, -, hi⟩ := (Nat.dvd_prime_pow hs.out).1 (orderOf_dvd_of_pow_eq_one hωs)
@@ -26,6 +27,7 @@ theorem prime_dvd_of_pow_eq_one {s : ℕ} [hs : Fact s.Prime] {ω : K} (hω1 : �
     _ = orderOf ω := hi.symm
     _ ∣ m := orderOf_dvd_of_pow_eq_one hm
 
+omit [IsAlgClosed K] in
 theorem pow_finrank_eq_one {X Y : Module.End K V} (hX : Function.Injective X)
     (hY : Function.Injective Y) {E : Submodule K V} (hXE : ∀ v ∈ E, X v ∈ E)
     (hYE : ∀ v ∈ E, Y v ∈ E) {ω : K} (hrel : ∀ v ∈ E, Y (X v) = ω • X (Y v)) :
@@ -34,7 +36,7 @@ theorem pow_finrank_eq_one {X Y : Module.End K V} (hX : Function.Injective X)
   set YE : Module.End K E := Y.restrict hYE
   have hrelE : YE * XE = ω • (XE * YE) := by
     ext v
-    simp only [XE, YE, Module.End.mul_apply, LinearMap.smul_apply, LinearMap.restrict_coe_apply,
+    simp only [XE, YE, Module.End.mul_apply, LinearMap.smul_apply, _root_.LinearMap.coe_restrict_apply,
       SetLike.val_smul]
     exact hrel v v.2
   have hinj : ∀ (Z : Module.End K V) (hZ : ∀ v ∈ E, Z v ∈ E), Function.Injective Z →

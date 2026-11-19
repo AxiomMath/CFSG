@@ -10,7 +10,7 @@ namespace CFSG.StandardType
 namespace E6Dep
 
 private theorem cjGen_mono {X Y : Finset ℕ} (hXY : X ⊆ Y) (h : CjGen X) : CjGen Y :=
-  fun I hI hcl hYI => h I hI hcl fun x hx => hYI (hXY hx)
+  fun I hI hcl hYI => h I hI hcl fun _x hx => hYI (hXY hx)
 
 theorem shape_theorem {v : Vec6} (hv5 : v 5 = 0) (hv0 : v ≠ 0) {T : Finset Mat6} {r : Mat6}
     (hT : T ⊆ reflFix v) (hr : r ∈ refl36) (hgen : ConjGenerates refl36 (insert r T)) :

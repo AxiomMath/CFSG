@@ -13,7 +13,7 @@ open scoped commutatorElement
 
 theorem stepPat_holds : StepPat := by
   intro hPat Ω _ _ B x L _ e hs hPR D K hpre _ hKsimple hKcard d hd hdx g hg
-  haveI hLperf : Group.IsPerfect ↥L := isPerfect_of_cfg hs.cfg
+  have hLperf : Group.IsPerfect ↥L := isPerfect_of_cfg hs.cfg
   have hdB : d ∈ B := hpre.1 hd
   have hdCentK : d ∈ Subgroup.centralizer (K : Set Ω) := (hpre.2.2.2.2.2.2 ▸ hd).2
   have hcommd : ∀ k ∈ K, d * k = k * d := fun k hk =>

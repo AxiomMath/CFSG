@@ -88,7 +88,7 @@ theorem isL2_barImage (u : U4P D L K n p) : IsL2 ↥(barImage D.M L) n := by
 theorem isMulCommutative_outer (u : U4P D L K n p) :
     IsMulCommutative (CFSG.ComponentClassification.OuterAutomorphisms.Outer
       ↥(barImage D.M L)) := by
-  haveI := P22y.isCyclic_outer_of_isL2Ev (IsL2.isL2Ev u.isL2_barImage)
+  have := P22y.isCyclic_outer_of_isL2Ev (IsL2.isL2Ev u.isL2_barImage)
   infer_instance
 
 theorem u81_le_normalizer (u : U4P D L K n p) {r : ℕ} (hr : r.Prime) (hrp : r ∣ 2 ^ p - 1)
@@ -107,7 +107,7 @@ theorem u81_inner (u : U4P D L K n p) {r : ℕ} (hr : r.Prime) (hrp : r ∣ 2 ^ 
     {R : Subgroup G} (hR : CFSG.ABGLocalTools.IsSylowOf r R D.M) (α : MulAut ↥(barImage D.M L))
     (hα : α ^ Nat.card ↥(barImage D.M R) = 1) :
     α ∈ (MulAut.conj : ↥(barImage D.M L) →* MulAut ↥(barImage D.M L)).range := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 (u4x_isSylowOf_barImage hR).isPGroup
   have hcop : Nat.Coprime (Nat.card ↥(barImage D.M R)) n := by
     rw [hk]
@@ -119,7 +119,7 @@ theorem u81_inner_part (u : U4P D L K n p) {r : ℕ} (hr : r.Prime) (hrp : r ∣
     {R : Subgroup G} (hR : CFSG.ABGLocalTools.IsSylowOf r R D.M) {β : Bar2 D.M}
     (hβ : β ∈ barImage D.M R) :
     ∃ x ∈ barImage D.M R ⊓ barImage D.M L, ∀ f ∈ barImage D.M L, β * f * β⁻¹ = x * f * x⁻¹ := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨-, -, h₀, -⟩ := u4x_bar_structure u.hL u.hK u.hne u.hset u.shape
   exact u81_inner_mem (u4x_isSylowOf_barImage hR) (u.u81_le_normalizer hr hrp hR) h₀
     (u.u81_inner hr hrp hR) hβ
@@ -145,7 +145,7 @@ theorem u81_exists_mem_inf (u : U4P D L K n p) {r : ℕ} (hr : r.Prime) (hrp : r
     {R : Subgroup G} (hR : CFSG.ABGLocalTools.IsSylowOf r R D.M) :
     ∃ a ∈ R ⊓ L, orderOf a = r := by
   have hr2 := u.r_ne_two hr hrp
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hRN : R ≤ normalizer (L : Set G) := fun g hg => by
     obtain ⟨k, hk⟩ := hR.isPGroup ⟨g, hg⟩
     have hg3 : g ^ r ^ k = 1 := congrArg Subtype.val hk
@@ -180,7 +180,7 @@ theorem u81_exists_orderOf_inf (u : U4P D L K n p) {r : ℕ} (hr : r.Prime) (hrp
 theorem u81_isCyclic_inf (u : U4P D L K n p) {r : ℕ} (hr : r.Prime) (hrp : r ∣ 2 ^ p - 1)
     {R : Subgroup G} (hR : CFSG.ABGLocalTools.IsSylowOf r R D.M) :
     IsCyclic ↥(barImage D.M R ⊓ barImage D.M L) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hr2 := u.r_ne_two hr hrp
   refine UCK.K31.isCyclic_of_pRank_le_one hr hr2
     (u4x_isSylowOf_barImage hR).isPGroup.to_inf_left ?_
@@ -193,7 +193,7 @@ theorem u81_isCyclic (u : U4P D L K n p) {r : ℕ} (hr : r.Prime) (hrp : r ∣ 2
     (hR : CFSG.ABGLocalTools.IsSylowOf r R D.M) :
     IsCyclic ↥(barImage D.M R ⊓ centralizer
       ((barImage D.M L ⊔ barImage D.M K : Subgroup (Bar2 D.M)) : Set (Bar2 D.M))) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hr2 := u.r_ne_two hr hrp
   have hS := u4x_isSylowOf_barImage hR
   obtain ⟨hcomm, hinf, -, -, -, -, hXC⟩ := u4x_bar_structure u.hL u.hK u.hne u.hset u.shape
@@ -213,12 +213,12 @@ theorem u81_comm (u : U4P D L K n p) {r : ℕ} (hr : r.Prime) (hrp : r ∣ 2 ^ p
     (hr3 : CFSG.Open.pRank r D.M ≤ 3) {R : Subgroup G}
     (hR : CFSG.ABGLocalTools.IsSylowOf r R D.M) :
     ∀ x ∈ R, ∀ y ∈ R, x * y = y * x := by
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact r.Prime := ⟨hr⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hr2 := u.r_ne_two hr hrp
-  haveI := u.u81_isCyclic hr hrp hr3 hR
-  haveI := u.u81_isCyclic_inf hr hrp hR
-  haveI := u.symm.u81_isCyclic_inf hr hrp hR
+  have := u.u81_isCyclic hr hrp hr3 hR
+  have := u.u81_isCyclic_inf hr hrp hR
+  have := u.symm.u81_isCyclic_inf hr hrp hR
   obtain ⟨hcomm, -⟩ := u4x_bar_structure u.hL u.hK u.hne u.hset u.shape
   have hC : ∀ {a b : Bar2 D.M}, a ∈ barImage D.M L ⊔ barImage D.M K →
       b ∈ centralizer ((barImage D.M L ⊔ barImage D.M K : Subgroup (Bar2 D.M)) : Set (Bar2 D.M)) →

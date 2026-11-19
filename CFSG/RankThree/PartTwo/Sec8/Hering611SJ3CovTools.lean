@@ -12,8 +12,8 @@ theorem pow_four_inv_of_irred {X : Type*} [Group X] {R : Subgroup X}
     (hirr : ∀ x ∈ R, x ≠ 1 → s * x * s⁻¹ ≠ 1 ∧ s * x * s⁻¹ ≠ x ∧ s * x * s⁻¹ ≠ x ^ 2)
     (hc4 : ∃ x ∈ R, s ^ 4 * x ≠ x * s ^ 4) :
     ∀ x ∈ R, s ^ 4 * x * (s ^ 4)⁻¹ = x⁻¹ := by
-  haveI hp3 : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite R := Nat.finite_of_card_ne_zero (by rw [hR9]; norm_num)
+  have hp3 : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite R := Nat.finite_of_card_ne_zero (by rw [hR9]; norm_num)
   have hcomm : ∀ u ∈ R, ∀ v ∈ R, u * v = v * u := fun u hu v hv =>
     congrArg Subtype.val (hR.1.is_comm.comm ⟨u, hu⟩ ⟨v, hv⟩)
   have h3 : ∀ u ∈ R, u ^ 3 = 1 := fun u hu => hR.2 u hu
@@ -62,7 +62,7 @@ theorem pow_four_inv_of_irred {X : Type*} [Group X] {R : Subgroup X}
       · rw [pow_one] at hk'; exact hk'
       · exact absurd (hk'.trans (by norm_num)) hF9
     have hFz : Subgroup.zpowers y = F := by
-      haveI : Finite F := Nat.finite_of_card_ne_zero (by rw [hF3]; norm_num)
+      have : Finite F := Nat.finite_of_card_ne_zero (by rw [hF3]; norm_num)
       exact Subgroup.eq_of_le_of_card_ge hzle (by omega)
     have hsy : s * y * s⁻¹ ∈ F := hFs y hy
     rw [← hFz, Subgroup.mem_zpowers_iff] at hsy

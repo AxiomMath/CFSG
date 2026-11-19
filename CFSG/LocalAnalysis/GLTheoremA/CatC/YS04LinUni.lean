@@ -67,7 +67,7 @@ theorem kd26g_linear (hG : GriessAllModelsStatement) {K : Type} [Group K] [Finit
       (Nat.card (Subgroup.center K) = p ^ (Nat.gcd (m + 1) (Nat.card F - 1)).factorization p →
         m + 1 - 2 ≤ GLATwoLocalRank p K) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp3 : 3 ≤ p := by have := hp.two_le; omega
   have hn3 : 3 ≤ m + 1 := hp3.trans (Nat.le_of_dvd (by omega) hpn)
   have hdvd : p ∣ Nat.card Fˣ := by rw [Nat.card_units]; exact hpq
@@ -93,7 +93,7 @@ theorem kd26g_linear (hG : GriessAllModelsStatement) {K : Type} [Group K] [Finit
     rw [MonoidHom.mem_ker, MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom,
       map_eq_one_iff e e.injective, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff]
   obtain ⟨p', f, hp', hf, hFq⟩ : ∃ p' f : ℕ, p'.Prime ∧ 0 < f ∧ Nat.card F = p' ^ f := by
-    haveI := Fintype.ofFinite F
+    have := Fintype.ofFinite F
     obtain ⟨n, hp', hn⟩ := FiniteField.card F (ringChar F)
     exact ⟨ringChar F, n, hp', n.pos, by rw [Nat.card_eq_fintype_card, hn]⟩
   have hadm : StatedLieAdmissible .PSL (m + 1) p' f := by
@@ -106,7 +106,7 @@ theorem kd26g_linear (hG : GriessAllModelsStatement) {K : Type} [Group K] [Finit
       p' f :=
     ⟨hadm, Or.inl ⟨hadm, F, inferInstance, inferInstance, hFq,
       ⟨projectiveSpecialLinearGroupEquivStatedProj (m + 1) F⟩⟩⟩
-  haveI : Finite (hopfMultiplier (ProjectiveSpecialLinearGroup (Fin (m + 1)) F)) :=
+  have : Finite (hopfMultiplier (ProjectiveSpecialLinearGroup (Fin (m + 1)) F)) :=
     finite_hopf_of_model hG hmodel
   have hcenter : Nat.card N = Nat.gcd (m + 1) (Nat.card F - 1) :=
     CFSG.OrderReductions.LinearOrders.card_specialLinear_center F (m + 1) (by omega)
@@ -139,10 +139,10 @@ theorem kd26g_unitary (hG : GriessAllModelsStatement) {K : Type} [Group K] [Fini
       (Nat.card (Subgroup.center K) = p ^ (Nat.gcd (m + 1) (ℓ ^ f + 1)).factorization p →
         m + 1 - 2 ≤ GLATwoLocalRank p K) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact ℓ.Prime := ⟨h.prime⟩
-  haveI : Finite F := h.finite
-  haveI : CharP F ℓ := h.charP
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact ℓ.Prime := ⟨h.prime⟩
+  have : Finite F := h.finite
+  have : CharP F ℓ := h.charP
   have hF : Nat.card F = (ℓ ^ f) ^ 2 := by rw [h.card, ← pow_mul, mul_comm]
   have hp3 : 3 ≤ p := by have := hp.two_le; omega
   have hn3 : 3 ≤ m + 1 := hp3.trans (Nat.le_of_dvd (by omega) hpn)
@@ -206,7 +206,7 @@ theorem kd26g_unitary (hG : GriessAllModelsStatement) {K : Type} [Group K] [Fini
     refine ⟨h.prime, h.one_le, hn3, hq⟩
   have hmodel : CFSG.Models.LieModel (StatedProj H₀) .PSU (m + 1) ℓ f :=
     ⟨hadm, Or.inl ⟨hadm, F, inferInstance, inferInstance, hF, ⟨MulEquiv.refl _⟩⟩⟩
-  haveI : Finite (hopfMultiplier (StatedProj H₀)) := finite_hopf_of_model hG hmodel
+  have : Finite (hopfMultiplier (StatedProj H₀)) := finite_hopf_of_model hG hmodel
   have hg : genericOrders .PSU (m + 1) ℓ f = (Nat.gcd (m + 1) (ℓ ^ f + 1), 1) := rfl
   have hg0 : Nat.gcd (m + 1) (ℓ ^ f + 1) ≠ 0 := by
     rw [← hcenter]

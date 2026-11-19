@@ -33,6 +33,7 @@ theorem anisoTorus_lift_fixes (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0)
     exact (projHom_projLift hQ' x).symm ▸ hx
   exact hv _ hmem
 
+omit [Finite F] in
 theorem leviFixBar_lift_fixes {P₁ P₂ : HypPair (Qc F b c)} (hQ' : ∃ v, Qc F b c v ≠ 0)
     {x : matrixProjectiveDerived (Qc F b c)} (hx : x ∈ leviFixBar P₁ P₂) {v : Fin (2 * 5) → F}
     (hv : InW P₁ P₂ v) : projLift hQ' x v = v :=
@@ -61,21 +62,25 @@ theorem exists_layerQGenerators (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0)
   obtain ⟨u, hu, hordu⟩ := exists_u (F := F) (n := n) (q := q) (b := b) (c := c) hirr hF hq hqdvd hn
   exact ⟨⟨g0, g2, g3, u, hg0, hg2, hg3, hu, hord0, hord2, hord3, hordu⟩⟩
 
+omit [Finite F] [CharP F 2] in
 private theorem single_split_left_aniso_left (k : Fin 4) :
     (Pi.single (minusIndexEquiv 5 (by norm_num) (Sum.inl k)) (1 : F) : Fin (2 * 5) → F)
       (anisoCoordLeft (n := 5) (by norm_num)) = 0 :=
   Pi.single_eq_of_ne (pairDisjoint_aniso (n := 5) (by norm_num) k).left_ne_left.symm 1
 
+omit [Finite F] [CharP F 2] in
 private theorem single_split_left_aniso_right (k : Fin 4) :
     (Pi.single (minusIndexEquiv 5 (by norm_num) (Sum.inl k)) (1 : F) : Fin (2 * 5) → F)
       (anisoCoordRight (n := 5) (by norm_num)) = 0 :=
   Pi.single_eq_of_ne (pairDisjoint_aniso (n := 5) (by norm_num) k).left_ne_right.symm 1
 
+omit [Finite F] [CharP F 2] in
 private theorem single_split_right_aniso_left (k : Fin 4) :
     (Pi.single (minusIndexEquiv 5 (by norm_num) (Sum.inr (Sum.inl k))) (1 : F) : Fin (2 * 5) → F)
       (anisoCoordLeft (n := 5) (by norm_num)) = 0 :=
   Pi.single_eq_of_ne (pairDisjoint_aniso (n := 5) (by norm_num) k).right_ne_left.symm 1
 
+omit [Finite F] [CharP F 2] in
 private theorem single_split_right_aniso_right (k : Fin 4) :
     (Pi.single (minusIndexEquiv 5 (by norm_num) (Sum.inr (Sum.inl k))) (1 : F) : Fin (2 * 5) → F)
       (anisoCoordRight (n := 5) (by norm_num)) = 0 :=
@@ -94,6 +99,7 @@ theorem anisoTorus_lift_fixes_split (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0)
   · exact anisoTorus_lift_fixes hirr (anisoCoord_ne (n := 5) (by norm_num)) hx
       ⟨single_split_right_aniso_left k, single_split_right_aniso_right k⟩
 
+omit [Finite F] [CharP F 2] in
 private theorem inW_flip_flip {P Q : HypPair (Qc F b c)} {x : Fin (2 * 5) → F}
     (h : InW P Q x) : InW P (flipPair Q) x :=
   ⟨h.1, h.2.1, h.2.2.2, h.2.2.1⟩
@@ -105,6 +111,7 @@ theorem zpowers_commute {G₀ : Type} [Group G₀] {a b : G₀} (h : a * b = b *
   obtain ⟨l, rfl⟩ := Subgroup.mem_zpowers_iff.1 hy
   exact ((show Commute a b from h).zpow_zpow k l).eq
 
+omit [Finite F] in
 theorem commute_of_leviFixBar_of_fixes {P₁ P₂ : HypPair (Qc F b c)} (h₁₂ : P₁.Orth P₂)
     {hQ' : ∃ v, Qc F b c v ≠ 0} {g h : matrixProjectiveDerived (Qc F b c)}
     (hg : g ∈ leviFixBar P₁ P₂)
@@ -121,6 +128,7 @@ theorem commute_of_leviFixBar_of_fixes {P₁ P₂ : HypPair (Qc F b c)} (h₁₂
   have := congrArg (projHom (Qc F b c)) hcomm'
   simpa only [map_mul, projHom_projLift] using this
 
+omit [Finite F] in
 theorem commute_g0_g2 (X : LayerQGenerators (F := F) (b := b) (c := c) (q := q))
     (hQ' : ∃ v, Qc F b c v ≠ 0) : X.g0 * X.g2 = X.g2 * X.g0 := by
   obtain ⟨h1, h2⟩ := inW_of_orth (P₁ := cPair F b c 0) (P₃ := cPair F b c 2) (P₄ := cPair F b c 3)
@@ -131,6 +139,7 @@ theorem commute_g0_g2 (X : LayerQGenerators (F := F) (b := b) (c := c) (q := q))
     (leviFixBar_lift_fixes hQ' X.mem_g2 h1) (leviFixBar_lift_fixes hQ' X.mem_g2 h2)
     (leviFixBar_lift_fixes hQ' X.mem_g2 h3) (leviFixBar_lift_fixes hQ' X.mem_g2 h4)
 
+omit [Finite F] in
 theorem commute_g0_g3 (X : LayerQGenerators (F := F) (b := b) (c := c) (q := q))
     (hQ' : ∃ v, Qc F b c v ≠ 0) : X.g0 * X.g3 = X.g3 * X.g0 := by
   obtain ⟨h1, h2⟩ := inW_of_orth (P₁ := cPair F b c 0) (P₃ := cPair F b c 2) (P₄ := cPair F b c 3)
@@ -181,6 +190,7 @@ theorem commute_g3_u (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0)
     Subgroup (matrixProjectiveDerived (Qc F b c)) :=
   Subgroup.zpowers X.g0 ⊔ Subgroup.zpowers X.g2 ⊔ Subgroup.zpowers X.g3 ⊔ Subgroup.zpowers X.u
 
+omit [Finite F] in
 theorem bJ_eq_sup (X : LayerQGenerators (F := F) (b := b) (c := c) (q := q)) :
     bJ X = Subgroup.zpowers X.g0 ⊔ Subgroup.zpowers X.g2 ⊔ Subgroup.zpowers X.g3 ⊔
       Subgroup.zpowers X.u := rfl
@@ -251,11 +261,13 @@ theorem isElemAbelian_bJ (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0)
     exact (Subgroup.mem_centralizer_iff.mp (hsup ha) b hb).symm
   exact (((h0.sup_of_commute h2 c02).sup_of_commute h3 c12_3).sup_of_commute hu c123_u)
 
+omit [Finite F] [CharP F 2] in
 theorem leviFixBar_le_rootLeviBar {P₁ P₂ : HypPair (Qc F b c)} :
     leviFixBar P₁ P₂ ≤ rootLeviBar (Qc F b c) P₁ P₂ := by
   rintro _ ⟨Y, hY, rfl⟩
   exact ⟨Y, mem_subgroupOf.mpr (mem_leviFix.mp (mem_subgroupOf.mp hY)).2.1, rfl⟩
 
+omit [Finite F] in
 theorem mem_rootLeviBar_of_lift {P₁ P₂ : HypPair (Qc F b c)} (hQ' : ∃ v, Qc F b c v ≠ 0)
     {x : matrixProjectiveDerived (Qc F b c)} (hx : projLift hQ' x ∈ rootLevi (Qc F b c) P₁ P₂) :
     x ∈ rootLeviBar (Qc F b c) P₁ P₂ :=

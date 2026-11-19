@@ -23,7 +23,7 @@ variable {S : Type} [Group S]
 theorem good427_of_comm [Finite S] {C : Subgroup S} (h : ∀ a ∈ C, ∀ b ∈ C, a * b = b * a) :
     Good427 C := by
   intro K hKC hKq _ _
-  haveI : Group.IsPerfect K := hKq.1
+  have : Group.IsPerfect K := hKq.1
   have hnt : Nontrivial K := CFSG.LocalCores.isQuasisimple_nontrivial hKq
   have hab : ⁅K, K⁆ = ⊥ := by
     rw [Subgroup.commutator_eq_bot_iff_le_centralizer]
@@ -111,19 +111,19 @@ theorem good427_psl2_field (hn : 1 ≤ n) (h6 : n ≠ 6) (hF : Nat.card F = 2 ^ 
     norm_num
   ·
     have hj3' : 3 ≤ j := by omega
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have h4 : 4 ≤ Nat.card (fixedSubfield F τ) := by
       rw [hcard]
       calc 4 = 2 ^ 2 := by norm_num
         _ ≤ 2 ^ j := Nat.pow_le_pow_right (by norm_num) (by omega)
     obtain ⟨hsimp, hsolv⟩ :=
       CFSG.SignalizerFunctorTheorem.CatalogBridge.psl2_simple_not_isSolvable h4
-    haveI : IsSimpleGroup C := (MulEquiv.isSimpleGroup_congr e1).mpr hsimp
+    have : IsSimpleGroup C := (MulEquiv.isSimpleGroup_congr e1).mpr hsimp
     have hna : ∃ a b : C, a * b ≠ b * a := by
       by_contra hcon
       push Not at hcon
       apply hsolv
-      haveI : IsMulCommutative C := ⟨⟨hcon⟩⟩
+      have : IsMulCommutative C := ⟨⟨hcon⟩⟩
       have : Group.IsSolvable C := inferInstance
       exact (Group.isSolvable_of_surjective (f := (e1 : C →* _)) e1.surjective)
     let eF := CFSG.ClassicalModels.finiteFieldEquivGaloisField (fixedSubfield F τ) 2 j
@@ -144,7 +144,7 @@ theorem good427_psl2_field (hn : 1 ≤ n) (h6 : n ≠ 6) (hF : Nat.card F = 2 ^ 
 theorem noCfgS427_psl2 (hn : 2 ≤ n) (h6 : n ≠ 6) (hF : Nat.card F = 2 ^ n) :
     NoCfgS427 (PSL2 F) := by
   intro σ h3 h1
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf σ = 3 := orderOf_eq_prime h3 h1
   by_cases hD : σ ∈ (pglAction F).range
   · obtain ⟨x, rfl⟩ := CFSG.RankThree.PartTwo.KFacts.isInnerAut_of_mem_inndiag_of_pow_three hD h3
@@ -211,8 +211,8 @@ theorem row427_of_noCfg_cent
     have hK₁q : IsQuasisimple (K'.subgroupOf L) :=
       CFSG.LocalCores.isQuasisimple_of_mulEquiv eKL.symm hK'q
     have hZK : Subgroup.center (K'.subgroupOf L ⧸ CFSG.pCore 2 (K'.subgroupOf L)) = ⊥ := by
-      haveI := (isA5Type_quot_congr eKL hT).isSimpleGroup
-      haveI : Group.IsPerfect (K'.subgroupOf L) := hK₁q.1
+      have := (isA5Type_quot_congr eKL hT).isSimpleGroup
+      have : Group.IsPerfect (K'.subgroupOf L) := hK₁q.1
       exact center_eq_bot_of_isSimpleGroup_of_isPerfect
     have hinf : K'.subgroupOf L ⊓ Subgroup.center L = ⊥ :=
       inf_eq_bot_of_center_eq_bot hK₁q hZK le_rfl hZ3
@@ -254,11 +254,11 @@ theorem row427_of_noCfg_cent
       apply e.injective
       rw [map_mul, map_mul, this]
     have eKL : K'.subgroupOf L ≃* K' := Subgroup.subgroupOfEquivOfLe hK'L
-    haveI : Group.IsPerfect K' := hK'q.1
-    haveI : Group.IsPerfect K₁ := Group.IsPerfect.ofSurjective (f := (eKL.symm : K' →* K₁))
+    have : Group.IsPerfect K' := hK'q.1
+    have : Group.IsPerfect K₁ := Group.IsPerfect.ofSurjective (f := (eKL.symm : K' →* K₁))
       eKL.symm.surjective
-    haveI : Group.IsPerfect Kb := Group.IsPerfect.map _
-    haveI : IsMulCommutative Kb := ⟨⟨fun a b => Subtype.ext (hcomm a a.2 b b.2)⟩⟩
+    have : Group.IsPerfect Kb := Group.IsPerfect.map _
+    have : IsMulCommutative Kb := ⟨⟨fun a b => Subtype.ext (hcomm a a.2 b b.2)⟩⟩
     have hKb1 : ∀ x ∈ Kb, x = 1 := fun x hx =>
       congrArg Subtype.val (Subsingleton.elim (⟨x, hx⟩ : Kb) 1)
     have hK'Z : ∀ k ∈ K', ∀ l ∈ L, k * l = l * k := by
@@ -268,8 +268,8 @@ theorem row427_of_noCfg_cent
         hKb1 _ ⟨⟨k, hkL⟩, hk, rfl⟩
       rw [QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff] at hmk
       exact congrArg Subtype.val (Subgroup.mem_center_iff.mp hmk ⟨l, hl⟩).symm
-    haveI : Nontrivial K' := CFSG.LocalCores.isQuasisimple_nontrivial hK'q
-    haveI : IsMulCommutative K' :=
+    have : Nontrivial K' := CFSG.LocalCores.isQuasisimple_nontrivial hK'q
+    have : IsMulCommutative K' :=
       ⟨⟨fun a b => Subtype.ext (hK'Z a a.2 b (hK'L b.2))⟩⟩
     exact Group.IsPerfect.not_isMulCommutative K' inferInstance
 
@@ -278,15 +278,15 @@ end Transfer
 section Rows
 
 theorem false_of_simple_psl2_two {S : Type} [Group S] [Finite S] [hs : IsSimpleGroup S]
-    (hna : ∃ a b : S, a * b ≠ b * a) (h6 : Nat.card S = 6) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    (_hna : ∃ a b : S, a * b ≠ b * a) (h6 : Nat.card S = 6) : False := by
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P, hP⟩ := Sylow.exists_subgroup_card_pow_prime 3 (n := 1) (by rw [h6]; norm_num)
   rw [pow_one] at hP
   have hidx : P.index = 2 := by
     have h := Subgroup.card_mul_index P
     rw [hP, h6] at h
     omega
-  haveI := Subgroup.normal_of_index_eq_two hidx
+  have := Subgroup.normal_of_index_eq_two hidx
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal P with hb | ht
   · rw [hb, Subgroup.card_bot] at hP
     omega
@@ -314,7 +314,7 @@ theorem center_eq_bot_of_psl2_even
     {F : Type} [Field F] [Finite F] [CharP F 2] {L : Type} [Group L]
     [Finite L] (hL : IsQuasisimple L) (hZ3 : IsPGroup 3 (Subgroup.center L))
     (e : L ⧸ Subgroup.center L ≃* projSL 2 F) : Subgroup.center L = ⊥ := by
-  haveI : Group.IsPerfect L := hL.1
+  have : Group.IsPerfect L := hL.1
   have hodd : Odd (Nat.card (Subgroup.center L)) := by
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hZ3
     rw [hk]

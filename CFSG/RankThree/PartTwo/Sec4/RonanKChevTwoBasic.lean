@@ -79,7 +79,7 @@ theorem pullDatum_of_innThetaNoncyclic
     have h := hnorm c hc _ (show MulAut.conj r ∈ W from hr)
     show MulAut.conj (c * r * c⁻¹) ∈ W
     rwa [map_mul, map_mul, map_inv]
-  · haveI := hWs
+  · have := hWs
     exact Group.isSolvable_of_isSolvable_injective (f := eR.toMonoidHom) eR.injective
   · rw [Nat.card_congr eR.toEquiv]
     exact hW3
@@ -111,7 +111,7 @@ theorem PullDatum.congr {Y : Type*} [Group Y] (e : X ≃* Y) {β : MulAut X} (h 
     rw [hfix'] at hc
     refine ⟨e.symm c * r * (e.symm c)⁻¹, hnorm _ hc r hr, ?_⟩
     simp only [MulEquiv.coe_toMonoidHom, map_mul, map_inv, MulEquiv.apply_symm_apply]
-  · haveI := hsol
+  · have := hsol
     exact Group.isSolvable_of_isSolvable_injective (f := eR.symm.toMonoidHom) eR.symm.injective
   · rw [← Nat.card_congr eR.toEquiv]
     exact h3
@@ -151,7 +151,7 @@ theorem not_isSolvable_of_isQuasisimple {Q : Type*} [Group Q] (hQ : IsQuasisimpl
     ¬ Group.IsSolvable Q := by
   intro hs
   obtain ⟨-, hsimple, a, b, hab⟩ := hQ
-  haveI := hsimple
+  have := hsimple
   have : Group.IsSolvable (Q ⧸ Subgroup.center Q) :=
     Group.isSolvable_of_surjective (f := QuotientGroup.mk' (Subgroup.center Q))
       (QuotientGroup.mk'_surjective _)
@@ -167,7 +167,7 @@ theorem commute_of_quasisimple {R T : Subgroup X} (hRs : Group.IsSolvable R)
     simp only [Subgroup.coe_mul, Subgroup.coe_inv]
     exact ⟨hRT g g.2 n hn.1, mul_mem (mul_mem g.2 hn.2) (inv_mem g.2)⟩
   have hNs : Group.IsSolvable N := by
-    haveI := hRs
+    have := hRs
     let f : N →* R :=
       { toFun := fun n => ⟨(n : T), (Subgroup.mem_inf.mp (Subgroup.mem_subgroupOf.mp n.2)).1⟩
         map_one' := rfl
@@ -179,7 +179,7 @@ theorem commute_of_quasisimple {R T : Subgroup X} (hRs : Group.IsSolvable R)
     rcases CFSG.LocalCores.quasisimple_normal_subgroups hTq hNn with htop | hle
     · exfalso
       apply not_isSolvable_of_isQuasisimple hTq
-      haveI := hNs
+      have := hNs
       have e : N ≃* T := (MulEquiv.subgroupCongr htop).trans Subgroup.topEquiv
       exact Group.isSolvable_of_isSolvable_injective (f := e.symm.toMonoidHom) e.symm.injective
     · exact hle
@@ -200,10 +200,10 @@ theorem commute_of_quasisimple {R T : Subgroup X} (hRs : Group.IsSolvable R)
         simp
       map_mul' := fun t s => by
         apply Subtype.ext; apply Subtype.ext
-        simp only [Subgroup.coe_mul, Subgroup.coe_mk]
+        simp only [Subgroup.coe_mul]
         have hz := Subgroup.mem_center_iff.mp (hc s) ⟨r * t * r⁻¹, hTR r hr t t.2⟩
         have hz' := congrArg (fun z : T => (z : X)) hz
-        simp only [Subgroup.coe_mul, Subgroup.coe_mk] at hz'
+        simp only [Subgroup.coe_mul] at hz'
         calc r * (↑t * ↑s) * r⁻¹ * (↑t * ↑s)⁻¹
             = (r * ↑t * r⁻¹) * (r * ↑s * r⁻¹ * (↑s)⁻¹) * (↑t)⁻¹ := by group
           _ = (r * ↑s * r⁻¹ * (↑s)⁻¹) * (r * ↑t * r⁻¹) * (↑t)⁻¹ := by rw [hz']
@@ -211,7 +211,7 @@ theorem commute_of_quasisimple {R T : Subgroup X} (hRs : Group.IsSolvable R)
               have hz2 := Subgroup.mem_center_iff.mp (hc s)
                 ⟨r * t * r⁻¹ * (t : X)⁻¹, mul_mem (hTR r hr t t.2) (inv_mem t.2)⟩
               have hz2' := congrArg (fun z : T => (z : X)) hz2
-              simp only [Subgroup.coe_mul, Subgroup.coe_mk] at hz2'
+              simp only [Subgroup.coe_mul] at hz2'
               calc (r * ↑s * r⁻¹ * (↑s)⁻¹) * (r * ↑t * r⁻¹) * (↑t)⁻¹
                   = (r * ↑s * r⁻¹ * (↑s)⁻¹) * (r * ↑t * r⁻¹ * (↑t)⁻¹) := by group
                 _ = r * ↑t * r⁻¹ * (↑t)⁻¹ * (r * ↑s * r⁻¹ * (↑s)⁻¹) := hz2'.symm }
@@ -238,7 +238,7 @@ variable {X : Type*} [Group X]
 
 theorem eq_one_of_isPGroup_two_of_odd {U : Subgroup X} (hU : IsPGroup 2 U) {u : X} (hu : u ∈ U)
     (hodd : Odd (orderOf u)) : u = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp hU) ⟨u, hu⟩
   rw [Subgroup.orderOf_mk] at hk
   rcases k with _ | k
@@ -270,7 +270,7 @@ theorem PullDatum.false_of_no_involution {β : MulAut X} (h : PullDatum β)
     rw [eq_bot_iff]
     intro u hu
     rw [Subgroup.mem_bot]
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp hU2) ⟨u, hu⟩
     rw [Subgroup.orderOf_mk] at hk
     rcases k with _ | k
@@ -303,7 +303,7 @@ theorem PullDatum.false_of_quasisimple {β : MulAut X} (h : PullDatum β) (S : S
     (fun r hr s hs => hSn r (hfix r hr) s hs)
   exact hodd u (hfix u (hUR hu)) fun s hs => hcomm u (hUR hu) s hs
 
-theorem odd_orderOf_of_centralizes {C S : Subgroup X} [Finite X] (hSC : S ≤ C)
+theorem odd_orderOf_of_centralizes {C S : Subgroup X} [Finite X] (_hSC : S ≤ C)
     (hSn : ∀ c ∈ C, ∀ s ∈ S, c * s * c⁻¹ ∈ S) (hZ : Odd (Nat.card (Subgroup.center S)))
     (hidx : Odd (S.relIndex C)) {c : X} (hc : c ∈ C) (hcS : ∀ s ∈ S, c * s = s * c) :
     Odd (orderOf c) := by
@@ -321,7 +321,7 @@ theorem odd_orderOf_of_centralizes {C S : Subgroup X} [Finite X] (hSC : S ≤ C)
     rw [Subgroup.mem_center_iff]
     intro s
     apply Subtype.ext
-    simp only [Subgroup.coe_mul, Subgroup.coe_mk]
+    simp only [Subgroup.coe_mul]
     exact ((Commute.pow_left (hcS s s.2) _).eq).symm
   have h1 : (⟨⟨c ^ S.relIndex C, hpow'⟩, hcen⟩ : Subgroup.center S) ^
       Nat.card (Subgroup.center S) = 1 := pow_card_eq_one'
@@ -407,7 +407,7 @@ theorem PullDatum.false_of_localCore [Finite X]
     have key : β * MulAut.conj r = MulAut.conj r * β := by
       calc β * MulAut.conj r = β * MulAut.conj r * β⁻¹ * β := by group
         _ = MulAut.conj r * β := by rw [h2]
-    first | exact key | exact key.symm
+    exact key.symm
   let φ : R →* Cb :=
     { toFun := fun r => ⟨⟨MulAut.conj (r : X), hRB r r.2⟩, hRC r r.2⟩
       map_one' := by apply Subtype.ext; apply Subtype.ext; simp
@@ -422,7 +422,7 @@ theorem PullDatum.false_of_localCore [Finite X]
     intro g
     have hgB : ((g : B) : MulAut X) ∈ (MulAut.conj : X →* MulAut X).range ⊔ Subgroup.zpowers β :=
       hBle (g : B).2
-    haveI : ((MulAut.conj : X →* MulAut X).range).Normal := by
+    have : ((MulAut.conj : X →* MulAut X).range).Normal := by
       refine ⟨fun n hn a => ?_⟩
       obtain ⟨y, rfl⟩ := hn
       exact ⟨a y, (mul_conj_mul_inv a y).symm⟩
@@ -433,7 +433,7 @@ theorem PullDatum.false_of_localCore [Finite X]
       have := Subgroup.mem_centralizer_singleton_iff.mp g.2
       have h' := congrArg (fun z : B => (z : MulAut X)) this
       simp only [Subgroup.coe_mul] at h'
-      first | exact h'.symm | exact h'
+      exact h'
     rw [← hy] at hgc
     have hcomm : MulAut.conj y * β = β * MulAut.conj y := by
       have h1 : MulAut.conj y * β ^ i * β = β * (MulAut.conj y * β ^ i) := hgc
@@ -477,7 +477,7 @@ theorem PullDatum.false_of_localCore [Finite X]
           rw [hβr i]
       _ = MulAut.conj y * β ^ i * MulAut.conj (r : X) * (MulAut.conj y * β ^ i)⁻¹ := by group
   have hNs : Group.IsSolvable N := by
-    haveI := hsol
+    have := hsol
     exact Group.isSolvable_of_surjective (f := φ.rangeRestrict) φ.rangeRestrict_surjective
   have hN3 : ¬ 3 ∣ Nat.card N := by
     rw [hNdef, Nat.card_congr (MonoidHom.ofInjective hφinj).toEquiv.symm]

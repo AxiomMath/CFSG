@@ -24,6 +24,7 @@ section GLevel
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem normalizer_le_of_caseA_aux1 (M : Subgroup G) (D : Subgroup ↥M) :
     (Subgroup.centralizer (D : Set ↥M)).map M.subtype =
       M ⊓ Subgroup.centralizer ((D.map M.subtype : Subgroup G) : Set G) := by
@@ -52,7 +53,7 @@ theorem normalizer_le_of_caseA_gen {M : Subgroup G} (hO : O812sixAt G M) {p : �
     (hp : p ∈ sigmaM G M) (hp5 : 5 ≤ p) {D : Subgroup ↥M} (hD : CaseA1517 p D) :
     Subgroup.normalizer ((D.map M.subtype : Subgroup G) : Set G) ≤ M := by
   obtain ⟨hcard, hrank, hnsolv⟩ := hD
-  haveI : Fact p.Prime := ⟨CFSG.RankThreeCoreUniqueness.Helpers.sigmaA_prime p hp.1⟩
+  have : Fact p.Prime := ⟨CFSG.RankThreeCoreUniqueness.Helpers.sigmaA_prime p hp.1⟩
   have hcardF : Nat.card (D.map M.subtype) = 3 := by
     rw [Subgroup.card_map_of_injective M.subtype_injective, hcard]
   have hF3 : IsPGroup 3 (D.map M.subtype) :=
@@ -95,7 +96,7 @@ theorem gamma_two_le_of_out_gen {M T : Subgroup G} {T₁ T₂ : Subgroup ↥M}
       Subgroup.normalizer ((D.map M.subtype : Subgroup G) : Set G) ≤ M)
     {R : Subgroup G} (hR : CFSG.ABGLocalTools.IsSylowOf 3 R M) :
     CFSG.Open.rankThreeGamma 2 3 R ≤ M := by
-  haveI : Fact p.Prime := ⟨CFSG.RankThreeCoreUniqueness.Helpers.sigmaA_prime p hp.1⟩
+  have : Fact p.Prime := ⟨CFSG.RankThreeCoreUniqueness.Helpers.sigmaA_prime p hp.1⟩
   unfold CFSG.Open.rankThreeGamma CFSG.Open.GLBCore
   refine sSup_le ?_
   rintro N ⟨Q, hQR, hQ2, rfl⟩
@@ -157,6 +158,7 @@ theorem gamma_two_le_of_out_gen {M T : Subgroup G} {T₁ T₂ : Subgroup ↥M}
     rw [Nat.card_zpowers, hxord]
   exact (ctx.strong p hp).2.2 g hgM hdvd
 
+omit [Finite G] in
 theorem isStronglyPEmbedded_three_of_normalizers_aux0 {p : ℕ} [Fact p.Prime] {U K : Subgroup G}
     (hUK : U ≤ K) (hU : IsPGroup p U) :
     ∃ P : Subgroup G, CFSG.ABGLocalTools.IsSylowOf p P K ∧ U ≤ P := by
@@ -191,6 +193,7 @@ theorem isStronglyPEmbedded_three_of_normalizers_aux2 {p : ℕ} [Fact p.Prime] {
     have hQK : P₁ ⊓ Subgroup.normalizer (P : Set G) ≤ K := inf_le_right.trans hN
     exact hlt.ne' (hP.eq_of_le hlt.le hQK hP₁.isPGroup.to_inf_left)
 
+omit [Finite G] in
 theorem isStronglyPEmbedded_three_of_normalizers_aux3 {P : Subgroup G} {g x : G}
     (hx : x ∈ Subgroup.normalizer (P : Set G)) :
     g⁻¹ * x * g ∈ Subgroup.normalizer ((conjSubP g⁻¹ P : Subgroup G) : Set G) := by
@@ -269,6 +272,7 @@ theorem isStronglyPEmbedded_three_of_normalizers {M : Subgroup G} (hM : M ≠ �
   have hgM : g * m ∈ M := hNPM hgm
   exact hg (by simpa using M.mul_mem hgM (M.inv_mem hmM))
 
+omit [Finite G] in
 theorem normalizer_le_of_card_three_aux1 (M : Subgroup G) (D : Subgroup ↥M) :
     (Subgroup.normalizer (D : Set ↥M)).map M.subtype =
       M ⊓ Subgroup.normalizer ((D.map M.subtype : Subgroup G) : Set G) := by

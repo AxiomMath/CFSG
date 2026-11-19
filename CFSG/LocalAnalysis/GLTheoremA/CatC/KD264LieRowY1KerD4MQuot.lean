@@ -74,7 +74,7 @@ theorem lift_exists [Finite Ω] (hZ2 : ∀ z ∈ Z, z ^ 2 = 1) (E : Subgroup (Ω
     ∃ P : Subgroup Ω, (∀ x ∈ P, (QuotientGroup.mk x : Ω ⧸ Z) = 1 → x = 1) ∧
       P.map (QuotientGroup.mk' Z) = E := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set π := QuotientGroup.mk' Z with hπ
   set E' : Subgroup Ω := E.comap π with hE'
   let ρ' : E' →* E := (π.comp E'.subtype).codRestrict E (fun x => x.2)

@@ -35,7 +35,7 @@ theorem i2811TAt_of_griess (hGA : CFSG.Open.GriessAllModelsStatement) : I2811TAt
     rw [hKcard, Nat.factorization_mul hpos (by norm_num), Finsupp.add_apply,
       Nat.factorization_eq_zero_of_not_dvd hk2, factorization_two_25920, zero_add]
   obtain ⟨hzK, P', hP'K, hP'2, hzP', hP'c, hmax⟩ := hzc
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hW2 : IsPGroup 2 (P'.subgroupOf K) :=
     hP'2.of_equiv (Subgroup.subgroupOfEquivOfLe hP'K).symm
   have hP'card : Nat.card P' = 64 := by
@@ -143,7 +143,7 @@ theorem i2811TAt_of_griess (hGA : CFSG.Open.GriessAllModelsStatement) : I2811TAt
         simpa only [inv_inv] using h1
       · show (a : K) * ((a : K)⁻¹ * x * (a : K)) * (a : K)⁻¹ = x
         group
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨sylow, hsyl⟩ := CFSG.OrderReductions.InvariantSylow.exists_invariant_sylow_of_coprime 3 2
     hW3 hMcop (CFSG.OrderReductions.InvariantSylow.restrictedHomomorphism conjK M hinv)
   obtain ⟨S, hS⟩ : ∃ S : Subgroup M, (sylow : Subgroup M) = S := ⟨_, rfl⟩

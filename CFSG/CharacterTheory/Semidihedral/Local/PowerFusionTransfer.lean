@@ -37,7 +37,7 @@ theorem power_fusion_transfer_detection (S : Sylow p G) (N : Subgroup S) [N.Norm
   have hT : T x = QuotientGroup.mk' N x ^ (S : Subgroup G).index :=
     transfer_eq_pow_index_of_power_fusion S N x hfus
   have hpS : IsPGroup p (S ⧸ N) :=
-    S.isPGroup'.of_surjective (QuotientGroup.mk' N) (QuotientGroup.mk'_surjective N)
+    S.isPGroup.of_surjective (QuotientGroup.mk' N) (QuotientGroup.mk'_surjective N)
   have hTx : T x ≠ 1 := by
     rw [hT]
     intro h

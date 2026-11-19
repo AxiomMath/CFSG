@@ -11,7 +11,7 @@ theorem tw_e6_eclass {p q : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hpq : ¬ p ∣ 
     orderOf (q : ZMod p) = 1 ∨ orderOf (q : ZMod p) = 2 ∨ orderOf (q : ZMod p) = 3 ∨
       orderOf (q : ZMod p) = 4 ∨ orderOf (q : ZMod p) = 6 ∨ orderOf (q : ZMod p) = 8 ∨
       orderOf (q : ZMod p) = 10 ∨ orderOf (q : ZMod p) = 12 ∨ orderOf (q : ZMod p) = 18 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq0 : (q : ZMod p) ≠ 0 := fun h => hpq ((ZMod.natCast_eq_zero_iff q p).1 h)
   have hq1 : 1 ≤ q := Nat.pos_of_ne_zero (fun h => hpq (by simp [h]))
   have hN : p ∣ q ^ 36 * (q ^ 12 - 1) * (q ^ 9 + 1) * (q ^ 8 - 1) * (q ^ 6 - 1) * (q ^ 5 + 1) *
@@ -61,7 +61,7 @@ theorem tw_e6_eclass {p q : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hpq : ¬ p ∣ 
             ·
               have hd12 := key 12 (sub_eq_zero.1 h)
               have hle := Nat.le_of_dvd (by norm_num) hd12
-              interval_cases hc : orderOf x <;> first | omega | simp_all
+              interval_cases hc : orderOf x <;> first | omega
           ·
             have h18 : x ^ 18 = 1 := by linear_combination (x ^ 9 - 1) * h
             have hd18 := key 18 h18
@@ -71,13 +71,13 @@ theorem tw_e6_eclass {p q : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hpq : ¬ p ∣ 
               have h1 : x ^ 9 = 1 := by rw [← h9]; exact pow_orderOf_eq_one x
               apply h2ne
               linear_combination h - h1
-            interval_cases hc : orderOf x <;> first | omega | simp_all
+            interval_cases hc : orderOf x <;> first | omega
         · have hd8 := key 8 (sub_eq_zero.1 h)
           have hle := Nat.le_of_dvd (by norm_num) hd8
-          interval_cases hc : orderOf x <;> first | omega | simp_all
+          interval_cases hc : orderOf x <;> first | omega
       · have hd6 := key 6 (sub_eq_zero.1 h)
         have hle := Nat.le_of_dvd (by norm_num) hd6
-        interval_cases hc : orderOf x <;> first | omega | simp_all
+        interval_cases hc : orderOf x <;> first | omega
     ·
       have h10 : x ^ 10 = 1 := by linear_combination (x ^ 5 - 1) * h
       have hd10 := key 10 h10
@@ -87,9 +87,9 @@ theorem tw_e6_eclass {p q : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hpq : ¬ p ∣ 
         have h1 : x ^ 5 = 1 := by rw [← h5]; exact pow_orderOf_eq_one x
         apply h2ne
         linear_combination h - h1
-      interval_cases hc : orderOf x <;> first | omega | simp_all
+      interval_cases hc : orderOf x <;> first | omega
   · have hd2 := key 2 (sub_eq_zero.1 h)
     have hle := Nat.le_of_dvd (by norm_num) hd2
-    interval_cases hc : orderOf x <;> first | omega | simp_all
+    interval_cases hc : orderOf x <;> first | omega
 
 end CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.WeakClosure.ExcCross

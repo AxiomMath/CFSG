@@ -62,11 +62,11 @@ theorem twoPtEntry_eq_twoPtWt (t : TwoPt K) (k : Fin 4) :
   simp only [twoPtEntry, twoPtWt]
   by_cases hkx : k = x
   · subst hkx
-    simp [Pi.single_apply, Ne.symm hxy]
+    simp [Ne.symm hxy]
   · by_cases hky : k = y
     · subst hky
-      simp [Pi.single_apply, hkx, Ne.symm hkx]
-    · simp [Pi.single_apply, hkx, hky, Ne.symm hkx, Ne.symm hky]
+      simp [hkx, Ne.symm hkx]
+    · simp [hkx, hky, Ne.symm hkx, Ne.symm hky]
 
 private theorem eq_one_of_sq_eq_one' [CharP K 2] {a : K} (h : a ^ 2 = 1) : a = 1 := by
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
@@ -134,6 +134,6 @@ theorem rho_twoPtSL_single [CharP K 2] (t : TwoPt K) (s : Fin 3 ⊕ Fin 3) :
   by_cases h : s' = s
   · subst h
     simp
-  · simp [Pi.single_apply, h]
+  · simp [h]
 
 end CFSG.RankThree.PartOne.K159.Klein

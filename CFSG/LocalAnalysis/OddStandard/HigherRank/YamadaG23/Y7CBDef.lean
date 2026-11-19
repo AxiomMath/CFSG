@@ -13,14 +13,14 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
-@[expose] abbrev y7cX (s : Setting3 G L) : Subgroup G := normalizer (M3 s : Set G)
+abbrev y7cX (s : Setting3 G L) : Subgroup G := normalizer (M3 s : Set G)
 
 theorem y7c_M3_le_X (s : Setting3 G L) : M3 s ≤ y7cX s := Subgroup.le_normalizer
 
 instance y7c_M3_normal (s : Setting3 G L) : ((M3 s).subgroupOf (y7cX s)).Normal :=
   Subgroup.normal_in_normalizer
 
-@[expose] abbrev y7cGam (s : Setting3 G L) : Type := ↥(y7cX s) ⧸ (M3 s).subgroupOf (y7cX s)
+abbrev y7cGam (s : Setting3 G L) : Type := ↥(y7cX s) ⧸ (M3 s).subgroupOf (y7cX s)
 
 @[expose] def y7cPi (s : Setting3 G L) : ↥(y7cX s) →* y7cGam s := QuotientGroup.mk' _
 
@@ -89,21 +89,21 @@ theorem y7c_M3_comm (c : Ctx7 G L) (hb : B7Std c) :
   have h := (y7c_M3_elem c hb.hH hb.fact57).1
   exact congrArg Subtype.val (h.is_comm.comm ⟨a, ha⟩ ⟨b, hb'⟩)
 
-@[expose] noncomputable abbrev y7cRhoC (c : Ctx7 G L) (hb : B7Std c) :
+noncomputable abbrev y7cRhoC (c : Ctx7 G L) (hb : B7Std c) :
     y7cGam c.s →* MulAut ↥(M3 c.s) :=
   y7cRho c.s (y7c_M3_comm c hb)
 
-@[expose] abbrev y7cTC (c : Ctx7 G L) (hb : B7Std c) : y7cGam c.s :=
+abbrev y7cTC (c : Ctx7 G L) (hb : B7Std c) : y7cGam c.s :=
   y7cPi c.s ⟨c.s.t, y7c_t_mem_X c hb⟩
 
-@[expose] abbrev y7cJC (c : Ctx7 G L) : Subgroup (y7cGam c.s) := y7cImg c.s (JF c.s)
+abbrev y7cJC (c : Ctx7 G L) : Subgroup (y7cGam c.s) := y7cImg c.s (JF c.s)
 
-@[expose] abbrev y7cQC (c : Ctx7 G L) : Subgroup (y7cGam c.s) := y7cImg c.s (f4X0 c.s)
+abbrev y7cQC (c : Ctx7 G L) : Subgroup (y7cGam c.s) := y7cImg c.s (f4X0 c.s)
 
-@[expose] abbrev y7cPC (c : Ctx7 G L) : Subgroup (y7cGam c.s) := y7cImg c.s (P7 c.e)
+abbrev y7cPC (c : Ctx7 G L) : Subgroup (y7cGam c.s) := y7cImg c.s (P7 c.e)
 
-@[expose] abbrev y7cM6C (c : Ctx7 G L) : Subgroup (y7cGam c.s) := y7cImg c.s (M6 c.e)
+abbrev y7cM6C (c : Ctx7 G L) : Subgroup (y7cGam c.s) := y7cImg c.s (M6 c.e)
 
-@[expose] abbrev y7cM7C (c : Ctx7 G L) : Subgroup (y7cGam c.s) := y7cImg c.s (M7 c.s)
+abbrev y7cM7C (c : Ctx7 G L) : Subgroup (y7cGam c.s) := y7cImg c.s (M7 c.s)
 
 end CFSG.OddStandard.HigherRank.YamadaG23

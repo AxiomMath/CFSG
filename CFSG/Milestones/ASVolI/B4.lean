@@ -777,7 +777,7 @@ theorem as_B_4_11 : B_4_11 := by
   · left
     have h4 : Nat.card (Additive V) = 2 ^ 4 := by
       rw [← Nat.card_congr Ψ.toEquiv]
-      simp [Nat.card_fun]
+      simp
     exact h4
 
 @[expose] def B_4_12 : Prop :=

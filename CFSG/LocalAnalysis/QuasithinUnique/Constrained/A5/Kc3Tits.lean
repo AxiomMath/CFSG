@@ -43,7 +43,7 @@ theorem kc3ForS_tits
     exact Subgroup.mem_bot.2 (congrArg Subtype.val this)
   obtain ⟨S, P, hP, hN, -, -, hSP⟩ := hBT V' hV'ne hV'2
   have hS2 : CFSG.QuasithinUnique.IsSylowTwoOf (S : Subgroup ↥K) ⊤ := by
-    refine ⟨le_top, S.isPGroup', ?_⟩
+    refine ⟨le_top, S.isPGroup, ?_⟩
     have h1 : ((S : Subgroup ↥K).subgroupOf ⊤).index = (S : Subgroup ↥K).index :=
       Subgroup.relIndex_top_right _
     rw [h1]
@@ -53,7 +53,7 @@ theorem kc3ForS_tits
   have hPsolv : Group.IsSolvable ↥P := by
     rcases hlat P hSP with h | h | h | h
     · rw [h]
-      have := S.isPGroup'.isNilpotent
+      have := S.isPGroup.isNilpotent
       infer_instance
     · rw [h]; exact hHs
     · rw [h]; exact hNs

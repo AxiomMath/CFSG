@@ -18,7 +18,7 @@ theorem c8h_fstar_not_central {Γ : Type} [Group Γ] [Finite Γ] {B : Subgroup �
     ¬ Fstar (CFSG.pPrimeCore 3 Γ) ≤ centralizer ({d} : Set Γ) := by
   intro hFst
   set I : Subgroup Γ := CFSG.pPrimeCore 3 Γ with hI
-  haveI hIn : I.Normal := by rw [hI]; exact CFSG.pPrimeCore_normal
+  have hIn : I.Normal := by rw [hI]; exact CFSG.pPrimeCore_normal
   have h3 : ¬ 3 ∣ Nat.card ↥I := by
     rw [hI]
     exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).1 CFSG.pPrimeCore_coprime_card
@@ -35,7 +35,7 @@ theorem c8h_fstar_not_central {Γ : Type} [Group Γ] [Finite Γ] {B : Subgroup �
     apply Subtype.ext
     rw [hβdef, CFSG.LocalAnalysis.RankThreeTheoremC.FPFS.coe_conjAut]
     rw [← hcomm, mul_assoc, mul_inv_cancel, mul_one]
-  haveI hFnormal : (genFittingFStar ↥I).Normal := by
+  have hFnormal : (genFittingFStar ↥I).Normal := by
     rw [CFSG.Adapters.genFittingFStar_eq_componentClassification]
     exact CFSG.ComponentClassification.GeneralizedFitting.normal ↥I
   have hC : Subgroup.centralizer (genFittingFStar ↥I : Set ↥I) ≤ genFittingFStar ↥I :=

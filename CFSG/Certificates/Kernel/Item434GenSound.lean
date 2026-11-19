@@ -52,12 +52,14 @@ theorem pN_unpack {e₁ e₂ : Nat} (h₁ : PP n w e₁) (h₂ : PP n w e₂) (a
   unfold pN pNK
   rw [powN_unpack hw h₁, powN_unpack hw h₂, compA_PP (pp_ppow hw h₁ _) (pp_ppow hw h₂ _)]
 
+omit hw in
 theorem isInvA_PP {p : Nat} (hp : PP n w p) :
     isInvA n (unpack n w p) (invCand n (unpack n w p)) = true := by
   have h := invEqK_sound (CFSG.KS.PinvS.permOK_pinvS hp.1 hp.2)
   rw [h.1]
   exact h.2
 
+omit hw in
 theorem isInvA_of_permOK {p r : Nat} (h : permOK n w (mask w) (n * w) p r = true) :
     isInvA n (unpack n w p) (invCand n (unpack n w p)) = true := by
   have h' := invEqK_sound h
@@ -67,7 +69,7 @@ theorem isInvA_of_permOK {p r : Nat} (h : permOK n w (mask w) (n * w) p r = true
 theorem e9_eq {e₁ e₂ : Nat} (h₁ : PP n w e₁) (h₂ : PP n w e₂) :
     e9Check n (unpack n w e₁) (unpack n w e₂) = e9K n w e₁ e₂ := by
   unfold e9Check commN e9K
-  rw [isInvA_PP hw h₁, isInvA_PP hw h₂, powN_unpack hw h₁, powN_unpack hw h₂,
+  rw [isInvA_PP h₁, isInvA_PP h₂, powN_unpack hw h₁, powN_unpack hw h₂,
     powN_unpack hw h₁, idA_eq hw, eqA_PP (pp_ppow hw h₁ 3) (PP.id hw),
     eqA_PP (pp_ppow hw h₂ 3) (PP.id hw), compA_PP h₁ h₂, compA_PP h₂ h₁,
     eqA_PP (h₁.mul h₂) (h₂.mul h₁), eqA_PP h₁ (PP.id hw), eqA_PP h₂ (PP.id hw), eqA_PP h₂ h₁,
@@ -107,12 +109,13 @@ theorem heis_eq {x xi y yi z : Nat} (hx : permOK n w (mask w) (n * w) x xi = tru
     exact (px.mul py).mul (pxi.mul pyi)
   refine ⟨ecm, pz, ?_⟩
   unfold heisCheck commN heisK
-  rw [ecm, isInvA_PP hw px, isInvA_PP hw py, powN_unpack hw px, powN_unpack hw py, idA_eq hw,
+  rw [ecm, isInvA_PP px, isInvA_PP py, powN_unpack hw px, powN_unpack hw py, idA_eq hw,
     eqA_PP (pp_ppow hw px 3) (PP.id hw), eqA_PP (pp_ppow hw py 3) (PP.id hw), compA_PP pz px,
     compA_PP px pz, compA_PP pz py, compA_PP py pz, eqA_PP (pz.mul px) (px.mul pz),
     eqA_PP (pz.mul py) (py.mul pz), eqA_PP pz (PP.id hw)]
   simp only [Bool.true_and]
 
+omit hw in
 theorem wab_eq {a ai b bi v : Nat} {wd : List Int} (ha : permOK n w (mask w) (n * w) a ai = true)
     (hb : permOK n w (mask w) (n * w) b bi = true)
     (h : wordEqK n w (mask w) (pidn n w) (twoK a b) (twoK ai bi) 2 wd v = true) :
@@ -150,7 +153,7 @@ theorem fix_sound {a ai b bi e₁ e₂ k : Nat} {S SI : Nat → Nat} {c : FixDat
   have hperm : ∀ j < k, permOK n w (mask w) (n * w) (S j) (SI j) = true :=
     CFSG.KS.Raw.Orb.allN_iff.1 hSI
   have hval : ∀ j < k, wab n (unpack n w a) (unpack n w b) (c.sw.getD j []) = unpack n w (S j) ∧
-      CFSG.Monster.B.Co2.Native.lettersOK 2 (c.sw.getD j []) = true := fun j hj => wab_eq hw ha hb (hsw j hj)
+      CFSG.Monster.B.Co2.Native.lettersOK 2 (c.sw.getD j []) = true := fun j hj => wab_eq ha hb (hsw j hj)
   unfold FixData.check fixWordsCheck
   dsimp only
   generalize hG : wabs n (unpack n w a) (unpack n w b) c.sw = Sg
@@ -176,8 +179,8 @@ theorem fix_sound {a ai b bi e₁ e₂ k : Nat} {S SI : Nat → Nat} {c : FixDat
     rw [CFSG.Monster.B.Co2.allLt_iff]
     intro i hi'
     rw [map_getElem! _ _ hi', hSg i (by omega)]
-    exact isInvA_of_permOK hw (hperm i (by omega))
-  rw [isInvA_of_permOK hw ha, isInvA_of_permOK hw hb, hwords, hinv, hi, hsz, la, lb, ea, eb,
+    exact isInvA_of_permOK (hperm i (by omega))
+  rw [isInvA_of_permOK ha, isInvA_of_permOK hb, hwords, hinv, hi, hsz, la, lb, ea, eb,
     eqK_sound (Nat.beq_refl a), eqK_sound (Nat.beq_refl b), e9_eq hw h₁ h₂, he9,
     sig_eq hw hsz hSg (fun j hj => pp_of_permOK hw (hperm j hj)) h₁ h₂, hsig]
   rfl
@@ -211,8 +214,8 @@ theorem ex27_sound {a ai b bi x xi y yi z w₂ w₃ : Nat} {xw yw : List Int} {c
     (h₂ : c₂.check n (unpack n w a) (unpack n w b) (unpack n w z) (unpack n w w₂) = true)
     (h₃ : c₃.check n (unpack n w a) (unpack n w b) (unpack n w z) (unpack n w w₃) = true) :
     ex27Check n (unpack n w a) (unpack n w b) xw yw c₀ c₁ c₂ c₃ = true := by
-  obtain ⟨ex, lx⟩ := wab_eq hw ha hb hx
-  obtain ⟨ey, ly⟩ := wab_eq hw ha hb hy
+  obtain ⟨ex, lx⟩ := wab_eq ha hb hx
+  obtain ⟨ey, ly⟩ := wab_eq ha hb hy
   obtain ⟨ecm, -, eh⟩ := heis_eq hw hxp hxi hyp hyi (Nat.eq_of_beq_eq_true hz)
   have px := pp_of_permOK hw hxp
   have py := pp_of_permOK hw hyp
@@ -223,7 +226,7 @@ theorem ex27_sound {a ai b bi x xi y yi z w₂ w₃ : Nat} {xw yw : List Int} {c
       ← Nat.eq_of_beq_eq_true hw₃]
   unfold ex27Check
   dsimp only
-  rw [ex, ey, isInvA_of_permOK hw ha, isInvA_of_permOK hw hb, lx, ly, eh, hh, ecm, e2, e3,
+  rw [ex, ey, isInvA_of_permOK ha, isInvA_of_permOK hb, lx, ly, eh, hh, ecm, e2, e3,
     ex27E2_0 hw, ex27E2_1 hw, h₀, h₁, h₂, h₃]
   rfl
 

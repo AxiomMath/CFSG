@@ -40,7 +40,7 @@ theorem natCard_omega8 : Nat.card ↥omega8 = 8 := by
   rfl
 
 theorem isSimpleGroup_altEight : IsSimpleGroup ↥altEight := by
-  haveI : IsSimpleGroup (alternatingGroup ↥omega8) :=
+  have : IsSimpleGroup (alternatingGroup ↥omega8) :=
     alternatingGroup.isSimpleGroup (by rw [natCard_omega8]; norm_num)
   exact altEightEquiv.isSimpleGroup
 
@@ -59,14 +59,14 @@ theorem card_altEight : Nat.card ↥altEight = 20160 := by
     decide⟩
 
 theorem orderOf_cyc1 : orderOf cyc1 = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine orderOf_eq_prime (Subtype.ext (by decide)) fun h => ?_
   have := congrArg Subtype.val h
   revert this
   decide
 
 theorem orderOf_cyc2 : orderOf cyc2 = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine orderOf_eq_prime (Subtype.ext (by decide)) fun h => ?_
   have := congrArg Subtype.val h
   revert this
@@ -82,7 +82,7 @@ theorem cyc2_not_mem_zpowers : cyc2 ∉ Subgroup.zpowers cyc1 := by
   interval_cases k <;> revert hv <;> decide
 
 theorem two_le_pRank_altEight : 2 ≤ CFSG.Open.pRank 3 altEight := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hmem : ∀ c : alternatingGroup (Fin 9), (c : Perm (Fin 9)) 8 = 8 → c ∈ altEight :=
     fun c hc x hx => by
       have : x = 8 := by simpa [omega8] using hx
@@ -143,7 +143,7 @@ theorem not_hasCompFactor_xM (hO : CFSG.ComponentClassification.CatLeaf.LieOrder
       (by rw [card_ker_kapX]) h1 hcal
   · have h3 := (CFSG.Quasithin.H13.L829N.isCompositionFactor_congr
       (QuotientGroup.quotientKerEquivOfSurjective kapX kapX_surjective)).1 h2
-    haveI := isSimpleGroup_altEight
+    have := isSimpleGroup_altEight
     exact not_isCalL0_of_isCompositionFactor_of_isSimpleGroup hO (k := 6)
       (by rw [card_altEight]; decide +kernel) h3 hcal
 
@@ -158,7 +158,7 @@ theorem card_xJ : Nat.card xJ = 512 * 20160 := by
 
 theorem exists_isSylowIn_le_xJ :
     ∃ S : Subgroup J, S ≤ xJ ∧ IsSylowIn 2 S ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨K, hK⟩ := Sylow.exists_subgroup_card_pow_prime 2 (n := 15) (G := ↥xJ)
     (by rw [card_xJ]; norm_num)
   refine ⟨K.map xJ.subtype, Subgroup.map_subtype_le K, le_top, ?_, ?_⟩
@@ -203,7 +203,7 @@ theorem card_outer_J :
 theorem nonempty_grpEquiv_J
     (Y : Type) [Group Y]
     (hY : CFSG.Models.IsSporadic Y .Th) : Nonempty (GrpEquiv Y J) := by
-  letI : Mul TauCeti.SporadicName.Th.Group := Monoid.toMul
+  let : Mul TauCeti.SporadicName.Th.Group := Monoid.toMul
   obtain ⟨e₁⟩ := hY
   obtain ⟨e₂⟩ := CFSG.Sporadic.Bridge.Th.nonempty_mulEquiv
   exact ⟨(e₁.trans e₂.symm).trans thEquivJ⟩
@@ -229,8 +229,8 @@ theorem asch54SporThGen_of_model {C : Type} [hCg : Group C] [hCf : Finite C]
   have hcardQ : Nat.card Q = Nat.card C := Nat.card_congr e.toEquiv
   refine ⟨?_, ?_⟩
   ·
-    haveI := hsimp
-    haveI : IsSimpleGroup Q := e.isSimpleGroup
+    have := hsimp
+    have : IsSimpleGroup Q := e.isSimpleGroup
     have hperf : ⁅(⊤ : Subgroup Q), (⊤ : Subgroup Q)⁆ = (⊤ : Subgroup Q) := by
       rcases (Subgroup.commutator_normal (⊤ : Subgroup Q) ⊤).eq_bot_or_eq_top with hb | ht
       · exfalso

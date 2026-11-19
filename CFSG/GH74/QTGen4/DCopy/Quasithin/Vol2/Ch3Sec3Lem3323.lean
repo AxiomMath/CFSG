@@ -55,7 +55,7 @@ theorem stmt3_3_23_of_F4
     have h2 := hR₂ hd
     rw [Subgroup.mem_normalizer_iff] at h1 h2 ⊢
     intro x
-    simp only [SetLike.mem_coe, Subgroup.mem_inf] at h1 h2 ⊢
+    simp only [Subgroup.mem_inf] at h1 h2 ⊢
     exact and_congr (h1 x) (h2 x)
   · right
     refine ⟨hk, fun hDR => ?_⟩

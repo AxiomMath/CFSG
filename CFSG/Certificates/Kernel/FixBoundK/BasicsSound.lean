@@ -26,7 +26,7 @@ theorem add_eq_xor_of_and (a b : Nat) (h : a &&& b = 0) : a + b = a ^^^ b := by
   have h0 : ¬ (a % 2 = 1 ∧ b % 2 = 1) := by
     intro hab
     have := congrArg (fun x => Nat.testBit x 0) h
-    simp [Nat.testBit_and, hab.1, hab.2] at this
+    simp [hab.1, hab.2] at this
   have hlt : a % 2 + b % 2 < 2 ^ 1 := by
     rw [Nat.pow_one]
     omega
@@ -37,11 +37,11 @@ theorem add_eq_xor_of_and (a b : Nat) (h : a &&& b = 0) : a + b = a ^^^ b := by
   intro i
   rw [e, Nat.testBit_two_pow_mul_add _ hlt]
   rcases i with _ | i
-  · rw [if_pos Nat.zero_lt_one, Nat.testBit_zero, Nat.testBit_xor, Nat.testBit_zero,
+  · rw [ite_eq_left Nat.zero_lt_one, Nat.testBit_zero, Nat.testBit_xor, Nat.testBit_zero,
       Nat.testBit_zero]
     rcases Nat.mod_two_eq_zero_or_one a with ha2 | ha2 <;>
       rcases Nat.mod_two_eq_zero_or_one b with hb2 | hb2 <;> simp [ha2, hb2]
-  · rw [if_neg (by omega), Nat.add_sub_cancel, Nat.testBit_xor, Nat.testBit_xor,
+  · rw [ite_eq_right (by omega), Nat.add_sub_cancel, Nat.testBit_xor, Nat.testBit_xor,
       Nat.testBit_div_two, Nat.testBit_div_two]
 
 theorem testBit_mul_iff (x : Nat) : ∀ y : Nat,
@@ -275,7 +275,7 @@ theorem testBit_genD {K t w : Nat} (ht : t < K) (hw : 0 < w) (p : Nat) :
         _ = 2 ^ (t + 1) * (i' + 1) := by ring
         _ ≤ _ := Nat.mul_le_mul_left _ hi'
     · have e : 2 ^ (t + 1) * i' + 2 ^ t + i = 2 ^ t * (2 * i' + 1) + i := by ring
-      rw [e, Nat.testBit_two_pow_mul_add _ hi, if_neg (Nat.lt_irrefl t), Nat.sub_self,
+      rw [e, Nat.testBit_two_pow_mul_add _ hi, ite_eq_right (Nat.lt_irrefl t), Nat.sub_self,
         Nat.testBit_zero]
       simp
   · rintro ⟨q, hq, hqt, rfl⟩
@@ -342,7 +342,7 @@ theorem testBit_sprL (W : Nat) : ∀ (n b₀ s p : Nat),
       rcases b with _ | b
       · left
         rw [Nat.testBit_zero, decide_eq_true_iff] at hs
-        rw [if_pos hs, Nat.testBit_two_pow, Nat.add_zero]
+        rw [ite_eq_left hs, Nat.testBit_two_pow, Nat.add_zero]
         simp
       · right
         refine ⟨b, by omega, ?_, by ring⟩
@@ -439,13 +439,13 @@ theorem rowU_val {K W c : Nat} (hKW : 2 ^ K ≤ W) : ∀ (B : List Nat) (t₀ : 
     constructor
     · rintro ⟨b', _, k', hk', e, hs, hkt⟩
       obtain ⟨rfl, rfl⟩ := grid_inj (lt_of_lt_of_le hk hKW) (lt_of_lt_of_le hk' hKW) e
-      rw [if_pos ((testBit_iff_shr _ _).1 hkt)]
+      rw [ite_eq_left ((testBit_iff_shr _ _).1 hkt)]
       exact hs
     · intro h
       by_cases hkt : (k >>> t₀) % 2 = 1
-      · rw [if_pos hkt] at h
+      · rw [ite_eq_left hkt] at h
         exact ⟨b, hb, k, hk, rfl, h, (testBit_iff_shr _ _).2 hkt⟩
-      · rw [if_neg hkt, Nat.zero_testBit] at h
+      · rw [ite_eq_right hkt, Nat.zero_testBit] at h
         exact absurd h (by simp)
 
 theorem testBit_matTerm {K m W u x : Nat} (hu : u < K) (hm : m = 2 ^ K) (hW : W = m * m)
@@ -518,13 +518,13 @@ theorem synL_val {K m W : Nat} {B : List Nat} (hB : B.length = K) (hm : m = 2 ^ 
     constructor
     · rintro ⟨b', _, j', hj', k', hk', e, hju, hx⟩
       obtain ⟨rfl, rfl, rfl⟩ := grid2_inj hW hj hk hj' hk' e
-      rw [if_pos ((testBit_iff_shr _ _).1 hju), ← hrow]
+      rw [ite_eq_left ((testBit_iff_shr _ _).1 hju), ← hrow]
       exact hx
     · intro h
       by_cases hju : (j >>> u₀) % 2 = 1
-      · rw [if_pos hju, ← hrow] at h
+      · rw [ite_eq_left hju, ← hrow] at h
         exact ⟨b, hb, j, hj, k, hk, rfl, (testBit_iff_shr _ _).2 hju, h⟩
-      · rw [if_neg hju, Nat.zero_testBit] at h
+      · rw [ite_eq_right hju, Nat.zero_testBit] at h
         exact absurd h (by simp)
 
 @[expose] def orL (x W : Nat) (l : List Nat) : Nat :=
@@ -572,7 +572,7 @@ theorem packS_val {m : Nat} : ∀ (bs : List Nat), (∀ b ∈ bs, b < 2 ^ m) →
         omega
       rw [packS_low bs (j₀ + 1) _ hlow, Bool.or_false, List.getD_cons_zero]
       have e : m * (j₀ + 0) + k - m * j₀ = k := by simp
-      simp [e]
+      simp
     · rw [List.getD_cons_succ]
       have e : m * (j₀ + (j + 1)) + k = m * (j₀ + 1 + j) + k := by ring_nf
       rw [e, packS_val bs (fun b hb => hbs b (List.mem_cons_of_mem _ hb)) (j₀ + 1) j k

@@ -34,7 +34,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem n4_one_le_pRank_of_ne_bot {f : ℕ} (hf : f.Prime) {F : Subgroup G} (hFp : IsPGroup f F)
     (hF1 : F ≠ ⊥) : 1 ≤ Open.pRank f F := by
-  haveI : Fact f.Prime := ⟨hf⟩
+  have : Fact f.Prime := ⟨hf⟩
   obtain ⟨k, hk⟩ := hFp.exists_card_eq
   have hk1 : k ≠ 0 := by
     rintro rfl
@@ -62,7 +62,7 @@ theorem n4_isCyclic_of_pRank_le_one {f : ℕ} [Fact f.Prime] (hf2 : f ≠ 2) {F 
     omega
   exact CFSG.GH74.GLS.Stage2.Final.Thm4.isCyclic_of_not_two_le_pRank f hf2 hF h2
 
-theorem n4_zpowers_eq_of_cyclic {f : ℕ} (hf : f.Prime) {F : Subgroup G} (hF : IsCyclic F) {y y' : G}
+theorem n4_zpowers_eq_of_cyclic {f : ℕ} (_hf : f.Prime) {F : Subgroup G} (hF : IsCyclic F) {y y' : G}
     (hy : y ∈ F) (hy' : y' ∈ F) (ho : orderOf y = f) (ho' : orderOf y' = f) :
     zpowers y = zpowers y' := by
   have ha : orderOf (⟨y, hy⟩ : ↥F) = f := (Subgroup.orderOf_mk y hy).trans ho
@@ -73,6 +73,7 @@ theorem n4_zpowers_eq_of_cyclic {f : ℕ} (hf : f.Prime) {F : Subgroup G} (hF : 
   rw [MonoidHom.map_zpowers, MonoidHom.map_zpowers] at h
   exact h
 
+omit [Finite G] in
 theorem n4_mem_normalizer_of_conj_eq {Y : Subgroup G} {g : G} (h : rankThreeConj g Y = Y) :
     g ∈ normalizer (Y : Set G) := by
   have hmem : ∀ v : G, v ∈ rankThreeConj g Y ↔ ∃ u ∈ Y, g⁻¹ * u * g = v := by
@@ -90,6 +91,7 @@ theorem n4_mem_normalizer_of_conj_eq {Y : Subgroup G} {g : G} (h : rankThreeConj
     have h1 := (heq _).1 ((hmem _).2 ⟨_, hw, rfl⟩)
     simpa [mul_assoc] using h1
 
+omit [Finite G] in
 theorem n4_conj_le_of_mem_normalizer {Y T : Subgroup G} {g : G} (hYT : Y ≤ T)
     (hg : g ∈ normalizer (T : Set G)) : rankThreeConj g Y ≤ T := by
   rintro w hw
@@ -104,8 +106,8 @@ theorem p65ClauseBResidue_of_kfactS (hK1 : KFactP65RankThreeS) : P65ClauseBResid
   intro G _ _ hS hD1 hU0 p hp7 P M hsit x z hx hz f F Fs R Ft hf hpf hfS hcore hclB hFp hF1 hFFs
     hFsFt hFsp hBF hHM hBFs hFsmax hNFs hRN hR3
   have hprime : p.Prime := sigmaA_prime p hsit.mem_sigmaA
-  haveI : Fact p.Prime := ⟨hprime⟩
-  haveI : Fact f.Prime := ⟨hf⟩
+  have : Fact p.Prime := ⟨hprime⟩
+  have : Fact f.Prime := ⟨hf⟩
   have hp5 : 5 ≤ p := by omega
   have hf2 : f ≠ 2 := by omega
   have hfp : f ≠ p := by omega
@@ -212,7 +214,7 @@ theorem p65AfterLemma68_of_clauseB (hclB : P65ClauseBResidue) (hS : Setting G)
     (hz : SmallRankCentral P z) : N1.P65AfterLemma68 p M x z := by
   intro f F Fs R hf hf2 hfp hFp hF1 hFFs hFsM hFsp hBF hHM hBFs hFsmax hNFs hM2 hRH hR3 hcyc
   have hp : p.Prime := sigmaA_prime p hsit.mem_sigmaA
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp5 : 5 ≤ p := by omega
   have hMloc : IsTwoLocal M := hsit.isCoreMaxLocal.1.1
   obtain ⟨hDM, hMD, hDp⟩ := CFSG.LocalAnalysis.RankThreeUC.rankThreePrimeCore_spec p M

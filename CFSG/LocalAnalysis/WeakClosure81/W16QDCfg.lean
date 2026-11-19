@@ -52,7 +52,7 @@ private theorem w16q_odd_sq_two_pow_sub_one {n : ℕ} (hn : 1 ≤ n) :
 
 private theorem w16q_nonempty_psl_equiv_of_isPSL {X : Type} [Group X] {n : ℕ}
     (h : CFSG.Quasithin.IsPSL 2 2 n X) : Nonempty (X ≃* PSL(2, GaloisField 2 n)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   simp only [CFSG.Quasithin.IsPSL, CFSG.Open.StatedClassicalModel] at h
   obtain ⟨hadm, K, _hField, _hFinite, hcard, ⟨e⟩⟩ := h
   have hn : 0 < n := by have := hadm.2.1; omega
@@ -117,6 +117,7 @@ private theorem w16q_mQuot_inf_centralizer_le_mSub {V V₀ : Subgroup G}
     _ ≤ padicValNat 2 (Nat.card V₀) := padicValNat_two_le_of_dvd (Nat.card_pos.ne') hdvd
     _ = mSub V₀ := rfl
 
+omit [Finite G] in
 private theorem w16q_relIndex_sup_eq_of_le_normalizer {A B : Subgroup G}
     (hB : B ≤ Subgroup.normalizer (A : Set G)) : B.relIndex (A ⊔ B) = B.relIndex A := by
   unfold Subgroup.relIndex Subgroup.index
@@ -152,6 +153,7 @@ private theorem w16q_card_sup_mul_card_inf {X : Type} [Group X] {A N : Subgroup 
   rw [h2, h4, h1, h3, Nat.card_congr e.toEquiv]
   ring
 
+omit [Finite G] in
 private theorem w16q_barSub_conjClosure_le_normalClosure {K A : Subgroup G} (hAK : A ≤ K)
     {X : Type} [Group X] (φ : ↥K →* X) :
     SevenK.barSub K φ (CFSG.Quasithin.conjClosure A K) ≤
@@ -219,7 +221,7 @@ theorem card_le_of_isPGroup_psl {X : Type} [Group X] [Finite X] {n : ℕ} (hn : 
     (h : CFSG.Quasithin.IsPSL 2 2 n X) :
     ∀ P : Subgroup X, IsPGroup 2 P → Nat.card P ≤ 2 ^ n := by
   intro P hP
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hn1 : 1 ≤ n := Nat.one_le_iff_ne_zero.mpr hn
   obtain ⟨e⟩ := w16q_nonempty_psl_equiv_of_isPSL h
   let e' : X ≃* SL(2, GaloisField 2 n) :=
@@ -241,7 +243,7 @@ theorem card_le_of_isPGroup_oddCore {X : Type} [Group X] [Finite X] {Y : Subgrou
     (hY : Nat.card Y = 2) (hX : Y ⊔ fusionOddCore X = ⊤) :
     ∀ P : Subgroup X, IsPGroup 2 P → Nat.card P ≤ 2 := by
   intro P hP
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hOodd : Odd (Nat.card (fusionOddCore X)) := w16q_odd_card_fusionOddCore X
   have hcop : Nat.Coprime 2 (Nat.card (fusionOddCore X)) := Nat.coprime_two_left.mpr hOodd
   have hinf : Y ⊓ fusionOddCore X = ⊥ := by
@@ -264,7 +266,7 @@ theorem card_le_of_isPGroup_oddCore {X : Type} [Group X] [Finite X] {Y : Subgrou
 
 theorem eq_one_of_forall_normalizes_of_card_two {X : Type} [Group X] {Y : Subgroup X}
     (hY : Nat.card Y = 2) (hgen : Subgroup.normalClosure (Y : Set X) = ⊤) (α : MulAut X)
-    (hα : ∀ y ∈ Y, α y = y)
+    (_hα : ∀ y ∈ Y, α y = y)
     (hN : ∀ x : X, (conjSubgroup Y x).map α.toMonoidHom = conjSubgroup Y x) : α = 1 := by
   have hfix : ∀ x : X, ∀ z ∈ conjSubgroup Y x, α z = z := by
     intro x z hz
@@ -314,7 +316,7 @@ theorem isElemAbelian_barSub (d : DichCfg M V₀ V U S H φ) :
 
 theorem qSub16_inf_le (d : DichCfg M V₀ V U S H φ) :
     qSub16 V₀ V S H ⊓ conjClosure V H ≤ iSub16 V H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Q : Subgroup G := qSub16 V₀ V S H
   let K : Subgroup G := conjClosure V H
   have hN_le_K : Q ⊓ K ≤ K := inf_le_right
@@ -341,7 +343,7 @@ theorem qSub16_inf_le (d : DichCfg M V₀ V U S H φ) :
 
 theorem comm_mem_qSub16 (d : DichCfg M V₀ V U S H φ) {x k : G} (hx : x ∈ qSub16 V₀ V S H)
     (hk : k ∈ conjClosure V H) : k * x * k⁻¹ * x⁻¹ ∈ iSub16 V H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQ_le_H : qSub16 V₀ V S H ≤ H :=
     d.cfg.qSub16_le_pCoreOf.trans (CFSG.LieType.BorelTits.pCoreOf_le 2 H)
   have hxH : x ∈ H := hQ_le_H hx
@@ -380,7 +382,7 @@ theorem mem_sup_of_map_mem_barSub (d : DichCfg M V₀ V U S H φ) {k : ↥(conjC
 
 theorem qSub16_le_tSub16_of_inf_le (d : DichCfg M V₀ V U S H φ)
     (hTK : S ⊓ conjClosure V H ≤ tSub16 V₀ S) : qSub16 V₀ V S H ≤ tSub16 V₀ S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSylH : IsSylowIn 2 S H := Cex16.isSylowIn_of_fam d.cfg.one d.cfg.std d.cfg.cex
     d.cfg.min.fam16
   have hKH : conjClosure V H ≤ H := d.cfg.conjClosure_le_H
@@ -415,7 +417,7 @@ theorem inf_le_sup_of_card_le (d : DichCfg M V₀ V U S H φ)
     (hX : ∀ P : Subgroup X, IsPGroup 2 P →
       Nat.card P ≤ Nat.card (SevenK.barSub (conjClosure V H) φ V)) :
     S ⊓ conjClosure V H ≤ V ⊔ iSub16 V H := by
-  haveI : Finite X := Finite.of_surjective φ d.bar.surjective
+  have : Finite X := Finite.of_surjective φ d.bar.surjective
   intro x hx
   let P : Subgroup X :=
     ((S ⊓ conjClosure V H).subgroupOf (conjClosure V H)).map φ

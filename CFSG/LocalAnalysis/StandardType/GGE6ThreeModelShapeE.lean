@@ -15,8 +15,9 @@ open CFSG CFSG.Assembly CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley TableBEx
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 private theorem exists_conj_xHat_data [Finite K] [CharP K 2] (h3 : 3 ∣ Nat.card K - 1)
-    {ζ : Kˣ} (hζo : orderOf ζ = 3) (hζ : ζ ^ 3 = 1)
+    {ζ : Kˣ} (_hζo : orderOf ζ = 3) (_hζ : ζ ^ 3 = 1)
     {X : Subgroup (MulAut (adjointGroup .E6 K))} (hX : IsElemAbelian 3 X)
     (hXI : X ≤ (hatAut .E6 K).range) :
     ∃ (γ : MulAut (adjointGroup .E6 K)) (_ : γ ∈ (hatAut .E6 K).range)
@@ -41,7 +42,7 @@ private theorem exists_conj_xHat_data [Finite K] [CharP K 2] (h3 : 3 ∣ Nat.car
   have hQ : (Q₀ : Subgroup Y).map f = ⊤ :=
     (Q₀.mapSurjective hfs).maximal_isPGroup.eq_of_le hXp le_top
   set P : Subgroup (hatGroup .E6 K) := (Q₀ : Subgroup Y).map Y.subtype with hP
-  have hP3 : IsPGroup 3 P := Q₀.isPGroup'.map _
+  have hP3 : IsPGroup 3 P := Q₀.isPGroup.map _
   have hPX : P.map κ = X := by
     have hcomp : κ.comp Y.subtype = X.subtype.comp f := MonoidHom.ext fun _ => rfl
     rw [hP, Subgroup.map_map, hcomp, ← Subgroup.map_map, hQ, ← MonoidHom.range_eq_map,

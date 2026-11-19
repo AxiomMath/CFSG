@@ -12,6 +12,7 @@ namespace CFSG.OddStandard.SmallF3.Omega
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem fx_toEnd_pow (u : OGroup Q) (n : ℕ) :
     (((u ^ n : OGroup Q) : V ≃ₗ[ZMod 3] V) : Module.End (ZMod 3) V) =
       ((u : V ≃ₗ[ZMod 3] V) : Module.End (ZMod 3) V) ^ n := by
@@ -24,7 +25,8 @@ theorem fx_toEnd_pow (u : OGroup Q) (n : ℕ) :
     ext v
     simp
 
-theorem fx_toEnd_commute (g : ↥(simGroup Q)) (u : OGroup Q) (h : simAct Q g u = u) :
+omit [FiniteDimensional (ZMod 3) V] in
+theorem fx_toEnd_commute [FiniteDimensional (ZMod 3) V] (g : ↥(simGroup Q)) (u : OGroup Q) (h : simAct Q g u = u) :
     ((g : V ≃ₗ[ZMod 3] V) : Module.End (ZMod 3) V) *
         ((u : V ≃ₗ[ZMod 3] V) : Module.End (ZMod 3) V) =
       ((u : V ≃ₗ[ZMod 3] V) : Module.End (ZMod 3) V) *
@@ -41,6 +43,7 @@ theorem fx_toEnd_commute (g : ↥(simGroup Q)) (u : OGroup Q) (h : simAct Q g u 
   have h3 := congrArg (fun e : V ≃ₗ[ZMod 3] V => e v) h2
   simpa using h3
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem fx_toEnd_mul_self_eq_neg_one (γ : V ≃ₗ[ZMod 3] V) (h : ∀ v, γ (γ v) = -v) :
     (γ : Module.End (ZMod 3) V) * (γ : Module.End (ZMod 3) V) = -1 := by
   ext v

@@ -15,10 +15,12 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem u43_mem_core_iff {p : ℕ} {J : Subgroup G} (x : J) :
     x ∈ GLAPPrimeCore p ↥J ↔ (x : G) ∈ GLAPPrimeCoreOf p J :=
   (Subgroup.mem_map_iff_mem J.subtype_injective).symm
 
+omit [Finite G] in
 private theorem u43_mk_comm_iff {p : ℕ} {J : Subgroup G} (a b : J) :
     (QuotientGroup.mk a : PQuot p J) * QuotientGroup.mk b =
         QuotientGroup.mk b * QuotientGroup.mk a ↔
@@ -30,6 +32,7 @@ private theorem u43_mk_comm_iff {p : ℕ} {J : Subgroup G} (a b : J) :
     u43_mem_core_iff]
   rfl
 
+omit [Finite G] in
 private theorem u43_centMod_iff_mem_center {p : ℕ} {J : Subgroup G} (x : J) :
     (x : G) ∈ centModSubgroup p J ↔
       (QuotientGroup.mk x : PQuot p J) ∈ Subgroup.center (PQuot p J) := by
@@ -41,6 +44,7 @@ private theorem u43_centMod_iff_mem_center {p : ℕ} {J : Subgroup G} (x : J) :
   · intro hc
     exact ⟨Subgroup.le_normalizer x.2, fun l hl => (u43_mk_comm_iff ⟨l, hl⟩ x).1 (hc _)⟩
 
+omit [Finite G] in
 private theorem u43_conj_mem_core {p : ℕ} {J : Subgroup G} {b x : G}
     (hinner : InducesInnerMod p J b) (hx : x ∈ J) (hxc : x ∈ centModSubgroup p J) :
     x⁻¹ * (b⁻¹ * x * b) ∈ GLAPPrimeCoreOf p J := by
@@ -62,8 +66,8 @@ private theorem u43_exists_exponent_sub {K : Type} [Group K] [Finite K] {p : ℕ
     (hp : p.Prime) (hZp : IsPGroup p (Subgroup.center K)) (hZ : ¬ IsCyclic (Subgroup.center K)) :
     ∃ W : Subgroup K, W ≤ Subgroup.center K ∧ (∀ k ∈ W, k ^ p = 1) ∧ p ^ 2 ∣ Nat.card W := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  letI : CommGroup (Subgroup.center K) :=
+  have : Fact p.Prime := ⟨hp⟩
+  let : CommGroup (Subgroup.center K) :=
     { (inferInstance : Group (Subgroup.center K)) with
       mul_comm := fun a b => Subtype.ext (Subgroup.mem_center_iff.1 b.2 a.1) }
   let Ω : Subgroup (Subgroup.center K) :=
@@ -98,6 +102,7 @@ private theorem u43_exists_exponent_sub {K : Type} [Group K] [Finite K] {p : ℕ
   · rw [Subgroup.card_map_of_injective (Subgroup.center K).subtype_injective, hn]
     exact pow_dvd_pow p hn2
 
+omit [Finite G] in
 private theorem u43_mem_normalizer_sup {H K N : Subgroup G} {g : G} (hgN : g ∈ N)
     (hconj : ∀ x ∈ N, (∀ s ∈ H, x * s * x⁻¹ ∈ H ⊔ K) ∧ (∀ s ∈ K, x * s * x⁻¹ ∈ H ⊔ K)) :
     g ∈ Subgroup.normalizer ((H ⊔ K : Subgroup G) : Set G) := by
@@ -119,7 +124,7 @@ private theorem u43_mem_normalizer_sup {H K N : Subgroup G} {g : G} (hgN : g ∈
 
 private theorem u43_inf_core_eq_bot {J : Subgroup G} {p : ℕ} (hp : p.Prime) {P : Subgroup J}
     (hP : Nat.card P = p ^ 2) : P ⊓ GLAPPrimeCore p ↥J = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcop : Nat.Coprime p (Nat.card (GLAPPrimeCore p ↥J)) := CFSG.pPrimeCore_coprime_card
   have h1 : Nat.card (P ⊓ GLAPPrimeCore p ↥J : Subgroup J) ∣ p ^ 2 := by
     rw [← hP]
@@ -133,13 +138,13 @@ private theorem u43_inf_core_eq_bot {J : Subgroup G} {p : ℕ} (hp : p.Prime) {P
   exact Subgroup.eq_bot_of_card_eq _ h4
 
 theorem not_isCyclic_inf_of_not_isCyclic_center {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
-    {X B J T : Subgroup G} (hB : GLAIsBmax p B) (hJ : GLAPComponent p X J)
-    (hBJ : B ≤ Subgroup.normalizer (J : Set G)) (hodd : Odd (Nat.card (GLAPPrimeCoreOf p J)))
+    {X B J T : Subgroup G} (hB : GLAIsBmax p B) (_hJ : GLAPComponent p X J)
+    (hBJ : B ≤ Subgroup.normalizer (J : Set G)) (_hodd : Odd (Nat.card (GLAPPrimeCoreOf p J)))
     (hTJ : T ≤ J) (hTne : T ≠ ⊥) (hT2 : IsPGroup 2 T) (hBT : B ≤ Subgroup.normalizer (T : Set G))
     (hZ : ¬ IsCyclic (Subgroup.center (PQuot p J)))
     (hinner : ∀ b ∈ B, InducesInnerMod p J b) : ¬ IsCyclic (B ⊓ J : Subgroup G) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hJN : J ≤ Subgroup.normalizer ((GLAPPrimeCoreOf p J : Subgroup G) : Set G) :=
     le_normalizer_glaPPrimeCoreOf p J
   have hBN : B ≤ Subgroup.normalizer ((GLAPPrimeCoreOf p J : Subgroup G) : Set G) :=
@@ -307,8 +312,8 @@ theorem not_isCyclic_inf_of_not_isCyclic_center {p : ℕ} (hp : p.Prime) (hp2 : 
   have hPGB : PG ≤ B := le_sup_right.trans hEB.le
   intro hcyc
   have hPGBJ : PG ≤ B ⊓ J := le_inf hPGB hPGJ
-  haveI : IsCyclic (PG.subgroupOf (B ⊓ J)) := Subgroup.isCyclic _
-  haveI : Fintype (PG.subgroupOf (B ⊓ J)) := Fintype.ofFinite _
+  have : IsCyclic (PG.subgroupOf (B ⊓ J)) := Subgroup.isCyclic _
+  have : Fintype (PG.subgroupOf (B ⊓ J)) := Fintype.ofFinite _
   have hQcard : Nat.card (PG.subgroupOf (B ⊓ J)) = p ^ 2 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hPGBJ).toEquiv, hPGcard]
   have hexp : ∀ a : PG.subgroupOf (B ⊓ J), a ^ p = 1 := fun a =>

@@ -52,8 +52,8 @@ theorem ree_fix_equiv {a : ℕ} (ha : 1 ≤ a) {K : Type} [Field K] [Finite K]
       inferInstance, hK, ⟨eS⟩⟩
   obtain ⟨-, -, -, -, -, -, hmain⟩ := large_Ree_model_field_outer_group_and_inner_involutions _ 2
     (2 * a + 1) hR
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K F4.prime := charP_of_card_eq_prime_pow (p := 2) (f := 2 * a + 1) (by
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K F4.prime := charP_of_card_eq_prime_pow (p := 2) (f := 2 * a + 1) (by
     rw [← Nat.card_eq_fintype_card, hK])
   obtain ⟨⟨e⟩, -⟩ := hmain a K rfl hK ⟨eS⟩
   have : Fact p.Prime := ⟨hp⟩
@@ -93,8 +93,8 @@ theorem ree_fix_equiv {a : ℕ} (ha : 1 ≤ a) {K : Type} [Field K] [Finite K]
       ((F4.reeGamma (fixSubfield β) b).equivMapOfInjective _
         (baseChangeGL_injective (τ := F4.tag) (fixSubfield β).subtype)).symm
   have : Finite (fixSubfield β) := Subtype.finite
-  haveI : Fintype (fixSubfield β) := Fintype.ofFinite _
-  haveI : CharP (fixSubfield β) F4.prime := charP_of_card_eq_prime_pow (p := 2) (f := 2 * b + 1) (by
+  have : Fintype (fixSubfield β) := Fintype.ofFinite _
+  have : CharP (fixSubfield β) F4.prime := charP_of_card_eq_prime_pow (p := 2) (f := 2 * b + 1) (by
     rw [← Nat.card_eq_fintype_card, hbcard])
   exact ⟨hpn, b, hbp, fixSubfield β, inferInstance, inferInstance, inferInstance, hbcard,
     ⟨((fixSubEquivCongr e f).trans e₂).trans e₃⟩⟩
@@ -115,7 +115,7 @@ theorem chevSimple_titsD :
 
 theorem datumCore_reeGamma_zero {k : Type} [Field k] [Finite k] [CharP k F4.prime] (hk : Nat.card k = 2) :
     DatumCore ↥(F4.reeGamma k 0) := by
-  haveI : Fact (Nat.card k = 2) := ⟨hk⟩
+  have : Fact (Nat.card k = 2) := ⟨hk⟩
   have hk' : Nat.card k = 2 ^ (2 * 0 + 1) := by simpa using hk
   have hΓ := ReeTag.reeGamma_eq_reeFixedGroup (t := ReeTag.F4) (K := k) (a := 0)
   let eΓ : ↥(F4.reeGamma k 0) ≃* ↥(reeFixed ReeTag.F4 k 0) :=
@@ -126,7 +126,7 @@ theorem datumCore_reeGamma_zero {k : Type} [Field k] [Finite k] [CharP k F4.prim
     eC.trans CFSG.Sporadic.Schreier.Tits.titsDerivedIso
   have hcard : Nat.card CFSG.Sporadic.Schreier.Tits.titsD = 17971200 :=
     CFSG.Sporadic.Schreier.Tits.card_titsD
-  haveI : Finite CFSG.Sporadic.Schreier.Tits.titsD :=
+  have : Finite CFSG.Sporadic.Schreier.Tits.titsD :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hs : IsSimpleGroup CFSG.Sporadic.Schreier.Tits.titsD :=
     CFSG.Sporadic.Schreier.Tits.titsD_simple
@@ -153,6 +153,7 @@ section Part3
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem fieldOn_outer {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {L : Subgroup G} {b : G}
     (hF : FieldOn p b L) :
     indAut p L b hF.1 ^ p = 1 ∧
@@ -172,7 +173,7 @@ theorem fieldOn_outer {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {L : Subgroup G} 
 
 theorem twF4Core_holds {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) : TwF4Core p := by
   intro G _ _ L b hF ⟨lab₀, hlab₀, htag₀, hn₀, hM₀⟩ _
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hβp, hβi⟩ := fieldOn_outer hp hp2 hF
   set β := indAut p L b hF.1 with hβ
   have hβ1 : β ≠ 1 := fun h => hβi ⟨1, by rw [h]; ext x; simp⟩

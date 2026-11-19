@@ -68,7 +68,7 @@ theorem card_le_of_fixedFacts [Finite G] {p e : ℕ} (hp : p.Prime) {J : Subgrou
   have hSbcard : Nat.card Sb = Nat.card Sbar :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hSbarN).toEquiv
   obtain ⟨Q, hQ⟩ := hSbp.exists_le_sylow
-  obtain ⟨φ⟩ := hN (Q : Subgroup ↥N) Q.isPGroup' Q.not_dvd_index
+  obtain ⟨φ⟩ := hN (Q : Subgroup ↥N) Q.isPGroup Q.not_dvd_index
   have hQcard : Nat.card (Q : Subgroup ↥N) = p ^ (2 * e) := by
     rw [Nat.card_congr φ.toEquiv, Nat.card_pi, Nat.card_eq_fintype_card]
     simp [Finset.prod_const, ZMod.card, ← pow_mul, mul_comm]

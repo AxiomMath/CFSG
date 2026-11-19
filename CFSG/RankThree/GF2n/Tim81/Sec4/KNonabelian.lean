@@ -26,13 +26,13 @@ theorem frattini_conj_le {P W : Subgroup G} (hP : IsPGroup 2 P)
   · intro x hx
     obtain ⟨p, hp, rfl⟩ := Subgroup.mem_map.mp hx
     refine Subgroup.mem_map.mpr ⟨p ^ 2, hPhi (sq_mem_inSubgroup_frattini hP hp), ?_⟩
-    simp only [MulAut.conj_apply, map_pow]
+    simp only [map_pow]
   · intro x hx z hz
     obtain ⟨p, hp, rfl⟩ := Subgroup.mem_map.mp hx
     obtain ⟨q, hq, rfl⟩ := Subgroup.mem_map.mp hz
     refine Subgroup.mem_map.mpr
       ⟨⁅p, q⁆, hPhi (commutatorElement_mem_inSubgroup_frattini hP hp hq), ?_⟩
-    simp only [MulAut.conj_apply, map_commutatorElement]
+    simp only [map_commutatorElement]
 
 private theorem commutator_AB_le_D_aux (h : RootHyp M V) {y : G} (hyH : y ∈ H)
     (hK : KFactorization M V H y) :
@@ -161,6 +161,7 @@ private theorem centralizer_D_AB_aux (h : RootHyp M V) {y : G} (hyH : y ∈ H)
     exact Subgroup.commutator_eq_bot_iff_le_centralizer.mp hDB_bot
   exact ⟨hD_le_CA, hD_le_CB⟩
 
+omit [Finite G] in
 private theorem centralizer_D_K_aux {y : G}
     (hK : KFactorization M V H y)
     (hD_le_CA : Pc M V ⊓ conjSubgroup y (Pc M V) ≤
@@ -196,6 +197,7 @@ private theorem centralizer_D_K_aux {y : G}
   exact Subgroup.commutator_eq_bot_iff_le_centralizer.mp
     ((Subgroup.commutator_comm D (kOf V H)).trans hKD_bot)
 
+omit [Finite G] in
 private theorem V_and_conj_V_le_centralizer_kOf {y : G} (hyH : y ∈ H) :
     V ≤ Subgroup.centralizer (kOf V H : Set G) ∧
       conjSubgroup y V ≤ Subgroup.centralizer (kOf V H : Set G) := by
@@ -437,6 +439,7 @@ private theorem commutator_Pc_inf_ne_bot_setup_aux (h : RootHyp M V) {y : G} (hy
     exact le_inf hAB_le_P hAB_le_P'
   exact ⟨hAB_le_D, hA_normD, hB_normD, hD_le_P, hD_le_P', hB_eq⟩
 
+omit [Finite G] in
 private theorem commutator_kOf_le_inf_conj_of_commutator_eq_bot_aux
     {A B D : Subgroup G} {y : G} (hK : kOf V H = A ⊔ B)
     (hAB_le_D : ⁅A, B⁆ ≤ D)
@@ -465,6 +468,7 @@ private theorem commutator_kOf_le_inf_conj_of_commutator_eq_bot_aux
   exact commutator_sup_le_of_commutator_le_and_normalize A B (A ⊔ B) D
     hAK_le_D hBK_le_D hA_normD hB_normD
 
+omit [Finite G] in
 private theorem conj_Pc_le_normalizer_commutator_aux {y : G}
     (hH : H = Pc M V ⊔ conjSubgroup y (Pc M V)) :
     conjSubgroup y (Pc M V) ≤
@@ -481,6 +485,7 @@ private theorem conj_Pc_le_normalizer_commutator_aux {y : G}
     ⁅kOf V H, kOf V H⁆
   rw [hpK]
 
+omit [Finite G] in
 private theorem commutator_subgroupOf_ne_bot_aux {y : G}
     (hK'_ne : ⁅kOf V H, kOf V H⁆ ≠ ⊥)
     (hK'_le_P' : ⁅kOf V H, kOf V H⁆ ≤ conjSubgroup y (Pc M V)) :
@@ -495,7 +500,7 @@ private theorem commutator_subgroupOf_ne_bot_aux {y : G}
     Subgroup.mem_subgroupOf.mpr hx
   rw [hbot] at hxsub
   have hx1 : x = 1 := congrArg Subtype.val (Subgroup.mem_bot.mp hxsub)
-  simpa [hx1]
+  simp [hx1]
 
 private theorem center_element_mem_bot_aux (h : RootHyp M V) {y : G}
     (hH : H = Pc M V ⊔ conjSubgroup y (Pc M V)) (hnM : ¬ H ≤ M)
@@ -505,9 +510,9 @@ private theorem center_element_mem_bot_aux (h : RootHyp M V) {y : G}
     (hN_ne : (⁅kOf V H, kOf V H⁆).subgroupOf (conjSubgroup y (Pc M V)) ≠ ⊥)
     (hP2' : IsPGroup 2 (conjSubgroup y (Pc M V))) :
     False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsNilpotent ↥(conjSubgroup y (Pc M V)) := IsPGroup.isNilpotent hP2'
-  haveI : ((⁅kOf V H, kOf V H⁆).subgroupOf
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsNilpotent ↥(conjSubgroup y (Pc M V)) := IsPGroup.isNilpotent hP2'
+  have : ((⁅kOf V H, kOf V H⁆).subgroupOf
       (conjSubgroup y (Pc M V))).Normal := hN_normal
   have hcenter_ne := Group.IsNilpotent.inf_center_ne_bot_of_normal
     (G := ↥(conjSubgroup y (Pc M V))) hN_ne
@@ -556,7 +561,7 @@ private theorem commutator_Pc_inf_ne_bot_aux (h : RootHyp M V) {y : G} (hyH : y 
   have hB_normD : B ≤ Subgroup.normalizer (D : Set G) := by
     simpa [hB, hD] using hB_normD_ex
   have hD_le_P : D ≤ Pc M V := by simpa [hD] using hD_le_P_ex
-  have hD_le_P' : D ≤ conjSubgroup y (Pc M V) := by simpa [hD] using hD_le_P'_ex
+  have hD_le_P' : D ≤ conjSubgroup y (Pc M V) := by simp [hD]
   have hB_eq : B = conjSubgroup y A := by simpa [hA, hB] using hB_eq_ex
   intro hA_bot
   have hK'_le_D : ⁅kOf V H, kOf V H⁆ ≤ D :=
@@ -750,7 +755,7 @@ private theorem isPGroup_le_subgroupOf_normalizer_sl2 {F : Type} [Field F] [Fint
   have hP'sub_normal : ((P'sub : Subgroup ↥(Subgroup.normalizer (T' : Set SL(2, F))))).Normal := by
     rw [hP'sub_coe]
     exact (Subgroup.normal_subgroupOf_iff_le_normalizer (Subgroup.le_normalizer)).mpr le_rfl
-  haveI : Unique (Sylow 2 ↥(Subgroup.normalizer (T' : Set SL(2, F)))) :=
+  have : Unique (Sylow 2 ↥(Subgroup.normalizer (T' : Set SL(2, F)))) :=
     Sylow.unique_of_normal P'sub hP'sub_normal
   intro Q hQ
   obtain ⟨Q', hQ'⟩ := hQ.exists_le_sylow
@@ -784,6 +789,7 @@ private theorem inf_normalizer_eq_bot_of_inf_eq_bot {F : Type} [Field F] [Fintyp
   rw [eq_bot_iff]
   exact (le_inf inf_le_left hT_inter_N).trans (le_of_eq hT_inter_T')
 
+omit [Finite G] in
 private theorem inf_normalizer_map_eq_bot_of_sl2 {F : Type} [Field F] [Fintype F] [CharP F 2]
     (ψ : HBar V H ≃* SL(2, F)) {L L' : Subgroup (HBar V H)} {T T' : Subgroup SL(2, F)}
     (hT : T = Subgroup.map ψ.toMonoidHom L) (hT' : T' = Subgroup.map ψ.toMonoidHom L')
@@ -807,6 +813,7 @@ private theorem inf_normalizer_map_eq_bot_of_sl2 {F : Type} [Field F] [Fintype F
   have hz1 : ψ z = 1 := Subgroup.mem_bot.mp hzbot
   exact Subgroup.mem_bot.mpr (ψ.injective (by simpa using hz1))
 
+omit [Finite G] in
 private theorem conj_utri_eq_of_map_conj {F : Type} [Field F] [Fintype F] [CharP F 2]
     (ψ : HBar V H ≃* SL(2, F)) {y : G} (hyH : y ∈ H) {L L' : Subgroup (HBar V H)}
     {T T' : Subgroup SL(2, F)}
@@ -827,8 +834,8 @@ theorem inf_imgK_normalizer_conj_eq_bot_of_ne (h : RootHyp M V)
     imgK V H (Pc M V) ⊓ Subgroup.normalizer
       (imgK V H (conjSubgroup y (Pc M V)) : Set (HBar V H)) = ⊥ := by
   classical
-  haveI : Finite F := Finite.of_fintype F
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite F := Finite.of_fintype F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let L : Subgroup (HBar V H) := imgK V H (Pc M V)
   let L' : Subgroup (HBar V H) := imgK V H (conjSubgroup y (Pc M V))
   let T : Subgroup SL(2, F) := Subgroup.map ψ.toMonoidHom L

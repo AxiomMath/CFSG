@@ -174,8 +174,8 @@ theorem candOK_sound {ys : List Nat} {T : Nat} {Kh V XP CT D : Nat → Nat} {nc 
         V (64 + 32 * l + 28) := Nat.eq_of_beq_eq_true hq
     rw [← e]
     by_cases h3 : CT (D (o + 2)) < 3
-    · rw [if_pos h3, Nat.blt_eq.mpr h3]
-    · rw [if_neg h3, Bool.eq_false_iff.mpr (fun h => h3 (Nat.blt_eq.mp h))]
+    · rw [ite_eq_left h3, Nat.blt_eq.mpr h3]
+    · rw [ite_eq_right h3, Bool.eq_false_iff.mpr (fun h => h3 (Nat.blt_eq.mp h))]
 
 theorem candC3_sound {LR TR D Kh V XP CT : Nat → Nat} {nc go H T N dofs lo cnt : Nat}
     (hc : candC3 LR TR D Kh V XP CT nc go H T N dofs lo cnt = true) :

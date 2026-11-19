@@ -414,7 +414,7 @@ theorem noTwoNormalized_of_survD4
   have hnc : ¬ ∀ a b : ↥K, a * b = b * a := fun hc => hxy (hc x y)
   set T : Subgroup (Blueprint.Chevalley.ModGL Blueprint.Chevalley.TwistTag.D4.tag F) :=
     (Q : Subgroup ↥K).map ι with hT
-  have hT2 : IsPGroup 2 T := Q.isPGroup'.map ι
+  have hT2 : IsPGroup 2 T := Q.isPGroup.map ι
   have hTP : T ≤ P := by
     rintro _ ⟨q, -, rfl⟩
     exact hιP q

@@ -105,7 +105,7 @@ theorem exists_ggKacDatum_of_ggK0MainBS
   have hgenlab : Gen lab p := hgen lab hlab hhas
   have hraw' := largeEvenLabelAll_and (hK0 p lab hlab hgenlab) (hS p lab hlab hgenlab) _ hraw
   obtain ⟨R, hR, I, F, hP⟩ := largeEvenRawDatum_exists hraw'
-  letI := hR
+  let := hR
   obtain ⟨hQ, hPk, hPs⟩ := hP
   obtain ⟨-, -, θ, hSlab, -, hind⟩ := hQ
   let ψ : X →* R := θ.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center X))

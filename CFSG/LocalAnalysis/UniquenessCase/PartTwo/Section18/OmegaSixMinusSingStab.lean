@@ -115,7 +115,7 @@ theorem statedQuadMinus_three_add_single (y : Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fi
       StatedQuadMinus 3 F b c y + y (Sum.inr (Sum.inl 0)) := by
   have hl : (y + Pi.single (Sum.inl 0) 1) ∘ sixMinusLongEmb = y ∘ sixMinusLongEmb := by
     funext a
-    simp [Pi.single_apply, sixMinusLongEmb_ne_inl a]
+    simp [sixMinusLongEmb_ne_inl a]
   have h1 : (y + Pi.single (Sum.inl 0) 1 : Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2 → F) (Sum.inl 0) =
       y (Sum.inl 0) + 1 := by simp
   have h2 : (y + Pi.single (Sum.inl 0) 1 : Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2 → F)
@@ -156,14 +156,14 @@ theorem apply_inr_inl_zero_of_isometry
 theorem apply_sixMinusLongEmb_inl_zero
     (he : M *ᵥ Pi.single (Sum.inl 0) 1 = Pi.single (Sum.inl 0) 1)
     (a : Fin (2 - 1) ⊕ Fin (2 - 1) ⊕ Fin 2) : M (sixMinusLongEmb a) (Sum.inl 0) = 0 := by
-  rw [apply_inl_zero_of_mulVec_single he, Pi.single_apply, if_neg (sixMinusLongEmb_ne_inl a)]
+  rw [apply_inl_zero_of_mulVec_single he, Pi.single_apply, ite_eq_right (sixMinusLongEmb_ne_inl a)]
 
 theorem apply_inr_inl_zero_sixMinusLongEmb
     (hQ : ∀ v, StatedQuadMinus 3 F b c (M *ᵥ v) = StatedQuadMinus 3 F b c v)
     (he : M *ᵥ Pi.single (Sum.inl 0) 1 = Pi.single (Sum.inl 0) 1)
     (a : Fin (2 - 1) ⊕ Fin (2 - 1) ⊕ Fin 2) : M (Sum.inr (Sum.inl 0)) (sixMinusLongEmb a) = 0 := by
   rw [apply_inr_inl_zero_of_isometry hQ he, Pi.single_apply,
-    if_neg (sixMinusLongEmb_ne_inr_inl a).symm]
+    ite_eq_right (sixMinusLongEmb_ne_inr_inl a).symm]
 
 theorem submatrix_sixMinusLongEmb_mul
     {N : Matrix (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F}
@@ -222,7 +222,7 @@ theorem pow_four_eq_one_of_submatrix_eq_one [CharP F 2]
     have hv : ∀ c', c' ∉ Set.range sixMinusLongEmb → M (sixMinusLongEmb a) c' * y c' = 0 :=
       fun c' hc => by
         rcases eq_of_not_mem_range_sixMinusLongEmb hc with rfl | rfl
-        · rw [hcol, Pi.single_apply, if_neg (sixMinusLongEmb_ne_inl a), zero_mul]
+        · rw [hcol, Pi.single_apply, ite_eq_right (sixMinusLongEmb_ne_inl a), zero_mul]
         · rw [hy, mul_zero]
     have h1' : ∀ z, M (sixMinusLongEmb a) (sixMinusLongEmb z) =
         (1 : Matrix (Fin (2 - 1) ⊕ Fin (2 - 1) ⊕ Fin 2)
@@ -251,7 +251,7 @@ theorem pow_four_eq_one_of_submatrix_eq_one [CharP F 2]
     by_cases ha : a = Sum.inl 0
     · subst ha
       simp
-    · simp [Pi.single_apply, ha, hy0 a ha]
+    · simp [ha, hy0 a ha]
   have hN : ∀ v, (M - 1) *ᵥ v = M *ᵥ v - v := fun v => by
     rw [Matrix.sub_mulVec, Matrix.one_mulVec]
   have h3 : ∀ v, (M - 1) ^ 3 *ᵥ v = 0 := by
@@ -334,7 +334,7 @@ theorem sixMinusRes_spec [Finite F] [CharP F 2] (hirr : ∀ s : F, s ^ 2 + b * s
         StatedOmega (StatedQuadMinus 3 F b c) :=
       hsplit.map_statedOmega_le sixMinusLongEmb_injective ⟨A, hA, rfl⟩
     have h0 : (Pi.single (Sum.inl 0) 1 : Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2 → F) ∘
-        sixMinusLongEmb = 0 := funext fun z => by simp [Pi.single_apply, sixMinusLongEmb_ne_inl z]
+        sixMinusLongEmb = 0 := funext fun z => by simp [sixMinusLongEmb_ne_inl z]
     have hfix : ((coordEmbedGL sixMinusLongEmb sixMinusLongEmb_injective A :
         GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F) :
           Matrix (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F) *ᵥ
@@ -349,7 +349,7 @@ theorem sixMinusRes_spec [Finite F] [CharP F 2] (hirr : ∀ s : F, s ^ 2 + b * s
         rw [h0, Matrix.mulVec_zero] at this
         simp only [Function.comp_apply, Pi.zero_apply] at this
         rw [this]
-        simp [Pi.single_apply, sixMinusLongEmb_ne_inl z]
+        simp [sixMinusLongEmb_ne_inl z]
       · exact coordEmbedMat_mulVec_of_not_mem _ _ ha
     refine ⟨⟨⟨_, hGΩ⟩, hfix⟩, Units.ext ?_⟩
     ext x y
@@ -398,7 +398,7 @@ theorem nonempty_vecStab_omegaSixMinus_equiv [Finite F] [CharP F 2]
     rwa [show G₀ * (G₀⁻¹ * (g : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F) * G₀) * G₀⁻¹ =
       (g : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F) by group] at h1
 
-theorem exists_vecStab_OmegaMinus6_sing_hom {n : ℕ} (hn : 1 ≤ n) {F : Type} [Field F] [Finite F]
+theorem exists_vecStab_OmegaMinus6_sing_hom {n : ℕ} (_hn : 1 ≤ n) {F : Type} [Field F] [Finite F]
     (hF : Nat.card F = 2 ^ n) {b c : F} (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0)
     {w : Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2 → F} (hw0 : w ≠ 0)
     (hw : StatedQuadMinus 3 F b c w = 0) :
@@ -412,7 +412,7 @@ theorem exists_vecStab_OmegaMinus6_sing_hom {n : ℕ} (hn : 1 ≤ n) {F : Type} 
     simpa using congrFun h (Sum.inl 0)
   have hQe₀ : StatedQuadMinus 3 F b c (Pi.single (Sum.inl 0) 1) = 0 := by
     have h0 : (Pi.single (Sum.inl 0) 1 : Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2 → F) ∘
-        sixMinusLongEmb = 0 := funext fun z => by simp [Pi.single_apply, sixMinusLongEmb_ne_inl z]
+        sixMinusLongEmb = 0 := funext fun z => by simp [sixMinusLongEmb_ne_inl z]
     rw [statedQuadMinus_three_split, h0]
     simp [StatedQuadMinus]
   obtain ⟨ψ⟩ := nonempty_vecStab_omegaSixMinus_equiv hirr he₀ hw0 (by rw [hw, hQe₀])

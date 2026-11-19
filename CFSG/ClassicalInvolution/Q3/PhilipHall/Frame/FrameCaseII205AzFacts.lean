@@ -70,7 +70,7 @@ theorem t_mem_centralizer_az (d : Std20Frame K K' J S R R' W V z t) {a : G}
     _ = a * (z * t) := by rw [hzt]
     _ = (a * z) * t := by group
 
-theorem az_mem_B (d : Std20Frame K K' J S R R' W V z t) {a : G} (hd : Frame205Data d a) :
+theorem az_mem_B (d : Std20Frame K K' J S R R' W V z t) {a : G} (_hd : Frame205Data d a) :
     a * z ∈ Subgroup.closure ({z, t, a} : Set G) :=
   (Subgroup.closure ({z, t, a} : Set G)).mul_mem (Subgroup.subset_closure (by simp))
     (Subgroup.subset_closure (by simp))

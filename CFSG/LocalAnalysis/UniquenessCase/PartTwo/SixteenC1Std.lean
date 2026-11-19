@@ -77,7 +77,7 @@ theorem pRank_three_centralizer (D : Data G) (h61 : UC6.R6_1 D) (hsig : 3 ∈ D.
   classical
   let C : Subgroup G := centralizer ({z} : Set G)
   change CFSG.Open.pRank 3 C = 1
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨E0, hE0le, hE0ea, hE0card⟩ :=
     CFSG.SectionRank.exists_pRank (p := 3) (by norm_num) (D.M ⊓ C)
   have hE0ne : E0 ≠ ⊥ := by
@@ -95,7 +95,7 @@ theorem pRank_three_centralizer (D : Data G) (h61 : UC6.R6_1 D) (hsig : 3 ∈ D.
   have hE0_le_P₁' : E0 ≤ P₁' := by
     rw [← Subgroup.map_subgroupOf_eq_of_le hE0C]
     exact Subgroup.map_mono hP₁le
-  have hP₁'group : IsPGroup 3 P₁' := P₁.isPGroup'.map C.subtype
+  have hP₁'group : IsPGroup 3 P₁' := P₁.isPGroup.map C.subtype
   have hP₁'C : P₁' ≤ C := Subgroup.map_subtype_le (P₁ : Subgroup C)
   have hP₁'M : P₁' ≤ D.M := by
     refine hse.le_of_isPGroup_inf hP₁'group ?_
@@ -111,8 +111,8 @@ theorem pRank_three_centralizer (D : Data G) (h61 : UC6.R6_1 D) (hsig : 3 ∈ D.
   apply CFSG.SectionRank.pRank_le (by norm_num : 1 < 3)
   intro A hAC hAea
   obtain ⟨P₂, hP₂le⟩ := (hAea.subgroupOf C).isPGroup.exists_le_sylow
-  haveI : IsCyclic (P₁ : Subgroup C) := by
-    haveI : IsCyclic ((P₁ : Subgroup C).map C.subtype) := hP₁'cyc
+  have : IsCyclic (P₁ : Subgroup C) := by
+    have : IsCyclic ((P₁ : Subgroup C).map C.subtype) := hP₁'cyc
     exact isCyclic_of_surjective
       (Subgroup.equivMapOfInjective (P₁ : Subgroup C) C.subtype C.subtype_injective).symm
       (Subgroup.equivMapOfInjective (P₁ : Subgroup C) C.subtype
@@ -120,13 +120,13 @@ theorem pRank_three_centralizer (D : Data G) (h61 : UC6.R6_1 D) (hsig : 3 ∈ D.
   have hP₂cyc : IsCyclic (P₂ : Subgroup C) :=
     isCyclic_of_surjective (Sylow.equiv P₁ P₂) (Sylow.equiv P₁ P₂).surjective
   have hAcyc_sub : IsCyclic (A.subgroupOf C) := by
-    haveI : IsCyclic (P₂ : Subgroup C) := hP₂cyc
+    have : IsCyclic (P₂ : Subgroup C) := hP₂cyc
     exact Subgroup.isCyclic_of_le hP₂le
   have hAcyc : IsCyclic A := by
-    haveI : IsCyclic (A.subgroupOf C) := hAcyc_sub
+    have : IsCyclic (A.subgroupOf C) := hAcyc_sub
     exact isCyclic_of_surjective (Subgroup.subgroupOfEquivOfLe hAC)
       (Subgroup.subgroupOfEquivOfLe hAC).surjective
-  haveI : IsCyclic A := hAcyc
+  have : IsCyclic A := hAcyc
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := A)
   have hg3 : g ^ 3 = 1 := Subtype.ext (hAea.2 g g.2)
   have hcard : Nat.card A = orderOf g := (orderOf_eq_card_of_forall_mem_zpowers hg).symm

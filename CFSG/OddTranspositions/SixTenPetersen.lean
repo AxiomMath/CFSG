@@ -24,11 +24,13 @@ variable {G : Type} [Group G] [Finite G] {D : Set G}
   (∀ θ₁ ∈ Dalpha D δ, ∀ θ₂ ∈ Dalpha D δ, θ₁ ≠ θ₂ → θ₂ ∉ Dalpha D θ₁ →
       ∃! θ₃, θ₃ ∈ Dalpha D δ ∧ θ₃ ∈ Dalpha D θ₁ ∧ θ₃ ∈ Dalpha D θ₂)
 
+omit [Finite G] in
 theorem Dalpha_symm {θ₁ θ₂ : Set G} (h : θ₂ ∈ Dalpha D θ₁) (h₁ : θ₁ ⊆ D) :
     θ₁ ∈ Dalpha D θ₂ :=
   ⟨mem_blockClass_of_mem_blockClass h.1 (mem_blockClass_self θ₁), h₁, h.2.2.1.symm,
     fun z hz w hw => (h.2.2.2 w hw z hz).symm⟩
 
+omit [Finite G] in
 theorem image_mem_Dalpha_of_fix (hN : IsNormalSet D) {x : G} {ε θ : Set G}
     (hθ : θ ∈ Dalpha D ε) (hε : (fun y => x * y * x⁻¹) '' ε = ε) :
     (fun y => x * y * x⁻¹) '' θ ∈ Dalpha D ε := by
@@ -125,6 +127,7 @@ theorem sixTen_of_petersen (hC : HypothesisC D) {x : G}
   intro δ hδ
   exact main _ δ hδ rfl δ (perp_self_mem D δ)
 
+omit [Finite G] in
 theorem image_conj_inv_image_conj (k : G) (S : Set G) :
     (fun x => k⁻¹ * x * k⁻¹⁻¹) '' ((fun x => k * x * k⁻¹) '' S) = S := by
   ext y
@@ -133,6 +136,7 @@ theorem image_conj_inv_image_conj (k : G) (S : Set G) :
   · rintro ⟨z, hz, rfl⟩; convert hz using 1; group
   · intro hy; exact ⟨y, hy, by group⟩
 
+omit [Finite G] in
 theorem image_conj_image_conj_inv (k : G) (S : Set G) :
     (fun x => k * x * k⁻¹) '' ((fun x => k⁻¹ * x * k⁻¹⁻¹) '' S) = S := by
   ext y
@@ -141,6 +145,7 @@ theorem image_conj_image_conj_inv (k : G) (S : Set G) :
   · rintro ⟨z, hz, rfl⟩; convert hz using 1; group
   · intro hy; exact ⟨y, hy, by group⟩
 
+omit [Finite G] in
 theorem PetersenAt.conj (hN : IsNormalSet D) {α : Set G} (h : PetersenAt D α) (g : G) :
     PetersenAt D ((fun x => g * x * g⁻¹) '' α) := by
   classical
@@ -190,6 +195,7 @@ theorem pair5_mu_exists : ∀ p q : Pair5, p ≠ q → ¬ Disjoint p.1 q.1 →
 theorem pair5_mu_unique : ∀ p q r r' : Pair5, ¬ Disjoint p.1 q.1 → Disjoint p.1 r.1 →
     Disjoint q.1 r.1 → Disjoint p.1 r'.1 → Disjoint q.1 r'.1 → p ≠ q → r = r' := by decide
 
+omit [Finite G] in
 theorem petersenAt_of_model {δ : Set G} (Φ : Set G → Pair5)
     (hsurj : ∀ p, ∃ θ ∈ Dalpha D δ, Φ θ = p)
     (hinj : ∀ θ₁ ∈ Dalpha D δ, ∀ θ₂ ∈ Dalpha D δ, Φ θ₁ = Φ θ₂ → θ₁ = θ₂)
@@ -263,33 +269,42 @@ section piG
 
 variable {K : Subgroup G} {π : K →* Perm (Fin 5)}
 
+omit [Finite G] in
 theorem piG_mem {x : G} (hx : x ∈ K) : piG K π x = π ⟨x, hx⟩ := by
-  unfold piG; exact dif_pos hx
+  unfold piG; exact dite_eq_left hx
 
+omit [Finite G] in
 theorem piG_coe (m : K) : piG K π m = π m := piG_mem m.2
 
+omit [Finite G] in
 theorem piG_one : piG K π 1 = 1 := by
   rw [piG_mem K.one_mem]; exact π.map_one
 
+omit [Finite G] in
 theorem piG_mul {x y : G} (hx : x ∈ K) (hy : y ∈ K) :
     piG K π (x * y) = piG K π x * piG K π y := by
   rw [piG_mem (K.mul_mem hx hy), piG_mem hx, piG_mem hy, ← map_mul]; rfl
 
+omit [Finite G] in
 theorem piG_inv {x : G} (hx : x ∈ K) : piG K π x⁻¹ = (piG K π x)⁻¹ := by
   rw [piG_mem (K.inv_mem hx), piG_mem hx, ← map_inv]; rfl
 
+omit [Finite G] in
 theorem piG_pow {x : G} (hx : x ∈ K) (n : ℕ) : piG K π (x ^ n) = piG K π x ^ n := by
   rw [piG_mem (K.pow_mem hx n), piG_mem hx, ← map_pow]
   exact congrArg π (Subtype.ext (by simp))
 
+omit [Finite G] in
 theorem piG_zpow {x : G} (hx : x ∈ K) (n : ℤ) : piG K π (x ^ n) = piG K π x ^ n := by
   rw [piG_mem (K.zpow_mem hx n), piG_mem hx, ← map_zpow]
   exact congrArg π (Subtype.ext (by simp))
 
+omit [Finite G] in
 theorem piG_conj {h x : G} (hh : h ∈ K) (hx : x ∈ K) :
     piG K π (h * x * h⁻¹) = piG K π h * piG K π x * (piG K π h)⁻¹ := by
   rw [piG_mul (K.mul_mem hh hx) (K.inv_mem hh), piG_mul hh hx, piG_inv hh]
 
+omit [Finite G] in
 theorem piG_commute {x y : G} (hx : x ∈ K) (hy : y ∈ K) (h : Commute x y) :
     Commute (piG K π x) (piG K π y) := by
   show piG K π x * piG K π y = piG K π y * piG K π x
@@ -301,6 +316,7 @@ end piG
   Function.Surjective π ∧ ∀ θ ∈ Dalpha D α, ∀ v ∈ θ, ∀ y : G,
     y ∈ θ ↔ ∃ m : Halpha D α, π m = 1 ∧ y = (m : G) * v * (m : G)⁻¹
 
+omit [Finite G] in
 theorem blocks_commute_of_mem (hN : IsNormalSet D) (hD : IsOddTransp D) {α : Set G}
     (hblock : IsBlock D α) {θ₁ θ₂ : Set G} (h₁ : θ₁ ∈ blockClass α) (h₂ : θ₂ ∈ blockClass α)
     (hne : θ₁ ≠ θ₂) {u v : G} (hu : u ∈ θ₁) (hv : v ∈ θ₂) (huv : Commute u v) :
@@ -316,6 +332,7 @@ section Model
 
 variable (hC : HypothesisC D) {π : Halpha D hC.alpha →* Perm (Fin 5)}
 
+omit [Finite G] in
 theorem piG_mul_self {u : G} (huD : u ∈ D) (huH : u ∈ Halpha D hC.alpha) :
     piG _ π u * piG _ π u = 1 := by
   rw [← piG_mul huH huH, hC.setup.oddT.mul_self_eq_one huD, piG_one]
@@ -347,6 +364,7 @@ theorem piG_isSwap (hS : IsS5Model D hC.alpha π) {u : G} (hu : u ∈ DalphaStar
   exact isSwap_of_mul_self_of_sign (piG_mul_self hC (hθ.2.1 huθ)
     (Subgroup.subset_closure ⟨θ, hθ, huθ⟩)) (sign_piG_of_mem hC hS ⟨θ, hθ, huθ⟩)
 
+omit [Finite G] in
 theorem piG_eq_of_mem_block (hS : IsS5Model D hC.alpha π) {θ : Set G}
     (hθ : θ ∈ Dalpha D hC.alpha) {u v : G} (hu : u ∈ θ) (hv : v ∈ θ) :
     piG _ π u = piG _ π v := by
@@ -354,6 +372,7 @@ theorem piG_eq_of_mem_block (hS : IsS5Model D hC.alpha π) {θ : Set G}
   rw [piG_conj m.2 (Subgroup.subset_closure ⟨θ, hθ, hu⟩), piG_coe, hm1]
   group
 
+omit [Finite G] in
 theorem mem_of_piG_commute (hS : IsS5Model D hC.alpha π) {θ : Set G}
     (hθ : θ ∈ Dalpha D hC.alpha) {u x : G} (hu : u ∈ θ) (hxD : x ∈ D)
     (hxH : x ∈ Halpha D hC.alpha) (hc : Commute (piG _ π u) (piG _ π x))
@@ -563,7 +582,7 @@ theorem petersenAt_of_S5 (hS : IsS5Model D hC.alpha π) : PetersenAt D hC.alpha 
     have hex : ∃ u ∈ θ, (piG _ π u).support.card = 2 :=
       ⟨u, hu, Perm.card_support_eq_two.mpr (piG_isSwap hC hS ⟨θ, hθ, hu⟩)⟩
     dsimp only [Φ]
-    rw [dif_pos hex]
+    rw [dite_eq_left hex]
     exact congrArg Perm.support (piG_eq_of_mem_block hC hS hθ hex.choose_spec.1 hu)
   refine petersenAt_of_model Φ ?_ ?_ ?_
   · rintro ⟨p, hp⟩
@@ -588,6 +607,7 @@ theorem petersenAt_of_S5 (hS : IsS5Model D hC.alpha π) : PetersenAt D hC.alpha 
 
 end Model
 
+omit [Finite G] in
 theorem isS5Model_of_quotient {α : Set G} (N : Subgroup (Halpha D α)) [N.Normal]
     (e : Halpha D α ⧸ N ≃* Perm (Fin 5))
     (horb : ∀ θ ∈ Dalpha D α, ∀ v ∈ θ, ∀ y : G,

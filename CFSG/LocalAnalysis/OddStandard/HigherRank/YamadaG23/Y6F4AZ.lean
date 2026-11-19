@@ -25,7 +25,7 @@ theorem y6Four4a_holds (hB : Sec3Inputs) (hG : G23Facts)
   intro G _ _ L hS hL c hF h6 hNH
   have hH : F33Hyp c.s c.e := f33hyp_of hB hS hL c.s c.e
   have hRT : c.s.R ≠ c.s.T := h6.2.2
-  haveI : IsSimpleGroup G := hS.std.simple
+  have : IsSimpleGroup G := hS.std.simple
   exact y6f4a_false_of_gData hGMS hRes hSch hG hO hcard hG2 hS.std.nonab hS.std.kProper
     (fun z hz => hS.balanced z hz) (y6f4a_gData_of_ctx c hH hF hRT hNH)
 

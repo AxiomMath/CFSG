@@ -30,7 +30,7 @@ theorem Gc_transpose (w : K) : (Gc w)ᵀ = Gc w := by
 theorem Mc_mul_self (h3 : (3 : K) = 0) : (Mc : Matrix (Fin 4) (Fin 4) K) * Mc = -1 := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Mc, Matrix.mul_apply, Fin.sum_univ_four, Matrix.one_apply] <;>
+    simp [Mc, Matrix.mul_apply, Fin.sum_univ_four] <;>
     linear_combination h3
 
 theorem Mc_transpose_Gc_Mc (h3 : (3 : K) = 0) (w : K) :

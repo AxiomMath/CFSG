@@ -17,7 +17,7 @@ open CFSG CFSG.Open CFSG.ClassicalInvolution CFSG.ClassicalInvolution.Models
 
 theorem leaf_g2Ne3 {n : ℕ} : TwinLeafS n SmallG2Ne3 :=
   TwinLeafS.of_no fun Y _ _ R S t h hsmall hF => by
-    haveI := h.core.simple
+    have := h.core.simple
     obtain ⟨p, f, hp, hp2, hf, h3, hm⟩ := hF
     have hce := Q5G2D4.chevalleyExceptionalModel_of_lieModel hm (by decide) (by decide)
       (by decide)
@@ -26,7 +26,7 @@ theorem leaf_g2Ne3 {n : ℕ} : TwinLeafS n SmallG2Ne3 :=
 
 theorem leaf_d4Ne3 {n : ℕ} : TwinLeafS n SmallD4Ne3 :=
   TwinLeafS.of_no fun Y _ _ R S t h hsmall hF => by
-    haveI := h.core.simple
+    have := h.core.simple
     obtain ⟨p, f, hp, hp2, hf, h3, hm⟩ := hF
     have hce := Q5G2D4.chevalleyExceptionalModel_of_lieModel hm (by decide) (by decide)
       (by decide)
@@ -35,7 +35,7 @@ theorem leaf_d4Ne3 {n : ℕ} : TwinLeafS n SmallD4Ne3 :=
 
 theorem leaf_l5Ne3 {n : ℕ} : TwinLeafS n SmallL5Ne3 :=
   TwinLeafS.of_no fun Y _ _ R S t h hsmall hF => by
-    haveI := h.core.simple
+    have := h.core.simple
     obtain ⟨p, f, hp, hp2, hf, h4, h3, hm⟩ := hF
     obtain ⟨-, h5⟩ := Q5L5U5.five_le hp hp2 hf h3
     exact false_of_outTwoCyclic_of_noTwinPair h (outTwoCyclic_PSL5 hp hf h4 hm)
@@ -43,7 +43,7 @@ theorem leaf_l5Ne3 {n : ℕ} : TwinLeafS n SmallL5Ne3 :=
 
 theorem leaf_u5 {n : ℕ} : TwinLeafS n SmallU5 :=
   TwinLeafS.of_no fun Y _ _ R S t h hsmall hF => by
-    haveI := h.core.simple
+    have := h.core.simple
     obtain ⟨p, f, hp, hp2, hf, h4, hm⟩ := hF
     have hsm := Q5L5U5.statedClassicalModel_of_lieModel_psu hm
     have hg : Odd (Nat.gcd 5 (p ^ f + 1)) :=

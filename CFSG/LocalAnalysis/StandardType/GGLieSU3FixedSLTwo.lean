@@ -71,9 +71,9 @@ theorem ggLieSU3Fixed_false_of_slTwo {X : Type} [Group X] [Finite X] (hX : commu
     (hInn : GGInducedInn A θ
       (LargeEvenMatConjImage (LargeEvenProjMk (LargeEvenSLGroup (Fin 2) K)) Set.univ)) :
     False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 :=
     charP_of_card_eq_prime_pow (p := 2) (f := n * 2)
       (by rw [← Nat.card_eq_fintype_card, hK, ← pow_mul])
   let SL : Subgroup (GL (Fin 2) K) := LargeEvenSLGroup (Fin 2) K
@@ -109,7 +109,7 @@ theorem ggLieSU3Fixed_false_of_slTwo {X : Type} [Group X] [Finite X] (hX : commu
       exact hphi h
     exact hl.2.2.1 (ggInducedAut_injective_of_perfect hX θ (by rw [hφ1, map_one]))
   ·
-    haveI hCcomm : IsMulCommutative
+    have hCcomm : IsMulCommutative
         ↥(Subgroup.centralizer ({A₀} : Set (GL (Fin 2) K))) :=
       TauCeti.isMulCommutative_centralizer_of_notMem_range_scalar (g := A₀) hsc
     have hlift : ∀ j : ↥J, ∃ h : ↥SL,
@@ -183,10 +183,10 @@ theorem ggLieSU3Fixed_false_of_slTwo {X : Type} [Group X] [Finite X] (hX : commu
       intro k
       apply Subtype.ext
       exact (Subgroup.mem_center_iff.mp (hJcenter j)) (k : X)
-    haveI : IsMulCommutative ↥J := Subgroup.center_eq_top_iff.mp hcentertop
-    haveI : Subsingleton (↥J ⧸ Subgroup.center ↥J) :=
+    have : IsMulCommutative ↥J := Subgroup.center_eq_top_iff.mp hcentertop
+    have : Subsingleton (↥J ⧸ Subgroup.center ↥J) :=
       QuotientGroup.subsingleton_iff.mpr hcentertop
-    haveI : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := hl.2.2.2.1.2.2.2
+    have : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := hl.2.2.2.1.2.2.2
     obtain ⟨a, b, hab⟩ := exists_pair_ne (↥J ⧸ Subgroup.center ↥J)
     exact hab (Subsingleton.elim a b)
 

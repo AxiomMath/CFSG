@@ -16,13 +16,16 @@ variable {V₁ P : Subgroup G} [(V₁.subgroupOf P).Normal]
 abbrev actGroup (V₁ P : Subgroup G) : Subgroup G :=
   Subgroup.normalizer (P : Set G) ⊓ Subgroup.centralizer (V₁ : Set G)
 
+omit [(V₁.subgroupOf P).Normal] in
 theorem actGroup_conj (w : actGroup V₁ P) {p : G} (hp : p ∈ P) : (w : G) * p * (w : G)⁻¹ ∈ P :=
   (Subgroup.mem_normalizer_iff.mp w.2.1 p).mp hp
 
+omit [(V₁.subgroupOf P).Normal] in
 theorem actGroup_conj' (w : actGroup V₁ P) {p : G} (hp : p ∈ P) : (w : G)⁻¹ * p * (w : G) ∈ P := by
   have := (Subgroup.mem_normalizer_iff.mp ((Subgroup.normalizer (P : Set G)).inv_mem w.2.1) p).mp hp
   simpa using this
 
+omit [(V₁.subgroupOf P).Normal] in
 theorem actGroup_cent (w : actGroup V₁ P) {z : G} (hz : z ∈ V₁) : (w : G) * z * (w : G)⁻¹ = z := by
   have := Subgroup.mem_centralizer_iff.mp w.2.2 z hz
   rw [← this]
@@ -113,8 +116,8 @@ theorem ggt_main_proof [Finite G] {V₁ P Xg Yg : Subgroup G} {v i : G} (hcard :
     (hX1 : ∀ p ∈ P, v * p * v⁻¹ * p⁻¹ ∈ V₁ ↔ p ∈ Xg) (hX2 : ∀ p ∈ P, v * p * v⁻¹ * p⁻¹ ∈ Xg)
     (hY1 : ∀ p ∈ P, i * p * i⁻¹ * p⁻¹ ∈ V₁ ↔ p ∈ Yg) (hY2 : ∀ p ∈ P, i * p * i⁻¹ * p⁻¹ ∈ Yg)
     (hXY : Xg ⊓ Yg = V₁) (hXYs : Xg ⊔ Yg = P)
-    (hXe : ∀ x ∈ Xg, x * x = 1) (hXc : ∀ x ∈ Xg, ∀ x' ∈ Xg, x * x' = x' * x)
-    (hYe : ∀ y ∈ Yg, y * y = 1) (hYc : ∀ y ∈ Yg, ∀ y' ∈ Yg, y * y' = y' * y)
+    (hXe : ∀ x ∈ Xg, x * x = 1) (_hXc : ∀ x ∈ Xg, ∀ x' ∈ Xg, x * x' = x' * x)
+    (hYe : ∀ y ∈ Yg, y * y = 1) (_hYc : ∀ y ∈ Yg, ∀ y' ∈ Yg, y * y' = y' * y)
     (hXYcard : Nat.card Xg = Nat.card Yg)
     (hnd : ∀ p ∈ P, (∀ r ∈ P, p * r = r * p) → p ∈ V₁)
     (hX : Nat.card Xg = 2 ^ 3 ∨ Nat.card Xg = 2 ^ 5) :
@@ -124,9 +127,9 @@ theorem ggt_main_proof [Finite G] {V₁ P Xg Yg : Subgroup G} {v i : G} (hcard :
           ((∀ p ∈ P, (v * i) ^ 5 * p * ((v * i) ^ 5)⁻¹ * p⁻¹ ∈ V₁) ∨
             (∀ p ∈ P, (v * i) ^ 6 * p * ((v * i) ^ 6)⁻¹ * p⁻¹ ∈ V₁)))) := by
   have hP : FormHyp V₁ P := ⟨hcard, hV₁P, hcen, hsq, hcomm⟩
-  haveI : (V₁.subgroupOf P).Normal := hP.normal
-  letI : CommGroup (Ebar V₁ P) := hP.commGroup
-  haveI : Finite (Ebar V₁ P) := hP.finite
+  have : (V₁.subgroupOf P).Normal := hP.normal
+  let : CommGroup (Ebar V₁ P) := hP.commGroup
+  have : Finite (Ebar V₁ P) := hP.finite
   let v' : FormHyp.actGroup V₁ P := ⟨v, mem_actGroup_of hvN hvN' hv₁⟩
   let i' : FormHyp.actGroup V₁ P := ⟨i, mem_actGroup_of hiN hiN' hi₁⟩
   let a : Ebar V₁ P ≃* Ebar V₁ P := hP.conjHom v'

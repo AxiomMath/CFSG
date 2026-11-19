@@ -17,22 +17,26 @@ open CFSG.Quasithin CFSG.Quasithin.SmithD39Two CFSG.Open Subgroup
 
 variable {U : Type} [CommGroup U] [Finite U] {L : Subgroup (MulAut U)}
 
+omit [Finite U] in
 private theorem s16h_zcount_fixV_map_mk_eq_bot :
     (fixV L).map (QuotientGroup.mk' (modFix L (⊤ : Subgroup U))) = ⊥ := by
   have hZ : modFix L (⊤ : Subgroup U) = fixV L := by
     rw [modFix, fixed_eq_inf_fixV, top_inf_eq]
   rw [← hZ, QuotientGroup.map_mk'_self]
 
+omit [Finite U] in
 private theorem s16h_zcount_tilde_sup_fixV (J : Subgroup U) :
     tilde L (⊤ : Subgroup U) (J ⊔ fixV L) = tilde L (⊤ : Subgroup U) J := by
   unfold tilde
   rw [Subgroup.map_sup, s16h_zcount_fixV_map_mk_eq_bot, sup_bot_eq]
 
+omit [Finite U] in
 private theorem s16h_zcount_tilde_iSup {ι : Sort*} (J : ι → Subgroup U) :
     (⨆ i, tilde L (⊤ : Subgroup U) (J i)) = tilde L (⊤ : Subgroup U) (⨆ i, J i) := by
   unfold tilde
   rw [Subgroup.map_iSup]
 
+omit [Finite U] in
 private theorem s16h_zcount_shape_one (hsl3 : IsSLn ↥L 3 1) {I : Subgroup U}
     (hZI : fixV L ≤ I) (hnat : BinaryNaturalSL L I (fixV L) 3 1) :
     SumOfNatShape L I (fixV L) 1 := by
@@ -114,7 +118,7 @@ private theorem s16h_zcount_quot_summands (hq : CFSG.Open.IsQuasisimple ↥L) {k
 private theorem s16h_zcount_two {Γ : Type*} [Group Γ] {Q : Type*} [CommGroup Q]
     [MulDistribMulAction Γ Q] [Finite Q] (hQ : ∀ q : Q, q ^ 2 = 1)
     {Λ : Subgroup Γ} {S : Fin 2 → Subgroup Q} (hS : ∀ i, XMod.IsIrr ↥Λ (S i))
-    (hind : iSupIndep S) (htop : (⨆ i, S i) = ⊤)
+    (_hind : iSupIndep S) (htop : (⨆ i, S i) = ⊤)
     (hlen : ∀ i, IsotypicOfLength ↥Λ (isoComp ↥Λ (S i)) (S i)
       (Nat.card {k : Fin 2 // XMod.Iso ↥Λ (S k) (S i)}))
     (hE : ∀ i, Nat.card (Module.End ↥(XMod.opRing ↥Λ Q) ↥(XMod.toSubmod (hS i).1)) = 2) :
@@ -196,26 +200,26 @@ private theorem s16h_zcount_two {Γ : Type*} [Group Γ] {Q : Type*} [CommGroup Q
       intro a b hab
       by_cases ha : XMod.Iso ↥Λ a.1 (S 0)
       · by_cases hb : XMod.Iso ↥Λ b.1 (S 0)
-        · have hfa : f a = Sum.inl ⟨a.1, a.2, ha⟩ := dif_pos ha
-          have hfb : f b = Sum.inl ⟨b.1, b.2, hb⟩ := dif_pos hb
+        · have hfa : f a = Sum.inl ⟨a.1, a.2, ha⟩ := dite_eq_left ha
+          have hfb : f b = Sum.inl ⟨b.1, b.2, hb⟩ := dite_eq_left hb
           rw [hfa, hfb] at hab
           have hinner : (⟨a.1, a.2, ha⟩ : A) = ⟨b.1, b.2, hb⟩ := Sum.inl.inj hab
           exact Subtype.ext (congrArg (fun z : A => (z : Subgroup Q)) hinner)
-        · have hfa : f a = Sum.inl ⟨a.1, a.2, ha⟩ := dif_pos ha
+        · have hfa : f a = Sum.inl ⟨a.1, a.2, ha⟩ := dite_eq_left ha
           have hfb : f b = Sum.inr ⟨b.1, b.2, (hcover b.1 b.2).resolve_left hb⟩ :=
-            dif_neg hb
+            dite_eq_right hb
           rw [hfa, hfb] at hab
           exact absurd hab Sum.inl_ne_inr
       · by_cases hb : XMod.Iso ↥Λ b.1 (S 0)
         · have hfa : f a = Sum.inr ⟨a.1, a.2, (hcover a.1 a.2).resolve_left ha⟩ :=
-            dif_neg ha
-          have hfb : f b = Sum.inl ⟨b.1, b.2, hb⟩ := dif_pos hb
+            dite_eq_right ha
+          have hfb : f b = Sum.inl ⟨b.1, b.2, hb⟩ := dite_eq_left hb
           rw [hfa, hfb] at hab
           exact absurd hab Sum.inr_ne_inl
         · have hfa : f a = Sum.inr ⟨a.1, a.2, (hcover a.1 a.2).resolve_left ha⟩ :=
-            dif_neg ha
+            dite_eq_right ha
           have hfb : f b = Sum.inr ⟨b.1, b.2, (hcover b.1 b.2).resolve_left hb⟩ :=
-            dif_neg hb
+            dite_eq_right hb
           rw [hfa, hfb] at hab
           have hinner : (⟨a.1, a.2, (hcover a.1 a.2).resolve_left ha⟩ : B) =
               ⟨b.1, b.2, (hcover b.1 b.2).resolve_left hb⟩ := Sum.inr.inj hab

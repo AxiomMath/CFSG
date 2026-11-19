@@ -30,7 +30,7 @@ theorem uc22s206n_false [Finite G] (hU : uniqueFourUnique G) {M L : Subgroup G}
         2 ≤ CFSG.Open.pRank p (M ⊓ normalizer (Y : Set G)) →
         CFSG.Open.pCoreOf 2 M ⊓ normalizer (Y : Set G) ≠ ⊥ → normalizer (Y : Set G) ≤ M) :
     False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hKM : ptCore α i ≤ M := by
     refine (ptCore_le_ptPre α i).trans ?_
     rw [← hLM]
@@ -49,7 +49,7 @@ theorem uc22s206n_false [Finite G] (hU : uniqueFourUnique G) {M L : Subgroup G}
   obtain ⟨J, hJ, hyJ⟩ := uc22s206l_exists_not_normalizer_bar α hα hker hKM hy1 hJ₀ hKJ₀
   obtain ⟨r, hr, hr2, hrJ⟩ :=
     CFSG.LocalAnalysis.RankThreeUC.S15.perfect_le_normalizer_component_aux1 hJ.2.2
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hx3' : φ x ^ 3 = 1 := by rw [← map_pow, ← hx3, pow_orderOf_eq_one, map_one]
   have hy7' : φ y ^ 7 = 1 := by rw [← map_pow, ← hy7, pow_orderOf_eq_one, map_one]
   have hxy' : φ x * φ y * (φ x)⁻¹ = φ y ^ 2 := by

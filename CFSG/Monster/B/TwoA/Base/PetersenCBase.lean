@@ -19,9 +19,9 @@ open CFSG.Monster CFSG.Monster.Code CFSG.Monster.Spin CFSG.Monster.SpinLattice
 
 open scoped Pointwise
 
-@[expose] def aut4 (c : Fin 15) : AutPerm := ⟨perm4 c, perm4_mem c⟩
+def aut4 (c : Fin 15) : AutPerm := ⟨perm4 c, perm4_mem c⟩
 
-@[expose] def aut5 (d : Fin 10) : AutPerm := ⟨perm5 d, perm5_mem d⟩
+def aut5 (d : Fin 10) : AutPerm := ⟨perm5 d, perm5_mem d⟩
 
 theorem aut4_mem_Ppair (c : Fin 15) : aut4 c ∈ Ppair :=
   (mem_Ppair_iff _).2 (.inl ⟨perm4_fix c 0 (by decide), perm4_fix c 1 (by decide)⟩)
@@ -29,18 +29,18 @@ theorem aut4_mem_Ppair (c : Fin 15) : aut4 c ∈ Ppair :=
 theorem aut5_mem_Ppair (d : Fin 10) : aut5 d ∈ Ppair :=
   (mem_Ppair_iff _).2 (.inl ⟨perm5_fix d 0 (by decide), perm5_fix d 1 (by decide)⟩)
 
-@[expose] def UR4
+def UR4
     (c : Fin 15) : Submodule (ZMod 2) (Wv v0) :=
   U3.map (wAct v0 (kmon (aut4 c) (aut4_mem_Ppair c)))
 
-@[expose] def UR5
+def UR5
     (d : Fin 10) : Submodule (ZMod 2) (Wv v0) :=
   U4.map (wAct v0 (kmon (aut5 d) (aut5_mem_Ppair d)))
 
-@[expose] def Y4
+def Y4
     (c : Fin 15) : Subgroup Dfull := EU (UR4 c)
 
-@[expose] def Y5
+def Y5
     (d : Fin 10) : Subgroup Dfull := EU (UR5 d)
 
 abbrev PetVert : Type := {s : Finset ℕ // s ∈ twoSubsets}
@@ -48,7 +48,7 @@ abbrev PetVert : Type := {s : Finset ℕ // s ∈ twoSubsets}
 abbrev PetEdge : Type :=
   {e : Finset PetVert // e.card = 2 ∧ ∀ a ∈ e, ∀ b ∈ e, a ≠ b → Disjoint a.1 b.1}
 
-@[expose] def vlab (d : Fin 10) : PetVert := ⟨tetLab d, tetLab_mem d⟩
+def vlab (d : Fin 10) : PetVert := ⟨tetLab d, tetLab_mem d⟩
 
 theorem vlab_injective : Function.Injective vlab :=
   fun _ _ h => tetLab_injective (congrArg Subtype.val h)
@@ -58,7 +58,7 @@ theorem vlab_bijective : Function.Bijective vlab := by
   obtain ⟨d, hd⟩ := exists_tetLab s.1 s.2
   exact ⟨d, Subtype.ext hd⟩
 
-@[expose] def edgeLab (c : Fin 15) : PetEdge :=
+def edgeLab (c : Fin 15) : PetEdge :=
   ⟨{vlab (ev4 c 0), vlab (ev4 c 1)}, by
     rw [Finset.card_pair (vlab_injective.ne (ev4_disjoint c).1)], by
     intro a ha b hb hab

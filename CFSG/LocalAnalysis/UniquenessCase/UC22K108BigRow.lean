@@ -43,7 +43,7 @@ theorem k108big_rowX_strong {Gh : Type} [Group Gh] [Finite Gh] (S : Subgroup Gh)
     (hTM : T ≤ M) (hXM : X ≤ M) (hstar : ∀ g : Gh, (∀ x ∈ X, g⁻¹ * x * g ∈ M) → g ∈ M) :
     S ≤ M := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTS : CFSG.ABGLocalTools.IsSylowOf 2 (T ⊓ S) S :=
     hT.inf_of_le_normalizer le_top (Subgroup.normalizer_eq_top (H := S)).ge
   obtain ⟨-, hUp0, hUi0⟩ := CFSG.ABGLocalTools.isSylowOf_iff.1 hTS
@@ -66,7 +66,7 @@ theorem k108big_rowX_strong {Gh : Type} [Group Gh] [Finite Gh] (S : Subgroup Gh)
       (N.map (MulAut.conj c).toMonoidHom) :=
     burnsideI2BN_map hBN _ (MulAut.conj c).surjective
       (by rw [(MonoidHom.ker_eq_bot_iff _).2 hfinj]; exact bot_le)
-  haveI : (cartan (B.map (MulAut.conj c).toMonoidHom)
+  have : (cartan (B.map (MulAut.conj c).toMonoidHom)
       (N.map (MulAut.conj c).toMonoidHom)).Normal := hBN'.normal_inter
   obtain ⟨W, hW⟩ := burnsideI2BN_exists_isBNPair (burnsideI2BN_toPre hBN')
   have hUB' : U ≤ B.map (MulAut.conj c).toMonoidHom := hc ▸ Subgroup.map_mono hU₀B

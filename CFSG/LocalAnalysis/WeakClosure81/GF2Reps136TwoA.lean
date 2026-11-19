@@ -23,6 +23,7 @@ variable {W : Type} [CommGroup W] [Finite W]
       ∀ l ∈ L, (∀ u ∈ J, l u * u⁻¹ ∈ Cd L) → ∀ u ∈ Wd L, l u * u⁻¹ ∈ Cd L
 
 
+omit [Finite W] in
 private theorem w1369_mem_stabSub_of_stable {U : Subgroup W} {X : Subgroup (MulAut W)}
     (h : StableUnder X U) {x : MulAut W} (hx : x ∈ X) : x ∈ stabSub U := by
   rw [mem_stabSub]
@@ -33,6 +34,7 @@ private theorem w1369_mem_stabSub_of_stable {U : Subgroup W} {X : Subgroup (MulA
     simpa using h1
   · exact h x hx u
 
+omit [Finite W] in
 private theorem w1369_resHom_mem_stabSub {U Z : Subgroup W} {X : Subgroup (MulAut W)}
     (hZ : StableUnder X Z) (hU : StableUnder X U) {x : MulAut W} (hx : x ∈ X) :
     resHom U ⟨x, w1369_mem_stabSub_of_stable hU hx⟩ ∈ stabSub (Z.subgroupOf U) := by
@@ -45,6 +47,7 @@ private theorem w1369_resHom_mem_stabSub {U Z : Subgroup W} {X : Subgroup (MulAu
   · intro hz
     exact hZ x hx (z : W) hz
 
+omit [Finite W] in
 private theorem w1369_quotHom_mem_secSub {U Z : Subgroup W} {Λ : Subgroup (MulAut W)}
     {x : MulAut W} (hx : x ∈ Λ)
     (hU : StableUnder Λ U) (hZ : StableUnder Λ Z) :
@@ -84,6 +87,7 @@ private noncomputable def w1369_secEquiv {A A₀ B B₀ : Subgroup W} {Λ : Subg
       change β a * (b : W)⁻¹ ∈ B₀
       exact ha
 
+omit [Finite W] in
 private theorem w1369_secEquiv_mk {A A₀ B B₀ : Subgroup W} {Λ : Subgroup (MulAut W)}
     (h : SecIsoOn Λ A A₀ B B₀) (a : ↥A) :
     w1369_secEquiv h (QuotientGroup.mk a) =
@@ -91,6 +95,7 @@ private theorem w1369_secEquiv_mk {A A₀ B B₀ : Subgroup W} {Λ : Subgroup (M
         h.2.2.2.2.2.2.choose_spec.1 a) := by
   rfl
 
+omit [Finite W] in
 private theorem w1369_secEquiv_quotHom {A A₀ B B₀ : Subgroup W} {Λ : Subgroup (MulAut W)}
     (h : SecIsoOn Λ A A₀ B B₀) {x : MulAut W} (hx : x ∈ Λ)
     (hxA : x ∈ stabSub A) (hxB : x ∈ stabSub B)
@@ -120,6 +125,7 @@ private theorem w1369_secEquiv_quotHom {A A₀ B B₀ : Subgroup W} {Λ : Subgro
     simp only [MonoidHom.codRestrict_apply, Subgroup.coe_mul, Subgroup.coe_inv, resHom_apply]
     exact key
 
+omit [Finite W] in
 private theorem w1369_quotHom_eq_one_iff {U Z : Subgroup W} {x : MulAut W}
     (hxU : x ∈ stabSub U) (hxZ : resHom U ⟨x, hxU⟩ ∈ stabSub (Z.subgroupOf U)) :
     quotHom (Z.subgroupOf U) ⟨resHom U ⟨x, hxU⟩, hxZ⟩ = 1 ↔
@@ -138,6 +144,7 @@ private theorem w1369_quotHom_eq_one_iff {U Z : Subgroup W} {x : MulAut W}
       simpa [resHom_apply, div_eq_mul_inv] using h u
 
 
+omit [Finite W] in
 private theorem w1369_mem_secSub_quotHom_iff {U Z : Subgroup W} {Λ : Subgroup (MulAut W)}
     (hU : StableUnder Λ U) (hZ : StableUnder Λ Z) {φ : MulAut (Sect U Z)} :
     φ ∈ secSub U Z Λ ↔ ∃ (x : MulAut W) (hx : x ∈ Λ),
@@ -182,6 +189,7 @@ private theorem w1369_map_centralizer_of_injective {G H : Type*} [Group G] [Grou
     obtain ⟨s', hs', rfl⟩ := Subgroup.mem_map.mp hs
     rw [← map_mul, ← map_mul, hg s' hs']
 
+omit [Finite W] in
 private theorem w1369_map_secSub {A A₀ B B₀ : Subgroup W} {Λ : Subgroup (MulAut W)}
     (h : SecIsoOn Λ A A₀ B B₀) :
     (secSub A A₀ Λ).map (MulAut.congr (w1369_secEquiv h)).toMonoidHom = secSub B B₀ Λ := by
@@ -212,6 +220,7 @@ private theorem w1369_map_secSub {A A₀ B B₀ : Subgroup W} {Λ : Subgroup (Mu
         (w1369_resHom_mem_stabSub h.2.2.2.1 h.2.2.1 hx)
         (w1369_resHom_mem_stabSub h.2.2.2.2.2.1 h.2.2.2.2.1 hx)]
 
+omit [Finite W] in
 private theorem w1369_centralizer_eq_bot_of_secIsoOn {A A₀ B B₀ : Subgroup W}
     {Λ : Subgroup (MulAut W)} (h : SecIsoOn Λ A A₀ B B₀)
     (hbot : Subgroup.centralizer
@@ -230,6 +239,7 @@ private theorem w1369_centralizer_eq_bot_of_secIsoOn {A A₀ B B₀ : Subgroup W
     (MonoidHom.ker_eq_bot_iff _).mpr (MulAut.congr (w1369_secEquiv h)).injective] at hbot'
   exact le_bot_iff.mp hbot'
 
+omit [Finite W] in
 private theorem w1369_triv_of_secIsoOn {A A₀ B B₀ : Subgroup W} {Λ : Subgroup (MulAut W)}
     (h : SecIsoOn Λ A A₀ B B₀) {l : MulAut W} (hl : l ∈ Λ)
     (hlA : ∀ a ∈ A, l a * a⁻¹ ∈ A₀) : ∀ b ∈ B, l b * b⁻¹ ∈ B₀ := by
@@ -249,6 +259,7 @@ private theorem w1369_triv_of_secIsoOn {A A₀ B B₀ : Subgroup W} {Λ : Subgro
   exact (w1369_quotHom_eq_one_iff hlB' hlB0).mp hBl ⟨b, hb⟩
 
 
+omit [Finite W] in
 private theorem w1369_stable_commSub_self (L : Subgroup (MulAut W)) :
     StableUnder L (commSub ⊤ L) := by
   intro l hl c hc
@@ -263,16 +274,19 @@ private theorem w1369_stable_commSub_self (L : Subgroup (MulAut W)) :
   | mul x y _ _ hx hy => rw [map_mul]; exact mul_mem hx hy
   | inv x _ hx => rw [map_inv]; exact inv_mem hx
 
+omit [Finite W] in
 private theorem w1369_stable_fixV_self (L : Subgroup (MulAut W)) : StableUnder L (fixV L) := by
   intro l hl z hz
   rw [mem_fixV] at hz ⊢
   intro l' hl'
   rw [hz l hl, hz l' hl']
 
+omit [Finite W] in
 private theorem w1369_stabPair_self (L : Subgroup (MulAut W)) : StabPair L (Wd L) (Cd L) :=
   fun l hl => ⟨w1369_stable_commSub_self L l hl,
     fun z hz => ⟨w1369_stable_commSub_self L l hl z hz.1, w1369_stable_fixV_self L l hl z hz.2⟩⟩
 
+omit [Finite W] in
 private theorem w1369_stabPair_comm {X L : Subgroup (MulAut W)} (hXL : ⁅X, L⁆ = ⊥) :
     StabPair X (Wd L) (Cd L) := by
   have hcomm : ∀ x ∈ X, ∀ l ∈ L, x * l = l * x := by
@@ -301,6 +315,7 @@ private theorem w1369_stabPair_comm {X L : Subgroup (MulAut W)} (hXL : ⁅X, L�
   intro x hx
   exact ⟨hW x hx, fun z hz => ⟨hW x hx z hz.1, hF x hx z hz.2⟩⟩
 
+omit [Finite W] in
 private theorem w1369_commSub_le_of_forall {U C : Subgroup W} {X : Subgroup (MulAut W)}
     (h : ∀ x ∈ X, ∀ u ∈ U, x u * u⁻¹ ∈ C) : commSub U X ≤ C := by
   rw [commSub, Subgroup.closure_le]
@@ -350,7 +365,7 @@ theorem fix_hend (hw2 : ∀ w : W, w ^ 2 = 1)
 
 theorem perfect_cent_dichotomy (hw2 : ∀ w : W, w ^ 2 = 1)
     {Y : Subgroup (MulAut W)} {t : MulAut W} {L : Subgroup (MulAut W)} (c : Ctx136 Y t L)
-    (hfix : ∀ I ∈ irrSet L, I.map t.toMonoidHom = I) {X : Subgroup (MulAut W)} (hXY : X ≤ Y)
+    (hfix : ∀ I ∈ irrSet L, I.map t.toMonoidHom = I) {X : Subgroup (MulAut W)} (_hXY : X ≤ Y)
     (hXp : ⁅X, X⁆ = X) (hXL : ⁅X, L⁆ = ⊥) :
     (∀ x ∈ X, ∀ u ∈ Wd L, x u * u⁻¹ ∈ Cd L) ∨ Strong3 L X := by
   obtain ⟨r, J, hD⟩ := fix_decomp hw2 c hfix

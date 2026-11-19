@@ -113,7 +113,7 @@ theorem inf_inf_eq_bot (hd : Sec19DataT p f K z S W L t V) : K ⊓ W ⊓ V = ⊥
   intro x hx
   have hxKL : x ∈ K ⊓ L := ⟨hx.1.1, le_member hd hx.2⟩
   have hx2 : IsPGroup 2 (Subgroup.zpowers x) :=
-    (S.isPGroup'.to_le hd.hWS).to_le (Subgroup.zpowers_le.mpr hx.1.2)
+    (S.isPGroup.to_le hd.hWS).to_le (Subgroup.zpowers_le.mpr hx.1.2)
   exact Subgroup.mem_bot.mpr (eq_one_of_isPGroup_of_mem_odd hodd hxKL hx2)
 
 theorem inf_member_eq_bot (hd : Sec19DataT p f K z S W L t V) : V ⊓ K = ⊥ := by

@@ -64,7 +64,7 @@ private theorem wc813pcore_isPGroup_oTwoMod_bot {Y : Type} [Group Y] (K : Subgro
     exact hWY.of_equiv (Subgroup.subgroupOfEquivOfLe hW.2.1).symm
   have hHn : ∀ i, (H i).Normal := fun i => i.2.2.2.1
   have hpK : IsPGroup 2 ↥(⨆ i, H i) := by
-    haveI : ∀ i, (H i).Normal := hHn
+    have : ∀ i, (H i).Normal := hHn
     exact Sylow.iSup_of_normal H hHp
   have hmap : (⨆ i, H i).map K.subtype = oTwoMod (⊥ : Subgroup Y) K := by
     rw [Subgroup.map_iSup]
@@ -76,9 +76,9 @@ private theorem wc813pcore_isPGroup_oTwoMod_bot {Y : Type} [Group Y] (K : Subgro
   rw [← hmap]
   exact hpK.map K.subtype
 
-theorem Cfg813.b_not_le_of_astar (hF0 : OddSchurMultiplierFact) (hF1 : InvolutionCentralizerFact)
-    (hF2 : FourGroupInnerFact) (h : Cfg813 T A B R L₀) {J K : Subgroup Q}
-    (hJ : IsComponentOf J ⊤) (hne : ¬ A ≤ centralizer (J : Set Q)) (hK : K ≤ J)
+theorem Cfg813.b_not_le_of_astar (_hF0 : OddSchurMultiplierFact) (_hF1 : InvolutionCentralizerFact)
+    (_hF2 : FourGroupInnerFact) (h : Cfg813 T A B R L₀) {J K : Subgroup Q}
+    (hJ : IsComponentOf J ⊤) (_hne : ¬ A ≤ centralizer (J : Set Q)) (hK : K ≤ J)
     (hnot : ¬ Astar T J A ≤ oTwoMod (⊥ : Subgroup Q) K) :
     ¬ ∀ x ∈ A, ∃ o ∈ oTwoMod (⊥ : Subgroup Q) K,
       ∃ t ∈ cenTMod (⊥ : Subgroup Q) J T, (o * t)⁻¹ * x ∈ (⊥ : Subgroup Q) := by

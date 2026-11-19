@@ -15,10 +15,12 @@ section Comb
 
 variable {A : Type} [CommGroup A] [Finite A]
 
+omit [Finite A] in
 private theorem cmp_pow_three (hA : Nat.card A = 3) (a : A) : a ^ 3 = 1 := by
   rw [← hA]
   exact pow_card_eq_one'
 
+omit [Finite A] in
 private theorem cmp_exists_ne_one (hA : Nat.card A = 3) : ∃ ζ : A, ζ ≠ 1 := by
   by_contra h
   push Not at h
@@ -26,6 +28,7 @@ private theorem cmp_exists_ne_one (hA : Nat.card A = 3) : ∃ ζ : A, ζ ≠ 1 :
   rw [Nat.card_unique] at hA
   omega
 
+omit [Finite A] in
 private theorem cmp_eq_one_of_pow (hA : Nat.card A = 3) {r : A} {n : ℕ} (hn : ¬ 3 ∣ n)
     (hr : r ^ n = 1) : r = 1 := by
   have h1 : orderOf r ∣ n := orderOf_dvd_of_pow_eq_one hr
@@ -35,11 +38,13 @@ private theorem cmp_eq_one_of_pow (hA : Nat.card A = 3) {r : A} {n : ℕ} (hn : 
   rw [hg, Nat.dvd_one, orderOf_eq_one_iff] at h3
   exact h3
 
+omit [Finite A] in
 private theorem cmp_pow_eq_one_of_dvd (hA : Nat.card A = 3) {n : ℕ} (hn : 3 ∣ n) (a : A) :
     a ^ n = 1 := by
   obtain ⟨m, rfl⟩ := hn
   rw [pow_mul, cmp_pow_three hA, one_pow]
 
+omit [Finite A] in
 theorem ggQ2s08r6_swap_of_refl_mod (hA : Nat.card A = 3) {τ : Equiv.Perm (Fin 6)} (hτ : τ ≠ 1)
     {s : Fin 6 → A}
     (hrefl : ∀ σ : Fin 6 → A, ∃ (n : ℕ) (μ : A), ∀ i, σ (τ.symm i) = μ * (σ i * s i ^ n)) :
@@ -103,6 +108,7 @@ theorem ggQ2s08r6_swap_of_refl_mod (hA : Nat.card A = 3) {τ : Equiv.Perm (Fin 6
       · exact hyd h
 
 
+omit [Finite A] in
 theorem ggQ2s08r6_perm_eq_of_forall (hA : Nat.card A = 3) {τ τ' : Equiv.Perm (Fin 6)}
     (h : ∀ σ : Fin 6 → A, ∃ μ : A, ∀ i, σ (τ.symm i) = μ * σ (τ'.symm i)) : τ = τ' := by
   classical
@@ -124,7 +130,8 @@ theorem ggQ2s08r6_perm_eq_of_forall (hA : Nat.card A = 3) {τ τ' : Equiv.Perm (
   rw [Pi.mulSingle_eq_of_ne hne1, Pi.mulSingle_eq_of_ne hne2, mul_one] at q2
   exact hζ (q1.trans q2.symm)
 
-theorem ggQ2s08r6_eq_of_swap_fix (hA : Nat.card A = 3) {c d : Fin 6} (hcd : c ≠ d)
+omit [Finite A] in
+theorem ggQ2s08r6_eq_of_swap_fix (hA : Nat.card A = 3) {c d : Fin 6} (_hcd : c ≠ d)
     {σ : Fin 6 → A} {μ : A} (h : ∀ i, σ ((Equiv.swap c d).symm i) = μ * σ i) : σ c = σ d := by
   have h1 := h c
   have h2 := h d
@@ -346,6 +353,7 @@ theorem exists_tpath (c : GGQ2S08RoSix Bs L x) (M : GGQ2LDatum 3 Bs L x) (hShape
   exact hrel k v
 
 
+omit [Finite G] in
 theorem _root_.CFSG.StandardType.ggQ2s08r6_frame_not_mem {M : GGQ2LDatum 3 Bs L x}
     {f : Fin 6 → M.V} (hf : GGQ2S08ROFrame M f) (j : Fin 6) :
     f j ∉ Submodule.span (ZMod 3) {M.xV} := by
@@ -356,7 +364,7 @@ theorem _root_.CFSG.StandardType.ggQ2s08r6_frame_not_mem {M : GGQ2LDatum 3 Bs L 
   have hlin := Fintype.linearIndependent_iff.mp hf.1
   have hsum : ∑ i, (a - if i = j then 1 else 0) • f i = 0 := by
     simp only [sub_smul, Finset.sum_sub_distrib, ite_smul, one_smul, zero_smul,
-      Finset.sum_ite_eq', Finset.mem_univ, if_true, ← Finset.smul_sum, ha, sub_self]
+      Finset.sum_ite_eq', Finset.mem_univ, ite_true, ← Finset.smul_sum, ha, sub_self]
   have h1 := hlin _ hsum j
   obtain ⟨i, hij⟩ : ∃ i : Fin 6, i ≠ j := ⟨j + 1, by
     intro h'
@@ -364,8 +372,8 @@ theorem _root_.CFSG.StandardType.ggQ2s08r6_frame_not_mem {M : GGQ2LDatum 3 Bs L 
     simp only [Fin.val_add] at this
     omega⟩
   have h2 := hlin _ hsum i
-  rw [if_pos rfl, sub_eq_zero] at h1
-  rw [if_neg hij, sub_zero] at h2
+  rw [ite_eq_left rfl, sub_eq_zero] at h1
+  rw [ite_eq_right hij, sub_zero] at h2
   rw [h2] at h1
   exact zero_ne_one h1
 
@@ -403,7 +411,7 @@ theorem frame_cmp (c : GGQ2S08RoSix Bs L x) (M : GGQ2LDatum 3 Bs L x) (hShape : 
       · intro h
         apply hk
         have h' := congrArg Fin.val h
-        simp only [Fin.coe_castSucc, Fin.val_zero] at h'
+        simp only [Fin.val_castSucc, Fin.val_zero] at h'
         exact Fin.ext (by simp only [Fin.val_zero]; omega)
       · intro h
         have := congrArg (fun z : Fin 6 => (z : ℕ)) h
@@ -450,9 +458,9 @@ theorem frame_cmp (c : GGQ2S08RoSix Bs L x) (M : GGQ2LDatum 3 Bs L x) (hShape : 
       refine ⟨1, fun p => ?_⟩
       rw [one_mul]
       by_cases hp : p = ⟨0, hm⟩
-      · rw [if_pos hp, hp]
+      · rw [ite_eq_left hp, hp]
         rfl
-      · rw [if_neg hp]
+      · rw [ite_eq_right hp]
         exact hbase p (fun h => hp (h.trans (Fin.ext rfl)))
     | succ m ih =>
       intro hm
@@ -469,8 +477,8 @@ theorem frame_cmp (c : GGQ2S08RoSix Bs L x) (M : GGQ2LDatum 3 Bs L x) (hShape : 
       have hiff : Equiv.swap (⟨m, by omega⟩ : Fin 6) ⟨m + 1, hm⟩ p = ⟨m, by omega⟩ ↔
           p = ⟨m + 1, hm⟩ := Equiv.swap_apply_eq_iff.trans (by rw [Equiv.swap_apply_left])
       by_cases hp : p = ⟨m + 1, hm⟩
-      · rw [if_pos (hiff.mpr hp), if_pos hp]
-      · rw [if_neg (fun h => hp (hiff.mp h)), if_neg hp]
+      · rw [ite_eq_left (hiff.mpr hp), ite_eq_left hp]
+      · rw [ite_eq_right (fun h => hp (hiff.mp h)), ite_eq_right hp]
   refine ⟨a.symm.trans b, fun j => ?_⟩
   obtain ⟨μ, hμ⟩ := hind (a.symm j) (a.symm j).2
   have hval : ∀ p, c.vdiag M (f j) (b p) =
@@ -484,10 +492,10 @@ theorem frame_cmp (c : GGQ2S08RoSix Bs L x) (M : GGQ2LDatum 3 Bs L x) (hShape : 
     have hp : b.symm i ≠ a.symm j := fun h => hi (by
       rw [Equiv.trans_apply, ← h, Equiv.apply_symm_apply])
     have := hval (b.symm i)
-    rw [Equiv.apply_symm_apply, if_neg hp] at this
+    rw [Equiv.apply_symm_apply, ite_eq_right hp] at this
     exact this
   refine ⟨fun i i' hi hi' => by rw [hoff i hi, hoff i' hi'], fun i hi => ?_⟩
-  rw [hoff i hi, Equiv.trans_apply, hval, if_pos rfl]
+  rw [hoff i hi, Equiv.trans_apply, hval, ite_eq_left rfl]
   exact fun h => hne (mul_left_cancel h).symm
 
 end GGQ2S08RoSix

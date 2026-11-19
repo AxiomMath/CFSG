@@ -33,13 +33,13 @@ theorem gLetter_neg (R : List G) (z : ℤ) : gLetter R (-z) = (gLetter R z)⁻¹
     have h2 : 0 < -z := by omega
     have h3 : z ≠ 0 := by omega
     have h4 : ¬ 0 < z := by omega
-    simp only [h1, h2, h3, h4, if_false, if_true, inv_inv]
+    simp only [h1, h2, h3, h4, ite_false, ite_true, inv_inv]
   · subst h
     simp
   · have h1 : -z ≠ 0 := by omega
     have h2 : ¬ 0 < -z := by omega
     have h3 : z ≠ 0 := by omega
-    simp only [h1, h2, h3, h, if_false, if_true, neg_neg]
+    simp only [h1, h2, h3, h, ite_false, ite_true, neg_neg]
 
 theorem gLetter_append (R T : List G) {z : ℤ} (hz : z.natAbs ≤ R.length) :
     gLetter (R ++ T) z = gLetter R z := by
@@ -96,7 +96,7 @@ theorem gRun_reg (prog : List (ℤ × ℤ)) (R : List G) (hR : R.length = 2)
       gLetter (gRun R prog) (prog.getD (r - 3) (0, 0)).2 := by
   have e1 : gLetter (gRun R prog) (r : ℤ) = (gRun R prog).getD (r - 1) 1 := by
     unfold gLetter
-    rw [if_neg (by omega), if_pos (by omega), Int.toNat_natCast]
+    rw [ite_eq_right (by omega), ite_eq_left (by omega), Int.toNat_natCast]
   rw [e1]
   by_cases hk : r - 3 < prog.length
   · have := gRun_step prog R (fun k hk => by rw [hR]; have := hwf k hk; omega) (r - 3) hk
@@ -236,7 +236,7 @@ theorem pp_of_permOK {p q : Nat} (hsz : szOK n w = true)
 theorem pg_of_rep {p : Nat} {g : Equiv.Perm (Fin n)} (hp : Rep n (unpack n w p) g) (x : Fin n) :
     pg w (mask w) p x = g x := by
   have := hp x
-  rw [CFSG.KC.BfsPin.unpack_getElem!, if_pos x.2] at this
+  rw [CFSG.KC.BfsPin.unpack_getElem!, ite_eq_left x.2] at this
   exact this
 
 theorem rep_inv_of_permOK {p q : Nat} {g : Equiv.Perm (Fin n)} (hsz : szOK n w = true)
@@ -245,7 +245,7 @@ theorem rep_inv_of_permOK {p q : Nat} {g : Equiv.Perm (Fin n)} (hsz : szOK n w =
     Rep n (unpack n w q) g⁻¹ ∧ PP n w q := by
   refine ⟨fun x => ?_, pp_of_permOK hsz h2⟩
   obtain ⟨-, -, h3⟩ := CFSG.KS.Raw.Orb.permOK_facts h1
-  rw [CFSG.KC.BfsPin.unpack_getElem!, if_pos x.2]
+  rw [CFSG.KC.BfsPin.unpack_getElem!, ite_eq_left x.2]
   have e := pg_of_rep hp (g⁻¹ x)
   rw [show g (g⁻¹ x) = x from Equiv.apply_symm_apply g x] at e
   rw [← e, (h3 _ (g⁻¹ x).2).2]

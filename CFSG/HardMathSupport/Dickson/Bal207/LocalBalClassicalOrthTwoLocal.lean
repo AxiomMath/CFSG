@@ -27,7 +27,7 @@ theorem noNormalPPrime_specialBlock_cyc3 (hK : Nat.card K = 2) (hx : OddOrderIso
   classical
   have := charP_two hK
   have hirr := irreducible_cyc3 hK
-  haveI : Fact (Irreducible (cyc3 K)) := ⟨hirr⟩
+  have : Fact (Irreducible (cyc3 K)) := ⟨hirr⟩
   obtain ⟨d, ℓ, f, hU, B, -, hq, hBsymm, hBl, hrange⟩ :=
     orth2_exists_unitary_model hx (Nat.odd_iff.2 rfl) hh (cyc3_ne_X_sub_one K)
       (reciprocal_cyc3 K).symm
@@ -140,7 +140,7 @@ theorem noNormalPPrime_closure_braidSet {W : Submodule K V} (hs : IsSmall (Q.com
     NoNormalPPrime 3 (Subgroup.closure (braidSet Q W)) := by
   have hcomm : (braidSet Q W).Pairwise Commute :=
     fun a ha b hb _ => braidSet_comm hs ha hb
-  haveI : IsMulCommutative ↥(Subgroup.closure (braidSet Q W)) :=
+  have : IsMulCommutative ↥(Subgroup.closure (braidSet Q W)) :=
     Subgroup.isMulCommutative_closure hcomm
   have hJ3 : ∀ g ∈ Subgroup.closure (braidSet Q W), g ^ 3 = 1 := by
     intro g hg

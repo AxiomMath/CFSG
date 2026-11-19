@@ -35,10 +35,10 @@ variable {F : Type} [Field F] [Finite F] {n : ℕ}
     intro g h hg hh i
     rw [Subgroup.coe_mul, Units.val_mul, Matrix.mul_apply]
     rw [Finset.sum_eq_single w]
-    · rw [hh w, if_pos rfl, mul_one]
+    · rw [hh w, ite_eq_left rfl, mul_one]
       exact hg i
     · intro k _ hk
-      rw [hh k, if_neg hk, mul_zero]
+      rw [hh k, ite_eq_right hk, mul_zero]
     · simp
   inv_mem' := by
     intro g hg
@@ -160,7 +160,7 @@ private theorem ggQ2s08rN_suid_stab_row (σ : F ≃+* F) (w : Fin (n + 1))
     simp only [map_one, one_mul, Pi.single_eq_of_ne (Ne.symm hi)] at hiso
     rw [CFSG.ClassicalGroups.Unitary.smul_def, Matrix.mulVec_single_one,
       Matrix.col_apply] at hiso
-    rw [hiso, if_neg hi]
+    rw [hiso, ite_eq_right hi]
 
 theorem ggQ2s08rN_stab_row (hF : Nat.card F = 4) {w : Fin (n + 1)}
     {g : ↥(LargeEvenSUGroup (Fin (n + 1)) F 2)} (hg : g ∈ ggQ2s08rNStab F w) (i : Fin (n + 1)) :
@@ -195,7 +195,7 @@ theorem ggQ2s08rN_stab_commute (hF : Nat.card F = 4) {w : Fin (n + 1)}
     · simp [hj]
     · simp [hj]
   · by_cases hj : j = w
-    · rw [hj, hg i, if_neg hi]
+    · rw [hj, hg i, ite_eq_right hi]
       simp
     · rw [ht i j hi hj]
       ring
@@ -213,17 +213,17 @@ theorem ggQ2s08rN_permGL_mem_stab {σ : Equiv.Perm (Fin (n + 1))} {w : Fin (n + 
     rw [CFSG.RankThree.Classical.permGL_mulVec]
     simp only [Function.comp_apply, Pi.single_apply]
     by_cases hi : i = w
-    · rw [if_pos hi]
+    · rw [ite_eq_left hi]
       have h : σ⁻¹ i = w := by
         rw [hi, Equiv.Perm.inv_def, ← hσ, Equiv.symm_apply_apply, hσ]
-      rw [if_pos h]
-    · rw [if_neg hi]
+      rw [ite_eq_left h]
+    · rw [ite_eq_right hi]
       have hne : σ⁻¹ i ≠ w := by
         intro h
         apply hi
         rw [Equiv.Perm.inv_def, Equiv.symm_apply_eq] at h
         rwa [hσ] at h
-      rw [if_neg hne]
+      rw [ite_eq_right hne]
   intro i
   have := congrFun hcol i
   rwa [Matrix.mulVec_single_one, Matrix.col_apply, Pi.single_apply] at this
@@ -298,7 +298,7 @@ private theorem ggQ2s08rN_blockMat0_mul (X Y : Matrix (Fin n) (Fin n) F) :
     ggQ2s08rN_blockMat0 (X * Y) =
       ggQ2s08rN_blockMat0 X * ggQ2s08rN_blockMat0 Y := by
   rw [ggQ2s08rN_blockMat0, ggQ2s08rN_blockMat0, ggQ2s08rN_blockMat0,
-    ← Matrix.reindexAlgEquiv_mul]
+    ← map_mul]
   congr 1
   rw [Matrix.fromBlocks_multiply]
   simp
@@ -562,17 +562,17 @@ private theorem ggQ2s08rN_permGL_smul_single {σ : F ≃+* F}
     CFSG.RankThree.Classical.permGL_mulVec]
   simp only [Function.comp_apply, Pi.single_apply]
   by_cases hk : k = π i
-  · rw [if_pos hk]
+  · rw [ite_eq_left hk]
     have h : π⁻¹ k = i := by
       rw [hk, Equiv.Perm.inv_def, Equiv.symm_apply_apply]
-    rw [if_pos h]
-  · rw [if_neg hk]
+    rw [ite_eq_left h]
+  · rw [ite_eq_right hk]
     have h : π⁻¹ k ≠ i := by
       intro h
       apply hk
       calc k = π (π⁻¹ k) := (Equiv.apply_symm_apply π k).symm
         _ = π i := by rw [h]
-    rw [if_neg h]
+    rw [ite_eq_right h]
 
 private theorem ggQ2s08rN_exists_perm (hn : 1 ≤ n) (w w' : Fin (n + 1)) (h : w ≠ w') :
     ∃ π : Equiv.Perm (Fin (n + 1)), π 0 = w ∧ π (Fin.last n) = w' := by
@@ -767,7 +767,7 @@ theorem ggQ2s08rN_three_dvd_card_stab (hF : Nat.card F = 4) (hn : 3 ≤ n) (w : 
     simp only [Function.comp_apply, Pi.single_apply] at hstar
     have hinv : ρ⁻¹ a = a := by
       by_contra hne
-      rw [if_neg hne] at hstar
+      rw [ite_eq_right hne] at hstar
       exact zero_ne_one hstar
     have hfix : ρ a = a := by
       rw [Equiv.Perm.inv_def, Equiv.symm_apply_eq] at hinv

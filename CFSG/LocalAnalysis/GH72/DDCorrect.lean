@@ -24,10 +24,10 @@ theorem dd_corrected_complement {D D₁ D₂ : Subgroup G} (hd : DDDecomp D D₁
     ∃ U : Subgroup G, DDDecomp D U D₂ ∧ Nonempty (U ≃* D₁) ∧
       U = Subgroup.closure {x * ε₁, y * ε₂} := by
   classical
-  haveI hfact : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hfinD1 : Finite ↥D₁ := hd.dih₁.finite
-  haveI hfinD2 : Finite ↥D₂ := hd.isDih₂.finite
-  haveI hfinD : Finite ↥D :=
+  have hfact : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hfinD1 : Finite ↥D₁ := hd.dih₁.finite
+  have hfinD2 : Finite ↥D₂ := hd.isDih₂.finite
+  have hfinD : Finite ↥D :=
     Finite.of_equiv (↥D₁ × ↥D₂) ((ddProdEquiv hd).toEquiv).symm
   have hxinv : x⁻¹ = x := inv_eq_of_mul_eq_one_right hx2
   have hyinv : y⁻¹ = y := inv_eq_of_mul_eq_one_right hy2
@@ -181,7 +181,7 @@ theorem dd_corrected_complement {D D₁ D₂ : Subgroup G} (hd : DDDecomp D D₁
     rcases hz with hz | hz
     · rw [hz]; exact huD
     · rw [hz]; exact hvD
-  haveI hfinU : Finite ↥U :=
+  have hfinU : Finite ↥U :=
     Finite.of_injective (Subgroup.inclusion hUD) (Subgroup.inclusion_injective hUD)
   have hu1 : u ≠ 1 := by
     intro hue
@@ -257,7 +257,7 @@ theorem dd_corrected_complement {D D₁ D₂ : Subgroup G} (hd : DDDecomp D D₁
       _ = (u * v)⁻¹ := by rw [mul_inv_rev, huinv, hvinv]
   have hUnc : ¬ IsCyclic ↥U := by
     intro hcyc
-    haveI : IsCyclic ↥U := hcyc
+    have : IsCyclic ↥U := hcyc
     have huo : orderOf (⟨u, huU⟩ : ↥U) = 2 := by
       rw [← Subgroup.orderOf_coe]
       exact orderOf_eq_prime (by rw [pow_two]; exact hu2) hu1
@@ -307,13 +307,13 @@ theorem dd_corrected_complement {D D₁ D₂ : Subgroup G} (hd : DDDecomp D D₁
   have hπUu : πU (⟨u, huU⟩ : ↥U) = (⟨x, hx⟩ : ↥D₁) := by
     have hin : Subgroup.inclusion hUD (⟨u, huU⟩ : ↥U) = (⟨u, huD⟩ : ↥D) := by
       apply Subtype.ext
-      simpa using Subgroup.coe_inclusion hUD (⟨u, huU⟩ : ↥U)
+      simp
     rw [show πU (⟨u, huU⟩ : ↥U) = π (Subgroup.inclusion hUD ⟨u, huU⟩) from rfl, hin]
     exact hπu
   have hπUv : πU (⟨v, hvU⟩ : ↥U) = (⟨y, hy⟩ : ↥D₁) := by
     have hin : Subgroup.inclusion hUD (⟨v, hvU⟩ : ↥U) = (⟨v, hvD⟩ : ↥D) := by
       apply Subtype.ext
-      simpa using Subgroup.coe_inclusion hUD (⟨v, hvU⟩ : ↥U)
+      simp
     rw [show πU (⟨v, hvU⟩ : ↥U) = π (Subgroup.inclusion hUD ⟨v, hvU⟩) from rfl, hin]
     exact hπv
   have hgenD1_xy : (⊤ : Subgroup ↥D₁) =
@@ -356,7 +356,7 @@ theorem dd_corrected_complement {D D₁ D₂ : Subgroup G} (hd : DDDecomp D D₁
       have hπg : πU (⟨g, hgU⟩ : ↥U) = 1 := by
         have hin : Subgroup.inclusion hUD (⟨g, hgU⟩ : ↥U) = ⟨g, hUD hgU⟩ := by
           apply Subtype.ext
-          simpa using Subgroup.coe_inclusion hUD (⟨g, hgU⟩ : ↥U)
+          simp
         rw [show πU (⟨g, hgU⟩ : ↥U) = π (Subgroup.inclusion hUD ⟨g, hgU⟩) from rfl, hin]
         exact hπ_one_of_mem_D2 _ hgD₂
       simpa using hπg
@@ -417,10 +417,10 @@ theorem dd_corrected_complement_right {D D₁ D₂ : Subgroup G} (hd : DDDecomp 
     ∃ U : Subgroup G, DDDecomp D D₁ U ∧ Nonempty (U ≃* D₂) ∧
       U = Subgroup.closure {x * ε₁, y * ε₂} := by
   classical
-  haveI hfact : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hfinD1 : Finite ↥D₁ := hd.dih₁.finite
-  haveI hfinD2 : Finite ↥D₂ := hd.isDih₂.finite
-  haveI hfinD : Finite ↥D :=
+  have hfact : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hfinD1 : Finite ↥D₁ := hd.dih₁.finite
+  have hfinD2 : Finite ↥D₂ := hd.isDih₂.finite
+  have hfinD : Finite ↥D :=
     Finite.of_equiv (↥D₁ × ↥D₂) ((ddProdEquiv hd).toEquiv).symm
   have hxinv : x⁻¹ = x := inv_eq_of_mul_eq_one_right hx2
   have hyinv : y⁻¹ = y := inv_eq_of_mul_eq_one_right hy2
@@ -574,7 +574,7 @@ theorem dd_corrected_complement_right {D D₁ D₂ : Subgroup G} (hd : DDDecomp 
     rcases hz with hz | hz
     · rw [hz]; exact huD
     · rw [hz]; exact hvD
-  haveI hfinU : Finite ↥U :=
+  have hfinU : Finite ↥U :=
     Finite.of_injective (Subgroup.inclusion hUD) (Subgroup.inclusion_injective hUD)
   have hu1 : u ≠ 1 := by
     intro hue
@@ -650,7 +650,7 @@ theorem dd_corrected_complement_right {D D₁ D₂ : Subgroup G} (hd : DDDecomp 
       _ = (u * v)⁻¹ := by rw [mul_inv_rev, huinv, hvinv]
   have hUnc : ¬ IsCyclic ↥U := by
     intro hcyc
-    haveI : IsCyclic ↥U := hcyc
+    have : IsCyclic ↥U := hcyc
     have huo : orderOf (⟨u, huU⟩ : ↥U) = 2 := by
       rw [← Subgroup.orderOf_coe]
       exact orderOf_eq_prime (by rw [pow_two]; exact hu2) hu1
@@ -702,13 +702,13 @@ theorem dd_corrected_complement_right {D D₁ D₂ : Subgroup G} (hd : DDDecomp 
   have hπUu : πU (⟨u, huU⟩ : ↥U) = (⟨x, hx⟩ : ↥D₂) := by
     have hin : Subgroup.inclusion hUD (⟨u, huU⟩ : ↥U) = (⟨u, huD⟩ : ↥D) := by
       apply Subtype.ext
-      simpa using Subgroup.coe_inclusion hUD (⟨u, huU⟩ : ↥U)
+      simp
     rw [show πU (⟨u, huU⟩ : ↥U) = π (Subgroup.inclusion hUD ⟨u, huU⟩) from rfl, hin]
     exact hπu
   have hπUv : πU (⟨v, hvU⟩ : ↥U) = (⟨y, hy⟩ : ↥D₂) := by
     have hin : Subgroup.inclusion hUD (⟨v, hvU⟩ : ↥U) = (⟨v, hvD⟩ : ↥D) := by
       apply Subtype.ext
-      simpa using Subgroup.coe_inclusion hUD (⟨v, hvU⟩ : ↥U)
+      simp
     rw [show πU (⟨v, hvU⟩ : ↥U) = π (Subgroup.inclusion hUD ⟨v, hvU⟩) from rfl, hin]
     exact hπv
   have hgenD2_xy : (⊤ : Subgroup ↥D₂) =
@@ -751,7 +751,7 @@ theorem dd_corrected_complement_right {D D₁ D₂ : Subgroup G} (hd : DDDecomp 
       have hπg : πU (⟨g, hgU⟩ : ↥U) = 1 := by
         have hin : Subgroup.inclusion hUD (⟨g, hgU⟩ : ↥U) = ⟨g, hUD hgU⟩ := by
           apply Subtype.ext
-          simpa using Subgroup.coe_inclusion hUD (⟨g, hgU⟩ : ↥U)
+          simp
         rw [show πU (⟨g, hgU⟩ : ↥U) = π (Subgroup.inclusion hUD ⟨g, hgU⟩) from rfl, hin]
         exact hπ_one_of_mem_D1 _ hgD₁
       simpa using hπg

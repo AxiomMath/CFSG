@@ -41,7 +41,7 @@ theorem crd_apply (φ : MulAut V5) (f : V5) : crd (φ f) = toMat φ *ᵥ crd f :
   exact toAdd_hom_apply ((Pi.evalMonoidHom (fun _ => Multiplicative (ZMod 5)) i).comp
     φ.toMonoidHom) f
 
-theorem crd_injective : Function.Injective crd := fun f g h =>
+theorem crd_injective : Function.Injective crd := fun _f _g h =>
   funext fun i => toAdd.injective (congrFun h i)
 
 theorem crd_e5 (j : Fin 4) : crd (e5 j) = Pi.single j 1 := by
@@ -123,9 +123,9 @@ theorem toMat_permAut_mul_diagAut (π : Equiv.Perm (Fin 4)) (ε : Vec5)
       simp
   by_cases h : π j = i
   · have h' : π⁻¹ i = j := key.2 h
-    rw [if_pos h', if_pos h, mul_one, h']
+    rw [ite_eq_left h', ite_eq_left h, mul_one, h']
   · have h' : ¬ π⁻¹ i = j := fun h'' => h (key.1 h'')
-    rw [if_neg h', if_neg h, mul_zero]
+    rw [ite_eq_right h', ite_eq_right h, mul_zero]
 
 theorem vecMulVec_mul_self (a b : Vec5) :
     vecMulVec a b * vecMulVec a b = (b ⬝ᵥ a) • vecMulVec a b := by

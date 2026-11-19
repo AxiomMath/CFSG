@@ -20,7 +20,7 @@ section Elements
       omega⟩
   else
     ⟨x.val ^^^ (k.val / 4), by
-      have h1 := Nat.xor_lt_two_pow (n := 3) (x := x.val) (y := k.val / 4) (by simpa using x.2)
+      have h1 := Nat.xor_lt_two_pow (n := 3) (x := x.val) (y := k.val / 4) (by simp)
         (by simp; omega)
       simp at h1
       omega⟩

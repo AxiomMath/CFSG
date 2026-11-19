@@ -40,6 +40,7 @@ theorem isMulCommutative_of_isPGroup_p {P : Sylow p G} (hPab : IsMulCommutative 
       _ = g * b' * g⁻¹ * (g * a' * g⁻¹) := by group
   exact IsMulCommutative.of_comm fun a b => Subtype.ext (hcomm a b (hP' a.2) (hP' b.2))
 
+omit hp in
 theorem mem_glbPrimeCore_of_mk_eq_one_p {H : Subgroup G} {r : G} (hr : r ∈ H)
     (h : QuotientGroup.mk' (primeComplementCore (G := H) p) ⟨r, hr⟩ = 1) :
     r ∈ GLBPrimeCore p H := by
@@ -316,7 +317,7 @@ theorem conj_mem_sup_p (hK : P5KFacts) (hG : P5Global G) (hloc : D1Local p P M)
       normalizes_ZO := hnormZO }
   have hZp : Z ≤ CFSG.pCore p (M ⧸ O) :=
     Case2DataP.le_pCore hdata hK.hInn hK.hWC hK.h713
-  have hPsyl : IsSylowOf p (P : Subgroup G) M := isSylowOf_iff.mpr ⟨hPM, P.isPGroup', fun hdvd =>
+  have hPsyl : IsSylowOf p (P : Subgroup G) M := isSylowOf_iff.mpr ⟨hPM, P.isPGroup, fun hdvd =>
     P.not_dvd_index (hdvd.trans (Subgroup.relIndex_dvd_index_of_le hPM))⟩
   obtain ⟨R, hR⟩ : ∃ R : Sylow p (M ⧸ O), (R : Subgroup (M ⧸ O)) =
       ((P : Subgroup G).subgroupOf M).map π := by

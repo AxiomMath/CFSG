@@ -32,7 +32,7 @@ theorem y233C_check :
     y233CArrays.size = 8 ∧ Nat.card (arrClosure 3510 y233CArrays) = 92897280 :=
   Certificates.certificate10101.2
 
-@[expose] noncomputable def y233FGen (c : ℕ) : Equiv.Perm (Fin 3510) := arrGen 3510 y233FArrays c
+noncomputable def y233FGen (c : ℕ) : Equiv.Perm (Fin 3510) := arrGen 3510 y233FArrays c
 
 theorem y233F_relators :
     ∀ w ∈ yRels 2 3 3, evalWord y233FGen w = 1 :=
@@ -67,7 +67,7 @@ theorem card_range_rho233F :
   rw [range_rho233F]
   exact y233F_check.2.2.2
 
-@[expose] def y233CLetter (k : ℕ) : ℕ := if k < 2 then k else k + 1
+def y233CLetter (k : ℕ) : ℕ := if k < 2 then k else k + 1
 
 theorem y233CArrays_getElem {k : ℕ} (hk : k < 8) :
     y233CArrays[k]! = y233FArrays[y233CLetter k]! := by

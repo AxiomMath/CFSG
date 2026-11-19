@@ -48,7 +48,7 @@ theorem Pcarrier_pow {u : Bool} {σ : Equiv.Perm (Fin 64)} (hσ : σ ∈ Gq u �
   | zero => exact ⟨one_mem _, by rw [pow_zero, tupleOf_one]; exact (pCheck_spec u).2.2.1⟩
   | succ k ih => rw [pow_succ]; exact Pcarrier_mul ih hσ
 
-@[expose] def Psub (u : Bool) : Subgroup (Equiv.Perm (Fin 64)) where
+def Psub (u : Bool) : Subgroup (Equiv.Perm (Fin 64)) where
   carrier := {σ | σ ∈ Gq u ∧ tupleOf σ ∈ pList u}
   mul_mem' := Pcarrier_mul
   one_mem' := ⟨one_mem _, by rw [tupleOf_one]; exact (pCheck_spec u).2.2.1⟩

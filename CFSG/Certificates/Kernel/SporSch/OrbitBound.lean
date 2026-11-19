@@ -11,8 +11,10 @@ open Equiv
 
 variable {α : Type*} [Finite α]
 
+omit [Finite α] in
 theorem ai (g : Perm α) (y : α) : g (g⁻¹ y) = y := by simp
 
+omit [Finite α] in
 theorem ia (g : Perm α) (y : α) : g⁻¹ (g y) = y := by simp
 
 theorem card_le_orbit (K L : Subgroup (Perm α)) (b : α) (A : Finset α)
@@ -24,7 +26,7 @@ theorem card_le_orbit (K L : Subgroup (Perm α)) (b : α) (A : Finset α)
   have hr : ∀ g : K, r ((g : Perm α) b) ∈ K ∧ r ((g : Perm α) b) b = (g : Perm α) b := by
     intro g
     have hx : ∃ h : K, (h : Perm α) b = (g : Perm α) b := hex g
-    simp only [r, dif_pos hx]
+    simp only [r, dite_eq_left hx]
     exact ⟨hx.choose.2, hx.choose_spec⟩
   let f : K → A × L := fun g => (⟨(g : Perm α) b, hA g g.2⟩,
     ⟨(r ((g : Perm α) b))⁻¹ * g, (hL _).2 ⟨K.mul_mem (K.inv_mem (hr g).1) g.2, by
@@ -50,6 +52,7 @@ theorem card_le_chain {a c : ℕ → ℕ} {n : ℕ} (h : ∀ j < n, a j ≤ c j 
       exact (ih (by omega)).trans (Nat.mul_le_mul_left _ (h m (by omega)))
   exact key n le_rfl
 
+omit [Finite α] in
 theorem iff_of_maps (O : Finset α) {g : Perm α} (hg : ∀ y ∈ O, g y ∈ O) (y : α) :
     g y ∈ O ↔ y ∈ O := by
   classical
@@ -63,6 +66,7 @@ theorem iff_of_maps (O : Finset α) {g : Perm α} (hg : ∀ y ∈ O, g y ∈ O) 
   obtain ⟨y', hy', e⟩ := Finset.mem_image.1 hy
   rwa [← g.injective e]
 
+omit [Finite α] in
 theorem iff_of_closed (O : Finset α) (X : Set (Perm α)) (hX : ∀ g ∈ X, ∀ y ∈ O, g y ∈ O) :
     ∀ g ∈ Subgroup.closure X, ∀ y, g y ∈ O ↔ y ∈ O := by
   intro g hg
@@ -76,6 +80,7 @@ theorem iff_of_closed (O : Finset α) (X : Set (Perm α)) (hX : ∀ g ∈ X, ∀
     intro y
     rw [← ih (g⁻¹ y), ai]
 
+omit [Finite α] in
 theorem card_filter_conj [DecidableEq α] (F O : Finset α) {h s : Perm α}
     (hF : ∀ y, h y ∈ F ↔ y ∈ F) (hO : ∀ y, s y ∈ O ↔ y ∈ O) :
     (F.filter fun y => (h * s⁻¹)⁻¹ y ∈ O).card = (F.filter fun y => y ∈ O).card := by

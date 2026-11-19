@@ -17,7 +17,7 @@ open CFSG.GH74.QTGen4.Recog.G23 (SatisfiesG23Words ghat_card)
 
 theorem th_not_dvd_card_centralizer_S :
     ¬ 3 ^ 10 ∣ Nat.card (Subgroup.centralizer ({thS} : Set ↥J)) := by
-  haveI : Finite ↥J := finite_J
+  have : Finite ↥J := finite_J
   obtain ⟨hrel, hcomm, hne⟩ := th_letters_spec
   have hε : SatisfiesG23Words thEps := fun r hr => (lift_mk_eq_evalW _ r).trans (hrel r hr)
   obtain ⟨e⟩ := nonempty_mulEquiv_adjointG2_of_six thEps hε ⟨0, hne⟩
@@ -36,7 +36,7 @@ theorem th_not_dvd_card_centralizer_S :
 
 theorem th_three_dvd_index_S :
     3 ∣ (Subgroup.centralizer ({thS} : Set ↥J)).index := by
-  haveI : Finite ↥J := finite_J
+  have : Finite ↥J := finite_J
   refine three_dvd_index_of_not_pow_dvd _ (n := 10) ?_ th_not_dvd_card_centralizer_S
   rw [CFSG.Sporadic.Th.Max3.natCard_J]
   norm_num
@@ -64,7 +64,7 @@ theorem th_card_centralizer_U :
 
 theorem th_three_dvd_index_U :
     3 ∣ (Subgroup.centralizer ({thU} : Set ↥CFSG.Sporadic.Th.J)).index := by
-  haveI : Finite ↥CFSG.Sporadic.Th.J := finite_J
+  have : Finite ↥CFSG.Sporadic.Th.J := finite_J
   refine three_dvd_index_of_not_pow_dvd _ (n := 10) ?_ ?_
   · rw [CFSG.Sporadic.Th.Max3.natCard_J]
     norm_num
@@ -82,7 +82,7 @@ open CFSG.Sporadic.Th CFSG.HardMathSupport.Timmesfeld.SporadicBalance
 theorem th_witness_Z :
     ∃ g : ↥J, (g * thZ * g⁻¹) * thZ = thZ * (g * thZ * g⁻¹) ∧
       g * thZ * g⁻¹ ∉ Subgroup.zpowers thZ := by
-  haveI : Finite ↥J := finite_J
+  have : Finite ↥J := finite_J
   obtain ⟨Q, -, hzQ, hz3, -, -, hQ⟩ := Certificates.certificate13650
   have hzo : orderOf thZ = 3 := th_orderOf.2.1
   obtain ⟨t, -, -, E, -, hE, hEcard, hEcl⟩ := hQ thZ hzQ hzo

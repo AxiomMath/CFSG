@@ -85,7 +85,7 @@ private theorem false_of_commute_g2_three {K : Type} [Field K] [Finite K] (hK : 
 
 theorem res3NoDatumG23_holds : Res3NoDatumG23 := by
   rintro J _ _ _ hq hX c g V U hd
-  haveI : Group.IsPerfect J := hq.1
+  have : Group.IsPerfect J := hq.1
   obtain ⟨K, _, _, hK, ⟨e⟩⟩ := Sec4.exists_mulEquiv_adjointGroup_G2 hX
   rw [pow_one] at hK
   let Φ : MulAut J →* MulAut (adjointGroup Tag.G2 K) :=

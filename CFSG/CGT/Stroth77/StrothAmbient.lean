@@ -13,6 +13,7 @@ variable {G : Type*} [Group G] [Finite G]
 abbrev omegaIn (i : ℕ) (D : Subgroup G) : Subgroup G :=
   (CFSG.omega ↥D (p := 2) i).map D.subtype
 
+omit [Finite G] in
 theorem omegaIn_le (i : ℕ) (D : Subgroup G) : omegaIn i D ≤ D := by
   rintro x ⟨y, -, rfl⟩
   exact y.2
@@ -93,7 +94,7 @@ theorem mem_of_mem_centralizer {x : G} (hxS : x ∈ (X.S : Subgroup G))
   rwa [Z.centralizerIn_eq] at hx'
 
 theorem D_le_centralizerInMho : Z.D ≤ Z.centralizerInMho := by
-  haveI : IsMulCommutative Z.D := Z.dataD.isMulCommutative
+  have : IsMulCommutative Z.D := Z.dataD.isMulCommutative
   intro x hx
   rw [centralizerInMho]
   exact ⟨Z.D_le_normalizerIn hx,

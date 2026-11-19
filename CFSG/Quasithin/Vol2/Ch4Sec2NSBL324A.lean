@@ -14,6 +14,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G] {T M L Mm I H K : Subgroup G} {m k : ℕ}
 
+omit [Finite G] in
 private theorem mem_pCoreOf_iff_nsb324a {L : Subgroup G} (a : ↥L) :
     (a : G) ∈ pCoreOf 2 L ↔ a ∈ CFSG.pCore 2 ↥L := by
   constructor
@@ -24,15 +25,18 @@ private theorem mem_pCoreOf_iff_nsb324a {L : Subgroup G} (a : ↥L) :
   · intro ha
     exact ⟨a, ha, rfl⟩
 
+omit [Finite G] in
 private theorem mk_eq_iff_nsb324a {L : Subgroup G} (a b : ↥L) :
     (QuotientGroup.mk a : ModO2 L) = QuotientGroup.mk b ↔
       ((a⁻¹ * b : ↥L) : G) ∈ pCoreOf 2 L := by
   rw [QuotientGroup.eq, mem_pCoreOf_iff_nsb324a]
 
+omit [Finite G] in
 private theorem conj_mem_pCoreOf_nsb324a {L : Subgroup G} {l : G} (hl : l ∈ L) {c : G}
     (hc : c ∈ pCoreOf 2 L) : l * c * l⁻¹ ∈ pCoreOf 2 L :=
   (Subgroup.mem_normalizer_iff.mp (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 L hl) c).mp hc
 
+omit [Finite G] in
 private theorem pCore_map_eq_nsb324a {L : Subgroup G} (e : ↥L ≃* ↥L) :
     (CFSG.pCore 2 ↥L).map e.toMonoidHom = CFSG.pCore 2 ↥L := by
   have hle : ∀ f : ↥L ≃* ↥L, (CFSG.pCore 2 ↥L).map f.toMonoidHom ≤ CFSG.pCore 2 ↥L := by
@@ -53,6 +57,7 @@ private def conjLAut_nsb324a {L : Subgroup G} {y : G}
   right_inv z := Subtype.ext (by simp [mul_assoc])
   map_mul' a b := Subtype.ext (by simp [mul_assoc])
 
+omit [Finite G] in
 private theorem conjLAut_coe_nsb324a {L : Subgroup G} {y : G}
     (hy : y ∈ Subgroup.normalizer (L : Set G)) (z : ↥L) :
     ((conjLAut_nsb324a hy z : ↥L) : G) = y * z * y⁻¹ :=
@@ -63,6 +68,7 @@ private noncomputable def conjModO2_nsb324a {L : Subgroup G} {y : G}
   QuotientGroup.congr (CFSG.pCore 2 ↥L) (CFSG.pCore 2 ↥L) (conjLAut_nsb324a hy)
     (pCore_map_eq_nsb324a _)
 
+omit [Finite G] in
 private theorem conjModO2_mul_nsb324a {L : Subgroup G} {y y' : G}
     (hy : y ∈ Subgroup.normalizer (L : Set G)) (hy' : y' ∈ Subgroup.normalizer (L : Set G)) :
     conjModO2_nsb324a (Subgroup.mul_mem _ hy hy') =
@@ -81,6 +87,7 @@ private noncomputable def actModO2_nsb324a {M L : Subgroup G}
   MonoidHom.mk' (fun y => conjModO2_nsb324a (hMN y.2))
     (fun a b => conjModO2_mul_nsb324a (hMN a.2) (hMN b.2))
 
+omit [Finite G] in
 private theorem actModO2_mem_inner_nsb324a {M L : Subgroup G}
     (hMN : M ≤ Subgroup.normalizer (L : Set G)) {l : G} (hl : l ∈ L) (hlM : l ∈ M) :
     actModO2_nsb324a hMN ⟨l, hlM⟩ ∈
@@ -97,12 +104,14 @@ private noncomputable def thetaNsb324a {M L : Subgroup G}
   (QuotientGroup.mk' (CFSG.ComponentClassification.OuterAutomorphisms.inner (ModO2 L))).comp
     (actModO2_nsb324a hMN)
 
+omit [Finite G] in
 private theorem theta_eq_one_iff_nsb324a {M L : Subgroup G}
     (hMN : M ≤ Subgroup.normalizer (L : Set G)) (y : ↥M) :
     thetaNsb324a hMN y = 1 ↔
       actModO2_nsb324a hMN y ∈ CFSG.ComponentClassification.OuterAutomorphisms.inner (ModO2 L) :=
   QuotientGroup.eq_one_iff _
 
+omit [Finite G] in
 private theorem actModO2_eq_one_nsb324a {M L : Subgroup G}
     (hMN : M ≤ Subgroup.normalizer (L : Set G)) (m : ↥M)
     (hm : (m : G) ∈ centralizerSection M L (pCoreOf 2 L)) :
@@ -118,6 +127,7 @@ private theorem actModO2_eq_one_nsb324a {M L : Subgroup G}
   simp only [Subgroup.coe_mul, Subgroup.coe_inv, conjLAut_coe_nsb324a]
   group
 
+omit [Finite G] in
 private theorem exists_centralizer_of_inner_nsb324a {M L : Subgroup G} (hLM : L ≤ M)
     (hMN : M ≤ Subgroup.normalizer (L : Set G)) (y : ↥M)
     (hin : actModO2_nsb324a hMN y ∈

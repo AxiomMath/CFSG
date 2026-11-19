@@ -70,7 +70,7 @@ theorem normalizer_le_of_isSylowOf_two (hS : ObstructionSetting G) (hD1 : Theore
     {X T : Subgroup G} (hXM : X ≤ M) (hPX : (P : Subgroup G) ≤ normalizer (X : Set G))
     (hX : Nat.Coprime p (Nat.card X)) (hT : CFSG.ABGLocalTools.IsSylowOf 2 T X)
     (hTne : T ≠ ⊥) : normalizer (T : Set G) ≤ M :=
-  normalizer_le_of_isSylowOf_two_of_le hD1 hp hM (hS.sylow_le hp hM) P.isPGroup'
+  normalizer_le_of_isSylowOf_two_of_le hD1 hp hM (hS.sylow_le hp hM) P.isPGroup
     (hS.three_le_pRank p hp P) hXM hPX hX hT hTne
 
 end ObstructionSetting

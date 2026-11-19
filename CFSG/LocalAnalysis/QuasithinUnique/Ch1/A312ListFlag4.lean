@@ -44,7 +44,7 @@ theorem blkAt_zero (a : ℕ) (h : a + 0 ≤ n) (A : Matrix (Fin n) (Fin n) K) :
 theorem isPGroup_unitriangular_charTwo [Finite K] [CharP K 2] (hn : 1 ≤ n) :
     IsPGroup 2 ↥(unitriangular n K) := by
   obtain ⟨P, hP⟩ := exists_sylow_unitriangular (K := K) 2 (n := n) hn
-  have := P.isPGroup'
+  have := P.isPGroup
   rw [hP] at this
   exact this
 

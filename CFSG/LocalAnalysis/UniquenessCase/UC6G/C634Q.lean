@@ -38,7 +38,7 @@ theorem commutator_U_le_pCoreOf (hZU : ⁅m.Z, m.U⁆ ≤ CFSG.Open.pCoreOf 2 m.
     convert this using 1
     simp only [commutatorElement_def]
     group
-  | one => intro u hu; simpa using (CFSG.Open.pCoreOf 2 m.K).one_mem
+  | one => intro u hu; simp
   | mul x y hx hy ihx ihy =>
     intro u hu
     have h1 := hnorm x (m.K_le_M hx) _ (ihy u hu)
@@ -53,9 +53,9 @@ theorem commutator_U_le_pCoreOf (hZU : ⁅m.Z, m.U⁆ ≤ CFSG.Open.pCoreOf 2 m.
 
 theorem c634Q_of_inputs (h629 : m.C629) : m.C634Q := by
   intro hZU
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   obtain ⟨hsimple, a, b, hab⟩ := h629
-  haveI hTn : (CFSG.pCore 2 ↥m.K).Normal := CFSG.LieType.BorelTits.pCore_normal 2
+  have hTn : (CFSG.pCore 2 ↥m.K).Normal := CFSG.LieType.BorelTits.pCore_normal 2
   have hTp : IsPGroup 2 (CFSG.pCore 2 ↥m.K) := CFSG.LieType.BorelTits.pCore_isPGroup 2
   set T : Subgroup ↥m.K := CFSG.pCore 2 ↥m.K with hT
   set P : Subgroup ↥m.K := CFSG.pPrimeCore m.r ↥m.K with hP
@@ -166,7 +166,7 @@ theorem c634Q_of_inputs (h629 : m.C629) : m.C634Q := by
     rw [← Abelianization.ker_of]
     exact this
   ·
-    haveI := hsimple
+    have := hsimple
     exact isSimpleGroup_of_mulEquiv_uc6
       ((QuotientGroup.quotientMulEquivOfEq hker.symm).trans
         (QuotientGroup.quotientKerEquivOfSurjective ψ hψ))

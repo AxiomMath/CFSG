@@ -58,7 +58,7 @@ theorem D2L34BetaConf3.rbar_inf_eq (hc : D2L34BetaConf3 d P M A H R Rbar K) :
   have hK := (card_dvd_of_l34 hc.almostSimple.centralizer_eq_bot hc.l34 e).2
   have hp : IsPGroup 3 ((Rbar : Subgroup (H ⧸ primeComplementCore (G := H) 3)) ⊓ K :
       Subgroup (H ⧸ primeComplementCore (G := H) 3)) :=
-    Rbar.isPGroup'.to_le inf_le_left
+    Rbar.isPGroup.to_le inf_le_left
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hp
   have hdvd : 3 ^ k ∣ 20160 := hk ▸ hK ▸ Subgroup.card_dvd_of_le inf_le_right
   have hk2 : k ≤ 2 := by
@@ -80,7 +80,7 @@ theorem D2L34BetaConf3.pow_three_eq_one (hc : D2L34BetaConf3 d P M A H R Rbar K)
     exact Subgroup.mem_map_of_mem _ (Subgroup.mem_subgroupOf.mpr hx)
   have hp : IsPGroup 3
       (Subgroup.zpowers (QuotientGroup.mk' (primeComplementCore (G := H) 3) a)) :=
-    Rbar.isPGroup'.to_le (Subgroup.zpowers_le.mpr hmem)
+    Rbar.isPGroup.to_le (Subgroup.zpowers_le.mpr hmem)
   have h3 := Tits.S3AmalgamBound.kFactL34Exp3 d hc.l34 _ K hc.almostSimple.normal
     hc.almostSimple.centralizer_eq_bot hc.iso _ hp
   have ha3 : ((a ^ 3 : H) : G) ∈ R := by

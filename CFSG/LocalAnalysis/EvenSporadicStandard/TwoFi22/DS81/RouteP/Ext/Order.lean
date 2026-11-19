@@ -172,7 +172,7 @@ theorem exists_subgroup_of_bound {a b : M} (hgen : Subgroup.closure ({a, b} : Se
   classical
   set F := fibreProd X X₀ with hF
   set D : Subgroup F := (graphE X X₀).subgroupOf F with hD
-  haveI : D.Normal := normal_graphE X X₀
+  have : D.Normal := normal_graphE X X₀
   let q : F →* F ⧸ D := QuotientGroup.mk' D
   let πF : F →* M := X.π.comp ((MonoidHom.fst N N₀).comp F.subtype)
   have hπD : D ≤ πF.ker := fun d hd => by
@@ -202,7 +202,7 @@ theorem exists_subgroup_of_bound {a b : M} (hgen : Subgroup.closure ({a, b} : Se
     · rw [map_wordProd_img2, hxa₀, hxb₀]
       exact hR r hr
   obtain ⟨H, hqu, hqv, hfin, hcard⟩ := hbound (F ⧸ D) (q u) (q v) hrel
-  haveI := hfin
+  have := hfin
   have hqa : qπ (q u) = a := by rw [hqπ]; exact hxa
   have hqb : qπ (q v) = b := by rw [hqπ]; exact hxb
   have hsurj : Function.Surjective (qπ.comp H.subtype) := by

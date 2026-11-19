@@ -80,7 +80,7 @@ theorem exists_isSylowTwoIn_ge [Finite X] {H P : Subgroup X} (hPH : P ≤ H)
   obtain ⟨Q, hQ⟩ := hP'.exists_le_sylow
   have hsub : ((Q : Subgroup H).map H.subtype).subgroupOf H = (Q : Subgroup H) :=
     comap_map_eq_self_of_injective H.subtype_injective _
-  refine ⟨(Q : Subgroup H).map H.subtype, ⟨map_subtype_le _, Q.isPGroup'.map _, ?_⟩, ?_⟩
+  refine ⟨(Q : Subgroup H).map H.subtype, ⟨map_subtype_le _, Q.isPGroup.map _, ?_⟩, ?_⟩
   · change ¬ 2 ∣ (((Q : Subgroup H).map H.subtype).subgroupOf H).index
     rw [hsub]
     exact Sylow.not_dvd_index Q

@@ -14,8 +14,8 @@ open scoped Pointwise
 theorem exists_fixed_of_pow_four_eq_one {α : Type*} [Finite α] (σ : Equiv.Perm α)
     (hσ : σ ^ 4 = 1) (hodd : Odd (Nat.card α)) : ∃ a : α, σ a = a := by
   classical
-  haveI := Fintype.ofFinite α
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := Fintype.ofFinite α
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h4 : σ ^ 2 ^ 2 = 1 := by simpa using hσ
   have hmod := Equiv.Perm.card_compl_support_modEq h4
   rw [Nat.card_eq_fintype_card] at hodd

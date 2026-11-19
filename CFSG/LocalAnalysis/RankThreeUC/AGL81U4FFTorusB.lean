@@ -14,9 +14,11 @@ open CFSG.Quasithin Subgroup
 
 variable {V : Type} [CommGroup V] [Finite V] [IsF2Space V]
 
+omit [Finite V] in
 private theorem linOf_mul_TB (f θ : MulAut V) : linOf (f * θ) = linOf f * linOf θ :=
   LinearMap.ext fun _ => rfl
 
+omit [Finite V] in
 private theorem linOf_pow_apply_TB (θ : MulAut V) (n : ℕ) (x : V) :
     (linOf θ ^ n) (Additive.ofMul x) = Additive.ofMul ((θ ^ n) x) := by
   induction n generalizing x with
@@ -24,34 +26,40 @@ private theorem linOf_pow_apply_TB (θ : MulAut V) (n : ℕ) (x : V) :
   | succ n ih =>
     rw [pow_succ', Module.End.mul_apply, ih, linOf_apply, pow_succ', MulAut.mul_apply]
 
+omit [Finite V] in
 private theorem polyAct_X_pow_TB (θ : MulAut V) (n : ℕ) (x : V) :
     polyAct θ (Polynomial.X ^ n) x = (θ ^ n) x := by
   unfold polyAct
   rw [map_pow, Polynomial.aeval_X]
   exact congrArg Additive.toMul (linOf_pow_apply_TB θ n x)
 
+omit [Finite V] [IsF2Space V] in
 private theorem pow_apply_mem_TB {θ : MulAut V} {M : Subgroup V} (hθ : ∀ x ∈ M, θ x ∈ M)
     (n : ℕ) {x : V} (hx : x ∈ M) : (θ ^ n) x ∈ M := by
   induction n with
   | zero => simpa only [pow_zero, MulAut.one_apply] using hx
   | succ n ih => rw [pow_succ', MulAut.mul_apply]; exact hθ _ ih
 
+omit [Finite V] in
 theorem polyAct_add (θ : MulAut V) (p q : Polynomial (ZMod 2)) (x : V) :
     polyAct θ (p + q) x = polyAct θ p x * polyAct θ q x := by
   unfold polyAct
   rw [map_add, LinearMap.add_apply, toMul_add]
 
+omit [Finite V] in
 theorem polyAct_mul (θ : MulAut V) (p q : Polynomial (ZMod 2)) (x : V) :
     polyAct θ (p * q) x = polyAct θ p (polyAct θ q x) := by
   unfold polyAct
   rw [map_mul, Module.End.mul_apply]
   rfl
 
+omit [Finite V] in
 theorem polyAct_map_mul (θ : MulAut V) (p : Polynomial (ZMod 2)) (x y : V) :
     polyAct θ p (x * y) = polyAct θ p x * polyAct θ p y := by
   unfold polyAct
   rw [ofMul_mul, map_add, toMul_add]
 
+omit [Finite V] in
 theorem polyAct_one_apply (θ : MulAut V) (p : Polynomial (ZMod 2)) : polyAct θ p 1 = 1 := by
   unfold polyAct
   rw [ofMul_one, map_zero, toMul_zero]
@@ -61,6 +69,7 @@ theorem polyAct_one_apply (θ : MulAut V) (p : Polynomial (ZMod 2)) : polyAct θ
   map_one' := polyAct_one_apply θ p
   map_mul' := polyAct_map_mul θ p
 
+omit [Finite V] in
 theorem polyAct_comm {θ f : MulAut V} (hf : f * θ = θ * f) (p : Polynomial (ZMod 2)) (x : V) :
     f (polyAct θ p x) = polyAct θ p (f x) := by
   have hcomm : Commute (linOf f) (linOf θ) := by
@@ -76,6 +85,7 @@ theorem polyAct_comm {θ f : MulAut V} (hf : f * θ = θ * f) (p : Polynomial (Z
     exact h
   exact congrArg Additive.toMul h1
 
+omit [Finite V] in
 theorem polyAct_mem {θ : MulAut V} {M : Subgroup V} (hθ : ∀ x ∈ M, θ x ∈ M)
     (p : Polynomial (ZMod 2)) {x : V} (hx : x ∈ M) : polyAct θ p x ∈ M := by
   induction p using Polynomial.induction_on' with
@@ -93,6 +103,7 @@ theorem polyAct_mem {θ : MulAut V} {M : Subgroup V} (hθ : ∀ x ∈ M, θ x �
     · rw [← Polynomial.X_pow_eq_monomial, polyAct_X_pow_TB]
       exact pow_apply_mem_TB hθ n hx
 
+omit [Finite V] in
 private theorem exists_annihilator_gen (θ : MulAut V) (x : V) :
     ∃ g : Polynomial (ZMod 2), ∀ p : Polynomial (ZMod 2),
       Polynomial.aeval (linOf θ) p (Additive.ofMul x) = 0 ↔ g ∣ p := by
@@ -118,6 +129,7 @@ private theorem exists_annihilator_gen (θ : MulAut V) (x : V) :
   have hI : Polynomial.aeval (linOf θ) p (Additive.ofMul x) = 0 ↔ p ∈ I := Iff.rfl
   rw [hI, hg, Ideal.mem_span_singleton]
 
+omit [Finite V] in
 theorem polyAct_semisimple {θ : MulAut V} {N : ℕ} (hN : Odd N) (hθN : θ ^ N = 1)
     (m : Polynomial (ZMod 2)) {x : V} (h : polyAct θ (m * m) x = 1) : polyAct θ m x = 1 := by
   obtain ⟨g, hg⟩ := exists_annihilator_gen θ x
@@ -146,6 +158,7 @@ theorem polyAct_semisimple {θ : MulAut V} {N : ℕ} (hN : Odd N) (hθN : θ ^ N
   unfold polyAct
   rw [hm0, toMul_zero]
 
+omit [Finite V] [IsF2Space V] in
 private theorem Y_stab_L {L D : Subgroup (MulAut V)} {U : Subgroup V}
     (hDL : ∀ d ∈ D, ∀ l ∈ L, d * l = l * d) (hUL : ∀ g ∈ L, ∀ u ∈ U, g u ∈ U) (k : ℕ) :
     ∀ g ∈ L, ∀ w ∈ U ⊓ socleSeries D k, g w ∈ U ⊓ socleSeries D k := by
@@ -154,6 +167,7 @@ private theorem Y_stab_L {L D : Subgroup (MulAut V)} {U : Subgroup V}
   have hgS := mem_stabSub_socleSeries (D := D) (g := g) (fun d hd => (hDL d hd g hg).symm) k
   exact Subgroup.mem_inf.mpr ⟨hUL g hg w hwU, (CFSG.Quasithin.mem_stabSub.1 hgS w).mpr hwS⟩
 
+omit [Finite V] [IsF2Space V] in
 private theorem Y_stab_D {D : Subgroup (MulAut V)} {U : Subgroup V}
     (hDc : ∀ d ∈ D, ∀ e ∈ D, d * e = e * d) (hUD : ∀ d ∈ D, ∀ u ∈ U, d u ∈ U) (k : ℕ) :
     ∀ d ∈ D, ∀ w ∈ U ⊓ socleSeries D k, d w ∈ U ⊓ socleSeries D k := by
@@ -162,17 +176,20 @@ private theorem Y_stab_D {D : Subgroup (MulAut V)} {U : Subgroup V}
   have hdS := mem_stabSub_socleSeries (D := D) (g := d) (fun e he => hDc d hd e he) k
   exact Subgroup.mem_inf.mpr ⟨hUD d hd w hwU, (CFSG.Quasithin.mem_stabSub.1 hdS w).mpr hwS⟩
 
+omit [Finite V] [IsF2Space V] in
 private theorem Y_mono {D : Subgroup (MulAut V)} (U : Subgroup V) {i j : ℕ} (h : i ≤ j) :
     U ⊓ socleSeries D i ≤ U ⊓ socleSeries D j := by
   have hmono : Monotone (socleSeries D) := monotone_nat_of_le_succ (socleSeries_le_succ D)
   intro w hw
   exact Subgroup.mem_inf.mpr ⟨(Subgroup.mem_inf.mp hw).1, hmono h (Subgroup.mem_inf.mp hw).2⟩
 
+omit [IsF2Space V] in
 private theorem EE_apply_TB {c : ℕ} {Θi : Fin c → Subgroup (MulAut V)} (x : V) :
     EE Θi x = ∏ i, avgMap (Θi i) x := by
   unfold EE
   exact MonoidHom.finsetProd_apply _ _ _
 
+omit [IsF2Space V] in
 private theorem avgMap_comm_of_comm {Θ' : Subgroup (MulAut V)} {θ : MulAut V}
     (hc : ∀ g ∈ Θ', θ * g = g * θ) (x : V) : avgMap Θ' (θ x) = θ (avgMap Θ' x) := by
   have := Fintype.ofFinite Θ'
@@ -182,6 +199,7 @@ private theorem avgMap_comm_of_comm {Θ' : Subgroup (MulAut V)} {θ : MulAut V}
   simp only [MulAut.mul_apply] at hcg
   exact hcg.symm
 
+omit [IsF2Space V] in
 private theorem dmul_mem_commSub_succ [IsF2Space V] {Θ D : Subgroup (MulAut V)}
     {U : Subgroup V} (hΘodd : Odd (Nat.card Θ))
     (hYΘ : ∀ k, ∀ g ∈ Θ, ∀ w ∈ U ⊓ socleSeries D k, g w ∈ U ⊓ socleSeries D k)

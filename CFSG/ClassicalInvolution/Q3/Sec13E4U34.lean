@@ -99,7 +99,7 @@ private theorem exists_odd_part {L : Type*} [Group L] [Finite L] (P : Sylow 2 L)
       obtain ⟨k, -, hk⟩ := (Nat.dvd_prime_pow Nat.prime_two).mp (orderOf_dvd_of_pow_eq_one hs2)
       exact IsPGroup.of_card (n := k) (by rw [Nat.card_zpowers, hk])
     have hsup : IsPGroup 2 ↥((P : Subgroup L) ⊔ Subgroup.zpowers (r ^ m)) :=
-      P.isPGroup'.to_sup_of_normal_left' hzp hsN
+      P.isPGroup.to_sup_of_normal_left' hzp hsN
     have heq := P.maximal_isPGroup.eq_of_ge hsup le_sup_left
     have : r ^ m ∈ (P : Subgroup L) ⊔ Subgroup.zpowers (r ^ m) :=
       Subgroup.mem_sup_right (Subgroup.mem_zpowers _)
@@ -310,11 +310,11 @@ variable {Ω : Set (Subgroup G)} {W : Subgroup G} (h : E4Hyp Ω W)
 include h
 
 theorem false_of_asymmetric {K J : Subgroup G} (hp : Paired Ω K J) {q : G}
-    (hq : q ∈ pCore 2 G) (hqK : q ∈ Subgroup.normalizer (K : Set G))
-    (hqJ : ∀ y ∈ J, q * y = y * q) {k : G} (hk : k ∈ K)
+    (hq : q ∈ pCore 2 G) (_hqK : q ∈ Subgroup.normalizer (K : Set G))
+    (hqJ : ∀ y ∈ J, q * y = y * q) {k : G} (_hk : k ∈ K)
     (hqk : ∀ x ∈ K, q * x * q⁻¹ = k * x * k⁻¹) {x : G} (hx : x ∈ K) (hxk : k * x ≠ x * k) :
     False := by
-  haveI : (pCore 2 G).Normal := CFSG.pCore_normal
+  have : (pCore 2 G).Normal := CFSG.pCore_normal
   obtain ⟨L, hL, hLK, hLJ⟩ := h.exists_third hp
   obtain ⟨w, hw⟩ := h.exists_uniqueInvolution hL
   obtain ⟨L', hpL⟩ := h.exists_partner hL
@@ -444,7 +444,7 @@ theorem not_psu34
   classical
   rintro ⟨e⟩
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : (pCore 2 G).Normal := CFSG.pCore_normal
+  have : (pCore 2 G).Normal := CFSG.pCore_normal
   obtain ⟨-, Pb, hPb, hΩb⟩ := h.quot_cases hK
   obtain ⟨J, hp⟩ := h.exists_partner hK
   set π := QuotientGroup.mk' (pCore 2 G) with hπ

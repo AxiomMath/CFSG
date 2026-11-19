@@ -67,7 +67,7 @@ theorem false_of_perfect_le_fixed_psu_three_five {N : Type} [Group N] [Finite N]
 
 theorem inspectionArm_psu_three_five : InspectionArm fun N _ => LieModel N .PSU 3 5 1 := by
   intro Y _ _ N hN hC hQ P _ _ _ _ hw
-  haveI := hN
+  have := hN
   exfalso
   have hZ : center ↥N = ⊥ := center_eq_bot_of_lieModel_psu_three_five hQ
   have hidx : N.index ≤ 6 :=

@@ -34,7 +34,7 @@ private lemma s16c11_big_fix_vec_9_sum (p : Fin 4 → ZMod 2) :
   simp only [s16c11_big_fix_vec_9, Fin.sum_univ_succ, Matrix.cons_val_zero,
     Matrix.cons_val_succ]
   ring_nf
-  simp [CharTwo.two_eq_zero]
+  simp
 
 private lemma s16c11_big_fix_vec_9_inv_c1 (p : Fin 4 → ZMod 2) (i : Fin 9) :
     s16c11_big_fix_vec_9 p (s16c11_big_fix_c1_9⁻¹ i) = s16c11_big_fix_vec_9 p i := by
@@ -100,7 +100,7 @@ private lemma s16c11_big_fix_sum_canon_9 {x : Fin 9 → ZMod 2}
         x 0 + x 3 + x 6 + x 7 + x 8 := by
       rw [h01, h12, h34, h45]
       ring_nf
-      simp [CharTwo.two_eq_zero]
+      simp
     rw [← h]; exact hx
   have hkey2 : x 3 + (x 0 + x 6 + x 7 + x 8) = 0 := by
     simpa [add_comm, add_left_comm, add_assoc] using key
@@ -242,7 +242,7 @@ private lemma s16c11_big_fix_vec_10_sum (p : Fin 4 → ZMod 2) :
   simp only [s16c11_big_fix_vec_10, Fin.sum_univ_succ, Matrix.cons_val_zero,
     Matrix.cons_val_succ]
   ring_nf
-  simp [CharTwo.two_eq_zero]
+  simp
 
 private lemma s16c11_big_fix_vec_10_inv_c1 (p : Fin 4 → ZMod 2) (i : Fin 10) :
     s16c11_big_fix_vec_10 p (s16c11_big_fix_c1_10⁻¹ i) = s16c11_big_fix_vec_10 p i := by
@@ -310,7 +310,7 @@ private lemma s16c11_big_fix_sum_canon_10 {x : Fin 10 → ZMod 2}
         x 0 + x 3 + x 6 + x 7 + x 8 + x 9 := by
       rw [h01, h12, h34, h45]
       ring_nf
-      simp [CharTwo.two_eq_zero]
+      simp
     rw [← h]; exact hx
   rw [h0, zero_add] at key
   have hkey2 : x 3 + (x 6 + x 7 + x 8 + x 9) = 0 := by

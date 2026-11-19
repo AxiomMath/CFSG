@@ -15,12 +15,13 @@ open Subgroup CFSG.Blueprint
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {z : G} {A B : Subgroup G}
   {φ : (Fin 7 → ZMod 2) → G}
 
+omit [Finite G] in
 private lemma conj_mem_closure_of_forall {m : G} {s : Set G}
     (h : ∀ x ∈ s, m * x * m⁻¹ ∈ s) {b : G} (hb : b ∈ Subgroup.closure s) :
     m * b * m⁻¹ ∈ Subgroup.closure s := by
   induction hb using Subgroup.closure_induction with
   | mem x hx => exact Subgroup.subset_closure (h x hx)
-  | one => simpa using Subgroup.one_mem (Subgroup.closure s)
+  | one => simp
   | mul x y hx hy ihx ihy =>
       rw [show m * (x * y) * m⁻¹ = (m * x * m⁻¹) * (m * y * m⁻¹) by group]
       exact Subgroup.mul_mem _ ihx ihy

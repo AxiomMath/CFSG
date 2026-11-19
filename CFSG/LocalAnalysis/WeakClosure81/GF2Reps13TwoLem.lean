@@ -123,7 +123,7 @@ theorem w16h_central_of_order_27 {t : MulAut W} (htt : t * t = 1) {P : Subgroup 
     rw [_root_.commutator_def, Subgroup.commutator_le]
     intro g _ h _
     simpa [commutatorElement_def] using hcc g h
-  haveI : IsMulCommutative (Q ⧸ Z) :=
+  have : IsMulCommutative (Q ⧸ Z) :=
     Subgroup.Normal.quotient_commutative_iff_commutator_le.mpr hcomm_le
   let σbar : Q ⧸ Z →* Q ⧸ Z := QuotientGroup.map Z Z σ hσZ
   let φ : Q ⧸ Z →* Q ⧸ Z :=
@@ -162,7 +162,7 @@ theorem w16h_central_of_order_27 {t : MulAut W} (htt : t * t = 1) {P : Subgroup 
     intro a ha b hb
     rcases w16g_zpowers_eq_one_or_self htt hb with hb1 | hb2
     · rw [hb1]
-      simpa using (A.map P.subtype).one_mem
+      simp
     · rw [hb2]
       have hmem : ⁅a, t⁆ ∈ P := by
         rw [commutatorElement_def]
@@ -280,14 +280,15 @@ theorem w16h_even_rk_of_fixedFree (hW : ∀ w : W, w ^ 2 = 1) {z : MulAut W} (hz
       rw [Subgroup.mem_inf, mem_fixV] at hu
       rw [Subgroup.mem_bot]
       exact hfix u hu.1 (hu.2 z (Subgroup.mem_zpowers z))
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have h3 : 3 ∣ Nat.card S - 1 := prime_dvd_card_sub_one hY hF hfixY
     rw [card_eq_two_pow hW S] at h3
     exact w16g_even_of_three_dvd_two_pow_sub_one h3
 
+omit [Finite W] in
 theorem w16h_acts_trivially_of_comm_eq_self {t : MulAut W} (htt : t * t = 1)
     {P : Subgroup (MulAut W)} (hn : ∀ x ∈ P, t * x * t⁻¹ ∈ P) (hc : ⁅P, Subgroup.zpowers t⁆ = P)
-    {S : Subgroup W} (hSP : ∀ x ∈ P, ∀ u ∈ S, x u ∈ S) (hSt : ∀ u ∈ S, t u ∈ S)
+    {S : Subgroup W} (hSP : ∀ x ∈ P, ∀ u ∈ S, x u ∈ S) (_hSt : ∀ u ∈ S, t u ∈ S)
     (ht : ∀ u : W, t u * u⁻¹ ∈ S) : ∀ x ∈ P, ∀ u : W, x u * u⁻¹ ∈ S := by
   let A : Subgroup (MulAut W) :=
     { carrier := {x | x ∈ P ∧ ∀ u : W, x u * u⁻¹ ∈ S}
@@ -315,7 +316,7 @@ theorem w16h_acts_trivially_of_comm_eq_self {t : MulAut W} (htt : t * t = 1)
     intro a ha b hb
     rcases w16g_zpowers_eq_one_or_self htt hb with hb1 | hb2
     · rw [hb1]
-      simpa using A.one_mem
+      simp
     · rw [hb2]
       have hmem : ⁅a, t⁆ ∈ P := by
         rw [commutatorElement_def]

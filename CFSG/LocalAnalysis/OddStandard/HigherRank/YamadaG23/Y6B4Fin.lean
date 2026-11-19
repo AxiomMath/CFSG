@@ -50,6 +50,7 @@ theorem y6b_card_T3 (c : Ctx6 G L) (hH : F33Hyp c.s c.e) (hF : c.toCtx5.Facts5)
   rw [h1, h2]
   norm_num
 
+omit [Finite G] in
 theorem y6b_conj_mem_centSec {K M : Subgroup G} {c x : G}
     (hcK : c ∈ normalizer (K : Set G)) (hcM : c ∈ normalizer (M : Set G))
     (hx : x ∈ CFSG.GH74.GLS.centralizerSection K M) :
@@ -68,6 +69,7 @@ theorem y6b_conj_mem_centSec {K M : Subgroup G} {c x : G}
       group]
     exact hconj
 
+omit [Finite G] in
 theorem y6b_le_normalizer_centSec {K M N : Subgroup G} (hNK : N ≤ normalizer (K : Set G))
     (hNM : N ≤ normalizer (M : Set G)) :
     N ≤ normalizer (CFSG.GH74.GLS.centralizerSection K M : Set G) := by

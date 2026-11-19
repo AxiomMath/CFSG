@@ -44,7 +44,7 @@ theorem perfectInLayer_fieldActor {p : ℕ} [CharP K p] (hp2 : p ≠ 2) (σ : K 
   let e : ↥(fixSubgroup (fieldActor (t := TwistTag.D4) σ σ)) ≃* ↥(trialityFieldImage σ σ) :=
     (Subgroup.equivMapOfInjective _ (graphFixedRootGroup TwistTag.D4 K σ.toRingHom).subtype
       Subtype.val_injective).trans (MulEquiv.subgroupCongr hFJ)
-  haveI := hsimple
+  have := hsimple
   refine perfectInLayer_of_isSimpleGroup _ e.isSimpleGroup ?_
   by_contra hcon
   push Not at hcon
@@ -92,7 +92,7 @@ theorem perfectInLayer_a2 (h : A2Std σ d q)
     (hφ : ∀ y : graphFixedRootGroup TwistTag.D4 K σ.toRingHom,
       (φ y : ModGL TwistTag.D4.tag K) = a2Conj σ d (y : ModGL TwistTag.D4.tag K)) :
     PerfectInLayer φ := by
-  haveI : Finite ↥(fixSubgroup φ) := inferInstance
+  have : Finite ↥(fixSubgroup φ) := inferInstance
   refine perfectInLayer_of_noAbel_of_solvable_quotient φ ?_ ?_
   · intro N hN hc
     exact a2_noAbel_fixSub h φ hφ N hN (fun x y => Subtype.ext (hc x.1 x.2 y.1 y.2))

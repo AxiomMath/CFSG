@@ -17,7 +17,7 @@ theorem isCyclic_sylow_of_surjective {X L : Type*} [Group X] [Finite X] [Group L
     {p : ℕ} [Fact p.Prime] (hcyc : ∀ S : Sylow p X, IsCyclic (S : Subgroup X)) {A : Subgroup X}
     (f : A →* L) (hf : Function.Surjective f) (TL : Sylow p L) : IsCyclic (TL : Subgroup L) := by
   obtain ⟨T⟩ : Nonempty (Sylow p A) := inferInstance
-  have hT'p : IsPGroup p ((T : Subgroup A).map A.subtype) := T.isPGroup'.map _
+  have hT'p : IsPGroup p ((T : Subgroup A).map A.subtype) := T.isPGroup.map _
   obtain ⟨S, hS⟩ := hT'p.exists_le_sylow
   have : IsCyclic (S : Subgroup X) := hcyc S
   have hT'c : IsCyclic ((T : Subgroup A).map A.subtype) :=

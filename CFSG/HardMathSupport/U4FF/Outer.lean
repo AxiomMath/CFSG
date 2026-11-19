@@ -19,7 +19,7 @@ theorem eq_bot_of_normal_exponent_two (hS : ∀ s : S, s * s = 1) {X Y : Subgrou
     (hX : IsIrrOn X) (hn : ∀ x ∈ X, ∀ y ∈ Y, x * y * x⁻¹ ∈ Y)
     (hY : ∀ y ∈ Y, y * y = 1) : Y = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hinv : ∀ x ∈ X, ∀ v ∈ fixV Y, x v ∈ fixV Y := by
     intro x hx v hv
     rw [mem_fixV] at hv ⊢
@@ -57,7 +57,7 @@ theorem eq_bot_of_normal_exponent_two (hS : ∀ s : S, s * s = 1) {X Y : Subgrou
       rcases hPS.card_eq_or_dvd with h1 | h1
       · exfalso
         rw [Nat.card_eq_one_iff_unique] at h1
-        haveI := h1.1
+        have := h1.1
         exact (not_subsingleton S) inferInstance
       · exact h1
     rw [hfixcard] at hmod
@@ -155,9 +155,9 @@ theorem card_le_two_mul_inf (hS : ∀ s : S, s * s = 1) (hL : IsU4Group n L)
     (hirr : IsIrrOn (L ⊔ A)) : Nat.card A ≤ 2 * Nat.card ↥(A ⊓ L) := by
   classical
   obtain ⟨K, _, h, ⟨η⟩⟩ := exists_equiv_gramSU hL
-  haveI : CharP K 2 := h.charP
-  haveI : Finite K := h.finite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := h.charP
+  have : Finite K := h.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let φ : A →* (K ≃+* K) := (miyamotoFieldFactorG h L η).comp (Subgroup.inclusion hAN)
   have hrange : Nat.card φ.range ≤ 2 := by
     refine CFSG.QuasithinUnique.Setup.X5.card_le_two_of_sq_eq_one φ.range ?_
@@ -186,9 +186,9 @@ theorem inv_mul_mem_of_not_mem (hS : ∀ s : S, s * s = 1) (hL : IsU4Group n L)
     (ha'L : a' ∉ L) : a⁻¹ * a' ∈ L := by
   classical
   obtain ⟨K, _, h, ⟨η⟩⟩ := exists_equiv_gramSU hL
-  haveI : CharP K 2 := h.charP
-  haveI : Finite K := h.finite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := h.charP
+  have : Finite K := h.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let φ : A →* (K ≃+* K) := (miyamotoFieldFactorG h L η).comp (Subgroup.inclusion hAN)
   have hrange : Nat.card φ.range ≤ 2 := by
     refine CFSG.QuasithinUnique.Setup.X5.card_le_two_of_sq_eq_one φ.range ?_
@@ -201,11 +201,11 @@ theorem inv_mul_mem_of_not_mem (hS : ∀ s : S, s * s = 1) (hL : IsU4Group n L)
     ha'L (mem_of_fieldFactor_eq_one hS hL hA hAN hirr h η ha' h1)
   have heq : φ ⟨a, ha⟩ = φ ⟨a', ha'⟩ := by
     by_contra hne
-    haveI : Finite φ.range := Finite.of_injective (fun x : φ.range => (x : K ≃+* K))
+    have : Finite φ.range := Finite.of_injective (fun x : φ.range => (x : K ≃+* K))
       Subtype.val_injective
     let f : Fin 3 → φ.range :=
       ![⟨1, one_mem _⟩, ⟨φ ⟨a, ha⟩, ⟨_, rfl⟩⟩, ⟨φ ⟨a', ha'⟩, ⟨_, rfl⟩⟩]
-    haveI : Fintype φ.range := Fintype.ofFinite _
+    have : Fintype φ.range := Fintype.ofFinite _
     have hlt : Fintype.card φ.range < Fintype.card (Fin 3) := by
       rw [← Nat.card_eq_fintype_card, Fintype.card_fin]
       omega

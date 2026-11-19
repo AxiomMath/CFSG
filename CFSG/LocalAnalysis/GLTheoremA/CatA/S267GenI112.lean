@@ -125,7 +125,7 @@ private theorem isChevSimple_of_genCompChevOn (h3 : GenCompChevOn Q) (H : GenHyp
   obtain ⟨d, J, hodd, hQd, hdq, hJ, f, hf, hker⟩ := exists_comp_T H hL
   have hc := h3 p _ d hodd hQd (actT H b) (actT_pow H hbp) (actT_ne_one H hbS) J hJ
   rw [hdq] at hc
-  haveI : Group.IsPerfect ↥L := ⟨S267.perfect_of_commutator_self_eq (glaPComponent_perfect hL)⟩
+  have : Group.IsPerfect ↥L := ⟨S267.perfect_of_commutator_self_eq (glaPComponent_perfect hL)⟩
   rcases hc with ⟨i, hi, ⟨g⟩⟩ | ⟨i, hi, ⟨g⟩⟩
   · exact Or.inl ⟨i, hi, ⟨(CFSG.ComponentClassification.PerfectCentralQuotient.equivalence
       f hf hker).trans g⟩⟩
@@ -133,7 +133,7 @@ private theorem isChevSimple_of_genCompChevOn (h3 : GenCompChevOn Q) (H : GenHyp
       f hf hker).trans g⟩⟩
 
 private theorem pow_mem_of_genHyp (H : GenHyp Q p q S B) (ω : Ω) : ω ^ p ∈ S := by
-  haveI := H.normal
+  have := H.normal
   have hω : ω ∈ S ⊔ B := H.sup ▸ Subgroup.mem_top ω
   obtain ⟨s, hs, β, hβ, rfl⟩ := Subgroup.mem_sup_of_normal_left.1 hω
   rw [← QuotientGroup.eq_one_iff, QuotientGroup.mk_pow, QuotientGroup.mk_mul,
@@ -177,20 +177,21 @@ section Helpers
 private theorem glaPPrimeCore_ne_top {p : ℕ} (hp : p.Prime) {X L : Subgroup Ω}
     (hL : GLAPComponent p X L) : GLAPPrimeCore p ↥L ≠ ⊤ := by
   intro htop
-  haveI : Nontrivial (PQuot p L) :=
+  have : Nontrivial (PQuot p L) :=
     isQuasisimple_nontrivial (isQuasisimple_pQuot_of_glaPComponent hp hL)
-  haveI : Subsingleton (↥L ⧸ GLAPPrimeCore p ↥L) := by
+  have : Subsingleton (↥L ⧸ GLAPPrimeCore p ↥L) := by
     rw [htop]
     exact QuotientGroup.subsingleton_quotient_top
   exact not_subsingleton (PQuot p L) inferInstance
 
+omit [Finite Ω] in
 private theorem mem_centralizer_of_centMod {p : ℕ} {L : Subgroup Ω}
     (hq : CFSG.Open.IsQuasisimple ↥L) (hne : GLAPPrimeCore p ↥L ≠ ⊤) {a : Ω}
     (ha : CentMod p L a) : a ∈ Subgroup.centralizer (L : Set Ω) := by
   have hle : GLAPPrimeCore p ↥L ≤ Subgroup.center ↥L :=
     le_center_of_normal_of_isQuasisimple hq inferInstance hne
   have hcm := (centMod_iff.1 ha).2
-  haveI : Group.IsPerfect ↥L := ⟨hq.1⟩
+  have : Group.IsPerfect ↥L := ⟨hq.1⟩
   have hφ := CFSG.ComponentClassification.PerfectAutomorphisms.hom_eq_id_of_central_displacement
     (L.normalizerMonoidHom ⟨a, ha.1⟩).toMonoidHom fun x => by
       obtain ⟨c, hc, hcx⟩ := hcm _ (L.inv_mem x.2)
@@ -248,7 +249,7 @@ private theorem exists_two_subgroup_lift {K : Type} [Group K] [Finite K]
     (he : (QuotientGroup.mk e₀ : K ⧸ Subgroup.center K) ∈ Subgroup.normalizer (P : Set _)) :
     ∃ R : Subgroup K, R ≠ ⊥ ∧ IsPGroup 2 R ∧ e₀ ∈ Subgroup.normalizer (R : Set K) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set π : K →* K ⧸ Subgroup.center K := QuotientGroup.mk' (Subgroup.center K) with hπ
   set Rh : Subgroup K := P.comap π with hRh
   let f : ↥Rh →* ↥P := (π.comp Rh.subtype).codRestrict P (fun x => x.2)
@@ -261,7 +262,7 @@ private theorem exists_two_subgroup_lift {K : Type} [Group K] [Finite K]
     have h1 : π (x : K) = 1 := congrArg Subtype.val (MonoidHom.mem_ker.1 hx)
     rw [hπ, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff] at h1
     exact Subgroup.mem_center_iff.2 fun z => Subtype.ext (Subgroup.mem_center_iff.1 h1 (z : K))
-  haveI : Group.IsNilpotent ↥P := hP2.isNilpotent
+  have : Group.IsNilpotent ↥P := hP2.isNilpotent
   have hnil : Group.IsNilpotent ↥Rh := Subgroup.isNilpotent_of_ker_le_center f hfker
   obtain ⟨T⟩ : Nonempty (Sylow 2 ↥Rh) := inferInstance
   have hsyl : ∀ (r : ℕ), Fact (Nat.Prime r) → ∀ (P : Sylow r ↥Rh), (P : Subgroup ↥Rh).Normal :=
@@ -271,7 +272,7 @@ private theorem exists_two_subgroup_lift {K : Type} [Group K] [Finite K]
     intro x hx
     obtain ⟨T', hT'⟩ := hx.exists_le_sylow
     have hTT : T' = T := by
-      haveI := Sylow.unique_of_normal T hTn
+      have := Sylow.unique_of_normal T hTn
       exact Subsingleton.elim _ _
     rw [← hTT]
     exact hT' (Subgroup.mem_zpowers x)
@@ -284,7 +285,7 @@ private theorem exists_two_subgroup_lift {K : Type} [Group K] [Finite K]
       rw [map_mul, map_mul, map_inv]
       exact (Subgroup.mem_normalizer_iff.1 hg (π t)).1 t.2
     refine ⟨⟨_, hmem⟩, hmemT _ ?_, rfl⟩
-    obtain ⟨n, hn⟩ := IsPGroup.iff_orderOf.1 T.isPGroup' ⟨t, ht⟩
+    obtain ⟨n, hn⟩ := IsPGroup.iff_orderOf.1 T.isPGroup ⟨t, ht⟩
     refine IsPGroup.of_card (n := n) ?_
     rw [Nat.card_zpowers, ← Subgroup.orderOf_coe]
     have h1 : orderOf (g * (t : K) * g⁻¹) = orderOf (t : K) := by
@@ -292,7 +293,7 @@ private theorem exists_two_subgroup_lift {K : Type} [Group K] [Finite K]
       simpa [MulAut.conj_apply] using this
     rw [show ((⟨g * (t : K) * g⁻¹, hmem⟩ : ↥Rh) : K) = g * (t : K) * g⁻¹ from rfl, h1,
       Subgroup.orderOf_coe, ← hn, ← Subgroup.orderOf_coe ⟨t, ht⟩]
-  refine ⟨(T : Subgroup ↥Rh).map Rh.subtype, ?_, T.isPGroup'.map _, ?_⟩
+  refine ⟨(T : Subgroup ↥Rh).map Rh.subtype, ?_, T.isPGroup.map _, ?_⟩
   · have h2P : 2 ∣ Nat.card ↥P :=
       hP2.card_eq_or_dvd.resolve_left fun h => hP (Subgroup.card_eq_one.1 h)
     have h2R : 2 ∣ Nat.card ↥Rh := h2P.trans (Subgroup.card_dvd_of_surjective hf)
@@ -308,6 +309,7 @@ private theorem exists_two_subgroup_lift {K : Type} [Group K] [Finite K]
     have := hconj e₀⁻¹ he' _ hr
     simpa [mul_assoc] using this
 
+omit [Finite Ω] in
 private theorem closureIn_eq_iSup (L B' : Subgroup Ω) :
     closureIn L B' = ⨆ g ∈ B', GLBConj g L := by
   apply le_antisymm
@@ -319,6 +321,7 @@ private theorem closureIn_eq_iSup (L B' : Subgroup Ω) :
     exact le_iSup₂_of_le (f := fun a (_ : a ∈ B') => L.map (MulAut.conj a).toMonoidHom) g⁻¹
       (B'.inv_mem hg) le_rfl
 
+omit [Finite Ω] in
 private theorem barX_le_centralizer {p : ℕ} {X E J : Subgroup Ω}
     (hc : ∀ e ∈ E, ∀ j ∈ J, e * j = j * e) :
     barX p X E ≤ Subgroup.centralizer
@@ -336,6 +339,7 @@ section Norm
 
 open CFSG.HardMathSupport.Timmesfeld.ComponentBalance
 
+omit [Finite Ω] in
 private theorem le_range_lN {L B' : Subgroup Ω} {y : Ω} (hy3 : y ^ 3 = 1)
     (hc : LComm 3 y L) (hJ : closureIn L B' = (lPsi hc).range) {K : Subgroup Ω}
     (hK : GLAPComponent 3 (closureIn L B' ⊓ Subgroup.centralizer ({y} : Set Ω)) K) :
@@ -366,11 +370,11 @@ private theorem le_range_lN {L B' : Subgroup Ω} {y : Ω} (hy3 : y ^ 3 = 1)
     ((lN hc).range.inv_mem hn₁)) ((lN hc).range.inv_mem hn₂)
 
 private theorem ker_lN_ne_bot {L : Subgroup Ω} {y : Ω} (hy3 : y ^ 3 = 1) (hc : LComm 3 y L)
-    {z : ↥L} (hzC : z ∈ Subgroup.center ↥L) (hz1 : z ≠ 1) (hz3 : z ^ 3 = 1)
+    {z : ↥L} (_hzC : z ∈ Subgroup.center ↥L) (hz1 : z ≠ 1) (hz3 : z ^ 3 = 1)
     (hsmall : Nat.card ↥((Subgroup.pi Set.univ fun _ : ZMod 3 => Subgroup.zpowers z).map
       (lPsi hc)) < 27) : (lN hc).ker ≠ ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set Pz : Subgroup (ZMod 3 → ↥L) :=
     Subgroup.pi Set.univ fun _ : ZMod 3 => Subgroup.zpowers z with hPz
   set D : Subgroup (ZMod 3 → ↥L) := (lPsi hc).ker ⊓ Pz with hD
@@ -431,7 +435,7 @@ theorem genStepI112On_of_leaves {Q : TauCeti.LieTypeIndex → Prop} (h2 : GenCom
   intro p q Ω _ _ S B H B' b L hB'el hBB' hbB' hbS hL hnL
   have hp := H.pPrime
   have hp2 := H.pOdd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hbp : b ^ p = 1 := hB'el.2 b hbB'
   have hLq := isQuasisimple_of_genCompQuasiOn h2 H hbp hbS hL
   have hLchev := isChevSimple_of_genCompChevOn h3 H hbp hbS hL
@@ -481,7 +485,7 @@ theorem genStepI112On_of_leaves {Q : TauCeti.LieTypeIndex → Prop} (h2 : GenCom
   have hOne : GLAPPrimeCore 3 ↥L ≠ ⊤ := glaPPrimeCore_ne_top hp hLX
   have hOZ : GLAPPrimeCore 3 ↥L ≤ Subgroup.center ↥L :=
     le_center_of_normal_of_isQuasisimple hLq inferInstance hOne
-  haveI : Group.IsPerfect ↥L := ⟨hLq.1⟩
+  have : Group.IsPerfect ↥L := ⟨hLq.1⟩
   have eL : (↥L ⧸ Subgroup.center ↥L) ≃* (↥Lb ⧸ Subgroup.center ↥Lb) :=
     CFSG.ComponentClassification.PerfectCentralQuotient.equivalence ρ hρs (hρker ▸ hOZ)
   have hqLb : CFSG.Open.IsQuasisimple ↥Lb := i116e_isQuasisimple hQcore hLbar
@@ -493,8 +497,8 @@ theorem genStepI112On_of_leaves {Q : TauCeti.LieTypeIndex → Prop} (h2 : GenCom
     have hZb : Subgroup.center ↥Lb = ⊥ := Subgroup.eq_bot_of_card_eq _ hZ1
     have e₁ : (↥Lb ⧸ Subgroup.center ↥Lb) ≃* ↥Lb :=
       (QuotientGroup.quotientMulEquivOfEq hZb).trans QuotientGroup.quotientBot
-    haveI : IsSimpleGroup (↥Lb ⧸ Subgroup.center ↥Lb) := hqLb.2
-    haveI : IsSimpleGroup ↥Lb := MulEquiv.isSimpleGroup e₁.symm
+    have : IsSimpleGroup (↥Lb ⧸ Subgroup.center ↥Lb) := hqLb.2
+    have : IsSimpleGroup ↥Lb := MulEquiv.isSimpleGroup e₁.symm
     have hchev : IsChevSimple q ↥Lb := by
       rcases hLchev with ⟨i, hi, ⟨g⟩⟩ | ⟨i, hi, ⟨g⟩⟩
       · exact Or.inl ⟨i, hi, ⟨(eL.trans e₁).symm.trans g⟩⟩
@@ -560,7 +564,7 @@ theorem genStepI112On_of_leaves {Q : TauCeti.LieTypeIndex → Prop} (h2 : GenCom
       _ ≤ Nat.card ↥(B' ⊓ Subgroup.centralizer (L : Set Ω)) * 9 := Nat.mul_le_mul hker hrange9
       _ = 9 * Nat.card ↥(B' ⊓ Subgroup.centralizer (L : Set Ω)) := mul_comm _ _
   ·
-    haveI : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hLq.2
+    have : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hLq.2
     have h1 := h6 q H.qPrime H.qOdd H.qp (↥L ⧸ Subgroup.center ↥L) hLq.2 hLchev
     obtain ⟨P, hP, hP2, et, het3, hetN⟩ :=
       CFSG.HardMathSupport.Timmesfeld.Tables.Census.threeTwoWitness_of_one_le h1
@@ -617,7 +621,7 @@ theorem genStepI112On_of_leaves {Q : TauCeti.LieTypeIndex → Prop} (h2 : GenCom
       exact J_eq_range hp hyB hy3 hyn hrel hc
     have hKle := le_range_lN hy3 hc hJ hK
     obtain ⟨z, hzC, hz1, hz3⟩ : ∃ z ∈ Subgroup.center ↥L, z ≠ 1 ∧ z ^ 3 = 1 := by
-      haveI : Nontrivial ↥(Subgroup.center ↥Lb) :=
+      have : Nontrivial ↥(Subgroup.center ↥Lb) :=
         Finite.one_lt_card_iff_nontrivial.1 (by rw [hZ3]; norm_num)
       obtain ⟨w, hw⟩ := exists_ne (1 : ↥(Subgroup.center ↥Lb))
       have hw3 : (w : ↥Lb) ^ 3 = 1 := by

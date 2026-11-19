@@ -89,7 +89,7 @@ theorem s21_14R3U_setup4_of_residuals (hGA : GriessAllModelsStatement) (hS : Sta
   have hSE := PartOne.Section8.isStronglyPEmbedded_three_of_calC_three_le hS S hPart hL h3L
   have hk : (UC6.dataOfSetup4 hS hU S).k = 1 := by
     show CFSG.LocalAnalysis.RankThreeUC.kParam S.M = 1
-    rw [CFSG.LocalAnalysis.RankThreeUC.kParam, if_pos hSE]
+    rw [CFSG.LocalAnalysis.RankThreeUC.kParam, ite_eq_left hSE]
   have hodd : Odd c.n := u4p_odd_n _ Ch hH c hSE
   have hBT := u4x_B0_le_normalizer c hodd
   have hthin : ¬ F08.Thin8 L := fun h => by

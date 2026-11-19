@@ -50,33 +50,33 @@ variable {D : Data G}
 variable (c : Ctx82E3 D) {P A : Subgroup G} {a : G}
 
 theorem false_of_A_normalizes_orbit'
-    (hPSz : CFSG.RankThree.PartTwo.KFacts.KPSz) (hK8 : K8Cat)
-    (hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (h7 : D.sig = {7})
-    (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
-    (hNZ : Subgroup.normalizer ((zSub P c.L : Subgroup G) : Set G) ≤ D.M)
-    (hA : CFSG.Open.IsElemAbelian 3 A) (hA27 : Nat.card A = 27) (hZA : zSub P c.L ≤ A)
-    (hAPL : A ≤ P ⊓ c.L) (ha : a ∈ A) (haZ : a ∉ zSub P c.L)
+    (_hPSz : CFSG.RankThree.PartTwo.KFacts.KPSz) (_hK8 : K8Cat)
+    (_hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (_h7 : D.sig = {7})
+    (_hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
+    (_hNZ : Subgroup.normalizer ((zSub P c.L : Subgroup G) : Set G) ≤ D.M)
+    (hA : CFSG.Open.IsElemAbelian 3 A) (hA27 : Nat.card A = 27) (_hZA : zSub P c.L ≤ A)
+    (_hAPL : A ≤ P ⊓ c.L) (ha : a ∈ A) (haZ : a ∉ zSub P c.L)
     (hP2 : IsTripleCover (perfectCoreL c a ⧸ CFSG.Open.pCore 2 ↥(perfectCoreL c a))
         (alternatingGroup (Fin 6)) ∧
       zSub P c.L ≤ perfectCoreL c a ∧
       ⁅perfectCoreL c a, zSub P c.L⁆ ≤
         CFSG.Open.pCoreOf 2 (perfectCoreL c a) ∧
       A ≤ Subgroup.closure ({a} : Set G) ⊔ perfectCoreL c a)
-    (hP3 : CFSG.Open.pRank 7 (Subgroup.centralizer ({a} : Set G)) = 1)
-    (hP5 : ∀ W : Subgroup G, W ≤ D.M → Group.IsPerfect ↥W → ¬ 3 ∣ Nat.card W →
+    (_hP3 : CFSG.Open.pRank 7 (Subgroup.centralizer ({a} : Set G)) = 1)
+    (_hP5 : ∀ W : Subgroup G, W ≤ D.M → Group.IsPerfect ↥W → ¬ 3 ∣ Nat.card W →
       W ≤ CFSG.LocalAnalysis.RankThreeUC.centralizerOnQuotient D.M
         (CFSG.Open.pCoreOf 2 c.L) c.L)
-    {J : Subgroup G} (hJ : J ∈ thetaComponentsAt 3 a) (h3 : ¬ 3 ∣ Nat.card J)
+    {J : Subgroup G} (_hJ : J ∈ thetaComponentsAt 3 a) (_h3 : ¬ 3 ∣ Nat.card J)
     (h6 : (orbitConjugates (perfectCoreL c a) J).ncard = 6)
-    (h7J : ¬ 7 ∣ Nat.card (J ⧸ CFSG.RankThree.LocalRank.aschbacherSolvableCore 3 J))
+    (_h7J : ¬ 7 ∣ Nat.card (J ⧸ CFSG.RankThree.LocalRank.aschbacherSolvableCore 3 J))
     (hAnorm : ∀ K ∈ orbitConjugates (perfectCoreL c a) J,
       A ≤ Subgroup.normalizer (K : Set G)) :
     False := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let I : Subgroup G := perfectCoreL c a
-  letI : MulAction ↥I (Subgroup G) :=
+  let : MulAction ↥I (Subgroup G) :=
     MulAction.compHom (Subgroup G) (MulAut.conj.comp I.subtype)
   have hsmul : ∀ (b : ↥I) (M : Subgroup G), b • M = M.map (MulAut.conj (b : G)).toMonoidHom :=
     fun b M => by
@@ -104,7 +104,7 @@ theorem false_of_A_normalizes_orbit'
     rw [hrange]
     exact Set.finite_range _
   have hfin : Ω.Finite := by rw [hΩeq]; exact hfin'
-  haveI : Fintype Ω := hfin.fintype
+  have : Fintype Ω := hfin.fintype
   have hΩn : Fintype.card Ω = 6 := by
     rw [← Nat.card_eq_fintype_card, Nat.card_coe_set_eq, hΩeq]
     exact h6
@@ -112,7 +112,7 @@ theorem false_of_A_normalizes_orbit'
   let ρ : ↥I →* Equiv.Perm Ω := MulAction.toPermHom ↥I Ω
   let ρ' : ↥I →* Equiv.Perm (Fin 6) := (Equiv.permCongrHom e).toMonoidHom.comp ρ
   let H : Subgroup (Equiv.Perm (Fin 6)) := ρ'.range
-  haveI : Group.IsPerfect ↥I := perfectCoreL_isPerfect c a
+  have : Group.IsPerfect ↥I := perfectCoreL_isPerfect c a
   have hHperf : Group.IsPerfect H := Group.IsPerfect.range ρ'
   have hHne : H ≠ ⊥ := by
     intro hbot
@@ -168,7 +168,7 @@ theorem false_of_A_normalizes_orbit'
     rw [Nat.card_congr eQ.toEquiv, nat_card_alternatingGroup, Nat.card_fin]
     norm_num
   have hQsimple : IsSimpleGroup (X ⧸ Subgroup.center X) := by
-    haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+    have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
     exact (MulEquiv.isSimpleGroup_congr eQ).2 inferInstance
   have hXcard : Nat.card X = 1080 := by
     have h := Subgroup.card_eq_card_quotient_mul_card_subgroup (Subgroup.center X)
@@ -192,7 +192,7 @@ theorem false_of_A_normalizes_orbit'
   let Kbar : Subgroup X := K.map π
   have hKbar_normal : Kbar.Normal :=
     hKnormal.map π (QuotientGroup.mk'_surjective (CFSG.pCore 2 ↥I))
-  haveI : Kbar.Normal := hKbar_normal
+  have : Kbar.Normal := hKbar_normal
   let φK : ↥K →* X := π.comp K.subtype
   have hφK_range : φK.range = Kbar := by
     ext y
@@ -336,7 +336,7 @@ theorem threePrimeComponent_orbit_ne_six_coprime'
     intro hbot
     rw [hbot, Subgroup.card_bot] at hcardZ
     exact absurd hcardZ (by norm_num)
-  haveI hntriv : Nontrivial ↥(zSub P c.L) := (Subgroup.nontrivial_iff_ne_bot _).mpr hZne
+  have hntriv : Nontrivial ↥(zSub P c.L) := (Subgroup.nontrivial_iff_ne_bot _).mpr hZne
   obtain ⟨x, hx1⟩ := exists_ne (1 : ↥(zSub P c.L))
   let z : G := (x : G)
   have hz : z ∈ zSub P c.L := x.2

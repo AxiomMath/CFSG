@@ -32,7 +32,7 @@ theorem noncentral_direct_product {G : Type} [Group G] [Finite G] {t : G}
     exact hne (hfix_of_aut htS haut n hn _ hmem hcent rfl)
   · push Not at hP
     obtain ⟨S, hS⟩ := hS12.exists_le_sylow
-    have hSeq : (S : Subgroup G) = SK ⊔ SD := hP _ S.isPGroup' hS
+    have hSeq : (S : Subgroup G) = SK ⊔ SD := hP _ S.isPGroup hS
     exact hnc S (hSeq ▸ hS1C)
 
 end CFSG.GH74.E2

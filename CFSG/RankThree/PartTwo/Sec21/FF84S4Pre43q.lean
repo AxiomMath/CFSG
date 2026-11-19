@@ -27,6 +27,7 @@ theorem a8d_ne_one : a8d ≠ 1 := by
   unfold a8d
   decide
 
+omit [Finite G] in
 theorem thG_comm {u v : G} (hu : u ∈ Nor L) (hv : v ∈ Nor L) :
     thG L θ (u * v * u⁻¹ * v⁻¹) = thG L θ u * thG L θ v * (thG L θ u)⁻¹ * (thG L θ v)⁻¹ := by
   rw [thG_mul (mul_mem (mul_mem hu hv) (inv_mem hu)) (inv_mem hv),

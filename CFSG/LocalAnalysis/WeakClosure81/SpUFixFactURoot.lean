@@ -230,37 +230,37 @@ theorem spUFix_exists_herm_eq_zero_not_smul (hF : Nat.card F = (2 ^ n) ^ 2) {m :
     intro hh
     have hv := congrArg Fin.val hh
     rw [hi0, hi1] at hv
-    simp only [Fin.val_mk] at hv
+    simp only at hv
     omega
   have h02 : i0 ≠ i2 := by
     intro hh
     have hv := congrArg Fin.val hh
     rw [hi0, hi2] at hv
-    simp only [Fin.val_mk] at hv
+    simp only at hv
     omega
   have h03 : i0 ≠ i3 := by
     intro hh
     have hv := congrArg Fin.val hh
     rw [hi0, hi3] at hv
-    simp only [Fin.val_mk] at hv
+    simp only at hv
     omega
   have h12 : i1 ≠ i2 := by
     intro hh
     have hv := congrArg Fin.val hh
     rw [hi1, hi2] at hv
-    simp only [Fin.val_mk] at hv
+    simp only at hv
     omega
   have h13 : i1 ≠ i3 := by
     intro hh
     have hv := congrArg Fin.val hh
     rw [hi1, hi3] at hv
-    simp only [Fin.val_mk] at hv
+    simp only at hv
     omega
   have h23 : i2 ≠ i3 := by
     intro hh
     have hv := congrArg Fin.val hh
     rw [hi2, hi3] at hv
-    simp only [Fin.val_mk] at hv
+    simp only at hv
     omega
   set a₀ : Fin m → F := Pi.single i0 1 + Pi.single i1 1 with ha₀def
   set v₀ : Fin m → F := Pi.single i2 1 + Pi.single i3 1 with hv₀def
@@ -285,7 +285,7 @@ theorem spUFix_exists_herm_eq_zero_not_smul (hF : Nat.card F = (2 ^ n) ^ 2) {m :
       rw [ha₀def]
       simp [Pi.single_eq_of_ne' (Ne.symm h01)]
     rw [hh] at h1
-    simpa using h1
+    simp at h1
   obtain ⟨t, _, hta⟩ := exists_mem_T_smul_eq_of_iso hσ hm3 ha₀0 ha₀ ha0 ha
   refine ⟨t • v₀, ?_, ?_, ?_⟩
   · rw [herm_smul_smul (unitaryInvolution F 2 n) t v₀ v₀, hv₀]

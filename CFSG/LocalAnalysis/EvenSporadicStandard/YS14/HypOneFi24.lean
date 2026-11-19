@@ -31,8 +31,8 @@ theorem fourClassesLarge_of_facts {r : R} (hW : WitFacts r) :
     FourClassesLarge ↥(Subgroup.centralizer ({r} : Set R)) ∧
       (r ∈ JR → FourClassesLarge ↥(Subgroup.centralizer ({r} : Set R) ⊓ JR)) :=
   fourClassesLarge_of_witFacts hW
-    (fun hr2 hr1 u hu hru hne => fourClassesLarge_leaf_D24 hu hr2 hru hr1 hne)
-    (fun hrJ hr2 hr1 u hu hru => fourClassesLarge_leaf_D24_J hu hrJ hr2 hru hr1)
+    (fun hr2 hr1 _u hu hru hne => fourClassesLarge_leaf_D24 hu hr2 hru hr1 hne)
+    (fun hrJ hr2 hr1 _u hu hru => fourClassesLarge_leaf_D24_J hu hrJ hr2 hru hr1)
 
 theorem hypothesisOne_fi24Prime :
     CFSG.LocalAnalysis.ComponentInitial.Finkelstein1977.HypothesisOne

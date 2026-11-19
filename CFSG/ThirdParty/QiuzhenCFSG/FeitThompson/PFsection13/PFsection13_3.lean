@@ -153,8 +153,8 @@ private theorem hypothesis_13_1_muSum_characterData_of_sourceData
   have hPCcomm : IsMulCommutative (P ⊔ C : Subgroup G) :=
     theorem_13_3_isMulCommutative_sup_of_le_centralizer
       hPcomm hCcomm hCleCentP
-  letI : IsMulCommutative (P ⊔ C : Subgroup G) := hPCcomm
-  letI : IsMulCommutative ((P ⊔ C).subgroupOf Smax) :=
+  let : IsMulCommutative (P ⊔ C : Subgroup G) := hPCcomm
+  let : IsMulCommutative ((P ⊔ C).subgroupOf Smax) :=
     Subgroup.subgroupOf_isMulCommutative (H := P ⊔ C) (K := Smax)
   have hθdeg : Section1.degree θ = (1 : ℂ) :=
     Section1.isIrreducibleCharacterOnGroup_degree_eq_one_of_commutative hθirr
@@ -408,7 +408,7 @@ private theorem theorem_13_3_irreducibleBranch_for_coherentExtension
       hFourSixT⟩
   subst p
   subst q
-  letI : IsMinCE G := hmin
+  let : IsMinCE G := hmin
   intro ω η μ ν μsum νsum δ δ' σ hnotation
   rcases hIrr with ⟨X, hXirr⟩
   have hSne : Sfam.Nonempty := ⟨X, X.property⟩
@@ -438,10 +438,10 @@ private theorem theorem_13_3_irreducibleBranch_for_coherentExtension
     ⟨I, instI, decI, J, instJ, decJ, Wsec, A, A0, i0, j0, μsel,
       δSign, ωsec, σsec, hSelected, row, col, hrow0, hcol0, hcol_ne,
       hcol_inj, hcol_surj, hDelta, hColumn, hOmegaColumn⟩
-  letI : Fintype I := instI
-  letI : DecidableEq I := decI
-  letI : Fintype J := instJ
-  letI : DecidableEq J := decJ
+  let : Fintype I := instI
+  let : DecidableEq I := decI
+  let : Fintype J := instJ
+  let : DecidableEq J := decJ
   rcases theorem_13_3_fittingSupportedFourSixData_of_typeP hSTypeP hSelected with
     ⟨σS, xChar, H_A, hSupported⟩
   have hContext :=
@@ -749,7 +749,7 @@ private theorem theorem_13_3_allReducible_exists_positiveExtension
       hFourSixT⟩
   subst p
   subst q
-  letI : IsMinCE G := hmin
+  let : IsMinCE G := hmin
   intro ω η μ ν μsum νsum δ δ' σ hnotation
   have hSign : theorem_13_3_signNormalizationFor
       (Nat.card W2) (Nat.card W1) δ δ' :=
@@ -769,10 +769,10 @@ private theorem theorem_13_3_allReducible_exists_positiveExtension
     ⟨I, instI, decI, J, instJ, decJ, Wsec, A, A0, i0, j0, μsel,
       δSign, ωsec, σsec, hSelected, row, col, hrow0, hcol0, hcol_ne,
       hcol_inj, hcol_surj, hDelta, hColumn, hOmegaColumn⟩
-  letI : Fintype I := instI
-  letI : DecidableEq I := decI
-  letI : Fintype J := instJ
-  letI : DecidableEq J := decJ
+  let : Fintype I := instI
+  let : DecidableEq I := decI
+  let : Fintype J := instJ
+  let : DecidableEq J := decJ
   rcases theorem_13_3_fittingSupportedFourSixData_of_typeP hSTypeP hSelected with
     ⟨σS, xChar, H_A, hSupported⟩
   have hSupportedCopy := hSupported
@@ -1269,7 +1269,7 @@ private theorem theorem_13_3_case_9_7_a_theorem_13_10_source
       _hDadeT, _hnotation, _hDadeDiff, _hZeroDegree, _hConjIndex,
       _hConjBetaTau, _hChoice, hMin, _hFourSixS,
       _hFourSixT⟩
-  letI : IsMinCE G := hMin
+  let : IsMinCE G := hMin
   have hTypePDefCopy := hTypePDef
   rcases hTypePDefCopy with
     ⟨_hMF, _hW1cyc, _hW1ne, _hW1Hall, _hMcomp, hUleDer, _hUnil,
@@ -1335,7 +1335,7 @@ private theorem theorem_13_3_case_9_7_b_no_theorem_13_10_tail_source
       _hDadeT, _hnotation, _hDadeDiff, _hZeroDegree, _hConjIndex,
       _hConjBetaTau, _hChoice, hMin, _hFourSixS,
       _hFourSixT⟩
-  letI : IsMinCE G := hMin
+  let : IsMinCE G := hMin
   have hTypePDefCopy := hTypePDef
   rcases hTypePDefCopy with
     ⟨_hMF, _hW1cyc, _hW1ne, _hW1Hall, _hMcomp, hUleDer, _hUnil,

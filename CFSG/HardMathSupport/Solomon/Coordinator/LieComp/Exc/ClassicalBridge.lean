@@ -16,9 +16,9 @@ open CFSG.Open CFSG.Blueprint CFSG.Assembly.LowTwoRank CFSG.ComponentClassificat
 set_option linter.unusedSectionVars false
 
 theorem ringChar_eq_of_natCard_eq_pow {K : Type} [Field K] [Finite K] {p f : ℕ} (hp : p.Prime)
-    (hK : Nat.card K = p ^ f) (hf : 1 ≤ f) : ringChar K = p := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K (ringChar K) := ringChar.charP K
+    (hK : Nat.card K = p ^ f) (_hf : 1 ≤ f) : ringChar K = p := by
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K (ringChar K) := ringChar.charP K
   obtain ⟨n, hq, hcard⟩ := FiniteField.card K (ringChar K)
   have hd : ringChar K ∣ p ^ f := by
     rw [← hK, Nat.card_eq_fintype_card, hcard]
@@ -44,7 +44,7 @@ theorem isEmpty_alt6_of_lieModel_gen {G : Type} [Group G] {t : StatedLieTag} {n 
 private theorem nonempty_ringEquiv_fixedField_gen {K : Type} [Field K] [Fintype K]
     (d : ValidLieTypeIndex)
     (hK : Fintype.card K = d.fieldOrder) : Nonempty (K ≃+* ↥d.fixedField) := by
-  haveI : Finite d.fixedField := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d
+  have : Finite d.fixedField := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d
   let _ : Fintype d.fixedField := Fintype.ofFinite _
   have hcard : Fintype.card K = Fintype.card d.fixedField := by
     rw [← Nat.card_eq_fintype_card (α := d.fixedField), ValidLieTypeIndex.card_fixedField]
@@ -77,7 +77,7 @@ theorem lieModel_plus_chev {G : Type} [Group G] {n p f : ℕ}
   refine ⟨?_, isEmpty_alt6_of_lieModel_gen h ?_⟩
   · rcases h with ⟨-, hmod⟩ | ⟨hn0, ht, -⟩ | ⟨hn0, ht, -⟩ | ⟨hn0, ht, -⟩
     · obtain ⟨-, K, _, _, hK, ⟨e⟩⟩ := hmod
-      haveI : Fintype K := Fintype.ofFinite K
+      have : Fintype K := Fintype.ofFinite K
       have hring : ringChar K = p := ringChar_eq_of_natCard_eq_pow hp hK hf
       have := isChevSimple_congr e.symm (isChevSimple_statedProj_plus_gen (K := K) n hn4)
       rwa [hring] at this

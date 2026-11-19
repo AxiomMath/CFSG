@@ -50,9 +50,9 @@ private lemma kg3_weylMat6_simple' (i a b : Fin Tag.E6.rank) :
       exact absurd (Finset.mem_univ b) hb
   rw [hsum]
   by_cases hai : a = i
-  · rw [if_pos hai, if_pos hai]
+  · rw [ite_eq_left hai, ite_eq_left hai]
     ring
-  · rw [if_neg hai, if_neg hai]
+  · rw [ite_eq_right hai, ite_eq_right hai]
     ring
 
 private def kg3_S (i : Fin 6) : Matrix (Fin 6) (Fin 6) ℤ :=

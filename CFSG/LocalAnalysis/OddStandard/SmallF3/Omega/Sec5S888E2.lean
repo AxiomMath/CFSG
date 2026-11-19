@@ -39,7 +39,7 @@ theorem PlaneSys.eq_of_prod_eq (hS : PlaneSys V W) {w w' : Fin 4 → X} (hw : �
             exact hS.card i
       _ = 4 ^ 4 := by rw [Finset.prod_const, Finset.card_univ, Fintype.card_fin]
       _ = 2 ^ 8 := by decide
-  haveI : Finite (∀ i : Fin 4, ↥(W i)) :=
+  have : Finite (∀ i : Fin 4, ↥(W i)) :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; decide)
   have hbij : Function.Bijective Φ :=
     hsurj.bijective_of_nat_card_le (by rw [hcard, hS.card_D])
@@ -73,17 +73,17 @@ theorem PlaneSys.inf_eq_bot (hS : PlaneSys V W) {i j : Fin 4} (h : i ≠ j) : W 
     · intro k
       by_cases hki : k = i
       · subst hki
-        rw [if_pos rfl]
+        rw [ite_eq_left rfl]
         exact hxi
       · by_cases hkj : k = j
         · subst hkj
-          rw [if_neg hki, if_pos rfl]
+          rw [ite_eq_right hki, ite_eq_left rfl]
           exact hxj
-        · rw [if_neg hki, if_neg hkj]
+        · rw [ite_eq_right hki, ite_eq_right hkj]
           exact Subgroup.one_mem _
     · intro k
       exact Subgroup.one_mem _
-    · fin_cases i <;> fin_cases j <;> simp_all [hx2]
+    · fin_cases i <;> fin_cases j <;> simp_all
   have := congrFun key i
   simpa using this
 
@@ -96,7 +96,7 @@ private theorem planeIdx_spec (hS : PlaneSys V W) (y : normalizer (V : Set X)) (
   Classical.choose_spec (hS.perm (y : X) y.2 i)
 
 private theorem planeIdx_unique (hS : PlaneSys V W) {i j j' : Fin 4} {y : X}
-    (hy : y ∈ normalizer (V : Set X))
+    (_hy : y ∈ normalizer (V : Set X))
     (h : ∀ w ∈ W i, y * w * y⁻¹ ∈ W j)
     (h' : ∀ w ∈ W i, y * w * y⁻¹ ∈ W j') : j = j' := by
   by_contra hne

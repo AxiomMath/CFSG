@@ -98,10 +98,10 @@ theorem tcLetter_cast (l : ℕ) (f : Array ℤ) :
   funext j
   by_cases h : l < τ.rank
   · have hc := tcCartan_getD τ ⟨l, h⟩ j
-    rw [tcLetter, if_pos h, tcLetterElt, dif_pos h, cowAct_simple, tcVec_ofFn]
+    rw [tcLetter, ite_eq_left h, tcLetterElt, dite_eq_left h, cowAct_simple, tcVec_ofFn]
     simp only [ZMod.intCast_mod, Int.cast_sub, Int.cast_mul, tcVec_apply] at hc ⊢
     rw [hc]
-  · rw [tcLetter, if_neg h, tcLetterElt, dif_neg h, cowAct_rootReflection_θ, tcVec_ofFn]
+  · rw [tcLetter, ite_eq_right h, tcLetterElt, dite_eq_right h, cowAct_rootReflection_θ, tcVec_ofFn]
     simp only [ZMod.intCast_mod, Int.cast_sub, Int.cast_mul, tcDot_cast, kacOf_c_apply,
       tcVec_apply]
     congr 2
@@ -180,17 +180,17 @@ theorem commutesPi_twistGen (gi : ℕ) :
     CommutesPi e6Gamma (tcWordElt Tag.E6 ((tcTwistGens ()).getD gi [])) := by
   rcases gi with _ | _ | _ | _ | gi
   · change CommutesPi e6Gamma (1 * tcLetterElt Tag.E6 1)
-    rw [one_mul, tcLetterElt, dif_pos (by decide)]
+    rw [one_mul, tcLetterElt, dite_eq_left (by decide)]
     exact tcW_commutesPi_simple tcW_e6Gamma_cartan (by decide)
   · change CommutesPi e6Gamma (1 * tcLetterElt Tag.E6 3)
-    rw [one_mul, tcLetterElt, dif_pos (by decide)]
+    rw [one_mul, tcLetterElt, dite_eq_left (by decide)]
     exact tcW_commutesPi_simple tcW_e6Gamma_cartan (by decide)
   · change CommutesPi e6Gamma (1 * tcLetterElt Tag.E6 4 * tcLetterElt Tag.E6 2)
-    rw [one_mul, tcLetterElt, dif_pos (by decide), tcLetterElt, dif_pos (by decide)]
+    rw [one_mul, tcLetterElt, dite_eq_left (by decide), tcLetterElt, dite_eq_left (by decide)]
     exact tcW_commutesPi_simple_mul_simple tcW_e6Gamma_cartan (by decide) (by decide)
       (by decide)
   · change CommutesPi e6Gamma (1 * tcLetterElt Tag.E6 5 * tcLetterElt Tag.E6 0)
-    rw [one_mul, tcLetterElt, dif_pos (by decide), tcLetterElt, dif_pos (by decide)]
+    rw [one_mul, tcLetterElt, dite_eq_left (by decide), tcLetterElt, dite_eq_left (by decide)]
     exact tcW_commutesPi_simple_mul_simple tcW_e6Gamma_cartan (by decide) (by decide)
       (by decide)
   · have h : (tcTwistGens ()).getD (gi + 4) [] = [] := by

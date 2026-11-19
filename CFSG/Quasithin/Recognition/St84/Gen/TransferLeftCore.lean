@@ -77,10 +77,11 @@ private theorem exists_odd_prime_order_of_not_isPGroup_two {X : Type*} [Group X]
     apply hp_not
     rw [hp2]
     exact Nat.Prime.mem_primeFactors Nat.prime_two dvd_rfl (by norm_num)
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' p (Nat.dvd_of_mem_primeFactors hp_mem)
   exact ⟨x, p, hp, hp.odd_of_ne_two hp2, hx⟩
 
+omit [Finite H] in
 private theorem le_normalizer_centerOf_pCoreOf (L : Subgroup H) :
     L ≤ Subgroup.normalizer (centerOf (pCoreOf 2 L) : Set H) := by
   intro g hg
@@ -99,8 +100,8 @@ private theorem centralizes_centerRight {L1 L2 S : Subgroup H}
     ∀ z ∈ centerOf (pCoreOf 2 (f112saP2' L1 L2 S)), c * z = z * c := by
   classical
   obtain ⟨F, hFld, hFchar, α, hα, hker, hnat⟩ := hd.nat_right
-  letI := hFld
-  letI := hFchar
+  let := hFld
+  let := hFchar
   let Lβ := oTwoPrime (f112saP2' L1 L2 S)
   let Qβ := pCoreOf 2 (f112saP2' L1 L2 S)
   have hQeq : pCoreOf 2 Lβ = Qβ := pCoreOf_oTwoPrime _
@@ -311,7 +312,7 @@ private theorem torus_commutator_mem_T {L1 L2 S : Subgroup H} {m n : ℕ}
     (h2 : IsL2Quot n (oTwoQuot ↥L2)) {J : Subgroup H}
     (hJB : J ≤ bigB (oTwoPrime (f112saP1' L1 L2 S)) (oTwoPrime (f112saP2' L1 L2 S))
       (S ⊓ f112saK L1 L2 S))
-    (hJtriv : ∀ j ∈ J, ∀ l ∈ oTwoPrime (f112saP1' L1 L2 S),
+    (_hJtriv : ∀ j ∈ J, ∀ l ∈ oTwoPrime (f112saP1' L1 L2 S),
       ⁅j, l⁆ ∈ pCoreOf 2 (f112saP1' L1 L2 S))
     {c : H} (hcS : c ∈ S)
     (hc1 : c ∈ trivOTwoQuot (oTwoPrime (f112saP1' L1 L2 S)))
@@ -489,6 +490,7 @@ private theorem exists_mul_centralizes_torus {L1 L2 S : Subgroup H} {m n : ℕ}
     rw [commutatorElement_mul_left_eq_conj_mul]
     exact Zα.mul_mem hconj hyx
 
+omit [Finite H] in
 private theorem torus_commutator_conj_mem_center {L1 L2 S : Subgroup H}
     (hcomm : ⁅pCoreOf 2 (f112saP1' L1 L2 S), pCoreOf 2 (f112saP1' L1 L2 S)⁆ ≤
       centerOf (pCoreOf 2 (f112saP1' L1 L2 S))) {J : Subgroup H}
@@ -612,6 +614,7 @@ private theorem commutator_torus_mem_center {L1 L2 S : Subgroup H}
     exact Zα.inv_mem hzZ
   exact hmZ
 
+omit [Finite H] in
 private theorem mem_centralizer_of_commutator_le_center_of_perfect {L : Subgroup H}
     (hperf : ⁅L, L⁆ = L) {z : H}
     (hcomm : ∀ l ∈ L, ⁅z, l⁆ ∈ centerOf L) :
@@ -859,7 +862,7 @@ theorem f112ll_eq_one_of_mem_trivOTwoQuot_of_centralizer_le {L1 L2 S : Subgroup 
   exact hnot (Qβ_le_Qα_of_odd_mem_triv hF hm hn h1 h2 hcent hk hktriv hkodd hk1)
 
 private theorem X2_inf_triv_isPGroup {L1 L2 S : Subgroup H} {m n : ℕ}
-    (hF : F112HypW L1 L2 S) (hm : 2 ≤ m) (hn : 2 ≤ n) (h1 : IsL2Quot m (oTwoQuot ↥L1))
+    (_hF : F112HypW L1 L2 S) (_hm : 2 ≤ m) (hn : 2 ≤ n) (_h1 : IsL2Quot m (oTwoQuot ↥L1))
     (h2 : IsL2Quot n (oTwoQuot ↥L2)) (hd : TransferLeftData L1 L2 S) :
     IsPGroup 2 ↥(f112saX2 L1 L2 S ⊓
       trivOTwoQuot (oTwoPrime (f112saP1' L1 L2 S))) := by
@@ -916,6 +919,7 @@ theorem TransferLeftData.X2_inf_trivOTwoQuot_le {L1 L2 S : Subgroup H} {m n : �
       S ⊓ f112saK L1 L2 S := by
   exact X2_inf_triv_le_T hF hm hn h1 h2 hd
 
+omit [Finite H] in
 private theorem conj_mem_trivOTwoQuot {L : Subgroup H} {g : H}
     (hg : g ∈ Subgroup.normalizer (L : Set H)) {x : H} (hx : x ∈ trivOTwoQuot L) :
     g * x * g⁻¹ ∈ trivOTwoQuot L := by
@@ -1106,8 +1110,8 @@ theorem TransferLeftData.mem_T_of_mem_trivOTwoQuot {L1 L2 S : Subgroup H} {m n :
   let Qα := pCoreOf 2 Eα
   let Qβ := pCoreOf 2 Eβ
   obtain ⟨F, hFld, hFchar, α, hα, hker, hnat⟩ := hd.nat_right
-  letI := hFld
-  letI := hFchar
+  let := hFld
+  let := hFchar
   have hW : f112saW L1 L2 S = ⊥ :=
     f112ll_W_eq_bot_of_isNatSecOf hF hm hn h1 h2 hker hnat
   have hcZ : ∀ z ∈ centerOf Qβ, c * z = z * c :=

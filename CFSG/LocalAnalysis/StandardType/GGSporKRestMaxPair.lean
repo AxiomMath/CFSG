@@ -19,7 +19,7 @@ theorem sporKRest_stabilizer_maximal {G : Type} [Group G] {Ω : Type} [MulAction
   have hYN : Y ≠ MulAction.stabilizer G b := fun h => hcon (Or.inl h)
   have hYtop : Y ≠ ⊤ := fun h => hcon (Or.inr h)
   obtain ⟨y, hyY, hyN⟩ :=
-    SetLike.exists_of_lt (lt_of_le_of_ne hNY (fun h => hYN h.symm))
+    _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne hNY (fun h => hYN h.symm))
   have hyb : y • b ≠ b := fun hfix => hyN (MulAction.mem_stabilizer_iff.mpr hfix)
   obtain ⟨n, hnN, h, hhhs, hEq⟩ := hcover y hyb
   have hnY : n ∈ Y := hNY hnN

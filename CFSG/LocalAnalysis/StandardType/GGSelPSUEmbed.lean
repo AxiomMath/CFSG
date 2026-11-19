@@ -179,7 +179,7 @@ theorem conjTr_embM (hι : Function.Injective ι) (σ : F ≃+* F) (B : Matrix (
     · subst hxy'
       simp
     · have hyx' : y ≠ x := fun h => hxy' h.symm
-      simp [Matrix.one_apply, hxy', hyx']
+      simp [hxy', hyx']
 
 theorem embM_isometry (hι : Function.Injective ι) (hrev : ∀ r, ι (Fin.rev r) = Fin.rev (ι r))
     (σ : F ≃+* F) {B : Matrix (Fin 2) (Fin 2) F}

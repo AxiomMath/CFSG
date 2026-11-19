@@ -132,7 +132,7 @@ theorem exists_conj_torus {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) (hpq : p ∣ 
       omega
   obtain ⟨P⟩ : Nonempty (Sylow p ↥(torus 3 K)) := inferInstance
   set P₁ : Subgroup (StatedSp 3 K) := (P : Subgroup ↥(torus 3 K)).map (torus 3 K).subtype with hP₁
-  have hP₁p : IsPGroup p P₁ := P.isPGroup'.map _
+  have hP₁p : IsPGroup p P₁ := P.isPGroup.map _
   have hindex : P₁.index = (P : Subgroup ↥(torus 3 K)).index * M := by
     have h1 : Nat.card P₁ = Nat.card P :=
       Subgroup.card_map_of_injective (torus 3 K).subtype_injective

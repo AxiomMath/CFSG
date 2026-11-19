@@ -33,7 +33,7 @@ theorem toLetters_wOf_cons {j x : Nat} (u : List Nat) (hx : x / 2 < j) :
   · have hl : wOf (x :: u) = ((x / 2 + 1 : Nat) : Int) :: wOf u := by simp [wOf, h0]
     rw [hl]
     simp only [CFSG.Monster.B.Co2.toLetters, List.filterMap_cons]
-    rw [dif_pos (by simp; omega)]
+    rw [dite_eq_left (by simp; omega)]
     have e1 : ((x / 2 + 1 : Nat) : Int).natAbs - 1 = x / 2 := by
       rw [Int.natAbs_natCast]
       omega
@@ -46,7 +46,7 @@ theorem toLetters_wOf_cons {j x : Nat} (u : List Nat) (hx : x / 2 < j) :
   · have hl : wOf (x :: u) = -((x / 2 + 1 : Nat) : Int) :: wOf u := by simp [wOf, h1]
     rw [hl]
     simp only [CFSG.Monster.B.Co2.toLetters, List.filterMap_cons]
-    rw [dif_pos (by simp; omega)]
+    rw [dite_eq_left (by simp; omega)]
     have e1 : (-((x / 2 + 1 : Nat) : Int)).natAbs - 1 = x / 2 := by
       rw [Int.natAbs_neg, Int.natAbs_natCast]
       omega
@@ -82,12 +82,12 @@ theorem toLetters_ninvC {j : Nat} : ∀ {u : List Nat}, codesLt j u →
       by_cases hx2 : x % 2 = 0
       · have : flipC x % 2 ≠ 0 := by
           unfold flipC
-          rw [if_pos hx2]
+          rw [ite_eq_left hx2]
           omega
         simp [hx2, this]
       · have : flipC x % 2 = 0 := by
           unfold flipC
-          rw [if_neg hx2]
+          rw [ite_eq_right hx2]
           omega
         simp [hx2, this]
     have e4 : CFSG.Monster.B.Co2.toLetters j (wOf []) = [] := rfl

@@ -190,7 +190,7 @@ theorem original_perfect_plane_excludes_central_even_linear_three_image {L : Typ
   have hθinj : Function.Injective θ := by
     rw [injective_iff_map_eq_one]
     intro u hu
-    have hdisj := IsPGroup.disjoint_of_ne p 2 hp2 P₁ f.ker P₀.isPGroup' hf2
+    have hdisj := IsPGroup.disjoint_of_ne p 2 hp2 P₁ f.ker P₀.isPGroup hf2
     have h2 : (u : X) ∈ P₁ ⊓ f.ker := Subgroup.mem_inf.mpr ⟨u.2, hu⟩
     rw [disjoint_iff.mp hdisj, Subgroup.mem_bot] at h2
     exact Subtype.ext h2

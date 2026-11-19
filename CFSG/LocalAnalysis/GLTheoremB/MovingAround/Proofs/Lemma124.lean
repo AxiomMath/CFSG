@@ -13,23 +13,26 @@ open CFSG.HardMathSupport.Solomon.Coordinator (IsEkIn)
 namespace Lemma124
 
 @[expose] def Prop117cStatement : Prop :=
-  ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A : Subgroup G} (h : Sec11 G m p B M E A) {a : G}
-    (ha : a ∈ A) (ha1 : a ≠ 1) {K : Subgroup G} (hK : GLAPComponent p (Cg a) K) (ht : Type117c p A K),
+  ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A : Subgroup G} (_h : Sec11 G m p B M E A) {a : G}
+    (_ha : a ∈ A) (_ha1 : a ≠ 1) {K : Subgroup G} (_hK : GLAPComponent p (Cg a) K) (_ht : Type117c p A K),
     K ≤ M ∨ ∃ A1 : Subgroup G, inD p M A1 ∧ a ∈ A1
 
 section Helpers
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isElemAbelian_of_le {p : ℕ} {H K : Subgroup G} (hHK : H ≤ K) (hK : IsElemAbelian p K) :
     IsElemAbelian p H := by
   refine ⟨⟨⟨fun a b => ?_⟩⟩, fun x hx => hK.2 x (hHK hx)⟩
   have h2 := congrArg Subtype.val (hK.1.is_comm.comm (⟨a.1, hHK a.2⟩ : K) ⟨b.1, hHK b.2⟩)
   exact Subtype.ext h2
 
+omit [Finite G] in
 theorem barX_mono_aux (p : ℕ) {X S T : Subgroup G} (h : S ≤ T) : barX p X S ≤ barX p X T :=
   Subgroup.map_mono fun _ hx => (Subgroup.mem_subgroupOf).2 (h ((Subgroup.mem_subgroupOf).1 hx))
 
+omit [Finite G] in
 theorem comp_le_aux {p : ℕ} {X L : Subgroup G} (h : GLAPComponent p X L) : L ≤ X := h.1
 
 theorem pRank_eq_two_of_card_nine {H : Subgroup G} (hH : IsElemAbelian 3 H) (h9 : Nat.card H = 9) :
@@ -51,6 +54,7 @@ theorem exists_isSylowIn_above_aux {X P : Subgroup G} (hPX : P ≤ X) (hP : IsPG
   exact ⟨Q, ⟨hQmax.1.1, hQmax.1.2, fun R' hR'X hR'p hQR' =>
     le_antisymm (hQmax.2 ⟨hR'X, hR'p⟩ hQR') hQR'⟩, hPQ⟩
 
+omit [Finite G] in
 theorem isPGroup_three_of_isElemAbelian {A : Subgroup G} (hA : IsElemAbelian 3 A) : IsPGroup 3 ↥A :=
   fun x => ⟨1, by rw [pow_one]; exact Subtype.ext (by simpa using hA.2 x.1 x.2)⟩
 
@@ -86,6 +90,7 @@ theorem card_eq_of_pRank_four {A : Subgroup G} (hA : IsElemAbelian 3 A)
     (hA4 : CFSG.Open.pRank 3 A = 4) : Nat.card A = 3 ^ 4 := by
   rw [card_eq_pow_pRank hA, hA4]
 
+omit [Finite G] in
 theorem exists_mul_of_mem_sup {H F : Subgroup G} (hcomm : ∀ h ∈ H, ∀ f ∈ F, h * f = f * h) {x : G}
     (hx : x ∈ H ⊔ F) : ∃ h ∈ H, ∃ f ∈ F, h * f = x := by
   rw [Subgroup.sup_eq_closure] at hx
@@ -109,6 +114,7 @@ theorem exists_mul_of_mem_sup {H F : Subgroup G} (hcomm : ∀ h ∈ H, ∀ f ∈
     calc h1⁻¹ * f1⁻¹ = (f1 * h1)⁻¹ := (mul_inv_rev f1 h1).symm
       _ = (h1 * f1)⁻¹ := by rw [hc]
 
+omit [Finite G] in
 theorem card_eq_mul_of_sup_eq {A H F : Subgroup G} (hcomm : ∀ h ∈ H, ∀ f ∈ F, h * f = f * h)
     (hdec : A = H ⊔ F) (hdisj : H ⊓ F = ⊥) : Nat.card A = Nat.card H * Nat.card F := by
   have hHA : ∀ h ∈ H, h ∈ A := fun h hh => by rw [hdec]; exact Subgroup.mem_sup_left hh
@@ -173,6 +179,7 @@ theorem pRank_inter_eq_two_of_inputs (h123 : Lemma123Statement) {m p : ℕ} {B M
   have hAel : IsElemAbelian 3 A := h.pair.1.2.1.1.1.2.1
   exact pRank_eq_two_of_card_nine (isElemAbelian_of_le inf_le_right hAel) hcard
 
+omit [Finite G] in
 theorem inter_disjoint_centBar_of_faithful {E A K : Subgroup G}
     (hfaith : InducesFaithfulInner 3 (E ⊓ A) K) : (E ⊓ A) ⊓ centBar 3 A K = ⊥ := by
   rw [Subgroup.eq_bot_iff_forall]

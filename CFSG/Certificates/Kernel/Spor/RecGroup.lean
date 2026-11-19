@@ -203,7 +203,7 @@ theorem penumLeft_closure {n w k cnt cap : ℕ} {G GI T PL POS SRT SRI : ℕ →
   let x : ℕ → Equiv.Perm (Fin n) := fun i => if h : i < cnt then (hex i h).choose else 1
   have hx : ∀ i < cnt, Rep n (tabT (unpack n w (T i))) (x i) := by
     intro i hi
-    simp only [x, dif_pos hi]
+    simp only [x, dite_eq_left hi]
     exact (hex i hi).choose_spec
   have hx0 : x 0 = 1 := perm_eq_of_rep (hx 0 hc0) (by rw [hT0']; exact hid)
   have htree : ∀ i, 0 < i → i < cnt → ∃ p < i, ∃ j < k, x i = g j * x p := by

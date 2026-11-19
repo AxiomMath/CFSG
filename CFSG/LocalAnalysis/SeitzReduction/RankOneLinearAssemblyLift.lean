@@ -174,7 +174,7 @@ theorem exists_sylow_of_not_conj (hGold : Goldschmidt1974) {L T : Subgroup G} {f
   have hzP : z ∈ pushNormalizer C (m + 1) := h.normalizer_le_of_one_le hm htt hzC
   have hle : S ⊔ zpowers z ≤ pushNormalizer C (m + 1) := sup_le hsyl.le (zpowers_le.mpr hzP)
   have hp' : IsPGroup 2 (S ⊔ zpowers z : Subgroup G) :=
-    S'.isPGroup'.to_le (sup_le hSS' (zpowers_le.mpr hzS'))
+    S'.isPGroup.to_le (sup_le hSS' (zpowers_le.mpr hzS'))
   have heq := hsyl.eq_of_le le_sup_left hle hp'
   exact hzS (heq ▸ mem_sup_right (mem_zpowers z))
 

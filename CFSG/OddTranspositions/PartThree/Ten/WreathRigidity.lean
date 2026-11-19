@@ -84,7 +84,7 @@ theorem centralizer_l2WreathBase {f n : ℕ} (hf : 2 ≤ f) :
       rw [Subgroup.mem_center_iff]
       intro y
       have := key (Pi.mulSingle i y) i
-      rwa [hσ, Equiv.Perm.one_symm, Equiv.Perm.coe_one, id, Pi.mulSingle_eq_same] at this
+      rwa [hσ, ← Equiv.Perm.inv_def 1, inv_one, Equiv.Perm.coe_one, id, Pi.mulSingle_eq_same] at this
     rw [center_psl2Model_eq_bot hf, Subgroup.mem_bot] at hc
     exact hc
   exact SemidirectProduct.ext hleft hσ

@@ -120,8 +120,8 @@ theorem isCompl_and_saturated (hp : p.Prime) (hp2 : p ≠ 2)
       ∀ y : Fin N → ℤ, (p : ℤ) • y ∈ Submodule.span ℤ (cor '' O) →
         y ∈ Submodule.span ℤ (cor '' O) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype H := Fintype.ofFinite H
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype H := Fintype.ofFinite H
   set Λ : Submodule ℤ (Fin N → ℤ) := Submodule.span ℤ (cor '' O) with hΛ
   have hmemΛ : ∀ α ∈ O, cor α ∈ Λ := fun α hα => Submodule.subset_span ⟨α, hα, rfl⟩
   have hsub : ∀ (h : H) (y : Fin N → ℤ), y - act h *ᵥ y ∈ Λ := by
@@ -179,7 +179,7 @@ theorem isCompl_and_saturated (hp : p.Prime) (hp2 : p ≠ 2)
       rw [← Finset.smul_sum, hx, smul_zero]
   have hsat : ∀ y : Fin N → ℤ, (p : ℤ) • y ∈ Λ → y ∈ Λ := by
     intro y hy
-    letI inst : DistribMulAction H (Fin N → ℤ) :=
+    let inst : DistribMulAction H (Fin N → ℤ) :=
       { smul := fun h y => act h *ᵥ y
         one_smul := fun y => by
           show act 1 *ᵥ y = y
@@ -370,7 +370,7 @@ theorem exists_complement_of_reflections [Fact p.Prime] (hp2 : p ≠ 2)
         simp [permEndo_apply, redModP, hcor]
       rw [e]
       exact Submodule.subset_span ⟨_, ⟨latPerm π α, hπO α hα, rfl⟩, rfl⟩
-    | zero => simpa using (corootModP p (latCorootZ S) O).zero_mem
+    | zero => simp
     | add x y _ _ hx hy => rw [map_add]; exact (corootModP p (latCorootZ S) O).add_mem hx hy
     | smul c x _ hx => rw [map_smul]; exact (corootModP p (latCorootZ S) O).smul_mem _ hx
   have hP : ∀ y ∈ rootAnnihilator p O, permEndo p π y ∈ rootAnnihilator p O := by
@@ -600,25 +600,25 @@ theorem exists_complement_exc {t : StatedLieTag} (ht : GGExcFive t) (f : ℕ) {p
   · obtain ⟨k, hk, rfl⟩ := isRootGram_E6 6 f S hS
     refine exists_complement_tag Tag.E6 hp2 ?_ (Int.natCast_pos.mpr hk) π hGram O
       (fun α hα => mem_rootFinset.mp ((mem_roots_E6 6 f α).mp (hO hα))) hπO
-    haveI : Fintype (WeylGroup .E6) := Fintype.ofFinite _
+    have : Fintype (WeylGroup .E6) := Fintype.ofFinite _
     rw [(CFSG.RankThree.Chevalley.E6_weyl_length_polynomial).2]
     exact hW
   · obtain ⟨k, hk, rfl⟩ := isRootGram_E7 6 f S hS
     refine exists_complement_tag Tag.E7 hp2 ?_ (Int.natCast_pos.mpr hk) π hGram O
       (fun α hα => mem_rootFinset.mp ((mem_roots_E7 6 f α).mp (hO hα))) hπO
-    haveI : Fintype (WeylGroup .E7) := Fintype.ofFinite _
+    have : Fintype (WeylGroup .E7) := Fintype.ofFinite _
     rw [(CFSG.RankThree.Chevalley.E7_weyl_length_polynomial).2]
     exact hW
   · obtain ⟨k, hk, rfl⟩ := isRootGram_E8 6 f S hS
     refine exists_complement_tag Tag.E8 hp2 ?_ (Int.natCast_pos.mpr hk) π hGram O
       (fun α hα => mem_rootFinset.mp ((mem_roots_E8 6 f α).mp (hO hα))) hπO
-    haveI : Fintype (WeylGroup .E8) := Fintype.ofFinite _
+    have : Fintype (WeylGroup .E8) := Fintype.ofFinite _
     rw [(CFSG.RankThree.Chevalley.E8_weyl_length_polynomial).2]
     exact hW
   · obtain ⟨k, hk, rfl⟩ := isRootGram_E6 6 f S hS
     refine exists_complement_tag Tag.E6 hp2 ?_ (Int.natCast_pos.mpr hk) π hGram O
       (fun α hα => mem_rootFinset.mp ((mem_roots_E6 6 f α).mp (hO hα))) hπO
-    haveI : Fintype (WeylGroup .E6) := Fintype.ofFinite _
+    have : Fintype (WeylGroup .E6) := Fintype.ofFinite _
     rw [(CFSG.RankThree.Chevalley.E6_weyl_length_polynomial).2]
     exact hW
 

@@ -15,6 +15,7 @@ open CFSG CFSG.Assembly
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private lemma ggPow3_eq_one (Bs : Subgroup G) (hBs : IsElemAbelian 3 Bs) (x : ↥Bs) :
     x ^ 3 = 1 := by
   apply Subtype.ext
@@ -39,7 +40,7 @@ private lemma mem_ggFixSub {B : Type*} [Group B] {φ : MulAut B} {b : B} :
 private lemma ggNe_one_of_reflection {B : Type*} [Group B] [Finite B] {φ : MulAut B}
     (hr : Nat.card {b : B // φ b = b} * 3 = Nat.card B) : φ ≠ 1 := by
   intro h
-  haveI : Nonempty B := ⟨1⟩
+  have : Nonempty B := ⟨1⟩
   have hcard : Nat.card {b : B // φ b = b} = Nat.card B := by
     apply Nat.card_congr
     exact Equiv.subtypeUnivEquiv (fun b => by rw [h]; rfl)
@@ -109,7 +110,7 @@ private lemma ggRefl_centre_inv {B : Type*} [Group B] [Finite B] [IsMulCommutati
     (hpow : ∀ x : B, x ^ 3 = 1) {φ : MulAut B} (hφ2 : φ ^ 2 = 1) (hne : φ ≠ 1)
     {c : B} (hc : ∀ b : B, φ b * b⁻¹ ∈ Subgroup.zpowers c) : φ c = c⁻¹ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hc1 : c ≠ 1 := ggRefl_centre_ne_one hne hc
   have hc3 : c ^ 3 = 1 := hpow c
   have hmem : φ c ∈ Subgroup.zpowers c := by
@@ -143,7 +144,7 @@ theorem ggIsReflection_eq_of_centre {Bs : Subgroup G} (hBs : IsElemAbelian 3 Bs)
     (hr' : GGIsReflection 3 φ') {c : ↥Bs} (hc : GGReflCentre φ c) (hc' : GGReflCentre φ' c) :
     φ = φ' := by
   classical
-  haveI hcomm : IsMulCommutative ↥Bs := hBs.1
+  have hcomm : IsMulCommutative ↥Bs := hBs.1
   have hpow : ∀ x : ↥Bs, x ^ 3 = 1 := fun x => ggPow3_eq_one Bs hBs x
   have hneφ : φ ≠ 1 := ggNe_one_of_reflection hr.2
   have hneφ' : φ' ≠ 1 := ggNe_one_of_reflection hr'.2
@@ -239,8 +240,7 @@ theorem three_pow_three_le_card_ggFixedByCentres {Bs : Subgroup G} (hBs : IsElem
     3 ^ 3 ≤ Nat.card ↥(ggFixedByCentres 3 Aut {a, b}) := by
   obtain ⟨-, φ, hφ, ψ, hψ, hrφ, hcφ, hrψ, hcψ, -⟩ := hab
   have hle : ggFixSub φ ⊓ ggFixSub ψ ≤ ggFixedByCentres 3 Aut {a, b} := by
-    intro x hx
-    intro θ hθ hrθ hcentre
+    intro x hx θ hθ hrθ hcentre
     obtain ⟨d, hdS, hdc⟩ := hcentre
     simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hdS
     rcases hdS with rfl | rfl
@@ -257,7 +257,7 @@ theorem three_pow_three_le_card_ggFixedByCentres {Bs : Subgroup G} (hBs : IsElem
     have h3 : Nat.card (ggFixSub φ) * (ggFixSub φ).index = Nat.card (ggFixSub φ) * 3 := by
       rw [h1, h2]
     have hpos : 0 < Nat.card (ggFixSub φ) := by
-      haveI : Nonempty ↥(ggFixSub φ) := ⟨1⟩
+      have : Nonempty ↥(ggFixSub φ) := ⟨1⟩
       exact Nat.card_pos
     exact Nat.mul_left_cancel hpos h3
   have hidxψ : (ggFixSub ψ).index = 3 := by
@@ -267,7 +267,7 @@ theorem three_pow_three_le_card_ggFixedByCentres {Bs : Subgroup G} (hBs : IsElem
     have h3 : Nat.card (ggFixSub ψ) * (ggFixSub ψ).index = Nat.card (ggFixSub ψ) * 3 := by
       rw [h1, h2]
     have hpos : 0 < Nat.card (ggFixSub ψ) := by
-      haveI : Nonempty ↥(ggFixSub ψ) := ⟨1⟩
+      have : Nonempty ↥(ggFixSub ψ) := ⟨1⟩
       exact Nat.card_pos
     exact Nat.mul_left_cancel hpos h3
   have hidxle : (ggFixSub φ ⊓ ggFixSub ψ).index ≤ 9 := by

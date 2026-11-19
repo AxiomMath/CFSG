@@ -68,14 +68,15 @@ theorem fixDimV_eq_two_sigma2_of_not_equalityBranch (h : Tim79a.ParrottHyp z)
       map_one' := conjVLinearMap_one h
       map_mul' := conjVLinearMap_mul h }
 
+omit hN [Finite G] in
 theorem invariants_zpowers_eq_fixSubmodule (h : Tim79a.ParrottHyp z) (x : ↥(H z)) :
     letI : CommGroup (QuotientV.V z) := commGroupV h
     letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
     Representation.invariants
         ((conjVRepresentation h).comp (Subgroup.zpowers x).subtype) =
       fixSubmodule h x := by
-  letI : CommGroup (QuotientV.V z) := commGroupV h
-  letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
+  let : CommGroup (QuotientV.V z) := commGroupV h
+  let : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
   ext v
   rw [Representation.mem_invariants]
   constructor
@@ -108,6 +109,7 @@ theorem invariants_zpowers_eq_fixSubmodule (h : Tim79a.ParrottHyp z) (x : ↥(H 
       exact congrArg Additive.ofMul hfix
     simpa [conjVRepresentation] using hfix'
 
+omit hN [Finite G] in
 theorem finrank_invariants_zpowers (h : Tim79a.ParrottHyp z) (x : ↥(H z)) :
     letI : CommGroup (QuotientV.V z) := commGroupV h
     letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
@@ -115,11 +117,12 @@ theorem finrank_invariants_zpowers (h : Tim79a.ParrottHyp z) (x : ↥(H z)) :
         (Representation.invariants
           ((conjVRepresentation h).comp (Subgroup.zpowers x).subtype)) =
       fixDimV h x := by
-  letI : CommGroup (QuotientV.V z) := commGroupV h
-  letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
+  let : CommGroup (QuotientV.V z) := commGroupV h
+  let : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
   rw [invariants_zpowers_eq_fixSubmodule]
   rfl
 
+omit hN [Finite G] in
 theorem mem_centralizerJ_of_conjV_pi_eq (h : Tim79a.ParrottHyp z)
     {σ : ↥(H z)} (hσ3 : σ ^ 3 = 1) (hZ : conjZ z σ = 1) {j : J z}
     (hfix : conjV h σ (QuotientV.pi z j) = QuotientV.pi z j) :
@@ -248,13 +251,14 @@ theorem inf_CJ_eq_centerIn_of_centralizerJ_ne (h : Tim79a.ParrottHyp z)
     omega
   exact (Subgroup.eq_of_le_of_card_ge hZS (by rw [hS4, hcZ])).symm
 
+omit hN [Finite G] in
 theorem fixSubmodule_inf_eq_bot_of_inf_CJ_eq_centerIn (h : Tim79a.ParrottHyp z)
     {σ₁ σ₂ : ↥(H z)} (hσ1 : orderOf σ₁ = 3) (hσ2 : orderOf σ₂ = 3)
     (hZ1 : conjZ z σ₁ = 1) (hZ2 : conjZ z σ₂ = 1)
     (hCJ : CJ z (σ₁ : G) ⊓ CJ z (σ₂ : G) = centerIn (J z)) :
     fixSubmodule h σ₁ ⊓ fixSubmodule h σ₂ = ⊥ := by
-  letI : CommGroup (QuotientV.V z) := commGroupV h
-  letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
+  let : CommGroup (QuotientV.V z) := commGroupV h
+  let : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
   rw [eq_bot_iff]
   intro v hv
   rw [Submodule.mem_inf] at hv
@@ -294,7 +298,8 @@ theorem fixSubmodule_inf_eq_bot_of_inf_CJ_eq_centerIn (h : Tim79a.ParrottHyp z)
   rw [hvj, hpi]
   rfl
 
-theorem isElemAbelian_zpowers_sup (h : Tim79a.ParrottHyp z) {σ₁ σ₂ : ↥(H z)}
+omit [Finite G] hN in
+theorem isElemAbelian_zpowers_sup (_h : Tim79a.ParrottHyp z) {σ₁ σ₂ : ↥(H z)}
     (hσ1 : orderOf σ₁ = 3) (hσ2 : orderOf σ₂ = 3)
     (hcomm : σ₂ * σ₁ = σ₁ * σ₂) :
     CFSG.Open.IsElemAbelian 3 (Subgroup.zpowers σ₁ ⊔ Subgroup.zpowers σ₂) := by
@@ -370,8 +375,8 @@ theorem invariants_zpowers_sup_eq_bot_of_not_equalityBranch (h : Tim79a.ParrottH
     Representation.invariants
         ((conjVRepresentation h).comp
           (Subgroup.zpowers (sigma1Nine (z := z) D) ⊔ Subgroup.zpowers σ₂).subtype) = ⊥ := by
-  letI : CommGroup (QuotientV.V z) := commGroupV h
-  letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
+  let : CommGroup (QuotientV.V z) := commGroupV h
+  let : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
   have hne : centralizerJ (sigma1Nine (z := z) D) ≠ centralizerJ σ₂ :=
     centralizerJ_ne_of_not_equalityBranch (z := z) h D hIII hσ₂ hq₂
   have hCJ := inf_CJ_eq_centerIn_of_centralizerJ_ne (z := z) D h hσ₂ hq₂ hc₂ hne
@@ -499,7 +504,7 @@ theorem E9FixedDimRelation_of_not_equalityBranch (h : Tim79a.ParrottHyp z)
       ((coord p : ↥E) : ↥(H z)) = σ₁ ^ (p.1 : ℕ) * σ₂ ^ (p.2 : ℕ) := fun _ => rfl
   have hsurj : Function.Surjective coord := by
     intro x
-    letI : CommGroup ↥E :=
+    let : CommGroup ↥E :=
       { (inferInstance : Group ↥E) with mul_comm := fun a b => hEea.1.is_comm.comm a b }
     have hsup : ((Subgroup.zpowers σ₁).subgroupOf E ⊔
         (Subgroup.zpowers σ₂).subgroupOf E : Subgroup ↥E) = ⊤ := by
@@ -527,7 +532,7 @@ theorem E9FixedDimRelation_of_not_equalityBranch (h : Tim79a.ParrottHyp z)
     · exact ⟨(2,0), by apply Subtype.ext; simp [coord, hxval, hu1, hv1]⟩
     · exact ⟨(2,1), by apply Subtype.ext; simp [coord, hxval, hu1, hv1]⟩
     · exact ⟨(2,2), by apply Subtype.ext; simp [coord, hxval, hu1, hv1]⟩
-  letI : Fintype ↥E := Fintype.ofFinite _
+  let : Fintype ↥E := Fintype.ofFinite _
   have hcardcoord : Fintype.card (Fin 3 × Fin 3) = Fintype.card ↥E := by
     have h9 : Fintype.card ↥E = 9 := by
       rw [← Nat.card_eq_fintype_card]
@@ -724,7 +729,7 @@ theorem E9FixedDimRelation_of_not_equalityBranch (h : Tim79a.ParrottHyp z)
       have h := Subgroup.relIndex_mul_card (H := B.1) (K := E)
       rw [inf_eq_left.mpr B.2.1, B.2.2, hEcard] at h
       omega
-    haveI : Nontrivial ↥B.1 := Finite.one_lt_card_iff_nontrivial.mp (by rw [hBcard]; norm_num)
+    have : Nontrivial ↥B.1 := Finite.one_lt_card_iff_nontrivial.mp (by rw [hBcard]; norm_num)
     obtain ⟨x, hx1⟩ := exists_ne (1 : ↥B.1)
     have hxmem : (x : ↥(H z)) ∈ B.1 := x.2
     have hxne : (x : ↥(H z)) ≠ 1 := fun h => hx1 (Subtype.ext h)
@@ -827,8 +832,8 @@ theorem E9FixedDimRelation_of_not_equalityBranch (h : Tim79a.ParrottHyp z)
     · exact absurd (congrArg Subtype.val hij) (Ne.symm hB3neB4)
     · rfl
 
-  letI : CommGroup (QuotientV.V z) := commGroupV h
-  letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
+  let : CommGroup (QuotientV.V z) := commGroupV h
+  let : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
   have hσ1ne : σ₁ ≠ 1 := by
     intro h1
     rw [h1, orderOf_one] at hσ1
@@ -847,10 +852,10 @@ theorem E9FixedDimRelation_of_not_equalityBranch (h : Tim79a.ParrottHyp z)
     (conjVRepresentation h) Nat.prime_two Nat.prime_three (by norm_num) hEea hA1
   let P : {B : Subgroup ↥(H z) // B ≤ E ∧ B.relIndex E = 3} → Type :=
     fun B => ↥(Representation.invariants ((conjVRepresentation h).comp B.1.subtype))
-  letI : Fintype {B : Subgroup ↥(H z) // B ≤ E ∧ B.relIndex E = 3} := Fintype.ofFinite _
-  haveI : Finite (Additive (QuotientV.V z)) := inferInstance
-  haveI : ∀ B, Module.Free (ZMod 2) (P B) := fun B => Module.Free.of_divisionRing (ZMod 2) (P B)
-  haveI : ∀ B, Module.Finite (ZMod 2) (P B) := fun B => Module.Finite.of_finite
+  let : Fintype {B : Subgroup ↥(H z) // B ≤ E ∧ B.relIndex E = 3} := Fintype.ofFinite _
+  have : Finite (Additive (QuotientV.V z)) := inferInstance
+  have : ∀ B, Module.Free (ZMod 2) (P B) := fun B => Module.Free.of_divisionRing (ZMod 2) (P B)
+  have : ∀ B, Module.Finite (ZMod 2) (P B) := fun B => Module.Finite.of_finite
   have hdim : Module.finrank (ZMod 2) (Additive (QuotientV.V z)) =
       ∑ B : {B : Subgroup ↥(H z) // B ≤ E ∧ B.relIndex E = 3},
         Module.finrank (ZMod 2) (P B) := by

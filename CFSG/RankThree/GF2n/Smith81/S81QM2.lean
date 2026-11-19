@@ -20,6 +20,7 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 theorem chi_eq_prod (α : Rt) (t : Tt K) :
     chi α t = ∏ i : Fin (Tag.rank .E7), t i ^ MinData.toWeight α i := by
   rw [Fin.prod_univ_def]
@@ -27,7 +28,7 @@ theorem chi_eq_prod (α : Rt) (t : Tt K) :
 
 theorem torus_reduce (t : Tt K) :
     ∃ t' : Tt K, t' node1 = 1 ∧ ∀ α : Rt, α node1 = 0 → chi α t' = chi α t := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hmod : Fintype.card K % 2 = 0 :=
     FiniteField.even_card_iff_char_two.1 (ringChar.eq K 2)
   obtain ⟨h, hh⟩ : ∃ h : ℕ, Fintype.card K = 2 * h := ⟨Fintype.card K / 2, by omega⟩
@@ -65,6 +66,7 @@ theorem torus_reduce (t : Tt K) :
     simp only [chi_eq_prod, mul_zpow, Finset.prod_mul_distrib, key, mul_one]
 
 
+omit [Finite K] [CharP K 2] in
 theorem tau_conj_eq {t t' : Tt K} (h : ∀ α ∈ Rd6, chi α t' = chi α t) {e : Gp K}
     (he : e ∈ URge K Rd6 1) : tau t * e * (tau t)⁻¹ = tau t' * e * (tau t')⁻¹ := by
   refine URge_induction (C := fun e => tau t * e * (tau t)⁻¹ = tau t' * e * (tau t')⁻¹) he ?_ ?_ ?_
@@ -87,6 +89,7 @@ section Torus2
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 theorem hm_mem_Lam {i : Fin (Tag.rank .E7)} (hi : i ≠ node1) (c : Kˣ) :
     (e7Data_valid.hm K i c : (Module.End K (V K))ˣ) ∈ Lam K := by
   have hα : (Pi.single i (1 : ℤ) : Fin (Tag.rank .E7) → ℤ) ∈ Perp := by
@@ -104,12 +107,14 @@ theorem hm_mem_Lam {i : Fin (Tag.rank .E7)} (hi : i ≠ node1) (c : Kˣ) :
       exact xu_mem_Lam (neg_mem_Perp hα) u
   exact hle (e7Data_valid.torus_le_rankOne K i (e7Data_valid.hm_mem_torus K i c))
 
+omit [Finite K] [CharP K 2] in
 theorem T0g_le_LamG : T0g K ≤ LamG K := by
   refine iSup_le fun i => ?_
   intro g hg
   obtain ⟨c, rfl⟩ := (e7Data_valid.mem_torus K).1 hg
   exact hm_mem_Lam i.2 c
 
+omit [Finite K] [CharP K 2] in
 theorem tau_mem_T0g {t' : Tt K} (h : t' node1 = 1) : tau t' ∈ T0g K := by
   unfold tau
   refine Subgroup.list_prod_mem _ ?_
@@ -136,6 +141,7 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2]
 @[expose] def Eg (A : Subgroup (W K ≃ₗ[K] W K)) : Subgroup (Gp K) :=
   (A.comap (lamGHom K)).map (LamG K).subtype
 
+omit [Finite K] in
 theorem mem_Eg {A : Subgroup (W K ≃ₗ[K] W K)} {x : Gp K} :
     x ∈ Eg A ↔ ∃ h : x ∈ LamG K, lamGHom K ⟨x, h⟩ ∈ A := by
   constructor
@@ -144,6 +150,7 @@ theorem mem_Eg {A : Subgroup (W K ≃ₗ[K] W K)} {x : Gp K} :
   · rintro ⟨h, hx⟩
     exact ⟨⟨x, h⟩, hx, rfl⟩
 
+omit [Finite K] in
 theorem Eg_le_LamG (A : Subgroup (W K ≃ₗ[K] W K)) : Eg A ≤ LamG K := fun _ hx => (mem_Eg.1 hx).1
 
 theorem card_Eg {A : Subgroup (W K ≃ₗ[K] W K)} (hA : A ≤ EAut0 K) : Nat.card ↥(Eg A) = Nat.card ↥A := by
@@ -164,6 +171,7 @@ theorem Eg_le_URge {A : Subgroup (W K ≃ₗ[K] W K)} (hA : A ≤ posU0 K) : Eg 
   rw [this] at hy'
   exact hy'
 
+omit [Finite K] in
 theorem conj_mem_Eg_T0g {A : Subgroup (W K ≃ₗ[K] W K)}
     (hT : ∀ t ∈ T0 K, t ∈ Subgroup.normalizer (A : Set (W K ≃ₗ[K] W K))) {s : Gp K} (hs : s ∈ T0g K)
     {e : Gp K} (he : e ∈ Eg A) : s * e * s⁻¹ ∈ Eg A := by
@@ -180,6 +188,7 @@ theorem conj_mem_Eg_T0g {A : Subgroup (W K ≃ₗ[K] W K)}
   rw [this]
   exact hnorm
 
+omit [Finite K] in
 theorem conj_mem_Eg_URge {A : Subgroup (W K ≃ₗ[K] W K)}
     (hU : ∀ u ∈ posU0 K, u ∈ Subgroup.normalizer (A : Set (W K ≃ₗ[K] W K))) {u : Gp K}
     (hu : u ∈ URge K Rd6 1) {e : Gp K} (he : e ∈ Eg A) : u * e * u⁻¹ ∈ Eg A := by

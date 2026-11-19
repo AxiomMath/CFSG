@@ -12,6 +12,7 @@ open CFSG.AGLEmbeddingD2.McLaughlin CFSG.AGLEmbeddingD2.McLaughlin.WeakBlockModu
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem centre_le_blockPL_of_nineThreeTwo {M S L : Subgroup G} (h2 : NineThreeTwo M S L) :
     barM M L ⊓ Subgroup.centralizer (barM M L : Set (↥M ⧸ CFSG.pCore 2 ↥M)) ≤
       barM M (Subgroup.normalizer (S : Set G) ⊓ L) := by
@@ -47,6 +48,7 @@ theorem exists_noncentral_three_of_centrePLRank (hCP : KFactBlockCentrePLRank)
     pow_dvd_pow 3 hr
   simpa using h32.trans hdvd
 
+omit [Finite G] in
 theorem exists_noncentral_three_of_tripleA6 {M S L : Subgroup G}
     (h4 : NineThreeFour M S L) :
     ∃ y ∈ barM M (Subgroup.normalizer (S : Set G) ⊓ L), y ^ 3 = 1 ∧
@@ -119,6 +121,7 @@ theorem exists_noncentral_three_of_nineThreeSix {M S L : Subgroup G} (hL : IsWea
   exact false_of_central_three_perm _ (y : ↥M ⧸ CFSG.pCore 2 ↥M) hy3' hy1 y.2
     (fun q hq => Subgroup.mem_centralizer_iff.mp hyC q (barM_mono inf_le_right hq)) φ
 
+omit [Finite G] in
 theorem five_le_of_block_alt {M S L : Subgroup G} (hL : IsWeakSBlock M S L) {N : ℕ}
     (e : ↥(barM M L) ≃* alternatingGroup (Fin N)) : 5 ≤ N := by
   have hperf : Group.IsPerfect ↥(barM M L) :=
@@ -129,6 +132,7 @@ theorem five_le_of_block_alt {M S L : Subgroup G} (hL : IsWeakSBlock M S L) {N :
     (QuotientGroup.mk_surjective (s := Subgroup.center ↥(barM M L))).nontrivial
   exact five_le_of_perfect_alt (Group.isPerfect_def.mp hperf) e
 
+omit [Finite G] in
 theorem not_three_dvd_centre_of_block_alt {M S L : Subgroup G} (hL : IsWeakSBlock M S L) {N : ℕ}
     (e : ↥(barM M L) ≃* alternatingGroup (Fin N)) :
     ¬ 3 ∣ Nat.card (barM M L ⊓

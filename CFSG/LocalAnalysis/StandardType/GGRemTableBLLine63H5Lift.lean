@@ -38,11 +38,11 @@ theorem exists_lift_of_ker_two {H P : Type*} [Group H] [Finite H] [Group P] (π 
   have hindex : (π.ker.subgroupOf H').index = Nat.card E₀ := by
     rw [← hkerf', Subgroup.index_ker, hrangef']
   obtain ⟨a, ha⟩ := IsPGroup.iff_card.mp hN
-  haveI : Finite π.range := Finite.of_surjective (π.rangeRestrict) π.rangeRestrict_surjective
-  haveI : Finite E₀ := Finite.of_injective (Subgroup.inclusion hE₀r)
+  have : Finite π.range := Finite.of_surjective (π.rangeRestrict) π.rangeRestrict_surjective
+  have : Finite E₀ := Finite.of_injective (Subgroup.inclusion hE₀r)
     (Subgroup.inclusion_injective hE₀r)
   have h3 : IsPGroup 3 E₀ := fun g => ⟨1, Subtype.ext (by simpa using hE₀.2 g g.2)⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨m, hm⟩ := IsPGroup.iff_card.mp h3
   have hcardN' : Nat.card (π.ker.subgroupOf H') = 2 ^ a := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hNH').toEquiv]

@@ -19,13 +19,13 @@ open CFSG.Open (IsElemAbelian)
 private theorem ggFieldOuterInvPSp_false_of_component {G : Type} [Group G]
     {X L : Subgroup G} (hX : Group.IsSolvable ↥X) (hL : CFSG.Assembly.IsComponentOf L X) :
     False := by
-  haveI : Group.IsSolvable ↥X := hX
+  have : Group.IsSolvable ↥X := hX
   have hLsol : Group.IsSolvable ↥L :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hL.1)
       (Subgroup.inclusion_injective hL.1)
-  haveI : Group.IsPerfect ↥L := ⟨hL.2.2.1⟩
-  haveI := hL.2.2.2
-  haveI : Nontrivial ↥L := (QuotientGroup.mk'_surjective (Subgroup.center ↥L)).nontrivial
+  have : Group.IsPerfect ↥L := ⟨hL.2.2.1⟩
+  have := hL.2.2.2
+  have : Nontrivial ↥L := (QuotientGroup.mk'_surjective (Subgroup.center ↥L)).nontrivial
   exact Group.IsPerfect.not_isSolvable ↥L hLsol
 
 theorem ggFieldOuterInvModel_statedSp {n : ℕ} (K : Type) [Field K] [Finite K] [CharP K 2] :
@@ -45,7 +45,7 @@ theorem ggFieldOuterInvModel_statedSp {n : ℕ} (K : Type) [Field K] [Finite K] 
     have hp43 : p ^ 3 < p ^ 4 := Nat.pow_lt_pow_right hp.one_lt (by norm_num)
     exact absurd (hp4.trans hpn) (not_le.mpr hp43)
   · have hn4 : 4 ≤ n := by omega
-    letI : Fintype K := Fintype.ofFinite K
+    let : Fintype K := Fintype.ofFinite K
     obtain ⟨σ, hσord, h, hαeq⟩ :=
       CFSG.SeitzReduction.SymplecticPilot.exists_eq_conj_fieldSp_of_not_inner
         (r := n) (K := K) (by omega) hα2 (by
@@ -116,7 +116,7 @@ theorem ggFieldOuterInvModel_statedSp {n : ℕ} (K : Type) [Field K] [Finite K] 
       rw [h1]
       simp only [Subgroup.coe_mul, Subgroup.coe_inv, hcoe h, hcoe g, A]
     have hborder : orderOf (b : GL (Fin n ⊕ Fin n) K) = p := by
-      haveI : Fact p.Prime := ⟨hp⟩
+      have : Fact p.Prime := ⟨hp⟩
       change orderOf ((Subgroup.subtype (StatedSp n K)) b) = p
       rw [orderOf_injective (Subgroup.subtype (StatedSp n K))
         (Subgroup.subtype_injective _) b]
@@ -139,7 +139,7 @@ theorem ggFieldOuterInvModel_statedSp {n : ℕ} (K : Type) [Field K] [Finite K] 
       CFSG.StandardType.ClassicalBlocks.isMulCommutative_centralizer_of_fieldInv_Sp
         (K := K) (n := n) σ hσne A hA_mem hinv (b : GL (Fin n ⊕ Fin n) K) b.2 hodd
         hfix_target
-    haveI hsol : Group.IsSolvable
+    have hsol : Group.IsSolvable
         ↥(Subgroup.centralizer ({(b : GL (Fin n ⊕ Fin n) K)} : Set _) ⊓ StatedSp n K) :=
       Group.isSolvable_of_comm (fun x y => Subtype.ext (hcomm x.1 x.2 y.1 y.2))
     let f : ↥(Subgroup.centralizer ({b} : Set (StatedSp n K))) →*
@@ -168,7 +168,7 @@ theorem ggFieldOuterInvModelAt_PSp
     : GGFieldOuterInvModelAt .PSp := by
   intro n f _ hrank _hF
   have hn : 2 ≤ n := hrank
-  haveI : NeZero n := ⟨by omega⟩
+  have : NeZero n := ⟨by omega⟩
   refine ⟨(ggU .PSp n f).K, inferInstance, MonoidHom.id _, Function.surjective_id, ?_, ?_⟩
   · rw [MonoidHom.ker_id]
     exact (AutPSp.center_eq_bot (n := n) (K := GaloisField 2 f)).symm

@@ -56,7 +56,7 @@ lemma exists_conj_of_coords {V : Type*} [Group V] (h : Case811Sylow c)
       QuotientGroup.mk' (CFSG.Open.pCore 2 ↥c.L) g = n ∧
       ∀ v, (g : G) * ((a v : ↥c.L) : G) * (g : G)⁻¹ = ((a (φ v) : ↥c.L) : G) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   let π : ↥c.L →* c.Lbar := QuotientGroup.mk' (CFSG.Open.pCore 2 ↥c.L)
   obtain ⟨g, hgN, hgπ⟩ :=
     Counterexample4.exists_mem_normalizer_of_mem_normalizer_lbar
@@ -92,14 +92,14 @@ theorem false_of_forall_normalizer_le {p : ℕ} (hp : p ∈ CFSG.Open.uniqueFour
     (hN : ∀ X : Subgroup G, X ≤ h.A → Nat.card X = 3 →
       Subgroup.normalizer (X : Set G) ≤ c.S.M ∧ p ∣ Nat.card (Subgroup.normalizer (X : Set G))) :
     False := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  haveI : Fact p.Prime := ⟨hp.1.1⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact p.Prime := ⟨hp.1.1⟩
   exact h.not_rankThreeGamma_le
     (CFSG.RankThree.PartOne.IsStronglyPEmbedded.rankThreeGamma_one_le
       (p := p) (q := 3) (M := c.S.M) (A := h.A)
       (c.isStronglyPEmbedded_of_mem_sigma hp) h.elemAbelian.isPGroup hN)
 
-theorem normalizer_le_of_le_of_isElemAbelian {p : ℕ} (hp : p ∈ CFSG.Open.uniqueFourSigma c.S.M)
+theorem normalizer_le_of_le_of_isElemAbelian {p : ℕ} (_hp : p ∈ CFSG.Open.uniqueFourSigma c.S.M)
     (h76 : CFSG.LocalAnalysis.UniquenessCase.PartOne.Section7.Conclusion76 c.S.M p)
     {E : Subgroup G} (hEA : E ≤ h.A) (hE : CFSG.Open.IsElemAbelian 3 E)
     (hEcard : Nat.card E = 9)
@@ -108,7 +108,7 @@ theorem normalizer_le_of_le_of_isElemAbelian {p : ℕ} (hp : p ∈ CFSG.Open.uni
       1 < CFSG.Open.pRank p (c.S.M ⊓ Subgroup.normalizer (X : Set G)))
     {X : Subgroup G} (hXE : X ≤ E) (hX : Nat.card X = 3) :
     Subgroup.normalizer (X : Set G) ≤ c.S.M := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hEM : E ≤ c.S.M := hEA.trans (h.A_le.trans (h.P_le_L.trans c.hyp81.1))
   have hΓ : CFSG.Open.rankThreeGamma 1 3 E ≤ c.S.M :=
     h76 3 (by norm_num) E hEM hE (by rw [hEcard]; norm_num) hcent hN
@@ -175,8 +175,8 @@ private lemma pRank_centralizer_pos_of_zpowers {c : Counterexample4 G} (h : Case
     0 < CFSG.Open.pRank r (c.S.M ⊓ Subgroup.centralizer
       ((Subgroup.zpowers ((a v₁ : ↥c.L) : G) ⊔
         Subgroup.zpowers ((a v₂ : ↥c.L) : G) : Subgroup G) : Set G)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  haveI : Fact r.Prime := ⟨hr.1.1⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact r.Prime := ⟨hr.1.1⟩
   have hEA : Subgroup.zpowers ((a v₁ : ↥c.L) : G) ⊔
       Subgroup.zpowers ((a v₂ : ↥c.L) : G) ≤ h.A :=
     sup_le (Subgroup.zpowers_le.mpr hmem₁) (Subgroup.zpowers_le.mpr hmem₂)
@@ -221,8 +221,8 @@ private lemma plane_point_pRank {c : Counterexample4 G} (h : Case811Sylow c) {r 
     {E : Subgroup G} (hEA : E ≤ h.A) (hEab : CFSG.Open.IsElemAbelian 3 E) :
     ∀ Y : Subgroup G, Y ≤ E → Nat.card Y = 3 →
       1 < CFSG.Open.pRank r (c.S.M ⊓ Subgroup.normalizer (Y : Set G)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  haveI : Fact r.Prime := ⟨hr.1.1⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact r.Prime := ⟨hr.1.1⟩
   intro Y hYE hYcard
   have hY3 : IsPGroup 3 Y := hEab.isPGroup.to_le hYE
   have hYL : Y ≤ c.L := hYE.trans (hEA.trans (h.A_le.trans h.P_le_L))
@@ -263,8 +263,8 @@ private lemma plane_facts_of_zpowers {c : Counterexample4 G} (h : Case811Sylow c
       Nat.card X = 3 →
       Subgroup.normalizer (X : Set G) ≤ c.S.M ∧
         r ∣ Nat.card (Subgroup.normalizer (X : Set G)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  haveI : Fact r.Prime := ⟨hr.1.1⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact r.Prime := ⟨hr.1.1⟩
   have hEA : Subgroup.zpowers ((a v₁ : ↥c.L) : G) ⊔
       Subgroup.zpowers ((a v₂ : ↥c.L) : G) ≤ h.A :=
     sup_le (Subgroup.zpowers_le.mpr hmem₁) (Subgroup.zpowers_le.mpr hmem₂)
@@ -320,7 +320,7 @@ theorem exists_coords_lift {c : Counterexample4 G} (h : Case811Sylow c) {V : Typ
         (h.A.subgroupOf c.L).subtype) ∧
       (∀ v, (a v : G) ∈ h.A) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   let N : Subgroup ↥c.L := CFSG.Open.pCore 2 ↥c.L
   let π : ↥c.L →* c.Lbar := QuotientGroup.mk' N
   have hN3 : ¬ 3 ∣ Nat.card N :=
@@ -358,7 +358,7 @@ theorem signed_coords_setup {c : Counterexample4 G} (h : Case811Sylow c) (hK6c :
       (∀ v : Fin 3 → ZMod 3, v ≠ 0 →
         orderOf ((a (Multiplicative.ofAdd v) : ↥c.L) : G) = 3) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨c₀, hc₀⟩ := (hK6c c.Lbar fam r f hlie h.Abar h.isElemAbelian_Abar h.card_Abar).2 hfam
   obtain ⟨a, ha_range, ha_apply, hXinj, ha_memA⟩ := exists_coords_lift h hc₀.2.1
   have ha_inj : Function.Injective a := by
@@ -474,8 +474,8 @@ private lemma false_of_signedCoords {c : Counterexample4 G} (h : Case811Sylow c)
     (hfam : fam ≠ .l4)
     (h76 : CFSG.LocalAnalysis.UniquenessCase.PartOne.Section7.Conclusion76 c.S.M r) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  haveI : Fact r.Prime := ⟨hr.1.1⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact r.Prime := ⟨hr.1.1⟩
   have hr5 : 5 ≤ r := c.five_le_of_mem_sigma hr
   have hr2 : r ≠ 2 := by omega
   obtain ⟨c₀, a, hc₀, ha_range, ha_apply, hXinj, ha_inj, ha_memA, ha_order⟩ :=
@@ -524,7 +524,7 @@ theorem sumZero_coords_setup {c : Counterexample4 G} (h : Case811Sylow c) (hK6c 
       (∀ v : Fin 4 → ZMod 3, (¬ ∃ d : ZMod 3, v = fun _ => d) →
         orderOf ((a (Multiplicative.ofAdd v) : ↥c.L) : G) = 3) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨c₀, hc₀⟩ := (hK6c c.Lbar fam r f hlie h.Abar h.isElemAbelian_Abar h.card_Abar).1 hfam
   obtain ⟨a, ha_range, ha_apply, hXinj, ha_memA⟩ := exists_coords_lift h hc₀.1
   have ha_memX : ∀ v, a v ∈ h.A.subgroupOf c.L := by
@@ -735,8 +735,8 @@ private lemma false_of_sumZeroCoords {c : Counterexample4 G} (h : Case811Sylow c
     (hfam : fam = .l4) (hf : f ≠ 1)
     (h76 : CFSG.LocalAnalysis.UniquenessCase.PartOne.Section7.Conclusion76 c.S.M r) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  haveI : Fact r.Prime := ⟨hr.1.1⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact r.Prime := ⟨hr.1.1⟩
   have hr5 : 5 ≤ r := c.five_le_of_mem_sigma hr
   have hr2 : r ≠ 2 := by omega
   obtain ⟨c₀, a, hc₀, ha_range, ha_apply, hXinj, ha_eq_one_iff, ha_memA, ha_order⟩ :=
@@ -773,7 +773,7 @@ private lemma l4_not_mem_L {c : Counterexample4 G} {r : ℕ}
     (hyC : y ∈ (CFSG.GroupTheory.conjModPCore 2 c.L c.S.M c.le_normalizer_L).ker.map
       c.S.M.subtype) : y ∉ c.L := by
   classical
-  haveI : Fact r.Prime := ⟨hr.1.1⟩
+  have : Fact r.Prime := ⟨hr.1.1⟩
   have hr5 : 5 ≤ r := c.five_le_of_mem_sigma hr
   intro hyLmem
   obtain ⟨a, ha, hay⟩ := Subgroup.mem_map.mp hyC
@@ -870,7 +870,7 @@ private lemma l4_normalizes_sup_pCore {c : Counterexample4 G} (h : Case811Sylow 
 private lemma l4_isSylow_A_sup_pCore {c : Counterexample4 G} (h : Case811Sylow c) :
     CFSG.ABGLocalTools.IsSylowOf 3 h.A (h.A ⊔ CFSG.Open.pCoreOf 2 c.L) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   let O : Subgroup G := CFSG.Open.pCoreOf 2 c.L
   let D : Subgroup G := h.A ⊔ O
   have hO2 : IsPGroup 2 O := CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 c.L
@@ -935,8 +935,8 @@ private lemma l4_exists_sylow_conj {c : Counterexample4 G} (h : Case811Sylow c) 
       y ∈ Subgroup.normalizer ((((S : Subgroup ↥(h.A ⊔ CFSG.Open.pCoreOf 2 c.L)).map
         (h.A ⊔ CFSG.Open.pCoreOf 2 c.L).subtype : Subgroup G)) : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  haveI : Fact r.Prime := ⟨hr.1.1⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact r.Prime := ⟨hr.1.1⟩
   let D : Subgroup G := h.A ⊔ CFSG.Open.pCoreOf 2 c.L
   have hRy : IsPGroup r (Subgroup.zpowers y) := by
     rw [IsPGroup.iff_card, Nat.card_zpowers, hyord]
@@ -977,7 +977,7 @@ private lemma l4_decompose_sylow_conj {c : Counterexample4 G} (h : Case811Sylow 
   have hDsub : D.subgroupOf c.L = AL ⊔ OL := by
     rw [show D = h.A ⊔ O from rfl,
       Subgroup.subgroupOf_sup (h.A_le.trans h.P_le_L) hO_le_L]
-  haveI : OL.Normal := by
+  have : OL.Normal := by
     change (CFSG.Open.pCoreOf 2 c.L).subgroupOf c.L |>.Normal
     rw [CFSG.openPCoreOf_subgroupOf]
     exact CFSG.pCore_normal
@@ -998,7 +998,7 @@ private lemma l4_decompose_sylow_conj {c : Counterexample4 G} (h : Case811Sylow 
   exact Subgroup.mem_normalizer_iff_map_conj_eq.mp (Subgroup.le_normalizer haA)
 
 private lemma l4_y'_props {c : Counterexample4 G} {r : ℕ}
-    (hr : r ∈ CFSG.Open.uniqueFourSigma c.S.M) {y o y' : G} (hyM : y ∈ c.S.M)
+    (_hr : r ∈ CFSG.Open.uniqueFourSigma c.S.M) {y o y' : G} (hyM : y ∈ c.S.M)
     (hyord : orderOf y = r) (hyL : y ∉ c.L) (hoL : o ∈ c.L) (hy' : y' = o⁻¹ * y * o)
     (hyC : y ∈ (CFSG.GroupTheory.conjModPCore 2 c.L c.S.M c.le_normalizer_L).ker.map
       c.S.M.subtype) :
@@ -1006,7 +1006,7 @@ private lemma l4_y'_props {c : Counterexample4 G} {r : ℕ}
       y' ∈ (CFSG.GroupTheory.conjModPCore 2 c.L c.S.M c.le_normalizer_L).ker.map
         c.S.M.subtype := by
   classical
-  haveI : Fact r.Prime := ⟨hr.1.1⟩
+  have : Fact r.Prime := ⟨_hr.1.1⟩
   have hy'M : y' ∈ c.S.M := by
     rw [hy']
     exact c.S.M.mul_mem (c.S.M.mul_mem (c.S.M.inv_mem (c.hyp81.1 hoL)) hyM) (c.hyp81.1 hoL)
@@ -1096,8 +1096,8 @@ private lemma l4_dvd_centralizer {c : Counterexample4 G} (h : Case811Sylow c)
     ∀ X : Subgroup G, X ≤ h.A → Nat.card X = 3 →
       r ∣ Nat.card (c.L ⊓ Subgroup.centralizer (X : Set G) : Subgroup G) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  haveI : Fact r.Prime := ⟨hr.1.1⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact r.Prime := ⟨hr.1.1⟩
   have hr5 : 5 ≤ r := c.five_le_of_mem_sigma hr
   let π : ↥c.L →* c.Lbar := QuotientGroup.mk' (CFSG.Open.pCore 2 ↥c.L)
   obtain ⟨c₀, hc₀⟩ := (hK6c c.Lbar .l4 r 1 hlie h.Abar h.isElemAbelian_Abar h.card_Abar).1 rfl
@@ -1122,8 +1122,8 @@ theorem false_of_l4_of_one_le_pRank_ker {c : Counterexample4 G} (h : Case811Sylo
       ((CFSG.GroupTheory.conjModPCore 2 c.L c.S.M c.le_normalizer_L).ker.map
         c.S.M.subtype)) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  haveI : Fact r.Prime := ⟨hr.1.1⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact r.Prime := ⟨hr.1.1⟩
   have hr2 : r ≠ 2 := by
     have := c.five_le_of_mem_sigma hr
     omega

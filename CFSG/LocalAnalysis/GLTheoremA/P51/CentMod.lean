@@ -19,7 +19,7 @@ theorem commutator_le_centModSubgroup_of_coprime {p : ℕ} (hp : p.Prime) (hp2 :
     (hDJ : D ≤ centModSubgroup p J) :
     (⁅D, Q⁆ : Subgroup G) ≤ centModSubgroup p J := by
   have hcop : Nat.Coprime (Nat.card D) (Nat.card Q) := by
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     obtain ⟨m, hm⟩ := (IsPGroup.iff_card).1 hD
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hQ
     rw [hm, hn]

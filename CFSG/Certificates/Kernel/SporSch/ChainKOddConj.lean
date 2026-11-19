@@ -34,11 +34,11 @@ theorem prep_pbK {P : Nat} {g : Equiv.Perm (Fin n)} (hn : n < 2 ^ 32) (hw : 0 < 
     have hs := prep_pcomp hn h1 h1
     rw [pbK_cons]
     cases b
-    · simp only [Bool.false_eq_true, ↓reduceIte, bval, cond_false, Nat.add_zero]
+    · simp only [Bool.false_eq_true, ↓reduceIte, bval, Bool.cond_false, Nat.add_zero]
       refine ⟨?_, PF.pcomp_shr _ _ hn hw⟩
       rw [two_mul, pow_add]
       exact hs
-    · simp only [↓reduceIte, bval, cond_true]
+    · simp only [↓reduceIte, bval, _root_.Bool.cond_true]
       refine ⟨?_, PF.pcomp_shr _ _ hn hw⟩
       rw [pow_succ', two_mul, pow_add]
       exact prep_pcomp hn hP hs
@@ -78,6 +78,7 @@ variable (hsz : szOK n w = true) {eb : List Bool} {Y : Nat} {y : Equiv.Perm (Fin
   (pY : PRep n w Y y) (sY : Y >>> (n * w) = 0)
 include hsz pY sY
 
+omit sY in
 theorem anyWitK_eq : ∀ {ws : List (Nat × Nat)},
     (∀ p ∈ ws, permOK n w (mask w) (n * w) p.1 p.2 = true) →
       anyWitK n w (mask w) (pidn n w) eb ws Y =
@@ -106,7 +107,7 @@ theorem oddBadK_eq {ws : List (Nat × Nat)}
   have pw := prep_pbK hn hw pY sY eb
   unfold oddBadK
   rw [Orb.bIf_eq, Orb.bIf_eq, Orb.bIf_eq, beq_prep hw pY pid sY sid,
-    beq_prep hw pw.1 pid pw.2 sid, anyWitK_eq hsz pY sY hws]
+    beq_prep hw pw.1 pid pw.2 sid, anyWitK_eq hsz pY hws]
   by_cases h1 : y = 1 <;> by_cases h2 : y ^ bval eb = 1 <;> simp [h1, h2]
 
 end Facts

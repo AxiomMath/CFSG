@@ -56,7 +56,7 @@ theorem Ctx.comm_A2_LB_le_Z (hc : Ctx M Q Z B) {n : ℕ} {t r : G} (hs : Sec5Hyp
   have haV1 : a ∈ V1 := hA₂V₁ ha
   have hV1eq : V1 = (V1 ⊓ QB B) ⊔ V := by
     rw [hV1def, hVdef]
-    exact Ctx.vone_eq_inf_QB_sup (hc := hc) (hs := hs) (t := t) (r := r)
+    exact Ctx.vone_eq_inf_QB_sup (hc := hc) (_hs := hs) (t := t) (r := r)
   have ha' : a ∈ (V1 ⊓ QB B) ⊔ V := by rwa [← hV1eq]
   obtain ⟨c, hc_mem, v, hv, haeq⟩ :=
     exists_mul_of_mem_sup_of_le_normalizer (H := V1 ⊓ QB B) (K := V)
@@ -99,9 +99,9 @@ theorem Ctx.comm_A2_LB_le_Z (hc : Ctx M Q Z B) {n : ℕ} {t r : G} (hs : Sec5Hyp
   rw [← hA2V]
   exact ⟨hlaA2, hlaW.1⟩
 
-theorem Ctx.isIndecSec_vone_of_proj (h34 : Stroth34Statement) (h51 : Stroth51Statement)
-    (hc : Ctx M Q Z B) {n : ℕ} {t r : G} (hs : Sec5Hyp hc n t) (hsp : SpNat hc t)
-    (hr : r ∈ Rt M (LB M Q B) t) (hplane : HypPlane Q Z B (conjSubgroup r B) t)
+theorem Ctx.isIndecSec_vone_of_proj (_h34 : Stroth34Statement) (_h51 : Stroth51Statement)
+    (hc : Ctx M Q Z B) {n : ℕ} {t r : G} (hs : Sec5Hyp hc n t) (_hsp : SpNat hc t)
+    (_hr : r ∈ Rt M (LB M Q B) t) (_hplane : HypPlane Q Z B (conjSubgroup r B) t)
     (h35 : CQt Q Z (LB M Q B) = ((B ⊔ Z : Subgroup G) : Set G))
     (hVW : Sec8V1 M Q Z B t r ≤ Sec8W1 M Q Z B t r)
     (hproj : ∀ A₁ A₂ : Subgroup G, Z ≤ A₁ → A₁ ≤ Sec8V1 M Q Z B t r →
@@ -159,10 +159,10 @@ theorem Ctx.vone_proj_of_card (h34 : Stroth34Statement) (hRoot : Stroth310RootSt
   set V : Subgroup G := Vt M (LB M Q B) B Z t with hVdef
   set V1 : Subgroup G := Sec8V1 M Q Z B t r with hV1def
   obtain ⟨K, hK, hKf, hKc, m, hm, hrep⟩ := hsp
-  letI := hK
-  letI := hKf
+  let := hK
+  let := hKf
   obtain ⟨e, -, he, -⟩ := hc.hyp.cp
-  haveI : CharP K 2 := charP_two_of_card_eq_two_pow (hKc.trans he)
+  have : CharP K 2 := charP_two_of_card_eq_two_pow (hKc.trans he)
   have hV : SpMNat hc t m := ⟨K, hK, hKf, hKc, hrep⟩
   have hsp' : SpNat hc t := ⟨K, hK, hKf, hKc, m, hm, hrep⟩
   have hVV1 : V ≤ V1 := by
@@ -266,8 +266,8 @@ theorem stroth53IndecVone_holds (h34 : Stroth34Statement) (hRoot : Stroth310Root
   · exact Ctx.isIndecSec_vone_of_eq (hc := hc) (hsp := hsp) (r := r) hE
   · have h35 := (stroth_3_5 h34 hc hs.width hs.n_gt hs.noA2 hs.gen).2.1
     have hVW := stroth53VW_holds h34 hRoot h51 G M Q Z B hc n t hs hsp r hr hplane
-    exact Ctx.isIndecSec_vone_of_proj (h34 := h34) (h51 := h51) (hc := hc)
-      (hs := hs) (hsp := hsp) (hr := hr) (hplane := hplane) (h35 := h35) (hVW := hVW)
+    exact Ctx.isIndecSec_vone_of_proj (_h34 := h34) (_h51 := h51) (hc := hc)
+      (hs := hs) (_hsp := hsp) (_hr := hr) (_hplane := hplane) (h35 := h35) (hVW := hVW)
       (fun A₁ A₂ hZA₁ hA₁V hZA₂ hA₂V hA₁ne hA₂ne hsup hinf hinv =>
         Ctx.vone_proj_of_card (h34 := h34) (hRoot := hRoot) (h51 := h51) (hc := hc)
           (hs := hs) (hsp := hsp) (hr := hr) (hplane := hplane)

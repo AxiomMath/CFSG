@@ -48,8 +48,8 @@ theorem natCast_five_ne_zero {K L : Type} [Field K] [Finite K] [Field L] [Algebr
     rw [← map_natCast (algebraMap K L)] at h0
     exact (map_eq_zero_iff _ (algebraMap K L).injective).1 h0
   have hdvd : ringChar K ∣ 5 := (ringChar.spec K 5).1 hK0
-  haveI := ringChar.charP K
-  haveI : Fintype K := Fintype.ofFinite K
+  have := ringChar.charP K
+  have : Fintype K := Fintype.ofFinite K
   have hne : ringChar K ≠ 0 := CharP.char_ne_zero_of_finite K (ringChar K)
   have hp : (ringChar K).Prime := (CharP.char_is_prime_or_zero K (ringChar K)).resolve_right hne
   have h5 : ringChar K = 5 := (Nat.prime_dvd_prime_iff_eq hp Nat.prime_five).1 hdvd
@@ -60,10 +60,10 @@ theorem natCast_five_ne_zero {K L : Type} [Field K] [Finite K] [Field L] [Algebr
 
 theorem exists_fifth_root_langLevi (K : Type) [Field K] [Finite K] (hnd : ¬ 5 ∣ Nat.card K)
     (D : LangLevi TwClass.e8Ten.tag K TwClass.e8Ten.w) : ∃ ζ : D.Lˣ, orderOf ζ = 5 := by
-  haveI : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
   have hne5 : ((5 : ℕ) : D.L) ≠ 0 := natCast_five_ne_zero (K := K) hnd
-  haveI : NeZero ((5 : ℕ) : D.L) := ⟨hne5⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot D.L 5
+  have : NeZero ((5 : ℕ) : D.L) := ⟨hne5⟩
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot D.L 5
   have hζu : IsUnit ζ := hζ.isUnit (by norm_num)
   obtain ⟨ω, hωζ⟩ : ∃ ω : D.Lˣ, (ω : D.L) = ζ := ⟨hζu.unit, hζu.unit_spec⟩
   refine ⟨ω, ?_⟩
@@ -78,7 +78,7 @@ theorem e8TwistedFrame_of (K : Type) [Field K] [Finite K] (hK : 5 ∣ Nat.card K
           TwClass.e8Ten.tag.rank) ζ) * D.g⁻¹ ∧
       z ≠ 1 ∧ z ^ 5 = 1 ∧
         ∃ X : Subgroup (adjointGroup TwClass.e8Ten.tag K), ClosingFrameAt z X := by
-  haveI : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
   set i₁ : Fin TwClass.e8Ten.tag.rank := ⟨4, by decide⟩ with hi₁
   set a : Fin TwClass.e8Ten.tag.rank → D.Lˣ := Pi.mulSingle i₁ ζ with ha
   have hchar : ∀ α : Fin TwClass.e8Ten.tag.rank → ℤ, rootChar a α = ζ ^ (α i₁) := by
@@ -105,7 +105,7 @@ theorem e8TwistedFrame_of (K : Type) [Field K] [Finite K] (hK : 5 ∣ Nat.card K
     by_cases hi : i = i₁
     · have hai : a i = ζ := by rw [hi]; simp [ha]
       have h2 : m % 5 = 4 := by
-        rw [if_pos (show i = ⟨4, by decide⟩ from hi)] at hm
+        rw [ite_eq_left (show i = ⟨4, by decide⟩ from hi)] at hm
         exact hm
       rw [hai]
       have key : ζ ^ (((Nat.card K : ℕ) : ℤ) * m) = ζ ^ (1 : ℤ) := by
@@ -115,7 +115,7 @@ theorem e8TwistedFrame_of (K : Type) [Field K] [Finite K] (hK : 5 ∣ Nat.card K
       rw [key, zpow_one]
     · have hai : a i = 1 := by rw [ha]; exact Pi.mulSingle_eq_of_ne hi _
       have h0 : m % 5 = 0 := by
-        rw [if_neg (show ¬ i = ⟨4, by decide⟩ from hi)] at hm
+        rw [ite_eq_right (show ¬ i = ⟨4, by decide⟩ from hi)] at hm
         exact hm
       rw [hai]
       have key : ζ ^ (((Nat.card K : ℕ) : ℤ) * m) = ζ ^ (0 : ℤ) := by
@@ -241,15 +241,15 @@ theorem e8TwistedFrame_of (K : Type) [Field K] [Finite K] (hK : 5 ∣ Nat.card K
       exact Subgroup.mem_centralizer_singleton_iff.1 (hsup hy')
     · refine nonsolvable_frameIn hle ?_
       intro hs
-      haveI := hs
-      haveI h2 : Group.IsSolvable ↥(TwClass.e8Ten.X₂ D) :=
-        solvable_of_solvable_injective (Subgroup.inclusion_injective
+      have := hs
+      have h2 : Group.IsSolvable ↥(TwClass.e8Ten.X₂ D) :=
+        Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective
           (le_sup_right : TwClass.e8Ten.X₂ D ≤ TwClass.e8Ten.X₁ D ⊔ TwClass.e8Ten.X₂ D))
       obtain ⟨hperf, -, a₀, b₀, hab⟩ := hq3.2
       obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective a₀
       obtain ⟨y, rfl⟩ := QuotientGroup.mk_surjective b₀
-      haveI : Nontrivial ↥(TwClass.e8Ten.X₂ D) := ⟨⟨x, 1, fun h => hab (by rw [h]; simp)⟩⟩
-      exact (IsSolvable.commutator_lt_top_of_nontrivial
+      have : Nontrivial ↥(TwClass.e8Ten.X₂ D) := ⟨⟨x, 1, fun h => hab (by rw [h]; simp)⟩⟩
+      exact (Group.IsSolvable.commutator_lt_top_of_nontrivial
         (↥(TwClass.e8Ten.X₂ D))).ne hperf.commutator_eq_top
     · have h3 : 3 ≤ Nat.card K := by
         have h1 : 1 < Nat.card K := Finite.one_lt_card

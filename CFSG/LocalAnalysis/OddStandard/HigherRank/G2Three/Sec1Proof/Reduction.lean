@@ -24,7 +24,7 @@ theorem g23Facts_of_inputs
   intro Q _ _ hQ P
   obtain ⟨m, hL⟩ := hM Q hQ
   have hsyl : IsSylowIn 2 ⊤ (frameOf m).Sσ := (hF (MulAut Q) m).1.2.2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, hp, hidx⟩ := hsyl
   rw [relIndex_top_right] at hidx
   let P₀ : Sylow 2 (MulAut Q) := hp.toSylow hidx

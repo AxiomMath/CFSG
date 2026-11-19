@@ -91,6 +91,7 @@ theorem rankOne_benderCore_of_involution
   · exact ⟨1, (rankOne_benderType_psl h).benderCore S ht htS⟩
   · exact ⟨2, (rankOne_benderType_sz h).benderCore S ht htS⟩
 
+omit [Finite G] in
 theorem exists_sylow_of_isBorelIn {B : Subgroup G}
     (hB : CFSG.Quasithin.IsBorelIn (⊤ : Subgroup G) B) :
     ∃ S : Sylow 2 G, B = normalizer (S : Set G) := by

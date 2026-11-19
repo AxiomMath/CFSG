@@ -70,7 +70,7 @@ theorem mem_torusGroup_of_commute_rootTorus {τ : Tag} (hτ : τ = .E6 ∨ τ = 
     have := (Nat.prime_dvd_prime_iff_eq hpp hℓ).1 hdvd
     omega
   have : NeZero (ℓ : k) := ⟨hℓk⟩
-  obtain ⟨ζ₀, hζ₀⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot k ℓ
+  obtain ⟨ζ₀, hζ₀⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot k ℓ
   set ζ : kˣ := (hζ₀.isUnit hℓ.ne_zero).unit with hζdef
   have hζ : orderOf ζ = ℓ := (IsPrimitiveRoot.coe_units_iff.1 hζ₀).eq_orderOf.symm
   obtain ⟨P, hPT, hxP, hPχ⟩ := exists_commute_rootTorus_prod ζ Γ hΓ h

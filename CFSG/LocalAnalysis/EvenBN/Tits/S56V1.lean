@@ -72,8 +72,8 @@ theorem Hyp.s56_E_le_V (h49 : d.Thm49Statement) (hd : d.Hyp) : d.E ≤ d.s56V :=
 theorem s56_V_comm_E {v e : G} (hv : v ∈ d.s56V) (he : e ∈ d.E) : v * e = e * v :=
   (((s56_mem_Q2_iff).1 hv.2).2 e he).symm
 
-theorem Hyp.s56_V_isPGroup (h49 : d.Thm49Statement) (hd : d.Hyp) : IsPGroup 2 d.s56V :=
-  IsPGroup.to_le (s56_Q0_isPGroup d) (fun v hv => hd.s56_Q_le_Q0 hv.1)
+theorem Hyp.s56_V_isPGroup (_h49 : d.Thm49Statement) (hd : d.Hyp) : IsPGroup 2 d.s56V :=
+  IsPGroup.to_le (s56_Q0_isPGroup d) (fun _v hv => hd.s56_Q_le_Q0 hv.1)
 
 theorem S56Z0.mem_V {z₀ : G} (hz : d.S56Z0 z₀) : z₀ ∈ d.s56V := ⟨hz.mem_Q, hz.mem_Q2⟩
 

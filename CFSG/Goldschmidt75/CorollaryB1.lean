@@ -26,7 +26,7 @@ theorem normal_perfRes_centralizer_of_oddCore_eq_bot
   have hLA : L ≤ centralizer (A : Set G) := (perfRes_le _).trans (centralizer_le inf_le_left)
   have hYn : Y.Normal := (goldschmidtOddCore_normal _).comap q
   have hQn : (Y ⊓ centralizer (A : Set G)).Normal := normal_inf_normal _ _
-  have hA2 : IsPGroup 2 A := T.isPGroup'.to_le (inf_le_left.trans hST)
+  have hA2 : IsPGroup 2 A := T.isPGroup.to_le (inf_le_left.trans hST)
   have hodd : Odd (A.subgroupOf (Y ⊓ centralizer (A : Set G))).index := by
     let φ : (Y ⊓ centralizer (A : Set G) : Subgroup G) →* G ⧸ A :=
       q.comp (Y ⊓ centralizer (A : Set G)).subtype

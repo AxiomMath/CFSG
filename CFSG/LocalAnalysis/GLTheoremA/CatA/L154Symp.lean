@@ -78,7 +78,7 @@ theorem l154s_exists_psp {T : Type} [Group T] (h : catalogIs T l154Symp) :
     cases t with
     | B r q =>
       have hq : q.p = 2 := by simpa [l154Symp, onLie] using hi
-      haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+      have : Fact q.p.Prime := ⟨q.prime_p⟩
       have hr := (TauCeti.LieTypeIndex.inStandardRange_iff _).1
         ((TauCeti.LieTypeIndex.valid_iff _).1 hv).1
       have hcard : Nat.card (GaloisField q.p q.exponent) = q.card := by
@@ -118,7 +118,7 @@ theorem l154s_two_eq_zero {K : Type} [Field K] [Finite K] {n : ℕ} (hK : Nat.ca
     (2 : K) = 0 := by
   have := Fintype.ofFinite K
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := n) (by rw [← Nat.card_eq_fintype_card, hK])
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := n) (by rw [← Nat.card_eq_fintype_card, hK])
   exact_mod_cast CharP.cast_eq_zero K 2
 
 section Certs
@@ -393,8 +393,8 @@ theorem l154_symp_fieldOn {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {Ω : Type} [
   obtain ⟨r, K, instF, instFin, θ, A, U, σ, hr, h2, hK4, hσ, hindx, hindy⟩ :=
     l154s_marking_data CFSG.StandardType.ggLabelRigidInput_holds hp hQ hInn hF
   obtain ⟨n, hK⟩ : ∃ n : ℕ, Nat.card K = 2 ^ n := by
-    haveI : Fintype K := Fintype.ofFinite K
-    haveI : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
+    have : Fintype K := Fintype.ofFinite K
+    have : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
     obtain ⟨n, -, hn⟩ := FiniteField.card K 2
     exact ⟨n, by rw [Nat.card_eq_fintype_card, hn]⟩
   have hn : 2 ≤ n := by

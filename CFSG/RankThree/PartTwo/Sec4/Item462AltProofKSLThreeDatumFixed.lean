@@ -32,7 +32,7 @@ theorem fixedDatumZ_of_noncyclicDatum {S : Type} [Group S] [Finite S]
   have hRF : R ≤ fixedSub β' := fun r hr => hfix r hr
   have hZc : ∀ z ∈ Subgroup.center S, β' z = z := fixed_center_of_cube hZS hβ'
   have hZF' : Subgroup.center S ≤ fixedSub β' := fun z hz => hZc z hz
-  haveI : Finite (Subgroup.center (fixedSub β')) :=
+  have : Finite (Subgroup.center (fixedSub β')) :=
     Nat.finite_of_card_ne_zero (by rw [hZF]; norm_num)
   have hle : (Subgroup.center S).subgroupOf (fixedSub β') ≤ Subgroup.center (fixedSub β') := by
     intro z hz

@@ -40,7 +40,7 @@ theorem aligned_point_sylow (H K B : Subgroup G) {P Ω : Type*} [Group P] [Finit
     rw [Subgroup.card_map_of_injective K.subtype_injective]
     exact hc.symm
   obtain ⟨S₀, hS₀⟩ := hsyl
-  have hUp : IsPGroup 2 U := hS₀ ▸ S₀.isPGroup'
+  have hUp : IsPGroup 2 U := hS₀ ▸ S₀.isPGroup
   have hTp : IsPGroup 2 T := by
     obtain ⟨n, hn⟩ := hUp.exists_card_eq
     exact IsPGroup.of_card (hcardT.trans hn)
@@ -83,7 +83,7 @@ theorem aligned_point_sylow (H K B : Subgroup G) {P Ω : Type*} [Group P] [Finit
     exact Subgroup.mem_map.mpr ⟨⟨x, hTM hx⟩, hTS hx, rfl⟩
   let ι := Subgroup.inclusion (inf_le_right : H ⊓ K ≤ K)
   have hιinj : Function.Injective ι := Subgroup.inclusion_injective _
-  obtain ⟨R, hR⟩ := (S.isPGroup'.map ι).exists_le_sylow
+  obtain ⟨R, hR⟩ := (S.isPGroup.map ι).exists_le_sylow
   have hSR : Nat.card S ≤ Nat.card R := by
     rw [← Subgroup.card_map_of_injective hιinj]
     exact Subgroup.card_le_of_le hR

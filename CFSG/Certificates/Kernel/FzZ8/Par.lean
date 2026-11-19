@@ -55,9 +55,9 @@ theorem ap_lt (m : Mat) (p : Nat) : m.ap p < 64 := by
 theorem apCZ_eq (b M q : Nat) : apCZ b M q = if b = 1 then apZ M q else q := by
   unfold apCZ
   by_cases h : b = 1
-  · rw [if_pos h, h]
+  · rw [ite_eq_left h, h]
     rfl
-  · rw [if_neg h, CFSG.KC.FzUT.fp_beq_f h]
+  · rw [ite_eq_right h, CFSG.KC.FzUT.fp_beq_f h]
 
 theorem actZ_eq {t s l : Mat} (ht : FzR10AMatLt t) (hs : FzR10AMatLt s) (hl : FzR10AMatLt l)
     {v q : Nat} (hq : q < 64) : actZ (pkM t) (pkM s) (pkM l) v q = vAct t s l v q := by
@@ -69,7 +69,7 @@ theorem actZ_eq {t s l : Mat} (ht : FzR10AMatLt t) (hs : FzR10AMatLt s) (hl : Fz
   split_ifs <;> simp only [apZ_eq hl hq, apZ_eq hs hq, apZ_eq hs (ap_lt l q), apZ_eq ht hq,
     apZ_eq ht (ap_lt l q), apZ_eq ht (ap_lt s q), apZ_eq ht (ap_lt s _)]
 
-theorem addZ_eq {p q : Nat} (hp : p < 64) (hq : q < 64) : addZ p q = addP p q := by
+theorem addZ_eq {p q : Nat} (_hp : p < 64) (_hq : q < 64) : addZ p q = addP p q := by
   unfold addZ addP
   rw [land7, land7, land7, land7, shr_div, shr_div]
   change (p % 8 + q % 8) % 8 + 8 * ((p / 2 ^ 3 + q / 2 ^ 3) % 8) = _

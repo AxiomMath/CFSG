@@ -32,6 +32,7 @@ variable {α : Type} [Fintype α] [DecidableEq α]
     rw [Perm.inv_eq_iff_eq]
     exact this.symm
 
+omit [Fintype α] [DecidableEq α] in
 theorem mem_fixOn {S : Set α} {σ : Perm α} : σ ∈ fixOn S ↔ ∀ z ∈ S, σ z = z := Iff.rfl
 
 end CFSG.QuasithinUnique.L246C127.AltBig

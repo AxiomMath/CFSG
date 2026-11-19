@@ -12,6 +12,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem s15_Eleven_wClos_le (V : Subgroup G) (i : ℕ) (X : Subgroup G) : E3.wClos V i X ≤ X :=
   iSup₂_le fun _ hA => hA.1
 
@@ -150,6 +151,7 @@ theorem s15_Eleven_exists_Bv (D : Data G) {V₀ V L : Subgroup G} (h : Hyp154 D 
     rw [hV1, h1]
     exact Subgroup.one_mem _
 
+omit [Finite G] in
 theorem s15_Eleven_not_le_of_wClos (M V : Subgroup G)
     (hW : E3.wClos V 0 M ≤ centralizer (V : Set G))
     {i : ℕ} {g : G} {A B : Subgroup G} {v : G}

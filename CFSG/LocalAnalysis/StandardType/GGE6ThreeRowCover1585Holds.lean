@@ -500,14 +500,13 @@ private theorem ltrcov_rows_of_JLabel {labL labJ : LargeEvenLabel}
           first
           | exact LargeEvenLieTag.noConfusion h1
           | exact absurd h2 (by decide)
-          | omega
       · exact Or.inr (Or.inr (Or.inr (Or.inl ⟨Or.inl ⟨rfl, h3⟩, rfl⟩)))
       · exact Or.inr (Or.inl (Or.inl ⟨rfl, h3, rfl⟩))
     · rcases hlab with rfl | rfl | ⟨hn1, rfl⟩
       · exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inl (Or.inl ⟨rfl, h3, rfl⟩)))))
       · exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr ⟨Or.inl ⟨rfl, h3⟩, rfl⟩))))
       · exfalso; subst hn1
-        rcases hJmem with hh | hh | hh | hh | hh | hh | hh | hh <;> simp_all <;> omega
+        rcases hJmem with hh | hh | hh | hh | hh | hh | hh | hh <;> simp_all
     · exfalso; exact absurd h.1 (by intro hh; cases hh)
     · exfalso; exact absurd h.1 (by intro hh; cases hh)
   · subst hTw
@@ -527,11 +526,10 @@ private theorem ltrcov_rows_of_JLabel {labL labJ : LargeEvenLabel}
           first
           | exact LargeEvenLieTag.noConfusion h1
           | exact absurd h2 (by decide)
-          | omega
       · exact Or.inr (Or.inr (Or.inr (Or.inl ⟨Or.inr ⟨rfl, h3⟩, rfl⟩)))
       · exact Or.inr (Or.inl (Or.inr ⟨rfl, h3, rfl⟩))
       · exfalso; subst hn1
-        rcases hJmem with hh | hh | hh | hh | hh | hh | hh | hh <;> simp_all <;> omega
+        rcases hJmem with hh | hh | hh | hh | hh | hh | hh | hh <;> simp_all
 
 theorem ggE6Three_rows_of_datum
     {labL labJ : LargeEvenLabel} {D : GGKacDatum} {o : GGKacOrbit}
@@ -578,7 +576,7 @@ private theorem ltrcov_datum
     (hB : GGK0ExcB)
     {L : Type} [Group L] [Finite L] {J : Subgroup L} {y : MulAut L}
     {E : Subgroup (MulAut L)} {labL : LargeEvenLabel}
-    (hΛL : LargeEvenInLambda2 labL) (htagL : labL.tag = .E6 ∨ labL.tag = .twE6)
+    (hΛL : LargeEvenInLambda2 labL) (_htagL : labL.tag = .E6 ∨ labL.tag = .twE6)
     (hhL : GGHasLabel labL (L ⧸ Subgroup.center L))
     (hpairKac : GGKacExcPair labL 3) (hyE : y ∈ E) (hy3 : y ^ 3 = 1)
     (hcomp : IsComponentOf J (ggAutFixedSubgroup y))

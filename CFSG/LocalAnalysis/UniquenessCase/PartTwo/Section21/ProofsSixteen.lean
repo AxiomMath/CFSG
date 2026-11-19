@@ -33,7 +33,7 @@ private theorem barInf_isCatalogGroup {D : Data G} {L : Subgroup G}
   have hK : CFSG.Open.IsKGroup ↥L := D.standing.kProper.isKGroup L (calC_ne_top hL)
   obtain ⟨hsimple, hnonab⟩ :=
     uc22p20c_barInf_simple (uc22p20e_cComp_of_calC hL)
-  haveI : IsSimpleGroup (BarInf L) := hsimple
+  have : IsSimpleGroup (BarInf L) := hsimple
   refine hK.isCatalogGroup_of_surjective (⊤ : Subgroup ↥L) hnonab ?_ ?_
   · exact (QuotientGroup.mk' (CFSG.solvableRadical ↥L)).comp Subgroup.topEquiv.toMonoidHom
   · exact (QuotientGroup.mk'_surjective _).comp Subgroup.topEquiv.surjective
@@ -42,7 +42,7 @@ private theorem barInf_catalog {D : Data G} {L : Subgroup G} (hL : L ∈ calC D.
     (hCA : CFSG.Open.QTFaithfulEmptyTauCeti.CatalogAgree) :
     CFSG.Blueprint.Catalog (BarInf L) := by
   obtain ⟨hsimple, hnonab⟩ := uc22p20c_barInf_simple (uc22p20e_cComp_of_calC hL)
-  haveI : IsSimpleGroup (BarInf L) := hsimple
+  have : IsSimpleGroup (BarInf L) := hsimple
   exact (CFSG.Assembly.CatalogAgreeOn.imp hCA) (BarInf L) hnonab
     (barInf_isCatalogGroup hL)
 
@@ -51,7 +51,7 @@ private theorem center_bar2_eq_bot_of_isL2_barInf {D : Data G} {L : Subgroup G}
     Subgroup.center (Bar2 L) = ⊥ := by
   change CFSG.Blueprint.LieModel (BarInf L) .PSL 2 2 n at h
   have hq : CFSG.Open.IsQuasisimple (Bar2 L) := hL.2.2
-  haveI : Group.IsPerfect (Bar2 L) := Group.isPerfect_def.mpr hq.1
+  have : Group.IsPerfect (Bar2 L) := Group.isPerfect_def.mpr hq.1
   have hodd : Odd (Nat.card (Subgroup.center (Bar2 L))) := by
     simpa [Bar2] using uc22p20p_odd_center_bar2 ↥L
   have hadm := h.admissible
@@ -64,15 +64,15 @@ private theorem center_bar2_eq_bot_of_isL2_barInf {D : Data G} {L : Subgroup G}
     · exact absurd heq.symm hnne
     · exact hlt
   obtain ⟨-, K, hKfield, hKfin, hKcard, ⟨eBar⟩⟩ := h.statedClassicalModel (by decide)
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
+  let : Field K := hKfield
+  let : Finite K := hKfin
   obtain ⟨e0⟩ := uc22p21k_barInf_equiv_of_calC hL
   have e : (Bar2 L) ⧸ Subgroup.center (Bar2 L) ≃* StatedProj (StatedSL 2 K) :=
     e0.symm.trans eBar
   have h2 : IsPGroup 2 (Subgroup.center (Bar2 L)) :=
     CFSG.Quasithin.isPGroup_two_of_mulEquiv_stated_psl_two_even
       (Subgroup.center (Bar2 L)) le_rfl hn2 hKcard e
-  haveI : Subsingleton (Subgroup.center (Bar2 L)) :=
+  have : Subsingleton (Subgroup.center (Bar2 L)) :=
     CFSG.GH74.Generic.eq_bot_of_isPGroup_two_of_odd h2 hodd
   exact Subgroup.eq_bot_of_subsingleton _
 
@@ -81,7 +81,7 @@ private theorem center_bar2_eq_bot_of_isSz_barInf {D : Data G} {L : Subgroup G}
     Subgroup.center (Bar2 L) = ⊥ := by
   change CFSG.Blueprint.LieModel (BarInf L) .twistedB2 0 2 n at h
   have hq : CFSG.Open.IsQuasisimple (Bar2 L) := hL.2.2
-  haveI : Group.IsPerfect (Bar2 L) := Group.isPerfect_def.mpr hq.1
+  have : Group.IsPerfect (Bar2 L) := Group.isPerfect_def.mpr hq.1
   have hodd : Odd (Nat.card (Subgroup.center (Bar2 L))) := by
     simpa [Bar2] using uc22p20p_odd_center_bar2 ↥L
   obtain ⟨e0⟩ := uc22p21k_barInf_equiv_of_calC hL
@@ -91,7 +91,7 @@ private theorem center_bar2_eq_bot_of_isSz_barInf {D : Data G} {L : Subgroup G}
     CFSG.CGT.Timmesfeld75.lieModel_twistedB2_iff.mp hblue
   have h2 : IsPGroup 2 (Subgroup.center (Bar2 L)) :=
     CFSG.Quasithin.isPGroup_two_of_isSz (Subgroup.center (Bar2 L)) le_rfl hSz
-  haveI : Subsingleton (Subgroup.center (Bar2 L)) :=
+  have : Subsingleton (Subgroup.center (Bar2 L)) :=
     CFSG.GH74.Generic.eq_bot_of_isPGroup_two_of_odd h2 hodd
   exact Subgroup.eq_bot_of_subsingleton _
 
@@ -121,7 +121,7 @@ theorem s21_16_of_s21_6Inf {D : Data G} {Ch : Choice2011 G}
     (hCA : CFSG.Open.QTFaithfulEmptyTauCeti.CatalogAgree) : S21_16 D Ch := by
   intro h1930 c L hL
   obtain ⟨hsimple, hnonab⟩ := uc22p20c_barInf_simple (uc22p20e_cComp_of_calC hL)
-  haveI : IsSimpleGroup (BarInf L) := hsimple
+  have : IsSimpleGroup (BarInf L) := hsimple
   rcases CFSG.RankThree.PartOne.PlaneCases.catalog_cases (barInf_catalog hL hCA) with
     hcyc | halt | hlie | hsporRep
   ·

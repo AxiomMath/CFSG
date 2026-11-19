@@ -42,31 +42,31 @@ theorem ggWeylTypeData_not_pow_rank_dvd {r n c p : ℕ} [Fact p.Prime] (h : GGWe
     intro hd
     have hle := Nat.le_of_dvd (by norm_num) hd
     have h7 : p < 7 := lt_of_pow_le_of_lt_pow hle (by norm_num)
-    interval_cases p <;> first | omega | (norm_num at hd) | exact absurd hp (by norm_num)
+    interval_cases p <;> first | omega
   · subst hr
     rw [hn]
     intro hd
     have hle := Nat.le_of_dvd (by norm_num) hd
     have h9 : p < 9 := lt_of_pow_le_of_lt_pow hle (by norm_num)
-    interval_cases p <;> first | omega | (norm_num at hd) | exact absurd hp (by norm_num)
+    interval_cases p <;> first | omega
   · subst hr
     rw [hn]
     intro hd
     have hle := Nat.le_of_dvd (by norm_num) hd
     have h13 : p < 13 := lt_of_pow_le_of_lt_pow hle (by norm_num)
-    interval_cases p <;> first | omega | (norm_num at hd) | exact absurd hp (by norm_num)
+    interval_cases p <;> first | omega
   · subst hr
     rw [hn]
     intro hd
     have hle := Nat.le_of_dvd (by norm_num) hd
     have h6 : p < 6 := lt_of_pow_le_of_lt_pow hle (by norm_num)
-    interval_cases p <;> first | omega | (norm_num at hd) | exact absurd hp (by norm_num)
+    interval_cases p <;> first | omega
   · subst hr
     rw [hn]
     intro hd
     have hle := Nat.le_of_dvd (by norm_num) hd
     have h4 : p < 4 := lt_of_pow_le_of_lt_pow hle (by norm_num)
-    interval_cases p <;> first | omega | (norm_num at hd) | exact absurd hp (by norm_num)
+    interval_cases p; first | omega
 
 theorem ggWeylTypeData_six_not_three_pow_five_dvd {n c : ℕ} (h : GGWeylTypeData 6 n c) :
     ¬ 3 ^ 5 ∣ n := by

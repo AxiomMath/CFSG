@@ -53,12 +53,15 @@ variable {G : Type} [Group G] [Finite G] {L R : Subgroup G} {t : G}
       _ = (vConj hD n⁻¹ * vConj hD n) * w * vConj hD n⁻¹ := by noncomm_ring
       _ = w * vConj hD n⁻¹ := by rw [hleft, one_mul]
 
+omit [Finite G] in
 theorem mem_wFix_iff_exists (hD : DHyp A Aa t D) (w : AddMonoid.End (VSub hD)) {v : G} :
     v ∈ wFix hD w ↔ ∃ x : VSub hD, x.val = v ∧ w x = x := Iff.rfl
 
+omit [Finite G] in
 theorem mem_wKer_iff_exists (hD : DHyp A Aa t D) (w : AddMonoid.End (VSub hD)) {v : G} :
     v ∈ wKer hD w ↔ ∃ x : VSub hD, x.val = v ∧ w x = 0 := Iff.rfl
 
+omit [Finite G] in
 theorem mem_wFix_iff (hD : DHyp A Aa t D) (w : AddMonoid.End (VSub hD)) {v : G}
     (hv : v ∈ omega1 D hD.comm) :
     v ∈ wFix hD w ↔ w (AbelianSub.mk v hv) = AbelianSub.mk v hv := by
@@ -69,6 +72,7 @@ theorem mem_wFix_iff (hD : DHyp A Aa t D) (w : AddMonoid.End (VSub hD)) {v : G}
   · intro h
     exact ⟨AbelianSub.mk v hv, AbelianSub.val_mk v hv, h⟩
 
+omit [Finite G] in
 theorem mem_wKer_iff (hD : DHyp A Aa t D) (w : AddMonoid.End (VSub hD)) {v : G}
     (hv : v ∈ omega1 D hD.comm) :
     v ∈ wKer hD w ↔ w (AbelianSub.mk v hv) = 0 := by
@@ -79,21 +83,25 @@ theorem mem_wKer_iff (hD : DHyp A Aa t D) (w : AddMonoid.End (VSub hD)) {v : G}
   · intro h
     exact ⟨AbelianSub.mk v hv, AbelianSub.val_mk v hv, h⟩
 
+omit [Finite G] in
 theorem wFix_le_omega1 (hD : DHyp A Aa t D) (w : AddMonoid.End (VSub hD)) :
     wFix hD w ≤ omega1 D hD.comm := by
   rintro v ⟨x, rfl, -⟩
   exact x.2
 
+omit [Finite G] in
 theorem wKer_le_omega1 (hD : DHyp A Aa t D) (w : AddMonoid.End (VSub hD)) :
     wKer hD w ≤ omega1 D hD.comm := by
   rintro v ⟨x, rfl, -⟩
   exact x.2
 
+omit [Finite G] in
 theorem VSub.add_self_apply (hD : DHyp A Aa t D) (x : VSub hD) : x + x = 0 := by
   apply AbelianSub.ext
   rw [AbelianSub.val_add, AbelianSub.val_zero, ← pow_two]
   exact x.2.2
 
+omit [Finite G] in
 theorem wFix_inf_wKer_eq_bot (hD : DHyp A Aa t D) (w : AddMonoid.End (VSub hD)) :
     wFix hD w ⊓ wKer hD w = ⊥ := by
   refine le_antisymm ?_ bot_le
@@ -103,6 +111,7 @@ theorem wFix_inf_wKer_eq_bot (hD : DHyp A Aa t D) (w : AddMonoid.End (VSub hD)) 
   rw [← hxv, ← hx, hxy, hy]
   exact AbelianSub.val_zero
 
+omit [Finite G] in
 theorem exists_mem_wFix_mul_mem_wKer (hD : DHyp A Aa t D) (w : AddMonoid.End (VSub hD))
     (hww : w * w = w) {v : G} (hv : v ∈ omega1 D hD.comm) :
     ∃ v₁ ∈ wFix hD w, ∃ v₂ ∈ wKer hD w, v = v₁ * v₂ := by
@@ -171,6 +180,7 @@ def iota2 (hD : DHyp A Aa t D) (w : AddMonoid.End (VSub hD)) (hww : w * w = w)
         (w * w) (AbelianSub.mk a.val (hAV a.2)) from rfl, hww]
       exact VSub.add_self_apply hD _⟩⟩
 
+omit [Finite G] in
 theorem iota1_mul (hD : DHyp A Aa t D) (w : AddMonoid.End (VSub hD)) (hww : w * w = w)
     (hAV : A ≤ omega1 D hD.comm) (a a' : A) :
     iota1 hD w hww hAV (a * a') = iota1 hD w hww hAV a * iota1 hD w hww hAV a' := by
@@ -191,6 +201,7 @@ theorem iota1_mul (hD : DHyp A Aa t D) (w : AddMonoid.End (VSub hD)) (hww : w * 
     _ = (w (AbelianSub.mk a.val (hAV a.2))).val *
           (w (AbelianSub.mk a'.val (hAV a'.2))).val := AbelianSub.val_add _ _
 
+omit [Finite G] in
 theorem iota2_mul (hD : DHyp A Aa t D) (w : AddMonoid.End (VSub hD)) (hww : w * w = w)
     (hAV : A ≤ omega1 D hD.comm) (a a' : A) :
     iota2 hD w hww hAV (a * a') = iota2 hD w hww hAV a * iota2 hD w hww hAV a' := by
@@ -403,6 +414,7 @@ theorem Hn_le_wComm (H : ThCyc G L R t) (W : ThLocalIn L S A B z) (W2 : ThLocalI
   exact H.normalizer_le_normalizer_omega1 W W2 hD
     (H.mem_normalizer_W5_of_mem_normInL W W2 hD hn')
 
+omit [Finite G] in
 private theorem w_conj_apply (hD : DHyp A Aa t D) {w : AddMonoid.End (VSub hD)} {n : G}
     (hn : n ∈ wComm hD w) (x : VSub hD) : w (vConj hD n x) = vConj hD n (w x) := by
   calc w (vConj hD n x) = (w * vConj hD n) x := by
@@ -410,6 +422,7 @@ private theorem w_conj_apply (hD : DHyp A Aa t D) {w : AddMonoid.End (VSub hD)} 
     _ = (vConj hD n * w) x := by rw [← hn.2]
     _ = vConj hD n (w x) := by rw [AddMonoid.End.coe_mul]; rfl
 
+omit [Finite G] in
 theorem conj_mem_wFix_of_mem_wComm (hD : DHyp A Aa t D) {w : AddMonoid.End (VSub hD)}
     {n : G} (hn : n ∈ wComm hD w) {v : G} (hv : v ∈ wFix hD w) :
     n * v * n⁻¹ ∈ wFix hD w := by
@@ -418,6 +431,7 @@ theorem conj_mem_wFix_of_mem_wComm (hD : DHyp A Aa t D) {w : AddMonoid.End (VSub
   · rw [val_vConj_apply hD hn.1, hxv]
   · rw [w_conj_apply hD hn, hx]
 
+omit [Finite G] in
 theorem conj_mem_wKer_of_mem_wComm (hD : DHyp A Aa t D) {w : AddMonoid.End (VSub hD)}
     {n : G} (hn : n ∈ wComm hD w) {v : G} (hv : v ∈ wKer hD w) :
     n * v * n⁻¹ ∈ wKer hD w := by
@@ -428,7 +442,7 @@ theorem conj_mem_wKer_of_mem_wComm (hD : DHyp A Aa t D) {w : AddMonoid.End (VSub
 
 theorem iota1_conj_val (H : ThCyc G L R t) (W : ThLocalIn L S A B z)
     (W2 : ThLocalIn2 B A Aa b) (hD : DHyp A Aa t D) {w : AddMonoid.End (VSub hD)}
-    (hww : w * w = w) (hτw : vConj hD t * w * vConj hD t = w + 1)
+    (hww : w * w = w) (_hτw : vConj hD t * w * vConj hD t = w + 1)
     (hwH : ∀ n ∈ L ⊓ normalizer (A : Set G), vConj hD n * w = w * vConj hD n)
     {n : G} (hn : n ∈ L ⊓ normalizer (A : Set G)) (a : A) :
     (iota1 hD w hww (H.A_le_omega1 W W2 hD)
@@ -446,7 +460,7 @@ theorem iota1_conj_val (H : ThCyc G L R t) (W : ThLocalIn L S A B z)
 
 theorem iota2_conj_val (H : ThCyc G L R t) (W : ThLocalIn L S A B z)
     (W2 : ThLocalIn2 B A Aa b) (hD : DHyp A Aa t D) {w : AddMonoid.End (VSub hD)}
-    (hww : w * w = w) (hτw : vConj hD t * w * vConj hD t = w + 1)
+    (hww : w * w = w) (_hτw : vConj hD t * w * vConj hD t = w + 1)
     (hwH : ∀ n ∈ L ⊓ normalizer (A : Set G), vConj hD n * w = w * vConj hD n)
     {n : G} (hn : n ∈ L ⊓ normalizer (A : Set G)) (a : A) :
     (iota2 hD w hww (H.A_le_omega1 W W2 hD)
@@ -514,13 +528,13 @@ theorem exists_mem_Hn_conj_eq_of_mem_wComm (H : ThCyc G L R t) (W : ThLocalIn L 
   have hfA : ∀ a ∈ A, f a ∈ A := by
     intro a ha
     dsimp only [f]
-    rw [dif_pos ha]
+    rw [dite_eq_left ha]
     exact H.thV_mem_A W W2 hD
       (wFix_le_omega1 hD w (conj_mem_wFix_of_mem_wComm hD hn (i1 ⟨a, ha⟩).2))
   have hfmul : ∀ a ∈ A, ∀ a' ∈ A, f (a * a') = f a * f a' := by
     intro a ha a' ha'
     dsimp only [f]
-    rw [dif_pos (A.mul_mem ha ha'), dif_pos ha, dif_pos ha']
+    rw [dite_eq_left (A.mul_mem ha ha'), dite_eq_left ha, dite_eq_left ha']
     have hι : (i1 ⟨a * a', A.mul_mem ha ha'⟩ : G) =
         (i1 ⟨a, ha⟩ : G) * (i1 ⟨a', ha'⟩ : G) := by
       dsimp only [i1]
@@ -541,7 +555,7 @@ theorem exists_mem_Hn_conj_eq_of_mem_wComm (H : ThCyc G L R t) (W : ThLocalIn L 
   have hfinj : ∀ a ∈ A, ∀ b ∈ A, f a = f b → a = b := by
     intro a ha b hb hab
     dsimp only [f] at hab
-    rw [dif_pos ha, dif_pos hb] at hab
+    rw [dite_eq_left ha, dite_eq_left hb] at hab
     have hya : n * (i1 ⟨a, ha⟩ : G) * n⁻¹ ∈ omega1 D hD.comm :=
       wFix_le_omega1 hD w (conj_mem_wFix_of_mem_wComm hD hn (i1 ⟨a, ha⟩).2)
     have hyb : n * (i1 ⟨b, hb⟩ : G) * n⁻¹ ∈ omega1 D hD.comm :=
@@ -610,7 +624,7 @@ theorem exists_mem_Hn_conj_eq_of_mem_wComm (H : ThCyc G L R t) (W : ThLocalIn L 
     _ = n * (i1 a : G) * n⁻¹ := by
           have hfa : f a.val = thV t (n * (i1 a : G) * n⁻¹) := by
             dsimp only [f]
-            rw [dif_pos a.2]
+            rw [dite_eq_left a.2]
           have hmem : n * (i1 a : G) * n⁻¹ ∈ wFix hD w :=
             conj_mem_wFix_of_mem_wComm hD hn (i1 a).2
           let yv : VSub hD := AbelianSub.mk (n * (i1 a : G) * n⁻¹)
@@ -644,13 +658,13 @@ theorem exists_mem_Hn_conj_eq_of_mem_wComm_wKer (H : ThCyc G L R t)
   have hfA : ∀ a ∈ A, f a ∈ A := by
     intro a ha
     dsimp only [f]
-    rw [dif_pos ha]
+    rw [dite_eq_left ha]
     exact H.thV_mem_A W W2 hD
       (wKer_le_omega1 hD w (conj_mem_wKer_of_mem_wComm hD hn (i2 ⟨a, ha⟩).2))
   have hfmul : ∀ a ∈ A, ∀ a' ∈ A, f (a * a') = f a * f a' := by
     intro a ha a' ha'
     dsimp only [f]
-    rw [dif_pos (A.mul_mem ha ha'), dif_pos ha, dif_pos ha']
+    rw [dite_eq_left (A.mul_mem ha ha'), dite_eq_left ha, dite_eq_left ha']
     have hι : (i2 ⟨a * a', A.mul_mem ha ha'⟩ : G) =
         (i2 ⟨a, ha⟩ : G) * (i2 ⟨a', ha'⟩ : G) := by
       dsimp only [i2]
@@ -671,7 +685,7 @@ theorem exists_mem_Hn_conj_eq_of_mem_wComm_wKer (H : ThCyc G L R t)
   have hfinj : ∀ a ∈ A, ∀ b ∈ A, f a = f b → a = b := by
     intro a ha b hb hab
     dsimp only [f] at hab
-    rw [dif_pos ha, dif_pos hb] at hab
+    rw [dite_eq_left ha, dite_eq_left hb] at hab
     have hya : n * (i2 ⟨a, ha⟩ : G) * n⁻¹ ∈ omega1 D hD.comm :=
       wKer_le_omega1 hD w (conj_mem_wKer_of_mem_wComm hD hn (i2 ⟨a, ha⟩).2)
     have hyb : n * (i2 ⟨b, hb⟩ : G) * n⁻¹ ∈ omega1 D hD.comm :=
@@ -740,7 +754,7 @@ theorem exists_mem_Hn_conj_eq_of_mem_wComm_wKer (H : ThCyc G L R t)
     _ = n * (i2 a : G) * n⁻¹ := by
           have hfa : f a.val = thV t (n * (i2 a : G) * n⁻¹) := by
             dsimp only [f]
-            rw [dif_pos a.2]
+            rw [dite_eq_left a.2]
           have hmem : n * (i2 a : G) * n⁻¹ ∈ wKer hD w :=
             conj_mem_wKer_of_mem_wComm hD hn (i2 a).2
           let yv : VSub hD := AbelianSub.mk (n * (i2 a : G) * n⁻¹)

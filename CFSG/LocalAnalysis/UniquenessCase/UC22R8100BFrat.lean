@@ -68,6 +68,7 @@ theorem uc22r8100b_frattini {q : ℕ} [Fact q.Prime] {K S : Subgroup Γ} (hS : I
   have e : k⁻¹ * (y * h * y⁻¹) * k = k⁻¹ * y * h * (k⁻¹ * y)⁻¹ := by group
   rw [e]
 
+omit [Finite Γ] in
 theorem uc22r8100b_card_ker {Y K B : Subgroup Γ} (hBY : B ≤ Y)
     [(K.subgroupOf Y).Normal] :
     Nat.card ((QuotientGroup.mk' (K.subgroupOf Y)).comp (Subgroup.inclusion hBY)).ker =
@@ -90,8 +91,8 @@ theorem uc22r8100b_exists_elemAbelian_le_normalizer {p q : ℕ} (hp : p.Prime) (
     (hA : IsElemAbelian p A) (hAH : A ≤ H) :
     ∃ D : Subgroup Γ, D ≤ H ⊓ normalizer (S : Set Γ) ∧ IsElemAbelian p D ∧
       Nat.card A = Nat.card (A ⊓ K : Subgroup Γ) * Nat.card D := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact q.Prime := ⟨hq⟩
   set Y : Subgroup Γ := K ⊔ A with hY
   have hKY : K ≤ Y := le_sup_left
   have hAY : A ≤ Y := le_sup_right
@@ -115,7 +116,7 @@ theorem uc22r8100b_exists_elemAbelian_le_normalizer {p q : ℕ} (hp : p.Prime) (
     rcases hQp.card_eq_or_dvd with h1 | h1
     · exact Subgroup.card_eq_one.1 h1
     · exact absurd (h1.trans (Subgroup.card_dvd_of_le (inf_le_inf_right K hDN))) hcop
-  haveI hKn : (K.subgroupOf Y).Normal :=
+  have hKn : (K.subgroupOf Y).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hKY).2 hYN
   let π : ↥Y →* ↥Y ⧸ K.subgroupOf Y := QuotientGroup.mk' (K.subgroupOf Y)
   let φA : ↥A →* ↥Y ⧸ K.subgroupOf Y := π.comp (Subgroup.inclusion hAY)
@@ -151,7 +152,7 @@ theorem uc22r8100b_exists_elemAbelian_le_normalizer {p q : ℕ} (hp : p.Prime) (
       change π (Subgroup.inclusion hNY ⟨k⁻¹ * (y : Γ), hnN⟩) = π y
       rw [hincl, map_mul, map_inv, hπ1 k hk hkY, inv_one, one_mul]
   have hQc : ∀ x y : ↥Y ⧸ K.subgroupOf Y, x * y = y * x := by
-    haveI := hA.1
+    have := hA.1
     intro x y
     obtain ⟨a, rfl⟩ := hφA x
     obtain ⟨b, rfl⟩ := hφA y

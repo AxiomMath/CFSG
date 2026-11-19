@@ -449,12 +449,12 @@ private theorem ggRelativeF4_exactThree_side_false [Fact (Nat.Prime 3)]
   obtain ⟨Λ, i1, i2, Sdel, Λa, i3, i4, ML, CL, MK, CK, V, i5, i6, ι, φ, h, α,
     hS3, hA1, hA3, hML, hCL, hMK, hCK, htyp, hlin, hrefl, hpairL, hpairK, hsel,
     ⟨fL, hfL⟩, ⟨fK, hfK⟩, hclosL, hclosK, hdel, hclosJ⟩ := hD
-  letI := i1
-  letI := i2
-  letI := i3
-  letI := i4
-  letI := i5
-  letI := i6
+  let := i1
+  let := i2
+  let := i3
+  let := i4
+  let := i5
+  let := i6
   have hcardML : Nat.card ML.Group = 1152 := by
     rw [Nat.card_congr fL.toEquiv]
     exact hcardK
@@ -486,50 +486,50 @@ theorem GGResHyp.not_exactThree_of_twE6_qminus_K [Fact (Nat.Prime 3)]
     {B Bs : Subgroup G} {x : G} {L D J : Subgroup G} {y : G} {K : Subgroup G}
     (hH : GGResHyp 3 B Bs x L D J y K)
     (hK : GGInnerDiagOnLabel
-      (fun _ lab => lab.tag = .twE6 ∧ 3 ∣ 2 ^ lab.n - 1) 3 Bs K)
+      (fun _ _lab => _lab.tag = .twE6 ∧ 3 ∣ 2 ^ _lab.n - 1) 3 Bs K)
     (hD : GGResLeviDatumExact3 3 Bs K J L ggSelAny ggTypAny) : False :=
   ggRelativeF4_exactThree_side_false hH (Or.inr rfl) hK
-    (fun lab hlab hs => largeEvenLabelAll_facts_reflGenW_twE6Dvd hlab hs) hD
+    (fun _lab hlab hs => largeEvenLabelAll_facts_reflGenW_twE6Dvd hlab hs) hD
 
 theorem GGResHyp.not_exactThree_of_splitE6_qplus_K [Fact (Nat.Prime 3)]
     {G : Type} [Group G] [Finite G]
     {B Bs : Subgroup G} {x : G} {L D J : Subgroup G} {y : G} {K : Subgroup G}
     (hH : GGResHyp 3 B Bs x L D J y K)
     (hK : GGInnerDiagOnLabel
-      (fun _ lab => lab.tag = .E6 ∧ 3 ∣ 2 ^ lab.n + 1) 3 Bs K)
+      (fun _ _lab => _lab.tag = .E6 ∧ 3 ∣ 2 ^ _lab.n + 1) 3 Bs K)
     (hD : GGResLeviDatumExact3 3 Bs K J L ggSelAny ggTypAny) : False :=
   ggRelativeF4_exactThree_side_false hH (Or.inr rfl) hK
-    (fun lab hlab hs => largeEvenLabelAll_facts_reflGenW_E6Plus hlab hs) hD
+    (fun _lab hlab hs => largeEvenLabelAll_facts_reflGenW_E6Plus hlab hs) hD
 
 theorem GGResHyp.not_exactThree_of_splitE6_qplus_L [Fact (Nat.Prime 3)]
     {G : Type} [Group G] [Finite G]
     {B Bs : Subgroup G} {x : G} {L D J : Subgroup G} {y : G} {K : Subgroup G}
     (hH : GGResHyp 3 B Bs x L D J y K)
     (hL : GGInnerDiagOnLabel
-      (fun _ lab => lab.tag = .E6 ∧ 3 ∣ 2 ^ lab.n + 1) 3 Bs L)
+      (fun _ _lab => _lab.tag = .E6 ∧ 3 ∣ 2 ^ _lab.n + 1) 3 Bs L)
     (hD : GGResLeviDatumExact3 3 Bs L J K ggSelAny ggTypAny) : False :=
   ggRelativeF4_exactThree_side_false hH (Or.inl rfl) hL
-    (fun lab hlab hs => largeEvenLabelAll_facts_reflGenW_E6Plus hlab hs) hD
+    (fun _lab hlab hs => largeEvenLabelAll_facts_reflGenW_E6Plus hlab hs) hD
 
 theorem GGResHyp.card_automizer_L_and_twoLocalRank_of_splitE6_qplus [Fact (Nat.Prime 3)]
     {G : Type} [Group G] [Finite G]
     {B Bs : Subgroup G} {x : G} {L D J : Subgroup G} {y : G} {K : Subgroup G}
     (hH : GGResHyp 3 B Bs x L D J y K)
     (hL : GGInnerDiagOnLabel
-      (fun _ lab => lab.tag = .E6 ∧ 3 ∣ 2 ^ lab.n + 1) 3 Bs L) :
+      (fun _ _lab => _lab.tag = .E6 ∧ 3 ∣ 2 ^ _lab.n + 1) 3 Bs L) :
     Nat.card ↥(ggAutomizer L Bs) = 1152 ∧ 5 ≤ LargeEvenTwoLocalRank 3 G :=
   ggRelativeF4_actual_side_card_and_rank hH (Or.inl rfl) hL
-    (fun lab hlab hs => largeEvenLabelAll_facts_reflGenW_E6Plus hlab hs)
+    (fun _lab hlab hs => largeEvenLabelAll_facts_reflGenW_E6Plus hlab hs)
 
 theorem GGResHyp.not_exactThree_of_twE6_qminus_L [Fact (Nat.Prime 3)]
     {G : Type} [Group G] [Finite G]
     {B Bs : Subgroup G} {x : G} {L D J : Subgroup G} {y : G} {K : Subgroup G}
     (hH : GGResHyp 3 B Bs x L D J y K)
     (hL : GGInnerDiagOnLabel
-      (fun _ lab => lab.tag = .twE6 ∧ 3 ∣ 2 ^ lab.n - 1) 3 Bs L)
+      (fun _ _lab => _lab.tag = .twE6 ∧ 3 ∣ 2 ^ _lab.n - 1) 3 Bs L)
     (hD : GGResLeviDatumExact3 3 Bs L J K ggSelAny ggTypAny) : False :=
   ggRelativeF4_exactThree_side_false hH (Or.inl rfl) hL
-    (fun lab hlab hs => largeEvenLabelAll_facts_reflGenW_twE6Dvd hlab hs) hD
+    (fun _lab hlab hs => largeEvenLabelAll_facts_reflGenW_twE6Dvd hlab hs) hD
 
 theorem GGResHyp.not_exactThree_of_splitE6_L
     {G : Type} [Group G] [Finite G]
@@ -789,14 +789,14 @@ theorem GGResHyp.not_exactThree_K_of_twE6_qplus_L_qGeFour
     (hL : GGInnerDiagOnLabel
       (fun _ lab => lab.tag = .twE6 ∧ 3 ∣ 2 ^ lab.n + 1) 3 Bs L)
     (hU : GGInnerDiagOnLabel
-      (fun p lab => lab.tag = .twA ∧ 4 ≤ lab.rank ∧ 2 ≤ lab.n ∧
+      (fun _p lab => lab.tag = .twA ∧ 4 ≤ lab.rank ∧ 2 ≤ lab.n ∧
         3 ∣ 2 ^ lab.n + 1) 3 Bs K) :
     ¬ GGResLeviDatumExact3 3 Bs K J L ggSelAny ggTypAny := by
   have hN := (hH.2.2.1.2 y K hH.2.2.2.2.1).le_normalizer
   obtain ⟨F, hField, hFinite, n, d, θ, ψ, hn2, hd5, hpq, hM, hdiag⟩ :=
     hH.exists_unitaryModel_K_of_label_qGeFour hU hN
-  letI : Field F := hField
-  letI : Finite F := hFinite
+  let : Field F := hField
+  let : Finite F := hFinite
   obtain ⟨e, -⟩ := ggTwE6Bad_weylOfType hH
     (GGInnerDiagOnLabel.mono_label (fun _ h => ⟨h.1, rfl, h.2⟩) hL)
   have hAL : Nat.card (ggAutomizer L Bs) = 51840 :=
@@ -810,22 +810,22 @@ theorem GGResHyp.relativeF4_K3_classification_of_L2
     (hL2 : GGResLeviDatumExact2 3 Bs L J K ggSelAny ggTypAny)
     (hAL : Nat.card ↥(ggAutomizer L Bs) = 1152)
     (hU : GGInnerDiagOnLabel
-      (fun p lab => lab.tag = .twA ∧ 4 ≤ lab.rank ∧ 2 ≤ lab.n ∧
+      (fun _p lab => lab.tag = .twA ∧ 4 ≤ lab.rank ∧ 2 ≤ lab.n ∧
         3 ∣ 2 ^ lab.n + 1) 3 Bs K)
     (hN : Bs ≤ Subgroup.normalizer (K : Set G))
     (h3 : GGResLeviDatumExact3 3 Bs K J L ggSelAny ggTypAny) :
     ∃ (F : Type) (_ : Field F) (_ : Finite F) (n rank d : ℕ)
-      (θ : ↥K ⧸ Subgroup.center ↥K ≃* LargeEvenProj (unitarySU 2 n F d))
-      (ψ : ↥(unitarySU 2 n F d) →* ↥K),
+      (_θ : ↥K ⧸ Subgroup.center ↥K ≃* LargeEvenProj (unitarySU 2 n F d))
+      (_ψ : ↥(unitarySU 2 n F d) →* ↥K),
       rank = 5 ∧ d = 6 ∧ 2 ≤ n ∧ Odd n ∧ 3 ≤ n ∧ Nat.card F = (2 ^ n) ^ 2 ∧
         Nat.card Bs = 3 ^ 5 ∧ Nat.card ↥(ggAutomizer J Bs) = 6 ∧
         GGWeylTypeData 2 6 1 ∧
         GGResLeviDatumExact2 3 Bs L J K ggSelAny ggTypAny := by
-  obtain ⟨F, hField, hFinite, n, rank, d, θ, ψ,
+  obtain ⟨F, hField, hFinite, n, rank, d, _θ, _ψ,
     hr4, hn2, hd5, hd_eq, hFK, hpq, hM, hdiag⟩ :=
     hH.exists_unitaryModel_K_of_label_qGeFour_literal hU hN
-  letI : Field F := hField
-  letI : Finite F := hFinite
+  let : Field F := hField
+  let : Finite F := hFinite
   have hLB : GGLBalanceInput := ggGammaSuppliers_proved.1
   obtain ⟨r, hdr, hpd, hXD, hcardBs, hcent, hBlt, hAJ⟩ :=
     hH.unitary_exactThree_typeA_card_J_of_K hLB hM hpq hd5 hdiag h3
@@ -886,7 +886,7 @@ theorem GGResHyp.relativeF4_K3_classification_of_L2
   have hn3 : 3 ≤ n := by
     rcases hodd with ⟨k, hk⟩
     omega
-  exact ⟨F, hField, hFinite, n, rank, d, θ, ψ,
+  exact ⟨F, hField, hFinite, n, rank, d, _θ, _ψ,
     hrank5, hd6, hn2, hodd, hn3, hFK, hBs5, hAJ6, hsurv6, hL2⟩
 
 
@@ -897,7 +897,7 @@ theorem GGResHyp.relativeF4_K3_actual_models_of_L2
     (hL2 : GGResLeviDatumExact2 3 Bs L J K ggSelAny ggTypAny)
     (hAL : Nat.card ↥(ggAutomizer L Bs) = 1152)
     (hU : GGInnerDiagOnLabel
-      (fun p lab => lab.tag = .twA ∧ 4 ≤ lab.rank ∧ 2 ≤ lab.n ∧
+      (fun _p lab => lab.tag = .twA ∧ 4 ≤ lab.rank ∧ 2 ≤ lab.n ∧
         3 ∣ 2 ^ lab.n + 1) 3 Bs K)
     (hN : Bs ≤ Subgroup.normalizer (K : Set G))
     (h3 : GGResLeviDatumExact3 3 Bs K J L ggSelAny ggTypAny) :
@@ -912,8 +912,8 @@ theorem GGResHyp.relativeF4_K3_actual_models_of_L2
   obtain ⟨F, hField, hFinite, n, rank, d, θ, ψ,
     hr4, hn2, hd5, hd_eq, hFK, hpq, hM, hdiag⟩ :=
     hH.exists_unitaryModel_K_of_label_qGeFour_literal hU hN
-  letI : Field F := hField
-  letI : Finite F := hFinite
+  let : Field F := hField
+  let : Finite F := hFinite
   have hLB : GGLBalanceInput := ggGammaSuppliers_proved.1
   obtain ⟨r, hdr, _, _, _, _, _, hAJ⟩ :=
     hH.unitary_exactThree_typeA_card_J_of_K hLB hM hpq hd5 hdiag h3
@@ -940,13 +940,13 @@ theorem GGResHyp.relativeF4_K3_classification
       GGInnerDiagOnLabel (fun _ lab => lab.tag = .E6 ∧ 3 ≤ lab.n ∧
         3 ∣ 2 ^ lab.n + 1) 3 Bs L)
     (hU : GGInnerDiagOnLabel
-      (fun p lab => lab.tag = .twA ∧ 4 ≤ lab.rank ∧ 2 ≤ lab.n ∧
+      (fun _p lab => lab.tag = .twA ∧ 4 ≤ lab.rank ∧ 2 ≤ lab.n ∧
         3 ∣ 2 ^ lab.n + 1) 3 Bs K)
     (hN : Bs ≤ Subgroup.normalizer (K : Set G))
     (h3 : GGResLeviDatumExact3 3 Bs K J L ggSelAny ggTypAny) :
     ∃ (F : Type) (_ : Field F) (_ : Finite F) (n rank d : ℕ)
-      (θ : ↥K ⧸ Subgroup.center ↥K ≃* LargeEvenProj (unitarySU 2 n F d))
-      (ψ : ↥(unitarySU 2 n F d) →* ↥K),
+      (_θ : ↥K ⧸ Subgroup.center ↥K ≃* LargeEvenProj (unitarySU 2 n F d))
+      (_ψ : ↥(unitarySU 2 n F d) →* ↥K),
       rank = 5 ∧ d = 6 ∧ 2 ≤ n ∧ Odd n ∧ 3 ≤ n ∧ Nat.card F = (2 ^ n) ^ 2 ∧
         Nat.card Bs = 3 ^ 5 ∧ Nat.card ↥(ggAutomizer J Bs) = 6 ∧
         GGWeylTypeData 2 6 1 ∧
@@ -1126,11 +1126,11 @@ theorem GGResHyp.not_exactThree_K_of_f4Two_L
     {B Bs : Subgroup G} {x : G} {L D J : Subgroup G} {y : G} {K : Subgroup G}
     (hH : GGResHyp 3 B Bs x L D J y K)
     (hL2mark : GGInnerDiagOnLabel
-      (fun p lab => p = 3 ∧ lab.tag = .F4 ∧ lab.n = 1) 3 Bs L)
-    (hU : GGInnerDiagOnLabel
-      (fun p lab => lab.tag = .twA ∧ 4 ≤ lab.rank ∧ 2 ≤ lab.n ∧
+      (fun _p lab => _p = 3 ∧ lab.tag = .F4 ∧ lab.n = 1) 3 Bs L)
+    (_hU : GGInnerDiagOnLabel
+      (fun _p lab => lab.tag = .twA ∧ 4 ≤ lab.rank ∧ 2 ≤ lab.n ∧
         3 ∣ 2 ^ lab.n + 1) 3 Bs K)
-    (hN : Bs ≤ Subgroup.normalizer (K : Set G))
+    (_hN : Bs ≤ Subgroup.normalizer (K : Set G))
     (h3 : GGResLeviDatumExact3 3 Bs K J L ggSelAny ggTypAny) : False := by
   have hJ0 : GGInnerDiagOn Bs J :=
     ggBstarInnerDiagJInput_holds G 3 B Bs x L D J hH.1 hH.2.2.1.1

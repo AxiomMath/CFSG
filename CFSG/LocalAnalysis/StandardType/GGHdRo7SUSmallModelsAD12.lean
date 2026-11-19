@@ -91,7 +91,7 @@ theorem hdRo7SmAAux_d9Hom_injective : Function.Injective hdRo7SmAAux_d9Hom := by
     ext k
     rw [hdRo7SmAAux_q9_single_coord]
     simp only [hm, Pi.single_apply, Fin.castSucc_inj, eq_comm]
-    rw [if_neg (Ne.symm (Fin.castSucc_ne_last m))]
+    rw [ite_eq_right (Ne.symm (Fin.castSucc_ne_last m))]
     ring
   obtain ⟨j, j', hjj, hj, hj'⟩ := hdRo7SmAAux_exists_two_good σ
   obtain ⟨mj, hmj, hqj⟩ := hgood j hj
@@ -116,8 +116,8 @@ theorem hdRo7SmAAux_d9Hom_injective : Function.Injective hdRo7SmAAux_d9Hom := by
         ext k
         simp only [hdRo7SmAAux_q9_single_coord]
         rw [hi]
-        rw [if_neg (Ne.symm (Fin.castSucc_ne_last k))]
-        simp [Pi.single_apply]
+        rw [ite_eq_right (Ne.symm (Fin.castSucc_ne_last k))]
+        simp
       have h5 : (Pi.single i (1 : ZMod 3) : SMV 8) = -(1 : SMV 8) := by
         have h := (hc i).symm.trans h4
         rw [hc0, add_zero] at h
@@ -131,7 +131,7 @@ theorem hdRo7SmAAux_d9Hom_injective : Function.Injective hdRo7SmAAux_d9Hom := by
         by_cases hm' : i = m
         · exact hm'.symm
         · exfalso
-          simp only [Pi.single_apply, if_neg hm', if_pos rfl] at h1
+          simp only [Pi.single_apply, ite_eq_right hm'] at h1
           revert h1; decide
       rw [hm, h5]
   apply Equiv.ext

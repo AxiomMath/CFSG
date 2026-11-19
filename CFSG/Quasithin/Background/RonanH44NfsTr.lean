@@ -26,10 +26,12 @@ theorem nfsTr_inv_linear {F : Type} [Field F] (scalar : F →+* K)
     rw [← h2, MulAut.inv_apply_self]
   rw [h3, hu]
 
+omit [Finite K] in
 theorem nfsTr_mem_map_iff (y : MulAut (HMod n K)) (S : Subgroup (HMod n K)) (v : HMod n K) :
     v ∈ S.map y.toMonoidHom ↔ y⁻¹ v ∈ S := by
   rw [Subgroup.mem_map_equiv, MulAut.inv_apply]
 
+omit [Finite K] in
 theorem nfsTr_conj_apply (y g : MulAut (HMod n K)) (v : HMod n K) :
     (MulAut.conj y).toMonoidHom g v = y (g (y⁻¹ v)) := by
   change (y * g * y⁻¹) v = y (g (y⁻¹ v))

@@ -100,15 +100,15 @@ theorem minusSemi_add (hn : 1 ≤ n) (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0)
     fun a d => add_pow_char_pow a d 2 k
   by_cases h0 : i = Sum.inr (Sum.inr 0)
   · subst h0
-    simp only [if_true]
+    simp only [ite_true]
     rw [hadd, hadd]
     ring
   · by_cases h1 : i = Sum.inr (Sum.inr 1)
     · subst h1
-      simp only [h0, if_false, if_true]
+      simp only [h0, ite_false, ite_true]
       rw [hadd]
       ring
-    · simp only [h0, h1, if_false]
+    · simp only [h0, h1, ite_false]
       rw [hadd]
 
 theorem minusSemi_smul (hn : 1 ≤ n) (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) (k : ℕ) (β : K)
@@ -120,15 +120,15 @@ theorem minusSemi_smul (hn : 1 ≤ n) (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0
   simp only [Pi.smul_apply, smul_eq_mul]
   by_cases h0 : i = Sum.inr (Sum.inr 0)
   · subst h0
-    simp only [if_true]
+    simp only [ite_true]
     rw [mul_pow, mul_pow]
     ring
   · by_cases h1 : i = Sum.inr (Sum.inr 1)
     · subst h1
-      simp only [h0, if_false, if_true]
+      simp only [h0, ite_false, ite_true]
       rw [mul_pow]
       ring
-    · simp only [h0, h1, if_false]
+    · simp only [h0, h1, ite_false]
       rw [mul_pow]
 
 theorem minusSemi_minusVec (hn : 1 ≤ n) (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) (k : ℕ)
@@ -138,22 +138,22 @@ theorem minusSemi_minusVec (hn : 1 ≤ n) (hirr : ∀ s : K, s ^ 2 + b * s + c �
   rw [minusSemi_apply]
   by_cases h0 : i = Sum.inr (Sum.inr 0)
   · subst h0
-    simp only [if_true]
-    cases r <;> simp [minusVec, eVec, fVec, Pi.single_apply, h2k]
+    simp only [ite_true]
+    cases r <;> simp [minusVec, eVec, fVec]
   · by_cases h1 : i = Sum.inr (Sum.inr 1)
     · subst h1
-      simp only [h0, if_false, if_true]
-      cases r <;> simp [minusVec, eVec, fVec, Pi.single_apply, h2k]
-    · simp only [h0, h1, if_false]
+      simp only [h0, ite_false, ite_true]
+      cases r <;> simp [minusVec, eVec, fVec]
+    · simp only [h0, h1, ite_false]
       cases r
       · rw [minusVec_false, fVec]
         by_cases h : i = Sum.inr (Sum.inl m)
         · subst h; simp
-        · simp [h, h2k]
+        · simp [h]
       · rw [minusVec_true, eVec]
         by_cases h : i = Sum.inl m
         · subst h; simp
-        · simp [h, h2k]
+        · simp [h]
 
 private theorem frobPair_pow_quadMinus (hn : 1 ≤ n) (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0)
     (k : ℕ) (v : Fin (2 * n) → K) :
@@ -484,7 +484,7 @@ theorem eq_self_of_minusLevi_conj {K : Type} [Field K] [Finite K] [CharP K 2] {n
     have huwb : polar Q P₁.e (β • P₂.f) = 0 := by
       rw [polar_smul_right_eq, h₁₂.ef, mul_zero]
     rw [eichler_apply P₁.Q_e huwb, hN_apply]
-    simp only [polar_smul_right_eq, hQb, P₂.Q_f, mul_zero, zero_mul, add_zero, smul_sub,
+    simp only [polar_smul_right_eq, hQb, P₂.Q_f, zero_mul, add_zero, smul_sub,
       smul_smul]
     module
   have hcommb : ∀ β : K, σ h * eichler Q P₁.e (β • P₂.f) =
@@ -575,11 +575,11 @@ theorem eq_self_of_minusLevi_conj {K : Type} [Field K] [Finite K] [CharP K 2] {n
     let z₁ : Vm n K := Pi.single (Sum.inr (Sum.inr 1)) 1
     have hz1Q : Q z₁ = c := by
       rw [show Q = quadMinus n K b c from rfl]
-      simp [z₁, quadMinus_apply, Pi.single_apply]
+      simp [z₁, quadMinus_apply]
     have hz1z0 : polar Q z₁ z₀ = b := by
       rw [show Q = quadMinus n K b c from rfl, show z₀ = planeVec n planeOne from rfl,
         polar_quadMinus]
-      simp [z₁, planeVec, planeOne, Pi.single_apply]
+      simp [z₁, planeVec, planeOne]
     have hp_eq : p = b := by
       have hzt : z₁ (Sum.inr (Sum.inr 1)) = 1 := by simp [z₁]
       have h1 : Q (A z₁) = Q z₁ := hAO z₁
@@ -589,7 +589,7 @@ theorem eq_self_of_minusLevi_conj {K : Type} [Field K] [Finite K] [CharP K 2] {n
       have hpb : p + b = 0 := (mul_eq_zero.mp (by linear_combination h2')).resolve_left hp
       have h3 : p = -b := eq_neg_of_add_eq_zero_left hpb
       rwa [neg_eq_self_of_two_eq_zero h2] at h3
-    letI : Invertible (Q z₀) := invertibleOfNonzero (by rw [hz0Q]; exact one_ne_zero)
+    let : Invertible (Q z₀) := invertibleOfNonzero (by rw [hz0Q]; exact one_ne_zero)
     let r : Vm n K ≃ₗ[K] Vm n K := TauCeti.QuadraticMap.reflection Q z₀
     have hpolar_z0 : ∀ y : Vm n K, polar Q z₀ y = b * y (Sum.inr (Sum.inr 1)) := by
       intro y
@@ -601,7 +601,7 @@ theorem eq_self_of_minusLevi_conj {K : Type} [Field K] [Finite K] [CharP K 2] {n
         fun m => rfl
       have h3 : ∀ m : Fin (n - 1), (planeVec n planeOne : Vm n K) (Sum.inr (Sum.inl m)) = 0 :=
         fun m => rfl
-      simp only [h0, h1, h2', h3, mul_zero, mul_one, zero_mul, add_zero, zero_add,
+      simp only [h0, h1, h2', h3, mul_zero, zero_mul, add_zero, zero_add,
         Finset.sum_const_zero]
       linear_combination y (Sum.inr (Sum.inr 0)) * h2
     have hr_apply : ∀ y, r y = y + polar Q z₀ y • z₀ := by

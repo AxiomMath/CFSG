@@ -52,7 +52,7 @@ theorem kernelRoots_subset_of_d4
     have hmem : v • (Pi.single j 1 : Fin Tag.E6.rank → ℤ) ∈ componentRoots (rootCharHom a) i := by
       rw [hΨ]
       refine ⟨_, ⟨IsRoot.basis j, fun k hk => ?_⟩, rfl⟩
-      rw [Pi.single_apply, if_neg (show k ≠ j from fun e => hk (e ▸ hjJ))]
+      rw [Pi.single_apply, ite_eq_right (show k ≠ j from fun e => hk (e ▸ hjJ))]
     obtain ⟨hβ, hβi⟩ := hmem
     have h0 : iform γ (v • Pi.single j 1) = 0 := by
       by_contra hne

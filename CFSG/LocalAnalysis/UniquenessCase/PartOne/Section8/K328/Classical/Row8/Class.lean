@@ -879,7 +879,7 @@ private theorem k328r8c_frame_W {F : Type} [Field F] [Fintype F] [CharP F 2] (b 
   refine ⟨v, hli, ?_, ?_, ?_⟩
   · intro i
     rw [k328r8c_Q_eq_polar b c z hz (v i)]
-    simpa only [k328r8c_B, LinearMap.mk₂_apply, if_true] using hpair i i
+    simpa only [k328r8c_B, LinearMap.mk₂_apply, ite_true] using hpair i i
   · intro i j
     simpa only [k328r8c_B, LinearMap.mk₂_apply] using hpair i j
   · intro i j
@@ -1556,7 +1556,7 @@ private theorem k328r8c_conj_GL {F : Type} [Field F] [Fintype F] [DecidableEq F]
         k328r8c_l2_fW_sq (z := z) (v i), Submodule.coe_add, polar_add_right,
         polar_self_eq_two_mul, k328r8c5_two_mul_eq_zero, add_zero]
       exact polar_comm (quadMinus 4 F b c) _ _
-    rw [h1, hvp i i, if_pos rfl]
+    rw [h1, hvp i i, ite_eq_left rfl]
   have hQfv' : ∀ i, quadMinus 4 F b c ((K328R8L2.k328r8c_l2_fW F z') (v' i)) = 1 := by
     intro i
     have h1 : quadMinus 4 F b c ((K328R8L2.k328r8c_l2_fW F z') (v' i)) =
@@ -1565,7 +1565,7 @@ private theorem k328r8c_conj_GL {F : Type} [Field F] [Fintype F] [DecidableEq F]
         k328r8c_l2_fW_sq (z := z') (v' i), Submodule.coe_add, polar_add_right,
         polar_self_eq_two_mul, k328r8c5_two_mul_eq_zero, add_zero]
       exact polar_comm (quadMinus 4 F b c) _ _
-    rw [h1, hvp' i i, if_pos rfl]
+    rw [h1, hvp' i i, ite_eq_left rfl]
   have hff : ∀ i j, polar (quadMinus 4 F b c)
       ((K328R8L2.k328r8c_l2_fW F z) (v i)) ((K328R8L2.k328r8c_l2_fW F z) (v j)) = 0 :=
     fun i j => by rw [k328r8c_l2_polar_fW_fW b c z hzO (v i) (v j), hvv i j]
@@ -1763,7 +1763,6 @@ private theorem k328r8cz_zrow_triple (F : Type) [Field F] [Fintype F] [Decidable
   fin_cases r <;> simp [k328r8cz_zrow, Sum.elim_inl, Sum.elim_inr, Matrix.cons_val]
   all_goals (
     try rw [k328r8cz_hc F b c α hα hb]
-    try rw [show b⁻¹ ^ 2 = (b ^ 2)⁻¹ from inv_pow b 2]
     try field_simp [hb]
     try ring_nf
     try simp only [k328r8cz_ofNat_mod2 F, Nat.reduceMod, Nat.cast_zero, Nat.cast_one]

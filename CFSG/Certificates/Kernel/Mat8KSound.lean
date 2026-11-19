@@ -30,20 +30,18 @@ theorem BT.mem_ins {α : Type} [BEq α] [LawfulBEq α] :
   | d + 1, kx, ky, .tip xs, x, y, h => by
     have h' : x = y → kx / 2 = ky / 2 := fun e => by rw [h e]
     by_cases hx : kx % 2 = 0 <;> by_cases hy : ky % 2 = 0 <;>
-      simp only [BT.ins, BT.mem, hx, hy, beq_self_eq_true, if_true, if_false, BT.mem_tip,
-        BT.mem_ins d (kx / 2) (ky / 2) _ x y h', Bool.false_eq_true, beq_iff_eq] <;>
+      simp only [BT.ins, BT.mem, hx, hy, beq_self_eq_true, ite_true, ite_false, BT.mem_tip,
+        BT.mem_ins d (kx / 2) (ky / 2) _ x y h', beq_iff_eq] <;>
       first
-        | rfl
         | (have hne : (x == y) = false := by
              rw [beq_eq_false_iff_ne]; rintro rfl; have := h rfl; omega
            rw [hne, Bool.false_or])
   | d + 1, kx, ky, .node l r, x, y, h => by
     have h' : x = y → kx / 2 = ky / 2 := fun e => by rw [h e]
     by_cases hx : kx % 2 = 0 <;> by_cases hy : ky % 2 = 0 <;>
-      simp only [BT.ins, BT.mem, hx, hy, beq_self_eq_true, if_true, if_false,
-        BT.mem_ins d (kx / 2) (ky / 2) _ x y h', Bool.false_eq_true, beq_iff_eq] <;>
+      simp only [BT.ins, BT.mem, hx, hy, beq_self_eq_true, ite_true, ite_false,
+        BT.mem_ins d (kx / 2) (ky / 2) _ x y h', beq_iff_eq] <;>
       first
-        | rfl
         | (have hne : (x == y) = false := by
              rw [beq_eq_false_iff_ne]; rintro rfl; have := h rfl; omega
            rw [hne, Bool.false_or])
@@ -193,9 +191,9 @@ theorem stepRel (gens : List (List ℕ)) (wx : List ℕ × List ℕ) (hwx : wx.2
     rw [hwx]
     rfl
   by_cases hc : memL b1 (mul8 (gens.getD i one8) wx.2) = true
-  · rw [if_pos hc, if_pos hc]
+  · rw [ite_eq_left hc, ite_eq_left hc]
     exact ⟨rfl, rfl, h4, h5, h1⟩
-  · rw [if_neg hc, if_neg hc]
+  · rw [ite_eq_right hc, ite_eq_right hc]
     refine ⟨rfl, rfl, ?_, ?_, fun z => ?_⟩
     · intro p hp
       rcases List.mem_cons.mp hp with rfl | hp

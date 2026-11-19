@@ -39,7 +39,7 @@ private lemma q13e_tau_zpow_odd (h : Q13Om t L S x₁ x₂ lam rho tau om) {k : 
   have h2 : tau ^ (2 : ℤ) = 1 := by rw [zpow_ofNat, pow_two, q13a_tau_mul_self h]
   rw [← Int.emod_add_mul_ediv k 2, hk, zpow_add, zpow_one, zpow_mul, h2, one_zpow, mul_one]
 
-private lemma q13e_gam_zpow_two_mul (h : Q13Om t L S x₁ x₂ lam rho tau om)
+private lemma q13e_gam_zpow_two_mul (_h : Q13Om t L S x₁ x₂ lam rho tau om)
     (hD : Q13D t x₁ x₂ lam rho tau om) (k : ℤ) :
     (t * om) ^ (2 * k) = tau ^ k := by
   rw [zpow_mul, zpow_ofNat, hD.gam_sq]
@@ -60,6 +60,7 @@ private lemma q13e_gam_zpow_odd (h : Q13Om t L S x₁ x₂ lam rho tau om)
   rw [q13e_gam_zpow_two_mul h hD]
   exact q13e_tau_zpow_odd h hk
 
+omit [Finite G] in
 private lemma q13e_sq_mul_zpow {a g : G} (hc : Commute g a) (k : ℤ) :
     (a * g ^ k) * (a * g ^ k) = a * a * g ^ (2 * k) := by
   have hgk : g ^ k * a = a * g ^ k := hc.zpow_left k
@@ -116,15 +117,18 @@ theorem q13e_V_normal_L (h : Q13Om t L S x₁ x₂ lam rho tau om) (hD : Q13D t 
       Subgroup.normalizer ((fourGrp x₁ x₂ : Subgroup G) : Set G) := sup_le hBnorm hKnorm
   exact (Subgroup.mem_normalizer_iff.mp (hsup hg) v).mp hv
 
+omit [Finite G] in
 theorem q13e_E0_normal_L :
     ∀ g ∈ q13L t tau x₁ x₂ rho om, ∀ e ∈ q13E0 t tau x₁ x₂ rho om,
       g * e * g⁻¹ ∈ q13E0 t tau x₁ x₂ rho om := by
   intro g hg e he
   exact (Subgroup.mem_normalizer_iff.mp hg e).mp he
 
+omit [Finite G] in
 theorem q13e_A_le_AN : q13A t tau x₁ x₂ rho ≤ q13AN t tau x₁ x₂ rho :=
   le_sup_left
 
+omit [Finite G] in
 theorem q13e_tau_mem_AN : tau ∈ q13AN t tau x₁ x₂ rho :=
   Subgroup.mem_sup_right (Subgroup.mem_zpowers tau)
 

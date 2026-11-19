@@ -32,6 +32,7 @@ theorem small1522_of_mulEquiv {S S' : Type} [Group S] [Group S'] (e : S ≃* S')
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem small1522_map_toStar_of_small1522_subgroupOf {T L M : Subgroup X} (hTM : T ≤ M)
     (hLM : L ≤ M) (hLn : L.Normal) (hq : CFSG.Open.IsQuasisimple ↥(L.map (toStar T)))
     (h : Small1522 ↥((L.subgroupOf M).map (toStar (T.subgroupOf M)))) :
@@ -52,7 +53,7 @@ theorem gnA_le_map_normalizer_two_of_le_gnImg_sup {T T₁ T₂ L : Subgroup X}
   obtain ⟨hC2, rfl⟩ := hlift
   have hgn₁ := gnSetting_sup_of_normal hX hLn
   have hLM : L ≤ L ⊔ T := le_sup_left
-  haveI := hLn
+  have := hLn
   have hLn₁ : (L.subgroupOf (L ⊔ T)).Normal := Subgroup.normal_subgroupOf
   have hsl₁ := gnA_le_map_normalizer_two_of_sup_eq_top hgn₁ hg₁
     ⟨isC2_subgroupOf_of_normal hLn hLM hC2, rfl⟩ hLn₁ (sup_subgroupOf_sup_eq_top L T)
@@ -94,7 +95,7 @@ theorem exists_rank_two_of_bad_of_gnSixAll (hT : LieOddRankTable) (hKSMAlt : KSM
   · exact exists_rank_two_of_bad_gen hT hKSMAlt hKSMOdd hKSMU4 hKSML3 k517_4b hl hLn h20
       (gnA_le_map_normalizer_two_of_le_gnImg_sup hl.gn hl.good hl.comp hl.lift hLn hg₁ h3) hbad
   have hl₁ := liftCtxGen_subgroupOf hl hLn le_sup_right le_sup_left hgn₁ hg₁ h3
-  haveI := hLn
+  have := hLn
   have hLn₁ : (L.subgroupOf (L ⊔ T)).Normal := Subgroup.normal_subgroupOf
   have h20₁ : CFSG.Open.pRank 3 (L.subgroupOf (L ⊔ T)) < 3 := by
     refine lt_of_le_of_lt ?_ h20

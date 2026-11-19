@@ -66,7 +66,7 @@ theorem holds : fusionCheck = true := by
       exact absurd h Bool.false_ne_true
   unfold fusionCheck orbitOK fusOrbit
   rw [horb]
-  simp only [hinvs', htree, Bool.and_true, Bool.true_and]
+  simp only [hinvs', htree, Bool.and_true]
   have hsize : (penumRec 3850 12 FB.cnt FB.T FB.PL).tabs.size = 210 := by
     simp [penumRec, hcnt]
   rw [hsize, CFSG.KD.LQT.HN.cent_size (by norm_num), CFSG.KD.LQT.HN.cent_perm (by norm_num) cu,

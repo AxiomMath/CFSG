@@ -84,7 +84,7 @@ theorem false_of_sylow_le_component_sup_centralizer
   set T : Subgroup M := K.comap (escapingMk z) ⊓ P with hTdef
   set zM : M := escapingSelf z with hzMdef
   have hinj : ∀ a ∈ P, ∀ b ∈ P, escapingMk z a = escapingMk z b → a = b :=
-    fun a ha b hb h => escapingMk_injOn_twoGroup S.isPGroup' (Subgroup.mem_subgroupOf.mp ha)
+    fun a ha b hb h => escapingMk_injOn_twoGroup S.isPGroup (Subgroup.mem_subgroupOf.mp ha)
       (Subgroup.mem_subgroupOf.mp hb) h
   have hJK := hq'.component_inf_centralizer_eq_bot hJ hzJ
   have hcomm : ∀ x ∈ R, ∀ k ∈ T, x * k = k * x := by
@@ -127,7 +127,7 @@ theorem false_of_sylow_le_component_sup_centralizer
     · exact Or.inl hk1
     · exact Or.inr (hinj _ hk.2 _ hzMP (hq'.eq_bar_of_mem_component_centralizer hJ hzJ hk.1
         (escaping_orderOf_mk z (orderOf_eq_prime hk2 hk1))))
-  have hT2 : IsPGroup 2 T := (S.isPGroup'.comap_subtype (K := M)).to_le inf_le_right
+  have hT2 : IsPGroup 2 T := (S.isPGroup.comap_subtype (K := M)).to_le inf_le_right
   set R' := CFSG.BenderSuzuki.External.hallSylowSubgroupOfNormal Sbar J
   have hR'map := CFSG.ProperTwoGeneratedCore.normal_sylow_intersection_eq Sbar J
   let ψ : R →* EscapingQuotient z := (escapingMk z).comp R.subtype

@@ -52,7 +52,7 @@ theorem det_one_add_vecMulVec_single {c : Fin m → E} (hc : c last = 0) :
       last)) : lastColVecs (E := E) last)) : Fin m → E) (Pi.single last 1) = 1
     rw [toAdd_one, AddSubgroup.coe_zero]
     ext i j
-    simp [Matrix.vecMulVec_apply]
+    simp
   map_mul' c c' := by
     apply Subtype.ext
     change 1 + Matrix.vecMulVec (((Multiplicative.toAdd (c * c') : lastColVecs (E := E) last)) :
@@ -125,7 +125,7 @@ theorem nine_le_card_lastColVecs {E : Type*} [Field E] [Finite E] [CharP E 3] {m
     (last : Fin m) (hlast : (last : ℕ) = m - 1) (hm : 3 ≤ m ∨ (2 ≤ m ∧ 4 ≤ Nat.card E)) :
     9 ≤ Nat.card (lastColVecs (E := E) last) := by
   classical
-  haveI := Fintype.ofFinite E
+  have := Fintype.ofFinite E
   obtain ⟨d, -, hd⟩ := FiniteField.card E 3
   have hE3 : 3 ≤ Nat.card E := by
     rw [Nat.card_eq_fintype_card, hd]
@@ -194,9 +194,9 @@ theorem exists_pGroup_specialFactor [CharP k 3] {A : GL (Fin n) k}
       ∀ u ∈ P, (((slGL n k u : LinearMap.GeneralLinearGroup k (Fin n → k)) :
         Module.End k (Fin n → k)) - 1) ^ 2 = 0 := by
   classical
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
-  haveI : Finite (AdjoinRoot h) := Module.finite_of_finite k
-  haveI : CharP (AdjoinRoot h) 3 :=
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Finite (AdjoinRoot h) := Module.finite_of_finite k
+  have : CharP (AdjoinRoot h) 3 :=
     charP_of_injective_algebraMap (algebraMap k (AdjoinRoot h)).injective 3
   have hm : 2 ≤ primaryMultiplicity (glA A : Module.End k (Fin n → k)) h := by
     rcases hgood with h3 | ⟨h2, -⟩ <;> omega

@@ -75,6 +75,7 @@ theorem blockStar_facts {M S X₀ T L : Subgroup G} (hXM : X₀ ≤ M) (hTX : T 
       (gnImg (T.subgroupOf X₀) (L.subgroupOf X₀))]
   exact h6
 
+omit [Finite G] in
 theorem blockStar_subnormal {M S X₀ T L : Subgroup G} (hXM : X₀ ≤ M) (hL : IsWeakSBlock M S L)
     (hLX : L ≤ X₀) :
     IsSubnormal (gnImg (T.subgroupOf X₀) (L.subgroupOf X₀)) ⊤ := by

@@ -72,18 +72,18 @@ theorem MinCexQ8.exists_order_four_of_inf_W (c : MinCexQ8 Ω K S R W H) (hA : Et
     (c.stand.hyp.isPGroup_of_mem_USet hU) hcyc h4
   exact ⟨u, hu, hu4⟩
 
-theorem MinCexQ8.hbad_of_conj (c : MinCexQ8 Ω K S R W H) (hA : EtaAbelian Ω) (hM : EtaMeet Ω)
+theorem MinCexQ8.hbad_of_conj (c : MinCexQ8 Ω K S R W H) (_hA : EtaAbelian Ω) (_hM : EtaMeet Ω)
     {z g : G} (hz : IsUniqueInvolution K z) (hg : g ∉ H) :
     ∀ M ∈ Ω, IsUniqueInvolution M (g * z * g⁻¹) → ∀ u ∈ M, orderOf u = 4 → u ∉ H := by
-  exact E187C.hbad_of_conj_of c.stand.hyp.conjInvariant (fun hM => mem_dstarComp_of_twin_gen c.stand.hyp c.stand.mem hM)
+  exact E187C.hbad_of_conj_of c.stand.hyp.conjInvariant (fun _hM => mem_dstarComp_of_twin_gen c.stand.hyp c.stand.mem _hM)
     (fun hMS hu hu4 hx => c.mem_of_conj_mem_dstar hMS hu hu4 hx) hz hg
 
-theorem MinCexQ8.hC_of_conj (c : MinCexQ8 Ω K S R W H) (hA : EtaAbelian Ω) (hM : EtaMeet Ω)
+theorem MinCexQ8.hC_of_conj (c : MinCexQ8 Ω K S R W H) (_hA : EtaAbelian Ω) (_hM : EtaMeet Ω)
     {z g : G} (hz : IsUniqueInvolution K z) (hzH : Subgroup.centralizer ({z} : Set G) ≤ H)
     (hg : g ∉ H) :
     ∀ M ∈ Ω, IsUniqueInvolution M z → ∀ x ∈ M, orderOf x = 4 →
       (g * z * g⁻¹) * x ≠ x * (g * z * g⁻¹) := by
-  exact E187C.hC_of_conj_of (fun hM => mem_dstarComp_of_twin_gen c.stand.hyp c.stand.mem hM)
+  exact E187C.hC_of_conj_of (fun _hM => mem_dstarComp_of_twin_gen c.stand.hyp c.stand.mem _hM)
     (fun hMS hu hu4 hx => c.mem_of_conj_mem_dstar hMS hu hu4 hx) hz hzH hg
 
 end
@@ -136,7 +136,7 @@ theorem MinCexQ8.conjSub_mem_omegaNbr (c : MinCexQ8 Ω K S R W H) {z t : G}
   rw [Subgroup.mem_centralizer_singleton_iff]
   exact (hcomm z hzR x hx).symm
 
-theorem MinCexQ8.exists_delta (h : E18_6Q8) (c : MinCexQ8 Ω K S R W H) {z t : G}
+theorem MinCexQ8.exists_delta (_h : E18_6Q8) (c : MinCexQ8 Ω K S R W H) {z t : G}
     (hz : IsUniqueInvolution K z) (hzW : z ∈ W) (ht2 : t * t = 1)
     (htS : t ∈ (S : Subgroup G)) (hnc : ¬ t * z = z * t) :
     ∃ B : Subgroup G, ∃ b : G, B ≤ (S : Subgroup G) ∧ B ≤ Subgroup.centralizer ({t} : Set G) ∧
@@ -171,7 +171,7 @@ open CFSG.Open CFSG.ClassicalInvolution.Generic
 variable {G : Type} [Group G] [Finite G] {Ω : Set (Subgroup G)}
   {K : Subgroup G} {S : Sylow 2 G} {R W H : Subgroup G}
 
-theorem centralizes_conj_of_mem_RSet (h : E18_6Q8) (hΩ : HypOmegaGen Ω) {S₁ : Sylow 2 G} {K₁ R₁ T :
+theorem centralizes_conj_of_mem_RSet (_h : E18_6Q8) (hΩ : HypOmegaGen Ω) {S₁ : Sylow 2 G} {K₁ R₁ T :
     Subgroup G} {z₁ β : G}
     (hz₁ : IsUniqueInvolution K₁ z₁) (hR₁ : R₁ ∈ RSet Ω) (hR₁K₁ : R₁ ≤ K₁)
     (hR₁S : R₁ ≤ (S₁ : Subgroup G)) (hβ : β ∈ (S₁ : Subgroup G)) (hT : T ∈ RSet Ω)

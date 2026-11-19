@@ -69,7 +69,7 @@ theorem hN_of_chkP (hn : n < 16777216) (hw : n + 1 < 2 ^ wd n) {p : ℕ} (hp : p
       H.comap (MulAut.conj (pkp c)).toMonoidHom := by
     rw [closure_le]
     intro z hz
-    simp only [Set.mem_setOf_eq, List.map_map, List.mem_map, Function.comp] at hz
+    simp only [Set.mem_ofPred_eq, List.map_map, List.mem_map, Function.comp] at hz
     obtain ⟨x, hx, rfl⟩ := hz
     rw [SetLike.mem_coe, mem_comap, pkp_conjV, pkp_invV, inv_inv]
     simpa [mul_assoc] using hxs x hx

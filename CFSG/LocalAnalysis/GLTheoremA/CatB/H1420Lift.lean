@@ -87,7 +87,7 @@ theorem twoLocal_of_witness {K A : Subgroup G} (hA : CFSG.Open.IsElemAbelian 3 A
       CFSG.Open.IsElemAbelian 3 W ∧ Nat.card W = 3 ^ s * Nat.card A := by
   classical
   have hp : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   have hOK : GLAPPrimeCoreOf 3 K ≤ K := by
     unfold GLAPPrimeCoreOf
     exact Subgroup.map_subtype_le _
@@ -100,7 +100,7 @@ theorem twoLocal_of_witness {K A : Subgroup G} (hA : CFSG.Open.IsElemAbelian 3 A
     hAN.trans (normalizer_le_normalizer_glaPPrimeCoreOf 3 K)
   have hJN : K ⊔ A ≤ Subgroup.normalizer ((GLAPPrimeCoreOf 3 K : Subgroup G) : Set G) :=
     sup_le hKN hAN'
-  haveI hOn : ((GLAPPrimeCoreOf 3 K).subgroupOf (K ⊔ A)).Normal :=
+  have hOn : ((GLAPPrimeCoreOf 3 K).subgroupOf (K ⊔ A)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hOJ).2 hJN
   let π : ↥(K ⊔ A) →* ↥(K ⊔ A) ⧸ ((GLAPPrimeCoreOf 3 K).subgroupOf (K ⊔ A)) :=
     QuotientGroup.mk' _

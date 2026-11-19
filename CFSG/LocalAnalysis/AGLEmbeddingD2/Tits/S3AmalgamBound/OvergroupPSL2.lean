@@ -210,7 +210,7 @@ theorem eq_top_of_normalizer_le
     {A W : Subgroup (PSL2MatrixGroup F)} (hA : Nat.card A = 3)
     (hNW : Subgroup.normalizer (A : Set (PSL2MatrixGroup F)) ≤ W)
     (hW : ¬ CFSG.HallHigman.IsPSolvable 3 W) : W = ⊤ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨z, g, t, hz3, hg0, hg2, hzg, ht⟩ := exists_torus_element hF hp3
   obtain ⟨x, hxo, hxc⟩ := OvergroupConj.exists_conj_mem_centralizer hcyc hA
     (t := t) (ht ▸ hz3)

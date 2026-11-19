@@ -50,7 +50,7 @@ theorem cl24_card_cover_le {W : Type*} [Finite W] (𝒴 : Set (Set W)) (m : ℕ)
   calc Ω.ncard ≤ (⋃ Y ∈ 𝒴, (Y \ {z})).ncard := Set.ncard_le_ncard hsub (Set.toFinite _)
     _ ≤ ∑ᶠ Y ∈ 𝒴, (Y \ {z}).ncard := Set.Finite.ncard_biUnion_le hfin _
     _ = ∑ᶠ Y ∈ 𝒴, (m - 1) := finsum_mem_congr rfl fun Y hY' => by
-        rw [Set.ncard_diff_singleton_of_mem (hY Y hY').1, (hY Y hY').2]
+        rw [Set.ncard_sdiff_singleton_of_mem (hY Y hY').1, (hY Y hY').2]
     _ = 𝒴.ncard * (m - 1) := by
         rw [finsum_mem_eq_finite_toFinset_sum _ hfin, Finset.sum_const, smul_eq_mul,
           Set.ncard_eq_toFinset_card 𝒴 hfin]

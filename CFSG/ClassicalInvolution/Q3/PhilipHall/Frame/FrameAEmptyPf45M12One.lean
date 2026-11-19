@@ -242,7 +242,7 @@ theorem exists_fixed_pair
     hfin (a * b) habHt hab2 xab (a' * b') hxab hmkab⟩
 
 theorem false_of_pair
-    (cfg : M12Cfg K z J zJ H S) {g : T} (hg : g ∉ sigmaNorm K) {a b : T} (hab : a * b = b * a)
+    (cfg : M12Cfg K z J zJ H S) {g : T} (hg : g ∉ sigmaNorm K) {a b : T} (_hab : a * b = b * a)
     (hta : g⁻¹ * z * g * a = a * (g⁻¹ * z * g)) (htb : g⁻¹ * z * g * b = b * (g⁻¹ * z * g))
     (ha : ∃ l ∈ firstFactor K, l⁻¹ * z * l = a) (hb : ∃ l ∈ firstFactor K, l⁻¹ * z * l = b)
     (hab' : ∃ l ∈ firstFactor K, l⁻¹ * z * l = a * b) : False := by

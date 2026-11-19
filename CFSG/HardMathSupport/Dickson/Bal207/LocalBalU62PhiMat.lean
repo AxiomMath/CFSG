@@ -71,7 +71,7 @@ theorem u62lb_phi_mm (s : Matrix (Fin 6) (Fin 6) K)
     rw [hcolv c hc.1 hc.2, mul_zero]
   have hvv : s v v = 0 := by
     have := hs v v
-    rw [if_pos rfl, e1, u62lb_phi_norm_of_ne h hsuv] at this
+    rw [ite_eq_left rfl, e1, u62lb_phi_norm_of_ne h hsuv] at this
     apply u62lb_phi_norm_self_zero h
     linear_combination this
   have e2 : ∑ k, h.bar (s k u) * s k v = h.bar (s u u) * s u v + h.bar (s v u) * s v v := by
@@ -80,7 +80,7 @@ theorem u62lb_phi_mm (s : Matrix (Fin 6) (Fin 6) K)
     rw [hcolv c hc.1 hc.2, mul_zero]
   have huu : s u u = 0 := by
     have := hs u v
-    rw [if_neg huv, e2, hvv, mul_zero, add_zero] at this
+    rw [ite_eq_right huv, e2, hvv, mul_zero, add_zero] at this
     rcases mul_eq_zero.1 this with h0 | h0
     · exact u62lb_phi_bar_eq_zero h h0
     · exact absurd h0 hsuv
@@ -91,7 +91,7 @@ theorem u62lb_phi_mm (s : Matrix (Fin 6) (Fin 6) K)
   have hvu : s v u ≠ 0 := by
     intro h0
     have := hs u u
-    rw [if_pos rfl, e3, huu, h0] at this
+    rw [ite_eq_left rfl, e3, huu, h0] at this
     simp at this
   exact ⟨huu, hvv, hvu⟩
 
@@ -108,8 +108,8 @@ theorem u62lb_phi_prod_entry (σ : Equiv.Perm (Fin 6)) (hσ : ∀ a, σ (σ a) =
   · rw [Matrix.mul_diagonal, Matrix.diagonal_mul]
     by_cases hba : b = a
     · subst hba
-      rw [if_pos rfl]
-    · rw [if_neg hba]
+      rw [ite_eq_left rfl]
+    · rw [ite_eq_right hba]
       have : s (σ a) b = 0 := by
         by_contra hne
         exact hba ((hs _ _ hne).trans (hσ a))

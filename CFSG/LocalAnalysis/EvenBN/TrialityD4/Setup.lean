@@ -194,7 +194,7 @@ theorem kernel (h : Setup G L f t) :
       (S : Subgroup (centralizer (L : Set G))).map (centralizer (L : Set G)).subtype := hR
   rw [hR']
   refine ⟨isCyclic_of_surjective _ (MonoidHom.subgroupMap_surjective _ _),
-    S.isPGroup'.map _, ?_, hRn⟩
+    S.isPGroup.map _, ?_, hRn⟩
   rintro _ ⟨y, hy, rfl⟩ hy2
   rw [Subgroup.subtype_apply, orderOf_coe] at hy2
   exact congrArg Subtype.val (huniq y hy hy2)

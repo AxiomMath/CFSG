@@ -189,9 +189,8 @@ theorem cases :
   have hz2 : d.z' ^ 2 ^ 1 = 1 := by rw [pow_one, pow_two]; exact d.z'_mul_self
   rcases ha with ha | ha | ha | ha <;> rcases hz with hz | hz | hz | hz <;>
     rw [ha, hz] at hprod
-  all_goals first
+  all_goals try first
     | exact absurd hprod (by decide)
-    | skip
   · exact Or.inl ⟨c.mem_B0_of_φ_eq_one (w := ⟨d.a', d.a'_mem_secSub⟩) ha2 ha, hz⟩
   · exact Or.inr (Or.inl ⟨c.mem_B0_of_φ_eq_one (w := ⟨d.z', d.z'_mem_secSub⟩) hz2 hz, ha⟩)
   · exact Or.inr (Or.inr (Or.inl ⟨ha, hz⟩))

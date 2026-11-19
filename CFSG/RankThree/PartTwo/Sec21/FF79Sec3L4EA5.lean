@@ -44,7 +44,7 @@ theorem e34_a5_data {H : Type} [Group H] {K : Subgroup H}
     (e : K ≃* alternatingGroup (Fin 5)) :
     ∃ x ∈ K, orderOf x = 3 ∧ ∃ V : Subgroup H, V ≤ K ∧ IsPGroup 2 V ∧ V ≠ ⊥ ∧
       ∀ v ∈ V, x * v * x⁻¹ ∈ V := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine ⟨((e.symm e34x0 : K) : H), (e.symm e34x0).2, ?_,
     (e34V0.map e.symm.toMonoidHom).map K.subtype, Subgroup.map_subtype_le _, ?_, ?_, ?_⟩
   · rw [Subgroup.orderOf_coe, MulEquiv.orderOf_eq]

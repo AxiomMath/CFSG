@@ -44,7 +44,7 @@ private theorem gf2Marking_of_catModel {p : ℕ} (hp : p.Prime) {X : Type} [Grou
   obtain ⟨tag, rank, n⟩ := lab
   rcases ht with rfl | rfl | rfl | rfl | rfl | rfl <;> cases tag <;>
     simp_all [CFSG.StandardType.markTag, CFSG.StandardType.markDeg] <;>
-    split_ifs at htag <;> simp_all
+    split_ifs at htag
 
 theorem gf2Marking_exc {p : ℕ} (hp : p.Prime) {X : Type} [Group X] [Finite X]
     (hX : CFSG.Open.IsQuasisimple X) (h : catalogIs (X ⧸ Subgroup.center X) (t263GExcGF2 p)) :

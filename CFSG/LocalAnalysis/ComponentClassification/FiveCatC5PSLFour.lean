@@ -23,16 +23,19 @@ variable {n : ℕ} {K : Type} [Field K] [Finite K] (A : GL (Fin n) K)
 @[expose] noncomputable def psi : MulAut (SpecialLinearGroup (Fin n) K) :=
   CatalogueBHigherLinearAction.slConjugation n K A * CatalogueBGraphForm.slGraphAut n K
 
+omit [Finite K] in
 theorem psi_inv : (center (SpecialLinearGroup (Fin n) K)).map (psi A).toMonoidHom =
     center (SpecialLinearGroup (Fin n) K) :=
   Subgroup.map_center_eq (psi A)
 
+omit [Finite K] in
 theorem toGL_psi (y : SpecialLinearGroup (Fin n) K) :
     SpecialLinearGroup.toGL (psi A y) = A * glGraphAut n K (SpecialLinearGroup.toGL y) * A⁻¹ := by
   change SpecialLinearGroup.toGL (CatalogueBHigherLinearAction.slConjugation n K A
     (CatalogueBGraphForm.slGraphAut n K y)) = _
   rw [CatalogueBHigherLinearAction.toGL_slConjugation, CatalogueBGraphForm.toGL_slGraphAut]
 
+omit [Finite K] in
 theorem pureGraphAction_eq_onQuotient' :
     pureGraphAction n K A = CatalogueBFixedCentralQuotient.onQuotient
       (center (SpecialLinearGroup (Fin n) K)) (psi A) (psi_inv A) := by
@@ -45,6 +48,7 @@ theorem pureGraphAction_eq_onQuotient' :
       CatalogueBFixedCentralQuotient.onQuotient_mk]
     exact CatalogueBGraphForm.pureGraphAction_mk n K A g
 
+omit [Finite K] in
 theorem fixed_psi_map_eq :
     (fixedSubgroup (psi A)).map SpecialLinearGroup.toGL =
       isometryGroup n K A⁻¹ ⊓ CatalogueBGeneralLinear.specialLinearRange n K := by

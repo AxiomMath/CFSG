@@ -130,7 +130,7 @@ theorem ggPsi_mem_normalizer_of_conj
       = (ggPsiBar t n f).comp (b' : GGAutU t n f).toMonoidHom := by
     ext k
     simp only [MonoidHom.comp_apply, ggPsiBar]
-    simpa [MulAut.conj_apply] using dictCen_conj_psiBar (b' : GGAutU t n f) k
+    simp [MulAut.conj_apply]
   have hmap_eq : (Subgroup.map (ggPsiBar t n f) (R.comap B.ι)).map
       (↑(MulAut.conj (b' : GGAutU t n f)) : GGAutU t n f →* GGAutU t n f) =
         Subgroup.map (ggPsiBar t n f) (R.comap B.ι) := by

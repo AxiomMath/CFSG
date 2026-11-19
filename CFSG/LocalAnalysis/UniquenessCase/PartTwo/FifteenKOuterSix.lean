@@ -46,7 +46,7 @@ theorem s15k_six_l3 {S : Type} [Group S] (h : UC22.IsL3 S 1) :
 theorem s15k_six_alt_card {S : Type} [Group S] {n : ℕ} (h : UC22.IsAlt S n) (hn : 2 ≤ n) :
     Nat.card S = n.factorial / 2 := by
   obtain ⟨e⟩ := h
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr hn
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr hn
   rw [Nat.card_congr e.toEquiv, nat_card_alternatingGroup, Nat.card_eq_fintype_card,
     Fintype.card_fin]
 
@@ -54,7 +54,7 @@ theorem s15k_six_alt {S : Type} [Group S] {n : ℕ} (h : UC22.IsAlt S n) (hn : n
     Nat.card S = n.factorial / 2 ∧ Nat.card (MulAut S) ≤ 2 * Nat.card S := by
   have hS : Nat.card S = n.factorial / 2 := s15k_six_alt_card h (by omega)
   obtain ⟨e⟩ := h
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
   refine ⟨hS, ?_⟩
   have hsurj : Function.Surjective (MulAut.conjNormal (H := alternatingGroup (Fin n)) :
       Equiv.Perm (Fin n) → MulAut (alternatingGroup (Fin n))) := by
@@ -81,7 +81,7 @@ theorem s15k_six_l4 {S : Type} [Group S] (h : IsLn S 4 1) :
 theorem s15k_six_om6 {S : Type} [Group S] (h : IsOmegaMinus S 6 1) :
     Nat.card S = 25920 ∧ Nat.card (MulAut S) ≤ 2 * Nat.card S := by
   obtain ⟨F, _, hU, ⟨e⟩⟩ := s15k_om6_model h
-  haveI := hU.finite
+  have := hU.finite
   obtain ⟨R, hR⟩ := CFSG.ClassicalGroups.UnitaryFlag.exists_isHypTransport (r := 2) (ε := 0) hU
   let e' : S ≃* CFSG.ClassicalGroups.UnitaryFlag.hypSU hU 2 0 :=
     e.trans (CFSG.ClassicalGroups.UnitaryFlag.hypTransport hU hR).symm

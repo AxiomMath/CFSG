@@ -47,8 +47,8 @@ theorem tupAct_inv (M : Matrix (Fin Tag.D4.rank) (Fin Tag.D4.rank) ℤ)
 theorem tupAct_one (a : Fin Tag.D4.rank → Kˣ) : tupAct 1 a = a := by
   funext j
   simp only [tupAct, Matrix.one_apply]
-  rw [Finset.prod_eq_single j (fun k _ hkj => by rw [if_neg (Ne.symm hkj), zpow_zero])
-    (fun h => absurd (Finset.mem_univ j) h), if_pos rfl, zpow_one]
+  rw [Finset.prod_eq_single j (fun k _ hkj => by rw [ite_eq_right (Ne.symm hkj), zpow_zero])
+    (fun h => absurd (Finset.mem_univ j) h), ite_eq_left rfl, zpow_one]
 
 theorem tupAct_zpow (M : Matrix (Fin Tag.D4.rank) (Fin Tag.D4.rank) ℤ) (ω : Kˣ)
     (v : Fin Tag.D4.rank → ℤ) :
@@ -79,11 +79,11 @@ theorem tupAct_reflM (i : Fin Tag.D4.rank) (a : Fin Tag.D4.rank → Kˣ) :
   simp only [tupAct, reflM, Matrix.of_apply, zpow_sub, Finset.prod_mul_distrib,
     Finset.prod_inv_distrib]
   have h1 : ∏ k, a k ^ (if j = k then (1 : ℤ) else 0) = a j := by
-    rw [Finset.prod_eq_single j (fun k _ hkj => by rw [if_neg (Ne.symm hkj), zpow_zero])
-      (fun h => absurd (Finset.mem_univ j) h), if_pos rfl, zpow_one]
+    rw [Finset.prod_eq_single j (fun k _ hkj => by rw [ite_eq_right (Ne.symm hkj), zpow_zero])
+      (fun h => absurd (Finset.mem_univ j) h), ite_eq_left rfl, zpow_one]
   have h2 : ∏ k, a k ^ (if k = i then Tag.D4.cartan i j else 0) = a i ^ Tag.D4.cartan i j := by
-    rw [Finset.prod_eq_single i (fun k _ hki => by rw [if_neg hki, zpow_zero])
-      (fun h => absurd (Finset.mem_univ i) h), if_pos rfl]
+    rw [Finset.prod_eq_single i (fun k _ hki => by rw [ite_eq_right hki, zpow_zero])
+      (fun h => absurd (Finset.mem_univ i) h), ite_eq_left rfl]
   rw [h1, h2, zpow_neg]
 
 @[expose] def rhoP : Equiv.Perm (Fin Tag.D4.rank) := TwistTag.D4.perm
@@ -96,8 +96,8 @@ theorem tupAct_permM (a : Fin Tag.D4.rank → Kˣ) :
   funext j
   simp only [tupAct, permM, Matrix.of_apply]
   rw [Finset.prod_eq_single (rhoP.symm j)
-    (fun k _ hk => by rw [if_neg hk, zpow_zero]) (fun h => absurd (Finset.mem_univ _) h),
-    if_pos rfl, zpow_one]
+    (fun k _ hk => by rw [ite_eq_right hk, zpow_zero]) (fun h => absurd (Finset.mem_univ _) h),
+    ite_eq_left rfl, zpow_one]
 
 end Tup
 

@@ -178,7 +178,7 @@ theorem s16c1c_e16Lin_of_codes {P : Subgroup (V₀ ≃ₗ[ZMod 2] V₀)} {H : Li
     have hsub := s16c1c_spanL_sound _ n (hE4 n hn ((hℓ0 n).1 hu))
     refine AddSubgroup.closure_mono ?_ hsub
     rintro _ ⟨m, hm, rfl⟩
-    simp only [Set.mem_setOf_eq, s16c1cFixd, List.mem_filter, List.mem_range,
+    simp only [Set.mem_ofPred_eq, s16c1cFixd, List.mem_filter, List.mem_range,
       List.any_eq_true, Bool.and_eq_true, bne_iff_ne, ne_eq, beq_iff_eq] at hm
     obtain ⟨hm64, c, hc, hcne, hcm⟩ := hm
     obtain ⟨y, hy, hyc⟩ := hc2 c hc

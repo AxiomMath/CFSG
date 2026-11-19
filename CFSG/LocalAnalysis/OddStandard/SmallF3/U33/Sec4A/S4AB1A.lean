@@ -16,6 +16,7 @@ theorem pt_wreath_le_L (h : Ctx0 t L S x₁ x₂ lam rho) : wreathGrp x₁ x₂ 
   rw [← h.inf_eq]
   exact inf_le_right
 
+omit [Finite G] in
 theorem pt_base_le_wreath (x₁ x₂ lam : G) : baseGrp x₁ x₂ ≤ wreathGrp x₁ x₂ lam := by
   refine (Subgroup.closure_le (K := wreathGrp x₁ x₂ lam)).mpr ?_
   intro g hg
@@ -29,6 +30,7 @@ theorem pt_base_le_wreath (x₁ x₂ lam : G) : baseGrp x₁ x₂ ≤ wreathGrp 
 theorem pt_base_le_L (h : Ctx0 t L S x₁ x₂ lam rho) : baseGrp x₁ x₂ ≤ L :=
   (pt_base_le_wreath x₁ x₂ lam).trans (pt_wreath_le_L h)
 
+omit [Finite G] in
 theorem pt_four_le_base (x₁ x₂ : G) : fourGrp x₁ x₂ ≤ baseGrp x₁ x₂ := by
   have hx₁ : x₁ ∈ baseGrp x₁ x₂ := Subgroup.subset_closure (by simp)
   have hx₂ : x₂ ∈ baseGrp x₁ x₂ := Subgroup.subset_closure (by simp)
@@ -74,6 +76,7 @@ theorem pt_card_W (h : Ctx0 t L S x₁ x₂ lam rho) :
   rw [ctxW, card_sup_of_commute (pt_comm_base h) (pt_inf_base h), (h.wreath.baseGrp_eq).2.2]
   ring
 
+omit [Finite G] in
 theorem pt_W_le (t : G) (x₁ x₂ lam : G) : ctxW t x₁ x₂ ≤ twoCore t ⊔ wreathGrp x₁ x₂ lam :=
   sup_le_sup_left (pt_base_le_wreath x₁ x₂ lam) _
 
@@ -98,6 +101,7 @@ theorem pt_normalIn_W (h : Ctx0 t L S x₁ x₂ lam rho) :
   refine ⟨hle, fun g hg k hk => ?_⟩
   exact (Subgroup.normal_subgroupOf_iff hle).mp hnorm k g hk hg
 
+omit [Finite G] in
 theorem pt_eq_one_or_of_mem_zpowers {g x : G} (hg : orderOf g = 2) (hx : x ∈ zpowers g) :
     x = 1 ∨ x = g := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hx
@@ -113,6 +117,7 @@ theorem pt_eq_one_or_of_mem_zpowers {g x : G} (hg : orderOf g = 2) (hx : x ∈ z
     rw [hk, h0]
     simp
 
+omit [Finite G] in
 theorem pt_ctxE_eq_sup (t x₁ x₂ : G) : ctxE t x₁ x₂ = zpowers t ⊔ fourGrp x₁ x₂ := by
   rw [ctxE, fourGrp, Subgroup.zpowers_eq_closure, ← Subgroup.closure_union, Set.singleton_union]
 

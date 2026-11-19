@@ -51,17 +51,17 @@ theorem exists_blockAction_selfDual_PSU {F : Type} [Field F] [Finite F] [CharP F
       fun e' he' hidem _ he'e => he.2.2.2 e' he' hidem he'e⟩
   obtain ⟨K, hKfield, hKalg, hKfin, π, hπsurj, hπker, -, hKcard⟩ :=
     fePSU_blockField_card hc S hS hodd he d rfl
-  letI : Field K := hKfield
-  letI : Algebra F K := hKalg
-  letI : Finite K := hKfin
-  haveI : CharP K 2 := CharP.of_ringHom_of_ne_zero (algebraMap F K) 2 (by norm_num)
+  let : Field K := hKfield
+  let : Algebra F K := hKalg
+  let : Finite K := hKfin
+  have : CharP K 2 := CharP.of_ringHom_of_ne_zero (algebraMap F K) 2 (by norm_num)
   have hKcard' : Nat.card K = ((2 ^ f) ^ d) ^ 2 := by
     rw [hKcard, ← pow_mul (2 ^ f) d 2, Nat.mul_comm 2 d]
   obtain ⟨hmod, hfin, htower, act, hact, hactm, hactπ⟩ :=
     fePSU_selfDual_blockHeldSUid_action S hS he K π hπsurj hπker
-  letI : Module K (LinearMap.range (Matrix.mulVecLin e)) := hmod
-  letI : FiniteDimensional K (LinearMap.range (Matrix.mulVecLin e)) := hfin
-  letI : IsScalarTower F K (LinearMap.range (Matrix.mulVecLin e)) := htower
+  let : Module K (LinearMap.range (Matrix.mulVecLin e)) := hmod
+  let : FiniteDimensional K (LinearMap.range (Matrix.mulVecLin e)) := hfin
+  let : IsScalarTower F K (LinearMap.range (Matrix.mulVecLin e)) := htower
   have hdim := fePSU_selfDual_blockHeldSUid_dim S K act hact hnt
   have hadjmem : ∀ a : A, formAdj (CFSG.LieType.BorelTits.unitaryInvolution F 2 f).toRingHom
       (Unitary.antidiag n) (a : Matrix (Fin n) (Fin n) F) ∈ A := by

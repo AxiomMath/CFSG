@@ -19,6 +19,7 @@ variable (D : QuotientData (z := z) hN)
     QP45.originalSubgroup →* MulAut ↥(centerIn (J z)) :=
   (actionZQA45 (z := z) D).comp (Subgroup.inclusion QP45_le_QA45)
 
+omit [Finite G] in
 theorem actQ_apply (a : QP45.originalSubgroup) :
     actQ (z := z) D a =
       actionZQA45 (z := z) D (Subgroup.inclusion QP45_le_QA45 a) := rfl
@@ -28,11 +29,12 @@ theorem isSimpleGroup_QP45_of_model : IsSimpleGroup QP45.originalSubgroup :=
     QP45.originalSubgroup 2 3 1
     (CFSG.HardMathSupport.Dickson.I271.statedModel_QP45)
 
+omit hN in
 theorem isKleinFour_centerIn_J (h : Tim79a.ParrottHyp z) :
     IsKleinFour ↥(centerIn (J z)) where
   card_four := card_centerIn_J h
   exponent_two := by
-    haveI : Nontrivial ↥(centerIn (J z)) :=
+    have : Nontrivial ↥(centerIn (J z)) :=
       Finite.one_lt_card_iff_nontrivial.mp (by rw [card_centerIn_J h]; norm_num)
     rw [Monoid.exponent_eq_prime_iff Nat.prime_two]
     intro x hx
@@ -40,14 +42,16 @@ theorem isKleinFour_centerIn_J (h : Tim79a.ParrottHyp z) :
     apply Subtype.ext
     simpa [pow_two] using centerIn_J_sq h x.2
 
+omit hN in
 theorem card_mulAut_centerIn_J (h : Tim79a.ParrottHyp z) :
     Nat.card (MulAut ↥(centerIn (J z))) = 6 := by
-  haveI : IsKleinFour ↥(centerIn (J z)) := isKleinFour_centerIn_J (z := z) h
+  have : IsKleinFour ↥(centerIn (J z)) := isKleinFour_centerIn_J (z := z) h
   exact CFSG.kleinFour_automorphism_card ↥(centerIn (J z))
 
+omit [Finite G] in
 theorem actQ_ker_eq_bot_or_top :
     (actQ (z := z) D).ker = ⊥ ∨ (actQ (z := z) D).ker = ⊤ := by
-  haveI : IsSimpleGroup QP45.originalSubgroup := isSimpleGroup_QP45_of_model
+  have : IsSimpleGroup QP45.originalSubgroup := isSimpleGroup_QP45_of_model
   exact Subgroup.Normal.eq_bot_or_eq_top (actQ (z := z) D).ker
 
 theorem actQ_eq_one (h : Tim79a.ParrottHyp z) :
@@ -56,8 +60,8 @@ theorem actQ_eq_one (h : Tim79a.ParrottHyp z) :
   · exfalso
     have hinj : Function.Injective (actQ (z := z) D) :=
       (MonoidHom.ker_eq_bot_iff (actQ (z := z) D)).mp hbot
-    haveI : Finite ↥(centerIn (J z)) := inferInstance
-    haveI : Finite (MulAut ↥(centerIn (J z))) := inferInstance
+    have : Finite ↥(centerIn (J z)) := inferInstance
+    have : Finite (MulAut ↥(centerIn (J z))) := inferInstance
     have hle : Nat.card QP45.originalSubgroup ≤ Nat.card (MulAut ↥(centerIn (J z))) :=
       Nat.card_le_card_of_injective (actQ (z := z) D) hinj
     rw [card_QP45, card_mulAut_centerIn_J (z := z) h] at hle
@@ -69,6 +73,7 @@ theorem actQ_eq_one (h : Tim79a.ParrottHyp z) :
       exact Subgroup.mem_top a
     simpa using (MonoidHom.mem_ker.mp ha)
 
+omit [Finite G] in
 theorem toQA45_symm_qH (x : ↥(H z)) :
     (QuotientData.toQA45 (z := z) (hN := hN) D).symm (qH (z := z) D x) =
       QuotientGroup.mk' ((J z).subgroupOf (H z)) x := by
@@ -76,6 +81,7 @@ theorem toQA45_symm_qH (x : ↥(H z)) :
   rw [MulEquiv.apply_symm_apply]
   rfl
 
+omit [Finite G] in
 theorem actQ_apply_preimage (x : ↥(H z))
     (hx : qH (z := z) D x ∈
       QP45.originalSubgroup.subgroupOf QA45.originalSubgroup) :
@@ -106,6 +112,8 @@ theorem conjZ_eq_one_of_qH_mem_QP45 (h : Tim79a.ParrottHyp z) (x : ↥(H z))
     conjZ z x = 1 :=
   conjZ_eq_one_of_mem_Q (z := z) D h x (Subgroup.mem_subgroupOf.mpr hx)
 
+omit hN in
+omit [Finite G] in
 theorem centerIn_le_centralizer_of_conjZ_eq_one {x : ↥(H z)}
     (hx : conjZ z x = 1) :
     centerIn (J z) ≤ Subgroup.centralizer ({(x : G)} : Set G) := by
@@ -119,6 +127,7 @@ theorem centerIn_le_centralizer_of_conjZ_eq_one {x : ↥(H z)}
     (y : G) * (x : G) = ((x : G) * (y : G) * (x : G)⁻¹) * (x : G) := by rw [hcoe]
     _ = (x : G) * (y : G) := by group
 
+omit hN [Finite G] in
 theorem card_center_subgroupOf_J (h : Tim79a.ParrottHyp z) :
     Nat.card ↥(Subgroup.center (J z)) = 4 := by
   rw [← QuotientV.centerIn_subgroupOf_eq_center]

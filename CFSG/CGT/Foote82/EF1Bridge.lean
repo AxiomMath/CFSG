@@ -17,11 +17,12 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem not_isPGroup_of_block {K : Subgroup G} (hK : IsFooteBlock K K) : ¬ IsPGroup 2 K := by
   intro h2
   have htop : CFSG.pCore 2 ↥K = ⊤ :=
     le_antisymm le_top (le_sSup ⟨inferInstance, h2.of_equiv Subgroup.topEquiv.symm⟩)
-  haveI := hK.quasisimple.2.toNontrivial
+  have := hK.quasisimple.2.toNontrivial
   have hsub : Subsingleton (↥K ⧸ CFSG.pCore 2 ↥K) := by
     rw [htop]
     exact QuotientGroup.subsingleton_quotient_top
@@ -31,8 +32,8 @@ theorem not_isPGroup_of_block {K : Subgroup G} (hK : IsFooteBlock K K) : ¬ IsPG
 
 theorem lt_inf_normalizer {P T : Subgroup G} (hPT : P < T) (hT : IsPGroup 2 T) :
     P < T ⊓ Subgroup.normalizer (P : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsNilpotent ↥T := hT.isNilpotent
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsNilpotent ↥T := hT.isNilpotent
   have hlt : P.subgroupOf T < ⊤ := by
     rw [lt_top_iff_ne_top]
     intro h
@@ -40,7 +41,7 @@ theorem lt_inf_normalizer {P T : Subgroup G} (hPT : P < T) (hT : IsPGroup 2 T) :
       have : (⟨t, ht⟩ : ↥T) ∈ P.subgroupOf T := h ▸ Subgroup.mem_top _
       exact this)
   have hn := Group.normalizerCondition_of_isNilpotent (G := ↥T) _ hlt
-  obtain ⟨t, htN, htP⟩ := SetLike.exists_of_lt hn
+  obtain ⟨t, htN, htP⟩ := _root_.IsConcreteLE.exists_of_lt hn
   refine lt_of_le_of_ne (le_inf hPT.le Subgroup.le_normalizer) fun he => htP ?_
   have htN' : (t : G) ∈ Subgroup.normalizer (P : Set G) := by
     rw [Subgroup.mem_normalizer_iff]
@@ -60,6 +61,7 @@ theorem lt_inf_normalizer {P T : Subgroup G} (hPT : P < T) (hT : IsPGroup 2 T) :
   have : (t : G) ∈ P := he ▸ ⟨t.2, htN'⟩
   exact this
 
+omit [Finite G] in
 theorem mem_centralizerModTwoCore_iff {K : Subgroup G} {x : G} :
     x ∈ centralizerModTwoCore K ↔
       x ∈ Subgroup.normalizer (K : Set G) ∧ ∀ y ∈ K, x * y * x⁻¹ * y⁻¹ ∈ pCoreOf 2 K := by
@@ -70,7 +72,7 @@ theorem mem_centralizerModTwoCore_iff {K : Subgroup G} {x : G} :
   clear hx
   induction hx' using Subgroup.closure_induction with
   | mem g hg => exact hg
-  | one => exact ⟨one_mem _, fun y _ => by simpa using (pCoreOf 2 K).one_mem⟩
+  | one => exact ⟨one_mem _, fun y _ => by simp⟩
   | mul a b _ _ iha ihb =>
     refine ⟨mul_mem iha.1 ihb.1, fun y hy => ?_⟩
     have e : a * b * y * (a * b)⁻¹ * y⁻¹ =
@@ -122,6 +124,7 @@ theorem blockU_le_core {N K : Subgroup G} (hK : IsFooteBlock K K) (hKN : K ≤ N
       ((CFSG.RankThreeCoreUniqueness.Helpers.pCoreOf_isPGroup 2 N).to_le (hKC.trans hfaith))
   · exact hU.trans inf_le_right
 
+omit [Finite G] in
 theorem map_conj_eq_of_mem_normalizer {K : Subgroup G} {c : G}
     (hc : c ∈ Subgroup.normalizer (K : Set G)) : K.map (MulAut.conj c).toMonoidHom = K := by
   ext x
@@ -134,6 +137,7 @@ theorem map_conj_eq_of_mem_normalizer {K : Subgroup G} {c : G}
     have := (Subgroup.mem_normalizer_iff.mp (Subgroup.inv_mem _ hc) x).mp hx
     simpa using this
 
+omit [Finite G] in
 theorem le_normalizer_of_commutator_le {K P : Subgroup G} (hQP : blockQ K ≤ P)
     (hc : ⁅P, K⁆ ≤ blockQ K) : K ≤ Subgroup.normalizer (P : Set G) := by
   have key : ∀ k ∈ K, ∀ p ∈ P, k * p * k⁻¹ ∈ P := by
@@ -156,7 +160,7 @@ theorem le_normalizer_of_commutator_le {K P : Subgroup G} (hQP : blockQ K ≤ P)
   IsPGroup 2 P ∧ blockQ K ≤ P ∧ P ≤ centralizerModTwoCore K ∧
     ∃ N : Subgroup G, GLBIsMaxTwoLocal N ∧ K ⊔ P ≤ N ∧ ¬ IsSubnormal K N
 
-theorem exists_maximal_ef1Class {K N : Subgroup G} (hK : IsFooteBlock K K)
+theorem exists_maximal_ef1Class {K N : Subgroup G} (_hK : IsFooteBlock K K)
     (hN : GLBIsMaxTwoLocal N) (hKN : K ≤ N) (hsub : ¬ IsSubnormal K N) :
     ∃ P, EF1Class K P ∧ ∀ P', EF1Class K P' → P ≤ P' → P' = P := by
   have hQ2 : IsPGroup 2 (blockQ K) := C1.blockQ_isPGroup K
@@ -188,20 +192,23 @@ namespace EF1Class
 variable {K P : Subgroup G} (hP : EF1Class K P)
 include hP
 
+omit [Finite G] in
 theorem le_normalizer : P ≤ Subgroup.normalizer (K : Set G) := fun _ hp =>
   (mem_centralizerModTwoCore_iff.mp (hP.2.2.1 hp)).1
 
+omit [Finite G] in
 theorem commutator_le : ⁅P, K⁆ ≤ blockQ K :=
   (Subgroup.commutator_le).mpr fun p hp k hk => by
     rw [commutatorElement_def]
     exact (mem_centralizerModTwoCore_iff.mp (hP.2.2.1 hp)).2 k hk
 
+omit [Finite G] in
 theorem K_le_normalizer : K ≤ Subgroup.normalizer (P : Set G) :=
   le_normalizer_of_commutator_le hP.2.1 hP.commutator_le
 
 theorem ne_bot (hK : IsFooteBlock K K) : P ≠ ⊥ := by
   intro hbot
-  obtain ⟨u, hu, hz⟩ := SetLike.exists_of_lt hK.chief.1
+  obtain ⟨u, hu, hz⟩ := _root_.IsConcreteLE.exists_of_lt hK.chief.1
   have hu1 : u = 1 := by
     have := hP.2.1 (blockU_le_blockQ K hu)
     rw [hbot] at this
@@ -299,7 +306,7 @@ theorem mem_centralizerModTwoCore_of_isFooteBlock {X L N : Subgroup G} (hL : IsF
         rw [e]
         have h1 := (Subgroup.mem_normalizer_iff.mp (hNH (N.inv_mem y.2)) _).mp
           ((pCoreOf 2 N).inv_mem hhH)
-        simp only [Subgroup.coe_inv, inv_inv] at h1
+        simp only [inv_inv] at h1
         exact (pCoreOf 2 N).mul_mem hhH h1
       show (QuotientGroup.mk x : NHat N) * QuotientGroup.mk y =
         QuotientGroup.mk y * QuotientGroup.mk x
@@ -307,7 +314,7 @@ theorem mem_centralizerModTwoCore_of_isFooteBlock {X L N : Subgroup G} (hL : IsF
       congr 1
       exact Subtype.ext hxy
     have hperf : ⁅hatIn N L, hatIn N L⁆ = hatIn N L := by
-      haveI := isPerfect_of_block hK
+      have := isPerfect_of_block hK
       exact commutator_eq_of_isPerfect (Group.IsPerfect.ofSurjective (hatMap_surjective hLN))
     have hbot : hatIn N L = ⊥ := by
       rw [← hperf, Subgroup.commutator_eq_bot_iff_le_centralizer]

@@ -29,7 +29,7 @@ theorem exists_sylow_eq_subgroupOf_of_card_max {N R : Subgroup X} (hRN : R ≤ N
     ∃ S : Sylow 2 N, (S : Subgroup N) = R.subgroupOf N := by
   obtain ⟨S, hS⟩ := (hR.of_equiv (Subgroup.subgroupOfEquivOfLe hRN).symm).exists_le_sylow
   refine ⟨S, (Subgroup.eq_of_le_of_card_ge hS ?_).symm⟩
-  have h := hmax _ (Subgroup.map_subtype_le _) (S.isPGroup'.map N.subtype)
+  have h := hmax _ (Subgroup.map_subtype_le _) (S.isPGroup.map N.subtype)
   rwa [Subgroup.card_map_of_injective N.subtype_injective,
     ← Nat.card_congr (Subgroup.subgroupOfEquivOfLe hRN).toEquiv] at h
 

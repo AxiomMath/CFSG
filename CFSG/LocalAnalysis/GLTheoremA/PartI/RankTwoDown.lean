@@ -40,7 +40,7 @@ theorem downLe_l2 (F : Type) [Field F] [Finite F] (h3 : Nat.card F % 3 ≠ 0)
         rw [hcard, Nat.pow_mod, h0]
       by_cases hF₀ : 4 ≤ Nat.card F₀
       · obtain ⟨hs₀, hnc₀⟩ := rtd_isSimple_nonab_statedProj_two hF₀
-        haveI : IsSimpleGroup ↥(fixSubgroup β) := ψ.isSimpleGroup
+        have : IsSimpleGroup ↥(fixSubgroup β) := ψ.isSimpleGroup
         have hnc' : ∃ a b : ↥(fixSubgroup β), a * b ≠ b * a := by
           obtain ⟨a, b, hab⟩ := hnc₀
           refine ⟨ψ.symm a, ψ.symm b, fun h => hab (ψ.symm.injective ?_)⟩
@@ -52,8 +52,8 @@ theorem downLe_l2 (F : Type) [Field F] [Finite F] (h3 : Nat.card F % 3 ≠ 0)
       · have h2 : Nat.card F₀ = 2 := by
           have := Finite.one_lt_card (α := F₀)
           omega
-        haveI := rtd_isSolvable_statedProj_two_of_card_two h2
-        haveI : Group.IsSolvable ↥(fixSubgroup β) :=
+        have := rtd_isSolvable_statedProj_two_of_card_two h2
+        have : Group.IsSolvable ↥(fixSubgroup β) :=
           Group.isSolvable_of_isSolvable_injective (f := ψ.toMonoidHom) ψ.injective
         exact (rtd_false_of_component_of_solvable inferInstance (rtd_commutator_le_self _)
           hI).elim
@@ -71,11 +71,11 @@ theorem downLe_l3 (K : Type) [Field K] [Finite K] (hK : Nat.card K % 3 = 1) :
   have h := rtd_downLe_projModel hKp hmod h2
   have hpar := rtd_prime_pow_mod_two hKp.prime hKp.one_le
   by_cases hp2 : p = 2
-  · rw [hc, if_pos (hpar.2 hp2)]
-    rw [if_pos hp2] at h
+  · rw [hc, ite_eq_left (hpar.2 hp2)]
+    rw [ite_eq_left hp2] at h
     exact downLe_of_mulEquiv e.symm h
-  · rw [hc, if_neg (fun h' => hp2 (hpar.1 h'))]
-    rw [if_neg hp2] at h
+  · rw [hc, ite_eq_right (fun h' => hp2 (hpar.1 h'))]
+    rw [ite_eq_right hp2] at h
     exact downLe_of_mulEquiv e.symm h
 
 theorem downLe_u3 (K : Type) [Field K] [Finite K] (q : ℕ) (hKq : Nat.card K = q ^ 2)
@@ -95,17 +95,17 @@ theorem downLe_u3 (K : Type) [Field K] [Finite K] (q : ℕ) (hKq : Nat.card K = 
   have h := rtd_downLe_projModel hK hmod (by omega)
   have hpar := rtd_prime_pow_mod_two hF.prime hF.one_le
   by_cases hp2 : p = 2
-  · rw [if_pos (hpar.2 hp2)]
-    rw [if_pos hp2] at h
+  · rw [ite_eq_left (hpar.2 hp2)]
+    rw [ite_eq_left hp2] at h
     exact downLe_of_mulEquiv e.symm h
-  · rw [if_neg (fun h' => hp2 (hpar.1 h'))]
-    rw [if_neg hp2] at h
+  · rw [ite_eq_right (fun h' => hp2 (hpar.1 h'))]
+    rw [ite_eq_right hp2] at h
     exact downLe_of_mulEquiv e.symm h
 
 theorem kdRankTwoDown_holds : KDRankTwoDown := by
   refine ⟨fun q hv h3 => ?_, fun q hv h1 => ?_, fun q hv h2 => ?_⟩
   ·
-    haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+    have : Fact q.p.Prime := ⟨q.prime_p⟩
     have hK : Nat.card (GaloisField q.p q.exponent) = q.card := by
       rw [TauCeti.PrimePower.card_def]
       exact GaloisField.card q.p q.exponent q.exponent_pos.ne'
@@ -118,7 +118,7 @@ theorem kdRankTwoDown_holds : KDRankTwoDown := by
     exact downLe_of_mulEquiv e.symm
       (downLe_l2 (GaloisField q.p q.exponent) (by rw [hK]; omega) (by rw [hK]; exact hq4))
   ·
-    haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+    have : Fact q.p.Prime := ⟨q.prime_p⟩
     have hK : Nat.card (GaloisField q.p q.exponent) = q.card := by
       rw [TauCeti.PrimePower.card_def]
       exact GaloisField.card q.p q.exponent q.exponent_pos.ne'
@@ -129,11 +129,11 @@ theorem kdRankTwoDown_holds : KDRankTwoDown := by
     have hpar := rtd_prime_pow_mod_two q.prime_p q.exponent_pos
     rw [hK, TauCeti.PrimePower.card_def] at h
     by_cases hp2 : q.p = 2
-    · rw [if_pos (hpar.2 hp2)] at h
-      rw [if_pos hp2]
+    · rw [ite_eq_left (hpar.2 hp2)] at h
+      rw [ite_eq_left hp2]
       exact downLe_of_mulEquiv e.symm h
-    · rw [if_neg (fun h' => hp2 (hpar.1 h'))] at h
-      rw [if_neg hp2]
+    · rw [ite_eq_right (fun h' => hp2 (hpar.1 h'))] at h
+      rw [ite_eq_right hp2]
       exact downLe_of_mulEquiv e.symm h
   ·
     have hq3 : 3 ≤ q.card :=
@@ -159,11 +159,11 @@ theorem kdRankTwoDown_holds : KDRankTwoDown := by
       rw [hchar, hexp]
       exact rtd_prime_pow_mod_two q.prime_p q.exponent_pos
     by_cases hp2 : q.p = 2
-    · rw [if_pos (hcond.2 hp2)] at h
-      rw [if_pos hp2]
+    · rw [ite_eq_left (hcond.2 hp2)] at h
+      rw [ite_eq_left hp2]
       exact downLe_of_mulEquiv e.symm h
-    · rw [if_neg (fun h' => hp2 (hcond.1 h'))] at h
-      rw [if_neg hp2]
+    · rw [ite_eq_right (fun h' => hp2 (hcond.1 h'))] at h
+      rw [ite_eq_right hp2]
       exact downLe_of_mulEquiv e.symm h
 
 end CFSG.LocalAnalysis.GLTheoremA

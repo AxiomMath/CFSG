@@ -22,6 +22,7 @@ variable {T : Type*} [Group T] {V : Type*} [AddCommGroup V] [Module (ZMod 2) V]
     rw [_root_.commutator_def]
     exact Subgroup.commutator_mem_commutator (Subgroup.mem_top τ) (Subgroup.mem_top τ')⟩
 
+omit [Module (ZMod 2) V] in
 theorem comm_mem_ker (ψ : T →* Multiplicative V) (τ τ' : T) : ψ ⁅τ, τ'⁆ = 1 := by
   rw [commutatorElement_def, map_mul, map_mul, map_mul, map_inv, map_inv]
   have h : ψ τ * ψ τ' = ψ τ' * ψ τ := by

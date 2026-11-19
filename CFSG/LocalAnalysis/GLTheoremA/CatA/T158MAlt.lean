@@ -46,7 +46,7 @@ theorem t158m_alt_false {X : Type} [Group X] [Finite X] {p : ℕ} {K B : Subgrou
   obtain ⟨hxN, -⟩ := t158m_normalizer h
   obtain ⟨hx1p, hx2p⟩ := t158m_pow h
   obtain ⟨hs, hna⟩ := chev_pSimple_simple_nonabelian hp hK
-  haveI := hs
+  have := hs
   obtain ⟨i, hi, ⟨e⟩⟩ := hQ
   cases i with
   | alternating n hn =>

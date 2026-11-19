@@ -175,8 +175,8 @@ theorem false_of_isComponent_orthDerived_high (hO : LieOrderFormulasInput) {f₀
     {M : Subgroup ↥(orthDerived R)} (hM : CFSG.IsComponent M)
     (hL : IsLThreeFour (↥M ⧸ Subgroup.center ↥M)) : False := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Nontrivial W := by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Nontrivial W := by
     obtain ⟨U, hU3, -⟩ := hT
     exact Module.nontrivial_of_finrank_pos (R := K) (by
       have := Submodule.finrank_le U
@@ -209,8 +209,8 @@ theorem false_of_isComponent_orthDerived_high (hO : LieOrderFormulasInput) {f₀
     obtain ⟨h43, -⟩ := block_central_of_isLThreeFour hO hK e1 hadm hL'
     exact absurd h43 (by norm_num)
 
-theorem false_of_isComponent_orthDerived_minus (f₀ : ℕ) (hf₀ : 1 ≤ f₀)
-    (hK : Nat.card K = 2 ^ f₀) (R : QuadraticForm K W)
+theorem false_of_isComponent_orthDerived_minus (f₀ : ℕ) (_hf₀ : 1 ≤ f₀)
+    (_hK : Nat.card K = 2 ^ f₀) (R : QuadraticForm K W)
     (hR : (QuadraticMap.polarBilin R).Nondegenerate)
     (hd : finrank K W = 4 ∨ finrank K W = 6)
     (hts : ∀ U : Submodule K W, finrank K U = finrank K W / 2 → ∃ u ∈ U, R u ≠ 0)
@@ -220,7 +220,7 @@ theorem false_of_isComponent_orthDerived_minus (f₀ : ℕ) (hf₀ : 1 ≤ f₀)
   obtain ⟨hs, hperf, hnonab, hidx, hodd, h4, h6⟩ :=
     CFSG.RankThree.PartOne.even_minus_four_six_actual_derived_extraction R hR hd hts
   change IsSimpleGroup ↥(orthDerived R) at hs
-  haveI := hs
+  have := hs
   have hqs : CFSG.IsQuasisimple ↥(orthDerived R) :=
     CFSG.RankThree.PartOne.KCOrthogonal.isQuasisimple_of_simple_nonabelian hnonab
   have hMtop : M = ⊤ :=
@@ -337,8 +337,8 @@ theorem false_of_isComponent_orthDerived_split (hO : LieOrderFormulasInput) {f�
           ((F.equivMapOfInjective e.symm.toMonoidHom e.symm.injective).symm.trans eSL.symm))
     obtain ⟨h23, -⟩ := block_central_of_isLThreeFour hO hK e1 hadm hL
     exact absurd h23 (by norm_num)
-  haveI : Finite W := Module.finite_of_finite K
-  haveI : Finite (W ≃ₗ[K] W) := Finite.of_injective (fun e : W ≃ₗ[K] W => (e : W → W))
+  have : Finite W := Module.finite_of_finite K
+  have : Finite (W ≃ₗ[K] W) := Finite.of_injective (fun e : W ≃ₗ[K] W => (e : W → W))
     fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
   rcases eq_or_eq_of_component_join hcL hcR hjoin hIc with h | h
   · exact hF _ (Or.inl rfl) h
@@ -350,7 +350,7 @@ theorem false_of_isComponent_orthDerived (hO : LieOrderFormulasInput) {f₀ : �
     (hnex : ¬ SmallFixedException R) {M : Subgroup ↥(orthDerived R)} (hM : CFSG.IsComponent M)
     (hL : IsLThreeFour (↥M ⧸ Subgroup.center ↥M)) : False := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_cases hT : ∃ U : Submodule K W, finrank K U = 3 ∧ ∀ x ∈ U, R x = 0
   · exact false_of_isComponent_orthDerived_high hO hf₀ hK R hR hT hM hL
   · obtain ⟨⟨n, hn⟩, -, hnf, -⟩ :=

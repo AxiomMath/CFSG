@@ -13,6 +13,7 @@ section Abstract
 
 variable {M : Type} [Group M] [Finite M] (π : M →* Equiv.Perm (Fin 5))
 
+omit [Finite M] in
 private theorem card_eq_of_surjective_permFive (hs : Function.Surjective π)
     (hk : Nat.card π.ker = 16) : Nat.card M = 1920 := by
   have h1 := Subgroup.card_eq_card_quotient_mul_card_subgroup π.ker
@@ -22,6 +23,7 @@ private theorem card_eq_of_surjective_permFive (hs : Function.Surjective π)
     rfl
   rw [h1, h2, hk]
 
+omit [Finite M] in
 private theorem index_centralizer_eq_fifteen (hk : Nat.card π.ker = 16)
     (htr : ∀ a ∈ π.ker, ∀ b ∈ π.ker, a ≠ 1 → b ≠ 1 → ∃ g : M, g * a * g⁻¹ = b)
     {a : M} (ha : a ∈ π.ker) (ha1 : a ≠ 1) :
@@ -42,10 +44,11 @@ private theorem index_centralizer_eq_fifteen (hk : Nat.card π.ker = 16)
     · rintro ⟨hb, hb1⟩
       obtain ⟨g, hg⟩ := htr a ha b hb ha1 hb1
       exact isConj_iff.2 ⟨g, hg⟩
-  rw [hset, Set.ncard_diff_singleton_of_mem (by exact one_mem π.ker), ← Nat.card_coe_set_eq]
+  rw [hset, Set.ncard_sdiff_singleton_of_mem (by exact one_mem π.ker), ← Nat.card_coe_set_eq]
   change Nat.card π.ker - 1 = 15
   omega
 
+omit [Finite M] in
 private theorem card_centralizer_eq_of_permFive (hs : Function.Surjective π)
     (hk : Nat.card π.ker = 16)
     (htr : ∀ a ∈ π.ker, ∀ b ∈ π.ker, a ≠ 1 → b ≠ 1 → ∃ g : M, g * a * g⁻¹ = b)
@@ -55,6 +58,7 @@ private theorem card_centralizer_eq_of_permFive (hs : Function.Surjective π)
   rw [index_centralizer_eq_fifteen π hk htr ha ha1, card_eq_of_surjective_permFive π hs hk] at h
   omega
 
+omit [Finite M] in
 private theorem centralizer_ker_le_ker_of_permFive (hs : Function.Surjective π)
     (hk : Nat.card π.ker = 16)
     (htr : ∀ a ∈ π.ker, ∀ b ∈ π.ker, a ≠ 1 → b ≠ 1 → ∃ g : M, g * a * g⁻¹ = b) :
@@ -67,7 +71,7 @@ private theorem centralizer_ker_le_ker_of_permFive (hs : Function.Surjective π)
   have ha1' : (a : M) ≠ 1 := fun h => ha1 (Subtype.ext h)
   set C := Subgroup.centralizer (π.ker : Set M) with hC
   have hCa : C ≤ Subgroup.centralizer ({(a : M)} : Set M) :=
-    Subgroup.centralizer_le (by simpa using a.2)
+    Subgroup.centralizer_le (by simp)
   have hcard : Nat.card C ∣ 128 := by
     rw [← card_centralizer_eq_of_permFive π hs hk htr a.2 ha1']
     exact Subgroup.card_dvd_of_le hCa
@@ -76,7 +80,7 @@ private theorem centralizer_ker_le_ker_of_permFive (hs : Function.Surjective π)
   have hne : C.map π ≠ ⊥ := by
     intro h
     exact hnot ((Subgroup.map_eq_bot_iff C).1 h)
-  haveI : Nontrivial (C.map π) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
+  have : Nontrivial (C.map π) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
   have hA := Equiv.Perm.alternatingGroup_le_of_normal (α := Fin 5) (by simp) (N := C.map π) this
   have hA60 : Nat.card (alternatingGroup (Fin 5)) = 60 := by
     have h120 : Nat.card (Equiv.Perm (Fin 5)) = 120 := by
@@ -89,6 +93,7 @@ private theorem centralizer_ker_le_ker_of_permFive (hs : Function.Surjective π)
     hA60 ▸ (Subgroup.card_dvd_of_le hA).trans ((Subgroup.card_map_dvd C π).trans hcard)
   omega
 
+omit [Finite M] in
 private theorem eq_comap_alternatingGroup_of_index_two (hs : Function.Surjective π)
     {L : Subgroup M} (hker : π.ker ≤ L) (hL : L.index = 2) :
     L = (alternatingGroup (Fin 5)).comap π := by
@@ -123,11 +128,13 @@ theorem exists_mem_ne_one_ne_of_two_lt_card (hD : 2 < Nat.card D) (d : Y) :
   have h4 : Nat.card (D : Set Y) = Nat.card D := rfl
   omega
 
+omit [Finite Y] in
 theorem card_ker_eq_card_of_eq_subgroupOf (hDM : D ≤ M) {π : ↥M →* Equiv.Perm (Fin 5)}
     (hk : π.ker = D.subgroupOf M) : Nat.card π.ker = Nat.card D := by
   rw [hk]
   exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hDM).toEquiv
 
+omit [Finite Y] in
 theorem ker_transitive_of_eq_subgroupOf {π : ↥M →* Equiv.Perm (Fin 5)}
     (hk : π.ker = D.subgroupOf M)
     (hTrans : ∀ a ∈ D, ∀ b ∈ D, a ≠ 1 → b ≠ 1 → ∃ g ∈ M, g * a * g⁻¹ = b) :
@@ -138,6 +145,7 @@ theorem ker_transitive_of_eq_subgroupOf {π : ↥M →* Equiv.Perm (Fin 5)}
     (fun h => hb1 (Subtype.ext h))
   exact ⟨⟨g, hg⟩, Subtype.ext hgab⟩
 
+omit [Finite Y] in
 theorem local_data_of_permFive (hDM : D ≤ M) (hD16 : Nat.card D = 16)
     (hπ : ∃ π : ↥M →* Equiv.Perm (Fin 5), Function.Surjective π ∧ π.ker = D.subgroupOf M)
     (hTrans : ∀ a ∈ D, ∀ b ∈ D, a ≠ 1 → b ≠ 1 → ∃ g ∈ M, g * a * g⁻¹ = b)
@@ -179,6 +187,7 @@ theorem local_data_of_permFive (hDM : D ≤ M) (hD16 : Nat.card D = 16)
     rw [← h128]
     exact (Nat.card_congr (Subgroup.subgroupOfEquivOfLe (hCent d hd hd1)).toEquiv).symm
 
+omit [Finite Y] in
 theorem isPGroup_and_not_two_dvd_index_of_card_eq (hM : Nat.card M = 1920)
     (hodd : Odd M.index) {C : Subgroup Y} (hC : Nat.card C = 128) :
     IsPGroup 2 C ∧ ¬ 2 ∣ C.index := by
@@ -190,6 +199,7 @@ theorem isPGroup_and_not_two_dvd_index_of_card_eq (hM : Nat.card M = 1920)
   have := Nat.odd_iff.1 hodd
   omega
 
+omit [Finite Y] in
 theorem not_le_of_odd_index_of_index_two (hodd : Odd M.index) {K : Subgroup Y}
     (hK2 : K.index = 2) : ¬ M ≤ K := by
   intro hMK
@@ -218,6 +228,7 @@ theorem le_of_index_two_of_transitive (hD16 : Nat.card D = 16)
   have h3 := (Subgroup.mul_mem_iff_of_index_two hK2).2 (iff_of_false hdK (hout e he he1))
   exact hout (d * e) hde hde1 h3
 
+omit [Finite Y] in
 theorem relIndex_eq_two_of_index_two {K : Subgroup Y} [K.Normal] (hMK : ¬ M ≤ K)
     (hK2 : K.index = 2) : K.relIndex M = 2 := by
   have h1 : K.relIndex M ∣ K.index := Subgroup.relIndex_dvd_index_of_normal K M
@@ -227,12 +238,14 @@ theorem relIndex_eq_two_of_index_two {K : Subgroup Y} [K.Normal] (hMK : ¬ M ≤
   · exact absurd h h2
   · exact h
 
+omit [Finite Y] in
 theorem card_inf_eq_of_relIndex_two (hM : Nat.card M = 1920) {K : Subgroup Y}
     (hK : K.relIndex M = 2) : Nat.card (K ⊓ M : Subgroup Y) = 960 := by
   have h := Subgroup.relIndex_mul_card (H := K) (K := M)
   rw [hK, hM] at h
   omega
 
+omit [Finite Y] in
 private theorem subgroupOf_eq_comap_of_relIndex_two {π : ↥M →* Equiv.Perm (Fin 5)}
     (hs : Function.Surjective π) (hk : π.ker = D.subgroupOf M) {L : Subgroup Y} (hDL : D ≤ L)
     (hL2 : L.relIndex M = 2) : L.subgroupOf M = (alternatingGroup (Fin 5)).comap π := by
@@ -242,6 +255,7 @@ private theorem subgroupOf_eq_comap_of_relIndex_two {π : ↥M →* Equiv.Perm (
     exact Subgroup.mem_subgroupOf.2 (hDL (Subgroup.mem_subgroupOf.1 hx))
   · exact hL2
 
+omit [Finite Y] in
 theorem eq_inf_of_relIndex_two {π : ↥M →* Equiv.Perm (Fin 5)}
     (hs : Function.Surjective π) (hk : π.ker = D.subgroupOf M) {K : Subgroup Y} (hDK : D ≤ K)
     (hK : K.relIndex M = 2) :
@@ -252,6 +266,7 @@ theorem eq_inf_of_relIndex_two {π : ↥M →* Equiv.Perm (Fin 5)}
   rw [← h2, Subgroup.subgroupOf_inj, inf_of_le_left hLM] at h1
   rw [h1]
 
+omit [Finite Y] in
 theorem exists_mem_inf_conj_eq_of_index_two
     (hCent : ∀ d ∈ D, d ≠ 1 → Subgroup.centralizer ({d} : Set Y) ≤ M)
     (hC128 : ∀ d ∈ D, d ≠ 1 → Nat.card (Subgroup.centralizer ({d} : Set Y)) = 128)
@@ -280,7 +295,8 @@ theorem exists_mem_inf_conj_eq_of_index_two
         _ = g * a * g⁻¹ := by rw [hca]; group
         _ = b := hg
 
-theorem exists_hom_alternatingGroup_of_relIndex_two (hDM : D ≤ M)
+omit [Finite Y] in
+theorem exists_hom_alternatingGroup_of_relIndex_two (_hDM : D ≤ M)
     (hπ : ∃ π : ↥M →* Equiv.Perm (Fin 5), Function.Surjective π ∧ π.ker = D.subgroupOf M)
     {K : Subgroup Y} (hDK : D ≤ K) (hK : K.relIndex M = 2) :
     ∃ φ : ↥(K ⊓ M) →* alternatingGroup (Fin 5), Function.Surjective φ ∧

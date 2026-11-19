@@ -219,7 +219,7 @@ theorem k_U5TorusRank_holds :
               change (((ω ^ 2)⁻¹ : Kfˣ) : Kf) = ((ω : Kf) ^ 2)⁻¹
               rw [Units.val_inv_eq_inv_val, Units.val_pow_eq_pow_val]
             rw [hdY0]
-            simp only [div_eq_mul_inv, inv_inv, inv_one, mul_one, one_mul]
+            simp only [div_eq_mul_inv, inv_inv, inv_one, mul_one]
             simpa [pow_two] using mul_inv_cancel₀ (pow_ne_zero 2 hω0)
           obtain ⟨x, hxT, hxmat⟩ := torusMat_mem_hypSU h aX (d := dX) hdX hpX
           obtain ⟨y, hyT, hymat⟩ := torusMat_mem_hypSU h aY (d := dY) hdY hpY
@@ -242,10 +242,10 @@ theorem k_U5TorusRank_holds :
               torusEntries h aX dX i ^ 5 = (ω : Kf) := by
             intro i
             rcases i with i | k | i
-            · fin_cases i <;> simpa [torusEntries, aX, hωval]
+            · fin_cases i <;> simp [torusEntries, aX, hωval]
             · fin_cases k
               simpa [torusEntries, dX] using hdX5K 0
-            · fin_cases i <;> simpa [torusEntries, aX, hζinv, hωval]
+            · fin_cases i <;> simp [torusEntries, aX, hζinv, hωval]
           have hnormω : h.norm ((ω : Kf)) = 1 := by
             rw [UnitaryFieldData.norm_eq_pow, ← Units.val_pow_eq_pow_val, hωq,
               Units.val_one]
@@ -274,10 +274,10 @@ theorem k_U5TorusRank_holds :
           have hentriesY5 : ∀ i : HypIndex 2 1, torusEntries h aY dY i ^ 5 = 1 := by
             intro i
             rcases i with i | k | i
-            · fin_cases i <;> simpa [torusEntries, aY, hω5K]
+            · fin_cases i <;> simp [torusEntries, aY, hω5K]
             · fin_cases k
               simpa [torusEntries, dY] using hdY5K 0
-            · fin_cases i <;> simpa [torusEntries, aY, hωinv, hω5K]
+            · fin_cases i <;> simp [torusEntries, aY, hωinv, hω5K]
           have hy5 : y ^ 5 = 1 := by
             apply Subtype.ext
             rw [Subgroup.coe_pow]
@@ -403,28 +403,22 @@ theorem k_U5TorusRank_holds :
             let zT : hypTorus h 2 1 := xT ^ j * yT⁻¹
             have hxT0 : CFSG.RankThree.CentralLiftU.tcoord h (0 : Fin 2) xT = ζ := by
               apply Units.ext
-              change ((CFSG.RankThree.CentralLiftU.tcoord h (0 : Fin 2) xT : Kfˣ) : Kf) =
-                (ζ : Kf)
               rw [CFSG.RankThree.CentralLiftU.coe_tcoord_of_diag h 0 hxmat]
-              simp [torusEntries, aX, xT]
+              simp [torusEntries, aX]
             have hxT1 : CFSG.RankThree.CentralLiftU.tcoord h (1 : Fin 2) xT = ζ := by
               apply Units.ext
-              change ((CFSG.RankThree.CentralLiftU.tcoord h (1 : Fin 2) xT : Kfˣ) : Kf) =
-                (ζ : Kf)
               rw [CFSG.RankThree.CentralLiftU.coe_tcoord_of_diag h 1 hxmat]
-              simp [torusEntries, aX, xT]
+              simp [torusEntries, aX]
             have hyT0 : CFSG.RankThree.CentralLiftU.tcoord h (0 : Fin 2) yT = ω := by
               apply Units.ext
-              change ((CFSG.RankThree.CentralLiftU.tcoord h (0 : Fin 2) yT : Kfˣ) : Kf) =
-                (ω : Kf)
               rw [CFSG.RankThree.CentralLiftU.coe_tcoord_of_diag h 0 hymat]
-              simp [torusEntries, aY, yT]
+              simp [torusEntries, aY]
             have hyT1 : CFSG.RankThree.CentralLiftU.tcoord h (1 : Fin 2) yT = 1 := by
               apply Units.ext
               change ((CFSG.RankThree.CentralLiftU.tcoord h (1 : Fin 2) yT : Kfˣ) : Kf) =
                 (1 : Kf)
               rw [CFSG.RankThree.CentralLiftU.coe_tcoord_of_diag h 1 hymat]
-              simp [torusEntries, aY, yT]
+              simp [torusEntries, aY]
             have hz0 : CFSG.RankThree.CentralLiftU.tcoord h (0 : Fin 2) zT =
                 ζ ^ j * ω⁻¹ := by
               change CFSG.RankThree.CentralLiftU.tcoord h (0 : Fin 2)
@@ -446,13 +440,9 @@ theorem k_U5TorusRank_holds :
               simpa [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply] using hg
             have ht0 : CFSG.RankThree.CentralLiftU.tcoord h (0 : Fin 2) zT = c := by
               apply Units.ext
-              change ((CFSG.RankThree.CentralLiftU.tcoord h (0 : Fin 2) zT : Kfˣ) : Kf) =
-                (c : Kf)
               rw [CFSG.RankThree.CentralLiftU.coe_tcoord_of_diag h 0 hzmat]
             have ht1 : CFSG.RankThree.CentralLiftU.tcoord h (1 : Fin 2) zT = c := by
               apply Units.ext
-              change ((CFSG.RankThree.CentralLiftU.tcoord h (1 : Fin 2) zT : Kfˣ) : Kf) =
-                (c : Kf)
               rw [CFSG.RankThree.CentralLiftU.coe_tcoord_of_diag h 1 hzmat]
             have h1 : ζ ^ j * ω⁻¹ = c := by rw [← hz0, ht0]
             have h2 : ζ ^ j = c := by rw [← hz1, ht1]

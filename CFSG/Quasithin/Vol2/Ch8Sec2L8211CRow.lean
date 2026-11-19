@@ -30,27 +30,27 @@ noncomputable def imgEquiv24 :
 theorem isQS_of_perfect_surj_alt6 {G : Type} [Group G] {P : Subgroup G}
     (hPp : ⁅P, P⁆ = P) (f : ↥P →* ↥(alternatingGroup (Fin 6)))
     (hf : Function.Surjective f) [Group.IsSolvable f.ker] : IsQS ↥P := by
-  haveI : IsSimpleGroup ↥(alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup ↥(alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
   exact isQS_of_surjective f hf (perfect_top_subgroup hPp) (isQS_of_isSimpleGroup _)
 
 theorem isSolvable_of_normal_pgroup_index_three {N : Type} [Group N] [Finite N]
     (O : Subgroup N) [O.Normal] (hO : IsPGroup 2 ↥O) (hcard : Nat.card N = 3 * Nat.card O) :
     Group.IsSolvable N := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hpos : 0 < Nat.card O := Nat.card_pos
   have hq : Nat.card (N ⧸ O) = 3 := by
     have h := Subgroup.card_eq_card_quotient_mul_card_subgroup O
     rw [hcard] at h
     exact Nat.eq_of_mul_eq_mul_right hpos h.symm
   have hQ : IsPGroup 3 (N ⧸ O) := IsPGroup.iff_card.mpr ⟨1, by rw [hq]; norm_num⟩
-  haveI : Group.IsNilpotent (N ⧸ O) := hQ.isNilpotent
-  haveI : Group.IsNilpotent ↥O := hO.isNilpotent
+  have : Group.IsNilpotent (N ⧸ O) := hQ.isNilpotent
+  have : Group.IsNilpotent ↥O := hO.isNilpotent
   exact Group.isSolvable_of_subgroup_quotient O
 
 theorem isSolvable_colLz_ker :
     Group.IsSolvable ↥CFSG.Quasithin.H.Coc24.colLz.ker := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hrange : CFSG.Quasithin.H.Coc24.colLz.range = alternatingGroup (Fin 6) :=
     CFSG.Quasithin.H.Coc24.range_colLz.trans CFSG.Quasithin.H.Coc24.A6c_eq
   have hON : CFSG.pCore 2 ↥CFSG.Quasithin.H.Coc24.Lz ≤ CFSG.Quasithin.H.Coc24.colLz.ker :=
@@ -62,11 +62,11 @@ theorem isSolvable_colLz_ker :
       rw [CFSG.Quasithin.H.Coc24.pCoreOf_Lz, CFSG.Quasithin.H.Coc24.card_KSp]
     unfold CFSG.Open.pCoreOf at h1
     rwa [Subgroup.card_map_of_injective (Subgroup.subtype_injective _)] at h1
-  haveI hOn' : (CFSG.pCore 2 ↥CFSG.Quasithin.H.Coc24.Lz).Normal :=
+  have hOn' : (CFSG.pCore 2 ↥CFSG.Quasithin.H.Coc24.Lz).Normal :=
     CFSG.LieType.BorelTits.pCore_normal 2
   have hOp : IsPGroup 2 ↥(CFSG.pCore 2 ↥CFSG.Quasithin.H.Coc24.Lz) :=
     CFSG.LieType.BorelTits.pCore_isPGroup 2
-  haveI hOn : ((CFSG.pCore 2 ↥CFSG.Quasithin.H.Coc24.Lz).subgroupOf
+  have hOn : ((CFSG.pCore 2 ↥CFSG.Quasithin.H.Coc24.Lz).subgroupOf
       CFSG.Quasithin.H.Coc24.colLz.ker).Normal :=
     Subgroup.Normal.subgroupOf hOn' _
   have hOcard : Nat.card ↥((CFSG.pCore 2 ↥CFSG.Quasithin.H.Coc24.Lz).subgroupOf
@@ -83,8 +83,8 @@ theorem isQS_parz22 {V : Type} [CommGroup V] [Finite V] {H : Subgroup (MulAut V)
     (h : CFSG.Quasithin.MathieuCode22 H ⊤ ⊥) {z : V} (hz1 : z ≠ 1)
     (hS : CFSG.Quasithin.H13.IsSylowVec82 H z) :
     Nontrivial ↥(CFSG.Quasithin.H13.parz82 H z) ∧ IsQS ↥(CFSG.Quasithin.H13.parz82 H z) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (MulAut V) := CFSG.Quasithin.H.ZTrans.finite_mulAut_z
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (MulAut V) := CFSG.Quasithin.H.ZTrans.finite_mulAut_z
   obtain ⟨S, hSH, hS', hzS⟩ := hS
   obtain ⟨e, he, hez⟩ := CFSG.Quasithin.H.Code22.exists_equiv_z0 h hz1 hSH hS' hzS
   have h1 : (CFSG.Quasithin.H13.parz82 H z).map (CFSG.Quasithin.H.congrHom e) =
@@ -132,19 +132,19 @@ theorem isQS_parz22 {V : Type} [CommGroup V] [Finite V] {H : Subgroup (MulAut V)
     have h2 : β a.1 = β b.1 := congrArg Subtype.val hab
     exact Subtype.ext (β.injective h2)
   have hker : IsPGroup 2 ↥f.ker := hK.of_injective φ hφinj
-  haveI : Group.IsNilpotent ↥f.ker := hker.isNilpotent
+  have : Group.IsNilpotent ↥f.ker := hker.isNilpotent
   have hperf : ⁅CFSG.Quasithin.H13.parz82 H z, CFSG.Quasithin.H13.parz82 H z⁆ =
       CFSG.Quasithin.H13.parz82 H z :=
     CFSG.Quasithin.perfectCore_perfect _
-  haveI : IsSimpleGroup ↥(alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup ↥(alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
   exact ⟨hf.nontrivial, isQS_of_perfect_surj_alt6 hperf f hf⟩
 
 theorem isQS_parz24 {V : Type} [CommGroup V] [Finite V] {H : Subgroup (MulAut V)}
     (h : CFSG.Quasithin.MathieuCocode24 H ⊤ ⊥) {z : V} (hz1 : z ≠ 1)
     (hS : CFSG.Quasithin.H13.IsSylowVec82 H z) :
     Nontrivial ↥(CFSG.Quasithin.H13.parz82 H z) ∧ IsQS ↥(CFSG.Quasithin.H13.parz82 H z) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (MulAut V) := CFSG.Quasithin.H.ZTrans.finite_mulAut_z
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (MulAut V) := CFSG.Quasithin.H.ZTrans.finite_mulAut_z
   obtain ⟨S, hSH, hS', hzS⟩ := hS
   obtain ⟨e, he, hez⟩ := CFSG.Quasithin.H.Coc24.exists_equiv_z0 h hz1 hSH hS' hzS
   have h1 : (CFSG.Quasithin.H13.parz82 H z).map (CFSG.Quasithin.H.congrHom e) =
@@ -176,7 +176,7 @@ theorem isQS_parz24 {V : Type} [CommGroup V] [Finite V] {H : Subgroup (MulAut V)
     obtain ⟨x, hx⟩ := hy'
     obtain ⟨p, rfl⟩ := β.surjective x
     exact ⟨p, Subtype.ext hx⟩
-  haveI : Group.IsSolvable ↥CFSG.Quasithin.H.Coc24.colLz.ker := isSolvable_colLz_ker
+  have : Group.IsSolvable ↥CFSG.Quasithin.H.Coc24.colLz.ker := isSolvable_colLz_ker
   have hφ : ∀ x : ↥f.ker, β x.1 ∈ CFSG.Quasithin.H.Coc24.colLz.ker := by
     intro x
     have hx : f x.1 = 1 := MonoidHom.mem_ker.mp x.2
@@ -188,11 +188,11 @@ theorem isQS_parz24 {V : Type} [CommGroup V] [Finite V] {H : Subgroup (MulAut V)
     intro a b hab
     have h2 : β a.1 = β b.1 := congrArg Subtype.val hab
     exact Subtype.ext (β.injective h2)
-  haveI : Group.IsSolvable ↥f.ker := Group.isSolvable_of_isSolvable_injective hφinj
+  have : Group.IsSolvable ↥f.ker := Group.isSolvable_of_isSolvable_injective hφinj
   have hperf : ⁅CFSG.Quasithin.H13.parz82 H z, CFSG.Quasithin.H13.parz82 H z⁆ =
       CFSG.Quasithin.H13.parz82 H z :=
     CFSG.Quasithin.perfectCore_perfect _
-  haveI : IsSimpleGroup ↥(alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup ↥(alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
   exact ⟨hf.nontrivial, isQS_of_perfect_surj_alt6 hperf f hf⟩
 
 end CFSG.Quasithin.H13.L8211CRow

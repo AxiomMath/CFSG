@@ -12,6 +12,7 @@ open Module CFSG.RankThree.PartOne.KCLinPlane
 variable {K : Type*} [Field K] {V : Type*} [AddCommGroup V] [Module K V]
 variable {p : ℕ} [NeZero p] {f : ZMod p → Module.End K V} {t ti : Module.End K V} {c₀ : K}
 
+omit [NeZero p] in
 theorem two_ne_zero_zmod [Fact p.Prime] (hp2 : p ≠ 2) : (2 : ZMod p) ≠ 0 := by
   intro h
   have h1 : ((2 : ℕ) : ZMod p) = 0 := by exact_mod_cast h

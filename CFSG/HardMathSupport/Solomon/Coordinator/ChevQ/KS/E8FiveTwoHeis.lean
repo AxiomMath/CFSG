@@ -77,7 +77,7 @@ theorem eq_top_of_heis_pair_of_split [Finite F] [Fact ℓ.Prime] [CharP F ℓ]
     (h0 : HeisTensor.Cent H (u : Matrix (Fin 5) (Fin 5) F))
     (h1 : HeisTensor.Cent H (v : Matrix (Fin 5) (Fin 5) F)) : H = ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨ν, hν⟩ := hsplit
   have hcu0 : cu ≠ 0 := scalar_ne_zero_of_pow hcu
   have hν0 : ν ≠ 0 := by
@@ -128,7 +128,7 @@ theorem eq_top_of_heis_lines [Finite F] [Fact ℓ.Prime] [CharP F ℓ]
       HeisTensor.Cent H (((g₀ ^ a * g₁ ^ b : GL (Fin 5) F)) : Matrix (Fin 5) (Fin 5) F)) :
     H = ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hζ0 : ζ ≠ 0 := hζ.ne_zero (by norm_num)
   have hζ5 : ζ ^ 5 = 1 := hζ.pow_eq_one
   have hCent0 : HeisTensor.Cent H (g₀ : Matrix (Fin 5) (Fin 5) F) := by

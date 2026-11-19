@@ -28,7 +28,7 @@ theorem y6f4a_solvableRadical_eq_bot (hO : CFSG.Open.standardComponentOddCore Y 
     (h2 : ∀ Q : Subgroup Y, Q.Normal → IsPGroup 2 Q → Q = ⊥) :
     CFSG.solvableRadical Y = ⊥ := by
   by_contra hRne
-  haveI hRsolv : Group.IsSolvable (CFSG.solvableRadical Y) :=
+  have hRsolv : Group.IsSolvable (CFSG.solvableRadical Y) :=
     CFSG.SignalizerFunctorTheorem.Nonsolvable.isSolvable_solvableRadical (G := Y)
   obtain ⟨p, hp, U, hUnorm, hUne, _hUR, hUp⟩ :=
     CFSG.PreuniquenessRankFour.Helpers.normal_solvable_subgroup_contains_normal_primeSubgroup
@@ -36,7 +36,7 @@ theorem y6f4a_solvableRadical_eq_bot (hO : CFSG.Open.standardComponentOddCore Y 
   rcases eq_or_ne p 2 with hp2 | hp2
   · subst hp2
     exact hUne (h2 U hUnorm hUp)
-  · haveI : Fact p.Prime := ⟨hp⟩
+  · have : Fact p.Prime := ⟨hp⟩
     have hOdd : Odd (Nat.card ↥U) := by
       obtain ⟨n, hn⟩ := hUp.exists_card_eq
       rw [hn]
@@ -46,10 +46,10 @@ theorem y6f4a_solvableRadical_eq_bot (hO : CFSG.Open.standardComponentOddCore Y 
 
 theorem y6f4a_ne_bot_inf_centralizer {Q : Subgroup Y} (hQ : Q.Normal) (h2 : IsPGroup 2 Q)
     (hQ1 : Q ≠ ⊥) {τ : Y} (hτ : orderOf τ = 2) : Q ⊓ centralizer ({τ} : Set Y) ≠ ⊥ := by
-  haveI : Q.Normal := hQ
+  have : Q.Normal := hQ
   let φ : ↥(zpowers τ) →* ConjAct Y :=
     (ConjAct.toConjAct : Y ≃* ConjAct Y).toMonoidHom.comp (zpowers τ).subtype
-  letI : MulAction ↥(zpowers τ) ↥Q := MulAction.compHom ↥Q φ
+  let : MulAction ↥(zpowers τ) ↥Q := MulAction.compHom ↥Q φ
   have hG'2 : IsPGroup 2 ↥(zpowers τ) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hτ]; norm_num)
   have hpα : 2 ∣ Nat.card ↥Q := by
@@ -91,7 +91,7 @@ theorem y6f4a_normal_two_le_zpowers {τ : Y} {J : Subgroup Y} (hJ : IsSimpleGrou
     (hC : centralizer (J : Set Y) ⊓ centralizer ({τ} : Set Y) = zpowers τ) {P : Subgroup Y}
     (hPD : P ≤ centralizer ({τ} : Set Y)) (hP2 : IsPGroup 2 P)
     (hPn : ∀ d ∈ centralizer ({τ} : Set Y), ∀ x ∈ P, d * x * d⁻¹ ∈ P) : P ≤ zpowers τ := by
-  haveI : IsSimpleGroup ↥J := hJ
+  have : IsSimpleGroup ↥J := hJ
   have hτCJ : τ ∈ centralizer (J : Set Y) := by
     have hmem : τ ∈ zpowers τ := Subgroup.mem_zpowers τ
     rw [← hC] at hmem
@@ -146,6 +146,7 @@ theorem y6f4a_normal_two_le_zpowers {τ : Y} {J : Subgroup Y} (hJ : IsSimpleGrou
     Subgroup.mem_inf.mpr ⟨hxCJ, hxCD⟩
   rwa [hC] at this
 
+omit [Finite Y] in
 theorem y6f4a_tau_not_central {τ : Y} {M : Subgroup Y}
     (hM : Nonempty (↥M ≃* (Fin 3 → Multiplicative (ZMod 4))))
     (hMτ : ∀ m ∈ M, τ * m * τ⁻¹ = m⁻¹) : τ ∉ center Y := by

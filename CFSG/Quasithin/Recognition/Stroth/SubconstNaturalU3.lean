@@ -52,7 +52,7 @@ theorem rankOneData_psu3 {K : Type} [Field K] [Finite K]
   have hBdef : B = unitaryCoordinateStabilizer J 0 := rfl
   have hTdef : T = (torusPSU J hJ).range := rfl
   have hαeq : α = unitaryOuterIsotropicPoint J hJ 0
-      unitary_three_point_structure._proof_1 := by
+      (by decide) := by
     apply Subtype.ext
     rfl
   obtain ⟨-, -, -, -, -, rho, hrho, hnative, hcardΩ, h2tr, hstab, -, hnormal, -, hsup,
@@ -62,14 +62,14 @@ theorem rankOneData_psu3 {K : Type} [Field K] [Finite K]
   have hUcard' : Nat.card U = (2 ^ k) ^ 3 := by simpa [hUdef] using hUcard
   have hTcard' : Nat.card T =
       ((2 ^ k) ^ 2 - 1) / Nat.gcd 3 (2 ^ k + 1) := by simpa [hTdef] using hTcard
-  letI : MulAction G Ω := MulAction.compHom Ω rho
+  let : MulAction G Ω := MulAction.compHom Ω rho
   have hBstab : B = MulAction.stabilizer G α := hstab.symm
   have h2trΩ : MulAction.IsMultiplyPretransitive G Ω 2 := by
     rw [MulAction.is_two_pretransitive_iff]
     intro a b c d hab hcd
     exact h2tr a b c d hab hcd
-  haveI : MulAction.IsMultiplyPretransitive G Ω 2 := h2trΩ
-  haveI : MulAction.IsPretransitive G Ω :=
+  have : MulAction.IsMultiplyPretransitive G Ω 2 := h2trΩ
+  have : MulAction.IsPretransitive G Ω :=
     MulAction.isPretransitive_of_is_two_pretransitive
   have hidx : B.index = q ^ 3 + 1 := by
     rw [hBstab, MulAction.index_stabilizer_of_transitive G α, hcardΩ]
@@ -120,7 +120,7 @@ theorem rankOneData_psu3 {K : Type} [Field K] [Finite K]
     rw [hUdef, hTdef, hBdef]
     exact hsup.symm
   have hTnorm' : T ≤ Subgroup.normalizer (U : Set G) := by
-    rwa [hUdef, hTdef] at hTnorm ⊢
+    rw [hUdef, hTdef] at hTnorm ⊢; assumption
   have hbruhat : ∀ x : G, x ∈ B ∨ ∃ b₁ ∈ B, ∃ b₂ ∈ B, x = b₁ * w * b₂ :=
     fun x => CFSG.Quasithin.Ch3E215M.bruhat_of_injOn hwB (S := (U : Set G))
       (fun u hu => hUB hu) hinj hbound x
@@ -129,7 +129,7 @@ theorem rankOneData_psu3 {K : Type} [Field K] [Finite K]
     calc
       2 < 2 ^ 2 := by norm_num
       _ ≤ 2 ^ k := Nat.pow_le_pow_right (by norm_num) hk
-  haveI : IsSimpleGroup G := huppert_II_10_13 J q hq2 hcard hfixed
+  have : IsSimpleGroup G := huppert_II_10_13 J q hq2 hcard hfixed
   have hUbot : U ≠ ⊥ := by
     intro h
     have h1 : Nat.card U = 1 := by rw [h, Subgroup.card_bot]
@@ -155,7 +155,7 @@ theorem rankOneData_psu3 {K : Type} [Field K] [Finite K]
     refine ⟨?_, hUbot, ⟨S, hS⟩, hUB, ?_, ?_, ?_⟩
     · change IsPGroup 2 ↥((hermitianUnipotentPSU J hJ).range)
       rw [← hS]
-      exact S.isPGroup'
+      exact S.isPGroup
     · intro M hUM hM
       rcases le_B_or_eq_top_of_bruhat hsup' hTnorm' hnT hnsq hUbot hbruhat M hUM with h | h
       · exact h
@@ -202,7 +202,7 @@ theorem card_eq_of_hasNormalCopy_psu3 :
   obtain ⟨M, hMnormal, hMequiv⟩ := hcopy
   obtain ⟨φ⟩ := hMequiv
   let ψ : ↥M ≃* ↥(ProjectiveSpecialUnitaryMatrixGroup J) := φ.trans ePsu.symm
-  letI : M.Normal := hMnormal
+  let : M.Normal := hMnormal
   let U' : Subgroup M :=
     ((hermitianUnipotentPSU J hJ).range).map ψ.symm.toMonoidHom
   let B' : Subgroup M :=

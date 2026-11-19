@@ -21,10 +21,10 @@ theorem tvEntry_code (p : Nat) (r c : Fin 6) : tvEntry p r.val c.val = (tvE p r 
   rw [code_add, code_mul, code_mul]
   congr 1
   by_cases h : r = c
-  · simp only [h, if_true]
+  · simp only [h, ite_true]
     rfl
   · have h' : r.val ≠ c.val := fun e => h (Fin.ext e)
-    simp only [h, h', if_false]
+    simp only [h, h', ite_false]
     rfl
 
 theorem minor_eq_det (p : Nat) (s t : Fin 20) :
@@ -117,13 +117,13 @@ theorem foldl_two (M : Nat → Nat) (u v : Nat) {i j : Nat} (hij : i < j) (n : N
     by_cases hi : n = i
     · subst hi
       have hj : n ≠ j := by omega
-      simp only [if_true, hj, if_false, Nat.lt_irrefl, Nat.lt_succ_self, show ¬ j < n + 1 by omega,
+      simp only [ite_true, hj, ite_false, Nat.lt_irrefl, Nat.lt_succ_self, show ¬ j < n + 1 by omega,
         show ¬ j < n by omega, Nat.zero_xor, Nat.xor_zero]
     · by_cases hj : n = j
       · subst hj
-        simp only [hi, if_false, if_true, Nat.lt_irrefl, Nat.lt_succ_self,
-          show i < n + 1 by omega, show i < n by omega, Nat.xor_zero, Nat.xor_assoc]
-      · simp only [hi, hj, if_false, f4mul_zero, Nat.xor_zero]
+        simp only [hi, ite_false, ite_true, Nat.lt_irrefl, Nat.lt_succ_self,
+          show i < n + 1 by omega, show i < n by omega, Nat.xor_zero]
+      · simp only [hi, hj, ite_false, f4mul_zero, Nat.xor_zero]
         have e1 : (i < n + 1) = (i < n) := propext ⟨fun h => by omega, fun h => by omega⟩
         have e2 : (j < n + 1) = (j < n) := propext ⟨fun h => by omega, fun h => by omega⟩
         simp only [e1, e2]
@@ -143,7 +143,7 @@ theorem wedgeAct_pow (p : Nat) {m : Nat} (hm : m < 20) :
     have ht' : t < 20 := List.mem_range.1 ht
     rw [compound_get _ hk' ht', minor_eq_minorK p hk' ht', wcoef_pow m hm t ht']
   rw [List.foldl_ext _ _ 0 (fun a t ht => e t ht a), foldl_two (minorK p k) _ _ (by omega) 20]
-  simp only [show m / 2 < 20 by omega, show 19 - m / 2 < 20 by omega, if_true]
+  simp only [show m / 2 < 20 by omega, show 19 - m / 2 < 20 by omega, ite_true]
 
 theorem tvCols_toList (k : Nat) : (tvCols k).toList = tvK (uPts ())[k]! := by
   unfold tvCols tvK

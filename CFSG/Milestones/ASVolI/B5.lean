@@ -77,8 +77,8 @@ private theorem burnsideB5b_nilpotent_comap_of_ker_le_frattini {H Q : Type*} [Gr
     {F : Subgroup Q} [F.Normal] (hF : Group.IsNilpotent ↥F) :
     Group.IsNilpotent ↥(F.comap ψ) := by
   classical
-  haveI := hF
-  haveI : Finite Q := Finite.of_surjective ψ hψ
+  have := hF
+  have : Finite Q := Finite.of_surjective ψ hψ
   set M := F.comap ψ with hM
   have hMn : M.Normal := Subgroup.Normal.comap inferInstance ψ
   refine ((Group.isNilpotent_of_finite_tfae (G := ↥M)).out 1 4).mpr ?_
@@ -100,7 +100,7 @@ private theorem burnsideB5b_nilpotent_comap_of_ker_le_frattini {H Q : Type*} [Gr
     rw [← Sylow.coe_mapSurjective hf P]
     exact Subgroup.Normal.comap hPbar f
   have hPN₂ : (P : Subgroup ↥M) ≤ ((P : Subgroup ↥M).map f).comap f := Subgroup.le_comap_map f _
-  haveI := hN₂
+  have := hN₂
   have h1 := Sylow.normalizer_sup_eq_top' P hPN₂
   have h1' := Sylow.normalizer_sup_eq_top P
   have h2 : Subgroup.normalizer (P : Set ↥M) ⊔ f.ker = ⊤ := by
@@ -141,7 +141,7 @@ private theorem burnsideB5b_odd_card_map_mk {H : Type*} [Group H] [Finite H] (K 
     [Group.IsNilpotent K] :
     Odd (Nat.card ↥(K.map (QuotientGroup.mk' (K ⊓ CFSG.pCore 2 H)))) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hodd
   rw [Nat.not_odd_iff_even, even_iff_two_dvd] at hodd
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' 2 hodd
@@ -181,7 +181,7 @@ private theorem burnsideB5b_odd_card_map_mk {H : Type*} [Group H] [Finite H] (K 
   obtain ⟨T, hT⟩ := hZ.exists_le_sylow
   have hTc := Sylow.characteristic_of_normal T inferInstance
   have hle : (T : Subgroup ↥K).map K.subtype ≤ CFSG.pCore 2 H :=
-    le_sSup ⟨inferInstance, T.isPGroup'.map _⟩
+    le_sSup ⟨inferInstance, T.isPGroup.map _⟩
   have hxT : x ∈ (T : Subgroup ↥K).map K.subtype :=
     Subgroup.mem_map_of_mem K.subtype (hT (Subgroup.mem_zpowers y))
   exact hxP ⟨hx, hle hxT⟩
@@ -224,8 +224,8 @@ private theorem burnsideB5b_exists_cover {G : Type} [Group G] [Finite G]
   have hKnil : Group.IsNilpotent ↥ψ.ker := by
     have : Group.IsNilpotent ↥(frattini ↥S₁) := frattini_nilpotent
     exact Group.nilpotent_of_mulEquiv (Subgroup.subgroupOfEquivOfLe hfr)
-  haveI : ψ.ker.Normal := MonoidHom.normal_ker ψ
-  haveI := hKnil
+  have : ψ.ker.Normal := MonoidHom.normal_ker ψ
+  have := hKnil
   set P := ψ.ker ⊓ CFSG.pCore 2 ↥S₁ with hP
   have hPK : P ≤ ψ.ker := inf_le_left
   have hP2 : IsPGroup 2 ↥P := (CFSG.pCore_isPGroup (p := 2) (G := ↥S₁)).to_le inf_le_right
@@ -327,12 +327,12 @@ private theorem burnsideB5b_lift_component {G Gh : Type} [Group G] [Finite G] [G
   have hρker : ρ.ker = F.comap α := by
     ext x
     simp [ρ, π, MonoidHom.mem_ker, QuotientGroup.eq_one_iff]
-  haveI hMn : (F.comap α).Normal := Subgroup.Normal.comap inferInstance α
-  haveI := hM
+  have hMn : (F.comap α).Normal := Subgroup.Normal.comap inferInstance α
+  have := hM
   set N := (F.comap α) ⊓ CFSG.pCore 2 Gh with hN
   have hNM : N ≤ ρ.ker := by rw [hρker]; exact inf_le_left
   have hN2 : IsPGroup 2 ↥N := (CFSG.pCore_isPGroup (p := 2) (G := Gh)).to_le inf_le_right
-  haveI : N.Normal := inferInstance
+  have : N.Normal := inferInstance
   let ρ' : (Gh ⧸ N) →* G ⧸ F := QuotientGroup.lift N ρ hNM
   have hρ'ker : ρ'.ker = (F.comap α).map (QuotientGroup.mk' N) := by
     rw [QuotientGroup.ker_lift N ρ hNM, hρker]
@@ -535,13 +535,13 @@ private theorem burnsideB55_B55_two {V : Type} [CommGroup V] [Finite V] (hV : �
     · subst hp2
       rw [hB.1]
       exact bot_le
-    · haveI : Fact p.Prime := ⟨hp⟩
+    · have : Fact p.Prime := ⟨hp⟩
       exact le_inf (CFSG.LieType.BorelTits.pCoreOf_le p G)
         (B55.pCoreOf_le_centralizer hV hB.2.1 hp2 hp3)
   refine ⟨h1, ?_⟩
   have hfit := burnsideB55_fit_eq_map G
   have hF3 : pCoreOf 3 G ≤ (CFSG.fittingSubgroup ↥G).map G.subtype := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact Subgroup.map_mono (CFSG.pCore_le_fitting ↥G 3)
   have hFZ : centerOf G ≤ (CFSG.fittingSubgroup ↥G).map G.subtype := by
     intro x hx
@@ -592,7 +592,7 @@ private theorem burnsideB55_isB55Group_of_list {X : Type} [Group X] (hq : CFSG.I
       burnsideB55_equiv_commutator hq.1 (CFSG.Open.quasithinG2 K) e⟩)))
   · obtain ⟨e⟩ := h5
     have hk : Nat.card (ZMod 2) = 2 := by simp
-    exact Or.inr (Or.inr (Or.inl ⟨1, ZMod 2, inferInstance, inferInstance, by simpa using hk,
+    exact Or.inr (Or.inr (Or.inl ⟨1, ZMod 2, inferInstance, inferInstance, by simp,
       ⟨e.trans ((CFSG.SignalizerFunctorTheorem.NonLocal.commutatorSpTwoEquiv hk).symm.trans
         (burnsideB55_commutatorEquiv (StatedSp 2 (ZMod 2))))⟩⟩))
   · exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inl h6))))
@@ -674,7 +674,7 @@ private theorem burnsideB55_nat_irr_core {d : ℕ} (hd : 2 ≤ d) {K : Type} [Fi
     intro i hij c
     have := key i j hij (c / x₀ j) x₀ hx₀
     rwa [div_mul_cancel₀ _ hj] at this
-  haveI : Nontrivial (Fin d) := Fin.nontrivial_iff_two_le.2 hd
+  have : Nontrivial (Fin d) := Fin.nontrivial_iff_two_le.2 hd
   obtain ⟨i', hi'⟩ := exists_ne j
   have hj_single : ∀ c : K, (Pi.single j c : Fin d → K) ∈ J := by
     intro c

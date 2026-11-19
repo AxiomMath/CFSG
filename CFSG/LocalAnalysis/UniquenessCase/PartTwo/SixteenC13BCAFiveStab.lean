@@ -66,7 +66,7 @@ theorem s16c13bcA_nine_dvd_card_stab {W : Type} [CommGroup W] [Finite W]
     (hzn : ∃ h ∈ H, h n = z n) :
     9 ∣ Nat.card ↥((Subgroup.zpowers z ⊔ H) ⊓ MulAction.stabilizer (MulAut W) n) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set G' : Subgroup (MulAut W) := Subgroup.zpowers z ⊔ H with hG'
   set St : Subgroup (MulAut W) := MulAction.stabilizer (MulAut W) n with hSt
   set S : Subgroup (MulAut W) := G' ⊓ St with hS
@@ -86,7 +86,7 @@ theorem s16c13bcA_nine_dvd_card_stab {W : Type} [CommGroup W] [Finite W]
   have hnorm : (H.subgroupOf G').Normal := by
     rw [Subgroup.normal_subgroupOf_iff_le_normalizer hHG', hG']
     exact sup_le hzN Subgroup.le_normalizer
-  haveI : (H.subgroupOf G').Normal := hnorm
+  have : (H.subgroupOf G').Normal := hnorm
   have hzG' : z ∈ G' := Subgroup.mem_sup_left (Subgroup.mem_zpowers z)
   obtain ⟨h, hh, hhn⟩ := hzn
   set b : MulAut W := z⁻¹ * h with hb
@@ -188,7 +188,7 @@ theorem s16c13bcA_noncyclic_stab {W : Type} [CommGroup W] [Finite W] {H : Subgro
   classical
   set Q : Subgroup (MulAut W) :=
     (Subgroup.zpowers z ⊔ H) ⊓ MulAction.stabilizer (MulAut W) n with hQ
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hdvd : 3 ^ 2 ∣ Nat.card ↥Q := by
     have h := s16c13bcA_nine_dvd_card_stab hz3 hzH hzc hψ hzn
     norm_num

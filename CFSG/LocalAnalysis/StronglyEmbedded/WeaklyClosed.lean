@@ -13,6 +13,7 @@ open CFSG.RankThree.PartOne.StrongP
 
 variable {G : Type*} [Group G] [Finite G] {p : ℕ}
 
+omit [Finite G] in
 private theorem exists_isSylowOf_ge {R H : Subgroup G} [Fact p.Prime]
     (hR : IsPGroup p R) (hRH : R ≤ H) :
     ∃ T : Subgroup G, R ≤ T ∧ CFSG.ABGLocalTools.IsSylowOf p T H := by
@@ -68,7 +69,7 @@ theorem exists_mem_normalizer_mul_conj_eq_of_weaklyClosed [Fact p.Prime] {P : Sy
     calc (g * w * g⁻¹) * y = g * (w * x) * g⁻¹ := by rw [← hg]; group
       _ = g * (x * w) * g⁻¹ := by rw [Subgroup.mem_centralizer_iff.mp hx w hw]
       _ = y * (g * w * g⁻¹) := by rw [← hg]; group
-  have hWp : IsPGroup p W := P.isPGroup'.to_le hWP
+  have hWp : IsPGroup p W := P.isPGroup.to_le hWP
   have hgWp : IsPGroup p (W.map (MulAut.conj g).toMonoidHom) := hWp.map _
   obtain ⟨S, hWS, hS⟩ := exists_isSylowOf_ge (H := C) hWp hWC
   obtain ⟨R, hgWR, hR⟩ := exists_isSylowOf_ge (H := C) hgWp hgWC
@@ -137,7 +138,7 @@ theorem isStronglyPEmbedded_of_weaklyClosed {M P A : Subgroup G} [Fact p.Prime]
     · have hlt : P < (Pstar : Subgroup G) := lt_of_le_of_ne hPPstar heq
       obtain ⟨Q, hQp, hPQ, hQle⟩ :=
         exists_pGroup_lt_le_normalizer (p := p) (P := P) (R := (Pstar : Subgroup G))
-          Pstar.isPGroup' hlt
+          Pstar.isPGroup hlt
       have hQM : Q ≤ M := (hQle.trans inf_le_right).trans hNP
       exfalso
       exact hPQ.ne (hPM.eq_of_le hPQ.le hQM hQp).symm
@@ -172,7 +173,7 @@ theorem isStronglyPEmbedded_of_weaklyClosed {M P A : Subgroup G} [Fact p.Prime]
     simpa [y, MulAut.conj_symm_apply] using h'
   have hyord : orderOf y = p := by
     have hyeq : y = (MulAut.conj g⁻¹) (xS : G) := by
-      simp [y, MulAut.conj_apply]
+      simp [y]
     rw [hyeq, MulEquiv.orderOf_eq, hxord]
   obtain ⟨m₁, hm₁M, haA⟩ := hcover (xS : G) hxM hxord
   set a : G := m₁ * (xS : G) * m₁⁻¹ with ha_def

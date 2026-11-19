@@ -45,7 +45,7 @@ theorem exists_typed_lt_le_of_ne (hext : StrothExtStep) (hXc : IsMulCommutative 
   have hdQ : d ∈ Q := ⟨hdX, hXB hdX, fun v hv => by
     have := hdc v (Subgroup.mem_sup_right hv)
     simpa [mul_assoc] using this⟩
-  have hBQ' : B < Q := SetLike.lt_iff_le_and_exists.mpr ⟨hBQ, d, hdQ, hdB⟩
+  have hBQ' : B < Q := IsConcreteLE.lt_iff_le_and_exists.mpr ⟨hBQ, d, hdQ, hdB⟩
   have hQX : Q ≤ X := inf_le_left
   have hQC : Q ≤ Subgroup.centralizer (B : Set G) := hQX.trans hXB
   have huQ : F.dA.u ∈ Subgroup.normalizer (Q : Set G) := Subgroup.inf_normalizer_le_normalizer_inf

@@ -4,7 +4,7 @@ public import CFSG.Monster.B.TwoA.Sp8.P0RankWalk
 public import Certificates.Data.Kernel.P0Vis
 public import Mathlib.Algebra.Order.Ring.Nat
 public import Mathlib.Data.Nat.Bitwise
-public import Mathlib.Data.Nat.SuccPred
+public import Mathlib.Order.SuccPred.Nat
 
 public section
 
@@ -125,7 +125,7 @@ theorem lAct_notMem {M' W : Finset ℕ} (hM : XorClosed M') (hW : XorClosed W)
       rw [Nat.shiftRight_eq_div_pow, pow_one]
     have hφ0 : (phiW W (x :: g)).testBit 0 = decide (x ∉ W) := by
       rw [phiW, Nat.testBit_zero]
-      split_ifs with h <;> simp [h] <;> omega
+      split_ifs with h <;> simp [h]
     have hφ2 : phiW W (x :: g) / 2 = phiW W g := by
       rw [phiW]
       split_ifs <;> omega

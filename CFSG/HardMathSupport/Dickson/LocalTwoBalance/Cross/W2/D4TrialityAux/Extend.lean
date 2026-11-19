@@ -115,6 +115,7 @@ theorem eq_zero_or_one_of_card_two (hK : Nat.card K = 2) (c : K) : c = 0 ∨ c =
     rw [← Nat.card_eq_fintype_card, hK] at h
     simpa using h
 
+omit [Finite K] in
 theorem units_map_entrywiseHom_one_D4 (w : ModGL Tag.D4 K) :
     Units.map (entrywiseHom (1 : K ≃+* K).toRingHom) w = w := by
   have e1 : (1 : K ≃+* K).toRingHom = RingHom.id K := RingHom.ext fun _ => rfl
@@ -131,6 +132,7 @@ theorem d4P_inv_conj_mem {F : Type} [Field F] {m : ModGL Tag.D4 F} (hm : m ∈ a
   rw [hP2, inv_inv] at h
   exact h
 
+omit [Finite K] in
 theorem star_commute (g c : adjointGroup Tag.D4 K) (a b : Fin Tag.D4.rank → Kˣ) (σ : K ≃+* K)
     (hcomm : (MulAut.conj c * exactNormalAut Tag.D4 K b σ 0) *
         (MulAut.conj g * (exactNormalAut Tag.D4 K a 1 0 * d4Graph K 1)) =

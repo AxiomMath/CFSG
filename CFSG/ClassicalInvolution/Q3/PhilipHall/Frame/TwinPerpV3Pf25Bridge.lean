@@ -70,7 +70,7 @@ theorem hullEquiv_coe (hmap : (coreHull Ω c).map (Subgroup.centralizer ({c} : S
   QuotientGroup.congr _ _ (hullEquiv hmap) (classicalInvolutionOddCore_map_equiv (hullEquiv hmap))
 
 theorem rLayer_le_centralizer (Ω : Set (Subgroup G)) (c : G) : rLayer Ω c ≤ Subgroup.centralizer ({c} : Set G) :=
-  iSup₂_le fun R' _ => iSup_le fun hR => hR
+  iSup₂_le fun _R' _ => iSup_le fun hR => hR
 
 end Bridge
 

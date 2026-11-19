@@ -66,7 +66,7 @@ theorem centralizer_inf_normalizer_S_le_normalizer_yamadaR₃ (h : Setup G L f t
 theorem centralizer_inf_normalizer_S_le_normalizer_yamadaL₆ (h : Setup G L f t)
     (d : TrialityD4Data L (2 ^ f)) (hlay : h.LayerHyp d) :
     centralizer ({t} : Set G) ⊓ normalizer ((d.S.map L.subtype : Subgroup G) : Set G) ≤
-      normalizer (yamadaL₆ d t : Set G) := fun c hc =>
+      normalizer (yamadaL₆ d t : Set G) := fun _c hc =>
   le_normalizer_yamadaL₆ d t (h.centralizer_inf_normalizer_Y_le_H d hlay ⟨hc.1,
     h.normalizer_tY_le_normalizer_Y d
       (h.normalizer_yamadaR_le_tY d (h.centralizer_inf_normalizer_S_le d hc))⟩)
@@ -87,6 +87,7 @@ end NCS
 
 section Six
 
+omit [Finite G] in
 theorem conj_inv_t_eq_L6T {y m : G} (hym : y * t * y⁻¹ = t * m) :
     y⁻¹ * t * y = t * (y⁻¹ * m⁻¹ * y) := by
   have h1 : y⁻¹ * t * y * (y⁻¹ * m * y) = t := by

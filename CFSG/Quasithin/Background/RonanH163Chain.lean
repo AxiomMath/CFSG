@@ -242,7 +242,7 @@ theorem U8_minimal :
   by_cases heq : W' = U4
   · exact Or.inl heq
   right
-  obtain ⟨v, hvW, hvU4⟩ := SetLike.exists_of_lt (lt_of_le_of_ne h4 (Ne.symm heq))
+  obtain ⟨v, hvW, hvU4⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne h4 (Ne.symm heq))
   obtain ⟨m, hm, rfl⟩ := toW_surj 10 v
   have hmU8 : m ∈ combos b8 := (toW_mem_U8_iff hm).1 (h8 hvW)
   have hmU4 : m ∉ combos b4 := fun h => hvU4 ((toW_mem_U4_iff hm).2 h)

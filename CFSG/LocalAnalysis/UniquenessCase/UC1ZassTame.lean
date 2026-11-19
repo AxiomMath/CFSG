@@ -59,7 +59,7 @@ theorem false_of_tame_cases [Finite J] {α β ω : J} (hα1 : α ≠ 1) (hβ1 : 
       have := Nat.card_congr e.toEquiv
       rw [DihedralGroup.nat_card] at this
       exact (Nat.card_pos (α := J)).ne' this
-    haveI : NeZero z := ⟨hz⟩
+    have : NeZero z := ⟨hz⟩
     obtain ⟨C, hCcyc, hidx⟩ := CFSG.CGT.PushingUpLit.SolK.dihedral_cyclic_index z
     refine false_of_abelian_index_le_two hα1 hβ1 hne hβ hαβ hω hω' hω3
       (C := C.map (e.symm : DihedralGroup z →* J)) ?_ (Or.inr ?_)

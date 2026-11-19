@@ -34,7 +34,7 @@ theorem exists_modOrthL2_conjRep (hQ : IsElemAbelian 2 Q)
   let c' : H →* MulAut ↥Q := α.liftOfSurjective hα ⟨c, hkerc⟩
   have hc' : ∀ ℓ : ↥L, c' (α ℓ) = c ℓ := fun ℓ =>
     MonoidHom.liftOfRightInverse_comp_apply _ _ _ _ ℓ
-  letI : CommGroup ↥Q :=
+  let : CommGroup ↥Q :=
     { (inferInstance : Group ↥Q) with
       mul_comm := fun a b => Subtype.ext (hcommQ _ a.2 _ b.2) }
   have h2 : ∀ x : Additive ↥Q, 2 • x = 0 := by
@@ -42,7 +42,7 @@ theorem exists_modOrthL2_conjRep (hQ : IsElemAbelian 2 Q)
     apply Additive.toMul.injective
     rw [toMul_nsmul, toMul_zero]
     exact Subtype.ext (hQ.2 _ (Additive.toMul x).2)
-  letI : Module (ZMod 2) (Additive ↥Q) := AddCommGroup.zmodModule h2
+  let : Module (ZMod 2) (Additive ↥Q) := AddCommGroup.zmodModule h2
   let lin : MulAut ↥Q →* Module.End (ZMod 2) (Additive ↥Q) :=
     { toFun := fun φ => (MulEquiv.toAdditive φ).toAddMonoidHom.toZModLinearMap 2
       map_one' := LinearMap.ext fun _ => rfl
@@ -117,7 +117,7 @@ theorem modOrthL2_exists_ne_one (hcls : Function.Injective cls)
       ρ (α ℓ) (Multiplicative.toAdd (cls u)) = Multiplicative.toAdd (cls v))
     (hLQ : L ≤ Subgroup.normalizer (Q : Set G))
     (hnt : ¬ L ≤ Subgroup.centralizer (Q : Set G)) : ∃ g, ρ g ≠ 1 := by
-  obtain ⟨ℓ, hℓ, hℓQ⟩ := SetLike.not_le_iff_exists.mp hnt
+  obtain ⟨ℓ, hℓ, hℓQ⟩ := IsConcreteLE.not_le_iff_exists.mp hnt
   rw [Subgroup.mem_centralizer_iff] at hℓQ
   push Not at hℓQ
   obtain ⟨q, hq, hne⟩ := hℓQ

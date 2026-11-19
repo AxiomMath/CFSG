@@ -151,8 +151,8 @@ theorem normalizer_T_le : Subgroup.normalizer ((F.T : Subgroup G) : Set G) ≤
     _ = z * n := by rw [← heq]
 
 private theorem isSylowTwoOf_T : QuasithinUnique.IsSylowTwoOf (F.T : Subgroup G) ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  refine ⟨le_top, F.T.isPGroup', ?_⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  refine ⟨le_top, F.T.isPGroup, ?_⟩
   change ¬ 2 ∣ (F.T : Subgroup G).relIndex ⊤
   rw [Subgroup.relIndex_top_right]
   exact Sylow.not_dvd_index F.T

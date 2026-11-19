@@ -17,7 +17,7 @@ theorem det_eq_one_of_apply_eq_one_of_notMem {ℓ : ι → ℕ} {T : Finset (ι 
     intro i j hij
     have hnot : (i, j) ∉ T := fun h => absurd (hT _ h) (not_lt.mpr hij.le)
     have hne : i ≠ j := fun h => (ne_of_lt hij) (congrArg ℓ h.symm)
-    rw [hM i j hnot, Matrix.one_apply, if_neg hne]
+    rw [hM i j hnot, Matrix.one_apply, ite_eq_right hne]
   rw [hblock.det]
   refine Finset.prod_eq_one fun y _ => ?_
   have hdiag : M.toSquareBlock ℓ y = 1 := by
@@ -26,8 +26,8 @@ theorem det_eq_one_of_apply_eq_one_of_notMem {ℓ : ι → ℕ} {T : Finset (ι 
     rw [Matrix.toSquareBlock_def, Matrix.of_apply, hM i.1 j.1 hnot, Matrix.one_apply,
       Matrix.one_apply]
     by_cases hij : i = j
-    · rw [if_pos hij, if_pos (congrArg Subtype.val hij)]
-    · rw [if_neg hij, if_neg fun h => hij (Subtype.ext h)]
+    · rw [ite_eq_left hij, ite_eq_left (congrArg Subtype.val hij)]
+    · rw [ite_eq_right hij, ite_eq_right fun h => hij (Subtype.ext h)]
   rw [hdiag, Matrix.det_one]
 
 private noncomputable def supportedMat (T : Finset (ι × ι)) (x : ↥T → K) : Matrix ι ι K :=
@@ -35,14 +35,14 @@ private noncomputable def supportedMat (T : Finset (ι × ι)) (x : ↥T → K) 
 
 private theorem supportedMat_det {ℓ : ι → ℕ} {T : Finset (ι × ι)}
     (hT : ∀ p ∈ T, ℓ p.1 < ℓ p.2) (x : ↥T → K) : (supportedMat T x).det = 1 :=
-  det_eq_one_of_apply_eq_one_of_notMem hT fun _ _ h => dif_neg h
+  det_eq_one_of_apply_eq_one_of_notMem hT fun _ _ h => dite_eq_right h
 
 private noncomputable def supportedEquiv (ℓ : ι → ℕ) (T : Finset (ι × ι))
     (hT : ∀ p ∈ T, ℓ p.1 < ℓ p.2) :
     {g : SpecialLinearGroup ι K //
       ∀ c a, (c, a) ∉ T → (g : Matrix ι ι K) c a = (1 : Matrix ι ι K) c a} ≃ (↥T → K) where
   toFun g p := (g.1 : Matrix ι ι K) p.1.1 p.1.2
-  invFun x := ⟨⟨supportedMat T x, supportedMat_det hT x⟩, fun _ _ h => dif_neg h⟩
+  invFun x := ⟨⟨supportedMat T x, supportedMat_det hT x⟩, fun _ _ h => dite_eq_right h⟩
   left_inv g := by
     obtain ⟨g, hg⟩ := g
     refine Subtype.ext (Subtype.ext ?_)

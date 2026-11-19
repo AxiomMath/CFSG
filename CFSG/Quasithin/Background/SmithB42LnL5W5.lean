@@ -69,7 +69,7 @@ theorem crdE_wedgeMat_upMat (c₀ c₁ c₂ c₃ c₄ c₅ c₆ c₇ c₈ c₉ :
       topB (upMat c₀ c₁ c₂ c₃ c₄ c₅ c₆ c₇ c₈ c₉) *ᵥ crdE x := by
   funext i
   fin_cases i <;>
-    simp [crdE, idxE, topB, wedgeMat, pr5, upMat, mulVec, dotProduct, Fin.sum_univ_succ] <;> ring
+    simp [crdE, idxE, topB, wedgeMat, pr5, upMat, mulVec, dotProduct, Fin.sum_univ_succ]
 
 theorem crdH_wedgeMat_upMat (c₀ c₁ c₂ c₃ c₄ c₅ c₆ c₇ c₈ c₉ : ZMod 2) {x : Fin 10 → ZMod 2}
     (h : crdE x = 0) :

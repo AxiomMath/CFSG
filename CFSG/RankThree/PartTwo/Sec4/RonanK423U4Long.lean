@@ -46,7 +46,7 @@ theorem u4lPsi_mul_eq_one (c : Fˣ) : ∀ i, u4lPsiD σ c i * u4lPsiE σ c i = 1
   have hc : (c : F) ≠ 0 := c.ne_zero
   have hs : σ (c : F) ≠ 0 := u4l_sigma_ne_zero σ hc
   intro i
-  fin_cases i <;> simp [u4lPsiD, u4lPsiE, hc, hs] <;> field_simp
+  fin_cases i <;> simp [u4lPsiD, u4lPsiE, hc, hs]
 
 omit [Finite F] [CharP F 2] in
 @[expose] noncomputable def u4lPsiFun (c : Fˣ) : GL (Fin 4) F :=
@@ -104,11 +104,11 @@ theorem u4lPsi_mem_SU (hσ : ∀ c, σ (σ c) = c) (c : Fˣ) : u4lPsi σ c ∈ S
   rw [mem_SU, u4lPsi_val]
   refine ⟨?_, ?_⟩
   · rw [det_diagonal, Fin.prod_univ_four]
-    simp [u4lPsiD, hc, hs] <;> field_simp
+    simp [u4lPsiD]; field_simp
   · rw [conjTr_diagonal_eq]
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [u4lPsiD, antidiag, mul_diagonal, diagonal_mul, hσ, hc, hs] <;> field_simp
+      simp [u4lPsiD, antidiag, mul_diagonal, diagonal_mul, hσ, hc, hs]
 
 omit [Finite F] [CharP F 2] in
 theorem u4lPsi_comm_iotaL (c : Fˣ) (M : SU σ 2) :

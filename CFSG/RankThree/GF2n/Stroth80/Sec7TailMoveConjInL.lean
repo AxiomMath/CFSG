@@ -15,9 +15,10 @@ variable {K E X : Type*} [Field K] [AddCommGroup E] [Module K E] [FiniteDimensio
   {B : LinearMap.BilinForm K E} {φ : X →* (E ≃ₗ[K] E)} {V L Nb Rb : Subgroup X}
   {Tt : X → Submodule K E} {q : ℕ}
 
+omit [Finite X] in
 theorem MoveFrame.exists_conj_in_L (F : MoveFrame B φ V L Nb Rb Tt q) (h : X)
     (hK : ∀ a ∈ V, h * a * h⁻¹ ∈ normalizer (V : Set X))
-    (hRb : ∀ a ∈ V, h * a * h⁻¹ ∈ Rb)
+    (_hRb : ∀ a ∈ V, h * a * h⁻¹ ∈ Rb)
     (hInf : ∀ a ∈ V, h * a * h⁻¹ ∈ Nb → a = 1)
     (hVnot : ∀ a ∈ V, a ≠ 1 → ∀ n ∈ L, (h * a * h⁻¹) * n * (h * a * h⁻¹)⁻¹ * n⁻¹ ∈ V →
       (h * a * h⁻¹) * n * (h * a * h⁻¹)⁻¹ * n⁻¹ = 1)

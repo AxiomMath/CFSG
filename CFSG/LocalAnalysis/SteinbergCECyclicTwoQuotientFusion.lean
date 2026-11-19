@@ -76,7 +76,7 @@ theorem cyclic_two_quotient_transfer_centralizer_preserving_fusion {G : Type*} [
       have := hNconj _ h1 _ hh
       rwa [show a⁻¹ * b * (b⁻¹ * x * b) * (a⁻¹ * b)⁻¹ = a⁻¹ * x * a by group] at this
   set P : Subgroup G := H ⊓ centralizer {x} with hPdef
-  have hPp : IsPGroup 2 P := S.isPGroup'.to_le inf_le_left
+  have hPp : IsPGroup 2 P := S.isPGroup.to_le inf_le_left
   have hxP : x ∈ P := ⟨hxS, Subgroup.mem_centralizer_singleton_iff.mpr rfl⟩
   let Y : SubMulAction P (G ⧸ H) :=
     { carrier := {ω | x • ω = ω ∧ (Quotient.out ω)⁻¹ * x * Quotient.out ω ∉ N}
@@ -205,7 +205,7 @@ theorem cyclic_two_quotient_transfer_centralizer_preserving_fusion {G : Type*} [
       Finset.prod_const_one, mul_one, hcardY]
     obtain ⟨m, hm⟩ : ∃ m, Nat.card Y = 2 * m + 1 := ⟨Nat.card Y / 2, by omega⟩
     rw [hm, pow_succ, pow_mul, hε2, one_pow, one_mul]
-  obtain ⟨M, hMn, hM2⟩ := exists_normal_index_two_of_ne_one (S.isPGroup'.to_quotient _)
+  obtain ⟨M, hMn, hM2⟩ := exists_normal_index_two_of_ne_one (S.isPGroup.to_quotient _)
     φ.transfer (x := x) (by rw [hTx]; exact hε1)
   exact hG M hMn hM2
 

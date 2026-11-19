@@ -154,10 +154,11 @@ section Main
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem lift_prime_fixed (hZ : Nat.card (center X) ∣ 3) {q : ℕ} (hq : q.Prime) (hq3 : 3 < q)
     (α : MulAut X) {zb : X ⧸ center X} (hzb : orderOf zb = q) (hfix : autQuot α zb = zb) :
     ∃ z : X, orderOf z = q ∧ α z = z := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective zb
   have hzq : (QuotientGroup.mk x : X ⧸ center X) ^ q = 1 := hzb ▸ pow_orderOf_eq_one _
   have hxq : x ^ q ∈ center X :=

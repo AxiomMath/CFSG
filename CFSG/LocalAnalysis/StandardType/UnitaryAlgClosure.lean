@@ -95,9 +95,9 @@ theorem transpose_antidiag : (antidiag n : Matrix (Fin n) (Fin n) F)ᵀ = antidi
   simp only [transpose_apply, antidiag, of_apply]
   by_cases h : j = Fin.rev i
   · have hi : i = Fin.rev j := by rw [h, Fin.rev_rev]
-    rw [if_pos hi, if_pos h]
+    rw [ite_eq_left hi, ite_eq_left h]
   · have hi : i ≠ Fin.rev j := fun hh => h (by rw [hh, Fin.rev_rev])
-    rw [if_neg hi, if_neg h]
+    rw [ite_eq_right hi, ite_eq_right h]
 
 theorem isUnit_antidiag : IsUnit (antidiag n : Matrix (Fin n) (Fin n) F) := by
   have hmul : (antidiag n : Matrix (Fin n) (Fin n) F) * antidiag n = 1 := by

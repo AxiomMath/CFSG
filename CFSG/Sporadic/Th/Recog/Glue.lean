@@ -51,11 +51,11 @@ variable {C : ThCore G}
     ↥(Subgroup.normalizer (Subgroup.zpowers (C.ψ tLetter : G) : Set G))}
 
 theorem ThCore.glueTuple_one : C.glueTuple ψ' 1 = (ψ' (lettersY 1) : G) :=
-  if_pos rfl
+  ite_eq_left rfl
 
 theorem ThCore.glueTuple_of_ne {i : Fin 8} (hi : i ≠ 1) :
     C.glueTuple ψ' i = (C.ψ (lettersM i) : G) :=
-  if_neg hi
+  ite_eq_right hi
 
 theorem ThCore.glueTuple_zero : C.glueTuple ψ' 0 = C.z := by
   rw [ThCore.glueTuple_of_ne (by decide), lettersM_zero, C.psi_z]
@@ -80,7 +80,7 @@ theorem ThCore.glueTuple_subst {k : Twist}
   apply wprod_congr_letters
   intro l hl
   by_cases h1 : l.1 = 1
-  · rw [h1, hsK_getD_one, wprod_cons, wprod_nil, mul_one, if_pos rfl, ThCore.glueTuple_one]
+  · rw [h1, hsK_getD_one, wprod_cons, wprod_nil, mul_one, ite_eq_left rfl, ThCore.glueTuple_one]
   · obtain ⟨j, hj⟩ := exists_dLet l.1 h1 (hw l hl)
     rw [← hj, hsK_getD_dLet, hlet j]
     exact wprod_congr_letters fun l' hl' => ThCore.glueTuple_of_ne (wY_letters k j l' hl').1
@@ -113,10 +113,9 @@ theorem ThCore.relators_of_good
     intro i
     fin_cases i <;>
       simp only [hsK, wY, List.getD_cons_succ, List.getD_cons_zero, wprod_cons, wprod_nil,
-        mul_one, if_true, Bool.false_eq_true, if_false, Fin.zero_eta, Fin.mk_one,
+        mul_one, ite_true, Bool.false_eq_true, ite_false, Fin.zero_eta, Fin.mk_one,
         Fin.reduceFinMk, Fin.isValue] <;>
       first
-        | rfl
         | exact hinv _ (by decide) (by decide)
   refine hsw_of_parts _ (fun w hw => ThCore.glueTuple_bfree hw) (fun w hw => ?_) ?_
   · calc wprod (C.glueTuple ψ') w
@@ -124,10 +123,10 @@ theorem ThCore.relators_of_good
           wprod_congr_letters fun l _ => (hid l.1).symm
       _ = 1 := ThCore.glueTuple_brel hlet hw
   · have h5 : wprod (C.glueTuple ψ') [(5, true)] = (C.ψ sLetter : G) := by
-      rw [wprod_cons, wprod_nil, mul_one, if_pos rfl, ThCore.glueTuple_of_ne (by decide),
+      rw [wprod_cons, wprod_nil, mul_one, ite_eq_left rfl, ThCore.glueTuple_of_ne (by decide),
         lettersM_five]
     have h1 : wprod (C.glueTuple ψ') [(1, true)] = (ψ' (lettersY 1) : G) := by
-      rw [wprod_cons, wprod_nil, mul_one, if_pos rfl, ThCore.glueTuple_one]
+      rw [wprod_cons, wprod_nil, mul_one, ite_eq_left rfl, ThCore.glueTuple_one]
     rw [sbWord, wprod_commWord, h5, h1, ← mul_inv_rev, mul_assoc, hsb.eq, inv_mul_cancel]
 
 end Tuple
@@ -163,7 +162,7 @@ theorem ThCore.false_of_bad {k : Twist}
     have h := hlet 0
     rw [(wY_eq k).1] at h
     simp only [wprod, List.map_cons, List.map_nil, List.prod_cons, List.prod_nil,
-      Bool.false_eq_true, if_false, mul_one, lettersM_zero, C.psi_z] at h
+      Bool.false_eq_true, ite_false, mul_one, lettersM_zero, C.psi_z] at h
     exact h
   apply hswJ_zero_not_comm_one
   have hab : lettersY 0 * lettersY 1 = lettersY 1 * lettersY 0 := by
@@ -242,13 +241,13 @@ theorem ThCore.exists_placement (C : ThCore G) (hMF : GlueMFacts) {k : Twist}
     have h := hlet 1
     rw [(wY_eq k).2.1] at h
     simp only [wprod, List.map_cons, List.map_nil, List.prod_cons, List.prod_nil,
-      Bool.false_eq_true, if_false, mul_one] at h
+      Bool.false_eq_true, ite_false, mul_one] at h
     exact h
   have hd' : (ψ' (lettersY 3) : G) = (C.ψ (lettersM 3) : G)⁻¹ := by
     have h := hlet 2
     rw [(wY_eq k).2.2.1] at h
     simp only [wprod, List.map_cons, List.map_nil, List.prod_cons, List.prod_nil,
-      Bool.false_eq_true, if_false, mul_one] at h
+      Bool.false_eq_true, ite_false, mul_one] at h
     exact h
   have hcM : lettersM 2 ∈ D8M := by
     rw [D8M]
@@ -331,7 +330,7 @@ theorem ThCore.exists_hswTuple (C : ThCore G) (hMF : GlueMFacts) :
       have e : lettersY 1 = lettersY 3 * lettersY 2 * lettersY 3 * lettersY 2 *
           wprod lettersY (xw (.id, 0) 1) * (lettersY 2)⁻¹ := by
         simp only [xw, wprod, List.map_cons, List.map_nil, List.prod_cons, List.prod_nil,
-          Bool.false_eq_true, if_false, if_true, mul_one]
+          Bool.false_eq_true, ite_false, ite_true, mul_one]
         group
       rw [e]
       exact X.mul_mem (X.mul_mem (X.mul_mem hdcd hc) (hxw .id 1)) (X.inv_mem hc)
@@ -344,7 +343,7 @@ theorem ThCore.isSporadic_th [IsSimpleGroup G] (C : ThCore G) (hMF : GlueMFacts)
   set img : ℕ → G := fun i => if h : i < 8 then x ⟨i, h⟩ else 1 with himg_def
   have himg : img 0 = C.z := by
     show (if h : (0 : ℕ) < 8 then x ⟨0, h⟩ else 1) = C.z
-    rw [dif_pos (by norm_num)]
+    rw [dite_eq_left (by norm_num)]
     exact hx0
   refine isSporadic_th_of_hswTuple img ((th_relatorLetters_iff x).mpr hx) ?_ ?_
   · rw [himg]

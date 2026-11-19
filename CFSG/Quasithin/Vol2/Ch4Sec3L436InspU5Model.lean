@@ -17,9 +17,9 @@ open CFSG.AGLEmbedding.LeviBlock CFSG.QuasithinUnique
 theorem card_center_quotient_le_of_pgroup_kernel {A B : Type*} [Group A] [Finite A]
     [Group B] [Finite B] (hA : CFSG.Open.IsQuasisimple A) (f : A →* B)
     (hf : IsPGroup 2 f.ker) : Nat.card (A ⧸ Subgroup.center A) ≤ Nat.card B := by
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Group.IsPerfect A := Group.isPerfect_def.mpr hA.1
-  letI : IsSimpleGroup (A ⧸ Subgroup.center A) := hA.2
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Group.IsPerfect A := Group.isPerfect_def.mpr hA.1
+  let : IsSimpleGroup (A ⧸ Subgroup.center A) := hA.2
   let q := QuotientGroup.mk' (Subgroup.center A)
   have hN : (f.ker.map q).Normal := f.normal_ker.map q (QuotientGroup.mk'_surjective _)
   have hN2 : IsPGroup 2 (f.ker.map q) := hf.map q
@@ -97,7 +97,7 @@ theorem card_levi_center_quotient_le {f : ℕ} {K : Type} [Field K]
     (hNZ : N ⊓ hypScalars h 2 1 = ⊥) :
     Nat.card (N ⧸ Subgroup.center N) ≤
       Nat.card (ModO2 (perfectCore (P.map (hypProj h 2 1)))) := by
-  letI : Finite K := h.finite
+  let : Finite K := h.finite
   let q := hypProj h 2 1
   let j : N →* perfectCore (P.map q) :=
     (q.comp N.subtype).codRestrict _ (fun x => by
@@ -119,7 +119,7 @@ theorem card_levi_center_quotient_le {f : ℕ} {K : Type} [Field K]
 theorem line_levi_order_le {f : ℕ} {K : Type} [Field K]
     (h : UnitaryFieldData 2 f K) (hf : 2 ≤ f) :
     CFSG.Open.ordA 1 (Nat.card K) ≤ Nat.card (ModO2 (perfectCore (u5LnP h))) := by
-  letI : Finite K := h.finite
+  let : Finite K := h.finite
   have hK4 : 4 ≤ Nat.card K := by
     rw [h.card_eq_sq]
     have hq := two_lt_two_pow hf
@@ -135,7 +135,7 @@ theorem line_levi_order_le {f : ℕ} {K : Type} [Field K]
 theorem point_levi_order_le {f : ℕ} {K : Type} [Field K]
     (h : UnitaryFieldData 2 f K) (hf : 2 ≤ f) :
     CFSG.Open.ordTwistedA 2 (2 ^ f) ≤ Nat.card (ModO2 (perfectCore (u5PtP h))) := by
-  letI : Finite K := h.finite
+  let : Finite K := h.finite
   have hmq : (2 * 1 + 1, 2 ^ f) ≠ (3, 2) := by
     intro he
     have he' := congrArg Prod.snd he

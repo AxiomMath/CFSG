@@ -36,7 +36,7 @@ theorem not_irr_w18 {V : Type} [CommGroup V] (L : Subgroup (MulAut V)) (e : V �
     (he : L.map (MulAut.congr e).toMonoidHom =
       (rho18GL.comp Matrix.SpecialLinearGroup.toGL).range)
     (hirr : IsIrredOn L ⊤) : False := by
-  haveI : Nontrivial W9 := Finite.one_lt_card_iff_nontrivial.1
+  have : Nontrivial W9 := Finite.one_lt_card_iff_nontrivial.1
     (by rw [card_of_coords (MaskCoords.std 9)]; norm_num)
   obtain ⟨y, hy⟩ := exists_ne (1 : W9)
   set U0 : Subgroup W18 := (⊤ : Subgroup W9).prod ⊥ with hU0

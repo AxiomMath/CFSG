@@ -15,6 +15,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem conj_mem_of_isTI {V₀ X : Subgroup G} (hTI : CFSG.CGT.Timmesfeld75.IsTI V₀)
     (hXV : X ≤ V₀) (hX1 : X ≠ ⊥) {m : G} (hm : ∀ y, y ∈ X ↔ m * y * m⁻¹ ∈ X) {v : G}
     (hv : v ∈ V₀) : m⁻¹ * v * m ∈ V₀ := by
@@ -75,6 +76,7 @@ theorem mQuot_eq_of_mem_gammaSet {V A M : Subgroup G} {i : ℕ} (hA : A ∈ E3.g
   rw [← hidx] at h2
   exact Nat.eq_of_mul_eq_mul_right (Nat.pos_of_ne_zero hne) (h1.trans h2.symm)
 
+omit [Finite G] in
 private theorem conjSubgroup_eq_self_of_mem_normalizer {A : Subgroup G} {g : G}
     (hg : g ∈ normalizer (A : Set G)) : conjSubgroup A g = A := by
   ext x

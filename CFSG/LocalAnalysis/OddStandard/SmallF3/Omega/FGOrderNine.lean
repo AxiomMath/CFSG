@@ -79,7 +79,7 @@ theorem fg_spUnit_pow_three_not_scalar :
 
 theorem fg_exists_orderNine_statedProj :
     ∃ y : StatedProj (StatedSp 2 K), orderOf y = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let u : StatedSp 2 K := ⟨FGSpUnit K, fg_spUnit_mem K⟩
   refine ⟨(QuotientGroup.mk u : StatedProj (StatedSp 2 K)), ?_⟩
   have h : orderOf (QuotientGroup.mk u : StatedProj (StatedSp 2 K)) = 3 ^ (1 + 1) :=
@@ -106,9 +106,9 @@ end Transport
 theorem fg_exists_orderNine_of_lieModel_psp {X : Type} [Group X] (h : LieModel X .PSp 2 3 1) :
     ∃ k : X, orderOf k = 9 := by
   obtain ⟨-, K, _, hfin, hK, ⟨e⟩⟩ := h.statedClassicalModel_of_ne_zero (by norm_num)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 3 := charP_of_card_eq_prime (by rw [Fintype.card_eq_nat_card, hK]; norm_num)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 3 := charP_of_card_eq_prime (by rw [Fintype.card_eq_nat_card, hK]; norm_num)
   obtain ⟨y, hy⟩ := fg_exists_orderNine_statedProj K
   exact ⟨e.symm y, by rw [MulEquiv.orderOf_eq]; exact hy⟩
 

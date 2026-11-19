@@ -27,12 +27,12 @@ theorem outerPLayerAt_trialityD4 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hp3 :
   have hpq : q.p ≠ p := by
     have h := characteristic_ne_of_not_isChevSimple hv ⟨e⟩ hnot
     rwa [TauCeti.LieTypeIndex.characteristic_trialityD4] at h
-  haveI : Finite (TauCeti.CFSGIndex.lie ⟨.trialityD4 q, hv⟩).Group :=
+  have : Finite (TauCeti.CFSGIndex.lie ⟨.trialityD4 q, hv⟩).Group :=
     Finite.of_equiv S e.toEquiv
   obtain ⟨K, _, _, σ, hK, hσ, -, ⟨eK⟩⟩ := exists_catEquiv_trialityD4 q hv
   obtain ⟨Θ, hΘ, hker⟩ := exists_hom_trialityD4 q.prime_p q.exponent_pos K hK σ hσ
   have eS : S ≃* graphFixedRootGroup TwistTag.D4 K σ.toRingHom := e.trans eK
-  haveI : Finite (graphFixedRootGroup TwistTag.D4 K σ.toRingHom) :=
+  have : Finite (graphFixedRootGroup TwistTag.D4 K σ.toRingHom) :=
     Finite.of_equiv S eS.toEquiv
   have hpdvdM : p ∣ Nat.card (graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := by
     rw [← Nat.card_congr eS.toEquiv]

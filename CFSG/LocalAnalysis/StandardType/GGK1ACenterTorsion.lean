@@ -36,12 +36,12 @@ noncomputable def commutantCenterTorsion {K : Type} [Field K] {V : Type} [AddCom
   carrier := {z | z ^ p = 1}
   mul_mem' := by
     intro a b ha hb
-    rw [Set.mem_setOf_eq] at ha hb ⊢
+    rw [Set.mem_ofPred_eq] at ha hb ⊢
     rw [mul_pow, ha, hb, one_mul]
   one_mem' := by simp
   inv_mem' := by
     intro a ha
-    rw [Set.mem_setOf_eq] at ha ⊢
+    rw [Set.mem_ofPred_eq] at ha ⊢
     rw [inv_pow, ha, inv_one]
 
 theorem mem_commutantCenterTorsion {K : Type} [Field K] {V : Type} [AddCommGroup V] [Module K V]

@@ -33,11 +33,11 @@ theorem fixG2_commutator_mulEquiv {A B : Type} [Group A] [Group B] (e : A ≃* B
 section G2
 
 
-theorem fixG2_fixed_equiv {K : Type} [Field K] [Finite K] {n : ℕ} (hn : 1 ≤ n)
+theorem fixG2_fixed_equiv {K : Type} [Field K] [Finite K] {n : ℕ} (_hn : 1 ≤ n)
     (hK : Nat.card K = 2 ^ n) (σ : K ≃+* K) :
     Nonempty (adjointGroup Tag.G2 (fixSubfield σ) ≃*
       ↥(ggAutFixedSubgroup (entrywiseAdjointAut Tag.G2 σ))) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcharP : CharP K 2 :=
     charP_of_card_eq_prime_pow (p := 2) (f := n)
       (by rw [← Nat.card_eq_fintype_card]; exact hK)
@@ -52,7 +52,7 @@ theorem fixG2_fixed_equiv {K : Type} [Field K] [Finite K] {n : ℕ} (hn : 1 ≤ 
     ((Subgroup.subgroupOfEquivOfLe hJC).symm.trans (MulEquiv.subgroupCongr hfix.symm))⟩
 
 theorem fixG2_chevFixGroupOn {K : Type} [Field K] [Finite K] {n : ℕ} (hn : 1 ≤ n)
-    (hK : Nat.card K = 2 ^ n) {p : ℕ} (hp : 0 < p) :
+    (hK : Nat.card K = 2 ^ n) {p : ℕ} (_hp : 0 < p) :
     ChevFixGroupOn K Tag.G2 (IsRoot Tag.G2) n p := by
   suffices h : ∀ H : Subgroup (MarkChev.GLS (IsRoot Tag.G2) K), H = adjointGroup Tag.G2 K →
       ∀ f ∈ RecipeFieldExcInn.markFieldImage (IsRoot Tag.G2) K H, orderOf f = p →
@@ -112,10 +112,10 @@ theorem fixGapG2_holds : FixGapG2 := by
     have hk2 : Nat.card k = 2 := by rw [hk, h1]; norm_num
     obtain ⟨eP⟩ := CFSG.Quasithin.g2_derived_mulEquiv_PSU3 k hk2
     obtain ⟨eU⟩ := CFSG.Quasithin.u33Pres_mulEquiv_PSU3
-    haveI := CFSG.Quasithin.isSimpleGroup_u33Pres
+    have := CFSG.Quasithin.isSimpleGroup_u33Pres
     let eQ : ↥⁅adjointGroup Tag.G2 k, adjointGroup Tag.G2 k⁆ ≃* CFSG.Quasithin.U33G :=
       eP.trans eU.symm
-    haveI : IsSimpleGroup ↥⁅adjointGroup Tag.G2 k, adjointGroup Tag.G2 k⁆ := eQ.isSimpleGroup
+    have : IsSimpleGroup ↥⁅adjointGroup Tag.G2 k, adjointGroup Tag.G2 k⁆ := eQ.isSimpleGroup
     have hZ : Subgroup.center ↥⁅adjointGroup Tag.G2 k, adjointGroup Tag.G2 k⁆ = ⊥ := by
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
           (Subgroup.center ↥⁅adjointGroup Tag.G2 k, adjointGroup Tag.G2 k⁆) with h | h
@@ -157,7 +157,7 @@ theorem fixGapG2_holds : FixGapG2 := by
       calc 3 ≤ 2 ^ 2 := by norm_num
         _ ≤ 2 ^ (n / p) := Nat.pow_le_pow_right (by norm_num) hge
     have hq := CFSG.LieType.Steinberg.Adjoint.isQuasisimple_g2_of_three_le_card k h3
-    haveI : Group.IsPerfect ↥(adjointGroup Tag.G2 k) := hq.1
+    have : Group.IsPerfect ↥(adjointGroup Tag.G2 k) := hq.1
     have hZ : Subgroup.center (adjointGroup Tag.G2 k) = ⊥ := center_adjointGroup_eq_bot
     have hPC : Group.IsPerfect ↥(ggFixSub f) :=
       Group.IsPerfect.ofSurjective (f := E.toMonoidHom) E.surjective

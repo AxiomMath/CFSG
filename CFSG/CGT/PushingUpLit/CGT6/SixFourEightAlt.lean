@@ -38,7 +38,7 @@ theorem eight_alt_normal {Y R : Subgroup G} {T : Sylow 2 G} (h : EightCtx Y T R)
     mem_centralizer_blockU_of_eq_one β Φ hequiv hg
   have hOR : oTwoIn Y ≤ R := h.le_R_of_le_centralizerModCore
     (ThreeFromEight.isPGroup_oTwoIn Y) (EightOneWindow.oTwoIn_le_centralizerModCore Y)
-  have hJ2 : IsPGroup 2 ↥(jIn (T : Subgroup G)) := T.isPGroup'.to_le (jIn_le _)
+  have hJ2 : IsPGroup 2 ↥(jIn (T : Subgroup G)) := T.isPGroup.to_le (jIn_le _)
   have hK : ∀ (g : G) (hg : g ∈ Y ⊔ jIn (T : Subgroup G)),
       Φ ⟨g, hY1N hg⟩ = 1 → g ∈ R := by
     intro g hg hΦg
@@ -278,7 +278,7 @@ theorem eight_alt_normal {Y R : Subgroup G} {T : Sylow 2 G} (h : EightCtx Y T R)
     rw [← hσπ, hπij]
   have hfin := twoFive_aut σ hσinj hσG hij0 htv Tb hD
   have hD2 : IsPGroup 2 ↥(jIn (T : Subgroup G) ⊔ R) :=
-    T.isPGroup'.to_le (sup_le (jIn_le _) h.R_le_T)
+    T.isPGroup.to_le (sup_le (jIn_le _) h.R_le_T)
   have hDY : jIn (T : Subgroup G) ⊔ R ≤ Subgroup.normalizer (Y : Set G) :=
     sup_le hJN h.R_le_normalizer_Y
   refine ⟨fun y hy g₀ => ?_⟩

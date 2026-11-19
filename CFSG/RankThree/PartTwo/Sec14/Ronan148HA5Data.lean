@@ -69,6 +69,7 @@ theorem false_of_nonabelian_three (h : A5Data T) (hZ : Subgroup.center T = ⊥)
   have hE := h.three hZ R hR
   exact hab (congrArg Subtype.val (hE.1.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩))
 
+omit [Finite T] in
 theorem commute_of_conj_eq {σ : MulAut T} {F : Subgroup T} (hfix : ∀ x ∈ F, σ x = x) {s : T}
     (hs : MulAut.conj s = σ) {x : T} (hx : x ∈ F) : s * x = x * s := by
   have h1 : s * x * s⁻¹ = x := by

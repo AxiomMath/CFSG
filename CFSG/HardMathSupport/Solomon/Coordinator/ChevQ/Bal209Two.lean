@@ -35,7 +35,7 @@ theorem pRank_le_card (p : ℕ) [Fact p.Prime] (H : Subgroup G) :
 
 theorem card_eq_pow_pRank {p : ℕ} (hp : p.Prime) {E : Subgroup G}
     (hE : CFSG.Open.IsElemAbelian p E) : Nat.card E = p ^ CFSG.Open.pRank p E := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 (CFSG.Open.IsElemAbelian.isPGroup hE)
   have hbound : ∀ k ∈ {k | ∃ F : Subgroup G, F ≤ E ∧ CFSG.Open.IsElemAbelian p F ∧
       Nat.card F = p ^ k}, k ≤ n := by
@@ -55,7 +55,7 @@ theorem le_glaTwoLocalRank_of_elemAb {p : ℕ} (hp : p.Prime) {U E : Subgroup G}
     (hUp : IsPGroup 2 U) (hEN : E ≤ Subgroup.normalizer (U : Set G))
     (hE : CFSG.Open.IsElemAbelian p E) {k : ℕ} (hk : Nat.card E = p ^ k) :
     k ≤ GLATwoLocalRank p G := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hbdd1 : BddAbove {j | ∃ F : Subgroup G, F ≤ Subgroup.normalizer (U : Set G) ∧
       CFSG.Open.IsElemAbelian p F ∧ Nat.card F = p ^ j} := by
     refine ⟨Nat.card G, ?_⟩
@@ -75,6 +75,7 @@ theorem le_glaTwoLocalRank_of_elemAb {p : ℕ} (hp : p.Prime) {U E : Subgroup G}
     exact le_csSup hbdd2 ⟨Subgroup.normalizer (U : Set G), ⟨U, hU, hUp, rfl⟩, rfl⟩
   exact h1.trans h2
 
+omit [Finite G] in
 theorem mem_normalizer_of_mem_centralizer {K U : Subgroup G} (hUK : U ≤ K) {g : G}
     (hg : g ∈ Subgroup.centralizer (K : Set G)) : g ∈ Subgroup.normalizer (U : Set G) := by
   have hcomm : ∀ x ∈ K, x * g = g * x := fun x hx => Subgroup.mem_centralizer_iff.1 hg x hx
@@ -107,6 +108,7 @@ def pairHom (C Q : Subgroup G) (hcomm : ∀ c ∈ C, ∀ q ∈ Q, c * q = q * c)
     rw [mul_assoc (x.1 : G), ← mul_assoc (y.1 : G), h]
     simp only [mul_assoc]
 
+omit [Finite G] in
 theorem exists_elemAb_normalizer {p : ℕ} [Fact p.Prime] {C Q U : Subgroup G}
     (hC : CFSG.Open.IsElemAbelian p C) (hQ : CFSG.Open.IsElemAbelian p Q)
     (hcomm : ∀ c ∈ C, ∀ q ∈ Q, c * q = q * c) (hdisj : C ⊓ Q = ⊥)
@@ -152,6 +154,7 @@ theorem exists_elemAb_normalizer {p : ℕ} [Fact p.Prime] {C Q U : Subgroup G}
     rw [hz, map_one]
   · rw [← Nat.card_congr (MonoidHom.ofInjective hinj).toEquiv, Nat.card_prod]
 
+omit [Finite G] in
 theorem not_isCyclic_of_card {p : ℕ} (hp : p.Prime) {A : Subgroup G}
     (hA : CFSG.Open.IsElemAbelian p A) (hcard : p ^ 2 ≤ Nat.card A) : ¬ IsCyclic ↥A := by
   intro hcyc

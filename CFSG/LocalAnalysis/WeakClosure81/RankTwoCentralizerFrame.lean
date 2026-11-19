@@ -144,7 +144,7 @@ theorem nParam_centralizer_le_one_of_rankTwoFrame
   have hCs : Group.IsSolvable ↥((Subgroup.centralizer (J : Set G)).subgroupOf C) := by
     have hCJsolv : Group.IsSolvable ↥(Subgroup.centralizer (J : Set G)) :=
       Vol2.Ch11.SecU1.L3I.isSolvable_centralizer_of_inf hAS hCLJsolv
-    haveI : Group.IsSolvable ↥(Subgroup.centralizer (J : Set G)) := hCJsolv
+    have : Group.IsSolvable ↥(Subgroup.centralizer (J : Set G)) := hCJsolv
     exact CFSG.GorensteinWalter.isSolvable_of_mulEquiv
       (Subgroup.subgroupOfEquivOfLe hCJleC).symm
   have hcenterJ : (Subgroup.center U).map π ≤ CLJ := by

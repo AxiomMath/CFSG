@@ -125,7 +125,7 @@ theorem coverLeafM12_holds :
   have hker : π.ker = Subgroup.zpowers (x : Q) := hkerZ.trans hZeq
   have hπ : CFSG.ComponentClassification.CentralCover.IsCentralDoubleExt π (x : Q) :=
     ⟨hπs, x.2, ht, hker⟩
-  haveI : Group.IsPerfect Q := hq.1
+  have : Group.IsPerfect Q := hq.1
   have hLq : CFSG.Assembly.IsQuasisimple Q := ⟨Group.isPerfect_def.1 hq.1, hq.2.1⟩
   obtain ⟨-, h4, h0⟩ :=
     CFSG.ComponentClassification.M12Cover.m12_double_cover_involution_lift_orders hLq ht hZeq π
@@ -133,7 +133,7 @@ theorem coverLeafM12_holds :
   obtain ⟨ι, -, -, -⟩ :=
     CFSG.ComponentClassification.M12Cover.InternalSylow.exists_local_coordinates hπ h4
       (fun v h1 h2 => (h0 v h1 h2).1)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcardS : Nat.card (M12Cover.InternalSylow.S.comap π) = 128 := by
     rw [Nat.card_congr ι.toEquiv, M12Cover.InternalSylow.card_R]
   have hindexS : M12Cover.InternalSylow.S.index = 1485 := by

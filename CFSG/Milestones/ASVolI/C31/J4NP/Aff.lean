@@ -593,7 +593,7 @@ theorem burnsideJ4NP_mem_Eg_iff {g : J} (hg : g ∈ Hj) :
       exact hwf.2 _ (Array.getElem_mem hs)
     have hodd : (a.rows[0]?.getD 0) % 2 = 1 := by
       have h00 := burnsideJ4NP_rho_col0 hg 0
-      rw [if_pos rfl, ← hca, burnsideJ4NP_codeMat, CFSG.Sporadic.SmallF2.rowsMatrix_apply,
+      rw [ite_eq_left rfl, ← hca, burnsideJ4NP_codeMat, CFSG.Sporadic.SmallF2.rowsMatrix_apply,
         CFSG.Sporadic.SmallF2.toVecD_apply, Fin.val_zero] at h00
       by_contra hc
       have h0 : (a.rows[0]?.getD 0).testBit 0 = false := by

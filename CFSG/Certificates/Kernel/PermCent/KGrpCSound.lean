@@ -259,7 +259,7 @@ theorem solv_C (LA LP : List (CV n)) (goods : List ℕ) (h : solvC LA LP goods =
   cases hc : (powOneC τ 2 && !decide (τ = 1))
   · rfl
   · rw [hc] at h1
-    rw [cond_true] at h1 ⊢
+    rw [_root_.Bool.cond_true] at h1 ⊢
     exact decide_eq_true (hg _ (of_decide_eq_true h1))
 
 end CFSG.Certificates.Kernel.PkCV.KGrp

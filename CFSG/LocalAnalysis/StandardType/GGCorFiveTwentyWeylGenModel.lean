@@ -12,7 +12,7 @@ section Model
 
 variable {p r : ℕ} {R : Type} [Group R] {I : Set (MulAut R)}
 
-theorem exists_weylGenModel (hp : p.Prime) (hp2 : p ≠ 2)
+theorem exists_weylGenModel (_hp : p.Prime) (_hp2 : p ≠ 2)
     (hI : I ⊆ Set.range (MulAut.conj : R →* MulAut R)) (hZ : Subgroup.center R = ⊥)
     (h : GGTorusWeylGenElt p r R) {L' : Type} [Group L'] [Finite L'] {ψ : L' →* R}
     (hψ : Function.Surjective ψ) (hker : ψ.ker ≤ Subgroup.center L')

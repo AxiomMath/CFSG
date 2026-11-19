@@ -31,7 +31,7 @@ theorem r5d_card_comap {G H : Type*} [Group G] [Group H] [Finite G] (f : G →* 
 theorem r5d_inf_bot {M : Type} [Group M] [Finite M] {p : ℕ} (hp : p.Prime) (R : Subgroup M)
     [R.Normal] (hR : ¬ p ∣ Nat.card R) (E : Subgroup M) (hE : IsPGroup p E) :
     E ⊓ R = ⊥ := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hE
   have hdvd : Nat.card (E ⊓ R : Subgroup M) ∣ p ^ k := by
     have h := Subgroup.card_dvd_of_le (inf_le_left : E ⊓ R ≤ E)
@@ -160,7 +160,7 @@ theorem r5d_card_K {M : Type} [Group M] [Finite M] (R : Subgroup M) [R.Normal] {
     (hZ : ¬ p ∣ Nat.card (Subgroup.center J)) (T : Subgroup (J ⧸ Subgroup.center J))
     (hT : T ≠ ⊥) (hT2 : IsPGroup 2 T) :
     ¬ p ∣ Nat.card (r5d_K R J T) ∧ 2 ∣ Nat.card (r5d_K R J T) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hT2
   have hle : T ≤ (QuotientGroup.mk' (Subgroup.center J)).range := by
     intro s _
@@ -194,7 +194,7 @@ theorem r5d_card_K {M : Type} [Group M] [Finite M] (R : Subgroup M) [R.Normal] {
 theorem r5d_sylow_props {X : Type*} [Group X] [Finite X] {K T₂ : Subgroup X}
     (hS : CFSG.ABGLocalTools.IsSylowOf 2 T₂ K) (h2 : 2 ∣ Nat.card K) :
     T₂ ≠ ⊥ ∧ IsPGroup 2 T₂ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q, rfl⟩ := hS
   constructor
   · intro hbot
@@ -206,7 +206,7 @@ theorem r5d_sylow_props {X : Type*} [Group X] [Finite X] {K T₂ : Subgroup X}
     apply Sylow.not_dvd_index Q
     rw [h3]
     exact h2
-  · exact Q.isPGroup'.map K.subtype
+  · exact Q.isPGroup.map K.subtype
 
 theorem h2b_of_lifting {M : Type} [Group M] [Finite M] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (R : Subgroup M) [R.Normal] (hR : ¬ p ∣ Nat.card R)
@@ -229,8 +229,8 @@ theorem h2b_of_lifting {M : Type} [Group M] [Finite M] {p : ℕ} (hp : p.Prime) 
   by_contra hcon
   have hcon' : ∀ φ ∈ F, T.map φ.toMonoidHom = T := fun φ hφ =>
     Classical.byContradiction fun h => hcon ⟨φ, hφ, h⟩
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hEbot : E ⊓ R = ⊥ := r5d_inf_bot hp R hR E hE
   have hFc : ∀ a ∈ F, ∀ b ∈ F, a * b = b * a := fun a ha b hb =>
     congrArg Subtype.val (hFel.1.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)

@@ -41,7 +41,7 @@ theorem k34odd_threeCover_of_three_dvd
     (hcat : CFSG.Open.IsCatalogGroup (L ⧸ center L)) (h3 : 3 ∣ Nat.card (center L))
     (hrk : CFSG.Open.pRank 3 (⊤ : Subgroup L) = 3) :
     ThreeCover (fun Y _ => IsSpor Y .ONan) L := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcore : CFSG.pCore 3 L ≠ ⊥ := by
     obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := ↥(Subgroup.center L)) 3 h3
     have hzo : orderOf (z : L) = 3 := by rw [Subgroup.orderOf_coe, hz]

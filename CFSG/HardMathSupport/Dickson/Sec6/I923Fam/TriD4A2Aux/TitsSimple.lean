@@ -109,7 +109,7 @@ theorem U_le_of_root_le (R : RGD2 n H r₁ r₂ U root) {S : Subgroup X}
 
 theorem perfect_le_adjust_gen (R : RGD2 n H r₁ r₂ U root) (hgen : (H ⊔ U) ⊔ R.N = ⊤)
     (S : Subgroup X) [S.Normal] (hperf : ⁅S, S⁆ = S) {a b : X} (ha : a ∈ H) (hb : b ∈ H)
-    (hr₁S : r₁ * a ∈ S) (hr₂S : r₂ * b ∈ S) (hU : U ≤ S) :
+    (hr₁S : r₁ * a ∈ S) (hr₂S : r₂ * b ∈ S) (_hU : U ≤ S) :
     S ≤ ((H ⊓ S) ⊔ U) ⊔
       Subgroup.closure (((H ⊓ S : Subgroup X) : Set X) ∪ {r₁ * a, r₂ * b}) := by
   set S₀ : Subgroup X := ((H ⊓ S) ⊔ U) ⊔
@@ -185,7 +185,7 @@ theorem perfect_le_adjust_gen (R : RGD2 n H r₁ r₂ U root) (hgen : (H ⊔ U) 
     rw [hcoe] at hg
     obtain ⟨s, hs, h, hh, rfl⟩ := Set.mem_mul.1 hg
     exact ⟨s, hs, h, hh, rfl⟩
-  haveI hS₀n : S₀.Normal := ⟨fun x hx g => by
+  have hS₀n : S₀.Normal := ⟨fun x hx g => by
     obtain ⟨s, hs, h, hh, rfl⟩ := hdec g
     have e : s * h * x * (s * h)⁻¹ = s * (h * x * h⁻¹) * s⁻¹ := by group
     rw [e]
@@ -220,15 +220,15 @@ theorem rgd2_simple_normal (R : RGD2 n H r₁ r₂ U root) (hgen : (H ⊔ U) ⊔
   have hH' : H ⊓ S ≤ S := inf_le_right
   have R'' := R'.restrict S hH' hr₁S hr₂S hU hroot
   have hgen'' := R'.restrict_gen S hH' hr₁S hr₂S hU hroot (fun x hx => hgenS hx)
-  haveI := R''.cartan_normal
-  haveI : Group.IsPerfect S := Subgroup.isPerfect_iff.2 hperf
+  have := R''.cartan_normal
+  have : Group.IsPerfect S := Subgroup.isPerfect_iff.2 hperf
   have hC'' : ∀ h ∈ (H ⊓ S).subgroupOf S, (∀ u ∈ U.subgroupOf S, h * u = u * h) → h = 1 := by
     intro h hh hcomm
     apply Subtype.ext
     exact hC h.1 hh.1 (fun u hu => by
       have := hcomm ⟨u, hU hu⟩ hu
       exact congrArg Subtype.val this)
-  haveI hAn' : (A.subgroupOf S).Normal := ⟨fun x hx g => by
+  have hAn' : (A.subgroupOf S).Normal := ⟨fun x hx g => by
     have h1 : (x : X) ∈ A := hx
     exact hAn g.1 g.2 x h1⟩
   rcases rgd2_eq_bot_or_top_of_perfect R'' hgen'' hC'' (A.subgroupOf S) with h | h

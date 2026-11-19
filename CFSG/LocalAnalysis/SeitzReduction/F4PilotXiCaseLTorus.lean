@@ -478,7 +478,7 @@ theorem exists_conj_leviTorus_of_mem_centralizer_sylow [Finite K] [CharP K 2]
       borelGroup] using hmem
   have hUp : IsPGroup 2 (posUnipotent .F4 K) := by
     rw [← map_subtype_posUnipotentSylow]
-    exact (posUnipotentSylow (K := K)).isPGroup'.map _
+    exact (posUnipotentSylow (K := K)).isPGroup.map _
   have hcop : Nat.Coprime 2 (Nat.card S₀) := by
     rw [hS₀, card_map_of_injective (subtype_injective _),
       card_map_of_injective (MulAut.conj g⁻¹).injective]

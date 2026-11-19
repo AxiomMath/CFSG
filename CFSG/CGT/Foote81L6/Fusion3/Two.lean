@@ -14,6 +14,7 @@ open scoped Pointwise
 variable {G : Type*} [Group G] [Finite G] {T : Sylow 2 G} {n : ℕ}
   (D : FooteCore G (T : Subgroup G) 2 n)
 
+omit [Finite G] in
 theorem comm_of_mem_A_of_mem_T₀ {α v : G} (hα : α ∈ D.A) (hv : v ∈ D.T₀) : v * α = α * v := by
   obtain ⟨x, hx, y, hy, rfl⟩ := D.mem_T₀_iff.1 hv
   have h1 : x * α = α * x := D.A_comm_of_two hx hα
@@ -24,6 +25,7 @@ theorem comm_of_mem_A_of_mem_T₀ {α v : G} (hα : α ∈ D.A) (hv : v ∈ D.T�
     _ = (α * x) * y := by rw [h1]
     _ = α * (x * y) := mul_assoc _ _ _
 
+omit [Finite G] in
 theorem conj_b_of_mem_normalizer_T₀ {k : G} (hk : k ∈ normalizer (D.T₀ : Set G)) :
     k * D.b * k⁻¹ = D.b := by
   obtain ⟨y, hy, hyy⟩ := D.exists_mul_self_eq_b
@@ -49,6 +51,7 @@ theorem conj_b_of_mem_normalizer_T₀ {k : G} (hk : k ∈ normalizer (D.T₀ : S
   · exact absurd (conj_eq_one_iff.1 h) D.b_ne_one
   · exact h
 
+omit [Finite G] in
 theorem conj_eq_of_mem_ab (hcen : D.a ∈ center G) {k : G} (hk : k ∈ normalizer (D.T₀ : Set G))
     {c : G} (hc : c = 1 ∨ c = D.a ∨ c = D.b ∨ c = D.a * D.b) : k * c * k⁻¹ = c := by
   have ha : k * D.a * k⁻¹ = D.a := by rw [mem_center_iff.1 hcen k, mul_inv_cancel_right]
@@ -60,6 +63,7 @@ theorem conj_eq_of_mem_ab (hcen : D.a ∈ center G) {k : G} (hk : k ∈ normaliz
   · calc k * (D.a * D.b) * k⁻¹ = (k * D.a * k⁻¹) * (k * D.b * k⁻¹) := by group
       _ = D.a * D.b := by rw [ha, hb]
 
+omit [Finite G] in
 theorem mem_T_of_mem_ab {c : G} (hc : c = 1 ∨ c = D.a ∨ c = D.b ∨ c = D.a * D.b) :
     c ∈ (T : Subgroup G) := by
   rcases hc with rfl | rfl | rfl | rfl
@@ -69,10 +73,12 @@ theorem mem_T_of_mem_ab {c : G} (hc : c = 1 ∨ c = D.a ∨ c = D.b ∨ c = D.a 
   · exact mul_mem D.a_mem_T D.b_mem_T
 
 include D in
+omit [Finite G] in
 private theorem eq_one_of_mem_A_of_mem_B {x : G} (hxA : x ∈ D.A) (hxB : x ∈ D.B) : x = 1 := by
   have h : x ∈ D.A ⊓ D.B := mem_inf.2 ⟨hxA, hxB⟩
   rwa [D.A_inf_B, mem_bot] at h
 
+omit [Finite G] in
 theorem eq_or_eq_of_mem_A {a₁ α : G} (ha₁ : a₁ ∈ D.A) (ha₁1 : a₁ ≠ 1) (ha₁a : a₁ ≠ D.a)
     (hα : α ∈ D.A) (hα1 : α ≠ 1) (hαa : α ≠ D.a) : α = a₁ ∨ α = a₁ * D.a := by
   have ht₁ := Normalizer.conj_t_of_mem_A D ha₁ ha₁1 ha₁a
@@ -91,6 +97,7 @@ theorem eq_or_eq_of_mem_A {a₁ α : G} (ha₁ : a₁ ∈ D.A) (ha₁1 : a₁ �
     calc α = a₁ * (a₁⁻¹ * α) := by group
       _ = a₁ * D.a := by rw [h]
 
+omit [Finite G] in
 theorem exists_conj_a₁_eq (hcen : D.a ∈ center G) {a₁ : G} (ha₁ : a₁ ∈ D.A) (ha₁1 : a₁ ≠ 1)
     (ha₁a : a₁ ≠ D.a) {k : G} (hk : k ∈ normalizer (D.T₀ : Set G)) :
     ∃ c : G, (c = 1 ∨ c = D.a ∨ c = D.b ∨ c = D.a * D.b) ∧ k * a₁ * k⁻¹ = a₁ * c := by
@@ -147,6 +154,7 @@ theorem exists_conj_a₁_eq (hcen : D.a ∈ center G) {a₁ : G} (ha₁ : a₁ �
   · exact ⟨D.a, Or.inr (Or.inl rfl), by rw [hαβ, mul_one]⟩
   · exact ⟨D.a * D.b, Or.inr (Or.inr (Or.inr rfl)), by rw [hαβ, mul_assoc]⟩
 
+omit [Finite G] in
 theorem conj_a₁_of_mem_T {a₁ : G} (ha₁ : a₁ ∈ D.A) (ha₁1 : a₁ ≠ 1) (ha₁a : a₁ ≠ D.a) {u : G}
     (hu : u ∈ (T : Subgroup G)) : u * a₁ * u⁻¹ = a₁ ∨ u * a₁ * u⁻¹ = D.a * a₁ := by
   rcases D.mem_T_iff.1 hu with h | h
@@ -163,7 +171,7 @@ theorem conj_a₁_of_mem_T {a₁ : G} (ha₁ : a₁ ∈ D.A) (ha₁1 : a₁ ≠ 
 theorem exists_mem_normalizer_T₀ (hcen : D.a ∈ center G) {a₁ : G} (ha₁ : a₁ ∈ D.A)
     (ha₁1 : a₁ ≠ 1) (ha₁a : a₁ ≠ D.a) {g : G} (hg : g * a₁ * g⁻¹ = a₁ * D.b) :
     ∃ k ∈ normalizer (D.T₀ : Set G), k * a₁ * k⁻¹ = a₁ * D.b := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hT₀2 : IsPGroup 2 D.T₀ := IsPGroup.of_card D.card_T₀
   have hT₀C : D.T₀ ≤ centralizer ({a₁ * D.b} : Set G) := fun v hv => by
     rw [mem_centralizer_singleton_iff]
@@ -184,7 +192,7 @@ theorem exists_mem_normalizer_T₀ (hcen : D.a ∈ center G) {a₁ : G} (ha₁ :
 
 theorem not_isConj_a₁_mul_b (hcen : D.a ∈ center G) {a₁ : G} (ha₁ : a₁ ∈ D.A) (ha₁1 : a₁ ≠ 1)
     (ha₁a : a₁ ≠ D.a) : ¬ IsConj a₁ (a₁ * D.b) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro hconj
   obtain ⟨g, hg⟩ := isConj_iff.1 hconj
   obtain ⟨k, hkN, hk⟩ := exists_mem_normalizer_T₀ D hcen ha₁ ha₁1 ha₁a hg

@@ -33,6 +33,7 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 variable {G : Subgroup (LGL 2 V)} {Γ : Set (Subgroup (LGL 2 V))}
   {VA : Subgroup (LGL 2 V) → Submodule (ZMod 2) V} {i : ℕ}
 
+omit [Finite V] in
 theorem w16l_inr_mem_kSub_of_mem_kHatOf (h : Assumption131 G Γ VA i)
     (hrank : ∀ A ∈ Γ, mRank A ≤ i) (htrans : ∀ A ∈ Γ, ∀ B ∈ Γ, ∃ g ∈ G, B = cj g A)
     {A₀ : Subgroup (LGL 2 V)} (hA₀ : A₀ ∈ Γ) {n : ↥G} (hn : (n : LGL 2 V) ∈ kHatOf Γ) :
@@ -77,7 +78,7 @@ theorem w16l_inr_mem_pCoreOf_kSub (h : Assumption131 G Γ VA i)
     (hq : q ∈ pCoreOf 2 (kHatOf Γ)) (hqG : q ∈ G) :
     (SemidirectProduct.inr (⟨q, hqG⟩ : ↥G) : VG G) ∈
       pCoreOf 2 (kSub (UAOf G VA A₀) (⊤ : Subgroup (VG G)) (vHat G)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hqk : q ∈ kHatOf Γ := CFSG.LieType.BorelTits.pCoreOf_le 2 (kHatOf Γ) hq
   have hxK : (SemidirectProduct.inr (⟨q, hqG⟩ : ↥G) : VG G) ∈
       kSub (UAOf G VA A₀) (⊤ : Subgroup (VG G)) (vHat G) :=
@@ -98,7 +99,7 @@ theorem w16l_UAOf_conj_of_congr (h : Assumption131 G Γ VA i)
     ∃ x ∈ pCoreOf 2 (kSub (UAOf G VA A₀) (⊤ : Subgroup (VG G)) (vHat G)),
       UAOf G VA B' = CFSG.Quasithin.conjSubgroup (UAOf G VA B) x := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsubi : iSub (UAOf G VA B) (⊤ : Subgroup (VG G)) (vHat G) =
       iSub (UAOf G VA A₀) (⊤ : Subgroup (VG G)) (vHat G) :=
     ((thirteen_two_three h hrank htrans hB).2).trans

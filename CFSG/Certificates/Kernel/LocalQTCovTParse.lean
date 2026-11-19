@@ -127,7 +127,6 @@ theorem wordTK_sound : ∀ {l : List Char} {w : List Nat}, wordTK l = some w →
       rw [String.toList_ofList] at ih1 ⊢
       refine ⟨?_, fun x hx => ?_⟩
       · rw [List.filterMap_cons, ih1]
-        congr 1
         rcases (by omega : c.toNat = 48 ∨ c.toNat = 49) with e | e
         · rw [show c = '0' from Char.toNat_inj.1 e]
           rfl
@@ -276,7 +275,7 @@ private theorem rowGo_prefix {α : Type} :
           (List.reverse (x :: cur) :: rowGo b 0 []) (Nat.beq 63 63) = _
         rfl
       rw [List.singleton_append, e]
-      simp [List.reverse_cons, List.append_assoc]
+      simp [List.reverse_cons]
     · have hklt' : k < 63 := by omega
       have hb : Nat.beq k 63 = false := by
         rw [Bool.eq_false_iff]
@@ -328,7 +327,7 @@ theorem getRG_rowsG_lt {α : Type} (l : List α) (i : Nat) (d : α) (hi : i < l.
     · rw [getRG, hrow, show Nat.div i 64 = 0 from Nat.div_eq_of_lt hi64,
         show Nat.mod i 64 = i from Nat.mod_eq_of_lt hi64]
       simp only [getK_getD, List.getD_eq_getElem?_getD, List.getElem?_cons_zero,
-        Option.getD_some, List.getElem?_take, if_pos hi64]
+        Option.getD_some, List.getElem?_take, ite_eq_left hi64]
     · have hi64' : 64 ≤ i := by omega
       let j := i - 64
       have hji : i = j + 64 := by omega
@@ -390,7 +389,7 @@ theorem getRG_rowsG {α : Type} (l : List α) (i : Nat) (d : α) :
     · rw [getRG, hrow, show Nat.div i 64 = 0 from Nat.div_eq_of_lt hi64,
         show Nat.mod i 64 = i from Nat.mod_eq_of_lt hi64]
       simp only [getK_getD, List.getD_eq_getElem?_getD, List.getElem?_cons_zero,
-        Option.getD_some, List.getElem?_take, if_pos hi64]
+        Option.getD_some, List.getElem?_take, ite_eq_left hi64]
     · have hi64' : 64 ≤ i := by omega
       let j := i - 64
       have hji : i = j + 64 := by omega

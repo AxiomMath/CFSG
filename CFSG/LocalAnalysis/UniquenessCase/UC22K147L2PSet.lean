@@ -125,7 +125,7 @@ theorem inf_eq_bot [Finite G] [IsSimpleGroup ↥L] : L ⊓ L₂ = ⊥ := by
     refine ⟨(l * x * l⁻¹).2, ?_⟩
     simp only [coe_mul, coe_inv]
     exact (Subgroup.mem_normalizer_iff.mp (hP.le_normalizer l.2) x).mp hx.2
-  haveI := hn
+  have := hn
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((L ⊓ L₂).subgroupOf L) with h | h
   · refine eq_bot_iff.mpr fun x hx => ?_
     have hx' : (⟨x, hx.1⟩ : ↥L) ∈ (L ⊓ L₂).subgroupOf L := hx
@@ -273,18 +273,18 @@ theorem two_mul_le_finrank_of_moves {K : Subgroup G} {F : Type} [Field F] [Finit
     {Y : Submodule (ZMod 2) V} (hY : CFSG.HardMathSupport.Meierfrankenfeld.GeneralFF.IsInvariant ρ K Y) (hne : ∃ k ∈ K, ∃ y ∈ Y, ρ k y ≠ y) :
     2 * n ≤ Module.finrank (ZMod 2) Y := by
   classical
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   have h4 : 4 ≤ Nat.card F := by
     rw [hF]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn
-  haveI : IsSimpleGroup SL(2, F) :=
+  have : IsSimpleGroup SL(2, F) :=
     CFSG.LocalAnalysis.UniquenessCase.UC22.P22y.isSimpleGroup_sl2 h4
-  haveI : IsSimpleGroup ↥K := e.isSimpleGroup
+  have : IsSimpleGroup ↥K := e.isSimpleGroup
   have hper : Group.IsPerfect ↥K := by
-    haveI := CFSG.ClassicalModels.specialLinear_isPerfect_two_of_four_le_card F h4
+    have := CFSG.ClassicalModels.specialLinear_isPerfect_two_of_four_le_card F h4
     exact Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
-  letI : Fintype (GaloisField 2 n) := Fintype.ofFinite _
+  let : Fintype (GaloisField 2 n) := Fintype.ofFinite _
   have hcard : Fintype.card F = Fintype.card (GaloisField 2 n) := by
     rw [Fintype.card_eq_nat_card, Fintype.card_eq_nat_card, hF, GaloisField.card 2 n (by omega)]
   let eG : ↥K ≃* SL(2, GaloisField 2 n) :=
@@ -339,6 +339,7 @@ theorem finrank_le_disp {t : G} {Y : Submodule (ZMod 2) V} (hY : ∀ y ∈ Y, ρ
   rw [CFSG.LocalAnalysis.UniquenessCase.UC22.K147L2Norm.ker_sub_one_eq_repFixedSpace] at h3
   omega
 
+omit [Finite V] in
 theorem finrank_repFixedSpace_conj (g t : G) :
     Module.finrank (ZMod 2) (repFixedSpace ρ {g * t * g⁻¹}) =
       Module.finrank (ZMod 2) (repFixedSpace ρ {t}) := by
@@ -439,7 +440,7 @@ theorem exists_isMinInv_moved [Finite V] (hirr : ρ.IsIrreducible) {X : Subgroup
   by_contra hc
   push Not at hc
   obtain ⟨hVnt, hirr'⟩ := (CFSG.QuasithinUnique.Setup.X7.isIrreducible_iff ρ).mp hirr
-  haveI := hVnt
+  have := hVnt
   let 𝒲 : Set (Submodule (ZMod 2) V) := {M | IsMinInv ρ X M}
   have hS : ∀ g : G, ∀ v ∈ sSup 𝒲, ρ g v ∈ sSup 𝒲 := by
     intro g v hv

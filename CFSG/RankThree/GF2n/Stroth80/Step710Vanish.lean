@@ -45,7 +45,7 @@ theorem step710Wv_of (h34 : Stroth34Statement) (hA : Sec7AExistsStatement)
   have ht : t ∈ LB M Q B := hs.toSec5.mem
   have htM : t ∈ M := hc.LB_le_M ht
   have hxM : g * t * g⁻¹ ∈ M := M.mul_mem (M.mul_mem hg htM) (M.inv_mem hg)
-  have hx : ConjMod M Q t (g * t * g⁻¹) := ⟨hxM, g, hg, by simpa using Q.one_mem⟩
+  have hx : ConjMod M Q t (g * t * g⁻¹) := ⟨hxM, g, hg, by simp⟩
   obtain ⟨hxZ, hx2⟩ := conj_centralizes_sq hc ht hg
   have hQx := comm_conjMod_mem_conj h310chi hc hs hx
   rcases hty with ⟨hMi, -⟩ | ⟨hp, -⟩ | ⟨hp, hn⟩
@@ -62,7 +62,7 @@ theorem step710Core_of_vanish (h34 : Stroth34Statement) (h310chi : Stroth310ChiS
     (hZ0 : IsCentrePre Z0 (Rt M (LB M Q B) t) Q)
     (hH1 : ∀ g ∈ M, conjSubgroup g Z0 ≤ LB M Q B → conjSubgroup g Z0 = Z0) :
     ⁅Egen M Q Z0, Egen M Q Z0⁆ ≤ Z0 := by
-  haveI : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
+  have : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
   have ht : t ∈ LB M Q B := hs.toSec5.mem
   have htZ0 : t ∈ Z0 := IsCentrePre.mem_of_mem_LB (hc := hc) ht hZ0
   have hZ0M : Z0 ≤ M := hc.centre_le_M t hZ0
@@ -133,7 +133,7 @@ theorem step710E_of_vanish (h34 : Stroth34Statement) (h310chi : Stroth310ChiStat
     (h52a : Stroth52aStatement) (h52b : Stroth52bStatement) (hVan : Step710VanishStatement) :
     Step710EStatement := by
   intro G _ _ M Q Z B hc n t hs hty Z0 hZ0 hH1
-  haveI : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
+  have : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
   have ht : t ∈ LB M Q B := hs.toSec5.mem
   have hZL : Z0 ≤ LB M Q B := fun z hz => (hZc G M Q Z B hc n t hs Z0 hZ0 z hz).1
   have hQZ0 : Q ≤ Z0 := hc.Q_le_centre ht hZ0

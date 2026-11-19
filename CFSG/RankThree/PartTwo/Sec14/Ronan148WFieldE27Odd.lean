@@ -30,8 +30,7 @@ theorem cubeProj_smul_mul {Y : Matrix (Fin 3) (Fin 3) K} {c : K} (hY : Y * Y * Y
     (hc : c ^ 3 = 1) : (c • Y) * cubeProj Y c = cubeProj Y c := by
   have hY' : Y * (Y * Y) = 1 := by rw [← Matrix.mul_assoc]; exact hY
   unfold cubeProj
-  simp only [mul_add, smul_mul_assoc, mul_smul_comm, Matrix.mul_one, smul_smul, Matrix.mul_assoc,
-    hY']
+  simp only [mul_add, smul_mul_assoc, mul_smul_comm, Matrix.mul_one, smul_smul, hY']
   linear_combination (norm := module) hc • (1 : Matrix (Fin 3) (Fin 3) K)
 
 theorem cubeProj_mul_smul {Y : Matrix (Fin 3) (Fin 3) K} {c : K} (hY : Y * Y * Y = 1)

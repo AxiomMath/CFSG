@@ -235,7 +235,6 @@ theorem good_slices {r : Nat} (hr : r < 5) {V : Nat → Nat}
   rw [good_eq hr, sum_range_tail (T := 30720 * 8) ht (by norm_num), sum_slices]
   refine Finset.sum_congr rfl fun s hs' => ?_
   have h' := Nat.eq_of_beq_eq_true (hs s (Finset.mem_range.1 hs'))
-  unfold fxS at h'
   rw [sumR2_eq, Nat.mul_eq] at h'
   exact h'
 

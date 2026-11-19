@@ -37,6 +37,7 @@ private lemma inf_X_A_eq_bot {X A : Subgroup G} (hXA : XReg49 X A) : X ⊓ A = �
   have h3 : Nat.card ↥(A ⊓ Subgroup.centralizer (X : Set G)) = 3 := hXA.2.2.2.2
   omega
 
+omit [Finite G] in
 private lemma le_normalizer_Z49 {X A : Subgroup G} (hXA : XReg49 X A) :
     X ≤ Subgroup.normalizer (Z49 X A : Set G) := by
   have hXN : X ≤ Subgroup.normalizer (A : Set G) := hXA.2.2.2.1
@@ -53,6 +54,7 @@ private lemma inf_X_Z49_eq_bot {X A : Subgroup G} (hXA : XReg49 X A) :
   change X ⊓ (A ⊓ Subgroup.centralizer (X : Set G)) = ⊥
   rw [← inf_assoc, inf_X_A_eq_bot hXA, bot_inf_eq]
 
+omit [Finite G] in
 private lemma card_sup_eq_mul_of_inf_eq_bot {H K : Subgroup G}
     (hK : H ≤ Subgroup.normalizer (K : Set G)) (hinf : H ⊓ K = ⊥) :
     Nat.card ↥(H ⊔ K) = Nat.card H * Nat.card K := by
@@ -92,6 +94,7 @@ private lemma card_sup_eq_mul_of_inf_eq_bot {H K : Subgroup G}
   rw [Nat.card_prod] at hcard
   exact hcard.symm
 
+omit [Finite G] in
 private lemma orderOf_eq_three_of_mem {H : Subgroup G} {x : G} (hcard : Nat.card H = 3)
     (hxH : x ∈ H) (hx1 : x ≠ 1) : orderOf x = 3 := by
   have hdvd : orderOf x ∣ 3 := by
@@ -107,6 +110,7 @@ private lemma eq_zpowers_of_mem_of_card {H : Subgroup G} {x : G} (hcard : Nat.ca
     (Subgroup.zpowers_le.mpr hxH) ?_).symm
   rw [Nat.card_zpowers, hx3, hcard]
 
+omit [Finite G] in
 private lemma isInvariant_Z49_subgroupOf {X A : Subgroup G} (hXA : XReg49 X A)
     [Fact (X ≤ Subgroup.normalizer (A : Set G))] :
     CFSG.IsInvariant ↥X ↥A ((Z49 X A).subgroupOf A) := by
@@ -116,6 +120,7 @@ private lemma isInvariant_Z49_subgroupOf {X A : Subgroup G} (hXA : XReg49 X A)
   rw [Subgroup.conjMulDistribMulActionOfLeNormalizer_smul_coe]
   exact (Subgroup.mem_normalizer_iff.mp (le_normalizer_Z49 hXA y.2) (z : G)).mp hz
 
+omit [Finite G] in
 private lemma dvd_card_quotient_Z49_subgroupOf {X A : Subgroup G} (hXA : XReg49 X A) :
     3 ∣ Nat.card (↥A ⧸ (Z49 X A).subgroupOf A) := by
   set Z : Subgroup G := Z49 X A with hZdef
@@ -134,18 +139,18 @@ private lemma exists_fixed_coset {X A : Subgroup G} (hXA : XReg49 X A) (x : G) (
       x * (a : G) * x⁻¹ * (a : G)⁻¹ ∈ Z49 X A := by
   classical
   set Z : Subgroup G := Z49 X A with hZdef
-  haveI : Fact (X ≤ Subgroup.normalizer (A : Set G)) := ⟨hXA.2.2.2.1⟩
+  have : Fact (X ≤ Subgroup.normalizer (A : Set G)) := ⟨hXA.2.2.2.1⟩
   let Z' : Subgroup ↥A := Z.subgroupOf A
-  haveI hZ'n : Z'.Normal := by
-    haveI : IsMulCommutative ↥A := hXA.2.1.1
+  have hZ'n : Z'.Normal := by
+    have : IsMulCommutative ↥A := hXA.2.1.1
     exact Subgroup.normal_of_isMulCommutative Z'
   have hZ'inv : CFSG.IsInvariant ↥X ↥A Z' := isInvariant_Z49_subgroupOf hXA
-  letI : MulDistribMulAction ↥X (↥A ⧸ Z') :=
+  let : MulDistribMulAction ↥X (↥A ⧸ Z') :=
     quotientMulDistribMulAction (A := ↥X) (G := ↥A) Z' hZ'inv
-  letI : MulAction.QuotientAction ↥X Z' :=
+  let : MulAction.QuotientAction ↥X Z' :=
     CFSG.quotientAction_of_isInvariant (A := ↥X) Z' hZ'inv
   have hXp : IsPGroup 3 ↥X := IsPGroup.of_card (n := 1) (by rw [pow_one]; exact hXA.1)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3dvd : 3 ∣ Nat.card (↥A ⧸ Z') := dvd_card_quotient_Z49_subgroupOf hXA
   obtain ⟨q, hqfix, hqne⟩ := IsPGroup.exists_fixed_point_of_prime_dvd_card_of_fixed_point
     (p := 3) (G := ↥X) hXp (α := ↥A ⧸ Z') h3dvd (a := (1 : ↥A ⧸ Z'))
@@ -210,6 +215,7 @@ private lemma exists_conj_eq_mul {X A : Subgroup G} (hXA : XReg49 X A) {x : G}
       _ = x * w := by group
   exact ⟨(a : G), a.2, w, hwZ, hw1, hconj⟩
 
+omit [Finite G] in
 private lemma card_inf_centralizer_diag {A X Q : Subgroup G} (hXA : XReg49 X A)
     (hAQ : A ≤ Subgroup.normalizer (Q : Set G)) {x w h : G} (hhA : h ∈ A) (hwA : w ∈ A)
     (hconj : h⁻¹ * x * h = x * w) (hw3 : orderOf w = 3) :
@@ -277,11 +283,12 @@ private lemma sup_Z49_card_nine {X A : Subgroup G} (hXA : XReg49 X A) :
   rw [card_sup_eq_mul_of_inf_eq_bot (le_normalizer_Z49 hXA) (inf_X_Z49_eq_bot hXA),
     hXA.1, hXA.2.2.2.2]
 
+omit [Finite G] in
 private lemma sup_Z49_le_normalizer {X A Q : Subgroup G}
     (hXQ : X ≤ Subgroup.normalizer (Q : Set G))
     (hAQ : A ≤ Subgroup.normalizer (Q : Set G)) :
     X ⊔ Z49 X A ≤ Subgroup.normalizer (Q : Set G) :=
-  sup_le hXQ fun z hz => hAQ (Subgroup.mem_inf.mp hz).1
+  sup_le hXQ fun _z hz => hAQ (Subgroup.mem_inf.mp hz).1
 
 private lemma coprime_card_three_of_isPGroup_two {Q : Subgroup G} (hQ : IsPGroup 2 Q) :
     Nat.Coprime (Nat.card Q) 3 := by

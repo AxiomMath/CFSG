@@ -25,8 +25,8 @@ theorem exists_conj_of_isSylowIn [Finite Γ] {p : ℕ} [Fact p.Prime] {V P P' : 
   have hidx' : ¬ p ∣ (P'.subgroupOf V).index := by rwa [hidxeq']
   let Q : Sylow p ↥V := (hPp.comap_subtype (K := V)).toSylow hidx
   let Q' : Sylow p ↥V := (hP'p.comap_subtype (K := V)).toSylow hidx'
-  haveI : Finite ↥V := inferInstance
-  haveI : Finite (Sylow p ↥V) := Sylow.finite_of_finiteIndex Q
+  have : Finite ↥V := inferInstance
+  have : Finite (Sylow p ↥V) := Sylow.finite_of_finiteIndex Q
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq ↥V Q Q'
   have hQmap : (Q : Subgroup ↥V).map V.subtype = P := by
     change (P.subgroupOf V).map V.subtype = P
@@ -114,7 +114,7 @@ private lemma orbitMod_conj {T Z : Subgroup Γ} {g : Γ} (hZ : g ∈ normalizer 
     {w : Γ | g⁻¹ * w * g ∈ orbitMod T Z u}
       = orbitMod (conjSub g T) Z (g * u * g⁻¹) := by
   ext w
-  simp only [Set.mem_setOf_eq, orbitMod]
+  simp only [Set.mem_ofPred_eq, orbitMod]
   constructor
   · rintro ⟨k, hkT, hk⟩
     refine ⟨g * k * g⁻¹, ?_, ?_⟩

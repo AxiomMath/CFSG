@@ -83,7 +83,7 @@ theorem conj_memBar_perm (hn : 5 ≤ n) {α β : Finset (Fin n)} {h : α.card = 
       rw [img]
       exact mem_memBar_false.mpr ⟨_, hK k hk, rfl⟩
 
-theorem conj_memBar_flip (hn : 5 ≤ n) {α : Finset (Fin n)} (h : α.card = 4) {j : Fin n} (hj : j ∉ α)
+theorem conj_memBar_flip (_hn : 5 ≤ n) {α : Finset (Fin n)} (h : α.card = 4) {j : Fin n} (hj : j ∉ α)
     (b : Bool) :
     (memBar α h b).map (MulAut.conj (mkQ n (twinVec (emb α h) j))).toMonoidHom = memBar α h (!b) := by
   have hj' : j ∉ Set.range (emb α h) := by rw [range_emb]; exact hj
@@ -97,7 +97,7 @@ theorem conj_memBar_flip (hn : 5 ≤ n) {α : Finset (Fin n)} (h : α.card = 4) 
   have hinv : (MulAut.conj (mkQ n (twinVec (emb α h) j))).toMonoidHom.comp
       (MulAut.conj (mkQ n (twinVec (emb α h) j))).toMonoidHom = MonoidHom.id _ := by
     refine MonoidHom.ext fun x => ?_
-    simp only [MonoidHom.comp_apply, MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply,
+    simp only [MonoidHom.comp_apply, MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply,
       MonoidHom.id_apply]
     have h3 : (mkQ n (twinVec (emb α h) j))⁻¹ = mkQ n (twinVec (emb α h) j) :=
       inv_eq_of_mul_eq_one_right hsq
@@ -111,7 +111,7 @@ theorem conj_memBar_flip (hn : 5 ≤ n) {α : Finset (Fin n)} (h : α.card = 4) 
     exact this.symm
   · exact h1
 
-theorem exists_even_perm (hn : 5 ≤ n) {α β : Finset (Fin n)} (h : α.card = 4) (h' : β.card = 4) :
+theorem exists_even_perm (_hn : 5 ≤ n) {α β : Finset (Fin n)} (h : α.card = 4) (h' : β.card = 4) :
     ∃ σ : Equiv.Perm (Fin n), Equiv.Perm.sign σ = 1 ∧ ∀ x ∈ α, σ x ∈ β := by
   classical
   have hc : α.card = β.card := h.trans h'.symm

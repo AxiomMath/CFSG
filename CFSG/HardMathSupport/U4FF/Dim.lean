@@ -16,25 +16,25 @@ open CFSG.LocalAnalysis CFSG.LocalAnalysis.RankThreeUC CFSG.LocalAnalysis.EvenBN
 
 variable {S : Type} [CommGroup S] {L : Subgroup (MulAut S)}
 
-@[expose] def actOn (S₁ : Subgroup S) (hS₁ : ∀ l ∈ L, ∀ s ∈ S₁, l s ∈ S₁) :
+@[expose] def actOn (S₁ : Subgroup S) (hS₁ : ∀ l ∈ L, ∀ _s ∈ S₁, l _s ∈ S₁) :
     ↥L →* MulAut ↥S₁ where
   toFun l :=
-    { toFun := fun s => ⟨(l : MulAut S) s, hS₁ l l.2 s s.2⟩
-      invFun := fun s => ⟨((l : MulAut S)⁻¹) s, hS₁ _ (L.inv_mem l.2) s s.2⟩
-      left_inv := fun s => Subtype.ext (MulAut.inv_apply_self _ _ _)
-      right_inv := fun s => Subtype.ext (MulAut.apply_inv_self _ _ _)
-      map_mul' := fun a b => Subtype.ext (map_mul _ _ _) }
-  map_one' := MulEquiv.ext fun s => Subtype.ext rfl
-  map_mul' := fun a b => MulEquiv.ext fun s => Subtype.ext rfl
+    { toFun := fun _s => ⟨(l : MulAut S) _s, hS₁ l l.2 _s _s.2⟩
+      invFun := fun _s => ⟨((l : MulAut S)⁻¹) _s, hS₁ _ (L.inv_mem l.2) _s _s.2⟩
+      left_inv := fun _s => Subtype.ext (MulAut.inv_apply_self _ _ _)
+      right_inv := fun _s => Subtype.ext (MulAut.apply_inv_self _ _ _)
+      map_mul' := fun _a _b => Subtype.ext (map_mul _ _ _) }
+  map_one' := MulEquiv.ext fun _s => Subtype.ext rfl
+  map_mul' := fun _a _b => MulEquiv.ext fun _s => Subtype.ext rfl
 
 variable {n : ℕ}
 
 theorem isSimpleGroup_of_isU4Group (hL : IsU4Group n L) : IsSimpleGroup ↥L := by
   obtain ⟨F, _, hFfin, hcardF, ⟨e⟩⟩ := exists_equiv_statedProj hL
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h := CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU F 2 n hcardF 4
     (by norm_num) (fun h => absurd (Prod.mk.inj h).1 (by norm_num))
-  haveI := h
+  have := h
   exact e.isSimpleGroup
 
 theorem actOn_injective (hL : IsU4Group n L) (S₁ : Subgroup S)
@@ -58,7 +58,7 @@ theorem two_pow_le_card_of_nontrivial_action [Finite S] (hS : ∀ s : S, s * s =
     (hL : IsU4Group n L) (S₁ : Subgroup S) (hS₁ : ∀ l ∈ L, ∀ s ∈ S₁, l s ∈ S₁)
     (hnt : ∃ l ∈ L, ∃ s ∈ S₁, l s ≠ s) : 2 ^ (4 * n + 1) ≤ Nat.card S₁ := by
   classical
-  haveI : Fact (∀ s : ↥S₁, s * s = 1) := ⟨fun s => Subtype.ext (hS s)⟩
+  have : Fact (∀ s : ↥S₁, s * s = 1) := ⟨fun s => Subtype.ext (hS s)⟩
   have hinj := actOn_injective hL S₁ hS₁ hnt
   let ρ : ↥L →* (Additive ↥S₁ ≃ₗ[ZMod 2] Additive ↥S₁) := binaryLin.comp (actOn S₁ hS₁)
   have hρ : Function.Injective ρ := binaryLin_injective.comp hinj
@@ -69,9 +69,9 @@ theorem two_pow_le_card_of_nontrivial_action [Finite S] (hS : ∀ s : S, s * s =
     rw [hcard]
     exact Nat.pow_le_pow_right (by norm_num) h
   obtain ⟨K, _, h, ⟨η⟩⟩ := exists_equiv_gramSU hL
-  haveI : CharP K 2 := h.charP
-  haveI := finite_gramSU_miyamotoJ4 h
-  haveI : Finite ↥L := Finite.of_equiv _ η.symm.toEquiv
+  have : CharP K 2 := h.charP
+  have := finite_gramSU_miyamotoJ4 h
+  have : Finite ↥L := Finite.of_equiv _ η.symm.toEquiv
   have hcardL : (Nat.card ↥L : ℤ) = ((2 ^ n : ℕ) : ℤ) ^ 6 *
       ((((2 ^ n : ℕ) : ℤ) ^ 2 - 1) * (((2 ^ n : ℕ) : ℤ) ^ 3 + 1) * (((2 ^ n : ℕ) : ℤ) ^ 4 - 1)) := by
     rw [Nat.card_congr η.toEquiv]
@@ -80,7 +80,7 @@ theorem two_pow_le_card_of_nontrivial_action [Finite S] (hS : ∀ s : S, s * s =
   · obtain ⟨ℓ, hℓ, hℓ2, hord, -, hdvd, -⟩ :=
       CFSG.QuasithinUnique.Setup.X5.binary_multiple_six_exponents_have_primitive_prime_divisors
         hn2
-    haveI : Fact ℓ.Prime := ⟨hℓ⟩
+    have : Fact ℓ.Prime := ⟨hℓ⟩
     have hdvdL : ℓ ∣ Nat.card ↥L := by
       have hq1 : 1 ≤ 2 ^ n := Nat.one_le_two_pow
       have hqq : 2 ^ n ≤ (2 ^ n) ^ 2 := by nlinarith
@@ -100,7 +100,7 @@ theorem two_pow_le_card_of_nontrivial_action [Finite S] (hS : ∀ s : S, s * s =
         rw [hq3]
         exact ⟨q ^ 6 * ((q ^ 2 - 1) * ((q + 1) * c) * (q ^ 4 - 1)), by ring⟩
       exact_mod_cast hdvdZ
-    haveI := Fintype.ofFinite ↥L
+    have := Fintype.ofFinite ↥L
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card ℓ (by rwa [Fintype.card_eq_nat_card])
     have hox : orderOf (ρ x) = ℓ := by rw [orderOf_injective ρ hρ x]; exact hx
     have h6 := orderOf_two_le_finrank_of_orderOf_eq (ρ x) hℓ hℓ2 hox

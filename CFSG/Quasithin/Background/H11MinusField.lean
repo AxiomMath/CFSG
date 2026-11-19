@@ -45,7 +45,7 @@ theorem finrank_adjoinRoot_quad (a : F) :
 
 theorem natCard_adjoinRoot_quad [Finite F] (a : F) {n : ℕ} (hF : Nat.card F = 2 ^ n) :
     Nat.card (AdjoinRoot (quadPoly a)) = 2 ^ (2 * n) := by
-  haveI : Module.Finite F (AdjoinRoot (quadPoly a)) :=
+  have : Module.Finite F (AdjoinRoot (quadPoly a)) :=
     (AdjoinRoot.powerBasis (quadPoly_ne_zero a)).finite
   rw [Module.natCard_eq_pow_finrank (K := F), finrank_adjoinRoot_quad, hF, ← pow_mul, mul_comm]
 
@@ -109,7 +109,7 @@ theorem iterate_frob_algebraMap_fix [Finite F] {K : Type} [Field K] [CharP K 2] 
 
 theorem fixed_mem_range_algebraMap [Finite F] {K : Type} [Field K] [Finite K] [CharP K 2]
     [Algebra F K]
-    {n : ℕ} (hn : 1 ≤ n) (hF : Nat.card F = 2 ^ n) (hK : Nat.card K = (2 ^ n) ^ 2) (z : K)
+    {n : ℕ} (hn : 1 ≤ n) (hF : Nat.card F = 2 ^ n) (_hK : Nat.card K = (2 ^ n) ^ 2) (z : K)
     (hz : iterateFrobenius K 2 n z = z) : ∃ c : F, algebraMap F K c = z := by
   have hinj : Function.Injective (algebraMap F K) := (algebraMap F K).injective
   have hsub : Set.range (algebraMap F K) ⊆
@@ -141,7 +141,7 @@ theorem frob_root_eq [Finite F] [CharP F 2] {a : F} [Fact (Irreducible (quadPoly
     (ha : ∀ t : F, t ^ 2 + t + a ≠ 0) :
     iterateFrobenius (AdjoinRoot (quadPoly a)) 2 n (AdjoinRoot.root (quadPoly a)) =
       AdjoinRoot.root (quadPoly a) + 1 := by
-  haveI : Finite (AdjoinRoot (quadPoly a)) := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
+  have : Finite (AdjoinRoot (quadPoly a)) := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
   have h2 : (2 : AdjoinRoot (quadPoly a)) = 0 := by
     have := CharP.cast_eq_zero (AdjoinRoot (quadPoly a)) 2
     exact_mod_cast this
@@ -181,6 +181,7 @@ variable {F : Type} [Field F] [CharP F 2] {n : ℕ} {a : F}
         algebraMap F (AdjoinRoot (quadPoly a)) (x 3) * AdjoinRoot.root (quadPoly a)),
     algebraMap F (AdjoinRoot (quadPoly a)) (x 1)]
 
+omit [CharP F 2] in
 theorem frob_iter_iter [Finite (AdjoinRoot (quadPoly a))]
     (hK : Nat.card (AdjoinRoot (quadPoly a)) = (2 ^ n) ^ 2)
     (z : AdjoinRoot (quadPoly a)) :
@@ -188,6 +189,7 @@ theorem frob_iter_iter [Finite (AdjoinRoot (quadPoly a))]
       (iterateFrobenius (AdjoinRoot (quadPoly a)) 2 n z) = z :=
   SteinbergCB.frob_frob hK (fun x => iterateFrobenius_def 2 n x) z
 
+omit [CharP F 2] in
 theorem hermOf_mem [Finite F] [Finite (AdjoinRoot (quadPoly a))]
     (hF : Nat.card F = 2 ^ n) (hK : Nat.card (AdjoinRoot (quadPoly a)) = (2 ^ n) ^ 2)
     (x : Fin 4 → F) :
@@ -198,10 +200,12 @@ theorem hermOf_mem [Finite F] [Finite (AdjoinRoot (quadPoly a))]
   ext i j
   fin_cases i <;> fin_cases j <;> simp [hermOf, hfix, frob_iter_iter hK]
 
+omit [CharP F 2] in
 theorem hermOf_add (x y : Fin 4 → F) : hermOf n a (x + y) = hermOf n a x + hermOf n a y := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [hermOf, map_add, add_mul, map_mul] <;> ring
 
+omit [CharP F 2] in
 theorem hermOf_smul [Finite F] [Finite (AdjoinRoot (quadPoly a))] (hF : Nat.card F = 2 ^ n)
     (c : F) (x : Fin 4 → F) :
     hermOf n a (c • x) = algebraMap F (AdjoinRoot (quadPoly a)) c • hermOf n a x := by
@@ -211,6 +215,7 @@ theorem hermOf_smul [Finite F] [Finite (AdjoinRoot (quadPoly a))] (hF : Nat.card
   ext i j
   fin_cases i <;> fin_cases j <;> simp [hermOf, hfix, smul_eq_mul, map_mul] <;> ring
 
+omit [CharP F 2] [CharP (AdjoinRoot (quadPoly a)) 2] in
 theorem coeffs_eq_zero_of_add_mul_root [Finite F] {ha : ∀ t : F, t ^ 2 + t + a ≠ 0} (u v : F)
     (h : algebraMap F (AdjoinRoot (quadPoly a)) u + algebraMap F (AdjoinRoot (quadPoly a)) v *
       AdjoinRoot.root (quadPoly a) = 0) : u = 0 ∧ v = 0 := by
@@ -226,6 +231,7 @@ theorem coeffs_eq_zero_of_add_mul_root [Finite F] {ha : ∀ t : F, t ^ 2 + t + a
     field_simp
     linear_combination -h
 
+omit [CharP F 2] in
 theorem hermOf_eq_iff [Finite F] [Finite (AdjoinRoot (quadPoly a))]
     {ha : ∀ t : F, t ^ 2 + t + a ≠ 0} (x y : Fin 4 → F) :
     hermOf n a x = hermOf n a y ↔ x = y := by
@@ -256,6 +262,7 @@ theorem hermOf_eq_iff [Finite F] [Finite (AdjoinRoot (quadPoly a))]
   · rintro rfl
     rfl
 
+omit [CharP F 2] in
 theorem hermOf_surj [Finite F] [Finite (AdjoinRoot (quadPoly a))] (hn : 1 ≤ n)
     (hF : Nat.card F = 2 ^ n)
     (hK : Nat.card (AdjoinRoot (quadPoly a)) = (2 ^ n) ^ 2)
@@ -311,7 +318,7 @@ theorem hermOf_det [Finite F] [Finite (AdjoinRoot (quadPoly a))] (hn : 1 ≤ n)
   have hω := omega_rel a
   rw [Matrix.det_fin_two]
   simp only [hermOf, Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero,
-    Matrix.cons_val_one, Matrix.head_cons, Fin.isValue, Matrix.cons_val_two, Matrix.empty_val',
+    Matrix.cons_val_one, Fin.isValue, Matrix.empty_val',
     Matrix.cons_val_fin_one]
   rw [hσz]
   simp only [orthMinus, map_add, map_mul, map_pow]

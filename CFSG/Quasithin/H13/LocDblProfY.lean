@@ -15,7 +15,7 @@ theorem normal2_of_a6Config {X : Type} [Group X] [Finite X] {Y F : Subgroup X}
   have hO : IsPGroup 2 (CFSG.pCore 2 ↥Y) := CFSG.pCore_isPGroup
   have hsimple : IsSimpleGroup ↥(alternatingGroup (Fin 6)) :=
     alternatingGroup.isSimpleGroup (by simp)
-  haveI : (K.map φ).Normal := hK.map φ hφs
+  have : (K.map φ).Normal := hK.map φ hφs
   rcases hsimple.eq_bot_or_eq_top_of_normal (K.map φ) with hbot | htop
   · refine IsPGroup.to_le hO ?_
     rw [← hφk]
@@ -39,7 +39,7 @@ theorem normal2_of_a6Config {X : Type} [Group X] [Finite X] {Y F : Subgroup X}
         show (QuotientGroup.mk' K) (k⁻¹ * y) = QuotientGroup.mk' K y
         rw [map_mul, hk1, one_mul]
     have hQ2 : IsPGroup 2 (↥Y ⧸ K) := hO.of_surjective _ hsurj
-    haveI : Group.IsPerfect ↥Y := Subgroup.isPerfect_iff.2 hperf
+    have : Group.IsPerfect ↥Y := Subgroup.isPerfect_iff.2 hperf
     have hsub : Subsingleton (↥Y ⧸ K) := by
       by_contra hnt
       rw [not_subsingleton_iff_nontrivial] at hnt

@@ -98,10 +98,10 @@ theorem xMem_filt {L : List (Array Nat)} {g : Array Nat → Array Nat} {p : Arra
   rw [List.mem_toArray, List.mem_filterMap] at hs
   obtain ⟨y, -, hy⟩ := hs
   by_cases h : p (g y) = true
-  · rw [if_pos h] at hy
+  · rw [ite_eq_left h] at hy
     cases hy
     exact h
-  · rw [if_neg h] at hy
+  · rw [ite_eq_right h] at hy
     cases hy
 
 theorem xAdm_of_mem {s : Array Nat} (hs : s ∈ collI) : collAdm s = true := by
@@ -176,9 +176,9 @@ theorem xComm_bit {i j : Nat} (hi : i < 675) (hj : j < 675) :
   have h := xRow hi hj
   rw [xComm_eq hi hj]
   cases hc : ixComm (ixS (ix.D.getD i 0)) (ixS (ix.D.getD j 0))
-  · rw [hc, cond_false, Bool.not_eq_true', ixBit_eq] at h
+  · rw [hc, Bool.cond_false, Bool.not_eq_true', ixBit_eq] at h
     exact h.symm
-  · rw [hc, cond_true, Bool.and_eq_true, ixBit_eq] at h
+  · rw [hc, _root_.Bool.cond_true, Bool.and_eq_true, ixBit_eq] at h
     exact h.1.symm
 
 theorem xBound : collBoundOK collI (collFixTab collI) (collCommTab collI) = true := by
@@ -197,7 +197,7 @@ theorem xBound : collBoundOK collI (collFixTab collI) (collCommTab collI) = true
     rw [xComm_eq hi hj]
     cases hc : ixComm (ixS (ix.D.getD i 0)) (ixS (ix.D.getD j 0))
     · simp
-    · rw [hc, cond_true, Bool.and_eq_true, Bool.or_eq_true, Bool.and_eq_true] at h
+    · rw [hc, _root_.Bool.cond_true, Bool.and_eq_true, Bool.or_eq_true, Bool.and_eq_true] at h
       rcases h.2 with h0 | ⟨h16, h27⟩
       · rw [Nat.eq_of_beq_eq_true h0, beq_self_eq_true, Bool.true_or, Bool.true_or]
       · have e1 : (List.range 512).countP (fun a => ((collFixTab collI)[i]!)[a]! &&

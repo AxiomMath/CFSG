@@ -54,7 +54,7 @@ private lemma hmbFam_c_val {n : ℕ} (hn : 5 ≤ n) {k : ℕ} (hk : k ≤ n - 2)
     (hmbFam_c hn k : ℕ) = if k = 0 then 0 else k + 1 := by
   rcases eq_or_ne k 0 with rfl | hk0
   · simp [hmbFam_c_zero hn]
-  · rw [hmbFam_c_pos hn (by omega) hk, if_neg hk0]
+  · rw [hmbFam_c_pos hn (by omega) hk, ite_eq_right hk0]
 
 private lemma hmbFam_ne_of_isEEdge {n : ℕ} {i j : Fin n} (h : IsEEdge i j) : i ≠ j := by
   rintro rfl
@@ -111,7 +111,7 @@ private lemma hmbFam_not_adj_41 {n : ℕ} (hn : 5 ≤ n) :
     ¬ (IsEEdge (⟨4, by omega⟩ : Fin n) (⟨1, by omega⟩ : Fin n) ∨
        IsEEdge (⟨1, by omega⟩ : Fin n) (⟨4, by omega⟩ : Fin n)) := by
   rintro (h | h) <;> rcases h with ⟨ha, hb⟩ | ⟨ha, hb⟩ | ⟨ha, hb⟩ <;>
-    simp only [Fin.val_mk] at ha hb <;> omega
+    simp only at ha hb <;> omega
 
 theorem exists_phanFamilyE_of_isEShape {K : Type} [Field K] [Finite K] {p f : ℕ} [Fact p.Prime]
     [CharP K p] (hK : Nat.card K = (p ^ f) ^ 2) {n : ℕ} {M : CoxeterMatrix (Fin n)}
@@ -141,7 +141,7 @@ theorem exists_phanFamilyE_of_isEShape {K : Type} [Field K] [Finite K] {p f : �
       rw [hmbFam_c_val hn (by omega), hmbFam_c_val hn (by omega)] at hvv
       by_cases h0 : i = 0
       · subst i; simp at hvv
-      · simp [h0, show ¬ (i + 2 = 0) from by omega] at hvv
+      · simp [h0] at hvv
     exact hW.comm (hmbFam_c hn i) (hmbFam_c hn (i + 2)) (h2 _ _ hne hfar) x hx y hy
   obtain ⟨θc, hθc⟩ := coherent_chain hK (autExtends hK) u w (n - 2) hpair hcommu
   have hM13 : M ⟨1, by omega⟩ ⟨3, by omega⟩ = 3 :=
@@ -177,7 +177,7 @@ theorem exists_phanFamilyE_of_isEShape {K : Type} [Field K] [Finite K] {p f : �
     rcases eq_or_ne (i : ℕ) 0 with hi0 | hi0
     · have hιi : ι i = (θc 0).comp (embSUid (unitaryInvolution K p f) 2) := by
         simp only [ι]
-        rw [if_pos hi0]
+        rw [ite_eq_left hi0]
       obtain ⟨hk0', -, h12_0', h23_0', -⟩ := hθc 0 (by omega)
       have hu0 : u 0 = U ⟨0, by omega⟩ := by
         simp only [u]
@@ -189,7 +189,7 @@ theorem exists_phanFamilyE_of_isEShape {K : Type} [Field K] [Finite K] {p f : �
     · rcases eq_or_ne (i : ℕ) 1 with hi1 | hi1
       · have hιi : ι i = θ₁₃.comp (embSUid (unitaryInvolution K p f) 2) := by
           simp only [ι]
-          rw [if_neg hi0, if_pos hi1]
+          rw [ite_eq_right hi0, ite_eq_left hi1]
         have hUi : U i = U ⟨1, by omega⟩ := congrArg U (Fin.ext hi1)
         obtain ⟨hi₂, hr₂, -, -⟩ :=
           pair_block_inj hK hk₁₃ (hb12₁₃'.trans hUi.symm) hb23₁₃'
@@ -205,7 +205,7 @@ theorem exists_phanFamilyE_of_isEShape {K : Type} [Field K] [Finite K] {p f : �
         obtain ⟨-, -, hi₂, hr₂⟩ := pair_block_inj hK hkk h12k (h23k.trans huk1)
         have hιi : ι i = (θc ((i : ℕ) - 2)).comp (embSUid (unitaryInvolution K p f) 0) := by
           simp only [ι]
-          rw [if_neg hi0, if_neg hi1]
+          rw [ite_eq_right hi0, ite_eq_right hi1]
         exact ⟨by simpa [hιi] using hr₂, by simpa [hιi] using hi₂⟩
   have hleft : ∀ i j : Fin n, i < j → M i j = 3 →
       (θ i j).comp (embSUid (unitaryInvolution K p f) 2) = ι i := by
@@ -223,12 +223,12 @@ theorem exists_phanFamilyE_of_isEShape {K : Type} [Field K] [Finite K] {p f : �
       have h1 : (i : ℕ) ≠ 1 := by omega
       have hθij : θ i j = θc ((i : ℕ) - 1) := by
         simp only [θ]
-        rw [if_neg (by rintro ⟨h, -⟩; exact h0 h),
-            if_neg (by rintro ⟨h, -⟩; exact h1 h),
-            if_pos ⟨hi2, hjsucc⟩]
+        rw [ite_eq_right (by rintro ⟨h, -⟩; exact h0 h),
+            ite_eq_right (by rintro ⟨h, -⟩; exact h1 h),
+            ite_eq_left ⟨hi2, hjsucc⟩]
       have hιi : ι i = (θc ((i : ℕ) - 2)).comp (embSUid (unitaryInvolution K p f) 0) := by
         simp only [ι]
-        rw [if_neg h0, if_neg h1]
+        rw [ite_eq_right h0, ite_eq_right h1]
       rw [hθij, hιi]
       have hk : (i : ℕ) - 2 < n - 2 := by omega
       have hk1 : ((i : ℕ) - 2) + 1 < n - 2 := by omega
@@ -257,12 +257,12 @@ theorem exists_phanFamilyE_of_isEShape {K : Type} [Field K] [Finite K] {p f : �
       have hj1 : (j : ℕ) ≠ 1 := by omega
       have hθij : θ i j = θc ((i : ℕ) - 1) := by
         simp only [θ]
-        rw [if_neg (by rintro ⟨h, -⟩; exact h0 h),
-            if_neg (by rintro ⟨h, -⟩; exact h1 h),
-            if_pos ⟨hi2, hjsucc⟩]
+        rw [ite_eq_right (by rintro ⟨h, -⟩; exact h0 h),
+            ite_eq_right (by rintro ⟨h, -⟩; exact h1 h),
+            ite_eq_left ⟨hi2, hjsucc⟩]
       have hιj : ι j = (θc ((j : ℕ) - 2)).comp (embSUid (unitaryInvolution K p f) 0) := by
         simp only [ι]
-        rw [if_neg hj0, if_neg hj1]
+        rw [ite_eq_right hj0, ite_eq_right hj1]
       rw [hθij, hιj]
       have harith : (j : ℕ) - 2 = (i : ℕ) - 1 := by omega
       rw [harith]

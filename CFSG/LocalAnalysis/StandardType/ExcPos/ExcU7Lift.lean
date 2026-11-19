@@ -42,7 +42,7 @@ theorem u7lift_eq_of_map_eq {L : Type} [Field L] [CharP L 2] {ν : ℕ} {G : Typ
     (g : SL(ν, L) →* G) (hker : g.ker ≤ Subgroup.center SL(ν, L)) (hν : 1 ≤ ν)
     {x y : SL(ν, L)} (hx : ((x : Matrix (Fin ν) (Fin ν) L) - 1) ^ 2 = 0)
     (hy : ((y : Matrix (Fin ν) (Fin ν) L) - 1) ^ 2 = 0) (hxy : g x = g y) : x = y := by
-  haveI : Nonempty (Fin ν) := ⟨⟨0, hν⟩⟩
+  have : Nonempty (Fin ν) := ⟨⟨0, hν⟩⟩
   have hmem : x * y⁻¹ ∈ g.ker := by
     rw [MonoidHom.mem_ker, map_mul, map_inv, hxy, mul_inv_cancel]
   have hc : x * y⁻¹ ∈ Subgroup.center SL(ν, L) := hker hmem
@@ -74,7 +74,7 @@ theorem u7lift_eq_of_map_eq {L : Type} [Field L] [CharP L 2] {ν : ℕ} {G : Typ
 theorem u7lift_commute_of_map_commute {L : Type} [Field L] [CharP L 2] {ν : ℕ} {G : Type*}
     [Group G] (g : SL(ν, L) →* G) (hker : g.ker ≤ Subgroup.center SL(ν, L)) (hν : 1 ≤ ν)
     {x y : SL(ν, L)} (hy : y ^ 2 = 1) (hc : g x * g y = g y * g x) : x * y = y * x := by
-  haveI : Nonempty (Fin ν) := ⟨⟨0, hν⟩⟩
+  have : Nonempty (Fin ν) := ⟨⟨0, hν⟩⟩
   have hmem : x * y * x⁻¹ * y⁻¹ ∈ g.ker := by
     rw [MonoidHom.mem_ker, map_mul, map_mul, map_mul, map_inv, map_inv, hc]
     group
@@ -355,7 +355,7 @@ theorem excSwappedZ_lift {p₀ : ℕ} (S : LangSetup Tag.E6 GGL p₀) (a : Fin T
     have hcard_map : Nat.card ↥((T ⊓ Φ.eqLocus (MonoidHom.id SL(6, GGL))).map ψ') ≤
         Nat.card ↥(T ⊓ Φ.eqLocus (MonoidHom.id SL(6, GGL))) := by
       rw [hT_eq]
-      haveI : Finite ↥(tvGroup v φ ⊓ Φ.eqLocus (MonoidHom.id SL(6, GGL))) :=
+      have : Finite ↥(tvGroup v φ ⊓ Φ.eqLocus (MonoidHom.id SL(6, GGL))) :=
         (card_fixed_stable_le σQ hfrob h2f hv hφ hdot hst).1
       have hsurj : Function.Surjective
           (fun x : ↥(tvGroup v φ ⊓ Φ.eqLocus (MonoidHom.id SL(6, GGL))) =>
@@ -369,7 +369,7 @@ theorem excSwappedZ_lift {p₀ : ℕ} (S : LangSetup Tag.E6 GGL p₀) (a : Fin T
       rw [hT_eq]
       exact (card_fixed_stable_le σQ hfrob h2f hv hφ hdot hst).1
     have hfin_fix_map : Finite ↥((T ⊓ Φ.eqLocus (MonoidHom.id SL(6, GGL))).map ψ') := by
-      haveI := hfin_fix
+      have := hfin_fix
       exact Finite.of_surjective
         (fun x : ↥(T ⊓ Φ.eqLocus (MonoidHom.id SL(6, GGL))) =>
           (⟨ψ' x, Subgroup.mem_map.mpr ⟨x, x.2, rfl⟩⟩ :
@@ -377,7 +377,7 @@ theorem excSwappedZ_lift {p₀ : ℕ} (S : LangSetup Tag.E6 GGL p₀) (a : Fin T
         (by intro y; obtain ⟨x, hx, hxy⟩ := Subgroup.mem_map.mp y.2
             exact ⟨⟨x, hx⟩, Subtype.ext hxy⟩)
     have hle_card : Nat.card ↥A ≤ Nat.card ↥(T ⊓ Φ.eqLocus (MonoidHom.id SL(6, GGL))) := by
-      haveI := hfin_fix_map
+      have := hfin_fix_map
       calc Nat.card ↥A ≤ Nat.card ↥((T ⊓ Φ.eqLocus (MonoidHom.id SL(6, GGL))).map ψ') :=
             Subgroup.card_le_of_le hAleFix
         _ ≤ Nat.card ↥(T ⊓ Φ.eqLocus (MonoidHom.id SL(6, GGL))) := hcard_map
@@ -436,7 +436,7 @@ theorem excSwappedZ_lift {p₀ : ℕ} (S : LangSetup Tag.E6 GGL p₀) (a : Fin T
     exact hΦbb
   have hcard_Ãmap : Nat.card ↥(((T ⊔ T.map Φ) ⊓ Φ.eqLocus (MonoidHom.id SL(6, GGL))).map ψ') ≤
       Nat.card ↥((T ⊔ T.map Φ) ⊓ Φ.eqLocus (MonoidHom.id SL(6, GGL))) := by
-    haveI := hfin_Ã
+    have := hfin_Ã
     have hsurj : Function.Surjective
         (fun x : ↥((T ⊔ T.map Φ) ⊓ Φ.eqLocus (MonoidHom.id SL(6, GGL))) =>
           (⟨ψ' x, Subgroup.mem_map.mpr ⟨x, x.2, rfl⟩⟩ :
@@ -450,14 +450,14 @@ theorem excSwappedZ_lift {p₀ : ℕ} (S : LangSetup Tag.E6 GGL p₀) (a : Fin T
     rw [hAcard]
     exact le_trans hcard_Ãmap hcard_Ã
   have hfin_map : Finite ↥(((T ⊔ T.map Φ) ⊓ Φ.eqLocus (MonoidHom.id SL(6, GGL))).map ψ') := by
-    haveI := hfin_Ã
+    have := hfin_Ã
     exact Finite.of_surjective
       (fun x : ↥((T ⊔ T.map Φ) ⊓ Φ.eqLocus (MonoidHom.id SL(6, GGL))) =>
         (⟨ψ' x, Subgroup.mem_map.mpr ⟨x, x.2, rfl⟩⟩ :
           ↥(((T ⊔ T.map Φ) ⊓ Φ.eqLocus (MonoidHom.id SL(6, GGL))).map ψ')))
       (by intro y; obtain ⟨x, hx, hxy⟩ := Subgroup.mem_map.mp y.2
           exact ⟨⟨x, hx⟩, Subtype.ext hxy⟩)
-  haveI := hfin_map
+  have := hfin_map
   exact ⟨T, hIsTv', hsw, Subgroup.eq_of_le_of_card_ge hAle' hcard_le⟩
 
 end CFSG.StandardType.LieKnownR2.ExcPos

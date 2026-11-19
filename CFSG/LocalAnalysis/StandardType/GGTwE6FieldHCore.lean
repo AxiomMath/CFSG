@@ -25,7 +25,7 @@ theorem ggTwE6FieldHCore_of_core (hRK : RootKill) (h5 : SubfieldLangDatumFive)
       ∃ V : Subgroup (TwE6Delta.RecipeR K n), V ≠ ⊥ ∧ IsPGroup 2 V ∧
         ∀ φ ∈ Y ⊔ Subgroup.zpowers f, ∀ v ∈ V, φ v ∈ V := by
   rintro f hf hord Y hY hYI hYr hYf ⟨V, hV1, hV2, hYV⟩
-  haveI : CharP K 2 := charP_two_of_card_sq hK
+  have : CharP K 2 := charP_two_of_card_sq hK
   obtain ⟨σ, hσ⟩ : ∃ σ : K ≃+* K, ∀ c, σ c = c ^ 2 ^ n :=
     ⟨iterateFrobeniusEquiv K 2 n, fun c => by
       rw [iterateFrobeniusEquiv_apply, iterateFrobenius_def]⟩

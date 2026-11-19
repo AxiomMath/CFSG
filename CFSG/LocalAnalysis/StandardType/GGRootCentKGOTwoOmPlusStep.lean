@@ -38,7 +38,7 @@ theorem vPlusS_ne_zero (hn : 1 ≤ n) : vPlusS hn ≠ (0 : Fin n ⊕ Fin n → K
   intro h
   have h1 := quadPlus_vPlusS (K := K) hn
   rw [h] at h1
-  exact zero_ne_one (show (0 : K) = 1 from by simpa using h1)
+  exact zero_ne_one (show (0 : K) = 1 from by simp at h1)
 
 theorem polar_vPlusS_plusVec (hn : 1 ≤ n) {m : Fin n} (hm : m ≠ ⟨0, by omega⟩) (r : Bool) :
     polar (quadPlus n K) (vPlusS hn) (plusVec n K m r) = 0 := by
@@ -417,7 +417,7 @@ theorem eq_self_of_plusLevi_conj {K : Type} [Field K] [Finite K] [CharP K 2] {n 
     have huwb : polar Q P₁.e (b • P₂.f) = 0 := by
       rw [polar_smul_right_eq, h₁₂.ef, mul_zero]
     rw [eichler_apply P₁.Q_e huwb, hN_apply]
-    simp only [polar_smul_right_eq, hQb, P₂.Q_f, mul_zero, zero_mul, add_zero, smul_sub,
+    simp only [polar_smul_right_eq, hQb, P₂.Q_f, zero_mul, add_zero, smul_sub,
       smul_smul]
     module
   have hcommb : ∀ (b : K), σ h * eichler Q P₁.e (b • P₂.f) =

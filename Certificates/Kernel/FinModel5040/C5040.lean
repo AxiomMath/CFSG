@@ -29,13 +29,13 @@ theorem exK_code (hm : m ≤ 32) (L : List (Equiv.Perm (Fin m))) (σ : Equiv.Per
   rw [exK, exOf]
   by_cases h : σ ∈ L
   · have e : memL (code σ) (L.map code) = true := (memL_iff _ _).2 ((mem_map_code hm L σ).2 h)
-    rw [e, if_pos h]
+    rw [e, ite_eq_left h]
     exact movK_code hm σ
   · have e : memL (code σ) (L.map code) = false := by
       cases e : memL (code σ) (L.map code)
       · rfl
       · exact absurd ((mem_map_code hm L σ).1 ((memL_iff _ _).1 e)) h
-    rw [e, if_neg h]
+    rw [e, ite_eq_right h]
 
 theorem invoK_code (hm : m ≤ 32) (σ : Equiv.Perm (Fin m)) :
     invoK m (code σ) = true ↔ σ * σ = 1 ∧ σ ≠ 1 := by

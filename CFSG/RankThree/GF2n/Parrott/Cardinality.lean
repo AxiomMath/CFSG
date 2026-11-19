@@ -23,6 +23,7 @@ theorem card_mulAut_of_lieModel_psp_two_three
   (CFSG.EvenSporadicStandard.M22Std.card_mulAut_of_lieModel_psu42
     (CFSG.GF2Type.Aschbacher1977.lieModel_PSU_four_two_of_PSp_two_three h)).1
 
+omit [Finite G] in
 theorem card_quotient_J (h : Tim79a.ParrottHyp z) :
     Nat.card (↥(H z) ⧸ (J z).subgroupOf (H z)) = 51840 := by
   obtain ⟨h1, h2, hcomm, h4, hnorm, X, instX, hLM, hiso⟩ := h
@@ -31,6 +32,7 @@ theorem card_quotient_J (h : Tim79a.ParrottHyp z) :
       = Nat.card (MulAut X) := Nat.card_congr e.toEquiv
     _ = 51840 := card_mulAut_of_lieModel_psp_two_three hLM
 
+omit [Finite G] in
 theorem card_H (h : Tim79a.ParrottHyp z) :
     Nat.card (H z) = 2 ^ 10 * 51840 := by
   have hq := Subgroup.card_eq_card_quotient_mul_card_subgroup
@@ -42,6 +44,7 @@ theorem card_H (h : Tim79a.ParrottHyp z) :
   rw [hq]
   ring
 
+omit [Finite G] in
 theorem card_H_eq (h : Tim79a.ParrottHyp z) :
     Nat.card (H z) = 2 ^ 17 * 3 ^ 4 * 5 := by
   rw [card_H h]

@@ -33,7 +33,7 @@ theorem k3_transfer (S : Sylow 3 X) (hSW : Nonempty ((S : Subgroup X) ≃* W3))
   have hO : ¬ 3 ∣ Nat.card (primeComplementCore (G := X) 3) := qs_not_dvd_core
   have hinj : Function.Injective ((barMk X).comp (S : Subgroup X).subtype) := by
     intro a b hab
-    exact Subtype.ext (qs_injOn (Q := (S : Subgroup X)) S.isPGroup' a.2 b.2 hab)
+    exact Subtype.ext (qs_injOn (Q := (S : Subgroup X)) S.isPGroup a.2 b.2 hab)
   have hrange : ((barMk X).comp (S : Subgroup X).subtype).range =
       (S : Subgroup X).map (barMk X) := by
     rw [MonoidHom.range_comp, Subgroup.range_subtype]
@@ -44,7 +44,7 @@ theorem k3_transfer (S : Sylow 3 X) (hSW : Nonempty ((S : Subgroup X) ≃* W3))
   · intro h1
     have hk : x ∈ (barMk X).ker := MonoidHom.mem_ker.mpr h1
     have hbot : x ∈ (S : Subgroup X) ⊓ (barMk X).ker := Subgroup.mem_inf.mpr ⟨hxS, hk⟩
-    rw [qs_inf_ker (Q := (S : Subgroup X)) S.isPGroup' le_rfl, Subgroup.mem_bot] at hbot
+    rw [qs_inf_ker (Q := (S : Subgroup X)) S.isPGroup le_rfl, Subgroup.mem_bot] at hbot
     exact hx1 hbot
   · rw [← map_pow, hx3, map_one]
   · have hxord : orderOf x = 3 := orderOf_eq_prime hx3 hx1
@@ -63,6 +63,7 @@ theorem k3_transfer (S : Sylow 3 X) (hSW : Nonempty ((S : Subgroup X) ≃* W3))
     rw [hc, pRank_map_eq_of_coprime_ker (barMk X) Nat.prime_three hS]
     exact hxr
 
+omit [Finite X] in
 theorem k3_no_index_three (hno : ∀ N : Subgroup X, N.Normal → N.index ≠ 3) :
     ∀ N : Subgroup (Bar X), N.Normal → N.index ≠ 3 := by
   intro N hN hidx

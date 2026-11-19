@@ -33,6 +33,7 @@ abbrev quotSub (X A : Subgroup K) : Subgroup (quotY X) := (A.subgroupOf X).map (
 abbrev quotDelta (X : Subgroup K) (Δ : Set (Subgroup K)) : Set (Subgroup (quotY X)) :=
   quotSub X '' Δ
 
+omit [Finite K] in
 theorem RootSetup.le_normalizer {X : Subgroup K} {Δ : Set (Subgroup K)} {f : ℕ}
     (h : RootSetup X Δ f) (L : Subgroup K) : L ≤ Subgroup.normalizer (X : Set K) := by
   rw [Subgroup.normalizer_eq_top_iff.mpr h.normal]

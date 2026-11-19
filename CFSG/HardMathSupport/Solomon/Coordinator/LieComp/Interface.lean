@@ -32,7 +32,7 @@ structure LieCompData (q : ℕ) (H : Type) [Group H] : Prop where
       (Nonempty ((barOf 3 J ⧸ Subgroup.center (barOf 3 J)) ≃* alternatingGroup (Fin 6)) →
         NoThreeCover S)
 
-@[expose] def LieComp : Prop :=
+@[expose] def LieCompAll : Prop :=
   ∀ (S : Type) [Group S] [Finite S], IsSimpleGroup S → (∃ a b : S, a * b ≠ b * a) →
     ∀ idx : TauCeti.ValidLieTypeIndex, Nonempty (S ≃* (TauCeti.CFSGIndex.lie idx).Group) →
     ∀ β : MulAut S, β ^ 3 = 1 → ∀ J : Subgroup S, GLAPComponent 3 (Lemma510Ns.fixSub β) J →
@@ -40,7 +40,7 @@ structure LieCompData (q : ℕ) (H : Type) [Group H] : Prop where
       (Nonempty ((barOf 3 J ⧸ Subgroup.center (barOf 3 J)) ≃* alternatingGroup (Fin 6)) →
         NoThreeCover S)
 
-theorem lieComp_of_families (h : ∀ F, LieCompOn F) : LieComp :=
+theorem lieComp_of_families (h : ∀ F, LieCompOn F) : LieCompAll :=
   fun S _ _ hs hna idx he β hβ J hJ => h (lieFamily idx.1) S hs hna idx rfl he β hβ J hJ
 
 end CFSG.HardMathSupport.Solomon.Coordinator.LieComp

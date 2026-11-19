@@ -176,7 +176,7 @@ private theorem alternative_two_of_isL2Odd (D : Data G) (Ch : Choice2011 G) (c :
     {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) (hL2q : IsL2Odd (Bar2 K) q) :
     ∃ q : ℕ, q.Prime ∧ q ≠ 2 ∧ IsL2Odd (Bar2 K) q ∧
       ⁅CFSG.Quasithin.opResidual 3 c.B, K⁆ ≤ CFSG.Open.pCoreOf 2 K := by
-  haveI : IsSimpleGroup (Bar2 K) :=
+  have : IsSimpleGroup (Bar2 K) :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (t := .PSL) (by decide) hL2q
   have hcenter : Subgroup.center (Bar2 K) = ⊥ := uc22p21k_center_eq_bot hK.2.2
   obtain ⟨e⟩ : Nonempty (BarInf K ≃* Bar2 K) :=

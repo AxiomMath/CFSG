@@ -23,14 +23,14 @@ theorem inS0_iff (σ : Perm (Fin 8)) :
 def S0g : Subgroup (Perm (Fin 8)) where
   carrier := {σ | inS0 σ = true}
   mul_mem' {a b} ha hb := by
-    rw [Set.mem_setOf_eq, inS0_iff] at *
+    rw [Set.mem_ofPred_eq, inS0_iff] at *
     refine ⟨fun i => ?_, by rw [Perm.sign_mul, ha.2, hb.2, one_mul]⟩
     rw [Perm.mul_apply, Perm.mul_apply, hb.1, ha.1]
   one_mem' := by
-    rw [Set.mem_setOf_eq, inS0_iff]
+    rw [Set.mem_ofPred_eq, inS0_iff]
     exact ⟨fun _ => rfl, Perm.sign_one⟩
   inv_mem' {a} ha := by
-    rw [Set.mem_setOf_eq, inS0_iff] at *
+    rw [Set.mem_ofPred_eq, inS0_iff] at *
     refine ⟨fun i => ?_, by rw [Perm.sign_inv, ha.2]⟩
     apply a.injective
     rw [ha.1, ai, ai]
@@ -220,12 +220,12 @@ theorem word_mem (H : Subgroup (Perm (Fin 8))) (hS : ∀ u, inS0 u = true → u 
   intro x hx
   obtain ⟨a, ha, rfl⟩ := List.mem_map.1 hx
   rcases hl a ha with ⟨h0, hs⟩ | ⟨h12, hj⟩
-  · simp only [letterVal, h0, if_true]
+  · simp only [letterVal, h0, ite_true]
     exact hS _ hs
   · rcases h12 with h1 | h2
-    · simp only [letterVal, h1, one_ne_zero, if_false, if_true]
+    · simp only [letterVal, h1, one_ne_zero, ite_false, ite_true]
       exact hA _ hj
-    · simp only [letterVal, h2, OfNat.ofNat_ne_zero, if_false, OfNat.ofNat_ne_one]
+    · simp only [letterVal, h2, OfNat.ofNat_ne_zero, ite_false, OfNat.ofNat_ne_one]
       exact H.inv_mem (hA _ hj)
 
 theorem stabB_iff (F : List (Finset (Fin 8))) (σ : Perm (Fin 8)) :
@@ -349,11 +349,11 @@ theorem sound_agl (F : A8Facts) (hr : ∀ e ∈ dcTable, RowOK e) (hw : chkWords
       exact hwit c hcT
   have hTn : T.Nodup := by
     rw [← hT]
-    exact hc.sublist (((List.filter_sublist).map _).cons₂ _)
+    exact hc.sublist (((List.filter_sublist).map _).cons_cons _)
   rw [hcard, himg, List.toFinset_card_of_nodup hTn, hT7, F.card_S0]
 
-theorem dt_apply {p q r s : Fin 8} (hpq : p ≠ q) (hpr : p ≠ r) (hps : p ≠ s) (hqr : q ≠ r)
-    (hqs : q ≠ s) (hrs : r ≠ s) :
+theorem dt_apply {p q r s : Fin 8} (_hpq : p ≠ q) (hpr : p ≠ r) (hps : p ≠ s) (hqr : q ≠ r)
+    (hqs : q ≠ s) (_hrs : r ≠ s) :
     (swap p q * swap r s) p = q ∧ (swap p q * swap r s) q = p ∧ (swap p q * swap r s) r = s ∧
       (swap p q * swap r s) s = r ∧
       ∀ x, x ≠ p → x ≠ q → x ≠ r → x ≠ s → (swap p q * swap r s) x = x := by

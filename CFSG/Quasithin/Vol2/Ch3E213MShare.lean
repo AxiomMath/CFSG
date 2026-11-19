@@ -233,7 +233,7 @@ theorem exists_paired_of_case1' (h38 : CFSG.QuasithinUnique.Vol2Native.A38ForSQT
   set Tb := (T.subgroupOf H).map bar with hTb
   have hTb2 : IsPGroup 2 Tb := by
     rw [hTb, ← hT']
-    exact T'.isPGroup'.map bar
+    exact T'.isPGroup.map bar
   have hTbsyl : IsSylowTwoOf Tb ⊤ := by
     refine ⟨le_top, hTb2, ?_⟩
     show ¬ 2 ∣ Tb.relIndex ⊤

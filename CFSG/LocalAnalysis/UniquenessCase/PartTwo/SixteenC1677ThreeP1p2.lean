@@ -27,14 +27,14 @@ variable {W : Type} [CommGroup W]
 
 private theorem s168e3_eq_bot_of_mem_of_pow_eq_one {W : Type} [CommGroup W] [Finite W]
     (hW : ∀ w : W, w * w = 1) (hcard : Nat.card W = 2 ^ 6)
-    {A L : Subgroup (MulAut W)} (hLA : L ≤ A)
+    {A L : Subgroup (MulAut W)} (_hLA : L ≤ A)
     (hLn : ∀ g ∈ A, L.map (MulAut.conj g).toMonoidHom = L)
     (hL : IsPOnePlusTwo 3 ↥L) {q : ℕ} (hq : q.Prime) (hq5 : 5 ≤ q)
     {e : MulAut W} (heA : e ∈ A) (heq : e ^ q = 1) (he1 : e ≠ 1) :
     MonoidHom.eqLocus (e : W →* W) (MonoidHom.id W) = ⊥ := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : CFSG.IsExtraspecial 3 ↥L := hL.1
+  have : Fact q.Prime := ⟨hq⟩
+  have : CFSG.IsExtraspecial 3 ↥L := hL.1
   have hLcard : Nat.card ↥L = 27 := by rw [hL.2.1]; norm_num
   have hZcard : Nat.card (Subgroup.center ↥L) = 3 :=
     CFSG.IsExtraspecial.center_order_p 3 ↥L
@@ -84,7 +84,7 @@ private theorem s168e3_eq_bot_of_mem_of_pow_eq_one {W : Type} [CommGroup W] [Fin
 theorem s168e3_pRank_lt_two_of_p1p2 [Finite W] (hW : ∀ w : W, w ^ 2 = 1)
     (hcard : Nat.card W = 2 ^ 6) {A L : Subgroup (MulAut W)} (hLA : L ≤ A)
     (hLn : ∀ g ∈ A, L.map (MulAut.conj g).toMonoidHom = L) (hL : IsPOnePlusTwo 3 ↥L)
-    (hWL : commSub ⊤ L = ⊤) {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) (hq3 : q ≠ 3) :
+    (_hWL : commSub ⊤ L = ⊤) {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) (hq3 : q ≠ 3) :
     CFSG.Open.pRank q A < 2 := by
   classical
   by_contra hge
@@ -117,7 +117,7 @@ theorem s168e3_pRank_lt_two_of_p1p2 [Finite W] (hW : ∀ w : W, w ^ 2 = 1)
   let act : ↥E → X → X := fun g x =>
     ⟨(g : MulAut W) x.1, fun h =>
       x.2 ((g : MulAut W).injective (h.trans (map_one (g : MulAut W)).symm))⟩
-  letI : MulAction ↥E X :=
+  let : MulAction ↥E X :=
     { smul := act
       one_smul := fun x => by
         apply Subtype.ext
@@ -152,7 +152,7 @@ theorem s168e3_pRank_lt_two_of_p1p2 [Finite W] (hW : ∀ w : W, w ^ 2 = 1)
   have hdiv : q ^ 2 ∣ Nat.card X :=
     CFSG.LargeExtraspecial.dvd_natCard_of_forall_dvd_ncard_orbit horb
   have hXcard : Nat.card X = 63 := by
-    haveI := Fintype.ofFinite W
+    have := Fintype.ofFinite W
     show Nat.card {w : W // w ≠ 1} = 63
     rw [Nat.card_eq_fintype_card, Fintype.card_subtype_compl (fun w : W => w = 1)]
     have h1 : Fintype.card {w : W // w = 1} = 1 := by

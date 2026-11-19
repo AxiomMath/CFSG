@@ -30,7 +30,7 @@ theorem false_of_suzukiModel_of_ne {S : Type} [Group S] [Finite S]
     CFSG.AGLEmbeddingD2.Tits.MsideParabolicEscape.ChevGen.isSylowTwoOf_top_map_equiv
       e.symm hSylU
   have hSylT : CFSG.QuasithinUnique.IsSylowTwoOf (T : Subgroup S) ⊤ := by
-    refine ⟨le_top, T.isPGroup', ?_⟩
+    refine ⟨le_top, T.isPGroup, ?_⟩
     have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     rw [show ((T : Subgroup S).subgroupOf ⊤).index = (T : Subgroup S).index from
       Subgroup.relIndex_top_right _]

@@ -99,7 +99,7 @@ private lemma frameSUD_X_map_q_cyclic {R : Type} [Group R] {I : Set (MulAut R)}
     intro x hx
     exact hI_sub (hX hx)
   have hmap_sub : (TypeA.inducedSub ψ A).map q ≤ Subgroup.zpowers (q φ₀) := by
-    haveI : N.Normal := ggInnNormal R
+    have : N.Normal := ggInnNormal R
     have h1 : (N ⊔ Subgroup.zpowers φ₀).map q ≤ Subgroup.zpowers (q φ₀) :=
       map_sup_zpowers_le N φ₀
     exact le_trans (Subgroup.map_mono hX_sub) h1

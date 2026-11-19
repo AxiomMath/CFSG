@@ -54,7 +54,7 @@ theorem graphField_three_false (hO : LieOrderFormulasInput) {K : Type} [Field K]
     (hord : orderOf (CatalogueBGraphField.graphFieldAction 3 K A τ) = 2)
     {D : Subgroup ↥(fixedSubgroup (CatalogueBGraphField.graphFieldAction 3 K A τ))}
     (h : A6Hyp (CatalogueBGraphField.graphFieldAction 3 K A τ) D) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hsq : CatalogueBGraphField.graphFieldAction 3 K A τ ^ 2 = 1 := by
     rw [← hord]; exact pow_orderOf_eq_one _
   have hne1 : CatalogueBGraphField.graphFieldAction 3 K A τ ≠ 1 := fun h1 => by

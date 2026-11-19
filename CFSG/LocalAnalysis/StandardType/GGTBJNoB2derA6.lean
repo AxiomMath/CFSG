@@ -44,7 +44,7 @@ private lemma l48aS_scalars_eq_bot {K : Type} [Field K] [Fintype K]
   intro x hx
   rw [Subgroup.mem_bot]
   obtain ⟨u, rfl⟩ := hx
-  haveI : Subsingleton Kˣ := by
+  have : Subsingleton Kˣ := by
     rw [← Fintype.card_le_one_iff_subsingleton, Fintype.card_units, hK]
   rw [Subsingleton.elim u 1, map_one]
 
@@ -55,17 +55,17 @@ private lemma l48aS_unpack {R : Type} [Group R]
         (⁅LargeEvenSpGroup K 2, LargeEvenSpGroup K 2⁆ : Subgroup (GL (Fin 2 ⊕ Fin 2) K))) := by
   simp only [GGHasLabel, LargeEvenRawDatum, LargeEvenRecipeSymplectic] at h
   obtain ⟨K, hK, hKf, hKcard, hcont2⟩ := h
-  letI : Field K := hK
-  letI : Finite K := hKf
+  let : Field K := hK
+  let : Finite K := hKf
   exact ⟨K, hK, hKf, hKcard, by simpa using hcont2⟩
 
 theorem ggB2der_label_iso_A6 {R : Type} [Group R]
     (h : GGHasLabel (⟨.B2der, 0, 1⟩ : LargeEvenLabel) R) :
     Nonempty (R ≃* alternatingGroup (Fin 6)) := by
   obtain ⟨K, hK, hKfin, hKcard, ⟨e⟩⟩ := l48aS_unpack h
-  letI : Field K := hK
-  letI : Finite K := hKfin
-  letI : Fintype K := Fintype.ofFinite K
+  let : Field K := hK
+  let : Finite K := hKfin
+  let : Fintype K := Fintype.ofFinite K
   have hKf : Fintype.card K = 2 := by
     rw [← Nat.card_eq_fintype_card, hKcard]
   let H : Subgroup (GL (Fin 2 ⊕ Fin 2) K) :=

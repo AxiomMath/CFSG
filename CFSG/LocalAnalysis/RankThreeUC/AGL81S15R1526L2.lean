@@ -34,7 +34,7 @@ theorem row1526_four_commute_gen {M T : Subgroup G} {T₁ T₂ : Subgroup ↥M} 
   by_cases hg : g ∈ M
   · have hVea := CFSG.HardMathSupport.Meierfrankenfeld.AGL81.I542.isElemAbelian_gnV
       (T.subgroupOf M) ctx.gn
-    haveI : (gnV (T.subgroupOf M)).Normal := Subgroup.normalClosure_normal
+    have : (gnV (T.subgroupOf M)).Normal := Subgroup.normalClosure_normal
     obtain ⟨Ls, hLs, hLL⟩ := hL
     obtain ⟨Is, hIs, hII⟩ := hI
     have hUL : (⁅L, gnV (T.subgroupOf M)⁆ : Subgroup ↥M) ≤ gnV (T.subgroupOf M) := by

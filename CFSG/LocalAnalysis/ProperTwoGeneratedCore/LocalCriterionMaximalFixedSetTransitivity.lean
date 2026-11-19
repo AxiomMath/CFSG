@@ -59,7 +59,7 @@ theorem locally_maximal_base_pair_flip [Finite G]
     (mem_pointFixedSet_iff H QG _).mpr (hQGB.trans inf_le_left)
   have hbQ : b ∈ pointFixedSet H QG :=
     (mem_pointFixedSet_iff H QG _).mpr (hQGB.trans inf_le_right)
-  have hQeq : QG = P := hmax QG hQGH (Q.isPGroup'.map B.subtype) hPQG
+  have hQeq : QG = P := hmax QG hQGH (Q.isPGroup.map B.subtype) hPQG
     (two_le_pointFixedSet_card_of_pair H QG _ b (Ne.symm hbbase) haQ hbQ)
   obtain ⟨r, hr, hra, _, hrnorm, hmotion⟩ := pair_specified_sylow_flip
     h T hzT hzcenter (rightCosetMk H 1) b (Ne.symm hbbase) p hp Q

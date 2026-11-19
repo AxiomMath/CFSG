@@ -28,7 +28,7 @@ theorem isIntegral_iff_exists_monic_natDegree_pos {R A : Type*} [CommRing R] [Ri
 
 theorem isIntegral_ratCast_iff_exists_int {α : Type*} [DivisionRing α] [CharZero α] (q : ℚ) :
     IsIntegral ℤ (q : α) ↔ ∃ n : ℤ, q = n := by
-  rw [IsIntegral.ratCast_iff, IsIntegrallyClosed.isIntegral_iff (R := ℤ) (K := ℚ)]
+  rw [isIntegral_ratCast_iff, IsIntegrallyClosed.isIntegral_iff (R := ℤ) (K := ℚ)]
   simp [eq_comm]
 
 theorem Complex.isIntegral_int_iff_exists_int_of_exists_rat {z : ℂ} (hz : ∃ q : ℚ, z = q) :

@@ -15,7 +15,7 @@ section
 theorem layer_eq_bot (hTop : TopStatement) {X : Type} [Group X] [Finite X] (S : Sylow 2 X)
     {A : Subgroup X} (hAS : A ≤ S) (hab : IsElemAbelian 2 A) (hA : Nat.card A = 256)
     (hcl : ∀ a ∈ A, ∀ g : X, g⁻¹ * a * g ∈ (S : Subgroup X) → g⁻¹ * a * g ∈ A)
-    {x t : X} (hx5 : x ^ 5 = 1) (hx1 : x ≠ 1) (ht2 : t * t = 1) (htx : t * x = x * t)
+    {x t : X} (hx5 : x ^ 5 = 1) (_hx1 : x ≠ 1) (ht2 : t * t = 1) (htx : t * x = x * t)
     (hxA : x ∈ normalizer (A : Set X)) (htA : t ∈ normalizer (A : Set X))
     (hfpf : ∀ a ∈ A, x * a * x⁻¹ = a → a = 1)
     {U : Subgroup X} (hUA : U ≤ A) (hU : Nat.card U = 16)
@@ -26,8 +26,8 @@ theorem layer_eq_bot (hTop : TopStatement) {X : Type} [Group X] [Finite X] (S : 
     (hIα : Nat.card (imgIn A (normalizer (A : Set X))) ∣ 2 ^ 5 * 3 ^ 2 * 5 ^ 2) :
     goldschmidtLayer (Mbar A) = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨hU1, hU2, hU3⟩ := unpack hTop S hAS hab.1 hcl
   have hφ5 : rhoHom A x ^ 5 = 1 := by rw [← map_pow, hx5, map_one]
   have hψ2 : rhoHom A t ^ 2 = 1 := by

@@ -16,7 +16,7 @@ open CFSG.Open CFSG.HardMathSupport.Solomon.Coordinator.ChevQ CFSG.Assembly.LowT
 theorem centerAux_exceptional_two (t : StatedLieTag) (n f : ℕ) :
     (exceptionalOrders t n 2 f).1 ∣ 4 ∧ (exceptionalOrders t n 2 f).2 ∣ 4 := by
   unfold exceptionalOrders
-  split <;> first | omega | (norm_num; done) | simp_all
+  split <;> first | omega | (norm_num)
 
 theorem centerAux_torsBound_eq_one {r : ℕ} {t : StatedLieTag} {n f : ℕ} (hr : r = 3 ∨ r = 5)
     (hg : ¬ r ∣ (genericOrders t n 2 f).1) : torsBound r t n 2 f = 1 := by
@@ -39,7 +39,7 @@ theorem centerAux_coprime_of_card_le_one {K : Type} [Group K] [Finite K] {p : �
     Nat.Coprime p (Nat.card (Subgroup.center K)) := by
   rw [Nat.Prime.coprime_iff_not_dvd hp]
   intro hd
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' p hd
   have hz1 : z ≠ 1 := by
     intro h1
@@ -96,7 +96,7 @@ theorem bal207RankCenter_of_griess (hGA : GriessAllModelsStatement) : Bal207Rank
       rw [hp2] at hL
       refine ⟨.POmegaPlus, r, q.exponent, hL, Or.inl rfl, ?_⟩
       have heven : Even (2 ^ q.exponent) := (Nat.even_pow' q.exponent_pos.ne').mpr even_two
-      simp only [genericOrders, if_pos heven]
+      simp only [genericOrders, ite_eq_left heven]
       norm_num
     | twistedD r q =>
       obtain ⟨rfl, h, -⟩ := hd

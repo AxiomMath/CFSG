@@ -14,6 +14,7 @@ namespace CFSG.OddStandard.SmallF3.Omega
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {z r : G}
   {B A K₁ K₂ : Subgroup G} {h : G}
 
+omit [Finite G] in
 private lemma s888cn_iso_z_eq_neg_one {K : Fin 4 → Subgroup G} {z : G}
     (hq : Sec5B517Quad K z) {i : Fin 4} (e : ↥(K i) ≃* SL23) :
     e ⟨z, hq.z_mem i⟩ = -1 := by
@@ -28,6 +29,7 @@ private lemma s888cn_iso_z_eq_neg_one {K : Fin 4 → Subgroup G} {z : G}
     exact hq.z_ne (congrArg Subtype.val hsub)
   · exact hneg
 
+omit [Finite G] in
 private lemma s888cn_comm_mem_zpowers {K : Fin 4 → Subgroup G} {z : G}
     (hq : Sec5B517Quad K z) {i : Fin 4} {u v : G}
     (hu : u ∈ K i) (hu4 : u ^ 4 = 1) (hv : v ∈ K i) (hv4 : v ^ 4 = 1) :
@@ -59,6 +61,7 @@ private lemma s888cn_comm_mem_zpowers {K : Fin 4 → Subgroup G} {z : G}
     rw [hG]
     exact Subgroup.mem_zpowers z
 
+omit [Finite G] in
 private lemma s888cn_prod_commutator {K : Fin 4 → Subgroup G} {z : G}
     (hq : Sec5B517Quad K z) {k l : Fin 4 → G}
     (hk : ∀ i, k i ∈ K i) (hl : ∀ i, l i ∈ K i) :
@@ -72,6 +75,7 @@ private lemma s888cn_prod_commutator {K : Fin 4 → Subgroup G} {z : G}
       (fun i => (K i).mul_mem ((K i).mul_mem (hk i) (hl i)) ((K i).inv_mem (hk i)))
       (fun i => (K i).inv_mem (hl i))]
 
+omit [Finite G] in
 private lemma s888cn_conj_zpow {n z ζ : G} (hn : n ∈ centralizer ({z} : Set G))
     (hζ : ζ ∈ zpowers z) : n * ζ * n⁻¹ = ζ := by
   obtain ⟨k, hk⟩ := hζ

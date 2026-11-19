@@ -27,7 +27,7 @@ theorem padicValNat_card_GL_eq_sum {K : Type*} [Field K] [Finite K] {n : ℕ}
     (hpK : ¬ p ∣ Nat.card K) :
     padicValNat p (Nat.card (GL (Fin n) K)) =
       ∑ j ∈ Finset.Ioc 0 n, padicValNat p (Nat.card K ^ j - 1) := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hq1 : 1 < Nat.card K := Finite.one_lt_card
   have hcard : Fintype.card K = Nat.card K := (Nat.card_eq_fintype_card).symm
   set q := Nat.card K with hq
@@ -48,6 +48,7 @@ theorem padicValNat_card_GL_eq_sum {K : Type*} [Field K] [Finite K] {n : ℕ}
   rw [padicValNat_prod_finset hne0, Finset.sum_congr rfl hterm]
   exact sum_range_sub_eq_sum_Ioc (fun j => padicValNat p (q ^ j - 1)) n
 
+omit hp in
 theorem not_dvd_pow_add_one_of_odd {q e : ℕ} (hp5 : 5 ≤ p) (heo : Odd e)
     (hpe : ∀ j : ℕ, p ∣ q ^ j - 1 ↔ e ∣ j) (j : ℕ) (hq : 1 ≤ q) : ¬ p ∣ q ^ j + 1 := by
   intro h
@@ -85,10 +86,10 @@ variable (r : ℕ) (K : Type) [Field K]
   inv := fromBlocks ((g⁻¹ : GL (Fin r) K) : Matrix (Fin r) (Fin r) K) 0 0
     ((g : Matrix (Fin r) (Fin r) K)ᵀ)
   val_inv := by
-    simp only [fromBlocks_multiply, ← transpose_mul, Units.inv_mul, Units.mul_inv, Matrix.mul_zero,
+    simp only [fromBlocks_multiply, ← transpose_mul, Units.mul_inv, Matrix.mul_zero,
       Matrix.zero_mul, add_zero, zero_add, transpose_one, fromBlocks_one]
   inv_val := by
-    simp only [fromBlocks_multiply, ← transpose_mul, Units.inv_mul, Units.mul_inv, Matrix.mul_zero,
+    simp only [fromBlocks_multiply, ← transpose_mul, Units.inv_mul, Matrix.mul_zero,
       Matrix.zero_mul, add_zero, zero_add, transpose_one, fromBlocks_one]
 
 @[expose] noncomputable def leviGL : GL (Fin r) K →* GL (Fin r ⊕ Fin r) K :=
@@ -107,7 +108,7 @@ theorem leviGL_mem_statedSp (g : GL (Fin r) K) : leviGL r K g ∈ StatedSp r K :
     rw [← transpose_mul, h1, transpose_one]
   simp only [leviGL, MonoidHom.mk'_apply, leviUnit, fromBlocks_transpose, transpose_zero,
     transpose_transpose, fromBlocks_multiply, Matrix.zero_mul, Matrix.mul_zero, Matrix.mul_one,
-    Matrix.one_mul, add_zero, zero_add, neg_mul, mul_neg, h1, h3, Matrix.mul_neg, Matrix.neg_mul]
+    add_zero, zero_add, neg_mul, mul_neg, h1, h3]
   simp
 
 @[expose] noncomputable def leviSp : GL (Fin r) K →* StatedSp r K :=

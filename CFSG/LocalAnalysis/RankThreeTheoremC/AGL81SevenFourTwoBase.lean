@@ -44,6 +44,7 @@ theorem le_of_frattini [Fact p.Prime] (P : Sylow p X) {N K Y : Subgroup X}
   exact not_le_of_normalizer_inf_le P' hN' hY' fun k hk =>
     Subgroup.mem_subgroupOf.mpr (hKY (Subgroup.mem_subgroupOf.mp hk))
 
+omit [Finite X] in
 theorem map_ker_centerQuotientAction_le [Fact p.Prime] {D E : Subgroup X}
     (e : D ⧸ Subgroup.center D ≃* Multiplicative (Fin 2 → ZMod p)) (hED : E ≤ D)
     (hZE : (Subgroup.center D).map D.subtype ≤ E) :

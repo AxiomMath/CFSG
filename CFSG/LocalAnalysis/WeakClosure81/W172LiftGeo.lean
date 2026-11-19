@@ -51,7 +51,7 @@ theorem w172_relIndex_le_two (h162 : W3Thm162Gt2 G) (c : MinCex172 D V₀ V H) {
     (hg : Gam183 V H (eOmegaZ H D.T) 1 g) (hgT : vInH V H g ≤ D.T) :
     (conjSubgroup D.M g).relIndex D.T ≤ 2 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨M⟩ := exists_modDataE c.hyp.isElemAbelian_eOmegaZ (Hyp183.normalizer_eOmegaZ H D.T)
   have hT : IsPGroup 2 D.T := (isSylowOf_two_iff_isSylowIn.mp D.sylowM).isPGroup
   have hTH : D.T ≤ H := c.hyp.hyp171.2.1
@@ -95,14 +95,14 @@ theorem w172_relIndex_le_two (h162 : W3Thm162Gt2 G) (c : MinCex172 D V₀ V H) {
     rw [← map_mul, ← map_one π]
     refine (hfib (a' * a') 1 ?_ ?_).1 ?_
     · simpa using D.T.mul_mem haT haT
-    · simpa using D.T.one_mem
+    · simp
     · rw [map_mul, map_one, hρa]
       exact hsq
   have hd₀1 : π a' ≠ 1 := by
     intro h
     apply he1
     rw [← hρa]
-    have h1 := (hfib a' 1 haT (by simpa using D.T.one_mem)).2 (by rw [map_one]; exact h)
+    have h1 := (hfib a' 1 haT (by simp)).2 (by rw [map_one]; exact h)
     rwa [map_one] at h1
   have hcomm : ∀ s ∈ (D.T.subgroupOf H).map π,
       π a' * (s * π a' * s⁻¹) = (s * π a' * s⁻¹) * π a' := by
@@ -162,7 +162,7 @@ theorem w172_relIndex_le_two (h162 : W3Thm162Gt2 G) (c : MinCex172 D V₀ V H) {
     · rw [h] at hodd
       have := Nat.odd_iff.mp hodd
       omega
-  haveI : Group.IsSolvable ↥H := c.solv
+  have : Group.IsSolvable ↥H := c.solv
   have hQp : IsPGroup 2 ↥(CFSG.pCore 2 ↥H) := CFSG.pCore_isPGroup
   have hO2 : CFSG.pCore 2 (↥H ⧸ CFSG.pCore 2 ↥H) = ⊥ :=
     CFSG.ABGLocalTools.pCore_quotient_pCore_eq_bot

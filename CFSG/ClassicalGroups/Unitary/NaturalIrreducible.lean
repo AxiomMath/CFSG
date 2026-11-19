@@ -13,7 +13,7 @@ open CFSG.LieType.Universal.Unitary CFSG.LieType.BorelTits
 variable {n : ℕ}
 
 theorem herm_smul_smul_eq_zero {K : Type} [Field K] {σ : K ≃+* K}
-    (hσ : ∀ c, σ (σ c) = c) {n : ℕ} {v : Fin n → K} (hv : herm σ v v = 0) (c : K) :
+    (_hσ : ∀ c, σ (σ c) = c) {n : ℕ} {v : Fin n → K} (hv : herm σ v v = 0) (c : K) :
     herm σ (c • v) (c • v) = 0 := by
   rw [herm_smul_left, herm_smul_right, hv, mul_zero, mul_zero]
 
@@ -55,15 +55,15 @@ theorem addSubgroup_eq_top_of_T_invariant_of_span {K : Type} [Field K] [CharP K 
       let Z : AddSubgroup (Fin n → K) :=
         { carrier := {y | herm σ y w = 0}
           zero_mem' := by
-            simp only [Set.mem_setOf_eq]
+            simp only [Set.mem_ofPred_eq]
             rw [herm_zero_left]
           add_mem' := by
             intro x y hx hy
-            simp only [Set.mem_setOf_eq] at hx hy ⊢
+            simp only [Set.mem_ofPred_eq] at hx hy ⊢
             rw [herm_add_left, hx, hy, add_zero]
           neg_mem' := by
             intro x hx
-            simp only [Set.mem_setOf_eq] at hx ⊢
+            simp only [Set.mem_ofPred_eq] at hx ⊢
             rw [herm_neg_left, hx, neg_zero] }
       have hle : AddSubgroup.closure {v : Fin n → K | herm σ v v = 0} ≤ Z := by
         refine (AddSubgroup.closure_le Z).mpr ?_

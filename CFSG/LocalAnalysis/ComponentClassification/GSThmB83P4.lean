@@ -153,7 +153,7 @@ theorem normalizer_P_le_centralizer (hCF1 : CFSec8Simple) (hCF2 : CFSec8InnerCen
         refine IsPGroup.of_card (n := k) ?_
         rw [Nat.card_zpowers, hn', orderOf_pow_of_dvd (by omega) hdvd, hm,
           Nat.mul_div_cancel _ (by omega)]
-      have hT2 : IsPGroup 2 (T : Subgroup ↥h.C0) := T.isPGroup'
+      have hT2 : IsPGroup 2 (T : Subgroup ↥h.C0) := T.isPGroup
       have hle : zpowers n' ≤ normalizer ((T : Subgroup ↥h.C0) : Set ↥h.C0) := by
         rw [zpowers_le, hT]
         exact pow_mem hn _

@@ -15,6 +15,7 @@ variable {G : Type} [Group G] [Finite G]
 variable {B Bs : Subgroup G} {x : G} {L D J : Subgroup G} {𝒦 : Finset (Subgroup G)} {m n : ℕ}
 variable {F0 : Type} [Field F0] [Finite F0] [CharP F0 2]
 
+omit [Finite F0] [CharP F0 2] in
 private theorem qTwoChartTwoThree_diag_one :
     qTwoChartTwoThree_diag (1 : Fin m → F0ˣ) = 1 := by
   apply Units.ext
@@ -22,6 +23,7 @@ private theorem qTwoChartTwoThree_diag_one :
   rw [← Matrix.diagonal_one]
   congr 1
 
+omit [Finite F0] [CharP F0 2] in
 private theorem qTwoChartTwoThree_diag_mul (c c' : Fin m → F0ˣ) :
     qTwoChartTwoThree_diag (c * c') =
       qTwoChartTwoThree_diag c * qTwoChartTwoThree_diag c' := by
@@ -30,12 +32,14 @@ private theorem qTwoChartTwoThree_diag_mul (c c' : Fin m → F0ˣ) :
   rw [Matrix.diagonal_mul_diagonal]
   congr 1
 
+omit [Finite F0] [CharP F0 2] in
 private theorem qTwoChartTwoThree_diag_inv (c : Fin m → F0ˣ) :
     qTwoChartTwoThree_diag c⁻¹ = (qTwoChartTwoThree_diag c)⁻¹ := by
   have h : qTwoChartTwoThree_diag c * qTwoChartTwoThree_diag c⁻¹ = 1 := by
     rw [← qTwoChartTwoThree_diag_mul, mul_inv_cancel, qTwoChartTwoThree_diag_one]
   exact eq_inv_of_mul_eq_one_right h
 
+omit [Finite F0] [CharP F0 2] in
 private theorem qTwoChartTwoThree_diag_const_comm (t : F0ˣ) (u : GL (Fin m) F0) :
     qTwoChartTwoThree_diag (fun _ : Fin m => t) * u =
       u * qTwoChartTwoThree_diag (fun _ : Fin m => t) := by

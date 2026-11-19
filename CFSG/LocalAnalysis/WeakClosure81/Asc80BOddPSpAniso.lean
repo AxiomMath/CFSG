@@ -275,7 +275,7 @@ theorem transCenter_of_comm_inv (h2K : (2 : K) ≠ 0) {E : Subgroup (StatedProj 
     have h2 := eq_eig_sup_eig h2K hbb (A.eigenspace (-1)) (hBst (-1))
     have h3 := eigB_iSup h2K haa
     rw [iSup_bool_eq] at h3
-    simp only [Vs, sg, cond_true, cond_false]
+    simp only [Vs, sg, _root_.Bool.cond_true, Bool.cond_false]
     rw [← h1, ← h2]
     exact h3
   have hpure : ∀ ij, ∀ c ∈ Vs ij, TransCenter (cGen E) c := by
@@ -377,11 +377,11 @@ theorem exists_form_ne_zero_of_sq_neg_one (h2K : (2 : K) ≠ 0) {g : StatedSp r 
 
 theorem mem_eigB_true {A : Module.End K (Fin r ⊕ Fin r → K)} {v : Fin r ⊕ Fin r → K} :
     v ∈ eigB A true ↔ A v = v := by
-  rw [eigB, cond_true, Module.End.mem_eigenspace_iff, one_smul]
+  rw [eigB, _root_.Bool.cond_true, Module.End.mem_eigenspace_iff, one_smul]
 
 theorem mem_eigB_false {A : Module.End K (Fin r ⊕ Fin r → K)} {v : Fin r ⊕ Fin r → K} :
     v ∈ eigB A false ↔ A v = -v := by
-  rw [eigB, cond_false, Module.End.mem_eigenspace_iff, neg_one_smul]
+  rw [eigB, Bool.cond_false, Module.End.mem_eigenspace_iff, neg_one_smul]
 
 theorem transCenter_of_comm_neg [Finite K] (h2K : (2 : K) ≠ 0)
     {E : Subgroup (StatedProj (StatedSp r K))} {a b : StatedSp r K} (ha : proj r K a ∈ E)

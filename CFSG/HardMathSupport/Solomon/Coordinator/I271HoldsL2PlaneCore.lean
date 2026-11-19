@@ -17,6 +17,7 @@ variable {F : Type} [Field F] [Finite F]
 @[expose] def cSL (y : PGammaL2 F) : Subgroup (PSL2 F) :=
   MonoidHom.eqLocus (semilinearAction F y).toMonoidHom (MonoidHom.id _)
 
+omit [Finite F] in
 theorem mem_cSL {y : PGammaL2 F} {x : PSL2 F} : x ∈ cSL y ↔ semilinearAction F y x = x := Iff.rfl
 
 theorem mem_fixSub_zpowers_iff {S : Type} [Group S] (e : S ≃* PSL2 F) (a : MulAut S) (s : S) :
@@ -32,6 +33,7 @@ theorem mem_fixSub_zpowers_iff {S : Type} [Group S] (e : S ≃* PSL2 F) (a : Mul
       Subgroup.zpowers_le.2 (MulAction.mem_stabilizer_iff.2 h)
     exact MulAction.mem_stabilizer_iff.1 (hle hc)
 
+omit [Finite F] in
 theorem cSL_conj (c y : PGammaL2 F) :
     cSL (c * y * c⁻¹) = (cSL y).map (semilinearAction F c).toMonoidHom := by
   ext x
@@ -56,9 +58,10 @@ structure PlaneCase (F : Type) [Field F] [Finite F] : Prop where
     pgl2FieldAut F σ g = g →
       cSL (SemidirectProduct.inr σ : PGammaL2 F) ⊔ cSL (SemidirectProduct.inl g : PGammaL2 F) = ⊤
 
+omit [Finite F] in
 theorem exists_outer (A : Subgroup (PGammaL2 F)) (hA : IsElemAbelian 3 A)
     (hnin : ¬ A ≤ pGammaL2PSLRange F) : ∃ y ∈ A, y ^ 3 = 1 ∧ y.right ≠ 1 := by
-  rw [SetLike.not_le_iff_exists] at hnin
+  rw [IsConcreteLE.not_le_iff_exists] at hnin
   obtain ⟨y, hyA, hy⟩ := hnin
   refine ⟨y, hyA, hA.2 y hyA, ?_⟩
   intro hr
@@ -188,7 +191,7 @@ theorem plane_pgammaL2 (h : PlaneCase F) {A : Subgroup (PGammaL2 F)} (hA : IsEle
   obtain ⟨C, hC⟩ := CFSG.GH74.GLS.IVK.H90.pgammaL2_conj_inr_of_pow_eq_one y (by rw [hσ]; exact hy3)
   set c : PGammaL2 F := SemidirectProduct.inl C with hc
   let κ : PGammaL2 F ≃* PGammaL2 F := MulAut.conj c⁻¹
-  have hκ : ∀ z, κ z = c⁻¹ * z * c := fun z => by simp [κ, MulAut.conj_apply]
+  have hκ : ∀ z, κ z = c⁻¹ * z * c := fun z => by simp [κ]
   have hκs : ∀ z, κ.symm z = c * z * c⁻¹ := fun z => by
     apply κ.injective
     rw [MulEquiv.apply_symm_apply, hκ]
@@ -279,8 +282,8 @@ theorem l2FieldPlane_of_case
       have hn3 : n ≠ 3 := fun h3 =>
         hn8 ⟨K, hK, hfin, by rw [hcard, h3]; norm_num, ⟨e⟩⟩
       have : Fintype K := Fintype.ofFinite K
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-      haveI : CharP K 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hcard])
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : CharP K 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hcard])
       exact ⟨K, hK, hfin, Or.inr ⟨n, hn, by omega, hcard⟩,
         ⟨e.trans ((CFSG.Assembly.LowTwoRank.specialLinearGroupEquivStatedSL 2 K).symm.trans (slEquivPsl2 K))⟩⟩
   have hc := hcase F hF

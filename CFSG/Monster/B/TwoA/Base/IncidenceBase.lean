@@ -26,19 +26,19 @@ theorem Echain_mono {i j : ℕ} (h1 : 1 ≤ i) (hij : i ≤ j) (h5 : j ≤ 5) : 
   | base => exact le_rfl
   | succ k hik ih => exact (ih (by omega)).trans (Echain_le_succ k (by omega) (by omega))
 
-@[expose] def ParObj : Set (ℕ × Subgroup Dfull) :=
+def ParObj : Set (ℕ × Subgroup Dfull) :=
   {x | 1 ≤ x.1 ∧ x.1 ≤ 5 ∧ ∃ g ∈ Shat, x.2 = conjSub g (Echain x.1)}
 
 abbrev ParGeom : Type := ↥ParObj
 
-@[expose] def parType (x : ParGeom) : ℕ := x.1.1
+def parType (x : ParGeom) : ℕ := x.1.1
 
-@[expose] def parInc (x y : ParGeom) : Prop :=
+def parInc (x y : ParGeom) : Prop :=
   x = y ∨ (parType x ≠ parType y ∧ (x.1.2 ≤ y.1.2 ∨ y.1.2 ≤ x.1.2))
 
-@[expose] def IsParFlag (F : Set ParGeom) : Prop := ∀ x ∈ F, ∀ y ∈ F, parInc x y
+def IsParFlag (F : Set ParGeom) : Prop := ∀ x ∈ F, ∀ y ∈ F, parInc x y
 
-@[expose] def stdObj (i : ℕ) (h1 : 1 ≤ i) (h5 : i ≤ 5) : ParGeom :=
+def stdObj (i : ℕ) (h1 : 1 ≤ i) (h5 : i ≤ 5) : ParGeom :=
   ⟨(i, Echain i), h1, h5, 1, Shat.one_mem, (conjSub_one _).symm⟩
 
 theorem parType_bounds (x : ParGeom) : 1 ≤ parType x ∧ parType x ≤ 5 := ⟨x.2.1, x.2.2.1⟩
@@ -79,7 +79,7 @@ theorem conjSub_mem_ParObj {g : Dfull} (hg : g ∈ Shat) {x : ℕ × Subgroup Df
   obtain ⟨h1, h5, h, hh, hx2⟩ := hx
   exact ⟨h1, h5, g * h, Shat.mul_mem hg hh, by rw [hx2, conjSub_mul]⟩
 
-@[expose, instance_reducible] def parAction : MulAction Shat ParGeom where
+@[instance_reducible] def parAction : MulAction Shat ParGeom where
   smul g x := ⟨(x.1.1, conjSub (g : Dfull) x.1.2), conjSub_mem_ParObj g.2 x.2⟩
   one_smul _ := Subtype.ext (Prod.ext rfl (conjSub_one _))
   mul_smul _ _ _ := Subtype.ext (Prod.ext rfl (conjSub_mul _ _ _))
@@ -99,7 +99,7 @@ theorem parInc_smul_iff (g : Shat) (x y : ParGeom) : parInc (g • x) (g • y) 
     conjSub (g : Dfull) y.1.2 ≤ conjSub (g : Dfull) x.1.2)) ↔ _
   rw [conjSub_le_conjSub_iff, conjSub_le_conjSub_iff]
 
-@[expose] def stdParFlag : Set ParGeom := {x | x.1.2 = Echain x.1.1}
+def stdParFlag : Set ParGeom := {x | x.1.2 = Echain x.1.1}
 
 theorem stdObj_mem (i : ℕ) (h1 : 1 ≤ i) (h5 : i ≤ 5) : stdObj i h1 h5 ∈ stdParFlag := rfl
 

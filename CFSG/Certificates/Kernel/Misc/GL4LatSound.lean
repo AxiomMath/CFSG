@@ -13,7 +13,7 @@ open scoped commutatorElement
 open CFSG.KC.Misc.Clos (ClosEnc ExactList clos_card sort_distinct treeAt sortAt closedAt)
 open Certificates.A5GL42 (Mat4 ofCode)
 open Certificates.A5A7GL42 (Pset)
-open Certificates.GL4 (GL4 sg)
+open Certificates.GL4Sub (GL4 sg)
 
 theorem exists_of_invW {c d : ℕ} (h : invW c d = true) : ∃ g : GL4, enc4 g = c := by
   unfold invW at h
@@ -34,10 +34,10 @@ theorem enc4_inv_of_invW {g : GL4} {d : ℕ} (h : invW (enc4 g) d = true) : enc4
 
 theorem sg_eq_of (l : List ℕ) (hl : ∀ c ∈ l, ∃ g : GL4, enc4 g = c) :
     sg l = Subgroup.closure {g | g ∈ l.map u4} := by
-  unfold Certificates.GL4.sg
+  unfold Certificates.GL4Sub.sg
   congr 1
   ext g
-  simp only [Set.mem_setOf_eq, List.mem_map]
+  simp only [Set.mem_ofPred_eq, List.mem_map]
   constructor
   · rintro ⟨c, hc, e⟩
     refine ⟨c, hc, ?_⟩

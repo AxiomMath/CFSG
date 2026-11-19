@@ -22,7 +22,7 @@ theorem exists_quat_of_member {R : Subgroup X} {S : Sylow 2 R} {z : X}
     R.subtype.comp ((S : Subgroup R).subtype.comp eQ.symm.toMonoidHom)
   have hι : Function.Injective ι := fun g h hgh =>
     eQ.symm.injective (Subtype.ext (Subtype.ext hgh))
-  have hV : IsPGroup 2 ((S : Subgroup R).map R.subtype) := S.isPGroup'.map _
+  have hV : IsPGroup 2 ((S : Subgroup R).map R.subtype) := S.isPGroup.map _
   have hmem : ∀ g, ι g ∈ (S : Subgroup R).map R.subtype := fun g => ⟨_, (eQ.symm g).2, rfl⟩
   refine ⟨ι, hι, fun g => ?_, ?_⟩
   · exact Subgroup.subset_closure ⟨Subgroup.map_subtype_le _ (hmem g),

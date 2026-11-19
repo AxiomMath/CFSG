@@ -23,11 +23,11 @@ theorem e9MoveBad_of_sylow {P₀ : Subgroup S} (hP : IsPGroup 3 P₀) (hidx : ¬
           n ∉ Subgroup.normalizer (Subgroup.zpowers s : Set S)) :
     E9MoveBad S := by
   intro B hB hB9 s hs hs1 hbad
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hpB : IsPGroup 3 B := fun g => ⟨1, by rw [pow_one]; exact Subtype.ext (hB.2 _ g.2)⟩
   obtain ⟨Q, hBQ⟩ := hpB.exists_le_sylow
   let P : Sylow 3 S := hP.toSylow hidx
-  haveI : Finite (Sylow 3 S) := Sylow.finite_of_finiteIndex Q
+  have : Finite (Sylow 3 S) := Sylow.finite_of_finiteIndex Q
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq S Q P
   have hQP : (Q : Subgroup S).map (MulAut.conj g).toMonoidHom = P₀ := by
     have h := congrArg (fun R : Sylow 3 S => (R : Subgroup S)) hg
@@ -120,6 +120,7 @@ theorem conj_xa (a : ℕ) : y * x ^ a * y⁻¹ = z ^ (2 * a) * x ^ a := by
 theorem y_xa (a : ℕ) : y * x ^ a = z ^ (2 * a) * x ^ a * y :=
   mul_inv_eq_iff_eq_mul.mp (h.conj_xa a)
 
+omit h in
 theorem lx (a b c : ℕ) : x * (x ^ a * y ^ b * z ^ c) = x ^ (a + 1) * y ^ b * z ^ c := by
   rw [← mul_assoc, ← mul_assoc, ← pow_succ']
 
@@ -161,13 +162,13 @@ theorem mem_closure_nf {g : S} (hg : g ∈ Subgroup.closure ({x, y} : Set S)) :
     obtain ⟨a, b, c, rfl⟩ := ih
     simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hg
     rcases hg with rfl | rfl
-    · exact ⟨a + 1, b, c, h.lx a b c⟩
+    · exact ⟨a + 1, b, c, HeisRel.lx a b c⟩
     · exact ⟨a, b + 1, 2 * a + c, h.ly a b c⟩
   | inv_mul_cancel g hg k _ ih =>
     obtain ⟨a, b, c, rfl⟩ := ih
     simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hg
     rcases hg with rfl | rfl
-    · exact ⟨a + 1 + 1, b, c, by rw [h.inv_x, sq, mul_assoc, h.lx, h.lx]⟩
+    · exact ⟨a + 1 + 1, b, c, by rw [h.inv_x, sq, mul_assoc, HeisRel.lx, HeisRel.lx]⟩
     · exact ⟨a, b + 1 + 1, 2 * a + (2 * a + c), by rw [h.inv_y, sq, mul_assoc, h.ly, h.ly]⟩
 
 theorem mem_closure_nf3 {g : S} (hg : g ∈ Subgroup.closure ({x, y} : Set S)) :
@@ -211,7 +212,7 @@ theorem card_closure : Nat.card (Subgroup.closure ({x, y} : Set S)) = 27 := by
     · obtain ⟨a, b, c, ha, hb, hc, e⟩ := h.mem_closure_nf3 g.2
       exact ⟨(⟨a, ha⟩, ⟨b, hb⟩, ⟨c, hc⟩), Subtype.ext e.symm⟩
   rw [← Nat.card_eq_of_bijective F hF]
-  simp [Nat.card_prod]
+  simp
 
 theorem not_comm : x * y ≠ y * x := by
   intro hxy
@@ -228,6 +229,7 @@ theorem x_not_mem : x ∉ Subgroup.zpowers z := by
     exact h.czy.zpow_left k
   exact h.not_comm hxy.eq
 
+omit h in
 theorem moved {n s : S} {k : ℕ} (hs3 : s ^ 3 = 1) (hsz : s ∉ Subgroup.zpowers z)
     (hk : z ^ k ≠ 1) (e : n * s * n⁻¹ = s * z ^ k) :
     n ∉ Subgroup.normalizer (Subgroup.zpowers s : Set S) := by
@@ -255,12 +257,12 @@ theorem move {s : S} (hs : s ∈ Subgroup.closure ({x, y} : Set S)) (hs3 : s ^ 3
     · refine (hsz ?_).elim
       rw [pow_zero, pow_zero, one_mul, one_mul]
       exact pow_mem (Subgroup.mem_zpowers z) c
-    · refine Or.inr (h.moved hs3 hsz ?_ (h.conj_y' a 0 c))
+    · refine Or.inr (HeisRel.moved hs3 hsz ?_ (h.conj_y' a 0 c))
       intro e
       have e' := pow_eq_one_iff_modEq.mp e
       rw [h.orderOf_z, Nat.ModEq] at e'
       omega
-  · exact Or.inl (h.moved hs3 hsz
+  · exact Or.inl (HeisRel.moved hs3 hsz
       (fun e => hb0 (h.pow_z_inj hb (by norm_num) (e.trans (pow_zero z).symm))) (h.conj_x a b c))
 
 end HeisRel
@@ -360,7 +362,7 @@ section Main
 
 theorem card_le_nine_grp (E : Subgroup grp) (hE : CFSG.Assembly.IsElemAbelian 3 E) :
     Nat.card E ≤ 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : IsPGroup 3 E := fun g => ⟨1, by rw [pow_one]; exact Subtype.ext (hE.2 _ g.2)⟩
   obtain ⟨k, hk⟩ := hp.exists_card_eq
   have hd : 3 ^ k ∣ 251596800 := hk ▸ card_grp ▸ Subgroup.card_subgroup_dvd_card E
@@ -377,7 +379,7 @@ theorem card_le_nine_grp (E : Subgroup grp) (hE : CFSG.Assembly.IsElemAbelian 3 
     obtain ⟨P0, hp1, hp2, hcard⟩ := exists_P0
     let Q : Sylow 3 grp := Sylow.ofCard E (by rw [hk, factorization_card_grp])
     let P : Sylow 3 grp := Sylow.ofCard P0 (by rw [hcard, factorization_card_grp]; norm_num)
-    haveI : Finite (Sylow 3 grp) := Sylow.finite_of_finiteIndex Q
+    have : Finite (Sylow 3 grp) := Sylow.finite_of_finiteIndex Q
     obtain ⟨g, hg⟩ := MulAction.exists_smul_eq grp P Q
     have hmap : P0.map (MulAut.conj g).toMonoidHom = E := by
       have h := congrArg (fun R : Sylow 3 grp => (R : Subgroup grp)) hg

@@ -31,7 +31,7 @@ private theorem qTwoChartExtend_core {N : ℕ} (hN : N + 4 ≤ 2 * m)
 theorem qTwoChart_extendFrame (S : QTwoChartSetting B Bs x L D J 𝒦 m n)
     (ε0 : Fin m ↪ Fin (n + 1))
     {π π' : Equiv.Perm (Fin (n + 1))} {J J' : Finset (Fin m)}
-    (hJ'card : J'.card = J.card) (hJ4 : J.card ≤ 4)
+    (_hJ'card : J'.card = J.card) (hJ4 : J.card ≤ 4)
     (hframe : qTwoFrameSet ε0 π J = qTwoFrameSet ε0 π' J') :
     ∃ Q Q' : Finset (Fin m), Q.card = 4 ∧ Q'.card = 4 ∧ J ⊆ Q ∧ J' ⊆ Q' ∧
       qTwoFrameSet ε0 π Q = qTwoFrameSet ε0 π' Q' := by

@@ -69,10 +69,10 @@ theorem center_le_of_index_le_three (hcard : Nat.card R = 3 ^ 5)
     exact le_top
   · have hHn : H.Normal :=
       Subgroup.normal_of_index_eq_minFac_card (by rw [hidx, hmin])
-    haveI := hHn
+    have := hHn
     have hqcard : Nat.card (R ⧸ H) = 3 := by
       rw [← Subgroup.index_eq_card, hidx]
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hcommq : IsMulCommutative (R ⧸ H) :=
       (isCyclic_of_prime_card (p := 3) hqcard).isMulCommutative
     have hR'le : commutator R ≤ H :=
@@ -116,7 +116,7 @@ theorem exists_elemAbelian_27_of_index_le_three (hcard : Nat.card R = 3 ^ 5)
     (haH : a ∈ H) (haZ : a ∉ Subgroup.center R) :
     ∃ E : Subgroup R, E ≤ H ∧ a ∈ E ∧ CFSG.Open.IsElemAbelian 3 E ∧ Nat.card E = 27 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hZleH : Subgroup.center R ≤ H :=
     center_le_of_index_le_three hcard hZ hcomm hH
   have hinfcard := card_inf_centralizer_ge_27 hcard hZ hcomm hH a
@@ -182,7 +182,7 @@ theorem exists_two_elemAbelian_27 (hcard : Nat.card R = 3 ^ 5)
   have hZne : Subgroup.center R ≠ ⊥ := by
     intro hbot
     rw [hbot] at hZ
-    simpa using hZ
+    simp at hZ
   have hcommNe : commutator R ≠ ⊥ := by
     intro hbot
     apply hZne
@@ -266,7 +266,7 @@ theorem false_of_uniqueElemSylow (h : CFSG.GroupTheory.UniqueElemSylow 3 3 G) {R
     (hZ : Nat.card (Subgroup.center ↥R) = 3)
     (hcomm : commutator ↥R ≤ Subgroup.center ↥R) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨E₁, E₂, hne, hE₁ea, hE₁card, hE₂ea, hE₂card⟩ :=
     exists_two_elemAbelian_27 hcard hexp hZ hcomm
   have hR3 : IsPGroup 3 ↥R := IsPGroup.of_card (p := 3) (n := 5) hcard
@@ -293,6 +293,7 @@ theorem false_of_uniqueElemSylow (h : CFSG.GroupTheory.UniqueElemSylow 3 3 G) {R
     rw [hA₁eq, hA₂eq]
   exact hne (Subgroup.map_injective (Subgroup.subtype_injective R) hmap)
 
+omit [Finite G] in
 theorem card_le_three_mul_card_inf_of_pow_three {B N C : Subgroup G}
     (hB : ∀ b ∈ B, b ^ 3 = 1) (hC : IsCyclic C)
     (hCN : C ≤ Subgroup.normalizer (N : Set G))

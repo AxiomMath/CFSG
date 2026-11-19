@@ -15,7 +15,7 @@ open Subgroup CFSG.Blueprint
 
 private theorem odd_card_oddCore_l34g (X : Type*) [Group X] [Finite X] :
     Odd (Nat.card (CFSG.oddCore X)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [CFSG.oddCore_eq_piCore, ← CFSG.pPrimeCore_eq_piCore 2 (G := X)]
   exact Nat.coprime_two_left.mp (CFSG.pPrimeCore_coprime_card (p := 2) (G := X))
 
@@ -35,7 +35,7 @@ private theorem l34g_noncomm_of_simple {Y : Type} [Group Y] [IsSimpleGroup Y]
 private theorem oddCore_eq_bot_of_simpleFStar {Y : Type} [Group Y] [Finite Y]
     (h : SimpleFStarQuotient Y) : CFSG.oddCore Y = ⊥ := by
   obtain ⟨hsimp, hcent⟩ := l34g_simple_of_simpleFStar h
-  haveI : IsSimpleGroup Y := hsimp
+  have : IsSimpleGroup Y := hsimp
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (CFSG.oddCore Y) with hbot | htop
   · exact hbot
   · exfalso
@@ -56,8 +56,8 @@ private theorem smallF3StarQuotient_of_mulEquiv {Q Q' : Type} [Group Q] [Group Q
 
 private theorem false_of_component_isSolvable_l34g {X : Type} [Group X] {K : Subgroup X}
     (hK : CFSG.IsComponent K) (hs : Group.IsSolvable ↥K) : False := by
-  haveI : Nontrivial ↥K := CFSG.LocalCores.isQuasisimple_nontrivial hK.1
-  haveI : Group.IsPerfect ↥K := hK.1.1
+  have : Nontrivial ↥K := CFSG.LocalCores.isQuasisimple_nontrivial hK.1
+  have : Group.IsPerfect ↥K := hK.1.1
   exact Group.IsPerfect.not_isSolvable ↥K hs
 
 private theorem l34g_fix_one_eq_top (Y : Type) [Group Y] : L34GFix (1 : MulAut Y) = ⊤ := by
@@ -68,7 +68,7 @@ theorem l34g_isQuasisimple_of_starQuotient {Y : Type} [Group Y] [Finite Y]
     (hY : L34GStarQuotient Y) : CFSG.IsQuasisimple Y := by
   rcases hY with h | h
   · obtain ⟨hsimp, hcent⟩ := l34g_simple_of_simpleFStar h
-    haveI : IsSimpleGroup Y := hsimp
+    have : IsSimpleGroup Y := hsimp
     exact (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup (Q := Y)
       (l34g_noncomm_of_simple hcent)).1
   · exact h.1
@@ -96,7 +96,7 @@ theorem l34g_inFStar_top_of_starQuotient {Y : Type} [Group Y] [Finite Y]
           have hcd := Subgroup.card_dvd_of_le (show center Y ≤ (⊤ : Subgroup Y) from le_top)
           rwa [htwo.1, Subgroup.card_top] at hcd
         exact Nat.not_even_iff_odd.mpr hodd (even_iff_two_dvd.mpr h2dvd)
-      haveI : Nontrivial (Y ⧸ CFSG.oddCore Y) := QuotientGroup.nontrivial_iff.mpr hne
+      have : Nontrivial (Y ⧸ CFSG.oddCore Y) := QuotientGroup.nontrivial_iff.mpr hne
       have hle : CFSG.oddCore Y ≤ center Y :=
         sec63PT_oddCore_le_center hq (MulEquiv.refl (Y ⧸ CFSG.oddCore Y))
       have hoddO := odd_card_oddCore_l34g Y
@@ -110,7 +110,7 @@ theorem l34g_inFStar_top_of_starQuotient {Y : Type} [Group Y] [Finite Y]
       have hbot : CFSG.oddCore Y = ⊥ := by
         rw [Subgroup.eq_bot_iff_forall]
         intro x hx
-        haveI : Subsingleton ↥(CFSG.oddCore Y) := (Nat.card_eq_one_iff_unique.mp hcard).1
+        have : Subsingleton ↥(CFSG.oddCore Y) := (Nat.card_eq_one_iff_unique.mp hcard).1
         exact congrArg Subtype.val (Subsingleton.elim (⟨x, hx⟩ : ↥(CFSG.oddCore Y)) 1)
       have e : Y ⧸ CFSG.oddCore Y ≃* Y :=
         (QuotientGroup.quotientMulEquivOfEq hbot).trans QuotientGroup.quotientBot
@@ -151,7 +151,7 @@ theorem l34g_coreKGA_one {Y : Type} [Group Y] [Finite Y] (hY : L34GStarQuotient 
   exact l34g_isComponentIn_top_of_quasisimple (l34g_isQuasisimple_of_starQuotient hY)
 
 theorem l34g_coreKGB_one {Y : Type} [Group Y] [Finite Y] (hY : L34GStarQuotient Y)
-    {J : Subgroup Y} (hJ : IsComponentIn J (L34GFix (1 : MulAut Y))) {b : Y} (hb : b ∈ J)
+    {J : Subgroup Y} (hJ : IsComponentIn J (L34GFix (1 : MulAut Y))) {b : Y} (_hb : b ∈ J)
     (hI : IsI4PlusIn J b) : IsI4PlusIn (⊤ : Subgroup Y) b := by
   rw [l34g_fix_one_eq_top] at hJ
   have hJtop : J = ⊤ :=

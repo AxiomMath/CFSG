@@ -24,6 +24,7 @@ section Normal
 
 variable {Q : Type} [Group Q] [Finite Q]
 
+omit [Finite Q] in
 theorem mem_of_mul_self_eq_one {T : Subgroup Q} [T.Normal] (hT : ¬ 2 ∣ T.index) {z : Q}
     (hz : z * z = 1) : z ∈ T := by
   have h1 : orderOf (QuotientGroup.mk' T z) ∣ 2 :=
@@ -51,17 +52,17 @@ theorem oddInnW_of_normal (T : Subgroup Q) [T.Normal]
     · obtain ⟨e⟩ := he
       rw [Nat.card_congr e.toEquiv, Nat.card_perm, Nat.card_fin]
       decide
-  haveI : Group.IsSolvable T :=
+  have : Group.IsSolvable T :=
     ToralReduce.isSolvable_of_card_dvd_seventyTwo (hT6.trans (by norm_num))
-  haveI : Group.IsSolvable (Q ⧸ T) := isSolvable_of_comm hab
-  haveI : Group.IsSolvable Q := solvable_of_ker_le_range T.subtype (QuotientGroup.mk' T) (by
+  have : Group.IsSolvable (Q ⧸ T) := _root_.Group.isSolvable_of_comm hab
+  have : Group.IsSolvable Q := Group.isSolvable_of_ker_le_range T.subtype (QuotientGroup.mk' T) (by
     rw [QuotientGroup.ker_mk', Subgroup.range_subtype])
   have hgen : ∀ S ∈ 𝒢, S ≤ T := by
     rintro S ⟨-, hc | hs⟩
     · exfalso
       obtain ⟨-, -, hperf, hsimp⟩ := hc
-      haveI : Group.IsPerfect S := Group.isPerfect_def.mpr hperf
-      haveI : Nontrivial S := (QuotientGroup.mk'_surjective (Subgroup.center S)).nontrivial
+      have : Group.IsPerfect S := Group.isPerfect_def.mpr hperf
+      have : Nontrivial S := (QuotientGroup.mk'_surjective (Subgroup.center S)).nontrivial
       exact Group.IsPerfect.not_isSolvable (G := S) (subgroup_solvable_of_solvable S)
     · rcases hs with he | ⟨K, _, _, hK, ⟨e⟩⟩
       · obtain ⟨e⟩ := he
@@ -117,7 +118,7 @@ theorem oddInnW_quotient_of_card_dvd {J : Type} [Group J] [Finite J] {Z : Subgro
     [Z.Normal] (hZ : Z ≤ center J) (hZo : Odd (Nat.card Z)) (h96 : Nat.card (J ⧸ Z) ∣ 96) :
     OddInnW (J ⧸ CFSG.pCore 2 J) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set π : J →* J ⧸ Z := QuotientGroup.mk' Z with hπ
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective Z
   have hπker : π.ker = Z := QuotientGroup.ker_mk' Z
@@ -153,11 +154,11 @@ theorem oddInnW_quotient_of_card_dvd {J : Type} [Group J] [Finite J] {Z : Subgro
         rw [hπ, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff]; exact hz]
       exact (T₀ : Subgroup (J ⧸ Z)).one_mem
     have hquot : IsPGroup 2 (↥M ⧸ Z.subgroupOf M) :=
-      isPGroup_quotient_subgroupOf_comap hπs hπker.symm T₀.isPGroup'
+      isPGroup_quotient_subgroupOf_comap hπs hπker.symm T₀.isPGroup
     have hMD : M ≤ Z ⊔ CFSG.pCore 2 J :=
       le_sup_pCore_two_of_central_odd_quotient_two hMn hZM hZ hZo hquot
     have hpcM : CFSG.pCore 2 J ≤ M := by
-      haveI hn : ((CFSG.pCore 2 J).map π).Normal :=
+      have hn : ((CFSG.pCore 2 J).map π).Normal :=
         (CFSG.pCore_normal (p := 2) (G := J)).map π hπs
       have hle : (CFSG.pCore 2 J).map π ≤ (T₀ : Subgroup (J ⧸ Z)) :=
         IsPGroup.le_sylow_of_normal ((CFSG.pCore_isPGroup (p := 2) (G := J)).map π) T₀
@@ -167,7 +168,7 @@ theorem oddInnW_quotient_of_card_dvd {J : Type} [Group J] [Finite J] {Z : Subgro
     have hMi : M.index = (T₀ : Subgroup (J ⧸ Z)).index := by
       rw [hM]
       exact Subgroup.index_comap_of_surjective (T₀ : Subgroup (J ⧸ Z)) hπs
-    haveI := hMn
+    have := hMn
     let f : J ⧸ CFSG.pCore 2 J →* J ⧸ M := QuotientGroup.map _ _ (MonoidHom.id J) hpcM
     have hfker : f.ker ≤ center (J ⧸ CFSG.pCore 2 J) := by
       intro y hy
@@ -176,16 +177,16 @@ theorem oddInnW_quotient_of_card_dvd {J : Type} [Group J] [Finite J] {Z : Subgro
         rw [MonoidHom.mem_ker] at hy
         exact (QuotientGroup.eq_one_iff x).mp hy
       exact hcen (hsupq x (hMD hx))
-    haveI : IsCyclic (J ⧸ M) := by
+    have : IsCyclic (J ⧸ M) := by
       have h3 : Nat.card (J ⧸ M) ∣ 3 := by
         rw [← Subgroup.index_eq_card, hMi]
         exact hidx3 T₀
       rcases (Nat.dvd_prime Nat.prime_three).1 h3 with h | h
-      · haveI : Subsingleton (J ⧸ M) := (Nat.card_eq_one_iff_unique.mp h).1
+      · have : Subsingleton (J ⧸ M) := (Nat.card_eq_one_iff_unique.mp h).1
         exact isCyclic_of_subsingleton
-      · haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      · have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
         exact isCyclic_of_prime_card h
-    have hcomm := commutative_of_cyclic_center_quotient f hfker
+    have hcomm := (MonoidHom.isMulCommutative_of_isCyclic_of_ker_le_center f hfker).is_comm.comm
     refine oddInnW_of_normal ⊥ (Or.inl rfl) ?_ fun a b => ?_
     ·
       rw [Subgroup.index_bot]
@@ -241,7 +242,7 @@ theorem oddInnW_quotient_of_card_dvd {J : Type} [Group J] [Finite J] {Z : Subgro
     obtain ⟨φ, hφs, hφ2, hφN⟩ := exists_surjective_perm_fin_three_of_sylow hcard hnorm
     have hpc_le : CFSG.pCore 2 J ≤ (φ.comp π).ker := by
       have hle : (CFSG.pCore 2 J).map π ≤ φ.ker := by
-        haveI : ((CFSG.pCore 2 J).map π).Normal :=
+        have : ((CFSG.pCore 2 J).map π).Normal :=
           (CFSG.pCore_normal (p := 2) (G := J)).map π hπs
         exact hφN _ inferInstance ((CFSG.pCore_isPGroup (p := 2) (G := J)).map π)
       intro x hx
@@ -276,7 +277,7 @@ theorem oddInnW_quotient_of_card_dvd {J : Type} [Group J] [Finite J] {Z : Subgro
     have hfc : ∀ k ∈ f.ker, ∀ y, k * y = y * k := fun k hk y =>
       (Subgroup.mem_center_iff.mp (hcen (hfker hk)) y).symm
     obtain ⟨T, hTn, ⟨eT⟩, hTi⟩ := SymThreeCentralExt.exists_normal_symThree f hfs hfc hfodd
-    haveI := hTn
+    have := hTn
     have hlift : ∀ τ : Perm (Fin 3), τ ^ 2 = 1 → ∃ t ∈ T, f t = τ := by
       intro τ hτ
       obtain ⟨t, ht2, hft⟩ := SymThreeCentralExt.exists_involution_lift f hfs hfodd hτ
@@ -410,7 +411,7 @@ theorem fieldIndexOnPW_small (p : ℕ) [OddPrime p]
     (hGA : GriessAllModelsStatement) :
     FieldIndexOnPW p IsSmallTwoOrG2 := by
   intro Y _ _ L P hCP hS hLn hrank h3 hrk a ha3 haN hout
-  haveI := hLn
+  have := hLn
   rcases (CFSG.HardMathSupport.Curtis.Proving.isSmallTwoOrG2_iff _).mp hS with h4 | hA8
   · exfalso
     obtain ⟨k, hk⟩ := ha3 ⟨a, Subgroup.mem_zpowers a⟩

@@ -87,7 +87,7 @@ theorem not_sThree_le_normalizer {X : Type*} [Group X] [Finite X] (S : Sylow 2 X
       calc c ^ 2 * c ^ 2 = c ^ 3 * c := by group
         _ = c := by rw [hc, one_mul]
     rwa [h2] at h1
-  obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 S.isPGroup') ⟨c, hcS⟩
+  obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 S.isPGroup) ⟨c, hcS⟩
   rw [Subgroup.orderOf_mk] at hk
   have hdvd : 2 ^ k ∣ 3 := hk ▸ orderOf_dvd_of_pow_eq_one hc
   rcases Nat.eq_zero_or_pos k with hk0 | hk0

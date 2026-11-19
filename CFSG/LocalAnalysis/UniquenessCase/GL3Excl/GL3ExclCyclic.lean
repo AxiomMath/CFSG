@@ -70,7 +70,7 @@ theorem false_of_isCyclic {r : ℕ} [Fact r.Prime] (hr2 : r ≠ 2)
     · exact absurd (hinj v (by rw [sub_mulVec, hDv, sub_self])) hv0
   have h01 := diagonal_apply_eq_of_commute_irreducible hK (α := ![-1, 1, 1])
     (fun k hk => by rw [← ht₁d]; exact hc k hk) 0 1
-  haveI : Fact (2 < r) := ⟨lt_of_le_of_ne (Fact.out : r.Prime).two_le (Ne.symm hr2)⟩
+  have : Fact (2 < r) := ⟨lt_of_le_of_ne (Fact.out : r.Prime).two_le (Ne.symm hr2)⟩
   exact ZMod.neg_one_ne_one (by simpa using h01)
 
 end CFSG.LocalAnalysis.UniquenessCase.GL3Excl

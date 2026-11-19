@@ -43,7 +43,7 @@ theorem exists_delta_of_involution (hB : IsBenderGroup (X ⧸ Subgroup.center X)
   set z := s⁻¹ * d with hzdef
   have hdsz : d = s * z := by rw [hzdef]; group
   have hzc : ∀ x : X, x * z = z * x := Subgroup.mem_center_iff.1 hz
-  obtain ⟨b, hb⟩ := (IsPGroup.iff_orderOf.1 S.isPGroup') ⟨s, hs⟩
+  obtain ⟨b, hb⟩ := (IsPGroup.iff_orderOf.1 S.isPGroup) ⟨s, hs⟩
   have hsb : s ^ (2 ^ b) = 1 := by
     have h1 : orderOf s = 2 ^ b := by rw [← hb]; exact (Subgroup.orderOf_mk _ _).symm
     rw [← h1]

@@ -22,10 +22,10 @@ private theorem card_mul_ncard_le {p : ℕ} {A S : Subgroup (MulAut W)}
     p * (Nat.card S * (deltaSet p A).ncard) ≤ (deltaSet p A).ncard * Nat.card A +
       p * (Nat.card S * {H | H ∈ deltaSet p A ∧ x ∉ H}.ncard) := by
   classical
-  haveI : Finite (MulAut W) := MulEquiv.finite_left
-  haveI : Fintype (MulAut W) := Fintype.ofFinite _
-  haveI : Fintype (Subgroup (MulAut W)) := Fintype.ofFinite _
-  haveI : Fintype S := Fintype.ofFinite S
+  have : Finite (MulAut W) := MulEquiv.finite_left
+  have : Fintype (MulAut W) := Fintype.ofFinite _
+  have : Fintype (Subgroup (MulAut W)) := Fintype.ofFinite _
+  have : Fintype S := Fintype.ofFinite S
   set D : Finset (Subgroup (MulAut W)) := Finset.univ.filter (· ∈ deltaSet p A) with hD
   set Cx : Finset (Subgroup (MulAut W)) := D.filter (fun H => x ∉ H) with hCx
   have hDn : (deltaSet p A).ncard = D.card := by
@@ -113,7 +113,7 @@ theorem three_le_ncard_deltaSet (hW : ∀ w : W, w * w = 1) {p : ℕ} (hp : p.Pr
     (hSc : Nat.card A ≤ 2 * Nat.card S + 1) :
     3 ≤ (deltaSet p A).ncard := by
   classical
-  haveI : Finite (MulAut W) := MulEquiv.finite_left
+  have : Finite (MulAut W) := MulEquiv.finite_left
   have hp2 : p ≠ 2 := by omega
   by_contra hlt
   have hN2 : (deltaSet p A).ncard ≤ 2 := by omega
@@ -211,8 +211,8 @@ theorem two_pow_eight_le_index (hW : ∀ w : W, w * w = 1) {p : ℕ} (hp : p.Pri
     (hSc : Nat.card A ≤ 2 * Nat.card S + 1) {x : MulAut W} (hx : x ∈ A) (hx1 : x ≠ 1) :
     2 ^ 8 ≤ (fixV (zpowers x)).index := by
   classical
-  haveI : Finite (MulAut W) := MulEquiv.finite_left
-  haveI : Fintype (Subgroup (MulAut W)) := Fintype.ofFinite _
+  have : Finite (MulAut W) := MulEquiv.finite_left
+  have : Fintype (Subgroup (MulAut W)) := Fintype.ofFinite _
   have hp2 : p ≠ 2 := by omega
   obtain ⟨hc2, hc7⟩ := two_le_ncard_not_mem hW hp hp5 hA hAc hSA hSf hSc hx hx1
   set F : Finset (Subgroup (MulAut W)) :=
@@ -298,13 +298,13 @@ theorem three_lt_mParam (hW : ∀ w : W, w * w = 1) {p : ℕ} (hp : p.Prime) (hp
     {A S X : Subgroup (MulAut W)} (hA : IsElemAbelian p A) (hAc : p ^ 2 ≤ Nat.card A)
     (hSA : S ≤ normalizer (A : Set (MulAut W)))
     (hSf : ∀ s ∈ S, s ≠ 1 → ∀ x ∈ A, s * x = x * s → x = 1)
-    (hSc : Nat.card A ≤ 2 * Nat.card S + 1) (hAX : A ≤ X)
+    (hSc : Nat.card A ≤ 2 * Nat.card S + 1) (_hAX : A ≤ X)
     (hXA : X ≤ normalizer (A : Set (MulAut W)))
     (hinv : ∀ t ∈ X, orderOf t = 2 → ∃ b ∈ A, t * b * t⁻¹ ≠ b) :
     3 < E3.mParam X := by
   classical
-  haveI : Finite (MulAut W) := MulEquiv.finite_left
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (MulAut W) := MulEquiv.finite_left
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2W : IsPGroup 2 W := fun g => ⟨1, by rw [pow_one, sq]; exact hW g⟩
   obtain ⟨m, hm⟩ := IsPGroup.iff_card.1 h2W
   have hidx : ∀ H : Subgroup W, ∃ k, H.index = 2 ^ k := by

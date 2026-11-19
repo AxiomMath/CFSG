@@ -15,7 +15,7 @@ open CFSG.RankThree.S4Free CFSG.QuasithinUnique CFSG.Open Subgroup
 theorem szSections_of_isKGroup (hSz : CFSG.RankThree.PartTwo.KFacts.KPSz) {X : Type} [Group X]
     [Finite X] (hK : CFSG.IsKGroup X) (h3 : ¬ 3 ∣ Nat.card X) : SzSections X := by
   intro H K _ hsimple hnab
-  haveI := hsimple
+  have := hsimple
   have hcat : CFSG.Assembly.InCatalog (↥H ⧸ K) :=
     hK.inCatalog_of_surjective H (QuotientGroup.mk' K) (QuotientGroup.mk'_surjective K)
   have h3E : ¬ 3 ∣ Nat.card (↥H ⧸ K) := fun h =>
@@ -40,7 +40,7 @@ theorem isAdmissibleHost_subtype {X : Type} [Group X] [Finite X] (h3 : ¬ 3 ∣ 
       hc ⟨Subgroup.mem_top x, hx⟩
     have hset : {q : Nat.Primes | q.val = 2} = ({⟨2, Nat.prime_two⟩} : Set Nat.Primes) := by
       ext q
-      simp only [Set.mem_setOf_eq, Set.mem_singleton_iff]
+      simp only [Set.mem_ofPred_eq]
       exact ⟨fun h => Subtype.ext h, fun h => by rw [h]⟩
     have he : oTwo X = pCoreOf 2 (⊤ : Subgroup X) := by
       rw [CFSG.RankThreeCoreUniqueness.Helpers.pCoreOf_top_eq_pCore 2, CFSG.pCore_eq_piCore X 2,
@@ -51,7 +51,7 @@ theorem isAdmissibleHost_subtype {X : Type} [Group X] [Finite X] (h3 : ¬ 3 ∣ 
 theorem k520_2_of_isKGroup
     (hSz : CFSG.RankThree.PartTwo.KFacts.KPSz) {X : Type} [Group X] [Finite X]
     (hK : CFSG.IsKGroup X) (h3 : ¬ 3 ∣ Nat.card X) (hc : CharTwo (⊤ : Subgroup X))
-    {T : Subgroup X} (hT : IsSylowTwoOf T ⊤) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
+    {T : Subgroup X} (hT : IsSylowTwoOf T ⊤) {p : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2)
     (hrk : 1 < CFSG.Open.pRank p (⊤ : Subgroup X)) :
     ∃ T₀ : Subgroup X, T₀ ≠ ⊥ ∧ T₀ ≤ T ∧ (T₀.subgroupOf T).Characteristic ∧
       1 < CFSG.Open.pRank p (normalizer (T₀ : Set X)) := by

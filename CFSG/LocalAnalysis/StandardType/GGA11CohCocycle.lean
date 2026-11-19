@@ -143,7 +143,7 @@ private lemma a11cc_T9mat_mul_single (j : Fin 3) (c d : Fin 9) (hc : a11cc_blk9 
     by_cases hdk : d = k <;> simp [hdk, eq_comm]
   · intro l _ hl
     rw [single_apply]
-    rw [if_neg (show ¬(c = l ∧ d = k) from by rintro ⟨hcl, -⟩; exact hl hcl.symm)]
+    rw [ite_eq_right (show ¬(c = l ∧ d = k) from by rintro ⟨hcl, -⟩; exact hl hcl.symm)]
     simp
   · intro hcnot
     exact absurd (Finset.mem_univ c) hcnot
@@ -156,10 +156,10 @@ private lemma a11cc_T9mat_single_mul (j : Fin 3) (c d : Fin 9) (hd : a11cc_blk9 
   · rw [single_apply]
     rw [a11cc_T9mat_apply_row_of_blk_ne j d k hd]
     rw [single_apply]
-    by_cases hci : c = i <;> simp [hci, eq_comm]
+    by_cases hci : c = i <;> simp [hci]
   · intro l _ hl
     rw [single_apply]
-    rw [if_neg (show ¬(c = i ∧ d = l) from by rintro ⟨-, hdl⟩; exact hl hdl.symm)]
+    rw [ite_eq_right (show ¬(c = i ∧ d = l) from by rintro ⟨-, hdl⟩; exact hl hdl.symm)]
     simp
   · intro hdnot
     exact absurd (Finset.mem_univ d) hdnot
@@ -169,7 +169,7 @@ private lemma a11cc_T9mat_comm_tv9mat (j : Fin 3) (c d : Fin 12) (hcd : c ≠ d)
     T9mat j * a11cc_tv9mat c d = a11cc_tv9mat c d * T9mat j := by
   have hc' : a11cc_blk9 (⟨c.val, hc9⟩ : Fin 9) ≠ j.castSucc := by rw [a11cc_blk9_mk c hc9]; exact hjc
   have hd' : a11cc_blk9 (⟨d.val, hd9⟩ : Fin 9) ≠ j.castSucc := by rw [a11cc_blk9_mk d hd9]; exact hjd
-  rw [show a11cc_tv9mat c d = 1 + Matrix.single (⟨c.val, hc9⟩ : Fin 9) (⟨d.val, hd9⟩ : Fin 9) (1 : F2) from dif_pos ⟨hc9, hd9, hcd⟩]
+  rw [show a11cc_tv9mat c d = 1 + Matrix.single (⟨c.val, hc9⟩ : Fin 9) (⟨d.val, hd9⟩ : Fin 9) (1 : F2) from dite_eq_left ⟨hc9, hd9, hcd⟩]
   rw [mul_add, add_mul, one_mul, mul_one, a11cc_T9mat_mul_single j _ _ hc', a11cc_T9mat_single_mul j _ _ hd']
 
 private lemma a11cc_T9_comm_tv9 (j : Fin 3) (c d : Fin 12) (hcd : c ≠ d)
@@ -341,8 +341,8 @@ private lemma a11cc_evTB_inj {G : Type*} [Group G] (f : Fin 4 → G) (hcomm : �
     Function.Injective (a11cc_evTB f hcomm) := by
   have hfin : Finite (Subgroup.closure (Set.range f)) :=
     ((Nat.card_ne_zero).mp (by rw [hcard]; norm_num)).2
-  haveI := hfin
-  haveI : Fintype (Subgroup.closure (Set.range f)) := Fintype.ofFinite _
+  have := hfin
+  have : Fintype (Subgroup.closure (Set.range f)) := Fintype.ofFinite _
   have hcard1 : Fintype.card (Fin 4 → ZMod 7) = 7 ^ 4 := by
     rw [Fintype.card_fun]; simp [ZMod.card]
   have hcard2 : Fintype.card (Subgroup.closure (Set.range f)) = 7 ^ 4 := by
@@ -353,7 +353,7 @@ private lemma a11cc_evTB_inj {G : Type*} [Group G] (f : Fin 4 → G) (hcomm : �
 
 private noncomputable def a11cc_coord {G : Type*} [Group G] (f : Fin 4 → G)
     (hcomm : ∀ i j, Commute (f i) (f j)) (hord : ∀ i, f i ^ 7 = 1)
-    (hcard : Nat.card (Subgroup.closure (Set.range f)) = 7 ^ 4)
+    (_hcard : Nat.card (Subgroup.closure (Set.range f)) = 7 ^ 4)
     (x : Subgroup.closure (Set.range f)) : Fin 4 → ZMod 7 :=
   Classical.choose (a11cc_evTB_surj f hcomm hord x)
 
@@ -398,7 +398,7 @@ private lemma a11cc_evT_smul_single {G : Type*} [Group G] (f : Fin 4 → G)
     (hcomm : ∀ i j, Commute (f i) (f j)) (i : Fin 4) (c : ZMod 7) :
     a11cc_evT f hcomm (c • Pi.single i (1 : ZMod 7)) = f i ^ c.val := by
   rw [a11cc_evT_eq]
-  fin_cases i <;> simp [Pi.smul_apply, Pi.single_apply, mul_assoc]
+  fin_cases i <;> simp [Pi.smul_apply]
 
 private lemma a11cc_evT_centralizes_of_support {G : Type} [Group G] {φ₃ : SL 9 →* G} {f n : Fin 4 → G}
     (h : A11GlueHyp φ₃ f n) {l m : Fin 4} (hlm : l ≠ m) {w : Fin 4 → ZMod 7}
@@ -414,12 +414,12 @@ private lemma a11cc_evT_centralizes_of_support {G : Type} [Group G] {φ₃ : SL 
     ext k
     by_cases h1 : k = l
     · subst h1
-      simp [Pi.add_apply, Pi.smul_apply, Pi.single_apply, Ne.symm hlm]
+      simp [Pi.add_apply, Pi.smul_apply, Ne.symm hlm]
     · by_cases h2 : k = m
       · subst h2
-        simp [Pi.add_apply, Pi.smul_apply, Pi.single_apply, hlm]
+        simp [Pi.add_apply, Pi.smul_apply, hlm]
       · rw [hw k h1 h2]
-        simp [Pi.add_apply, Pi.smul_apply, Pi.single_apply, h1, h2]
+        simp [Pi.add_apply, Pi.smul_apply, h1, h2]
   rw [hw_eq, a11cc_evT_add f hcommC hord7 (w l • Pi.single l 1) (w m • Pi.single m 1),
       a11cc_evT_smul_single f hcommC l (w l), a11cc_evT_smul_single f hcommC m (w m)]
   exact ((hcl.pow_left _).mul_left (hcm.pow_left _)).eq
@@ -454,8 +454,8 @@ theorem a11CocycleInput_holds :
     intro l m hlm
     dsimp only [u]
     by_cases h : l.val < m.val
-    · rw [dif_pos h]; exact (Classical.choose_spec (hu l m hlm)).1
-    · rw [dif_neg h]
+    · rw [dite_eq_left h]; exact (Classical.choose_spec (hu l m hlm)).1
+    · rw [dite_eq_right h]
       rw [← a11cc_OvlTorus_comm f l m]
       exact (OvlTorus f m l).inv_mem (Classical.choose_spec (hu m l hlm.symm)).1
   have hu_rel : ∀ l m hlm a b, a ≠ b → blk a ≠ l → blk b ≠ l → blk a ≠ m → blk b ≠ m →
@@ -463,9 +463,9 @@ theorem a11CocycleInput_holds :
     intro l m hlm a b hab hal hbl ham hbm
     dsimp only [u]
     by_cases h : l.val < m.val
-    · rw [dif_pos h]
+    · rw [dite_eq_left h]
       exact (Classical.choose_spec (hu l m hlm)).2 a b hab hal hbl ham hbm
-    · rw [dif_neg h]
+    · rw [dite_eq_right h]
       have h' := (Classical.choose_spec (hu m l hlm.symm)).2 a b hab ham hbm hal hbl
       rw [h']; group
   let uB : ∀ l m, l ≠ m → Subgroup.closure (Set.range f) :=
@@ -475,9 +475,9 @@ theorem a11CocycleInput_holds :
     intro l m hlm
     dsimp only [u]
     by_cases h : l.val < m.val
-    · rw [dif_pos h, dif_neg (not_lt.mpr h.le), inv_inv]
+    · rw [dite_eq_left h, dite_eq_right (not_lt.mpr h.le), inv_inv]
     · have hne : l.val ≠ m.val := fun hh => hlm (Fin.ext hh)
-      rw [dif_neg h, dif_pos (show m.val < l.val by omega)]
+      rw [dite_eq_right h, dite_eq_left (show m.val < l.val by omega)]
   have hu_inv2 : ∀ l m hlm, u m l hlm.symm = (u l m hlm)⁻¹ := by
     intro l m hlm
     simp only [hu_inv l m hlm, inv_inv]
@@ -539,17 +539,17 @@ theorem a11CocycleInput_holds :
     by_cases hl : l = l0 k
     · have hm : m ≠ l0 k := by rintro h; exact hlm (hl.trans h.symm)
       have hco_l : co l k = 0 := by
-        simp only [co]; rw [dif_neg (show ¬(l = k) from fun h => hkl h.symm), dif_pos hl]
+        simp only [co]; rw [dite_eq_right (show ¬(l = k) from fun h => hkl h.symm), dite_eq_left hl]
       have hco_m : co m k = v m (l0 k) hm k := by
-        simp only [co]; rw [dif_neg (show ¬(m = k) from fun h => hkm h.symm), dif_neg hm]
+        simp only [co]; rw [dite_eq_right (show ¬(m = k) from fun h => hkm h.symm), dite_eq_right hm]
       rw [hco_l, hco_m, hanti' l m hlm k]
       rw [show v m l hlm.symm k = v m (l0 k) hm k from by cases hl; rfl]
       simp only [_root_.zero_sub]
     · by_cases hm : m = l0 k
       · have hco_l : co l k = v l (l0 k) hl k := by
-          simp only [co]; rw [dif_neg (show ¬(l = k) from fun h => hkl h.symm), dif_neg hl]
+          simp only [co]; rw [dite_eq_right (show ¬(l = k) from fun h => hkl h.symm), dite_eq_right hl]
         have hco_m : co m k = 0 := by
-          simp only [co]; rw [dif_neg (show ¬(m = k) from fun h => hkm h.symm), dif_pos hm]
+          simp only [co]; rw [dite_eq_right (show ¬(m = k) from fun h => hkm h.symm), dite_eq_left hm]
         rw [hco_l, hco_m]
         rw [show v l m hlm k = -v m l hlm.symm k from hanti' l m hlm k]
         rw [show v m l hlm.symm k = v (l0 k) l (Ne.symm hl) k from by
@@ -558,9 +558,9 @@ theorem a11CocycleInput_holds :
           hanti' (l0 k) l (Ne.symm hl) k]
         simp only [_root_.neg_neg, _root_.sub_zero]
       · have hco_l : co l k = v l (l0 k) hl k := by
-          simp only [co]; rw [dif_neg (show ¬(l = k) from fun h => hkl h.symm), dif_neg hl]
+          simp only [co]; rw [dite_eq_right (show ¬(l = k) from fun h => hkl h.symm), dite_eq_right hl]
         have hco_m : co m k = v m (l0 k) hm k := by
-          simp only [co]; rw [dif_neg (show ¬(m = k) from fun h => hkm h.symm), dif_neg hm]
+          simp only [co]; rw [dite_eq_right (show ¬(m = k) from fun h => hkm h.symm), dite_eq_right hm]
         rw [hco_l, hco_m]
         have hc := hcoc k l m (l0 k) hkl hkm (Ne.symm (hl0 k)) hlm hm (Ne.symm hl)
         rw [show v (l0 k) l (Ne.symm hl) k = -v l (l0 k) hl k from
@@ -593,7 +593,7 @@ theorem a11CocycleInput_holds :
           rw [← a11cc_evT_add f hcommC hord7 (co m) (- co l), ← a11cc_evT_add f hcommC hord7 (co m + - co l) (v l m hlm)]
           congr 1
           ext k
-          simp only [Pi.add_apply, Pi.sub_apply, Pi.neg_apply, _root_.sub_eq_add_neg]
+          simp only [Pi.add_apply, Pi.neg_apply, _root_.sub_eq_add_neg]
         rw [hWeq]
         have hc := a11cc_evT_centralizes_of_support hglue' hlm hkey2 hab hal hbl ham hbm
         rw [hc]; group

@@ -22,7 +22,7 @@ theorem GGControlsStrongFusion.exists_sylow_normalizer_le {W : Type} [Group W] [
   obtain ⟨P, hP⟩ := IsPGroup.exists_le_sylow hU
   set S : Subgroup W := (P : Subgroup K).map K.subtype with hSdef
   have hSK : S ≤ K := Subgroup.map_subtype_le _
-  have hSp : IsPGroup p S := P.isPGroup'.map _
+  have hSp : IsPGroup p S := P.isPGroup.map _
   have hsub : S.subgroupOf K = (P : Subgroup K) :=
     Subgroup.comap_map_eq_self_of_injective K.subtype_injective _
   have hidx : ¬ p ∣ S.relIndex K := by

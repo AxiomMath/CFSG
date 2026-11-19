@@ -28,7 +28,7 @@ open CFSG.Open
 
 theorem not_two_pow_fifteen_dvd_alt {S : Type} [Group S] [Finite S] {n : ℕ} (h5 : 5 ≤ n)
     (h9 : n ≤ 9) (e : S ≃* alternatingGroup (Fin n)) : ¬ 2 ^ 15 ∣ Nat.card S := by
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
   have hc : Nat.card S = n.factorial / 2 := by
     rw [Nat.card_congr e.toEquiv, nat_card_alternatingGroup, Nat.card_eq_fintype_card,
       Fintype.card_fin]

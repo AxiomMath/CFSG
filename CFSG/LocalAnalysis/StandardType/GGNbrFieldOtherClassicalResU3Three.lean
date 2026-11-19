@@ -89,9 +89,9 @@ theorem ggCenterKp_u3Three
     GGCenterKp (fun k => k ∣ 3) (LargeEvenProj (LargeEvenSUGroup (Fin 3) K (2 ^ n))) := by
   intro L' _ _ ψ hψ hker hperf
   have h₀ := TableBU.unitaryFieldData_of_card hK (by omega)
-  haveI : CharP K 2 := h₀.charP
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (LargeEvenSUGroup (Fin 3) K (2 ^ n)) := Finite.of_injective
+  have : CharP K 2 := h₀.charP
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (LargeEvenSUGroup (Fin 3) K (2 ^ n)) := Finite.of_injective
     (fun x : LargeEvenSUGroup (Fin 3) K (2 ^ n) => ((x : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K))
     (fun x y hxy => Subtype.ext (Units.ext hxy))
   obtain ⟨φ, hφs, hφ⟩ := exists_cover_of_sections
@@ -182,7 +182,7 @@ theorem ggFixDataKX_u3Three
         (LargeEvenGUSet (Fin 3) K (2 ^ n))) f := by
   have hn1 : 1 ≤ n := by omega
   have h := TableBU.unitaryFieldData_of_card hK hn1
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   obtain ⟨σ, hσf⟩ := exists_induced hf
   have hσord : orderOf σ = 3 :=
     (orderOf_eq_of_induced (d := 3) (by norm_num) hn1 hK hσf).trans hord
@@ -192,7 +192,7 @@ theorem ggFixDataKX_u3Three
     exact two_le_div_three_U3Three hn1 h3n hn3
   have hdq : ((3 : ℕ), 2 ^ (n / orderOf σ)) ≠ (3, 2) := dq_ne_U3Three hm
   obtain ⟨-, -, hk⟩ := fixF_data hn1 hK σ hσ
-  haveI : CharP (fixF σ) 2 := charP_fixF hn1 hK σ hσ
+  have : CharP (fixF σ) 2 := charP_fixF hn1 hK σ hσ
   have h3' : 3 ∣ 2 ^ (n / orderOf σ) + 1 := by
     rw [hσord]
     exact three_dvd_two_pow_div_add_one_U3Three h3 h3n

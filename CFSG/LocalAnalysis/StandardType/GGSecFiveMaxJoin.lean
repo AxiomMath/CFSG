@@ -12,6 +12,7 @@ section MaxJoin
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem ggAutomizerJoin_singleton (L Bs K : Subgroup G) :
     ggAutomizerJoin L Bs {K} = ggAutomizer L Bs ⊔ ggAutomizer K Bs := by
   simp only [ggAutomizerJoin, Finset.iSup_singleton]
@@ -22,9 +23,9 @@ theorem exists_ggMaximalJoin {p : ℕ} {B Bs : Subgroup G} {x : G} {L D J : Subg
   let S : Set (Finset (Subgroup G)) :=
     {𝒦 | GGNbrSet p B x D J 𝒦 ∧ GGWeylReflectionGroup p (ggAutomizerJoin L Bs 𝒦)}
   have hSfin : S.Finite := by
-    haveI : Fintype (Subgroup G) := Fintype.ofFinite (Subgroup G)
-    haveI : Fintype (Finset (Subgroup G)) := Finset.fintype
-    haveI : Finite (Finset (Subgroup G)) := Fintype.finite inferInstance
+    have : Fintype (Subgroup G) := Fintype.ofFinite (Subgroup G)
+    have : Fintype (Finset (Subgroup G)) := Finset.fintype
+    have : Finite (Finset (Subgroup G)) := Fintype.finite inferInstance
     exact Set.toFinite S
   have hSne : S.Nonempty := by
     obtain ⟨y, K, hK⟩ := exists_ggNbr hR.1.1.2.2.2.2.2.2.2 hR.1.2.2

@@ -40,7 +40,7 @@ theorem pow_eq_one_of_card_eq_prime {p : ℕ} {A : Subgroup G} (hA : Nat.card A 
   rw [hA] at this
   exact congrArg Subtype.val this
 
-theorem exists_dc_moves_line {p : ℕ} [Fact p.Prime] {Γ S A : Subgroup G} (hSΓ : S ≤ Γ)
+theorem exists_dc_moves_line {p : ℕ} [Fact p.Prime] {Γ S A : Subgroup G} (_hSΓ : S ≤ Γ)
     (hAS : A ≤ S) (hA : Nat.card A = p) {c₁ c₂ c₃ c₄ : G}
     (h₁ : c₁ ∈ Subgroup.normalizer (S : Set G)) (h₂ : c₂ ∈ Subgroup.normalizer (S : Set G))
     (h₃ : c₃ ∈ Subgroup.normalizer (S : Set G)) (h₄ : c₄ ∈ Subgroup.normalizer (S : Set G))
@@ -59,7 +59,7 @@ theorem exists_dc_moves_line {p : ℕ} [Fact p.Prime] {Γ S A : Subgroup G} (hS�
   · exact ⟨⁅c₁, c₂⁆, hΓ₁, hn h₁ h₂, h⟩
   · exact ⟨⁅c₃, c₄⁆, hΓ₂, hn h₃ h₄, h⟩
 
-theorem exists_dc2_moves_line {p : ℕ} [Fact p.Prime] {Γ S A : Subgroup G} (hSΓ : S ≤ Γ)
+theorem exists_dc2_moves_line {p : ℕ} [Fact p.Prime] {Γ S A : Subgroup G} (_hSΓ : S ≤ Γ)
     (hAS : A ≤ S) (hA : Nat.card A = p) {c₁ c₂ c₃ c₄ c₅ c₆ c₇ c₈ : G}
     (h₁ : c₁ ∈ Subgroup.normalizer (S : Set G)) (h₂ : c₂ ∈ Subgroup.normalizer (S : Set G))
     (h₃ : c₃ ∈ Subgroup.normalizer (S : Set G)) (h₄ : c₄ ∈ Subgroup.normalizer (S : Set G))

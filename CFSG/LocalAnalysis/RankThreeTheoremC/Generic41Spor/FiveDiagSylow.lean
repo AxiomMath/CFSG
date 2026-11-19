@@ -31,12 +31,12 @@ private theorem five_dvd_sq_sub_one_not_twentyfive {q : ℕ} (hq : 1 ≤ q) (h5 
 private theorem pow_five_eq_one_of_sylow {K : Type} [Group K] [Finite K] (S : Sylow 5 K)
     (h : ∀ x : K, (∃ k : ℕ, x ^ 5 ^ k = 1) → x ^ 5 = 1) : ∀ s ∈ (S : Subgroup K), s ^ 5 = 1 := by
   intro s hs
-  obtain ⟨k, hk⟩ := S.isPGroup' ⟨s, hs⟩
+  obtain ⟨k, hk⟩ := S.isPGroup ⟨s, hs⟩
   exact h s ⟨k, by simpa using congrArg Subtype.val hk⟩
 
 theorem fiveDiagSylow : FiveDiagSylow := by
   intro K _ _ _ _ _ hdiag S
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hcardS : ∀ t : ℕ, 5 ^ t ∣ Nat.card K → 5 ^ t ≤ Nat.card S := by
     intro t ht
     rw [Sylow.card_eq_multiplicity S]

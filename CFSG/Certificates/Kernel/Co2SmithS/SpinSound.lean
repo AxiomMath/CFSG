@@ -32,7 +32,7 @@ theorem getD_map {α β : Type} (f : α → β) {l : List α} {i : Nat} (d : α)
 theorem rowsL_get (A : Array Int) {i j : Nat} (hi : i < 8) (hj : j < 8) :
     ((rowsL A).getD i []).getD j 0 = A[8 * i + j]! := by
   rw [rowsL, getD_map _ 0 [] (by simpa using hi), getD_map _ 0 0 (by simpa using hj)]
-  simp [List.getD_eq_getElem, hi, hj]
+  simp [hi, hj]
 
 theorem rowsL_length (A : Array Int) : (rowsL A).length = 8 := by simp [rowsL]
 

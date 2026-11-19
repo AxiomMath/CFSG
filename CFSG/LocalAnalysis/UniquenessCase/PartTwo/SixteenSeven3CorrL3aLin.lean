@@ -2,7 +2,7 @@ module
 
 public import CFSG.Quasithin.Background.Module
 public import Mathlib.Algebra.Order.Ring.Star
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 
 public section
 
@@ -40,7 +40,7 @@ theorem s16c167_fixV_sup_index_le_two {W : Type} [CommGroup W] [Finite W]
     (hd2 : d * d = 1) (hdz : d * z = z⁻¹ * d) :
     (fixV (Subgroup.zpowers c) ⊔ fixV (Subgroup.zpowers d)).index ≤ 2 := by
   classical
-  haveI : Fintype W := Fintype.ofFinite W
+  have : Fintype W := Fintype.ofFinite W
   have hz3w : ∀ w : W, z (z (z w)) = w := by
     intro w
     have h := congrArg (fun g : MulAut W => g w) hz3

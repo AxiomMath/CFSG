@@ -48,6 +48,7 @@ variable {F : Type} [Field F] [CharP F 2]
 
 @[expose] def bd3 (a b c : Matrix (Fin 2) (Fin 2) F) : Matrix Idx Idx F := bd ![a, b, c]
 
+omit [CharP F 2] in
 theorem bd3_mul (a b c a' b' c' : Matrix (Fin 2) (Fin 2) F) :
     bd3 a b c * bd3 a' b' c' = bd3 (a * a') (b * b') (c * c') := by
   unfold bd3
@@ -56,6 +57,7 @@ theorem bd3_mul (a b c a' b' c' : Matrix (Fin 2) (Fin 2) F) :
   funext j
   fin_cases j <;> rfl
 
+omit [CharP F 2] in
 theorem bd3_one : bd3 (1 : Matrix (Fin 2) (Fin 2) F) 1 1 = 1 := by
   unfold bd3
   rw [← bd_one]
@@ -63,6 +65,7 @@ theorem bd3_one : bd3 (1 : Matrix (Fin 2) (Fin 2) F) 1 1 = 1 := by
   funext j
   fin_cases j <;> rfl
 
+omit [CharP F 2] in
 theorem bd3_transpose (a b c : Matrix (Fin 2) (Fin 2) F) : (bd3 a b c)ᵀ = bd3 aᵀ bᵀ cᵀ := by
   unfold bd3
   rw [bd_transpose]
@@ -70,6 +73,7 @@ theorem bd3_transpose (a b c : Matrix (Fin 2) (Fin 2) F) : (bd3 a b c)ᵀ = bd3 
   funext j
   fin_cases j <;> rfl
 
+omit [CharP F 2] in
 theorem bd3_inj {a b c a' b' c' : Matrix (Fin 2) (Fin 2) F} (h : bd3 a b c = bd3 a' b' c') :
     a = a' ∧ b = b' ∧ c = c' := by
   have h1 := bd_injective h
@@ -179,7 +183,7 @@ theorem tallSL_val (g : ↥(Tall F)) :
     ((tallSL g : Matrix.SpecialLinearGroup (Fin 2) F) : Matrix (Fin 2) (Fin 2) F) =
       ((g : GL (Fin 2) F) : Matrix (Fin 2) (Fin 2) F) := rfl
 
-theorem tallSL_injective : Function.Injective (tallSL (F := F)) := fun g h hgh =>
+theorem tallSL_injective : Function.Injective (tallSL (F := F)) := fun _g _h hgh =>
   Subtype.ext (Units.ext (congrArg Subtype.val hgh))
 
 instance instFiniteSL2 [Finite F] : Finite (Matrix.SpecialLinearGroup (Fin 2) F) :=

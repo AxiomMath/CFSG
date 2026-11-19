@@ -29,7 +29,7 @@ theorem z2BigModelL1_holds (r : ℕ) :
     exists_normalized_emb hL.simple hL.odd hL.even hL.model
       (quatInvolution_sq hr eQ') (quatInvolution_ne_one hr eQ')
       (quatInvolution_mem_fstar hL.index hr eQ')
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hf0 : f ≠ 0 := by
     rintro rfl
     simp only [pow_zero] at h4
@@ -55,7 +55,7 @@ theorem z2BigModelL1_holds (r : ℕ) :
     change E.ρ (MulAut.conj n) = SemidirectProduct.inl
       (Matrix.ProjectiveSpecialLinearGroup.toPGL γ)
     exact hn
-  haveI : (φ.range).Normal := normal_of_psl_le hF hL.odd h4 φ.range hN1
+  have : (φ.range).Normal := normal_of_psl_le hF hL.odd h4 φ.range hN1
   have hN2 : ∃ y : Fˣ, ¬ IsSquare y ∧ (gD y σ₀ ∈ φ.range ∨ gA y σ₀ ∈ φ.range) := by
     have h2 : (2 : F) ≠ 0 := (field_facts hp hL.odd hF h4).2
     have hcard : Nat.card Fˣ = p ^ (f / 2) * p ^ (f / 2) - 1 :=

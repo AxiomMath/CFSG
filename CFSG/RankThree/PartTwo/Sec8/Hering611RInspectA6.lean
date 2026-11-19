@@ -17,6 +17,7 @@ theorem a6_pow_three_of_pow_nine (g : alternatingGroup (Fin 6)) (h : g ^ 9 = 1) 
   revert g
   decide +kernel
 
+omit [Finite H] in
 theorem card_eq_of_surjective (hπ : Function.Surjective π) :
     Nat.card H = 360 * Nat.card π.ker := by
   have h1 := Subgroup.card_eq_card_quotient_mul_card_subgroup π.ker
@@ -25,10 +26,12 @@ theorem card_eq_of_surjective (hπ : Function.Surjective π) :
       KFacts.card_alternatingGroup_six]
   rw [h1, h2]
 
+omit [Finite H] in
 theorem five_dvd_card (hπ : Function.Surjective π) : 5 ∣ Nat.card H := by
   rw [card_eq_of_surjective π hπ]
   exact Dvd.dvd.mul_right (by norm_num) _
 
+omit [Finite H] in
 theorem eq_one_of_mem_ker_pow_nine (hker : ¬ 3 ∣ Nat.card π.ker) {z : H} (hz : z ∈ π.ker)
     (h9 : z ^ 9 = 1) : z = 1 := by
   have hord : orderOf z ∣ 9 := orderOf_dvd_of_pow_eq_one h9
@@ -45,7 +48,7 @@ theorem eq_one_of_mem_ker_pow_nine (hker : ¬ 3 ∣ Nat.card π.ker) {z : H} (hz
 
 theorem exists_elemAbelian_nine (hπ : Function.Surjective π) (hker : ¬ 3 ∣ Nat.card π.ker) :
     ∃ R : Subgroup H, IsElemAbelian 3 R ∧ Nat.card R = 9 ∧ R ⊓ π.ker = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨R⟩ : Nonempty (Sylow 3 H) := inferInstance
   have hcard : Nat.card (R : Subgroup H) = 9 := by
     rw [Sylow.card_eq_multiplicity R, card_eq_of_surjective π hπ]
@@ -85,6 +88,7 @@ theorem exists_elemAbelian_nine (hπ : Function.Surjective π) (hker : ¬ 3 ∣ 
     have h9 : z ^ 9 = 1 := hpow ⟨z, hzR⟩
     exact Subgroup.mem_bot.mpr (eq_one_of_mem_ker_pow_nine π hker hzker h9)
 
+omit [Finite H] in
 theorem eq_one_of_mem_center (hπ : Function.Surjective π) (hker : ¬ 3 ∣ Nat.card π.ker) {z : H}
     (hz : z ∈ Subgroup.center H) (h9 : z ^ 9 = 1) : z = 1 := by
   have hc : π z ∈ Subgroup.center (alternatingGroup (Fin 6)) := by
@@ -109,14 +113,16 @@ noncomputable def IsA6Sub.proj {P : Subgroup X} (e : P ⧸ aschbacherSolvableCor
     alternatingGroup (Fin 6)) : ↥P →* alternatingGroup (Fin 6) :=
   e.toMonoidHom.comp (QuotientGroup.mk' _)
 
+omit [Finite X] in
 theorem IsA6Sub.proj_surjective {P : Subgroup X} (e : P ⧸ aschbacherSolvableCore 3 ↥P ≃*
     alternatingGroup (Fin 6)) : Function.Surjective (IsA6Sub.proj e) :=
   e.surjective.comp (QuotientGroup.mk'_surjective _)
 
+omit [Finite X] in
 theorem IsA6Sub.ker_proj {P : Subgroup X} (e : P ⧸ aschbacherSolvableCore 3 ↥P ≃*
     alternatingGroup (Fin 6)) : (IsA6Sub.proj e).ker = aschbacherSolvableCore 3 ↥P := by
   ext z
-  simp [IsA6Sub.proj, MonoidHom.mem_ker, QuotientGroup.eq_one_iff]
+  simp [IsA6Sub.proj]
 
 theorem IsA6Sub.not_dvd_ker {P : Subgroup X} (e : P ⧸ aschbacherSolvableCore 3 ↥P ≃*
     alternatingGroup (Fin 6)) : ¬ 3 ∣ Nat.card (IsA6Sub.proj e).ker := by
@@ -171,11 +177,13 @@ theorem IsA6Sub.eq_one_of_commute {P : Subgroup X} (h : IsA6Sub P) {z : X} (hz :
     (IsA6Sub.not_dvd_ker e) hz' h9'
   exact congrArg Subtype.val this
 
+omit [Finite X] in
 theorem IsA6Sub.five_dvd_card {P : Subgroup X} (h : IsA6Sub P) : 5 ∣ Nat.card X := by
   obtain ⟨-, ⟨e⟩⟩ := h
   exact (Hering611R.five_dvd_card (IsA6Sub.proj e) (IsA6Sub.proj_surjective e)).trans
     (Subgroup.card_subgroup_dvd_card P)
 
+omit [Finite X] in
 theorem IsA6Sub.three_dvd_card {P : Subgroup X} (h : IsA6Sub P) : 3 ∣ Nat.card X := by
   obtain ⟨-, ⟨e⟩⟩ := h
   have h1 : 3 ∣ Nat.card P := by

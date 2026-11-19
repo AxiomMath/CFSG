@@ -240,7 +240,7 @@ theorem step1515LA7_at
     (h153 : Item153Main A (lB A)) (hobs : Claim153Obs A (lB A)) (h149 : Item149 A (lB A))
     (h1411 : Item1411_1 A (lB A)) (hloc : Claim1411Local A (lB A))
     (h1511 : Item1511 A (lB A) c L) (h1444 : Item1444S14) (h146 : Item146S14)
-    (hgen325 : Step1515LA7L325Gen) (h : Sec15R G A c L) {p e : ℕ} [Fact p.Prime] (he : 1 ≤ e)
+    (hgen325 : Step1515LA7L325Gen) (h : Sec15R G A c L) {p e : ℕ} [Fact p.Prime] (_he : 1 ≤ e)
     (hiso : Sec4.IsoLThreePi (↥L ⧸ aschbacherSolvableCore 3 ↥L) p e)
     (hΩ : omegaA A = {Subgroup.zpowers c}) {Y : Subgroup G} (hY : Y ∈ scriptY0Star A (lB A))
     (hm : MeetsY4 A (lB A) L Y) (hYL : Y = (L ⊓ Y) ⊔ CFSG.Open.pCoreOf 2 Y)

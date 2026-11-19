@@ -25,7 +25,7 @@ private lemma conj_mul_free {u a b : G} (hu2 : u * u = 1) :
 
 private lemma mul_four_comm {Q : Subgroup G}
     (hQab : ∀ a ∈ Q, ∀ b ∈ Q, a * b = b * a) {A B C D : G}
-    (hA : A ∈ Q) (hB : B ∈ Q) (hC : C ∈ Q) (hD : D ∈ Q) :
+    (_hA : A ∈ Q) (hB : B ∈ Q) (hC : C ∈ Q) (hD : D ∈ Q) :
     A * B * C * D = A * D * C * B := by
   have hBD : Commute B D := hQab B hB D hD
   have hCD : Commute C D := hQab C hC D hD

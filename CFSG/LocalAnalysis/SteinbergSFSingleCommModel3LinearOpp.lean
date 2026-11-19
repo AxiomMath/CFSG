@@ -29,7 +29,7 @@ theorem uMat_mem (γ β α : F') :
   · fin_cases i <;> simp [uMat]
 
 theorem transv_det (s : F') : (transvection (0 : Fin 3) 2 s).det = 1 := by
-  simp [transvection, Matrix.det_fin_three, Matrix.single_apply]
+  simp [transvection, Matrix.det_fin_three]
 
 theorem transv_mem (s : F') :
     (⟨transvection (0 : Fin 3) 2 s, transv_det s⟩ : SpecialLinearGroup (Fin 3) F') ∈
@@ -38,8 +38,8 @@ theorem transv_mem (s : F') :
   · fin_cases i <;> fin_cases j <;>
       first
       | exact absurd hji (by decide)
-      | simp [transvection, Matrix.single_apply]
-  · fin_cases i <;> simp [transvection, Matrix.single_apply]
+      | simp [transvection]
+  · fin_cases i <;> simp [transvection]
 
 variable [CharP F' 2]
 
@@ -53,13 +53,13 @@ theorem core_mat (v f : Fin 3 → F') (c s γ β α : F')
   have hT : transvection (2 : Fin 3) 0 c = !![1, 0, 0; 0, 1, 0; c, 0, 1] := by
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [transvection, Matrix.single_apply, Matrix.one_apply]
+      simp [transvection]
   have hN : (1 : Matrix (Fin 3) (Fin 3) F') + s • Matrix.of (fun i j => v i * f j) =
       !![1 + s * (v 0 * f 0), s * (v 0 * f 1), s * (v 0 * f 2);
         s * (v 1 * f 0), 1 + s * (v 1 * f 1), s * (v 1 * f 2);
         s * (v 2 * f 0), s * (v 2 * f 1), 1 + s * (v 2 * f 2)] := by
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [Matrix.one_apply]
+    fin_cases i <;> fin_cases j <;> simp
   rw [hT, hN]
   ext i j
   rcases hfin i with rfl | rfl | rfl <;> rcases hfin j with rfl | rfl | rfl <;>
@@ -101,12 +101,12 @@ theorem key_exists (T Ti : Matrix (Fin 3) (Fin 3) F') (hTT : T * Ti = 1) (hTiT :
   have hA' : Ti * linE13 F' * T = Matrix.of fun i j => Ti i 0 * T 2 j := by
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [linE13, Matrix.mul_apply, Fin.sum_univ_three, Matrix.single_apply] <;> ring
+      simp [linE13, Matrix.mul_apply, Fin.sum_univ_three, Matrix.single_apply]
   have htr : ∀ s : F', transvection (0 : Fin 3) 2 s = 1 + s • linE13 F' := by
     intro s
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [transvection, linE13, Matrix.single_apply, Matrix.one_apply]
+      simp [transvection, linE13]
   have hX : ∀ s : F', Ti * transvection (0 : Fin 3) 2 s * T =
       1 + s • Matrix.of fun i j => Ti i 0 * T 2 j := by
     intro s

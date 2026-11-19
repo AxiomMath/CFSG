@@ -25,11 +25,13 @@ private theorem seven_eight_core_pre_zpow_eq_one_or_self {Q : Type} [Group Q] {x
     have h2 : x ^ (2 : ℤ) = 1 := by rw [zpow_two, hx]
     rw [h2, one_zpow, zpow_one, one_mul]
 
+omit [Finite G] in
 private theorem seven_eight_core_pre_relIndex_conjSubgroup (A B : Subgroup G) (k : G) :
     (conjSubgroup A k).relIndex (conjSubgroup B k) = A.relIndex B := by
   simp only [CFSG.Quasithin.conjSubgroup]
   exact Subgroup.relIndex_map_map_of_injective A B (MulAut.conj k⁻¹).injective
 
+omit [Finite G] in
 private theorem seven_eight_core_pre_zpowers_le_centralizer {H J : Subgroup G} {Q : Type}
     [Group Q] {φ : ↥H →* Q} (hφ : IsBarMap H J φ) {Xb : Subgroup Q} {g : G} (hgH : g ∈ H)
     (hcomm : ∀ z ∈ barPre H φ Xb, ⁅g, z⁆ ∈ J) :
@@ -75,7 +77,7 @@ theorem hyp76_sup_of_commute {V H E J U U' X : Subgroup G} {p : ℕ} [(J.subgrou
     (hJX : J ≤ X) (hXH : X ≤ H) (hAX : U ⊔ U' ≤ Subgroup.normalizer (X : Set G))
     (hfaith : ∀ a ∈ U ⊔ U', (∀ x ∈ X, ⁅a, x⁆ ∈ J) → a ∈ J) (hexp : ∀ x ∈ X, x ^ p ∈ J) :
     Hyp76 V H E J (U ⊔ U') X := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpg := isPGroup_quotient_of_exp (J := J) (Y := X) hexp
   refine ⟨h.elemAbelian, h.ti, h.abelian, h.le, h.normal, h.omega_le, h.pcore_le, h.jnormal,
     h.iSub_le, hJX, hXH, hAX, ?_, ?_, hfaith, ?_, ?_⟩
@@ -98,6 +100,7 @@ theorem hyp76_sup_of_commute {V H E J U U' X : Subgroup G} {p : ℕ} [(J.subgrou
       exact (hUU' u hu z hz).symm
     exact hcent.trans (Subgroup.centralizer_le_normalizer (U' : Set G))
 
+omit [Finite G] in
 theorem Hyp78.exists_mem_pCoreOf_of_mem_deltaSet {V H E J L : Subgroup G}
     (h : Hyp78 V H E J L) {Q : Type} [Group Q] [Finite Q] {φ : ↥H →* Q} {v : G} (hv : v ∈ V)
     {a : Q} (ha : a ∈ deltaSet (barSub H φ (pCoreOf 2 L)) (φ ⟨v, h.omega_le V h.mem hv⟩)) :
@@ -111,6 +114,7 @@ theorem Hyp78.exists_mem_pCoreOf_of_mem_deltaSet {V H E J L : Subgroup G}
       H.mul_mem (H.mul_mem k.2 (h.omega_le V h.mem hv)) (H.inv_mem k.2)⟩ : ↥H) =
       k * ⟨v, h.omega_le V h.mem hv⟩ * k⁻¹ from Subtype.ext rfl, map_mul, map_mul, map_inv]
 
+omit [Finite G] in
 theorem Hyp78.conjSubgroup_inv_mem_omegaSet {V H E J L : Subgroup G} (h : Hyp78 V H E J L)
     {x : G} (hx : x ∈ pCoreOf 2 L) :
     conjSubgroup V x⁻¹ ∈ omegaSet V H E ∧ conjSubgroup V x⁻¹ ≤ L := by
@@ -127,6 +131,7 @@ theorem Hyp78.conjSubgroup_inv_mem_omegaSet {V H E J L : Subgroup G} (h : Hyp78 
   rw [show g = x * (x⁻¹ * g * x) * x⁻¹ by group]
   exact L.mul_mem (L.mul_mem hxL hmemL) (L.inv_mem hxL)
 
+omit [Finite G] in
 theorem Hyp78.relIndex_eq_two_of_mem_omegaSet {V H E J L : Subgroup G} (h : Hyp78 V H E J L)
     (hV2 : J.relIndex V = 2) {U : Subgroup G} (hU : U ∈ omegaSet V H E) :
     J.relIndex U = 2 := by
@@ -142,6 +147,7 @@ theorem Hyp78.relIndex_eq_two_of_mem_omegaSet {V H E J L : Subgroup G} (h : Hyp7
     seven_eight_core_pre_relIndex_conjSubgroup J V k
   rwa [hJk, hV2] at hstep
 
+omit [Finite G] in
 theorem Hyp78.barSub_le_zpowers_of_mem_omegaSet {V H E J L : Subgroup G} (h : Hyp78 V H E J L)
     (hV2 : J.relIndex V = 2) {Q : Type} [Group Q] {φ : ↥H →* Q} (hφ : IsBarMap H J φ)
     {U : Subgroup G} (hU : U ∈ omegaSet V H E) {u : G} (hu : u ∈ U) (huJ : u ∉ J) :
@@ -178,6 +184,7 @@ theorem Hyp78.barSub_le_zpowers_of_mem_omegaSet {V H E J L : Subgroup G} (h : Hy
     rw [Subgroup.mem_zpowers_iff]
     exact ⟨1, by rw [zpow_one]; exact hEq.symm⟩
 
+omit [Finite G] in
 theorem Hyp78.faithful_of_mem_omegaSet {V H E J L : Subgroup G} (h : Hyp78 V H E J L)
     (hV2 : J.relIndex V = 2) {Q : Type} [Group Q] {φ : ↥H →* Q} (hφ : IsBarMap H J φ)
     {U : Subgroup G} (hU : U ∈ omegaSet V H E) {u : G} (hu : u ∈ U) (huJ : u ∉ J)
@@ -206,6 +213,7 @@ theorem Hyp78.faithful_of_mem_omegaSet {V H E J L : Subgroup G} (h : Hyp78 V H E
       (hcent (Subgroup.mem_zpowers _))
   exact hne hbot
 
+omit [Finite G] in
 theorem barPre_commutator_zpowers_le {H J : Subgroup G} {Q : Type} [Group Q] {φ : ↥H →* Q}
     (hφ : IsBarMap H J φ) (Xb : Subgroup Q) {w : G} (hw : w ∈ H) :
     barPre H φ ⁅Xb, Subgroup.zpowers (φ ⟨w, hw⟩)⁆ ≤ commModJ (barPre H φ Xb) J w := by
@@ -410,7 +418,7 @@ theorem Hyp78.hyp76_sup {V H E J L : Subgroup G} (h : Hyp78 V H E J L)
           intro h1
           exact hqne (commutatorElement_eq_one_iff_mul_comm.mp h1)
         have hmOdd : Odd (orderOf m) := by
-          haveI : Fact p.Prime := ⟨hp⟩
+          have : Fact p.Prime := ⟨hp⟩
           obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp hXp) ⟨m, hmX⟩
           rw [← Subgroup.orderOf_mk m hmX, hk]
           exact (hp.odd_of_ne_two hp2).pow
@@ -452,7 +460,7 @@ theorem Hyp78.hyp76_sup {V H E J L : Subgroup G} (h : Hyp78 V H E J L)
           Subgroup.mul_mem _ (Subgroup.subset_closure (by simp))
             (Subgroup.subset_closure (by simp))
         by_cases hP : IsPGroup 2 (Subgroup.closure ({d, w'} : Set G))
-        · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+        · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
           obtain ⟨j, hj⟩ := (IsPGroup.iff_orderOf.mp hP) ⟨d * w', hdw_mem⟩
           have horder : orderOf (d * w') = 2 ^ j :=
             (Subgroup.orderOf_mk (d * w') hdw_mem).symm.trans hj

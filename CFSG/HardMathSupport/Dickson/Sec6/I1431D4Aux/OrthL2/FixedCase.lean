@@ -121,7 +121,7 @@ variable (K : Type) [Field K] [Finite K]
 instance finite_coordLinearEquiv : Finite ((Coord → K) ≃ₗ[K] (Coord → K)) :=
   haveI : Finite (Coord → K) := inferInstance
   Finite.of_injective (fun e : (Coord → K) ≃ₗ[K] (Coord → K) => (e : (Coord → K) → (Coord → K)))
-    fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
+    fun _e₁ _e₂ h => LinearEquiv.ext (congrFun h)
 
 instance finite_projOrthDerived_quadPlus : Finite (ProjOrthDerived (quadPlus 4 K)) :=
   inferInstance
@@ -159,7 +159,7 @@ theorem isQuasisimple_rhoImg_levi (hK : 4 ≤ Nat.card K) {A B : HypPair (quadPl
     (Subgroup.equivMapOfInjective _ (eTheta K).toMonoidHom (eTheta K).injective).symm h1
 
 theorem ringChar_eq_three_of_card_eq_three (h : Nat.card K = 3) : ringChar K = 3 := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   obtain ⟨n, hp, hn⟩ := FiniteField.card K (ringChar K)
   have hdvd : ringChar K ∣ 3 := by
     rw [← h, Nat.card_eq_fintype_card, hn]

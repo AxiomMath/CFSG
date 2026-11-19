@@ -44,6 +44,7 @@ theorem no_elations_of_isom [Finite K] [FiniteDimensional K V] (hnd : F.Nondegen
     ring
   exact hu (F u y') (sub_eq_zero.mp h0)
 
+omit [CharP K 2] in
 theorem pointRad_smul {e : V} {c : K} (hc : c ≠ 0) :
     pointRadSubgroup F (c • e) = pointRadSubgroup F e := by
   ext g
@@ -64,6 +65,7 @@ theorem pointRad_smul {e : V} {c : K} (hc : c ≠ 0) :
     refine ⟨d * c⁻¹, ?_⟩
     rw [hd, smul_smul, mul_assoc, inv_mul_cancel₀ hc, mul_one]
 
+omit [CharP K 2] in
 theorem elationFull_smul {D : Set (V ≃ₗ[K] V)} {e : V} {c : K} (hc : c ≠ 0) :
     ElationFull F D (c • e) ↔ ElationFull F D e := by
   have hF : ∀ v, F v (c • e) = 0 ↔ F v e = 0 := fun v => by

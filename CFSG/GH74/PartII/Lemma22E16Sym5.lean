@@ -113,14 +113,14 @@ theorem card_centralizer_eq_128_of_e16_sym5 (hπ : Function.Surjective π)
         exact hx.symm
       exact hk1 (isConj_one_right.mp hx')
     · intro hx
-      rw [Set.mem_diff, Set.mem_singleton_iff] at hx
+      rw [Set.mem_sdiff, Set.mem_singleton_iff] at hx
       obtain ⟨hxK, hx1⟩ := hx
       obtain ⟨g, hg⟩ := htr k hk x hxK hk1 hx1
       change IsConj k x
       exact isConj_iff.mpr ⟨g, hg⟩
   have hcl : (conjugatesOf k).ncard = 15 := by
     rw [hclass]
-    rw [Set.ncard_diff (s := ({1} : Set B)) (t := (π.ker : Set B))
+    rw [Set.ncard_sdiff (s := ({1} : Set B)) (t := (π.ker : Set B))
       (Set.singleton_subset_iff.mpr (π.ker.one_mem))]
     rw [Set.ncard_singleton, ← Nat.card_coe_set_eq]
     change Nat.card ↥(π.ker) - 1 = 15
@@ -151,7 +151,7 @@ theorem centralizer_ker_eq_ker_of_e16_sym5 (hπ : Function.Surjective π)
   have hNnormal : N.Normal := hCnormal.map π hπ
   have hAnormal : (N.subgroupOf (alternatingGroup (Fin 5))).Normal :=
     hNnormal.subgroupOf (alternatingGroup (Fin 5))
-  have hsimple : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+  have hsimple : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   rcases @IsSimpleGroup.eq_bot_or_eq_top_of_normal (alternatingGroup (Fin 5)) _
       hsimple (N.subgroupOf (alternatingGroup (Fin 5))) hAnormal with hbot | htop
   · have hdisj : Disjoint N (alternatingGroup (Fin 5)) :=

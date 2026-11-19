@@ -70,7 +70,7 @@ theorem exists_weyl_lifts {G : Type} [Group G] [Finite G]
     rw [← hr]
     exact ⟨u, rfl⟩
   have h2elt : ∀ x ∈ (Q : Subgroup ↥A), ∃ m, orderOf x = 2 ^ m := fun x hx => by
-    obtain ⟨m, hm⟩ := IsPGroup.iff_orderOf.mp Q.isPGroup' ⟨x, hx⟩
+    obtain ⟨m, hm⟩ := IsPGroup.iff_orderOf.mp Q.isPGroup ⟨x, hx⟩
     exact ⟨m, by rwa [Subgroup.orderOf_mk] at hm⟩
   have lift_conj : ∀ (a : ↥A) (m : SpecialLinearGroup (Fin 3) F4),
       q a = q g * LinearFlag.proj 3 F4 m * (q g)⁻¹ → ∀ u u' : ↥(unipAll F4),

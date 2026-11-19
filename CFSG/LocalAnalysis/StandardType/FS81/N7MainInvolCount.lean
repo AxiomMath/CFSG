@@ -40,7 +40,7 @@ theorem nmh_diagonal_eq_spMat (d : Fin 8 → ZMod 3) :
   ext i j
   by_cases h : i = j
   · subst h; simp [spMat_apply, Matrix.diagonal_apply_eq]
-  · simp [spMat_apply, Matrix.diagonal_apply, h]
+  · simp [spMat_apply, h]
 
 private theorem nmh_spMat_eq_perm_mul_diagonal (σ : Equiv.Perm (Fin 8))
     (s : Fin 8 → ZMod 3) :
@@ -65,9 +65,9 @@ private theorem nmh_spMat_one_eq_permMatrix (σ : Equiv.Perm (Fin 8)) :
   rw [congrFun h j, Pi.single_apply]
   by_cases hij : i = σ j
   · subst hij
-    rw [if_pos rfl, if_pos (Equiv.symm_apply_apply σ j).symm]
+    rw [ite_eq_left rfl, ite_eq_left (Equiv.symm_apply_apply σ j).symm]
   · have hne : j ≠ σ.symm i := fun hh => hij (by rw [← Equiv.apply_symm_apply σ i, hh])
-    rw [if_neg hij, if_neg hne]
+    rw [ite_eq_right hij, ite_eq_right hne]
 
 theorem nmh_det_spMat (σ : Equiv.Perm (Fin 8)) (s : Fin 8 → ZMod 3) :
     (spMat σ s).det = (Equiv.Perm.sign σ : ZMod 3) * ∏ j, s j := by
@@ -81,7 +81,7 @@ theorem nmh_det_spMat (σ : Equiv.Perm (Fin 8)) (s : Fin 8 → ZMod 3) :
 @[expose] def nmhAF (σ : Equiv.Perm (Fin 8)) (s : Fin 8 → ZMod 3) : Finset (Fin 8) :=
   Finset.univ.filter fun j => σ j = j ∧ s j = -1
 
-@[expose] def nmhCF (σ : Equiv.Perm (Fin 8)) (s : Fin 8 → ZMod 3) : Finset (Fin 8) :=
+@[expose] def nmhCF (σ : Equiv.Perm (Fin 8)) (_s : Fin 8 → ZMod 3) : Finset (Fin 8) :=
   Finset.univ.filter fun j => σ j ≠ j ∧ j < σ j
 
 private abbrev nmhIdx (σ : Equiv.Perm (Fin 8)) (s : Fin 8 → ZMod 3) : Type :=
@@ -106,19 +106,19 @@ private theorem nmhExtend_fixed_pos {σ : Equiv.Perm (Fin 8)} {s : Fin 8 → ZMo
     (hσ : ∀ j, σ (σ j) = j) (f : nmhIdx σ s → ZMod 3) {j : Fin 8} (hfix : σ j = j)
     (hs1 : s j = 1) :
     nmhExtend σ s hσ f j = f (Sum.inl ⟨j, hfix, hs1⟩) := by
-  simp only [nmhExtend, dif_pos hfix, dif_pos hs1]
+  simp only [nmhExtend, dite_eq_left hfix, dite_eq_left hs1]
 
 private theorem nmhExtend_fixed_neg {σ : Equiv.Perm (Fin 8)} {s : Fin 8 → ZMod 3}
     (hσ : ∀ j, σ (σ j) = j) (f : nmhIdx σ s → ZMod 3) {j : Fin 8} (hfix : σ j = j)
     (hs1 : s j ≠ 1) :
     nmhExtend σ s hσ f j = 0 := by
-  simp only [nmhExtend, dif_pos hfix, dif_neg hs1]
+  simp only [nmhExtend, dite_eq_left hfix, dite_eq_right hs1]
 
 private theorem nmhExtend_lt {σ : Equiv.Perm (Fin 8)} {s : Fin 8 → ZMod 3}
     (hσ : ∀ j, σ (σ j) = j) (f : nmhIdx σ s → ZMod 3) {j : Fin 8} (hfix : σ j ≠ j)
     (hlt : j < σ j) :
     nmhExtend σ s hσ f j = f (Sum.inr ⟨j, hfix, hlt⟩) := by
-  simp only [nmhExtend, dif_neg hfix, dif_pos hlt]
+  simp only [nmhExtend, dite_eq_right hfix, dite_eq_left hlt]
 
 private theorem nmhExtend_gt {σ : Equiv.Perm (Fin 8)} {s : Fin 8 → ZMod 3}
     (hσ : ∀ j, σ (σ j) = j) (f : nmhIdx σ s → ZMod 3) {j : Fin 8} (hfix : σ j ≠ j)
@@ -126,7 +126,7 @@ private theorem nmhExtend_gt {σ : Equiv.Perm (Fin 8)} {s : Fin 8 → ZMod 3}
     nmhExtend σ s hσ f j
       = s (σ j) * f (Sum.inr ⟨σ j, by rw [hσ]; exact fun h => hfix h.symm, by
           rw [hσ]; exact lt_of_le_of_ne (le_of_not_gt hlt) fun h => hfix h⟩) := by
-  simp only [nmhExtend, dif_neg hfix, dif_neg hlt]
+  simp only [nmhExtend, dite_eq_right hfix, dite_eq_right hlt]
 
 private theorem nmhExtend_rel {σ : Equiv.Perm (Fin 8)} {s : Fin 8 → ZMod 3} (hs : IsSign s)
     (hσ : ∀ j, σ (σ j) = j) (hsign : ∀ j, s (σ j) * s j = 1)

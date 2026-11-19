@@ -35,7 +35,7 @@ private theorem exists_mem_center_sylow_conj_eq_of_normalizer (C : Config ↥A)
     intro x hx
     obtain ⟨p, hp, rfl⟩ := Subgroup.mem_map.mp hx
     exact p.2
-  haveI : Finite ↥P' :=
+  have : Finite ↥P' :=
     Finite.of_injective (fun x : ↥P' => (⟨(x : Y), hP'A x.2⟩ : ↥A)) (by
       intro x y hxy
       exact Subtype.ext (congrArg (fun z : ↥A => (z : Y)) hxy))
@@ -182,7 +182,7 @@ theorem exists_mem_Z_conj_eq (C : Config ↥A) {g : Y}
     apply A.subtype_injective
     rw [map_mul, map_mul, hu'Y]
     exact hu_comm
-  obtain ⟨n, hn⟩ := C.T.isPGroup'.exists_pow_pow_eq_one ⟨u', hu'T⟩
+  obtain ⟨n, hn⟩ := C.T.isPGroup.exists_pow_pow_eq_one ⟨u', hu'T⟩
   have hu'pow : u' ^ 2 ^ n = 1 := by
     simpa using hn
   have hu'1 : u' = 1 := C.eq_one_of_commute_of_orderOf_eq_three hk3 hu'pow hu'_comm

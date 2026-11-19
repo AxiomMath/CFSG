@@ -42,10 +42,10 @@ variable {Y : Type} [Group Y] {F₁ F₂ : Type} [Field F₁] [Field F₂]
 theorem gomiOdd_false_of_shape [Finite Y] (h₁ : (2 : F₁) ≠ 0) (h₂ : (2 : F₂) ≠ 0)
     (S : Shape Y F₁ F₂) (E : Subgroup Y) (hEcard : Nat.card E = 2 ^ 6)
     (hEsq : ∀ x ∈ E, x * x = 1) : False := by
-  haveI : S.I₁.Normal := S.normal₁
-  haveI : S.I₂.Normal := S.normal₂
+  have : S.I₁.Normal := S.normal₁
+  have : S.I₂.Normal := S.normal₂
   set J : Subgroup Y := S.I₁ ⊔ S.I₂ with hJ
-  haveI hJn : J.Normal := inferInstance
+  have hJn : J.Normal := inferInstance
   have hYJ : ∀ g : Y, g ∈ J ∨ g * S.t ∈ J := by
     intro g
     have hg : g ∈ J ⊔ Subgroup.zpowers S.t := by
@@ -63,7 +63,7 @@ theorem gomiOdd_false_of_shape [Finite Y] (h₁ : (2 : F₁) ≠ 0) (h₂ : (2 :
     · refine gomiOdd_card_le_two_mul E A 1 ?_
       intro x hx
       exact Or.inl ⟨hx, hEJ hx⟩
-    · obtain ⟨y₀, hy₀E, hy₀J⟩ := SetLike.not_le_iff_exists.mp hEJ
+    · obtain ⟨y₀, hy₀E, hy₀J⟩ := IsConcreteLE.not_le_iff_exists.mp hEJ
       refine gomiOdd_card_le_two_mul E A y₀ ?_
       intro x hx
       by_cases hxJ : x ∈ J

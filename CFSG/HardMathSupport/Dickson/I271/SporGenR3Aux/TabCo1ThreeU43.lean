@@ -31,7 +31,7 @@ theorem u43_central_ext_gen {T : Type} [Group T] [Finite T] (Z : Subgroup T) (a 
     CFSG.Open.IsQuasisimple T ∧ Subgroup.center T = Z ∧
       Nonempty ((T ⧸ Subgroup.center T) ≃* X₀) := by
   classical
-  haveI hZn : Z.Normal := Subgroup.normal_of_le_center hZ
+  have hZn : Z.Normal := Subgroup.normal_of_le_center hZ
   let π : T →* T ⧸ Z := QuotientGroup.mk' Z
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective Z
   have hπker : π.ker = Z := QuotientGroup.ker_mk' Z
@@ -61,7 +61,7 @@ theorem u43_central_ext_gen {T : Type} [Group T] [Finite T] (Z : Subgroup T) (a 
   obtain ⟨ψ, hψ⟩ := exists_hom_of_isPresentation isPresentation_X₀ ![π a, π b] hrelG
   have hψx : ψ xElt = π a := by simpa [CFSG.Sporadic.Bridge.TwoGen.img2] using hψ 0
   have hψy : ψ yElt = π b := by simpa [CFSG.Sporadic.Bridge.TwoGen.img2] using hψ 1
-  haveI := isSimpleGroup_X₀'
+  have := isSimpleGroup_X₀'
   have hsurj : Function.Surjective ψ := by
     rw [← MonoidHom.range_eq_top, eq_top_iff, ← hgenG, Subgroup.closure_le]
     rintro _ (rfl | rfl)

@@ -64,10 +64,8 @@ theorem perm_hom_eq_one {L X : Type*} [Group L] [Finite X] (hX : Nat.card X ≤ 
     { toFun := ρA g
       invFun := ρA g⁻¹
       left_inv := fun x => by
-        change ρA g⁻¹ (ρA g x) = x
         rw [← Module.End.mul_apply, ← map_mul, inv_mul_cancel, map_one, Module.End.one_apply]
       right_inv := fun x => by
-        change ρA g (ρA g⁻¹ x) = x
         rw [← Module.End.mul_apply, ← map_mul, mul_inv_cancel, map_one, Module.End.one_apply] }
   map_one' := Equiv.ext fun x => by
     change ρA 1 x = x
@@ -140,7 +138,7 @@ theorem no_A9_of_equivariant_pairing (hI : A9AbsIrrStatement)
   have hLperf : Group.IsPerfect L :=
     Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
   have hL : commutator L = ⊤ := Group.isPerfect_def.mp hLperf
-  haveI : Finite A := Module.finite_of_finite (ZMod 2)
+  have : Finite A := Module.finite_of_finite (ZMod 2)
   have hρA1 : ∀ g : L, ρA g = 1 := by
     intro g
     have hπ : actPerm ρA = 1 := perm_hom_eq_one hcardA.le hL (actPerm ρA)
@@ -169,7 +167,7 @@ theorem no_A9_of_equivariant_pairing (hI : A9AbsIrrStatement)
     hI Tim79aF2Eight ρ8 hρ8 hfin8
   have hirr9 : CFSG.Theory.Representation.IsAbsolutelyIrreducible ρ9 :=
     (isAbsolutelyIrreducible_iff_of_repEquiv (conjRepEquiv e8 ρ9)).mpr hirr8
-  haveI := hirr9
+  have := hirr9
   exact no_invariant_bilinear_map_onto_plane ρ9 κ hκ9 hspan hA
 
 end CFSG.RankThree.GF2n.Tim79a

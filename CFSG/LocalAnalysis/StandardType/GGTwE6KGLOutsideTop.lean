@@ -52,8 +52,8 @@ theorem largeEvenLabelAll_not_ggOutsideInndiag_top {lab : LargeEvenLabel}
     LargeEvenLabelAll lab fun R _ I _ => IsSimpleGroup R → (∃ a b : R, a * b ≠ b * a) →
       ∀ t ∈ I, ¬ GGOutsideInndiag (⊤ : Subgroup R) t := by
   refine (largeEvenLabelAll_self lab).mono fun R _ I _ hself hR hna t ht hout => ?_
-  haveI := hR
-  haveI : IsSimpleGroup ↥(⊤ : Subgroup R) :=
+  have := hR
+  have : IsSimpleGroup ↥(⊤ : Subgroup R) :=
     (Subgroup.topEquiv : ↥(⊤ : Subgroup R) ≃* R).isSimpleGroup
   have hnc : ¬ IsMulCommutative ↥(⊤ : Subgroup R) := fun h => by
     obtain ⟨a, b, hab⟩ := hna
@@ -85,7 +85,7 @@ theorem largeEvenLabelAll_not_ggOutsideInndiag_ggFix_one {lab : LargeEvenLabel}
         ¬ GGOutsideInndiag J₁ t := by
   refine (largeEvenLabelAll_not_ggOutsideInndiag_top hlab).mono
     fun R _ I _ h hR hna t ht J₁ hJ₁ => ?_
-  haveI := hR
+  have := hR
   have h1 : ggFix (1 : MulAut R) = ⊤ := by
     ext x
     simp [mem_ggFix]

@@ -151,7 +151,7 @@ theorem exists_isRankTwoLayer_of_quotient {G : Type} [Group G] [Finite G] {M : S
   let ε : (↥M ⧸ (GLBPrimeCore 3 M).subgroupOf M) ≃* (↥M ⧸ primeComplementCore (G := ↥M) 3) :=
     QuotientGroup.quotientMulEquivOfEq hD
   set K' : Subgroup (↥M ⧸ (GLBPrimeCore 3 M).subgroupOf M) := K.map ε.symm.toMonoidHom with hK'
-  haveI hK'n : K'.Normal := Subgroup.Normal.map hKn _ ε.symm.surjective
+  have hK'n : K'.Normal := Subgroup.Normal.map hKn _ ε.symm.surjective
   let eK : ↥K ≃* ↥K' := Subgroup.equivMapOfInjective K ε.symm.toMonoidHom ε.symm.injective
   set π : ↥M →* ↥M ⧸ (GLBPrimeCore 3 M).subgroupOf M :=
     QuotientGroup.mk' ((GLBPrimeCore 3 M).subgroupOf M) with hπ
@@ -163,7 +163,7 @@ theorem exists_isRankTwoLayer_of_quotient {G : Type} [Group G] [Finite G] {M : S
     unfold starImg
     rw [hL₀]
     exact Subgroup.map_comap_eq_self_of_surjective (QuotientGroup.mk'_surjective _) K'
-  haveI : IsSimpleGroup ↥K := hKs
+  have : IsSimpleGroup ↥K := hKs
   have hK's : IsSimpleGroup ↥K' := MulEquiv.isSimpleGroup eK.symm
   have hK'c : ¬ IsMulCommutative ↥K' := by
     intro hc

@@ -18,17 +18,17 @@ theorem offblock_of_commute_proj (M : Matrix (Fin 6) (Fin 6) K)
   constructor
   · intro a b
     have h1 := congrFun (congrFun h (ia a)) (ib b)
-    simp only [Matrix.mul_apply, sum6_blocks, blk6_ia_ia, blk6_ia_ib, blk6_ib_ia, blk6_ib_ib,
-      Matrix.one_apply, Matrix.zero_apply, ia_inj', ib_inj', mul_zero, zero_mul, Finset.sum_const_zero,
-      Finset.sum_ite_eq, Finset.sum_ite_eq', Finset.mem_univ, if_true, mul_one, zero_add, add_zero,
-      ite_mul, mul_ite, one_mul] at h1
+    simp only [Matrix.mul_apply, sum6_blocks, blk6_ia_ia, blk6_ia_ib, blk6_ib_ib,
+      Matrix.one_apply, Matrix.zero_apply, mul_zero, zero_mul, Finset.sum_const_zero,
+      Finset.sum_ite_eq, Finset.mem_univ, ite_true, add_zero,
+      ite_mul, one_mul] at h1
     exact h1.symm
   · intro a b
     have h1 := congrFun (congrFun h (ib a)) (ia b)
-    simp only [Matrix.mul_apply, sum6_blocks, blk6_ia_ia, blk6_ia_ib, blk6_ib_ia, blk6_ib_ib,
-      Matrix.one_apply, Matrix.zero_apply, ia_inj', ib_inj', mul_zero, zero_mul, Finset.sum_const_zero,
-      Finset.sum_ite_eq, Finset.sum_ite_eq', Finset.mem_univ, if_true, mul_one, zero_add, add_zero,
-      ite_mul, mul_ite, one_mul] at h1
+    simp only [Matrix.mul_apply, sum6_blocks, blk6_ia_ia, blk6_ib_ia, blk6_ib_ib,
+      Matrix.one_apply, Matrix.zero_apply, mul_zero, zero_mul, Finset.sum_const_zero,
+      Finset.sum_ite_eq', Finset.mem_univ, ite_true, mul_one, add_zero,
+      mul_ite] at h1
     exact h1
 
 theorem blk6_snd_inj {M M' : Matrix (Fin 4) (Fin 4) K} {N N' : Matrix (Fin 2) (Fin 2) K}

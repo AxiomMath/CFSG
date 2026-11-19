@@ -226,6 +226,7 @@ private theorem card_psuNormOneDiagonal :
         Nat.card_congr Subgroup.topEquiv.toEquiv
     _ = p ^ f + 1 := card_normOne hK
 
+omit [Finite K] [Fact (Nat.Prime p)] [CharP K p] in
 private theorem suOdd₃_mul_self (hq : Odd (p ^ f)) :
     suOdd₃ K hq * suOdd₃ K hq = 1 := by
   apply Subtype.ext
@@ -234,9 +235,11 @@ private theorem suOdd₃_mul_self (hq : Odd (p ^ f)) :
   fin_cases i <;> fin_cases j <;>
     simp [suOdd₃, oddDiag₃, Matrix.mul_apply, Fin.sum_univ_three]
 
+omit [Finite K] [Fact p.Prime] [CharP K p] in
 private theorem suOdd₃_inv (hq : Odd (p ^ f)) : (suOdd₃ K hq)⁻¹ = suOdd₃ K hq :=
   inv_eq_of_mul_eq_one_left (suOdd₃_mul_self (p := p) (f := f) hq)
 
+omit [Finite K] [Fact (Nat.Prime p)] [CharP K p] in
 private theorem suOdd₃_coe (hq : Odd (p ^ f)) :
     (((suOdd₃ K hq : StatedSU 3 (p ^ f) K) : GL (Fin 3) K) :
       Matrix (Fin 3) (Fin 3) K) = Matrix.diagonal ![(-1 : K), -1, 1] := by
@@ -255,7 +258,7 @@ private theorem psuNormOneDiagonalHom_negOne (hq : Odd (p ^ f)) :
   rw [coe_coe_normOneDiagHom]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [CFSG.ClassicalInvolution.ModelFacts.UnitaryAut.negOneN, normOneDiagTuple, oddDiag₃, Matrix.diagonal]
+    simp [CFSG.ClassicalInvolution.ModelFacts.UnitaryAut.negOneN, oddDiag₃, Matrix.diagonal]
 
 private theorem suOdd₃_conj_suNormOneTorus (hq : Odd (p ^ f))
     (u : normOne (unitaryInvolution K p f)) :
@@ -289,6 +292,7 @@ private theorem uniU₀_conj_psuNormOneTorus (hq : Odd (p ^ f))
     _ = (psuNormOneTorus hK h2 u)⁻¹ := by
           rw [hpsu, map_inv]
 
+omit [Fact (Nat.Prime p)] in
 private theorem odd_half_add_one (hq4 : p ^ f % 4 = 1) : Odd ((p ^ f + 1) / 2) := by
   have hq : p ^ f = 4 * (p ^ f / 4) + 1 := by
     have := Nat.div_add_mod (p ^ f) 4
@@ -322,7 +326,7 @@ private theorem exists_odd_prime_torus_member (hq4 : p ^ f % 4 = 1) (hf : 2 ≤ 
       _ ≤ p ^ f := Nat.pow_le_pow_right (by omega : 0 < p) hf
   have hm1 : 1 < (p ^ f + 1) / 2 := by omega
   obtain ⟨r, hrprime, hrdvd⟩ := Nat.exists_prime_and_dvd (by omega : (p ^ f + 1) / 2 ≠ 1)
-  letI : Fact r.Prime := ⟨hrprime⟩
+  let : Fact r.Prime := ⟨hrprime⟩
   have hrod : r ≠ 2 := by
     intro hr2
     have hm_odd := odd_half_add_one (p := p) (f := f) hq4
@@ -340,6 +344,7 @@ private theorem exists_odd_prime_torus_member (hq4 : p ^ f % 4 = 1) (hf : 2 ≤ 
 
 end Diagonal
 
+omit [Finite K] [Fact (Nat.Prime p)] [CharP K p] in
 private theorem suOdd₂_coe (hq : Odd (p ^ f)) :
     (((suOdd₂ K hq : StatedSU 3 (p ^ f) K) : GL (Fin 3) K) :
       Matrix (Fin 3) (Fin 3) K) = Matrix.diagonal ![(-1 : K), 1, -1] := by
@@ -347,6 +352,7 @@ private theorem suOdd₂_coe (hq : Odd (p ^ f)) :
   fin_cases i <;> fin_cases j <;>
     simp [suOdd₂, oddDiag₂, Matrix.diagonal]
 
+omit [Finite K] [Fact (Nat.Prime p)] [CharP K p] in
 private theorem offdiag_eq_zero_of_commutes_signs (h : UnitaryFieldData p f K)
     (A : uU h 3) (Z Z' : StatedSU 3 (p ^ f) K)
     (hZmat : ((((Z : StatedSU 3 (p ^ f) K) : GL (Fin 3) K)) :
@@ -438,6 +444,7 @@ private theorem offdiag_eq_zero_of_commutes_signs (h : UnitaryFieldData p f K)
   · exact hA21
   · exact absurd rfl hij
 
+omit [Finite K] [Fact (Nat.Prime p)] [CharP K p] in
 private theorem uU_diagonal_entry_normOne (h : UnitaryFieldData p f K)
     (A : uU h 3) (hdiag : ∀ i j : Fin 3, i ≠ j →
       (((A : GL (Fin 3) K)) : Matrix (Fin 3) (Fin 3) K) i j = 0)
@@ -527,21 +534,23 @@ private theorem conj_diag_normOneTorusMat (h : UnitaryFieldData p f K)
   apply Matrix.ext
   intro i j
   fin_cases i <;> fin_cases j <;>
-    simp [normOneTorusMat, normOneTorusA, normOneTorusB, a, d, hδ, h2, Am,
-      Matrix.diagonal_mul, Matrix.mul_diagonal, Matrix.diagonal_apply_eq] <;>
+    simp [normOneTorusMat, normOneTorusA, normOneTorusB, a, d, hδ, Am,
+      Matrix.diagonal_mul, Matrix.mul_diagonal] <;>
     field_simp [show (((A : GL (Fin 3) K)) : Matrix (Fin 3) (Fin 3) K) 0 0 ≠ 0 by
         simpa [a, Am] using hAne 0,
       show (((A : GL (Fin 3) K)) : Matrix (Fin 3) (Fin 3) K) 1 1 ≠ 0 by
         simpa [a, Am] using hAne 1,
       show (((A : GL (Fin 3) K)) : Matrix (Fin 3) (Fin 3) K) 2 2 ≠ 0 by
-        simpa [a, Am] using hAne 2] <;> ring
+        simpa [a, Am] using hAne 2]
 
+omit [Finite K] [Fact p.Prime] [CharP K p] in
 private theorem uniU₀_mul_self (hq : Odd (p ^ f)) :
     uniU₀ K hq * uniU₀ K hq = 1 := by
   have huni : uniU₀ K hq =
       statedProjMk (StatedSU 3 (p ^ f) K) (suOdd₃ K hq) := rfl
   rw [huni, ← map_mul, suOdd₃_mul_self hq, map_one]
 
+omit [Finite K] [Fact p.Prime] [CharP K p] in
 private theorem uniU₀_ne_one (hq : Odd (p ^ f)) (h2 : (2 : K) ≠ 0) :
     uniU₀ K hq ≠ 1 := by
   intro h1
@@ -573,13 +582,14 @@ private theorem uniU₀_ne_one (hq : Odd (p ^ f)) (h2 : (2 : K) ≠ 0) :
   have h2zero : (2 : K) = 0 := by linear_combination -hneg
   exact h2 h2zero
 
+omit [Finite K] [Fact p.Prime] [CharP K p] in
 private theorem orderOf_uniU₀ (hq : Odd (p ^ f)) (h2 : (2 : K) ≠ 0) :
     orderOf (uniU₀ K hq) = 2 :=
   orderOf_eq_prime (by rw [pow_two]; exact uniU₀_mul_self hq) (uniU₀_ne_one hq h2)
 
 private theorem uFieldAut_psuNormOneTorus (h : UnitaryFieldData p f K)
     (hK : Nat.card K = (p ^ f) ^ 2) (h2 : (2 : K) ≠ 0)
-    (hq : Odd (p ^ f)) (φ : K ≃+* K)
+    (_hq : Odd (p ^ f)) (φ : K ≃+* K)
     (hφσ : ∀ c, φ (unitaryInvolution K p f c) =
       unitaryInvolution K p f (φ c))
     (u : normOne (unitaryInvolution K p f)) :
@@ -599,8 +609,8 @@ private theorem uFieldAut_psuNormOneTorus (h : UnitaryFieldData p f K)
       normOneTorusB, Matrix.map_apply, coe_coe_normOneMap, map_ofNat]
 
 private theorem uFieldAut_psuNormOneDiagonal (h : UnitaryFieldData p f K)
-    (hK : Nat.card K = (p ^ f) ^ 2) (h2 : (2 : K) ≠ 0)
-    (hq : Odd (p ^ f)) (φ : K ≃+* K)
+    (hK : Nat.card K = (p ^ f) ^ 2) (_h2 : (2 : K) ≠ 0)
+    (_hq : Odd (p ^ f)) (φ : K ≃+* K)
     (hφσ : ∀ c, φ (unitaryInvolution K p f c) =
       unitaryInvolution K p f (φ c))
     (δ : normOne (unitaryInvolution K p f)) :
@@ -617,11 +627,10 @@ private theorem uFieldAut_psuNormOneDiagonal (h : UnitaryFieldData p f K)
   apply Units.ext
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [coe_glAut, coe_coe_normOneDiagHom, normOneDiagTuple,
-      Matrix.map_apply, coe_coe_normOneMap, map_ofNat, map_div₀, map_inv₀]
+    simp [coe_glAut, coe_coe_normOneDiagHom, Matrix.map_apply, coe_coe_normOneMap, map_inv₀]
 
 private theorem uConjAut_psuNormOneDiagonal_of_diagonal (h : UnitaryFieldData p f K)
-    (hK : Nat.card K = (p ^ f) ^ 2) (h2 : (2 : K) ≠ 0)
+    (hK : Nat.card K = (p ^ f) ^ 2) (_h2 : (2 : K) ≠ 0)
     (A : uU h 3)
     (hdiag : ∀ i j : Fin 3, i ≠ j →
       (((A : GL (Fin 3) K)) : Matrix (Fin 3) (Fin 3) K) i j = 0)
@@ -726,8 +735,8 @@ private theorem uFieldAut_fixes_psuNormOneTorus_zpowers (h : UnitaryFieldData p 
           Nat.card (normOne (unitaryInvolution K p f)) :=
           Nat.card_congr Subgroup.topEquiv.toEquiv
       _ = p ^ f + 1 := card_normOne hK
-  haveI hcyc : IsCyclic T := by
-    haveI hN : IsCyclic (normOne (unitaryInvolution K p f)) := Subgroup.isCyclic _
+  have hcyc : IsCyclic T := by
+    have hN : IsCyclic (normOne (unitaryInvolution K p f)) := Subgroup.isCyclic _
     exact isCyclic_of_surjective ((psuNormOneTorus hK h2).rangeRestrict)
       (MonoidHom.rangeRestrict_surjective _)
   obtain ⟨H0, hH0, huniq⟩ :=
@@ -780,12 +789,12 @@ private theorem odd_card_psuD0Orbit (hK : Nat.card K = (p ^ f) ^ 2)
             (MulAut.conj (((d : D0) : PSU3 p f K))).toMonoidHom
         rw [Subgroup.coe_mul, map_mul, Subgroup.map_map]
         rfl }
-  letI := act
+  let := act
   have horbit : MulAction.orbit D0 P0 =
       psuD0Orbit (p := p) (f := f) (K := K) hK P0 := by
     ext Q
     simp only [MulAction.mem_orbit_iff,
-      psuD0Orbit, Set.mem_setOf_eq]
+      psuD0Orbit, Set.mem_ofPred_eq]
     constructor
     · rintro ⟨d, hd⟩
       exact ⟨d, hd.symm⟩
@@ -832,6 +841,7 @@ private theorem odd_card_psuD0Orbit (hK : Nat.card K = (p ^ f) ^ 2)
   rw [horbit] at hnotdvd
   exact Nat.odd_iff.mpr (Nat.two_dvd_ne_zero.mp hnotdvd)
 
+omit [Finite K] [Fact (Nat.Prime p)] [CharP K p] in
 private theorem uFieldAut_fixes_uniU₀ (h : UnitaryFieldData p f K) (hq : Odd (p ^ f))
     (φ : K ≃+* K) :
     uFieldAut h (by omega : 1 ≤ 3) φ (uniU₀ K hq) = uniU₀ K hq := by
@@ -845,6 +855,7 @@ private theorem uFieldAut_fixes_uniU₀ (h : UnitaryFieldData p f K) (hq : Odd (
   fin_cases i <;> fin_cases j <;>
     simp [suOdd₃, oddDiag₃, Matrix.map_apply]
 
+omit [Finite K] [Fact (Nat.Prime p)] [CharP K p] in
 private theorem uFieldAut_fixes_uniU₀' (h : UnitaryFieldData p f K) (hq : Odd (p ^ f))
     (φ : K ≃+* K) :
     uFieldAut h (by omega : 1 ≤ 3) φ (uniU₀' K hq) = uniU₀' K hq := by
@@ -875,6 +886,7 @@ open Subgroup
 
 variable {p f : ℕ} {K : Type} [Field K] [Finite K] [Fact p.Prime] [CharP K p]
 
+omit [Finite K] [Fact (Nat.Prime p)] [CharP K p] in
 private theorem eq_conj_of_uConjAut_proj_fixes (h : UnitaryFieldData p f K)
     (A : uU h 3) (Z : StatedSU 3 (p ^ f) K)
     (htrace : Matrix.trace (((Z : GL (Fin 3) K)) : Matrix (Fin 3) (Fin 3) K) ≠ 0)
@@ -1135,7 +1147,7 @@ private theorem card_of_mem_psuD0Orbit (hK : Nat.card K = (p ^ f) ^ 2) (h2 : (2 
     Nat.card_zpowers, hlam]
 
 private theorem uniU₀_comm_psuNormOneDiagonal (hK : Nat.card K = (p ^ f) ^ 2)
-    (h2 : (2 : K) ≠ 0) (hq : Odd (p ^ f)) (d : psuNormOneDiagonal hK) :
+    (_h2 : (2 : K) ≠ 0) (hq : Odd (p ^ f)) (d : psuNormOneDiagonal hK) :
     uniU₀ K hq * (d : PSU3 p f K) = (d : PSU3 p f K) * uniU₀ K hq := by
   obtain ⟨ε, hε⟩ := d.2
   rw [← hε]
@@ -1252,7 +1264,7 @@ private theorem exists_inner_torus_standard_psu3 (h : UnitaryFieldData p f K)
   classical
   obtain ⟨r, hrprime, hrne2, lam, hlam⟩ :=
     exists_odd_prime_torus_member (p := p) (f := f) (K := K) hK h2 hq4 hf
-  letI : Fact r.Prime := ⟨hrprime⟩
+  let : Fact r.Prime := ⟨hrprime⟩
   have hr_odd : Odd r := hrprime.odd_of_ne_two hrne2
   have hrdvd : r ∣ p ^ f + 1 := by
     rw [← hlam]

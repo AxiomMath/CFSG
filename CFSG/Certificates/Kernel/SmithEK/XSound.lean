@@ -77,7 +77,7 @@ theorem ixPlane_testBit (j a : Nat) (ha : a < 512) : (ixPlane j).testBit a = a.t
       rw [Nat.testBit_or, ih, ixBit_eq]
       by_cases han : a = n
       · subst han
-        cases h : a.testBit j <;> simp [h, Nat.one_shiftLeft, Nat.testBit_two_pow]
+        cases h : a.testBit j <;> simp [Nat.one_shiftLeft]
       · have hne : (bif n.testBit j then Nat.shiftLeft 1 n else 0).testBit a = false := by
           cases n.testBit j
           · simp
@@ -185,7 +185,7 @@ theorem cntK_of_le {n : Nat} : ∀ (f x : Nat), x < 2 ^ n → f ≤ cntB n x →
       simp at h
     have hlt : x &&& (x - 1) < 2 ^ n := Nat.lt_of_le_of_lt Nat.and_le_left hn
     rw [cntB_land_pred hx hn] at h
-    rw [show (x == 0) = false from beq_eq_false_iff_ne.2 hx, cond_false,
+    rw [show (x == 0) = false from beq_eq_false_iff_ne.2 hx, Bool.cond_false,
       cntK_of_le f _ hlt (by omega)]
 
 theorem cntB_le_of_cntK {m x : Nat} (h : Nat.ble (cntK (m + 1) x) m = true) (n : Nat) :

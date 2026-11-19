@@ -145,9 +145,9 @@ theorem maskProd_tabP (hsz : szOK n w = true) :
     have hb : PP n w b := h b List.mem_cons_self
     rw [List.map_cons, maskProd, maskProd_tabP hsz bs hbs (m / 2), pmask]
     by_cases hm : m % 2 = 1
-    · rw [if_pos hm, if_pos hm]
+    · rw [ite_eq_left hm, ite_eq_left hm]
       exact compT_tabP' hb (PP_pmask hsz bs hbs _)
-    · rw [if_neg hm, if_neg hm, idT_tabP hsz]
+    · rw [ite_eq_right hm, ite_eq_right hm, idT_tabP hsz]
       exact compT_tabP' (PP.id hsz) (PP_pmask hsz bs hbs _)
 
 theorem PP_pspan (hsz : szOK n w = true) {bs : List Nat} (h : ∀ b ∈ bs, PP n w b) :

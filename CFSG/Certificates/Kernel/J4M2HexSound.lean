@@ -108,7 +108,7 @@ theorem testBit_imgR (f : ℕ → ℕ) (m x : ℕ) :
     apply Bool.eq_iff_iff.2
     rw [decide_eq_true_iff]
     by_cases hb : m.testBit n = true
-    · rw [if_pos hb, Nat.testBit_or, Nat.testBit_two_pow, testBit_imgR f m x n, Bool.or_eq_true,
+    · rw [ite_eq_left hb, Nat.testBit_or, Nat.testBit_two_pow, testBit_imgR f m x n, Bool.or_eq_true,
         decide_eq_true_iff, decide_eq_true_iff]
       constructor
       · rintro (h | ⟨p, hp, h1, h2⟩)
@@ -118,7 +118,7 @@ theorem testBit_imgR (f : ℕ → ℕ) (m x : ℕ) :
         rcases Nat.lt_succ_iff_lt_or_eq.1 hp with hp | rfl
         · exact Or.inr ⟨p, hp, h1, h2⟩
         · exact Or.inl h2
-    · rw [if_neg hb, testBit_imgR f m x n, decide_eq_true_iff]
+    · rw [ite_eq_right hb, testBit_imgR f m x n, decide_eq_true_iff]
       constructor
       · rintro ⟨p, hp, h1, h2⟩
         exact ⟨p, by omega, h1, h2⟩

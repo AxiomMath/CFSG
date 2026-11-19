@@ -57,11 +57,11 @@ theorem HCtx.card_le_four (hInv : Sec8T84FactInv) (S : HCtx E B u A H)
     {R : Subgroup (MulAut ↥E)} (hRA : R ≤ A) (hR2 : ∀ r ∈ R, r * r = 1) :
     Nat.card ↥R ≤ 4 := by
   classical
-  haveI : Finite ↥A := finite_A S
-  haveI : Finite ↥R :=
+  have : Finite ↥A := finite_A S
+  have : Finite ↥R :=
     Finite.of_injective (fun r : ↥R => (⟨(r : MulAut ↥E), hRA r.2⟩ : ↥A))
       (fun a b h => Subtype.ext (congrArg (fun z : ↥A => (z : MulAut ↥E)) h))
-  haveI : Finite ↥B :=
+  have : Finite ↥B :=
     Nat.finite_of_card_ne_zero (by rw [S.hB.2]; norm_num)
   let ψ : ↥R →* ↥A :=
     { toFun := fun r => ⟨(r : MulAut ↥E), hRA r.2⟩
@@ -94,9 +94,9 @@ theorem HCtx.card_le_eight_of_le_C (hInv : Sec8T84FactInv) (S : HCtx E B u A H)
   classical
   have hR0 : Nat.card ↥(R ⊓ A) ≤ 4 :=
     HCtx.card_le_four hInv S inf_le_right (fun r hr => hR2 r hr.1)
-  haveI : Finite ↥E :=
+  have : Finite ↥E :=
     Nat.finite_of_card_ne_zero (by rw [S.hE.2]; norm_num)
-  haveI : Finite (MulAut ↥E) :=
+  have : Finite (MulAut ↥E) :=
     Finite.of_injective (fun f : MulAut ↥E => (fun x : ↥E => f x))
       (fun f g h => MulEquiv.ext (fun x => congrArg (fun φ : ↥E → ↥E => φ x) h))
   have hAcomm : ∀ a ∈ A, ∀ v ∈ zpowers u, a * v = v * a := by
@@ -136,25 +136,25 @@ theorem HCtx.card_le_eight_of_le_C (hInv : Sec8T84FactInv) (S : HCtx E B u A H)
           · have hfst : (⟨(x : MulAut ↥E), ⟨x.2, hx⟩⟩ : ↥(R ⊓ A)) =
                 ⟨(y : MulAut ↥E), ⟨y.2, hy⟩⟩ := by
               have := congrArg Prod.fst hxy
-              simpa [g, dif_pos hx, dif_pos hy] using this
+              simpa [g, dite_eq_left hx, dite_eq_left hy] using this
             exact Subtype.ext (congrArg (fun z : ↥(R ⊓ A) => (z : MulAut ↥E)) hfst)
           · have hsnd := congrArg Prod.snd hxy
-            simp [g, dif_pos hx, dif_neg hy] at hsnd
+            simp [g, dite_eq_left hx, dite_eq_right hy] at hsnd
         · by_cases hy : (y : MulAut ↥E) ∈ A
           · have hsnd := congrArg Prod.snd hxy
-            simp [g, dif_neg hx, dif_pos hy] at hsnd
+            simp [g, dite_eq_right hx, dite_eq_left hy] at hsnd
           · have hfst : (⟨(x : MulAut ↥E) * r₁⁻¹,
                 ⟨R.mul_mem x.2 (R.inv_mem hr₁R), hkey (x : MulAut ↥E) x.2 hx⟩⟩ :
                   ↥(R ⊓ A)) =
                 ⟨(y : MulAut ↥E) * r₁⁻¹,
                 ⟨R.mul_mem y.2 (R.inv_mem hr₁R), hkey (y : MulAut ↥E) y.2 hy⟩⟩ := by
               have := congrArg Prod.fst hxy
-              simpa [g, dif_neg hx, dif_neg hy] using this
+              simpa [g, dite_eq_right hx, dite_eq_right hy] using this
             have hval : (x : MulAut ↥E) * r₁⁻¹ = (y : MulAut ↥E) * r₁⁻¹ :=
               congrArg (fun z : ↥(R ⊓ A) => (z : MulAut ↥E)) hfst
             exact Subtype.ext (mul_right_cancel hval)
-      haveI : Finite ↥(R ⊓ A) := by
-        haveI : Finite ↥A := finite_A S
+      have : Finite ↥(R ⊓ A) := by
+        have : Finite ↥A := finite_A S
         exact Finite.of_injective
           (fun x : ↥(R ⊓ A) => (⟨(x : MulAut ↥E), x.2.2⟩ : ↥A))
           (fun a b h => Subtype.ext (congrArg (fun z : ↥A => (z : MulAut ↥E)) h))

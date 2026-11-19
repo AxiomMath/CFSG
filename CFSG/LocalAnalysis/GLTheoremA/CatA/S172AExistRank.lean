@@ -20,7 +20,7 @@ theorem card_range_ge {n r : ℕ} (hn : n = 2 * r + 1) (hr : 3 ≤ r) {Ω : Type
     (hrank : 3 ^ GLATwoLocalRank 3 Ω ≤ Nat.card B) : 3 ^ r ≤ Nat.card φ.range := by
   have hV : Module.finrank (ZMod 2) (Fin n → ZMod 2) = 2 * r + 1 := by
     rw [Module.finrank_fin_fun, hn]
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨T, hTel, hTcard, v₀, hv₀, hfix⟩ := GL.exists_torus_fixed (V := Fin n → ZMod 2) hV
   obtain ⟨P, hPne, hP2, hPnorm⟩ := GL.exists_twoGroup (V := Fin n → ZMod 2) (by omega) hv₀
   let X : Subgroup Ω := P.map Θ

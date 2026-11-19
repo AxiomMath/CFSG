@@ -22,12 +22,13 @@ theorem exists_sylow_map_subgroupOf_mk' {L Q : Subgroup G}
     ∃ Pb : Sylow 3 (Bar2 L),
       (Pb : Subgroup (Bar2 L)) =
         (Q.subgroupOf L).map (QuotientGroup.mk' (CFSG.pCore 2 ↥L)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P, hP⟩ := hQsyl
   refine ⟨Sylow.mapSurjective (f := QuotientGroup.mk' (CFSG.pCore 2 ↥L))
     (QuotientGroup.mk'_surjective (CFSG.pCore 2 ↥L)) P, ?_⟩
   rw [Sylow.coe_mapSurjective, hP]
 
+omit [Finite G] in
 theorem injective_comp_subgroupOf_mk' {L Q : Subgroup G} (hQL : Q ≤ L)
     (hQO2 : Q ⊓ pCoreOf 2 L = ⊥) :
     Function.Injective
@@ -50,6 +51,7 @@ theorem injective_comp_subgroupOf_mk' {L Q : Subgroup G} (hQL : Q ≤ L)
     rw [map_mul, map_inv, h, mul_inv_cancel]
   exact mul_inv_eq_one.mp (hf_one _ h1)
 
+omit [Finite G] in
 theorem range_comp_subgroupOf_mk' {L Q : Subgroup G} (hQL : Q ≤ L) :
     ((QuotientGroup.mk' (CFSG.pCore 2 ↥L)).comp (Subgroup.inclusion hQL)).range =
       (Q.subgroupOf L).map (QuotientGroup.mk' (CFSG.pCore 2 ↥L)) := by

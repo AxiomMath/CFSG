@@ -108,9 +108,9 @@ open Classical in
     have hxb : b * x = x * b := mem_Gx.1 (mem_Gxy.1 hx).1
     by_cases htS : t ∈ S
     · have e : b * x * b⁻¹ = x := by rw [hxb, mul_assoc, mul_inv_cancel, mul_one]
-      simp only [htS, if_true, e]
+      simp only [htS, ite_true, e]
       exact F.restrict t ht x hx
-    · simp only [htS, if_false]
+    · simp only [htS, ite_false]
       exact F.restrict t ht x hx
   equivariant := by
     intro t ht g hg x hx
@@ -129,10 +129,10 @@ open Classical in
         calc b * (g * x * g⁻¹) * b⁻¹ = (b * g) * x * (b * g)⁻¹ := by group
           _ = (g * b) * x * (g * b)⁻¹ := by rw [mem_Gx.1 hg]
           _ = g * (b * x * b⁻¹) * g⁻¹ := by group
-      simp only [htS, hS'.2 htS, if_true, e]
+      simp only [htS, hS'.2 htS, ite_true, e]
       exact F.equivariant t ht g hg (b * x * b⁻¹) hx'
     · have hS'' : g * t * g⁻¹ ∉ S := fun h1 => htS (hS'.1 h1)
-      simp only [htS, hS'', if_false]
+      simp only [htS, hS'', ite_false]
       exact F.equivariant t ht g hg x hx
 
 theorem Fam.twist_app_of_mem {b : G} {β : G → G'} (F : Fam b β) {S : Set G}

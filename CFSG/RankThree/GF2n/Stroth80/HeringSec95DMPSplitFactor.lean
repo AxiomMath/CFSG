@@ -88,6 +88,7 @@ section Move
 
 variable {K : Type} [Field K] [CharP K 2] {W : Type} [AddCommGroup W] [Module K W]
 
+omit [CharP K 2] in
 theorem s95s_isCompl_map {p q : Submodule K W} (h : IsCompl p q) (e : W ≃ₗ[K] W) :
     IsCompl (p.map (e : W →ₗ[K] W)) (q.map (e : W →ₗ[K] W)) :=
   (Submodule.orderIsoMapComap e).isCompl h
@@ -110,7 +111,7 @@ theorem s95s_move {Act : SL(2, K) × SL(2, K) →* (W ≃ₗ[K] W)} {X : Submodu
     simp only [Matrix.SpecialLinearGroup.coe_mul, coe_uSL, uMat, Matrix.mul_apply,
       Fin.sum_univ_two]
     simp only [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.empty_val', Matrix.cons_val_fin_one, Matrix.head_cons]
+      Matrix.empty_val', Matrix.cons_val_fin_one]
     field_simp
     linear_combination (k : Matrix (Fin 2) (Fin 2) K) 0 0 * h2
   have e10 : ∀ k : SL(2, K), ∀ t : K, ((uSL t * k : SL(2, K)) : Matrix (Fin 2) (Fin 2) K) 1 0 =

@@ -1,7 +1,7 @@
 module
 
 public import Mathlib.Algebra.Group.Defs
-public import Mathlib.Data.Finite.Defs
+public import Mathlib.Basic.Finite.Defs
 
 public import CFSG.ThirdParty.QiuzhenCFSG.BenderGlauberman.Section4.Basic
 public import CFSG.ThirdParty.QiuzhenCFSG.GorensteinWalter.Section3.CyclicTwoCoreKleinFour
@@ -91,7 +91,7 @@ public theorem element_le_U_of_odd_order
         rfl⟩
     have hdiv : orderOf (q xH) ∣ orderOf xH := orderOf_map_dvd q xH
     have horder : orderOf xH = orderOf x := by
-      simpa [xH] using (Subgroup.orderOf_mk (⟨x, hxH⟩ : H))
+      simp [xH]
     have h2dvd' : 2 ∣ orderOf x := h2dvd.trans (hdiv.trans (by rw [horder]))
     exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_two).mp hodd h2dvd'
   have hq1 : q xH = 1 := by
@@ -124,7 +124,7 @@ public theorem element_le_U_of_le_H_of_odd_order
     x ∈ bg.U := by
   exact element_le_U_of_odd_order bg.U (bg.S : Subgroup G) bg.H
     (by simpa [BenderGlauberman.Hyp11.U] using bg.H_eq_US)
-    (bg_U_normal_in_H bg) bg.S.isPGroup' hxH hodd
+    (bg_U_normal_in_H bg) bg.S.isPGroup hxH hodd
 
 /-- If `H = U·S` with `S` a `2`-group and `p` an odd prime, then every
 `p`-subgroup of `H` lies in `U`. -/

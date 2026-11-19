@@ -63,12 +63,12 @@ theorem conclK_Ru {L V MK : Subgroup (NativeSporadic.Carrier .Ru)}
     (h : KConfig (NativeSporadic.Carrier .Ru) L V MK) :
     ConclK (NativeSporadic.Carrier .Ru) L V MK := by
   let φ : NativeSporadic.Carrier .Ru ≃* G₀ := ruEquivP
-  haveI : Finite (NativeSporadic.Carrier .Ru) := Finite.of_injective (⇑φ) φ.injective
+  have : Finite (NativeSporadic.Carrier .Ru) := Finite.of_injective (⇑φ) φ.injective
   exact conclK_ru φ.symm h
 
 
 theorem forK_Ru : ForK (fun S _ => Nonempty (S ≃* NativeSporadic.Carrier .Ru)) := by
-  haveI : Finite (NativeSporadic.Carrier .Ru) :=
+  have : Finite (NativeSporadic.Carrier .Ru) :=
     Finite.of_injective (⇑ruEquivP) ruEquivP.injective
   refine forK_of_kConfig (X := NativeSporadic.Carrier .Ru) ?_ ?_
   · rw [CFSG.RankThree.PartTwo.Sec4.Census.Karpilovsky.Coordinator.nativeRow_Ru]

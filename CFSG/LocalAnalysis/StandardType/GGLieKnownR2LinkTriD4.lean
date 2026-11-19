@@ -210,7 +210,7 @@ private theorem coe_orbitX_D4
   have hσ2 : ∀ x : K, (σ ^ 2) x = σ (σ x) := fun x => by rw [pow_two]; rfl
   rw [coe_orbitX, c0]
   simp only [List.range_succ, List.range_zero, List.nil_append, List.map_append, List.map_cons,
-    List.map_nil, List.prod_append, List.prod_cons, List.prod_nil, mul_one, one_mul, p0, p1, p2,
+    List.map_nil, List.prod_append, List.prod_cons, List.prod_nil, mul_one, p0, p1, p2,
     hσ0, hσ1, hσ2]
 
 private theorem coe_orbitY_D4
@@ -225,7 +225,7 @@ private theorem coe_orbitY_D4
   have hσ2 : ∀ x : K, (σ ^ 2) x = σ (σ x) := fun x => by rw [pow_two]; rfl
   rw [coe_orbitY, c0]
   simp only [List.range_succ, List.range_zero, List.nil_append, List.map_append, List.map_cons,
-    List.map_nil, List.prod_append, List.prod_cons, List.prod_nil, mul_one, one_mul, p0, p1, p2,
+    List.map_nil, List.prod_append, List.prod_cons, List.prod_nil, mul_one, p0, p1, p2,
     hσ0, hσ1, hσ2]
 
 private theorem mem_orbitField_D4 {K : Type} [Field K] (σ : K →+* K) {ω : K}
@@ -329,7 +329,7 @@ theorem triD4_exists_odd_fpf
 
 theorem exists_cubic_root_of_card {K : Type} [Field K] [Finite K] [CharP K 2] (g : ℕ)
     (hK : Nat.card K = 2 ^ (3 * g)) : ∃ ω : K, ω ^ 3 = ω + 1 := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have h7 : 7 ∣ Nat.card Kˣ := by
     have := Nat.sub_dvd_pow_sub_pow (2 ^ 3) 1 g
     rw [Nat.card_units, hK, pow_mul]

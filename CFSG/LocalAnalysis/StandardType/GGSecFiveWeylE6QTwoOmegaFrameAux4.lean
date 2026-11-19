@@ -81,7 +81,7 @@ theorem perp_facts (hP : ∀ i j, α i (h j) = (CartanMatrix.E 6 i j : ZMod 3))
       bilinForm_symm hP hV hB u (f i)
     conv_lhs => rw [eq_sum_frame (B := B) hV hf u]
     rw [Fin.sum_univ_five]
-    simp only [hsym, zero_smul, add_zero]
+    simp only [hsym]
     rw [← h01, h2, h3, h4]
     simp only [zero_smul]
     rw [← smul_add, hfy]

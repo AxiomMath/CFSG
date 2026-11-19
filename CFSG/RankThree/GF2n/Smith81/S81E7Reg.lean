@@ -34,7 +34,7 @@ theorem exists_eq_add_smul_of_comm {K : Type*} [Field K] {m X : Matrix (Fin 2) (
           apply hm (m 0 0)
           have hs : m 1 1 = m 0 0 := sub_eq_zero.mp h
           ext i j
-          fin_cases i <;> fin_cases j <;> simp [Matrix.one_apply, hq, hr, hs]
+          fin_cases i <;> fin_cases j <;> simp [hq, hr, hs]
         have hy : X 0 1 * (m 1 1 - m 0 0) = 0 := by
           linear_combination e01 + (X 1 1 - X 0 0) * hq
         have hz : X 1 0 * (m 1 1 - m 0 0) = 0 := by
@@ -71,7 +71,7 @@ theorem exists_eq_add_smul_of_comm {K : Type*} [Field K] {m X : Matrix (Fin 2) (
   obtain ⟨a, b, h00, h01, h10, h11⟩ := hent
   refine ⟨a, b, ?_⟩
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.one_apply, h00, h01, h10, h11]
+  fin_cases i <;> fin_cases j <;> simp [h00, h01, h10, h11]
 
 theorem exists_comm_orderOf_card_pm_one {K : Type} [Field K] [Finite K] [CharP K 2]
     (hq : 4 ≤ Nat.card K) {m : Matrix.SpecialLinearGroup (Fin 2) K} (hm1 : m ≠ 1)
@@ -109,7 +109,7 @@ theorem exists_comm_orderOf_card_pm_one {K : Type} [Field K] [Finite K] [CharP K
   have hxodd : Odd (orderOf (π m)) := Odd.of_dvd_nat hodd (orderOf_map_dvd π m)
   obtain ⟨hcyc, hCcard, -⟩ :=
     psl2_even_odd_element_full_centralizer f hf hcard (π m) hx1 hxodd
-  haveI := hcyc
+  have := hcyc
   obtain ⟨g, hg⟩ := IsCyclic.exists_ofOrder_eq_natCard
     (α := ↥(Subgroup.centralizer ({π m} : Set (PSL2MatrixGroup K))))
   have hcomm : (g : PSL2MatrixGroup K) * π m = π m * (g : PSL2MatrixGroup K) :=
@@ -156,9 +156,9 @@ theorem jOp_poly [CharP K 2] {m : Matrix (Fin 2) (Fin 2) K} {τ : K} (hτ : τ �
     simpa [Matrix.mul_apply, Fin.sum_univ_two, Matrix.one_apply] using h
   have hA00 : (a • (1 : Matrix (Fin 2) (Fin 2) K) + b • m) 0 0 = a + b * m 0 0 := by simp
   have hA01 : (a • (1 : Matrix (Fin 2) (Fin 2) K) + b • m) 0 1 = b * m 0 1 := by
-    simp [Matrix.one_apply]
+    simp
   have hA10 : (a • (1 : Matrix (Fin 2) (Fin 2) K) + b • m) 1 0 = b * m 1 0 := by
-    simp [Matrix.one_apply]
+    simp
   have hA11 : (a • (1 : Matrix (Fin 2) (Fin 2) K) + b • m) 1 1 = a + b * m 1 1 := by simp
   apply LinearMap.ext
   intro v
@@ -193,6 +193,7 @@ section Regular
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 theorem units_comm_iff {T w : (Module.End K (V K))ˣ} :
     T * w = w * T ↔ (T : Module.End K (V K)) * (w : Module.End K (V K)) =
       (w : Module.End K (V K)) * (T : Module.End K (V K)) := by

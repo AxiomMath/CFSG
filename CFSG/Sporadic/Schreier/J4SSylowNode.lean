@@ -36,7 +36,7 @@ theorem sylow_five_generated
   refine ⟨⟨Finset.univ.image t, ?_, ?_⟩, ?_⟩
   · exact (Finset.card_image_le).trans (by simp)
   · rw [Finset.coe_image, Finset.coe_univ, Set.image_univ, ht]
-  · have hP : IsPGroup 2 (S : Subgroup J) := S.isPGroup'
+  · have hP : IsPGroup 2 (S : Subgroup J) := S.isPGroup
     obtain ⟨-, hcomm, hpow, -, d, hd, he⟩ := CFSG.GroupTheory.frattini_elementary_quotient hP
     let _ : CommGroup ((S : Subgroup J) ⧸ frattini (S : Subgroup J)) :=
       IsMulCommutative.instCommGroup

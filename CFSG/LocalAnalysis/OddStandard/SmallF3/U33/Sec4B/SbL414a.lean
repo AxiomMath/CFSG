@@ -19,7 +19,7 @@ private lemma mul_self_eq_one_of_sq {a : G} (h : a ^ 2 = 1) : a * a = 1 := by
 private lemma inv_eq_self_of_sq {a : G} (h : a ^ 2 = 1) : a⁻¹ = a :=
   inv_eq_of_mul_eq_one_left (mul_self_eq_one_of_sq h)
 
-theorem om_tau_comm (ht2 : t ^ 2 = 1) (hω2 : ω ^ 2 = 1) (hτ2 : τ ^ 2 = 1) (htτ : t * τ = τ * t)
+theorem om_tau_comm (ht2 : t ^ 2 = 1) (hω2 : ω ^ 2 = 1) (_hτ2 : τ ^ 2 = 1) (htτ : t * τ = τ * t)
     (hω : ω * t * ω⁻¹ = t * τ) : ω * τ = τ * ω := by
   have ht2' : t * t = 1 := mul_self_eq_one_of_sq ht2
   have hω2' : ω * ω = 1 := mul_self_eq_one_of_sq hω2
@@ -35,8 +35,8 @@ theorem om_tau_comm (ht2 : t ^ 2 = 1) (hω2 : ω ^ 2 = 1) (hτ2 : τ ^ 2 = 1) (h
     _ = (t * τ) * t * ω := by rw [hω']
     _ = τ * ω := by rw [h1]
 
-theorem tau_mem_closure (ht2 : t ^ 2 = 1) (hω2 : ω ^ 2 = 1) (hτ2 : τ ^ 2 = 1)
-    (htτ : t * τ = τ * t) (hω : ω * t * ω⁻¹ = t * τ) : τ ∈ closure ({t, ω} : Set G) := by
+theorem tau_mem_closure (ht2 : t ^ 2 = 1) (hω2 : ω ^ 2 = 1) (_hτ2 : τ ^ 2 = 1)
+    (_htτ : t * τ = τ * t) (hω : ω * t * ω⁻¹ = t * τ) : τ ∈ closure ({t, ω} : Set G) := by
   have ht2' : t * t = 1 := mul_self_eq_one_of_sq ht2
   have hω_inv : ω⁻¹ = ω := inv_eq_self_of_sq hω2
   have hω' : ω * t * ω = t * τ := by simpa only [hω_inv] using hω

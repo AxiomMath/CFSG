@@ -151,7 +151,7 @@ theorem le_of_normal_of_quot {C Q Y S : Subgroup G} {X : Type} [Group X]
   obtain ⟨T, hT⟩ := hS
   have hPS : P.map C.subtype ≤ S := hT ▸ map_mono (hP.le_sylow_of_normal T)
   have hW2 : IsPGroup 2 (P.map C.subtype ⊔ Q : Subgroup G) :=
-    (hT ▸ T.isPGroup'.map C.subtype).to_le (sup_le hPS hQS)
+    (hT ▸ T.isPGroup.map C.subtype).to_le (sup_le hPS hQS)
   have hle := le_of_le_normalizer_of_quot (W := P.map C.subtype ⊔ Q) hcX φ hφ hφker hYC hY2
     ψ hψ hψker le_sup_right (sup_le (map_subtype_le _) hQC)
     (fun c hc => mem_normalizer_sup_of_mem (AS76b.le_normalizer_map_subtype_of_normal C P hc)

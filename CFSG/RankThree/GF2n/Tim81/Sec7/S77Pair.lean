@@ -35,9 +35,9 @@ theorem perpRoots_conjSubgroup (Δ : Set (Subgroup G)) (X : Subgroup G) (g : G) 
       conjSubgroup g⁻¹ E ≤ Subgroup.centralizer (X : Set G)
     simpa only [inv_inv] using
       (conjSubgroup_le_iff (g := g⁻¹) (S := E) (T := Subgroup.centralizer (X : Set G))).symm
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   rw [CFSG.Timmesfeld.ARS.mem_conjSet, CFSG.Timmesfeld.ARS.mem_conjSet]
-  simp only [Set.mem_setOf_eq, hiff]
+  simp only [Set.mem_ofPred_eq, hiff]
 
 theorem Sec7Hyp.normalizer_perpRoots (hS : Sec7Hyp M V n f) (h75 : Sec7.Stmt75 V)
     (E : Subgroup G) :
@@ -162,9 +162,7 @@ private theorem conj_sylowRoots_le_gammaL (hS : Sec7Hyp M V n f) (h74 : Sec7.Stm
     exact (hW.1 a ((CFSG.Timmesfeld.ARS.le_gen hA') ha) b (hVg hb)).symm
   have hEcomm : ⁅V, conjSubgroup g A'⁆ = ⊥ := by
     rw [Subgroup.commutator_eq_bot_iff_le_centralizer]
-    change V ≤ Subgroup.centralizer (conjSubgroup g A' : Set G)
     rw [centralizer_conjSubgroup_eq]
-    change V ≤ conjSubgroup g (Subgroup.centralizer (A' : Set G))
     have h2 : conjSubgroup g⁻¹ V ≤ Subgroup.centralizer (A' : Set G) :=
       Subgroup.le_centralizer_iff.mpr
         (Subgroup.commutator_eq_bot_iff_le_centralizer.mp hcomm')
@@ -192,9 +190,7 @@ private theorem exists_conj_eq_sylowRoots (hS : Sec7Hyp M V n f) (h74 : Sec7.Stm
     hBΩ hVB hpair
   have hcommg : ⁅V, conjSubgroup g⁻¹ V⁆ = ⊥ := by
     rw [Subgroup.commutator_eq_bot_iff_le_centralizer]
-    change V ≤ Subgroup.centralizer (conjSubgroup g⁻¹ V : Set G)
     rw [centralizer_conjSubgroup_eq]
-    change V ≤ conjSubgroup g⁻¹ (Subgroup.centralizer (V : Set G))
     rw [← conjSubgroup_le_iff (g := g) (S := V) (T := Subgroup.centralizer (V : Set G))]
     rw [Subgroup.le_centralizer_iff]
     exact Subgroup.commutator_eq_bot_iff_le_centralizer.mp hVB

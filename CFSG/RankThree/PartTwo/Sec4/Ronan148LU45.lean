@@ -21,9 +21,9 @@ theorem E27Move.of_surjective {G H : Type} [Group G] [Group H] [Finite G] (π : 
     (hπ : Function.Surjective π) (hker : ∀ z ∈ π.ker, z ^ 3 = 1 → z = 1) (h : E27Move G) :
     E27Move H := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro E hE s hs hs1
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hE.2]; norm_num)
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hE.2]; norm_num)
   set P : Subgroup G := E.comap π with hP
   have hPE : Nat.card E ∣ Nat.card P := by
     refine Subgroup.card_dvd_of_surjective (f := (π.comp P.subtype).codRestrict E fun x => x.2) ?_
@@ -168,7 +168,7 @@ theorem card_units_F25 : Nat.card F25ˣ = 24 := by
   norm_num
 
 theorem exists_omega25 : ∃ ω : F25ˣ, orderOf ω = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact exists_prime_orderOf_dvd_card' 3 (by rw [card_units_F25]; norm_num)
 
 theorem det_pow_mul_det25 {A : Matrix (Fin 3) (Fin 3) F25}
@@ -282,7 +282,7 @@ theorem wU_mul_τU (v : Fin 3 → ZMod 3) :
 
 theorem exists_conj_eq_torusU (hω : orderOf ω = 3) (E : Subgroup SU45) (hE : Late.IsE27 E) :
     ∃ x : SU45, E.map (MulAut.conj x).toMonoidHom = torusOmega (τU hω3) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P₀, hP₀⟩ := exists_sylow_torusExt (τU_injective hω3 hω) wU_pow_three (wU_mul_τU hω3)
     rot3_ne KFacts.KS21.L44.card_V3 card_SU45 (by norm_num)
   have hEp : IsPGroup 3 E := IsPGroup.of_card (n := 3) (by rw [hE.2]; norm_num)
@@ -567,7 +567,7 @@ theorem noThreeCover_projSU45 :
     simp only [CFSG.Blueprint.Multiplier.generic, CFSG.Blueprint.Multiplier.exceptional,
       Nat.card_prod, card_multiplicative_zmod]
     rfl
-  haveI : Finite (CFSG.Blueprint.Multiplier.generic .PSU 4 5 1 ×
+  have : Finite (CFSG.Blueprint.Multiplier.generic .PSU 4 5 1 ×
       CFSG.Blueprint.Multiplier.exceptional .PSU 4 5 1) :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   exact noThreeCover_of_hopf e (by rw [hcard]; norm_num)
@@ -580,7 +580,7 @@ theorem center_eq_bot_of_noThreeCover' {X : Type} [Group X]
       IsPGroup 3 (Subgroup.center L) → Nonempty (L ⧸ Subgroup.center L ≃* X) →
       Subgroup.center L = ⊥ := by
   intro L _ _ _ hL hp ⟨e⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, hk⟩ := hp.exists_card_eq
   have hn3 := h3 L (HardMathSupport.Solomon.Coordinator.LieSemisimple.open_isQuasisimple hL) ⟨e⟩
   rcases k with _ | k

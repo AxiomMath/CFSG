@@ -75,7 +75,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem X_le_cenS_J {n : ℕ} {b : G} {J B : Subgroup G} (S : Setup14 n b J B) :
     Opp 3 (Cen b) ≤ CenS J := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hJc := S.J_le_cen
   set X := Opp 3 (Cen b) with hXdef
   have hI : ((X ⊓ J).subgroupOf J).Normal := ⟨fun u hu h => by
@@ -109,7 +109,7 @@ theorem X_le_cenS_J {n : ℕ} {b : G} {J B : Subgroup G} (S : Setup14 n b J B) :
       map_one' := by simp
       map_mul' := fun j k => by
         have := hcomm k k.2 j⁻¹ (J.inv_mem j.2)
-        simp only [Subgroup.coe_mul, Subgroup.coe_inv] at this ⊢
+        simp only [Subgroup.coe_mul] at this ⊢
         calc x * (↑j * ↑k) * x⁻¹ * (↑j * ↑k)⁻¹ =
             x * ↑j * x⁻¹ * ((x * ↑k * x⁻¹ * (↑k)⁻¹) * (↑j)⁻¹) := by group
           _ = x * ↑j * x⁻¹ * ((↑j)⁻¹ * (x * ↑k * x⁻¹ * (↑k)⁻¹)) := by rw [this]
@@ -130,7 +130,7 @@ theorem X_le_cenS_J {n : ℕ} {b : G} {J B : Subgroup G} (S : Setup14 n b J B) :
     _ = x * j := by rw [h2]; group
 
 theorem X_le_cenS_B {n : ℕ} {b : G} {J B : Subgroup G} (S : Setup14 n b J B) :
-    Opp 3 (Cen b) ≤ CenS B := fun x hx =>
+    Opp 3 (Cen b) ≤ CenS B := fun _x hx =>
   S.cen_inf_cenS_B₀_le ⟨L14.Opp_le 3 _ hx, Subgroup.centralizer_le inf_le_right
     (X_le_cenS_J S hx)⟩
 
@@ -144,7 +144,7 @@ theorem J_eq_OUpp {n : ℕ} {b : G} {J B : Subgroup G} (S : Setup14 n b J B)
     (hcard : Nat.card (Cen b) = 3 * Nat.card J * Nat.card (Opp 3 (Cen b))) :
     J = OUpp 2 (Cen b) := by
   have hJc := S.J_le_cen
-  haveI hN : (J.subgroupOf (Cen b)).Normal := ⟨fun u hu c => by
+  have hN : (J.subgroupOf (Cen b)).Normal := ⟨fun u hu c => by
     rw [Subgroup.mem_subgroupOf] at hu ⊢
     exact S.hJn c c.2 u hu⟩
   have hidx : Odd (J.subgroupOf (Cen b)).index := by
@@ -186,7 +186,7 @@ include K
 
 theorem elemA (h3 : ∀ a ∈ Agrp x y u v, a ^ 3 = 1) : IsElemAb 3 4 (Agrp x y u v) := by
   refine ⟨?_, by rw [K.card_A]; norm_num⟩
-  haveI := K.A_commutative
+  have := K.A_commutative
   exact { exponent_dvd_p := Monoid.exponent_dvd_of_forall_pow_eq_one fun a =>
     Subtype.ext (by simpa using h3 a a.2) }
 

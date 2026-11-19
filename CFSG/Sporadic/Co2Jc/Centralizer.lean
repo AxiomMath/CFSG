@@ -80,7 +80,7 @@ private noncomputable def czEquivLocC
 theorem commutator_Cz_eq_top :
     commutator ↥(Subgroup.centralizer ({z0} : Set K)) = ⊤ := by
   obtain ⟨c, hc⟩ := exists_conj_permEquiv_z0_zP
-  haveI : Group.IsPerfect locC := locC_perfect_and_inner.1
+  have : Group.IsPerfect locC := locC_perfect_and_inner.1
   have hperf : Group.IsPerfect ↥(Subgroup.centralizer ({z0} : Set K)) :=
     Group.IsPerfect.ofSurjective (f := (czEquivLocC c hc).symm.toMonoidHom)
       (czEquivLocC c hc).symm.surjective

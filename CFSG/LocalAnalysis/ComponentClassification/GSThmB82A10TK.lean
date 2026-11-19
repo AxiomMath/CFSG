@@ -21,12 +21,14 @@ private theorem mem_fixR_of_r0 : ∀ i : Fin 10, r0 i = i → i ∈ fixR := by
 private theorem r0_of_mem_fixR : ∀ i : Fin 10, i ∈ fixR → r0 i = i := by
   decide
 
+omit [Finite X] in
 private theorem card_fusionZStar_conjugate (M : Subgroup X) (g : X) :
     Nat.card (↥(conjugate M g) ⧸ Open.fusionZStar ↥(conjugate M g)) =
       Nat.card (↥M ⧸ Open.fusionZStar ↥M) :=
   (Nat.card_congr (Sol78.fusionZStarQuotCongr (M.equivMapOfInjective
     (MulAut.conj g⁻¹).toMonoidHom (MulAut.conj g⁻¹).injective)).toEquiv).symm
 
+omit [Finite X] in
 private theorem card_of_isRep {N Y : Subgroup X} {φ : ↥N →* Perm (Fin 10)}
     (h : IsRep φ Y (altOn fixR)) : Nat.card (↥Y ⧸ Open.fusionZStar ↥Y) = 20160 := by
   obtain ⟨e⟩ := h.nonempty_equiv
@@ -200,7 +202,7 @@ theorem mem_normalizer_A8 {u : X} (huH : u ∈ c.s.h.secSub c.s.y)
   rw [huniq e.A8 e.A8_le e.isPComponent_A8_Lay]
   exact hN u huH huL huw
 
-theorem secB0_le_normalizer_K : c.s.h.secB0 c.s.y ≤ normalizer (e.K : Set X) := fun b hb =>
+theorem secB0_le_normalizer_K : c.s.h.secB0 c.s.y ≤ normalizer (e.K : Set X) := fun _b hb =>
   e.mem_normalizer_K (e.secB0_le_centralizer_w hb)
     (e.mem_normalizer_A8 (c.s.h.secB0_le_secSub c.s.y hb)
       (Seven.secG0_le_normalizer_Lay _ _ (le_normalizer hb)) (e.secB0_le_centralizer_w hb))

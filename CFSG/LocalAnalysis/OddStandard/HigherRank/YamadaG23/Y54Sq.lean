@@ -13,6 +13,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
+omit [Finite G] in
 private theorem pCoreOf_eq_self_of_isPGroup {K : Subgroup G} (hK : IsPGroup 2 ↥K) :
     pCoreOf 2 K = K := by
   show (pCore 2 ↥K).map K.subtype = K
@@ -93,7 +94,7 @@ private theorem y54_comm_of_sq (c : Ctx5 G L) (hH : F33Hyp c.s c.e)
     have hcomm : h * k = k * h := (Subgroup.mem_centralizer_iff.mp hkc) h hh
     have : k * h * k⁻¹ = h := by rw [← hcomm]; group
     rwa [this]
-  haveI hnorm' : (c.s.fr.F.subgroupOf (f4Y c.s)).Normal :=
+  have hnorm' : (c.s.fr.F.subgroupOf (f4Y c.s)).Normal :=
     (Subgroup.normal_subgroupOf_iff hPY).mpr fun h k hh hk => hnorm k hk h hh
   have hexp : ∀ g : (↥(f4Y c.s) ⧸ (c.s.fr.F).subgroupOf (f4Y c.s)), g ^ 2 = 1 := by
     intro g

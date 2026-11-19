@@ -208,7 +208,7 @@ theorem N2_le_N1 (k : Fin 2) : Nk k 2 ≤ Nk k 1 := inf_le_left
 theorem N1_le_N0 (k : Fin 2) : Nk k 1 ≤ Nk k 0 := inf_le_left
 
 theorem card_Fn : Nat.card Fn = 2 ^ 16 := by
-  simp [Nat.card_fun, Nat.card_zmod]
+  simp
 
 theorem sum_single_smul (a : V4) (c : ZMod 2) :
     ∑ w : V4, (Pi.single a c : V4 → ZMod 2) w • w = c • a := by
@@ -232,7 +232,7 @@ theorem card_N0 (k : Fin 2) : Nat.card (Nk k 0) = 2 ^ 14 := by
     have he : e ≠ 0 := by decide +kernel
     refine Prod.ext ?_ ?_
     · show (Pi.single 0 a + Pi.single e (a + b) : Fn) 0 = a
-      simp [Pi.single_apply, he.symm]
+      simp [he.symm]
     · show weightHom (Mk k) (Pi.single 0 a + Pi.single e (a + b) : Fn) = b
       rw [weightHom_apply]
       simp only [Pi.add_apply, Finset.sum_add_distrib, sum_single]
@@ -240,12 +240,12 @@ theorem card_N0 (k : Fin 2) : Nat.card (Nk k 0) = 2 ^ 14 := by
       exact key a b
   have h := AddSubgroup.card_ker_mul_card_of_surjective hsurj
   rw [hker, card_Fn] at h
-  have h4 : Nat.card (ZMod 2 × ZMod 2) = 4 := by simp [Nat.card_prod, Nat.card_zmod]
+  have h4 : Nat.card (ZMod 2 × ZMod 2) = 4 := by simp
   rw [h4] at h
   omega
 
 theorem card_V4 : Nat.card V4 = 16 := by
-  simp [Nat.card_fun, Nat.card_zmod]
+  simp
 
 @[expose] def U1gen : Fn := fun w =>
   if w = 0 ∨ w = ![1, 0, 0, 0] ∨ w = ![0, 1, 0, 0] ∨ w = ![1, 1, 0, 0] then 0 else 1
@@ -263,7 +263,7 @@ theorem two_single_mem (k : Fin 2) (a b : V4) (ha : a ≠ 0) (hb : b ≠ 0) :
     (Pi.single a 1 + Pi.single b 1 : Fn) ∈ permCore (Mk k) := by
   rw [mem_permCore]
   refine ⟨?_, ?_⟩
-  · simp [Pi.single_apply, ha.symm, hb.symm]
+  · simp [ha.symm, hb.symm]
   · simp only [Pi.add_apply, Finset.sum_add_distrib, sum_single]
     decide
 

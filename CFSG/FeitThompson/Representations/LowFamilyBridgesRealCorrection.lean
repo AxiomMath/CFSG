@@ -446,11 +446,11 @@ theorem cfInner_primeTIbridge_one (hB : h.IsUniformBridgeData σ ζ d n 1) (i : 
   have hone : (1 : ↥L → ℂ) = h.primeTIirr σ (principalIrr ↥W₁) (principalIrr ↥W₂) :=
     (h.primeTIirr_principal hB.isometry).symm
   have hz : cfInner ζ (1 : ↥L → ℂ) = 0 := by
-    rw [cfInner_eq_ite_of_mem_Irr hB.mem_Irr one_mem_Irr, if_neg (zeta_ne_one hB)]
+    rw [cfInner_eq_ite_of_mem_Irr hB.mem_Irr one_mem_Irr, ite_eq_right (zeta_ne_one hB)]
   rw [IsPrimeCyclicTIHyp.cfInner_primeTIbridge_left, hz, hone,
     h.cfInner_primeTIirr hB.isometry i (principalIrr ↥W₁) j (principalIrr ↥W₂),
     h.cfInner_primeTIirr hB.isometry i (principalIrr ↥W₁) (principalIrr ↥W₂)
-      (principalIrr ↥W₂), if_neg (by simp [hj])]
+      (principalIrr ↥W₂), ite_eq_right (by simp [hj])]
   by_cases hi : i = principalIrr ↥W₁ <;> simp [hi]
 
 omit [Fintype G] [Fintype ↥(W₁ ⊔ W₂)] [Fintype ↥((W₁ ⊔ W₂).map L.subtype)] in
@@ -499,7 +499,7 @@ theorem cfInner_nu_one (hodd : Odd (Nat.card G)) (hB : h.IsUniformBridgeData σ 
     congr 1
     funext x
     simp
-  rw [hval, cfInner_smul_left, cfInner_eq_ite_of_mem_Irr hχ one_mem_Irr, if_neg hχ1, mul_zero]
+  rw [hval, cfInner_smul_left, cfInner_eq_ite_of_mem_Irr hχ one_mem_Irr, ite_eq_right hχ1, mul_zero]
 
 theorem isOrthogonal_bridgeError_one (hodd : Odd (Nat.card G))
     (hB : h.IsUniformBridgeData σ ζ d n 1)
@@ -525,7 +525,7 @@ theorem isOrthogonal_bridgeError_one (hodd : Odd (Nat.card G))
   have hηij : cfInner (hW.prodCharEta ω (irrMapSubtype L W₁ i) (irrMapSubtype L W₂ j))
       (1 : G → ℂ) = 0 := by
     rw [hη00, hW.cfInner_prodCharEta_pair hω (irrMapSubtype L W₁ i, irrMapSubtype L W₂ j)
-      (principalIrr ↥(W₁.map L.subtype), principalIrr ↥(W₂.map L.subtype)), if_neg]
+      (principalIrr ↥(W₁.map L.subtype), principalIrr ↥(W₂.map L.subtype)), ite_eq_right]
     intro hc
     have h2 : irrMapSubtype L W₂ j = principalIrr ↥(W₂.map L.subtype) := congrArg Prod.snd hc
     exact hj (irrMapSubtype_injective L W₂ (h2.trans (irrMapSubtype_principal L W₂).symm))
@@ -536,9 +536,9 @@ theorem isOrthogonal_bridgeError_one (hodd : Odd (Nat.card G))
       hW.cfInner_prodCharEta_pair hω (irrMapSubtype L W₁ i, irrMapSubtype L W₂ (principalIrr ↥W₂))
         (principalIrr ↥(W₁.map L.subtype), irrMapSubtype L W₂ (principalIrr ↥W₂))]
     by_cases hi : i = principalIrr ↥W₁
-    · rw [if_pos, if_pos hi]
+    · rw [ite_eq_left, ite_eq_left hi]
       rw [hi, irrMapSubtype_principal]
-    · rw [if_neg, if_neg hi]
+    · rw [ite_eq_right, ite_eq_right hi]
       intro hc
       have h1 : irrMapSubtype L W₁ i = principalIrr ↥(W₁.map L.subtype) := congrArg Prod.fst hc
       exact hi (irrMapSubtype_injective L W₁ (h1.trans (irrMapSubtype_principal L W₁).symm))

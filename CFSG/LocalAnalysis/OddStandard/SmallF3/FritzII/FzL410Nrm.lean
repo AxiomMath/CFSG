@@ -174,6 +174,7 @@ theorem R_le_M : R ≤ fz410M R E := by
     have := hRE r⁻¹ (R.inv_mem hr) _ hrh
     simpa [mul_assoc] using this
 
+omit [Finite G] D in
 theorem M_le_N3 : fz410M R E ≤ normalizer (R : Set G) :=
   fun _ hx => (Subgroup.mem_inf.mp hx).1
 

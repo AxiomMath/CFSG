@@ -14,7 +14,7 @@ theorem isExtraspecial_sup_of_two_SL3Four_sylow
     {Y : Type} [Group Y] [Finite Y] {A B P Q : Subgroup Y}
     (hA : CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.PartOne.IsSL3Four ↥A)
     (hB : CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.PartOne.IsSL3Four ↥B)
-    (hne : A ≠ B)
+    (_hne : A ≠ B)
     (hcomm : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a)
     (hZA : A ⊓ B ≤ (Subgroup.center ↥A).map A.subtype)
     (hZB : A ⊓ B ≤ (Subgroup.center ↥B).map B.subtype)
@@ -23,7 +23,7 @@ theorem isExtraspecial_sup_of_two_SL3Four_sylow
     (hQ : CFSG.ABGLocalTools.IsSylowOf 3 Q B) :
     CFSG.IsExtraspecial 3 ↥(P ⊔ Q) ∧ Nat.card ↥(P ⊔ Q) = 3 ^ 5 ∧
       CFSG.Open.pRank 3 (P ⊔ Q) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hArank : CFSG.Open.pRank 3 A = 2 := by
     rw [CFSG.SectionRank.pRank_eq_pRank_top_subgroup (H := A)]
     exact pRank_three_eq_two_of_isSL3Four hA
@@ -83,7 +83,7 @@ theorem isExtraspecial_sup_of_two_SL3Four_sylow
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
     obtain ⟨S, hS⟩ := hP.exists_sylow_eq_subgroupOf
     refine ⟨le_top, ?_, ?_⟩
-    · exact hS ▸ S.isPGroup'
+    · exact hS ▸ S.isPGroup
     · rw [Subgroup.relIndex_top_right]
       exact hS ▸ S.not_dvd_index
   have hQ'sylow : CFSG.ABGLocalTools.IsSylowOf 3 (Q.subgroupOf B)
@@ -91,7 +91,7 @@ theorem isExtraspecial_sup_of_two_SL3Four_sylow
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
     obtain ⟨S, hS⟩ := hQ.exists_sylow_eq_subgroupOf
     refine ⟨le_top, ?_, ?_⟩
-    · exact hS ▸ S.isPGroup'
+    · exact hS ▸ S.isPGroup
     · rw [Subgroup.relIndex_top_right]
       exact hS ▸ S.not_dvd_index
   obtain ⟨hPext', hPcard'⟩ :=
@@ -103,11 +103,11 @@ theorem isExtraspecial_sup_of_two_SL3Four_sylow
   have hQexp' : ∀ x : Q.subgroupOf B, x ^ 3 = 1 :=
     pow_three_of_isSL3Four_sylow hB hQ'sylow
   have hPext : CFSG.IsExtraspecial 3 P := by
-    haveI : CFSG.IsExtraspecial 3 (P.subgroupOf A) := hPext'
+    have : CFSG.IsExtraspecial 3 (P.subgroupOf A) := hPext'
     exact CFSG.LocalAnalysis.WeakClosure81.isExtraspecial_of_mulEquiv
       (Subgroup.subgroupOfEquivOfLe hPle).symm
   have hQext : CFSG.IsExtraspecial 3 Q := by
-    haveI : CFSG.IsExtraspecial 3 (Q.subgroupOf B) := hQext'
+    have : CFSG.IsExtraspecial 3 (Q.subgroupOf B) := hQext'
     exact CFSG.LocalAnalysis.WeakClosure81.isExtraspecial_of_mulEquiv
       (Subgroup.subgroupOfEquivOfLe hQle).symm
   have hPcard : Nat.card P = 27 := by

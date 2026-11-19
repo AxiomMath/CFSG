@@ -26,15 +26,15 @@ theorem exists_orderOf_eq_two_mem_center {A : Subgroup G} {c : G} {L : Subgroup 
     ∃ z : G, orderOf z = 2 ∧ z ∈ CFSG.Open.pCoreOf 2 K ∧
       z ∈ Subgroup.centralizer (CFSG.Open.pCoreOf 2 K : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set V := CFSG.Open.pCoreOf 2 K with hVdef
   have hV2 : IsPGroup 2 ↥V := CFSG.LieType.BorelTits.pCoreOf_isPGroup (r := 2) K
   have hU1 : CFSG.Open.pCoreOf 2 X ≠ ⊥ := (isCharacteristicP_x_and_pCoreOf_ne_bot h h149 hC hIX).2
   have hUV : CFSG.Open.pCoreOf 2 X ≤ V := pCoreOf_le_pCoreOf_of_le_sup hC.le_k hKX.le
   have hV1 : V ≠ ⊥ := fun h0 => hU1 (eq_bot_iff.mpr (h0 ▸ hUV))
-  haveI : Nontrivial ↥V := (Subgroup.nontrivial_iff_ne_bot V).mpr hV1
-  haveI : Nontrivial (Subgroup.center ↥V) := hV2.center_nontrivial
-  haveI : Fintype (Subgroup.center ↥V) := Fintype.ofFinite _
+  have : Nontrivial ↥V := (Subgroup.nontrivial_iff_ne_bot V).mpr hV1
+  have : Nontrivial (Subgroup.center ↥V) := hV2.center_nontrivial
+  have : Fintype (Subgroup.center ↥V) := Fintype.ofFinite _
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card).mp (hV2.to_subgroup (Subgroup.center ↥V))
   have hn0 : n ≠ 0 := by
     rintro rfl

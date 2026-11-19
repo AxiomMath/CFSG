@@ -32,7 +32,7 @@ public theorem fixedPointFree_quotient_of_odd_solvable_and_fixedPoints_le
     (htnormK : t ∈ Subgroup.normalizer (K : Set X))
     (htnormD : t ∈ Subgroup.normalizer (D : Set X))
     (ht : IsInvolution t)
-    (hKsolv : IsSolvable K)
+    (hKsolv : Group.IsSolvable K)
     (hKodd : Odd (Nat.card K))
     (hfixed : K ⊓ Subgroup.centralizer ({t} : Set X) ≤ D) :
     ∀ k : K,

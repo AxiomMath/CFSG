@@ -11,13 +11,13 @@ namespace CFSG.Sporadic.J4Schreier
 
 open CFSG.Sporadic.J4 CFSG.Sporadic.GLQ CFSG.Sporadic.SmallF2 CFSG.Sporadic.SmallF2.Native
 
-@[expose] def powCols (C : Array ℕ) (m : ℕ) : Array ℕ :=
+def powCols (C : Array ℕ) (m : ℕ) : Array ℕ :=
   if m = 0 then idRows 11 else
     if m % 2 = 1 then comp11 C (powCols (comp11 C C) (m / 2)) else powCols (comp11 C C) (m / 2)
 termination_by m
 decreasing_by all_goals omega
 
-@[expose] def fixCount (C : Array ℕ) : ℕ := ((Finset.range 2048).filter fun a => app11 C a = a).card
+def fixCount (C : Array ℕ) : ℕ := ((Finset.range 2048).filter fun a => app11 C a = a).card
 
 section Generic
 

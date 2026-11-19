@@ -56,7 +56,7 @@ theorem n3PV_eq_zero_iff {R : Type} [Group R] (g : R) : n3PV g = 0 ↔ g = 1 := 
 theorem n3PV_add {R : Type} [Group R] {c : R} (hc1 : c ≠ 1) (hcc : c * c = 1) {x y : R}
     (hx : x = 1 ∨ x = c) (hy : y = 1 ∨ y = c) :
     n3PV (x * y) = n3PV x + n3PV y := by
-  rcases hx with rfl | rfl <;> rcases hy with rfl | rfl <;> simp [n3PV, hc1, hcc] <;> decide
+  rcases hx with rfl | rfl <;> rcases hy with rfl | rfl <;> simp [n3PV, hc1, hcc]; decide
 
 theorem n3Cm_mul_left {R : Type} [Group R] (s s' t : R)
     (hc : ∀ g : R, g * (s' * t * s'⁻¹ * t⁻¹) = (s' * t * s'⁻¹ * t⁻¹) * g) :
@@ -165,7 +165,7 @@ theorem n3_core {R : Type} [Group R] (c : R) (hc1 : c ≠ 1) (hcc : c * c = 1)
     have e : (s * t)⁻¹ * (t * s) = t⁻¹ * s⁻¹ * t * s := by group
     rw [e]
     simpa only [inv_inv] using hcm t⁻¹ s⁻¹
-  letI instW : CommGroup (R ⧸ Subgroup.center R) :=
+  let instW : CommGroup (R ⧸ Subgroup.center R) :=
     { (inferInstance : Group (R ⧸ Subgroup.center R)) with mul_comm := hWcomm }
   have hL : ∀ s s' t : R, n3Val (s * s') t = n3Val s t + n3Val s' t :=
     fun s s' t => n3Val_mul_left hc1 hcc hcz hcm s s' t
@@ -303,8 +303,8 @@ theorem psi_exists {S : Subgroup Γ} {z : Γ} (hS : Q8D8Facts S z) :
       · intro h
         exact congrArg Subtype.val h
     by_cases h : s * t * s⁻¹ * t⁻¹ = 1
-    · rw [if_pos h, if_pos (key.mpr h)]
+    · rw [ite_eq_left h, ite_eq_left (key.mpr h)]
     · have h' : ¬ ((s : Γ) * (t : Γ) * (s : Γ)⁻¹ * (t : Γ)⁻¹ = 1) := fun h'' => h (key.mp h'')
-      rw [if_neg h, if_neg h']
+      rw [ite_eq_right h, ite_eq_right h']
 
 end CFSG.LocalAnalysis.RankThreeTheoremC.SmallRankE3.N3

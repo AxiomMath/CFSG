@@ -108,6 +108,7 @@ variable {f : ℕ} (hf : 1 ≤ f) {K : Type} [Field K] [Finite K] [CharP K 3]
   (hK : Nat.card K = (3 ^ f) ^ 3) (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ (3 ^ f))
 include hf hK hσ
 
+omit [Finite K] [CharP K 3] in
 private theorem card_allowed {n : ℕ} (hn : n = 1 ∨ n = 3) :
     Nat.card {c : K // n = 1 → σ c = c} = (3 ^ f) ^ n := by
   rcases hn with rfl | rfl
@@ -116,6 +117,7 @@ private theorem card_allowed {n : ℕ} (hn : n = 1 ∨ n = 3) :
     exact Nat.card_congr (Equiv.subtypeEquivRight fun c => ⟨fun h1 => h1 rfl, fun h1 _ => h1⟩)
   · rw [Nat.card_congr (Equiv.subtypeUnivEquiv (fun c h => absurd h (by norm_num))), hK]
 
+omit [CharP K 3] in
 private theorem exists_unique_mem_orbit_inf {α : Fin TwistTag.D4.tag.rank → ℤ}
     (hα : IsRoot TwistTag.D4.tag α ∧ 0 < height α) (c : K)
     (hc : (TwistTag.D4.diagramOrbit α).card = 1 → σ c = c) :
@@ -154,7 +156,7 @@ private theorem exists_unique_mem_orbit_inf {α : Fin TwistTag.D4.tag.rank → �
   have hQinj : Function.Injective Qh := (injective_iff_map_eq_one Qh).2 hker
   have hfix : ∀ g ∈ G, O.card = 1 → σ (rootCoord hα g) = rootCoord hα g := fun g hg h1 =>
     sigma_rootCoord_of_fixed σ hα (permLattice_eq_of_card_eq_one h1)
-      (fun c => twistHom_pinnedX_of_fixedRoot hf hK σ hσ hα.1
+      (fun c => twistHom_pinnedX_of_fixedRoot σ hα.1
         (permLattice_eq_of_card_eq_one h1) c)
       (Subgroup.mem_inf.1 hg).2 (hGH g hg)
   let F : ↥G → {c : K // O.card = 1 → σ c = c} := fun g =>
@@ -178,7 +180,8 @@ private theorem exists_unique_mem_orbit_inf {α : Fin TwistTag.D4.tag.rank → �
   exact congrArg Subtype.val (hFinj (a₁ := ⟨g', hg'⟩) (a₂ := g)
     (Subtype.ext (hc'.trans (congrArg Subtype.val hg).symm)))
 
-theorem exists_orbitElt {k : ℕ} (hk : k < (maxHeight TwistTag.D4.tag).toNat)
+omit [CharP K 3] in
+theorem exists_orbitElt {k : ℕ} (_hk : k < (maxHeight TwistTag.D4.tag).toNat)
     (O : ↥(orbitsAt TwistTag.D4 ((k + 1 : ℕ) : ℤ))) (c : K) (hc : O.1.card = 1 → σ c = c) :
     ∃ x : layerN σ k,
       layerPhi σ k x = Multiplicative.ofAdd (Pi.single O c) ∧
@@ -246,7 +249,8 @@ theorem exists_orbitElt {k : ℕ} (hk : k < (maxHeight TwistTag.D4.tag).toNat)
     have hy := hguniq _ (Subgroup.mem_inf.2 ⟨hyO, hyeq ▸ hyΓ⟩) hycoord
     exact Subtype.ext hy
 
-theorem layerPhi_apply_fixed {k : ℕ} (hk : k < (maxHeight TwistTag.D4.tag).toNat)
+omit hf [CharP K 3] hK hσ in
+theorem layerPhi_apply_fixed {k : ℕ} (_hk : k < (maxHeight TwistTag.D4.tag).toNat)
     (x : layerN σ k) (O : ↥(orbitsAt TwistTag.D4 ((k + 1 : ℕ) : ℤ))) (hO : O.1.card = 1) :
     σ (Multiplicative.toAdd (layerPhi σ k x) O) = Multiplicative.toAdd (layerPhi σ k x) O := by
   have hrep := repOf_spec TwistTag.D4 ((k + 1 : ℕ) : ℤ) O
@@ -258,7 +262,7 @@ theorem layerPhi_apply_fixed {k : ℕ} (hk : k < (maxHeight TwistTag.D4.tag).toN
     exact hO
   have hρ := permLattice_eq_of_card_eq_one hcard
   exact sigma_rootCoord_of_fixed σ hγ hρ
-    (fun c => twistHom_pinnedX_of_fixedRoot hf hK σ hσ hγ.1 hρ c)
+    (fun c => twistHom_pinnedX_of_fixedRoot σ hγ.1 hρ c)
     (graphFixedRootGroup_le TwistTag.D4 K σ.toRingHom x.1.2)
     (mem_heightSeries_of_height_eq TwistTag.D4 hrep.2.1 x.2)
 

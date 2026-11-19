@@ -71,7 +71,7 @@ theorem noCfgS429_o8p {S : Type} [Group S] [Finite S] (hna : ∃ a b : S, a * b 
 
 theorem eight_OmegaPlus : RowSOf429 (projOmegaPlus 4 (GaloisField 2 1)) :=
   rowSOf429_of_noCfg fun S _ _ hs hna ⟨e⟩ => by
-    haveI := hs
+    have := hs
     exact noCfgS429_o8p hna e
 
 end CFSG.RankThree.PartTwo.Sec4.RonanK429E

@@ -59,35 +59,38 @@ variable {G : Type} [Group G] [Finite G] {z : G}
   AddSubgroup.toZModSubmodule (n := 2)
     (Subgroup.toAddSubgroup (Subgroup.zpowers (QuotientV.pi z j)))
 
+omit [Finite G] in
 theorem mem_Kimage (h : Tim79a.ParrottHyp z) (K : Subgroup (J z))
     (v : Additive (QuotientV.V z)) :
     letI : CommGroup (QuotientV.V z) := commGroupV h
     letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
     v ∈ Kimage h K ↔ ∃ k ∈ K, QuotientV.pi z k = Additive.toMul v := by
-  letI : CommGroup (QuotientV.V z) := commGroupV h
-  letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
+  let : CommGroup (QuotientV.V z) := commGroupV h
+  let : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
   dsimp only [Kimage]
   rw [AddSubgroup.mem_toZModSubmodule, Additive.mem_toAddSubgroup, Subgroup.mem_map]
 
+omit [Finite G] in
 theorem mem_Cimage (h : Tim79a.ParrottHyp z) (K : Subgroup (J z))
     (v : Additive (QuotientV.V z)) :
     letI : CommGroup (QuotientV.V z) := commGroupV h
     letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
     v ∈ Cimage h K ↔
       ∃ c ∈ Subgroup.centralizer (K : Set (J z)), QuotientV.pi z c = Additive.toMul v := by
-  letI : CommGroup (QuotientV.V z) := commGroupV h
-  letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
+  let : CommGroup (QuotientV.V z) := commGroupV h
+  let : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
   dsimp only [Cimage]
   rw [AddSubgroup.mem_toZModSubmodule, Additive.mem_toAddSubgroup, Subgroup.mem_map]
 
+omit [Finite G] in
 theorem mem_PiZimage (h : Tim79a.ParrottHyp z) (j : J z)
     (v : Additive (QuotientV.V z)) :
     letI : CommGroup (QuotientV.V z) := commGroupV h
     letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
     v ∈ PiZimage h j ↔
       Additive.toMul v ∈ Subgroup.zpowers (QuotientV.pi z j) := by
-  letI : CommGroup (QuotientV.V z) := commGroupV h
-  letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
+  let : CommGroup (QuotientV.V z) := commGroupV h
+  let : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
   dsimp only [PiZimage]
   rw [AddSubgroup.mem_toZModSubmodule, Additive.mem_toAddSubgroup]
 
@@ -95,8 +98,8 @@ theorem map_centralizer_eq_orthogonal (h : Tim79a.ParrottHyp z) (K : Subgroup (J
     letI : CommGroup (QuotientV.V z) := commGroupV h
     letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
     Cimage h K = (commutatorBilinForm h).orthogonal (Kimage h K) := by
-  letI : CommGroup (QuotientV.V z) := commGroupV h
-  letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
+  let : CommGroup (QuotientV.V z) := commGroupV h
+  let : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
   ext x
   rw [mem_Cimage, LinearMap.BilinForm.mem_orthogonal_iff]
   constructor
@@ -126,8 +129,8 @@ theorem map_centralizer_eq_orthogonal_zpowers (h : Tim79a.ParrottHyp z) (j : J z
     letI : CommGroup (QuotientV.V z) := commGroupV h
     letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
     CimageZpowers h j = (commutatorBilinForm h).orthogonal (PiZimage h j) := by
-  letI : CommGroup (QuotientV.V z) := commGroupV h
-  letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
+  let : CommGroup (QuotientV.V z) := commGroupV h
+  let : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
   have hcent : CimageZpowers h j = Cimage h (Subgroup.zpowers j) := by
     dsimp only [CimageZpowers, Cimage]
     rw [Subgroup.zpowers_eq_closure, Subgroup.centralizer_closure]
@@ -136,21 +139,22 @@ theorem map_centralizer_eq_orthogonal_zpowers (h : Tim79a.ParrottHyp z) (j : J z
     rw [MonoidHom.map_zpowers]
   rw [hcent, map_centralizer_eq_orthogonal h (Subgroup.zpowers j), himg]
 
+omit [Finite G] in
 theorem Zimage_eq_PiZimage (h : Tim79a.ParrottHyp z) (j : J z) :
     letI : CommGroup (QuotientV.V z) := commGroupV h
     letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
     Zimage h j = PiZimage h j := by
-  letI : CommGroup (QuotientV.V z) := commGroupV h
-  letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
+  let : CommGroup (QuotientV.V z) := commGroupV h
+  let : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
   dsimp only [Zimage, PiZimage]
   rw [MonoidHom.map_zpowers]
 
 theorem centralizer_centralizer_eq_sup_center (h : Tim79a.ParrottHyp z) {j : J z} :
     Subgroup.centralizer (Subgroup.centralizer ({j} : Set (J z))) =
       Subgroup.zpowers j ⊔ Subgroup.center (J z) := by
-  letI : CommGroup (QuotientV.V z) := commGroupV h
-  letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
-  haveI : FiniteDimensional (ZMod 2) (Additive (QuotientV.V z)) := by
+  let : CommGroup (QuotientV.V z) := commGroupV h
+  let : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
+  have : FiniteDimensional (ZMod 2) (Additive (QuotientV.V z)) := by
     apply FiniteDimensional.of_finrank_pos
     rw [finrank_addV h]
     norm_num
@@ -203,9 +207,9 @@ theorem centralizer_centralizer_eq_sup_center (h : Tim79a.ParrottHyp z) {j : J z
 theorem card_centralizerJ_eq_two_pow_nine_of_notMem_center (h : Tim79a.ParrottHyp z) {j : J z}
     (hj : j ∉ Subgroup.center (J z)) :
     Nat.card ↥(Subgroup.centralizer ({j} : Set (J z))) = 2 ^ 9 := by
-  letI : CommGroup (QuotientV.V z) := commGroupV h
-  letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
-  haveI : FiniteDimensional (ZMod 2) (Additive (QuotientV.V z)) := by
+  let : CommGroup (QuotientV.V z) := commGroupV h
+  let : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
+  have : FiniteDimensional (ZMod 2) (Additive (QuotientV.V z)) := by
     apply FiniteDimensional.of_finrank_pos
     rw [finrank_addV h]
     norm_num
@@ -234,7 +238,7 @@ theorem card_centralizerJ_eq_two_pow_nine_of_notMem_center (h : Tim79a.ParrottHy
         simpa [v] using congrArg Additive.ofMul h
     · rintro (rfl | rfl)
       · simp
-      · simpa [v] using Subgroup.mem_zpowers (QuotientV.pi z j)
+      · simp [v]
   have hWspan : PiZimage h j = (Submodule.span (ZMod 2) {v} :
       Submodule (ZMod 2) (Additive (QuotientV.V z))) := by
     ext x

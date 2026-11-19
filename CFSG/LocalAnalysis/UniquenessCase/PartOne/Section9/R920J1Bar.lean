@@ -32,7 +32,7 @@ theorem exists_conj_pow_opp_of_isJ1 (S : SliceCore D L D₃ Y H) (hJ : IsJ1 (Bar
       ∃ u d : ↥(Opp 3 Y), orderOf u = 11 ∧ d * u * d⁻¹ = u ^ 2 := by
   have hO : ∀ q : ℕ, q.Prime → q ≠ 2 → ¬ q ∣ Nat.card (CFSG.pCore 2 ↥(Opp 3 Y)) := by
     intro q hq hq2
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp (CFSG.pCore_isPGroup (p := 2) (G := ↥(Opp 3 Y)))
     rw [hn]
     exact fun h => hq2 ((Nat.prime_dvd_prime_iff_eq hq Nat.prime_two).mp (hq.dvd_of_dvd_pow h))
@@ -46,10 +46,10 @@ theorem I9_le_M_of_isJ1 (hK461 : UCK.K461) (hK462 : UCK.K462)
     (hSch : CFSG.AGLEmbedding.KFactCatalogSchreier) (S : SliceCore D L D₃ Y H)
     (hJ : IsJ1 (Bar2 Y)) {E : Subgroup G} (hyp : F09.Hyp91 D Y H E) : F09.I9 H ≤ D.M := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 19) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 19) := ⟨by norm_num⟩
   obtain ⟨⟨u, d, hu, hdu⟩, u', d', hu', hdu'⟩ := S.exists_conj_pow_opp_of_isJ1 hJ
   have hle : CFSG.pPrimeCore 3 ↥(Opp 3 Y) ≤ CFSG.pCore 2 ↥(Opp 3 Y) :=
     le_pCore_two_of_normal S.isSimpleGroup_bar2_opp S.three_dvd_card_bar2_opp
@@ -81,7 +81,7 @@ theorem exists_conj_pow_lbar9_of_isJ1 (S : SliceCore D L D₃ Y H) (hJ : IsJ1 (B
   have key : ∀ {q : ℕ}, q.Prime → q ≠ 2 → ∀ {u : ↥(Opp 3 Y)}, orderOf u = q →
       orderOf (ι u) = q := by
     intro q hq hq2 u hu
-    haveI : Fact q.Prime := ⟨hq⟩
+    have : Fact q.Prime := ⟨hq⟩
     refine orderOf_eq_prime ?_ ?_
     · rw [← map_pow, ← hu, pow_orderOf_eq_one, map_one]
     · intro h1

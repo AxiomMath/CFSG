@@ -67,7 +67,7 @@ theorem sl2F4_word_eq {R : Type*} [Ring R] (h2 : ∀ x : R, x + x = 0) {w e f : 
       _ = 1 + w * e + e + w * (e * e) + f + w * (f * e) + f * e +
             w * ((f * e) * e) := by rw [h_e_we, h_f_we, h_fe_we]
       _ = 1 + w * e + e + f + w * (f * e) + f * e := by
-            simp only [hee, h_fe_e, mul_zero, add_zero, zero_add]
+            simp only [hee, h_fe_e, mul_zero, add_zero]
       _ = 1 + (w + 1) * e + f + (w + 1) * (f * e) := by noncomm_ring
   have h_abca : (1 + (w + 1) * e + f + (w + 1) * (f * e)) * (1 + f) =
       1 + (w + 1) * (e + f + e * f + f * e) := by
@@ -76,7 +76,7 @@ theorem sl2F4_word_eq {R : Type*} [Ring R] (h2 : ∀ x : R, x + x = 0) {w e f : 
             f * f + (w + 1) * ((f * e) * f) := by noncomm_ring
       _ = 1 + (w + 1) * e + f + (w + 1) * (f * e) + f + (w + 1) * (e * f) +
             (w + 1) * f := by
-            simp only [hff, hfef, htwo, hthree, mul_zero, add_zero, zero_add]
+            simp only [hff, hfef, add_zero]
       _ = 1 + (w + 1) * (e + f + e * f + f * e) := by
             calc 1 + (w + 1) * e + f + (w + 1) * (f * e) + f + (w + 1) * (e * f) +
                   (w + 1) * f
@@ -146,7 +146,7 @@ theorem sl2F4_word_eq {R : Type*} [Ring R] (h2 : ∀ x : R, x + x = 0) {w e f : 
             (w + 1) * (f * f) + (w + 1) * ((e * f) * f) + w * ((f * e) * f) := by
             noncomm_ring
       _ = 1 + (w + 1) * f + (w + 1) * (e * f) + w * (f * e) + f + w * f := by
-            simp only [hff, h_ef_f, hfef, htwo, hthree, mul_zero, add_zero, zero_add]
+            simp only [hff, h_ef_f, hfef, mul_zero, add_zero]
       _ = 1 + (w + 1) * (e * f) + w * (f * e) := by
             calc 1 + (w + 1) * f + (w + 1) * (e * f) + w * (f * e) + f + w * f
                 = 1 + (w + 1) * (e * f) + w * (f * e) + ((w * f + w * f) + (f + f)) := by
@@ -293,12 +293,14 @@ private def IsEndRep (hD : DHyp A Aa t D) (c : G → (Fin 4 → ZMod 2))
     (F : AddMonoid.End (VSub hD)) (M : Matrix (Fin 4) (Fin 4) (ZMod 2)) : Prop :=
   ∀ x : VSub hD, x.val ∈ A → (F x).val ∈ A ∧ c (F x).val = M *ᵥ c x.val
 
+omit [Finite G] in
 private theorem isEndRep_one (hD : DHyp A Aa t D) (c : G → (Fin 4 → ZMod 2)) :
     IsEndRep hD c (1 : AddMonoid.End (VSub hD)) 1 := by
   rw [IsEndRep]
   intro x hx
   exact ⟨hx, by simp⟩
 
+omit [Finite G] in
 private theorem isEndRep_add (hD : DHyp A Aa t D) {c : G → (Fin 4 → ZMod 2)}
     (hc : IsCoord A c) {F G : AddMonoid.End (VSub hD)}
     {M N : Matrix (Fin 4) (Fin 4) (ZMod 2)}
@@ -315,6 +317,7 @@ private theorem isEndRep_add (hD : DHyp A Aa t D) {c : G → (Fin 4 → ZMod 2)}
   · change c ((F x + G x).val) = (M + N) *ᵥ c x.val
     rw [AbelianSub.val_add, hc.mul _ hFx.1 _ hGx.1, hFx.2, hGx.2, Matrix.add_mulVec]
 
+omit [Finite G] in
 private theorem isEndRep_mul (hD : DHyp A Aa t D) {c : G → (Fin 4 → ZMod 2)}
     {F G : AddMonoid.End (VSub hD)} {M N : Matrix (Fin 4) (Fin 4) (ZMod 2)}
     (hF : IsEndRep hD c F M) (hG : IsEndRep hD c G N) :
@@ -347,6 +350,7 @@ private theorem isEndRep_vConj (H : ThCyc G L R t) (W : ThLocalIn L S A B z)
   · rw [val_vConj_apply hD hnV x]
     exact hM x.val hx
 
+omit [Finite G] in
 private theorem end_eq_of_isEndRep (hD : DHyp A Aa t D) {c : G → (Fin 4 → ZMod 2)}
     (hc : IsCoord A c) {w : AddMonoid.End (VSub hD)}
     (hlin : ∀ f f' : AddMonoid.End (VSub hD), f * w = w * f → f' * w = w * f' →
@@ -376,6 +380,7 @@ private theorem mem_normalizer_of_conj_mem {n : G}
   exact Subgroup.mem_normalizer_iff_map_conj_eq.2
     (Subgroup.eq_of_le_of_card_ge hmaple (le_of_eq hcard.symm))
 
+omit [Finite G] in
 private theorem Hn_le_normalizer_Q (hQ : QHyp L A D t Q) :
     L ⊓ normalizer (A : Set G) ≤ normalizer (Q : Set G) := by
   intro n hn
@@ -424,16 +429,19 @@ private def f4N (hD : DHyp A Aa t D) (Q : Subgroup G)
       _ = (vConj hD n⁻¹ * vConj hD n) * Y * vConj hD n⁻¹ := by noncomm_ring
       _ = Y * vConj hD n⁻¹ := by rw [hleft, one_mul]
 
+omit [Finite G] in
 private theorem f4N_le_normalizer_Q (hD : DHyp A Aa t D) (Q : Subgroup G)
     {w Y : AddMonoid.End (VSub hD)} :
     f4N hD Q w Y ≤ normalizer (Q : Set G) :=
   fun _ hn => hn.1.1
 
+omit [Finite G] in
 private theorem f4N_le_wComm (hD : DHyp A Aa t D) (Q : Subgroup G)
     {w Y : AddMonoid.End (VSub hD)} :
     f4N hD Q w Y ≤ wComm hD w :=
   fun _ hn => hn.1.2
 
+omit [Finite G] in
 private theorem phiQ_conj_eq_of_mem_wComm (hD : DHyp A Aa t D) (hQ : QHyp L A D t Q)
     (hq4 : ∀ q ∈ Q, q ^ 4 = 1) (hsq : ∀ v ∈ omega1 D hD.comm, ∃ q ∈ Q, q ^ 2 = v)
     {w : AddMonoid.End (VSub hD)}
@@ -459,6 +467,7 @@ private theorem phiQ_conj_eq_of_mem_wComm (hD : DHyp A Aa t D) (hQ : QHyp L A D 
     _ = phiQ hD Q c * (vConj hD n * vConj hD n⁻¹) := by rw [mul_assoc]
     _ = phiQ hD Q c := by rw [vConj_mul_inv hD hnw.1, mul_one]
 
+omit [Finite G] in
 private theorem phiQ_one_eq_zero (hD : DHyp A Aa t D) (hQ : QHyp L A D t Q)
     (hq4 : ∀ q ∈ Q, q ^ 4 = 1) (hsq : ∀ v ∈ omega1 D hD.comm, ∃ q ∈ Q, q ^ 2 = v) :
     phiQ hD Q (1 : G) = 0 :=
@@ -525,6 +534,7 @@ private theorem commutator_mem_NV_of_mem_f4N (H : ThCyc G L R t)
           (n * y * n⁻¹ * y⁻¹) := by rw [hval.symm]
     _ = (n * y * n⁻¹ * y⁻¹) * v := by group
 
+omit [Finite G] in
 private theorem conj_mem_NV_of_mem_f4N (hD : DHyp A Aa t D)
     {w Y : AddMonoid.End (VSub hD)} {n c : G} (hn : n ∈ f4N hD Q w Y)
     (hc : c ∈ normalizer (Q : Set G) ⊓ centralizer (omega1 D hD.comm : Set G)) :
@@ -570,6 +580,7 @@ private theorem f4Kappa_mul (H : ThCyc G L R t) (W : ThLocalIn L S A B z)
     phiQ_conj_eq_of_mem_wComm hD hQ hq4 hsq hΦ hn.1.1 hn.1.2 hcm]
   exact add_comm _ _
 
+omit [Finite G] in
 private theorem f4Kappa_one (hD : DHyp A Aa t D) (hQ : QHyp L A D t Q)
     (hq4 : ∀ q ∈ Q, q ^ 4 = 1) (hsq : ∀ v ∈ omega1 D hD.comm, ∃ q ∈ Q, q ^ 2 = v)
     (y : G) : f4Kappa hD Q y 1 = 0 := by

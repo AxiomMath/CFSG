@@ -39,12 +39,14 @@ namespace S11
 
 variable {G : Type} [Group G] [Finite G] {m p q : ℕ} {B : Subgroup G} {x : G} {L M D E F J : Subgroup G}
 
+omit [Finite G] in
 private theorem cfC_inv_comm {a g : G} (hg : g * a = a * g) : g⁻¹ * a = a * g⁻¹ := by
   calc g⁻¹ * a = g⁻¹ * a * (g * g⁻¹) := by group
     _ = g⁻¹ * (a * g) * g⁻¹ := by group
     _ = g⁻¹ * (g * a) * g⁻¹ := by rw [hg]
     _ = a * g⁻¹ := by group
 
+omit [Finite G] in
 private theorem cfC_conj_comm {a g h : G} (hg : g * a = a * g) (hh : h * a = a * h) :
     g * h * g⁻¹ * a = a * (g * h * g⁻¹) := by
   calc g * h * g⁻¹ * a = g * h * (g⁻¹ * a) := by group
@@ -55,6 +57,7 @@ private theorem cfC_conj_comm {a g h : G} (hg : g * a = a * g) (hh : h * a = a *
     _ = a * g * h * g⁻¹ := by rw [hg]
     _ = a * (g * h * g⁻¹) := by group
 
+omit [Finite G] in
 private theorem cfC_mem_normalizer_centralizer {a g : G} (hg : g * a = a * g) :
     g ∈ Subgroup.normalizer (Subgroup.centralizer ({a} : Set G) : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -66,11 +69,13 @@ private theorem cfC_mem_normalizer_centralizer {a g : G} (hg : g * a = a * g) :
   rw [e] at key
   exact key
 
+omit [Finite G] in
 private theorem cfC_gLBConj_inv_eq (c : G) (I : Subgroup G) :
     GLBConj c⁻¹ I = I.map (MulAut.conj c).toMonoidHom := by
   unfold GLBConj
   rw [inv_inv]
 
+omit [Finite G] in
 private theorem cfC_mem_normalizer_closureIn {I H : Subgroup G} {y : G}
     (hy : ∀ c ∈ H, y ∈ Subgroup.normalizer ((I.map (MulAut.conj c).toMonoidHom : Subgroup G) : Set G)) :
     y ∈ Subgroup.normalizer ((closureIn I H : Subgroup G) : Set G) := by
@@ -82,6 +87,7 @@ private theorem cfC_mem_normalizer_closureIn {I H : Subgroup G} {y : G}
   unfold GLBConj at h1
   exact h1
 
+omit [Finite G] in
 private theorem cfC_mem_normalizer_layer {p : ℕ} {X : Subgroup G} {g : G}
     (hg : g ∈ Subgroup.normalizer (X : Set G)) :
     g ∈ Subgroup.normalizer (GLAPLayer p X : Set G) := by
@@ -109,7 +115,7 @@ private theorem cfC_mem_normalizer_layer {p : ℕ} {X : Subgroup G} {g : G}
 private theorem cfC_card_le_of_twoLocal {p : ℕ} (hp : p.Prime) {M E : Subgroup G}
     (hM : IsTwoLocal M) (hEM : E ≤ M) (hE : IsElemAbelian p E) :
     Nat.card E ≤ p ^ GLATwoLocalRank p G := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp1 : 1 < p := hp.one_lt
   obtain ⟨n, hn⟩ := (isPGroup_of_isElemAbelian hE).exists_card_eq
   have h1 : n ≤ CFSG.Open.pRank p M := CFSG.SectionRank.le_pRank hp1 hEM hE hn
@@ -126,6 +132,7 @@ private theorem cfC_card_le_of_twoLocal {p : ℕ} (hp : p.Prime) {M E : Subgroup
   rw [hn]
   exact Nat.pow_le_pow_right hp.pos (h1.trans h2)
 
+omit [Finite G] in
 private theorem cfC_conj_component {p : ℕ} {a : G} {B K₁ : Subgroup G}
     (hBa : ∀ c ∈ B, c * a = a * c) (hK₁ : GLAPComponent p (Subgroup.centralizer ({a} : Set G)) K₁)
     {c : G} (hc : c ∈ B) :
@@ -160,7 +167,7 @@ private theorem cfC_layer_le_normalizer_closureIn {p : ℕ} (hp : p.Prime) {a : 
   show sSup {Y : Subgroup G | GLAPComponent p (Subgroup.centralizer ({a} : Set G)) Y} ≤ _
   exact sSup_le fun Y hY => hnormY Y hY
 
-theorem B_le_M_of_redB (hH : Hyp111 G m p B x L) (hR : RedB G p q B x L M D E F J) : B ≤ M := fun b hb =>
+theorem B_le_M_of_redB (hH : Hyp111 G m p B x L) (hR : RedB G p q B x L M D E F J) : B ≤ M := fun _b hb =>
   hR.cx_le (Subgroup.mem_centralizer_singleton_iff.2 (isElemAbelian_commute hH.elem hb hH.mem))
 
 theorem J_le_M_of_redB (hR : RedB G p q B x L M D E F J) : J ≤ M :=
@@ -172,12 +179,12 @@ theorem J_le_cx_of_redB (hR : RedB G p q B x L M D E F J) {a : G} (haD : a ∈ D
 
 theorem J_le_normalizer_T0_of_redB (hR : RedB G p q B x L M D E F J) {a : G} (haD : a ∈ D) :
     J ≤ Subgroup.normalizer ((pCoreOf 2 M ⊓ Subgroup.centralizer ({a} : Set G) : Subgroup G) : Set G) :=
-  fun j hj => Subgroup.inf_normalizer_le_normalizer_inf
+  fun _j hj => Subgroup.inf_normalizer_le_normalizer_inf
     ⟨le_normalizer_pCoreOf 2 M (J_le_M_of_redB hR hj), Subgroup.le_normalizer (J_le_cx_of_redB hR haD hj)⟩
 
 theorem B_le_normalizer_T0_of_redB (hH : Hyp111 G m p B x L) (hR : RedB G p q B x L M D E F J) {a : G} (haD : a ∈ D) :
     B ≤ Subgroup.normalizer ((pCoreOf 2 M ⊓ Subgroup.centralizer ({a} : Set G) : Subgroup G) : Set G) :=
-  fun b hb => Subgroup.inf_normalizer_le_normalizer_inf
+  fun _b hb => Subgroup.inf_normalizer_le_normalizer_inf
     ⟨le_normalizer_pCoreOf 2 M (B_le_M_of_redB hH hR hb),
       Subgroup.le_normalizer (Subgroup.mem_centralizer_singleton_iff.2
         (isElemAbelian_commute hH.elem hb ((hR.D_le.trans hR.E_le) haD)))⟩
@@ -192,7 +199,7 @@ theorem exists_a (hctx : ThmACtx G m) (hH : Hyp111 G m p B x L) (hR : RedB G p q
     ∃ a ∈ D, a ≠ 1 ∧ (⁅J, pCoreOf 2 M ⊓ Subgroup.centralizer ({a} : Set G)⁆ : Subgroup G) ≠ ⊥ := by
   have hp : p.Prime := hH.prime
   have hp2 : p ≠ 2 := hH.ne_two
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hDB : D ≤ B := hR.D_le.trans hR.E_le
   have hDel : IsElemAbelian p D := isElemAbelian_mono hH.elem hDB
   have hDcard : Nat.card D = p ^ 2 := hR.card_D
@@ -235,7 +242,7 @@ theorem S_facts (hH : Hyp111 G m p B x L) (hR : RedB G p q B x L M D E F J) {a :
         ⁅J, pCoreOf 2 M ⊓ Subgroup.centralizer ({a} : Set G)⁆ := by
   have hp : p.Prime := hH.prime
   have hp2 : p ≠ 2 := hH.ne_two
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2M : IsPGroup 2 (pCoreOf 2 M) := CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 M
   have hT₀2 : IsPGroup 2 (pCoreOf 2 M ⊓ Subgroup.centralizer ({a} : Set G) : Subgroup G) :=
     h2M.to_le inf_le_left
@@ -250,7 +257,7 @@ theorem exists_Gstar_component' (hctx : ThmACtx G m) (h183 : Input18_3_4) (hH : 
     (hR : RedB G p q B x L M D E F J) {a : G} (haD : a ∈ D) (ha1 : a ≠ 1) :
     ∃ K₁ : Subgroup G, GLAPComponent p (Subgroup.centralizer ({a} : Set G)) K₁ ∧ J ≤ closureIn K₁ B ∧ IsGStar p B K₁ := by
   have hp : p.Prime := hH.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hKa : CFSG.Open.IsKGroup ↥(Subgroup.centralizer ({a} : Set G)) :=
     S8.isKGroup_cx (S3Ctx.of_ctx hctx hH.mu) ha1
   have hDB : D ≤ B := hR.D_le.trans hR.E_le
@@ -324,7 +331,7 @@ theorem S_le_closure (hH : Hyp111 G m p B x L) (hR : RedB G p q B x L M D E F J)
     (hS : S = ⁅J, pCoreOf 2 M ⊓ Subgroup.centralizer ({a} : Set G)⁆)
     (hSJ : (⁅S, J⁆ : Subgroup G) = S) : S ≤ closureIn K₁ B := by
   have hp : p.Prime := hH.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hDB : D ≤ B := hR.D_le.trans hR.E_le
   have haB : a ∈ B := hDB haD
   have hBn : ∀ c ∈ B, GLBConj c⁻¹ (Subgroup.centralizer ({a} : Set G)) = Subgroup.centralizer ({a} : Set G) :=
@@ -381,12 +388,12 @@ theorem S_le_closure (hH : Hyp111 G m p B x L) (hR : RedB G p q B x L M D E F J)
 theorem K_single (hctx : ThmACtx G m) (h183 : Input18_3_4) (hH : Hyp111 G m p B x L) (hR : RedB G p q B x L M D E F J)
     {a : G} (haD : a ∈ D) {K₁ S : Subgroup G}
     (hK₁ : GLAPComponent p (Subgroup.centralizer ({a} : Set G)) K₁) (hJK : J ≤ closureIn K₁ B)
-    (hS : S = ⁅J, pCoreOf 2 M ⊓ Subgroup.centralizer ({a} : Set G)⁆) (hSne : S ≠ ⊥) (hSJ : (⁅S, J⁆ : Subgroup G) = S)
-    (hSK : S ≤ closureIn K₁ B) (hSB : B ≤ Subgroup.normalizer (S : Set G)) (hS2 : IsPGroup 2 S)
+    (hS : S = ⁅J, pCoreOf 2 M ⊓ Subgroup.centralizer ({a} : Set G)⁆) (_hSne : S ≠ ⊥) (hSJ : (⁅S, J⁆ : Subgroup G) = S)
+    (_hSK : S ≤ closureIn K₁ B) (_hSB : B ≤ Subgroup.normalizer (S : Set G)) (hS2 : IsPGroup 2 S)
     (hSc : ¬ S ≤ GLAPPrimeCoreOf p (Subgroup.centralizer ({a} : Set G))) : closureIn K₁ B = K₁ := by
   have hp : p.Prime := hH.prime
   have hp2 : p ≠ 2 := hH.ne_two
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hDB : D ≤ B := hR.D_le.trans hR.E_le
   have haB : a ∈ B := hDB haD
   have hBa : ∀ c ∈ B, c * a = a * c := fun c hc => isElemAbelian_commute hH.elem hc haB
@@ -406,7 +413,7 @@ theorem K_single (hctx : ThmACtx G m) (h183 : Input18_3_4) (hH : Hyp111 G m p B 
       have hMnorm : M'.Normal := by
         have h1 := (Subgroup.normal_subgroupOf_iff_le_normalizer (le_top : M' ≤ ⊤)).1 hMn
         exact Subgroup.normalizer_eq_top_iff.1 (eq_top_iff.2 h1)
-      haveI : IsSimpleGroup G := hctx.1.simple
+      have : IsSimpleGroup G := hctx.1.simple
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal M' with h | h
       · exact glaPComponent_ne_bot' hK₁ (le_bot_iff.1 (h ▸ hKM))
       · exact hMne h
@@ -590,16 +597,16 @@ theorem a_essential (hH : Hyp111 G m p B x L) (hR : RedB G p q B x L M D E F J) 
   have hperf : (⁅J, J⁆ : Subgroup G) = J := glaPComponent_perfect hR.J_comp
   have h24 : Nat.card (MulAut ↥S) = 24 :=
     CFSG.GH74.GLS.Stage2.Signalizer.Odd87.natCard_mulAut_of_quaternion e
-  haveI : Finite (MulAut ↥S) := Nat.finite_of_card_ne_zero (by rw [h24]; norm_num)
-  haveI : Fintype (MulAut ↥S) := Fintype.ofFinite _
-  haveI hsolv : Group.IsSolvable (MulAut ↥S) :=
+  have : Finite (MulAut ↥S) := Nat.finite_of_card_ne_zero (by rw [h24]; norm_num)
+  have : Fintype (MulAut ↥S) := Fintype.ofFinite _
+  have hsolv : Group.IsSolvable (MulAut ↥S) :=
     CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow Nat.prime_two Nat.prime_three
       (by norm_num) (a := 3) (b := 1) (by rw [← Nat.card_eq_fintype_card, h24]; norm_num)
   have hIN : J ≤ Subgroup.normalizer ((S : Subgroup G) : Set G) := by
     rw [hc.S_def]
     exact le_normalizer_commutator Subgroup.le_normalizer (J_le_normalizer_T0_of_redB hR hc.a_mem)
   let φ : ↥J →* MulAut ↥S := (Subgroup.normalizerMonoidHom S).comp (Subgroup.inclusion hIN)
-  haveI : Group.IsPerfect ↥J := Subgroup.isPerfect_iff.2 hperf
+  have : Group.IsPerfect ↥J := Subgroup.isPerfect_iff.2 hperf
   have hφ : φ = 1 := CFSG.Holt.General.eq_one_of_isPerfect_of_isSolvable_range φ inferInstance
   have hcent : J ≤ Subgroup.centralizer ((S : Subgroup G) : Set G) := by
     intro i hi
@@ -623,7 +630,7 @@ theorem J_lt_K (hH : Hyp111 G m p B x L) (hR : RedB G p q B x L M D E F J) {a : 
     ¬ K ≤ J ⊔ GLAPPrimeCoreOf p K := by
   intro hle
   have hp : p.Prime := hH.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := hH.ne_two
   have hKq : CFSG.Open.IsQuasisimple (PQuot p K) := isQuasisimple_pQuot_of_glaPComponent hp hc.K_comp
   have hJN : J ≤ Subgroup.normalizer (S : Set G) := by
@@ -674,9 +681,9 @@ theorem J_lt_K (hH : Hyp111 G m p B x L) (hR : RedB G p q B x L M D E F J) {a : 
         simpa using this
       refine ⟨n, ?_⟩
       rw [← hte, ← map_pow, ht2, map_one]
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Group.IsNilpotent (PQuot p K) := h2Q.isNilpotent
-    haveI : Nontrivial (PQuot p K) := isQuasisimple_nontrivial hKq
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Group.IsNilpotent (PQuot p K) := h2Q.isNilpotent
+    have : Nontrivial (PQuot p K) := isQuasisimple_nontrivial hKq
     exact (Group.IsSolvable.commutator_lt_top_of_nontrivial (PQuot p K)).ne hKq.1
   ·
     have hcen := le_center_of_normal_of_isQuasisimple hKq hŜn hŜtop

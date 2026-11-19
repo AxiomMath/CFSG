@@ -32,7 +32,7 @@ theorem noL2Layer_three_D4_outer (hA2 : TriD4Aux.TriD4A2NoL2) (hC3 : TriD4Aux.Tr
     exact TriD4Aux.noL2Layer_three_D4_outer_two hf hK σ hσ φ hφ3 hφ
   · by_cases h3 : ℓ = 3
     · subst h3
-      haveI : CharP K 3 :=
+      have : CharP K 3 :=
         CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_three
           (by omega) (by rw [hK, ← pow_mul, mul_comm] : Nat.card K = 3 ^ (3 * f))
       exact TriD4Aux.noL2Layer_three_D4_outer_three hC3 hf hK σ hσ φ hφ3 hφ
@@ -45,7 +45,7 @@ theorem noL2Layer_of_graphType (hA2 : TriD4Aux.TriD4A2NoL2) (hC3 : TriD4Aux.TriD
     (hαeq : α = MulAut.conj g * (exactNormalAut Tag.D4 K a 1 0 * d4Graph K ε)) : NoL2Layer α := by
   obtain ⟨K₃, _, _, Fr, hK₃, hFr, φ, hφ3, hφout, ⟨e⟩⟩ :=
     exists_dual_fixEquiv hf K hK α hα3 g a hε hαeq
-  haveI := TriD4Aux.finite_graphFixedRootGroup_D4 Fr
+  have := TriD4Aux.finite_graphFixedRootGroup_D4 Fr
   exact TriD4Aux.noL2Layer_of_fixEquiv e
     (noL2Layer_three_D4_outer hA2 hC3 Fact.out hf hK₃ Fr hFr φ hφ3 hφout)
 

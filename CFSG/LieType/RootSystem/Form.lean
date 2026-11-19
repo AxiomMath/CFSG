@@ -29,14 +29,14 @@ variable {A : Matrix I I ℤ} (hA : TauCeti.IsFiniteType A)
 
 noncomputable def symmetrizer : I → ℚ := hA.exists_symmetrizer.choose
 
-omit [DecidableEq I] in
+omit [DecidableEq I] [Fintype I] in
 theorem symmetrizer_pos (i : I) : 0 < symmetrizer hA i :=
   hA.exists_symmetrizer.choose_spec.1 i
 
 noncomputable def symmetrized : Matrix I I ℚ :=
   Matrix.of fun i j ↦ symmetrizer hA i * (A i j : ℚ)
 
-omit [DecidableEq I] in
+omit [DecidableEq I] [Fintype I] in
 theorem posDef_symmetrized : (symmetrized hA).PosDef :=
   hA.exists_symmetrizer.choose_spec.2
 

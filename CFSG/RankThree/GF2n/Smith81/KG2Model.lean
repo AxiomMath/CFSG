@@ -84,8 +84,10 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
 local notation "X" => pinnedX Tag.G2 K
 
+omit [Finite K] [CharP K 2] in
 theorem coe_longRootElt : (longRootElt K : ModGL .G2 K) = X g2c 1 := rfl
 
+omit [Finite K] [CharP K 2] in
 theorem longRootElt_ne_one : longRootElt K ≠ 1 := by
   intro h
   have h1 : X g2c (1 : K) = X g2c 0 := by
@@ -99,31 +101,39 @@ theorem longRootElt_ne_one : longRootElt K ≠ 1 := by
 
 @[expose] def xElt : ModGL .G2 K := uElt * vElt
 
+omit [Finite K] [CharP K 2] in
 theorem uElt_eq_pinnedX : uElt (K := K) = X g2u 1 := (pinnedX_u_eq_g2N 1).symm
 
+omit [Finite K] [CharP K 2] in
 theorem vElt_eq_pinnedX : vElt (K := K) = X g2v 1 := (pinnedX_v_eq_g2N 1).symm
 
+omit [Finite K] [CharP K 2] in
 theorem uElt_mem : uElt (K := K) ∈ adjointGroup .G2 K := by
   rw [uElt_eq_pinnedX]
   exact pinnedX_mem_adjointGroup _ _
 
+omit [Finite K] [CharP K 2] in
 theorem vElt_mem : vElt (K := K) ∈ adjointGroup .G2 K := by
   rw [vElt_eq_pinnedX]
   exact pinnedX_mem_adjointGroup _ _
 
+omit [Finite K] in
 theorem xElt_eq : xElt (K := K) = g2N 0 0 1 1 0 0 := by
   rw [xElt, uElt, vElt, g2N_zero_mul_g2N_zero]
   refine g2N_eq_g2N rfl (by ring) (by ring) (by ring) (by ring) (by ring)
 
+omit [Finite K] in
 theorem xElt_sq : xElt (K := K) * xElt = (longRootElt K : ModGL .G2 K) := by
   rw [xElt_eq, g2N_zero_mul_g2N_zero, coe_longRootElt, pinnedX_c_eq_g2N]
   refine g2N_eq_g2N ?_ ?_ ?_ ?_ ?_ ?_ <;> char2_ring
 
+omit [Finite K] in
 theorem xElt_pow_four : xElt (K := K) ^ 4 = 1 := by
   have h : xElt (K := K) ^ 4 = (xElt * xElt) * (xElt * xElt) := by
     rw [show (4 : ℕ) = 2 + 2 by norm_num, pow_add, pow_two]
   rw [h, xElt_sq, coe_longRootElt, pinnedX_mul_self]
 
+omit [Finite K] in
 theorem orderOf_xElt : orderOf (xElt (K := K)) = 4 := by
   have h2 : xElt (K := K) ^ 2 ≠ 1 := by
     rw [pow_two, xElt_sq]
@@ -141,30 +151,38 @@ theorem orderOf_xElt : orderOf (xElt (K := K)) = 4 := by
 
 @[expose] def xY : ↥(adjointGroup .G2 K) := uY * vY
 
+omit [Finite K] [CharP K 2] in
 theorem coe_uY : (uY (K := K) : ModGL .G2 K) = uElt := rfl
 
+omit [Finite K] [CharP K 2] in
 theorem coe_vY : (vY (K := K) : ModGL .G2 K) = vElt := rfl
 
+omit [Finite K] [CharP K 2] in
 theorem coe_xY : (xY (K := K) : ModGL .G2 K) = xElt := rfl
 
+omit [Finite K] in
 theorem xY_sq : xY (K := K) * xY = longRootElt K := by
   apply Subtype.ext
   rw [Subgroup.coe_mul, coe_xY, xElt_sq]
 
+omit [Finite K] in
 theorem orderOf_xY : orderOf (xY (K := K)) = 4 := by
   rw [← Subgroup.orderOf_coe (xY (K := K)), coe_xY, orderOf_xElt]
 
+omit [Finite K] in
 theorem weylElt_conj_uElt :
     weylElt .G2 K g2ir 1 * uElt * (weylElt .G2 K g2ir 1)⁻¹ = vElt (K := K) := by
   rw [uElt, vElt, weylElt_r_conj_g2N]
   refine g2N_eq_g2N rfl (by ring) (by ring) (by ring) (by ring) (by ring)
 
+omit [Finite K] in
 theorem isConj_uY_vY : IsConj (uY (K := K)) (vY (K := K)) := by
   refine isConj_iff.mpr ⟨⟨weylElt .G2 K g2ir 1, weylElt_mem_adjointGroup g2ir 1⟩, ?_⟩
   apply Subtype.ext
   rw [Subgroup.coe_mul, Subgroup.coe_mul, Subgroup.coe_inv, coe_uY, coe_vY]
   exact weylElt_conj_uElt
 
+omit [Finite K] [CharP K 2] in
 theorem vY_eq_rootC : vY (K := K) =
     ⟨X g2v 1, pinnedX_mem_adjointGroup g2v 1⟩ :=
   Subtype.ext vElt_eq_pinnedX
@@ -214,6 +232,7 @@ theorem isConj_longRootElt_of_mulEquiv {Y : Type} [Group Y]
     have := congrArg e hg
     simpa using this
 
+omit [Finite K] in
 theorem card_g2RankOne : Nat.card (g2RankOne K g2ir) = Nat.card (SL2 K) := by
   obtain ⟨ρ, -, -, -, -, hrange, hinj, -, -⟩ := g2_rank_one (K := K) g2ir
   let f : SL2 K → g2RankOne K g2ir := fun g =>
@@ -298,8 +317,9 @@ theorem card_sup_g2LongRadical_g2RankOne :
   have hLcard : Nat.card (L.subgroupOf M) = Nat.card L :=
     Nat.card_congr ((Subgroup.subgroupOfEquivOfLe (le_sup_right : L ≤ M)).toEquiv)
   rw [← hQcard, ← hLcard]
-  exact hcompl.card_mul.symm
+  exact hcompl.card_mul_card.symm
 
+omit [Finite K] [CharP K 2] in
 theorem centralizer_map_subtype :
     (Subgroup.centralizer ({longRootElt K} : Set ↥(adjointGroup .G2 K))).map
         (adjointGroup .G2 K).subtype =
@@ -317,6 +337,7 @@ theorem centralizer_map_subtype :
     rw [Subgroup.mem_centralizer_singleton_iff] at hxcomm ⊢
     exact Subtype.ext hxcomm
 
+omit [Finite K] [CharP K 2] in
 theorem centralizerY_eq_subgroupOf :
     (adjointGroup .G2 K ⊓ Subgroup.centralizer {pinnedX .G2 K g2c 1}).subgroupOf
         (adjointGroup .G2 K) =
@@ -353,32 +374,37 @@ theorem card_centralizer_longRootElt :
 
 @[expose] def tElt : ModGL .G2 K := X g2r 1 * X g2nr 1
 
+omit [Finite K] [CharP K 2] in
 theorem tElt_mem : tElt (K := K) ∈ adjointGroup .G2 K :=
   mul_mem (pinnedX_mem_adjointGroup _ _) (pinnedX_mem_adjointGroup _ _)
 
+omit [Finite K] [CharP K 2] in
 theorem tElt_mem_g2RankOne : tElt (K := K) ∈ g2RankOne K g2ir := by
   rw [tElt, ← xUnit_g2ir (K := K) 1, ← yUnit_g2ir (K := K) 1]
   exact mul_mem (xUnit_mem_g2RankOne g2ir 1) (yUnit_mem_g2RankOne g2ir 1)
 
+omit [Finite K] in
 theorem commute_tElt_longRootElt : Commute (tElt (K := K)) (longRootElt K : ModGL .G2 K) := by
   rw [tElt, coe_longRootElt]
   exact commute_of_mem_g2RankOne_r tElt_mem_g2RankOne 1
 
+omit [Finite K] in
 theorem coe_uSL_mul_vSL :
     ((uSL (1 : K) * vSL 1 : SL2 K) : Matrix (Fin 2) (Fin 2) K) = !![0, 1; 1, 1] := by
   apply Matrix.ext
   intro i j
   rw [Matrix.SpecialLinearGroup.coe_mul]
   fin_cases i <;> fin_cases j <;>
-    simp [uSL, vSL, Matrix.mul_apply, Fin.sum_univ_two] <;> char2_ring
+    simp [uSL, vSL, Matrix.mul_apply, Fin.sum_univ_two]; char2_ring
 
+omit [Finite K] in
 theorem orderOf_uSL_mul_vSL : orderOf (uSL (1 : K) * vSL 1) = 3 := by
   have hA3mat : (((uSL (1 : K) * vSL 1 : SL2 K) : Matrix (Fin 2) (Fin 2) K)) ^ 3 = 1 := by
     rw [coe_uSL_mul_vSL]
     apply Matrix.ext
     intro i j
     fin_cases i <;> fin_cases j <;>
-      simp [pow_succ, pow_two, Matrix.mul_apply, Fin.sum_univ_two, Matrix.one_apply] <;>
+      simp [pow_succ, Matrix.mul_apply, Fin.sum_univ_two] <;>
         char2_ring
   have hA3 : (uSL (1 : K) * vSL 1) ^ 3 = 1 := by
     apply Subtype.ext
@@ -388,9 +414,10 @@ theorem orderOf_uSL_mul_vSL : orderOf (uSL (1 : K) * vSL 1) = 3 := by
     intro h
     have h00 := congrArg (fun g : SL2 K => ((g : Matrix (Fin 2) (Fin 2) K) 0 0)) h
     rw [coe_uSL_mul_vSL, Matrix.SpecialLinearGroup.coe_one] at h00
-    simpa using h00
+    simp at h00
   exact orderOf_eq_prime hA3 hAne
 
+omit [Finite K] in
 theorem orderOf_tElt : orderOf (tElt (K := K)) = 3 := by
   obtain ⟨ρ, hu, hv, -, -, -, hinj, -, -⟩ := g2_rank_one (K := K) g2ir
   have ht : tElt (K := K) = ρ (uSL 1 * vSL 1) := by
@@ -409,6 +436,7 @@ theorem commute_pinnedX_c_of_mem_sup (c : K) {g : ModGL .G2 K}
   have hl' : Commute (X g2c c) l := (commute_of_mem_g2RankOne_r hl c).symm
   exact hq'.mul_right hl'
 
+omit [Finite K] in
 theorem xElt_mem_g2LongRadical : xElt (K := K) ∈ g2LongRadical K := by
   rw [xElt_eq]
   exact g2N_mem_g2LongRadical _ _ _ _ _
@@ -469,6 +497,7 @@ theorem xY_mem_pCoreOf_centralizer :
   have : u = xY (K := K) := Subtype.ext hux
   rwa [this] at hu
 
+omit [Finite K] [CharP K 2] in
 theorem isConj_longRootElt_rootC {c : K} (hc : c ≠ 0) :
     IsConj (longRootElt K) ⟨X g2c c, pinnedX_mem_adjointGroup g2c c⟩ := by
   obtain ⟨g, hgC, hg⟩ := G2Conj.c_one hc
@@ -535,6 +564,7 @@ theorem rootGroup_longRootElt_eq {n : ℕ} (hK : Nat.card K = n)
     rw [hroot, hXD, hK]
   exact (Subgroup.eq_of_le_of_card_ge rootSubgroup_subgroupOf_le_rootGroup hcard).symm
 
+omit [Finite K] in
 theorem xElt_not_mem_rootSubgroup : xElt (K := K) ∉ rootSubgroup .G2 K g2c := by
   intro hx
   obtain ⟨c, hc⟩ := (mem_rootSubgroup (τ := .G2) (R := K)).mp hx
@@ -542,6 +572,7 @@ theorem xElt_not_mem_rootSubgroup : xElt (K := K) ∉ rootSubgroup .G2 K g2c := 
   obtain ⟨-, -, hC, -, -, -⟩ := g2N_injective hc
   exact one_ne_zero hC.symm
 
+omit [Finite K] in
 theorem xY_not_mem_rootGroup
     (hrootEq : rootGroup {g : ↥(adjointGroup .G2 K) | IsConj (longRootElt K) g}
       (longRootElt K) = (rootSubgroup .G2 K g2c).subgroupOf (adjointGroup .G2 K)) :
@@ -552,12 +583,14 @@ theorem xY_not_mem_rootGroup
   exact xElt_not_mem_rootSubgroup (by
     simpa [coe_xY] using Subgroup.mem_subgroupOf.mp hx)
 
+omit [Finite K] in
 theorem radAction_t_fixes_x :
     ((radMr (1 : K) ∘ₗ (radSwap ∘ₗ radMr (1 : K) ∘ₗ radSwap)) ![0, 1, 1, 0]) =
       ![0, 1, 1, 0] := by
   funext i
   fin_cases i <;> simp [radMr, radSwap] <;> char2_ring
 
+omit [Finite K] in
 theorem commutator_tElt_xElt_mem_rootSubgroup :
     tElt (K := K) * xElt * (tElt (K := K))⁻¹ * (xElt (K := K))⁻¹ ∈
       rootSubgroup .G2 K g2c := by
@@ -579,8 +612,10 @@ theorem commutator_tElt_xElt_mem_rootSubgroup :
 
 @[expose] def tY : ↥(adjointGroup .G2 K) := ⟨tElt, tElt_mem⟩
 
+omit [Finite K] [CharP K 2] in
 theorem coe_tY : (tY (K := K) : ModGL .G2 K) = tElt := rfl
 
+omit [Finite K] in
 theorem tY_mem_centralizer :
     tY (K := K) ∈ Subgroup.centralizer
       ({longRootElt K} : Set ↥(adjointGroup .G2 K)) := by
@@ -589,9 +624,11 @@ theorem tY_mem_centralizer :
   rw [Subgroup.coe_mul, Subgroup.coe_mul, coe_tY, coe_longRootElt]
   exact commute_tElt_longRootElt.eq
 
+omit [Finite K] in
 theorem orderOf_tY : orderOf (tY (K := K)) = 3 := by
   rw [← Subgroup.orderOf_coe (tY (K := K)), coe_tY, orderOf_tElt]
 
+omit [Finite K] in
 theorem commutator_tY_xY_mem_rootGroup
     (hrootEq : rootGroup {g : ↥(adjointGroup .G2 K) | IsConj (longRootElt K) g}
       (longRootElt K) = (rootSubgroup .G2 K g2c).subgroupOf (adjointGroup .G2 K)) :
@@ -602,7 +639,7 @@ theorem commutator_tY_xY_mem_rootGroup
   have h : ((tY (K := K) * xY * (tY (K := K))⁻¹ * (xY (K := K))⁻¹ :
       ↥(adjointGroup .G2 K)) : ModGL .G2 K) =
       tElt * xElt * (tElt (K := K))⁻¹ * (xElt (K := K))⁻¹ := by
-    simp [Subgroup.coe_mul, Subgroup.coe_inv, coe_tY, coe_xY]
+    simp [Subgroup.coe_mul, coe_tY, coe_xY]
   rw [h]
   exact commutator_tElt_xElt_mem_rootSubgroup
 

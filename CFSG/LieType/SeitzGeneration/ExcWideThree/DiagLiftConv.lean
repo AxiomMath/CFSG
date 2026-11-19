@@ -20,7 +20,7 @@ theorem fixed_lift_class_trivial {k : Type} [Field k] [Finite k] (φ : k →+* k
     (hφq : ∀ c : k, φ c = c ^ q) (hq : q % 3 = 1)
     (g0 : ModGL Tag.E6 k) (hg0 : g0 ∈ adjointGroup Tag.E6 k) (w : WeylGroup Tag.E6)
     (hF : baseChangeGL φ g0 = g0 * canonicalRep (coxeterSystem Tag.E6) k w) (ζ : kˣ)
-    (hζ3 : ζ ^ 3 = 1) (hζφ : Units.map φ.toMonoidHom ζ = ζ) (m : Fin Tag.E6.rank → ℤ)
+    (_hζ3 : ζ ^ 3 = 1) (hζφ : Units.map φ.toMonoidHom ζ = ζ) (m : Fin Tag.E6.rank → ℤ)
     (x : e6Data_valid.minGroup k) (hx : minBC e6Data_valid φ x = x)
     (hπ : ((e6Isogeny k x : adjointGroup Tag.E6 k) : ModGL Tag.E6 k) =
       g0 * rootDiagUnit Tag.E6 (e6RootParams (fun l => ζ ^ m l)) * g0⁻¹) :
@@ -134,12 +134,12 @@ theorem not_mem_adjointGroup_of_not_fixed {K : Type} [Field K] [Finite K]
   set L := AlgebraicClosure K with hL
   set ι : K →+* L := algebraMap K L with hι
   obtain ⟨e, he, hcard⟩ := card_eq_pow_ringChar K
-  haveI hpf : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
+  have hpf : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
   have hω3 : ω ^ 3 = 1 := Units.ext (by simpa using hω.pow_eq_one)
   obtain ⟨Eg, hEg⟩ := exists_finset_descent hg0C
   obtain ⟨K₃, hK₃, hSK₃, hιK₃⟩ := exists_finite_subfield_of_finset (K := K)
     (Eg ∪ {(ω : L)})
-  haveI : Finite K₃ := hK₃
+  have : Finite K₃ := hK₃
   have hgK : (Eg : Set L) ⊆ K₃ := fun x hx =>
     hSK₃ (Finset.mem_coe.2 (Finset.mem_union_left _ hx))
   have hωK : (ω : L) ∈ K₃ :=
@@ -151,8 +151,8 @@ theorem not_mem_adjointGroup_of_not_fixed {K : Type} [Field K] [Finite K]
       Units.ext rfl⟩
   obtain ⟨ι₃, hιι⟩ : ∃ ι₃ : K →+* K₃, K₃.subtype.comp ι₃ = ι :=
     ⟨ι.codRestrict K₃ hιK, RingHom.ext fun x => rfl⟩
-  haveI : CharP L (ringChar K) := charP_of_injective_algebraMap ι.injective _
-  haveI : CharP K₃ (ringChar K) := Subfield.charP K₃ (ringChar K)
+  have : CharP L (ringChar K) := charP_of_injective_algebraMap ι.injective _
+  have : CharP K₃ (ringChar K) := Subfield.charP K₃ (ringChar K)
   obtain ⟨φ, hφdef⟩ : ∃ φ : K₃ →+* K₃, φ = iterateFrobenius K₃ (ringChar K) e := ⟨_, rfl⟩
   have hφq : ∀ c : K₃, φ c = c ^ Nat.card K := fun c => by
     rw [hφdef, iterateFrobenius_def, hcard]

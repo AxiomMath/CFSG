@@ -41,7 +41,7 @@ theorem pRank_mulAut_le_of_hom {S N C : Type*} [Group S] [Finite S] [Group N] [G
   split_ifs with hpf
   ·
     have h1 : Nat.card (E.map Ψ) ≤ p := by
-      haveI : Finite ↥(E.map Ψ) := Finite.of_surjective
+      have : Finite ↥(E.map Ψ) := Finite.of_surjective
         (fun x : ↥E => (⟨Ψ x, Subgroup.mem_map_of_mem Ψ x.2⟩ : ↥(E.map Ψ)))
         (fun y => by
           obtain ⟨x, hx, hxy⟩ := Subgroup.mem_map.1 y.2
@@ -66,7 +66,7 @@ theorem pRank_mulAut_le_of_hom {S N C : Type*} [Group S] [Finite S] [Group N] [G
 
 theorem five_le_of_three_le_orderOf {p Q : ℕ} (hp : p.Prime)
     (he : 3 ≤ orderOf ((Q : ℕ) : ZMod p)) : 5 ≤ p := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have h0 : ((Q : ℕ) : ZMod p) ≠ 0 := by
     intro h0
     rw [h0, orderOf_zero] at he
@@ -227,7 +227,7 @@ theorem card_le_cat_E8 {Q : TauCeti.PrimePower} (hv : (TauCeti.LieTypeIndex.E8 Q
         hpq he').rank_le hp hF
     ·
       have h7 : 7 ≤ p := by
-        haveI := Fact.mk hp
+        have := Fact.mk hp
         have h0 : ((Q.card : ℕ) : ZMod p) ≠ 0 := by
           intro h0
           rw [h0, orderOf_zero] at he'
@@ -270,7 +270,7 @@ theorem pRank_mulAut_le_E6 (Q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeIndex.
   have hp5 := five_le_of_three_le_orderOf hp he
   obtain ⟨K, _, _, hK, -, ⟨e⟩⟩ := exists_catEquiv_adjointGroup Even.chevalleyBridgesAll.e6 Q hv
   obtain ⟨Θ, hΘ⟩ := exists_hom_ringAut_E (Or.inl rfl) K hp hp5
-  haveI : IsCyclic (RingAut K) :=
+  have : IsCyclic (RingAut K) :=
     CFSG.ComponentClassification.CatalogueSchreierLinearTwo.fieldAut_isCyclic K
   exact pRank_mulAut_le_of_hom (eX.trans e) Θ hp hΘ
     (conj_injective_of_mulEquiv eX (conj_injective_cat_E6 Q hv))
@@ -285,12 +285,12 @@ theorem pRank_mulAut_le_twistedE6 (Q : TauCeti.PrimePower)
       max 1 (degCountTw (orderOf ((Q.card : ℕ) : ZMod p))) + if p ∣ Q.exponent then 1 else 0 := by
   have hp5 := five_le_of_three_le_orderOf hp he
   obtain ⟨K, _, σ, hK, hσ, ⟨e⟩⟩ := exists_catEquiv_twistedE6 Q hv
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by
+  have : Finite K := Nat.finite_of_card_ne_zero (by
     rw [hK]
     exact pow_ne_zero 2 (pow_ne_zero _ Q.prime_p.ne_zero))
   obtain ⟨Θ, hΘ⟩ := exists_hom_ringAut_twistedE6 Q.prime_p Q.exponent_pos K hK σ hσ hp
     (by omega)
-  haveI : IsCyclic (RingAut K) :=
+  have : IsCyclic (RingAut K) :=
     CFSG.ComponentClassification.CatalogueSchreierLinearTwo.fieldAut_isCyclic K
   refine pRank_mulAut_le_of_hom (eX.trans e) Θ hp hΘ
     (conj_injective_of_mulEquiv eX (conj_injective_cat_twistedE6 Q hv))
@@ -312,7 +312,7 @@ theorem pRank_mulAut_le_E7 (Q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeIndex.
   have hp5 := five_le_of_three_le_orderOf hp he
   obtain ⟨K, _, _, hK, -, ⟨e⟩⟩ := exists_catEquiv_adjointGroup Even.chevalleyBridgesAll.e7 Q hv
   obtain ⟨Θ, hΘ⟩ := exists_hom_ringAut_E (Or.inr (Or.inl rfl)) K hp hp5
-  haveI : IsCyclic (RingAut K) :=
+  have : IsCyclic (RingAut K) :=
     CFSG.ComponentClassification.CatalogueSchreierLinearTwo.fieldAut_isCyclic K
   exact pRank_mulAut_le_of_hom (eX.trans e) Θ hp hΘ
     (conj_injective_of_mulEquiv eX (conj_injective_cat_E7 Q hv))
@@ -329,7 +329,7 @@ theorem pRank_mulAut_le_E8 (Q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeIndex.
   have hp5 := five_le_of_three_le_orderOf hp he
   obtain ⟨K, _, _, hK, -, ⟨e⟩⟩ := exists_catEquiv_adjointGroup Even.chevalleyBridgesAll.e8 Q hv
   obtain ⟨Θ, hΘ⟩ := exists_hom_ringAut_E (Or.inr (Or.inr rfl)) K hp hp5
-  haveI : IsCyclic (RingAut K) :=
+  have : IsCyclic (RingAut K) :=
     CFSG.ComponentClassification.CatalogueSchreierLinearTwo.fieldAut_isCyclic K
   exact pRank_mulAut_le_of_hom (eX.trans e) Θ hp hΘ
     (conj_injective_of_mulEquiv eX (conj_injective_cat_E8 Q hv))

@@ -17,25 +17,30 @@ open scoped Classical in
 @[expose] noncomputable def uc22pwrBar (L : Subgroup G) (a : G) : Bar2 L :=
   if h : a ∈ L then QuotientGroup.mk' (CFSG.pCore 2 ↥L) ⟨a, h⟩ else 1
 
+omit [Finite G] in
 theorem uc22pwrBar_of_mem {L : Subgroup G} {a : G} (h : a ∈ L) :
     uc22pwrBar L a = QuotientGroup.mk' (CFSG.pCore 2 ↥L) ⟨a, h⟩ := by
   unfold uc22pwrBar
-  rw [dif_pos h]
+  rw [dite_eq_left h]
 
+omit [Finite G] in
 theorem uc22pwrBar_mul {L : Subgroup G} {a b : G} (ha : a ∈ L) (hb : b ∈ L) :
     uc22pwrBar L (a * b) = uc22pwrBar L a * uc22pwrBar L b := by
   rw [uc22pwrBar_of_mem (L.mul_mem ha hb), uc22pwrBar_of_mem ha, uc22pwrBar_of_mem hb, ← map_mul]
   rfl
 
+omit [Finite G] in
 theorem uc22pwrBar_one (L : Subgroup G) : uc22pwrBar L 1 = 1 := by
   rw [uc22pwrBar_of_mem L.one_mem]
   exact map_one _
 
+omit [Finite G] in
 theorem uc22pwrBar_inv {L : Subgroup G} {a : G} (ha : a ∈ L) :
     uc22pwrBar L a⁻¹ = (uc22pwrBar L a)⁻¹ := by
   rw [uc22pwrBar_of_mem (L.inv_mem ha), uc22pwrBar_of_mem ha, ← map_inv]
   rfl
 
+omit [Finite G] in
 theorem uc22pwrBar_eq_one_iff {L : Subgroup G} {a : G} (ha : a ∈ L) :
     uc22pwrBar L a = 1 ↔ a ∈ pCoreOf 2 L := by
   rw [uc22pwrBar_of_mem ha, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff]
@@ -46,17 +51,20 @@ theorem uc22pwrBar_eq_one_iff {L : Subgroup G} {a : G} (ha : a ∈ L) :
     have : y = ⟨a, ha⟩ := Subtype.ext hya
     rwa [this] at hy
 
+omit [Finite G] in
 theorem uc22pwrBar_eq_iff {L : Subgroup G} {a b : G} (ha : a ∈ L) (hb : b ∈ L) :
     uc22pwrBar L a = uc22pwrBar L b ↔ a⁻¹ * b ∈ pCoreOf 2 L := by
   rw [← uc22pwrBar_eq_one_iff (L.mul_mem (L.inv_mem ha) hb), uc22pwrBar_mul (L.inv_mem ha) hb,
     uc22pwrBar_inv ha, inv_mul_eq_one]
 
+omit [Finite G] in
 theorem uc22pwrBar_conj {L : Subgroup G} {t a : G} (ht : t ∈ normalizer (L : Set G)) (ha : a ∈ L) :
     uc22pwrBar L (t * a * t⁻¹) = uc22p20uInd L t ht (uc22pwrBar L a) := by
   have hm : t * a * t⁻¹ ∈ L := (Subgroup.mem_normalizer_iff.1 ht a).1 ha
   rw [uc22pwrBar_of_mem hm, uc22pwrBar_of_mem ha]
   exact (uc22p20uInd_mk L ht ⟨a, ha⟩).symm
 
+omit [Finite G] in
 theorem uc22pwrBar_surj (L : Subgroup G) (x : Bar2 L) : ∃ a ∈ L, uc22pwrBar L a = x := by
   obtain ⟨l, rfl⟩ := QuotientGroup.mk'_surjective (CFSG.pCore 2 ↥L) x
   exact ⟨l, l.2, uc22pwrBar_of_mem l.2⟩
@@ -96,10 +104,12 @@ structure UC22pwrLift (L : Subgroup G) (F : Subgroup (Bar2 L)) (A : Subgroup G) 
         obtain ⟨a, ha, hf⟩ := h.onto f f.2
         exact ⟨⟨a, ha⟩, Subtype.ext hf⟩⟩
 
+omit [Finite G] in
 theorem UC22pwrLift.card_eq {L : Subgroup G} {F : Subgroup (Bar2 L)} {A : Subgroup G}
     (h : UC22pwrLift L F A) : Nat.card A = Nat.card F :=
   Nat.card_congr h.equiv.toEquiv
 
+omit [Finite G] in
 theorem UC22pwrLift.isMulCommutative {L : Subgroup G} {F : Subgroup (Bar2 L)} {A : Subgroup G}
     (h : UC22pwrLift L F A) [hF : IsMulCommutative F] : IsMulCommutative A := by
   refine uc22pwr_isMulCommutative fun x hx y hy => ?_
@@ -107,6 +117,7 @@ theorem UC22pwrLift.isMulCommutative {L : Subgroup G} {F : Subgroup (Bar2 L)} {A
   rw [uc22pwrBar_mul (h.le hx) (h.le hy), uc22pwrBar_mul (h.le hy) (h.le hx)]
   exact setLike_mul_comm (s := F) (h.maps x hx) (h.maps y hy)
 
+omit [Finite G] in
 theorem UC22pwrLift.isCyclic {L : Subgroup G} {F : Subgroup (Bar2 L)} {A : Subgroup G}
     (h : UC22pwrLift L F A) [hF : IsCyclic F] : IsCyclic A :=
   isCyclic_of_surjective (h.equiv.symm : ↥F →* ↥A) h.equiv.symm.surjective
@@ -124,6 +135,7 @@ theorem UC22pwrLift.isCyclic {L : Subgroup G} {F : Subgroup (Bar2 L)} {A : Subgr
     rw [uc22pwrBar_inv (h.le ha.1)]
     exact F'.inv_mem ha.2⟩
 
+omit [Finite G] in
 theorem UC22pwrLift.restrict {L : Subgroup G} {F : Subgroup (Bar2 L)} {A : Subgroup G}
     (h : UC22pwrLift L F A) {F' : Subgroup (Bar2 L)} (hF' : F' ≤ F) :
     UC22pwrLift L F' (uc22pwrRestrict h F') where
@@ -138,7 +150,7 @@ theorem uc22pwr_sylowSq_of_equiv {H K : Type} [Group H] [Group K] [Finite H] [Fi
     (e : H ≃* K) {p : ℕ} (hp : p.Prime)
     (h : ∃ P : Sylow p K, Nat.card P = p ^ 2 ∧ ¬ IsCyclic P) :
     ∃ P : Sylow p H, Nat.card P = p ^ 2 ∧ ¬ IsCyclic P := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨P, hP2, hPc⟩ := h
   have hf : Function.Surjective (e.symm : K →* H) := e.symm.surjective
   refine ⟨P.mapSurjective hf, ?_, ?_⟩
@@ -163,6 +175,7 @@ theorem uc22pwr_sylowSq_of_equiv {H K : Type} [Group H] [Group K] [Finite H] [Fi
     rw [uc22pwrBar_inv ha.1]
     exact F.inv_mem ha.2⟩
 
+omit [Finite G] in
 theorem uc22pwr_pCoreOf_le_pre (L : Subgroup G) (F : Subgroup (Bar2 L)) :
     pCoreOf 2 L ≤ uc22pwrPre L F := by
   intro y hy
@@ -173,6 +186,7 @@ theorem uc22pwr_pCoreOf_le_pre (L : Subgroup G) (F : Subgroup (Bar2 L)) :
   rw [h1]
   exact F.one_mem
 
+omit [Finite G] in
 theorem uc22pwr_normal_pCoreOf_pre (L : Subgroup G) (F : Subgroup (Bar2 L)) :
     ((pCoreOf 2 L).subgroupOf (uc22pwrPre L F)).Normal := by
   refine ⟨fun n hn g => ?_⟩
@@ -185,6 +199,7 @@ theorem uc22pwr_normal_pCoreOf_pre (L : Subgroup G) (F : Subgroup (Bar2 L)) :
     uc22pwrBar_mul hgL hnL, uc22pwrBar_inv hgL, (uc22pwrBar_eq_one_iff hnL).2 hn]
   simp
 
+omit [Finite G] in
 theorem uc22pwr_index_pCoreOf_pre (L : Subgroup G) (F : Subgroup (Bar2 L)) :
     ((pCoreOf 2 L).subgroupOf (uc22pwrPre L F)).index = Nat.card F := by
   let φ : ↥(uc22pwrPre L F) →* Bar2 L :=
@@ -343,6 +358,7 @@ theorem uc22pwr_normal_subgroupOf_of_comm {X : Type*} [Group X] {E : Subgroup X}
   rw [this]
   exact hn
 
+omit [Finite G] in
 theorem uc22pwr_piSet_zpowers_subset {L : Subgroup G} {F : Subgroup (Bar2 L)} {A : Subgroup G}
     (h : UC22pwrLift L F A) {N : Subgroup G} (hNA : N ≤ A) {α : Set ℕ} (hN : piSet N ⊆ α) {x : G}
     (hx : x ∈ N) : piSet (Subgroup.zpowers (uc22pwrBar L x)) ⊆ α := by
@@ -380,10 +396,12 @@ theorem uc22pwr_oPi_le_normalizer (D : Data G) {L : Subgroup G} (hL : L ∈ calL
     exact hz (Subgroup.mem_zpowers _)
   exact uc22pwr_mem_normalizer_T D hL h hFU hxA fun t ht htT => hα t ht htT _ hmem
 
+omit [Finite G] in
 theorem uc22pwr_pCoreOf_le (A : Subgroup G) (p : ℕ) : pCoreOf p A ≤ A := by
   rintro x ⟨z, -, rfl⟩
   exact z.2
 
+omit [Finite G] in
 theorem uc22pwr_bar_mem_pCoreOf {L : Subgroup G} {F : Subgroup (Bar2 L)} {A : Subgroup G}
     (h : UC22pwrLift L F A) (p : ℕ) {x : G} (hx : x ∈ pCoreOf p A) :
     uc22pwrBar L x ∈ pCoreOf p F := by
@@ -497,14 +515,14 @@ theorem uc22pw_lift_sel (D : Data G) (hB : ListBNonabelian) (h1930 : H1930 D) {L
     ∃ B0 : Subgroup G, UC22pwrLift L (Bb ⊔ Cb) B0 ∧ B0 ∈ calB1 D.T D.M L ∧ piSet B0 = etaSet n ∧
       AlphaCond D.T B0 n ∧ B0 ≤ D.M := by
   obtain ⟨hEU, hEab, hEodd, -, hpi, -, hα, w, hw2, hwinv, hgen⟩ := hE
-  haveI : IsCyclic ↥Bb := hcyc
+  have : IsCyclic ↥Bb := hcyc
   have hE₀E : Bb ⊔ Cb ≤ E := sup_le hBE hCE
   have hE₀U := hE₀E.trans hEU
   have hBU := hBE.trans hEU
   have hCU := hCE.trans hEU
-  haveI hE₀ab : IsMulCommutative ↥(Bb ⊔ Cb) := uc22pwr_isMulCommutative fun x hx y hy =>
+  have hE₀ab : IsMulCommutative ↥(Bb ⊔ Cb) := uc22pwr_isMulCommutative fun x hx y hy =>
     setLike_mul_comm (s := E) (hE₀E hx) (hE₀E hy)
-  haveI hCab : IsMulCommutative ↥Cb := uc22pwr_isMulCommutative fun x hx y hy =>
+  have hCab : IsMulCommutative ↥Cb := uc22pwr_isMulCommutative fun x hx y hy =>
     setLike_mul_comm (s := E) (hCE hx) (hCE hy)
   have hE₀odd : Odd (Nat.card ↥(Bb ⊔ Cb)) := Odd.of_dvd_nat hEodd (Subgroup.card_dvd_of_le hE₀E)
   have hBinv' : ∀ (t : G) (ht : t ∈ normalizer (L : Set G)), t ∈ D.T → ∀ x ∈ Bb,

@@ -599,7 +599,7 @@ private def a8bRow (m : ℕ) (pats : List ((Vn (m + 1) × Vn (m + 1)) × PatV (m
 private theorem a8b_prefCovB_eq (m : ℕ) (pats : List ((Vn (m + 1) × Vn (m + 1)) × PatV (m + 1))) :
     prefCovB m pats = (List.range (m + 1)).all (a8bRow m pats) := rfl
 
-private def decEqVn8Fast : DecidableEq (Vn 8) := fun u v =>
+@[instance_reducible] private def decEqVn8Fast : DecidableEq (Vn 8) := fun u v =>
   decidable_of_iff (((List.finRange 8).all fun i => decide (u i = v i)) = true) (by
     simp only [List.all_eq_true, List.mem_finRange, decide_eq_true_eq, true_implies]
     exact funext_iff.symm)

@@ -22,6 +22,7 @@ open CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem pow_eq_one_of_isZModSq {A : Subgroup G} {n : ℕ} (hA : IsZModSq A n) :
     ∀ a ∈ A, a ^ (2 ^ n - 1) = 1 := by
   obtain ⟨e⟩ := hA

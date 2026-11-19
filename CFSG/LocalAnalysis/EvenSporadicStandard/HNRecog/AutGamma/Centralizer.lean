@@ -35,7 +35,7 @@ theorem eq_one_or_eq_gammaConj_of_centralizes [IsSimpleGroup G] (hF : IsF5Type a
       _ = act (gammaConj a g) (act σ y) := act_mul _ _ hy.1
       _ = x := by rw [hσy, hx']
   · right
-    push_neg at hfix
+    push Not at hfix
     exact eq_gammaConj_base hF hL hlines hperp σ h2 hfix
 
 end CFSG.EvenSporadicStandard.HNRecog.AutGamma

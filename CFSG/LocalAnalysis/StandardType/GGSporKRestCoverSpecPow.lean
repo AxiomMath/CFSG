@@ -13,20 +13,20 @@ theorem sporKRest_cover_of_data_pow {K : Type} [Group K] [Finite K] {p : ℕ} (h
     (hreps : ∀ r ∈ reps, ∀ x : K, IsConj r x → SporKRestGenerating p x)
     (hcensus : ∀ t ∈ T, t ≠ 1 → t ^ p = 1 → ∃ r ∈ reps, ∃ g : K, g⁻¹ * r * g = t) :
     SporKRestCover p K := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro E hE hcard
   have hlt : 1 < Nat.card E := by
     rw [hcard]
     nlinarith [hp.two_le]
   have hbot : E ≠ ⊥ := (Subgroup.one_lt_card_iff_ne_bot E).mp hlt
-  haveI : Nontrivial ↥E := (Subgroup.nontrivial_iff_ne_bot E).mpr hbot
+  have : Nontrivial ↥E := (Subgroup.nontrivial_iff_ne_bot E).mpr hbot
   obtain ⟨x, hxE, hx1⟩ := Subgroup.exists_ne_one_of_nontrivial E
   have hEp : IsPGroup p ↥E := IsPGroup.of_card hcard
   have hzp : IsPGroup p ↥(Subgroup.zpowers x) :=
     hEp.to_le (Subgroup.zpowers_le.mpr hxE)
   obtain ⟨Q, hxQ⟩ := hzp.exists_le_sylow
   have hxQmem : x ∈ Q := hxQ (Subgroup.mem_zpowers x)
-  letI : MulAction.IsPretransitive K (Sylow p K) :=
+  let : MulAction.IsPretransitive K (Sylow p K) :=
     Sylow.isPretransitive_of_finite (p := p) (G := K)
   obtain ⟨g, hg⟩ := MulAction.IsPretransitive.exists_smul_eq (M := K) S Q
   have hxS : g⁻¹ * x * g ∈ (S : Subgroup K) := by

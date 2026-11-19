@@ -73,26 +73,26 @@ theorem letD {A : ℕ → ℕ} (hA : lettersK A = true) (l : ℕ) : Dat (letterC
     ⟨canon4_letterCode s, Nat.eq_of_beq_eq_true (h4 s hs)⟩
   unfold letP
   by_cases hl : l < 3
-  · rw [Nat.blt_eq.mpr hl, cond_true]
+  · rw [Nat.blt_eq.mpr hl, _root_.Bool.cond_true]
     exact hs l (by omega)
   · have hb : Nat.blt l 3 = false := by
       cases hq : Nat.blt l 3
       · rfl
       · exact absurd (Nat.blt_eq.mp hq) hl
-    rw [hb, cond_false]
+    rw [hb, Bool.cond_false]
     have e : letterCode l = letterCode 3 := by
       unfold letterCode
-      rw [if_neg (by omega), if_neg (by omega), if_neg (by omega)]
+      rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by omega)]
       rfl
     rw [e]
     exact hs 3 (by omega)
 
 theorem foldD {A : ℕ → ℕ} (hA : lettersK A = true) :
-    ∀ (w : List ℕ) (acc : List ℕ) (C : ℕ), Dat acc C →
-      Dat (w.foldl (fun c l => mul4 c (letterCode l)) acc)
-        (w.foldl (fun c l => M4 c (letP A l)) C)
+    ∀ (w : List ℕ) (_acc : List ℕ) (_C : ℕ), Dat _acc _C →
+      Dat (w.foldl (fun c l => mul4 c (letterCode l)) _acc)
+        (w.foldl (fun c l => M4 c (letP A l)) _C)
   | [], _, _, h => h
-  | l :: w, acc, C, h => foldD hA w _ _ (mulD h (letD hA l))
+  | l :: w, _acc, _C, h => foldD hA w _ _ (mulD h (letD hA l))
 
 theorem wordD {A : ℕ → ℕ} (hA : lettersK A = true) (w : List ℕ) :
     Dat (wordCode w) (wordP A w) :=

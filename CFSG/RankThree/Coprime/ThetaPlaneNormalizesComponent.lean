@@ -98,7 +98,7 @@ theorem exists_sylow_normalized {p : ℕ} [Fact p.Prime] (L B : Subgroup G) (hBp
     rw [Nat.ModEq, h2, Nat.mod_eq_of_lt (Fact.out : p.Prime).one_lt] at h1
     exact zero_ne_one h1
   obtain ⟨Q₀, hQ₀⟩ := hBp.nonempty_fixed_point_of_prime_not_dvd_card (Sylow p L) hcard
-  refine ⟨(Q₀ : Subgroup L).map L.subtype, map_subtype_le _, Q₀.isPGroup'.map _,
+  refine ⟨(Q₀ : Subgroup L).map L.subtype, map_subtype_le _, Q₀.isPGroup.map _,
     fun n hn => ?_, ?_, fun N hNL hN hNp => ?_⟩
   · rw [Subgroup.card_map_of_injective (Subgroup.subtype_injective L)]
     exact Q₀.pow_dvd_card_of_pow_dvd_card hn

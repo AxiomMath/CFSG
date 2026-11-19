@@ -22,8 +22,8 @@ private theorem k330c_exists_su2_prime_order {K : Type} [Field K] {p f : ℕ}
       CFSG.HardMathSupport.Timmesfeld.FieldBonus.IsSU2 (p ^ f)
         (g : Matrix (Fin 2) (Fin 2) K) ∧ g ^ r = 1 ∧
       ∀ c : Kˣ, (g : Matrix (Fin 2) (Fin 2) K) ≠ Matrix.scalar (Fin 2) (c : K) := by
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : Finite K := h.finite
+  have : Fact r.Prime := ⟨hr⟩
+  have : Finite K := h.finite
   have hint :=
     CFSG.GH74.GLS.Stage2.Final.ModelOrd.card_statedSU_int h (n := 2) (by norm_num)
   rw [CFSG.GH74.GLS.Stage2.Final.ModelOrd.prod_Icc_two_two,
@@ -79,10 +79,10 @@ private theorem k330c_two_le_pRank_psu_of_dvd {X : Type} [Group X] [Finite X] {n
     (hr2 : r ≠ 2) (hrq : r ∣ (p ^ f) ^ 2 - 1) :
     2 ≤ CFSG.Open.pRank r (⊤ : Subgroup X) := by
   obtain ⟨⟨hp, hf, -⟩, K, hfield, hfinite, hK, ⟨e⟩⟩ := hC
-  letI : Field K := hfield
-  letI : Finite K := hfinite
+  let : Field K := hfield
+  let : Finite K := hfinite
   have h : UnitaryFieldData p f K := ⟨hp, hf, by rw [hK, ← pow_mul, mul_comm]⟩
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨g, hgS, hgr, hns⟩ := k330c_exists_su2_prime_order h hr hr2 hrq
   rw [CFSG.SectionRank.pRank_top_eq_of_mulEquiv hr.one_lt e]
   exact CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.KPLeviSub.two_le_pRank_statedSU_of_su2_block

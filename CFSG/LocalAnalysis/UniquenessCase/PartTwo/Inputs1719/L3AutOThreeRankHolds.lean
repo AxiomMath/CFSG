@@ -46,7 +46,7 @@ theorem k_L3AutOThreeRank_holds :
       have hcardM : Nat.card (hopfMultiplier (K ⧸ Subgroup.center K)) = 48 := by
         rw [← Nat.card_congr (CFSG.RankThree.PerfectCover.hopfMultiplierEquivGriess _).toEquiv,
           Nat.card_congr eM.toEquiv, Nat.card_congr Multiplicative.toAdd]
-        simp [Nat.card_prod, Nat.card_zmod]
+        simp
       have hdvd : Nat.card (Subgroup.center K) ∣
           Nat.card (hopfMultiplier (K ⧸ Subgroup.center K)) :=
         card_center_dvd_hopf (MulEquiv.refl _)
@@ -65,7 +65,7 @@ theorem k_L3AutOThreeRank_holds :
         rw [hcardF]
         calc 4 = 2 ^ 2 := by norm_num
           _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) h2f
-      haveI : Fintype F := Fintype.ofFinite F
+      have : Fintype F := Fintype.ofFinite F
       have h5 : 5 ≤ Fintype.card F := by
         rw [Fintype.card_eq_nat_card]
         omega

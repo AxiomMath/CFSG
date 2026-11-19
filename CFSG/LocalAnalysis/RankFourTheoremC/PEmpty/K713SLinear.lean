@@ -21,7 +21,7 @@ theorem outLift_projectiveSL_ge_three {ℓ n : ℕ} (hℓ : ℓ.Prime) (hℓ2 : 
   have hgen := (automorphism_generation (K := K) hn).1
   obtain ⟨hID, -, hDnorm, hEnorm, -, hcyc, -, hindex, -⟩ :=
     standard_outer_quotients (n := n) (K := K)
-  haveI : (linearAutGroup n K).Normal := GL83.I713.normal_of_subgroupOf_top hgen hDnorm
+  have : (linearAutGroup n K).Normal := GL83.I713.normal_of_subgroupOf_top hgen hDnorm
   rw [hgen, ← Subgroup.relIndex, Subgroup.relIndex_top_right] at hindex
   have hDFE : linearAutGroup n K ⊔ (fieldAut n K).range = semilinearAutGroup n K := by
     rw [semilinearAutGroup, Subgroup.closure_union, Subgroup.closure_eq, ← MonoidHom.coe_range,
@@ -95,7 +95,7 @@ theorem outLift_coordinateG {ℓ : ℕ} (hℓ : ℓ.Prime) (hℓ2 : ℓ ≠ 2) (
       Subgroup.relIndex_map_map_of_injective _ _ (coordinateConjugation_injective K),
       Subgroup.relIndex_subgroupOf (coordinateD_le_E K)]
     exact GL83.I713.relIndex_coordinateG_D_dvd_two K
-  haveI := hDn
+  have := hDn
   have h2 : ¬ ℓ ∣ 2 := fun h => hℓ2 ((Nat.prime_dvd_prime_iff_eq hℓ Nat.prime_two).1 h)
   exact outLift_of_chain hℓ (D := D) (F := F) hID hFD (fun h => h2 (h.trans hrel))
     (by rw [htop, Subgroup.index_top]; exact hℓ.not_dvd_one)
@@ -108,13 +108,13 @@ theorem liftClause_classical_PSL {n p f : ℕ} :
     eT.trans ((CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj n K).symm.trans
       (CFSG.LocalAnalysis.ComponentInitial.LinearCover.projectiveSpecialLinearEquivProjectiveSL
         n K))
-  haveI : Finite (LinearFlag.projectiveSL n K) := Finite.of_equiv S e'.toEquiv
+  have : Finite (LinearFlag.projectiveSL n K) := Finite.of_equiv S e'.toEquiv
   refine OutLift.of_mulEquiv e' ?_
   rcases (show n = 2 ∨ 3 ≤ n by omega) with rfl | hn3
   · let eT₂ : LinearFlag.projectiveSL 2 K ≃* coordinateG K :=
       (QuotientGroup.quotientMulEquivOfEq (LinearFlag.scalars_eq_center 2 K)).trans
         (pslEquivCoordinateG K)
-    haveI : Finite (coordinateG K) := Finite.of_equiv _ eT₂.toEquiv
+    have : Finite (coordinateG K) := Finite.of_equiv _ eT₂.toEquiv
     exact OutLift.of_mulEquiv eT₂ (outLift_coordinateG hℓ hℓ2 K)
   · refine outLift_projectiveSL_ge_three hℓ hℓ2 hn3 fun hpd => ?_
     have h2 := GL83.I713.two_le_pRank_projectiveSL_of_dvd hn3 hℓ hℓ2 hpd

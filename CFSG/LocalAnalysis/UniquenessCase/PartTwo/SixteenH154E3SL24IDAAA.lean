@@ -97,6 +97,7 @@ theorem s16h_sl24_natAct_transport {E E' : Type} [Field E] [Field E'] (ρ : E �
   ext a b
   simp
 
+omit [Finite W] in
 theorem s16h_sl24_transport_coord {K F : Type} [Field K] [Field F] (ρ : K ≃+* F)
     {L : Subgroup (MulAut W)}
     {π : ↥(StatedSL 2 K) →* ↥L}

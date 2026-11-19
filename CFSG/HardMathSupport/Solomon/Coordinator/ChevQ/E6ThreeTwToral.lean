@@ -74,7 +74,7 @@ theorem twToral_exists_cube_roots (hq3 : 3 ∣ ℓ ^ f + 1) {γ₁ γ₂ : unita
     (by rw [map_pow]; exact h13)
   obtain ⟨β, hβN, hβ⟩ := twPlane_exists_scalar_of_suConj_eq_one (A := γ₂ ^ 3)
     (by rw [map_pow]; exact h23)
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   have hx3 : (((γ₁ : GL (Fin 3) K) ^ 3 : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) =
       (α : K) • 1 := by
     have h1 : (γ₁ : GL (Fin 3) K) ^ 3 = GeneralLinearGroup.scalar (Fin 3) α := hα

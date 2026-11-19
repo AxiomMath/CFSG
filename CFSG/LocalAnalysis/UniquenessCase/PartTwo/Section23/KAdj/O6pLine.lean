@@ -187,7 +187,7 @@ theorem kAdjAt_of_realizes_omegaPlusSix {W : Type} [CommGroup W] [Finite W]
       kAdj_model_omegaPlusSix hK hn (hr.odd_of_ne_two hr2) ht hord)
   intro S
   obtain ⟨U, hU⟩ := exists_sylow_plusDerivedUnipotent K
-  haveI : Nonempty (Fin 3 ⊕ Fin 3) := ⟨Sum.inl 0⟩
+  have : Nonempty (Fin 3 ⊕ Fin 3) := ⟨Sum.inl 0⟩
   obtain ⟨U₀, hU₀, hfix⟩ :=
     KTabA.exists_fixedLine_statedOmega_plus_single (K := K) (p := 2) (m := 3) (by norm_num)
   obtain ⟨φ, h1, h2⟩ := exists_mulEquiv_pointStab_eq_map_sylow hreal
@@ -198,9 +198,9 @@ theorem kAdjAt_of_realizes_omegaPlusSix {W : Type} [CommGroup W] [Finite W]
 theorem kAdjAt_omegaPlusSix (W : Type) [CommGroup W] [Finite W] (H : Subgroup (MulAut W))
     (n : ℕ) (h : IsOmegaPlus ↥H 6 n ∧ NatOmegaPlus H ⊤ ⊥ 6 n) (hn : 3 ≤ n) : KAdjAt W H n := by
   obtain ⟨-, -, K, hKf, hKfin, hKcard, hreal⟩ := h
-  letI : Field K := hKf
-  letI : Finite K := hKfin
-  haveI : CharP K 2 := uc22p22d_charP_two (by omega) hKcard
+  let : Field K := hKf
+  let : Finite K := hKfin
+  have : CharP K 2 := uc22p22d_charP_two (by omega) hKcard
   exact kAdjAt_of_realizes_omegaPlusSix H hKcard (by omega) hreal
 
 end CFSG.LocalAnalysis.UniquenessCase.UC22.KAdjE

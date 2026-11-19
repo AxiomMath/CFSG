@@ -275,7 +275,7 @@ private theorem w183finG4A6_exists_not_central {B : Subgroup P10} (hB : B ≤ T0
   norm_num at hdiv
 
 private theorem w183finG4A6_elemAb_of {B : Subgroup P10} {l : List (List Nat)}
-    (hmem : ∀ x : P10, x ∈ B ↔ code x ∈ l)
+    (_hmem : ∀ x : P10, x ∈ B ↔ code x ∈ l)
     (hsurj : ∀ c ∈ l, ∃ x ∈ B, code x = c) (hB : IsElemAbelian 2 B) :
     w183finG4A6_elemAb l = true := by
   rw [w183finG4A6_elemAb, List.all_eq_true]
@@ -402,7 +402,7 @@ theorem w183finG4A6_model_T0 : ∃ T₀ : Subgroup P10, IsSylowIn 2 T₀ A6Facts
       have hstep := List.all_eq_true.1 w183finG4A6_dynkinMoves_true (code τ) hτouter
       rw [hnormT, Bool.not_true, Bool.false_or] at hstep
       have hbstep := List.all_eq_true.1 hstep (code b) hb_mem
-      simp only [helemC, Bool.not_true, Bool.false_or, Bool.not_eq_true] at hbstep
+      simp only [helemC, Bool.not_true, Bool.false_or] at hbstep
       have hnormB : w183finG4A6_normalizes (w183finG4A6_centC (code b)) (code τ) = true := by
         apply w183finG4A6_normalizes_of_mem_normalizer hmemC hsurjC
         rw [← hBCeq]

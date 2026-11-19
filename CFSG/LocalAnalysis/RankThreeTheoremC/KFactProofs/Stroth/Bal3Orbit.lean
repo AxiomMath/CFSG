@@ -19,12 +19,12 @@ theorem RedConfig.le_normalizer_of_forall (h : RedConfig p P z D) (hQ : CFSG.pCo
     {K : Subgroup X} (hK : IsComponentOf K ⊤) : (P : Subgroup X) ≤ normalizer (K : Set X) := by
   classical
   have hp := h.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp3 : 2 < p := lt_of_le_of_ne hp.two_le (Ne.symm h.ne_two)
-  refine le_normalizer_of_card_components_le hp (m := 2) hp3 ?_ P.isPGroup' hK
+  refine le_normalizer_of_card_components_le hp (m := 2) hp3 ?_ P.isPGroup hK
   intro S hS
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   obtain ⟨K₁, h₁S, K₂, h₂S, K₃, h₃S, h₁₂, h₁₃, h₂₃⟩ := Finset.two_lt_card.1 hlt
   have hK₁ := hS K₁ h₁S
   have hK₂ := hS K₂ h₂S
@@ -102,6 +102,7 @@ theorem RedConfig.le_normalizer_of_forall (h : RedConfig p P z D) (hQ : CFSG.pCo
   omega
 
 
+omit [Finite X] in
 theorem orbit_three {d : X} (hd3 : d ^ 3 = 1) {K₁ : Subgroup X} (hK₁ : IsComponentOf K₁ ⊤)
     (hnd : d ∉ normalizer (K₁ : Set X))
     (hcard : ∀ S : Finset (Subgroup X), (∀ K ∈ S, IsComponentOf K ⊤) → S.card ≤ 3) :
@@ -126,7 +127,7 @@ theorem orbit_three {d : X} (hd3 : d ^ 3 = 1) {K₁ : Subgroup X} (hK₁ : IsCom
     h13, h23, hc3, ?_⟩
   intro L hL
   by_contra hne
-  push_neg at hne
+  push Not at hne
   obtain ⟨hL1, hL2, hL3⟩ := hne
   have := hcard {K₁, MulAut.conj d • K₁, MulAut.conj d • (MulAut.conj d • K₁), L} (by
     intro K hK
@@ -208,9 +209,9 @@ theorem not_mem_sup_of_cycle (hZ : ∀ K : Subgroup X, IsComponentOf K ⊤ → c
 theorem RedConfig.mem_layer (h : RedConfig p P z D) {K : Subgroup X} (hK : IsComponentOf K ⊤) :
     z ∈ CFSG.layer X := by
   have hp := h.prime
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI hch : (CFSG.layer X).Characteristic := CFSG.LocalCores.layer_characteristic
-  haveI : (CFSG.layer X).Normal := inferInstance
+  have : Fact p.Prime := ⟨hp⟩
+  have hch : (CFSG.layer X).Characteristic := CFSG.LocalCores.layer_characteristic
+  have : (CFSG.layer X).Normal := inferInstance
   obtain ⟨t, htRK, ht, -⟩ := exists_mem_sylow_inf_component hp h.ne_two h.core P hK
   have hN : (P : Subgroup X) ⊓ CFSG.layer X ≠ ⊥ := by
     intro hbot
@@ -218,7 +219,7 @@ theorem RedConfig.mem_layer (h : RedConfig p P z D) {K : Subgroup X} (hK : IsCom
     rw [hbot, mem_bot] at htl
     rw [htl, orderOf_one] at ht
     exact hp.one_lt.ne ht
-  have hz := mem_of_normalizing_ne_bot hp P.isPGroup' hN inf_le_left
+  have hz := mem_of_normalizing_ne_bot hp P.isPGroup hN inf_le_left
     ((le_inf le_normalizer (by rw [normalizer_eq_top]; exact le_top)).trans
       inf_normalizer_le_normalizer_inf) h.ord h.unique
   exact hz.2

@@ -95,7 +95,7 @@ theorem uT_conj (e : E) : uT * σE e * uT = σE (cE e) := by
     have hi : i.val < 11 := lt_of_lt_of_eq i.isLt gcount
     have hg : (PresentedGroup.of i : fi24PrimePresentation.Group) =
         presGen fi24PrimePresentation i.val := by
-      rw [presGen, dif_pos i.isLt]
+      rw [presGen, dite_eq_left i.isLt]
     have he : cE (fi24PrimeGroupMulEquivCommutator (presGen fi24PrimePresentation i.val)) =
         (fi24PrimeGroupMulEquivCommutator (presGen fi24PrimePresentation i.val))⁻¹ := by
       apply Subtype.ext
@@ -133,7 +133,7 @@ theorem g0_mul_mem {q : Fi24AutomorphismGroup} (hq : q ∉ E) : g0 0 * q ∈ E :
 
 theorem σG_mem {q : Fi24AutomorphismGroup} (h : q ∈ E) : σG q = σE ⟨q, h⟩ := by
   unfold σG
-  rw [dif_pos h]
+  rw [dite_eq_left h]
 
 theorem σG_mul {q p : Fi24AutomorphismGroup} (hq : q ∈ E) (hp : p ∈ E) :
     σG (q * p) = σG q * σG p := by
@@ -155,11 +155,11 @@ theorem uT_conjG {q : Fi24AutomorphismGroup} (hq : q ∈ E) :
 
 theorem τf_mem {q : Fi24AutomorphismGroup} (h : q ∈ E) : τf q = σG q := by
   unfold τf
-  rw [if_pos h]
+  rw [ite_eq_left h]
 
 theorem τf_not {q : Fi24AutomorphismGroup} (h : q ∉ E) : τf q = uT * σG (g0 0 * q) := by
   unfold τf
-  rw [if_neg h]
+  rw [ite_eq_right h]
 
 theorem τf_mul (q p : Fi24AutomorphismGroup) : τf (q * p) = τf q * τf p := by
   by_cases hq : q ∈ E <;> by_cases hp : p ∈ E

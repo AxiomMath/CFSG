@@ -14,7 +14,7 @@ open CFSG.ClassicalInvolution.Q3.TA3.Twin3 QuaternionGroup
 variable {Y : Type} [Group Y] [Finite Y] {R : Subgroup Y} {S : Sylow 2 R} {t : Y}
 
 theorem false_of_sz8_q8
-    (hd : TightDatum R S t) (hq : Q8Emb R t)
+    (_hd : TightDatum R S t) (hq : Q8Emb R t)
     (hH : TwinFr.TwinHyp (genFittingFStar Y) R S t)
     (hS : GH74.E2.Shape2Sz8 ↥(genFittingFStar Y)) : False := by
   set L := genFittingFStar Y

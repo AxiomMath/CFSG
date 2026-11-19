@@ -54,8 +54,8 @@ theorem card_sup_le_rank_of_chevAut_eq_one {X J D E W : Subgroup Ω} (hJ : GLAPC
     (hDW : D ≤ Subgroup.normalizer (W : Set Ω))
     (hW1 : ∀ w (hw : w ∈ W), chevAut 3 J ⟨w, hWN hw⟩ = 1) :
     Nat.card ↥(E ⊔ D) ≤ 3 ^ GLATwoLocalRank 3 Ω := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hOJ : GLAPPrimeCoreOf 3 J ≤ J := Subgroup.map_subtype_le _
   have hcent : ∀ w ∈ W, (⁅J, Subgroup.zpowers w⁆ : Subgroup Ω) ≤ GLAPPrimeCoreOf 3 J :=
     fun w hw => ((chevAut_eq_one_iff Nat.prime_three hJ (hWN hw)).mp (hW1 w hw)).2
@@ -104,7 +104,7 @@ theorem card_sup_le_rank_of_chevAut_eq_one {X J D E W : Subgroup Ω} (hJ : GLAPC
     Nat.prime_two hED.isPGroup (sup_le hEM hDM) h3M
   exact T263.card_le_of_normalizes (fun h => Sylow.ne_bot_of_dvd_card S h2M
     ((Subgroup.map_eq_bot_iff_of_injective _ M.subtype_injective).mp h))
-    (S.isPGroup'.map M.subtype) hED hS
+    (S.isPGroup.map M.subtype) hED hS
 
 private theorem chevAut_eq_one_of_sp6 {X J B D W : Subgroup Ω} (hN : NLAct 3 X J B D)
     (hB : IsElemAbelian 3 B) (hr : Nat.card B = 9 * Nat.card D)

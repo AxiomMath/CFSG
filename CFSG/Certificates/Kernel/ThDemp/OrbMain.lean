@@ -44,6 +44,7 @@ namespace SuborbitHyp
 variable (H : SuborbitHyp D u p)
 include H
 
+omit [MulAction G X] H in
 theorem finD : Finite D := Subgroup.instFiniteSubtypeMem D
 
 theorem orbit_u : orbit D u = {u} := by
@@ -56,7 +57,7 @@ theorem orbit_u : orbit D u = {u} := by
     exact mem_orbit_self _
 
 theorem ncard_orbit (i : Fin 11) : (orbit D (pts u p i)).ncard = oSize i := by
-  have : Finite D := H.finD
+  have : Finite D := SuborbitHyp.finD
   have hpos : ∀ s, 0 < s → ∀ i : Fin 9, Nat.card (stabilizer D (p i.castSucc)) = s →
       (orbit D (p i.castSucc)).ncard = 319979520 / s := by
     intro s hs i hi
@@ -77,12 +78,13 @@ theorem ncard_orbit (i : Fin 11) : (orbit D (pts u p i)).ncard = oSize i := by
   · exact hpos 155 (by norm_num) 8 (H.stab 8)
   · exact H.orb9
 
+omit [Finite G] H in
 theorem ncard_eq_of_mem {a b : X} (h : b ∈ orbit D a) : (orbit D b).ncard = (orbit D a).ncard := by
   rw [orbit_eq_iff.mpr h]
 
 theorem disjoint (i j : Fin 11) (hij : i ≠ j) : pts u p j ∉ orbit D (pts u p i) := by
   intro h
-  have e := H.ncard_eq_of_mem h
+  have e := SuborbitHyp.ncard_eq_of_mem h
   rw [H.ncard_orbit, H.ncard_orbit] at e
   have s56 : p 5 ∉ orbit D (p 6) := fun h' => H.dis56 (by
     rw [orbit_eq_iff.mpr h']
@@ -144,21 +146,25 @@ noncomputable def conjSet (D : Subgroup G) [Finite D] (p : X) (x : D) : Finset D
   have : Fintype D := Fintype.ofFinite D
   exact Finset.univ.filter (fun t => t ∈ stabilizer D p ∧ IsConj x t)
 
+omit [Finite G] in
 theorem mem_conjSet {D : Subgroup G} [Finite D] {p : X} {x t : D} :
     t ∈ conjSet D p x ↔ t ∈ stabilizer D p ∧ IsConj x t := by
   classical
   unfold conjSet
   simp
 
+omit [Finite G] in
 theorem fix_mul_le_conjSet (D : Subgroup G) [Finite D] (p : X) (x : D) :
     {q ∈ orbit D p | x • q = q}.ncard * Nat.card (stabilizer D p) ≤
       Nat.card (Subgroup.centralizer ({x} : Set D)) * (conjSet D p x).card :=
-  ncard_fix_mul_le D p x (conjSet D p x) (fun t ht hc => mem_conjSet.mpr ⟨ht, hc⟩)
+  ncard_fix_mul_le D p x (conjSet D p x) (fun _t ht hc => mem_conjSet.mpr ⟨ht, hc⟩)
 
+omit [Finite G] in
 theorem card_conjSet_le (D : Subgroup G) [Finite D] (p : X) (x : D) (T : Finset D)
     (hT : ∀ t ∈ stabilizer D p, IsConj x t → t ∈ T) : (conjSet D p x).card ≤ T.card :=
   Finset.card_le_card fun t ht => hT t (mem_conjSet.mp ht).1 (mem_conjSet.mp ht).2
 
+omit [Finite G] in
 theorem card_conjSet_add_le (D : Subgroup G) [Finite D] (p : X) (x : D) (E : Finset D)
     (hE : ∀ e ∈ E, e ∈ stabilizer D p ∧ ¬ IsConj x e) :
     (conjSet D p x).card + E.card ≤ Nat.card (stabilizer D p) := by
@@ -188,6 +194,7 @@ noncomputable def powSet (D : Subgroup G) (y : D) : Finset D := by
   classical
   exact (Finset.range 31).image (fun k => y ^ k)
 
+omit [Finite G] in
 theorem card_powSet (D : Subgroup G) (y : D) (hy : orderOf y = 31) : (powSet D y).card = 31 := by
   classical
   unfold powSet
@@ -198,6 +205,7 @@ theorem card_powSet (D : Subgroup G) (y : D) (hy : orderOf y = 31) : (powSet D y
     rw [hy] at this
     exact this (by simpa using ha) (by simpa using hb) e
 
+omit [Finite G] in
 theorem powSet_spec (D : Subgroup G) (p : X) {y x : D} (hyp : y ∈ stabilizer D p)
     (hy : orderOf y = 31) (hx : orderOf x = 5) :
     ∀ e ∈ powSet D y, e ∈ stabilizer D p ∧ ¬ IsConj x e := by
@@ -237,10 +245,11 @@ theorem fix_u (x : D) : {q ∈ orbit D (pts u p 0) | x • q = q}.ncard ≤ 1 :=
     rwa [H.orbit_u] at hq
   exact (Set.ncard_le_ncard this (Set.finite_singleton u)).trans (Set.ncard_singleton u).le
 
+omit H in
 theorem fix_coprime (x : D) {n : ℕ} (hx : orderOf x = n) (hn : 1 < n) (i : Fin 10)
     (hcop : Nat.Coprime n (Nat.card (stabilizer D (p i)))) :
     {q ∈ orbit D (p i) | x • q = q}.ncard = 0 := by
-  have : Finite D := H.finD
+  have : Finite D := SuborbitHyp.finD
   have h := fix_mul_le_conjSet D (p i) x
   have he : conjSet D (p i) x = ∅ := by
     classical
@@ -252,7 +261,7 @@ theorem fix_coprime (x : D) {n : ℕ} (hx : orderOf x = n) (hn : 1 < n) (i : Fin
   exact Nat.eq_zero_of_le_zero (Nat.le_of_mul_le_mul_right (by simpa using h) hpos)
 
 theorem card_stab9 : Nat.card (stabilizer D (p 9)) = 1290240 := by
-  have : Finite D := H.finD
+  have : Finite D := SuborbitHyp.finD
   have h := ncard_orbit_mul_card_stabilizer D (p 9)
   rw [H.orb9, H.cardD] at h
   omega
@@ -262,11 +271,11 @@ theorem card_centralizer_five (x : D) (hx : orderOf x = 5)
     (h9 : {q ∈ orbit D (p 9) | x • q = q}.ncard ≤ 3) (ya yb : D) (ha : ya ∈ stabilizer D (p 7))
     (hb : yb ∈ stabilizer D (p 8)) (hoa : orderOf ya = 31) (hob : orderOf yb = 31) :
     Nat.card (Subgroup.centralizer ({(x : G)} : Set G)) ≤ 3000 := by
-  have : Finite D := H.finD
+  have : Finite D := SuborbitHyp.finD
   have hz : ∀ i : Fin 9, Nat.Coprime 5 (sOf i) →
       {q ∈ orbit D (p i.castSucc) | (x : G) • q = q}.ncard = 0 := by
     intro i hi
-    refine H.fix_coprime x hx (by norm_num) i.castSucc ?_
+    refine CFSG.Certificates.ThDemp.OrbMain.SuborbitHyp.fix_coprime x hx (by norm_num) i.castSucc ?_
     rw [H.stab i]
     exact hi
   have h5 : ∀ i : Fin 9, sOf i = 5 → {q ∈ orbit D (p i.castSucc) | (x : G) • q = q}.ncard ≤ 24 := by
@@ -333,15 +342,15 @@ theorem card_centralizer_thirtyone (x : D) (hx : orderOf x = 31)
     (hx₁ : (x : G) • ω₁ = ω₁) (hx₂ : (x : G) • ω₂ = ω₂)
     (hc : ∀ c ∈ Subgroup.centralizer ({(x : G)} : Set G), c • u ≠ ω₁ ∧ c • u ≠ ω₂) :
     Nat.card (Subgroup.centralizer ({(x : G)} : Set G)) ≤ 31 := by
-  have : Finite D := H.finD
+  have : Finite D := SuborbitHyp.finD
   have hz : ∀ i : Fin 9, Nat.Coprime 31 (sOf i) →
       {q ∈ orbit D (p i.castSucc) | (x : G) • q = q}.ncard = 0 := by
     intro i hi
-    refine H.fix_coprime x hx (by norm_num) i.castSucc ?_
+    refine CFSG.Certificates.ThDemp.OrbMain.SuborbitHyp.fix_coprime x hx (by norm_num) i.castSucc ?_
     rw [H.stab i]
     exact hi
   have h9 : {q ∈ orbit D (p 9) | (x : G) • q = q}.ncard = 0 :=
-    H.fix_coprime x hx (by norm_num) 9 (by rw [H.card_stab9]; decide)
+    CFSG.Certificates.ThDemp.OrbMain.SuborbitHyp.fix_coprime x hx (by norm_num) 9 (by rw [H.card_stab9]; decide)
   have h155 : ∀ i : Fin 9, sOf i = 155 → ∀ T : Finset D, T.card ≤ 5 →
       (∀ t ∈ stabilizer D (p i.castSucc), IsConj x t → t ∈ T) →
       {q ∈ orbit D (p i.castSucc) | (x : G) • q = q}.ncard ≤ 1 := by
@@ -389,10 +398,10 @@ theorem card_centralizer_thirtyone (x : D) (hx : orderOf x = 31)
       rintro q (rfl | rfl)
       · exact ⟨hω₁, hx₁⟩
       · exact ⟨hω₂, hx₂⟩
-    rw [Set.ncard_diff hsub2, Set.ncard_pair h12]
+    rw [Set.ncard_sdiff hsub2, Set.ncard_pair h12]
     omega
   have horb : (orbit C u).ncard ≤ 1 :=
-    (Set.ncard_le_ncard hsub hfin.diff).trans hcard2
+    (Set.ncard_le_ncard hsub hfin.sdiff).trans hcard2
   have h1 := ncard_orbit_mul_card_stabilizer C u
   have e : stabilizer C u ≃ ↥(C ⊓ stabilizer G u) :=
     { toFun := fun s => ⟨s.1.1, s.1.2, s.2⟩

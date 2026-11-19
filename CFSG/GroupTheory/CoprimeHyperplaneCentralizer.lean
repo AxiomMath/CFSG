@@ -20,19 +20,19 @@ theorem exists_hyperplane_not_le_centralizer_inf_centralizer {r : ℕ} [Fact r.P
     ∃ Y : Subgroup G, Y ≤ E ∧ Nat.card Y * r = Nat.card E ∧
       ¬ E ≤ Subgroup.centralizer ((Q ⊓ Subgroup.centralizer (Y : Set G) : Subgroup G) : Set G) := by
   classical
-  haveI : Nontrivial E := by
+  have : Nontrivial E := by
     refine Finite.one_lt_card_iff_nontrivial.mp ?_
     have hr2 : 2 ≤ r := (Fact.out : r.Prime).two_le
     nlinarith
-  haveI : IsElementaryAbelian r E :=
+  have : IsElementaryAbelian r E :=
     { is_comm := hE.1.is_comm
       exponent_dvd_p := Monoid.exponent_dvd_of_forall_pow_eq_one fun x =>
         Subtype.ext (hE.2 x x.2) }
-  letI : Subgroup.Normalizes E Q := ⟨hEQ⟩
+  let : Subgroup.Normalizes E Q := ⟨hEQ⟩
   have hgen : ⨆ (B : Subgroup E) (_ : B.index = r), fixedPointSubgroup B Q = ⊤ :=
     CFSG.SolvableHall.coprime_hyperplane_generation (p := r) (A := E) (H := Q) hrQ
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hQ : Q ≤ Subgroup.centralizer (E : Set G) := by
     have hle : (⨆ (B : Subgroup E) (_ : B.index = r), fixedPointSubgroup B Q) ≤
         (Subgroup.centralizer (E : Set G)).comap Q.subtype := by

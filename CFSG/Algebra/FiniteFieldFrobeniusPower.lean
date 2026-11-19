@@ -14,9 +14,9 @@ theorem exists_pow_apply_eq_of_orderOf_eq_prime {F : Type} [Field F] [Finite F] 
     ∃ j : ℕ, 3 ≤ q ^ (f / p) ∧ Odd (q ^ (f / p)) ∧
       ∀ x : F, σ x = x ^ ((q ^ (f / p)) ^ j) := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI := Fintype.ofFinite F
-  haveI : Finite (F ≃+* F) :=
+  have : Fact q.Prime := ⟨hq⟩
+  have := Fintype.ofFinite F
+  have : Finite (F ≃+* F) :=
     Finite.of_injective (fun e : F ≃+* F => (e : F → F))
       (fun a b h => DFunLike.ext a b (congrFun h))
   have hqodd : Odd q := hq.odd_of_ne_two hq2

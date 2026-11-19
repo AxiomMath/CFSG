@@ -115,8 +115,8 @@ theorem hit_eq (X c : ℕ) : hit X c = if c * X / 2 ^ 24 % 256 % 7 = 0 then 1 el
   change Bool.rec (motive := fun _ => ℕ) 0 1 (Nat.beq (((c * X) >>> 24) % 256 % 7) 0) = _
   rw [Nat.shiftRight_eq_div_pow]
   cases hb : Nat.beq (c * X / 2 ^ 24 % 256 % 7) 0
-  · rw [if_neg (Nat.ne_of_beq_eq_false hb)]
-  · rw [if_pos (Nat.eq_of_beq_eq_true hb)]
+  · rw [ite_eq_right (Nat.ne_of_beq_eq_false hb)]
+  · rw [ite_eq_left (Nat.eq_of_beq_eq_true hb)]
 
 theorem cnt_eq (X : ℕ) (T : List ℕ) :
     cnt X T = T.countP (fun c => c * X / 2 ^ 24 % 256 % 7 = 0) := by
@@ -125,7 +125,7 @@ theorem cnt_eq (X : ℕ) (T : List ℕ) :
   | cons c T ih =>
     have e : cnt X (c :: T) = hit X c + cnt X T := rfl
     rw [e, ih, List.countP_cons, hit_eq]
-    by_cases h : c * X / 2 ^ 24 % 256 % 7 = 0 <;> simp [h, Nat.add_comm]
+    by_cases h : c * X / 2 ^ 24 % 256 % 7 = 0 <;> simp [Nat.add_comm]
 
 theorem cnt_map {lin : List ℤ → ℤ × ℤ × ℤ × ℤ} (R : List (List ℤ))
     (z : ℕ → ℕ → ℕ → ℕ → Fin Tag.E8.rank → ZMod 7)

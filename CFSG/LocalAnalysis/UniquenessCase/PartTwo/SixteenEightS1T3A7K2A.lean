@@ -10,7 +10,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 theorem s16t3_le_sup_of_sylow {M₀ : Type*} [Group M₀] [Finite M₀]
     {H N₀ L₀ P : Subgroup M₀} (hN₀H : N₀ ≤ H) (hN₀ : (N₀.subgroupOf H).Normal)
-    (hL₀ : L₀ ≤ N₀)
+    (_hL₀ : L₀ ≤ N₀)
     (hthirds : ∀ a b c : M₀, a ∈ N₀ → b ∈ N₀ → c ∈ N₀ →
       a⁻¹ * b ∈ L₀ ∨ a⁻¹ * c ∈ L₀ ∨ b⁻¹ * c ∈ L₀)
     (hP : IsSylowIn 2 P H) :

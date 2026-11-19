@@ -19,6 +19,7 @@ open Subgroup CFSG.Open CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem rho1_incl_eq_conj {K R : Subgroup G}
     (hRK : R ≤ Subgroup.normalizer (K : Set G)) (k : ↥K) :
     uc22p22rRho1 K R hRK ⟨k, Subgroup.mem_sup_left k.2⟩ =
@@ -30,6 +31,7 @@ private theorem rho1_incl_eq_conj {K R : Subgroup G}
   rw [uc22p22rRho1_mk, h, MulAut.conj_apply]
   rw [← QuotientGroup.mk_inv, ← QuotientGroup.mk_mul, ← QuotientGroup.mk_mul]
 
+omit [Finite G] in
 private theorem rho1_inclR_mem_conj_range {K R : Subgroup G}
     {n : ℕ} (hSz : IsSz (Bar2 K) n) (hR : IsPGroup 2 R)
     (hRK : R ≤ Subgroup.normalizer (K : Set G)) (r : ↥R) :
@@ -43,6 +45,7 @@ private theorem rho1_inclR_mem_conj_range {K R : Subgroup G}
     Subtype.ext (congrArg (fun x : ↥R => (x : G)) hm)
   rw [← map_pow, hr1, map_one]
 
+omit [Finite G] in
 private theorem rho1_range_le_conj_range {K R : Subgroup G}
     {n : ℕ} (hSz : IsSz (Bar2 K) n) (hR : IsPGroup 2 R)
     (hRK : R ≤ Subgroup.normalizer (K : Set G)) :

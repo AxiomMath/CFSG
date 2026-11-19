@@ -35,8 +35,8 @@ theorem ggTWDGen_valid {p N : ℕ} [Fact p.Prime] (hN : 5 ≤ N) {news : List GG
     have hA : ggDepANToZ p N (ggDepANA p N g) = ggDepAα p N ⟨g, hg'⟩ :=
       l05nNC_toZ_A (p := p) (N := N) (i := g) h
     refine ⟨?_, ?_, ?_⟩
-    · simpa [ggTWDGen, if_pos h] using hHlen
-    · simpa [ggTWDGen, if_pos h] using hAlen
+    · simpa [ggTWDGen, ite_eq_left h] using hHlen
+    · simpa [ggTWDGen, ite_eq_left h] using hAlen
     · have hdot : ggDepAdot (ggDepANToZ p N (ggDepANA p N g))
           (ggDepANToZ p N (ggDepANH p N g)) = 2 := by
         rw [hA, hH]
@@ -48,11 +48,11 @@ theorem ggTWDGen_valid {p N : ℕ} [Fact p.Prime] (hN : 5 ≤ N) {news : List GG
           ((2 % p : ℕ) : ZMod p) := by
         rw [ZMod.natCast_mod]; exact hcast
       rw [ZMod.natCast_eq_natCast_iff'] at h2
-      simpa [ggTWDGen, if_pos h, ggDepANDot, Nat.mod_mod] using h2
+      simpa [ggTWDGen, ite_eq_left h, ggDepANDot, Nat.mod_mod] using h2
   · have hk : g + 1 - N < news.length := by omega
     have hmem : news[g + 1 - N] ∈ news := List.getElem_mem hk
     have hq := hnews (news[g + 1 - N]) hmem
-    rw [ggTWDGen, if_neg h,
+    rw [ggTWDGen, ite_eq_right h,
       List.getD_eq_getElem (l := news) (d := ([], [])) (n := g + 1 - N) hk]
     exact hq
 
@@ -65,10 +65,10 @@ theorem ggTWDGen_mem {p N : ℕ} [Fact p.Prime] (hN : 5 ≤ N) {news : List GGDe
       l05nNC_toZ_H (p := p) (N := N) (i := g) h
     have hA : ggDepANToZ p N (ggDepANA p N g) = ggDepAα p N ⟨g, hg'⟩ :=
       l05nNC_toZ_A (p := p) (N := N) (i := g) h
-    simp only [ggTWDRflOf, ggTWDGen, if_pos h, hH, hA]
+    simp only [ggTWDRflOf, ggTWDGen, ite_eq_left h, hH, hA]
     exact Submonoid.subset_closure (Or.inl ⟨⟨g, hg'⟩, rfl⟩)
   · have hk : g + 1 - N < news.length := by omega
-    rw [ggTWDRflOf, ggTWDGen, if_neg h,
+    rw [ggTWDRflOf, ggTWDGen, ite_eq_right h,
       List.getD_eq_getElem (l := news) (d := ([], [])) (n := g + 1 - N) hk]
     exact Submonoid.subset_closure (Or.inr ⟨news[g + 1 - N], List.getElem_mem hk, rfl⟩)
 
@@ -148,7 +148,7 @@ private lemma l05nD2_word {p N : ℕ} [Fact p.Prime] (hN : 5 ≤ N)
           (ggDepANToZ p N (ggTWDGen p N news g).2) hdg]
         exact Submonoid.mul_mem _ (Submonoid.mul_mem _ (hmem g hg) ihM) (hmem g hg)
 
-theorem ggTWDWord_valid_mem {p N : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) (hN : 5 ≤ N)
+theorem ggTWDWord_valid_mem {p N : ℕ} [Fact p.Prime] (_hp2 : p ≠ 2) (hN : 5 ≤ N)
     {news : List GGDepANPair} (hnews : ∀ q ∈ news, GGTWDValid p N q) {q : GGDepANPair}
     (hq : GGTWDValid p N q) (hqm : ggTWDRflOf p N q ∈ Submonoid.closure (ggTWDGens p N news))
     {w : List ℕ} (hw : ∀ g ∈ w, g < N - 1 + news.length) :

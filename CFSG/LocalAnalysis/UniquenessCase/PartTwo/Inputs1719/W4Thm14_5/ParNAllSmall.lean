@@ -33,7 +33,7 @@ theorem nParam_eq_of_natL2 {H S P : Subgroup (MulAut W)} {k n : ℕ}
   obtain ⟨hL2, -⟩ :=
     kTab23b_holds W H k (Or.inl h) hperf hS.toSylow ((hS.toSylow : Subgroup ↥H).map H.subtype)
       ((Subgroup.map_subtype_le _).trans Subgroup.le_normalizer)
-      ((hS.toSylow.isPGroup').map H.subtype) le_rfl
+      ((hS.toSylow.isPGroup).map H.subtype) le_rfl
   exact nParam_eq_of_forall_minimal_eq_top hS hBP hPH hcomm hN (hL2 h)
 
 theorem nParam_eq_two_mul_of_natOmegaMinusFour {H S P : Subgroup (MulAut W)} {k n : ℕ}
@@ -44,7 +44,7 @@ theorem nParam_eq_two_mul_of_natOmegaMinusFour {H S P : Subgroup (MulAut W)} {k 
     kTab23b_holds W H k (Or.inr (Or.inl h)) hperf hS.toSylow
       ((hS.toSylow : Subgroup ↥H).map H.subtype)
       ((Subgroup.map_subtype_le _).trans Subgroup.le_normalizer)
-      ((hS.toSylow.isPGroup').map H.subtype) le_rfl
+      ((hS.toSylow.isPGroup).map H.subtype) le_rfl
   exact nParam_eq_of_forall_minimal_eq_top hS hBP hPH hcomm hN (hO4m h)
 
 private theorem nParam_eq_of_prodFirstFactor_le {H S P : Subgroup (MulAut W)} {k n : ℕ}

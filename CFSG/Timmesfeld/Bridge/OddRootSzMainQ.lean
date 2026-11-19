@@ -15,6 +15,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G] {D : Set G} {d e : G} {E : Set G} {n : ℕ}
 
+omit [Finite G] in
 private theorem qComp_commute (c : SzCfg G D d E e n)
     {a : ↥(Subgroup.closure E)} (ha : a ∈ szE E)
     {x y : ↥(Subgroup.closure E)}
@@ -23,6 +24,7 @@ private theorem qComp_commute (c : SzCfg G D d E e n)
   OddTransp.commute_of_mem_commutator_self c.setup.oddT c.setup.normal
     (CFSG.pCore_isPGroup (p := 2) (G := ↥(Subgroup.closure E))) ha hx hy
 
+omit [Finite G] in
 private theorem qComp_mul_self (c : SzCfg G D d E e n)
     {a : ↥(Subgroup.closure E)} (ha : a ∈ szE E)
     {x : ↥(Subgroup.closure E)}
@@ -62,11 +64,13 @@ private theorem qComp_mul_self (c : SzCfg G D d E e n)
     simpa only [S, Q, H, K] using hxc
   exact OddLocal.mul_self_eq_one_of_mem_closure hS_pair hS_sq hxclosure
 
+omit [Finite G] in
 private theorem qComp_le_pCore {a : ↥(Subgroup.closure E)} :
     ⁅CFSG.pCore 2 ↥(Subgroup.closure E), Subgroup.zpowers a⁆ ≤
       CFSG.pCore 2 ↥(Subgroup.closure E) :=
   Subgroup.commutator_le_left _ _
 
+omit [Finite G] in
 theorem commutator_szQ_le (E : Set G) {a : G} (ha : a ∈ Subgroup.closure E) :
     ⁅szQ E, Subgroup.zpowers a⁆ ≤ szQ E := by
   let H : Subgroup G := Subgroup.closure E
@@ -80,6 +84,7 @@ theorem commutator_szQ_le (E : Set G) {a : G} (ha : a ∈ Subgroup.closure E) :
   rintro x ⟨y, hy, rfl⟩
   exact Subgroup.mem_map_of_mem H.subtype (Subgroup.commutator_le_left Q _ hy)
 
+omit [Finite G] in
 theorem SzCfg.commute_of_mem_commutator (c : SzCfg G D d E e n) {a t y : G} (ha : a ∈ E)
     (ht : t ∈ szComp E a) (hy : y ∈ ⁅szQ E, Subgroup.zpowers a⁆) : Commute t y := by
   let H : Subgroup G := Subgroup.closure E
@@ -558,6 +563,7 @@ private theorem square_mem_center (c : SzCfg G D d E e n)
   exact Subgroup.mul_mem _ hcross hxa2.1
 
 
+omit [Finite G] in
 private theorem mem_szZ_of_mem_center
     {y : ↥(Subgroup.closure E)} (hyQ : y ∈ CFSG.pCore 2 ↥(Subgroup.closure E))
     (hyZ : y ∈ Subgroup.center ↥(Subgroup.closure E)) : (y : G) ∈ szZ E := by

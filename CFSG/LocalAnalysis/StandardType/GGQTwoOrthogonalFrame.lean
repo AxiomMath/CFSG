@@ -45,17 +45,17 @@ theorem mem_of_full_three_card
     (hcard : Nat.card E = 3 ^ n) {g : V ≃ₗ[K] V}
     (hg3 : g ^ 3 = 1) (hgE : ∀ e ∈ E, g * e = e * g) : g ∈ E := by
   classical
-  letI : Finite V := Module.finite_of_finite K
-  letI : Finite (V ≃ₗ[K] V) :=
+  let : Finite V := Module.finite_of_finite K
+  let : Finite (V ≃ₗ[K] V) :=
     Finite.of_injective (fun x : V ≃ₗ[K] V => (x : V → V)) DFunLike.coe_injective
   let C := Subgroup.zpowers g
   let S := E ⊔ C
-  letI : CFSG.IsElementaryAbelian 3 E := hE.isElementaryAbelian
-  letI : CFSG.IsElementaryAbelian 3 C :=
+  let : CFSG.IsElementaryAbelian 3 E := hE.isElementaryAbelian
+  let : CFSG.IsElementaryAbelian 3 C :=
     (CFSG.Open.isElemAbelian_zpowers hg3).isElementaryAbelian
   have hCE : C ≤ Subgroup.centralizer (E : Set (V ≃ₗ[K] V)) :=
     Subgroup.zpowers_le.mpr (Subgroup.mem_centralizer_iff.mpr fun e he => (hgE e he).symm)
-  letI : CFSG.IsElementaryAbelian 3 S := CFSG.IsElementaryAbelian.sup_of_le_centralizer hCE
+  let : CFSG.IsElementaryAbelian 3 S := CFSG.IsElementaryAbelian.sup_of_le_centralizer hCE
   have hS : CFSG.Open.IsElemAbelian 3 S := CFSG.Open.isElemAbelian_of_isElementaryAbelian
   let f := (LinearMap.GeneralLinearGroup.generalLinearEquiv K V).symm
   let X := S.map f.toMonoidHom
@@ -83,7 +83,7 @@ theorem exists_full_torus_data
     (hE : CFSG.Open.IsElemAbelian 3 E) (hcard : Nat.card E = 3 ^ n) :
     Nonempty (OrthTorus.TBJOmData Q 3 E n) := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hT : ∃ T : Submodule K V, finrank K T = 3 ∧ ∀ v ∈ T, Q v = 0 :=
     CFSG.LocalAnalysis.GLTheoremA.S172C.Cent.exists_threeSingular hQ hdim (by
       by_cases hplus : CFSG.GroupTheory.WeirSylow.IsPlusType Q

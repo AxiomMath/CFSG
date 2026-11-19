@@ -35,8 +35,8 @@ theorem kel_mul (a b c d : Bool) : kel a b * kel c d = kel (xor a c) (xor b d) :
   have c₁ : g₆ * g₅ = g₅ * g₆ := h.comm.symm
   have c₂ : ∀ x, g₆ * (g₅ * x) = g₅ * (g₆ * x) := fun x => by rw [← mul_assoc, c₁, mul_assoc]
   cases a <;> cases b <;> cases c <;> cases d <;>
-    simp only [kel, Bool.false_eq_true, ↓reduceIte, Bool.xor_false, Bool.false_xor, Bool.xor_true,
-      Bool.true_xor, Bool.not_false, Bool.not_true, mul_one, one_mul, mul_assoc, e₅, e₆, c₁, c₂,
+    simp only [kel, Bool.false_eq_true, ↓reduceIte, Bool.xor_false, Bool.xor_true,
+      Bool.not_false, Bool.not_true, mul_one, one_mul, mul_assoc, e₅, c₁, c₂,
       h.sq₅, h.sq₆]
 
 theorem kel_sq (a b : Bool) : kel a b * kel a b = 1 := by
@@ -45,6 +45,7 @@ theorem kel_sq (a b : Bool) : kel a b * kel a b = 1 := by
 
 theorem kel_inv (a b : Bool) : (kel a b)⁻¹ = kel a b := inv_eq_of_mul_eq_one_right (h.kel_sq a b)
 
+omit h in
 theorem kel_mem (a b : Bool) : kel a b ∈ RA := by
   have h₅ : g₅ ∈ RA := subset_closure (Or.inr (Or.inl rfl))
   have h₆ : g₆ ∈ RA := subset_closure (Or.inr (Or.inr rfl))
@@ -57,6 +58,7 @@ theorem kel_mem (a b : Bool) : kel a b ∈ RA := by
     · exact RA.one_mem
     · exact h₆
 
+omit h in
 theorem T0_le_RA : T0 ≤ RA := fun _ hx => subset_closure (Or.inl hx)
 
 theorem kel_conj (a b : Bool) {x : Equiv.Perm (Fin 42)} (hx : x ∈ T0) :
@@ -101,9 +103,10 @@ theorem mem_RA_iff {x : Equiv.Perm (Fin 42)} : x ∈ RA ↔ ∃ a b, ∃ t ∈ T
       calc t⁻¹ * kel a b = kel a b * kel a b * t⁻¹ * kel a b := by rw [e, one_mul]
         _ = kel a b * (kel a b * t⁻¹ * kel a b) := by group
   · rintro ⟨a, b, t, ht, rfl⟩
-    exact RA.mul_mem (h.kel_mem a b) (h.T0_le_RA ht)
+    exact RA.mul_mem (CFSG.ComponentClassification.GrSLit.L34Tw.RAHyp.kel_mem a b) (CFSG.ComponentClassification.GrSLit.L34Tw.RAHyp.T0_le_RA ht)
 
 
+omit h in
 theorem kel_mem_S {a b : Bool} (hk : kel a b ∈ S) : a = false ∧ b = false := by
   cases a <;> cases b
   · exact ⟨rfl, rfl⟩
@@ -112,14 +115,16 @@ theorem kel_mem_S {a b : Bool} (hk : kel a b ∈ S) : a = false ∧ b = false :=
   · exact (not_mem_S_r₄ (by simpa [kel, r₄] using hk)).elim
 
 
+omit h in
 theorem kel_mem_T0 {a b : Bool} (hk : kel a b ∈ T0) : a = false ∧ b = false :=
-  h.kel_mem_S (T0_le_S hk)
+  RAHyp.kel_mem_S (T0_le_S hk)
 
+omit h in
 theorem kel_mul_mem_T0 {a b : Bool} {t : Equiv.Perm (Fin 42)} (ht : t ∈ T0) :
     kel a b * t ∈ T0 ↔ a = false ∧ b = false := by
   constructor
   · intro hx
-    refine h.kel_mem_T0 ?_
+    refine CFSG.ComponentClassification.GrSLit.L34Tw.RAHyp.kel_mem_T0 ?_
     have := T0.mul_mem hx (T0.inv_mem ht)
     rwa [mul_inv_cancel_right] at this
   · rintro ⟨rfl, rfl⟩
@@ -132,7 +137,7 @@ theorem kel_inj {a b c d : Bool} {t s : Equiv.Perm (Fin 42)} (ht : t ∈ T0) (hs
     rw [this, e, ← mul_assoc, h.kel_sq, one_mul, mul_inv_cancel]
     exact T0.one_mem
   rw [h.kel_mul] at h1
-  obtain ⟨h₁, h₂⟩ := (h.kel_mul_mem_T0 (T0.mul_mem ht (T0.inv_mem hs))).1 h1
+  obtain ⟨h₁, h₂⟩ := (CFSG.ComponentClassification.GrSLit.L34Tw.RAHyp.kel_mul_mem_T0 (T0.mul_mem ht (T0.inv_mem hs))).1 h1
   have hac : a = c := by cases a <;> cases c <;> simp_all
   have hbd : b = d := by cases b <;> cases d <;> simp_all
   subst hac hbd
@@ -164,9 +169,9 @@ theorem inf_S_eq : RA ⊓ S = T0 := by
     have hk : kel a b ∈ S := by
       have := S.mul_mem hS (S.inv_mem (T0_le_S ht))
       rwa [mul_inv_cancel_right] at this
-    obtain ⟨rfl, rfl⟩ := h.kel_mem_S hk
+    obtain ⟨rfl, rfl⟩ := RAHyp.kel_mem_S hk
     simpa [kel] using ht
-  · exact le_inf h.T0_le_RA T0_le_S
+  · exact le_inf CFSG.ComponentClassification.GrSLit.L34Tw.RAHyp.T0_le_RA T0_le_S
 
 theorem cosRA_kel (a b : Bool) {t : Equiv.Perm (Fin 42)} (ht : t ∈ T0) :
     cosRA (kel a b * t) = kcode a b := by
@@ -177,8 +182,8 @@ theorem cosRA_kel (a b : Bool) {t : Equiv.Perm (Fin 42)} (ht : t ∈ T0) :
     rw [inv_eq_of_mul_eq_one_right h.sq₆]
     simp [kel]
   unfold cosRA
-  rw [k₅, k₆, ← mul_assoc, ← mul_assoc, h.kel_mul, h.kel_mul, h.kel_mul_mem_T0 ht,
-    h.kel_mul_mem_T0 ht, h.kel_mul_mem_T0 ht]
+  rw [k₅, k₆, ← mul_assoc, ← mul_assoc, h.kel_mul, h.kel_mul, CFSG.ComponentClassification.GrSLit.L34Tw.RAHyp.kel_mul_mem_T0 ht,
+    CFSG.ComponentClassification.GrSLit.L34Tw.RAHyp.kel_mul_mem_T0 ht, CFSG.ComponentClassification.GrSLit.L34Tw.RAHyp.kel_mul_mem_T0 ht]
   cases a <;> cases b <;> simp <;> rfl
 
 theorem cos_mul {x y : Equiv.Perm (Fin 42)} (hx : x ∈ RA) (hy : y ∈ RA) :

@@ -51,9 +51,9 @@ theorem move_of_frame {P : Type} [Group P] {Yh : Subgroup P} {K : Type} [Field K
     (hV9 : Nat.card Vh = 9) (hcV : ch ∈ Vh) {s : P} (hs : s ∈ Yh)
     (hsV : ∀ v ∈ Vh, s * v * s⁻¹ = v⁻¹) :
     ∃ n ∈ Yh ⊓ Subgroup.normalizer (Vh : Set P), n * ch * n⁻¹ ∉ Subgroup.zpowers ch := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite K := hK.finite
-  haveI : Finite (ProjGenLinGroup (Fin 3) K) :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite K := hK.finite
+  have : Finite (ProjGenLinGroup (Fin 3) K) :=
     Finite.of_surjective (ProjGenLinGroup.mk : GL (Fin 3) K →* _) ProjGenLinGroup.mk_surjective
   set W : Subgroup (ProjGenLinGroup (Fin 3) K) := (Vh.subgroupOf Yh).map φ with hW
   have hWL : W ≤ projImage (Sec4.slPi π 3 (p ^ f) K) := by
@@ -102,7 +102,7 @@ theorem hess_t_move (hDeg : Gap129HessL3Deg) {P : Type} [Group P] [Finite P]
         ch ∈ Vh → (∃ s ∈ Yh, ∀ v ∈ Vh, s * v * s⁻¹ = v⁻¹) →
         ∃ n ∈ Yh ⊓ Subgroup.normalizer (Vh : Set P), n * ch * n⁻¹ ∉ Subgroup.zpowers ch := by
   obtain ⟨p, e, hp, hiso⟩ := hex
-  haveI := hD.normal
+  have := hD.normal
   obtain ⟨p, e, hp, he, hiso⟩ : ∃ (p e : ℕ) (_ : Fact p.Prime), 1 ≤ e ∧
       Sec4.IsoLThreePi ↥Yh p e := by
     by_cases he : 1 ≤ e

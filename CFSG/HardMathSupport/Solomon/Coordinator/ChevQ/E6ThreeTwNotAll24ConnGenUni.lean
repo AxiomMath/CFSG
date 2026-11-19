@@ -185,9 +185,9 @@ theorem unitary_class_peel {ta : Fin Tag.E6.rank → Lˣ} (h3 : ((3 : ℕ) : L) 
     ∃ r' ∈ rationalComponent S.ρ S.Γ (rootCharHom ta) i, ∃ x' ∈ torusGroup Tag.E6 L ⊔ Q',
       S.D.step x' = x' ∧ x = r' * x' := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : CharP L r := hchar
-  haveI : NeZero ν := ⟨by omega⟩
+  have : Fact r.Prime := ⟨hr⟩
+  have : CharP L r := hchar
+  have : NeZero ν := ⟨by omega⟩
   obtain ⟨σQ, B, d, z, hσc, hB, hstd, hzmem, hz⟩ :=
     exists_unitary_pin S hT i hν hψ hΨ π hπ hr hchar he hq
   have hstab : ∀ γ ∈ componentRoots (rootCharHom ta) i,
@@ -233,7 +233,7 @@ theorem unitary_class_peel {ta : Fin Tag.E6.rank → Lˣ} (h3 : ((3 : ℕ) : L) 
       _ = ψ (conjSLn W (τ X)) := hW _
   have hSLperf : Group.IsPerfect SL(ν, L) := (isQuasisimple_specialLinearGroup hν).1
   have hWτ : ∀ X, F' (conjSLn W X) = conjSLn W (τ X) := by
-    haveI := hSLperf
+    have := hSLperf
     have h := CFSG.CGT.PushingUpLit.CGT6X.End4.hom_eq_of_central (F'.comp (conjSLn W))
       ((conjSLn W).comp τ)
       (fun X => frame_ker_le_center hν hψ (by
@@ -261,7 +261,7 @@ theorem unitary_class_quasisimple {ta : Fin Tag.E6.rank → Lˣ}
     (hnq : (ν, r ^ e) ≠ (3, 2)) :
     CFSG.IsQuasisimple ↥(rationalComponent S.ρ S.Γ (rootCharHom ta) i) := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hπ' : ∀ a b, a ≠ b → (S.ρ : (Fin Tag.E6.rank → ℤ) → _)^[componentOrbitLength S.ρ
       (componentRoots (rootCharHom ta) i)] (σ a b) = σ (π b) (π a) := fun a b hab => by
     rw [hs1, Function.iterate_one]

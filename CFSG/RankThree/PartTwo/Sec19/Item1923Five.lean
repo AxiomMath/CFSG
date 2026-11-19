@@ -63,7 +63,7 @@ private theorem step1923_five_map_rel (Q : Subgroup X) {σ τ : MulAut X} {g : X
   have e2 : (σ⁻¹.toMonoidHom.comp (MulAut.conj g).toMonoidHom).comp σ.toMonoidHom =
       (MulAut.conj (σ⁻¹ g)).toMonoidHom := by
     ext x
-    simp [MulAut.conj_apply, mul_assoc, hinv]
+    simp [MulAut.conj_apply, mul_assoc]
   rw [e1, ← Subgroup.map_map, h, Subgroup.map_map, Subgroup.map_map, e2]
 
 private theorem step1923_five_map_inv (Q : Subgroup X) {σ : MulAut X} {k : X}
@@ -82,12 +82,14 @@ private theorem step1923_five_map_inv (Q : Subgroup X) {σ : MulAut X} {k : X}
 
 end ClassStab
 
+omit [Finite G] in
 private theorem step1923_five_K_le (hK : K ∈ scriptJ M N) : K ≤ M := by
   obtain ⟨L, -, hL⟩ := hK.1
   rw [← hL]
   rintro _ ⟨y, -, rfl⟩
   exact y.2
 
+omit [Finite G] in
 private theorem step1923_five_barAut_eq_conj {K : Subgroup G} {k : G} (hk : k ∈ K)
     (hkN : k ∈ Subgroup.normalizer (K : Set G)) :
     Sec3.Sims321.barAut K ⟨k, hkN⟩ =
@@ -99,6 +101,7 @@ private theorem step1923_five_barAut_eq_conj {K : Subgroup G} {k : G} (hk : k �
     ← QuotientGroup.mk_mul]
   congr 1
 
+omit [Finite G] in
 private theorem step1923_five_barAut_inv_mul {K : Subgroup G} {a b : G}
     (ha : a ∈ Subgroup.normalizer (K : Set G)) (hb : b ∈ Subgroup.normalizer (K : Set G))
     (hab : a⁻¹ * b ∈ Subgroup.normalizer (K : Set G)) :
@@ -107,6 +110,7 @@ private theorem step1923_five_barAut_inv_mul {K : Subgroup G} {a b : G}
   rw [← map_inv, ← map_mul]
   rfl
 
+omit [Finite G] in
 private theorem step1923_five_map_barAut_starIm {K N : Subgroup G} {x : G}
     (hx : x ∈ Subgroup.normalizer (K : Set G)) (hxN : x ∈ N) :
     (starIm K N).map (Sec3.Sims321.barAut K ⟨x, hx⟩).toMonoidHom = starIm K N := by
@@ -140,6 +144,7 @@ private theorem step1923_five_map_barAut_starIm {K N : Subgroup G} {x : G}
       congr 1
       exact Subtype.ext (by simp [mul_assoc])
 
+omit [Finite G] in
 private theorem step1923_five_inv_stab {K N : Subgroup G} {g : G}
     (hg : g ∈ Subgroup.normalizer (K : Set G))
     (hQ : (starIm K N).map (Sec3.Sims321.barAut K ⟨g, hg⟩).toMonoidHom = starIm K N) :
@@ -156,6 +161,7 @@ private theorem step1923_five_inv_stab {K N : Subgroup G} {g : G}
   rw [step1923_five_map_inv (starIm K N) h1, inv_one, map_one]
   exact step1923_five_map_conj_one _
 
+omit [Finite G] in
 private theorem step1923_five_conj_inf_mem {K N : Subgroup G} (hOKN : CFSG.Open.pCoreOf 2 K ≤ N)
     {g : G} (hg : g ∈ Subgroup.normalizer (K : Set G))
     (hQ : (starIm K N).map (Sec3.Sims321.barAut K ⟨g, hg⟩).toMonoidHom = starIm K N)
@@ -179,6 +185,7 @@ private theorem step1923_five_conj_inf_mem {K N : Subgroup G} (hOKN : CFSG.Open.
   rw [e]
   exact N.mul_mem (Subgroup.mem_subgroupOf.mp hy) (hOKN hpcG)
 
+omit [Finite G] in
 private theorem step1923_five_mem_normalizer_of {X : Subgroup G} {g : G}
     (h1 : ∀ x ∈ X, g * x * g⁻¹ ∈ X) (h2 : ∀ x ∈ X, g⁻¹ * x * g⁻¹⁻¹ ∈ X) :
     g ∈ Subgroup.normalizer (X : Set G) := by
@@ -191,6 +198,7 @@ private theorem step1923_five_mem_normalizer_of {X : Subgroup G} {g : G}
     have e : g⁻¹ * (g * x * g⁻¹) * g⁻¹⁻¹ = x := by group
     rwa [e] at this
 
+omit [Finite G] in
 private theorem step1923_five_sup_conj {A B : Subgroup G} {g : G}
     (hA : ∀ x ∈ A, g * x * g⁻¹ ∈ A) (hB : ∀ x ∈ B, g * x * g⁻¹ ∈ B) :
     ∀ x ∈ A ⊔ B, g * x * g⁻¹ ∈ A ⊔ B := by
@@ -206,6 +214,7 @@ private theorem step1923_five_sup_conj {A B : Subgroup G} {g : G}
   intro x hx
   exact hmap ⟨x, hx, rfl⟩
 
+omit [Finite G] in
 private theorem step1923_five_conj_mem {M : Subgroup G} {y o : G} (hy : y ∈ M)
     (ho : o ∈ CFSG.Open.pCoreOf 2 M) : y * o * y⁻¹ ∈ CFSG.Open.pCoreOf 2 M :=
   (Subgroup.mem_normalizer_iff.mp (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 M hy) o).mp ho
@@ -236,7 +245,7 @@ private theorem step1923_five_relIndex_le_two {H M : Subgroup G}
   · exact hxz (QuotientGroup.eq.mpr (Subgroup.mem_subgroupOf.mpr (by simpa using h1)))
   · exact hyz (QuotientGroup.eq.mpr (Subgroup.mem_subgroupOf.mpr (by simpa using h1)))
 
-private theorem step1923_five_core (kfl3 : KFL3Par) (h : Hyp1921 G A M N L)
+private theorem step1923_five_core (kfl3 : KFL3Par) (_h : Hyp1921 G A M N L)
     (hK : K ∈ scriptJ M N) (hKM : M ≤ Subgroup.normalizer (K : Set G))
     (hL3 : IsL3OddType (K ⧸ CFSG.pCore 2 K))
     (hpar : Sec18.IsMaxParabolicRankTwo (starIm K N)) :

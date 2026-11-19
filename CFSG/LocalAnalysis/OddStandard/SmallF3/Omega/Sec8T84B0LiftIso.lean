@@ -13,7 +13,7 @@ theorem exists_mulEquiv_zmod4 {A : Type*} [CommGroup A] [Finite A] (h4 : ∀ x :
     Nonempty (A ≃* Multiplicative (Fin 4 → ZMod 4)) := by
   classical
   obtain ⟨ι, hι, n, hn_gt, ⟨φ⟩⟩ := CommGroup.equiv_prod_multiplicative_zmod_of_finite A
-  haveI : Fintype ι := hι
+  have : Fintype ι := hι
   let P := (i : ι) → Multiplicative (ZMod (n i))
   have hdvd : ∀ i, n i ∣ 4 := by
     intro i
@@ -106,8 +106,8 @@ theorem exists_mulEquiv_zmod4 {A : Type*} [CommGroup A] [Finite A] (h4 : ∀ x :
     have hne : ∀ i, n i = 2 ^ e i := by
       intro i
       rcases hn24 i with h | h
-      · dsimp [e]; rw [if_neg (by rw [h]; norm_num), h]; norm_num
-      · dsimp [e]; rw [if_pos h, h]; norm_num
+      · dsimp [e]; rw [ite_eq_right (by rw [h]; norm_num), h]; norm_num
+      · dsimp [e]; rw [ite_eq_left h, h]; norm_num
     have hprod_pow : ∏ i, n i = 2 ^ (∑ i, e i) := by
       rw [show n = (fun i => 2 ^ e i) from funext fun i => hne i,
         Finset.prod_pow_eq_pow_sum]

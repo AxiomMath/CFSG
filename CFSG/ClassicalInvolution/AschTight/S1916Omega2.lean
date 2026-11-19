@@ -81,7 +81,7 @@ theorem not_mem_conjClass_of_centralizes [IsSimpleGroup G] {K : Subgroup G} {z :
   have hRmem : R ∈ RSet (CoreAssembly.conjClass K) :=
     ⟨K, CoreAssembly.mem_conjClass_self K, Q₀, rfl⟩
   have h8 := (exists_ne_comm_of_mem_rSet ht.branch.odd ht.branch.five ht.branch.member hRmem).2
-  have hR2 : IsPGroup 2 R := Q₀.isPGroup'.map _
+  have hR2 : IsPGroup 2 R := Q₀.isPGroup.map _
   have hsub : (R : Set G) ⊆ {1, z} := by
     intro w hw
     rcases hall w (Subgroup.map_subtype_le _ hw) (hR2.to_le (Subgroup.zpowers_le.mpr hw)) with
@@ -107,7 +107,7 @@ theorem padicValNat_le_one_of_forall {H : Subgroup G} {z : G}
     padicValNat 2 (Nat.card H) ≤ 1 := by
   obtain ⟨P₀⟩ : Nonempty (Sylow 2 ↥H) := inferInstance
   set P : Subgroup G := (P₀ : Subgroup ↥H).map H.subtype with hP
-  have hP2 : IsPGroup 2 P := P₀.isPGroup'.map _
+  have hP2 : IsPGroup 2 P := P₀.isPGroup.map _
   have hsub : (P : Set G) ⊆ {1, z} := by
     intro w hw
     rcases h w (Subgroup.map_subtype_le _ hw) (hP2.to_le (Subgroup.zpowers_le.mpr hw)) with

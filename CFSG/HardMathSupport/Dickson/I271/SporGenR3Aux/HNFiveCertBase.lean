@@ -32,10 +32,10 @@ theorem toMat_subIdM (d : ℕ) (X : Array (Array ℕ)) :
   by_cases h : i = j
   · subst h
     have : ((5 - 1 : ℕ) : ZMod 5) = -1 := by decide
-    rw [if_pos rfl, if_pos rfl, this]
+    rw [ite_eq_left rfl, ite_eq_left rfl, this]
     exact (sub_eq_add_neg _ _).symm
   · have h' : i.val ≠ j.val := fun e => h (Fin.ext e)
-    rw [if_neg h, if_neg h', Nat.cast_zero]
+    rw [ite_eq_right h, ite_eq_right h', Nat.cast_zero]
     exact (add_zero _).trans (sub_zero _).symm
 
 theorem toMat_zeroM (p d : ℕ) : toMat p d (zeroM d) = 0 := by

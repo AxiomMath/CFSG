@@ -16,9 +16,9 @@ namespace OneComp
 variable {K : Type} [Group K] [Finite K] {J M X P : Subgroup K}
 
 theorem sup_normalizer_eq_top (h : OneComp J M X P) : J ⊔ normalizer (X : Set K) = ⊤ := by
-  haveI := h.normal
+  have := h.normal
   obtain ⟨Q, hQ⟩ := h.sylow
-  haveI : Finite (Sylow 3 ↥J) := Sylow.finite_of_finiteIndex Q
+  have : Finite (Sylow 3 ↥J) := Sylow.finite_of_finiteIndex Q
   have hfr := Sylow.normalizer_sup_eq_top Q
   rw [hQ] at hfr
   rwa [sup_comm] at hfr
@@ -41,7 +41,7 @@ theorem normalizer_le_of_seven (h : OneComp J M X P) {R : Subgroup K} (hR : R �
   exact ⟨g⁻¹ * x * g, hR hmem, by simp [MulAut.conj_apply, mul_assoc]⟩
 
 theorem isSylowOf_seven_top (h : OneComp J M X P) : IsSylowOf 7 P ⊤ := by
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   have hPM : P ≤ M := h.sylowSeven.le
   have h7P : 7 ∣ Nat.card P := by
     rw [h.sylowSeven.card_eq]
@@ -49,8 +49,8 @@ theorem isSylowOf_seven_top (h : OneComp J M X P) : IsSylowOf 7 P ⊤ := by
       Nat.card_pos.ne' h.strong.2.1).ne'
   obtain ⟨S, hPS⟩ := h.sylowSeven.isPGroup.exists_le_sylow
   have hSP : (S : Subgroup K) = P := by
-    have hSg : IsPGroup 7 (S : Subgroup K) := S.isPGroup'
-    haveI : Group.IsNilpotent ↥(S : Subgroup K) := IsPGroup.isNilpotent hSg
+    have hSg : IsPGroup 7 (S : Subgroup K) := S.isPGroup
+    have : Group.IsNilpotent ↥(S : Subgroup K) := IsPGroup.isNilpotent hSg
     have hnc : NormalizerCondition ↥(S : Subgroup K) :=
       Group.normalizerCondition_of_isNilpotent
     have hHtop : P.subgroupOf (S : Subgroup K) = ⊤ := by

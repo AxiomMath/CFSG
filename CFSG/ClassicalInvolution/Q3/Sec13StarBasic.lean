@@ -31,7 +31,7 @@ private theorem mem_dstarComp_of_four_le {K J : Subgroup G} (hK : K ∈ Ω) (hJ 
   have hΩ := h.thmD.hyp
   by_cases hJK : J = K
   · subst hJK
-    exact h.mem_dstarComp_self hJ
+    exact CFSG.ClassicalInvolution.Q3.Sec13.StarHyp.mem_dstarComp_self hJ
   by_cases htw : J ∈ twinSet Ω K
   · obtain ⟨-, z', hz'K, hz'J⟩ := htw
     exact Relation.ReflTransGen.single ⟨hJ, Or.inl (Q3T6.Mu.omegaNbr_subset_omegaStarNbr hΩ K
@@ -115,7 +115,7 @@ theorem mem_dstarComp_of_le {P : Subgroup G} (hP : IsPGroup 2 P) {L M : Subgroup
     (hM : M ∈ Ω) (hLP : L ≤ P) (hMP : M ≤ P) : L ∈ dstarComp Ω M := by
   by_cases hLM : L = M
   · subst hLM
-    exact h.mem_dstarComp_self hL
+    exact CFSG.ClassicalInvolution.Q3.Sec13.StarHyp.mem_dstarComp_self hL
   obtain ⟨S, hS⟩ := hP.exists_le_sylow
   exact h.mem_dstarComp_of_commutes hL hM (Q3CP.l67Gen G Ω h.thmD.hyp S L
     (TC.mem_RSet_of_isPGroup hL (h.thmD.two L hL)) M
@@ -133,7 +133,7 @@ theorem not_mem_compStab {K J : Subgroup G} (hK : K ∈ Ω) (hJ : J ∈ Ω)
   have hΩ := h.thmD.hyp
   obtain ⟨S, hKS⟩ := (h.thmD.two K hK).exists_le_sylow
   have hSs : IsSylow2In (S : Subgroup G) (compStab Ω K) :=
-    ⟨h.le_compStab S.isPGroup' hK hKS, S.isPGroup', fun _ _ hV2 hSV => le_antisymm (S.maximal_isPGroup.2 hV2 hSV) hSV⟩
+    ⟨h.le_compStab S.isPGroup hK hKS, S.isPGroup, fun _ _ hV2 hSV => le_antisymm (S.maximal_isPGroup.2 hV2 hSV) hSV⟩
   obtain ⟨T, hT, huT⟩ := IsSylow2In.exists_ge
     ((h.thmD.two J hJ).to_le (Subgroup.zpowers_le.mpr hu)) (Subgroup.zpowers_le.mpr huC)
   obtain ⟨x, hxC, hxT⟩ := Sec6Gen.exists_conjSub_eq_of_isSylow2In hT hSs

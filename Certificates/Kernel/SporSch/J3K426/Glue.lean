@@ -89,10 +89,10 @@ theorem wv_eq {Gs : Nat → Nat} {gs : Array (Array Nat)}
     rw [evalWA, e1, ih1]
     rcases x with ⟨i, b⟩
     cases b
-    · simp only [Bool.false_eq_true, if_false]
+    · simp only [Bool.false_eq_true, ite_false]
       rw [hgx, invCand_PP hpx, compA_PP hpx.inv ih2]
       exact ⟨rfl, hpx.inv.mul ih2⟩
-    · simp only [if_true]
+    · simp only [ite_true]
       rw [hgx, compA_PP hpx ih2]
       exact ⟨rfl, hpx.mul ih2⟩
 
@@ -103,7 +103,7 @@ theorem countP_fix (n w p : Nat) :
   congr 1
   apply List.filter_congr
   intro x hx
-  rw [unpack_getElem!, if_pos (List.mem_range.1 hx), Bool.eq_iff_iff, beq_iff_eq, Nat.beq_eq]
+  rw [unpack_getElem!, ite_eq_left (List.mem_range.1 hx), Bool.eq_iff_iff, beq_iff_eq, Nat.beq_eq]
 
 theorem fix_eq (p : Nat) : Certificates.j3fix (unpack 6156 13 p) = nfix 6156 13 p :=
   countP_fix 6156 13 p

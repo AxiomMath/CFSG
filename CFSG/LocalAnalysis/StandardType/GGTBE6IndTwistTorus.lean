@@ -26,6 +26,7 @@ variable (K : Type) [Field K] [Finite K] [CharP K 2]
   (θ : K ≃+* K) (hθ : ∀ c, θ.toRingHom (θ.toRingHom c) = c)
   (l : K) (hl : θ.toRingHom l = l + 1)
 
+omit [Finite K] [CharP K 2] in
 theorem langCoroot_commute (i j : Fin Tag.E6.rank)
     (s t : CFSG.LieType.Steinberg.normOne θ) :
     Commute (langCoroot K θ hθ l hl i s) (langCoroot K θ hθ l hl j t) := by
@@ -41,15 +42,18 @@ def langTorusHom :
   MonoidHom.noncommPiCoprod (langCoroot K θ hθ l hl)
     (fun i j _ s t => langCoroot_commute K θ hθ l hl i j s t)
 
+omit [Finite K] [CharP K 2] in
 theorem langTorusHom_mulSingle (i : Fin Tag.E6.rank)
     (s : CFSG.LieType.Steinberg.normOne θ) :
     langTorusHom K θ hθ l hl (Pi.mulSingle i s) = langCoroot K θ hθ l hl i s := by
   exact MonoidHom.noncommPiCoprod_mulSingle (langCoroot K θ hθ l hl) i s
 
+omit [Finite K] [CharP K 2] in
 theorem range_langTorusHom : (langTorusHom K θ hθ l hl).range =
     ⨆ i, (langCoroot K θ hθ l hl i).range :=
   MonoidHom.noncommPiCoprod_range _
 
+omit [Finite K] [CharP K 2] in
 theorem langTorusHom_apply (u : Fin Tag.E6.rank → CFSG.LieType.Steinberg.normOne θ) :
     (langTorusHom K θ hθ l hl u : e6Data_valid.minGroup K) =
       langG K θ.toRingHom l * minTorus e6Data_valid K (fun i => (u i : Kˣ)) *
@@ -79,6 +83,7 @@ theorem langTorusHom_apply (u : Fin Tag.E6.rank → CFSG.LieType.Steinberg.normO
     rw [hu, minTorus_mulSingle]
   exact DFunLike.congr_fun he u
 
+omit [Finite K] [CharP K 2] in
 theorem langTorusHom_injective : Function.Injective (langTorusHom K θ hθ l hl) := by
   intro u v h
   have he := congrArg (fun x : fixedGroup K θ.toRingHom => (x : e6Data_valid.minGroup K)) h
@@ -88,6 +93,7 @@ theorem langTorusHom_injective : Function.Injective (langTorusHom K θ hθ l hl)
   funext i
   exact Subtype.ext (congrFun ht i)
 
+omit [Finite K] in
 private theorem longest_conj_hm (i : Fin Tag.E6.rank) (s : Kˣ) :
     weylHom K frameLongest * e6Data_valid.hm K i s * (weylHom K frameLongest)⁻¹ =
       e6Data_valid.hm K (rhoPerm i) s⁻¹ := by
@@ -115,9 +121,10 @@ private theorem longest_conj_hm (i : Fin Tag.E6.rank) (s : Kˣ) :
 private def normTwistTuple : (Fin Tag.E6.rank → Kˣ) →* (Fin Tag.E6.rank → Kˣ) where
   toFun u j := (Units.map θ.toMonoidHom (u j))⁻¹
   map_one' := funext fun j => by simp
-  map_mul' u v := funext fun j => by simp [mul_inv, mul_comm]
+  map_mul' u v := funext fun j => by simp [mul_comm]
 
 include hθ hl in
+omit [Finite K] in
 theorem sigma_langConj_minTorus (u : Fin Tag.E6.rank → Kˣ) :
     sigma K θ.toRingHom (langG K θ.toRingHom l * minTorus e6Data_valid K u *
       (langG K θ.toRingHom l)⁻¹) =
@@ -163,6 +170,7 @@ theorem sigma_langConj_minTorus (u : Fin Tag.E6.rank → Kˣ) :
           fin_cases i <;> rfl]
   exact (hf u).symm.trans ((DFunLike.congr_fun he u).trans (hg u))
 
+omit [Finite K] in
 theorem mem_range_langTorusHom {x : fixedGroup K θ.toRingHom}
     (hx : (langG K θ.toRingHom l)⁻¹ * (x : e6Data_valid.minGroup K) *
       langG K θ.toRingHom l ∈ (minTorus e6Data_valid K).range) :
@@ -197,12 +205,14 @@ theorem fixedDiagonalHom_langTorusHom {n : ℕ} (hK : Nat.card K = 2 ^ n)
     exact fixedDiagonalHom_langCoroot K n hK θ hθ l hl b i s
   exact DFunLike.congr_fun he u
 
+omit [Finite K] [CharP K 2] in
 theorem langTorusHom_commute (u v : Fin Tag.E6.rank → CFSG.LieType.Steinberg.normOne θ) :
     Commute (langTorusHom K θ hθ l hl u) (langTorusHom K θ hθ l hl v) := by
   change langTorusHom K θ hθ l hl u * langTorusHom K θ hθ l hl v =
     langTorusHom K θ hθ l hl v * langTorusHom K θ hθ l hl u
   rw [← map_mul, ← map_mul, mul_comm]
 
+omit [Finite K] in
 theorem weylHom_conj_torusPow_simple (ζ : Kˣ) (i : Fin Tag.E6.rank)
     (v : Fin Tag.E6.rank → ℤ) :
     weylHom K (simple .E6 i) * torusPow ζ v * (weylHom K (simple .E6 i))⁻¹ =
@@ -210,6 +220,7 @@ theorem weylHom_conj_torusPow_simple (ζ : Kˣ) (i : Fin Tag.E6.rank)
   rw [weylHom_simple]
   exact nm_conj_torusPow ζ i v
 
+omit [Finite K] in
 theorem weylHom_conj_torusPow (w : WeylGroup .E6) (ζ : Kˣ)
     (v : Fin Tag.E6.rank → ℤ) :
     weylHom K w * torusPow ζ v * (weylHom K w)⁻¹ = torusPow ζ (w • v) := by
@@ -245,6 +256,7 @@ variable {L : Type} [Group L]
   (langTorusHom K θ hθ l hl).comp
     ((MonoidHom.compLeft (zmodPowHom ζ hζ) _).comp (MulEquiv.funMultiplicative _ _).toMonoidHom)
 
+omit [Finite K] [CharP K 2] in
 theorem langPFrame_injective {p : ℕ} [NeZero p] (ζ : CFSG.LieType.Steinberg.normOne θ)
     (hζ : ζ ^ p = 1) (hζo : orderOf ζ = p) :
     Function.Injective (langPFrame K θ hθ l hl ζ hζ) := by
@@ -259,6 +271,7 @@ theorem langPFrame_injective {p : ℕ} [NeZero p] (ζ : CFSG.LieType.Steinberg.n
   have hi := congrFun hv i
   exact Multiplicative.ofAdd.injective (zmodPowHom_injective hζo hζ hi)
 
+omit [CharP K 2] in
 theorem cover_langPFrame_injective {f p : ℕ} [NeZero p] (hK : Nat.card K = (2 ^ f) ^ 2)
     (hθq : ∀ c, θ c = c ^ (2 ^ f)) (hp : p.Prime) (hp3 : p ≠ 3)
     (φ : fixedGroup K θ.toRingHom →* L)
@@ -284,6 +297,7 @@ theorem cover_langPFrame_injective {f p : ℕ} [NeZero p] (hK : Nat.card K = (2 
     (Nat.eq_one_of_dvd_coprimes hc (orderOf_dvd_of_pow_eq_one hx) hd)
   exact langPFrame_injective K θ hθ l hl ζ hζ hζo (he.trans (map_one _).symm)
 
+omit [CharP K 2] in
 theorem cover_langCoroot_injective {f : ℕ} (hf : 1 ≤ f)
     (hK : Nat.card K = (2 ^ f) ^ 2) (hθq : ∀ c, θ c = c ^ (2 ^ f))
     (φ : fixedGroup K θ.toRingHom →* L)

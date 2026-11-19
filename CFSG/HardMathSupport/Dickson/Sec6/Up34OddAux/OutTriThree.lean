@@ -30,7 +30,7 @@ theorem noL34OuterAt3_triD4 : NoL34OuterAtThree FamTriD4 := by
     · exact absurd h (by decide)
   obtain ⟨K, _, _, σ, hK, hσ, ⟨e⟩⟩ := OutTri.exists_graphFixed_of_exceptionalModel hexc
   obtain ⟨-, hf, -⟩ := hadm
-  haveI := TriD4Aux.finite_graphFixedRootGroup_D4 σ
+  have := TriD4Aux.finite_graphFixedRootGroup_D4 σ
   refine noL34Layer_congr e ?_
   have hφ3 : (MulAut.congr e ψ) ^ 3 = 1 := by rw [← map_pow, hψ3, map_one]
   have hφ : MulAut.congr e ψ ∉ (MulAut.conj : graphFixedRootGroup TwistTag.D4 K σ.toRingHom →*
@@ -40,7 +40,7 @@ theorem noL34OuterAt3_triD4 : NoL34OuterAtThree FamTriD4 := by
     refine ⟨e.symm c, (MulAut.congr e).injective ?_⟩
     rw [CFSG.ComponentClassification.OuterAutomorphisms.congr_conj, MulEquiv.apply_symm_apply]
     exact hc
-  haveI : CharP K 3 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have : CharP K 3 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     Nat.prime_three (by omega) (by rw [hK, ← pow_mul, mul_comm] : Nat.card K = 3 ^ (3 * f))
   exact OutTri.noL34Layer_three_D4_outer_three hf hK σ hσ _ hφ3 hφ
 
@@ -52,9 +52,9 @@ theorem noL34OuterAt3_d4_of_order (hO : LieOrderFormulasInput) : NoL34OuterAtThr
   obtain ⟨⟨hp, hf, -⟩, K, _, _, hK, ⟨e⟩⟩ := hC
   obtain ⟨e'⟩ :=
     CFSG.HardMathSupport.Lang.Coordinator.D4Bridge.nonempty_statedProj_equiv_adjointGroup K
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   let E : P ≃* adjointGroup Tag.D4 K := e.trans e'
-  haveI := D4Aux.finite_adjointD4 K
+  have := D4Aux.finite_adjointD4 K
   refine noL34Layer_congr E ?_
   have hα3 : MulAut.congr E ψ ^ 3 = 1 := by rw [← map_pow, hψ3, map_one]
   have hα : MulAut.congr E ψ ∉

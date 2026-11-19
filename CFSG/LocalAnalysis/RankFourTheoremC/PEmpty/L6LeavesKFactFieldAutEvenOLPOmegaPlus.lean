@@ -32,8 +32,8 @@ theorem twoLocalWhen_POmegaPlus (hLie : LieOrderFormulasInput) :
       omega
     · exact h0
   have hp2 : p ≠ 2 := by omega
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, hform, -⟩ := hLie K .POmegaPlus n 2 f hadm hmodel
   have hpn : ¬ p ∣ 2 * (n - 1) := by
     intro h
@@ -62,9 +62,9 @@ theorem twoLocalWhen_POmegaPlus (hLie : LieOrderFormulasInput) :
   have hppd := fun k => ppd_dvd_iff hrm hm hcorr hp hpn k
   have hr : r.Prime := hrm.1
   obtain ⟨-, F, hF, hFfin, hFcard, ⟨e⟩⟩ := hcl0
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hFcard' : Fintype.card F = 2 ^ f := by rw [← Nat.card_eq_fintype_card]; exact hFcard
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow hFcard'
+  have : CharP F 2 := charP_of_card_eq_prime_pow hFcard'
   have hq2 : 1 < 2 ^ f₀ := Nat.one_lt_two_pow (by omega)
   have hAn : 1 ≤ (2 ^ f₀) ^ (2 * (n - 1)) := Nat.one_le_pow _ _ (by omega)
   have hr2 : r ≠ 2 := by

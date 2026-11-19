@@ -56,6 +56,7 @@ open scoped IsMulCommutative
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type} [AddCommGroup V] [Module F V]
   [Module.Finite F V] {X : Type} [Group X]
 
+omit [Finite F] [CharP F 2] [Module.Finite F V] in
 private theorem range_inf_centralizer_singleton
     (ψ : SpecialLinearGroup F V →* X) (hψ : Function.Injective ψ) (B₁ : Subgroup X)
     (hat : B₁ →* SpecialLinearGroup F V)
@@ -68,7 +69,7 @@ private theorem range_inf_centralizer_singleton
   let hatX : X → SpecialLinearGroup F V :=
     fun x => if h : x ∈ B₁ then hat ⟨x, h⟩ else 1
   have hhatXe : hatX e = hat ⟨e, heB⟩ := by
-    simp only [hatX, dif_pos heB]
+    simp only [hatX, dite_eq_left heB]
   have hS : ∀ b ∈ ({e} : Set X), ∀ u : SpecialLinearGroup F V,
       b * ψ u * b⁻¹ = ψ (hatX b * u * (hatX b)⁻¹) := by
     intro b hb u
@@ -110,15 +111,15 @@ theorem rootInnerNoCentral_of_component {P : Type} [CommGroup P]
   have hKc₀ : CFSG.Assembly.IsComponentOf (K.comap ψ) (Subgroup.centralizer {ê}) :=
     hcomap ▸ hKc''
   have hKmap : (K.comap ψ).map ψ = K := Subgroup.map_comap_eq_self hKG
-  haveI : Finite V :=
+  have : Finite V :=
     Finite.of_injective ((Module.finBasis F V).equivFun : V → (Fin (Module.finrank F V) → F))
       (Module.finBasis F V).equivFun.injective
-  haveI : Finite (SpecialLinearGroup F V) :=
+  have : Finite (SpecialLinearGroup F V) :=
     Finite.of_injective (fun u : SpecialLinearGroup F V => (u : V → V))
       (fun u v h => by ext x; exact congrFun h x)
   let P' : Type := ↥(Subgroup.zpowers ê)
-  letI : CommGroup P' := inferInstance
-  haveI : Finite P' :=
+  let : CommGroup P' := inferInstance
+  have : Finite P' :=
     Finite.of_injective (Subtype.val : P' → SpecialLinearGroup F V) Subtype.val_injective
   let η' : P' →* SpecialLinearGroup F V := (Subgroup.zpowers ê).subtype
   have horder : orderOf ê ∣ Nat.card D := by

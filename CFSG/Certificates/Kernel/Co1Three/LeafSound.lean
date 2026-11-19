@@ -89,7 +89,7 @@ theorem lk_selV_pow (Bv : List Vec24) {k : ℕ} (hk : k < Bv.length) :
     selV Bv (2 ^ k) = Bv.getD k 0 := by
   unfold selV
   rw [Finset.sum_eq_single k]
-  · rw [Nat.testBit_two_pow_self, if_pos rfl]
+  · rw [Nat.testBit_two_pow_self, ite_eq_left rfl]
   · intro j _ hj
     simp [Nat.testBit_two_pow_of_ne (Ne.symm hj)]
   · intro h
@@ -173,7 +173,7 @@ theorem lk_vmF_unit_aux (M t : ℕ) : ∀ k, Nat.rec (motive := fun _ => ℕ) 0
       simp [htk, this]
 
 theorem lk_fget (M : ℕ) {t : ℕ} (ht : t < 24) : fget M t 24 = vmF 24 M (2 ^ t) := by
-  rw [CFSG.KC.F2W.vmF_rec, lk_vmF_unit_aux, if_pos ht]
+  rw [CFSG.KC.F2W.vmF_rec, lk_vmF_unit_aux, ite_eq_left ht]
   rfl
 
 theorem lk_triK (g : ℕ) : ∀ L : List ℕ,
@@ -466,12 +466,12 @@ theorem lk_bits (d s : ℕ) :
   rcases lt_trichotomy i s with h | rfl | h
   · have h1 : ¬ (i ≥ s) := by omega
     have h2 : ¬ (i ≥ s + 1) := by omega
-    cases hb : d.testBit 0 <;> simp [h1, h2, Nat.testBit_two_pow, Nat.ne_of_gt h]
-  · cases hb : d.testBit 0 <;> simp [hb, Nat.testBit_two_pow]
+    cases hb : d.testBit 0 <;> simp [h1, h2, Nat.ne_of_gt h]
+  · cases hb : d.testBit 0 <;> simp [hb]
   · have h4 : 1 + (i - (s + 1)) = i - s := by omega
     have h1 : i ≥ s := by omega
     have h2 : i ≥ s + 1 := by omega
-    cases hb : d.testBit 0 <;> simp [h1, h2, h4, Nat.testBit_two_pow, Nat.ne_of_lt h]
+    cases hb : d.testBit 0 <;> simp [h1, h2, h4, Nat.ne_of_lt h]
 
 theorem lk_enum_mem {XB : ℕ → ℕ} {Z : List ℕ} : ∀ (B : List ℕ) (c v s : ℕ) (acc : List ℕ) (d : ℕ),
     d < 2 ^ B.length → passK XB Z (v ^^^ selK B d) = true →
@@ -494,10 +494,10 @@ theorem lk_enum_mem {XB : ℕ → ℕ} {Z : List ℕ} : ∀ (B : List ℕ) (c v 
     rw [lk_bits d s]
     cases hb : d.testBit 0
     · rw [lp_selK_f hb] at hp
-      simp only [Bool.false_eq_true, if_false, Nat.zero_or]
+      simp only [Bool.false_eq_true, ite_false, Nat.zero_or]
       exact lk_enum_mem B c v (s + 1) _ (d >>> 1) hd' hp
     · rw [lp_selK_t hb, ← Nat.xor_assoc] at hp
-      simp only [if_true]
+      simp only [ite_true]
       rw [← Nat.or_assoc]
       exact lk_enum_sub B _ _ _ _ _ (lk_enum_mem B (c ||| 2 ^ s) (v ^^^ b) (s + 1) acc (d >>> 1) hd' hp)
 
@@ -661,7 +661,7 @@ theorem leafK_facts {XB : ℕ → ℕ} {G : List ℕ} {piM w : ℕ} {S B : List 
         intro i hi Ps hPs
         rw [Nat.zero_add] at hPs ⊢
         have hit : i < t.length := by rw [htl, ← hTlen]; exact hi
-        rw [List.take_succ, List.getElem?_eq_getElem hit, Option.toList_some]
+        rw [List.take_add_one, List.getElem?_eq_getElem hit, Option.toList_some]
         refine lk_levelK_mem _ _ _ hPs (lk_enumK_mem ?_ ?_)
         · rw [htg i hit]
           exact Nat.mod_lt _ (Nat.two_pow_pos _)

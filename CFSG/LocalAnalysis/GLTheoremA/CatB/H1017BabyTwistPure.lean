@@ -12,8 +12,8 @@ open CFSG.Open CFSG.Blueprint CFSG.Monster.GMS CFSG.HardMathSupport.Timmesfeld.S
 
 theorem babyTwistThreeB_of_noPureFour (h : ∀ k, BabyNoPureFourAt k) : BabyTwistThreeB := by
   intro E D T hE _ hDE hDcard hD hT _ hTD
-  haveI : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   suffices hbot : T = ⊥ by
     rw [hbot]
     exact bot_le

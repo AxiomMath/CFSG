@@ -17,7 +17,7 @@ theorem exists_mem_of_fixed_coset {A X N : Subgroup G}
     {x : G} (hxX : x ∈ X) (hx3 : x ^ 3 ∈ N)
     (hxA : ∀ a ∈ A, a * x * a⁻¹ * x⁻¹ ∈ N) :
     ∃ y ∈ A, y ∈ X ∧ y⁻¹ * x ∈ N := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hconj : ∀ c ∈ N, x⁻¹ * c * x ∈ N := fun c hc =>
     (Subgroup.mem_normalizer_iff''.mp (hXN hxX) c).mp hc
   have hy : ∀ b ∈ A, x⁻¹ * (b * x * b⁻¹) ∈ N := by

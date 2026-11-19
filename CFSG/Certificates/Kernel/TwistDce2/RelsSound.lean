@@ -59,7 +59,7 @@ private theorem evP_loop' (F : ℕ → ℕ) : ∀ (n s x : ℕ),
   | succ n ih =>
     intro s x
     rw [digs_succ', List.foldl_cons]
-    simp only [Nat.rec_add_one, sN_eq] at ih ⊢
+    simp only [sN_eq] at ih ⊢
     rw [ih, land15', shr4']
 
 theorem evP_eq (F : ℕ → ℕ) (w x : ℕ) :
@@ -202,13 +202,13 @@ variable {F : ℕ → ℕ} {INVM NP : ℕ}
 
 theorem tableGen_apply (hL : lettersOK F INVM NP = true) {j : ℕ} (hj : j < 6) (p : Fin NP) :
     ((tableGen hL j).unop p).val = fieldAt 11 (F (2 * j)) p.val := by
-  rw [tableGen, dif_pos (by omega)]
+  rw [tableGen, dite_eq_left (by omega)]
   rfl
 
 theorem tableGen_inv_apply (hL : lettersOK F INVM NP = true) (hI : invCodesOK INVM 6 = true)
     {j : ℕ} (hj : j < 6) (p : Fin NP) :
     ((tableGen hL j)⁻¹.unop p).val = fieldAt 11 (F (2 * j + 1)) p.val := by
-  rw [tableGen, dif_pos (by omega), MulOpposite.unop_inv, MulOpposite.unop_op,
+  rw [tableGen, dite_eq_left (by omega), MulOpposite.unop_inv, MulOpposite.unop_op,
     Equiv.Perm.inv_def, ← invCodesOK_sound hI j hj]
   rfl
 
@@ -225,10 +225,10 @@ theorem tableHom_mk_apply (hL : lettersOK F INVM NP = true) (hI : invCodesOK INV
     have hl := hu l List.mem_cons_self
     rw [tableHom, FreeGroup.lift_mk]
     rcases l with ⟨j, _ | _⟩
-    · simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one, cond_false]
+    · simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one, Bool.cond_false]
       rw [tableGen_inv_apply hL hI hl]
       rfl
-    · simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one, cond_true]
+    · simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one, _root_.Bool.cond_true]
       rw [tableGen_apply hL hl]
       rfl
 

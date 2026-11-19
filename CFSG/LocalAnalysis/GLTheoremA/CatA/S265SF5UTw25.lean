@@ -30,7 +30,7 @@ variable {m : ℕ} {F : Type} [Field F]
 
 private theorem exists_orderOf_pow_five (hF : UnitaryFieldData 2 m F) (h25 : 25 ∣ 2 ^ m + 1) :
     ∃ ε : Fˣ, orderOf (ε ^ 5) = 5 := by
-  haveI := hF.finite
+  have := hF.finite
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := Fˣ)
   have hord : orderOf g = Nat.card Fˣ := orderOf_eq_card_of_forall_mem_zpowers hg
   have hd : 25 ∣ orderOf g := by
@@ -54,7 +54,7 @@ private theorem exists_torus_of_dvd (hF : UnitaryFieldData 2 m F) (h25 : 25 ∣ 
         ((φ (av v) * (φ (av v'))⁻¹ : gramSU hF ((1 : GL (Fin 5) F) :
           Matrix (Fin 5) (Fin 5) F)) : GL (Fin 5) F) = GeneralLinearGroup.scalar (Fin 5) c →
         v = v' := by
-  haveI : CharP F 2 := hF.charP
+  have : CharP F 2 := hF.charP
   obtain ⟨ε, hζo⟩ := exists_orderOf_pow_five hF h25
   obtain ⟨ζ, hεζ⟩ : ∃ ζ, ε ^ 5 = ζ := ⟨_, rfl⟩
   rw [hεζ] at hζo
@@ -65,9 +65,9 @@ private theorem exists_torus_of_dvd (hF : UnitaryFieldData 2 m F) (h25 : 25 ∣ 
   obtain ⟨c, hc⟩ : ∃ c : Fin 3 → Fin 5 → Fˣ,
       ∀ j i, c j i = ε⁻¹ * if i = j.succ.succ then ζ else 1 := ⟨_, fun _ _ => rfl⟩
   have hc0 : ∀ j, c j 0 = ε⁻¹ := fun j => by
-    rw [hc, if_neg (show (0 : Fin 5) ≠ j.succ.succ by revert j; decide), mul_one]
+    rw [hc, ite_eq_right (show (0 : Fin 5) ≠ j.succ.succ by revert j; decide), mul_one]
   have hc1 : ∀ j, c j 1 = ε⁻¹ := fun j => by
-    rw [hc, if_neg (show (1 : Fin 5) ≠ j.succ.succ by revert j; decide), mul_one]
+    rw [hc, ite_eq_right (show (1 : Fin 5) ≠ j.succ.succ by revert j; decide), mul_one]
   have hc5 : ∀ j i, c j i ^ 5 = ε⁻¹ ^ 5 := fun j i => by
     rw [hc, mul_pow]
     split_ifs

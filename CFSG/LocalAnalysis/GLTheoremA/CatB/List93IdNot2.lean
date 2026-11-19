@@ -63,7 +63,7 @@ theorem lie_reduce {a : ℕ} (ha : 1 ≤ a) (t : StatedLieTag) (n f : ℕ)
        first
          | (have := tri_ge (n := n) (by omega); omega)
          | (have := Nat.le_self_pow (show (2 : ℕ) ≠ 0 by norm_num) n; omega)
-         | (have := Nat.le_mul_of_pos_right n (show 0 < n - 1 by omega); omega))
+)
 
 theorem chk_of_bounded {a N : ℕ} (ha : 1 ≤ a)
     (hb : ∀ t ∈ lie2Tags, ∀ n ≤ a + 1, ∀ f ≤ a, lieSylowExponent t n * f = a →

@@ -53,7 +53,7 @@ theorem proper_full_core_high_rank_component_unique
       ⁅P, Q⁆ ≤ ⁅L, M⁆ := Subgroup.commutator_mono hPL hQM
       _ = ⊥ := LocalComponents.commute_of_ne L M hL hM hne
   have htwo := commuting_two_subgroups_join_isPGroup P Q
-    (TL.isPGroup'.map L.subtype) (TM.isPGroup'.map M.subtype) hcomm
+    (TL.isPGroup.map L.subtype) (TM.isPGroup.map M.subtype) hcomm
   obtain ⟨a, ha⟩ := pGroup_conjugate_into_sylow_within_overgroup
     2 Nat.prime_two S ⊤ le_top (P ⊔ Q) htwo le_top
   let e : MulAut G := MulAut.conj (a : G)

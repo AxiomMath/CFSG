@@ -73,7 +73,7 @@ private theorem ggK1Do4_finrank_Ucol {K : Type} [Field K] : Module.finrank K (gg
       LinearMap.ker ((LinearMap.proj (Sum.inl 1) : (Fin 2 ⊕ Fin 2 → K) →ₗ[K] K).prod
         (LinearMap.proj (Sum.inr 0))) := by
     ext v
-    simp [ggK1Do4_Ucol, LinearMap.mem_ker, LinearMap.prod_apply]
+    simp [ggK1Do4_Ucol, LinearMap.mem_ker]
   have hsurj : Function.Surjective
       ((LinearMap.proj (Sum.inl 1) : (Fin 2 ⊕ Fin 2 → K) →ₗ[K] K).prod
         (LinearMap.proj (Sum.inr 0))) := by
@@ -94,7 +94,7 @@ private theorem ggK1Do4_finrank_Urow {K : Type} [Field K] : Module.finrank K (gg
       LinearMap.ker ((LinearMap.proj (Sum.inr 0) : (Fin 2 ⊕ Fin 2 → K) →ₗ[K] K).prod
         (LinearMap.proj (Sum.inr 1))) := by
     ext v
-    simp [ggK1Do4_Urow, LinearMap.mem_ker, LinearMap.prod_apply]
+    simp [ggK1Do4_Urow, LinearMap.mem_ker]
   have hsurj : Function.Surjective
       ((LinearMap.proj (Sum.inr 0) : (Fin 2 ⊕ Fin 2 → K) →ₗ[K] K).prod
         (LinearMap.proj (Sum.inr 1))) := by
@@ -388,11 +388,11 @@ private theorem ggK1Do4_card_omega {K : Type} [Field K] [Finite K] [CharP K 2] :
 
 private theorem ggK1Do4_T_eq_omega {K : Type} [Field K] [Finite K] [CharP K 2] :
     ggK1Do4_T (K := K) = omegaGroup (qPlusForm K 2) (nondegenerate_qPlusForm 2) := by
-  haveI : Finite (Fin 2 ⊕ Fin 2 → K) := inferInstance
-  haveI : Finite ((Fin 2 ⊕ Fin 2 → K) ≃ₗ[K] (Fin 2 ⊕ Fin 2 → K)) :=
+  have : Finite (Fin 2 ⊕ Fin 2 → K) := inferInstance
+  have : Finite ((Fin 2 ⊕ Fin 2 → K) ≃ₗ[K] (Fin 2 ⊕ Fin 2 → K)) :=
     Finite.of_injective (fun e : _ ≃ₗ[K] _ => (e : _ → _))
       fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
-  haveI : Finite ↥(omegaGroup (qPlusForm K 2) (nondegenerate_qPlusForm 2)) := inferInstance
+  have : Finite ↥(omegaGroup (qPlusForm K 2) (nondegenerate_qPlusForm 2)) := inferInstance
   refine Subgroup.eq_of_le_of_card_ge ggK1Do4_T_le_omega ?_
   rw [ggK1Do4_card_T, ggK1Do4_card_SL2_prod, ggK1Do4_card_omega]
 

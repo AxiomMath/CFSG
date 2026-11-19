@@ -189,7 +189,7 @@ theorem card_K1_le [Finite Γ] (E : Subgroup Γ) [E.Normal] (z : Γ)
   have hkc : Nat.card φ.ker = Nat.card (centralizer (E : Set Γ)) := by
     rw [hker]
     exact Nat.card_congr (subgroupOfEquivOfLe (centralizer_le_K1 hzc)).toEquiv
-  letI : CommGroup ↥E :=
+  let : CommGroup ↥E :=
     { (inferInstance : Group ↥E) with mul_comm := fun a b => Subtype.ext (hEc a a.2 b b.2) }
   have hrange : Nat.card φ.range ≤ Nat.card ↥E / 2 := by
     apply card_le_of_trivial_on_quotient (E := ↥E)
@@ -199,7 +199,7 @@ theorem card_K1_le [Finite Γ] (E : Subgroup Γ) [E.Normal] (z : Γ)
     obtain ⟨k, hk⟩ := mem_zpowers_iff.1 h
     refine mem_zpowers_iff.2 ⟨k, ?_⟩
     apply Subtype.ext
-    simp only [φ, MonoidHom.comp_apply, MulAut.conjNormal_apply, coe_subtype]
+    simp only [φ, MonoidHom.comp_apply, coe_subtype]
     simpa using hk
   rw [← hcard, hkc]
   exact Nat.mul_le_mul_left _ hrange
@@ -589,7 +589,7 @@ theorem ncard_Sig [Finite Γ] : S.Sig.ncard = 5 := by
   classical
   have hLfin : S.Lg.Finite := Set.toFinite _
   let φ : Γ → ↥S.E ⧸ S.Z := fun γ => if h : γ ∈ S.E then QuotientGroup.mk ⟨γ, h⟩ else 1
-  have hφ : ∀ γ (h : γ ∈ S.E), φ γ = QuotientGroup.mk ⟨γ, h⟩ := fun γ h => dif_pos h
+  have hφ : ∀ γ (h : γ ∈ S.E), φ γ = QuotientGroup.mk ⟨γ, h⟩ := fun γ h => dite_eq_left h
   have hSig : S.Sig = φ '' S.Lg := by
     ext x
     constructor
@@ -648,7 +648,7 @@ theorem ncard_Sig [Finite Γ] : S.Sig.ncard = 5 := by
 theorem index_K1 [Finite Γ] (h3 : ¬ 3 ∣ Nat.card Γ) :
     (K1 S.E S.z S.z_central).index ≤ 20 ∧
       ((K1 S.E S.z S.z_central).index = 20 → CFSG.pCore 2 Γ ≤ K1 S.E S.z S.z_central) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have e5 : ↥S.Sig ≃ Fin 5 :=
     Finite.equivFinOfCardEq (by rw [Nat.card_coe_set_eq]; exact S.ncard_Sig)
   let ι : Γ →* Equiv.Perm (Fin 5) :=
@@ -691,7 +691,7 @@ theorem squeeze [Finite Γ] (S : SqueezeData Γ) (h3 : ¬ 3 ∣ Nat.card Γ)
     Nat.card (K1 S.E S.z S.z_central) = 512 * Nat.card (CA S.E S.t) ∧
     (K1 S.E S.z S.z_central).index = 20 ∧
     (IsPGroup 2 (CA S.E S.t) → CFSG.pCore 2 Γ = K1 S.E S.z S.z_central) := by
-  haveI := S.instNormalE
+  have := S.instNormalE
   obtain ⟨hidx_le, hcore⟩ := S.index_K1 h3
   have hK1 := card_K1_le S.E S.z S.z_central S.comm S.sq S.z_mem S.z_ne
   have hC := card_centralizer_le S.t_sq S.t_conj

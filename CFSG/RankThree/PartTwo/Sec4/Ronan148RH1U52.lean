@@ -143,7 +143,7 @@ theorem eq_of_Φ {a b : U} (h : Φ (matU a) = Φ (matU b)) : a = b :=
   matU_injective (Φ.injective h)
 
 theorem orderOf_yU : orderOf yU = 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   refine orderOf_eq_prime (eq_of_Φ ?_) fun h => u5Y_ne ?_
   · rw [map_pow, map_pow, Φy, u5Y_pow, map_one, map_one]
   · rw [← Φy, h, map_one, map_one]
@@ -181,7 +181,7 @@ theorem orderOf_yf : orderOf (yU * fU) = 9 := by
     norm_num
 
 theorem unitary_Φ (s : U) : ((Φ (matU s)).map (· ^ (2 ^ 1)))ᵀ * Φ (matU s) = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hKK : Nat.card KK = (2 ^ 1) ^ 2 := by
     rw [GaloisField.card 2 (2 * 1) (by norm_num)]
     norm_num
@@ -254,7 +254,7 @@ theorem good427_su52 (s : U) (hs : orderOf s = 3) :
   · obtain ⟨x, hx⟩ := RonanK429F.exists_conj_commute_of_dvd (by norm_num) orderOf_yU
       (by rw [card_U]; norm_num) h5
     have h3' : (x⁻¹ * s * x) ^ 3 = 1 := by
-      rw [show x⁻¹ * s * x = MulAut.conj x⁻¹ s by simp [MulAut.conj_apply], ← map_pow, hs3,
+      rw [show x⁻¹ * s * x = MulAut.conj x⁻¹ s by simp, ← map_pow, hs3,
         map_one]
     have h1' : x⁻¹ * s * x ≠ 1 := by
       intro h
@@ -281,7 +281,7 @@ section Row
 theorem rowOf427_su52
     : RowOf427 (projSU 5 2 1) :=
   rowOf427_of_noCfgS fun S _ _ hs hna ⟨e⟩ => by
-    haveI := hs
+    have := hs
     have hout : ¬ 3 ∣ Nat.card (Outer (projSU 5 2 1)) := by
       rw [Item434SmallTwoIV.card_outer_projSU_five_two]
       norm_num

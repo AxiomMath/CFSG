@@ -30,7 +30,7 @@ theorem pijMat_eq_one_sub_vecMulVec {i j : Fin n} (hij : i ≠ j) {s : K} (hs : 
   ext r c
   simp only [pijMat, Matrix.sub_apply, Matrix.one_apply, Matrix.vecMulVec_apply,
     Pi.single_apply, Pi.sub_apply, Pi.smul_apply, smul_eq_mul]
-  split_ifs <;> (simp_all; try ring)
+  split_ifs <;> (simp_all)
 
 theorem blockSucc_diagSignMat (i : Fin n) :
     Matrix.blockSucc (diagSignMat i : Matrix (Fin n) (Fin n) K) = diagSignMat i.castSucc := by

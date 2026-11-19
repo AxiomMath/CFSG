@@ -36,8 +36,8 @@ theorem exists_conj_pow_of_isJ1 {X : Type} [Group X] (h : IsJ1 X) :
   obtain ⟨h19, -⟩ := CFSG.Walter.J1Props.rels_r19
   obtain ⟨-, -, -, -, h11, -⟩ := CFSG.Walter.J1Props.rels_r
   obtain ⟨-, -, -, -, p11, n11, p19, n19⟩ := CFSG.Walter.J1Props.orders_yJ
-  haveI : Fact (Nat.Prime 19) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 19) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
   refine ⟨⟨f (elt wy19), f (elt wr19), ?_, ?_⟩, f (elt wy11), f (elt wr11), ?_, ?_⟩
   · rw [MulEquiv.orderOf_eq]
     exact orderOf_eq_prime p19 n19

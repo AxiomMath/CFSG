@@ -174,7 +174,7 @@ theorem IsBenderGroup.commute_trans {K : Type*} [Group K] [Finite K]
     have htp : IsPGroup 2 (Subgroup.zpowers t) :=
       IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, ht, pow_one])
     have h2 : IsPGroup 2 ((Q : Subgroup K) ⊔ Subgroup.zpowers t : Subgroup K) :=
-      Q.isPGroup'.to_sup_of_normal_left' htp (Subgroup.zpowers_le.mpr htM)
+      Q.isPGroup.to_sup_of_normal_left' htp (Subgroup.zpowers_le.mpr htM)
     have heq := Q.maximal_isPGroup.eq_of_ge h2 le_sup_left
     show t ∈ (Q : Subgroup K)
     rw [← heq]
@@ -238,17 +238,17 @@ theorem exists_conj_mem_sylow [Finite G] (hS : Setup G D) (S T : Sylow 2 G) {a d
     · exact hfa.eq.symm
     · exact hfd.eq.symm
   have hcommS : ∀ f ∈ D, f ∈ S → Commute f a ∧ Commute f d := fun f hf hfS =>
-    ⟨hS.oddT.commute_of_isPGroup S.isPGroup' hf ha hfS haS,
-      hS.oddT.commute_of_isPGroup S.isPGroup' hf hd hfS hdS⟩
+    ⟨hS.oddT.commute_of_isPGroup S.isPGroup hf ha hfS haS,
+      hS.oddT.commute_of_isPGroup S.isPGroup hf hd hfS hdS⟩
   set P := Subgroup.closure (D ∩ (S : Set G))
   have hPK : P ≤ K := (Subgroup.closure_le _).mpr fun f hf =>
     hmemK (hcommS f hf.1 hf.2).1 (hcommS f hf.1 hf.2).2
   have hPS : P ≤ S := (Subgroup.closure_le _).mpr fun f hf => hf.2
   have hP2 : IsPGroup 2 (P.subgroupOf K) :=
-    (S.isPGroup'.to_le hPS).comap_of_injective K.subtype Subtype.coe_injective
+    (S.isPGroup.to_le hPS).comap_of_injective K.subtype Subtype.coe_injective
   obtain ⟨R, hR⟩ := hP2.exists_le_sylow
-  have htK : t ∈ K := hmemK (hS.oddT.commute_of_isPGroup T.isPGroup' htD ha htT haT)
-    (hS.oddT.commute_of_isPGroup T.isPGroup' htD hd htT hdT)
+  have htK : t ∈ K := hmemK (hS.oddT.commute_of_isPGroup T.isPGroup htD ha htT haT)
+    (hS.oddT.commute_of_isPGroup T.isPGroup htD hd htT hdT)
   have ht2 : IsPGroup 2 (Subgroup.zpowers (⟨t, htK⟩ : K)) :=
     IsPGroup.of_card (n := 1) (by
       rw [Nat.card_zpowers, Subgroup.orderOf_mk, hS.oddT.orderOf_eq_two htD, pow_one])
@@ -265,7 +265,7 @@ theorem exists_conj_mem_sylow [Finite G] (hS : Setup G D) (S T : Sylow 2 G) {a d
     exact this.symm
   ·
     set R₀ := (R : Subgroup K).map K.subtype
-    have hR₀2 : IsPGroup 2 R₀ := R.isPGroup'.map K.subtype
+    have hR₀2 : IsPGroup 2 R₀ := R.isPGroup.map K.subtype
     have hmem : (g : G)⁻¹ * t * (g : G)⁻¹⁻¹ ∈ R₀ := ⟨_, htR', by simp⟩
     have hD' : (g : G)⁻¹ * t * (g : G)⁻¹⁻¹ ∈ D := hS.normal _ t htD
     refine mem_sylow_of_commute hS S hD' fun f hf hfS => ?_

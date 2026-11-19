@@ -33,8 +33,8 @@ theorem su3NoA1Eight_holds (f : ℕ) : SU3NoA1Eight f := by
     unfold GGHasLabel at hX
     dsimp only [CFSG.StandardType.LargeEvenRawDatum, CFSG.Assembly.LargeEvenRecipeLinear] at hX
     obtain ⟨F, hFfield, hFfinite, hFcard, hQF⟩ := hX
-    letI : Field F := hFfield
-    letI : Finite F := hFfinite
+    let : Field F := hFfield
+    let : Finite F := hFfinite
     obtain ⟨e₀⟩ := hQF
     have hF8 : Nat.card F = 8 := by
       rw [hFcard]
@@ -114,7 +114,7 @@ theorem su3NoA1Eight_holds (f : ℕ) : SU3NoA1Eight f := by
   have h512le :
       512 ≤ Nat.card (↥(⊤ : Subgroup ↥(unitarySU 2 f K 3)) ⧸
           Subgroup.center ↥(⊤ : Subgroup ↥(unitarySU 2 f K 3))) := by
-    haveI : Nonempty (↥(⊤ : Subgroup ↥(unitarySU 2 f K 3)) ⧸
+    have : Nonempty (↥(⊤ : Subgroup ↥(unitarySU 2 f K 3)) ⧸
         Subgroup.center ↥(⊤ : Subgroup ↥(unitarySU 2 f K 3))) := ⟨1⟩
     have hpos : 0 < Nat.card (↥(⊤ : Subgroup ↥(unitarySU 2 f K 3)) ⧸
         Subgroup.center ↥(⊤ : Subgroup ↥(unitarySU 2 f K 3))) := Nat.card_pos

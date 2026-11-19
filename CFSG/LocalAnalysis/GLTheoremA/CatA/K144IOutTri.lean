@@ -65,7 +65,7 @@ theorem not_five_dvd_card_fixSubgroup_D4_two {S : Type} [Group S] [Finite S] {α
   obtain ⟨-, -, -, hEq⟩ := hQ0
   subst hEq
   dsimp only [CFSG.Assembly.LargeEvenRawDatum] at hraw
-  rw [if_neg (by norm_num)] at hraw
+  rw [ite_eq_right (by norm_num)] at hraw
   obtain ⟨K, hKF, hKfin, hK, hsR, hnaR, θ, -⟩ := hraw
   have hK2 : Nat.card K = 2 := by rw [hK]; norm_num
   have hchar2 : CharP K 2 := CFSG.StandardType.charP_two_of_card hK
@@ -121,7 +121,7 @@ theorem not_five_dvd_card_fixSubgroup_D4_two {S : Type} [Group S] [Finite S] {α
   ·
     have hσ1 : σ = 1 := ringEquiv_eq_one_of_card_two hK2 σ
     subst hσ1
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨K₃, _, _, Fr, hK₃, hFr, φ, -, -, ⟨eD⟩⟩ :=
       CFSG.HardMathSupport.Solomon.Coordinator.LieSemisimple.D4Dual.exists_dual_fixEquiv
         (ℓ := 2) (f := 1) le_rfl K hK α' hα3 g a hε12 hα'eq

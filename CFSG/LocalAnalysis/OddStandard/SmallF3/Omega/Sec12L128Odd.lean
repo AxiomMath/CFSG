@@ -120,7 +120,7 @@ private lemma sec128_oTwoRes_centralizes {Y : Type} [Group Y] [Finite Y] (tau : 
     exact Subgroup.mem_map.mpr ⟨e.symm m, hkP', by simp⟩
   have hC_normal : (Subgroup.centralizer (O : Set Y)).Normal := inferInstance
   have hP'_normal : P'.Normal := hC_normal.subgroupOf K
-  haveI hPM_normal : PM.Normal := hP'_normal.map e.toMonoidHom e.surjective
+  have hPM_normal : PM.Normal := hP'_normal.map e.toMonoidHom e.surjective
   have hP_le : ∀ m ∈ Cl, m ∈ PM := sec128_model_oTwo_le PM hPM
   have hT_le : T ≤ Subgroup.centralizer (O : Set Y) := by
     change oTwoRes K ≤ Subgroup.centralizer (O : Set Y)

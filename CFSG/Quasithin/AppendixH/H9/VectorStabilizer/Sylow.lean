@@ -22,7 +22,7 @@ private theorem utriGL_le_stabGL (m : ℕ) : utriGL (m + 1) ≤ stabGL m := by
   · subst hi
     simp [h.2]
   · rw [h.1 i 0 (Fin.pos_iff_ne_zero.mpr hi)]
-    simp [Pi.single_apply, hi]
+    simp [hi]
 
 theorem T0_inf_stabSub_V1n_eq_centSub (m : ℕ) :
     T0 (m + 1) ⊓ stabSub (V1n (m + 1)) =

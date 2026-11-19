@@ -15,18 +15,21 @@ variable {G : Type} [Group G] [Finite G] {V K S X : Subgroup G} {p : ℕ}
 private def nineTwoA_ncl (K Y : Subgroup G) : Subgroup G :=
   ⨆ k : ↥K, CFSG.Quasithin.conjSubgroup Y (k : G)
 
+omit [Finite G] in
 private theorem nineTwoA_conjSubgroup_le_of_le {A B : Subgroup G} (h : A ≤ B) {k : G}
     (hk : k ∈ B) : CFSG.Quasithin.conjSubgroup A k ≤ B := by
   intro x hx
   rw [CFSG.Quasithin.mem_conjSubgroup_iff] at hx
   exact (Subgroup.mem_normalizer_iff.mp (Subgroup.le_normalizer hk) x).mpr (h hx)
 
+omit [Finite G] in
 private theorem nineTwoA_conj_smul_eq (g : G) (X : Subgroup G) :
     MulAut.conj g • X = CFSG.Quasithin.conjSubgroup X g⁻¹ := by
   rw [show MulAut.conj g • X = CFSG.CGT.Timmesfeld75.conjSubgroup g X from rfl]
   exact t75_conjSubgroup_eq X g
 
-private theorem nineTwoA_ncl_conj_mem {K Y : Subgroup G} (hYK : Y ≤ K) {k₀ : G}
+omit [Finite G] in
+private theorem nineTwoA_ncl_conj_mem {K Y : Subgroup G} (_hYK : Y ≤ K) {k₀ : G}
     (hk₀ : k₀ ∈ K) {x : G} (hx : x ∈ nineTwoA_ncl K Y) :
     k₀ * x * k₀⁻¹ ∈ nineTwoA_ncl K Y := by
   rw [nineTwoA_ncl] at hx ⊢
@@ -47,6 +50,7 @@ private theorem nineTwoA_ncl_conj_mem {K Y : Subgroup G} (hYK : Y ≤ K) {k₀ :
   · rw [show k₀ * (m * n) * k₀⁻¹ = k₀ * m * k₀⁻¹ * (k₀ * n * k₀⁻¹) by group]
     exact mul_mem hm hn
 
+omit [Finite G] in
 private theorem nineTwoA_le_ncl (K Y : Subgroup G) : Y ≤ nineTwoA_ncl K Y := by
   rw [nineTwoA_ncl]
   have h : CFSG.Quasithin.conjSubgroup Y (((1 : ↥K) : G)) ≤
@@ -54,10 +58,12 @@ private theorem nineTwoA_le_ncl (K Y : Subgroup G) : Y ≤ nineTwoA_ncl K Y := b
     le_iSup (fun k : ↥K => CFSG.Quasithin.conjSubgroup Y (k : G)) 1
   simpa [CFSG.Quasithin.conjSubgroup_one] using h
 
+omit [Finite G] in
 private theorem nineTwoA_ncl_le {K Y : Subgroup G} (hYK : Y ≤ K) : nineTwoA_ncl K Y ≤ K := by
   rw [nineTwoA_ncl]
   exact iSup_le fun k => nineTwoA_conjSubgroup_le_of_le hYK k.2
 
+omit [Finite G] in
 private theorem nineTwoA_le_normalizer_ncl {K Y : Subgroup G} (hYK : Y ≤ K) :
     K ≤ normalizer (nineTwoA_ncl K Y : Set G) := by
   intro k₀ hk₀
@@ -72,6 +78,7 @@ private theorem nineTwoA_le_normalizer_ncl {K Y : Subgroup G} (hYK : Y ≤ K) :
     have heq : k₀⁻¹ * (k₀ * x * k₀⁻¹) * (k₀⁻¹)⁻¹ = x := by group
     rwa [heq] at h'
 
+omit [Finite G] in
 private theorem nineTwoA_ncl_normal {K Y : Subgroup G} (hYK : Y ≤ K) :
     ((nineTwoA_ncl K Y).subgroupOf K).Normal :=
   (Subgroup.normal_subgroupOf_iff_le_normalizer (nineTwoA_ncl_le hYK)).mpr
@@ -79,18 +86,20 @@ private theorem nineTwoA_ncl_normal {K Y : Subgroup G} (hYK : Y ≤ K) :
 
 private theorem nineTwoA_X_le_twoResidual (h : TwoPTwo K S X p) : X ≤ twoResidual K := by
   intro x hxX
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   obtain ⟨c, hc⟩ := h.sylowP.isPGroup.exists_orderOf_eq_pow ⟨x, hxX⟩
   have hord : orderOf x = p ^ c := (Subgroup.orderOf_mk x hxX).symm.trans hc
   refine F6.mem_twoResidual_of_odd (h.sylowP.le hxX) ?_
   rw [hord]
   exact (h.prime.odd_of_ne_two h.odd).pow
 
+omit [Finite G] in
 private theorem nineTwoA_isElemAbelian_of_mem_omegaSet {V H E U : Subgroup G}
     (hV : IsElemAbelian 2 V) (hU : U ∈ omegaSet V H E) : IsElemAbelian 2 U := by
   obtain ⟨g, rfl, -, -⟩ := mem_omegaSet.mp hU
   exact isElemAbelian_conjSubgroup' hV g
 
+omit [Finite G] in
 theorem ne_of_mem_nineOmegaIn (hV : IsElemAbelian 2 V) (h : Nine1Hyp V K S X p) {A : Subgroup G}
     (hA : A ∈ nineOmegaIn V K S) : A ≠ V := by
   intro hAV
@@ -175,7 +184,7 @@ theorem exists_mem_nineOmegaIn (hV : Hyp7 V) (hm : 2 < rk ↥V) (h : Nine2Hyp V 
     intro hall
     exact h.notW (le_normalizer_wClos_zero_of_forall_le hV.1 h.base.toTwoPTwoIrred.toTwoPTwo
       hall)
-  push_neg at hnotall
+  push Not at hnotall
   obtain ⟨B, hBconj, hBS, hBnR⟩ := hnotall
   rcases (nine_two_one hV hm h).2 B hBconj hBS with hBomega | hBVe
   · exact ⟨B, hBomega⟩
@@ -186,12 +195,12 @@ theorem exists_mem_nineOmegaIn (hV : Hyp7 V) (hm : 2 < rk ↥V) (h : Nine2Hyp V 
         (B2F.isPGroup_of_isElemAbelian hV.1)
     exact hBnR (hBVe ▸ hVcore)
 
-theorem nine_two_transitive (hV : Hyp7 V) (hm : 2 < rk ↥V) (h : TwoPTwoIrred K S X p) :
+theorem nine_two_transitive (hV : Hyp7 V) (_hm : 2 < rk ↥V) (h : TwoPTwoIrred K S X p) :
     ∀ U ∈ omegaIn V K (nineE V K), ∀ U' ∈ omegaIn V K (nineE V K),
       ∃ k ∈ K, U' = conjSubgroup U k := by
   intro U hU U' hU'
   by_contra hno
-  push_neg at hno
+  push Not at hno
   have hEab : IsMulCommutative (nineE V K) := (isElemAbelian_nineE V K).1
   have hcomm_gen : ∀ k ∈ K, ∀ l ∈ K, ∀ u ∈ CFSG.Quasithin.conjSubgroup U k,
       ∀ v ∈ CFSG.Quasithin.conjSubgroup U' l, u * v = v * u := by
@@ -300,7 +309,7 @@ theorem isPGroup_normalizer_inf (hV : Hyp7 V) (h : Nine2Hyp V K S X p) {A : Subg
   have hnormA : normalizer (A : Set G) =
       CFSG.Quasithin.conjSubgroup (normalizer (V : Set G)) g := by
     rw [hAeq, ← conjSubgroup_normalizer]
-  haveI : Fact p.Prime := ⟨h.base.prime⟩
+  have : Fact p.Prime := ⟨h.base.prime⟩
   have hclaim : ∀ z : ↥(K ⊓ normalizer (A : Set G)), Odd (orderOf z) → z = 1 := by
     intro z hzodd
     have hzK : (z : G) ∈ K := z.2.1
@@ -310,7 +319,7 @@ theorem isPGroup_normalizer_inf (hV : Hyp7 V) (h : Nine2Hyp V K S X p) {A : Subg
       TwoPTwo.mem_sup_of_odd_orderOf h.base.toTwoPTwoIrred.toTwoPTwo hzK hzodd'
     let KG := ↥K
     let R0 : Subgroup KG := (pCoreOf 2 K).subgroupOf K
-    haveI hR0normal : R0.Normal :=
+    have hR0normal : R0.Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer (pCoreOf_le 2 K)).mpr
         (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 K)
     let π : KG →* KG ⧸ R0 := QuotientGroup.mk' R0

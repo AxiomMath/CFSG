@@ -29,8 +29,8 @@ private lemma mem_zpowers_of_orderOf_eq_three {G : Type*} [Group G] [Finite G] (
 theorem isCyclic_of_isPGroup_three {X : Type*} [Group X] [Finite X] (hX : ¬ HasE9 X)
     {P : Subgroup X} (hP : IsPGroup 3 P) : IsCyclic P := by
   by_contra hnc
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (IsPGroup 3 P) := ⟨hP⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (IsPGroup 3 P) := ⟨hP⟩
   obtain ⟨S, _hSnorm, hScard, hSelem⟩ :=
     CFSG.lemma_4_5_a (R := P) (p := 3) (by norm_num) hnc
   have hSne : S ≠ ⊥ := by
@@ -62,7 +62,7 @@ theorem isCyclic_of_isPGroup_three {X : Type*} [Group X] [Finite X] (hX : ¬ Has
   have hy3 : y ^ 3 = 1 := CFSG.elemPow_eq_one_of_isElementaryAbelian (A := S) y hyS
   have hyo : orderOf y = 3 := orderOf_eq_prime hy3 hyne
   have hcomm : Commute x y := by
-    haveI : IsMulCommutative S := hSelem.toIsMulCommutative
+    have : IsMulCommutative S := hSelem.toIsMulCommutative
     have h := mul_comm xS (⟨y, hyS⟩ : S)
     exact congrArg Subtype.val h
   exact hX (HasE9.map_injective P.subtype P.subtype_injective
@@ -71,7 +71,7 @@ theorem isCyclic_of_isPGroup_three {X : Type*} [Group X] [Finite X] (hX : ¬ Has
 theorem mem_of_normal_of_orderOf_eq_three {X : Type*} [Group X] [Finite X] (hX : ¬ HasE9 X)
     {M : Subgroup X} [M.Normal] {y x : X} (hy : y ∈ M) (hyo : orderOf y = 3)
     (hxo : orderOf x = 3) : x ∈ M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hxP : IsPGroup 3 (Subgroup.zpowers x) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hxo, pow_one])
   have hyP : IsPGroup 3 (Subgroup.zpowers y) :=
@@ -80,7 +80,7 @@ theorem mem_of_normal_of_orderOf_eq_three {X : Type*} [Group X] [Finite X] (hX :
   obtain ⟨P₂, hyP₂le⟩ := hyP.exists_le_sylow
   have hxP₁ : x ∈ (P₁ : Subgroup X) := hxP₁le (Subgroup.mem_zpowers x)
   have hyP₂ : y ∈ (P₂ : Subgroup X) := hyP₂le (Subgroup.mem_zpowers y)
-  haveI : Finite (Sylow 3 X) := Sylow.finite_of_finiteIndex P₁
+  have : Finite (Sylow 3 X) := Sylow.finite_of_finiteIndex P₁
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq (M := X) P₂ P₁
   have hy'P₁ : (MulAut.conj g) y ∈ (P₁ : Subgroup X) := by
     have hmem := Subgroup.smul_mem_pointwise_smul y (MulAut.conj g) (P₂ : Subgroup X) hyP₂
@@ -92,7 +92,7 @@ theorem mem_of_normal_of_orderOf_eq_three {X : Type*} [Group X] [Finite X] (hX :
   have hy'M : (MulAut.conj g) y ∈ M := by
     rw [MulAut.conj_apply]
     exact (inferInstance : M.Normal).conj_mem y hy g
-  haveI : IsCyclic (P₁ : Subgroup X) := isCyclic_of_isPGroup_three hX P₁.isPGroup'
+  have : IsCyclic (P₁ : Subgroup X) := isCyclic_of_isPGroup_three hX P₁.isPGroup
   have hcomm : Commute x ((MulAut.conj g) y) := by
     have h := mul_comm (⟨x, hxP₁⟩ : (P₁ : Subgroup X))
       (⟨(MulAut.conj g) y, hy'P₁⟩ : (P₁ : Subgroup X))
@@ -103,7 +103,7 @@ theorem mem_of_normal_of_orderOf_eq_three {X : Type*} [Group X] [Finite X] (hX :
 
 theorem mem_of_normal_of_three_dvd_card {X : Type*} [Group X] [Finite X] (hX : ¬ HasE9 X)
     {M : Subgroup X} [M.Normal] (hM : 3 ∣ Nat.card M) {x : X} (hxo : orderOf x = 3) : x ∈ M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨y, hyo⟩ := exists_prime_orderOf_dvd_card' (G := M) 3 hM
   have hyoX : orderOf (y : X) = 3 := by rw [Subgroup.orderOf_coe, hyo]
   exact mem_of_normal_of_orderOf_eq_three hX y.2 hyoX hxo

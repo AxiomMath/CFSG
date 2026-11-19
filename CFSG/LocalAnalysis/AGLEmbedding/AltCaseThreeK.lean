@@ -158,7 +158,7 @@ theorem mem_map_weakCore (hp : p.Prime) (hp2 : p ≠ 2) (e : K ≃* alternatingG
     · exact Subgroup.mem_sup_left (Subgroup.subset_closure (by simp))
     · exact Subgroup.mem_sup_right ⟨hc, hcen x (commute_of_disjoint_support e hac)
         (commute_of_disjoint_support e hbc)⟩
-  have h2 := two_le_pRank_closure_pair hp hp2 T.isPGroup' ha hb hoa hob hb'
+  have h2 := two_le_pRank_closure_pair hp hp2 T.isPGroup ha hb hoa hob hb'
   have h3 := (three_le_pRank_closure hp (commute_of_disjoint_support e hab)
     (commute_of_disjoint_support e hac) (commute_of_disjoint_support e hbc) hoa
     (hob ▸ pow_orderOf_eq_one b) (hoc ▸ pow_orderOf_eq_one c) hb' hc').trans
@@ -243,7 +243,7 @@ theorem caseThreeKFact_of_center_ne_bot {K : Type} [Group K] [Finite K]
     · exact Or.inr (by rw [hKcard]; norm_num [Nat.factorial])
   intro T
   have hT27 : Nat.card (T : Subgroup K) = 3 ^ 3 := by
-    obtain ⟨m, hm⟩ := T.isPGroup'.exists_card_eq
+    obtain ⟨m, hm⟩ := T.isPGroup.exists_card_eq
     have hidx := T.not_dvd_index
     have hmul := (T : Subgroup K).card_mul_index
     rw [hm] at hmul

@@ -63,7 +63,7 @@ private theorem u5_orderOf_eq_two {p q : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hp
     have h := (ZMod.natCast_eq_zero_iff (q - 1) p).2 hpq
     rw [Nat.cast_sub hq, Nat.cast_one, sub_eq_zero] at h
     exact h
-  rw [hq1, orderOf_neg_one, ZMod.ringChar_zmod_n, if_neg hp2]
+  rw [hq1, orderOf_neg_one, ZMod.ringChar_zmod_n, ite_eq_right hp2]
 
 private theorem u5_orderOf_ne_one {p q : ℕ} (hp : p.Prime) (hpq : ¬ p ∣ q + 1) :
     orderOf (-(q : ZMod p)) ≠ 1 := by

@@ -46,7 +46,7 @@ theorem lt_moduleM_of_symmetry (hc : BinaryActionRankCounterexample G p P T B e 
     exact lt_commRank_of_orderOf_eq_two_of_symmetry hc hsym ht
   · have hM : moduleM ρ = Module.finrank (ZMod 2) V := by
       unfold moduleM
-      rw [if_neg hev]
+      rw [ite_eq_right hev]
     rw [hM]
     have h1 := two_mul_card_Delta_le_finrank hc
     have h2 := lt_card_Delta hc

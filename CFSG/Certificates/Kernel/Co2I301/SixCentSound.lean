@@ -26,7 +26,7 @@ theorem vg_pos (g : Equiv.Perm (Fin 63)) {y : ℕ} (h0 : 0 < y) (h : y < 64) : 0
 
 theorem vg_val (g : Equiv.Perm (Fin 63)) (p : Fin 63) : vg g (p + 1) = g p + 1 := by
   have h : 0 < (p : ℕ) + 1 ∧ (p : ℕ) + 1 < 64 := ⟨by omega, by omega⟩
-  rw [vg, dif_pos h]
+  rw [vg, dite_eq_left h]
   congr 3
 
 theorem vv_eq {P : ℕ} {g : Equiv.Perm (Fin 63)} (hP : R7 P g) {y : ℕ} (hy : y < 64) :

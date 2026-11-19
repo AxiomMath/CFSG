@@ -112,7 +112,7 @@ theorem ggNSLieN3A_gu_rescale {K : Type} [Field K] [Finite K] [Fact (Nat.Prime 2
             (μ • (1 : Matrix (Fin m) (Fin m) K)) *
             ((A⁻¹ : GL (Fin m) K) : Matrix (Fin m) (Fin m) K) := by rw [hc]
       _ = 1 := by
-          simp only [Matrix.smul_mul, Matrix.mul_smul, Matrix.mul_one, Matrix.one_mul, smul_smul]
+          simp only [Matrix.smul_mul, Matrix.mul_smul, Matrix.mul_one, smul_smul]
           rw [mul_inv_cancel₀ hμ0, one_smul, hAA]
   · have hscomm : ∀ y : GL (Fin m) K, y * s = s * y := by
       intro y

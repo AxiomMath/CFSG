@@ -23,12 +23,12 @@ theorem uc22s2112r34_exists_sylow_mem_funSet {X : Type} [Group X] [Finite X]
     (hK : 𝔉 ⊤ K) : ∃ P : Sylow 2 X, K ∈ F14.FunSet 𝔉 X (P : Subgroup X) := by
   obtain ⟨Q⟩ : Nonempty (Sylow 2 K) := inferInstance
   let Q' : Subgroup X := (Q : Subgroup K).map K.subtype
-  have hQ' : IsPGroup 2 Q' := Q.isPGroup'.map _
+  have hQ' : IsPGroup 2 Q' := Q.isPGroup.map _
   obtain ⟨P, hP⟩ := hQ'.exists_le_sylow
   have hQS : CFSG.ABGLocalTools.IsSylowOf 2 Q' K := ⟨Q, rfl⟩
   have hinf : (P : Subgroup X) ⊓ K = Q' :=
     hQS.eq_of_le (le_inf hP (Subgroup.map_subtype_le _)) inf_le_right
-      (P.isPGroup'.to_le inf_le_left)
+      (P.isPGroup.to_le inf_le_left)
   refine ⟨P, ?_⟩
   change 𝔉 ⊤ K ∧ CFSG.ABGLocalTools.IsSylowOf 2 ((P : Subgroup X) ⊓ K) K
   rw [hinf]

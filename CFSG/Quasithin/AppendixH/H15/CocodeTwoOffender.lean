@@ -44,7 +44,7 @@ private theorem conj_mem_mog22plus {a b : Fin 24} (hab : a ≠ b) {τ : S24}
 theorem offender_unique (hM : MCtx false d a b O Tr S B T₀ Γ ρ β)
     {A : Subgroup (MulAut V)} (hAT : A ≤ rImg ρ (T₀ ⊓ Γ)) (hA : H.IsFOneOffender ρ.range A) :
     A = rImg ρ (octFix O) := by
-  haveI : Finite V := mctx_finite hM
+  have : Finite V := mctx_finite hM
   have hρ : Function.Injective ρ := mctx_rho_injective hM
   have hAρ : A ≤ ρ.range := hA.1.1
   have hA1 : A ≠ ⊥ := hA.1.2.1

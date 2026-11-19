@@ -1101,7 +1101,7 @@ private theorem single_of_card {y : H6} (hy : y ∈ baseA zH)
     intro h0
     have ha : a = 0 ∧ b = 0 ∧ c = 0 := by
       simp only [List.filter_cons, List.filter_nil] at h0
-      split_ifs at h0 with h1 h2 h3 <;> simp_all
+      split_ifs at h0 with h1 h2 h3; simp_all
     obtain ⟨ha, hb, hc'⟩ := ha
     rw [ha, hb, hc', pow_zero, pow_zero, pow_zero, one_mul, one_mul,
       Subgroup.centralizer_singleton_one, Subgroup.card_top, card_H6] at hc

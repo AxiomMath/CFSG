@@ -84,7 +84,7 @@ theorem map_eq_of_normalizer_le_higher {r : ℕ} {K : Type} [Field K] [Finite K]
       rw [hconj, ← hveq]
       change (MulAut.conj g⁻¹) ((MulAut.conj g) v) ∈ unipotent r K
       have hcancel' : (MulAut.conj g⁻¹) ((MulAut.conj g) v) = v := by
-        simp only [MulAut.mul_apply, MulAut.conj_apply]
+        simp only [MulAut.conj_apply]
         group
       rw [hcancel']
       exact hv
@@ -97,7 +97,7 @@ theorem map_eq_of_normalizer_le_higher {r : ℕ} {K : Type} [Field K] [Finite K]
     rintro y ⟨x, hxP, rfl⟩
     change (MulAut.conj B * fieldSp r K σ) x ∈ P
     have hxQ : g⁻¹ * x * g ∈ P.map (MulAut.conj g⁻¹).toMonoidHom :=
-      Subgroup.mem_map.mpr ⟨x, hxP, by simp [MulAut.conj_apply]⟩
+      Subgroup.mem_map.mpr ⟨x, hxP, by simp⟩
     have hφfix : (P.map (MulAut.conj g⁻¹).toMonoidHom).map
         (fieldSp r K σ).toMonoidHom = P.map (MulAut.conj g⁻¹).toMonoidHom :=
       map_fieldSp_eq_of_borel_le σ hB_le
@@ -122,7 +122,7 @@ theorem map_eq_of_normalizer_le_higher {r : ℕ} {K : Type} [Field K] [Finite K]
           (MulAut.conj g⁻¹) x' * (g⁻¹ * B * fieldSp r K σ g)⁻¹ * g⁻¹ =
         (g * (g⁻¹ * B * fieldSp r K σ g) * g⁻¹) * x' *
           (g * (g⁻¹ * B * fieldSp r K σ g) * g⁻¹)⁻¹ := by
-      simp only [MulAut.mul_apply, MulAut.conj_apply]
+      simp only [MulAut.conj_apply]
       group
     change g * (g⁻¹ * B * fieldSp r K σ g) * (MulAut.conj g⁻¹) x' *
         (g⁻¹ * B * fieldSp r K σ g)⁻¹ * g⁻¹ ∈ P
@@ -169,7 +169,7 @@ theorem congr_symm_conjAut3 {K : Type} [Field K] [CharP K 2] (s : StatedSp 3 K) 
 theorem mulAut_decomp3 {K : Type} [Field K] [Finite K] [CharP K 2]
     (θ : MulAut (StatedSp 3 K)) :
     ∃ (g : StatedSp 3 K) (σ : K ≃+* K), θ = MulAut.conj g * fieldSp 3 K σ := by
-  haveI : NeZero (3 : ℕ) := ⟨by norm_num⟩
+  have : NeZero (3 : ℕ) := ⟨by norm_num⟩
   set α : MulAut (StatedProj (StatedSp 3 K)) := MulAut.congr (projMulEquiv3 K) θ with hα
   obtain ⟨A, σ, hAσ⟩ :=
     (CFSG.LocalAnalysis.ComponentInitial.SymplecticHigher.automorphism_generation
@@ -202,7 +202,7 @@ theorem kDiag_statedSp3 (K : Type) [Field K] [Finite K] [CharP K 2] :
   intro θ hodd S hSθ P hPpar hSP x hx
   obtain ⟨g, σ, hθeq⟩ := mulAut_decomp3 (K := K) θ
   have hSP' : (S : Subgroup (StatedSp 3 K)) ≤ P :=
-    hPpar.le_of_le_normalizer S.isPGroup' hSP
+    hPpar.le_of_le_normalizer S.isPGroup hSP
   have hNP : Subgroup.normalizer ((S : Subgroup (StatedSp 3 K)) :
       Set (StatedSp 3 K)) ≤ P :=
     hPpar.normalizer_le S hSP'
@@ -241,16 +241,16 @@ theorem kDiag_of_lieModel_psp6 {n : ℕ} {X : Type} [Group X] [Finite X]
     CFSG.Blueprint.LieModel.statedClassicalModel hX ht
   rw [CFSG.Open.StatedClassicalModel] at hmodel
   obtain ⟨hadm, K, hfield, hfinite, hcard, ⟨e⟩⟩ := hmodel
-  letI : Field K := hfield
-  letI : Finite K := hfinite
-  letI : Fintype K := Fintype.ofFinite K
+  let : Field K := hfield
+  let : Finite K := hfinite
+  let : Fintype K := Fintype.ofFinite K
   rw [CFSG.Open.StatedLieAdmissible] at hadm
   have hn1 : 1 ≤ n := hadm.2.1
   have hEven : Fintype.card K % 2 = 0 := by
     rw [Fintype.card_eq_nat_card, hcard]
     exact Nat.mod_eq_zero_of_dvd (dvd_pow_self 2 (by omega))
   have hchar : ringChar K = 2 := FiniteField.even_card_iff_char_two.mpr hEven
-  haveI : CharP K 2 := ringChar.of_eq hchar
+  have : CharP K 2 := ringChar.of_eq hchar
   exact kDiag_transport e (kDiag_statedProj3 K)
 
 end CFSG.LocalAnalysis.UniquenessCase.UC22

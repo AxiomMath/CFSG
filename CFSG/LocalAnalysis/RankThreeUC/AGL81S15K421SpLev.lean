@@ -17,12 +17,14 @@ variable {F : Type} [Field F] [CharP F 2]
 @[expose] def levMat (A B : Matrix (Fin 3) (Fin 3) F) : Matrix Idx Idx F :=
   Matrix.of fun i j => if i.2 = j.2 then (if i.2 = 0 then A i.1 j.1 else B i.1 j.1) else 0
 
+omit [CharP F 2] in
 theorem levMat_mul (A B A' B' : Matrix (Fin 3) (Fin 3) F) :
     levMat A B * levMat A' B' = levMat (A * A') (B * B') := by
   ext ⟨i, a⟩ ⟨k, c⟩
   simp only [levMat, Matrix.mul_apply, Matrix.of_apply, Fintype.sum_prod_type, Fin.sum_univ_two]
-  fin_cases a <;> fin_cases c <;> simp [Matrix.mul_apply]
+  fin_cases a <;> fin_cases c <;> simp
 
+omit [CharP F 2] in
 theorem levMat_one : levMat (1 : Matrix (Fin 3) (Fin 3) F) 1 = 1 := by
   ext ⟨i, a⟩ ⟨j, b⟩
   fin_cases a <;> fin_cases b <;> simp [levMat, Matrix.one_apply]
@@ -39,6 +41,7 @@ theorem levMat_symp {A B : Matrix (Fin 3) (Fin 3) F} (hAB : Aᵀ * B = 1) (hBA :
   · have h := congrFun (congrFun hBA i) k
     simpa [Matrix.mul_apply, Matrix.one_apply] using h
 
+omit [CharP F 2] in
 theorem levMat_comm_bd3 {A B : Matrix (Fin 3) (Fin 3) F} {a b c : Matrix (Fin 2) (Fin 2) F}
     (h : ∀ (i j : Fin 3) (s t : Fin 2),
       (if s = 0 then A i j else B i j) * (![a, b, c] j) s t =
@@ -50,6 +53,7 @@ theorem levMat_comm_bd3 {A B : Matrix (Fin 3) (Fin 3) F} {a b c : Matrix (Fin 2)
     Fin.sum_univ_two]
   fin_cases s <;> fin_cases t <;> simp_all
 
+omit [CharP F 2] in
 theorem levMat_mul_bd3_apply (A B : Matrix (Fin 3) (Fin 3) F) (a b c : Matrix (Fin 2) (Fin 2) F)
     (i j : Fin 3) (s t : Fin 2) :
     (levMat A B * bd3 a b c) (i, s) (j, t) =
@@ -58,6 +62,7 @@ theorem levMat_mul_bd3_apply (A B : Matrix (Fin 3) (Fin 3) F) (a b c : Matrix (F
     Fin.sum_univ_two]
   fin_cases s <;> simp
 
+omit [CharP F 2] in
 theorem levMat_inj_left {A B A' B' : Matrix (Fin 3) (Fin 3) F} (h : levMat A B = levMat A' B') :
     A = A' := by
   ext i j
@@ -67,15 +72,18 @@ theorem levMat_inj_left {A B A' B' : Matrix (Fin 3) (Fin 3) F} (h : levMat A B =
 @[expose] def ext2 (M : Matrix (Fin 2) (Fin 2) F) : Matrix (Fin 3) (Fin 3) F :=
   !![M 0 0, M 0 1, 0; M 1 0, M 1 1, 0; 0, 0, 1]
 
+omit [CharP F 2] in
 theorem ext2_mul (M N : Matrix (Fin 2) (Fin 2) F) : ext2 M * ext2 N = ext2 (M * N) := by
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [ext2, Matrix.mul_apply, Fin.sum_univ_three, Fin.sum_univ_two]
 
+omit [CharP F 2] in
 theorem ext2_one : ext2 (1 : Matrix (Fin 2) (Fin 2) F) = 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [ext2]
 
+omit [CharP F 2] in
 theorem ext2_transpose (M : Matrix (Fin 2) (Fin 2) F) : (ext2 M)ᵀ = ext2 Mᵀ := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [ext2]
@@ -116,6 +124,7 @@ theorem det_Pm (hω : ω ^ 2 + ω + 1 = 0) : (Pm ω).det = 1 := by
   simp
   linear_combination hω - (ω + 1) * h2
 
+omit [CharP F 2] in
 theorem det_Dm (hω : ω ^ 2 + ω + 1 = 0) : (Dm ω).det = 1 := by
   simp only [Matrix.det_fin_two, Dm]
   simp
@@ -177,7 +186,7 @@ theorem lev_commute_plane (M g : Matrix.SpecialLinearGroup (Fin 2) F) :
   rw [lev_val, placeHom_val]
   apply levMat_comm_bd3
   intro i j s t
-  fin_cases i <;> fin_cases j <;> fin_cases s <;> fin_cases t <;> simp [ext2] <;> ring
+  fin_cases i <;> fin_cases j <;> fin_cases s <;> fin_cases t <;> simp [ext2]
 
 @[expose] def levPlane : (Matrix.SpecialLinearGroup (Fin 2) F ×
     Matrix.SpecialLinearGroup (Fin 2) F) →* ↥(SpI F) :=

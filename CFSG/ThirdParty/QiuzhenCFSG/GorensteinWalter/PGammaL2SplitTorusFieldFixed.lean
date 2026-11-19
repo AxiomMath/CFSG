@@ -83,7 +83,7 @@ private theorem splitTorusPGL_map_field
     ((!![(sigma (a : K)), 0; 0, ((sigma (a : K))⁻¹ : K)] :
       Matrix (Fin 2) (Fin 2) K) i j)
   fin_cases i <;> fin_cases j <;>
-    simp [pGammaL2SplitTorusSL, Matrix.GeneralLinearGroup.map]
+    simp
 
 private theorem pure_field_commute_splitTorus
     (K : Type u) [Field K] (sigma : K ≃+* K) (a : Kˣ)
@@ -164,12 +164,12 @@ private theorem unit_neg_one_ne_one_of_odd_prime_power
       _ = -1 + 1 := by exact congrArg (fun x : K => x + 1) hone
       _ = 0 := by simp
   rcases hK with ⟨p, n, hp, hpodd, _hn, hcard⟩
-  letI : Fact p.Prime := ⟨hp⟩
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fact p.Prime := ⟨hp⟩
+  let : Fintype K := Fintype.ofFinite K
   have hcardF : Fintype.card K = p ^ n := by
     rw [← Nat.card_eq_fintype_card]
     exact hcard
-  letI : CharP K p := charP_of_card_eq_prime_pow hcardF
+  let : CharP K p := charP_of_card_eq_prime_pow hcardF
   have hp2 : p ∣ 2 := (CharP.cast_eq_zero_iff K p 2).mp htwo
   rcases (Nat.dvd_prime Nat.prime_two).mp hp2 with hp1 | hp2
   · exact hp.ne_one hp1

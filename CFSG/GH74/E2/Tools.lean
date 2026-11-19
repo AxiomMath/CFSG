@@ -41,7 +41,7 @@ theorem exists_normalizer_moving [Finite G] {t : G} {S₁ : Subgroup G} (hle : S
     apply le_antisymm _ hS₁P
     rw [h]
     exact hPS))
-  have hSnil : Group.IsNilpotent (S : Subgroup G) := S.isPGroup'.isNilpotent
+  have hSnil : Group.IsNilpotent (S : Subgroup G) := S.isPGroup.isNilpotent
   have hnc := Group.normalizerCondition_of_isNilpotent (G := (S : Subgroup G))
   have hlt : S₁.subgroupOf (S : Subgroup G) < ⊤ := by
     rw [lt_top_iff_ne_top]
@@ -70,7 +70,7 @@ theorem exists_normalizer_moving [Finite G] {t : G} {S₁ : Subgroup G} (hle : S
       exact h5
     have hP'S : S₁ ⊔ zpowers m ≤ (S : Subgroup G) :=
       sup_le hS₁S (zpowers_le.2 hnS')
-    have hP'2 : IsPGroup 2 ↥(S₁ ⊔ zpowers m) := S.isPGroup'.to_le hP'S
+    have hP'2 : IsPGroup 2 ↥(S₁ ⊔ zpowers m) := S.isPGroup.to_le hP'S
     have hP'C : S₁ ⊔ zpowers m ≤ Cen t := sup_le hle (zpowers_le.2 hnC)
     have h4 := hmax _ hP'2 hP'C le_sup_left
     apply hnS₁

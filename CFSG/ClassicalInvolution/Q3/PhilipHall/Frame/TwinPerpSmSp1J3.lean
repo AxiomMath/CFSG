@@ -44,8 +44,8 @@ theorem leaf_j3 {n : ℕ} :
     (hwit_of_q8WitCheck j3Wit rfl h _ j3Wit_xg_mem) ?_
   intro Y _ _ R' S t hP hF
   obtain ⟨ψ⟩ := hF
-  haveI := hP.core.simple
-  haveI : (genFittingFStar Y).Normal := genFittingFStar_normal Y
+  have := hP.core.simple
+  have : (genFittingFStar Y).Normal := genFittingFStar_normal Y
   refine ⟨⟨ψ.trans CFSG.Sporadic.Schreier.j3PermEquiv⟩, ?_⟩
   exact isPGroup_core_of_oddCore hP
     (CFSG.Sporadic.SmallOddCore.ctuc_j3_almost_simple_involution_centralizer_odd_core_trivial

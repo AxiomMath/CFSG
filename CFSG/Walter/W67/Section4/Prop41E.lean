@@ -203,7 +203,7 @@ theorem false_of_even_torus
     rw [hc, Nat.factorization_pow_self hℓ, s.factorization_card_H hℓ hℓ2]
     exact h3
   obtain ⟨RG, hPRG⟩ := hPℓ.exists_le_sylow
-  have hPRG' := eq_of_le_of_factorization_le RG.isPGroup' hPRG hfac
+  have hPRG' := eq_of_le_of_factorization_le RG.isPGroup hPRG hfac
   refine false_of_perfect_of_metacyclic s.perfect hℓ2 RG ?_ ?_
   · rw [← hPRG']
     exact hnc

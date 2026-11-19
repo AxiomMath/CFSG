@@ -46,10 +46,10 @@ theorem kz3_h134_card {G : Type} [Group G] [Finite G] {Gz T K P : Subgroup G}
   · rw [Nat.card_congr hH5.some.toEquiv, hHe]
     exact ⟨by norm_num, Or.inr (Or.inr (Or.inr (Or.inr (Or.inl rfl))))⟩
 
-theorem card_isElemAbelianOfRank_kz3 {p n : ℕ} (hp : p.Prime) {V : Type} [Group V]
+theorem card_isElemAbelianOfRank_kz3 {p n : ℕ} (_hp : p.Prime) {V : Type} [Group V]
     (h : IsElemAbelianOfRank p n V) : Nat.card V = p ^ n := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨_hp⟩
+  have : NeZero p := ⟨_hp.ne_zero⟩
   rw [Nat.card_congr h.some.toEquiv]
   change Nat.card (Fin n → ZMod p) = p ^ n
   rw [Nat.card_fun, Nat.card_zmod, Nat.card_fin]
@@ -57,7 +57,7 @@ theorem card_isElemAbelianOfRank_kz3 {p n : ℕ} (hp : p.Prime) {V : Type} [Grou
 theorem kz3_list_match {G : Type} [Group G] [Finite G] (hloc : LocalSQTK G)
     (h312 : A312ForSQTKCat)
     {Gz T Lz K P : Subgroup G} (hT : IsSylowTwoOf T Gz) (hpC : pCoreOf 2 Gz ≠ ⊥)
-    (hLzG : Lz ≤ Gz) (hLzF : Lz ∈ lFamily T) (hLzP : ⁅Lz, Lz⁆ = Lz)
+    (hLzG : Lz ≤ Gz) (hLzF : Lz ∈ lFamily T) (_hLzP : ⁅Lz, Lz⁆ = Lz)
     (hLzq : IsAlt 6 (↥Lz ⧸ CFSG.pCore 2 ↥Lz) ∨
       IsHat (↥Lz ⧸ CFSG.pCore 2 ↥Lz) (alternatingGroup (Fin 6)))
     (hK : K ∈ cComp Gz) (hLK : Lz ≤ K) (hTK : T ≤ Subgroup.normalizer (K : Set G))

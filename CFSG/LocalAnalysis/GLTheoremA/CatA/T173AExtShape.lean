@@ -106,11 +106,11 @@ private theorem pow_tri_le_orderTwistedA {r Q : ℕ} (hr : 2 ≤ r) (hQ : 2 ≤ 
     refine Finset.prod_pos fun i hi => ?_
     have hi2 : 2 ≤ i := (Finset.mem_Icc.1 hi).1
     by_cases he : Even i
-    · rw [if_pos he]
+    · rw [ite_eq_left he]
       have h1 : Q ≤ Q ^ i := Nat.le_self_pow (by omega) Q
       have h2 : 2 ≤ Q ^ i := le_trans hQ h1
       omega
-    · rw [if_neg he]
+    · rw [ite_eq_right he]
       have h1 : Q ≤ Q ^ i := Nat.le_self_pow (by omega) Q
       have h2 : 2 ≤ Q ^ i := le_trans hQ h1
       omega

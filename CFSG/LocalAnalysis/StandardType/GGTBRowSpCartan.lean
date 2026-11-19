@@ -32,21 +32,21 @@ theorem ggCartanC_pathTree {k : ℕ} (root : Fin k) (hroot : root.1 = 0) :
         simpa [ggPathPar] using h
     have hC : CartanMatrix.C k i j ≠ 0 ↔ i.1 + 1 = j.1 ∨ j.1 + 1 = i.1 := by
       simp only [CartanMatrix.C, Matrix.of_apply]
-      rw [if_neg hij]
+      rw [ite_eq_right hij]
       constructor
       · intro h
         by_cases h1 : i.1 + 1 = j.1
         · exact Or.inl h1
-        · rw [if_neg h1] at h
+        · rw [ite_eq_right h1] at h
           by_cases h2 : j.1 + 1 = i.1
           · exact Or.inr h2
-          · rw [if_neg h2] at h
+          · rw [ite_eq_right h2] at h
             exact absurd rfl h
       · intro h
         rcases h with h1 | h2
-        · rw [if_pos h1]
+        · rw [ite_eq_left h1]
           norm_num
-        · rw [if_neg (by omega : ¬ i.1 + 1 = j.1), if_pos h2]
+        · rw [ite_eq_right (by omega : ¬ i.1 + 1 = j.1), ite_eq_left h2]
           split_ifs <;> omega
     have hrel : ((i ≠ root ∧ ggPathPar k i = j) ∨ (j ≠ root ∧ ggPathPar k j = i)) ↔
         (i.1 + 1 = j.1 ∨ j.1 + 1 = i.1) := by

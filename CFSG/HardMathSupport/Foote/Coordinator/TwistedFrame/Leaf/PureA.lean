@@ -120,7 +120,7 @@ theorem twPure_of_dich (c : TwClass) (hdat : DichData c.tag) (K : Type) [Field K
 
 end TwPureAAux
 
-theorem twPure_A (c : TwClass) (hc : c ≠ TwClass.e8Twelve) (K : Type) [Field K] [Finite K]
+theorem twPure_A (c : TwClass) (_hc : c ≠ TwClass.e8Twelve) (K : Type) [Field K] [Finite K]
     (hK : c.minQ ≤ Nat.card K) (D : LangLevi c.tag K c.w) : TwPure (c.X₁ D) (c.X₂ D) :=
   TwPureAAux.twPure_of_dich c (TwPureAAux.dichData c) K hK D
 

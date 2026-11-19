@@ -19,6 +19,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem exists_noncentral_chiefStep {H U N : Subgroup G} {c : ℕ}
     (hser : IsChiefSeriesFrom H U N c) (hc : c = 1) :
     ∃ L N' : Subgroup G, IsChiefStep H U L N' ∧ ¬ IsCentralStep H L N' ∧ N' ≤ N := by
@@ -30,6 +31,7 @@ theorem exists_noncentral_chiefStep {H U N : Subgroup G} {c : ℕ}
   | noncentral hstep hnc hser ih =>
       exact ⟨_, _, hstep, hnc, le_rfl⟩
 
+omit [Finite G] in
 theorem inf_le_lower_of_noncentral {H X L N Z : Subgroup G} (hXH : X ≤ H)
     (hstep : IsChiefStep H X L N) (hnc : ¬ IsCentralStep H L N)
     (hZX : Z ≤ X) (hZH : H ≤ Subgroup.normalizer (Z : Set G))

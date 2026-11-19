@@ -80,7 +80,7 @@ private theorem exists_ringHom_smul_of_normalizes {F : Type*} [Field F]
         apply T.injective
         rw [h, map_zero]
       have h0 := congrFun he 0
-      simpa using h0
+      simp at h0
     rcases smul_eq_zero.mp h2 with h | h
     · exact sub_eq_zero.mp h
     · exact absurd h hne
@@ -138,7 +138,7 @@ private theorem bijective_ringHom_smul_of_normalizes {F : Type*} [Field F]
   have he₀_ne : (Pi.single 0 (1 : F) : Fin 2 → F) ≠ 0 := by
     intro h
     have h0 := congrFun h 0
-    simpa using h0
+    simp at h0
   have hTe₀_ne : T (Pi.single 0 (1 : F) : Fin 2 → F) ≠ 0 := by
     intro h
     apply he₀_ne

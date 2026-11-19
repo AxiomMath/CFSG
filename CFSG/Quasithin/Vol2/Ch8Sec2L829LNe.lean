@@ -31,7 +31,7 @@ private lemma ofMul_mem_sub_iff_LNe (SM : SectionModule Lu ⊥ V M) (K : Subgrou
 
 private lemma two_pow_finrank_sub_LNe [Finite M] (SM : SectionModule Lu ⊥ V M) {K : Subgroup G}
     (hK : K ≤ V) : 2 ^ finrank (ZMod 2) (SM.sub K) = Nat.card K := by
-  haveI : Module.Finite (ZMod 2) M := inferInstance
+  have : Module.Finite (ZMod 2) M := inferInstance
   have hbij : Function.Bijective (fun c : ↥K =>
       (⟨toM_LNe (SM.π ⟨c.1, hK c.2⟩), SM.mem_sub_of_mem (x := ⟨c.1, hK c.2⟩) c.2⟩ :
         ↥(SM.sub K))) := by
@@ -67,7 +67,7 @@ lemma finrank_sub_le_add_one_LNe [Finite M] (SM : SectionModule Lu ⊥ V M) {B B
 
 lemma sub_ne_LNe (SM : SectionModule Lu ⊥ V M) {U B₁ : Subgroup G} (hB₁ : B₁ ≤ V)
     (hlt : U < B₁) : SM.sub U ≠ SM.sub B₁ := by
-  obtain ⟨b, hb, hbU⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨b, hb, hbU⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   intro h
   have h1 : toM_LNe (SM.π ⟨b, hB₁ hb⟩) ∈ SM.sub B₁ := SM.mem_sub_of_mem (x := ⟨b, hB₁ hb⟩) hb
   rw [← h] at h1
@@ -146,7 +146,7 @@ private lemma mem_preSub_LNe (SM : SectionModule Lu ⊥ V M) (C : Submodule (ZMo
     x ∈ preSub_LNe SM C ↔ ∃ hx : x ∈ V, toM_LNe (SM.π ⟨x, hx⟩) ∈ C := Iff.rfl
 
 lemma hirr_sm_LNe (SM : SectionModule Lu ⊥ V M) {U B₁ : Subgroup G}
-    (hLuV : Lu ≤ Subgroup.normalizer (V : Set G)) (hUV : U ≤ V) (hB₁V : B₁ ≤ V)
+    (hLuV : Lu ≤ Subgroup.normalizer (V : Set G)) (hUV : U ≤ V) (_hB₁V : B₁ ≤ V)
     (hirr : ∀ D : Subgroup G, U ≤ D → D ≤ B₁ → Lu ≤ Subgroup.normalizer (D : Set G) →
       D = U ∨ D = B₁)
     (C : Submodule (ZMod 2) M) (hUC : SM.sub U ≤ C) (hCB : C ≤ SM.sub B₁)

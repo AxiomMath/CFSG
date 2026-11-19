@@ -61,7 +61,8 @@ def Swap (x e₂ e₃ g : X) : Prop :=
 
 def Mono (x e₂ e₃ g : X) : Prop := Diag x e₂ e₃ g ∨ Swap x e₂ e₃ g
 
-theorem mono_mul {g k : X} (hg : Mono x e₂ e₃ g) (hk : Mono x e₂ e₃ k) :
+omit [Finite X] in
+theorem mono_mul {g k : X} (_hg : Mono x e₂ e₃ g) (_hk : Mono x e₂ e₃ k) :
     (Diag x e₂ e₃ g → Diag x e₂ e₃ k → Diag x e₂ e₃ (g * k)) ∧
     (Diag x e₂ e₃ g → Swap x e₂ e₃ k → Swap x e₂ e₃ (g * k)) ∧
     (Swap x e₂ e₃ g → Diag x e₂ e₃ k → Swap x e₂ e₃ (g * k)) ∧
@@ -71,6 +72,7 @@ theorem mono_mul {g k : X} (hg : Mono x e₂ e₃ g) (hk : Mono x e₂ e₃ k) :
     fun ⟨a1, a2, a3⟩ ⟨b1, b2, b3⟩ => ⟨b1.cj a1, b2.cj a2, b3.cj a3⟩,
     fun ⟨a1, a2, a3⟩ ⟨b1, b2, b3⟩ => ⟨b1.cj a1, b2.cj a3, b3.cj a2⟩⟩
 
+omit [Finite X] in
 theorem Mono.mul {g k : X} (hg : Mono x e₂ e₃ g) (hk : Mono x e₂ e₃ k) :
     Mono x e₂ e₃ (g * k) := by
   obtain ⟨h1, h2, h3, h4⟩ := mono_mul hg hk
@@ -80,14 +82,17 @@ theorem Mono.mul {g k : X} (hg : Mono x e₂ e₃ g) (hk : Mono x e₂ e₃ k) :
   · exact Or.inr (h3 hg hk)
   · exact Or.inl (h4 hg hk)
 
+omit [Finite X] in
 theorem Mono.sq {g : X} (hg : Mono x e₂ e₃ g) : Diag x e₂ e₃ (g * g) := by
   obtain ⟨h1, -, -, h4⟩ := mono_mul hg hg
   rcases hg with hg | hg
   · exact h1 hg hg
   · exact h4 hg hg
 
+omit [Finite X] in
 theorem mono_one : Mono x e₂ e₃ 1 := Or.inl ⟨PM.one x, PM.one e₂, PM.one e₃⟩
 
+omit [Finite X] in
 theorem Mono.pow {g : X} (hg : Mono x e₂ e₃ g) (n : ℕ) : Mono x e₂ e₃ (g ^ n) := by
   induction n with
   | zero => rw [pow_zero]; exact mono_one
@@ -109,6 +114,7 @@ def monoSub (x e₂ e₃ : X) : Subgroup X where
 
 include h
 
+omit [Finite X] h in
 theorem diag_sq_mem {g : X} (hg : Diag x e₂ e₃ g) :
     g * g ∈ centralizer ((Qf x e₂ e₃ : Subgroup X) : Set X) := by
   obtain ⟨h1, h2, h3⟩ := hg
@@ -118,11 +124,12 @@ theorem diag_sq_mem {g : X} (hg : Diag x e₂ e₃ g) :
     calc y * (g * g) = ((g * g) * y * (g * g)⁻¹) * (g * g) := by rw [hy]
       _ = g * g * y := by group
   have hle : Qf x e₂ e₃ ≤ centralizer ({g * g} : Set X) :=
-    h.Q_le_of_mem (key x h1.sq) (key e₂ h2.sq) (key e₃ h3.sq)
+    CFSG.LocalAnalysis.RankThreeTheoremC.GL83P3A6Layer.XFrame.Q_le_of_mem (key x h1.sq) (key e₂ h2.sq) (key e₃ h3.sq)
   rw [mem_centralizer_iff]
   intro q hq
   exact mem_centralizer_singleton_iff.mp (hle hq)
 
+omit h in
 theorem mono_mem_normalizer {g : X} (hg : Mono x e₂ e₃ g) :
     g ∈ normalizer ((Qf x e₂ e₃ : Subgroup X) : Set X) := by
   apply GL83P3A6Core.mem_normalizer_of_map_le
@@ -136,11 +143,12 @@ theorem mono_mem_normalizer {g : X} (hg : Mono x e₂ e₃ g) :
     · exact ha
     · exact inv_mem ha
   rcases hg with ⟨h1, h2, h3⟩ | ⟨h1, h2, h3⟩
-  · exact h.Q_le_of_mem (hPM x x h.x_mem h1) (hPM e₂ e₂ h.e₂_mem h2) (hPM e₃ e₃ h.e₃_mem h3)
-  · exact h.Q_le_of_mem (hPM x x h.x_mem h1) (hPM e₂ e₃ h.e₃_mem h2) (hPM e₃ e₂ h.e₂_mem h3)
+  · exact CFSG.LocalAnalysis.RankThreeTheoremC.GL83P3A6Layer.XFrame.Q_le_of_mem (hPM x x (CFSG.LocalAnalysis.RankThreeTheoremC.GL83P3A6Layer.XFrame.x_mem (x := x) (e₂ := e₂) (e₃ := e₃)) h1) (hPM e₂ e₂ CFSG.LocalAnalysis.RankThreeTheoremC.GL83P3A6Layer.XFrame.e₂_mem h2) (hPM e₃ e₃ CFSG.LocalAnalysis.RankThreeTheoremC.GL83P3A6Layer.XFrame.e₃_mem h3)
+  · exact CFSG.LocalAnalysis.RankThreeTheoremC.GL83P3A6Layer.XFrame.Q_le_of_mem (hPM x x (CFSG.LocalAnalysis.RankThreeTheoremC.GL83P3A6Layer.XFrame.x_mem (x := x) (e₂ := e₂) (e₃ := e₃)) h1) (hPM e₂ e₃ CFSG.LocalAnalysis.RankThreeTheoremC.GL83P3A6Layer.XFrame.e₃_mem h2) (hPM e₃ e₂ CFSG.LocalAnalysis.RankThreeTheoremC.GL83P3A6Layer.XFrame.e₂_mem h3)
 
+omit h in
 theorem monoSub_le : monoSub x e₂ e₃ ≤ normalizer ((Qf x e₂ e₃ : Subgroup X) : Set X) :=
-  fun _ hg => h.mono_mem_normalizer hg
+  fun _ hg => CFSG.LocalAnalysis.RankThreeTheoremC.GL83P3A6Layer.XFrame.mono_mem_normalizer hg
 
 theorem ρ_mono : Mono x e₂ e₃ ρ := by
   refine Or.inr ⟨Or.inl h.ρ_x, ?_, ?_⟩
@@ -154,7 +162,7 @@ theorem d_conj (a b c : ZMod 3) :
 
 theorem qel_eq_inv {v w : Vec} (hvw : v + w = 0) : qel x e₂ e₃ v = (qel x e₂ e₃ w)⁻¹ := by
   refine eq_inv_of_mul_eq_one_left ?_
-  rw [← h.frame3.qel_add, hvw, h.frame3.qel_zero]
+  rw [← h.frame3.qel_add, hvw, CFSG.LocalAnalysis.RankThreeTheoremC.GL83P3A6Mod.Frame3.qel_zero]
 
 theorem d_mono : Mono x e₂ e₃ (t * (ρ * ρ) * t⁻¹) := by
   have hx := h.d_conj 1 0 0
@@ -168,6 +176,7 @@ theorem d_mono : Mono x e₂ e₃ (t * (ρ * ρ) * t⁻¹) := by
   · rw [h2, show ((-0, 1, -0) : Vec) = (0, 1, 0) by decide, h.qel_e₂]
   · rw [h3, h.qel_eq_inv (w := (0, 0, 1)) (by decide), h.qel_e₃]
 
+omit [Finite X] h in
 theorem conj_eq_of_inv_mul_mem {g g' : X} (hgN : g ∈ normalizer ((Qf x e₂ e₃ : Subgroup X) : Set X))
     (hc : g⁻¹ * g' ∈ centralizer ((Qf x e₂ e₃ : Subgroup X) : Set X)) {q : X}
     (hq : q ∈ Qf x e₂ e₃) :
@@ -213,24 +222,24 @@ theorem comm_not_mem {τ₁ τ₂ : X}
   intro hc
   have hρN := h.ρ_mem_normalizer
   have hdN : t * (ρ * ρ) * t⁻¹ ∈ normalizer ((Qf x e₂ e₃ : Subgroup X) : Set X) :=
-    h.mono_mem_normalizer h.d_mono
+    CFSG.LocalAnalysis.RankThreeTheoremC.GL83P3A6Layer.XFrame.mono_mem_normalizer h.d_mono
   have hs := h.frame3.sv_sq
   have s1 : τ₂⁻¹ * qel x e₂ e₃ (0, 1, 0) * τ₂ = qel x e₂ e₃ (0, 1, 0) := by
-    rw [(h.conj_eq_of_inv_mul_mem hdN h₂ (h.qel_mem _)).2, h.d_inv_conj,
+    rw [(XFrame.conj_eq_of_inv_mul_mem hdN h₂ (CFSG.LocalAnalysis.RankThreeTheoremC.GL83P3A6Layer.XFrame.qel_mem _)).2, h.d_inv_conj,
       show ((-0, 1, -0) : Vec) = (0, 1, 0) by decide]
   have s2 : τ₁⁻¹ * qel x e₂ e₃ (0, 1, 0) * τ₁ = qel x e₂ e₃ (0, 0, -(s : ZMod 3)) := by
-    rw [(h.conj_eq_of_inv_mul_mem hρN h₁ (h.qel_mem _)).2, h.ρ_inv_conj]
+    rw [(XFrame.conj_eq_of_inv_mul_mem hρN h₁ (CFSG.LocalAnalysis.RankThreeTheoremC.GL83P3A6Layer.XFrame.qel_mem _)).2, h.ρ_inv_conj]
     have hv : ∀ σ : ZMod 3, ((0, σ * 0, -(σ * 1)) : Vec) = (0, 0, -σ) := by decide
     rw [hv]
   have s3 : τ₂ * qel x e₂ e₃ (0, 0, -(s : ZMod 3)) * τ₂⁻¹ = qel x e₂ e₃ (0, 0, (s : ZMod 3)) := by
-    rw [(h.conj_eq_of_inv_mul_mem hdN h₂ (h.qel_mem _)).1, h.d_conj]
+    rw [(XFrame.conj_eq_of_inv_mul_mem hdN h₂ (CFSG.LocalAnalysis.RankThreeTheoremC.GL83P3A6Layer.XFrame.qel_mem _)).1, h.d_conj]
     have hv : ∀ σ : ZMod 3, ((-0, 0, - -σ) : Vec) = (0, 0, σ) := by decide
     rw [hv]
   have s4 : τ₁ * qel x e₂ e₃ (0, 0, (s : ZMod 3)) * τ₁⁻¹ = qel x e₂ e₃ (0, -1, 0) := by
-    rw [(h.conj_eq_of_inv_mul_mem hρN h₁ (h.qel_mem _)).1, h.frame3.conj_ρ]
+    rw [(XFrame.conj_eq_of_inv_mul_mem hρN h₁ (CFSG.LocalAnalysis.RankThreeTheoremC.GL83P3A6Layer.XFrame.qel_mem _)).1, h.frame3.conj_ρ]
     have hv : ∀ σ : ZMod 3, σ * σ = 1 → ((0, -(σ * σ), σ * 0) : Vec) = (0, -1, 0) := by decide
     rw [hv _ hs]
-  have hcomm := (mem_centralizer_iff.mp hc) _ (h.qel_mem (0, 1, 0))
+  have hcomm := (mem_centralizer_iff.mp hc) _ (CFSG.LocalAnalysis.RankThreeTheoremC.GL83P3A6Layer.XFrame.qel_mem (0, 1, 0))
   have hfix : (τ₁ * τ₂ * τ₁⁻¹ * τ₂⁻¹) * qel x e₂ e₃ (0, 1, 0) *
       (τ₁ * τ₂ * τ₁⁻¹ * τ₂⁻¹)⁻¹ = qel x e₂ e₃ (0, 1, 0) := by
     rw [← hcomm]; group
@@ -250,7 +259,7 @@ theorem exists_sylow_comm (S : Subgroup X)
   set C : Subgroup X := centralizer ((Qf x e₂ e₃ : Subgroup X) : Set X) with hC
   set N : Subgroup X := normalizer ((Qf x e₂ e₃ : Subgroup X) : Set X) with hN
   set Sm : Subgroup X := monoSub x e₂ e₃ with hSm
-  have hSmN : Sm ≤ N := h.monoSub_le
+  have hSmN : Sm ≤ N := CFSG.LocalAnalysis.RankThreeTheoremC.GL83P3A6Layer.XFrame.monoSub_le
   set K : Subgroup ↥Sm := C.subgroupOf Sm with hK
   have hKn : K.Normal := by
     refine ⟨fun k hk g => ?_⟩
@@ -259,10 +268,10 @@ theorem exists_sylow_comm (S : Subgroup X)
     exact conj_mem_centralizer_aux (hSmN g.2) hk
   have h4 : ∀ g : ↥Sm, g ^ 4 ∈ K := by
     intro g
-    have hsq := h.diag_sq_mem (Mono.sq g.2)
+    have hsq := CFSG.LocalAnalysis.RankThreeTheoremC.GL83P3A6Layer.XFrame.diag_sq_mem (Mono.sq g.2)
     rw [hK, mem_subgroupOf]
     have e : ((g ^ 4 : ↥Sm) : X) = ((g : X) * g) * ((g : X) * g) := by
-      simp only [SubgroupClass.coe_pow, MulMemClass.coe_mul, pow_succ, pow_zero, one_mul,
+      simp only [MulMemClass.coe_mul, pow_succ, pow_zero, one_mul,
         mul_assoc]
     rw [e]
     exact hsq
@@ -296,7 +305,7 @@ theorem exists_sylow_comm (S : Subgroup X)
     simpa using this
   have hnot := h.comm_not_mem hc₁' hc₂'
   set T₀ : Subgroup X := (T : Subgroup ↥Sm).map Sm.subtype with hT₀
-  have hT₀2 : IsPGroup 2 T₀ := T.isPGroup'.map _
+  have hT₀2 : IsPGroup 2 T₀ := T.isPGroup.map _
   have hT₀N : T₀ ≤ N := (Subgroup.map_subtype_le _).trans hSmN
   obtain ⟨P₀, hP₀⟩ := (hT₀2.comap_subtype (K := N)).exists_le_sylow
   have hS₀ : IsSylowOf 2 ((P₀ : Subgroup ↥N).map N.subtype) N := ⟨P₀, rfl⟩

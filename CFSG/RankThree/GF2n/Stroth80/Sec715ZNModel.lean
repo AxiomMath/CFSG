@@ -57,10 +57,10 @@ theorem sec715ZNModel_of_setup (h34 : Stroth34Statement) (hRoot : Stroth310RootS
   have hNcomm : ∀ x ∈ hc.CN t, ∀ y ∈ hc.CN t, ⁅x, y⁆ ∈ Z0 := hopp.2.2.2.2.2.2.1
   have hNsq : ∀ x ∈ hc.CN t, x ^ 2 ∈ Z0 := hopp.2.2.2.2.2.2.2.1
   obtain ⟨f₀, -, hf₀, -⟩ := hc.hyp.cp
-  haveI : CharP K 2 := charP_two_of_card_eq_two_pow (hK.trans hf₀)
+  have : CharP K 2 := charP_two_of_card_eq_two_pow (hK.trans hf₀)
   have hsplit : ∀ z ∈ Zn, ∃ y ∈ Y, ∃ z₀ ∈ Z0, z = y * z₀ := by
     intro z hz
-    haveI : (Y.subgroupOf (Rt M (LB M Q B) t)).Normal := by
+    have : (Y.subgroupOf (Rt M (LB M Q B) t)).Normal := by
       rw [← hθker]
       exact θ.normal_ker
     have hYR : Y ≤ Rt M (LB M Q B) t := (hYZn.trans hZnN).trans hNR
@@ -137,8 +137,8 @@ theorem sec715ZNModel_of_setup (h34 : Stroth34Statement) (hRoot : Stroth310RootS
       (fun f f' => S715L.qN_add h310chi h51 h52a hMp hCommN hS hs hr hZ0
         (S715L.deltaSub hS t) hSΔ f f') hrad (S715L.deltaAct hS ht)
       (fun x f => S715L.qN_deltaAct h310chi h51 h52a hMp hCommN hS hs hr hZ0 hSΔ x f)
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fintype K' := Fintype.ofFinite K'
+  have : Fintype K := Fintype.ofFinite K
+  have : Fintype K' := Fintype.ofFinite K'
   let σ : K ≃+* K' := FiniteField.ringEquivOfCardEq (by
     rw [Fintype.card_eq_nat_card, Fintype.card_eq_nat_card, hK, hS.card])
   obtain ⟨E, iE, iM, iF, j, B', Qf', ρ', -, hBj, hQj, hρj, hρ'Q, halt, hnd, hsmul, hadd, -⟩ :=
@@ -151,13 +151,13 @@ theorem sec715ZNModel_of_setup (h34 : Stroth34Statement) (hRoot : Stroth310RootS
   have hcls : ∀ x (hx : x ∈ hc.CN t), cls x =
       ⟨S714.delta hS t (QuotientGroup.mk (⟨x, hNM x hx⟩ : ↥M))
         (S714.mem_bar_H0_of_CN (S714.mk_mem_bar _ hx)), hΔS _ (S714.mk_mem_bar _ hx)⟩ :=
-    fun x hx => dif_pos hx
+    fun x hx => dite_eq_left hx
   let πG : G → E := fun x => j (p (cls x))
   let cG : G → K := fun x =>
     if hx : x ∈ M then σ.symm (S715L.cscal hc ρ ht (QuotientGroup.mk (⟨x, hx⟩ : ↥M))) else 0
   have hcG : ∀ x (hx : x ∈ M),
       cG x = σ.symm (S715L.cscal hc ρ ht (QuotientGroup.mk (⟨x, hx⟩ : ↥M))) :=
-    fun x hx => dif_pos hx
+    fun x hx => dite_eq_left hx
   let barR : ↥(Rt M (LB M Q B) t) →* ↥(bar M Q (Rt M (LB M Q B) t)) :=
     { toFun := fun x => ⟨QuotientGroup.mk (⟨x, hRM x.2⟩ : ↥M), S714.mk_mem_bar _ x.2⟩
       map_one' := rfl

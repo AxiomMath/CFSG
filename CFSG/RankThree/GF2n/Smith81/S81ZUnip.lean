@@ -245,7 +245,7 @@ theorem HasRaise.map_Fil {n : ℤ} {φ : Module.End K (V K)} (hφ : HasRaise n �
     rw [Finsupp.sum]
     refine Finset.sum_congr rfl fun b _ => ?_
     rw [Finsupp.smul_single_one]
-  rw [hsum, map_sum, Finsupp.finset_sum_apply]
+  rw [hsum, map_sum, _root_.Finsupp.finsetSum_apply]
   refine Finset.sum_eq_zero fun b hb => ?_
   rw [map_smul, Finsupp.smul_apply, smul_eq_mul]
   have hvb : v b ≠ 0 := Finsupp.mem_support_iff.mp hb
@@ -292,10 +292,10 @@ theorem rootOp_hasRaise [CharP K 2] {γ : Rt} (hγ : IsRoot .E7 γ) :
   intro b
   rw [rootOp_single hγ]
   by_cases hb : pr b γ = -1
-  · rw [if_pos hb]
+  · rw [ite_eq_left hb]
     have h1 := single_mem_Fil (K := K) levH (shift γ b)
     rwa [levH_shift hγ hb] at h1
-  · rw [if_neg hb]
+  · rw [ite_eq_right hb]
     exact Submodule.zero_mem _
 
 set_option maxRecDepth 20000 in
@@ -323,7 +323,7 @@ theorem endoE_sub_one_hasRaise [CharP K 2] (hR : Closed R) {h : ℕ} {g : Gp K}
 @[expose] def Cong (R : Finset Rt) (h : ℕ) (x y : Gp K) : Prop := x⁻¹ * y ∈ URge K R (h + 1)
 
 theorem Cong.refl (R : Finset Rt) (h : ℕ) (x : Gp K) : Cong R h x x := by
-  simp [Cong, Subgroup.one_mem]
+  simp [Cong]
 
 theorem Cong.symm {R : Finset Rt} {h : ℕ} {x y : Gp K} (hxy : Cong R h x y) : Cong R h y x := by
   have := Subgroup.inv_mem _ hxy
@@ -361,7 +361,7 @@ theorem mem_Lay {R : Finset Rt} {h : ℕ} {α : Rt} : α ∈ Lay R h ↔ α ∈ 
 theorem PL_mem {R : Finset Rt} {h : ℕ} {L : List Rt} (hL : ∀ α ∈ L, α ∈ R ∧ (h : ℤ) ≤ ht α)
     (c : Rt → K) : PL L c ∈ URge K R h := by
   induction L with
-  | nil => simp [PL, Subgroup.one_mem]
+  | nil => simp [PL]
   | cons α L ih =>
     simp only [PL, List.map_cons, List.prod_cons]
     exact Subgroup.mul_mem _ (xE_mem_URge (hL α List.mem_cons_self).1
@@ -488,12 +488,12 @@ theorem rootOp_raises_levH [CharP K 2] {γ : Rt} (hγ : IsRoot .E7 γ) {h : ℕ}
   intro b b' hne
   rw [rootOp_single hγ] at hne
   by_cases hb : pr b γ = -1
-  · rw [if_pos hb, Finsupp.single_apply] at hne
+  · rw [ite_eq_left hb, Finsupp.single_apply] at hne
     by_cases hs : shift γ b = b'
     · rw [← hs, levH_shift hγ hb, hh]
-    · rw [if_neg hs] at hne
+    · rw [ite_eq_right hs] at hne
       exact absurd rfl hne
-  · rw [if_neg hb] at hne
+  · rw [ite_eq_right hb] at hne
     exact absurd rfl hne
 
 theorem exists_pr_neg_one {δ : Rt} (hδ : IsRoot .E7 δ) : ∃ b : Fin e7Data.d, pr b δ = -1 := by
@@ -533,7 +533,7 @@ theorem PL_entry [CharP K 2] {L : List Rt} (hnd : L.Nodup) {h : ℕ} (hh : 1 ≤
     intro γ hγ
     rw [rootOp_single (hL γ hγ).1]
     by_cases hbγ : pr b γ = -1
-    · rw [if_pos hbγ, Finsupp.single_apply]
+    · rw [ite_eq_left hbγ, Finsupp.single_apply]
       by_cases hγδ : γ = δ
       · subst hγδ
         simp
@@ -542,14 +542,14 @@ theorem PL_entry [CharP K 2] {L : List Rt} (hnd : L.Nodup) {h : ℕ} (hh : 1 ≤
           have h2 := wt_shift hδ hb
           rw [e] at h1
           exact add_left_cancel (h1.symm.trans h2)))
-        rw [if_neg hne, if_neg hγδ, mul_zero]
-    · rw [if_neg hbγ]
+        rw [ite_eq_right hne, ite_eq_right hγδ, mul_zero]
+    · rw [ite_eq_right hbγ]
       by_cases hγδ : γ = δ
       · exfalso
         subst hγδ
         exact hbγ hb
       · simp [hγδ]
-  rw [List.map_congr_left hterm, sum_ite_eq_of_nodup' L hnd δ c, if_pos hδL]
+  rw [List.map_congr_left hterm, sum_ite_eq_of_nodup' L hnd δ c, ite_eq_left hδL]
 
 set_option maxRecDepth 20000 in
 theorem Pl_mem_succ_imp (hR : Closed R) [CharP K 2] {h : ℕ} (hh : 1 ≤ h) {c : Rt → K}
@@ -575,7 +575,7 @@ theorem Pl_mem_succ_imp (hR : Closed R) [CharP K 2] {h : ℕ} (hh : 1 ≤ h) {c 
     have : 0 < D7 * (h : ℤ) := by positivity
     omega
   simp only [LinearMap.sub_apply, Module.End.one_apply, Finsupp.sub_apply,
-    Finsupp.single_apply, if_neg hne.symm] at hcoord
+    Finsupp.single_apply, ite_eq_right hne.symm] at hcoord
   have e : Pl R h c = PL (Lay R h).toList c := rfl
   rw [e] at hcoord
   rw [hA] at hcoord
@@ -773,7 +773,7 @@ theorem layHom_xE (hR : Closed R) [CharP K 2] {h : ℕ} (hh : 1 ≤ h) {α : Rt}
   by_cases hβ : β = (⟨α, hα⟩ : ↥(Lay R h))
   · subst hβ; simp
   · have : β.1 ≠ α := fun e => hβ (Subtype.ext e)
-    simp [Pi.single_apply, hβ, this]
+    simp [hβ, this]
 
 theorem layHom_surjective (hR : Closed R) [CharP K 2] {h : ℕ} (hh : 1 ≤ h) :
     Function.Surjective (layHom (K := K) hR hh) := by
@@ -786,7 +786,7 @@ theorem layHom_surjective (hR : Closed R) [CharP K 2] {h : ℕ} (hh : 1 ≤ h) :
   rw [this]
   apply Multiplicative.toAdd.injective
   funext α
-  simp [c, extLay, α.2]
+  simp [c, extLay]
 
 theorem layHom_conj_tau (hR : Closed R) [CharP K 2] {h : ℕ} (hh : 1 ≤ h) (t : Tt K)
     (g : ↥(URge K R h)) :
@@ -847,7 +847,7 @@ theorem HasRaiseL.map_Fil {lev : Fin e7Data.d → ℤ} {n : ℤ} {φ : Module.En
     rw [Finsupp.sum]
     refine Finset.sum_congr rfl fun b _ => ?_
     rw [Finsupp.smul_single_one]
-  rw [hsum, map_sum, Finsupp.finset_sum_apply]
+  rw [hsum, map_sum, _root_.Finsupp.finsetSum_apply]
   refine Finset.sum_eq_zero fun b hb => ?_
   rw [map_smul, Finsupp.smul_apply, smul_eq_mul]
   have hvb : v b ≠ 0 := Finsupp.mem_support_iff.mp hb
@@ -901,10 +901,10 @@ theorem rootOp_hasRaiseL [CharP K 2] (f : (Fin (Tag.rank .E7) → ℤ) →+ ℤ)
   intro b
   rw [rootOp_single hγ]
   by_cases hb : pr b γ = -1
-  · rw [if_pos hb]
+  · rw [ite_eq_left hb]
     have h1 := single_mem_Fil (K := K) (levF f) (shift γ b)
     rwa [levF_shift f hγ hb] at h1
-  · rw [if_neg hb]
+  · rw [ite_eq_right hb]
     exact Submodule.zero_mem _
 
 set_option maxRecDepth 20000 in

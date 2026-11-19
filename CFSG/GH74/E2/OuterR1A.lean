@@ -283,7 +283,7 @@ theorem not_inner_on_Q_of_outer
     exact huout ⟨k, hk, hk2⟩
   have hcard := card_cen_outer (K := K) hcen hOut2 hout
   have hS1card := card_sylow_outer (K := K) (D := D) (SD := Q) hcard hSKK hSKp hSKmax hSDD hSDp
-    hSDmax S.isPGroup' (fun P hP h => S.maximal_isPGroup.eq_of_ge hP h)
+    hSDmax S.isPGroup (fun P hP h => S.maximal_isPGroup.eq_of_ge hP h)
   set S₁ : Subgroup C := (S : Subgroup C) with hS₁def
   have hSKS : SK ≤ S₁ := le_sup_left.trans hS
   have hQS : Q ≤ S₁ := le_sup_right.trans hS
@@ -335,7 +335,7 @@ theorem not_inner_on_Q_of_outer
       _ = a * (x * b) * b⁻¹ * a⁻¹ := by rw [hbx]
       _ = a * x * a⁻¹ := by group
   have hDn : D.Normal := Subgroup.normal_centralizer
-  have hS₁K : S₁ ⊓ K = SK := hSKmax _ S.isPGroup'.to_inf_left inf_le_right (le_inf hSKS hSKK)
+  have hS₁K : S₁ ⊓ K = SK := hSKmax _ S.isPGroup.to_inf_left inf_le_right (le_inf hSKS hSKK)
   have hTKn' : (SK.subgroupOf S₁).Normal := by
     have : SK.subgroupOf S₁ = K.subgroupOf S₁ := by
       ext x
@@ -397,10 +397,10 @@ theorem not_inner_on_Q_of_outer
     exact Nat.eq_of_mul_eq_mul_right hpos (by rw [h1])
   have hr3' : 3 ≤ Group.rank (↥S₁ ⧸ Q.subgroupOf S₁) :=
     rank_quot_ge_three (Q.subgroupOf S₁) (SK.subgroupOf S₁) hdisj' eK hidx
-  have hrk := rank_add_le_of_disjoint (S := ↥S₁) S.isPGroup' (Q.subgroupOf S₁)
+  have hrk := rank_add_le_of_disjoint (S := ↥S₁) S.isPGroup (Q.subgroupOf S₁)
     (SK.subgroupOf S₁) (by rw [inf_comm]; exact hdisj') hcardS
   have h4 : Group.rank ↥S₁ ≤ 4 := by
-    have hTop : IsPGroup 2 (⊤ : Subgroup ↥S₁) := S.isPGroup'.of_equiv Subgroup.topEquiv.symm
+    have hTop : IsPGroup 2 (⊤ : Subgroup ↥S₁) := S.isPGroup.of_equiv Subgroup.topEquiv.symm
     have := Gen4.rank_le_four (hgen.subgroup S₁) hTop
     rwa [Group.rank_congr (Subgroup.topEquiv : (⊤ : Subgroup ↥S₁) ≃* ↥S₁)] at this
   omega

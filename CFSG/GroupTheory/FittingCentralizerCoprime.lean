@@ -15,6 +15,7 @@ section Generic
 
 variable {Q : Type} [Group Q] [Finite Q]
 
+omit [Finite Q] in
 theorem mem_centralizer_of_mem_sup_centralizer_of_coprime (J : Subgroup Q) {y : Q}
     (hy : y ∈ J ⊔ Subgroup.centralizer (J : Set Q)) {n : ℕ} (hyn : y ^ n = 1)
     (hcop : n.Coprime (Nat.card J)) : y ∈ Subgroup.centralizer (J : Set Q) := by
@@ -94,7 +95,7 @@ theorem mem_centralizer_of_mem_fittingSubgroup_of_coprime {p : ℕ} {H : Subgrou
     have hqp : q ≠ p := by
       rintro rfl
       exact (Nat.Prime.coprime_iff_not_dvd hq).mp (hn ▸ hxp).symm hqn
-    haveI : Fact q.Prime := ⟨hq⟩
+    have : Fact q.Prime := ⟨hq⟩
     have hzx : Subgroup.zpowers x ≤ CFSG.fittingSubgroup Q := Subgroup.zpowers_le.mpr hx
     have hpart_mem := hzx (TauCeti.pPart_mem_zpowers q x)
     have hfree_mem := hzx (TauCeti.pFreePart_mem_zpowers q x)
@@ -124,7 +125,7 @@ theorem isNilpotent_of_le_centralizer_layer_pCores {p : ℕ} (hp : p.Prime)
     (h2 : ∀ q : ℕ, q.Prime → q ≠ p → Y ≤ Subgroup.centralizer (CFSG.pCore q Q : Set Q))
     (h3 : ∀ x ∈ Y, ∃ n : ℕ, x ^ p ^ n ∈ Subgroup.centralizer (CFSG.pCore p Q : Set Q)) :
     Group.IsNilpotent Y := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcent : ∀ y ∈ Y, (orderOf y).Coprime p → y ∈ Subgroup.centralizer (Y : Set Q) := by
     intro y hy hyp
     have hyOp : y ∈ Subgroup.centralizer (CFSG.pCore p Q : Set Q) := by
@@ -172,7 +173,7 @@ theorem isNilpotent_of_le_centralizer_layer_pCores {p : ℕ} (hp : p.Prime)
       rw [map_mul, hπfree, mul_one]
     show π g ^ p ^ (orderOf g).factorization p = 1
     rw [hg, ← map_pow, hk, map_one]
-  haveI : Group.IsNilpotent (↥Y ⧸ Subgroup.center ↥Y) := hpq.isNilpotent
+  have : Group.IsNilpotent (↥Y ⧸ Subgroup.center ↥Y) := hpq.isNilpotent
   exact Subgroup.isNilpotent_of_ker_le_center π (by rw [QuotientGroup.ker_mk'])
 
 end Generic

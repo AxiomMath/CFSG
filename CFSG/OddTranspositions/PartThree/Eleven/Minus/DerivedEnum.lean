@@ -39,8 +39,8 @@ theorem enumOK_enumerates {n : ℕ} {gs : Array (Array ℕ)} {ps : List ℕ} {c 
       exact ⟨hsize i hi, rep_of_validA (hval i hi)⟩
   · rw [List.nodup_iff_injective_getElem]
     intro i j hij
-    have hi' : i.1 < c.pts.size := by simpa using i.2
-    have hj' : j.1 < c.pts.size := by simpa using j.2
+    have hi' : i.1 < c.pts.size := by simp
+    have hj' : j.1 < c.pts.size := by simp
     have harr : c.pts[i.1]! = c.pts[j.1]! := by
       have h' := hij
       simp only [Array.getElem_toList] at h'

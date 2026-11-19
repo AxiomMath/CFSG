@@ -21,16 +21,19 @@ structure IsPairAt (M X A : Subgroup G) : Prop where
   not_le_ker : ¬ A ≤ kerMOf M X
   maxOver_eq : maxOver X (A ⊔ kerMOf M X) = {M ⊓ X}
 
+omit [Finite G] in
 theorem IsPair156.toPairAt {M V₀ H A X : Subgroup G} (h : IsPair156 M V₀ H A X) :
     IsPairAt M X A :=
   ⟨h.A_le, h.A_le_M, h.not_le_ker, h.maxOver_eq⟩
 
+omit [Finite G] in
 private theorem b15_exists_mul {X Y K : Subgroup G} (hYX : Y ≤ X) (hKX : K ≤ X)
     (hKn : (K.subgroupOf X).Normal) (hY : Y ⊔ K = X) {x : G} (hx : x ∈ X) :
     ∃ y ∈ Y, ∃ k ∈ K, x = y * k :=
   exists_mul_of_eq_sup_of_normal (H := X) (X := K) (A := Y) hKX hYX hKn
     (by rw [← hY, sup_comm]) hx
 
+omit [Finite G] in
 private theorem b15_inf_eq_sup_inf {M X Y K : Subgroup G} (hYX : Y ≤ X) (hKX : K ≤ X)
     (hKM : K ≤ M) (hKn : (K.subgroupOf X).Normal) (hY : Y ⊔ K = X) :
     M ⊓ X = (M ⊓ Y) ⊔ K := by
@@ -44,6 +47,7 @@ private theorem b15_inf_eq_sup_inf {M X Y K : Subgroup G} (hYX : Y ≤ X) (hKX :
     simpa [mul_assoc] using h1
   exact Subgroup.mul_mem_sup ⟨hyM, hy⟩ hk
 
+omit [Finite G] in
 private theorem b15_eq_sup_inf {N Y K X : Subgroup G} (hNY : N ≤ Y) (hYX : Y ≤ X)
     (hKX : K ≤ X) (hKn : (K.subgroupOf X).Normal) (hNK : N ⊔ K = X) :
     Y = N ⊔ (Y ⊓ K) := by
@@ -58,6 +62,7 @@ private theorem b15_eq_sup_inf {N Y K X : Subgroup G} (hNY : N ≤ Y) (hYX : Y �
   rw [hnk]
   exact Subgroup.mul_mem_sup hn ⟨hkY, hk⟩
 
+omit [Finite G] in
 private theorem b15_normal_sup_kerMOf {M X Y J : Subgroup G} (hYX : Y ≤ X)
     (hJY_le : J ≤ Y) (hJY : (J.subgroupOf Y).Normal) (hY : Y ⊔ kerMOf M X = X) :
     ((J ⊔ kerMOf M X).subgroupOf X).Normal := by
@@ -108,6 +113,7 @@ namespace IsPairAt
 
 variable {M X A : Subgroup G}
 
+omit [Finite G] in
 theorem not_le_M (h : IsPairAt M X A) : ¬ X ≤ M := by
   have hmem : M ⊓ X ∈ maxOver X (A ⊔ kerMOf M X) := by
     rw [h.maxOver_eq]
@@ -238,7 +244,7 @@ theorem le_M_of_isSylowIn (h : IsPairAt M X A) {P : Subgroup G} (hP : IsSylowIn 
       have h := (isSylowIn_kerQuotImg (M := M) (H := X) hP).isPGroup
       rwa [hPtop] at h
     have hQ2 : IsPGroup 2 (KerQuot M X) := hQ2sub.of_equiv Subgroup.topEquiv
-    haveI : Group.IsNilpotent (KerQuot M X) := hQ2.isNilpotent
+    have : Group.IsNilpotent (KerQuot M X) := hQ2.isNilpotent
     have hcoat : IsCoatom (kerQuotImg M X M) := by
       have hmem : kerQuotImg M X M ∈ maxOver ⊤ (kerQuotImg M X A) := by
         rw [maxOver_kerQuotImg_of_inf h.A_le h.maxOver_eq]

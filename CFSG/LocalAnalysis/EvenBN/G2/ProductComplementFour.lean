@@ -20,6 +20,7 @@ section Abstract
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem sup_inf_eq_of_sup_eq {N A M P : Subgroup G} (hMP : M ≤ P) (hPN : P ≤ N)
     (hAM : A ≤ normalizer (M : Set G)) (hsup : A ⊔ M = N) : M ⊔ (P ⊓ A) = P := by
   refine le_antisymm (sup_le hMP inf_le_left) fun p hp => ?_
@@ -32,6 +33,7 @@ theorem sup_inf_eq_of_sup_eq {N A M P : Subgroup G} (hMP : M ≤ P) (hPN : P ≤
     rwa [inv_mul_cancel_left] at this
   exact mul_mem (Subgroup.mem_sup_left hm) (Subgroup.mem_sup_right ⟨ha', ha⟩)
 
+omit [Finite G] in
 theorem le_sup_map_conj_of_sup_eq {N A M P : Subgroup G} {s : G}
     (hN : N = P ⊔ P.map (MulAut.conj s).toMonoidHom) (hMP : M ≤ P) (hPN : P ≤ N)
     (hNM : N ≤ normalizer (M : Set G)) (hsM : s ∈ normalizer (M : Set G)) (hAN : A ≤ N)
@@ -65,11 +67,13 @@ theorem le_sup_map_conj_of_sup_eq {N A M P : Subgroup G} {s : G}
     rwa [mul_inv_cancel_right] at this
   exact mul_mem (Subgroup.mem_sup_left ⟨hMP hm, hmA⟩) hτ
 
+omit [Finite G] in
 theorem mem_map_conj_iff' {H : Subgroup G} {g x : G} :
     x ∈ H.map (MulAut.conj g).toMonoidHom ↔ g⁻¹ * x * g ∈ H := by
   rw [Subgroup.mem_map_equiv]
   simp [MulAut.conj_symm_apply]
 
+omit [Finite G] in
 theorem map_conj_conj {t : G} (ht : t * t = 1) (H : Subgroup G) :
     (H.map (MulAut.conj t).toMonoidHom).map (MulAut.conj t).toMonoidHom = H := by
   have hti : t⁻¹ = t := inv_eq_of_mul_eq_one_right ht
@@ -163,26 +167,33 @@ variable {m : ℕ} {t s : G} {C Y U S E L : Subgroup G} {ρ : ↥C →* SL(2, K)
 
 include c
 
+omit [Finite G] in
 theorem four_le : 4 ≤ Nat.card K := by
   rw [c.hK]
   calc 4 = 2 ^ 2 := by norm_num
     _ ≤ 2 ^ m := Nat.pow_le_pow_right (by norm_num) c.hm
 
+omit [Finite G] in
 theorem t_mem_normalizer_Y : t ∈ normalizer (Y : Set G) :=
   Common.mem_normalizer_ker_of_swap c.htC c.hswap c.hYC c.hker
 
+omit [Finite G] in
 theorem C_le_normalizer_Y : C ≤ normalizer (Y : Set G) := Common.le_normalizer_of_ker c.hYC c.hker
 
+omit [Finite G] in
 theorem Y_le_prodFst : Y ≤ Common.prodFst ρ := Common.le_prodFst c.hYC c.hker
 
+omit [Finite G] in
 theorem prodFst_sup_conj :
     Common.prodFst ρ ⊔ (Common.prodFst ρ).map (MulAut.conj t).toMonoidHom = C :=
   Common.prodFst_sup_map_conj c.htC c.ht c.hswap c.hρ
 
+omit [Finite G] in
 theorem commutator_prodFst_conj_le :
     ⁅Common.prodFst ρ, (Common.prodFst ρ).map (MulAut.conj t).toMonoidHom⁆ ≤ Y :=
   Common.commutator_prodFst_map_conj_le c.htC c.ht c.hswap c.hker
 
+omit [Finite G] in
 theorem prodFst_inf_conj :
     Common.prodFst ρ ⊓ (Common.prodFst ρ).map (MulAut.conj t).toMonoidHom = Y := by
   refine le_antisymm (fun z hz => ?_) (le_inf c.Y_le_prodFst ?_)
@@ -197,9 +208,11 @@ theorem prodFst_inf_conj :
   · rw [← Common.map_conj_eq_of_mem_normalizer c.t_mem_normalizer_Y]
     exact Subgroup.map_mono c.Y_le_prodFst
 
+omit [Finite G] [Finite K] [CharP K 2] c in
 theorem C_le_normalizer_prodFst : C ≤ normalizer (Common.prodFst ρ : Set G) :=
   Common.le_normalizer_prodFst ρ
 
+omit [Finite G] in
 theorem C_le_normalizer_conj_prodFst :
     C ≤ normalizer (((Common.prodFst ρ).map (MulAut.conj t).toMonoidHom : Subgroup G) : Set G) :=
   Common.le_normalizer_map_conj_prodFst c.htC
@@ -210,7 +223,7 @@ theorem prodFst_le_sup_conj : Common.prodFst ρ ≤ (S ⊓ Common.prodFst ρ) �
   set Λt := Λ.map (MulAut.conj t).toMonoidHom with hΛtdef
   obtain ⟨-, -, hSsup, -, -⟩ :=
     sylow_prod c.hSC c.prodFst_sup_conj c.prodFst_inf_conj c.commutator_prodFst_conj_le c.hYS
-  have hsΛ : s ∈ normalizer (Λ : Set G) := c.C_le_normalizer_prodFst c.hsC
+  have hsΛ : s ∈ normalizer (Λ : Set G) := Config.C_le_normalizer_prodFst c.hsC
   have hsΛt : s ∈ normalizer (Λt : Set G) := c.C_le_normalizer_conj_prodFst c.hsC
   have hΛs : Λ.map (MulAut.conj s).toMonoidHom = Λ := Common.map_conj_eq_of_mem_normalizer hsΛ
   have hΛts : Λt.map (MulAut.conj s).toMonoidHom = Λt :=
@@ -277,7 +290,7 @@ theorem exists_perfect :
     ∃ P : Subgroup G, P ≤ Common.prodFst ρ ∧ ⁅P, P⁆ = P ∧ P ⊔ Y = Common.prodFst ρ ∧
       ⁅P, P.map (MulAut.conj t).toMonoidHom⁆ = ⊥ ∧
       ∀ R : Subgroup G, R ≤ Common.prodFst ρ → ⁅R, R⁆ = R → R ≤ P := by
-  haveI := CFSG.ClassicalModels.specialLinear_isPerfect_two_of_four_le_card K c.four_le
+  have := CFSG.ClassicalModels.specialLinear_isPerfect_two_of_four_le_card K c.four_le
   set Λ := Common.prodFst ρ with hΛdef
   have hV : IsSylowOf 2 (S ⊓ Λ) Λ :=
     (sylow_prod c.hSC c.prodFst_sup_conj c.prodFst_inf_conj c.commutator_prodFst_conj_le
@@ -301,7 +314,7 @@ theorem exists_perfect :
     exact mul_mem (Subgroup.mem_sup_right (Subgroup.mem_inf.2 ⟨he, heΛ⟩))
       (Subgroup.mem_sup_left hy)
   refine Common.exists_perfect_commuting_factor_of_ambient c.hK c.hm (E := E ⊓ Λ) c.Y_le_prodFst
-    (Common.prodFst_le ρ) c.C_le_normalizer_prodFst c.C_le_normalizer_Y c.hYsq c.hYab c.htC
+    (Common.prodFst_le ρ) Config.C_le_normalizer_prodFst c.C_le_normalizer_Y c.hYsq c.hYab c.htC
     c.t_mem_normalizer_Y c.prodFst_sup_conj c.commutator_prodFst_conj_le
     (Common.le_commutator_sup_of_perfect c.hρ c.hker) (Common.prodFstHom ρ)
     (Common.surjective_prodFstHom c.hρ) (Common.ker_prodFstHom c.hker) c.hYS hV
@@ -463,7 +476,7 @@ theorem exists_complement_of_perfect {P : Subgroup G} (hPΛ : P ≤ Common.prodF
     have h2 := hψ' ⟨l, hl⟩
     rw [h1, MonoidHom.one_apply] at h2
     have h3 := congrArg (fun φ : MulAut ↥W => ((φ ⟨w, hw⟩ : ↥W) : G)) h2
-    simp only [CFSG.SL2MinimalFaithful.conjAction_apply, MulAut.one_apply] at h3
+    simp only [MulAut.one_apply] at h3
     change w = l * w * l⁻¹ at h3
     calc w * l = (l * w * l⁻¹) * l := by rw [← h3]
       _ = l * w := by group
@@ -557,9 +570,9 @@ theorem exists_complement_of_perfect {P : Subgroup G} (hPΛ : P ≤ Common.prodF
     refine ⟨x, hx, ?_⟩
     rw [hyy₀, hxy₀]
   have hLY : L ⊓ Y = ⊥ := by
-    haveI : IsSimpleGroup SL(2, K) := Common.sl2_isSimpleGroup_of_charTwo c.four_le
+    have : IsSimpleGroup SL(2, K) := Common.sl2_isSimpleGroup_of_charTwo c.four_le
     obtain ⟨e⟩ := c.hL
-    haveI : IsSimpleGroup ↥L := e.symm.isSimpleGroup
+    have : IsSimpleGroup ↥L := e.symm.isSimpleGroup
     have hnorm : ((L ⊓ Y).subgroupOf L).Normal := by
       refine ⟨fun x hx g => ?_⟩
       rw [Subgroup.mem_subgroupOf] at hx ⊢
@@ -731,7 +744,7 @@ theorem exists_complement : ∃ A : Subgroup G, A ≤ C ∧ A ⊓ Y = ⊥ ∧ C 
   obtain ⟨P, hPΛ, hPperf, hPY, hPcomm, hPmax⟩ := c.exists_perfect
   refine c.exists_complement_of_perfect hPΛ hPY hPcomm ?_
   intro g hg x hx
-  have hgΛ : g ∈ normalizer (Common.prodFst ρ : Set G) := c.C_le_normalizer_prodFst hg
+  have hgΛ : g ∈ normalizer (Common.prodFst ρ : Set G) := Config.C_le_normalizer_prodFst hg
   have hR : P.map (MulAut.conj g).toMonoidHom ≤ P := by
     refine hPmax _ ?_ ?_
     · rw [← Common.map_conj_eq_of_mem_normalizer hgΛ]

@@ -26,7 +26,7 @@ theorem exists_subgroup_centralized_mod (O V : Subgroup G) (a b : G) (hVO : V �
     ⟨fun n hn g => by
       rw [Subgroup.mem_subgroupOf] at hn ⊢
       simpa using hVn (g : G) g.2 (n : G) hn⟩
-  letI : N.Normal := hNnormal
+  let : N.Normal := hNnormal
   let π : ↥O →* (↥O ⧸ N) := QuotientGroup.mk' N
   let cA : ↥O →* ↥O :=
     { toFun := fun x => ⟨a * (x : G) * a⁻¹, haO (x : G) x.2⟩
@@ -84,7 +84,7 @@ theorem exists_subgroup_centralized_mod (O V : Subgroup G) (a b : G) (hVO : V �
       Subgroup.card_eq_card_quotient_mul_card_subgroup N
     rw [hNcard, hcard] at hO
     exact Nat.mul_right_cancel (Nat.card_pos (α := ↥V)) hO.symm
-  haveI hEcomm : IsMulCommutative (↥O ⧸ N) :=
+  have hEcomm : IsMulCommutative (↥O ⧸ N) :=
     IsMulCommutative.of_comm fun x y => by
       refine QuotientGroup.induction_on x ?_
       intro p
@@ -93,7 +93,7 @@ theorem exists_subgroup_centralized_mod (O V : Subgroup G) (a b : G) (hVO : V �
       rw [← QuotientGroup.mk_mul N p q, ← QuotientGroup.mk_mul N q p, QuotientGroup.eq]
       rw [Subgroup.mem_subgroupOf]
       have h2 := hcomm ((q : G)⁻¹) (O.inv_mem q.2) ((p : G)⁻¹) (O.inv_mem p.2)
-      convert h2 using 1 <;> simp only [Subgroup.coe_mul, Subgroup.coe_inv] <;> group
+      convert h2 using 1; simp only [Subgroup.coe_mul, Subgroup.coe_inv]; group
   have hα : ∀ x, α (α x) = x := by
     intro x
     refine QuotientGroup.induction_on x ?_
@@ -102,8 +102,8 @@ theorem exists_subgroup_centralized_mod (O V : Subgroup G) (a b : G) (hVO : V �
     have hw : (cA (cA y) * y⁻¹ : ↥O) ∈ N := by
       rw [Subgroup.mem_subgroupOf]
       have h := hcomm (a * a) ha2 (y : G) y.2
-      convert h using 1 <;>
-        simp only [Subgroup.coe_mul, Subgroup.coe_inv, hcA] <;> group
+      convert h using 1;
+        simp only [Subgroup.coe_mul, Subgroup.coe_inv, hcA]; group
     have h1 : (QuotientGroup.mk (cA (cA y) * y⁻¹) : ↥O ⧸ N) = 1 :=
       (QuotientGroup.eq_one_iff _).mpr hw
     calc (QuotientGroup.mk (cA (cA y)) : ↥O ⧸ N)
@@ -120,8 +120,8 @@ theorem exists_subgroup_centralized_mod (O V : Subgroup G) (a b : G) (hVO : V �
     have hw : (cB (cB y) * y⁻¹ : ↥O) ∈ N := by
       rw [Subgroup.mem_subgroupOf]
       have h := hcomm (b * b) hb2 (y : G) y.2
-      convert h using 1 <;>
-        simp only [Subgroup.coe_mul, Subgroup.coe_inv, hcB] <;> group
+      convert h using 1;
+        simp only [Subgroup.coe_mul, Subgroup.coe_inv, hcB]; group
     have h1 : (QuotientGroup.mk (cB (cB y) * y⁻¹) : ↥O ⧸ N) = 1 :=
       (QuotientGroup.eq_one_iff _).mpr hw
     calc (QuotientGroup.mk (cB (cB y)) : ↥O ⧸ N)
@@ -139,8 +139,8 @@ theorem exists_subgroup_centralized_mod (O V : Subgroup G) (a b : G) (hVO : V �
     rw [Subgroup.mem_subgroupOf]
     have h2 := hcomm (a * b * a⁻¹ * b⁻¹) hab
       ((↑(cB (cA y)) : G)⁻¹) (O.inv_mem (cB (cA y)).2)
-    convert h2 using 1 <;>
-      simp only [Subgroup.coe_mul, Subgroup.coe_inv, hcA, hcB] <;> group
+    convert h2 using 1;
+      simp only [Subgroup.coe_mul, Subgroup.coe_inv, hcA, hcB]; group
   obtain ⟨F, hFcard, hFfix⟩ :=
     exists_fixed_subgroup_of_commuting_involutions hEsq hEcard α β hα hβ hαβ
   let A₀ : Subgroup ↥O := F.comap π

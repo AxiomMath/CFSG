@@ -26,7 +26,7 @@ theorem exists_conj_A8 (H K : Subgroup ↥(alternatingGroup (Fin 8)))
     have h := K.card_mul_index
     rw [hK, card_alt8] at h
     omega
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨m, hm⟩ := MulAction.exists_smul_eq (↥(alternatingGroup (Fin 8)))
     (hpH.toSylow hidxH) (hpK.toSylow hidxK)
   refine ⟨m, fun y => ?_⟩

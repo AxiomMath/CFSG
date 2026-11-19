@@ -200,7 +200,7 @@ theorem small_component_support
   obtain ⟨i, hJi⟩ := LangRat.langFamilyComponentsInRootSpan .E6 L 5 3 S
     (Or.inr (Or.inl rfl)) Nat.prime_three (by norm_num) hp0 (Fin 2) a ha h3 J hJopen
   let χ : Multiplicative (Fin Tag.E6.rank → ℤ) →* (Fin 2 → Lˣ) :=
-    Pi.monoidHom fun u => CFSG.LieType.AlgebraicGroups.rootCharHom (a u)
+    _root_.MonoidHom.pi fun u => CFSG.LieType.AlgebraicGroups.rootCharHom (a u)
   have hker : kernelRoots χ = familyKernel a := by
     have hχ : χ = familyChar a := rfl
     rw [hχ, kernelRoots_familyChar]

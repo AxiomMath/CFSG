@@ -55,6 +55,7 @@ private noncomputable def w1369_kAutEquiv {M : Subgroup W} {K : Subgroup (MulAut
     exact (hkg m).symm
   exact MulEquiv.ofBijective f ⟨hfinj, hfsurj⟩
 
+omit [Finite W] in
 private lemma w1369_kAutEquiv_apply {M : Subgroup W} {K : Subgroup (MulAut W)}
     (hKM : StableUnder K M) (hfaith : ∀ k ∈ K, (∀ m ∈ M, k m = m) → k = 1)
     (hsurj : ∀ g : MulAut ↥M, ∃ k ∈ K, ∀ m : ↥M, ((g m : ↥M) : W) = k (m : W))
@@ -168,7 +169,7 @@ theorem Std139.shapeTensor_isSLn (hw2 : ∀ w : W, w ^ 2 = 1)
   obtain ⟨e⟩ := CFSG.SectionRank.Ccomm.nonempty_mulEquiv_of_elementary (p := 2) (W := ↥M)
     (fun a b => mul_comm a b)
     (fun a => Subtype.ext (by simpa using hw2 (a : W))) hcardM
-  refine ⟨ZMod 2, inferInstance, inferInstance, by simp [Nat.card_zmod], ?_⟩
+  refine ⟨ZMod 2, inferInstance, inferInstance, by simp, ?_⟩
   let f : ↥K →* MulAut ↥M :=
     { toFun := fun k =>
         { toFun := fun m => ⟨(k : MulAut W) (m : W), hKM k k.2 m m.2⟩
@@ -260,7 +261,7 @@ theorem Std139.shapeTensor_sumOfNat (hw2 : ∀ w : W, w ^ 2 = 1) (S : Std139 G X
         (Multiplicative.toAdd (1 : Multiplicative (Fin n → ZMod 2)))) = 1
     simp
   have hnatM : BinaryNaturalSL K M ⊥ n 1 :=
-    ⟨ZMod 2, inferInstance, inferInstance, by simp [Nat.card_zmod], π, hrealM⟩
+    ⟨ZMod 2, inferInstance, inferInstance, by simp, π, hrealM⟩
   have hxcomm : ∀ k ∈ K, k * x = x * k :=
     fun k hk => S.component_commutes_X hK.comp k hk x hxX
   have hrealxM : (FFModel.nat (StatedSL n (ZMod 2))).RealizesVia K
@@ -278,7 +279,7 @@ theorem Std139.shapeTensor_sumOfNat (hw2 : ∀ w : W, w ^ 2 = 1) (S : Std139 G X
     rw [Subgroup.map_bot] at htr
     exact htr
   have hnatxM : BinaryNaturalSL K (M.map x.toMonoidHom) ⊥ n 1 :=
-    ⟨ZMod 2, inferInstance, inferInstance, by simp [Nat.card_zmod],
+    ⟨ZMod 2, inferInstance, inferInstance, by simp,
       (MulEquiv.refl ↥K).symm.toMonoidHom.comp π, hrealxM⟩
   let I : Fin 2 → Subgroup W := ![M, M.map x.toMonoidHom]
   have hI0 : (⨆ (j : Fin 2) (_ : j ≠ 0), I j) = I 1 := by
@@ -314,14 +315,14 @@ theorem Std139.shapeTensor_sumOfNat (hw2 : ∀ w : W, w ^ 2 = 1) (S : Std139 G X
     fin_cases i
     · change I 0 ⊓ (⊥ ⊔ ⨆ (j : Fin 2) (_ : j ≠ (0 : Fin 2)), I j) ≤ ⊥
       rw [bot_sup_eq, hI0]
-      simp only [I, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons]
+      simp only [I, Matrix.cons_val_zero, Matrix.cons_val_one]
       rw [hdis]
     · change I 1 ⊓ (⊥ ⊔ ⨆ (j : Fin 2) (_ : j ≠ (1 : Fin 2)), I j) ≤ ⊥
       rw [bot_sup_eq, hI1]
-      simp only [I, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons]
+      simp only [I, Matrix.cons_val_zero, Matrix.cons_val_one]
       rw [inf_comm, hdis]
   · rw [bot_sup_eq, hsupI]
-    simp only [I, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons]
+    simp only [I, Matrix.cons_val_zero, Matrix.cons_val_one]
     rw [hsup]
   · intro i
     fin_cases i
@@ -331,7 +332,7 @@ theorem Std139.shapeTensor_sumOfNat (hw2 : ∀ w : W, w ^ 2 = 1) (S : Std139 G X
 theorem Std139.shapeTensor_normalizer (hw2 : ∀ w : W, w ^ 2 = 1) (S : Std139 G X D s Y n)
     (hn : 3 ≤ n) {K : Subgroup (MulAut W)} (hK : Comp139 G X D K) (h : ShapeTensor K X n) :
     ∃ Kb : Subgroup (MulAut W), IsSym ↥Kb 3 ∧ IsInternalDirect Kb K G := by
-  letI : Module (ZMod 2) (Additive W) :=
+  let : Module (ZMod 2) (Additive W) :=
     AddCommGroup.zmodModule (fun a => by
       rw [two_nsmul]
       apply Additive.toMul.injective

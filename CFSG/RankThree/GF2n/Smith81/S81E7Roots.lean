@@ -46,7 +46,7 @@ theorem NN_inf_GG {g : (Module.End K (V K))ˣ} (h1 : g ∈ NN K) (h2 : g ∈ GG 
     have hs : (Finsupp.single a (1 : K) : V K) ∈ Piece K (pr a theta) := by
       refine mem_Piece_iff.2 fun b hb => ?_
       have hne : a ≠ b := fun hab => hb (by rw [hab])
-      rw [Finsupp.single_apply, if_neg hne]
+      rw [Finsupp.single_apply, ite_eq_right hne]
     have hF := hR (pr a theta) _ (piece_mem_fil hs)
     have hPg := hP (pr a theta) _ hs
     refine Finsupp.ext fun b => ?_
@@ -144,12 +144,12 @@ theorem xu_sub_mem_Fil [CharP K 2] {γ : Fin (Tag.rank .E7) → ℤ} (hγ : IsRo
   refine mem_Fil_iff.2 fun b hb => ?_
   rw [Finsupp.sub_apply, xu_sub_coord hγ c x b]
   by_cases h : pr b γ = 1
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     have hlt : pr (shift (-γ) b) theta < j := by
       rw [pr_shift_neg_theta hγ h]
       omega
     rw [mem_Fil_iff.1 hx _ hlt, mul_zero]
-  · rw [if_neg h, mul_zero]
+  · rw [ite_eq_right h, mul_zero]
 
 theorem xu_sub_mem_Piece [CharP K 2] {γ : Fin (Tag.rank .E7) → ℤ} (hγ : IsRoot .E7 γ) (c : K)
     {x : V K} {i : ℤ} (hx : x ∈ Piece K i) :
@@ -158,12 +158,12 @@ theorem xu_sub_mem_Piece [CharP K 2] {γ : Fin (Tag.rank .E7) → ℤ} (hγ : Is
   refine mem_Piece_iff.2 fun b hb => ?_
   rw [Finsupp.sub_apply, xu_sub_coord hγ c x b]
   by_cases h : pr b γ = 1
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     have hsh : pr (shift (-γ) b) theta ≠ i := by
       rw [pr_shift_neg_theta hγ h]
       omega
     rw [mem_Piece_iff.1 hx _ hsh, mul_zero]
-  · rw [if_neg h, mul_zero]
+  · rw [ite_eq_right h, mul_zero]
 
 theorem conj_xu_sub_Fil [CharP K 2] {u : (Module.End K (V K))ˣ} (hu : u ∈ GG K)
     {γ : Fin (Tag.rank .E7) → ℤ} (hγ : IsRoot .E7 γ) (c : K) {x : V K} {j : ℤ}
@@ -192,7 +192,7 @@ theorem single_mem_Piece (a : Fin e7Data.d) :
     (Finsupp.single a (1 : K) : V K) ∈ Piece K (pr a theta) := by
   refine mem_Piece_iff.2 fun b hb => ?_
   have hne : a ≠ b := fun h => hb (by rw [h])
-  rw [Finsupp.single_apply, if_neg hne]
+  rw [Finsupp.single_apply, ite_eq_right hne]
 
 theorem degree_core {Q Qi Y Tt : Module.End K (V K)} {k : ℤ} (hk : k ≠ 0) {i : ℤ}
     (hQ : RaisesFil Q) (hQi : RaisesFil Qi) (hQQi : Q * Qi = 1)

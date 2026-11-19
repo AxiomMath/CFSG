@@ -101,7 +101,7 @@ theorem exists_inndiag_of_mem_innAutDerived_F4 {K : Type} [Field K]
     ∃ h ∈ inndiagGroup .F4 K, (∀ c : adjointGroup .F4 K, (β c : ModGL .F4 K) = h * c * h⁻¹) ∧
       h ^ p = 1 ∧ h ≠ 1 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, hℓ, hcard⟩ := FiniteField.card K (ringChar K)
   have hK : Nat.card K = ringChar K ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hcard
   exact exists_inndiag_of_mem_inner β
@@ -114,12 +114,12 @@ theorem exists_inndiag_of_mem_innAutDerived_G2 {K : Type} [Field K] [Finite K]
     ∃ h ∈ inndiagGroup .G2 K, (∀ c : adjointGroup .G2 K, (β c : ModGL .G2 K) = h * c * h⁻¹) ∧
       h ^ p = 1 ∧ h ≠ 1 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, hℓ, hcard⟩ := FiniteField.card K (ringChar K)
   have hK : Nat.card K = ringChar K ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hcard
   refine exists_inndiag_of_mem_inner β ?_ hβp hβ1
   by_cases h3 : ringChar K = 3
-  · haveI : CharP K CFSG.LieType.Ree.ReeTag.G2.prime := by
+  · have : CharP K CFSG.LieType.Ree.ReeTag.G2.prime := by
       have : CharP K (ringChar K) := ringChar.charP K
       rw [h3] at this
       exact this
@@ -160,7 +160,7 @@ theorem compIdxAt_adjointGroup {τ : Tag} (hres : ExcUntwRationalCatalogueAt τ)
   classical
   intro β hβmem hβp hβ1 J hJ
   obtain ⟨h, hh, hβh, hp1, hh1⟩ := hinn β hβmem hβp hβ1
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, hℓ, hcardK⟩ := FiniteField.card K (ringChar K)
   have hK : Nat.card K = ringChar K ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hcardK
   have hpℓ : p ≠ ringChar K := fun h' => hpK (by rw [hK, ← h']; exact dvd_pow_self p f.ne_zero)
@@ -288,7 +288,7 @@ open CFSG.Assembly.LowTwoRank CFSG.Adapters.RankTwoModelTransports
 theorem nonempty_ringEquiv_fixedField_excU {K : Type} [Field K] [Fintype K]
     (d : TauCeti.ValidLieTypeIndex) (hK : Fintype.card K = d.fieldOrder) :
     Nonempty (K ≃+* ↥d.fixedField) := by
-  haveI : Finite d.fixedField := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d
+  have : Finite d.fixedField := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d
   let _ : Fintype d.fixedField := Fintype.ofFinite _
   have hcard : Fintype.card K = Fintype.card d.fixedField := by
     rw [← Nat.card_eq_fintype_card (α := d.fixedField), TauCeti.ValidLieTypeIndex.card_fixedField]
@@ -341,7 +341,7 @@ theorem catalogueOver_of_lieModel_plus {X : Type} [Group X] {n p f : ℕ}
   have hf : 0 < f := hadm.2.1
   rcases h with ⟨-, hmod⟩ | ⟨-, ht, -⟩ | ⟨-, ht, -⟩ | ⟨-, ht, -⟩
   · obtain ⟨-, K, _, _, hK, ⟨e⟩⟩ := hmod
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     have hring : ringChar K = p := ringChar_eq_of_natCard_eq_pow hp hK hf
     obtain ⟨i, ⟨φ⟩, hi⟩ := catalogueIdx_statedProj_plus (K := K) n hn4
     refine ⟨i, ⟨e.trans φ⟩, ?_⟩
@@ -359,7 +359,7 @@ theorem catalogueOver_of_lieModel_podd {X : Type} [Group X] {n p f : ℕ}
   have hf : 0 < f := hadm.2.1
   rcases h with ⟨-, hmod⟩ | ⟨-, ht, -⟩ | ⟨-, ht, -⟩ | ⟨-, ht, -⟩
   · obtain ⟨-, K, _, _, hK, ⟨e⟩⟩ := hmod
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     have hring : ringChar K = p := ringChar_eq_of_natCard_eq_pow hp hK hf
     obtain ⟨i, ⟨φ⟩, hi⟩ := catalogueIdx_statedProj_odd (K := K) n hn3 (by rw [hring]; exact hp2)
     refine ⟨i, ⟨e.trans φ⟩, ?_⟩
@@ -458,7 +458,7 @@ theorem innerRecogOver_E6 {τ : Tag} (hτ : τ = .D4 ∨ τ = .E6 ∨ τ = .E7 �
         θ.comp (blockSL K 3 2 1 (by omega)) = rootSL2 τ K (β (l j))) :
     InnerRecogOver p (p ^ f) ↥(rootSpan τ K (rootsOfFam β (Set.range l))) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨U, ρ, hgen, hcomm, hρ, hψ⟩ := weakCT_data hτ β hroot l (edgeE 6) hgram hframe
   have hadm : StatedLieAdmissible .E6 0 p f := ⟨hp, hf, rfl⟩
   obtain ⟨-, -, -, hqs, -, hmodel⟩ := weakCT_e6_of_frame p f hadm hK U hgen hcomm hρ hψ
@@ -475,7 +475,7 @@ theorem innerRecogOver_E7 {τ : Tag} (hτ : τ = .D4 ∨ τ = .E6 ∨ τ = .E7 �
         θ.comp (blockSL K 3 2 1 (by omega)) = rootSL2 τ K (β (l j))) :
     InnerRecogOver p (p ^ f) ↥(rootSpan τ K (rootsOfFam β (Set.range l))) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨U, ρ, hgen, hcomm, hρ, hψ⟩ := weakCT_data hτ β hroot l (edgeE 7) hgram hframe
   have hadm : StatedLieAdmissible .E7 0 p f := ⟨hp, hf, rfl⟩
   obtain ⟨-, -, -, hqs, -, hmodel⟩ := weakCT_e7_of_frame p f hadm hK U hgen hcomm hρ hψ
@@ -492,7 +492,7 @@ theorem innerRecogOver_E8 {τ : Tag} (hτ : τ = .D4 ∨ τ = .E6 ∨ τ = .E7 �
         θ.comp (blockSL K 3 2 1 (by omega)) = rootSL2 τ K (β (l j))) :
     InnerRecogOver p (p ^ f) ↥(rootSpan τ K (rootsOfFam β (Set.range l))) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨U, ρ, hgen, hcomm, hρ, hψ⟩ := weakCT_data hτ β hroot l (edgeE 8) hgram hframe
   have hadm : StatedLieAdmissible .E8 0 p f := ⟨hp, hf, rfl⟩
   obtain ⟨-, -, -, hqs, -, hmodel⟩ := weakCT_e8_of_frame p f hadm hK U hgen hcomm hρ hψ
@@ -541,8 +541,8 @@ theorem ratCat_of_tree (K : KacData τ) {L : Type} [Field L] [IsAlgClosed L]
     show rootSpan τ K' (componentRoots (rootCharHom a) i) = _
     rw [hroots, hset]
   rw [hcomp]
-  haveI : Fintype ↥K' := Fintype.ofFinite ↥K'
-  haveI : CharP ↥K' (ringChar ↥K') := ringChar.charP ↥K'
+  have : Fintype ↥K' := Fintype.ofFinite ↥K'
+  have : CharP ↥K' (ringChar ↥K') := ringChar.charP ↥K'
   obtain ⟨f, hprime, hcardK⟩ := FiniteField.card ↥K' (ringChar ↥K')
   have hring : ringChar ↥K' = ringChar L := ringChar_subfield' K'
   rw [hring] at hprime hcardK
@@ -745,7 +745,7 @@ theorem innerRecogOver_of_spRange {p f m : ℕ} (hp : p.Prime) (hf : 0 < f) {K :
     {G : Type} [Group G] (Ψ : StatedSp m K →* G)
     (hker : Ψ.ker ≤ Subgroup.center (StatedSp m K)) {H : Subgroup G} (hrange : Ψ.range = H) :
     InnerRecogOver p (p ^ f) ↥H := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hch : ringChar K = p := ringChar_eq_of_natCard_eq_pow hp hK hf
   have hne' : (m, Fintype.card K) ≠ (2, 2) := by rwa [← Nat.card_eq_fintype_card]
   have h := (innerRecogOver_sp K m hm hne').of_range Ψ hker hrange
@@ -759,10 +759,10 @@ theorem innerRecogOver_f4_B2 {K : Type} [Field K] [Finite K] {p f : ℕ} (hp : p
       (rankOne (f4Datum K).rootGroup (f4Node 1)) (rankOne (f4Datum K).rootGroup (f4Node 2)) := by
     by_cases hp2 : p = 2
     · subst hp2
-      haveI : CharP K 2 := by
+      have : CharP K 2 := by
         have := ringChar_eq_of_natCard_eq_pow hp hK hf
         rw [← this]
-        haveI : Fintype K := Fintype.ofFinite K
+        have : Fintype K := Fintype.ofFinite K
         exact ringChar.charP K
       have hK4 : 4 ≤ Nat.card K := by
         rw [hK] at hK3 ⊢
@@ -842,10 +842,10 @@ theorem innerRecogOver_f4_C3_fam {K : Type} [Field K] [Finite K] {p f : ℕ} (hp
 theorem innerRecogOver_f4_B3_two {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) :
     InnerRecogOver 2 (2 ^ 1) ↥(subsystemGroup .F4 K f4LeviB3) := by
   classical
-  haveI : CharP K 2 := by
+  have : CharP K 2 := by
     have := ringChar_eq_of_natCard_eq_pow Nat.prime_two (f := 1) (by rw [hK]; norm_num) Nat.one_pos
     rw [← this]
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     exact ringChar.charP K
   have hsq := CompsPF4Small.sq_eq_self_of_card_two hK
   have hK' : Nat.card K = 2 ^ 1 := by rw [hK]; norm_num
@@ -937,10 +937,10 @@ theorem innerRecogOver_f4_levi_any {J : Set (Fin (Tag.rank .F4))}
   rcases hJ with rfl | rfl
   · by_cases hp2 : p = 2
     · subst hp2
-      haveI : CharP K 2 := by
+      have : CharP K 2 := by
         have := ringChar_eq_of_natCard_eq_pow Nat.prime_two hK hf
         rw [← this]
-        haveI : Fintype K := Fintype.ofFinite K
+        have : Fintype K := Fintype.ofFinite K
         exact ringChar.charP K
       by_cases hK4 : 4 ≤ Nat.card K
       · exact innerRecogOver_f4_B3_even hf hK hK4
@@ -980,8 +980,8 @@ theorem ratCat_of_f4Levi_class_any {L : Type} [Field L] [IsAlgClosed L] {p₀ : 
     show rootSpan Tag.F4 K' (componentRoots (rootCharHom a) i) = _
     rw [hroots]
   rw [hcomp]
-  haveI : Fintype ↥K' := Fintype.ofFinite ↥K'
-  haveI : CharP ↥K' (ringChar ↥K') := ringChar.charP ↥K'
+  have : Fintype ↥K' := Fintype.ofFinite ↥K'
+  have : CharP ↥K' (ringChar ↥K') := ringChar.charP ↥K'
   obtain ⟨f, hprime, hcardf⟩ := FiniteField.card ↥K' (ringChar ↥K')
   have hring : ringChar ↥K' = ringChar L := ringChar_subfield' K'
   rw [hring] at hprime hcardf
@@ -1012,8 +1012,8 @@ theorem ratCat_of_f4B2_class {L : Type} [Field L] [IsAlgClosed L] {p₀ : ℕ}
     show rootSpan Tag.F4 K' (componentRoots (rootCharHom a) i) = _
     rw [hroots]
   rw [hcomp]
-  haveI : Fintype ↥K' := Fintype.ofFinite ↥K'
-  haveI : CharP ↥K' (ringChar ↥K') := ringChar.charP ↥K'
+  have : Fintype ↥K' := Fintype.ofFinite ↥K'
+  have : CharP ↥K' (ringChar ↥K') := ringChar.charP ↥K'
   obtain ⟨f, hprime, hcardf⟩ := FiniteField.card ↥K' (ringChar ↥K')
   have hring : ringChar ↥K' = ringChar L := ringChar_subfield' K'
   rw [hring] at hprime hcardf
@@ -1044,7 +1044,7 @@ theorem ratCat_of_f4B2_two {L : Type} [Field L] [IsAlgClosed L] {p₀ : ℕ}
   obtain ⟨hs0, -, -⟩ := outer_componentOrbitLength_spec S hT i
   obtain ⟨K', hfin, C, D, hC, hD, hcard, f, hf1, hker, hf2⟩ :=
     exists_inner_cover_derived_two S hT i hinner hQ
-  haveI : Fintype ↥K' := Fintype.ofFinite _
+  have : Fintype ↥K' := Fintype.ofFinite _
   have hcard' : Fintype.card ↥K' = 2 := by rw [← Nat.card_eq_fintype_card]; exact hcard
   have hch : ringChar L = 2 := by
     have h2 := ringChar_eq_of_natCard_eq_pow Nat.prime_two (K := ↥K') (f := 1)
@@ -1108,7 +1108,7 @@ theorem ratCat_of_f4B2_two {L : Type} [Field L] [IsAlgClosed L] {p₀ : ℕ}
     intro h
     have hsimple : IsSimpleGroup (↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) ⧸
       Subgroup.center ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i)) := hqs.2.1
-    haveI := hsimple.toNontrivial
+    have := hsimple.toNontrivial
     obtain ⟨x, hx⟩ := exists_ne (1 : ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) ⧸
       Subgroup.center ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i))
     obtain ⟨g, rfl⟩ := QuotientGroup.mk_surjective x
@@ -1289,7 +1289,7 @@ theorem compIdxAt_excUntw_of_rationalCatalogueAt (d : TauCeti.ValidLieTypeIndex)
       rw [hK]
       exact (TauCeti.LieTypeIndex.inStandardRange_iff _).mp
         ((TauCeti.LieTypeIndex.valid_iff _).mp hv).1
-    haveI := hKc
+    have := hKc
     have hchar : ringChar K = q.p := ringChar.eq K q.p
     have hpq : p ≠ q.p := by simpa using hpc
     exact compIdxAt_of_mulEquiv eK.symm (compIdxAt_adjointGroup (hG2 ⟨q, rfl⟩) (τ := .G2)
@@ -1299,7 +1299,7 @@ theorem compIdxAt_excUntw_of_rationalCatalogueAt (d : TauCeti.ValidLieTypeIndex)
   | F4 q =>
     obtain ⟨K, _, _, hK, hKc, ⟨eK⟩⟩ :=
       exists_catEquiv_adjointGroup CFSG.TauCetiBridge.Even.chevalleyBridgesAll.f4 q hv
-    haveI := hKc
+    have := hKc
     have hchar : ringChar K = q.p := ringChar.eq K q.p
     have hpq : p ≠ q.p := by simpa using hpc
     exact compIdxAt_of_mulEquiv eK.symm (compIdxAt_adjointGroup (hF4 ⟨q, rfl⟩) (τ := .F4)
@@ -1310,7 +1310,7 @@ theorem compIdxAt_excUntw_of_rationalCatalogueAt (d : TauCeti.ValidLieTypeIndex)
   | E6 q =>
     obtain ⟨K, _, _, hK, hKc, ⟨eK⟩⟩ :=
       exists_catEquiv_adjointGroup CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e6 q hv
-    haveI := hKc
+    have := hKc
     have hchar : ringChar K = q.p := ringChar.eq K q.p
     have hpq : p ≠ q.p := by simpa using hpc
     exact compIdxAt_of_mulEquiv eK.symm (compIdxAt_adjointGroup (hE6 ⟨q, rfl⟩) (τ := .E6)
@@ -1321,7 +1321,7 @@ theorem compIdxAt_excUntw_of_rationalCatalogueAt (d : TauCeti.ValidLieTypeIndex)
   | E7 q =>
     obtain ⟨K, _, _, hK, hKc, ⟨eK⟩⟩ :=
       exists_catEquiv_adjointGroup CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e7 q hv
-    haveI := hKc
+    have := hKc
     have hchar : ringChar K = q.p := ringChar.eq K q.p
     have hpq : p ≠ q.p := by simpa using hpc
     exact compIdxAt_of_mulEquiv eK.symm (compIdxAt_adjointGroup (hE7 ⟨q, rfl⟩) (τ := .E7)
@@ -1333,7 +1333,7 @@ theorem compIdxAt_excUntw_of_rationalCatalogueAt (d : TauCeti.ValidLieTypeIndex)
   | E8 q =>
     obtain ⟨K, _, _, hK, hKc, ⟨eK⟩⟩ :=
       exists_catEquiv_adjointGroup CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e8 q hv
-    haveI := hKc
+    have := hKc
     have hchar : ringChar K = q.p := ringChar.eq K q.p
     have hpq : p ≠ q.p := by simpa using hpc
     exact compIdxAt_of_mulEquiv eK.symm (compIdxAt_adjointGroup (hE8 ⟨q, rfl⟩) (τ := .E8)

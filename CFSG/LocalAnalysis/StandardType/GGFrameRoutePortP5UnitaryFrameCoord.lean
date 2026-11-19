@@ -234,7 +234,7 @@ private lemma actsDiagU_unitaryCoord {b : G} (hb : b ∈ Bs) :
   have hfun : (fun i => ((ζ ^ (unitaryCoord_u hN hF hζ hdiag b i).val : Fˣ) : F)) =
       (hdiag (gammaInv hN hb) (gammaInv hN hb).2).choose := by
     funext i
-    simp only [unitaryCoord_u, unitaryCoord_t, dif_pos hb, dlog_spec hF hζ,
+    simp only [unitaryCoord_u, unitaryCoord_t, dite_eq_left hb, dlog_spec hF hζ,
       Units.val_mk0]
   rw [hfun]
   exact hchoose

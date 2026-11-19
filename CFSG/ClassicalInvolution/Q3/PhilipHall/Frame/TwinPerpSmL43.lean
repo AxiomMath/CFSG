@@ -173,7 +173,7 @@ theorem q8_mem_q8Set {G : Type*} [Group G] (f : QuaternionGroup 2 →* G) (g : Q
     f g ∈ q8Set (f (QuaternionGroup.a 1)) (f (QuaternionGroup.xa 0)) := by
   rcases q8_cases g with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl <;>
     simp only [q8Set, Set.mem_insert_iff, Set.mem_singleton_iff, map_mul, map_inv, map_one,
-      eq_self_iff_true, true_or, or_true]
+      true_or, or_true]
 
 theorem range_eq_closure {G : Type*} [Group G] (f : QuaternionGroup 2 →* G) :
     f.range = Subgroup.closure {f (QuaternionGroup.a 1), f (QuaternionGroup.xa 0)} := by
@@ -205,7 +205,7 @@ theorem exists_normalized (hc : CheckFacts) (hK3 : Fintype.card 𝕜 = 3)
       ∀ x ∈ pCoreOf 2 (Subgroup.centralizer ({t} : Set Y)), embAut ψ' x ∈ S0 𝕜 := by
   classical
   have h𝕜 : Nat.card 𝕜 = 3 := by rw [Nat.card_eq_fintype_card, hK3]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set W := MulAut (projectiveSL 4 𝕜) with hW
   set ρ := embAut ψ with hρ
   have hρt : ρ t = tw 𝕜 := by
@@ -539,8 +539,8 @@ theorem longFundSetE3_of_maps (h : PerpHypS n Y R S t) (hK2 : IsPGroup 2 ↥(tig
 theorem longFundSetE3_of_t2 (h : PerpHypS n Y R S t) (hK3 : Fintype.card 𝕜 = 3)
     (ψ₀ : ↥(genFittingFStar Y) ≃* projectiveSL 4 𝕜) (htL : t ∈ genFittingFStar Y)
     (hψt : ψ₀ ⟨t, htL⟩ = proj 4 𝕜 (X0 𝕜)) : LongFundSetE3 R t := by
-  haveI hsimple := h.core.simple
-  haveI : (genFittingFStar Y).Normal := genFittingFStar_normal Y
+  have hsimple := h.core.simple
+  have : (genFittingFStar Y).Normal := genFittingFStar_normal Y
   have hC : Subgroup.centralizer ((genFittingFStar Y : Subgroup Y) : Set Y) = ⊥ :=
     Nobq.centralizer_genFittingFStar_eq_bot h.core.nonab
   have hc := checkFacts Certificates.certificate397502
@@ -617,15 +617,15 @@ theorem conjAut_inv_proj {𝕜 : Type} [Field 𝕜] {X : SL(4, 𝕜)} {P : GL (F
 theorem leaf_l43 {n : ℕ} :
     TwinLeafS n fun F _ => LieModel F .PSL 4 3 1 := by
   intro Y _ _ R S t h _ hF
-  haveI := h.core.simple
-  haveI hTn : (genFittingFStar Y).Normal := genFittingFStar_normal Y
+  have := h.core.simple
+  have hTn : (genFittingFStar Y).Normal := genFittingFStar_normal Y
   have hC : Subgroup.centralizer ((genFittingFStar Y : Subgroup Y) : Set Y) = ⊥ :=
     Nobq.centralizer_genFittingFStar_eq_bot h.core.nonab
   obtain ⟨K, _, _, hK, ⟨e⟩⟩ :=
     CFSG.LocalAnalysis.ComponentInitial.LinearCover.exists_mulEquiv_projectiveSL_of_lieModel hF
   let := Fintype.ofFinite K
   have hK3 : Fintype.card K = 3 := by rw [← Nat.card_eq_fintype_card, hK, pow_one]
-  haveI : CharP K 3 := charP_three_of_card (by rw [hK, pow_one])
+  have : CharP K 3 := charP_three_of_card (by rw [hK, pow_one])
   have hchar : ringChar K ≠ 2 := by
     rw [Ne, FiniteField.even_card_iff_char_two, hK3]
     decide

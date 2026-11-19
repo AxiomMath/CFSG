@@ -22,7 +22,7 @@ theorem exists_eta_Gz_of_std (h : F5Std a z) {w x : G} (hw : IsConj z w) (hx : I
       ¬ ∃ g ∈ derivedOf (Gxy w x), ∀ y ∈ derivedOf (Gxy w x), η y = g * y * g⁻¹ := by
   classical
   rw [Gxy_comm w x]
-  haveI : Finite G := h.finite
+  have : Finite G := h.finite
   have hF : F5Std a w := h.of_isConj (IsConj.refl a) hw
   have hcomm : w * x = x * w := h.mul_comm (Or.inr hw) (Or.inl hx) (Or.inr hwx)
   have hxw : x ∈ Gx w := mem_Gx.2 hcomm
@@ -43,7 +43,7 @@ theorem exists_eta_Gz_of_std (h : F5Std a z) {w x : G} (hw : IsConj z w) (hx : I
   obtain ⟨-, -, hψdata⟩ := y4a_derived_of_hom π hπsurj hπker hπab hM
   obtain ⟨ψ₀, hψsurj, hψker⟩ := hψdata
   obtain ⟨Q, hQn, hAH⟩ := hF.loc.gz9.self.aschbacher
-  haveI : Q.Normal := hQn
+  have : Q.Normal := hQn
   let xC : ↥(Gx w) := ⟨x, hxw⟩
   have hxC : xC ∉ _root_.commutator ↥(Gx w) := fun hmem =>
     hxD (mem_derivedOf_iff.mpr ⟨hxw, hmem⟩)

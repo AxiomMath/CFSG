@@ -291,7 +291,7 @@ theorem conj_mem_eq_of_normalizer_fixes [Finite G] (S : Sylow 2 G) {A : Subgroup
   obtain ⟨S₁, hS₁⟩ := hA₁.exists_le_sylow
   obtain ⟨S₂, hS₂⟩ := hA₂.exists_le_sylow
   obtain ⟨c, hc⟩ := MulAction.exists_smul_eq C S₂ S₁
-  have hT₀ : IsPGroup 2 ((S₁ : Subgroup C).map C.subtype) := S₁.isPGroup'.map _
+  have hT₀ : IsPGroup 2 ((S₁ : Subgroup C).map C.subtype) := S₁.isPGroup.map _
   obtain ⟨T, hT⟩ := hT₀.exists_le_sylow
   obtain ⟨h, rfl⟩ := MulAction.exists_smul_eq G S T
   have hTA : ∀ u ∈ ((h • S : Sylow 2 G) : Subgroup G), u ^ 2 = 1 → h⁻¹ * u * h ∈ A := by

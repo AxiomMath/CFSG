@@ -43,9 +43,9 @@ theorem classFunInner_sum_smul_left
     (hη : ∀ k l, classFunInner (η k) (η l) = if k = l then 1 else 0) (c : ι → ℂ) (l : ι) :
     classFunInner (∑ k, c k • η k) (η l) = c l := by
   rw [classFunInner_sum_left, Finset.sum_eq_single_of_mem l (Finset.mem_univ l)]
-  · rw [classFunInner_smul_left, hη l l, if_pos rfl, mul_one]
+  · rw [classFunInner_smul_left, hη l l, ite_eq_left rfl, mul_one]
   · intro k _ hkl
-    rw [classFunInner_smul_left, hη k l, if_neg hkl, mul_zero]
+    rw [classFunInner_smul_left, hη k l, ite_eq_right hkl, mul_zero]
 
 theorem classFunInner_sum_smul_self
     (hη : ∀ k l, classFunInner (η k) (η l) = if k = l then 1 else 0) (c : ι → ℂ) :

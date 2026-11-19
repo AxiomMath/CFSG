@@ -15,8 +15,7 @@ theorem smLin_of_leaves : SUNormalizerLeaf → SMRulesLeaf → SMClassSetLeaf �
     s * g⁻¹)) → (∃ S : Set (SMGL m), H = Subgroup.closure S ∧ (∀ r ∈ S, ∃ (u : SMV m) (φ :
     Module.Dual (ZMod 3) (SMV m)), SMRefl r u φ) ∧ ∀ r ∈ S, ∀ t ∈ S, Relation.ReflTransGen (fun a b
     => a ∈ S ∧ b ∈ S ∧ ¬ Commute a b) r t) → ZS.LinWeyl 3 H) := by
-  intro hN hR hC hBD hA hE hCj
-  intro m hm H hP hT hS hgen
+  intro hN hR hC hBD hA hE hCj m hm H hP hT hS hgen
   obtain ⟨S, hS_eq, hS_refl, hS_conn⟩ := hgen
   have hRcl : SMRCl (smRefSet H) := hR hN m hm H hP hT hS
   rcases hm with rfl | rfl

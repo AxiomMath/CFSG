@@ -18,7 +18,7 @@ theorem ggTBJ_config_unpack {G : Type} [Group G] [Finite G] {p : ℕ}
         Nat.card ↥(ggGamma L hN).range := by
   classical
   obtain ⟨hp, -, -, hLx, -⟩ := GGConfig.tableB_facts hcfg
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hJ_comp : CFSG.Assembly.IsComponentOf J (L ⊓ Subgroup.centralizer (D : Set G)) :=
     hcfg.2.2.1.2.2.2.2.2.1
   have hJ_layer : J = LargeEvenLayer (L ⊓ Subgroup.centralizer (D : Set G)) :=
@@ -48,7 +48,7 @@ theorem ggTBJ_config_unpack {G : Type} [Group G] [Finite G] {p : ℕ}
     intro l
     apply Subtype.ext
     rw [ggGamma_coe, ggGamma_coe]
-  haveI : Nontrivial ↥(ggGamma L hND).range := by
+  have : Nontrivial ↥(ggGamma L hND).range := by
     rw [← Finite.one_lt_card_iff_nontrivial, hcardΓ]
     exact hp.one_lt
   obtain ⟨⟨y, hyΓ⟩, hy1⟩ := exists_ne (1 : ↥(ggGamma L hND).range)

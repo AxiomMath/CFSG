@@ -35,10 +35,10 @@ theorem exists_selfDual_factor_of_good (H : UnitaryPrimaryData hK.bar B x)
           Nonempty (↥(specialBlock B x (a : K[X])) ≃*
             ↥(StatedSU (primaryMultiplicity (x : Module.End K V) (a : K[X]))
               (ℓ ^ (f * (a : K[X]).natDegree)) E))) := by
-  haveI := hK.finite
-  haveI : CharP K ℓ := hK.charP
-  haveI : Finite (AdjoinRoot (a : K[X])) := Module.finite_of_finite K
-  letI : Fintype (AdjoinRoot (a : K[X])) := Fintype.ofFinite _
+  have := hK.finite
+  have : CharP K ℓ := hK.charP
+  have : Finite (AdjoinRoot (a : K[X])) := Module.finite_of_finite K
+  let : Fintype (AdjoinRoot (a : K[X])) := Fintype.ofFinite _
   obtain ⟨hE, Hf, hHf, hHfl, ⟨e⟩⟩ :=
     nonempty_specialBlock_mulEquiv_sesqSU hself (selfDualPrimaryBlock H a hself)
   have hgood : 2 ≤ primaryMultiplicity (x : Module.End K V) (a : K[X]) := ha.1
@@ -48,8 +48,8 @@ theorem exists_selfDual_factor_of_good (H : UnitaryPrimaryData hK.bar B x)
         (primaryComponent (x : Module.End K V) (a : K[X])) = 2 := hm2
     obtain ⟨e2⟩ :=
       CFSG.RankThree.Classical.nonempty_sesqSpecialUnitaryGroup_mulEquiv_SL2 hE hHf hHfl hV
-    haveI : Finite hE.fixedField := inferInstance
-    letI : Fintype hE.fixedField := Fintype.ofFinite _
+    have : Finite hE.fixedField := inferInstance
+    let : Fintype hE.fixedField := Fintype.ofFinite _
     have hcardF : Fintype.card hE.fixedField = ℓ ^ (f * (a : K[X]).natDegree) := by
       rw [← Nat.card_eq_fintype_card, hE.card_fixedField]
     exact Or.inl ⟨hm2, hE.fixedField, inferInstance, inferInstance, hcardF, ⟨e.trans e2⟩⟩
@@ -77,25 +77,25 @@ private theorem ne_zero_of_isComponentOf_fixSubgroup (h : UnitaryFieldData ℓ f
     (hT : IsComponentOf T (fixSubgroup (primeFormConjHom h (idGram K n) A))) : n ≠ 0 := by
   intro hn
   subst hn
-  haveI : Subsingleton (Matrix (Fin 0) (Fin 0) K) :=
+  have : Subsingleton (Matrix (Fin 0) (Fin 0) K) :=
     ⟨fun _ _ => Matrix.ext fun i _ => Fin.elim0 i⟩
-  haveI : Subsingleton (GL (Fin 0) K) := ⟨fun a b => Units.ext (Subsingleton.elim _ _)⟩
-  haveI : Subsingleton ↥(gramSU h (idGram K 0)) :=
+  have : Subsingleton (GL (Fin 0) K) := ⟨fun a b => Units.ext (Subsingleton.elim _ _)⟩
+  have : Subsingleton ↥(gramSU h (idGram K 0)) :=
     ⟨fun a b => Subtype.ext (Subsingleton.elim _ _)⟩
-  haveI : Subsingleton (primeFormP h (idGram K 0)) := inferInstance
-  haveI : Subsingleton ↥(fixSubgroup (primeFormConjHom h (idGram K 0) A)) :=
+  have : Subsingleton (primeFormP h (idGram K 0)) := inferInstance
+  have : Subsingleton ↥(fixSubgroup (primeFormConjHom h (idGram K 0) A)) :=
     ⟨fun a b => Subtype.ext (Subsingleton.elim _ _)⟩
-  haveI : Subsingleton ↥T := ⟨fun a b => Subtype.ext (Subsingleton.elim _ _)⟩
+  have : Subsingleton ↥T := ⟨fun a b => Subtype.ext (Subsingleton.elim _ _)⟩
   have hcenter : Subgroup.center ↥T = ⊤ := by
     rw [eq_top_iff]
     intro y _
     rw [Subgroup.mem_center_iff]
     intro z
     exact Subsingleton.elim _ _
-  haveI : Subsingleton (↥T ⧸ Subgroup.center ↥T) :=
+  have : Subsingleton (↥T ⧸ Subgroup.center ↥T) :=
     QuotientGroup.subsingleton_iff.mpr hcenter
-  haveI : IsSimpleGroup (↥T ⧸ Subgroup.center ↥T) := hT.2.2.2
-  haveI hnt : Nontrivial (↥T ⧸ Subgroup.center ↥T) := hT.2.2.2.toNontrivial
+  have : IsSimpleGroup (↥T ⧸ Subgroup.center ↥T) := hT.2.2.2
+  have hnt : Nontrivial (↥T ⧸ Subgroup.center ↥T) := hT.2.2.2.toNontrivial
   exact not_subsingleton_iff_nontrivial.2 hnt inferInstance
 
 theorem unitary_fieldType_component {p : ℕ} (hp : p.Prime) {ℓ f n : ℕ} {K : Type} [Field K]
@@ -116,7 +116,7 @@ theorem unitary_fieldType_component {p : ℕ} (hp : p.Prime) {ℓ f n : ℕ} {K 
           ∃ g : ↥(StatedSU (n / p) (ℓ ^ (f * p)) E) →* ↥T, Function.Surjective g ∧
             g.ker ≤ Subgroup.center ↥(StatedSU (n / p) (ℓ ^ (f * p)) E))) := by
   classical
-  haveI := h.finite
+  have := h.finite
   have hq : 2 ≤ ℓ ^ f := by
     have := Nat.one_lt_pow (by have := h.one_le; omega : f ≠ 0) h.prime.one_lt
     omega
@@ -178,8 +178,8 @@ theorem unitary_fieldType_component {p : ℕ} (hp : p.Prime) {ℓ f n : ℕ} {K 
     · refine Or.inl ⟨?_, F, hF, hFt, ?_, ?_⟩
       · rw [hdiv]; exact hm2
       · rw [hcardF, hda]
-      · letI : Field F := hF
-        letI : Fintype F := hFt
+      · let : Field F := hF
+        let : Fintype F := hFt
         refine ⟨g.comp eSL.symm.toMonoidHom, hg.comp eSL.symm.surjective, ?_⟩
         rw [← MonoidHom.comap_ker]
         exact (Subgroup.comap_mono hker).trans
@@ -187,8 +187,8 @@ theorem unitary_fieldType_component {p : ℕ} (hp : p.Prime) {ℓ f n : ℕ} {K 
     · refine Or.inr ⟨?_, E, hE, hEt, ?_, ?_⟩
       · rw [hdiv]; exact hm3
       · rw [hcardE, hda]
-      · letI : Field E := hE
-        letI : Fintype E := hEt
+      · let : Field E := hE
+        let : Fintype E := hEt
         have hgoal : ∃ g' : ↥(StatedSU (n / p) (ℓ ^ (f * p)) E) →* ↥T,
             Function.Surjective g' ∧
               g'.ker ≤ Subgroup.center ↥(StatedSU (n / p) (ℓ ^ (f * p)) E) := by

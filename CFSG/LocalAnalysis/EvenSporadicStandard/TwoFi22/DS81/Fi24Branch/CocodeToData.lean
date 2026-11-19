@@ -20,21 +20,21 @@ variable (hm : M24Out G E t) (hz : IsZ E t z)
 
 theorem card_Ctz (h : CocodeXOf hm hz) :
     Nat.card ↥(CNz E z ⊓ centralizer ({t} : Set G)) = 2 ^ 19 * 3 * 5 := by
-  letI := commGroupOfM24Out hm
-  haveI := finite_E_of_m24Out hm
+  let := commGroupOfM24Out hm
+  have := finite_E_of_m24Out hm
   rw [CNz_inf_centralizer_eq_preS hm hm.t_mem hz.1, card_preS hm (inf_le_left.trans inf_le_left),
     h.card_Ctz]
   norm_num
 
 theorem card_NV (h : CocodeXOf hm hz) : Nat.card ↥(Nrm E ⊓ Jg t z) = 2 ^ 20 * 3 * 5 := by
-  letI := commGroupOfM24Out hm
-  haveI := finite_E_of_m24Out hm
+  let := commGroupOfM24Out hm
+  have := finite_E_of_m24Out hm
   rw [Nrm_inf_Jg_eq_preS hm hm.t_mem hz.1, card_preS hm inf_le_left, h.card_NV]
   norm_num
 
 theorem swap (h : CocodeXOf hm hz) : ∃ y ∈ Nrm E ⊓ Jg t z, y * t * y⁻¹ = t * z := by
-  letI := commGroupOfM24Out hm
-  haveI := finite_E_of_m24Out hm
+  let := commGroupOfM24Out hm
+  have := finite_E_of_m24Out hm
   obtain ⟨g, hg, hgt⟩ := h.swap
   obtain ⟨y, hy, rfl⟩ := exists_mem_preS_actN inf_le_left hg
   refine ⟨y, ?_, ?_⟩
@@ -43,27 +43,27 @@ theorem swap (h : CocodeXOf hm hz) : ∃ y ∈ Nrm E ⊓ Jg t z, y * t * y⁻¹ 
   · exact congrArg Subtype.val hgt
 
 theorem card_P (h : CocodeXOf hm hz) : Nat.card ↥(Pg E z) = 2 ^ 17 := by
-  letI := commGroupOfM24Out hm
-  haveI := finite_E_of_m24Out hm
+  let := commGroupOfM24Out hm
+  have := finite_E_of_m24Out hm
   rw [card_Pg hm hz.1, h.card_P]
   norm_num
 
 theorem O2_NV (h : CocodeXOf hm hz) : TwoFi22.O2In (Nrm E ⊓ Jg t z) = Pg E z := by
-  letI := commGroupOfM24Out hm
-  haveI := finite_E_of_m24Out hm
+  let := commGroupOfM24Out hm
+  have := finite_E_of_m24Out hm
   rw [O2In_Nrm_inf_Jg_eq_preS hm hm.t_mem hz.1, Pg_eq_preS hm hz.1, h.O2_NV]
 
 theorem card_O23 (h : CocodeXOf hm hz) :
     Nat.card ↥(TwoFi22.O23In (CNz E z)) = 3 * 2 ^ 17 := by
-  letI := commGroupOfM24Out hm
-  haveI := finite_E_of_m24Out hm
+  let := commGroupOfM24Out hm
+  have := finite_E_of_m24Out hm
   rw [card_O23In_CNz hm hz.1, h.card_O23]
   norm_num
 
 theorem exists_perfect (h : CocodeXOf hm hz) :
     ∃ Y : Subgroup G, Y ≤ CNz E z ∧ ⁅Y, Y⁆ = Y ∧ Nat.card ↥Y = 2 ^ 20 * 3 ^ 3 * 5 := by
-  letI := commGroupOfM24Out hm
-  haveI := finite_E_of_m24Out hm
+  let := commGroupOfM24Out hm
+  have := finite_E_of_m24Out hm
   obtain ⟨Y, hYle, hY1, hY2, hYc⟩ := h.exists_perfect
   have hYX : Y ≤ S44.XE E := hYle.trans inf_le_left
   refine ⟨preS Y, ?_, commutator_preS_eq_of hm hYX hY1 hY2, ?_⟩
@@ -73,8 +73,8 @@ theorem exists_perfect (h : CocodeXOf hm hz) :
     norm_num
 
 theorem P_comm (h : CocodeXOf hm hz) : ∀ a ∈ Pg E z, ∀ b ∈ Pg E z, a * b * a⁻¹ * b⁻¹ ∈ E := by
-  letI := commGroupOfM24Out hm
-  haveI := finite_E_of_m24Out hm
+  let := commGroupOfM24Out hm
+  have := finite_E_of_m24Out hm
   intro a ha b hb
   rw [Pg_eq_preS hm hz.1] at ha hb
   obtain ⟨haN, haT⟩ := mem_preS.1 ha
@@ -82,8 +82,8 @@ theorem P_comm (h : CocodeXOf hm hz) : ∀ a ∈ Pg E z, ∀ b ∈ Pg E z, a * b
   exact (commutator_mem_E_iff hm.centralizer_eq haN hbN).2 (h.P_comm _ haT _ hbT)
 
 theorem P_sq (h : CocodeXOf hm hz) : ∀ a ∈ Pg E z, a ^ 2 ∈ E := by
-  letI := commGroupOfM24Out hm
-  haveI := finite_E_of_m24Out hm
+  let := commGroupOfM24Out hm
+  have := finite_E_of_m24Out hm
   intro a ha
   rw [Pg_eq_preS hm hz.1] at ha
   obtain ⟨haN, haT⟩ := mem_preS.1 ha
@@ -92,8 +92,8 @@ theorem P_sq (h : CocodeXOf hm hz) : ∀ a ∈ Pg E z, a ^ 2 ∈ E := by
 theorem r_fpf (h : CocodeXOf hm hz) :
     ∀ r ∈ TwoFi22.O23In (CNz E z), orderOf r = 3 → ∀ p ∈ Pg E z,
       r * p * r⁻¹ * p⁻¹ ∈ E → p ∈ E := by
-  letI := commGroupOfM24Out hm
-  haveI := finite_E_of_m24Out hm
+  let := commGroupOfM24Out hm
+  have := finite_E_of_m24Out hm
   intro r hr hr3 p hp hcomm
   rw [O23In_CNz_eq_preS hm hz.1] at hr
   rw [Pg_eq_preS hm hz.1] at hp
@@ -110,8 +110,8 @@ theorem r_fpf (h : CocodeXOf hm hz) :
 theorem r_E (h : CocodeXOf hm hz) :
     ∀ r ∈ TwoFi22.O23In (CNz E z), orderOf r = 3 → ∀ U : Subgroup G, U ≤ E →
       InvUnder (CNz E z) U → Nat.card ↥U = 2 ^ 7 → ∀ e ∈ E, r * e * r⁻¹ * e⁻¹ ∈ U := by
-  letI := commGroupOfM24Out hm
-  haveI := finite_E_of_m24Out hm
+  let := commGroupOfM24Out hm
+  have := finite_E_of_m24Out hm
   intro r hr hr3 U hUE hUinv hUc e he
   rw [O23In_CNz_eq_preS hm hz.1] at hr
   obtain ⟨hrN, hrT⟩ := mem_preS.1 hr
@@ -126,8 +126,8 @@ theorem exists_A (h : CocodeXOf hm hz) :
     ∃ A : Subgroup G, A ≤ Nrm E ⊓ Jg t z ∧ E ≤ A ∧
       (∀ a ∈ A, ∀ r ∈ TwoFi22.O23In (CNz E z), orderOf r = 3 → a * r * a⁻¹ * r⁻¹ ∈ Pg E z) ∧
       HomVanish E z A := by
-  letI := commGroupOfM24Out hm
-  haveI := finite_E_of_m24Out hm
+  let := commGroupOfM24Out hm
+  have := finite_E_of_m24Out hm
   obtain ⟨Ab, hAb, hAr, hAU⟩ := h.exists_A
   refine ⟨preS Ab, ?_, E_le_preS hm.centralizer_eq Ab, ?_, ?_⟩
   · rw [Nrm_inf_Jg_eq_preS hm hm.t_mem hz.1]
@@ -143,8 +143,8 @@ theorem exists_A (h : CocodeXOf hm hz) :
 theorem lattice (h : CocodeXOf hm hz) :
     ∀ U : Subgroup G, U ≤ E → InvUnder (CNz E z) U →
       U = ⊥ ∨ U = zpowers z ∨ Nat.card ↥U = 2 ^ 7 ∨ U = E := by
-  letI := commGroupOfM24Out hm
-  haveI := finite_E_of_m24Out hm
+  let := commGroupOfM24Out hm
+  have := finite_E_of_m24Out hm
   intro U hUE hUinv
   rw [CNz_eq_preS hm hz.1] at hUinv
   have hinv := (invUnder_preS_iff inf_le_left hUE).1 hUinv
@@ -156,8 +156,8 @@ theorem lattice (h : CocodeXOf hm hz) :
 
 theorem P_irred (h : CocodeXOf hm hz) :
     ∀ S : Subgroup G, E ≤ S → S ≤ Pg E z → InvUnder (CNz E z) S → S = E ∨ S = Pg E z := by
-  letI := commGroupOfM24Out hm
-  haveI := finite_E_of_m24Out hm
+  let := commGroupOfM24Out hm
+  have := finite_E_of_m24Out hm
   intro S hES hSP hSinv
   have hPX : TwoFi22.O2In (S44.XE E ⊓ centSub (zpowers (⟨z, hz.1⟩ : ↥E))) ≤ S44.XE E :=
     (O2In_le _).trans inf_le_left
@@ -173,8 +173,8 @@ theorem P_irred (h : CocodeXOf hm hz) :
     exact Or.inr rfl
 
 theorem comm_ne (h : CocodeXOf hm hz) : ⁅E, Pg E z⁆ ≠ zpowers z := by
-  letI := commGroupOfM24Out hm
-  haveI := finite_E_of_m24Out hm
+  let := commGroupOfM24Out hm
+  have := finite_E_of_m24Out hm
   rw [Pg_eq_preS hm hz.1]
   intro hEq
   exact h.comm_ne
@@ -183,8 +183,8 @@ theorem comm_ne (h : CocodeXOf hm hz) : ⁅E, Pg E z⁆ ≠ zpowers z := by
 theorem exists_sextet (h : CocodeXOf hm hz) :
     ∀ U : Subgroup G, U ≤ E → InvUnder (CNz E z) U → Nat.card ↥U = 2 ^ 7 →
       ∃ z' ∈ U, z' ≠ z ∧ z' ∈ normClass E z := by
-  letI := commGroupOfM24Out hm
-  haveI := finite_E_of_m24Out hm
+  let := commGroupOfM24Out hm
+  have := finite_E_of_m24Out hm
   intro U hUE hUinv hUc
   rw [CNz_eq_preS hm hz.1] at hUinv
   have hinv := (invUnder_preS_iff inf_le_left hUE).1 hUinv
@@ -199,8 +199,8 @@ theorem normal_card (h : CocodeXOf hm hz) :
     ∀ M : Subgroup G, M ≤ CNz E z → Pg E z ≤ M → InvUnder (CNz E z) M →
       Nat.card ↥M = Nat.card ↥(Pg E z) ∨ Nat.card ↥M = 3 * Nat.card ↥(Pg E z) ∨
       Nat.card ↥M = 1080 * Nat.card ↥(Pg E z) ∨ Nat.card ↥M = 2160 * Nat.card ↥(Pg E z) := by
-  letI := commGroupOfM24Out hm
-  haveI := finite_E_of_m24Out hm
+  let := commGroupOfM24Out hm
+  have := finite_E_of_m24Out hm
   intro M hMC hPM hMinv
   have hPX : TwoFi22.O2In (S44.XE E ⊓ centSub (zpowers (⟨z, hz.1⟩ : ↥E))) ≤ S44.XE E :=
     (O2In_le _).trans inf_le_left

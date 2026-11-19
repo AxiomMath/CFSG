@@ -245,7 +245,7 @@ theorem exists_thirteen_fixedPointFree (hK : Nat.card K = 8) (α : MulAut (suzuk
   obtain ⟨Q, hQ⟩ := CFSG.SolvableHall.exists_invariant_sylow (A := Subgroup.zpowers α) (p := 3)
     (by rw [hcard]; norm_num) 13
   have hQcard : Nat.card (Q : Subgroup (suzukiGroup 1 K)) = 13 := by
-    obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 Q.isPGroup'
+    obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 Q.isPGroup
     have hdvd : 13 ^ k ∣ 29120 := hk ▸ hcard ▸ Subgroup.card_subgroup_dvd_card _
     have hk1 : k ≤ 1 := by
       by_contra h

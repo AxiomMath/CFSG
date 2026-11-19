@@ -35,7 +35,7 @@ private theorem qNonG_map {K K' : Type*} [Group K] [Group K'] (f : K →* K')
     (hf : Function.Injective f) {g t₁ t₂ : K} :
     QNonG (f g) (f t₁) (f t₂) ↔ QNonG g t₁ t₂ := by
   unfold QNonG
-  simp only [← map_mul, ← map_inv, ← map_one f, hf.eq_iff, hf.ne_iff]
+  simp only [← map_mul, ← map_inv, ← map_one f, hf.ne_iff]
 
 private def cyc3 {n : ℕ} (a b c : Fin n) : Perm (Fin n) := swap a b * swap b c
 
@@ -252,7 +252,7 @@ private theorem exists_invariant_four {X K : Type*} [Group X] [Finite X] [Group 
     · exact hab2
   · refine Item148HJ.mem_normalizer_of_conj_mem fun v hv => ?_
     rcases hV4 v hv with rfl | rfl | rfl | rfl
-    · simpa using V.one_mem
+    · simp
     · exact hbV
     · rw [← hr_def, hrab]; exact V.mul_mem haV hbV
     · rw [hxbr]; exact haV
@@ -315,7 +315,7 @@ private theorem mem_of_mem_normalizer_six {Pb : Subgroup (Perm (Fin 6))} (hPb : 
     (Subgroup.normal_subgroupOf_iff_le_normalizer hPbA).mpr hN
   have hc : Nat.card (Pb.subgroupOf (alternatingGroup (Fin 6))) = 60 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hPbA).toEquiv, hPb]
-  haveI := hn
+  have := hn
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
     (Pb.subgroupOf (alternatingGroup (Fin 6))) with h | h
   · rw [h, Subgroup.card_bot] at hc; omega

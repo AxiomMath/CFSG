@@ -60,7 +60,7 @@ theorem bound {G : Type} [Group G] [Finite G] {p n : ℕ} (hp : p.Prime) (hp2 : 
     p ^ (n - 1) * WeakClosure.dOfPrime p * (p - 1) ≤
       2 * Module.finrank (ZMod 2) ↥(BinaryRepresentations.commSpace ρ (Subgroup.zpowers t)) := by
   classical
-  haveI := finiteDimensional ρ hirr
+  have := finiteDimensional ρ hirr
   set W : Submodule (ZMod 2) V := BinaryRepresentations.commSpace ρ (Subgroup.zpowers t) with hW
   have hzc : Subgroup.zpowers t ≤ Subgroup.centralizer (P : Set G) :=
     (Subgroup.zpowers_le).2 htc

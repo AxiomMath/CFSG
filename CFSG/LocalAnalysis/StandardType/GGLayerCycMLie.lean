@@ -85,13 +85,13 @@ theorem isCyclic_of_le_center_of_lieTwoModel (hG : CFSG.Open.GriessAllModelsStat
     {J : Type} [Group J] [Finite J] (hperf : commutator J = ⊤) {p : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) (hX : LieTwoModel (J ⧸ Subgroup.center J)) {S : Subgroup J}
     (hSZ : S ≤ Subgroup.center J) (hSp : IsPGroup p S) : IsCyclic S := by
-  haveI : Group.IsPerfect J := ⟨hperf⟩
+  have : Group.IsPerfect J := ⟨hperf⟩
   let q : J →* J ⧸ Subgroup.center J := QuotientGroup.mk' (Subgroup.center J)
   have hq : Function.Surjective q := QuotientGroup.mk'_surjective _
   have hkerq : q.ker = Subgroup.center J := QuotientGroup.ker_mk' _
   have hker : q.ker ≤ Subgroup.center J := hkerq.le
-  haveI : Group.IsPerfect (J ⧸ Subgroup.center J) := Group.IsPerfect.ofSurjective hq
-  haveI : Finite (hopfMultiplier (J ⧸ Subgroup.center J)) :=
+  have : Group.IsPerfect (J ⧸ Subgroup.center J) := Group.IsPerfect.ofSurjective hq
+  have : Finite (hopfMultiplier (J ⧸ Subgroup.center J)) :=
     finite_hopfMultiplier inferInstance
   have hc : PSubCyclic p (hopfMultiplier (J ⧸ Subgroup.center J)) :=
     PSubCyclic.of_mulEquiv (hopfMultiplierEquivGriess _)
@@ -103,7 +103,7 @@ theorem isCyclic_of_le_center_of_lieTwoModel (hG : CFSG.Open.GriessAllModelsStat
     PSubCyclic.of_mulEquiv (MulEquiv.subgroupCongr hkerq) hc'
   have hS' : IsPGroup p (S.subgroupOf (Subgroup.center J)) :=
     hSp.of_equiv (Subgroup.subgroupOfEquivOfLe hSZ).symm
-  haveI : IsCyclic (S.subgroupOf (Subgroup.center J)) := hc'' _ hS'
+  have : IsCyclic (S.subgroupOf (Subgroup.center J)) := hc'' _ hS'
   exact isCyclic_of_surjective (Subgroup.subgroupOfEquivOfLe hSZ)
     (Subgroup.subgroupOfEquivOfLe hSZ).surjective
 

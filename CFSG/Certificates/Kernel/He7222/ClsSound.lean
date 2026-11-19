@@ -18,7 +18,6 @@ theorem stkIK_rep : ∀ {TIs : List (List ℕ)} {ix : List ℕ} (rec : ℕ → �
     StkRep n w acc accg →
     StkRep n w (stkIK TIs ix acc) ((tupL rec TIs.length ix).reverse ++ accg)
   | [], [], _, _, _, _, _, ha => by
-    change StkRep n w _ _
     simpa [tupL, stkIK] using ha
   | [], _ :: _, _, _, _, hl, _, _ => absurd hl (by simp)
   | _ :: _, [], _, _, _, hl, _, _ => absurd hl (by simp)

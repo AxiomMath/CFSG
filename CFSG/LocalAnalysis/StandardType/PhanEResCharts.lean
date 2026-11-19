@@ -24,19 +24,19 @@ private lemma p9uRC_tv_eq {m : ℕ} (p q : Fin (m + 1)) (hpq : p ≠ q) (c : Fld
 
 private lemma p9uRC_pathRoot_one_01 (e : Fin 1 → Fin D.rank) :
     pathRoot e (0 : Fin 2) (1 : Fin 2) = Pi.single (e 0) 1 := by
-  simp [pathRoot, Fin.sum_univ_one]
+  simp [pathRoot]
 
 private lemma p9uRC_pathRoot_one_10 (e : Fin 1 → Fin D.rank) :
     pathRoot e (1 : Fin 2) (0 : Fin 2) = -Pi.single (e 0) 1 := by
-  simp [pathRoot, Fin.sum_univ_one]
+  simp [pathRoot]
 
 private lemma p9uRC_pathRoot_two_01 (e : Fin 2 → Fin D.rank) :
     pathRoot e (0 : Fin 3) (1 : Fin 3) = Pi.single (e 0) 1 := by
-  simp [pathRoot, Fin.sum_univ_two]
+  simp [pathRoot]
 
 private lemma p9uRC_pathRoot_two_10 (e : Fin 2 → Fin D.rank) :
     pathRoot e (1 : Fin 3) (0 : Fin 3) = -Pi.single (e 0) 1 := by
-  simp [pathRoot, Fin.sum_univ_two]
+  simp [pathRoot]
 
 private lemma p9uRC_pathRoot_two_12 (e : Fin 2 → Fin D.rank) :
     pathRoot e (1 : Fin 3) (2 : Fin 3) = Pi.single (e 1) 1 := by

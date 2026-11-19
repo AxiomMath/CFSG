@@ -211,7 +211,7 @@ theorem conj_not_mem_sup_of_isCyclic_of_card_sylow (h : U3Start G L f t T)
   obtain ⟨htT, -, -, -, hdisj, -, -⟩ := h.start_of_card_sylow hS2
   obtain ⟨S, hSeq⟩ := hS
   have hSsyl : IsSylowOf 2 (T ⊔ R₂) ⊤ := by
-    refine isSylowOf_iff.mpr ⟨le_top, hSeq ▸ S.isPGroup', ?_⟩
+    refine isSylowOf_iff.mpr ⟨le_top, hSeq ▸ S.isPGroup, ?_⟩
     rw [relIndex_top_right, ← hSeq]
     exact S.not_dvd_index
   have hA : ∀ a ∈ szA₁ (szT₁ L T), a * (g⁻¹ * t * g) = g⁻¹ * t * g * a := fun a ha =>
@@ -267,7 +267,7 @@ theorem not_isSylow_S₁_of_isCyclic_of_card_sylow (h : U3Start G L f t T)
   have htH : t ∉ szT₁ L T ⊔ R₂ := fun ht => hconj 1 (by simpa using ht)
   have hzN : zpowers t ≤ normalizer ((szT₁ L T ⊔ R₂ : Subgroup G) : Set G) :=
     zpowers_le.mpr hR.t_mem_normalizer_sup
-  have hP : IsPGroup 2 (T ⊔ R₂ : Subgroup G) := hSeq ▸ S.isPGroup'
+  have hP : IsPGroup 2 (T ⊔ R₂ : Subgroup G) := hSeq ▸ S.isPGroup
   have hPidx : ¬ 2 ∣ (T ⊔ R₂).index := hSeq ▸ S.not_dvd_index
   have hcycP : ∃ b ∈ T ⊔ R₂, ∀ s ∈ T ⊔ R₂, ∃ k : ℤ, (b ^ k)⁻¹ * s ∈ szT₁ L T ⊔ R₂ := by
     obtain ⟨b, hbT, hb⟩ := hcyc

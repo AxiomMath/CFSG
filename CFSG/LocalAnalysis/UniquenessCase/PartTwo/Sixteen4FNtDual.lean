@@ -62,14 +62,14 @@ private lemma w183_b1_map {Γ : Type} [Group Γ] {N : Type} [AddCommGroup N]
   · rintro ⟨v, rfl⟩
     refine ⟨Φ v, ?_⟩
     funext g
-    simp only [coboundary, LinearMap.coe_mk, AddHom.coe_mk, Pi.sub_apply, w183Fun,
+    simp only [coboundary, LinearMap.coe_mk, AddHom.coe_mk, w183Fun,
       LinearEquiv.piCongrRight_apply]
     rw [heq g v]
     exact (Φ.map_sub (ρ g v) v).symm
   · rintro ⟨w, hw⟩
     refine ⟨Φ.symm w, funext fun g => ?_⟩
     have h := congrFun hw g
-    simp only [coboundary, LinearMap.coe_mk, AddHom.coe_mk, Pi.sub_apply, w183Fun,
+    simp only [coboundary, LinearMap.coe_mk, AddHom.coe_mk, w183Fun,
       LinearEquiv.piCongrRight_apply] at h
     have h2 : Φ ((ρ g) (Φ.symm w) - Φ.symm w) = (ρ.dual g) w - w :=
       (Φ.map_sub (ρ g (Φ.symm w)) (Φ.symm w)).trans <| by
@@ -143,7 +143,7 @@ theorem s16nt_h1_dual_of_invariant_form {Γ : Type} [Group Γ] {N : Type} [AddCo
     Module.finrank (ZMod 2) (CFSG.Quasithin.JonesParshall.H1 (Representation.dual ρ)) =
       Module.finrank (ZMod 2) (CFSG.Quasithin.JonesParshall.H1 ρ) := by
   classical
-  haveI : FiniteDimensional (ZMod 2) N := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) N := Module.Finite.of_finite
   let Φ : N ≃ₗ[ZMod 2] Module.Dual (ZMod 2) N := β.flip.toDual hβ.flip
   have hΦ : ∀ x y : N, Φ x y = β y x := fun x y => LinearMap.BilinForm.toDual_def hβ.flip
   have heq := w183_dual_heq ρ Φ β hΦ hinv

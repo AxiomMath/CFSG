@@ -66,12 +66,12 @@ theorem pCoverList_of_tables
   | alternating n hn =>
     have hdvd := card_center_dvd_alternating hAlt hq' hn e
     by_cases h67 : n = 6 ∨ n = 7
-    · rw [if_pos h67] at hdvd
+    · rw [ite_eq_left h67] at hdvd
       have hp3 : p = 3 := eq_three_of_dvd_twelve hp hp2 ((hpZ.trans hdvd).trans (by norm_num))
       refine Or.inr ⟨hp3, Or.inr ⟨Or.inl (Or.inl ⟨n, hn, h67, rfl⟩), fun h9 => ?_⟩⟩
       have := h9.trans hdvd
       norm_num at this
-    · rw [if_neg h67] at hdvd
+    · rw [ite_eq_right h67] at hdvd
       exact absurd ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).1 (hpZ.trans hdvd)) hp2
   | sporadic s =>
     have hdvd := card_center_dvd_sporadic hSpor hq' e

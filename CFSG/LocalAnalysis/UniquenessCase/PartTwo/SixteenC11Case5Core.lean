@@ -29,7 +29,7 @@ private theorem s16c11_case5_scal_eq_range (K : Type) [Field K] :
       x = lr (Units.map (Matrix.scalar (Fin 2) (α := K)).toMonoidHom c) 1} =
       Set.range (s16c11_case5_scalHom K) := by
     ext x
-    simp only [Set.mem_setOf_eq, Set.mem_range, s16c11_case5_scalHom]
+    simp only [Set.mem_ofPred_eq, Set.mem_range, s16c11_case5_scalHom]
     constructor
     · rintro ⟨c, hc⟩; exact ⟨c, hc.symm⟩
     · rintro ⟨c, hc⟩; exact ⟨c, hc.symm⟩
@@ -87,7 +87,7 @@ theorem s16c11_case5_core {K : Type} [Field K] [Finite K] (hK : Nat.card K = 4)
       P ≤ Subgroup.normalizer ((⨆ A ∈ 𝒮, A : Subgroup (MulAut (VM K))) :
         Set (MulAut (VM K))) := by
   classical
-  haveI : Finite (MulAut (VM K)) := inferInstance
+  have : Finite (MulAut (VM K)) := inferInstance
   set R : Subgroup (MulAut (VM K)) := (rho (K := K)).range with hR
   set Z : Subgroup (MulAut (VM K)) := s16c11C5Scal K with hZ
   set N1 : Subgroup (MulAut (VM K)) :=
@@ -112,14 +112,14 @@ theorem s16c11_case5_core {K : Type} [Field K] [Finite K] (hK : Nat.card K = 4)
     exact Subgroup.map_subtype_le (Q : Subgroup (↥N1))
   have hS2 : IsPGroup 2 ↥S := by
     rw [hS]
-    exact Q.isPGroup'.map N1.subtype
+    exact Q.isPGroup.map N1.subtype
   have hSsub : S.subgroupOf N1 = (Q : Subgroup (↥N1)) := by
     rw [hS]
     simpa only [Subgroup.comap_subtype] using
       Subgroup.comap_map_eq_self_of_injective (Subgroup.subtype_injective N1)
         (Q : Subgroup (↥N1))
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite ↥N1 := inferInstance
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite ↥N1 := inferInstance
   have hSodd : ¬ 2 ∣ S.relIndex N1 := by
     change ¬ 2 ∣ (S.subgroupOf N1).index
     rw [hSsub]

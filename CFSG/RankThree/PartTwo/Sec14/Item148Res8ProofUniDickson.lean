@@ -47,7 +47,7 @@ theorem exists_odd_card_eq_add [Finite K] [CharP K 2] (S : AddSubgroup K) (hS1 :
     rw [h1]
     exact (SpecialLinearGroup.transvection_coeff_zero _).symm
   set Q := (P : Subgroup G).map G.subtype with hQ
-  have hQ2 : IsPGroup 2 Q := P.isPGroup'.map _
+  have hQ2 : IsPGroup 2 Q := P.isPGroup.map _
   have h1Q : uSL (1 : K) ∈ Q :=
     ⟨⟨uSL 1, hu h1mem⟩, hP (Subgroup.mem_subgroupOf.mpr h1mem), rfl⟩
   have hQG : Q ≤ G := by

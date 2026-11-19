@@ -47,22 +47,26 @@ variable {K : Type} [Field K] {ι : Type} [Fintype ι] [DecidableEq ι]
     generalize x 2 = c
     fin_cases a <;> simp
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem thetaC_apply (μ : (ι → K) ≃ₗ[K] Mat2 K) (p : (ι → K) × (ι → K)) (x : Fin 3 → Fin 2) :
     thetaC μ p x = (μ (if x 0 = 0 then p.1 else p.2)) (x 1) (x 2) := rfl
 
 @[expose] def swL (μ : (ι → K) ≃ₗ[K] Mat2 K) (h k : Mat2 K) : (ι → K) →ₗ[K] (ι → K) :=
   μ.symm.toLinearMap ∘ₗ pairLin h k ∘ₗ μ.toLinearMap
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem mu_swL (μ : (ι → K) ≃ₗ[K] Mat2 K) (h k : Mat2 K) (v : ι → K) :
     μ (swL μ h k v) = h * μ v * kᵀ := by
   simp [swL]
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem swL_comp (μ : (ι → K) ≃ₗ[K] Mat2 K) (h k : Mat2 K) :
     swL μ h k = swL μ h 1 ∘ₗ swL μ 1 k := by
   refine LinearMap.ext fun v => ?_
   apply μ.injective
   simp [mu_swL, Matrix.mul_assoc]
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem thetaC_orthTensor_zero (μ : (ι → K) ≃ₗ[K] Mat2 K) (g : Mat2 K)
     (p : (ι → K) × (ι → K)) :
     thetaC μ (orthTensor g id p) = actMap 0 g (thetaC μ p) := by
@@ -71,9 +75,10 @@ theorem thetaC_orthTensor_zero (μ : (ι → K) ≃ₗ[K] Mat2 K) (g : Mat2 K)
   obtain h | h : x 0 = 0 ∨ x 0 = 1 := by
     generalize x 0 = a
     fin_cases a <;> simp
-  · simp [orthTensor, Fin.sum_univ_two, thetaC_apply, Function.update_apply, h]
-  · simp [orthTensor, Fin.sum_univ_two, thetaC_apply, Function.update_apply, h]
+  · simp [orthTensor, Fin.sum_univ_two, thetaC_apply, h]
+  · simp [orthTensor, Fin.sum_univ_two, thetaC_apply, h]
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem thetaC_orthTensor_one (μ : (ι → K) ≃ₗ[K] Mat2 K) (h : Mat2 K)
     (p : (ι → K) × (ι → K)) :
     thetaC μ (orthTensor 1 (swL μ h 1) p) = actMap 1 h (thetaC μ p) := by
@@ -83,8 +88,9 @@ theorem thetaC_orthTensor_one (μ : (ι → K) ≃ₗ[K] Mat2 K) (h : Mat2 K)
       ∑ b : Fin 2, h (x 1) b * μ q b (x 2) := by
     intro q
     rw [mu_swL, Matrix.transpose_one, Matrix.mul_one, Matrix.mul_apply]
-  by_cases h0 : x 0 = 0 <;> simp [thetaC_apply, Function.update_apply, h0, e]
+  by_cases h0 : x 0 = 0 <;> simp [thetaC_apply, h0, e]
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem thetaC_orthTensor_two (μ : (ι → K) ≃ₗ[K] Mat2 K) (k : Mat2 K)
     (p : (ι → K) × (ι → K)) :
     thetaC μ (orthTensor 1 (swL μ 1 k) p) = actMap 2 k (thetaC μ p) := by
@@ -95,8 +101,9 @@ theorem thetaC_orthTensor_two (μ : (ι → K) ≃ₗ[K] Mat2 K) (k : Mat2 K)
     intro q
     rw [mu_swL, Matrix.one_mul, Matrix.mul_apply]
     simp [Matrix.transpose_apply, mul_comm]
-  by_cases h0 : x 0 = 0 <;> simp [thetaC_apply, Function.update_apply, h0, e]
+  by_cases h0 : x 0 = 0 <;> simp [thetaC_apply, h0, e]
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem thetaC_orthTensor (μ : (ι → K) ≃ₗ[K] Mat2 K) (g h k : Mat2 K) (p : (ι → K) × (ι → K)) :
     thetaC μ (orthTensor g (swL μ h k) p) = kronMap ![g, h, k] (thetaC μ p) := by
   have e1 : orthTensor g (swL μ h k) p =
@@ -121,21 +128,25 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2] {ι : Type} [Fintype ι] [D
 @[expose] def swEquiv (μ : (ι → K) ≃ₗ[K] Mat2 K) (h k : SL(2, K)) : (ι → K) ≃ₗ[K] (ι → K) :=
   μ.trans ((pairEquiv h k).trans μ.symm)
 
+omit [Finite K] [CharP K 2] [Fintype ι] [DecidableEq ι] in
 theorem swEquiv_apply (μ : (ι → K) ≃ₗ[K] Mat2 K) (h k : SL(2, K)) (v : ι → K) :
     swEquiv μ h k v = μ.symm ((h : Mat2 K) * μ v * (k : Mat2 K)ᵀ) := rfl
 
+omit [Finite K] [CharP K 2] [Fintype ι] [DecidableEq ι] in
 theorem coe_swEquiv (μ : (ι → K) ≃ₗ[K] Mat2 K) (h k : SL(2, K)) :
     ⇑(swEquiv μ h k) = swL μ (h : Mat2 K) (k : Mat2 K) := by
   funext v
   apply μ.injective
   rw [swEquiv_apply, mu_swL, LinearEquiv.apply_symm_apply]
 
+omit [Finite K] [CharP K 2] [Fintype ι] [DecidableEq ι] in
 theorem swEquiv_mul (μ : (ι → K) ≃ₗ[K] Mat2 K) (h h' k k' : SL(2, K)) :
     swEquiv μ (h * h') (k * k') = swEquiv μ h k * swEquiv μ h' k' := by
   refine LinearEquiv.ext fun v => ?_
   apply μ.injective
   simp [swEquiv_apply, Matrix.mul_assoc]
 
+omit [Finite K] [CharP K 2] [Fintype ι] [DecidableEq ι] in
 theorem swEquiv_one (μ : (ι → K) ≃ₗ[K] Mat2 K) : swEquiv μ 1 1 = 1 := by
   refine LinearEquiv.ext fun v => ?_
   simp [swEquiv_apply]
@@ -146,9 +157,11 @@ theorem swEquiv_one (μ : (ι → K) ≃ₗ[K] Mat2 K) : swEquiv μ 1 1 = 1 := b
   map_one' := swEquiv_one μ
   map_mul' p q := swEquiv_mul μ p.1 q.1 p.2 q.2
 
+omit [Finite K] [CharP K 2] [Fintype ι] [DecidableEq ι] in
 theorem swHom_apply (μ : (ι → K) ≃ₗ[K] Mat2 K) (p : SL(2, K) × SL(2, K)) :
     swHom μ p = swEquiv μ p.1 p.2 := rfl
 
+omit [Finite K] [Fintype ι] [DecidableEq ι] in
 theorem swHom_injective (μ : (ι → K) ≃ₗ[K] Mat2 K) : Function.Injective (swHom μ) := by
   intro p q h
   apply pairHom_injective
@@ -159,6 +172,7 @@ theorem swHom_injective (μ : (ι → K) ≃ₗ[K] Mat2 K) : Function.Injective 
     simpa [swHom_apply, swEquiv_apply] using this
   exact LinearEquiv.ext fun X => by simpa [pairHom_apply] using h' X
 
+omit [Finite K] [CharP K 2] [Fintype ι] [DecidableEq ι] in
 theorem swEquiv_mem_orthogonalGroup {qU : QuadraticForm K (ι → K)}
     {μ : (ι → K) ≃ₗ[K] Mat2 K} (hμ : ∀ v, (μ v).det = qU v) (h k : SL(2, K)) :
     swEquiv μ h k ∈ TauCeti.QuadraticMap.orthogonalGroup qU := by
@@ -167,6 +181,7 @@ theorem swEquiv_mem_orthogonalGroup {qU : QuadraticForm K (ι → K)}
     Matrix.det_transpose, Matrix.SpecialLinearGroup.det_coe, Matrix.SpecialLinearGroup.det_coe,
     one_mul, mul_one]
 
+omit [DecidableEq ι] in
 theorem swEquiv_mem_omega {qU : QuadraticForm K (ι → K)}
     (hnd : (QuadraticMap.polarBilin qU).Nondegenerate) {μ : (ι → K) ≃ₗ[K] Mat2 K}
     (hμ : ∀ v, (μ v).det = qU v) (h4 : 4 ≤ Nat.card K) (h k : SL(2, K)) :
@@ -188,6 +203,7 @@ theorem swEquiv_mem_omega {qU : QuadraticForm K (ι → K)}
   rw [dicksonHom_ker, Subgroup.mem_subgroupOf] at h5
   exact h5
 
+omit [CharP K 2] [DecidableEq ι] in
 theorem card_orthogonalGroup_four {qU : QuadraticForm K (ι → K)}
     (hnd : (QuadraticMap.polarBilin qU).Nondegenerate)
     (hplus : CFSG.GroupTheory.WeirSylow.IsPlusType qU) (hdim : Module.finrank K (ι → K) = 4) :
@@ -202,6 +218,7 @@ theorem card_orthogonalGroup_four {qU : QuadraticForm K (ι → K)}
   convert h using 1
   ring
 
+omit [DecidableEq ι] in
 theorem mem_omegaGroup_iff_exists_swEquiv {qU : QuadraticForm K (ι → K)}
     (hnd : (QuadraticMap.polarBilin qU).Nondegenerate) {μ : (ι → K) ≃ₗ[K] Mat2 K}
     (hμ : ∀ v, (μ v).det = qU v) (h4 : 4 ≤ Nat.card K)
@@ -211,9 +228,9 @@ theorem mem_omegaGroup_iff_exists_swEquiv {qU : QuadraticForm K (ι → K)}
   refine ⟨fun ho => ?_, fun ⟨h, k, hk⟩ => hk ▸ swEquiv_mem_omega hnd hμ h4 h k⟩
   have hdim : Module.finrank K (ι → K) = 4 := by
     rw [Module.finrank_fintype_fun_eq_card, hι]
-  haveI : Nonempty ι := Fintype.card_pos_iff.mp (by omega)
-  haveI : Nontrivial (ι → K) := inferInstance
-  haveI : Finite ((ι → K) ≃ₗ[K] (ι → K)) :=
+  have : Nonempty ι := Fintype.card_pos_iff.mp (by omega)
+  have : Nontrivial (ι → K) := inferInstance
+  have : Finite ((ι → K) ≃ₗ[K] (ι → K)) :=
     Finite.of_injective (fun e : (ι → K) ≃ₗ[K] (ι → K) => (e : (ι → K) → (ι → K)))
       DFunLike.coe_injective
   have hPΩ : (swHom μ).range ≤ omegaGroup qU hnd := by
@@ -242,6 +259,7 @@ section Normalize
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] in
 theorem eq_one_of_sq_eq_one {a : K} (h : a ^ 2 = 1) : a = 1 := by
   have h2K : (2 : K) = 0 := CharTwo.two_eq_zero
   have h3 : (a - 1) * (a - 1) = 0 := by linear_combination h + (1 - a) * h2K
@@ -257,7 +275,8 @@ theorem exists_sqrt_det (h : Fin 3 → Mat2 K) (hu : ∀ i, IsUnit (h i).det) :
   rw [hr i, h0, mul_zero] at this
   exact this rfl
 
-theorem det_inv_smul {r : K} (hr : r ≠ 0) (A : Mat2 K) :
+omit [Finite K] [CharP K 2] in
+theorem det_inv_smul {r : K} (_hr : r ≠ 0) (A : Mat2 K) :
     ((r⁻¹ • A : Mat2 K)).det = (r⁻¹) ^ 2 * A.det := by
   rw [Matrix.det_smul, Fintype.card_fin]
 

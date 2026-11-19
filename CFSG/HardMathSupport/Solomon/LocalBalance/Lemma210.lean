@@ -164,7 +164,7 @@ theorem G3_card_of_isMaxP {p : ℕ} (hp : p.Prime) {X Q : Subgroup G} (h : IsMax
   have hQ' : IsPGroup p (Q.subgroupOf X) := hQp.comap_subtype
   obtain ⟨S, hS⟩ := hQ'.exists_le_sylow
   let T : Subgroup G := (S : Subgroup X).map X.subtype
-  have hTp : IsPGroup p T := S.isPGroup'.map _
+  have hTp : IsPGroup p T := S.isPGroup.map _
   have hTX : T ≤ X := Subgroup.map_subtype_le _
   have hQT : Q ≤ T := by
     intro x hx
@@ -256,7 +256,7 @@ theorem G5_card_inf_normal {K : Type*} [Group K] [Finite K] {p : ℕ} (hp : p.Pr
   · let Ps : Sylow p K := Sylow.ofCard P hP
     obtain ⟨S⟩ : Nonempty (Sylow p N) := inferInstance
     let U : Subgroup K := (S : Subgroup N).map N.subtype
-    have hU : IsPGroup p U := S.isPGroup'.map _
+    have hU : IsPGroup p U := S.isPGroup.map _
     obtain ⟨Q, hUQ⟩ := hU.exists_le_sylow
     obtain ⟨g, hg⟩ := MulAction.exists_smul_eq K Q Ps
     have hcU : Nat.card U = p ^ (Nat.card N).factorization p := by
@@ -828,7 +828,7 @@ theorem KQ2_isMaxP_top {Q : Subgroup G} {b : G} (hb1 : b ≠ 1) (hb3 : b ^ 3 = 1
     IsMaxP 3 ⊤ Q := by
   obtain ⟨hQC, hQp, hQmax⟩ := hQ
   obtain ⟨P, hQP⟩ := hQp.exists_le_sylow
-  have hPp : IsPGroup 3 (P : Subgroup G) := P.isPGroup'
+  have hPp : IsPGroup 3 (P : Subgroup G) := P.isPGroup
   have hQeq : Q = P := by
     by_contra hne
     have hlt : Q < (P : Subgroup G) := lt_of_le_of_ne hQP hne
@@ -2393,7 +2393,7 @@ theorem kc_exists_sylow {B C : Subgroup G} (hBC : B ≤ C) (hB : IsPGroup 3 B) :
   refine ⟨(S : Subgroup C).map C.subtype, ?_, ?_⟩
   · intro x hx
     exact ⟨⟨x, hBC hx⟩, hS (Subgroup.mem_subgroupOf.2 hx), rfl⟩
-  · refine G3'_isMaxP_of_card Nat.prime_three (Subgroup.map_subtype_le _) (S.isPGroup'.map C.subtype) ?_
+  · refine G3'_isMaxP_of_card Nat.prime_three (Subgroup.map_subtype_le _) (S.isPGroup.map C.subtype) ?_
     rw [Subgroup.card_map_of_injective C.subtype_injective]
     exact Sylow.card_eq_multiplicity S
 

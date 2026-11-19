@@ -108,7 +108,7 @@ theorem kFact2713Three_holds : KFact2713Three := by
     obtain ⟨hidx, hchar⟩ := hi
     obtain ⟨q, rfl, hq2⟩ := isLTwoIndex_cases dd hidx
     have hq3 : q.p ≠ 3 := by simpa using hchar
-    haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+    have : Fact q.p.Prime := ⟨q.prime_p⟩
     have hK : Nat.card (GaloisField q.p q.exponent) = q.p ^ q.exponent :=
       GaloisField.card _ _ q.exponent_pos.ne'
     let e' : ↥L ≃* PSL(2, GaloisField q.p q.exponent) :=

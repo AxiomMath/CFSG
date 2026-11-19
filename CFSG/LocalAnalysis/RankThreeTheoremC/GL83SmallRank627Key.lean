@@ -23,7 +23,7 @@ theorem not_smallRankCaseOne (hS : Setting G) (hU0 : FullCoreLocal G) (hD2 : The
     have hx1 : x ∈ (P : Subgroup G) := hx.mem
     rw [hbot, Subgroup.mem_bot] at hx1
     exact hx.ne_one hx1
-  obtain ⟨z, hzP, hzc, hzord⟩ := exists_mem_centralizer_orderOf_eq P.isPGroup' hPne
+  obtain ⟨z, hzP, hzc, hzord⟩ := exists_mem_centralizer_orderOf_eq P.isPGroup hPne
   have hz1 : z ≠ 1 := fun h => by
     rw [h, orderOf_one] at hzord
     exact absurd hzord.symm (by norm_num)

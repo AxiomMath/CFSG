@@ -157,7 +157,7 @@ theorem a7C25_11_of_5_6 (h5 : A7C25_5) (h6 : A7C25_6) : A7C25_11 := by
   have hZ : ∀ a ∈ A, a ≠ 1 → z ∈ zStarOf (Subgroup.centralizer ({a} : Set G)) := by
     intro a ha ha1
     have haS : a ∈ (S : Subgroup G) := ha.1
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp S.isPGroup') ⟨a, haS⟩
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp S.isPGroup) ⟨a, haS⟩
     have hk' : orderOf a = 2 ^ k := by rw [← hk]; simp [← Subgroup.orderOf_coe]
     have hk0 : k ≠ 0 := by
       rintro rfl

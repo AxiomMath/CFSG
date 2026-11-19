@@ -25,7 +25,7 @@ private theorem w183_eq_iterateFrobeniusEquiv_of_card_four {K : Type} [Field K] 
   have h10 : (1 : K) ≠ 0 := one_ne_zero
   have hlt : ({0, 1} : Finset K).card < (Finset.univ : Finset K).card := by
     rw [Finset.card_univ, hK]
-    simp [h10]
+    simp
   obtain ⟨x, -, hxnot⟩ := Finset.exists_mem_notMem_of_card_lt_card hlt
   simp only [Finset.mem_insert, Finset.mem_singleton, not_or] at hxnot
   obtain ⟨hx0, hx1⟩ := hxnot
@@ -47,7 +47,7 @@ private theorem w183_eq_iterateFrobeniusEquiv_of_card_four {K : Type} [Field K] 
   have hcard4 : ({0, 1, x, x + 1} : Finset K).card = 4 := by
     rw [Finset.card_insert_of_notMem, Finset.card_insert_of_notMem,
       Finset.card_insert_of_notMem, Finset.card_singleton]
-    all_goals simp [h10, hx0, hx1, hx1', h1x, hxx, Ne.symm hx0, Ne.symm hx1,
+    all_goals simp [Ne.symm hx0, Ne.symm hx1,
       Ne.symm hx1', Ne.symm h1x, Ne.symm hxx]
   have huniv : ({0, 1, x, x + 1} : Finset K) = Finset.univ :=
     Finset.eq_univ_of_card _ (by rw [hcard4]; exact hK.symm)
@@ -119,7 +119,7 @@ private theorem w183_eq_iterateFrobeniusEquiv_of_card_four {K : Type} [Field K] 
       have hcard4' : ({0, 1, y, y + 1} : Finset K).card = 4 := by
         rw [Finset.card_insert_of_notMem, Finset.card_insert_of_notMem,
           Finset.card_insert_of_notMem, Finset.card_singleton]
-        all_goals simp [h10, hy0, hy1, hy1', h1y, hyy, Ne.symm hy0, Ne.symm hy1,
+        all_goals simp [Ne.symm hy0, Ne.symm hy1,
           Ne.symm hy1', Ne.symm h1y, Ne.symm hyy]
       have huniv' : ({0, 1, y, y + 1} : Finset K) = Finset.univ :=
         Finset.eq_univ_of_card _ (by rw [hcard4']; exact hK.symm)
@@ -189,10 +189,7 @@ private theorem w183_piTensorEquiv_comm (P : Type*) [Fintype P] [DecidableEq P]
     (k : Type*) [Field k] (x : (P → k) ⊗[k] (P → k)) :
     w183_piTensorEquiv P k (TensorProduct.comm k (P → k) (P → k) x) =
       w183_swapEquiv P k (w183_piTensorEquiv P k x) := by
-  induction x using TensorProduct.induction_on with
-  | zero =>
-    funext p
-    simp [w183_piTensorEquiv, w183_swapEquiv, Function.uncurry]
+  induction x using TensorProduct.inductionOn with
   | tmul a b =>
     funext p
     simp [w183_piTensorEquiv, w183_swapEquiv, TensorProduct.piScalarRight,
@@ -335,8 +332,7 @@ theorem exists_flip_involution_pair {K : Type} [Field K] [Fintype K] [CharP K 2]
   have hSS : ∀ g : P × P → k, S (S g) = g := by
     intro g
     ext p
-    simp [S, w183_swapEquiv, LinearEquiv.funCongrLeft_apply, LinearMap.funLeft_apply,
-      Equiv.prodComm_apply, Prod.fst_swap, Prod.snd_swap]
+    simp [S, w183_swapEquiv, LinearEquiv.funCongrLeft_apply, LinearMap.funLeft_apply]
   refine ⟨T, ?_, hinter, ?_⟩
   · apply LinearEquiv.ext
     intro v
@@ -366,8 +362,8 @@ theorem exists_flip_involution_pair {K : Type} [Field K] [Fintype K] [CharP K 2]
 
 theorem eq_of_involution_intertwiners {K : Type} [Field K] [Fintype K] [CharP K 2]
     (hK : Fintype.card K = 4) {k : Type} [Field k] [CharP k 2] [Algebra K k]
-    {ε : Fin 2 → Finset (Fin 4)} {j : Fin 4} (hj : (j : ℕ) = 1 ∨ (j : ℕ) = 3)
-    (h0 : ε 0 = {j}) (h1 : ε 1 = {j}) {σ : K ≃+* K} (hσ1 : σ ≠ RingEquiv.refl K)
+    {ε : Fin 2 → Finset (Fin 4)} {j : Fin 4} (_hj : (j : ℕ) = 1 ∨ (j : ℕ) = 3)
+    (_h0 : ε 0 = {j}) (_h1 : ε 1 = {j}) {σ : K ≃+* K} (_hσ1 : σ ≠ RingEquiv.refl K)
     {T D : BModel k ε ≃ₗ[k] BModel k ε} (hT2 : T * T = 1)
     (hT : ∀ (x : Matrix.SpecialLinearGroup (Fin 4) K) (v : BModel k ε),
       T (slModelRep (F := K) (k := k) ε x v) =
@@ -382,7 +378,7 @@ theorem eq_of_involution_intertwiners {K : Type} [Field K] [Fintype K] [CharP K 
   have hρ : IsSimpleRep (slModelRep (F := K) (k := k) ε) :=
     isSimpleRep_slModelRep (F := K) (k := k) hF ε
   let Dd := (coverId 3 K 2).datum
-  haveI : Finite ((CFSG.LieType.RootSystem.coxeterMatrix
+  have : Finite ((CFSG.LieType.RootSystem.coxeterMatrix
       (CFSG.LieType.Universal.SpecialLinear.isFiniteType_A 3)).Group) :=
     CFSG.LieType.RootSystem.finite_group
       (CFSG.LieType.Universal.SpecialLinear.isFiniteType_A 3)
@@ -437,22 +433,22 @@ theorem exists_modelInvolution_of_fieldAut_involution {K : Type} [Field K] [Fint
         Module.finrank (ZMod 2) (LinearMap.range (d.toLinearMap - 1)) := by
   classical
   obtain ⟨k, hfield, hcharp, hEalg, hKalg, y, χ, J, h0', ht, hχ, hJ, β, hβ⟩ := hε
-  letI : Field k := hfield
-  letI : CharP k 2 := hcharp
-  letI : Algebra (Module.End (MonoidAlgebra (ZMod 2)
+  let : Field k := hfield
+  let : CharP k 2 := hcharp
+  let : Algebra (Module.End (MonoidAlgebra (ZMod 2)
     (Matrix.SpecialLinearGroup (Fin (m + 1)) K)) ρ.asModule) k := hEalg
-  letI : Algebra K k := hKalg
+  let : Algebra K k := hKalg
   let E := Module.End (MonoidAlgebra (ZMod 2)
     (Matrix.SpecialLinearGroup (Fin (m + 1)) K)) ρ.asModule
-  letI : Field E := CFSG.endField_field ρ
-  letI : Finite E := CFSG.endField_finite ρ
-  letI : Module E ρ.asModule := CFSG.endFieldModule ρ
-  letI : Module.Finite (ZMod 2) ρ.asModule := Representation.instFiniteAsModule ρ
-  letI : FiniteDimensional E ρ.asModule :=
+  let : Field E := CFSG.endField_field ρ
+  let : Finite E := CFSG.endField_finite ρ
+  let : Module E ρ.asModule := CFSG.endFieldModule ρ
+  let : Module.Finite (ZMod 2) ρ.asModule := Representation.instFiniteAsModule ρ
+  let : FiniteDimensional E ρ.asModule :=
     Module.Finite.of_restrictScalars_finite (ZMod 2) E ρ.asModule
   have hE2 : ∀ c : E, c = 0 ∨ c = 1 := by
     intro c
-    haveI : Fintype E := Fintype.ofFinite E
+    have : Fintype E := Fintype.ofFinite E
     have hcard : Fintype.card E = 2 := by rwa [Fintype.card_eq_nat_card]
     have h01 : ({0, 1} : Finset E) = Finset.univ := by
       apply Finset.eq_univ_of_card
@@ -500,8 +496,7 @@ theorem exists_modelInvolution_of_fieldAut_involution {K : Type} [Field K] [Fint
         Theory.Representation.extendScalars k (endFieldRep ρ)
           (Matrix.SpecialLinearGroup.map σ.toRingHom x) (D0 w) := by
     intro x w
-    induction w using TensorProduct.induction_on with
-    | zero => simp [D0]
+    induction w using TensorProduct.inductionOn with
     | tmul a v =>
       change (LinearEquiv.baseChange E k ρ.asModule ρ.asModule δe)
         ((LinearMap.baseChange k (endFieldRep ρ x)) (a ⊗ₜ[E] v)) =

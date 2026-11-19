@@ -29,7 +29,7 @@ theorem algebraic : Algebra.IsIntegral K D.L :=
 
 theorem exists_Cl {g : ModGL τ D.L} (hg : g ∈ adjointGroup τ D.L) :
     ∃ M : IntermediateField K D.L, FiniteDimensional K M ∧ g ∈ Cl D M := by
-  haveI := algebraic D
+  have := algebraic D
   unfold adjointGroup at hg
   induction hg using Subgroup.closure_induction with
   | mem x hx =>
@@ -60,12 +60,12 @@ theorem exists_finite_subfield (A B : SL(3, D.L)) {g : ModGL τ D.L} (hg : g ∈
         Matrix.SpecialLinearGroup.map (M.val : ↥M →+* D.L) B₀ = B) ∧
       ∃ g₀ ∈ adjointGroup τ ↥M, baseChangeGL (M.val : ↥M →+* D.L) g₀ = g := by
   classical
-  haveI := algebraic D
+  have := algebraic D
   obtain ⟨M₂, h₂, hg₂⟩ := exists_Cl D hg
   let S : Set D.L :=
     Set.range (fun p : Fin 3 × Fin 3 => (A : Matrix (Fin 3) (Fin 3) D.L) p.1 p.2) ∪
       Set.range (fun p : Fin 3 × Fin 3 => (B : Matrix (Fin 3) (Fin 3) D.L) p.1 p.2)
-  haveI : Finite S := (Set.Finite.union (Set.finite_range _) (Set.finite_range _)).to_subtype
+  have : Finite S := (Set.Finite.union (Set.finite_range _) (Set.finite_range _)).to_subtype
   have h₁ : FiniteDimensional K (IntermediateField.adjoin K S) :=
     IntermediateField.finiteDimensional_adjoin (fun x _ => Algebra.IsIntegral.isIntegral x)
   set M : IntermediateField K D.L := IntermediateField.adjoin K S ⊔ M₂ with hM

@@ -27,7 +27,7 @@ theorem card_eq_of_isSylowTwoOf_of_card_eq {T X Q : Subgroup H} (hT : IsSylowTwo
 
 theorem oTwoPrime_eq_self_of_perm3 {A T : Subgroup H} (hT : IsSylowTwoOf T A)
     (hA : Nonempty (oTwoQuot ↥A ≃* Equiv.Perm (Fin 3))) : oTwoPrime A = A := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcardA : Nat.card ↥A = 6 * Nat.card ↥(pCoreOf 2 A) :=
     CFSG.Quasithin.F6.GoldPair.card_eq_six_mul_pCoreOf hA
   have hcardT : Nat.card ↥T = 2 * Nat.card ↥(pCoreOf 2 A) := by
@@ -68,6 +68,7 @@ theorem oTwoPrime_eq_self_of_perm3 {A T : Subgroup H} (hT : IsSylowTwoOf T A)
     omega
   · exact Subgroup.eq_of_le_of_card_ge hle (by rw [hc, hc3']; omega)
 
+omit [Finite H] in
 theorem f112sa_card_L2 {L2 : Subgroup H} (h2 : VA5 L2) :
     Nat.card ↥L2 = 60 * Nat.card ↥(pCoreOf 2 L2) := by
   rw [CFSG.Quasithin.H13.card_eq_card_oTwoQuot_mul_card_pCoreOf L2,
@@ -77,7 +78,7 @@ theorem f112sa_card_L2 {L2 : Subgroup H} (h2 : VA5 L2) :
 private theorem f112sa_card_S_inf_L2 {L1 L2 S : Subgroup H}
     (hF : F112Hyp L1 L2 S) (h2 : VA5 L2) :
     Nat.card ↥(S ⊓ L2) = 4 * Nat.card ↥(pCoreOf 2 L2) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have := card_eq_of_isSylowTwoOf_of_card_eq (a := 2) (m := 15) hF.1.h2.sylow
     (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 L2) (by norm_num)
     (by rw [f112sa_card_L2 h2]; ring)
@@ -86,7 +87,7 @@ private theorem f112sa_card_S_inf_L2 {L1 L2 S : Subgroup H}
 theorem f112sa_card_S_inf_L1 {L1 L2 S : Subgroup H}
     (hF : F112Hyp L1 L2 S) (h1 : VS3 L1) :
     Nat.card ↥(S ⊓ L1) = 2 * Nat.card ↥(pCoreOf 2 L1) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have := card_eq_of_isSylowTwoOf_of_card_eq (a := 1) (m := 3) hF.1.h1.sylow
     (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 L1) (by norm_num)
     (by rw [CFSG.Quasithin.F6.GoldPair.card_eq_six_mul_pCoreOf h1]; ring)
@@ -162,7 +163,7 @@ theorem f112sa_card_T_eq_QA {L1 L2 S : Subgroup H}
     (hF : F112Hyp L1 L2 S) (h1 : VS3 L1) (h2 : VA5 L2) :
     Nat.card ↥(S ⊓ f112saK L1 L2 S) =
       4 * Nat.card ↥(pCoreOf 2 (f112saP2' L1 L2 S)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hX : Nat.card ↥(oTwoPrime (f112saP2' L1 L2 S)) =
       2 ^ 2 * 15 * Nat.card ↥(pCoreOf 2 (f112saP2' L1 L2 S)) := by
     rw [f112sa_card_oTwoPrime_P2' hF h1 h2]
@@ -217,7 +218,7 @@ theorem f112sa_card_T_eq_QS {L1 L2 S : Subgroup H}
     (hF : F112Hyp L1 L2 S) (h1 : VS3 L1) (h2 : VA5 L2) :
     Nat.card ↥(S ⊓ f112saK L1 L2 S) =
       2 * Nat.card ↥(pCoreOf 2 (f112saP1' L1 L2 S)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hX : Nat.card ↥(oTwoPrime (f112saP1' L1 L2 S)) =
       2 ^ 1 * 3 * Nat.card ↥(pCoreOf 2 (f112saP1' L1 L2 S)) := by
     rw [f112sa_card_oTwoPrime_P1' hF h1 h2]

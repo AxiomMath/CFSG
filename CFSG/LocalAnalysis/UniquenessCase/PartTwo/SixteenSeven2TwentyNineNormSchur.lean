@@ -42,13 +42,14 @@ theorem s16c167_norm_irr_nontrivial {L : Subgroup (MulAut W)} {V : Subgroup W}
   · exact hJbot h
   · exact hJtop h
 
+omit [Finite W] in
 theorem s16c167_norm_eq_one_of_commute {L : Subgroup (MulAut W)} (hL : IsPSL 3 2 1 ↥L)
     {g : MulAut W} (hg : g ∈ L) (hgc : ∀ y ∈ L, g * y = y * g) : g = 1 := by
-  haveI : IsSimpleGroup ↥L := (CFSG.LieType.Simplicity.fam_PSL_simplicity _ 3 2 1 hL).2
+  have : IsSimpleGroup ↥L := (CFSG.LieType.Simplicity.fam_PSL_simplicity _ 3 2 1 hL).2
   have hcenter : Subgroup.center ↥L = ⊥ := by
     refine (IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center ↥L)).resolve_right ?_
     intro ht
-    haveI : IsMulCommutative ↥L := Subgroup.center_eq_top_iff.mp ht
+    have : IsMulCommutative ↥L := Subgroup.center_eq_top_iff.mp ht
     have hp : (Nat.card ↥L).Prime := (Group.is_simple_iff_prime_card (α := ↥L)).mp inferInstance
     rw [card_eq_168_of_isPSL_three_two hL] at hp
     exact absurd hp (by norm_num)
@@ -119,6 +120,7 @@ theorem s16c167_norm_fixes_of_commute (hW : ∀ w : W, w ^ 2 = 1) {L : Subgroup 
   rw [hl1] at h1
   simpa using h1.symm
 
+omit [Finite W] in
 theorem s16c167_norm_fixes_irr_of_fixes_ne_one {L : Subgroup (MulAut W)} {V : Subgroup W}
     (hV : XMod.IsIrr ↥L V) {g : MulAut W} (hgL : ∀ y ∈ L, g * y = y * g) {m : W} (hm : m ∈ V)
     (hm1 : m ≠ 1) (hgm : g m = m) : ∀ v ∈ V, g v = v := by

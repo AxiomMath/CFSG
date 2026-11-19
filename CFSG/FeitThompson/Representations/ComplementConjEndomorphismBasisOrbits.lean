@@ -45,16 +45,16 @@ theorem repr_cycleEigenvector_none (o : O) (m : ZMod r) :
   classical
   rw [← Basis.coord_apply, cycleEigenvector, map_sum]
   refine Finset.sum_eq_zero fun j _ => ?_
-  rw [map_smul, Basis.coord_apply, Basis.repr_self_apply, if_neg (by simp), smul_zero]
+  rw [map_smul, Basis.coord_apply, Basis.repr_self_apply, ite_eq_right (by simp), smul_zero]
 
 @[simp]
 theorem repr_cycleEigenvector_some_self (o : O) (m j : ZMod r) :
     b.repr (cycleEigenvector b ε o m) (some (o, j)) = ε ^ (-(m * j)).val := by
   classical
   rw [← Basis.coord_apply, cycleEigenvector, map_sum, Finset.sum_eq_single j]
-  · rw [map_smul, Basis.coord_apply, Basis.repr_self_apply, if_pos rfl, smul_eq_mul, mul_one]
+  · rw [map_smul, Basis.coord_apply, Basis.repr_self_apply, ite_eq_left rfl, smul_eq_mul, mul_one]
   · intro c _ hc
-    rw [map_smul, Basis.coord_apply, Basis.repr_self_apply, if_neg (by simp [hc]), smul_zero]
+    rw [map_smul, Basis.coord_apply, Basis.repr_self_apply, ite_eq_right (by simp [hc]), smul_zero]
   · intro hj
     exact absurd (Finset.mem_univ j) hj
 
@@ -63,7 +63,7 @@ theorem repr_cycleEigenvector_some_of_ne {o o' : O} (hoo : o ≠ o') (m j : ZMod
   classical
   rw [← Basis.coord_apply, cycleEigenvector, map_sum]
   refine Finset.sum_eq_zero fun c _ => ?_
-  rw [map_smul, Basis.coord_apply, Basis.repr_self_apply, if_neg (by simp [hoo]), smul_zero]
+  rw [map_smul, Basis.coord_apply, Basis.repr_self_apply, ite_eq_right (by simp [hoo]), smul_zero]
 
 theorem apply_cycleEigenvector (hεr : ε ^ r = 1)
     (hb : ∀ o j, C (b (some (o, j))) = b (some (o, j + 1))) (o : O) (m : ZMod r) :
@@ -135,6 +135,7 @@ theorem pow_apply_basis_none (hb0 : C (b none) = b none) (m : ℕ) : (C ^ m) (b 
     have hs : (C ^ (m + 1)) (b none) = C ((C ^ m) (b none)) := by rw [pow_succ']; rfl
     rw [hs, ih, hb0]
 
+omit [NeZero r] in
 theorem pow_eq_one_of_basis_cycle (hb0 : C (b none) = b none)
     (hb : ∀ o j, C (b (some (o, j))) = b (some (o, j + 1))) : C ^ r = 1 := by
   refine LinearEquiv.toLinearMap_injective (b.ext fun i => ?_)
@@ -142,6 +143,7 @@ theorem pow_eq_one_of_basis_cycle (hb0 : C (b none) = b none)
   | none => simpa using pow_apply_basis_none hb0 r
   | some (o, j) => simpa using pow_apply_basis_some hb r o j
 
+omit [NeZero r] in
 theorem cyclicEigenspace_conj_eq_conjEigenspace {V : Type*} [AddCommGroup V] [Module k V]
     (T : V ≃ₗ[k] V) (m : ZMod r) :
     cyclicEigenspace ε T.conj m = conjEigenspace ε T m :=
@@ -160,7 +162,7 @@ theorem finrank_cyclicEigenspace_of_basis_cycle [Fintype O] [IsAlgClosed k] (hrk
     intro m
     by_cases hm : m = 0
     · subst hm
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       have hmem : ∀ x : Option O, (x.elim (b none) fun o => cycleEigenvector b ε o (0 : ZMod r)) ∈
           cyclicEigenspace ε C (0 : ZMod r) := by
         intro x
@@ -172,7 +174,7 @@ theorem finrank_cyclicEigenspace_of_basis_cycle [Fintype O] [IsAlgClosed k] (hrk
       have hcard := card_le_finrank_of_linearIndependent
         (linearIndependent_optionCycleEigenvector (b := b) hε0) hmem
       simpa [Fintype.card_option] using hcard
-    · rw [if_neg hm]
+    · rw [ite_eq_right hm]
       have hmem : ∀ o : O, cycleEigenvector b ε o m ∈ cyclicEigenspace ε C m := fun o => by
         rw [mem_cyclicEigenspace_iff]; exact apply_cycleEigenvector hε.pow_eq_one hb o m
       have hcard := card_le_finrank_of_linearIndependent
@@ -572,7 +574,7 @@ theorem finrank_conjEigenspace_zero_eq_succ (hP : IsExtraspecial p P)
       finrank k (conjEigenspace ε (repEquiv ρ h) m) + 1 := by
   rw [finrank_conjEigenspace_eq hP hZB hCB hPB hBZ hp hirr hzeta hz hr hrk hε hho hgen hfix,
     finrank_conjEigenspace_eq hP hZB hCB hPB hBZ hp hirr hzeta hz hr hrk hε hho hgen hfix,
-    if_pos rfl, if_neg hm]
+    ite_eq_left rfl, ite_eq_right hm]
 
 theorem exists_basis_conj_cycle' (hP : IsExtraspecial p P) (hp : (p : k) ≠ 0)
     (hirr : (resInl ρ).IsIrreducible) (hzeta : zeta ≠ 1)

@@ -34,7 +34,7 @@ private theorem thetaTorusHom_mem_C0 [Finite k] (hf : 1 ≤ f) (hk : Nat.card k 
   TwistedE6Pilot.thetaTorus_le_C0 hf hk (card_galoisField_two_mul' hf)
     (fun c => frobQ_apply 2 f c) ⟨t, rfl⟩
 
-theorem thetaTorusP_le_thetaTorus (hf : 1 ≤ f) (hk : Nat.card k = 2 ^ f) (t : kˣ) :
+theorem thetaTorusP_le_thetaTorus (_hf : 1 ≤ f) (_hk : Nat.card k = 2 ^ f) (t : kˣ) :
     thetaTorusP (f := f) t ≤ (W0 f k).subgroupOf (C0 f) := by
   rintro x hx
   have hx' : (x : ModGL TwistTag.E6.tag (GaloisField 2 (2 * f))) ∈
@@ -48,7 +48,7 @@ theorem card_thetaTorusP [Finite k] (hf : 1 ≤ f) (hk : Nat.card k = 2 ^ f) {t 
     (ht : orderOf t = p) :
     Nat.card (thetaTorusP (f := f) t) = p := by
   have hK : Nat.card (GaloisField 2 (2 * f)) = (2 ^ f) ^ 2 := card_galoisField_two_mul' hf
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2 : (2 : GaloisField 2 (2 * f)) = 0 := CharP.cast_eq_zero _ 2
   have hinj : Function.Injective (E6GraphLevi.thetaTorusHom (GaloisField 2 (2 * f))) :=
     E6GraphLevi.thetaTorusHom_injective h2
@@ -64,7 +64,7 @@ theorem card_thetaTorusP [Finite k] (hf : 1 ≤ f) (hk : Nat.card k = 2 ^ f) {t 
 theorem isElemAbelian_thetaTorusP [Finite k] (hf : 1 ≤ f) (hk : Nat.card k = 2 ^ f) {t : kˣ} {p : ℕ}
     (hp : p.Prime) (ht : orderOf t = p) :
     IsElemAbelian p (thetaTorusP (f := f) t) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact CFSG.GroupTheory.isElemAbelian_of_card_prime (card_thetaTorusP hf hk ht)
 
 theorem thetaTorusP_inf_DLevi_eq_bot (hf : 1 ≤ f) (hk : Nat.card k = 2 ^ f) (t : kˣ) :
@@ -118,7 +118,7 @@ theorem exists_conj_eq_of_card_eq (hf : 1 ≤ f) {p : ℕ} (hp : p.Prime) (hp5 :
     {A A₀ : Subgroup (C0 f)} (hA : IsElemAbelian p A) (hAc : Nat.card A = p ^ 4)
     (hA₀ : IsElemAbelian p A₀) (hA₀c : Nat.card A₀ = p ^ 4) :
     ∃ g : C0 f, A.map (MulAut.conj g).toMonoidHom = A₀ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact exists_conj_eq_of_sylowTorus (sylowTorus_C0 hf hp hp5 he) hA hAc hA₀ hA₀c
 
 end CFSG.LocalAnalysis.GLTheoremA.Y10F.ExcTwE6One

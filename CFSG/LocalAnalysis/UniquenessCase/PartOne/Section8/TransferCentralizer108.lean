@@ -22,13 +22,13 @@ theorem two_le_pRank_centralizer_of_e9_le_X
     (hSL : CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.PartOne.IsSL3Four
       (CFSG.LocalAnalysis.UniquenessCase.UC22.Bar2 L))
     {E : Subgroup G} (hEX : E ≤ CFSG.LocalAnalysis.UniquenessCase.UC22.conjClosure S.M L)
-    (hEel : CFSG.Open.IsElemAbelian 3 E) (hEcard : Nat.card E = 9) :
+    (hEel : CFSG.Open.IsElemAbelian 3 E) (_hEcard : Nat.card E = 9) :
     2 ≤ CFSG.Open.pRank S.p
       (S.M ⊓ Subgroup.centralizer (E : Set G)) := by
   classical
-  haveI : Fact S.p.Prime := ⟨S.hp.1.1⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact S.p.Prime := ⟨S.hp.1.1⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp := S.hp.1.1
   have hp2 : S.p ≠ 2 := S.hp.1.2.1
   set X : Subgroup G := CFSG.LocalAnalysis.UniquenessCase.UC22.conjClosure S.M L with hXdef

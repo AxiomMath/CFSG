@@ -52,7 +52,7 @@ theorem sl2_quotient_of_double_cover {P L : Type} [Group P] [Finite P] [Group L]
   have hzker : z ∈ φ.ker := MonoidHom.mem_ker.mpr hzφ
   obtain ⟨O, hOnorm, hOleR, hOcard, hOinf, hOsup⟩ :=
     exists_odd_normal_complement hz hz2 hzker hcard hm
-  haveI hOnormal : O.Normal := hOnorm
+  have hOnormal : O.Normal := hOnorm
   have hOodd : Odd (Nat.card O) := by rw [hOcard]; exact hm
   let η : P ⧸ O →* L := QuotientGroup.lift O φ hOleR
   have hηsurj : Function.Surjective η := by
@@ -135,9 +135,9 @@ theorem sl2_quotient_of_double_cover {P L : Type} [Group P] [Finite P] [Group L]
     simp at h5
   have hGFcard : Nat.card (GaloisField p n) = p ^ n := GaloisField.card p n hn
   have h4 : 4 ≤ Nat.card (GaloisField p n) := by rw [hGFcard]; omega
-  haveI : IsSimpleGroup (PSL(2, GaloisField p n)) :=
+  have : IsSimpleGroup (PSL(2, GaloisField p n)) :=
     Matrix.ProjectiveSpecialLinearGroup.rank_two_simple h4
-  haveI hLsimple : IsSimpleGroup L := e.isSimpleGroup
+  have hLsimple : IsSimpleGroup L := e.isSimpleGroup
   have hpodd : Odd p := (Fact.out : p.Prime).odd_of_ne_two hp
   have hoddPP : CFSG.GorensteinWalter.IsOddPrimePower (Nat.card (GaloisField p n)) := by
     refine ⟨p, n, Fact.out, hpodd, ?_, hGFcard⟩
@@ -151,7 +151,7 @@ theorem sl2_quotient_of_double_cover {P L : Type} [Group P] [Finite P] [Group L]
     rw [hcardPSL, CFSG.GorensteinWalter.psl2_card_formula _ hoddPP, hGFcard]
     exact even_mul_sq_sub_one_div_two hpodd.pow
   have hNle : CFSG.oddCore P ≤ φ.ker := by
-    haveI : (Subgroup.map φ (CFSG.oddCore P)).Normal :=
+    have : (Subgroup.map φ (CFSG.oddCore P)).Normal :=
       (inferInstance : (CFSG.oddCore P).Normal).map φ hφ
     rcases Subgroup.Normal.eq_bot_or_eq_top (Subgroup.map φ (CFSG.oddCore P)) with hbot | htop
     · intro x hx

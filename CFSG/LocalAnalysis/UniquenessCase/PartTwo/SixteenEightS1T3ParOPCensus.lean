@@ -14,9 +14,9 @@ open CFSG.AGLEmbedding.LeviBlock CFSG.LocalAnalysis.ComponentInitial
 
 theorem s16t3_plus_census {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) {m : ℕ}
     (hm : 3 ≤ m) : S16t3PlusCensus K m := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := by
-    letI := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := by
+    let := Fintype.ofFinite K
     have hK' : Fintype.card K = 2 := by rw [← Nat.card_eq_fintype_card]; exact hK
     exact charP_of_card_eq_prime hK'
   classical
@@ -37,7 +37,7 @@ theorem s16t3_plus_census {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) 
     sup_eq_zero_or_mem _
   have hleBot : ∀ d ∈ s16t3PlusCuts m, d ≤ (s16t3PlusCuts m).sup id :=
     fun d hd => Finset.le_sup (f := id) hd
-  haveI : Finite ((Fin m ⊕ Fin m → K) ≃ₗ[K] (Fin m ⊕ Fin m → K)) := finite_plusAut (K := K) m
+  have : Finite ((Fin m ⊕ Fin m → K) ≃ₗ[K] (Fin m ⊕ Fin m → K)) := finite_plusAut (K := K) m
   let G₁ : ↥(s16t3PlusCuts m) → Type := fun b =>
     GL (Fin (b.1 - predCut (s16t3PlusCuts m) b.1)) K
   let G₂ : Fin 2 → Type := fun _ => GL (Fin 2) K
@@ -62,12 +62,12 @@ theorem s16t3_plus_census {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) 
       rcases j with b' | j'
       · by_cases hbb : b' = b
         · subst hbb
-          simp only [MonoidHom.pi_apply, MonoidHom.mulSingle_apply, Pi.mulSingle_eq_same]
+          simp only [MonoidHom.mulSingle_apply, Pi.mulSingle_eq_same]
           exact hq
-        · simp only [MonoidHom.pi_apply, MonoidHom.mulSingle_apply]
+        · simp only [MonoidHom.mulSingle_apply]
           rw [Pi.mulSingle_eq_of_ne (fun h => hbb (Sum.inl_injective h))]
           exact h1 b'.1 b'.2 (fun h => hbb (Subtype.ext h))
-      · simp only [MonoidHom.pi_apply, MonoidHom.mulSingle_apply]
+      · simp only [MonoidHom.mulSingle_apply]
         rw [Pi.mulSingle_eq_of_ne Sum.inr_ne_inl]
         have hres : plusResBlockHom hD' ht ht2 q = 1 := h2 ht ht2 (hleBot b b.2)
         have hra : plusResAut hD' ht ht2 q = 1 := by
@@ -85,11 +85,11 @@ theorem s16t3_plus_census {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) 
         obtain ⟨e0, e1⟩ := plusFamHom_iotaTwo (K := K) hm hD₂ hD' ht ht2 hq
         refine ⟨⟨_, hq⟩, funext fun j' => ?_⟩
         rcases j' with b' | j'
-        · simp only [MonoidHom.pi_apply, MonoidHom.mulSingle_apply]
+        · simp only [MonoidHom.mulSingle_apply]
           rw [Pi.mulSingle_eq_of_ne Sum.inl_ne_inr]
           exact plusEBlockHom_plusResExt hD' ht2 (fun d hd => hleBot d hd) b'.2 hq
         · fin_cases j'
-          · simp only [MonoidHom.pi_apply, MonoidHom.mulSingle_apply, Pi.mulSingle_eq_same]
+          · simp only [MonoidHom.mulSingle_apply, Pi.mulSingle_eq_same]
             exact e0
           · simpa [β, MonoidHom.pi_apply, Pi.mulSingle] using e1
       · have hq := plusResExt_iotaOne_mem (K := K) (D := s16t3PlusCuts m) (hr := hm)
@@ -97,12 +97,12 @@ theorem s16t3_plus_census {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) 
         obtain ⟨e0, e1⟩ := plusFamHom_iotaOne (K := K) hm hD₂ hD' ht ht2 hq
         refine ⟨⟨_, hq⟩, funext fun j' => ?_⟩
         rcases j' with b' | j'
-        · simp only [MonoidHom.pi_apply, MonoidHom.mulSingle_apply]
+        · simp only [MonoidHom.mulSingle_apply]
           rw [Pi.mulSingle_eq_of_ne Sum.inl_ne_inr]
           exact plusEBlockHom_plusResExt hD' ht2 (fun d hd => hleBot d hd) b'.2 hq
         · fin_cases j'
           · simpa [β, MonoidHom.pi_apply, Pi.mulSingle] using e0
-          · simp only [MonoidHom.pi_apply, MonoidHom.mulSingle_apply, Pi.mulSingle_eq_same]
+          · simp only [MonoidHom.mulSingle_apply, Pi.mulSingle_eq_same]
             exact e1
   have hker : IsPGroup 2 β.ker := by
     refine isPGroup_of_plusBlocks hD' (fun d hd => (hD d hd).1) fun g hg => ⟨?_, ?_⟩

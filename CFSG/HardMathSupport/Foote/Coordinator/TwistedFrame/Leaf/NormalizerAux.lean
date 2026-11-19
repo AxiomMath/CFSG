@@ -26,7 +26,7 @@ theorem isSolvable_of_le_sup_of_commute {X C K : Subgroup G}
   set N : Subgroup ↥Y := X.subgroupOf Y with hN
   have hdec : ∀ y ∈ Y, ∃ x ∈ X, ∃ c ∈ C, y = x * c := fun y hy =>
     exists_mul_of_mem_sup_of_commute hc hy
-  haveI : N.Normal := ⟨fun n hn y => by
+  have : N.Normal := ⟨fun n hn y => by
     obtain ⟨x, hx, c, hc', hxc⟩ := hdec y.1 y.2
     have hn' : (n : G) ∈ X := hn
     show ((y * n * y⁻¹ : ↥Y) : G) ∈ X
@@ -53,7 +53,7 @@ theorem isSolvable_of_le_sup_of_commute {X C K : Subgroup G}
     have h1 : c⁻¹ * x = x * c⁻¹ := ((hc x hx c⁻¹ (C.inv_mem hc')).eq).symm
     rw [← mul_assoc, h1, mul_assoc, inv_mul_cancel, mul_one]
     exact hx
-  haveI : Group.IsSolvable (↥Y ⧸ N) := Group.isSolvable_of_surjective hj
+  have : Group.IsSolvable (↥Y ⧸ N) := Group.isSolvable_of_surjective hj
   let f : ↥K →* ↥Y ⧸ N := (QuotientGroup.mk' N).comp (Subgroup.inclusion hK)
   have hker : Group.IsSolvable ↥f.ker := by
     let e : ↥f.ker →* ↥(K ⊓ X) :=
@@ -291,17 +291,17 @@ theorem isSolvable_of_le_normalizer_frame₂ [Finite MA] [Finite MB] (hQA : CFSG
         (A.map (MulAut.conj (q : G) : G →* G)).map (MulAut.conj (p : G) : G →* G) := by
       rw [Subgroup.coe_mul, map_conj_mul]
     rcases hswap hq with ⟨hqA, hqB⟩ | ⟨hqA, hqB⟩
-    · rw [e, hqA, if_pos rfl, mul_one]
-    · rw [e, hqA, if_neg (Ne.symm hAB)]
+    · rw [e, hqA, ite_eq_left rfl, mul_one]
+    · rw [e, hqA, ite_eq_right (Ne.symm hAB)]
       rcases hswap hp with ⟨hpA, hpB⟩ | ⟨hpA, hpB⟩
-      · rw [hpB, if_neg (Ne.symm hAB), if_pos hpA, one_mul]
-      · rw [hpB, if_pos rfl, if_neg (by rw [hpA]; exact Ne.symm hAB)]
+      · rw [hpB, ite_eq_right (Ne.symm hAB), ite_eq_left hpA, one_mul]
+      · rw [hpB, ite_eq_left rfl, ite_eq_right (by rw [hpA]; exact Ne.symm hAB)]
         decide
   have hneg : (-1 : ℤˣ) ≠ 1 := by decide
   let σ : ↥P →* ℤˣ :=
     { toFun := fun p => if A.map (MulAut.conj (p : G) : G →* G) = A then 1 else -1
       map_one' := by
-        rw [if_pos]
+        rw [ite_eq_left]
         rw [OneMemClass.coe_one, map_one]
         ext x
         simp
@@ -312,7 +312,7 @@ theorem isSolvable_of_le_normalizer_frame₂ [Finite MA] [Finite MB] (hQA : CFSG
     by_contra h
     have hp := p.2
     rw [MonoidHom.mem_ker] at hp
-    simp only [σ, MonoidHom.coe_mk, OneHom.coe_mk, if_neg h] at hp
+    simp only [σ, MonoidHom.coe_mk, OneHom.coe_mk, ite_eq_right h] at hp
     exact hneg hp
   have hfixB : ∀ p : P₀, B.map (MulAut.conj ((p : P) : G) : G →* G) = B := by
     intro p
@@ -464,7 +464,7 @@ theorem isSolvable_of_le_sup_normalizing {T X₂ C : Subgroup G}
     have hle : T ⊔ X₂ ≤ S := sup_le (fun t ht => ⟨t, ht, 1, X₂.one_mem, by simp⟩)
       (fun x hx => ⟨1, T.one_mem, x, hx, by simp⟩)
     exact fun y hy => hle hy
-  haveI : (X₂.subgroupOf Y).Normal := Subgroup.normal_subgroupOf_sup_of_le_normalizer hTN
+  have : (X₂.subgroupOf Y).Normal := Subgroup.normal_subgroupOf_sup_of_le_normalizer hTN
   have hTcomm : Group.IsSolvable ↥T :=
     Group.isSolvable_of_comm fun a b => Subtype.ext (hT a.1 a.2 b.1 b.2)
   let j : ↥T →* ↥Y ⧸ X₂.subgroupOf Y :=
@@ -482,7 +482,7 @@ theorem isSolvable_of_le_sup_normalizing {T X₂ C : Subgroup G}
     show t⁻¹ * (t * x) ∈ X₂
     rw [inv_mul_cancel_left]
     exact hx
-  haveI : Group.IsSolvable (↥Y ⧸ X₂.subgroupOf Y) := Group.isSolvable_of_surjective hj
+  have : Group.IsSolvable (↥Y ⧸ X₂.subgroupOf Y) := Group.isSolvable_of_surjective hj
   let f : ↥C →* ↥Y ⧸ X₂.subgroupOf Y :=
     (QuotientGroup.mk' (X₂.subgroupOf Y)).comp (Subgroup.inclusion hC)
   have hker : Group.IsSolvable ↥f.ker := by
@@ -525,7 +525,7 @@ theorem twFrameNormalizerSolvable_of_out (hq : TwQuasi X₁ X₂) (hb : TwBasic 
     (hO₂ : Group.IsSolvable (Outer ↥X₂)) :
     TwFrameNormalizerSolvable τ K (X₁ ⊔ X₂) := by
   intro P hPG hPN hPX
-  haveI : Finite (ModGL τ K) := finite_modGL
+  have : Finite (ModGL τ K) := finite_modGL
   have hr₁ : X₁.subtype.range = X₁ := Subgroup.range_subtype X₁
   have hr₂ : X₂.subtype.range = X₂ := Subgroup.range_subtype X₂
   refine isSolvable_of_le_normalizer_frame₂ (ψA := X₁.subtype) (ψB := X₂.subtype) hq.1 hq.2

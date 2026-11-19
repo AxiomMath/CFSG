@@ -19,7 +19,7 @@ theorem S14Choice.pPrimeCore_inf_kSub_le {M H E Q : Subgroup G}
     (CFSG.pPrimeCore 3 ↥M).map M.subtype ⊓ kSub 3 M H ≤
       (CFSG.pPrimeCore 3 ↥(kSub 3 M H)).map (kSub 3 M H).subtype := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e, i, j, hij, hI⟩ := h.exists_twoSet h2 hK hU hL hKF
   let K : Subgroup G := kSub 3 M H
   let D : Subgroup G := (CFSG.pPrimeCore 3 ↥M).map M.subtype
@@ -95,7 +95,7 @@ theorem IsMaxInvariantTwoIn.isSylowOf_two_sup {J R H D : Subgroup G}
     (hcomm : ∀ d ∈ D, d ∈ H → ∀ j ∈ J, ⁅j, d⁆ ∈ R) :
     CFSG.ABGLocalTools.IsSylowOf 2 R (R ⊔ D) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let V : Subgroup G := R ⊔ D
   by_contra hnot
   have hRsub : IsPGroup 2 (R.subgroupOf V) := hR.2.1.comap_subtype
@@ -108,7 +108,7 @@ theorem IsMaxInvariantTwoIn.isSylowOf_two_sup {J R H D : Subgroup G}
   have hlt : R.subgroupOf V < (S : Subgroup V) := lt_of_le_of_ne hRS hne
   obtain ⟨x, hxS, hxR, hxN⟩ :=
     CFSG.RankThree.PartTwo.Late.exists_mem_normalizer_not_mem_of_lt (p := 2)
-      (P := R.subgroupOf V) (Q := (S : Subgroup V)) S.isPGroup' hlt
+      (P := R.subgroupOf V) (Q := (S : Subgroup V)) S.isPGroup hlt
   have hxNV : (x : G) ∈ Subgroup.normalizer (R : Set G) := by
     have hx' : x ∈ (Subgroup.normalizer (R : Set G)).subgroupOf V := by
       rw [Subgroup.subgroupOf_normalizer_eq (H := R) (le_sup_left : R ≤ V)]
@@ -152,7 +152,7 @@ theorem IsMaxInvariantTwoIn.isSylowOf_two_sup {J R H D : Subgroup G}
     Subgroup.mem_map.mpr ⟨⟨d, hdV⟩, hdS, rfl⟩
   have hV₂leS : V₂ ≤ (S : Subgroup V).map V.subtype :=
     sup_le hRV₂S (Subgroup.zpowers_le.mpr hdV₂S)
-  have hV₂2 : IsPGroup 2 V₂ := (S.isPGroup'.map V.subtype).to_le hV₂leS
+  have hV₂2 : IsPGroup 2 V₂ := (S.isPGroup.map V.subtype).to_le hV₂leS
   have hV₂H : V₂ ≤ H := sup_le hR.1 (Subgroup.zpowers_le.mpr hdH)
   have hJV₂ : J ≤ Subgroup.normalizer (V₂ : Set G) := by
     intro j hj
@@ -297,7 +297,7 @@ theorem S14Choice.normalizer_map_R_le {M H E Q R : Subgroup G}
         Subgroup (↥M ⧸ CFSG.pPrimeCore 3 ↥M)) : Set (↥M ⧸ CFSG.pPrimeCore 3 ↥M)) ≤
       ((H ⊓ M).subgroupOf M).map (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥M)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let O : Subgroup ↥M := CFSG.pPrimeCore 3 ↥M
   obtain ⟨hNRH, hRMmax⟩ :=
     h.normalizer_R_le hA h2 hpre hK hU hL hKF h525 hX hR

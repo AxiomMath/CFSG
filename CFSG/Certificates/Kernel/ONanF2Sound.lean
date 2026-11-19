@@ -48,7 +48,7 @@ theorem enc_mul (x y : AlpE) : enc (x * y) = mulK (enc x) (enc y) := by
 theorem beq_iff {a b : ℕ} (ha : a < 512) (hb : b < 512) : Nat.beq a b = true ↔ dec a = dec b := by
   rw [Nat.beq_eq, dec_eq_iff ha hb]
 
-theorem cmK_iff {a b : ℕ} (ha : a < 512) (hb : b < 512) :
+theorem cmK_iff {a b : ℕ} (_ha : a < 512) (_hb : b < 512) :
     cmK a b = true ↔ dec a * dec b = dec b * dec a := by
   rw [cmK, beq_iff (mulK_lt _ _) (mulK_lt _ _), dec_mulK, dec_mulK]
 
@@ -180,9 +180,9 @@ theorem cntM_eq (M k : ℕ) :
     have e : cntM M (k + 1) = Bool.rec (cntM M k) (Nat.succ (cntM M k)) (bitB M k) := rfl
     rw [e, Finset.range_add_one, Finset.filter_insert, bitB_eq]
     cases h : M.testBit k
-    · simp only [Bool.false_eq_true, if_false]
+    · simp only [Bool.false_eq_true, ite_false]
       exact ih
-    · simp only [if_true]
+    · simp only [ite_true]
       rw [Finset.card_insert_of_notMem (by simp), ← ih]
 
 theorem cntQ_eq (q : ℕ → Bool) (k : ℕ) :
@@ -193,9 +193,9 @@ theorem cntQ_eq (q : ℕ → Bool) (k : ℕ) :
     have e : cntQ q (k + 1) = Bool.rec (cntQ q k) (Nat.succ (cntQ q k)) (q k) := rfl
     rw [e, Finset.range_add_one, Finset.filter_insert]
     cases h : q k
-    · simp only [Bool.false_eq_true, if_false]
+    · simp only [Bool.false_eq_true, ite_false]
       exact ih
-    · simp only [if_true]
+    · simp only [ite_true]
       rw [Finset.card_insert_of_notMem (by simp), ← ih]
 
 theorem card_filter_cntQ (p : AlpE → Prop) [DecidablePred p] (q : ℕ → Bool)
@@ -330,7 +330,7 @@ theorem Rep.eq_zero_iff {M : ℕ} {L : List AlpE} (h : Rep M L) : M = 0 ↔ L = 
       exact absurd this List.not_mem_nil
 
 theorem card_eq_cntM (S : Finset AlpE) (M : ℕ) (hS : ∀ x, x ∈ S ↔ M.testBit (enc x) = true)
-    (hM : ∀ c, M.testBit c = true → c < 512) : S.card = cntM M 512 := by
+    (_hM : ∀ c, M.testBit c = true → c < 512) : S.card = cntM M 512 := by
   rw [cntM_eq]
   refine Finset.card_bij' (fun x _ => enc x) (fun c _ => dec c) ?_ ?_ ?_ ?_
   · intro x hx
@@ -430,15 +430,14 @@ theorem hn_conj (ps : List (ℕ × ℕ)) (hinv : ∀ p ∈ ps, dec p.2 = (dec p.
     ∀ c < 512, ∀ y, y ∈ conjK ps c ↔ ∃ z ∈ (ps.map fun p => dec p.1).flatMap
       (fun g => [g⁻¹ * dec c * g, g * dec c * g⁻¹]), enc z = y := by
   intro c hc y
-  simp only [conjK, List.mem_flatMap, List.mem_map, List.mem_cons, List.mem_singleton,
-    List.not_mem_nil, or_false]
+  simp only [conjK, List.mem_flatMap, List.mem_map, List.mem_cons, List.not_mem_nil, or_false]
   constructor
   · rintro ⟨p, hp, hy⟩
     refine ⟨if y = mulK (mulK p.2 c) p.1 then (dec p.1)⁻¹ * dec c * dec p.1
       else dec p.1 * dec c * (dec p.1)⁻¹, ⟨dec p.1, ⟨p, hp, rfl⟩, ?_⟩, ?_⟩
     · split_ifs <;> simp
     · rcases hy with rfl | rfl
-      · rw [if_pos rfl, ← hinv p hp, ← dec_mulK, ← dec_mulK, enc_dec (mulK_lt _ _)]
+      · rw [ite_eq_left rfl, ← hinv p hp, ← dec_mulK, ← dec_mulK, enc_dec (mulK_lt _ _)]
       · split_ifs with h
         · rw [← hinv p hp, ← dec_mulK, ← dec_mulK, enc_dec (mulK_lt _ _), h]
         · rw [← hinv p hp, ← dec_mulK, ← dec_mulK, enc_dec (mulK_lt _ _)]
@@ -473,7 +472,7 @@ theorem rep_bfs (gens : List AlpE) (nxtK : ℕ → List ℕ)
       have hne : new ≠ [] := fun h => h0 ((hN.eq_zero_iff).2 h)
       have e2 : bfsStep (bfsM nxtK n) V N = bfsM nxtK n (Nat.lor V N) N := by
         simp only [bfsStep, hb]
-      rw [e2, if_neg (by simpa using hne)]
+      rw [e2, ite_eq_right (by simpa using hne)]
       exact rep_bfs gens nxtK hn n _ _ _ _ (rep_append hV hN) hN
 
 theorem rep_bfsC (gens : List AlpE) (nxtK : ℕ → List ℕ)
@@ -502,7 +501,7 @@ theorem rep_bfsC (gens : List AlpE) (nxtK : ℕ → List ℕ)
       have hne : new ≠ [] := fun h => h0 ((hN.eq_zero_iff).2 h)
       have e2 : bfsStep (bfsM nxtK n) V N = bfsM nxtK n (Nat.lor V N) N := by
         simp only [bfsStep, hb]
-      rw [e2, if_neg (by simpa using hne)]
+      rw [e2, ite_eq_right (by simpa using hne)]
       exact rep_bfsC gens nxtK hn n _ _ _ _ (rep_append hV hN) hN
 
 theorem nodup_step {α : Type*} [DecidableEq α] (vis l : List α) (hv : vis.Nodup) :

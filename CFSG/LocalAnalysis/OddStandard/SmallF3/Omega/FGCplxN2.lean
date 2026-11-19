@@ -20,6 +20,7 @@ open Subgroup CFSG.Blueprint
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem fg_exists_gamma0 {p : V ≃ₗ[ZMod 3] V}
     (hpO : p ∈ TauCeti.QuadraticMap.orthogonalGroup Q) (hpp : ∀ v, p (p v) = -v) :
     ∃ g : ↥(simGroup Q), ∀ v, (g : V ≃ₗ[ZMod 3] V) v = v + p v := by
@@ -48,6 +49,7 @@ theorem fg_exists_gamma0 {p : V ≃ₗ[ZMod 3] V}
   have h : ∀ a : ZMod 3, a + a + 0 = ((-1 : (ZMod 3)ˣ) : ZMod 3) * a := by decide
   exact h _
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem fg_gamma0_pow {p : V ≃ₗ[ZMod 3] V} (hpp : ∀ v, p (p v) = -v) {g : ↥(simGroup Q)}
     (hg : ∀ v, (g : V ≃ₗ[ZMod 3] V) v = v + p v) :
     (∀ v, ((g ^ 2 : ↥(simGroup Q)) : V ≃ₗ[ZMod 3] V) v = -(p v)) ∧
@@ -79,7 +81,7 @@ theorem fg_cent_kn2 (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V = 6
     {A : Subgroup (ProjSim Q)}
     (hAJ : ∀ a ∈ A, ∀ j ∈ J, projSimAct Q a (j : ProjOrth Q) = (j : ProjOrth Q)) :
     Nat.card A ≤ 2 ∨ Nonempty (↥A ≃* Multiplicative (ZMod 4)) := by
-  haveI : Nontrivial V := Module.nontrivial_of_finrank_pos (R := ZMod 3) (by rw [hdim]; norm_num)
+  have : Nontrivial V := Module.nontrivial_of_finrank_pos (R := ZMod 3) (by rw [hdim]; norm_num)
   have hpp : ∀ v, (p : V ≃ₗ[ZMod 3] V) ((p : V ≃ₗ[ZMod 3] V) v) = -v := by
     intro v
     have h1 := congrArg (fun s : OGroup Q => (s : V ≃ₗ[ZMod 3] V) v) hp

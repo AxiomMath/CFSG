@@ -100,7 +100,7 @@ private theorem isElemAbelian_map {G H : Type*} [Group G] [Group H] {p : ℕ} {E
     apply Subtype.ext
     change (u : H) * v = v * u
     have hcomm : (x : G) * y = y * x := by
-      letI : IsMulCommutative E := hc
+      let : IsMulCommutative E := hc
       exact setLike_mul_comm (s := E) hx hy
     rw [← hxu, ← hyv, ← map_mul, ← map_mul, hcomm]
   · obtain ⟨x, hx, rfl⟩ := hz
@@ -192,7 +192,7 @@ private theorem elt_difference_eq_of_eq {i j i' j' : Fin n} (hij : i ≠ j) (hij
   subst hi hj
   rfl
 
-private theorem elt_difference_eq_conj {u v k : Fin n} (huv : u ≠ v) (hku : k ≠ u) (hkv : k ≠ v)
+private theorem elt_difference_eq_conj {u v k : Fin n} (huv : u ≠ v) (_hku : k ≠ u) (hkv : k ≠ v)
     (c : K) :
     elt (.difference u v huv) c =
       permSp K (Equiv.swap k u) * elt (.difference k v hkv) c * (permSp K (Equiv.swap k u))⁻¹ := by
@@ -370,14 +370,14 @@ theorem ggTorusRootGenAvoidKG_statedSp
       rw [sgnAut_apply]
       by_cases hci : c = i
       · subst hci
-        rw [Function.update_self, Pi.mulSingle_eq_same, if_pos rfl]
-      · rw [Function.update_of_ne hci, Pi.mulSingle_eq_same, if_neg hci]
+        rw [Function.update_self, Pi.mulSingle_eq_same, ite_eq_left rfl]
+      · rw [Function.update_of_ne hci, Pi.mulSingle_eq_same, ite_eq_right hci]
     have hsp : ∀ (i : Fin n) (σ : Equiv.Perm (Fin n)), sgnAut i ≠
         (permAut σ : MulAut (Fin n → Multiplicative (ZMod p))) := by
       intro i σ h
       have h1 := congrFun (congrArg (fun φ : MulAut (Fin n → Multiplicative (ZMod p)) =>
         φ (Pi.mulSingle i (ofAdd (1 : ZMod p)))) h) i
-      rw [hsgn, if_pos rfl, permAut_mulSingle, Pi.mulSingle_apply] at h1
+      rw [hsgn, ite_eq_left rfl, permAut_mulSingle, Pi.mulSingle_apply] at h1
       split_ifs at h1
       · exact hginv h1
       · exact hg1 (inv_eq_one.mp h1)
@@ -385,10 +385,10 @@ theorem ggTorusRootGenAvoidKG_statedSp
     · change sgnAut i = sgnAut i' at h
       have h1 := congrFun (congrArg (fun φ : MulAut (Fin n → Multiplicative (ZMod p)) =>
         φ (Pi.mulSingle i (ofAdd (1 : ZMod p)))) h) i
-      rw [hsgn, hsgn, if_pos rfl] at h1
+      rw [hsgn, hsgn, ite_eq_left rfl] at h1
       by_cases hii : i = i'
       · rw [hii]
-      · rw [if_neg hii] at h1
+      · rw [ite_eq_right hii] at h1
         exact absurd h1 hginv
     · exact absurd h (hsp i σ')
     · exact absurd h.symm (hsp i' σ)
@@ -484,14 +484,14 @@ theorem ggTorusRootGenAvoidKG_statedSp
             rw [mem_planeCoords] at hx hy
             rcases x with i | i <;> rcases y with j | j
             · exact absurd ⟨hx, hy⟩ hB
-            · have hfi : f₀ i = ofAdd (1 : ZMod p) := by rw [hf₀]; exact if_pos hx
-              have hfj : f₀ j = ofAdd (1 : ZMod p) := by rw [hf₀]; exact if_pos hy
+            · have hfi : f₀ i = ofAdd (1 : ZMod p) := by rw [hf₀]; exact ite_eq_left hx
+              have hfj : f₀ j = ofAdd (1 : ZMod p) := by rw [hf₀]; exact ite_eq_left hy
               show diagSpEntry (fun k => zmodPowHom hζ (f₀ k)) (Sum.inl i) ≠
                 diagSpEntry (fun k => zmodPowHom hζ (f₀ k)) (Sum.inr j)
               rw [diagSpEntry_inl, diagSpEntry_inr, hfi, hfj, hχg]
               exact h3
-            · have hfi : f₀ i = ofAdd (1 : ZMod p) := by rw [hf₀]; exact if_pos hx
-              have hfj : f₀ j = ofAdd (1 : ZMod p) := by rw [hf₀]; exact if_pos hy
+            · have hfi : f₀ i = ofAdd (1 : ZMod p) := by rw [hf₀]; exact ite_eq_left hx
+              have hfj : f₀ j = ofAdd (1 : ZMod p) := by rw [hf₀]; exact ite_eq_left hy
               show diagSpEntry (fun k => zmodPowHom hζ (f₀ k)) (Sum.inr i) ≠
                 diagSpEntry (fun k => zmodPowHom hζ (f₀ k)) (Sum.inl j)
               rw [diagSpEntry_inr, diagSpEntry_inl, hfi, hfj, hχg]

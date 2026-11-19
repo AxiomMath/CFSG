@@ -29,7 +29,7 @@ theorem lieModel_centerQuotient_of_equiv_SU {G : Type} [Group G] {m : ℕ} {E : 
     {ℓ f : ℕ} (hE : UnitaryFieldData ℓ f E) (hq : 5 ≤ ℓ ^ f) (hm : 3 ≤ m)
     (e : G ≃* ↥(StatedSU m (ℓ ^ f) E)) :
     CFSG.Blueprint.LieModel (G ⧸ Subgroup.center G) .PSU m ℓ f := by
-  haveI := hE.finite
+  have := hE.finite
   have hadm : StatedLieAdmissible .PSU m ℓ f :=
     ⟨hE.prime, hE.one_le, hm, fun hc => by have := congrArg Prod.snd hc; simp only at this; omega⟩
   refine (lieModel_classical_iff (by decide)).mpr ⟨hadm, E, inferInstance, inferInstance,
@@ -47,6 +47,7 @@ variable {ℓ f : ℕ} {K : Type} [Field K] {hK : UnitaryFieldData ℓ f K}
   {V : Type} [AddCommGroup V] [Module K V] [FiniteDimensional K V]
   {B : V →ₛₗ[hK.bar] V →ₗ[K] K} {x : LinearMap.GeneralLinearGroup K V}
 
+omit [FiniteDimensional K V] in
 theorem specialBlock_eq_kerImage {a : K[X]} {Ω : Type*} [Group Ω]
     (φ : orbitFactor B x a ≃* Ω) (ι : Ω →* blockGL (x : Module.End K V) a)
     (D : Ω →* (AdjoinRoot a)ˣ) (hD : ∀ w, D w = blockGLDet (x : Module.End K V) a (ι w))
@@ -118,8 +119,8 @@ theorem not_isLThreeFour_specialBlock_of_good (hO : LieOrderFormulasInput) (hℓ
   have hp2 : ℓ ≠ 2 := by omega
   have hprime : ℓ.Prime := hK.prime
   have hm2 : 2 ≤ primaryMultiplicity (x : Module.End K V) (a : K[X]) := ha.1
-  haveI := hK.finite
-  haveI : Finite (AdjoinRoot (a : K[X])) := Module.finite_of_finite K
+  have := hK.finite
+  have : Finite (AdjoinRoot (a : K[X])) := Module.finite_of_finite K
   have hd : 1 ≤ (a : K[X]).natDegree :=
     Irreducible.natDegree_pos (irreducible_of_mem_primaryFactors a.2)
   have hfd : 1 ≤ f * (a : K[X]).natDegree := Nat.mul_pos hK.one_le hd
@@ -134,7 +135,7 @@ theorem not_isLThreeFour_specialBlock_of_good (hO : LieOrderFormulasInput) (hℓ
         exact this
       obtain ⟨e2⟩ := CFSG.RankThree.Classical.nonempty_sesqSpecialUnitaryGroup_mulEquiv_SL2 hE hHf
         hHfl hV
-      haveI : Finite hE.fixedField := inferInstance
+      have : Finite hE.fixedField := inferInstance
       have hadm : StatedLieAdmissible .PSL 2 ℓ (f * (a : K[X]).natDegree) :=
         ⟨hprime, hfd, le_rfl, fun hc => by have := (Prod.mk.inj hc).2; omega,
           fun hc => by have := (Prod.mk.inj hc).2; omega⟩

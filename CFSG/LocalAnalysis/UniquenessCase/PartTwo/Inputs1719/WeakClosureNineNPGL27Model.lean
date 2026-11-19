@@ -106,7 +106,7 @@ theorem card_pgl2_zmod7 : Nat.card (PGL2 (ZMod 7)) = 336 := by
 theorem G0_le_range : G0 ≤ rho.range := by
   rw [G0, Subgroup.closure_le]
   intro g hg
-  simp only [List.mem_cons, List.not_mem_nil, or_false, Set.mem_setOf_eq] at hg
+  simp only [List.mem_cons, List.not_mem_nil, or_false, Set.mem_ofPred_eq] at hg
   rcases hg with rfl | rfl
   · exact ⟨_, rho_mk mat1 mat1_det g1 act1⟩
   · exact ⟨_, rho_mk mat2 mat2_det g2 act2⟩

@@ -47,9 +47,9 @@ theorem factorization_relIndex_H0_le (H : StrothHyp M Q Z) {f : ℕ} (hf : Nat.c
     · exact h
   let ε : ↥Z ≃ K := e.toEquiv.trans Multiplicative.toAdd
   have hK : Nat.card K = 2 ^ f := (Nat.card_congr ε).symm.trans hf
-  haveI := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
+  have := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
   let c : ↥M →* MulAut ↥Z := Z.normalizerMonoidHom.comp (Subgroup.inclusion hMN)
   let ρ : ↥M →* Equiv.Perm K := ε.permCongrHom.toMonoidHom.comp ((MulAut.toPerm ↥Z).comp c)
   have hρ : ∀ (m : ↥M) (x : K), ρ m x = ε (c m (ε.symm x)) := fun _ _ => rfl
@@ -121,14 +121,14 @@ theorem descendAut_injective_of_two_le {K : Type} [Field K] [Finite K] (hn : 2 �
   have hperf : Group.IsPerfect (SpecialLinearGroup (Fin n) K) := by
     rcases Nat.lt_or_ge n 3 with h3 | h3
     · obtain rfl : n = 2 := by omega
-      haveI : Fintype K := Fintype.ofFinite K
+      have : Fintype K := Fintype.ofFinite K
       have hcard : 4 ≤ (Finset.univ : Finset K).card := by
         rw [Finset.card_univ, ← Nat.card_eq_fintype_card]
         exact h4
       obtain ⟨s, -, hs⟩ := Finset.exists_subset_card_eq (s := Finset.univ) hcard
       exact CFSG.LinearGroups.special_linear_dimension_two_perfect ⟨s, hs⟩
     · exact CFSG.LinearGroups.special_linear_dimension_at_least_three_perfect h3
-  haveI : Group.IsPerfect (SpecialLinearGroup (Fin n) K) := hperf
+  have : Group.IsPerfect (SpecialLinearGroup (Fin n) K) := hperf
   rw [← MonoidHom.ker_eq_bot_iff, eq_bot_iff]
   intro e he
   rw [MonoidHom.mem_ker] at he
@@ -159,6 +159,7 @@ theorem card_outer_projectiveSL_dvd {K : Type} [Field K] {f : ℕ} (hn : 2 ≤ n
       LocalAnalysis.ComponentInitial.UnitaryHigher.higher_linear_outer_order_divides_field_gcd_bound
         Nat.prime_two hf h3 hK
 
+omit [Finite G] in
 theorem _root_.CFSG.RankThree.GF2n.Smith81.LinSetup.centDvdN_two
     (hS : LinSetup M Q Z B n V₁ V₂) :
     CentDvdN 2 M Q Z (Lgen M (LB M Q B)) := by
@@ -267,7 +268,7 @@ private theorem exists_action_ker_le {K : Type} [Field K] [Finite K] (hc : Ctx M
     hNM.trans (Lgen_normalizes M _)
   have hRN : ∀ r ∈ H0 M Z, ∀ x ∈ Q, r * x * r⁻¹ ∈ Q := fun r hr x hx =>
     (Subgroup.mem_normalizer_iff.mp (hc.hyp.Q_normal.2 (hNM hr)) x).mp hx
-  haveI : (Q.subgroupOf (Lgen M (LB M Q B))).Normal := hker ▸ φ.normal_ker
+  have : (Q.subgroupOf (Lgen M (LB M Q B))).Normal := hker ▸ φ.normal_ker
   let act := LocalAnalysis.EvenBN.U5.Lin43Out.outAct (N := Q) hRL hRN
   let e₀ : SpecialLinearGroup (Fin n) K ≃* ↥(StatedSL n K) :=
     (MonoidHom.ofInjective SpecialLinearGroup.toGL_injective).trans
@@ -300,7 +301,7 @@ theorem factorization_card_H0_le_of_centDvdN (hc : Ctx M Q Z B) (hS : LinSetup M
   have hK : Nat.card K = 2 ^ f := hKZ.trans hf
   obtain ⟨Ψ, hkerΨ⟩ := exists_action_ker_le hc hKZ φ hker hrange hn hCmem
   have hcard := Subgroup.card_ker_mul_card_range Ψ
-  haveI : Finite (MulAut (LocalAnalysis.ComponentInitial.LinearFlag.projectiveSL n K)) :=
+  have : Finite (MulAut (LocalAnalysis.ComponentInitial.LinearFlag.projectiveSL n K)) :=
     Finite.of_injective
       (fun α : MulAut (LocalAnalysis.ComponentInitial.LinearFlag.projectiveSL n K) =>
         (α : LocalAnalysis.ComponentInitial.LinearFlag.projectiveSL n K →

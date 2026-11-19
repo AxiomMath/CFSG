@@ -26,7 +26,7 @@ theorem exists_conj_primeFormFieldHom_of_outer (h : UnitaryFieldData p f K) {n :
         (CFSG.LocalAnalysis.ComponentInitial.UnitaryHigher.isPrimeFormGram_one (n := n)) σ *
           g⁻¹ := by
   have hp := h.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hf1 := h.one_le
   have hC : IsPrimeFormGram (1 : GL (Fin n) K) :=
     CFSG.LocalAnalysis.ComponentInitial.UnitaryHigher.isPrimeFormGram_one
@@ -65,8 +65,8 @@ theorem outerCentData_primeFormP (h : UnitaryFieldData p f K) {n : ℕ} (hn : 3 
     (hβ : orderOf β = p)
     (hout : β ∉ innerAut (primeFormP h ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K))) :
     OuterCentData p β := by
-  haveI := h.finite
-  haveI : Finite (primeFormP h ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K)) :=
+  have := h.finite
+  have : Finite (primeFormP h ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K)) :=
     Finite.of_equiv _ (CFSG.LocalAnalysis.unitaryPSUEquivPrimeFormOne h n).toEquiv
   obtain ⟨σ, g, hσ, rfl⟩ := exists_conj_primeFormFieldHom_of_outer h hn hp2 hβ hout
   refine OuterCentData.of_conj h.prime g⁻¹ _ ?_
@@ -90,7 +90,7 @@ theorem outerCentData_twistedA (r : ℕ) (q : TauCeti.PrimePower)
     (hp2 : p ≠ 2) (hpq : p = q.p) {β : MulAut S} (hβ : orderOf β = p) (hout : β ∉ innerAut S) :
     OuterCentData p β := by
   subst hpq
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   obtain ⟨⟨hℓ, hf, hn3, hq⟩, K, _, _, hK, ⟨eT⟩⟩ :=
     CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA r q hv e
   have h : UnitaryFieldData q.p q.exponent K := ⟨hℓ, hf, by rw [hK, ← pow_mul, mul_comm]⟩
@@ -114,19 +114,19 @@ theorem carrier_twistedA (r : ℕ) (q : TauCeti.PrimePower)
     Finite (TauCeti.CFSGIndex.lie ⟨.twistedA r q, hv⟩).Group ∧
       IsSimpleGroup (TauCeti.CFSGIndex.lie ⟨.twistedA r q, hv⟩).Group ∧
       ∃ a b : (TauCeti.CFSGIndex.lie ⟨.twistedA r q, hv⟩).Group, a * b ≠ b * a := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   obtain ⟨⟨hℓ, hf, hn3, hq⟩, K, _, _, hK, ⟨eT⟩⟩ :=
     CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA r q hv (MulEquiv.refl _)
   have h : UnitaryFieldData q.p q.exponent K := ⟨hℓ, hf, by rw [hK, ← pow_mul, mul_comm]⟩
   have hq' : ¬(r + 1 = 3 ∧ q.p ^ q.exponent = 2) := fun h3 => hq (Prod.ext h3.1 h3.2)
-  haveI := h.finite
+  have := h.finite
   let e' : (TauCeti.CFSGIndex.lie ⟨.twistedA r q, hv⟩).Group ≃*
       primeFormP h ((1 : GL (Fin (r + 1)) K) : Matrix (Fin (r + 1)) (Fin (r + 1)) K) :=
     (eT.trans (unitaryPSUEquiv h (by omega)).symm).trans
       (CFSG.LocalAnalysis.unitaryPSUEquivPrimeFormOne h (r + 1))
-  haveI : Finite (primeFormP h ((1 : GL (Fin (r + 1)) K) : Matrix (Fin (r + 1)) (Fin (r + 1)) K)) :=
+  have : Finite (primeFormP h ((1 : GL (Fin (r + 1)) K) : Matrix (Fin (r + 1)) (Fin (r + 1)) K)) :=
     Finite.of_equiv _ (CFSG.LocalAnalysis.unitaryPSUEquivPrimeFormOne h (r + 1)).toEquiv
-  haveI := isSimpleGroup_primeFormP_one h hn3 hq'
+  have := isSimpleGroup_primeFormP_one h hn3 hq'
   refine ⟨Finite.of_equiv _ e'.symm.toEquiv, e'.isSimpleGroup, ?_⟩
   have hnc := not_commute_primeFormP_one h hn3 hq'
   push Not at hnc

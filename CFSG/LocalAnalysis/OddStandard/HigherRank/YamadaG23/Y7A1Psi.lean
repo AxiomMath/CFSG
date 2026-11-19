@@ -13,6 +13,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {A C0 V : Subgroup G} {a₁ b₁ a₂ b₂ z t d : G}
 
+omit [Finite G] in
 theorem y7a_O_eq_Up (h : Y7ACfg A C0 V a₁ b₁ a₂ b₂ z t d) {X : Subgroup G}
     (hX1 : X ≤ normalizer ((A ⊔ C0 : Subgroup G) : Set G)) (hX2 : X ≤ normalizer (V : Set G))
     (hUp : ∀ w ∈ y6Up A V t, w ∈ y7aO X V t)
@@ -28,6 +29,7 @@ theorem y7a_O_eq_Up (h : Y7ACfg A C0 V a₁ b₁ a₂ b₂ z t d) {X : Subgroup 
     · exact h1
   · exact hUp w
 
+omit [Finite G] in
 private lemma y7a_conj_Um (h : Y7ACfg A C0 V a₁ b₁ a₂ b₂ z t d) {X : Subgroup G}
     (hX1 : X ≤ normalizer ((A ⊔ C0 : Subgroup G) : Set G)) (hX2 : X ≤ normalizer (V : Set G))
     (hUp : ∀ w ∈ y6Up A V t, w ∈ y7aO X V t)
@@ -48,6 +50,7 @@ private lemma y7a_conj_Um (h : Y7ACfg A C0 V a₁ b₁ a₂ b₂ z t d) {X : Sub
   · exact h1
   · exact absurd ((y7a_O_eq_Up h hX1 hX2 hUp hUm (x * u * x⁻¹)).mpr h1) hxO
 
+omit [Finite G] in
 private lemma y7a_conj_Up (h : Y7ACfg A C0 V a₁ b₁ a₂ b₂ z t d) {X : Subgroup G}
     (hX1 : X ≤ normalizer ((A ⊔ C0 : Subgroup G) : Set G)) (hX2 : X ≤ normalizer (V : Set G))
     (hUp : ∀ w ∈ y6Up A V t, w ∈ y7aO X V t)

@@ -100,15 +100,15 @@ private theorem bU_sup_bT : bU h ⊔ bT h = ⊤ := by
     Subgroup.subgroupOf_self]
 
 private theorem bU_isComplement' : (bU h).IsComplement' (bT h) := by
-  haveI := bU_normal h
+  have := bU_normal h
   exact Subgroup.isComplement'_of_disjoint_and_mul_eq_univ (bU_disjoint h) (by
     rw [← Subgroup.normal_mul, bU_sup_bT h]
     simp)
 
 private theorem odd_card_hypTorus_u4 : Odd (Nat.card (hypTorus h 2 0)) := by
-  haveI := CFSG.Quasithin.H13.U4Par.finite_hypSU h
+  have := CFSG.Quasithin.H13.U4Par.finite_hypSU h
   have := h.charP
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hodd
   rw [Nat.not_odd_iff_even] at hodd
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 2 (even_iff_two_dvd.mp hodd)
@@ -142,9 +142,9 @@ private theorem preserves_hypUnitriangular_u4 (σ : MulAut ↥(parP h ⊓ parP2 
     (b : ↥(parP h ⊓ parP2 h)) :
     (b : hypSU h 2 0) ∈ hypUnitriangular h 2 0 ↔
       ((σ b : ↥(parP h ⊓ parP2 h)) : hypSU h 2 0) ∈ hypUnitriangular h 2 0 := by
-  haveI := CFSG.Quasithin.H13.U4Par.finite_hypSU h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hn : (bU h).Normal := bU_normal h
+  have := CFSG.Quasithin.H13.U4Par.finite_hypSU h
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hn : (bU h).Normal := bU_normal h
   have hidx : ¬ 2 ∣ (bU h).index := by
     rw [(bU_isComplement' h).symm.index_eq_card]
     exact (odd_card_bT h).not_two_dvd_nat
@@ -152,7 +152,7 @@ private theorem preserves_hypUnitriangular_u4 (σ : MulAut ↥(parP h ⊓ parP2 
   have hS : (S : Subgroup ↥(parP h ⊓ parP2 h)) = bU h := rfl
   have key : ∀ τ : MulAut ↥(parP h ⊓ parP2 h), (bU h).map τ.toMonoidHom ≤ bU h := by
     intro τ
-    haveI : ((bU h).map τ.toMonoidHom).Normal := hn.map τ.toMonoidHom τ.surjective
+    have : ((bU h).map τ.toMonoidHom).Normal := hn.map τ.toMonoidHom τ.surjective
     have hp : IsPGroup 2 ((bU h).map τ.toMonoidHom) := (bU_isPGroup h).map τ.toMonoidHom
     rw [← hS]
     exact hp.le_sylow_of_normal S
@@ -167,8 +167,8 @@ private theorem exists_conj_torus_u4 (σ : MulAut ↥(parP h ⊓ parP2 h)) :
     ∃ e : ↥(parP h ⊓ parP2 h), (e : hypSU h 2 0) ∈ hypUnitriangular h 2 0 ∧
       ∀ b : ↥(parP h ⊓ parP2 h), (b : hypSU h 2 0) ∈ hypTorus h 2 0 ↔
         (((MulAut.conj e * σ) b : ↥(parP h ⊓ parP2 h)) : hypSU h 2 0) ∈ hypTorus h 2 0 := by
-  haveI := CFSG.Quasithin.H13.U4Par.finite_hypSU h
-  haveI : (bU h).Normal := bU_normal h
+  have := CFSG.Quasithin.H13.U4Par.finite_hypSU h
+  have : (bU h).Normal := bU_normal h
   have hσU : (bU h).map σ.toMonoidHom = bU h := by
     ext x
     constructor
@@ -530,7 +530,7 @@ private theorem root_rel_u4 (τ : MulAut ↥(parP h ⊓ parP2 h))
     congr 1
     · ring
     · simp
-    · simp only [map_one, mul_one, one_mul, map_zero, mul_zero, zero_mul, add_zero]
+    · simp only [map_one, mul_one, one_mul, map_zero, mul_zero, add_zero]
       grind
   have e := congrArg (fun w : ↥(parP h ⊓ parP2 h) =>
     ((((τ w : ↥(parP h ⊓ parP2 h)) : hypSU h 2 0) : GL Ix K) : Matrix Ix Ix K) ie2 if1) hw
@@ -556,7 +556,7 @@ theorem exists_stdAut_eq_of_preserves_radQ_u4 (hm : 2 ≤ m)
         ((MulAut.conj (e : hypSU h 2 0)⁻¹ * u4StdAut h d ρ) b : hypSU h 2 0) =
           ((σ b : ↥(parP h ⊓ parP2 h)) : hypSU h 2 0) := by
   have := h.charP
-  haveI := h.finite
+  have := h.finite
   obtain ⟨e, -, hτH⟩ := exists_conj_torus_u4 h σ
   set τ : MulAut ↥(parP h ⊓ parP2 h) := MulAut.conj e * σ
   have hτapp : ∀ b : ↥(parP h ⊓ parP2 h), ((τ b : ↥(parP h ⊓ parP2 h)) : hypSU h 2 0) =

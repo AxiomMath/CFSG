@@ -39,7 +39,7 @@ private theorem k891hcomple_noncentral_three {G : Type} [Group G] [Finite G] {K 
   have hnot := CFSG.HardMathSupport.Malle.E27Lie.not_sylow_le_center_of_perfect hKperf h3 P
   obtain ⟨y, hyP, hyZ⟩ := Set.not_subset.mp hnot
   have hyq : IsPGroup 3 (Subgroup.zpowers y) :=
-    P.isPGroup'.to_le (Subgroup.zpowers_le.mpr hyP)
+    P.isPGroup.to_le (Subgroup.zpowers_le.mpr hyP)
   have hyZ' : ∃ l : ↥K, y * l ≠ l * y := by
     by_contra h
     simp only [not_exists, not_not] at h
@@ -427,7 +427,7 @@ private theorem k891hcomple_X_le_H {G : Type} [Group G] [Finite G] (D : Data G)
     (L S R A : Subgroup G) (n : ℕ) (hn : 2 ≤ n) (_hst : R891State D L S R A n) :
     R891X L (R891Z L S) n ≤ R891H L S := by
   have hn1 : n ≠ 1 := by omega
-  rw [R891X, if_neg hn1]
+  rw [R891X, ite_eq_right hn1]
   exact (Subgroup.map_subtype_le _).trans inf_le_right
 
 private theorem k891hcomple_Z_le_X {G : Type} [Group G] [Finite G] (D : Data G)
@@ -439,7 +439,7 @@ private theorem k891hcomple_X_perfect {G : Type} [Group G] [Finite G] (D : Data 
     (L S R A : Subgroup G) (n : ℕ) (hn : 2 ≤ n) (_hst : R891State D L S R A n) :
     Group.IsPerfect ↥(R891X L (R891Z L S) n) := by
   have hn1 : n ≠ 1 := by omega
-  rw [R891X, if_neg hn1]
+  rw [R891X, ite_eq_right hn1]
   have hperf : Group.IsPerfect ↥((⨅ k : ℕ, derivedSeries
       ↥(L ⊓ Subgroup.centralizer (R891Z L S : Set G)) k) :
         Subgroup ↥(L ⊓ Subgroup.centralizer (R891Z L S : Set G))) :=
@@ -1266,7 +1266,7 @@ private theorem k891hcomple_step6_o2' {E : Type} [Group E] [Finite E]
       (by rw [Subgroup.commutator_comm]; exact hSX.trans (Subgroup.map_subtype_le _))
   have hSbar3 : IsPGroup 3 ((S.subgroupOf K).map (MulAut.conj : ↥K →* MulAut ↥K)) := by
     rw [← hSbar]
-    exact SbarSyl.isPGroup'.map I.subtype
+    exact SbarSyl.isPGroup.map I.subtype
   have hSbar_le_I : (S.subgroupOf K).map (MulAut.conj : ↥K →* MulAut ↥K) ≤ I := by
     rw [← hSbar]
     exact Subgroup.map_subtype_le _
@@ -1311,7 +1311,7 @@ private theorem k891hcomple_step6_o2' {E : Type} [Group E] [Finite E]
   have hdisj : Disjoint ((Q : Subgroup ↥action.range).map action.range.subtype)
       ((CFSG.pCore 2 ↥X).map action) :=
     IsPGroup.disjoint_of_ne 3 2 (by norm_num) _ _
-      (Q.isPGroup'.map action.range.subtype) ((CFSG.pCore_isPGroup (p := 2)).map action)
+      (Q.isPGroup.map action.range.subtype) ((CFSG.pCore_isPGroup (p := 2)).map action)
   have hmap : (Q : Subgroup ↥action.range).map action.range.subtype = ⊥ := by
     rw [← inf_of_le_left hQle]
     exact disjoint_iff.mp hdisj

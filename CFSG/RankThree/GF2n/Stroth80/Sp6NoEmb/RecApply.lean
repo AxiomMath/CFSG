@@ -27,10 +27,10 @@ variable {K : Type} [Field K]
 @[expose] def slotLabel (s : Fin 3) (A : Finset ℕ) : Fin 3 → Finset ℕ :=
   fun t => if t = s then A else ∅
 
-theorem slotLabel_self (s : Fin 3) (A : Finset ℕ) : slotLabel s A s = A := if_pos rfl
+theorem slotLabel_self (s : Fin 3) (A : Finset ℕ) : slotLabel s A s = A := ite_eq_left rfl
 
 theorem slotLabel_of_ne {s t : Fin 3} (h : t ≠ s) (A : Finset ℕ) : slotLabel s A t = ∅ :=
-  if_neg h
+  ite_eq_right h
 
 theorem isLabel_trivLabel {n : ℕ} : IsLabel n trivLabel := fun _ i hi =>
   absurd hi (Finset.notMem_empty i)
@@ -69,10 +69,10 @@ theorem sum_labels_slot_pattern {n b t : ℕ} (hb : b < n) (p : (Fin 3 → Finse
   simp only [add_mul, Finset.sum_mul, Finset.sum_add_distrib, ite_mul, one_mul, zero_mul]
   rw [Finset.sum_comm]
   congr 1
-  · rw [Finset.sum_ite_eq' (labels n) trivLabel, if_pos (mem_labels.mpr isLabel_trivLabel)]
+  · rw [Finset.sum_ite_eq' (labels n) trivLabel, ite_eq_left (mem_labels.mpr isLabel_trivLabel)]
   · refine Finset.sum_congr rfl fun s _ => ?_
     rw [Finset.sum_ite_eq' (labels n) (slotLabel s {b}),
-      if_pos (mem_labels.mpr (isLabel_slotLabel hb' s))]
+      ite_eq_left (mem_labels.mpr (isLabel_slotLabel hb' s))]
 
 variable [CharP K 2]
 
@@ -92,6 +92,7 @@ theorem cubeRep_slot_eq_one {J : Fin 3 → Finset ℕ} {s : Fin 3} (h : J s = �
     · rw [slot_apply_of_ne ht, map_one]
   rw [cubeRep_apply, h1 0, h1 1, h1 2, TensorProduct.map_one, TensorProduct.map_one]
 
+omit [CharP K 2] in
 theorem slotEmb_injective (J : Fin 3 → Finset ℕ) (s : Fin 3) :
     Function.Injective (slotEmb (K := K) J s) := by
   rw [← LinearMap.ker_eq_bot, LinearMap.ker_eq_bot']
@@ -102,6 +103,7 @@ theorem slotEmb_injective (J : Fin 3 → Finset ℕ) (s : Fin 3) :
   · exact tmul_ne_zero_of_ne_zero (e0_ne_zero _) (tmul_ne_zero_of_ne_zero hne (e0_ne_zero _)) hx
   · exact tmul_ne_zero_of_ne_zero (e0_ne_zero _) (tmul_ne_zero_of_ne_zero (e0_ne_zero _) hne) hx
 
+omit [CharP K 2] in
 theorem slotEmb_bijective {J : Fin 3 → Finset ℕ} {s : Fin 3} (h : ∀ t, t ≠ s → J t = ∅) :
     Function.Bijective (slotEmb (K := K) J s) := by
   refine ⟨slotEmb_injective J s, ?_⟩
@@ -130,7 +132,7 @@ omit [CharP K 2] in
 theorem averageMap_eq_smul_sum (ρ : Representation K Γ V) (v : V) :
     ρ.averageMap v = ⅟(Fintype.card Γ : K) • ∑ g, ρ g v := by
   rw [Representation.averageMap, GroupAlgebra.average, map_smul, map_sum]
-  simp [Representation.asAlgebraHom_of]
+  simp
 
 omit [CharP K 2] in
 theorem quotient_averageMap_mk (ρ : Representation K Γ V) (U : Subrepresentation ρ) (v : V) :
@@ -141,6 +143,7 @@ theorem quotient_averageMap_mk (ρ : Representation K Γ V) (U : Subrepresentati
   rfl
 
 omit [CharP K 2] in
+omit [Invertible (Fintype.card Γ : K)] [Fintype Γ] in
 theorem finrank_invariants_congr {ρ : Representation K Γ V} {σ : Representation K Γ W}
     (e : ρ.Equiv σ) : finrank K ρ.invariants = finrank K σ.invariants := by
   have hmap : ρ.invariants.map e.toLinearEquiv.toLinearMap = σ.invariants := by
@@ -237,9 +240,11 @@ end Comp
 @[expose] noncomputable def torusTwo {l m : Fin 3} (hlm : l ≠ m) : Kˣ × Kˣ →* Cube K :=
   (torusOne l).noncommCoprod (torusOne m) fun _ _ => Pi.mulSingle_commute hlm _ _
 
+omit [CharP K 2] in
 theorem torusTwo_apply {l m : Fin 3} (hlm : l ≠ m) (c : Kˣ × Kˣ) :
     torusTwo hlm c = torusOne l c.1 * torusOne m c.2 := rfl
 
+omit [CharP K 2] in
 theorem torusOne_apply (l : Fin 3) (c : Kˣ) : torusOne l c = slot K l (dElt c) := rfl
 
 variable [Fintype K] [DecidableEq K]
@@ -256,11 +261,11 @@ theorem card_units_cast [CharP K 2] {n : ℕ} (hK : Fintype.card K = 2 ^ n) (hn 
   push_cast
   rw [CharTwo.two_eq_zero, zero_mul, zero_add]
 
-@[expose] noncomputable abbrev invertibleCardUnits {n : ℕ} (hK : Fintype.card K = 2 ^ n)
+noncomputable abbrev invertibleCardUnits {n : ℕ} (hK : Fintype.card K = 2 ^ n)
     (hn : 1 ≤ n) : Invertible (Fintype.card Kˣ : K) :=
   invertibleOfNonzero (by rw [card_units_cast hK hn]; exact one_ne_zero)
 
-@[expose] noncomputable abbrev invertibleCardUnitsProd {n : ℕ} (hK : Fintype.card K = 2 ^ n)
+noncomputable abbrev invertibleCardUnitsProd {n : ℕ} (hK : Fintype.card K = 2 ^ n)
     (hn : 1 ≤ n) : Invertible (Fintype.card (Kˣ × Kˣ) : K) :=
   invertibleOfNonzero (by
     rw [Fintype.card_prod, Nat.cast_mul, card_units_cast hK hn, mul_one]
@@ -270,7 +275,7 @@ theorem frobTensor_dElt_fixed_eq_zero (hK3 : 3 ≤ Fintype.card K) {A : Finset �
     (hA : A = {b}) {x : (A → Fin 2) → K} (hx : ∀ c : Kˣ, frobTensor K K A (dElt c) x = x) :
     x = 0 := by
   subst hA
-  haveI : Unique ↥({b} : Finset ℕ) :=
+  have : Unique ↥({b} : Finset ℕ) :=
     { default := ⟨b, Finset.mem_singleton_self b⟩
       uniq := fun y => Subtype.ext (Finset.mem_singleton.mp y.2) }
   have frob : ∀ z : K, z ^ 2 ^ b = 1 → z = 1 := fun z hz => by
@@ -328,6 +333,7 @@ theorem frobTensor_dElt_fixed_eq_zero (hK3 : 3 ≤ Fintype.card K) {A : Finset �
     [AddCommGroup V] [Module K V] (ρ : Representation K (Cube K) V) : ℕ :=
   finrank K (Representation.invariants (ρ.comp α))
 
+omit [CharP K 2] [Fintype K] [DecidableEq K] in
 theorem fixDim_eq_finrank_of_trivial {Γ : Type} [Group Γ] (α : Γ →* Cube K) {V : Type}
     [AddCommGroup V] [Module K V] (ρ : Representation K (Cube K) V) (h : ∀ g, ρ (α g) = 1) :
     fixDim α ρ = finrank K V := by
@@ -360,6 +366,7 @@ theorem fixDim_torusOne_slotLabel_self (hK3 : 3 ≤ Fintype.card K) (l : Fin 3) 
   have := frobTensor_dElt_fixed_eq_zero hK3 (slotLabel_self l {b}) hx
   rw [← e.toLinearEquiv.apply_symm_apply v, this, LinearEquiv.map_zero]
 
+omit [Fintype K] [DecidableEq K] in
 theorem fixDim_torusOne_slotLabel_of_ne {l s : Fin 3} (h : l ≠ s) (b : ℕ) :
     fixDim (torusOne l) (cubeRep K (slotLabel s {b})) = 2 := by
   rw [fixDim_eq_finrank_of_trivial _ _ fun c => by
@@ -374,12 +381,14 @@ theorem fixDim_torusOne_slotLabel (hK3 : 3 ≤ Fintype.card K) (l s : Fin 3) (b 
     exact fixDim_torusOne_slotLabel_self hK3 s b
   · exact fixDim_torusOne_slotLabel_of_ne (Ne.symm h) b
 
+omit [Fintype K] [DecidableEq K] in
 theorem fixDim_torusOne_triv (l : Fin 3) : fixDim (torusOne l) (cubeRep K trivLabel) = 1 := by
   rw [fixDim_eq_finrank_of_trivial _ _ fun c => by
       rw [torusOne_apply]; exact cubeRep_slot_eq_one (J := trivLabel) (s := l) rfl _,
     finrank_cubeRep]
   simp [trivLabel]
 
+omit [Fintype K] [DecidableEq K] [CharP K 2] in
 theorem fixDim_torusTwo_le {l m : Fin 3} (hlm : l ≠ m) {V : Type} [AddCommGroup V] [Module K V]
     [Module.Finite K V] (ρ : Representation K (Cube K) V) :
     fixDim (torusTwo hlm) ρ ≤ fixDim (torusOne l) ρ ∧ fixDim (torusTwo hlm) ρ ≤ fixDim (torusOne m) ρ := by
@@ -409,6 +418,7 @@ theorem fixDim_torusTwo_slotLabel (hK3 : 3 ≤ Fintype.card K) {l m s : Fin 3} (
         cubeRep_slot_eq_one (slotLabel_of_ne (Ne.symm h.1) _),
         cubeRep_slot_eq_one (slotLabel_of_ne (Ne.symm h.2) _), mul_one]
 
+omit [Fintype K] [DecidableEq K] in
 theorem fixDim_torusTwo_triv {l m : Fin 3} (hlm : l ≠ m) :
     fixDim (torusTwo hlm) (cubeRep K trivLabel) = 1 := by
   rw [fixDim_eq_finrank_of_trivial _ _ fun c => ?_, finrank_cubeRep]
@@ -419,30 +429,33 @@ theorem fixDim_torusTwo_triv {l m : Fin 3} (hlm : l ≠ m) :
 
 variable {n : ℕ}
 
+omit [DecidableEq K] in
 theorem sum_pat_fixDim (hK : Fintype.card K = 2 ^ n) {Γ : Type} [Group Γ] [Fintype Γ]
     [Invertible (Fintype.card Γ : K)] (α : Γ →* Cube K) {V : Type} [AddCommGroup V] [Module K V]
     [Module.Finite K V] (ρ : Representation K (Cube K) V) :
     fixDim α ρ = ∑ J ∈ labels n, pat ρ J * fixDim α (cubeRep K J) :=
   sum_pat hK (fun {V} _ _ _ ρ => fixDim α ρ)
     (fun {V} _ _ _ ρ hsub => by
-      haveI := hsub
+      have := hsub
       exact finrank_zero_of_subsingleton)
     (fun {V W} _ _ _ _ _ _ ρ σ e => finrank_invariants_congr (equivComp e α))
     (fun {V} _ _ _ ρ U => finrank_invariants_eq_add (ρ.comp α) (subComp U α))
     ρ
 
+omit [DecidableEq K] in
 theorem sum_pat_nontrivCount (hK : Fintype.card K = 2 ^ n) (s : Fin 3) {V : Type}
     [AddCommGroup V] [Module K V] [Module.Finite K V] (ρ : Representation K (Cube K) V) :
     nontrivCount (ρ.comp (slot K s)) =
       ∑ J ∈ labels n, pat ρ J * nontrivCount ((cubeRep K J).comp (slot K s)) :=
   sum_pat hK (fun {V} _ _ _ ρ => nontrivCount (ρ.comp (slot K s)))
     (fun {V} _ _ _ ρ hsub => by
-      haveI := hsub
+      have := hsub
       exact nontrivCount_of_subsingleton _)
     (fun {V W} _ _ _ _ _ _ ρ σ e => nontrivCount_congr (equivComp e (slot K s)))
     (fun {V} _ _ _ ρ U => nontrivCount_sub_quot (ρ.comp (slot K s)) (subComp U (slot K s)))
     ρ
 
+omit [DecidableEq K] in
 theorem sum_pat_trivMult (hK : Fintype.card K = 2 ^ n) (s : Fin 3) {V : Type}
     [AddCommGroup V] [Module K V] [Module.Finite K V] (ρ : Representation K (Cube K) V) :
     repMultiplicity (ρ.comp (slot K s)) (Representation.trivial K SL(2, K) K) =
@@ -451,7 +464,7 @@ theorem sum_pat_trivMult (hK : Fintype.card K = 2 ^ n) (s : Fin 3) {V : Type}
   sum_pat hK (fun {V} _ _ _ ρ =>
       repMultiplicity (ρ.comp (slot K s)) (Representation.trivial K SL(2, K) K))
     (fun {V} _ _ _ ρ hsub => by
-      haveI := hsub
+      have := hsub
       have : Subsingleton (Representation.asModule (ρ.comp (slot K s))) :=
         inferInstanceAs (Subsingleton V)
       rw [repMultiplicity, compositionMultiplicity_of_subsingleton])
@@ -459,15 +472,18 @@ theorem sum_pat_trivMult (hK : Fintype.card K = 2 ^ n) (s : Fin 3) {V : Type}
     (fun {V} _ _ _ ρ U => repMultiplicity_sub_quot (ρ.comp (slot K s)) (subComp U (slot K s)) _)
     ρ
 
+omit [Fintype K] [DecidableEq K] in
 theorem nontrivCount_slot_of_eq_empty {J : Fin 3 → Finset ℕ} {s : Fin 3} (h : J s = ∅) :
     nontrivCount ((cubeRep K J).comp (slot K s)) = 0 :=
   nontrivCount_eq_zero_of_trivial _ fun g => cubeRep_slot_eq_one h g
 
+omit [Fintype K] [DecidableEq K] in
 theorem trivMult_slot_of_eq_empty {J : Fin 3 → Finset ℕ} {s : Fin 3} (h : J s = ∅) :
     repMultiplicity ((cubeRep K J).comp (slot K s)) (Representation.trivial K SL(2, K) K) =
       finrank K (CubeSpace K J) :=
   repMultiplicity_trivial_of_trivial _ fun g => cubeRep_slot_eq_one h g
 
+omit [Fintype K] [DecidableEq K] in
 theorem not_equiv_trivial_frobTensor {A : Finset ℕ} (hA : A.Nonempty) :
     ¬ Nonempty ((frobTensor K K A).Equiv (Representation.trivial K SL(2, K) K)) := by
   rintro ⟨e⟩
@@ -478,16 +494,18 @@ theorem not_equiv_trivial_frobTensor {A : Finset ℕ} (hA : A.Nonempty) :
       _ ≤ 2 ^ A.card := Nat.pow_le_pow_right (by norm_num) (Finset.card_pos.mpr hA)
   omega
 
+omit [DecidableEq K] in
 theorem nontrivCount_slot_slotLabel (hK : Fintype.card K = 2 ^ n) {b : ℕ} (hb : b < n)
     (s : Fin 3) : nontrivCount ((cubeRep K (slotLabel s {b})).comp (slot K s)) = 1 := by
   rw [← nontrivCount_congr (slotEquiv (K := K) (slotLabel_other (s := s) {b}))]
   have hJ : ∀ i ∈ slotLabel s {b} s, i < n := by
     rw [slotLabel_self]
     exact fun i hi => (Finset.mem_singleton.mp hi) ▸ hb
-  rw [nontrivCount_of_isIrreducible _ (frobTensor_isIrreducible hK hJ), if_neg]
+  rw [nontrivCount_of_isIrreducible _ (frobTensor_isIrreducible hK hJ), ite_eq_right]
   rw [slotLabel_self]
   exact not_equiv_trivial_frobTensor (Finset.singleton_nonempty b)
 
+omit [DecidableEq K] in
 theorem trivMult_slot_slotLabel (hK : Fintype.card K = 2 ^ n) {b : ℕ} (hb : b < n)
     (s : Fin 3) : repMultiplicity ((cubeRep K (slotLabel s {b})).comp (slot K s))
       (Representation.trivial K SL(2, K) K) = 0 := by
@@ -495,7 +513,7 @@ theorem trivMult_slot_slotLabel (hK : Fintype.card K = 2 ^ n) {b : ℕ} (hb : b 
   have hJ : ∀ i ∈ slotLabel s {b} s, i < n := by
     rw [slotLabel_self]
     exact fun i hi => (Finset.mem_singleton.mp hi) ▸ hb
-  rw [repMultiplicity_of_isIrreducible (frobTensor_isIrreducible hK hJ), if_neg]
+  rw [repMultiplicity_of_isIrreducible (frobTensor_isIrreducible hK hJ), ite_eq_right]
   rw [slotLabel_self]
   exact not_equiv_trivial_frobTensor (Finset.singleton_nonempty b)
 
@@ -503,6 +521,7 @@ section Trivial
 
 variable {Y : Type} [AddCommGroup Y] [Module K Y]
 
+omit [DecidableEq K] in
 theorem trivial_of_slot0_trivial (hK3 : 3 ≤ Fintype.card K)
     {ρ : Representation K (StatedSp 3 K) Y} (h : ∀ g : SL(2, K), ρ (slotSL 0 g) = 1) :
     ∀ g, ρ g = 1 := by
@@ -526,6 +545,7 @@ theorem trivial_of_slot0_trivial (hK3 : 3 ≤ Fintype.card K)
   intro g
   exact MonoidHom.mem_ker.mp (hS ▸ Subgroup.mem_top g)
 
+omit [DecidableEq K] in
 theorem trivial_of_pat_trivial (hK : Fintype.card K = 2 ^ n) (hn : 2 ≤ n) [Module.Finite K Y]
     {ρ : Representation K (StatedSp 3 K) Y}
     (h : ∀ J, IsLabel n J → J ≠ trivLabel → pat (ρ.comp block) J = 0) : ∀ g, ρ g = 1 := by
@@ -545,6 +565,7 @@ theorem trivial_of_pat_trivial (hK : Fintype.card K = 2 ^ n) (hn : 2 ≤ n) [Mod
     (CFSG.ClassicalInvolution.sl2_isPerfect (by rw [Nat.card_eq_fintype_card]; omega)).commutator_eq_top
   exact trivial_of_slot0_trivial (by omega) (trivial_of_nontrivCount_eq_zero hperf _ h0)
 
+omit [CharP K 2] [Fintype K] [DecidableEq K] in
 theorem finrank_eq_one_of_trivial [FiniteDimensional K Y] {G : Type} [Group G]
     {ρ : Representation K G Y} (hirr : ρ.IsIrreducible) (h : ∀ g, ρ g = 1) : finrank K Y = 1 := by
   obtain ⟨e⟩ := equiv_trivial_of_trivial_isIrreducible ρ hirr h
@@ -606,7 +627,7 @@ theorem slot_pattern_eq_zero (hK : Fintype.card K = 2 ^ n) (hn : 2 ≤ n)
         rwa [MonoidHom.comp_apply, torusTwo_apply, map_one, one_mul] at this
   have hdimOne : ∀ l, finrank K (fixT ρ l) = t + 4 := by
     intro l
-    haveI := invertibleCardUnits hK hn1
+    have := invertibleCardUnits hK hn1
     rw [hfixOne l]
     change fixDim (torusOne l) ρH = t + 4
     rw [sum_pat_fixDim hK (torusOne l) ρH, sum_labels_slot_pattern hb _ hpat,
@@ -615,7 +636,7 @@ theorem slot_pattern_eq_zero (hK : Fintype.card K = 2 ^ n) (hn : 2 ≤ n)
     fin_cases l <;> simp [Fin.sum_univ_three]
   have hdimTwo : ∀ {l m : Fin 3} (hlm : l ≠ m), finrank K ↥(fixT ρ l ⊓ fixT ρ m) = t + 2 := by
     intro l m hlm
-    haveI := invertibleCardUnitsProd hK hn1
+    have := invertibleCardUnitsProd hK hn1
     rw [hfixTwo hlm]
     change fixDim (torusTwo hlm) ρH = t + 2
     rw [sum_pat_fixDim hK (torusTwo hlm) ρH, sum_labels_slot_pattern hb _ hpat,

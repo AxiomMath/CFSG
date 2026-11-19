@@ -17,7 +17,7 @@ private theorem cSideShape_baseEmb_fst {p : ℕ} (hp : p = 3 ∨ p = 5)
     {x : alternatingGroup (Fin 5)} (hx : orderOf x = p) :
     IsShapeZpTimesA5 p
       ↥(Subgroup.centralizer ({A5WrTwo.baseEmb (x, 1)} : Set A5WrTwo)) := by
-  haveI : Finite A5WrTwo :=
+  have : Finite A5WrTwo :=
     Nat.finite_of_card_ne_zero (by rw [cSideShape_natCard_A5WrTwo]; norm_num)
   have hCx' : Nat.card ↥(Subgroup.centralizer
       ({x} : Set (alternatingGroup (Fin 5)))) = p := cSideShape_card_centralizer_a5 hp hx
@@ -75,7 +75,7 @@ private theorem cSideShape_baseEmb_same {p : ℕ} (hp : p = 3 ∨ p = 5)
     {x : alternatingGroup (Fin 5)} (hx : orderOf x = p) :
     IsShapeZpWrTwo p
       ↥(Subgroup.centralizer ({A5WrTwo.baseEmb (x, x)} : Set A5WrTwo)) := by
-  haveI : Finite A5WrTwo :=
+  have : Finite A5WrTwo :=
     Nat.finite_of_card_ne_zero (by rw [cSideShape_natCard_A5WrTwo]; norm_num)
   have hCx' : Nat.card ↥(Subgroup.centralizer
       ({x} : Set (alternatingGroup (Fin 5)))) = p := cSideShape_card_centralizer_a5 hp hx
@@ -104,7 +104,7 @@ private theorem cSideShape_baseEmb_same {p : ℕ} (hp : p = 3 ∨ p = 5)
           · dsimp only [κ]
             simp [map_mul]
           · dsimp only [κ]
-            simp [cSideShape_sigma_ne_one, cSideShape_sigma_inv, cSideShape_sigma_mul_self, map_mul]
+            simp [cSideShape_sigma_inv, cSideShape_sigma_mul_self, map_mul]
         have hcomm : cSideShape_t r * A5WrTwo.baseEmb (κ (g 1), κ (g (Multiplicative.ofAdd 1))) =
             A5WrTwo.baseEmb (if r = 1 then (κ (g 1), κ (g (Multiplicative.ofAdd 1)))
               else (κ (g (Multiplicative.ofAdd 1)), κ (g 1))) * cSideShape_t r :=
@@ -218,7 +218,7 @@ theorem cSide_shape_one_coord {p : ℕ} (hp : p = 3 ∨ p = 5) {x : alternatingG
   ⟨cSideShape_baseEmb_fst hp hx, cSideShape_baseEmb_snd hp hx⟩
 
 theorem cSide_shape_conj {p : ℕ} (hp : p = 3 ∨ p = 5) {x y : alternatingGroup (Fin 5)}
-    (hx : orderOf x = p) (hy : orderOf y = p) (hxy : IsConj x y) :
+    (hx : orderOf x = p) (_hy : orderOf y = p) (hxy : IsConj x y) :
     IsShapeZpWrTwo p ↥(Subgroup.centralizer ({A5WrTwo.baseEmb (x, y)} : Set A5WrTwo)) := by
   obtain ⟨e⟩ := cSideShape_baseEmb_same hp hx
   obtain ⟨c, hc⟩ := isConj_iff.mp hxy

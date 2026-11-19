@@ -18,6 +18,7 @@ structure GluedSwap (X A : Subgroup (MulAut Y)) (U U' : Subgroup Y) : Prop where
   mem : A ∈ QhatStar X
   swaps : ¬ A ≤ stabSub U
 
+omit [Finite Y] in
 theorem triple_comm_eq_one {A : Subgroup (MulAut Y)} (h3 : commSeries A 3 = ⊥)
     {g₁ g₂ g₃ : MulAut Y} (h₁ : g₁ ∈ A) (h₂ : g₂ ∈ A) (h₃ : g₃ ∈ A) (y : Y) :
     g₃ (g₂ (g₁ y * y⁻¹) * (g₁ y * y⁻¹)⁻¹) = g₂ (g₁ y * y⁻¹) * (g₁ y * y⁻¹)⁻¹ := by
@@ -31,6 +32,7 @@ theorem triple_comm_eq_one {A : Subgroup (MulAut Y)} (h3 : commSeries A 3 = ⊥)
   rw [h3, Subgroup.mem_bot, mul_inv_eq_one] at e3
   exact e3
 
+omit [Finite Y] in
 theorem commSeries_three_eq_bot_of_forall {R : Subgroup (MulAut Y)}
     (h : ∀ g₁ ∈ R, ∀ g₂ ∈ R, ∀ g₃ ∈ R, ∀ y : Y,
       g₃ (g₂ (g₁ y * y⁻¹) * (g₁ y * y⁻¹)⁻¹) = g₂ (g₁ y * y⁻¹) * (g₁ y * y⁻¹)⁻¹) :
@@ -59,6 +61,7 @@ theorem commSeries_three_eq_bot_of_forall {R : Subgroup (MulAut Y)}
       ac_rfl
     rw [e, map_inv, ha]
 
+omit [Finite Y] in
 theorem mulAut_eq_of_eqOn_sup {U U' : Subgroup Y} (hsup : U ⊔ U' = ⊤) {g h : MulAut Y}
     (h1 : ∀ u ∈ U, g u = h u) (h2 : ∀ u ∈ U', g u = h u) : g = h := by
   ext y
@@ -216,10 +219,11 @@ end GluedSwap
     rintro l ⟨hl, b, hb, h⟩
     refine ⟨L₀.inv_mem hl, b⁻¹, (A ⊓ stabSub U).inv_mem hb, fun u hu => ?_⟩
     have hw : b⁻¹ u ∈ U := ((stabSub U).inv_mem hb.2 u).mpr hu
-    have h1 : l (b⁻¹ u) = u := by rw [← h _ hw]; simp [MulAut.mul_apply]
-    calc b⁻¹ u = l⁻¹ (l (b⁻¹ u)) := by simp [MulAut.mul_apply]
+    have h1 : l (b⁻¹ u) = u := by rw [← h _ hw]; simp
+    calc b⁻¹ u = l⁻¹ (l (b⁻¹ u)) := by simp
       _ = l⁻¹ u := by rw [h1]
 
+omit [Finite Y] in
 theorem glueDiagSub_le {L₀ A : Subgroup (MulAut Y)} {U : Subgroup Y} : glueDiagSub L₀ A U ≤ L₀ :=
   fun _ hl => hl.1
 
@@ -246,7 +250,7 @@ theorem commModSub_lt (h : GluedSwap X A U U') (hY : ∀ y : Y, y ^ 2 = 1) :
 variable {L₀ : Subgroup (MulAut Y)}
 
 theorem diag_comm (h : GluedSwap X A U U') (hL₀ : ∀ l ∈ L₀, ∀ u ∈ U', l u = u)
-    (hdiag : ∀ b ∈ A ⊓ stabSub U, ∃ l ∈ L₀, ∀ u ∈ U, b u = l u)
+    (_hdiag : ∀ b ∈ A ⊓ stabSub U, ∃ l ∈ L₀, ∀ u ∈ U, b u = l u)
     {l₁ l₂ : MulAut Y} (h₁ : l₁ ∈ glueDiagSub L₀ A U) (h₂ : l₂ ∈ glueDiagSub L₀ A U) :
     l₁ * l₂ = l₂ * l₁ := by
   obtain ⟨hl₁, b₁, hb₁, e₁⟩ := h₁
@@ -321,7 +325,7 @@ theorem rk_le_diagSub (h : GluedSwap X A U U')
         rw [hφ2 b b.2 u hu, hφ2 b' b'.2 u hu, hφeq]
       have : ((b : MulAut Y)⁻¹ * b') u = u := by
         rw [MulAut.mul_apply, ← hbu]
-        simp [MulAut.mul_apply]
+        simp
       rw [this, mul_inv_cancel]
       exact (U ⊓ U').one_mem
     exact Subtype.ext (inv_mul_eq_one.mp h1')
@@ -335,7 +339,7 @@ theorem diag_isElemAbelian2 (h : GluedSwap X A U U') (hL₀ : ∀ l ∈ L₀, �
     IsElemAbelian2 (glueDiagSub L₀ A U) :=
   ⟨fun _ h₁ _ h₂ => h.diag_comm hL₀ hdiag h₁ h₂, fun _ hl => h.diag_sq hL₀ hl⟩
 
-theorem diag_arith {u uh d g k k₀ N I₀ : ℕ} (hd1 : d ≤ g) (hg : g ≤ uh) (hdu : d < uh)
+theorem diag_arith {u uh d g k k₀ N I₀ : ℕ} (hd1 : d ≤ g) (_hg : g ≤ uh) (hdu : d < uh)
     (huh : uh < u) (hk : 0 < k) (hkk : k ≤ k₀) (hlow : 2 * u ≤ N + d + uh)
     (hN : N ≤ 2 * (k + 1)) (hI : I₀ + g ≤ u) (hcmp : N * k₀ ≤ I₀ * (k + 1)) :
     k * (u - uh) + (k + 1) * (g - d) ≤ u - d ∧ (u - uh) + (u - d) ≤ 2 * k + 2 ∧
@@ -451,7 +455,7 @@ theorem diag_bound (h : GluedSwap X A U U') (hY : ∀ y : Y, y ^ 2 = 1)
           rw [hφ2 b b.2 u hu, hφ2 b' b'.2 u hu, hφeq]
         have : ((b : MulAut Y)⁻¹ * b') u = u := by
           rw [MulAut.mul_apply, ← hbu]
-          simp [MulAut.mul_apply]
+          simp
         rw [this, mul_inv_cancel]
         exact (U ⊓ U').one_mem
       exact Subtype.ext (inv_mul_eq_one.mp h1')

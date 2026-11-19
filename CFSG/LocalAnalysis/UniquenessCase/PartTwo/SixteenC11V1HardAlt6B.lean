@@ -29,7 +29,7 @@ private theorem s16c11_v1_symCore_six_self :
       x ∈ (⊥ : Subgroup ↥(G6.coreMod 6))
     rw [Subgroup.mem_subgroupOf, Subgroup.mem_bot, Subgroup.mem_bot]
     exact ⟨fun h => Subtype.ext h, fun h => congrArg Subtype.val h⟩
-  haveI : N.Normal := by rw [hN]; infer_instance
+  have : N.Normal := by rw [hN]; infer_instance
   refine ⟨(G6.coreAct 6).rangeRestrict, MonoidHom.rangeRestrict_surjective _, bot_le, bot_le,
     (fun h u _ => Subgroup.mem_top ((h : MulAut ↥(G6.coreMod 6)) u)), (fun _ z hz => ?_),
     (fun γ m hm => G6.permAct_mem_coreMod γ hm), (fun γ m hm => ?_), ?_⟩

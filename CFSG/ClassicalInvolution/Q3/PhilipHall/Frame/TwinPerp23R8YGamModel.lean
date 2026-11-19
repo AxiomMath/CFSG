@@ -56,7 +56,7 @@ theorem perm_ne_of_sq_eq_zOf {ι : Fin 4 ↪ Fin 5} {a : Wr 5} (ha : a * a = zOf
   have e : a.perm.symm s = s := by
     rw [Equiv.symm_apply_eq]
     exact hfix.symm
-  rw [e, if_pos hs, zmod_two_add_self] at h1
+  rw [e, ite_eq_left hs, zmod_two_add_self] at h1
   exact absurd h1 (by decide)
 
 theorem perm_eq_of_conj_comm {ι : Fin 4 ↪ Fin 5} {p : Fin 5} (hp : p ∉ Set.range ι)
@@ -111,15 +111,15 @@ theorem perm_eq_of_conj_comm {ι : Fin 4 ↪ Fin 5} {p : Fin 5} (hp : p ∉ Set.
     have hsyms : ∀ j, a₁.perm.symm j = s ↔ j = a₁.perm s := fun j => by
       rw [Equiv.symm_apply_eq]
     have hds : d s = 1 := by
-      simp only [hd, hsymp, hsyms, hps.symm, hσ₁s.symm, if_true, if_false]
+      simp only [hd, hsymp, hsyms, hps.symm, hσ₁s.symm, ite_true, ite_false]
       decide
     have hdσ : d (a₂.perm s) = if a₂.perm s = a₁.perm s then 1 else 0 := by
-      simp only [hd, hsymp, hsyms, hσ₂p, hσ₂s, if_true, if_false]
+      simp only [hd, hsymp, hsyms, hσ₂p, hσ₂s, ite_false]
       ring
     rw [hdσ, hds] at hinv
     by_contra hne
     have hne' : ¬ a₂.perm s = a₁.perm s := fun h => hne h.symm
-    rw [if_neg hne'] at hinv
+    rw [ite_eq_right hne'] at hinv
     exact absurd hinv (by decide)
   · rw [(h₁ x hx).2, (h₂ x hx).2]
 
@@ -133,7 +133,7 @@ theorem exists_pair_of_weight_two {p : Fin 5} {w : Fin 5 → ZMod 2} (hwp : w p 
     intro y
     by_cases h : w y = 1
     · simp [hS, h]
-    · simp [hS, h, hz _ h]
+    · simp [hS, hz _ h]
   have hpS : p ∉ S := by simp [hS, hwp]
   have hcard : (S.card : ZMod 2) = 0 := by
     have : ∑ y, w y = (S.card : ZMod 2) := by
@@ -201,9 +201,9 @@ theorem exists_embed_w0 {ι₀ : Fin 4 ↪ Fin 5} {p : Fin 5} (hp : ∀ y, y ∈
     beta_reduce
     by_cases hy : y = p
     · have hyn : y ∉ Set.range ι₀ := fun h' => (hp y).mp h' hy
-      rw [if_neg hyn, if_pos hy]
+      rw [ite_eq_right hyn, ite_eq_left hy]
     · have hyr : y ∈ Set.range ι₀ := (hp y).mpr hy
-      rw [if_pos hyr, if_neg hy]
+      rw [ite_eq_left hyr, ite_eq_right hy]
   obtain ⟨q, r, hqr, hqp, hrp, hval⟩ := exists_pair_of_weight_two hwp hw hne0 hneind
   obtain ⟨s, s', hss', hsp, hsq, hsr, hs'p, hs'q, hs'r⟩ :=
     exists_two_others p q r (Ne.symm hqp) (Ne.symm hrp) hqr
@@ -234,9 +234,9 @@ theorem exists_embed_w0 {ι₀ : Fin 4 ↪ Fin 5} {p : Fin 5} (hp : ∀ y, y ∈
     rw [hval y]
     have h01 : (y = q ∨ y = r) ↔ (y = ι 0 ∨ y = ι 1) := Iff.rfl
     by_cases hy : y = q ∨ y = r
-    · rw [if_pos hy]
+    · rw [ite_eq_left hy]
       exact ((embed_w0_vec_eq_one_iff ι y).mpr (h01.mp hy)).symm
-    · rw [if_neg hy]
+    · rw [ite_eq_right hy]
       have h1 : (embed ι w0).vec y ≠ 1 := fun h => hy (h01.mpr ((embed_w0_vec_eq_one_iff ι y).mp h))
       generalize (embed ι w0).vec y = r at h1 ⊢
       revert r

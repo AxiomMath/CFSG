@@ -26,6 +26,7 @@ private theorem d8_check_basic : ∀ x y : DihedralGroup 4, x ^ 2 = 1 → y ^ 2 
     ((y * x) ^ 2) ^ 2 = 1 ∧ (y * x) ^ 2 * x = x * (y * x) ^ 2 ∧
       (y * x) ^ 2 * y = y * (y * x) ^ 2 := by decide
 
+omit [Finite G] in
 private theorem d8_not_commute {C : Subgroup G} {t d : G} (hC : C = closure {t, d})
     (hD : Nonempty (↥C ≃* DihedralGroup 4)) : t * d ≠ d * t := by
   obtain ⟨e⟩ := hD
@@ -49,12 +50,13 @@ private theorem d8_not_commute {C : Subgroup G} {t d : G} (hC : C = closure {t, 
   have hpair : ({t, d} : Set G).Pairwise Commute := fun a ha b hb _ => hall a ha b hb
   have hCcomm : IsMulCommutative ↥C := hC.symm ▸ isMulCommutative_closure hpair
   have hD8comm : IsMulCommutative (DihedralGroup 4) := by
-    letI := hCcomm
+    let := hCcomm
     exact IsMulCommutative.of_comm fun a b => by
       have h := congrArg e (mul_comm' (e.symm a) (e.symm b))
       simpa using h
   exact DihedralGroup.not_commutative (n := 4) (by norm_num) (by norm_num) hD8comm
 
+omit [Finite G] in
 private theorem d8_basic {C : Subgroup G} {t d : G} (hC : C = closure {t, d})
     (hD : Nonempty (↥C ≃* DihedralGroup 4)) (ht : orderOf t = 2) (hd : orderOf d = 2) :
     ((d * t) ^ 2) ^ 2 = 1 ∧ (d * t) ^ 2 * t = t * (d * t) ^ 2 ∧
@@ -99,6 +101,7 @@ private theorem d8_basic {C : Subgroup G} {t d : G} (hC : C = closure {t, d})
       rw [map_mul, map_mul, hZ, h3]
     simpa [Z, Dd] using congrArg Subtype.val hZD
 
+omit [Finite G] in
 private theorem sq_one_mem_six {C : Subgroup G} {t d w : G} (hC : C = closure {t, d})
     (hD : Nonempty (↥C ≃* DihedralGroup 4)) (ht : orderOf t = 2) (hd : orderOf d = 2)
     (hwC : w ∈ C) (hw2 : w ^ 2 = 1) :
@@ -157,6 +160,7 @@ private theorem sq_one_mem_six {C : Subgroup G} {t d w : G} (hC : C = closure {t
     have hW : W = Z * Dd := e.injective (h.trans hZD)
     simpa [W, Z, Dd] using congrArg Subtype.val hW
 
+omit [Finite G] in
 private theorem d8_subset_Q_or_Q' {C : Subgroup G} {t d : G} (hC : C = closure {t, d})
     (hD : Nonempty (↥C ≃* DihedralGroup 4)) (ht : orderOf t = 2) (hd : orderOf d = 2)
     (E : Subgroup G) (hEC : E ≤ C) (hE2 : IsElemAbelian 2 E) :
@@ -168,9 +172,9 @@ private theorem d8_subset_Q_or_Q' {C : Subgroup G} {t d : G} (hC : C = closure {
   have hzd : z * d = d * z := hbasic.2.2
   have htd : d * t ≠ t * d := fun h => d8_not_commute hC hD h.symm
   by_contra h
-  push_neg at h
+  push Not at h
   obtain ⟨hnotQ, hnotQ'⟩ := h
-  rw [SetLike.not_le_iff_exists] at hnotQ hnotQ'
+  rw [IsConcreteLE.not_le_iff_exists] at hnotQ hnotQ'
   obtain ⟨w, hwE, hwQ⟩ := hnotQ
   obtain ⟨v, hvE, hvQ'⟩ := hnotQ'
   have hw2 : w ^ 2 = 1 := hE2.2 w hwE
@@ -336,6 +340,7 @@ theorem dihedral_of_involutions' {C : Subgroup G} {t d : G} (hC : C = closure {t
   have hCK : C = closure ({d, t} : Set G) := by rw [hC, Set.pair_comm]
   exact ⟨(MulEquiv.subgroupCongr hCK).trans φ⟩
 
+omit [Finite G] in
 theorem d8_rel {t d z : G} (ht : orderOf t = 2) (hd : orderOf d = 2) (h4 : (d * t) ^ 4 = 1)
     (hz : (d * t) ^ 2 = z) : d * t * d⁻¹ = z * t ∧ t * d * t⁻¹ = z * d := by
   have ht2 : t ^ 2 = 1 := by simpa [ht] using pow_orderOf_eq_one t
@@ -362,6 +367,7 @@ theorem d8_rel {t d z : G} (ht : orderOf t = 2) (hd : orderOf d = 2) (h4 : (d * 
         simp only [mul_assoc, hdm, mul_one]
       _ = z * d := by rw [htd2]
 
+omit [Finite G] in
 theorem d8_maxElemAbelian {C : Subgroup G} {t d : G} (hC : C = closure {t, d})
     (hD : Nonempty (↥C ≃* DihedralGroup 4)) (ht : orderOf t = 2) (hd : orderOf d = 2) :
     maxElemAbelian C = {closure {(d * t) ^ 2, t}, closure {(d * t) ^ 2, d}} := by
@@ -497,6 +503,7 @@ theorem d8_maxElemAbelian {C : Subgroup G} {t d : G} (hC : C = closure {t, d})
     · rw [hE]; exact ⟨hQleC, hQelem, hQmax⟩
     · rw [hE]; exact ⟨hQ'leC, hQ'elem, hQ'max⟩
 
+omit [Finite G] in
 theorem d8_involution_outside {C : Subgroup G} {t d w : G} (hC : C = closure {t, d})
     (hD : Nonempty (↥C ≃* DihedralGroup 4)) (ht : orderOf t = 2) (hd : orderOf d = 2) (hwC : w ∈ C)
     (hw : orderOf w = 2) (hwn : w ∉ closure {(d * t) ^ 2, t}) :

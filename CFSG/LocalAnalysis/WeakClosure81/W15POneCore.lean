@@ -132,8 +132,8 @@ theorem nVSub_le_of_commutator_mem [Finite G] {V O : Subgroup G} {g : G}
     apply hD
     rw [nVSub, h]
     exact inf_eq_left.mpr Subgroup.le_normalizer
-  obtain ⟨v, hvV, hvD⟩ := SetLike.exists_of_lt (lt_of_le_of_ne inf_le_left hD)
-  obtain ⟨x, hxW, hxB⟩ := SetLike.exists_of_lt (lt_of_le_of_ne inf_le_left hB)
+  obtain ⟨v, hvV, hvD⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne inf_le_left hD)
+  obtain ⟨x, hxW, hxB⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne inf_le_left hB)
   have hPab : IsElemAbelian 2 (nVSub V g ⊔ bSub V g) :=
     isElemAbelian_sup_nVSub_bSub hV hTI hg
   have hcommP : ∀ a ∈ nVSub V g ⊔ bSub V g, ∀ b ∈ nVSub V g ⊔ bSub V g,

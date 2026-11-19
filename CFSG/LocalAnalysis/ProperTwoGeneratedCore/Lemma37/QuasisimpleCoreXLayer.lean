@@ -78,7 +78,7 @@ theorem two_le_pRank_sup (hc : BaseConfig Y e) (hv : v * v = e)
   set R := ((P : Subgroup X) ⊓ L) ⊔ Subgroup.zpowers v with hR
   have hRP : R ≤ (P : Subgroup X) :=
     sup_le inf_le_left (Subgroup.zpowers_le.mpr (hc.mem_sylow_of_sq hv hvn P))
-  have hR2 : IsPGroup 2 R := P.isPGroup'.to_le hRP
+  have hR2 : IsPGroup 2 R := P.isPGroup.to_le hRP
   have hvR : v ∈ R := Subgroup.mem_sup_right (Subgroup.mem_zpowers v)
   have hRC : R ≤ Subgroup.centralizer ({v} : Set X) := by
     refine sup_le (inf_le_right.trans (mem_centralizer_iff_le.mp

@@ -274,7 +274,7 @@ theorem mem_centralizer_of_a7 (h131 : Item131) {A L : Subgroup G} {c : G}
       (map_conj_eq_of_ncard_three hwN hΩ3 hbΩ hbfix hw3 hF)
   have hcΩ : Subgroup.zpowers c ∈ omegaA A := hD.zpowers_mem_omegaA
   have h2 : (omegaA A \ {Subgroup.zpowers c}).ncard = 2 := by
-    rw [Set.ncard_diff_singleton_of_mem hcΩ, hΩ3]
+    rw [Set.ncard_sdiff_singleton_of_mem hcΩ, hΩ3]
   obtain ⟨F, F', hFF', hFF⟩ := Set.ncard_eq_two.mp h2
   have hFmem : F ∈ omegaA A \ {Subgroup.zpowers c} := by rw [hFF]; exact Set.mem_insert _ _
   have hF'mem : F' ∈ omegaA A \ {Subgroup.zpowers c} := by

@@ -40,7 +40,7 @@ theorem j4d_rationalRoots_eq_componentRoots
 private theorem e6Graph_latPerm_sq (x : Fin Tag.E6.rank → ℤ) :
     latPerm e6Graph (latPerm e6Graph x) = x := by
   ext i
-  simp only [latPerm, Function.comp_apply]
+  simp only [latPerm]
   have h : ∀ j, e6Graph.symm (e6Graph.symm j) = j := by
     intro j
     fin_cases j <;> decide

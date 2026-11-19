@@ -17,7 +17,7 @@ theorem exists_ne_one_not_le_centralizer {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2
     (hchar : IsCharTwoType G) {S H D : Subgroup G} (hS : S ≠ ⊥) (hS2 : IsPGroup 2 S)
     (hHN : H ≤ Subgroup.normalizer (S : Set G)) (hDN : D ≤ Subgroup.normalizer (S : Set G))
     (hD : IsElemAbelian p D) (hDnc : ¬ IsCyclic D)
-    (hHD : H ≤ Subgroup.centralizer (D : Set G)) (hH2 : ¬ IsPGroup 2 H) :
+    (_hHD : H ≤ Subgroup.centralizer (D : Set G)) (hH2 : ¬ IsPGroup 2 H) :
     ∃ a' ∈ D, a' ≠ 1 ∧ ¬ H ≤ Subgroup.centralizer
       ((pCoreOf 2 (Subgroup.normalizer (S : Set G)) ⊓
         Subgroup.centralizer ({a'} : Set G) : Subgroup G) : Set G) := by
@@ -28,7 +28,7 @@ theorem exists_ne_one_not_le_centralizer {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2
     intro a ha ha1
     by_contra hnot
     exact hcon ⟨a, ha, ha1, hnot⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hrank : p ^ 2 ≤ Nat.card D := by
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card).mp (isPGroup_of_isElemAbelian hD)
     by_contra hlt
@@ -36,7 +36,7 @@ theorem exists_ne_one_not_le_centralizer {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2
     apply hDnc
     rcases n with _ | _ | n
     · have h1 : Nat.card D = 1 := by simpa using hn
-      haveI : Subsingleton D := (Nat.card_eq_one_iff_unique.mp h1).1
+      have : Subsingleton D := (Nat.card_eq_one_iff_unique.mp h1).1
       infer_instance
     · have h1 : Nat.card D = p := by simpa using hn
       exact isCyclic_of_prime_card h1

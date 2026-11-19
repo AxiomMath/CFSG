@@ -30,12 +30,10 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2] {n : ℕ}
   toFun X := Multiplicative.ofAdd
     (![mat (X : HMod n K) 0 1, mat (X : HMod n K) 0 2] : Fin 2 → K)
   map_one' := by
-    try dsimp only
     rw [ofAdd_eq_one]
     funext i
     fin_cases i <;> simp [mat_one]
   map_mul' X Y := by
-    try dsimp only
     rw [← ofAdd_add]
     congr 1
     funext i

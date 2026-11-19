@@ -23,8 +23,7 @@ private theorem gds_generic_POmegaPlus_four_two_card {n : ℕ} (hn : 1 ≤ n) :
     simp [CFSG.Blueprint.Multiplier.genericOrders, heven]
   have hmult (m : ℕ) : Nat.card (Multiplicative (ZMod m)) = m :=
     (Nat.card_congr (Multiplicative.ofAdd (α := ZMod m))).symm.trans (Nat.card_zmod m)
-  simp only [CFSG.Blueprint.Multiplier.generic, hord, Nat.card_prod, Prod.fst, Prod.snd,
-    hmult]
+  simp only [CFSG.Blueprint.Multiplier.generic, hord, Nat.card_prod, hmult]
 
 theorem ggD4_center_eq_bot {X : Type} [Group X] [Finite X] (hX : commutator X = ⊤)
     {K : Type} [Field K] [Finite K] {n : ℕ} (hn : 2 ≤ n) (hK : Nat.card K = 2 ^ n)

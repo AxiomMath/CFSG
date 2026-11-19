@@ -21,7 +21,7 @@ theorem tableVII_shape_U35 (hS : SuborbitFacts) (h : IsF5Type a z) {c t : G}
   let S : Subgroup ↥(Gx a) := (Gxy a c).subgroupOf (Gx a)
   let φ : ↥S ≃* ↥(Gxy a c) := Subgroup.subgroupOfEquivOfLe hle
   have hsimpS : IsSimpleGroup ↥S := by
-    haveI := hsimp
+    have := hsimp
     exact φ.isSimpleGroup
   let t'' : ↥S := φ.symm ⟨t, htc⟩
   have hphi : φ t'' = ⟨t, htc⟩ := MulEquiv.apply_symm_apply φ ⟨t, htc⟩

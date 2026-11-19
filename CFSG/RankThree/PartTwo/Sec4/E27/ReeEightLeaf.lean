@@ -57,7 +57,7 @@ theorem fixPlaneGen_reeF4_eight_of_checks (hc : ReeEightChecks)
       CFSG.RankThree.PartOne.Sec66T.reeF4_fixed_data_odd hK Nat.prime_three (by norm_num) hβ
     have hb : b = 0 := by omega
     subst hb
-    haveI : Fact (Nat.card (fixSubfield β) = 2) := ⟨by rw [hbcard]; norm_num⟩
+    have : Fact (Nat.card (fixSubfield β) = 2) := ⟨by rw [hbcard]; norm_num⟩
     let e : ↥(fixSub (F4.reeGammaFieldAut K 1 β)) ≃* ↥titsA :=
       eC.trans ((reeFixedEquivReeGamma (fixSubfield β) 0).symm.trans
         (titsIso (K := fixSubfield β)))

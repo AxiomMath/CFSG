@@ -72,8 +72,8 @@ private theorem m7w_component_of_simple {G : Type} [Group G] [Finite G] {p : ℕ
     (hnab : ∃ a b : ↥H, a * b ≠ b * a) (hpH : p ∣ Nat.card ↥H)
     (hbound : Nat.card ↥(Subgroup.centralizer ({k} : Set G)) ≤ p * Nat.card ↥H) :
     ∃ J : Subgroup G, CFSG.Open.GLAPComponent p (Subgroup.centralizer ({k} : Set G)) J := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := hs
+  have : Fact p.Prime := ⟨hp⟩
+  have := hs
   set X : Subgroup G := Subgroup.centralizer ({k} : Set G) with hX
   have hkX : k ∈ X := Subgroup.mem_centralizer_singleton_iff.2 rfl
   have hZ : Subgroup.center ↥H = ⊥ := center_eq_bot_of_simple_nonab hnab
@@ -126,7 +126,7 @@ private theorem m7w_component_of_simple {G : Type} [Group G] [Finite G] {p : ℕ
 
 private theorem m7w_component_dG :
     ∃ J : Subgroup Gmat, LargeEvenPComponent 7 (Subgroup.centralizer ({dG} : Set Gmat)) J := by
-  haveI : Finite Gmat := CFSG.Monster.Generated.finite_Gmat
+  have : Finite Gmat := CFSG.Monster.Generated.finite_Gmat
   obtain ⟨hcls, h2A, h2B, hG5⟩ := gmat_seven_bounds
   obtain ⟨hHk, ⟨e⟩⟩ := tabMSeven_he_le_cent_dG
   set H : Subgroup Gmat := Subgroup.closure ({heAG, heBG} : Set Gmat) with hH
@@ -145,7 +145,7 @@ private theorem m7w_component_dG :
       rw [← Subgroup.card_top (G := ↥H), ← htop, hZ, Subgroup.card_bot]
     rw [hcard] at h1
     norm_num at h1
-  haveI : IsSimpleGroup ↥CFSG.Sporadic.HeldB.heP := CFSG.Sporadic.HeldB.heP_simple
+  have : IsSimpleGroup ↥CFSG.Sporadic.HeldB.heP := CFSG.Sporadic.HeldB.heP_simple
   have hs : IsSimpleGroup ↥H := MulEquiv.isSimpleGroup e
   obtain ⟨J, hJ⟩ := m7w_component_of_simple Nat.prime_seven orderOf_dG hHk hs hnab
     (by rw [hcard]; norm_num) (by rw [hcard]; exact hbound)
@@ -164,7 +164,7 @@ private theorem m7w_q5_isConj :
 
 theorem ggSporK_bmPCentralF1F4_gmat_seven :
     BMPCentralF1 7 Gmat ∧ BMPCentralF4 7 Gmat := by
-  haveI : Finite Gmat := CFSG.Monster.Generated.finite_Gmat
+  have : Finite Gmat := CFSG.Monster.Generated.finite_Gmat
   have hzo : orderOf (gq 5) = 7 := gq_commData.orderOf_z
   have key : ∀ s : Gmat, orderOf s = 7 →
       (∀ C : Subgroup Gmat,
@@ -195,12 +195,12 @@ theorem ggSporK_bmPCentralF1F4_M_seven_of_simple
     BMPCentralF1 7 (TauCeti.CFSGIndex.sporadic .M).Group ∧
       BMPCentralF4 7 (TauCeti.CFSGIndex.sporadic .M).Group := by
   obtain ⟨e⟩ := CFSG.Blueprint.NativeSporadic.MonsterModel.iso_y443Derived_tauCeti
-  haveI := hS
+  have := hS
   let e' : (TauCeti.CFSGIndex.sporadic .M).Group ≃* CFSG.Blueprint.NativeSporadic.Carrier .M :=
     e.symm.trans (MulEquiv.refl _)
   obtain ⟨f⟩ := CFSG.RankThree.PartOne.SPOR.mulEquiv_Gmat_of_simple
     (T := (TauCeti.CFSGIndex.sporadic .M).Group) e'
-  haveI : Finite CFSG.Monster.Generated.Gmat := CFSG.Monster.Generated.finite_Gmat
+  have : Finite CFSG.Monster.Generated.Gmat := CFSG.Monster.Generated.finite_Gmat
   exact ⟨bmPCentralF1_of_mulEquiv 7 f.symm ggSporK_bmPCentralF1F4_gmat_seven.1,
     bmPCentralF4_of_mulEquiv 7 f.symm ggSporK_bmPCentralF1F4_gmat_seven.2⟩
 

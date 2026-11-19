@@ -114,7 +114,7 @@ theorem two_le_pRank_of_surjective' {A Q : Type} [Group A] [Finite A] [Group Q] 
   have hcycA : ∀ P : Sylow p A, IsCyclic ↥(P : Subgroup A) := by
     intro P
     by_contra hnc
-    have h2 := two_le_pRank_of_not_isCyclic' hp hp2 P.isPGroup' hnc
+    have h2 := two_le_pRank_of_not_isCyclic' hp hp2 P.isPGroup hnc
     have h3 := CFSG.SectionRank.pRank_le_map hp.one_lt (P : Subgroup A).subtype
       (P : Subgroup A).subtype_injective ⊤
     have h4 := CFSG.SectionRank.pRank_mono hp.one_lt

@@ -49,7 +49,7 @@ theorem isSimpleGroup_of_isCaseTwoGroup {p : ℕ} {K : Type} [Group K]
   rcases eq_three_or_five_of_isCaseTwoGroup h with rfl | rfl
   · exact isSimpleGroup_of_isCaseTwoGroup_three h
   · obtain ⟨F, hFf, hFfin, hF, ⟨eF⟩⟩ := suzuki_model_of_isCaseTwoGroup_five h
-    haveI : IsSimpleGroup (CFSG.Open.Sz 2) :=
+    have : IsSimpleGroup (CFSG.Open.Sz 2) :=
       CFSG.SignalizerFunctorTheorem.McBride.SzModel.sz_isSimpleGroup (by norm_num)
     exact (eF.trans (CFSG.ShultStronglyClosedTI.glaSzEquivNative 2 (by norm_num) hF)).isSimpleGroup
 
@@ -58,8 +58,8 @@ theorem isCyclic_sylow_of_isCaseTwoGroup {p : ℕ} {K : Type} [Group K] [Finite 
   rcases eq_three_or_five_of_isCaseTwoGroup h with rfl | rfl
   · exact CFSG.LocalAnalysis.RankFourTheoremC.isCyclic_sylow_three_of_l28 h T
   · obtain ⟨F, hFf, hFfin, hF, ⟨eF⟩⟩ := suzuki_model_of_isCaseTwoGroup_five h
-    haveI := CFSG.Adapters.certificate43_holds
-    haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+    have := CFSG.Adapters.certificate43_holds
+    have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     exact CFSG.ProperTwoGeneratedCore.LocalCriterionDenominator.suzuki_model_oddSylow_cyclic
       2 (by norm_num) hF eF 5 (by norm_num) T
 
@@ -76,7 +76,7 @@ theorem center_trivial_of_simple {K : Type} [Group K] [Finite K] [IsSimpleGroup 
       rw [h] at this
       exact Subgroup.mem_bot.mp this
     · exact h
-  letI : CommGroup K :=
+  let : CommGroup K :=
     { (inferInstance : Group K) with
       mul_comm := fun a b => by
         have := Subgroup.mem_center_iff.mp (hcen ▸ Subgroup.mem_top a) b
@@ -149,10 +149,11 @@ section Embed
 
 variable {Hh : Type} [Group Hh] [Finite Hh] {O : Subgroup Hh} [O.Normal]
 
+omit [O.Normal] in
 theorem inf_eq_bot_of_isPGroup {p : ℕ} [Fact p.Prime] (hO : p.Coprime (Nat.card O))
     {A : Subgroup Hh} (hA : IsPGroup p A) : A ⊓ O = ⊥ := by
   obtain ⟨n, hn⟩ := hA.exists_card_eq
-  refine Subgroup.inf_eq_bot_of_coprime ?_
+  refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
   rw [hn]
   exact hO.pow_left n
 
@@ -204,7 +205,7 @@ theorem exists_outer {p : ℕ} [hp : Fact p.Prime] {Hh : Type} [Group Hh] [Finit
     rw [map_pow, ← hax, ← map_pow, hF.2 a ha, map_one, map_one]
   have hE₂P : IsPGroup p E₂ := fun x => ⟨1, Subtype.ext (by simpa using hE₂p x x.2)⟩
   obtain ⟨T, hT⟩ := hE₂P.exists_le_sylow
-  haveI := hcyc T
+  have := hcyc T
   have hE₂c : IsCyclic E₂ := Subgroup.isCyclic_of_le hT
   have hle : Nat.card E₂ ≤ p := card_le_of_isCyclic_of_pow_eq_one hp.out.pos hE₂c hE₂p
   have hpos : 0 < p := hp.out.pos
@@ -233,11 +234,11 @@ theorem inf_ker_ne_bot {p : ℕ} [hp : Fact p.Prime] {Hh : Type} [Group Hh] [Fin
     exact this
   have hE₁P : IsPGroup p (F.map φ) := hF.isPGroup.map φ
   obtain ⟨S, hS⟩ := hE₁P.exists_le_sylow
-  have hSle : Nat.card S ≤ p ^ 3 := hA3 S S.isPGroup'
+  have hSle : Nat.card S ≤ p ^ 3 := hA3 S S.isPGroup
   have hSE : (S : Subgroup (MulAut K)) = F.map φ :=
     (Subgroup.eq_of_le_of_card_ge hS (by rw [hE₁card]; exact hSle)).symm
   obtain ⟨T⟩ : Nonempty (Sylow p K) := inferInstance
-  haveI := hcyc T
+  have := hcyc T
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := T)
   have hgord : orderOf (g : K) = p ^ 2 := by
     rw [Subgroup.orderOf_coe, orderOf_eq_card_of_forall_mem_zpowers hg, hT2 T]
@@ -335,11 +336,13 @@ section Core
 
 variable {p : ℕ} {H : Subgroup G} {K : Subgroup (H ⧸ primeComplementCore (G := H) p)} [K.Normal]
 
+omit [Finite G] in
 theorem d1PlusCore_eq :
     d1PlusCore p H K = (act (primeComplementCore (G := H) p) K).ker.map H.subtype := by
   unfold d1PlusCore
   rw [ker_act_eq]
 
+omit [Finite G] in
 theorem mem_hyp111_sup_d1PlusCore_iff (a : H) :
     (a : G) ∈ hyp111Pre p H K ⊔ d1PlusCore p H K ↔
       act (primeComplementCore (G := H) p) K a ∈ (MulAut.conj : K →* MulAut K).range := by
@@ -357,6 +360,7 @@ section Lift
 
 variable {p : ℕ} {H : Subgroup G}
 
+omit [Finite G] in
 theorem d1LiftX_mono (K : Subgroup (H ⧸ primeComplementCore (G := H) p)) {Q W : Subgroup G}
     (h : Q ≤ W) : d1LiftX p H Q K ≤ d1LiftX p H W K := by
   unfold d1LiftX
@@ -372,6 +376,7 @@ theorem card_d1LiftX_le [Fact p.Prime] {K : Subgroup (H ⧸ primeComplementCore 
   unfold d1LiftX
   rwa [Subgroup.card_map_of_injective H.subtype_injective]
 
+omit [Finite G] in
 theorem exists_sylow_eq_subgroupOf [Fact p.Prime] {W : Subgroup G} (hWH : W ≤ H)
     (hWp : IsPGroup p W)
     (hmax : ∀ V : Subgroup G, V ≤ H → IsPGroup p V → W ≤ V → V = W) :
@@ -381,7 +386,7 @@ theorem exists_sylow_eq_subgroupOf [Fact p.Prime] {W : Subgroup G} (hWH : W ≤ 
   refine ⟨S, le_antisymm ?_ hWS⟩
   have hmapW : (W.subgroupOf H).map H.subtype = W := Subgroup.map_subgroupOf_eq_of_le hWH
   have h1 : (S : Subgroup H).map H.subtype = W :=
-    hmax _ (Subgroup.map_subtype_le _) (S.isPGroup'.map _)
+    hmax _ (Subgroup.map_subtype_le _) (S.isPGroup.map _)
       (by rw [← hmapW]; exact Subgroup.map_mono hWS)
   intro x hx
   have : (x : G) ∈ (S : Subgroup H).map H.subtype := ⟨x, hx, rfl⟩
@@ -392,21 +397,21 @@ end Lift
 
 end RankOneSylow
 
-theorem exists_rankOneSylowData (hS : Setting G) {p : ℕ} {P : Sylow p G} {M H Q : Subgroup G}
+theorem exists_rankOneSylowData (_hS : Setting G) {p : ℕ} {P : Sylow p G} {M H Q : Subgroup G}
     {K : Subgroup (H ⧸ primeComplementCore (G := H) p)} (hd : AGL81CfgData p P M H Q K)
-    (hshape : IsCaseTwoGroup p ↥K) (hKn : K.Normal) (hXM : d1PlusCore p H K ≤ M)
+    (hshape : IsCaseTwoGroup p ↥K) (hKn : K.Normal) (_hXM : d1PlusCore p H K ≤ M)
     (hX1 : Open.pRank p (d1PlusCore p H K) ≤ 1) (hH3 : 3 ≤ Open.pRank p H)
     (hSA : KFactCaseTwoSylowAut) (hCT : KFactCaseTwoLocal) :
     ∃ (W : Subgroup G) (y z : G), RankOneSylowData p M H Q K W y z := by
-  haveI := hKn
+  have := hKn
   obtain ⟨H₁, R₁, hesc⟩ := hd.escape
   have hp : p.Prime := hesc.prime
   have hp2 : p ≠ 2 := hesc.ne_two
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hO : p.Coprime (Nat.card (primeComplementCore (G := H) p)) :=
     primeComplementCore_coprime (G := H) p
   obtain ⟨hT2, hA3⟩ := hSA p ↥K hshape
-  haveI hsimple : IsSimpleGroup ↥K := RankOneSylow.isSimpleGroup_of_isCaseTwoGroup hshape
+  have hsimple : IsSimpleGroup ↥K := RankOneSylow.isSimpleGroup_of_isCaseTwoGroup hshape
   obtain ⟨T₀⟩ : Nonempty (Sylow p ↥K) := inferInstance
   have hZ : ∀ k : K, (∀ k' : K, k * k' = k' * k) → k = 1 :=
     RankOneSylow.center_trivial_of_simple hp T₀ (hT2 T₀)
@@ -420,7 +425,7 @@ theorem exists_rankOneSylowData (hS : Setting G) {p : ℕ} {P : Sylow p G} {M H 
   have hQcard : Nat.card (d1LiftX p H Q K) = p ^ 2 := by
     rw [Nat.card_congr e.toEquiv]
     exact hT2 S
-  haveI : IsCyclic ↥(d1LiftX p H Q K) := e.isCyclic.mpr (hcyc S)
+  have : IsCyclic ↥(d1LiftX p H Q K) := e.isCyclic.mpr (hcyc S)
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := ↥(d1LiftX p H Q K))
   have hyQ : d1LiftX p H Q K = Subgroup.zpowers (g : G) := by
     apply le_antisymm
@@ -461,7 +466,7 @@ theorem exists_rankOneSylowData (hS : Setting G) {p : ℕ} {P : Sylow p G} {M H 
       _ = p := pow_one p
   have hne : φ.ker ⊓ F ≠ ⊥ := RankOneSylow.inf_ker_ne_bot hZ hcyc hT2 hA3 φ hF hF3
   obtain ⟨a', ha'F, ha'out⟩ := RankOneSylow.exists_outer hZ hcyc φ hF hF3 hker1
-  haveI : φ.ker.Normal := MonoidHom.normal_ker φ
+  have : φ.ker.Normal := MonoidHom.normal_ker φ
   have hne' : W' ⊓ φ.ker ≠ ⊥ := by
     intro h
     apply hne

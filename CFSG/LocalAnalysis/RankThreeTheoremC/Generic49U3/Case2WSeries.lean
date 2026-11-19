@@ -27,7 +27,7 @@ private theorem isPGroup_zpowers_of_pow_eq_one' {p : ℕ} (hp : p.Prime) {Y : Ty
 private theorem two_le_pRank_of_typeTStruct {Typ : ℕ → ∀ (Q : Type) [Group Q], Prop}
     (hc : PointConfig Typ G p P M x J) (hTstr : TypeTStruct p P x J) :
     2 ≤ CFSG.Open.pRank p (u3T P x J) := by
-  haveI : Fact p.Prime := ⟨hc.prime⟩
+  have : Fact p.Prime := ⟨hc.prime⟩
   obtain ⟨hTcard, hTexp, hTnab, -⟩ := id hTstr
   obtain ⟨E, hET, hE, hEcard, -⟩ := exists_isElemAbelian_card_sq_of_nonabelian hTcard hTexp hTnab
   exact le_pRank_of_elemAbelian_card hET hE hEcard
@@ -37,17 +37,17 @@ theorem u3_pElement_MJ_core (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCore
     (h2 : 2 ≤ CFSG.Open.pRank p (u3T P x J)) (hmax : TypeBorelMax Typ p) :
     ∀ g ∈ M ⊓ J, (∃ k : ℕ, g ^ (p ^ k) = 1) → g ∈ u3T P x J ⊔ rankThreePrimeCore p J := by
   have hp : p.Prime := hc.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hPM : (P : Subgroup G) ≤ M := (sylow_le_of_isCoreMaxLocal hS hc.sigma hc.core).1
   have hTP : u3T P x J ≤ (P : Subgroup G) := inf_le_left.trans inf_le_left
   have hTM : u3T P x J ≤ M := hTP.trans hPM
-  have hTp : IsPGroup p (u3T P x J) := P.isPGroup'.to_le hTP
+  have hTp : IsPGroup p (u3T P x J) := P.isPGroup.to_le hTP
   have hNT : Subgroup.normalizer ((u3T P x J : Subgroup G) : Set G) ≤ M :=
     normalizer_le_of_le_of_two_le_pRank hS hU0 hc.sigma hc.core hTp hTM h2
   have hOM : rankThreePrimeCore p J ≤ M :=
     (u3main_core_facts hS hD1 hc.sigma hc.core hc.generic hc.le_cent hc.cent_le).1
   obtain ⟨Q, hQg, ψ, hψ, hker, hQ, honto⟩ := u3_normalizer_onto_gen hc
-  haveI : Finite Q := Finite.of_surjective ψ hψ
+  have : Finite Q := Finite.of_surjective ψ hψ
   have hSylJ : CFSG.ABGLocalTools.IsSylowOf p (u3T P x J) J :=
     hc.generic.2.2.1.inf_of_le_normalizer hc.le_cent hc.cent_le
   obtain ⟨Tsyl, hTsyl⟩ := hSylJ.exists_sylow_eq_subgroupOf

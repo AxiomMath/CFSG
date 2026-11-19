@@ -25,9 +25,10 @@ structure s16c4v1e3_Std (D : Data G) : Prop where
 
 variable {D : Data G} {V L : Subgroup G} {hV : IsElemAbelian 2 V}
 
+omit [Finite G] in
 private theorem s16c4v1e3_bdh_three_dvd_orderOf {x : G} (hx1 : x ≠ 1)
     (hx3 : IsPGroup 3 (Subgroup.zpowers x)) : 3 ∣ orderOf x := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h := hx3.card_eq_or_dvd
   rw [Nat.card_zpowers] at h
   rcases h with h1 | h1
@@ -35,8 +36,8 @@ private theorem s16c4v1e3_bdh_three_dvd_orderOf {x : G} (hx1 : x ≠ 1)
   · exact h1
 
 private theorem s16c4v1e3_bdh_bad_conj (S : s16c4v1_Sit D V L hV) (hstd : s16c4v1e3_Std D)
-    {g : G} (hg : g ∉ D.M) {u : G} (hu : u ∈ V) (hu1 : u ≠ 1)
-    (hgu : g * u * g⁻¹ ∈ V) : s16c4v1_Bad D (g * u * g⁻¹) := by
+    {g : G} (hg : g ∉ D.M) {u : G} (hu : u ∈ V) (_hu1 : u ≠ 1)
+    (_hgu : g * u * g⁻¹ ∈ V) : s16c4v1_Bad D (g * u * g⁻¹) := by
   intro hle
   obtain ⟨x, hxM, hx1, hx3, hxu⟩ := s16c4v1_exists_three_fix S hu
   have hcomm : x * u = u * x := mul_inv_eq_iff_eq_mul.mp hxu

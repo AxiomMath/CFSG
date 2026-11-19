@@ -78,7 +78,7 @@ theorem Sp48Ctx.sylow_card (c : Sp48Ctx P M H R X U A L)
       3 ^ 2 ∣ Nat.card (SL : Subgroup (blockParabolic M (pCoreOf 2 H) L)) := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3 := SL.dvd_card_of_dvd_card c.three_dvd
-  obtain ⟨f, hf⟩ := SL.isPGroup'.exists_card_eq
+  obtain ⟨f, hf⟩ := SL.isPGroup.exists_card_eq
   rw [hf] at h3 ⊢
   rcases f with _ | _ | f
   · norm_num at h3

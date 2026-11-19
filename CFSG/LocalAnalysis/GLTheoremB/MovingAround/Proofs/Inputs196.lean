@@ -153,10 +153,10 @@ theorem exists_noncomm_of_mulEquiv {S K : Type*} [Group S] [Group K] (e : S ≃*
 theorem eq_bot_of_le_of_card_six {G : Type*} [Group G] {C T : Subgroup G} (hC : Nat.card C = 6)
     (hnab : ∃ a b : ↥C, a * b ≠ b * a) (hTC : T ≤ C) (hT2 : IsPGroup 2 T)
     (hnorm : ∀ c ∈ C, ∀ t ∈ T, c * t * c⁻¹ ∈ T) : T = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite C := Nat.finite_of_card_ne_zero (by rw [hC]; norm_num)
-  haveI : Finite T := Finite.of_injective _ (Subgroup.inclusion_injective hTC)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite C := Nat.finite_of_card_ne_zero (by rw [hC]; norm_num)
+  have : Finite T := Finite.of_injective _ (Subgroup.inclusion_injective hTC)
   obtain ⟨k, hk⟩ := hT2.exists_card_eq
   have hdvd : 2 ^ k ∣ 6 := by rw [← hk, ← hC]; exact Subgroup.card_dvd_of_le hTC
   have hk1 : k ≤ 1 := by
@@ -192,7 +192,7 @@ theorem eq_bot_of_le_of_card_six {G : Type*} [Group G] {C T : Subgroup G} (hC : 
   have hyt : Commute y t' := Subtype.ext (hcent y y.2)
   have h6 : orderOf (y * t') = Nat.card C := by
     rw [hyt.orderOf_mul_eq_mul_orderOf_of_coprime (by rw [hy, ht'2]; norm_num), hy, ht'2, hC]
-  haveI : IsCyclic C := isCyclic_of_orderOf_eq_card (y * t') h6
+  have : IsCyclic C := isCyclic_of_orderOf_eq_card (y * t') h6
   obtain ⟨a, b, hab⟩ := hnab
   exact hab ((IsCyclic.commGroup (α := ↥C)).mul_comm a b)
 
@@ -208,18 +208,18 @@ theorem toPGL_surjective_of_charTwo [CharP F 2] :
     Function.Surjective (Matrix.ProjectiveSpecialLinearGroup.toPGL : PSL2 F →* PGL2 F) := by
   intro g
   obtain ⟨A, rfl⟩ := Matrix.ProjGenLinGroup.mk_surjective g
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   exact (pgl2_mk_mem_psl2_range_iff_det_isSquare A).2
     (FiniteField.isSquare_of_char_two (ringChar.eq F 2) _)
 
 theorem charP_two_of_card (hF : Nat.card F = 2 ^ 3) : CharP F 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype F := Fintype.ofFinite F
   exact charP_of_card_eq_prime_pow (p := 2) (f := 3) (by rw [← Nat.card_eq_fintype_card, hF])
 
 theorem l2Eight_autEquiv_eq_incl (hF : Nat.card F = 2 ^ 3) {S : Type} [Group S] (e : S ≃* PSL2 F)
     {τ : MulAut S} {k : ℕ} (hτ : τ ^ 2 ^ k = 1) : ∃ u : PSL2 F, autEquiv e τ = incl F u := by
-  haveI : CharP F 2 := charP_two_of_card hF
+  have : CharP F 2 := charP_two_of_card hF
   have hφ2 : autEquiv e τ ^ 2 ^ k = 1 := by rw [← map_pow, hτ, map_one]
   have hright : (autEquiv e τ).right = 1 := by
     refine eq_one_of_two_power_ringAut (p := 2) (f := 3) Nat.prime_two hF (by decide) _ k ?_
@@ -234,8 +234,8 @@ theorem l2Eight_autEquiv_eq_incl (hF : Nat.card F = 2 ^ 3) {S : Type} [Group S] 
 theorem l2Eight_pCoreOf_two_eq_bot (hF : Nat.card F = 2 ^ 3) {S : Type} [Group S] [Finite S]
     (e : S ≃* PSL2 F) {s : S} (hs : orderOf s = 3) (H : Subgroup (MulAut S)) :
     pCoreOf 2 (H ⊓ Subgroup.centralizer ({MulAut.conj s} : Set (MulAut S))) = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := charP_two_of_card hF
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := charP_two_of_card hF
   set X := H ⊓ Subgroup.centralizer ({MulAut.conj s} : Set (MulAut S)) with hX
   set T := pCoreOf 2 X with hT
   have hT2 : IsPGroup 2 T := CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 X
@@ -328,7 +328,7 @@ theorem l2Eight_outer_fixSubgroup (hF : Nat.card F = 2 ^ 3) {S : Type} [Group S]
     {x : MulAut S} (hx3 : orderOf x = 3) (hxI : x ∉ innerAut S) :
     Nat.card (CFSG.HardMathSupport.Solomon.Coordinator.fixSubgroup x) = 6 ∧
       ∃ a b : ↥(CFSG.HardMathSupport.Solomon.Coordinator.fixSubgroup x), a * b ≠ b * a := by
-  haveI : CharP F 2 := charP_two_of_card hF
+  have : CharP F 2 := charP_two_of_card hF
   set e₀ := CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 2 F with he₀
   set e₁ : S ≃* StatedProj (StatedSL 2 F) := e.trans e₀ with he₁
   set β : MulAut (StatedProj (StatedSL 2 F)) := MulAut.congr e₁ x with hβ
@@ -375,10 +375,10 @@ theorem l2Eight_outer_fixSubgroup (hF : Nat.card F = 2 ^ 3) {S : Type} [Group S]
   let ρ : ↥(CFSG.HardMathSupport.Solomon.Coordinator.fixSubgroup x) ≃* StatedProj (StatedSL 2 F₀) :=
     (((CFSG.HardMathSupport.Solomon.Coordinator.fixSubgroup x).equivMapOfInjective (e₁ : S →* _)
       e₁.injective).trans (MulEquiv.subgroupCongr hmap)).trans ψ
-  haveI : Finite F₀ := inferInstance
-  haveI : CharP F₀ 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Fintype F₀ := Fintype.ofFinite F₀
+  have : Finite F₀ := inferInstance
+  have : CharP F₀ 2 := by
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fintype F₀ := Fintype.ofFinite F₀
     exact charP_of_card_eq_prime_pow (p := 2) (f := 1) (by rw [← Nat.card_eq_fintype_card, h2, pow_one])
   refine ⟨?_, exists_noncomm_of_mulEquiv
     (ρ.trans (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 2 F₀).symm)
@@ -391,7 +391,7 @@ theorem l2Eight_outer_pCoreOf_two_eq_bot (hF : Nat.card F = 2 ^ 3) {S : Type} [G
     (e : S ≃* PSL2 F) (hZ : Subgroup.center S = ⊥) {x : MulAut S} (hx3 : orderOf x = 3)
     (hxI : x ∉ innerAut S) (H : Subgroup (MulAut S)) (hH : innerAut S ≤ H) :
     pCoreOf 2 (H ⊓ Subgroup.centralizer ({x} : Set (MulAut S))) = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hinj := CFSG.HardMathSupport.Timmesfeld.DefChar.conj_injective_of_center_eq_bot hZ
   set X := H ⊓ Subgroup.centralizer ({x} : Set (MulAut S)) with hX
   set T := pCoreOf 2 X with hT
@@ -529,9 +529,9 @@ theorem input19_6_4Amb_holds : Inputs123a.Input19_6_4Amb := by
 theorem isLTwoTwentySeven_of_coordinator {X : Type} [Group X]
     (h : CFSG.HardMathSupport.Solomon.Coordinator.IsLTwoTwentySeven X) : IsLTwoTwentySeven X := by
   obtain ⟨F, _, _, hF, ⟨e⟩⟩ := h
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fintype (GaloisField 3 3) := Fintype.ofFinite _
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fintype F := Fintype.ofFinite F
+  have : Fintype (GaloisField 3 3) := Fintype.ofFinite _
   have hG : Nat.card (GaloisField 3 3) = 27 := by
     rw [GaloisField.card 3 3 (by norm_num)]
     norm_num
@@ -580,7 +580,7 @@ theorem input19_6_4Outer_of_outerCent (hO : CFSG.HardMathSupport.Dickson.DefChar
         simp only at hq
         subst hq
         obtain ⟨F, _, _, hF, ⟨e'⟩⟩ := l2Eight_of_catalog hq8 e
-        haveI : CharP F 2 := charP_two_of_card hF
+        have : CharP F 2 := charP_two_of_card hF
         have hZ : Subgroup.center S = ⊥ :=
           CFSG.HardMathSupport.Timmesfeld.DefChar.center_eq_bot_of_simple hS
             (exists_noncomm_of_mulEquiv e' psl2_exists_noncomm)

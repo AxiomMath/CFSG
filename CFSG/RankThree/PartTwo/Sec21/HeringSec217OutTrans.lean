@@ -87,7 +87,7 @@ theorem CoverOut.centralizes_l (h45 : Sec4.Item4_5) (h : CoverOut A E U c L) {a 
   rw [hn, MulAut.conj_apply, h1] at h2
   have h3 : ((l ^ n * l ^ k * (l ^ n)⁻¹ : ↥L) : G) = (l : G) ^ k := by
     have : l ^ n * l ^ k * (l ^ n)⁻¹ = l ^ k := by
-      rw [← zpow_neg, ← zpow_add, ← zpow_add]; simp [add_comm, add_left_comm]
+      rw [← zpow_neg, ← zpow_add, ← zpow_add]; simp
     rw [this, h1]
   rw [h3] at h2
   exact h2.symm

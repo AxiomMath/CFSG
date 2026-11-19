@@ -38,6 +38,7 @@ private theorem exists_ne_one_mem_centralizer_of_le {p : ℕ} [Fact p.Prime] {H 
   intro y hy
   exact congrArg Subtype.val (mem_center_iff.mp (mem_inf.1 z.2).2 ⟨y, hy⟩)
 
+omit [Finite G] in
 private theorem le_normalizer_inf_of_normal (R C : Subgroup G) [C.Normal] :
     R ≤ normalizer ((R ⊓ C : Subgroup G) : Set G) := by
   intro g hg
@@ -182,6 +183,7 @@ theorem false_of_isSylowOf_zpowers_pow_three {N : Subgroup G} [N.Normal] {f w : 
   have := ‹N.Normal›.conj_mem _ hwj k
   simpa [mul_assoc] using this
 
+omit [Finite G] in
 private theorem le_normalizer_of_normal (C K : Subgroup G) [C.Normal] :
     K ≤ normalizer (C : Set G) := fun g _ => mem_normalizer_iff.2 fun h =>
   ⟨fun hh => ‹C.Normal›.conj_mem h hh g, fun hh => by

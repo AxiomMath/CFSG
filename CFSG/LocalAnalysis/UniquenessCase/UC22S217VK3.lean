@@ -59,7 +59,7 @@ theorem uc22s217v_false_of_not_dvdK3 (D : Data G) (Ch : Choice2011 G) (h5 : S21_
     obtain ⟨g, -, rfl⟩ := hK
     have hconj : L.map (MulAut.conj g).toMonoidHom = uniqueFourConj g⁻¹ L := by
       simp [uniqueFourConj]
-    haveI := (kJ1_holds _ hJ1).2.1
+    have := (kJ1_holds _ hJ1).2.1
     refine P2214R.two_le_pRank_of_conj hL hKC hKL ⟨g⁻¹, hconj⟩ hLX hKX hXM Nat.prime_three
       (by norm_num) ?_
     rw [uc22p21k_center_eq_bot hL.2.2, Subgroup.index_bot, (kJ1_holds _ hJ1).1]

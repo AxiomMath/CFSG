@@ -25,11 +25,12 @@ private theorem normal_eq_top_or_le_center {Q : Type*} [Group Q] (hQ : CFSG.Open
       have := Subgroup.comap_map_eq (QuotientGroup.mk' (Subgroup.center Q)) N
       rw [h, Subgroup.comap_top, QuotientGroup.ker_mk'] at this
       exact this.symm
-    haveI : IsMulCommutative ↥(Subgroup.center Q) := Subgroup.center.isMulCommutative Q
+    have : IsMulCommutative ↥(Subgroup.center Q) := Subgroup.center.isMulCommutative Q
     have hcomm : commutator Q ≤ N :=
       Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top (H := Subgroup.center Q) hsup
     exact eq_top_iff.mpr (hp ▸ hcomm)
 
+omit [Finite G] in
 private theorem map_conj_eq_self {M : Subgroup G} {ℓ : G} (hℓ : ℓ ∈ M) :
     M.map (MulAut.conj ℓ).toMonoidHom = M := by
   ext x
@@ -84,7 +85,7 @@ theorem le_of_isFooteBlock_of_conj {M L₁ L K : Subgroup G} (hL₁ : IsFooteBlo
     have hAA' : ∀ a ∈ L ⊓ L₁, ∀ y ∈ L ⊓ Subgroup.centralizer (L₁ : Set G), a * y = y * a :=
       fun a ha y hy => Subgroup.mem_centralizer_iff.1 hy.2 a ha.2
     have hĀ : (((L ⊓ L₁).subgroupOf L).map π).Normal := by
-      haveI : ((L ⊓ L₁).subgroupOf L).Normal :=
+      have : ((L ⊓ L₁).subgroupOf L).Normal :=
         (Subgroup.normal_subgroupOf_iff_le_normalizer inf_le_left).2 hnorm
       exact this.map π (QuotientGroup.mk'_surjective _)
     rcases normal_eq_top_or_le_center hLq hĀ with htop | hcen
@@ -125,7 +126,7 @@ theorem exists_isSylowTwoOf_normalized {C P : Subgroup G} (hP : IsPGroup 2 P)
     ∃ R : Subgroup G, IsSylowTwoOf R C ∧ P ≤ Subgroup.normalizer (R : Set G) := by
   obtain ⟨S, hS⟩ := CFSG.ComponentClassification.TwoActionInvariantSylow.subgroup C P hP hPC
   refine ⟨(S : Subgroup C).map C.subtype,
-    ⟨Subgroup.map_subtype_le _, S.isPGroup'.map C.subtype, ?_⟩, hS⟩
+    ⟨Subgroup.map_subtype_le _, S.isPGroup.map C.subtype, ?_⟩, hS⟩
   have hsub : ((S : Subgroup C).map C.subtype).subgroupOf C = (S : Subgroup C) :=
     Subgroup.comap_map_eq_self_of_injective C.subtype_injective _
   rw [hsub]

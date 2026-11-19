@@ -122,7 +122,7 @@ theorem BigEndHyp.isElemAbelian_inf_centralizer [Finite G] (h : BigEndHyp M V Q 
     have hzX : ∀ x ∈ xOf V H, z * x = x * z := fun x hx =>
       (Subgroup.mem_centralizer_iff.mp (hCCcent hz) x hx).symm
     have hz1 : z = 1 := eq_one_of_forall_commute_xOf h hZ hzX
-    simpa [hz1]
+    simp [hz1]
   change Assembly.IsElemAbelian 2 C
   refine ⟨Subgroup.commutator_self_eq_bot_iff.mp hCCbot, fun c hc => ?_⟩
   rw [pow_two]

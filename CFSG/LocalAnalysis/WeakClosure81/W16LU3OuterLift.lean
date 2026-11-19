@@ -62,7 +62,7 @@ private lemma w16l_pow_mul_mem {X : Type*} [Group X] {C Qh : Subgroup X}
     exact Subgroup.mul_mem _ ih hconj
 
 theorem w16l_exists_odd_subgroup_inverted {X : Type} [Group X] [Finite X] (Y : Subgroup X)
-    (α : MulAut X) (hα : α * α = 1) (hαY : ∀ y ∈ Y, α y = y) {Qh : Subgroup X}
+    (α : MulAut X) (hα : α * α = 1) (_hαY : ∀ y ∈ Y, α y = y) {Qh : Subgroup X}
     (hQh : IsPGroup 2 Qh) (hZ : Odd (Nat.card (Subgroup.center X)))
     (hQC : Qh ≤ Subgroup.centralizer (Y : Set X))
     (hCN : Subgroup.centralizer (Y : Set X) ≤ Subgroup.normalizer (Qh : Set X))

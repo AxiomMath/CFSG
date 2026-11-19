@@ -42,15 +42,15 @@ theorem testBit_imgMask (p b j : ℕ) : ∀ m, (imgMask m p b).testBit j = true 
     · rintro (⟨i, hi, h⟩ | h)
       · exact ⟨i, by omega, h⟩
       · by_cases hb : b.testBit m = true
-        · rw [if_pos hb, Nat.one_shiftLeft, Nat.testBit_two_pow] at h
+        · rw [ite_eq_left hb, Nat.one_shiftLeft, Nat.testBit_two_pow] at h
           exact ⟨m, by omega, hb, of_decide_eq_true h⟩
-        · rw [if_neg hb, Nat.zero_testBit] at h
+        · rw [ite_eq_right hb, Nat.zero_testBit] at h
           exact absurd h (by simp)
     · rintro ⟨i, hi, hb, he⟩
       rcases Nat.lt_succ_iff_lt_or_eq.1 hi with hi | rfl
       · exact Or.inl ⟨i, hi, hb, he⟩
       · refine Or.inr ?_
-        rw [if_pos hb, Nat.one_shiftLeft, Nat.testBit_two_pow]
+        rw [ite_eq_left hb, Nat.one_shiftLeft, Nat.testBit_two_pow]
         exact decide_eq_true he
 
 theorem testBit_unionL (j : ℕ) : ∀ L : List ℕ, (unionL L).testBit j = true ↔

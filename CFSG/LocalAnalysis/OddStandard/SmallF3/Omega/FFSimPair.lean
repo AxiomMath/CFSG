@@ -16,6 +16,7 @@ open QuadraticMap
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ff_reflPair_apply {u v : V} (hu : Q u ≠ 0) (hv : Q v ≠ 0) (huv : polar Q u v = 0)
     (x : V) :
     (((reflOf Q u hu * reflOf Q v hv : OGroup Q)) : V ≃ₗ[ZMod 3] V) x =
@@ -28,6 +29,7 @@ theorem ff_reflPair_apply {u v : V} (hu : Q u ≠ 0) (hv : Q v ≠ 0) (huv : pol
   rw [hpol]
   abel
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ff_mem_span_of_reflPair_apply_eq_neg {u v : V} (hu : Q u ≠ 0) (hv : Q v ≠ 0)
     (huv : polar Q u v = 0) {x : V}
     (hx : (((reflOf Q u hu * reflOf Q v hv : OGroup Q)) : V ≃ₗ[ZMod 3] V) x = -x) :

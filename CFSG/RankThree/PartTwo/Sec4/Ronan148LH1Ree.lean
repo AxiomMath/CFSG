@@ -20,6 +20,7 @@ section Gen
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem eq_of_le_quasisimple {J N C : Subgroup G} (hJN : J ≤ N) (hNC : N ≤ C)
     (hsub : (J.subgroupOf C).IsSubnormal) (hN : CFSG.IsQuasisimple ↥N)
     (hJ : CFSG.IsQuasisimple ↥J) : J = N := by
@@ -188,8 +189,8 @@ theorem reeF4_noA5 {a : ℕ} (ha : 1 ≤ a) {K : Type} [Field K] [Finite K]
           IsEmpty (↥J ⧸ Subgroup.center ↥J ≃* alternatingGroup (Fin 5)) := by
   classical
   intro τ hτ C J hC hJC hsub hJ
-  haveI : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
-  haveI : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
+  have : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
+  have : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
   have hZ : Subgroup.center (ReeTag.F4.reeGamma K a) = ⊥ :=
     ReeTag.large_Ree_fixed_group_center_trivial a K hK
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
@@ -208,8 +209,8 @@ theorem reeF4_noA5 {a : ℕ} (ha : 1 ≤ a) {K : Type} [Field K] [Finite K]
       1 ≤ b → Nat.card k = 2 ^ (2 * b + 1) →
       ∃ x y : ↥(ReeTag.F4.reeGamma k b), x * y ≠ y * x := by
     intro b k _ _ _ hb hk
-    haveI : Finite ↥(ReeTag.F4.reeGamma k b) := Subtype.finite
-    haveI : IsSimpleGroup ↥(ReeTag.F4.reeGamma k b) :=
+    have : Finite ↥(ReeTag.F4.reeGamma k b) := Subtype.finite
+    have : IsSimpleGroup ↥(ReeTag.F4.reeGamma k b) :=
       CFSG.SignalizerFunctorTheorem.CatalogBridge.isSimpleGroup_reeGamma_F4 hb hk
     by_contra hcon
     push Not at hcon
@@ -270,10 +271,10 @@ theorem reeF4_noA5 {a : ℕ} (ha : 1 ≤ a) {K : Type} [Field K] [Finite K]
       ⟨orderOf_eq_prime hτ hτ1, hin⟩
     obtain ⟨b, hkcard, hchar, ⟨eC⟩⟩ := exists_fixSubgroup_fieldAut_equiv hK Nat.prime_three
       (by norm_num) σ hσ
-    haveI := hchar
-    haveI : Finite (fixSubfield σ) := Subtype.finite
-    haveI : Finite (ModGL ReeTag.F4.tag (fixSubfield σ)) := finite_modGL
-    haveI : Finite ↥(ReeTag.F4.reeGamma (fixSubfield σ) b) := Subtype.finite
+    have := hchar
+    have : Finite (fixSubfield σ) := Subtype.finite
+    have : Finite (ModGL ReeTag.F4.tag (fixSubfield σ)) := finite_modGL
+    have : Finite ↥(ReeTag.F4.reeGamma (fixSubfield σ) b) := Subtype.finite
     set δ := ReeTag.F4.reeGammaFieldAut K a σ with hδ
     have hCeq : C = Sec4.autFix (MulAut.conj g * δ * (MulAut.conj g)⁻¹) :=
       Subgroup.ext fun z => (hC z).trans (by rw [hg]; exact Sec4.mem_autFix.symm)
@@ -293,18 +294,18 @@ theorem reeF4_noA5 {a : ℕ} (ha : 1 ≤ a) {K : Type} [Field K] [Finite K]
         eCδ.trans (ReeTag.reeFixedEquivReeGamma (fixSubfield σ) 0).symm
       have hT := (CFSG.LieType.Simplicity.titsData (fixSubfield σ) hk2).isQuasisimple hk2
       obtain ⟨eT⟩ := nonempty_commutator_reeFixed_equiv_cat_tits hk2 hv
-      haveI : Finite ↥(reeFixed ReeTag.F4 (fixSubfield σ) 0) := Subtype.finite
-      haveI : Finite ↥(commutator ↥(reeFixed ReeTag.F4 (fixSubfield σ) 0)) := Subtype.finite
-      haveI : Finite (TauCeti.CFSGIndex.lie ⟨.tits, hv⟩).Group := Finite.of_equiv _ eT.toEquiv
-      haveI : IsSimpleGroup (TauCeti.CFSGIndex.lie ⟨.tits, hv⟩).Group :=
+      have : Finite ↥(reeFixed ReeTag.F4 (fixSubfield σ) 0) := Subtype.finite
+      have : Finite ↥(commutator ↥(reeFixed ReeTag.F4 (fixSubfield σ) 0)) := Subtype.finite
+      have : Finite (TauCeti.CFSGIndex.lie ⟨.tits, hv⟩).Group := Finite.of_equiv _ eT.toEquiv
+      have : IsSimpleGroup (TauCeti.CFSGIndex.lie ⟨.tits, hv⟩).Group :=
         (CFSG.LieType.Simplicity.fam_tits_simplicity _ 2 1
           (CFSG.RankThree.PartOne.CTP.reeTitsModel_tits ⟨hv, ⟨MulEquiv.refl _⟩⟩)).2
-      haveI hTs : IsSimpleGroup ↥(commutator ↥(reeFixed ReeTag.F4 (fixSubfield σ) 0)) :=
+      have hTs : IsSimpleGroup ↥(commutator ↥(reeFixed ReeTag.F4 (fixSubfield σ) 0)) :=
         (MulEquiv.isSimpleGroup_congr eT).2 inferInstance
       obtain ⟨N, hNC, hJN, ⟨eN⟩⟩ := exists_le_of_equiv_comm eR
         (Q := commutator ↥(reeFixed ReeTag.F4 (fixSubfield σ) 0))
         (fun x y => Subgroup.commutator_mem_commutator (Subgroup.mem_top _) (Subgroup.mem_top _))
-        hJC (by haveI := hJ.1; exact ⟨hJ.1.commutator_eq_top⟩)
+        hJC (by have := hJ.1; exact ⟨hJ.1.commutator_eq_top⟩)
       have hNq : CFSG.IsQuasisimple ↥N := CFSG.LocalCores.isQuasisimple_of_mulEquiv eN.symm hT
       have hncT : ∃ x y : ↥(commutator ↥(reeFixed ReeTag.F4 (fixSubfield σ) 0)),
           x * y ≠ y * x := by

@@ -92,7 +92,7 @@ theorem heis_frame_r (hr : 1 < r) (ξ : K) (hξ : IsPrimitiveRoot ξ r)
     have hcol : B.col = vs := by
       funext j i
       simp [hB, Matrix.col_apply]
-    rw [← Matrix.linearIndependent_cols_iff_isUnit, hcol]
+    rw [← Matrix.linearIndependent_col_iff_isUnit, hcol]
     exact hli
   refine ⟨B, μ, hBu, hμ0, ?_⟩
   ext i j

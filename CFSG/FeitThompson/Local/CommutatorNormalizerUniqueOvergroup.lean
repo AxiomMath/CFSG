@@ -67,7 +67,7 @@ theorem le_sup_pComplCoreIn_normalizer [Finite G]
         normalizer ((pCoreIn p (mixedFitting M) : Subgroup G) : Set G) :=
       le_normalizer_pCoreIn p (hPM.trans (le_normalizer_mixedFitting M))
     have hsup : IsPGroup p ↥(pCoreIn p (mixedFitting M) ⊔ (P : Subgroup G)) :=
-      IsPGroup.to_sup_of_normal_left' (isPGroup_pCoreIn hp _) P.isPGroup' hnorm
+      IsPGroup.to_sup_of_normal_left' (isPGroup_pCoreIn hp _) P.isPGroup hnorm
     have h := P.maximal_isPGroup.eq_of_ge hsup le_sup_right
     exact le_trans le_sup_left h.le
   have hFle : mixedFitting M ≤
@@ -107,11 +107,11 @@ theorem isUniqueMaximalOvergroup_normalizer_commutator_normalizer_of_scn [Finite
     rw [Subgroup.card_bot] at hle
     omega
   have hPne : (P : Subgroup G) ≠ ⊥ := fun h => hAne (le_bot_iff.1 (h ▸ hAP))
-  have hApg : IsPGroup p ↥A := P.isPGroup'.to_le hAP
+  have hApg : IsPGroup p ↥A := P.isPGroup.to_le hAP
   have hAcomm : IsMulCommutative ↥A := isMulCommutative_of_inf_centralizer_eq hAself
   have hP₀ne : P₀ ≠ ⊥ := commutator_normalizer_ne_bot hna hp hPne P.card_eq_multiplicity
   have hP₀P : P₀ ≤ (P : Subgroup G) := commutator_normalizer_le _
-  have hP₀pg : IsPGroup p ↥P₀ := P.isPGroup'.to_le hP₀P
+  have hP₀pg : IsPGroup p ↥P₀ := P.isPGroup.to_le hP₀P
   have hNP₀ : normalizer (P₀ : Set G) ≠ ⊤ :=
     (normalizer_lt_top_of_isPGroup hna hp hP₀ne hP₀pg).ne
   have hP₀D : P₀ ≤ centralizer ((pComplCoreIn p (mixedFitting M) : Subgroup G) : Set G) :=

@@ -97,7 +97,7 @@ theorem vecWeight_permVec {n : ℕ} (σ : Equiv.Perm (Fin n)) (v : Fin n → ZMo
       simpa [Equiv.symm_apply_apply] using hj
   rw [h, Finset.card_image_of_injective _ σ.injective]
 
-theorem exists_alternating_permVec {v w : Fin 7 → ZMod 2} (hv : IsEvenVec v) (hw : IsEvenVec w)
+theorem exists_alternating_permVec {v w : Fin 7 → ZMod 2} (_hv : IsEvenVec v) (_hw : IsEvenVec w)
     (h : vecWeight v = vecWeight w) : ∃ σ ∈ alternatingGroup (Fin 7), permVec σ v = w := by
   obtain ⟨σ₀, hσ₀⟩ := exists_perm_permVec h
   by_cases hsign : Equiv.Perm.sign σ₀ = 1
@@ -146,7 +146,7 @@ theorem IsPermModuleVia.map_zero {φ : (Fin 7 → ZMod 2) → G} {E H : Subgroup
 theorem IsPermModuleVia.orderOf_eq_two {φ : (Fin 7 → ZMod 2) → G} {E H : Subgroup G}
     {Alt : Subgroup (Equiv.Perm (Fin 7))} (h : IsPermModuleVia IsEvenVec φ E H Alt)
     {v : Fin 7 → ZMod 2} (hv : IsEvenVec v) (hv0 : v ≠ 0) : orderOf (φ v) = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hz : IsEvenVec (0 : Fin 7 → ZMod 2) := by unfold IsEvenVec; simp
   have hvv : v + v = 0 := by funext k; exact CharTwo.add_self_eq_zero (v k)
   have hone : φ v * φ v = 1 := by

@@ -25,18 +25,21 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type} [AddCommGroup V]
   zero_mem' := fun φ _ => map_zero φ
   smul_mem' := fun c {x} hx φ hφ => by rw [map_smul, hx φ hφ, smul_zero]
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem mem_fixSub {Φ : AddSubgroup (Module.End F V)} {x : V} :
     x ∈ fixSub Φ ↔ ∀ φ ∈ Φ, φ x = 0 := Iff.rfl
 
 @[expose] def imgSub (Φ : AddSubgroup (Module.End F V)) : Submodule F V :=
   Submodule.span F {w | ∃ φ ∈ Φ, ∃ x, w = φ x}
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem mem_imgSub_of {Φ : AddSubgroup (Module.End F V)} {φ : Module.End F V} (hφ : φ ∈ Φ)
     (x : V) : φ x ∈ imgSub Φ :=
   Submodule.subset_span ⟨φ, hφ, x, rfl⟩
 
 variable (qf : QuadraticForm F V) {Φ : AddSubgroup (Module.End F V)}
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem polar_isometry_id (hiso : ∀ φ ∈ Φ, ∀ x, qf (x + φ x) = qf x) {φ : Module.End F V}
     (hφ : φ ∈ Φ) (x y : V) :
     polar qf x (φ y) + polar qf (φ x) y + polar qf (φ x) (φ y) = 0 := by
@@ -52,6 +55,7 @@ theorem polar_isometry_id (hiso : ∀ φ ∈ Φ, ∀ x, qf (x + φ x) = qf x) {�
   rw [e2] at h1
   linear_combination h1
 
+omit [Finite F] [FiniteDimensional F V] in
 theorem qf_img_eq (hiso : ∀ φ ∈ Φ, ∀ x, qf (x + φ x) = qf x) {φ : Module.End F V} (hφ : φ ∈ Φ)
     (x : V) : qf (φ x) = polar qf x (φ x) := by
   have h1 := hiso φ hφ x
@@ -67,14 +71,17 @@ variable {qf} (hnd : (polarBilin qf).Nondegenerate)
   (hiso : ∀ φ ∈ Φ, ∀ x, qf (x + φ x) = qf x)
 
 include hnd in
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem polar_left_zero {x : V} (h : ∀ y, polar qf x y = 0) : x = 0 :=
   hnd.1 x (fun y => by rw [polarBilin_apply_apply]; exact h y)
 
 include hnd in
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem polar_right_zero {z : V} (h : ∀ x, polar qf x z = 0) : z = 0 :=
   polar_left_zero hnd (fun x => by rw [polar_comm]; exact h x)
 
 include hsq in
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem imgSub_le_fixSub : imgSub Φ ≤ fixSub Φ := by
   refine Submodule.span_le.mpr ?_
   rintro w ⟨ψ, hψ, x, rfl⟩
@@ -83,6 +90,7 @@ theorem imgSub_le_fixSub : imgSub Φ ≤ fixSub Φ := by
   exact hsq φ hφ ψ hψ x
 
 include hiso in
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem polar_img_fix {w y : V} (hw : w ∈ imgSub Φ) (hy : y ∈ fixSub Φ) : polar qf w y = 0 := by
   unfold imgSub at hw
   induction hw using Submodule.span_induction with
@@ -96,11 +104,13 @@ theorem polar_img_fix {w y : V} (hw : w ∈ imgSub Φ) (hy : y ∈ fixSub Φ) : 
   | smul c w _ h1 => rw [polar_smul_left, h1, smul_zero]
 
 include hsq hiso in
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem polar_img_img {w w' : V} (hw : w ∈ imgSub Φ) (hw' : w' ∈ imgSub Φ) :
     polar qf w w' = 0 :=
   polar_img_fix hiso hw (imgSub_le_fixSub hsq hw')
 
 include hnd hsq hiso in
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem mem_fixSub_of_perp {y : V} (hy : ∀ w ∈ imgSub Φ, polar qf w y = 0) : y ∈ fixSub Φ := by
   intro φ hφ
   apply polar_right_zero hnd
@@ -111,6 +121,7 @@ theorem mem_fixSub_of_perp {y : V} (hy : ∀ w ∈ imgSub Φ, polar qf w y = 0) 
   exact h
 
 include hnd hsq hiso in
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem orthogonal_imgSub_eq :
     LinearMap.BilinForm.orthogonal (polarBilin qf) (imgSub Φ) = fixSub Φ := by
   ext y
@@ -125,6 +136,7 @@ theorem orthogonal_imgSub_eq :
     exact polar_img_fix hiso hw hy
 
 include hnd hsq hiso in
+omit [Finite F] [CharP F 2] in
 theorem finrank_imgSub_add_fixSub :
     finrank F (imgSub Φ) + finrank F (fixSub Φ) = finrank F V := by
   have h := LinearMap.BilinForm.finrank_orthogonal hnd (imgSub Φ)
@@ -142,7 +154,7 @@ variable {qf} (hnd : (polarBilin qf).Nondegenerate)
 
 include hnd hsq hiso in
 theorem exists_sqrt_functional : ∃ y₁ : V, ∀ u ∈ imgSub Φ, qf u = (polar qf u y₁) ^ 2 := by
-  haveI : ExpChar F 2 := ExpChar.prime Nat.prime_two
+  have : ExpChar F 2 := ExpChar.prime Nat.prime_two
   have hbij : Function.Bijective (frobenius F 2) :=
     ⟨frobenius_inj F 2, Finite.injective_iff_surjective.mp (frobenius_inj F 2)⟩
   let fr : F ≃+* F := RingEquiv.ofBijective (frobenius F 2) hbij
@@ -299,7 +311,7 @@ theorem quad_count_params (hdim : finrank F V = 6) :
           polar_left_zero hnd (fun x' => by rw [polar_sub_left, hVV x x', sub_self])
         exact sub_eq_zero.mp this
       exact Subtype.ext (Subtype.ext hφψ')
-    haveI : Finite (LinearMap.BilinForm F X) := Module.finite_of_finite F
+    have : Finite (LinearMap.BilinForm F X) := Module.finite_of_finite F
     have hcard := card_alternating_le (F := F) (X := X) (by rw [hXr]; exact hr3)
     rw [hXr] at hcard
     exact (Nat.card_le_card_of_injective Γ hΓ).trans hcard

@@ -12,6 +12,7 @@ section Datum
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem card_ggAutsOf_eq_card_range_ggBstarAut {Bs K : Subgroup G}
     (hN : Bs ≤ Subgroup.normalizer (K : Set G)) {R : Type} [Group R]
     (θ : K ⧸ Subgroup.center K ≃* R) (hperf : commutator K = ⊤) :
@@ -43,7 +44,7 @@ theorem ggOddCentDatum_of_config {B Bs : Subgroup G} {x : G} {L D J : Subgroup G
       ggLAut K θ ⟨b, hN hb⟩ = u * f) :
     Bs = B ∧ Nat.card ↥(ggAutsOf K Bs hN) = 3 ^ (LargeEvenTwoLocalRank 3 G - 1) ∧
       GGOddCentDatum (ggAutsOf K Bs hN) lab I F θ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hBs : IsElemAbelian 3 Bs := hC.2.1.2.1
   have hBBs : B ≤ Bs := hC.2.1.1
   have hBc : Nat.card B = 3 ^ LargeEvenTwoLocalRank 3 G :=

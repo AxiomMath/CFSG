@@ -13,6 +13,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem le_normalizer_of_conj_mem {X N : Subgroup G} (hXN : ∀ g ∈ X, ∀ n ∈ N, g * n * g⁻¹ ∈ N) :
     X ≤ Subgroup.normalizer (N : Set G) := by
   intro g hg
@@ -22,6 +23,7 @@ theorem le_normalizer_of_conj_mem {X N : Subgroup G} (hXN : ∀ g ∈ X, ∀ n �
   have := hXN g⁻¹ (X.inv_mem hg) _ hh
   simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem mem_sup_cover {N : Subgroup G} (Y : Subgroup G) (hYN : Y ≤ Subgroup.normalizer (N : Set G))
     {y : G} : y ∈ Y ⊔ N ↔ ∃ c ∈ Y, ∃ u ∈ N, c * u = y := by
   rw [← SetLike.mem_coe, Subgroup.coe_mul_of_left_le_normalizer_right Y N hYN]
@@ -67,12 +69,13 @@ theorem cover_normal [Fact (Nat.Prime 2)] {X N : Subgroup G}
   have hnS : n ∈ Y ⊔ N := Subgroup.mem_sup_right hn
   exact (Y ⊔ N).mul_mem ((Y ⊔ N).mul_mem ((Y ⊔ N).inv_mem hnS) h1) hnS
 
+omit [Finite G] in
 theorem L_le_of_normal {L : Subgroup G} (hsimple : IsSimpleGroup (PQuot 3 L)) {Yh : Subgroup G}
     (hLY : ∀ l ∈ L, ∀ y ∈ Yh, l * y * l⁻¹ ∈ Yh) (hOL : GLAPPrimeCoreOf 3 L ≤ Yh)
     (hl₀ : ∃ l₀ : ↥L, (l₀ : G) ∈ Yh ∧ (QuotientGroup.mk l₀ : PQuot 3 L) ≠ 1) : L ≤ Yh := by
   set Wq : Subgroup (PQuot 3 L) :=
     (Yh.subgroupOf L).map (QuotientGroup.mk' (GLAPPrimeCore 3 ↥L)) with hWq
-  haveI : Wq.Normal := by
+  have : Wq.Normal := by
     refine ⟨fun q hq q' => ?_⟩
     obtain ⟨w, hw, rfl⟩ := hq
     obtain ⟨l', rfl⟩ := QuotientGroup.mk_surjective q'

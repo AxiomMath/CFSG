@@ -16,16 +16,17 @@ section Count
 
 variable {ι : Type*} [Fintype ι] [DecidableEq ι] {K : Type} [Field K] [DecidableEq Kˣ]
 
+omit [DecidableEq ι] in
 theorem card_filter_shift (σ : Equiv.Perm ι) (p : ι → Prop) [DecidablePred p] (f : ι → Kˣ)
     (ζ : Kˣ) (hp : ∀ j, p (σ j) ↔ p j) (hf : ∀ j, f (σ j) = ζ * f j) (u : Kˣ) :
     (Finset.univ.filter fun j => p j ∧ f j = u).card =
       (Finset.univ.filter fun j => p j ∧ f j = ζ * u).card := by
   refine Finset.card_nbij' σ σ.symm ?_ ?_ ?_ ?_
   · intro j hj
-    simp only [Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_setOf_eq] at hj ⊢
+    simp only [Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_ofPred_eq] at hj ⊢
     exact ⟨(hp j).mpr hj.1, by rw [hf, hj.2]⟩
   · intro j hj
-    simp only [Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_setOf_eq] at hj ⊢
+    simp only [Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_ofPred_eq] at hj ⊢
     refine ⟨?_, ?_⟩
     · have := hp (σ.symm j)
       rw [Equiv.apply_symm_apply] at this
@@ -38,6 +39,7 @@ theorem card_filter_shift (σ : Equiv.Perm ι) (p : ι → Prop) [DecidablePred 
   · intro j _
     simp
 
+omit [DecidableEq ι] in
 theorem card_filter_shift_cube (σ : Equiv.Perm ι) (p : ι → Prop) [DecidablePred p] (f : ι → Kˣ)
     {ζ : Kˣ} (hζ : IsPrimitiveRoot ζ 3) (hp : ∀ j, p (σ j) ↔ p j)
     (hf : ∀ j, f (σ j) = ζ * f j) (hf3 : ∀ j, f j ^ 3 = 1) :
@@ -135,7 +137,7 @@ theorem exists_frame_data_heis (hKd : UnitaryFieldData 2 n K) (hpq : 3 ∣ 2 ^ n
     · exact hxz.symm
     · exact absurd rfl hab
   set G : Subgroup ↥U := Subgroup.closure {xs, zs} with hG
-  haveI : IsMulCommutative G := Subgroup.isMulCommutative_closure hpair
+  have : IsMulCommutative G := Subgroup.isMulCommutative_closure hpair
   have hcomm : ∀ a ∈ G, ∀ b ∈ G, a * b = b * a := fun a ha b hb =>
     congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : G) ⟨b, hb⟩)
   have hpow : ∀ a ∈ G, a ^ 3 = 1 := by

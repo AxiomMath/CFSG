@@ -14,7 +14,7 @@ theorem genSub_mainWs_eq :
   rw [hS]
   refine congrArg Subgroup.closure ?_
   ext x
-  simp only [Set.mem_image, Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false,
+  simp only [Set.mem_image, Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false,
     Set.mem_insert_iff, Set.mem_singleton_iff]
   constructor
   · rintro ⟨y, hy, rfl⟩

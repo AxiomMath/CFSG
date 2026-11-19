@@ -18,8 +18,8 @@ theorem card_center_dvd_three {L : Type} [Group L] [Finite L] (hperf : Group.IsP
   have hCE : ChevalleyExceptionalModel (L ⧸ center L) .G2 3 1 :=
     CFSG.Blueprint.LieModel.chevalleyExceptionalModel hL (by decide)
   obtain ⟨K, hfield, hfinite, hKpow, ⟨e⟩⟩ := hCE.2
-  letI : Field K := hfield
-  letI : Finite K := hfinite
+  let : Field K := hfield
+  let : Finite K := hfinite
   have hK : Nat.card K = 3 := by simpa using hKpow
   let eAdj : AdjointQuotient .G2 K ≃* adjointGroup .G2 K :=
     (QuotientGroup.quotientMulEquivOfEq
@@ -31,7 +31,7 @@ theorem card_center_dvd_three {L : Type} [Group L] [Finite L] (hperf : Group.IsP
   have hker : π.ker = center L := by
     dsimp only [π]
     rw [MonoidHom.ker_comp_of_injective _ _ η.injective, QuotientGroup.ker_mk']
-  haveI : Group.IsPerfect L := hperf
+  have : Group.IsPerfect L := hperf
   obtain ⟨c, hc3, hle⟩ :=
     CFSG.LieType.Steinberg.CentralExt.FieldThree.g2_three_ker_le_zpowers
       hK hπ (by rw [hker])
@@ -53,7 +53,7 @@ theorem inf_center_eq_bot {L : Type} [Group L] [Finite L] (hZ : Odd (Nat.card (c
       orderOf_dvd_natCard _
     rw [← Subgroup.orderOf_coe (⟨x, hxZ⟩ : center L)] at hdvdZ
     exact Odd.of_dvd_nat hZ hdvdZ
-  obtain ⟨k, hk⟩ := S.isPGroup'.exists_pow_pow_eq_one ⟨x, hxS⟩
+  obtain ⟨k, hk⟩ := S.isPGroup.exists_pow_pow_eq_one ⟨x, hxS⟩
   have hxpow : x ^ 2 ^ k = 1 := by
     simpa using congrArg (Subtype.val) hk
   have hdvd : orderOf x ∣ 2 ^ k := orderOf_dvd_of_pow_eq_one hxpow

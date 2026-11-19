@@ -24,6 +24,7 @@ open Matrix CFSG.Open CFSG.Open.StatedAPI CFSG.LocalAnalysis.GLTheoremA.LevelLie
 
 variable {K : Type} [Field K] [CharP K 2]
 
+omit [CharP K 2] in
 theorem planeMat_pair_mul2 (A B C D : Matrix (Fin 2) (Fin 2) K) :
     planeMat ![A, B] * planeMat ![C, D] = planeMat ![A * C, B * D] := by
   rw [planeMat_mul]
@@ -31,6 +32,7 @@ theorem planeMat_pair_mul2 (A B C D : Matrix (Fin 2) (Fin 2) K) :
   funext k
   fin_cases k <;> simp
 
+omit [CharP K 2] in
 theorem planeMat_one_one : planeMat ![(1 : Matrix (Fin 2) (Fin 2) K), 1] = 1 := by
   rw [planeMat_one]
   congr 1
@@ -59,10 +61,12 @@ theorem planeMat_one_one : planeMat ![(1 : Matrix (Fin 2) (Fin 2) K), 1] = 1 := 
         planeMat ![(q.1 : Matrix (Fin 2) (Fin 2) K), q.2]
     rw [planeMat_pair_mul2, Units.val_mul, Units.val_mul])
 
+omit [CharP K 2] in
 theorem psi_val (p : GL (Fin 2) K × GL (Fin 2) K) :
     ((psi p : GL Ix K) : Matrix Ix Ix K) = planeMat ![(p.1 : Matrix (Fin 2) (Fin 2) K), p.2] :=
   rfl
 
+omit [CharP K 2] in
 theorem psi_injective : Function.Injective (psi (K := K)) := by
   intro p q h
   have h' : planeMat ![(p.1 : Matrix (Fin 2) (Fin 2) K), p.2] =
@@ -74,6 +78,7 @@ theorem psi_injective : Function.Injective (psi (K := K)) := by
   simp only [Matrix.cons_val_zero, Matrix.cons_val_one] at h0 h1
   exact Prod.ext (Units.ext h0) (Units.ext h1)
 
+omit [CharP K 2] in
 theorem psi_mem {p : GL (Fin 2) K × GL (Fin 2) K} (h1 : (p.1 : Matrix (Fin 2) (Fin 2) K).det = 1)
     (h2 : (p.2 : Matrix (Fin 2) (Fin 2) K).det = 1) : psi p ∈ StatedSp 2 K := by
   rw [mem_statedSp_iff]
@@ -88,18 +93,20 @@ theorem psi_mem {p : GL (Fin 2) K × GL (Fin 2) K} (h1 : (p.1 : Matrix (Fin 2) (
 @[expose] def wmat : Matrix Ix Ix K :=
   Matrix.of fun a b => if plane a ≠ plane b ∧ pos a = pos b then 1 else 0
 
+omit [CharP K 2] in
 theorem wmat_mul_self : wmat * wmat = (1 : Matrix Ix Ix K) := by
   ext a b
   rcases a with i | i <;> rcases b with j | j <;> fin_cases i <;> fin_cases j <;>
-    simp [wmat, Matrix.mul_apply, Fintype.sum_sum_type, Fin.sum_univ_two, plane, pos,
-      Matrix.one_apply]
+    simp [wmat, Matrix.mul_apply, Fintype.sum_sum_type, Fin.sum_univ_two, plane, pos]
 
+omit [CharP K 2] in
 theorem wmat_conj (X Y : Matrix (Fin 2) (Fin 2) K) :
     wmat * planeMat ![X, Y] * wmat = planeMat ![Y, X] := by
   ext a b
   rcases a with i | i <;> rcases b with j | j <;> fin_cases i <;> fin_cases j <;>
     simp [wmat, planeMat, Matrix.mul_apply, Fintype.sum_sum_type, Fin.sum_univ_two, plane, pos]
 
+omit [CharP K 2] in
 theorem wmat_symp : wmatᵀ * JJ K * wmat = JJ K := by
   ext a b
   rcases a with i | i <;> rcases b with j | j <;> fin_cases i <;> fin_cases j <;>
@@ -109,10 +116,12 @@ theorem wmat_symp : wmatᵀ * JJ K * wmat = JJ K := by
 
 @[expose] def wU : GL Ix K := ⟨wmat, wmat, wmat_mul_self, wmat_mul_self⟩
 
+omit [CharP K 2] in
 theorem wU_mem : wU ∈ StatedSp 2 K := by
   rw [mem_statedSp_iff]
   exact wmat_symp
 
+omit [CharP K 2] in
 theorem wU_conj (p : GL (Fin 2) K × GL (Fin 2) K) : wU * psi p * wU⁻¹ = psi (p.2, p.1) :=
   Units.ext (by
     show wmat * planeMat ![(p.1 : Matrix (Fin 2) (Fin 2) K), p.2] * wmat =

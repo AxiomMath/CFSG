@@ -90,7 +90,7 @@ theorem exists_conj_le_frame_sylow_of_perfect [Finite G] [Finite L] {k : ℕ}
       exact commutatorElement_eq_one_iff_mul_comm.mpr h3.eq
     have hcenter : ∀ i, x i ∈ Subgroup.center L := fun i =>
       mem_center_of_commutator_mem_center_of_perfect hperf (hcent i)
-    obtain ⟨m, hm⟩ := Q.isPGroup' ⟨x, hxQ⟩
+    obtain ⟨m, hm⟩ := Q.isPGroup ⟨x, hxQ⟩
     have hm' : x ^ (p ^ m) = 1 := by
       have := congrArg Subtype.val hm
       simpa using this
@@ -268,7 +268,7 @@ open CFSG.Assembly.LowTwoRank CFSG.LieType.Universal.Spin
   CFSG.ClassicalInvolution.ModelFacts.OrthAut
 
 theorem factorization_ordPOmegaPlus4_le_card_proj {K : Type} [Field K] [Finite K] {p : ℕ}
-    (hp : p.Prime) (h7 : 7 ≤ p) (he : orderOf ((Nat.card K : ℕ) : ZMod p) = 4) :
+    (_hp : p.Prime) (h7 : 7 ≤ p) (_he : orderOf ((Nat.card K : ℕ) : ZMod p) = 4) :
     (ordPOmegaPlus4 (Nat.card K)).factorization p ≤
       (Nat.card (StatedProj (StatedOmega (StatedQuadPlus 4 K)))).factorization p := by
   classical
@@ -683,7 +683,7 @@ theorem seitzExcHighE8Four_of_ge_seven : SeitzExcHighE8FourGeSeven :=
 
 theorem seitzExcHighE8Four_of_ge_seven_of_lt
     (h : SeitzExcHighE8FourLtSeven) : SeitzExcHighE8Four :=
-  SeitzExcHighForAt.union (fun d p _ _ hQ => (Nat.lt_or_ge p 7).elim
+  SeitzExcHighForAt.union (fun _d p _ _ hQ => (Nat.lt_or_ge p 7).elim
     (fun h' => Or.inr ⟨h', hQ⟩) (fun h' => Or.inl ⟨h', hQ⟩))
     seitzExcHighE8Four_of_ge_seven h
 

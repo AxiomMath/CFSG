@@ -112,7 +112,7 @@ theorem mem_or_mem_of_mem_ne_zero {e f : V} (hQe : Q e = 0) (hQf : Q f = 0)
         ha0 haf hae hx hxf)
   · exact Or.inl (mem_left_of_polar_ne_zero hQe hQf hef hQ hW ha0 hae haf hx hxe)
 
-theorem mem_perp_of_mem_left {e f : V} (hQe : Q e = 0) (hQf : Q f = 0)
+theorem mem_perp_of_mem_left {e f : V} (_hQe : Q e = 0) (hQf : Q f = 0)
     (hef : polar Q e f = 1) {W : Submodule K V}
     (hW : ∀ u w : V, ∀ x ∈ W, eichler Q u w x ∈ W) {w1 w2 : V}
     (h1e : polar Q e w1 = 0) (h1f : polar Q f w1 = 0) (h2e : polar Q e w2 = 0)
@@ -196,11 +196,11 @@ theorem natIrred_statedOmegaMinus_two {K : Type} [Field K] [Finite K] [CharP K 2
   have hae : polar (CFSG.LieType.Universal.Spin.quadMinus 2 K b c)
       (minusPair K b c i0).e a = 0 := by
     rw [minusPair_e, polar_single_inl_quadMinus]
-    simp [a, Pi.single_apply]
+    simp [a]
   have haf : polar (CFSG.LieType.Universal.Spin.quadMinus 2 K b c)
       (minusPair K b c i0).f a = 0 := by
     rw [minusPair_f, polar_single_inr_quadMinus]
-    simp [a, Pi.single_apply]
+    simp [a]
   have hW : ∀ u w : Fin (2 - 1) ⊕ Fin (2 - 1) ⊕ Fin 2 → K, ∀ x ∈ S,
       eichler (CFSG.LieType.Universal.Spin.quadMinus 2 K b c) u w x ∈ S := by
     intro u w x hx

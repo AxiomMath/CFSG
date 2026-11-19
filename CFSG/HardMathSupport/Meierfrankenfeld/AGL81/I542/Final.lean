@@ -30,10 +30,10 @@ theorem nonempty_gl32_of_statedClassicalModel {K : Type} [Group K]
       (Matrix.SpecialLinearGroup.map ε.symm.toRingHom)
       (MonoidHom.ext fun A => Subtype.ext (by
         ext i j
-        simp [Matrix.SpecialLinearGroup.map_apply_coe]))
+        simp))
       (MonoidHom.ext fun A => Subtype.ext (by
         ext i j
-        simp [Matrix.SpecialLinearGroup.map_apply_coe]))
+        simp))
   exact ⟨e.trans ((CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 3 F).symm.trans
     ((e₂.trans e₃).trans CFSG.Quasithin.B42L2.slEquivGL32))⟩
 

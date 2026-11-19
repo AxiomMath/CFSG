@@ -16,10 +16,12 @@ variable {K : Type*} [Field K] [CharP K 2] {V : Type*} [AddCommGroup V] [Module 
 @[expose] def piGroup (Qf : QuadraticForm K V) (P W : Submodule K V) : Subgroup (V ≃ₗ[K] V) :=
   Subgroup.closure {s | IsLongRootElement Qf s ∧ P ≤ movedSpace s ∧ movedSpace s ≤ W}
 
+omit [CharP K 2] in
 theorem piGroup_mono {P P' W W' : Submodule K V} (hP : P' ≤ P) (hW : W ≤ W') :
     piGroup Qf P W ≤ piGroup Qf P' W' :=
   Subgroup.closure_mono fun _ h => ⟨h.1, hP.trans h.2.1, h.2.2.trans hW⟩
 
+omit [CharP K 2] in
 theorem isLongRootElement_mem_piGroup {P W : Submodule K V} {s : V ≃ₗ[K] V}
     (hs : IsLongRootElement Qf s) (hP : P ≤ movedSpace s) (hW : movedSpace s ≤ W) :
     s ∈ piGroup Qf P W :=
@@ -30,6 +32,7 @@ theorem eichler_apply_of_qf_eq_zero {p w : V} (hp : Qf p = 0) (hpw : polar Qf p 
     eichler Qf p w x = x + polar Qf x p • w + polar Qf x w • p := by
   rw [eichler_apply hp hpw, hw, zero_mul, add_zero, sub_eq_add_neg, ← neg_smul, CharTwo.neg_eq]
 
+omit [CharP K 2] in
 theorem eichler_eq_one_of_mem_span {p w : V} (hp : Qf p = 0)
     (hw : w ∈ Submodule.span K ({p} : Set V)) : eichler Qf p w = 1 := by
   obtain ⟨c, rfl⟩ := Submodule.mem_span_singleton.mp hw
@@ -48,6 +51,7 @@ theorem isLongRootElement_eichler (hnd : ∀ x : V, (∀ y, polar Qf x y = 0) �
   have h := isLongRootElement_siegelEquiv Qf p w hp hw hpw hnd hli (one_ne_zero : (1 : K) ≠ 0)
   rwa [siegelEquiv_eq_eichler hp hw hpw 1, one_smul] at h
 
+omit [CharP K 2] in
 theorem exists_ne_zero_span_eq_of_finrank_eq_one [FiniteDimensional K V] {P : Submodule K V}
     (hP : finrank K P = 1) : ∃ p : V, p ≠ 0 ∧ P = Submodule.span K ({p} : Set V) := by
   have hbot : P ≠ ⊥ := fun h => by rw [h, finrank_bot] at hP; omega

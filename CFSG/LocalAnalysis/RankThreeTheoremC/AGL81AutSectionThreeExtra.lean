@@ -20,7 +20,7 @@ theorem det_eq_one_of_fixes_center_of_pow_eq_one {G : Type*} [Group G] {p : ℕ}
     (hσ : ∀ c ∈ Subgroup.center G, σ c = c) :
     ((elemAutEquivGL e (autQuotient (Subgroup.center G) σ) : GL (Fin 2) (ZMod p)) :
       Matrix (Fin 2) (Fin 2) (ZMod p)).det = 1 := by
-  letI : (Subgroup.center G).Characteristic := Subgroup.centerCharacteristic
+  let : (Subgroup.center G).Characteristic := Subgroup.centerCharacteristic
   have hp := (Fact.out : p.Prime)
   obtain ⟨a, ha⟩ : ∃ a : G, e (a : G ⧸ Subgroup.center G) =
       Multiplicative.ofAdd (Pi.single 0 1) := by
@@ -86,6 +86,7 @@ theorem matrix_pow_twelve_of_det_one (A : Matrix (Fin 2) (Fin 2) (ZMod 3)) (hA :
 
 variable {G : Type*} [Group G] [Finite G] {D : Subgroup G}
 
+omit [Finite G] in
 private theorem center_eq_centralizer_subgroupOf :
     Subgroup.center ↥D = (Subgroup.centralizer (D : Set G)).subgroupOf D := by
   ext x
@@ -100,12 +101,14 @@ private theorem center_eq_centralizer_subgroupOf :
     exact Subtype.ext
       ((Subgroup.mem_centralizer_iff.mp (Subgroup.mem_subgroupOf.mp hx)) (g : G) g.2)
 
+omit [Finite G] in
 private theorem card_center_quotient_eq_nine
     (hidx : (Subgroup.centralizer (D : Set G)).relIndex D = 9) :
     Nat.card (↥D ⧸ Subgroup.center ↥D) = 9 := by
   rw [center_eq_centralizer_subgroupOf (D := D), ← Subgroup.index_eq_card]
   exact hidx
 
+omit [Finite G] in
 private theorem pow_three_center_quotient (hexp : ∀ x ∈ D, x ^ 3 = 1) :
     ∀ q : ↥D ⧸ Subgroup.center ↥D, q ^ 3 = 1 := by
   intro q
@@ -113,6 +116,7 @@ private theorem pow_three_center_quotient (hexp : ∀ x ∈ D, x ^ 3 = 1) :
   rw [← QuotientGroup.mk_pow, show (x : ↥D) ^ 3 = 1 from Subtype.ext (hexp (x : G) x.2)]
   exact QuotientGroup.mk_one _
 
+omit [Finite G] in
 private theorem comm_center_quotient
     (hcl : ∀ x ∈ D, ∀ x' ∈ D, ⁅x, x'⁆ ∈ Subgroup.centralizer (D : Set G)) :
     ∀ q r : ↥D ⧸ Subgroup.center ↥D, q * r = r * q := by
@@ -129,6 +133,7 @@ private theorem comm_center_quotient
   rw [heq]
   exact hmem
 
+omit [Finite G] in
 private theorem exists_not_comm_of_card_center_quotient_eq_nine
     (hidx9 : Nat.card (↥D ⧸ Subgroup.center ↥D) = 9) :
     ∃ a b : ↥D, a * b ≠ b * a := by
@@ -150,13 +155,14 @@ private theorem exists_coord_center_quotient
     (hexp : ∀ x ∈ D, x ^ 3 = 1)
     (hcl : ∀ x ∈ D, ∀ x' ∈ D, ⁅x, x'⁆ ∈ Subgroup.centralizer (D : Set G)) :
     Nonempty (↥D ⧸ Subgroup.center ↥D ≃* Multiplicative (Fin 2 → ZMod 3)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcard := card_center_quotient_eq_nine (D := D) hidx
   refine CFSG.SectionRank.Ccomm.nonempty_mulEquiv_of_elementary
     (comm_center_quotient (D := D) hcl) (pow_three_center_quotient (D := D) hexp) ?_
   rw [hcard]
   norm_num
 
+omit [Finite G] in
 private theorem commutator_mem_center_of_classTwo
     (hcl : ∀ x ∈ D, ∀ x' ∈ D, ⁅x, x'⁆ ∈ Subgroup.centralizer (D : Set G)) :
     ∀ a b : ↥D, ⁅a, b⁆ ∈ Subgroup.center ↥D := by
@@ -168,6 +174,7 @@ private theorem commutator_mem_center_of_classTwo
   have hcomm := Subgroup.mem_centralizer_iff.mp hmem (c : G) c.2
   simpa only [Subgroup.coe_mul, Subgroup.coe_inv, commutatorElement_def] using hcomm
 
+omit [Finite G] in
 private theorem normalizer_aut_fixes_center {y : G}
     (hy : y ∈ Subgroup.normalizer (D : Set G))
     (hyZ : ∀ z ∈ D, z ∈ Subgroup.centralizer (D : Set G) → y * z = z * y) :
@@ -183,6 +190,7 @@ private theorem normalizer_aut_fixes_center {y : G}
   rw [hcomm]
   group
 
+omit [Finite G] in
 private theorem autQuotient_center_pow_twelve_eq_one
     (hcD : ∀ a b : ↥D, ⁅a, b⁆ ∈ Subgroup.center ↥D)
     (hZexp : ∀ z ∈ Subgroup.center ↥D, z ^ 3 = 1)
@@ -190,7 +198,7 @@ private theorem autQuotient_center_pow_twelve_eq_one
     (e : ↥D ⧸ Subgroup.center ↥D ≃* Multiplicative (Fin 2 → ZMod 3))
     {σ : MulAut ↥D} (hσ : ∀ c ∈ Subgroup.center ↥D, σ c = c) :
     autQuotient (Subgroup.center ↥D) σ ^ 12 = 1 := by
-  letI : (Subgroup.center ↥D).Characteristic := Subgroup.centerCharacteristic
+  let : (Subgroup.center ↥D).Characteristic := Subgroup.centerCharacteristic
   have hdet := det_eq_one_of_fixes_center_of_pow_eq_one (p := 3) (G := ↥D) hcD hZexp hnc e σ hσ
   let A : Matrix (Fin 2) (Fin 2) (ZMod 3) :=
     ((elemAutEquivGL e (autQuotient (Subgroup.center ↥D) σ) : GL (Fin 2) (ZMod 3)) :
@@ -202,12 +210,13 @@ private theorem autQuotient_center_pow_twelve_eq_one
   change A ^ 12 = 1
   exact hA12
 
+omit [Finite G] in
 private theorem autQuotient_center_pow_thirtySix_eq_one
     (hZexp : ∀ z ∈ Subgroup.center ↥D, z ^ 3 = 1)
     {σ : MulAut ↥D} (hσ : ∀ c ∈ Subgroup.center ↥D, σ c = c)
     (hσ12 : autQuotient (Subgroup.center ↥D) σ ^ 12 = 1) :
     σ ^ 36 = 1 := by
-  letI : (Subgroup.center ↥D).Characteristic := Subgroup.centerCharacteristic
+  let : (Subgroup.center ↥D).Characteristic := Subgroup.centerCharacteristic
   let α : MulAut ↥D := σ ^ 12
   have hαZ : ∀ z ∈ Subgroup.center ↥D, α z = z := by
     intro z hz
@@ -254,7 +263,7 @@ theorem pow_thirtySix_commute_of_normalizer (hexp : ∀ x ∈ D, x ^ 3 = 1)
     (hyZ : ∀ z ∈ D, z ∈ Subgroup.centralizer (D : Set G) → y * z = z * y) :
     ∀ x ∈ D, y ^ 36 * x = x * y ^ 36 := by
   classical
-  letI : (Subgroup.center ↥D).Characteristic := Subgroup.centerCharacteristic
+  let : (Subgroup.center ↥D).Characteristic := Subgroup.centerCharacteristic
   obtain ⟨e⟩ := exists_coord_center_quotient (D := D) hidx hexp hcl
   have hnc := exists_not_comm_of_card_center_quotient_eq_nine (D := D)
     (card_center_quotient_eq_nine (D := D) hidx)

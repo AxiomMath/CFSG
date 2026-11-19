@@ -67,7 +67,7 @@ theorem str83G4_s1_false
     intro y hy h
     rw [hR₀] at h ⊢
     exact str83G4_s1_fpf_r0 hfr d hg hc hx0 hx01 hy (h x0 hx0)
-  obtain ⟨t, htZg, htQ2⟩ := SetLike.not_le_iff_exists.mp
+  obtain ⟨t, htZg, htQ2⟩ := IsConcreteLE.not_le_iff_exists.mp
     fun h : CFSG.conjugate (Z2 L1 L2 S) g ≤ Q2 L1 L2 S =>
       hc (Subgroup.le_centralizer_iff.mpr (h.trans hQ2C))
   have ht2 : t * t = 1 := by

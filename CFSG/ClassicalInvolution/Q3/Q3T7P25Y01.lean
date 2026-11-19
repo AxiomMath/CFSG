@@ -365,7 +365,7 @@ theorem mem_S_triv [IsSimpleGroup G] (hM5 : Om5Centerless)
       exact (S : Subgroup G).mul_mem ((S : Subgroup G).mul_mem
         ((S : Subgroup G).mul_mem hwS hrS) ((S : Subgroup G).inv_mem hwS))
         ((S : Subgroup G).inv_mem hrS)
-    have h3 := eq_one_of_isPGroup_of_odd S.isPGroup' hO h2 h1
+    have h3 := eq_one_of_isPGroup_of_odd S.isPGroup hO h2 h1
     rw [commutatorElement_eq_one_iff_mul_comm] at h3
     exact Subgroup.mem_centralizer_singleton_iff.mpr h3.symm
   have hle : R ⊔ R' ≤ Subgroup.centralizer ({w} : Set G) :=
@@ -445,7 +445,7 @@ theorem twoElt_triv [IsSimpleGroup G] (hM5 : Om5Centerless)
   have hSN : (S : Subgroup G) ≤ Subgroup.normalizer (A₀ : Set G) := fun s hs =>
     mem_normalizer_of_conjSub_eq (T7T.conjSub_centralizer_of_hyp C.hyp hs)
   have hSsyl : IsSylow2In (S : Subgroup G) (Subgroup.normalizer (A₀ : Set G)) :=
-    ⟨hSN, S.isPGroup', fun V' _ hV' hle => (S.maximal_isPGroup.eq_of_le hV' hle).symm⟩
+    ⟨hSN, S.isPGroup, fun V' _ hV' hle => (S.maximal_isPGroup.eq_of_le hV' hle).symm⟩
   have hfixA : ∀ h ∈ A₀, w₁ * h * w₁⁻¹ = h := by
     intro h hh
     rcases C.hA0 h hh with rfl | rfl | rfl | rfl
@@ -574,7 +574,7 @@ theorem mem_A_of_mem_cOne (C : Ctx Ω K K' W S R R' z t u₁ u₂ a) {s : G}
       exact (S : Subgroup G).mul_mem ((S : Subgroup G).mul_mem
         ((S : Subgroup G).mul_mem hsS hrS) ((S : Subgroup G).inv_mem hsS))
         ((S : Subgroup G).inv_mem hrS)
-    have h3 := eq_one_of_isPGroup_of_odd S.isPGroup' (odd_card_oddCoreIn J) h2 h1
+    have h3 := eq_one_of_isPGroup_of_odd S.isPGroup (odd_card_oddCoreIn J) h2 h1
     rw [commutatorElement_eq_one_iff_mul_comm] at h3
     exact Subgroup.mem_centralizer_singleton_iff.mpr h3.symm
   have hle : R ⊔ R' ≤ Subgroup.centralizer ({s} : Set G) :=
@@ -596,9 +596,9 @@ theorem isSylow2In_cOne [IsSimpleGroup G] (C : Ctx Ω K K' W S R R' z t u₁ u�
     IsSylow2In ((S : Subgroup G) ⊓ Subgroup.centralizer ((R ⊔ R' : Subgroup G) : Set G))
       (cOne z K K') := by
   set A₀ := (S : Subgroup G) ⊓ Subgroup.centralizer ((R ⊔ R' : Subgroup G) : Set G) with hA₀
-  refine ⟨C.A_le_cOne, S.isPGroup'.to_le inf_le_left, fun V' hV'C hV' hle => ?_⟩
+  refine ⟨C.A_le_cOne, S.isPGroup.to_le inf_le_left, fun V' hV'C hV' hle => ?_⟩
   have hSz : IsSylow2In (S : Subgroup G) (Subgroup.centralizer ({z} : Set G)) :=
-    ⟨fun s hs => Subgroup.mem_centralizer_singleton_iff.mpr (C.hyp.hzS s hs), S.isPGroup',
+    ⟨fun s hs => Subgroup.mem_centralizer_singleton_iff.mpr (C.hyp.hzS s hs), S.isPGroup,
       fun V'' _ hV'' hle' => (S.maximal_isPGroup.eq_of_le hV'' hle').symm⟩
   have hV'z : V' ≤ Subgroup.centralizer ({z} : Set G) := fun v hv => (hV'C hv).1.1
   obtain ⟨V, hV, hV'V⟩ := IsSylow2In.exists_ge hV' hV'z
@@ -707,7 +707,7 @@ theorem cOne_normalizer_le [IsSimpleGroup G] (C : Ctx Ω K K' W S R R' z t u₁ 
         IsPGroup.of_card (n := k) (by rw [Nat.card_zpowers, hord])
       have hle : Subgroup.zpowers (g ^ (2 * j + 1)) ≤ Subgroup.normalizer (A₀ : Set G) :=
         Subgroup.zpowers_le.mpr (pow_mem hgN _)
-      have hp := IsPGroup.to_sup_of_normal_right' h2 (S.isPGroup'.to_le inf_le_left) hle
+      have hp := IsPGroup.to_sup_of_normal_right' h2 (S.isPGroup.to_le inf_le_left) hle
       have hle' : Subgroup.zpowers (g ^ (2 * j + 1)) ⊔ A₀ ≤ cOne z K K' :=
         sup_le (Subgroup.zpowers_le.mpr (pow_mem hg _)) C.A_le_cOne
       have heq := C.isSylow2In_cOne.2.2 _ hle' hp le_sup_right

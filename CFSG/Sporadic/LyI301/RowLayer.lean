@@ -51,8 +51,8 @@ theorem exists_eq_lySplit {π : Perm (Fin 11)} (hπ : ∀ i : Fin 11, i.val < 3 
   intro i
   unfold lySplit
   by_cases hi : i.val < 3
-  · rw [Perm.subtypeCongr.apply, dif_pos hi, Perm.subtypePerm_apply]
-  · rw [Perm.subtypeCongr.apply, dif_neg hi, Perm.subtypePerm_apply]
+  · rw [Perm.subtypeCongr.apply, dite_eq_left hi, Perm.subtypePerm_apply]
+  · rw [Perm.subtypeCongr.apply, dite_eq_right hi, Perm.subtypePerm_apply]
 
 variable {G : Type} [Group G] [Finite G] {t : G} {ρ : ↥(centralizer ({t} : Set G)) →* Perm (Fin 11)}
   {x₁ x₂ x₃ : ↥(centralizer ({t} : Set G))}
@@ -63,6 +63,7 @@ theorem lyVS_le_alternatingGroup : lyVS ≤ alternatingGroup (Fin 11) := by
   obtain ⟨k, rfl⟩ := List.mem_ofFn.1 ha
   exact pow_mem (mem_alternatingGroup.2 (sign_lyU k)) _
 
+omit [Finite G] in
 theorem rho_conj_mem_lyVS (D : LyData G t ρ) {h : ↥(centralizer ({t} : Set G))}
     (hh : (h : G) ∈ Subgroup.normalizer (lyR ρ : Set G)) {σ : Perm (Fin 11)} (hσ : σ ∈ lyVS) :
     ρ h * σ * (ρ h)⁻¹ ∈ lyVS := by
@@ -84,6 +85,7 @@ theorem lySplit_inv_facts : ∀ σ₃ σ₈, (∀ i, lySplit σ₃ σ₈ * lyU i
       (b * lySplit σ₃ σ₈ * b⁻¹)⁻¹ ∉ lyV :=
   Certificates.certificate810304.2
 
+omit [Finite G] in
 theorem pow_48_eq_one (D : LyData G t ρ) (S : LyStd ρ x₁ x₂ x₃) {g : G}
     (hgx : g * (x₁ : G) = (x₁ : G) * g) (hgN : g ∈ Subgroup.normalizer (lyR ρ : Set G)) :
     g ^ 48 = 1 := by
@@ -122,7 +124,7 @@ theorem pow_48_eq_one (D : LyData G t ρ) (S : LyStd ρ x₁ x₂ x₃) {g : G}
 
 theorem ly_K (D : LyData G t ρ) (S : LyStd ρ x₁ x₂ x₃) :
     rowKOf Row.ly.prime (x₁ : G) (lyR ρ) = ⊥ := by
-  haveI : Group.IsSolvable ↥(rowIOf Row.ly.prime (x₁ : G) ⊓
+  have : Group.IsSolvable ↥(rowIOf Row.ly.prime (x₁ : G) ⊓
       Subgroup.normalizer (lyR ρ : Set G)) := isSolvable_of_pow_two_mul_three 4 1 fun g => by
     have hgI := CFSG.HardMathSupport.Solomon.Coordinator.i183_glaPLayer_le Row.ly.prime
       (centralizer ({(x₁ : G)} : Set G)) (Subgroup.mem_inf.1 g.2).1

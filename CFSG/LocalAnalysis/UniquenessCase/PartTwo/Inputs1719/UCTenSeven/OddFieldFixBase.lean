@@ -365,8 +365,8 @@ private theorem lieOrd_eq_num_div (t : CFSG.Open.StatedLieTag) (n : ℕ) (q : �
       apply Finset.prod_congr rfl
       intro i hi
       by_cases he : Even i
-      · rw [if_pos he, toNat_even (by omega) he]
-      · rw [if_neg he]
+      · rw [ite_eq_left he, toNat_even (by omega) he]
+      · rw [ite_eq_right he]
         rcases Nat.even_or_odd i with he' | ho
         · exact absurd he' he
         · exact toNat_odd ho

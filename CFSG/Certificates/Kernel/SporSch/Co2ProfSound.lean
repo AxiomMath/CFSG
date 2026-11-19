@@ -141,8 +141,8 @@ theorem incK_eq {k : ℕ} (hk : k / 8 < 7 ∧ k % 8 < 7) :
     incK k = ∑ j ∈ Finset.range 14, dg k j * 2 ^ (16 * j) := by
   unfold dg
   simp only [add_mul, Finset.sum_add_distrib, ite_mul, one_mul, zero_mul,
-    Finset.sum_ite_eq, Finset.sum_ite_eq', Finset.mem_range]
-  rw [if_pos (by omega), if_pos (by omega)]
+    Finset.sum_ite_eq, Finset.mem_range]
+  rw [ite_eq_left (by omega), ite_eq_left (by omega)]
   unfold incK
   change 1 <<< (16 * (k / 8)) + 1 <<< (16 * (7 + k % 8)) = _
   rw [Nat.shiftLeft_eq, Nat.shiftLeft_eq, one_mul, one_mul]

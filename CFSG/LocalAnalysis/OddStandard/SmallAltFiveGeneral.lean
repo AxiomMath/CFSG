@@ -49,7 +49,7 @@ theorem card_eq_of_maximal [Finite G] {p : ℕ} [Fact p.Prime] {X Q : Subgroup G
   have h1 : Q ≤ (V : Subgroup X).map X.subtype := fun x hx =>
     ⟨⟨x, hQX hx⟩, hV (mem_subgroupOf.mpr hx), rfl⟩
   have h2 : (V : Subgroup X).map X.subtype = Q :=
-    hmax _ (map_subtype_le _) (V.isPGroup'.map _) h1
+    hmax _ (map_subtype_le _) (V.isPGroup.map _) h1
   rw [← h2, Subgroup.card_map_of_injective X.subtype_injective, Sylow.card_eq_multiplicity]
 
 theorem isKleinFour_of_card_four_of_mul_self {H : Type*} [Group H] (h4 : Nat.card H = 4)

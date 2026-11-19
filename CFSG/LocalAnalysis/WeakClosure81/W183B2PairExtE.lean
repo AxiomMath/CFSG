@@ -13,10 +13,11 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.SignalizerFunctorTheorem.Quadratic
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem w183b2_pair_psi {H E : Subgroup G} (M : ModDataE H E) {A B : Subgroup G}
     (hA : A ≤ H) (hB : B ≤ H)
-    (hKsol : IsSolvable ↥(H ⊓ Subgroup.centralizer (E : Set G))) :
-    ∃ ψ : ↥(A ⊔ B) →* ↥(M.img H), IsSolvable ψ.ker ∧
+    (hKsol : Group.IsSolvable ↥(H ⊓ Subgroup.centralizer (E : Set G))) :
+    ∃ ψ : ↥(A ⊔ B) →* ↥(M.img H), Group.IsSolvable ψ.ker ∧
       Nonempty (↥ψ.range ≃* ↥(M.img A ⊔ M.img B)) := by
   have hAB : A ⊔ B ≤ H := sup_le hA hB
   let ψ₀ : ↥(A ⊔ B) →* LGL 2 M.W := M.ρ.comp (Subgroup.inclusion hAB)
@@ -37,7 +38,7 @@ theorem w183b2_pair_psi {H E : Subgroup G} (M : ModDataE H E) {A B : Subgroup G}
       apply hjinj
       have h1 := congrArg Subtype.val hab
       exact h1
-    haveI : Group.IsSolvable ↥(H ⊓ Subgroup.centralizer (E : Set G)) := hKsol
+    have : Group.IsSolvable ↥(H ⊓ Subgroup.centralizer (E : Set G)) := hKsol
     exact Group.isSolvable_of_isSolvable_injective hfinj
   · have h1 : ψ.range.map (M.img H).subtype = ψ₀.range := by
       have h0 : ψ₀ = (M.img H).subtype.comp ψ := MonoidHom.ext fun y => rfl
@@ -51,6 +52,7 @@ theorem w183b2_pair_psi {H E : Subgroup G} (M : ModDataE H E) {A B : Subgroup G}
     exact ⟨(Subgroup.equivMapOfInjective ψ.range (M.img H).subtype
       (M.img H).subtype_injective).trans (MulEquiv.subgroupCongr hrange)⟩
 
+omit [Finite G] in
 theorem w183b2_subgroupOf_sup_eq_top (A B : Subgroup G) :
     A.subgroupOf (A ⊔ B) ⊔ B.subgroupOf (A ⊔ B) = ⊤ := by
   rw [← Subgroup.subgroupOf_sup le_sup_left le_sup_right, Subgroup.subgroupOf_self]

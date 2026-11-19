@@ -160,10 +160,10 @@ theorem borelCentralizerTrivial_g2 [CharP K 2] (hK : 4 ≤ Nat.card K) :
     exceptional_ordinary_Sylow_opposition Tag.G2 K 2 w₀ hw₀
   have hU : IsSylowTwoOf ((posUnipotent Tag.G2 K).subgroupOf (adjointGroup Tag.G2 K)) ⊤ := by
     rw [← hPU]
-    exact isSylowTwoOf_top_iff.mpr ⟨PU.isPGroup', PU.not_dvd_index⟩
+    exact isSylowTwoOf_top_iff.mpr ⟨PU.isPGroup, PU.not_dvd_index⟩
   have hV : IsSylowTwoOf ((negUnipotent Tag.G2 K).subgroupOf (adjointGroup Tag.G2 K)) ⊤ := by
     rw [← hPV]
-    exact isSylowTwoOf_top_iff.mpr ⟨PV.isPGroup', PV.not_dvd_index⟩
+    exact isSylowTwoOf_top_iff.mpr ⟨PV.isPGroup, PV.not_dvd_index⟩
   have hUV' : (posUnipotent Tag.G2 K).subgroupOf (adjointGroup Tag.G2 K) ⊓
       (negUnipotent Tag.G2 K).subgroupOf (adjointGroup Tag.G2 K) = ⊥ := by
     refine eq_bot_iff.2 fun x hx => ?_

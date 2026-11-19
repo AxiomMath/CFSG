@@ -18,9 +18,11 @@ section Frame
 variable {G : Type} [Group G] [Finite G] [IsSimpleGroup G] {p f : ℕ} [Fact p.Prime]
   {Ω : Set (Subgroup G)} {K K' J W : Subgroup G} {z u t : G}
 
+omit [IsSimpleGroup G] in
 theorem Hyp21.not_mem_twinSet_J (h : Hyp21 p f Ω K K' z u J t W) : J ∉ twinSet Ω K :=
   fun hJV => (h.hJ.2 J hJV).2.1 rfl
 
+omit [IsSimpleGroup G] in
 theorem Hyp21.twinSet_eq_pair (h : Hyp21 p f Ω K K' z u J t W)
     (hne : dComp Ω K ≠ dstarComp Ω K) : twinSet Ω K = {K, K'} := by
   classical
@@ -74,6 +76,7 @@ theorem Hyp21.twinSet_eq_pair (h : Hyp21 p f Ω K K' z u J t W)
     · exact mem_twinSet_self hK hz
     · exact h.std.hK'
 
+omit [IsSimpleGroup G] in
 theorem Hyp21.conjSub_twin_eq (h : Hyp21 p f Ω K K' z u J t W)
     (hne : dComp Ω K ≠ dstarComp Ω K) {n : G} (hn : n ∈ Subgroup.normalizer (K : Set G)) :
     conjSub n K' = K' := by

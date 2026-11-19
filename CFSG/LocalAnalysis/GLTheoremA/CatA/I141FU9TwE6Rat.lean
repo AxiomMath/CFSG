@@ -88,7 +88,7 @@ theorem twE6_psu_card_eq_u38 {k f : ℕ} (hk : 3 ≤ k) (hf : 1 ≤ f)
     refine Finset.prod_congr rfl fun i _ => Int.toNat_of_nonneg ?_
     have h1 : (1 : ℤ) ≤ ((2 ^ f : ℕ) : ℤ) ^ i := one_le_pow₀ (by exact_mod_cast (by omega))
     have h2 : ((-1 : ℤ)) ^ i ≤ 1 := by
-      rcases neg_one_pow_eq_or ℤ i with h | h <;> rw [h] <;> norm_num
+      rcases neg_one_pow_eq_or ℤ i with h | h <;> rw [h]; norm_num
     linarith
   have hgdvd : k.gcd (2 ^ f + 1) ∣ (2 ^ f) ^ (k * (k - 1) / 2) *
       ∏ i ∈ Finset.Icc 2 k, (((2 ^ f : ℕ) : ℤ) ^ i - (-1) ^ i).toNat := by
@@ -142,10 +142,10 @@ theorem twE6_two_pow_dvd_of_inner {L : Type} [Field L] [IsAlgClosed L] {p₀ : �
   classical
   have hk : twistKind S.ρ (rootCharHom a) i = .inner := by
     unfold twistKind
-    rw [if_pos hinner]
+    rw [ite_eq_left hinner]
   obtain ⟨D⟩ := nonempty_innerData S hT i hk
-  haveI := D.hKfin
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := D.hKfin
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hperf := isPerfect_componentRootSpan_of_big (Or.inr (Or.inl rfl)) D hc
   obtain ⟨g, hg, hgk⟩ := exists_surjective_central_of_perfect D hperf
   have hdvd := pow_card_dvd_centerQuotient_of_uniEmbed uniEmbed_holds (rootCharHom a) i
@@ -199,7 +199,7 @@ theorem twE6_d4_ne_u38 {L : Type} [Field L] [IsAlgClosed L] {p₀ : ℕ}
     Nat.card (↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) ⧸
       Subgroup.center ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i)) ≠ 5515776 := by
   classical
-  haveI : CharP L 2 := charP_two_of_langSetup_q_eq_two S hq2
+  have : CharP L 2 := charP_two_of_langSetup_q_eq_two S hq2
   have h3L : ((3 : ℕ) : L) ≠ 0 := by
     have h2 : ((2 : ℕ) : L) = 0 := CharP.cast_eq_zero L 2
     have h3 : ((3 : ℕ) : L) = 1 := by
@@ -244,11 +244,11 @@ theorem twE6_d4_ne_u38 {L : Type} [Field L] [IsAlgClosed L] {p₀ : ℕ}
     have hs := componentOrbitLength_eq_one hfin hρ'
     rw [hs, Function.iterate_one] at hinner
     have hsub := twE6_kernelRoots_subset_of_ncard24 h3L hap i hcard
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hq21 : S.D.q = 2 ^ 1 := by rw [hq2, pow_one]
     obtain ⟨⟨e⟩, hZ⟩ := d4t2out_rationalComponent_equiv (ℓ := 2) (f := 1) S
       ⟨t, ht, Fr, hFr, hΦ⟩ (by norm_num) hq21 (by norm_num) hT hap i v hv hsub hρ' hinner
-    haveI := finite_rationalComponent S a i
+    have := finite_rationalComponent S a i
     have hcardR : Nat.card ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) =
         CFSG.Open.orderTrialityD4 (2 ^ 1) := by
       have h := CFSG.HardMathSupport.Solomon.Coordinator.lieOrderBridge_holds _ _ ⟨e⟩

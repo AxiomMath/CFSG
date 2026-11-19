@@ -21,7 +21,7 @@ theorem seitz27_unitaryPSU_cubic (hA : Sec19.SeitzThreeLThreePi)
   intro E hE hc27
   have hc : Nat.card E = 3 ^ 3 := by rw [hc27]; norm_num
   have := h.finite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2m : 8 ≤ 2 ^ m := by
     calc 8 = 2 ^ 3 := by norm_num
       _ ≤ 2 ^ m := Nat.pow_le_pow_right (by norm_num) hm

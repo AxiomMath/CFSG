@@ -74,7 +74,7 @@ theorem exists_rational_Qθ_sig {x : ModGL τ D.L} (hx : x ∈ Qθ τ D.L) (hfix
   exact exists_rational_Qθ D hxh (frob_conj D hfix)
 
 theorem Fr_bijective : Function.Bijective D.Fr := by
-  haveI : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
   exact frobenius_bijective D.Fr D.hFr
 
 theorem fixedFieldImage_eq_map :
@@ -161,7 +161,7 @@ theorem exists_sigFix_S1 (hK : 3 ≤ Nat.card K) :
     ∃ (e : D.L) (A : Finset D.L), e ≠ 0 ∧ Nat.card K < A.card ∧ ∀ a ∈ A, ∃ c : D.L,
       SigFix D (pinnedX Tag.E6 D.L (highRoot Tag.E6) c * pinnedX Tag.E6 D.L a2 a *
         pinnedX Tag.E6 D.L b2 (e * a ^ Nat.card K)) := by
-  haveI : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
   obtain ⟨ε₁, hε₁, h₁c⟩ := sigma_pinnedX D (mem_rootFinset.1 (a2_mem_Deg1.1 |> fun h =>
     mem_rootFinset.2 h))
   obtain ⟨ε₂, hε₂, h₂c⟩ := sigma_pinnedX D (b2_mem_Deg1.1)
@@ -229,7 +229,7 @@ theorem exists_sigFix_pair (hK : 3 ≤ Nat.card K) {γ : V6} (hγ : IsRoot Tag.E
       pinnedX Tag.E6 D.L (wE • γ) b * pinnedX Tag.E6 D.L γ a) :
     ∃ (e : D.L) (A : Finset D.L), e ≠ 0 ∧ Nat.card K ^ 2 ≤ A.card ∧ ∀ s ∈ A,
       SigFix D (pinnedX Tag.E6 D.L γ s * pinnedX Tag.E6 D.L (wE • γ) (e * s ^ Nat.card K)) := by
-  haveI : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
   obtain ⟨ε₁, hε₁, h₁c⟩ := sigma_pinnedX D hγ
   obtain ⟨ε₂, hε₂, h₂c⟩ := sigma_pinnedX D (IsRoot.smul hγ wE)
   have hε₁0 : ε₁ ≠ 0 := fun h => by rw [h] at hε₁; simp at hε₁

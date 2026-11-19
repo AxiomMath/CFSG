@@ -21,6 +21,7 @@ private lemma s9r_sq {R : Type*} [Ring R] (h2 : ∀ y : R, y + y = 0) {x : R}
   rw [e, hx, h2 x, sub_zero]
   exact h2 1
 
+omit [Finite W] in
 private lemma s9r_add_self (A : Subalgebra (ZMod 2) (Module.End (ZMod 2) W))
     (f : Module.End A W) : f + f = 0 := by
   have h2 : ∀ v : W, v + v = 0 := fun v => by
@@ -38,12 +39,14 @@ private lemma s9r_add_self (A : Subalgebra (ZMod 2) (Module.End (ZMod 2) W))
   (ε.conjRingEquiv.trans (endVecRingEquivMatrixEnd (Fin d) (↥A) (↥X))).trans
     (RingEquiv.mapMatrix σ)
 
+omit [Finite W] in
 private lemma s9rPsi_apply {A : Subalgebra (ZMod 2) (Module.End (ZMod 2) W)}
     {X : Submodule A W} {E : Type} [Field E] {d : ℕ}
     (σ : Module.End A X ≃+* E) (ε : W ≃ₗ[A] (Fin d → ↥X)) (F : Module.End A W) (i j : Fin d) :
     s9rPsi σ ε F i j = σ ((LinearMap.proj i : (Fin d → ↥X) →ₗ[A] ↥X) ∘ₗ ε.toLinearMap ∘ₗ F ∘ₗ
       ε.symm.toLinearMap ∘ₗ LinearMap.single A (fun _ : Fin d => ↥X) j) := rfl
 
+omit [Finite W] in
 private lemma s9r_factor {A : Subalgebra (ZMod 2) (Module.End (ZMod 2) W)}
     {X : Submodule A W} {E : Type} [Field E] {d : ℕ}
     (σ : Module.End A X ≃+* E) (ε : W ≃ₗ[A] (Fin d → ↥X))
@@ -119,6 +122,7 @@ private lemma s9r_rank_one {d : ℕ} {E : Type} [Field E] (N : Matrix (Fin d) (F
     (((LinearMap.GeneralLinearGroup.generalLinearEquiv (↥A) W).symm.toMonoidHom).comp
       (s9rHom A G' hG'))
 
+omit [Finite W] in
 theorem s9rPhi_val (A : Subalgebra (ZMod 2) (Module.End (ZMod 2) W))
     {X : Submodule A W} {E : Type} [Field E] {d : ℕ}
     (σ : Module.End A X ≃+* E) (ε : W ≃ₗ[A] (Fin d → ↥X))
@@ -128,6 +132,7 @@ theorem s9rPhi_val (A : Subalgebra (ZMod 2) (Module.End (ZMod 2) W))
     ((s9rPhi A σ ε G' hG' g : GL (Fin d) E) : Matrix (Fin d) (Fin d) E) =
       s9rPsi σ ε ((s9rHom A G' hG' g : W ≃ₗ[A] W) : Module.End A W) := rfl
 
+omit [Finite W] in
 theorem s9r_inj_phi (A : Subalgebra (ZMod 2) (Module.End (ZMod 2) W))
     {X : Submodule A W} {E : Type} [Field E] {d : ℕ} (σ : Module.End A X ≃+* E)
     (ε : W ≃ₗ[A] (Fin d → ↥X)) (G' : Subgroup (W ≃ₗ[ZMod 2] W))
@@ -143,6 +148,7 @@ theorem s9r_inj_phi (A : Subalgebra (ZMod 2) (Module.End (ZMod 2) W))
   have hw := congrArg (fun F : Module.End A W => F w) hx
   exact hw
 
+omit [Finite W] in
 theorem s9r_transv_phi (A : Subalgebra (ZMod 2) (Module.End (ZMod 2) W))
     {X : Submodule A W} {E : Type} [Field E] {d : ℕ} (σ : Module.End A X ≃+* E)
     (ε : W ≃ₗ[A] (Fin d → ↥X)) (G' : Subgroup (W ≃ₗ[ZMod 2] W))
@@ -155,7 +161,7 @@ theorem s9r_transv_phi (A : Subalgebra (ZMod 2) (Module.End (ZMod 2) W))
   obtain ⟨x, hxdef⟩ : ∃ x : Module.End A W,
       x = ((s9rHom A G' hG' g : W ≃ₗ[A] W) : Module.End A W) := ⟨_, rfl⟩
   have hxw : ∀ w : W, x w = (g : W ≃ₗ[ZMod 2] W) w := fun w => by
-    rw [hxdef] <;> rfl
+    rw [hxdef]; rfl
   have hval : ((s9rPhi A σ ε G' hG' g : GL (Fin d) E) : Matrix (Fin d) (Fin d) E) =
       s9rPsi σ ε x := by
     rw [s9rPhi_val, hxdef]
@@ -172,7 +178,7 @@ theorem s9r_transv_phi (A : Subalgebra (ZMod 2) (Module.End (ZMod 2) W))
     intro h
     apply hgne
     refine LinearEquiv.ext fun w => ?_
-    have hw : x w = w := by rw [h] <;> rfl
+    have hw : x w = w := by rw [h]; rfl
     exact (hxw w).symm.trans hw
   have hF : ∀ v : W, (x - 1 : Module.End A W) v ∈ Θ := fun v => by
     refine (hΘ _).mpr ⟨v, ?_⟩

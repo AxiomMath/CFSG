@@ -24,7 +24,7 @@ theorem kgLangC_pairing {d p : ℕ} {𝕂 : Type} [Field 𝕂] (hp : p.Prime) (h
         1 * (Matrix.GeneralLinearGroup.det x * Matrix.GeneralLinearGroup.det y) by
       rw [h.symm, one_mul])
   have hcp : c ^ p = 1 := by
-    letI : Bracket (GL (Fin d) 𝕂) (GL (Fin d) 𝕂) := commutatorElement
+    let : Bracket (GL (Fin d) 𝕂) (GL (Fin d) 𝕂) := commutatorElement
     have hcomm : ⁅x, y⁆ = Matrix.GeneralLinearGroup.scalar (Fin d) c := by
       rw [commutatorElement_def, hxy]; group
     have hcx : Commute x ⁅x, y⁆ := by
@@ -36,7 +36,7 @@ theorem kgLangC_pairing {d p : ℕ} {𝕂 : Type} [Field 𝕂] (hp : p.Prime) (h
     rw [hxp, hcommμ, hcomm] at hpow
     have hscalar : Matrix.GeneralLinearGroup.scalar (Fin d) (c ^ p) = 1 := by
       rw [map_pow]; exact hpow
-    haveI : Nonempty (Fin d) := ⟨⟨0, Nat.pos_of_ne_zero hd0⟩⟩
+    have : Nonempty (Fin d) := ⟨⟨0, Nat.pos_of_ne_zero hd0⟩⟩
     apply Units.ext
     have hmat : Matrix.scalar (Fin d) ((c ^ p : 𝕂ˣ) : 𝕂) = Matrix.scalar (Fin d) (1 : 𝕂) := by
       have h := congrArg (fun u : GL (Fin d) 𝕂 => (u : Matrix (Fin d) (Fin d) 𝕂)) hscalar
@@ -56,9 +56,9 @@ theorem kgLangC_span_comm_reduced {d : ℕ} {𝕂 : Type} [Field 𝕂] [Finite �
     ∀ x ∈ Algebra.adjoin 𝕂 ((fun g : GL (Fin d) 𝕂 => (g : Matrix (Fin d) (Fin d) 𝕂)) '' (P : Set _)),
       IsNilpotent x → x = 0 := by
   rcases eq_or_ne d 0 with rfl | hd0
-  · haveI : Subsingleton (Matrix (Fin 0) (Fin 0) 𝕂) := inferInstance
+  · have : Subsingleton (Matrix (Fin 0) (Fin 0) 𝕂) := inferInstance
     exact ⟨fun x _ y _ => Subsingleton.elim _ _, fun x _ _ => Subsingleton.elim _ _⟩
-  · haveI : Nonempty (Fin d) := ⟨⟨0, Nat.pos_of_ne_zero hd0⟩⟩
+  · have : Nonempty (Fin d) := ⟨⟨0, Nat.pos_of_ne_zero hd0⟩⟩
     set s : Set (Matrix (Fin d) (Fin d) 𝕂) :=
       (fun g : GL (Fin d) 𝕂 => (g : Matrix (Fin d) (Fin d) 𝕂)) '' (P : Set _) with hs
     let S : Subalgebra 𝕂 (Matrix (Fin d) (Fin d) 𝕂) := Algebra.adjoin 𝕂 s
@@ -70,21 +70,21 @@ theorem kgLangC_span_comm_reduced {d : ℕ} {𝕂 : Type} [Field 𝕂] [Finite �
       rw [commute_iff_eq, ← Matrix.GeneralLinearGroup.coe_mul, ← Matrix.GeneralLinearGroup.coe_mul,
         hab g hg h hh]
     have hcomm : ∀ x ∈ S, ∀ y ∈ S, x * y = y * x := by
-      haveI : IsMulCommutative S := Algebra.isMulCommutative_adjoin 𝕂 hs_pair
+      have : IsMulCommutative S := Algebra.isMulCommutative_adjoin 𝕂 hs_pair
       intro x hx y hy
       have hcommS : ∀ a b : S, a * b = b * a :=
         isMulCommutative_iff.mp (inferInstance : IsMulCommutative S)
       simpa using congrArg Subtype.val (hcommS ⟨x, hx⟩ ⟨y, hy⟩)
     refine ⟨hcomm, ?_⟩
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Algebra (ZMod 2) 𝕂 := ZMod.algebra 𝕂 2
-    letI : Fintype 𝕂 := Fintype.ofFinite 𝕂
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Algebra (ZMod 2) 𝕂 := ZMod.algebra 𝕂 2
+    let : Fintype 𝕂 := Fintype.ofFinite 𝕂
     let f := Module.finrank (ZMod 2) 𝕂
     let m := Nat.card P
     let k := f * Nat.totient m
     have hcard : 2 ^ f = Nat.card 𝕂 := FiniteField.pow_finrank_eq_natCard 2 𝕂
     have hm_pos : 0 < m := by
-      haveI : Nonempty P := ⟨⟨1, one_mem P⟩⟩
+      have : Nonempty P := ⟨⟨1, one_mem P⟩⟩
       change 0 < Nat.card P
       exact Nat.card_pos
     have hf_pos : 0 < f := by

@@ -17,6 +17,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {x₁ x₂ t a b c : G} {Wp F P M₂ M₃ U : Subgroup G}
 
+omit [Finite G] in
 private lemma fzc_sy3_inv_mul_mem {Wp M₂ : Subgroup G}
     (hnrm : ∀ q ∈ M₂, ∀ w ∈ Wp, q * w * q⁻¹ ∈ Wp) {g : G}
     (hg : g ∈ M₂) {s : G} (h : g * s⁻¹ ∈ Wp) : g⁻¹ * s ∈ Wp := by
@@ -158,7 +159,7 @@ theorem fzc_sy3_rank_M₂ (hs : FzCSy3bStr x₁ x₂ t a b c Wp F P M₂ M₃ U)
   intro X hX
   by_cases hXWp : X ≤ Wp
   · exact hs.Wp_rank X hXWp
-  obtain ⟨x, hxX, hxWp⟩ := SetLike.not_le_iff_exists.mp hXWp
+  obtain ⟨x, hxX, hxWp⟩ := IsConcreteLE.not_le_iff_exists.mp hXWp
   by_cases h2 : ∃ y ∈ X, y ∉ Wp ∧ y * x⁻¹ ∉ Wp
   · obtain ⟨y, hyX, hyWp, hyx⟩ := h2
     exact fzc_sy3_rank_M₂_hard hs hX hxX hxWp hyX hyWp hyx

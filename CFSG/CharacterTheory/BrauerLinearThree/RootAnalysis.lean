@@ -135,13 +135,13 @@ theorem cube_dvd_card_centralizer_rootUp_one [Finite G] :
       refine nontrivial_of_ne (⟨rootUp φ 1, hXU (rootUp_one_mem φ)⟩ : (U : Subgroup G)) 1 ?_
       intro h
       exact rootUp_one_ne_one φ hZ (congrArg Subtype.val h)
-    have := U.isPGroup'.center_nontrivial
+    have := U.isPGroup.center_nontrivial
     obtain ⟨c, hc1⟩ := exists_ne (1 : Subgroup.center (U : Subgroup G))
     have hc₀cent : ∀ y ∈ (U : Subgroup G), y * ((c : (U : Subgroup G)) : G) =
         ((c : (U : Subgroup G)) : G) * y := fun y hy =>
       congrArg Subtype.val (Subgroup.mem_center_iff.mp c.2 ⟨y, hy⟩)
     have hc₀1 : ((c : (U : Subgroup G)) : G) ≠ 1 := fun h => hc1 (Subtype.ext (Subtype.ext h))
-    obtain ⟨k, hk⟩ := U.isPGroup' (c : (U : Subgroup G))
+    obtain ⟨k, hk⟩ := U.isPGroup (c : (U : Subgroup G))
     have hk' : ((c : (U : Subgroup G)) : G) ^ (ringChar F ^ k) = 1 := by
       simpa using congrArg Subtype.val hk
     obtain ⟨j, hj1, hjp⟩ := exists_pow_ne_one_pow_eq_one hc₀1 hk'

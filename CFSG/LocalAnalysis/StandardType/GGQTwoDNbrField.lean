@@ -22,7 +22,7 @@ theorem qtwoDNbr_jlabel_unit {B Bs L D J : Subgroup G} {x : G} (hcfg : GGConfig 
     (hrange : ψ.range = L) (hdiag : GGActsDiagonally (p := 2) (f := 1) ψ Bs) :
     ∃ t : ℕ, 4 ≤ t ∧ LieModel (↥J ⧸ Subgroup.center ↥J) .PSU t 2 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hF : Nat.card K = (2 ^ 1) ^ 2 := by rw [hKcard]; norm_num
   obtain ⟨y, hy, hyx, -, hJy⟩ := qTwoNbrA_exists_y hcfg.1 hcfg.2.1 hcfg.2.2
   have hψL : ∀ s : Su K 2 1 n, ψ s ∈ L := fun s => hrange ▸ ⟨s, rfl⟩

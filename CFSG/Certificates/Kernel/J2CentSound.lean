@@ -81,7 +81,7 @@ private theorem j2cCard {n : ℕ} {G : Subgroup (Equiv.Perm (Fin n))} {L : List 
   rw [List.countP_eq_length_filter, ← List.toFinset_card_of_nodup (hL.filter _),
     ← Nat.card_eq_finsetCard]
   refine Nat.card_congr (Equiv.subtypeEquivRight fun g => ?_)
-  simp [List.mem_filter, hm]
+  simp [hm]
 
 end CFSG.KC.J2Enum.CntPf
 

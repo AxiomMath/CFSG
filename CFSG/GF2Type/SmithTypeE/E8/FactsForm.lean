@@ -26,7 +26,6 @@ private theorem quadPair_aux_expand {ι : Type*} [Fintype ι] [LinearOrder ι] (
   simp only [quadPair]
   rw [← Finset.sum_add_distrib, ← Finset.sum_add_distrib]
   refine Finset.sum_congr rfl (fun a _ => ?_)
-  try dsimp only
   split_ifs <;> ring
 
 private theorem quadPair_aux_shift_zero {ι : Type*} [Fintype ι] [LinearOrder ι] (D : ι → Prop)
@@ -41,12 +40,12 @@ private theorem quadPair_aux_shift_zero {ι : Type*} [Fintype ι] [LinearOrder �
     by_cases h1 : ∃ a', Sh a' a
     · have h2 : ¬ ∃ a', Sh a' (P a) := fun h2 => key ⟨h1, h2⟩
       have hz : (∑ x, if Sh x (P a) then v x else 0) = 0 :=
-        Finset.sum_eq_zero (fun x _ => if_neg (show ¬ Sh x (P a) from fun hx => h2 ⟨x, hx⟩))
-      rw [if_pos hd, hz, mul_zero]
+        Finset.sum_eq_zero (fun x _ => ite_eq_right (show ¬ Sh x (P a) from fun hx => h2 ⟨x, hx⟩))
+      rw [ite_eq_left hd, hz, mul_zero]
     · have hz : (∑ x, if Sh x a then v x else 0) = 0 :=
-        Finset.sum_eq_zero (fun x _ => if_neg (show ¬ Sh x a from fun hx => h1 ⟨x, hx⟩))
-      rw [if_pos hd, hz, zero_mul]
-  · rw [if_neg hd]
+        Finset.sum_eq_zero (fun x _ => ite_eq_right (show ¬ Sh x a from fun hx => h1 ⟨x, hx⟩))
+      rw [ite_eq_left hd, hz, zero_mul]
+  · rw [ite_eq_right hd]
 
 private theorem quadPair_aux_cross {ι : Type*} [Fintype ι] [LinearOrder ι] (D : ι → Prop)
     [DecidablePred D] (P : ι → ι) (hD : ∀ a, D a → D (P a)) (hPP : ∀ a, D a → P (P a) = a)
@@ -59,9 +58,9 @@ private theorem quadPair_aux_cross {ι : Type*} [Fintype ι] [LinearOrder ι] (D
     intro a
     by_cases h : D a ∧ a < P a
     · have hdp : D (P a) := hD a h.1
-      simp only [if_pos h, if_pos h.1, if_pos hdp, hPP a h.1]
+      simp only [ite_eq_left h, ite_eq_left h.1, ite_eq_left hdp, hPP a h.1]
       ring
-    · simp only [if_neg h, add_zero]
+    · simp only [ite_eq_right h, add_zero]
   have hsplit : ∀ a, (if D a then v a * e (P a) else 0)
       = (if D a ∧ a < P a then (if D a then v a * e (P a) else 0) else 0)
         + (if D a ∧ P a < a then (if D a then v a * e (P a) else 0) else 0) := by
@@ -69,13 +68,13 @@ private theorem quadPair_aux_cross {ι : Type*} [Fintype ι] [LinearOrder ι] (D
     by_cases hd : D a
     · rcases lt_or_gt_of_ne (hPne a hd) with hlt | hlt
       · have hn : ¬ (a < P a) := not_lt.mpr hlt.le
-        rw [if_pos hd, if_neg (show ¬ (D a ∧ a < P a) from fun h => hn h.2),
-          if_pos (show D a ∧ P a < a from ⟨hd, hlt⟩), zero_add]
+        rw [ite_eq_left hd, ite_eq_right (show ¬ (D a ∧ a < P a) from fun h => hn h.2),
+          ite_eq_left (show D a ∧ P a < a from ⟨hd, hlt⟩), zero_add]
       · have hn : ¬ (P a < a) := not_lt.mpr hlt.le
-        rw [if_pos hd, if_pos (show D a ∧ a < P a from ⟨hd, hlt⟩),
-          if_neg (show ¬ (D a ∧ P a < a) from fun h => hn h.2), add_zero]
-    · rw [if_neg hd, if_neg (show ¬ (D a ∧ a < P a) from fun h => hd h.1),
-        if_neg (show ¬ (D a ∧ P a < a) from fun h => hd h.1), add_zero]
+        rw [ite_eq_left hd, ite_eq_left (show D a ∧ a < P a from ⟨hd, hlt⟩),
+          ite_eq_right (show ¬ (D a ∧ P a < a) from fun h => hn h.2), add_zero]
+    · rw [ite_eq_right hd, ite_eq_right (show ¬ (D a ∧ a < P a) from fun h => hd h.1),
+        ite_eq_right (show ¬ (D a ∧ P a < a) from fun h => hd h.1), add_zero]
   have hB1f : ∑ a ∈ Finset.univ.filter (fun a => D a ∧ a < P a),
         (if D (P a) then v (P a) * e (P (P a)) else 0)
       = ∑ b ∈ Finset.univ.filter (fun b => D b ∧ P b < b), (if D b then v b * e (P b) else 0) := by
@@ -118,15 +117,15 @@ private theorem quadPair_aux_T2 {ι : Type*} [Fintype ι] [LinearOrder ι] (D : 
       = ∑ a', if D a ∧ Sh a' (P a) then v a * v a' else 0 := by
     intro a
     by_cases hd : D a
-    · rw [if_pos hd, Finset.mul_sum]
+    · rw [ite_eq_left hd, Finset.mul_sum]
       refine Finset.sum_congr rfl (fun a' _ => ?_)
       by_cases hs : Sh a' (P a)
-      · rw [if_pos hs, if_pos (show D a ∧ Sh a' (P a) from ⟨hd, hs⟩)]
-      · rw [if_neg hs, if_neg (show ¬ (D a ∧ Sh a' (P a)) from fun h => hs h.2), mul_zero]
-    · rw [if_neg hd]
+      · rw [ite_eq_left hs, ite_eq_left (show D a ∧ Sh a' (P a) from ⟨hd, hs⟩)]
+      · rw [ite_eq_right hs, ite_eq_right (show ¬ (D a ∧ Sh a' (P a)) from fun h => hs h.2), mul_zero]
+    · rw [ite_eq_right hd]
       symm
       refine Finset.sum_eq_zero (fun a' _ => ?_)
-      rw [if_neg (show ¬ (D a ∧ Sh a' (P a)) from fun h => hd h.1)]
+      rw [ite_eq_right (show ¬ (D a ∧ Sh a' (P a)) from fun h => hd h.1)]
   have hz2 : ∀ x : ZMod 2, x + x = 0 := fun x => CharTwo.add_self_eq_zero x
   simp only [h1]
   rw [← Fintype.sum_prod_type']
@@ -136,10 +135,10 @@ private theorem quadPair_aux_T2 {ι : Type*} [Fintype ι] [LinearOrder ι] (D : 
     by_cases hc : D p.1 ∧ Sh p.2 (P p.1)
     · obtain ⟨hA, hB⟩ := hsym p.1 p.2 hc.1 hc.2
       have hc' : D p.2 ∧ Sh p.1 (P p.2) := ⟨hA, hB⟩
-      rw [if_pos hc, if_pos hc', mul_comm (v p.1) (v p.2)]
+      rw [ite_eq_left hc, ite_eq_left hc', mul_comm (v p.1) (v p.2)]
       exact hz2 _
     · have hc' : ¬ (D p.2 ∧ Sh p.1 (P p.2)) := fun h => hc (hsym p.2 p.1 h.1 h.2)
-      rw [if_neg hc, if_neg hc', add_zero]
+      rw [ite_eq_right hc, ite_eq_right hc', add_zero]
   · intro p _ hfp heq
     apply hfp
     have hp : p.2 = p.1 := congrArg Prod.fst heq
@@ -147,7 +146,7 @@ private theorem quadPair_aux_T2 {ι : Type*} [Fintype ι] [LinearOrder ι] (D : 
     · exfalso
       rw [hp] at hc
       exact hirr p.1 hc.1 hc.2
-    · rw [if_neg hc]
+    · rw [ite_eq_right hc]
   · intro p _
     exact Finset.mem_univ _
   · intro p _
@@ -245,7 +244,7 @@ theorem wt_starI {a : Fin e7Data.d} (ha : e7Data.wt a ⬝ᵥ highRoot .E7 = 1) :
 
 theorem dot_starI {a : Fin e7Data.d} (ha : e7Data.wt a ⬝ᵥ highRoot .E7 = 1) :
     e7Data.wt (starI a) ⬝ᵥ highRoot .E7 = 1 := by
-  rw [wt_starI ha, sub_dotProduct, th_dot_th, ha] <;> norm_num
+  rw [wt_starI ha, sub_dotProduct, th_dot_th, ha]; norm_num
 
 theorem starI_starI {a : Fin e7Data.d} (ha : e7Data.wt a ⬝ᵥ highRoot .E7 = 1) :
     starI (starI a) = a := by
@@ -279,7 +278,7 @@ theorem qD_rho_siegel {β : Fin (Tag.rank .E7) → ℤ} (hβ : IsRoot .E7 β) (h
       hsh.symm.trans (wt_starI ha)
     have e1 : e7Data.wt a' = e8fTh - e7Data.wt a - MinData.toWeight β := eq_sub_of_add_eq h1
     have hD' : e7Data.wt a' ⬝ᵥ highRoot .E7 = 1 := by
-      rw [e1, sub_dotProduct, sub_dotProduct, th_dot_th, ha, tw_dot_th hβ, h0] <;> norm_num
+      rw [e1, sub_dotProduct, sub_dotProduct, th_dot_th, ha, tw_dot_th hβ, h0]; norm_num
     refine ⟨hD', ?_, ?_⟩
     · have h2 : (e7Data.wt a' + MinData.toWeight β) ⬝ᵥ β = (e8fTh - e7Data.wt a) ⬝ᵥ β := by
         rw [h1]
@@ -327,13 +326,13 @@ theorem dsupp_rho_siegel {β : Fin (Tag.rank .E7) → ℤ} (hβ : IsRoot .E7 β)
       e7Data.wt b = e7Data.wt a + MinData.toWeight β) then v a else 0) = 0 := by
     refine Finset.sum_eq_zero fun a _ => ?_
     by_cases hab : e7Data.wt a ⬝ᵥ β = -1 ∧ e7Data.wt b = e7Data.wt a + MinData.toWeight β
-    · rw [if_pos hab]
+    · rw [ite_eq_left hab]
       refine hv a ?_
       intro h1
       have hwb : e7Data.wt b ⬝ᵥ highRoot .E7 = 1 := by
         rw [hab.2, add_dotProduct, tw_dot_th hβ, h0, add_zero, h1]
       exact hb hwb
-    · rw [if_neg hab]
+    · rw [ite_eq_right hab]
   rw [hs, hv b hb, add_zero]
 
 theorem rho_triv {β : Fin (Tag.rank .E7) → ℤ} (hβ : IsRoot .E7 β) (h : 1 ≤ e8fTh ⬝ᵥ β)
@@ -345,11 +344,11 @@ theorem rho_triv {β : Fin (Tag.rank .E7) → ℤ} (hβ : IsRoot .E7 β) (h : 1 
       e7Data.wt b = e7Data.wt a + MinData.toWeight β) then v a else 0) = 0 := by
     refine Finset.sum_eq_zero fun a _ => ?_
     by_cases hab : e7Data.wt a ⬝ᵥ β = -1 ∧ e7Data.wt b = e7Data.wt a + MinData.toWeight β
-    · rw [if_pos hab]
+    · rw [ite_eq_left hab]
       by_cases ha1 : e7Data.wt a ⬝ᵥ highRoot .E7 = 1
       · exact absurd hab.1 (triv hβ h a ha1)
       · exact hv a ha1
-    · rw [if_neg hab]
+    · rw [ite_eq_right hab]
   rw [hs, add_zero]
 
 theorem qf_single (a : Fin e7Data.d) : qf (Finsupp.single a 1) = 0 := by
@@ -358,7 +357,7 @@ theorem qf_single (a : Fin e7Data.d) : qf (Finsupp.single a 1) = 0 := by
   intro b _
   by_cases hb : b = a
   · rw [hb]
-    simp [Finsupp.single_apply, (opI_ne a).symm]
+    simp [(opI_ne a).symm]
   · simp [Finsupp.single_apply, Ne.symm hb]
 
 theorem qD_single (a : Fin e7Data.d) : qD (Finsupp.single a 1) = 0 := by
@@ -368,7 +367,7 @@ theorem qD_single (a : Fin e7Data.d) : qD (Finsupp.single a 1) = 0 := by
   by_cases hb : b = a
   · rw [hb]
     by_cases hD : e7Data.wt a ⬝ᵥ highRoot .E7 = 1
-    · simp [Finsupp.single_apply, (starI_ne hD).symm, hD]
+    · simp [(starI_ne hD).symm, hD]
     · simp [hD]
   · simp [Finsupp.single_apply, Ne.symm hb]
 
@@ -478,12 +477,12 @@ theorem qf_zero_add_single {b : Fin e7Data.d} (hb : e8fGrade b = -3) :
     fun h => Nat.not_lt_zero _ (Fin.lt_def.mp h)
   unfold qf quadPair
   rw [Finset.sum_eq_single (⟨0, by decide⟩ : Fin e7Data.d)]
-  · simp [hlt, hc0, hc0.symm, Finsupp.add_apply, Finsupp.single_apply]
+  · simp [hlt, hc0, hc0.symm, Finsupp.add_apply]
   · intro b _ hbz
     by_cases hbc : b = opI ⟨0, by decide⟩
     · subst hbc
       simp [opI_opI, hnlt]
-    · simp [Finsupp.add_apply, Finsupp.single_apply, hbz, hbc, Ne.symm hbz, Ne.symm hbc]
+    · simp [Finsupp.add_apply, Finsupp.single_apply, hbz, hbc]
   · intro h
     exact absurd (Finset.mem_univ _) h
 
@@ -505,7 +504,7 @@ theorem isDSupp_zero_add_mu :
   · by_cases hμ : b = ⟨e8fMu, e8fMu_lt⟩
     · subst hμ
       exact absurd wt_mu_th hb
-    · simp [Finsupp.add_apply, Finsupp.single_apply, h0, hμ, Ne.symm h0, Ne.symm hμ]
+    · simp [Finsupp.add_apply, h0, hμ]
 
 theorem qD_zero_add_mu :
     qD (Finsupp.single ⟨0, by decide⟩ 1 + Finsupp.single ⟨e8fMu, e8fMu_lt⟩ 1) = 1 := by
@@ -525,13 +524,12 @@ theorem qD_zero_add_mu :
     fun h => Nat.not_lt_zero _ (Fin.lt_def.mp h)
   unfold qD quadPair
   rw [Finset.sum_eq_single (⟨0, by decide⟩ : Fin e7Data.d)]
-  · simp [hD0, starI_zero, hlt, hμz, hμz.symm, hμ0, hμ0.symm, Finsupp.add_apply,
-      Finsupp.single_apply]
+  · simp [hD0, starI_zero, hlt, hμz, hμz.symm, Finsupp.add_apply]
   · intro b _ hbz
     by_cases hbμ : b = ⟨e8fMu, e8fMu_lt⟩
     · subst hbμ
       simp [hstar, hnlt]
-    · simp [Finsupp.add_apply, Finsupp.single_apply, hbz, hbμ, Ne.symm hbz, Ne.symm hbμ]
+    · simp [Finsupp.add_apply, Finsupp.single_apply, hbz, hbμ]
   · intro h
     exact absurd (Finset.mem_univ _) h
 
@@ -627,7 +625,7 @@ theorem qf_add (u v : Fin e7Data.d →₀ ZMod 2) : qf (u + v) = qf u + qf v + f
   have h := quadPair_add (fun _ : Fin e7Data.d => True) opI (fun _ _ => trivial)
     (fun a _ => opI_opI a) (fun a _ => opI_ne a) (fun a => u a) (fun a => v a)
   have e : (∑ a : Fin e7Data.d, if (fun _ : Fin e7Data.d => True) a then u a * v (opI a) else 0) =
-      ff u v := Finset.sum_congr rfl fun a _ => if_pos trivial
+      ff u v := Finset.sum_congr rfl fun a _ => ite_eq_left trivial
   rw [e] at h
   exact h
 
@@ -675,7 +673,7 @@ theorem ff_nondeg {u : Fin e7Data.d →₀ ZMod 2} (h : ∀ v, ff u v = 0) : u =
   · simpa [Finsupp.single_apply] using h1
   · intro x _ hx
     have hne : opI a ≠ opI x := fun h' => hx (opI_injective h').symm
-    simp [Finsupp.single_apply, hne]
+    simp [hne]
   · intro h'
     exact absurd (Finset.mem_univ a) h'
 

@@ -47,7 +47,7 @@ section EbN4
 variable {n : ℕ} {X : Type} [Field X] [Finite X] {σ : X ≃+* X}
 
 theorem planeGen_Eb (hgold : CFSG.Goldschmidt.TopStatement) (P : D4Par n X σ) (hn : 2 ≤ n)
-    {a b : C0 σ} (ha : a ∈ Asub σ) (hb : b ∈ Bsub σ) (ha3 : a ^ 3 = 1) (hb3 : b ^ 3 = 1)
+    {a b : C0 σ} (ha : a ∈ Asub σ) (hb : b ∈ Bsub σ) (ha3 : a ^ 3 = 1) (_hb3 : b ^ 3 = 1)
     (ha1 : a ≠ 1) (hb1 : b ≠ 1) :
     PlaneGen (Subgroup.closure ({MulAut.conj a, MulAut.conj b} : Set (MulAut (C0 σ)))) := by
   set E := Subgroup.closure ({MulAut.conj a, MulAut.conj b} : Set (MulAut (C0 σ))) with hE
@@ -66,7 +66,7 @@ theorem planeGen_Eb (hgold : CFSG.Goldschmidt.TopStatement) (P : D4Par n X σ) (
       ((centralizer_le_planeClosure hca hca1).trans hle)
 
 theorem planeGen_N4 (hgold : CFSG.Goldschmidt.TopStatement) (P : D4Par n X σ) (hn : 2 ≤ n)
-    {b : C0 σ} (hb : b ∈ Bsub σ) (hb3 : b ^ 3 = 1) (hb1 : b ≠ 1) :
+    {b : C0 σ} (hb : b ∈ Bsub σ) (_hb3 : b ^ 3 = 1) (hb1 : b ≠ 1) :
     PlaneGen (Subgroup.closure ({MulAut.conj b, tauAut σ} : Set (MulAut (C0 σ)))) := by
   set E := Subgroup.closure ({MulAut.conj b, tauAut σ} : Set (MulAut (C0 σ))) with hE
   have hcb : (MulAut.conj b : MulAut (C0 σ)) ∈ E := Subgroup.subset_closure (by simp)
@@ -121,8 +121,8 @@ theorem planeGen_N3 (hgold : CFSG.Goldschmidt.TopStatement) (P : D4Par n X σ) (
       ((centralizer_le_planeClosure hca hca1).trans hle)
 
 theorem planeGen_Nreg (hgold : CFSG.Goldschmidt.TopStatement) (P : D4Par n X σ) (hn : 2 ≤ n)
-    {a b : C0 σ} (ha : a ∈ A0sub σ) (hb : b ∈ Bsub σ) (ha3 : a ^ 3 = 1) (hb3 : b ^ 3 = 1)
-    (ha1 : a ≠ 1) (hb1 : b ≠ 1) :
+    {a b : C0 σ} (ha : a ∈ A0sub σ) (hb : b ∈ Bsub σ) (ha3 : a ^ 3 = 1) (_hb3 : b ^ 3 = 1)
+    (ha1 : a ≠ 1) (_hb1 : b ≠ 1) :
     PlaneGen (Subgroup.closure
       ({MulAut.conj a, MulAut.conj b * tauAut σ} : Set (MulAut (C0 σ)))) := by
   set E := Subgroup.closure

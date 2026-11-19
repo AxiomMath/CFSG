@@ -24,7 +24,7 @@ theorem excTri_D4_perfect_model (S : LangSetup .D4 L p) {Fr : L →+* L}
     (hFr : ∀ c, Fr c = c ^ S.D.q) (hΦ : S.D.Φ = twistHom TwistTag.D4 L Fr) :
     Group.IsPerfect ↥S.D.model := by
   obtain ⟨r, e, hr, hchar, he, hq⟩ := S.exists_char_pow
-  haveI h2 : CharP L 2 := ‹CharP L 2›
+  have h2 : CharP L 2 := ‹CharP L 2›
   have hr2 : r = 2 := CharP.eq L hchar h2
   have hq2 : S.D.q = 2 ^ e := by rw [hq, hr2]
   have hperf := excTri_twistedFixedGroup_D4_perfect (L := L) (f := e) (by omega) Fr
@@ -38,7 +38,7 @@ theorem excTri_D4_perfect_model (S : LangSetup .D4 L p) {Fr : L →+* L}
     (S.D.model.equivMapOfInjective (MulAut.conj S.D.g0).toMonoidHom
       (MulAut.conj S.D.g0).injective).trans
       (MulEquiv.subgroupCongr (S.D.map_conj_model.trans hEq))
-  haveI : Group.IsPerfect ↥(twistedFixedGroup TwistTag.D4 L Fr) := hperf
+  have : Group.IsPerfect ↥(twistedFixedGroup TwistTag.D4 L Fr) := hperf
   exact Group.IsPerfect.ofSurjective (f := e₁.symm.toMonoidHom) e₁.symm.surjective
 
 theorem excTri_perfect_D4 (S : LangSetup .D4 L p) {a : Fin Tag.D4.rank → Lˣ}

@@ -15,7 +15,7 @@ variable {G : Type} [Group G] [Finite G] {b b₁ b₂ : G} {L B K : Subgroup G}
 
 theorem S42_theta_odd (hA : A8Model L)
     (h : FF84Sec4 b L B K b₁ b₂) : Odd (Nat.card (Theta (Cen (b * b₁)))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hBD : B ≤ Cen (b * b₁) := B_le_cen_bb₁ h
   have hBn : B ≤ Subgroup.normalizer (Theta (Cen (b * b₁)) : Set G) := fun β hβ => by
     rw [Subgroup.mem_normalizer_iff]

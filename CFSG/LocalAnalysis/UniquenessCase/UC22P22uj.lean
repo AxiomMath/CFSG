@@ -36,7 +36,7 @@ theorem uc22p22u_exists_lift {M : Subgroup G} {r : ℕ} (hr : r.Prime) (hr2 : r 
     {D : Subgroup (Bar2 M)} (hD : IsPGroup r ↥D) :
     ∃ P : Subgroup G, CFSG.ABGLocalTools.IsSylowOf r P (barPreimage M D) ∧ barImage M P = D ∧
       P ⊓ pCoreOf 2 M = ⊥ := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨S⟩ := (Sylow.nonempty : Nonempty (Sylow r ↥(barPreimage M D)))
   set Y : Subgroup G := barPreimage M D with hY
   set P : Subgroup G := (S : Subgroup ↥Y).map Y.subtype with hPdef
@@ -69,6 +69,7 @@ theorem uc22p22u_exists_lift {M : Subgroup G} {r : ℕ} (hr : r.Prime) (hr2 : r 
     exact disjoint_iff.1 (IsPGroup.disjoint_of_ne r 2 hr2 P (pCoreOf 2 M) hPsyl.isPGroup
       (uc22p21c_isPGroup_pCoreOf M))
 
+omit [Finite G] in
 theorem uc22p22u_lift_props {M P : Subgroup G} {D : Subgroup (Bar2 M)} {r : ℕ} (hbar : barImage M P = D)
     (hP : P ⊓ pCoreOf 2 M = ⊥) (hPM : P ≤ M) :
     ((∀ x ∈ D, x ^ r = 1) → ∀ x ∈ P, x ^ r = 1) ∧ (⁅⁅D, D⁆, D⁆ = ⊥ → ⁅⁅P, P⁆, P⁆ = ⊥) ∧
@@ -121,8 +122,8 @@ theorem uc22p22u_lift_props {M P : Subgroup G} {D : Subgroup (Bar2 M)} {r : ℕ}
 theorem uc22p22u_pRank_le_normalizer_sylow {p r : ℕ} (hp : p.Prime) (hr : r.Prime) {M Y P : Subgroup G}
     (hYM : Y ≤ M) (hYn : M ≤ normalizer (Y : Set G)) (hP : CFSG.ABGLocalTools.IsSylowOf r P Y)
     (hpY : ¬ p ∣ Nat.card ↥Y) : CFSG.Open.pRank p M ≤ CFSG.Open.pRank p (M ⊓ normalizer (P : Set G)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hFr := uc22p22t_frattini_sup hYM hYn hP
   set N : Subgroup G := M ⊓ normalizer (P : Set G) with hN
   have hNM : N ≤ M := inf_le_left

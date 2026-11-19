@@ -108,9 +108,9 @@ theorem td4n_embedding_of_le_parabolic_singleton {K : Type} [Field K] [Finite K]
         rw [MonoidHom.mem_ker.1 hx', inv_one, mul_one] at h1
         exact h1
       have hE2 : IsPGroup 2 ↥E := (hQ2 2).to_le hEQ
-      haveI : Finite ↥E := Subtype.finite
-      haveI := hE2.isNilpotent
-      haveI : Group.IsSolvable ↥E := inferInstance
+      have : Finite ↥E := Subtype.finite
+      have := hE2.isNilpotent
+      have : Group.IsSolvable ↥E := inferInstance
       obtain ⟨x, y, hxy⟩ := hna
       exact hxy (IsSimpleGroup.comm_iff_isSolvable.mpr inferInstance x y)
   have hcommE : commutator ↥E = ⊤ := by

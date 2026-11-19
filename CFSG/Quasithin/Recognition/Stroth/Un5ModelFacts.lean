@@ -45,15 +45,16 @@ theorem un5System_isThick : IsThick (un5System hF ζ).graph := by
   exact CFSG.Quasithin.H13.F431.BN.three_le_card_neighborSet (un5System hF ζ) v
 
 theorem un5System_xplus_eq_top : (un5System hF ζ).Xplus = ⊤ := by
-  haveI : IsSimpleGroup (Un5Group k F) := isSimpleGroup_un5 hF
+  have : IsSimpleGroup (Un5Group k F) := isSimpleGroup_un5 hF
   exact CFSG.GH74.GLS.SP.xplus_eq_top (un5System hF ζ)
 
 section RootGroups
 
-variable {k : ℕ} {F : Type} [Field F] [Finite F] [CharP F 2] [Fact (Nat.Prime 2)]
+variable {k : ℕ} {F : Type} [Field F] [Finite F] [CharP F 2]
   (hF : Nat.card F = (2 ^ k) ^ 2) (ζ : traceZero (unitaryInvolution F 2 k))
   [Fact ((ζ : F) ≠ 0)]
 
+omit [Fact (Nat.Prime 2)] [Finite F] [CharP F 2] in
 theorem rootHom_injective {σ : F ≃+* F} {hσ : ∀ c, σ (σ c) = c} {n : ℕ} {i j : Fin n}
     (hij : i ≠ j) (hi : i ≠ Fin.rev i) (hj : j ≠ Fin.rev j) (hji : j ≠ Fin.rev i) :
     Function.Injective (rootHom σ hσ hij hi hj) := by
@@ -113,8 +114,7 @@ theorem un5Oct_one_card :
         rw [show (Fin.rev 1 : Fin 5) = 3 from rfl, show (Fin.rev 2 : Fin 5) = 2 from rfl,
           show (Fin.rev 3 : Fin 5) = 1 from rfl, show (Fin.rev 4 : Fin 5) = 0 from rfl] at hsum
         rw [h44, h11, h24, h14, h04, h21, h31, h41] at hsum
-        simp only [map_one, map_zero, mul_one, mul_zero, add_zero, zero_add,
-          show ((4 : Fin 5) = 3) = False from by decide, if_false] at hsum
+        simp only [map_one, map_zero, mul_one, mul_zero, add_zero, show ((4 : Fin 5) = 3) = False from by decide, ite_false] at hsum
         linear_combination hsum
       rcases hmem with ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩
       · rw [mat_apply, mat_apply, coe_rootHom, SUExtras.rootMatrix_apply_pq (by decide) (by decide)]
@@ -157,6 +157,7 @@ theorem un5Proj_injOn_unU {x y : SU (unitaryInvolution F 2 k) 5}
     rwa [h, Subgroup.mem_bot] at this
   exact inv_mul_eq_one.mp h1
 
+omit [Fact (Nat.Prime 2)] in
 theorem card_map_eq_card_of_injOn {G H : Type*} [Group G] [Group H] (f : G →* H)
     {K S : Subgroup G} (hK : K ≤ S) (hS : ∀ x ∈ S, ∀ y ∈ S, f x = f y → x = y) :
     Nat.card (K.map f) = Nat.card K := by

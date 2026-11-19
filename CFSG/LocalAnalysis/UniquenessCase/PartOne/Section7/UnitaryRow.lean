@@ -34,7 +34,7 @@ theorem normalizer_le_of_r6_3 (D : Data G) (h63 : UC6.R6_3 D) {p : ℕ} (hp : p.
     (hp2 : p ≠ 2) (hM : IsStronglyPEmbedded p D.M) {T : Subgroup G} (hT : T ≠ ⊥)
     (hT2 : IsPGroup 2 T) (hrank : 2 ≤ CFSG.Open.pRank p (normalizer (T : Set G) ⊓ D.M)) :
     normalizer (T : Set G) ≤ D.M := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨E₀, hE₀, hE₀el, hE₀card⟩ :=
     CFSG.SectionRank.exists_pRank hp.one_lt (normalizer (T : Set G) ⊓ D.M)
   have hE₀nc : ¬ IsCyclic ↥E₀ :=
@@ -65,7 +65,7 @@ theorem exists_involution_of_lieModel_psu_subgroup {X : Type} [Group X] [Finite 
       have hx' := Subgroup.mem_inf.mp hx
       refine Subgroup.mem_inf.mpr ⟨⟨x, hx'.1, rfl⟩, Subgroup.mem_centralizer_singleton_iff.mpr ?_⟩
       exact congrArg Subtype.val (Subgroup.mem_centralizer_singleton_iff.mp hx'.2)
-    haveI := Subgroup.isCyclic_of_le hW
+    have := Subgroup.isCyclic_of_le hW
     have hcyc' : IsCyclic ↥((Q : Subgroup Y) ⊓ centralizer ({j} : Set Y)) :=
       isCyclic_of_surjective
         (Subgroup.equivMapOfInjective _ Y.subtype Y.subtype_injective).symm.toMonoidHom
@@ -122,7 +122,7 @@ theorem le_sup_of_lieModel_psu_quotient {X : Type} [Group X] [Finite X] {p n : �
       _ = t * a := by group
   have hnc : ¬ IsCyclic ↥(A ⊓ centralizer ({t} : Set X)) := by
     intro hcyc
-    haveI : IsCyclic ↥((A ⊓ centralizer ({t} : Set X)).map (QuotientGroup.mk' N)) :=
+    have : IsCyclic ↥((A ⊓ centralizer ({t} : Set X)).map (QuotientGroup.mk' N)) :=
       isCyclic_of_surjective ((QuotientGroup.mk' N).subgroupMap _)
         ((QuotientGroup.mk' N).subgroupMap_surjective _)
     exact hync (Subgroup.isCyclic_of_le hle)
@@ -139,7 +139,7 @@ theorem eq_one_of_lieModel_psu (D : Data G) (h63 : UC6.R6_3 D) {p : ℕ} {H : Su
     (hPSU : CFSG.Blueprint.LieModel (F07.LKQuot7 p H) .PSU 3 p n) : n = 1 := by
   classical
   obtain ⟨hp, hp2, hM, -, hHM, hrank1⟩ := h7
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hrank : 2 ≤ CFSG.Open.pRank p (H ⊓ D.M) := hrank1
   have hn1 : 1 ≤ n := hPSU.admissible.2.1
   by_contra hn

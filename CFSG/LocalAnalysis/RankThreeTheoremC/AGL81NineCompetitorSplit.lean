@@ -17,7 +17,7 @@ theorem core_le_of_base {p : ℕ} {P : Sylow p G} {M : Subgroup G} (hμ : AGLMuA
     {B N : Subgroup G} (hB : IsAGLQ p M B) (hBN : B ≤ N) :
     (primeComplementCore (G := N) p).map N.subtype ≤ M := by
   obtain ⟨H₁, R₁, he⟩ := hμ.escape
-  haveI : Fact p.Prime := ⟨he.prime⟩
+  have : Fact p.Prime := ⟨he.prime⟩
   obtain ⟨k, E, hk, hEB, hE, hEc, hΓ⟩ := exists_isStdE_of_isAGLQ he hB
   rw [map_primeComplementCore_eq]
   have hcard : p ^ (k - 1 + 1) ≤ Nat.card E := by

@@ -29,7 +29,7 @@ theorem eq_bot_of_isPGroup_three_sz32
     (hA : Nonempty (A ≃* (TauCeti.CFSGIndex.lie d).Group)) {W : Subgroup (MulAut A)}
     (hW : IsPGroup 3 W) : W = ⊥ := by
   have hM := suzukiModel_of_sz32 hd hA
-  haveI := CFSG.RankThree.PartTwo.KFacts.KP7.finite_of_suzukiModel hM
+  have := CFSG.RankThree.PartTwo.KFacts.KP7.finite_of_suzukiModel hM
   have h5 : Nat.card (Outer A) ∣ 2 * 2 + 1 :=
     (CFSG.LieType.Suzuki.Suzuki_model_and_perfect_cover_outer_cyclicity.{0} A 2 _ hM).1.2.1
   have hle : W ≤ inner A :=
@@ -51,8 +51,8 @@ private theorem simpleCentreless_sz32
   obtain ⟨-, a, ha, F, _, _, hfa, hF, ⟨e⟩⟩ := suzukiModel_of_sz32 hd hA
   obtain rfl : a = 2 := by omega
   obtain ⟨hfin, -, hsimple⟩ := CFSG.LieType.Ree.suzuki_simple ha hF
-  haveI : Finite A := Finite.of_equiv _ e.symm.toEquiv
-  haveI : IsSimpleGroup A := e.isSimpleGroup
+  have : Finite A := Finite.of_equiv _ e.symm.toEquiv
+  have : IsSimpleGroup A := e.isSimpleGroup
   have h25 : 5 ^ 2 ∣ Nat.card A := by
     rw [Nat.card_congr e.toEquiv, CFSG.LieType.Ree.suzuki_order hF]
     norm_num
@@ -68,7 +68,7 @@ theorem eq_bot_of_isPGroup_three_sz32_prod
     {d : TauCeti.ValidLieTypeIndex} (hd : d.1 = .suzuki 2)
     (hA : Nonempty (A ≃* (TauCeti.CFSGIndex.lie d).Group)) {W : Subgroup (MulAut (A × A))}
     (hW : IsPGroup 3 W) : W = ⊥ := by
-  haveI := CFSG.RankThree.PartTwo.KFacts.KP7.finite_of_suzukiModel (suzukiModel_of_sz32 hd hA)
+  have := CFSG.RankThree.PartTwo.KFacts.KP7.finite_of_suzukiModel (suzukiModel_of_sz32 hd hA)
   have hS := simpleCentreless_sz32 hd hA
   rw [eq_bot_iff]
   intro φ hφ

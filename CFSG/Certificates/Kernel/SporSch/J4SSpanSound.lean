@@ -18,10 +18,10 @@ private theorem xorSubK_eq : ∀ (V : List Nat) (m : Nat),
     rw [xorSubK_eq V, CFSG.Sporadic.J4Schreier.xorSub, CFSG.KS.Raw.Orb.nIf_eq]
     by_cases hm : m % 2 = 1
     · have hb : Nat.beq (Nat.mod m 2) 1 = true := Nat.beq_eq.mpr hm
-      rw [if_pos hb, if_pos hm]
+      rw [ite_eq_left hb, ite_eq_left hm]
       rfl
     · have hb : ¬ Nat.beq (Nat.mod m 2) 1 = true := fun h => hm (Nat.eq_of_beq_eq_true h)
-      rw [if_neg hb, if_neg hm]
+      rw [ite_eq_right hb, ite_eq_right hm]
       rfl
 
 private theorem testBit_foldr_or (g : Nat → Nat) (k : Nat) : ∀ (l : List Nat),

@@ -18,7 +18,7 @@ variable {G : Type} [Group G] [Finite G] (F : StrothFrame G)
 
 theorem frame_card_S_dvd (h11 : ¬ 2 ^ 11 ∣ Nat.card G) :
     Nat.card (F.S : Subgroup G) ∣ 2 ^ 10 := by
-  obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp F.S.isPGroup'
+  obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp F.S.isPGroup
   have hdvd : Nat.card (F.S : Subgroup G) ∣ Nat.card G := Subgroup.card_subgroup_dvd_card _
   rw [hn] at hdvd ⊢
   refine pow_dvd_pow 2 ?_
@@ -71,7 +71,7 @@ theorem frame_card_centralizer_inf_dvd (h11 : ¬ 2 ^ 11 ∣ Nat.card G) :
   have h4 : Nat.card (Q ⊔ T : Subgroup G) ≤ 2 ^ 10 :=
     (Subgroup.card_le_of_le hQT).trans (Nat.le_of_dvd (by norm_num) (frame_card_S_dvd F h11))
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp
-    ((F.S.isPGroup').to_le (inf_le_right : Q ≤ (F.S : Subgroup G)))
+    ((F.S.isPGroup).to_le (inf_le_right : Q ≤ (F.S : Subgroup G)))
   rw [hk] at h8 ⊢
   refine pow_dvd_pow 2 ?_
   by_contra h
@@ -145,7 +145,7 @@ theorem frame_not_dvd_relIndex_centralizerN :
   set N := Subgroup.normalizer (F.A : Set G)
   set Z := Subgroup.centralizer (F.configN.A : Set N)
   set P := (frameSylowN F : Subgroup N)
-  haveI : Z.Normal := Subgroup.normal_centralizer
+  have : Z.Normal := Subgroup.normal_centralizer
   have h1 := Subgroup.relIndex_mul_relIndex (P ⊓ Z) P (P ⊔ Z) inf_le_left le_sup_left
   have h2 := Subgroup.relIndex_mul_relIndex (P ⊓ Z) Z (P ⊔ Z) inf_le_right le_sup_right
   rw [Subgroup.inf_relIndex_left] at h1
@@ -164,9 +164,9 @@ theorem frame_exists_frattini_ρ :
       ∀ a ∈ F.A, r⁻¹ * a * r = F.dA.ρ⁻¹ * a * F.dA.ρ := by
   set N := Subgroup.normalizer (F.A : Set G)
   set Z := Subgroup.centralizer (F.configN.A : Set N)
-  haveI : Z.Normal := Subgroup.normal_centralizer
+  have : Z.Normal := Subgroup.normal_centralizer
   set QN := Z ⊓ (frameSylowN F : Subgroup N) with hQN
-  have hQ2 : IsPGroup 2 QN := (frameSylowN F).isPGroup'.to_le inf_le_right
+  have hQ2 : IsPGroup 2 QN := (frameSylowN F).isPGroup.to_le inf_le_right
   have hP2 : IsPGroup 2 (QN.subgroupOf Z) :=
     hQ2.comap_of_injective Z.subtype Subtype.val_injective
   let Psyl : Sylow 2 Z := hP2.toSylow (frame_not_dvd_relIndex_centralizerN F)
@@ -247,7 +247,7 @@ theorem frame_pow_four_mem_A (h11 : ¬ 2 ^ 11 ∣ Nat.card G) {q : G}
     (hq : q ∈ Subgroup.centralizer (F.A : Set G) ⊓ (F.S : Subgroup G)) : q ^ 4 ∈ F.A := by
   set Q := Subgroup.centralizer (F.A : Set G) ⊓ (F.S : Subgroup G) with hQ
   have hAQ : F.A ≤ Q := frame_A_le_centralizer_inf F
-  haveI : (F.A.subgroupOf Q).Normal := ⟨fun n hn g => by
+  have : (F.A.subgroupOf Q).Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     have hc : (n : G) * g = g * n := Subgroup.mem_centralizer_iff.mp g.2.1 n hn
     have : ((g * n * g⁻¹ : Q) : G) = n := by
@@ -282,7 +282,7 @@ theorem frame_mem_centralizer_of_odd_pow_mem (h11 : ¬ 2 ^ 11 ∣ Nat.card G) {g
   mem_centralizer_of_odd_pow_mem (frame_A_le_centralizer_inf F)
     (frame_isMulCommutative_centralizer_inf F h11)
     (fun r hr hr2 => frame_noInvolutionsCentralizing F h11 r hr.2 hr2 hr.1)
-    (fun q hq => frame_pow_four_mem_A F h11 hq) (fun a ha => frame_pow_four_eq_one F ha)
+    (fun _q hq => frame_pow_four_mem_A F h11 hq) (fun _a ha => frame_pow_four_eq_one F ha)
     hgA hgQ hm hgm
 
 theorem frame_exists_oddComplement (h11 : ¬ 2 ^ 11 ∣ Nat.card G) :
@@ -295,12 +295,12 @@ theorem frame_exists_oddComplement (h11 : ¬ 2 ^ 11 ∣ Nat.card G) :
   set N := Subgroup.normalizer (F.A : Set G)
   set Z := Subgroup.centralizer (F.configN.A : Set N)
   set QN := Z ⊓ (frameSylowN F : Subgroup N) with hQN
-  have hQ2 : IsPGroup 2 QN := (frameSylowN F).isPGroup'.to_le inf_le_right
+  have hQ2 : IsPGroup 2 QN := (frameSylowN F).isPGroup.to_le inf_le_right
   refine exists_oddComplement_of_normalizer_le_centralizer F.configN.A QN inf_le_left hQ2
     (frame_not_dvd_relIndex_centralizerN F) (fun g hgZ hgN => ?_)
   set H := Z ⊓ Subgroup.normalizer (QN : Set N) with hH
   have hQH : QN ≤ H := le_inf inf_le_left Subgroup.le_normalizer
-  haveI : (QN.subgroupOf H).Normal :=
+  have : (QN.subgroupOf H).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hQH).mpr inf_le_right
   set m := QN.relIndex H with hm
   have hmZ : m ∣ QN.relIndex Z := by

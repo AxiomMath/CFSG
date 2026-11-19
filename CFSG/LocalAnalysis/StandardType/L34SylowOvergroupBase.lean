@@ -45,7 +45,7 @@ theorem isSolvable_of_no_order {Z : Subgroup (Equiv.Perm (Fin 42))}
   have hdvd : Nat.card ↥Z ∣ 20160 := hcard ▸ Subgroup.card_dvd_of_le hZS
   have hnd : ∀ q : ℕ, q.Prime → (¬ ∃ x ∈ Z, x ≠ 1 ∧ x ^ q = 1) → ¬ q ∣ Nat.card ↥Z := by
     intro q hq hno hdq
-    haveI : Fact q.Prime := ⟨hq⟩
+    have : Fact q.Prime := ⟨hq⟩
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' q hdq
     refine hno ⟨(x : Equiv.Perm (Fin 42)), x.2, ?_, ?_⟩
     · intro h1

@@ -71,6 +71,7 @@ theorem card_le_sq_of_le_M {A M : Subgroup G} (h : Sec18Std G A M) {p : ℕ} (hp
   rw [hk]
   exact Nat.pow_le_pow_right hp.pos hk2
 
+omit [Finite G] in
 private theorem commute_of_sq_commute {x y : G} (hx : ∃ j : ℕ, x ^ 3 ^ j = 1)
     (h : x ^ 2 * y = y * x ^ 2) : x * y = y * x := by
   obtain ⟨j, hj⟩ := hx
@@ -82,6 +83,7 @@ private theorem commute_of_sq_commute {x y : G} (hx : ∃ j : ℕ, x ^ 3 ^ j = 1
   rw [hm] at h'
   exact h'
 
+omit [Finite G] in
 theorem commute_of_normalizes_zpowers {P : Subgroup G} {c : G} (hP : IsPGroup 3 P)
     (hc3 : orderOf c = 3) (h : P ≤ Subgroup.normalizer (Subgroup.zpowers c : Set G)) :
     ∀ x ∈ P, x * c = c * x := by

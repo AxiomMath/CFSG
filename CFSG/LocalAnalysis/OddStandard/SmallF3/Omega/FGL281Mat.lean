@@ -27,8 +27,7 @@ theorem fg_pow_twelve_of_trace {B : Matrix (Fin 2) (Fin 2) K} (hdet : B.det = 1)
     have : B * B = B.trace • B - B.det • (1 : Matrix (Fin 2) (Fin 2) K) := by
       ext i j
       fin_cases i <;> fin_cases j <;>
-        simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.trace_fin_two, Matrix.det_fin_two,
-          Matrix.one_apply] <;> ring
+        simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.trace_fin_two, Matrix.det_fin_two] <;> ring
     rwa [hdet, one_smul] at this
   have h0 : B.trace = 0 ∨ B.trace = 1 ∨ B.trace = -1 := by
     have h : B.trace * ((B.trace - 1) * (B.trace + 1)) = 0 := by linear_combination ht

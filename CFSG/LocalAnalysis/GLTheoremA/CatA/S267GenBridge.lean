@@ -21,6 +21,7 @@ section Transport
 
 variable {S K : Subgroup Ω}
 
+omit [Finite Ω] in
 private theorem map_fixSubgroup_conj (hKN : K ≤ Subgroup.normalizer (S : Set Ω)) (x : ↥K) :
     (fixSubgroup (normalizerConjAutOfMem S K hKN x)).map S.subtype =
       S ⊓ Subgroup.centralizer ({(x : Ω)} : Set Ω) := by
@@ -28,6 +29,7 @@ private theorem map_fixSubgroup_conj (hKN : K ≤ Subgroup.normalizer (S : Set �
       (Subgroup.normalizerMonoidHom (H := S)) ⟨(x : Ω), hKN x.2⟩ from rfl]
   exact CFSG.map_eqLocus_normalizerMonoidHom S (hKN x.2)
 
+omit [Finite Ω] in
 private theorem subtype_ker_comm (X : Subgroup ↥S) :
     ∀ y ∈ X ⊓ S.subtype.ker, ∀ z ∈ X, z * y = y * z := fun y hy _ _ => by
   have hy1 : y = 1 := S.subtype_injective (by simpa using hy.2)
@@ -50,6 +52,7 @@ theorem glaPComponent_fixSubgroup_of_inf_centralizer {p : ℕ} (hp : p.Prime)
     (normalizerConjAutOfMem S K hKN x) (normalizerToCenterQuotientAut S K hKN x)
     (fun k => normalizerConjAutOfMem_comp_mk S K hKN x k) (QuotientGroup.mk'_surjective _) hp hJ₀
 
+omit [Finite Ω] in
 theorem isQuasisimple_of_map_mk {J : Subgroup Ω} (hJS : J ≤ S) (hperf : ⁅J, J⁆ = J)
     (hq : CFSG.Open.IsQuasisimple
       ↥((J.subgroupOf S).map (QuotientGroup.mk' (Subgroup.center ↥S)))) :
@@ -70,6 +73,7 @@ theorem isQuasisimple_of_map_mk {J : Subgroup Ω} (hJS : J ≤ S) (hperf : ⁅J,
       (MulEquiv.subgroupCongr (by rw [Subgroup.subgroupOf_map_subtype, inf_eq_left.2 hJS]))
   exact CFSG.SignalizerFunctorTheorem.TransportA.isQuasisimple_of_mulEquiv e hq₀
 
+omit [Finite Ω] in
 theorem isElemAbelian_range {p : ℕ} (hKN : K ≤ Subgroup.normalizer (S : Set Ω))
     (hK : IsElemAbelian p K) : IsElemAbelian p (normalizerToCenterQuotientAut S K hKN).range := by
   refine ⟨⟨⟨fun a b => ?_⟩⟩, fun y hy => ?_⟩

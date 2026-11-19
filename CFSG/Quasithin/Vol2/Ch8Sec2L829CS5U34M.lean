@@ -27,7 +27,7 @@ theorem psuK_conj_apply_cs5 (n : ℕ) (hn : 0 < n) (x : PsuKCS5 n) :
 
 theorem exists_unit_orderOf_five_cs5 :
     ∃ k : (PsuKCS5 2)ˣ, orderOf k = 5 ∧ (k : PsuKCS5 2) ^ 4 = (k : PsuKCS5 2)⁻¹ := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hcard : Nat.card (PsuKCS5 2)ˣ = 15 := by
     rw [Nat.card_units, psuK_card_cs5 2 (by norm_num)]
     norm_num
@@ -59,8 +59,8 @@ theorem exists_order_five_torus_cs5 :
     ∃ c : ProjectiveSpecialUnitaryMatrixGroup psuJ4CS5, orderOf c = 5 ∧
       (∀ z ∈ sylowCenter (unitaryCoverRoot psuJ4CS5 psuJ4CS5_form), c * z = z * c) ∧
       c * hermitianWeylPSU psuJ4CS5 psuJ4CS5_form = hermitianWeylPSU psuJ4CS5 psuJ4CS5_form * c := by
-  haveI := psuK_charP_cs5 2
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have := psuK_charP_cs5 2
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨k, hk5, hk4⟩ := exists_unit_orderOf_five_cs5
   have hconj : psuJ4CS5.conj (k : PsuKCS5 2) = (k : PsuKCS5 2)⁻¹ := by
     rw [psuK_conj_apply_cs5 2 (by norm_num)]
@@ -176,8 +176,8 @@ end FiveCentCS5
 open CFSG.ComponentClassification.AschbacherToolkit.Bender
 open CFSG.ComponentClassification.AschbacherToolkit.Bender.UnitaryAut in
 theorem fiveCent_root_cs5 : FiveCentCS5 (unitaryCoverRoot psuJ4CS5 psuJ4CS5_form) := by
-  haveI := psuK_charP_cs5 2
-  haveI := finite_psu_cs5 psuJ4CS5
+  have := psuK_charP_cs5 2
+  have := finite_psu_cs5 psuJ4CS5
   obtain ⟨c, hc5, hcZ, hcw⟩ := exists_order_five_torus_cs5
   have hKcard := psuK_card_cs5 2 (by norm_num)
   have hfixed := psuJ4CS5_fixed
@@ -222,9 +222,9 @@ theorem fiveCent_root_cs5 : FiveCentCS5 (unitaryCoverRoot psuJ4CS5 psuJ4CS5_form
 
 theorem fiveCent_top_of_isPSU_cs5 {G : Type} [Group G] [Finite G] (hG : IsPSU 3 2 2 G) :
     ∀ S : Subgroup G, IsSylowTwoOf S ⊤ → FiveCentCS5 S := by
-  haveI := psuK_charP_cs5 2
+  have := psuK_charP_cs5 2
   obtain ⟨e⟩ := exists_mulEquiv_psu3_proj_cs5 (n := 2) le_rfl hG
-  haveI : Finite (ProjectiveSpecialUnitaryMatrixGroup psuJ4CS5) := Finite.of_equiv G e.toEquiv
+  have : Finite (ProjectiveSpecialUnitaryMatrixGroup psuJ4CS5) := Finite.of_equiv G e.toEquiv
   have hR : IsSylowTwoOf (unitaryCoverRoot psuJ4CS5 psuJ4CS5_form) ⊤ :=
     (rankOneSyl_root_psu3_cs5 psuJ4CS5 2 le_rfl (psuK_card_cs5 2 (by norm_num)) psuJ4CS5_fixed
       psuJ4CS5_form).sylow

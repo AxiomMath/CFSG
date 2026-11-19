@@ -101,7 +101,7 @@ theorem J3VPair.comap_equiv {kb ab : J} {V' : Fin 2 → Subgroup J'}
         φ ⁻¹' {z' : J' | ∃ x' ∈ inSubgroup perfectResidual (normalizer (V' i : Set J')),
           z' = x' * φ ab * x'⁻¹} := by
       ext z
-      simp only [mem_comap, MulEquiv.coe_toMonoidHom, Set.mem_setOf_eq, Set.mem_preimage]
+      simp only [mem_comap, MulEquiv.coe_toMonoidHom, Set.mem_ofPred_eq, Set.mem_preimage]
       constructor
       · rintro ⟨x, hx, rfl⟩
         exact ⟨φ x, hx, by simp⟩
@@ -209,7 +209,7 @@ theorem J3TwoLocalFacts.inv_left {kb ab : J} (hcomm : kb * ab = ab * kb) (ha : a
       have hab1 : ab⁻¹ = ab ^ 2 := inv_eq_of_mul_eq_one_right (by rw [← pow_succ']; exact ha)
       have hm3 : m = 0 ∨ m = 1 ∨ m = 2 := by omega
       rcases hm3 with rfl | rfl | rfl
-      · rw [key 0 (by simp [ha])]
+      · rw [key 0 (by simp)]
         exact hV.four 0 hm
       · rw [key 2 (by rw [mul_inv_rev, inv_inv, hab2, pow_one]; exact hab.symm.eq)]
         exact hV.four 2 (by norm_num)

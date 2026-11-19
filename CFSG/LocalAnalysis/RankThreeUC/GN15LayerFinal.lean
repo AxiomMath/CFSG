@@ -22,11 +22,13 @@ section HCon
 
 variable {X : Type} [Group X] [Finite X] {T : Subgroup X}
 
+omit [Finite X] in
 private theorem conjClosure_le_gnV_aux (K : Subgroup X) :
     conjClosure (quasithinOmegaOneCenter T) (K ⊔ T) ≤ gnV T := by
   rw [gnV_eq_conjClosure T]
   exact conjClosure_mono le_rfl le_top
 
+omit [Finite X] in
 private theorem toStar_comm_of_mem {a b : X} (h : a * b * a⁻¹ * b⁻¹ ∈ gnC T) :
     toStar T a * toStar T b = toStar T b * toStar T a := by
   have h1 : toStar T (a * b * a⁻¹ * b⁻¹) = 1 := (QuotientGroup.eq_one_iff _).2 h
@@ -36,6 +38,7 @@ private theorem toStar_comm_of_mem {a b : X} (h : a * b * a⁻¹ * b⁻¹ ∈ gn
           (toStar T b * toStar T a) := by group
     _ = toStar T b * toStar T a := by rw [h1, one_mul]
 
+omit [Finite X] in
 private theorem mem_gnC_of_toStar_comm {a b : X}
     (h : toStar T a * toStar T b = toStar T b * toStar T a) : a * b * a⁻¹ * b⁻¹ ∈ gnC T := by
   refine (QuotientGroup.eq_one_iff _).1 ?_
@@ -61,8 +64,8 @@ theorem isPConstrained_three_autOn_gnKThree (hX : GNSetting X T) :
     (gnKThree_le_gnHPre (T := T))
   have hKM : (K.subgroupOf M).Normal := (gnKThree_normal (T := T)).subgroupOf M
   have hPM : ((gnPThree T).subgroupOf M).Normal := (gnPThree_normal (T := T)).subgroupOf M
-  haveI hN : ((K.subgroupOf M).map ψ).Normal := Subgroup.Normal.map hKM ψ hψs
-  haveI hF : (((gnPThree T).subgroupOf M).map ψ).Normal := Subgroup.Normal.map hPM ψ hψs
+  have hN : ((K.subgroupOf M).map ψ).Normal := Subgroup.Normal.map hKM ψ hψs
+  have hF : (((gnPThree T).subgroupOf M).map ψ).Normal := Subgroup.Normal.map hPM ψ hψs
   have hF3 : IsPGroup 3 (((gnPThree T).subgroupOf M).map ψ) := by
     rintro ⟨_, ⟨m, hm, rfl⟩⟩
     obtain ⟨n, hn⟩ := (CFSG.pCore_isPGroup (p := 3) (G := X ⧸ gnC T)) ⟨toStar T m, hm⟩
@@ -78,7 +81,7 @@ theorem isPConstrained_three_autOn_gnKThree (hX : GNSetting X T) :
     intro q
     obtain ⟨g, rfl⟩ := QuotientGroup.mk_surjective q
     obtain ⟨m, rfl⟩ := hψs g
-    haveI := (gnKThree_normal (T := T))
+    have := (gnKThree_normal (T := T))
     obtain ⟨k, hk, t, ht, hkt⟩ := Subgroup.mem_sup_of_normal_left.mp m.2
     obtain ⟨n, hn⟩ := hX.sylow.2.1 ⟨t, ht⟩
     refine ⟨n, ?_⟩
@@ -148,8 +151,8 @@ private theorem commutator_mem_centralizer_sup {G : Type} [Group G] {E W : Subgr
     [E.Normal] [W.Normal] {h j : G} (hh : h ∈ Subgroup.centralizer (E : Set G))
     (hj : j ∈ Subgroup.centralizer (W : Set G)) :
     ⁅h, j⁆ ∈ Subgroup.centralizer ((E ⊔ W : Subgroup G) : Set G) := by
-  haveI : (Subgroup.centralizer (E : Set G)).Normal := Subgroup.normal_centralizer
-  haveI : (Subgroup.centralizer (W : Set G)).Normal := Subgroup.normal_centralizer
+  have : (Subgroup.centralizer (E : Set G)).Normal := Subgroup.normal_centralizer
+  have : (Subgroup.centralizer (W : Set G)).Normal := Subgroup.normal_centralizer
   have hE : ⁅h, j⁆ ∈ Subgroup.centralizer (E : Set G) := by
     have h1 : j * h⁻¹ * j⁻¹ ∈ Subgroup.centralizer (E : Set G) :=
       Subgroup.Normal.conj_mem inferInstance h⁻¹ (inv_mem hh) j
@@ -169,7 +172,7 @@ variable {X : Type} [Group X] [Finite X] {T : Subgroup X}
 
 theorem commutator_mem_gnKThree (hJ3 : ThreePrimeJCentral) (hX : GNSetting X T) {h j : X}
     (hh : h ∈ gnHPre T) (hj : j ∈ thompsonJ T) : ⁅h, j⁆ ∈ gnKThree T := by
-  haveI : (rankThreeLayer (⊤ : Subgroup (X ⧸ gnC T))).Normal := by
+  have : (rankThreeLayer (⊤ : Subgroup (X ⧸ gnC T))).Normal := by
     have h := CFSG.LocalAnalysis.RankThreeTheoremC.le_normalizer_rankThreeLayer
       (⊤ : Subgroup (X ⧸ gnC T))
     exact Subgroup.normalizer_eq_top_iff.mp (top_le_iff.mp h)

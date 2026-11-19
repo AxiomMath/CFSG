@@ -26,7 +26,7 @@ theorem bender_or_sylow_le_eight {L : Type} [Group L] [Finite L] [IsSimpleGroup 
   · exact Or.inl (Or.inl ⟨f, by omega, ⟨e⟩⟩)
   · exact Or.inl (Or.inr (Or.inr ⟨n, hn, ⟨e⟩⟩))
   · exact Or.inl (Or.inr (Or.inl ⟨f, hf, ⟨e⟩⟩))
-  · haveI := hp
+  · have := hp
     refine Or.inr fun T => ?_
     have := (CFSG.Goldschmidt.GoldType.sylow_of_psl2_odd hpo hf h8 e T).1
     omega
@@ -50,7 +50,7 @@ theorem stroth101End_of (h34 : Stroth34Statement) (h44 : Stroth44Statement)
   have hcs : CompSimple (Mbar M Q) := hc.compSimple h34 h44 H.width H.n_gt H.noA2 H.gen
   have hLBH : bar M Q (LB M Q B) ≤ bar M Q (H0 M Z) :=
     hc.bar_LB_le_bar_Lgen.trans hc.bar_Lgen_le_bar_H0
-  haveI := hc.normal_bar_H0
+  have := hc.normal_bar_H0
   have hO : goldschmidtOddCore ↥(Subgroup.normalClosure ({t} : Set (Mbar M Q))) = ⊥ := by
     refine endg_goldschmidtOddCore_eq_bot (H := bar M Q (H0 M Z)) (fun Y hY hYH hodd => ?_)
       Subgroup.normalClosure_normal ?_
@@ -78,7 +78,7 @@ theorem stroth101End_of (h34 : Stroth34Statement) (h44 : Stroth44Statement)
   have hZ : Subgroup.center ↥(layer (Mbar M Q)) = ⊥ :=
     (Subgroup.map_eq_bot_iff_of_injective _ (Subgroup.subtype_injective _)).mp
       hcs.center_layer_eq_bot
-  haveI hsimple : IsSimpleGroup ↥(layer (Mbar M Q)) := isSimpleGroup_of_center_eq_bot hLc hZ
+  have hsimple : IsSimpleGroup ↥(layer (Mbar M Q)) := isSimpleGroup_of_center_eq_bot hLc hZ
   have hL : goldschmidtSimpleType ↥(layer (Mbar M Q)) :=
     endg_goldschmidtSimpleType_congr
       (QuotientGroup.quotientBot.symm.trans (QuotientGroup.quotientMulEquivOfEq hZ.symm)) hgK

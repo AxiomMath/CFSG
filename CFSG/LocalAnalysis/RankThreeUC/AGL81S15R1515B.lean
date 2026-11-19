@@ -17,6 +17,7 @@ section TableLookups
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem centre_barO2_eq_bot_of_A7 {L : Subgroup X}
     (h : Nonempty (↥(barO2 L) ≃* alternatingGroup (Fin 7))) :
     Nat.card (Subgroup.center ↥(barO2 L)) = 1 := by
@@ -185,7 +186,7 @@ theorem centre_three_shape (hKSML3 : KSML3) (hKSMAlt : KSMAlt) (hKSMOdd : KSMOdd
     rw [this] at h3
     omega
 
-theorem dvd_of_one_le_rkLin_three {m z p : ℕ} (hp : p.Prime)
+theorem dvd_of_one_le_rkLin_three {m z p : ℕ} (_hp : p.Prime)
     (h : 1 ≤ rkLin 3 true (2 ^ m) p z) : p ∣ (2 ^ (2 * m) - 1) * (2 ^ (3 * m) - 1) := by
   have hQ : 1 ≤ 2 ^ m := Nat.one_le_two_pow
   have hpow := rank_eq_two_of_in1512_aux_dvd_pow (Q := 2 ^ m) (p := p) hQ
@@ -214,7 +215,7 @@ theorem dvd_of_one_le_rkLin_three {m z p : ℕ} (hp : p.Prime)
       rw [this] at hpow
       exact hpow.mul_left _
 
-theorem rkLin_three_true_eq_two {Q p z : ℕ} (hQ : 1 ≤ Q) (h : p ∣ Q - 1) (hp : p.Prime) :
+theorem rkLin_three_true_eq_two {Q p z : ℕ} (hQ : 1 ≤ Q) (h : p ∣ Q - 1) (_hp : p.Prime) :
     rkLin 3 true Q p z = 2 := by
   have h1 : eP Q p = 1 := (eP_eq_one_iff hQ).2 h
   unfold rkLin

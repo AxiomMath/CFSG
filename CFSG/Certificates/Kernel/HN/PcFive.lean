@@ -232,7 +232,7 @@ theorem rankThreeWitness_of_tripV [Finite G] (H : PcHyp x q z) (hφ : phiOK () =
           List.prod_cons, List.prod_nil, mul_one] at hc
         simp only [Fin.succ_zero_eq_one, Fin.succ_one_eq_two, Matrix.cons_val_zero,
           Matrix.cons_val_one, Matrix.cons_val_two, Fin.isValue, Matrix.head_cons,
-          Matrix.cons_val_succ, Matrix.tail_cons] at hc
+          Matrix.tail_cons] at hc
         have hi := ZMod.val_lt (c 0)
         have hj := ZMod.val_lt (c 1)
         have hl := ZMod.val_lt (c 2)

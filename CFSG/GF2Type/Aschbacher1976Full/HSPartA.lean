@@ -23,6 +23,7 @@ theorem ZF_conj_eq (hD : Aschbacher1976Full.Width.Z4Data z 2 Z A) (hz : orderOf 
   show centerAt (g⁻¹ * z * g) = conjugate Z g
   rw [centerAt_conj z g, hZ]
 
+omit [Finite G] in
 theorem exists_inv_conj {u : G} (h : IsConj z u) : ∃ g : G, u = g⁻¹ * z * g := by
   obtain ⟨c, hc⟩ := isConj_iff.mp h
   exact ⟨c⁻¹, by rw [← hc]; simp⟩
@@ -49,7 +50,7 @@ end Basic
 theorem hsPartA_holds : HSPartA := by
   intro G _ _ z hset
   obtain ⟨⟨hsimp, hnab, hz, hsymp⟩, hZ4⟩ := hset
-  haveI := hsimp
+  have := hsimp
   have hF2 : IsPGroup 2 (Fz z) := hsymp.1
   obtain ⟨Z, A, hD⟩ := Aschbacher1976Full.Width.exists_Z4Data hZ4
   have hcenter : ∀ g : G, ZF (g⁻¹ * z * g) = conjugate Z g := ZF_conj_eq hD hz hF2

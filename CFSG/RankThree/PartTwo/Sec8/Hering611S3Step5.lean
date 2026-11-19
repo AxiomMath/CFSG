@@ -9,6 +9,7 @@ namespace CFSG.RankThree.PartTwo.Sec8.Hering611
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem fmul_pow_pow {a c : G} (hac : Commute a c) (n k n' k' : ℕ) :
     (a ^ n * c ^ k) * (a ^ n' * c ^ k') = a ^ (n + n') * c ^ (k + k') := by
   rw [pow_add, pow_add, (hac.symm.pow_pow k n').mul_mul_mul_comm]
@@ -26,6 +27,7 @@ private def fsub {a c : G} (hac : a * c = c * a) (ha3 : a ^ 3 = 1) (hc3 : c ^ 3 
     rw [fmul_pow_pow hac, show n + 2 * n = 3 * n by ring, show k + 2 * k = 3 * k by ring,
       pow_mul, pow_mul, ha3, hc3, one_pow, one_pow, one_mul]
 
+omit [Finite G] in
 private theorem commute_fsub {a c : G} (hac : a * c = c * a) (ha3 : a ^ 3 = 1)
     (hc3 : c ^ 3 = 1) {x y : G} (hx : x ∈ fsub hac ha3 hc3) (hy : y ∈ fsub hac ha3 hc3) :
     Commute x y := by
@@ -40,6 +42,7 @@ private abbrev fsubCommGroup {a c : G} (hac : a * c = c * a) (ha3 : a ^ 3 = 1)
   { (inferInstance : Group (fsub hac ha3 hc3)) with
     mul_comm := fun x y => Subtype.ext (commute_fsub hac ha3 hc3 x.2 y.2).eq }
 
+omit [Finite G] in
 private theorem pow_three_fsub {a c : G} (hac : a * c = c * a) (ha3 : a ^ 3 = 1)
     (hc3 : c ^ 3 = 1) (x : fsub hac ha3 hc3) : x ^ 3 = 1 := by
   have hcomm : Commute a c := hac
@@ -49,6 +52,7 @@ private theorem pow_three_fsub {a c : G} (hac : a * c = c * a) (ha3 : a ^ 3 = 1)
     ← pow_mul, mul_comm n 3, mul_comm k 3, pow_mul, pow_mul, ha3, hc3, one_pow, one_pow,
     one_mul]
 
+omit [Finite G] in
 private theorem isPGroup_fsub {a c : G} (hac : a * c = c * a) (ha3 : a ^ 3 = 1)
     (hc3 : c ^ 3 = 1) : IsPGroup 3 (fsub hac ha3 hc3) :=
   fun x => ⟨1, by simpa using pow_three_fsub hac ha3 hc3 x⟩
@@ -97,9 +101,9 @@ theorem centralizes_quotient_of_four {U V : Subgroup G} (hU2 : IsPGroup 2 U) (hV
   have ha1 : a ≠ 1 := fun h => hnc (by rw [h]; exact Subgroup.one_mem _)
   have haF : a ∈ fsub hac ha3 hc3 := ⟨1, 0, by simp⟩
   have hyF : ∀ m : ℕ, a ^ m * c ∈ fsub hac ha3 hc3 := fun m => ⟨m, 1, by simp⟩
-  letI : CommGroup (fsub hac ha3 hc3) := fsubCommGroup hac ha3 hc3
-  haveI : Fact (IsPGroup 3 (fsub hac ha3 hc3)) := ⟨isPGroup_fsub hac ha3 hc3⟩
-  haveI hN : (V.subgroupOf U).Normal :=
+  let : CommGroup (fsub hac ha3 hc3) := fsubCommGroup hac ha3 hc3
+  have : Fact (IsPGroup 3 (fsub hac ha3 hc3)) := ⟨isPGroup_fsub hac ha3 hc3⟩
+  have hN : (V.subgroupOf U).Normal :=
     (Subgroup.normal_subgroupOf_iff hVU).mpr fun h k hh hk => hVn k hk h hh
   have hFU : fsub hac ha3 hc3 ≤ Subgroup.normalizer (U : Set G) := by
     intro f hf
@@ -113,7 +117,7 @@ theorem centralizes_quotient_of_four {U V : Subgroup G} (hU2 : IsPGroup 2 U) (hV
       ∀ (f : fsub hac ha3 hc3) (u : U), ((θ f u : U) : G) = (f : G) * (u : G) * (f : G)⁻¹ :=
     ⟨(Subgroup.normalizerMonoidHom U).comp (Subgroup.inclusion hFU), fun f u => by
       simp [Subgroup.normalizerMonoidHom_apply_apply_coe]⟩
-  letI : MulDistribMulAction (fsub hac ha3 hc3) U := MulDistribMulAction.compHom U θ
+  let : MulDistribMulAction (fsub hac ha3 hc3) U := MulDistribMulAction.compHom U θ
   have hsmul : ∀ (f : fsub hac ha3 hc3) (u : U), f • u = θ f u := fun _ _ => rfl
   have hθV : ∀ (f : fsub hac ha3 hc3) (r : U), r ∈ V.subgroupOf U →
       θ f r ∈ V.subgroupOf U := by
@@ -125,7 +129,7 @@ theorem centralizes_quotient_of_four {U V : Subgroup G} (hU2 : IsPGroup 2 U) (hV
     refine ⟨fun f r => ⟨fun hr => hθV f r hr, fun hr => ?_⟩⟩
     have h := hθV f⁻¹ (f • r) hr
     rwa [← hsmul, inv_smul_smul] at h
-  letI : MulDistribMulAction (fsub hac ha3 hc3) (U ⧸ V.subgroupOf U) :=
+  let : MulDistribMulAction (fsub hac ha3 hc3) (U ⧸ V.subgroupOf U) :=
     CFSG.quotientMulDistribMulAction (V.subgroupOf U) hinv
   have hsmulq : ∀ (f : fsub hac ha3 hc3) (u : U),
       f • ((u : U) : U ⧸ V.subgroupOf U) = ((f • u : U) : U ⧸ V.subgroupOf U) :=

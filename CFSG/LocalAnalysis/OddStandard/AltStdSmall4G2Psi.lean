@@ -273,6 +273,7 @@ variable {G : Type} [Group G] [Finite G] {L Q : Subgroup G} {n : ℕ}
     sylowT →* G :=
   (ModIso.kap θ hn).comp sylowT.subtype
 
+omit [Finite G] in
 theorem range_kapU (hn : 8 ≤ n) : (kapU θ hn).range = DU θ hn := by
   rw [kapU, MonoidHom.range_comp, Subgroup.range_subtype]
   rfl
@@ -389,6 +390,7 @@ section Final
 variable {G : Type} [Group G] [Finite G] {L Q : Subgroup G} {n : ℕ}
   {θ : L ≃* alternatingGroup (Fin n)} {z : G} {A : Subgroup G}
 
+omit [Finite G] in
 theorem cardN_expo (L : Subgroup G) (n : ℕ) (z : G) :
     (cardN L n z = 2 ^ 7 ∧ expo L n z = 4) ∨ (cardN L n z = 2 ^ 8 ∧ expo L n z = 8) := by
   by_cases h : IsASmall L n z

@@ -53,7 +53,7 @@ theorem apply_mem_Iset {φ : ↥D.Mb} (hφ : φ ∈ D.Cb) {x : ↥D.E} (hx : x �
 theorem omE_one : D.omE 1 = D.zE := Subtype.ext D.elt7_one
 
 theorem bE_one : D.bE 1 = D.rep 3 := by
-  rw [bE, if_neg one_ne_zero]
+  rw [bE, ite_eq_right one_ne_zero]
   rfl
 
 theorem rep3_mem_E1 : D.rep 3 ∈ D.E1 := D.bE_one ▸ D.bE_mem_E1 1

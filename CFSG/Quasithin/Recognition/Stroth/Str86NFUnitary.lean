@@ -21,8 +21,8 @@ private theorem binaryNaturalSU3_eq_one_of_twoElement_centralizer
     (hf2 : ∃ n, orderOf f = 2 ^ n) : f = 1 := by
   classical
   obtain ⟨K, hKfield, hKfin, hKcard, π, hπ⟩ := hH
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
+  let : Field K := hKfield
+  let : Finite K := hKfin
   obtain ⟨e, he⟩ :=
     CFSG.Quasithin.H.exists_mulEquiv_of_realizesVia (Γ := StatedSU 3 (2 ^ k) K) hπ
   let f' : MulAut (CFSG.Quasithin.H.StdMod (Fin 3) K) := MulAut.congr e f
@@ -48,7 +48,7 @@ private theorem binaryNaturalSU3_eq_one_of_twoElement_centralizer
       map_add' := fun v w => CFSG.Quasithin.H.toAddMap_add f' v w }
   have hchar : CharP K 2 :=
     CFSG.Quasithin.SteinbergCB.charP_two_of_card (by omega) hKcard
-  haveI : CharP K 2 := hchar
+  have : CharP K 2 := hchar
   obtain ⟨c, hc⟩ := CFSG.Quasithin.H.SU3.hasScalarCommutant' (n := k) (by omega) hKcard F (by
     intro γ hγ v
     have h := congrArg
@@ -90,6 +90,7 @@ private theorem binaryNaturalSU3_eq_one_of_twoElement_centralizer
     simpa [f'] using hf'one
   exact (MulAut.congr e).injective (h1.trans (map_one (MulAut.congr e)).symm)
 
+omit [Finite G] in
 private theorem quotAct_eq_of_mem
     {U Z : Subgroup G} [(Z.subgroupOf U).Normal]
     {K K' : Subgroup G}
@@ -116,8 +117,8 @@ theorem str86NF_unitary {L1 L2 S : Subgroup G} {k : ℕ}
     Str86NF L1 (Q1 L1 L2 S) (Z1 L1 L2 S) := by
   classical
   intro g hgpow hgL hgQ hcommL
-  letI : CommGroup (u3M L1 L2 S) := u3MCommGroup hX1'
-  letI : ((Z1 L1 L2 S).subgroupOf (u3X1 L1 L2 S)).Normal := u3M_normal L1 L2 S
+  let : CommGroup (u3M L1 L2 S) := u3MCommGroup hX1'
+  let : ((Z1 L1 L2 S).subgroupOf (u3X1 L1 L2 S)).Normal := u3M_normal L1 L2 S
   have hX : u3Lhat L1 L2 S ≤
       Subgroup.normalizer (u3X1 L1 L2 S : Set G) :=
     sup_le (le_normalizer_u3X1_left (L1 := L1) (L2 := L2) (S := S))

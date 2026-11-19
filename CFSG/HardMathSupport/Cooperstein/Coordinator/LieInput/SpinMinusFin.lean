@@ -23,8 +23,7 @@ theorem epsFun_injective (hn : 1 ≤ n) : Function.Injective (epsFun n hn) := by
   rintro (i | i | t) (j | j | u) h <;> simp only [epsFun, Fin.mk.injEq] at h <;>
     first | (have := i.isLt; have := j.isLt; simp [Fin.ext_iff]; omega) |
       (have := i.isLt; have := u.isLt; omega) | (have := t.isLt; have := j.isLt; omega) |
-      (have := t.isLt; have := u.isLt; simp [Fin.ext_iff]; omega) |
-      (have := i.isLt; have := t.isLt; omega) | (have := i.isLt; have := j.isLt; omega)
+      (have := t.isLt; have := u.isLt; simp [Fin.ext_iff]; omega)
 
 @[expose] noncomputable def epsM (hn : 1 ≤ n) :
     (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2) ≃ Fin (n + n) :=
@@ -55,7 +54,7 @@ variable {n : ℕ} {K : Type} [Field K] {b c : K}
 theorem matM_apply (hn : 1 ≤ n) (g : spinGroup (quadMinus n K b c))
     (x y : Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2) :
     matM hn g (epsM n hn x) (epsM n hn y) = mat n g x y := by
-  simp [matM, Matrix.reindexAlgEquiv_apply, matHom]
+  simp [matM, matHom]
 
 theorem matM_injective [Finite K] [CharP K 2] (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0)
     (hn : 1 ≤ n) : Function.Injective (matM (b := b) (c := c) hn) := by
@@ -79,7 +78,7 @@ theorem matM_longRoot (hn : 1 ≤ n) {i j : Fin (n - 1)} (hij : i ≠ j) (s t : 
   simp only [rootMatrix, longMat, Matrix.add_apply, Matrix.sub_apply, Matrix.smul_apply,
     Matrix.one_apply, Matrix.single_apply, h1, h2, (epsM n hn).injective.eq_iff,
     RingEquiv.refl_apply, smul_eq_mul, mul_sub, mul_one, mul_ite, mul_zero]
-  split_ifs <;> simp <;> ring
+  split_ifs <;> simp; ring
 
 end MatM
 

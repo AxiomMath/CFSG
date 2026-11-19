@@ -167,10 +167,10 @@ theorem isCyclic_twoResidual_ambient (h : MinParabolic H T M) (hsolv : Group.IsS
   have : Fact p.Prime := ⟨hp⟩
   obtain ⟨P⟩ : Nonempty (Sylow p ↥H) := inferInstance
   have hPs := P.card_eq_multiplicity
-  obtain ⟨h1, -, h2P⟩ := h.subgroupOf.sylow_map_eq_pCore hsolv hp hp2 hpH P.isPGroup' hPs
+  obtain ⟨h1, -, h2P⟩ := h.subgroupOf.sylow_map_eq_pCore hsolv hp hp2 hpH P.isPGroup hPs
   have hPc : IsCyclic ↥(P : Subgroup ↥H) := by
     have h2 := isCyclic_of_pRank_le_one hp2 (Subgroup.map_subtype_le (P : Subgroup ↥H))
-      (P.isPGroup'.map H.subtype) hr
+      (P.isPGroup.map H.subtype) hr
     have := h2
     exact isCyclic_of_surjective
       (((P : Subgroup ↥H).equivMapOfInjective _ H.subtype_injective).symm.toMonoidHom)

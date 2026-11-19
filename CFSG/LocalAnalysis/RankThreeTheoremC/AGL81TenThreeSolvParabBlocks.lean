@@ -83,7 +83,7 @@ private theorem BlockCond.statedSU {K : Type} [Field K] [Finite K] (hK : Nat.car
     (CFSG.pCore_normal (p := 2) (G := ↥(StatedSU 3 2 K))) CFSG.pCore_isPGroup,
     fun H hH ⟨e⟩ => ?_⟩
   exfalso
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ω, hω, h2⟩ := exists_omega hK
   let o : OmegaData K := ⟨ω, hω, h2⟩
   have hrel : Heis3Rel (OmegaData.sS o) (OmegaData.sD o) (sZ o) :=
@@ -93,7 +93,7 @@ private theorem BlockCond.statedSU {K : Type} [Field K] [Finite K] (hK : Nat.car
     have := orderOf_eq_prime_pow (p := 2) (n := 1) (x := OmegaData.sF o)
       (by simpa using sF_sq_ne_one o) (by simpa using sF_four o)
     simpa using this
-  haveI hEn : (heisSubgroup hrel).Normal := heisSubgroup_normal hcard hrel (sZ_ne_one o)
+  have hEn : (heisSubgroup hrel).Normal := heisSubgroup_normal hcard hrel (sZ_ne_one o)
     (hrel.F_mem_normalizer (sF_mul_sS o) (sF_mul_sD o)) hord
   have hE3 : IsPGroup 3 (heisSubgroup hrel) :=
     IsPGroup.of_card (n := 3) (by rw [card_heisSubgroup hcard hrel (sZ_ne_one o)]; norm_num)
@@ -121,8 +121,8 @@ private theorem BlockCond.of_isWBlock {X : Type} [Group X] [Finite X] (h : IsWBl
   rcases h with ⟨hq, ho⟩ | ⟨⟨e⟩⟩ | ⟨K, hKf, hKfin, hK, ⟨e⟩⟩
   · exact BlockCond.of_isQuasisimple hq ho
   · exact BlockCond.perm_three.of_mulEquiv e.symm
-  · letI := hKf
-    haveI := hKfin
+  · let := hKf
+    have := hKfin
     exact (BlockCond.statedSU hK).of_mulEquiv e.symm
 
 private theorem exists_mulSingle_eq_of_blockCond {ι : Type} [Fintype ι] [DecidableEq ι]
@@ -220,7 +220,7 @@ private theorem exists_mulSingle_eq_of_blockCond {ι : Type} [Fintype ι] [Decid
     rcases hx with rfl | rfl
     · exact hsupp _ hak
     · exact hsupp _ hsk
-  haveI : Finite X := Sym.finite_symThree ⟨e₀⟩
+  have : Finite X := Sym.finite_symThree ⟨e₀⟩
   have hAcard : Nat.card A = 6 := by
     rw [hA, Subgroup.card_map_of_injective (Pi.mulSingle_injective i), Subgroup.card_top,
       SymThree.card_eq_six_of_mulEquiv e]
@@ -236,10 +236,10 @@ theorem symThreePairs_of_hasLeviCensus {R : Type} [Group R] [Finite R]
   classical
   obtain ⟨Q, hQgroup, hQfin, σ, k, G, hGgroup, hGfin, S, β, hσ, hc, ho, hβ, hle, hn, hi, hS,
     -⟩ := h
-  letI : Group Q := hQgroup
-  letI : Finite Q := hQfin
-  letI : ∀ j, Group (G j) := hGgroup
-  letI : ∀ j, Finite (G j) := hGfin
+  let : Group Q := hQgroup
+  let : Finite Q := hQfin
+  let : ∀ j, Group (G j) := hGgroup
+  let : ∀ j, Finite (G j) := hGfin
   set Λ : Subgroup (∀ j, G j) := β.range with hΛ
   set NΛ : Subgroup ↥Λ := (Subgroup.pi Set.univ S).subgroupOf Λ with hNΛ
   set D : Subgroup ↥Λ := (σ.ker).map β.rangeRestrict with hD
@@ -301,7 +301,7 @@ theorem symThreePairs_of_hasLeviCensus {R : Type} [Group R] [Finite R]
       rw [MonoidHom.mem_ker] at hz
       rw [hz]
       exact (CFSG.pCore 2 R).one_mem
-    haveI hZn : (σ.ker.subgroupOf H).Normal := (inferInstance : σ.ker.Normal).subgroupOf H
+    have hZn : (σ.ker.subgroupOf H).Normal := (inferInstance : σ.ker.Normal).subgroupOf H
     have hquot : IsPGroup 2 (↥H ⧸ σ.ker.subgroupOf H) :=
       ParabCensus.isPGroup_quotient_subgroupOf_comap hσ rfl CFSG.pCore_isPGroup
     calc
@@ -342,7 +342,7 @@ theorem symThreePairs_of_hasLeviCensus {R : Type} [Group R] [Finite R]
   have hblock : ∀ j, BlockCond ↥(S j) := by
     intro j
     rcases hS j with hbot | hW
-    · haveI : Subsingleton ↥(S j) := by rw [hbot]; infer_instance
+    · have : Subsingleton ↥(S j) := by rw [hbot]; infer_instance
       exact BlockCond.of_subsingleton
     · exact BlockCond.of_isWBlock hW
   have hN : SymThreePairs ↥NΛ :=
@@ -355,8 +355,8 @@ theorem symThreePairs_of_isSpTwoLeviProduct {R : Type} [Group R] [Finite R]
     (h : IsSpTwoLeviProduct R) : SymThreePairs (R ⧸ CFSG.pCore 2 R) := by
   classical
   obtain ⟨k, X, hXg, hXf, ⟨e⟩, hX⟩ := h
-  letI := hXg
-  letI := hXf
+  let := hXg
+  let := hXf
   refine (symThreePairs_pi fun T hT hb => ?_).of_mulEquiv e.symm
   obtain ⟨i, -, hi⟩ := Prod.exists_mulSingle_eq_of_subnormal_symThree
     (fun i => Sp.prodFactor_of_isSpTwoFactor (hX i)) hb hT

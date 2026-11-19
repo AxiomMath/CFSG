@@ -121,7 +121,7 @@ theorem autGenBound_of_permModel {S : Type} [Group S] [Finite S] {Ω : Type} [Fi
   intro a ha2 hP
   have hinj : Function.Injective (w135c2_actAut ι hι A hN) :=
     w135c2_actAut_injective ι hι hC A hN
-  haveI : Finite (MulAut S) :=
+  have : Finite (MulAut S) :=
     Finite.of_injective (fun f : MulAut S => (f : S → S)) DFunLike.coe_injective
   obtain ⟨g, hg_eq⟩ := (hinj.bijective_of_nat_card_le hcard).surjective a
   have haa : a * a = 1 := by rw [← pow_two, ← ha2, pow_orderOf_eq_one]

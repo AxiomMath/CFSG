@@ -56,7 +56,7 @@ section BarPCore
 
 variable {Y : Subgroup G}
 
-theorem barM_pCoreOf_le_pCoreOf_barM (hYX : Y ≤ X) :
+theorem barM_pCoreOf_le_pCoreOf_barM (_hYX : Y ≤ X) :
     barM X (CFSG.Open.pCoreOf 2 Y) ≤ CFSG.Open.pCoreOf 2 (barM X Y) := by
   have hinc : barM X (CFSG.Open.pCoreOf 2 Y) ≤ barM X Y :=
     barM_mono (CFSG.RankThreeCoreUniqueness.Helpers.pCoreOf_le 2 Y)
@@ -68,7 +68,7 @@ theorem barM_pCoreOf_le_pCoreOf_barM (hYX : Y ≤ X) :
     refine (mem_barM _).2 ⟨y * o * y⁻¹, ?_, ?_⟩
     · exact (Subgroup.mem_normalizer_iff.mp
         (CFSG.RankThreeCoreUniqueness.Helpers.localGroup_le_normalizer_pCoreOf 2 Y hy) (o : G)).mp ho
-    · simp [map_mul, map_inv]
+    · simp
   have hN : barM X Y ≤ Subgroup.normalizer
       (barM X (CFSG.Open.pCoreOf 2 Y) : Set (↥X ⧸ CFSG.pCore 2 ↥X)) := by
     intro g hg

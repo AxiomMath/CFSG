@@ -76,7 +76,7 @@ private theorem wcgapsp_mem_P1_iff {g : SpecialLinearGroup (Fin 3) F} :
       fin_cases j
       · simp at hj
       · simp at hj
-      · simp [mulVecLin_apply, mulVec, dotProduct, Fin.sum_univ_three, h1, h2, hv2]
+      · simp [mulVec, dotProduct, Fin.sum_univ_three, h1, h2, hv2]
     have hinj : Function.Injective (mulVecLin (g : Matrix (Fin 3) (Fin 3) F)) := by
       have hu : IsUnit (g : Matrix (Fin 3) (Fin 3) F) :=
         (Matrix.isUnit_iff_isUnit_det _).mpr (by rw [g.2]; exact isUnit_one)
@@ -585,7 +585,7 @@ private theorem wcgapsp_leviK1_ker :
 private theorem wcgapsp_oTwoMod_K0 (hF : Nat.card F = 4) :
     oTwoMod (⊥ : Subgroup (SpecialLinearGroup (Fin 3) F)) (wcgapsp_K0 (F := F)) =
       radSub (k := F) := by
-  haveI : Finite F := finite_of_card_eq_four hF
+  have : Finite F := finite_of_card_eq_four hF
   apply le_antisymm
   · rw [oTwoMod]
     refine iSup₂_le fun W hW => ?_
@@ -623,7 +623,7 @@ private theorem wcgapsp_oTwoMod_K0 (hF : Nat.card F = 4) :
 private theorem wcgapsp_oTwoMod_K1 (hF : Nat.card F = 4) :
     oTwoMod (⊥ : Subgroup (SpecialLinearGroup (Fin 3) F)) (wcgapsp_K1 (F := F)) =
       wcgapsp_radSub1 (F := F) := by
-  haveI : Finite F := finite_of_card_eq_four hF
+  have : Finite F := finite_of_card_eq_four hF
   apply le_antisymm
   · rw [oTwoMod]
     refine iSup₂_le fun W hW => ?_
@@ -661,7 +661,7 @@ private theorem wcgapsp_oTwoMod_K1 (hF : Nat.card F = 4) :
 private theorem wcgapsp_oddResMod_P0 (hF : Nat.card F = 4) :
     oddResMod (⊥ : Subgroup (SpecialLinearGroup (Fin 3) F)) (wcgapsp_P0 (F := F)) =
       wcgapsp_K0 (F := F) := by
-  haveI : Finite F := finite_of_card_eq_four hF
+  have : Finite F := finite_of_card_eq_four hF
   apply le_antisymm
   · have hmem : (⊥ : Subgroup (SpecialLinearGroup (Fin 3) F)) ≤ wcgapsp_K0 (F := F) ∧
         wcgapsp_K0 (F := F) ≤ wcgapsp_P0 (F := F) ∧
@@ -688,7 +688,7 @@ private theorem wcgapsp_oddResMod_P0 (hF : Nat.card F = 4) :
 private theorem wcgapsp_oddResMod_P1 (hF : Nat.card F = 4) :
     oddResMod (⊥ : Subgroup (SpecialLinearGroup (Fin 3) F)) (wcgapsp_P1 (F := F)) =
       wcgapsp_K1 (F := F) := by
-  haveI : Finite F := finite_of_card_eq_four hF
+  have : Finite F := finite_of_card_eq_four hF
   apply le_antisymm
   · have hmem : (⊥ : Subgroup (SpecialLinearGroup (Fin 3) F)) ≤ wcgapsp_K1 (F := F) ∧
         wcgapsp_K1 (F := F) ≤ wcgapsp_P1 (F := F) ∧
@@ -716,8 +716,8 @@ private theorem wcgapsp_oddResMod_P1 (hF : Nat.card F = 4) :
 private theorem wcgapsp_isMaxParabolicMod_P0 (hF : Nat.card F = 4) :
     IsMaxParabolicMod (⊥ : Subgroup (SpecialLinearGroup (Fin 3) F)) ⊤
       (wcgapsp_P0 (F := F)) := by
-  haveI : Finite F := finite_of_card_eq_four hF
-  haveI : CharP F 2 := charP_two_of_card_eq_four hF
+  have : Finite F := finite_of_card_eq_four hF
+  have : CharP F 2 := charP_two_of_card_eq_four hF
   obtain ⟨P, hP⟩ := exists_sylow_unitriangular (K := F) 2 (n := 3) (by norm_num)
   refine ⟨bot_le, ?_, ?_, wcgapsp_U (F := F), bot_le, le_top, ?_, ?_, ?_⟩
   · exact lt_of_le_of_ne le_top (stabilizer_flagSpace_ne_top (K := F) (n := 3) (d := 1)
@@ -729,7 +729,7 @@ private theorem wcgapsp_isMaxParabolicMod_P0 (hF : Nat.card F = 4) :
   · intro s hs
     have hs2 : IsPGroup 2 (wcgapsp_U (F := F)) := by
       change IsPGroup 2 (unitriangular 3 F)
-      rw [← hP]; exact P.isPGroup'
+      rw [← hP]; exact P.isPGroup
     obtain ⟨k, hk⟩ := hs2 ⟨s, hs⟩
     exact ⟨k, Subgroup.mem_bot.mpr (Subtype.ext_iff.mp hk)⟩
   · rw [Subgroup.relIndex_top_right]
@@ -744,8 +744,8 @@ private theorem wcgapsp_isMaxParabolicMod_P0 (hF : Nat.card F = 4) :
 private theorem wcgapsp_isMaxParabolicMod_P1 (hF : Nat.card F = 4) :
     IsMaxParabolicMod (⊥ : Subgroup (SpecialLinearGroup (Fin 3) F)) ⊤
       (wcgapsp_P1 (F := F)) := by
-  haveI : Finite F := finite_of_card_eq_four hF
-  haveI : CharP F 2 := charP_two_of_card_eq_four hF
+  have : Finite F := finite_of_card_eq_four hF
+  have : CharP F 2 := charP_two_of_card_eq_four hF
   obtain ⟨P, hP⟩ := exists_sylow_unitriangular (K := F) 2 (n := 3) (by norm_num)
   refine ⟨bot_le, ?_, ?_, wcgapsp_U (F := F), bot_le, le_top, ?_, ?_, ?_⟩
   · exact lt_of_le_of_ne le_top (stabilizer_flagSpace_ne_top (K := F) (n := 3) (d := 2)
@@ -757,7 +757,7 @@ private theorem wcgapsp_isMaxParabolicMod_P1 (hF : Nat.card F = 4) :
   · intro s hs
     have hs2 : IsPGroup 2 (wcgapsp_U (F := F)) := by
       change IsPGroup 2 (unitriangular 3 F)
-      rw [← hP]; exact P.isPGroup'
+      rw [← hP]; exact P.isPGroup
     obtain ⟨k, hk⟩ := hs2 ⟨s, hs⟩
     exact ⟨k, Subgroup.mem_bot.mpr (Subtype.ext_iff.mp hk)⟩
   · rw [Subgroup.relIndex_top_right]
@@ -773,8 +773,8 @@ private theorem wcgapsp_isMaxParabolicMod_P1 (hF : Nat.card F = 4) :
 private theorem wcgapsp_index_upperTriangular_two
     (hF : Nat.card F = 4) : (upperTriangular 2 F).index = 5 := by
   classical
-  haveI : Finite F := finite_of_card_eq_four hF
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite F := finite_of_card_eq_four hF
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hU₂card : Nat.card (unitriangular 2 F) = 4 := by
     rw [card_unitriangular (K := F) 2, hF]; norm_num
   have hU₂pgroup : IsPGroup 2 (unitriangular 2 F) :=
@@ -879,7 +879,7 @@ private theorem wcgapsp_K0_inf_B_subgroupOf (hF : Nat.card F = 4) :
 private theorem wcgapsp_relIndex_K0_B (hF : Nat.card F = 4) :
     (wcgapsp_K0 (F := F) ⊓ (⊤ ⊓ normalizer (wcgapsp_U (F := F) :
       Set (SpecialLinearGroup (Fin 3) F)))).relIndex (wcgapsp_K0 (F := F)) = 5 := by
-  haveI : Finite F := finite_of_card_eq_four hF
+  have : Finite F := finite_of_card_eq_four hF
   rw [top_inf_eq]
   change ((wcgapsp_K0 (F := F) ⊓ Subgroup.normalizer
     (unitriangular 3 F : Set (SpecialLinearGroup (Fin 3) F))).subgroupOf
@@ -935,7 +935,7 @@ private theorem wcgapsp_K1_inf_B_subgroupOf :
 private theorem wcgapsp_relIndex_K1_B (hF : Nat.card F = 4) :
     (wcgapsp_K1 (F := F) ⊓ (⊤ ⊓ normalizer (wcgapsp_U (F := F) :
       Set (SpecialLinearGroup (Fin 3) F)))).relIndex (wcgapsp_K1 (F := F)) = 5 := by
-  haveI : Finite F := finite_of_card_eq_four hF
+  have : Finite F := finite_of_card_eq_four hF
   rw [top_inf_eq]
   change ((wcgapsp_K1 (F := F) ⊓ Subgroup.normalizer
     (unitriangular 3 F : Set (SpecialLinearGroup (Fin 3) F))).subgroupOf
@@ -967,11 +967,11 @@ private theorem wcgapsp_wMat_commute_unitriangular (c : F)
   ext i j
   rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_mul]
   fin_cases i <;> fin_cases j <;>
-    simp [wMat, wM, coe_wMat, Matrix.mul_apply, Fin.sum_univ_three, h00, h11, h22, h10, h20,
+    simp [wMat, wM, Matrix.mul_apply, Fin.sum_univ_three, h00, h11, h22, h10, h20,
       h21]
   all_goals ring
 
-private theorem wcgapsp_central (hF : Nat.card F = 4) :
+private theorem wcgapsp_central (_hF : Nat.card F = 4) :
     ∀ a ∈ radSub (k := F), a ∈ wcgapsp_radSub1 (F := F) →
       ∀ s ∈ unitriangular 3 F, a * s = s * a := by
   intro a ha ha1 s hs

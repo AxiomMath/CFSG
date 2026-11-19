@@ -83,7 +83,7 @@ public theorem CFSG.corollary_10_9_b
     change ((S : Subgroup G).subgroupOf M).map M.subtype = (S : Subgroup G)
     exact Subgroup.map_subgroupOf_eq_of_le (G := G) (H := (S : Subgroup G)) (K := M) hS_le_M
   have hq_dvd_S : q.val ∣ Nat.card SG := by
-    rcases S.isPGroup'.card_eq_or_dvd with hcard | hdiv
+    rcases S.isPGroup.card_eq_or_dvd with hcard | hdiv
     · exact False.elim (hSne ((Subgroup.card_eq_one (H := SG)).mp (by simpa [SG] using hcard)))
     · simpa [SG] using hdiv
   have hqM : q ∈ subgroupPrimeSet M := by
@@ -195,7 +195,7 @@ public theorem CFSG.corollary_10_9_b
     · have hCunique : subgroupCentralizerIn M SG ∈ section9UniqueSubgroups G :=
         corollary_10_9_a_2
           (G := G) (M := M) (X := SG) (p := r) (q := q)
-          hM hrα.1 hqM hrβ hqβ hrq hS_le_M S.isPGroup'
+          hM hrα.1 hqM hrβ hqβ hrq hS_le_M S.isPGroup
           (Or.inl hS_le_Dg) hrα
       exact hUnot_unique (section9_unique_of_le hC_le_U hUproper hCunique)
   exact ⟨hprod, Set.Subset.antisymm halpha_subset_beta (section10_beta_subset_alpha (G := G) M)⟩

@@ -24,7 +24,7 @@ variable {G : Type} [Group G] {z : G} (Y : YData z)
 @[expose] noncomputable def ι : ↥Wsub →* G :=
   (Subgroup.centralizer ({z} : Set G)).subtype.comp Y.ϑ.symm.toMonoidHom
 
-theorem ι_injective : Function.Injective Y.ι := fun a b h =>
+theorem ι_injective : Function.Injective Y.ι := fun _a _b h =>
   Y.ϑ.symm.injective (Subtype.ext h)
 
 theorem ι_mem_C (a : ↥Wsub) : Y.ι a ∈ Subgroup.centralizer ({z} : Set G) := (Y.ϑ.symm a).2

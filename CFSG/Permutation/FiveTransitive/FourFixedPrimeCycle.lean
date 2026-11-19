@@ -79,7 +79,7 @@ private theorem centralizer_card_eq_prime_of_not_alternating
   have himpossible {q : ℕ} (hq : q.Prime)
       (hqcop : Nat.Coprime q p)
       (hqdvd : q ∣ Nat.card C) : False := by
-    letI : Fact q.Prime := ⟨hq⟩
+    let : Fact q.Prime := ⟨hq⟩
     obtain ⟨v, hv⟩ :=
       exists_prime_orderOf_dvd_card' q hqdvd
     let w : Equiv.Perm X := (v : P)
@@ -149,9 +149,9 @@ theorem card_conjugacy_orbit_mul_prime
     Nat.card (MulAction.orbit (ConjAct P) u) * p =
       Nat.card P := by
   classical
-  letI : Fintype (MulAction.orbit (ConjAct P) u) :=
+  let : Fintype (MulAction.orbit (ConjAct P) u) :=
     Fintype.ofFinite _
-  letI :
+  let :
       Fintype (MulAction.stabilizer (ConjAct P) u) :=
     Fintype.ofFinite _
   have hstabilizer :
@@ -235,7 +235,7 @@ theorem alternatingGroup_le_of_prime_dvd_card
     (hpdiv : p ∣ Nat.card P) :
     alternatingGroup X ≤ P := by
   classical
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   obtain ⟨u, huorder⟩ :=
     exists_prime_orderOf_dvd_card' p hpdiv
   by_contra hnotAlt
@@ -244,7 +244,7 @@ theorem alternatingGroup_le_of_prime_dvd_card
     centralizer_card_eq_prime_of_not_alternating
       X P hp hpFive hcard h5 hnotAlt u huorder
   let A := MulAction.orbit (ConjAct P) u
-  letI : Fintype A := Fintype.ofFinite _
+  let : Fintype A := Fintype.ofFinite _
   let val : A → P := fun a => a.1
   have hvalInjective : Function.Injective val :=
     Subtype.val_injective
@@ -295,18 +295,18 @@ theorem alternatingGroup_le_of_prime_dvd_card
     ext i
     exact hg i
   have hP4 : MulAction.IsMultiplyPretransitive P X 4 := by
-    letI : MulAction.IsMultiplyPretransitive P X 5 := hP5
+    let : MulAction.IsMultiplyPretransitive P X 5 := hP5
     exact MulAction.isMultiplyPretransitive_of_le
       (G := P) (α := X) (m := 4) (n := 5) (by omega) (by
         rw [Nat.card_eq_fintype_card, hcard]
         omega)
-  letI : MulAction.IsMultiplyPretransitive P X 4 := hP4
-  letI : Nonempty (Fin 4 ↪ X) :=
+  let : MulAction.IsMultiplyPretransitive P X 4 := hP4
+  let : Nonempty (Fin 4 ↪ X) :=
     Fintype.card_pos_iff.mp (by
       rw [Fintype.card_embedding_eq, Fintype.card_fin, hcard]
       rw [Nat.descFactorial_pos]
       omega)
-  letI : Unique
+  let : Unique
       (MulAction.orbitRel.Quotient P (Fin 4 ↪ X)) :=
     Classical.choice
       ((MulAction.pretransitive_iff_unique_quotient_of_nonempty

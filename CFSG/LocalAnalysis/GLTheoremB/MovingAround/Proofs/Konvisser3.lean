@@ -177,6 +177,7 @@ section K3Quot
 
 variable {H : Type} [Group H] [Finite H]
 
+omit [Finite H] in
 theorem k3_quot_isPGroup {p : ℕ} (hp : IsPGroup p H) (N : Subgroup H) [N.Normal] :
     IsPGroup p (H ⧸ N) := by
   intro x
@@ -232,9 +233,9 @@ theorem k3_central_of_card_eq {p : ℕ} [hp : Fact p.Prime] (hH : IsPGroup p H)
     rw [MulAction.mem_fixedPoints]
     intro g
     ext
-    simp [ConjAct.smul_def]
+    simp
   have hpos : 0 < Nat.card (MulAction.fixedPoints (ConjAct H) N) := by
-    haveI : Nonempty (MulAction.fixedPoints (ConjAct H) N) := ⟨⟨1, hone⟩⟩
+    have : Nonempty (MulAction.fixedPoints (ConjAct H) N) := ⟨⟨1, hone⟩⟩
     exact Nat.card_pos
   have hdvd : p ∣ Nat.card (MulAction.fixedPoints (ConjAct H) N) := by
     have h0 : Nat.card N ≡ 0 [MOD p] := by
@@ -277,7 +278,7 @@ theorem k3_commutator_mem {p : ℕ} [hp : Fact p.Prime] {Q U W C : Subgroup G}
     (Subgroup.normal_subgroupOf_iff_le_normalizer hUQ).mpr hNU
   have hWqU : W.subgroupOf Q ≤ U.subgroupOf Q := Subgroup.subgroupOf_mono Q hWU
   have hQbar : IsPGroup p (↥Q ⧸ W.subgroupOf Q) := k3_quot_isPGroup hQ' _
-  haveI : Fact (IsPGroup p (↥Q ⧸ W.subgroupOf Q)) := ⟨hQbar⟩
+  have : Fact (IsPGroup p (↥Q ⧸ W.subgroupOf Q)) := ⟨hQbar⟩
   have hWpos : 0 < Nat.card W := Nat.card_pos
   have hcardW : Nat.card (W.subgroupOf Q) = Nat.card W :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hWQ).toEquiv
@@ -302,6 +303,7 @@ theorem k3_commutator_mem {p : ℕ} [hp : Fact p.Prime] {Q U W C : Subgroup G}
     group
   exact Subgroup.mem_subgroupOf.mp ((QuotientGroup.eq_one_iff _).mp key)
 
+omit [Finite G] in
 theorem k3_map_subtype_normalizer {P : Subgroup G} (A : Subgroup P) [A.Normal] :
     P ≤ Subgroup.normalizer ((A.map P.subtype : Subgroup G) : Set G) := by
   intro h hh
@@ -342,11 +344,11 @@ theorem k3_step {p : ℕ} [hp : Fact p.Prime] {P T W : Subgroup G}
   have hTpn : (T.subgroupOf P).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hTP).mpr hPT
   have hPbar : IsPGroup p (↥P ⧸ W.subgroupOf P) := k3_quot_isPGroup hP' _
-  haveI : Fact (IsPGroup p (↥P ⧸ W.subgroupOf P)) := ⟨hPbar⟩
+  have : Fact (IsPGroup p (↥P ⧸ W.subgroupOf P)) := ⟨hPbar⟩
   have hTbarn : ((T.subgroupOf P).map (QuotientGroup.mk' (W.subgroupOf P))).Normal :=
     Subgroup.Normal.map hTpn _ (QuotientGroup.mk'_surjective _)
   obtain ⟨t, htT, htW⟩ : ∃ t ∈ T, t ∉ W := by
-    obtain ⟨t, ht1, ht2⟩ := SetLike.exists_of_lt hlt
+    obtain ⟨t, ht1, ht2⟩ := _root_.IsConcreteLE.exists_of_lt hlt
     exact ⟨t, ht1, ht2⟩
   have htP : t ∈ P := hTP htT
   have hmemT : QuotientGroup.mk' (W.subgroupOf P) (⟨t, htP⟩ : ↥P) ∈
@@ -357,7 +359,7 @@ theorem k3_step {p : ℕ} [hp : Fact p.Prime] {P T W : Subgroup G}
     exact htW (Subgroup.mem_subgroupOf.mp ((QuotientGroup.eq_one_iff _).mp h1))
   have hTbarp : IsPGroup p ↥((T.subgroupOf P).map (QuotientGroup.mk' (W.subgroupOf P))) :=
     hPbar.to_subgroup _
-  haveI hTbar_nt : Nontrivial ↥((T.subgroupOf P).map (QuotientGroup.mk' (W.subgroupOf P))) :=
+  have hTbar_nt : Nontrivial ↥((T.subgroupOf P).map (QuotientGroup.mk' (W.subgroupOf P))) :=
     ⟨⟨⟨_, hmemT⟩, ⟨1, (T.subgroupOf P).map (QuotientGroup.mk' (W.subgroupOf P)) |>.one_mem⟩,
       fun h => hnt (congrArg Subtype.val h)⟩⟩
   obtain ⟨k, hk0, hkc⟩ := hTbarp.nontrivial_iff_card.mp hTbar_nt
@@ -480,16 +482,16 @@ theorem k3_comm_of_index {p : ℕ} [hp : Fact p.Prime] {S W : Subgroup G} (hWS :
   have hWpos : 0 < Nat.card W := Nat.card_pos
   have hWsc : Nat.card (W.subgroupOf S) = Nat.card W :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hWS).toEquiv
-  haveI : (W.subgroupOf S).Normal := hWn
+  have : (W.subgroupOf S).Normal := hWn
   have hcard : Nat.card (S ⧸ W.subgroupOf S) = p := by
     have h1 := Subgroup.card_eq_card_quotient_mul_card_subgroup (W.subgroupOf S)
     rw [hS, hWsc] at h1
     apply Nat.eq_of_mul_eq_mul_right hWpos
     rw [← h1, mul_comm]
-  haveI : IsCyclic (S ⧸ W.subgroupOf S) := isCyclic_of_prime_card hcard
+  have : IsCyclic (S ⧸ W.subgroupOf S) := isCyclic_of_prime_card hcard
   intro x hx y hy
-  have := commutative_of_cyclic_center_quotient (QuotientGroup.mk' (W.subgroupOf S))
-    (by rw [QuotientGroup.ker_mk']; exact hcen) ⟨x, hx⟩ ⟨y, hy⟩
+  have := (MonoidHom.isMulCommutative_of_isCyclic_of_ker_le_center (QuotientGroup.mk' (W.subgroupOf S))
+    (by rw [QuotientGroup.ker_mk']; exact hcen)).is_comm.comm ⟨x, hx⟩ ⟨y, hy⟩
   exact congrArg Subtype.val this
 
 end K3Rest
@@ -498,6 +500,7 @@ section K3Rest2
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem k3_mem_sup_zpowers {W : Subgroup G} {x : G} (hwx : ∀ w ∈ W, w * x = x * w) {a : G}
     (ha : a ∈ W ⊔ Subgroup.zpowers x) : ∃ w ∈ W, ∃ k : ℤ, a = w * x ^ k := by
   have hcomm : ∀ (w : G), w ∈ W → ∀ k : ℤ, x ^ k * w = w * x ^ k := fun w hw k =>
@@ -528,7 +531,7 @@ theorem k3_exists_complement {p : ℕ} [hp : Fact p.Prime] {E K : Subgroup G}
     ∃ X : Subgroup G, X ≤ E ∧ (∀ x ∈ X, x ∈ K → x = 1) ∧
       Nat.card X * Nat.card K = Nat.card E := by
   classical
-  letI : CommGroup E :=
+  let : CommGroup E :=
     { (inferInstance : Group E) with mul_comm := fun a b => isMulCommutative_iff.mp hE.1 a b }
   have hexp : ∀ a : E, a ^ p = 1 := fun a => Subtype.ext (hE.2 a.1 a.2)
   obtain ⟨X', hX'K, hX'top⟩ := k3_complement_comm hexp (K.subgroupOf E)
@@ -554,7 +557,7 @@ theorem k3_exists_normal_lt {p : ℕ} [hp : Fact p.Prime] {P Y : Subgroup G} (hP
     ∃ M : Subgroup G, Y ≤ M ∧ M ≤ P ∧ P ≤ Subgroup.normalizer (M : Set G) ∧
       Nat.card M < Nat.card P := by
   have hP' : IsPGroup p ↥P := hP
-  haveI : Group.IsNilpotent ↥P := hP'.isNilpotent
+  have : Group.IsNilpotent ↥P := hP'.isNilpotent
   set Y' : Subgroup P := Y.subgroupOf P with hY'
   have hY'ne : Y' ≠ ⊤ := by
     intro h
@@ -573,7 +576,7 @@ theorem k3_exists_normal_lt {p : ℕ} [hp : Fact p.Prime] {P Y : Subgroup G} (hP
     have hle := hM'max b hbS
     exact absurd (Subgroup.card_lt_of_lt hb) (not_lt.mpr hle)
   have hidx : M'.index = p := (IsPGroup.isCoatom_iff_index_eq_prime hP').mp hcoat
-  haveI : M'.Normal := Subgroup.NormalizerCondition.normal_of_coatom M' (Group.normalizerCondition_of_isNilpotent (G := ↥P)) hcoat
+  have : M'.Normal := Subgroup.NormalizerCondition.normal_of_coatom M' (Group.normalizerCondition_of_isNilpotent (G := ↥P)) hcoat
   refine ⟨M'.map P.subtype, ?_, Subgroup.map_subtype_le _, k3_map_subtype_normalizer M', ?_⟩
   · intro y hy
     exact Subgroup.mem_map.mpr ⟨⟨y, hYP hy⟩, hYM' (Subgroup.mem_subgroupOf.mpr hy), rfl⟩
@@ -585,6 +588,7 @@ theorem k3_exists_normal_lt {p : ℕ} [hp : Fact p.Prime] {P Y : Subgroup G} (hP
     rw [← e1]
     nlinarith
 
+omit [Finite G] in
 theorem k3_normalizes_inter {P Q W : Subgroup G} (hPQ : P ≤ Subgroup.normalizer (Q : Set G))
     (hPW : P ≤ Subgroup.normalizer (W : Set G)) :
     P ≤ Subgroup.normalizer ((Q ⊓ Subgroup.centralizer (W : Set G) : Subgroup G) : Set G) := by
@@ -676,7 +680,7 @@ theorem k3_klem {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) :
       IsPPlane p W → Y ≤ Q → IsElemAbelian p Y → Nat.card Y = p ^ 3 → W ≤ Y →
       ∃ V : Subgroup G, V ≤ Q ∧ P ≤ Subgroup.normalizer (V : Set G) ∧ IsElemAbelian p V ∧
         Nat.card V = p ^ 3 ∧ W ≤ V := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro n
   induction n using Nat.strong_induction_on with
   | _ n ih =>
@@ -846,7 +850,7 @@ theorem input31_3_three : ∀ (G : Type) [Group G] [Finite G] (p : ℕ), p.Prime
     ∀ R : Subgroup G, IsPGroup p ↥R → 3 ≤ CFSG.Open.pRank p R →
       ∃ E : Subgroup G, IsEkIn p 3 R E ∧ (E.subgroupOf R).Normal := by
   intro G _ _ p hp hp2 R hR h3
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact k3_normal_E3 hp2 hR h3
 
 section Input31SixThree
@@ -860,7 +864,7 @@ theorem input31_three_connected_three
     (hG3 : Input31_GL3Rank) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {R : Subgroup G}
     (hR : IsPGroup p R) {A B : Subgroup G} (hA : IsEkIn p 5 R A) (hB : IsEkIn p 5 R B) :
     IsKConnectedIn p 3 R A B := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h3 : 3 ≤ CFSG.Open.pRank p R := by
     have := CFSG.SectionRank.le_pRank hp.one_lt (input31_isEkIn_iff.1 hA).1
       (input31_isEkIn_iff.1 hA).2.1 (input31_isEkIn_iff.1 hA).2.2

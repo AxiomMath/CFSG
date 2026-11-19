@@ -106,16 +106,16 @@ private theorem classStep_inner_subset (ker : List Vec) (a : Vec) (p : List Vec 
     have h2 : (classStepInner a p c).2 ++ cs ⊆ p.2 ++ (c :: cs) := by
       unfold classStepInner
       by_cases hc : p.1.contains c || p.2.contains c
-      · rw [if_pos hc]
+      · rw [ite_eq_left hc]
         intro x hx
         rcases List.mem_append.1 hx with hx | hx
         · exact List.mem_append.2 (Or.inl hx)
         · exact List.mem_append.2 (Or.inr (List.mem_cons_of_mem c hx))
-      · rw [if_neg hc]
+      · rw [ite_eq_right hc]
         by_cases hif : iform a c != 0
-        · rw [if_pos hif]
+        · rw [ite_eq_left hif]
           rw [List.append_assoc, List.singleton_append]
-        · rw [if_neg hif]
+        · rw [ite_eq_right hif]
           intro x hx
           rcases List.mem_append.1 hx with hx | hx
           · exact List.mem_append.2 (Or.inl hx)
@@ -160,8 +160,8 @@ private theorem classAux_subset_ker (fuel : ℕ) {ker acc frontier : List Vec}
            (classStep ker acc frontier)) := rfl
     rw [hdef] at hb
     by_cases hempty : (classStep ker acc frontier).isEmpty
-    · rw [if_pos hempty] at hb; exact hacc b hb
-    · rw [if_neg hempty] at hb
+    · rw [ite_eq_left hempty] at hb; exact hacc b hb
+    · rw [ite_eq_right hempty] at hb
       exact ih (fun x hx => by
           rcases List.mem_append.1 hx with hx | hx
           · exact hacc x hx
@@ -186,9 +186,9 @@ private theorem foldl_classesOf_subset (K : List Vec) :
     have hsingle : ∀ b ∈ [x], b ∈ K := by
       intro b hb; rw [List.mem_singleton] at hb; subst hb; exact hxK
     by_cases hc : p.2.contains x
-    · simp only [if_pos hc] at hl
+    · simp only [ite_eq_left hc] at hl
       exact ih (fun y hy => hker y (List.mem_cons_of_mem x hy)) p h1 h2 l hl
-    · simp only [if_neg hc] at hl
+    · simp only [ite_eq_right hc] at hl
       refine ih (fun y hy => hker y (List.mem_cons_of_mem x hy)) _ ?_ ?_ l hl
       · intro l' hl'
         rcases List.mem_append.1 hl' with hl' | hl'

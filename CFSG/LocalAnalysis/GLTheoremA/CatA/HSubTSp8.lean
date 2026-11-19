@@ -32,7 +32,7 @@ theorem isComponentOf_of_le_factor {G : Type} [Group G] {A B L : Subgroup G}
 
 theorem not_comp_top_of_solvable {G : Type} [Group G] (hs : Group.IsSolvable G) {L : Subgroup G}
     (hL : CFSG.Open.IsComponentOf L ⊤) : False := by
-  haveI := hs
+  have := hs
   have hX : Group.IsSolvable ↥(⊤ : Subgroup G) :=
     Group.isSolvable_of_surjective
       (f := (Subgroup.topEquiv : ↥(⊤ : Subgroup G) ≃* G).symm.toMonoidHom)
@@ -75,7 +75,7 @@ theorem not_isMulCommutative_of_quasisimple {Q : Type} [Group Q] (hq : CFSG.Open
     have hy' := hle hy
     rw [Subgroup.mem_bot] at hx' hy'
     rw [hx', hy']
-  haveI := hq.2
+  have := hq.2
   exact (not_subsingleton (Q ⧸ Subgroup.center Q)) hsub
 
 theorem sp8_comp (GU : GUBlockFacts) {s : ↥(StatedSp 4 (ZMod 2))} (hs3 : s ^ 3 = 1) (hs1 : s ≠ 1)
@@ -93,7 +93,7 @@ theorem sp8_comp (GU : GUBlockFacts) {s : ↥(StatedSp 4 (ZMod 2))} (hs3 : s ^ 3
   have hLC' : CFSG.Open.IsComponentOf L (A₁ ⊔ A₀) := by
     rw [sup_comm]
     exact hLC
-  haveI := hL.2.2.2
+  have := hL.2.2.2
   have hnc : ¬ IsMulCommutative ↥L := not_isMulCommutative_of_quasisimple hL.2.2
   have hnt : Nontrivial ↥L := (QuotientGroup.mk'_surjective (Subgroup.center ↥L)).nontrivial
   rcases comp_le_or_le hC.commute hLC with hLA₀ | hLA₁
@@ -113,7 +113,7 @@ theorem sp8_comp (GU : GUBlockFacts) {s : ↥(StatedSp 4 (ZMod 2))} (hs3 : s ^ 3
       ·
         exfalso
         subst h1
-        haveI := sp1_solvable
+        have := sp1_solvable
         have hsolA0 : Group.IsSolvable ↥A₀ :=
           Group.isSolvable_of_surjective (f := e0.symm.toMonoidHom) e0.symm.surjective
         exact not_comp_top_of_solvable hsolA0 hK0
@@ -122,9 +122,9 @@ theorem sp8_comp (GU : GUBlockFacts) {s : ↥(StatedSp 4 (ZMod 2))} (hs3 : s ^ 3
         obtain ⟨eK⟩ := sp2_component_alt e0 hK0
         let eL : ↥L ≃* alternatingGroup (Fin 6) :=
           (Subgroup.subgroupOfEquivOfLe hLA₀).symm.trans eK
-        haveI : IsSimpleGroup (alternatingGroup (Fin 6)) :=
+        have : IsSimpleGroup (alternatingGroup (Fin 6)) :=
           alternatingGroup.isSimpleGroup (α := Fin 6) (by simp)
-        haveI : IsSimpleGroup ↥L := eL.isSimpleGroup
+        have : IsSimpleGroup ↥L := eL.isSimpleGroup
         have hcenter : Subgroup.center ↥L = ⊥ := center_eq_bot_of_simple_not_comm L hnc
         let eQ : (↥L ⧸ Subgroup.center ↥L) ≃* alternatingGroup (Fin 6) :=
           (QuotientGroup.quotientMulEquivOfEq hcenter).trans (QuotientGroup.quotientBot.trans eL)
@@ -132,13 +132,13 @@ theorem sp8_comp (GU : GUBlockFacts) {s : ↥(StatedSp 4 (ZMod 2))} (hs3 : s ^ 3
           fun _ => ⟨eL⟩⟩
       ·
         subst h3
-        haveI : IsSimpleGroup (StatedSp 3 (ZMod 2)) :=
+        have : IsSimpleGroup (StatedSp 3 (ZMod 2)) :=
           CFSG.Sporadic.Co2Schreier.isSimpleGroup_statedSp_three_two
-        haveI : IsSimpleGroup ↥A₀ := e0.isSimpleGroup
+        have : IsSimpleGroup ↥A₀ := e0.isSimpleGroup
         have hK0top : L.subgroupOf A₀ = ⊤ := by
           rcases CFSG.Open.IsSubnormal.eq_bot_or_top hK0.2.1 with hb | ht
           · exfalso
-            haveI := hK0.2.2.2
+            have := hK0.2.2.2
             have hnt0 : Nontrivial ↥(L.subgroupOf A₀) :=
               (QuotientGroup.mk'_surjective (Subgroup.center ↥(L.subgroupOf A₀))).nontrivial
             exact ((Subgroup.nontrivial_iff_ne_bot _).mp hnt0) hb
@@ -146,9 +146,9 @@ theorem sp8_comp (GU : GUBlockFacts) {s : ↥(StatedSp 4 (ZMod 2))} (hs3 : s ^ 3
         have hA0le : A₀ ≤ L := Subgroup.subgroupOf_eq_top.mp hK0top
         have hLeq : L = A₀ := le_antisymm hLA₀ hA0le
         let eLS : ↥L ≃* StatedSp 3 (ZMod 2) := (MulEquiv.subgroupCongr hLeq).trans e0
-        haveI : IsSimpleGroup (StatedSp 3 (ZMod 2)) :=
+        have : IsSimpleGroup (StatedSp 3 (ZMod 2)) :=
           CFSG.Sporadic.Co2Schreier.isSimpleGroup_statedSp_three_two
-        haveI : IsSimpleGroup ↥L := eLS.isSimpleGroup
+        have : IsSimpleGroup ↥L := eLS.isSimpleGroup
         have hcenter : Subgroup.center ↥L = ⊥ := center_eq_bot_of_simple_not_comm L hnc
         let eQ : (↥L ⧸ Subgroup.center ↥L) ≃* StatedSp 3 (ZMod 2) :=
           (QuotientGroup.quotientMulEquivOfEq hcenter).trans (QuotientGroup.quotientBot.trans eLS)

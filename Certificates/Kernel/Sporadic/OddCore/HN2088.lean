@@ -279,7 +279,7 @@ theorem sep {A B : Array Nat} (hA : Mem A) (hB : Mem B) (h : ∀ p ∈ bp, A[p]!
   let ε : Nat → Equiv.Perm (Fin 800) := fun k =>
     if hk : k < 16384 then Classical.choose (mem_EA k hk).2 else 1
   have hε : ∀ k < 16384, ε k ∈ H ∧ PRep 800 EA[k]! (ε k) := fun k hk => by
-    simp only [ε, dif_pos hk]
+    simp only [ε, dite_eq_left hk]
     exact Classical.choose_spec (mem_EA k hk).2
   obtain ⟨hAs, a, ha, pa⟩ := hA
   obtain ⟨hBs, b, hb, pb⟩ := hB
@@ -411,7 +411,7 @@ theorem close_conj {c j g : Nat} (hc : c < 29) (hj : j < cnt c) (hg : g < 14) :
   · exact Or.inl e
   · exact Or.inr (not_lex_of e)
 
-theorem nx_eq {i y g : Nat} (hg : g < 14) (hy : y < 16384)
+theorem nx_eq {i y g : Nat} (_hg : g < 14) (hy : y < 16384)
     (h : pconj pgenPerms[g]! (pinvs 800 pgenPerms)[g]! EA[i]! = EA[y]!) : nx i g = y := by
   unfold nx
   rw [h]
@@ -547,11 +547,11 @@ theorem classMarks_spec (Ls : Array (Array Nat)) :
         exact hin.2 k hk (Or.inr ⟨i, hi, hi, hik⟩)
     · rw [IdxBfs.set_get (by rw [hQ.1]; exact hk)]
       by_cases e : (Ls[c]!)[t] = k
-      · rw [if_pos e]
+      · rw [ite_eq_left e]
         refine ⟨by omega, ?_⟩
         rw [← e]
         exact Array.getElem_mem ht
-      · rw [if_neg e]
+      · rw [ite_eq_right e]
         refine hQ.2 k hk ?_
         rcases hm with hm | ⟨i, hi, h0, hik⟩
         · exact Or.inl hm

@@ -195,7 +195,7 @@ theorem card_eq_prod_card_inf_centralizer (hE : IsElemAbelian 2 E) (hp : p.Prime
     {b z : A} (hb : b ∈ normalizer (E : Set A)) (hz : z ∈ normalizer (E : Set A))
     (hbz : Commute b z) (hbp : b ^ p = 1) (hzp : z ^ p = 1) (hfix : E ⊓ centralizer {z} = ⊥) :
     Nat.card E = ∏ i : Fin p, Nat.card (E ⊓ centralizer {b * z ^ (i : ℕ)} : Subgroup A) := by
-  haveI : IsMulCommutative E := hE.1
+  have : IsMulCommutative E := hE.1
   have h2 : ∀ v : E, v ^ 2 = 1 := fun v => Subtype.ext (hE.2 v v.2)
   have hfix' : ∀ v : E, (⟨z, hz⟩ : normalizer (E : Set A)) • v = v → v = 1 := fun v hv => by
     have hv' := (mem_fixedBy_normalizer_iff (E := E) ⟨z, hz⟩ v).mp hv
@@ -236,7 +236,7 @@ theorem card_inf_centralizer_modEq_one [Finite A] (hp : p.Prime) {b z : A}
     (hz : z ∈ normalizer (E : Set A)) (hbz : Commute b z) (hzp : z ^ p = 1)
     (hfix : E ⊓ centralizer {z} = ⊥) :
     Nat.card (E ⊓ centralizer {b} : Subgroup A) ≡ 1 [MOD p] := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hzb : z * b * z⁻¹ = b := by rw [← hbz.eq, mul_inv_cancel_right]
   refine card_modEq_one_of_isPGroup_normalizes_of_inf_centralizer_eq_bot (X := zpowers z)
     (IsPGroup.of_card_dvd_pow (n := 1) ?_) ?_ ?_

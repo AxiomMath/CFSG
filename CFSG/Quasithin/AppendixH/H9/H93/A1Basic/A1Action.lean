@@ -119,12 +119,12 @@ theorem A1fst_add_left (ε ε' a b : Fin 4 → ZMod 2) :
     A1fst (ε + ε') a b = A1fst ε (A1fst ε' a b) (A1snd ε' a b) := by
   have h3 : (ε + ε') 3 = ε 3 + ε' 3 := rfl
   rcases zmod_two_cases (ε 3) with h | h <;> rcases zmod_two_cases (ε' 3) with h' | h' <;>
-    simp [A1fst, A1snd, h3, h, h', zmod_two_one_add_one, zmod_two_one_ne_zero, A1vec_add_left]
+    simp [A1fst, A1snd, h3, h, h', zmod_two_one_add_one, A1vec_add_left]
 
 theorem A1snd_add_left (ε ε' a b : Fin 4 → ZMod 2) :
     A1snd (ε + ε') a b = A1snd ε (A1fst ε' a b) (A1snd ε' a b) := by
   have h3 : (ε + ε') 3 = ε 3 + ε' 3 := rfl
   rcases zmod_two_cases (ε 3) with h | h <;> rcases zmod_two_cases (ε' 3) with h' | h' <;>
-    simp [A1fst, A1snd, h3, h, h', zmod_two_one_add_one, zmod_two_one_ne_zero, A1vec_add_left]
+    simp [A1fst, A1snd, h3, h, h', zmod_two_one_add_one, A1vec_add_left]
 
 end CFSG.ASVolI.ChH

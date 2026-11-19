@@ -33,7 +33,7 @@ private theorem alternatingGroup_le_of_thirteenCycle_mem
     ext i
     exact congrArg Fin.val (hq i)
   have hP2 : MulAction.IsMultiplyPretransitive P (Fin 25) 2 := by
-    letI : MulAction.IsMultiplyPretransitive P (Fin 25) 5 := hP5
+    let : MulAction.IsMultiplyPretransitive P (Fin 25) 5 := hP5
     exact MulAction.isMultiplyPretransitive_of_le
       (G := P) (α := Fin 25) (m := 2) (n := 5)
         (by omega) (by norm_num)
@@ -68,7 +68,7 @@ private theorem alternatingGroup_le_of_thirteenCycle_mem
       MulAction.IsPreprimitive
         (fixingSubgroup P s)
         (SubMulAction.ofFixingSubgroup P s) := by
-    letI :
+    let :
         MulAction.IsPretransitive
           (fixingSubgroup P s)
           (SubMulAction.ofFixingSubgroup P s) :=
@@ -86,7 +86,7 @@ private theorem alternatingGroup_le_of_thirteenCycle_mem
   have hP13 :
       MulAction.IsMultiplyPretransitive P (Fin 25) 12 :=
     by
-      letI : MulAction.IsMultiplyPretransitive P (Fin 25) 13 :=
+      let : MulAction.IsMultiplyPretransitive P (Fin 25) 13 :=
         hP13Primitive.isMultiplyPretransitive
       exact MulAction.isMultiplyPretransitive_of_le
         (G := P) (α := Fin 25) (m := 12) (n := 13)
@@ -273,7 +273,7 @@ theorem thirteen_not_dvd_card_of_not_alternating
     (hnotAlt : ¬alternatingGroup X ≤ P) :
     ¬13 ∣ Nat.card P := by
   intro hthirteen
-  letI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 13) := ⟨by norm_num⟩
   obtain ⟨u, huorder⟩ :=
     exists_prime_orderOf_dvd_card' 13 hthirteen
   let g : Equiv.Perm X := u

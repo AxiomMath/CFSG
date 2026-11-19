@@ -108,7 +108,7 @@ theorem scalar_abelian_coverage_of_stationary_factorizations
     Subgroup.map_mono (Subgroup.map_subtype_le _)
   have hPp : IsPGroup ell (((P : Subgroup (centralizerOddCore n S e)).map
       (centralizerOddCore n S e).subtype).map (involutionCentralizer n S e).subtype) :=
-    (P.isPGroup'.map _).map _
+    (P.isPGroup.map _).map _
   have hscalar := scalar_of_stationary_factorizations hnonab n hn S e hell hellodd _ hPR hPp
     hTP hstP hfactor
   refine ⟨hscalar, fun hinv => isMulCommutative_of_inverted _ _ hinv, ?_⟩

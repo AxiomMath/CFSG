@@ -97,6 +97,7 @@ end Criteria
 
 variable {X : Type} [Group X] [Finite X] {L S : Subgroup X}
 
+omit [Finite X] in
 private theorem relIndex_centralizer_conj1412 {I : Subgroup X} (hI : I.Normal) (g x : X) :
     (centralizer ({g * x * g⁻¹} : Set X)).relIndex I =
       (centralizer ({x} : Set X)).relIndex I := by
@@ -176,6 +177,7 @@ private theorem false_of_excl1412_two (h : Hyp1411 X L S) {π : X →* X ⧸ CFS
   obtain ⟨e, he1, he, hediv⟩ := hN q k hq hq2 hk (hcop.dvd_of_dvd_mul_right hdvd)
   exact h8 e he1 (by simpa using le_of_two_pow_le_prod_sixteen he) hediv
 
+omit [Finite X] in
 private theorem map_closure_three1412 {π : X →* X ⧸ CFSG.pPrimeCore 3 X} [(L.map π).Normal]
     {t : X} {x₁ x₂ : ↥(L.map π)} {ℓ₁ ℓ₂ : X} (hℓ₁ : π ℓ₁ = x₁) (hℓ₂ : π ℓ₂ = x₂) :
     (closure ({t * (ℓ₁ * t⁻¹ * ℓ₁⁻¹), t * (ℓ₂ * t⁻¹ * ℓ₂⁻¹)} : Set X)).map π =
@@ -321,7 +323,7 @@ private theorem false_of_excl1412_heis (h : Hyp1411 X L S)
   obtain ⟨P'⟩ : Nonempty (Sylow 5 ↥D₂) := inferInstance
   set P : Subgroup X := (P' : Subgroup ↥D₂).map D₂.subtype with hPdef
   have hPD₂ : P ≤ D₂ := map_subtype_le _
-  have hP5 : IsPGroup 5 P := P'.isPGroup'.map _
+  have hP5 : IsPGroup 5 P := P'.isPGroup.map _
   have hPinj : ∀ y ∈ P, π y = 1 → y = 1 := by
     intro y hy hy1
     have hyQ : y ∈ CFSG.pCore 2 X := by rw [← hker]; exact hy1

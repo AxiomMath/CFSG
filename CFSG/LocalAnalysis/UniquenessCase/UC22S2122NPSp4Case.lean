@@ -48,7 +48,7 @@ private theorem uc22s2122np_sp4_strong3 {D : Data G} {Ch : Choice2011 G}
   obtain ⟨⟨-, -, -⟩, ⟨-, hk1⟩, -⟩ := h218 h1930 c L hL a hSp4bar hnotpow s hs hsdvd
   have hk1' : kParam D.M = 1 := by simpa [Data.k] using hk1
   by_contra h
-  rw [kParam, if_neg h] at hk1'
+  rw [kParam, ite_eq_right h] at hk1'
   omega
 
 private theorem uc22s2122np_sp4_basic {D : Data G} {Ch : Choice2011 G}

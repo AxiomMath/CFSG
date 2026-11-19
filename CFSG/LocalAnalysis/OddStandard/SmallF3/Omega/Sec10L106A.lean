@@ -91,7 +91,7 @@ private theorem sec10_oddCore_sup_fst [Finite G] (hP5 : Asc82FactPockets5)
     (hpsp : IsPSp43 L) (hctx : Sec10Ctx G t L S z K1 K2) {n a1 a2 : G}
     (hn : n ∈ oddCoreIn (K1 ⊔ K2)) (ha1 : a1 ∈ K1) (ha2 : a2 ∈ K2) (hna : n = a1 * a2) :
     a1 ∈ zpowers z := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcomm12 : ∀ a ∈ K1, ∀ b ∈ K2, a * b = b * a := sec10Z_comm hP5 hpsp hctx
   have hQ2 : IsPGroup 2 (twoCoreIn K1) := by
     unfold twoCoreIn CFSG.inSubgroup

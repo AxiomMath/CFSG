@@ -372,7 +372,7 @@ private theorem ncard_orbitMbar_inter_commSpace_Cbar (c : D.Cbar)
     have h4' : (P : Set (Vt S D.g D.t)).ncard = 4 := by
       rw [← Nat.card_coe_set_eq]
       exact h4
-    rw [e, Set.ncard_diff_singleton_of_mem P.zero_mem, h4']
+    rw [e, Set.ncard_sdiff_singleton_of_mem P.zero_mem, h4']
   have hinj1 : Function.Injective (fun p : Vt S D.g D.t => D.coord (p, 0)) := fun a b h =>
     (Prod.mk.inj (D.coord.injective h)).1
   have hinj2 : Function.Injective (fun p : Vt S D.g D.t => D.coord (0, p)) := fun a b h =>

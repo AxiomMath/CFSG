@@ -67,18 +67,18 @@ lemma l04fD4_coxeter_relation {p N : ℕ} [Fact p.Prime] {V : Type} [AddCommGrou
   rw [CFSG.StandardType.coxeterMatrix_A_apply]
   by_cases hij : i = j
   · subst hij
-    rw [if_pos rfl, pow_one]
+    rw [ite_eq_left rfl, pow_one]
     exact l04fD4_rsq L i
-  · rw [if_neg hij]
+  · rw [ite_eq_right hij]
     by_cases hadj : (i : ℕ) + 1 = j ∨ (j : ℕ) + 1 = i
-    · rw [if_pos hadj]
+    · rw [ite_eq_left hadj]
       have hpij : α i (h j) = -1 := by
         rw [L.pair i j]
-        simp only [CartanMatrix.A, Matrix.of_apply, if_neg hij, if_pos hadj]
+        simp only [CartanMatrix.A, Matrix.of_apply, ite_eq_right hij, ite_eq_left hadj]
         norm_num
       have hpji : α j (h i) = -1 := by
         rw [L.pair j i]
-        simp only [CartanMatrix.A, Matrix.of_apply, if_neg (Ne.symm hij), if_pos hadj.symm]
+        simp only [CartanMatrix.A, Matrix.of_apply, ite_eq_right (Ne.symm hij), ite_eq_left hadj.symm]
         norm_num
       have hpii : α i (h i) = 2 := l04fD4_pair_diag L i
       have hpjj : α j (h j) = 2 := l04fD4_pair_diag L j
@@ -101,19 +101,19 @@ lemma l04fD4_coxeter_relation {p N : ℕ} [Fact p.Prime] {V : Type} [AddCommGrou
               _ = r i * (r j * r j) * r i := by group
               _ = r i * 1 * r i := by rw [hsq_j]
               _ = 1 := by rw [mul_one, hsq_i]
-    · rw [if_neg hadj]
+    · rw [ite_eq_right hadj]
       have hpij : α i (h j) = 0 := by
         rw [L.pair i j]
-        simp only [CartanMatrix.A, Matrix.of_apply, if_neg hij, if_neg hadj]
+        simp only [CartanMatrix.A, Matrix.of_apply, ite_eq_right hij, ite_eq_right hadj]
         norm_num
       have hpji : α j (h i) = 0 := by
         rw [L.pair j i]
-        simp only [CartanMatrix.A, Matrix.of_apply, if_neg (Ne.symm hij)]
+        simp only [CartanMatrix.A, Matrix.of_apply, ite_eq_right (Ne.symm hij)]
         have hnot : ¬ ((j : ℕ) + 1 = (i : ℕ) ∨ (i : ℕ) + 1 = (j : ℕ)) := by
           rintro (h | h)
           · exact hadj (Or.inr h)
           · exact hadj (Or.inl h)
-        rw [if_neg hnot]
+        rw [ite_eq_right hnot]
         norm_num
       have hpii : α i (h i) = 2 := l04fD4_pair_diag L i
       have hpjj : α j (h j) = 2 := l04fD4_pair_diag L j
@@ -204,10 +204,10 @@ lemma l04fD4_adjacent_ne_one {p N : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup
       have := congrArg Fin.val hh
       simp only [k] at this
       omega
-    rw [if_neg hik]
+    rw [ite_eq_right hik]
     have hnot : ¬ ((i : ℕ) + 1 = (k : ℕ) ∨ (k : ℕ) + 1 = (i : ℕ)) := by
       simp only [k]; omega
-    rw [if_neg hnot]
+    rw [ite_eq_right hnot]
     norm_num
   have hk_j : α j (h k) = -1 := by
     rw [L.pair j k]
@@ -217,9 +217,9 @@ lemma l04fD4_adjacent_ne_one {p N : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup
       have := congrArg Fin.val hh
       simp only [k] at this
       omega
-    rw [if_neg hjk]
+    rw [ite_eq_right hjk]
     have hjk1 : (j : ℕ) + 1 = (k : ℕ) := by simp only [k]
-    rw [if_pos (Or.inl hjk1)]
+    rw [ite_eq_left (Or.inl hjk1)]
     norm_num
   have hv : r i (h k) = r j (h k) := by rw [hri]
   rw [L.refl_form i (h k), L.refl_form j (h k), hk_i, hk_j] at hv

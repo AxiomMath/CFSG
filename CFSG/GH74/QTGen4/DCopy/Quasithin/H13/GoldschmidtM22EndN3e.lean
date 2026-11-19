@@ -84,7 +84,7 @@ theorem kData_F4 (hZ : Nat.card (quasithinOmegaOneCenter T) = 2) (h621 : Stmt6_2
       rw [Subgroup.mem_normalizer_iff]
       intro y
       have h1 := Subgroup.mem_normalizer_iff.mp (Subgroup.le_normalizer hx) y
-      have h2 := Subgroup.mem_normalizer_iff.mp (HH_le_normalizer_CHU h hZ (hKH hx)) y
+      have h2 := Subgroup.mem_normalizer_iff.mp (HH_le_normalizer_CHU (L := L) (V := V) hZ (hKH hx)) y
       simp only [Subgroup.mem_inf]
       rw [h1, h2]
 

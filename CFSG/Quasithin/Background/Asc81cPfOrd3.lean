@@ -494,7 +494,6 @@ theorem index_critSub_le {H : Subgroup (MulAut W)} {n : ℕ} (hn : n = 3 ∨ n =
           Matrix.cons_val_three, Subgroup.coe_one, Fin.mk_zero, Fin.mk_one, Fin.reduceFinMk]
           at hv ⊢ <;>
         first
-        | rfl
         | exact absurd hv (by tauto)
     have h4c := Nat.card_le_card_of_injective f hf
     rw [Nat.card_eq_fintype_card, Fintype.card_fin] at h4c

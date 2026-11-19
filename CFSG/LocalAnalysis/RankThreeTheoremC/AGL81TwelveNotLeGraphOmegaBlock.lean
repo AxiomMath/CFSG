@@ -15,7 +15,7 @@ open CFSG.LocalAnalysis.RankThreeTheoremC.TwelveLe.U42O8.OmegaMinusEight
 theorem card_GL_one {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) {m : ℕ} (hm : m = 1) :
     Nat.card (GL (Fin m) K) = 1 := by
   subst hm
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have h := Matrix.card_GL_field (n := 1) (𝔽 := K)
   rw [← Nat.card_eq_fintype_card, hK] at h
   rw [h]
@@ -24,7 +24,7 @@ theorem card_GL_one {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) {m : �
 theorem card_GL_two {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) {m : ℕ} (hm : m = 2) :
     Nat.card (GL (Fin m) K) = 6 := by
   subst hm
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have h := Matrix.card_GL_field (n := 2) (𝔽 := K)
   rw [← Nat.card_eq_fintype_card, hK] at h
   rw [h]
@@ -86,7 +86,7 @@ theorem commutator_range_toGL_of_eq_three {K : Type} [Field K] {m : ℕ} (hm : m
     (Matrix.SpecialLinearGroup.toGL :
       Matrix.SpecialLinearGroup (Fin m) K →* GL (Fin m) K).range := by
   subst hm
-  haveI : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 3) K) :=
+  have : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 3) K) :=
     CFSG.LinearGroups.special_linear_isPerfect (by norm_num) (Or.inl le_rfl)
   have h0 : ⁅(⊤ : Subgroup (Matrix.SpecialLinearGroup (Fin 3) K)), ⊤⁆ = ⊤ :=
     Group.IsPerfect.commutator_eq_top
@@ -110,12 +110,13 @@ section Lift
 variable {A : Type} [Group A] [Finite A] {Y P : Subgroup A} {K : Type} [Field K] [Finite K]
   [CharP K 2] {b c : K} {s : ℕ} {d : Fin (s + 1) → ℕ}
 
+omit [Finite K] [CharP K 2] in
 theorem exists_perfect_of_le_range (C : OmCover Y P 3 K b c d) (hd : OrthCuts 3 d)
     {S' : Subgroup (∀ j, orthLeviGroup K 3 d j)} (hle : S' ≤ (orthLeviHom b c hd).range)
     (hperf : ⁅S', S'⁆ = S') :
     ∃ J : Subgroup A, J ≤ P ∧ ⁅J, J⁆ = J ∧ Nat.card S' ∣ Nat.card J := by
   classical
-  haveI : Finite ↥(orthElementaryGroup (quadTail 3 (minusTailForm K b c))) :=
+  have : Finite ↥(orthElementaryGroup (quadTail 3 (minusTailForm K b c))) :=
     Finite.of_equiv _ C.ρ.symm.toEquiv
   obtain ⟨W, hWperf, hWmap⟩ := exists_perfect_map_eq (orthLeviHom b c hd) hle hperf
   refine ⟨(W.map C.toP).map P.subtype, Subgroup.map_subtype_le _, ?_, ?_⟩

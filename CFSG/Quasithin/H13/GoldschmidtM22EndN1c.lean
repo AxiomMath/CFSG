@@ -65,6 +65,7 @@ theorem commV_rep_eq : commV (Subgroup.zpowers (rep T L V a)) =
 
 include h hw in
 omit hZS h6210 haV ha1 in
+omit h [Finite G] in
 theorem span_rep :
     G6.submoduleClosure (rep T L V).range (Subgroup.zpowers (zt T L V z₀ hz₀)) = ⊤ := by
   set S := G6.submoduleClosure (rep T L V).range (Subgroup.zpowers (zt T L V z₀ hz₀)) with hS

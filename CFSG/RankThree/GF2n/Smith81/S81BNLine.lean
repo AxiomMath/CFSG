@@ -191,7 +191,7 @@ private theorem a5l_cube013_not_mem :
     show 2 ≤ (({0, 1, 3} : Finset (Fin 6)).filter (fun i : Fin 6 => i.val % 2 = 1)).card
     decide
   have h1 := coord_eq_zero_of_mem_W0 hmem S013 hodd
-  rw [coord_cubeBasis, if_pos rfl] at h1
+  rw [coord_cubeBasis, ite_eq_left rfl] at h1
   exact one_ne_zero h1
 
 private theorem a5l_beta013 : beta K (p0 K) (cubeBasis K S013) = 0 := by

@@ -16,15 +16,15 @@ theorem discPar_eq (m : Nat) (α β : Table) : discPar m α β =
     (List.range' 0 m).foldl (fun par q => dStep m (ap β q) q (dStep m (ap α q) q par))
       (Array.replicate m m) := by
   unfold discPar
-  simp only [Id.run_bind, Id.run_pure, Std.Legacy.Range.forIn_eq_forIn_range',
-    CFSG.KS.ONOut.InvV.ite_pure_yield, List.forIn_pure_yield_eq_foldl, pure_bind, bind_pure,
+  simp only [Id.run_pure, Std.Legacy.Range.forIn_eq_forIn_range',
+    CFSG.KS.ONOut.InvV.ite_pure_yield, List.forIn_pure_yield_eq_foldl, bind_pure,
     Std.Legacy.Range.size, Nat.add_sub_cancel, Nat.div_one, Nat.sub_zero]
   congr 1
   funext par q
   unfold dStep
   by_cases h1 : (decide (ap α q < m) && par[ap α q]! == m) = true
-  · rw [if_pos h1, if_pos h1]
-  · rw [if_neg h1, if_neg h1]
+  · rw [ite_eq_left h1, ite_eq_left h1]
+  · rw [ite_eq_right h1, ite_eq_right h1]
 
 @[expose] def Hit (α β : Table) (q a : Nat) : Prop := ap α q = a ∨ ap β q = a
 
@@ -36,8 +36,8 @@ theorem get_set! {par : Array Nat} {j i v : Nat} (hj : j < par.size) :
     (par.set! j v)[i]! = if j = i then v else par[i]! := by
   by_cases e : j = i
   · subst e
-    rw [if_pos rfl, Array.getElem!_set!_self _ _ _ hj]
-  · rw [if_neg e, Array.getElem!_set!_ne _ _ _ _ e]
+    rw [ite_eq_left rfl, Array.getElem!_set!_self _ _ _ hj]
+  · rw [ite_eq_right e, Array.getElem!_set!_ne _ _ _ _ e]
 
 theorem size_dStep (m a q : Nat) (par : Array Nat) : (dStep m a q par).size = par.size := by
   unfold dStep
@@ -47,18 +47,18 @@ theorem dStep_get {m a q : Nat} {par : Array Nat} (hs : par.size = m) {i : Nat} 
     (dStep m a q par)[i]! = if a = i ∧ par[i]! = m then q else par[i]! := by
   unfold dStep
   by_cases h : (decide (a < m) && par[a]! == m) = true
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     simp only [Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq] at h
     rw [get_set! (by rw [hs]; exact h.1)]
     by_cases e : a = i
     · subst e
       simp [h.2]
     · simp [e]
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     by_cases e : a = i ∧ par[i]! = m
     · obtain ⟨rfl, e2⟩ := e
       exact absurd (by simp [hi, e2]) h
-    · rw [if_neg e]
+    · rw [ite_eq_right e]
 
 theorem parInv_step {m : Nat} {α β : Table} {Q : Nat} {par : Array Nat} (hQ : Q < m)
     (h : ParInv m α β Q par) :
@@ -72,12 +72,12 @@ theorem parInv_step {m : Nat} {α β : Table} {Q : Nat} {par : Array Nat} (hQ : 
     · have hq : ¬ Q = m := by omega
       simp only [h1, e, and_self, ite_true, hq, and_false, ite_false]
       exact Or.inr ⟨by omega, Or.inl h1, hn⟩
-    · simp only [h1, false_and, ite_false, e, and_true]
+    · simp only [h1, ite_false, e, and_true]
       by_cases h2 : ap β Q = a
       · simp only [h2, ite_true]
         exact Or.inr ⟨by omega, Or.inr h2, hn⟩
       · simp only [h2, ite_false]
-        refine Or.inl ⟨by first | trivial | exact e, fun q hq hh => ?_⟩
+        refine Or.inl ⟨by first | trivial, fun q hq hh => ?_⟩
         rcases Nat.lt_or_ge q Q with hq' | hq'
         · exact hn q hq' hh
         · have : q = Q := by omega
@@ -158,11 +158,11 @@ theorem hits_of_ordRun {A B NX : Nat → Nat} {n SL NS : Nat} (hn : 0 < n) (hNS 
   refine ⟨h, by omega, ?_⟩
   rw [hstep] at hk
   generalize ordRun A B 0 h 1 = s at hlt hlow hk hnz
-  rw [ordStep_eq, if_pos hlt] at hk hnz
+  rw [ordStep_eq, ite_eq_left hlt] at hk hnz
   have h1 : ordImg (tab A h) s ≠ 0 := fun e => by
-    rw [if_pos e] at hnz
+    rw [ite_eq_left e] at hnz
     exact hnz rfl
-  rw [if_neg h1] at hk hnz
+  rw [ite_eq_right h1] at hk hnz
   obtain ⟨ha1, -, ha3, ha4⟩ := ordImg_ne h1
   obtain ⟨hb1, -, hb3, hb4⟩ := ordImg_ne hnz
   rcases Nat.lt_or_eq_of_le ha1 with ha | ha

@@ -23,12 +23,12 @@ private theorem negMap_single (i m : Fin s) (c : ZMod p) :
   · rw [hx]
     by_cases hm : m = i
     · rw [hm]
-      simp [negMap, Function.update_apply]
-    · simp [negMap, Function.update_apply, Pi.single_apply, hm, Ne.symm hm]
+      simp [negMap]
+    · simp [negMap, hm, Ne.symm hm]
   · by_cases hm : m = i
     · rw [hm]
-      simp [negMap, Function.update_apply, Pi.single_apply, hx, Ne.symm hx]
-    · simp [negMap, Function.update_apply, Pi.single_apply, hx, Ne.symm hx, hm, Ne.symm hm]
+      simp [negMap, hx]
+    · simp [negMap, Pi.single_apply, hx, hm, Ne.symm hm]
 
 private theorem swapMap_single (i j m : Fin s) (c : ZMod p) :
     swapMap i j (Pi.single m c) = Pi.single (Equiv.swap i j m) c := by
@@ -46,17 +46,15 @@ private theorem swapMap_single (i j m : Fin s) (c : ZMod p) :
 
 private theorem sswapMap_apply_left {i j : Fin s} (hij : i ≠ j) (t : Fin s → ZMod p) :
     sswapMap i j t i = -t j := by
-  simp [sswapMap, negMap, swapMap, Function.update_apply, hij, Ne.symm hij,
-    Equiv.swap_apply_left]
+  simp [sswapMap, negMap, swapMap, hij, Equiv.swap_apply_left]
 
 private theorem sswapMap_apply_right {i j : Fin s} (hij : i ≠ j) (t : Fin s → ZMod p) :
     sswapMap i j t j = -t i := by
-  simp [sswapMap, negMap, swapMap, Function.update_apply, hij, Ne.symm hij,
-    Equiv.swap_apply_right]
+  simp [sswapMap, negMap, swapMap, hij, Equiv.swap_apply_right]
 
 private theorem sswapMap_apply_of_ne {i j m : Fin s} (hmi : m ≠ i) (hmj : m ≠ j)
     (t : Fin s → ZMod p) : sswapMap i j t m = t m := by
-  simp [sswapMap, negMap, swapMap, Function.update_apply, hmi, hmj,
+  simp [sswapMap, negMap, swapMap, Function.update_apply, hmj,
     Equiv.swap_apply_of_ne_of_ne hmi hmj]
 
 private theorem sswapMap_coeff {i j m : Fin s} (hij : i ≠ j) :
@@ -85,9 +83,9 @@ private theorem sswapMap_self (i : Fin s) (t : Fin s → ZMod p) : sswapMap i i 
   funext m
   by_cases hm : m = i
   · rw [hm]
-    simp [sswapMap, negMap, swapMap, Function.update_apply, Equiv.swap_apply_left]
+    simp [sswapMap, negMap, swapMap]
   · have hmi : Equiv.swap i i m = m := Equiv.swap_apply_of_ne_of_ne hm hm
-    simp [sswapMap, negMap, swapMap, Function.update_apply, hm, hmi]
+    simp [sswapMap, negMap, swapMap, hm]
 
 theorem sswapMap_sswapMap (i j : Fin s) (t : Fin s → ZMod p) :
     sswapMap i j (sswapMap i j t) = t := by
@@ -150,7 +148,7 @@ private theorem sswapMap_single_coeff_ne_zero {i j m : Fin s} :
   have hp1 : (1 : ZMod p) ≠ 0 := by
     intro h
     exact (Fact.out : p.Prime).not_dvd_one
-      ((ZMod.natCast_eq_zero_iff 1 p).mp (by simpa using h))
+      ((ZMod.natCast_eq_zero_iff 1 p).mp (by simp at h))
   split_ifs with h
   · intro h0
     exact hp1 (neg_eq_zero.mp h0)
@@ -180,7 +178,7 @@ theorem sswapMap_ne_swapMap (hp2 : p ≠ 2) {i j : Fin s} (hij : i ≠ j) (k l :
   have hp2' : 2 < p := by
     have hle := (Fact.out : p.Prime).two_le
     omega
-  haveI : Fact (2 < p) := ⟨hp2'⟩
+  have : Fact (2 < p) := ⟨hp2'⟩
   split_ifs at h1
   · exact (CharP.neg_one_ne_one (ZMod p) p) h1
   · exact one_ne_zero (neg_eq_zero.mp h1)
@@ -199,6 +197,7 @@ variable {K : Type} [Field K] [Fintype K] (g : K[X]) [Fact (Irreducible g)] {n s
 
 variable {g}
 
+omit [Fact (Nat.Prime p)] in
 theorem exists_sswap_mem_twistPairBlock [CharP K 2]
     (ε : Fin n ≃ (Fin (rootPB g).dim × Fin s) ⊕ Fin r) (hC : (rootMat g).det = 1)
     (hCp : rootMat g ^ p = 1) (hζ : AdjoinRoot.root g ^ p = 1) (hpK : p ∣ Nat.card K + 1)

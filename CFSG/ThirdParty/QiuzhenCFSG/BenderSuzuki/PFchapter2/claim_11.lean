@@ -78,7 +78,7 @@ public theorem claim_11_sylow_of_subgroupOf_sylow_of_normalizer_le
           Group.normalizerCondition_of_isNilpotent (G := Q)
         have hlt : PQ < Subgroup.normalizer (PQ : Set Q) :=
           hnc PQ hPQ_lt_top
-        obtain ⟨xQ, hxNorm, hxNotPQ⟩ := SetLike.exists_of_lt hlt
+        obtain ⟨xQ, hxNorm, hxNotPQ⟩ := _root_.IsConcreteLE.exists_of_lt hlt
         have hxNormG : (xQ : G) ∈ Subgroup.normalizer (P : Set G) := by
           rw [Subgroup.mem_normalizer_iff]
           intro y

@@ -22,6 +22,6 @@ theorem armInputs_holds : ArmInputs :=
     card := GSThmB.QPUSpor.card_carrier_eq_sporOrder
     table := by
       intro _ _ _ hS hna _ e _ hσ _ hD
-      exact sporadic_comp_order CFSG.Open.Open.monster_y443_derived_card hS hna e hσ hD }
+      exact sporadic_comp_order CFSG.Open.Thm.monster_y443_derived_card hS hna e hσ hD }
 
 end CFSG.ComponentClassification.CatFC

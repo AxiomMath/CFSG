@@ -64,8 +64,8 @@ theorem H0_subgroupOf_normal
     _ = ((g : G) * n * (g : G)⁻¹) * x := by group
 
 theorem Jg_le_H0 (hZn : ∀ h ∈ Hg d, ∀ x ∈ Zz d z₀, h * x * h⁻¹ ∈ Zz d z₀)
-    (hxz : ∀ x ∈ Zz d z₀, d.x₅ * x = x * d.x₅) (hx : d.x₅ ∈ Hg d) : Jg d ≤ H0 d z₀ := by
-  haveI hN : ((H0 d z₀).subgroupOf (Hg d)).Normal := H0_subgroupOf_normal hZn
+    (hxz : ∀ x ∈ Zz d z₀, d.x₅ * x = x * d.x₅) (_hx : d.x₅ ∈ Hg d) : Jg d ≤ H0 d z₀ := by
+  have hN : ((H0 d z₀).subgroupOf (Hg d)).Normal := H0_subgroupOf_normal hZn
   have hle : Subgroup.normalClosure (((Xg d).subgroupOf (Hg d) : Subgroup ↥(Hg d)) : Set ↥(Hg d)) ≤
       (H0 d z₀).subgroupOf (Hg d) := by
     refine Subgroup.normalClosure_le_normal fun a ha => ?_

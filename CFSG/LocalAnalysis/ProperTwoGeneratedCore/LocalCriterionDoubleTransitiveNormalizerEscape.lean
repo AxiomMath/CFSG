@@ -32,7 +32,7 @@ theorem triple_sylow_normalizer_not_le_original_point
   have hUE : U ≤ E := Subgroup.map_subtype_le _
   have hUB : U ≤ B := hUE.trans inf_le_left
   have hUF : U ≤ F := hUE.trans (triple_stabilizer_le_opposite_pair H z beta)
-  have hUp : IsPGroup p U := P.isPGroup'.map E.subtype
+  have hUp : IsPGroup p U := P.isPGroup.map E.subtype
   by_cases hfull : ∃ R : Sylow p B, (R : Subgroup B).map B.subtype = U
   · obtain ⟨R, hR⟩ := hfull
     obtain ⟨r, hr, hrN, _⟩ := base_pair_specified_sylow_flip h S hzS hzcenter hbeta p hp R
@@ -54,7 +54,7 @@ theorem triple_sylow_normalizer_not_le_original_point
         rw [heq, Subgroup.card_subtype, Q.card_eq_multiplicity,
           opposite_pair_order_eq_pair h S hzS hzcenter beta hbeta]
       exact hfull (p_subgroup_sylow_of_full_card p hp B U hUB hcard)
-    have hQp : IsPGroup p QA := Q.isPGroup'.map F.subtype
+    have hQp : IsPGroup p QA := Q.isPGroup.map F.subtype
     let R : Subgroup G := QA ⊓ Subgroup.normalizer (U : Set G)
     have hUR : U < R := pSubgroup_lt_normalizer_intersection p hp U QA hQp hUQstrict
     intro hNH

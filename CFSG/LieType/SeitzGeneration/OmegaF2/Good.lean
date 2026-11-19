@@ -201,7 +201,7 @@ theorem linearIndependent_of_not_bad {k : Subfield K} {Q : QuadraticForm K (Fin 
     exact ⟨neg_mem ha, neg_mem hb⟩
 
 theorem similarity_plane_ts {Q : QuadraticForm K (Fin d → K)} {g : Matrix (Fin d) (Fin d) K}
-    {μ : K} (hμ : μ ≠ 0) (hg : ∀ v, Q (g *ᵥ v) = μ * Q v) {x₀ y₀ : Fin d → K} (hx₀ : Q x₀ = 0)
+    {μ : K} (_hμ : μ ≠ 0) (hg : ∀ v, Q (g *ᵥ v) = μ * Q v) {x₀ y₀ : Fin d → K} (hx₀ : Q x₀ = 0)
     (hy₀ : Q y₀ = 0) (hxy₀ : polar Q x₀ y₀ = 0) :
     Q (g *ᵥ x₀) = 0 ∧ Q (μ⁻¹ • (g *ᵥ y₀)) = 0 ∧
       polar Q (g *ᵥ x₀) (μ⁻¹ • (g *ᵥ y₀)) = 0 := by
@@ -209,17 +209,17 @@ theorem similarity_plane_ts {Q : QuadraticForm K (Fin d → K)} {g : Matrix (Fin
   have hgy : Q (g *ᵥ y₀) = 0 := by rw [hg, hy₀, mul_zero]
   have h2 : Q (μ⁻¹ • (g *ᵥ y₀)) = 0 := by rw [map_smul_eq_sq, hgy, mul_zero]
   have h3 : polar Q (g *ᵥ x₀) (μ⁻¹ • (g *ᵥ y₀)) = 0 := by
-    simp [polar_smul_right_eq, polar_mulVec_sim_good hg, hxy₀]
+    simp [polar_mulVec_sim_good hg, hxy₀]
   exact ⟨h1, h2, h3⟩
 
 theorem conj_plane_mem_lift [Finite K] {k : Subfield K}
     {Q₀ : QuadraticForm k (Fin d → k)} {Q : QuadraticForm K (Fin d → K)} {σ : K ≃+* K}
     (hext : IsExtension k Q₀ Q) (hσk : ∀ x, x ∈ k ↔ σ x = x)
     (hder : elementaryGroup Q = orthDerived Q) {H : Subgroup (matrixProjectiveDerived Q)}
-    (hN : subfieldFixedGroup k Q₀ Q ≤ H) (gp : similarityPairs Q) (hgp : gp.val.right = 1)
+    (_hN : subfieldFixedGroup k Q₀ Q ≤ H) (gp : similarityPairs Q) (hgp : gp.val.right = 1)
     (hN' : (subfieldFixedGroup k Q₀ Q).map (matrixProjectiveConjugationHom Q gp).toMonoidHom ≤ H)
     {x₀ y₀ : Fin d → K} (hx₀r : IsRat k x₀) (hy₀r : IsRat k y₀) (hx₀ : Q x₀ = 0)
-    (hy₀ : Q y₀ = 0) (hxy₀ : polar Q x₀ y₀ = 0) :
+    (_hy₀ : Q y₀ = 0) (hxy₀ : polar Q x₀ y₀ = 0) :
     eichler Q (gp.val.left.val *ᵥ x₀) ((multiplier Q gp : K)⁻¹ • (gp.val.left.val *ᵥ y₀)) ∈
       liftSubgroup Q H := by
   have hμ : (multiplier Q gp : K) ≠ 0 := Units.ne_zero _
@@ -258,7 +258,7 @@ theorem elementaryGroup_le_lift_of_good_F2 [Finite K] [CharP K 2]
   classical
   obtain ⟨x₀, y₀, hx₀r, hy₀r, hx₀, hy₀, hxy₀, hnot⟩ := hgood
   unfold BadPlane at hnot
-  simp only [not_forall, not_imp] at hnot
+  simp only [not_forall] at hnot
   obtain ⟨x, y, z, hxr, hyr, hzr, hx, hy, hz, hxy, hxz, hyz, hΔ, hαβ⟩ := hnot
   set gm : GL (Fin d) K := gp.val.left with hgm
   set μ : K := (multiplier Q gp : K) with hμdef

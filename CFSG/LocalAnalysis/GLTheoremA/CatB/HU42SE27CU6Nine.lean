@@ -34,7 +34,7 @@ private theorem perfect_le_specialBlock_comap
   refine ⟨⟨toLinSU_mem_unitaryCentralizer A rfl hgC, fun b hb hbS v hv => ?_⟩, ?_⟩
   · exact absurd (Or.inl (congrArg Subtype.val (huniq ⟨b, hb⟩))) hbS
   · refine ⟨(mem_fixSubgroup_primeFormConjSU_iff A rfl g).mp hgC, ?_⟩
-    haveI : Group.IsPerfect ↥J := Subgroup.isPerfect_iff.2 hJperf
+    have : Group.IsPerfect ↥J := Subgroup.isPerfect_iff.2 hJperf
     let φ : ↥(fixSubgroup (primeFormConjSU hF4 (idGram F4 6) A)) →*
         gl_centralizer (xOf (A : GL (Fin 6) F4)) :=
       ((toLinSU hF4 6).comp (fixSubgroup _).subtype).codRestrict _ fun g =>
@@ -57,7 +57,7 @@ private theorem card_specialBlock_comap
       (toLinSU hF4 6)) = 504 := by
   have hq : 2 ≤ 2 ^ 1 := by norm_num
   have hgood : IsGoodBlock hF4 (xOf (A : GL (Fin 6) F4)) a :=
-    ⟨by omega, fun _ => by simp [hmult, hdeg]⟩
+    ⟨by omega, fun _ => by simp [hdeg]⟩
   have hSBle : specialBlock (idForm hF4 6) (xOf (A : GL (Fin 6) F4)) a ≤
       (toLinSU hF4 6).range := fun g hg =>
     mem_range_toLinSU (specialBlock_le_sesqSpecialUnitaryGroup_of_good H hq a hgood hg)
@@ -74,8 +74,8 @@ private theorem card_specialBlock_comap
     nonempty_specialBlock_mulEquiv_sesqSU hself (selfDualPrimaryBlock H a hself)
   obtain ⟨e3⟩ := CFSG.RankThree.Classical.nonempty_sesqSpecialUnitaryGroup_mulEquiv_SL2 hE hHf
     hHfl (by exact hmult)
-  haveI : Finite hE.fixedField := inferInstance
-  letI : Fintype hE.fixedField := Fintype.ofFinite _
+  have : Finite hE.fixedField := inferInstance
+  let : Fintype hE.fixedField := Fintype.ofFinite _
   have hcardF : Fintype.card hE.fixedField = 2 ^ (1 * (a : F4[X]).natDegree) := by
     rw [← Nat.card_eq_fintype_card]
     exact hE.card_fixedField

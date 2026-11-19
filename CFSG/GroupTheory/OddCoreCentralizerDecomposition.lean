@@ -47,8 +47,8 @@ theorem eq_oddCore_mul_centralizer_of_isolated {X : Type*} [Group X] [Finite X] 
   classical
   let e : Shrink.{0} X ≃* X := Shrink.mulEquiv
   let τ' : Shrink.{0} X := e.symm τ
-  haveI : Finite (Shrink.{0} X) := Finite.of_equiv X e.symm.toEquiv
-  letI : Fintype (Shrink.{0} X) := Fintype.ofFinite _
+  have : Finite (Shrink.{0} X) := Finite.of_equiv X e.symm.toEquiv
+  let : Fintype (Shrink.{0} X) := Fintype.ofFinite _
   have hτ'e : e τ' = τ := e.apply_symm_apply τ
   have hτ'1 : τ' ≠ 1 := by
     intro h

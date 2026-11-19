@@ -19,7 +19,7 @@ private theorem tanb_two_le_of_dvd_two_pow_sub_one {p f : ℕ} (hp : p.Prime) (h
   exact hp.ne_one h
 
 theorem ggTypeANbrTablePInput_of_narrow (hCD : GGTypeACompatDiagBInput)
-    (hRig : GGLabelRigidInput)
+    (_hRig : GGLabelRigidInput)
     (hTA : GGNbrTablePNbrInputOnL GGRegimeTypeAL) : GGTypeANbrTablePInput := by
   intro G _ _ p B Bs x L D J n f y K hcfg
   have hcfg0 := hcfg

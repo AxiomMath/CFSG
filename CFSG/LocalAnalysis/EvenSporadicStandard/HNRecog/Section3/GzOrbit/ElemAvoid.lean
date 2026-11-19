@@ -67,17 +67,17 @@ private theorem elemAvoid_card_sup_mul_card_of_inf_eq_bot {X : Type*} [Group X]
 theorem exists_isElemTwo_three_avoiding {G : Type} [Group G] {F : Subgroup G} (hF : IsElemTwo 5 F)
     {u : G} (hu : u ∈ F) (hu1 : u ≠ 1) : ∃ E : Subgroup G, E ≤ F ∧ IsElemTwo 3 E ∧ u ∉ E := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hFab : CFSG.Open.IsElemAbelian 2 F := hF.1
   have hFcomm : IsMulCommutative ↥F := hFab.1
   have hFsq : ∀ x ∈ F, x ^ 2 = 1 := hFab.2
   have hFcard : Nat.card ↥F = 32 := by simpa using hF.2
-  haveI : IsMulCommutative ↥F := hFcomm
+  have : IsMulCommutative ↥F := hFcomm
   have hFel : IsElementaryAbelian 2 ↥F :=
     { toIsMulCommutative := hFcomm
       exponent_dvd_p := Monoid.exponent_dvd_iff_forall_pow_eq_one.mpr
         fun x => Subtype.ext (hFsq x x.2) }
-  haveI : IsElementaryAbelian 2 ↥F := hFel
+  have : IsElementaryAbelian 2 ↥F := hFel
   let uF : ↥F := ⟨u, hu⟩
   obtain ⟨C, hC⟩ := IsElementaryAbelian.exists_isCompl 2 ↥F (Subgroup.zpowers uF)
   have huF2 : uF ^ 2 = 1 := Subtype.ext (hFsq u hu)
@@ -110,7 +110,7 @@ theorem exists_isElemTwo_three_avoiding {G : Type} [Group G] {F : Subgroup G} (h
     norm_num at hcard
   obtain ⟨w, hw1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hC_ne_bot
   have hCcomm : IsMulCommutative ↥C := inferInstance
-  haveI : IsMulCommutative ↥C := hCcomm
+  have : IsMulCommutative ↥C := hCcomm
   have hCel : IsElementaryAbelian 2 ↥C :=
     { toIsMulCommutative := hCcomm
       exponent_dvd_p := Monoid.exponent_dvd_iff_forall_pow_eq_one.mpr fun x => by
@@ -118,7 +118,7 @@ theorem exists_isElemTwo_three_avoiding {G : Type} [Group G] {F : Subgroup G} (h
         apply Subtype.ext
         simp only [Subgroup.coe_pow, Subgroup.coe_one]
         exact hFsq (x : ↥F) (x : ↥F).2 }
-  haveI : IsElementaryAbelian 2 ↥C := hCel
+  have : IsElementaryAbelian 2 ↥C := hCel
   obtain ⟨D, hD⟩ := IsElementaryAbelian.exists_isCompl 2 ↥C (Subgroup.zpowers w)
   have hw2 : w ^ 2 = 1 := by
     apply Subtype.ext

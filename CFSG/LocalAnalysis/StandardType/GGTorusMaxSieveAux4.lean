@@ -124,7 +124,7 @@ theorem tmSieve_lie_E7 (d : TauCeti.ValidLieTypeIndex) (J : Type) [Group J] [Fin
     obtain ⟨n, q, hq⟩ := tmIsTarget7_twistedA htgt
     rw [hq] at htgt
     simp only [tmTag, tmRank, tmChar, tmDeg, tmIsTarget7] at htgt
-    simp only [beq_iff_eq, Bool.and_eq_true, Bool.true_and, Bool.not_true] at htgt
+    simp only [beq_iff_eq, Bool.and_eq_true] at htgt
     obtain ⟨⟨⟨-, h2⟩, h3⟩, h4⟩ := htgt
     have hn8 : n = 8 := by omega
     refine ⟨d, q, ?_, ?_, ⟨e⟩⟩
@@ -194,7 +194,7 @@ theorem tmSieve_lie_E8 (d : TauCeti.ValidLieTypeIndex) (J : Type) [Group J] [Fin
     rcases tmIsTarget8_cases htgt with ⟨n, q, hq⟩ | ⟨n, q, hq⟩
     · rw [hq] at htgt
       simp only [tmIsTarget8, tmTag, tmRank, tmChar, tmDeg, Bool.or_eq_true,
-        Bool.and_eq_true, beq_iff_eq, Bool.true_and, Bool.not_true, Bool.false_or] at htgt
+        Bool.and_eq_true, beq_iff_eq] at htgt
       rcases htgt with h | h
       · obtain ⟨⟨⟨-, h2⟩, h3⟩, h4⟩ := h
         have hn9 : n = 9 := by omega
@@ -204,7 +204,7 @@ theorem tmSieve_lie_E8 (d : TauCeti.ValidLieTypeIndex) (J : Type) [Group J] [Fin
         exact absurd hbad (by decide)
     · rw [hq] at htgt
       simp only [tmIsTarget8, tmTag, tmRank, tmChar, tmDeg, Bool.or_eq_true,
-        Bool.and_eq_true, beq_iff_eq, Bool.true_and, Bool.not_true, Bool.false_or] at htgt
+        Bool.and_eq_true, beq_iff_eq] at htgt
       rcases htgt with h | h
       · obtain ⟨⟨⟨hbad, -⟩, -⟩, -⟩ := h
         exact absurd hbad (by decide)

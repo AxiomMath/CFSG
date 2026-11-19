@@ -44,8 +44,8 @@ theorem Lem328.isPGroup_autOn {T V : Subgroup G} (hT : IsPGroup 2 ↥T) :
     IsPGroup 2 ↥(autOn T V) :=
   CFSG.Quasithin.AutOn.isPGroup_autOn hT
 
-theorem autOn_le_normalizer {L T V : Subgroup G} (hL : L ≤ Subgroup.normalizer (V : Set G))
-    (hT : T ≤ Subgroup.normalizer (V : Set G)) (hTL : T ≤ Subgroup.normalizer (L : Set G)) :
+theorem autOn_le_normalizer {L T V : Subgroup G} (_hL : L ≤ Subgroup.normalizer (V : Set G))
+    (_hT : T ≤ Subgroup.normalizer (V : Set G)) (hTL : T ≤ Subgroup.normalizer (L : Set G)) :
     autOn T V ≤ Subgroup.normalizer (autOn L V : Set (MulAut ↥V)) :=
   CFSG.Quasithin.AutOn.autOn_le_normalizer_autOn hTL
 

@@ -16,6 +16,7 @@ section NormalComplement
 
 variable {G : Type*} [Group G] [Finite G] {p : ℕ}
 
+omit [Finite G] in
 theorem eq_one_of_pow_of_coprime {H : Subgroup G} (hcop : Nat.Coprime p (Nat.card H)) {y : G}
     (hy : y ∈ H) {k : ℕ} (hk : y ^ p ^ k = 1) : y = 1 := by
   have hk' : (⟨y, hy⟩ : ↥H) ^ p ^ k = 1 := Subtype.ext (by simpa using hk)
@@ -32,13 +33,14 @@ theorem hasNormalPComplement_of_pElements_central [Fact p.Prime]
   obtain ⟨S⟩ : Nonempty (Sylow p G) := inferInstance
   refine CFSG.hasNormalPComplement_of_sylow_le_center_normalizer p S ?_
   intro x hx
-  obtain ⟨k, hk⟩ := S.isPGroup' ⟨x, hx⟩
+  obtain ⟨k, hk⟩ := S.isPGroup ⟨x, hx⟩
   have hxk : x ^ p ^ k = 1 := by simpa using congrArg Subtype.val hk
   have hxc : x ∈ Subgroup.center G := h x ⟨k, hxk⟩
   unfold CFSG.centerIn
   exact Subgroup.mem_inf.2 ⟨Subgroup.le_normalizer hx,
     Subgroup.mem_centralizer_iff.2 fun y _ => Subgroup.mem_center_iff.1 hxc y⟩
 
+omit [Finite G] in
 theorem mem_map_iff_coprime {N : Subgroup G} {M : Subgroup ↥N} [M.Normal]
     (hMc : Nat.Coprime p (Nat.card M)) (hMq : IsPGroup p (↥N ⧸ M)) (x : G) :
     x ∈ M.map N.subtype ↔ x ∈ N ∧ Nat.Coprime p (orderOf x) := by
@@ -65,11 +67,12 @@ theorem mem_map_iff_coprime {N : Subgroup G} {M : Subgroup ↥N} [M.Normal]
       rwa [Nat.Coprime.gcd_eq_one hcop, pow_one] at h3
     exact ⟨⟨x, hxN⟩, (QuotientGroup.eq_one_iff _).1 h1, rfl⟩
 
+omit [Finite G] in
 theorem hasNormalPComplement_of_normal [Fact p.Prime] {N : Subgroup G} [hN : N.Normal]
     (hq : IsPGroup p (G ⧸ N)) (hc : CFSG.HasNormalPComplement p ↥N) :
     CFSG.HasNormalPComplement p G := by
   obtain ⟨M, hMn, hMc, hMq⟩ := hc
-  haveI := hMn
+  have := hMn
   have key := mem_map_iff_coprime hMc hMq
   have hnorm : (M.map N.subtype).Normal := by
     constructor
@@ -94,11 +97,12 @@ theorem hasNormalPComplement_of_normal [Fact p.Prime] {N : Subgroup G} [hN : N.N
       rw [← QuotientGroup.mk_pow, QuotientGroup.eq_one_iff, pow_add, pow_mul]
       exact ⟨_, hj, rfl⟩
 
+omit [Finite G] in
 theorem hasNormalPComplement_of_injective {H : Type*} [Group H] [Finite H] (f : H →* G)
     (hf : Function.Injective f) (h : CFSG.HasNormalPComplement p G) :
     CFSG.HasNormalPComplement p H := by
   obtain ⟨N, hN, hc, hq⟩ := h
-  haveI := hN
+  have := hN
   refine ⟨N.comap f, inferInstance, ?_, ?_⟩
   · have h1 : Nat.card (N.comap f) = Nat.card ((N.comap f).map f) :=
       (Subgroup.card_map_of_injective hf).symm
@@ -145,7 +149,7 @@ theorem conj_injective_of_center (hZ : Subgroup.center K = ⊥) :
 
 theorem center_eq_bot_of_simple (hs : IsSimpleGroup K) (hnab : ∃ a b : K, a * b ≠ b * a) :
     Subgroup.center K = ⊥ := by
-  haveI := hs
+  have := hs
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center K) with h | h
   · exact h
   · exfalso
@@ -190,12 +194,12 @@ theorem hasNormalPComplement_fixerAut_of_outer [Finite K] {p : ℕ} [Fact p.Prim
     (hZ : Subgroup.center K = ⊥) (P : Sylow p K) (hO : CFSG.HasNormalPComplement p (Outer K)) :
     CFSG.HasNormalPComplement p ↥(fixerAut (P : Subgroup K)) := by
   obtain ⟨MO, hMOn, hMOc, hMOq⟩ := hO
-  haveI := hMOn
+  have := hMOn
   set C : Subgroup (MulAut K) := fixerAut (P : Subgroup K) with hC
   let π : ↥C →* Outer K :=
     (QuotientGroup.mk' (CFSG.ComponentClassification.OuterAutomorphisms.inner K)).comp C.subtype
   let N : Subgroup ↥C := MO.comap π
-  haveI hNn : N.Normal := Subgroup.Normal.comap hMOn π
+  have hNn : N.Normal := Subgroup.Normal.comap hMOn π
   refine hasNormalPComplement_of_normal (N := N) ?_ ?_
   · intro q
     induction q using QuotientGroup.induction_on with
@@ -314,7 +318,7 @@ theorem hasNormalPComplement_fixerAut_quasisimple
 theorem input7_10_1_of_res (hIA : CFSG.LocalAnalysis.RankThreeTheoremC.KFactInnerAction)
     (h2 : Input7_10_1ResTwo) (hodd : Input7_10_1ResOdd) : Input185.Input7_10_1 := by
   intro p hp K _ _ hq hK P hP
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine hasNormalPComplement_fixerAut_quasisimple hIA hq hK hP fun hO hc => ?_
   have hs : IsSimpleGroup (K ⧸ Subgroup.center K) := hq.2
   have hnab := CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian K hq

@@ -75,13 +75,13 @@ theorem exists_fpf_of_finrank_eq_one (hd : Module.finrank k E = 1) (hk : 4 ≤ N
       Subgroup.centralizer ({h} : Set (SpecialLinearGroup k (DSpace E X))) ⊓ QK k E X =
         rootSL k E X := by
   classical
-  haveI : Fintype k := Fintype.ofFinite k
+  have : Fintype k := Fintype.ofFinite k
   have hkf : 1 < Fintype.card kˣ := by
     have h : 1 < Nat.card kˣ := by
       rw [Nat.card_units]
       omega
     rwa [Nat.card_eq_fintype_card] at h
-  haveI : Nontrivial kˣ := Fintype.one_lt_card_iff_nontrivial.mp hkf
+  have : Nontrivial kˣ := Fintype.one_lt_card_iff_nontrivial.mp hkf
   obtain ⟨s, hs⟩ := exists_ne (1 : kˣ)
   have hkodd : Odd (Nat.card kˣ) := by
     rw [Nat.card_units]

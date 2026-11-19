@@ -18,7 +18,7 @@ private theorem b5_FiveTenPGrp_aux (n : ℕ) :
   induction n using Nat.strong_induction_on with
   | _ n ih =>
     intro H W U Ω hcard hΩ hWH hW hWΩ hUW hU
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     set R : Subgroup G := ⨆ w ∈ W, A1b.conjSub w U with hR
     have hconjW : ∀ w ∈ W, A1b.conjSub w U ≤ W := by
       intro w hw x hx

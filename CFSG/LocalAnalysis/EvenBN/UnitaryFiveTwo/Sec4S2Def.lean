@@ -48,13 +48,13 @@ theorem t_mem_normalizer_D₃ (h : d.Hyp) : d.t ∈ normalizer (d.D₃ : Set G) 
   exact Subgroup.mem_inf.2 ⟨mul_mem (mul_mem htR₂ huN) (inv_mem htR₂), h.conj_mem_D₁ htXW huD⟩
 
 theorem S_le_centralizer_W : d.S ≤ centralizer (d.W : Set G) := fun s hs =>
-  mem_centralizer_iff.2 fun w hw => (mem_centralizer_iff.1 (d.W_le_centralizer hw) s hs).symm
+  mem_centralizer_iff.2 fun _w hw => (mem_centralizer_iff.1 (d.W_le_centralizer hw) s hs).symm
 
-theorem D₃_le_centralizer_W : d.D₃ ≤ centralizer (d.W : Set G) := fun u hu =>
+theorem D₃_le_centralizer_W : d.D₃ ≤ centralizer (d.W : Set G) := fun _u hu =>
   (Subgroup.mem_inf.1 (Subgroup.mem_inf.1 hu).2).2
 
-theorem Y_le_centralizer_W (h : d.Hyp) : d.Y ≤ centralizer (d.W : Set G) := fun y hy =>
-  mem_centralizer_iff.2 fun w hw => h.Y_comm (d.W_le_Y hw) hy
+theorem Y_le_centralizer_W (h : d.Hyp) : d.Y ≤ centralizer (d.W : Set G) := fun _y hy =>
+  mem_centralizer_iff.2 fun _w hw => h.Y_comm (d.W_le_Y hw) hy
 
 theorem SYD₃_le_centralizer_W (h : d.Hyp) :
     (d.S ⊔ d.Y) ⊔ d.D₃ ≤ centralizer (d.W : Set G) :=

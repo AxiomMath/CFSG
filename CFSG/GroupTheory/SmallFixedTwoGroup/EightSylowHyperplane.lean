@@ -17,7 +17,7 @@ theorem exists_relIndex_two_notMem_of_fixed {G : Type*} [Group G] [Finite G] {T 
     (hxN : x ∈ normalizer (T : Set G)) {p : G} (hpT : p ∈ T) (hp1 : p ≠ 1)
     (hpx : x * p * x⁻¹ = p) (hF : ∀ y ∈ T, x * y * x⁻¹ = y → y = 1 ∨ y = p) :
     ∃ M : Subgroup G, M ≤ T ∧ M.relIndex T = 2 ∧ p ∉ M := by
-  haveI : IsMulCommutative ↥T :=
+  have : IsMulCommutative ↥T :=
     IsMulCommutative.of_comm (fun a b => Subtype.ext (hab a a.2 b b.2))
   have hppT : p * p ∈ T := T.mul_mem hpT hpT
   have hpp_fix : x * (p * p) * x⁻¹ = p * p := by
@@ -32,7 +32,7 @@ theorem exists_relIndex_two_notMem_of_fixed {G : Type*} [Group G] [Finite G] {T 
         ((Subgroup.mem_normalizer_iff (H := T) (g := x)).mp hxN z).mp z.2⟩)
     (fun a b => by
       apply Subtype.ext
-      simp only [Subgroup.coe_mul, Subtype.coe_mk]
+      simp only [Subgroup.coe_mul]
       group)
   have hc3 : ∀ y : ↥T, c (c (c y)) = y := by
     intro y

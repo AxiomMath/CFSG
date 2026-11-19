@@ -18,7 +18,7 @@ open CFSG.AGLEmbeddingD2.McLaughlin.WeakBlockModuleData
 
 private theorem isSylowTwoOf_top_of_sylow_aux {G : Type} [Group G] [Finite G] (S : Sylow 2 G) :
     CFSG.QuasithinUnique.IsSylowTwoOf (S : Subgroup G) ⊤ := by
-  refine ⟨le_top, S.isPGroup', ?_⟩
+  refine ⟨le_top, S.isPGroup, ?_⟩
   rw [show ((S : Subgroup G).subgroupOf ⊤).index = (S : Subgroup G).index from
     Subgroup.relIndex_top_right _]
   exact S.not_dvd_index
@@ -66,7 +66,7 @@ private theorem eq_one_of_alt {G : Type} [Group G] [Finite G] {n : ℕ} (hn : 6 
     PermSylowTwo.inf_normalizer_le_of_mulEquiv_alt hn (Subgroup.topEquiv.trans e)
       (isSylowTwoOf_top_of_sylow_aux S)
       (Subgroup.mem_inf.mpr ⟨Subgroup.mem_top _, Subgroup.centralizer_le_normalizer _ hcent⟩)
-  obtain ⟨k, hk⟩ := S.isPGroup' ⟨e.symm x, hyS⟩
+  obtain ⟨k, hk⟩ := S.isPGroup ⟨e.symm x, hyS⟩
   have hyk : e.symm x ^ 2 ^ k = 1 := congrArg Subtype.val hk
   have hβconj : β = MulAut.conj (e.symm x) := by
     ext g

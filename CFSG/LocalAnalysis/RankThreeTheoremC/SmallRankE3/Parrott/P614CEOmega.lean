@@ -20,7 +20,7 @@ theorem isCyclic_center_of_pRank_le_two {N Q B : Subgroup G} (hN2 : CFSG.Open.pR
     (hQN : Q ≤ N) (hQp : IsPGroup 3 Q) (hBQ : B ≤ Q) (hBe : IsElemAbelian 3 B)
     (hBc : Nat.card B = 3 ^ 2) {q : G} (hqQ : q ∈ Q) (hq3 : q ^ 3 = 1) (hqB : q ∉ B) :
     IsCyclic (Subgroup.center ↥Q) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hnc
   obtain ⟨E₀, hE₀e, hE₀c⟩ := CFSG.GroupTheory.SteinbergBK.odd_noncyclic_pgroup_rank_two
     (Nat.prime_three.odd_of_ne_two (by norm_num)) (hQp.to_subgroup _) hnc
@@ -50,9 +50,9 @@ theorem omegaLe_of_kfact64iii (h64 : KFact64iii) {P : Sylow 3 G} {M : Subgroup G
     (hcore : rankThreePrimeCore 3 N = pCoreOf 2 N) : OmegaLe x z N := by
   intro Q₀ hQ₀N hQ₀p hBQ₀ q hqQ₀ hq3
   by_contra hqB
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hS := hsit.setting
-  haveI : IsSimpleGroup G := hS.simple
+  have : IsSimpleGroup G := hS.simple
   have hsit' := hsit.situation
   have hpl := SmallRankPlane.of_situation hS hsit' hsit.point hsit.central
   set B : Subgroup G := zpowers x ⊔ zpowers z with hB

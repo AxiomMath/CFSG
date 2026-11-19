@@ -127,6 +127,7 @@ theorem center_comp_trivial (hC : Subgroup.centralizer (layer H : Set H) = ⊥) 
   rw [hC, Subgroup.mem_bot] at hmem
   exact hmem
 
+omit [Finite H] in
 theorem exists_component (hC : Subgroup.centralizer (layer H : Set H) = ⊥) {x : H}
     (hx : x ≠ 1) : ∃ J : Subgroup H, IsComponent J := by
   by_contra hne
@@ -146,7 +147,7 @@ theorem inf_comp_ne_bot {L : Subgroup H} (hLsq : ∀ x ∈ L, x * x = 1) (hLi : 
   have hLp : IsPGroup 2 L := fun x => ⟨1, Subtype.ext (by simpa [pow_two] using hLsq x x.2)⟩
   have hS : CFSG.Quasithin.IsSylowIn 2 L ⊤ :=
     ⟨le_top, hLp, by rwa [Subgroup.relIndex_top_right]⟩
-  haveI : (layer H).Characteristic := layer_characteristic
+  have : (layer H).Characteristic := layer_characteristic
   have hS1 := hS.inf_normal (N := layer H) le_top inferInstance
   obtain ⟨hJE, hJN⟩ := components_normal_in_layer hJ
   have hS2 := hS1.inf_normal hJE hJN
@@ -158,17 +159,19 @@ theorem inf_comp_ne_bot {L : Subgroup H} (hLsq : ∀ x ∈ L, x * x = 1) (hLi : 
   have h2 := hS2.not_dvd_relIndex
   rw [hbot', Subgroup.relIndex_bot_left] at h2
   have hodd : Odd (Nat.card J) := Nat.odd_iff.mpr (by omega)
-  haveI := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hodd
-  haveI : Group.IsPerfect ↥J := hJ.1.1
-  haveI : Nontrivial ↥J := isQuasisimple_nontrivial hJ.1
+  have := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hodd
+  have : Group.IsPerfect ↥J := hJ.1.1
+  have : Nontrivial ↥J := isQuasisimple_nontrivial hJ.1
   exact Group.IsPerfect.not_isSolvable ↥J inferInstance
 
 def conjS (u : H) (J : Subgroup H) : Subgroup H := J.map (MulAut.conj u).toMonoidHom
 
+omit [Finite H] in
 theorem mem_conjS {u : H} {J : Subgroup H} {y : H} : y ∈ conjS u J ↔ u⁻¹ * y * u ∈ J := by
   unfold conjS
   rw [Subgroup.mem_map_equiv, MulAut.conj_symm_apply]
 
+omit [Finite H] in
 theorem isComponent_conjS {u : H} {J : Subgroup H} (hJ : IsComponent J) :
     IsComponent (conjS u J) :=
   isComponent_map_mulEquiv (MulAut.conj u) hJ
@@ -208,6 +211,7 @@ theorem comp_normalized_by_L {L : Subgroup H}
 def compStab (H : Type) [Group H] : Subgroup H :=
   ⨅ J : {J : Subgroup H // IsComponent J}, Subgroup.normalizer (J.1 : Set H)
 
+omit [Finite H] in
 theorem mem_compStab {h : H} :
     h ∈ compStab H ↔ ∀ J : Subgroup H, IsComponent J → ∀ y, y ∈ J ↔ h * y * h⁻¹ ∈ J := by
   simp only [compStab, Subgroup.mem_iInf, Subgroup.mem_normalizer_iff, Subtype.forall]
@@ -228,13 +232,13 @@ instance compStab_normal : (compStab H).Normal :=
 theorem compStab_eq_top (hperf : Group.IsPerfect H) {L : Subgroup H} (hLK : L ≤ compStab H)
     (hLi : ¬ 2 ∣ L.index) : compStab H = ⊤ := by
   have hidx : ¬ 2 ∣ (compStab H).index := fun h => hLi (h.trans (Subgroup.index_dvd_of_le hLK))
-  haveI : Group.IsPerfect (H ⧸ compStab H) := inferInstance
+  have : Group.IsPerfect (H ⧸ compStab H) := inferInstance
   have hodd : Odd (Nat.card (H ⧸ compStab H)) := Nat.odd_iff.mpr (by
     have : (compStab H).index = Nat.card (H ⧸ compStab H) := rfl
     omega)
-  haveI := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hodd
+  have := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hodd
   by_contra hne
-  haveI : Nontrivial (H ⧸ compStab H) := by
+  have : Nontrivial (H ⧸ compStab H) := by
     have h1 : (compStab H).index ≠ 1 := fun h => hne (Subgroup.index_eq_one.mp h)
     have h2 : (compStab H).index = Nat.card (H ⧸ compStab H) := rfl
     have h3 : 1 < Nat.card (H ⧸ compStab H) := by
@@ -265,7 +269,7 @@ variable {H : Type*} [Group H] {A : Fin 3 → Subgroup H} {E : Subgroup H}
 
 theorem exists_odd_pow_mem {L : Subgroup H} (hLi : ¬ 2 ∣ L.index) {g : H}
     (hg : g ∈ Subgroup.normalizer (L : Set H)) : ∃ k : ℕ, Odd k ∧ g ^ k ∈ L := by
-  haveI : (L.subgroupOf (Subgroup.normalizer (L : Set H))).Normal :=
+  have : (L.subgroupOf (Subgroup.normalizer (L : Set H))).Normal :=
     Subgroup.normal_in_normalizer
   refine ⟨(L.subgroupOf (Subgroup.normalizer (L : Set H))).index, ?_, ?_⟩
   · have hdvd : (L.subgroupOf (Subgroup.normalizer (L : Set H))).index ∣ L.index :=
@@ -401,7 +405,7 @@ theorem core {H : Type} [Group H] [Finite H]
     refine center_comp_trivial hC hJ x.2 fun y hy => ?_
     have := Subgroup.mem_center_iff.mp hx ⟨y, hy⟩
     exact (congrArg Subtype.val this).symm
-  haveI hJsimple : IsSimpleGroup ↥J := by
+  have hJsimple : IsSimpleGroup ↥J := by
     have e : ↥J ⧸ Subgroup.center ↥J ≃* ↥J :=
       (QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot
     exact (MulEquiv.isSimpleGroup_congr e).mp hJ.1.2.1
@@ -431,9 +435,9 @@ theorem core {H : Type} [Group H] [Finite H]
     exact Subtype.ext (hc 0 1 (by decide) a haF x (Subgroup.mem_subgroupOf.mp hx))
   have hpg : IsPGroup 2 ↥(F 1) :=
     (hcent.to_le hle).of_equiv (Subgroup.subgroupOfEquivOfLe hF1J)
-  haveI : IsSimpleGroup ↥(F 1) := hs 1
-  haveI : Finite ↥(F 1) := inferInstance
-  haveI : Group.IsNilpotent ↥(F 1) := hpg.isNilpotent
+  have : IsSimpleGroup ↥(F 1) := hs 1
+  have : Finite ↥(F 1) := inferInstance
+  have : Group.IsNilpotent ↥(F 1) := hpg.isNilpotent
   have hcomm := IsSimpleGroup.comm_iff_isSolvable.mpr (inferInstance : Group.IsSolvable ↥(F 1))
   obtain ⟨x, hx, y, hy, hxy⟩ := hn 1
   exact hxy (congrArg Subtype.val (hcomm ⟨x, hx⟩ ⟨y, hy⟩))

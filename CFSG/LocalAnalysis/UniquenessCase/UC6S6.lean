@@ -14,6 +14,7 @@ open CFSG.RankThree.PartOne (IsStronglyPEmbedded)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isElemAbelian_uniqueFourConj {p : ℕ} {E : Subgroup G} (h : IsElemAbelian p E) (g : G) :
     IsElemAbelian p (uniqueFourConj g E) :=
   IsElemAbelian.map h _
@@ -51,14 +52,14 @@ theorem exists_isSylowOf_top_le {p : ℕ} [Fact p.Prime] (hU : uniqueFourUnique 
   · obtain ⟨P, hPM, -⟩ := exists_sylow_le_of_sigma hU hM hσ
     refine ⟨(P : Subgroup G), ?_, hPM⟩
     rw [isSylowOf_iff]
-    exact ⟨le_top, P.isPGroup', by simpa using P.not_dvd_index⟩
+    exact ⟨le_top, P.isPGroup, by simpa using P.not_dvd_index⟩
 
 theorem exists_conj_eq_of_pRank_two (hU : uniqueFourUnique G) {M : Subgroup G}
     (hM : uniqueFourIsMaxTwoLocal M) (hC : TheoremCAt M) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hpM : IsStronglyPEmbedded p M ∨ p ∈ uniqueFourSigma M) {N : Subgroup G}
     (hN : uniqueFourIsMaxTwoLocal N) (hNp : 2 ≤ Open.pRank p N) :
     ∃ g : G, uniqueFourConj g M = N := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨E, hEN, hEel, hEcard⟩ := CFSG.PreuniquenessRankFour.Helpers.pRank_attained p hp N
   have hdvd : p ^ 2 ∣ Nat.card E := by rw [hEcard]; exact pow_dvd_pow p hNp
   obtain ⟨K, hKcard, -⟩ := Sylow.exists_subgroup_card_pow_prime_le (G := ↥E) p (n := 0) (m := 2)
@@ -110,7 +111,7 @@ theorem six6_one (hU : uniqueFourUnique G) {S : Setup4 G} (hC : TheoremCAt S.M) 
     (hp : p.Prime) (hp2 : p ≠ 2) (hpM : IsStronglyPEmbedded p S.M ∨ p ∈ uniqueFourSigma S.M)
     {N : Subgroup G} (hN : uniqueFourIsMaxTwoLocal N) (hTN : S.T ≤ N)
     (hNp : 2 ≤ Open.pRank p N) : N = S.M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨g, hg⟩ := exists_conj_eq_of_pRank_two hU S.maxLocal hC hp hp2 hpM hN hNp
   have hTU : InU S.M S.T :=
     inU_of_isSylowOf (p := 2) (normalizer_eq_of_isMaxTwoLocal S.maxLocal) S.sylowM S.normalizer_le

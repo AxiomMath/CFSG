@@ -13,6 +13,7 @@ section Maximal
 
 variable {G : Type} [Group G] [Finite G] {p : ℕ}
 
+omit [Finite G] in
 theorem mem_inf_of_commutes_of_inner {B Bs : Subgroup G} (hBs : GGBstar p B Bs) {X : Subgroup G}
     (hX : Subgroup.center X = ⊥) (hnorm : Bs ≤ Subgroup.normalizer (X : Set G))
     (hinner : ∀ b ∈ Bs, ∃ x ∈ X, ∀ y ∈ X, b * y * b⁻¹ = x * y * x⁻¹) {s : G} (hsX : s ∈ X)
@@ -30,6 +31,7 @@ theorem mem_inf_of_commutes_of_inner {B Bs : Subgroup G} (hBs : GGBstar p B Bs) 
     _ = (s * u) * c := by rw [h1]
     _ = s * (u * c) := mul_assoc _ _ _
 
+omit [Finite G] in
 theorem comap_inf_maximal {F : Type} [Field F] {n : ℕ} {B Bs X : Subgroup G}
     (hBs : GGBstar p B Bs) (φ : StatedSp n F →* G) (hinj : Function.Injective φ)
     (hrange : φ.range = X) (hX : Subgroup.center X = ⊥)
@@ -70,6 +72,7 @@ theorem comap_inf_maximal {F : Type} [Field F] {n : ℕ} {B Bs X : Subgroup G}
   · have h := Subgroup.map_comap_eq_self hle
     rw [← Subgroup.card_map_of_injective (K := (Bs ⊓ X).comap φ) hinj, h]
 
+omit [Finite G] in
 theorem card_inf_eq_of_lifts {F : Type} [Field F] [Finite F] [CharP F 2] {n : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) {B Bs X Y : Subgroup G} (hBs : GGBstar p B Bs)
     (φX : StatedSp n F →* G) (hXinj : Function.Injective φX) (hXrange : φX.range = X)

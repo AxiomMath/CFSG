@@ -61,7 +61,7 @@ theorem isCyclic_of_isPGroup_le_cTilde {D : Data G} {V₀ V : Subgroup G} (h : H
     (hsmall : mSub V₀ ≤ 1) (h129 : R129_1 D) (h61 : UC6.R6_1 D) {p : ℕ} (hp : p ∈ D.sig)
     {P : Subgroup G} (hP : IsPGroup p P) (hPC : P ≤ F11.CTilde D.M V₀ V) : IsCyclic P := by
   have hp2 : p ≠ 2 := (D.sig_prime p hp).2
-  haveI : Fact p.Prime := ⟨(D.sig_prime p hp).1⟩
+  have : Fact p.Prime := ⟨(D.sig_prime p hp).1⟩
   have hpodd : Odd p := (D.sig_prime p hp).1.eq_two_or_odd'.resolve_left hp2
   have hPV : P ≤ Subgroup.centralizer (V : Set G) := by
     intro x hx
@@ -106,7 +106,7 @@ theorem normalizer_wClos_le_of_le_cTilde (D : Data G) (h129 : R129_1 D) (h61 : U
     (hW : E3.wClos V 0 D.T ≤ F11.CTilde D.M V₀ V) :
     Subgroup.normalizer (E3.wClos V 0 D.T : Set G) ≤ D.M := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set C : Subgroup G := F11.CTilde D.M V₀ V with hCdef
   have hCM : C ≤ D.M := CFSG.LocalAnalysis.WeakClosure81.cTilde_le_M D.M V₀ V
   have hMN : D.M ≤ Subgroup.normalizer (C : Set G) :=
@@ -117,7 +117,7 @@ theorem normalizer_wClos_le_of_le_cTilde (D : Data G) (h129 : R129_1 D) (h61 : U
     CFSG.ABGLocalTools.IsSylowOf.inf_of_le_normalizer D.sylowM hCM hMN
   obtain ⟨p, hp⟩ := hne
   have hp2 : p.Prime := (D.sig_prime p hp).1
-  haveI : Fact p.Prime := ⟨hp2⟩
+  have : Fact p.Prime := ⟨hp2⟩
   obtain ⟨E, hEM, hEel, hEcard⟩ :=
     CFSG.PreuniquenessRankFour.Helpers.pRank_attained p hp2 D.M
   have hcard3 : p ^ 3 ≤ Nat.card E := by

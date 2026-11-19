@@ -251,7 +251,7 @@ theorem s22_5_1RStar_of_sn (D : Data G) (Ch : Choice2011 G) (hx : DataExt D)
   classical
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hnsp : ¬ CFSG.RankThree.PartOne.IsStronglyPEmbedded 3 D.M := fun hsp =>
-    hk (by unfold Data.k CFSG.LocalAnalysis.RankThreeUC.kParam; rw [if_pos hsp])
+    hk (by unfold Data.k CFSG.LocalAnalysis.RankThreeUC.kParam; rw [ite_eq_left hsp])
   obtain ⟨K, hK, -⟩ := uc22p2251b_exists_bad D hx h61 h119 h17 hH c.toCtx22 hNb hbad
   obtain ⟨p, hp⟩ := hSg.nonempty
   obtain ⟨hpP, hp2⟩ := D.sig_prime p hp

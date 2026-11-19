@@ -75,7 +75,7 @@ private theorem coe_pow_five [CharP F 2] (g : SpecialLinearGroup (Fin 2) F) :
     rw [pow_succ, hG3, add_mul, smul_mul_assoc, smul_mul_assoc, one_mul, hG2]
     match_scalars <;> first | ring1 | linear_combination t * h2
   rw [pow_succ, hG4, add_mul, smul_mul_assoc, smul_mul_assoc, one_mul, hG2]
-  match_scalars <;> first | ring1 | linear_combination t * h2
+  match_scalars <;> first | ring1
 
 private theorem eq_one_of_smul_add_eq_zero [CharP F 2] {g : SpecialLinearGroup (Fin 2) F}
     {a b : F} (ha : a ≠ 0)
@@ -181,25 +181,27 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2]
     one_mem' := by simp
     add_mem' := by
       intro a b ha hb
-      simp only [Set.mem_setOf_eq] at *
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      simp only [Set.mem_ofPred_eq] at *
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       rw [add_pow_char_pow, ha, hb]
     mul_mem' := by
       intro a b ha hb
-      simp only [Set.mem_setOf_eq] at *
+      simp only [Set.mem_ofPred_eq] at *
       rw [mul_pow, ha, hb]
     neg_mem' := by
       intro a ha
-      simp only [Set.mem_setOf_eq] at *
+      simp only [Set.mem_ofPred_eq] at *
       rw [CharTwo.neg_eq]
       exact ha
     inv_mem' := by
       intro a ha
-      simp only [Set.mem_setOf_eq] at *
+      simp only [Set.mem_ofPred_eq] at *
       rw [inv_pow, ha] }
 
+omit [Finite F] in
 theorem mem_frobFixed {n : ℕ} {z : F} : z ∈ frobFixed F n ↔ z ^ (2 ^ n) = z := Iff.rfl
 
+omit [Finite F] in
 theorem ne_zero_and_ne_one_of_forall_subfield {ν x y : F}
     (hν : ∀ k : Subfield F, ν ∈ k → k = ⊤) (hx : x ≠ 0) (hy : y ≠ 0) (hxy : x ≠ y) :
     ν ≠ 0 ∧ ν ≠ 1 := by
@@ -236,7 +238,7 @@ theorem card_le_four_of_forall_subfield {ν : F} (hν : ∀ k : Subfield F, ν �
     intro z
     have hz : z ∈ frobFixed F 2 := by rw [htop]; exact Subfield.mem_top z
     simpa [mem_frobFixed] using hz
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   rw [Nat.card_eq_fintype_card]
   have hdeg : (Polynomial.X ^ 4 - Polynomial.X : Polynomial F).natDegree = 4 := by
     compute_degree!
@@ -253,6 +255,7 @@ theorem card_le_four_of_forall_subfield {ν : F} (hν : ∀ k : Subfield F, ν �
   rw [hdeg] at this
   simpa using this
 
+omit [Finite F] in
 theorem one_add_div_sq_ne_zero {x y : F} (hy : y ≠ 0) (hxy : x ≠ y) : 1 + (x / y) ^ 2 ≠ 0 := by
   intro h
   apply hxy
@@ -265,7 +268,7 @@ theorem one_add_div_sq_ne_zero {x y : F} (hy : y ≠ 0) (hxy : x ≠ y) : 1 + (x
 omit [CharP F 2] in
 theorem card_sl2 : Nat.card (SpecialLinearGroup (Fin 2) F) = Nat.card F * (Nat.card F ^ 2 - 1) := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have h := Matrix.card_SL_field (𝔽 := F) 2
   rw [Fin.prod_univ_two] at h
   simp only [Fin.val_zero, Fin.val_one, pow_zero, pow_one] at h

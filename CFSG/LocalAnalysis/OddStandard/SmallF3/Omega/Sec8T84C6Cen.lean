@@ -18,7 +18,7 @@ theorem card_modEq_cent {W : Subgroup Γ} [Finite W] {a : Γ} (ha : a ^ 5 = 1)
     (hW : ∀ w ∈ W, a * w * a⁻¹ ∈ W) :
     Nat.card ↥W ≡ Nat.card {w : ↥W // a * (w : Γ) * a⁻¹ = w} [MOD 5] := by
   classical
-  haveI : Fintype ↥W := Fintype.ofFinite ↥W
+  have : Fintype ↥W := Fintype.ofFinite ↥W
   let φ : Function.End ↥W := fun w => ⟨a * (w : Γ) * a⁻¹, hW w w.2⟩
   have hiter : ∀ k (w : ↥W), ((φ^[k]) w : Γ) = a ^ k * (w : Γ) * (a ^ k)⁻¹ := by
     intro k
@@ -36,7 +36,7 @@ theorem card_modEq_cent {W : Subgroup Γ} [Finite W] {a : Γ} (ha : a ^ 5 = 1)
     change ((φ^[5]) w : Γ) = (w : Γ)
     rw [hiter 5 w, ha]
     group
-  haveI : Fact (Nat.Prime 5) := ⟨by decide⟩
+  have : Fact (Nat.Prime 5) := ⟨by decide⟩
   have hmod := Equiv.Perm.card_fixedPoints_modEq (α := ↥W) (f := φ) (p := 5) (n := 1) hφ5
   have hmod' : Nat.card ↥W ≡ Nat.card (Function.fixedPoints φ) [MOD 5] := by
     rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card]
@@ -75,7 +75,7 @@ theorem cent_of_card {W : Subgroup Γ} [Finite W] {a : Γ} (ha : a ^ 5 = 1)
         change a * ((x : Γ))⁻¹ * a⁻¹ = ((x : Γ))⁻¹
         calc a * ((x : Γ))⁻¹ * a⁻¹ = (a * (x : Γ) * a⁻¹)⁻¹ := by group
           _ = ((x : Γ))⁻¹ := by rw [hx] }
-  haveI : Finite ↥C := Subtype.finite
+  have : Finite ↥C := Subtype.finite
   have hmod := card_modEq_cent ha hW
   have hC : Nat.card ↥C ≡ Nat.card {w : ↥W // a * (w : Γ) * a⁻¹ = w} [MOD 5] := by
     rw [show Nat.card ↥C = Nat.card {w : ↥W // a * (w : Γ) * a⁻¹ = w} from rfl]
@@ -155,9 +155,9 @@ private lemma prime_dvd_card_torsion {P : Subgroup Γ} [Finite P]
     (hcomm : ∀ p ∈ P, ∀ q ∈ P, p * q = q * p) {n q k r : ℕ}
     (hq : Nat.Prime q) (hn : n = q ^ k) (hr : Nat.Prime r)
     (hrdvd : r ∣ Nat.card ↥(torsion P hcomm n)) : r = q := by
-  haveI : Finite ↥(torsion P hcomm n) :=
+  have : Finite ↥(torsion P hcomm n) :=
     Finite.of_equiv _ (Subgroup.subgroupOfEquivOfLe (torsion_le P hcomm n)).toEquiv
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨x, hxord⟩ := exists_prime_orderOf_dvd_card' (G := ↥(torsion P hcomm n)) r hrdvd
   have hxpow : (x : Γ) ^ n = 1 := x.2.2
   have hrdvdn : r ∣ n := by
@@ -172,7 +172,7 @@ private lemma card_torsion_dvd_prime_pow {P : Subgroup Γ} [Finite P]
     (hn : n = q ^ k) (hd : Nat.card ↥(torsion P hcomm n) ∣ 2295)
     (hnot : ¬ q ^ (k + 1) ∣ 2295) :
     Nat.card ↥(torsion P hcomm n) ∣ q ^ k := by
-  haveI : Finite ↥(torsion P hcomm n) :=
+  have : Finite ↥(torsion P hcomm n) :=
     Finite.of_equiv _ (Subgroup.subgroupOfEquivOfLe (torsion_le P hcomm n)).toEquiv
   have hpos : Nat.card ↥(torsion P hcomm n) ≠ 0 := Nat.card_pos.ne'
   have huniq : ∀ {r : ℕ}, Nat.Prime r → r ∣ Nat.card ↥(torsion P hcomm n) → r = q :=
@@ -190,11 +190,11 @@ private lemma card_torsion_dvd_prime_pow {P : Subgroup Γ} [Finite P]
 theorem cent_of_dvd {P : Subgroup Γ} [Finite P] {a : Γ} (ha : a ^ 5 = 1)
     (hP : ∀ p ∈ P, a * p * a⁻¹ ∈ P) (hcomm : ∀ p ∈ P, ∀ q ∈ P, p * q = q * p)
     (hd : Nat.card ↥P ∣ 2295) : ∀ p ∈ P, a * p = p * a := by
-  haveI : Finite ↥(torsion P hcomm 27) :=
+  have : Finite ↥(torsion P hcomm 27) :=
     Finite.of_equiv _ (Subgroup.subgroupOfEquivOfLe (torsion_le P hcomm 27)).toEquiv
-  haveI : Finite ↥(torsion P hcomm 5) :=
+  have : Finite ↥(torsion P hcomm 5) :=
     Finite.of_equiv _ (Subgroup.subgroupOfEquivOfLe (torsion_le P hcomm 5)).toEquiv
-  haveI : Finite ↥(torsion P hcomm 17) :=
+  have : Finite ↥(torsion P hcomm 17) :=
     Finite.of_equiv _ (Subgroup.subgroupOfEquivOfLe (torsion_le P hcomm 17)).toEquiv
   have hnorm : ∀ n : ℕ, ∀ w ∈ torsion P hcomm n, a * w * a⁻¹ ∈ torsion P hcomm n := by
     intro n w hw
@@ -263,14 +263,14 @@ theorem A_comm_P {A P : Subgroup Γ} (hA : Nonempty (↥A ≃* alternatingGroup 
     (hn : ∀ a ∈ A, ∀ p ∈ P, a * p * a⁻¹ ∈ P) (hcomm : ∀ p ∈ P, ∀ q ∈ P, p * q = q * p)
     (hd : Nat.card ↥P ∣ 2295) : ∀ a ∈ A, ∀ p ∈ P, a * p = p * a := by
   obtain ⟨e⟩ := hA
-  haveI : Finite ↥A := Finite.of_equiv (alternatingGroup (Fin 6)) e.symm.toEquiv
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
-  haveI : IsSimpleGroup ↥A := e.isSimpleGroup
+  have : Finite ↥A := Finite.of_equiv (alternatingGroup (Fin 6)) e.symm.toEquiv
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup ↥A := e.isSimpleGroup
   have hcardA : Nat.card ↥A = 360 := by
     rw [Nat.card_congr e.toEquiv, nat_card_alternatingGroup, Nat.card_eq_fintype_card,
       Fintype.card_fin]
     decide
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have h5dvd : 5 ∣ Nat.card ↥A := by rw [hcardA]; norm_num
   obtain ⟨a5, ha5ord⟩ := exists_prime_orderOf_dvd_card' (G := ↥A) 5 h5dvd
   have ha5powA : a5 ^ 5 = 1 :=
@@ -300,7 +300,7 @@ theorem A_comm_P {A P : Subgroup Γ} (hA : Nonempty (↥A ≃* alternatingGroup 
           _ = x⁻¹ * (x * p) * x⁻¹ := by rw [← hx p hp]
           _ = p * x⁻¹ := by group }
   let K : Subgroup ↥A := Cp.subgroupOf A
-  haveI : K.Normal := by
+  have : K.Normal := by
     refine ⟨fun c hc g => ?_⟩
     intro p hp
     have hgp : (g : Γ)⁻¹ * p * (g : Γ) ∈ P := by

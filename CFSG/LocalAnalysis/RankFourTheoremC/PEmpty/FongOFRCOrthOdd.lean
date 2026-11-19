@@ -65,8 +65,8 @@ theorem pRank_statedProj_OmegaOdd_formula {F : Type} [Field F] [Finite F] {p n :
     CFSG.Open.pRank p (⊤ : Subgroup (StatedProj (StatedOmega (StatedQuadOdd n F)))) =
       (if Even (orderOf (Nat.card F : ZMod p)) then 2 * n else n) /
         orderOf (Nat.card F : ZMod p) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype F := Fintype.ofFinite F
   have hc : Fintype.card F = Nat.card F := (Nat.card_eq_fintype_card).symm
   have hodd : Odd (Fintype.card F) := odd_card_of_two_ne_zero_fintype hF2
   have hpF' : ¬ p ∣ Fintype.card F := by rwa [hc]
@@ -81,7 +81,7 @@ theorem pRank_statedProj_OmegaOdd_eq_of_pow {F F₀ : Type} [Field F] [Field F�
     (hF₀2 : (2 : F₀) ≠ 0) (hcard : Nat.card F = Nat.card F₀ ^ p) (hpF : ¬ p ∣ Nat.card F) :
     CFSG.Open.pRank p (⊤ : Subgroup (StatedProj (StatedOmega (StatedQuadOdd n F)))) =
       CFSG.Open.pRank p (⊤ : Subgroup (StatedProj (StatedOmega (StatedQuadOdd n F₀)))) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hF₀ : ¬ p ∣ Nat.card F₀ := fun h => hpF (hcard ▸ h.trans (dvd_pow_self _ hp.ne_zero))
   rw [pRank_statedProj_OmegaOdd_formula hp hp2 hn hF2 hpF,
     pRank_statedProj_OmegaOdd_formula hp hp2 hn hF₀2 hF₀, hcard, OFRC.orderOf_natCast_pow_prime]

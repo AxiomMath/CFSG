@@ -76,7 +76,7 @@ theorem rig_of_isChevOfChar_odd {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2)
     {Rig : ∀ (S : Type) [Group S], Prop} (F : OddFamiliesFor q Rig) {S : Type} [Group S] [Finite S]
     (hs : IsSimpleGroup S) (hna : ∃ a b : S, a * b ≠ b * a) (h : IsChevOfChar q S) :
     Rig S ∧ HoldsTits S q := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨⟨d, hv⟩, hd, ⟨e⟩⟩ := h
   rcases isChevIndexOfChar_odd hq2 d hd with hch | ⟨hq3, r, rfl, hr8⟩
   · obtain ⟨t, n, p, f, hp, hm⟩ := ChevQ.exists_lieModel_char ⟨d, hv⟩
@@ -125,14 +125,14 @@ theorem rig_of_isChevOfChar_odd {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2)
 
 theorem lieQConstrained_of_oddFamilies {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2)
     (F : OddFamiliesFor q fun S _ => RadRigid q S) : LieQConstrained q := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   exact lieQConstrained_of_families
     (fun S _ _ hs hna h => (rig_of_isChevOfChar_odd hq hq2 F hs hna h).2)
     (fun S _ _ hs hna h => (rig_of_isChevOfChar_odd hq hq2 F hs hna h).1)
 
 theorem lieQConstrainedInner_of_oddFamilies {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2)
     (F : OddFamiliesFor q fun S _ => RadRigidInner q S) : LieQConstrainedInner q := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   exact lieQConstrainedInner_of_families
     (fun S _ _ hs hna h => (rig_of_isChevOfChar_odd hq hq2 F hs hna h).2)
     (fun S _ _ hs hna h => (rig_of_isChevOfChar_odd hq hq2 F hs hna h).1)

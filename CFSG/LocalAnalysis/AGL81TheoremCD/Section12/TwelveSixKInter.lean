@@ -23,11 +23,13 @@ private noncomputable abbrev kbarMap (M H : Subgroup G) :
     ↥(kSub 3 M H) →* modTwoCore (kSub 3 M H) :=
   QuotientGroup.mk' (pCore 2 ↥(kSub 3 M H))
 
+omit [Finite G] in
 private theorem le_normalizer_kSub (hKH : ((kSub p M H).subgroupOf H).Normal) :
     H ≤ Subgroup.normalizer (kSub p M H : Set G) :=
   (Subgroup.normal_subgroupOf_iff_le_normalizer
     (CFSG.LocalAnalysis.AGL81TheoremCD.Section14.kSub_le p M H)).mp hKH
 
+omit [Finite G] in
 private theorem kbarConj_coe_eq_conj (hKH : ((kSub p M H).subgroupOf H).Normal)
     {y : ↥(kSub p M H)} (hyH : (y : G) ∈ H) :
     kbarConj hKH ⟨(y : G), hyH⟩ =
@@ -42,6 +44,7 @@ private theorem kbarConj_coe_eq_conj (hKH : ((kSub p M H).subgroupOf H).Normal)
   rw [← QuotientGroup.mk_mul, ← QuotientGroup.mk_inv, ← QuotientGroup.mk_mul]
   rfl
 
+omit [Finite G] in
 private theorem conj_map_mem_of_mem_normalizer
     (hKH : ((kSub p M H).subgroupOf H).Normal) {V : Subgroup G}
     {z : ↥H} {a : modTwoCore (kSub p M H)}
@@ -59,6 +62,7 @@ private theorem conj_map_mem_of_mem_normalizer
   rw [h1, kbarConj_mk hKH]
   exact Subgroup.mem_map.mpr ⟨⟨_, hmemK⟩, Subgroup.mem_subgroupOf.mpr hmemV, rfl⟩
 
+omit [Finite G] in
 private theorem mem_normalizer_of_conj_eq
     (hKH : ((kSub p M H).subgroupOf H).Normal) {V : Subgroup G}
     {z : ↥H} {a : modTwoCore (kSub p M H)}
@@ -87,6 +91,7 @@ private theorem mem_normalizer_of_conj_eq
     rw [heq]
     exact hmem
 
+omit [Finite G] in
 private theorem mem_centralizer_of_conj_eq
     (hKH : ((kSub p M H).subgroupOf H).Normal) {V : Subgroup G}
     {z : ↥H} {a : modTwoCore (kSub p M H)}
@@ -113,6 +118,7 @@ private theorem mem_centralizer_of_conj_eq
   calc QuotientGroup.mk v * a = (a * QuotientGroup.mk v * a⁻¹) * a := by rw [hconj]
     _ = a * QuotientGroup.mk v := by group
 
+omit [Finite G] in
 private theorem conj_eq_of_conj_mk_eq
     (hKH : ((kSub p M H).subgroupOf H).Normal) {V : Subgroup G}
     (hbot : V.subgroupOf (kSub p M H) ⊓ pCore 2 ↥(kSub p M H) = ⊥)
@@ -150,6 +156,7 @@ private theorem conj_eq_of_conj_mk_eq
         ((z : G) * (v : G) * (z : G)⁻¹ * (v : G)⁻¹) * (v : G) := by group
     _ = (v : G) := by rw [h2, one_mul]
 
+omit [Finite G] in
 private theorem not_mem_centralizer_of_conj_eq
     (hKH : ((kSub p M H).subgroupOf H).Normal) {V : Subgroup G}
     (hVK : V ≤ kSub p M H)
@@ -183,7 +190,7 @@ private theorem not_mem_centralizer_of_conj_eq
 private theorem isSylowOf_subgroupOf_top {P : Subgroup G}
     (hSyl : CFSG.ABGLocalTools.IsSylowOf 3 P (kSub 3 M H)) :
     CFSG.ABGLocalTools.IsSylowOf 3 (P.subgroupOf (kSub 3 M H)) ⊤ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨-, hP, hdvd⟩ := CFSG.ABGLocalTools.isSylowOf_iff.1 hSyl
   rw [CFSG.ABGLocalTools.isSylowOf_iff]
   refine ⟨le_top, hP.of_equiv (Subgroup.subgroupOfEquivOfLe hSyl.le).symm, ?_⟩
@@ -194,7 +201,7 @@ private theorem isSylowOf_map_quotient {P : Subgroup G}
     (hSyl : CFSG.ABGLocalTools.IsSylowOf 3 P (kSub 3 M H)) :
     CFSG.ABGLocalTools.IsSylowOf 3
       ((P.subgroupOf (kSub 3 M H)).map (kbarMap M H)) ⊤ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hPK := isSylowOf_subgroupOf_top hSyl
   rw [CFSG.ABGLocalTools.isSylowOf_iff]
   refine ⟨le_top, hPK.isPGroup.map _, ?_⟩
@@ -210,7 +217,7 @@ private theorem pCoreOf_kSub_le_M
     (hc : TwelveSixKCtx G M 3 Q H d L₁ L₂ L₃ n₁ n₂ n₃)
     (hKH : ((kSub 3 M H).subgroupOf H).Normal) :
     pCoreOf 2 (kSub 3 M H) ≤ M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hKleH : kSub 3 M H ≤ H :=
     CFSG.LocalAnalysis.AGL81TheoremCD.Section14.kSub_le 3 M H
   have h1 : pCoreOf 2 (kSub 3 M H) ≤ pCoreOf 2 H :=
@@ -224,7 +231,7 @@ private theorem map_subgroupOf_inf_ne_top
     (hc : TwelveSixKCtx G M 3 Q H d L₁ L₂ L₃ n₁ n₂ n₃)
     (hKH : ((kSub 3 M H).subgroupOf H).Normal) :
     ((kSub 3 M H ⊓ M).subgroupOf (kSub 3 M H)).map (kbarMap M H) ≠ ⊤ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hO2M : pCoreOf 2 (kSub 3 M H) ≤ M := pCoreOf_kSub_le_M hc hKH
   intro htop
   refine not_kSub_le_M_of_nineNineOne hc.ctx hc.hI fun x hx => ?_
@@ -238,7 +245,7 @@ private theorem map_subgroupOf_inf_ne_top
   rw [show (kbarMap M H).ker = pCore 2 ↥(kSub 3 M H) from QuotientGroup.ker_mk' _] at hker
   have hxeq : (⟨x, hx⟩ : ↥(kSub 3 M H)) = m * (m⁻¹ * ⟨x, hx⟩) := by group
   have hxG : x = (m : G) * (((m⁻¹ * ⟨x, hx⟩ : ↥(kSub 3 M H)) : G)) := by
-    simpa using congrArg Subtype.val hxeq
+    simp
   rw [hxG]
   refine M.mul_mem (Subgroup.mem_subgroupOf.mp hm).2 ?_
   exact hO2M (Subgroup.mem_map.mpr ⟨_, hker, rfl⟩)
@@ -255,7 +262,7 @@ private theorem normalizer_map_le_inf
         (((P.subgroupOf (kSub 3 M H)).map (kbarMap M H)) :
           Set (modTwoCore (kSub 3 M H))) ≤
       ((kSub 3 M H ⊓ M).subgroupOf (kSub 3 M H)).map (kbarMap M H) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hSylK, hNM⟩ := hc.sylow_kSub_inf D rfl hXM hKH hK hZ hAut hP
   have h3O : ¬ 3 ∣ Nat.card (pCore 2 ↥(kSub 3 M H)) := by
     obtain ⟨n, hn⟩ := (CFSG.pCore_isPGroup (p := 2) (G := ↥(kSub 3 M H))).exists_card_eq
@@ -275,6 +282,7 @@ private theorem normalizer_map_le_inf
   intro x hx
   exact Subgroup.mem_subgroupOf.mpr ⟨x.2, hNM (Subgroup.mem_subgroupOf.mp hx).2⟩
 
+omit [Finite G] in
 private theorem V_inf_pCore_eq_bot (M : Subgroup G)
     (D : TwelveSixIData H L₁ L₂ L₃ n₁ n₂ n₃) :
     D.V.subgroupOf (kSub 3 M H) ⊓ pCore 2 ↥(kSub 3 M H) = ⊥ :=
@@ -293,7 +301,7 @@ private theorem Vbar_data
       Nat.card ((D.V.subgroupOf (kSub 3 M H)).map (kbarMap M H)) = 27 ∧
       ((D.V.subgroupOf (kSub 3 M H)).map (kbarMap M H)) ≤
         ((kSub 3 M H ⊓ M).subgroupOf (kSub 3 M H)).map (kbarMap M H) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hVK : D.V ≤ kSub 3 M H := hc.V_le_kSub D rfl hXM hKH hK hZ hAut
   have hVM : D.V ≤ M := (D.V_le.trans (D.sup_le hc.data)).trans inf_le_right
   have hVKM : D.V ≤ kSub 3 M H ⊓ M := le_inf hVK hVM
@@ -305,6 +313,7 @@ private theorem Vbar_data
       Nat.card_congr (Subgroup.subgroupOfEquivOfLe hVK).toEquiv, D.cfg.card]
   · exact Subgroup.map_mono (Subgroup.subgroupOf_mono _ hVKM)
 
+omit [Finite G] in
 private theorem sign_pair_data (M : Subgroup G)
     (D : TwelveSixIData H L₁ L₂ L₃ n₁ n₂ n₃) {u : G}
     (hu : u ∈ tripleNormalizer D.W₁ D.W₂ D.W₃ ⊓ M ⊓ (kSub 3 M H ⊔ xSub 3 M H)) :
@@ -346,6 +355,7 @@ private theorem exists_conj_mem_inf_of_mem_sup
     _ = kbarConj hKH (⟨k, hkH⟩ * ⟨x, hxH⟩) := (map_mul _ _ _).symm
     _ = kbarConj hKH ⟨u, huH⟩ := by rw [huk]
 
+omit [Finite G] in
 private theorem sq_mem_centralizer_map_of_conj
     (hKH : ((kSub p M H).subgroupOf H).Normal) {V : Subgroup G}
     {z : ↥H} {a : modTwoCore (kSub p M H)}
@@ -358,6 +368,7 @@ private theorem sq_mem_centralizer_map_of_conj
     rw [map_pow, ha, ← map_pow]
   exact mem_centralizer_of_conj_eq hKH hconj (by simpa using hz)
 
+omit [Finite G] in
 private theorem commutator_mem_centralizer_map_of_conj
     (hKH : ((kSub p M H).subgroupOf H).Normal) {V : Subgroup G}
     {z z' : ↥H} {a b : modTwoCore (kSub p M H)}
@@ -387,7 +398,7 @@ private theorem four_dvd_relindex_klein
           Subgroup.normalizer
             (((D.V.subgroupOf (kSub 3 M H)).map (kbarMap M H)) :
               Set (modTwoCore (kSub 3 M H)))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨u, u', hu, hu', huc, hu'c, huu'c⟩ := hc.exists_sign_pair D hKH hK hZ hAut
   obtain ⟨huTN, huM, huH, huKX⟩ := sign_pair_data M D hu
   obtain ⟨hu'TN, hu'M, hu'H, hu'KX⟩ := sign_pair_data M D hu'
@@ -421,6 +432,7 @@ private theorem four_dvd_relindex_klein
   exact four_dvd_relindex_of_klein ⟨haB, mem_normalizer_of_conj_eq hKH ha_conj hzN⟩
     ⟨hbB, mem_normalizer_of_conj_eq hKH hb_conj hz'N⟩ haa hbb hab ha1 hb1 hab1
 
+omit [Finite G] in
 private theorem thompsonSubgroup_subgroupOf_eq {Q K : Subgroup G} (hQK : Q ≤ K) :
     (Open.thompsonSubgroup Q).subgroupOf K = Open.thompsonSubgroup (Q.subgroupOf K) := by
   apply Subgroup.map_injective K.subtype_injective
@@ -431,6 +443,7 @@ private theorem thompsonSubgroup_subgroupOf_eq {Q K : Subgroup G} (hQK : Q ≤ K
   rw [Subgroup.map_subgroupOf_eq_of_le hQK] at h
   exact h.symm
 
+omit [Finite G] in
 private theorem map_thompsonSubgroup_quotient {P : Subgroup G}
     (hPK : P ≤ kSub 3 M H)
     (hbot : (P.subgroupOf (kSub 3 M H)) ⊓ pCore 2 ↥(kSub 3 M H) = ⊥) :
@@ -463,6 +476,7 @@ private theorem map_thompsonSubgroup_quotient {P : Subgroup G}
     rw [h1, hone, one_mul]
   exact CFSG.map_ambientMaxCardThompson_of_injective (kbarMap M H) _ hinj
 
+omit [Finite G] in
 private theorem le_of_map_le_of_le_ker {A C : Subgroup ↥(kSub 3 M H)}
     (hC : pCore 2 ↥(kSub 3 M H) ≤ C)
     (h : A.map (kbarMap M H) ≤ C.map (kbarMap M H)) : A ≤ C := by
@@ -476,13 +490,14 @@ private theorem le_of_map_le_of_le_ker {A C : Subgroup ↥(kSub 3 M H)}
   rw [heq]
   exact C.mul_mem (hC hmem) hy
 
+omit [Finite G] in
 private theorem eq_of_map_eq_map_of_le_ker {A C : Subgroup ↥(kSub 3 M H)}
     (hA : pCore 2 ↥(kSub 3 M H) ≤ A) (hC : pCore 2 ↥(kSub 3 M H) ≤ C)
     (h : A.map (kbarMap M H) = C.map (kbarMap M H)) : A = C :=
   le_antisymm (le_of_map_le_of_le_ker hC h.le) (le_of_map_le_of_le_ker hA h.ge)
 
 private theorem normalizer_map_thompson
-    (hKH : ((kSub 3 M H).subgroupOf H).Normal)
+    (_hKH : ((kSub 3 M H).subgroupOf H).Normal)
     {P : Subgroup G} (hPK : P ≤ kSub 3 M H)
     (hbot : (P.subgroupOf (kSub 3 M H)) ⊓ pCore 2 ↥(kSub 3 M H) = ⊥)
     (hS3 : IsPGroup 3 ((Open.thompsonSubgroup P).subgroupOf (kSub 3 M H))) :
@@ -491,7 +506,7 @@ private theorem normalizer_map_thompson
       Subgroup.normalizer
         (Open.thompsonSubgroup ((P.subgroupOf (kSub 3 M H)).map (kbarMap M H)) :
           Set (modTwoCore (kSub 3 M H))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3O : ¬ 3 ∣ Nat.card (pCore 2 ↥(kSub 3 M H)) := by
     obtain ⟨n, hn⟩ := (CFSG.pCore_isPGroup (p := 2) (G := ↥(kSub 3 M H))).exists_card_eq
     rw [hn]
@@ -555,7 +570,7 @@ theorem TwelveSixKCtx.k_inter
         (kSub p M H ⊓ normalizer (Open.thompsonSubgroup P : Set G)) ⊔ pCoreOf 2 (kSub p M H) := by
   subst hp
   intro P hP
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hZ : center (modTwoCore (kSub 3 M H)) = ⊥ := center_eq_bot_of_kbarType hty
   have hAut : Nat.card (MulAut (modTwoCore (kSub 3 M H))) ≤
       2 * Nat.card (modTwoCore (kSub 3 M H)) := card_mulAut_le_two_mul_of_kbarType hty

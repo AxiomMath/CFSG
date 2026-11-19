@@ -35,7 +35,7 @@ theorem ggSixLSixSevenA3EntryPSL_holds : GGSixLSixSevenA3EntryPSL := by
     funext u
     by_cases h : u = (![i, j, k, l] : Fin 4 → Fin s) ⟨a, ha⟩
     · simp [h, ZMod.val_one]
-    · simp [h, Pi.single_apply]
+    · simp [h]
   refine ⟨(SLRep.ggFrame ψ A₀).comp Φ, ?_, ?_, ?_⟩
   · calc ((SLRep.ggFrame ψ A₀).comp Φ).range ≤ (SLRep.ggFrame ψ A₀).range := by
           rintro _ ⟨x, rfl⟩

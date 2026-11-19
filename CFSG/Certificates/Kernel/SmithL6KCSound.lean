@@ -33,10 +33,10 @@ theorem bit_apK (l : List Nat) (x i : Nat) :
     have hk : apK (c :: l) x = if x % 2 = 1 then c ^^^ apK l (x / 2) else apK l (x / 2) := rfl
     rw [hk]
     by_cases h : x % 2 = 1
-    · rw [if_pos h, Nat.testBit_xor, bit_xor, decide_eq_true h]
-      simp only [bit, if_true, one_mul]
+    · rw [ite_eq_left h, Nat.testBit_xor, bit_xor, decide_eq_true h]
+      simp only [bit, ite_true, one_mul]
       exact add_comm _ _
-    · rw [if_neg h, decide_eq_false h]
+    · rw [ite_eq_right h, decide_eq_false h]
       simp [bit]
 
 theorem dec6_apK {A : List Nat} (hA : A.length = 6) (x : Nat) :
@@ -65,16 +65,16 @@ theorem zipIdx_or_testBit (r i : Nat) : ∀ (l : List Nat) (k S : Nat),
     · have h1 : decide (k ≤ i) = false := by simp; omega
       have h2 : decide (k + 1 ≤ i) = false := by simp; omega
       rw [h1, h2]
-      split <;> simp [Nat.testBit_or, Nat.testBit_two_pow, show k ≠ i by omega]
+      split <;> simp [Nat.testBit_or, show k ≠ i by omega]
     · subst h
       have h2 : decide (i + 1 ≤ i) = false := by simp
       rw [h2, Nat.sub_self, List.getD_cons_zero]
-      split <;> simp_all [Nat.testBit_or, Nat.testBit_two_pow]
+      split <;> simp_all [Nat.testBit_or]
     · have h1 : decide (k ≤ i) = true := by simp; omega
       have h2 : decide (k + 1 ≤ i) = true := by simp; omega
       have h3 : i - k = (i - (k + 1)) + 1 := by omega
       rw [h1, h2, h3, List.getD_cons_succ]
-      split <;> simp [Nat.testBit_or, Nat.testBit_two_pow, show k ≠ i by omega]
+      split <;> simp [Nat.testBit_or, show k ≠ i by omega]
 
 theorem toM_trM (A : List Nat) : toM (trM A) = (toM A)ᵀ := by
   ext i j
@@ -205,7 +205,7 @@ theorem uaWC_act (G : List Nat) : ∀ a c, vP (uaWC G a c) = psiV G a *ᵥ vP c 
     rw [uaWC_cons, psiV, psiF]
     cases a.testBit 0
     · exact ih (a / 2) c
-    · simp only [cond_true, if_true]
+    · simp only [_root_.Bool.cond_true, ite_true]
       rw [vP_conjF, fP_conjF, (ih (a / 2) c).1, (ih (a / 2) c).2, mulVec_mulVec, mulVec_mulVec]
       exact ⟨rfl, rfl⟩
 
@@ -252,7 +252,7 @@ theorem toM_psiM (G : List Nat) : ∀ a, toM (psiM G a) = psiV G a := by
     rw [psiV]
     cases a.testBit 0
     · exact ih _
-    · simp only [cond_true, if_true]
+    · simp only [_root_.Bool.cond_true, ite_true]
       rw [toM_mulM (length_tvM g), toM_tvM, ih]
 
 @[expose] noncomputable def liftV (L : List Nat) : Nat → Matrix (Fin 6) (Fin 6) (ZMod 2)
@@ -629,7 +629,7 @@ theorem cand_cases {T : List Nat} {C : Nat} (hl : T.length = 1953)
     exact hc
 
 theorem mem_bitsM {m x : Nat} : x ∈ bitsM m ↔ x < 64 ∧ x ≠ 0 ∧ m.testBit x = true := by
-  simp [bitsM, and_assoc]
+  simp [bitsM]
 
 theorem planeK_sound {f : Nat → Nat} {M A i i' : Nat} (h : planeK f M A i i' = true) :
     i < 1395 ∧ i' < 1395 ∧ ∀ v < 64, ∀ φ < 64, v ≠ 0 → φ ≠ 0 → (fldW 64 M i).testBit v = true →
@@ -737,7 +737,7 @@ theorem fpOK_sound {f : Nat → Nat} {T : List Nat} {C W M A : Nat} {bs : List N
   obtain ⟨i, hi, rfl⟩ := List.getElem_of_mem hq
   have hi' : i < (pl.zip pm).length := by simp [hpl, hpm] at hi ⊢; omega
   have h1 := hzip _ (List.getElem_mem hi')
-  simp only [List.getElem_zip, beq_iff_eq] at h1
+  simp only [List.getElem_zip] at h1
   exact ⟨h1.1, _, h1.2⟩
 
 end CFSG.SmithL6.K

@@ -71,11 +71,11 @@ theorem threeSevenList_of_noTwo
   by_cases hL : p = 3 ∧ IsLinThreeFour K
   · exact Or.inr hL
   left
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set c : K →* MulAut K := MulAut.conj with hc
   have hinj : Function.Injective c := RankOneCent.conj_injective_of_center hZ
   set I := c.range with hI
-  haveI : I.Normal := RankOneCent.conj_range_normal
+  have : I.Normal := RankOneCent.conj_range_normal
   let e : K ≃* I := MonoidHom.ofInjective hinj
   have he : ∀ k, (e k : MulAut K) = c k := fun k => MonoidHom.ofInjective_apply hinj
   have hlist' : NineThreeListGroup p I := by
@@ -119,8 +119,8 @@ theorem agl81TenSixX_of_noTwo
   obtain ⟨H₁, R₁, he⟩ := hd.escape
   have hp : p.Prime := he.prime
   have hp2 : p ≠ 2 := he.ne_two
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := hS.simple
+  have : Fact p.Prime := ⟨hp⟩
+  have := hS.simple
   have hHtop : H ≠ ⊤ :=
     CFSG.PreuniquenessRankFour.Helpers.twoLocal_ne_top hS.nonab hd.maxH.1
   set π := QuotientGroup.mk' (primeComplementCore (G := H) p) with hπ

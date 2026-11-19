@@ -40,7 +40,7 @@ theorem eq_one_of_map_eq_of_pow_prime_projectiveSL {k : Type*} [Field k]
     have h := Subgroup.card_mul_index I
     rw [hInnCard, card_mulAut hk] at h
     omega
-  haveI : I.Normal := by
+  have : I.Normal := by
     rw [hI]
     exact CFSG.RankThree.PartTwo.KFacts.range_conj_normal
   have hpow12 : α ^ 12 ∈ I := by

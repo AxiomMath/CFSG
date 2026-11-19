@@ -64,7 +64,7 @@ theorem conj_max_cent_gen {G : Type} [Group G] {E P : Subgroup G} (g : G)
     intro r hr
     rw [hmem]
     have hmemR : g⁻¹ * r * g ∈ R.map (MulAut.conj g⁻¹).toMonoidHom :=
-      ⟨r, hr, by simp [MulAut.conj_apply]⟩
+      ⟨r, hr, by simp⟩
     rw [heq] at hmemR
     exact hmemR
 
@@ -88,7 +88,7 @@ theorem card_le_of_max {G : Type} [Group G] [Finite G] {Θ P : Subgroup G}
 theorem maximal_of_card_eq {G : Type} [Group G] [Finite G] {Θ P S₀ : Subgroup G}
     (hPΘ : P ≤ Θ) (hP2 : IsPGroup 2 P)
     (hPmax : ∀ R : Subgroup G, IsPGroup 2 R → R ≤ Θ → P ≤ R → R ≤ P)
-    (hS₀Θ : S₀ ≤ Θ) (hS₀2 : IsPGroup 2 S₀) (hcard : Nat.card ↥S₀ = Nat.card ↥P) :
+    (_hS₀Θ : S₀ ≤ Θ) (_hS₀2 : IsPGroup 2 S₀) (hcard : Nat.card ↥S₀ = Nat.card ↥P) :
     ∀ R : Subgroup G, IsPGroup 2 R → R ≤ Θ → S₀ ≤ R → R ≤ S₀ := by
   intro R hR hRΘ hSR
   have hcardle : Nat.card ↥R ≤ Nat.card ↥S₀ := by

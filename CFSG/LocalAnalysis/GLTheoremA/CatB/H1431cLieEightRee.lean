@@ -46,7 +46,7 @@ theorem lieSEightNoAt_reeF4 (hLO : LieOrderBridge) :
   obtain ⟨y, hy, hyp, hy1⟩ := exists_eq_conj_of_mem_range
     (ReeTag.large_Ree_fixed_group_center_trivial m K hK) (hinn hβ) hβ3 hβ1
   have hy3 : orderOf y = 3 := orderOf_eq_prime hyp hy1
-  haveI : Finite ↥(ReeTag.F4.reeGamma K m) := Subtype.finite
+  have : Finite ↥(ReeTag.F4.reeGamma K m) := Subtype.finite
   have hJ' : GLAPComponent 3 (fixSub (MulAut.conj y)) (J.map θ.toMonoidHom) := by
     rw [← hy]
     exact CFSG.LocalAnalysis.GLTheoremA.Y10F.glaPComponent_transport θ α hJ
@@ -54,7 +54,7 @@ theorem lieSEightNoAt_reeF4 (hLO : LieOrderBridge) :
     hK y hy3
   have hFcard : Nat.card (GaloisField 2 (2 * (2 * m + 1))) = (2 ^ (2 * m + 1)) ^ 2 := by
     rw [GaloisField.card 2 _ (by omega), ← pow_mul, mul_comm]
-  haveI : Fintype (GaloisField 2 (2 * (2 * m + 1))) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 (2 * (2 * m + 1))) := Fintype.ofFinite _
   have hFfcard : Fintype.card (GaloisField 2 (2 * (2 * m + 1))) = (2 ^ (2 * m + 1)) ^ 2 := by
     rw [← Nat.card_eq_fintype_card]
     exact hFcard

@@ -37,7 +37,7 @@ variable {Y : Type} [Group Y] {X Q : Subgroup Y} {Γ : Subgroup (MulAut Y)} {x :
 theorem pCoreOf_normalizer_le [Finite Y] (h : ListData189 X Q Γ x) :
     CFSG.Open.pCoreOf 2 (Subgroup.normalizer ((Q ⊓ X : Subgroup Y) : Set Y) ⊓ X) ≤ Q ⊓ X := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := h.normal
+  have := h.normal
   set R : Subgroup Y := Q ⊓ X with hR
   set N : Subgroup Y := Subgroup.normalizer (R : Set Y) ⊓ X with hN
   have hRmap : ∀ α : MulAut Y, (∀ t ∈ R, α t ∈ R) → (∀ t ∈ R, α⁻¹ t ∈ R) →

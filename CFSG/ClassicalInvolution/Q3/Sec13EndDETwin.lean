@@ -16,6 +16,7 @@ variable {G : Type} [Group G] [Finite G]
 @[expose] def IsHyp (Ω : Set (Subgroup G)) (H : Subgroup G) : Prop :=
   H ≤ zGroup Ω ∧ Nat.card H = 4
 
+omit [Finite G] in
 theorem det_tw_isUniqueInvolution_conjSub_iff {K : Subgroup G} {z g : G} :
     IsUniqueInvolution (conjSub g K) z ↔ IsUniqueInvolution K (g⁻¹ * z * g) := by
   constructor
@@ -26,6 +27,7 @@ theorem det_tw_isUniqueInvolution_conjSub_iff {K : Subgroup G} {z g : G} :
     have := hz.conj g
     rwa [show g * (g⁻¹ * z * g) * g⁻¹ = z by group] at this
 
+omit [Finite G] in
 theorem det_tw_q8_central {M : Subgroup G} {v i j : G} (hQ : Q8Data M v i j) {x : G}
     (hx : x ∈ M) : v * x = x * v := by
   have hiv : i * v = v * i := by
@@ -54,6 +56,7 @@ theorem det_tw_q8_central {M : Subgroup G} {v i j : G} (hQ : Q8Data M v i j) {x 
   · calc v * (v * (i * j)) = v * ((i * j) * v) := by rw [hijv]
       _ = (v * (i * j)) * v := by group
 
+omit [Finite G] in
 theorem det_tw_q8_ij_sq {M : Subgroup G} {v i j : G} (hQ : Q8Data M v i j) :
     (i * j) * (i * j) = v := by
   have hiv : i * v = v * i := by
@@ -68,6 +71,7 @@ theorem det_tw_q8_ij_sq {M : Subgroup G} {v i j : G} (hQ : Q8Data M v i j) :
     _ = v * (i * i) * (j * j) := by group
     _ = v := by rw [hQ.sq_i, hQ.sq_j, hvv, one_mul]
 
+omit [Finite G] in
 theorem det_tw_q8_sq {M : Subgroup G} {v i j : G} (hQ : Q8Data M v i j) {x : G} (hx : x ∈ M)
     (hxv : x ∉ Subgroup.zpowers v) : x * x = v := by
   have hiv : i * v = v * i := by
@@ -110,6 +114,7 @@ theorem det_tw_q8_sq {M : Subgroup G} {v i j : G} (hQ : Q8Data M v i j) {x : G} 
       _ = (v * v) * ((i * j) * (i * j)) := by group
       _ = v := by rw [hvv, hij, one_mul]
 
+omit [Finite G] in
 theorem det_tw_q8_noncomm {M : Subgroup G} {v i j : G} (hQ : Q8Data M v i j) {x : G}
     (hx : x ∈ M) (hxv : x ∉ Subgroup.zpowers v) : ∃ w ∈ M, x * w ≠ w * x := by
   have hv1 : v ≠ 1 := hQ.inv.ne_one
@@ -199,6 +204,7 @@ theorem det_tw_q8_noncomm {M : Subgroup G} {v i j : G} (hQ : Q8Data M v i j) {x 
     rw [e1, e2] at heq
     exact (mul_left_cancel heq).symm
 
+omit [Finite G] in
 theorem det_tw_eq_one_or_of_mem_zpowers {v x : G} (hvv : v * v = 1) (hv1 : v ≠ 1)
     (hx : x ∈ Subgroup.zpowers v) : x = 1 ∨ x = v := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hx
@@ -219,6 +225,7 @@ theorem det_tw_finite : ∀ A : Matrix (Fin 3) (Fin 3) (ZMod 2), A.det ≠ 0 →
       A = det_tw_tau a * det_tw_tau b * det_tw_tau c := by
   decide +kernel
 
+omit [Finite G] in
 theorem det_tw_sq_mem {K : Subgroup G} {u i j : G} (hQ : Q8Data K u i j) {x : G} (hx : x ∈ K) :
     x * x = 1 ∨ x * x = u := by
   by_cases hxu : x ∈ Subgroup.zpowers u
@@ -227,6 +234,7 @@ theorem det_tw_sq_mem {K : Subgroup G} {u i j : G} (hQ : Q8Data K u i j) {x : G}
     · left; rw [h1]; exact hQ.inv.sq
   · right; exact det_tw_q8_sq hQ hx hxu
 
+omit [Finite G] in
 theorem det_tw_comm_mod {K : Subgroup G} {u i j : G} (hQ : Q8Data K u i j) {a b : G}
     (ha : a ∈ K) (hb : b ∈ K) : b * a = a * b ∨ b * a = u * (a * b) := by
   have hcen : ∀ x ∈ K, x * u = u * x := fun x hx => (det_tw_q8_central hQ hx).symm
@@ -237,10 +245,10 @@ theorem det_tw_comm_mod {K : Subgroup G} {u i j : G} (hQ : Q8Data K u i j) {a b 
       (a * a)⁻¹ * ((a * b) * (a * b)) * (b * b)⁻¹ = u := by
     rcases det_tw_sq_mem hQ ha with hp | hp <;> rcases det_tw_sq_mem hQ hab with hr | hr <;>
       rcases det_tw_sq_mem hQ hb with hq | hq <;>
-      simp only [hp, hq, hr, hu_inv, inv_one, mul_one, one_mul, hQ.inv.sq, mul_assoc]
+      simp only [hp, hq, hr, hu_inv, inv_one, mul_one, one_mul, hQ.inv.sq]
     all_goals first
-      | (left; simp [hQ.inv.sq, hu_inv, mul_assoc])
-      | (right; simp [hQ.inv.sq, hu_inv, mul_assoc])
+      | (left; simp)
+      | (right; simp)
   rcases hPQ with h1 | h1
   · left
     rw [key, h1, mul_one]
@@ -251,6 +259,7 @@ theorem det_tw_comm_mod {K : Subgroup G} {u i j : G} (hQ : Q8Data K u i j) {a b 
       _ = (a * b) * u := by group
       _ = u * (a * b) := hcen (a * b) hab
 
+omit [Finite G] in
 theorem det_tw_mid {K : Subgroup G} {u i j : G} (hQ : Q8Data K u i j) {a b : G}
     (ha : a ∈ K) (hb : b ∈ K) : b * a⁻¹ * b = a⁻¹ ∨ b * a⁻¹ * b = u * a⁻¹ := by
   have hcen : ∀ x ∈ K, x * u = u * x := fun x hx => (det_tw_q8_central hQ hx).symm
@@ -273,6 +282,7 @@ theorem det_tw_mid {K : Subgroup G} {u i j : G} (hQ : Q8Data K u i j) {a b : G}
         _ = (u * u) * a⁻¹ := by group
         _ = a⁻¹ := by rw [hQ.inv.sq, one_mul]
 
+omit [Finite G] in
 theorem det_tw_inv_mem {K : Subgroup G} {u i j : G} (hQ : Q8Data K u i j) {a : G} (ha : a ∈ K) :
     a⁻¹ = a ∨ a⁻¹ = u * a := by
   have hcen : ∀ x ∈ K, x * u = u * x := fun x hx => (det_tw_q8_central hQ hx).symm
@@ -286,8 +296,9 @@ theorem det_tw_inv_mem {K : Subgroup G} {u i j : G} (hQ : Q8Data K u i j) {a : G
       _ = u * u := by rw [h1]
       _ = 1 := hQ.inv.sq
 
+omit [Finite G] in
 theorem det_tw_zpowers_sq {K : Subgroup G} {u x : G} (hu : IsUniqueInvolution K u) {hxx : x * x = u}
-    (hx1 : x ∈ K) (hxu : x ∉ Subgroup.zpowers u) :
+    (_hx1 : x ∈ K) (_hxu : x ∉ Subgroup.zpowers u) :
     ∀ z ∈ Subgroup.zpowers x, z = 1 ∨ z = x ∨ z = u ∨ z = u * x := by
   have hord : orderOf x = 4 := by
     have hnot : ¬ x ^ 2 ^ 1 = 1 := by
@@ -334,11 +345,11 @@ private def det_geo_cross (a b : Fin 3 → ZMod 2) : Fin 3 → ZMod 2 :=
 
 private theorem det_geo_cross_dot_left (a b : Fin 3 → ZMod 2) :
     dotProduct (det_geo_cross a b) a = 0 := by
-  simp [det_geo_cross, dotProduct, Fin.sum_univ_three] <;> ring
+  simp [det_geo_cross, dotProduct, Fin.sum_univ_three]; ring
 
 private theorem det_geo_cross_dot_right (a b : Fin 3 → ZMod 2) :
     dotProduct (det_geo_cross a b) b = 0 := by
-  simp [det_geo_cross, dotProduct, Fin.sum_univ_three] <;> ring
+  simp [det_geo_cross, dotProduct, Fin.sum_univ_three]; ring
 
 private theorem det_geo_cross_ne :
     ∀ a b : Fin 3 → ZMod 2, a ≠ 0 → b ≠ 0 → a ≠ b → det_geo_cross a b ≠ 0 := by
@@ -409,7 +420,7 @@ private theorem det_geo_T_mul_self (a φ : Fin 3 → ZMod 2) (h : dotProduct φ 
     det_geo_T a φ * det_geo_T a φ = 1 := by
   refine TL4.matrix_ext_mulVec fun v => ?_
   rw [← Matrix.mulVec_mulVec, Matrix.one_mulVec]
-  simp only [det_geo_T_mulVec, dotProduct_add, dotProduct_smul, h, smul_zero, add_zero,
+  simp only [det_geo_T_mulVec, dotProduct_add, dotProduct_smul, h, add_zero,
     smul_eq_mul, mul_zero]
   rw [add_assoc, TL4.vec_add_self, add_zero]
 
@@ -454,6 +465,7 @@ private theorem det_geo_four {E : Subgroup G} (hE : Nat.card E = 4) {x y z : G}
       Finset.card_insert_of_notMem n3, Finset.card_insert_of_notMem n4, Finset.card_singleton]
   omega
 
+omit [Finite G] in
 private theorem det_geo_mem_zpowers {K : Subgroup G} {z x : G} (hz : IsUniqueInvolution K z)
     (hx : x ∈ Subgroup.zpowers z) : x = 1 ∨ x = z := by
   have hxK : x ∈ K := (Subgroup.zpowers_le.mpr hz.mem) hx
@@ -463,6 +475,7 @@ private theorem det_geo_mem_zpowers {K : Subgroup G} {z x : G} (hz : IsUniqueInv
       _root_.one_zpow]
   exact hz.unique x hxK hxx
 
+omit [Finite G] in
 private theorem det_geo_conjSub_eq_of_mem {H : Subgroup G} {n : G}
     (hn : n ∈ Subgroup.normalizer (H : Set G)) : conjSub n H = H := by
   ext x
@@ -471,6 +484,7 @@ private theorem det_geo_conjSub_eq_of_mem {H : Subgroup G} {n : G}
   rw [inv_inv] at h1
   exact h1.symm
 
+omit [Finite G] in
 private theorem det_geo_mem_normalizer_of_conjSub_eq {H : Subgroup G} {n : G}
     (hn : conjSub n H = H) : n ∈ Subgroup.normalizer (H : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -482,6 +496,7 @@ private theorem det_geo_mem_normalizer_of_conjSub_eq {H : Subgroup G} {n : G}
   rw [h2, inv_inv] at h3
   exact h3
 
+omit [Finite G] in
 private theorem det_geo_card_conjSub (H : Subgroup G) (g : G) :
     Nat.card (conjSub g H) = Nat.card H := by
   unfold conjSub
@@ -508,6 +523,7 @@ private theorem det_geo_ext (he : TL4.E8Basis (zGroup Ω) e) {H H' : Subgroup G}
     obtain ⟨w, rfl⟩ := TL4.exists_e8Coord_eq he (hH' hx)
     exact (hiff w).mpr hx
 
+omit [Finite G] in
 private theorem det_geo_not_mem_iff (hN : (zGroup Ω).Normal) {H : Subgroup G}
     (hH : H ≤ zGroup Ω) {g y : G} (hy : y ∉ zGroup Ω) : y ∈ H ↔ g * y * g⁻¹ ∈ H := by
   constructor
@@ -520,6 +536,7 @@ private theorem det_geo_not_mem_iff (hN : (zGroup Ω).Normal) {H : Subgroup G}
     have e' : g⁻¹ * (g * y * g⁻¹) * g⁻¹⁻¹ = y := by group
     rwa [e'] at hc
 
+omit [Finite G] in
 private theorem det_geo_normalizer_of_centralizes (hN : (zGroup Ω).Normal) {H : Subgroup G}
     (hH : H ≤ zGroup Ω) {g : G} (hg : ∀ y ∈ zGroup Ω, g * y * g⁻¹ = y) :
     g ∈ Subgroup.normalizer (H : Set G) := by
@@ -542,6 +559,7 @@ private theorem det_geo_norm (hN : (zGroup Ω).Normal) (he : TL4.E8Basis (zGroup
     rw [det_geo_conj_coord hN he g w, hg, hf w, hf (Matrix.mulVec M w), hM w]
   · exact det_geo_not_mem_iff hN hH hy
 
+omit [Finite G] in
 private theorem det_geo_conjSub_le (hN : (zGroup Ω).Normal) {H : Subgroup G}
     (hH : H ≤ zGroup Ω) (g : G) : conjSub g H ≤ zGroup Ω := by
   intro x hx
@@ -549,6 +567,7 @@ private theorem det_geo_conjSub_le (hN : (zGroup Ω).Normal) {H : Subgroup G}
   have hc := hN.conj_mem _ (hH hx) g
   rwa [show g * (g⁻¹ * x * g) * g⁻¹ = x by group] at hc
 
+omit [Finite G] in
 private theorem det_geo_coord_ne_one (he : TL4.E8Basis (zGroup Ω) e) {w : Fin 3 → ZMod 2} :
     TL4.e8Coord e w ≠ 1 ↔ w ≠ 0 := by
   constructor
@@ -618,6 +637,7 @@ private theorem det_geo_hyp_fun (he : TL4.E8Basis (zGroup Ω) e) {H : Subgroup G
     · rw [h0, TL4.e8Coord_add he, ha, hb]
       exact H.mul_mem hxH hyH
 
+omit [Finite G] in
 private theorem det_geo_hyp_construct (he : TL4.E8Basis (zGroup Ω) e) {f : Fin 3 → ZMod 2}
     (hf : f ≠ 0) : ∃ H : Subgroup G, IsHyp Ω H ∧
       ∀ w : Fin 3 → ZMod 2, TL4.e8Coord e w ∈ H ↔ dotProduct f w = 0 := by
@@ -725,7 +745,7 @@ theorem det_tw_conjMat_formula {M : Subgroup G} (hM : M ∈ Ω) {c : G}
     simp [ψ, h1, g]
   have hψne : ∃ w, ψ w ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hxC : x ∈ Subgroup.centralizer (zGroup Ω : Set G) := by
       refine Subgroup.mem_centralizer_iff.mpr fun d hd => ?_
       obtain ⟨w, rfl⟩ := TL4.exists_e8Coord_eq he hd
@@ -749,7 +769,7 @@ theorem det_tw_conjMat_formula {M : Subgroup G} (hM : M ∈ Ω) {c : G}
     ring
   have hω : ψ (Pi.single 1 1) ≠ 0 ∨ ψ (Pi.single 2 1) ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨w, hw⟩ := hψne
     exact hw (by rw [hformula w, hcon.1, hcon.2]; ring)
   have hψv' := hformula v
@@ -825,6 +845,7 @@ theorem inf_eq_zpowers_of_mem_twinSet {K J : Subgroup G} (hK : K ∈ Ω) (hJ : J
       _ = 2 := by norm_num
   exact (Subgroup.eq_of_le_of_card_ge hle (by omega)).symm
 
+omit [Finite G] in
 theorem det_tw_mem_twinSet_conjSub {K J : Subgroup G} (g : G) :
     conjSub g J ∈ twinSet Ω (conjSub g K) ↔ J ∈ twinSet Ω K := by
   have hconj : ∀ n : G, ∀ L ∈ Ω, conjSub n L ∈ Ω := fun n L hL => h.hyp.conjInvariant n L hL
@@ -837,6 +858,7 @@ theorem det_tw_mem_twinSet_conjSub {K J : Subgroup G} (g : G) :
   · rintro ⟨hJΩ, z, hz, hzJ⟩
     exact ⟨hconj g J hJΩ, g * z * g⁻¹, hz.conj g, hzJ.conj g⟩
 
+omit [Finite G] in
 theorem det_tw_image_twinSet (g : G) (K : Subgroup G) :
     conjSub g '' twinSet Ω K = twinSet Ω (conjSub g K) := by
   ext L
@@ -849,6 +871,7 @@ theorem det_tw_image_twinSet (g : G) (K : Subgroup G) :
     exact ⟨conjSub g⁻¹ L, (det_tw_mem_twinSet_conjSub (h := h) g).mp hL',
       conjSub_conjSub_inv g L⟩
 
+omit [Finite G] in
 theorem twinSet_ncard_eq {K L : Subgroup G} (hK : K ∈ Ω) (hL : L ∈ Ω) :
     (twinSet Ω K).ncard = (twinSet Ω L).ncard := by
   obtain ⟨g, rfl⟩ := h.trans K hK L hL
@@ -862,7 +885,7 @@ theorem ncard_eq_seven_mul {K : Subgroup G} (hK : K ∈ Ω) :
   have inv_spec : ∀ L ∈ Ω, IsUniqueInvolution L (inv L) := by
     intro L hL
     have hex := h.exists_isUniqueInvolution hL
-    simp only [inv, dif_pos hex]
+    simp only [inv, dite_eq_left hex]
     exact hex.choose_spec
   let T : Finset G := (Set.toFinite {x : G | x ∈ zGroup Ω ∧ x ≠ 1}).toFinset
   have hT : T.card = 7 := by
@@ -900,13 +923,14 @@ theorem ncard_eq_seven_mul {K : Subgroup G} (hK : K ∈ Ω) :
     have hcoe : ((Set.toFinite Ω).toFinset.filter (fun L => inv L = x) : Set (Subgroup G)) =
         {L | L ∈ Ω ∧ inv L = x} := by
       ext L
-      simp only [Finset.coe_filter, Set.Finite.mem_toFinset, Set.mem_setOf_eq]
+      simp only [Finset.coe_filter, Set.Finite.mem_toFinset, Set.mem_ofPred_eq]
     rw [hcoe, hset]
     exact (h.twinSet_ncard_eq hK hL₀).symm
   rw [Set.ncard_eq_toFinset_card Ω (Set.toFinite Ω),
     Finset.card_eq_sum_card_fiberwise hmaps, Finset.sum_congr rfl hfib, Finset.sum_const, hT,
     smul_eq_mul]
 
+omit [Finite G] in
 theorem exists_swap_of_mem_twinSet {K J : Subgroup G} (hK : K ∈ Ω) (hJ : J ∈ twinSet Ω K) {u : G}
     (hu : IsUniqueInvolution K u) :
     ∃ g ∈ Subgroup.centralizer ({u} : Set G), conjSub g K = J := by
@@ -946,7 +970,7 @@ theorem det_tw_core {M : Subgroup G} (hM : M ∈ Ω) {v u : G} (hv : IsUniqueInv
       exact dComm_mul_right hv m1.2 m2.2 hdN hc)
   have hex : ∃ m ∈ M, dComm u m ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hd := h.eq_of_dComm_eq hM hv hu (Subgroup.one_mem _)
       (fun k hk => (hcon k hk).trans (h1k k).symm)
     exact huv (by simpa using hd)
@@ -992,7 +1016,7 @@ theorem det_tw_core {M : Subgroup G} (hM : M ∈ Ω) {v u : G} (hv : IsUniqueInv
     obtain ⟨x, hxU, hxv⟩ : ∃ x ∈ M ⊓ Subgroup.centralizer ({u} : Set G),
         x ∉ Subgroup.zpowers v := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hnot hcon
     have hxM : x ∈ M := hxU.1
     have hxx : x * x = v := det_tw_q8_sq hQ hxM hxv
@@ -1086,7 +1110,7 @@ theorem det_tw_exists_tau {K : Subgroup G} (hK : K ∈ Ω) {u : G} (hu : IsUniqu
   obtain ⟨x, hxU, hxc⟩ : ∃ x ∈ M ⊓ Subgroup.centralizer ({u} : Set G),
       x ∉ Subgroup.zpowers (TL4.e8Coord e v) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hnot hcon
   have hxu : x * u = u * x := Subgroup.mem_centralizer_singleton_iff.mp hxU.2
   refine ⟨x, hnorm K ⟨hK, u, hu, hu⟩ hxU, ?_⟩
@@ -1197,7 +1221,7 @@ theorem member_le_commutator {K : Subgroup G} (hK : K ∈ Ω) :
     · exact hnu'
   have hkey : ∃ k₀ ∈ K, ¬ (n * k₀ * n⁻¹ = k₀ ∨ n * k₀ * n⁻¹ = u * k₀) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hinv : ∀ k ∈ K, n⁻¹ * k * n = k ∨ n⁻¹ * k * n = u * k := by
       intro k hk
       have hk'' : n⁻¹ * k * n ∈ K := by
@@ -1511,6 +1535,7 @@ theorem exists_conj_hyp {H H' : Subgroup G} (hH : IsHyp Ω H) (hH' : IsHyp Ω H'
     refine ⟨g, det_geo_ext he (det_geo_conjSub_le hN hH.1 g) hH'.1 fun w => ?_⟩
     rw [mem_conjSub_iff, hcoord w, hf, hinvT, key w, hf' w]
 
+omit [Finite G] in
 theorem isHyp_conjSub {H : Subgroup G} (hH : IsHyp Ω H) (g : G) : IsHyp Ω (conjSub g H) := by
   refine ⟨det_geo_conjSub_le h.zGroup_normal hH.1 g, ?_⟩
   rw [det_geo_card_conjSub]
@@ -1720,7 +1745,7 @@ theorem exists_conj_hyp_of_not_mem {K : Subgroup G} (hK : K ∈ Ω) {u : G}
     rw [Subgroup.mem_subgroupOf, Subgroup.coe_mul, Subgroup.coe_inv]
     exact hmem
   have hbij : Function.Bijective ψ := by
-    haveI := hXfin
+    have := hXfin
     refine hψinj.bijective_of_nat_card_le ?_
     rw [hQcard]
     exact hXcard

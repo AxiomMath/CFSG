@@ -161,7 +161,7 @@ private lemma fepomep_quotientCenter
     have hxc := hψ hx1
     apply Subtype.ext
     simpa using (Subgroup.mem_center_iff.mp hxc ((y : ↥J') : U))
-  haveI : Group.IsPerfect ↥J' := ⟨hperf⟩
+  have : Group.IsPerfect ↥J' := ⟨hperf⟩
   have hcen : Subgroup.center (↥J' ⧸ fmap.ker) =
       (Subgroup.center ↥J').map (QuotientGroup.mk' fmap.ker) :=
     (CFSG.ComponentClassification.Quasisimple.center_map_of_central_kernel
@@ -192,11 +192,11 @@ private lemma fepomep_blockField_card {F : Type} [Field F] (f d : ℕ) (hc : Nat
   rw [Module.natCard_eq_pow_finrank (K := F) (V := K), h, hc, pow_mul]
 
 private lemma fepomep_dualPair_star (n : ℕ) {F : Type} [Field F] [Finite F] [CharP F 2]
-    (hn : 3 ≤ n)
+    (_hn : 3 ≤ n)
     (S : Set (GL (fepomepι n) F))
     (hSU : ∀ s ∈ S, s ∈ (fepomepJ n F).range)
     (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
-    {J' : Subgroup ↥(spinGroup (fepomepQ n F))}
+    {_J' : Subgroup ↥(spinGroup (fepomepQ n F))}
     {ε e : Matrix (fepomepι n) (fepomepι n) F}
     (hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
     (he : IsPrimIdemIn (fepomepA n F S) e) (heε : e * ε = e) (hne : e ≠ ε) :
@@ -315,8 +315,8 @@ private lemma fepomep_blockActionA (n : ℕ) {F : Type} [Field F] [Finite F] [Ch
   have hpair : (Units.val '' S : Set (Matrix (fepomepι n) (fepomepι n) F)).Pairwise Commute := by
     rintro _ ⟨s, hs, rfl⟩ _ ⟨s', hs', rfl⟩ _
     exact (hS s hs s' hs').map (Units.coeHom (Matrix (fepomepι n) (fepomepι n) F))
-  letI : IsMulCommutative A := Algebra.isMulCommutative_adjoin F hpair
-  letI : CommRing A := IsMulCommutative.instCommRing
+  let : IsMulCommutative A := Algebra.isMulCommutative_adjoin F hpair
+  let : CommRing A := IsMulCommutative.instCommRing
   have hcomm : ∀ a : A, (a : Matrix (fepomepι n) (fepomepι n) F) * e =
       e * (a : Matrix (fepomepι n) (fepomepι n) F) := by
     intro a
@@ -421,7 +421,7 @@ private lemma fepomep_blockKModule (n : ℕ) {F : Type} [Field F] [Finite F] [Ch
         ((π : fepomepA n F S →+* K) a)) = actA a
     rw [RingHom.quotientKerEquivOfSurjective_symm_apply, Ideal.Quotient.lift_mk]
     rfl
-  letI : Module K (LinearMap.range (Matrix.mulVecLin e)) :=
+  let : Module K (LinearMap.range (Matrix.mulVecLin e)) :=
     Module.compHom (LinearMap.range (Matrix.mulVecLin e)) ψ
   have hne : LinearMap.range (Matrix.mulVecLin e) ≠ ⊥ := by
     intro hbot
@@ -456,10 +456,10 @@ private lemma fepomep_blockModuleRank (n : ℕ) {F : Type} [Field F] [Finite F] 
     (hWne : W ≠ ⊥) :
     Module.finrank F W = blockDegree (fepomepA n F S) e * Module.finrank K W ∧
       1 ≤ Module.finrank K W := by
-  haveI : Module.Free K W := Module.Free.of_divisionRing K W
+  have : Module.Free K W := Module.Free.of_divisionRing K W
   refine ⟨?_, ?_⟩
   · rw [← Module.finrank_mul_finrank F K W, hπdeg]
-  · haveI : Nontrivial W := Submodule.nontrivial_iff_ne_bot.mpr hWne
+  · have : Nontrivial W := Submodule.nontrivial_iff_ne_bot.mpr hWne
     exact Module.finrank_pos
 
 private lemma fepomep_dualPair_blockModule (n : ℕ) {F : Type} [Field F] [Finite F] [CharP F 2]
@@ -480,18 +480,18 @@ private lemma fepomep_dualPair_blockModule (n : ℕ) {F : Type} [Field F] [Finit
             Matrix.mulVec (a : Matrix (fepomepι n) (fepomepι n) F) (w : fepomepι n → F) := by
   obtain ⟨W, hWne, hmod, htower, hWeq, hK⟩ :=
     fepomep_blockKModule n S hS he K π hπsurj hπker
-  letI : Module K W := hmod
-  letI : IsScalarTower F K W := htower
+  let : Module K W := hmod
+  let : IsScalarTower F K W := htower
   obtain ⟨hdim, hm1⟩ := fepomep_blockModuleRank n S K W hπdeg hWne
   exact ⟨W, hWeq, hmod, htower, inferInstance, hdim, hm1, hK⟩
 
 private lemma fepomep_blockCentralizer_commute_adjoin (n : ℕ) {F : Type} [Field F] [Finite F]
-    [CharP F 2] (hn : 3 ≤ n)
+    [CharP F 2] (_hn : 3 ≤ n)
     (S : Set (GL (fepomepι n) F))
-    (hSU : ∀ s ∈ S, s ∈ (fepomepJ n F).range)
-    (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
+    (_hSU : ∀ s ∈ S, s ∈ (fepomepJ n F).range)
+    (_hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
     {ε : Matrix (fepomepι n) (fepomepι n) F}
-    (hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
+    (_hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
     (u : glBlockCentralizer (fepomepJ n F) S ε)
     {a : Matrix (fepomepι n) (fepomepι n) F} (ha : a ∈ fepomepA n F S) :
     Commute ((fepomepJ n F (u : ↥(spinGroup (fepomepQ n F)))) :
@@ -537,12 +537,12 @@ private lemma fepomep_blockActionEnd (n : ℕ) {F : Type} [Field F] [Finite F] [
     (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
     {ε e : Matrix (fepomepι n) (fepomepι n) F}
     (hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
-    (he : IsPrimIdemIn (fepomepA n F S) e) (heε : e * ε = e) (hne : e ≠ ε)
-    (hdeg : 2 ≤ blockDegree (fepomepA n F S) e)
+    (he : IsPrimIdemIn (fepomepA n F S) e) (_heε : e * ε = e) (_hne : e ≠ ε)
+    (_hdeg : 2 ≤ blockDegree (fepomepA n F S) e)
     (K : Type) [Field K] [Finite K] [Algebra F K]
     (π : fepomepA n F S →ₐ[F] K) (hπsurj : Function.Surjective π)
-    (hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
-    (hπdeg : Module.finrank F K = blockDegree (fepomepA n F S) e)
+    (_hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
+    (_hπdeg : Module.finrank F K = blockDegree (fepomepA n F S) e)
     (W : Submodule F (fepomepι n → F)) (hW : W = LinearMap.range (Matrix.mulVecLin e))
     [Module K W] [IsScalarTower F K W]
     (hK : ∀ (a : fepomepA n F S) (w : W),
@@ -606,25 +606,25 @@ private lemma fepomep_blockActionEnd (n : ℕ) {F : Type} [Field F] [Finite F] [
     exact hrhoF_apply u w
 
 private lemma fepomep_blockActionEnd_bijective (n : ℕ) {F : Type} [Field F] [Finite F] [CharP F 2]
-    (hn : 3 ≤ n)
+    (_hn : 3 ≤ n)
     (S : Set (GL (fepomepι n) F))
-    (hSU : ∀ s ∈ S, s ∈ (fepomepJ n F).range)
-    (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
+    (_hSU : ∀ s ∈ S, s ∈ (fepomepJ n F).range)
+    (_hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
     {ε e : Matrix (fepomepι n) (fepomepι n) F}
-    (hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
-    (he : IsPrimIdemIn (fepomepA n F S) e) (heε : e * ε = e) (hne : e ≠ ε)
-    (hdeg : 2 ≤ blockDegree (fepomepA n F S) e)
+    (_hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
+    (_he : IsPrimIdemIn (fepomepA n F S) e) (_heε : e * ε = e) (_hne : e ≠ ε)
+    (_hdeg : 2 ≤ blockDegree (fepomepA n F S) e)
     (K : Type) [Field K] [Finite K] [Algebra F K]
-    (π : fepomepA n F S →ₐ[F] K) (hπsurj : Function.Surjective π)
-    (hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
-    (hπdeg : Module.finrank F K = blockDegree (fepomepA n F S) e)
-    (W : Submodule F (fepomepι n → F)) (hW : W = LinearMap.range (Matrix.mulVecLin e))
+    (π : fepomepA n F S →ₐ[F] K) (_hπsurj : Function.Surjective π)
+    (_hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
+    (_hπdeg : Module.finrank F K = blockDegree (fepomepA n F S) e)
+    (W : Submodule F (fepomepι n → F)) (_hW : W = LinearMap.range (Matrix.mulVecLin e))
     [Module K W] [IsScalarTower F K W]
-    (hK : ∀ (a : fepomepA n F S) (w : W),
+    (_hK : ∀ (a : fepomepA n F S) (w : W),
       ((π a • w : W) : fepomepι n → F) =
         Matrix.mulVec (a : Matrix (fepomepι n) (fepomepι n) F) (w : fepomepι n → F))
     (ρEnd : glBlockCentralizer (fepomepJ n F) S ε →* Module.End K W)
-    (hρ : ∀ (u : glBlockCentralizer (fepomepJ n F) S ε) (w : W),
+    (_hρ : ∀ (u : glBlockCentralizer (fepomepJ n F) S ε) (w : W),
       ((ρEnd u w : W) : fepomepι n → F) =
         Matrix.mulVec ((fepomepJ n F (u : ↥(spinGroup (fepomepQ n F)))) :
           Matrix (fepomepι n) (fepomepι n) F) (w : fepomepι n → F)) :
@@ -688,7 +688,7 @@ private lemma fepomep_dualPair_blockActionHom (n : ℕ) {F : Type} [Field F] [Fi
 private lemma fepomep_fixes_star_of_isometry {ι F : Type} [Fintype ι] [DecidableEq ι] [Field F]
     {G M e estar : Matrix ι ι F} (hG : IsUnit G.det) (hMdet : IsUnit M.det)
     (hMiso : Matrix.transpose M * G * M = G)
-    (hMe : M * e = e) (heM : e * M = e)
+    (_hMe : M * e = e) (heM : e * M = e)
     (hGest : G * estar = Matrix.transpose e * G) :
     M * estar = estar := by
   have hMtdet : IsUnit (Matrix.transpose M).det := by
@@ -728,14 +728,14 @@ private lemma fepomep_dualPair_blockAction_injective (n : ℕ) {F : Type} [Field
     {ε e : Matrix (fepomepι n) (fepomepι n) F}
     (hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
     (he : IsPrimIdemIn (fepomepA n F S) e) (heε : e * ε = e) (hne : e ≠ ε)
-    (hdeg : 2 ≤ blockDegree (fepomepA n F S) e)
+    (_hdeg : 2 ≤ blockDegree (fepomepA n F S) e)
     (K : Type) [Field K] [Finite K] [Algebra F K]
-    (π : fepomepA n F S →ₐ[F] K) (hπsurj : Function.Surjective π)
-    (hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
-    (hπdeg : Module.finrank F K = blockDegree (fepomepA n F S) e)
+    (π : fepomepA n F S →ₐ[F] K) (_hπsurj : Function.Surjective π)
+    (_hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
+    (_hπdeg : Module.finrank F K = blockDegree (fepomepA n F S) e)
     (W : Submodule F (fepomepι n → F)) (hW : W = LinearMap.range (Matrix.mulVecLin e))
     [Module K W] [IsScalarTower F K W]
-    (hK : ∀ (a : fepomepA n F S) (w : W),
+    (_hK : ∀ (a : fepomepA n F S) (w : W),
       ((π a • w : W) : fepomepι n → F) =
         Matrix.mulVec (a : Matrix (fepomepι n) (fepomepι n) F) (w : fepomepι n → F))
     (ρ : glBlockCentralizer (fepomepJ n F) S ε →* (W ≃ₗ[K] W))
@@ -751,7 +751,7 @@ private lemma fepomep_dualPair_blockAction_injective (n : ℕ) {F : Type} [Field
     let M : Matrix (fepomepι n) (fepomepι n) F :=
       fepomepJ n F (w : ↥(spinGroup (fepomepQ n F)))
     obtain ⟨hestA, hestidem, hdouble, hestε, hneEst, hzero1, hzero2, hsum⟩ :=
-      fepomep_dualPair_star n hn S hSU hS (J' := ⊥) hε he heε hne
+      fepomep_dualPair_star n hn S hSU hS (_J' := ⊥) hε he heε hne
     set estar : Matrix (fepomepι n) (fepomepι n) F :=
       formAdj (RingHom.id F) (fepomepG n F) e with hestar
     have hGdet : IsUnit (fepomepG n F).det := fepomep_isUnit_det n
@@ -875,7 +875,7 @@ private lemma fepomep_dualPair_pairing_injective (n : ℕ) {F : Type} [Field F] 
       fepomep_dualPair_pairingMap n e W y = 0 → y = 0 := by
     intro y hy
     obtain ⟨hestA, hestidem, hdouble, hestε, hneEst, hzero1, hzero2, hsum⟩ :=
-      fepomep_dualPair_star n hn S hSU hS (J' := ⊥) hε he heε hne
+      fepomep_dualPair_star n hn S hSU hS (_J' := ⊥) hε he heε hne
     have hBnd : (QuadraticMap.polarBilin (fepomepQ n F)).Nondegenerate :=
       Spin.nondegenerate_polarBilin_quadPlus n F
     have hw : Matrix.mulVec (formAdj (RingHom.id F) (fepomepG n F) e)
@@ -920,7 +920,7 @@ private lemma fepomep_dualPair_pairing_surjective (n : ℕ) {F : Type} [Field F]
     Function.Surjective (fepomep_dualPair_pairingMap n e W) := by
   intro φ
   obtain ⟨hestA, hestidem, hdouble, hestε, hneEst, hzero1, hzero2, hsum⟩ :=
-    fepomep_dualPair_star n hn S hSU hS (J' := ⊥) hε he heε hne
+    fepomep_dualPair_star n hn S hSU hS (_J' := ⊥) hε he heε hne
   have hBnd : (QuadraticMap.polarBilin (fepomepQ n F)).Nondegenerate :=
     Spin.nondegenerate_polarBilin_quadPlus n F
   let Ψ : (fepomepι n → F) ≃ₗ[F] Module.Dual F (fepomepι n → F) :=
@@ -952,7 +952,6 @@ private lemma fepomep_dualPair_pairing_surjective (n : ℕ) {F : Type} [Field F]
     congr 1
     apply Subtype.ext
     rw [LinearMap.codRestrict_apply]
-    change Matrix.mulVecLin e (Matrix.mulVec e x) = (x : fepomepι n → F)
     rw [Matrix.mulVecLin_apply, Matrix.mulVec_mulVec, he.2.1, hex]
   exact hψ
 
@@ -997,14 +996,14 @@ private lemma fepomep_dualPair_levi_dual (n : ℕ) {F : Type} [Field F] [Finite 
     {ε e : Matrix (fepomepι n) (fepomepι n) F}
     (hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
     (he : IsPrimIdemIn (fepomepA n F S) e) (heε : e * ε = e) (hne : e ≠ ε)
-    (hdeg : 2 ≤ blockDegree (fepomepA n F S) e)
+    (_hdeg : 2 ≤ blockDegree (fepomepA n F S) e)
     (K : Type) [Field K] [Finite K] [Algebra F K]
-    (π : fepomepA n F S →ₐ[F] K) (hπsurj : Function.Surjective π)
-    (hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
-    (hπdeg : Module.finrank F K = blockDegree (fepomepA n F S) e)
+    (π : fepomepA n F S →ₐ[F] K) (_hπsurj : Function.Surjective π)
+    (_hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
+    (_hπdeg : Module.finrank F K = blockDegree (fepomepA n F S) e)
     (W : Submodule F (fepomepι n → F)) (hW : W = LinearMap.range (Matrix.mulVecLin e))
     [Module K W] [IsScalarTower F K W]
-    (hK : ∀ (a : fepomepA n F S) (w : W),
+    (_hK : ∀ (a : fepomepA n F S) (w : W),
       ((π a • w : W) : fepomepι n → F) =
         Matrix.mulVec (a : Matrix (fepomepι n) (fepomepι n) F) (w : fepomepι n → F))
     (g : W ≃ₗ[K] W) :
@@ -1070,12 +1069,12 @@ private lemma fepomep_isCompl_eps_compl (n : ℕ) {F : Type} [Field F] [Finite F
     rw [← Matrix.mulVecLin_mul, hεidem]
   have hsub : Matrix.mulVecLin (1 - ε) = 1 - Matrix.mulVecLin ε := by
     ext v
-    simp [Matrix.mulVecLin_apply, Matrix.sub_mulVec, Matrix.one_mulVec]
+    simp
   rw [hsub, ← LinearMap.IsIdempotentElem.ker_eq_range_one_sub hidem]
   exact LinearMap.IsIdempotentElem.isCompl hidem
 
 private lemma fepomep_trace_quadratic_zero {F K : Type} [Field F] [Finite F] [CharP F 2]
-    [Field K] [Finite K] [Algebra F K] (g : K → F) (hg0 : g 0 = 0)
+    [Field K] [Finite K] [Algebra F K] (g : K → F) (_hg0 : g 0 = 0)
     (hgadd : ∀ μ ν : K, g (μ + ν) = g μ + g ν)
     (hgsmul : ∀ (c : F) (μ : K), g (c • μ) = c ^ 2 * g μ)
     (lam : K) (hlam : lam ≠ 1) (hinv : ∀ μ : K, g (lam * μ) = g μ) :
@@ -1143,7 +1142,7 @@ private lemma fepomep_block_quad_zero (n : ℕ) {F : Type} [Field F] [Finite F] 
     (hdeg : 2 ≤ blockDegree (fepomepA n F S) e)
     (K : Type) [Field K] [Finite K] [Algebra F K]
     (π : fepomepA n F S →ₐ[F] K) (hπsurj : Function.Surjective π)
-    (hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
+    (_hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
     (hπdeg : Module.finrank F K = blockDegree (fepomepA n F S) e)
     (W : Submodule F (fepomepι n → F)) (hW : W = LinearMap.range (Matrix.mulVecLin e))
     [Module K W] [IsScalarTower F K W]
@@ -1153,13 +1152,13 @@ private lemma fepomep_block_quad_zero (n : ℕ) {F : Type} [Field F] [Finite F] 
     ∀ w : W, fepomepQ n F (w : fepomepι n → F) = 0 := by
   classical
   obtain ⟨_, _, _, _, _, hzero1, _, hsum⟩ :=
-    fepomep_dualPair_star n hn S hSU hS (J' := ⊥) hε he heε hne
+    fepomep_dualPair_star n hn S hSU hS (_J' := ⊥) hε he heε hne
   let sA : (s : GL (fepomepι n) F) → s ∈ S → fepomepA n F S :=
     fun s hs => ⟨(s : Matrix (fepomepι n) (fepomepι n) F),
       Algebra.subset_adjoin ⟨s, hs, rfl⟩⟩
   have hexlam : ∃ (s : GL (fepomepι n) F) (hs : s ∈ S), π (sA s hs) ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hP : ∀ a : fepomepA n F S, ∃ f : F, π a = algebraMap F K f := by
       intro a
       refine Algebra.adjoin_induction
@@ -1272,7 +1271,7 @@ private lemma fepomep_isCompl_e_estar (n : ℕ) {F : Type} [Field F] [Finite F] 
           (formAdj (RingHom.id F) (fepomepG n F) e)))) := by
   classical
   obtain ⟨hestA, hestidem, hdouble, hestε, hneEst, hzero1, hzero2, hsum⟩ :=
-    fepomep_dualPair_star n hn S hSU hS (J' := ⊥) hε he heε hne
+    fepomep_dualPair_star n hn S hSU hS (_J' := ⊥) hε he heε hne
   have hεidem : IsIdempotentElem ε := hε.2.1
   have heidem : IsIdempotentElem e := he.2.1
   have hcommεe : Commute ε e := fepomep_adjoin_comm hS ε hε.1 e he.1
@@ -1346,7 +1345,7 @@ private lemma fepomep_formAdj_zero {ι F : Type} [Fintype ι] [DecidableEq ι] [
   simp
 
 private noncomputable def fepomep_formAdjAlgEquiv (n : ℕ) {F : Type} [Field F] [Finite F]
-    [CharP F 2] (hn : 3 ≤ n)
+    [CharP F 2] (_hn : 3 ≤ n)
     (S : Set (GL (fepomepι n) F))
     (hSU : ∀ s ∈ S, s ∈ (fepomepJ n F).range)
     (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') :
@@ -1453,7 +1452,7 @@ private lemma fepomep_estar_prim (n : ℕ) {F : Type} [Field F] [Finite F] [Char
       (formAdj (RingHom.id F) (fepomepG n F) e) := by
   classical
   obtain ⟨hestA, hestidem, hdouble, hestε, hneEst, hzero1, hzero2, hsum⟩ :=
-    fepomep_dualPair_star n hn S hSU hS (J' := ⊥) hε he heε hne
+    fepomep_dualPair_star n hn S hSU hS (_J' := ⊥) hε he heε hne
   have hG : IsUnit (fepomepG n F).det := fepomep_isUnit_det n
   have hGh : Matrix.transpose ((fepomepG n F).map (RingHom.id F)) =
       fepomepG n F := by
@@ -1473,7 +1472,7 @@ private lemma fepomep_estar_prim (n : ℕ) {F : Type} [Field F] [Finite F] [Char
       (Spin.spinMatrix_mem (fepomepQ n F) x)
   refine ⟨hestA, hestidem, ?_, ?_⟩
   · intro h0
-    exact hne (by simpa [hsum, h0])
+    exact hne (by simp [hsum, h0])
   · intro f hfA hfidem hfe
     have hfadjA : formAdj (RingHom.id F) (fepomepG n F) f ∈ fepomepA n F S :=
       Geo.formAdj_mem_adjoin (RingHom.id F) hG hSG hfA
@@ -1515,7 +1514,7 @@ private noncomputable def fepomep_formAdjLinEquiv (n : ℕ) {F : Type} [Field F]
     map_smul' := fun c a => Geo.formAdj_smul (RingHom.id F) (fepomepG n F) c a }
 
 private lemma fepomep_blockDegree_formAdj (n : ℕ) {F : Type} [Field F] [Finite F] [CharP F 2]
-    (hn : 3 ≤ n)
+    (_hn : 3 ≤ n)
     (S : Set (GL (fepomepι n) F))
     (hSU : ∀ s ∈ S, s ∈ (fepomepJ n F).range)
     (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
@@ -1595,7 +1594,7 @@ private lemma fepomep_star_block_quad_zero (n : ℕ) {F : Type} [Field F] [Finit
       fepomepQ n F (y : fepomepι n → F) = 0 := by
   classical
   obtain ⟨hestA, hestidem, hdouble, hestε, hneEst, hzero1, hzero2, hsum⟩ :=
-    fepomep_dualPair_star n hn S hSU hS (J' := ⊥) hε he heε hne
+    fepomep_dualPair_star n hn S hSU hS (_J' := ⊥) hε he heε hne
   have hprim := fepomep_estar_prim n hn S hSU hS hε he heε hne
   have hdegEst : 2 ≤ blockDegree (fepomepA n F S)
       (formAdj (RingHom.id F) (fepomepG n F) e) := by
@@ -1667,8 +1666,8 @@ private lemma fepomep_star_block_quad_zero (n : ℕ) {F : Type} [Field F] [Finit
     rw [hπdeg, ← fepomep_blockDegree_formAdj n hn S hSU hS he.1]
   obtain ⟨W, hWne, hmod, htower, hWeq, hK'⟩ :=
     fepomep_blockKModule n S hS hprim K π' hπ'surj hπ'ker
-  letI : Module K W := hmod
-  letI : IsScalarTower F K W := htower
+  let : Module K W := hmod
+  let : IsScalarTower F K W := htower
   intro y
   have hres := fepomep_block_quad_zero n hn S hSU hS hε hprim hestε hneEstEps hdegEst K π'
     hπ'surj hπ'ker hπ'deg W hWeq hK' ⟨y, by rw [hWeq]; exact y.2⟩
@@ -1682,14 +1681,14 @@ private lemma fepomep_levi_blockMap (n : ℕ) {F : Type} [Field F] [Finite F] [C
     {ε e : Matrix (fepomepι n) (fepomepι n) F}
     (hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
     (he : IsPrimIdemIn (fepomepA n F S) e) (heε : e * ε = e) (hne : e ≠ ε)
-    (hdeg : 2 ≤ blockDegree (fepomepA n F S) e)
+    (_hdeg : 2 ≤ blockDegree (fepomepA n F S) e)
     (K : Type) [Field K] [Finite K] [Algebra F K]
-    (π : fepomepA n F S →ₐ[F] K) (hπsurj : Function.Surjective π)
-    (hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
-    (hπdeg : Module.finrank F K = blockDegree (fepomepA n F S) e)
+    (π : fepomepA n F S →ₐ[F] K) (_hπsurj : Function.Surjective π)
+    (_hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
+    (_hπdeg : Module.finrank F K = blockDegree (fepomepA n F S) e)
     (W : Submodule F (fepomepι n → F)) (hW : W = LinearMap.range (Matrix.mulVecLin e))
     [Module K W] [IsScalarTower F K W]
-    (hK : ∀ (a : fepomepA n F S) (w : W),
+    (_hK : ∀ (a : fepomepA n F S) (w : W),
       ((π a • w : W) : fepomepι n → F) =
         Matrix.mulVec (a : Matrix (fepomepι n) (fepomepι n) F) (w : fepomepι n → F))
     (g : W ≃ₗ[K] W)
@@ -1705,7 +1704,7 @@ private lemma fepomep_levi_blockMap (n : ℕ) {F : Type} [Field F] [Finite F] [C
         gV (y : fepomepι n → F) = (gstar y : fepomepι n → F)) := by
   classical
   obtain ⟨hestA, hestidem, hdouble, hestε, hneEst, hzero1, hzero2, hsum⟩ :=
-    fepomep_dualPair_star n hn S hSU hS (J' := ⊥) hε he heε hne
+    fepomep_dualPair_star n hn S hSU hS (_J' := ⊥) hε he heε hne
   let est : Matrix (fepomepι n) (fepomepι n) F :=
     formAdj (RingHom.id F) (fepomepG n F) e
   let q : Submodule F (fepomepι n → F) := LinearMap.range (Matrix.mulVecLin est)
@@ -1844,7 +1843,7 @@ private lemma fepomep_levi_blockMap_isometry (n : ℕ) {F : Type} [Field F] [Fin
     ∀ v : fepomepι n → F, fepomepQ n F (gV v) = fepomepQ n F v := by
   classical
   obtain ⟨hestA, hestidem, hdouble, hestε, hneEst, hzero1, hzero2, hsum⟩ :=
-    fepomep_dualPair_star n hn S hSU hS (J' := ⊥) hε he heε hne
+    fepomep_dualPair_star n hn S hSU hS (_J' := ⊥) hε he heε hne
   let est : Matrix (fepomepι n) (fepomepι n) F :=
     formAdj (RingHom.id F) (fepomepG n F) e
   let q : Submodule F (fepomepι n → F) := LinearMap.range (Matrix.mulVecLin est)
@@ -1950,7 +1949,7 @@ private lemma fepomep_levi_blockMap_linearEquiv (n : ℕ) {F : Type} [Field F] [
     exact hiso
 
 private lemma fepomep_polar_smulVec (n : ℕ) {F : Type} [Field F] [Finite F] [CharP F 2]
-    (hn : 3 ≤ n)
+    (_hn : 3 ≤ n)
     (S : Set (GL (fepomepι n) F))
     (hSU : ∀ s ∈ S, s ∈ (fepomepJ n F).range) :
     ∀ s ∈ S, ∀ u w : fepomepι n → F,
@@ -2040,7 +2039,7 @@ private lemma fepomep_gstar_comm (n : ℕ) {F : Type} [Field F] [Finite F] [Char
   classical
   intro s hs y hy
   obtain ⟨hestA, hestidem, hdouble, hestε, hneEst, hzero1, hzero2, hsum⟩ :=
-    fepomep_dualPair_star n hn S hSU hS (J' := ⊥) hε he heε hne
+    fepomep_dualPair_star n hn S hSU hS (_J' := ⊥) hε he heε hne
   let est : Matrix (fepomepι n) (fepomepι n) F :=
     formAdj (RingHom.id F) (fepomepG n F) e
   let q : Submodule F (fepomepι n → F) := LinearMap.range (Matrix.mulVecLin est)
@@ -2230,11 +2229,11 @@ private lemma fepomep_dualPair_levi_comm (n : ℕ) {F : Type} [Field F] [Finite 
     {ε e : Matrix (fepomepι n) (fepomepι n) F}
     (hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
     (he : IsPrimIdemIn (fepomepA n F S) e) (heε : e * ε = e) (hne : e ≠ ε)
-    (hdeg : 2 ≤ blockDegree (fepomepA n F S) e)
+    (_hdeg : 2 ≤ blockDegree (fepomepA n F S) e)
     (K : Type) [Field K] [Finite K] [Algebra F K]
-    (π : fepomepA n F S →ₐ[F] K) (hπsurj : Function.Surjective π)
-    (hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
-    (hπdeg : Module.finrank F K = blockDegree (fepomepA n F S) e)
+    (π : fepomepA n F S →ₐ[F] K) (_hπsurj : Function.Surjective π)
+    (_hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
+    (_hπdeg : Module.finrank F K = blockDegree (fepomepA n F S) e)
     (W : Submodule F (fepomepι n → F)) (hW : W = LinearMap.range (Matrix.mulVecLin e))
     [Module K W] [IsScalarTower F K W]
     (hK : ∀ (a : fepomepA n F S) (w : W),
@@ -2244,13 +2243,13 @@ private lemma fepomep_dualPair_levi_comm (n : ℕ) {F : Type} [Field F] [Finite 
     (gstar : ↥(LinearMap.range (Matrix.mulVecLin
         (formAdj (RingHom.id F) (fepomepG n F) e))) ≃ₗ[F]
       ↥(LinearMap.range (Matrix.mulVecLin (formAdj (RingHom.id F) (fepomepG n F) e))))
-    (hgstar : ∀ (x : W) (y : ↥(LinearMap.range (Matrix.mulVecLin
+    (_hgstar : ∀ (x : W) (y : ↥(LinearMap.range (Matrix.mulVecLin
         (formAdj (RingHom.id F) (fepomepG n F) e)))),
       QuadraticMap.polar (fepomepQ n F) (g x : fepomepι n → F)
           (gstar y : fepomepι n → F) =
         QuadraticMap.polar (fepomepQ n F) (x : fepomepι n → F) (y : fepomepι n → F))
     (gV : (fepomepι n → F) ≃ₗ[F] (fepomepι n → F))
-    (horth : gV ∈ TauCeti.QuadraticMap.orthogonalGroup (fepomepQ n F))
+    (_horth : gV ∈ TauCeti.QuadraticMap.orthogonalGroup (fepomepQ n F))
     (hfix : ∀ v : fepomepι n → F, gV (Matrix.mulVec (1 - ε) v) = Matrix.mulVec (1 - ε) v)
     (hact : ∀ w : W, gV (w : fepomepι n → F) = (g w : fepomepι n → F))
     (hstar : ∀ y : ↥(LinearMap.range (Matrix.mulVecLin
@@ -2269,7 +2268,7 @@ private lemma fepomep_dualPair_levi_comm (n : ℕ) {F : Type} [Field F] [Finite 
         Matrix.mulVec (s : Matrix (fepomepι n) (fepomepι n) F) (gV v) := by
   classical
   obtain ⟨hestA, hestidem, hdouble, hestε, hneEst, hzero1, hzero2, hsum⟩ :=
-    fepomep_dualPair_star n hn S hSU hS (J' := ⊥) hε he heε hne
+    fepomep_dualPair_star n hn S hSU hS (_J' := ⊥) hε he heε hne
   let est : Matrix (fepomepι n) (fepomepι n) F :=
     formAdj (RingHom.id F) (fepomepG n F) e
   let q : Submodule F (fepomepι n → F) := LinearMap.range (Matrix.mulVecLin est)
@@ -2433,7 +2432,7 @@ private lemma fepomep_polar_of_mem_orthogonalGroup {F V : Type} [Field F] [AddCo
 
 private lemma fepomep_levi_comm_adjoin (n : ℕ) {F : Type} [Field F] [Finite F] [CharP F 2]
     (S : Set (GL (fepomepι n) F))
-    (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
+    (_hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
     (gV : (fepomepι n → F) →ₗ[F] (fepomepι n → F))
     (hcomm : ∀ s ∈ S, ∀ v : fepomepι n → F,
       gV (Matrix.mulVec (s : Matrix (fepomepι n) (fepomepι n) F) v) =
@@ -2474,7 +2473,7 @@ private lemma fepomep_levi_block_action (n : ℕ) {F : Type} [Field F] [Finite F
         Matrix.mulVec (a : Matrix (fepomepι n) (fepomepι n) F) (w : fepomepι n → F))
     (g : W ≃ₗ[K] W) (gV : (fepomepι n → F) ≃ₗ[F] (fepomepι n → F))
     (horth : gV ∈ TauCeti.QuadraticMap.orthogonalGroup (fepomepQ n F))
-    (hfix : ∀ v : fepomepι n → F, gV (Matrix.mulVec (1 - ε) v) = Matrix.mulVec (1 - ε) v)
+    (_hfix : ∀ v : fepomepι n → F, gV (Matrix.mulVec (1 - ε) v) = Matrix.mulVec (1 - ε) v)
     (hcomm : ∀ s ∈ S, ∀ v : fepomepι n → F,
       gV (Matrix.mulVec (s : Matrix (fepomepι n) (fepomepι n) F) v) =
         Matrix.mulVec (s : Matrix (fepomepι n) (fepomepι n) F) (gV v))
@@ -2493,7 +2492,7 @@ private lemma fepomep_levi_block_action (n : ℕ) {F : Type} [Field F] [Finite F
         gV (y : fepomepι n → F) = (gstar y : fepomepι n → F)) := by
   classical
   obtain ⟨hestA, hestidem, hdouble, hestε, hneEst, hzero1, hzero2, hsum⟩ :=
-    fepomep_dualPair_star n hn S hSU hS (J' := ⊥) hε he heε hne
+    fepomep_dualPair_star n hn S hSU hS (_J' := ⊥) hε he heε hne
   obtain ⟨gstar₀, hgstar₀⟩ :=
     fepomep_dualPair_levi_dual n hn S hSU hS hε he heε hne hdeg K π hπsurj hπker hπdeg
       W hW hK g
@@ -2610,15 +2609,15 @@ private lemma fepomep_finrank_commSpace_dualMap {F W : Type} [Field F] [AddCommG
     LinearMap.finrank_range_dualMap_eq_finrank_range]
 
 private lemma fepomep_dualPair_gstar_dualMap (n : ℕ) {F : Type} [Field F] [Finite F] [CharP F 2]
-    (hn : 3 ≤ n)
+    (_hn : 3 ≤ n)
     (S : Set (GL (fepomepι n) F))
-    (hSU : ∀ s ∈ S, s ∈ (fepomepJ n F).range)
-    (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
+    (_hSU : ∀ s ∈ S, s ∈ (fepomepJ n F).range)
+    (_hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
     {ε e : Matrix (fepomepι n) (fepomepι n) F}
-    (hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
-    (he : IsPrimIdemIn (fepomepA n F S) e) (heε : e * ε = e) (hne : e ≠ ε)
+    (_hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
+    (_he : IsPrimIdemIn (fepomepA n F S) e) (_heε : e * ε = e) (_hne : e ≠ ε)
     (K : Type) [Field K] [Finite K] [Algebra F K]
-    (W : Submodule F (fepomepι n → F)) (hW : W = LinearMap.range (Matrix.mulVecLin e))
+    (W : Submodule F (fepomepι n → F)) (_hW : W = LinearMap.range (Matrix.mulVecLin e))
     [Module K W] [IsScalarTower F K W]
     (g : W ≃ₗ[K] W)
     (gstar : ↥(LinearMap.range (Matrix.mulVecLin
@@ -2697,7 +2696,7 @@ private lemma fepomep_finrank_commSpace_of_prodCongr {F V W₁ W₂ : Type} [Fie
 
 private lemma fepomep_finrank_commSpace_restrict_isCompl {F V : Type} [Field F] [AddCommGroup V]
     [Module F V] [FiniteDimensional F V] (e : V ≃ₗ[F] V) (p q : Submodule F V)
-    (h : IsCompl p q) (hp : ∀ x ∈ p, e x ∈ p) (hq : ∀ x ∈ q, e x ∈ q)
+    (h : IsCompl p q) (_hp : ∀ x ∈ p, e x ∈ p) (_hq : ∀ x ∈ q, e x ∈ q)
     (ep : p ≃ₗ[F] p) (eq : q ≃ₗ[F] q)
     (hep : ∀ x : p, (ep x : V) = e x) (heq : ∀ x : q, (eq x : V) = e x) :
     Module.finrank F (CFSG.RankThree.OrthogonalInvolutions.commSpace e) =
@@ -2712,12 +2711,12 @@ private lemma fepomep_finrank_commSpace_restrict_isCompl {F V : Type} [Field F] 
     rw [← hw] at h1
     have hxy : (w.1 : V) + (w.2 : V) = v := by
       have h2 : (Φ w : V) = (w.1 : V) + (w.2 : V) := by
-        simp [Φ, Submodule.coe_prodEquivOfIsCompl, LinearMap.coprod_apply]
+        simp [Φ]
       rw [h2] at h1
       exact h1
     rw [LinearEquiv.trans_apply, LinearEquiv.trans_apply, ← hw]
     have hR : (Φ ((ep.prodCongr eq) w) : V) = (ep w.1 : V) + (eq w.2 : V) := by
-      simp [Φ, Submodule.coe_prodEquivOfIsCompl, LinearMap.coprod_apply, Submodule.coe_subtype]
+      simp [Φ]
     rw [hR, ← hxy, map_add, hep w.1, heq w.2]
   exact fepomep_finrank_commSpace_of_prodCongr e ep eq Φ hΦ
 
@@ -2738,7 +2737,7 @@ private lemma fepomep_levi_gVP_action (n : ℕ) {F : Type} [Field F] [Finite F]
     {ε e : Matrix (fepomepι n) (fepomepι n) F}
     (hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
     (he : IsPrimIdemIn (fepomepA n F S) e) (heε : e * ε = e) (hne : e ≠ ε)
-    (hdeg : 2 ≤ blockDegree (fepomepA n F S) e)
+    (_hdeg : 2 ≤ blockDegree (fepomepA n F S) e)
     (K : Type) [Field K] [Finite K] [Algebra F K]
     (W : Submodule F (fepomepι n → F)) (hW : W = LinearMap.range (Matrix.mulVecLin e))
     [Module K W] [IsScalarTower F K W]
@@ -2746,7 +2745,7 @@ private lemma fepomep_levi_gVP_action (n : ℕ) {F : Type} [Field F] [Finite F]
     (gstar : ↥(LinearMap.range (Matrix.mulVecLin
         (formAdj (RingHom.id F) (fepomepG n F) e))) ≃ₗ[F]
       ↥(LinearMap.range (Matrix.mulVecLin (formAdj (RingHom.id F) (fepomepG n F) e))))
-    (hgstar : ∀ (x : W) (y : ↥(LinearMap.range (Matrix.mulVecLin
+    (_hgstar : ∀ (x : W) (y : ↥(LinearMap.range (Matrix.mulVecLin
         (formAdj (RingHom.id F) (fepomepG n F) e)))),
       QuadraticMap.polar (fepomepQ n F) (g x : fepomepι n → F) (gstar y : fepomepι n → F) =
         QuadraticMap.polar (fepomepQ n F) (x : fepomepι n → F) (y : fepomepι n → F))
@@ -2762,7 +2761,7 @@ private lemma fepomep_levi_gVP_action (n : ℕ) {F : Type} [Field F] [Finite F]
       (∀ x : r, (LinearEquiv.refl F r x : fepomepι n → F) = gV (x : fepomepι n → F)) := by
   classical
   obtain ⟨hestA, hestidem, hdouble, hestε, hneEst, hzero1, hzero2, hsum⟩ :=
-    fepomep_dualPair_star n hn S hSU hS (J' := ⊥) hε he heε hne
+    fepomep_dualPair_star n hn S hSU hS (_J' := ⊥) hε he heε hne
   let est : Matrix (fepomepι n) (fepomepι n) F := formAdj (RingHom.id F) (fepomepG n F) e
   let P : Submodule F (fepomepι n → F) := LinearMap.range (Matrix.mulVecLin ε)
   let q : Submodule F (fepomepι n → F) := LinearMap.range (Matrix.mulVecLin est)
@@ -2853,7 +2852,7 @@ private lemma fepomep_levi_gVP_dim (n : ℕ) {F : Type} [Field F] [Finite F]
     {ε e : Matrix (fepomepι n) (fepomepι n) F}
     (hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
     (he : IsPrimIdemIn (fepomepA n F S) e) (heε : e * ε = e) (hne : e ≠ ε)
-    (hdeg : 2 ≤ blockDegree (fepomepA n F S) e)
+    (_hdeg : 2 ≤ blockDegree (fepomepA n F S) e)
     (K : Type) [Field K] [Finite K] [Algebra F K]
     (W : Submodule F (fepomepι n → F)) (hW : W = LinearMap.range (Matrix.mulVecLin e))
     [Module K W] [IsScalarTower F K W]
@@ -2861,7 +2860,7 @@ private lemma fepomep_levi_gVP_dim (n : ℕ) {F : Type} [Field F] [Finite F]
     (gstar : ↥(LinearMap.range (Matrix.mulVecLin
         (formAdj (RingHom.id F) (fepomepG n F) e))) ≃ₗ[F]
       ↥(LinearMap.range (Matrix.mulVecLin (formAdj (RingHom.id F) (fepomepG n F) e))))
-    (hgstar : ∀ (x : W) (y : ↥(LinearMap.range (Matrix.mulVecLin
+    (_hgstar : ∀ (x : W) (y : ↥(LinearMap.range (Matrix.mulVecLin
         (formAdj (RingHom.id F) (fepomepG n F) e)))),
       QuadraticMap.polar (fepomepQ n F) (g x : fepomepι n → F) (gstar y : fepomepι n → F) =
         QuadraticMap.polar (fepomepQ n F) (x : fepomepι n → F) (y : fepomepι n → F))
@@ -2869,17 +2868,17 @@ private lemma fepomep_levi_gVP_dim (n : ℕ) {F : Type} [Field F] [Finite F]
     (hstar : ∀ y : ↥(LinearMap.range (Matrix.mulVecLin
         (formAdj (RingHom.id F) (fepomepG n F) e))),
       gV (y : fepomepι n → F) = (gstar y : fepomepι n → F))
-    (hfix : ∀ v : fepomepι n → F, gV (Matrix.mulVec (1 - ε) v) = Matrix.mulVec (1 - ε) v)
+    (_hfix : ∀ v : fepomepι n → F, gV (Matrix.mulVec (1 - ε) v) = Matrix.mulVec (1 - ε) v)
     (P r : Submodule F (fepomepι n → F)) (gVP : P ≃ₗ[F] P)
     (hPε : P = LinearMap.range (Matrix.mulVecLin ε))
     (hP : ∀ x : P, (gVP x : fepomepι n → F) = gV (x : fepomepι n → F))
-    (hr : ∀ x : r, (LinearEquiv.refl F r x : fepomepι n → F) = gV (x : fepomepι n → F)) :
+    (_hr : ∀ x : r, (LinearEquiv.refl F r x : fepomepι n → F) = gV (x : fepomepι n → F)) :
     Module.finrank F (CFSG.RankThree.OrthogonalInvolutions.commSpace gVP) =
       Module.finrank F (CFSG.RankThree.OrthogonalInvolutions.commSpace (g.restrictScalars F)) +
         Module.finrank F (CFSG.RankThree.OrthogonalInvolutions.commSpace gstar) := by
   classical
   obtain ⟨hestA, hestidem, hdouble, hestε, hneEst, hzero1, hzero2, hsum⟩ :=
-    fepomep_dualPair_star n hn S hSU hS (J' := ⊥) hε he heε hne
+    fepomep_dualPair_star n hn S hSU hS (_J' := ⊥) hε he heε hne
   let est : Matrix (fepomepι n) (fepomepι n) F := formAdj (RingHom.id F) (fepomepG n F) e
   let q : Submodule F (fepomepι n → F) := LinearMap.range (Matrix.mulVecLin est)
   have hεe : ε * e = e := by rw [(fepomep_adjoin_comm hS ε hε.1 e he.1).eq, heε]
@@ -3316,13 +3315,13 @@ private lemma fepomep_blockLinearEquiv_gl (K : Type) [Field K]
 private lemma fepomep_isMulCommutative_gl_of_le_one {K : Type} [Field K] {m' : ℕ}
     (hm' : m' ≤ 1) : IsMulCommutative (Matrix.GeneralLinearGroup (Fin m') K) := by
   rcases (by omega : m' = 0 ∨ m' = 1) with rfl | rfl
-  · haveI : Subsingleton (Matrix.GeneralLinearGroup (Fin 0) K) := inferInstance
+  · have : Subsingleton (Matrix.GeneralLinearGroup (Fin 0) K) := inferInstance
     exact isMulCommutative_iff.mpr (fun a b => Subsingleton.elim (a * b) (b * a))
   · exact isMulCommutative_iff.mpr (fun a b => by
       apply Units.ext
       ext i j
-      fin_cases i <;> fin_cases j <;>
-        simp [Matrix.mul_apply, Fin.sum_univ_one, mul_comm])
+      fin_cases i; fin_cases j;
+        simp [Matrix.mul_apply, mul_comm])
 
 private lemma fepomep_rank_two_of_component {G : Type} [Group G] (H : Subgroup G)
     {J' : Subgroup G} (hJ : IsComponentOf J' ⁅H, H⁆)
@@ -3338,20 +3337,20 @@ private lemma fepomep_rank_two_of_component {G : Type} [Group G] (H : Subgroup G
     rw [map_mul, map_mul]
     exact (isMulCommutative_iff.mp hcommGL) (φ a) (φ b)
   have hJleH : J' ≤ H := hJ.1.trans (Subgroup.commutator_le_self H)
-  haveI : IsMulCommutative ↥J' :=
+  have : IsMulCommutative ↥J' :=
     isMulCommutative_iff.mpr (fun a b => Subtype.ext
       (congrArg (fun h : H => (h : G))
         (hcommH ⟨(a : G), hJleH a.2⟩ ⟨(b : G), hJleH b.2⟩)))
-  haveI : Group.IsPerfect ↥J' := Group.IsPerfect.mk hJ.2.2.1
-  haveI : Nontrivial (↥J' ⧸ Subgroup.center ↥J') := hJ.2.2.2.toNontrivial
-  haveI : Nontrivial ↥J' := (QuotientGroup.mk'_surjective (Subgroup.center ↥J')).nontrivial
+  have : Group.IsPerfect ↥J' := Group.IsPerfect.mk hJ.2.2.1
+  have : Nontrivial (↥J' ⧸ Subgroup.center ↥J') := hJ.2.2.2.toNontrivial
+  have : Nontrivial ↥J' := (QuotientGroup.mk'_surjective (Subgroup.center ↥J')).nontrivial
   have hsub : Subsingleton ↥J' := Group.IsPerfect.subsingleton_of_isMulCommutative
   obtain ⟨x, y, hxy⟩ := (inferInstance : Nontrivial ↥J')
   exact hxy (hsub.elim x y)
 
 private lemma fepomep_dualPair_blockGroup_iso (n : ℕ) {F : Type} [Field F] [Finite F] [CharP F 2]
     (hn : 3 ≤ n)
-    (f : ℕ) (hc : Nat.card F = 2 ^ f)
+    (f : ℕ) (_hc : Nat.card F = 2 ^ f)
     (S : Set (GL (fepomepι n) F))
     (hSU : ∀ s ∈ S, s ∈ (fepomepJ n F).range)
     (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
@@ -3371,9 +3370,9 @@ private lemma fepomep_dualPair_blockGroup_iso (n : ℕ) {F : Type} [Field F] [Fi
         Matrix.GeneralLinearGroup (Fin m') K) := by
   obtain ⟨W, hW, hmod, htower, hfin, hdim, hm1, hK⟩ :=
     fepomep_dualPair_blockModule n S hS he K π hπsurj hπker hπdeg
-  letI : Module K W := hmod
-  letI : IsScalarTower F K W := htower
-  letI : FiniteDimensional K W := hfin
+  let : Module K W := hmod
+  let : IsScalarTower F K W := htower
+  let : FiniteDimensional K W := hfin
   obtain ⟨φ, hφ⟩ :=
     fepomep_dualPair_blockAction n hn S hSU hS hε he heε hne hdeg K π hπsurj hπker
       hπdeg W hW hK
@@ -3441,7 +3440,7 @@ private lemma fepomep_dualPair_blockGroup_commutator_sl (n : ℕ) {F : Type} [Fi
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ (f * blockDegree (fepomepA n F S) e) :=
           Nat.pow_le_pow_right (by norm_num) h2
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcond : 3 ≤ m' ∨ ∃ s : Finset K, s.card = 4 := by
     rcases Nat.lt_or_ge m' 3 with h3 | h3
     · right
@@ -3474,7 +3473,7 @@ private lemma fepomep_dualPair_component_sl (n : ℕ) {F : Type} [Field F] [Fini
     (S : Set (GL (fepomepι n) F))
     (hSU : ∀ s ∈ S, s ∈ (fepomepJ n F).range)
     (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
-    (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {J' : Subgroup ↥(spinGroup (fepomepQ n F))}
     {ε e : Matrix (fepomepι n) (fepomepι n) F}
     (hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
@@ -3525,8 +3524,8 @@ private lemma fepomep_dualPair_component_sl (n : ℕ) {F : Type} [Field F] [Fini
   have hHq : CFSG.Open.IsQuasisimple H := CFSG.Open.IsQuasisimple.of_mulEquiv φ hSLq
   have hsub : CFSG.Open.IsSubnormal (J'.subgroupOf H) ⊤ :=
     CFSG.Open.IsSubnormal.of_mathlib (CFSG.Assembly.IsSubnormal.subgroupOf hJε.2.1)
-  haveI : Group.IsPerfect J' := Group.IsPerfect.mk hJε.2.2.1
-  haveI : Group.IsPerfect (J'.subgroupOf H) :=
+  have : Group.IsPerfect J' := Group.IsPerfect.mk hJε.2.2.1
+  have : Group.IsPerfect (J'.subgroupOf H) :=
     Group.IsPerfect.ofSurjective (f := (Subgroup.subgroupOfEquivOfLe hJε.1).symm.toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hJε.1).symm.surjective
   have hJeq : J' = H := by
@@ -3599,7 +3598,7 @@ private lemma fepomep_dualPair_model (n : ℕ) {F : Type} [Field F] [Finite F] [
   exact hproj
 
 private lemma fepomep_selfDual_degree_even (n : ℕ) {F : Type} [Field F] [Finite F] [CharP F 2]
-    (hn : 3 ≤ n)
+    (_hn : 3 ≤ n)
     (S : Set (GL (fepomepι n) F))
     (hSU : ∀ s ∈ S, s ∈ (fepomepJ n F).range)
     (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
@@ -3715,8 +3714,8 @@ private lemma fepomep_selfDual_tau_kernel_le (n : ℕ) {F : Type} [Field F] [Fin
     (hSU : ∀ s ∈ S, s ∈ (fepomepJ n F).range)
     (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
     {ε e : Matrix (fepomepι n) (fepomepι n) F}
-    (hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
-    (he : IsPrimIdemIn (fepomepA n F S) e) (hself : e = ε)
+    (_hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
+    (_he : IsPrimIdemIn (fepomepA n F S) e) (_hself : e = ε)
     (K : Type) [Field K] [Finite K] [Algebra F K]
     (π : fepomepA n F S →ₐ[F] K)
     (hker : RingHom.ker π = (RingHom.ker π).map
@@ -3775,8 +3774,8 @@ private lemma fepomep_selfDual_liftHom_exists (n : ℕ) {F : Type} [Field F] [Fi
     (hSU : ∀ s ∈ S, s ∈ (fepomepJ n F).range)
     (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
     {ε e : Matrix (fepomepι n) (fepomepι n) F}
-    (hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
-    (he : IsPrimIdemIn (fepomepA n F S) e) (hself : e = ε)
+    (_hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
+    (_he : IsPrimIdemIn (fepomepA n F S) e) (_hself : e = ε)
     (K : Type) [Field K] [Finite K] [Algebra F K]
     (π : fepomepA n F S →ₐ[F] K) (hπsurj : Function.Surjective π)
     (hker : RingHom.ker π = (RingHom.ker π).map
@@ -3884,7 +3883,6 @@ private lemma fepomep_selfDual_tau_liftHom_sq (n : ℕ) {F : Type} [Field F] [Fi
     (fepomep_selfDual_adjoint_invol n hn S hSU hS hε he hself).2
   change fK (fK (π a)) = π a
   rw [hcompat a]
-  change fK (π (fepomep_formAdjAlgEquiv n hn S hSU hS a)) = π a
   rw [hcompat (fepomep_formAdjAlgEquiv n hn S hSU hS a)]
   exact congrArg π (hinvol a)
 
@@ -3894,8 +3892,8 @@ private lemma fepomep_selfDual_tau_lift_of_liftHom (n : ℕ) {F : Type} [Field F
     (hSU : ∀ s ∈ S, s ∈ (fepomepJ n F).range)
     (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
     {ε e : Matrix (fepomepι n) (fepomepι n) F}
-    (hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
-    (he : IsPrimIdemIn (fepomepA n F S) e) (hself : e = ε)
+    (_hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
+    (_he : IsPrimIdemIn (fepomepA n F S) e) (_hself : e = ε)
     (K : Type) [Field K] [Finite K] [Algebra F K]
     (π : fepomepA n F S →ₐ[F] K)
     (fK : K →ₐ[F] K) (hfK : fK.comp fK = AlgHom.id F K)
@@ -3933,8 +3931,8 @@ private lemma fepomep_selfDual_tau_of_lift (n : ℕ) {F : Type} [Field F] [Finit
     (hSU : ∀ s ∈ S, s ∈ (fepomepJ n F).range)
     (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
     {ε e : Matrix (fepomepι n) (fepomepι n) F}
-    (hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
-    (he : IsPrimIdemIn (fepomepA n F S) e) (hself : e = ε)
+    (_hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
+    (_he : IsPrimIdemIn (fepomepA n F S) e) (_hself : e = ε)
     (K : Type) [Field K] [Finite K] [Algebra F K]
     (π : fepomepA n F S →ₐ[F] K) (fK : K →ₐ[F] K)
     (hfK : fK.comp fK = AlgHom.id F K)
@@ -3956,7 +3954,7 @@ private lemma fepomep_selfDual_tau_compat (n : ℕ) {F : Type} [Field F] [Finite
     (he : IsPrimIdemIn (fepomepA n F S) e) (hself : e = ε)
     (K : Type) [Field K] [Finite K] [Algebra F K]
     (π : fepomepA n F S →ₐ[F] K) (hπsurj : Function.Surjective π)
-    (hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
+    (_hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
     (hker : RingHom.ker π = (RingHom.ker π).map
       (fepomep_formAdjAlgEquiv n hn S hSU hS : fepomepA n F S →+* fepomepA n F S)) :
     ∃ τ : K ≃+* K,
@@ -3977,7 +3975,7 @@ private lemma fepomep_selfDual_tau_sq (n : ℕ) {F : Type} [Field F] [Finite F] 
     (he : IsPrimIdemIn (fepomepA n F S) e) (hself : e = ε)
     (K : Type) [Field K] [Finite K] [Algebra F K]
     (π : fepomepA n F S →ₐ[F] K) (hπsurj : Function.Surjective π)
-    (hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
+    (_hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
     (τ : K ≃+* K)
     (hτ : ∀ a : fepomepA n F S, τ (π a) =
       π (fepomep_formAdjAlgEquiv n hn S hSU hS a)) :
@@ -3991,7 +3989,6 @@ private lemma fepomep_selfDual_tau_sq (n : ℕ) {F : Type} [Field F] [Finite F] 
   obtain ⟨a, rfl⟩ := hπsurj x
   change τ (τ (π a)) = π a
   rw [hτ a]
-  change τ (π (fepomep_formAdjAlgEquiv n hn S hSU hS a)) = π a
   rw [hτ (fepomep_formAdjAlgEquiv n hn S hSU hS a)]
   exact congrArg π (hinvol a)
 
@@ -4022,12 +4019,12 @@ private lemma fepomep_selfDual_tau_ne (n : ℕ) {F : Type} [Field F] [Finite F] 
     (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
     (hodd : ∀ s ∈ S, Odd (orderOf s))
     {ε e : Matrix (fepomepι n) (fepomepι n) F}
-    (hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
-    (he : IsPrimIdemIn (fepomepA n F S) e) (hself : e = ε)
+    (_hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
+    (_he : IsPrimIdemIn (fepomepA n F S) e) (_hself : e = ε)
     (hd4 : 4 ≤ blockDegree (fepomepA n F S) e)
     (K : Type) [Field K] [Finite K] [Algebra F K]
     (π : fepomepA n F S →ₐ[F] K) (hπsurj : Function.Surjective π)
-    (hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
+    (_hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
     (hπdeg : Module.finrank F K = blockDegree (fepomepA n F S) e)
     (τ : K ≃+* K)
     (hτ : ∀ a : fepomepA n F S, τ (π a) =
@@ -4140,14 +4137,14 @@ private lemma fepomep_selfDual_tau_ne (n : ℕ) {F : Type} [Field F] [Finite F] 
 
 private lemma fepomep_selfDual_hermitian (n : ℕ) {F : Type} [Field F] [Finite F] [CharP F 2]
     (hn : 3 ≤ n)
-    (f : ℕ) (hc : Nat.card F = 2 ^ f)
+    (f : ℕ) (_hc : Nat.card F = 2 ^ f)
     (S : Set (GL (fepomepι n) F))
     (hSU : ∀ s ∈ S, s ∈ (fepomepJ n F).range)
     (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
     (hodd : ∀ s ∈ S, Odd (orderOf s))
     {ε e : Matrix (fepomepι n) (fepomepι n) F}
     (hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
-    (he : IsPrimIdemIn (fepomepA n F S) e) (heε : e * ε = e) (hself : e = ε)
+    (he : IsPrimIdemIn (fepomepA n F S) e) (_heε : e * ε = e) (hself : e = ε)
     (hd4 : 4 ≤ blockDegree (fepomepA n F S) e)
     (K : Type) [Field K] [Finite K] [Algebra F K]
     (π : fepomepA n F S →ₐ[F] K) (hπsurj : Function.Surjective π)
@@ -4167,13 +4164,13 @@ private lemma fepomep_selfDual_hermitian (n : ℕ) {F : Type} [Field F] [Finite 
   exact ⟨l, hdl, hl2, τ, hτ, hτ2, hτne⟩
 
 private lemma fepomep_selfDual_blockModule (n : ℕ) {F : Type} [Field F] [Finite F] [CharP F 2]
-    (hn : 3 ≤ n)
+    (_hn : 3 ≤ n)
     (S : Set (GL (fepomepι n) F))
-    (hSU : ∀ s ∈ S, s ∈ (fepomepJ n F).range)
+    (_hSU : ∀ s ∈ S, s ∈ (fepomepJ n F).range)
     (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
     {ε e : Matrix (fepomepι n) (fepomepι n) F}
-    (hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
-    (he : IsPrimIdemIn (fepomepA n F S) e) (heε : e * ε = e) (hself : e = ε)
+    (_hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
+    (he : IsPrimIdemIn (fepomepA n F S) e) (_heε : e * ε = e) (_hself : e = ε)
     (K : Type) [Field K] [Finite K] [Algebra F K]
     (π : fepomepA n F S →ₐ[F] K) (hπsurj : Function.Surjective π)
     (hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
@@ -4194,12 +4191,12 @@ private lemma fepomep_selfDual_blockActionEnd (n : ℕ) {F : Type} [Field F] [Fi
     (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
     {ε e : Matrix (fepomepι n) (fepomepι n) F}
     (hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
-    (he : IsPrimIdemIn (fepomepA n F S) e) (heε : e * ε = e)
-    (hdeg : 2 ≤ blockDegree (fepomepA n F S) e)
+    (he : IsPrimIdemIn (fepomepA n F S) e) (_heε : e * ε = e)
+    (_hdeg : 2 ≤ blockDegree (fepomepA n F S) e)
     (K : Type) [Field K] [Finite K] [Algebra F K]
     (π : fepomepA n F S →ₐ[F] K) (hπsurj : Function.Surjective π)
-    (hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
-    (hπdeg : Module.finrank F K = blockDegree (fepomepA n F S) e)
+    (_hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
+    (_hπdeg : Module.finrank F K = blockDegree (fepomepA n F S) e)
     (W : Submodule F (fepomepι n → F)) (hW : W = LinearMap.range (Matrix.mulVecLin e))
     [Module K W] [IsScalarTower F K W]
     (hK : ∀ (a : fepomepA n F S) (w : W),
@@ -4264,25 +4261,25 @@ private lemma fepomep_selfDual_blockActionEnd (n : ℕ) {F : Type} [Field F] [Fi
 
 private lemma fepomep_selfDual_blockActionEnd_bijective (n : ℕ) {F : Type} [Field F] [Finite F]
     [CharP F 2]
-    (hn : 3 ≤ n)
+    (_hn : 3 ≤ n)
     (S : Set (GL (fepomepι n) F))
-    (hSU : ∀ s ∈ S, s ∈ (fepomepJ n F).range)
-    (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
+    (_hSU : ∀ s ∈ S, s ∈ (fepomepJ n F).range)
+    (_hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
     {ε e : Matrix (fepomepι n) (fepomepι n) F}
-    (hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
-    (he : IsPrimIdemIn (fepomepA n F S) e) (heε : e * ε = e)
-    (hdeg : 2 ≤ blockDegree (fepomepA n F S) e)
+    (_hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
+    (_he : IsPrimIdemIn (fepomepA n F S) e) (_heε : e * ε = e)
+    (_hdeg : 2 ≤ blockDegree (fepomepA n F S) e)
     (K : Type) [Field K] [Finite K] [Algebra F K]
-    (π : fepomepA n F S →ₐ[F] K) (hπsurj : Function.Surjective π)
-    (hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
-    (hπdeg : Module.finrank F K = blockDegree (fepomepA n F S) e)
-    (W : Submodule F (fepomepι n → F)) (hW : W = LinearMap.range (Matrix.mulVecLin e))
+    (π : fepomepA n F S →ₐ[F] K) (_hπsurj : Function.Surjective π)
+    (_hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
+    (_hπdeg : Module.finrank F K = blockDegree (fepomepA n F S) e)
+    (W : Submodule F (fepomepι n → F)) (_hW : W = LinearMap.range (Matrix.mulVecLin e))
     [Module K W] [IsScalarTower F K W]
-    (hK : ∀ (a : fepomepA n F S) (w : W),
+    (_hK : ∀ (a : fepomepA n F S) (w : W),
       ((π a • w : W) : fepomepι n → F) =
         Matrix.mulVec (a : Matrix (fepomepι n) (fepomepι n) F) (w : fepomepι n → F))
     (ρEnd : glBlockCentralizer (fepomepJ n F) S ε →* Module.End K W)
-    (hρ : ∀ (u : glBlockCentralizer (fepomepJ n F) S ε) (w : W),
+    (_hρ : ∀ (u : glBlockCentralizer (fepomepJ n F) S ε) (w : W),
       ((ρEnd u w : W) : fepomepι n → F) =
         Matrix.mulVec ((fepomepJ n F (u : ↥(spinGroup (fepomepQ n F)))) :
           Matrix (fepomepι n) (fepomepι n) F) (w : fepomepι n → F)) :
@@ -4307,7 +4304,7 @@ private lemma fepomep_selfDual_blockActionHom (n : ℕ) {F : Type} [Field F] [Fi
     (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
     {ε e : Matrix (fepomepι n) (fepomepι n) F}
     (hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
-    (he : IsPrimIdemIn (fepomepA n F S) e) (heε : e * ε = e) (hself : e = ε)
+    (he : IsPrimIdemIn (fepomepA n F S) e) (heε : e * ε = e) (_hself : e = ε)
     (hdeg : 2 ≤ blockDegree (fepomepA n F S) e)
     (K : Type) [Field K] [Finite K] [Algebra F K]
     (π : fepomepA n F S →ₐ[F] K) (hπsurj : Function.Surjective π)
@@ -4344,18 +4341,18 @@ private lemma fepomep_selfDual_blockActionHom (n : ℕ) {F : Type} [Field F] [Fi
   exact ⟨ρ, fun u w => hρ u w⟩
 
 private lemma fepomep_selfDual_formInvariant (n : ℕ) {F : Type} [Field F] [Finite F] [CharP F 2]
-    (hn : 3 ≤ n)
+    (_hn : 3 ≤ n)
     (S : Set (GL (fepomepι n) F))
-    (hSU : ∀ s ∈ S, s ∈ (fepomepJ n F).range)
-    (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
+    (_hSU : ∀ s ∈ S, s ∈ (fepomepJ n F).range)
+    (_hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
     {ε e : Matrix (fepomepι n) (fepomepι n) F}
-    (hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
-    (he : IsPrimIdemIn (fepomepA n F S) e) (heε : e * ε = e) (hself : e = ε)
+    (_hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
+    (_he : IsPrimIdemIn (fepomepA n F S) e) (_heε : e * ε = e) (_hself : e = ε)
     (K : Type) [Field K] [Finite K] [Algebra F K]
-    (π : fepomepA n F S →ₐ[F] K) (hπsurj : Function.Surjective π)
-    (hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
-    (hπdeg : Module.finrank F K = blockDegree (fepomepA n F S) e)
-    (W : Submodule F (fepomepι n → F)) (hW : W = LinearMap.range (Matrix.mulVecLin e))
+    (π : fepomepA n F S →ₐ[F] K) (_hπsurj : Function.Surjective π)
+    (_hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
+    (_hπdeg : Module.finrank F K = blockDegree (fepomepA n F S) e)
+    (W : Submodule F (fepomepι n → F)) (_hW : W = LinearMap.range (Matrix.mulVecLin e))
     [Module K W] [IsScalarTower F K W]
     (ρ : glBlockCentralizer (fepomepJ n F) S ε →* (W ≃ₗ[K] W))
     (hρ : ∀ (u : glBlockCentralizer (fepomepJ n F) S ε) (w : W),
@@ -4374,34 +4371,34 @@ private lemma fepomep_selfDual_formInvariant (n : ℕ) {F : Type} [Field F] [Fin
       (Spin.spinMatrix_mem (fepomepQ n F) (u : ↥(spinGroup (fepomepQ n F))))]
 
 private lemma fepomep_selfDual_moduleMatrixEquiv (n : ℕ) {F : Type} [Field F] [Finite F]
-    [CharP F 2] (hn : 3 ≤ n)
+    [CharP F 2] (_hn : 3 ≤ n)
     (S : Set (GL (fepomepι n) F))
-    (hSU : ∀ s ∈ S, s ∈ (fepomepJ n F).range)
-    (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
+    (_hSU : ∀ s ∈ S, s ∈ (fepomepJ n F).range)
+    (_hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
     {e : Matrix (fepomepι n) (fepomepι n) F}
-    (he : IsPrimIdemIn (fepomepA n F S) e)
+    (_he : IsPrimIdemIn (fepomepA n F S) e)
     (K : Type) [Field K] [Finite K] [Algebra F K]
-    (W : Submodule F (fepomepι n → F)) (hW : W = LinearMap.range (Matrix.mulVecLin e))
+    (W : Submodule F (fepomepι n → F)) (_hW : W = LinearMap.range (Matrix.mulVecLin e))
     [Module K W] [IsScalarTower F K W] [FiniteDimensional K W] :
     Nonempty (W ≃ₗ[K] (Fin (Module.finrank K W) → K)) := by
   exact ⟨(Module.finBasis K W).equivFun⟩
 
 private lemma fepomep_selfDual_blockAction_injective (n : ℕ) {F : Type} [Field F] [Finite F]
-    [CharP F 2] (hn : 3 ≤ n)
+    [CharP F 2] (_hn : 3 ≤ n)
     (S : Set (GL (fepomepι n) F))
-    (hSU : ∀ s ∈ S, s ∈ (fepomepJ n F).range)
-    (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
+    (_hSU : ∀ s ∈ S, s ∈ (fepomepJ n F).range)
+    (_hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
     {ε e : Matrix (fepomepι n) (fepomepι n) F}
-    (hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
-    (he : IsPrimIdemIn (fepomepA n F S) e) (heε : e * ε = e) (hself : e = ε)
-    (hdeg : 2 ≤ blockDegree (fepomepA n F S) e)
+    (_hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
+    (_he : IsPrimIdemIn (fepomepA n F S) e) (_heε : e * ε = e) (hself : e = ε)
+    (_hdeg : 2 ≤ blockDegree (fepomepA n F S) e)
     (K : Type) [Field K] [Finite K] [Algebra F K]
-    (π : fepomepA n F S →ₐ[F] K) (hπsurj : Function.Surjective π)
-    (hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
-    (hπdeg : Module.finrank F K = blockDegree (fepomepA n F S) e)
+    (π : fepomepA n F S →ₐ[F] K) (_hπsurj : Function.Surjective π)
+    (_hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
+    (_hπdeg : Module.finrank F K = blockDegree (fepomepA n F S) e)
     (W : Submodule F (fepomepι n → F)) (hW : W = LinearMap.range (Matrix.mulVecLin e))
     [Module K W] [IsScalarTower F K W]
-    (hK : ∀ (a : fepomepA n F S) (w : W),
+    (_hK : ∀ (a : fepomepA n F S) (w : W),
       ((π a • w : W) : fepomepι n → F) =
         Matrix.mulVec (a : Matrix (fepomepι n) (fepomepι n) F) (w : fepomepι n → F))
     (ρ : glBlockCentralizer (fepomepJ n F) S ε →* (W ≃ₗ[K] W))
@@ -4543,7 +4540,7 @@ private lemma fepomep_statedSU_commutator_self {K : Type} [Field K] [Finite K] {
     (hne : (m, p ^ f) ≠ (3, 2)) :
     ⁅CFSG.Open.StatedSU m (p ^ f) K, CFSG.Open.StatedSU m (p ^ f) K⁆ =
       CFSG.Open.StatedSU m (p ^ f) K := by
-  haveI : Group.IsPerfect ↥(CFSG.Open.StatedSU m (p ^ f) K) :=
+  have : Group.IsPerfect ↥(CFSG.Open.StatedSU m (p ^ f) K) :=
     CFSG.ClassicalGroups.Unitary.isPerfect_statedSU hK hm hne
   exact Subgroup.commutator_eq_self
 
@@ -4582,22 +4579,22 @@ private lemma fepomep_commutator_subtype_iso {G : Type} [Group G] (H : Subgroup 
     (MulEquiv.subgroupCongr h)).symm⟩
 
 private lemma fepomep_selfDual_extension_polarNondegOn_W (n : ℕ) {F : Type} [Field F] [Finite F]
-    [CharP F 2] (hn : 3 ≤ n) (f l : ℕ)
+    [CharP F 2] (_hn : 3 ≤ n) (f l : ℕ)
     (S : Set (GL (fepomepι n) F))
-    (hSU : ∀ s ∈ S, s ∈ (fepomepJ n F).range)
-    (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
+    (_hSU : ∀ s ∈ S, s ∈ (fepomepJ n F).range)
+    (_hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
     {ε e : Matrix (fepomepι n) (fepomepι n) F}
     (hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
-    (he : IsPrimIdemIn (fepomepA n F S) e) (heε : e * ε = e) (hself : e = ε)
+    (he : IsPrimIdemIn (fepomepA n F S) e) (_heε : e * ε = e) (hself : e = ε)
     (K : Type) [Field K] [Finite K] [Algebra F K]
-    (π : fepomepA n F S →ₐ[F] K) (hπsurj : Function.Surjective π)
-    (hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
-    (hπdeg : Module.finrank F K = blockDegree (fepomepA n F S) e)
+    (π : fepomepA n F S →ₐ[F] K) (_hπsurj : Function.Surjective π)
+    (_hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
+    (_hπdeg : Module.finrank F K = blockDegree (fepomepA n F S) e)
     (W : Submodule F (fepomepι n → F)) (hW : W = LinearMap.range (Matrix.mulVecLin e))
     [Module K W] [IsScalarTower F K W] [FiniteDimensional K W]
-    (Φ : W ≃ₗ[K] (Fin (Module.finrank K W) → K))
+    (_Φ : W ≃ₗ[K] (Fin (Module.finrank K W) → K))
     (A : GL (Fin (Module.finrank K W)) K)
-    (hA : (((A : GL (Fin (Module.finrank K W)) K) :
+    (_hA : (((A : GL (Fin (Module.finrank K W)) K) :
         Matrix (Fin (Module.finrank K W)) (Fin (Module.finrank K W)) K).map
         (fun x => x ^ (2 ^ (l * f)))).transpose *
       ((A : GL (Fin (Module.finrank K W)) K) :
@@ -4627,22 +4624,22 @@ private lemma fepomep_selfDual_extension_polarNondegOn_W (n : ℕ) {F : Type} [F
   rw [← hdec w, QuadraticMap.polar_add_right, h1, h2, add_zero]
 
 private lemma fepomep_selfDual_extension_mem_map (n : ℕ) {F : Type} [Field F] [Finite F]
-    [CharP F 2] (hn : 3 ≤ n) (f l : ℕ)
+    [CharP F 2] (_hn : 3 ≤ n) (f l : ℕ)
     (S : Set (GL (fepomepι n) F))
-    (hSU : ∀ s ∈ S, s ∈ (fepomepJ n F).range)
-    (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
+    (_hSU : ∀ s ∈ S, s ∈ (fepomepJ n F).range)
+    (_hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
     {ε e : Matrix (fepomepι n) (fepomepι n) F}
-    (hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
-    (he : IsPrimIdemIn (fepomepA n F S) e) (heε : e * ε = e) (hself : e = ε)
+    (_hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
+    (_he : IsPrimIdemIn (fepomepA n F S) e) (_heε : e * ε = e) (_hself : e = ε)
     (K : Type) [Field K] [Finite K] [Algebra F K]
-    (π : fepomepA n F S →ₐ[F] K) (hπsurj : Function.Surjective π)
-    (hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
-    (hπdeg : Module.finrank F K = blockDegree (fepomepA n F S) e)
-    (W : Submodule F (fepomepι n → F)) (hW : W = LinearMap.range (Matrix.mulVecLin e))
+    (π : fepomepA n F S →ₐ[F] K) (_hπsurj : Function.Surjective π)
+    (_hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
+    (_hπdeg : Module.finrank F K = blockDegree (fepomepA n F S) e)
+    (W : Submodule F (fepomepι n → F)) (_hW : W = LinearMap.range (Matrix.mulVecLin e))
     [Module K W] [IsScalarTower F K W] [FiniteDimensional K W]
-    (Φ : W ≃ₗ[K] (Fin (Module.finrank K W) → K))
+    (_Φ : W ≃ₗ[K] (Fin (Module.finrank K W) → K))
     (A : GL (Fin (Module.finrank K W)) K)
-    (hA : (((A : GL (Fin (Module.finrank K W)) K) :
+    (_hA : (((A : GL (Fin (Module.finrank K W)) K) :
         Matrix (Fin (Module.finrank K W)) (Fin (Module.finrank K W)) K).map
         (fun x => x ^ (2 ^ (l * f)))).transpose *
       ((A : GL (Fin (Module.finrank K W)) K) :
@@ -4686,24 +4683,24 @@ private lemma fepomep_selfDual_blockGroup_blockCardinality
     (S : Set (GL (fepomepι n) F))
     (hSU : ∀ s ∈ S, s ∈ (fepomepJ n F).range)
     (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
-    (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {J' : Subgroup ↥(spinGroup (fepomepQ n F))}
     {ε e : Matrix (fepomepι n) (fepomepι n) F}
-    (hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
-    (hJε : IsComponentOf J' ⁅glBlockCentralizer (fepomepJ n F) S ε,
+    (_hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
+    (_hJε : IsComponentOf J' ⁅glBlockCentralizer (fepomepJ n F) S ε,
       glBlockCentralizer (fepomepJ n F) S ε⁆)
-    (he : IsPrimIdemIn (fepomepA n F S) e) (heε : e * ε = e) (hself : e = ε)
-    (hd4 : 4 ≤ blockDegree (fepomepA n F S) e)
+    (_he : IsPrimIdemIn (fepomepA n F S) e) (_heε : e * ε = e) (_hself : e = ε)
+    (_hd4 : 4 ≤ blockDegree (fepomepA n F S) e)
     (l : ℕ) (hl : blockDegree (fepomepA n F S) e = 2 * l) (hl2 : 2 ≤ l)
     (K : Type) [Field K] [Finite K] [Algebra F K]
-    (π : fepomepA n F S →ₐ[F] K) (hπsurj : Function.Surjective π)
-    (hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
+    (π : fepomepA n F S →ₐ[F] K) (_hπsurj : Function.Surjective π)
+    (_hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
     (hπdeg : Module.finrank F K = blockDegree (fepomepA n F S) e)
     (τ : K ≃+* K)
-    (hτcompat : ∀ a : fepomepA n F S, τ (π a) =
+    (_hτcompat : ∀ a : fepomepA n F S, τ (π a) =
       π (fepomep_formAdjAlgEquiv n hn S hSU hS a))
-    (hτ2 : τ ^ 2 = 1) (hτne : τ ≠ 1)
-    (W : Submodule F (fepomepι n → F)) (hW : W = LinearMap.range (Matrix.mulVecLin e))
+    (_hτ2 : τ ^ 2 = 1) (_hτne : τ ≠ 1)
+    (W : Submodule F (fepomepι n → F)) (_hW : W = LinearMap.range (Matrix.mulVecLin e))
     [Module K W] [IsScalarTower F K W] [FiniteDimensional K W] :
     Nat.card K = (2 ^ (l * f)) ^ 2 ∧
       (Module.finrank K W, 2 ^ (l * f)) ≠ (3, 2) := by
@@ -4732,10 +4729,10 @@ private lemma fepomep_selfDual_blockGroup_blockCardinality
 private lemma fepomep_statedSU_two_perfect {K : Type} [Field K] [Finite K] {p f' : ℕ}
     [Fact (Nat.Prime p)] (hK : Nat.card K = (p ^ f') ^ 2) (hq : 4 ≤ p ^ f') :
     Group.IsPerfect ↥(CFSG.Open.StatedSU 2 (p ^ f') K) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcard : Fintype.card K = p ^ (2 * f') := by
     rw [← Nat.card_eq_fintype_card, hK, ← pow_mul, mul_comm f' 2]
-  haveI : CharP K p := charP_of_card_eq_prime_pow hcard
+  have : CharP K p := charP_of_card_eq_prime_pow hcard
   exact CFSG.RankThree.SubgroupLists.isPerfect_statedSU_two (r := p) (f := f') hK hq
 
 private lemma fepomep_selfDual_commutatorSU_two
@@ -4757,7 +4754,7 @@ private lemma fepomep_selfDual_commutatorSU_two
     exact (hU A).mpr huni
   have hself : ⁅CFSG.Open.StatedSU 2 (p ^ f') K, CFSG.Open.StatedSU 2 (p ^ f') K⁆ =
       CFSG.Open.StatedSU 2 (p ^ f') K := by
-    haveI : Group.IsPerfect ↥(CFSG.Open.StatedSU 2 (p ^ f') K) :=
+    have : Group.IsPerfect ↥(CFSG.Open.StatedSU 2 (p ^ f') K) :=
       fepomep_statedSU_two_perfect (K := K) (p := p) (f' := f') hK hq
     exact Subgroup.commutator_eq_self
   have hge : CFSG.Open.StatedSU 2 (p ^ f') K ≤ ⁅U, U⁆ := by
@@ -4772,24 +4769,24 @@ private lemma fepomep_selfDual_blockGroup_su_of_unitary
     (S : Set (GL (fepomepι n) F))
     (hSU : ∀ s ∈ S, s ∈ (fepomepJ n F).range)
     (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
-    (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {J' : Subgroup ↥(spinGroup (fepomepQ n F))}
     {ε e : Matrix (fepomepι n) (fepomepι n) F}
-    (hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
-    (hJε : IsComponentOf J' ⁅glBlockCentralizer (fepomepJ n F) S ε,
+    (_hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
+    (_hJε : IsComponentOf J' ⁅glBlockCentralizer (fepomepJ n F) S ε,
       glBlockCentralizer (fepomepJ n F) S ε⁆)
-    (he : IsPrimIdemIn (fepomepA n F S) e) (heε : e * ε = e) (hself : e = ε)
-    (hd4 : 4 ≤ blockDegree (fepomepA n F S) e)
-    (l : ℕ) (hl : blockDegree (fepomepA n F S) e = 2 * l) (hl2 : 2 ≤ l)
+    (_he : IsPrimIdemIn (fepomepA n F S) e) (_heε : e * ε = e) (_hself : e = ε)
+    (_hd4 : 4 ≤ blockDegree (fepomepA n F S) e)
+    (l : ℕ) (_hl : blockDegree (fepomepA n F S) e = 2 * l) (hl2 : 2 ≤ l)
     (K : Type) [Field K] [Finite K] [Algebra F K]
-    (π : fepomepA n F S →ₐ[F] K) (hπsurj : Function.Surjective π)
-    (hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
-    (hπdeg : Module.finrank F K = blockDegree (fepomepA n F S) e)
+    (π : fepomepA n F S →ₐ[F] K) (_hπsurj : Function.Surjective π)
+    (_hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
+    (_hπdeg : Module.finrank F K = blockDegree (fepomepA n F S) e)
     (τ : K ≃+* K)
-    (hτcompat : ∀ a : fepomepA n F S, τ (π a) =
+    (_hτcompat : ∀ a : fepomepA n F S, τ (π a) =
       π (fepomep_formAdjAlgEquiv n hn S hSU hS a))
-    (hτ2 : τ ^ 2 = 1) (hτne : τ ≠ 1)
-    (W : Submodule F (fepomepι n → F)) (hW : W = LinearMap.range (Matrix.mulVecLin e))
+    (_hτ2 : τ ^ 2 = 1) (_hτne : τ ≠ 1)
+    (W : Submodule F (fepomepι n → F)) (_hW : W = LinearMap.range (Matrix.mulVecLin e))
     [Module K W] [IsScalarTower F K W] [FiniteDimensional K W]
     (ι : glBlockCentralizer (fepomepJ n F) S ε →* GL (Fin (Module.finrank K W)) K)
     (hι : Function.Injective ι)
@@ -4806,7 +4803,7 @@ private lemma fepomep_selfDual_blockGroup_su_of_unitary
       (↥(⁅glBlockCentralizer (fepomepJ n F) S ε,
           glBlockCentralizer (fepomepJ n F) S ε⁆) ≃*
         CFSG.Open.StatedSU m' (2 ^ (l * f)) K) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hq : 4 ≤ 2 ^ (l * f) := by
     have hlf2 : 2 ≤ l * f := by
       have := Nat.mul_le_mul hl2 hf
@@ -4837,27 +4834,27 @@ private lemma fepomep_selfDual_blockGroup_su_of_unitary
 private lemma fepomep_selfDual_blockGroup_blockRank_pos
     (n : ℕ) {F : Type} [Field F] [Finite F] [CharP F 2]
     (hn : 3 ≤ n)
-    (f : ℕ) (hc : Nat.card F = 2 ^ f)
+    (f : ℕ) (_hc : Nat.card F = 2 ^ f)
     (S : Set (GL (fepomepι n) F))
     (hSU : ∀ s ∈ S, s ∈ (fepomepJ n F).range)
     (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
-    (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {J' : Subgroup ↥(spinGroup (fepomepQ n F))}
     {ε e : Matrix (fepomepι n) (fepomepι n) F}
-    (hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
-    (hJε : IsComponentOf J' ⁅glBlockCentralizer (fepomepJ n F) S ε,
+    (_hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
+    (_hJε : IsComponentOf J' ⁅glBlockCentralizer (fepomepJ n F) S ε,
       glBlockCentralizer (fepomepJ n F) S ε⁆)
-    (he : IsPrimIdemIn (fepomepA n F S) e) (heε : e * ε = e) (hself : e = ε)
-    (hd4 : 4 ≤ blockDegree (fepomepA n F S) e)
-    (l : ℕ) (hl : blockDegree (fepomepA n F S) e = 2 * l) (hl2 : 2 ≤ l)
+    (he : IsPrimIdemIn (fepomepA n F S) e) (_heε : e * ε = e) (_hself : e = ε)
+    (_hd4 : 4 ≤ blockDegree (fepomepA n F S) e)
+    (l : ℕ) (_hl : blockDegree (fepomepA n F S) e = 2 * l) (_hl2 : 2 ≤ l)
     (K : Type) [Field K] [Finite K] [Algebra F K]
-    (π : fepomepA n F S →ₐ[F] K) (hπsurj : Function.Surjective π)
-    (hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
+    (π : fepomepA n F S →ₐ[F] K) (_hπsurj : Function.Surjective π)
+    (_hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
     (hπdeg : Module.finrank F K = blockDegree (fepomepA n F S) e)
     (τ : K ≃+* K)
-    (hτcompat : ∀ a : fepomepA n F S, τ (π a) =
+    (_hτcompat : ∀ a : fepomepA n F S, τ (π a) =
       π (fepomep_formAdjAlgEquiv n hn S hSU hS a))
-    (hτ2 : τ ^ 2 = 1) (hτne : τ ≠ 1)
+    (_hτ2 : τ ^ 2 = 1) (_hτne : τ ≠ 1)
     (W : Submodule F (fepomepι n → F)) (hW : W = LinearMap.range (Matrix.mulVecLin e))
     [Module K W] [IsScalarTower F K W] [FiniteDimensional K W] :
     1 ≤ Module.finrank K W := by
@@ -4876,11 +4873,11 @@ private lemma fepomep_selfDual_blockGroup_blockRank_pos
 private lemma fepomep_selfDual_blockGroup_blockRank_ne_one
     (n : ℕ) {F : Type} [Field F] [Finite F] [CharP F 2]
     (hn : 3 ≤ n)
-    (f : ℕ) (hc : Nat.card F = 2 ^ f)
+    (f : ℕ) (_hc : Nat.card F = 2 ^ f)
     (S : Set (GL (fepomepι n) F))
     (hSU : ∀ s ∈ S, s ∈ (fepomepJ n F).range)
     (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
-    (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {J' : Subgroup ↥(spinGroup (fepomepQ n F))}
     {ε e : Matrix (fepomepι n) (fepomepι n) F}
     (hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
@@ -4888,15 +4885,15 @@ private lemma fepomep_selfDual_blockGroup_blockRank_ne_one
       glBlockCentralizer (fepomepJ n F) S ε⁆)
     (he : IsPrimIdemIn (fepomepA n F S) e) (heε : e * ε = e) (hself : e = ε)
     (hd4 : 4 ≤ blockDegree (fepomepA n F S) e)
-    (l : ℕ) (hl : blockDegree (fepomepA n F S) e = 2 * l) (hl2 : 2 ≤ l)
+    (l : ℕ) (hl : blockDegree (fepomepA n F S) e = 2 * l) (_hl2 : 2 ≤ l)
     (K : Type) [Field K] [Finite K] [Algebra F K]
     (π : fepomepA n F S →ₐ[F] K) (hπsurj : Function.Surjective π)
     (hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
     (hπdeg : Module.finrank F K = blockDegree (fepomepA n F S) e)
     (τ : K ≃+* K)
-    (hτcompat : ∀ a : fepomepA n F S, τ (π a) =
+    (_hτcompat : ∀ a : fepomepA n F S, τ (π a) =
       π (fepomep_formAdjAlgEquiv n hn S hSU hS a))
-    (hτ2 : τ ^ 2 = 1) (hτne : τ ≠ 1)
+    (_hτ2 : τ ^ 2 = 1) (_hτne : τ ≠ 1)
     (W : Submodule F (fepomepι n → F)) (hW : W = LinearMap.range (Matrix.mulVecLin e))
     [Module K W] [IsScalarTower F K W] [FiniteDimensional K W]
     (hK : ∀ (a : fepomepA n F S) (w : W),
@@ -4911,7 +4908,7 @@ private lemma fepomep_selfDual_blockGroup_blockRank_ne_one
     fepomep_selfDual_blockAction_injective n hn S hSU hS hε he heε hself (by omega) K π hπsurj
       hπker hπdeg W hW hK ρ hρ
   have hle1 : Module.finrank K W ≤ 1 := by omega
-  haveI : IsMulCommutative (W ≃ₗ[K] W) := by
+  have : IsMulCommutative (W ≃ₗ[K] W) := by
     obtain ⟨eGL⟩ := fepomep_blockLinearEquiv_gl K W
     refine isMulCommutative_iff.mpr fun a b => eGL.injective ?_
     rw [map_mul, map_mul]
@@ -4925,12 +4922,12 @@ private lemma fepomep_selfDual_blockGroup_blockRank_ne_one
       (ρ a) (ρ b)
   have hJleH : J' ≤ glBlockCentralizer (fepomepJ n F) S ε :=
     hJε.1.trans (Subgroup.commutator_le_self _)
-  haveI : IsMulCommutative ↥J' :=
+  have : IsMulCommutative ↥J' :=
     isMulCommutative_iff.mpr (fun a b => Subtype.ext (by
       simpa using hcommG ⟨(a : _), hJleH a.2⟩ ⟨(b : _), hJleH b.2⟩))
-  haveI : Group.IsPerfect ↥J' := Group.IsPerfect.mk hJε.2.2.1
-  haveI : Nontrivial (↥J' ⧸ Subgroup.center ↥J') := hJε.2.2.2.toNontrivial
-  haveI : Nontrivial ↥J' := (QuotientGroup.mk'_surjective (Subgroup.center ↥J')).nontrivial
+  have : Group.IsPerfect ↥J' := Group.IsPerfect.mk hJε.2.2.1
+  have : Nontrivial (↥J' ⧸ Subgroup.center ↥J') := hJε.2.2.2.toNontrivial
+  have : Nontrivial ↥J' := (QuotientGroup.mk'_surjective (Subgroup.center ↥J')).nontrivial
   have hsub : Subsingleton ↥J' := Group.IsPerfect.subsingleton_of_isMulCommutative
   obtain ⟨x, y, hxy⟩ := (inferInstance : Nontrivial ↥J')
   exact hxy (hsub.elim x y)
@@ -5088,27 +5085,27 @@ private lemma fepomep_hermForm_trace {F E U : Type*} [Field F] [Field E] [Algebr
 private lemma fepomep_selfDual_blockGroup_descentPolarBilin
     (n : ℕ) {F : Type} [Field F] [Finite F] [CharP F 2]
     (hn : 3 ≤ n)
-    (f : ℕ) (hc : Nat.card F = 2 ^ f)
+    (f : ℕ) (_hc : Nat.card F = 2 ^ f)
     (S : Set (GL (fepomepι n) F))
     (hSU : ∀ s ∈ S, s ∈ (fepomepJ n F).range)
     (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
-    (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {J' : Subgroup ↥(spinGroup (fepomepQ n F))}
     {ε e : Matrix (fepomepι n) (fepomepι n) F}
     (hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
-    (hJε : IsComponentOf J' ⁅glBlockCentralizer (fepomepJ n F) S ε,
+    (_hJε : IsComponentOf J' ⁅glBlockCentralizer (fepomepJ n F) S ε,
       glBlockCentralizer (fepomepJ n F) S ε⁆)
     (he : IsPrimIdemIn (fepomepA n F S) e) (heε : e * ε = e) (hself : e = ε)
-    (hd4 : 4 ≤ blockDegree (fepomepA n F S) e)
-    (l : ℕ) (hl : blockDegree (fepomepA n F S) e = 2 * l) (hl2 : 2 ≤ l)
+    (_hd4 : 4 ≤ blockDegree (fepomepA n F S) e)
+    (l : ℕ) (_hl : blockDegree (fepomepA n F S) e = 2 * l) (_hl2 : 2 ≤ l)
     (K : Type) [Field K] [Finite K] [Algebra F K]
     (π : fepomepA n F S →ₐ[F] K) (hπsurj : Function.Surjective π)
     (hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
     (hπdeg : Module.finrank F K = blockDegree (fepomepA n F S) e)
     (τ : K ≃+* K)
-    (hτcompat : ∀ a : fepomepA n F S, τ (π a) =
+    (_hτcompat : ∀ a : fepomepA n F S, τ (π a) =
       π (fepomep_formAdjAlgEquiv n hn S hSU hS a))
-    (hτ2 : τ ^ 2 = 1) (hτne : τ ≠ 1)
+    (_hτ2 : τ ^ 2 = 1) (_hτne : τ ≠ 1)
     (W : Submodule F (fepomepι n → F)) (hW : W = LinearMap.range (Matrix.mulVecLin e))
     [Module K W] [IsScalarTower F K W] [FiniteDimensional K W]
     (Φ : W ≃ₗ[K] (Fin (Module.finrank K W) → K)) :
@@ -5151,27 +5148,27 @@ private lemma fepomep_selfDual_blockGroup_descentPolarBilin
 private lemma fepomep_selfDual_blockGroup_descentTau
     (n : ℕ) {F : Type} [Field F] [Finite F] [CharP F 2]
     (hn : 3 ≤ n)
-    (f : ℕ) (hc : Nat.card F = 2 ^ f)
+    (f : ℕ) (_hc : Nat.card F = 2 ^ f)
     (S : Set (GL (fepomepι n) F))
     (hSU : ∀ s ∈ S, s ∈ (fepomepJ n F).range)
     (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
-    (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {J' : Subgroup ↥(spinGroup (fepomepQ n F))}
     {ε e : Matrix (fepomepι n) (fepomepι n) F}
-    (hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
-    (hJε : IsComponentOf J' ⁅glBlockCentralizer (fepomepJ n F) S ε,
+    (_hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
+    (_hJε : IsComponentOf J' ⁅glBlockCentralizer (fepomepJ n F) S ε,
       glBlockCentralizer (fepomepJ n F) S ε⁆)
-    (he : IsPrimIdemIn (fepomepA n F S) e) (heε : e * ε = e) (hself : e = ε)
-    (hd4 : 4 ≤ blockDegree (fepomepA n F S) e)
-    (l : ℕ) (hl : blockDegree (fepomepA n F S) e = 2 * l) (hl2 : 2 ≤ l)
+    (_he : IsPrimIdemIn (fepomepA n F S) e) (_heε : e * ε = e) (_hself : e = ε)
+    (_hd4 : 4 ≤ blockDegree (fepomepA n F S) e)
+    (l : ℕ) (_hl : blockDegree (fepomepA n F S) e = 2 * l) (_hl2 : 2 ≤ l)
     (K : Type) [Field K] [Finite K] [Algebra F K]
-    (π : fepomepA n F S →ₐ[F] K) (hπsurj : Function.Surjective π)
-    (hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
-    (hπdeg : Module.finrank F K = blockDegree (fepomepA n F S) e)
+    (π : fepomepA n F S →ₐ[F] K) (_hπsurj : Function.Surjective π)
+    (_hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
+    (_hπdeg : Module.finrank F K = blockDegree (fepomepA n F S) e)
     (τ : K ≃+* K)
     (hτcompat : ∀ a : fepomepA n F S, τ (π a) =
       π (fepomep_formAdjAlgEquiv n hn S hSU hS a))
-    (hτ2 : τ ^ 2 = 1) (hτne : τ ≠ 1)
+    (hτ2 : τ ^ 2 = 1) (_hτne : τ ≠ 1)
  :
     ∃ σ : K ≃ₐ[F] K, (∀ z, σ z = τ z) ∧ (∀ z, σ (σ z) = z) := by
   have hτF : ∀ a : F, τ (algebraMap F K a) = algebraMap F K a := by
@@ -5193,28 +5190,28 @@ private lemma fepomep_selfDual_blockGroup_descentTau
 private lemma fepomep_selfDual_blockGroup_descentPolarAdjoint
     (n : ℕ) {F : Type} [Field F] [Finite F] [CharP F 2]
     (hn : 3 ≤ n)
-    (f : ℕ) (hc : Nat.card F = 2 ^ f)
+    (f : ℕ) (_hc : Nat.card F = 2 ^ f)
     (S : Set (GL (fepomepι n) F))
     (hSU : ∀ s ∈ S, s ∈ (fepomepJ n F).range)
     (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
-    (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {J' : Subgroup ↥(spinGroup (fepomepQ n F))}
     {ε e : Matrix (fepomepι n) (fepomepι n) F}
-    (hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
-    (hJε : IsComponentOf J' ⁅glBlockCentralizer (fepomepJ n F) S ε,
+    (_hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
+    (_hJε : IsComponentOf J' ⁅glBlockCentralizer (fepomepJ n F) S ε,
       glBlockCentralizer (fepomepJ n F) S ε⁆)
-    (he : IsPrimIdemIn (fepomepA n F S) e) (heε : e * ε = e) (hself : e = ε)
-    (hd4 : 4 ≤ blockDegree (fepomepA n F S) e)
-    (l : ℕ) (hl : blockDegree (fepomepA n F S) e = 2 * l) (hl2 : 2 ≤ l)
+    (_he : IsPrimIdemIn (fepomepA n F S) e) (_heε : e * ε = e) (_hself : e = ε)
+    (_hd4 : 4 ≤ blockDegree (fepomepA n F S) e)
+    (l : ℕ) (_hl : blockDegree (fepomepA n F S) e = 2 * l) (_hl2 : 2 ≤ l)
     (K : Type) [Field K] [Finite K] [Algebra F K]
     (π : fepomepA n F S →ₐ[F] K) (hπsurj : Function.Surjective π)
-    (hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
-    (hπdeg : Module.finrank F K = blockDegree (fepomepA n F S) e)
+    (_hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
+    (_hπdeg : Module.finrank F K = blockDegree (fepomepA n F S) e)
     (τ : K ≃+* K)
     (hτcompat : ∀ a : fepomepA n F S, τ (π a) =
       π (fepomep_formAdjAlgEquiv n hn S hSU hS a))
-    (hτ2 : τ ^ 2 = 1) (hτne : τ ≠ 1)
-    (W : Submodule F (fepomepι n → F)) (hW : W = LinearMap.range (Matrix.mulVecLin e))
+    (_hτ2 : τ ^ 2 = 1) (_hτne : τ ≠ 1)
+    (W : Submodule F (fepomepι n → F)) (_hW : W = LinearMap.range (Matrix.mulVecLin e))
     [Module K W] [IsScalarTower F K W] [FiniteDimensional K W]
     (hK : ∀ (a : fepomepA n F S) (w : W),
       ((π a • w : W) : fepomepι n → F) =
@@ -5295,30 +5292,30 @@ private lemma fepomep_selfDual_blockGroup_descentFormExists
 private lemma fepomep_selfDual_blockGroup_descentFormInvariant
     (n : ℕ) {F : Type} [Field F] [Finite F] [CharP F 2]
     (hn : 3 ≤ n)
-    (f : ℕ) (hc : Nat.card F = 2 ^ f)
+    (f : ℕ) (_hc : Nat.card F = 2 ^ f)
     (S : Set (GL (fepomepι n) F))
     (hSU : ∀ s ∈ S, s ∈ (fepomepJ n F).range)
     (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
-    (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {J' : Subgroup ↥(spinGroup (fepomepQ n F))}
     {ε e : Matrix (fepomepι n) (fepomepι n) F}
     (hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
-    (hJε : IsComponentOf J' ⁅glBlockCentralizer (fepomepJ n F) S ε,
+    (_hJε : IsComponentOf J' ⁅glBlockCentralizer (fepomepJ n F) S ε,
       glBlockCentralizer (fepomepJ n F) S ε⁆)
     (he : IsPrimIdemIn (fepomepA n F S) e) (heε : e * ε = e) (hself : e = ε)
-    (hd4 : 4 ≤ blockDegree (fepomepA n F S) e)
-    (l : ℕ) (hl : blockDegree (fepomepA n F S) e = 2 * l) (hl2 : 2 ≤ l)
+    (_hd4 : 4 ≤ blockDegree (fepomepA n F S) e)
+    (l : ℕ) (_hl : blockDegree (fepomepA n F S) e = 2 * l) (_hl2 : 2 ≤ l)
     (K : Type) [Field K] [Finite K] [Algebra F K]
     (π : fepomepA n F S →ₐ[F] K) (hπsurj : Function.Surjective π)
     (hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
     (hπdeg : Module.finrank F K = blockDegree (fepomepA n F S) e)
     (τ : K ≃+* K)
-    (hτcompat : ∀ a : fepomepA n F S, τ (π a) =
+    (_hτcompat : ∀ a : fepomepA n F S, τ (π a) =
       π (fepomep_formAdjAlgEquiv n hn S hSU hS a))
-    (hτ2 : τ ^ 2 = 1) (hτne : τ ≠ 1)
+    (_hτ2 : τ ^ 2 = 1) (_hτne : τ ≠ 1)
     (W : Submodule F (fepomepι n → F)) (hW : W = LinearMap.range (Matrix.mulVecLin e))
     [Module K W] [IsScalarTower F K W] [FiniteDimensional K W]
-    (hK : ∀ (a : fepomepA n F S) (w : W),
+    (_hK : ∀ (a : fepomepA n F S) (w : W),
       ((π a • w : W) : fepomepι n → F) =
         Matrix.mulVec (a : Matrix (fepomepι n) (fepomepι n) F) (w : fepomepι n → F))
     (H : W →ₛₗ[τ.toRingHom] W →ₗ[K] K)
@@ -5346,34 +5343,34 @@ private lemma fepomep_selfDual_blockGroup_descentFormInvariant
 private lemma fepomep_selfDual_blockGroup_descentCoordinateMap
     (n : ℕ) {F : Type} [Field F] [Finite F] [CharP F 2]
     (hn : 3 ≤ n)
-    (f : ℕ) (hc : Nat.card F = 2 ^ f)
+    (f : ℕ) (_hc : Nat.card F = 2 ^ f)
     (S : Set (GL (fepomepι n) F))
     (hSU : ∀ s ∈ S, s ∈ (fepomepJ n F).range)
     (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
-    (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {J' : Subgroup ↥(spinGroup (fepomepQ n F))}
     {ε e : Matrix (fepomepι n) (fepomepι n) F}
-    (hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
-    (hJε : IsComponentOf J' ⁅glBlockCentralizer (fepomepJ n F) S ε,
+    (_hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
+    (_hJε : IsComponentOf J' ⁅glBlockCentralizer (fepomepJ n F) S ε,
       glBlockCentralizer (fepomepJ n F) S ε⁆)
-    (he : IsPrimIdemIn (fepomepA n F S) e) (heε : e * ε = e) (hself : e = ε)
-    (hd4 : 4 ≤ blockDegree (fepomepA n F S) e)
-    (l : ℕ) (hl : blockDegree (fepomepA n F S) e = 2 * l) (hl2 : 2 ≤ l)
+    (_he : IsPrimIdemIn (fepomepA n F S) e) (_heε : e * ε = e) (_hself : e = ε)
+    (_hd4 : 4 ≤ blockDegree (fepomepA n F S) e)
+    (l : ℕ) (_hl : blockDegree (fepomepA n F S) e = 2 * l) (_hl2 : 2 ≤ l)
     (K : Type) [Field K] [Finite K] [Algebra F K]
-    (π : fepomepA n F S →ₐ[F] K) (hπsurj : Function.Surjective π)
-    (hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
-    (hπdeg : Module.finrank F K = blockDegree (fepomepA n F S) e)
+    (π : fepomepA n F S →ₐ[F] K) (_hπsurj : Function.Surjective π)
+    (_hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
+    (_hπdeg : Module.finrank F K = blockDegree (fepomepA n F S) e)
     (τ : K ≃+* K)
-    (hτcompat : ∀ a : fepomepA n F S, τ (π a) =
+    (_hτcompat : ∀ a : fepomepA n F S, τ (π a) =
       π (fepomep_formAdjAlgEquiv n hn S hSU hS a))
-    (hτ2 : τ ^ 2 = 1) (hτne : τ ≠ 1)
-    (W : Submodule F (fepomepι n → F)) (hW : W = LinearMap.range (Matrix.mulVecLin e))
+    (_hτ2 : τ ^ 2 = 1) (_hτne : τ ≠ 1)
+    (W : Submodule F (fepomepι n → F)) (_hW : W = LinearMap.range (Matrix.mulVecLin e))
     [Module K W] [IsScalarTower F K W] [FiniteDimensional K W]
-    (hK : ∀ (a : fepomepA n F S) (w : W),
+    (_hK : ∀ (a : fepomepA n F S) (w : W),
       ((π a • w : W) : fepomepι n → F) =
         Matrix.mulVec (a : Matrix (fepomepι n) (fepomepι n) F) (w : fepomepι n → F))
     (ρ : glBlockCentralizer (fepomepJ n F) S ε →* (W ≃ₗ[K] W))
-    (hρ : ∀ (u : glBlockCentralizer (fepomepJ n F) S ε) (w : W),
+    (_hρ : ∀ (u : glBlockCentralizer (fepomepJ n F) S ε) (w : W),
       ((ρ u w : W) : fepomepι n → F) =
         Matrix.mulVec ((fepomepJ n F (u : ↥(spinGroup (fepomepQ n F)))) :
           Matrix (fepomepι n) (fepomepι n) F) (w : fepomepι n → F))
@@ -5435,38 +5432,38 @@ private lemma fepomep_selfDual_sesq_isometry_toMatrix {K W : Type} [Field K] [Ad
 private lemma fepomep_selfDual_blockGroup_descentJForward
     (n : ℕ) {F : Type} [Field F] [Finite F] [CharP F 2]
     (hn : 3 ≤ n)
-    (f : ℕ) (hc : Nat.card F = 2 ^ f)
+    (f : ℕ) (_hc : Nat.card F = 2 ^ f)
     (S : Set (GL (fepomepι n) F))
     (hSU : ∀ s ∈ S, s ∈ (fepomepJ n F).range)
     (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
-    (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {J' : Subgroup ↥(spinGroup (fepomepQ n F))}
     {ε e : Matrix (fepomepι n) (fepomepι n) F}
-    (hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
-    (hJε : IsComponentOf J' ⁅glBlockCentralizer (fepomepJ n F) S ε,
+    (_hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
+    (_hJε : IsComponentOf J' ⁅glBlockCentralizer (fepomepJ n F) S ε,
       glBlockCentralizer (fepomepJ n F) S ε⁆)
-    (he : IsPrimIdemIn (fepomepA n F S) e) (heε : e * ε = e) (hself : e = ε)
-    (hd4 : 4 ≤ blockDegree (fepomepA n F S) e)
-    (l : ℕ) (hl : blockDegree (fepomepA n F S) e = 2 * l) (hl2 : 2 ≤ l)
+    (_he : IsPrimIdemIn (fepomepA n F S) e) (_heε : e * ε = e) (_hself : e = ε)
+    (_hd4 : 4 ≤ blockDegree (fepomepA n F S) e)
+    (l : ℕ) (_hl : blockDegree (fepomepA n F S) e = 2 * l) (_hl2 : 2 ≤ l)
     (K : Type) [Field K] [Finite K] [Algebra F K]
-    (π : fepomepA n F S →ₐ[F] K) (hπsurj : Function.Surjective π)
-    (hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
-    (hπdeg : Module.finrank F K = blockDegree (fepomepA n F S) e)
+    (π : fepomepA n F S →ₐ[F] K) (_hπsurj : Function.Surjective π)
+    (_hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
+    (_hπdeg : Module.finrank F K = blockDegree (fepomepA n F S) e)
     (τ : K ≃+* K)
-    (hτcompat : ∀ a : fepomepA n F S, τ (π a) =
+    (_hτcompat : ∀ a : fepomepA n F S, τ (π a) =
       π (fepomep_formAdjAlgEquiv n hn S hSU hS a))
-    (hτ2 : τ ^ 2 = 1) (hτne : τ ≠ 1)
-    (W : Submodule F (fepomepι n → F)) (hW : W = LinearMap.range (Matrix.mulVecLin e))
+    (_hτ2 : τ ^ 2 = 1) (_hτne : τ ≠ 1)
+    (W : Submodule F (fepomepι n → F)) (_hW : W = LinearMap.range (Matrix.mulVecLin e))
     [Module K W] [IsScalarTower F K W] [FiniteDimensional K W]
-    (hK : ∀ (a : fepomepA n F S) (w : W),
+    (_hK : ∀ (a : fepomepA n F S) (w : W),
       ((π a • w : W) : fepomepι n → F) =
         Matrix.mulVec (a : Matrix (fepomepι n) (fepomepι n) F) (w : fepomepι n → F))
     (ρ : glBlockCentralizer (fepomepJ n F) S ε →* (W ≃ₗ[K] W))
-    (hρ : ∀ (u : glBlockCentralizer (fepomepJ n F) S ε) (w : W),
+    (_hρ : ∀ (u : glBlockCentralizer (fepomepJ n F) S ε) (w : W),
       ((ρ u w : W) : fepomepι n → F) =
         Matrix.mulVec ((fepomepJ n F (u : ↥(spinGroup (fepomepQ n F)))) :
           Matrix (fepomepι n) (fepomepι n) F) (w : fepomepι n → F))
-    (hinjρ : Function.Injective ρ)
+    (_hinjρ : Function.Injective ρ)
     (H : W →ₛₗ[τ.toRingHom] W →ₗ[K] K) (hHinv : ∀ (u : glBlockCentralizer (fepomepJ n F) S ε)
       (x y : W), H (ρ u x) (ρ u y) = H x y)
     (Φ : W ≃ₗ[K] (Fin (Module.finrank K W) → K))
@@ -5579,10 +5576,10 @@ private lemma fepomep_selfDual_gram_det_ne_zero {K W : Type} [Field K] [AddCommG
     LinearMap.mk₂'ₛₗ τ (RingHom.id K) (fun x y => H (Φ.symm x) (Φ.symm y))
       (fun x y z => by simp only [map_add, LinearMap.add_apply])
       (fun a x y => by
-        simp only [map_smul, map_smulₛₗ, LinearMap.smul_apply, RingHom.id_apply])
-      (fun x y z => by simp only [map_add, LinearMap.add_apply])
+        simp only [map_smul, map_smulₛₗ, LinearMap.smul_apply])
+      (fun x y z => by simp only [map_add])
       (fun a x y => by
-        simp only [map_smul, LinearMap.map_smul, LinearMap.smul_apply, RingHom.id_apply])
+        simp only [map_smul, RingHom.id_apply])
   have hnd : h.Nondegenerate := by
     refine ⟨?_, ?_⟩
     · intro x hx
@@ -5613,25 +5610,25 @@ private lemma fepomep_selfDual_blockGroup_descentNormalization
     (S : Set (GL (fepomepι n) F))
     (hSU : ∀ s ∈ S, s ∈ (fepomepJ n F).range)
     (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
-    (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {J' : Subgroup ↥(spinGroup (fepomepQ n F))}
     {ε e : Matrix (fepomepι n) (fepomepι n) F}
-    (hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
-    (hJε : IsComponentOf J' ⁅glBlockCentralizer (fepomepJ n F) S ε,
+    (_hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
+    (_hJε : IsComponentOf J' ⁅glBlockCentralizer (fepomepJ n F) S ε,
       glBlockCentralizer (fepomepJ n F) S ε⁆)
-    (he : IsPrimIdemIn (fepomepA n F S) e) (heε : e * ε = e) (hself : e = ε)
-    (hd4 : 4 ≤ blockDegree (fepomepA n F S) e)
-    (l : ℕ) (hl : blockDegree (fepomepA n F S) e = 2 * l) (hl2 : 2 ≤ l)
+    (_he : IsPrimIdemIn (fepomepA n F S) e) (_heε : e * ε = e) (_hself : e = ε)
+    (_hd4 : 4 ≤ blockDegree (fepomepA n F S) e)
+    (l : ℕ) (hl : blockDegree (fepomepA n F S) e = 2 * l) (_hl2 : 2 ≤ l)
     (K : Type) [Field K] [Finite K] [Algebra F K]
-    (π : fepomepA n F S →ₐ[F] K) (hπsurj : Function.Surjective π)
-    (hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
+    (π : fepomepA n F S →ₐ[F] K) (_hπsurj : Function.Surjective π)
+    (_hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
     (hπdeg : Module.finrank F K = blockDegree (fepomepA n F S) e)
     (τ : K ≃+* K)
-    (hτcompat : ∀ a : fepomepA n F S, τ (π a) =
+    (_hτcompat : ∀ a : fepomepA n F S, τ (π a) =
       π (fepomep_formAdjAlgEquiv n hn S hSU hS a))
-    (hτ2 : τ ^ 2 = 1) (hτne : τ ≠ 1)
+    (_hτ2 : τ ^ 2 = 1) (_hτne : τ ≠ 1)
     (hτeq : ∀ x : K, τ x = x ^ (2 ^ (l * f)))
-    (W : Submodule F (fepomepι n → F)) (hW : W = LinearMap.range (Matrix.mulVecLin e))
+    (W : Submodule F (fepomepι n → F)) (_hW : W = LinearMap.range (Matrix.mulVecLin e))
     [Module K W] [IsScalarTower F K W] [FiniteDimensional K W]
     (H : W →ₛₗ[τ.toRingHom] W →ₗ[K] K) (hHsymm : H.IsSymm) (hHnd : H.SeparatingLeft)
     (Φ : W ≃ₗ[K] (Fin (Module.finrank K W) → K)) :
@@ -5641,8 +5638,8 @@ private lemma fepomep_selfDual_blockGroup_descentNormalization
         (Matrix.of (fun i j => H (Φ.symm (Pi.single i 1)) (Φ.symm (Pi.single j 1)))) * ((C : GL (Fin
             (Module.finrank K W)) K) : Matrix (Fin (Module.finrank K W)) (Fin (Module.finrank K W))
                 K) = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_injective_algebraMap (algebraMap F K).injective 2
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_injective_algebraMap (algebraMap F K).injective 2
   have hKcard : Nat.card K = (2 ^ (l * f)) ^ 2 := by
     rw [fepomep_blockField_card f (2 * l) hc (by rw [hπdeg, hl]), ← pow_mul]
     congr 1
@@ -5790,7 +5787,7 @@ private lemma fepomep_conj_unitary_iff {K : Type} [Field K] {m : ℕ} (σ : K �
     exact fepomep_conj_reverse σ J (C : Matrix (Fin m) (Fin m) K)
       ((C⁻¹ : GL (Fin m) K) : Matrix (Fin m) (Fin m) K) (X : Matrix (Fin m) (Fin m) K) hAB hC hY
 private lemma fepomep_selfDual_blockGroup_descentTransport
-    {G : Type} [Group G] {K : Type} [Field K] {τ : K ≃+* K} (m : ℕ) (σ : K →+* K)
+    {G : Type} [Group G] {K : Type} [Field K] {_τ : K ≃+* K} (m : ℕ) (σ : K →+* K)
     (J : Matrix (Fin m) (Fin m) K)
     (ι₀ : G →* GL (Fin m) K) (hι₀ : Function.Injective ι₀)
     (hU₀ : ∀ A : GL (Fin m) K, A ∈ ι₀.range ↔
@@ -5890,8 +5887,8 @@ private lemma fepomep_selfDual_tau_eq_frobenius {F K : Type} [Field F] [Finite F
     (τ : K ≃+* K) (hτF : ∀ a : F, τ (algebraMap F K a) = algebraMap F K a)
     (hτ2 : τ ^ 2 = 1) (hτne : τ ≠ 1) :
     ∀ x : K, τ x = x ^ (2 ^ (l * f)) := by
-  letI : Fintype F := Fintype.ofFinite F
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype F := Fintype.ofFinite F
+  let : Fintype K := Fintype.ofFinite K
   have hfpos : 0 < f := by
     by_contra hf
     have hf0 : f = 0 := by omega
@@ -6067,46 +6064,46 @@ private lemma fepomep_sesq_expansion {K W : Type} [Field K] [AddCommGroup W] [Mo
 private lemma fepomep_selfDual_blockGroup_descentJIsometry
     (n : ℕ) {F : Type} [Field F] [Finite F] [CharP F 2]
     (hn : 3 ≤ n)
-    (f : ℕ) (hc : Nat.card F = 2 ^ f)
+    (f : ℕ) (_hc : Nat.card F = 2 ^ f)
     (S : Set (GL (fepomepι n) F))
     (hSU : ∀ s ∈ S, s ∈ (fepomepJ n F).range)
     (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
-    (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {J' : Subgroup ↥(spinGroup (fepomepQ n F))}
     {ε e : Matrix (fepomepι n) (fepomepι n) F}
-    (hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
-    (hJε : IsComponentOf J' ⁅glBlockCentralizer (fepomepJ n F) S ε,
+    (_hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
+    (_hJε : IsComponentOf J' ⁅glBlockCentralizer (fepomepJ n F) S ε,
       glBlockCentralizer (fepomepJ n F) S ε⁆)
-    (he : IsPrimIdemIn (fepomepA n F S) e) (heε : e * ε = e) (hself : e = ε)
-    (hd4 : 4 ≤ blockDegree (fepomepA n F S) e)
-    (l : ℕ) (hl : blockDegree (fepomepA n F S) e = 2 * l) (hl2 : 2 ≤ l)
+    (_he : IsPrimIdemIn (fepomepA n F S) e) (_heε : e * ε = e) (_hself : e = ε)
+    (_hd4 : 4 ≤ blockDegree (fepomepA n F S) e)
+    (l : ℕ) (_hl : blockDegree (fepomepA n F S) e = 2 * l) (_hl2 : 2 ≤ l)
     (K : Type) [Field K] [Finite K] [Algebra F K]
-    (π : fepomepA n F S →ₐ[F] K) (hπsurj : Function.Surjective π)
-    (hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
-    (hπdeg : Module.finrank F K = blockDegree (fepomepA n F S) e)
+    (π : fepomepA n F S →ₐ[F] K) (_hπsurj : Function.Surjective π)
+    (_hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
+    (_hπdeg : Module.finrank F K = blockDegree (fepomepA n F S) e)
     (τ : K ≃+* K)
-    (hτcompat : ∀ a : fepomepA n F S, τ (π a) =
+    (_hτcompat : ∀ a : fepomepA n F S, τ (π a) =
       π (fepomep_formAdjAlgEquiv n hn S hSU hS a))
-    (hτ2 : τ ^ 2 = 1) (hτne : τ ≠ 1)
-    (W : Submodule F (fepomepι n → F)) (hW : W = LinearMap.range (Matrix.mulVecLin e))
+    (_hτ2 : τ ^ 2 = 1) (_hτne : τ ≠ 1)
+    (W : Submodule F (fepomepι n → F)) (_hW : W = LinearMap.range (Matrix.mulVecLin e))
     [Module K W] [IsScalarTower F K W] [FiniteDimensional K W]
     (ρ : glBlockCentralizer (fepomepJ n F) S ε →* (W ≃ₗ[K] W))
-    (hρ : ∀ (u : glBlockCentralizer (fepomepJ n F) S ε) (w : W),
+    (_hρ : ∀ (u : glBlockCentralizer (fepomepJ n F) S ε) (w : W),
       ((ρ u w : W) : fepomepι n → F) =
         Matrix.mulVec ((fepomepJ n F (u : ↥(spinGroup (fepomepQ n F)))) :
           Matrix (fepomepι n) (fepomepι n) F) (w : fepomepι n → F))
-    (hK : ∀ (a : fepomepA n F S) (w : W),
+    (_hK : ∀ (a : fepomepA n F S) (w : W),
       ((π a • w : W) : fepomepι n → F) =
         Matrix.mulVec (a : Matrix (fepomepι n) (fepomepι n) F) (w : fepomepι n → F))
     (Φ : W ≃ₗ[K] (Fin (Module.finrank K W) → K))
-    (hinjρ : Function.Injective ρ)
+    (_hinjρ : Function.Injective ρ)
     (H : W →ₛₗ[τ.toRingHom] W →ₗ[K] K)
-    (hHinv : ∀ (u : glBlockCentralizer (fepomepJ n F) S ε) (x y : W),
+    (_hHinv : ∀ (u : glBlockCentralizer (fepomepJ n F) S ε) (x y : W),
       H (ρ u x) (ρ u y) = H x y)
-    (hHtr : ∀ x y : W, Algebra.trace F K (H x y) =
+    (_hHtr : ∀ x y : W, Algebra.trace F K (H x y) =
       QuadraticMap.polar (fepomepQ n F) (x : fepomepι n → F) (y : fepomepι n → F))
     (ι₀ : glBlockCentralizer (fepomepJ n F) S ε →* GL (Fin (Module.finrank K W)) K)
-    (hι₀ : ∀ (g : glBlockCentralizer (fepomepJ n F) S ε) (i : Fin (Module.finrank K W)),
+    (_hι₀ : ∀ (g : glBlockCentralizer (fepomepJ n F) S ε) (i : Fin (Module.finrank K W)),
       Matrix.mulVec ((ι₀ g : GL (Fin (Module.finrank K W)) K) :
           Matrix (Fin (Module.finrank K W)) (Fin (Module.finrank K W)) K) (Pi.single i 1) =
         Φ (ρ g (Φ.symm (Pi.single i 1))))
@@ -6142,10 +6139,10 @@ private lemma fepomep_selfDual_blockGroup_descentJIsometry
     LinearMap.mk₂'ₛₗ τ.toRingHom (RingHom.id K) (fun x y => H (a x) (a y))
       (fun x y z => by simp only [map_add, LinearMap.add_apply])
       (fun c x y => by
-        simp only [map_smul, map_smulₛₗ, LinearMap.smul_apply, RingHom.id_apply])
-      (fun x y z => by simp only [map_add, LinearMap.add_apply])
+        simp only [map_smul, map_smulₛₗ, LinearMap.smul_apply])
+      (fun x y z => by simp only [map_add])
       (fun c x y => by
-        simp only [map_smul, LinearMap.map_smul, LinearMap.smul_apply, RingHom.id_apply])
+        simp only [map_smul, RingHom.id_apply])
   have hH' : ∀ x y : W, H' x y = H (a x) (a y) := fun x y => rfl
   have hpair : ∀ c d : Fin (Module.finrank K W),
       H' (Φ.symm (Pi.single c 1)) (Φ.symm (Pi.single d 1))
@@ -6154,7 +6151,7 @@ private lemma fepomep_selfDual_blockGroup_descentJIsometry
     rw [hH' (Φ.symm (Pi.single c 1)) (Φ.symm (Pi.single d 1))]
     rw [fepomep_sesq_expansion H (Module.finrank K W) Φ
           (a (Φ.symm (Pi.single c 1))) (a (Φ.symm (Pi.single d 1)))]
-    have hc : ∀ k, (Φ (a (Φ.symm (Pi.single c 1)))) k = M k c := by
+    have _hc : ∀ k, (Φ (a (Φ.symm (Pi.single c 1)))) k = M k c := by
       intro k
       have h1 : Φ (a (Φ.symm (Pi.single c 1))) = Matrix.mulVec M (Pi.single c 1) := by
         rw [ha (Φ.symm (Pi.single c 1)), LinearEquiv.apply_symm_apply,
@@ -6168,7 +6165,7 @@ private lemma fepomep_selfDual_blockGroup_descentJIsometry
           LinearEquiv.apply_symm_apply]
       rw [h1, Matrix.mulVec_single]
       simp [Matrix.col_apply]
-    simp only [hc, hd]
+    simp only [_hc, hd]
     have hentry : (∑ k, ∑ l, τ.toRingHom (M k c) * J k l * M l d) = J c d := by
       have h := congrFun (congrFun hAτ c) d
       simp only [Matrix.mul_apply, Matrix.transpose_apply, Matrix.map_apply] at h
@@ -6204,50 +6201,50 @@ private def fepomep_selfDual_blockGroup_sUnitSet (n : ℕ) {F : Type} [Field F] 
 private lemma fepomep_selfDual_blockGroup_descentPolarPreserved
     (n : ℕ) {F : Type} [Field F] [Finite F] [CharP F 2]
     (hn : 3 ≤ n)
-    (f : ℕ) (hc : Nat.card F = 2 ^ f)
+    (f : ℕ) (_hc : Nat.card F = 2 ^ f)
     (S : Set (GL (fepomepι n) F))
     (hSU : ∀ s ∈ S, s ∈ (fepomepJ n F).range)
     (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
-    (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {J' : Subgroup ↥(spinGroup (fepomepQ n F))}
     {ε e : Matrix (fepomepι n) (fepomepι n) F}
-    (hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
-    (hJε : IsComponentOf J' ⁅glBlockCentralizer (fepomepJ n F) S ε,
+    (_hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
+    (_hJε : IsComponentOf J' ⁅glBlockCentralizer (fepomepJ n F) S ε,
       glBlockCentralizer (fepomepJ n F) S ε⁆)
-    (he : IsPrimIdemIn (fepomepA n F S) e) (heε : e * ε = e) (hself : e = ε)
-    (hd4 : 4 ≤ blockDegree (fepomepA n F S) e)
-    (l : ℕ) (hl : blockDegree (fepomepA n F S) e = 2 * l) (hl2 : 2 ≤ l)
+    (_he : IsPrimIdemIn (fepomepA n F S) e) (_heε : e * ε = e) (_hself : e = ε)
+    (_hd4 : 4 ≤ blockDegree (fepomepA n F S) e)
+    (l : ℕ) (_hl : blockDegree (fepomepA n F S) e = 2 * l) (_hl2 : 2 ≤ l)
     (K : Type) [Field K] [Finite K] [Algebra F K]
-    (π : fepomepA n F S →ₐ[F] K) (hπsurj : Function.Surjective π)
-    (hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
-    (hπdeg : Module.finrank F K = blockDegree (fepomepA n F S) e)
+    (π : fepomepA n F S →ₐ[F] K) (_hπsurj : Function.Surjective π)
+    (_hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
+    (_hπdeg : Module.finrank F K = blockDegree (fepomepA n F S) e)
     (τ : K ≃+* K)
-    (hτcompat : ∀ a : fepomepA n F S, τ (π a) =
+    (_hτcompat : ∀ a : fepomepA n F S, τ (π a) =
       π (fepomep_formAdjAlgEquiv n hn S hSU hS a))
-    (hτ2 : τ ^ 2 = 1) (hτne : τ ≠ 1)
-    (W : Submodule F (fepomepι n → F)) (hW : W = LinearMap.range (Matrix.mulVecLin e))
+    (_hτ2 : τ ^ 2 = 1) (_hτne : τ ≠ 1)
+    (W : Submodule F (fepomepι n → F)) (_hW : W = LinearMap.range (Matrix.mulVecLin e))
     [Module K W] [IsScalarTower F K W] [FiniteDimensional K W]
     (ρ : glBlockCentralizer (fepomepJ n F) S ε →* (W ≃ₗ[K] W))
-    (hρ : ∀ (u : glBlockCentralizer (fepomepJ n F) S ε) (w : W),
+    (_hρ : ∀ (u : glBlockCentralizer (fepomepJ n F) S ε) (w : W),
       ((ρ u w : W) : fepomepι n → F) =
         Matrix.mulVec ((fepomepJ n F (u : ↥(spinGroup (fepomepQ n F)))) :
           Matrix (fepomepι n) (fepomepι n) F) (w : fepomepι n → F))
-    (hK : ∀ (a : fepomepA n F S) (w : W),
+    (_hK : ∀ (a : fepomepA n F S) (w : W),
       ((π a • w : W) : fepomepι n → F) =
         Matrix.mulVec (a : Matrix (fepomepι n) (fepomepι n) F) (w : fepomepι n → F))
     (Φ : W ≃ₗ[K] (Fin (Module.finrank K W) → K))
-    (hinjρ : Function.Injective ρ)
+    (_hinjρ : Function.Injective ρ)
     (H : W →ₛₗ[τ.toRingHom] W →ₗ[K] K)
-    (hHinv : ∀ (u : glBlockCentralizer (fepomepJ n F) S ε) (x y : W),
+    (_hHinv : ∀ (u : glBlockCentralizer (fepomepJ n F) S ε) (x y : W),
       H (ρ u x) (ρ u y) = H x y)
     (hHtr : ∀ v w : W, Algebra.trace F K (H v w) =
       QuadraticMap.polar (fepomepQ n F) (v : fepomepι n → F) (w : fepomepι n → F))
     (ι₀ : glBlockCentralizer (fepomepJ n F) S ε →* GL (Fin (Module.finrank K W)) K)
-    (hι₀ : ∀ (g : glBlockCentralizer (fepomepJ n F) S ε) (i : Fin (Module.finrank K W)),
+    (_hι₀ : ∀ (g : glBlockCentralizer (fepomepJ n F) S ε) (i : Fin (Module.finrank K W)),
       Matrix.mulVec ((ι₀ g : GL (Fin (Module.finrank K W)) K) :
           Matrix (Fin (Module.finrank K W)) (Fin (Module.finrank K W)) K) (Pi.single i 1) =
         Φ (ρ g (Φ.symm (Pi.single i 1))))
-    (hτeq : ∀ x : K, τ x = x ^ (2 ^ (l * f)))
+    (_hτeq : ∀ x : K, τ x = x ^ (2 ^ (l * f)))
     (g : W ≃ₗ[K] W)
     (hg : ∀ x y : W, H (g x) (g y) = H x y)
     :
@@ -6259,31 +6256,31 @@ private lemma fepomep_selfDual_blockGroup_descentPolarPreserved
 private lemma fepomep_selfDual_blockGroup_descentQClosureInvariant
     (n : ℕ) {F : Type} [Field F] [Finite F] [CharP F 2]
     (hn : 3 ≤ n)
-    (f : ℕ) (hc : Nat.card F = 2 ^ f)
+    (f : ℕ) (_hc : Nat.card F = 2 ^ f)
     (S : Set (GL (fepomepι n) F))
     (hSU : ∀ s ∈ S, s ∈ (fepomepJ n F).range)
     (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
-    (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {J' : Subgroup ↥(spinGroup (fepomepQ n F))}
     {ε e : Matrix (fepomepι n) (fepomepι n) F}
-    (hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
-    (hJε : IsComponentOf J' ⁅glBlockCentralizer (fepomepJ n F) S ε,
+    (_hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
+    (_hJε : IsComponentOf J' ⁅glBlockCentralizer (fepomepJ n F) S ε,
       glBlockCentralizer (fepomepJ n F) S ε⁆)
-    (he : IsPrimIdemIn (fepomepA n F S) e) (heε : e * ε = e) (hself : e = ε)
-    (hd4 : 4 ≤ blockDegree (fepomepA n F S) e)
-    (l : ℕ) (hl : blockDegree (fepomepA n F S) e = 2 * l) (hl2 : 2 ≤ l)
+    (_he : IsPrimIdemIn (fepomepA n F S) e) (_heε : e * ε = e) (_hself : e = ε)
+    (_hd4 : 4 ≤ blockDegree (fepomepA n F S) e)
+    (l : ℕ) (_hl : blockDegree (fepomepA n F S) e = 2 * l) (_hl2 : 2 ≤ l)
     (K : Type) [Field K] [Finite K] [Algebra F K]
-    (π : fepomepA n F S →ₐ[F] K) (hπsurj : Function.Surjective π)
-    (hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
-    (hπdeg : Module.finrank F K = blockDegree (fepomepA n F S) e)
+    (π : fepomepA n F S →ₐ[F] K) (_hπsurj : Function.Surjective π)
+    (_hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
+    (_hπdeg : Module.finrank F K = blockDegree (fepomepA n F S) e)
     (τ : K ≃+* K)
-    (hτcompat : ∀ a : fepomepA n F S, τ (π a) =
+    (_hτcompat : ∀ a : fepomepA n F S, τ (π a) =
       π (fepomep_formAdjAlgEquiv n hn S hSU hS a))
-    (hτ2 : τ ^ 2 = 1) (hτne : τ ≠ 1)
-    (W : Submodule F (fepomepι n → F)) (hW : W = LinearMap.range (Matrix.mulVecLin e))
+    (_hτ2 : τ ^ 2 = 1) (_hτne : τ ≠ 1)
+    (W : Submodule F (fepomepι n → F)) (_hW : W = LinearMap.range (Matrix.mulVecLin e))
     [Module K W] [IsScalarTower F K W] [FiniteDimensional K W]
     (ρ : glBlockCentralizer (fepomepJ n F) S ε →* (W ≃ₗ[K] W))
-    (hρ : ∀ (u : glBlockCentralizer (fepomepJ n F) S ε) (w : W),
+    (_hρ : ∀ (u : glBlockCentralizer (fepomepJ n F) S ε) (w : W),
       ((ρ u w : W) : fepomepι n → F) =
         Matrix.mulVec ((fepomepJ n F (u : ↥(spinGroup (fepomepQ n F)))) :
           Matrix (fepomepι n) (fepomepι n) F) (w : fepomepι n → F))
@@ -6291,20 +6288,20 @@ private lemma fepomep_selfDual_blockGroup_descentQClosureInvariant
       ((π a • w : W) : fepomepι n → F) =
         Matrix.mulVec (a : Matrix (fepomepι n) (fepomepι n) F) (w : fepomepι n → F))
     (Φ : W ≃ₗ[K] (Fin (Module.finrank K W) → K))
-    (hinjρ : Function.Injective ρ)
+    (_hinjρ : Function.Injective ρ)
     (H : W →ₛₗ[τ.toRingHom] W →ₗ[K] K)
-    (hHinv : ∀ (u : glBlockCentralizer (fepomepJ n F) S ε) (x y : W),
+    (_hHinv : ∀ (u : glBlockCentralizer (fepomepJ n F) S ε) (x y : W),
       H (ρ u x) (ρ u y) = H x y)
-    (hHtr : ∀ v w : W, Algebra.trace F K (H v w) =
+    (_hHtr : ∀ v w : W, Algebra.trace F K (H v w) =
       QuadraticMap.polar (fepomepQ n F) (v : fepomepι n → F) (w : fepomepι n → F))
     (ι₀ : glBlockCentralizer (fepomepJ n F) S ε →* GL (Fin (Module.finrank K W)) K)
-    (hι₀ : ∀ (g : glBlockCentralizer (fepomepJ n F) S ε) (i : Fin (Module.finrank K W)),
+    (_hι₀ : ∀ (g : glBlockCentralizer (fepomepJ n F) S ε) (i : Fin (Module.finrank K W)),
       Matrix.mulVec ((ι₀ g : GL (Fin (Module.finrank K W)) K) :
           Matrix (Fin (Module.finrank K W)) (Fin (Module.finrank K W)) K) (Pi.single i 1) =
         Φ (ρ g (Φ.symm (Pi.single i 1))))
-    (hτeq : ∀ x : K, τ x = x ^ (2 ^ (l * f)))
+    (_hτeq : ∀ x : K, τ x = x ^ (2 ^ (l * f)))
     (g : W ≃ₗ[K] W)
-    (hg : ∀ x y : W, H (g x) (g y) = H x y)
+    (_hg : ∀ x y : W, H (g x) (g y) = H x y)
     :
     ∀ (κ : Kˣ), κ ∈ Subgroup.closure (fepomep_selfDual_blockGroup_sUnitSet n S K π) → ∀ x : W,
       fepomepQ n F (g (((κ : K) • x : W)) : fepomepι n → F) -
@@ -6420,7 +6417,7 @@ private lemma fepomep_selfDual_blockGroup_descentQZero
     omega
   have hexlam : ∃ (s : GL (fepomepι n) F) (hs : s ∈ S), π (sA s hs) ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hP : ∀ a : fepomepA n F S, ∃ f : F, π a = algebraMap F K f := by
       intro a
       refine Algebra.adjoin_induction
@@ -6465,7 +6462,7 @@ private lemma fepomep_selfDual_blockGroup_descentQZero
     exact he.2.2.1 he0
   let G : Subgroup Kˣ :=
     Subgroup.closure (fepomep_selfDual_blockGroup_sUnitSet n S K π)
-  haveI : Fintype G := Fintype.ofFinite G
+  have : Fintype G := Fintype.ofFinite G
   have hGne : G ≠ ⊥ := by
     intro hbot
     obtain ⟨s, hs, hpi1⟩ := hexlam
@@ -6501,7 +6498,7 @@ private lemma fepomep_selfDual_blockGroup_descentQZero
     change κ ∈ Subgroup.closure (fepomep_selfDual_blockGroup_sUnitSet n S K π) at hκ
     induction hκ using Subgroup.closure_induction with
     | mem y hy => exact hgen_odd y hy
-    | one => simpa [orderOf_one] using (odd_one : Odd (1 : ℕ))
+    | one => simp [orderOf_one]
     | mul a b _ _ ha hb =>
         have hlcm : Odd (Nat.lcm (orderOf a) (orderOf b)) :=
           Odd.of_dvd_nat (ha.mul hb) (Nat.lcm_dvd_mul _ _)
@@ -6539,7 +6536,7 @@ private lemma fepomep_selfDual_blockGroup_descentQZero
     FiniteField.sum_subgroup_units_eq_zero (G := G) hGne
   have hmap : νH (∑ κ : G, ((κ : Kˣ) : K) • x) =
       ∑ κ : G, νH (((κ : Kˣ) : K) • x) := by
-    simpa using map_sum νH (fun κ : G => ((κ : Kˣ) : K) • x) Finset.univ
+    simp
   have hsum_smul : (∑ κ : G, ((κ : Kˣ) : K) • x) =
       (∑ κ : G, ((κ : Kˣ) : K)) • x := by
     rw [Finset.sum_smul]
@@ -6635,53 +6632,53 @@ private lemma fepomep_selfDual_blockGroup_descentQuadPreserved
 private lemma fepomep_selfDual_blockGroup_descentBlockExtension
     (n : ℕ) {F : Type} [Field F] [Finite F] [CharP F 2]
     (hn : 3 ≤ n)
-    (f : ℕ) (hc : Nat.card F = 2 ^ f)
+    (f : ℕ) (_hc : Nat.card F = 2 ^ f)
     (S : Set (GL (fepomepι n) F))
     (hSU : ∀ s ∈ S, s ∈ (fepomepJ n F).range)
     (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
-    (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {J' : Subgroup ↥(spinGroup (fepomepQ n F))}
     {ε e : Matrix (fepomepι n) (fepomepι n) F}
-    (hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
-    (hJε : IsComponentOf J' ⁅glBlockCentralizer (fepomepJ n F) S ε,
+    (_hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
+    (_hJε : IsComponentOf J' ⁅glBlockCentralizer (fepomepJ n F) S ε,
       glBlockCentralizer (fepomepJ n F) S ε⁆)
-    (he : IsPrimIdemIn (fepomepA n F S) e) (heε : e * ε = e) (hself : e = ε)
-    (hd4 : 4 ≤ blockDegree (fepomepA n F S) e)
-    (l : ℕ) (hl : blockDegree (fepomepA n F S) e = 2 * l) (hl2 : 2 ≤ l)
+    (he : IsPrimIdemIn (fepomepA n F S) e) (_heε : e * ε = e) (hself : e = ε)
+    (_hd4 : 4 ≤ blockDegree (fepomepA n F S) e)
+    (l : ℕ) (_hl : blockDegree (fepomepA n F S) e = 2 * l) (_hl2 : 2 ≤ l)
     (K : Type) [Field K] [Finite K] [Algebra F K]
-    (π : fepomepA n F S →ₐ[F] K) (hπsurj : Function.Surjective π)
-    (hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
-    (hπdeg : Module.finrank F K = blockDegree (fepomepA n F S) e)
+    (π : fepomepA n F S →ₐ[F] K) (_hπsurj : Function.Surjective π)
+    (_hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
+    (_hπdeg : Module.finrank F K = blockDegree (fepomepA n F S) e)
     (τ : K ≃+* K)
-    (hτcompat : ∀ a : fepomepA n F S, τ (π a) =
+    (_hτcompat : ∀ a : fepomepA n F S, τ (π a) =
       π (fepomep_formAdjAlgEquiv n hn S hSU hS a))
-    (hτ2 : τ ^ 2 = 1) (hτne : τ ≠ 1)
+    (_hτ2 : τ ^ 2 = 1) (_hτne : τ ≠ 1)
     (W : Submodule F (fepomepι n → F)) (hW : W = LinearMap.range (Matrix.mulVecLin e))
     [Module K W] [IsScalarTower F K W] [FiniteDimensional K W]
     (ρ : glBlockCentralizer (fepomepJ n F) S ε →* (W ≃ₗ[K] W))
-    (hρ : ∀ (u : glBlockCentralizer (fepomepJ n F) S ε) (w : W),
+    (_hρ : ∀ (u : glBlockCentralizer (fepomepJ n F) S ε) (w : W),
       ((ρ u w : W) : fepomepι n → F) =
         Matrix.mulVec ((fepomepJ n F (u : ↥(spinGroup (fepomepQ n F)))) :
           Matrix (fepomepι n) (fepomepι n) F) (w : fepomepι n → F))
-    (hK : ∀ (a : fepomepA n F S) (w : W),
+    (_hK : ∀ (a : fepomepA n F S) (w : W),
       ((π a • w : W) : fepomepι n → F) =
         Matrix.mulVec (a : Matrix (fepomepι n) (fepomepι n) F) (w : fepomepι n → F))
     (Φ : W ≃ₗ[K] (Fin (Module.finrank K W) → K))
-    (hinjρ : Function.Injective ρ)
+    (_hinjρ : Function.Injective ρ)
     (H : W →ₛₗ[τ.toRingHom] W →ₗ[K] K)
-    (hHinv : ∀ (u : glBlockCentralizer (fepomepJ n F) S ε) (x y : W),
+    (_hHinv : ∀ (u : glBlockCentralizer (fepomepJ n F) S ε) (x y : W),
       H (ρ u x) (ρ u y) = H x y)
-    (hHtr : ∀ v w : W, Algebra.trace F K (H v w) =
+    (_hHtr : ∀ v w : W, Algebra.trace F K (H v w) =
       QuadraticMap.polar (fepomepQ n F) (v : fepomepι n → F) (w : fepomepι n → F))
     (ι₀ : glBlockCentralizer (fepomepJ n F) S ε →* GL (Fin (Module.finrank K W)) K)
-    (hι₀ : ∀ (g : glBlockCentralizer (fepomepJ n F) S ε) (i : Fin (Module.finrank K W)),
+    (_hι₀ : ∀ (g : glBlockCentralizer (fepomepJ n F) S ε) (i : Fin (Module.finrank K W)),
       Matrix.mulVec ((ι₀ g : GL (Fin (Module.finrank K W)) K) :
           Matrix (Fin (Module.finrank K W)) (Fin (Module.finrank K W)) K) (Pi.single i 1) =
         Φ (ρ g (Φ.symm (Pi.single i 1))))
-    (hτeq : ∀ x : K, τ x = x ^ (2 ^ (l * f)))
+    (_hτeq : ∀ x : K, τ x = x ^ (2 ^ (l * f)))
     (g : W ≃ₗ[K] W)
-    (hg : ∀ x y : W, H (g x) (g y) = H x y)
-    (hgQ : ∀ x : W, fepomepQ n F (g x : fepomepι n → F) =
+    (_hg : ∀ x y : W, H (g x) (g y) = H x y)
+    (_hgQ : ∀ x : W, fepomepQ n F (g x : fepomepι n → F) =
       fepomepQ n F (x : fepomepι n → F)) :
     ∃ E : (fepomepι n → F) ≃ₗ[F] (fepomepι n → F),
       (∀ w : W, E (w : fepomepι n → F) = (g w : fepomepι n → F)) ∧
@@ -6709,7 +6706,6 @@ private lemma fepomep_selfDual_blockGroup_descentBlockExtension
   let E : (fepomepι n → F) ≃ₗ[F] (fepomepι n → F) := e0.symm.trans (g'.trans e0)
   refine ⟨E, ?_, ?_⟩
   · intro w
-    change E (w : fepomepι n → F) = (g w : fepomepι n → F)
     change e0 (g' (e0.symm (w : fepomepι n → F))) = (g w : fepomepι n → F)
     dsimp only [e0]
     rw [Submodule.prodEquivOfIsCompl_symm_apply_left W (LinearMap.ker p) hcompl w]
@@ -6734,52 +6730,52 @@ private lemma fepomep_selfDual_blockGroup_descentBlockExtension
 private lemma fepomep_selfDual_blockGroup_descentExtensionOmega
     (n : ℕ) {F : Type} [Field F] [Finite F] [CharP F 2]
     (hn : 3 ≤ n)
-    (f : ℕ) (hc : Nat.card F = 2 ^ f)
+    (f : ℕ) (_hc : Nat.card F = 2 ^ f)
     (S : Set (GL (fepomepι n) F))
     (hSU : ∀ s ∈ S, s ∈ (fepomepJ n F).range)
     (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
-    (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {J' : Subgroup ↥(spinGroup (fepomepQ n F))}
     {ε e : Matrix (fepomepι n) (fepomepι n) F}
     (hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
-    (hJε : IsComponentOf J' ⁅glBlockCentralizer (fepomepJ n F) S ε,
+    (_hJε : IsComponentOf J' ⁅glBlockCentralizer (fepomepJ n F) S ε,
       glBlockCentralizer (fepomepJ n F) S ε⁆)
-    (he : IsPrimIdemIn (fepomepA n F S) e) (heε : e * ε = e) (hself : e = ε)
-    (hd4 : 4 ≤ blockDegree (fepomepA n F S) e)
-    (l : ℕ) (hl : blockDegree (fepomepA n F S) e = 2 * l) (hl2 : 2 ≤ l)
+    (he : IsPrimIdemIn (fepomepA n F S) e) (_heε : e * ε = e) (hself : e = ε)
+    (_hd4 : 4 ≤ blockDegree (fepomepA n F S) e)
+    (l : ℕ) (hl : blockDegree (fepomepA n F S) e = 2 * l) (_hl2 : 2 ≤ l)
     (K : Type) [Field K] [Finite K] [Algebra F K]
-    (π : fepomepA n F S →ₐ[F] K) (hπsurj : Function.Surjective π)
-    (hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
+    (π : fepomepA n F S →ₐ[F] K) (_hπsurj : Function.Surjective π)
+    (_hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
     (hπdeg : Module.finrank F K = blockDegree (fepomepA n F S) e)
     (τ : K ≃+* K)
-    (hτcompat : ∀ a : fepomepA n F S, τ (π a) =
+    (_hτcompat : ∀ a : fepomepA n F S, τ (π a) =
       π (fepomep_formAdjAlgEquiv n hn S hSU hS a))
-    (hτ2 : τ ^ 2 = 1) (hτne : τ ≠ 1)
+    (_hτ2 : τ ^ 2 = 1) (_hτne : τ ≠ 1)
     (W : Submodule F (fepomepι n → F)) (hW : W = LinearMap.range (Matrix.mulVecLin e))
     [Module K W] [IsScalarTower F K W] [FiniteDimensional K W]
     (ρ : glBlockCentralizer (fepomepJ n F) S ε →* (W ≃ₗ[K] W))
-    (hρ : ∀ (u : glBlockCentralizer (fepomepJ n F) S ε) (w : W),
+    (_hρ : ∀ (u : glBlockCentralizer (fepomepJ n F) S ε) (w : W),
       ((ρ u w : W) : fepomepι n → F) =
         Matrix.mulVec ((fepomepJ n F (u : ↥(spinGroup (fepomepQ n F)))) :
           Matrix (fepomepι n) (fepomepι n) F) (w : fepomepι n → F))
-    (hK : ∀ (a : fepomepA n F S) (w : W),
+    (_hK : ∀ (a : fepomepA n F S) (w : W),
       ((π a • w : W) : fepomepι n → F) =
         Matrix.mulVec (a : Matrix (fepomepι n) (fepomepι n) F) (w : fepomepι n → F))
     (Φ : W ≃ₗ[K] (Fin (Module.finrank K W) → K))
-    (hinjρ : Function.Injective ρ)
+    (_hinjρ : Function.Injective ρ)
     (H : W →ₛₗ[τ.toRingHom] W →ₗ[K] K)
-    (hHinv : ∀ (u : glBlockCentralizer (fepomepJ n F) S ε) (x y : W),
+    (_hHinv : ∀ (u : glBlockCentralizer (fepomepJ n F) S ε) (x y : W),
       H (ρ u x) (ρ u y) = H x y)
-    (hHtr : ∀ v w : W, Algebra.trace F K (H v w) =
+    (_hHtr : ∀ v w : W, Algebra.trace F K (H v w) =
       QuadraticMap.polar (fepomepQ n F) (v : fepomepι n → F) (w : fepomepι n → F))
     (ι₀ : glBlockCentralizer (fepomepJ n F) S ε →* GL (Fin (Module.finrank K W)) K)
-    (hι₀ : ∀ (g : glBlockCentralizer (fepomepJ n F) S ε) (i : Fin (Module.finrank K W)),
+    (_hι₀ : ∀ (g : glBlockCentralizer (fepomepJ n F) S ε) (i : Fin (Module.finrank K W)),
       Matrix.mulVec ((ι₀ g : GL (Fin (Module.finrank K W)) K) :
           Matrix (Fin (Module.finrank K W)) (Fin (Module.finrank K W)) K) (Pi.single i 1) =
         Φ (ρ g (Φ.symm (Pi.single i 1))))
-    (hτeq : ∀ x : K, τ x = x ^ (2 ^ (l * f)))
+    (_hτeq : ∀ x : K, τ x = x ^ (2 ^ (l * f)))
     (g : W ≃ₗ[K] W)
-    (hg : ∀ x y : W, H (g x) (g y) = H x y)
+    (_hg : ∀ x y : W, H (g x) (g y) = H x y)
     (hgQ : ∀ x : W, fepomepQ n F (g x : fepomepι n → F) =
       fepomepQ n F (x : fepomepι n → F))
     (E : (fepomepι n → F) ≃ₗ[F] (fepomepι n → F))
@@ -6882,7 +6878,7 @@ private lemma fepomep_selfDual_blockGroup_descentExtensionOmega
       have hcomp : CFSG.RankThree.OrthogonalInvolutions.commSpace (g.restrictScalars F) =
           (CFSG.RankThree.OrthogonalInvolutions.commSpace g).restrictScalars F := rfl
       rw [hcomp]
-      haveI : Module.Free K ↥(CFSG.RankThree.OrthogonalInvolutions.commSpace g) :=
+      have : Module.Free K ↥(CFSG.RankThree.OrthogonalInvolutions.commSpace g) :=
         Module.Free.of_divisionRing K ↥(CFSG.RankThree.OrthogonalInvolutions.commSpace g)
       exact ⟨Module.finrank K ↥(CFSG.RankThree.OrthogonalInvolutions.commSpace g),
         (Module.finrank_mul_finrank F K
@@ -6896,27 +6892,27 @@ private lemma fepomep_selfDual_blockGroup_descentExtensionOmega
 private lemma fepomep_selfDual_blockGroup_descentOmegaLift
     (n : ℕ) {F : Type} [Field F] [Finite F] [CharP F 2]
     (hn : 3 ≤ n)
-    (f : ℕ) (hc : Nat.card F = 2 ^ f)
+    (f : ℕ) (_hc : Nat.card F = 2 ^ f)
     (S : Set (GL (fepomepι n) F))
     (hSU : ∀ s ∈ S, s ∈ (fepomepJ n F).range)
     (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
-    (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {J' : Subgroup ↥(spinGroup (fepomepQ n F))}
     {ε e : Matrix (fepomepι n) (fepomepι n) F}
     (hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
-    (hJε : IsComponentOf J' ⁅glBlockCentralizer (fepomepJ n F) S ε,
+    (_hJε : IsComponentOf J' ⁅glBlockCentralizer (fepomepJ n F) S ε,
       glBlockCentralizer (fepomepJ n F) S ε⁆)
     (he : IsPrimIdemIn (fepomepA n F S) e) (heε : e * ε = e) (hself : e = ε)
-    (hd4 : 4 ≤ blockDegree (fepomepA n F S) e)
-    (l : ℕ) (hl : blockDegree (fepomepA n F S) e = 2 * l) (hl2 : 2 ≤ l)
+    (_hd4 : 4 ≤ blockDegree (fepomepA n F S) e)
+    (l : ℕ) (_hl : blockDegree (fepomepA n F S) e = 2 * l) (_hl2 : 2 ≤ l)
     (K : Type) [Field K] [Finite K] [Algebra F K]
     (π : fepomepA n F S →ₐ[F] K) (hπsurj : Function.Surjective π)
     (hπker : ∀ a, π a = 0 ↔ (a : Matrix (fepomepι n) (fepomepι n) F) * e = 0)
     (hπdeg : Module.finrank F K = blockDegree (fepomepA n F S) e)
     (τ : K ≃+* K)
-    (hτcompat : ∀ a : fepomepA n F S, τ (π a) =
+    (_hτcompat : ∀ a : fepomepA n F S, τ (π a) =
       π (fepomep_formAdjAlgEquiv n hn S hSU hS a))
-    (hτ2 : τ ^ 2 = 1) (hτne : τ ≠ 1)
+    (_hτ2 : τ ^ 2 = 1) (_hτne : τ ≠ 1)
     (W : Submodule F (fepomepι n → F)) (hW : W = LinearMap.range (Matrix.mulVecLin e))
     [Module K W] [IsScalarTower F K W] [FiniteDimensional K W]
     (ρ : glBlockCentralizer (fepomepJ n F) S ε →* (W ≃ₗ[K] W))
@@ -6928,20 +6924,20 @@ private lemma fepomep_selfDual_blockGroup_descentOmegaLift
       ((π a • w : W) : fepomepι n → F) =
         Matrix.mulVec (a : Matrix (fepomepι n) (fepomepι n) F) (w : fepomepι n → F))
     (Φ : W ≃ₗ[K] (Fin (Module.finrank K W) → K))
-    (hinjρ : Function.Injective ρ)
+    (_hinjρ : Function.Injective ρ)
     (H : W →ₛₗ[τ.toRingHom] W →ₗ[K] K)
-    (hHinv : ∀ (u : glBlockCentralizer (fepomepJ n F) S ε) (x y : W),
+    (_hHinv : ∀ (u : glBlockCentralizer (fepomepJ n F) S ε) (x y : W),
       H (ρ u x) (ρ u y) = H x y)
-    (hHtr : ∀ v w : W, Algebra.trace F K (H v w) =
+    (_hHtr : ∀ v w : W, Algebra.trace F K (H v w) =
       QuadraticMap.polar (fepomepQ n F) (v : fepomepι n → F) (w : fepomepι n → F))
     (ι₀ : glBlockCentralizer (fepomepJ n F) S ε →* GL (Fin (Module.finrank K W)) K)
-    (hι₀ : ∀ (g : glBlockCentralizer (fepomepJ n F) S ε) (i : Fin (Module.finrank K W)),
+    (_hι₀ : ∀ (g : glBlockCentralizer (fepomepJ n F) S ε) (i : Fin (Module.finrank K W)),
       Matrix.mulVec ((ι₀ g : GL (Fin (Module.finrank K W)) K) :
           Matrix (Fin (Module.finrank K W)) (Fin (Module.finrank K W)) K) (Pi.single i 1) =
         Φ (ρ g (Φ.symm (Pi.single i 1))))
-    (hτeq : ∀ x : K, τ x = x ^ (2 ^ (l * f)))
+    (_hτeq : ∀ x : K, τ x = x ^ (2 ^ (l * f)))
     (g : W ≃ₗ[K] W)
-    (hg : ∀ x y : W, H (g x) (g y) = H x y)
+    (_hg : ∀ x y : W, H (g x) (g y) = H x y)
     (E : (fepomepι n → F) ≃ₗ[F] (fepomepι n → F))
     (hEw : ∀ w : W, E (w : fepomepι n → F) = (g w : fepomepι n → F))
     (hEfix : ∀ v : fepomepι n → F, E ((1 - ε).mulVec v) = (1 - ε).mulVec v)
@@ -7024,10 +7020,10 @@ private lemma fepomep_selfDual_blockGroup_descentOmegaLift
     ext i j
     simp
   have hmap :=
-    fepomep_selfDual_extension_mem_map (n := n) (hn := hn) (f := f) (l := l)
-      (S := S) (hSU := hSU) (hS := hS) (hε := hε) (he := he) (heε := heε) (hself := hself)
-      (K := K) (π := π) (hπsurj := hπsurj) (hπker := hπker) (hπdeg := hπdeg)
-      (W := W) (hW := hW) (Φ := Φ) (A := 1) (hA := hA1) E hcomm hEfix hrange
+    fepomep_selfDual_extension_mem_map (n := n) (_hn := hn) (f := f) (l := l)
+      (S := S) (_hSU := hSU) (_hS := hS) (_hε := hε) (_he := he) (_heε := heε) (_hself := hself)
+      (K := K) (π := π) (_hπsurj := hπsurj) (_hπker := hπker) (_hπdeg := hπdeg)
+      (W := W) (_hW := hW) (_Φ := Φ) (A := 1) (_hA := hA1) E hcomm hEfix hrange
   rw [Subgroup.mem_map] at hmap
   obtain ⟨u, hu_mem, hu_eq⟩ := hmap
   refine ⟨⟨u, hu_mem⟩, ?_⟩
@@ -7261,11 +7257,11 @@ private lemma fepomep_selfDual_blockGroup_descentJRangeGeData
       Matrix (Fin (Module.finrank K W)) (Fin (Module.finrank K W)) K) (Pi.single j 1)) i =
       ((ι₀ u : GL (Fin (Module.finrank K W)) K) :
       Matrix (Fin (Module.finrank K W)) (Fin (Module.finrank K W)) K) i j := by
-    simp [Matrix.mulVec, Pi.single_apply]
+    simp [Matrix.mulVec]
   rw [← e1]
   have h1 := congrFun (hι₀ u j) i
   rw [h1, hu (Φ.symm (Pi.single j 1))]
-  simp [Matrix.mulVec, Pi.single_apply, LinearEquiv.apply_symm_apply]
+  simp [LinearEquiv.apply_symm_apply]
 
 private lemma fepomep_selfDual_blockGroup_descentJRangeGe
     (n : ℕ) {F : Type} [Field F] [Finite F] [CharP F 2]
@@ -7419,17 +7415,17 @@ private lemma fepomep_selfDual_blockGroup_descentIdentityRange
     (W : Submodule F (fepomepι n → F)) (hW : W = LinearMap.range (Matrix.mulVecLin e))
     [Module K W] [IsScalarTower F K W] [FiniteDimensional K W]
     (ρ : glBlockCentralizer (fepomepJ n F) S ε →* (W ≃ₗ[K] W))
-    (hρ : ∀ (u : glBlockCentralizer (fepomepJ n F) S ε) (w : W),
+    (_hρ : ∀ (u : glBlockCentralizer (fepomepJ n F) S ε) (w : W),
       ((ρ u w : W) : fepomepι n → F) =
         Matrix.mulVec ((fepomepJ n F (u : ↥(spinGroup (fepomepQ n F)))) :
           Matrix (fepomepι n) (fepomepι n) F) (w : fepomepι n → F))
-    (hK : ∀ (a : fepomepA n F S) (w : W),
+    (_hK : ∀ (a : fepomepA n F S) (w : W),
       ((π a • w : W) : fepomepι n → F) =
         Matrix.mulVec (a : Matrix (fepomepι n) (fepomepι n) F) (w : fepomepι n → F))
     (Φ : W ≃ₗ[K] (Fin (Module.finrank K W) → K))
     (hτeq : ∀ x : K, τ x = x ^ (2 ^ (l * f)))
     (H : W →ₛₗ[τ.toRingHom] W →ₗ[K] K) (hHsymm : H.IsSymm) (hHnd : H.SeparatingLeft)
-    (hHinv : ∀ (u : glBlockCentralizer (fepomepJ n F) S ε) (x y : W),
+    (_hHinv : ∀ (u : glBlockCentralizer (fepomepJ n F) S ε) (x y : W),
       H (ρ u x) (ρ u y) = H x y)
     (ι₀ : glBlockCentralizer (fepomepJ n F) S ε →* GL (Fin (Module.finrank K W)) K)
     (hι₀ : Function.Injective ι₀)
@@ -7475,7 +7471,7 @@ private lemma fepomep_selfDual_blockGroup_descentIdentityRange
     rw [hmap]
     exact hU₀ A
   simpa only [hmap] using
-    fepomep_selfDual_blockGroup_descentTransport (τ := τ) (Module.finrank K W) σ J ι₀ hι₀ hU₀σ C hCσ
+    fepomep_selfDual_blockGroup_descentTransport (_τ := τ) (Module.finrank K W) σ J ι₀ hι₀ hU₀σ C hCσ
 
 private lemma fepomep_selfDual_blockGroup_formDescentExists
     (n : ℕ) {F : Type} [Field F] [Finite F] [CharP F 2]
@@ -7576,9 +7572,9 @@ private lemma fepomep_selfDual_blockGroup_su (n : ℕ) {F : Type} [Field F] [Fin
         CFSG.Open.StatedSU m' (2 ^ (l * f)) K) := by
   obtain ⟨W, hW, hmod, htower, hfin, hdim, hm1, hK⟩ :=
     fepomep_selfDual_blockModule n hn S hSU hS hε he heε hself K π hπsurj hπker hπdeg
-  letI : Module K W := hmod
-  letI : IsScalarTower F K W := htower
-  letI : FiniteDimensional K W := hfin
+  let : Module K W := hmod
+  let : IsScalarTower F K W := htower
+  let : FiniteDimensional K W := hfin
   obtain ⟨ρ, hρ⟩ :=
     fepomep_selfDual_blockActionHom n hn S hSU hS hε he heε hself (by omega) K π hπsurj
       hπker hπdeg W hW hK
@@ -7654,10 +7650,10 @@ private lemma fepomep_selfDual_SU2_to_SL2 {F : Type} [Field F] [CharP F 2] {f : 
       Nonempty (CFSG.Open.StatedProj (CFSG.Open.StatedSU 2 ((2 ^ f) ^ d) K) ≃*
         CFSG.Open.StatedProj (CFSG.Open.StatedSL 2 K')) := by
   classical
-  haveI : CharP K 2 := charP_of_injective_algebraMap (algebraMap F K).injective 2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_injective_algebraMap (algebraMap F K).injective 2
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let K' : Type := ↥(CFSG.LieType.Steinberg.fixedSubfield K 2 (f * d))
-  haveI : CharP K' 2 := Subfield.charP (CFSG.LieType.Steinberg.fixedSubfield K 2 (f * d)) 2
+  have : CharP K' 2 := Subfield.charP (CFSG.LieType.Steinberg.fixedSubfield K 2 (f * d)) 2
   have hK' : Nat.card K = (2 ^ (f * d)) ^ 2 := by
     rw [hKcard, ← pow_mul 2 f d]
   have hcard : Nat.card K' = 2 ^ (f * d) :=
@@ -7684,18 +7680,18 @@ private lemma fepomep_selfDual_SU2_to_SL2 {F : Type} [Field F] [CharP F 2] {f : 
     exact ⟨projSU.trans (eSL.symm.trans projSL.symm)⟩
 
 private lemma fepomep_selfDual_component_su_of_blockGroup (n : ℕ) {F : Type} [Field F] [Finite F]
-    [CharP F 2] (hn : 3 ≤ n)
+    [CharP F 2] (_hn : 3 ≤ n)
     (f : ℕ) (hc : Nat.card F = 2 ^ f)
     (S : Set (GL (fepomepι n) F))
-    (hSU : ∀ s ∈ S, s ∈ (fepomepJ n F).range)
-    (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
-    (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hSU : ∀ s ∈ S, s ∈ (fepomepJ n F).range)
+    (_hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
+    (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {J' : Subgroup ↥(spinGroup (fepomepQ n F))}
     {ε e : Matrix (fepomepι n) (fepomepι n) F}
-    (hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
+    (_hε : IsPrimAdjIdemIn (RingHom.id F) (fepomepG n F) (fepomepA n F S) ε)
     (hJε : IsComponentOf J' ⁅glBlockCentralizer (fepomepJ n F) S ε,
       glBlockCentralizer (fepomepJ n F) S ε⁆)
-    (he : IsPrimIdemIn (fepomepA n F S) e) (heε : e * ε = e) (hself : e = ε)
+    (_he : IsPrimIdemIn (fepomepA n F S) e) (_heε : e * ε = e) (_hself : e = ε)
     (l : ℕ)
     (K : Type) [Field K] [Finite K] [Algebra F K]
     (hπdeg : Module.finrank F K = blockDegree (fepomepA n F S) e)
@@ -7707,7 +7703,7 @@ private lemma fepomep_selfDual_component_su_of_blockGroup (n : ℕ) {F : Type} [
     Nonempty (↥J' ⧸ Subgroup.center ↥J' ≃*
       CFSG.Open.StatedProj (CFSG.Open.StatedSU m' (2 ^ (l * f)) K)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hfin : Module.finrank F K = 2 * l := by rw [hπdeg, hl]
   have hKcard : Nat.card K = (2 ^ (l * f)) ^ 2 := by
     rw [fepomep_blockField_card f (2 * l) hc hfin, ← pow_mul]
@@ -7742,24 +7738,24 @@ private lemma fepomep_selfDual_component_su_of_blockGroup (n : ℕ) {F : Type} [
       subst hm2
       have hexp : 2 ^ (l * f) = (2 ^ f) ^ l := by rw [← pow_mul, mul_comm]
       have hKcardL : Nat.card K = ((2 ^ f) ^ l) ^ 2 := by rw [hKcard, hexp]
-      haveI : CharP K 2 := charP_of_injective_algebraMap (algebraMap F K).injective 2
+      have : CharP K 2 := charP_of_injective_algebraMap (algebraMap F K).injective 2
       have hperf : Group.IsPerfect ↥(CFSG.Open.StatedSU 2 (2 ^ (l * f)) K) :=
         CFSG.RankThree.SubgroupLists.isPerfect_statedSU_two (r := 2) (f := l * f) hKcard hq4
       obtain ⟨K', hK'field, hK'finite, hK'card, ⟨ePSU₀⟩⟩ :=
         fepomep_selfDual_SU2_to_SL2 (F := F) (f := f) l (K := K) hKcardL
-      letI : Field K' := hK'field
-      letI : Finite K' := hK'finite
+      let : Field K' := hK'field
+      let : Finite K' := hK'finite
       have ePSU : CFSG.Open.StatedProj (CFSG.Open.StatedSU 2 (2 ^ (l * f)) K) ≃*
           CFSG.Open.StatedProj (CFSG.Open.StatedSL 2 K') := by
         rw [hexp]
         exact ePSU₀
       have hK'4 : 4 ≤ Nat.card K' := by rw [hK'card, ← hexp]; exact hq4
-      haveI : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) K') :=
+      have : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) K') :=
         Matrix.ProjectiveSpecialLinearGroup.rank_two_simple hK'4
       have hsimpleSL : IsSimpleGroup (CFSG.Open.StatedProj (CFSG.Open.StatedSL 2 K')) :=
         MulEquiv.isSimpleGroup
           (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 2 K').symm
-      haveI : IsSimpleGroup (CFSG.Open.StatedProj (CFSG.Open.StatedSL 2 K')) := hsimpleSL
+      have : IsSimpleGroup (CFSG.Open.StatedProj (CFSG.Open.StatedSL 2 K')) := hsimpleSL
       have hsimpleSU : IsSimpleGroup
           (CFSG.Open.StatedProj (CFSG.Open.StatedSU 2 (2 ^ (l * f)) K)) :=
         MulEquiv.isSimpleGroup ePSU
@@ -7770,8 +7766,8 @@ private lemma fepomep_selfDual_component_su_of_blockGroup (n : ℕ) {F : Type} [
   have hHq : CFSG.Open.IsQuasisimple H := CFSG.Open.IsQuasisimple.of_mulEquiv φ hSUq.1
   have hsub : CFSG.Open.IsSubnormal (J'.subgroupOf H) ⊤ :=
     CFSG.Open.IsSubnormal.of_mathlib (CFSG.Assembly.IsSubnormal.subgroupOf hJε.2.1)
-  haveI : Group.IsPerfect J' := ⟨hJε.2.2.1⟩
-  haveI : Group.IsPerfect (J'.subgroupOf H) :=
+  have : Group.IsPerfect J' := ⟨hJε.2.2.1⟩
+  have : Group.IsPerfect (J'.subgroupOf H) :=
     Group.IsPerfect.ofSurjective (f := (Subgroup.subgroupOfEquivOfLe hJε.1).symm.toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hJε.1).symm.surjective
   have hJeq : J' = H := by
@@ -7909,7 +7905,7 @@ private lemma fepomep_component_model (n : ℕ) {F : Type} [Field F] [Finite F] 
       CFSG.Open.StatedClassicalModel (↥J' ⧸ Subgroup.center ↥J') t' m' 2 f' := by
   classical
   have hf : 1 ≤ f := by
-    haveI : Fintype F := Fintype.ofFinite F
+    have : Fintype F := Fintype.ofFinite F
     have h2 : 2 ≤ Fintype.card F :=
       Fintype.one_lt_card_iff.mpr (exists_pair_ne F)
     have h2' : 2 ≤ Nat.card F := by rwa [Nat.card_eq_fintype_card]
@@ -7921,9 +7917,9 @@ private lemma fepomep_component_model (n : ℕ) {F : Type} [Field F] [Finite F] 
   rcases hdeg with ⟨hself, hd4⟩ | ⟨hne, hd2⟩
   · obtain ⟨K, hKfield, hKalg, hKfinite, π, hπsurj, hπker, hπdeg⟩ :=
       exists_blockField hS hodd he
-    letI : Field K := hKfield
-    letI : Algebra F K := hKalg
-    letI : Finite K := hKfinite
+    let : Field K := hKfield
+    let : Algebra F K := hKalg
+    let : Finite K := hKfinite
     obtain ⟨l, hl, hl2, τ, hτcompat, hτ2, hτne⟩ :=
       fepomep_selfDual_hermitian n hn f hc S hSU hS hodd hε he heε hself hd4 K π
         hπsurj hπker hπdeg
@@ -7941,9 +7937,9 @@ private lemma fepomep_component_model (n : ℕ) {F : Type} [Field F] [Finite F] 
       · decide
   · obtain ⟨K, hKfield, hKalg, hKfinite, π, hπsurj, hπker, hπdeg⟩ :=
       exists_blockField hS hodd he
-    letI : Field K := hKfield
-    letI : Algebra F K := hKalg
-    letI : Finite K := hKfinite
+    let : Field K := hKfield
+    let : Algebra F K := hKalg
+    let : Finite K := hKfinite
     obtain ⟨m', hm'2, hmod⟩ :=
       fepomep_dualPair_model n hn f hc hf S hSU hS hodd hε hJε he heε hne hd2 K π
         hπsurj hπker hπdeg
@@ -7972,12 +7968,12 @@ theorem ggSixLSevenFieldExtCase_POmegaPlus (n : ℕ) (F : Type) [Field F]
       (e ≠ ε ∧ 2 ≤ blockDegree (Algebra.adjoin F (Units.val '' S)) e)) :
     GGSixLSevenFieldExtCase (J'.map ψ) .POmegaPlus f := by
   classical
-  haveI hFin : Finite F := Nat.finite_of_card_ne_zero (by rw [hc]; positivity)
-  haveI hChar : CharP F 2 := by
-    haveI : Fintype F := Fintype.ofFinite F
+  have hFin : Finite F := Nat.finite_of_card_ne_zero (by rw [hc]; positivity)
+  have hChar : CharP F 2 := by
+    have : Fintype F := Fintype.ofFinite F
     have hcard : Fintype.card F = 2 ^ f := by
       rw [← Nat.card_eq_fintype_card]; exact hc
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact charP_of_card_eq_prime_pow hcard
   obtain ⟨t', m', f', hlt, ht', hmod⟩ :=
     fepomep_component_model n hn f hc S hSU hS hodd hε hJε he heε hdeg

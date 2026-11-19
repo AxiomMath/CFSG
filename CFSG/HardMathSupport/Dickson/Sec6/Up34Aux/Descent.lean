@@ -38,10 +38,10 @@ theorem isLThreeFour_barOf_of_central {Y P : Type} [Group Y] [Finite Y] [Group P
     obtain ⟨a, rfl⟩ := QuotientGroup.mk'_surjective (GLAPPrimeCore 3 ↥(J.map π)) y
     obtain ⟨j, rfl⟩ := hφ a
     exact ⟨QuotientGroup.mk j, rfl⟩
-  haveI : IsSimpleGroup (barOf 3 J) := (isSimpleGroup_of_isLThreeFour hr).1
+  have : IsSimpleGroup (barOf 3 J) := (isSimpleGroup_of_isLThreeFour hr).1
   have hinj : Function.Injective f := by
     rw [← MonoidHom.ker_eq_bot_iff]
-    haveI := f.normal_ker
+    have := f.normal_ker
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal f.ker with h | h
     · exact h
     · exfalso
@@ -79,7 +79,7 @@ theorem up34_center_eq_bot_of_simple {S : Type*} [Group S] [IsSimpleGroup S]
 
 theorem eq_one_of_centerDescend_eq_one {Q : Type} [Group Q] (hq : CFSG.Open.IsQuasisimple Q)
     {β : MulAut Q} (h : centerDescend Q β = 1) : β = 1 := by
-  haveI : Group.IsPerfect Q := ⟨hq.1⟩
+  have : Group.IsPerfect Q := ⟨hq.1⟩
   refine eq_one_of_forall_mul_inv_mem_center fun s => ?_
   have h2 := congrArg (fun φ : MulAut (Q ⧸ Subgroup.center Q) => φ (s : Q ⧸ Subgroup.center Q)) h
   simp only [centerDescend_mk, MulAut.one_apply] at h2

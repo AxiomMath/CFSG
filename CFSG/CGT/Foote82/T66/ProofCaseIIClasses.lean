@@ -491,7 +491,7 @@ private theorem card_alt6 : Nat.card ↥(alternatingGroup (Fin 6)) = 360 := by
 private theorem alt6_eq_top_of_index_le_five (H : Subgroup ↥(alternatingGroup (Fin 6)))
     (hH : H.index ≤ 5) : H = ⊤ := by
   classical
-  haveI : IsSimpleGroup ↥(alternatingGroup (Fin 6)) :=
+  have : IsSimpleGroup ↥(alternatingGroup (Fin 6)) :=
     alternatingGroup.isSimpleGroup (by simp)
   by_contra hne
   let φ := MulAction.toPermHom ↥(alternatingGroup (Fin 6)) (↥(alternatingGroup (Fin 6)) ⧸ H)

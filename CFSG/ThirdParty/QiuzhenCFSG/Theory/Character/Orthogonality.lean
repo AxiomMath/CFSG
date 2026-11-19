@@ -1,9 +1,9 @@
 module
 
-public import Mathlib.Data.Complex.Basic
+public import Mathlib.Basic.Complex.Basic
 public import Mathlib.Analysis.Complex.Polynomial.Basic
 public import Mathlib.RepresentationTheory.Character
-public import Mathlib.Data.Complex.BigOperators
+public import Mathlib.Basic.Complex.BigOperators
 public import Mathlib.LinearAlgebra.Basis.Basic
 public import CFSG.ThirdParty.QiuzhenCFSG.Theory.Character.ClassFunction
 public import CFSG.ThirdParty.QiuzhenCFSG.Theory.Character.ConjClassFunction
@@ -65,7 +65,7 @@ public theorem irreducibleCharacter_self {φ : ClassFunction G} (hφ : IsIrreduc
     exact IsUnit.invertible (IsUnit.mk0 _ (Nat.cast_ne_zero.mpr (Nat.card_pos.ne')))
   unfold characterProduct
   rw [Representation.char_orthonormal (ρ := ρ) (σ := ρ)]
-  rw [if_pos ⟨Representation.Equiv.refl ρ⟩]
+  rw [ite_eq_left ⟨Representation.Equiv.refl ρ⟩]
 
 end CFSG.Theory.Character
 

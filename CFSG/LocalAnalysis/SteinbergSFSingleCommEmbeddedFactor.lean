@@ -30,23 +30,28 @@ section Steps
 variable {G : Type} [Group G] [Finite G] [IsSimpleGroup G] {L : Subgroup G} {K : Type} [Field K]
   [CharP K 2] [Finite K] {n : ℕ} {φ : L ≃* antiSp K} {t : G} {i : Axis}
 
+omit [Finite G] [IsSimpleGroup G] [Finite K] in
 theorem sixEmb_e5_inf (hH : SixHConclusion φ t i) :
     Mhat φ t i i ⊓ Mhat φ t i i.swap = Mc φ t i := by
   cases i
   · exact hH.inf_Mhat
   · exact (inf_comm _ _).trans hH.inf_Mhat
 
+omit [Finite G] [IsSimpleGroup G] [Finite K] in
 theorem sixEmb_e5_embVw_le_Mw : embVw φ t i ≤ Mw φ t i i.swap :=
   Subgroup.map_mono (show Vtor φ t i i ≤ Mc φ t i from inf_le_left)
 
+omit [Finite G] [IsSimpleGroup G] [Finite K] in
 theorem sixEmb_e5_embVw_le_Mhat : embVw φ t i ≤ Mhat φ t i i.swap :=
   sixEmb_e5_embVw_le_Mw.trans (le_sup_right : Mw φ t i i.swap ≤ Mhat φ t i i.swap)
 
+omit [Finite G] [IsSimpleGroup G] [Finite K] in
 theorem sixEmb_e6_mhat_le_S (k : Axis) : Mhat φ t i k ≤ S φ t i := by
   cases k
   · exact le_sup_left
   · exact le_sup_right
 
+omit [IsSimpleGroup G] in
 theorem sixEmb_e5_VV (hS : SCSetting L K n φ t i) :
     Vtor φ t i i ⊓ Vtor φ t i i.swap = ⊥ := by
   have h1 : Vtor φ t i i.swap = Wk φ t i.swap :=
@@ -56,10 +61,12 @@ theorem sixEmb_e5_VV (hS : SCSetting L K n φ t i) :
   rw [h1]
   exact h2
 
+omit [IsSimpleGroup G] in
 theorem sixEmb_e5_MM (hS : SCSetting L K n φ t i) :
     Mc φ t i ⊓ Mw φ t i i.swap = Vtor φ t i i.swap :=
   (SixF.weylProductConclusion_both hS.fc i hS.ne_bot hS.eq_bot).2.1.2.2.1
 
+omit [Finite G] [IsSimpleGroup G] [Finite K] in
 theorem sixEmb_e6_norm (hH : SixHConclusion φ t i) :
     embVw φ t i ≤ normalizer (Mhat φ t i i : Set G) := by
   have hST : S φ t i ≤ Tplus φ t i :=
@@ -69,6 +76,7 @@ theorem sixEmb_e6_norm (hH : SixHConclusion φ t i) :
   obtain ⟨hX, hnorm, -⟩ := hH.normal_Mhat i
   exact hB.trans ((Subgroup.normal_subgroupOf_iff_le_normalizer hX).mp hnorm)
 
+omit [IsSimpleGroup G] in
 theorem sixEmb_e5
     (hS : SCSetting L K n φ t i) (hH : SixHConclusion φ t i) : EmbE5Concl φ t i := by
   have hVV : Vtor φ t i i ⊓ Vtor φ t i i.swap = ⊥ := sixEmb_e5_VV hS
@@ -109,6 +117,7 @@ theorem sixEmb_e5
         (sixEmb_e5_conj_conj hg x).symm
     _ = 1 := by rw [hv6, mul_one, hg]
 
+omit [IsSimpleGroup G] in
 theorem sixEmb_e6
     (hS : SCSetting L K n φ t i) (hH : SixHConclusion φ t i) (he5 : EmbE5Concl φ t i) :
     Mhat φ t i i ⊔ embVw φ t i = S φ t i := by

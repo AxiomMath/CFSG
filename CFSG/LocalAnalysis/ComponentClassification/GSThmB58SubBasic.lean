@@ -146,6 +146,7 @@ theorem subX_sq_mem : hc.subX ^ 2 ∈ h.subS y ⊓ coreActionKernel (h.subJ y) �
   · rw [normalizer_subB, mem_subgroupOf, hcoe]
     exact h3
 
+omit hc in
 theorem subS_inf_coreActionKernel : h.subS y ⊓ coreActionKernel (h.subJ y) =
     (h.secImage y h.P).subgroupOf (h.secSubImg y) := by
   rw [coreActionKernel_subJ, ← Sub58.inf_subgroupOf, secImage_P]
@@ -157,7 +158,7 @@ theorem subS_inf_normalizer : h.subS y ⊓
 
 end SecCond
 
-theorem SecCond.secImage_T_eq (hc : h.SecCond y) :
+theorem SecCond.secImage_T_eq (_hc : h.SecCond y) :
     h.secImage y h.T = h.secImage y h.Q ⊓ coreActionKernel (h.secImage y (h.secJ0 y)) := by
   rw [show h.T = h.Q ⊓ h.P from rfl, secImage_inf ((h.secB0_le_B y).trans h.B_le_Q),
     ← secImage_P]

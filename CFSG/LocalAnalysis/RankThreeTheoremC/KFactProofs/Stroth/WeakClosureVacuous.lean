@@ -32,7 +32,7 @@ theorem WCOn.of_hasNoncommPair [Fact p.Prime]
   exact WCOn.of_not_isMulCommutative fun P =>
     InnerAction.not_isMulCommutative_of_noncomm_pSubgroup hpg
       (Subgroup.subset_closure (Set.mem_insert x {y}))
-      (Subgroup.subset_closure (Set.mem_insert_of_mem x rfl)) hxy P.isPGroup' P.not_dvd_index
+      (Subgroup.subset_closure (Set.mem_insert_of_mem x rfl)) hxy P.isPGroup P.not_dvd_index
 
 theorem WCOn.of_factorization_le_one [Fact p.Prime] (h : (Nat.card K).factorization p ≤ 1) :
     WCOn p K := by

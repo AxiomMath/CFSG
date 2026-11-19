@@ -41,7 +41,7 @@ theorem pRank_mulAut_le_of_cyclic {X : Type} [Group X] [Finite X] (hZ : Subgroup
   have hinj : Function.Injective (MulAut.conj : X →* MulAut X) :=
     CFSG.LocalAnalysis.RankFourTheoremC.conj_injective_of_center_eq_bot hZ
   have h1 : Nat.card (E.map Θ) ≤ p := by
-    haveI : Finite ↥(E.map Θ) := Finite.of_surjective
+    have : Finite ↥(E.map Θ) := Finite.of_surjective
       (fun e : ↥E => (⟨Θ e, Subgroup.mem_map_of_mem Θ e.2⟩ : ↥(E.map Θ)))
       (fun x => by
         obtain ⟨y, hy, hyx⟩ := Subgroup.mem_map.1 x.2
@@ -77,19 +77,19 @@ theorem pRank_mulAut_adjointGroup_G2_le
     (hX : ∀ F : Subgroup ↥(adjointGroup .G2 K), IsElemAbelian p F → Nat.card F ≤ p ^ n) :
     CFSG.Open.pRank p (⊤ : Subgroup (MulAut ↥(adjointGroup .G2 K))) ≤ n + 1 := by
   classical
-  haveI : Finite ↥(adjointGroup .G2 K) := by
+  have : Finite ↥(adjointGroup .G2 K) := by
     have : Finite (Module.End K (RootModule .G2 K)) := Module.finite_of_finite K
     infer_instance
   have hZ : Subgroup.center ↥(adjointGroup .G2 K) = ⊥ :=
     CFSG.LieType.Chevalley.center_adjointGroup_eq_bot
   by_cases h3 : ringChar K = 3
   ·
-    haveI : CharP K 3 := ringChar.of_eq h3
-    haveI : Fintype K := Fintype.ofFinite K
+    have : CharP K 3 := ringChar.of_eq h3
+    have : Fintype K := Fintype.ofFinite K
     obtain ⟨f, hf, hK⟩ : ∃ f : ℕ, 1 ≤ f ∧ Nat.card K = 3 ^ f := by
       obtain ⟨n', hpr, hcard⟩ := FiniteField.card K 3
       exact ⟨n', n'.pos, by rw [Nat.card_eq_fintype_card, hcard]⟩
-    haveI : CharP K CFSG.LieType.Ree.ReeTag.G2.prime := ‹CharP K 3›
+    have : CharP K CFSG.LieType.Ree.ReeTag.G2.prime := ‹CharP K 3›
     obtain ⟨-, -, ⟨Θ, -, -, hker⟩, -⟩ :=
       CFSG.LieType.Chevalley.G2_three_exact_automorphism_normal_form hf K hK
     exact pRank_mulAut_le_of_cyclic hZ hp hX Θ hker
@@ -97,9 +97,9 @@ theorem pRank_mulAut_adjointGroup_G2_le
     obtain ⟨hnf, -⟩ :=
       CFSG.RankThree.PartTwo.KFacts.g2_automorphism_normal_form h3 (hK4 h3) (K := K)
     set N := CFSG.ComponentClassification.OuterAutomorphisms.inner ↥(adjointGroup .G2 K) with hN
-    haveI : IsCyclic (K ≃+* K) :=
+    have : IsCyclic (K ≃+* K) :=
       CFSG.ComponentClassification.CatalogueSchreierLinearTwo.fieldAut_isCyclic K
-    haveI : IsCyclic (MulAut ↥(adjointGroup .G2 K) ⧸ N) := by
+    have : IsCyclic (MulAut ↥(adjointGroup .G2 K) ⧸ N) := by
       refine isCyclic_of_surjective
         ((QuotientGroup.mk' N).comp (CFSG.RankThree.PartTwo.KFacts.g2FieldHom K)) fun y => ?_
       obtain ⟨α, rfl⟩ := QuotientGroup.mk'_surjective N y
@@ -115,12 +115,13 @@ section Exclusions
 
 variable {Ω : Type} [Group Ω] [Finite Ω] {S B : Subgroup Ω}
 
+omit [Finite Ω] in
 theorem exists_adjointGroup_G2_equiv_psimple {p : ℕ} {Q : TauCeti.PrimePower} (hQ2 : Q.p ≠ 2)
     (hv : (TauCeti.LieTypeIndex.G2 Q).Valid)
     (e : PSimple p S ≃* (TauCeti.CFSGIndex.lie ⟨.G2 Q, hv⟩).Group) :
     ∃ (K : Type) (_ : Field K) (_ : Finite K), Nat.card K = Q.p ^ Q.exponent ∧ CharP K Q.p ∧
       Nonempty (↥(adjointGroup .G2 K) ≃* PSimple p S) := by
-  haveI : Fact Q.p.Prime := ⟨Q.prime_p⟩
+  have : Fact Q.p.Prime := ⟨Q.prime_p⟩
   have hK : Nat.card (GaloisField Q.p Q.exponent) = Q.card := by
     rw [GaloisField.card Q.p Q.exponent Q.exponent_pos.ne', TauCeti.PrimePower.card_def]
   obtain ⟨eb⟩ := CFSG.TauCetiBridge.untwistedBridge_G2 Q hv hQ2 (GaloisField Q.p Q.exponent) hK

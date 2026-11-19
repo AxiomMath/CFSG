@@ -96,7 +96,7 @@ theorem exists_le_inf_card_eq {Q T V L : Subgroup G} (hT : CFSG.Open.fusionIsSyl
   obtain ⟨hTQ, hT2, hTmax⟩ := hT
   obtain ⟨S, hS⟩ := (hT2.comap_of_injective Q.subtype Q.subtype_injective).exists_le_sylow
   have hST : (S : Subgroup Q).map Q.subtype = T :=
-    hTmax _ (Subgroup.map_subtype_le _) (S.isPGroup'.map Q.subtype)
+    hTmax _ (Subgroup.map_subtype_le _) (S.isPGroup.map Q.subtype)
       fun x hx => ⟨⟨x, hTQ hx⟩, hS hx, rfl⟩
   obtain ⟨S', hS'⟩ := (hV2.comap_of_injective Q.subtype Q.subtype_injective).exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq Q S' S

@@ -136,7 +136,7 @@ theorem ggRealKGThreeRow_twdNonsplit : GGRealKGThreeRow .twdNonsplit := by
     · omega
     · obtain ⟨K, _, _, hK, b, c, hbc, hQ'⟩ := hQ
       have hmark : MarkedModel ⟨.twD, l, n⟩ (OrthRest.RMinus K (l - 1) b c) := by
-        simp only [MarkedModel, markTag, markRank, markChar, markDeg, h2, h3, if_false]
+        simp only [MarkedModel, markTag, markRank, markChar, markDeg, h2, h3, ite_false]
         exact Or.inl ⟨by decide, statedClassicalModel_omegaMinus l n hK b c hbc
           ⟨Nat.prime_two, hn, hl4⟩⟩
       have hF4 : 4 ≤ Nat.card K := by

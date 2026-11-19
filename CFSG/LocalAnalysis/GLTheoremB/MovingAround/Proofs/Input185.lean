@@ -27,7 +27,8 @@ theorem layer_join_sylow_eq {p : ℕ} [hp : Fact p.Prime] {Q₀ : Subgroup X}
   intro x hx
   exact Lemma114Full.l114f_glbConj_mem_sup hh hx
 
-theorem pPrimeCore_centralizer_le_of_sylow {p : ℕ} [hp : Fact p.Prime] {Q : Subgroup X}
+omit [Finite X] in
+theorem pPrimeCore_centralizer_le_of_sylow {p : ℕ} [_hp : Fact p.Prime] {Q : Subgroup X}
     (hQ : IsSylowIn p (Lemma114Layer.layerOf X) Q) :
     GLAPPrimeCoreOf p (Subgroup.centralizer (Q : Set X)) ≤
       Lemma114Layer.layerOf X ⊔
@@ -70,6 +71,7 @@ section Reduction
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem conj_mem_centralizer {H : Subgroup X} {g n : X} (hg : g ∈ Subgroup.centralizer (H : Set X))
     (hn : n ∈ Subgroup.centralizer (H : Set X)) :
     g * n * g⁻¹ ∈ Subgroup.centralizer (H : Set X) := by
@@ -88,10 +90,11 @@ theorem conj_mem_centralizer {H : Subgroup X} {g n : X} (hg : g ∈ Subgroup.cen
     _ = g * n * (g⁻¹ * r) := by rw [hgi]
     _ = g * n * g⁻¹ * r := by group
 
+omit [Finite X] in
 theorem pPrime_mem_layer_of_mem_sup {p : ℕ} [hp : Fact p.Prime] {y : X}
     (hy : y ∈ Lemma114Layer.layerOf X ⊔ CFSG.pCore p X) (hyp : ¬ p ∣ orderOf y) :
     y ∈ Lemma114Layer.layerOf X := by
-  haveI : (Lemma114Layer.layerOf X).Normal := Lemma114Layer.layerOf_normal
+  have : (Lemma114Layer.layerOf X).Normal := Lemma114Layer.layerOf_normal
   obtain ⟨e, he, o, ho, rfl⟩ :=
     (Subgroup.mem_sup_of_normal_left (s := Lemma114Layer.layerOf X) (t := CFSG.pCore p X)).1 hy
   obtain ⟨k, hk⟩ := (CFSG.pCore_isPGroup (p := p) (G := X)) ⟨o, ho⟩
@@ -116,11 +119,11 @@ theorem centralizer_le_layerJoin_of_star (hS : PPrimeStar) {p : ℕ} [hp : Fact 
   intro B hB hn
   obtain ⟨S, hBS⟩ := IsPGroup.exists_le_sylow hB
   have hSsyl : CFSG.Open.fusionIsSylowIn p (S : Subgroup X) ⊤ :=
-    ⟨le_top, S.isPGroup', fun P _ hP hle => le_antisymm (S.maximal_isPGroup.2 hP hle) hle⟩
-  haveI : (Lemma114Layer.layerOf X).Normal := Lemma114Layer.layerOf_normal
-  haveI : (CFSG.pCore p X).Normal := CFSG.pCore_normal (p := p) (G := X)
+    ⟨le_top, S.isPGroup, fun P _ hP hle => le_antisymm (S.maximal_isPGroup.2 hP hle) hle⟩
+  have : (Lemma114Layer.layerOf X).Normal := Lemma114Layer.layerOf_normal
+  have : (CFSG.pCore p X).Normal := CFSG.pCore_normal (p := p) (G := X)
   have hYn : (Lemma114Layer.layerOf X ⊔ CFSG.pCore p X).Normal := Subgroup.sup_normal _ _
-  haveI := hYn
+  have := hYn
   set Y : Subgroup X := Lemma114Layer.layerOf X ⊔ CFSG.pCore p X with hYdef
   set T : Subgroup X := (S : Subgroup X) ⊓ Y with hTdef
   have hBN : B ≤ Subgroup.normalizer (T : Set X) := by
@@ -130,7 +133,7 @@ theorem centralizer_le_layerJoin_of_star (hS : PPrimeStar) {p : ℕ} [hp : Fact 
       ((S : Subgroup X).inv_mem (hBS hw)), hYn.conj_mem y hyY w⟩
   have hBT : ∀ b ∈ B, ∀ t ∈ T, b * t * b⁻¹ ∈ T := fun b hb t ht =>
     (Subgroup.mem_normalizer_iff.1 (hBN hb) t).1 ht
-  have hTp : IsPGroup p (T : Subgroup X) := (S.isPGroup').to_le inf_le_left
+  have hTp : IsPGroup p (T : Subgroup X) := (S.isPGroup).to_le inf_le_left
   have hTS : (T : Subgroup X) ≤ (S : Subgroup X) := inf_le_left
   have hTY : (T : Subgroup X) ≤ Y := inf_le_right
   set Q : Subgroup X := T ⊓ Subgroup.normalizer (B : Set X) with hQdef
@@ -154,7 +157,7 @@ theorem centralizer_le_layerJoin_of_star (hS : PPrimeStar) {p : ℕ} [hp : Fact 
       exact (S : Subgroup X).mul_mem (hBS hb) (hTS ht)
     have hBH : B ≤ H := fun b hb => ⟨b, hb, 1, T.one_mem, by group⟩
     have hHB : H ≤ B := CFSG.LocalAnalysis.GLTheoremB.Prop95Parts.Input18.pgroup_normalizer_strict
-      (S.isPGroup'.to_le hHS) hBH (by
+      (S.isPGroup.to_le hHS) hBH (by
       rintro y ⟨b, hb, t, ht, rfl⟩ hyN
       have htN : t ∈ Subgroup.normalizer (B : Set X) := by
         have h1 := (Subgroup.normalizer (B : Set X)).mul_mem
@@ -184,7 +187,7 @@ theorem centralizer_le_layerJoin_of_star (hS : PPrimeStar) {p : ℕ} [hp : Fact 
   ·
     set R : Subgroup X := Q ⊔ B with hRdef
     have hRS : R ≤ (S : Subgroup X) := sup_le (hQT.trans hTS) hBS
-    have hRp : IsPGroup p R := S.isPGroup'.to_le hRS
+    have hRp : IsPGroup p R := S.isPGroup.to_le hRS
     have hBR : B < R := lt_of_le_of_ne le_sup_right (fun h => hQB (le_sup_left.trans (le_of_eq h.symm)))
     have hcardlt : Nat.card B < Nat.card R := Subgroup.card_lt_of_lt hBR
     have hcardle : Nat.card R ≤ Nat.card X := Subgroup.card_le_card_group _
@@ -254,7 +257,7 @@ end Reduction
 
 theorem input18_5_of_pPrimeStar (hS : PPrimeStar) : Lemma114Full.Input18_5 := by
   intro X _ _ hK p hp hp2 hO Q hQ
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact centralizer_le_layerJoin_of_star hS hp2 hK hO _ Q hQ rfl
 
 section KCore
@@ -264,6 +267,7 @@ open scoped commutatorElement
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem eq_bot_of_normal_coprime {p : ℕ} (hO : GLAPPrimeCore p X = ⊥) {N : Subgroup X}
     (hN : N.Normal) (hc : Nat.Coprime p (Nat.card ↥N)) : N = ⊥ := by
   have h : N ≤ CFSG.pPrimeCore p X := le_sSup ⟨hN, hc⟩
@@ -271,7 +275,8 @@ theorem eq_bot_of_normal_coprime {p : ℕ} (hO : GLAPPrimeCore p X = ⊥) {N : S
   rw [hO'] at h
   exact eq_bot_iff.2 h
 
-theorem coprime_card_sup_of_commute {p : ℕ} [hp : Fact p.Prime] {A B : Subgroup X}
+omit [Finite X] in
+theorem coprime_card_sup_of_commute {p : ℕ} [_hp : Fact p.Prime] {A B : Subgroup X}
     (hA : Nat.Coprime p (Nat.card ↥A)) (hB : Nat.Coprime p (Nat.card ↥B))
     (hAB : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a) : Nat.Coprime p (Nat.card ↥(A ⊔ B)) := by
   let f : A × B →* X := MonoidHom.mk' (fun x => (x.1 : X) * (x.2 : X)) (by
@@ -291,6 +296,7 @@ theorem coprime_card_sup_of_commute {p : ℕ} [hp : Fact p.Prime] {A B : Subgrou
   rw [Nat.card_prod] at h2
   exact Nat.Coprime.coprime_dvd_right (h1.trans h2) (Nat.Coprime.mul_right hA hB)
 
+omit [Finite X] in
 theorem coprime_card_finset_sup {p : ℕ} [hp : Fact p.Prime] (s : Finset (Subgroup X)) :
     (∀ A ∈ s, Nat.Coprime p (Nat.card ↥A)) →
     (∀ A ∈ s, ∀ B ∈ s, A ≠ B → ∀ a ∈ A, ∀ b ∈ B, a * b = b * a) →
@@ -371,11 +377,11 @@ theorem component_card_dvd {p : ℕ} [hp : Fact p.Prime] (hO : GLAPPrimeCore p X
   have hLle : L ≤ (conjFamily L).sup id := by
     intro l hl
     have hmem : l ∈ L.map (MulAut.conj (1 : X)).toMonoidHom :=
-      Subgroup.mem_map.2 ⟨l, hl, by simp [MulAut.conj_apply]⟩
+      Subgroup.mem_map.2 ⟨l, hl, by simp⟩
     exact Finset.le_sup (f := id) ((mem_conjFamily L _).2 ⟨1, rfl⟩) hmem
   rw [hbot] at hLle
   have hnt : Nontrivial ↥L := by
-    haveI := (hL.2.2).2
+    have := (hL.2.2).2
     exact (QuotientGroup.mk'_surjective (Subgroup.center ↥L)).nontrivial
   exact ((Subgroup.nontrivial_iff_ne_bot L).1 hnt) (le_bot_iff.1 hLle)
 
@@ -443,7 +449,8 @@ theorem not_dvd_card_of_central_sylow {p : ℕ} [hp : Fact p.Prime] {K : Type} [
   rw [hNtop, Subgroup.card_top] at hnd
   exact hnd
 
-theorem fusion_subgroupOf {p : ℕ} [hp : Fact p.Prime] {L S : Subgroup X}
+omit [Finite X] in
+theorem fusion_subgroupOf {p : ℕ} [_hp : Fact p.Prime] {L S : Subgroup X}
     (hLS : CFSG.Open.fusionIsSylowIn p (S ⊓ L) L) :
     CFSG.Open.fusionIsSylowIn p ((S ⊓ L).subgroupOf L) ⊤ := by
   refine ⟨le_top, Lemma114Layer.isPGroup_subgroupOf_of_le hLS.2.1 inf_le_right, ?_⟩
@@ -482,7 +489,7 @@ theorem fittingSubgroup_le_pCore {p : ℕ} [hp : Fact p.Prime] (hO : GLAPPrimeCo
   by_cases hq : q.1.1 = p
   · exact (congrArg (fun r => CFSG.pCore r X) hq).le
   · have hqp : q.1.1.Prime := Nat.prime_of_mem_primeFactors q.1.2
-    haveI : Fact q.1.1.Prime := ⟨hqp⟩
+    have : Fact q.1.1.Prime := ⟨hqp⟩
     have hcop : Nat.Coprime p (Nat.card ↥(CFSG.pCore q.1.1 X)) := by
       obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 (CFSG.pCore_isPGroup (p := q.1.1) (G := X))
       rw [hn]
@@ -505,10 +512,11 @@ theorem centralizer_Yset_le_Yset {p : ℕ} [hp : Fact p.Prime] (hO : GLAPPrimeCo
     Subgroup.centralizer ((Yset p X : Subgroup X) : Set X) ≤ Yset p X :=
   (centralizer_Yset_le_fstar hO).trans (genFittingFStar_le_Yset hO)
 
-theorem centralizer_Yset_normal {p : ℕ} [hp : Fact p.Prime] :
+omit [Finite X] in
+theorem centralizer_Yset_normal {p : ℕ} [_hp : Fact p.Prime] :
     (Subgroup.centralizer ((Yset p X : Subgroup X) : Set X)).Normal := by
-  haveI : (Lemma114Layer.layerOf X).Normal := Lemma114Layer.layerOf_normal
-  haveI : (CFSG.pCore p X).Normal := CFSG.pCore_normal (p := p) (G := X)
+  have : (Lemma114Layer.layerOf X).Normal := Lemma114Layer.layerOf_normal
+  have : (CFSG.pCore p X).Normal := CFSG.pCore_normal (p := p) (G := X)
   have hYn : (Yset p X).Normal := Subgroup.sup_normal _ _
   constructor
   intro n hn g
@@ -522,8 +530,8 @@ theorem centralizer_Yset_normal {p : ℕ} [hp : Fact p.Prime] :
 theorem centralizer_Yset_pow_eq_one {p : ℕ} [hp : Fact p.Prime] (hO : GLAPPrimeCore p X = ⊥)
     {z : X} (hz : z ∈ Subgroup.centralizer ((Yset p X : Subgroup X) : Set X)) :
     ∃ k : ℕ, z ^ p ^ k = 1 := by
-  haveI : (Lemma114Layer.layerOf X).Normal := Lemma114Layer.layerOf_normal
-  haveI : (CFSG.pCore p X).Normal := CFSG.pCore_normal (p := p) (G := X)
+  have : (Lemma114Layer.layerOf X).Normal := Lemma114Layer.layerOf_normal
+  have : (CFSG.pCore p X).Normal := CFSG.pCore_normal (p := p) (G := X)
   let A : Subgroup X :=
     { carrier := {w | w ∈ Subgroup.centralizer ((Yset p X : Subgroup X) : Set X) ∧
         ∃ m : ℕ, ¬ p ∣ m ∧ w ^ m = 1}
@@ -572,12 +580,14 @@ theorem centralizer_Yset_le_pCore {p : ℕ} [hp : Fact p.Prime] (hO : GLAPPrimeC
     exact ⟨k, Subtype.ext (by simpa using hk)⟩
   exact le_sSup ⟨centralizer_Yset_normal, hpg⟩
 
-theorem pCore_le_of_fusionSylow {p : ℕ} [hp : Fact p.Prime] {S : Subgroup X}
+omit [Finite X] in
+theorem pCore_le_of_fusionSylow {p : ℕ} [_hp : Fact p.Prime] {S : Subgroup X}
     (hS : CFSG.Open.fusionIsSylowIn p S ⊤) : CFSG.pCore p X ≤ S := by
-  haveI : (CFSG.pCore p X).Normal := CFSG.pCore_normal (p := p) (G := X)
+  have : (CFSG.pCore p X).Normal := CFSG.pCore_normal (p := p) (G := X)
   let Syl : Sylow p X := ⟨S, hS.2.1, fun {Q} hQ hle => le_of_eq (hS.2.2 Q le_top hQ hle)⟩
   exact IsPGroup.le_sylow_of_normal (CFSG.pCore_isPGroup (p := p) (G := X)) Syl
 
+omit [Finite X] in
 theorem component_le_layerOf {K : Subgroup X} (hK : IsComponentOf K ⊤) :
     K ≤ Lemma114Layer.layerOf X :=
   le_sSup hK
@@ -663,7 +673,7 @@ theorem exists_complement_of_central_sylow {G : Type} [Group G] [Finite G] {p : 
       (y₂ := ⟨⟨1, one_mem _⟩, ⟨1, one_mem _⟩⟩) (by simpa using hpow) (by simp)
     have := congrArg (fun q => (q.2 : G)) hu
     simpa using this
-  obtain ⟨j, hj⟩ := P.isPGroup' ⟨s, hs⟩
+  obtain ⟨j, hj⟩ := P.isPGroup ⟨s, hs⟩
   have hsj : s ^ p ^ j = 1 := by simpa using congrArg Subtype.val hj
   have hd1 : orderOf s ∣ orderOf g := orderOf_dvd_of_pow_eq_one hs1
   have hd2 : orderOf s ∣ p ^ j := orderOf_dvd_of_pow_eq_one hsj
@@ -719,12 +729,14 @@ theorem exists_pow_mem_pPrimeCore_fixK (h : Input7_10_1) {p : ℕ} [hp : Fact p.
     CFSG.KCore.KGroupNonab.subgroup Lemma114Full.isoInvariant_isCatalogGroup_of hX K
   exact pow_mem_pPrimeCore_of_hasNormalPComplement (h p hp.out ↥K hK.2.2 hkg (sylInter S K) hsyl) f
 
+omit [Finite X] in
 theorem normalizerMonoidHom_coe_apply {K : Subgroup X} {h : X}
     (hh : h ∈ Subgroup.normalizer (K : Set X)) (y : K) :
     ((Subgroup.normalizerMonoidHom K ⟨h, hh⟩ y : K) : X) = h * y * h⁻¹ := by
   rfl
 
-theorem NK_normal_of_fixK {p : ℕ} [hp : Fact p.Prime] {S K : Subgroup X} {g : MulAut K}
+omit [Finite X] in
+theorem NK_normal_of_fixK {p : ℕ} [_hp : Fact p.Prime] {S K : Subgroup X} {g : MulAut K}
     (hg : g ∈ fixK S K) {n : MulAut K} (hn : n ∈ NK p S K) : g * n * g⁻¹ ∈ NK p S K := by
   obtain ⟨n', hn', rfl⟩ := Subgroup.mem_map.1 hn
   have hN : (CFSG.pPrimeCore p ↥(fixK S K)).Normal :=
@@ -753,6 +765,7 @@ theorem eq_one_of_mem_NK_pow {p : ℕ} [hp : Fact p.Prime] {S K : Subgroup X} {a
   have h6 : b = 1 := congrArg Subtype.val h5
   rw [h6, map_one]
 
+omit [Finite X] in
 theorem mem_MK_iff {p : ℕ} {S K : Subgroup X} {x : X} :
     x ∈ MK p S K ↔ ∃ hx : x ∈ Subgroup.normalizer (K : Set X),
       Subgroup.normalizerMonoidHom K ⟨x, hx⟩ ∈ NK p S K := by
@@ -763,14 +776,17 @@ theorem mem_MK_iff {p : ℕ} {S K : Subgroup X} {x : X} :
   · rintro ⟨hx, hφ⟩
     exact ⟨⟨x, hx⟩, hφ, rfl⟩
 
+omit [Finite X] in
 theorem mem_Mset_iff {p : ℕ} {S : Subgroup X} {x : X} :
     x ∈ Mset p S ↔ x ∈ H2set p S ∧ ∀ K : Subgroup X, IsComponentOf K ⊤ → x ∈ MK p S K := by
   unfold Mset
   simp only [Subgroup.mem_inf, Subgroup.mem_iInf]
 
+omit [Finite X] in
 theorem H2set_le_Dset {p : ℕ} (S : Subgroup X) : H2set p S ≤ Dset S :=
   Subgroup.centralizer_le (SetLike.coe_subset_coe.2 le_sup_left)
 
+omit [Finite X] in
 theorem normalizerMonoidHom_mem_fixK {S K : Subgroup X} (hK : IsComponentOf K ⊤) {g : X}
     (hg : g ∈ Dset S) (hgN : g ∈ Subgroup.normalizer (K : Set X)) :
     Subgroup.normalizerMonoidHom K ⟨g, hgN⟩ ∈ fixK S K := by
@@ -783,7 +799,8 @@ theorem normalizerMonoidHom_mem_fixK {S K : Subgroup X} (hK : IsComponentOf K �
   have hcomm : (y : X) * g = g * (y : X) := Subgroup.mem_centralizer_iff.1 hg (y : X) hyS
   rw [← hcomm, mul_inv_cancel_right]
 
-theorem sup_conj_mem {p : ℕ} [hp : Fact p.Prime] {S : Subgroup X} {d : X} (hd : d ∈ Dset S)
+omit [Finite X] in
+theorem sup_conj_mem {p : ℕ} [_hp : Fact p.Prime] {S : Subgroup X} {d : X} (hd : d ∈ Dset S)
     {t : X} (ht : t ∈ Tset p S) : d * t * d⁻¹ ∈ Tset p S := by
   have hPn : (CFSG.pCore p X).Normal := CFSG.pCore_normal (p := p) (G := X)
   have hle : Tset p S ≤ (Tset p S).comap (MulAut.conj d).toMonoidHom := by
@@ -798,6 +815,7 @@ theorem sup_conj_mem {p : ℕ} [hp : Fact p.Prime] {S : Subgroup X} {d : X} (hd 
       exact Subgroup.mem_sup_right (hPn.conj_mem w hw d)
   exact hle ht
 
+omit [Finite X] in
 theorem H2_conj_mem {p : ℕ} [hp : Fact p.Prime] {S : Subgroup X} {d h : X} (hd : d ∈ Dset S)
     (hh : h ∈ H2set p S) : d * h * d⁻¹ ∈ H2set p S := by
   rw [Subgroup.mem_centralizer_iff]
@@ -825,7 +843,8 @@ theorem Mset_conj_mem {p : ℕ} [hp : Fact p.Prime] (hO : GLAPPrimeCore p X = �
   rw [hsplit, map_mul, map_mul, map_inv]
   exact NK_normal_of_fixK (normalizerMonoidHom_mem_fixK hK hd hdN) hφx
 
-theorem centralizer_Yset_ge_K0 {p : ℕ} [hp : Fact p.Prime] {S : Subgroup X} :
+omit [Finite X] in
+theorem centralizer_Yset_ge_K0 {p : ℕ} [_hp : Fact p.Prime] {S : Subgroup X} :
     K0set p S ≤ Subgroup.centralizer ((Yset p X : Subgroup X) : Set X) := by
   intro k hk
   obtain ⟨hkH, hkL⟩ := Subgroup.mem_inf.1 hk
@@ -839,7 +858,7 @@ theorem centralizer_Yset_ge_K0 {p : ℕ} [hp : Fact p.Prime] {S : Subgroup X} :
   intro y hy
   exact Subgroup.mem_centralizer_singleton_iff.1 (hYk hy)
 
-theorem mem_K0set_of_pelem {p : ℕ} [hp : Fact p.Prime] (hO : GLAPPrimeCore p X = ⊥) {S : Subgroup X}
+theorem mem_K0set_of_pelem {p : ℕ} [hp : Fact p.Prime] (_hO : GLAPPrimeCore p X = ⊥) {S : Subgroup X}
     {u : X} (hu : u ∈ Mset p S) (hpu : ∃ k : ℕ, u ^ p ^ k = 1) : u ∈ K0set p S := by
   obtain ⟨k, hk⟩ := hpu
   rw [mem_Mset_iff] at hu
@@ -883,7 +902,7 @@ theorem mem_Mset_of_pprime {p : ℕ} [hp : Fact p.Prime] (h : Input7_10_1)
     rw [← map_pow, hgpow, map_one]
   obtain ⟨k, hk⟩ := exists_pow_mem_pPrimeCore_fixK h hX hS hK
     (⟨Subgroup.normalizerMonoidHom K ⟨g, hgN⟩, hf⟩ : ↥(fixK S K))
-  haveI : (CFSG.pPrimeCore p ↥(fixK S K)).Normal :=
+  have : (CFSG.pPrimeCore p ↥(fixK S K)).Normal :=
     CFSG.pPrimeCore_normal (p := p) (G := ↥(fixK S K))
   have hq1 : ((⟨Subgroup.normalizerMonoidHom K ⟨g, hgN⟩, hf⟩ : ↥(fixK S K)) :
       ↥(fixK S K) ⧸ CFSG.pPrimeCore p ↥(fixK S K)) ^ p ^ k = 1 := by
@@ -913,8 +932,8 @@ open scoped commutatorElement
 
 variable {X : Type} [Group X] [Finite X]
 
-theorem exists_C_of_Mset {p : ℕ} [hp : Fact p.Prime] (h : Input7_10_1)
-    (hX : CFSG.Open.IsKGroup X) (hO : GLAPPrimeCore p X = ⊥) {S : Subgroup X}
+theorem exists_C_of_Mset {p : ℕ} [hp : Fact p.Prime] (_h : Input7_10_1)
+    (_hX : CFSG.Open.IsKGroup X) (hO : GLAPPrimeCore p X = ⊥) {S : Subgroup X}
     (hS : CFSG.Open.fusionIsSylowIn p S ⊤) :
     ∃ C : Subgroup X, C ≤ Mset p S ∧ (∀ d ∈ Dset S, ∀ c ∈ C, d * c * d⁻¹ ∈ C) ∧
       Nat.Coprime p (Nat.card C) ∧ ∀ g ∈ Mset p S, ¬ p ∣ orderOf g → g ∈ C := by
@@ -978,7 +997,7 @@ theorem exists_C_of_Mset {p : ℕ} [hp : Fact p.Prime] (h : Input7_10_1)
 
 theorem pPrimeStar_of_I710 (h : Input7_10_1) : PPrimeStar := by
   intro p hp _ X _ _ hX hO S hS g hg hgp
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hTsub : (S ⊓ Lemma114Layer.layerOf X) ⊔ CFSG.pCore p X ≤
       S ⊓ (Lemma114Layer.layerOf X ⊔ CFSG.pCore p X) :=
     sup_le (inf_le_inf_left S le_sup_left) (le_inf (pCore_le_of_fusionSylow hS) le_sup_right)

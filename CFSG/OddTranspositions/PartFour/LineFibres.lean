@@ -51,6 +51,7 @@ theorem eq_one_of_mem_center_of_sq_eq_one {X : Type*} [Group X] [Finite X]
 
 variable {G : Type} [Group G] [Finite G] {D : Set G}
 
+omit [Finite G] in
 theorem isNormalSet_DstarH (hC : HypothesisC D) : IsNormalSet (DstarH hC) := by
   intro g x hx
   exact DstarH_conj_mem hC hx
@@ -270,6 +271,7 @@ theorem eq_of_mem_of_inv_mul_mem_Malpha (h89 : PartThree.Lemma8_9)
   rw [hxe] at hfix
   exact hfix.symm
 
+omit [Finite G] in
 theorem conj_mem_Malpha_of_mem_normalizer (hN : IsNormalSet D) {α : Set G} {g x : G}
     (hg : g ∈ Subgroup.normalizer α) (hx : x ∈ Malpha D α) :
     g * x * g⁻¹ ∈ Malpha D α := by
@@ -280,6 +282,7 @@ theorem conj_mem_Malpha_of_mem_normalizer (hN : IsNormalSet D) {α : Set G} {g x
     show (MulAut.conj g) x = g * x * g⁻¹
     rw [MulAut.conj_apply]⟩
 
+omit [Finite G] in
 theorem cimg_cimg_conj (g x : G) (S : Set G) :
     cimg g (cimg x S) = cimg (g * x * g⁻¹) (cimg g S) := by
   rw [← cimg_mul, ← cimg_mul]

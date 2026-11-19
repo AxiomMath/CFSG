@@ -552,7 +552,7 @@ theorem pair_zero_on_coroot_span
     {Y H : Type} [Group Y] [Group H] {π : Y →* H}
     (hπ : Function.Surjective π) (hker : π.ker ≤ Subgroup.center Y)
     {ρ : ↥Bs →* H}
-    (hρker : ∀ b : ↥Bs, ρ b = 1 ↔ ggGamma J hN b = 1)
+    (_hρker : ∀ b : ↥Bs, ρ b = 1 ↔ ggGamma J hN b = 1)
     (hconj : ∀ φ ∈ ggAutomizer J Bs, ∃ t : H, ∀ b : ↥Bs,
       ρ (φ b) = t * ρ b * t⁻¹)
     (W : Submodule (ZMod 3) V) (hW : W = Submodule.span (ZMod 3) (Set.range h))
@@ -560,8 +560,8 @@ theorem pair_zero_on_coroot_span
       ρ (Additive.toMul (ι.symm (w : V))) = y) :
     ∀ x y : Y, π x ∈ ρ.range → π y ∈ ρ.range → x * y = y * x := by
   classical
-  haveI : Finite (Additive ↥Bs) := Subtype.finite
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Finite (Additive ↥Bs) := Subtype.finite
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
   let eBs : Multiplicative V ≃* ↥Bs := AddEquiv.toMultiplicativeLeft ι.symm
   let e : Multiplicative V →* H := ρ.comp eBs.toMonoidHom
   let b : V →ₗ[ZMod 3] V →ₗ[ZMod 3] Additive (kernelOmega hker 3) :=
@@ -585,7 +585,6 @@ theorem pair_zero_on_coroot_span
     intro z
     change ρ (eBs (Multiplicative.ofAdd (ι (Additive.ofMul z)))) = ρ z
     congr 1
-    change eBs (Multiplicative.ofAdd (ι (Additive.ofMul z))) = z
     simp [eBs]
   have hinv : ∀ φ ∈ ggAutomizer J Bs, ∀ u v,
       b (ggLin (p := 3) ι φ u) (ggLin (p := 3) ι φ v) = b u v := by
@@ -668,8 +667,8 @@ theorem pair_zero_of_rank_three_coroot
       ρ (φ b) = t * ρ b * t⁻¹) :
     ∀ x y : Y, π x ∈ ρ.range → π y ∈ ρ.range → x * y = y * x := by
   classical
-  haveI : Finite (Additive ↥Bs) := Subtype.finite
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Finite (Additive ↥Bs) := Subtype.finite
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
   let eBs : Multiplicative V ≃* ↥Bs := AddEquiv.toMultiplicativeLeft ι.symm
   let e : Multiplicative V →* H := ρ.comp eBs.toMonoidHom
   let b : V →ₗ[ZMod 3] V →ₗ[ZMod 3] Additive (kernelOmega hker 3) :=
@@ -693,7 +692,6 @@ theorem pair_zero_of_rank_three_coroot
     intro z
     change ρ (eBs (Multiplicative.ofAdd (ι (Additive.ofMul z)))) = ρ z
     congr 1
-    change eBs (Multiplicative.ofAdd (ι (Additive.ofMul z))) = z
     simp [eBs]
   have hinv : ∀ φ ∈ ggAutomizer J Bs, ∀ u v,
       b (ggLin (p := 3) ι φ u) (ggLin (p := 3) ι φ v) = b u v := by
@@ -768,7 +766,7 @@ theorem pair_zero_of_rank_three_coroot
     have hu0 : u = 0 := by
       apply ι.symm.injective
       simpa using h1'
-    simpa [hu0]
+    simp [hu0]
   have hKle : K ≤ b.ker.toAddSubgroup := by
     intro u hu
     rw [Submodule.mem_toAddSubgroup, LinearMap.mem_ker]
@@ -842,8 +840,8 @@ theorem a3_actual_pair_zero
     ∀ x y : Y, π x ∈ ρ.range → π y ∈ ρ.range → x * y = y * x := by
   classical
   obtain ⟨V, instA, instM, ι, r, h, α, hform, _hrefl, hpair, hind, hgen⟩ := hD
-  letI : AddCommGroup V := instA
-  letI : Module (ZMod 3) V := instM
+  let : AddCommGroup V := instA
+  let : Module (ZMod 3) V := instM
   have hpairA : ∀ i j : Fin 3, α i (h j) = (CartanMatrix.A 3 i j : ZMod 3) := by
     intro i j
     simpa only [GGResLineJType.cartan] using hpair i j
@@ -871,8 +869,8 @@ theorem actual_pair_zero_of_line
   · exact a3_actual_pair_zero hN hD hπ hker hρker hρcard hconj
   · rcases hT with rfl | rfl
     · obtain ⟨V, instA, instM, ι, r, h, α, hform, _hrefl, hpair, hind, hgen⟩ := hD
-      letI : AddCommGroup V := instA
-      letI : Module (ZMod 3) V := instM
+      let : AddCommGroup V := instA
+      let : Module (ZMod 3) V := instM
       have hpairB : ∀ i j : Fin 3, α i (h j) = (CartanMatrix.B 3 i j : ZMod 3) := by
         intro i j
         simpa only [GGResLineJType.cartan] using hpair i j
@@ -893,8 +891,8 @@ theorem actual_pair_zero_of_line
       exact pair_zero_of_rank_three_coroot hN ι r h α hform hα2 hind hgen
         hcard27 hEprops.2.2.2 hπ hker hρker hρcard hconj
     · obtain ⟨V, instA, instM, ι, r, h, α, hform, _hrefl, hpair, hind, hgen⟩ := hD
-      letI : AddCommGroup V := instA
-      letI : Module (ZMod 3) V := instM
+      let : AddCommGroup V := instA
+      let : Module (ZMod 3) V := instM
       have hpairC : ∀ i j : Fin 3, α i (h j) = (CartanMatrix.C 3 i j : ZMod 3) := by
         intro i j
         simpa only [GGResLineJType.cartan] using hpair i j
@@ -953,9 +951,9 @@ theorem actual_rankThree_recipe_abelianPreimage
       (recipeActorModelEquiv hn hK σ hσ Fr hFr ε hε hψ hker hperf hAI).toMonoidHom
   obtain ⟨k, hk, hkfin, hchar, κ, ι, hcomp, e_k, j_k, hek, hjk, hconj, hek_inj⟩ :=
     exists_actual_recipe_action_finite_descent hN hn hK σ hσ Fr hFr ε hε hψ hker hperf hAI k₀ ι₀
-  letI : Field k := hk
-  letI : Finite k := hkfin
-  letI : CharP k 2 := hchar
+  let : Field k := hk
+  let : Finite k := hkfin
+  let : CharP k 2 := hchar
   let π : ↥(e6Data_valid.minGroup k) →* adjointGroup Tag.E6 k := e6Isogeny k
   let ρ : ↥Bs →* adjointGroup Tag.E6 k :=
     { toFun := fun b => e_k ((ggGamma J hN).rangeRestrict b)

@@ -182,14 +182,14 @@ theorem sg_facts : ∀ j < 13, canonRows 781 (slpMatsN chainWords 13).1[j]! = tr
         have hne2 : ¬z = 2 := by omega
         have hne3 : ¬z = -2 := by omega
         unfold chainLetterW chainReg
-        rw [if_neg hne1, if_neg hne2, if_neg hne3, if_neg hne1, if_neg hne2, if_neg hne3]
+        rw [ite_eq_right hne1, ite_eq_right hne2, ite_eq_right hne3, ite_eq_right hne1, ite_eq_right hne2, ite_eq_right hne3]
         by_cases hpos : 0 < z
-        · rw [if_pos hpos, if_pos hpos, getD_eq_getElem!, hget'.1, ← hget13.1]
+        · rw [ite_eq_left hpos, ite_eq_left hpos, getD_eq_getElem!, hget'.1, ← hget13.1]
           have e := reg_G (j := z.natAbs - 3) (by omega)
           rw [show 3 + (z.natAbs - 3) = z.natAbs by omega] at e
           rw [e]
           exact ⟨ihc, ihG⟩
-        · rw [if_neg hpos, if_neg hpos, getD_eq_getElem!, hget'.2, ← hget13.2]
+        · rw [ite_eq_right hpos, ite_eq_right hpos, getD_eq_getElem!, hget'.2, ← hget13.2]
           have e := reg_Gi (j := z.natAbs - 3) (by omega)
           rw [show 16 + (z.natAbs - 3) = 13 + z.natAbs by omega] at e
           rw [e]
@@ -219,12 +219,12 @@ theorem genLetter_ok {z : ℤ} (hz : z ≠ 0 ∧ z.natAbs ≤ 13) :
   obtain ⟨hc, hG, hci, hGi⟩ := sg_facts _ hlt
   unfold genLetterW genReg
   by_cases hpos : 0 < z
-  · rw [if_pos hpos, if_pos hpos, getD_eq_getElem!]
+  · rw [ite_eq_left hpos, ite_eq_left hpos, getD_eq_getElem!]
     have e := reg_G (j := z.natAbs - 1) hlt
     rw [show 3 + (z.natAbs - 1) = 2 + z.natAbs by omega] at e
     rw [e]
     exact ⟨hc, hG⟩
-  · rw [if_neg hpos, if_neg hpos, getD_eq_getElem!]
+  · rw [ite_eq_right hpos, ite_eq_right hpos, getD_eq_getElem!]
     have e := reg_Gi (j := z.natAbs - 1) hlt
     rw [show 16 + (z.natAbs - 1) = 15 + z.natAbs by omega] at e
     rw [e]
@@ -245,7 +245,7 @@ theorem zeroFrom_ofFn_ofTrits' {n d : ℕ} (hd : d ≤ 832) (f : Fin n → ℕ �
   · unfold rowW
     rw [Array.getElem?_ofFn]
     simp only [hi, ↓reduceDIte, Option.getD_some]
-    rw [ofTrits_val hd, if_neg (by omega)]
+    rw [ofTrits_val hd, ite_eq_right (by omega)]
   · rw [rowW_ge (by rw [Array.size_ofFn]; omega), W.val_zero]
 
 theorem zeroFrom_ofFn_ofTrits {n d m : ℕ} (hd : d ≤ 832) (e : Array ℕ) :

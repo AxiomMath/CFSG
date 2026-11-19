@@ -632,7 +632,7 @@ theorem smallRee_three_cover_trivial (ha : 1 ≤ a) {E : Type*} [Group E] [Finit
     small_Ree_Borel_coset_Sylow_action a K hK w₀ hw₀
   have hUp : IsPGroup 3 ((G2.reeFixedPosUnipotent K a).subgroupOf (G2.reeGamma K a)) := by
     rw [← hP]
-    exact P.isPGroup'
+    exact P.isPGroup
   have hUi : ¬ 3 ∣ ((G2.reeFixedPosUnipotent K a).subgroupOf (G2.reeGamma K a)).index := by
     rw [← hP]
     exact P.not_dvd_index

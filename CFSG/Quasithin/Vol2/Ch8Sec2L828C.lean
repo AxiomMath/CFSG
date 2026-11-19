@@ -23,7 +23,7 @@ theorem rk_subgroupOf_828 {U V : Subgroup G} (hUV : U ≤ V) : rk ↥(U.subgroup
   rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hUV).toEquiv]
 
 theorem rows_hlu82_828 (hcard : Mathieu.StmtH13Card) [hc : IsMulCommutative ↥(fsuV T I)]
-    (hL0 : fsuL0 T L = L) (hV : IsElemAbelian 2 (fsuV T I)) {h : G} {k : ℕ}
+    (hL0 : fsuL0 T L = L) (_hV : IsElemAbelian 2 (fsuV T I)) {h : G} {k : ℕ}
     (hC5 : Concl825 T L I h k)
     (hAN : ch82A (fsuV T I) h ≤ Subgroup.normalizer (fsuV T I : Set G))
     (hAp : IsPGroup 2 ↥(ch82A (fsuV T I) h)) :

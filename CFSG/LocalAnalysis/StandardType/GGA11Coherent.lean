@@ -16,7 +16,7 @@ private lemma a11co_f_eq_T9' {G : Type} [Group G] {φ₃ : SL 9 →* G} {f n : F
   have hjlt : j.val < 3 := by have := j.isLt; omega
   have h := hGlue.2.1 ⟨j.val, hjlt⟩
   rw [show (⟨j.val, hjlt⟩ : Fin 3).castSucc = j from Fin.ext rfl] at h
-  rw [T9', dif_pos hjlt]
+  rw [T9', dite_eq_left hjlt]
   exact h
 
 private lemma a11co_commute_closure {G : Type} [Group G] {f : Fin 4 → G}

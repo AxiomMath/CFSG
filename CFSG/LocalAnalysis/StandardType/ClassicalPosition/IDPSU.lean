@@ -319,7 +319,7 @@ theorem exists_isGLLift_PSU {F : Type} [Field F] [Finite F] [CharP F 2] {f : ℕ
 private theorem idPSU_unit_eq_one_of_pow_two {F : Type} [Field F] [Finite F] {f : ℕ}
     (hc : Nat.card F = (2 ^ f) ^ 2) (hf : 1 ≤ f) {c : Fˣ} {k : ℕ} (h : c ^ (2 ^ k) = 1) :
     c = 1 := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hpowF : Nat.card F = 2 * 2 ^ (2 * f - 1) := by
     calc Nat.card F = (2 ^ f) ^ 2 := hc
       _ = 2 ^ (f * 2) := by rw [pow_mul]
@@ -415,7 +415,7 @@ private theorem idPSU_unique_core {F : Type} [Field F] [Finite F] [CharP F 2] {f
     (hs' : IsGLLift (Unitary.SU (CFSG.LieType.BorelTits.unitaryInvolution F 2 f) n).subtype ψ s' b)
     :
     ∃ c : F, ((s'⁻¹ * s : GL (Fin n) F) : Matrix (Fin n) (Fin n) F) = Matrix.scalar (Fin n) c := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   set g : GL (Fin n) F := s'⁻¹ * s with hg
   by_cases hn3 : 3 ≤ n
   · have hf : 1 ≤ f := by
@@ -487,14 +487,14 @@ private theorem idPSU_unique_core {F : Type} [Field F] [Finite F] [CharP F 2] {f
         have hpow : (Matrix.GeneralLinearGroup.scalar (Fin n) c) ^ (2 ^ k) = 1 := by
           rw [← map_pow]
           exact h.symm
-        haveI : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
+        have : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
         have hinj : Function.Injective
             (Matrix.GeneralLinearGroup.scalar (Fin n) : Fˣ → GL (Fin n) F) := by
           intro a b hab
           apply Units.ext
           have h2 := congrArg
             (fun A : GL (Fin n) F => (A : Matrix (Fin n) (Fin n) F)) hab
-          simp only [Matrix.GeneralLinearGroup.coe_scalar, Units.val_one] at h2
+          simp only [Matrix.GeneralLinearGroup.coe_scalar] at h2
           exact Matrix.scalar_inj.mp h2
         have hord : orderOf c = orderOf (Matrix.GeneralLinearGroup.scalar (Fin n) c) := by
           symm

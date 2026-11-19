@@ -21,7 +21,7 @@ theorem exists_orderOf_eq_mem_centralizer (D : Data G) {V : Subgroup G} (hVU : V
     (hX : mbarImage D.M V (K ⊔ K.map (MulAut.conj t).toMonoidHom) =
       CFSG.RankThree.PartOne.pElementSubgroup p (⊤ : Subgroup (MBar D.M V))) :
     ∃ x ∈ D.M ⊓ centralizer (V : Set G), orderOf x = p := by
-  haveI : Fact p.Prime := ⟨hpP⟩
+  have : Fact p.Prime := ⟨hpP⟩
   by_contra hno
   push Not at hno
   obtain ⟨E, hEM, hEel, hEcard⟩ := CFSG.SectionRank.exists_pRank hpP.one_lt D.M

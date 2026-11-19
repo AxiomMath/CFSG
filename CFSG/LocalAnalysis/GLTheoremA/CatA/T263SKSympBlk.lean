@@ -110,7 +110,7 @@ theorem skGood_GL [CharP E 2] {m : ℕ} (hm : 2 ≤ m) (h4 : 4 ≤ Nat.card E) {
       have h1 := congrArg Units.val (hc _ ht)
       rw [Units.val_mul, Units.val_mul] at h1
       exact h1.symm
-    haveI : Nonempty (Fin m) := ⟨⟨0, by omega⟩⟩
+    have : Nonempty (Fin m) := ⟨⟨0, by omega⟩⟩
     have hz1 : (z : Matrix (Fin m) (Fin m) E) ^ 2 ^ n = 1 := by
       rw [← Units.val_pow_eq_pow_val, hzn, Units.val_one]
     rw [← hc', ← map_pow, ← (Matrix.scalar (Fin m)).map_one, Matrix.scalar_inj] at hz1
@@ -122,9 +122,10 @@ theorem skGood_GL [CharP E 2] {m : ℕ} (hm : 2 ≤ m) (h4 : 4 ≤ Nat.card E) {
     rw [← Nat.card_congr Matrix.SpecialLinearGroup.toGLKerEquiv.toEquiv, ← hg]
     exact orderOf_dvd_natCard g
 
+omit [Finite E] in
 theorem skBad_GL_of_le_one {m : ℕ} (hm : m ≤ 1) (p : ℕ) : SkBad p (GL (Fin m) E) := by
   refine skBad_of_comm fun u v => ?_
-  haveI : Subsingleton (Fin m) := Fin.subsingleton_iff_le_one.2 hm
+  have : Subsingleton (Fin m) := Fin.subsingleton_iff_le_one.2 hm
   apply Units.ext
   ext i j
   obtain rfl : j = i := Subsingleton.elim j i
@@ -140,9 +141,9 @@ variable {f' : ℕ} {E : Type} [Field E] (hE : UnitaryFieldData 2 f' E) {W : Typ
 
 include hE in
 theorem skGood_GU (hHf : Hf.IsSymm) (hHfl : Hf.SeparatingLeft) (hm : 2 ≤ finrank E W)
-    (hQ : 4 ≤ 2 ^ f') {p : ℕ} (hp : p.Prime) (hpQ : p ∣ 2 ^ f' + 1) : SkGood p ↥(sesqUnitaryGroup Hf) := by
+    (hQ : 4 ≤ 2 ^ f') {p : ℕ} (_hp : p.Prime) (hpQ : p ∣ 2 ^ f' + 1) : SkGood p ↥(sesqUnitaryGroup Hf) := by
   classical
-  haveI : CharP E 2 := hE.charP
+  have : CharP E 2 := hE.charP
   have hq : (finrank E W = 2 → 4 ≤ 2 ^ f') ∧ (finrank E W = 3 → 3 ≤ 2 ^ f') :=
     ⟨fun _ => hQ, fun _ => by omega⟩
   obtain ⟨-, hSU, -, -, hker, -, -⟩ :=
@@ -172,7 +173,7 @@ theorem skGood_GU (hHf : Hf.IsSymm) (hHfl : Hf.SeparatingLeft) (hm : 2 ≤ finra
       exact h2
     obtain ⟨c, hcw⟩ := CFSG.RankThree.PartOne.KCUnitary.exists_smul_of_commute_special_unitary hE hHf hHfl
       hm (by omega) γ hcomm'
-    haveI : Nontrivial W := Module.nontrivial_of_finrank_pos (R := E) (by omega)
+    have : Nontrivial W := Module.nontrivial_of_finrank_pos (R := E) (by omega)
     obtain ⟨w, hw⟩ := exists_ne (0 : W)
     have hγpow : ∀ k : ℕ, (γ ^ k) w = c ^ k • w := by
       intro k
@@ -216,6 +217,7 @@ section Sp
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem sk_center_statedSp [CharP K 2] {s : ℕ} [NeZero s] : Subgroup.center ↥(StatedSp s K) = ⊥ := by
   rw [CFSG.LieType.Universal.Symplectic.center_eq]
   exact UnitaryHigher.spScalars_eq_bot_of_charTwo
@@ -234,7 +236,7 @@ theorem sk_card_eq_two_of_lt_four [CharP K 2] (h : Nat.card K < 4) : Nat.card K 
 
 theorem skGood_statedSp [CharP K 2] {s : ℕ} (hs : 1 ≤ s) (hK : 4 ≤ Nat.card K ∨ 3 ≤ s) (p : ℕ) :
     SkGood p ↥(StatedSp s K) := by
-  haveI : NeZero s := ⟨by omega⟩
+  have : NeZero s := ⟨by omega⟩
   refine skGood_of_quasisimple (CFSG.LieType.Universal.Symplectic.isQuasisimple s K hs ?_) sk_center_statedSp
   by_cases h4 : 4 ≤ Nat.card K
   · exact Or.inl (Or.inr h4)
@@ -254,7 +256,7 @@ open CFSG.ComponentClassification.PresentationLocal in
 theorem skGood_sympFour {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) : SkGood p ↥sympFour := by
   obtain ⟨hq, hin⟩ := CFSG.RankThree.PartOne.derived_of_mulEquiv_sympFour (MulEquiv.refl ↥sympFour)
   refine ⟨hq, fun z hz hc n _ => ?_, Or.inr fun w hw => hin hp hp2 w hw⟩
-  haveI := isSimpleGroup_commutator_sympFour
+  have := isSimpleGroup_commutator_sympFour
   have hZ : Subgroup.center ↥(commutator ↥sympFour) = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center ↥(commutator ↥sympFour)) with h | h
     · exact h

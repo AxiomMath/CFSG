@@ -21,7 +21,7 @@ theorem uc22p22qzb_le_centralizer_layer {M P P₀ : Subgroup G} {p : ℕ} (h5 : 
       centralizer (rankThreeLayer (centralizer (P₀ : Set G)) : Set G) := by
   classical
   obtain ⟨-, -, -, ⟨hf, n, hn, ⟨e⟩⟩, -, -, -, -⟩ := hcl
-  haveI := hf
+  have := hf
   have hp : p.Prime := hf.out
   set C : Subgroup G := centralizer (P₀ : Set G) with hC
   set E : Subgroup G := rankThreeLayer C with hE
@@ -31,11 +31,11 @@ theorem uc22p22qzb_le_centralizer_layer {M P P₀ : Subgroup G} {p : ℕ} (h5 : 
   have h25 : 5 ≤ p ^ n := h5.trans (Nat.le_self_pow (by omega) p)
   have hLie : LieModel ↥E .PSL 2 p n :=
     Or.inl ⟨by decide, CFSG.Assembly.LowTwoRank.statedClassicalModel_psl_two_of_mulEquiv _ p n h25 e⟩
-  haveI hsimple : IsSimpleGroup ↥E := CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hLie
+  have hsimple : IsSimpleGroup ↥E := CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hLie
   have hpE : p ∣ Nat.card ↥E := by
     obtain ⟨R⟩ := (inferInstance : Nonempty (Sylow p ↥E))
     have hS : IsSylowOf p (R : Subgroup ↥E) ⊤ :=
-      isSylowOf_iff.2 ⟨le_top, R.isPGroup', by rw [Subgroup.relIndex_top_right]; exact R.not_dvd_index⟩
+      isSylowOf_iff.2 ⟨le_top, R.isPGroup, by rw [Subgroup.relIndex_top_right]; exact R.not_dvd_index⟩
     obtain ⟨-, hcard⟩ := uc22p22q_psl2_sylow_elem hp (by omega) hLie hS
     have h1 : p ^ n ∣ Nat.card ↥E := hcard ▸ Subgroup.card_subgroup_dvd_card _
     exact (dvd_pow_self p (by omega)).trans h1
@@ -49,7 +49,7 @@ theorem uc22p22qzb_le_centralizer_layer {M P P₀ : Subgroup G} {p : ℕ} (h5 : 
     have hnorm : (N.subgroupOf E).Normal := ⟨fun x hx g => by
       rw [mem_subgroupOf] at hx ⊢
       simpa using hNconj g (hEC g.2) x hx⟩
-    haveI := hnorm
+    have := hnorm
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (N.subgroupOf E) with hbot | htop
     · intro x hx hxE
       have h1 : (⟨x, hxE⟩ : ↥E) ∈ N.subgroupOf E := mem_subgroupOf.2 hx
@@ -81,7 +81,7 @@ theorem uc22p22qzb_inter_layer (hS : Standing4 G) (hU : uniqueFourUnique G) (S :
       Nat.card ↥(P ⊓ rankThreeLayer (centralizer (P₀ : Set G))) = p ^ n := by
   classical
   obtain ⟨hP₀P, -, -, ⟨hf, n, hn, ⟨e⟩⟩, -, -, -, -⟩ := hcl
-  haveI := hf
+  have := hf
   have hp : p.Prime := hf.out
   have hpσ : p ∈ (UC6.dataOfSetup4 hS hU S).sig := hH.mem_sig2.1
   set X : Subgroup G := centralizer (P₀ : Set G) with hX
@@ -131,7 +131,7 @@ theorem uc22p22qzb_not_two_dvd (hS : Standing4 G) (hU : uniqueFourUnique G) (S :
     ¬ 2 ∣ Nat.card ↥(centralizer (rankThreeLayer (centralizer (P₀ : Set G)) : Set G)) := by
   classical
   intro h2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn, hel, hcard⟩ := uc22p22qzb_inter_layer hS hU S hH h5 hab hcl
   have hnot := hcl.2.2.2.2.1
   have hpσ : p ∈ (UC6.dataOfSetup4 hS hU S).sig := hH.mem_sig2.1
@@ -181,7 +181,7 @@ theorem uc22p22qzb_frobenius_iff (hS : Standing4 G) (hU : uniqueFourUnique G) (S
   refine ⟨fun hF => hF.2.2.2.2.2.2.2, fun hfpf => ?_⟩
   have hcl' := hcl
   obtain ⟨-, -, -, ⟨hf, -, -, -⟩, -, -, hfrob, -⟩ := hcl'
-  haveI := hf
+  have := hf
   obtain ⟨hT1, hV1, hTR, -, -, hReq, -, -⟩ := hfrob
   have hE1 := uc22p22qzb_le_centralizer_layer h5 hcl
   have hE2 := uc22p22qzb_centralizer_layer_le hS hU S hH h5 hab hcl
@@ -200,7 +200,7 @@ theorem uc22p22qzb_frobenius_iff (hS : Standing4 G) (hU : uniqueFourUnique G) (S
     · exact sup_le ((le_sup_left.trans hReq.le).trans (sup_le_sup_left hE1 _)) le_sup_right
     · exact sup_le hTle le_sup_right
   ·
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hpg : IsPGroup 2 ↥(pCoreOf 2 (UC6.dataOfSetup4 hS hU S).M ⊓
         centralizer (rankThreeLayer (centralizer (P₀ : Set G)) : Set G)) :=
       (uc22p22qh_isPGroup_pCoreOf _).to_inf_left
@@ -226,7 +226,7 @@ theorem frob4_of_frob4Prime {hS : Standing4 G} {hU : uniqueFourUnique G} {S : Se
   refine uc22p22qzb_frob4_iff.2 fun p P P₀ hH h5 hab hcl d hd hd1 t ht htd => ?_
   have hcl' := hcl
   obtain ⟨-, -, -, ⟨hf, -, -, -⟩, -, -, -, -⟩ := hcl'
-  haveI := hf
+  have := hf
   have hord1 : orderOf d ≠ 1 := fun h1 => hd1 (orderOf_eq_one_iff.1 h1)
   obtain ⟨r, hr, hrd⟩ := Nat.exists_prime_and_dvd hord1
   have hu : orderOf (d ^ (orderOf d / r)) = r := orderOf_pow_orderOf_div (orderOf_pos d).ne' hrd

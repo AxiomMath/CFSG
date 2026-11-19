@@ -46,7 +46,7 @@ theorem conj_eq_one_iff (g a : 𝔄) : g * a * g⁻¹ = 1 ↔ a = 1 := by
 
 theorem dvd_of_conjBy_pow_eq {δ : 𝔄} {p : ℕ} (hp : p.Prime) (hδp : δ ^ p = 1)
     {L : Subgroup 𝔄} (hδL : conjBy δ L ≠ L) {d : ℕ} (hd : conjBy (δ ^ d) L = L) : p ∣ d := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hnd
   have hδ1 : δ ≠ 1 := by
     rintro rfl
@@ -264,7 +264,7 @@ theorem core_aux {I : Finset (Subgroup 𝔄)} (hI : IsSigma3Family I) {δ h : �
     exact hb
   have B1 : ∃ j, j ≤ q ∧ conjBy h L = conjBy (δ ^ j) L := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     refine step_move hI hL (hhperm L hL) ?_ ha (hha ha) ha3 ha1 ?_ ?_ hk
     · have h1 := hcon 0 (Nat.zero_le _)
       simpa [conjBy_one] using h1
@@ -308,6 +308,7 @@ end Sigma3Core
 
 variable {𝔄 : Type*} [Group 𝔄] [Finite 𝔄]
 
+omit [Finite 𝔄] in
 theorem IsSigma3Family.core {I : Finset (Subgroup 𝔄)} (hI : IsSigma3Family I) {p : ℕ}
     (hp : p.Prime) (hp2 : p ≠ 2) {δ h : 𝔄}
     (hδperm : ∀ L ∈ I, conjBy δ L ∈ I) (hhperm : ∀ L ∈ I, conjBy h L ∈ I)

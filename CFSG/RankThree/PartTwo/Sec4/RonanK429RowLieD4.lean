@@ -49,7 +49,7 @@ end Fix
 section D4
 
 
-theorem rowLie_D4 (hG2 : G2Excl429) {S : Type} [Group S] [Finite S] (hs : IsSimpleGroup S)
+theorem rowLie_D4 (hG2 : G2Excl429) {S : Type} [Group S] [Finite S] (_hs : IsSimpleGroup S)
     (hna : ∃ a b : S, a * b ≠ b * a) {f : ℕ} (hm : ChevalleyExceptionalModel S .trialityD4 2 f)
     {σ : MulAut S} (hσ3 : σ ^ 3 = 1) (hσ1 : σ ≠ 1) {K : Subgroup S} (hKC : K ≤ Sec4.autFix σ)
     [Group.IsPerfect K] (hsub : (K.subgroupOf (Sec4.autFix σ)).IsSubnormal)

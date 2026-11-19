@@ -31,7 +31,7 @@ private theorem card_inf_centralizer_ge {M : Type} [Group M] [Finite M]
     rcases hp.eq_one_or_self_of_dvd (orderOf x) hdiv with h | h
     · exact absurd h hne1
     · exact h
-  haveI : Finite (E ⊓ Subgroup.centralizer (L' : Set M) : Subgroup M) :=
+  have : Finite (E ⊓ Subgroup.centralizer (L' : Set M) : Subgroup M) :=
     Finite.of_injective (fun y => (y : M)) Subtype.coe_injective
   rw [← hord]
   exact orderOf_le_card

@@ -43,7 +43,7 @@ theorem isPGroup_rootGroup_charP {γ : Fin m → ℤ} (hγ : γ ∈ (rootDatum m
   have hcard : Nat.card (rootSubgroup m F (idx_spec m hγ).1) = p ^ (n : ℕ) := by
     rw [show rootSubgroup m F (idx_spec m hγ).1 = f.range from rfl]
     have hrange : Nat.card (↥f.range) = Nat.card (Multiplicative F) :=
-      Nat.card_congr ((Equiv.Set.congr (MonoidHom.coe_range f)).trans
+      Nat.card_congr ((Set.equivOfEq (MonoidHom.coe_range f)).trans
         (Equiv.ofInjective f hinj).symm)
     rw [hrange, show Nat.card (Multiplicative F) = Nat.card F from
       Nat.card_congr Multiplicative.ofAdd, hn']
@@ -68,7 +68,7 @@ theorem rootGroup_single_ne_bot (k : Fin m) :
     have h2 := congrFun (congrFun hmat k.castSucc) k.succ
     simp only [Matrix.SpecialLinearGroup.coe_one, Matrix.one_apply, Matrix.SpecialLinearGroup.transvection_coe,
       Matrix.add_apply, Matrix.single_apply] at h2
-    rw [if_neg (Fin.castSucc_lt_succ (i := k)).ne] at h2
+    rw [ite_eq_right (Fin.castSucc_lt_succ (i := k)).ne] at h2
     norm_num at h2
   exact hne (Subgroup.mem_bot.mp hmem)
 

@@ -13,6 +13,7 @@ open scoped IsMulCommutative commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem commutator_sup_le_of_abelian {V J K L : Subgroup G}
     (hV : ∀ x ∈ V, ∀ y ∈ V, x * y = y * x) (hLV : ∀ l ∈ L, ∀ s ∈ V, l * s * l⁻¹ ∈ V)
     (hJV : J ≤ V) (hKV : K ≤ V) (hJL : ∀ j ∈ J, ∀ l ∈ L, ⁅j, l⁆ ∈ J)
@@ -63,11 +64,13 @@ namespace JData
 
 variable {T L I J : Subgroup G}
 
+omit [Finite G] in
 private theorem conj_inj {X Y : Subgroup G} {x : G}
     (h : CFSG.conjugate X x = CFSG.conjugate Y x) : X = Y := by
   have h' := congrArg (fun Z : Subgroup G => CFSG.conjugate Z x⁻¹) h
   simpa only [conjugate_conjugate, mul_inv_cancel, conjugate_one] using h'
 
+omit [Finite G] in
 private theorem conj_sup_of_perm {P Q : Subgroup G} {x : G}
     (h1 : CFSG.conjugate P x = P ∨ CFSG.conjugate P x = Q)
     (h2 : CFSG.conjugate Q x = P ∨ CFSG.conjugate Q x = Q) :

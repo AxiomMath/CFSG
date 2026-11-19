@@ -23,7 +23,7 @@ theorem uniClosure_unitarySL_eq_top_even {K : Type} [Field K] [Finite K] [CharP 
     Subgroup.closure {g : unitarySL σ | ∃ x ∈ F, x ≠ 1 ∧ Commute g x ∧ ∃ n : ℕ, g ^ (2 ^ n) = 1} =
       ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hU : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 f K :=
     ⟨Nat.prime_two, hf, by rw [hK, ← pow_mul, mul_comm]⟩
   set e := TwSU6.unitarySLEquivStated (p := 2) hK hσ with he
@@ -70,10 +70,10 @@ theorem twE6TwoUniNative_even (K : Type) [Field K] [Finite K] (σ : K ≃+* K) {
     (hE₀p : ∀ x ∈ E₀, x ^ p = 1) (hE₀c : Nat.card E₀ = p ^ 2) :
     Subgroup.closure {k | ∃ x ∈ E₀, x ≠ 1 ∧ Commute k x ∧ ∃ m : ℕ, k ^ (2 ^ m) = 1} = ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK' : Nat.card K = 2 ^ (2 * f) := by rw [hK, ← pow_mul, mul_comm]
   have hU : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 f K := ⟨Nat.prime_two, hf, hK'⟩
-  haveI : CharP K 2 := hU.charP
+  have : CharP K 2 := hU.charP
   set σ' : K →+* K := σ.toRingHom with hσ'def
   have hσ' : ∀ c, σ' c = c ^ (2 ^ f) := hσ
   have hkcard : Nat.card (RingHom.eqLocusField σ' (RingHom.id K)) = 2 ^ f :=
@@ -93,10 +93,10 @@ theorem twE6TwoUniNative_even (K : Type) [Field K] [Finite K] (σ : K ≃+* K) {
     have := Nat.le_of_dvd (by norm_num) h1
     omega
   have hp3 : p ≠ 3 := by omega
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
   obtain ⟨ψ₁, hk₁, -, hX₁⟩ := TwFive.twE6SU6Cover_five K σ 2 f Nat.prime_two hf hK hσ p hp5 hpq
   obtain ⟨Ψ, hΨker, hΨrange⟩ := exists_psi_d4 Nat.prime_two hf σ' hkcard
-  haveI := finite_spinPlus_four (RingHom.eqLocusField σ' (RingHom.id K))
+  have := finite_spinPlus_four (RingHom.eqLocusField σ' (RingHom.id K))
   have hcen := not_dvd_card_center_spinPlus_four hpF.out hp5 hpk1
   have hcomm : ∀ t x, Commute (torusG σ' t) (Ψ x) := fun t x => by
     have hmem : Ψ x ∈ d4Group σ' := by
@@ -185,7 +185,7 @@ theorem twE6TwoUniNative_even (K : Type) [Field K] [Finite K] (σ : K ≃+* K) {
   set M := Subgroup.closure {k | ∃ x ∈ E₁, x ≠ 1 ∧ Commute k x ∧ ∃ m : ℕ, k ^ (2 ^ m) = 1} with hM
   have hpk0 := natCast_ne_zero_of_not_dvd_card hpF.out hpk
   have hBr₁ : Subgroup.closure {b : unitarySL σ' | ∃ n : ℕ, b ^ (2 ^ n) = 1} = ⊤ := by
-    haveI := TwSU6.isPerfect_unitarySL_gen (p := 2) hK hσ'
+    have := TwSU6.isPerfect_unitarySL_gen (p := 2) hK hσ'
     exact closure_two_pow_eq_top_of_isPerfect
   have hH₁ : ∀ F : Subgroup (SL(2, RingHom.eqLocusField σ' (RingHom.id K)) × unitarySL σ'),
       IsElemAbelian p F → Nat.card F = p ^ 2 →
@@ -248,7 +248,7 @@ theorem uniSeitzPlanes_twE6Two_inner_even :
   obtain ⟨K, _, σ, hK, hσ, ⟨e⟩⟩ := exists_catEquiv_twistedE6 q hv
   have hKfin : Finite K := Nat.finite_of_card_ne_zero (by
     rw [hK]; exact pow_ne_zero _ (pow_ne_zero _ q.prime_p.ne_zero))
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hZ : Subgroup.center ↥(twistedE6RootGroup K σ) = ⊥ :=
     center_graphFixedRootGroup_eq_bot σ.surjective
   have hinj := conj_injective_of_mulEquiv e (conj_injective_of_center_eq_bot hZ)
@@ -279,8 +279,8 @@ theorem uniSeitzPlanes_twE6ThreeFour_inner_even :
   obtain ⟨K, _, σ, hK, hσ, ⟨e⟩⟩ := exists_catEquiv_twistedE6 q hv
   have hKfin : Finite K := Nat.finite_of_card_ne_zero (by
     rw [hK]; exact pow_ne_zero _ (pow_ne_zero _ q.prime_p.ne_zero))
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hZ : Subgroup.center ↥(twistedE6RootGroup K σ) = ⊥ :=
     center_graphFixedRootGroup_eq_bot σ.surjective
   have hinj := conj_injective_of_mulEquiv e (conj_injective_of_center_eq_bot hZ)
@@ -290,12 +290,12 @@ theorem uniSeitzPlanes_twE6ThreeFour_inner_even :
       orderOf (((2 ^ q.exponent : ℕ)) : ZMod p) = 4 := by
     rw [← hq2, ← PrimePower.card_def]
     exact hord
-  haveI : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     Nat.prime_two (k := 2 * q.exponent) (by omega) (by rw [hK, ← pow_mul, mul_comm])
   have hk : Nat.card (GaloisField 2 q.exponent) = 2 ^ q.exponent := GaloisField.card 2 _ hf.ne'
   obtain ⟨ι₀⟩ := CFSG.HardMathSupport.Lang.AnisoE6.nonempty_ringHom_of_card_sq (ℓ := 2) (f := q.exponent)
     hk hK
-  letI : Algebra (GaloisField 2 q.exponent) K := ι₀.toAlgebra
+  let : Algebra (GaloisField 2 q.exponent) K := ι₀.toAlgebra
   show UniPlaneGen (LieTypeIndex.twistedE6 q).characteristic E
   rw [LieTypeIndex.characteristic_twistedE6, hq2]
   refine CFSG.LocalAnalysis.GLTheoremB.MovingAround.Inputs2311f.uniPlaneGen_of_native_uniClosure

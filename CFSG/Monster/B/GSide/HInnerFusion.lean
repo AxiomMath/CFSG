@@ -166,7 +166,7 @@ theorem exists_conj_mem_of_not_dvd_index {G : Type*} [Group G] [Finite G] {p : �
     (hP : IsPGroup p P) : ∃ g : G, ∀ x ∈ P, g * x * g⁻¹ ∈ K := by
   obtain ⟨S₀⟩ : Nonempty (Sylow p K) := inferInstance
   set T : Subgroup G := (S₀ : Subgroup K).map K.subtype with hTdef
-  have hT : IsPGroup p T := S₀.isPGroup'.map K.subtype
+  have hT : IsPGroup p T := S₀.isPGroup.map K.subtype
   have hTK : T ≤ K := Subgroup.map_subtype_le _
   have hsub : T.subgroupOf K = (S₀ : Subgroup K) :=
     Subgroup.comap_map_eq_self_of_injective K.subtype_injective _

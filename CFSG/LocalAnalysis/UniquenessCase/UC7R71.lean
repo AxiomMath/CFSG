@@ -33,7 +33,7 @@ theorem pRank_pPrimeCoreIn_le_three {M H : Subgroup G} {p q : ℕ} (hHM : ¬ H �
       normalizer (X : Set G) ≤ M) :
     Open.pRank q (PPrimeCoreIn p H) ≤ 3 := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   by_contra hlt
   have h4K : 4 ≤ Open.pRank q (PPrimeCoreIn p H) := by omega
   obtain ⟨E, hEK, hEel, hEcard⟩ := CFSG.SectionRank.exists_pRank hq.one_lt (PPrimeCoreIn p H)

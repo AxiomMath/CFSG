@@ -64,9 +64,9 @@ theorem d4OuterCoreFree_of_classes (hG : D4GraphCoreFree) (hGF : D4GraphFieldStd
     · rw [hxeq]
       rw [hxeq] at hx3
       exact hG K hK3 g a 2 (Or.inr rfl) hx3
-  · haveI : Fact (ringChar K).Prime := ⟨hpr⟩
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-    haveI : CharP K (ringChar K) := ringChar.charP K
+  · have : Fact (ringChar K).Prime := ⟨hpr⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : CharP K (ringChar K) := ringChar.charP K
     have hord : orderOf σ = 3 := orderOf_eq_prime hσ3 hσ
     obtain ⟨e, T, he, hef, hT, hσT⟩ :=
       exists_frobenius_eq_or_inv_of_orderOf_three hpr n.pos K hKc σ hord

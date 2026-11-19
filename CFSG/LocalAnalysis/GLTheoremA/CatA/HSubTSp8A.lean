@@ -28,11 +28,11 @@ theorem perm6_component_eq_alt {K : Subgroup (Equiv.Perm (Fin 6))}
   have hsub : CFSG.Open.IsSubnormal K (alternatingGroup (Fin 6)) := by
     have h := CFSG.Open.IsSubnormal.inf_of_le hK.2.1 (le_top : alternatingGroup (Fin 6) ≤ ⊤)
     rwa [inf_eq_left.mpr hle] at h
-  haveI : IsSimpleGroup ↥(alternatingGroup (Fin 6)) :=
+  have : IsSimpleGroup ↥(alternatingGroup (Fin 6)) :=
     alternatingGroup.isSimpleGroup (by simp)
   rcases CFSG.Open.IsSubnormal.eq_bot_or_eq_of_isSimpleGroup hsub inferInstance with h | h
   · exfalso
-    haveI := hK.2.2.2
+    have := hK.2.2.2
     have hnt : Nontrivial ↥K :=
       (QuotientGroup.mk'_surjective (Subgroup.center ↥K)).nontrivial
     exact (Subgroup.nontrivial_iff_ne_bot K).mp hnt h
@@ -61,7 +61,7 @@ theorem sp1_solvable : Group.IsSolvable (StatedSp 1 (ZMod 2)) := by
   have hsol : Group.IsSolvable ↥(StatedSL 2 (ZMod 2)) :=
     CFSG.LieType.SemisimpleCentralizers.Held.hct_isSolvable_of_natCard_eq
       Nat.prime_two Nat.prime_three (by norm_num) hcard
-  haveI := hsol
+  have := hsol
   exact Group.isSolvable_of_surjective (f := e.symm.toMonoidHom) e.symm.surjective
 
 theorem catalogIs_sp6_of_equiv {X : Type} [Group X] (e : X ≃* StatedSp 3 (ZMod 2)) :

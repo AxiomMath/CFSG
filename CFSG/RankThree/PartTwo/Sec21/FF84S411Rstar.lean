@@ -18,7 +18,7 @@ variable {G : Type} [Group G] [Finite G] {S : Subgroup G} {e : ↥S ≃* Multipl
 
 theorem exists_mem_nor_not_mem {T R : Subgroup G} (hT : IsPGroup 2 T) (hRT : R ≤ T)
     (hne : ¬ T ≤ R) : ∃ x ∈ T ⊓ Nor R, x ∉ R := by
-  haveI : Group.IsNilpotent ↥T := hT.isNilpotent
+  have : Group.IsNilpotent ↥T := hT.isNilpotent
   have hlt : R.subgroupOf T < ⊤ := by
     rw [lt_top_iff_ne_top]
     intro h
@@ -27,7 +27,7 @@ theorem exists_mem_nor_not_mem {T R : Subgroup G} (hT : IsPGroup 2 T) (hRT : R �
     have : (⟨x, hx⟩ : ↥T) ∈ R.subgroupOf T := by rw [h]; trivial
     exact this
   have h2 := Group.normalizerCondition_of_isNilpotent (G := ↥T) (R.subgroupOf T) hlt
-  obtain ⟨⟨x, hxT⟩, hxn, hxnot⟩ := SetLike.exists_of_lt h2
+  obtain ⟨⟨x, hxT⟩, hxn, hxnot⟩ := IsConcreteLE.exists_of_lt h2
   refine ⟨x, Subgroup.mem_inf.2 ⟨hxT, ?_⟩, hxnot⟩
   rw [Subgroup.mem_normalizer_iff] at hxn ⊢
   intro g
@@ -41,6 +41,7 @@ theorem exists_mem_nor_not_mem {T R : Subgroup G} (hT : IsPGroup 2 T) (hRT : R �
       simpa [mul_assoc] using this
     exact (hxn ⟨g, hgT⟩).2 hg
 
+omit [Finite G] in
 theorem cen_conj_mem {H : Subgroup G} {n x : G} (hn : n ∈ Nor H) (hx : x ∈ CenS H) :
     n * x * n⁻¹ ∈ CenS H := by
   rw [Subgroup.mem_centralizer_iff]
@@ -55,6 +56,7 @@ theorem cen_conj_mem {H : Subgroup G} {n x : G} (hn : n ∈ Nor H) (hx : x ∈ C
     _ = n * (x * (n⁻¹ * h * n)) * n⁻¹ := by rw [e1]
     _ = n * x * n⁻¹ * h := by group
 
+omit [Finite G] in
 theorem nor_le_nor_cenS {H : Subgroup G} {n : G} (hn : n ∈ Nor H) : n ∈ Nor (CenS H) := by
   rw [Subgroup.mem_normalizer_iff]
   intro x
@@ -68,14 +70,16 @@ section
 variable (C : Ctx411 S e ψ s t b)
 include C
 
+omit [Finite G] C in
 theorem Ctx411.R_le_Rs : S ⊓ Op 2 (Cen (t : G)) ≤ Op 2 (Cen (t : G)) ⊓ Nor (S ⊓ Op 2 (Cen (t : G))) :=
-  fun x hx => Subgroup.mem_inf.2 ⟨(Subgroup.mem_inf.1 hx).2, Subgroup.le_normalizer hx⟩
+  fun _x hx => Subgroup.mem_inf.2 ⟨(Subgroup.mem_inf.1 hx).2, Subgroup.le_normalizer hx⟩
 
 theorem Ctx411.Rs_le_nor_S {x : G}
     (hx : x ∈ Op 2 (Cen (t : G)) ⊓ Nor (S ⊓ Op 2 (Cen (t : G)))) : x ∈ Nor S := by
   have := nor_le_nor_cenS (Subgroup.mem_inf.1 hx).2
   rwa [C.CR] at this
 
+omit C [Finite G] in
 theorem Ctx411.y_mem_nor_R {y : G} (hyS : y ∈ Nor S) (hyt : y ∈ Cen (t : G)) :
     y ∈ Nor (S ⊓ Op 2 (Cen (t : G))) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -86,12 +90,13 @@ theorem Ctx411.y_mem_nor_R {y : G} (hyS : y ∈ Nor S) (hyt : y ∈ Cen (t : G))
     have := R_conj_mem (t := t) (inv_mem hyS) (inv_mem hyt) hr
     simpa [mul_assoc] using this
 
+omit C [Finite G] in
 theorem Ctx411.Rs_conj {y x : G} (hyS : y ∈ Nor S) (hyt : y ∈ Cen (t : G))
     (hx : x ∈ Op 2 (Cen (t : G)) ⊓ Nor (S ⊓ Op 2 (Cen (t : G)))) :
     y * x * y⁻¹ ∈ Op 2 (Cen (t : G)) ⊓ Nor (S ⊓ Op 2 (Cen (t : G))) := by
   obtain ⟨hxT, hxN⟩ := Subgroup.mem_inf.1 hx
   exact Subgroup.mem_inf.2 ⟨S3.Op_conj_mem 2 (Subgroup.le_normalizer hyt) hxT,
-    mul_mem (mul_mem (C.y_mem_nor_R hyS hyt) hxN) (inv_mem (C.y_mem_nor_R hyS hyt))⟩
+    mul_mem (mul_mem (Ctx411.y_mem_nor_R hyS hyt) hxN) (inv_mem (Ctx411.y_mem_nor_R hyS hyt))⟩
 
 theorem Ctx411.Rs_le_OpY :
     Op 2 (Cen (t : G)) ⊓ Nor (S ⊓ Op 2 (Cen (t : G))) ≤ Op 2 (Nor S ⊓ Cen (t : G)) := by
@@ -100,7 +105,7 @@ theorem Ctx411.Rs_le_OpY :
     exact Subgroup.mem_inf.2 ⟨C.Rs_le_nor_S hx, S3.Op_le 2 _ (Subgroup.mem_inf.1 hx).1⟩
   · exact (S3.Op_isPGroup 2 _).to_le inf_le_left
   · intro h hh m hm
-    exact C.Rs_conj (Subgroup.mem_inf.1 hh).1 (Subgroup.mem_inf.1 hh).2 hm
+    exact CFSG.RankThree.PartTwo.Sec21.FF84.S4.Ctx411.Rs_conj (Subgroup.mem_inf.1 hh).1 (Subgroup.mem_inf.1 hh).2 hm
 
 theorem Ctx411.psi_Rs_mem_E (n : ↥(Nor S))
     (hn : (n : G) ∈ Op 2 (Cen (t : G)) ⊓ Nor (S ⊓ Op 2 (Cen (t : G)))) : ψ n ∈ Eτ :=
@@ -143,7 +148,7 @@ theorem Ctx411.psi_Rs_eq :
     refine Subgroup.mem_map.2 ⟨⟨y.1, hyS⟩ * n * ⟨y.1, hyS⟩⁻¹, ?_, ?_⟩
     · have hn' : (n : G) ∈ Op 2 (Cen (t : G)) ⊓ Nor (S ⊓ Op 2 (Cen (t : G))) := hn
       rw [Subgroup.mem_subgroupOf]
-      exact C.Rs_conj hyS hyt hn'
+      exact CFSG.RankThree.PartTwo.Sec21.FF84.S4.Ctx411.Rs_conj hyS hyt hn'
     · rw [map_mul, map_mul, map_inv, hyg]
   have hnorm : MulAction.stabilizer OmG tau0 ≤ Nor X := by
     intro g hg
@@ -220,7 +225,7 @@ theorem Ctx411.card_Rs :
   rw [Subgroup.index_ker, hrange, hE, hker] at h1
   have h2 : Nat.card ↥((S ⊓ Op 2 (Cen (t : G))).subgroupOf Rs) = 32 := by
     rw [← C.card_R]
-    exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe C.R_le_Rs).toEquiv
+    exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe CFSG.RankThree.PartTwo.Sec21.FF84.S4.Ctx411.R_le_Rs).toEquiv
   rw [h2] at h1
   omega
 

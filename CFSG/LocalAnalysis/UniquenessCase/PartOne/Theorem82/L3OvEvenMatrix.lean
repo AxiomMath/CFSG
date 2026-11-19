@@ -29,7 +29,7 @@ private theorem zNF_mulVec [CharP F 2] (v : Fin 3 → F) :
     exact neg_eq_of_add_eq_zero_right h11
   rw [show (zNF F : Matrix (Fin 3) (Fin 3) F) = !![0, -1, 0; 1, -1, 0; 0, 0, 1] from rfl]
   ext i
-  fin_cases i <;> simp [Matrix.mulVec, dotProduct, Fin.sum_univ_three, h2, hneg]
+  fin_cases i <;> simp [Matrix.mulVec, dotProduct, Fin.sum_univ_three, hneg]
 
 private theorem one_add_zNF_add_sq [CharP F 2] :
     (1 : Matrix (Fin 3) (Fin 3) F) + (zNF F : Matrix (Fin 3) (Fin 3) F) +
@@ -41,8 +41,7 @@ private theorem one_add_zNF_add_sq [CharP F 2] :
   rw [show (zNF F : Matrix (Fin 3) (Fin 3) F) = !![0, -1, 0; 1, -1, 0; 0, 0, 1] from rfl]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.add_apply, Matrix.mul_apply, Fin.sum_univ_three, Matrix.diagonal, h2, h3] <;>
-    ring
+    simp [Matrix.add_apply, Matrix.diagonal, h3]
 
 private theorem zNF_add_sq_mulVec [CharP F 2] (v : Fin 3 → F) :
     ((1 : Matrix (Fin 3) (Fin 3) F) + (zNF F : Matrix (Fin 3) (Fin 3) F) +
@@ -51,7 +50,7 @@ private theorem zNF_add_sq_mulVec [CharP F 2] (v : Fin 3 → F) :
   rw [one_add_zNF_add_sq]
   funext i
   rw [Matrix.mulVec_diagonal]
-  fin_cases i <;> simp [Pi.single_apply]
+  fin_cases i <;> simp
 
 private theorem zNF_mulVec_mem_plane [CharP F 2] {v : Fin 3 → F} (hv : v ∈ planeE01) :
     (zNF F : Matrix (Fin 3) (Fin 3) F) *ᵥ v ∈ planeE01 := by
@@ -106,12 +105,12 @@ private theorem plane_eq_span_of_ne_zero [Finite F] [CharP F 2] {f : ℕ}
       (a + b) • v + b • ((zNF F : Matrix (Fin 3) (Fin 3) F) *ᵥ v) := by
     rw [hzv', hveq, hd]
     ext i
-    fin_cases i <;> simp [Pi.single_apply] <;> ring_nf <;> simp [h2]
+    fin_cases i <;> simp <;> ring_nf; simp [h2]
   have hcomb1 : d • (Pi.single 1 1 : Fin 3 → F) =
       b • v + a • ((zNF F : Matrix (Fin 3) (Fin 3) F) *ᵥ v) := by
     rw [hzv', hveq, hd]
     ext i
-    fin_cases i <;> simp [Pi.single_apply] <;> ring_nf <;> simp [h2]
+    fin_cases i <;> simp <;> ring_nf; simp [h2]
   have hvS : v ∈ Submodule.span F {v, (zNF F : Matrix (Fin 3) (Fin 3) F) *ᵥ v} :=
     Submodule.subset_span (Set.mem_insert _ _)
   have hzvS : (zNF F : Matrix (Fin 3) (Fin 3) F) *ᵥ v ∈
@@ -134,7 +133,7 @@ private theorem plane_eq_span_of_ne_zero [Finite F] [CharP F 2] {f : ℕ}
     have hw2 : w 2 = 0 := (CFSG.AGLEmbedding.LinearThreeKit.mem_flagSpace_two_iff).mp hw
     have hweq : w = w 0 • (Pi.single 0 1 : Fin 3 → F) +
         w 1 • (Pi.single 1 1 : Fin 3 → F) := by
-      ext i; fin_cases i <;> simp [Pi.single_apply, hw2]
+      ext i; fin_cases i <;> simp [hw2]
     rw [hweq]
     exact Submodule.add_mem _ (Submodule.smul_mem _ _ he0) (Submodule.smul_mem _ _ he1)
   · refine Submodule.span_le.mpr ?_
@@ -149,10 +148,10 @@ private theorem mem_lineE2_iff [CharP F 2] {v : Fin 3 → F} :
   · intro hv
     obtain ⟨c, hc⟩ := Submodule.mem_span_singleton.mp hv
     subst hc
-    simp [Pi.smul_apply, Pi.single_apply]
+    simp [Pi.smul_apply]
   · rintro ⟨h0, h1⟩
     have hv : v = v 2 • (Pi.single 2 1 : Fin 3 → F) := by
-      ext i; fin_cases i <;> simp [Pi.single_apply, h0, h1]
+      ext i; fin_cases i <;> simp [h0, h1]
     rw [hv]
     exact Submodule.smul_mem lineE2 _ (Submodule.mem_span_singleton_self _)
 
@@ -297,7 +296,7 @@ private def upperBlock (g : SL(3, F)) : Matrix (Fin 2) (Fin 2) F :=
 private theorem upperBlock_one : upperBlock (1 : SL(3, F)) = 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [upperBlock, Matrix.SpecialLinearGroup.coe_one, Matrix.one_apply]
+    simp [upperBlock, Matrix.SpecialLinearGroup.coe_one]
 
 private theorem upperBlock_mul_of_right_zero {g h : SL(3, F)}
     (hg : (g : Matrix (Fin 3) (Fin 3) F) 0 2 = 0)
@@ -407,7 +406,7 @@ private noncomputable def diagChar (K : Subgroup SL(3, F))
   toFun g := Units.mk0 ((g : Matrix (Fin 3) (Fin 3) F) 2 2) (hne g)
   map_one' := by
     apply Units.ext
-    simp [Matrix.SpecialLinearGroup.coe_one, Matrix.one_apply]
+    simp [Matrix.SpecialLinearGroup.coe_one]
   map_mul' g h := by
     apply Units.ext
     rw [Units.val_mul, Units.val_mk0, Units.val_mk0, Units.val_mk0]
@@ -475,13 +474,13 @@ private noncomputable def diagHom : Fˣ →* SL(3, F) where
     change diagMat 1 = 1
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [diagMat, Matrix.diagonal_apply, Matrix.one_apply]
+      simp [diagMat]
   map_mul' b c := by
     apply Subtype.ext
     change diagMat (b * c) = diagMat b * diagMat c
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [diagMat, Matrix.mul_apply, Fin.sum_univ_three, Matrix.diagonal_apply,
+      simp [diagMat, Matrix.mul_apply, Matrix.diagonal_apply,
         Units.val_mul, _root_.mul_inv_rev, mul_comm, mul_left_comm, mul_assoc]
 
 private theorem diagHom_apply (b : Fˣ) :
@@ -512,8 +511,8 @@ private theorem diagHom_commute_zNF (b : Fˣ) :
   rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_mul]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [diagHom_apply, diagMat, Matrix.SpecialLinearGroup.coe_mul, Matrix.mul_apply,
-      Fin.sum_univ_three, zNF, Matrix.diagonal_apply]
+    simp [diagHom_apply, diagMat, Matrix.mul_apply,
+      zNF, Matrix.diagonal_apply]
 
 private theorem diagHom_mem_normalizer (b : Fˣ) :
     diagHom b ∈ Subgroup.normalizer (Subgroup.zpowers (zNF F) : Set SL(3, F)) := by
@@ -647,7 +646,7 @@ private theorem commutator_mem_elationGenerators (W : Submodule F (Fin 3 → F))
     have hgQy : (g : Matrix (Fin 3) (Fin 3) F) *ᵥ y - β • y ∈ W := hgQ y
     have hsum : (g : Matrix (Fin 3) (Fin 3) F) *ᵥ y - v ∈ W := by
       have := W.add_mem hgQy hy
-      convert this using 1 <;> abel
+      convert this using 1; abel
     have hcoe : ((g * k * g⁻¹ * k⁻¹ : SL(3, F)) : Matrix (Fin 3) (Fin 3) F) *ᵥ v =
         (g : Matrix (Fin 3) (Fin 3) F) *ᵥ
           ((k : Matrix (Fin 3) (Fin 3) F) *ᵥ
@@ -776,7 +775,7 @@ private theorem l3OvAlt_of_blockData (hD : L3OvDickson) [Finite F] [CharP F 2] {
   have hrdvd' : r ∣ Nat.card Fˣ := by
     rw [Nat.card_units F, hcard]
     exact hrdvd
-  haveI : Fact r.Prime := ⟨hrprime⟩
+  have : Fact r.Prime := ⟨hrprime⟩
   obtain ⟨b, hb⟩ := exists_prime_orderOf_dvd_card' r hrdvd'
   have hgorder : orderOf (diagHom b) = r := by
     rw [orderOf_diagHom, hb]
@@ -787,7 +786,7 @@ private theorem l3OvAlt_of_blockData (hD : L3OvDickson) [Finite F] [CharP F 2] {
 
 theorem l3OvMatrix_of_dickson (hD : L3OvDickson) : L3OvMatrix := by
   intro F _ _ _ f hcard hodd Y K hZY hYK hKK hzK hQ
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Q := CFSG.Open.pCoreOf 2 K
   let W := CFSG.AGLEmbedding.LinearThreeKit.fixedSubspace Q
   have hQp : IsPGroup 2 Q := CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 K

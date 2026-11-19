@@ -26,7 +26,7 @@ theorem gomiU42_of_selector (hGA : CFSG.Open.GriessAllModelsStatement)
           K₀ ⊓ K₀.map (MulAut.conj d.t).toMonoidHom = ⊥) := by
   have hset := h.gomiU42SetupG hYsq
   have hset' := hset.toSetup
-  haveI := hset'.normal_zpowers_e
+  have := hset'.normal_zpowers_e
   obtain ⟨h1, h2⟩ := hset'.reduction hGA hS
   obtain ⟨h3, h4⟩ := layer_transfer hset.t_mem hset.J₀_le h1 h2
   have hK : d.K = (CFSG.layer ↥(centralizer ({d.e₂} : Set G))).map

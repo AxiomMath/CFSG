@@ -10,18 +10,23 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau : G}
 
+omit [Finite G] in
 private lemma t_mem_ctxX (t tau x₁ x₂ : G) : t ∈ ctxX t tau x₁ x₂ := by
   rw [ctxX]; exact Subgroup.subset_closure (by simp)
 
+omit [Finite G] in
 private lemma y_mem_ctxX (t tau x₁ x₂ : G) : x₁ ^ 2 ∈ ctxX t tau x₁ x₂ := by
   rw [ctxX]; exact Subgroup.subset_closure (by simp)
 
+omit [Finite G] in
 private lemma z_mem_ctxX (t tau x₁ x₂ : G) : (x₁ * x₂) ^ 2 ∈ ctxX t tau x₁ x₂ := by
   rw [ctxX]; exact Subgroup.subset_closure (by simp)
 
+omit [Finite G] in
 private lemma tau_mem_ctxX (t tau x₁ x₂ : G) : tau ∈ ctxX t tau x₁ x₂ := by
   rw [ctxX]; exact Subgroup.subset_closure (by simp)
 
+omit [Finite G] in
 private lemma ctxE_le_ctxX' (t tau x₁ x₂ : G) : ctxE t x₁ x₂ ≤ ctxX t tau x₁ x₂ := by
   rw [ctxE]
   refine (Subgroup.closure_le (K := ctxX t tau x₁ x₂)).mpr ?_

@@ -184,6 +184,7 @@ private theorem str86_q2_quot_irreducible
     ⟨hNQ, fun g hg x hx => (Subgroup.mem_normalizer_iff.mp (hNH hg) x).mp hx⟩
   exact hstep.2.2.2 N hNnormal hZN hNQ
 
+omit [Finite G] in
 private theorem str86_commutator_sq_eq_sq {x s : G}
     (hx : (x * s * x⁻¹ * s⁻¹) * x = x * (x * s * x⁻¹ * s⁻¹)) :
     (x * x) * s * (x * x)⁻¹ * s⁻¹ =
@@ -252,7 +253,7 @@ private theorem str86_q2_center_eq
         have haz : (a : G) ∈ centerOf Q := by rw [hCQeq]; exact a.2
         exact (Subgroup.mem_inf.mp haz).2
       exact (Subgroup.mem_centralizer_iff.mp ha (b : G) b.2).symm
-    letI : CommGroup ↥Q := IsMulCommutative.instCommGroup
+    let : CommGroup ↥Q := IsMulCommutative.instCommGroup
     obtain ⟨-, hsq, -⟩ :=
       str86_q2_quot_elemAbelian hF hSB hk hFc hU3 hB2 h2 hZI hZQ hL2 hZ2 hZ1 hY hX1' hI4
         hX1Q2 hSQ2
@@ -489,6 +490,7 @@ private def str86FixMod (H Z : Subgroup G) (hHZ : H ≤ Subgroup.normalizer (Z :
     convert hconj using 1
     group
 
+omit [Finite G] in
 private theorem mem_str86FixMod {H Z : Subgroup G} (hHZ : H ≤ Subgroup.normalizer (Z : Set G))
     (x h : G) : h ∈ str86FixMod H Z hHZ x ↔ h ∈ H ∧ h * x * h⁻¹ * x⁻¹ ∈ Z :=
   Iff.rfl
@@ -619,7 +621,7 @@ private theorem str86_q2_conj_inf_eq
     have hsS : (MulAut.conj (b * l))⁻¹ • s' ∈ S := by
       rwa [Subgroup.mem_pointwise_smul_iff_inv_smul_mem] at hs'
     have hs'eq : s' = (b * l) * ((MulAut.conj (b * l))⁻¹ • s') * (b * l)⁻¹ := by
-      simp [MulAut.smul_def, MulAut.conj_apply]
+      simp [MulAut.smul_def]
       group
     rw [hs'eq]
     exact (Subgroup.normalizer (Z : Set G)).mul_mem
@@ -644,7 +646,7 @@ private theorem str86_q2_conj_inf_eq
     let q : G := (b * l)⁻¹ * y * (b * l)
     have hqeq : (MulAut.conj (b * l))⁻¹ • y = q := by
       rw [← map_inv]
-      simp [q, MulAut.conj_apply]
+      simp [q]
       group
     have hqQ1 : q ∈ Q1 := by
       rwa [hqeq] at hq1
@@ -661,7 +663,7 @@ private theorem str86_q2_conj_inf_eq
     let s : G := (b * l)⁻¹ * s' * (b * l)
     have hseq0 : (MulAut.conj (b * l))⁻¹ • s' = s := by
       rw [← map_inv]
-      simp [s, MulAut.conj_apply]
+      simp [s]
       group
     have hsS' : s ∈ S := by
       rwa [hseq0] at hsS

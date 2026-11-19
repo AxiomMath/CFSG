@@ -13,7 +13,7 @@ open CFSG.Sporadic.J4 CFSG.Sporadic.GLQ CFSG.SectionRank CFSG.SectionRank.Native
 open CFSG.Sporadic.SmallF2 CFSG.Sporadic.SmallF2.Native
 open scoped Matrix
 
-@[expose] def binOf (a : Fin 11 → ZMod 2) : ℕ := ofBits 11 fun j => if h : j < 11 then
+def binOf (a : Fin 11 → ZMod 2) : ℕ := ofBits 11 fun j => if h : j < 11 then
   a ⟨j, h⟩ == 1 else false
 
 theorem binOf_lt (a : Fin 11 → ZMod 2) : binOf a < 2 ^ 11 := ofBits_lt _ _

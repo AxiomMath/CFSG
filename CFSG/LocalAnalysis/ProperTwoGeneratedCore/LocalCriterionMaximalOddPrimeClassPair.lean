@@ -54,7 +54,7 @@ theorem maximal_prime_sylow_pair_normalizer_of_odd_pair_count
     rw [Subgroup.map_map]
     rfl
   have hVD : V ≤ D := (Subgroup.map_subtype_le _).trans inf_le_left
-  have hAp : IsPGroup p A := P.isPGroup'.map _
+  have hAp : IsPGroup p A := P.isPGroup.map _
   obtain ⟨k, hk⟩ := hAp.exists_card_eq
   have hAodd : Odd (Nat.card A) := hk ▸ hpodd.pow
   have hfixa : ∀ g ∈ A, g • a = a := by
@@ -76,7 +76,7 @@ theorem maximal_prime_sylow_pair_normalizer_of_odd_pair_count
   have hWV : W ≤ V := by
     rw [← Subgroup.map_subgroupOf_eq_of_le hWB]
     exact Subgroup.map_mono hWP
-  have hVW : V ≤ W := hmax V (P.isPGroup'.map B.subtype) hWV (hcount.trans hbridge)
+  have hVW : V ≤ W := hmax V (P.isPGroup.map B.subtype) hWV (hcount.trans hbridge)
   exact ⟨P, le_antisymm hVW hWV⟩
 
 theorem maximal_prime_sylow_pair_of_odd_pair_count

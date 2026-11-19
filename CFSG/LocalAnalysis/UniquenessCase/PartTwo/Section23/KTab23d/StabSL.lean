@@ -45,9 +45,11 @@ private def matR_D20 (γ : ↥(lineStab_D20 K d)) : Matrix (Fin (d + 1)) (Fin (d
 private def blockM_D20 (γ : ↥(lineStab_D20 K d)) : Matrix (Fin d) (Fin d) K :=
   Matrix.of fun i j => matR_D20 K d γ i.succ j.succ
 
+omit [Finite K] [CharP K 2] in
 private lemma blockM_D20_apply (γ : ↥(lineStab_D20 K d)) (i j : Fin d) :
     blockM_D20 K d γ i j = matR_D20 K d γ i.succ j.succ := rfl
 
+omit [Finite K] [CharP K 2] in
 private lemma col0_D20 (γ : ↥(lineStab_D20 K d)) (i : Fin d) :
     matR_D20 K d γ i.succ 0 = 0 := by
   obtain ⟨c, hc⟩ := mem_lineStab.mp γ.2
@@ -55,13 +57,16 @@ private lemma col0_D20 (γ : ↥(lineStab_D20 K d)) (i : Fin d) :
   rw [Matrix.mulVec_single_one] at h
   simpa [matR_D20, Matrix.col, Matrix.col_apply, Pi.single_eq_of_ne (Fin.succ_ne_zero i)] using h
 
+omit [Finite K] [CharP K 2] in
 private lemma matR_mul_D20 (γ δ : ↥(lineStab_D20 K d)) :
     matR_D20 K d (γ * δ) = matR_D20 K d γ * matR_D20 K d δ := by
   simp [matR_D20, Subgroup.coe_mul, Units.val_mul]
 
+omit [Finite K] [CharP K 2] in
 private lemma matR_one_D20 : matR_D20 K d (1 : ↥(lineStab_D20 K d)) = 1 := by
   simp [matR_D20]
 
+omit [Finite K] [CharP K 2] in
 private lemma blockM_mul_D20 (γ δ : ↥(lineStab_D20 K d)) :
     blockM_D20 K d (γ * δ) = blockM_D20 K d γ * blockM_D20 K d δ := by
   ext i j
@@ -69,6 +74,7 @@ private lemma blockM_mul_D20 (γ δ : ↥(lineStab_D20 K d)) :
   simp only [col0_D20 K d γ i, zero_mul, zero_add]
   simp [blockM_D20_apply]
 
+omit [Finite K] [CharP K 2] in
 private lemma blockM_one_D20 : blockM_D20 K d (1 : ↥(lineStab_D20 K d)) = 1 := by
   ext i j
   rw [blockM_D20_apply, matR_one_D20]
@@ -82,10 +88,12 @@ private def blockHom_D20 : ↥(lineStab_D20 K d) →* Matrix (Fin d) (Fin d) K w
 private def beta_D20 : ↥(lineStab_D20 K d) →* GL (Fin d) K :=
   (blockHom_D20 K d).toHomUnits
 
+omit [Finite K] [CharP K 2] in
 private lemma beta_val_D20 (γ : ↥(lineStab_D20 K d)) :
     (beta_D20 K d γ : Matrix (Fin d) (Fin d) K) = blockM_D20 K d γ :=
   MonoidHom.coe_toHomUnits (blockHom_D20 K d) γ
 
+omit [Finite K] [CharP K 2] in
 private lemma beta_eq_one_iff_D20 (γ : ↥(lineStab_D20 K d)) :
     beta_D20 K d γ = 1 ↔ blockM_D20 K d γ = 1 := by
   constructor
@@ -97,6 +105,7 @@ private lemma beta_eq_one_iff_D20 (γ : ↥(lineStab_D20 K d)) :
     rw [beta_val_D20 K d γ, h]
     rfl
 
+omit [Finite K] [CharP K 2] in
 private lemma det_col0_D20 (M : Matrix (Fin (d + 1)) (Fin (d + 1)) K)
     (h : ∀ i : Fin d, M i.succ 0 = 0) :
     M.det = M 0 0 * (M.submatrix (Fin.succ) (Fin.succ)).det := by
@@ -105,6 +114,7 @@ private lemma det_col0_D20 (M : Matrix (Fin (d + 1)) (Fin (d + 1)) K)
   simp only [Fin.val_zero, pow_zero, one_mul]
   rw [Fin.succAbove_zero]
 
+omit [Finite K] in
 private lemma matR_sq_D20 (γ : ↥(lineStab_D20 K d))
     (h0 : matR_D20 K d γ 0 0 = 1) (h : blockM_D20 K d γ = 1) :
     matR_D20 K d γ * matR_D20 K d γ = 1 := by
@@ -126,7 +136,7 @@ private lemma matR_sq_D20 (γ : ↥(lineStab_D20 K d))
               = (1 : Matrix (Fin d) (Fin d) K) b j' := by
             change blockM_D20 K d γ b j' = (1 : Matrix (Fin d) (Fin d) K) b j'
             rw [h]
-          rw [hb1, Matrix.one_apply, if_neg hb, mul_zero]
+          rw [hb1, Matrix.one_apply, ite_eq_right hb, mul_zero]
         have h1' : j' ∉ (Finset.univ : Finset (Fin d)) →
             matR_D20 K d γ 0 j'.succ * matR_D20 K d γ j'.succ j'.succ = 0 := by
           intro hj; exact absurd (Finset.mem_univ j') hj
@@ -136,12 +146,12 @@ private lemma matR_sq_D20 (γ : ↥(lineStab_D20 K d))
           simp [h]
         rw [hdiag, mul_one]
       rw [hz, h0, one_mul, CharTwo.add_self_eq_zero]
-      simp [Matrix.one_apply, (Fin.succ_ne_zero j').symm]
+      simp [(Fin.succ_ne_zero j').symm]
   · refine Fin.cases ?_ (fun j' => ?_) j
     · rw [Fin.sum_univ_succ,
         Finset.sum_eq_zero (fun k _ => by rw [col0_D20 K d γ k, mul_zero]),
         col0_D20 K d γ i', zero_mul, add_zero]
-      simp [Matrix.one_apply, Fin.succ_ne_zero i']
+      simp [Fin.succ_ne_zero i']
     · rw [Fin.sum_univ_succ, col0_D20 K d γ i', zero_mul, zero_add]
       have hz : (∑ k : Fin d,
             matR_D20 K d γ i'.succ k.succ * matR_D20 K d γ k.succ j'.succ)
@@ -153,6 +163,7 @@ private lemma matR_sq_D20 (γ : ↥(lineStab_D20 K d))
       rw [hz]
       simp [Matrix.one_apply, Fin.succ_inj]
 
+omit [Finite K] in
 private lemma ker_sq_D20 (γ : ↥(lineStab_D20 K d)) (h : beta_D20 K d γ = 1) :
     γ * γ = 1 := by
   have hblock : blockM_D20 K d γ = 1 := (beta_eq_one_iff_D20 K d γ).mp h
@@ -170,6 +181,7 @@ private lemma ker_sq_D20 (γ : ↥(lineStab_D20 K d)) (h : beta_D20 K d γ = 1) 
   change matR_D20 K d (γ * γ) = matR_D20 K d (1 : ↥(lineStab_D20 K d))
   rw [matR_mul_D20 K d γ γ, hsq, matR_one_D20 K d]
 
+omit [Finite K] in
 private lemma isPGroup_ker_beta_D20 : IsPGroup 2 ↥(beta_D20 K d).ker := by
   intro g
   have hg : (g : ↥(lineStab_D20 K d)) * (g : ↥(lineStab_D20 K d)) = 1 :=
@@ -188,23 +200,28 @@ private noncomputable def preimage_D20 (B : GL (Fin d) K) :
       (Fin.cases (((B : Matrix (Fin d) (Fin d) K).det)⁻¹) (fun _ => 0) j)
       (fun i' => Fin.cases 0 (fun j' => (B : Matrix (Fin d) (Fin d) K) i' j') j) i
 
+omit [Finite K] [CharP K 2] in
 private lemma preimage_D20_zero_zero (B : GL (Fin d) K) :
     preimage_D20 K d B 0 0 = ((B : Matrix (Fin d) (Fin d) K).det)⁻¹ := by
   simp [preimage_D20, Fin.cases_zero]
 
+omit [Finite K] [CharP K 2] in
 private lemma preimage_D20_succ_zero (B : GL (Fin d) K) (i : Fin d) :
     preimage_D20 K d B i.succ 0 = 0 := by
   simp [preimage_D20, Fin.cases_succ, Fin.cases_zero]
 
+omit [Finite K] [CharP K 2] in
 private lemma preimage_D20_succ_succ (B : GL (Fin d) K) (i j : Fin d) :
     preimage_D20 K d B i.succ j.succ = (B : Matrix (Fin d) (Fin d) K) i j := by
   simp [preimage_D20, Fin.cases_succ]
 
+omit [Finite K] [CharP K 2] in
 private lemma submatrix_preimage_D20 (B : GL (Fin d) K) :
     (preimage_D20 K d B).submatrix (Fin.succ) (Fin.succ) = (B : Matrix (Fin d) (Fin d) K) := by
   ext i j
   simp [Matrix.submatrix_apply, preimage_D20_succ_succ]
 
+omit [Finite K] [CharP K 2] in
 private lemma det_preimage_D20 (B : GL (Fin d) K) : (preimage_D20 K d B).det = 1 := by
   rw [det_col0_D20 K d (preimage_D20 K d B) (preimage_D20_succ_zero K d B),
     submatrix_preimage_D20 K d B, preimage_D20_zero_zero K d B]
@@ -214,21 +231,23 @@ private noncomputable def preimageGL_D20 (B : GL (Fin d) K) : GL (Fin (d + 1)) K
   Matrix.GeneralLinearGroup.mkOfDetNeZero (preimage_D20 K d B) (by
     rw [det_preimage_D20 K d B]; exact one_ne_zero)
 
+omit [Finite K] [CharP K 2] in
 private lemma preimageGL_D20_val (B : GL (Fin d) K) :
     (preimageGL_D20 K d B : Matrix (Fin (d + 1)) (Fin (d + 1)) K) = preimage_D20 K d B := by
   unfold preimageGL_D20
   rw [Matrix.GeneralLinearGroup.val_mkOfDetNeZero]
 
+omit [Finite K] [CharP K 2] in
 private lemma preimage_col_eq_D20 (B : GL (Fin d) K) :
     (preimageGL_D20 K d B : Matrix (Fin (d + 1)) (Fin (d + 1)) K) *ᵥ Pi.single 0 1
       = (preimage_D20 K d B 0 0) • Pi.single 0 1 := by
   rw [preimageGL_D20_val K d B, Matrix.mulVec_single_one]
   ext i
   refine Fin.cases ?_ (fun j => ?_) i
-  · simp [Matrix.col, Matrix.col_apply]
-  · simp [Matrix.col, Matrix.col_apply, preimage_D20_succ_zero K d B,
-      Pi.single_eq_of_ne (Fin.succ_ne_zero j)]
+  · simp [Matrix.col]
+  · simp [Matrix.col, preimage_D20_succ_zero K d B]
 
+omit [Finite K] [CharP K 2] in
 private lemma preimage_mem_lineStab_D20 (B : GL (Fin d) K) :
     (⟨preimageGL_D20 K d B, CFSG.Open.StatedAPI.mem_statedSL_of_det (by
         rw [preimageGL_D20_val K d B, det_preimage_D20 K d B])⟩ :
@@ -236,6 +255,7 @@ private lemma preimage_mem_lineStab_D20 (B : GL (Fin d) K) :
   rw [mem_lineStab]
   exact ⟨preimage_D20 K d B 0 0, preimage_col_eq_D20 K d B⟩
 
+omit [Finite K] [CharP K 2] in
 private lemma beta_preimage_D20 (B : GL (Fin d) K) :
     beta_D20 K d
       (⟨⟨preimageGL_D20 K d B, CFSG.Open.StatedAPI.mem_statedSL_of_det (by
@@ -248,6 +268,7 @@ private lemma beta_preimage_D20 (B : GL (Fin d) K) :
   rw [preimageGL_D20_val K d B]
   exact submatrix_preimage_D20 K d B
 
+omit [Finite K] [CharP K 2] in
 private lemma statedSL_le_range_D20 : StatedSL d K ≤ (beta_D20 K d).range := by
   rw [StatedSL, Subgroup.closure_le]
   intro B _
@@ -256,6 +277,7 @@ private lemma statedSL_le_range_D20 : StatedSL d K ≤ (beta_D20 K d).range := b
         rw [preimageGL_D20_val K d B, det_preimage_D20 K d B])⟩,
       preimage_mem_lineStab_D20 K d B⟩, beta_preimage_D20 K d B⟩
 
+omit [CharP K 2] in
 private lemma commutator_range_beta_le_D20 :
     ⁅(beta_D20 K d).range, (beta_D20 K d).range⁆ ≤ StatedSL d K := by
   intro x hx
@@ -266,6 +288,7 @@ private lemma commutator_range_beta_le_D20 :
     (Matrix.GeneralLinearGroup.det : GL (Fin d) K →* Kˣ) hx'
   simpa [Units.ext_iff] using MonoidHom.mem_ker.mp h1
 
+omit [CharP K 2] in
 private lemma isPerfect_statedSL_D20 (hK : 4 ≤ Nat.card K) (hd : 2 ≤ d) :
     Group.IsPerfect ↥(StatedSL d K) := by
   rcases Nat.lt_or_ge d 3 with hd3 | hd3
@@ -283,7 +306,7 @@ theorem nonempty_bar2_hinf_lineStab_statedSL (K : Type) [Field K] [Finite K] [Ch
     (hK : 4 ≤ Nat.card K) (d : ℕ) (hd : 2 ≤ d) :
     Nonempty (Bar2 (Hinf (lineStab (StatedSL (d + 1) K) (Pi.single 0 1))) ≃*
       ↥(StatedSL d K)) := by
-  haveI : Group.IsPerfect ↥(StatedSL d K) := isPerfect_statedSL_D20 K d hK hd
+  have : Group.IsPerfect ↥(StatedSL d K) := isPerfect_statedSL_D20 K d hK hd
   exact nonempty_bar2_hinf_equiv_of_leviHom (lineStab_D20 K d) (beta_D20 K d)
     (isPGroup_ker_beta_D20 K d) (StatedSL d K) (statedSL_le_range_D20 K d)
     (commutator_range_beta_le_D20 K d) (Subgroup.commutator_eq_self (H := StatedSL d K))

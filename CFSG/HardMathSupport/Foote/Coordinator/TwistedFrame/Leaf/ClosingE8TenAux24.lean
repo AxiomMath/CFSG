@@ -37,10 +37,10 @@ theorem ΨE_Uneg {u : ModGL Tag.E8 K} (hu : u ∈ Heis.Uneg Tag.E8 K) :
   unfold ΨE
   rw [hbc, ht]
 
-theorem exists_T3 (hK : Nat.card K = 2) :
+theorem exists_T3 (_hK : Nat.card K = 2) :
     ∃ ℓ : ModGL Tag.E8 K, ℓ ∈ TwClass.e8Ten.X₁ D ∧ ∃ c d z : D.L, c ≠ 0 ∧ d ≠ 0 ∧
       ΨE D ℓ = pinnedX Tag.E8 D.L vA6 c * pinnedX Tag.E8 D.L vA7 d * pinnedX Tag.E8 D.L vGc z := by
-  haveI hAC : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+  have hAC : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
   set S := toSetup D ⊥ with hS
   have ht : ((Pi.single 5 1 : Fin Tag.E8.rank → ℤ), (Pi.single 6 1 : Fin Tag.E8.rank → ℤ),
       (Pi.single 5 1 + Pi.single 6 1 : Fin Tag.E8.rank → ℤ)) ∈ a2Triples := by

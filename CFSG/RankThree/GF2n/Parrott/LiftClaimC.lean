@@ -13,22 +13,27 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {z : G}
 
+omit [Finite G] in
 theorem quotientV_mul_comm (h : Tim79a.ParrottHyp z) (a b : QuotientV.V z) : a * b = b * a :=
   (QuotientV.isMulCommutative_V h).is_comm.comm a b
 
+omit [Finite G] in
 theorem quotientV_mul_self (h : Tim79a.ParrottHyp z) (a : QuotientV.V z) : a * a = 1 := by
   have := QuotientV.pow_two_eq_one_V h a
   rwa [pow_two] at this
 
+omit [Finite G] in
 theorem pi_mk_mul_J (a b : G) (ha : a ∈ J z) (hb : b ∈ J z) :
     QuotientV.pi z ⟨a * b, (J z).mul_mem ha hb⟩ =
       QuotientV.pi z ⟨a, ha⟩ * QuotientV.pi z ⟨b, hb⟩ :=
   map_mul (QuotientV.pi z) (⟨a, ha⟩ : J z) ⟨b, hb⟩
 
+omit [Finite G] in
 theorem pi_mk_inv_J (a : G) (ha : a ∈ J z) :
     QuotientV.pi z ⟨a⁻¹, (J z).inv_mem ha⟩ = (QuotientV.pi z ⟨a, ha⟩)⁻¹ :=
   map_inv (QuotientV.pi z) (⟨a, ha⟩ : J z)
 
+omit [Finite G] in
 theorem conjV_conjV_of_sq_mem_J (h : Tim79a.ParrottHyp z) {x : G} (hxH : x ∈ H z)
     (hxx : x * x ∈ J z) (v : QuotientV.V z) :
     conjV h ⟨x, hxH⟩ (conjV h ⟨x, hxH⟩ v) = v := by
@@ -40,6 +45,7 @@ theorem conjV_conjV_of_sq_mem_J (h : Tim79a.ParrottHyp z) {x : G} (hxH : x ∈ H
   have h2 := congrArg (fun f : MulAut (QuotientV.V z) => f v) h1
   simpa using h2
 
+omit [Finite G] in
 theorem conjV_inv_of_sq_mem_J (h : Tim79a.ParrottHyp z) {x : G} (hxH : x ∈ H z)
     (hxx : x * x ∈ J z) (v : QuotientV.V z) :
     conjV h ⟨x⁻¹, (H z).inv_mem hxH⟩ v = conjV h ⟨x, hxH⟩ v := by
@@ -49,9 +55,11 @@ theorem conjV_inv_of_sq_mem_J (h : Tim79a.ParrottHyp z) {x : G} (hxH : x ∈ H z
   rw [h2, MulAut.inv_def, MulEquiv.symm_apply_eq]
   exact (conjV_conjV_of_sq_mem_J h hxH hxx v).symm
 
+omit [Finite G] in
 theorem inv_conj_mem_J {x : G} (hxH : x ∈ H z) {j : G} (hj : j ∈ J z) : x⁻¹ * j * x ∈ J z := by
   simpa using H_conj_mem_J (⟨x⁻¹, (H z).inv_mem hxH⟩ : ↥(H z)) hj
 
+omit [Finite G] in
 theorem pi_mk_conj_inv (h : Tim79a.ParrottHyp z) {x : G} (hxH : x ∈ H z) (j : G) (hj : j ∈ J z) :
     QuotientV.pi z ⟨x⁻¹ * j * x, inv_conj_mem_J hxH hj⟩ =
       conjV h ⟨x⁻¹, (H z).inv_mem hxH⟩ (QuotientV.pi z ⟨j, hj⟩) := by
@@ -60,6 +68,7 @@ theorem pi_mk_conj_inv (h : Tim79a.ParrottHyp z) {x : G} (hxH : x ∈ H z) (j : 
   apply Subtype.ext
   simp
 
+omit [Finite G] in
 theorem pi_mk_conj (h : Tim79a.ParrottHyp z) {x : G} (hxH : x ∈ H z) (j : G) (hj : j ∈ J z) :
     QuotientV.pi z ⟨x * j * x⁻¹, H_conj_mem_J (⟨x, hxH⟩ : ↥(H z)) hj⟩ =
       conjV h ⟨x, hxH⟩ (QuotientV.pi z ⟨j, hj⟩) :=
@@ -111,6 +120,7 @@ theorem exists_lift_sq_mem_centerIn (h : Tim79a.ParrottHyp z) (x₀ : ↥(H z))
     _ = QuotientV.pi z ⟨x * x, hxx⟩ * QuotientV.pi z ⟨x * x, hxx⟩ := by rw [hu']
     _ = 1 := quotientV_mul_self h _
 
+omit [Finite G] in
 theorem centerIn_J_comm_H (hZ : centerIn (J z) = centerIn (H z)) {c g : G}
     (hc : c ∈ centerIn (J z)) (hg : g ∈ H z) : g * c = c * g := by
   have hc' : c ∈ centerIn (H z) := hZ ▸ hc
@@ -180,9 +190,10 @@ theorem exists_comm_mod_centerIn (h : Tim79a.ParrottHyp z) (hZ : centerIn (J z) 
   have hw' : σ (QuotientV.pi z j) * (QuotientV.pi z j)⁻¹ = QuotientV.pi z ⟨u, huJ⟩ := hw
   rw [key, hcj, ← hw', inv_mul_cancel_left, inv_mul_cancel]
 
-theorem commutatorElement_mul_mul_of_commute {a b c₁ c₂ : G} (h1a : Commute c₁ a)
+omit [Finite G] in
+theorem commutatorElement_mul_mul_of_commute {a b c₁ c₂ : G} (_h1a : Commute c₁ a)
     (h1b : Commute c₁ b)
-    (h2a : Commute c₂ a) (h2b : Commute c₂ b) (h12 : Commute c₁ c₂) :
+    (h2a : Commute c₂ a) (_h2b : Commute c₂ b) (h12 : Commute c₁ c₂) :
     ⁅a * c₁, b * c₂⁆ = ⁅a, b⁆ := by
   rw [commutatorElement_def, commutatorElement_def]
   have e1 : c₁ * b = b * c₁ := h1b.eq
@@ -198,6 +209,7 @@ theorem commutatorElement_mul_mul_of_commute {a b c₁ c₂ : G} (h1a : Commute 
     _ = a * b * (a⁻¹ * c₂) * c₂⁻¹ * b⁻¹ := by rw [e3]
     _ = a * b * a⁻¹ * b⁻¹ := by group
 
+omit [Finite G] in
 theorem inv_mul_mul_of_comm_mod {x g c : G} (e : x⁻¹ * (g⁻¹ * x * g) = c) :
     x⁻¹ * g * x = g * c⁻¹ := by
   have h1 : g⁻¹ * x * g = x * c := by rw [← e]; group
@@ -209,6 +221,7 @@ theorem inv_mul_mul_of_comm_mod {x g c : G} (e : x⁻¹ * (g⁻¹ * x * g) = c) 
     _ = x⁻¹ * (x * g) * c⁻¹ := by rw [← h2]
     _ = g * c⁻¹ := by group
 
+omit [Finite G] in
 theorem mul_comm_commutator_of_comm_mod_centerIn (hZ : centerIn (J z) = centerIn (H z))
     {x g₁ g₂ c₁ c₂ : G} (hg₁H : g₁ ∈ H z) (hg₂H : g₂ ∈ H z)
     (hc₁ : c₁ ∈ centerIn (J z)) (hc₂ : c₂ ∈ centerIn (J z))
@@ -332,6 +345,7 @@ theorem exists_commuting_lift_sq_mem_centerIn (h : Tim79a.ParrottHyp z)
       _ = QuotientV.pi z ⟨y₂ * y₂, hsJ⟩ * QuotientV.pi z ⟨y₂ * y₂, hsJ⟩ := by rw [hwτ]
       _ = 1 := quotientV_mul_self h _
 
+omit [Finite G] in
 theorem inv_mul_mul_mem_J_of_commutator_mem_J {x g : G} (hxH : x ∈ H z) (hgH : g ∈ H z)
     (hg : ⁅x, g⁆ ∈ J z) : x⁻¹ * (g⁻¹ * x * g) ∈ J z := by
   have hgx : g * x ∈ H z := (H z).mul_mem hgH hxH

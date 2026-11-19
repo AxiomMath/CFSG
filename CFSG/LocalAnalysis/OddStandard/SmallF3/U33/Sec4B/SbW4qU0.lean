@@ -10,9 +10,11 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau : G}
 
+omit [Finite G] in
 theorem w4q_O_le_U (t tau x₁ x₂ lam : G) : ctxO t tau x₁ x₂ ≤ ctxU t tau x₁ x₂ lam :=
   le_sup_left
 
+omit [Finite G] in
 theorem w4q_lam_mem_U (t tau x₁ x₂ lam : G) : lam ∈ ctxU t tau x₁ x₂ lam :=
   Subgroup.mem_sup_right (Subgroup.mem_zpowers lam)
 

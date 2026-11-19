@@ -29,7 +29,7 @@ private theorem isPGroup_le_inn_of_isPGroup_outer_two {R : Type} [Group R] [Fini
     (h2 : IsPGroup 2 (Outer R)) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {E : Subgroup (MulAut R)} (hEp : IsPGroup p E) :
     E ≤ (MulAut.conj : R →* MulAut R).range := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let π : MulAut R →* Outer R := QuotientGroup.mk' _
   have hmap : IsPGroup p (E.map π) := hEp.map π
   have hdisj : Disjoint (E.map π) (⊤ : Subgroup (Outer R)) :=
@@ -45,11 +45,11 @@ private theorem isPGroup_le_inn_of_isPGroup_outer_two {R : Type} [Group R] [Fini
   exact (QuotientGroup.eq_one_iff x).mp hxker
 
 private theorem isPGroup_le_inn_of_pow_three_mem {R : Type} [Group R]
-    {I N : Subgroup (MulAut R)} [N.Normal] (hNI : N ≤ I)
+    {I N : Subgroup (MulAut R)} [N.Normal] (_hNI : N ≤ I)
     (h3 : ∀ x ∈ I, x ^ 3 ∈ N) {p : ℕ} (hp : p.Prime) (hp3 : p ≠ 3)
     {E : Subgroup (MulAut R)} (hE : E ≤ I) (hEp : IsPGroup p E) : E ≤ N := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hP3 : IsPGroup 3 (I ⧸ N.subgroupOf I) := by
     intro x
     induction x using QuotientGroup.induction_on with
@@ -90,7 +90,7 @@ private theorem chevIDImage_E6_odd_subset
 
 theorem rk2_inndiagExc_E6
     {lab : GLALabel} (hlab : GLAInLambda2 lab) (ht : lab.tag = .E6)
-    {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hpd : ¬ p ∣ rk2DiagIndex lab) :
+    {p : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2) (hpd : ¬ p ∣ rk2DiagIndex lab) :
     Rk2LabelAll lab fun R _ I _ => ∀ E : Subgroup (MulAut R),
       E ≤ Subgroup.closure (I ∪ Set.range (MulAut.conj : R →* MulAut R)) → IsPGroup p E →
         E ≤ (MulAut.conj : R →* MulAut R).range := by
@@ -139,7 +139,7 @@ section TwE6Certs
 
 theorem rk2_inndiagExc_twE6
     {lab : GLALabel} (hlab : GLAInLambda2 lab) (ht : lab.tag = .twE6)
-    {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hpd : ¬ p ∣ rk2DiagIndex lab) :
+    {p : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2) (hpd : ¬ p ∣ rk2DiagIndex lab) :
     Rk2LabelAll lab fun R _ I _ => ∀ E : Subgroup (MulAut R),
       E ≤ Subgroup.closure (I ∪ Set.range (MulAut.conj : R →* MulAut R)) → IsPGroup p E →
         E ≤ (MulAut.conj : R →* MulAut R).range := by
@@ -194,7 +194,7 @@ theorem rk2_inndiagExc_B2der {lab : GLALabel} (hlab : GLAInLambda2 lab)
   dsimp only [GLARawDatum, CFSG.Assembly.LargeEvenRawDatum] at hQ ⊢
   obtain ⟨K, hF, hFin, hK, hQK⟩ := hQ
   let R := LargeEvenProj ⁅LargeEvenSpGroup K 2, LargeEvenSpGroup K 2⁆
-  haveI : Finite R := by
+  have : Finite R := by
     obtain ⟨e⟩ := nonempty_b2der_equiv_alternatingGroup hK
     exact Finite.of_injective (fun x : R => e x) e.injective
   refine ⟨K, hF, hFin, hK, hQK, ?_⟩
@@ -219,7 +219,7 @@ theorem rk2_inndiagExc_G2der
   obtain ⟨K, hF, hFin, hK, hQK⟩ := hQ
   let H := LargeEvenChevH (LargeEvenCartanG2) K true
   let R := LargeEvenCenterQuot H
-  haveI : Finite R := by
+  have : Finite R := by
     obtain ⟨e⟩ := TableBExcSmallRest.nonempty_g2der_equiv_su3 K hK
     exact Finite.of_injective (fun x : R => e x) e.injective
   refine ⟨K, hF, hFin, hK, hQK, ?_⟩
@@ -256,7 +256,7 @@ theorem rk2_inndiagExc_twF4der {lab : GLALabel} (hlab : GLAInLambda2 lab)
     rw [hK]
     norm_num
   let R := LargeEvenCenterQuot (LargeEvenTwF4H 0 K)
-  haveI : Finite R := by
+  have : Finite R := by
     have hm : CFSG.Blueprint.ReeTitsModel R .Tits 2 1 :=
       ⟨⟨Nat.prime_two, le_rfl, rfl, rfl, rfl⟩, 0, rfl, reeTitsRelationModel_largeEven 0 hK2⟩
     obtain ⟨e⟩ := CFSG.Sporadic.Schreier.Tits.titsModelEquiv _ 2 1 hm

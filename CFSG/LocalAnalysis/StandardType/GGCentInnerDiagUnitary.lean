@@ -129,7 +129,7 @@ private theorem guFull_eq_primeFormUnitary {m Q p f : ℕ} {E : Type} [Field E]
       (CFSG.LocalAnalysis.ComponentInitial.UnitaryHigher.primeFormUnitary h
         (1 : Matrix (Fin m) (Fin m) E) : Set (GL (Fin m) E)) := by
     ext A
-    rw [Set.mem_setOf_eq, SetLike.mem_coe,
+    rw [Set.mem_ofPred_eq, SetLike.mem_coe,
       CFSG.LocalAnalysis.ComponentInitial.UnitaryHigher.mem_primeFormUnitary]
     have hmap : (A : Matrix (Fin m) (Fin m) E).map (· ^ Q) =
         (A : Matrix (Fin m) (Fin m) E).map h.bar := by

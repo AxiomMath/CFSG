@@ -39,8 +39,8 @@ theorem D2L34SideCtx3.exists_center3_of_center3Conclusion
   obtain ⟨hPM, -⟩ := sylow_le_of_isCoreMaxLocal h.setting h.sigma h.core
   have hPidx : ¬ 3 ∣ ((P : Subgroup G).subgroupOf M).index := fun hd =>
     P.not_dvd_index (hd.trans (Subgroup.relIndex_dvd_index_of_le hPM))
-  obtain ⟨g, hgM, hgP⟩ := exists_conj_map_le_of_isPGroup hPM P.isPGroup' hPidx hWM hWp
-  obtain ⟨g', hg'M, hg'W⟩ := exists_conj_map_le_of_isPGroup hWM hWp hWidx hPM P.isPGroup'
+  obtain ⟨g, hgM, hgP⟩ := exists_conj_map_le_of_isPGroup hPM P.isPGroup hPidx hWM hWp
+  obtain ⟨g', hg'M, hg'W⟩ := exists_conj_map_le_of_isPGroup hWM hWp hWidx hPM P.isPGroup
   have hcard1 : Nat.card (W.map (MulAut.conj g).toMonoidHom) = Nat.card W :=
     Subgroup.card_map_of_injective (MulAut.conj g).injective
   have hcard2 : Nat.card ((P : Subgroup G).map (MulAut.conj g').toMonoidHom) =
@@ -115,7 +115,7 @@ theorem D2L34SideCtx3.hasGoodE9_sylow (h : D2L34SideCtx3 G d P M A H R Rbar K) {
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set D : Subgroup G := (S : Subgroup ↥C).map C.subtype with hD
   have hDC : D ≤ C := Subgroup.map_subtype_le _
-  have hDp : IsPGroup 3 D := S.isPGroup'.map _
+  have hDp : IsPGroup 3 D := S.isPGroup.map _
   obtain ⟨W, hWM, hWp, hWidx, hDW⟩ := exists_sylow_le (hDC.trans hCM) hDp
   have hWC : W ⊓ C = D := by
     have hle : (S : Subgroup ↥C) ≤ (W ⊓ C).subgroupOf C := fun x hx =>
@@ -201,7 +201,7 @@ theorem ffNoncyclicInput3W_of_nodes
     have hCn : ((ffC M T).subgroupOf M).Normal := centralizer_inf_subgroupOf_normal hU hMN
     obtain ⟨B, hBM, hBN, hfac⟩ := exists_factorization_of_pairData3_of_good hc hR9 ctx.normRankTwo
       hT hNT hMN hI hcard hSylB hJM hdat (D := (S : Subgroup ↥(ffC M T)).map (ffC M T).subtype)
-      (Subgroup.map_subtype_le _) (S.isPGroup'.map _) hS (ctx.hasGoodE9_sylow hCM hCn S hS)
+      (Subgroup.map_subtype_le _) (S.isPGroup.map _) hS (ctx.hasGoodE9_sylow hCM hCn S hS)
     obtain ⟨hC₁1, hC₁2, hC₂1, hC₂2, hT₁, hT₂, hCM₁, -, -⟩ := hdat
     obtain ⟨W, hWM, hWp, hWidx, E, hEW, hEel, hE9, hEC⟩ :=
       exists_center3_of_factorization3W ctx hR9 hcon hT hNT S hS hC₁1 hC₁2 hC₂1 hC₂2 hT₁ hT₂

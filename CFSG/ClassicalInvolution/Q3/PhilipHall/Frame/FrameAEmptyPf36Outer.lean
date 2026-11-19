@@ -213,7 +213,7 @@ theorem sq_mem_trivialOnQuot_of_innerOn {u : G} (hu : u ∈ Subgroup.normalizer 
     rw [e1, map_mul, h1, ← map_mul, map_one]
     apply MulEquiv.ext
     intro y
-    simp only [MulAut.conj_apply, inv_one, mul_one, one_mul]
+    simp only [MulAut.conj_apply]
     set q : Kbar K := QuotientGroup.mk ⟨k, hk⟩ with hq
     have hc : (q * q) * y = y * (q * q) := by
       apply e.injective

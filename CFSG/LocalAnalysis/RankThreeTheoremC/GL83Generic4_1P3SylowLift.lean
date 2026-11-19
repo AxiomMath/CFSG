@@ -49,7 +49,7 @@ theorem r1s_normalizer_data {P : Sylow 3 G} {M : Subgroup G} {x : G}
   have hAJ : A ≤ J := inf_le_right
   have hAC : A ≤ C := hAJ.trans hJC
   set K' : Subgroup C := A.subgroupOf C with hK'
-  have hK'p : IsPGroup 3 K' := (P.isPGroup'.to_le inf_le_left).comap_subtype
+  have hK'p : IsPGroup 3 K' := (P.isPGroup.to_le inf_le_left).comap_subtype
   have hSylJ : IsSylowOf 3 A J := by
     have h := hgen.2.2.1.inf_of_le_normalizer hJC hCJ
     have hPJ : ((P : Subgroup G) ⊓ C) ⊓ J = (P : Subgroup G) ⊓ J := by

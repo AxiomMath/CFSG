@@ -72,7 +72,7 @@ theorem card_le_of_centralizes_quot (C : Cfg611 G A c L E T d S K)
     CFSG.RankThreeEvenClassification.Helpers.exists_normalized_sylow_in_prime_complement_subgroup
       3 Nat.prime_three Z N (Sec5.isPGroup_of_isElemAbelian hZe) hN3 hZN 2 Nat.prime_two
   set RG := (R : Subgroup N).map N.subtype with hRG
-  have hRG2 : IsPGroup 2 RG := R.isPGroup'.map N.subtype
+  have hRG2 : IsPGroup 2 RG := R.isPGroup.map N.subtype
   have hRG1 : RG ≠ ⊥ := by
     intro hbot
     have hxN : (x : G) ∈ N := Subgroup.mem_sup_left (Subgroup.mem_zpowers _)

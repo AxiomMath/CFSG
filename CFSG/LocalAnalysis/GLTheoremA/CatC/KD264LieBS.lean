@@ -45,7 +45,7 @@ private theorem kd264BS_stab (hp : p.Prime) (hA : IsElemAbelian p A)
   have hJa : J.map a.toMonoidHom ≠ J := hnot
   have hβp : β ^ p = 1 := hA.2 β hβA
   have hap : a ^ p = 1 := hA.2 a ha
-  haveI : IsMulCommutative ↥A := hA.1
+  have : IsMulCommutative ↥A := hA.1
   have hcomm : a * β = β * a := by
     have hc := mul_comm' (⟨a, ha⟩ : A) (⟨β, hβA⟩ : A)
     exact congrArg Subtype.val hc
@@ -85,7 +85,7 @@ private theorem kd264BS_ker_eq (hp : p.Prime) (hA : IsElemAbelian p A)
   have hperfJ : Group.IsPerfect ↥J :=
     Subgroup.isPerfect_iff.mpr (CFSG.LocalAnalysis.GLTheoremB.glaPComponent_perfect hJ)
   have hβp : β ^ p = 1 := hA.2 β hβA
-  haveI : IsMulCommutative ↥A := hA.1
+  have : IsMulCommutative ↥A := hA.1
   have hzple : Subgroup.zpowers (⟨β, hβA⟩ : A) ≤
       (kd264BS_phi (A := A) (J := J) hstab).ker := by
     apply Subgroup.zpowers_le.2
@@ -146,8 +146,8 @@ private theorem kd264BS_D_noGood (hp : p.Prime) (hA : IsElemAbelian p A)
     ∀ d ∈ (kd264BS_phi (A := A) (J := J) hstab).range.map
         (MulAut.congr eJ).toMonoidHom, d ≠ 1 →
       GLAPLayer p (fixSubgroup d) = ⊥ := by
-  haveI : Finite i.Group := Finite.of_equiv _ eJ.toEquiv
-  haveI : IsMulCommutative ↥A := hA.1
+  have : Finite i.Group := Finite.of_equiv _ eJ.toEquiv
+  have : IsMulCommutative ↥A := hA.1
   intro d hdD hd1
   obtain ⟨c, hc, hdc⟩ := Subgroup.mem_map.1 hdD
   obtain ⟨a, rfl⟩ := hc
@@ -189,12 +189,12 @@ private theorem kd264BS_D_noGood (hp : p.Prime) (hA : IsElemAbelian p A)
   rw [glaPLayer_fixSubgroup_congr hp eJ ((kd264BS_phi (A := A) (J := J) hstab) a), hgoodφ,
     Subgroup.map_bot]
 
-theorem kd264BS_of_excNoGood {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
+theorem kd264BS_of_excNoGood {p : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2)
     (hExc : KD264ExcNoGood p) : KD264BS p := by
   intro S _ _ A hA hAcard hnoGood β hβA hβ1 J hJ hpJ i heJ
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsMulCommutative ↥A := hA.1
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsMulCommutative ↥A := hA.1
   have hstab := kd264BS_stab (p := p) hp hA hnoGood hβA hβ1 hJ
   let φ := kd264BS_phi (A := A) (J := J) hstab
   have hker := kd264BS_ker_eq (p := p) hp hA hnoGood hβA hβ1 hJ hstab hpJ
@@ -231,7 +231,7 @@ theorem kd264BS_of_excNoGood {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
   refine ⟨hstab, ⟨D, hDel, hAcardD⟩, ?_⟩
   intro e hi hchar
   subst i
-  haveI : Finite (TauCeti.CFSGIndex.lie e).Group := Finite.of_equiv _ eJ.toEquiv
+  have : Finite (TauCeti.CFSGIndex.lie e).Group := Finite.of_equiv _ eJ.toEquiv
   have hp_dvd : p ∣ Nat.card (TauCeti.CFSGIndex.lie e).Group := by
     have hdvd := CFSG.LocalAnalysis.RankThreeTheoremC.InnerQ.ResidueJZero.dvd_card_quotient_center_of_perfect
       (Y := ↥J) hperfJ.commutator_eq_top (p := p) hpJ

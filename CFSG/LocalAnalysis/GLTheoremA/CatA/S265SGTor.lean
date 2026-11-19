@@ -17,7 +17,7 @@ theorem false_of_torusLift {Ω : Type} [Group Ω] [Finite Ω] {S B T : Subgroup 
     (hT : CFSG.StandardType.LargeEvenLabelAll lab fun R _ _ _ =>
       CFSG.StandardType.GGTorusLift 3 r R) : False := by
   have hc := h.cfg
-  haveI : Fact (Nat.Prime 3) := ⟨hc.prime⟩
+  have : Fact (Nat.Prime 3) := ⟨hc.prime⟩
   obtain ⟨hcomm, lab', -, hraw⟩ := hlab
   obtain ⟨-, -, -, -, -, -, -, hl⟩ := CFSG.StandardType.Canonical.largeEvenRawDatum_exists hraw
   subst hl

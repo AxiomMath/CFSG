@@ -47,7 +47,7 @@ theorem mem_pCoreOf_of_actTil_eq_one {D : Data G} {V₀ V : Subgroup G} (hV : Hy
     rcases Subgroup.Normal.eq_bot_or_eq_top ψ.ker with hbot | htop
     · exact hbot
     · exfalso
-      haveI : Nontrivial ↥(barSub V₀ V hV.isElemAbelian X) :=
+      have : Nontrivial ↥(barSub V₀ V hV.isElemAbelian X) :=
         (Subgroup.nontrivial_iff_ne_bot _).2 hX1
       obtain ⟨y, hy1⟩ := exists_ne (1 : ↥(barSub V₀ V hV.isElemAbelian X))
       obtain ⟨a, ha⟩ := hψ y

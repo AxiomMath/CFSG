@@ -59,11 +59,11 @@ theorem mask_testBit {H B e : Nat}
   rw [← beq_bit, h1, Nat.beq_eq]
 
 theorem round_step {x H B e s : Nat} {m : Nat}
-    (hx : ∀ q, x.testBit q = true ↔ ∃ p, (p < 4096 ∧ m.testBit p = true) ∧ q = posF B p)
-    (hH : allN 4096 (fun p => Nat.beq (Nat.land (Nat.shiftRight H (posF B p)) 1) (p / e % 2)) = true)
-    (hpos : ∀ p, (p / e % 2 = 1 → posF e p = posF B p + s) ∧ (¬ p / e % 2 = 1 → posF e p = posF B p)) :
-    ∀ q, (roundK H s x).testBit q = true ↔ ∃ p, (p < 4096 ∧ m.testBit p = true) ∧ q = posF e p :=
-  roundK_testBit hx (fun p hp => mask_testBit hH hp.1) (fun p _ => hpos p)
+    (hx : ∀ q, x.testBit q = true ↔ ∃ _p, (_p < 4096 ∧ m.testBit _p = true) ∧ q = posF B _p)
+    (hH : allN 4096 (fun _p => Nat.beq (Nat.land (Nat.shiftRight H (posF B _p)) 1) (_p / e % 2)) = true)
+    (hpos : ∀ _p, (_p / e % 2 = 1 → posF e _p = posF B _p + s) ∧ (¬ _p / e % 2 = 1 → posF e _p = posF B _p)) :
+    ∀ q, (roundK H s x).testBit q = true ↔ ∃ _p, (_p < 4096 ∧ m.testBit _p = true) ∧ q = posF e _p :=
+  roundK_testBit hx (fun _p hp => mask_testBit hH hp.1) (fun _p _ => hpos _p)
 
 theorem testBit_ge {m k q : Nat} (hm : m < 2 ^ k) (hq : k ≤ q) : m.testBit q = false :=
   Nat.testBit_lt_two_pow (lt_of_lt_of_le hm (Nat.pow_le_pow_right (by norm_num) hq))
@@ -114,7 +114,7 @@ theorem testBit_sum_pow {f : Nat → Nat} : ∀ m, (∀ i, i + 1 < m → f i < f
     refine ⟨fun q => ?_, fun _ => ?_⟩
     · rw [hs, Nat.testBit_two_pow_mul_add _ hlt]
       by_cases hq : q < f m
-      · rw [if_pos hq, A]
+      · rw [ite_eq_left hq, A]
         constructor
         · rintro ⟨i, hi, rfl⟩
           exact ⟨i, by omega, rfl⟩
@@ -122,7 +122,7 @@ theorem testBit_sum_pow {f : Nat → Nat} : ∀ m, (∀ i, i + 1 < m → f i < f
           rcases Nat.lt_succ_iff_lt_or_eq.1 hi with hi | rfl
           · exact ⟨i, hi, rfl⟩
           · omega
-      · rw [if_neg hq, Nat.testBit_two_pow]
+      · rw [ite_eq_right hq, Nat.testBit_two_pow]
         have hno : ¬ ∃ i < m, f i = q := by
           rintro ⟨i, hi, rfl⟩
           have h1 := (A (f i)).2 ⟨i, hi, rfl⟩

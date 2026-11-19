@@ -25,8 +25,8 @@ theorem s16k_false_of_l32 (h : S16gRowCtx D V₀ V L hV)
   have hp2 : p ≠ 2 := (D.sig_prime p hpσ).2
   obtain ⟨Q, hQc, hQf, L', N, h2, hcard, ⟨e⟩, hirrImp, hnorm, hrk, -⟩ :=
     s16k_exists_quot_data h
-  letI := hQc
-  letI := hQf
+  let := hQc
+  let := hQf
   have hQ8 : Nat.card Q = 2 ^ 8 := by rw [hcard, hm]
   have hirrQ := hirrImp hirr
   have hshape : IsL3 ↥L' 1 := CFSG.Blueprint.LieModel.of_mulEquiv e hS

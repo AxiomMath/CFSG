@@ -68,8 +68,8 @@ theorem P9_Wa_twA_false
     (hWord : Nat.card W = if n = 7 then 23040 else 2903040) : False := by
   obtain ⟨k, F, hfield, hfin, θ, -, hF, hk, hTB, hrk⟩ :=
     P9_Wa_tbGroup_twA hBs hcard hn hz hz1 hN hker hBstar hS hK
-  letI := hfield
-  letI := hfin
+  let := hfield
+  let := hfin
   have hzK : z ∈ Subgroup.centralizer (K : Set G) := by
     have hmem : z ∈ Bs ⊓ Subgroup.centralizer (K : Set G) := by
       rw [hker]

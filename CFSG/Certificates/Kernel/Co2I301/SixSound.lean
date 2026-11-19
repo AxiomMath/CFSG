@@ -241,9 +241,9 @@ theorem r7_wL {PI PII : ℕ → ℕ} {π : ℕ → Equiv.Perm (Fin 63)} (hPI : �
   unfold wL letterPerm
   rw [e1, e2]
   by_cases h : c % 2 = 0
-  · rw [if_pos h, show Nat.beq (c % 2) 0 = true by rw [h]; rfl]
+  · rw [ite_eq_left h, show Nat.beq (c % 2) 0 = true by rw [h]; rfl]
     exact hPI _ (by omega)
-  · rw [if_neg h, show Nat.beq (c % 2) 0 = false from beq_false h]
+  · rw [ite_eq_right h, show Nat.beq (c % 2) 0 = false from beq_false h]
     exact hPII _ (by omega)
 
 theorem r7_wP {PI PII : ℕ → ℕ} {π : ℕ → Equiv.Perm (Fin 63)} (hPI : ∀ g < 2, R7 (PI g) (π g))

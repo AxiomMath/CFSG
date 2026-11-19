@@ -85,7 +85,7 @@ theorem frame_arch76Lemma4
     (hAnn1 : ¬ IsConj F.dA.toConfig.w ((F.dA.toConfig.x * F.dA.toConfig.y) ^ 2))
     (S : Sylow 2 G) (hTS : F.A ⊔ Subgroup.closure {F.dA.uv, F.dA.t, F.dA.u} ≤ S) :
     F.A ⊔ Subgroup.closure {F.dA.uv, F.dA.t, F.dA.u} ≠ S := by
-  haveI := F.simple
+  have := F.simple
   obtain ⟨hfusE, -, -, hfusW, -, -⟩ := frame_fusion F
   exact arch76Lemma4 F.dA.toConfig (frame_nonab F) (Or.inr rfl) hfusE hfusW hAnn1 S hTS
 

@@ -626,7 +626,7 @@ theorem square_class_dichotomy_uniform (τ : StrothTypeIndex) (hk : ∀ i, 2 ≤
       ((theta_matAct_iff_of_modEq_two (s + 1) hm2
         (StrothTypeIndex.t101 s).action.compat_ρ (Type100.compat_rho (s + 1)) hρ' q).mp hρ)
   | t110 t =>
-    have hm2 : 2 ≤ t + 2 := by simpa [StrothTypeIndex.k, Type110.k] using hk 0
+    have hm2 : 2 ≤ t + 2 := by simp
     obtain ⟨huv', ht', hu', hρ'⟩ := modTwo_t110 t
     exact square_class_dichotomy (t + 2) hm2 q
       ((theta_matAct_iff_of_modEq_two (t + 2) hm2
@@ -638,7 +638,7 @@ theorem square_class_dichotomy_uniform (τ : StrothTypeIndex) (hk : ∀ i, 2 ≤
       ((theta_matAct_iff_of_modEq_two (t + 2) hm2
         (StrothTypeIndex.t110 t).action.compat_ρ (Type100.compat_rho (t + 2)) hρ' q).mp hρ)
   | t111 t =>
-    have hm2 : 2 ≤ t + 2 := by simpa [StrothTypeIndex.k, Type111.k] using hk 0
+    have hm2 : 2 ≤ t + 2 := by simp
     obtain ⟨huv', ht', hu', hρ'⟩ := modTwo_t111 t
     exact square_class_dichotomy (t + 2) hm2 q
       ((theta_matAct_iff_of_modEq_two (t + 2) hm2
@@ -798,7 +798,7 @@ theorem action_rho_eq_type100 (τ : StrothTypeIndex) (hrel : τ.m + 1 = τ.n) :
     exfalso
     simp [StrothTypeIndex.m, StrothTypeIndex.n, StrothTypeIndex.k, Type331.k] at hrel
 
-theorem map_rho_sub_omegaOne (m : ℕ) (hm : 2 ≤ m) :
+theorem map_rho_sub_omegaOne (m : ℕ) (_hm : 2 ≤ m) :
     AddSubgroup.map ((Type100.action m).φρ - AddMonoidHom.id (Torus (Type100.k m)))
       (AddSubgroup.closure ({ (2 : ℤ) • Torus.c, (2 : ℤ) ^ m • Torus.a,
         (2 : ℤ) ^ m • Torus.b } : Set (Torus (Type100.k m))))
@@ -850,7 +850,7 @@ theorem map_rho_sub_omegaOne (m : ℕ) (hm : 2 ≤ m) :
     apply Torus.ofInt_eq_zero_iff.mpr
     intro i
     fin_cases i <;>
-      simp [Type100.ρM, Matrix.mulVec, dotProduct, Fin.sum_univ_three]
+      simp [Type100.ρM]
   have hfa : f ((2 : ℤ) ^ m • Torus.a) =
       (2 : ℤ) ^ m • Torus.b - (2 : ℤ) ^ m • Torus.a := by
     calc f ((2 : ℤ) ^ m • Torus.a)
@@ -864,7 +864,7 @@ theorem map_rho_sub_omegaOne (m : ℕ) (hm : 2 ≤ m) :
           congr 1
           funext i
           fin_cases i <;>
-            simp [Type100.ρM, Matrix.mulVec, dotProduct, Fin.sum_univ_three]
+            simp [Type100.ρM]
       _ = (2 : ℤ) ^ m • Torus.b - (2 : ℤ) ^ m • Torus.a := by
           rw [hb_coord, ha_coord]
   have hfb : f ((2 : ℤ) ^ m • Torus.b) = -((2 : ℤ) ^ m • Torus.a) := by
@@ -878,7 +878,7 @@ theorem map_rho_sub_omegaOne (m : ℕ) (hm : 2 ≤ m) :
           apply Torus.ofInt_eq_ofInt_iff.mpr
           intro i
           fin_cases i <;>
-            simp [Type100.ρM, Matrix.mulVec, dotProduct, Fin.sum_univ_three, Type100.k]
+            simp [Type100.ρM, Type100.k]
           · rw [Int.modEq_zero_iff_dvd]
             exact dvd_neg.mpr (dvd_mul_right ((2 : ℤ) ^ m) 2)
           · rw [Int.modEq_zero_iff_dvd]

@@ -16,7 +16,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem exists_orderOf_three_of_isL2Quot {L : Subgroup G} {n : ℕ} (hn : 1 ≤ n)
     (hL : IsL2Quot n (oTwoQuot ↥L)) : ∃ x ∈ L, orderOf x = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcard : Nat.card ↥L = Nat.card (oTwoQuot ↥L) * Nat.card (pCore 2 ↥L) :=
     Subgroup.card_eq_card_quotient_mul_card_subgroup (pCore 2 ↥L)
   have h3 : 3 ∣ 4 ^ n - 1 := by

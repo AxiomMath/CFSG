@@ -100,7 +100,7 @@ theorem s16h_exists_mul_mem_of_isSylowOf {G : Type*} [Group G] [Finite G]
     ∀ x ∈ X, ∃ h ∈ H, ∃ n ∈ Subgroup.normalizer (R : Set G), h * n = x := by
   intro x hx
   let N : Subgroup X := H.subgroupOf X
-  haveI hN : N.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hHX).mpr hXH
+  have hN : N.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hHX).mpr hXH
   obtain ⟨Q, hQ⟩ := hR.exists_sylow_eq_subgroupOf
   let e : H ≃* N := (Subgroup.subgroupOfEquivOfLe hHX).symm
   let P : Sylow p N := Sylow.mapSurjective (f := e.toMonoidHom) (EquivLike.surjective e) Q

@@ -103,7 +103,7 @@ theorem outer_involution_moves_order_three (hK : Nat.card K = 8)
     (hσ : σ ∉ innerAut (StatedProj (StatedSp 2 K))) {s : StatedProj (StatedSp 2 K)}
     (hs3 : s ^ 3 = 1) (hs1 : s ≠ 1) : σ s ≠ s := by
   intro hfix
-  haveI : CharP K 2 := charP_two_of_card_eight hK
+  have : CharP K 2 := charP_two_of_card_eight hK
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hK3 : Nat.card K = 2 ^ (2 * 1 + 1) := by rw [hK]; norm_num
@@ -163,6 +163,7 @@ section SpFour
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem fieldCoreAt_fieldAut_sp_two_eight (hK : Nat.card K = 8) {σ : K ≃+* K}
     (hσ : orderOf σ = 3) : FieldCoreAt 3 (fieldAut 2 K σ) := by
   have hK' : Nat.card K = 2 ^ 3 := by rw [hK]; norm_num
@@ -183,7 +184,7 @@ theorem fieldCoreAt_fieldAut_sp_two_eight (hK : Nat.card K = 8) {σ : K ≃+* K}
 theorem isLocallyBalancedAbs_one_psp_three_eight_two
     (hK : Nat.card K = 8) : IsLocallyBalancedAbs 3 1 (StatedProj (StatedSp 2 K)) := by
   classical
-  haveI : CharP K 2 := charP_two_of_card_eight hK
+  have : CharP K 2 := charP_two_of_card_eight hK
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hK' : Nat.card K = 2 ^ 3 := by rw [hK]; norm_num
   have hinj := CFSG.RankThree.PartOne.KCSpFull.spConj_injective Nat.prime_two (by norm_num)

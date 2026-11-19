@@ -17,13 +17,13 @@ theorem Ctx.relIndex_LB_CN_sp (h34 : Stroth34Statement) (hc : Ctx M Q Z B) {n m 
     (hc.CN t).relIndex (LB M Q B) = Nat.card Z ^ (2 * m - 1) := by
   have hRoot : Stroth310RootStatement := stroth310Root_of_34 h34
   obtain ⟨K, iF, iFin, hK, φ, hφ, hker, hact⟩ := hV
-  letI := iF
-  letI := iFin
-  haveI : CharP K 2 := by
+  let := iF
+  let := iFin
+  have : CharP K 2 := by
     obtain ⟨e, -, he, -⟩ := hc.hyp.cp
     exact charP_two_of_card_eq_two_pow (hK.trans he)
   obtain ⟨-, hn, ψ, hψ⟩ := hact
-  haveI := hn
+  have := hn
   obtain ⟨u, hu0, -, hL, -⟩ :=
     Ctx.sp_points_core h34 hRoot hc hs hK hm φ hφ hker ψ hψ
   rw [← HS6.card_map_LB_eq_relIndex hc hs.mem φ hker, hL, CFSG.ClassicalGroups.Symplectic.card_LspGL hu0, hK]
@@ -157,10 +157,10 @@ theorem Ctx.elation_fixed_card_le (hc : Ctx M Q Z B) {n m : ℕ} {t : G}
   let D : Submodule K (Module.Dual K W) :=
     Submodule.span K (f.range : Set (Module.Dual K W))
   have hdimD : n - 2 * m ≤ Module.finrank K ↥D := by
-    haveI : Finite (Module.Dual K W) := Module.finite_of_finite K
-    haveI : Finite ↥f.range :=
+    have : Finite (Module.Dual K W) := Module.finite_of_finite K
+    have : Finite ↥f.range :=
       Finite.of_injective (fun x : ↥f.range => (x : Module.Dual K W)) Subtype.val_injective
-    haveI : Finite ↥D :=
+    have : Finite ↥D :=
       Finite.of_injective (fun x : ↥D => (x : Module.Dual K W)) Subtype.val_injective
     have hle : Nat.card ↥f.range ≤ Nat.card ↥D :=
       Nat.card_le_card_of_injective
@@ -189,9 +189,9 @@ theorem Ctx.card_inf_QB_S_le (h34 : Stroth34Statement) (hc : Ctx M Q Z B) {n m :
   have hcardL : Nat.card ↥(Q ⊓ QB B) = Nat.card Z ^ (n + 1) := h35.2.2.2
   have hHcard := Ctx.card_LB_inf_CN_sp h34 hc hs hm hV
   obtain ⟨K, iF, iFin, iCh, γ, M₀, hD⟩ := stroth_globalModelData hc.hyp
-  letI := iF
-  letI := iFin
-  letI := iCh
+  let := iF
+  let := iFin
+  let := iCh
   obtain ⟨W, b, θ, hW, hb0, hB, hfix, hel, hkerθ, hWdim, hSθ, hSagree⟩ :=
     hc.exists_elation_action hs.width hs.n_gt hs.noA2 hcardL hD
   have hθker : θ.ker = Q.subgroupOf (LB M Q B) := by
@@ -294,7 +294,7 @@ theorem Ctx.card_inf_QB_S_le (h34 : Stroth34Statement) (hc : Ctx M Q Z B) {n m :
   have himgcard : Nat.card ↥(M₀.img ((Q ⊓ QB B) ⊓ S)) ≤
       Nat.card ↥((Submodule.span K (Set.range (fun g : ↥H =>
         Fd (Subgroup.inclusion inf_le_left g)))).dualCoannihilator) := by
-    haveI : Finite ↥((Submodule.span K (Set.range (fun g : ↥H =>
+    have : Finite ↥((Submodule.span K (Set.range (fun g : ↥H =>
         Fd (Subgroup.inclusion inf_le_left g)))).dualCoannihilator) :=
       Module.finite_of_finite K
     refine Nat.card_le_card_of_injective

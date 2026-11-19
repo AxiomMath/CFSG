@@ -120,8 +120,8 @@ theorem blockEmbed_reindex_slConjugation {S : Finset (Fin d)} (e : S ≃ Fin S.c
           SpecialLinearGroup S F) : Matrix S S F) ⟨i, hi⟩ ⟨j, hj⟩ =
         (ggDiagConj u g : Matrix (Fin S.card) (Fin S.card) F)
           (e ⟨i, hi⟩) (e ⟨j, hj⟩) := rfl
-    rw [coe_blockEmbed, blockMatrix_apply, dif_pos ⟨hi, hj⟩, hleft, ggDiagConj_apply]
-    rw [ggDiagConj_apply, coe_blockEmbed, blockMatrix_apply, dif_pos ⟨hi, hj⟩]
+    rw [coe_blockEmbed, blockMatrix_apply, dite_eq_left ⟨hi, hj⟩, hleft, ggDiagConj_apply]
+    rw [ggDiagConj_apply, coe_blockEmbed, blockMatrix_apply, dite_eq_left ⟨hi, hj⟩]
     have hright : ((reindexSpecialLinear e.symm g : SpecialLinearGroup S F) :
         Matrix S S F) ⟨i, hi⟩ ⟨j, hj⟩ =
         (g : Matrix (Fin S.card) (Fin S.card) F) (e ⟨i, hi⟩) (e ⟨j, hj⟩) := rfl
@@ -129,8 +129,8 @@ theorem blockEmbed_reindex_slConjugation {S : Finset (Fin d)} (e : S ≃ Fin S.c
     simp only [Equiv.symm_apply_apply]
   all_goals
     have hnot : ¬ (i ∈ S ∧ j ∈ S) := by tauto
-    rw [coe_blockEmbed, blockMatrix_apply, dif_neg hnot]
-    rw [ggDiagConj_apply, coe_blockEmbed, blockMatrix_apply, dif_neg hnot]
+    rw [coe_blockEmbed, blockMatrix_apply, dite_eq_right hnot]
+    rw [ggDiagConj_apply, coe_blockEmbed, blockMatrix_apply, dite_eq_right hnot]
     by_cases hij : i = j
     · subst hij
       simp
@@ -149,7 +149,7 @@ theorem mem_scalars_of_blockEmbed_reindex_mem_scalars {S : Finset (Fin d)}
       SpecialLinearGroup (Fin d) F) : Matrix (Fin d) (Fin d) F)
         (e.symm a) (e.symm b) =
       (g : Matrix (Fin S.card) (Fin S.card) F) a b := by
-    rw [coe_blockEmbed, blockMatrix_apply, dif_pos ⟨(e.symm a).2, (e.symm b).2⟩]
+    rw [coe_blockEmbed, blockMatrix_apply, dite_eq_left ⟨(e.symm a).2, (e.symm b).2⟩]
     change (g : Matrix (Fin S.card) (Fin S.card) F)
       (e (e.symm a)) (e (e.symm b)) = _
     rw [e.apply_symm_apply, e.apply_symm_apply]

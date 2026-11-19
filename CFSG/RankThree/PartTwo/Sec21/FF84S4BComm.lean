@@ -157,12 +157,12 @@ theorem B_comm_eigen_group {K : Type*} [Group K] (M : Subgroup K) [M.Normal]
     (hu : ∀ m ∈ M, u * m = m * u → m = 1) (hv : ∀ m ∈ M, v * m = m * v → m = 1)
     (huv1 : ∀ m ∈ M, (u * v) * m = m * (u * v) → m = 1)
     (huv2 : ∀ m ∈ M, (u * v ^ 2) * m = m * (u * v ^ 2) → m = 1) : M = ⊥ := by
-  haveI : IsMulCommutative M := ⟨⟨fun x y => Subtype.ext (hcomm x.1 x.2 y.1 y.2)⟩⟩
+  have : IsMulCommutative M := ⟨⟨fun x y => Subtype.ext (hcomm x.1 x.2 y.1 y.2)⟩⟩
   have hdbl : ∀ x : Additive M, (2 : ℕ) • x = 0 := by
     intro x
     rw [two_nsmul]
     exact congrArg Additive.ofMul (Subtype.ext (hexp _ (Additive.toMul x).2))
-  letI : Module (ZMod 2) (Additive M) := AddCommGroup.zmodModule hdbl
+  let : Module (ZMod 2) (Additive M) := AddCommGroup.zmodModule hdbl
   let uL : Module.End (ZMod 2) (Additive M) := (B_comm_conjHom M u).toAdditive.toZModLinearMap 2
   let vL : Module.End (ZMod 2) (Additive M) := (B_comm_conjHom M v).toAdditive.toZModLinearMap 2
   have hu3L : ∀ x, uL (uL (uL x)) = x := by
@@ -239,6 +239,7 @@ section Minimal
 
 variable {K : Type*} [Group K] [Finite K]
 
+omit [Finite K] in
 theorem B_comm_normal_centre_inf {X : Subgroup K} (hXn : X.Normal) :
     (Subgroup.centralizer (X : Set K) ⊓ X).Normal := by
   refine ⟨fun z hz g => ?_⟩
@@ -258,8 +259,8 @@ theorem B_comm_minimal_centre {X M : Subgroup K} (hX : IsPGroup 2 X) (hXn : X.No
     ∀ m ∈ M, ∀ x ∈ X, x * m = m * x := by
   have hZ := B_comm_normal_centre_inf hXn
   have hne : M ⊓ (Subgroup.centralizer (X : Set K) ⊓ X) ≠ ⊥ := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Group.IsNilpotent X := IsPGroup.isNilpotent hX
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Group.IsNilpotent X := IsPGroup.isNilpotent hX
     have hne' : M.subgroupOf X ≠ ⊥ := by
       intro h
       apply hM1
@@ -466,6 +467,7 @@ theorem B_comm_quot_fix {X M : Subgroup K} (hX : IsPGroup 2 X)
   have hc : q' * u = u * q' := Subgroup.mem_centralizer_singleton_iff.1 hq'u
   rw [← map_mul, ← map_mul, hc]
 
+omit [Finite K] in
 theorem B_comm_not_two_dvd {a : K} (h3 : a ^ 3 = 1) : ¬ 2 ∣ orderOf a := by
   intro h2
   have hd : orderOf a ∣ 3 := orderOf_dvd_of_pow_eq_one h3
@@ -519,7 +521,7 @@ theorem B_comm_core (n : ℕ) : ∀ (K : Type) [Group K] [Finite K], Nat.card K 
     rw [hA0]
     simp
   obtain ⟨M, hMn, hM1, hMX, hmin⟩ := B_comm_exists_min hXn hX1
-  haveI := hMn
+  have := hMn
   have hcard : Nat.card (K ⧸ M) < n := by
     have h1 := Subgroup.card_eq_card_quotient_mul_card_subgroup M
     have h2 : 1 < Nat.card M := (Subgroup.one_lt_card_iff_ne_bot M).2 hM1

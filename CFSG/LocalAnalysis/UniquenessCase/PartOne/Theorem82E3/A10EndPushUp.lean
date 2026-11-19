@@ -42,7 +42,7 @@ theorem not_forall_map_tBlock_eq {U : Subgroup (Equiv.Perm (Fin 10))}
     rw [himg, h u huU]
   have hdvd : Nat.card U ∣ Nat.card (MulAction.stabilizer (Equiv.Perm (Fin 10)) S) :=
     Subgroup.card_dvd_of_le hUle
-  haveI : MulAction.IsPretransitive (Equiv.Perm (Fin 10)) (↑(Set.powersetCard (Fin 10) 4)) :=
+  have : MulAction.IsPretransitive (Equiv.Perm (Fin 10)) (↑(Set.powersetCard (Fin 10) 4)) :=
     Set.powersetCard.isPretransitive
   have hstab : MulAction.stabilizer (Equiv.Perm (Fin 10)) S =
       MulAction.stabilizer (Equiv.Perm (Fin 10)) s := by

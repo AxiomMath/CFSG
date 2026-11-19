@@ -23,7 +23,7 @@ theorem kFCensus46Three_holds :
     exact census_concl_of_isG2D4 hD r 1 hG (by omega) (by omega) (fun h => absurd h (by norm_num))
   ·
     exfalso
-    haveI : Finite (GaloisField p 1) := inferInstance
+    have : Finite (GaloisField p 1) := inferInstance
     obtain ⟨g, hg⟩ := (ppair_self hD).map e
     refine hg.false_of_abelian_sylow (sylow_comm_projSp_two ?_)
     rw [GaloisField.card p 1 one_ne_zero, pow_one]

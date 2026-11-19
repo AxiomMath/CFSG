@@ -50,11 +50,11 @@ private theorem exists_elemAbelian_center_pQuot {p : ℕ} (hp : p.Prime) (hp2 : 
     (J : Subgroup G) (hnc : ¬ IsCyclic (Subgroup.center (PQuot p J))) :
     ∃ U : Subgroup (PQuot p J), U ≤ Subgroup.center (PQuot p J) ∧ IsElemAbelian p U ∧
       Nat.card U = p ^ 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (IsPGroup p (Subgroup.center (PQuot p J))) := ⟨isPGroup_center_pQuot hp J⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (IsPGroup p (Subgroup.center (PQuot p J))) := ⟨isPGroup_center_pQuot hp J⟩
   obtain ⟨E, -, hcard, hE⟩ := CFSG.lemma_4_5_a hp2 hnc
-  haveI := hE
-  haveI : CFSG.IsElementaryAbelian p (E.map (Subgroup.center (PQuot p J)).subtype) :=
+  have := hE
+  have : CFSG.IsElementaryAbelian p (E.map (Subgroup.center (PQuot p J)).subtype) :=
     CFSG.IsElementaryAbelian.map_subtype
   refine ⟨E.map (Subgroup.center (PQuot p J)).subtype, Subgroup.map_subtype_le E,
     ⟨inferInstance, fun x hx => CFSG.elemPow_eq_one_of_isElementaryAbelian x hx⟩, ?_⟩

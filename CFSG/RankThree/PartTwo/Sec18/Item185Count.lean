@@ -105,7 +105,7 @@ private theorem exists_pElt_of_isQuasisimple {X : Type*} [Group X] [Finite X]
     have h2 := hp.two_le
     simp only [Finset.mem_insert, Finset.mem_singleton, not_or] at hp23
     omega
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' p (Nat.dvd_of_mem_primeFactors hpmem)
   obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective z
   have hn : orderOf x ≠ 0 := (orderOf_pos x).ne'
@@ -317,10 +317,12 @@ private theorem exists_elemAbelian_of_three {Y : Type*} [Group Y] [Finite Y] {p 
     (Subgroup.subset_closure (by simp)) (Subgroup.subset_closure (by simp)) c₁₂ c₁₃ c₂₃
     hind).trans hcard⟩
 
+omit [Finite G] in
 private theorem mk_eq_one_iff {M : Subgroup G} (m : M) :
     QuotientGroup.mk' (CFSG.pCore 2 M) m = 1 ↔ (m : G) ∈ CFSG.Open.pCoreOf 2 M := by
   rw [QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff, CFSG.mem_openPCoreOf_iff]
 
+omit [Finite G] in
 private theorem mk_comm_iff {M : Subgroup G} (a b : M) :
     QuotientGroup.mk' (CFSG.pCore 2 M) a * QuotientGroup.mk' (CFSG.pCore 2 M) b =
         QuotientGroup.mk' (CFSG.pCore 2 M) b * QuotientGroup.mk' (CFSG.pCore 2 M) a ↔
@@ -340,6 +342,7 @@ private theorem image_le_centralizer {M J K : Subgroup G} (hJ : J ∈ oTwoCompon
   exact Sec19.Step1910Proof.mk_mul_comm_of_ne hK hJ hne.symm (Subgroup.mem_subgroupOf.mp hk)
     (Subgroup.mem_subgroupOf.mp hg)
 
+omit [Finite G] in
 private theorem goodElt_image {M J : Subgroup G} (hJ : J ∈ oTwoComponentsIn M) {p : ℕ} {y : G}
     (hy : GoodElt M J p y) :
     ∃ u : M ⧸ CFSG.pCore 2 M, u ∈ (J.subgroupOf M).map (QuotientGroup.mk' (CFSG.pCore 2 M)) ∧
@@ -408,6 +411,7 @@ private theorem false_of_three_goodElt {A M : Subgroup G} (h : Sec18Std G A M) {
   have h2 : p ^ 2 < p ^ 3 := Nat.pow_lt_pow_right hp.one_lt (by norm_num)
   omega
 
+omit [Finite G] in
 private theorem goodElt_conj {M K : Subgroup G} {p : ℕ} {y g : G} (hg : g ∈ M)
     (hy : GoodElt M K p y) : GoodElt M (K.map (MulAut.conj g).toMonoidHom) p (g * y * g⁻¹) := by
   unfold GoodElt at hy ⊢
@@ -434,6 +438,7 @@ private theorem goodElt_conj {M K : Subgroup G} {p : ℕ} {y g : G} (hg : g ∈ 
     rw [e]
     exact (key _).mpr (hcen k₀ hk₀)
 
+omit [Finite G] in
 private theorem map_conj_mul (K : Subgroup G) (a b : G) :
     K.map (MulAut.conj (a * b)).toMonoidHom =
       (K.map (MulAut.conj b).toMonoidHom).map (MulAut.conj a).toMonoidHom := by
@@ -442,6 +447,7 @@ private theorem map_conj_mul (K : Subgroup G) (a b : G) :
   ext x
   simp [MulAut.conj_apply, mul_assoc]
 
+omit [Finite G] in
 private theorem map_conj_eq_iff_mem (K : Subgroup G) (a b : G) :
     K.map (MulAut.conj b).toMonoidHom = K.map (MulAut.conj a).toMonoidHom ↔
       a⁻¹ * b ∈ Subgroup.normalizer (K : Set G) := by
@@ -498,7 +504,7 @@ theorem ncard_conj_le_two {A M : Subgroup G} (h : Sec18Std G A M) {K : Subgroup 
     (map_conj_mem_oTwoComponentsIn hK hg₂) (map_conj_mem_oTwoComponentsIn hK hg₃)
     h₁₂ h₁₃ h₂₃ (goodElt_conj hg₁ hy) (goodElt_conj hg₂ hy) (goodElt_conj hg₃ hy)
 
-theorem le_normalizer_of_ncard_le_two {M K : Subgroup G} (hK : K ∈ oTwoComponentsIn M)
+theorem le_normalizer_of_ncard_le_two {M K : Subgroup G} (_hK : K ∈ oTwoComponentsIn M)
     {P : Subgroup G} (hP : IsPGroup 3 P) (hPM : P ≤ M)
     (h2 : {K' : Subgroup G | ∃ g ∈ M, K' = K.map (MulAut.conj g).toMonoidHom}.ncard ≤ 2) :
     P ≤ Subgroup.normalizer (K : Set G) := by
@@ -545,7 +551,7 @@ private theorem irr_three_le_index {Γ : Type} [Group Γ] [Finite Γ] {S : Subgr
 private theorem irr_dichotomy {Kc R : Subgroup G} (hR : (R.subgroupOf Kc).index ≤ 2) {k₀ k : G}
     (hk₀ : k₀ ∈ Kc) (hk : k ∈ Kc) (hk₀R : k₀ ∉ R) : k ∈ R ∨ k₀⁻¹ * k ∈ R := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨hkR, hk₀kR⟩ := hcon
   have h3 : 3 ≤ (R.subgroupOf Kc).index :=
     irr_three_le_index (a := (1 : Kc)) (b := ⟨k₀, hk₀⟩) (c := ⟨k, hk⟩)
@@ -559,7 +565,7 @@ private theorem irr_quaternion_exists {Γ : Type} [Group Γ] {Φ ΦR : Subgroup 
     (hdich : ∀ σ ∈ Φ, ∀ τ ∈ Φ, σ ∉ ΦR → τ ∈ ΦR ∨ σ⁻¹ * τ ∈ ΦR) :
     ∃ x : QuaternionGroup 2, g x ∈ ΦR ∧ g x ^ 2 ≠ 1 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hsq : ∀ x : QuaternionGroup 2, x ^ 2 ≠ 1 → g x ^ 2 ≠ 1 := by
     intro x hx h
     apply hx
@@ -592,12 +598,14 @@ private theorem irr_quaternion_exists {Γ : Type} [Group Γ] {Φ ΦR : Subgroup 
     exact ΦR.mul_mem hii hr
   exact hgij hprod
 
+omit [Finite G] in
 private theorem irr_isElemAbelian_inf {X : Subgroup G} (hX : CFSG.Assembly.IsElemAbelian 3 X)
     (L : Subgroup G) : CFSG.Assembly.IsElemAbelian 3 (X ⊓ L) :=
   ⟨⟨⟨fun a b => Subtype.ext (show (a : G) * b = b * a from
       congrArg (Subtype.val : X → G) (hX.1.is_comm.comm ⟨a, a.2.1⟩ ⟨b, b.2.1⟩))⟩⟩,
     fun x hx => hX.2 x hx.1⟩
 
+omit [Finite G] in
 private theorem irr_pow_apply {X : Subgroup G} {k : G} (hN : k ∈ Subgroup.normalizer (X : Set G))
     (n : ℕ) (x : X) : ((X.normalizerMonoidHom ⟨k, hN⟩ ^ n) x : G) = k ^ n * x * (k ^ n)⁻¹ := by
   induction n with
@@ -606,6 +614,7 @@ private theorem irr_pow_apply {X : Subgroup G} {k : G} (hN : k ∈ Subgroup.norm
     rw [pow_succ', MulAut.mul_apply, Sec4.normalizerMonoidHom_apply_coe, ih]
     group
 
+omit [Finite G] in
 private theorem irr_pow_eq_one_iff {X : Subgroup G} {k : G}
     (hN : k ∈ Subgroup.normalizer (X : Set G)) (n : ℕ) :
     X.normalizerMonoidHom ⟨k, hN⟩ ^ n = 1 ↔ ∀ x : X, k ^ n * x * (k ^ n)⁻¹ = x := by

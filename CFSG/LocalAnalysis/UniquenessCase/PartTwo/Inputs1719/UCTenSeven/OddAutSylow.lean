@@ -32,7 +32,7 @@ private theorem isSylowOf_top_maximal {G : Type*} [Group G] {p : ℕ} {S : Subgr
     IsPGroup p S ∧ ∀ T : Subgroup G, IsPGroup p T → S ≤ T → T = S := by
   obtain ⟨Q, hQ⟩ := h
   refine ⟨?_, ?_⟩
-  · have hQp := Q.isPGroup'.map (⊤ : Subgroup G).subtype
+  · have hQp := Q.isPGroup.map (⊤ : Subgroup G).subtype
     rwa [hQ] at hQp
   · intro T hT hST
     have hT' : IsPGroup p (T.subgroupOf (⊤ : Subgroup G)) := hT.comap_subtype

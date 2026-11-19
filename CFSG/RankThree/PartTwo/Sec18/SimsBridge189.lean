@@ -65,6 +65,7 @@ open CFSG.Assembly.RankThreeEven (projSL projSU)
 
 variable {G : Type} [Group G] [Finite G] {A M H : Subgroup G} {c : G}
 
+omit [Finite G] in
 theorem cSK189_mem_kSK189 (M H : Subgroup G) (c : G) : cSK189 M H c ∈ kSK189 M H c :=
   Subgroup.mem_subgroupOf.mpr (Sec20.self_mem_normalClosureIn M c)
 

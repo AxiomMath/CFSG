@@ -115,7 +115,7 @@ private theorem dvd_two_mul_of_dvd_four_mul_of_dvd_three_mul {o n f : ℕ} (hf :
     rw [mul_comm n 4]
     exact Nat.gcd_dvd_left _ _
   have hdn : Nat.gcd (4 * n) (3 * f) ∣ n := hcop4.dvd_of_dvd_mul_right hdvd
-  exact hg.trans (hdn.trans (by simpa [mul_comm] using Nat.dvd_mul_right n 2))
+  exact hg.trans (hdn.trans (by simp [mul_comm]))
 
 private theorem prime_dvd_of_dvd_ordA_two {ℓ f : ℕ} (hℓ : ℓ.Prime) (hℓ2 : ℓ ≠ 2)
     (hgcd : Nat.gcd 3 (2 ^ f - 1) = 1) (hdvd : ℓ ∣ ordA 2 (2 ^ f)) :

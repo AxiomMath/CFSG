@@ -338,7 +338,7 @@ theorem kid_fact {T : Tabs} (hT : tabsOK T = true) (hq : Nat.beq (M QK QiK) oneK
   rw [hcard] at hob
   refine ⟨fun h0 => ?_, fun h0 => ?_⟩
   ·
-    rw [if_pos h0] at hk
+    rw [ite_eq_left h0] at hk
     unfold prunedOK at hk
     simp only [Bool.and_eq_true, beq_iff_eq] at hk
     obtain ⟨⟨⟨⟨⟨⟨⟨hct, hcb⟩, hcomm⟩, hlT⟩, hlZ⟩, hZ⟩, hcnt⟩, hfin⟩ := hk
@@ -386,7 +386,7 @@ theorem kid_fact {T : Tabs} (hT : tabsOK T = true) (hq : Nat.beq (M QK QiK) oneK
     have hzlen : zJ.length = kd.bC.length := by simp [zJ]
     unfold burnsideJ4NP_PrunedFact
     by_cases he : kd.eflag = 1
-    · rw [if_pos he, Bool.and_eq_true] at hfin
+    · rw [ite_eq_left he, Bool.and_eq_true] at hfin
       right
       have hzE : ∀ z ∈ zJ, z ∈ omegaZ Ky ⊓ Eg uJ 11 := by
         intro z hz
@@ -399,7 +399,7 @@ theorem kid_fact {T : Tabs} (hT : tabsOK T = true) (hq : Nat.beq (M QK QiK) oneK
       calc 2 ^ 6 < 2 ^ 7 := by norm_num
         _ ≤ 2 ^ zJ.length := Nat.pow_le_pow_right (by norm_num) h7'
         _ ≤ _ := h7
-    · rw [if_neg he] at hfin
+    · rw [ite_eq_right he] at hfin
       left
       have h11 := card_ge_of_nw hzΩ hzinj
       have h11' : 11 ≤ zJ.length := by rw [hzlen]; simpa using Nat.le_of_ble_eq_true hfin
@@ -407,7 +407,7 @@ theorem kid_fact {T : Tabs} (hT : tabsOK T = true) (hq : Nat.beq (M QK QiK) oneK
         _ ≤ 2 ^ zJ.length := Nat.pow_le_pow_right (by norm_num) h11'
         _ ≤ _ := h11
   ·
-    rw [if_neg h0] at hk
+    rw [ite_eq_right h0] at hk
     unfold mergeOK at hk
     simp only [Bool.and_eq_true, beq_iff_eq] at hk
     obtain ⟨⟨⟨⟨⟨⟨htop, h1⟩, hN⟩, hco⟩, hinv⟩, hmsk⟩, hcnt⟩ := hk

@@ -24,7 +24,7 @@ theorem props_of_facts {K₀ : Type} [Group K₀] [Finite K₀] {q : ℕ} (hq : 
   have hQS := c.Q_sylow
   have hQ2 : IsPGroup 2 c.Q := by
     obtain ⟨T, hT⟩ := hQS
-    have h := T.isPGroup'
+    have h := T.isPGroup
     rw [hT] at h
     exact h.of_equiv (subgroupOfEquivOfLe hQC)
   have hQa : ∀ w ∈ c.Q, w * c.a = c.a * w := fun w hw =>

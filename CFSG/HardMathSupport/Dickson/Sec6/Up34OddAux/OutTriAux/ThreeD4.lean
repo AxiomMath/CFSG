@@ -24,11 +24,11 @@ theorem noL34Layer_of_graphType_three {f : ℕ} (hf : 1 ≤ f) (K : Type) [Field
     (g : adjointGroup Tag.D4 K) (a : Fin Tag.D4.rank → Kˣ) {ε : ℕ} (hε : ε = 1 ∨ ε = 2)
     (hαeq : α = MulAut.conj g * (exactNormalAut Tag.D4 K a 1 0 * d4Graph K ε)) :
     NoL34Layer α := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨K₃, _, _, Fr, hK₃, hFr, φ, hφ3, hφout, ⟨e⟩⟩ :=
     exists_dual_fixEquiv hf K hK α hα3 g a hε hαeq
-  haveI := TriD4Aux.finite_graphFixedRootGroup_D4 Fr
-  haveI : CharP K₃ 3 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have := TriD4Aux.finite_graphFixedRootGroup_D4 Fr
+  have : CharP K₃ 3 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     Nat.prime_three (by omega) (by rw [hK₃, ← pow_mul, mul_comm] : Nat.card K₃ = 3 ^ (3 * f))
   exact noL34Layer_of_fixEquiv e (noL34Layer_three_D4_outer_three hf hK₃ Fr hFr φ hφ3 hφout)
 
@@ -37,7 +37,7 @@ theorem noL34Layer_adjointD4_outer_three (hO : LieOrderFormulasInput) {f : ℕ} 
     (α : MulAut (adjointGroup Tag.D4 K)) (hα3 : α ^ 3 = 1)
     (hα : α ∉ CFSG.ComponentClassification.OuterAutomorphisms.inner (adjointGroup Tag.D4 K)) :
     NoL34Layer α := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨g, a, σ, ε, hε, hαeq, hσ3, hcase⟩ := outer_cube_normal_form_cases α hα3 hα
   rcases hcase with ⟨hε0, hσ1⟩ | ⟨hε0, hσ1⟩ | ⟨hε0, hσ1⟩
   · subst hε0

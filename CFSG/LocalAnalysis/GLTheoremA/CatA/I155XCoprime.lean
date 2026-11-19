@@ -12,11 +12,13 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem conj_cc_succ (x c : G) (i : ℕ) :
     x⁻¹ * ((x ^ i)⁻¹ * c * x ^ i) * x = (x ^ (i + 1))⁻¹ * c * x ^ (i + 1) := by
   rw [pow_succ, mul_inv_rev]
   group
 
+omit [Finite G] in
 theorem list_telescope (x c : G) : ∀ (n s : ℕ),
     x⁻¹ * (List.map (fun i : ℕ => (x ^ i)⁻¹ * c * x ^ i) (List.range' s n)).prod * x =
       (List.map (fun i : ℕ => (x ^ i)⁻¹ * c * x ^ i) (List.range' (s + 1) n)).prod
@@ -45,6 +47,7 @@ theorem prod_range'_succ_right {M : Type*} [Monoid M] (f : ℕ → M) (n s : ℕ
       (List.map f (List.range' s n)).prod * f (s + n) := by
   simp [List.range'_concat]
 
+omit [Finite G] in
 theorem coset_conj_pow {x z : G} {N : Subgroup G} (hxN : ∀ n ∈ N, x⁻¹ * n * x ∈ N)
     (hz : z⁻¹ * (x⁻¹ * z * x) ∈ N) : ∀ k : ℕ, z⁻¹ * ((x ^ k)⁻¹ * z * x ^ k) ∈ N
   | 0 => by simp
@@ -57,10 +60,12 @@ theorem coset_conj_pow {x z : G} {N : Subgroup G} (hxN : ∀ n ∈ N, x⁻¹ * n
     rw [e]
     exact N.mul_mem hz (hxN _ ih)
 
+omit [Finite G] in
 theorem zpowers_mem_normalizer_of_mem {x : G} {N : Subgroup G} (hxN : x ∈ Subgroup.normalizer (N : Set G))
     {g : G} (hg : g ∈ Subgroup.zpowers x) (n : G) (hn : n ∈ N) : g * n * g⁻¹ ∈ N :=
   (Subgroup.mem_normalizer_iff.1 (Subgroup.zpowers_le.2 hxN hg) n).1 hn
 
+omit [Finite G] in
 theorem coset_conj_zpowers {x z : G} {p : ℕ} (hp : 0 < p) (hx : x ^ p = 1) {N : Subgroup G}
     (hxN : ∀ n ∈ N, x⁻¹ * n * x ∈ N) (hz : z⁻¹ * (x⁻¹ * z * x) ∈ N) :
     ∀ g ∈ Subgroup.zpowers x, z⁻¹ * (g * z * g⁻¹) ∈ N := by
@@ -78,12 +83,13 @@ theorem coset_conj_zpowers {x z : G} {p : ℕ} (hp : 0 < p) (hx : x ^ p = 1) {N 
   rw [hg2]
   exact coset_conj_pow hxN hz (p - n)
 
+omit [Finite G] in
 theorem exists_fixed_coset {x z : G} {p : ℕ} (hp : p.Prime) (hx : x ^ p = 1) {N : Subgroup G}
     (hxN : x ∈ Subgroup.normalizer (N : Set G)) (hcop : ¬ p ∣ Nat.card N)
     (hz : z⁻¹ * (x⁻¹ * z * x) ∈ N) :
     ∃ n ∈ N, x⁻¹ * (z * n) * x = z * n := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hxN' : ∀ n ∈ N, x⁻¹ * n * x ∈ N := fun n hn => by
     have := (Subgroup.mem_normalizer_iff.1 (Subgroup.inv_mem _ hxN) n).1 hn
     simpa using this
@@ -102,7 +108,7 @@ theorem exists_fixed_coset {x z : G} {p : ℕ} (hp : p.Prime) (hx : x ^ p = 1) {
         (z⁻¹ * ((g : G) * z * (g : G)⁻¹)) * ((g : G) * (n : G) * (g : G)⁻¹) := by group
     rw [e]
     exact N.mul_mem (hconj _ g.2) (zpowers_mem_normalizer_of_mem hxN g.2 _ n.2)
-  letI act : MulAction (Subgroup.zpowers x) N :=
+  let act : MulAction (Subgroup.zpowers x) N :=
     { smul := fun g n => ⟨z⁻¹ * ((g : G) * z * (n : G) * (g : G)⁻¹), hmem g n⟩
       one_smul := fun n => Subtype.ext (by
         show z⁻¹ * (((1 : Subgroup.zpowers x) : G) * z * (n : G) *

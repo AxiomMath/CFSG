@@ -46,7 +46,7 @@ private theorem three_dvd_two_pow_sub_one_of_markedModel_E6 {K : Type} [Group K]
     rw [Nat.card_congr eM.toEquiv,
       CFSG.GH74.GLS.Stage2.Signalizer.Odd87.card_generic_exceptional', hg, he]
     norm_num
-  haveI : Finite (CFSG.Open.griessHopfMultiplier (K ⧸ Subgroup.center K)) :=
+  have : Finite (CFSG.Open.griessHopfMultiplier (K ⧸ Subgroup.center K)) :=
     Nat.finite_of_card_ne_zero (by
       rw [hcard]
       exact (Nat.gcd_pos_of_pos_left _ (by norm_num)).ne')
@@ -68,12 +68,12 @@ private theorem three_dvd_two_pow_add_one_of_markedModel_twE6 {K : Type} [Group 
     rw [Nat.card_congr eM.toEquiv,
       CFSG.GH74.GLS.Stage2.Signalizer.Odd87.card_generic_exceptional', hg]
     by_cases hn : lab.n = 1
-    · simp [hn, exceptionalOrders, markTag, markRank, markChar, markDeg]
-    · simp [hn, exceptionalOrders, markTag, markRank, markChar, markDeg]
+    · simp [hn, exceptionalOrders]
+    · simp [hn, exceptionalOrders]
   have hpos : 0 < Nat.gcd 3 (2 ^ lab.n + 1) * (if lab.n = 1 then 4 else 1) :=
     Nat.mul_pos (Nat.gcd_pos_of_pos_left _ (by norm_num))
       (by by_cases hn : lab.n = 1 <;> simp [hn])
-  haveI : Finite (CFSG.Open.griessHopfMultiplier (K ⧸ Subgroup.center K)) :=
+  have : Finite (CFSG.Open.griessHopfMultiplier (K ⧸ Subgroup.center K)) :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; exact hpos.ne')
   have hdvd := CFSG.GH74.GLS.Stage2.Signalizer.Odd87.card_center_dvd_hopf hQ
     (MulEquiv.refl (K ⧸ Subgroup.center K))
@@ -83,9 +83,9 @@ private theorem three_dvd_two_pow_add_one_of_markedModel_twE6 {K : Type} [Group 
   rcases (Nat.Prime.dvd_mul Nat.prime_three).1 hdiv with h | h
   · exact (Nat.dvd_gcd_iff.1 h).2
   · by_cases hn : lab.n = 1
-    · rw [if_pos hn] at h
+    · rw [ite_eq_left hn] at h
       norm_num at h
-    · rw [if_neg hn] at h
+    · rw [ite_eq_right hn] at h
       exact absurd h (by norm_num)
 
 theorem nonempty_derivedCentralQuotient_galoisField_twistedE6 {X : Type} [Group X] {n : ℕ}
@@ -93,10 +93,10 @@ theorem nonempty_derivedCentralQuotient_galoisField_twistedE6 {X : Type} [Group 
     Nonempty (X ≃* CFSG.Blueprint.DerivedCentralQuotient
       (CFSG.Blueprint.twistedFixedGroup .E6 (GaloisField 2 (2 * n)) (frobQ 2 n))) := by
   obtain ⟨F, hFld, hFin, hFcard, σ, hσ, ⟨e⟩⟩ := h
-  letI : Field F := hFld
-  letI : Finite F := hFin
-  letI : Fintype F := Fintype.ofFinite F
-  letI : Fintype (GaloisField 2 (2 * n)) := Fintype.ofFinite _
+  let : Field F := hFld
+  let : Finite F := hFin
+  let : Fintype F := Fintype.ofFinite F
+  let : Fintype (GaloisField 2 (2 * n)) := Fintype.ofFinite _
   have hLcard : Nat.card (GaloisField 2 (2 * n)) = (2 ^ n) ^ 2 := by
     rw [GaloisField.card 2 (2 * n) (by omega), show 2 * n = n * 2 by ring, pow_mul]
   let ι : F ≃+* GaloisField 2 (2 * n) :=
@@ -140,7 +140,7 @@ theorem rk2E6CoverThreeFrontier : Rk2E6CoverThreeFrontier := by
     rw [Nat.card_congr eM.toEquiv,
       CFSG.GH74.GLS.Stage2.Signalizer.Odd87.card_generic_exceptional', hg, he]
     norm_num
-  haveI : Finite (CFSG.Open.griessHopfMultiplier (K ⧸ Subgroup.center K)) :=
+  have : Finite (CFSG.Open.griessHopfMultiplier (K ⧸ Subgroup.center K)) :=
     Nat.finite_of_card_ne_zero (by
       rw [hcardM]
       exact (Nat.gcd_pos_of_pos_left _ (by norm_num)).ne')
@@ -171,14 +171,14 @@ theorem rk2E6CoverThreeFrontier : Rk2E6CoverThreeFrontier := by
   obtain ⟨F, hFld, hFin, hFcard, ⟨eAdj⟩⟩ :=
     CFSG.LieType.Chevalley.nonempty_mulEquiv_adjointGroup Tag.E6
       (untwistedModel_of_lieModel_E6 hM6).2.2
-  letI : Field F := hFld
-  letI : Finite F := hFin
+  let : Field F := hFld
+  let : Finite F := hFin
   have h3F : 3 ∣ Nat.card F - 1 := by rw [hFcard]; exact h3dvd
-  haveI hGfin : Finite ↥(e6Data_valid.minGroup F) :=
+  have hGfin : Finite ↥(e6Data_valid.minGroup F) :=
     CFSG.LieType.Steinberg.CentralExt.FieldFour.finite_minGroup' e6Data_valid
-  haveI hGperf : Group.IsPerfect ↥(e6Data_valid.minGroup F) := CFSG.LieType.CurtisTits.isPerfect_e6 F
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Group.IsPerfect K := hQ'.1
+  have hGperf : Group.IsPerfect ↥(e6Data_valid.minGroup F) := CFSG.LieType.CurtisTits.isPerfect_e6 F
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Group.IsPerfect K := hQ'.1
   let κ : K →* (K ⧸ Subgroup.center K) := QuotientGroup.mk' (Subgroup.center K)
   have hκ : Function.Surjective κ := QuotientGroup.mk'_surjective _
   have hκcen : κ.ker ≤ Subgroup.center K := by
@@ -241,12 +241,12 @@ theorem rk2TwE6CoverThreeFrontier : Rk2TwE6CoverThreeFrontier := by
     rw [Nat.card_congr eM.toEquiv,
       CFSG.GH74.GLS.Stage2.Signalizer.Odd87.card_generic_exceptional', hg]
     by_cases hn1 : lab.n = 1
-    · simp [hn1, exceptionalOrders, markTag, markRank, markChar, markDeg]
-    · simp [hn1, exceptionalOrders, markTag, markRank, markChar, markDeg]
+    · simp [hn1, exceptionalOrders]
+    · simp [hn1, exceptionalOrders]
   have hpos : 0 < Nat.gcd 3 (2 ^ lab.n + 1) * (if lab.n = 1 then 4 else 1) :=
     Nat.mul_pos (Nat.gcd_pos_of_pos_left _ (by norm_num))
       (by by_cases hn1 : lab.n = 1 <;> simp [hn1])
-  haveI : Finite (CFSG.Open.griessHopfMultiplier (K ⧸ Subgroup.center K)) :=
+  have : Finite (CFSG.Open.griessHopfMultiplier (K ⧸ Subgroup.center K)) :=
     Nat.finite_of_card_ne_zero (by rw [hcardM]; exact hpos.ne')
   have hdvdZ : Nat.card (Subgroup.center K) ∣
       Nat.gcd 3 (2 ^ lab.n + 1) * (if lab.n = 1 then 4 else 1) := by
@@ -289,11 +289,11 @@ theorem rk2TwE6CoverThreeFrontier : Rk2TwE6CoverThreeFrontier := by
   have hFr : ∀ c : L, Fr c = c ^ 2 ^ lab.n := fun c => frobQ_apply 2 lab.n c
   have hθ : ∀ c : L, Fr (Fr c) = c := frobQ_frobQ 2 lab.n hn
   have h4L : 4 ≤ Nat.card L := four_le_card_galoisField 2 lab.n hn
-  haveI hModGLfin : Finite (ModGL TwistTag.E6.tag L) := finite_modGL
-  haveI hΓfin : Finite ↥(graphFixedRootGroup .E6 L Fr) := Subtype.finite
-  haveI hGperf : Group.IsPerfect (↥(fixedGroup L Fr)) :=
+  have hModGLfin : Finite (ModGL TwistTag.E6.tag L) := finite_modGL
+  have hΓfin : Finite ↥(graphFixedRootGroup .E6 L Fr) := Subtype.finite
+  have hGperf : Group.IsPerfect (↥(fixedGroup L Fr)) :=
     fixedGroup_isPerfect_of_four_le_card Fr hθ h4L
-  haveI hGfin : Finite (↥(fixedGroup L Fr)) := Subtype.finite
+  have hGfin : Finite (↥(fixedGroup L Fr)) := Subtype.finite
   have hΓstd : ⁅twistedFixedGroup .E6 L Fr, twistedFixedGroup .E6 L Fr⁆ =
       graphFixedRootGroup .E6 L Fr :=
     (finite_fixed_root_group_perfect .E6 Nat.prime_two hn L hLcard Fr hFr).2.2.1
@@ -303,8 +303,8 @@ theorem rk2TwE6CoverThreeFrontier : Rk2TwE6CoverThreeFrontier := by
   have hκ : Function.Surjective κ := QuotientGroup.mk'_surjective _
   have hκcen : κ.ker ≤ Subgroup.center K := by
     rw [show κ.ker = Subgroup.center K from QuotientGroup.ker_mk' (Subgroup.center K)]
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Group.IsPerfect K := hQ'.1
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Group.IsPerfect K := hQ'.1
   have hfacK' : (Nat.card κ.ker).factorization 3 =
       (Nat.card (CFSG.RankThree.PerfectCover.hopfMultiplier
         (K ⧸ Subgroup.center K))).factorization 3 := by

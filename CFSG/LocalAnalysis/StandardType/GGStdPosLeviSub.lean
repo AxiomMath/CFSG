@@ -143,7 +143,7 @@ theorem ggStdPosLevi_mem_map {K : Type*} [Group K] {D : UniversalRootDatum K}
     rw [CFSG.LieType.Steinberg.mem_normalizer_iff_map_conj, Subgroup.map_sup, hN γ hγ,
       hN (-γ) hγ']
   have hodd : Odd (Nat.card kˣ) := by
-    haveI := Fintype.ofFinite k
+    have := Fintype.ofFinite k
     obtain ⟨f, -, hf⟩ := FiniteField.card k 2
     have h1 : 2 ∣ 2 ^ (f : ℕ) := dvd_pow_self 2 f.pos.ne'
     have h2 : 0 < 2 ^ (f : ℕ) := by positivity

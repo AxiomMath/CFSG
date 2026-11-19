@@ -92,8 +92,8 @@ theorem e9Solv_of_props {G : Type} [Group G] [Finite G] (hZ : Subgroup.center G 
     have hc := mem_center_of_conj_eq_one hg
     rw [hZ, Subgroup.mem_bot] at hc
     exact hc
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hE9]; norm_num)
-  haveI : Nontrivial E := Finite.one_lt_card_iff_nontrivial.1 (by rw [hE9]; norm_num)
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hE9]; norm_num)
+  have : Nontrivial E := Finite.one_lt_card_iff_nontrivial.1 (by rw [hE9]; norm_num)
   have hs : ∃ s : G, s ≠ 1 ∧ s ^ 3 = 1 ∧ MulAut.conj s ∈ E := by
     obtain ⟨α₁, hα₁1⟩ := exists_ne (1 : E)
     have hα3 : (α₁.1 : MulAut G) ^ 3 = 1 := hE.2 α₁.1 α₁.2
@@ -141,13 +141,13 @@ theorem e9Solv_of_props {G : Type} [Group G] [Finite G] (hZ : Subgroup.center G 
       _ = x * s := by rw [this]
   have h7' : ¬ 7 ∣ Nat.card (i269Fix E) := by
     intro h
-    haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' (G := ↥(i269Fix E)) 7 h
     have hy' : orderOf (y : G) = 7 := by rw [Subgroup.orderOf_coe]; exact hy
     exact h7 s y hs3 hs1 hy' (hCs y y.2)
   have h5' : ¬ 5 ∣ Nat.card (i269Fix E) := by
     intro h
-    haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' (G := ↥(i269Fix E)) 5 h
     have hy' : orderOf (y : G) = 5 := by rw [Subgroup.orderOf_coe]; exact hy
     have hyE : ∀ α ∈ E, α (y : G) = y := mem_i269Fix.1 y.2

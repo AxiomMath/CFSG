@@ -276,7 +276,7 @@ theorem isElemTwo_map {A B : Type} [Group A] [Group B] (f : A →* B) (hf : Func
     {n : ℕ} {E : Subgroup A} (hE : IsElemTwo n E) : IsElemTwo n (E.map f) := by
   obtain ⟨⟨hcomm, hexp⟩, hcard⟩ := hE
   refine ⟨⟨?_, ?_⟩, ?_⟩
-  · haveI : IsMulCommutative ↥E := hcomm
+  · have : IsMulCommutative ↥E := hcomm
     exact Subgroup.map_isMulCommutative (H := E) f
   · intro x hx
     rw [Subgroup.mem_map] at hx

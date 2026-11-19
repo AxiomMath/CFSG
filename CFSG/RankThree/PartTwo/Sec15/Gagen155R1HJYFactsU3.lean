@@ -279,7 +279,7 @@ theorem exists_borelComplement_map_mulEquiv {G H : Type} [Group G] [Group H]
     ∀ U : Sylow 2 H, ∃ D : Subgroup H, IsCyclic D ∧ 5 ∣ Nat.card D ∧
       (U : Subgroup H) ⊓ D = ⊥ ∧
       (U : Subgroup H) ⊔ D = Subgroup.normalizer ((U : Subgroup H) : Set H) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro U
   let U' : Sylow 2 G := U.mapSurjective (f := e.symm.toMonoidHom) e.symm.surjective
   obtain ⟨D', hcyc, h5, hinf, hsup⟩ := h U'
@@ -292,7 +292,7 @@ theorem exists_borelComplement_map_mulEquiv {G H : Type} [Group G] [Group H]
       simp
     rw [hcomp, Subgroup.map_id]
   refine ⟨D'.map e.toMonoidHom, ?_, ?_, ?_, ?_⟩
-  · letI : IsCyclic ↥D' := hcyc
+  · let : IsCyclic ↥D' := hcyc
     let eD := e.subgroupMap D'
     exact isCyclic_of_surjective eD eD.surjective
   · rw [Subgroup.card_map_of_injective e.injective]
@@ -305,21 +305,21 @@ theorem res1HJYFacts_projSU {n : ℕ} (hn0 : 0 < n) (hn : Even n) :
   have hn2 : 2 ≤ n := by
     obtain ⟨m, rfl⟩ := hn
     omega
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Y := ↥(CFSG.PGLModel.projSU 3 2 n)
   change Res1HJYFacts Y
   let e : Y ≃* ↥(CFSG.Open.PSU3 2 n) := projSU3EquivPSU3 n
-  haveI : Finite Y := Finite.of_equiv (↥(CFSG.Open.PSU3 2 n)) e.symm.toEquiv
+  have : Finite Y := Finite.of_equiv (↥(CFSG.Open.PSU3 2 n)) e.symm.toEquiv
   have hTI : ∀ U V : Sylow 2 Y, U ≠ V → (U : Subgroup Y) ⊓ V = ⊥ := by
     intro U V hne
     have hBend : CFSG.Open.fusionIsBenderGroup Y :=
       CFSG.RankThree.PartTwo.Sec18.fusionIsBenderGroup_of_projSU_three hn2 (MulEquiv.refl Y)
     have hU : CFSG.ABGLocalTools.IsSylowOf 2 (U : Subgroup Y) ⊤ := by
       rw [CFSG.ABGLocalTools.isSylowOf_iff, Subgroup.relIndex_top_right]
-      exact ⟨le_top, U.isPGroup', U.not_dvd_index⟩
+      exact ⟨le_top, U.isPGroup, U.not_dvd_index⟩
     have hV : CFSG.ABGLocalTools.IsSylowOf 2 (V : Subgroup Y) ⊤ := by
       rw [CFSG.ABGLocalTools.isSylowOf_iff, Subgroup.relIndex_top_right]
-      exact ⟨le_top, V.isPGroup', V.not_dvd_index⟩
+      exact ⟨le_top, V.isPGroup, V.not_dvd_index⟩
     have hne' : (U : Subgroup Y) ≠ (V : Subgroup Y) := fun h => hne (Sylow.ext h)
     exact CFSG.CGT.PushingUpLit.C2L.StrongTI.bender_sylow_inf_eq_bot hBend hU hV hne'
   have hB : ∀ U : Sylow 2 Y, ∃ D : Subgroup Y, IsCyclic D ∧ 5 ∣ Nat.card D ∧

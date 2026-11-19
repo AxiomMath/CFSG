@@ -129,7 +129,7 @@ theorem factSzTorus_holds : FactSzTorus := by
       orderOf_injective (MulAut.conj x).toMonoidHom (MulAut.conj x).injective,
       ← MulEquiv.orderOf_eq eρ, hγ, Subgroup.orderOf_mk]
     exact hφodd
-  have hU2 : IsPGroup 2 ↥(suzukiU a K) := hP0 ▸ P0.isPGroup'
+  have hU2 : IsPGroup 2 ↥(suzukiU a K) := hP0 ▸ P0.isPGroup
   obtain ⟨k, hk⟩ := hU2 ⟨x * γ * x⁻¹, hψU⟩
   have hk' : (x * γ * x⁻¹) ^ 2 ^ k = 1 := by simpa using congrArg Subtype.val hk
   have hψ1 : x * γ * x⁻¹ = 1 := orderOf_eq_one_iff.mp

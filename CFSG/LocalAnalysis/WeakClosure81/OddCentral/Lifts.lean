@@ -26,7 +26,7 @@ noncomputable def rho (I : Subgroup G) (k : G) : MulAut ↥I :=
 
 theorem rho_apply {I : Subgroup G} {k : G} (hk : k ∈ normalizer (I : Set G)) (a : ↥I) :
     ((rho I k a : ↥I) : G) = k * a * k⁻¹ := by
-  rw [rho, dif_pos hk]; rfl
+  rw [rho, dite_eq_left hk]; rfl
 
 theorem rho_mul {I : Subgroup G} {k₁ k₂ : G} (h₁ : k₁ ∈ normalizer (I : Set G))
     (h₂ : k₂ ∈ normalizer (I : Set G)) : rho I (k₁ * k₂) = rho I k₁ * rho I k₂ := by
@@ -122,6 +122,7 @@ variable {G : Type} [Group G] [Finite G] {V H E : Subgroup G} {X : Type} [Group 
 @[expose] def Over (φ : ↥(kSub V H E) →* X) (ι : Y →* X) (g : G) (y : Y) : Prop :=
   ∃ hg : g ∈ kSub V H E, φ ⟨g, hg⟩ = ι y
 
+omit [Finite G] [Finite Y] in
 theorem over_mul {g g' : G} {y y' : Y} (h : Over φ ι g y) (h' : Over φ ι g' y') :
     Over φ ι (g * g') (y * y') := by
   obtain ⟨hg, hgy⟩ := h
@@ -129,26 +130,31 @@ theorem over_mul {g g' : G} {y y' : Y} (h : Over φ ι g y) (h' : Over φ ι g' 
   refine ⟨(kSub V H E).mul_mem hg hg', ?_⟩
   rw [map_mul, ← hgy, ← hgy', ← map_mul]; rfl
 
+omit [Finite G] [Finite Y] in
 theorem over_inv {g : G} {y : Y} (h : Over φ ι g y) : Over φ ι g⁻¹ y⁻¹ := by
   obtain ⟨hg, hgy⟩ := h
   refine ⟨(kSub V H E).inv_mem hg, ?_⟩
   rw [map_inv, ← hgy, ← map_inv]; rfl
 
+omit [Finite G] [Finite Y] in
 theorem over_one : Over φ ι (1 : G) (1 : Y) := ⟨(kSub V H E).one_mem, by
   rw [map_one, show (⟨1, (kSub V H E).one_mem⟩ : ↥(kSub V H E)) = 1 from
     Subtype.ext (OneMemClass.coe_one _).symm, map_one]⟩
 
+omit [Finite G] [Finite Y] in
 theorem over_conj {g k : G} {y e : Y} (h : Over φ ι g y) (hk : Over φ ι k e) :
     Over φ ι (k * g * k⁻¹) (e * y * e⁻¹) := over_mul (over_mul hk h) (over_inv hk)
 
+omit [Finite G] [Finite Y] in
 theorem over_unique (hι : Function.Injective ι) {g : G} {y y' : Y} (h : Over φ ι g y)
     (h' : Over φ ι g y') : y = y' := by
   obtain ⟨hg, hgy⟩ := h
   obtain ⟨_, hgy'⟩ := h'
   exact hι (hgy.symm.trans hgy')
 
+omit [Finite G] [Finite Y] in
 theorem over_one_iff (hφ : IsBarMap (kSub V H E) (pCoreOf 2 (kSub V H E)) φ)
-    (hι : Function.Injective ι) {g : G} (hg : g ∈ kSub V H E) :
+    (_hι : Function.Injective ι) {g : G} (hg : g ∈ kSub V H E) :
     Over φ ι g 1 ↔ g ∈ pCoreOf 2 (kSub V H E) := by
   constructor
   · rintro ⟨_, h⟩
@@ -156,6 +162,7 @@ theorem over_one_iff (hφ : IsBarMap (kSub V H E) (pCoreOf 2 (kSub V H E)) φ)
   · intro hJ
     exact ⟨hg, by rw [(hφ.ker_iff ⟨g, hg⟩).mpr hJ, map_one]⟩
 
+omit [Finite G] [Finite Y] in
 theorem exists_over (hφ : IsBarMap (kSub V H E) (pCoreOf 2 (kSub V H E)) φ) (y : Y) :
     ∃ g, Over φ ι g y := by
   obtain ⟨k, hk⟩ := hφ.surjective (ι y)
@@ -171,9 +178,11 @@ theorem exists_over (hφ : IsBarMap (kSub V H E) (pCoreOf 2 (kSub V H E)) φ) (y
     rintro _ ⟨y, hy, h⟩
     exact ⟨y⁻¹, P.inv_mem hy, over_inv h⟩
 
+omit [Finite G] [Finite Y] in
 theorem preSub_le_kSub (P : Subgroup Y) : preSub φ ι P ≤ kSub V H E := by
   rintro g ⟨y, -, hg, -⟩; exact hg
 
+omit [Finite G] [Finite Y] in
 theorem le_preSub (hφ : IsBarMap (kSub V H E) (pCoreOf 2 (kSub V H E)) φ)
     (hι : Function.Injective ι) (P : Subgroup Y) : pCoreOf 2 (kSub V H E) ≤ preSub φ ι P := by
   intro j hj
@@ -190,9 +199,11 @@ noncomputable def preHom (hι : Function.Injective ι) (P : Subgroup Y) : ↥(pr
     exact over_unique hι (Classical.choose_spec (x * x').2).2
       (over_mul (Classical.choose_spec x.2).2 (Classical.choose_spec x'.2).2)
 
+omit [Finite G] [Finite Y] in
 theorem preHom_spec (hι : Function.Injective ι) (P : Subgroup Y) (x : ↥(preSub φ ι P)) :
     Over φ ι (x : G) (preHom hι P x : Y) := (Classical.choose_spec x.2).2
 
+omit [Finite G] [Finite Y] in
 theorem preHom_surjective (hφ : IsBarMap (kSub V H E) (pCoreOf 2 (kSub V H E)) φ)
     (hι : Function.Injective ι) (P : Subgroup Y) : Function.Surjective (preHom (φ := φ) hι P) := by
   rintro ⟨p, hp⟩
@@ -200,6 +211,7 @@ theorem preHom_surjective (hφ : IsBarMap (kSub V H E) (pCoreOf 2 (kSub V H E)) 
   refine ⟨⟨g, p, hp, hg⟩, Subtype.ext ?_⟩
   exact over_unique hι (preHom_spec hι P _) hg
 
+omit [Finite G] [Finite Y] in
 theorem preHom_ker (hφ : IsBarMap (kSub V H E) (pCoreOf 2 (kSub V H E)) φ)
     (hι : Function.Injective ι) (P : Subgroup Y) :
     (preHom (φ := φ) hι P).ker = (pCoreOf 2 (kSub V H E)).subgroupOf (preSub φ ι P) := by
@@ -214,6 +226,7 @@ theorem preHom_ker (hφ : IsBarMap (kSub V H E) (pCoreOf 2 (kSub V H E)) φ)
   · intro hJ
     exact Subtype.ext (over_unique hι (preHom_spec hι P x) ((over_one_iff hφ hι hxK).mpr hJ))
 
+omit [Finite Y] in
 theorem isNilpotent_of_comm_central {P : Subgroup Y}
     (hPnil : ∀ x ∈ P, ∀ y ∈ P, x * y * x⁻¹ * y⁻¹ ∈ center Y) : Group.IsNilpotent ↥P := by
   apply Subgroup.isNilpotent_of_ker_le_center (Abelianization.of : ↥P →* Abelianization ↥P)
@@ -243,29 +256,36 @@ section Lift
 variable {G : Type} [Group G] [Finite G] {V H E : Subgroup G} {X : Type} [Group X]
   {φ : ↥(kSub V H E) →* X} {Y : Type} [Group Y] [Finite Y] {ι : Y →* X}
 
+omit [Finite G] in
 theorem kSub_le_H (h : Hyp711 V H E) : kSub V H E ≤ H := kSub_le_of_forall_le h.omega_le
 
+omit [Finite G] in
 theorem pCore_le_kSub : pCoreOf 2 (kSub V H E) ≤ kSub V H E :=
   CFSG.LieType.BorelTits.pCoreOf_le (r := 2) (kSub V H E)
 
+omit [Finite G] in
 theorem iSub_le_H (h : Hyp711 V H E) : iSub V H E ≤ H :=
   h.iSub_le.trans (pCore_le_kSub.trans (kSub_le_H h))
 
+omit [Finite G] in
 theorem H_le_normalizer_iSub (h : Hyp711 V H E) : H ≤ normalizer (iSub V H E : Set G) :=
   CFSG.LocalAnalysis.WeakClosure81.le_normalizer_of_subgroupOf_normal (iSub_le_H h)
     (iSub_subgroupOf_normal h.le h.normal)
 
+omit [Finite G] in
 theorem H_le_normalizer_pCore (h : Hyp711 V H E) :
     H ≤ normalizer (pCoreOf 2 (kSub V H E) : Set G) :=
   CFSG.LocalAnalysis.WeakClosure81.le_normalizer_of_subgroupOf_normal
     (pCore_le_kSub.trans (kSub_le_H h)) h.jnormal
 
+omit [Finite Y] [Finite G] in
 theorem normal_pCore_preSub (h : Hyp711 V H E)
     (hφ : IsBarMap (kSub V H E) (pCoreOf 2 (kSub V H E)) φ) (hι : Function.Injective ι)
     (P : Subgroup Y) : ((pCoreOf 2 (kSub V H E)).subgroupOf (preSub φ ι P)).Normal :=
   (normal_subgroupOf_iff_le_normalizer (le_preSub hφ hι P)).2
     ((preSub_le_kSub P).trans ((kSub_le_H h).trans (H_le_normalizer_pCore h)))
 
+omit [Finite G] [Finite Y] in
 theorem mem_normalizer_preSub {P : Subgroup Y} [hP : P.Normal] {g : G} {e : Y}
     (hg : Over φ ι g e) : g ∈ normalizer (preSub φ ι P : Set G) := by
   rw [mem_normalizer_iff]
@@ -278,6 +298,7 @@ theorem mem_normalizer_preSub {P : Subgroup Y} [hP : P.Normal] {g : G} {e : Y}
     refine ⟨e⁻¹ * y * e⁻¹⁻¹, hP.conj_mem y hy e⁻¹, ?_⟩
     rwa [show g⁻¹ * (g * x * g⁻¹) * g⁻¹⁻¹ = x by group] at this
 
+omit [Finite Y] [Finite G] in
 theorem over_of_mem_member (h : Hyp711 V H E) (hι : Function.Injective ι)
     (hS : Nat.card (barSub (kSub V H E) φ V) = 2) {U : Subgroup G} (hU : U ∈ omegaSet V H E)
     {u : G} {e : Y} (huU : u ∈ U) (hue : Over φ ι u e) (he1 : e ≠ 1) :
@@ -296,6 +317,7 @@ theorem over_of_mem_member (h : Hyp711 V H E) (hι : Function.Injective ι)
   · exact Or.inl ⟨_, h1.trans ι.map_one.symm⟩
   · exact Or.inr ⟨_, h1⟩
 
+omit [Finite G] [Finite Y] in
 theorem hyp76_of (h : Hyp711 V H E) (hφ : IsBarMap (kSub V H E) (pCoreOf 2 (kSub V H E)) φ)
     (hι : Function.Injective ι) {P : Subgroup Y}
     [hJX : ((pCoreOf 2 (kSub V H E)).subgroupOf (preSub φ ι P)).Normal]
@@ -315,6 +337,7 @@ theorem hyp76_of (h : Hyp711 V H E) (hφ : IsBarMap (kSub V H E) (pCoreOf 2 (kSu
     exact hPodd
   · exact Group.nilpotent_of_surjective e.symm.toMonoidHom e.symm.surjective
 
+omit [Finite G] [Finite Y] in
 theorem hyp76_bot (h : Hyp711 V H E) (hφ : IsBarMap (kSub V H E) (pCoreOf 2 (kSub V H E)) φ)
     (hι : Function.Injective ι) {P : Subgroup Y}
     [hJX : ((pCoreOf 2 (kSub V H E)).subgroupOf (preSub φ ι P)).Normal]
@@ -324,6 +347,7 @@ theorem hyp76_bot (h : Hyp711 V H E) (hφ : IsBarMap (kSub V H E) (pCoreOf 2 (kS
     (fun a ha _ => by rw [(Subgroup.mem_bot).mp ha]; exact one_mem _)
     (le_antisymm bot_le (iSup₂_le fun _ _ => iSup_le fun h => h)) IsPGroup.of_bot
 
+omit [Finite G] [Finite Y] in
 theorem hyp76_member (h : Hyp711 V H E) (hφ : IsBarMap (kSub V H E) (pCoreOf 2 (kSub V H E)) φ)
     (hι : Function.Injective ι) (hS : Nat.card (barSub (kSub V H E) φ V) = 2)
     {P : Subgroup Y} [hP : P.Normal]
@@ -353,6 +377,7 @@ theorem hyp76_member (h : Hyp711 V H E) (hφ : IsBarMap (kSub V H E) (pCoreOf 2 
   · exact le_antisymm (le_iSup₂_of_le U hU (le_iSup_of_le le_rfl le_rfl))
       (iSup₂_le fun _ _ => iSup_le fun h => h)
 
+omit [Finite Y] [Finite G] in
 theorem exists_lift_hall (h : Hyp711 V H E)
     (hφ : IsBarMap (kSub V H E) (pCoreOf 2 (kSub V H E)) φ) (hι : Function.Injective ι)
     {P Ptil : Subgroup G} {Q : Subgroup Y} (hQ : P = preSub φ ι Q)
@@ -381,6 +406,7 @@ noncomputable def theta (φ : ↥(kSub V H E) →* X) (ι : Y →* X) (Ptil : Su
   ∃ U ∈ omegaSet V H E, ∃ u ∈ U, IsConj s e ∧ Over φ ι u e ∧
     u ∈ normalizer (Ptil : Set G) ∧ w = rho (iSub V H E) u
 
+omit [Finite Y] in
 theorem rho_eq_of_over (h : Hyp711 V H E)
     (hφ : IsBarMap (kSub V H E) (pCoreOf 2 (kSub V H E)) φ) (hι : Function.Injective ι)
     {P Ptil : Subgroup G} (hPK : P ≤ kSub V H E)
@@ -401,16 +427,18 @@ theorem rho_eq_of_over (h : Hyp711 V H E)
     rho_eq_one (le_normalizer hi) (fun a ha => setLike_mul_comm hi ha),
     mul_one]
 
+omit [Finite Y] in
 theorem theta_eq (h : Hyp711 V H E)
     (hφ : IsBarMap (kSub V H E) (pCoreOf 2 (kSub V H E)) φ) (hι : Function.Injective ι)
     {P Ptil : Subgroup G} (hPK : P ≤ kSub V H E)
     (hY : IsHallCompl V H E (pCoreOf 2 (kSub V H E)) P Ptil)
     {q : G} {y : Y} (hq : q ∈ Ptil) (hqy : Over φ ι q y) : theta φ ι Ptil y = rho (iSub V H E) q := by
   have hex : ∃ q ∈ Ptil, Over φ ι q y := ⟨q, hq, hqy⟩
-  rw [theta, dif_pos hex]
+  rw [theta, dite_eq_left hex]
   exact rho_eq_of_over h hφ hι hPK hY hq (Classical.choose_spec hex).1 hqy
     (Classical.choose_spec hex).2
 
+omit [Finite Y] in
 theorem exists_liftRel (h : Hyp711 V H E)
     (hφ : IsBarMap (kSub V H E) (pCoreOf 2 (kSub V H E)) φ) (hι : Function.Injective ι)
     (hS : Nat.card (barSub (kSub V H E) φ V) = 2) {s : Y} (hsV : ι s ∈ barSub (kSub V H E) φ V)
@@ -442,11 +470,13 @@ theorem exists_liftRel (h : Hyp711 V H E)
     rwa [mul_one, mul_inv_cancel_left] at this
   exact ⟨_, U', hU', d₁, hd₁U', hse, hd₁, hd₁N, rfl⟩
 
+omit [Finite Y] [Finite G] in
 theorem hall_le_normalizer_iSub (h : Hyp711 V H E) {P : Subgroup Y} {Ptil : Subgroup G}
     (hY : IsHallCompl V H E (pCoreOf 2 (kSub V H E)) (preSub φ ι P) Ptil) :
     Ptil ≤ normalizer (iSub V H E : Set G) :=
   hY.le_X.trans ((preSub_le_kSub P).trans ((kSub_le_H h).trans (H_le_normalizer_iSub h)))
 
+omit [Finite Y] in
 theorem theta_mul (h : Hyp711 V H E) (hφ : IsBarMap (kSub V H E) (pCoreOf 2 (kSub V H E)) φ)
     (hι : Function.Injective ι) {P : Subgroup Y} {Ptil : Subgroup G}
     (hY : IsHallCompl V H E (pCoreOf 2 (kSub V H E)) (preSub φ ι P) Ptil) {x y : Y}
@@ -458,6 +488,7 @@ theorem theta_mul (h : Hyp711 V H E) (hφ : IsBarMap (kSub V H E) (pCoreOf 2 (kS
     theta_eq h hφ hι (preSub_le_kSub P) hY hq hqx, theta_eq h hφ hι (preSub_le_kSub P) hY hq' hq'y,
     rho_mul (hPN hq) (hPN hq')]
 
+omit [Finite Y] in
 theorem eq_one_of_theta (h : Hyp711 V H E) (hφ : IsBarMap (kSub V H E) (pCoreOf 2 (kSub V H E)) φ)
     (hι : Function.Injective ι) {P : Subgroup Y} {Ptil : Subgroup G}
     (hY : IsHallCompl V H E (pCoreOf 2 (kSub V H E)) (preSub φ ι P) Ptil) {x : Y}
@@ -469,8 +500,9 @@ theorem eq_one_of_theta (h : Hyp711 V H E) (hφ : IsBarMap (kSub V H E) (pCoreOf
   have hqJ := kSub_inf_centralizer_iSub_le_pCoreOf h ⟨hqK, hqC⟩
   exact over_unique hι hqx ((over_one_iff hφ hι hqK).mpr hqJ)
 
+omit [Finite Y] in
 theorem theta_conj (h : Hyp711 V H E) (hφ : IsBarMap (kSub V H E) (pCoreOf 2 (kSub V H E)) φ)
-    (hι : Function.Injective ι) {P : Subgroup Y} [hP : P.Normal] {Ptil : Subgroup G}
+    (hι : Function.Injective ι) {P : Subgroup Y} [_hP : P.Normal] {Ptil : Subgroup G}
     (hY : IsHallCompl V H E (pCoreOf 2 (kSub V H E)) (preSub φ ι P) Ptil) {s : Y}
     {w : MulAut ↥(iSub V H E)} {e : Y} (hw : LiftRel φ ι s Ptil w e) {p : Y} (hp : p ∈ P) :
     w * theta φ ι Ptil p * w⁻¹ = theta φ ι Ptil (e * p * e⁻¹) := by
@@ -482,6 +514,7 @@ theorem theta_conj (h : Hyp711 V H E) (hφ : IsBarMap (kSub V H E) (pCoreOf 2 (k
     theta_eq h hφ hι (preSub_le_kSub P) hY huq (over_conj hqp hue),
     rho_conj huI (hall_le_normalizer_iSub h hY hq)]
 
+omit [Finite Y] in
 theorem liftRel_move (h : Hyp711 V H E) (hφ : IsBarMap (kSub V H E) (pCoreOf 2 (kSub V H E)) φ)
     (hι : Function.Injective ι) {P : Subgroup Y} {Ptil : Subgroup G}
     (hY : IsHallCompl V H E (pCoreOf 2 (kSub V H E)) (preSub φ ι P) Ptil) {s : Y}
@@ -500,6 +533,7 @@ theorem liftRel_move (h : Hyp711 V H E) (hφ : IsBarMap (kSub V H E) (pCoreOf 2 
   · rw [theta_eq h hφ hι (preSub_le_kSub P) hY hq hqp,
       rho_conj (hall_le_normalizer_iSub h hY hq) huI]
 
+omit [Finite Y] in
 theorem commute_of_liftRel (h : Hyp711 V H E)
     (hφ : IsBarMap (kSub V H E) (pCoreOf 2 (kSub V H E)) φ) (hι : Function.Injective ι)
     (hS : Nat.card (barSub (kSub V H E) φ V) = 2) {s : Y} (hs1 : s ≠ 1) {Ptil : Subgroup G}
@@ -516,6 +550,7 @@ theorem commute_of_liftRel (h : Hyp711 V H E)
     fun hx => H_le_normalizer_iSub h (kSub_le_H h hx)
   rw [← rho_mul (hN hue.1) (hN hu'e.1), hc, rho_mul (hN hu'e.1) (hN hue.1)]
 
+omit [Finite Y] in
 theorem ti_of_liftRel (h : Hyp711 V H E) (hι : Function.Injective ι)
     (hS : Nat.card (barSub (kSub V H E) φ V) = 2) {s : Y} (hs1 : s ≠ 1) {Ptil : Subgroup G}
     {w w' : MulAut ↥(iSub V H E)} {e e' : Y} (hw : LiftRel φ ι s Ptil w e)
@@ -543,6 +578,7 @@ theorem ti_of_liftRel (h : Hyp711 V H E) (hι : Function.Injective ι)
   rw [rho_apply (hN hue.1)]
   exact (Subgroup.mem_bot).mp hmem
 
+omit [Finite Y] in
 theorem false_of_frame_G (h : Hyp711 V H E)
     (hφ : IsBarMap (kSub V H E) (pCoreOf 2 (kSub V H E)) φ) (hι : Function.Injective ι)
     (hS : Nat.card (barSub (kSub V H E) φ V) = 2) {s : Y} (hsV : ι s ∈ barSub (kSub V H E) φ V)
@@ -564,11 +600,11 @@ theorem false_of_frame_G (h : Hyp711 V H E)
   classical
   have hPnil : Group.IsNilpotent P :=
     isNilpotent_of_comm_central (fun x hx y hy => hZc (hP' x hx y hy))
-  haveI := normal_pCore_preSub h hφ hι P
+  have := normal_pCore_preSub h hφ hι P
   obtain ⟨Ptil, hY⟩ := (hyp76_bot h hφ hι hPodd hPnil (P := P)).exists_hallCompl
   have hIe := seven_two_iSub_isElemAbelian_uncond h.elemAbelian h.ti h.abelian h.omega_le
-  letI iC : CommGroup ↥(iSub V H E) := commGroupOf _ hIe.1
-  letI iA : DistribMulAction (MulAut ↥(iSub V H E)) (Additive ↥(iSub V H E)) :=
+  let iC : CommGroup ↥(iSub V H E) := commGroupOf _ hIe.1
+  let iA : DistribMulAction (MulAut ↥(iSub V H E)) (Additive ↥(iSub V H E)) :=
     mulAutAdditive _
   have hL : LiftData (Additive ↥(iSub V H E)) P (theta φ ι Ptil) (LiftRel φ ι s Ptil) :=
     { hom := fun x hx y hy => theta_mul h hφ hι hY hx hy

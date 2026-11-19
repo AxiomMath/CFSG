@@ -19,7 +19,7 @@ theorem isMaxParabolicP_of_threeTenHyp_of_isSLType {I D P Y : Subgroup H} {p d :
     (hNne : Y ≠ Subgroup.normalizer (P : Set H) ⊓ I) :
     IsMaxParabolicP p I Y := by
   obtain ⟨hp, -, -, -, -, hI, -, -, hP, -, -, hN⟩ := hhyp
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hPI : P ≤ I := by
     rw [hI]
     exact p_sylow_le_oPPrimeHull hp hP

@@ -83,7 +83,7 @@ private theorem card_le_of_le_reeLocalParabolic_zero (hK : Nat.card K = 2 ^ (2 *
     {E' : Subgroup (ModGL F4.tag K)}
     (hE'P : E' ≤ F4.reeLocalParabolic K a ⟨0, by decide⟩) (hE' : IsElemAbelian p E') :
     Nat.card E' ≤ p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hE'p : IsPGroup p ↥E' := fun x => ⟨1, Subtype.ext (by simpa using hE'.2 x x.2)⟩
   have hRP : rankOneGroupOne K a ≤ F4.reeLocalParabolic K a ⟨0, by decide⟩ :=
     CFSG.AGLEmbeddingD2.Tits.S3AmalgamBound.MinParRankOne.Ree.rankOneGroupOne_le_reeLocalParabolic
@@ -94,7 +94,7 @@ private theorem card_le_of_le_reeLocalParabolic_zero (hK : Nat.card K = 2 ^ (2 *
   obtain ⟨φ, hφ⟩ := exists_injective_hom_of_le hRP hidx hE'P hE'p
   let ψ : ↥E' →* SL2 K := (rankOneEquivSL K a hK).symm.toMonoidHom.comp φ
   have hψ : Function.Injective ψ := (rankOneEquivSL K a hK).symm.injective.comp hφ
-  haveI : CharP K 2 := (inferInstance : CharP K F4.prime)
+  have : CharP K 2 := (inferInstance : CharP K F4.prime)
   have hpK : (p : K) ≠ 0 := by
     intro h0
     have h2p : 2 ∣ p := (CharP.cast_eq_zero_iff K 2 p).1 h0
@@ -117,8 +117,8 @@ private theorem card_le_of_le_reeLocalParabolic_one (ha : 1 ≤ a) (hK : Nat.car
     {E' : Subgroup (ModGL F4.tag K)}
     (hE'P : E' ≤ F4.reeLocalParabolic K a ⟨1, by decide⟩) (hE' : IsElemAbelian p E') :
     Nat.card E' ≤ p := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI hfin : Finite (ModGL F4.tag K) := finite_modGL
+  have : Fact p.Prime := ⟨hp⟩
+  have hfin : Finite (ModGL F4.tag K) := finite_modGL
   have hE'p : IsPGroup p ↥E' := fun x => ⟨1, Subtype.ext (by simpa using hE'.2 x x.2)⟩
   have hRP : rankOneGroupTwo K a ≤ F4.reeLocalParabolic K a ⟨1, by decide⟩ :=
     CFSG.AGLEmbeddingD2.Tits.S3AmalgamBound.MinParRankOne.Ree.rankOneGroupTwo_le_reeLocalParabolic
@@ -132,7 +132,7 @@ private theorem card_le_of_le_reeLocalParabolic_one (ha : 1 ≤ a) (hK : Nat.car
   let e : ↥(rankOneGroupTwo K a) ≃* CFSG.BenderSuzuki.MatrixGroups.SuzukiMatrixGroup a :=
     (rankOneEquivSuzuki K a ha hK).trans
       (CFSG.ShultStronglyClosedTI.SuzukiModel.suzukiGroupEquivSuzukiMatrixGroup hK)
-  haveI : IsCyclic ↥Q :=
+  have : IsCyclic ↥Q :=
     CFSG.BenderSuzuki.lemma114_suzuki_oddSylow_isCyclic_of_equiv e p hp2 Q
   let ι : ↥E' →* ↥Q := (Subgroup.inclusion hQ).comp φ.rangeRestrict
   have hrr : Function.Injective φ.rangeRestrict := fun x y h => hφ (congrArg Subtype.val h)
@@ -145,8 +145,8 @@ theorem reeGamma_card_le_of_not_dvd (hK : Nat.card K = 2 ^ (2 * a + 1)) (ha : 1 
     {E T : Subgroup ↥(F4.reeGamma K a)} (hE : IsElemAbelian p E) (hT2 : IsPGroup 2 T) (hT : T ≠ ⊥)
     (hEN : E ≤ Subgroup.normalizer (T : Set ↥(F4.reeGamma K a))) : Nat.card E ≤ p := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI hfin : Finite (ModGL F4.tag K) := finite_modGL
+  have : Fact p.Prime := ⟨hp⟩
+  have hfin : Finite (ModGL F4.tag K) := finite_modGL
   obtain ⟨j, E', hE'P, hE', hcard⟩ := exists_isElemAbelian_le_localParabolic hK hE hT2 hT hEN
   rw [← hcard]
   obtain ⟨jv, hjv⟩ := j

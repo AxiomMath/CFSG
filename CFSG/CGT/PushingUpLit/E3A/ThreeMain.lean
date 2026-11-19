@@ -34,7 +34,7 @@ theorem wcBlockCentralizerThree_of_list
   have hR1 : R ≠ ⊥ := ne_bot_of_four_le_card hR4
   have hSR : ∀ S : Sylow 2 G, R ≤ (S : Subgroup G) →
       (S : Subgroup G) ≤ Subgroup.normalizer (R : Set G) :=
-    fun S hRS => hwc.le_normalizer_of_le_pGroup S.isPGroup' hRS
+    fun S hRS => hwc.le_normalizer_of_le_pGroup S.isPGroup hRS
   rcases hlist with ⟨m, s, hm, hs, hmod⟩ | ⟨s, hs, hmod⟩ | ⟨s, hodd, hs3, hmod⟩ |
     ⟨k, hk6, hk9, he⟩ | hM22 | hM23 | hM24
   · by_cases hm3 : 3 ≤ m

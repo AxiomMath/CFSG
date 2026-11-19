@@ -84,7 +84,7 @@ theorem lieKindSl23One_proved :
         decide
     exact ⟨s, S1916.mem_sylow_sl23 P h4, rfl⟩
   have hP2 : IsPGroup 2
-      ((P : Subgroup (Matrix.SpecialLinearGroup (Fin 2) (ZMod 3))).map ψ) := P.isPGroup'.map ψ
+      ((P : Subgroup (Matrix.SpecialLinearGroup (Fin 2) (ZMod 3))).map ψ) := P.isPGroup.map ψ
   have key : ∀ M ∈ Φ, M = (P : Subgroup (Matrix.SpecialLinearGroup (Fin 2) (ZMod 3))).map ψ := by
     intro M hM
     obtain ⟨F, hF, hMF⟩ := hfund M hM

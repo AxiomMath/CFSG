@@ -200,11 +200,11 @@ theorem SL3Facts.frame_mem_M_iff {D : Data G} {Ch : Choice2011 G} {c : Ctx2311 D
         ((c.toCtx23L.Ztil F.hV : Subgroup (c.toCtx23L.W F.hV)) :
           Set (c.toCtx23L.W F.hV))).map
         (MulAut.conj (c.phiL F.hV (x i))⁻¹).toMonoidHom) := by
-  letI : MulDistribMulAction ↥(c.H F.hV) (c.toCtx23L.W F.hV) :=
+  let : MulDistribMulAction ↥(c.H F.hV) (c.toCtx23L.W F.hV) :=
     MulDistribMulAction.compHom (c.toCtx23L.W F.hV) (c.H F.hV).subtype
-  letI : MulAction ↥(c.H F.hV) (c.toCtx23L.W F.hV) :=
+  let : MulAction ↥(c.H F.hV) (c.toCtx23L.W F.hV) :=
     MulAction.compHom (c.toCtx23L.W F.hV) (c.H F.hV).subtype
-  letI : MulAction ↥(c.H F.hV) (Set (c.toCtx23L.W F.hV)) := Set.mulActionSet
+  let : MulAction ↥(c.H F.hV) (Set (c.toCtx23L.W F.hV)) := Set.mulActionSet
   let l' : ↥c.L :=
     ⟨(x i : G) * (l : G) * (x i : G)⁻¹,
       c.L.mul_mem (c.L.mul_mem (x i).2 l.2) (c.L.inv_mem (x i).2)⟩
@@ -254,11 +254,11 @@ theorem SL3Facts.frame_comap_stabilizer_le {D : Data G} {Ch : Choice2011 G}
       (MulAut.conj (c.phiL F.hV (x i))⁻¹).toMonoidHom →
       (l : G) ∈ conjSubgroup D.M (x i : G) ∧
         (l : G) ∈ Subgroup.normalizer (frameE x i : Set G) := by
-  letI : MulDistribMulAction ↥(c.H F.hV) (c.toCtx23L.W F.hV) :=
+  let : MulDistribMulAction ↥(c.H F.hV) (c.toCtx23L.W F.hV) :=
     MulDistribMulAction.compHom (c.toCtx23L.W F.hV) (c.H F.hV).subtype
-  letI : MulAction ↥(c.H F.hV) (c.toCtx23L.W F.hV) :=
+  let : MulAction ↥(c.H F.hV) (c.toCtx23L.W F.hV) :=
     MulAction.compHom (c.toCtx23L.W F.hV) (c.H F.hV).subtype
-  letI : MulAction ↥(c.H F.hV) (Set (c.toCtx23L.W F.hV)) := Set.mulActionSet
+  let : MulAction ↥(c.H F.hV) (Set (c.toCtx23L.W F.hV)) := Set.mulActionSet
   intro hl
   have hM := (F.frame_mem_M_iff x i l).mpr hl
   exact ⟨hM, frame_conj_M_le_normalizer x i hM⟩
@@ -329,10 +329,10 @@ private theorem frame_iSup_subgroupOf_eq_top {D : Data G} {Ch : Choice2011 G}
     (hx : IsSL3Frame (frameKStar F) (fun i => c.phiL F.hV (x i))) :
     (⨆ i, (frameE x i).subgroupOf c.L) = ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let JL : Subgroup ↥c.L := ⨆ i, (frameE x i).subgroupOf c.L
   let SL : Subgroup ↥c.L := CFSG.pCore 2 ↥c.L
-  haveI : JL.Normal := frame_iSup_normal F x hx
+  have : JL.Normal := frame_iSup_normal F x hx
   have hsup : JL ⊔ SL = ⊤ := frame_iSup_sup_pCore_eq_top F x hx
   have hSLmapq : SL.map (QuotientGroup.mk' JL) = ⊤ := by
     have htopq : (⊤ : Subgroup ↥c.L).map (QuotientGroup.mk' JL) = ⊤ :=
@@ -346,13 +346,13 @@ private theorem frame_iSup_subgroupOf_eq_top {D : Data G} {Ch : Choice2011 G}
         (QuotientGroup.mk' JL)
     rw [hSLmapq] at hmapP
     exact IsPGroup.of_equiv hmapP Subgroup.topEquiv
-  haveI : Group.IsPerfect ↥c.L := Subgroup.isPerfect_iff.mpr c.hL.1.2.1
-  haveI : Group.IsPerfect (↥c.L ⧸ JL) := inferInstance
+  have : Group.IsPerfect ↥c.L := Subgroup.isPerfect_iff.mpr c.hL.1.2.1
+  have : Group.IsPerfect (↥c.L ⧸ JL) := inferInstance
   have hNil : Group.IsNilpotent (↥c.L ⧸ JL) := IsPGroup.isNilpotent hP
   have hsub : Subsingleton (↥c.L ⧸ JL) := by
     rw [← not_nontrivial_iff_subsingleton]
     intro hnt
-    haveI : Nontrivial (↥c.L ⧸ JL) := hnt
+    have : Nontrivial (↥c.L ⧸ JL) := hnt
     exact Group.IsPerfect.not_isNilpotent (↥c.L ⧸ JL) hNil
   exact QuotientGroup.subgroup_eq_top_of_subsingleton JL hsub
 
@@ -417,7 +417,7 @@ private theorem frame_E_le_normalizer_S0 {D : Data G} {Ch : Choice2011 G}
 private theorem frame_commutator_mul_mem {D : Data G} {Ch : Choice2011 G}
     {c : Ctx2311 D Ch} {x : Fin 3 → ↥c.L}
     (hLnorm : c.L ≤ Subgroup.normalizer (frameS0 x : Set G))
-    {a b : G} (haL : a ∈ c.L) (hbL : b ∈ c.L)
+    {a b : G} (haL : a ∈ c.L) (_hbL : b ∈ c.L)
     (ha : ∀ s ∈ frameS c, ⁅a, s⁆ ∈ frameS0 x)
     (hb : ∀ s ∈ frameS c, ⁅b, s⁆ ∈ frameS0 x) :
     ∀ s ∈ frameS c, ⁅a * b, s⁆ ∈ frameS0 x := by
@@ -510,7 +510,7 @@ private theorem frame_pCore_center_quotient {D : Data G} {Ch : Choice2011 G}
   let SL : Subgroup ↥c.L := CFSG.pCore 2 ↥c.L
   let q : ↥c.L →* ↥c.L ⧸ S0L := QuotientGroup.mk' S0L
   let Z : Subgroup (↥c.L ⧸ S0L) := SL.map q
-  haveI : S0L.Normal := hS0L
+  have : S0L.Normal := hS0L
   have hLS := frame_commutator_top_pCore_le F x hx
   rw [← Subgroup.commutator_top_left_eq_bot_iff_le_center]
   have hmap := Subgroup.map_mono (f := q) hLS
@@ -523,7 +523,7 @@ private theorem frame_pCore_center_quotient {D : Data G} {Ch : Choice2011 G}
 
 private theorem frame_pCore_shape_quotient {D : Data G} {Ch : Choice2011 G}
     {c : Ctx2311 D Ch} (F : c.SL3Facts) (x : Fin 3 → ↥c.L)
-    (hx : IsSL3Frame (frameKStar F) (fun i => c.phiL F.hV (x i)))
+    (_hx : IsSL3Frame (frameKStar F) (fun i => c.phiL F.hV (x i)))
     [hS0L : ((frameS0 x).subgroupOf c.L).Normal] :
     PartTwo.IsSLn ((↥c.L ⧸ (frameS0 x).subgroupOf c.L) ⧸
       ((CFSG.pCore 2 ↥c.L).map
@@ -532,7 +532,7 @@ private theorem frame_pCore_shape_quotient {D : Data G} {Ch : Choice2011 G}
   let S0L : Subgroup ↥c.L := (frameS0 x).subgroupOf c.L
   let SL : Subgroup ↥c.L := CFSG.pCore 2 ↥c.L
   let Z : Subgroup (↥c.L ⧸ S0L) := SL.map (QuotientGroup.mk' S0L)
-  haveI : S0L.Normal := hS0L
+  have : S0L.Normal := hS0L
   have hS0_le_S : frameS0 x ≤ frameS c := iSup_le fun i => inf_le_right
   have hS0L_le_SL : S0L ≤ SL := by
     intro l hl
@@ -554,25 +554,25 @@ private theorem frame_pCore_le_S0 {D : Data G} {Ch : Choice2011 G} {c : Ctx2311 
     (hx : IsSL3Frame (frameKStar F) (fun i => c.phiL F.hV (x i))) :
     CFSG.pCore 2 ↥c.L ≤ (frameS0 x).subgroupOf c.L := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hS0Lnorm : ((frameS0 x).subgroupOf c.L).Normal :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hS0Lnorm : ((frameS0 x).subgroupOf c.L).Normal :=
     frame_S0_subgroupOf_normal F x hx
   let S0L : Subgroup ↥c.L := (frameS0 x).subgroupOf c.L
   let SL : Subgroup ↥c.L := CFSG.pCore 2 ↥c.L
   let q : ↥c.L →* ↥c.L ⧸ S0L := QuotientGroup.mk' S0L
   let Z : Subgroup (↥c.L ⧸ S0L) := SL.map q
-  haveI : S0L.Normal := hS0Lnorm
+  have : S0L.Normal := hS0Lnorm
   have hcenter : Z ≤ Subgroup.center (↥c.L ⧸ S0L) :=
     frame_pCore_center_quotient F x hx
   have hshape : PartTwo.IsSLn ((↥c.L ⧸ S0L) ⧸ Z) 3 (CFSG.Open.pRank 2 D.Z) :=
     frame_pCore_shape_quotient F x hx
   have hXperf : ⁅(⊤ : Subgroup (↥c.L ⧸ S0L)),
       (⊤ : Subgroup (↥c.L ⧸ S0L))⁆ = ⊤ := by
-    haveI : Group.IsPerfect ↥c.L := Subgroup.isPerfect_iff.mpr c.hL.1.2.1
-    haveI : Group.IsPerfect (↥c.L ⧸ S0L) := inferInstance
+    have : Group.IsPerfect ↥c.L := Subgroup.isPerfect_iff.mpr c.hL.1.2.1
+    have : Group.IsPerfect (↥c.L ⧸ S0L) := inferInstance
     rw [← _root_.commutator_def]
     exact Group.IsPerfect.commutator_eq_top
-  haveI : Z.Normal := Subgroup.normal_of_le_center hcenter
+  have : Z.Normal := Subgroup.normal_of_le_center hcenter
   have hZbot : Z = ⊥ := kSchurSL3_holds (↥c.L ⧸ S0L) (CFSG.Open.pRank 2 D.Z)
     hXperf Z hcenter hshape F.h3
   have hmapbot : SL.map q = ⊥ := hZbot

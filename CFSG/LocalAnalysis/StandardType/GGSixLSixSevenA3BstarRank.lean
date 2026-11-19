@@ -27,6 +27,7 @@ section BlockEmb
 
 variable (ε : Fin n ≃ (Fin e × Fin s) ⊕ Fin r) {i j : Fin s}
 
+omit [CharP K 2] in
 theorem blockEmb_add (X Y : Matrix (Fin e) (Fin e) K) :
     blockEmb ε i j (X + Y) = blockEmb ε i j X + blockEmb ε i j Y := by
   have hF : (Matrix.fromBlocks (Matrix.of fun x y : Fin e × Fin s =>
@@ -46,14 +47,16 @@ theorem blockEmb_add (X Y : Matrix (Fin e) (Fin e) K) :
   rw [blockEmb, blockEmb, blockEmb, hF, Matrix.submatrix_add]
   simp
 
+omit [CharP K 2] in
 theorem blockEmb_zero : blockEmb ε i j (0 : Matrix (Fin e) (Fin e) K) = 0 := by
   have h : (Matrix.of fun x y : Fin e × Fin s =>
       if x.2 = i ∧ y.2 = j then (0 : Matrix (Fin e) (Fin e) K) x.1 y.1 else 0) = 0 := by
     ext x y
-    by_cases h : x.2 = i ∧ y.2 = j <;> simp [h]
+    by_cases h : x.2 = i ∧ y.2 = j <;> simp
   rw [blockEmb, h]
   simp
 
+omit [CharP K 2] in
 theorem blockEmb_mul_blockEmb (hij : i ≠ j) (X Y : Matrix (Fin e) (Fin e) K) :
     blockEmb ε i j X * blockEmb ε i j Y = 0 := by
   have hAB : (Matrix.of fun x y : Fin e × Fin s => if x.2 = i ∧ y.2 = j then X x.1 y.1 else 0) *
@@ -69,6 +72,7 @@ theorem blockEmb_mul_blockEmb (hij : i ≠ j) (X Y : Matrix (Fin e) (Fin e) K) :
   rw [blockEmb, blockEmb, Matrix.submatrix_mul_equiv, Matrix.fromBlocks_multiply, hAB]
   simp
 
+omit [CharP K 2] in
 theorem nsMat_mul_blockEmb {C : Matrix (Fin e) (Fin e) K} (k : Fin s → ℕ)
     (X : Matrix (Fin e) (Fin e) K) :
     SLNS.nsMat ε C k * blockEmb ε i j X = blockEmb ε i j (C ^ k i * X) := by
@@ -79,7 +83,7 @@ theorem nsMat_mul_blockEmb {C : Matrix (Fin e) (Fin e) K} (k : Fin s → ℕ)
     ext ⟨a, l⟩ ⟨b, m⟩
     rw [Matrix.mul_apply, Fintype.sum_prod_type_right]
     by_cases hlm : l = i ∧ m = j
-    · rw [Matrix.of_apply, if_pos hlm]
+    · rw [Matrix.of_apply, ite_eq_left hlm]
       have hsum : (∑ w, ∑ c, Matrix.blockDiagonal (fun i => C ^ k i) (a, l) (c, w) *
           (Matrix.of fun x y : Fin e × Fin s =>
             if x.2 = i ∧ y.2 = j then X x.1 y.1 else 0) (c, w) (b, m)) =
@@ -90,22 +94,23 @@ theorem nsMat_mul_blockEmb {C : Matrix (Fin e) (Fin e) K} (k : Fin s → ℕ)
         intro w hw
         apply Finset.sum_eq_zero
         intro c _
-        rw [Matrix.blockDiagonal_apply, if_neg hw.symm, zero_mul]
+        rw [Matrix.blockDiagonal_apply, ite_eq_right hw.symm, zero_mul]
       rw [hsum, Matrix.mul_apply]
       refine Finset.sum_congr rfl fun c _ => ?_
-      rw [Matrix.blockDiagonal_apply, if_pos rfl, Matrix.of_apply, if_pos hlm, hlm.1]
-    · rw [Matrix.of_apply, if_neg hlm]
+      rw [Matrix.blockDiagonal_apply, ite_eq_left rfl, Matrix.of_apply, ite_eq_left hlm, hlm.1]
+    · rw [Matrix.of_apply, ite_eq_right hlm]
       apply Finset.sum_eq_zero
       intro w _
       apply Finset.sum_eq_zero
       intro c _
       by_cases hw : l = w
-      · rw [Matrix.blockDiagonal_apply, if_pos hw, Matrix.of_apply, ← hw, if_neg hlm, mul_zero]
-      · rw [Matrix.blockDiagonal_apply, if_neg hw, zero_mul]
+      · rw [Matrix.blockDiagonal_apply, ite_eq_left hw, Matrix.of_apply, ← hw, ite_eq_right hlm, mul_zero]
+      · rw [Matrix.blockDiagonal_apply, ite_eq_right hw, zero_mul]
   rw [blockEmb, SLNS.nsMat, SLNS.nsCore, Matrix.submatrix_mul_equiv, Matrix.fromBlocks_multiply,
     h]
   simp [blockEmb]
 
+omit [CharP K 2] in
 theorem blockEmb_mul_nsMat {C : Matrix (Fin e) (Fin e) K} (k : Fin s → ℕ)
     (X : Matrix (Fin e) (Fin e) K) :
     blockEmb ε i j X * SLNS.nsMat ε C k = blockEmb ε i j (X * C ^ k j) := by
@@ -116,7 +121,7 @@ theorem blockEmb_mul_nsMat {C : Matrix (Fin e) (Fin e) K} (k : Fin s → ℕ)
     ext ⟨a, l⟩ ⟨b, m⟩
     rw [Matrix.mul_apply, Fintype.sum_prod_type_right]
     by_cases hlm : l = i ∧ m = j
-    · rw [Matrix.of_apply, if_pos hlm]
+    · rw [Matrix.of_apply, ite_eq_left hlm]
       have hsum : (∑ w, ∑ c, (Matrix.of fun x y : Fin e × Fin s =>
             if x.2 = i ∧ y.2 = j then X x.1 y.1 else 0) (a, l) (c, w) *
             Matrix.blockDiagonal (fun i => C ^ k i) (c, w) (b, m)) =
@@ -127,26 +132,27 @@ theorem blockEmb_mul_nsMat {C : Matrix (Fin e) (Fin e) K} (k : Fin s → ℕ)
         intro w hw
         apply Finset.sum_eq_zero
         intro c _
-        rw [Matrix.blockDiagonal_apply, if_neg hw, mul_zero]
+        rw [Matrix.blockDiagonal_apply, ite_eq_right hw, mul_zero]
       rw [hsum, Matrix.mul_apply]
       refine Finset.sum_congr rfl fun c _ => ?_
-      rw [Matrix.of_apply, if_pos hlm, Matrix.blockDiagonal_apply, if_pos rfl, hlm.2]
-    · rw [Matrix.of_apply, if_neg hlm]
+      rw [Matrix.of_apply, ite_eq_left hlm, Matrix.blockDiagonal_apply, ite_eq_left rfl, hlm.2]
+    · rw [Matrix.of_apply, ite_eq_right hlm]
       apply Finset.sum_eq_zero
       intro w _
       apply Finset.sum_eq_zero
       intro c _
       by_cases hw : m = w
-      · rw [Matrix.of_apply, ← hw, if_neg hlm, zero_mul]
-      · rw [Matrix.blockDiagonal_apply, if_neg (Ne.symm hw), mul_zero]
+      · rw [Matrix.of_apply, ← hw, ite_eq_right hlm, zero_mul]
+      · rw [Matrix.blockDiagonal_apply, ite_eq_right (Ne.symm hw), mul_zero]
   rw [blockEmb, SLNS.nsMat, SLNS.nsCore, Matrix.submatrix_mul_equiv, Matrix.fromBlocks_multiply,
     h]
   simp [blockEmb]
 
+omit [CharP K 2] in
 theorem blockEmb_apply (a b : Fin e) (X : Matrix (Fin e) (Fin e) K) :
     blockEmb ε i j X (ε.symm (Sum.inl (a, i))) (ε.symm (Sum.inl (b, j))) = X a b := by
   rw [blockEmb, Matrix.submatrix_apply, Equiv.apply_symm_apply, Equiv.apply_symm_apply,
-    Matrix.fromBlocks_apply₁₁, Matrix.of_apply, if_pos ⟨rfl, rfl⟩]
+    Matrix.fromBlocks_apply₁₁, Matrix.of_apply, ite_eq_left ⟨rfl, rfl⟩]
 
 theorem det_one_add_blockEmb (hij : i ≠ j) (X : Matrix (Fin e) (Fin e) K) :
     (1 + blockEmb ε i j X).det = 1 := by

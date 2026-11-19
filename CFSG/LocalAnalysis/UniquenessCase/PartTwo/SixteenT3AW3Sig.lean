@@ -26,7 +26,7 @@ theorem s16t_w3_sig_eq (D : Data G) (hx : DataExt D) (h61 : UC6.R6_1 D) (h127 : 
   rw [Set.mem_singleton_iff]
   refine ⟨fun hq => ?_, fun hq => hq ▸ h3σ⟩
   obtain ⟨hqP, hq2⟩ := D.sig_prime q hq
-  haveI : Fact q.Prime := ⟨hqP⟩
+  have : Fact q.Prime := ⟨hqP⟩
   obtain ⟨E, hE, hEc, hY'⟩ := exists_rank_data h115 (Hyp125.hyp11 h127 h) hc4 hq
   have hEM : E.map D.M.subtype ≤ D.M := Subgroup.map_subtype_le E
   have hEst : E.map D.M.subtype ≤ stabTil ⊥ V := hEM.trans hMst

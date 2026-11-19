@@ -65,9 +65,11 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem p0_O_le_M (t tau x₁ x₂ : G) : ctxO t tau x₁ x₂ ≤ ctxM t tau x₁ x₂ :=
   CFSG.LieType.BorelTits.pCoreOf_le 2 (ctxM t tau x₁ x₂)
 
+omit [Finite G] in
 theorem p0_normal_O (t tau x₁ x₂ : G) : NormalIn (ctxO t tau x₁ x₂) (ctxM t tau x₁ x₂) :=
   ⟨p0_O_le_M t tau x₁ x₂, fun _ hg _ hk =>
     (Subgroup.mem_normalizer_iff.mp
@@ -76,6 +78,7 @@ theorem p0_normal_O (t tau x₁ x₂ : G) : NormalIn (ctxO t tau x₁ x₂) (ctx
 theorem p0_isPGroup_O (t tau x₁ x₂ : G) : IsPGroup 2 (ctxO t tau x₁ x₂) :=
   CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 (ctxM t tau x₁ x₂)
 
+omit [Finite G] in
 theorem p0_le_O_of_normal (t tau x₁ x₂ : G) {N : Subgroup G}
     (hN : NormalIn N (ctxM t tau x₁ x₂)) (h2 : IsPGroup 2 N) : N ≤ ctxO t tau x₁ x₂ := by
   have hnorm : ctxM t tau x₁ x₂ ≤ Subgroup.normalizer (N : Set G) := by

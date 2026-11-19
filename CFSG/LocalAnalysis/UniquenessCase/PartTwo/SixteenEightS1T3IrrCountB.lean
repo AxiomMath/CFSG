@@ -10,9 +10,10 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {W : Type} [CommGroup W] [Finite W] {L : Subgroup (MulAut W)}
 
+omit [Finite W] in
 theorem s16t3_mem_irrSet_iff (I : Subgroup W) :
     I ∈ irrSet L ↔ I ∈ IrrPlus L (⊤ : Subgroup W) := by
-  rw [irrSet, Set.mem_setOf_eq, mem_irrPlus_top_iff]
+  rw [irrSet, Set.mem_ofPred_eq, mem_irrPlus_top_iff]
   constructor
   · rintro ⟨hcomm, hlt, hstab, -, hirr⟩
     exact ⟨hstab, hcomm, hlt, hirr⟩

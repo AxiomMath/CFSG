@@ -20,6 +20,7 @@ variable {Ω : Type} [Fintype Ω] [DecidableEq Ω]
   inv_mem' := fun {g} hg x => by
     simpa using (hg (g⁻¹ x)).symm
 
+omit [Fintype Ω] [DecidableEq Ω] in
 theorem le_normalizer_fibreStab {ι : Type} {β : Ω → ι} {Q : Subgroup (Perm Ω)}
     (hQ : ∀ q ∈ Q, ∀ x y, β (q x) = β (q y) ↔ β x = β y) :
     Q ≤ normalizer (fibreStab β : Set (Perm Ω)) := by
@@ -34,12 +35,13 @@ theorem le_normalizer_fibreStab {ι : Type} {β : Ω → ι} {Q : Subgroup (Perm
   have := key q⁻¹ (Q.inv_mem hq) _ hh
   simpa [mul_assoc] using this
 
+omit [DecidableEq Ω] in
 theorem exists_blocks {Q : Subgroup (Perm Ω)} (hQ : IsPGroup 2 Q) :
     ∃ β : Ω → Set Ω, (∀ x y, y ∈ β x ↔ β y = β x) ∧ (∀ x, β x ⊆ orbit Q x) ∧
       (∀ x, Nat.card (orbit Q x) < 4 → β x = orbit Q x) ∧
       (∀ x, 4 ≤ Nat.card (orbit Q x) → (β x).ncard = 4) ∧
       ∀ q ∈ Q, ∀ x, β (q x) = q '' β x := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let rep : Ω → Ω := fun x => (Quotient.mk (MulAction.orbitRel Q Ω) x).out
   have rep_mem : ∀ x, rep x ∈ orbit Q x := by
     intro x

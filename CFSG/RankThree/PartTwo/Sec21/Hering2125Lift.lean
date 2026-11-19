@@ -75,13 +75,13 @@ theorem lift_pCore_of_lift {H : Type} [Group H] [Finite H] (Θ : Subgroup H) [Θ
       exact Subtype.ext (hcen _ h2 g).symm
     have : Group.IsNilpotent R := hR2.isNilpotent
     exact Subgroup.isNilpotent_of_ker_le_center f hker
-  haveI : Group.IsNilpotent T := hTnil
+  have : Group.IsNilpotent T := hTnil
   obtain ⟨S₂⟩ : Nonempty (Sylow 2 T) := inferInstance
   have hS₂n : (S₂ : Subgroup T).Normal := inferInstance
-  haveI : (S₂ : Subgroup T).Characteristic := Sylow.characteristic_of_normal S₂ hS₂n
+  have : (S₂ : Subgroup T).Characteristic := Sylow.characteristic_of_normal S₂ hS₂n
   set N : Subgroup H := (S₂ : Subgroup T).map T.subtype with hN
   have hNT : N ≤ T := Subgroup.map_subtype_le _
-  have hN2 : IsPGroup 2 N := S₂.isPGroup'.map T.subtype
+  have hN2 : IsPGroup 2 N := S₂.isPGroup.map T.subtype
   have hCN : C ≤ Subgroup.normalizer (N : Set H) :=
     hCT.trans (CFSG.LieType.BorelTits.normalizer_le_normalizer_map_of_characteristic
       (S₂ : Subgroup T))

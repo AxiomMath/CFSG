@@ -14,7 +14,7 @@ theorem exists_isElemAbelian_card_prime_sq_of_mulEquiv_zmod_sq {A : Subgroup G} 
     (e : ↥A ≃* Multiplicative (ZMod m × ZMod m)) (hr : r.Prime) (hdvd : r ∣ m) :
     ∃ E : Subgroup G, E ≤ A ∧ CFSG.Open.IsElemAbelian r E ∧ Nat.card E = r ^ 2 := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hcardA : Nat.card ↥A = m * m := by
     calc Nat.card ↥A = Nat.card (Multiplicative (ZMod m × ZMod m)) := Nat.card_congr e.toEquiv
       _ = Nat.card (ZMod m × ZMod m) := Nat.card_congr Multiplicative.toAdd

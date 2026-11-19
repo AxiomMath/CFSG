@@ -96,7 +96,7 @@ theorem ffTab6PClass_holds (hGA : CFSG.Open.GriessAllModelsStatement) : FFTab6PC
   layer_om5_iff := ff_layer_om5_iff hGA
   prod_i2 := ff_prod_i2 hGA
   excl := ff_excl hGA
-  center_triv := fun _ _ _ L hL => ff_centerIn_eq_bot_six_plus hGA hL
+  center_triv := fun _ _ _ _L hL => ff_centerIn_eq_bot_six_plus hGA hL
   xout_eq := ff_xout_eq hGA
   xout_i3 := ff_xout_i3 hGA
 

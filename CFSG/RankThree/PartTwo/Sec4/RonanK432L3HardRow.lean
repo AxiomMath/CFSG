@@ -14,7 +14,7 @@ open CFSG.Assembly.RankThreeEven (projSL projSU)
 
 instance finite_projImage_fin {n : ℕ} {K : Type} [Field K] [Finite K]
     (H : Subgroup (GL (Fin n) K)) : Finite (projImage H) := by
-  haveI : Finite (Matrix.ProjGenLinGroup (Fin n) K) :=
+  have : Finite (Matrix.ProjGenLinGroup (Fin n) K) :=
     Finite.of_surjective (Matrix.ProjGenLinGroup.mk : Matrix.GeneralLinearGroup (Fin n) K →* _)
       Matrix.ProjGenLinGroup.mk_surjective
   infer_instance
@@ -22,7 +22,7 @@ instance finite_projImage_fin {n : ℕ} {K : Type} [Field K] [Finite K]
 theorem listRow_projImage_slPi {π : Bool} {p f : ℕ} {K : Type} [Field K] [Finite K]
     (hK : PiField π p f K) (hq : ModThree π (p ^ f)) :
     ListRow (projImage (slPi π 3 (p ^ f) K)) := by
-  haveI : Finite (Matrix.ProjGenLinGroup (Fin 3) K) :=
+  have : Finite (Matrix.ProjGenLinGroup (Fin 3) K) :=
     Finite.of_surjective (Matrix.ProjGenLinGroup.mk : Matrix.GeneralLinearGroup (Fin 3) K →* _)
       Matrix.ProjGenLinGroup.mk_surjective
   refine L3Hard.listRow_map_of_witness
@@ -44,7 +44,7 @@ theorem listRow_projImage_slPi {π : Bool} {p f : ℕ} {K : Type} [Field K] [Fin
 theorem listRow_projSL_three_of_mod_one {K : Type} [Field K] [Finite K]
     (hK : Nat.card K % 3 = 1) : ListRow (projSL 3 K) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, hp, hcard⟩ := FiniteField.card K (ringChar K)
   have hcard' : Nat.card K = ringChar K ^ (n : ℕ) := by
     rw [Nat.card_eq_fintype_card, hcard]

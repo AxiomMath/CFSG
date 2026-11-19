@@ -39,7 +39,7 @@ theorem tabLy_coprime_outer (hOut : SporadicOuterLeTwo) (hBr : SporadicBridges)
 
 theorem tabLy_centShapeRk (hOut : SporadicOuterLeTwo) (hBr : SporadicBridges) :
     CentShapeRk 3 (GoodSpor 3 [.McL]) (RkSpor 3 [.McL]) (NativeSporadic.Carrier .Ly) := by
-  haveI : Finite (NativeSporadic.Carrier .Ly) := Nat.finite_of_card_ne_zero (by
+  have : Finite (NativeSporadic.Carrier .Ly) := Nat.finite_of_card_ne_zero (by
     show Nat.card NativeSporadic.Ly ≠ 0
     rw [CFSG.Sporadic.Ly.card_Ly]
     norm_num)

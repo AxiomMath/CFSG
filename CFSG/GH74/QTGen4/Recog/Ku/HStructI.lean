@@ -269,6 +269,7 @@ namespace KuHyp
 
 variable [Finite G] {T M H P : Subgroup G} {z : G}
 
+omit [Finite G] in
 theorem exists_comm_eq_z (h : KuHyp G T M H P z) {c : G} (hcP : c ∈ P)
     (hc : c ∉ Subgroup.zpowers z) : ∃ p ∈ P, ⁅p, c⁆ = z := by
   by_contra hno

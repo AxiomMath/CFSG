@@ -26,6 +26,7 @@ noncomputable def e7Tau (w : GGTorusTorWit 3 7 L' A)
   (w.coordHom hcomm).comp ((matVecHom e7LocalR).comp
     (MulEquiv.piMultiplicative (fun _ : Fin 7 => ZMod 3)).symm.toMonoidHom)
 
+omit [Finite L'] in
 private theorem e7Tau_apply (w : GGTorusTorWit 3 7 L' A)
     (hcomm : ∀ j k ζ ξ, Commute (w.cor j ζ) (w.cor k ξ))
     (v : Fin 7 → Multiplicative (ZMod 3)) :
@@ -34,6 +35,7 @@ private theorem e7Tau_apply (w : GGTorusTorWit 3 7 L' A)
   rw [e7Tau, MonoidHom.comp_apply, MonoidHom.comp_apply]
   simp only [MulEquiv.coe_toMonoidHom, MulEquiv.piMultiplicative_symm_apply, matVecHom_ofAdd]
 
+omit [Finite L'] in
 private theorem e7Tau_mulSingle (w : GGTorusTorWit 3 7 L' A)
     (hcomm : ∀ j k ζ ξ, Commute (w.cor j ζ) (w.cor k ξ)) (j : Fin 7) :
     w.e7Tau hcomm (Pi.mulSingle j (Multiplicative.ofAdd (1 : ZMod 3))) =
@@ -43,7 +45,7 @@ private theorem e7Tau_mulSingle (w : GGTorusTorWit 3 7 L' A)
       ((Pi.mulSingle j (Multiplicative.ofAdd (1 : ZMod 3)) :
         Fin 7 → Multiplicative (ZMod 3)) i)) = Pi.single j 1 := by
     funext i
-    by_cases h : i = j <;> simp [Pi.mulSingle_apply, Pi.single_apply, h]
+    by_cases h : i = j <;> simp [h]
   rw [hvec]
 
 private theorem matVecHom_e7LocalR_surjective : Function.Surjective (matVecHom e7LocalR) := by
@@ -63,6 +65,7 @@ private theorem matVecHom_e7LocalR_injective : Function.Injective (matVecHom e7L
   have h2 := congrArg (matVecHom e7LocalRinv) h
   rwa [hleft v, hleft v'] at h2
 
+omit [Finite L'] in
 theorem e7Tau_range (w : GGTorusTorWit 3 7 L' A)
     (hcomm : ∀ j k ζ ξ, Commute (w.cor j ζ) (w.cor k ξ)) :
     (w.e7Tau hcomm).range = ⨆ k, (w.cor k).range := by
@@ -71,6 +74,7 @@ theorem e7Tau_range (w : GGTorusTorWit 3 7 L' A)
   rw [e7Tau, MonoidHom.range_comp, MonoidHom.range_comp, htop, Subgroup.map_top,
     MonoidHom.range_eq_top.mpr matVecHom_e7LocalR_surjective, Subgroup.map_top, coordHom_range]
 
+omit [Finite L'] in
 theorem e7Tau_injective (w : GGTorusTorWit 3 7 L' A)
     (hcomm : ∀ j k ζ ξ, Commute (w.cor j ζ) (w.cor k ξ))
     (hcard : Nat.card ↥(⨆ k, (w.cor k).range) = 3 ^ 7) :
@@ -167,6 +171,7 @@ private theorem e7LocalR_mulVec_conj (S : Matrix (Fin 7) (Fin 7) (ZMod 3)) (j : 
         (Matrix.mulVec_mulVec _ _ _).symm
 
 
+omit [Finite L'] in
 private theorem e7Tau_e7LocalGen (k j' : Fin 7) :
     w.e7Tau hcomm (fun i => Multiplicative.ofAdd (e7LocalGen k i.succ j'.succ)) =
       w.coordHom hcomm (Multiplicative.ofAdd
@@ -177,6 +182,7 @@ private theorem e7Tau_e7LocalGen (k j' : Fin 7) :
   exact congrArg (fun u => w.coordHom hcomm (Multiplicative.ofAdd u))
     (e7LocalR_mulVec_conj (e7CorootRefl k) j')
 
+omit [Finite G] [Finite L'] in
 private theorem vec_e7LocalGen_succ {e : ↥K ≃* L'} {hτ : Function.Injective (w.e7Tau hcomm)}
     {hb₀ : orderOf b₀ = 3} {hKC : K ≤ Subgroup.centralizer ({b₀} : Set G)}
     {hdisj : Disjoint (Subgroup.zpowers b₀) K} (k j' : Fin 7) :
@@ -215,6 +221,7 @@ private theorem exists_inv_mem_closure {M : Matrix (Fin 8) (Fin 8) (ZMod 3)}
         _ = N' * N := by rw [one_mul]
         _ = 1 := hN'N
 
+omit [Finite G] [Finite L'] in
 theorem e7LocalGen_acts (hw : w.Holds (CartanMatrix.E 7) CoxeterMatrix.E₇)
     (hZ : Subgroup.center L' = ⊥)
     {e : ↥K ≃* L'} {hτ : Function.Injective (w.e7Tau hcomm)}
@@ -256,6 +263,7 @@ theorem e7LocalGen_acts (hw : w.Holds (CartanMatrix.E 7) CoxeterMatrix.E₇)
     rw [hx, hgen]
 
 
+omit [Finite G] [Finite L'] in
 theorem exists_acts_of_mem_closure (hw : w.Holds (CartanMatrix.E 7) CoxeterMatrix.E₇)
     (hZ : Subgroup.center L' = ⊥)
     {e : ↥K ≃* L'} {hτ : Function.Injective (w.e7Tau hcomm)}
@@ -305,6 +313,7 @@ theorem exists_acts_of_mem_closure (hw : w.Holds (CartanMatrix.E 7) CoxeterMatri
       hconj (Pi.single j 1), Matrix.mulVec_single_one]
     rfl
 
+omit [Finite L'] in
 theorem conj_mem_normalizer_of_mem_closure
     (hwn : ∀ k, MulAut.conj (w.n k) ∈ Subgroup.normalizer (A : Set (MulAut L'))) :
     ∀ y ∈ Subgroup.closure (Set.range w.n),
@@ -314,7 +323,7 @@ theorem conj_mem_normalizer_of_mem_closure
     MulAut.conj y ∈ Subgroup.normalizer (A : Set (MulAut L'))) ?_ ?_ ?_ ?_ hy
   · rintro y ⟨k, rfl⟩
     exact hwn k
-  · simpa using Subgroup.one_mem _
+  · simp
   · rintro y z _ _ hy hz
     rw [map_mul]
     exact Subgroup.mul_mem _ hy hz
@@ -322,6 +331,7 @@ theorem conj_mem_normalizer_of_mem_closure
     rw [map_inv]
     exact Subgroup.inv_mem _ hy
 
+omit [Finite L'] in
 theorem exists_closure_eq_ggConjAut (hw : w.Holds (CartanMatrix.E 7) CoxeterMatrix.E₇) :
     ∀ φ ∈ ggAutomizer (MulAut.conj : L' →* MulAut L').range A,
       ∃ (y : L') (hy : y ∈ Subgroup.closure (Set.range w.n)),
@@ -345,7 +355,7 @@ theorem exists_closure_eq_ggConjAut (hw : w.Holds (CartanMatrix.E 7) CoxeterMatr
         (fun b => ggConjAut_apply A
           (conj_mem_normalizer_of_mem_closure (w := w) (fun k => w.hn k) y hy) b),
       ggConjAut_apply]
-    simp only [zpow_neg_one, map_inv]
+    simp only [map_inv]
     group
   refine Subgroup.closure_induction (k := Set.range fun k => ggConjAut A (w.hn k))
     (p := fun φ _ => ∃ (y : L') (hy : y ∈ Subgroup.closure (Set.range w.n)),
@@ -366,7 +376,7 @@ theorem exists_closure_eq_ggConjAut (hw : w.Holds (CartanMatrix.E 7) CoxeterMatr
     refine ⟨y * z, Subgroup.mul_mem _ hy hz, ?_⟩
     refine MulEquiv.ext fun b => Subtype.ext ?_
     rw [MulAut.mul_apply, ggConjAut_apply, ggConjAut_apply, ggConjAut_apply]
-    simp only [map_mul, zpow_neg_one, mul_inv_rev]
+    simp only [map_mul, mul_inv_rev]
     group
   · rintro φ _ ⟨y, hy, rfl⟩
     refine ⟨y⁻¹, Subgroup.inv_mem _ hy, hconj_inv y hy⟩
@@ -384,6 +394,7 @@ variable {hdisj : Disjoint (Subgroup.zpowers b₀) K}
 variable {hZ : Subgroup.center L' = ⊥}
 
 
+omit [Finite G] [Finite L'] in
 private theorem conj_eq_of_acts_vec {y : L'} {M : Matrix (Fin 8) (Fin 8) (ZMod 3)}
     (hM : (torusBasis e hτ hb₀ hKC hdisj).Acts ((e.symm y : ↥K) : G) M)
     {a : L'} {u : Coords 8} (hu : ((e.symm a : ↥K) : G) = (torusBasis e hτ hb₀ hKC hdisj).vec u) :
@@ -401,6 +412,7 @@ private theorem conj_eq_of_acts_vec {y : L'} {M : Matrix (Fin 8) (Fin 8) (ZMod 3
   rw [hu]
   exact Basis3.acts_vec (torusBasis e hτ hb₀ hKC hdisj) hM u
 
+omit [Finite G] [Finite L'] in
 theorem ggConjAut_eq_of_acts {y y' : L'}
     (hyN : MulAut.conj y ∈ Subgroup.normalizer
       ((A'.map (MulAut.conj : L' →* MulAut L')) : Set (MulAut L')))
@@ -434,6 +446,7 @@ theorem ggConjAut_eq_of_acts {y y' : L'}
     rw [map_mul, map_mul, map_inv]
   rw [h1, h2, hkey a ha]
 
+omit [Finite G] [Finite L'] in
 theorem acts_unique_of_ggConjAut_eq (hZ : Subgroup.center L' = ⊥) {y y' : L'}
     (hyN : MulAut.conj y ∈ Subgroup.normalizer
       ((A'.map (MulAut.conj : L' →* MulAut L')) : Set (MulAut L')))

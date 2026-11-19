@@ -12,7 +12,7 @@ open CFSG.ABGLocalTools
 theorem pRank_le_of_isSylowOf_le {X : Type} [Group X] [Finite X] {p : Nat} (hp : p.Prime)
     {Y N₁ S : Subgroup X} (hSY : S ≤ Y) (hSyl : IsSylowOf p S Y) (hSN : S ≤ N₁) :
     CFSG.Open.pRank p Y ≤ CFSG.Open.pRank p N₁ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨T, rfl⟩ := hSyl
   have hmap : CFSG.Open.pRank p ((T : Subgroup Y).map Y.subtype) =
       CFSG.Open.pRank p (T : Subgroup Y) := by

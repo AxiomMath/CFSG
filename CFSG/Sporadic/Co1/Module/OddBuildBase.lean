@@ -42,22 +42,22 @@ theorem mat_reg_inv
     mat (reg i)⁻¹ = rowsMatrix 24 (rr j) := by
   rw [reg_inv h, mat_reg]
 
-@[expose] noncomputable def omega0 : Vec24 := toVecD 24 code4
+noncomputable def omega0 : Vec24 := toVecD 24 code4
 
 theorem reg_fix
     {i : ℕ} (h : isFixedN (Mt i) code4 = true) : reg i • omega0 = omega0 := by
   rw [smul_eq_co1Act, omega0, co1Act_eq_mulVec, mat_reg]
   exact (isFixedN_iff (rr i) (by norm_num [code4])).1 h
 
-@[expose] noncomputable def n1 : NativeSporadic.Co1 := reg 23
+noncomputable def n1 : NativeSporadic.Co1 := reg 23
 
-@[expose] noncomputable def n2 : NativeSporadic.Co1 := reg 17
+noncomputable def n2 : NativeSporadic.Co1 := reg 17
 
-@[expose] noncomputable def rho3 : NativeSporadic.Co1 := reg 27
+noncomputable def rho3 : NativeSporadic.Co1 := reg 27
 
-@[expose] noncomputable def t1 : NativeSporadic.Co1 := reg 86
+noncomputable def t1 : NativeSporadic.Co1 := reg 86
 
-@[expose] noncomputable def sRep
+noncomputable def sRep
     (k : Fin 3) : NativeSporadic.Co1 := reg (sIdx[(k : ℕ)]!)
 
 noncomputable abbrev Hst : Subgroup NativeSporadic.Co1 :=

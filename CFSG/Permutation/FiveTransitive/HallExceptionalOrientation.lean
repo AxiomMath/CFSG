@@ -14,6 +14,7 @@ open Research.HallExceptionalContradiction
 
 variable {G X : Type} [Group G] [Finite G] [Fintype X] [MulAction G X]
 
+omit [Finite G] in
 theorem exists_oriented_quarterTurn
     (h4 : MulAction.IsMultiplyPretransitive G X 4)
     (e : Fin 4 ↪ X)
@@ -284,6 +285,7 @@ theorem exists_oriented_quarterTurn
   · exact (he2r ((MulAction.injective u)
       (hu2r.trans hur.symm))).elim
 
+omit [Finite G] in
 theorem exists_oriented_quarterTurn_six
     (h4 : MulAction.IsMultiplyPretransitive G X 4)
     (e : Fin 4 ↪ X)

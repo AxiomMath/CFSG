@@ -32,7 +32,7 @@ theorem herm_add_right (u v v' : Fin 3 → K) :
 
 theorem herm_smul_right (c : K) (u v : Fin 3 → K) :
     hermLin K f 3 0 3 u (c • v) = c * hermLin K f 3 0 3 u v := by
-  simpa using map_smul (hermLin K f 3 0 3 u) c v
+  simp
 
 theorem herm_symm (hK : Nat.card K = (2 ^ f) ^ 2) (u v : Fin 3 → K) :
     hermLin K f 3 0 3 v u = sg K f (hermLin K f 3 0 3 u v) := by
@@ -165,12 +165,13 @@ theorem finrank_span_pair_of_gram {x y : Fin 3 → K}
   rw [← hspan, finrank_span_eq_card hli]
   simp
 
+omit [Finite K] [CharP K 2] in
 private theorem plh2_blockU_a2pol (x : FlagK K 3) (r : ℕ) :
     blockU K 3 [0, 3] x.E 0 r = x.E r := by
   simp only [blockU, Vsub_zero, Vsub_self, List.getD_cons_zero, List.getD_cons_succ,
     inf_top_eq, sup_bot_eq, Nat.sub_self, Nat.zero_add]
 
-theorem mem_a2pol_iff (hK : Nat.card K = (2 ^ f) ^ 2) (x : FlagK K 3) :
+theorem mem_a2pol_iff (_hK : Nat.card K = (2 ^ f) ^ 2) (x : FlagK K 3) :
     x ∈ genSet K f 3 [0, 3] [true] ↔
       x.E 1 ⊓ perpB K f 3 0 3 (x.E 1) = ⊥ ∧ x.E 2 ⊓ perpB K f 3 0 3 (x.E 2) = ⊥ := by
   have hlen : [0, 3].length = 2 := rfl
@@ -197,7 +198,7 @@ theorem mem_a2pol_iff (hK : Nat.card K = (2 ^ f) ^ 2) (x : FlagK K 3) :
     · exact absurd hi (by decide)
   have hiff := blockOK_iff_of_far (d := [0, 3]) (pol := [true]) f hle hmono hfar (i := 0)
     (by rw [hlen]; decide)
-  simp only [genSet, Set.mem_setOf_eq]
+  simp only [genSet, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨-, hb⟩
     have hb' := hiff.mp (hb 0 (by rw [hlen]; decide))

@@ -89,9 +89,9 @@ theorem m7_offdiag {M : Matrix (Fin 6) (Fin 6) (ZMod 3)}
   have e₁ := congrFun h₁ i
   have e₂ := congrFun h₂ i
   rw [Matrix.mulVec_add, Pi.add_apply, mulVec_xvec, mulVec_xvec, Pi.smul_apply, Pi.add_apply,
-    mono_xvec_apply, mono_xvec_apply, if_neg hij, if_neg hik] at e₁
+    mono_xvec_apply, mono_xvec_apply, ite_eq_right hij, ite_eq_right hik] at e₁
   rw [Matrix.mulVec_sub, Pi.sub_apply, mulVec_xvec, mulVec_xvec, Pi.smul_apply, Pi.sub_apply,
-    mono_xvec_apply, mono_xvec_apply, if_neg hij, if_neg hik] at e₂
+    mono_xvec_apply, mono_xvec_apply, ite_eq_right hij, ite_eq_right hik] at e₂
   have key : ∀ a b c d : ZMod 3, a + b = c • (0 + 0) → a - b = d • (0 - 0) → a = 0 := by decide
   exact key _ _ c₁ c₂ e₁ e₂
 
@@ -103,9 +103,9 @@ theorem m7_diag_eq {M : Matrix (Fin 6) (Fin 6) (ZMod 3)}
   have e₁ := congrFun hc j
   have e₂ := congrFun hc k
   rw [Matrix.mulVec_add, Pi.add_apply, mulVec_xvec, mulVec_xvec, Pi.smul_apply, Pi.add_apply,
-    mono_xvec_apply, mono_xvec_apply, if_pos rfl, if_neg hjk, off j k hjk] at e₁
+    mono_xvec_apply, mono_xvec_apply, ite_eq_left rfl, ite_eq_right hjk, off j k hjk] at e₁
   rw [Matrix.mulVec_add, Pi.add_apply, mulVec_xvec, mulVec_xvec, Pi.smul_apply, Pi.add_apply,
-    mono_xvec_apply, mono_xvec_apply, if_pos rfl, if_neg hjk.symm, off k j hjk.symm] at e₂
+    mono_xvec_apply, mono_xvec_apply, ite_eq_left rfl, ite_eq_right hjk.symm, off k j hjk.symm] at e₂
   have key : ∀ a b c : ZMod 3, a + 0 = c • (1 + 0) → 0 + b = c • (0 + 1) → a = b := by decide
   exact key _ _ c e₁ e₂
 
@@ -136,7 +136,7 @@ theorem m7_scalar {M : Matrix (Fin 6) (Fin 6) (ZMod 3)}
       obtain ⟨c, hc⟩ := h x6 qV_x6
       have := congrFun hc i
       have h5 : x6 = xvec 5 := rfl
-      rw [h5, mulVec_xvec, Pi.smul_apply, mono_xvec_apply, if_neg hij] at this
+      rw [h5, mulVec_xvec, Pi.smul_apply, mono_xvec_apply, ite_eq_right hij] at this
       simpa using this
     · have hjv : j.val < 5 := by
         have : j.val ≠ 5 := fun h => hj5 (Fin.ext h)
@@ -159,8 +159,8 @@ theorem m7_scalar {M : Matrix (Fin 6) (Fin 6) (ZMod 3)}
   rw [mulVec_xvec, Pi.smul_apply, mono_xvec_apply]
   by_cases hij : i = j
   · subst hij
-    rw [if_pos rfl, hdiag i, smul_eq_mul, mul_one]
-  · rw [if_neg hij, off i j hij, smul_zero]
+    rw [ite_eq_left rfl, hdiag i, smul_eq_mul, mul_one]
+  · rw [ite_eq_right hij, off i j hij, smul_zero]
 
 theorem m7_eq_one_of_fix {g : ↥MDot} (hg : ∀ P : PtX, g • P = P) : g = 1 := by
   obtain ⟨c, hc⟩ := m7_scalar (fun v hv => m7_eigen_of_fix hg hv)

@@ -22,6 +22,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem s16h_bb_conjSubgroup_le_of_mem {A M : Subgroup G} (hA : A ≤ M) {x : G}
     (hx : x ∈ M) : conjSubgroup A x ≤ M := by
   intro y hy
@@ -30,13 +31,14 @@ private theorem s16h_bb_conjSubgroup_le_of_mem {A M : Subgroup G} (hA : A ≤ M)
   have e : x⁻¹ * (x * y * x⁻¹) * x = y := by group
   rwa [e] at h1
 
+omit [Finite G] in
 private theorem s16h_bb_barSub_sup {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
     {A B : Subgroup G} (hA : A ≤ stabTil V₀ V) (hB : B ≤ stabTil V₀ V) :
     barSub V₀ V hV (A ⊔ B) = barSub V₀ V hV A ⊔ barSub V₀ V hV B := by
   unfold barSub
   rw [Subgroup.subgroupOf_sup hA hB, Subgroup.map_sup]
 
-private theorem s16h_bb_exists_Eb_of_dvd_CTilde (D : Data G) (S : s16h_Std D)
+private theorem s16h_bb_exists_Eb_of_dvd_CTilde (D : Data G) (_S : s16h_Std D)
     {V₀ V L : Subgroup G} (h : Setting16 D V₀ V L)
     (hs2 : s15 D.M V₀ V h.hyp151.isElemAbelian L = 2)
     (hcomp : IsComponentOf (lBar V₀ V h.hyp151.isElemAbelian L)
@@ -109,7 +111,7 @@ private theorem s16h_bb_exists_Eb_of_dvd_CTilde (D : Data G) (S : s16h_Std D)
       refine (mem_preBarSub D.M V₀ V hV _).2 ⟨hgM, hgs, ?_⟩
       rw [h1]
       exact Subgroup.one_mem _
-  haveI : Group.IsPerfect ↥(barSub V₀ V hV L) := ⟨hcomp.2.2.1⟩
+  have : Group.IsPerfect ↥(barSub V₀ V hV L) := ⟨hcomp.2.2.1⟩
   have hperfBar : Group.IsPerfect ↥(barSub V₀ V hV (conjSubgroup L x)) := by
     rw [s15_Infra_barSub_conjSubgroup V₀ V hV (hMs hx) L]
     exact Group.IsPerfect.map (MulAut.conj (actTil V₀ V hV ⟨x, hMs hx⟩)⁻¹).toMonoidHom
@@ -140,7 +142,7 @@ private theorem s16h_bb_exists_Eb_of_dvd_CTilde (D : Data G) (S : s16h_Std D)
   have hPe : P ≃* P' := Subgroup.equivMapOfInjective P Hsub.subtype Hsub.subtype_injective
   have hP'p : IsPGroup 3 P' := hPp.of_equiv hPe
   have hP'c : ¬ IsCyclic ↥P' := fun hc => hPc (hPe.isCyclic.2 hc)
-  haveI : Fact (IsPGroup 3 ↥P') := ⟨hP'p⟩
+  have : Fact (IsPGroup 3 ↥P') := ⟨hP'p⟩
   obtain ⟨E', _, hE'card, hE'el⟩ := CFSG.lemma_4_5_a (p := 3) (R := ↥P') (by norm_num) hP'c
   let E : Subgroup G := E'.map P'.subtype
   have hE_le_P' : E ≤ P' := Subgroup.map_subtype_le E'
@@ -155,22 +157,22 @@ private theorem s16h_bb_exists_Eb_of_dvd_CTilde (D : Data G) (S : s16h_Std D)
   exact ⟨E, hEP.trans hHM, hEab, hEcard, hEP.trans hHsubX⟩
 
 theorem s16h_e3_l3_three_ne_bot_dim_le_two_not_dvd_CTilde
-    (D : Data G) (S : s16h_Std D) (hσ : D.sig = D.sig1)
-    (hJP : K_JonesParshallH1) {V L : Subgroup G} (h : Setting16 D ⊥ V L)
+    (D : Data G) (S : s16h_Std D) (_hσ : D.sig = D.sig1)
+    (_hJP : K_JonesParshallH1) {V L : Subgroup G} (h : Setting16 D ⊥ V L)
     (hs2 : s15 D.M ⊥ V h.hyp151.isElemAbelian L = 2)
-    {t : MulAut (Vtil ⊥ V h.hyp151.isElemAbelian)} (ht : t ∈ Mbar D.M ⊥ V h.hyp151.isElemAbelian)
-    (ht2 : t ^ 2 = 1) (ht1 : t ≠ 1) (htr : rk ↥(commSub ⊤ (zpowers t)) ≤ 3)
-    (hW : Conc4_136W (Mbar D.M ⊥ V h.hyp151.isElemAbelian) t (lBar ⊥ V h.hyp151.isElemAbelian L))
+    {t : MulAut (Vtil ⊥ V h.hyp151.isElemAbelian)} (_ht : t ∈ Mbar D.M ⊥ V h.hyp151.isElemAbelian)
+    (_ht2 : t ^ 2 = 1) (_ht1 : t ≠ 1) (_htr : rk ↥(commSub ⊤ (zpowers t)) ≤ 3)
+    (_hW : Conc4_136W (Mbar D.M ⊥ V h.hyp151.isElemAbelian) t (lBar ⊥ V h.hyp151.isElemAbelian L))
     (hcomp : IsComponentOf (lBar ⊥ V h.hyp151.isElemAbelian L)
       (Mbar D.M ⊥ V h.hyp151.isElemAbelian))
-    (hthin : ∀ q : ℕ, q.Prime → q ≠ 2 →
+    (_hthin : ∀ q : ℕ, q.Prime → q ≠ 2 →
       CFSG.Open.pRank q (lBar ⊥ V h.hyp151.isElemAbelian L) ≤ 1)
-    (hZ : commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L) ⊓
+    (_hZ : commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L) ⊓
       fixV (lBar ⊥ V h.hyp151.isElemAbelian L) ≠ ⊥)
     (hbad : ∀ q ∈ D.sig, ∀ E : Subgroup G, E ≤ D.M → IsElemAbelian q E →
       Nat.card ↥(E ⊓ preBarSub D.M ⊥ V h.hyp151.isElemAbelian
         (centSub (wTil ⊥ V h.hyp151.isElemAbelian L))) < q ^ 2)
-    (hrow : s16h_H5RowL3 (lBar ⊥ V h.hyp151.isElemAbelian L)
+    (_hrow : s16h_H5RowL3 (lBar ⊥ V h.hyp151.isElemAbelian L)
       (commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L))
       (commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L) ⊓
         fixV (lBar ⊥ V h.hyp151.isElemAbelian L)))
@@ -178,7 +180,7 @@ theorem s16h_e3_l3_three_ne_bot_dim_le_two_not_dvd_CTilde
       (commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L))
       (commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L) ⊓
         fixV (lBar ⊥ V h.hyp151.isElemAbelian L)) 3)
-    (hd2 : rk ↥(commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L) ⊓
+    (_hd2 : rk ↥(commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L) ⊓
       fixV (lBar ⊥ V h.hyp151.isElemAbelian L)) ≤ 2)
     (hsig : D.sig = {3}) :
     ¬ 3 ∣ Nat.card ↥(F11.CTilde D.M ⊥ V) := by

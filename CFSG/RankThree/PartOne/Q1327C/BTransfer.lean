@@ -90,7 +90,7 @@ theorem exists_lift_of_le [Finite G] (hp : p.Prime) (hZ : NoZ p X) (hHX : H ≤ 
   have hQ'Pt : Q' ≤ Pt := Subgroup.map_subtype_le _
   have hHQ' : H.subgroupOf X ≤ Q' := fun x hx =>
     ⟨⟨x, hHPt hx⟩, hQ (show (⟨x, hHPt hx⟩ : ↥Pt) ∈ H₁ from hx), rfl⟩
-  have hQ'p : IsPGroup p Q' := Q.isPGroup'.map Pt.subtype
+  have hQ'p : IsPGroup p Q' := Q.isPGroup.map Pt.subtype
   have hdis : Disjoint Q' (proj X).ker :=
     N143.disjoint_ker_of_isPGroup (proj X) hp hQ'p (ker_proj_card hZ)
   have hinj : Function.Injective ((proj X).subgroupMap Q') :=

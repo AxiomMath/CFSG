@@ -167,7 +167,7 @@ theorem mem_of_pow_eq_one_of_pow_mem (H : Subgroup Γ) {z : Γ} {a b : ℕ} (hab
   exact Subgroup.zpow_mem _ hb v
 
 theorem pow_mem_of_mem_normalizer {C : Subgroup Γ} {d c : Γ}
-    (hd : d ∈ Subgroup.normalizer (C : Set Γ)) (hc : c ∈ C) (hdk : ∀ j : ℕ, d ^ j ∈ Subgroup.normalizer (C : Set Γ))
+    (_hd : d ∈ Subgroup.normalizer (C : Set Γ)) (hc : c ∈ C) (hdk : ∀ j : ℕ, d ^ j ∈ Subgroup.normalizer (C : Set Γ))
     (k : ℕ) (hk : d ^ k ∈ C) : (d * c) ^ k ∈ C := by
   have key : ∀ j : ℕ, ∃ c' ∈ C, (d * c) ^ j = c' * d ^ j := by
     intro j
@@ -216,7 +216,7 @@ theorem fixes_of_sylowTorus_of_fixedSubgroup {C Dg : Subgroup Γ}
     (hord : ∀ b ∈ Bs, (fun h => x * s h * x⁻¹)^[p] b = b) :
     ∀ b ∈ Bs, x * s b * x⁻¹ = b := by
   have hpp : p.Prime := Fact.out
-  haveI : Finite C := Finite.of_injective (Subgroup.inclusion (le_sup_left : C ≤ C ⊔ Dg))
+  have : Finite C := Finite.of_injective (Subgroup.inclusion (le_sup_left : C ≤ C ⊔ Dg))
     (Subgroup.inclusion_injective _)
   have hΔk : ∀ z ∈ C ⊔ Dg, z ^ k ∈ C := by
     intro z hz

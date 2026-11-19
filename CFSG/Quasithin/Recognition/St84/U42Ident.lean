@@ -67,11 +67,11 @@ structure U42PlainData (L1 L2 S : Subgroup G) : Prop where
   not_le : ¬ dsZi L2 S ≤ dsQ L1 L2 S
 
 theorem isAmalgamOfGroup_psu4_of_u42PlainData [Finite G]
-    {L1 L2 S : Subgroup G} (hF : F112Hyp L1 L2 S) (h1 : VS3 L1) (h2 : VA5 L2)
+    {L1 L2 S : Subgroup G} (hF : F112Hyp L1 L2 S) (h1 : VS3 L1) (_h2 : VA5 L2)
     (hD : U42PlainData L1 L2 S) :
     IsAmalgamOfGroup (f112Amalgam L1 L2 S) (IsLieOverTwo .PSU 4 1) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hR : Hyp111R L1 L2 S := Hyp111R.of_hyp111 rankOneListedFacts hF.1
   obtain ⟨e, hB, hT, hU, hH, hUB⟩ :=
     dsucp_main hR.symm hD.le_right h1 hD.b6 hD.oTwo_right hD.dsQ_right

@@ -17,7 +17,7 @@ theorem leafLy_of_coverAlt
   intro X _ _ _ hgen hsp
   obtain ⟨e⟩ := hsp
   have eJ : X ≃* ↥J := e.trans lyEquivJ
-  haveI : Finite ↥J := Finite.of_equiv X eJ.toEquiv
+  have : Finite ↥J := Finite.of_equiv X eJ.toEquiv
   have hJgen : GH74.Gen4 ↥J := GH74.Gen4.of_mulEquiv eJ hgen
   have hz : Nat.card (Subgroup.center lyC) = 2 := card_center_lyC
   have hzne : Subgroup.center lyC ≠ ⊥ := by
@@ -33,7 +33,7 @@ theorem leafLy_of_coverAlt
     have hEJ : CFSG.IsElementaryAbelian 2 ↥(lyE1.map lyS.subtype) :=
       CFSG.IsElementaryAbelian.map_subtype
     have hcard4 : Nat.card ↥(lyE1.map lyS.subtype) = 2 ^ 4 := by
-      rw [Subgroup.card_map_of_injective lyS.subtype_injective, hcardE] <;> norm_num
+      rw [Subgroup.card_map_of_injective lyS.subtype_injective, hcardE]; norm_num
     have hle : lyE1.map lyS.subtype ≤ lyC := by
       rintro _ ⟨x, -, rfl⟩
       exact lyS_le_lyC x.2
@@ -51,7 +51,7 @@ theorem leafLy_of_coverAlt
       Nat.Prime.factorization_pow Nat.prime_two, Finsupp.single_eq_same,
       Nat.factorization_eq_zero_of_not_dvd (by norm_num)]
   have hcardP : Nat.card ↥(lyS.subgroupOf lyC) = 2 ^ (Nat.card ↥lyC).factorization 2 := by
-    rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe lyS_le_lyC).toEquiv, card_lyS, hfac] <;>
+    rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe lyS_le_lyC).toEquiv, card_lyS, hfac];
       norm_num
   have hPS : (Sylow.ofCard (lyS.subgroupOf lyC) hcardP : Subgroup ↥lyC).map lyC.subtype =
       (lySylow : Subgroup ↥J) := by

@@ -24,6 +24,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ} {ρ : Mbar M Q →* Multiplicative (AddAut M₀.E)}
   {b : M₀.E} {t r : G}
 
+omit [(Q.subgroupOf M).Normal] in
 theorem card_CN_eq (I : MInputs) (hs : Sec7Hyp hc 12 t) (hp4 : OmegaPlusNat hc t 4)
     {Z0 : Subgroup G} (hZ0 : IsCentrePre Z0 (Rt M (LB M Q B) t) Q) :
     Nat.card ↥(hc.CN t) = Nat.card Z0 * Nat.card Z ^ 8 := by
@@ -35,6 +36,7 @@ theorem card_CN_eq (I : MInputs) (hs : Sec7Hyp hc 12 t) (hp4 : OmegaPlusNat hc t
   rw [hNc, hZc, hQc]
   ring
 
+omit [(Q.subgroupOf M).Normal] in
 theorem Z0_ne_CN (I : MInputs) (hs : Sec7Hyp hc 12 t) (hp4 : OmegaPlusNat hc t 4)
     {Z0 : Subgroup G} (hZ0 : IsCentrePre Z0 (Rt M (LB M Q B) t) Q) : Z0 ≠ hc.CN t := by
   intro h
@@ -47,6 +49,7 @@ theorem Z0_ne_CN (I : MInputs) (hs : Sec7Hyp hc 12 t) (hp4 : OmegaPlusNat hc t 4
   have h2 : 1 < Nat.card Z ^ 8 := Nat.one_lt_pow (by norm_num) hq
   nlinarith
 
+omit [(Q.subgroupOf M).Normal] in
 theorem eq_Z0_of_isCentrePre_CN (I : MInputs) (h711 : Stroth711StrongStatement)
     (h79 : Sec79MinOrderStatement) (hs : Sec7Hyp hc 12 t) (hp4 : OmegaPlusNat hc t 4)
     {Z0 Zn : Subgroup G} (hZ0 : IsCentrePre Z0 (Rt M (LB M Q B) t) Q)
@@ -207,12 +210,12 @@ theorem sec714Model_of (I : MInputs) (h711 : Stroth711StrongStatement)
   let tm : ↥M := ⟨t, hc.LB_le_M ht⟩
   obtain ⟨x₀, y₀, hxy⟩ := exists_xy I hS hs tm rfl
   obtain ⟨e, -, he, -⟩ := hc.hyp.cp
-  haveI hchar : CharP K 2 := charP_two_of_card_eq_two_pow (hS.card.trans he)
+  have hchar : CharP K 2 := charP_two_of_card_eq_two_pow (hS.card.trans he)
   have hγ := gammaReg I hS hs hr tm rfl hZ0 hxy
   have hnd := bilinPhi_nondeg I h711 h79 hS hs hr hp4 hZ0 hγ
   let M₁ := quadModelPhi I hS hs hr x₀ y₀ hZ0 hnd
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fintype K' := Fintype.ofFinite K'
+  have : Fintype K := Fintype.ofFinite K
+  have : Fintype K' := Fintype.ofFinite K'
   have hcard : Fintype.card K' = Fintype.card K := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hK', hS.card]
   let θ : K' ≃+* K := FiniteField.ringEquivOfCardEq hcard

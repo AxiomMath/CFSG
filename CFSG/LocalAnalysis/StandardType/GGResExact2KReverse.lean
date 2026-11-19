@@ -334,18 +334,18 @@ theorem GGResHyp.card_Bs_six_of_K_only_E6
       GGResLeviDatumExact3 3 Bs L J K ggSelAny ggTypAny)) :
     Nat.card Bs = 3 ^ 6 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨Λ, i1, i2, S, Λa, i3, i4, ML, CL, MK, CK, V, i5, i6, ι, φ, h, α,
     hS, hA1, hA3, hML, hCL, hMK, hCK, htyp, hlin, hrefl, hpair, hpairK, hsel,
     ⟨fL, hfL⟩, ⟨fK, hfK⟩, hclosL, hclosK, hconn, hclosJ⟩ := hD
-  letI := i1
-  letI := i2
-  letI := i3
-  letI := i4
-  letI := i5
-  letI := i6
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Module.Finite (ZMod 3) V := Module.Finite.of_finite
+  let := i1
+  let := i2
+  let := i3
+  let := i4
+  let := i5
+  let := i6
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Module.Finite (ZMod 3) V := Module.Finite.of_finite
   have hE6 : GGIsTypeE6 ML := htyp
   obtain ⟨e6, _⟩ := hE6
   have hcardΛ : Fintype.card Λ = 6 := by
@@ -437,12 +437,12 @@ theorem ggResK_fixedLine_of_twE6_card_six
   obtain ⟨Λ, i1, i2, S, Λa, i3, i4, ML, CL, MK, CK, V, i5, i6, ι, φ, h, α,
     hS, ha1, ha3, hML, hCL, hMK, hCK, htyp, hlin, hrefl, hpair, hpairK,
     hsel, hfull, hother, hgenK, hgenL, hc, hgenJ⟩ := hD
-  letI := i1
-  letI := i2
-  letI := i5
-  letI := i6
-  letI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  letI : Module.Finite (ZMod 3) V := Module.Finite.of_finite
+  let := i1
+  let := i2
+  let := i5
+  let := i6
+  let : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  let : Module.Finite (ZMod 3) V := Module.Finite.of_finite
   obtain ⟨e, he⟩ := htyp
   have hcardΛ : Fintype.card Λ = 6 := by
     simpa using Fintype.card_congr e.symm

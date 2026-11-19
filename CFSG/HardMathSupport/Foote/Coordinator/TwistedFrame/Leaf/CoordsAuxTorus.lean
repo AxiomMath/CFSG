@@ -80,7 +80,7 @@ private theorem Qθ_le_goodSub (c : Fˣ) :
       by_cases hβ : β = α
       · subst hβ
         simp
-      · simp [Pi.single_apply, hβ]
+      · simp [hβ]
   · subst h
     have hconj := ScalarTorusAux.torus_conj_pinnedX hθ hθ c z
     refine ⟨hQ z, ?_, ?_⟩
@@ -123,7 +123,7 @@ end Field
 theorem mem_range_algebraMap_of_pow_card {K L : Type} [Field K] [Finite K] [Field L] [Algebra K L]
     {x : L} (hx : x ^ Nat.card K = x) : x ∈ Set.range (algebraMap K L) := by
   classical
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hq : 1 < Nat.card K := Finite.one_lt_card
   have hP0 : (Polynomial.X ^ Nat.card K - Polynomial.X : Polynomial L) ≠ 0 :=
     FiniteField.X_pow_card_sub_X_ne_zero L hq

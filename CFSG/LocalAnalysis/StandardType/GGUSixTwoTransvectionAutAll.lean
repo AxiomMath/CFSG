@@ -18,13 +18,13 @@ theorem card_pCoreOf_inf_centralizer_le_of_le (hK : Nat.card K = 4)
     (hH : (MulAut.conj : LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)) →*
       MulAut (LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))).range ≤ H) :
     Nat.card (pCoreOf 2 (H ⊓ Subgroup.centralizer {MulAut.conj (tZero hK)})) ≤ 2 ^ 9 := by
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
   let U := LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1))
   let Inn : Subgroup (MulAut U) := (MulAut.conj : U →* MulAut U).range
   let C : Subgroup (MulAut U) := Subgroup.centralizer {MulAut.conj (tZero hK)}
   let O : Subgroup (MulAut U) := pCoreOf 2 (H ⊓ C)
   let H₂ : Subgroup (MulAut U) := Inn ⊔ O
-  haveI hInn : Inn.Normal :=
+  have hInn : Inn.Normal :=
     ⟨fun _ ⟨u, hu⟩ σ => ⟨σ u, by
       rw [← hu]
       ext v

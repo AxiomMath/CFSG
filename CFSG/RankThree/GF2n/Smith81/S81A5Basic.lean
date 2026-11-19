@@ -118,12 +118,12 @@ theorem mem_W2_iff {a : Fin 6 → K} : a ∈ W2 K ↔ ∀ j : Fin 6, 2 ≤ j.val
 theorem e_mem_W2 {i : Fin 6} (hi : i.val < 2) : e K i ∈ W2 K := by
   intro j hj
   have : j ≠ i := fun h => by subst h; omega
-  simp [Pi.single_apply, this]
+  simp [this]
 
 theorem e_mem_W4 {i : Fin 6} (hi : 2 ≤ i.val) : e K i ∈ W4 K := by
   have h0 : (0 : Fin 6) ≠ i := fun h => by subst h; simp at hi
   have h1 : (1 : Fin 6) ≠ i := fun h => by subst h; simp at hi
-  exact ⟨by simp [Pi.single_apply, h0], by simp [Pi.single_apply, h1]⟩
+  exact ⟨by simp [h0], by simp [h1]⟩
 
 theorem coord_add (a b : Cube K) (I : Set.powersetCard (Fin 6) 3) :
     coord K (a + b) I = coord K a I + coord K b I := by simp [coord]
@@ -137,8 +137,7 @@ theorem coord_zero (I : Set.powersetCard (Fin 6) 3) : coord K (0 : Cube K) I = 0
 theorem sumExtend_inl_apply {ι V : Type*} [AddCommGroup V] [Module K V] {v : ι → V}
     (hs : LinearIndependent K v) (i : ι) :
     Module.Basis.sumExtend hs (Sum.inl i) = v i := by
-  simp only [Module.Basis.sumExtend, Module.Basis.reindex_apply, Equiv.symm_symm,
-    Module.Basis.extend_apply_self]
+  simp only [Module.Basis.sumExtend, Module.Basis.reindex_apply, Module.Basis.extend_apply_self]
   rfl
 
 theorem exists_sl_of_linearIndependent {n k : ℕ} (hk : k < n) {v w : Fin k → Fin n → K}
@@ -149,12 +148,12 @@ theorem exists_sl_of_linearIndependent {n k : ℕ} (hk : k < n) {v w : Fin k →
     Module.Finite.finite_basis (Module.Basis.sumExtend hv)
   have hf₂ : Finite (Fin k ⊕ Module.Basis.sumExtendIndex hw) :=
     Module.Finite.finite_basis (Module.Basis.sumExtend hw)
-  haveI : Finite (Module.Basis.sumExtendIndex hv) :=
+  have : Finite (Module.Basis.sumExtendIndex hv) :=
     Finite.of_injective (Sum.inr : Module.Basis.sumExtendIndex hv → Fin k ⊕ _) Sum.inr_injective
-  haveI : Finite (Module.Basis.sumExtendIndex hw) :=
+  have : Finite (Module.Basis.sumExtendIndex hw) :=
     Finite.of_injective (Sum.inr : Module.Basis.sumExtendIndex hw → Fin k ⊕ _) Sum.inr_injective
-  letI := Fintype.ofFinite (Module.Basis.sumExtendIndex hv)
-  letI := Fintype.ofFinite (Module.Basis.sumExtendIndex hw)
+  let := Fintype.ofFinite (Module.Basis.sumExtendIndex hv)
+  let := Fintype.ofFinite (Module.Basis.sumExtendIndex hw)
   have h₁ := Module.finrank_eq_card_basis (Module.Basis.sumExtend hv)
   have h₂ := Module.finrank_eq_card_basis (Module.Basis.sumExtend hw)
   rw [Module.finrank_fin_fun, Fintype.card_sum, Fintype.card_fin] at h₁ h₂
@@ -184,7 +183,7 @@ theorem exists_sl_of_linearIndependent {n k : ℕ} (hk : k < n) {v w : Fin k →
   have hh : ∀ i, h (w i) = w i := by
     intro i
     rw [← sumExtend_inl_apply hw i]
-    simp [h, φ, Module.Basis.constr_basis]
+    simp [h, φ]
   have hdet : LinearMap.det h = c := by
     rw [← LinearMap.det_toMatrix (Module.Basis.sumExtend hw) h]
     have hhb : ∀ j, h ((Module.Basis.sumExtend hw) j) = φ j • (Module.Basis.sumExtend hw) j := by
@@ -195,10 +194,8 @@ theorem exists_sl_of_linearIndependent {n k : ℕ} (hk : k < n) {v w : Fin k →
       ext i j
       by_cases hij : i = j
       · subst hij
-        simp [LinearMap.toMatrix_apply, hhb, Module.Basis.repr_self, Finsupp.single_apply,
-          Matrix.diagonal_apply]
-      · simp [LinearMap.toMatrix_apply, hhb, Module.Basis.repr_self, Finsupp.single_apply,
-          Matrix.diagonal_apply, hij, Ne.symm hij]
+        simp [LinearMap.toMatrix_apply, hhb, Module.Basis.repr_self]
+      · simp [LinearMap.toMatrix_apply, hhb, Module.Basis.repr_self, hij]
     rw [hM, Matrix.det_diagonal]
     simp [φ, Finset.prod_ite_eq']
   refine ⟨LinearMap.toMatrix' h * LinearMap.toMatrix' (g₁ : (Fin n → K) →ₗ[K] (Fin n → K)), ?_, ?_⟩
@@ -324,13 +321,13 @@ theorem eq_smul_e_add_smul_e_of_mem_W2 {a : Fin 6 → K} (ha : a ∈ W2 K) :
   funext j
   obtain ⟨k, hk⟩ := j
   rcases (show k < 2 ∨ 2 ≤ k by omega) with h | h
-  · interval_cases k <;> simp [e, Pi.single_apply]
+  · interval_cases k <;> simp [e]
   · have hj : a ⟨k, hk⟩ = 0 := (mem_W2_iff.mp ha) ⟨k, hk⟩ h
     have h0 : (⟨k, hk⟩ : Fin 6) ≠ 0 := fun h' => by
       rw [Fin.ext_iff] at h'; simp at h'; omega
     have h1 : (⟨k, hk⟩ : Fin 6) ≠ 1 := fun h' => by
       rw [Fin.ext_iff] at h'; simp at h'; omega
-    simp [e, Pi.single_apply, hj, h0, h1]
+    simp [e, hj, h0, h1]
 
 theorem ιMulti_W2_two {a b : Fin 6 → K} (ha : a ∈ W2 K) (hb : b ∈ W2 K) (w : Fin 6 → K) :
     ιMulti K 3 ![a, b, w] = (a 0 * b 1 - a 1 * b 0) • ιMulti K 3 ![e K 0, e K 1, w] := by

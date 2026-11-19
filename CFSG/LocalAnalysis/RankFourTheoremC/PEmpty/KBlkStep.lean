@@ -15,6 +15,7 @@ open CFSG.LocalAnalysis.RankThreeTheoremC (IsTwoInvariantIn IsMaxTwoInvariantIn 
 
 variable {G : Type} [Group G] [Finite G] {p : ℕ} {P : Sylow p G} {M : Subgroup G} {x z : G}
 
+omit [Finite G] in
 theorem normalizer_le_normalizer_pCoreOf' (L : Subgroup G) :
     normalizer (L : Set G) ≤ normalizer (pCoreOf 2 L : Set G) := by
   have key : ∀ {g : G}, g ∈ normalizer (L : Set G) → ∀ {y : G}, y ∈ pCoreOf 2 L →
@@ -36,9 +37,10 @@ theorem normalizer_le_normalizer_pCoreOf' (L : Subgroup G) :
   have := key (Subgroup.inv_mem _ hg) hy
   simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem pCoreOf_le_of_isSylowTwoOf {N S : Subgroup G} (hS : CFSG.QuasithinUnique.IsSylowTwoOf S N) :
     pCoreOf 2 N ≤ S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hSN, hS2, hSi⟩ := hS
   let P2 : Sylow 2 ↥N := (hS2.comap_subtype : IsPGroup 2 (S.subgroupOf N)).toSylow hSi
   have h1 : CFSG.pCore 2 ↥N ≤ (P2 : Subgroup ↥N) :=
@@ -51,8 +53,8 @@ theorem stepL617_of_kfact' (hB : KFactBlocksInSylowCentralizerQS)
     (hA3 : StepL617PrimeTop) : StepL617 := by
   intro G _ _ p P M x z hS hx hz H S hopt
   have hprime := hS.prime
-  haveI : Fact p.Prime := ⟨hprime⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hprime⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hpl := plane_of_central hS hx hz
   have hB3 : IsPGroup p (zpowers x ⊔ zpowers z : Subgroup G) :=
     IsPGroup.of_card (n := 2) hpl.card_eq

@@ -66,7 +66,7 @@ theorem canonM_ofFn' (f : ℕ → ℕ) : canonM 154 (Array.ofFn (n := 154) fun i
 theorem toMat_ofFn' (f : ℕ → ℕ) (i j : Fin 154) : toMat 154 (Array.ofFn (n := 154) fun i : Fin 154 =>
     V.ofFn 154 (fun j => f (154 * i.val + j))) i j = (f (154 * i.val + j.val) : ZMod 3) := by
   rw [toMat_apply, getElem!_pos _ i.val (by simp), Array.getElem_ofFn, V.val_ofFn,
-    if_pos j.isLt]
+    ite_eq_left j.isLt]
 
 theorem rowsOf_canon (s : String) : canonM 154 (CFSG.F3.Native.rowsOf 154 s) = true := by
   refine canonM_of (by unfold CFSG.F3.Native.rowsOf; simp) fun i hi => ?_
@@ -142,9 +142,9 @@ theorem mV : ∀ i : Fin 154, vVec.val i.val = Mt (MT 4) i 0 := by
     exact Nat.eq_of_beq_eq_true CFSG.KD.ONOut.mV
   obtain ⟨ha, hl, he⟩ := col27_sound (by norm_num) hN dV hm
   intro i
-  rw [he, if_pos z0]
+  rw [he, ite_eq_left z0]
   unfold vVec vecOfCode
-  rw [V.val_ofFn, if_pos i.isLt]
+  rw [V.val_ofFn, ite_eq_left i.isLt]
   congr 1
   exact trit_of ONV.eq ha hl i.isLt
 
@@ -154,9 +154,9 @@ theorem mU : ∀ j : Fin 154, uVec.val j.val = Mt (MT 5) 0 j := by
     exact Nat.eq_of_beq_eq_true CFSG.KD.ONOut.mU
   obtain ⟨ha, hl, he⟩ := row27_sound hN dU hm
   intro j
-  rw [he, if_pos z0]
+  rw [he, ite_eq_left z0]
   unfold uVec vecOfCode
-  rw [V.val_ofFn, if_pos j.isLt]
+  rw [V.val_ofFn, ite_eq_left j.isLt]
   congr 1
   exact trit_of ONU.eq ha hl j.isLt
 
@@ -232,7 +232,7 @@ theorem kernel_check : (okRows rRows && (mulVecRow wRows vVec).beq V.zero &&
     rw [Matrix.mul_apply, Finset.sum_eq_single (0 : Fin 154)
       (fun k _ hk => by
         have hk' : (k : ℕ) ≠ 0 := fun h => hk (Fin.ext h)
-        rw [he, if_neg hk', mul_zero])
+        rw [he, ite_eq_right hk', mul_zero])
       (fun h => absurd (Finset.mem_univ _) h), mV i, mU j]
   have hm : toMat 154 (addM (mul 154 rRows wRows) (outerRows vVec uVec)) = toMat 154 (idM 154) := by
     rw [toMat_addM' (RowsWF.of_canonM hRW) (RowsWF.of_canonM (canonM_outerRows vVec rU)),
@@ -330,7 +330,7 @@ theorem spin_at {t : ℕ} (h1 : 1 ≤ t) (h2 : t < 154) :
 
 theorem col_at {X t : ℕ} (hX : Canon3 23716 X) (ht : t < 154) (i : Fin 154) :
     Mt (colM3 CC X t) i 0 = Mt X i ⟨t, ht⟩ := by
-  rw [hCC, (colM3_sound (by norm_num) hN hX ht).2 i 0, if_pos z0]
+  rw [hCC, (colM3_sound (by norm_num) hN hX ht).2 i 0, ite_eq_left z0]
 
 theorem gen_mat (l : ℕ) : toMat 154 (spinGen l) = Mt (nIf(Nat.beq l (nat_lit 0), MT 0, MT 1)) ∧
     canonM 154 (spinGen l) = true ∧ Canon3 23716 (nIf(Nat.beq l (nat_lit 0), MT 0, MT 1)) := by
@@ -342,7 +342,7 @@ theorem gen_mat (l : ℕ) : toMat 154 (spinGen l) = Mt (nIf(Nat.beq l (nat_lit 0
       cases l with
       | zero => exact absurd rfl hl
       | succ l => rfl
-    rw [if_neg hl, e]
+    rw [ite_eq_right hl, e]
     exact ⟨mB, cB, c1⟩
 
 theorem spin_val : ∀ t (ht : t < 154), RowC 154 spinRows[t]! ∧

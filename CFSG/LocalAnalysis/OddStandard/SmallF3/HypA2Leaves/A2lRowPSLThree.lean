@@ -15,12 +15,12 @@ open scoped MatrixGroups
 theorem a2l_rowPSL_three (hC : HypA2.ChevOddInChev2) {X : Type} [Group X] [Finite X] {n : ℕ}
     (hn : 5 ≤ n) (hm : LieModel X .PSL n 3 1) : a2lDatum X := by
   obtain ⟨-, F, _, _, hcard, ⟨e⟩⟩ := hm.statedClassicalModel (by decide)
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   obtain ⟨m, rfl⟩ : ∃ m, n = 4 + m := ⟨n - 4, by omega⟩
   have hF : Fintype.card F = 3 := by rw [← Nat.card_eq_fintype_card, hcard]; norm_num
   have h2 : (2 : F) ≠ 0 :=
     CFSG.Semidihedral.OddFieldSL2.two_ne_zero_of_odd_card F (by rw [hcard]; decide)
-  haveI := Fintype.ofFinite (GaloisField 3 2)
+  have := Fintype.ofFinite (GaloisField 3 2)
   have hE : Fintype.card (GaloisField 3 2) = 9 := by
     rw [← Nat.card_eq_fintype_card, card_galoisField_three_two]
   have hq : CFSG.IsQuasisimple SL(4, F) :=
@@ -36,7 +36,7 @@ theorem a2l_rowPSL_three (hC : HypA2.ChevOddInChev2) {X : Type} [Group X] [Finit
     classical
     exact ComponentClassification.CatFactsL4U4.card_center_SL_four_le (by rw [hF])
   have h2J : IsPGroup 2 ↥(center ↥J) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hpos : 0 < Nat.card (center ↥J) := Nat.card_pos
     rcases (show Nat.card (center ↥J) = 1 ∨ Nat.card (center ↥J) = 2 by omega) with h | h
     · exact IsPGroup.of_card (n := 0) (by rw [h]; norm_num)

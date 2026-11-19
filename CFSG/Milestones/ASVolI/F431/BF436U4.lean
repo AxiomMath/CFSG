@@ -91,7 +91,7 @@ theorem burnsideF4m_u4_T_frob (sigma : mk.field →+* mk.field) (hsig : ∀ p, s
         (1 : Matrix (Fin 4) (Fin 4) mk.field).submatrix id burnsideF4gU4_equiv := by
     ext i a
     simp only [burnsideF4gU4_R, Matrix.submatrix_apply, Matrix.mul_apply, Matrix.one_apply, id,
-      mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+      mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
   have hPQ : (1 : Matrix (Fin 4) (Fin 4) mk.field).submatrix id burnsideF4gU4_equiv *
       (1 : Matrix (Fin 4) (Fin 4) mk.field).submatrix burnsideF4gU4_equiv id = 1 := by
     rw [Matrix.submatrix_mul_equiv, Matrix.mul_one]
@@ -289,7 +289,7 @@ theorem burnsideF4m_V_conj {A B : Subgroup E} {s : E} (c : E)
         calc c * y * c⁻¹ * s = c * (y * (c⁻¹ * s * c)) * c⁻¹ := by group
           _ = c * ((c⁻¹ * s * c) * y) * c⁻¹ := by rw [hys]
           _ = s * (c * y * c⁻¹) := by group
-      · simp [hφ, MulAut.conj_apply, mul_assoc]
+      · simp [hφ, mul_assoc]
     · rintro ⟨z, hz, rfl⟩
       obtain ⟨hzX, hzs⟩ := Subgroup.mem_inf.mp hz
       refine Subgroup.mem_inf.mpr ⟨?_, ?_⟩
@@ -360,8 +360,8 @@ theorem burnsideF4m_f436_U4_V (hyp : HypF_4_4 .U4 2 1 Gp M₁ M₂) :
             (pCoreOf 2 (oTwoRes (cenIn (Gp ⊓ M₂) r)) ≤ cenIn (Gp ⊓ M₁) r ∧
               ¬ pCoreOf 2 (oTwoRes (cenIn (Gp ⊓ M₂) r)) ≤ pCoreOf 2 (cenIn (Gp ⊓ M₁) r))) := by
   intro Tb hTb fb hfbT hgr
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hfb2 : fb * fb = 1 := hgr.2.1
   obtain ⟨K, fK, h, Φ, a, h1, h2, hs⟩ := burnsideF4m_u4_exists_frob_conj hyp.toHypF_4_4g hgr

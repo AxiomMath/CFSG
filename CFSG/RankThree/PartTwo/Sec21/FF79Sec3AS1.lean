@@ -127,11 +127,11 @@ theorem isSylowOf_of_fusion {S M : Subgroup G} (h : CFSG.Open.fusionIsSylowIn 3 
 theorem le_zpowers_of_cen {b : G} (hb : orderOf b = 3) {T : Subgroup G} (hT : IsPGroup 3 T)
     (hbT : b ∈ T) (h : ∀ t ∈ T, t * b = b * t → t ∈ Subgroup.zpowers b) :
     T ≤ Subgroup.zpowers b := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hb1 : b ≠ 1 := by
     intro h1; rw [h1, orderOf_one] at hb; omega
-  haveI : Nontrivial T := ⟨⟨⟨b, hbT⟩, 1, fun e => hb1 (congrArg Subtype.val e)⟩⟩
-  haveI := hT.center_nontrivial
+  have : Nontrivial T := ⟨⟨⟨b, hbT⟩, 1, fun e => hb1 (congrArg Subtype.val e)⟩⟩
+  have := hT.center_nontrivial
   obtain ⟨c, hc⟩ := exists_ne (1 : Subgroup.center T)
   have hcen : ∀ t : T, t * (c : T) = (c : T) * t := fun t =>
     (Subgroup.mem_center_iff.mp c.2 t)
@@ -150,6 +150,7 @@ theorem le_zpowers_of_cen {b : G} (hb : orderOf b = 3) {T : Subgroup G} (hT : Is
   rw [← hn]
   exact (htc.zpow_right n).eq
 
+omit [Finite G] in
 theorem exists_conj_eq_of_odd {w z : G} (hw : w * w = 1) (hz : z * z = 1)
     (ho : Odd (orderOf (w * z))) : ∃ k : ℕ, (w * z) ^ k * w * ((w * z) ^ k)⁻¹ = z := by
   set u := w * z with hu
@@ -193,7 +194,7 @@ theorem four_le_localRank_of {S A : Subgroup G} (hS : S ≠ ⊥) (hS2 : IsPGroup
 
 theorem odd_card_cenS_of_localRank {A : Subgroup G} (hA : IsElemAb 3 4 A)
     (hr : localRank 3 G ≤ 3) : Odd (Nat.card (CenS A)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [Nat.odd_iff, ← Nat.two_dvd_ne_zero]
   intro h2
   obtain ⟨t, ht⟩ := exists_prime_orderOf_dvd_card' (G := CenS A) 2 h2
@@ -221,7 +222,7 @@ theorem odd_card_cenS_of_localRank {A : Subgroup G} (hA : IsElemAb 3 4 A)
 
 theorem isSylowOf_top_of_sylowOf_nor {P : Subgroup G} (h : IsSylowOf 3 P (Nor P)) :
     IsSylowOf 3 P ⊤ := by
-  haveI hp : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hp : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine ⟨le_top, h.2.1, ?_⟩
   obtain ⟨n, hn⟩ := h.2.1.exists_card_eq
   rw [Subgroup.relIndex_top_right]

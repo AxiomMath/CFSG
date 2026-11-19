@@ -66,7 +66,7 @@ theorem conj_pow_three {Γ : Type} [Group Γ] {s B G : Γ} (hsc : ∀ x : Γ, x 
 
 theorem kU6CentGapOne_holds : KU6CentGapOne := by
   intro B hB3 hBne h7
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨g, hg7⟩ := exists_prime_orderOf_dvd_card' 7 h7
   have hgc : (g : PGU6) * (QuotientGroup.mk B : PGU6) = (QuotientGroup.mk B : PGU6) * (g : PGU6) :=
     Subgroup.mem_centralizer_singleton_iff.1 g.2

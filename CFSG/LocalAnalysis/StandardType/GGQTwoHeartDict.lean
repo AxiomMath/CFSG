@@ -11,7 +11,7 @@ open CFSG CFSG.Assembly
 attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
 private theorem ggQ2hD_root_xV {G : Type} [Group G] {Bs L : Subgroup G} {x : G}
-    (M : GGQ2LDatum 3 Bs L x) (hB : M.ShapeB) (i : M.Λ) : M.root i M.xV = 0 := by
+    (M : GGQ2LDatum 3 Bs L x) (_hB : M.ShapeB) (i : M.Λ) : M.root i M.xV = 0 := by
   have hxmem : M.xV ∈ ggFixedSubmodule (p := 3) M.model (ggAutomizer L Bs) := by
     rw [M.fixed_x]
     exact Submodule.subset_span (Set.mem_singleton M.xV)
@@ -230,7 +230,7 @@ private theorem ggQ2hD_range_rho_le {G : Type} [Group G] {Bs L : Subgroup G} {x 
   exact Equiv.sum_comp e (fun i => coeff i • ggQ2hD_rho M e (M.coroot i))
 
 private theorem ggQ2hD_range_T_le_rho {G : Type} [Group G] {Bs L : Subgroup G} {x : G}
-    (M : GGQ2LDatum 3 Bs L x) (hB : M.ShapeB) (e : Fin 6 ≃ M.Λ)
+    (M : GGQ2LDatum 3 Bs L x) (_hB : M.ShapeB) (e : Fin 6 ≃ M.Λ)
     (hc : ∀ i j, M.cartan (e i) (e j) = E6Heart.C i j) :
     ggQ2hD_T.range ≤ (ggQ2hD_rho M e).range := by
   intro w hw
@@ -260,7 +260,7 @@ private theorem ggQ2hD_Psi_spec {G : Type} [Group G] {Bs L : Subgroup G} {x : G}
     (hc : ∀ i j, M.cartan (e i) (e j) = E6Heart.C i j) (v : M.V) :
     ggQ2hD_Tbar (ggQ2hD_Psi M hB e hc v) = ggQ2hD_rho M e v := by
   rw [ggQ2hD_Psi]
-  simp only [LinearEquiv.coe_toLinearMap, LinearMap.comp_apply, LinearMap.codRestrict_apply]
+  simp only [LinearEquiv.coe_toLinearMap, LinearMap.comp_apply]
   exact congrArg Subtype.val (LinearEquiv.apply_symm_apply
     (LinearEquiv.ofInjective ggQ2hD_Tbar ggQ2hD_Tbar_injective)
     ((ggQ2hD_rho M e).codRestrict ggQ2hD_Tbar.range _ v))

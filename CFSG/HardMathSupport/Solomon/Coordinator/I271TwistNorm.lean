@@ -25,7 +25,7 @@ variable {Ω : Type*} [Group Ω]
         _ = f * y * f⁻¹ * y⁻¹ := by group
     rw [e, h2]
     exact (L ⊓ Subgroup.centralizer (L : Set Ω)).mul_mem (hx f hf) hz
-  one_mem' := ⟨L.one_mem, fun f _ => by simpa using (L ⊓ Subgroup.centralizer (L : Set Ω)).one_mem⟩
+  one_mem' := ⟨L.one_mem, fun f _ => by simp⟩
   inv_mem' := by
     rintro x ⟨hxL, hx⟩
     refine ⟨L.inv_mem hxL, fun f hf => ?_⟩
@@ -82,10 +82,10 @@ theorem i224_norm_elt_tw [Finite Ω] (hc : I224CtxT p B L) {R F : Subgroup Ω} (
   classical
   have hp3 := hc.hp3
   subst hp3
-  haveI : Fact (Nat.Prime 3) := ⟨hc.prime⟩
+  have : Fact (Nat.Prime 3) := ⟨hc.prime⟩
   have hyL : y ∈ L := hy.1
   have hBc : ∀ x ∈ B, ∀ y ∈ B, x * y = y * x := fun x hx y hy => i224_elem_comm hc.elem hx hy
-  haveI : IsCyclic ↥R := isCyclic_of_prime_card hRp
+  have : IsCyclic ↥R := isCyclic_of_prime_card hRp
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := ↥R)
   obtain ⟨c, hcdef⟩ : ∃ c : Ω, c = (g : Ω) := ⟨_, rfl⟩
   have hcR : c ∈ R := hcdef ▸ g.2

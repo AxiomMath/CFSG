@@ -158,7 +158,7 @@ theorem mem_win_iff_prod {a b : ℤ} (hab : b < a + n) {g : G} :
             rw [e]
             simpa [commutatorElement_def, mul_assoc, min_eq_right hgt.le,
               max_eq_left hgt.le] using hinv
-        refine SetLike.le_def.mp (iSup₂_le fun k hk => ?_) hmem
+        refine _root_.IsConcreteLE.le_iff.mp (iSup₂_le fun k hk => ?_) hmem
         have hk' : min i j < k ∧ k < max i j := hk
         exact le_iSup₂_of_le k (mem_intList_iff.2 ⟨by omega, by omega⟩)
           (le_iSup_of_le (by omega) le_rfl)) g hg
@@ -166,7 +166,7 @@ theorem mem_win_iff_prod {a b : ℤ} (hab : b < a + n) {g : G} :
   · rintro ⟨f, hf, rfl⟩
     exact (win T.U a b).list_prod_mem fun x hx => by
       obtain ⟨k, hk, rfl⟩ := List.mem_map.1 hx
-      exact SetLike.le_def.mp (le_iSup₂_of_le k (by
+      exact _root_.IsConcreteLE.le_iff.mp (le_iSup₂_of_le k (by
         simpa [Set.mem_Icc] using mem_intList_iff.1 hk) le_rfl) (hf k hk)
 
 theorem prod_unique {a b : ℤ} (hab : b < a + n) {f g : ℤ → G}
@@ -188,7 +188,7 @@ theorem prod_unique {a b : ℤ} (hab : b < a + n) {f g : ℤ → G}
       by_cases hb : a ≤ k ∧ k ≤ b
       · have := hf k (mem_intList_iff.2 ⟨hb.1, hb.2⟩)
         simpa [F, hb] using this
-      · simpa [F, hb] using (T.U k).one_mem
+      · simp [F, hb]
     have hG : ∀ k ∈ intList ((a - 1) + 1) ((a - 1) + n), G' k ∈ T.U k := by
       intro k hk'
       rw [hlist] at hk'
@@ -196,7 +196,7 @@ theorem prod_unique {a b : ℤ} (hab : b < a + n) {f g : ℤ → G}
       by_cases hb : a ≤ k ∧ k ≤ b
       · have := hg k (mem_intList_iff.2 ⟨hb.1, hb.2⟩)
         simpa [G', hb] using this
-      · simpa [G', hb] using (T.U k).one_mem
+      · simp [G', hb]
     have hprodF : ((intList ((a - 1) + 1) ((a - 1) + n)).map F).prod =
         ((intList a b).map f).prod := by
       rw [hlist]
@@ -232,7 +232,7 @@ theorem mem_win_iff_coord {i a b : ℤ} (ha : i + 1 ≤ a) (hb : b ≤ i + n) {f
         by_cases hk' : a ≤ k ∧ k ≤ b
         · have := hh k (mem_intList_iff.2 ⟨hk'.1, hk'.2⟩)
           simpa [F, hk'] using this
-        · simpa [F, hk'] using (T.U k).one_mem
+        · simp [F, hk']
       have hprodF : ((intList (i + 1) (i + n)).map F).prod =
           ((intList a b).map h).prod := by
         exact prod_pad (l := i + 1) (a := a) (b := b) (r := i + n) ha hle hb h
@@ -334,14 +334,14 @@ theorem win_inf_win {a b c d : ℤ} (h : max b d < min a c + n) :
       by_cases hkab : a ≤ k ∧ k ≤ b
       · have hki : k ∈ intList a b := mem_intList_iff.2 ⟨hkab.1, hkab.2⟩
         simpa [F, hkab] using hf k hki
-      · simpa [F, hkab] using (T.U k).one_mem
+      · simp [F, hkab]
     have hG : ∀ k ∈ intList ((m - 1) + 1) ((m - 1) + n), G' k ∈ T.U k := by
       intro k hk
       rw [hlist] at hk
       by_cases hkcd : c ≤ k ∧ k ≤ d
       · have hki : k ∈ intList c d := mem_intList_iff.2 ⟨hkcd.1, hkcd.2⟩
         simpa [G', hkcd] using hg k hki
-      · simpa [G', hkcd] using (T.U k).one_mem
+      · simp [G', hkcd]
     have hprodF : ((intList ((m - 1) + 1) ((m - 1) + n)).map F).prod =
         ((intList a b).map f).prod := by
       rw [hlist]
@@ -376,7 +376,7 @@ theorem win_inf_win {a b c d : ℤ} (h : max b d < min a c + n) :
         have hknot : ¬(c ≤ k ∧ k ≤ d) := by omega
         have hGone : G' k = 1 := by simp [G', hknot]
         rw [← hkG, hGone]
-      · simpa [F, hkab]
+      · simp [F, hkab]
     have hF' : ∀ k ∈ intList ((m - 1) + 1) ((m - 1) + n), F k ∈ T.U k := hF
     have hcoord := (mem_win_iff_coord (T := T) (i := m - 1) (a := max a c) (b := min b d)
       (by omega) (by omega) hF').2 (by
@@ -421,7 +421,7 @@ theorem le_normalizer_win {a b : ℤ} (hab : b - a ≤ n - 2) :
     refine CFSG.LieType.Steinberg.map_conj_le_iff.2 fun y hy => ?_
     have hcomm : ⁅x, y⁆ ∈ win T.U a b := by
       have h := T.comm (a - 1) k (by omega) (by omega) x hx y hy
-      refine SetLike.le_def.mp ?_ h
+      refine _root_.IsConcreteLE.le_iff.mp ?_ h
       refine iSup₂_le fun t ht => ?_
       have ht' : a - 1 < t ∧ t < k := ht
       refine le_iSup₂_of_le t ⟨by omega, by omega⟩ le_rfl
@@ -429,7 +429,7 @@ theorem le_normalizer_win {a b : ℤ} (hab : b - a ≤ n - 2) :
       simp only [commutatorElement_def]
       group
     rw [hxy]
-    exact (win T.U a b).mul_mem hcomm (SetLike.le_def.mp (le_iSup₂_of_le k ⟨hk'.1, hk'.2⟩
+    exact (win T.U a b).mul_mem hcomm (_root_.IsConcreteLE.le_iff.mp (le_iSup₂_of_le k ⟨hk'.1, hk'.2⟩
       le_rfl) hy)
   · refine CFSG.LieType.Steinberg.le_normalizer_of_map_conj_le fun x hx => ?_
     simp only [win, Subgroup.map_iSup]
@@ -441,7 +441,7 @@ theorem le_normalizer_win {a b : ℤ} (hab : b - a ≤ n - 2) :
       have hinv := (⨆ t ∈ Set.Ioo k (b + 1), T.U t).inv_mem h
       have e : ⁅x, y⁆ = ⁅y, x⁆⁻¹ := (commutatorElement_inv y x).symm
       rw [e]
-      refine SetLike.le_def.mp ?_ hinv
+      refine _root_.IsConcreteLE.le_iff.mp ?_ hinv
       refine iSup₂_le fun t ht => ?_
       have ht' : k < t ∧ t < b + 1 := ht
       refine le_iSup₂_of_le t ⟨by omega, by omega⟩ le_rfl
@@ -449,7 +449,7 @@ theorem le_normalizer_win {a b : ℤ} (hab : b - a ≤ n - 2) :
       simp only [commutatorElement_def]
       group
     rw [hxy]
-    exact (win T.U a b).mul_mem hcomm (SetLike.le_def.mp (le_iSup₂_of_le k ⟨hk'.1, hk'.2⟩
+    exact (win T.U a b).mul_mem hcomm (_root_.IsConcreteLE.le_iff.mp (le_iSup₂_of_le k ⟨hk'.1, hk'.2⟩
       le_rfl) hy)
 
 theorem commutator_mem_win {j a b : ℤ} (hja : j < a) (hab : a ≤ b) (hb : b < j + n)
@@ -485,7 +485,7 @@ theorem commutator_mem_win {j a b : ℤ} (hja : j < a) (hab : a ≤ b) (hb : b <
     simpa [commutatorElement_def] using this
   have hxu : ⁅x, u⁆ ∈ M := by
     have h := T.comm j b (by omega) hb x hx u hu
-    refine SetLike.le_def.mp ?_ h
+    refine _root_.IsConcreteLE.le_iff.mp ?_ h
     refine iSup₂_le fun t ht => ?_
     have ht' : j < t ∧ t < b := ht
     refine le_iSup₂_of_le t ⟨by omega, by omega⟩ le_rfl

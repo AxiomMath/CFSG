@@ -89,7 +89,7 @@ theorem ggSylow_exists_conj_mem_centralizer {G : Type} [Group G] [Finite G] {p :
     Subgroup.coe_mul_of_left_le_normalizer_right Bs J hN
   obtain ⟨Q, hQ⟩ := (hBsp.comap_of_injective H.subtype Subtype.coe_injective).exists_le_sylow
   set S : Subgroup G := (Q : Subgroup H).map H.subtype with hSdef
-  have hSp : IsPGroup p S := Q.isPGroup'.map _
+  have hSp : IsPGroup p S := Q.isPGroup.map _
   have hSH : S ≤ H := Subgroup.map_subtype_le _
   have hBsS : Bs ≤ S := fun b hb =>
     ⟨⟨b, Subgroup.mem_sup_left hb⟩, hQ (Subgroup.mem_comap.mpr hb), rfl⟩
@@ -175,8 +175,8 @@ theorem largeEvenLabelAll_centralLift81_twA5 {p : ℕ} {lab : LargeEvenLabel}
   obtain ⟨K, i1, i2, hK, hq⟩ := hQ
   refine ⟨K, i1, i2, hK, hq, ?_⟩
   intro Y _ φ hφ hker
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := n * 2)
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := n * 2)
     (by rw [← Nat.card_eq_fintype_card, hK, ← pow_mul])
   have h2 : (-1 : K) = 1 := CharTwo.neg_eq 1
   have h3K : 3 ∣ Nat.card Kˣ := by
@@ -184,7 +184,7 @@ theorem largeEvenLabelAll_centralLift81_twA5 {p : ℕ} {lab : LargeEvenLabel}
     rw [one_pow] at hsq
     rw [Nat.card_units, hK, hsq]
     exact Dvd.dvd.mul_right h3 _
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ω, hω⟩ := exists_prime_orderOf_dvd_card' 3 h3K
   have hωq : ω ^ (2 ^ n + 1) = 1 := by
     rw [← orderOf_dvd_iff_pow_eq_one, hω]

@@ -27,15 +27,15 @@ instance : Nonempty Idx26 := ⟨⟨i0, by decide⟩⟩
   toFun w := Finsupp.equivFunOnFinite.symm (jFun K w)
   map_add' v w := by
     refine Finsupp.ext fun i => ?_
-    by_cases h : i = i14 <;> simp [jFun, h] <;> ring
+    by_cases h : i = i14 <;> simp [jFun, h]; ring
   map_smul' c w := by
     refine Finsupp.ext fun i => ?_
-    by_cases h : i = i14 <;> simp [jFun, h] <;> ring
+    by_cases h : i = i14 <;> simp [jFun, h]; ring
 
 @[expose] def pRes : (Fin e6Data.d →₀ K) →ₗ[K] (Idx26 → K) where
   toFun v i := v i.1
-  map_add' v w := rfl
-  map_smul' c v := rfl
+  map_add' _v _w := rfl
+  map_smul' _c _v := rfl
 
 theorem pRes_jExt (w : Idx26 → K) : pRes K (jExt K w) = w := by
   funext i
@@ -75,8 +75,7 @@ theorem fT_endo_f4Embed (θ : adjointGroup Tag.F4 K ≃* adjointGroup Tag.F4 K)
 @[expose] def m26Rep : Representation K (adjointGroup Tag.F4 K) (Idx26 → K) where
   toFun g := pRes K ∘ₗ (e6Data_valid.endo K (f4Embed K (idF4 K) g)) ∘ₗ jExt K
   map_one' := LinearMap.ext fun w => by
-    simp only [map_one, MinData.Valid.endo_one, LinearMap.comp_apply, Module.End.one_apply,
-      pRes_jExt, Module.End.one_eq_id, LinearMap.id_apply]
+    simp only [map_one, MinData.Valid.endo_one, LinearMap.comp_apply, pRes_jExt, Module.End.one_eq_id, LinearMap.id_apply]
   map_mul' g h := LinearMap.ext fun w => by
     simp only [map_mul, MinData.Valid.endo_mul, LinearMap.comp_apply, Module.End.mul_apply]
     rw [jExt_pRes K _ (by rw [fT_endo_f4Embed, fT_jExt])]
@@ -133,7 +132,7 @@ theorem orbitSpan_m26 : orbitSpan (m26Rep K) (y26 K) = ⊤ := by
 theorem isSimpleRep_m26 : IsSimpleRep (m26Rep K) :=
   (chevDatum Tag.F4 K 2 exists_weyl_neg_F4').isSimpleRep_of_fixU (p := 2) (m26Rep K)
     (y := y26 K)
-    (fun x hx => m26Rep_fixed_smul K fun j c =>
+    (fun _x hx => m26Rep_fixed_smul K fun j c =>
       hx (xC Tag.F4 K j c) ((chevDatum Tag.F4 K 2 exists_weyl_neg_F4').X_le j
         (xC_mem_X (hw := exists_weyl_neg_F4') j c)))
     (orbitSpan_m26 K)

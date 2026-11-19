@@ -423,7 +423,7 @@ private theorem omPlusNat_hecke {n : ℕ} (hn : 3 ≤ n) (hF : Nat.card F = 2) (
   rw [← (omPlusNat_XEquiv_bijective (F := F) hn s).sum_comp]
   simp only [omPlusCurtisDatum_n]
   by_cases hs0 : s.val = 0
-  · rw [if_pos hs0]
+  · rw [ite_eq_left hs0]
     have hterm : ∀ c : F, (omPlusNatRep n φ)
         (rootD F hn s (.ofAdd c) * weylD F hn s)
         (Pi.single (Sum.inl (⟨0, by omega⟩ : Fin n)) (1 : k)) =
@@ -439,7 +439,7 @@ private theorem omPlusNat_hecke {n : ℕ} (hn : 3 ≤ n) (hF : Nat.card F = 2) (
     ext i
     simp only [Pi.add_apply, Pi.smul_apply]
     rw [CharTwo.two_nsmul, zero_add]
-  · rw [if_neg hs0]
+  · rw [ite_eq_right hs0]
     have hterm : ∀ c : F, (omPlusNatRep n φ)
         (rootD F hn s (.ofAdd c) * weylD F hn s)
         (Pi.single (Sum.inl (⟨0, by omega⟩ : Fin n)) (1 : k)) =

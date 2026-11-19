@@ -21,12 +21,12 @@ theorem prod_pow_eq_one_of_swap {K : Type} [Field K] (σ : K ≃+* K) {c a b : K
     · have hk' : ¬ Even (k + 1) := by
         rw [Nat.even_add_one]
         exact not_not.mpr hk
-      simp only [x, if_pos hk, if_neg hk']
+      simp only [x, ite_eq_left hk, ite_eq_right hk']
       exact ha
     · have hk' : Even (k + 1) := by
         rw [Nat.even_add_one]
         exact hk
-      simp only [x, if_neg hk, if_pos hk']
+      simp only [x, ite_eq_right hk, ite_eq_left hk']
       exact hb
   have key : ∀ k, a = (∏ i ∈ Finset.range k, (σ ^ i) c) * (σ ^ k) (x k) := by
     intro k

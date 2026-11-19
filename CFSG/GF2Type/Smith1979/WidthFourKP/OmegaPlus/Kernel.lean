@@ -284,8 +284,8 @@ theorem card_Kt_le_four (hCE : CentralExtInput.{0}) (hw : S.width = 4) (H : Hyp4
         f (resV H.conj_mem t ⟨x, hPR hx⟩ v) = resV H.conj_mem t ⟨x, hPR hx⟩ (f v)) ∧
       ∀ v, beta H C ht ht1 hVQ (f v) v = 0} ≤ 4) :
     Nat.card (Kt S g t) ≤ 4 := by
-  haveI : Finite (Vt S g t →ₗ[ZMod 2] Vt S g t) := Module.finite_of_finite (ZMod 2)
-  haveI : Finite {f : Vt S g t →ₗ[ZMod 2] Vt S g t //
+  have : Finite (Vt S g t →ₗ[ZMod 2] Vt S g t) := Module.finite_of_finite (ZMod 2)
+  have : Finite {f : Vt S g t →ₗ[ZMod 2] Vt S g t //
       (∀ (x : S.O) (hx : x ∈ P) (v : Vt S g t),
         f (resV H.conj_mem t ⟨x, hPR hx⟩ v) = resV H.conj_mem t ⟨x, hPR hx⟩ (f v)) ∧
       ∀ v, beta H C ht ht1 hVQ (f v) v = 0} :=
@@ -349,7 +349,7 @@ theorem card_dvd_four_of_fix (hCE : CentralExtInput.{0}) (hw : S.width = 4) (H :
       (∀ σ ∈ T, ∀ v ∈ Vt S g t, (σ : S.Qt ≃ₗ[ZMod 2] S.Qt) v = v) → Nat.card T ∣ 4 := by
   intro T hT hfix
   have hTK : T ≤ Kt S g t := fun σ hσ => mem_Kt.mpr ⟨hT hσ, hfix σ hσ⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hKp : IsPGroup 2 (Kt S g t) := by
     intro σ
     refine ⟨1, ?_⟩
@@ -422,7 +422,7 @@ theorem eq_t_of_fix_of_conj (hCE : CentralExtInput.{0}) (hw : S.width = 4) (H : 
     intro x
     have hσx : es.toLinearMap x = em.toLinearMap (et.toLinearMap (em.symm.toLinearMap x)) := by
       rw [hlin]
-      simp [LinearEquiv.mul_apply]
+      simp
     rw [LinearMap.sub_apply, Module.End.one_apply, hσx, LinearMap.comp_apply,
       LinearMap.comp_apply, LinearMap.sub_apply, Module.End.one_apply, map_sub]
     simp

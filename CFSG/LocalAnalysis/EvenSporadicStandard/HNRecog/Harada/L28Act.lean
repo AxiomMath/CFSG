@@ -17,7 +17,7 @@ theorem L28_exists_action {A : Subgroup X} (hA : IsElemAbelian 2 A) (hcard : Nat
       ∀ (n : ↥(normalizer (A : Set X))) (a : ↥A),
         ((e.symm (Multiplicative.ofAdd (act n (Multiplicative.toAdd (e a)))) : ↥A) : X) =
           (n : X) * (a : X) * (n : X)⁻¹ := by
-  letI : CommGroup ↥A :=
+  let : CommGroup ↥A :=
     { (inferInstance : Group ↥A) with mul_comm := fun a b => hA.1.is_comm.comm a b }
   have hsq : ∀ a : ↥A, a * a = 1 := by
     intro a
@@ -27,11 +27,11 @@ theorem L28_exists_action {A : Subgroup X} (hA : IsElemAbelian 2 A) (hcard : Nat
     intro x
     apply (Additive.toMul (α := ↥A)).injective
     simp [pow_two, hsq x.toMul]
-  letI : Module (ZMod 2) (Additive ↥A) := AddCommGroup.zmodModule (n := 2) hsmul
-  haveI : Finite (Additive ↥A) := Nat.finite_of_card_ne_zero (by
+  let : Module (ZMod 2) (Additive ↥A) := AddCommGroup.zmodModule (n := 2) hsmul
+  have : Finite (Additive ↥A) := Nat.finite_of_card_ne_zero (by
     rw [Nat.card_congr Additive.toMul, hcard]
     exact pow_ne_zero 8 (by norm_num))
-  haveI : Fintype (Additive ↥A) := Fintype.ofFinite _
+  have : Fintype (Additive ↥A) := Fintype.ofFinite _
   have hfr : Module.finrank (ZMod 2) (Additive ↥A) = 8 := by
     have hcard' : Fintype.card (Additive ↥A) = 2 ^ 8 := by
       rw [← Nat.card_eq_fintype_card, Nat.card_congr Additive.toMul, hcard]

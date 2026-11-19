@@ -10,13 +10,16 @@ open CFSG CFSG.RankThree CFSG.RankThree.LocalRank CFSG.RankThree.PartTwo
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem imageSub_mono {K D₁ D₂ : Subgroup G} (h : D₁ ≤ D₂) : imageSub K D₁ ≤ imageSub K D₂ :=
   Subgroup.map_mono (Subgroup.comap_mono h)
 
+omit [Finite G] in
 theorem imageSub_sup {K D₁ D₂ : Subgroup G} (h₁ : D₁ ≤ K) (h₂ : D₂ ≤ K) :
     imageSub K (D₁ ⊔ D₂) = imageSub K D₁ ⊔ imageSub K D₂ := by
   simp only [imageSub, Subgroup.subgroupOf_sup h₁ h₂, Subgroup.map_sup]
 
+omit [Finite G] in
 theorem imageSub_zpowers {K : Subgroup G} (k : K) :
     imageSub K (Subgroup.zpowers (k : G)) =
       Subgroup.zpowers (QuotientGroup.mk' (aschbacherSolvableCore 3 K) k) := by
@@ -26,6 +29,7 @@ theorem imageSub_zpowers {K : Subgroup G} (k : K) :
     exact inf_eq_left.mpr (Subgroup.zpowers_le.mpr k.2)
   rw [imageSub, h, MonoidHom.map_zpowers]
 
+omit [Finite G] in
 theorem mk_mem_imageSub {K D : Subgroup G} {x : K} (hx : (x : G) ∈ D) :
     QuotientGroup.mk' (aschbacherSolvableCore 3 K) x ∈ imageSub K D :=
   Subgroup.mem_map_of_mem _ (Subgroup.mem_subgroupOf.mpr hx)

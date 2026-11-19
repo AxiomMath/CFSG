@@ -194,6 +194,7 @@ variable {m : ℕ} {K : Type} [Field K] [Finite K] [CharP K ReeTag.F4.prime]
   {L : Type} [Field L] [Algebra K L] [IsAlgClosure K L] [IsAlgClosed L] [CharP L 2]
   {K' : Type} [Field K']
 
+omit [IsAlgClosure K L] in
 private theorem exists_cent_of_model (hK : Nat.card K = 2 ^ (2 * m + 1))
     (D : ReeFrameData K L m) (h : UnitaryFieldData 2 (2 * m + 1) K') (ι : K' →+* L) {ω' : K'}
     (hω' : ω' ^ 2 + ω' + 1 = 0) (hbar : h.bar ω' = ω' + 1)
@@ -351,6 +352,7 @@ private theorem exists_cent_of_model (hK : Nat.card K = 2 ^ (2 * m + 1))
   · rintro _ ⟨u, rfl⟩
     rw [Subgroup.mem_centralizer_singleton_iff, hy₀, ← map_mul, ← map_mul, hx₀c u]
 
+omit [IsAlgClosed L] in
 private theorem exists_gen_of_model (hm : 1 ≤ m) (hK : Nat.card K = 2 ^ (2 * m + 1))
     (D : ReeFrameData K L m) (h : UnitaryFieldData 2 (2 * m + 1) K') (ι : K' →+* L) {ω' : K'}
     (hω' : ω' ^ 2 + ω' + 1 = 0) (hbar : h.bar ω' = ω' + 1)

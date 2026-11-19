@@ -45,7 +45,7 @@ private lemma dplPSU_scalar_pow_eq_one {F : Type} [Field F] {n p : ℕ} (hn : 1 
       z • (s : Matrix (Fin n) (Fin n) F))
     (hsp : ∃ c : F, (s : Matrix (Fin n) (Fin n) F) ^ p = Matrix.scalar (Fin n) c) :
     z ^ p = 1 := by
-  haveI : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
+  have : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
   have hLunit : IsUnit (((g * s * g⁻¹ : GL (Fin n) F) : Matrix (Fin n) (Fin n) F)) :=
     ⟨g * s * g⁻¹, rfl⟩
   have hzne : z ≠ 0 := by
@@ -93,7 +93,7 @@ private lemma dplPSU_scalar_norm {F : Type} [Field F] [Finite F] [CharP F 2] {f 
     (hconj : ((g * s * g⁻¹ : GL (Fin n) F) : Matrix (Fin n) (Fin n) F) =
       z • (s : Matrix (Fin n) (Fin n) F)) :
     z ^ (2 ^ f + 1) = 1 := by
-  haveI : NeZero n := ⟨by omega⟩
+  have : NeZero n := ⟨by omega⟩
   have hgI : InnerDiagSU.IsJUnitary (CFSG.LieType.BorelTits.unitaryInvolution F 2 f) g := hgU
   have hsI : InnerDiagSU.IsJUnitary (CFSG.LieType.BorelTits.unitaryInvolution F 2 f) s := hsU
   have hgsgI : InnerDiagSU.IsJUnitary (CFSG.LieType.BorelTits.unitaryInvolution F 2 f)
@@ -104,7 +104,7 @@ private lemma dplPSU_scalar_norm {F : Type} [Field F] [Finite F] [CharP F 2] {f 
   rw [hconj, dplPSU_conjTr_smul] at hunit
   have hanti : z • (CFSG.LieType.BorelTits.unitaryInvolution F 2 f z •
       (Unitary.antidiag n : Matrix (Fin n) (Fin n) F)) = Unitary.antidiag n := by
-    simp only [Matrix.smul_mul, Matrix.mul_smul, ← smul_smul] at hunit
+    simp only [Matrix.smul_mul, Matrix.mul_smul] at hunit
     rw [hsU] at hunit
     exact hunit
   have hentry : z * CFSG.LieType.BorelTits.unitaryInvolution F 2 f z = 1 := by
@@ -167,7 +167,7 @@ theorem commute_adjoin_of_isGLLift_PSU {F : Type} [Field F] [Finite F] [CharP F 
       (g : Matrix (Fin n) (Fin n) F) * a = a * (g : Matrix (Fin n) (Fin n) F) := by
   have hf : 1 ≤ f := by
     have hcard : 1 < Nat.card F := by
-      haveI : Fintype F := Fintype.ofFinite F
+      have : Fintype F := Fintype.ofFinite F
       rw [Nat.card_eq_fintype_card]
       exact Fintype.one_lt_card
     by_contra h
@@ -182,7 +182,7 @@ theorem commute_adjoin_of_isGLLift_PSU {F : Type} [Field F] [Finite F] [CharP F 
     · subst hn0
       exact Subsingleton.elim _ _
     · have hn : 1 ≤ n := Nat.pos_of_ne_zero hn0
-      haveI : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
+      have : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
       obtain ⟨d, hdD, hsd⟩ := hSlift s hs
       have hg_inv : IsGLLift
           (Unitary.SU (CFSG.LieType.BorelTits.unitaryInvolution F 2 f) n).subtype ψ g⁻¹ b⁻¹ :=

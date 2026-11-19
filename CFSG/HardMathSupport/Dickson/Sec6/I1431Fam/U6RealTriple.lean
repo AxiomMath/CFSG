@@ -32,7 +32,7 @@ theorem u6r_mem_gramSU_map_iff (h : UnitaryFieldData 2 f K)
     Matrix.GeneralLinearGroup.map α M ∈ gramSU hE (idGram E n) ↔
       M ∈ gramSU h (idGram K n) := by
   rw [mem_gramSU, mem_gramSU]
-  simp only [idGram, Units.val_one, Matrix.one_mul, Matrix.mul_one]
+  simp only [idGram, Units.val_one, Matrix.mul_one]
   have hcoe : ∀ (N : GL (Fin n) K),
       ((Matrix.GeneralLinearGroup.map α N : GL (Fin n) E) : Matrix (Fin n) (Fin n) E) =
         (N : Matrix (Fin n) (Fin n) K).map α := by
@@ -53,7 +53,7 @@ theorem u6r_mem_gramSU_map_iff (h : UnitaryFieldData 2 f K)
       ext i j
       simp [hbar]]
     rw [← Matrix.transpose_map]
-    simp only [Matrix.map_mul, Matrix.map_one, Matrix.mul_one]
+    simp only [Matrix.map_mul]
   constructor
   · rintro ⟨hunit, hdet⟩
     have hunit' : ((M : Matrix (Fin n) (Fin n) K).map h.bar)ᵀ *
@@ -199,8 +199,8 @@ theorem u6r_triple (hf : Odd f) (hf4 : 4 ≤ 2 ^ f) (B D : primeFormUnitary h (i
       H₂.map (primeFormConjHom h (idGram K 6) D).toMonoidHom = H₃ ∧
       H₃.map (primeFormConjHom h (idGram K 6) D).toMonoidHom = H₁ := by
   classical
-  haveI := h.finite
-  haveI : Finite (GL (Fin 6) K) :=
+  have := h.finite
+  have : Finite (GL (Fin 6) K) :=
     Finite.of_injective (fun g : GL (Fin 6) K => (g : Matrix (Fin 6) (Fin 6) K)) Units.val_injective
   have hap : (B : GL (Fin 6) K) ^ 3 = Matrix.GeneralLinearGroup.scalar (Fin 6) (1 : Kˣ) := by
     rw [map_one]
@@ -248,7 +248,7 @@ theorem u6r_triple (hf : Odd f) (hf4 : 4 ≤ 2 ^ f) (B D : primeFormUnitary h (i
     exact ⟨c, hc3, u6r_eq_block B H hH' ⟨⟨X - C c, hb⟩, hg⟩ hi' (hT c hc3)⟩
   have hNne : ∀ d (hd : d ^ 3 = 1), ∃ g ∈ N d, g ≠ 1 := by
     intro d hd
-    haveI : Nontrivial ↥(N d) := nontrivial_of_isQuasisimple' (isQuasisimple_open (hq d hd))
+    have : Nontrivial ↥(N d) := nontrivial_of_isQuasisimple' (isQuasisimple_open (hq d hd))
     obtain ⟨x, hx⟩ := exists_ne (1 : ↥(N d))
     exact ⟨x, x.2, fun h1 => hx (Subtype.ext h1)⟩
   have hdist : ∀ d e (hd : d ^ 3 = 1) (he : e ^ 3 = 1), (N d).map π = (N e).map π → d = e := by
@@ -395,7 +395,7 @@ theorem u6r_scalar_eq_one_of_normalizes_component
     rw [← Subgroup.map_commutator, hNperf]
   have hleN : N.map (t6psub_actSU h n D).toMonoidHom ≤ N :=
     u6r_le_of_map_le π u6r_ker_le_center hM hproj
-  haveI : Nontrivial ↥N :=
+  have : Nontrivial ↥N :=
     nontrivial_of_isQuasisimple' (isQuasisimple_open hqN)
   obtain ⟨x, hx1⟩ := exists_ne (1 : ↥N)
   let g : ↥(gramSU h (idGram K n)) := x
@@ -528,8 +528,6 @@ theorem u6r_a2_block_of_normalizes_component
     change primaryComponent ((t6psub_toLin B : LinearMap.GeneralLinearGroup K (Fin 6 → K)) :
       Module.End K (Fin 6 → K)) (X - C c) = _
     ext v
-    change v ∈ primaryComponent ((t6psub_toLin B : LinearMap.GeneralLinearGroup K
-      (Fin 6 → K)) : Module.End K (Fin 6 → K)) (X - C c) ↔ _
     rw [u6r_mem_primaryComponent_iff, LinearMap.mem_ker, LinearMap.sub_apply,
       LinearMap.smul_apply, LinearMap.id_apply, sub_eq_zero]
     rfl
@@ -566,7 +564,7 @@ theorem u6r_a2_block_of_normalizes_component
     simpa only [Module.finrank_fin_fun] using h
   have hfinmult : Module.finrank K W =
       (X - C c : K[X]).natDegree * primaryMultiplicity x (X - C c) := by
-    haveI : Fact (Irreducible (X - C c : K[X])) := ⟨irreducible_X_sub_C c⟩
+    have : Fact (Irreducible (X - C c : K[X])) := ⟨irreducible_X_sub_C c⟩
     exact finrank_primaryComponent x (X - C c)
   have hfinmult' : Module.finrank K W = primaryMultiplicity x (X - C c) := by
     rw [hfinmult, natDegree_X_sub_C, one_mul]
@@ -635,7 +633,7 @@ theorem u6r_natural_embedding_of_a2_block
         (t6psuh_toLinSU h 6) ∧
       j.range.map (QuotientGroup.mk' (normOneScalars h (gramSU h (idGram K 6)) 6)) = JP := by
   classical
-  haveI : Fact (Irreducible (a.1 : K[X])) := ⟨irreducible_of_mem_primaryFactors a.1.2⟩
+  have : Fact (Irreducible (a.1 : K[X])) := ⟨irreducible_of_mem_primaryFactors a.1.2⟩
   have hdeg : (a.1 : K[X]).natDegree = 1 := by rw [hac, natDegree_X_sub_C]
   have hap : (B : GL (Fin 6) K) ^ 3 =
       Matrix.GeneralLinearGroup.scalar (Fin 6) (1 : Kˣ) := by
@@ -653,7 +651,7 @@ theorem u6r_natural_embedding_of_a2_block
   have hne : (a.1 : K[X]) ≠ 0 := (Fact.out : Irreducible (a.1 : K[X])).ne_zero
   have hfinE : Module.finrank K E = 1 := by
     rw [(AdjoinRoot.powerBasis hne).finrank, AdjoinRoot.powerBasis_dim, hdeg]
-  haveI : Module.Free K E := Module.Free.of_basis (AdjoinRoot.powerBasis hne).basis
+  have : Module.Free K E := Module.Free.of_basis (AdjoinRoot.powerBasis hne).basis
   let α : K ≃ₐ[K] E := AlgEquiv.ofBijective (Algebra.ofId K E)
     (Algebra.finrank_eq_one_iff_bijective_algebraMap.mp hfinE)
   have hbarα : ∀ k : K, hE.bar (α k) = α (h.bar k) := by
@@ -670,7 +668,7 @@ theorem u6r_natural_embedding_of_a2_block
       simp
     · have hne' : finCongr hm.symm i ≠ finCongr hm.symm j := fun h =>
         hij ((finCongr hm.symm).injective h)
-      simp [hij, hne']
+      simp [hij]
   have horth : ∀ i j : Fin 3,
       idForm h 6 ((e3 i : W) : Fin 6 → K) ((e3 j : W) : Fin 6 → K) =
         if i = j then 1 else 0 := by
@@ -690,7 +688,7 @@ theorem u6r_natural_embedding_of_a2_block
     intro x y
     rw [idForm, gramForm_apply]
     have h1 : (idGram K 6 : Matrix (Fin 6) (Fin 6) K) *ᵥ y = y := by
-      simpa [idGram] using Matrix.one_mulVec y
+      simp [idGram]
     rw [h1]
     rfl
   have hidFormU : ∀ (j : Fin 3) (v : Fin 6 → K),
@@ -1066,7 +1064,7 @@ theorem u6r_natural_embedding_of_a2_block
   have htoLinj : ∀ P : gramSU h (idGram K 3),
       t6psuh_toLinSU h 6 (j P) = jGL (P : GL (Fin 3) K) := by
     intro P
-    simpa [j, t6psuh_toLinSU, MulEquiv.apply_symm_apply]
+    simp [j, t6psuh_toLinSU, MulEquiv.apply_symm_apply]
   have hrangej : j.range = (specialBlock (idForm h 6) (t6psub_toLin B) (a.1 : K[X])).comap
       (t6psuh_toLinSU h 6) := by
     ext g
@@ -1263,14 +1261,14 @@ theorem u6r_specialUnitary_position_of_natural_embedding
       rw [hjl, Matrix.mul_apply]
       simp only [hTU']
       rw [← Matrix.mul_apply, hLU, Matrix.one_apply]
-      simp [C, hjl, eq_comm]
+      simp [C, eq_comm]
     · have hjl : j = (finSumFinEquiv : (Fin 3 ⊕ Fin 3) ≃ Fin 6) (Sum.inr l) := by
         conv_lhs => rw [← Equiv.apply_symm_apply (finSumFinEquiv : (Fin 3 ⊕ Fin 3) ≃ Fin 6) j]
         rw [hj]
       rw [hjl, Matrix.mul_apply]
       simp only [hTV]
       rw [← Matrix.mul_apply, hL, hUV]
-      simp [C, hjl]
+      simp [C]
   have hBLPC : ∀ P : Matrix (Fin 3) (Fin 3) K, BL * P * C = blockMat P 0 := by
     intro P
     ext i j
@@ -1284,7 +1282,7 @@ theorem u6r_specialUnitary_position_of_natural_embedding
         rw [hj]
       rw [hia, hjb]
       simp [BL, C, blockMat, Matrix.reindex_apply, Matrix.mul_apply,
-        Finset.sum_ite_eq', Finset.mem_univ, mul_comm]
+        Finset.mem_univ, mul_comm]
     · have hia : i = (finSumFinEquiv : (Fin 3 ⊕ Fin 3) ≃ Fin 6) (Sum.inl a) := by
         conv_lhs => rw [← Equiv.apply_symm_apply (finSumFinEquiv : (Fin 3 ⊕ Fin 3) ≃ Fin 6) i]
         rw [hi]
@@ -1293,7 +1291,7 @@ theorem u6r_specialUnitary_position_of_natural_embedding
         rw [hj]
       rw [hia, hjb]
       simp [BL, C, blockMat, Matrix.reindex_apply, Matrix.mul_apply,
-        Finset.sum_ite_eq', Finset.mem_univ]
+        Finset.mem_univ]
     · have hia : i = (finSumFinEquiv : (Fin 3 ⊕ Fin 3) ≃ Fin 6) (Sum.inr a) := by
         conv_lhs => rw [← Equiv.apply_symm_apply (finSumFinEquiv : (Fin 3 ⊕ Fin 3) ≃ Fin 6) i]
         rw [hi]
@@ -1301,8 +1299,7 @@ theorem u6r_specialUnitary_position_of_natural_embedding
         conv_lhs => rw [← Equiv.apply_symm_apply (finSumFinEquiv : (Fin 3 ⊕ Fin 3) ≃ Fin 6) j]
         rw [hj]
       rw [hia, hjb]
-      simp [BL, C, blockMat, Matrix.reindex_apply, Matrix.mul_apply,
-        Finset.sum_ite_eq', Finset.mem_univ]
+      simp [BL, C, blockMat, Matrix.reindex_apply, Matrix.mul_apply]
     · have hia : i = (finSumFinEquiv : (Fin 3 ⊕ Fin 3) ≃ Fin 6) (Sum.inr a) := by
         conv_lhs => rw [← Equiv.apply_symm_apply (finSumFinEquiv : (Fin 3 ⊕ Fin 3) ≃ Fin 6) i]
         rw [hi]
@@ -1310,8 +1307,7 @@ theorem u6r_specialUnitary_position_of_natural_embedding
         conv_lhs => rw [← Equiv.apply_symm_apply (finSumFinEquiv : (Fin 3 ⊕ Fin 3) ≃ Fin 6) j]
         rw [hj]
       rw [hia, hjb]
-      simp [BL, C, blockMat, Matrix.reindex_apply, Matrix.mul_apply,
-        Finset.sum_ite_eq', Finset.mem_univ]
+      simp [BL, C, blockMat, Matrix.reindex_apply, Matrix.mul_apply]
   have hBLC : BL * C = blockMat 1 0 := by
     simpa using hBLPC 1
   have hsplit : blockMat (1 : Matrix (Fin 3) (Fin 3) K) 0 +
@@ -1326,12 +1322,12 @@ theorem u6r_specialUnitary_position_of_natural_embedding
     · rw [Function.comp_apply, hi]
       have hia : i = (finSumFinEquiv : (Fin 3 ⊕ Fin 3) ≃ Fin 6) (Sum.inl a) := by
         rw [← hi, Equiv.apply_symm_apply]
-      rw [hia, finSumFinEquiv_apply_left, Fin.val_castAdd, if_pos a.isLt]
+      rw [hia, finSumFinEquiv_apply_left, Fin.val_castAdd, ite_eq_left a.isLt]
       rfl
     · rw [Function.comp_apply, hi]
       have hia : i = (finSumFinEquiv : (Fin 3 ⊕ Fin 3) ≃ Fin 6) (Sum.inr a) := by
         rw [← hi, Equiv.apply_symm_apply]
-      rw [hia, finSumFinEquiv_apply_right, Fin.val_natAdd, if_neg (by omega)]
+      rw [hia, finSumFinEquiv_apply_right, Fin.val_natAdd, ite_eq_right (by omega)]
       rfl
   have hvec : ![c, c, c, d, d, d] =
       (fun i : Fin 6 => if i.val < 3 then c else d) := by

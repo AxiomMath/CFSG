@@ -211,7 +211,7 @@ public lemma b_mem_fixedSubgroup_s4 (c : Hyp11 G) {b : G} (hbB : b ∈ c.B) :
     have ht1S : t1S ∉ (c.S0 : Subgroup G).subgroupOf (c.S : Subgroup G) := by
       exact fun h => c.t1_not_mem_S0 (Subgroup.mem_subgroupOf.mp h)
     have hmul : aS * t1S ∈ (c.S0 : Subgroup G).subgroupOf (c.S : Subgroup G) := by
-      exact (Subgroup.mul_mem_iff_of_index_two (S0_index c)).2 (by simpa [haS, ht1S])
+      exact (Subgroup.mul_mem_iff_of_index_two (S0_index c)).2 (by simp [haS, ht1S])
     have hrS0 : (a : G) * c.t1 ∈ (c.S0 : Subgroup G) := by
       simpa [aS, t1S, Subgroup.coe_mul] using (Subgroup.mem_subgroupOf.mp hmul)
     rcases (Subgroup.mem_zpowers_iff.mp (by simpa [c.S0_eq_zpowers] using hrS0)) with
@@ -309,7 +309,7 @@ private lemma U_le_H_s4 (c : Hyp11 G) : c.U ≤ c.H := by
   intro x hx
   have huU : x ∈ (pPrimeCore 2 c.H).map c.H.subtype := by
     simpa [Hyp11.U, oddCoreOf] using hx
-  exact SetLike.le_def.1 (Subgroup.map_subtype_le (H := c.H) (pPrimeCore 2 c.H)) huU
+  exact _root_.IsConcreteLE.le_iff.1 (Subgroup.map_subtype_le (H := c.H) (pPrimeCore 2 c.H)) huU
 
 /-- `|U|` is coprime to `2`. -/
 public lemma U_coprime_two (c : Hyp11 G) : Nat.Coprime 2 (Nat.card (↥c.U)) := by
@@ -443,8 +443,7 @@ private lemma odd_order_mem_U (c : Hyp11 G) {x : G} (hxH : x ∈ c.H)
   have hqodd : Odd (orderOf (q xH)) := by
     have hdvd : orderOf (q xH) ∣ orderOf xH := orderOf_map_dvd q xH
     have hxord : orderOf xH = orderOf x := by
-      simpa [xH] using (orderOf_injective (c.H).subtype
-        (Subgroup.subtype_injective c.H) xH)
+      simp [xH]
     exact hxodd.of_dvd_nat (by simpa [hxord] using hdvd)
   have hKcard : Nat.card (↥K) = Nat.card ↥c.U := by
     exact Nat.card_congr {
@@ -472,7 +471,7 @@ private lemma odd_order_mem_U (c : Hyp11 G) {x : G} (hxH : x ∈ c.H)
         rw [← even_iff_two_dvd]
         exact Nat.not_even_iff_odd.mpr hqodd
       exact Nat.prime_two.coprime_iff_not_dvd.mpr hnot2
-    rcases IsPGroup.exists_card_eq (p := 2) (G := ↥(c.S : Subgroup G)) c.S.isPGroup'
+    rcases IsPGroup.exists_card_eq (p := 2) (G := ↥(c.S : Subgroup G)) c.S.isPGroup
       with ⟨k, hk⟩
     rw [hk]
     exact Nat.Coprime.pow_right k (Nat.Coprime.symm hcop2)
@@ -874,7 +873,7 @@ private noncomputable def glaubermanEquiv (c : Hyp11 G) :
   classical
   let e0 := Classical.choose (glauberman_correspondence
     (S := ↥(c.S : Subgroup G)) (U := ↥c.U)
-    c.S.isPGroup' (U_coprime_two c))
+    c.S.isPGroup (U_coprime_two c))
   exact e0.trans (irrCongr_s4 (B_fixedSubgroup_equiv c))
 
 /-- The transported correspondence is congruent to `α` on `B`. -/
@@ -888,13 +887,13 @@ private theorem glaubermanEquiv_congr (c : Hyp11 G)
   classical
   let e0 := Classical.choose (glauberman_correspondence
     (S := ↥(c.S : Subgroup G)) (U := ↥c.U)
-    c.S.isPGroup' (U_coprime_two c))
+    c.S.isPGroup (U_coprime_two c))
   have hspec : ∀ (α' : {α : IrrBG19 (↥c.U) // FixedIrr (c.S : Subgroup G) c.U α})
       (b' : ↥(fixedSubgroup (c.S : Subgroup G) c.U)),
       CongruentModTwo (α'.1.1 (b' : ↥c.U)) ((e0 α').1 b') :=
     Classical.choose_spec (glauberman_correspondence
       (S := ↥(c.S : Subgroup G)) (U := ↥c.U)
-      c.S.isPGroup' (U_coprime_two c))
+      c.S.isPGroup (U_coprime_two c))
   have h := hspec ⟨α, hfix⟩ (B_fixedSubgroup_equiv c b)
   simpa [glaubermanEquiv, e0, irrCongr_s4] using h
 
@@ -948,7 +947,7 @@ public theorem nuHat_congruence (c : Hyp11 G) (h12 : Hyp12 c)
     rw [hAt.symm, hsub]
   have hnu : (nuHat c h12 ν).1 b = (glaubermanEquiv c ⟨α0, hfix0⟩).1 b := by
     unfold nuHat
-    rw [dif_pos hP]
+    rw [dite_eq_left hP]
   have hC' : CongruentModTwo (α0.1 u) ((nuHat c h12 ν).1 b) := by
     rwa [← hnu] at hC
   exact (CongruentModTwo.symm hC').trans (CongruentModTwo.of_eq hEq1)

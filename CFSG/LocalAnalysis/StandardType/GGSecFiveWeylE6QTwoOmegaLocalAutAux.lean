@@ -23,6 +23,7 @@ open CFSG.RankThree.Classical2
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 private theorem exists_totallySingular_three :
     ∃ T : Submodule K (Fin 4 ⊕ Fin 4 → K), Module.finrank K T = 3 ∧
       ∀ v ∈ T, TableBOrth.qPlusForm K 4 v = 0 := by
@@ -37,7 +38,7 @@ private theorem exists_totallySingular_three :
     rw [Finset.sum_eq_single_of_mem i hi] at h1
     · simpa using h1
     · intro j hj hji
-      rw [if_neg]
+      rw [ite_eq_right]
       · ring
       · intro h
         exact hji (Fin.ext (by simpa using congrArg Fin.val (Sum.inl_injective h))).symm
@@ -85,7 +86,7 @@ private theorem frameData (hK : Nat.card K = 2) (hQ : (QuadraticMap.polarBilin Q
     have h1 : Nat.card E = 3 ^ k := by
       rw [← hτ₀E]
       rw [Nat.card_congr (MonoidHom.ofInjective hτ₀inj).toEquiv.symm]
-      simp [Nat.card_fun, Nat.card_zmod]
+      simp
     have : 3 ^ k = 3 ^ 4 := by rw [← h1, hcardE]
     exact Nat.pow_right_injective (by norm_num) this
   subst hk
@@ -219,6 +220,7 @@ private theorem signedSwap_conj (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
       rw [hs, hτ d]
       exact Subtype.ext (signedSwap_conj_of_ne hF hij.ne hdi hdj)
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
 private theorem mem_normalizer_of_conj_torus
     {g : ↥(orthDerived Q)} {τ : (Fin 4 → Multiplicative (ZMod 3)) →* ↥(orthDerived Q)}
     (hτE : τ.range = E) {w : MulAut (Fin 4 → Multiplicative (ZMod 3))}

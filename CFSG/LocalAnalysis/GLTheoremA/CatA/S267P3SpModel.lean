@@ -17,7 +17,7 @@ variable {F : Type} [Field F]
     Subgroup (SpecialLinearGroup ι F) where
   carrier := {g : SpecialLinearGroup ι F | (g : Matrix ι ι F)ᵀ * J * (g : Matrix ι ι F) = J}
   mul_mem' {g h} hg hh := by
-    simp only [Set.mem_setOf_eq, Matrix.SpecialLinearGroup.coe_mul] at hg hh ⊢
+    simp only [Set.mem_ofPred_eq, Matrix.SpecialLinearGroup.coe_mul] at hg hh ⊢
     calc ((g : Matrix ι ι F) * (h : Matrix ι ι F))ᵀ * J * ((g : Matrix ι ι F) * (h : Matrix ι ι F))
         = (h : Matrix ι ι F)ᵀ * ((g : Matrix ι ι F)ᵀ * J * (g : Matrix ι ι F)) *
             (h : Matrix ι ι F) := by
@@ -25,10 +25,10 @@ variable {F : Type} [Field F]
           simp only [Matrix.mul_assoc]
       _ = J := by rw [hg, hh]
   one_mem' := by
-    simp only [Set.mem_setOf_eq, Matrix.SpecialLinearGroup.coe_one, Matrix.transpose_one,
+    simp only [Set.mem_ofPred_eq, Matrix.SpecialLinearGroup.coe_one, Matrix.transpose_one,
       Matrix.one_mul, Matrix.mul_one]
   inv_mem' {g} hg := by
-    simp only [Set.mem_setOf_eq] at hg ⊢
+    simp only [Set.mem_ofPred_eq] at hg ⊢
     have hgi : (g : Matrix ι ι F) * ((g⁻¹ : SpecialLinearGroup ι F) : Matrix ι ι F) = 1 := by
       rw [← Matrix.SpecialLinearGroup.coe_mul, mul_inv_cancel, Matrix.SpecialLinearGroup.coe_one]
     calc ((g⁻¹ : SpecialLinearGroup ι F) : Matrix ι ι F)ᵀ * J *
@@ -73,7 +73,7 @@ theorem c3_rel : ((c3 : SpecialLinearGroup (Fin 2) F) : Matrix (Fin 2) (Fin 2) F
     (c3 : SpecialLinearGroup (Fin 2) F) + (c3 : SpecialLinearGroup (Fin 2) F) + 1 = 0 := by
   rw [coe_c3]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [c3Mat, Matrix.mul_apply, Fin.sum_univ_two] <;> norm_num
+  fin_cases i <;> fin_cases j <;> simp [c3Mat]
 
 abbrev stdJ (n : ℕ) : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F := fromBlocks 0 1 (-1) 0
 
@@ -115,7 +115,7 @@ theorem reindex_step {ι : Type} [Fintype ι] [DecidableEq ι] {n : ℕ} (e : ι
     simp only [stepInv, Fin.cases_zero, Fin.cases_succ, fromBlocks_apply₁₁, fromBlocks_apply₁₂,
       fromBlocks_apply₂₁, fromBlocks_apply₂₂, hJ', Matrix.zero_apply, Matrix.one_apply,
       Matrix.neg_apply,
-      Fin.succ_inj, hz, Fin.succ_ne_zero, if_false, if_true] <;>
+      Fin.succ_inj, hz, Fin.succ_ne_zero, ite_false, ite_true] <;>
     simp [ω₂]
 
 @[expose] noncomputable def toGLRe {ι κ : Type} [Fintype ι] [DecidableEq ι] [Fintype κ]

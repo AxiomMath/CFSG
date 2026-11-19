@@ -30,7 +30,7 @@ private theorem coprime_natCard_sub_one {F : Type} [Field F] [Finite F] :
 private theorem inf_utri_eq_bot_of_card {F : Type} [Field F] [Finite F] [CharP F 2]
     {E : Subgroup (SL(2, F))} (hcard : Nat.card E = Nat.card F - 1) :
     utri F ⊓ E = ⊥ := by
-  refine Subgroup.inf_eq_bot_of_coprime ?_
+  refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
   rw [card_utri, hcard]
   exact coprime_natCard_sub_one
 
@@ -81,7 +81,7 @@ private theorem exists_conj_sylow_torus {F : Type} [Field F] [Finite F] [CharP F
       P.map (MulAut.conj g).toMonoidHom = utri F ∧
       E.map (MulAut.conj g).toMonoidHom = torus F := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let P' : Sylow 2 (SL(2, F)) := IsPGroup.toSylow hP hidx
   obtain ⟨h, hh⟩ := exists_conjSubgroup_utri_eq_of_sylow P'
   have hP' : (P' : Subgroup (SL(2, F))) = P := IsPGroup.toSylow_coe hP hidx
@@ -135,7 +135,7 @@ theorem relIndex_normalizer_of_isL2Quot {L T : Subgroup G} [Finite ↥L] {n : �
     (T.subgroupOf L).relIndex
       (Subgroup.normalizer ((T.subgroupOf L : Subgroup ↥L) : Set ↥L)) = 2 ^ n - 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let P : Subgroup ↥L := CFSG.pCore 2 ↥L
   let S : Subgroup ↥L := T.subgroupOf L
   let π : ↥L →* oTwoQuot ↥L := QuotientGroup.mk' P
@@ -178,7 +178,7 @@ theorem exists_le_normalizer_card_eq_of_isL2Quot {L T : Subgroup G} [Finite ↥L
     (hn : 1 ≤ n) (hq : IsL2Quot n (oTwoQuot ↥L)) (hT : IsSylowTwoOf T L) :
     ∃ D : Subgroup G, D ≤ L ⊓ Subgroup.normalizer (T : Set G) ∧ Nat.card D = 2 ^ n - 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let S : Subgroup ↥L := T.subgroupOf L
   have hS2 : IsPGroup 2 S :=
     hT.2.1.of_equiv (Subgroup.subgroupOfEquivOfLe hT.1).symm
@@ -210,12 +210,12 @@ private theorem card_map_subgroupOf_eq_of_isL2Quot {L D : Subgroup G} [Finite �
     (hDcard : Nat.card D = 2 ^ n - 1) (hn : 1 ≤ n) :
     Nat.card ((D.subgroupOf L).map α) = 2 ^ n - 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Q : Subgroup G := pCoreOf 2 L
   have hQleL : Q ≤ L := CFSG.openPCoreOf_le 2 L
   have hQp : IsPGroup 2 Q :=
     (CFSG.pCore_isPGroup (G := ↥L) (p := 2)).map L.subtype
-  haveI : Finite ↥Q :=
+  have : Finite ↥Q :=
     Finite.of_injective (Subgroup.inclusion hQleL) (Subgroup.inclusion_injective hQleL)
   have hoddSub : Odd (2 ^ n - 1) :=
     Nat.Even.sub_odd Nat.one_le_two_pow
@@ -248,7 +248,7 @@ private theorem exists_image_sylow_torus_data {L T D : Subgroup G} [Finite ↥L]
           Subgroup (SL(2, GaloisField 2 n))) : Set (SL(2, GaloisField 2 n))) ∧
       Nat.card ((D.subgroupOf L).map α) = Nat.card (GaloisField 2 n) - 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let F := GaloisField 2 n
   let Q : Subgroup G := pCoreOf 2 L
   let S : Subgroup ↥L := T.subgroupOf L
@@ -301,7 +301,7 @@ theorem exists_conj_SL2_of_isL2Quot {L T D : Subgroup G} [Finite ↥L] {n : ℕ}
 
 private theorem conjModPCore_eq_one_of_exists_torus_conj {L D : Subgroup G} [Finite ↥L]
     (hDleL : D ≤ L) (hoddD : Odd (Nat.card D)) {c : G} (hc2 : ∃ m, c ^ (2 ^ m) = 1)
-    (hcL : c ∈ Subgroup.normalizer (L : Set G)) (hcD : ∀ d ∈ D, c * d = d * c)
+    (hcL : c ∈ Subgroup.normalizer (L : Set G)) (_hcD : ∀ d ∈ D, c * d = d * c)
     (ht : ∃ t ∈ D, ∀ l ∈ L, (t⁻¹ * c) * l * (t⁻¹ * c)⁻¹ * l⁻¹ ∈ pCoreOf 2 L) :
     CFSG.GroupTheory.conjModPCore 2 L (Subgroup.normalizer (L : Set G)) le_rfl
       ⟨c, hcL⟩ = 1 := by
@@ -323,7 +323,7 @@ private theorem conjModPCore_eq_one_of_exists_torus_conj {L D : Subgroup G} [Fin
   have hφeq : φ ⟨c, hcL⟩ = φ ⟨t, htN⟩ := by
     have hhker' : φ ⟨t⁻¹ * c, hhN⟩ = 1 := MonoidHom.mem_ker.mp hhker
     have h := congrArg φ hh_eq
-    simp only [hhker', map_mul, map_inv, map_one] at h
+    simp only [hhker', map_mul, map_inv] at h
     have h' : φ ⟨t, htN⟩ = φ ⟨c, hcL⟩ := by
       calc φ ⟨t, htN⟩ = φ ⟨t, htN⟩ * 1 := (mul_one _).symm
         _ = φ ⟨t, htN⟩ * ((φ ⟨t, htN⟩)⁻¹ * φ ⟨c, hcL⟩) := by rw [← h]
@@ -389,7 +389,7 @@ theorem commutator_mem_pCoreOf_of_centralizes_torus {L T D : Subgroup G} [Finite
     (hcT : c ∈ Subgroup.normalizer (T : Set G)) (hcD : ∀ d ∈ D, c * d = d * c) :
     ∀ l ∈ L, ⁅c, l⁆ ∈ pCoreOf 2 L := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let F := GaloisField 2 n
   obtain ⟨γ, hγsurj, hγker, hSγ, hDγ⟩ :=
     exists_conj_SL2_of_isL2Quot (by omega : 1 ≤ n) hq hT hD hDcard

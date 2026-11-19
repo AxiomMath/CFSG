@@ -24,7 +24,7 @@ open CFSG CFSG.Assembly CFSG.RankThree.PartTwo.Sec11 CFSG.Blueprint.Chevalley CF
 
 
 theorem kgLangT3_order_three_conj_short {K : Type} [Field K] [Finite K] [CharP K 2]
-    {σ : K ≃+* K} (hσ : σ ^ 3 = 1) (h3 : 3 ∣ Nat.card K - 1)
+    {σ : K ≃+* K} (hσ : σ ^ 3 = 1) (_h3 : 3 ∣ Nat.card K - 1)
     {z z' : graphFixedRootGroup TwistTag.D4 K σ.toRingHom}
     (hz : z ∈ KS11Lie4Proof.d4ShortSL2 K σ.toRingHom)
     (hz' : z' ∈ KS11Lie4Proof.d4ShortSL2 K σ.toRingHom)

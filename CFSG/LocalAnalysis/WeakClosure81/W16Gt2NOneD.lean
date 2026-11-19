@@ -17,6 +17,7 @@ namespace Cfg1620
 
 variable {M V₀ V U S R H : Subgroup G} {g : G} {B : Subgroup G}
 
+omit [Finite G] in
 theorem conjClosure_le_sup_of_img_eq (c : Cfg1620 M V₀ V U S R H g B)
     (Mo : ModDataE H (conjClosure (U ⊔ V₀) H))
     (h : Mo.img (conjClosure V H) = Mo.img (V ⊔ conjSubgroup V g)) :

@@ -71,11 +71,11 @@ theorem sq_eq_one_of_line {V : Type*} [CommGroup V] (hV3 : ∀ v : V, v ^ 3 = 1)
     obtain ⟨v, rfl⟩ := QuotientGroup.mk'_surjective L w₀
     refine ⟨QuotientGroup.mk' L (σ.symm v), ?_⟩
     rw [show σQ (QuotientGroup.mk' L (σ.symm v)) = QuotientGroup.mk' L v by
-      simp [σQ, QuotientGroup.map_mk']]
+      simp [σQ]]
     exact hw₀
   have hfixQ : ∀ v : V, (σ (σ v))⁻¹ * v ∈ L := fun v => by
     have h := exists_zpow_of_card_three hQ σQ hQ1 (QuotientGroup.mk' L v)
-    simp only [σQ, QuotientGroup.map_mk', MulEquiv.coe_toMonoidHom] at h
+    simp only [σQ] at h
     exact (QuotientGroup.eq).mp h
   have hτ : ∀ v : V, (σ ^ 2) v = v := by
     intro v
@@ -112,7 +112,7 @@ theorem le_frattini_or_eq_top {P : Type*} [Group P] [Finite P] (hP : IsPGroup 3 
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hchar, hcomm, hpow, -, e, hcard, -⟩ := CFSG.GroupTheory.frattini_elementary_quotient hP
   set Φ := frattini P with hΦ
-  letI : CommGroup (P ⧸ Φ) :=
+  let : CommGroup (P ⧸ Φ) :=
     { (inferInstance : Group (P ⧸ Φ)) with mul_comm := hcomm.is_comm.comm }
   have hmk : ∀ a b : P, QuotientGroup.mk' Φ a = QuotientGroup.mk' Φ b → a⁻¹ * b ∈ Φ :=
     fun a b h => (QuotientGroup.eq).mp h
@@ -336,7 +336,7 @@ theorem u33_local {L : Type} [Group L] [Finite L]
     (hj : j ∈ normalizer (B : Set X)) : MulAut B where
   toFun b := ⟨j * b * j⁻¹, (mem_normalizer_iff.mp hj b).mp b.2⟩
   invFun b := ⟨j⁻¹ * b * j, by
-    have := (mem_normalizer_iff.mp hj (j⁻¹ * b * j)).mpr (by simpa [mul_assoc] using b.2)
+    have := (mem_normalizer_iff.mp hj (j⁻¹ * b * j)).mpr (by simp [mul_assoc])
     exact this⟩
   left_inv b := Subtype.ext (by simp [mul_assoc])
   right_inv b := Subtype.ext (by simp [mul_assoc])

@@ -51,8 +51,8 @@ theorem eight_of_threeB (Ppar : D4Par 1 X σ) {t : C0 σ} (htB : t ∈ Bsub σ) 
     (hsubg : (Pg.subgroupOf (Subgroup.centralizer ({t} : Set (C0 σ)))).IsSubnormal)
     {p n : ℕ} [Fact p.Prime] (h4 : 4 ≤ p ^ n) (φ' : ↥Pg →* projSL 2 (GaloisField p n))
     (hφ's : Function.Surjective φ') : p ^ n = 8 := by
-  haveI : Finite (C0 σ) := finite_C0 (σ := σ)
-  haveI := Ppar.charP
+  have : Finite (C0 σ) := finite_C0 (σ := σ)
+  have := Ppar.charP
   have hresB := d4_resCent_threeB' Ppar htB ht3
   have hX4 : 4 ≤ Nat.card X := by rw [Ppar.card]; norm_num
   have hPgA : Pg ≤ Asub σ := by
@@ -72,10 +72,10 @@ theorem eight_of_threeB (Ppar : D4Par 1 X σ) {t : C0 σ} (htB : t ∈ Bsub σ) 
     exact hsubg.comap _
   have hQ : CFSG.IsQuasisimple ↥(Asub σ) :=
     Sec11.KS11Lie4Proof.isQuasisimple_d4ShortSL2 Ppar.sigma_pow_three hX4
-  haveI hSs : Nontrivial (projSL 2 (GaloisField p n)) :=
+  have hSs : Nontrivial (projSL 2 (GaloisField p n)) :=
     (isSimpleGroup_projSL_two h4).toNontrivial
   have hP' : Group.IsPerfect (Pg.subgroupOf (Asub σ)) := by
-    haveI := hperf
+    have := hperf
     exact Group.IsPerfect.ofSurjective
       (f := (Subgroup.subgroupOfEquivOfLe hPgA).symm.toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hPgA).symm.surjective
@@ -141,8 +141,8 @@ theorem eight_of_pair_model (Ppar : D4Par 1 X σ) {y : C0 σ} (hy3 : orderOf y =
     (hPs : (P.subgroupOf (Subgroup.centralizer ({y} : Set (C0 σ)))).IsSubnormal)
     {p n : ℕ} [Fact p.Prime] (h4 : 4 ≤ p ^ n) (φ : ↥P →* projSL 2 (GaloisField p n))
     (hφ : Function.Surjective φ) : p ^ n = 8 := by
-  haveI : Finite (C0 σ) := finite_C0 (σ := σ)
-  haveI := Ppar.charP
+  have : Finite (C0 σ) := finite_C0 (σ := σ)
+  have := Ppar.charP
   have hy31 : y ^ 3 = 1 := by rw [← hy3]; exact pow_orderOf_eq_one y
   have hy1 : y ≠ 1 := by
     rintro rfl
@@ -157,7 +157,7 @@ theorem eight_of_pair_model (Ppar : D4Par 1 X σ) {y : C0 σ} (hy3 : orderOf y =
     rw [centralizer_conj_eq_map]
     exact Subgroup.map_mono hPC
   have hperf : Group.IsPerfect (P.map cg.toMonoidHom) := by
-    haveI := hPp
+    have := hPp
     exact Group.IsPerfect.ofSurjective
       (f := (P.equivMapOfInjective cg.toMonoidHom cg.injective).toMonoidHom)
       (P.equivMapOfInjective cg.toMonoidHom cg.injective).surjective
@@ -189,14 +189,14 @@ theorem kF3D42Inner_holds :
   obtain ⟨K, _, _, σ, hK, hσ, ⟨eK⟩⟩ := Hering129KModels.exists_d4_model eQ
   have Ppar : D4Par 1 K σ :=
     ⟨le_rfl, by rw [hK, hr2]; norm_num, fun c => by rw [hσ c, hr2]; norm_num⟩
-  haveI : Finite (C0 σ) := finite_C0 (σ := σ)
-  haveI : Finite Q := Finite.of_equiv _ eK.symm.toEquiv
+  have : Finite (C0 σ) := finite_C0 (σ := σ)
+  have : Finite Q := Finite.of_equiv _ eK.symm.toEquiv
   have hy3' : orderOf (eK y) = 3 := by rw [MulEquiv.orderOf_eq]; exact hy3
   have hPC' : P.map eK.toMonoidHom ≤ Subgroup.centralizer ({eK y} : Set (C0 σ)) := by
     rw [centralizer_map_equiv_eq eK y]
     exact Subgroup.map_mono hPC
   have hPp' : Group.IsPerfect (P.map eK.toMonoidHom) := by
-    haveI := hPp
+    have := hPp
     exact Group.IsPerfect.ofSurjective
       (f := (P.equivMapOfInjective eK.toMonoidHom eK.injective).toMonoidHom)
       (P.equivMapOfInjective eK.toMonoidHom eK.injective).surjective
@@ -221,7 +221,7 @@ theorem false_of_isoD42_inner (hN : Sec11.Item1134E27N) (hST : Sec21.Item1134E27
     (hr'2 : r'.card = 2)
     (eY : Nonempty (Y ⧸ CFSG.pCore 2 Y ≃* (TauCeti.CFSGIndex.lie ⟨.trialityD4 r', hr'⟩).Group))
     (hqmod : ¬ PiModNine q.card) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hstd := cfg.std
   have hst : PartTwoStanding G := hstd.toPartTwoStanding
   have hAe : CFSG.Assembly.IsElemAbelian 3 A := hstd.isE27.1
@@ -250,8 +250,8 @@ theorem false_of_isoD42_inner (hN : Sec11.Item1134E27N) (hST : Sec21.Item1134E27
   obtain ⟨-, -, δ, -, hδ13, F, hFf, hFfin, hFcard, φK, hφK, hkerK⟩ :=
     exists_sl2_quotient_of_fix hTL hCen G A c L b a K S cfg q hq x hxD hxb
   obtain ⟨hq4, -, -⟩ := hCen.2 G A c L b a K S cfg q hq
-  haveI : Finite F := Finite.of_fintype F
-  haveI hqp : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Finite F := Finite.of_fintype F
+  have hqp : Fact q.p.Prime := ⟨q.prime_p⟩
   have hF4 : 4 ≤ Nat.card F := by
     rw [Nat.card_eq_fintype_card, hFcard]
     refine hq4.trans (Nat.le_self_pow ?_ _)
@@ -366,7 +366,7 @@ theorem gap129EndE_of_notD42_inner (hN : Sec11.Item1134E27N) (hST : Sec21.Item11
   · exact h G A c L b a K S cfg q hq x hxD hxb hxL Y hY hXY hNo h3 hD E hE d hdD hdb hdL Y' J hY'
       hXY' hJ hbJ r hr hrmod hqmod
   · exfalso
-    push_neg at hD
+    push Not at hD
     obtain ⟨r', hr', hr'2, eY⟩ := hD
     exact false_of_isoD42_inner hN hST hTL hCen cfg hq hxD hxb hY hXY h3 hr'2 eY hqmod
 

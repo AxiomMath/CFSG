@@ -28,7 +28,7 @@ theorem s16c1_V₀_inter_conj_ne_bot (D : Data G) {V₀ V : Subgroup G} (hV : Is
     V₀ ⊓ conjSubgroup D.M h ≠ ⊥ ∧ conjSubgroup V₀ h ⊓ D.M ≠ ⊥ := by
   let H := centralizer ({z} : Set G)
   let Q := pCoreOf 2 H
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hz2 : z ^ 2 = 1 := by simpa using hV.2 z hz
   have hchar : CFSG.QuasithinUnique.CharTwo H :=
     D.standing.charTwo H (uc22p22f_isTwoLocal_centralizer hz1 hz2)

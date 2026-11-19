@@ -40,7 +40,7 @@ theorem exists_invariant_two_of_isType419 (hAut : Sec4.K419AutThree)
   set P : Subgroup G := inSubgroup (aschbacherSolvableCore 3) X with hP
   have hXN : X ≤ N := Subgroup.le_normalizer
   have hPX : P ≤ X := Subgroup.map_subtype_le _
-  haveI hPn : (P.subgroupOf N).Normal := normal_subgroupOf_theta X
+  have hPn : (P.subgroupOf N).Normal := normal_subgroupOf_theta X
   set π : N →* N ⧸ P.subgroupOf N := QuotientGroup.mk' (P.subgroupOf N) with hπ
   set ι : (X ⧸ aschbacherSolvableCore 3 X) →* (N ⧸ P.subgroupOf N) :=
     QuotientGroup.map (aschbacherSolvableCore 3 X) (P.subgroupOf N) (Subgroup.inclusion hXN)
@@ -211,7 +211,7 @@ theorem exists_invariant_two_of_isType419 (hAut : Sec4.K419AutThree)
     CFSG.SignalizerFunctor.Helpers.normalized_subgroup_invariant_sylow_nontrivial 3 2
       Nat.prime_three Nat.prime_two F W hF3 hFnormW hWcop h2W
   exact ⟨(sylow : Subgroup W).map W.subtype, (Subgroup.map_subtype_le _).trans hWJ, hsylne,
-    sylow.isPGroup'.map W.subtype, hsyl⟩
+    sylow.isPGroup.map W.subtype, hsyl⟩
 
 end Hering88C
 

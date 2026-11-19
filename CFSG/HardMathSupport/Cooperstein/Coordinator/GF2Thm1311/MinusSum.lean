@@ -9,6 +9,7 @@ namespace CFSG.HardMathSupport.Cooperstein.Coordinator.GF2Thm1311
 section
 variable {K : Type*} [Field K] [CharP K 2] [Fintype K]
 
+omit [CharP K 2] [Fintype K] in
 theorem chi_zero : chi (0 : K) = 1 := by simp [chi]
 
 theorem chi_sum (h : Nat.card K = 4) {ι : Type*} (s : Finset ι) (a : ι → K) :
@@ -36,12 +37,13 @@ theorem sum_chi_mul (h : Nat.card K = 4) (a : K) :
   · subst ha
     have h' : Fintype.card K = 4 := by rw [← Nat.card_eq_fintype_card]; exact h
     simp [chi_zero, h']
-  · rw [if_neg ha]
+  · rw [ite_eq_right ha]
     have hb : Function.Bijective (fun t : K => a * t) :=
       (mul_right_injective₀ ha).bijective_of_finite
     rw [Fintype.sum_bijective _ hb (fun t => chi (a * t)) (fun s => chi s) (fun _ => rfl)]
     exact sum_chi_eq_zero h
 
+omit [CharP K 2] in
 theorem chi_sq (h : Nat.card K = 4) (x : K) : chi (x ^ 2) = chi x := by
   have h4 : (x ^ 2) ^ 2 = x := by rw [← pow_mul]; exact F4_pow_four h x
   unfold chi
@@ -97,7 +99,7 @@ theorem sum_chi_norm (h : Nat.card K = 4) (b c : K) (hirr : ∀ s : K, s ^ 2 + b
   simp_rw [h1]
   rw [Finset.sum_eq_single b⁻¹]
   · have e : 1 + b * b⁻¹ = 0 := by rw [mul_inv_cancel₀ hb, h11]
-    rw [if_pos e]
+    rw [ite_eq_left e]
     set z := c * b⁻¹ ^ 2 with hz
     have hzw : ∀ w : K, w ^ 2 + w ≠ z := by
       intro w hw
@@ -108,7 +110,7 @@ theorem sum_chi_norm (h : Nat.card K = 4) (b c : K) (hirr : ∀ s : K, s ^ 2 + b
       exact CharTwo.add_self_eq_zero c
     have hchi : chi z = -1 := by
       unfold chi
-      rw [if_neg]
+      rw [ite_eq_right]
       intro hz0
       have : z * (z + 1) = 0 := by rw [mul_add, mul_one, ← _root_.sq, hz0]
       rcases mul_eq_zero.mp this with h0 | h0
@@ -133,6 +135,7 @@ theorem sum_chi_norm (h : Nat.card K = 4) (b c : K) (hirr : ∀ s : K, s ^ 2 + b
 def minusCoord (m : ℕ) : ((Fin m → K) × (Fin m → K)) × (K × K) → (Fin m ⊕ Fin m ⊕ Fin 2 → K) :=
   fun p => Sum.elim p.1.1 (Sum.elim p.1.2 ![p.2.1, p.2.2])
 
+omit [Field K] [CharP K 2] [Fintype K] in
 theorem minusCoord_bijective (m : ℕ) : Function.Bijective (minusCoord (K := K) m) := by
   constructor
   · rintro ⟨⟨x, y⟩, ⟨u, v⟩⟩ ⟨⟨x', y'⟩, ⟨u', v'⟩⟩ h

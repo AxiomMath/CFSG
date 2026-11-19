@@ -36,6 +36,7 @@ private theorem isElemAbelian_torusLift_sup_center_sup_zpowers
   rw [← hn]
   exact hax.zpow_right n
 
+omit [Finite Ω] in
 private theorem not_mem_of_center_card_one
     (hZ1 : Nat.card (Subgroup.center ↥S) = 1)
     (hxcent : x ∈ Subgroup.centralizer (S : Set Ω)) (hx1 : x ≠ 1) : x ∉ S := by
@@ -130,10 +131,11 @@ private theorem three_pow_six_le_card_torusLift
             Subgroup.center ↥S).map S.subtype) ⊔ Subgroup.zpowers x) :=
           Subgroup.card_le_of_le le_sup_left
 
+omit [Finite F] in
 private theorem mem_normalizer_unipotent_of_torusLift
     [CharP F 2] (hZ : Nat.card (Subgroup.center ↥S) ∣ 3)
     {M : S172DModel S B (adjointGroup Tag.E6 F) (hatGroup Tag.E6 F)}
-    {ζ : Fˣ} (hζ : orderOf ζ = 3)
+    {ζ : Fˣ} (_hζ : orderOf ζ = 3)
     {ψ : Fin Tag.E6.rank → (SL2 F →* ↥S)}
     (hψ : ∀ i g, ((M.π (ψ i g) : ↥(adjointGroup Tag.E6 F)) : ModGL Tag.E6 F) =
       simpleRootSL2 Tag.E6 F i g)
@@ -153,6 +155,7 @@ private theorem mem_normalizer_unipotent_of_torusLift
         (f := (MulAut.conj g).toMonoidHom) (MulAut.conj g).injective])
   exact Subgroup.mem_normalizer_iff_map_conj_eq.2 hmap_eq
 
+omit [Finite F] in
 private theorem le_normalizer_unipotent_of_torusLift
     [CharP F 2] (hZ : Nat.card (Subgroup.center ↥S) ∣ 3)
     (hxcent : x ∈ Subgroup.centralizer (S : Set Ω))
@@ -194,6 +197,7 @@ private theorem le_normalizer_unipotent_of_torusLift
         (f := (MulAut.conj x).toMonoidHom) (MulAut.conj x).injective])
     exact Subgroup.mem_normalizer_iff_map_conj_eq.2 hmap_eq
 
+omit [Finite F] in
 private theorem exists_twoGroup_normalized_by_torusLift
     [CharP F 2] (hZ : Nat.card (Subgroup.center ↥S) ∣ 3)
     (hxcent : x ∈ Subgroup.centralizer (S : Set Ω))
@@ -222,8 +226,8 @@ theorem three_pow_six_le_card_B {Ω : Type} [Group Ω] [Finite Ω] {S B N D K : 
     (hZ : Nat.card (Subgroup.center ↥S) ∣ 3) : 3 ^ 6 ≤ Nat.card B := by
   classical
   obtain ⟨ζ, hζ⟩ : ∃ ζ : Fˣ, orderOf ζ = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-    haveI : Fintype F := Fintype.ofFinite F
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fintype F := Fintype.ofFinite F
     have hdvd : 3 ∣ Fintype.card Fˣ := by
       rw [← Nat.card_eq_fintype_card, Nat.card_units F]
       exact h3

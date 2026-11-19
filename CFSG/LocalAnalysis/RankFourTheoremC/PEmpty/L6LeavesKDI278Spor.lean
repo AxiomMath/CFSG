@@ -22,7 +22,7 @@ theorem kdSpor_sylow_le_of_not_dvd_index {p : ℕ} [Fact p.Prime] {Z : Type} [Gr
     (K : Subgroup Z) [K.Normal] (hK : ¬ p ∣ K.index) (Q : Sylow p Z) :
     (Q : Subgroup Z) ≤ K := by
   have hQ : IsPGroup p ((Q : Subgroup Z).map (QuotientGroup.mk' K)) :=
-    Q.isPGroup'.map _
+    Q.isPGroup.map _
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hQ
   have hdvd : Nat.card ((Q : Subgroup Z).map (QuotientGroup.mk' K)) ∣ K.index :=
     Subgroup.card_subgroup_dvd_card _
@@ -51,8 +51,8 @@ theorem kdSpor_pow_three_dvd_card {p : ℕ} [Fact p.Prime] {G : Type} [Group G] 
       have hq : a = b := congrArg Subtype.val (Subsingleton.elim (⟨a, ha⟩ : Q) ⟨b, hb⟩)
       rw [hq]
     · have hcard : Nat.card Q = p := by simpa using hn
-      haveI : IsCyclic Q := isCyclic_of_prime_card hcard
-      letI : CommGroup Q := IsCyclic.commGroup
+      have : IsCyclic Q := isCyclic_of_prime_card hcard
+      let : CommGroup Q := IsCyclic.commGroup
       exact congrArg Subtype.val (mul_comm (⟨a, ha⟩ : Q) ⟨b, hb⟩)
     · have hc := IsPGroup.isMulCommutative_of_card_eq_prime_sq (G := Q) hn
       exact congrArg Subtype.val (hc.is_comm.comm (⟨a, ha⟩ : Q) ⟨b, hb⟩)
@@ -69,7 +69,7 @@ theorem kdSpor_sporPair_of_cube {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) (s : Ta
     · omega
     · rcases hs with rfl | rfl | rfl | rfl | rfl <;> simp [P64SporPairB, P64SporPairC]
     · rcases hs with rfl | rfl <;> simp [P64SporPairB, P64SporPairC]
-    · rcases hs with rfl <;> simp [P64SporPairB, P64SporPairC]
+    · rcases hs with rfl; simp [P64SporPairB, P64SporPairC]
   · unfold CFSG.AGLEmbedding.P1OffRow at h2
     rcases h2 with ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ |
       ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ |
@@ -80,29 +80,29 @@ theorem kdI278Spor_holds
     : KDI278Spor := by
   intro p hp hp5 Z _ _ K hKn s hs hcen hrank Q hQ
   obtain ⟨a, ha, b, hb, -, -, hab⟩ := hQ
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp1 : 1 < p := hp.one_lt
   have hp2 : p ≠ 2 := by omega
-  haveI : K.Normal := hKn
+  have : K.Normal := hKn
   have hKC : Nonempty (↥K ≃* NativeSporadic.Carrier s) := by
     obtain ⟨eK⟩ := hs
     obtain ⟨eC⟩ := CFSG.Sporadic.Bridge.nonempty_carrier_mulEquiv_group s
     exact ⟨eK.trans eC.symm⟩
   obtain ⟨e⟩ := hKC
-  haveI hfinC : Finite (NativeSporadic.Carrier s) := Finite.of_equiv _ e.toEquiv
-  haveI hsimpM : IsSimpleGroup (NativeSporadic.Carrier .M) :=
-    (CFSG.Sporadic.Bridge.carrier_M_finite_simple CFSG.Open.Open.monster_y443_derived_card
-      CFSG.Open.Open.monster_y443_derived_simple).2
+  have hfinC : Finite (NativeSporadic.Carrier s) := Finite.of_equiv _ e.toEquiv
+  have hsimpM : IsSimpleGroup (NativeSporadic.Carrier .M) :=
+    (CFSG.Sporadic.Bridge.carrier_M_finite_simple CFSG.Open.Thm.monster_y443_derived_card
+      CFSG.Open.Thm.monster_y443_derived_simple).2
   have hcardK : Nat.card ↥K = CFSG.AGLEmbedding.sporOrd s := by
     rw [Nat.card_congr e.toEquiv]
-    exact CFSG.AGLEmbedding.card_carrier_eq_sporOrd CFSG.Open.Open.monster_y443_derived_card s
+    exact CFSG.AGLEmbedding.card_carrier_eq_sporOrd CFSG.Open.Thm.monster_y443_derived_card s
   have hC : Subgroup.centralizer (K : Set Z) ≤ K := by
     rw [hcen]
     exact bot_le
   have hnotOut : ¬ p ∣ Nat.card (CFSG.ComponentClassification.OuterAutomorphisms.Outer ↥K) := by
     by_cases hM : s = .M
     · subst hM
-      haveI : IsSimpleGroup ↥K := e.isSimpleGroup
+      have : IsSimpleGroup ↥K := e.isSimpleGroup
       rw [CFSG.RankThree.PartOne.SPOR.card_outer_M_of_simple e]
       exact hp.not_dvd_one
     · have hO := CFSG.AGLEmbeddingD2.card_outer_carrier_le_two_of_ne_M s hM
@@ -110,7 +110,7 @@ theorem kdI278Spor_holds
           Nat.card (CFSG.ComponentClassification.OuterAutomorphisms.Outer
             (NativeSporadic.Carrier s)) :=
         Nat.card_congr (CFSG.ComponentClassification.OuterAutomorphisms.equivalence e).toEquiv
-      haveI : Finite (MulAut ↥K) := MulEquiv.finite_left
+      have : Finite (MulAut ↥K) := MulEquiv.finite_left
       have hpos : 0 < Nat.card (CFSG.ComponentClassification.OuterAutomorphisms.Outer ↥K) :=
         Nat.card_pos
       intro hdvd
@@ -121,7 +121,7 @@ theorem kdI278Spor_holds
   have hQK : (Q : Subgroup Z) ≤ K := kdSpor_sylow_le_of_not_dvd_index K hnotIdx Q
   have hcube : p ^ 3 ∣ CFSG.AGLEmbedding.sporOrd s := by
     rw [← hcardK]
-    exact (kdSpor_pow_three_dvd_card (Q : Subgroup Z) Q.isPGroup' ha hb hab).trans
+    exact (kdSpor_pow_three_dvd_card (Q : Subgroup Z) Q.isPGroup ha hb hab).trans
       (Subgroup.card_dvd_of_le hQK)
   have hle : CFSG.Open.pRank p (⊤ : Subgroup ↥K) ≤ 2 := by
     have := CFSG.SectionRank.pRank_top_le_of_injective hp1 K.subtype K.subtype_injective
@@ -145,16 +145,16 @@ theorem kdI278Spor_holds
     have h3 := CFSG.AGLEmbedding.three_le_pRank_B_five
     omega
   ·
-    haveI hfinCo1 : Finite (NativeSporadic.Carrier .Co1) :=
+    have hfinCo1 : Finite (NativeSporadic.Carrier .Co1) :=
       (CFSG.Sporadic.Co1.fam_co1_simplicity).1
     have h3Co1 := CFSG.AGLEmbeddingD2.three_le_pRank_Co1_five
-    haveI : IsSimpleGroup ↥K := e.isSimpleGroup
+    have : IsSimpleGroup ↥K := e.isSimpleGroup
     have h3 := CFSG.AGLEmbeddingD2.three_le_pRank_of_mulEquiv_Carrier_M hp hp2 h3Co1 e
     omega
   ·
-    haveI : IsSimpleGroup ↥K := e.isSimpleGroup
+    have : IsSimpleGroup ↥K := e.isSimpleGroup
     obtain ⟨ε⟩ := CFSG.RankThree.PartOne.SPOR.mulEquiv_Gmat_of_simple e
-    haveI : Finite CFSG.Monster.Generated.Gmat := Finite.of_equiv _ ε.toEquiv
+    have : Finite CFSG.Monster.Generated.Gmat := Finite.of_equiv _ ε.toEquiv
     have h3 := CFSG.AGLEmbedding.Norton.MON5_7.three_le_pRank_seven_gmat
     rw [CFSG.SectionRank.pRank_top_eq_of_mulEquiv (show 1 < 7 by norm_num) ε] at hle
     omega

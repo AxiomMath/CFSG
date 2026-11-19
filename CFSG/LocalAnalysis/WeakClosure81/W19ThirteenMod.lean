@@ -13,16 +13,19 @@ open scoped commutatorElement
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 variable {G : Subgroup (LGL 2 V)}
 
+omit [Finite V] in
 theorem aHat_mono {S T : Subgroup (LGL 2 V)} (h : S ≤ T) : aHat G S ≤ aHat G T := by
   intro x hx
   obtain ⟨g, hg, rfl⟩ := mem_aHat.mp hx
   exact mem_aHat.mpr ⟨g, h hg, rfl⟩
 
+omit [Finite V] in
 theorem aHat_sup_of_le {S T : Subgroup (LGL 2 V)} (hS : S ≤ G) (hT : T ≤ G) :
     aHat G (S ⊔ T) = aHat G S ⊔ aHat G T := by
   unfold aHat
   rw [Subgroup.subgroupOf_sup hS hT, Subgroup.map_sup]
 
+omit [Finite V] in
 private theorem commutator_le_of_le_of_le {S T : Subgroup (LGL 2 V)} (hS : S ≤ G) (hT : T ≤ G) :
     ⁅S, T⁆ ≤ G := by
   refine Subgroup.commutator_le.2 fun g₁ hg₁ g₂ hg₂ => ?_
@@ -30,6 +33,7 @@ private theorem commutator_le_of_le_of_le {S T : Subgroup (LGL 2 V)} (hS : S ≤
   exact G.mul_mem (G.mul_mem (G.mul_mem (hS hg₁) (hT hg₂)) (G.inv_mem (hS hg₁)))
     (G.inv_mem (hT hg₂))
 
+omit [Finite V] in
 theorem aHat_commutator_of_le {S T : Subgroup (LGL 2 V)} (hS : S ≤ G) (hT : T ≤ G) :
     aHat G ⁅S, T⁆ = ⁅aHat G S, aHat G T⁆ := by
   unfold aHat
@@ -67,7 +71,7 @@ theorem thirteen_four_mod
   have hRG : pCoreOf 2 G ≤ G := CFSG.LieType.BorelTits.pCoreOf_le 2 G
   have hGn : G ≤ normalizer ((pCoreOf 2 G : Subgroup (LGL 2 V)) : Set (LGL 2 V)) :=
     CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 G
-  haveI hJnormal : (JR G).Normal := normal_JR
+  have hJnormal : (JR G).Normal := normal_JR
   have hker : (projG G).ker ⊓ UAOf G commSub A = wHat G (commSub A) := by
     apply le_antisymm
     · rintro x ⟨hx1, hx2⟩

@@ -109,7 +109,7 @@ theorem exists_injective_phanD4_hom (hK : Nat.card K = (2 ^ f) ^ 2) (hq : 4 ≤ 
   have hψ01 : ψ.comp ((stdFamilyΩ E 3 le_rfl hK hq).θ 0 1) = θ01 :=
     hψθ 0 1 (by decide) (by decide)
   have hinj : Function.Injective ψ := by
-    haveI : IsSimpleGroup (DΩ E 3) :=
+    have : IsSimpleGroup (DΩ E 3) :=
       isSimpleGroup_orthDerived_Qn E (n := 4) (by decide) le_rfl
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ψ.ker with hbot | htop
     · exact (MonoidHom.ker_eq_bot_iff ψ).mp hbot
@@ -123,7 +123,7 @@ theorem exists_injective_phanD4_hom (hK : Nat.card K = (2 ^ f) ^ 2) (hq : 4 ≤ 
       have hι1one : ι₁ = 1 := by
         rw [← hψι1]
         exact htriv
-      haveI := isSimpleGroup_Su_two hK hq
+      have := isSimpleGroup_Su_two hK hq
       obtain ⟨a, ha⟩ := exists_ne (1 : Su K 2 f 2)
       exact ha (hι₁ (by rw [hι1one]; simp))
   refine ⟨ψ, hinj, hψ12, hψ13, hψι1, hψι2, hψι3, ?_, ?_⟩

@@ -67,7 +67,6 @@ theorem tsum7_mod (P : Nat) : ∀ n, tsum7 (fun v => P / 2 ^ (7 * v) % 128) n = 
   | n + 1 => by
     have h7 : (2 : Nat) ^ 7 = 128 := by norm_num
     rw [tsum7_succ, tsum7_mod P n, Nat.mul_succ, pow_add, Nat.mod_mul, h7]
-    beta_reduce
     ring
 
 theorem appW_lt128 (a v : Nat) : appW a v < 128 := Nat.lt_trans (appW_lt a v) (by norm_num)
@@ -114,7 +113,7 @@ theorem unpack_ne_lin {P W : Nat} (h : nB (Nat.beq (Nat.land P (mask 448)) (tab7
   · have he := beq_iff_eq.1 hb
     have hf : ∀ v < 64, P / 2 ^ (7 * v) % 128 = appW W v := fun v hv => by
       have e := congrArg (fun A : Array Nat => A[v]!) he
-      simp only [unpack7_get, linTab_get', if_pos hv] at e
+      simp only [unpack7_get, linTab_get', ite_eq_left hv] at e
       rw [← f7_eq]
       exact e
     have hm : Nat.land P (mask 448) = tab7 W := by
@@ -206,7 +205,7 @@ theorem cx1_cent {T : Nat → Nat} {W k x : Nat} (h : cx1 T (tab7 W) k x = true)
     have hP := CFSG.KC.Misc.ArrEnum.pp_of_permB (n := 64) (w := 7) (by decide) hp
     have hl : ∀ y < 64, pg 7 (mask 7) (T k) y < 64 := hP.2.1
     have hu : ∀ y < 64, (unpack 64 7 (T k))[y]! = pg 7 (mask 7) (T k) y := fun y hy => by
-      rw [unpack_getElem!, if_pos hy]
+      rw [unpack_getElem!, ite_eq_left hy]
     right
     refine ⟨fun y hy => by rw [hu y hy]; exact hl y hy, fun y hy => ?_⟩
     rw [iter_congr hu hl 12 y hy, ← p12_iter hl hy, Nat.eq_of_beq_eq_true h12]
@@ -222,9 +221,9 @@ theorem cx1_cent {T : Nat → Nat} {W k x : Nat} (h : cx1 T (tab7 W) k x = true)
       exact absurd h (by decide)
     apply hne
     have h1 : f7 (tab7 W) x < 64 := by
-      rw [f7_tab7, if_pos hx']
+      rw [f7_tab7, ite_eq_left hx']
       exact appW_lt W x
-    rw [md_get, md_get, unpack7_get, unpack7_get, if_pos h1, if_pos hx'] at e
+    rw [md_get, md_get, unpack7_get, unpack7_get, ite_eq_left h1, ite_eq_left hx'] at e
     exact e
 
 theorem centK_spec {T : Nat → Nat} {NM md : Nat} {CX : List Nat} (k : centK T NM md CX = true) :
@@ -262,7 +261,7 @@ theorem form_facts : allBelow 64 (fun v => v == 0 || (mat64 (sD ()))[v]! != v ||
   by_cases hf : (linTab (col (nthN CW 0)))[v]! = v
   · have e := CFSG.KS.allN_spec k1 v hv
     beta_reduce at e
-    have hfa : appW (nthN CW 0) v = v := by rw [linTab_get', if_pos hv] at hf; exact hf
+    have hfa : appW (nthN CW 0) v = v := by rw [linTab_get', ite_eq_left hv] at hf; exact hf
     have hb0 : Nat.beq v 0 = false := by
       cases hc : Nat.beq v 0
       · rfl
@@ -289,7 +288,7 @@ theorem form_facts : allBelow 64 (fun v => v == 0 || (mat64 (sD ()))[v]! != v ||
     have ha : (anyBelow 64 fun w => (linTab (col (nthN CW 0)))[w]! == w &&
         (gammaBit v w + gammaBit w v) % 2 == 1) = true := by
       refine anyBelow_true hw ?_
-      rw [linTab_get', if_pos hw, Nat.eq_of_beq_eq_true w1]
+      rw [linTab_get', ite_eq_left hw, Nat.eq_of_beq_eq_true w1]
       have e2 := Nat.eq_of_beq_eq_true w2
       change (gammaBit v w + gammaBit w v) % 2 = 1 at e2
       simp [e2]
@@ -306,7 +305,7 @@ theorem count_eq (W : Nat) : ∀ n ≤ 64,
     change _ = strictN _ fun a => Nat.add a (nIf(Nat.beq (appW W n) n, 1, 0))
     rw [strictN_eq']
     have hg : ((linTab (col W))[n]! == n) = Nat.beq (appW W n) n := by
-      rw [linTab_get', if_pos (by omega : n < 64)]
+      rw [linTab_get', ite_eq_left (by omega : n < 64)]
       cases hb : Nat.beq (appW W n) n
       · simp only [beq_eq_false_iff_ne]
         exact Nat.ne_of_beq_eq_false hb

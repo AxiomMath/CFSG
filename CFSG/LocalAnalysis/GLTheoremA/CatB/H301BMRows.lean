@@ -25,7 +25,7 @@ section RowThree
 
 
 theorem rowM3_holds : I301BRow .m3 := by
-  haveI : Finite ↥GA := CFSG.Sporadic.Co1Schreier.finite_GA
+  have : Finite ↥GA := CFSG.Sporadic.Co1Schreier.finite_GA
   have hb0 : Nonempty (CFSG.Blueprint.NativeSporadic.Co1 ≃*
       (TauCeti.CFSGIndex.sporadic .Co1).Group) := CFSG.Sporadic.Bridge.Co1.nonempty_mulEquiv
   obtain ⟨b⟩ := hb0
@@ -33,7 +33,7 @@ theorem rowM3_holds : I301BRow .m3 := by
     ⟨.sporadic .Co1, rfl, ⟨CFSG.Sporadic.Co1Block.co1MatEquiv.symm.trans b⟩⟩
   have hrk : GLATwoLocalRank 3 ↥GA < 6 := (i1016Co1Fact_holds ↥GA hcat).trans_lt (by norm_num)
   exact i301BRow_of_M (p := 3) (r := 6) (k := 2) rfl rfl rfl (by decide) (by norm_num)
-    (fun j hj0 hj2 => by interval_cases j <;> decide) twoRankLe_three_B hrk
+    (fun j hj0 hj2 => by interval_cases j; decide) twoRankLe_three_B hrk
     (fun F hF hFc v hv =>
       let ⟨j, hj, hj0⟩ := H1016M3.co1ThreeSixFixFact_holds F hF hFc
       hj0 v (hv j hj))
@@ -45,8 +45,8 @@ section RowFive
 
 
 theorem rowM5_of_leB5 (h : TwoRankLe 5 .B 2) : I301BRow .m5 := by
-  haveI : Finite ↥GA := CFSG.Sporadic.Co1Schreier.finite_GA
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Finite ↥GA := CFSG.Sporadic.Co1Schreier.finite_GA
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hb0 : Nonempty (CFSG.Blueprint.NativeSporadic.Co1 ≃*
       (TauCeti.CFSGIndex.sporadic .Co1).Group) := CFSG.Sporadic.Bridge.Co1.nonempty_mulEquiv
   obtain ⟨b⟩ := hb0

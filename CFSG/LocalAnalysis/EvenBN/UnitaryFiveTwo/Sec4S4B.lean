@@ -68,7 +68,7 @@ theorem commutator_S_le_V₃ (h : d.Hyp) : ⁅d.S, d.S⁆ ≤ d.V₃ := fun x hx
 theorem V₃_le_centralizer_W : d.V₃ ≤ centralizer (d.W : Set G) := fun _ hx =>
   S₃_le_centralizer_W (V₃_le_S₃ hx)
 
-theorem W_le_V₃ (h : d.Hyp) : d.W ≤ d.V₃ := fun w hw => h.Y_le_V₃ (d.W_le_Y hw)
+theorem W_le_V₃ (h : d.Hyp) : d.W ≤ d.V₃ := fun _w hw => h.Y_le_V₃ (d.W_le_Y hw)
 
 theorem V₃_mul_self_mem_W (h : d.Hyp) (hK : ∀ v ∈ d.V₂, ∀ m ∈ d.M, m * v * m⁻¹ * v⁻¹ ∈ d.W)
     {x : G} (hx : x ∈ d.V₃) : x * x ∈ d.W := by
@@ -194,7 +194,7 @@ theorem exists_V₃_crossed (h : d.Hyp) (hK : ∀ v ∈ d.V₂, ∀ m ∈ d.M, m
   obtain ⟨-, v, hv, w, hw, e⟩ := hall hk
   exact ⟨v, hv, w, hw, e⟩
 
-theorem commutator_S_le_H (h : d.Hyp) : ⁅d.S, d.S⁆ ≤ d.H := fun x hx =>
+theorem commutator_S_le_H (h : d.Hyp) : ⁅d.S, d.S⁆ ≤ d.H := fun _x hx =>
   h.L_le_H (d.pull_le_L _ (d.A₂_le_S (commutator_S_le_A₂ hx)))
 
 theorem commutator_S_sup_W_le_V₃ (h : d.Hyp) : ⁅d.S, d.S⁆ ⊔ d.W ≤ d.V₃ :=

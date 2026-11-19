@@ -31,13 +31,13 @@ theorem div_eq' (a b : Nat) : Nat.div a b = a / b := rfl
 
 theorem mod_eq' (a b : Nat) : Nat.mod a b = a % b := rfl
 
-@[expose] def xN (I : Nat) : Nat × Nat × Nat := (I / 128, I / 4 % 32, I % 4)
+def xN (I : Nat) : Nat × Nat × Nat := (I / 128, I / 4 % 32, I % 4)
 
-@[expose] def xF (I : Nat) : Fin 1024 × Fin 32 × Fin 4 :=
+def xF (I : Nat) : Fin 1024 × Fin 32 × Fin 4 :=
   (⟨I / 128 % 1024, Nat.mod_lt _ (by norm_num)⟩, ⟨I / 4 % 32, Nat.mod_lt _ (by norm_num)⟩,
     ⟨I % 4, Nat.mod_lt _ (by norm_num)⟩)
 
-@[expose] def iX (x : Fin 1024 × Fin 32 × Fin 4) : Nat := (x.1.val * 32 + x.2.1.val) * 4 + x.2.2.val
+def iX (x : Fin 1024 × Fin 32 × Fin 4) : Nat := (x.1.val * 32 + x.2.1.val) * 4 + x.2.2.val
 
 theorem iX_lt (x : Fin 1024 × Fin 32 × Fin 4) : iX x < 131072 := by
   have := x.1.2
@@ -75,7 +75,7 @@ theorem blt_t {a b : Nat} (h : Nat.blt a b = true) : a < b := Nat.blt_eq ▸ h
 
 theorem t_blt {a b : Nat} (h : a < b) : Nat.blt a b = true := Nat.blt_eq ▸ h
 
-@[expose] def ScanOK : Prop := ∀ I < 131072, scanRow I = true
+def ScanOK : Prop := ∀ I < 131072, scanRow I = true
 
 theorem bIf_true {c : Bool} {t e : Bool} (h : bIf(c, t, e) = true) (hc : c = true) : t = true := by
   subst hc

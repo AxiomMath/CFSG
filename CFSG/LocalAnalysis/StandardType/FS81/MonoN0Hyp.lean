@@ -54,9 +54,9 @@ private theorem monoHyp_coordRefl_sub {a : Fin (n + 1)} (y : Fin (n + 1) → ZMo
   funext i
   by_cases hi : i = a
   · subst hi
-    rw [Pi.sub_apply, if_pos rfl, Pi.smul_apply, Pi.single_eq_same, smul_eq_mul, mul_one]
+    rw [Pi.sub_apply, ite_eq_left rfl, Pi.smul_apply, Pi.single_eq_same, smul_eq_mul, mul_one]
     exact h3 _
-  · rw [Pi.sub_apply, if_neg hi, Pi.smul_apply, Pi.single_eq_of_ne hi, smul_zero, sub_self]
+  · rw [Pi.sub_apply, ite_eq_right hi, Pi.smul_apply, Pi.single_eq_of_ne hi, smul_zero, sub_self]
 
 theorem conj_coordRefl_mulVec_sub {a : Fin (n + 1)} {T : GL (Fin (n + 1)) (ZMod 3)}
     (hT : (T : Matrix (Fin (n + 1)) (Fin (n + 1)) (ZMod 3)) = coordRefl a)
@@ -87,8 +87,8 @@ private theorem monoHyp_coordRefl_mulVec_axis (a : Fin (n + 1)) :
   funext i
   by_cases hi : i = a
   · subst hi
-    rw [if_pos rfl, Pi.neg_apply, Pi.single_eq_same]
-  · rw [if_neg hi, Pi.neg_apply, Pi.single_eq_of_ne hi]
+    rw [ite_eq_left rfl, Pi.neg_apply, Pi.single_eq_same]
+  · rw [ite_eq_right hi, Pi.neg_apply, Pi.single_eq_of_ne hi]
     exact neg_zero
 
 theorem conj_coordRefl_mulVec_axis {a : Fin (n + 1)} {T : GL (Fin (n + 1)) (ZMod 3)}
@@ -114,7 +114,7 @@ private theorem monoHyp_coordRefl_neg_apply {T : GL (Fin (n + 1)) (ZMod 3)}
     (hi : i ≠ 0) : v i = 0 := by
   have e := congrFun hv i
   simp only [hT, coordRefl_mulVec, Pi.neg_apply] at e
-  rw [if_neg hi] at e
+  rw [ite_eq_right hi] at e
   exact zmod3_eq_zero_of_eq_neg e
 
 private theorem monoHyp_mul_sub_ne_zero (c δ : ZMod 3) (hc : c ≠ 0) (hδ : δ ≠ 0) :
@@ -308,7 +308,7 @@ theorem commute_of_zero {T : GL (Fin (n + 1)) (ZMod 3)}
     funext i
     by_cases hi : i = 0
     · subst hi
-      rw [if_pos rfl, h0]
+      rw [ite_eq_left rfl, h0]
       exact neg_zero
     · simp [hi]
   have hT_r : ((1 : GL (Fin (n + 1)) (ZMod 3)) * T * 1⁻¹) = T := by group
@@ -337,7 +337,7 @@ theorem zero_of_commute {T : GL (Fin (n + 1)) (ZMod 3)}
   · have e := congrFun hplus 0
     rw [hT, coordRefl_mulVec] at e
     beta_reduce at e
-    rw [if_pos rfl] at e
+    rw [ite_eq_left rfl] at e
     exact zmod3_eq_zero_of_eq_neg e.symm
   · have hAm : (A : Matrix (Fin (n + 1)) (Fin (n + 1)) (ZMod 3)) ∈ monoN0 n := by
       refine h.norm A hA fun i hi => ?_
@@ -490,7 +490,7 @@ theorem exists_orbN_zero : ∃ v, OrbN Xg v ∧ v 0 = 0 := by
   by_contra hno
   push Not at hno
   obtain ⟨T, hTX, hT⟩ := h.exists_coordRefl 0
-  haveI : Fintype ↥Xg := Fintype.ofFinite _
+  have : Fintype ↥Xg := Fintype.ofFinite _
   set τ : ↥Xg := ⟨T, hTX⟩ with hτ
   have hτ1 : τ ≠ 1 := by
     intro e

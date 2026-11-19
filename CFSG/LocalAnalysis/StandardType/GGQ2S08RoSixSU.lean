@@ -20,11 +20,13 @@ open CFSG.LocalAnalysis.ComponentInitial (UnitaryFieldData)
 
 variable {F : Type} [Field F] [Finite F]
 
+omit [Finite F] in
 private theorem ggQ2s08r6_pow_three_eq_one (hF : Nat.card F = 4) (c : Fˣ) : c ^ 3 = 1 := by
   have hcard : Nat.card Fˣ = 3 := by rw [Nat.card_units, hF]
   have h := pow_card_eq_one' (G := Fˣ) (x := c)
   rwa [hcard] at h
 
+omit [Finite F] in
 private theorem ggQ2s08r6_det_diagHom_units {n : ℕ} (d : Fin n → Fˣ) :
     Matrix.GeneralLinearGroup.det (diagHom n d) = ∏ i, d i := by
   apply Units.ext
@@ -33,7 +35,7 @@ private theorem ggQ2s08r6_det_diagHom_units {n : ℕ} (d : Fin n → Fˣ) :
 private theorem ggQ2s08r6_exists_omega (hF : Nat.card F = 4) :
     ∃ ω : Fˣ, ω ≠ 1 ∧ ω ^ 3 = 1 ∧ ω ≠ ω⁻¹ := by
   have hcard : Nat.card Fˣ = 3 := by rw [Nat.card_units, hF]
-  haveI : Nontrivial Fˣ :=
+  have : Nontrivial Fˣ :=
     Finite.one_lt_card_iff_nontrivial.mp (by rw [hcard]; norm_num)
   obtain ⟨ω, hω1⟩ := exists_ne (1 : Fˣ)
   refine ⟨ω, hω1, ggQ2s08r6_pow_three_eq_one hF ω, ?_⟩
@@ -49,6 +51,7 @@ private theorem ggQ2s08r6_exists_omega (hF : Nat.card F = 4) :
     rwa [hg, pow_one] at h
   exact hω1 h1
 
+omit [Finite F] in
 private theorem ggQ2s08r6_prod_eq_one_of_conj {A : GL (Fin 6) F} {t t' : Fin 6 → Fˣ}
     (hconj : A * diagHom 6 t * A⁻¹ = diagHom 6 t') (ht : ∏ i, t i = 1) :
     ∏ i, t' i = 1 := by
@@ -57,6 +60,7 @@ private theorem ggQ2s08r6_prod_eq_one_of_conj {A : GL (Fin 6) F} {t t' : Fin 6 �
   simp only [ggQ2s08r6_det_diagHom_units, ht] at hdet
   simpa using hdet.symm
 
+omit [Finite F] in
 theorem ggQ2s08r6_scalar_mem (hF : Nat.card F = 4) (c : Fˣ) :
     Matrix.GeneralLinearGroup.scalar (Fin 6) c ∈ LargeEvenSUGroup (Fin 6) F 2 := by
   have hK : Nat.card F = (2 ^ 1) ^ 2 := by rw [hF]; norm_num
@@ -132,8 +136,8 @@ theorem ggQ2s08r6_exists_monomial (hF : Nat.card F = 4) {A : GL (Fin 6) F}
   ext l i
   rw [Units.val_mul, coe_diagHom, Matrix.mul_diagonal, TableBUE.permGL_apply]
   by_cases hli : l = π i
-  · rw [if_pos (Equiv.Perm.inv_eq_iff_eq.mpr hli), one_mul, hli, Units.val_mk0]
-  · rw [if_neg (fun h => hli (Equiv.Perm.inv_eq_iff_eq.mp h)), zero_mul]
+  · rw [ite_eq_left (Equiv.Perm.inv_eq_iff_eq.mpr hli), one_mul, hli, Units.val_mk0]
+  · rw [ite_eq_right (fun h => hli (Equiv.Perm.inv_eq_iff_eq.mp h)), zero_mul]
     by_contra hne
     exact hli ((hπ i l).mp hne)
 

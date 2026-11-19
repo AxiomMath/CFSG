@@ -78,7 +78,7 @@ theorem t1216WidthThree_of (h1 : T1216W3Census) (h2 : T1216W3NoPGL27)
 
 theorem t1216W3Minus : T1216W3Minus := by
   intro G _ _ _ S hw _ _ hminus hcard
-  haveI : FiniteDimensional (ZMod 2) S.Qt := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) S.Qt := Module.Finite.of_finite
   have hnotplus : ¬ CFSG.GroupTheory.WeirSylow.IsPlusType S.q := by
     simpa only [QtPlusType, CFSG.GroupTheory.WeirSylow.IsPlusType] using hminus
   have hdim : Module.finrank (ZMod 2) S.Qt = 2 * (2 + 1) := by
@@ -90,7 +90,7 @@ theorem t1216W3Minus : T1216W3Minus := by
     generalize Nat.card S.O = N at h ⊢
     norm_num [Finset.prod_Icc_succ_top] at h
     omega
-  haveI : Nontrivial S.Qt :=
+  have : Nontrivial S.Qt :=
     Module.nontrivial_of_finrank_pos (R := ZMod 2) (by
       rw [S.finrank_Qt_eq_two_mul_width, hw]; norm_num)
   have hΩ : Nat.card (CFSG.RankThree.OrthogonalInvolutions.omegaGroup S.q S.q_nondegenerate) =
@@ -107,12 +107,12 @@ theorem t1216W3Minus : T1216W3Minus := by
         have h1 := Subgroup.card_mul_index S.Mbar
         rw [hM, hO] at h1
         omega
-      haveI : S.Mbar.Normal := Subgroup.normal_of_index_eq_two hidx
+      have : S.Mbar.Normal := Subgroup.normal_of_index_eq_two hidx
       have hcardq : Nat.card (S.O ⧸ S.Mbar) = 2 := by
         rw [← Subgroup.index_eq_card]
         exact hidx
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-      haveI : IsCyclic (S.O ⧸ S.Mbar) := isCyclic_of_prime_card hcardq
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : IsCyclic (S.O ⧸ S.Mbar) := isCyclic_of_prime_card hcardq
       have hcomm : _root_.commutator S.O ≤ S.Mbar :=
         Subgroup.Normal.quotient_commutative_iff_commutator_le.mp IsCyclic.isMulCommutative
       rw [CFSG.RankThree.Literature.FSmith.commutator_orthogonalGroup_eq_subgroupOf
@@ -123,7 +123,7 @@ theorem t1216W3Minus : T1216W3Minus := by
           hcomm hg, rfl⟩
       have hcardmap : Nat.card (S.Mbar.map S.O.subtype) = 25920 := by
         rw [Subgroup.card_map_of_injective S.O.subtype_injective, hM]
-      haveI : Finite ↥(S.Mbar.map S.O.subtype) :=
+      have : Finite ↥(S.Mbar.map S.O.subtype) :=
         Nat.finite_of_card_ne_zero (by rw [hcardmap]; norm_num)
       exact (Subgroup.eq_of_le_of_card_ge hle (by rw [hcardmap, hΩ])).symm
     · exfalso

@@ -33,8 +33,8 @@ theorem rootKernel_of_rootKill (hRK : RootKill) {K : Type} [Field K] [Finite K] 
         ζ ^ p = 1 → ∃ x ∈ A, rootDiagUnit TwistTag.E6.tag (TwE6RootAs.corootTuple γ ζ) =
           D.g0⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K)) (D.c * x * D.c⁻¹) * D.g0 := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hp2 : p ≠ 2 := by
     rintro rfl
     have h1 : 2 ∣ 1 := (Nat.dvd_add_right (two_dvd_of_card hK h2)).mp hpq
@@ -43,11 +43,11 @@ theorem rootKernel_of_rootKill (hRK : RootKill) {K : Type} [Field K] [Finite K] 
     have h0 : ((q + 1 : ℕ) : ZMod p) = 0 := (ZMod.natCast_eq_zero_iff _ _).2 hpq
     push_cast at h0
     exact eq_neg_of_add_eq_zero_left h0
-  haveI : NeZero ((p : ℕ) : K) := ⟨fun h => by
+  have : NeZero ((p : ℕ) : K) := ⟨fun h => by
     have h' := (ringChar.spec K p).1 h
     rw [h2] at h'
     exact hp2 ((Nat.prime_dvd_prime_iff_eq Nat.prime_two hp).1 h').symm⟩
-  obtain ⟨ζ0, hζ0⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot (AlgebraicClosure K) p
+  obtain ⟨ζ0, hζ0⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot (AlgebraicClosure K) p
   obtain ⟨ζ, hζ⟩ : ∃ ζ : (AlgebraicClosure K)ˣ, IsPrimitiveRoot ζ p :=
     ⟨_, IsPrimitiveRoot.isUnit_unit hp.ne_zero hζ0⟩
   have hr : p ^ (if p = 3 then 4 else 5) ≤ Nat.card A := by

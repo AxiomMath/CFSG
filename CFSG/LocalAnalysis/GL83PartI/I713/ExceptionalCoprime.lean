@@ -35,9 +35,9 @@ theorem card_ker_fst {A B : Type*} [Group A] [Group B] :
     Nat.card (MonoidHom.fst A B).ker = Nat.card B :=
   Nat.card_congr
     { toFun := fun x => x.1.2
-      invFun := fun b => ⟨(1, b), rfl⟩
+      invFun := fun _b => ⟨(1, _b), rfl⟩
       left_inv := fun x => Subtype.ext (Prod.ext (x.2).symm rfl)
-      right_inv := fun b => rfl }
+      right_inv := fun _b => rfl }
 
 theorem pRank_top_le_one_of_prod {A B : Type*} [Group A] [Finite A] [IsCyclic A] [Group B]
     [Finite B] (hp : p.Prime) (hB : ¬ p ∣ Nat.card B) :

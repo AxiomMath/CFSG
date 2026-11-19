@@ -48,7 +48,7 @@ theorem fix_pair_four {i e i' e' : ℕ} (hi : i < 4) (he : e < 2) (hi' : i' < 4)
   interval_cases i <;> interval_cases e <;> interval_cases i' <;> interval_cases e' <;>
     first
     | omega
-    | (simp only [act_00, act_10, act_20, act_30, act_01, act_11, act_21, act_31, actS, actT,
+    | (simp only [act_20, act_01, act_11, act_21, act_31, actS, actT,
         Prod.mk.injEq] at h h'
        refine ⟨?_, ?_, ?_⟩ <;> grind)
 
@@ -61,12 +61,12 @@ theorem fix_pair {i e i' e' : ℕ} (hi : i < 4) (he : e < 2) (hi' : i' < 4) (he'
     | omega
     | (left
        rintro ⟨a, b, c⟩ h h'
-       simp only [act_00, act_10, act_20, act_30, act_01, act_11, act_21, act_31, actS, actT,
+       simp only [act_20, act_01, act_11, act_21, act_31, actS, actT,
          Prod.mk.injEq, Prod.mk_add_mk, Prod.mk_eq_zero] at h h' ⊢
-       and_intros <;> first | trivial | grind)
+       and_intros <;> first | grind)
     | (right
        rintro ⟨a, b, c⟩ h h'
-       simp only [act_00, act_10, act_20, act_30, act_01, act_11, act_21, act_31, actS, actT,
+       simp only [act_20, act_01, act_21, actS, actT,
          Prod.mk.injEq] at h h' ⊢
        and_intros <;> first | trivial | grind)
 
@@ -109,11 +109,11 @@ theorem inv_data_t (hn : 2 ≤ n) :
   all_goals first
     | (rintro ⟨a, b, c⟩ hq hq2
        obtain ⟨ha, hb, hc⟩ := key _ hq2
-       simp only [act_20, act_01, act_11, act_21, act_31, actS, actT, Prod.mk.injEq] at hq
+       simp only [act_01, actT, Prod.mk.injEq] at hq
        rcases ha with rfl | rfl <;> rcases hb with rfl | rfl <;> rcases hc with rfl | rfl <;>
          simp only [nsmul_two_pow_pred, Prod.mk_add_mk, Prod.mk.injEq, Prod.mk_eq_zero,
            mul_one, mul_zero, mul_neg] <;> grind)
-    | (simp only [act_20, act_01, act_11, act_21, act_31, actS, actT, nsmul_two_pow_pred,
+    | (simp only [act_01, actT, nsmul_two_pow_pred,
          Prod.mk.injEq, Prod.mk_add_mk, Prod.mk_sub_mk, Prod.mk_eq_zero, ne_eq, mul_one,
          mul_zero, mul_neg]
        and_intros <;> first | trivial | grind)
@@ -139,11 +139,11 @@ theorem inv_data_st (hn : 2 ≤ n) :
   all_goals first
     | (rintro ⟨a, b, c⟩ hq hq2
        obtain ⟨ha, hb, hc⟩ := key _ hq2
-       simp only [act_20, act_01, act_11, act_21, act_31, actS, actT, Prod.mk.injEq] at hq
+       simp only [act_11, actS, actT, Prod.mk.injEq] at hq
        rcases ha with rfl | rfl <;> rcases hb with rfl | rfl <;> rcases hc with rfl | rfl <;>
          simp only [nsmul_two_pow_pred, Prod.mk_add_mk, Prod.mk.injEq, Prod.mk_eq_zero,
            mul_one, mul_zero, mul_neg] <;> grind)
-    | (simp only [act_20, act_01, act_11, act_21, act_31, actS, actT, nsmul_two_pow_pred,
+    | (simp only [act_11, actS, actT, nsmul_two_pow_pred,
          Prod.mk.injEq, Prod.mk_add_mk, Prod.mk_sub_mk, Prod.mk_eq_zero, ne_eq, mul_one,
          mul_zero, mul_neg]
        and_intros <;> first | trivial | grind)
@@ -169,13 +169,13 @@ theorem inv_data_s2 (hn : 2 ≤ n) :
   all_goals first
     | (rintro ⟨a, b, c⟩ hq hq2
        obtain ⟨ha, hb, hc⟩ := key _ hq2
-       simp only [act_20, act_01, act_11, act_21, act_31, actS, actT, Prod.mk.injEq] at hq
+       simp only [act_20, actS, Prod.mk.injEq] at hq
        rcases ha with rfl | rfl <;> rcases hb with rfl | rfl <;> rcases hc with rfl | rfl <;>
          simp only [nsmul_two_pow_pred, Prod.mk_add_mk, Prod.mk.injEq, Prod.mk_eq_zero,
-           mul_one, mul_zero, mul_neg] <;> grind)
-    | (simp only [act_20, act_01, act_11, act_21, act_31, actS, actT, nsmul_two_pow_pred,
+           mul_one, mul_zero] <;> grind)
+    | (simp only [act_20, actS, nsmul_two_pow_pred,
          Prod.mk.injEq, Prod.mk_add_mk, Prod.mk_sub_mk, Prod.mk_eq_zero, ne_eq, mul_one,
-         mul_zero, mul_neg]
+         mul_zero]
        and_intros <;> first | trivial | grind)
 
 theorem inv_data_s2t (hn : 2 ≤ n) :
@@ -199,13 +199,13 @@ theorem inv_data_s2t (hn : 2 ≤ n) :
   all_goals first
     | (rintro ⟨a, b, c⟩ hq hq2
        obtain ⟨ha, hb, hc⟩ := key _ hq2
-       simp only [act_20, act_01, act_11, act_21, act_31, actS, actT, Prod.mk.injEq] at hq
+       simp only [act_21, actS, actT, Prod.mk.injEq] at hq
        rcases ha with rfl | rfl <;> rcases hb with rfl | rfl <;> rcases hc with rfl | rfl <;>
          simp only [nsmul_two_pow_pred, Prod.mk_add_mk, Prod.mk.injEq, Prod.mk_eq_zero,
-           mul_one, mul_zero, mul_neg] <;> grind)
-    | (simp only [act_20, act_01, act_11, act_21, act_31, actS, actT, nsmul_two_pow_pred,
+           mul_one, mul_neg] <;> grind)
+    | (simp only [act_21, actS, actT, nsmul_two_pow_pred,
          Prod.mk.injEq, Prod.mk_add_mk, Prod.mk_sub_mk, Prod.mk_eq_zero, ne_eq, mul_one,
-         mul_zero, mul_neg]
+         mul_neg]
        and_intros <;> first | trivial | grind)
 
 theorem inv_data_s3t (hn : 2 ≤ n) :
@@ -229,11 +229,11 @@ theorem inv_data_s3t (hn : 2 ≤ n) :
   all_goals first
     | (rintro ⟨a, b, c⟩ hq hq2
        obtain ⟨ha, hb, hc⟩ := key _ hq2
-       simp only [act_20, act_01, act_11, act_21, act_31, actS, actT, Prod.mk.injEq] at hq
+       simp only [act_31, actS, actT, Prod.mk.injEq] at hq
        rcases ha with rfl | rfl <;> rcases hb with rfl | rfl <;> rcases hc with rfl | rfl <;>
          simp only [nsmul_two_pow_pred, Prod.mk_add_mk, Prod.mk.injEq, Prod.mk_eq_zero,
            mul_one, mul_zero, mul_neg] <;> grind)
-    | (simp only [act_20, act_01, act_11, act_21, act_31, actS, actT, nsmul_two_pow_pred,
+    | (simp only [act_31, actS, actT, nsmul_two_pow_pred,
          Prod.mk.injEq, Prod.mk_add_mk, Prod.mk_sub_mk, Prod.mk_eq_zero, ne_eq, mul_one,
          mul_zero, mul_neg]
        and_intros <;> first | trivial | grind)

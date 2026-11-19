@@ -18,8 +18,8 @@ private theorem cfCover {X Y : Type} [Group X] [Group Y] (f : X →* Y) {L : Typ
     (hNs : N.IsSubnormal) (hMs : M.IsSubnormal)
     (hs : IsSimpleGroup (M ⧸ N.subgroupOf M)) (e : (M ⧸ N.subgroupOf M) ≃* L)
     (hcov : ∀ m ∈ M, ∃ x : X, ∃ n ∈ N, f x * n = m) : E1.IsCompositionFactor X L := by
-  haveI := hN
-  haveI := hs
+  have := hN
+  have := hs
   let g : ↥(M.comap f) →* ↥M :=
     (f.comp (M.comap f).subtype).codRestrict M (fun x => Subgroup.mem_comap.mp x.2)
   let Φ : ↥(M.comap f) →* ↥M ⧸ N.subgroupOf M := (QuotientGroup.mk' (N.subgroupOf M)).comp g
@@ -45,7 +45,7 @@ private theorem cfCover {X Y : Type} [Group X] [Group Y] (f : X →* Y) {L : Typ
       group
     rw [hΦ, QuotientGroup.mk'_apply, QuotientGroup.eq, Subgroup.mem_subgroupOf, key]
     exact hn
-  haveI hKn : ((N.comap f).subgroupOf (M.comap f)).Normal := by
+  have hKn : ((N.comap f).subgroupOf (M.comap f)).Normal := by
     rw [← hker]
     infer_instance
   let Ψ : (↥(M.comap f) ⧸ (N.comap f).subgroupOf (M.comap f)) ≃* (↥M ⧸ N.subgroupOf M) :=
@@ -75,11 +75,11 @@ private theorem cfPush {X Y : Type} [Group X] [Group Y] (f : X →* Y)
     (hN : (N.subgroupOf M).Normal) (hNs : N.IsSubnormal) (hMs : M.IsSubnormal)
     (hs : IsSimpleGroup (M ⧸ N.subgroupOf M)) (e : (M ⧸ N.subgroupOf M) ≃* L)
     (hker : ∀ m ∈ M, f m ∈ N.map f → m ∈ N) : E1.IsCompositionFactor Y L := by
-  haveI := hN
-  haveI := hs
+  have := hN
+  have := hs
   have hnorm : ((N.map f).subgroupOf (M.map f)).Normal :=
     normalMapSubgroupOf f M N hNM hN
-  haveI := hnorm
+  have := hnorm
   let g : ↥M →* ↥(M.map f) :=
     (f.comp M.subtype).codRestrict (M.map f) (fun m => Subgroup.mem_map_of_mem f m.2)
   let Θ : ↥M →* ↥(M.map f) ⧸ (N.map f).subgroupOf (M.map f) :=
@@ -119,8 +119,8 @@ theorem isCompositionFactor_of_normal {X : Type} [Group X] (A : Subgroup X) [A.N
     E1.IsCompositionFactor ↥A L ∨ E1.IsCompositionFactor (X ⧸ A) L := by
   classical
   obtain ⟨N, M, hN, hNM, hNs, hMs, hs, ⟨e⟩⟩ := h
-  haveI := hN
-  haveI := hs
+  have := hN
+  have := hs
   by_cases hK : (M ⊓ A) ⊔ N = M
   · left
     have hLE : M ⊓ A ≤ Subgroup.normalizer (N : Set X) := fun x hx =>
@@ -134,7 +134,7 @@ theorem isCompositionFactor_of_normal {X : Type} [Group X] (A : Subgroup X) [A.N
     exact ⟨⟨a, (Subgroup.mem_inf.mp ha).2⟩, n, hn, han⟩
   · right
     have hle : M ⊓ A ≤ N := by
-      haveI : ((A.subgroupOf M ⊔ N.subgroupOf M).map
+      have : ((A.subgroupOf M ⊔ N.subgroupOf M).map
           (QuotientGroup.mk' (N.subgroupOf M))).Normal :=
         Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective _)
       rcases Subgroup.Normal.eq_bot_or_eq_top
@@ -185,7 +185,7 @@ theorem isCompositionFactor_of_normal {X : Type} [Group X] (A : Subgroup X) [A.N
 theorem isCompositionFactor_natCard_dvd {X : Type} [Group X] [Finite X] {L : Type} [Group L]
     (h : E1.IsCompositionFactor X L) : Nat.card L ∣ Nat.card X := by
   obtain ⟨N, M, hN, -, -, -, -, ⟨e⟩⟩ := h
-  haveI := hN
+  have := hN
   rw [← Nat.card_congr e.toEquiv]
   have h1 : Nat.card (↥M ⧸ N.subgroupOf M) ∣ Nat.card ↥M := by
     rw [← Subgroup.index_eq_card]
@@ -195,13 +195,13 @@ theorem isCompositionFactor_natCard_dvd {X : Type} [Group X] [Finite X] {L : Typ
 theorem isCompositionFactor_finite {X : Type} [Group X] [Finite X] {L : Type} [Group L]
     (h : E1.IsCompositionFactor X L) : Finite L := by
   obtain ⟨N, M, hN, -, -, -, -, ⟨e⟩⟩ := h
-  haveI := hN
+  have := hN
   exact Finite.of_equiv _ e.toEquiv
 
 theorem isCompositionFactor_commute {X : Type} [Group X] (hX : ∀ a b : X, a * b = b * a)
     {L : Type} [Group L] (h : E1.IsCompositionFactor X L) : ∀ a b : L, a * b = b * a := by
   obtain ⟨N, M, hN, -, -, -, -, ⟨e⟩⟩ := h
-  haveI := hN
+  have := hN
   intro a b
   apply e.symm.injective
   obtain ⟨x, hx⟩ := QuotientGroup.mk_surjective (e.symm a)
@@ -213,8 +213,8 @@ theorem isCompositionFactor_commute {X : Type} [Group X] (hX : ∀ a b : X, a * 
 theorem isCompositionFactor_mulEquiv_of_isSimpleGroup {Y : Type} [Group Y] [hY : IsSimpleGroup Y]
     {L : Type} [Group L] (h : E1.IsCompositionFactor Y L) : Nonempty (Y ≃* L) := by
   obtain ⟨N, M, hN, hNM, hNs, hMs, hs, ⟨e⟩⟩ := h
-  haveI := hN
-  haveI := hs
+  have := hN
+  have := hs
   rcases hMs.eq_bot_or_top_of_isSimpleGroup hY with hM | hM
   · exfalso
     obtain ⟨q, hq⟩ := exists_ne (1 : ↥M ⧸ N.subgroupOf M)

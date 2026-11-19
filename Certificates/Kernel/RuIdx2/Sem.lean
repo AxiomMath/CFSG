@@ -32,7 +32,7 @@ theorem LC_eq (c : Nat) : LC c = TF (node c) := by
   · have hb : ∀ k, k < 9 → Nat.beq c k = false := fun k hk =>
       Bool.eq_false_iff.2 fun h' => by have := Nat.eq_of_beq_eq_true h'; omega
     unfold LC node
-    rw [if_neg (by omega), hb 0 (by omega), hb 1 (by omega), hb 2 (by omega), hb 3 (by omega),
+    rw [ite_eq_right (by omega), hb 0 (by omega), hb 1 (by omega), hb 2 (by omega), hb 3 (by omega),
       hb 4 (by omega), hb 5 (by omega), hb 6 (by omega), hb 7 (by omega), hb 8 (by omega)]
 
 section Group
@@ -59,7 +59,7 @@ theorem rec_act (A : Nat → Nat → Nat) (e : Nat → Γ)
     simp [act_one hq]
   | succ n ih =>
     intro q hq
-    simp only [Nat.rec_add_one, PK.strictN_eq]
+    simp only [PK.strictN_eq]
     simp only [PK.strictN_eq] at ih
     rw [hA _ _ hq, ih (act_lt _ hq), List.range_succ, List.map_append, List.prod_append,
       List.map_singleton, List.prod_singleton, act_mul _ _ hq]
@@ -80,6 +80,7 @@ theorem unW_eq (W : Nat) : unW W = (List.range (Nat.land W 255)).map (letW W) :=
 theorem wp_unfold (W q : Nat) : wp LC W q = Nat.rec (motive := fun _ => Nat → Nat) (fun q => q)
     (fun k ih q => strictN (A0 (letW W k) q) ih) (Nat.land W 255) q := rfl
 
+omit [MulAction Γ (Fin 4060)] in
 theorem wE_eq (W : Nat) :
     wE a b W = ((List.range (Nat.land W 255)).map fun k => lt a b (letW W k)).prod := by
   unfold wE
@@ -89,6 +90,7 @@ theorem wp_eq (h : H.Ctx a b) (W : Nat) {q : Nat} (hq : q < 4060) :
     wp LC W q = act 4060 (wE a b W) q := by
   rw [wp_unfold, rec_act A0 (lt a b) (fun c q hq => A0_eq h c hq) (letW W) _ hq, wE_eq]
 
+omit [MulAction Γ (Fin 4060)] in
 theorem prod_rev_inv (f g : Nat → Γ) : ∀ n, (∀ j < n, g j = (f j)⁻¹) →
     ((List.range n).map fun k => g (n - 1 - k)).prod = ((List.range n).map f).prod⁻¹
   | 0, _ => by simp
@@ -147,6 +149,7 @@ theorem ep_eq (h : H.Ctx a b) (hinv : ∀ c < 10, lt a b (IL c) = (lt a b c)⁻�
     (fun c q hq => el_eq h hinv RG nr X hRG hX c hq) (letW E) _ hq]
   rfl
 
+omit [MulAction Γ (Fin 4060)] in
 theorem epE_mem (R : Subgroup Γ) (RG : Nat → Nat) (nr X E : Nat)
     (hR : ∀ l < nr, wE a b (RG l) ∈ R) : epE a b RG nr X E ∈ R ⊔ Subgroup.zpowers (wE a b X) := by
   apply Subgroup.list_prod_mem

@@ -24,7 +24,7 @@ theorem isUnit_of_trivial {G : Type} [Group G] [Finite G]
   have hNpos : 0 < 2 ^ n - 1 := by
     have h := Nat.one_lt_two_pow hn
     omega
-  haveI : NeZero (2 ^ n - 1) := ⟨hNpos.ne'⟩
+  have : NeZero (2 ^ n - 1) := ⟨hNpos.ne'⟩
   rw [← ZMod.natCast_zmod_val m]
   by_contra hnot
   have hnot' : ¬ Nat.Coprime m.val (2 ^ n - 1) := fun hc =>
@@ -95,7 +95,7 @@ theorem conj_eq_of_inv {G : Type} [Group G] {n : ℕ} {d₁ d₂ x : G}
   have hNpos : 0 < 2 ^ n - 1 := by
     have h := Nat.one_lt_two_pow hn
     omega
-  haveI : NeZero (2 ^ n - 1) := ⟨hNpos.ne'⟩
+  have : NeZero (2 ^ n - 1) := ⟨hNpos.ne'⟩
   have hconj : x * d₁ ^ (-m).val * x⁻¹ = (d₁ ^ (-m).val)⁻¹ := by
     rw [(conj_pow (a := x) (b := d₁) (i := (-m).val)).symm, hinv, inv_pow]
   have hsplit : x * (d₁ ^ (-m).val * d₂) * x⁻¹ =

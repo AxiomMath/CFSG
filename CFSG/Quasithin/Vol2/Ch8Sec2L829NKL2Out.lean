@@ -37,8 +37,8 @@ theorem nk_l2_out :
     rwa [show (S.subgroupOf ⊤).index = S.index from Subgroup.relIndex_top_right S] at this
   let Q : Sylow 2 X := hS.2.1.toSylow hi
   have hQS : (Q : Subgroup X) = S := rfl
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite X := Finite.of_equiv _ φ.symm.toEquiv
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite X := Finite.of_equiv _ φ.symm.toEquiv
   have hp2 : p ≠ 2 := by omega
   rcases he with rfl | rfl
   ·
@@ -68,7 +68,7 @@ theorem nk_l2_out :
       · exact absurd (show p ^ 2 = 25 by rw [h]; norm_num) h25
       · exact absurd hp (by rw [h]; norm_num)
       · exact h
-    haveI : CharP F p := charP_of_card_sq hp hF
+    have : CharP F p := charP_of_card_sq hp hF
     have hfixQ := fix_of_centralizer S y hfix
     exact core hodd φ Q hQ8 y hy hfixQ (right_one_e2 hp hp7 hF φ Q hQ8 y hy hfix)
 

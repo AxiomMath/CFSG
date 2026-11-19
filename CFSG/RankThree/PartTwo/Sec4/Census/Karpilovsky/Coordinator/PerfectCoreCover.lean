@@ -23,7 +23,7 @@ theorem exists_surjective_perm_three {Q : Type*} [Group Q] [Finite Q]
   have hidx : (P : Subgroup Q).index = 3 := by
     have h1 := (P : Subgroup Q).card_mul_index
     have h2 : ¬ 2 ∣ (P : Subgroup Q).index := P.not_dvd_index
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 P.isPGroup'
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 P.isPGroup
     rw [hk] at h1
     have h4 : 3 ∣ (P : Subgroup Q).index := by
       have : 3 ∣ 2 ^ k * (P : Subgroup Q).index := h1 ▸ h3
@@ -194,7 +194,7 @@ theorem ker_le_center_of_commutator_central {E X : Type*} [Group E] [Finite E] [
             Nat.card_le_card_of_injective (fun g : MulAut π.ker => g.toEquiv)
               MulEquiv.toEquiv_injective
         _ = (Nat.card π.ker).factorial := by
-            haveI : Fintype ↥π.ker := Fintype.ofFinite _
+            have : Fintype ↥π.ker := Fintype.ofFinite _
             rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card, Fintype.card_perm]
     have h5 : Nat.card X ≤ ρ.ker.index :=
       Nat.le_of_dvd (Nat.pos_of_ne_zero Subgroup.index_ne_zero_of_finite) (h2 ▸ h1)

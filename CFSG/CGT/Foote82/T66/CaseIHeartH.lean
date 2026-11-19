@@ -19,6 +19,7 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 variable {G L H₁ : Subgroup (GLV V)} {z : GLV V} {v : V} {m : ℕ}
   {ψ : ↥H₁ ≃* Equiv.Perm (Fin (m + 6 + 2))}
 
+omit [Finite V] in
 theorem isAltHeartFor_of_heartFor {X X' : Subgroup (GLV V)} {N : ℕ} {ρ : ↥X →* Perm (Fin N)}
     {β : ↥(commSpace X' ⊤) →+ altHeart N} (hβ : HeartFor X N ρ X' β) (hN : 3 ≤ N)
     (hirr : IsIrr X' ⊤) (φ : ↥X' ≃* alternatingGroup (Fin N))
@@ -29,7 +30,7 @@ theorem isAltHeartFor_of_heartFor {X X' : Subgroup (GLV V)} {N : ℕ} {ρ : ↥X
   have hC : commSpace X' ⊤ = ⊤ := by
     rcases hirr.2.2 _ hinvC bot_le le_top with h0 | h1
     · exfalso
-      haveI := altHeart_nontrivial (n := N) hN
+      have := altHeart_nontrivial (n := N) hN
       obtain ⟨a, ha⟩ := exists_ne (0 : altHeart N)
       obtain ⟨w, rfl⟩ := hβ.surj a
       apply ha

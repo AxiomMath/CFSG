@@ -144,7 +144,7 @@ theorem finrank_ker_conj_sub_one {k V : Type*} [Field k] [AddCommGroup V] [Modul
   have h2 : (ρ g⁻¹).comp (ρ g) = LinearMap.id := by
     rw [← Module.End.mul_eq_comp, ← map_mul, inv_mul_cancel, map_one]
     rfl
-  let eg : V ≃ₗ[k] V := LinearEquiv.ofLinear (ρ g) (ρ g⁻¹) h1 h2
+  let eg : V ≃ₗ[k] V := LinearEquiv.ofLinearMap (ρ g) (ρ g⁻¹) h1 h2
   have hmap : (LinearMap.ker (ρ x - 1)).map (eg : V →ₗ[k] V) =
       LinearMap.ker (ρ (g * x * g⁻¹) - 1) := by
     ext v

@@ -46,7 +46,7 @@ theorem i253_card_statedSL {K : Type} [Field K] [Finite K] :
 theorem i253_unitary_ne {q : ℕ} (h : q ^ 3 * (q ^ 2 - 1) * (q ^ 3 + 1) = 16547328) : q = 8 := by
   by_cases hq : q ≤ 10
   · interval_cases q <;> simp_all
-  · push_neg at hq
+  · push Not at hq
     exfalso
     have h1 : 11 ^ 3 ≤ q ^ 3 := Nat.pow_le_pow_left hq 3
     have h2 : 11 ^ 2 - 1 ≤ q ^ 2 - 1 := Nat.sub_le_sub_right (Nat.pow_le_pow_left hq 2) 1
@@ -57,7 +57,7 @@ theorem i253_unitary_ne {q : ℕ} (h : q ^ 3 * (q ^ 2 - 1) * (q ^ 3 + 1) = 16547
 theorem i253_unitary_proj_ne {q : ℕ} (h : q ^ 3 * (q ^ 2 - 1) * (q ^ 3 + 1) = 3 * 16547328) : False := by
   by_cases hq : q ≤ 10
   · interval_cases q <;> simp_all
-  · push_neg at hq
+  · push Not at hq
     have h1 : 11 ^ 3 ≤ q ^ 3 := Nat.pow_le_pow_left hq 3
     have h2 : 11 ^ 2 - 1 ≤ q ^ 2 - 1 := Nat.sub_le_sub_right (Nat.pow_le_pow_left hq 2) 1
     have h3 : 11 ^ 3 + 1 ≤ q ^ 3 + 1 := by omega
@@ -68,7 +68,7 @@ theorem i253_linear_ne {r : ℕ} (c : ℕ) (hc : c = 1 ∨ c = 3)
     (h : r ^ 3 * (r ^ 2 - 1) * (r ^ 3 - 1) = c * 16547328) : False := by
   by_cases hq : r ≤ 10
   · interval_cases r <;> rcases hc with rfl | rfl <;> simp_all
-  · push_neg at hq
+  · push Not at hq
     have h1 : 11 ^ 3 ≤ r ^ 3 := Nat.pow_le_pow_left hq 3
     have h2 : 11 ^ 2 - 1 ≤ r ^ 2 - 1 := Nat.sub_le_sub_right (Nat.pow_le_pow_left hq 2) 1
     have h3 : 11 ^ 3 - 1 ≤ r ^ 3 - 1 := Nat.sub_le_sub_right h1 1

@@ -60,7 +60,7 @@ theorem ThLocalIn2.b_mem_closure_odd (W : ThLocalIn L S A B z) (W2 : ThLocalIn2 
         rw [hconj]
         exact hy.2
       exact Subgroup.subset_closure ⟨hmem, hodd⟩
-    · simpa using O.one_mem
+    · simp
     · intro y z hy hz hyO hzO
       rw [show h * (y * z) * h⁻¹ = (h * y * h⁻¹) * (h * z * h⁻¹) by group]
       exact O.mul_mem hyO hzO
@@ -118,7 +118,7 @@ theorem ThLocalIn2.b_mem_closure_odd (W : ThLocalIn L S A B z) (W2 : ThLocalIn2 
           _ = (a : G) := one_mul _
       apply Subtype.ext
       exact hb.symm
-    haveI : Fintype ↥Aa := Fintype.ofFinite ↥Aa
+    have : Fintype ↥Aa := Fintype.ofFinite ↥Aa
     have hφsurj : Function.Surjective φ := Finite.injective_iff_surjective.mp hφinj
     intro x hx
     obtain ⟨a, ha⟩ := hφsurj ⟨x, hx⟩
@@ -144,7 +144,7 @@ theorem ThLocalIn2.b_mem_closure_odd (W : ThLocalIn L S A B z) (W2 : ThLocalIn2 
       · rintro y (hyO | hyB)
         · exact Subgroup.mem_sup_left (hOconj h hh y hyO)
         · exact Subgroup.mem_sup_right (hBconj h hh y hyB)
-      · simpa using (O ⊔ B).one_mem
+      · simp
       · intro y z hy hz hyO hzO
         rw [show h * (y * z) * h⁻¹ = (h * y * h⁻¹) * (h * z * h⁻¹) by group]
         exact (O ⊔ B).mul_mem hyO hzO
@@ -181,7 +181,7 @@ theorem ThLocalIn2.b_mem_closure_odd (W : ThLocalIn L S A B z) (W2 : ThLocalIn2 
   let B' : Subgroup ↥Hn := B.subgroupOf Hn
   let S' : Subgroup ↥Hn := S.subgroupOf Hn
   have hO'normal : O'.Normal := hOnormal
-  letI : O'.Normal := hO'normal
+  let : O'.Normal := hO'normal
   have hsup : O' ⊔ B' = ⊤ := by
     rw [← Subgroup.subgroupOf_sup hOleHn hBleHn, hOsupB, Subgroup.subgroupOf_self]
   have hrelO' : O'.relIndex B' = O'.index := by
@@ -236,17 +236,17 @@ theorem ThLocalIn2.b_mem_closure_odd (W : ThLocalIn L S A B z) (W2 : ThLocalIn2 
     have hc : Nat.card Aa = Nat.card ↥(S ⊓ O) := by rw [hEq]
     rw [W2.Aa_card] at hc
     omega
-  obtain ⟨x, hxSO, hxAa⟩ := (SetLike.lt_iff_le_and_exists.mp hSO_gt).2
+  obtain ⟨x, hxSO, hxAa⟩ := (IsConcreteLE.lt_iff_le_and_exists.mp hSO_gt).2
   have hAaSnormal : (Aa.subgroupOf S).Normal := by
     refine ⟨fun a ha g => ?_⟩
     rw [Subgroup.mem_subgroupOf] at ha ⊢
     simpa using W2.conj_mem_of_mem_L W (W.S_le g.2)
       (fun y hy => W.conj_mem_A_of_mem_S g.2 hy) (a : G) ha
-  letI : (Aa.subgroupOf S).Normal := hAaSnormal
+  let : (Aa.subgroupOf S).Normal := hAaSnormal
   let Q : Type := ↥S ⧸ Aa.subgroupOf S
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQp : IsPGroup 2 Q := W.pgroup.to_quotient (Aa.subgroupOf S)
-  haveI : Group.IsNilpotent Q := hQp.isNilpotent
+  have : Group.IsNilpotent Q := hQp.isNilpotent
   let q : ↥S →* Q := QuotientGroup.mk' (Aa.subgroupOf S)
   let K : Subgroup ↥S := (S ⊓ O).subgroupOf S
   have hKnormal : K.Normal := by
@@ -254,7 +254,7 @@ theorem ThLocalIn2.b_mem_closure_odd (W : ThLocalIn L S A B z) (W2 : ThLocalIn2 
     rw [Subgroup.mem_subgroupOf] at ha ⊢
     refine ⟨S.mul_mem (S.mul_mem g.2 ha.1) (S.inv_mem g.2), ?_⟩
     simpa using hOconj (g : G) (hSleHn g.2) (a : G) ha.2
-  letI : K.Normal := hKnormal
+  let : K.Normal := hKnormal
   let Kbar : Subgroup Q := K.map q
   have hKbarNormal : Kbar.Normal := hKnormal.map q (QuotientGroup.mk'_surjective _)
   have hxK : (⟨x, hxSO.1⟩ : ↥S) ∈ K := by
@@ -270,7 +270,7 @@ theorem ThLocalIn2.b_mem_closure_odd (W : ThLocalIn L S A B z) (W2 : ThLocalIn2 
     have hxker : (⟨x, hxSO.1⟩ : ↥S) ∈ Aa.subgroupOf S := by
       rwa [QuotientGroup.ker_mk'] at hxker'
     exact hxAa (Subgroup.mem_subgroupOf.mp hxker)
-  haveI : Kbar.Normal := hKbarNormal
+  have : Kbar.Normal := hKbarNormal
   have hcenter : Kbar ⊓ Subgroup.center Q ≠ ⊥ :=
     Group.IsNilpotent.inf_center_ne_bot_of_normal hKbar_ne_bot
   rcases Subgroup.bot_or_exists_ne_one (Kbar ⊓ Subgroup.center Q) with hbot | ⟨y, hy, hyne⟩

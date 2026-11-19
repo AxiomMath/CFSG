@@ -68,7 +68,7 @@ theorem mulP_def (a b : ℕ) : mulP a b =
     (mv a (b >>> 0 &&& 15) ||| mv a (b >>> 4 &&& 15) <<< 4) |||
       (mv a (b >>> 8 &&& 15) <<< 8 ||| mv a (b >>> 12 &&& 15) <<< 12) := rfl
 
-theorem pack {m0 m1 m2 m3 : ℕ} (h0 : m0 < 16) (h1 : m1 < 16) (h2 : m2 < 16) (h3 : m3 < 16) :
+theorem pack {m0 m1 m2 m3 : ℕ} (h0 : m0 < 16) (h1 : m1 < 16) (h2 : m2 < 16) (_h3 : m3 < 16) :
     (m0 ||| m1 <<< 4) ||| (m2 <<< 8 ||| m3 <<< 12) = m0 + 16 * m1 + 256 * m2 + 4096 * m3 := by
   have e1 : m0 ||| m1 <<< 4 = m0 + 16 * m1 := by
     rw [Nat.or_comm, ← Nat.shiftLeft_add_eq_or_of_lt (by omega : m0 < 2 ^ 4), Nat.shiftLeft_eq]
@@ -198,11 +198,12 @@ theorem testBit_planeRep_mul {e B : ℕ} (hB : B < 2 ^ e) (n c : ℕ) :
       congr 1
       exact decide_eq_decide.mpr (by rw [Nat.mul_succ]; omega)
 
+set_option exponentiation.threshold 65536 in
 theorem plane_testBit {k : ℕ} (hk : k < 16) (c : ℕ) :
     (plane k).testBit c = (decide (c < 65536) && c.testBit k) := by
   have e : plane k = (2 ^ 65536 - 1) / (2 ^ (2 * 2 ^ k) - 1) * ((2 ^ 2 ^ k - 1) * 2 ^ 2 ^ k) := by
     change (1 <<< 65536 - 1) / (1 <<< (2 <<< k) - 1) * ((1 <<< (1 <<< k) - 1) <<< (1 <<< k)) = _
-    simp only [Nat.one_shiftLeft, Nat.shiftLeft_eq, Nat.one_mul]
+    simp only [Nat.shiftLeft_eq, Nat.one_mul]
   have hen : 2 * 2 ^ k * 2 ^ (15 - k) = 65536 := by
     rw [← Nat.pow_succ', ← Nat.pow_add]
     have : k + 1 + (15 - k) = 16 := by omega
@@ -225,8 +226,7 @@ theorem bJK_eq_ite (u w : ℕ) : bJK u w = if ((u.testBit 0 && w.testBit 3) ^^
   have e : bJK u w = ((((u &&& w >>> 3) ^^^ (u >>> 3 &&& w)) ^^^
       ((u >>> 1 &&& w >>> 2) ^^^ (u >>> 2 &&& w >>> 1))) >>> 0) &&& 1 := rfl
   rw [e, bit1]
-  simp only [Nat.testBit_xor, Nat.testBit_and, Nat.testBit_shiftRight, Nat.add_zero,
-    Nat.zero_add]
+  simp only [Nat.testBit_xor, Nat.testBit_and, Nat.testBit_shiftRight, Nat.add_zero]
 
 theorem bJK_lt (u w : ℕ) : bJK u w < 2 := lt_of_le_of_lt Nat.and_le_right (by norm_num)
 
@@ -261,6 +261,7 @@ theorem bJPl_testBit {i j : ℕ} (hi : i < 4) (hj : j < 4) (c : ℕ) :
   revert d b0 b1 b2 b3 d0 d1 d2 d3
   decide
 
+set_option exponentiation.threshold 65536 in
 theorem elemsOK_sound {spM : ℕ} (h : elemsOK spM = true) (c : ℕ) :
     memP spM c = true ↔ c < 65536 ∧ isSympK c = true := by
   have hs : sympMaskK = spM := Nat.eq_of_beq_eq_true h
@@ -295,7 +296,7 @@ theorem elemsOK_sound {spM : ℕ} (h : elemsOK spM = true) (c : ℕ) :
   all_goals obtain rfl | rfl : x12 = 0 ∨ x12 = 1 := by omega
   all_goals obtain rfl | rfl : x13 = 0 ∨ x13 = 1 := by omega
   all_goals obtain rfl | rfl : x23 = 0 ∨ x23 = 1 := by omega
-  all_goals by_cases hc : c < 65536 <;> simp [hc] <;> rfl
+  all_goals by_cases hc : c < 65536 <;> simp [hc]
 
 open CFSG.KC.Loop in
 theorem strictN_eq (y : ℕ) (k : ℕ → ℕ) : strictN y k = k y := by cases y <;> rfl
@@ -490,7 +491,7 @@ theorem tree_facts {s : NodeR} (h1 : memP s.mask oneP = true)
     · obtain ⟨e, -, rfl⟩ := List.mem_map.mp hc
       exact Nat.mod_lt _ (by norm_num)
   refine ⟨?_, ?_, hlt, ?_⟩
-  · rw [maskOf, foldl_addM_dec _ hlt, ← h4, i1, NodeR.els, List.foldl_cons, List.foldl_map] <;> rfl
+  · rw [maskOf, foldl_addM_dec _ hlt, ← h4, i1, NodeR.els, List.foldl_cons, List.foldl_map]; rfl
   · rw [NodeR.els, List.nodup_cons]
     refine ⟨fun hm => ?_, i2⟩
     have := i3 _ hm
@@ -856,7 +857,7 @@ theorem qZero_true {a u v l : ℕ} (ha : a < 16) (hu : u < 16) (hv : v < 16) (h0
   generalize l >>> 4 &&& 15 = F1 at *
   generalize l >>> 8 &&& 15 = F2 at *
   generalize u ^^^ v = w at *
-  rw [e, hz F0 b0 (by omega), hz F1 b1 (by omega), hz F2 b2 (by omega)] <;> rfl
+  rw [e, hz F0 b0 (by omega), hz F1 b1 (by omega), hz F2 b2 (by omega)]; rfl
 
 theorem mem_tiLinesC {l : List ℕ} (hl : l ∈ tiLinesC) : ∃ u < 16, ∃ v < 16, 0 < u ∧ 0 < v ∧
     u ≠ v ∧ bJ u v = false ∧ l = [u, v, u ^^^ v] := by
@@ -876,12 +877,12 @@ theorem lines_spec {lines : List ℕ} (h : linesOK lines = true) {u v : ℕ} (hu
     cases hb : Nat.beq u v
     · rfl
     · exact absurd (Nat.eq_of_beq_eq_true hb) huv
-  have e4 : Nat.beq (bJK u v) 0 = true := by rw [bJK_eq _ hu _ hv, hbj] <;> rfl
+  have e4 : Nat.beq (bJK u v) 0 = true := by rw [bJK_eq _ hu _ hv, hbj]; rfl
   have hc : Bool.rec (motive := fun _ => Bool) false (Bool.rec (motive := fun _ => Bool) false
       (Bool.rec (motive := fun _ => Bool) false (Nat.beq (bJK u v) 0)
         (Bool.rec (motive := fun _ => Bool) true false (Nat.beq u v))) (Nat.blt 0 v))
       (Nat.blt 0 u) = true := by
-    rw [e1, e2, e3, e4] <;> rfl
+    rw [e1, e2, e3, e4]
   exact anyRec_mem (bIf_true hG hc)
 
 theorem beq_dec (a b : ℕ) : Nat.beq a b = decide (a = b) := by
@@ -1456,7 +1457,7 @@ theorem lineK_sound {spM : ℕ} {L : List NodeR} {sp : SpecR} {lines : List ℕ}
         exact absurd this Bool.false_ne_true
 
 theorem quadK_sound {spM : ℕ} {L : List NodeR} {sp : SpecR} {lines : List ℕ} {S : Spec}
-    (he : elemsOK spM = true) (hL : ovK spM L = true) (hl : linesOK lines = true)
+    (_he : elemsOK spM = true) (_hL : ovK spM L = true) (hl : linesOK lines = true)
     (hS : (S.s36.2, S.a36.2, S.b36.2, S.s120.2, S.m60) = sp) (h : quadK sp L lines = true) :
     quadOk S (L.map toNode) = true := by
   unfold quadOk
@@ -1754,7 +1755,7 @@ theorem spk_cntL (l : List ℕ) (f : ℕ → Bool) : cntL l f = (l.filter f).len
     have e : cntL (x :: t) f = Nat.add (Bool.rec (motive := fun _ => ℕ) 0 1 (f x)) (cntL t f) :=
       rfl
     rw [e, ih, List.filter_cons]
-    cases f x <;> simp <;> omega
+    cases f x <;> simp; omega
 
 theorem spk_lenL (l : List ℕ) : lenL l = l.length := by
   rw [lenL, spk_cntL, List.filter_true]
@@ -1835,9 +1836,9 @@ theorem spk_powK (x : ℕ) : ∀ n, dec (powK x n) = powC (dec x) n
     change dec (mulP (powK x n) x) = mulC (powC (dec x) n) (dec x)
     rw [dec_mulP, spk_powK x n]
 
-theorem spk_powK_lt (x : ℕ) : ∀ n, powK x n < 65536
+theorem spk_powK_lt (x : ℕ) : ∀ _n, powK x _n < 65536
   | 0 => spk_oneP_lt
-  | n + 1 => mulP_lt _ _
+  | _n + 1 => mulP_lt _ _
 
 theorem spk_mv_mul (d e v : ℕ) : mv (mulP d e) v = mv d (mv e v) := by
   rw [mv_eq, mv_eq, mv_eq, dec_mulP]
@@ -2011,7 +2012,7 @@ theorem spk_sigma {d : ℕ} (h : semOk (dec d) = true) {v : ℕ} (hv : v < 16) :
   obtain ⟨hall, hdet⟩ := spk_semOk_facts h
   obtain ⟨⟨a1, a2⟩, ⟨b1, b2⟩, hk⟩ := spk_semC_lt d
   obtain ⟨w1, w2⟩ := spk_psiC_lt v hv
-  rw [phiC, dif_pos hdet]
+  rw [phiC, dite_eq_left hdet]
   change psi4 (mulVecC (dec d) v) = (matC (dec d)).mulVec
     (RuType.frobVec (Multiplicative.ofAdd (((semC (dec d)).2.2 : ℕ) : ZMod 2)) (psi4 v))
   rw [← mv_eq]
@@ -2298,21 +2299,17 @@ theorem specialK_sound {spM : ℕ} {sp : SpecR} {A B S36 S120 P9 SP : List ℕ} 
   · obtain ⟨x, hx, h1⟩ := spk_anyL k12
     obtain ⟨y, hy, h2⟩ := spk_anyL h1
     refine spk_any_map hx (spk_any_map hy ?_)
-    beta_reduce
     rw [bne, ← spk_commK, bNot_true h2]
     rfl
   · obtain ⟨x, hx, h1⟩ := spk_anyL k13
     obtain ⟨y, hy, h2⟩ := spk_anyL h1
     refine spk_any_map hx (spk_any_map hy ?_)
-    beta_reduce
     rw [bne, ← spk_commK, bNot_true h2]
     rfl
   · refine spk_all_map fun x hx => spk_all_map fun y hy => ?_
-    beta_reduce
     rw [← spk_commK]
     exact spk_allL (spk_allL k14 x hx) y hy
   · refine spk_all_map fun x hx => ?_
-    beta_reduce
     rw [spk_memM (hA.1 x hx), ← dec_oneP, spk_beq_dec (hA.1 x hx) spk_oneP_lt]
     exact spk_imp (spk_allL k15 x hx)
   · exact spk_all_map fun x _ => spk_validB x
@@ -2321,7 +2318,6 @@ theorem specialK_sound {spM : ℕ} {sp : SpecR} {A B S36 S120 P9 SP : List ℕ} 
   · exact spk_all_map fun x _ => spk_validB x
   · unfold closedB
     refine spk_all_map fun x hx => spk_all_map fun y hy => ?_
-    beta_reduce
     rw [← dec_mulP]
     have h1 := spk_allL (spk_allL k20 x hx) y hy
     beta_reduce at h1
@@ -2329,7 +2325,6 @@ theorem specialK_sound {spM : ℕ} {sp : SpecR} {A B S36 S120 P9 SP : List ℕ} 
     exact spk_contains_map h1
   · unfold closedB
     refine spk_all_map fun x hx => spk_all_map fun y hy => ?_
-    beta_reduce
     rw [← dec_mulP]
     have h1 := spk_allL (spk_allL k21 x hx) y hy
     beta_reduce at h1
@@ -2455,7 +2450,7 @@ theorem specialK_sound {spM : ℕ} {sp : SpecR} {A B S36 S120 P9 SP : List ℕ} 
     intro d' hd' hr
     obtain ⟨d, hd, rfl⟩ := List.mem_map.mp hd'
     obtain ⟨-, hdet⟩ := spk_semOk_facts (hsem d hd)
-    rw [phiC, dif_pos hdet] at hr
+    rw [phiC, dite_eq_left hdet] at hr
     have hk := (spk_right _ (spk_semC_lt d).2.2).mp hr
     have h8 : fld(semK T d, 8, 1) = 0 := (spk_sem (d := d) ht).2.2.1.trans hk
     have := (spk_permFacts (hperm d hd).2.1).2.2.2 ((hperm d hd).2.2.2 h8)
@@ -2465,7 +2460,7 @@ theorem specialK_sound {spM : ℕ} {sp : SpecR} {A B S36 S120 P9 SP : List ℕ} 
     intro d' hd'
     obtain ⟨d, hd, rfl⟩ := List.mem_map.mp hd'
     obtain ⟨-, hdet⟩ := spk_semOk_facts (hsem d hd)
-    rw [spk_memM (hS.1 d hd), phiC, dif_pos hdet]
+    rw [spk_memM (hS.1 d hd), phiC, dite_eq_left hdet]
     have hk2 := (spk_semC_lt d).2.2
     have hk := spk_allL k41 d hd
     beta_reduce at hk
@@ -2497,7 +2492,6 @@ theorem specialK_sound {spM : ℕ} {sp : SpecR} {A B S36 S120 P9 SP : List ℕ} 
     rw [ms36] at h1
     exact spk_maskL.mp h1
   · refine spk_all_map fun g hg => ?_
-    beta_reduce
     rw [List.all_eq_true]
     intro x hx
     obtain ⟨hc, hdx⟩ := hQ1 x hx
@@ -2507,7 +2501,6 @@ theorem specialK_sound {spM : ℕ} {sp : SpecR} {A B S36 S120 P9 SP : List ℕ} 
     rw [← hdx, ← dec_mulP, ← dec_mulP, Nat.eq_of_beq_eq_true hxy]
     exact beq_self_eq_true _
   · refine spk_all_map fun x hx => ?_
-    beta_reduce
     rw [spk_ord3 (hS36.1 x hx)]
     have h1 := spk_allL k50 x hx
     beta_reduce at h1

@@ -9,7 +9,7 @@ namespace CFSG.EvenSporadicStandard.HNRecog.Section3
 open CFSG.EvenSporadicStandard.HNRecog
 
 theorem a8Pictures_of_fusion3 (hI : TwoHSInterface) {G : Type} [Group G] [Finite G] {a z : G}
-    (h : IsF5Type a z) (hF1 : Vert Fusion1Facts a z) (hCube : Vert CubeFacts a z)
+    (h : IsF5Type a z) (hF1 : Vert Fusion1Facts a z) (_hCube : Vert CubeFacts a z)
     (hA8 : Vert A8Shapes a z) (hF2 : Vert Fusion2Facts a z) (hF3 : Vert Fusion3Facts a z) :
     A8Pictures a z where
   fig8a := fig8a_of_fusion2 hI h hF1 hF2 hA8.self

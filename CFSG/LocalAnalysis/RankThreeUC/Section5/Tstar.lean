@@ -14,6 +14,7 @@ variable {G : Type} [Group G] [Finite G]
 def Tstar (P T : Subgroup G) : Subgroup (MulAut ↥P) :=
   (T.subgroupOf (Subgroup.normalizer (P : Set G))).map (Subgroup.normalizerMonoidHom P)
 
+omit [Finite G] in
 theorem Tstar_eq {P T : Subgroup G} (hP : P.Normal) :
     Tstar P T = T.map (CFSG.LocalAnalysis.RankThreeUC.Section5.FaithfulPImageVocabulary.conjOnP P hP) := by
   ext φ

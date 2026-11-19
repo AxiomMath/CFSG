@@ -238,7 +238,7 @@ theorem a4BlockAt_of_frame [IsAlgClosed L] (hL : ringChar L ≠ 5)
   · intro t ht
     have : NeZero ((5 : ℕ) : L) :=
       ⟨by exact_mod_cast natCast_ne_zero_of_ringChar_ne Nat.prime_five hL⟩
-    obtain ⟨ω, hω⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L 5
+    obtain ⟨ω, hω⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L 5
     have hconj : ∀ (d' : Fin 5 → Lˣ) (hd' : ∏ i, (d' i : L) = 1), ∃ g : SL(5, L), ∀ i j, i ≠ j →
         ((g⁻¹ * (coxSL5 * diagSLn d' hd') * g : SL(5, L)) : Matrix (Fin 5) (Fin 5) L) i j = 0 := by
       intro d' hd'

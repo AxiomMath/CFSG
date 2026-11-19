@@ -123,11 +123,11 @@ theorem exists_weight (hsupp : ∀ v ∈ Wb, ∀ ν, ν ∉ Mlist → v ν = 0)
     funext ν
     by_cases h1 : ν = hw1
     · subst h1
-      simp [Pi.single_apply, hw1_ne_hw2]
+      simp [hw1_ne_hw2]
     · by_cases h2 : ν = hw2
       · subst h2
-        simp [Pi.single_apply, Ne.symm hw1_ne_hw2]
-      · simp [Pi.single_apply, h1, h2, hs ν h1 h2]
+        simp [Ne.symm hw1_ne_hw2]
+      · simp [h1, h2, hs ν h1 h2]
   by_cases h1 : v' hw1 = 0
   · refine ⟨hw2, hw_mem.2.1, v' hw2, ?_, ?_⟩
     · intro h2

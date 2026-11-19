@@ -21,7 +21,7 @@ theorem qPoly_orth {M : V8 ≃ₗ[ZMod 2] V8} (hM : M ∈ TauCeti.QuadraticMap.o
   have h := TauCeti.QuadraticMap.mem_orthogonalGroup_iff.1 hM v
   rwa [qForm_apply, qForm_apply] at h
 
-@[expose, instance_reducible] def singAction :
+@[instance_reducible] def singAction :
     MulAction (TauCeti.QuadraticMap.orthogonalGroup qForm) SingV where
   smul M v := ⟨(M : V8 ≃ₗ[ZMod 2] V8) v.1, by rw [qPoly_orth M.2]; exact v.2.1,
     fun h => v.2.2 (((M : V8 ≃ₗ[ZMod 2] V8).map_eq_zero_iff).1 h)⟩

@@ -109,7 +109,7 @@ theorem d4t2_le_of_not_mem (a : Fin Tag.E6.rank → Lˣ) (hap : ∀ i, a i ^ 3 =
     (hyM : y ∉ toralRootGroup .E6 L a) : X ≤ N := by
   obtain ⟨n, hnX, hnN, hn3, hgen⟩ := d4t2_centralizer_generator a hap
   obtain ⟨hMC, hMnormal, -⟩ := Chevalley_toral_centralizer_root_generated_quotient .E6 L a
-  haveI : ((toralRootGroup .E6 L a).subgroupOf (toralCentralizer .E6 L a)).Normal := hMnormal
+  have : ((toralRootGroup .E6 L a).subgroupOf (toralCentralizer .E6 L a)).Normal := hMnormal
   set π : toralCentralizer .E6 L a →* toralCentralizer .E6 L a ⧸
       (toralRootGroup .E6 L a).subgroupOf (toralCentralizer .E6 L a) :=
     QuotientGroup.mk' _ with hπ
@@ -164,7 +164,7 @@ theorem d4t2_exists_plane (a : Fin Tag.E6.rank → Lˣ) (hap : ∀ i, a i ^ 3 = 
       F ≤ toralRootGroup .E6 L a := by
   obtain ⟨n, hnX, hnN, hn3, hgen⟩ := d4t2_centralizer_generator a hap
   obtain ⟨hMC, hMnormal, -⟩ := Chevalley_toral_centralizer_root_generated_quotient .E6 L a
-  haveI : ((toralRootGroup .E6 L a).subgroupOf (toralCentralizer .E6 L a)).Normal := hMnormal
+  have : ((toralRootGroup .E6 L a).subgroupOf (toralCentralizer .E6 L a)).Normal := hMnormal
   set π : toralCentralizer .E6 L a →* toralCentralizer .E6 L a ⧸
       (toralRootGroup .E6 L a).subgroupOf (toralCentralizer .E6 L a) :=
     QuotientGroup.mk' _ with hπ
@@ -184,7 +184,7 @@ theorem d4t2_exists_plane (a : Fin Tag.E6.rank → Lˣ) (hap : ∀ i, a i ^ 3 = 
   set ψ : Eh →* toralCentralizer .E6 L a ⧸
       (toralRootGroup .E6 L a).subgroupOf (toralCentralizer .E6 L a) :=
     π.comp (Subgroup.inclusion hEh) with hψ
-  haveI hfq : Finite (Subgroup.zpowers q) :=
+  have hfq : Finite (Subgroup.zpowers q) :=
     Nat.finite_of_card_ne_zero (by
       rw [Nat.card_zpowers]
       exact (isOfFinOrder_iff_pow_eq_one.2 ⟨3, by norm_num, hq3⟩).orderOf_pos.ne')
@@ -192,12 +192,12 @@ theorem d4t2_exists_plane (a : Fin Tag.E6.rank → Lˣ) (hap : ∀ i, a i ^ 3 = 
     have hle : ψ.range ≤ Subgroup.zpowers q := by
       rintro _ ⟨e, rfl⟩
       obtain ⟨j, -, hj⟩ := hgenπ (Subgroup.inclusion hEh e)
-      exact ⟨j, by simpa [hψ, hj] using hj.symm⟩
+      exact ⟨j, by simp [hψ, hj]⟩
     refine (Subgroup.card_le_of_le hle).trans ?_
     rw [Nat.card_zpowers]
     exact orderOf_le_of_pow_eq_one (by norm_num) hq3
   have hd3 : rootDiagUnit .E6 a ^ 3 = 1 := hab.2 _ hd
-  haveI hfd : Finite (Subgroup.zpowers (rootDiagUnit .E6 a)) :=
+  have hfd : Finite (Subgroup.zpowers (rootDiagUnit .E6 a)) :=
     Nat.finite_of_card_ne_zero (by
       rw [Nat.card_zpowers]
       exact (isOfFinOrder_iff_pow_eq_one.2 ⟨3, by norm_num, hd3⟩).orderOf_pos.ne')

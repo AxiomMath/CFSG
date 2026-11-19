@@ -26,6 +26,7 @@ theorem exists_five_lift_star_cs5 {H A M₀ : Subgroup G} (hAH : A ≤ H) {c : E
   have : x = 1 := Subtype.ext hx1
   rw [this, map_one]
 
+omit [Finite G] in
 theorem commutator_mem_kerIn_of_star_commute_cs5 {H M₀ : Subgroup G} {x i : G} (hx : x ∈ H)
     (hi : i ∈ H)
     (hcomm : (QuotientGroup.mk (⟨x, hx⟩ : ↥H) : E2.StarQuot M₀ H) * QuotientGroup.mk ⟨i, hi⟩ =

@@ -35,7 +35,7 @@ theorem c25_16_of_odd (hfo : Odd f) : C25_16 p f := by
     AscL62.isUniqueInvolution_of_le hz' hR'K'
       (mem_of_isUniqueInvolution_of_isPGroup hz' hR'K' hR'syl.2.1 (by omega))
   have ha2 : IsPGroup 2 (Subgroup.zpowers a) :=
-    S.isPGroup'.to_le (Subgroup.zpowers_le.mpr haS)
+    S.isPGroup.to_le (Subgroup.zpowers_le.mpr haS)
   have haR' : conjSub a R' = R' := mem_normalizer_iff_conjSub_eq.mp hF.1
   have haK' : a ∈ Subgroup.normalizer (K' : Set G) := by
     rw [mem_normalizer_iff_conjSub_eq]

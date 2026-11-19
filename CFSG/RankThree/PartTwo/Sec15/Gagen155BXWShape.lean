@@ -35,7 +35,7 @@ private theorem exists_split_of_cover_quasisimple {T X : Type*} [Group T] [Group
     ∃ E : Subgroup T, ⁅V, E⁆ = ⊥ ∧ Group.IsPerfect ↥E ∧ oPrimeResidualOf 3 E = E ∧
       V ⊔ E = ⊤ := by
   obtain ⟨-, hsimple, -⟩ := hX
-  letI : IsSimpleGroup (X ⧸ Subgroup.center X) := hsimple
+  let : IsSimpleGroup (X ⧸ Subgroup.center X) := hsimple
   exact exists_split_of_cover (ψ := QuotientGroup.mk' (Subgroup.center X))
     (QuotientGroup.mk'_surjective _) (by rw [QuotientGroup.ker_mk'])
     (φ := e.symm.toMonoidHom) e.symm.surjective hV hVq
@@ -59,19 +59,19 @@ theorem exists_split_of_item148
         Group.IsPerfect ↥E ∧ oPrimeResidualOf 3 E = E ∧ V ⊔ E = ⊤ := by
   intro V hV hVq
   let := ker148_normal hM.1.2
-  haveI hperf : Group.IsPerfect ↥(img148 A M (deltaZero A (lB A) M)) :=
+  have hperf : Group.IsPerfect ↥(img148 A M (deltaZero A (lB A) M)) :=
     Read148Perf.isPerfect_img148 h h148 hM.1
-  haveI hA5s : IsSimpleGroup (alternatingGroup (Fin 5)) :=
+  have hA5s : IsSimpleGroup (alternatingGroup (Fin 5)) :=
     alternatingGroup.isSimpleGroup (by simp)
-  haveI hA6s : IsSimpleGroup (alternatingGroup (Fin 6)) :=
+  have hA6s : IsSimpleGroup (alternatingGroup (Fin 6)) :=
     alternatingGroup.isSimpleGroup (by simp)
-  haveI hA7s : IsSimpleGroup (alternatingGroup (Fin 7)) :=
+  have hA7s : IsSimpleGroup (alternatingGroup (Fin 7)) :=
     alternatingGroup.isSimpleGroup (by simp)
-  haveI hA10s : IsSimpleGroup (alternatingGroup (Fin 10)) :=
+  have hA10s : IsSimpleGroup (alternatingGroup (Fin 10)) :=
     alternatingGroup.isSimpleGroup (by simp)
-  haveI hJ2s : IsSimpleGroup CFSG.Blueprint.NativeSporadic.J2 :=
+  have hJ2s : IsSimpleGroup CFSG.Blueprint.NativeSporadic.J2 :=
     CFSG.Sporadic.J2.isSimpleGroup_J2
-  haveI hONs : IsSimpleGroup CFSG.Blueprint.NativeSporadic.ON :=
+  have hONs : IsSimpleGroup CFSG.Blueprint.NativeSporadic.ON :=
     CFSG.Sporadic.ON.isSimpleGroup_ON
   have hA5nc : ¬ IsMulCommutative (alternatingGroup (Fin 5)) := by
     rw [alternatingGroup.isMulCommutative_iff_card_le_three]
@@ -81,7 +81,7 @@ theorem exists_split_of_item148
     simp
   have hJ2nc : ¬ IsMulCommutative CFSG.Blueprint.NativeSporadic.J2 := by
     intro hcomm
-    haveI := hcomm
+    have := hcomm
     have hp := CFSG.OrderReductions.Helpers.prime_card_of_simple_commutative
       CFSG.Blueprint.NativeSporadic.J2
     rw [CFSG.Sporadic.J2.card_J2] at hp
@@ -94,10 +94,10 @@ theorem exists_split_of_item148
     CFSG.OrderReductions.Helpers.simple_noncommutative_isPerfect _ hJ2nc
   have hA5card : Nat.card (alternatingGroup (Fin 5)) = 60 := by
     rw [nat_card_alternatingGroup]
-    norm_num <;> decide
+    norm_num
   have hA6card : Nat.card (alternatingGroup (Fin 6)) = 360 := by
     rw [nat_card_alternatingGroup]
-    norm_num <;> decide
+    norm_num
   have hA5_3 : 3 ∣ Nat.card (alternatingGroup (Fin 5)) := by
     rw [hA5card]; norm_num
   have hA6_3 : 3 ∣ Nat.card (alternatingGroup (Fin 6)) := by
@@ -107,7 +107,7 @@ theorem exists_split_of_item148
   rcases (h148 M hM.1).2 with h1 | h2 | h3 | h4 | h5 | h6 | h7'
   ·
     have hD : img148 A M (deltaZero A (lB A) M) = ⊥ := img148_eq_bot_of_le h1
-    haveI hsub : Subsingleton ↥(img148 A M (deltaZero A (lB A) M)) := by
+    have hsub : Subsingleton ↥(img148 A M (deltaZero A (lB A) M)) := by
       rw [hD]
       exact inferInstance
     refine ⟨⊥, Subgroup.commutator_bot_right V, ?_, ?_, ?_⟩
@@ -135,13 +135,13 @@ theorem exists_split_of_item148
     · exact exists_split_of_cover_quasisimple
         (Sec6.isQuasisimple_of_mem_thetaComponentsAt hL'.1) φ hV hVq
     · exact exists_split_of_cover_simple φ hV hVq
-    · haveI : Fact p.Prime := hp
+    · have : Fact p.Prime := hp
       rcases hε with ⟨⟨φ⟩⟩ | ⟨h2q, ⟨φ⟩⟩
-      · haveI : IsSimpleGroup
+      · have : IsSimpleGroup
             (CFSG.Assembly.RankThreeEven.projSL 3 (GaloisField p f)) :=
           Sec19.Step1914TriProof.isSimpleGroup_projSL_three_of_field _
         exact exists_split_of_cover_simple φ hV hVq
-      · haveI : IsSimpleGroup (CFSG.Assembly.RankThreeEven.projSU 3 p f) :=
+      · have : IsSimpleGroup (CFSG.Assembly.RankThreeEven.projSU 3 p f) :=
           Sec19.Step1914TriProof.isSimpleGroup_projSU_three_of_ne_two p f hf (by omega)
         exact exists_split_of_cover_simple φ hV hVq
     · exact exists_split_of_cover_triple h6 hV hVq
@@ -152,14 +152,14 @@ theorem exists_split_of_item148
         ⟨U₀, V₀, hU₀, hV₀, hinf, hsup, hU6, ⟨eV⟩⟩ | ⟨⟨φ⟩⟩ | ⟨⟨φ⟩⟩ | ⟨hp7, ⟨φ⟩⟩
     · exact exists_split_of_cover_triple hON hV hVq
     ·
-      haveI : U₀.Normal := hU₀
-      haveI : V₀.Normal := hV₀
+      have : U₀.Normal := hU₀
+      have : V₀.Normal := hV₀
       obtain ⟨hψ₁, hk₁⟩ := Proof153Twin2.tripleCover_cover hU6.2.some
       obtain ⟨hψ₂, hk₂⟩ := Proof153Twin2.tripleCover_cover hV6.2.some
       exact exists_split_of_prod hsup hcomm hA6p hA6_3 hψ₁ hk₁ hA6p hA6_3 hψ₂ hk₂ hV hVq
     ·
-      haveI : U₀.Normal := hU₀
-      haveI : V₀.Normal := hV₀
+      have : U₀.Normal := hU₀
+      have : V₀.Normal := hV₀
       have hcomm' : ⁅U₀, V₀⁆ = ⊥ := by
         rw [eq_bot_iff, ← hinf]
         exact Subgroup.commutator_le_inf U₀ V₀
@@ -174,8 +174,8 @@ theorem exists_split_of_item148
     ·
       exact exists_split_of_cover_simple φ hV hVq
     ·
-      haveI : Fact (Nat.Prime 7) := hp7
-      haveI : IsSimpleGroup
+      have : Fact (Nat.Prime 7) := hp7
+      have : IsSimpleGroup
           (CFSG.Assembly.RankThreeEven.projSL 3 (GaloisField 7 1)) :=
         Sec19.Step1914TriProof.isSimpleGroup_projSL_three_of_field _
       exact exists_split_of_cover_simple φ hV hVq
@@ -184,9 +184,9 @@ theorem exists_split_of_item148
     exact exists_split_of_cover_simple φ hV hVq
   ·
     obtain ⟨-, -, -, n, -, -, -, hn, -, hiso, -⟩ := h5
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     rcases hiso with ⟨-, ⟨φ⟩⟩ | ⟨-, ⟨φ⟩⟩
-    · haveI : IsSimpleGroup
+    · have : IsSimpleGroup
           (CFSG.Assembly.RankThreeEven.projSL 3 (GaloisField 2 (3 * n))) :=
         Sec19.Step1914TriProof.isSimpleGroup_projSL_three_of_field _
       exact exists_split_of_cover_simple φ hV hVq
@@ -194,7 +194,7 @@ theorem exists_split_of_item148
         intro h22
         have := Nat.pow_right_injective (le_refl 2) (h22.trans (pow_one 2).symm)
         omega
-      haveI : IsSimpleGroup (CFSG.Assembly.RankThreeEven.projSU 3 2 (3 * n)) :=
+      have : IsSimpleGroup (CFSG.Assembly.RankThreeEven.projSU 3 2 (3 * n)) :=
         Sec19.Step1914TriProof.isSimpleGroup_projSU_three_of_ne_two 2 (3 * n) (by omega) h2
       exact exists_split_of_cover_simple φ hV hVq
   ·

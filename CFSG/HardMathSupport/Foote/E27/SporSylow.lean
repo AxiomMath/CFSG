@@ -125,7 +125,7 @@ theorem E27Config.exists_conj_mem_sylow (h : E27Config X K R T z) (hz : z ∈ K)
       Subgroup.card_map_of_injective hψinj] at h27
     exact h27
   have hS₀p : IsPGroup 3 ↥((S₀ : Subgroup ↥K) ⊓ centralizer ({z₀} : Set ↥K)) :=
-    IsPGroup.to_le (S₀.isPGroup') inf_le_left
+    IsPGroup.to_le (S₀.isPGroup) inf_le_left
   have hup : Nat.card ↥((S₀ : Subgroup ↥K) ⊓ centralizer ({z₀} : Set ↥K)) ≤ 27 :=
     hbound _ inf_le_right hS₀p
   have hW : R₁.map (MulAut.conj g).toMonoidHom ≤

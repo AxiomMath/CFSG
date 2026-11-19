@@ -61,7 +61,7 @@ theorem four_le_index {G : Type*} [Group G] [Finite G] {I : Subgroup G} {a b c :
   have hne : ∀ k l : Fin 4, k < l → (e k)⁻¹ * e l ∉ I := by
     intro k l hkl
     fin_cases k <;> fin_cases l
-    all_goals first | exact absurd hkl (by decide) | skip
+    all_goals try exact absurd hkl (by decide)
     · show (1 : G)⁻¹ * a ∉ I
       rwa [inv_one, one_mul]
     · show (1 : G)⁻¹ * b ∉ I

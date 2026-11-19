@@ -109,7 +109,7 @@ theorem exists_elemAbelian_permutes_sup_conj {H : Type*} [Group H] [Finite H] {K
   let i₀ : ι := ⟨K, ⟨1, T.one_mem, by simp only [f, map_one]; exact Subgroup.map_id K⟩⟩
   have tOf_i₀ : tOf i₀ = 1 := by
     unfold tOf
-    rw [dif_pos rfl]
+    rw [dite_eq_left rfl]
   let AOf : ι → Subgroup H := fun i => A.map (MulAut.conj (tOf i)).toMonoidHom
   let Cof : ι → Subgroup H := fun i => B₁.map (MulAut.conj (tOf i)).toMonoidHom
   let Rof : ι → Subgroup H := fun i => T ⊓ (i : Subgroup H)

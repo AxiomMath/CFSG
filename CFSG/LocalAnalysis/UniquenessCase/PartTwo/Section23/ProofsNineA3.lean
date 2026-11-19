@@ -33,7 +33,7 @@ abbrev S23_9_AdjData.dhat
 
 theorem S23_9_AdjData.orderOf_dhat (a : S23_9_AdjData D Ch c hV d b hb r)
     (hr : r.Prime) (hr2 : r ≠ 2) : orderOf a.dhat = r := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hO2X : IsPGroup 2 (CFSG.pCore 2 ↥a.X) := CFSG.pCore_isPGroup
   have hdRoot_order : orderOf (⟨a.dRoot, a.hdX⟩ : ↥a.X) = r := by
     rw [Subgroup.orderOf_mk a.dRoot a.hdX, a.hdorder]
@@ -136,7 +136,7 @@ theorem S23_9_AdjData.exists_bar_twoSubgroup {K : Type*} [Field K] [Finite K] [C
 
 theorem S23_9_AdjData.exists_twoSubgroup (a : S23_9_AdjData D Ch c hV d b hb r)
     (Sbar : Subgroup (Bar2 a.X)) (hSbarp : IsPGroup 2 Sbar)
-    (hSbarsq : ∀ z ∈ Sbar, z * z = 1)
+    (_hSbarsq : ∀ z ∈ Sbar, z * z = 1)
     (hdhatSbar : a.dhat ∈ Subgroup.normalizer (Sbar : Set (Bar2 a.X)))
     (hne_bar : ∃ t ∈ Sbar, ⁅a.dhat, t⁆ ≠ 1) :
     ∃ (S : Subgroup G) (SX : Subgroup ↥a.X),
@@ -206,7 +206,7 @@ theorem S23_9_AdjData.exists_twoSubgroup (a : S23_9_AdjData D Ch c hV d b hb r)
   exact ⟨S, SX, rfl, hmap, hSp, hbS, hcomm⟩
 
 theorem S23_9_AdjData.commutator_twoSubgroup (a : S23_9_AdjData D Ch c hV d b hb r)
-    {S : Subgroup G} (hSX : S ≤ a.X) (hSp : IsPGroup 2 S)
+    {S : Subgroup G} (_hSX : S ≤ a.X) (hSp : IsPGroup 2 S)
     (hbS : b ∈ Subgroup.normalizer (S : Set G))
     (hr : r.Prime) (hr2 : r ≠ 2) (hbr : orderOf b = r) :
     ∃ R : Subgroup G, R = ⁅Subgroup.zpowers b, S⁆ ∧ R ≤ S ∧ IsPGroup 2 R ∧
@@ -240,7 +240,7 @@ theorem S23_9_AdjData.commutator_twoSubgroup (a : S23_9_AdjData D Ch c hV d b hb
       rw [hk]
       exact (hr.odd_of_ne_two hr2).coprime_two_right.pow_right k
     have hsolv : Group.IsSolvable ↥S := by
-      haveI : Group.IsNilpotent ↥S := hSp.isNilpotent
+      have : Group.IsNilpotent ↥S := hSp.isNilpotent
       infer_instance
     have hdouble := GL83.commutator_double_eq_self P S hPS hcop hsolv
     have hR_eq : R = ⁅S, P⁆ := Subgroup.commutator_comm P S
@@ -313,13 +313,13 @@ theorem S23_9_AdjData.not_le_ker {K : Type} [Field K] [Finite K] [CharP K 2]
     rw [hψx]
     exact hker
   have hzN : z ∈ N.map a.qX := Subgroup.map_mono hRN hzR
-  haveI : (N.map a.qX).Normal :=
+  have : (N.map a.qX).Normal :=
     Subgroup.Normal.map hNnormal a.qX (by
       simpa [S23_9_AdjData.qX] using QuotientGroup.mk'_surjective (CFSG.pCore 2 ↥a.X))
   have htopN : N.map a.qX = ⊤ :=
     CFSG.LocalAnalysis.UniquenessCase.UC22.sl2_normal_eq_top_of_involution
       e (N.map a.qX) hzN hz1 (by simpa [sq] using hzsq)
-  haveI : N.Normal := hNnormal
+  have : N.Normal := hNnormal
   have hsup : N ⊔ (CFSG.pCore 2 ↥a.X) = ⊤ := by
     rw [eq_top_iff]
     intro x _
@@ -340,7 +340,7 @@ theorem S23_9_AdjData.not_le_ker {K : Type} [Field K] [Finite K] [CharP K 2]
   have hNtop : N = ⊤ := by
     refine CFSG.LieType.TitsSimplicity.eq_top_of_sup_eq_top
       (Subgroup.isPerfect_iff.mpr a.hXperf) ?_ hsup
-    haveI : Group.IsNilpotent ↥(CFSG.pCore 2 ↥a.X) :=
+    have : Group.IsNilpotent ↥(CFSG.pCore 2 ↥a.X) :=
       (CFSG.pCore_isPGroup (p := 2) (G := ↥a.X)).isNilpotent
     infer_instance
   apply a.hnotker
@@ -360,15 +360,15 @@ theorem S23_9_AdjData.not_le_ker {K : Type} [Field K] [Finite K] [CharP K 2]
   have harg : (⟨(x : G), hXM hxX'⟩ : ↥D.M) = x := Subtype.ext rfl
   rwa [harg] at hψ1
 
-theorem S23_9_AdjData.isPGroup_barImage (a : S23_9_AdjData D Ch c hV d b hb r)
+theorem S23_9_AdjData.isPGroup_barImage (_a : S23_9_AdjData D Ch c hV d b hb r)
     {R : Subgroup G} (hR2 : IsPGroup 2 R) : IsPGroup 2 (barImage D.M R) := by
   change IsPGroup 2 ((R.subgroupOf D.M).map (QuotientGroup.mk' (CFSG.pCore 2 ↥D.M)))
   exact (hR2.comap_subtype (K := D.M)).map _
 
-theorem S23_9_AdjData.orderOf_barImage_b (a : S23_9_AdjData D Ch c hV d b hb r)
+theorem S23_9_AdjData.orderOf_barImage_b (_a : S23_9_AdjData D Ch c hV d b hb r)
     (hr : r.Prime) (hr2 : r ≠ 2) (hbr : orderOf b = r) :
     orderOf (QuotientGroup.mk' (CFSG.pCore 2 ↥D.M) ⟨b, c.hBM hb⟩) = r := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   apply CFSG.GroupTheory.CoprimeTransport.orderOf_mk_eq_prime
   · intro hdvd
     obtain ⟨k, hk⟩ := (CFSG.pCore_isPGroup (p := 2) (G := ↥D.M)).exists_card_eq
@@ -377,7 +377,7 @@ theorem S23_9_AdjData.orderOf_barImage_b (a : S23_9_AdjData D Ch c hV d b hb r)
   · simpa using hbr
 
 theorem S23_9_AdjData.barImage_normalizer (a : S23_9_AdjData D Ch c hV d b hb r)
-    {R : Subgroup G} (hRleX : R ≤ a.X) (hXM : a.X ≤ D.M)
+    {R : Subgroup G} (_hRleX : R ≤ a.X) (_hXM : a.X ≤ D.M)
     (hbR : b ∈ Subgroup.normalizer (R : Set G)) :
     QuotientGroup.mk' (CFSG.pCore 2 ↥D.M) ⟨b, c.hBM hb⟩ ∈
       Subgroup.normalizer (barImage D.M R : Set (Bar2 D.M)) := by
@@ -426,17 +426,17 @@ end A3
 
 theorem s23_9_A3_of (D : Data G) (Ch : Choice2011 G) : S23_9_A3 D Ch := by
   intro h1930 c hV d b hb r hr hr2 hbr hs dfix hrq a hnotpow
-  letI : Fact d.q.Prime := ⟨d.hq⟩
-  letI : d.E.Normal := d.hEnorm
-  letI : IsPGroup d.q ↥d.E := d.hEp
-  letI : IsElementaryAbelian d.q (↥d.E ⧸ frattini ↥d.E) := d.hEel
-  letI : CommGroup (↥d.E ⧸ frattini ↥d.E) := IsMulCommutative.instCommGroup
+  let : Fact d.q.Prime := ⟨d.hq⟩
+  let : d.E.Normal := d.hEnorm
+  let : IsPGroup d.q ↥d.E := d.hEp
+  let : IsElementaryAbelian d.q (↥d.E ⧸ frattini ↥d.E) := d.hEel
+  let : CommGroup (↥d.E ⧸ frattini ↥d.E) := IsMulCommutative.instCommGroup
   obtain ⟨K, hKfield, hKfinite, hKcard, ⟨eK⟩⟩ := a.hXsl
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
-  letI : Fintype K := Fintype.ofFinite K
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : CharP K 2 :=
+  let : Field K := hKfield
+  let : Finite K := hKfinite
+  let : Fintype K := Fintype.ofFinite K
+  have : Fact r.Prime := ⟨hr⟩
+  have : CharP K 2 :=
     charP_of_card_eq_prime_pow (by rwa [← Nat.card_eq_fintype_card])
   let e : Bar2 a.X ≃* Matrix.SpecialLinearGroup (Fin 2) K :=
     eK.trans (CFSG.Assembly.LowTwoRank.specialLinearGroupEquivStatedSL 2 K).symm

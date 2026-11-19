@@ -62,7 +62,7 @@ private theorem not_twoRankAtLeastTwo_quotient_of_odd
       apply Subtype.ext
       change pi (m : G) = 1
       exact (QuotientGroup.eq_one_iff (N := N) (m : G)).2 hm
-  haveI : NM.Normal := (inferInstance : N.Normal).subgroupOf M
+  have : NM.Normal := (inferInstance : N.Normal).subgroupOf M
   have hNMcard : Nat.card NM = Nat.card N :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hN_le_M).toEquiv
   have hNModd : Odd (Nat.card NM) := hNMcard ▸ hNodd
@@ -120,7 +120,7 @@ private theorem faithfulSMul_quotient_pointStabilizerCore
         quotientAction.toSMul (QuotientGroup.mk g) w = g • w) :
     @FaithfulSMul (G ⧸ pointStabilizerCore G Omega) Omega
       quotientAction.toSMul := by
-  letI : MulAction (G ⧸ pointStabilizerCore G Omega) Omega := quotientAction
+  let : MulAction (G ⧸ pointStabilizerCore G Omega) Omega := quotientAction
   refine { eq_of_smul_eq_smul := ?_ }
   intro a b hab
   obtain ⟨g, rfl⟩ := QuotientGroup.mk'_surjective (pointStabilizerCore G Omega) a
@@ -227,7 +227,7 @@ public theorem claim_2_b
   dsimp only
   let C : Subgroup G := Subgroup.centralizer (P : Set G)
   let OmegaP : Type _ := {w : Omega // w ∈ fixedPointsOfSubgroup G Omega P}
-  letI : MulAction C OmegaP := fixedPointCentralizerAction G Omega P
+  let : MulAction C OmegaP := fixedPointCentralizerAction G Omega P
   let HP : Subgroup C := H.comap C.subtype
   let DP : Subgroup C := D.comap C.subtype
   let QP : Subgroup C := Q.comap C.subtype
@@ -258,15 +258,15 @@ public theorem claim_2_b
     rw [hker]
     infer_instance
   refine ⟨hnormal, ?_⟩
-  letI : (pointStabilizerCore C OmegaP).Normal := hnormal
+  let : (pointStabilizerCore C OmegaP).Normal := hnormal
   obtain ⟨pair, hpair, _hpair_unique⟩ := proposition_4_b HP DP QP tP hA1P
   have h4c := proposition_4_c HP DP QP tP pair.1 hA1P hpair.1 hpair.2.1
     ⟨pair.2, hpair.2.2.1, hpair.2.2.2⟩
   rcases h4c with ⟨hcore, _hcore_le, hquot, _hQiso, horder⟩
   rcases hquot with ⟨quotientAction, hsmul, hA1bar⟩
   refine ⟨quotientAction, hsmul, hA1bar, ?_⟩
-  letI : MulAction (C ⧸ pointStabilizerCore C OmegaP) OmegaP := quotientAction
-  letI : FaithfulSMul (C ⧸ pointStabilizerCore C OmegaP) OmegaP :=
+  let : MulAction (C ⧸ pointStabilizerCore C OmegaP) OmegaP := quotientAction
+  let : FaithfulSMul (C ⧸ pointStabilizerCore C OmegaP) OmegaP :=
     faithfulSMul_quotient_pointStabilizerCore quotientAction hsmul
   have hcore_le_DP : pointStabilizerCore C OmegaP ≤ DP := by
     rw [hcore]
@@ -285,9 +285,9 @@ public theorem claim_2_b
     PFAppendixII.proposition_1
       (Ω := OmegaP) (H := HP.map pi) (D := DP.map pi) (Q := QP.map pi)
       (t := QuotientGroup.mk tP) hA1bar hquot_rank
-  letI : PFAppendixII.RightNearField F := hF
-  letI : Finite F := hFfinite
-  letI : Nontrivial F := hFnontrivial
+  let : PFAppendixII.RightNearField F := hF
+  let : Finite F := hFfinite
+  let : Nontrivial F := hFnontrivial
   have hcore_le_DP : core ≤ DP := by
     change pointStabilizerCore C OmegaP ≤ DP
     exact hcore_le_DP

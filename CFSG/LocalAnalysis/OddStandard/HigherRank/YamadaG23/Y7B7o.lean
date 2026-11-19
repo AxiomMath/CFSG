@@ -48,7 +48,7 @@ theorem y7b_C7_normal (c : Ctx7 G L) (hb : B5Std c) :
 theorem y7b_hfix1 (c : Ctx7 G L) (hb : B5Std c) {k : G} (hkN : k ∈ normIn L c.s.fr.B)
     (hfp : ∀ u ∈ y7bBM c.s, u⁻¹ * (k * u * k⁻¹) ∈ M3 c.s → u ∈ M3 c.s) :
     ∀ y ∈ X7 c.s, y⁻¹ * (k * y * k⁻¹) ∈ y7bX0 c.s → y ∈ y7bX0 c.s := by
-  haveI := y7b_M3_normal_BM c hb
+  have := y7b_M3_normal_BM c hb
   obtain ⟨θ, hθ, hθeq⟩ := y7b_exists_theta c hb
   have hkNH : k ∈ normIn c.s.H c.s.fr.B :=
     ⟨s3_L_le_H c.s hb.hH.hS hkN.1, hkN.2⟩

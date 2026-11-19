@@ -96,7 +96,7 @@ theorem pPrimeCore_eq_bot_of_quotient_psl2_eight {X : Type*} [Group X] [Finite X
       exact Nat.Coprime.pow_right 3 ((Nat.coprime_primes hp Nat.prime_two).mpr hp2)
     have hQe : IsCyclic ((Q : Subgroup X).map π) := by
       have h1 : IsPGroup p (((Q : Subgroup X).map π).map e.toMonoidHom) :=
-        (Q.isPGroup'.map π).map _
+        (Q.isPGroup.map π).map _
       have h2 := isCyclic_of_isPGroup_of_sylow hcyc h1
       exact (MulEquiv.isCyclic (((Q : Subgroup X).map π).equivMapOfInjective _
         e.injective)).mpr h2
@@ -242,7 +242,7 @@ theorem nonempty_quotient_iso
     have h2 : (Q : Subgroup Y) ⊓ OY = ⊥ := by
       rw [eq_bot_iff]
       intro x hx
-      exact eq_one_of_odd_of_isPGroup Q.isPGroup' hx.1
+      exact eq_one_of_odd_of_isPGroup Q.isPGroup hx.1
         (Odd.of_dvd_nat hOY (Subgroup.orderOf_dvd_natCard _ hx.2))
     rw [h2, Subgroup.card_bot, mul_one, (hsylY Q).2] at h1
     exact h1.symm

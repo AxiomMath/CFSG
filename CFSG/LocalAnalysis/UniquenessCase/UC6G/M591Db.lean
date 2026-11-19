@@ -18,11 +18,11 @@ open CFSG.LocalAnalysis.UniquenessCase.UC22 (Data)
 theorem Mz614.c628a'_of {G : Type} [Group G] [Finite G] {Dat : Data G} (m : Mz614 Dat) (hr3 : m.r = 3)
     (hK42 : UCK.K42) (hC : UCK.LemmaC) : m.C628a' := by
   intro hVC
-  haveI := Dat.standing.simple
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := Dat.standing.simple
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hMg : CFSG.Open.IsKGroup ↥m.M := Dat.standing.kProper.isKGroup m.M m.M_ne_top
-  haveI hQn : (CFSG.pCore 2 ↥m.M).Normal := CFSG.LieType.BorelTits.pCore_normal 2
+  have hQn : (CFSG.pCore 2 ↥m.M).Normal := CFSG.LieType.BorelTits.pCore_normal 2
   have hQ2 : IsPGroup 2 (CFSG.pCore 2 ↥m.M) := CFSG.LieType.BorelTits.pCore_isPGroup 2
   have hchar : centralizer ((CFSG.pCore 2 ↥m.M : Subgroup ↥m.M) : Set ↥m.M) ≤
       CFSG.pCore 2 ↥m.M := by
@@ -38,14 +38,14 @@ theorem Mz614.c628a'_of {G : Type} [Group G] [Finite G] {Dat : Data G} (m : Mz61
     obtain ⟨q, hq, hqx⟩ := h1 hxG
     have : q = x := Subtype.ext hqx
     exact this ▸ hq
-  haveI : IsElementaryAbelian 2 (↥(CFSG.pCore 2 ↥m.M) ⧸ frattini ↥(CFSG.pCore 2 ↥m.M)) :=
+  have : IsElementaryAbelian 2 (↥(CFSG.pCore 2 ↥m.M) ⧸ frattini ↥(CFSG.pCore 2 ↥m.M)) :=
     (CFSG.GroupTheory.frattini_elementary_quotient hQ2).2.2.2.1
   set Q₀ : Subgroup ↥m.M := CFSG.pCore 2 ↥m.M with hQ₀
   set ρ := UC6.frattiniRep Q₀ with hρ
   set ι : ↥m.K →* ↥m.M := Subgroup.inclusion m.K_le_M with hιdef
   have hι : Function.Injective ι := Subgroup.inclusion_injective m.K_le_M
   set ρK := MonoidHom.comp ρ ι with hρK
-  haveI hTn : (CFSG.pCore 2 ↥m.K).Normal := CFSG.LieType.BorelTits.pCore_normal 2
+  have hTn : (CFSG.pCore 2 ↥m.K).Normal := CFSG.LieType.BorelTits.pCore_normal 2
   have hTp : IsPGroup 2 (CFSG.pCore 2 ↥m.K) := CFSG.LieType.BorelTits.pCore_isPGroup 2
   have hOK : pCoreOf 2 m.K ≤ pCoreOf 2 m.M := by
     refine CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2
@@ -124,7 +124,7 @@ theorem Mz614.c628a'_of {G : Type} [Group G] [Finite G] {Dat : Data G} (m : Mz61
     exact hv'
   set U' : Subgroup ↥m.K := CFSG.pPrimeCore m.r ↥m.K with hU'
   set N : Subgroup (↥m.K ⧸ CFSG.pCore 2 ↥m.K) := U'.map π with hN
-  haveI : U'.Normal := CFSG.pPrimeCore_normal
+  have : U'.Normal := CFSG.pPrimeCore_normal
   have hNn : N.Normal := Subgroup.Normal.map inferInstance π hπs
   have hDN : D ≤ normalizer (N : Set (↥m.K ⧸ CFSG.pCore 2 ↥m.K)) := by
     rw [normalizer_eq_top_iff.2 hNn]
@@ -140,7 +140,7 @@ theorem Mz614.c628a'_of {G : Type} [Group G] [Finite G] {Dat : Data G} (m : Mz61
       D ≤ normalizer (Q : Set (↥m.K ⧸ CFSG.pCore 2 ↥m.K)) →
         Q ≤ centralizer (D : Set (↥m.K ⧸ CFSG.pCore 2 ↥m.K)) := by
     intro q hq hq2 Q hQN hQ hDQ
-    haveI : Fact q.Prime := ⟨hq⟩
+    have : Fact q.Prime := ⟨hq⟩
     by_cases hq3 : q = 3
     · subst hq3
       have hQ1 : Q = ⊥ := by

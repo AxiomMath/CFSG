@@ -42,7 +42,7 @@ theorem Data40.exists_swap :
       ∀ z ∈ A ⊓ A', ∃ y₁ ∈ (A ⊓ A') ⊓ centralizer ({x} : Set G),
         ∃ y₂ ∈ (A ⊓ A') ⊓ centralizer ({x} : Set G), z = y₁ * (n * y₂ * n⁻¹) := by
   set g := ((hD.hT.rho N hD.hK.norm ⟨x, hxN⟩).1 : GL2) with hg
-  have hg3 := hD.g_pow_three hxN hxa hx3
+  have hg3 := hD.g_pow_three hxN hx3
   have hg1 := hD.g_ne_one hxN hxa hx3
   obtain ⟨s, hs⟩ := gl2_exists_inverting g hg3
   obtain ⟨n, hn⟩ := hD.hT.rho_surjective hD.hK (s, 1)
@@ -54,8 +54,8 @@ theorem Data40.exists_swap :
     simp
   refine ⟨n, n.2, ?_, ?_⟩
   · intro y hy y' hy' hyy
-    have hyB := (hD.mem_B_iff hxN hxa hx3).1 hy
-    have hy'B := (hD.mem_B_iff hxN hxa hx3).1 hy'
+    have hyB := (hD.mem_B_iff hxN hxa).1 hy
+    have hy'B := (hD.mem_B_iff hxN hxa).1 hy'
     have hm' : m y' = s.val * m y := by rw [hyy]; exact hconj y hyB.1
     have h0 := gl2_swap_inter g s hg3 hg1 hs (m y) (m y') hyB.2 hy'B.2 hm'
     exact hD.hT.minj _ hyB.1 _ (Subgroup.one_mem _) (by rw [h0, hD.hT.m_one])
@@ -64,9 +64,9 @@ theorem Data40.exists_swap :
     obtain ⟨y₁, hy₁Z, hy₁m⟩ := hD.hT.msurj M₁
     obtain ⟨y₂, hy₂Z, hy₂m⟩ := hD.hT.msurj M₂
     have hy₁ : y₁ ∈ (A ⊓ A') ⊓ centralizer ({x} : Set G) :=
-      (hD.mem_B_iff hxN hxa hx3).2 ⟨hy₁Z, by rw [hy₁m]; exact h1⟩
+      (hD.mem_B_iff hxN hxa).2 ⟨hy₁Z, by rw [hy₁m]; exact h1⟩
     have hy₂ : y₂ ∈ (A ⊓ A') ⊓ centralizer ({x} : Set G) :=
-      (hD.mem_B_iff hxN hxa hx3).2 ⟨hy₂Z, by rw [hy₂m]; exact h2⟩
+      (hD.mem_B_iff hxN hxa).2 ⟨hy₂Z, by rw [hy₂m]; exact h2⟩
     refine ⟨y₁, hy₁, y₂, hy₂, ?_⟩
     have hZ2 : (n : G) * y₂ * (n : G)⁻¹ ∈ A ⊓ A' := hD.mem_Z_conj n.2 hy₂Z
     apply hD.hT.minj _ hz _ ((A ⊓ A').mul_mem hy₁Z hZ2)

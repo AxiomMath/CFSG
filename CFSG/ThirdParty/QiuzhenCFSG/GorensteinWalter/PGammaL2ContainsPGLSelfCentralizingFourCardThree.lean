@@ -40,7 +40,7 @@ private theorem ringEquiv_card_three_subsingleton
     {K : Type u} [Field K] [Finite K]
     (hcard : Nat.card K = 3) :
     Subsingleton (K ≃+* K) := by
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hFcard : Fintype.card K = 3 := by
     simpa [Nat.card_eq_fintype_card] using hcard
   let e : ZMod 3 ≃+* K :=
@@ -127,19 +127,19 @@ public theorem pGammaL2_contains_pgl_of_selfCentralizing_four_cardThree
     (hN : cPrime Z = (Subgroup.normalizer (Z : Set A) : Set A)) :
     pGammaL2PGLRange K ≤ A := by
   classical
-  letI : Fintype K := Fintype.ofFinite K
-  letI : Finite (PGL2 K) :=
+  let : Fintype K := Fintype.ofFinite K
+  let : Finite (PGL2 K) :=
     Finite.of_surjective Matrix.ProjGenLinGroup.mk
       Matrix.ProjGenLinGroup.mk_surjective
-  haveI : Subsingleton (K ≃+* K) := ringEquiv_card_three_subsingleton hcard
-  letI : Finite (K ≃+* K) := inferInstance
-  letI : Fintype (K ≃+* K) := Fintype.ofFinite _
-  letI : Finite (PGammaL2 K) :=
+  have : Subsingleton (K ≃+* K) := ringEquiv_card_three_subsingleton hcard
+  let : Finite (K ≃+* K) := inferInstance
+  let : Fintype (K ≃+* K) := Fintype.ofFinite _
+  let : Finite (PGammaL2 K) :=
     Finite.of_injective (fun x : PGammaL2 K => (x.left, x.right)) (by
       intro x y hxy
       exact SemidirectProduct.ext
         (congrArg Prod.fst hxy) (congrArg Prod.snd hxy))
-  letI : Finite (↥A) := inferInstance
+  let : Finite (↥A) := inferInstance
   have hAutCard : Nat.card (K ≃+* K) = 1 := by
     rw [Nat.card_eq_fintype_card]
     exact (Fintype.card_eq_one_iff).2

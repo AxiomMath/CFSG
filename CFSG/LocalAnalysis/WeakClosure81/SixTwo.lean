@@ -24,14 +24,17 @@ structure Hyp62 (M V₀ V : Subgroup G) : Prop where
 
 namespace Hyp62
 
+omit [Finite G] in
 theorem le_M {M V₀ V : Subgroup G} (h : Hyp62 M V₀ V) : V ≤ M := by
   rw [← h.normalizer_eq]
   exact Subgroup.le_normalizer
 
+omit [Finite G] in
 theorem le_normalizer {M V₀ V : Subgroup G} (h : Hyp62 M V₀ V) :
     V ≤ Subgroup.normalizer (V₀ : Set G) :=
   h.le_M.trans h.normal
 
+omit [Finite G] in
 theorem le_stabTil {M V₀ V : Subgroup G} (h : Hyp62 M V₀ V) {g : G} {D : Subgroup G}
     (hD : D ≤ conjSubgroup V g ⊓ M) : D ≤ stabTil V₀ V :=
   le_inf ((hD.trans inf_le_right).trans (le_of_eq h.normalizer_eq.symm))
@@ -43,10 +46,12 @@ end Hyp62
     Subgroup G :=
   preTil V₀ V hV (fixV (barSub V₀ V hV D))
 
+omit [Finite G] in
 theorem preCTilde_le (V₀ V D : Subgroup G) (hV : IsElemAbelian 2 V) :
     preCTilde V₀ V D hV ≤ V :=
   preTil_le V₀ V hV _
 
+omit [Finite G] in
 theorem le_preCTilde {V₀ V D : Subgroup G} (hV : IsElemAbelian 2 V) (hV₀V : V₀ ≤ V) :
     V₀ ≤ preCTilde V₀ V D hV := by
   intro x hx
@@ -60,6 +65,7 @@ theorem le_preCTilde {V₀ V D : Subgroup G} (hV : IsElemAbelian 2 V) (hV₀V : 
   have hconj : (d : G) * x * (d : G)⁻¹ ∈ V₀ := (Subgroup.mem_normalizer_iff.1 hdN x).1 hx
   exact V₀.mul_mem hconj (V₀.inv_mem hx)
 
+omit [Finite G] in
 theorem mem_preCTilde_iff {V₀ V D : Subgroup G} (hV : IsElemAbelian 2 V)
     (hD : D ≤ stabTil V₀ V) {u : G} (hu : u ∈ V) :
     u ∈ preCTilde V₀ V D hV ↔ ∀ d ∈ D, ⁅u, d⁆ ∈ V₀ := by
@@ -86,11 +92,13 @@ theorem mem_preCTilde_iff {V₀ V D : Subgroup G} (hV : IsElemAbelian 2 V)
       simpa using V₀.inv_mem h1
     simpa only [commutatorElement_def] using hdu
 
+omit [Finite G] in
 theorem rMV_le_mQuot (M V X : Subgroup G) (hX : X ≤ V)
     (hC : ¬ Subgroup.centralizer (X : Set G) ≤ M) :
     rMV M V ≤ (E3.mQuot V X : ℕ∞) :=
   iInf₂_le X ⟨hX, hC⟩
 
+omit [Finite G] in
 theorem centralizer_le_of_mQuot_lt_rMV {M V X : Subgroup G} (hX : X ≤ V)
     (h : (E3.mQuot V X : ℕ∞) < rMV M V) :
     Subgroup.centralizer (X : Set G) ≤ M := by
@@ -103,6 +111,7 @@ theorem rMV_conj {M V : Subgroup G} (h : Subgroup.normalizer (V : Set G) = M) (g
     rw [← conjSubgroup_normalizer V g, h]
   rw [rMV_eq_rParam h', E3.rParam_conj, ← rMV_eq_rParam h]
 
+omit [Finite G] in
 theorem conjSubgroup_commElt (W : Subgroup G) (t g : G) :
     conjSubgroup (commElt W t) g = commElt (conjSubgroup W g) (g⁻¹ * t * g) := by
   unfold commElt conjSubgroup
@@ -122,6 +131,7 @@ theorem conjSubgroup_commElt (W : Subgroup G) (t g : G) :
     simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, inv_inv]
     group
 
+omit [Finite G] in
 theorem conjSubgroup_centralizer_singleton (t g : G) :
     conjSubgroup (Subgroup.centralizer ({t} : Set G)) g =
       Subgroup.centralizer ({g⁻¹ * t * g} : Set G) := by
@@ -138,6 +148,7 @@ theorem conjSubgroup_centralizer_singleton (t g : G) :
       _ = g * ((g⁻¹ * t * g) * x) * g⁻¹ := by rw [h]
       _ = t * (g * x * g⁻¹) := by group
 
+omit [Finite G] in
 theorem conjSubgroup_le_centralizer_singleton_iff (W : Subgroup G) (t g : G) :
     conjSubgroup W g⁻¹ ≤ Subgroup.centralizer ({g * t * g⁻¹} : Set G) ↔
       W ≤ Subgroup.centralizer ({t} : Set G) := by
@@ -165,6 +176,7 @@ theorem conjSubgroup_le_centralizer_singleton_iff (W : Subgroup G) (t g : G) :
       _ = g * (t * (g⁻¹ * y * g)) * g⁻¹ := by rw [h1]
       _ = (g * t * g⁻¹) * y := by group
 
+omit [Finite G] in
 theorem mem_propN_conj_forward {P : Subgroup G → Prop} {n : ℕ} {M V U : Subgroup G} {g : G}
     (h : U ∈ propN P n (conjSubgroup M g) (conjSubgroup V g)) :
     conjSubgroup U g⁻¹ ∈ propN (fun Z => P (conjSubgroup Z g)) n M V := by
@@ -199,11 +211,13 @@ theorem mem_propN_conj_forward {P : Subgroup G → Prop} {n : ℕ} {M V U : Subg
     rw [this]
     exact hPW
 
+omit [Finite G] in
 theorem propB_conj {M Z : Subgroup G} (g : G) :
     PropB (conjSubgroup M g) (conjSubgroup Z g) ↔ PropB M Z := by
   unfold PropB
   rw [← conjSubgroup_centralizer Z g, conjSubgroup_le_conjSubgroup_iff]
 
+omit [Finite G] in
 theorem propD_conj {M Z : Subgroup G} (g : G) :
     PropD (conjSubgroup M g) (conjSubgroup Z g) ↔ PropD M Z := by
   unfold PropD
@@ -260,6 +274,7 @@ theorem propC_conj {M Z : Subgroup G} (g : G) :
       rw [hxy]
       exact conjSubgroup_mono_left g hle
 
+omit [Finite G] in
 theorem propN_congr {P Q : Subgroup G → Prop} (h : ∀ Z, P Z ↔ Q Z) (n : ℕ) (M V : Subgroup G) :
     propN P n M V = propN Q n M V := by
   ext U
@@ -269,6 +284,7 @@ theorem propN_congr {P Q : Subgroup G → Prop} (h : ∀ Z, P Z ↔ Q Z) (n : �
   · rintro ⟨h1, t, ht, h2, W, h3, h4, h5, h6, h7⟩
     exact ⟨h1, t, ht, h2, W, h3, h4, h5, h6, (h _).2 h7⟩
 
+omit [Finite G] in
 theorem mem_calBn_conj {n : ℕ} {M V U : Subgroup G} {g : G}
     (h : U ∈ calBn n (conjSubgroup M g) (conjSubgroup V g)) :
     conjSubgroup U g⁻¹ ∈ calBn n M V := by
@@ -283,6 +299,7 @@ theorem mem_calCn_conj {n : ℕ} {M V U : Subgroup G} {g : G}
   rw [propN_congr (fun Z => propC_conj g) n M V] at h1
   exact h1
 
+omit [Finite G] in
 theorem mem_calDn_conj {n : ℕ} {M V U : Subgroup G} {g : G}
     (h : U ∈ calDn n (conjSubgroup M g) (conjSubgroup V g)) :
     conjSubgroup U g⁻¹ ∈ calDn n M V := by
@@ -290,6 +307,7 @@ theorem mem_calDn_conj {n : ℕ} {M V U : Subgroup G} {g : G}
   rw [propN_congr (fun Z => propD_conj g) n M V] at h1
   exact h1
 
+omit [Finite G] in
 theorem betaN_conj_le (n : ℕ) (M V : Subgroup G) (g : G) :
     betaN n (conjSubgroup M g) (conjSubgroup V g) ≤ betaN n M V := by
   change (⨅ U ∈ calBn n (conjSubgroup M g) (conjSubgroup V g),
@@ -309,6 +327,7 @@ theorem betaN_conj_le (n : ℕ) (M V : Subgroup G) (g : G) :
     mQuot_conjSubgroup V U g
   rwa [hm] at h2
 
+omit [Finite G] in
 theorem betaN_conj (n : ℕ) (M V : Subgroup G) (g : G) :
     betaN n (conjSubgroup M g) (conjSubgroup V g) = betaN n M V := by
   refine le_antisymm (betaN_conj_le n M V g) ?_
@@ -340,6 +359,7 @@ theorem gammaN_conj (n : ℕ) (M V : Subgroup G) (g : G) :
   have := gammaN_conj_le n (conjSubgroup M g) (conjSubgroup V g) g⁻¹
   rwa [conjSubgroup_conj_inv, conjSubgroup_conj_inv] at this
 
+omit [Finite G] in
 theorem deltaN_conj_le (n : ℕ) (M V : Subgroup G) (g : G) :
     deltaN n (conjSubgroup M g) (conjSubgroup V g) ≤ deltaN n M V := by
   change (⨅ U ∈ calDn n (conjSubgroup M g) (conjSubgroup V g),
@@ -359,6 +379,7 @@ theorem deltaN_conj_le (n : ℕ) (M V : Subgroup G) (g : G) :
     mQuot_conjSubgroup V U g
   rwa [hm] at h2
 
+omit [Finite G] in
 theorem deltaN_conj (n : ℕ) (M V : Subgroup G) (g : G) :
     deltaN n (conjSubgroup M g) (conjSubgroup V g) = deltaN n M V := by
   refine le_antisymm (deltaN_conj_le n M V g) ?_
@@ -370,7 +391,7 @@ theorem mQuot_inf_centralizer_le_mSub {V₀ V D : Subgroup G} (hV : IsElemAbelia
     (hV₀N : V ≤ Subgroup.normalizer (V₀ : Set G))
     {u : G} (hu : u ∈ V) (huD : ∀ d ∈ D, ⁅u, d⁆ ∈ V₀) :
     E3.mQuot D (D ⊓ Subgroup.centralizer ({u} : Set G)) ≤ mSub V₀ := by
-  haveI : Subgroup.Normalizes D V := ⟨hDV⟩
+  have : Subgroup.Normalizes D V := ⟨hDV⟩
   let x : V := ⟨u, hu⟩
   have hstab : MulAction.stabilizer ↥D x =
       (D ⊓ Subgroup.centralizer ({u} : Set G)).subgroupOf D := by
@@ -447,6 +468,7 @@ theorem rankThreeGamma_le_of_normalizer_le {M V₀ Z : Subgroup G}
     omega
   · exact h Q (hQZ.trans hZ) hQ
 
+omit [Finite G] in
 theorem commutatorElement_inv_inv_mem {V₀ : Subgroup G} {a b : G}
     (ha : a ∈ Subgroup.normalizer (V₀ : Set G)) (hb : b ∈ Subgroup.normalizer (V₀ : Set G))
     (h : ⁅a, b⁆ ∈ V₀) : ⁅a⁻¹, b⁻¹⁆ ∈ V₀ := by
@@ -468,6 +490,7 @@ theorem commutatorElement_inv_inv_mem {V₀ : Subgroup G} {a b : G}
     rwa [heq] at hmem
   exact h3
 
+omit [Finite G] in
 theorem commElt_le_of_commutator_mem {V₀ W : Subgroup G} {t : G}
     (hW : W ≤ Subgroup.normalizer (V₀ : Set G)) (ht : t ∈ Subgroup.normalizer (V₀ : Set G))
     (h : ∀ w ∈ W, ⁅t, w⁆ ∈ V₀) : commElt W t ≤ V₀ := by

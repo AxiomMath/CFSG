@@ -123,6 +123,7 @@ private theorem sq_inv_sub_one_eq_zero_gl' {E M : Type*} [CommRing E] [AddCommGr
     (((u⁻¹ : LinearMap.GeneralLinearGroup E M) : M →ₗ[E] M) - 1) ^ 2 = 0 :=
   sq_inv_sub_one_eq_zero' u hu
 
+omit [Finite K] in
 private theorem eq_zero_of_orbit_others (hx : OddOrderIsometry Q p x) {h : K[X]}
     (hh : h ∈ primaryFactors x.toLinearMap) {f : V →ₗ[K] V}
     (h1 : ∀ v ∈ primaryComponent x.toLinearMap h, f v = 0)
@@ -134,6 +135,7 @@ private theorem eq_zero_of_orbit_others (hx : OddOrderIsometry Q p x) {h : K[X]}
   rw [(hx.isCompl_orbit_others hh).sup_eq_top, top_le_iff, LinearMap.ker_eq_top] at hle
   exact hle
 
+omit [Finite K] in
 theorem exists_quad_specialBlock_paired (hx : OddOrderIsometry Q p x) {h : K[X]}
     [Fact (Irreducible h)] (hh : h ∈ primaryFactors x.toLinearMap)
     (hne : h ≠ reciprocalPolynomial h) (h2 : (2 : K) ≠ 0) {l : K} (hl : l ≠ 0)
@@ -228,7 +230,7 @@ theorem exists_quad_specialBlock_selfDual (hx : OddOrderIsometry Q p x) (hp2 : O
       ((u : V →ₗ[K] V) - 1) ^ 2 = 0 ∧
         ∃ m : V, (u * u') m ≠ (u' * u) m ∧ (u * u') m ≠ -((u' * u) m) := by
   classical
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hirr : Irreducible h := Fact.out
   obtain ⟨d, H, hdeg, -, htr, hadd₁, hadd₂, hsm₁, hsm₂, hsymm⟩ :=
     hx.exists_selfDual_hermitian hp2 hh hne1 hself
@@ -238,9 +240,9 @@ theorem exists_quad_specialBlock_selfDual (hx : OddOrderIsometry Q p x) (hp2 : O
   have hfinE : Module.finrank K (AdjoinRoot h) = h.natDegree :=
     (AdjoinRoot.powerBasis hirr.ne_zero).finrank.trans (AdjoinRoot.powerBasis_dim _)
   have hcardE : Nat.card (AdjoinRoot h) = ℓ ^ (2 * (f * d)) := by
-    haveI : Module.Finite K (AdjoinRoot h) := (AdjoinRoot.powerBasis hirr.ne_zero).finite
-    haveI : Finite (AdjoinRoot h) := Module.finite_of_finite K
-    haveI := Fintype.ofFinite (AdjoinRoot h)
+    have : Module.Finite K (AdjoinRoot h) := (AdjoinRoot.powerBasis hirr.ne_zero).finite
+    have : Finite (AdjoinRoot h) := Module.finite_of_finite K
+    have := Fintype.ofFinite (AdjoinRoot h)
     rw [Nat.card_eq_fintype_card, Module.card_eq_pow_finrank (K := K), hfinE, hdeg,
       Fintype.card_eq_nat_card, hK, ← pow_mul]
     ring_nf
@@ -279,25 +281,22 @@ theorem exists_quad_specialBlock_selfDual (hx : OddOrderIsometry Q p x) (hp2 : O
     change 1 < primaryMultiplicity x.toLinearMap h
     omega⟩
   have h01 : i₀ ≠ i₁ := by simp [i₀, i₁, Fin.ext_iff]
-  have h00 : Hb (e i₀) (e i₀) = 1 := by rw [he, if_pos rfl]
-  have h11 : Hb (e i₁) (e i₁) = 1 := by rw [he, if_pos rfl]
-  have h01' : Hb (e i₀) (e i₁) = 0 := by rw [he, if_neg h01]
-  have h10' : Hb (e i₁) (e i₀) = 0 := by rw [he, if_neg h01.symm]
+  have h00 : Hb (e i₀) (e i₀) = 1 := by rw [he, ite_eq_left rfl]
+  have h11 : Hb (e i₁) (e i₁) = 1 := by rw [he, ite_eq_left rfl]
+  have h01' : Hb (e i₀) (e i₁) = 0 := by rw [he, ite_eq_right h01]
+  have h10' : Hb (e i₁) (e i₀) = 0 := by rw [he, ite_eq_right h01.symm]
   have h2E : (2 : AdjoinRoot h) ≠ 0 := by
     have := (algebraMap K (AdjoinRoot h)).injective.ne h2
     rwa [map_ofNat, map_zero] at this
   have hvv : Hb (e i₀ + μ • e i₁) (e i₀ + μ • e i₁) = 0 := by
-    simp only [map_add, map_smulₛₗ, LinearMap.add_apply, LinearMap.smul_apply, map_smul,
-      smul_eq_mul, h00, h11, h01', h10', RingHom.id_apply]
+    simp only [map_add, map_smulₛₗ, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul, h00, h11, h01', h10', RingHom.id_apply]
     linear_combination hμ
   have hww : Hb ((2 : AdjoinRoot h)⁻¹ • (e i₀ - μ • e i₁))
       ((2 : AdjoinRoot h)⁻¹ • (e i₀ - μ • e i₁)) = 0 := by
-    simp only [map_sub, map_smulₛₗ, LinearMap.sub_apply, LinearMap.smul_apply, map_smul,
-      smul_eq_mul, h00, h11, h01', h10', RingHom.id_apply]
+    simp only [map_sub, map_smulₛₗ, LinearMap.sub_apply, LinearMap.smul_apply, smul_eq_mul, h00, h11, h01', h10', RingHom.id_apply]
     linear_combination (hE.bar (2 : AdjoinRoot h)⁻¹ * (2 : AdjoinRoot h)⁻¹) * hμ
   have hvw : Hb (e i₀ + μ • e i₁) ((2 : AdjoinRoot h)⁻¹ • (e i₀ - μ • e i₁)) = 1 := by
-    simp only [map_add, map_sub, map_smulₛₗ, LinearMap.add_apply, LinearMap.sub_apply,
-      LinearMap.smul_apply, map_smul, smul_eq_mul, h00, h11, h01', h10', RingHom.id_apply]
+    simp only [map_add, map_sub, map_smulₛₗ, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul, h00, h11, h01', h10', RingHom.id_apply]
     field_simp
     linear_combination -hμ
   have hlE : algebraMap K (AdjoinRoot h) l ≠ 0 := by

@@ -27,7 +27,7 @@ theorem dconjMat_mul (a : Kˣ) (M N : Matrix (Fin 2) (Fin 2) K) :
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [dconjMat, Matrix.mul_apply, Fin.sum_univ_two] <;>
-    first | ring1 | field_simp | (field_simp; ring1)
+    first | ring1 | field_simp
 
 theorem dconjMat_one (a : Kˣ) : dconjMat a (1 : Matrix (Fin 2) (Fin 2) K) = 1 := by
   ext i j
@@ -112,7 +112,7 @@ theorem sl2_comm_aux (t t' : K) (ht : t ≠ 0) (W : SL2 K)
   have hv00 := congrArg (fun X : SL2 K => (X : Matrix (Fin 2) (Fin 2) K) 0 0) hv
   simp only [Matrix.SpecialLinearGroup.coe_mul, coe_uSL, coe_vSL, Matrix.mul_apply,
     Fin.sum_univ_two, Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
-    Matrix.empty_val', Matrix.cons_val_fin_one, Matrix.head_cons] at hu00 hu01 hv00
+    Matrix.empty_val', Matrix.cons_val_fin_one] at hu00 hu01 hv00
   have h10 : (W : Matrix (Fin 2) (Fin 2) K) 1 0 = 0 := by
     have : t * (W : Matrix (Fin 2) (Fin 2) K) 1 0 = 0 := by linear_combination (-1 : K) * hu00
     exact (mul_eq_zero.1 this).resolve_left ht
@@ -176,7 +176,7 @@ theorem sl2_upper_conj {X : SL2 K} (hX : (X : Matrix (Fin 2) (Fin 2) K) 1 0 = 0)
   have hdet := det_SL2 X
   rw [hX] at hdet
   refine SL2_ext ?_ ?_ ?_ ?_ <;>
-    simp [Matrix.SpecialLinearGroup.coe_mul, coe_uSL, Matrix.mul_apply, Fin.sum_univ_two, hX]
+    simp [coe_uSL, hX]
   · linear_combination (-(c * (X : Matrix (Fin 2) (Fin 2) K) 0 0)) * hdet
 
 theorem exists_eigen (g : Matrix (Fin 2) (Fin 2) K) (ν : K)
@@ -249,7 +249,7 @@ theorem upper_of_eigen (a : Kˣ) (A e : SL2 K) (l : K)
   simp only [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_inv, coe_dconj,
     Matrix.adjugate_fin_two, Matrix.mul_apply, Fin.sum_univ_two, Matrix.of_apply, Matrix.cons_val',
     Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.empty_val', Matrix.cons_val_fin_one,
-    Matrix.head_cons, inv_inv]
+    inv_inv]
   linear_combination ((e : Matrix (Fin 2) (Fin 2) K) 0 0) * h1 - ((e : Matrix (Fin 2) (Fin 2) K) 1 0) * h0
 
 theorem exists_upper (a : Kˣ) (A : SL2 K)
@@ -263,19 +263,19 @@ theorem exists_upper (a : Kˣ) (A : SL2 K)
   have eW00 : ((dconj a⁻¹ A * A : SL2 K) : Matrix (Fin 2) (Fin 2) K) 0 0 =
       (A : Matrix (Fin 2) (Fin 2) K) 0 0 * (A : Matrix (Fin 2) (Fin 2) K) 0 0 +
       (a : K)⁻¹ * (A : Matrix (Fin 2) (Fin 2) K) 0 1 * (A : Matrix (Fin 2) (Fin 2) K) 1 0 := by
-    simp [Matrix.SpecialLinearGroup.coe_mul, coe_dconj, Matrix.mul_apply, Fin.sum_univ_two]
+    simp [coe_dconj]
   have eW01 : ((dconj a⁻¹ A * A : SL2 K) : Matrix (Fin 2) (Fin 2) K) 0 1 =
       (A : Matrix (Fin 2) (Fin 2) K) 0 0 * (A : Matrix (Fin 2) (Fin 2) K) 0 1 +
       (a : K)⁻¹ * (A : Matrix (Fin 2) (Fin 2) K) 0 1 * (A : Matrix (Fin 2) (Fin 2) K) 1 1 := by
-    simp [Matrix.SpecialLinearGroup.coe_mul, coe_dconj, Matrix.mul_apply, Fin.sum_univ_two]
+    simp [coe_dconj]
   have eW10 : ((dconj a⁻¹ A * A : SL2 K) : Matrix (Fin 2) (Fin 2) K) 1 0 =
       (a : K) * (A : Matrix (Fin 2) (Fin 2) K) 1 0 * (A : Matrix (Fin 2) (Fin 2) K) 0 0 +
       (A : Matrix (Fin 2) (Fin 2) K) 1 1 * (A : Matrix (Fin 2) (Fin 2) K) 1 0 := by
-    simp [Matrix.SpecialLinearGroup.coe_mul, coe_dconj, Matrix.mul_apply, Fin.sum_univ_two]
+    simp [coe_dconj]
   have eW11 : ((dconj a⁻¹ A * A : SL2 K) : Matrix (Fin 2) (Fin 2) K) 1 1 =
       (a : K) * (A : Matrix (Fin 2) (Fin 2) K) 1 0 * (A : Matrix (Fin 2) (Fin 2) K) 0 1 +
       (A : Matrix (Fin 2) (Fin 2) K) 1 1 * (A : Matrix (Fin 2) (Fin 2) K) 1 1 := by
-    simp [Matrix.SpecialLinearGroup.coe_mul, coe_dconj, Matrix.mul_apply, Fin.sum_univ_two]
+    simp [coe_dconj]
   have e01 : (A : Matrix (Fin 2) (Fin 2) K) 0 0 * (A : Matrix (Fin 2) (Fin 2) K) 0 1 +
       (a : K)⁻¹ * (A : Matrix (Fin 2) (Fin 2) K) 0 1 * (A : Matrix (Fin 2) (Fin 2) K) 1 1 = 0 := by
     rw [← eW01]; exact w01

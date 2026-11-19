@@ -93,7 +93,7 @@ theorem exists_pair_fixed_subgroup
     apply (Set.eq_of_subset_of_ncard_le hpair ?_).symm
     rw [htwo,Set.ncard_pair huv]
   refine ⟨Subgroup.zpowers a.val ⊔ B,
-    NormalizedPGroupJoin.isPGroup_join B (R.isPGroup'.map (fixingSubgroup G s).subtype) a.val ha2 hR,?_⟩
+    NormalizedPGroupJoin.isPGroup_join B (R.isPGroup.map (fixingSubgroup G s).subtype) a.val ha2 hR,?_⟩
   rw [NormalizedPGroupJoin.fixedPoints_join,heq]
 
 theorem two_transitive

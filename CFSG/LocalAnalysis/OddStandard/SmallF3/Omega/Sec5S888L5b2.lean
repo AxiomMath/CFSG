@@ -18,8 +18,10 @@ namespace CFSG.OddStandard.SmallF3.Omega
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {z r : G}
   {B A K₁ K₂ : Subgroup G} {h : G}
 
+omit [Finite G] in
 private lemma s888l5b2_kfam_zero : Kfam5 K₁ K₂ h 0 = K₁ := by simp [Kfam5]
 
+omit [Finite G] in
 private lemma s888l5b2_kfam_one : Kfam5 K₁ K₂ h 1 = K₂ := by simp [Kfam5]
 
 theorem relIndex_inf_C6_le_two (h514 : Asc82Lemma514) (h52a : Asc82Lemma52a)

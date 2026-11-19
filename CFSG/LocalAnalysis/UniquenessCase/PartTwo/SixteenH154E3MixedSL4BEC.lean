@@ -13,8 +13,8 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 variable {G : Type} [Group G] [Finite G]
 
 theorem s16h_sl4_L_sup_le_cent_v1
-    (D : Data G) (S : s16h_Std D) (hσ : D.sig = D.sig1)
-    (hJP : K_JonesParshallH1) {V L : Subgroup G} (h : Setting16 D ⊥ V L)
+    (D : Data G) (_S : s16h_Std D) (_hσ : D.sig = D.sig1)
+    (_hJP : K_JonesParshallH1) {V L : Subgroup G} (h : Setting16 D ⊥ V L)
     (hs2 : s15 D.M ⊥ V h.hyp151.isElemAbelian L = 2)
     {x : G} (hxM : x ∈ D.M) (hxn : x ∉ nBar D.M ⊥ V h.hyp151.isElemAbelian L) :
     L ⊔ conjSubgroup L x ≤

@@ -86,8 +86,8 @@ theorem degree_cases_K (hV : IsElemAbelian 2 (VZ T X)) (hUV : blockU K ≤ VZ T 
       obtain ⟨φ⟩ := S.nonempty_equiv_of_center_eq_bot hV hUV α hα hker hc
       have hcard := Nat.card_congr (e.symm.trans φ).toEquiv
       have hpos : 1 ≤ 2 ^ k := Nat.one_le_two_pow
-      haveI : Nontrivial (Fin n) := ⟨⟨⟨0, by omega⟩, ⟨1, by omega⟩, by simp⟩⟩
-      haveI : Nontrivial (Fin (2 ^ k + 1)) := ⟨⟨⟨0, by omega⟩, ⟨1, by omega⟩, by simp⟩⟩
+      have : Nontrivial (Fin n) := ⟨⟨⟨0, by omega⟩, ⟨1, by omega⟩, by simp⟩⟩
+      have : Nontrivial (Fin (2 ^ k + 1)) := ⟨⟨⟨0, by omega⟩, ⟨1, by omega⟩, by simp⟩⟩
       rw [nat_card_alternatingGroup, nat_card_alternatingGroup, Nat.card_eq_fintype_card,
         Nat.card_eq_fintype_card (α := Fin (2 ^ k + 1)), Fintype.card_fin, Fintype.card_fin] at hcard
       have h1 : 2 ∣ n.factorial := Nat.dvd_factorial (by norm_num) (by omega)
@@ -112,7 +112,7 @@ theorem isEmpty_equiv_sl3_K (hV : IsElemAbelian 2 (VZ T X)) (hUV : blockU K ≤ 
     obtain ⟨φ⟩ := S.nonempty_equiv_of_center_eq_bot hV hUV α hα hker hc
     have hcard := Nat.card_congr (e.symm.trans φ).toEquiv
     have hpos : 1 ≤ 2 ^ k := Nat.one_le_two_pow
-    haveI : Nontrivial (Fin (2 ^ k + 1)) := ⟨⟨⟨0, by omega⟩, ⟨1, by omega⟩, by simp⟩⟩
+    have : Nontrivial (Fin (2 ^ k + 1)) := ⟨⟨⟨0, by omega⟩, ⟨1, by omega⟩, by simp⟩⟩
     rw [card_sl3_two, nat_card_alternatingGroup, Nat.card_eq_fintype_card (α := Fin (2 ^ k + 1)),
       Fintype.card_fin] at hcard
     have h2 : 2 ∣ (2 ^ k + 1).factorial := Nat.dvd_factorial (by norm_num) (by omega)

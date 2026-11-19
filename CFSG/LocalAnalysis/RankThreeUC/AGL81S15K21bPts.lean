@@ -41,14 +41,14 @@ theorem cover (y : ℙ F (Fin 3 → F)) :
         rw [pL, mk_eq_mk_iff' F]
         refine ⟨v 1, ?_⟩
         funext i
-        fin_cases i <;> simp [h1, h2] <;> field_simp
+        fin_cases i <;> simp [h2]; field_simp
     · right
       right
       refine ⟨v 0 / v 2, v 1 / v 2, ?_⟩
       rw [pA, mk_eq_mk_iff' F]
       refine ⟨v 2, ?_⟩
       funext i
-      fin_cases i <;> simp [h2] <;> field_simp
+      fin_cases i <;> simp <;> field_simp
 
 theorem pL_injective : Function.Injective (pL : F → ℙ F (Fin 3 → F)) := by
   intro a a' h
@@ -185,7 +185,7 @@ theorem upper_of_fixes (A : SpecialLinearGroup (Fin 3) F)
   have hinv : ((A⁻¹ : SpecialLinearGroup (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) 2 1 =
       -((A : Matrix (Fin 3) (Fin 3) F) 0 0 * (A : Matrix (Fin 3) (Fin 3) F) 2 1) +
         (A : Matrix (Fin 3) (Fin 3) F) 0 1 * (A : Matrix (Fin 3) (Fin 3) F) 2 0 := by
-    simp [SpecialLinearGroup.coe_inv, Matrix.adjugate_fin_three]
+    simp [Matrix.adjugate_fin_three]
   have h21 : (A : Matrix (Fin 3) (Fin 3) F) 0 0 * (A : Matrix (Fin 3) (Fin 3) F) 2 1 = 0 := by
     rw [hinv, h20] at t10
     linear_combination t10

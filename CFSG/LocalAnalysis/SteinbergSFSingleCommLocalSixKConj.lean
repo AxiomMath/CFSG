@@ -137,6 +137,7 @@ section Steps
 variable {G : Type} [Group G] [Finite G] [IsSimpleGroup G] {L : Subgroup G} {K : Type} [Field K]
   [CharP K 2] [Finite K] {n : ℕ} {φ : L ≃* antiSp K} {t : G} {i : Axis}
 
+omit [IsSimpleGroup G] in
 theorem sixK_k7
     (hS : SCSetting L K n φ t i) (hH : SixHConclusion φ t i)
     (k6 : K6Concl n φ t) : K7Concl φ t i := by
@@ -185,6 +186,7 @@ theorem sixK_k7
       _ ≤ 4 * n * Nat.card K ^ 4 := h6
   exact sixK_k7_aux_arith n hn (Nat.card K) hKc h7
 
+omit [IsSimpleGroup G] in
 theorem sixK_k8
     (hS : SCSetting L K n φ t i) (hH : SixHConclusion φ t i)
     (k5 : K5Concl n φ t) : K8Concl φ t i := by
@@ -235,8 +237,9 @@ theorem sixK_k8
   have hbig : 2 ^ (3 * n + 1) < 2 ^ (4 * n) := Nat.pow_lt_pow_right (by norm_num) (by omega)
   exact absurd h5 (not_le.mpr hbig)
 
-theorem sixK_k9 (hS : SCSetting L K n φ t i) (hH : SixHConclusion φ t i)
-    (hE : EmbConclusion φ t i) (k4 : K4Concl φ t i) (k7 : K7Concl φ t i) (k8 : K8Concl φ t i) :
+omit [Finite G] [IsSimpleGroup G] [Finite K] in
+theorem sixK_k9 (hS : SCSetting L K n φ t i) (_hH : SixHConclusion φ t i)
+    (_hE : EmbConclusion φ t i) (k4 : K4Concl φ t i) (k7 : K7Concl φ t i) (k8 : K8Concl φ t i) :
     K9Concl φ t i := by
   intro g hg
   have htt : t * t = 1 := hS.fc.setup.t_mul_t

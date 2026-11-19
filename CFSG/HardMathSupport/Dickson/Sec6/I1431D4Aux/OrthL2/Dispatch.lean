@@ -29,7 +29,7 @@ variable (K : Type) [Field K] [Finite K]
 theorem exists_classicalModel_adjointD4 :
     ∃ f : ℕ, 1 ≤ f ∧ Nat.card K = ringChar K ^ f ∧
       StatedClassicalModel (adjointGroup Tag.D4 K) .POmegaPlus 4 (ringChar K) f := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   obtain ⟨n, hp, hn⟩ := FiniteField.card K (ringChar K)
   obtain ⟨e⟩ := CFSG.HardMathSupport.Lang.Coordinator.D4Bridge.nonempty_statedProj_equiv_adjointGroup K
   have hcard : Nat.card K = ringChar K ^ (n : ℕ) := by rw [Nat.card_eq_fintype_card, hn]

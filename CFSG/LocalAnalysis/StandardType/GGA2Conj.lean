@@ -81,7 +81,7 @@ private lemma ggDihedral_conj_ab_a {G : Type*} [Group G] {a b : G} (ha : a * a =
     _ = b := ggDihedral_ababa ha hb hbraid
 
 private lemma ggDihedral_conj_ab_b {G : Type*} [Group G] {a b : G} (ha : a * a = 1)
-    (hb : b * b = 1) (hab : (a * b) ^ 3 = 1) : (a * b) * b * (a * b)⁻¹ = a * b * a := by
+    (hb : b * b = 1) (_hab : (a * b) ^ 3 = 1) : (a * b) * b * (a * b)⁻¹ = a * b * a := by
   have ha_inv : a⁻¹ = a := ggInv_of_sq_eq_one ha
   have hb_inv : b⁻¹ = b := ggInv_of_sq_eq_one hb
   have hab_inv : (a * b)⁻¹ = b * a := by rw [mul_inv_rev, ha_inv, hb_inv]
@@ -226,7 +226,7 @@ private lemma ggCox_comm_of_sq {ι : Type*} {M : CoxeterMatrix ι} {i j : ι}
 
 private lemma ggConj_word_xyz_left {G : Type*} [Group G] {x y z : G} (hx2 : x * x = 1)
     (hy2 : y * y = 1) (hz2 : z * z = 1) (hxy : x * y * x = y * x * y)
-    (hyz : y * z * y = z * y * z) (hxz : x * z = z * x) :
+    (_hyz : y * z * y = z * y * z) (hxz : x * z = z * x) :
     (x * y * z) * x * (x * y * z)⁻¹ = y := by
   have hx_inv : x⁻¹ = x := ggInv_of_sq_eq_one hx2
   have hy_inv : y⁻¹ = y := ggInv_of_sq_eq_one hy2
@@ -242,7 +242,7 @@ private lemma ggConj_word_xyz_left {G : Type*} [Group G] {x y z : G} (hx2 : x * 
     _ = y := by rw [hx2]; group
 
 private lemma ggConj_word_xyz_right {G : Type*} [Group G] {x y z : G} (hx2 : x * x = 1)
-    (hy2 : y * y = 1) (hz2 : z * z = 1) (hxy : x * y * x = y * x * y)
+    (hy2 : y * y = 1) (hz2 : z * z = 1) (_hxy : x * y * x = y * x * y)
     (hyz : y * z * y = z * y * z) (hxz : x * z = z * x) :
     (x * y * z) * y * (x * y * z)⁻¹ = z := by
   have hx_inv : x⁻¹ = x := ggInv_of_sq_eq_one hx2
@@ -669,8 +669,8 @@ theorem ggA2_conj {ι : Type} {M : CoxeterMatrix ι} (hM : GGIsWeylMatrix M)
     (ht' : ∃ (w : M.Group) (i : ι), t' = w * M.simple i * w⁻¹) (hne : t ≠ t')
     (hord : (t * t') ^ 3 = 1) {i j : ι} (hij : M.M i j = 3) :
     ∃ w : M.Group, w * M.simple i * w⁻¹ = t ∧ w * M.simple j * w⁻¹ = t' := by
-  haveI : Finite ι := ggIsWeylMatrix_finite hM
-  haveI : Fintype ι := Fintype.ofFinite ι
+  have : Finite ι := ggIsWeylMatrix_finite hM
+  have : Fintype ι := Fintype.ofFinite ι
   classical
   obtain ⟨C, hC, hCart, rfl⟩ := ggWeylCartan hM h3
   have hslc := ggSimplyLacedConnected_of_weyl hM h3

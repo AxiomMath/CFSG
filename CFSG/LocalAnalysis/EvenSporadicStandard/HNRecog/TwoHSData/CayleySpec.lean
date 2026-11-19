@@ -64,7 +64,7 @@ theorem nonempty_mulEquiv_of_cayleyOK {T : Type} [Group T] [DecidableEq T] {cap 
         (by omega)
       exact (of_decide_eq_true this) hab.symm
   have hlen' : (ws.map elemW).length = ts.length := by simpa using hlen
-  haveI : Finite T := Nat.finite_of_card_ne_zero (by rw [hT, ← hsizeL]; exact hpos.ne')
+  have : Finite T := Nat.finite_of_card_ne_zero (by rw [hT, ← hsizeL]; exact hpos.ne')
   refine TwoHSData.nonempty_mulEquiv_of_cayley_enum X (ws.map elemW) ts hlen'
     (by rw [hX, mem_map_elemW_set]) (n := L.size) (fun k => tablePerm 1408 L[k.val]!)
     (fun k => fv.getD k.val 1) hinjE (fun k => (hrepk k).2) hcov ⟨0, hpos⟩

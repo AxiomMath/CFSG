@@ -26,7 +26,7 @@ namespace HypCGen
 variable {M : Subgroup G} {q : ℕ} {E H : Subgroup G}
 
 theorem relPPrimeCore_le (h : HypCGen G M q E H) : relPPrimeCore q H ≤ M := by
-  haveI : Fact q.Prime := ⟨h.prime⟩
+  have : Fact q.Prime := ⟨h.prime⟩
   have hcard : q ^ (1 + 1) ≤ Nat.card E := by
     calc q ^ (1 + 1) = q ^ 2 := by norm_num
       _ = Nat.card E := h.card.symm
@@ -37,11 +37,12 @@ theorem relPPrimeCore_le (h : HypCGen G M q E H) : relPPrimeCore q H ≤ M := by
 
 end HypCGen
 
+omit [Finite G] in
 theorem not_kSub_le_of_not_pLayerIn_le {p : ℕ} {M H : Subgroup G}
     (h : ¬ pLayerIn p H ≤ M) : ¬ kSub p M H ≤ M := by
   have hex : ∃ L : Subgroup ↥H, CFSG.IsPComponent p L ∧ ¬ L.map H.subtype ≤ M := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply h
     unfold pLayerIn CFSG.pLayer
     rw [sSup_eq_iSup, Subgroup.map_iSup]
@@ -56,7 +57,7 @@ theorem not_kSub_le_of_not_pLayerIn_le {p : ℕ} {M H : Subgroup G}
     rw [hsub]
     exact hL
   unfold kSub
-  rw [if_neg h]
+  rw [ite_eq_right h]
   intro hk
   exact hLM ((le_sSup hLmem).trans hk)
 
@@ -93,7 +94,7 @@ theorem kSylowTwoNotLeAt_of {M : Subgroup G} (hpre : PreambleTypes M)
   intro q E H hdata S hS
   have hq3 : q = 3 := eq_three_of_mem hpre hdata.mem_QSet hdata.mem
   subst q
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hH2 : H ∈ H2StarAll M := ⟨3, E, hdata.mem_QSet, hdata.mem⟩
   have hC3 : CaseThree M H := h14 H hH2
   have hO : (CFSG.pPrimeCore 3 ↥(kSub 3 M H)).map (kSub 3 M H).subtype ≤ M :=

@@ -77,7 +77,7 @@ private theorem G2qLocalData.commutator_mem_pCoreOf_left (hH : Hyp111 L1 L2 S)
     (hD : G2qLocalData L1 L2 S f) (hf : 1 ≤ f) (h1 : IsL2Quot f (oTwoQuot ↥L1)) {a b : G}
     (ha : a ∈ S) (hb : b ∈ S) : ⁅a, b⁆ ∈ pCoreOf 2 L1 := by
   obtain ⟨c⟩ := hD.exists_coordLeft hH h1
-  letI := c.field
+  let := c.field
   have hS1 := hD.le_left hH hf h1
   have h : c.α ⁅(⟨a, hS1 ha⟩ : ↥L1), ⟨b, hS1 hb⟩⁆ = 1 := by
     rw [map_commutatorElement, commutatorElement_eq_one_iff_mul_comm]
@@ -135,11 +135,11 @@ theorem G2qLocalData.exists_mulEquiv_vertexTwo (hf : 3 ≤ f) (hH : Hyp111 L1 L2
   have hS1 : S ≤ L1 := hD.le_left hH hf1 h1
   have hS2 : S ≤ L2 := hD.le_right hH hf1 h2
   obtain ⟨c⟩ := hD.exists_coordRight hH h2
-  letI := c.field
-  letI := c.fintype
-  haveI : CharP c.F 2 := charP_of_card_eq_prime_pow
+  let := c.field
+  let := c.fintype
+  have : CharP c.F 2 := charP_of_card_eq_prime_pow
     (by rw [← Nat.card_eq_fintype_card]; exact c.card : Fintype.card c.F = 2 ^ f)
-  haveI : Finite (ModGL Tag.G2 c.F) := finite_modGL
+  have : Finite (ModGL Tag.G2 c.F) := finite_modGL
   have hK8 : 8 ≤ Nat.card c.F := by
     rw [c.card]
     calc 8 = 2 ^ 3 := by norm_num

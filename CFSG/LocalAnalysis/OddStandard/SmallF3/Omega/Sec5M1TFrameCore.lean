@@ -78,7 +78,7 @@ theorem sec5m1t_core_frame (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3
     have hR : ((orthToSim Q t0 : simGroup Q) : V ≃ₗ[ZMod 3] V) (fr.b 0) = -fr.b 0 := by
       rw [coe_orthToSim, show (t0 : V ≃ₗ[ZMod 3] V) (fr.b 0) =
         (if (0 : Fin 6) ∈ ({0, 1, 2, 3} : Finset (Fin 6)) then -fr.b 0 else fr.b 0) from
-        fr.signChange_basis {0, 1, 2, 3} 0, if_pos (by decide)]
+        fr.signChange_basis {0, 1, 2, 3} 0, ite_eq_left (by decide)]
     have hlin : ((x * x : simGroup Q) : V ≃ₗ[ZMod 3] V) (fr.b 0) =
         ((orthToSim Q t0 : simGroup Q) : V ≃ₗ[ZMod 3] V) (fr.b 0) := by rw [hxx]
     have hneg : fr.b 0 = -fr.b 0 := by

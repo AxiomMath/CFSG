@@ -119,10 +119,10 @@ theorem d4Mod3_stab_card_le (hV : Nat.card V = 3 ^ 4) (h : Fin 4 → V)
     Nat.card {g : ↥(Subgroup.closure (Set.range fun i => Module.reflection (hα i))) //
       (g : V ≃ₗ[ZMod 3] V) v = v} ≤ 24 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hCm : ∀ i j, α i (h j) = cmod i j := fun i j => (hC i j).trans (cast_cartanD_four i j)
   have hfinV : Finite V := Nat.finite_of_card_ne_zero (by rw [hV]; norm_num)
-  haveI : Module.Finite (ZMod 3) V := Module.Finite.of_finite
+  have : Module.Finite (ZMod 3) V := Module.Finite.of_finite
   have hfin : Module.finrank (ZMod 3) V = 4 := by
     have h1 := Module.natCard_eq_pow_finrank (K := ZMod 3) (V := V)
     rw [hV, Nat.card_zmod] at h1
@@ -210,7 +210,7 @@ theorem d4Mod3_stab_card_le (hV : Nat.card V = 3 ^ 4) (h : Fin 4 → V)
   let L : List Mat := spe.filter fun M => decide (M.mulVec (Φ v) = Φ v)
   have hsub : {M : Mat | P M} ⊆ (↑L.toFinset : Set Mat) := by
     intro M hM
-    simp only [Set.mem_setOf_eq, P] at hM
+    simp only [Set.mem_ofPred_eq, P] at hM
     simp [L, hM]
   calc Nat.card {M : Mat // P M} = Nat.card ↥{M : Mat | P M} := rfl
     _ ≤ Nat.card ↥(↑L.toFinset : Set Mat) := Nat.card_mono (Set.toFinite _) hsub

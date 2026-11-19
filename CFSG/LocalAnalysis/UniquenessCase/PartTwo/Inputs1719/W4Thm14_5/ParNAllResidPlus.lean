@@ -23,11 +23,11 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
 omit [Finite K] [CharP K 2] in
 private theorem plusNodeSpace_one : plusNodeSpace K (le_refl 3) 1 = Xstar 3 K (by omega) := by
-  rw [plusNodeSpace, if_neg (by decide), if_pos (by decide)]
+  rw [plusNodeSpace, ite_eq_right (by decide), ite_eq_left (by decide)]
 
 omit [Finite K] [CharP K 2] in
 private theorem plusNodeSpace_two : plusNodeSpace K (le_refl 3) 2 = flag 3 K 3 := by
-  rw [plusNodeSpace, if_neg (by decide), if_neg (by decide)]
+  rw [plusNodeSpace, ite_eq_right (by decide), ite_eq_right (by decide)]
 
 omit [Finite K] [CharP K 2] in
 private theorem plusNodeStab_two_eq : plusNodeStab K (le_refl 3) {2} = plusFlagStab K 3 {3} := by

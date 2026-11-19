@@ -77,7 +77,7 @@ theorem leviE_map_subtype {K : Type} [Field K] (Q : QuadraticForm K (Coord → K
   rw [leviE, leviV, MonoidHom.map_closure]
   congr 1
   ext g
-  simp only [Set.mem_image, Set.mem_union, Set.mem_range, Set.mem_setOf_eq,
+  simp only [Set.mem_image, Set.mem_union, Set.mem_range, Set.mem_ofPred_eq,
     Subgroup.coe_subtype]
   constructor
   · rintro ⟨y, (⟨c, rfl⟩ | ⟨c, rfl⟩), rfl⟩

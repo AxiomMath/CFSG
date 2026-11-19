@@ -40,13 +40,13 @@ private lemma ggQ2xKDd_A_prev {n : ℕ} {i j : Fin n} (hij : j.val + 1 = i.val) 
     CartanMatrix.A n i j = -1 := by
   have hne : i ≠ j := by intro h'; rw [h'] at hij; omega
   rw [CartanMatrix.A, Matrix.of_apply]
-  rw [if_neg hne, if_pos (Or.inr hij)]
+  rw [ite_eq_right hne, ite_eq_left (Or.inr hij)]
 
 private lemma ggQ2xKDd_A_next {n : ℕ} {i j : Fin n} (hij : i.val + 1 = j.val) :
     CartanMatrix.A n i j = -1 := by
   have hne : i ≠ j := by intro h'; rw [h'] at hij; omega
   rw [CartanMatrix.A, Matrix.of_apply]
-  rw [if_neg hne, if_pos (Or.inl hij)]
+  rw [ite_eq_right hne, ite_eq_left (Or.inl hij)]
 
 lemma ggQ2xKDd_leaf_of_row {n : ℕ} (hn : 2 ≤ n) (M : Matrix (Fin n) (Fin n) ℤ)
     (a₀ : Fin n)
@@ -61,9 +61,9 @@ lemma ggQ2xKDd_leaf_of_row {n : ℕ} (hn : 2 ≤ n) (M : Matrix (Fin n) (Fin n) 
       obtain ⟨c, _, huniq⟩ := h
       have hlt : a₀.val < n - 1 := by have := a₀.isLt; omega
       have hM1 : M a₀ ⟨a₀.val - 1, by omega⟩ ≠ 0 :=
-        hprev (i := a₀) (j := ⟨a₀.val - 1, by omega⟩) (by simp only [Fin.val_mk]; omega)
+        hprev (i := a₀) (j := ⟨a₀.val - 1, by omega⟩) (by simp only; omega)
       have hM2 : M a₀ ⟨a₀.val + 1, by omega⟩ ≠ 0 :=
-        hnext (i := a₀) (j := ⟨a₀.val + 1, by omega⟩) (by simp only [Fin.val_mk])
+        hnext (i := a₀) (j := ⟨a₀.val + 1, by omega⟩) (by simp only)
       have hne1 : (⟨a₀.val - 1, by omega⟩ : Fin n) ≠ a₀ := by
         intro h'; have := congrArg Fin.val h'; simp at this; omega
       have hne2 : (⟨a₀.val + 1, by omega⟩ : Fin n) ≠ a₀ := by

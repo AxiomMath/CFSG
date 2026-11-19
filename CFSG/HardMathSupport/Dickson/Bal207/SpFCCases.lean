@@ -68,7 +68,7 @@ theorem nonempty_centerQuot_of_image (hJK : J ≤ K) (hJ : commutator ↥J = ⊤
     Nonempty ((↥J ⧸ Subgroup.center ↥J) ≃* (T ⧸ Subgroup.center T)) :=
   CFSG.HardMathSupport.Solomon.Coordinator.LieComp.nonempty_centralQuotient_mulEquiv hJ
     (eψ.toMonoidHom.comp (uniRestr e hJK)) (eψ.surjective.comp (uniRestr_surjective e hJK))
-    fun j hj => ker_uniRestr_le_center e hJK ((MulEquiv.map_eq_one_iff eψ).mp hj)
+    fun _j hj => ker_uniRestr_le_center e hJK ((MulEquiv.map_eq_one_iff eψ).mp hj)
 
 end General
 
@@ -99,7 +99,7 @@ theorem spComp_fixed (hF : Nat.card F = 2 ^ f) (hf : f = 1 ∨ f = 3)
     IsPspQuot J ∨ Nat.card (↥J ⧸ Subgroup.center ↥J) ∣ 16511040 := by
   classical
   obtain ⟨φ, -⟩ := blocks.fixedFactor hk
-  haveI : Nontrivial (primaryComponent (spEnd x) (X - 1)) :=
+  have : Nontrivial (primaryComponent (spEnd x) (X - 1)) :=
     Submodule.nontrivial_iff_ne_bot.mpr (primaryComponent_ne_bot hsq hk)
   obtain ⟨s, hs, ⟨e'⟩⟩ :=
     CFSG.RankThree.PartOne.KCSpIsotypic.exists_mulEquiv_sesqUnitaryGroup_statedSp
@@ -111,7 +111,7 @@ theorem spComp_fixed (hF : Nat.card F = 2 ^ f) (hf : f = 1 ∨ f = 3)
   have ψ' : spSupported x {(X - 1 : F[X])} ≃* StatedSp s F := φ.trans e'
   by_cases hsg : 2 ≤ s ∧ ¬(s = 2 ∧ f = 1)
   · left
-    haveI := Fintype.ofFinite F
+    have := Fintype.ofFinite F
     have hne' : (s, Fintype.card F) ≠ (2, 2) := fun h => by
       have h1 := congrArg Prod.fst h
       have h2 := congrArg Prod.snd h
@@ -141,6 +141,7 @@ theorem eq_two_of_not_small {m q : ℕ} (hq : q = 2 ∨ q = 8)
   omega
 
 open CFSG.HardMathSupport.Solomon.Coordinator.LieComp in
+omit [Finite F] in
 theorem spComp_phi3_small (hF : Nat.card F = 2 ^ f) (hf : f = 1 ∨ f = 3)
     (e : (↥K ⧸ Subgroup.center ↥K) ≃* StatedProj (StatedSp r F)) {x : StatedSp r F}
     {g : primaryFactors (spEnd x)} (hg : (g : F[X]) = X ^ 2 + X + 1)
@@ -160,7 +161,7 @@ theorem spComp_phi3_small (hF : Nat.card F = 2 ^ f) (hf : f = 1 ∨ f = 3)
     rw [hg, hdeg] at hd
     omega
   subst hd1
-  haveI : FiniteDimensional (AdjoinRoot (g : F[X])) (primaryComponent (spEnd x) (g : F[X])) :=
+  have : FiniteDimensional (AdjoinRoot (g : F[X])) (primaryComponent (spEnd x) (g : F[X])) :=
     Module.Finite.of_basis e₀
   have hfin : Module.finrank (AdjoinRoot (g : F[X])) (primaryComponent (spEnd x) (g : F[X])) =
       primaryMultiplicity (spEnd x) (g : F[X]) := by
@@ -169,7 +170,7 @@ theorem spComp_phi3_small (hF : Nat.card F = 2 ^ f) (hf : f = 1 ∨ f = 3)
       ¬((primaryMultiplicity (spEnd x) (g : F[X]) = 2 → 4 ≤ 2 ^ (f * 1)) ∧
         (primaryMultiplicity (spEnd x) (g : F[X]) = 3 → 3 ≤ 2 ^ (f * 1)))) := fun hsm => by
     rw [← hfin] at hsm
-    haveI := isSolvable_sesqUnitaryGroup_of_small hE hHf hHfl hsm
+    have := isSolvable_sesqUnitaryGroup_of_small hE hHf hHfl hsm
     exact not_isSolvable_of_isQuasisimple_commutator hQ
       (Group.isSolvable_of_isSolvable_injective (f := φ.toMonoidHom) φ.injective)
   rw [mul_one] at hsmall
@@ -181,8 +182,8 @@ theorem spComp_phi3_small (hF : Nat.card F = 2 ^ f) (hf : f = 1 ∨ f = 3)
     · rfl
   subst hf3
   refine card_centerQuot_dvd_of_eq_map e hJK hψ ?_
-  haveI := hE.finite
-  haveI := Fintype.ofFinite (AdjoinRoot (g : F[X]))
+  have := hE.finite
+  have := Fintype.ofFinite (AdjoinRoot (g : F[X]))
   have hq64 : Fintype.card (AdjoinRoot (g : F[X])) = 64 := by
     rw [Fintype.card_eq_nat_card, hE.card_eq_sq]
     norm_num
@@ -207,11 +208,11 @@ theorem spComp_cases_inner {B : Subgroup Y} (hB : IsSCp 3 ⊤ B)
     IsPspQuot J ∨ Nat.card (↥J ⧸ Subgroup.center ↥J) ∣ 16511040 ∨ BlockFrame e B J hBK := by
   classical
   have hf1 : 1 ≤ f := by omega
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := Fintype.ofFinite F
   have hcardF : Fintype.card F = 2 ^ f := by rw [Fintype.card_eq_nat_card, hF]
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (f := f) hcardF
+  have : CharP F 2 := charP_of_card_eq_prime_pow (f := f) hcardF
   have hq : 2 ≤ 2 ^ f := Nat.le_self_pow (by omega) 2
   have hker := ker_proj_eq_bot_of_two (r := r) (by omega) hF hf
   have hπ : Function.Injective (SymplecticFlag.proj r F) := (MonoidHom.ker_eq_bot_iff _).1 hker
@@ -230,7 +231,7 @@ theorem spComp_cases_inner {B : Subgroup Y} (hB : IsSCp 3 ⊤ B)
     norm_num at h3
   have hsq := (altPrimaryData_spLin hpK hx).squarefree
   have hX3 : spEnd x ^ 3 = 1 := spEnd_pow hx
-  haveI : Finite (reciprocalOrbits (spEnd x)) :=
+  have : Finite (reciprocalOrbits (spEnd x)) :=
     (Set.Finite.image _ (Finset.finite_toSet _)).to_subtype
   obtain ⟨hcomm, -, hjoin⟩ := blocks.directProduct
   have hcomp := LieComp.components_conj_of_orbit_family (SymplecticFlag.proj r F)
@@ -281,7 +282,7 @@ theorem spComp_cases_outer {Y : Type} [Group Y] {K J : Subgroup Y} {r f : ℕ} {
   have hσ3 : σ ^ 3 = 1 := by
     rw [← hσ]
     exact pow_orderOf_eq_one σ
-  haveI : NeZero r := ⟨by omega⟩
+  have : NeZero r := ⟨by omega⟩
   have hk2 : Nat.card ↥(descentField σ) = 2 := by
     have h := card_descentField_pow σ
     rw [hσ, hF] at h
@@ -303,9 +304,9 @@ theorem spComp_cases_outer {Y : Type} [Group Y] {K J : Subgroup Y} {r f : ℕ} {
   by_cases hr2 : r = 2
   · right
     subst hr2
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI := Fintype.ofFinite ↥(descentField σ)
-    haveI : CharP ↥(descentField σ) 2 :=
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have := Fintype.ofFinite ↥(descentField σ)
+    have : CharP ↥(descentField σ) 2 :=
       charP_of_card_eq_prime_pow (f := 1) (by rw [Fintype.card_eq_nat_card, hk2]; norm_num)
     have h720 : Nat.card ↥(fixSubgroup β) = 720 := by
       rw [Nat.card_congr eβ.toEquiv,
@@ -319,7 +320,7 @@ theorem spComp_cases_outer {Y : Type} [Group Y] {K J : Subgroup Y} {r f : ℕ} {
     have hex : ¬(r = 2 ∧ Nat.card ↥(descentField σ) = 2) := fun h' => hr2 h'.1
     obtain ⟨hs, -⟩ :=
       CFSG.RankThree.PartOne.KCSpComm.simple_perfect_statedProj (k := descentField σ) hr hex
-    haveI : IsSimpleGroup ↥(fixSubgroup β) := eβ.isSimpleGroup
+    have : IsSimpleGroup ↥(fixSubgroup β) := eβ.isSimpleGroup
     have hL : (J.comap K.subtype).map (uniMap e) = fixSubgroup β :=
       eq_of_isComponentOf_of_simple le_rfl inferInstance (bracket_le_self _) hJc
     obtain ⟨eq⟩ := nonempty_centerQuot_of_image e hJK hJq.1 ((MulEquiv.subgroupCongr hL).trans eβ)

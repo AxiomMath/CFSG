@@ -11,6 +11,7 @@ open Equiv Equiv.Perm CFSG.LocalAnalysis.GLTheoremA CFSG.LocalAnalysis.GLTheorem
 
 variable {G : Type} [Group G] [Finite G] {K : Subgroup G}
 
+omit [Finite G] in
 theorem comm_mul_central_derived {k k' z z' : G} (hk : k ∈ K) (hk' : k' ∈ K) (hz' : z' ∈ K)
     (hzc : ∀ g ∈ K, g * z = z * g) (hzc' : ∀ g ∈ K, g * z' = z' * g) :
     (k * z) * (k' * z') * (k * z)⁻¹ * (k' * z')⁻¹ = k * k' * k⁻¹ * k'⁻¹ := by
@@ -24,10 +25,12 @@ theorem comm_mul_central_derived {k k' z z' : G} (hk : k ∈ K) (hk' : k' ∈ K)
     _ = k * k' * (z' * k⁻¹ * z'⁻¹) * k'⁻¹ := by group
     _ = k * k' * k⁻¹ * k'⁻¹ := by rw [h2]
 
+omit [Finite G] in
 theorem commutator_le_self : (⁅K, K⁆ : Subgroup G) ≤ K :=
-  Subgroup.commutator_le.2 fun g₁ h₁ g₂ h₂ =>
+  Subgroup.commutator_le.2 fun _g₁ h₁ _g₂ h₂ =>
     mul_mem (mul_mem (mul_mem h₁ h₂) (inv_mem h₁)) (inv_mem h₂)
 
+omit [Finite G] in
 theorem derived_perfect (hK : IsTypeLnq 2 2 2 K) :
     commutator ↥(⁅K, K⁆ : Subgroup G) = ⊤ := by
   have hsub : (⁅K, K⁆ : Subgroup G) ≤ ⁅(⁅K, K⁆ : Subgroup G), (⁅K, K⁆ : Subgroup G)⁆ := by
@@ -53,10 +56,10 @@ theorem range_card_ge' {Γ : Type*} [Group Γ] [Finite Γ] (hperf : commutator �
     (ψ : Γ →* alternatingGroup (Fin 5)) (hψ : Function.Surjective ψ)
     (hker : ψ.ker ≤ Subgroup.center Γ) {M : Type*} [Group M] [Finite M]
     (φ : Γ →* M) (x₀ : Γ) (hx₀ : φ x₀ ≠ 1) : 60 ≤ Nat.card φ.range := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   have hN : φ.ker ≤ ψ.ker := by
     have hnorm : (φ.ker.map ψ).Normal := Subgroup.Normal.map φ.normal_ker ψ hψ
-    haveI := hnorm
+    have := hnorm
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (φ.ker.map ψ) with hb | ht
     · intro n hn
       have : ψ n ∈ φ.ker.map ψ := Subgroup.mem_map_of_mem _ hn

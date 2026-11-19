@@ -45,7 +45,7 @@ theorem isSolvable_quotient_of_commutators {M : Type*} [Group M] {R N : Subgroup
     (hab : ∀ x ∈ R, ∀ y ∈ R, x * y * x⁻¹ * y⁻¹ ∈ N) :
     haveI := normal_subgroupOf_of_commutators hNr hab
     Group.IsSolvable (↥R ⧸ N.subgroupOf R) := by
-  haveI := normal_subgroupOf_of_commutators hNr hab
+  have := normal_subgroupOf_of_commutators hNr hab
   refine Group.isSolvable_of_comm ?_
   intro a b
   induction a using QuotientGroup.induction_on with
@@ -86,9 +86,9 @@ theorem mem_perfectResidual_of_levi {P M : Type*} [Group P] [Finite P] [Group M]
     rw [MonoidHom.mem_ker, map_mul, map_inv, hdx, mul_inv_cancel]
   obtain ⟨j, hj⟩ := hβ ⟨x * d⁻¹, hk⟩
   have hj' : (x * d⁻¹) ^ (2 ^ j) = 1 := congrArg Subtype.val hj
-  haveI : (CFSG.perfectResidual P).Characteristic :=
+  have : (CFSG.perfectResidual P).Characteristic :=
     (CFSG.perfect_residual_characterization (G := P)).2.1
-  haveI : (CFSG.perfectResidual P).Normal := inferInstance
+  have : (CFSG.perfectResidual P).Normal := inferInstance
   have hq : (QuotientGroup.mk x : P ⧸ CFSG.perfectResidual P) = 1 := by
     have h1 : (QuotientGroup.mk x : P ⧸ CFSG.perfectResidual P) =
         QuotientGroup.mk (x * d⁻¹) := by
@@ -106,7 +106,7 @@ theorem exists_surj_coprime_ker_of_levi {P M L : Type*} [Group P] [Finite P] [Gr
     (hDN : (CFSG.perfectResidual P).map β = N) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (π : ↥N →* L) (hπ : Function.Surjective π) (hπk : ¬ p ∣ Nat.card π.ker) :
     ∃ φ : ↥(CFSG.perfectResidual P) →* L, Function.Surjective φ ∧ ¬ p ∣ Nat.card φ.ker := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hD : ∀ d : ↥(CFSG.perfectResidual P), β d ∈ N := fun d =>
     hDN ▸ Subgroup.mem_map_of_mem β d.2
   let βD : ↥(CFSG.perfectResidual P) →* ↥N :=
@@ -182,7 +182,7 @@ theorem leviSurj_of_levi_comm {X : Type} [Group X] [Finite X] {P : Subgroup X} {
     (hpN : ∀ x ∈ β.range, x ^ p = 1 → x ∈ N) {L : Type} [Group L] (π : ↥N →* L)
     (hπ : Function.Surjective π) (hπk : ¬ p ∣ Nat.card π.ker) (hL : IsSimpleGroup L)
     (hLn : ∃ a b : L, a * b ≠ b * a) (hpL : p ∣ Nat.card L) : LeviSurj p P z L := by
-  haveI := normal_subgroupOf_of_commutators hNr hab
+  have := normal_subgroupOf_of_commutators hNr hab
   exact leviSurj_of_levi hp hp2 hzP hz β hβ N hNr hNperf
     (isSolvable_quotient_of_commutators hNr hab) hpN π hπ hπk hL hLn hpL
 

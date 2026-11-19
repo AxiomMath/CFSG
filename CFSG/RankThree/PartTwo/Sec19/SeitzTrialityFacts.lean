@@ -45,13 +45,13 @@ theorem trialityABFacts_of_par (hgold : CFSG.Goldschmidt.TopStatement) (P : D4Pa
 
 theorem trialityR1Facts_of_par (hgold : CFSG.Goldschmidt.TopStatement) (P : D4Par n X σ) :
     TrialityR1Facts σ where
-  Eb := fun h4 a b ha hb ha3 hb3 ha1 hb1 =>
+  Eb := fun h4 _a _b ha hb ha3 hb3 ha1 hb1 =>
     planeGen_Eb hgold P (P.two_le_of_four_le_card_fix h4) ha hb ha3 hb3 ha1 hb1
-  N4 := fun h4 b hb hb3 hb1 =>
+  N4 := fun h4 _b hb hb3 hb1 =>
     planeGen_N4 hgold P (P.two_le_of_four_le_card_fix h4) hb hb3 hb1
-  N3 := fun h4 a ha ha3 ha1 =>
+  N3 := fun h4 _a ha ha3 ha1 =>
     planeGen_N3 hgold P (P.two_le_of_four_le_card_fix h4) ha ha3 ha1
-  Nreg := fun h4 a b ha hb ha3 hb3 ha1 hb1 =>
+  Nreg := fun h4 _a _b ha hb ha3 hb3 ha1 hb1 =>
     planeGen_Nreg hgold P (P.two_le_of_four_le_card_fix h4) ha hb ha3 hb3 ha1 hb1
 
 end Facts

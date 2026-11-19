@@ -186,6 +186,7 @@ theorem exists_piece_of_model_center {Lu : Subgroup X} (M : AhatModel X n Lu) (h
       (Subgroup.equivMapOfInjective Pc Lc.subtype Lc.subtype_injective)
     exact (Nat.card_congr (centerCongr f).toEquiv).symm.trans hPdc.2.1
 
+omit [Finite X] in
 theorem card_center_quot_map_conj {P : Subgroup X} (t : X)
     (hc : Nat.card (center (↥P ⧸ pPrimeCore 2 ↥P)) = 2) :
     Nat.card (center (↥(P.map (MulAut.conj t).toMonoidHom) ⧸

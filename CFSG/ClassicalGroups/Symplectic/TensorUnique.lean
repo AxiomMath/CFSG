@@ -10,6 +10,7 @@ open CFSG.Open Matrix
 
 variable {m : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] in
 theorem eq_of_tensor_eq (hm : 1 ≤ m) {E : Type*} [AddCommGroup E] [Module K E]
     {W₁ W₂ : Submodule K E} (hdisj : W₁ ⊓ W₂ = ⊥)
     (e₁ : W₁ ≃ₗ[K] (Fin m ⊕ Fin m → K)) (e₂ : W₂ ≃ₗ[K] (Fin m ⊕ Fin m → K))

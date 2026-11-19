@@ -68,9 +68,10 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMo
 private lemma ffOutClass_beta_inv : ffBeta⁻¹ = ffBeta := by
   have h : ffBeta * ffBeta = 1 := by
     unfold ffBeta
-    simpa using Equiv.Perm.swap_mul_self_mul 0 2 (1 : Equiv.Perm (Fin 6))
+    simp
   exact inv_eq_of_mul_eq_one_right h
 
+omit [FiniteDimensional (ZMod 3) V] in
 lemma ffOutClass_ffM_inv_mul (fr : NFrame Q (Fin 6) 1) (σ : Equiv.Perm (Fin 6))
     (K : Finset (Fin 6)) : (ffM fr σ ∅)⁻¹ * ffM fr σ K = ffM fr 1 K := by
   rw [ffM_inv, ffM_mul, inv_mul_cancel σ]
@@ -78,10 +79,12 @@ lemma ffOutClass_ffM_inv_mul (fr : NFrame Q (Fin 6) 1) (σ : Equiv.Perm (Fin 6))
   exact (ffM_eq_iff fr).mpr ⟨rfl,
     Or.inl (by ext i; simp [Finset.mem_symmDiff])⟩
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma ffOutClass_a_inv (fr : NFrame Q (Fin 6) 1) :
     (ffM fr 1 {0})⁻¹ = ffM fr 1 {0} := by
   rw [ffM_inv, inv_one, ffOutClass_map_one]
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma ffOutClass_b_inv (fr : NFrame Q (Fin 6) 1) :
     (ffM fr ffBeta ∅)⁻¹ = ffM fr ffBeta ∅ := by
   rw [ffM_inv, ffOutClass_beta_inv, Finset.map_empty]
@@ -91,6 +94,7 @@ private lemma ffOutClass_even_symmDiff {A K : Finset (Fin 6)} (hA : ¬ Even A.ca
   rw [ffOut_even_symmDiff_iff]
   exact ⟨fun h => absurd h hA, fun h => absurd h hK⟩
 
+omit [FiniteDimensional (ZMod 3) V] in
 lemma ffOutClass_conj_a (fr : NFrame Q (Fin 6) 1) :
     ffX0 fr * ffM fr 1 {0} * ffX0 fr = ffM fr ffBeta {0, 2} := by
   calc ffX0 fr * ffM fr 1 {0} * ffX0 fr
@@ -99,6 +103,7 @@ lemma ffOutClass_conj_a (fr : NFrame Q (Fin 6) 1) :
     _ = ffM fr ffBeta {0, 2} * (ffX0 fr * ffX0 fr) := by group
     _ = ffM fr ffBeta {0, 2} := by rw [ffX0_mul_self fr, mul_one]
 
+omit [FiniteDimensional (ZMod 3) V] in
 lemma ffOutClass_conj_b (fr : NFrame Q (Fin 6) 1) :
     ffX0 fr * ffM fr ffBeta ∅ * ffX0 fr = ffM fr 1 {2} := by
   calc ffX0 fr * ffM fr ffBeta ∅ * ffX0 fr
@@ -107,12 +112,14 @@ lemma ffOutClass_conj_b (fr : NFrame Q (Fin 6) 1) :
     _ = ffM fr 1 {2} * (ffX0 fr * ffX0 fr) := by group
     _ = ffM fr 1 {2} := by rw [ffX0_mul_self fr, mul_one]
 
+omit [FiniteDimensional (ZMod 3) V] in
 lemma ffOutClass_a_mul (fr : NFrame Q (Fin 6) 1) :
     ffM fr ffBeta {0, 2} * ffM fr 1 {0} = ffM fr ffBeta {2} := by
   rw [ffM_mul, mul_one, inv_one, ffOutClass_map_one]
   exact (ffM_eq_iff fr).mpr ⟨rfl,
     Or.inl (show symmDiff ({0, 2} : Finset (Fin 6)) {0} = {2} from by decide)⟩
 
+omit [FiniteDimensional (ZMod 3) V] in
 lemma ffOutClass_b_mul (fr : NFrame Q (Fin 6) 1) :
     ffM fr 1 {2} * ffM fr ffBeta ∅ = ffM fr ffBeta {0} := by
   rw [ffM_mul, one_mul]

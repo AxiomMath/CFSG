@@ -25,7 +25,7 @@ theorem uc22p22r_rank8_sl2 {X : Type} [Group X] (hL : IsL2 X 3) :
     ∃ (F : Type) (_ : Field F) (_ : Fintype F) (_ : CharP F 2), Fintype.card F = 2 ^ 3 ∧
       Nonempty (X ≃* SL(2, F)) := by
   obtain ⟨-, F, hF1, hF2, hFcard, hchar, ⟨e⟩⟩ := uc22p22g_isL2_psl hL
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   exact ⟨F, hF1, inferInstance, hchar, by rw [← Nat.card_eq_fintype_card, hFcard],
     ⟨e.trans CFSG.Walter.psl2MulEquivSL2OfCharTwo⟩⟩
 
@@ -106,7 +106,7 @@ theorem uc22p22r_rank8_exists_ne_one {G W : Type*} [Monoid G] [AddCommGroup W] [
 theorem uc22p22r_rank8_eq_zero_or_one {R : Type*} [Ring R] [Nontrivial R] [Finite R] (h : Nat.card R = 2)
     (x : R) : x = 0 ∨ x = 1 := by
   classical
-  letI : Fintype R := Fintype.ofFinite R
+  let : Fintype R := Fintype.ofFinite R
   by_contra hx
   push Not at hx
   have h3 : ({0, 1, x} : Finset R).card = 3 := by
@@ -122,8 +122,8 @@ theorem uc22p22r_card_endRing_rank8 [Fintype F] [CharP F 2] (hF : Fintype.card F
     (σ : Representation (ZMod 2) SL(2, F) W) [Fact σ.IsIrreducible] : Nat.card (EndRing σ) = 2 := by
   have hnt := uc22p22r_rank8_exists_ne_one σ Fact.out (by rw [hW]; norm_num)
   obtain ⟨d, hd1, hDcard, hb⟩ := binary_SL2_irreducible_Frobenius_descent (n := 3) (by norm_num) hF σ hnt
-  haveI : Finite (EndRing σ) := finite_endRing σ
-  haveI : Module.Finite (EndRing σ) W := Module.Finite.of_finite
+  have : Finite (EndRing σ) := finite_endRing σ
+  have : Module.Finite (EndRing σ) W := Module.Finite.of_finite
   obtain ⟨E, _, _, _, ιF, ιD, J, hJne, hJn, -, hshift, hdim⟩ := hb (Module.finBasis (EndRing σ) W)
   have hfinrank : Module.finrank (ZMod 2) W = 8 := by
     have h1 := Module.natCard_eq_pow_finrank (K := ZMod 2) (V := W)
@@ -193,16 +193,16 @@ theorem uc22p22r_rank8_card_fixRoot [Fintype F] [CharP F 2] {n : ℕ} (hn : 1 �
     [Fact σ.IsIrreducible] (hnt : ∃ g, σ g ≠ 1) :
     Nat.card {w : W // ∀ t : F, σ (uElt t) w = w} = Nat.card (EndRing σ) := by
   obtain ⟨d, -, -, hb⟩ := binary_SL2_irreducible_Frobenius_descent hn hF σ hnt
-  haveI : Finite (EndRing σ) := finite_endRing σ
-  haveI : Module.Finite (EndRing σ) W := Module.Finite.of_finite
+  have : Finite (EndRing σ) := finite_endRing σ
+  have : Module.Finite (EndRing σ) W := Module.Finite.of_finite
   let b := Module.finBasis (EndRing σ) W
   obtain ⟨E, _, _, _, ιF, ιD, J, -, hJn, hΦ, -, -⟩ := hb b
-  letI := ιF.toAlgebra
+  let := ιF.toAlgebra
   obtain ⟨Φ⟩ := hΦ
   have hbc := natCard_common_ker_map ιD fun t : F => matRep b (uElt t) - 1
   rw [uc22p22r_rank8_fixRoot_ext hF σ b ιD hJn Φ] at hbc
-  letI := ιD.toAlgebra
-  haveI : Module.Finite (EndRing σ) E := Module.Finite.of_finite
+  let := ιD.toAlgebra
+  have : Module.Finite (EndRing σ) E := Module.Finite.of_finite
   have hE : Nat.card E = Nat.card (EndRing σ) ^ Module.finrank (EndRing σ) E := Module.natCard_eq_pow_finrank
   have hr : Module.finrank (EndRing σ) E ≠ 0 := Module.finrank_pos.ne'
   rw [hE] at hbc
@@ -280,14 +280,15 @@ section Main
 variable {H : Type} [Group H] [Finite H] {Vmod : Type} [AddCommGroup Vmod] [Module (ZMod 2) Vmod] [Finite Vmod]
   (ρ : Representation (ZMod 2) H Vmod)
 
+omit [Finite H] in
 theorem uc22p22r_F1W_rank8 {L : Subgroup H} (hL : IsL2 ↥L 3) (h8 : SecIrr ρ L (commOn ρ L ⊤) ⊥ 8)
     {c : H} (hc : c ∈ Subgroup.centralizer (L : Set H)) : ∀ w ∈ commOn ρ L ⊤, ρ c w = w := by
   obtain ⟨F, _, _, _, hF, ⟨e⟩⟩ := uc22p22r_rank8_sl2 hL
   set σ := uc22p22r_rank8_rep ρ h8.1 e
-  haveI : Fact σ.IsIrreducible := ⟨uc22p22r_rank8_rep_irr ρ (by norm_num) h8 e⟩
+  have : Fact σ.IsIrreducible := ⟨uc22p22r_rank8_rep_irr ρ (by norm_num) h8 e⟩
   have hcard := uc22p22r_rank8_card ρ h8
-  haveI : Nontrivial ↥(commOn ρ L ⊤) := Finite.one_lt_card_iff_nontrivial.mp (by rw [hcard]; norm_num)
-  haveI : Finite (EndRing σ) := finite_endRing σ
+  have : Nontrivial ↥(commOn ρ L ⊤) := Finite.one_lt_card_iff_nontrivial.mp (by rw [hcard]; norm_num)
+  have : Finite (EndRing σ) := finite_endRing σ
   have hkey := uc22p22r_rank8_eq_zero_or_one (uc22p22r_card_endRing_rank8 hF hcard σ)
   let φ : Module.End (ZMod 2) ↥(commOn ρ L ⊤) := (ρ c).restrict fun w hw => uc22p22r_rank8_cent_mem ρ hc hw
   have hcomm : ∀ g v, φ (σ g v) = σ g (φ v) := by
@@ -320,7 +321,7 @@ theorem uc22p22r_F1W_rank8 {L : Subgroup H} (hL : IsL2 ↥L 3) (h8 : SecIrr ρ L
 theorem uc22p22r_card_fixOn_rank8 {L : Subgroup H} (hL : IsL2 ↥L 3) (h8 : SecIrr ρ L (commOn ρ L ⊤) ⊥ 8)
     {U : Subgroup H} (hU : CFSG.ABGLocalTools.IsSylowOf 2 U L) : Nat.card ↥(fixOn ρ U (commOn ρ L ⊤)) = 2 := by
   obtain ⟨F, _, _, _, hF, ⟨e⟩⟩ := uc22p22r_rank8_sl2 hL
-  haveI hirr : Fact (uc22p22r_rank8_rep ρ h8.1 e).IsIrreducible := ⟨uc22p22r_rank8_rep_irr ρ (by norm_num) h8 e⟩
+  have hirr : Fact (uc22p22r_rank8_rep ρ h8.1 e).IsIrreducible := ⟨uc22p22r_rank8_rep_irr ρ (by norm_num) h8 e⟩
   have hcard := uc22p22r_rank8_card ρ h8
   have hnt := uc22p22r_rank8_exists_ne_one (uc22p22r_rank8_rep ρ h8.1 e) hirr.out (by rw [hcard]; norm_num)
   rw [uc22p22r_rank8_fixOn_sylow ρ h8.1 e hU, uc22p22r_rank8_card_fixRoot (n := 3) (by norm_num) hF _ hnt,

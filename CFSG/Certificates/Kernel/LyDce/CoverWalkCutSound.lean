@@ -57,17 +57,11 @@ theorem walkS_append {Nc Nd P K Tc Td : Nat} :
       rw [hdr] at h1
       dsimp only at h1 ⊢
       rw [cwS_strictBN] at h1
-      beta_reduce at h1
       rw [cwS_strictBN] at h1
-      beta_reduce at h1
       rw [cwS_strictBN] at h1
-      beta_reduce at h1
       rw [cwS_strictBN]
-      beta_reduce
       rw [cwS_strictBN]
-      beta_reduce
       rw [cwS_strictBN]
-      beta_reduce
       obtain ⟨hl, hr⟩ := cwS_andB h1
       have hmem : ∀ t ∈ top :: rest, t ∈ st := fun t ht => List.mem_of_mem_drop (hdr ▸ ht)
       have hpop : ∀ t ∈ popG e.2.2 (top :: rest), t ∈ top :: rest := by

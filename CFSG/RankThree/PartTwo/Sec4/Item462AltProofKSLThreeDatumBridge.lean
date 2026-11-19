@@ -61,16 +61,16 @@ theorem noncyclicDatum_of_innThetaNoncyclic {S X : Type} [Group S] [Finite S] [G
     rw [hgker_eq, Nat.card_congr (Subgroup.subgroupOfEquivOfLe hker_le).toEquiv, hρk, hZ]
   have hcardR₀ : Nat.card R₀ = 3 * Nat.card W := by
     rw [← Subgroup.card_ker_mul_card_of_surjective hg, hgker]
-  haveI hWs' : Group.IsSolvable W := hWs
-  haveI : Group.IsSolvable ρ.ker :=
+  have hWs' : Group.IsSolvable W := hWs
+  have : Group.IsSolvable ρ.ker :=
     Group.isSolvable_of_isSolvable_injective (f := (MulEquiv.subgroupCongr hρk).toMonoidHom)
       (MulEquiv.subgroupCongr hρk).injective
-  haveI : Group.IsSolvable g.ker := by
+  have : Group.IsSolvable g.ker := by
     rw [hgker_eq]
     exact Group.isSolvable_of_isSolvable_injective
       (f := (Subgroup.subgroupOfEquivOfLe hker_le).toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hker_le).injective
-  haveI hR₀s : Group.IsSolvable R₀ :=
+  have hR₀s : Group.IsSolvable R₀ :=
     Group.isSolvable_of_ker_le_range g.ker.subtype g (by rw [Subgroup.range_subtype])
   have hD : ∀ r ∈ R₀, (β' r)⁻¹ * r ∈ Subgroup.center S := by
     intro r hr

@@ -13,12 +13,14 @@ section Lin
 
 variable {K E : Type*} [Field K] [AddCommGroup E] [Module K E] [FiniteDimensional K E]
 
+omit [FiniteDimensional K E] in
 theorem B_symm (B : LinearMap.BilinForm K E) (hK2 : (2 : K) = 0) (halt : ∀ e, B e e = 0)
     (a b : E) : B a b = B b a := by
   have h := halt (a + b)
   simp only [map_add, LinearMap.add_apply, halt a, halt b, zero_add, add_zero] at h
   linear_combination h - B b a * hK2
 
+omit [FiniteDimensional K E] in
 theorem nondeg_of (B : LinearMap.BilinForm K E) (hK2 : (2 : K) = 0) (halt : ∀ e, B e e = 0)
     (hnd : ∀ e, (∀ f, B e f = 0) → e = 0) : B.Nondegenerate :=
   ⟨hnd, fun e he => hnd e fun f => by rw [B_symm B hK2 halt]; exact he f⟩
@@ -33,6 +35,7 @@ theorem two_mul_finrank_le_of_iso (B : LinearMap.BilinForm K E) (hK2 : (2 : K) =
   have h3 := Submodule.finrank_le W
   omega
 
+omit [FiniteDimensional K E] in
 theorem range_eq_sup_map (N : E →ₗ[K] E) (W₁ W₂ : Submodule K E) (hW : IsCompl W₁ W₂) :
     LinearMap.range N = W₁.map N ⊔ W₂.map N := by
   rw [← Submodule.map_top, ← hW.sup_eq_top, Submodule.map_sup]

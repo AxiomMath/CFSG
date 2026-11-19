@@ -460,7 +460,7 @@ private theorem CFSG.section12_lemma_12_18_a_exists_critical_subgroup
   have hr_dvd_G : r.val ∣ Nat.card G :=
     hrα.1.trans (Subgroup.card_subgroup_dvd_card M)
   have hrodd : r.val ≠ 2 := Odd.ne_two_of_dvd_nat IsMinCE.odd_order hr_dvd_G
-  have hRp : IsPGroup r.val (R : Subgroup (section10Malpha M)) := R.isPGroup'
+  have hRp : IsPGroup r.val (R : Subgroup (section10Malpha M)) := R.isPGroup
   let _ : Fact (IsPGroup r.val (R : Subgroup (section10Malpha M))) := ⟨hRp⟩
   have hR_nontrivial : Nontrivial (R : Subgroup (section10Malpha M)) := by
     refine not_subsingleton_iff_nontrivial.mp ?_
@@ -724,7 +724,7 @@ private theorem CFSG.section12_lemma_12_18_a_not_nilpotent_sup_critical
     subst h
     exact hqα hrα
   have hD_p : IsPGroup r.val D := by
-    have hR1p : IsPGroup r.val R1 := R.isPGroup'.to_subgroup R1
+    have hR1p : IsPGroup r.val R1 := R.isPGroup.to_subgroup R1
     have hR1map_p : IsPGroup r.val (R1.map Rsub.subtype) :=
       IsPGroup.map (p := r.val) (H := R1) hR1p Rsub.subtype
     simpa [D, Rsub] using
@@ -1081,7 +1081,7 @@ private theorem CFSG.section12_lemma_12_18_a_centralizer_P_ne_bot_of_critical
     exact y.property
   have hDleM : D ≤ M := hD_le_malpha.trans (section10_malpha_le (G := G))
   have hD_p : IsPGroup r.val D := by
-    have hR1p : IsPGroup r.val R1 := R.isPGroup'.to_subgroup R1
+    have hR1p : IsPGroup r.val R1 := R.isPGroup.to_subgroup R1
     have hR1map_p : IsPGroup r.val (R1.map Rsub.subtype) :=
       IsPGroup.map (p := r.val) (H := R1) hR1p Rsub.subtype
     simpa [D, Rsub] using
@@ -2189,7 +2189,7 @@ private theorem CFSG.section12_lemma_12_18_a_rechosen_sylow_quotient_core
     rcases Subgroup.mem_map.mp hx with ⟨y, _hy, rfl⟩
     exact y.property
   have hD_p : IsPGroup r.val D := by
-    have hR1p : IsPGroup r.val R1 := R.isPGroup'.to_subgroup R1
+    have hR1p : IsPGroup r.val R1 := R.isPGroup.to_subgroup R1
     have hR1map_p : IsPGroup r.val (R1.map Rsub.subtype) :=
       IsPGroup.map (p := r.val) (H := R1) hR1p Rsub.subtype
     simpa [D, Rsub] using
@@ -2197,7 +2197,7 @@ private theorem CFSG.section12_lemma_12_18_a_rechosen_sylow_quotient_core
         (section10Malpha M).subtype
   have hRG_p : IsPGroup r.val RG := by
     simpa [RG, Rsub] using
-      IsPGroup.map (p := r.val) (H := Rsub) R.isPGroup'
+      IsPGroup.map (p := r.val) (H := Rsub) R.isPGroup
         (section10Malpha M).subtype
   have hDpow : ∀ x : D, x ^ r.val = 1 := by
     intro x

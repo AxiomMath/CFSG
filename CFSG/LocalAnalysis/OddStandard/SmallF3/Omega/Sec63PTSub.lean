@@ -79,7 +79,7 @@ theorem sec63PT_map_subtype_fixSub (Y : Subgroup G) {s : G} (hs : s * s = 1)
 
 theorem sec63PT_isL29_map_iff [Finite G] {X : Type} [Group X] (f : X →* G)
     (hf : Function.Injective f) {K : Subgroup X} : IsL29 (K.map f) ↔ IsL29 K := by
-  haveI : Finite X := Finite.of_injective f hf
+  have : Finite X := Finite.of_injective f hf
   let e : ↥K ≃* ↥(K.map f) := K.equivMapOfInjective f hf
   have hsurj : Function.Surjective e.toMonoidHom := e.surjective
   have hker : Odd (Nat.card e.toMonoidHom.ker) := by
@@ -88,7 +88,7 @@ theorem sec63PT_isL29_map_iff [Finite G] {X : Type} [Group X] (f : X →* G)
   unfold IsL29
   exact (sec63PT_lieModel_psl_iff e.toMonoidHom hsurj hker 2 3 2).symm
 
-theorem sec63PT_isPGroup_subgroupOf {Y P : Subgroup G} (hPY : P ≤ Y) (hP : IsPGroup 2 P) :
+theorem sec63PT_isPGroup_subgroupOf {Y P : Subgroup G} (_hPY : P ≤ Y) (hP : IsPGroup 2 P) :
     IsPGroup 2 (P.subgroupOf Y) :=
   hP.comap_subtype
 

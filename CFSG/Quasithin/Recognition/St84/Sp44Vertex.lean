@@ -166,7 +166,7 @@ theorem zpowers_inf_eq_bot {L : Subgroup G} {τ : G} (hτ3 : orderOf τ = 3)
 
 theorem zpowers_dElt_eq_range {ν : F₄ˣ} (hν3 : ν ^ 3 = 1) (hν1 : ν ≠ 1) :
     Subgroup.zpowers (dElt (K := F₄) ν) = (dHom₂ F₄).range := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hνord : orderOf ν = 3 := orderOf_eq_prime hν3 hν1
   have htop : Subgroup.zpowers ν = ⊤ :=
     zpowers_eq_top_of_prime_card (p := 3) card_units_galoisField hν1
@@ -224,7 +224,7 @@ theorem Sp44Side.exists_vertexIso [Finite G]
         (ψ z : antiSp (GaloisField 2 2)) ∈
           Subgroup.normalizer (antiUnipotent (GaloisField 2 2) : Set (antiSp (GaloisField 2 2)))) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hF4 : Fintype.card F₄ = 4 := by
     rw [← Nat.card_eq_fintype_card, card_galoisField_two_two]
     norm_num
@@ -566,7 +566,7 @@ theorem Sp44Side.exists_vertexIso [Finite G]
   have huniq8' : Subgroup.zpowers (dElt (K := F₄) ν) ⊓
       Subgroup.centralizer (rootU₂ F₄ : Set (antiSp F₄)) = ⊥ :=
     zpowers_dElt_inf_centralizer hS2 hν3 hν1
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hdν3 : orderOf (dElt (K := F₄) ν) = 3 := by
     have h3 : (dHom₂ F₄ ν) ^ 3 = 1 := by
       rw [← map_pow (dHom₂ F₄), hν3, map_one]

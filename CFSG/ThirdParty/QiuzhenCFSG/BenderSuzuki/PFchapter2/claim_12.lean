@@ -402,7 +402,7 @@ private theorem chapter2_claim12_orbit_forces_m_eq_one
       simpa [hRG] using RG.not_dvd_index
     exact hnot hp_dvd_Rindex
   obtain ⟨g, hgNR, hgC⟩ :=
-    SetLike.exists_of_lt (show C < NR from ⟨hC_le_NR, hNR_not_le_C⟩)
+    _root_.IsConcreteLE.exists_of_lt (show C < NR from ⟨hC_le_NR, hNR_not_le_C⟩)
   let gNR : NR := ⟨g, hgNR⟩
   let : MulAction G (Subgroup G) := MulAction.compHom _ MulAut.conj
   let : MulAction NR (Subgroup G) := MulAction.compHom _ NR.subtype
@@ -1380,7 +1380,7 @@ private theorem chapter2_claim12_projective_orbit_forces_normalizers_eq
           (hCQ_fixed_Ffix c) (hCQ_delta_mem_Jcomm c)
           (hCQ_faithful_Jcomm c) hCQ_actions_agree hfix
           (fun {_z} hz => chapter2_claim12_smul_mem_smul_subgroup (incl c) L0 hz)
-    obtain ⟨g, hgH12, hgNR⟩ := SetLike.exists_of_lt hNRlt
+    obtain ⟨g, hgH12, hgNR⟩ := _root_.IsConcreteLE.exists_of_lt hNRlt
     let gH : H12 := ⟨g, hgH12⟩
     let A0 : Subgroup U := Pbar.map (h12AutHom gH).toMonoidHom
     have hA0_eq : gH • Pbar = A0 := rfl
@@ -2004,7 +2004,7 @@ private theorem chapter2_claim12_local_index_after_sylow
       _ = p ^ 2 * p := by rw [pow_succ]
   have hRR1normal : RR1.Normal :=
     chapter2_claim12_normal_of_index_eq_prime_of_isPGroup
-      R1.isPGroup' RR1 hRR1index
+      R1.isPGroup RR1 hRR1index
   have hR1_le_NR : (R1 : Subgroup G) ≤ NR := by
     exact (Subgroup.normal_subgroupOf_iff_le_normalizer hR_le_R1).mp hRR1normal
   let R1N : Subgroup NR := (R1 : Subgroup G).subgroupOf NR
@@ -2147,7 +2147,7 @@ private theorem chapter2_claim12_local_index_after_sylow
     rw [hT_eq_commutator_map]
     exact chapter2_claim12_normalizer_le_normalizer_map_subtype_of_characteristic
       (R1 : Subgroup G) (_root_.commutator R1)
-  let : Fact (IsPGroup p R1) := ⟨R1.isPGroup'⟩
+  let : Fact (IsPGroup p R1) := ⟨R1.isPGroup⟩
   have hTR1center : TR1 ≤ Subgroup.center R1 :=
     normal_subgroup_card_eq_prime_le_center TR1 hTR1card
   have hsNR : s ∈ NR := hCQ_le_NR hsCQ

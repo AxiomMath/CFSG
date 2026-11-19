@@ -34,29 +34,29 @@ theorem exists_piSubgroup_three_le_pRank_in_borel_projective_minus_gen {K : Type
       IsPiSubgroup {p : Nat.Primes | (p : Nat) != 2} H ∧
       3 ≤ CFSG.Open.pRank q H := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hani : (minusTailForm K b c).Anisotropic := anisotropic_minusTailForm hirr
   have hreg : (polarBilin (minusTailForm K b c)).Nondegenerate :=
     nondegenerate_minusTailForm hirr
-  haveI : FiniteDimensional K (Fin 2 → K) := inferInstance
-  haveI : Finite (Fin 2 → K) := inferInstance
-  haveI : Finite (((Fin r ⊕ Fin r → K) × (Fin 2 → K))) := inferInstance
-  haveI : Finite (((Fin r ⊕ Fin r → K) × (Fin 2 → K)) ≃ₗ[K]
+  have : FiniteDimensional K (Fin 2 → K) := inferInstance
+  have : Finite (Fin 2 → K) := inferInstance
+  have : Finite (((Fin r ⊕ Fin r → K) × (Fin 2 → K))) := inferInstance
+  have : Finite (((Fin r ⊕ Fin r → K) × (Fin 2 → K)) ≃ₗ[K]
       ((Fin r ⊕ Fin r → K) × (Fin 2 → K))) :=
     Finite.of_injective (fun g : ((Fin r ⊕ Fin r → K) × (Fin 2 → K)) ≃ₗ[K]
       ((Fin r ⊕ Fin r → K) × (Fin 2 → K)) => (g : _ → _)) DFunLike.coe_injective
-  haveI : Finite (orthElementaryGroup (quadTail r (minusTailForm K b c))) := Subtype.finite
-  haveI : Finite (orthElementaryGroup (quadTail r (minusTailForm K b c)) ⧸
+  have : Finite (orthElementaryGroup (quadTail r (minusTailForm K b c))) := Subtype.finite
+  have : Finite (orthElementaryGroup (quadTail r (minusTailForm K b c)) ⧸
       elemScalars (quadTail r (minusTailForm K b c))) :=
     Finite.of_surjective (QuotientGroup.mk' (elemScalars (quadTail r (minusTailForm K b c))))
       (QuotientGroup.mk'_surjective _)
-  haveI : Finite (GL (Fin ((r + 1) - 1) ⊕ Fin ((r + 1) - 1) ⊕ Fin 2) K) := by
-    haveI : Finite (Matrix (Fin ((r + 1) - 1) ⊕ Fin ((r + 1) - 1) ⊕ Fin 2)
+  have : Finite (GL (Fin ((r + 1) - 1) ⊕ Fin ((r + 1) - 1) ⊕ Fin 2) K) := by
+    have : Finite (Matrix (Fin ((r + 1) - 1) ⊕ Fin ((r + 1) - 1) ⊕ Fin 2)
         (Fin ((r + 1) - 1) ⊕ Fin ((r + 1) - 1) ⊕ Fin 2) K) := inferInstance
     exact Finite.of_injective (fun g : GL (Fin ((r + 1) - 1) ⊕ Fin ((r + 1) - 1) ⊕ Fin 2) K =>
       (g : Matrix (Fin ((r + 1) - 1) ⊕ Fin ((r + 1) - 1) ⊕ Fin 2)
         (Fin ((r + 1) - 1) ⊕ Fin ((r + 1) - 1) ⊕ Fin 2) K)) Units.val_injective
-  haveI : Finite (StatedOmega (StatedQuadMinus (r + 1) K b c)) := Subtype.finite
+  have : Finite (StatedOmega (StatedQuadMinus (r + 1) K b c)) := Subtype.finite
   let ψ : (quadTail r (minusTailForm K b c)).IsometryEquiv (quadMinus (r + 1) K b c) :=
     minusTailIsometry (r + 1) K b c
   have hQ : ⇑(quadMinus (r + 1) K b c) = StatedQuadMinus (r + 1) K b c :=
@@ -153,14 +153,14 @@ theorem exists_hc_twistedD
       IsPiSubgroup {p : Nat.Primes | (p : ℕ) ≠ 2} Hc ∧
       3 ≤ CFSG.Open.pRank q Hc := by
   classical
-  haveI : Fact Q.p.Prime := ⟨Q.prime_p⟩
-  haveI : Fact (2 : ℕ).Prime := ⟨Nat.prime_two⟩
+  have : Fact Q.p.Prime := ⟨Q.prime_p⟩
+  have : Fact (2 : ℕ).Prime := ⟨Nat.prime_two⟩
   obtain ⟨n, rfl⟩ : ∃ n, m = n + 1 := ⟨m - 1, by omega⟩
   have hn : 3 ≤ n := by omega
   let d : TauCeti.ValidLieTypeIndex := ⟨TauCeti.LieTypeIndex.twistedD (n + 1) Q, hv⟩
   let F := ↥(TauCeti.ValidLieTypeIndex.fixedField d)
-  haveI : Finite F := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Finite F := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d
+  have : Fintype F := Fintype.ofFinite F
   let D := (TauCeti.CFSGIndex.lie d).Group
   have hQcardpow : Q.card = 2 ^ Q.exponent := by
     rw [TauCeti.PrimePower.card_def, hQ]
@@ -174,7 +174,7 @@ theorem exists_hc_twistedD
     change Nat.card ↥d.fixedField = 2 ^ Q.exponent
     rw [TauCeti.ValidLieTypeIndex.card_fixedField,
       TauCeti.ValidLieTypeIndex.fieldOrder_eq_characteristic_pow, hdchar, hdfexp]
-  haveI : CharP F 2 :=
+  have : CharP F 2 :=
     charP_of_card_eq_prime_pow (p := 2) (f := Q.exponent)
       (by simpa [Nat.card_eq_fintype_card] using hFcardpow)
   have hf : 2 ≤ Q.exponent := by
@@ -252,7 +252,7 @@ theorem exists_hc_twistedD
       (QuotientGroup.mk' (elemScalars (quadTail n (minusTailForm F b c))))
   have hani : (minusTailForm F b c).Anisotropic := anisotropic_minusTailForm hirr
   have hreg : (polarBilin (minusTailForm F b c)).Nondegenerate := nondegenerate_minusTailForm hirr
-  haveI : FiniteDimensional F (Fin 2 → F) := inferInstance
+  have : FiniteDimensional F (Fin 2 → F) := inferInstance
   have hPsyl : CFSG.QuasithinUnique.IsSylowTwoOf Ubar ⊤ := by
     obtain ⟨S, hS⟩ :=
       (orthogonal_geometry_tail_Sylow_flag_normalizer (p := 2) hn hani hreg
@@ -318,18 +318,18 @@ theorem isSolvable_normalizer_sylow_of_component_twistedD
     {hv : (TauCeti.LieTypeIndex.twistedD m Q).Valid}
     (e : L ⧸ Subgroup.center L ≃* (TauCeti.CFSGIndex.lie
         (⟨TauCeti.LieTypeIndex.twistedD m Q, hv⟩ : TauCeti.ValidLieTypeIndex)).Group)
-    (hQcard : 4 ≤ Q.card) {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2)
-    (hdvd : q ∣ Q.card - 1) {U : Subgroup L} (hUmax : CFSG.QuasithinUnique.IsSylowTwoOf U ⊤) :
+    (hQcard : 4 ≤ Q.card) {q : ℕ} (_hq : q.Prime) (_hq2 : q ≠ 2)
+    (_hdvd : q ∣ Q.card - 1) {U : Subgroup L} (hUmax : CFSG.QuasithinUnique.IsSylowTwoOf U ⊤) :
     Group.IsSolvable ↥(Subgroup.normalizer (U : Set L)) := by
   classical
-  haveI : Fact Q.p.Prime := ⟨Q.prime_p⟩
-  haveI : Fact (2 : ℕ).Prime := ⟨Nat.prime_two⟩
+  have : Fact Q.p.Prime := ⟨Q.prime_p⟩
+  have : Fact (2 : ℕ).Prime := ⟨Nat.prime_two⟩
   obtain ⟨n, rfl⟩ : ∃ n, m = n + 1 := ⟨m - 1, by omega⟩
   have hn : 3 ≤ n := by omega
   let d : TauCeti.ValidLieTypeIndex := ⟨TauCeti.LieTypeIndex.twistedD (n + 1) Q, hv⟩
   let F := ↥(TauCeti.ValidLieTypeIndex.fixedField d)
-  haveI : Finite F := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Finite F := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d
+  have : Fintype F := Fintype.ofFinite F
   let D := (TauCeti.CFSGIndex.lie d).Group
   have hQcardpow : Q.card = 2 ^ Q.exponent := by
     rw [TauCeti.PrimePower.card_def, hQ]
@@ -343,7 +343,7 @@ theorem isSolvable_normalizer_sylow_of_component_twistedD
     change Nat.card ↥d.fixedField = 2 ^ Q.exponent
     rw [TauCeti.ValidLieTypeIndex.card_fixedField,
       TauCeti.ValidLieTypeIndex.fieldOrder_eq_characteristic_pow, hdchar, hdfexp]
-  haveI : CharP F 2 :=
+  have : CharP F 2 :=
     charP_of_card_eq_prime_pow (p := 2) (f := Q.exponent)
       (by simpa [Nat.card_eq_fintype_card] using hFcardpow)
   have hf : 2 ≤ Q.exponent := by
@@ -421,7 +421,7 @@ theorem isSolvable_normalizer_sylow_of_component_twistedD
       (QuotientGroup.mk' (elemScalars (quadTail n (minusTailForm F b c))))
   have hani : (minusTailForm F b c).Anisotropic := anisotropic_minusTailForm hirr
   have hreg : (polarBilin (minusTailForm F b c)).Nondegenerate := nondegenerate_minusTailForm hirr
-  haveI : FiniteDimensional F (Fin 2 → F) := inferInstance
+  have : FiniteDimensional F (Fin 2 → F) := inferInstance
   have hPsyl : CFSG.QuasithinUnique.IsSylowTwoOf Ubar ⊤ := by
     obtain ⟨S, hS⟩ :=
       (orthogonal_geometry_tail_Sylow_flag_normalizer (p := 2) hn hani hreg
@@ -437,9 +437,9 @@ theorem isSolvable_normalizer_sylow_of_component_twistedD
   have hN : Subgroup.normalizer ((U.map eM.toMonoidHom : Subgroup _) : Set _) =
       Bbar.map (MulAut.conj g).toMonoidHom := by
     rw [hg, ← Subgroup.map_equiv_normalizer_eq Ubar (MulAut.conj g), hNbar]
-  haveI hBbar : Group.IsSolvable ↥Bbar :=
+  have hBbar : Group.IsSolvable ↥Bbar :=
     isSolvable_minusProjectiveBorel (K := F) hn hani hreg (Or.inr finrank_fin_two_fun)
-  haveI hNP : Group.IsSolvable
+  have hNP : Group.IsSolvable
       ↥(Subgroup.normalizer ((U.map eM.toMonoidHom : Subgroup P) : Set P)) := by
     rw [hN]
     exact Group.isSolvable_of_surjective
@@ -447,7 +447,7 @@ theorem isSolvable_normalizer_sylow_of_component_twistedD
         (MulAut.conj g).injective).toMonoidHom)
       (MulEquiv.surjective _)
   have hmap := Subgroup.map_equiv_normalizer_eq (U : Subgroup L) eM
-  haveI : Group.IsSolvable ↥((Subgroup.normalizer (U : Set L)).map eM.toMonoidHom) :=
+  have : Group.IsSolvable ↥((Subgroup.normalizer (U : Set L)).map eM.toMonoidHom) :=
     hmap.symm ▸ hNP
   exact Group.isSolvable_of_isSolvable_injective
     (f := (Subgroup.equivMapOfInjective (Subgroup.normalizer (U : Set L))
@@ -460,20 +460,20 @@ theorem isMulCommutative_normalizer_quotient_pCore_of_component_twistedD
     {hv : (TauCeti.LieTypeIndex.twistedD m Q).Valid}
     (e : L ⧸ Subgroup.center L ≃* (TauCeti.CFSGIndex.lie
         (⟨TauCeti.LieTypeIndex.twistedD m Q, hv⟩ : TauCeti.ValidLieTypeIndex)).Group)
-    (hQcard : 4 ≤ Q.card) {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2)
-    (hdvd : q ∣ Q.card - 1) {U : Subgroup L} (hUmax : CFSG.QuasithinUnique.IsSylowTwoOf U ⊤) :
+    (hQcard : 4 ≤ Q.card) {q : ℕ} (_hq : q.Prime) (_hq2 : q ≠ 2)
+    (_hdvd : q ∣ Q.card - 1) {U : Subgroup L} (hUmax : CFSG.QuasithinUnique.IsSylowTwoOf U ⊤) :
     IsMulCommutative
       (↥(Subgroup.normalizer (U : Set L)) ⧸
         CFSG.pCore 2 ↥(Subgroup.normalizer (U : Set L))) := by
   classical
-  haveI : Fact Q.p.Prime := ⟨Q.prime_p⟩
-  haveI : Fact (2 : ℕ).Prime := ⟨Nat.prime_two⟩
+  have : Fact Q.p.Prime := ⟨Q.prime_p⟩
+  have : Fact (2 : ℕ).Prime := ⟨Nat.prime_two⟩
   obtain ⟨n, rfl⟩ : ∃ n, m = n + 1 := ⟨m - 1, by omega⟩
   have hn : 3 ≤ n := by omega
   let d : TauCeti.ValidLieTypeIndex := ⟨TauCeti.LieTypeIndex.twistedD (n + 1) Q, hv⟩
   let F := ↥(TauCeti.ValidLieTypeIndex.fixedField d)
-  haveI : Finite F := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Finite F := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d
+  have : Fintype F := Fintype.ofFinite F
   let D := (TauCeti.CFSGIndex.lie d).Group
   have hQcardpow : Q.card = 2 ^ Q.exponent := by
     rw [TauCeti.PrimePower.card_def, hQ]
@@ -487,7 +487,7 @@ theorem isMulCommutative_normalizer_quotient_pCore_of_component_twistedD
     change Nat.card ↥d.fixedField = 2 ^ Q.exponent
     rw [TauCeti.ValidLieTypeIndex.card_fixedField,
       TauCeti.ValidLieTypeIndex.fieldOrder_eq_characteristic_pow, hdchar, hdfexp]
-  haveI : CharP F 2 :=
+  have : CharP F 2 :=
     charP_of_card_eq_prime_pow (p := 2) (f := Q.exponent)
       (by simpa [Nat.card_eq_fintype_card] using hFcardpow)
   have hf : 2 ≤ Q.exponent := by
@@ -565,7 +565,7 @@ theorem isMulCommutative_normalizer_quotient_pCore_of_component_twistedD
       (QuotientGroup.mk' (elemScalars (quadTail n (minusTailForm F b c))))
   have hani : (minusTailForm F b c).Anisotropic := anisotropic_minusTailForm hirr
   have hreg : (polarBilin (minusTailForm F b c)).Nondegenerate := nondegenerate_minusTailForm hirr
-  haveI : FiniteDimensional F (Fin 2 → F) := inferInstance
+  have : FiniteDimensional F (Fin 2 → F) := inferInstance
   have hPsyl : CFSG.QuasithinUnique.IsSylowTwoOf Ubar ⊤ := by
     obtain ⟨S, hS⟩ :=
       (orthogonal_geometry_tail_Sylow_flag_normalizer (p := 2) hn hani hreg
@@ -644,7 +644,7 @@ theorem k517_4b_2D_of_top_of_hall
       (TauCeti.CFSGIndex.lie
         (⟨TauCeti.LieTypeIndex.twistedD m Q, hv⟩ : TauCeti.ValidLieTypeIndex)).Group)
     (hTinv : gnImg T T ≤ Subgroup.normalizer (Ls : Set (X ⧸ gnC T)))
-    {U : Subgroup ↥Ls} (hU2 : IsPGroup 2 U) (hUmax : CFSG.QuasithinUnique.IsSylowTwoOf U ⊤)
+    {U : Subgroup ↥Ls} (_hU2 : IsPGroup 2 U) (hUmax : CFSG.QuasithinUnique.IsSylowTwoOf U ⊤)
     (hqQ : q ∣ Q.card - 1)
     (hU : U = (gnImg T T ⊓ Ls).subgroupOf Ls) :
     1 < mS T T₁ q Ls ∨ 1 < mS T T₂ q Ls := by

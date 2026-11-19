@@ -23,6 +23,7 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2] {n : ℕ}
     rw [det_diagonal, ← Units.coe_prod]
     exact Units.isUnit _)
 
+omit [Finite K] [CharP K 2] in
 theorem torusGL_val (u v : Kˣ) :
     ((torusGL n u v : GL (Fin 4) K) : Matrix (Fin 4) (Fin 4) K) =
       diagonal fun i => (torusDiag n u v i : K) := rfl
@@ -39,11 +40,10 @@ theorem torusGL_mem (hK : Nat.card K = (2 ^ n) ^ 2) (u v : Kˣ) (hv : (v : K) ^ 
     ext i j
     fin_cases i <;> fin_cases j <;>
       simp [conjTr, antidiag, Matrix.mul_apply, Fin.sum_univ_four, diagonal_apply,
-        torusDiag, unitaryInvolution_apply, iterateFrobenius_def, hv, hu2] <;> field_simp
+        torusDiag, iterateFrobenius_def, hu2] <;> field_simp
     all_goals first
       | (rw [div_pow, hv]; field_simp; done)
       | (rw [div_pow, hv]; field_simp; exact hu2)
-      | (rw [div_pow, hu2, hv]; field_simp; done)
 
 @[expose] noncomputable def torusElt (hK : Nat.card K = (2 ^ n) ^ 2) (u v : Kˣ)
     (hv : (v : K) ^ 2 ^ n = v) : SU4 K n :=
@@ -66,6 +66,7 @@ theorem prod_ite_pow {k : Type*} [Field k] (x : k) (p : Fin n → Bool) (f : Fin
   refine Finset.prod_congr rfl fun i _ => ?_
   cases p i <;> simp
 
+omit [Finite K] [CharP K 2] in
 theorem wtLoc_torus {k : Type*} [Field k] (φ : K →+* k) (a b c : Bool) (u v : Kˣ) :
     wtLoc a b c (fun j => φ (torusDiag n u v j : K)) =
       (if a then φ u else 1) * (if b then φ v else 1) * (if c then φ ((u : K) ^ 2 ^ n) else 1) := by
@@ -133,6 +134,7 @@ theorem Tmod_torus_weight (hK : Nat.card K = (2 ^ n) ^ 2) (l : Lbl n) (u v : Kˣ
     map_mul, map_mul]
   ring
 
+omit [Finite K] [CharP k 2] in
 theorem prod_frob_weight (l : Lbl n) (x w : K) :
     ∏ i : Fin n, ((if l.a i then frobTw K k i x else 1) * (if l.b i then frobTw K k i w else 1) *
         (if l.c i then frobTw K k i (x ^ 2 ^ n) else 1)) =
@@ -162,6 +164,7 @@ theorem prod_frob_weight (l : Lbl n) (x w : K) :
     map_mul, map_mul]
   ring
 
+omit [Finite K] [CharP K 2] [CharP k 2] [Algebra K k] in
 theorem wtLoc_of_rel (φ : K →+* k) (a b c : Bool) (e : Fin 4 → K)
     (hrel : e 0 * e 1 * e 2 = e 0 ^ 2 ^ n) :
     wtLoc a b c (fun j => φ (e j)) =
@@ -172,7 +175,7 @@ theorem wtLoc_of_rel (φ : K →+* k) (a b c : Bool) (e : Fin 4 → K)
     rw [← map_mul, hrel]
   unfold wtLoc
   cases a <;> cases b <;> cases c <;>
-    simp only [↓reduceIte, Bool.false_eq_true, if_false, e0, e1]
+    simp only [↓reduceIte, Bool.false_eq_true, e0, e1]
 
 theorem Tmod_diag_weight (l : Lbl n) {h : SU4 K n}
     (hd : ∀ i j, i ≠ j → ((h : GL (Fin 4) K) : Matrix (Fin 4) (Fin 4) K) i j = 0)

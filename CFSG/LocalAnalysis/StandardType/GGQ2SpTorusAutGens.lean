@@ -19,7 +19,7 @@ variable {K : Type} [Field K] {ζ : Multiplicative (ZMod 3) →* SpecialLinearGr
 private theorem extSwap_one {m : ℕ} {i j : Fin m} (hij : i ≠ j) :
     (extSwap (1 : PlaneRaw.V m) i j hij : ↥(StatedSp m K)) = rho i j hij sl2W := by
   unfold extSwap
-  rw [Pi.one_apply, Pi.one_apply, if_pos rfl]
+  rw [Pi.one_apply, Pi.one_apply, ite_eq_left rfl]
 
 private theorem swapVec_one {m : ℕ} {i j : Fin m} (hij : i ≠ j) (u : PlaneRaw.V m) :
     swapVec (1 : PlaneRaw.V m) i j u = PlaneRaw.swapEquiv m i j u := by

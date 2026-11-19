@@ -15,7 +15,7 @@ theorem conjOrbit_dichotomy {N : Subgroup G} [N.Normal] (hN : ∀ n ∈ N, Odd (
     {t η : G} (ht2 : t * t = 1) (htc : ∀ m : G, m * t = t * m) (htN : t ∉ N) (hη : η * η = 1)
     {D : Subgroup G} (hND : N ≤ D)
     (hD : ∀ d ∈ D, η⁻¹ * (d * η * d⁻¹) ∈ (N : Set G) ∪ (fun x => x * t) '' (N : Set G))
-    (hDt : ∀ d : G, d * η * d⁻¹ = η * t → d ∈ D) :
+    (_hDt : ∀ d : G, d * η * d⁻¹ = η * t → d ∈ D) :
     (η * t ∉ conjOrbit D η ∧ (conjOrbit D η).ncard = (conjOrbit N η).ncard) ∨
       (η * t ∈ conjOrbit D η ∧ (conjOrbit D η).ncard = 2 * (conjOrbit N η).ncard) := by
   have hcm : ∀ n ∈ N, ∀ g : G, g * n * g⁻¹ ∈ N :=
@@ -135,7 +135,7 @@ theorem lift_cent_dvd {M Γ : Type*} [Group M] [Finite M] [Group Γ] [Finite Γ]
     ((∃ d : M, d * η * d⁻¹ = η * t) →
       2 ^ k ∣ Nat.card (Subgroup.centralizer ({η} : Set M)) →
         2 ^ k ∣ Nat.card (Subgroup.centralizer ({φ η} : Set Γ))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hodd : Odd (Nat.card N) := odd_card_of_odd_orders N hN
   have hord : orderOf t = 2 := orderOf_eq_prime (by rw [pow_two]; exact ht2) ht1
   have htN : t ∉ N := by
@@ -269,7 +269,7 @@ theorem exists_two_subgroup_cent {M Γ : Type*} [Group M] [Finite M] [Group Γ] 
     ∃ R : Subgroup M, IsPGroup 2 R ∧ R ≤ Subgroup.centralizer ({η} : Set M) ∧
       Nat.card R = 2 ^ k := by
   have hk' := (lift_cent_dvd φ hφ hN ht2 ht1 htc hker hη k).1 hk
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨H, hH⟩ : ∃ H : Subgroup ↥(Subgroup.centralizer ({η} : Set M)),
       Nat.card H = 2 ^ k :=
     Sylow.exists_subgroup_card_pow_prime 2 hk'

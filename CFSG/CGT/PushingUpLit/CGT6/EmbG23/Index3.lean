@@ -45,7 +45,7 @@ theorem normal_of_perfect_index_three {M : Type*} [Group M] {Y : Subgroup M}
   have hKY : K ≤ Y := Subgroup.normalCore_le Y
   have hKn : K.Normal := Subgroup.normalCore_normal Y
   have hKidx : K.index ∣ 6 := by
-    haveI : Y.FiniteIndex := ⟨by rw [hidx]; norm_num⟩
+    have : Y.FiniteIndex := ⟨by rw [hidx]; norm_num⟩
     have h1 : Y.normalCore.index ∣ Nat.factorial Y.index :=
       Subgroup.index_normalCore_dvd_factorial_index Y
     rw [hidx] at h1

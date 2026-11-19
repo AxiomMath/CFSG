@@ -41,9 +41,9 @@ theorem exists_minusCoords {W : Type} [CommGroup W] [Finite W] {H : Subgroup (Mu
   classical
   obtain ⟨-, hN, hTN, hT2, -, hTfix⟩ := hF
   obtain ⟨-, K, hK, hKfin, b, c, hKcard, hirr, hR⟩ := hN
-  letI : Field K := hK
-  letI : Finite K := hKfin
-  haveI hchar : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hKcard
+  let : Field K := hK
+  let : Finite K := hKfin
+  have hchar : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hKcard
   refine ⟨K, inferInstance, inferInstance, inferInstance, b, c, hKcard, hirr, ?_⟩
   let Γ : Subgroup (GL ιM K) := StatedOmega (StatedQuadMinus 2 K b c)
   have hRΓ : (CFSG.Quasithin.FFModel.nat Γ).Realizes H ⊤ ⊥ := hR
@@ -90,7 +90,7 @@ theorem exists_minusCoords {W : Type} [CommGroup W] [Finite W] {H : Subgroup (Mu
     set u : W := e.symm y with hu
     have hy : e u = y := e.apply_symm_apply y
     rw [← hy]
-    simp only [MulEquiv.trans_apply, MulEquiv.symm_apply_apply, MulEquiv.apply_symm_apply]
+    simp only [MulEquiv.trans_apply, MulEquiv.symm_apply_apply]
     have hρ : ∀ v : W, Multiplicative.toAdd (e₀ ((h : MulAut W) v)) =
         (((π.symm h : ↥Γ) : GL ιM K) : Matrix ιM ιM K) *ᵥ
           Multiplicative.toAdd (e₀ v) := by
@@ -121,7 +121,7 @@ theorem exists_minusCoords {W : Type} [CommGroup W] [Finite W] {H : Subgroup (Mu
         apply Subtype.ext
         change ((x⁻¹ : ↥Γ) : GL ιM K) * (γ' : GL ιM K) * ((x : ↥Γ) : GL ιM K) = γ
         rw [hγ']
-        simp only [Subgroup.coe_inv, Subgroup.coe_mul]
+        simp only [Subgroup.coe_inv]
         group
       have hb : MulAut.congr e (π γ') = s16gNatHom ιM K γ := by
         rw [hkey]

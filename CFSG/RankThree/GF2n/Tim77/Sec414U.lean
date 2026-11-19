@@ -15,7 +15,7 @@ section Bender
 
 theorem sec414t_eq_one_of_central {K : Type} [Group K] [Finite K]
     (hK : CFSG.BenderSuzuki.IsBenderGroup K) {x : K} (hx : ∀ y : K, Commute x y) : x = 1 := by
-  haveI : IsSimpleGroup K := CFSG.Timmesfeld.Bridge.Asc72.IsBenderGroup.isSimpleGroup hK
+  have : IsSimpleGroup K := CFSG.Timmesfeld.Bridge.Asc72.IsBenderGroup.isSimpleGroup hK
   obtain ⟨a, b, hab⟩ := CFSG.Timmesfeld.Bridge.Asc72.IsBenderGroup.exists_not_commute hK
   have hxZ : x ∈ Subgroup.center K := Subgroup.mem_center_iff.mpr fun g => (hx g).symm.eq
   rcases Subgroup.Normal.eq_bot_or_eq_top (Subgroup.center K) with hZ | hZ
@@ -42,7 +42,7 @@ theorem sec414t_odd_of_not_commute {K : Type} [Group K] [Finite K]
       rw [hl] at hdvd
       have hle := Nat.le_of_dvd hl0 hdvd
       omega
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hxo : orderOf x = 2 := orderOf_eq_prime (by rw [pow_two]; exact hx) hx1
     have hyo : orderOf y = 2 := orderOf_eq_prime (by rw [pow_two]; exact hy) hy1
     have hwo : orderOf ((x * y) ^ l) = 2 :=
@@ -111,7 +111,7 @@ theorem sec414t_comm_of_commute_ne_one {A A0 : Subgroup G} (S : Sec414Sys A A0) 
       unfold normalizerIn
       exact Subgroup.mem_inf.mpr ⟨ha, haN⟩
     rw [hfree, Subgroup.mem_bot] at this
-    exact S.ne_one_of_not_mem ha0 this
+    exact CFSG.RankThree.GF2n.Tim77.Sec414Sys.ne_one_of_not_mem ha0 this
 
 theorem sec414t_conj_false {A A0 : Subgroup G} (S : Sec414Sys A A0) {x a g c : G} (hx : x ∈ A0)
     (hx1 : x ≠ 1) (ha : a ∈ A) (ha0 : a ∉ A0) (h : g * a * g⁻¹ = c * x * c⁻¹) : False := by
@@ -131,6 +131,7 @@ theorem sec414t_conj_false {A A0 : Subgroup G} (S : Sec414Sys A A0) {x a g c : G
   apply ha0
   rwa [hx', show m⁻¹ * (m * a * m⁻¹) * m⁻¹⁻¹ = a by group] at this
 
+omit [Finite G] in
 theorem sec414t_inf_W_conj {A : Subgroup G} {g : G} (hg : g ∈ A ⊔ conjSubgroup g A)
     (hAW : ∀ t ∈ A, t ∈ sec414W (A ⊔ conjSubgroup g A) → t = 1) :
     ∀ t ∈ conjSubgroup g A, t ∈ sec414W (A ⊔ conjSubgroup g A) → t = 1 := by
@@ -141,6 +142,7 @@ theorem sec414t_inf_W_conj {A : Subgroup G} {g : G} (hg : g ∈ A ⊔ conjSubgro
   rw [hAW a ha h1]
   group
 
+omit [Finite G] in
 theorem sec414t_choice {A A0 : Subgroup G} {g : G} (S : Sec414Sys A A0) {V : Subgroup G}
     (hV : A ⊔ conjSubgroup g A = V) {K : Type} [Group K] [Finite K]
     (hK : CFSG.BenderSuzuki.IsBenderGroup K) (π : ↥V →* K) (hπ : Function.Surjective π)
@@ -292,7 +294,7 @@ theorem sec414t_central {A A0 : Subgroup G} {g : G} (S : Sec414Sys A A0)
       (∀ v ∈ A ⊔ conjSubgroup g A, z * v = v * z) ∧
       a₀ * z ∈ conjSubgroup k A ∧ a₀ * z ∉ conjSubgroup k A0 ∧
       Sec414Comm A (conjSubgroup k A) := by
-  haveI : Finite K := Finite.of_surjective π hπ
+  have : Finite K := Finite.of_surjective π hπ
   have hAV : A ≤ A ⊔ conjSubgroup g A := le_sup_left
   have hBW := sec414t_inf_W_conj hg hAW
   obtain ⟨x, hxA0, hx1⟩ : ∃ x : ↥(A ⊔ conjSubgroup g A), (x : G) ∈ A0 ∧ x ≠ 1 := by

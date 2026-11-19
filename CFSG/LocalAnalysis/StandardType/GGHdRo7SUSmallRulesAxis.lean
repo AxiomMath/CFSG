@@ -82,9 +82,7 @@ private lemma hdRo7SmAxis_case_perm {m : ℕ} {r : SMGL m} {u w : SMV m}
     rw [← mul_smul, hc_sq, one_smul] at h
     exact h
   have hdd : smDot d d = 2 := by
-    simp only [hd_def, hb_apply, hdRo7SmAxis_smDot_sub_left,
-      hdRo7SmAxis_smDot_sub_right, hdRo7SmAxis_smDot_single_left,
-      hdRo7SmAxis_smDot_single_right, Pi.sub_apply, Pi.single_eq_same,
+    simp only [hd_def, hb_apply, hdRo7SmAxis_smDot_sub_right, hdRo7SmAxis_smDot_single_right, Pi.sub_apply, Pi.single_eq_same,
       Pi.single_eq_of_ne hab, Pi.single_eq_of_ne hab.symm]
     decide
   have hdu : smDot u u = 2 := by
@@ -271,35 +269,33 @@ private lemma hdRo7SmAxis_case_neg_false {m : ℕ} (hm : m = 7 ∨ m = 8)
     have hv1a : v1 a = -1 + c := by
       rw [show v1 = r (b a) - b a from rfl, hσb a]
       simp only [Pi.sub_apply, Pi.add_apply, Pi.neg_apply, Pi.smul_apply, smul_eq_mul,
-        hb_apply, Pi.single_eq_same, Pi.single_eq_of_ne hMa.symm, smOnes, Pi.one_apply,
-        mul_one, mul_zero, neg_zero, add_zero]
+        hb_apply, Pi.single_eq_same, Pi.single_eq_of_ne hMa.symm, smOnes, mul_one, neg_zero]
       ring
     have hv2a : v2 a = c := by
       rw [show v2 = r (b c') - b c' from rfl, hσb c']
       simp only [Pi.sub_apply, Pi.add_apply, Pi.neg_apply, Pi.smul_apply, smul_eq_mul,
-        hb_apply, Pi.single_eq_same, Pi.single_eq_of_ne hsc'a.symm, Pi.single_eq_of_ne hc'a.symm,
-        smOnes, Pi.one_apply, mul_one, mul_zero, neg_zero, add_zero, zero_add, sub_zero]
+        hb_apply, Pi.single_eq_of_ne hsc'a.symm, Pi.single_eq_of_ne hc'a.symm,
+        smOnes, mul_one, neg_zero, zero_add, sub_zero]
     have hv1c : v1 c' = c := by
       rw [show v1 = r (b a) - b a from rfl, hσb a]
       simp only [Pi.sub_apply, Pi.add_apply, Pi.neg_apply, Pi.smul_apply, smul_eq_mul,
-        hb_apply, Pi.single_eq_same, Pi.single_eq_of_ne hc'sa, Pi.single_eq_of_ne hc'a,
-        smOnes, Pi.one_apply, mul_one, mul_zero, neg_zero, add_zero, zero_add, sub_zero]
+        hb_apply, Pi.single_eq_of_ne hc'sa, Pi.single_eq_of_ne hc'a,
+        smOnes, mul_one, neg_zero, zero_add, sub_zero]
     have hv2c : v2 c' = -1 + c := by
       rw [show v2 = r (b c') - b c' from rfl, hσb c']
       simp only [Pi.sub_apply, Pi.add_apply, Pi.neg_apply, Pi.smul_apply, smul_eq_mul,
-        hb_apply, Pi.single_eq_same, Pi.single_eq_of_ne hMc'.symm, smOnes, Pi.one_apply,
-        mul_one, mul_zero, neg_zero, add_zero, zero_add]
+        hb_apply, Pi.single_eq_same, Pi.single_eq_of_ne hMc'.symm, smOnes, mul_one, neg_zero, zero_add]
       ring
     have hv1e : v1 e = c := by
       rw [show v1 = r (b a) - b a from rfl, hσb a]
       simp only [Pi.sub_apply, Pi.add_apply, Pi.neg_apply, Pi.smul_apply, smul_eq_mul,
-        hb_apply, Pi.single_eq_same, Pi.single_eq_of_ne hesa, Pi.single_eq_of_ne hea,
-        smOnes, Pi.one_apply, mul_one, mul_zero, neg_zero, add_zero, zero_add, sub_zero]
+        hb_apply, Pi.single_eq_of_ne hesa, Pi.single_eq_of_ne hea,
+        smOnes, mul_one, neg_zero, zero_add, sub_zero]
     have hv2e : v2 e = c := by
       rw [show v2 = r (b c') - b c' from rfl, hσb c']
       simp only [Pi.sub_apply, Pi.add_apply, Pi.neg_apply, Pi.smul_apply, smul_eq_mul,
-        hb_apply, Pi.single_eq_same, Pi.single_eq_of_ne hesc', Pi.single_eq_of_ne hec',
-        smOnes, Pi.one_apply, mul_one, mul_zero, neg_zero, add_zero, zero_add, sub_zero]
+        hb_apply, Pi.single_eq_of_ne hesc', Pi.single_eq_of_ne hec',
+        smOnes, mul_one, neg_zero, zero_add, sub_zero]
     have hind : ∀ p q : ZMod 3, p • v1 + q • v2 = 0 → p = 0 ∧ q = 0 := by
       intro p q hpq
       have ha_eval : (p • v1 + q • v2) a = 0 := by rw [hpq]; rfl
@@ -362,7 +358,7 @@ private lemma hdRo7SmAxis_case_neg_false {m : ℕ} (hm : m = 7 ∨ m = 8)
     exact hdRo7SmAxis_span_contra hv1_span hv2_span hind
 
 private lemma hdRo7SmAxis_axis_raw {m : ℕ} (hN : SUNormalizerLeaf) (hm : m = 7 ∨ m = 8)
-    {H : Subgroup (SMGL m)} (hP : ∀ g, SMIsPerm g → g ∈ H)
+    {H : Subgroup (SMGL m)} (_hP : ∀ g, SMIsPerm g → g ∈ H)
     (hS : ∀ g ∈ H, g (smOnes m) = smOnes m → ∀ s, SMIsPerm s → SMIsPerm (g * s * g⁻¹)) :
     ∀ p ∈ smRefSet H, (∑ i, p.2 i) = 0 → SMTClass p := by
   rintro ⟨u, w⟩ ⟨r, hrH, hr⟩ hsum

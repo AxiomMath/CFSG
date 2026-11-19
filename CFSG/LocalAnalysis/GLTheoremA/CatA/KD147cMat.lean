@@ -96,7 +96,7 @@ theorem kd147c_frameRoots_ncard {τ : Tag} {ν : ℕ} {ρ : SL(ν, L) →* ModGL
   have himg : frameRoots σ = (fun p : Fin ν × Fin ν => σ p.1 p.2) ''
       (↑(Finset.univ : Finset (Fin ν)).offDiag : Set (Fin ν × Fin ν)) := by
     ext r
-    simp only [frameRoots, Set.mem_setOf_eq, Set.mem_image, Finset.coe_offDiag, Set.mem_offDiag,
+    simp only [frameRoots, Set.mem_ofPred_eq, Set.mem_image, Finset.coe_offDiag, Set.mem_offDiag,
       Finset.coe_univ, Set.mem_univ, true_and, Prod.exists]
     constructor
     · rintro ⟨i, j, hij, rfl⟩

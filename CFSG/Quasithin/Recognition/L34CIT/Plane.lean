@@ -239,7 +239,7 @@ theorem eq_one_of_forall_smul_eq (C : Config A) [Finite A] (hA : Nat.card A = 20
     intro p
     simpa using hg p
   have hFnormal : F.Normal := MonoidHom.normal_ker _
-  haveI : F.Normal := hFnormal
+  have : F.Normal := hFnormal
   have hFle : F ≤ C.K₁ := by
     intro x hx
     have hx' : x ∈ (MulAction.toPermHom A (A ⧸ C.K₁)).ker := hx
@@ -291,7 +291,7 @@ theorem eq_one_of_forall_smul_eq (C : Config A) [Finite A] (hA : Nat.card A = 20
         rw [C.card_normalizer_L, hA] at hc
         norm_num at hc
       have hnotle : ¬ (⊤ : Subgroup A) ≤ C.K₁ := by rwa [top_le_iff]
-      obtain ⟨a, -, ha⟩ := SetLike.not_le_iff_exists.mp hnotle
+      obtain ⟨a, -, ha⟩ := IsConcreteLE.not_le_iff_exists.mp hnotle
       exact ⟨a, ha⟩
     obtain ⟨a, ha⟩ := haK
     have hPle : ((a • C.T : Sylow 2 A) : Subgroup A) ≤ C.K₁ :=

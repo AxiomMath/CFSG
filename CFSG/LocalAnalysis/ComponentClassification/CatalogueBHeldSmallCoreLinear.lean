@@ -37,7 +37,7 @@ theorem projectiveAction_ker_scalar (f : (projectiveAction (K := K) (V := V)).ke
       rw [Projectivization.mk_eq_mk_iff'] at hfix
       simpa using hfix
   rcases subsingleton_or_nontrivial V with hV | hV
-  · haveI := hV
+  · have := hV
     exact ⟨1, by ext x; exact Subsingleton.elim _ _⟩
   · obtain ⟨v₀, hv₀⟩ := exists_ne (0 : V)
     obtain ⟨a, ha⟩ := Submodule.mem_span_singleton.mp (hmem v₀)

@@ -55,7 +55,7 @@ theorem isEmpty_mulEquiv_dihedral_of_q8 {P : Type*} [Group P] (φ : QuaternionGr
     | sr i => rw [DihedralGroup.orderOf_sr] at hx; omega
   have hinj : Function.Injective (ψ.toMonoidHom.comp φ) := ψ.injective.comp hφ
   obtain ⟨i, hi⟩ := hrot ((ψ.toMonoidHom.comp φ) (a 1)) (by
-    rw [orderOf_injective _ hinj]; simpa using (QuaternionGroup.orderOf_a_one (n := 2)))
+    rw [orderOf_injective _ hinj]; simp)
   obtain ⟨j, hj⟩ := hrot ((ψ.toMonoidHom.comp φ) (xa 0)) (by
     rw [orderOf_injective _ hinj]; exact QuaternionGroup.orderOf_xa (n := 2) 0)
   refine q8_not_comm (hinj ?_)
@@ -67,11 +67,14 @@ section Basic
 
 variable {G : Type} [Group G] [Finite G] {z : G}
 
+omit [Finite G] in
 theorem mem_Hz_iff {h : G} : h ∈ Hz z ↔ z * h = h * z := by
   simp [Hz, Subgroup.mem_centralizer_iff]
 
+omit [Finite G] in
 theorem Fz_le_Hz (z : G) : Fz z ≤ Hz z := Subgroup.map_subtype_le _
 
+omit [Finite G] in
 theorem Fz_conj_mem {h f : G} (hh : h ∈ Hz z) (hf : f ∈ Fz z) : h * f * h⁻¹ ∈ Fz z := by
   obtain ⟨f', hf', rfl⟩ := hf
   exact ⟨⟨h, hh⟩ * f' * ⟨h, hh⟩⁻¹,
@@ -86,11 +89,13 @@ theorem mem_Fz_of_centralizes {h : G} (hh : h ∈ Hz z) (hc : ∀ f ∈ Fz z, h 
     exact Subtype.ext (hc f' ⟨f', hf', rfl⟩).symm
   exact ⟨_, CFSG.centralizer_generalizedFitting_le (Hz z) h1, rfl⟩
 
+omit [Finite G] in
 theorem z_mem_Hz (z : G) : z ∈ Hz z := mem_Hz_iff.mpr rfl
 
 theorem z_mem_Fz (z : G) : z ∈ Fz z :=
-  mem_Fz_of_centralizes (z_mem_Hz z) fun f hf => mem_Hz_iff.mp (Fz_le_Hz z hf)
+  mem_Fz_of_centralizes (z_mem_Hz z) fun _f hf => mem_Hz_iff.mp (Fz_le_Hz z hf)
 
+omit [Finite G] in
 theorem e_central (e : ↥(Fz z) ≃* QuaternionGroup 2) {f : G} (hf : f ∈ Fz z)
     (hc : ∀ g ∈ Fz z, f * g = g * f) : ∀ r, e ⟨f, hf⟩ * r = r * e ⟨f, hf⟩ := by
   intro r
@@ -157,6 +162,7 @@ theorem normalizer_le_Hz (hz : orderOf z = 2) (e : ↥(Fz z) ≃* QuaternionGrou
   · exact absurd (by simpa using h) hz1
   · exact (mul_inv_eq_iff_eq_mul.mp h).symm
 
+omit [Finite G] in
 theorem Hz_le_normalizer (z : G) : Hz z ≤ Subgroup.normalizer ((Fz z : Subgroup G) : Set G) := by
   intro h hh
   rw [Subgroup.mem_normalizer_iff]

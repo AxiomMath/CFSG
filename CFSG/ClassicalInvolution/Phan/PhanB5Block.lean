@@ -206,7 +206,7 @@ theorem exists_blockHom {J : Set (Fin 3)} (hJ : J.encard ≤ 2) :
     · exact exists_blockHom_empty
     · exact exists_blockHom_singleton hg a
   · obtain ⟨a, b, hab, rfl⟩ := Set.encard_eq_two.1 h
-    fin_cases a <;> fin_cases b <;> first | exact absurd rfl hab | skip
+    fin_cases a <;> fin_cases b <;> try exact absurd rfl hab
     · exact exists_blockHom_zero_one hg
     · exact exists_blockHom_zero_two hg
     · exact exists_blockHom_swap (a := 0) (b := 1) (exists_blockHom_zero_one hg)

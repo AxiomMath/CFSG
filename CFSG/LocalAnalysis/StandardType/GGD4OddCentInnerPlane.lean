@@ -183,7 +183,7 @@ theorem card_rotGroup_pow_three_eq_one (hQ : Q.polarBilin.Nondegenerate) (h2 : f
     hr (Subtype.ext h)
   have hset : {r : rotGroup Q hQ | r ^ 3 = 1} = {1, r₀, r₀ ^ 2} := by
     ext r
-    simp only [Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
+    simp only [Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
     constructor
     · intro hr
       by_cases hr1 : r = 1

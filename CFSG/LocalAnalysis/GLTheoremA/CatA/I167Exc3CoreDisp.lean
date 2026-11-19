@@ -27,7 +27,7 @@ open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
 
 theorem exc3core_false_F4 {L : Type} [Field L] [IsAlgClosed L] [CharP L 2] (SL : LangSetup Tag.F4 L 5)
     {a : Fin Tag.F4.rank → Lˣ} (i : KernelComponent (rootCharHom a)) {e f : ℕ}
-    (hq : SL.D.q = 2 ^ e) (h3 : 3 ∣ 2 ^ e + 1) (hT : rootDiagUnit Tag.F4 a ∈ SL.D.torus)
+    (_hq : SL.D.q = 2 ^ e) (_h3 : 3 ∣ 2 ^ e + 1) (hT : rootDiagUnit Tag.F4 a ∈ SL.D.torus)
     (hap : ∀ m, a m ^ 3 = 1) (ha1 : rootDiagUnit Tag.F4 a ≠ 1)
     (hqs : CFSG.IsQuasisimple ↥(rationalComponent SL.ρ SL.Γ (rootCharHom a) i))
     (hshape : catalogIs (↥(rationalComponent SL.ρ SL.Γ (rootCharHom a) i) ⧸

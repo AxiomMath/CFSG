@@ -150,7 +150,7 @@ private theorem exists_closure_pair_eq_top {E : Type*} [Group E] [Finite E]
   have hC25 : Nat.card C = 25 := by
     have hpos : 0 < Nat.card C := Nat.card_pos
     have : Nat.card C ≤ 25 := Nat.le_of_dvd (by norm_num) hdvd
-    interval_cases h : Nat.card C <;> first | omega | (exfalso; revert hdvd; norm_num)
+    interval_cases h : Nat.card C <;> first | omega
   exact Subgroup.eq_top_of_card_eq C (hC25.trans hE25.symm)
 
 theorem jOneOf_le_centralizer_of_E25 {E : Type*} [Group E] [Finite E]
@@ -159,7 +159,7 @@ theorem jOneOf_le_centralizer_of_E25 {E : Type*} [Group E] [Finite E]
     (hWN : N ≤ Subgroup.normalizer (W : Set G)) (hQN : N ≤ Subgroup.normalizer (Q : Set G))
     (hWN' : W ≤ N) (hRN : R ≤ N) (hKN : K ≤ N)
     (hπθ : ∀ (g : N) (w : W) (h : (g : G) * w * (g : G)⁻¹ ∈ W), θ g (π w) = π ⟨_, h⟩)
-    (hQW : Q ≤ W) (hQπ : ∀ w : W, (w : G) ∈ Q → π w = 1)
+    (hQW : Q ≤ W) (_hQπ : ∀ w : W, (w : G) ∈ Q → π w = 1)
     (hBB : ∀ X : Subgroup G, Q ≤ X → X ≤ W → (∀ v : E, ∃ x : W, (x : G) ∈ X ∧ π x = v) →
       W ≤ X)
     (hW5 : ∀ w ∈ W, ∃ a : ℕ, w ^ (5 ^ a) ∈ Q)
@@ -250,7 +250,7 @@ theorem jOneOf_le_centralizer_of_E25 {E : Type*} [Group E] [Finite E]
   refine iSup₂_le fun A hA => ?_
   obtain ⟨hAR, hAab, hAcard⟩ := hA
   by_contra hAC
-  obtain ⟨e, heA, heC⟩ := SetLike.not_le_iff_exists.mp hAC
+  obtain ⟨e, heA, heC⟩ := IsConcreteLE.not_le_iff_exists.mp hAC
   have heR : e ∈ R := hAR heA
   have he2 : e * e = 1 := hAab.mul_self_eq_one heA
   have hθe : ∀ v, θ ⟨e, hRN heR⟩ v = v⁻¹ := by

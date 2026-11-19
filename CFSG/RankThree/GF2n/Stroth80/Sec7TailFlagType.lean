@@ -146,7 +146,7 @@ theorem flag_type_of_radical
     exact Nat.pow_right_injective (show 2 ≤ q by omega) h9
   have hsq_mod : ∀ x : ℕ, x ^ 2 % 2 = x % 2 := by
     intro x
-    rcases Nat.mod_two_eq_zero_or_one x with h | h <;> rw [Nat.pow_mod, h] <;> norm_num
+    rcases Nat.mod_two_eq_zero_or_one x with h | h <;> rw [Nat.pow_mod, h]
   have hsum_mod : ∀ s : Finset (Fin k), (∑ j ∈ s, m j ^ 2) % 2 = (∑ j ∈ s, m j) % 2 := by
     intro s
     refine Finset.induction_on s ?_ ?_

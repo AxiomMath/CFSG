@@ -59,7 +59,7 @@ variable {G : Type*} [Group G]
         _ = (a * c₁) * (b * c₂) := by group
     rw [h]
     exact T.mul_mem hac₁T hbc₂T
-  one_mem' := ⟨L.one_mem, 1, C.one_mem, by simpa using T.one_mem⟩
+  one_mem' := ⟨L.one_mem, 1, C.one_mem, by simp⟩
   inv_mem' := fun {a} ha => by
     obtain ⟨haL, c, hcC, hacT⟩ := ha
     refine ⟨L.inv_mem haL, c⁻¹, C.inv_mem hcC, ?_⟩
@@ -82,7 +82,7 @@ variable {G : Type*} [Group G]
         _ = (l₁ * a) * (l₂ * b) := by group
     rw [h]
     exact T.mul_mem hl₁aT hl₂bT
-  one_mem' := ⟨C.one_mem, 1, L.one_mem, by simpa using T.one_mem⟩
+  one_mem' := ⟨C.one_mem, 1, L.one_mem, by simp⟩
   inv_mem' := fun {a} ha => by
     obtain ⟨haC, l, hlL, hlaT⟩ := ha
     refine ⟨C.inv_mem haC, l⁻¹, L.inv_mem hlL, ?_⟩

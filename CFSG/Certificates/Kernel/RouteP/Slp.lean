@@ -33,17 +33,17 @@ theorem runSLPG_powInstrs (s i : ℕ) (e : ℤ) (regs : ℕ → G) :
   unfold powInstrs
   by_cases h1 : e = -1
   · subst h1
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     simp [runSLPG, stepG]
-  · rw [if_neg h1]
+  · rw [ite_eq_right h1]
     by_cases h2 : e < 0
-    · rw [if_pos h2]
+    · rw [ite_eq_left h2]
       simp only [runSLPG, List.foldl_cons, List.foldl_nil, stepG, Function.update_self,
         Function.update_idem]
       congr 1
       have e1 : ((-e).toNat : ℤ) = -e := Int.toNat_of_nonneg (by omega)
       rw [inv_pow, ← zpow_natCast, e1, ← zpow_neg, neg_neg]
-    · rw [if_neg h2]
+    · rw [ite_eq_right h2]
       simp only [runSLPG, List.foldl_cons, List.foldl_nil, stepG]
       congr 1
       have e1 : (e.toNat : ℤ) = e := Int.toNat_of_nonneg (by omega)
@@ -67,7 +67,7 @@ theorem runSLPG_restInstrs (t sc : ℕ) (hts : t ≠ sc) (regs : ℕ → G) :
     have hps : ∀ q ∈ ps, q.1 - 1 ≠ t ∧ q.1 - 1 ≠ sc := fun q hq => hp q (List.mem_cons_of_mem _ hq)
     have hreg : S (p.1 - 1) = regs (p.1 - 1) := h2 _ hp0.1 hp0.2
     by_cases he : p.2 = 1
-    · rw [if_pos he]
+    · rw [ite_eq_left he]
       apply runSLPG_restInstrs t sc hts regs ps _ _ hps
       · simp only [runSLPG, List.foldl_cons, List.foldl_nil, stepG, Function.update_self]
         rw [h1, hreg, he, zpow_one]
@@ -75,7 +75,7 @@ theorem runSLPG_restInstrs (t sc : ℕ) (hts : t ≠ sc) (regs : ℕ → G) :
         simp only [runSLPG, List.foldl_cons, List.foldl_nil, stepG]
         rw [Function.update_of_ne hr1]
         exact h2 r hr1 hr2
-    · rw [if_neg he, runSLPG_append, runSLPG_powInstrs]
+    · rw [ite_eq_right he, runSLPG_append, runSLPG_powInstrs]
       apply runSLPG_restInstrs t sc hts regs ps _ _ hps
       · simp only [runSLPG, List.foldl_cons, List.foldl_nil, stepG, Function.update_self]
         rw [Function.update_of_ne hts, h1, hreg]

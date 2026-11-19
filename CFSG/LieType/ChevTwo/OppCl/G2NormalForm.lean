@@ -22,7 +22,7 @@ variable
 theorem uniqueNormalFormOn_G2 {f : ℕ} (hf : 2 ≤ f) (hK : Nat.card K = 2 ^ f) :
     UniqueNormalFormOn (graphFixedRootGroup TwistTag.D4 K (RingHom.id K)) := by
   have hf1 : 1 ≤ f := by omega
-  haveI : CharP K 2 := charP_two_of_card_two_pow hK
+  have : CharP K 2 := charP_two_of_card_two_pow hK
   have hchar : ringChar K = 2 := ringChar.eq K 2
   obtain ⟨hΓ, -, -, -, ⟨Ψ, hΨ, -, -⟩, hbase⟩ :=
     even_D4_pure_graph_fixed_group_exact_G2 (K := K) hchar

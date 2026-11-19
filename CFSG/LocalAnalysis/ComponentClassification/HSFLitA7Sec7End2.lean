@@ -76,7 +76,7 @@ theorem S₂_ne_P : C.S₂ ≠ P := fun h => C.z_ne_k (by
       _ = x * C.F.kF := by group)
 
 theorem exists_g : ∃ g ∈ (P : Subgroup X), g ∉ C.S₂ ∧ g ∈ normalizer (C.S₂ : Set X) :=
-  exists_mem_normalizer_of_lt P.isPGroup' hSP (C.S₂_ne_P P)
+  exists_mem_normalizer_of_lt P.isPGroup hSP (C.S₂_ne_P P)
 
 abbrev R : Subgroup X := (P : Subgroup X) ⊓ normalizer (C.S₂ : Set X)
 
@@ -84,7 +84,7 @@ theorem S₂_le_R : C.S₂ ≤ C.R P := le_inf hSP le_normalizer
 
 theorem swapR {r : X} (hr : r ∈ C.R P) (hS : r ∉ C.S₂) :
     r * C.F.kF * r⁻¹ = S.z ∧ r * S.z * r⁻¹ = C.F.kF :=
-  C.swap_of_not_mem P.isPGroup' hSP hr.1 hr.2 hS
+  C.swap_of_not_mem P.isPGroup hSP hr.1 hr.2 hS
 
 theorem zk_central {r : X} (hr : r ∈ C.R P) : r * (S.z * C.F.kF) * r⁻¹ = S.z * C.F.kF := by
   by_cases hS : r ∈ C.S₂
@@ -173,7 +173,7 @@ theorem mem_Zz_of_Z₂R {a : X} (ha : a ∈ C.R P)
 theorem P_le_normalizer : (P : Subgroup X) ≤ normalizer (C.S₂ : Set X) := by
   by_contra hne
   have hRP : C.R P ≠ P := fun h => hne (h ▸ inf_le_right)
-  obtain ⟨n, hnP, hnR, hnN⟩ := exists_mem_normalizer_of_lt P.isPGroup' inf_le_left hRP
+  obtain ⟨n, hnP, hnR, hnN⟩ := exists_mem_normalizer_of_lt P.isPGroup inf_le_left hRP
   apply hnR
   refine ⟨hnP, mem_normalizer_of_map_le ?_⟩
   have hconjR : ∀ {m : X}, m ∈ normalizer ((C.R P : Subgroup X) : Set X) → ∀ {r : X},

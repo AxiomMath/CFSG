@@ -193,7 +193,7 @@ theorem exists_sylow_normalized_of_borel {G : Type} [Group G] [Finite G] (hs : I
     rw [← hS]
     exact hBM q
   refine ⟨(S : Subgroup _).map ψ.symm.toMonoidHom, ?_, ?_, ?_, ?_⟩
-  · exact S.isPGroup'.map ψ.symm.toMonoidHom
+  · exact S.isPGroup.map ψ.symm.toMonoidHom
   · have h1 := Subgroup.card_map_of_injective (f := ψ.symm.toMonoidHom) ψ.symm.injective
       (K := (S : Subgroup _))
     have h2 := Sylow.card_eq_multiplicity S

@@ -45,7 +45,7 @@ theorem d4t2c_caseB (hC : D4T2CentralTorus) {L : Type} [Field L] [IsAlgClosed L]
     refine mem_toralCentralizer.2 ⟨(S.D.mem_model.1 (hEhM hx)).1, ?_⟩
     rw [hab.comm hdE hx, mul_inv_cancel_right]
   obtain ⟨F₀, hF₀E, hF₀idx, hdF₀, hF₀M⟩ := d4t2_exists_plane a hap hdT hEhC hab hcard hdE hd1
-  obtain ⟨e, heE, heM⟩ := SetLike.not_le_iff_exists.1 hEM
+  obtain ⟨e, heE, heM⟩ := IsConcreteLE.not_le_iff_exists.1 hEM
   obtain ⟨t, htT, htc, htΓ⟩ := hC S hS hAlg hl hf hq hl3 h3 h3q hT hap hall e (hEhM heE)
   refine ⟨F₀, hF₀E, hF₀idx, hdF₀, t * e, ⟨htΓ, ?_⟩, ?_⟩
   · refine Subgroup.mem_centralizer_iff.2 fun h hh => ?_

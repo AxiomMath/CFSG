@@ -27,7 +27,7 @@ theorem pkg_lin {Y : Type} [Group Y] [Finite Y] {P : Subgroup Y} {x z : Y} {L : 
     [L.Normal] [Group.IsPerfect ↥L] (hcfg : LinUniCfg 5 P x z L)
     (hCp : IsPGroup 5 (centralizer (L : Set Y))) (hmodel : LinUniModelLin 5 x L) :
     Nonempty (Pkg Y L x) := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨K, instF, instFin, e, ŷ, ω, hpK, hŷp, hω, hact⟩ := hmodel
   obtain ⟨hn3, hM, hAut, hx⟩ := linHyps_of_cfg hcfg hCp e ŷ ω hpK hŷp hω hact
   have hKcard : 1 < Nat.card K := Finite.one_lt_card
@@ -60,14 +60,12 @@ theorem pkg_lin {Y : Type} [Group Y] [Finite Y] {P : Subgroup Y} {x z : Y} {L : 
     F := (dftGL (isPrimitiveRoot_coe hζ) h5 1 one_ne_zero)⁻¹
     hF := Subgroup.mem_top _
     hFconj := ?_ }⟩
-  · change thetaP L (e.trans (statedEquivL 5 K)) x ∉ _
-    rw [hx]
+  · rw [hx]
     exact conjAut_not_mem_inner hn3 ŷ hdet
   · change (Nat.card (⊤ : Subgroup (GL (Fin 5) K))).factorization 5 = _
     rw [Subgroup.card_top]
     exact factorization_card_GL Nat.prime_five (by norm_num) hpK
-  · change (Nat.card (linModel 5 K hn3).c.ker).factorization 5 = _
-    rw [card_ker_c_lin]
+  · rw [card_ker_c_lin]
   · rw [inv_inv]
     exact dftGL_conj ζ hζ h5 1 one_ne_zero
 

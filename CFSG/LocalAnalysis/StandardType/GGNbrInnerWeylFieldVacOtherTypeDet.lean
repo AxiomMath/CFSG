@@ -131,7 +131,7 @@ theorem not_halfSplit_of_markedModel_linThree {p : ℕ} {lab : LargeEvenLabel}
     · exact hq2 h1
     · exact hp3 h1
   · by_cases hl2 : l' = 2
-    · simp only [markRank, hl2, ↓reduceIte] at hR <;> omega
+    · simp only [markRank, hl2, ↓reduceIte] at hR; omega
     · by_cases hl3 : l' = 3 <;> simp [markTag, hl2, hl3] at hT
 
 theorem not_halfSplit_of_markedModel_unitThree {p : ℕ} {lab : LargeEvenLabel}
@@ -179,9 +179,9 @@ theorem eq_of_markedModel_G2 {X : Type} [Group X] {n : ℕ} (hX : LieModel X .G2
   case G2 => exact ⟨rfl, hD⟩
   all_goals exfalso
   all_goals first
-    | (simp only [markTag] at hT <;> contradiction)
+    | (simp only [markTag] at hT; contradiction)
     | (simp only [markTag] at hT
-       split_ifs at hT <;> contradiction)
+       split_ifs at hT)
 
 theorem not_halfSplit_of_markedModel_G2 {p : ℕ} {lab : LargeEvenLabel}
     (hlab : LargeEvenInLambda2 lab) (ht : lab.tag = .G2) (hq : ¬ p ∣ 2 ^ lab.n - 1)

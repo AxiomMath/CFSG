@@ -27,9 +27,9 @@ theorem qtwoDB40_not_neg {m : ℕ} (hm : Even m) {c : Fin m} {w : DVec m ≃ₗ[
     have h' : c' k * (if k = σ k then (1 : ZMod 3) else 0) = -1 := by
       simpa [dBasis, Pi.basisFun_apply, Pi.smul_apply, Pi.single_apply, smul_eq_mul] using h
     by_cases hσ : k = σ k
-    · rw [if_pos hσ, mul_one] at h'
+    · rw [ite_eq_left hσ, mul_one] at h'
       exact h'
-    · rw [if_neg hσ, mul_zero] at h'
+    · rw [ite_eq_right hσ, mul_zero] at h'
       exact absurd h' (by decide)
   have hw2 : w (dBasis m c) = dBasis m c := by
     rw [dBasis, Pi.basisFun_apply]
@@ -40,9 +40,9 @@ theorem qtwoDB40_not_neg {m : ℕ} (hm : Even m) {c : Fin m} {w : DVec m ≃ₗ[
     have h'' : c' c * (if c = σ c then (1 : ZMod 3) else 0) = 1 := by
       simpa [dBasis, Pi.basisFun_apply, Pi.smul_apply, Pi.single_apply, smul_eq_mul] using h'
     by_cases hσc : c = σ c
-    · rw [if_pos hσc, mul_one] at h''
+    · rw [ite_eq_left hσc, mul_one] at h''
       exact h''
-    · rw [if_neg hσc, mul_zero] at h''
+    · rw [ite_eq_right hσc, mul_zero] at h''
       exact absurd h'' (by decide)
   have hprod' : ∏ i : Fin m, c' i = (-1 : ZMod 3) ^ (m - 1) := by
     rw [← Finset.prod_erase_mul Finset.univ c' (Finset.mem_univ c), hcc, mul_one]
@@ -131,7 +131,7 @@ private theorem qtwoDB40_frame_aut {K : Type} [Field K] [Finite K] (hK : Nat.car
     (hcard : Nat.card E = 3 ^ 7) :
     Nat.card (ggAutomizer (⊤ : Subgroup ↥(adjointGroup .E7 K)) E) = 2903040 ∧
       ∃ z ∈ ggAutomizer ⊤ E, ∀ y : ↥E, z y = y⁻¹ := by
-  haveI : CharP K 2 := CFSG.StandardType.charP_two_of_card (m := 1) (by simpa using hK)
+  have : CharP K 2 := CFSG.StandardType.charP_two_of_card (m := 1) (by simpa using hK)
   let T : Subgroup ↥(adjointGroup .E7 K) := (TableBExcTwoTB.tE K TableBExcTwo.frameE7).range
   obtain ⟨c, hc⟩ := TableBExcTwoTB.exists_conj_frame_of_card_E7 hK hE hcard.ge
   have hc' : T.map (MulAut.conj c).toMonoidHom = E := hc.symm
@@ -227,7 +227,7 @@ private theorem qtwoDB40_frame_aut {K : Type} [Field K] [Finite K] (hK : Nat.car
   refine ⟨?_, ⟨MulAut.congr ψ (T.normalizerMonoidHom g), hzE, hzE_inv⟩⟩
   rw [hAutTE, Subgroup.card_map_of_injective (MulAut.congr ψ).injective, hAutT]
 
-theorem qtwoDB40_e7_aut {L' : Type} [Group L'] [Finite L'] (hperf : commutator L' = ⊤)
+theorem qtwoDB40_e7_aut {L' : Type} [Group L'] [Finite L'] (_hperf : commutator L' = ⊤)
     (hlab : GGHasLabel ⟨.E7, 0, 1⟩ (L' ⧸ Subgroup.center L'))
     {A : Subgroup (MulAut L')} (hA : IsElemAbelian 3 A) (hcard : Nat.card A = 3 ^ 7)
     (hAinn : A ≤ (MulAut.conj : L' →* MulAut L').range) :

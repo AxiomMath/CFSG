@@ -64,7 +64,7 @@ theorem card_stabIn (h : InnerCtx L B) {κ : Representation (ZMod 2) K Z}
     (hnt : ∃ l ∈ L, ∃ y ∈ Y, κ l y ≠ y) :
     Nat.card ↥(stabIn h κ Y) =
       Nat.card ↥(B ⊓ MonoidHom.ker κ) * Nat.card ↥(stabImage h κ Y) := by
-  haveI := hd.nontrivial
+  have := hd.nontrivial
   have hle : B ⊓ MonoidHom.ker κ ≤ stabIn h κ Y := fun b hb =>
     ⟨hb.1, fun y hy => by
       have : κ b y = y := LinearMap.congr_fun (MonoidHom.mem_ker.mp hb.2) y

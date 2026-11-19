@@ -250,7 +250,7 @@ private theorem fieldMuConj_injective_of_fixedField_card_two {K : Type} [Field K
   have hR' : Nat.card R = 2 := hR
   have hcardUnits : Nat.card Rˣ = 1 := by
     rw [Nat.card_units, hR']
-  haveI : Subsingleton Rˣ := (Nat.card_eq_one_iff_unique.mp hcardUnits).1
+  have : Subsingleton Rˣ := (Nat.card_eq_one_iff_unique.mp hcardUnits).1
   intro μ ν h
   change μ * (σu μ)⁻¹ = ν * (σu ν)⁻¹ at h
   have hfix : σu (ν⁻¹ * μ) = ν⁻¹ * μ := by
@@ -395,7 +395,7 @@ theorem exists_mul_mem_upper_diag_of_mem_borel {K : Type} [Field K] [Finite K]
         (psl2UpperUnipotentSubgroup K ⊔ burnsideAut_psl2Diag K).subgroupOf
           (psl2Borel K) := by
       rw [← burnsideAut_psl2Borel_eq_sup]
-      simpa using Subgroup.mem_top (⟨g, hgB⟩ : psl2Borel K)
+      simp
     rwa [Subgroup.subgroupOf_sup psl2UpperUnipotent_le_borel
       burnsideAut_psl2Diag_le_borel] at hmem
   obtain ⟨uB, huB, dB, hdB, hudB⟩ :=
@@ -403,7 +403,7 @@ theorem exists_mul_mem_upper_diag_of_mem_borel {K : Type} [Field K] [Finite K]
   exact ⟨(uB : PSL2 K), (dB : PSL2 K), huB, hdB, congrArg Subtype.val hudB⟩
 
 theorem exists_factorization_of_normalizes_upper {K : Type} [Field K] [Finite K]
-    [CharP K 2] {a : ℕ} (hK : Nat.card K = 2 ^ a) {θ : MulAut (PSL2 K)}
+    [CharP K 2] {a : ℕ} (_hK : Nat.card K = 2 ^ a) {θ : MulAut (PSL2 K)}
     (hθU : (psl2UpperUnipotentSubgroup K).map θ.toMonoidHom =
       psl2UpperUnipotentSubgroup K) :
     ∃ (u d : PSL2 K) (σ : K ≃+* K),
@@ -511,7 +511,7 @@ private theorem psl2InnerU_isPGroup {K : Type} [Field K] [Finite K] {a : ℕ}
   obtain ⟨Q, hQ⟩ := psl2UpperUnipotent_isSylow K hK
   have hU2 : IsPGroup 2 (psl2UpperUnipotentSubgroup K) := by
     rw [← hQ]
-    exact Q.isPGroup'
+    exact Q.isPGroup
   exact hU2.map (MulAut.conj : PSL2 K →* MulAut (PSL2 K))
 
 private theorem conj_diag_field_maps_upper {K : Type} [Field K] [Finite K] {d : PSL2 K}
@@ -539,9 +539,9 @@ private theorem psl2_even_fixed_points_of_normalizes_upper {K : Type} [Field K] 
     ∃ s : ℕ, s ∣ a ∧ Odd (a / s) ∧
       (∃ x : PSL2 K, orderOf x = 2 ^ s - 1 ∧ θ x = x) ∧
       (s = 1 → ∃ x : PSL2 K, orderOf x = 3 ∧ θ x = x) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
+  have : CharP K 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
   obtain ⟨u, d, σ, hu, hd, hθfac⟩ :=
     exists_factorization_of_normalizes_upper hK hθU
   let θ₀ : MulAut (PSL2 K) := MulAut.conj d * psl2FieldAut K σ
@@ -604,7 +604,7 @@ theorem conj_theta_maps_upper {K : Type} [Field K] [Finite K]
     rw [← huy]
     have hcinv : MulAut.conj h⁻¹ = (MulAut.conj h)⁻¹ := by
       ext x
-      simp [MulAut.conj_apply]
+      simp
     rw [hcinv]
     change (MulAut.conj h)⁻¹ ((MulAut.conj h) u) ∈
       psl2UpperUnipotentSubgroup K
@@ -641,7 +641,7 @@ theorem psl2_even_odd_aut_fixed_points {K : Type} [Field K] [Finite K] {a : ℕ}
     ∃ s : ℕ, s ∣ a ∧ Odd (a / s) ∧
       (∃ x : PSL2 K, orderOf x = 2 ^ s - 1 ∧ θ x = x) ∧
       (s = 1 → ∃ x : PSL2 K, orderOf x = 3 ∧ θ x = x) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2 : 2 ≤ Nat.card K := by
     have h := (Finite.one_lt_card (α := K))
     omega

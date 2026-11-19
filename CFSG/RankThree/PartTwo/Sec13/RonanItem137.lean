@@ -166,6 +166,7 @@ theorem prod_conj_one_left {A B : Type*} [Group A] [Group B] (a : A) (s σ : B) 
 
 variable {Y₁ : Type*} [Group Y₁] [Finite Y₁] {Y₀ : Type*} [Group Y₀] [Finite Y₀]
 
+omit [Finite Y₀] in
 theorem card_top_prod (S : Subgroup Y₀) :
     Nat.card ((⊤ : Subgroup (Multiplicative (ZMod 3))).prod S : Subgroup _) = 3 * Nat.card S := by
   rw [Nat.card_congr (Subgroup.prodEquiv _ _).toEquiv, Nat.card_prod, Subgroup.card_top,
@@ -203,6 +204,7 @@ theorem exists_eq_top_prod {Q : Subgroup (Multiplicative (ZMod 3) × Y₀)}
   refine ⟨S, hS27, ?_⟩
   exact Subgroup.eq_of_le_of_card_ge hQle (by rw [card_top_prod, hQ, hS27])
 
+omit [Finite Y₀] in
 theorem commutator_top_prod (S : Subgroup Y₀) :
     ⁅(⊤ : Subgroup (Multiplicative (ZMod 3))).prod S, (⊤ : Subgroup (Multiplicative (ZMod 3))).prod S⁆ =
       (⊥ : Subgroup (Multiplicative (ZMod 3))).prod ⁅S, S⁆ := by
@@ -214,6 +216,7 @@ theorem commutator_top_prod (S : Subgroup Y₀) :
   intro y _
   exact mul_comm y x
 
+omit [Finite Y₁] in
 theorem exists_inverting_of_prod (φ : Y₁ ≃* Multiplicative (ZMod 3) × Y₀)
     (hY₀ : (Nat.card Y₀).factorization 3 = 3) {Pb : Subgroup Y₁} (hPb : Nat.card Pb = 81)
     (hT3 : ∀ S : Subgroup Y₀, Nat.card S = 27 → ∃ σ ∈ commutator Y₀,
@@ -333,9 +336,9 @@ theorem exists_mem_inf_normalizer_inverting_of_prod {N : Subgroup Γ} [N.Normal]
     {Y₀ : Type*} [Group Y₀] [Finite Y₀] {Y : Subgroup (Γ ⧸ N)}
     (hY : Y = (K₀ ⊔ E₀).map (QuotientGroup.mk' N)) :
     ∀ (φ : ↥Y ≃* Multiplicative (ZMod 3) × Y₀)
-    (hKφ : (((K₀.map (QuotientGroup.mk' N)).subgroupOf Y).map φ.toMonoidHom) =
+    (_hKφ : (((K₀.map (QuotientGroup.mk' N)).subgroupOf Y).map φ.toMonoidHom) =
       (⊥ : Subgroup (Multiplicative (ZMod 3))).prod (commutator Y₀))
-    (hT3 : (Nat.card Y₀).factorization 3 = 3 → ∀ S : Subgroup Y₀, Nat.card S = 27 →
+    (_hT3 : (Nat.card Y₀).factorization 3 = 3 → ∀ S : Subgroup Y₀, Nat.card S = 27 →
       ∃ σ ∈ commutator Y₀,
       σ ∈ Subgroup.normalizer (S : Set Y₀) ∧ (∀ z ∈ ⁅S, S⁆, σ * z * σ⁻¹ = z⁻¹) ∧
         (∀ z ∈ ⁅S, S⁆, ∀ x ∈ S, x * z = z * x)),
@@ -346,7 +349,7 @@ theorem exists_mem_inf_normalizer_inverting_of_prod {N : Subgroup Γ} [N.Normal]
   set π := QuotientGroup.mk' N with hπ
   set W₀ := K₀ ⊔ E₀ with hW₀
   set Y₁ := W₀.map π with hY₁
-  intro φ hKφ hT3
+  intro φ _hKφ _hT3
   have hdisj : P₀ ⊓ N = ⊥ := by
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hP3
     refine (Subgroup.disjoint_of_coprime_natCard ?_).eq_bot
@@ -373,9 +376,9 @@ theorem exists_mem_inf_normalizer_inverting_of_prod {N : Subgroup Γ} [N.Normal]
   have hPb81 : Nat.card Pb = 81 := by
     rw [hPb, Nat.card_congr (Subgroup.subgroupOfEquivOfLe hPY).toEquiv,
       card_map_eq_of_injOn' π hinj, hP81]
-  obtain ⟨b, hbK, hbN, hbinv, hbcent⟩ := exists_inverting_of_prod φ hY₀ hPb81 (hT3 hY₀)
+  obtain ⟨b, hbK, hbN, hbinv, hbcent⟩ := exists_inverting_of_prod φ hY₀ hPb81 (_hT3 hY₀)
   have hbmem : b ∈ (K₀.map π).subgroupOf Y₁ := by
-    have : φ b ∈ ((K₀.map π).subgroupOf Y₁).map φ.toMonoidHom := by rw [hKφ]; exact hbK
+    have : φ b ∈ ((K₀.map π).subgroupOf Y₁).map φ.toMonoidHom := by rw [_hKφ]; exact hbK
     obtain ⟨b', hb', hbb'⟩ := this
     have : b' = b := φ.injective hbb'
     rwa [this] at hb'
@@ -533,8 +536,8 @@ theorem main_aux {E K P : Subgroup G} {e : G} (hD : Sec13Data G E e K)
     le_normalizer_zpowers_of_mem hD.mem_thetaComponentsAt
   have hEH : E ≤ Subgroup.normalizer (Subgroup.zpowers e : Set G) :=
     hD.A_le_normalizer_zpowers
-  haveI : Finite Kf := hKf.finite
-  haveI : Finite (Matrix.ProjGenLinGroup (Fin 3) Kf) :=
+  have : Finite Kf := hKf.finite
+  have : Finite (Matrix.ProjGenLinGroup (Fin 3) Kf) :=
     Finite.of_surjective (Matrix.ProjGenLinGroup.mk : GL (Fin 3) Kf →* _)
       (QuotientGroup.mk'_surjective _)
   have hq2 : 2 < p ^ f := two_lt_of_equiv hD hKf hq φ

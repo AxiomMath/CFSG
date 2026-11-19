@@ -18,7 +18,7 @@ variable {V : Type u} {Γ : SimpleGraph V} [Fintype V] [DecidableRel Γ.Adj]
   traceSet Γ x y ∩ {w | Γ.dist z w = 2}
 
 theorem ncard_centreSet (hΓ : IsThasQuadrangle Γ c q) {x y z : V} (hx : c x = 0)
-    (hxy : Γ.dist x y = 4) (hxz : Γ.dist x z = 4) (hyz : Γ.dist y z = 4)
+    (hxy : Γ.dist x y = 4) (hxz : Γ.dist x z = 4) (_hyz : Γ.dist y z = 4)
     (hz : z ∉ clSet Γ x y) : (centreSet Γ x y z).ncard = q + 1 := by
   classical
   have hP : IsGeneralizedPolygon Γ 4 := hΓ.gp
@@ -27,7 +27,7 @@ theorem ncard_centreSet (hΓ : IsThasQuadrangle Γ c q) {x y z : V} (hx : c x = 
     have hcz : c z = c x :=
       (hP.eq_iff_even_dist c z x).2 (by rw [SimpleGraph.dist_comm, hxz]; exact ⟨2, rfl⟩)
     exact hcz.trans hx
-  haveI : Fintype (spanSet Γ x y) := (Set.toFinite _).fintype
+  have : Fintype (spanSet Γ x y) := (Set.toFinite _).fintype
   let X : Finset V := (spanSet Γ x y).toFinset
   have hXsub : (X : Set V) ⊆ spanSet Γ x y := by
     intro a ha

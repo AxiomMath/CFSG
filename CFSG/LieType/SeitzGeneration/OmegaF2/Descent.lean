@@ -106,7 +106,7 @@ private theorem sigmaStable_single_pair (S : HypCoord Q) {σ : K ≃+* K}
     sigmaVec σ (G *ᵥ (Pi.single a 1 : Fin d → K)) ∈
       Submodule.span K {G *ᵥ (Pi.single a 1 : Fin d → K), G *ᵥ (Pi.single c 1 : Fin d → K)} :=
   hstab _ _ (isRat_single k a) (isRat_single k c) (S.Q_single a ha) (S.Q_single c hc)
-    (by rw [S.polar_single_single ha, if_neg (Ne.symm hcs)])
+    (by rw [S.polar_single_single ha, ite_eq_right (Ne.symm hcs)])
     (linearIndependent_single_pair (Ne.symm hca))
 
 theorem exists_sigEigen_hyp {σ : K ≃+* K} {G : Matrix (Fin d) (Fin d) K} (hdet : G.det ≠ 0)
@@ -125,7 +125,7 @@ private theorem linearIndependent_add_single_pair {a c e : Fin d} (hac : a ≠ c
   intro s t hst
   have h0 := congrFun hst a
   have h1 := congrFun hst e
-  simp [Pi.single_apply, hac, Ne.symm hac, hae, Ne.symm hae, hce, Ne.symm hce] at h0 h1
+  simp [hac, hae, Ne.symm hae, Ne.symm hce] at h0 h1
   exact ⟨h0, h1⟩
 
 private theorem linearIndependent_add_single_three {a c e e' : Fin d} (hac : a ≠ c) (hae : a ≠ e)
@@ -138,8 +138,8 @@ private theorem linearIndependent_add_single_three {a c e e' : Fin d} (hac : a �
   have h0 := congrFun hg a
   have h1 := congrFun hg e
   have h2 := congrFun hg e'
-  simp [Pi.single_apply, hac, Ne.symm hac, hae, Ne.symm hae, hce, Ne.symm hce, hae', Ne.symm hae',
-    hce', Ne.symm hce', hee', Ne.symm hee'] at h0 h1 h2
+  simp [hac, hae, Ne.symm hae, Ne.symm hce, hae', Ne.symm hae',
+    Ne.symm hce', hee', Ne.symm hee'] at h0 h1 h2
   intro i
   fin_cases i
   · exact h0
@@ -165,15 +165,15 @@ theorem exists_sigEigen_add_hyp {σ : K ≃+* K} {G : Matrix (Fin d) (Fin d) K} 
     (isRat_single k a).add (isRat_single k c)
   have hQv : Q ((Pi.single a 1 : Fin d → K) + Pi.single c 1) = 0 := by
     rw [QuadraticMap.map_add Q, S.Q_single a ha, S.Q_single c hc, S.polar_single_single ha,
-      if_neg (Ne.symm hcs)]
+      ite_eq_right (Ne.symm hcs)]
     ring
   have hpe : polar Q ((Pi.single a 1 : Fin d → K) + Pi.single c 1) (Pi.single e 1) = 0 := by
     rw [polar_add_left, S.polar_single_single ha, S.polar_single_single hc,
-      if_neg (Ne.symm heSa), if_neg (Ne.symm heSc)]
+      ite_eq_right (Ne.symm heSa), ite_eq_right (Ne.symm heSc)]
     ring
   have hpe' : polar Q ((Pi.single a 1 : Fin d → K) + Pi.single c 1) (Pi.single e' 1) = 0 := by
     rw [polar_add_left, S.polar_single_single ha, S.polar_single_single hc,
-      if_neg (Ne.symm he'Sa), if_neg (Ne.symm he'Sc)]
+      ite_eq_right (Ne.symm he'Sa), ite_eq_right (Ne.symm he'Sc)]
     ring
   have h1 := hstab _ _ hrat (isRat_single k e) hQv (S.Q_single e he) hpe
     (linearIndependent_add_single_pair hac (Ne.symm hea) (Ne.symm hec))
@@ -260,9 +260,9 @@ private theorem Q_sing_tail (S : HypCoord Q) {j t : Fin d} {c : K} (hj : j ∈ S
     rw [S.polar_single_single hj]
     simp
   have hpjt : polar Q (Pi.single j 1 : Fin d → K) (Pi.single t 1) = 0 := by
-    rw [S.polar_single j hj, Pi.single_apply, if_neg hjst]
+    rw [S.polar_single j hj, Pi.single_apply, ite_eq_right hjst]
   have hpst : polar Q (Pi.single (S.star j) 1 : Fin d → K) (Pi.single t 1) = 0 := by
-    rw [S.polar_single (S.star j) hjs, S.star_star j hj, Pi.single_apply, if_neg hjt]
+    rw [S.polar_single (S.star j) hjs, S.star_star j hj, Pi.single_apply, ite_eq_right hjt]
   have hA : Q (Pi.single j 1 + c • (Pi.single (S.star j) 1 : Fin d → K)) = c := by
     rw [QuadraticMap.map_add Q, QuadraticMap.map_smul, S.Q_single j hj, S.Q_single _ hjs,
       polar_smul_right_eq, hpjs]
@@ -270,7 +270,7 @@ private theorem Q_sing_tail (S : HypCoord Q) {j t : Fin d} {c : K} (hj : j ∈ S
   rw [QuadraticMap.map_add Q, hA, polar_add_left, polar_smul_left_eq, hpjt, hpst]
   linear_combination hc
 
-private theorem sigEigen_sing_tail (S : HypCoord Q) (hext : IsExtension k Q₀ Q) {σ : K ≃+* K}
+private theorem sigEigen_sing_tail (S : HypCoord Q) (_hext : IsExtension k Q₀ Q) {σ : K ≃+* K}
     {G : Matrix (Fin d) (Fin d) K} (hdet : G.det ≠ 0) (hstab : SigmaStable Q k σ G)
     {j t i₁ i₂ : Fin d} {c : K} (hck : c ∈ k) (hc : Q (Pi.single t 1 : Fin d → K) + c = 0)
     (ht : t ∉ S.hyp) (hj : j ∈ S.hyp) (hi₁ : i₁ ∈ S.hyp) (hi₂ : i₂ ∈ S.hyp)
@@ -289,13 +289,13 @@ private theorem sigEigen_sing_tail (S : HypCoord Q) (hext : IsExtension k Q₀ Q
   have hpt : ∀ i ∈ S.hyp, polar Q (Pi.single t 1 : Fin d → K) (Pi.single i 1) = 0 := by
     intro i hi
     have hne : S.star i ≠ t := fun h => ht (h ▸ S.star_mem i hi)
-    rw [polar_comm, S.polar_single i hi, Pi.single_apply, if_neg hne]
+    rw [polar_comm, S.polar_single i hi, Pi.single_apply, ite_eq_right hne]
   have hpx : ∀ i ∈ S.hyp, i ≠ j → i ≠ S.star j →
       polar Q ((Pi.single j 1 + c • (Pi.single (S.star j) 1 : Fin d → K)) + Pi.single t 1)
         (Pi.single i 1) = 0 := by
     intro i hi hij his
     rw [polar_add_left, polar_add_left, polar_smul_left_eq, S.polar_single_single hj,
-      if_neg (Ne.symm his), S.polar_single_single hjs, S.star_star j hj, if_neg (Ne.symm hij),
+      ite_eq_right (Ne.symm his), S.polar_single_single hjs, S.star_star j hj, ite_eq_right (Ne.symm hij),
       hpt i hi]
     ring
   have hpair₁ : LinearIndependent K
@@ -304,25 +304,22 @@ private theorem sigEigen_sing_tail (S : HypCoord Q) (hext : IsExtension k Q₀ Q
     refine linearIndependent_of_evalId (f := ![t, i₁]) ?_
     intro a b
     fin_cases a <;> fin_cases b <;>
-      simp [Pi.single_apply, hjt, hjst, hi₁t, h₁j, h₁s, Ne.symm hjt, Ne.symm hjst, Ne.symm hi₁t,
-        Ne.symm h₁j, Ne.symm h₁s]
+      simp [hi₁t, h₁j, h₁s, Ne.symm hjt, Ne.symm hjst, Ne.symm hi₁t]
   have hpair₂ : LinearIndependent K
       ![(Pi.single j 1 + c • (Pi.single (S.star j) 1 : Fin d → K)) + Pi.single t 1,
         Pi.single i₂ 1] := by
     refine linearIndependent_of_evalId (f := ![t, i₂]) ?_
     intro a b
     fin_cases a <;> fin_cases b <;>
-      simp [Pi.single_apply, hjt, hjst, hi₂t, h₂j, h₂s, Ne.symm hjt, Ne.symm hjst, Ne.symm hi₂t,
-        Ne.symm h₂j, Ne.symm h₂s]
+      simp [hi₂t, h₂j, h₂s, Ne.symm hjt, Ne.symm hjst, Ne.symm hi₂t]
   have hind : LinearIndependent K
       ![(Pi.single j 1 + c • (Pi.single (S.star j) 1 : Fin d → K)) + Pi.single t 1,
         Pi.single i₁ 1, Pi.single i₂ 1] := by
     refine linearIndependent_of_evalId (f := ![t, i₁, i₂]) ?_
     intro a b
     fin_cases a <;> fin_cases b <;>
-      simp [Pi.single_apply, hjt, hjst, hi₁t, hi₂t, h₁j, h₁s, h₂j, h₂s, h12, Ne.symm hjt,
-        Ne.symm hjst, Ne.symm hi₁t, Ne.symm hi₂t, Ne.symm h₁j, Ne.symm h₁s, Ne.symm h₂j,
-        Ne.symm h₂s, Ne.symm h12]
+      simp [hi₁t, hi₂t, h₁j, h₁s, h₂j, h₂s, h12, Ne.symm hjt,
+        Ne.symm hjst, Ne.symm hi₁t, Ne.symm hi₂t, Ne.symm h12]
   obtain ⟨l, hl⟩ := exists_sigEigen_of_two hdet hind
     (hstab _ _ hrat (isRat_single k i₁) hQx (S.Q_single i₁ hi₁) (hpx i₁ hi₁ h₁j h₁s) hpair₁)
     (hstab _ _ hrat (isRat_single k i₂) hQx (S.Q_single i₂ hi₂) (hpx i₂ hi₂ h₂j h₂s) hpair₂)
@@ -372,15 +369,15 @@ theorem sigEigen_tail (hext : IsExtension k Q₀ Q) {σ : K ≃+* K} (hσk : ∀
     refine linearIndependent_of_evalId (f := ![t, j, j₂]) ?_
     intro a b
     fin_cases a <;> fin_cases b <;>
-      simp [Pi.single_apply, hjt, hj₂t, hsjt, hsj₂t, hjsj, hj₂j, hj₂s, hsj₂j, hsj₂sj, hj₂sj₂,
-        Ne.symm hjt, Ne.symm hj₂t, Ne.symm hsjt, Ne.symm hsj₂t, Ne.symm hjsj, Ne.symm hj₂j,
-        Ne.symm hj₂s, Ne.symm hsj₂j, Ne.symm hsj₂sj, Ne.symm hj₂sj₂]
+      simp [hjt, hj₂t, hjsj, hj₂j, hj₂s, hj₂sj₂,
+        Ne.symm hjt, Ne.symm hj₂t, Ne.symm hsjt, Ne.symm hsj₂t, Ne.symm hj₂j,
+        Ne.symm hsj₂j]
   have hindYU : LinearIndependent K
       ![Pi.single j 1 + c • (Pi.single (S.star j) 1 : Fin d → K), (Pi.single t 1 : Fin d → K)] := by
     refine linearIndependent_of_evalId (f := ![j, t]) ?_
     intro a b
     fin_cases a <;> fin_cases b <;>
-      simp [Pi.single_apply, hjt, hsjt, hjsj, Ne.symm hjt, Ne.symm hsjt, Ne.symm hjsj]
+      simp [hjt, hjsj, Ne.symm hjt, Ne.symm hsjt]
   obtain ⟨θ', hθ'⟩ := exists_sigEigen_of_two hdet hind h1 h2
   have e : θ = θ' := SigEigen.eq_of_add hdet hindYU hy₁ hθ' hl₁
   rw [e]
@@ -414,7 +411,7 @@ theorem eigen_of_sigma_stable_hyp (S : HypCoord Q) (hext : IsExtension k Q₀ Q)
         rw [hent r c, h0, zero_mul, map_zero]
       simpa using σ.injective h2
     obtain ⟨j, -⟩ : S.hyp.Nonempty := Finset.card_pos.mp (by have := S.card_hyp; omega)
-    haveI : Nonempty (Fin d) := ⟨j⟩
+    have : Nonempty (Fin d) := ⟨j⟩
     exact hdet (by simp [hG, Matrix.det_zero])
   exact ⟨θ, hθne, hent⟩
 

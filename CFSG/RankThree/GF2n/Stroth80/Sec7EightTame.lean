@@ -22,6 +22,7 @@ section Tame
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem conj_inv_le_of_le_conj {g : G} {A C : Subgroup G} (h : A ≤ conjSubgroup g C) :
     conjSubgroup g⁻¹ A ≤ C := by
   intro y hy

@@ -20,6 +20,7 @@ open CFSG.LocalAnalysis.RankThreeTheoremC.Generic49U3
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem mcl_mem_normalizer_of_comm {T : Subgroup G} {x : G}
     (hxcT : ∀ t ∈ T, x * t = t * x) : x ∈ normalizer (T : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -38,7 +39,7 @@ private theorem mcl_mem_normalizer_of_comm {T : Subgroup G} {x : G}
 
 theorem mcl_zpow_eq_one_of_mem {p : ℕ} (hp : p.Prime) {W : Subgroup G} {x : G} (hxp : x ^ p = 1)
     (hx1 : x ≠ 1) (hxW : x ∉ W) : ∀ k : ℤ, x ^ k ∈ W → x ^ k = 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro k hk
   by_contra hne
   apply hxW
@@ -61,7 +62,7 @@ theorem mcl_zpow_eq_one_of_mem {p : ℕ} (hp : p.Prime) {W : Subgroup G} {x : G}
 theorem mcl_card_sup_zpowers {p : ℕ} (hp : p.Prime) {T : Subgroup G} {x : G} (hxp : x ^ p = 1)
     (hx1 : x ≠ 1) (hxT : x ∉ T) (hxcT : ∀ t ∈ T, x * t = t * x) :
     Nat.card ↥(T ⊔ zpowers x) = Nat.card T * p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hxord : Nat.card (zpowers x) = p := by
     rw [Nat.card_zpowers, orderOf_eq_prime hxp hx1]
   have hbot : T ⊓ zpowers x = ⊥ := by

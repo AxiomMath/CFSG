@@ -28,7 +28,7 @@ theorem uc22s2121e3_rhoL_eq_one {D : Data G} {p : ℕ}
     (hLn : (L.subgroupOf D.M).Normal) {n : ℕ} (hn : IsPowTwo n) (hL2 : IsL2 (Bar2 L) n) {r : ℕ}
     (hr : r.Prime) (hr1 : ¬ r ∣ 2 ^ n - 1) (b : ↥(normalizer (L : Set G)))
     (hb : (b : G) ∈ CFSG.Open.pCoreOf r B) : UC6S846.rhoL L b = 1 := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨-, hBM, hBodd, hBT, -, -⟩ := hB
   have hBN : B ≤ normalizer (L : Set G) :=
     hBM.trans ((Subgroup.normal_subgroupOf_iff_le_normalizer hLM).mp hLn)
@@ -51,7 +51,7 @@ theorem uc22s2121e3_exists_elem_of_rhoL {L X : Subgroup G} (hXN : X ≤ normaliz
     (hρ : ∀ b : ↥(normalizer (L : Set G)), (b : G) ∈ X → UC6S846.rhoL L b = 1) {q : ℕ}
     (hq : q.Prime) (hqL : q ∣ Nat.card (Bar2 L)) :
     ∃ x ∈ L, x ∈ centralizer (X : Set G) ∧ orderOf x = q := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨d, hd⟩ := exists_prime_orderOf_dvd_card' q hqL
   obtain ⟨l, hl⟩ := QuotientGroup.mk_surjective d
   obtain ⟨c, hcX, hcl⟩ := uc22s13xh_exists_lift hXN hX l fun b hb => by

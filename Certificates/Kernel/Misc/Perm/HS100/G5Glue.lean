@@ -30,9 +30,9 @@ theorem ppG (j : ℕ) : PP 100 7 (GG j) := by
 theorem gs_get : ∀ j < 2, (#[hs100Arr 0, hs100Arr 1] : Array (Array ℕ))[j]! = unpack 100 7 (GG j) := by
   intro j hj
   interval_cases j
-  · rw [GG, if_pos rfl, ← hs100Arr_eq 0 (by norm_num)]
+  · rw [GG, ite_eq_left rfl, ← hs100Arr_eq 0 (by norm_num)]
     rfl
-  · rw [GG, if_neg (by norm_num), ← hs100Arr_eq 1 (by norm_num)]
+  · rw [GG, ite_eq_right (by norm_num), ← hs100Arr_eq 1 (by norm_num)]
     rfl
 
 theorem prod_eq {G : ℕ → ℕ} {gs : Array (Array ℕ)} {m : ℕ}

@@ -131,7 +131,7 @@ theorem eq_of_normal_isSLType_of_pow_thirteen {D : Type} [Group D] [Finite D]
     rw [Nat.card_congr eU.toEquiv, card_SL_three_zmod_three]
   have hindex : U.index = 2 := by
     rw [Subgroup.index_eq_card_div, hUcard, card_mulAut_of_card_eq_27 hDc hD3 hD]
-  haveI : U.Normal := Subgroup.normal_of_index_eq_two hindex
+  have : U.Normal := Subgroup.normal_of_index_eq_two hindex
   have hxU : ∀ x ∈ S, x ∈ U := by
     intro x hxS
     rw [← QuotientGroup.eq_one_iff (N := U) x]

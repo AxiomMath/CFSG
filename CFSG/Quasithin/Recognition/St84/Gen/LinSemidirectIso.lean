@@ -104,7 +104,7 @@ private lemma exists_matrixMulEquiv {G : Type*} [Group G] {F : Type*} [Field F] 
     simpa using actsByMatrix_one_of_comm hcommQ q
   have hsupP : Q.subgroupOf P ⊔ X.subgroupOf P = ⊤ := by
     rw [← Subgroup.subgroupOf_sup hle hXle, hXsup, Subgroup.subgroupOf_self]
-  haveI : (Q.subgroupOf P).Normal :=
+  have : (Q.subgroupOf P).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hle).mpr hnormal
   let matK : ↥(X.subgroupOf P) →* ↥Γ :=
     { toFun := fun k => ⟨Agl (k : ↥P), hAgl_mem _⟩
@@ -190,9 +190,9 @@ theorem IsLinSemidirect.exists_mulEquiv {G Y : Type*} [Group G] [Group Y]
   let K1 : Subgroup ↥P := X.subgroupOf P
   let Q2 : Subgroup ↥M := V.subgroupOf M
   let K2 : Subgroup ↥M := X'.subgroupOf M
-  haveI hQ1 : Q1.Normal :=
+  have hQ1 : Q1.Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer h.le).mpr h.normal
-  haveI hQ2 : Q2.Normal :=
+  have hQ2 : Q2.Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer h'.le).mpr h'.normal
   have hsup1 : Q1 ⊔ K1 = ⊤ := by
     dsimp [Q1, K1]
@@ -365,7 +365,7 @@ theorem IsLinSemidirect.exists_mulEquiv {G Y : Type*} [Group G] [Group Y]
     have hΛk1' : Λ k = 1 := Subtype.ext (by simpa using hΛk1)
     have hk1 : k = 1 := Λ.injective (by rw [hΛk1', map_one])
     rw [← hqk, hk1]
-    simp only [Subgroup.coe_mul, Subgroup.coe_one, mul_one]
+    simp only [Subgroup.coe_one, mul_one]
     exact q.2
 
 end CFSG.Quasithin.F112R.St84

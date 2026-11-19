@@ -16,7 +16,7 @@ open Matrix CFSG.Open CFSG.LocalAnalysis.ComponentInitial
 theorem eq_of_mul_inv_mem_glaPPrimeCoreOf {S : Type*} [Group S] [Finite S] {p : ℕ} (hp : p.Prime)
     {J : Subgroup S} (hJq : CFSG.Open.IsQuasisimple ↥J) (hpJ : p ∣ Nat.card ↥J) (α : S →* S)
     (hcent : ∀ j ∈ J, α j * j⁻¹ ∈ GLAPPrimeCoreOf p J) : ∀ j ∈ J, α j = j := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcore : GLAPPrimeCore p ↥J ≤ Subgroup.center ↥J := by
     refine CFSG.LocalAnalysis.GLTheoremA.le_center_of_normal_of_isQuasisimple hJq
       (GLAPPrimeCore.normal p _) fun htop => ?_
@@ -87,7 +87,7 @@ private theorem dTwo_eq_one_of_not_mem (z : K) : ∀ i, i ∉ blockJ → dTwo z 
   rfl
 
 private theorem dOne_dTwo_sep {z : K} (h1 : z ≠ 1) (h1' : 1 ≠ z) (h2 : (z ^ 2)⁻¹ ≠ 1)
-    (h2' : 1 ≠ (z ^ 2)⁻¹) (h3 : z ≠ (z ^ 2)⁻¹) (h3' : (z ^ 2)⁻¹ ≠ z) :
+    (_h2' : 1 ≠ (z ^ 2)⁻¹) (h3 : z ≠ (z ^ 2)⁻¹) (h3' : (z ^ 2)⁻¹ ≠ z) :
     ∀ k l : Fin 4, k ≠ l → dOne z k ≠ dOne z l ∨ dTwo z k ≠ dTwo z l := by
   intro k l hkl
   fin_cases k <;> fin_cases l <;> simp_all [dOne, dTwo]
@@ -110,12 +110,12 @@ include hK hq hℓ2 hp hp2 hμ hpq
 
 theorem aut_eq_conj_yU_zpow (α : MulAut (PS h)) (hα : α ^ p = 1)
     (hcent : ∀ j ∈ JU h, α j * j⁻¹ ∈ GLAPPrimeCoreOf p (JU h)) :
-    ∃ k : ℤ, α = MulAut.conj (projU h (yU h hp hp2 hμ hpq) ^ k) := by
+    ∃ k : ℤ, α = MulAut.conj (projU h (yU h hp hμ hpq) ^ k) := by
   classical
-  have hμ0 := ne_zero_of_root hp hp2 hμ
+  have hμ0 := ne_zero_of_root hp hμ
   have hfix : ∀ j ∈ JU h, α j = j :=
-    eq_of_mul_inv_mem_glaPPrimeCoreOf hp (isQuasisimple_JU hp hp2 hμ hpq hK hq)
-      ((dvd_card_JU hp hp2 hμ hpq hK hq).trans (Subgroup.card_quotient_dvd_card _))
+    eq_of_mul_inv_mem_glaPPrimeCoreOf hp (isQuasisimple_JU hK hq)
+      ((dvd_card_JU hp hp2 hμ hpq).trans (Subgroup.card_quotient_dvd_card _))
       α.toMonoidHom hcent
   have hC : IsPrimeFormGram (1 : GL (Fin 4) K) := isPrimeFormGram_idGram
   obtain ⟨-, -, hker, -, hform, -⟩ := unitary_prime_form_full_semilinear_realization h hC
@@ -198,7 +198,7 @@ theorem aut_eq_conj_yU_zpow (α : MulAut (PS h)) (hα : α ^ p = 1)
     · exact hk'.symm
     · exact absurd hk'.symm hφ3
   have hφ : φ = 1 := by
-    haveI : NeZero (ℓ ^ f + 1) := ⟨by omega⟩
+    have : NeZero (ℓ ^ f + 1) := ⟨by omega⟩
     have hprim : IsPrimitiveRoot (ζ : K) (ℓ ^ f + 1) := by
       rw [← hζord]
       exact IsPrimitiveRoot.coe_units_iff.2 (IsPrimitiveRoot.orderOf ζ)
@@ -277,11 +277,11 @@ theorem aut_eq_conj_yU_zpow (α : MulAut (PS h)) (hα : α ^ p = 1)
       have : Nat.Coprime (2 ^ 2) p := Nat.Coprime.pow_left 2 h2
       simpa using this
     exact hμ.inv.pow_of_coprime 4 hcop
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨i, -, hi⟩ := hprim.eq_pow_of_pow_eq_one hν
   have hc' : b * μ⁻¹ ^ i ≠ 0 := mul_ne_zero hb0 (pow_ne_zero _ (inv_ne_zero hμ0))
   have hAy : Ag = GeneralLinearGroup.scalar (Fin 4) (Units.mk0 _ hc') *
-      ((yU h hp hp2 hμ hpq ^ i : ↥(SG h)) : GL (Fin 4) K) := by
+      ((yU h hp hμ hpq ^ i : ↥(SG h)) : GL (Fin 4) K) := by
     apply Units.ext
     rw [Units.val_mul, Subgroup.coe_pow, Units.val_pow_eq_pow_val, GeneralLinearGroup.coe_scalar,
       hAd, coe_diagU]
@@ -301,7 +301,7 @@ theorem aut_eq_conj_yU_zpow (α : MulAut (PS h)) (hα : α ^ p = 1)
   refine ⟨i, ?_⟩
   rw [hαA']
   refine MulEquiv.ext fun x => QuotientGroup.induction_on x fun g => ?_
-  set Y : ↥(SG h) := yU h hp hp2 hμ hpq ^ i with hY
+  set Y : ↥(SG h) := yU h hp hμ hpq ^ i with hY
   have hconj : (⟨(A : GL (Fin 4) K) * g * (A : GL (Fin 4) K)⁻¹,
       conj_mem_gramSU h _ A.2 g.2⟩ : ↥(SG h)) = Y * g * Y⁻¹ := by
     apply Subtype.ext

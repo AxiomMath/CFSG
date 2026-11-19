@@ -16,8 +16,8 @@ open CFSG.ASVolI.ChF CFSG.Quasithin CFSG.QuasithinUnique CFSG.Open Matrix
 
 theorem burnsideF4m_F436U5_B_holds : burnsideF4m_F436U5_B := by
   intro E _ Gp M₁ M₂ hyp Tb hTb fb hfbT hgr
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hfb2 : fb * fb = 1 := hgr.2.1
   obtain ⟨K, fK, h, Ψ, a, h1, h2, hs⟩ := burnsideF4m_u5_exists_frob_conj hyp.toHypF_4_4g hgr

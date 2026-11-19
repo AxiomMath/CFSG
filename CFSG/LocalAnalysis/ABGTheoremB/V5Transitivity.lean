@@ -111,7 +111,7 @@ theorem inf_mem_signalizersPerm (hσ : σ.IsValid) (hJ : σ.IsV21Layer J) (h45 :
     U₁ ⊓ U₂ ∈ signalizersPerm ⊤ σ.D W σ.p := by
   have hp := hσ.p_prime
   have hp2 := hσ.p_ne_two
-  have hD2 : IsPGroup 2 σ.D := σ.S.isPGroup'.to_le σ.D_le_S
+  have hD2 : IsPGroup 2 σ.D := σ.S.isPGroup.to_le σ.D_le_S
   have hUp : IsPGroup σ.p (U₁ ⊓ U₂ : Subgroup G) := hU₁.1.2.1.to_inf_left
   refine ⟨⟨le_top, hUp, ?_, inf_eq_bot_of_isPGroup_of_two hp hp2 hUp hD2⟩, ?_⟩
   · exact (le_inf hU₁.1.2.2.1 hU₂.1.2.2.1).trans Subgroup.inf_normalizer_le_normalizer_inf
@@ -135,7 +135,7 @@ theorem propV52 {σ : Setting G} (hσ : σ.IsValid) {J : Subgroup G} (hJ : σ.Is
   intro hHyp W hW P hP hDP V hV hPV hVcore
   have hp := hσ.p_prime
   have hp2 := hσ.p_ne_two
-  have hD2 : IsPGroup 2 σ.D := σ.S.isPGroup'.to_le σ.D_le_S
+  have hD2 : IsPGroup 2 σ.D := σ.S.isPGroup.to_le σ.D_le_S
   have hWp : ¬ σ.p ∣ Nat.card W := hV31.coprime W hW
   have hWodd : Odd (Nat.card W) := odd_card_of_mem_familyW hσ hJ hW
   have hPne : P ≠ ⊥ :=

@@ -41,9 +41,9 @@ theorem ker_opm_eq_orthogonal_range' (B : LinearMap.BilinForm K E) (hnd : B.Nond
   omega
 
 theorem finrank_range_opm_mul_ge (B : LinearMap.BilinForm K E) (hnd : B.Nondegenerate)
-    (hrefl : B.IsRefl) (h2 : (2 : K) = 0) (a b : E ≃ₗ[K] E)
+    (_hrefl : B.IsRefl) (h2 : (2 : K) = 0) (a b : E ≃ₗ[K] E)
     (ha : ∀ x y, B (a x) (a y) = B x y) (hb : ∀ x y, B (b x) (b y) = B x y)
-    (hab : a * b = b * a) (ha2 : ∀ x, opm a (opm a x) = 0) (hb2 : ∀ x, opm b (opm b x) = 0)
+    (hab : a * b = b * a) (_ha2 : ∀ x, opm a (opm a x) = 0) (_hb2 : ∀ x, opm b (opm b x) = 0)
     (n i : ℕ) (hna : Module.finrank K (LinearMap.range (opm a)) = n)
     (hnb : Module.finrank K (LinearMap.range (opm b)) = n)
     (hi : Module.finrank K ↥(LinearMap.range (opm a) ⊓ LinearMap.range (opm b)) = i) :

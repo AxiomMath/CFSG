@@ -22,7 +22,7 @@ theorem sec8t84d5_isSylow2Of_sup_of_normal_odd {E Q N : Subgroup G}
   have hdisj : Disjoint E Q := by
     apply IsPGroup.disjoint_of_coprime hE2 (IsPGroup.card (G := Q))
     exact Nat.coprime_two_left.mpr hQodd
-  haveI : (Q.subgroupOf (E ⊔ Q)).Normal := hQnormM
+  have : (Q.subgroupOf (E ⊔ Q)).Normal := hQnormM
   have h1 : (Q.subgroupOf (E ⊔ Q)).index = Q.relIndex E := by
     have h := Subgroup.relIndex_sup_right (H := E.subgroupOf (E ⊔ Q))
       (K := Q.subgroupOf (E ⊔ Q))
@@ -45,6 +45,7 @@ theorem sec8t84d5_isSylow2Of_sup_of_normal_odd {E Q N : Subgroup G}
     exact Nat.mul_right_cancel (Nat.card_pos (α := ↥E)) h
   exact ⟨hEM, hE2, by rw [hErel]; exact hQodd.not_two_dvd_nat⟩
 
+omit [Finite G] in
 theorem sec8t84d5_isSylow2Of_map_conj {S H : Subgroup G}
     (h : IsSylow2Of S H) {v : G} (hv : v ∈ Subgroup.normalizer (H : Set G)) :
     IsSylow2Of (S.map (MulAut.conj v).toMonoidHom) H := by
@@ -69,6 +70,7 @@ theorem sec8t84d5_exists_mul_mem_sup_normalizer {S H : Subgroup G}
     ← hae (v * x * v⁻¹)]
   exact (Subgroup.mem_map_iff_mem (MulAut.conj v).injective).symm
 
+omit [Finite G] in
 theorem sec8t84d5_conj_mem_normalizer {H : Subgroup G} {t x : G}
     (ht : t ∈ Subgroup.normalizer (H : Set G)) (hx : x ∈ Subgroup.normalizer (H : Set G)) :
     t * x * t⁻¹ ∈ Subgroup.normalizer (H : Set G) := by

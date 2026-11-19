@@ -167,7 +167,7 @@ private theorem commutator_mem_pPrimeCore_kSub
       ∀ a ∈ A, s * a * s⁻¹ * a⁻¹ ∈
         (CFSG.pPrimeCore 3 ↥(kSub 3 M H)).map (kSub 3 M H).subtype := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let K : Subgroup G := kSub 3 M H
   let O : Subgroup G := (CFSG.pPrimeCore 3 ↥K).map K.subtype
   let B : Subgroup G := A ⊔ O
@@ -228,7 +228,7 @@ private theorem exists_conj_pCoreOf_eq
     ∃ y ∈ H ⊓ M, CFSG.Open.pCoreOf 2 (A ⊔ T') =
       (CFSG.Open.pCoreOf 2 (A ⊔ T)).map (MulAut.conj y).toMonoidHom := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let K : Subgroup G := kSub 3 M H
   let O : Subgroup G := (CFSG.pPrimeCore 3 ↥K).map K.subtype
   let B : Subgroup G := A ⊔ O
@@ -288,7 +288,7 @@ private theorem eq_inf_normalizer_pCoreOf
     S ⊓ Subgroup.normalizer (CFSG.Open.pCoreOf 2 (A ⊔ T) : Set G) =
       CFSG.Open.pCoreOf 2 (A ⊔ T) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let R : Subgroup G := CFSG.Open.pCoreOf 2 (A ⊔ T)
   let S' : Subgroup G := S ⊓ Subgroup.normalizer (R : Set G)
   have hAH : A ≤ H := hAK.trans (kSub_le 3 M H)
@@ -327,7 +327,7 @@ theorem HypCGen.isMaxInvariantTwo_pCoreOf
     (hNR : Subgroup.normalizer (CFSG.Open.pCoreOf 2 (A ⊔ T) : Set G) ≤ H) :
     CFSG.LocalAnalysis.RankThreeUC.S15.IsMaxInvariantTwo A (CFSG.Open.pCoreOf 2 (A ⊔ T)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let R : Subgroup G := CFSG.Open.pCoreOf 2 (A ⊔ T)
   have hER : A ≤ Subgroup.normalizer (R : Set G) :=
     (le_sup_left : A ≤ A ⊔ T).trans
@@ -342,8 +342,8 @@ theorem HypCGen.isMaxInvariantTwo_pCoreOf
   have hlt : (R.subgroupOf S) ≠ ⊤ := by
     intro htop
     exact hSR (le_antisymm (Subgroup.subgroupOf_eq_top.mp htop) hRS)
-  haveI : Group.IsNilpotent S := hS.isNilpotent
-  obtain ⟨x, hxN, hxR⟩ := SetLike.exists_of_lt
+  have : Group.IsNilpotent S := hS.isNilpotent
+  obtain ⟨x, hxN, hxR⟩ := _root_.IsConcreteLE.exists_of_lt
     (Group.normalizerCondition_of_isNilpotent (R.subgroupOf S) (lt_top_iff_ne_top.mpr hlt))
   have hmapR : (R.subgroupOf S).map S.subtype = R := by
     rw [Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hRS]

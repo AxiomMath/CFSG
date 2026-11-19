@@ -25,7 +25,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem IsA11Star.exists_elemAbelian_le {A : Subgroup G} (hA : IsA11Star A) :
     ∃ F : Subgroup G, F ≤ A ∧ IsElemAbelian 3 F ∧ Nat.card F = 3 ^ 3 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e⟩ := hA
   obtain ⟨Fbar, hFbar, hFbarCard⟩ :=
     CFSG.SectionRank.alternating_cover_rank_three (n := 11) (by norm_num)
@@ -96,7 +96,7 @@ theorem IsA11Star.exists_elemAbelian_le {A : Subgroup G} (hA : IsA11Star A) :
 theorem a11TwoSetStab_index {i j : Fin 11} (hij : i ≠ j) :
     (a11TwoSetStab i j).index = 55 := by
   classical
-  haveI : MulAction.IsPretransitive (alternatingGroup (Fin 11))
+  have : MulAction.IsPretransitive (alternatingGroup (Fin 11))
       (Set.powersetCard (Fin 11) 2) :=
     Set.powersetCard.isPretransitive_alternatingGroup (by norm_num)
   let s : Set.powersetCard (Fin 11) 2 :=
@@ -171,7 +171,6 @@ theorem KFactA11GammaTwoSet.of_mulEquiv {X : Type} [Group X] [Finite X]
       intro hbot
       apply hne'
       rw [← Subgroup.map_bot (f := e.toMonoidHom), ← hbot, Subgroup.map_map]
-      congr 1
       ext x
       simp
     have hN := hcond F₀ hF₀le hF₀ne
@@ -225,7 +224,7 @@ theorem S14Choice.E_le_kSub {M H E Q : Subgroup G}
     (h : S14Choice G M H E Q (kSub 3 M H)) (h2 : CaseTwo M H) :
     E ≤ kSub 3 M H := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let K : Subgroup G := kSub 3 M H
   let O : Subgroup G := (CFSG.pPrimeCore 3 ↥K).map K.subtype
   let KE : Subgroup G := K ⊔ E
@@ -576,7 +575,7 @@ theorem S14Choice.kSub_sup_inf_eq {M H E Q : Subgroup G}
     (h : S14Choice G M H E Q (kSub 3 M H)) (h2 : CaseTwo M H)
     (hK : KNormalAt M) (hU : NineNineOneAt M) :
     kSub 3 M H ⊔ (H ⊓ M) = H := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P, hPmap⟩ := h.isSylowOf_kSub h2
   have hKleH : kSub 3 M H ≤ H := kSub_le 3 M H
   have hCnormal : ((kSub 3 M H).subgroupOf H).Normal :=
@@ -598,14 +597,14 @@ theorem S14Choice.kSub_sup_inf_eq {M H E Q : Subgroup G}
 
 theorem S14Choice.exists_twoSet {M H E Q : Subgroup G}
     (h : S14Choice G M H E Q (kSub 3 M H)) (h2 : CaseTwo M H)
-    (hK : KNormalAt M) (hU : NineNineOneAt M) (hL : PLayerNotLeAt M)
+    (hK : KNormalAt M) (_hU : NineNineOneAt M) (hL : PLayerNotLeAt M)
     (hKF : KFactA11GammaTwoSet) :
     ∃ (e : threeStar (kSub 3 M H) ≃* alternatingGroup (Fin 11)) (i j : Fin 11), i ≠ j ∧
       ((((kSub 3 M H ⊓ M).subgroupOf (kSub 3 M H)).map
         (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥(kSub 3 M H)))).map e.toMonoidHom) =
         a11TwoSetStab i j := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let K : Subgroup G := kSub 3 M H
   let O : Subgroup G := (CFSG.pPrimeCore 3 ↥K).map K.subtype
   let π : ↥K →* threeStar K := QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥K)
@@ -715,7 +714,7 @@ theorem S14Choice.exists_twoSet {M H E Q : Subgroup G}
     have hnormEq : Subgroup.normalizer (F₁.subgroupOf K) =
         (K ⊓ Subgroup.normalizer (F₁ : Set G)).subgroupOf K :=
       CFSG.GorensteinWalter.normalizer_subgroupOf_eq_subgroupOf_inf_normalizer K F₁ hF₁leK
-    haveI : Fact (IsPGroup 3 ↥(F₁.subgroupOf K)) := ⟨hTp⟩
+    have : Fact (IsPGroup 3 ↥(F₁.subgroupOf K)) := ⟨hTp⟩
     have hNT := CFSG.normalizer_map_quotient_eq_map_normalizer (G := ↥K) (p := 3)
       (F₁.subgroupOf K) (CFSG.pPrimeCore 3 ↥K) (CFSG.pPrimeCore_normal)
       (CFSG.pPrimeCore_coprime_card)
@@ -738,7 +737,7 @@ theorem S14Choice.relIndex_inf_eq {M H E Q : Subgroup G}
     (hK : KNormalAt M) (hU : NineNineOneAt M) (hL : PLayerNotLeAt M)
     (hKF : KFactA11GammaTwoSet) : (H ⊓ M).relIndex H = 55 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let K : Subgroup G := kSub 3 M H
   let π : ↥K →* threeStar K := QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥K)
   have hKleH : K ≤ H := kSub_le 3 M H
@@ -793,7 +792,7 @@ theorem S14Choice.isSylowOf_two_of_inf {M H E Q T : Subgroup G}
     (hKF : KFactA11GammaTwoSet)
     (hT : CFSG.ABGLocalTools.IsSylowOf 2 T (H ⊓ M)) :
     CFSG.ABGLocalTools.IsSylowOf 2 T H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hidx : (H ⊓ M).relIndex H = 55 :=
     h.relIndex_inf_eq h2 hK hU hL hKF
   have hodd : Odd ((H ⊓ M).relIndex H) := by rw [hidx]; norm_num

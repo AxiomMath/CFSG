@@ -144,7 +144,7 @@ theorem linAlg_scalar_of_li_x {k V : Type} [Field k] [AddCommGroup V] [Module k 
       simpa [Module.End.mul_apply] using this
     have e2 : c (y v) = a • y v + b • x (y v) := by
       rw [hc_eq]
-      simp [map_add, map_smul]
+      simp
     have e3 : y (c v) = a • y v + b • y (x v) := by
       rw [hcv]
       simp [map_add, map_smul]
@@ -164,7 +164,7 @@ theorem linAlg_scalar_of_li_x {k V : Type} [Field k] [AddCommGroup V] [Module k 
 
 theorem la_even {f : ℕ} (hf : f.Prime) (hf2 : f ≠ 2) : LAEven f := by
   intro V _ _ _ x y hx hy hyx
-  haveI : Fact f.Prime := ⟨hf⟩
+  have : Fact f.Prime := ⟨hf⟩
   have hneg_smul : ∀ g : Module.End (ZMod f) V, (-1 : ZMod f) • g = -g :=
     fun g => neg_one_smul (ZMod f) g
   have hdet_sq : ∀ g : Module.End (ZMod f) V, g * g = -1 →
@@ -211,9 +211,9 @@ theorem la_even {f : ℕ} (hf : f.Prime) (hf2 : f ≠ 2) : LAEven f := by
 
 theorem la_scalar {f : ℕ} (hf : f.Prime) (hf2 : f ≠ 2) : LAScalar f := by
   intro V _ _ _ hfin x y c hx hy hyx hcx hcy
-  haveI : Fact f.Prime := ⟨hf⟩
+  have : Fact f.Prime := ⟨hf⟩
   have h2 : (2 : ZMod f) ≠ 0 := linAlg_two_ne hf hf2
-  haveI : Nontrivial V := Module.nontrivial_of_finrank_pos (by rw [hfin]; norm_num)
+  have : Nontrivial V := Module.nontrivial_of_finrank_pos (by rw [hfin]; norm_num)
   obtain ⟨v, hv⟩ := exists_ne (0 : V)
   rcases linAlg_li_or h2 hx hy hyx hv with hli | hli
   · exact linAlg_scalar_of_li_x h2 hfin hx hy hyx hcx hcy hli
@@ -233,6 +233,7 @@ abbrev bridge_cg [h : Fact (∀ a ∈ F, ∀ b ∈ F, a * b = b * a)] : CommGrou
 
 attribute [local instance] bridge_cg
 
+omit [Finite K] in
 theorem bridge_exp (hF : FData f F) (v : Additive F) : f • v = 0 := by
   apply Additive.toMul.injective
   rw [toMul_nsmul, toMul_zero]
@@ -261,16 +262,19 @@ theorem bridge_smul [NeZero f] {V : Type} [AddCommGroup V] [Module (ZMod f) V] (
     (v : V) : μ • v = μ.val • v := by
   rw [← Nat.cast_smul_eq_nsmul (ZMod f), ZMod.natCast_zmod_val]
 
+omit [Finite K] in
 theorem bridge_endo [Fact (∀ a ∈ F, ∀ b ∈ F, a * b = b * a)]
-    [Fact (∀ v : Additive F, f • v = 0)] (g : K) (hg : g ∈ normalizer (F : Set K)) :
-    ∃ X : Module.End (ZMod f) (Additive F), ∀ v : Additive F,
-      ((Additive.toMul (X v) : F) : K) = g * ((Additive.toMul v : F) : K) * g⁻¹ :=
-  ⟨(bridge_conjAdd F g hg).toZModLinearMap f, fun v => rfl⟩
+    [Fact (∀ _v : Additive F, f • _v = 0)] (g : K) (hg : g ∈ normalizer (F : Set K)) :
+    ∃ X : Module.End (ZMod f) (Additive F), ∀ _v : Additive F,
+      ((Additive.toMul (X _v) : F) : K) = g * ((Additive.toMul _v : F) : K) * g⁻¹ :=
+  ⟨(bridge_conjAdd F g hg).toZModLinearMap f, fun _v => rfl⟩
 
+omit [Finite K] in
 theorem bridge_neg [Fact (∀ a ∈ F, ∀ b ∈ F, a * b = b * a)] (v : Additive F) :
     ((Additive.toMul (-v) : F) : K) = ((Additive.toMul v : F) : K)⁻¹ :=
   rfl
 
+omit [Finite K] in
 theorem bridge_endos [Fact (∀ a ∈ F, ∀ b ∈ F, a * b = b * a)]
     [Fact (∀ v : Additive F, f • v = 0)] {x y : K}
     (hx : x ∈ normalizer (F : Set K)) (hy : y ∈ normalizer (F : Set K))
@@ -314,11 +318,11 @@ theorem FData.even_card_exponent_aux (hF : FData f F) (hLA : LAEven f) {x y : K}
     (hx2 : ∀ a ∈ F, x * x * a * (x * x)⁻¹ = a⁻¹) (hy2 : ∀ a ∈ F, y * y * a * (y * y)⁻¹ = a⁻¹)
     (hxy : ∀ a ∈ F, y * x * y⁻¹ * a * (y * x * y⁻¹)⁻¹ = (x * a * x⁻¹)⁻¹) :
     ∃ k : ℕ, Nat.card F = f ^ (2 * k) := by
-  haveI : Fact f.Prime := ⟨hF.prime⟩
-  haveI : NeZero f := ⟨hF.prime.ne_zero⟩
-  haveI : Fact (∀ a ∈ F, ∀ b ∈ F, a * b = b * a) := ⟨hF.comm⟩
-  haveI : Fact (∀ v : Additive F, f • v = 0) := ⟨bridge_exp hF⟩
-  haveI : Finite (Additive F) := Finite.of_equiv F Additive.ofMul
+  have : Fact f.Prime := ⟨hF.prime⟩
+  have : NeZero f := ⟨hF.prime.ne_zero⟩
+  have : Fact (∀ a ∈ F, ∀ b ∈ F, a * b = b * a) := ⟨hF.comm⟩
+  have : Fact (∀ v : Additive F, f • v = 0) := ⟨bridge_exp hF⟩
+  have : Finite (Additive F) := Finite.of_equiv F Additive.ofMul
   obtain ⟨X, Y, -, -, hXX, hYY, hYX⟩ := bridge_endos (f := f) hx hy hx2 hy2 hxy
   obtain ⟨k, hk⟩ := hLA (Additive F) X Y hXX hYY hYX
   refine ⟨k, ?_⟩
@@ -332,11 +336,11 @@ theorem FData.scalar_of_card_sq_aux (hF : FData f F) (hLA : LAScalar f) (hcard :
     (hcx : ∀ a ∈ F, c * (x * a * x⁻¹) * c⁻¹ = x * (c * a * c⁻¹) * x⁻¹)
     (hcy : ∀ a ∈ F, c * (y * a * y⁻¹) * c⁻¹ = y * (c * a * c⁻¹) * y⁻¹) :
     ∃ n : ℕ, ∀ a ∈ F, c * a * c⁻¹ = a ^ n := by
-  haveI : Fact f.Prime := ⟨hF.prime⟩
-  haveI : NeZero f := ⟨hF.prime.ne_zero⟩
-  haveI : Fact (∀ a ∈ F, ∀ b ∈ F, a * b = b * a) := ⟨hF.comm⟩
-  haveI : Fact (∀ v : Additive F, f • v = 0) := ⟨bridge_exp hF⟩
-  haveI : Finite (Additive F) := Finite.of_equiv F Additive.ofMul
+  have : Fact f.Prime := ⟨hF.prime⟩
+  have : NeZero f := ⟨hF.prime.ne_zero⟩
+  have : Fact (∀ a ∈ F, ∀ b ∈ F, a * b = b * a) := ⟨hF.comm⟩
+  have : Fact (∀ v : Additive F, f • v = 0) := ⟨bridge_exp hF⟩
+  have : Finite (Additive F) := Finite.of_equiv F Additive.ofMul
   obtain ⟨X, Y, hX, hY, hXX, hYY, hYX⟩ := bridge_endos (f := f) hx hy hx2 hy2 hxy
   obtain ⟨C, hC⟩ := bridge_endo (f := f) c hc
   have hCX : C * X = X * C := by

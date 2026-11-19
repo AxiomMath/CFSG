@@ -105,7 +105,7 @@ theorem fi24_local_tR {s : R} (hs : orderOf s = 5) (hst : s * tR = tR * s) (n : 
     { carrier := {m | (m : R) ∈ N ∨ (m : R) * tR ∈ N}
       mul_mem' := by
         intro a b ha hb
-        simp only [Set.mem_setOf_eq, Subgroup.coe_mul] at ha hb ⊢
+        simp only [Set.mem_ofPred_eq, Subgroup.coe_mul] at ha hb ⊢
         rcases ha with ha | ha <;> rcases hb with hb | hb
         · exact Or.inl (N.mul_mem ha hb)
         · right
@@ -127,7 +127,7 @@ theorem fi24_local_tR {s : R} (hs : orderOf s = 5) (hst : s * tR = tR * s) (n : 
       one_mem' := Or.inl N.one_mem
       inv_mem' := by
         intro a ha
-        simp only [Set.mem_setOf_eq, Subgroup.coe_inv] at ha ⊢
+        simp only [Set.mem_ofPred_eq, Subgroup.coe_inv] at ha ⊢
         rcases ha with ha | ha
         · exact Or.inl (N.inv_mem ha)
         · right
@@ -175,7 +175,6 @@ theorem fi24_local_tR {s : R} (hs : orderOf s = 5) (hst : s * tR = tR * s) (n : 
     have hko : orderOf ((k : ↥MR) : R) = 5 := by
       rw [Subgroup.orderOf_coe]
       first
-        | exact hk
         | (rw [Subgroup.orderOf_coe]; exact hk)
     have hk2 : ((k : ↥MR) : R) ∈ N ∨ ((k : ↥MR) : R) * tR ∈ N := k.2
     have hkM : ((k : ↥MR) : R) ∈ MR := (k : ↥MR).2
@@ -246,14 +245,14 @@ theorem fi24_local {s : R} (hs : orderOf s = 5) {x : R} (hx : x ∈ D24) (hxs : 
 
 theorem gLAPPrimeCoreOf_fi24_five_eq_bot {s : R} (hs : orderOf s = 5)
     (hT0 : ∃ e ∈ D24, e * s = s * e)
-    (hT1 : ∀ x ∈ D24, x * s = s * x → ∃ y ∈ D24, y * s = s * y ∧ y ≠ x ∧ x * y = y * x)
-    (hT2 : ∀ x ∈ D24, x * s = s * x → ∀ y ∈ D24, y * s = s * y → x * y ≠ y * x →
-      ∃ z ∈ D24, z * s = s * z ∧ z * x = x * z ∧ z * y = y * z) :
+    (hT1 : ∀ _x ∈ D24, _x * s = s * _x → ∃ _y ∈ D24, _y * s = s * _y ∧ _y ≠ _x ∧ _x * _y = _y * _x)
+    (hT2 : ∀ _x ∈ D24, _x * s = s * _x → ∀ _y ∈ D24, _y * s = s * _y → _x * _y ≠ _y * _x →
+      ∃ z ∈ D24, z * s = s * z ∧ z * _x = _x * z ∧ z * _y = _y * z) :
     GLAPPrimeCoreOf 5 (Subgroup.centralizer ({s} : Set R)) = ⊥ :=
   @gLAPPrimeCoreOf_eq_bot_of_fixed_graph R (inferInstance : Group R) inferInstance D24 5
-    (fun x hx => D24_mul_self hx) (fun x hx => D24_ne_one hx)
-    (fun x hx y hy hxy => D24_cube hx hy hxy) (fun x hx g => D24_conj hx g) s hT0 hT1 hT2
-    (fun x hx hxs n hn hnx => fi24_local hs hx hxs n hn hnx)
+    (fun _x hx => D24_mul_self hx) (fun _x hx => D24_ne_one hx)
+    (fun _x hx _y hy hxy => D24_cube hx hy hxy) (fun _x hx g => D24_conj hx g) s hT0 hT1 hT2
+    (fun _x hx hxs n hn hnx => fi24_local hs hx hxs n hn hnx)
 
 end Local
 

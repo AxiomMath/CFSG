@@ -231,7 +231,7 @@ private theorem u33_mem_inner {S : Type} [Group S] (hz : Subgroup.center S = ⊥
   rw [hinner, hS, hA] at hidx
   have hO : (CFSG.ComponentClassification.OuterAutomorphisms.inner S).index = 2 := by
     omega
-  haveI : Finite (MulAut S) := Nat.finite_of_card_ne_zero (by rw [hA]; norm_num)
+  have : Finite (MulAut S) := Nat.finite_of_card_ne_zero (by rw [hA]; norm_num)
   let π : MulAut S →* CFSG.ComponentClassification.OuterAutomorphisms.Outer S :=
     QuotientGroup.mk' (CFSG.ComponentClassification.OuterAutomorphisms.inner S)
   have hp' : π α ^ 3 = 1 := by
@@ -265,7 +265,7 @@ theorem u33SolvCentAt_holds (G : Type) [Group G] [Finite G] :
     obtain ⟨hS, hA⟩ := u33_card (f.trans e)
     obtain ⟨hsimple, hnonab⟩ := CFSG.LocalAnalysis.GLTheoremA.chev_pSimple_simple_nonabelian hp hI
     have hz : Subgroup.center (CFSG.Yardstones.Md0ec50421ce4.PSimple 3 I) = ⊥ := by
-      haveI := hsimple
+      have := hsimple
       exact CFSG.LocalAnalysis.GLTheoremA.chev_center_eq_bot_of_simple_nonabelian hnonab
     have hmem := u33_mem_inner hz hS hA
       (CFSG.LocalAnalysis.GLTheoremA.chevAut 3 I ⟨y, hyN⟩)

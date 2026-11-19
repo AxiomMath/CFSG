@@ -24,7 +24,7 @@ variable {L : Type} [Field L] [IsAlgClosed L] {ℓ : ℕ} [Fact ℓ.Prime] [Char
 theorem fixOrd_dN (hf : 1 ≤ f) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hpq : p ∣ (ℓ ^ f) ^ 2 + 1) : FixOrd (L := L) ℓ f p (dN L) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set D := tauDatum L ℓ f hf with hD
   have hO := orbit24_mem (L := L) (ℓ := ℓ) (f := f) hf
   obtain ⟨hc, -⟩ := pair_data hf rfl hO
@@ -33,7 +33,7 @@ theorem fixOrd_dN (hf : 1 ≤ f) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     rw [hK, D.card_orbitField hO, hc]
     rfl
   have hℓ : 0 < ℓ ^ f := pow_pos (Fact.out : ℓ.Prime).pos _
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hKcard]; positivity)
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hKcard]; positivity)
   have hdvd : p ∣ Nat.card (Matrix.SpecialLinearGroup (Fin 2) K) := by
     rw [← CFSG.Open.StatedAPI.card_statedSL 2 K, CFSG.Open.StatedAPI.card_statedSL_two K, hKcard]
     refine Dvd.dvd.mul_left ?_ _

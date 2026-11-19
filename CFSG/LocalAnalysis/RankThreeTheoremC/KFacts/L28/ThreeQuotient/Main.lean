@@ -27,7 +27,7 @@ theorem ThreeQuotient.false_of_le_lie (hLie : Sylow3OmegaLie) (K : Subgroup X) [
     (hmodel : ∃ (t : StatedLieTag) (n ℓ f : ℕ), StatedLieAdmissible t n ℓ f ∧ LieModel K t n ℓ f)
     (S : Sylow 3 X) {Q₀ : Subgroup X} (hD : ShapeData (S : Subgroup X) Q₀)
     (hSK : (S : Subgroup X) ≤ K) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hT : ((S.subtype hSK : Sylow 3 K) : Subgroup K) = (S : Subgroup X).subgroupOf K := rfl
   have hTcard : Nat.card ((S.subtype hSK : Sylow 3 K) : Subgroup K) = 3 ^ 5 := by
     rw [hT, ← hD.card]
@@ -40,7 +40,7 @@ theorem ThreeQuotient.false_of_le_lie (hLie : Sylow3OmegaLie) (K : Subgroup X) [
       refine CFSG.SectionRank.le_pRank (by norm_num) le_top (E := E.subgroupOf K) ?_ ?_
       · refine ⟨⟨⟨fun a b => Subtype.ext (Subtype.ext ?_)⟩⟩, fun x hx => Subtype.ext ?_⟩
         · have h2 := congrArg Subtype.val (hE.1.1.comm ⟨((a : K) : X), a.2⟩ ⟨((b : K) : X), b.2⟩)
-          simp only [Subgroup.coe_mul, Subgroup.coe_mk] at h2 ⊢
+          simp only [Subgroup.coe_mul] at h2 ⊢
           exact h2
         · exact hE.2 _ hx
       · rw [← hEcard]
@@ -65,7 +65,7 @@ theorem ThreeQuotient.false_of_le_lie (hLie : Sylow3OmegaLie) (K : Subgroup X) [
     exact hb
   have h := hab.1.comm ⟨_, haT⟩ ⟨_, hbT⟩
   have h2 := congrArg (fun k : ((S.subtype hSK : Sylow 3 K) : Subgroup K) => ((k : K) : X)) h
-  simp only [Subgroup.coe_mul, Subgroup.coe_mk] at h2
+  simp only [Subgroup.coe_mul] at h2
   exact h2
 
 section Heavy
@@ -83,7 +83,7 @@ theorem ThreeQuotient.false_of_le (hLie : Sylow3OmegaLie) (K : Subgroup X) [IsSi
   · exact false_of_le_lie hLie K hnab hcat ⟨t, n, ℓ, f, hadm, hmodel⟩ S hD hSK
   · have hcard : Nat.card K = CFSG.AGLEmbedding.sporOrd s :=
       (Nat.card_congr e.toEquiv).trans
-        (CFSG.AGLEmbedding.card_carrier_eq_sporOrd CFSG.Open.Open.monster_y443_derived_card s)
+        (CFSG.AGLEmbedding.card_carrier_eq_sporOrd CFSG.Open.Thm.monster_y443_derived_card s)
     have h5 : 3 ^ 5 ∣ CFSG.AGLEmbedding.sporOrd s :=
       hcard ▸ (hD.card ▸ Subgroup.card_dvd_of_le hSK)
     have h6 : ¬ 3 ^ 6 ∣ CFSG.AGLEmbedding.sporOrd s := fun h =>
@@ -95,22 +95,22 @@ theorem ThreeQuotient.false_of_le (hLie : Sylow3OmegaLie) (K : Subgroup X) [IsSi
 theorem kFactL28ThreeQuotient_of_sylow3OmegaLie (hLie : Sylow3OmegaLie) :
     KFactL28ThreeQuotient := by
   intro X _ _ K hKn hs hnab hcat hKC _ Q hQ hshape hQX
-  haveI : K.Normal := hKn
-  haveI : IsSimpleGroup K := hs
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : K.Normal := hKn
+  have : IsSimpleGroup K := hs
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨S, rfl⟩ := exists_sylow_eq_of_isSylowOf_top hQ
   obtain ⟨Q₀, hD⟩ := ThreeQuotient.L28Shape.shapeData hshape
   rcases pGoodOut_three_or_of_catalog d4ThreeRankFour_holds e6ThreeRankFour_holds
       twistedE6ThreeRankFour_holds hnab hcat with hP | hLU | h4
   · by_cases hSK : (S : Subgroup X) ≤ K
     · exact false_of_le hLie K hnab hcat S hD hSK
-    · obtain ⟨q, hqS, hqK⟩ := SetLike.not_le_iff_exists.1 hSK
+    · obtain ⟨q, hqS, hqK⟩ := IsConcreteLE.not_le_iff_exists.1 hSK
       have hq3 : ∃ k : ℕ, q ^ (3 ^ k) = 1 := by
-        obtain ⟨k, hk⟩ := S.isPGroup' ⟨q, hqS⟩
+        obtain ⟨k, hk⟩ := S.isPGroup ⟨q, hqS⟩
         exact ⟨k, by simpa using congrArg Subtype.val hk⟩
       obtain ⟨N, hN, hidx, hNtop⟩ :=
         exists_normal_index_pow_of_pGoodOut Nat.prime_three K hKC hP hq3 hqK
-      haveI := hN
+      have := hN
       exact not_le_commutator_of_normal_index S N hidx hNtop hQX
   · exact false_of_linearOrUnitary K hKC hnab S hD hQX hLU
   · have h1 := CFSG.SectionRank.pRank_top_le_of_injective (p := 3) (by norm_num) K.subtype

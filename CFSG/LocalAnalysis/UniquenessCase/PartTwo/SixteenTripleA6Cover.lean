@@ -24,9 +24,9 @@ theorem bijective_of_surjective_isHat_a6_of_quasisimple_odd_center
     (hH : IsHat H (alternatingGroup (Fin 6)))
     (f : C →* H) (hf : Function.Surjective f) :
     Function.Bijective f := by
-  haveI hperfC : Group.IsPerfect C := ⟨hC.1⟩
-  haveI : IsSimpleGroup (H ⧸ Subgroup.center H) := hH.1.2.1
-  haveI hHnt : Nontrivial H := (QuotientGroup.mk'_surjective (Subgroup.center H)).nontrivial
+  have hperfC : Group.IsPerfect C := ⟨hC.1⟩
+  have : IsSimpleGroup (H ⧸ Subgroup.center H) := hH.1.2.1
+  have hHnt : Nontrivial H := (QuotientGroup.mk'_surjective (Subgroup.center H)).nontrivial
   have hker_ne_top : f.ker ≠ ⊤ := by
     intro htop
     have hsub : Subsingleton H := ⟨fun a b => by

@@ -254,9 +254,9 @@ theorem gram_of_roots7 {δ : ZMod 3} (hδ : δ = 1 ∨ δ = -1) {L : Matrix (Fin
     rw [h0, b8, single_one_dotProduct, gramD, Matrix.mulVec_diagonal]
     by_cases hj : j = 0
     · subst hj
-      rw [h0, if_pos rfl]
+      rw [h0, ite_eq_left rfl]
       decide
-    · rw [if_neg hj, hU _ (by simp [Ne.symm hj])]
+    · rw [ite_eq_right hj, hU _ (by simp [Ne.symm hj])]
       simp
   rw [b8_basis]
   by_cases hi0 : i = 0
@@ -281,7 +281,7 @@ theorem gram_of_roots7 {δ : ZMod 3} (hδ : δ = 1 ∨ δ = -1) {L : Matrix (Fin
         have h0' : j.val ≠ 0 := fun e => hj0 (Fin.ext e)
         have h1' : j.val ≠ 1 := fun e => hj1 (Fin.ext e)
         omega
-      rw [H1a j hj2, if_neg (Ne.symm hj1)]
+      rw [H1a j hj2, ite_eq_right (Ne.symm hj1)]
   have hi2 : 2 ≤ i.val := by
     have := i.isLt
     have h0' : i.val ≠ 0 := fun e => hi0 (Fin.ext e)
@@ -289,7 +289,7 @@ theorem gram_of_roots7 {δ : ZMod 3} (hδ : δ = 1 ∨ δ = -1) {L : Matrix (Fin
     omega
   by_cases hj1 : j = 1
   · subst hj1
-    rw [b8_comm, H1a i hi2, if_neg hi1]
+    rw [b8_comm, H1a i hi2, ite_eq_right hi1]
   have hj2 : 2 ≤ j.val := by
     have := j.isLt
     have h0' : j.val ≠ 0 := fun e => hj0 (Fin.ext e)
@@ -297,8 +297,8 @@ theorem gram_of_roots7 {δ : ZMod 3} (hδ : δ = 1 ∨ δ = -1) {L : Matrix (Fin
     omega
   by_cases hij : i = j
   · subst hij
-    rw [Haa i hi2, if_pos rfl, if_neg (by omega)]
-  · rw [Hab i j hi2 hj2 hij, if_neg hij]
+    rw [Haa i hi2, ite_eq_left rfl, ite_eq_right (by omega)]
+  · rw [Hab i j hi2 hj2 hij, ite_eq_right hij]
 
 end CFSG.StandardType.FrameRoute.FS81.E7Row
 

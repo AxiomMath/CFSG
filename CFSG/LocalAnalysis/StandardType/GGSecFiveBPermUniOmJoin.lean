@@ -154,7 +154,7 @@ theorem GGSecFiveBPermUniLFrame.range_comp_uniCast_eq [Finite G] [Fact p.Prime] 
   have hx : ∀ i, eta x i = if i = π (Fin.last m) then 1 else c0 := fun i => by
     simp only [x, MulEquiv.apply_symm_apply]
   have hxK : ∀ i : Fin m, eta x (π i.castSucc) = c0 := fun i => by
-    rw [hx, if_neg (π.injective.ne (Fin.castSucc_lt_last i).ne)]
+    rw [hx, ite_eq_right (π.injective.ne (Fin.castSucc_lt_last i).ne)]
   have hcomm : ∀ g : ↥(unitarySU 2 f K m),
       (x : G) * σ (uniCast hK m g) * (x : G)⁻¹ = σ (uniCast hK m g) := by
     intro g

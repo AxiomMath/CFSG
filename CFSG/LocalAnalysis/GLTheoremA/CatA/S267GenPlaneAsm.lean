@@ -45,9 +45,9 @@ theorem genPlaneExcAssembly_holds :
     rw [eq_top_iff, ← hgen, Subgroup.closure_le]
     rintro t ⟨x, hx, hx1, hxt⟩
     exact hnorm x hx hx1 hxt
-  haveI : J.Normal := Subgroup.normalizer_eq_top_iff.mp hN
-  haveI : IsSimpleGroup (TauCeti.CFSGIndex.lie d).Group := (CFSG.Assembly.lie_finite_simple d).2
-  haveI : IsSimpleGroup T := e.isSimpleGroup
+  have : J.Normal := Subgroup.normalizer_eq_top_iff.mp hN
+  have : IsSimpleGroup (TauCeti.CFSGIndex.lie d).Group := (CFSG.Assembly.lie_finite_simple d).2
+  have : IsSimpleGroup T := e.isSimpleGroup
   obtain ⟨x, hx, hx1⟩ : ∃ x ∈ P, x ≠ 1 := by
     rcases P.bot_or_exists_ne_one with hbot | hne
     · have h1 : Nat.card P = 1 := by rw [hbot, Subgroup.card_bot]

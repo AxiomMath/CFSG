@@ -55,8 +55,8 @@ private lemma lr7sc_refl_toZ_sub {c f v : List ℕ} (hc : c.length = 6) (hf : f.
   rw [l05nNC_refl_apply, ← ggDepANDot_cast f v hf hv,
     l05nNC_toZ_sub hv (l05nNC_smul_length hc), l05nNC_toZ_smul hc]
 
-private lemma lr7sc_sameRefl_refl {q r : GGDepANPair} (hq1 : q.1.length = 6)
-    (hq2 : q.2.length = 6) (hr1 : r.1.length = 6) (hr2 : r.2.length = 6)
+private lemma lr7sc_sameRefl_refl {q r : GGDepANPair} (_hq1 : q.1.length = 6)
+    (_hq2 : q.2.length = 6) (hr1 : r.1.length = 6) (hr2 : r.2.length = 6)
     (h : ggDepAThreeSameRefl 3 q r = true) :
     ggDepARefl (ggDepANToZ 3 6 r.1) (ggDepANToZ 3 6 r.2) =
       ggDepARefl (ggDepANToZ 3 6 q.1) (ggDepANToZ 3 6 q.2) := by
@@ -145,7 +145,7 @@ private lemma lr7sc_key_eq_of_toZ_eq {a b : List ℕ} (ha : a.length = 6) (hb : 
 
 private lemma lr7sc_toZ_X : ggDepANToZ 3 6 (ggDepANX 6) = ggDepAx 3 6 := by
   funext j
-  have hj : j.1 < (ggDepANX 6).length := by simpa [ggDepANX] using j.2
+  have hj : j.1 < (ggDepANX 6).length := by simp [ggDepANX]
   rw [ggDepANToZ, List.getD_eq_getElem (l := ggDepANX 6) (d := 0) hj]
   simp only [ggDepANX, ggDepAx, List.getElem_map, List.getElem_range]
   split <;> simp
@@ -165,28 +165,28 @@ private lemma lr7sc_cast_at (a b : Prop) [Decidable a] [Decidable b] :
 private lemma lr7sc_toZ_H {i : ℕ} (h : i + 1 < 6) :
     ggDepANToZ 3 6 (ggDepANH 3 6 i) = ggDepAh 3 6 ⟨i, by omega⟩ := by
   funext j
-  have hj : j.1 < (ggDepANH 3 6 i).length := by simpa [ggDepANH] using j.2
+  have hj : j.1 < (ggDepANH 3 6 i).length := by simp [ggDepANH]
   rw [ggDepANToZ, List.getD_eq_getElem (l := ggDepANH 3 6 i) (d := 0) hj]
   simp only [ggDepANH, ggDepAh, List.getElem_map, List.getElem_range]
   by_cases hj6 : j.1 + 1 = 6
   · simp [hj6]
-  · rw [if_neg hj6, if_neg hj6]
+  · rw [ite_eq_right hj6, ite_eq_right hj6]
     exact lr7sc_cast_ht (j.1 = i) (j.1 = i + 1) (i + 2 = 6)
 
 private lemma lr7sc_toZ_A {i : ℕ} (h : i + 1 < 6) :
     ggDepANToZ 3 6 (ggDepANA 3 6 i) = ggDepAα 3 6 ⟨i, by omega⟩ := by
   funext j
-  have hj : j.1 < (ggDepANA 3 6 i).length := by simpa [ggDepANA] using j.2
+  have hj : j.1 < (ggDepANA 3 6 i).length := by simp [ggDepANA]
   rw [ggDepANToZ, List.getD_eq_getElem (l := ggDepANA 3 6 i) (d := 0) hj]
   simp only [ggDepANA, ggDepAα, List.getElem_map, List.getElem_range]
   by_cases hj6 : j.1 + 1 = 6
   · simp [hj6]
-  · rw [if_neg hj6, if_neg hj6]
+  · rw [ite_eq_right hj6, ite_eq_right hj6]
     exact lr7sc_cast_at (j.1 = i) (j.1 = i + 1)
 
 private lemma lr7sc_sp_mem (ha aa : List ℕ) (hha : ha.length = 6) (haa : aa.length = 6)
     (hdot : ggDepANDot 3 aa ha = 2 % 3) (r : GGDepAThreeSurv)
-    (hslen : r.s.length = 6)
+    (_hslen : r.s.length = 6)
     (hsall : ∀ x ∈ r.s,
       (x.1 < 6 ∧ ∀ t ∈ x.2.1, t < 6) ∧ (x.2.2 == 1 || x.2.2 == 3 - 1) = true)
     (hspall : ∀ x ∈ lr7sc_sp ha aa r, (ggDepANDot 3 x.2 x.1 == 2 % 3) = true) :
@@ -247,10 +247,10 @@ private lemma lr7sc_sp_props (ha aa : List ℕ) (hha : ha.length = 6) (haa : aa.
   intro i
   have hlen := lr7sc_sp_length ha aa r hslen
   have hget : (lr7sc_sp ha aa r).getD i.1 ([], []) ∈ lr7sc_sp ha aa r :=
-    lr7sc_getD_mem (l := lr7sc_sp ha aa r) (n := i.1) ([], []) (by simpa [hlen] using i.2)
+    lr7sc_getD_mem (l := lr7sc_sp ha aa r) (n := i.1) ([], []) (by simp [hlen])
   exact lr7sc_sp_mem ha aa hha haa hdot r hslen hsall hspall _ hget
 
-private lemma lr7sc_coxeter (ha aa : List ℕ) (hha : ha.length = 6) (haa : aa.length = 6)
+private lemma lr7sc_coxeter (ha aa : List ℕ) (_hha : ha.length = 6) (_haa : aa.length = 6)
     (r : GGDepAThreeSurv) (hslen : r.s.length = 6)
     (hsp : ∀ q ∈ lr7sc_sp ha aa r, q.1.length = 6 ∧ q.2.length = 6 ∧
       ggDepAdot (ggDepANToZ 3 6 q.2) (ggDepANToZ 3 6 q.1) = 2)
@@ -266,7 +266,7 @@ private lemma lr7sc_coxeter (ha aa : List ℕ) (hha : ha.length = 6) (haa : aa.l
     intro i
     rw [lr7sc_form_apply]
     exact (hsp _ (lr7sc_getD_mem (l := lr7sc_sp ha aa r) (n := i.1) ([], [])
-      (by simpa [lr7sc_sp_length ha aa r hslen] using i.2))).2.2
+      (by simp [lr7sc_sp_length ha aa r hslen]))).2.2
   have hP : ∀ i j : Fin 6,
       ggDepAform (ggDepANToZ 3 6 ((lr7sc_sp ha aa r).getD i.1 ([], [])).2)
         (ggDepANToZ 3 6 ((lr7sc_sp ha aa r).getD j.1 ([], [])).1) =
@@ -279,10 +279,10 @@ private lemma lr7sc_coxeter (ha aa : List ℕ) (hha : ha.length = 6) (haa : aa.l
       simpa [beq_iff_eq] using hh
     have hgeti' : (lr7sc_sp ha aa r).getD i.1 ([], []) ∈ lr7sc_sp ha aa r :=
       lr7sc_getD_mem (l := lr7sc_sp ha aa r) (n := i.1) ([], [])
-        (by simpa [lr7sc_sp_length ha aa r hslen] using i.2)
+        (by simp [lr7sc_sp_length ha aa r hslen])
     have hgetj' : (lr7sc_sp ha aa r).getD j.1 ([], []) ∈ lr7sc_sp ha aa r :=
       lr7sc_getD_mem (l := lr7sc_sp ha aa r) (n := j.1) ([], [])
-        (by simpa [lr7sc_sp_length ha aa r hslen] using j.2)
+        (by simp [lr7sc_sp_length ha aa r hslen])
     rw [← ggDepANDot_cast (p := 3) (N := 6) _ _
       (hsp _ hgeti').2.1 (hsp _ hgetj').1, h1, lr7sc_e6res_cartan i j]
   have hrel := isLiftable_reflection_of_intCartan lr7sc_intcartan_e6
@@ -312,7 +312,7 @@ private lemma lr7sc_sword_length (ha aa : List ℕ) (r : GGDepAThreeSurv)
         (hsp _ (lr7sc_getD_mem (l := lr7sc_sp ha aa r) (n := t) ([], []) hwt)).1
         (hsp _ (lr7sc_getD_mem (l := lr7sc_sp ha aa r) (n := t) ([], []) hwt)).2
 
-private lemma lr7sc_sword_mem (ha aa : List ℕ) (hha : ha.length = 6) (haa : aa.length = 6)
+private lemma lr7sc_sword_mem (ha aa : List ℕ) (_hha : ha.length = 6) (_haa : aa.length = 6)
     (r : GGDepAThreeSurv) (hslen : r.s.length = 6)
     (hsp : ∀ q ∈ lr7sc_sp ha aa r, q.1.length = 6 ∧ q.2.length = 6 ∧
       ggDepAdot (ggDepANToZ 3 6 q.2) (ggDepANToZ 3 6 q.1) = 2)
@@ -412,7 +412,7 @@ private lemma lr7sc_gens_mem (ha aa : List ℕ) (hha : ha.length = 6) (haa : aa.
   intro g hg
   rcases hg with ⟨i, rfl⟩ | rfl
   · have hgen : ggDepANGen 3 6 ha aa i.1 = (ggDepANH 3 6 i.1, ggDepANA 3 6 i.1) := by
-      simp only [ggDepANGen, if_pos (show i.1 + 1 < 6 by have := i.2; omega)]
+      simp only [ggDepANGen, ite_eq_left (show i.1 + 1 < 6 by have := i.2; omega)]
     have hrew : ggDepARefl (ggDepAh 3 6 i) (ggDepAα 3 6 i) =
         ggDepARefl (ggDepANToZ 3 6 (ggDepANGen 3 6 ha aa i.1).1)
           (ggDepANToZ 3 6 (ggDepANGen 3 6 ha aa i.1).2) := by
@@ -424,7 +424,7 @@ private lemma lr7sc_gens_mem (ha aa : List ℕ) (hha : ha.length = 6) (haa : aa.
     exact lr7sc_gen_single_mem ha aa hha haa r hslen hsp hglen hgall hg6 i.1
       (by have := i.2; omega)
   · have hgen : ggDepANGen 3 6 ha aa 5 = (ha, aa) := by
-      simp only [ggDepANGen, if_neg (show ¬ (5 + 1 < 6) by omega)]
+      simp only [ggDepANGen, ite_eq_right (show ¬ (5 + 1 < 6) by omega)]
     rw [show ggDepARefl (ggDepANToZ 3 6 ha) (ggDepANToZ 3 6 aa) =
         ggDepARefl (ggDepANToZ 3 6 (ggDepANGen 3 6 ha aa 5).1)
           (ggDepANToZ 3 6 (ggDepANGen 3 6 ha aa 5).2) from by rw [hgen]]
@@ -489,11 +489,11 @@ private lemma lr7sc_fold_inv (ha aa : List ℕ) (hha : ha.length = 6) (haa : aa.
   | cons e o ih =>
       rw [List.foldl_cons]
       apply ih
-      · simp only [lr7sc_stateStep, List.length_append, List.length_singleton]
+      · simp only [List.length_append, List.length_singleton]
         omega
       · intro k hk
-        simp only [lr7sc_stateStep, List.length_append, List.length_singleton] at hk
-        simp only [lr7sc_stateStep]
+        simp only [List.length_append, List.length_singleton] at hk
+        simp only
         by_cases hkv : k < v.length
         · rw [List.getD_append _ _ _ _ hkv]; exact hvlen k hkv
         · have hk' : k = v.length := by omega
@@ -503,8 +503,8 @@ private lemma lr7sc_fold_inv (ha aa : List ℕ) (hha : ha.length = 6) (haa : aa.
           exact l05nNC_sub_length (hvlen e.1 (by have := hpar 0 (by simp); simpa using this))
             (l05nNC_smul_length (l05nNC_gen_length1 hha haa e.2))
       · intro k hk
-        simp only [lr7sc_stateStep, List.length_append, List.length_singleton] at hk
-        simp only [lr7sc_stateStep]
+        simp only [List.length_append, List.length_singleton] at hk
+        simp only
         by_cases hkv : k < v.length
         · rw [List.getD_append _ _ _ _ (by rw [← hlen]; exact hkv),
             List.getD_append _ _ _ _ hkv, hax k hkv]
@@ -529,8 +529,8 @@ private lemma lr7sc_fold_inv (ha aa : List ℕ) (hha : ha.length = 6) (haa : aa.
           exact lr7sc_refl_toZ_sub (l05nNC_gen_length1 hha haa e.2)
             (l05nNC_gen_length2 hha haa e.2) hve
       · intro k hk
-        simp only [lr7sc_stateStep, List.length_append, List.length_singleton] at hk
-        simp only [lr7sc_stateStep]
+        simp only [List.length_append, List.length_singleton] at hk
+        simp only
         by_cases hkv : k < w.length
         · rw [List.getD_append _ _ _ _ hkv]; exact hcl k hkv
         · have hk' : k = w.length := by omega

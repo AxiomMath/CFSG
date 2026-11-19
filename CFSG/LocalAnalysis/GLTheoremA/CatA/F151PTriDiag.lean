@@ -75,7 +75,7 @@ private theorem shapeModelDiagAt_tri {f : ℕ} {K : Type} [Field K] [Finite K]
     (hcat : catalogIs (TriGrp K σ) (onLie fun d => d.characteristic = 2)) :
     ShapeModelDiagAt (TriGrp K σ) p := by
   intro x y hx1 hxp hyp hxy J hJ hN
-  haveI : Finite (TriGrp K σ) := Subtype.finite
+  have : Finite (TriGrp K σ) := Subtype.finite
   have hfix : CFSG.HardMathSupport.Solomon.Coordinator.fixSubgroup (MulAut.conj x) =
       Subgroup.centralizer ({x} : Set (TriGrp K σ)) := fixSubgroup_conj_eq_centralizer x
   have hJfix : GLAPComponent p
@@ -126,7 +126,7 @@ private theorem shapeModelDiagAt_tri {f : ℕ} {K : Type} [Field K] [Finite K]
     (by rintro ⟨h1, -⟩; rcases ht with rfl | rfl <;> exact absurd h1 (by decide))
     (by rcases ht with rfl | rfl <;> decide) hmem
 
-theorem triDiag_of_block (hL : CatLayer) (hC : CatChevComps) (hB : DiagOfBlock)
+theorem triDiag_of_block (hL : CatLayer) (_hC : CatChevComps) (_hB : DiagOfBlock)
     (hT : MarkTransport) (hI : ShapeModelDiagIso) :
     SimpleDiagModel (CharTwoOf KD264Lie.isTrialityIdx) := by
   intro S _ _ p hp hp2 hcat hnotshape
@@ -135,13 +135,13 @@ theorem triDiag_of_block (hL : CatLayer) (hC : CatChevComps) (hB : DiagOfBlock)
     refine ⟨i, ?_, ⟨eCat⟩⟩
     cases i with
     | lie idx => exact hi.2
-    | cyclic _ _ => exact absurd hi (by simp [onLie, CharTwoOf])
-    | alternating _ _ => exact absurd hi (by simp [onLie, CharTwoOf])
-    | sporadic _ => exact absurd hi (by simp [onLie, CharTwoOf])
+    | cyclic _ _ => exact absurd hi (by simp [onLie])
+    | alternating _ _ => exact absurd hi (by simp [onLie])
+    | sporadic _ => exact absurd hi (by simp [onLie])
   cases i with
-  | cyclic _ _ => exact absurd hi (by simp [onLie, CharTwoOf])
-  | alternating _ _ => exact absurd hi (by simp [onLie, CharTwoOf])
-  | sporadic _ => exact absurd hi (by simp [onLie, CharTwoOf])
+  | cyclic _ _ => exact absurd hi (by simp [onLie])
+  | alternating _ _ => exact absurd hi (by simp [onLie])
+  | sporadic _ => exact absurd hi (by simp [onLie])
   | lie dd =>
     obtain ⟨hiTri, hiChar⟩ := hi
     obtain ⟨val, hv⟩ := dd
@@ -152,8 +152,8 @@ theorem triDiag_of_block (hL : CatLayer) (hC : CatChevComps) (hB : DiagOfBlock)
         exact hiChar
       obtain ⟨K, hKf, hKfin, σ, hK, hσ, -, ⟨eK⟩⟩ :=
         CFSG.HardMathSupport.Timmesfeld.CrossChar.exists_catEquiv_trialityD4 q hv
-      letI := hKf
-      letI := hKfin
+      let := hKf
+      let := hKfin
       have hdata : TriFieldData q.exponent K σ :=
         ⟨q.exponent_pos, by simpa [hq2] using hK, fun c => by simpa [hq2] using hσ c⟩
       have hcatTri : catalogIs (TriGrp K σ) (onLie fun d => d.characteristic = 2) := by

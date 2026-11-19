@@ -174,7 +174,7 @@ theorem mem_iSup_of_twoElement_of_commute {G : Type*} [Group G] [Finite G] {ι :
     (hP : ∀ i, ∀ a ∈ A i, (∃ n : ℕ, a ^ 2 ^ n = 1) → a ∈ P i)
     {y : G} (hy : y ∈ ⨆ i, A i) (hy2 : ∃ n : ℕ, y ^ 2 ^ n = 1) : y ∈ ⨆ i, P i := by
   classical
-  haveI := Fintype.ofFinite ι
+  have := Fintype.ofFinite ι
   have hcomm : Pairwise fun i j => ∀ x y : G, x ∈ A i → y ∈ A j → Commute x y :=
     fun i j hij x y hx hy => hc i j hij x hx y hy
   rw [← Subgroup.noncommPiCoprod_range (hcomm := hcomm)] at hy
@@ -308,12 +308,12 @@ theorem exists_perfect_twoElement_of_gl {G : Type*} [Group G] {A : Subgroup G} {
     [Field E] [Finite E] (hE : ringChar E = 2) (h4 : 4 ≤ Nat.card E) (φ : A ≃* GL (Fin m) E) :
     ∃ P : Subgroup G, P ≤ A ∧ ⁅P, P⁆ = P ∧ ∀ a ∈ A, (∃ n : ℕ, a ^ 2 ^ n = 1) → a ∈ P := by
   classical
-  haveI := Fintype.ofFinite E
+  have := Fintype.ofFinite E
   let θ : Matrix.SpecialLinearGroup (Fin m) E →* G :=
     A.subtype.comp (φ.symm.toMonoidHom.comp Matrix.SpecialLinearGroup.toGL)
-  haveI : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin m) E) := by
+  have : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin m) E) := by
     rcases Nat.lt_or_ge m 2 with hm | hm
-    · haveI := subsingleton_specialLinearGroup_of_le_one (by omega : m ≤ 1) E
+    · have := subsingleton_specialLinearGroup_of_le_one (by omega : m ≤ 1) E
       infer_instance
     · exact ⟨(slFactorFacts_holds E m hm (fun _ => by rw [← Nat.card_eq_fintype_card]; exact h4)).perfect⟩
   refine ⟨θ.range, ?_, Subgroup.isPerfect_iff.1 (Group.IsPerfect.range θ), ?_⟩
@@ -344,9 +344,9 @@ theorem exists_perfect_twoElement_spSupported {r : ℕ} {K : Type} [Field K] [Fi
       ∀ g ∈ spSupported x (O : Set K[X]), (∃ n : ℕ, g ^ 2 ^ n = 1) → g ∈ P := by
   classical
   have hKchar : ringChar K = 2 := by
-    haveI := Fintype.ofFinite K
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := 2) (by rw [← Nat.card_eq_fintype_card, hK])
+    have := Fintype.ofFinite K
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : CharP K 2 := charP_of_card_eq_prime_pow (f := 2) (by rw [← Nat.card_eq_fintype_card, hK])
     exact ringChar.eq K 2
   obtain ⟨O, h, hh, rfl⟩ := O
   by_cases hself : reciprocalPolynomial h = h
@@ -357,7 +357,7 @@ theorem exists_perfect_twoElement_spSupported {r : ℕ} {K : Type} [Field K] [Fi
     by_cases h1 : h = X - 1
     · subst h1
       obtain ⟨φ, -⟩ := blocks.fixedFactor hh
-      haveI : Nontrivial (primaryComponent (spEnd x) (X - 1)) :=
+      have : Nontrivial (primaryComponent (spEnd x) (X - 1)) :=
         Submodule.nontrivial_iff_ne_bot.mpr (primaryComponent_ne_bot hsq hh)
       obtain ⟨s, hs, ⟨e⟩⟩ := CFSG.RankThree.PartOne.KCSpIsotypic.exists_mulEquiv_sesqUnitaryGroup_statedSp
         (B := (spForm r K).restrict (primaryComponent (spEnd x) (X - 1)))
@@ -365,7 +365,7 @@ theorem exists_perfect_twoElement_spSupported {r : ℕ} {K : Type} [Field K] [Fi
       have hs1 : 1 ≤ s := by
         have := Module.finrank_pos (R := K) (M := primaryComponent (spEnd x) (X - 1))
         omega
-      haveI : Group.IsPerfect ↥(StatedSp s K) :=
+      have : Group.IsPerfect ↥(StatedSp s K) :=
         (CFSG.LieType.Universal.Symplectic.isQuasisimple s K hs1 (Or.inl (Or.inr (by rw [hK]; norm_num)))).1
       have hperf : Group.IsPerfect ↥(spSupported x {X - 1}) :=
         Group.IsPerfect.ofSurjective (f := (φ.trans e).symm.toMonoidHom) (φ.trans e).symm.surjective
@@ -376,8 +376,8 @@ theorem exists_perfect_twoElement_spSupported {r : ℕ} {K : Type} [Field K] [Fi
       rwa [← pow_mul] at hpd
   · have hP := blocks.paired ⟨h, hh⟩ (fun e => hself e.symm)
     obtain ⟨φ⟩ := hP.matrixFactor
-    haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
-    haveI : Finite (AdjoinRoot h) := Module.finite_of_finite K
+    have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+    have : Finite (AdjoinRoot h) := Module.finite_of_finite K
     have hEchar : ringChar (AdjoinRoot h) = 2 := (Algebra.ringChar_eq K (AdjoinRoot h)).symm.trans hKchar
     have hdeg : 1 ≤ h.natDegree := Irreducible.natDegree_pos (irreducible_of_mem_primaryFactors hh)
     have h4 : 4 ≤ Nat.card (AdjoinRoot h) := by
@@ -405,14 +405,14 @@ theorem twoElement_mem_glaLayer_conj_sp {r : ℕ} (hr : 1 ≤ r) {K : Type} [Fie
   have blocks := (symplectic_cross_prime_primary_centralizer_blocks Nat.prime_two (by norm_num) hK'
     Nat.prime_three (by norm_num) (by norm_num) hr _ ha).2 x rfl hxp
   have hpK : ((3 : ℕ) : K) ≠ 0 := by
-    haveI := Fintype.ofFinite K
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := 2) (by rw [← Nat.card_eq_fintype_card, hK'])
+    have := Fintype.ofFinite K
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : CharP K 2 := charP_of_card_eq_prime_pow (f := 2) (by rw [← Nat.card_eq_fintype_card, hK'])
     intro h
     rw [CharP.cast_eq_zero_iff K 2] at h
     norm_num at h
   have hsq := (altPrimaryData_spLin hpK hx).squarefree
-  haveI : Finite (reciprocalOrbits (spEnd x)) :=
+  have : Finite (reciprocalOrbits (spEnd x)) :=
     (Set.Finite.image _ (Finset.finite_toSet _)).to_subtype
   obtain ⟨hcomm, -, hjoin⟩ := blocks.directProduct
   choose P hPA hPperf hP2 using exists_perfect_twoElement_spSupported hK' hsq blocks
@@ -481,14 +481,14 @@ theorem gf4Gen_statedSp {r : ℕ} (hr : 2 ≤ r) {K : Type} [Field K] [Finite K]
     by_contra hD
     obtain ⟨h3, -⟩ := hO.descent 3 Nat.prime_three β hE hD hβ
     norm_num at h3
-  haveI : (inner (StatedProj (StatedSp r K))).Normal := inner_normal _
+  have : (inner (StatedProj (StatedSp r K))).Normal := inner_normal _
   have hrel : (inner (StatedProj (StatedSp r K))).relIndex (SymplecticHigher.spLinearAutGroup r K) ∣ 2 :=
     hO.relIndex_dvd.trans (Nat.gcd_dvd_left 2 _)
   obtain ⟨t, ht⟩ := CFSG.RankThree.PartOne.KCSpComm.mem_of_pow_eq_one_of_relIndex_dvd_two hrel
     Nat.prime_three (by norm_num) hD hβ3
   obtain ⟨hsimple, hperf⟩ :=
     CFSG.RankThree.PartOne.KCSpComm.simple_perfect_statedProj (k := K) hr (by rw [hK]; omega)
-  haveI := hsimple
+  have := hsimple
   have hnc : ∃ u v : StatedProj (StatedSp r K), u * v ≠ v * u := by
     by_contra h
     push Not at h
@@ -519,7 +519,7 @@ theorem gf4CompsOn_symplectic :
     Nat.prime_two (by norm_num) (hq4.trans (by norm_num))
   have hr2 : 2 ≤ r :=
     ((TauCeti.LieTypeIndex.inStandardRange_iff _).1 ((TauCeti.LieTypeIndex.valid_iff _).1 hv).1).1
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK : Nat.card (GaloisField 2 2) = 4 := by
     rw [GaloisField.card 2 2 (by norm_num)]
     norm_num

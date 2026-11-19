@@ -68,7 +68,7 @@ theorem not_outerKleinFour_of_outPNice {S : Type} [Group S] (h : OutPNice 2 S)
 theorem not_outerKleinFour_of_index_le_two {S : Type} [Group S] [Finite S]
     (h : (inner S).index ≤ 2) {A : Subgroup (MulAut S)} (hA : OuterKleinFour A) : False := by
   obtain ⟨-, hcard, hAI⟩ := hA
-  haveI : Finite (MulAut S) :=
+  have : Finite (MulAut S) :=
     Finite.of_injective (fun α : MulAut S => (α : S → S)) fun _ _ h => MulEquiv.ext (congrFun h)
   have hinj : Function.Injective
       ((QuotientGroup.mk' (inner S)).comp A.subtype : A →* MulAut S ⧸ inner S) := by
@@ -84,11 +84,11 @@ theorem not_outerKleinFour_of_index_le_two {S : Type} [Group S] [Finite S]
   omega
 
 
-theorem charP_two_of_card_two_pow {K : Type} [Field K] [Finite K] {f : ℕ} (hf : 1 ≤ f)
+theorem charP_two_of_card_two_pow {K : Type} [Field K] [Finite K] {f : ℕ} (_hf : 1 ≤ f)
     (hK : Nat.card K = 2 ^ f) : CharP K 2 := by
   obtain ⟨p, hp⟩ := CharP.exists K
   have hpp : p.Prime := CharP.char_is_prime K p
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have := Fintype.ofFinite K
   obtain ⟨n, -, hn⟩ := FiniteField.card K p
   rw [← Nat.card_eq_fintype_card, hK] at hn
@@ -169,7 +169,7 @@ theorem kleinFamily_of_isClassicalTwoOrG2 (hG2 : G2NoKlein) {S : Type} [Group S]
             (CFSG.RankThree.PartOne.OutStructure.outPNice_PSL_two Nat.prime_two hm) hA).elim
         · left
           obtain ⟨-, K, hKf, hKfin, hK, ⟨e'⟩⟩ := hm
-          haveI := hKfin
+          have := hKfin
           refine ⟨K, hKf, hKfin, n, charP_two_of_card_two_pow hf1 hK, h3, ⟨?_⟩⟩
           exact (e'.trans (projectiveSpecialLinearGroupEquivStatedProj n K).symm).trans
             (LinearCover.projectiveSpecialLinearEquivProjectiveSL n K)

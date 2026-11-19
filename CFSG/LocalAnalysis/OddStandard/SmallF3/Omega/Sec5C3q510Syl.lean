@@ -16,7 +16,7 @@ variable {G : Type} [Group G]
 
 private theorem sec5c3q_le_of_isSylow2Of [Finite G] {S H T : Subgroup G} (hS : IsSylow2Of S H)
     (hT : IsPGroup 2 T) (hST : S ≤ T) (hTH : T ≤ H) : T ≤ S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [← Subgroup.relIndex_eq_one]
   have hmul : S.relIndex T * T.relIndex H = S.relIndex H :=
     Subgroup.relIndex_mul_relIndex S T H hST hTH
@@ -34,13 +34,13 @@ private theorem sec5c3q_le_of_isSylow2Of [Finite G] {S H T : Subgroup G} (hS : I
 
 private theorem sec5c3q_exists_mem_normalizer [Finite G] {S P : Subgroup G} (hP : IsPGroup 2 P)
     (hlt : S < P) : ∃ n ∈ P, n ∉ S ∧ n ∈ normalizer (S : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hKtop : S.subgroupOf P < ⊤ := by
     rw [lt_top_iff_ne_top, Ne, Subgroup.subgroupOf_eq_top]
     exact fun hPS => (ne_of_lt hlt) (le_antisymm hlt.le hPS)
-  haveI : Group.IsNilpotent ↥P := hP.isNilpotent
+  have : Group.IsNilpotent ↥P := hP.isNilpotent
   obtain ⟨n, hn_norm, hn_notK⟩ :=
-    SetLike.exists_of_lt
+    _root_.IsConcreteLE.exists_of_lt
       (Group.normalizerCondition_of_isNilpotent (G := ↥P) (S.subgroupOf P) hKtop)
   refine ⟨(n : G), n.2, fun hnS => hn_notK (Subgroup.mem_subgroupOf.mpr hnS), ?_⟩
   have hn' : n ∈ (Subgroup.normalizer S).subgroupOf P := by
@@ -62,12 +62,12 @@ theorem sec5c3q_isSylow2Of_top [Finite G] {t z : G} {S : Subgroup G}
     hω_le (by rw [hΩ]; exact Subgroup.mem_sup_left (Subgroup.mem_zpowers t))
   have htz : t * z = z * t :=
     ((sec5_mem_centerIn_iff.mp hz_center).2 t htS).symm
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hSP⟩ := hS.2.1.exists_le_sylow
   have hSPeq : S = (P : Subgroup G) := by
     by_contra hne
     have hlt : S < (P : Subgroup G) := lt_of_le_of_ne hSP hne
-    obtain ⟨n, hnP, hnS, hnN⟩ := sec5c3q_exists_mem_normalizer P.isPGroup' hlt
+    obtain ⟨n, hnP, hnS, hnN⟩ := sec5c3q_exists_mem_normalizer P.isPGroup hlt
     have ht2sq : t ^ 2 = 1 := by rw [← ht2]; exact pow_orderOf_eq_one t
     have ha_mem : n⁻¹ * t * n ∈ zpowers t ⊔ zpowers z := by
       have h := sec5_conj_mem_omega1 hnN ht_center ht2sq
@@ -87,7 +87,7 @@ theorem sec5c3q_isSylow2Of_top [Finite G] {t z : G} {S : Subgroup G}
         exact hcomm.symm
       let T : Subgroup G := S ⊔ zpowers n
       have hsup2 : IsPGroup 2 T :=
-        (P.isPGroup').to_le (sup_le hSP (Subgroup.zpowers_le.mpr hnP))
+        (P.isPGroup).to_le (sup_le hSP (Subgroup.zpowers_le.mpr hnP))
       have hsupH : T ≤ centralizer ({t} : Set G) :=
         sup_le hS.1 (Subgroup.zpowers_le.mpr hnH)
       have hle : T ≤ S := sec5c3q_le_of_isSylow2Of hS hsup2 le_sup_left hsupH

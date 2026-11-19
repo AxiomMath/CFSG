@@ -106,7 +106,7 @@ theorem embedding {G : Type*} [Group G] [Finite G] (ambient acting intersection 
   have hcentralizes : acting ≤ Subgroup.centralizer (firstImage : Set G) :=
     Subgroup.commutator_eq_bot_iff_le_centralizer.mp hcentral
   obtain ⟨actor, hactor, houtside, hproductNormalizes⟩ := escape ambient acting intersection firstImage secondImage
-    hle hsecondAmbient (second.isPGroup'.map ambient.subtype) htwo hdisjoint hcentralizes hnormalizes heq hlt
+    hle hsecondAmbient (second.isPGroup.map ambient.subtype) htwo hdisjoint hcentralizes hnormalizes heq hlt
   obtain ⟨homomorphism, hinjective⟩ := TwoActionDisplacementEmbedding.embedding ambient acting intersection firstImage
     (hle.trans hsecondAmbient) hdisjoint hnormalizesAmbient hcentralizes hcentralizers actor
     (hsecondAmbient hactor) houtside hproductNormalizes

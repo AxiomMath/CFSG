@@ -39,7 +39,7 @@ theorem radRigid_u33 (S : Type) [Group S] [Finite S] (hs : IsSimpleGroup S)
   have hK : Nat.card S = 6048 := by
     rw [Nat.card_congr e.toEquiv, card_group QP QP_ok]
     exact QP_valid.2
-  haveI : Finite (MulAut S) := U33.finite_mulAut e
+  have : Finite (MulAut S) := U33.finite_mulAut e
   have hcardM : Nat.card (MulAut S) = 12096 := U33.card_mulAut e
   have hZ : ∀ z : S, (∀ h : S, h * z = z * h) → z = 1 := by
     intro z hz

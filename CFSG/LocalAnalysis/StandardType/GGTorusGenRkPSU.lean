@@ -58,7 +58,7 @@ private theorem ggtorus_exists_diag_pPart
       (∃ v : Fin d → K, ((s : GL (Fin d) K) : Matrix (Fin d) (Fin d) K) = diagonal v) ∧
       (∃ k : ℕ, s ^ p ^ k = 1) ∧ φ s = c := by
   classical
-  haveI : Finite ↥(unitarySU 2 n K d) := by infer_instance
+  have : Finite ↥(unitarySU 2 n K d) := by infer_instance
   obtain ⟨m, hm⟩ := hcp
   have hN : orderOf s0 ≠ 0 := (orderOf_pos s0).ne'
   obtain ⟨e, n', hn'p, hN⟩ := Nat.exists_eq_pow_mul_and_not_dvd hN p hp.ne_one

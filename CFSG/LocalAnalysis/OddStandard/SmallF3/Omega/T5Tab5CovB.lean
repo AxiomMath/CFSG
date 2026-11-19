@@ -39,6 +39,7 @@ private theorem invType_piOrth_mul_of_type_two (hQ : Q.Nondegenerate)
       _ = (piOrth Q * piOrth Q) * (t * t) := by group
       _ = 1 := by rw [piOrth_mul_self, htt, mul_one]
 
+omit [Finite G] in
 private theorem mem_conjClassIn_of_conj (h : IsCoverMap L φ) (hO : OddCentralCover φ)
     {a b : ↥L} (ha : a * a = 1) (hb : b * b = 1) {c : OGroup Q} (hcΩ : c ∈ omegaGroup hQ)
     (hc : c * (φ a : OGroup Q) * c⁻¹ = (φ b : OGroup Q)) :
@@ -61,7 +62,7 @@ theorem asc82Tab5_inner_lift_of (hS : Asc82SchurU43) :
         ∃ w ∈ L, orderOf w = 2 ∧ w⁻¹ * s ∈ centralizer (L : Set G) := by
   intro G _ _ L hL s hs2 _ hsK
   obtain ⟨V, i1, i2, i3, Q, hQ, φ, h⟩ := t5_exists_cover hS hL
-  letI := i1; letI := i2; letI := i3
+  let := i1; let := i2; let := i3
   have hO : OddCentralCover φ := h.oddCentralCover hL
   have hdim : Module.finrank (ZMod 3) V = 6 := h.finrank_eq
   have hsgn : quadSign Q = -1 := h.quadSign_eq
@@ -144,7 +145,7 @@ theorem asc82Tab5_inv_classes_of (hS : Asc82SchurU43) :
         ∀ u ∈ L, orderOf u = 2 → u ≠ t → u ∈ conjClassIn L z ∨ u ∈ conjClassIn L (t * z) := by
   intro G _ _ L hL t ht ht2 z hz u hu hu2 hut
   obtain ⟨V, i1, i2, i3, Q, hQ, φ, h⟩ := t5_exists_cover hS hL
-  letI := i1; letI := i2; letI := i3
+  let := i1; let := i2; let := i3
   have hO : OddCentralCover φ := h.oddCentralCover hL
   have hdim : Module.finrank (ZMod 3) V = 6 := h.finrank_eq
   have hsgn : quadSign Q = -1 := h.quadSign_eq

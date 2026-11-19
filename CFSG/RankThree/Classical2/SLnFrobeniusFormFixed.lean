@@ -328,7 +328,7 @@ private theorem sl2Diag_conj_coe (s : Kˣ) (M : SL(2, K)) :
 private theorem exists_pow_eq_primitiveRoot_seven [IsAlgClosed K] [CharP K 2] {q : ℕ}
     (hq : q ≠ 0) : ∃ (ω : Kˣ) (ζ : K), IsPrimitiveRoot ζ 7 ∧ (ω : K) ^ q = ζ := by
   have : NeZero ((7 : ℕ) : K) := ⟨by rw [CharP.cast_eq_mod K 2 7]; norm_num⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot K 7
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot K 7
   obtain ⟨ω, hω⟩ := IsAlgClosed.exists_pow_nat_eq ζ (Nat.pos_of_ne_zero hq)
   have hω0 : ω ≠ 0 := by
     rintro rfl
@@ -632,7 +632,7 @@ private theorem transvection_mem_blockSpecialLinear_of_isDiag [IsAlgClosed K] [C
       with hd
     have hdprod : ∏ i, d i = 1 := by
       simp only [hd, Pi.mul_apply, Finset.prod_mul_distrib, Finset.prod_pi_mulSingle',
-        Finset.mem_univ, if_true]
+        Finset.mem_univ, ite_true]
       group
     have hdk : d k = ω := by simp [hd, hkl, hmk.symm]
     have hdl : d l = ω := by simp [hd, hkl.symm, hml.symm]

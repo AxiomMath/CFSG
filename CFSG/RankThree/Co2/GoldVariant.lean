@@ -50,7 +50,7 @@ theorem eq_bot_of_normal_of_comm {Y : Type*} [Group Y] [Finite Y]
   have : (P : Subgroup A).Characteristic := Sylow.characteristic_of_normal P hPn
   have hPY : ((P : Subgroup A).map A.subtype).Normal := ConjAct.normal_of_characteristic_of_normal
   have hle : (P : Subgroup A).map A.subtype ≤ CFSG.Open.pCore 2 Y :=
-    le_sSup ⟨hPY, P.isPGroup'.map _⟩
+    le_sSup ⟨hPY, P.isPGroup.map _⟩
   rw [h2, le_bot_iff, Subgroup.map_eq_bot_iff_of_injective _ A.subtype_injective] at hle
   have hodd' : Odd (Nat.card A) := by
     refine Nat.odd_iff.2 ?_
@@ -110,7 +110,7 @@ theorem sylow_psl2_even {K : Type*} [Group K] [Finite K] {f : ℕ} (hf : 2 ≤ f
     (e : K ≃* PSL(2, GaloisField 2 f)) (Q : Sylow 2 K) :
     Nat.card (Q : Subgroup K) = 2 ^ f ∧ ∀ x ∈ (Q : Subgroup K), x * x = 1 := by
   have : Finite PSL(2, GaloisField 2 f) := Finite.of_equiv K e.toEquiv
-  have hB := (CFSG.Open.Open.bender_psl2_borel f hf).map_mulEquiv e.symm
+  have hB := (CFSG.Open.Thm.bender_psl2_borel f hf).map_mulEquiv e.symm
   obtain ⟨-, -, hZ2, hZcard, hQcard⟩ := hB Q
   rw [pow_one] at hQcard
   have htop : Subgroup.center (Q : Subgroup K) = ⊤ :=
@@ -251,12 +251,12 @@ theorem normal_of_goldschmidt_conclusion_of_psl2 {X : Type} [Group X] [Finite X]
       eq_inf_of_isPGroup S (hC2.to_le hRC) inf_le_right (inf_le_inf_right _ hSN)
     obtain ⟨P, hP⟩ : ∃ P : Sylow 2 (E.map ι),
         (P : Subgroup (E.map ι)) = ((S : Subgroup X) ⊓ E.map ι).subgroupOf (E.map ι) := by
-      obtain ⟨P, hP⟩ := ((S.isPGroup'.to_le (inf_le_left :
+      obtain ⟨P, hP⟩ := ((S.isPGroup.to_le (inf_le_left :
         (S : Subgroup X) ⊓ E.map ι ≤ S)).comap_of_injective _
           (E.map ι).subtype_injective).exists_le_sylow
       refine ⟨P, ?_⟩
       have h := eq_inf_of_isPGroup S (R := (P : Subgroup (E.map ι)).map (E.map ι).subtype)
-        (P.isPGroup'.map _) (Subgroup.map_subtype_le _)
+        (P.isPGroup.map _) (Subgroup.map_subtype_le _)
         (fun x hx => ⟨⟨x, hx.2⟩, hP hx, rfl⟩)
       rw [← h, Subgroup.subgroupOf, Subgroup.comap_map_eq_self_of_injective
         (E.map ι).subtype_injective]
@@ -264,7 +264,7 @@ theorem normal_of_goldschmidt_conclusion_of_psl2 {X : Type} [Group X] [Finite X]
       intro p hp
       rw [hP, Subgroup.mem_subgroupOf, ← hReq] at hp
       exact hRC hp
-    have hV2 : IsPGroup 2 V := S.isPGroup'.to_le hVS
+    have hV2 : IsPGroup 2 V := S.isPGroup.to_le hVS
     have h2V : 2 ∣ Nat.card V := by
       rcases hV2.card_eq_or_dvd with h | h
       · exact absurd (Subgroup.card_eq_one.1 h) hV1
@@ -394,7 +394,7 @@ theorem normal_of_goldschmidt_conclusion_of_psl2 {X : Type} [Group X] [Finite X]
     obtain ⟨Q⟩ : Nonempty (Sylow 2 K) := inferInstance
     obtain ⟨hQcard, hQ2⟩ := sylow_psl2_even hq2 eK Q
     set Q' : Subgroup X := ((Q : Subgroup K).map K.subtype).map ι with hQ'
-    have hQ'2 : IsPGroup 2 Q' := (Q.isPGroup'.map _).map _
+    have hQ'2 : IsPGroup 2 Q' := (Q.isPGroup.map _).map _
     obtain ⟨g, hg⟩ := exists_conj_le_sylow hQ'2 S
     have hQ'V : Q'.map (MulAut.conj g).toMonoidHom ≤ V := by
       rintro _ ⟨y, hy, rfl⟩

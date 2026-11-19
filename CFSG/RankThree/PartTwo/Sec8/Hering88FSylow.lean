@@ -23,9 +23,9 @@ theorem commute_of_isPGroup_three_sl2 {F : Type} [Field F] [Finite F] [CharP F 2
     subst hu
     subst hv
     simp
-  · haveI : Nontrivial P := (Subgroup.nontrivial_iff_ne_bot P).mpr hbot
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-    haveI : Nontrivial (Subgroup.center P) := hP.center_nontrivial
+  · have : Nontrivial P := (Subgroup.nontrivial_iff_ne_bot P).mpr hbot
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Nontrivial (Subgroup.center P) := hP.center_nontrivial
     obtain ⟨⟨z, hz⟩, hz1⟩ := exists_ne (1 : Subgroup.center P)
     have hz1' : (z : Matrix.SpecialLinearGroup (Fin 2) F) ≠ 1 := by
       intro h
@@ -66,7 +66,7 @@ theorem commute_of_isPGroup_of_imageModTheta {G : Type} [Group G] [Finite G] {L 
     ∀ u ∈ P, ∀ v ∈ P, u * v = v * u := by
   classical
   have hF : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨φ⟩ := KFacts.nonempty_sl2_mulEquiv_projSL hF
   set ρ := Item87Proof.modThetaOnto hKL with hρ
   set Φ : K →* projSL 2 (GaloisField 2 f) := e.toMonoidHom.comp ρ with hΦ
@@ -123,7 +123,7 @@ theorem sylow_comm_imageModTheta {G : Type} [Group G] [Finite G] {Y T : Subgroup
     (hT : ∀ P : Subgroup G, P ≤ T → IsPGroup 3 P → ∀ u ∈ P, ∀ v ∈ P, u * v = v * u)
     (Q : Sylow 3 (imageModTheta Y T)) :
     ∀ a b : (Q : Subgroup (imageModTheta Y T)), a * b = b * a := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P, rfl⟩ := Sylow.mapSurjective_surjective (Item87Proof.modThetaOnto_surjective hTY) 3 Q
   rintro ⟨a, ha⟩ ⟨b, hb⟩
   have ha' : a ∈ (P : Subgroup T).map (Item87Proof.modThetaOnto hTY) := ha
@@ -143,13 +143,13 @@ theorem false_of_central_three {G : Type} [Group G] [Finite G] {Y T : Subgroup G
     (hT : ∀ P : Subgroup G, P ≤ T → IsPGroup 3 P → ∀ u ∈ P, ∀ v ∈ P, u * v = v * u)
     (hperf : Group.IsPerfect (imageModTheta Y T)) {z : imageModTheta Y T} (hz1 : z ≠ 1)
     (hz3 : z ^ 3 = 1) (hzc : ∀ y, z * y = y * z) : False := by
-  haveI := hperf
+  have := hperf
   have hord : orderOf z = 3 := orderOf_eq_prime hz3 hz1
   have hZc : Subgroup.zpowers z ≤ Subgroup.center (imageModTheta Y T) := by
     rw [Subgroup.zpowers_le, Subgroup.mem_center_iff]
     intro y
     exact (hzc y).symm
-  haveI : (Subgroup.zpowers z).Normal := Subgroup.normal_of_le_center hZc
+  have : (Subgroup.zpowers z).Normal := Subgroup.normal_of_le_center hZc
   have hbot := KFacts.KS14.eq_bot_of_isPerfect_of_sylow_comm hZc (fun p hp hpZ P => ?_)
   · apply hz1
     have : z ∈ Subgroup.zpowers z := Subgroup.mem_zpowers z

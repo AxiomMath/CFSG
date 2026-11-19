@@ -48,6 +48,7 @@ private theorem comm_covW_of_comm (h : CoverP P σ Zh) {y : P} (hy : y ∈ covW 
       exact hq.symm
   exact (Subgroup.mem_centralizer_singleton_iff.mp (hK hr)).symm
 
+omit [Finite P] in
 private theorem index_centralizer_eq_three (h : CoverP P σ Zh) {w : P}
     (hw : w ∈ covW Zh h.central) {p : P} (hp : w * p ≠ p * w) :
     (Subgroup.centralizer ({w} : Set P)).index = 3 := by

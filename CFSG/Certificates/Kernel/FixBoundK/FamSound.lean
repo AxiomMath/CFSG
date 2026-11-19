@@ -77,7 +77,7 @@ theorem famS_packS_bit {w : Nat} : ∀ (bs : List Nat), (∀ b ∈ bs, b < 2 ^ w
       have hq2 : j₀ ≤ q := Nat.le_of_lt hq
       rw [Nat.testBit_lt_two_pow (lt_of_lt_of_le (hbs b List.mem_cons_self)
         (Nat.pow_le_pow_right (by decide) hge)), Bool.and_false, Bool.false_or,
-        if_pos hq1, if_pos hq2]
+        ite_eq_left hq1, ite_eq_left hq2]
       have e : q - j₀ = q - (j₀ + 1) + 1 := by omega
       rw [e, List.getD_cons_succ]
 
@@ -139,10 +139,10 @@ theorem famS_packFam_go (i w M : Nat) : ∀ (ch : List (Nat × List Mem)) (u acc
       have hne : ¬ c.1 = i := fun he => by
         rw [he, Nat.beq_refl] at hb
         cases hb
-      rw [if_neg hne, List.nil_append]
+      rw [ite_eq_right hne, List.nil_append]
       exact famS_packFam_go i w M ch u acc
     | true =>
-      rw [if_pos (Nat.eq_of_beq_eq_true hb), List.map_append, famS_packS_append]
+      rw [ite_eq_left (Nat.eq_of_beq_eq_true hb), List.map_append, famS_packS_append]
       dsimp only
       rw [famS_packMs, famS_packFam_go i w M ch, Nat.or_assoc, List.length_map, List.length_map]
 
@@ -184,11 +184,11 @@ theorem famS_pow2 {t : Nat} (h0 : 0 < t) (h : t &&& (t - 1) = 0) : ∃ e, t = 2 
   have b1 : t.testBit e = true := by
     have e1 : t = 2 ^ e + (t - 2 ^ e) := by omega
     have hr : t - 2 ^ e < 2 ^ e := by omega
-    rw [e1, Nat.testBit_two_pow_add_eq, Nat.testBit_lt_two_pow hr] <;> rfl
+    rw [e1, Nat.testBit_two_pow_add_eq, Nat.testBit_lt_two_pow hr]; rfl
   have b2 : (t - 1).testBit e = true := by
     have e2 : t - 1 = 2 ^ e + (t - 1 - 2 ^ e) := by omega
     have hr : t - 1 - 2 ^ e < 2 ^ e := by omega
-    rw [e2, Nat.testBit_two_pow_add_eq, Nat.testBit_lt_two_pow hr] <;> rfl
+    rw [e2, Nat.testBit_two_pow_add_eq, Nat.testBit_lt_two_pow hr]; rfl
   have := congrArg (Nat.testBit · e) h
   simp [Nat.testBit_and, b1, b2] at this
 
@@ -223,7 +223,7 @@ theorem famS_and_mod2 {x p : Nat} (h : x &&& p = 0) : x % 2 = 0 ∨ p % 2 = 0 :=
   · exact Or.inr hp
   exfalso
   have := congrArg (Nat.testBit · 0) h
-  simp [Nat.testBit_and, Nat.testBit_zero, hx, hp] at this
+  simp [Nat.testBit_zero, hx, hp] at this
 
 theorem famS_nx_core : ∀ (y x p : Nat), x &&& p = 0 → y &&& p = 0 → x < y →
     x < famNxG ((x ||| p) + 1) p ∧ famNxG ((x ||| p) + 1) p ≤ y := by
@@ -253,14 +253,14 @@ theorem famS_nx_core : ∀ (y x p : Nat), x &&& p = 0 → y &&& p = 0 → x < y 
         simpa using hs0
       have hr : (s + 1) / 2 = x / 2 ||| p / 2 := by omega
       rw [hr, famS_nxG_or hx1] at hG1
-      rw [if_pos (by omega)] at hG0
+      rw [ite_eq_left (by omega)] at hG0
       omega
     · have hsm : s % 2 = 1 := by
         rw [hxm, hp] at hs0
         simpa using hs0
       have hr : (s + 1) / 2 = (x / 2 ||| p / 2) + 1 := by omega
       rw [hr] at hG1
-      rw [if_neg (by omega)] at hG0
+      rw [ite_eq_right (by omega)] at hG0
       obtain ⟨h1, h2⟩ := ih (y / 2) (by omega) (x / 2) (p / 2) hx1 hy1 (by omega)
       omega
   · have hsm : s % 2 = 1 := by
@@ -268,7 +268,7 @@ theorem famS_nx_core : ∀ (y x p : Nat), x &&& p = 0 → y &&& p = 0 → x < y 
       simpa using hs0
     have hr : (s + 1) / 2 = (x / 2 ||| p / 2) + 1 := by omega
     rw [hr] at hG1
-    rw [if_neg (by omega)] at hG0
+    rw [ite_eq_right (by omega)] at hG0
     obtain ⟨h1, h2⟩ := ih (y / 2) (by omega) (x / 2) (p / 2) hx1 hy1 (by omega)
     omega
 
@@ -434,7 +434,7 @@ theorem famS_main {K m : Nat} {L bs : List Nat} {cs : List FamC} (hm : m = 2 ^ K
         (lt_of_le_of_lt Nat.and_le_left (famS_getD_lt hA (Nat.two_pow_pos _) u)) hv⟩
 
 theorem famRep_spec {p : Rep} {ch : List (Nat × List Mem)} {i : Nat} {cs : List FamC} {K : Nat}
-    (hm : p.2.1.length = 2 ^ K) (hbl : p.2.2.1.length = p.2.1.length)
+    (hm : p.2.1.length = 2 ^ K) (_hbl : p.2.2.1.length = p.2.1.length)
     (hbs : ∀ b ∈ p.2.2.1, b < 2 ^ p.2.1.length)
     (hA : ∀ A ∈ famL ch i, A < 2 ^ p.2.1.length) (h : famRep p ch i cs = true) :
     (famL ch i).length = cs.length ∧ (famL ch i).getLast? = some (2 ^ p.2.1.length - 1) ∧

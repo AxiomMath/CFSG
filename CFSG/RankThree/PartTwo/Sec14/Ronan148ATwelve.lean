@@ -21,6 +21,7 @@ section Frame
 
 variable {Q : Type} [Group Q] [Finite Q]
 
+omit [Finite Q] in
 theorem isElemAbelian_zpowers_of_pow_three {u : Q} (hu3 : u ^ 3 = 1) :
     CFSG.Open.IsElemAbelian 3 (Subgroup.zpowers u) := by
   refine ⟨⟨⟨fun a b => Subtype.ext ?_⟩⟩, fun y hy => ?_⟩
@@ -31,6 +32,7 @@ theorem isElemAbelian_zpowers_of_pow_three {u : Q} (hu3 : u ^ 3 = 1) :
   · obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hy
     rw [← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast, hu3, one_zpow]
 
+omit [Finite Q] in
 theorem inf_centralizer_eq_map_center (K : Subgroup Q) :
     K ⊓ Subgroup.centralizer (K : Set Q) = (Subgroup.center ↥K).map K.subtype := by
   ext x
@@ -208,7 +210,7 @@ theorem false_of_commuting_ON_quot (hQ : NoE81TwoLocal Q) {K : Subgroup Q} (hK :
     (hW₁ : ι₁.range ≤ Subgroup.normalizer (W : Set Q))
     (hW₂ : ι₂.range ≤ Subgroup.normalizer (W : Set Q))
     (hW : ∀ p q, ι₁ p * ι₂ q * (ι₁ p)⁻¹ * (ι₂ q)⁻¹ ∈ W) : False := by
-  haveI hKn : K.Normal :=
+  have hKn : K.Normal :=
     normal_of_forall_map_conj_eq (map_conj_eq_of_tripleCover_ON_quot hQ hK hKON)
   set ρ : Q →* MulAut ↥K := MulAut.conjNormal with hρ
   have hρ1 : ∀ q : Q, ρ q = 1 → q ∈ Subgroup.centralizer (K : Set Q) := by
@@ -288,7 +290,7 @@ theorem false_of_commuting_of_tripleCover_ON {A L : Subgroup G} {c : G} (h : Sec
   set C := Subgroup.centralizer ({d} : Set G) with hC
   obtain ⟨-, hθc, hθ3, -, -⟩ :=
     solvable_prime_complement_core_characterization (H := ↥C) Nat.prime_three
-  haveI : (aschbacherSolvableCore 3 ↥C).Normal := by haveI := hθc; infer_instance
+  have : (aschbacherSolvableCore 3 ↥C).Normal := by have := hθc; infer_instance
   set θ := aschbacherSolvableCore 3 ↥C with hθ
   set π := QuotientGroup.mk' θ with hπ
   have hQ : NoE81TwoLocal (↥C ⧸ θ) := noE81TwoLocal_quot h hθ3

@@ -94,8 +94,8 @@ private theorem twE6Cov_exists_statedSU_of_isU3eight {Y : Type} [Group Y]
             rw [← hp2, ← TauCeti.PrimePower.card_def, hq8, hp2]
             norm_num
           exact Nat.pow_right_injective (le_refl 2) h1
-        haveI : Fact q.p.Prime := ⟨q.prime_p⟩
-        haveI : Fintype (GaloisField q.p (2 * q.exponent)) := Fintype.ofFinite _
+        have : Fact q.p.Prime := ⟨q.prime_p⟩
+        have : Fintype (GaloisField q.p (2 * q.exponent)) := Fintype.ofFinite _
         have hcardq : Nat.card (GaloisField q.p (2 * q.exponent)) = q.card ^ 2 := by
           rw [GaloisField.card q.p (2 * q.exponent) (by omega), TauCeti.PrimePower.card_def,
             ← pow_mul, mul_comm]
@@ -140,7 +140,7 @@ private theorem twE6Cov_card_hopfMultiplier_PSU_three {K : Type} [Field K] [Fini
     (hK : Nat.card K = 8 ^ 2) {G : Type} [Group G]
     (e : G ≃* CFSG.Open.StatedProj (CFSG.Open.StatedSU 3 8 K)) :
     Nat.card (hopfMultiplier G) = 3 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, ⟨eM⟩⟩ := CFSG.LieType.Steinberg.CentralExt.SUOdd.psu_odd_hopfMultiplier
     (F := K) (p := 2) (f := 3) (by rw [hK]; norm_num) (by norm_num) (n := 3) (by norm_num)
     (by decide) (by decide)
@@ -158,14 +158,14 @@ theorem twE6Cov_exists_statedSU {X : Type} [Group X] [Finite X] (hX : CFSG.Open.
     (hZ : Subgroup.center X ≠ ⊥) (hcat : catalogIs (X ⧸ Subgroup.center X) isU3eight) :
     ∃ (K : Type) (_ : Field K) (_ : Finite K), Nat.card K = 8 ^ 2 ∧
       Nonempty (X ≃* ↥(CFSG.Open.StatedSU 3 8 K)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hperf : Group.IsPerfect X := ⟨hX.1⟩
   obtain ⟨K, hKfield, hKfin, hchar, hK64, ⟨eY⟩⟩ := twE6Cov_exists_statedSU_of_isU3eight hcat
-  letI : Field K := hKfield
-  haveI : Finite K := hKfin
-  haveI : CharP K 2 := hchar
-  haveI : Fintype K := Fintype.ofFinite K
+  let : Field K := hKfield
+  have : Finite K := hKfin
+  have : CharP K 2 := hchar
+  have : Fintype K := Fintype.ofFinite K
   have hcard3 : Nat.card (hopfMultiplier (X ⧸ Subgroup.center X)) = 3 :=
     twE6Cov_card_hopfMultiplier_PSU_three hK64 eY
   have hdvd : Nat.card (Subgroup.center X) ∣ 3 :=

@@ -41,18 +41,18 @@ theorem orbit_prefix_ge_of_chainK [Finite G] {UL w1 w2 p1 p2 : List Nat}
   have hψH : ∀ c, ψ c ∈ H := by
     intro c
     by_cases hc : c = 0
-    · simp only [ψ, if_pos hc]; exact h1
-    · simp only [ψ, if_neg hc]; exact h2
+    · simp only [ψ, ite_eq_left hc]; exact h1
+    · simp only [ψ, ite_eq_right hc]; exact h2
   have hψ : ∀ c < 2, ∀ j < 22, PP p1 p2 c j < 22 ∧ ψ c • tP UL j = tP UL (PP p1 p2 c j) := by
     intro c hc j hj
     obtain ⟨hj1, hj2, hv1, hv2⟩ := traceK_spec htr j hj
     rw [PP_eq]
     by_cases hc0 : c = 0
-    · simp only [ψ, if_pos hc0]
+    · simp only [ψ, ite_eq_left hc0]
       refine ⟨hj1, Fin.ext ?_⟩
       have e : tP UL j = ⟨gD UL j, hUlt j hj⟩ := Fin.ext (htP j hj)
       rw [e, s1, hv1, htP _ hj1]
-    · simp only [ψ, if_neg hc0]
+    · simp only [ψ, ite_eq_right hc0]
       refine ⟨hj2, Fin.ext ?_⟩
       have e : tP UL j = ⟨gD UL j, hUlt j hj⟩ := Fin.ext (htP j hj)
       rw [e, pow_smul_val s2 2 _ (hUlt j hj), Function.iterate_succ_apply, Function.iterate_one,

@@ -18,7 +18,7 @@ theorem inv_conj_inv_cancel (g x : G) : (g⁻¹)⁻¹ * (g⁻¹ * x * g) * g⁻�
   group
 
 theorem orderOf_conj_inv (g x : G) : orderOf (g⁻¹ * x * g) = orderOf x := by
-  rw [show g⁻¹ * x * g = (MulAut.conj g⁻¹) x by simp [MulAut.conj_apply], MulEquiv.orderOf_eq]
+  rw [show g⁻¹ * x * g = (MulAut.conj g⁻¹) x by simp, MulEquiv.orderOf_eq]
 
 theorem Sec74Ass.orderOf_s [Finite G] {t : G} {L S : Subgroup G} {z g : G}
     (h : Sec74Ass G t L S z g) : orderOf (g⁻¹ * t * g) = 2 := by

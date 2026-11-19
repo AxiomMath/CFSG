@@ -97,7 +97,7 @@ theorem p23E8A_of_steps (hE : TwinThmEW.ThmEQ8) (hα : P23Alpha n) (hN : P23E8AN
     (hX : P23E8AAE7 n) (hS : P23E8ASigma n) : P23E8A n := by
   intro hcit hP Y _ _ R S t K' W u e g hc hno hA5 hA6
   exfalso
-  haveI := hc.std.perp.core.simple
+  have := hc.std.perp.core.simple
   have hTwo := p23Two_of_thmEQ8 hE hcit hP Y R S t K' W u e g hc
   have hodd := (hα Y R S t K' W u e g hc (Or.inr (Or.inr (Or.inr hA5)))).1
   have hα1 := p23_alpha_eq_bot hc hTwo hodd (hN hcit hP Y R S t K' W u e g hc hno hA5 hA6)

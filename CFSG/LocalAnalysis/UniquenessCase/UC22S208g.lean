@@ -153,6 +153,7 @@ theorem s208g_isSzL2Product_of_mulEquiv {X Y : Type} [Group X] [Group Y] (e : X 
   obtain ⟨A, B, _, _, ⟨e'⟩, hA, hB⟩ := h
   exact ⟨A, B, inferInstance, inferInstance, ⟨e.symm.trans e'⟩, hA, hB⟩
 
+omit [Finite G] in
 theorem s208g_orb_cj {T K : Subgroup G} {u : G} (hu : u ∈ T) :
     uc22p20bOrb T (uc22p20bCj u K) = uc22p20bOrb T K := by
   apply le_antisymm
@@ -387,7 +388,7 @@ theorem s208g_not_config (D : Data G) (hLevi : KLeviRank208)
         · exact Or.inr (Or.inr (s208g_isSzL2Product_of_mulEquiv e.symm h))
       obtain ⟨P, hNP, hYSP, hPY⟩ :=
         hS h1930 B hBof.1 S (Y ⊔ (S : Subgroup (Bar2 B))) le_sup_right
-      have hS2 : IsPGroup 2 (S : Subgroup (Bar2 B)) := S.isPGroup'
+      have hS2 : IsPGroup 2 (S : Subgroup (Bar2 B)) := S.isPGroup
       have hYP : Y = Hinf P := by
         apply le_antisymm
         · exact CFSG.RankThree.PartTwo.Sec18.le_inSubgroup_perfectResidual hYperf

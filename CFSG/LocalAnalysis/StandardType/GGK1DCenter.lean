@@ -32,13 +32,13 @@ open CFSG.StandardType.TableBSymp
 
 private theorem ggK1Dn_charP_two {K : Type} [Field K] [Finite K] {nf : ℕ}
     (hK : Nat.card K = 2 ^ nf) : CharP K 2 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   exact charP_of_card_eq_prime_pow (p := 2) (f := nf)
     (by rw [← Nat.card_eq_fintype_card]; exact hK)
 
 private theorem ggK1Dn_prime_cast_ne_zero {p nf : ℕ} {K : Type} [Field K] [Finite K]
     (hp : p.Prime) (hp2 : p ≠ 2) (hK : Nat.card K = 2 ^ nf) : (p : K) ≠ 0 := by
-  haveI : CharP K 2 := ggK1Dn_charP_two hK
+  have : CharP K 2 := ggK1Dn_charP_two hK
   intro h
   rw [CharP.cast_eq_zero_iff K 2] at h
   exact hp2 ((Nat.prime_dvd_prime_iff_eq Nat.prime_two hp).mp h).symm
@@ -83,7 +83,7 @@ private theorem ggK1Dn_dvd_cyclotomic {K : Type} [Field K] {p : ℕ} (hp : p.Pri
         (hc.associated_of_dvd (irreducible_X_sub_C 1) h1)).trans (by rw [C_1])
     exact hc1 heq
 
-private theorem ggK1Dn_ordQ_eq_one {K : Type} [Field K] [Finite K] {p nf : ℕ} (hp : p.Prime)
+private theorem ggK1Dn_ordQ_eq_one {K : Type} [Field K] [Finite K] {p nf : ℕ} (_hp : p.Prime)
     (h1 : p ∣ 2 ^ nf - 1) (hK : Nat.card K = 2 ^ nf) : OrdPNS.ordQ K p = 1 := by
   have hle : 1 ≤ 2 ^ nf := Nat.one_le_two_pow
   have hcast : ((Nat.card K : ℕ) : ZMod p) = 1 := by
@@ -164,7 +164,7 @@ private theorem ggK1Dn_fixed_torus_plus {p d nf : ℕ} {K V : Type} [Field K] [F
     {Q : QuadraticForm K V} {x : V ≃ₗ[K] V} (hx : OddOrderIsometry Q p x)
     (hQ : Q.polarBilin.Nondegenerate)
     (hT : ∃ T : Submodule K V, Module.finrank K T = 3 ∧ ∀ v ∈ T, Q v = 0)
-    (hp : p.Prime) (hp2 : p ≠ 2) (hK : Nat.card K = 2 ^ nf)
+    (hp : p.Prime) (_hp2 : p ≠ 2) (hK : Nat.card K = 2 ^ nf)
     (hd : d = ggMultOrd p nf) (hd1 : d = 1)
     (hW : Module.finrank K (fixedSpace x) = 2)
     (hplus : IsPlusType (Q.comp (fixedSpace x).subtype)) :
@@ -177,8 +177,8 @@ private theorem ggK1Dn_fixed_torus_plus {p d nf : ℕ} {K V : Type} [Field K] [F
     have hgm : ggMultOrd p nf = 1 := by rw [← hd]; exact hd1
     by_contra hc
     unfold ggMultOrd at hgm
-    rw [if_neg hc] at hgm
-    split_ifs at hgm <;> omega
+    rw [ite_eq_right hc] at hgm
+    split_ifs at hgm; omega
   have hpq : p ∣ Nat.card K - 1 := by rw [hK]; exact h1
   obtain ⟨e0, he0mem, he0ord⟩ := ggK1D_torus_exists hWnd hW hp (Or.inl ⟨hplus, hpq⟩)
   have he0O : (e0 : fixedSpace x ≃ₗ[K] fixedSpace x) ∈
@@ -235,7 +235,7 @@ private theorem ggK1Dn_fixed_torus_minus {p d nf : ℕ} {K V : Type} [Field K] [
     {Q : QuadraticForm K V} {x : V ≃ₗ[K] V} (hx : OddOrderIsometry Q p x)
     (hQ : Q.polarBilin.Nondegenerate)
     (hT : ∃ T : Submodule K V, Module.finrank K T = 3 ∧ ∀ v ∈ T, Q v = 0)
-    (hp : p.Prime) (hp2 : p ≠ 2) (hK : Nat.card K = 2 ^ nf)
+    (hp : p.Prime) (_hp2 : p ≠ 2) (hK : Nat.card K = 2 ^ nf)
     (hd : d = ggMultOrd p nf) (hd2 : d = 2)
     (hW : Module.finrank K (fixedSpace x) = 2)
     (hminus : ¬ IsPlusType (Q.comp (fixedSpace x).subtype)) :
@@ -249,8 +249,8 @@ private theorem ggK1Dn_fixed_torus_minus {p d nf : ℕ} {K V : Type} [Field K] [
     have hgm : ggMultOrd p nf = 2 := by rw [← hd]; exact hd2
     unfold ggMultOrd at hgm
     by_cases hsub : p ∣ 2 ^ nf - 1
-    · rw [if_pos hsub] at hgm; omega
-    · rw [if_neg hsub, if_neg hc] at hgm; omega
+    · rw [ite_eq_left hsub] at hgm; omega
+    · rw [ite_eq_right hsub, ite_eq_right hc] at hgm; omega
   have hpq : p ∣ Nat.card K + 1 := by rw [hK]; exact h1
   obtain ⟨e0, he0mem, he0ord⟩ := ggK1D_torus_exists hWnd hW hp (Or.inr ⟨hminus, hpq⟩)
   have he0O : (e0 : fixedSpace x ≃ₗ[K] fixedSpace x) ∈
@@ -299,7 +299,7 @@ private theorem ggK1Dn_block_elemAbelian {p : ℕ} {K V : Type} [Field K] [Finit
     (A : ι → Subgroup (V ≃ₗ[K] V))
     (hind : iSupIndep A)
     (hcomm : ∀ i j, i ≠ j → ∀ a ∈ A i, ∀ b ∈ A j, Commute a b)
-    (B : Subgroup (V ≃ₗ[K] V)) (hAB : ∀ i, A i ≤ B)
+    (B : Subgroup (V ≃ₗ[K] V)) (_hAB : ∀ i, A i ≤ B)
     (e : ι → V ≃ₗ[K] V) (hmem : ∀ i, e i ∈ A i)
     (hp_pow : ∀ i, e i ^ p = 1)
     (hord : ∀ i, orderOf (e i) = p)
@@ -309,7 +309,7 @@ private theorem ggK1Dn_block_elemAbelian {p : ℕ} {K V : Type} [Field K] [Finit
       E0 ≤ Subgroup.centralizer (B : Set (V ≃ₗ[K] V)) ∧
       E0 ≤ ⨆ i, A i := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   let φ : (i : ι) → Multiplicative (ZMod p) →* (V ≃ₗ[K] V) := fun i => zmodPowHom (hp_pow i)
   have hφmem : ∀ (i : ι) (a : Multiplicative (ZMod p)), φ i a ∈ A i := by
     intro i a
@@ -346,7 +346,7 @@ private theorem ggK1Dn_block_elemAbelian {p : ℕ} {K V : Type} [Field K] [Finit
       rw [← ha, ← map_pow]
       have hap : a ^ p = 1 := by
         ext i
-        simpa [Fintype.card_multiplicative, ZMod.card] using pow_card_eq_one (x := a i)
+        simp
       rw [hap, map_one]
   have hcard : Nat.card E0 = p ^ Fintype.card ι := by
     calc Nat.card E0
@@ -401,14 +401,14 @@ private theorem ggK1Dn_filter_range_getD_length (l : List ℕ) :
         apply congrArg (List.map Nat.succ)
         apply List.filter_congr
         intro j _
-        simp [Function.comp_apply, List.getD_cons_succ]
+        simp [Function.comp_apply]
       by_cases hp : 0 < a
       · have ha' : a ≠ 0 := Nat.pos_iff_ne_zero.mp hp
-        rw [if_pos (by simpa using hp), List.length_cons, hmap, List.length_map, ih,
-          List.filter_cons, if_pos (by simp [ha']), List.length_cons]
+        rw [ite_eq_left (by simpa using hp), List.length_cons, hmap, List.length_map, ih,
+          List.filter_cons, ite_eq_left (by simp [ha']), List.length_cons]
       · have ha : a = 0 := by omega
-        rw [if_neg (by simpa using hp), hmap, List.length_map, ih,
-          List.filter_cons, if_neg (by simp [ha])]
+        rw [ite_eq_right (by simpa using hp), hmap, List.length_map, ih,
+          List.filter_cons, ite_eq_right (by simp [ha])]
 
 private theorem ggK1Dn_rZ_filter (p : ℕ) (m : List ℕ)
     (hlen : m.length = (p - 1) / 2 + 1) :
@@ -425,7 +425,7 @@ private theorem ggK1Dn_rZ_filter (p : ℕ) (m : List ℕ)
           = ((List.range t.length).filter (fun k => decide (0 < t.getD k 0))).map Nat.succ := by
         rw [ggK1Dn_range_succ_cons t.length]
         rw [List.filter_cons]
-        rw [if_neg (by simp)]
+        rw [ite_eq_right (by simp)]
         rw [List.filter_map]
         congr 1
       rw [h1, List.length_map, ggK1Dn_filter_range_getD_length t]
@@ -442,8 +442,8 @@ private theorem ggK1Dn_rZ_eq_tail (p nf d : ℕ) (tw : Bool) (m : List ℕ)
   rw [hF]
   by_cases hc : m.headD 0 = 1 ∧ ((ggMultEps0 p d tw m = true ∧ d = 1) ∨
       (ggMultEps0 p d tw m = false ∧ d = 2))
-  · rw [if_pos hc, if_pos hc]
-  · rw [if_neg hc, if_neg hc]; omega
+  · rw [ite_eq_left hc, ite_eq_left hc]
+  · rw [ite_eq_right hc, ite_eq_right hc]; omega
 
 private theorem ggK1Dn_card_tail_eq (p nf d : ℕ) (tw : Bool) (m : List ℕ) (tail : ℕ)
     (hlen : m.length = (p - 1) / 2 + 1)
@@ -455,7 +455,7 @@ private theorem ggK1Dn_card_tail_eq (p nf d : ℕ) (tw : Bool) (m : List ℕ) (t
   rw [ggK1Dn_rZ_eq_tail p nf d tw m hlen, htail, Fintype.card_sum, Fintype.card_fin]
   by_cases hc : m.headD 0 = 1 ∧ ((ggMultEps0 p d tw m = true ∧ d = 1) ∨
       (ggMultEps0 p d tw m = false ∧ d = 2))
-  · rw [if_pos hc]
+  · rw [ite_eq_left hc]
     have h1 : Fintype.card {_u : Unit // m.headD 0 = 1 ∧
         ((ggMultEps0 p d tw m = true ∧ d = 1) ∨
           (ggMultEps0 p d tw m = false ∧ d = 2))} = 1 := by
@@ -466,7 +466,7 @@ private theorem ggK1Dn_card_tail_eq (p nf d : ℕ) (tw : Bool) (m : List ℕ) (t
           fun y => Subtype.ext (Subsingleton.elim _ _), fun _ => rfl⟩
       rw [Fintype.card_congr e, Fintype.card_unit]
     omega
-  · rw [if_neg hc]
+  · rw [ite_eq_right hc]
     have h1 : Fintype.card {_u : Unit // m.headD 0 = 1 ∧
         ((ggMultEps0 p d tw m = true ∧ d = 1) ∨
           (ggMultEps0 p d tw m = false ∧ d = 2))} = 0 := by
@@ -510,7 +510,7 @@ private theorem ggK1Dn_finish {p nf d : ℕ} {ι : Type} [Fintype ι] [Decidable
       intro u v; ext g; simp [MulAut.conj_apply, mul_assoc]
     have hconj_inv : ∀ u : LargeEvenProj (LargeEvenOmega Q),
         MulAut.conj u⁻¹ = (MulAut.conj u)⁻¹ := by
-      intro u; ext g; simp [MulAut.conj_apply]
+      intro u; ext g; simp
     have hsC : s ∈ Subgroup.centralizer
         ({LargeEvenProjMk (LargeEvenOmega Q) x} : Set (LargeEvenProj (LargeEvenOmega Q))) := by
       rw [Subgroup.mem_centralizer_singleton_iff]
@@ -571,10 +571,10 @@ private lemma ggK1Dn_selfDual_card {p nf : ℕ} {K V : Type} [Field K] [Finite K
     (hdvd : p ∣ 2 ^ nf - 1 ∨ p ∣ 2 ^ nf + 1)
     {h : K[X]} [Fact (Irreducible h)] (hh : h ∈ primaryFactors x.toLinearMap) (hne1 : h ≠ X - 1)
     (hself : h = reciprocalPolynomial h) :
-    ∃ hU : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 nf (AdjoinRoot h),
+    ∃ _hU : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 nf (AdjoinRoot h),
       h.natDegree = 2 ∧ Nat.card (AdjoinRoot h) = (2 ^ nf) ^ 2 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hirr : Irreducible h := irreducible_of_mem_primaryFactors hh
   have hmon : h.Monic := (mem_primaryFactors.mp hh).2.1
   have hdvdX : h ∣ X ^ p - 1 := hx.dvd_X_pow_sub_one hh
@@ -613,8 +613,8 @@ private theorem ggK1Dn_selfDual_unitary {p nf : ℕ} {K V : Type} [Field K] [Fin
       Nonempty (↥(supportedBlock Q x h) ≃*
         CFSG.LocalAnalysis.ComponentInitial.sesqUnitaryGroup Hf) := by
   classical
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨hU, hndeg2, hcard⟩ := ggK1Dn_selfDual_card hx hp hp2 hnf hK hdvd hh hne1 hself
   obtain ⟨d, H, hndeg, hroot, hH, hadd1, hadd2, hleft, hright, hsymm⟩ :=
     CFSG.RankThree.PartOne.KCOrthogonal.OddOrderIsometry.exists_selfDual_hermitian
@@ -657,22 +657,22 @@ private theorem ggK1Dn_paired_scalar' {p nf : ℕ} {K V : Type} [Field K] [Finit
     ∃ e ∈ supportedBlock Q x h, e ^ p = 1 ∧ orderOf e = p ∧
       ∀ g ∈ supportedBlock Q x h, Commute e g := by
   classical
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
-  haveI : Fintype (AdjoinRoot h) := Fintype.ofFinite _
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fintype (AdjoinRoot h) := Fintype.ofFinite _
   have hirr : Irreducible h := irreducible_of_mem_primaryFactors hh
   have hpK : (p : K) ≠ 0 := ggK1Dn_prime_cast_ne_zero hp hp2 hK
   have h1 : p ∣ 2 ^ nf - 1 := by rw [hK] at hpq; exact hpq
   have hgd : h ∣ cyclotomic p K := ggK1Dn_dvd_cyclotomic hp hirr
     (monic_of_mem_primaryFactors hh) (hx.dvd_X_pow_sub_one hh) hne1
   have hdeg : h.natDegree = 1 := ggK1Dn_natDegree_eq_one hp hpK h1 hK hirr hgd
-  haveI : Nontrivial (primaryComponent x.toLinearMap h) :=
+  have : Nontrivial (primaryComponent x.toLinearMap h) :=
     Submodule.nontrivial_iff_ne_bot.mpr (primaryComponent_ne_bot hx.squarefree_minpoly hh)
   have hcardE : Nat.card (AdjoinRoot h) = Nat.card K := by
     rw [Module.natCard_eq_pow_finrank (K := K),
       (AdjoinRoot.powerBasis hirr.ne_zero).finrank, AdjoinRoot.powerBasis_dim, hdeg, pow_one]
   have hdvdE : p ∣ Nat.card (AdjoinRoot h)ˣ := by
     rw [Nat.card_units, hcardE, hK]; exact h1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨ζ, hζ⟩ := exists_prime_orderOf_dvd_card' (G := (AdjoinRoot h)ˣ) p hdvdE
   let s : LinearMap.GeneralLinearGroup (AdjoinRoot h) (primaryComponent x.toLinearMap h) :=
     ggK1Dn_scalarUnit (AdjoinRoot h) (primaryComponent x.toLinearMap h) ζ
@@ -711,12 +711,12 @@ private theorem ggK1Dn_selfDual_scalar' {p nf : ℕ} {K V : Type} [Field K] [Fin
     ∃ e ∈ supportedBlock Q x h, e ^ p = 1 ∧ orderOf e = p ∧
       ∀ g ∈ supportedBlock Q x h, Commute e g := by
   classical
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
-  haveI : Nontrivial (primaryComponent x.toLinearMap h) :=
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Nontrivial (primaryComponent x.toLinearMap h) :=
     Submodule.nontrivial_iff_ne_bot.mpr (primaryComponent_ne_bot hx.squarefree_minpoly hh)
   obtain ⟨hU, Hf, hHsymm, hHsep, hWdim, ⟨φ⟩⟩ :=
     ggK1Dn_selfDual_unitary hx hp hp2 hnf hK hdvd hh hne1 hself
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨ζ, hζord, hζnorm⟩ :=
     CFSG.RankThree.Classical2.exists_orderOf_eq_norm_one hU hp hpq
   have hζval : (ζ : AdjoinRoot h) ^ (2 ^ nf + 1) = 1 := by
@@ -1092,7 +1092,7 @@ private theorem ggK1Dn_reciprocal_eq_self {K V : Type} [Field K] [Finite K] [Cha
   classical
   have hmon : h.Monic := monic_of_mem_primaryFactors hh
   have hirr : Irreducible h := irreducible_of_mem_primaryFactors hh
-  haveI : Fact (Irreducible h) := ⟨hirr⟩
+  have : Fact (Irreducible h) := ⟨hirr⟩
   have h0 : h.coeff 0 ≠ 0 := hx.coeff_zero_ne hh
   let E := AdjoinRoot h
   let lam : E := AdjoinRoot.root h
@@ -1315,17 +1315,17 @@ private theorem ggK1Dn_exists_E0 {p nf d : ℕ} {K V : Type} [Field K] [Finite K
     unfold ggMultOrd at hgm
     by_cases hc : p ∣ 2 ^ nf - 1
     · exact hc
-    · rw [if_neg hc] at hgm; split_ifs at hgm <;> omega
+    · rw [ite_eq_right hc] at hgm; split_ifs at hgm; omega
   have hpq2 : d = 2 → p ∣ 2 ^ nf + 1 := by
     intro h2
     have hgm : ggMultOrd p nf = 2 := by rw [← hd]; exact h2
     unfold ggMultOrd at hgm
     by_cases hc : p ∣ 2 ^ nf - 1
-    · rw [if_pos hc] at hgm; omega
-    · rw [if_neg hc] at hgm
+    · rw [ite_eq_left hc] at hgm; omega
+    · rw [ite_eq_right hc] at hgm
       by_cases hc2 : p ∣ 2 ^ nf + 1
       · exact hc2
-      · rw [if_neg hc2] at hgm; omega
+      · rw [ite_eq_right hc2] at hgm; omega
   let tail := (m.tail.filter (fun j => decide (j ≠ 0))).length
   let headCond : Prop := m.headD 0 = 1 ∧ ((ggMultEps0 p d tw m = true ∧ d = 1) ∨
     (ggMultEps0 p d tw m = false ∧ d = 2))
@@ -1559,7 +1559,7 @@ private theorem ggK1Dn_exists_E0_plus {p nf d r : ℕ} {K : Type} [Field K] [Fin
     (hnf : 1 ≤ nf) (hK : Nat.card K = 2 ^ nf) (hd : d = ggMultOrd p nf)
     {x : ↥(LargeEvenOmega (LargeEvenQPlus K r))} {m : List ℕ}
     (hm : GGK1DMultOf p nf d r K (x : GL (Fin r ⊕ Fin r) K) m) (hx : x ^ p = 1)
-    (hx1 : x ≠ 1) :
+    (_hx1 : x ≠ 1) :
     ∃ E0 : Subgroup ((Fin r ⊕ Fin r → K) ≃ₗ[K] (Fin r ⊕ Fin r → K)),
       IsElemAbelian p E0 ∧ Nat.card E0 = p ^ (ggMultDatumD p nf d false m).rZ ∧
       E0 ≤ orthDerived (TableBOrth.qPlusForm K r) ∧
@@ -1602,7 +1602,7 @@ private theorem ggK1Dn_exists_E0_minus {p nf d r : ℕ} {K : Type} [Field K] [Fi
     (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0)
     {x : ↥(LargeEvenOmega (LargeEvenQMinus (r - 1) b c))} {m : List ℕ}
     (hm : GGK1DMultOf p nf d r K (x : GL (LargeEvenMinusIdx (r - 1)) K) m) (hx : x ^ p = 1)
-    (hx1 : x ≠ 1) :
+    (_hx1 : x ≠ 1) :
     ∃ E0 : Subgroup ((LargeEvenMinusIdx (r - 1) → K) ≃ₗ[K] (LargeEvenMinusIdx (r - 1) → K)),
       IsElemAbelian p E0 ∧ Nat.card E0 = p ^ (ggMultDatumD p nf d true m).rZ ∧
       E0 ≤ orthDerived (TableBOrth.qMinusForm K (r - 1) b c) ∧
@@ -1654,7 +1654,7 @@ theorem ggK1D_core_center_plus {p nf d r : ℕ} {K : Type} [Field K] [Finite K]
       (MulAut.conj (LargeEvenProjMk (LargeEvenOmega (LargeEvenQPlus K r)) x)) := by
   classical
   intro h2
-  haveI : CharP K 2 := ggK1Dn_charP_two hK
+  have : CharP K 2 := ggK1Dn_charP_two hK
   by_cases hx1 : x = 1
   · subst hx1
     have hhead : m.headD 0 = r := by
@@ -1692,7 +1692,7 @@ theorem ggK1D_core_center_plus {p nf d r : ℕ} {K : Type} [Field K] [Finite K]
           have h1 := hc.1
           simp only [List.headD_cons] at h1
           omega
-        rw [if_neg hcond] at h2
+        rw [ite_eq_right hcond] at h2
         omega
   · have hcenterR := ggK1D_centreless_plus (r := r) hp hp2 hdvd hnf hK (by omega)
     obtain ⟨E0, hab, hcard, hle, hcent⟩ :=
@@ -1712,7 +1712,7 @@ theorem ggK1D_core_center_minus {p nf d r : ℕ} {K : Type} [Field K] [Finite K]
         (LargeEvenOmega (LargeEvenQMinus (r - 1) b c)) x)) := by
   classical
   intro h2
-  haveI : CharP K 2 := ggK1Dn_charP_two hK
+  have : CharP K 2 := ggK1Dn_charP_two hK
   by_cases hx1 : x = 1
   · subst hx1
     have hhead : m.headD 0 = r := by
@@ -1752,7 +1752,7 @@ theorem ggK1D_core_center_minus {p nf d r : ℕ} {K : Type} [Field K] [Finite K]
           have h1 := hc.1
           simp only [List.headD_cons] at h1
           omega
-        rw [if_neg hcond] at h2
+        rw [ite_eq_right hcond] at h2
         omega
   · have hcenterR := ggK1D_centreless_minus (r := r) hp hp2 hdvd hnf hK (by omega) hirr
     obtain ⟨E0, hab, hcard, hle, hcent⟩ :=

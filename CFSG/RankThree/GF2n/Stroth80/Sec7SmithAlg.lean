@@ -157,7 +157,7 @@ theorem sec7_exists_fixed_of_two_group {K Y Γ : Type*} [Field K] [Finite K] [Ch
       apply Nat.modEq_zero_iff_dvd.2
       rw [Module.natCard_eq_pow_finrank (K := K) (V := D)]
       exact dvd_pow h2K hd
-    letI : MulAction (↥L) (↥D) :=
+    let : MulAction (↥L) (↥D) :=
       { smul := fun l w => ⟨ρ (l : Γ) (w : Y), hDL _ l.2 _ w.2⟩
         one_smul := fun w => Subtype.ext (by
           show ρ ((1 : L) : Γ) (w : Y) = (w : Y)

@@ -136,13 +136,13 @@ theorem agl81NineFourCfg_holds
   obtain ⟨H₁, R₁, he⟩ := hd.escape
   have hp := he.prime
   have hp2 := he.ne_two
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set O := primeComplementCore (G := H) p
   set π := QuotientGroup.mk' O
   have hO : p.Coprime (Nat.card O) := primeComplementCore_coprime p
   have hk := hd.kbar
   have hne : d1KBar p M H ≠ ⊥ := fun h => hd.not_le_X0 (by rw [hk, h]; exact bot_le)
-  haveI : K.Normal := agl81NineThreeNormalCfg_holds hS p P M H Q K hd
+  have : K.Normal := agl81NineThreeNormalCfg_holds hS p P M H Q K hd
   obtain ⟨R, hQR, hRM, hR, -⟩ := exists_isSylowIn_of_isAGLQ he hd.base hd.le_H
   set Rb : Sylow p (H ⧸ O) := hR.toSylow.mapSurjective (QuotientGroup.mk'_surjective O) with hRb
   have hRbeq : (Rb : Subgroup (H ⧸ O)) = (R.subgroupOf H).map π := by
@@ -159,10 +159,10 @@ theorem agl81NineFourCfg_holds
   rw [← hRbeq] at hER hcore
   by_cases h3 : 3 ≤ Open.pRank p (Rb : Subgroup (H ⧸ O))
   swap
-  · rw [if_neg h3] at hcore
+  · rw [ite_eq_right h3] at hcore
     exact (hd.not_le_X0
       ((le_glbCore_one_of_central hp hER hE hEcard h3 hzR hzC hzp hzc).trans hcore)).elim
-  rw [if_pos h3] at hcore
+  rw [ite_eq_left h3] at hcore
   have hnotW : ¬ K ≤ GLBWeakCore p (Rb : Subgroup (H ⧸ O)) := fun h =>
     hd.not_le_X0 (h.trans hcore)
   obtain ⟨L₀, hL₀, hL₀X, hK₀ | ⟨L₁, hL₁, hL₁X, hne01, hK01, -, -⟩⟩ :=
@@ -208,7 +208,7 @@ theorem agl81NineFourCfg_holds
     have hz1 : z = 1 := congrArg Subtype.val hmem
     rw [hz1, orderOf_one] at hzp
     exact hp.one_lt.ne hzp
-  haveI : IsSimpleGroup (K ⧸ Subgroup.center K) := hL₀.2.2.2
+  have : IsSimpleGroup (K ⧸ Subgroup.center K) := hL₀.2.2.2
   let e₀ : K ⧸ Subgroup.center K ≃* K :=
     (QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot
   have hs : IsSimpleGroup K := e₀.symm.isSimpleGroup

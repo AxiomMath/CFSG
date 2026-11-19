@@ -127,7 +127,7 @@ theorem exists_three_cent {V' : Subgroup G}
   set R := preim π Alt7.stabSub with hR
   obtain ⟨a, ha⟩ := card_preim_stab hker hrange
   obtain ⟨P⟩ : Nonempty (Sylow 3 ↥R) := inferInstance
-  obtain ⟨r, hr⟩ := P.isPGroup'.exists_card_eq
+  obtain ⟨r, hr⟩ := P.isPGroup.exists_card_eq
   have hPi : ¬ 3 ∣ (P : Subgroup ↥R).index := P.not_dvd_index
   have hPmul := (P : Subgroup ↥R).card_mul_index
   rw [hr, ha] at hPmul
@@ -159,7 +159,7 @@ theorem exists_three_cent {V' : Subgroup G}
     (conjAct V').comp ((Subgroup.inclusion hRV).comp (P : Subgroup ↥R).subtype) with hρ
   have hρ3 : IsPGroup 3 ρ.range := by
     rintro ⟨_, ⟨x, rfl⟩⟩
-    obtain ⟨k, hk⟩ := P.isPGroup' x
+    obtain ⟨k, hk⟩ := P.isPGroup x
     exact ⟨k, Subtype.ext (by rw [Subgroup.coe_pow, ← map_pow, hk, map_one]; rfl)⟩
   obtain ⟨s, hs⟩ := hρ3.exists_card_eq
   have hs1 : s ≤ 1 := by
@@ -182,7 +182,7 @@ theorem exists_three_cent {V' : Subgroup G}
   have hcC : c' ∈ Subgroup.centralizer (V' : Set G) := by
     have := A1b.conjAct_eq_one_iff.mp (show conjAct V' ⟨c', hRV hc'R⟩ = 1 from hc)
     exact this
-  obtain ⟨j, hj⟩ := P.isPGroup' c
+  obtain ⟨j, hj⟩ := P.isPGroup c
   have hcj : c' ^ 3 ^ j = 1 := by
     have := congrArg (fun z : ↥(P : Subgroup ↥R) => ((z : ↥R) : G)) hj
     simpa using this

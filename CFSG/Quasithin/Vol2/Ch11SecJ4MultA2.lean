@@ -14,7 +14,7 @@ theorem le_commutator_of_not_dvd_index {K : Type*} [Group K] [Finite K] [Group.I
     {p : ℕ} [Fact p.Prime] {Z : Subgroup K} (hZc : Z ≤ Subgroup.center K) (hZp : IsPGroup p Z)
     {L : Subgroup K} (hL : ¬ p ∣ L.index) : Z ≤ ⁅L, L⁆ := by
   obtain P₀ : Sylow p L := default
-  have hP : IsPGroup p ((P₀ : Subgroup L).map L.subtype) := P₀.isPGroup'.map _
+  have hP : IsPGroup p ((P₀ : Subgroup L).map L.subtype) := P₀.isPGroup.map _
   have hPi : ¬ p ∣ ((P₀ : Subgroup L).map L.subtype).index := by
     rw [Subgroup.index_map_subtype]
     exact fun h => ((Nat.Prime.dvd_mul Fact.out).1 h).elim P₀.not_dvd_index hL

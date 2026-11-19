@@ -122,7 +122,7 @@ theorem exists_real34N {x : G} {K : Subgroup G} (hyp : Prop34HypN G x K) {f : G}
     have hSC : (S : Subgroup G) ≤ centralizer ({x} : Set G) := fun s hs =>
       mem_centralizer_singleton_iff.2 (hxc s hs)
     have hSsyl : IsSylowOf 2 (S : Subgroup G) (centralizer ({x} : Set G)) := by
-      refine isSylowOf_iff.2 ⟨hSC, S.isPGroup', fun hdvd => S.not_dvd_index ?_⟩
+      refine isSylowOf_iff.2 ⟨hSC, S.isPGroup, fun hdvd => S.not_dvd_index ?_⟩
       exact hdvd.trans (Subgroup.relIndex_dvd_index_of_le hSC)
     have hcard : Nat.card ↥T = Nat.card ↥(S : Subgroup G) := by
       rw [hsylowT.card_eq, hSsyl.card_eq]

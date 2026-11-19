@@ -448,7 +448,7 @@ private theorem calib_single {K : Type} [Field K] {m : ℕ} (hm : 3 ≤ m) (A : 
       (A : Matrix (Fin m) (Fin m) K) i j = 0 := by
     intro hc i j hik hjk
     have h1 := hentry i j
-    rw [if_neg hjk, if_neg hik, mul_one, one_mul] at h1
+    rw [ite_eq_right hjk, ite_eq_right hik, mul_one, one_mul] at h1
     have h2 : (1 - c) * (A : Matrix (Fin m) (Fin m) K) i j = 0 := by
       rw [sub_mul, one_mul, ← h1, sub_self]
     exact (mul_eq_zero.mp h2).resolve_left (sub_ne_zero.mpr (Ne.symm hc))
@@ -502,14 +502,14 @@ private theorem calib_single {K : Type} [Field K] {m : ℕ} (hm : 3 ≤ m) (A : 
   have hik : ∀ i, i ≠ k → (A : Matrix (Fin m) (Fin m) K) i k = 0 := by
     intro i hi
     have h1 := hentry i k
-    rw [if_pos rfl, if_neg hi, hc1, one_mul, one_mul] at h1
+    rw [ite_eq_left rfl, ite_eq_right hi, hc1, one_mul, one_mul] at h1
     have h2 : (A : Matrix (Fin m) (Fin m) K) i k * (ζ - 1) = 0 := by
       rw [mul_sub, mul_one, h1, sub_self]
     exact (mul_eq_zero.mp h2).resolve_right (sub_ne_zero.mpr hζ)
   have hki : ∀ i, i ≠ k → (A : Matrix (Fin m) (Fin m) K) k i = 0 := by
     intro i hi
     have h1 := hentry k i
-    rw [if_neg hi, if_pos rfl, hc1, mul_one, one_mul] at h1
+    rw [ite_eq_right hi, ite_eq_left rfl, hc1, mul_one, one_mul] at h1
     have h2 : (1 - ξ) * (A : Matrix (Fin m) (Fin m) K) k i = 0 := by
       rw [sub_mul, one_mul, ← h1, sub_self]
     exact (mul_eq_zero.mp h2).resolve_left (sub_ne_zero.mpr (Ne.symm hξ))
@@ -534,7 +534,7 @@ private theorem calib_single {K : Type} [Field K] {m : ℕ} (hm : 3 ≤ m) (A : 
     exact hunit ((Matrix.exists_mulVec_eq_zero_iff).mp ⟨_, hne, hv⟩)
   have hxi : ζ = ξ := by
     have h1 := hentry k k
-    rw [if_pos rfl, if_pos rfl, hc1, one_mul] at h1
+    rw [ite_eq_left rfl, ite_eq_left rfl, hc1, one_mul] at h1
     exact mul_left_cancel₀ hkk (by rw [h1, mul_comm])
   exact ⟨hc1, hxi, fun i hi => ⟨hik i hi, hki i hi⟩⟩
 
@@ -582,8 +582,8 @@ private theorem calib_of_frameDiag {G : Type} [Group G] {p m : ℕ} {K : Type} [
       rw [h1, Pi.mulSingle_apply]
       by_cases hik : i = k
       · subst hik
-        rw [if_pos rfl, if_pos rfl]
-      · rw [if_neg hik, if_neg (fun h => hik (Fin.castSucc_injective m (π.injective h)))]
+        rw [ite_eq_left rfl, ite_eq_left rfl]
+      · rw [ite_eq_right hik, ite_eq_right (fun h => hik (Fin.castSucc_injective m (π.injective h)))]
     obtain ⟨c, hc⟩ := hcal b
     have hDL : ((glAut φ (frameDiag eta π χL b) : GL (Fin m) K) :
         Matrix (Fin m) (Fin m) K) =
@@ -593,8 +593,8 @@ private theorem calib_of_frameDiag {G : Type} [Group G] {p m : ℕ} {K : Type} [
       funext i
       rw [hb i]
       by_cases hik : i = k
-      · rw [if_pos hik, if_pos hik]
-      · rw [if_neg hik, if_neg hik]
+      · rw [ite_eq_left hik, ite_eq_left hik]
+      · rw [ite_eq_right hik, ite_eq_right hik]
         simp
     have hDK : ((frameDiag eta π χK b : GL (Fin m) K) : Matrix (Fin m) (Fin m) K) =
         Matrix.diagonal (fun i => if i = k then ((χK g₀ : Kˣ) : K) else 1) := by
@@ -603,8 +603,8 @@ private theorem calib_of_frameDiag {G : Type} [Group G] {p m : ℕ} {K : Type} [
       funext i
       rw [hb i]
       by_cases hik : i = k
-      · rw [if_pos hik, if_pos hik]
-      · rw [if_neg hik, if_neg hik]
+      · rw [ite_eq_left hik, ite_eq_left hik]
+      · rw [ite_eq_right hik, ite_eq_right hik]
         simp
     have hcs : (Matrix.GeneralLinearGroup.scalar (Fin m) c : Matrix (Fin m) (Fin m) K) =
         (c : K) • (1 : Matrix (Fin m) (Fin m) K) := by

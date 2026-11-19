@@ -19,7 +19,7 @@ theorem not_outerKlein_of_outPChain {S : Type} [Group S] (σ : MulAut S) (h : Ou
   rintro ⟨α, β, -, -, hα2, hβ2, hcomm, hα, hβ, hαβ⟩
   obtain ⟨D, E, hID, hD2, hpE, hD4⟩ := h
   set I : Subgroup (MulAut S) := (MulAut.conj : S →* MulAut S).range with hI
-  haveI hIn : I.Normal := CFSG.ComponentClassification.OuterAutomorphisms.innerNormal S
+  have hIn : I.Normal := CFSG.ComponentClassification.OuterAutomorphisms.innerNormal S
   have sq2 : ∀ γ : MulAut S, γ ^ (2 ^ 1) = γ * γ := fun γ => by rw [pow_one, sq]
   have hαD : α ^ (2 ^ 1) ∈ D := by
     rw [sq2]

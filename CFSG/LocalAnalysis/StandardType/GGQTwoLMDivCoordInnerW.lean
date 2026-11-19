@@ -44,7 +44,7 @@ private theorem qTwoLMDivCoordInner_w_center_centralizer {B Bs L : Subgroup G} {
     obtain ⟨u', hu'mat, hu'act⟩ := hgact s0
     have hconj_scalar : (g : GL (Fin m) F0) * (s0 : GL (Fin m) F0) * g⁻¹ = s0 := by
       apply Units.ext
-      simp only [Units.val_mul, Units.val_inv_eq_inv_val, hc0, ← Matrix.scalar_apply]
+      simp only [Units.val_mul, hc0, ← Matrix.scalar_apply]
       rw [← Matrix.scalar_comm c0 (fun r => Commute.all c0 r) (g : Matrix (Fin m) (Fin m) F0)]
       rw [mul_assoc, ← Units.val_mul]
       simp
@@ -80,7 +80,7 @@ private theorem qTwoLMDivCoordInner_w_center_centralizer {B Bs L : Subgroup G} {
         Subgroup.mem_map_of_mem (ggGamma L hN b1 : ↥L →* ↥L) hzcenter
       have hcenter_map : Subgroup.map (ggGamma L hN b1 : ↥L →* ↥L)
           (Subgroup.center ↥L) = Subgroup.center ↥L := by
-        simpa using Subgroup.map_center_eq (ggGamma L hN b1)
+        simp
       rw [hcenter_map] at hmem
       have hw_eq : w = ggGamma L hN b1 z := Subtype.ext rfl
       rwa [hw_eq]
@@ -106,7 +106,7 @@ private theorem qTwoLMDivCoordInner_w_center_centralizer {B Bs L : Subgroup G} {
         rwa [hgcd] at this
       exact orderOf_eq_one_iff.mp (Nat.dvd_one.mp hdvd1)
     have hwz : w = z := by
-      have h : z * z'' = w := by simp [z'', mul_assoc]
+      have h : z * z'' = w := by simp [z'']
       rw [hz''1, mul_one] at h
       exact h.symm
     have hbz : (b1 : G) * (z : G) * (b1 : G)⁻¹ = (z : G) := by
@@ -197,13 +197,13 @@ theorem qTwoLMDivCoordInner_wnorm {B Bs L : Subgroup G} {x : G} (hG : GGThmIHyp 
           _ = z * g := by group
       have ht3 : t ^ 3 = 1 := by
         apply Subtype.ext
-        simp [Subgroup.coe_pow, hBs.2.1.2 (t : G) htBs]
+        simp [hBs.2.1.2 (t : G) htBs]
       have ht0_3 : t0 ^ 3 = 1 := by
         change (MulAut.conj n t) ^ 3 = 1
         rw [← map_pow (MulAut.conj n) t 3, ht3, map_one]
       have hs3 : s ^ 3 = 1 := by
         apply Subtype.ext
-        simp [Subgroup.coe_pow, hBs.2.1.2 (s : G) hsBs]
+        simp [hBs.2.1.2 (s : G) hsBs]
       have hz3 : z ^ 3 = 1 := by
         have ht0z : t0 = s * z := by simp [z]
         have hcomm : Commute s z := Subgroup.mem_center_iff.mp hzcenter s

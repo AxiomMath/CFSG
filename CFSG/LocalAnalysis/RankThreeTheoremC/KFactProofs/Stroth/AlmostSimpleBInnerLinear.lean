@@ -23,7 +23,7 @@ theorem oddPCoreInClosure_centralizer_slGL_of_squarefree {p : ℕ} (hp : p.Prime
     OddPCoreInClosure p
       ↥(Subgroup.centralizer ({a} : Set (Matrix.SpecialLinearGroup (Fin n) k))) := by
   classical
-  haveI : Finite (LinearMap.GeneralLinearGroup k (Fin n → k)) := finite_generalLinearGroup'
+  have : Finite (LinearMap.GeneralLinearGroup k (Fin n → k)) := finite_generalLinearGroup'
   have hC : OddPCoreInClosure p ↥(gl_centralizer (slGL n k a)) := by
     refine OddPCoreInClosure.of_mulEquiv (glCentralizerEquivPi hsq).symm ?_
     have hblock : ∀ b : primaryFactors ((slGL n k a : LinearMap.GeneralLinearGroup k (Fin n → k)) :
@@ -31,18 +31,18 @@ theorem oddPCoreInClosure_centralizer_slGL_of_squarefree {p : ℕ} (hp : p.Prime
         OddPCoreInClosure p (blockGL ((slGL n k a : LinearMap.GeneralLinearGroup k (Fin n → k)) :
           Module.End k (Fin n → k)) (b : k[X])) := by
       intro b
-      haveI : Fact (Irreducible (b : k[X])) := ⟨irreducible_of_mem_primaryFactors b.2⟩
-      haveI : Finite (AdjoinRoot (b : k[X])) := Module.finite_of_finite k
-      haveI : CharP (AdjoinRoot (b : k[X])) 2 :=
+      have : Fact (Irreducible (b : k[X])) := ⟨irreducible_of_mem_primaryFactors b.2⟩
+      have : Finite (AdjoinRoot (b : k[X])) := Module.finite_of_finite k
+      have : CharP (AdjoinRoot (b : k[X])) 2 :=
         charP_of_injective_ringHom (AdjoinRoot.of (b : k[X])).injective 2
       exact oddPCoreInClosure_generalLinearGroup hp hp2
-    haveI : ∀ b : primaryFactors ((slGL n k a : LinearMap.GeneralLinearGroup k (Fin n → k)) :
+    have : ∀ b : primaryFactors ((slGL n k a : LinearMap.GeneralLinearGroup k (Fin n → k)) :
         Module.End k (Fin n → k)),
         Finite (blockGL ((slGL n k a : LinearMap.GeneralLinearGroup k (Fin n → k)) :
           Module.End k (Fin n → k)) (b : k[X])) := by
       intro b
-      haveI : Fact (Irreducible (b : k[X])) := ⟨irreducible_of_mem_primaryFactors b.2⟩
-      haveI : Finite (AdjoinRoot (b : k[X])) := Module.finite_of_finite k
+      have : Fact (Irreducible (b : k[X])) := ⟨irreducible_of_mem_primaryFactors b.2⟩
+      have : Finite (AdjoinRoot (b : k[X])) := Module.finite_of_finite k
       exact finite_generalLinearGroup'
     exact OddPCoreInClosure.pi hp hblock
   let ψ : ↥(Subgroup.centralizer ({a} : Set (Matrix.SpecialLinearGroup (Fin n) k))) →*
@@ -103,6 +103,7 @@ theorem oddPCoreInClosure_centralizer_slGL {p : ℕ} (hp : p.Prime) (hp2 : p ≠
     exact hp2 ((Nat.prime_dvd_prime_iff_eq Nat.prime_two hp).1 h0).symm
   exact oddPCoreInClosure_centralizer_slGL_of_squarefree hp hp2 (squarefree_minpoly_slGL hpk hap)
 
+omit [CharP k 2] in
 theorem exists_lift_pow_eq_one {p : ℕ} (hp : p.Prime)
     (hZ : ∀ z ∈ scalars n k, z ^ p = 1 → z = 1) {d : projectiveSL n k} (hdp : d ^ p = 1) :
     ∃ a : Matrix.SpecialLinearGroup (Fin n) k, proj n k a = d ∧ a ^ p = 1 := by
@@ -113,7 +114,7 @@ theorem exists_lift_pow_eq_one {p : ℕ} (hp : p.Prime)
   have hcop : Nat.Coprime (Nat.card (scalars n k)) p := by
     rw [Nat.coprime_comm, Nat.Prime.coprime_iff_not_dvd hp]
     intro hdvd
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := scalars n k) p hdvd
     have hz1 : (z : Matrix.SpecialLinearGroup (Fin n) k) ^ p = 1 := by
       have := pow_orderOf_eq_one z
@@ -193,7 +194,7 @@ theorem scalars_no_pTorsion {k : Type} [Field k] [Finite k] {n p : ℕ} [NeZero 
     have h2 : (Matrix.scalar (Fin n)) ((c : k) ^ p) = (Matrix.scalar (Fin n)) 1 := by
       rw [map_one]
       exact h1
-    haveI : Nonempty (Fin n) := ⟨⟨0, Nat.pos_of_ne_zero (NeZero.ne n)⟩⟩
+    have : Nonempty (Fin n) := ⟨⟨0, Nat.pos_of_ne_zero (NeZero.ne n)⟩⟩
     have h3 : (c : k) ^ p = 1 := Matrix.scalar_inj.1 h2
     exact Units.ext (by simpa using h3)
   have hord : orderOf c = 1 := by
@@ -219,8 +220,8 @@ theorem chevTwoPClosureOddFamily_linear : ChevTwoPClosureOddFamily LieFamilyLine
     obtain ⟨e⟩ := he
     have hF' : ¬ p ∣ Nat.gcd (r + 1) (q.card - 1) := hF
     have hdi' : q.p = 2 := hdi
-    haveI : Fact q.p.Prime := ⟨q.prime_p⟩
-    haveI : CharP (GaloisField q.p q.exponent) 2 := by
+    have : Fact q.p.Prime := ⟨q.prime_p⟩
+    have : CharP (GaloisField q.p q.exponent) 2 := by
       rw [← hdi']
       infer_instance
     let e1 : L ≃* projectiveSL (r + 1) (GaloisField q.p q.exponent) :=

@@ -14,14 +14,17 @@ open CFSG.Quasithin.H13.F431.U42Aut (altW altW_zero)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private lemma he42bn_altW_one (r r' : G) : altW r r' 1 = r := by
   show r * altW r' r 0 = r
   rw [altW_zero, mul_one]
 
+omit [Finite G] in
 private lemma he42bn_altW_two (r r' : G) : altW r r' 2 = r * r' := by
   show r * (r' * altW r r' 0) = r * r'
   rw [altW_zero, mul_one]
 
+omit [Finite G] in
 private lemma he42bn_card_map {L K A J R : Subgroup G} {ψ : ↥L →* Equiv.Perm (Fin 5)}
     (hψ : PData L K A J ψ) (hRL : R ≤ L) (hRA : A ⊓ R = ⊥) :
     Nat.card ((R.subgroupOf L).map ψ) = Nat.card R := by

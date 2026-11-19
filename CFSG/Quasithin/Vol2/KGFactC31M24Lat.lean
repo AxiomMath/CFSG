@@ -18,7 +18,7 @@ theorem exists_sylow_le (hA : Nat.card A = 244823040) {X : Subgroup A}
   obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow 2 X))
   refine ⟨(P : Subgroup X).map X.subtype, ?_, ?_⟩
   · rw [K1.isSylowTwoOf_top_iff]
-    refine ⟨P.isPGroup'.map X.subtype, ?_⟩
+    refine ⟨P.isPGroup.map X.subtype, ?_⟩
     rw [Subgroup.index_map_subtype]
     intro h2
     rcases (Nat.Prime.dvd_mul Nat.prime_two).mp h2 with h | h

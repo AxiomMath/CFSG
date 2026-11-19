@@ -39,7 +39,7 @@ theorem hBcx (hc : Ctx B x L) : B ≤ cx x := isElemAbelian_le_centralizer hc.hB
 theorem hLX (hc : Ctx B x L) : L ≤ cx x := hc.hL.1
 
 theorem hxcent (hc : Ctx B x L) : x ∈ Subgroup.centralizer (L : Set G) :=
-  Subgroup.mem_centralizer_iff.2 fun l hl => Subgroup.mem_centralizer_singleton_iff.1 (hc.hLX hl)
+  Subgroup.mem_centralizer_iff.2 fun _l hl => Subgroup.mem_centralizer_singleton_iff.1 (hc.hLX hl)
 
 theorem hxker (hc : Ctx B x L) : x ∈ centModSubgroup 3 L :=
   centMod_iff.1 (centMod_of_mem_centralizer hc.hxcent)
@@ -76,6 +76,7 @@ theorem rank_eq (hc : Ctx B x L) (F : TD4Rank (PQuot 3 L)) :
 
 end Ctx
 
+omit [Finite G] in
 theorem mem_of_pow_coprime {H : Subgroup G} {t : G} {a b : ℕ} (hab : Nat.Coprime a b)
     (h1 : t ^ a = 1) (h2 : t ^ b ∈ H) : t ∈ H := by
   obtain ⟨u, v, huv⟩ : ∃ u v : ℤ, (a : ℤ) * u + (b : ℤ) * v = 1 := by

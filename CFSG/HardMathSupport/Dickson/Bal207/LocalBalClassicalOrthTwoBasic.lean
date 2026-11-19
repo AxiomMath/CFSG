@@ -17,6 +17,7 @@ section Field
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem charP_two (hK : Nat.card K = 2) : CharP K 2 :=
   CFSG.HardMathSupport.Dickson.LocalTwoBalance.Cross.W2.OrthTwoAux.card_two_charP hK
 
@@ -27,6 +28,7 @@ section Primary
 variable {K : Type} [Field K] [Finite K] {V : Type} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {Q : QuadraticForm K V} {x : V ≃ₗ[K] V}
 
+omit [Finite K] in
 theorem primaryFactor_cases (hK : Nat.card K = 2) (hx : OddOrderIsometry Q 3 x) {h : K[X]}
     (hh : h ∈ primaryFactors x.toLinearMap) : h = X - 1 ∨ h = cyc3 K := by
   have hdvd : h ∣ (X ^ 3 - 1 : K[X]) := hx.dvd_X_pow_sub_one hh
@@ -42,12 +44,14 @@ theorem primaryFactor_cases (hK : Nat.card K = 2) (hx : OddOrderIsometry Q 3 x) 
   · exact Or.inr (eq_of_monic_of_associated hmon (monic_cyc3 K)
       (hirr.associated_of_dvd (irreducible_cyc3 hK) h1))
 
+omit [Finite K] in
 theorem primaryComponent_cyc3_eq_bot (hK : Nat.card K = 2)
     (hh : cyc3 K ∉ primaryFactors x.toLinearMap) :
     primaryComponent x.toLinearMap (cyc3 K) = ⊥ := by
   by_contra hne
   exact hh (mem_primaryFactors_of_primaryComponent_ne_bot (irreducible_cyc3 hK) (monic_cyc3 K) hne)
 
+omit [Finite K] in
 theorem othersSpace_le_cyc3 (hK : Nat.card K = 2) (hx : OddOrderIsometry Q 3 x) :
     othersSpace x.toLinearMap (X - 1) ≤ primaryComponent x.toLinearMap (cyc3 K) := by
   unfold othersSpace
@@ -56,6 +60,7 @@ theorem othersSpace_le_cyc3 (hK : Nat.card K = 2) (hx : OddOrderIsometry Q 3 x) 
   · exact absurd rfl hk.2.1
   · exact le_rfl
 
+omit [Finite K] in
 theorem cyc3_le_othersSpace (hK : Nat.card K = 2) :
     primaryComponent x.toLinearMap (cyc3 K) ≤ othersSpace x.toLinearMap (X - 1) := by
   by_cases hh : cyc3 K ∈ primaryFactors x.toLinearMap
@@ -67,6 +72,7 @@ theorem cyc3_le_othersSpace (hK : Nat.card K = 2) :
   · rw [primaryComponent_cyc3_eq_bot hK hh]
     exact bot_le
 
+omit [Finite K] in
 theorem fixedSpace_le_othersSpace_cyc3 :
     fixedSpace x ≤ othersSpace x.toLinearMap (cyc3 K) := by
   by_cases hh : (X - 1 : K[X]) ∈ primaryFactors x.toLinearMap
@@ -79,26 +85,31 @@ theorem fixedSpace_le_othersSpace_cyc3 :
   · rw [fixedSpace_eq_bot_of_not_mem hh]
     exact bot_le
 
+omit [Finite K] in
 theorem othersSpace_eq_cyc3 (hK : Nat.card K = 2) (hx : OddOrderIsometry Q 3 x) :
     othersSpace x.toLinearMap (X - 1) = primaryComponent x.toLinearMap (cyc3 K) :=
   le_antisymm (othersSpace_le_cyc3 hK hx) (cyc3_le_othersSpace hK)
 
+omit [Finite K] in
 theorem isCompl_fixedSpace_cyc3 (hK : Nat.card K = 2) (hx : OddOrderIsometry Q 3 x) :
     IsCompl (fixedSpace x) (primaryComponent x.toLinearMap (cyc3 K)) := by
   have h := hx.fixed_others.1
   rwa [othersSpace_eq_cyc3 hK hx] at h
 
+omit [Finite K] in
 theorem polar_fixedSpace_cyc3 (hK : Nat.card K = 2) (hx : OddOrderIsometry Q 3 x) {w v : V}
     (hw : w ∈ fixedSpace x) (hv : v ∈ primaryComponent x.toLinearMap (cyc3 K)) :
     polar Q w v = 0 :=
   hx.fixed_others.2 w hw v (cyc3_le_othersSpace hK hv)
 
+omit [Finite K] in
 theorem finrank_cyc3 (hK : Nat.card K = 2) :
     finrank K (primaryComponent x.toLinearMap (cyc3 K)) =
       2 * primaryMultiplicity x.toLinearMap (cyc3 K) := by
   have : Fact (Irreducible (cyc3 K)) := ⟨irreducible_cyc3 hK⟩
   rw [finrank_primaryComponent, natDegree_cyc3]
 
+omit [Finite K] in
 theorem eq_one_of_fixes (hK : Nat.card K = 2) (hx : OddOrderIsometry Q 3 x) {g : V ≃ₗ[K] V}
     (hW : ∀ w ∈ fixedSpace x, g w = w)
     (hh : ∀ v ∈ primaryComponent x.toLinearMap (cyc3 K), g v = v) : g = 1 := by
@@ -107,15 +118,18 @@ theorem eq_one_of_fixes (hK : Nat.card K = 2) (hx : OddOrderIsometry Q 3 x) {g :
   rw [map_add, hW w hw, hh r hr]
   rfl
 
+omit [Finite K] in
 theorem fixes_fixedSpace_of_mem_supportedBlock_cyc3 {g : V ≃ₗ[K] V}
     (hg : g ∈ supportedBlock Q x (cyc3 K)) : ∀ w ∈ fixedSpace x, g w = w := fun w hw =>
   (mem_supportedBlock.mp hg).2 w (fixedSpace_le_othersSpace_cyc3 hw)
 
+omit [Finite K] in
 theorem fixes_cyc3_of_mem_supportedBlock_fixed (hK : Nat.card K = 2) {g : V ≃ₗ[K] V}
     (hg : g ∈ supportedBlock Q x (X - 1)) :
     ∀ v ∈ primaryComponent x.toLinearMap (cyc3 K), g v = v := fun v hv =>
   (mem_supportedBlock.mp hg).2 v (cyc3_le_othersSpace hK hv)
 
+omit [Finite K] in
 theorem cyc3_mem_primaryFactors (hK : Nat.card K = 2)
     (hm : 1 ≤ primaryMultiplicity x.toLinearMap (cyc3 K)) :
     cyc3 K ∈ primaryFactors x.toLinearMap := by
@@ -159,7 +173,7 @@ theorem isPlusType_fixedSpace_iff (hK : Nat.card K = 2) (hx : OddOrderIsometry Q
   have hWd : finrank K W = 2 * a := by omega
   have hRtype : IsPlusType (Q.comp R.subtype) ↔ Even m := by
     refine K159.isPlusType_iff_even_of_fixedFree hx Nat.prime_three (by norm_num)
-      (by rw [hK] <;> norm_num) m R (fun u hu => ?_) (fun u hu h => hRnd u hu h)
+      (by rw [hK]) m R (fun u hu => ?_) (fun u hu h => hRnd u hu h)
       (fun u hu h => ?_) hR
     · exact apply_mem_primaryComponent_of_mem_centralizer
         (Subgroup.mem_centralizer_singleton_iff.2 rfl) hu

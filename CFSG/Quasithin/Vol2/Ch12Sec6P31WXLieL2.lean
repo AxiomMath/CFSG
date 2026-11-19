@@ -125,7 +125,7 @@ theorem l2_center_sl2_eq_bot (K : Type) [Field K] [CharP K 2] :
   have hE00 := congrFun (congrFun hE 0) 0
   have hE01 := congrFun (congrFun hE 0) 1
   have hF00 := congrFun (congrFun hF 0) 0
-  simp [Matrix.mul_fin_two] at hE00 hE01 hF00
+  simp at hE00 hE01 hF00
   have hc0 : c = 0 := by linear_combination hE00
   have hb0 : b = 0 := by linear_combination hF00
   have had : d = a := by linear_combination hE01
@@ -164,7 +164,7 @@ theorem l2_psl2Borel_isCoatom (K : Type) [Field K] [CharP K 2] :
 theorem l2_psl2Borel_card (K : Type) [Field K] [Finite K] [CharP K 2] :
     Nat.card (psl2Borel K) = Nat.card K * (Nat.card K - 1) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hinj : Function.Injective (psl2QuotientMap K) := (l2SL2Equiv K).injective
   have hB : Nat.card (sl2Borel K) = Nat.card K * (Nat.card K - 1) := by
     have h := CFSG.QuasithinUnique.Setup.SL2Modules.natCard_borel (F := K)
@@ -206,7 +206,7 @@ theorem l2_ringEquiv_pow {K : Type} [Field K] [Finite K] [CharP K 2] (σ : K ≃
 theorem l2_model_action {K : Type} [Field K] [Finite K] [CharP K 2] (α : MulAut (PSL2 K))
     (hα : (psl2UpperUnipotentSubgroup K).map α.toMonoidHom = psl2UpperUnipotentSubgroup K) :
     ∃ j : ℕ, ∀ b ∈ psl2Borel K, α b * (b ^ 2 ^ j)⁻¹ ∈ psl2UpperUnipotentSubgroup K := by
-  haveI := burnsideAut_inn_normal (PSL2 K)
+  have := burnsideAut_inn_normal (PSL2 K)
   obtain ⟨c, hc, f, hf, hcf⟩ := Subgroup.mem_sup_of_normal_left.mp
     (burnsideAut_psl2_aut_mem α)
   obtain ⟨x, rfl⟩ := MonoidHom.mem_range.mp hc
@@ -270,7 +270,7 @@ theorem l2_sylow_iso {K : Type} [Field K] [Finite K] [CharP K 2] {m : ℕ}
     (hU : CFSG.QuasithinUnique.IsSylowTwoOf U X)
     (e₀ : ↥X ≃* StatedProj (StatedSL 2 K)) :
     ∃ e : ↥X ≃* PSL2 K, (U.subgroupOf X).map e.toMonoidHom = psl2UpperUnipotentSubgroup K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS : CFSG.QuasithinUnique.IsSylowTwoOf (U.subgroupOf X) ⊤ := by
     refine ⟨le_top, ?_, ?_⟩
     · exact hU.2.1.of_equiv (Subgroup.subgroupOfEquivOfLe hU.1).symm
@@ -439,7 +439,7 @@ theorem l2_main_of_iso {K : Type} [Field K] [Finite K] [CharP K 2] {m : ℕ}
 theorem l2BorelFacts_holds : L2BorelFacts := by
   intro m hm Y _ _ X U hX hU
   obtain ⟨-, K, _, _, hK, ⟨e₀⟩⟩ := id hX
-  haveI : CharP K 2 := burnsideA26_charP_two hK
+  have : CharP K 2 := burnsideA26_charP_two hK
   obtain ⟨e, he⟩ := l2_sylow_iso hK hU e₀
   exact l2_main_of_iso hK hU e he
 

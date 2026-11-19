@@ -31,6 +31,7 @@ namespace Track
 
 variable {L1 L2 S : Subgroup G} (t : Track L1 L2 S)
 
+omit [Finite G] in
 private theorem conjSub_MX_x₁ (i : ℤ) :
     conjSub t.x₁ (t.MX t.QT i) = t.MX t.QT (-i) := by
   have hQ : conjSub t.x₁ t.QT = t.QT := by
@@ -40,6 +41,7 @@ private theorem conjSub_MX_x₁ (i : ℤ) :
   rw [conjSub_inf, ← conjSub_normalizer, hQ,
     show conjSub t.x₁ (t.Gv i) = t.Gv (-i) from t.map_Gv_x₁ i]
 
+omit [Finite G] in
 private theorem conjSub_EX_x₁ (i : ℤ) :
     conjSub t.x₁ (t.EX t.QT i) = t.EX t.QT (-i) := by
   have hQ : conjSub t.x₁ t.QT = t.QT := by
@@ -49,6 +51,7 @@ private theorem conjSub_EX_x₁ (i : ℤ) :
   rw [conjSub_inf, ← conjSub_normalizer, hQ,
     show conjSub t.x₁ (t.Qv i) = t.Qv (-i) from t.map_Qv_x₁ i]
 
+omit [Finite G] in
 private theorem conjSub_LX_x₁ (i : ℤ) :
     conjSub t.x₁ (t.LX t.QT i) = t.LX t.QT (-i) := by
   unfold Track.LX
@@ -72,6 +75,7 @@ theorem EX_QT_lt_Qv_one {a f : ℕ} (hfr : Frame L1 L2 S a f)
   intro h
   exact t.Qv_one_not_le_Qv_zero hfr (h.trans hEQ)
 
+omit [Finite G] in
 theorem map_centerOf_LX_x₁ :
     (centerOf (t.LX t.QT 1)).map (MulAut.conj t.x₁).toMonoidHom = centerOf (t.LX t.QT (-1)) ∧
       (centerOf (t.LX t.QT (-1))).map (MulAut.conj t.x₁).toMonoidHom =
@@ -83,6 +87,7 @@ theorem map_centerOf_LX_x₁ :
     rw [← CFSG.Quasithin.H13.F431.L3.centerOf_conjSub, conjSub_LX_x₁]
     norm_num
 
+omit [Finite G] in
 theorem K_le_normalizer_centerOf_LX : t.K ≤ normalizer (centerOf (t.LX t.QT 1) : Set G) := by
   intro k hk
   rw [Subgroup.mem_normalizer_iff_map_conj_eq]
@@ -218,7 +223,7 @@ theorem eq_QT_of_normal {a f : ℕ} (hfr : Frame L1 L2 S a f)
 
 private theorem exists_sylow_imageOTwoQuot {L T : Subgroup G} (hT : IsSylowTwoOf T L) :
     ∃ S : Sylow 2 (oTwoQuot ↥L), (S : Subgroup (oTwoQuot ↥L)) = imageOTwoQuot L T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQ : pCoreOf 2 L ≤ T := hT.pCoreOf_le
   have hTq : IsSylowTwoOf (imageOTwoQuot L T) ⊤ := QA12.isSylowTwoOf_image_top hT hQ
   have hidx : ¬ 2 ∣ (imageOTwoQuot L T).index := by
@@ -235,7 +240,7 @@ private theorem card_normalizer_imageOTwoQuot_l2 {L T : Subgroup G} {f : ℕ} (h
     Nat.card (Subgroup.normalizer (imageOTwoQuot L T : Set (oTwoQuot ↥L))) =
       2 ^ f * (2 ^ f - 1) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S, hScoe⟩ := exists_sylow_imageOTwoQuot hT
   obtain ⟨e⟩ := hL2
   let U : Sylow 2 (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 f)) :=
@@ -243,7 +248,7 @@ private theorem card_normalizer_imageOTwoQuot_l2 {L T : Subgroup G} {f : ℕ} (h
   have hUcoe : (U : Subgroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 f))) =
       (imageOTwoQuot L T).map e.toMonoidHom := by
     have h := Sylow.coe_mapSurjective (f := e.toMonoidHom) e.surjective S
-    simpa [U, hScoe] using h
+    simp [U, hScoe]
   have hmap : (Subgroup.normalizer (imageOTwoQuot L T : Set (oTwoQuot ↥L))).map e.toMonoidHom =
       Subgroup.normalizer
         ((U : Subgroup
@@ -255,6 +260,7 @@ private theorem card_normalizer_imageOTwoQuot_l2 {L T : Subgroup G} {f : ℕ} (h
   have hf0 : f ≠ 0 := Nat.one_le_iff_ne_zero.mp hf1
   exact CFSG.Walter.psl2_even_card_normalizer_sylow_two (f := f) hf0 U
 
+omit [Finite G] in
 private theorem inf_sup_le_sup_inf {L Q M : Subgroup G} (hLM : L ≤ M)
     (hLQ : L ≤ Subgroup.normalizer (Q : Set G)) :
     (L ⊔ Q) ⊓ M ≤ L ⊔ Q ⊓ M := by
@@ -294,6 +300,7 @@ private theorem D2_le_LX {a f : ℕ} (hfr : Frame L1 L2 S a f)
     exact pCoreOf_le 2 _
   exact (le_inf hD2MX hD2L2).trans (hmod.trans (by rw [hMXQv]; exact sup_le le_rfl hEL))
 
+omit [Finite G] in
 private theorem K_le_normalizer_PX : t.K ≤ normalizer (t.PX t.QT : Set G) := by
   have hKQ : t.K ≤ normalizer (t.Qv 0 : Set G) := t.K_le_normalizer_Qv 0
   have hKMX : t.K ≤ normalizer (t.MX t.QT 1 : Set G) := by
@@ -312,6 +319,7 @@ private theorem K_le_normalizer_PX : t.K ≤ normalizer (t.PX t.QT : Set G) := b
   rw [Track.PX]
   exact Subgroup.inf_normalizer_le_normalizer_inf ⟨hKQ hk, hKMX hk⟩
 
+omit [Finite G] in
 private theorem K_le_normalizer_centerOf_PX :
     t.K ≤ Subgroup.normalizer (centerOf (t.PX t.QT) : Set G) := by
   have hKP : t.K ≤ Subgroup.normalizer (t.PX t.QT : Set G) := K_le_normalizer_PX t
@@ -390,7 +398,7 @@ private theorem D2_hall_pX {a f : ℕ} (hfr : Frame L1 L2 S a f)
     (hP : IsSylowTwoOf (t.PX t.QT) (t.LX t.QT 1)) :
     HallTwoPrime t.D2 (t.LX t.QT 1 ⊓ normalizer (t.PX t.QT : Set G)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set L : Subgroup G := t.LX t.QT 1 with hLdef
   set M : Subgroup G := L ⊓ normalizer (t.PX t.QT : Set G) with hMdef
   set Q : Subgroup G := pCoreOf 2 L with hQdef
@@ -485,6 +493,7 @@ private theorem PX_eq_sup_EX {a f : ℕ} (hfr : Frame L1 L2 S a f)
       t.EX t.QT 1 ⊔ t.EX t.QT (-1) := sup_eq_left.mpr le_sup_left
   rwa [ArcL.pCoreOf_LX_one t hfr hQ, hsup] at h
 
+omit [Finite G] in
 private theorem MX_one_le_normalizer_centerOf :
     t.MX t.QT 1 ≤ normalizer (centerOf (t.LX t.QT 1) : Set G) := by
   intro m hm
@@ -495,6 +504,7 @@ private theorem MX_one_le_normalizer_centerOf :
     Subgroup.mem_normalizer_iff_map_conj_eq.mp hmL
   rw [← CFSG.Quasithin.H13.F431.L3.centerOf_conjSub, hmap]
 
+omit [Finite G] in
 private theorem MX_neg_one_le_normalizer_centerOf :
     t.MX t.QT (-1) ≤ normalizer (centerOf (t.LX t.QT (-1)) : Set G) := by
   intro m hm
@@ -505,6 +515,7 @@ private theorem MX_neg_one_le_normalizer_centerOf :
     Subgroup.mem_normalizer_iff_map_conj_eq.mp hmL
   rw [← CFSG.Quasithin.H13.F431.L3.centerOf_conjSub, hmap]
 
+omit [Finite G] in
 private theorem conjSub_centerOf_of_swap {s : G} (hs0 : s ∈ t.MX t.QT 0)
     (hs : t.x₁⁻¹ * s ∈ t.Gv 1 ⊓ t.Gv (-1)) :
     conjSub s (centerOf (t.LX t.QT 1)) = centerOf (t.LX t.QT (-1)) ∧
@@ -526,6 +537,7 @@ private theorem conjSub_centerOf_of_swap {s : G} (hs0 : s ∈ t.MX t.QT 0)
   · rw [hsu, conjSub_mul, huA2]
     exact (map_centerOf_LX_x₁ t).2
 
+omit [Finite G] in
 private theorem centerOf_LX_neg_le_EX_neg {f : ℕ}
     (hnat : St84.NatQuot (t.LX t.QT 1) (t.EX t.QT 1) (centerOf (t.LX t.QT 1)) f) :
     centerOf (t.LX t.QT (-1)) ≤ t.EX t.QT (-1) := by
@@ -540,7 +552,7 @@ private theorem card_image_PX {a f : ℕ}
     (hP : IsSylowTwoOf (t.PX t.QT) (t.LX t.QT 1)) :
     Nat.card ↥(imageOTwoQuot (t.LX t.QT 1) (t.PX t.QT)) = 2 ^ f := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let L : Subgroup G := t.LX t.QT 1
   have hf2 : 2 ≤ f := hfr.hf
   have hP' : IsSylowTwoOf (t.PX t.QT) L := hP
@@ -571,12 +583,13 @@ private theorem card_PX {a f : ℕ}
   rwa [hcardimg, show pCoreOf 2 (t.LX t.QT 1) = t.EX t.QT 1 from
     ArcL.pCoreOf_LX_one t hfr hQ, inf_eq_right.mpr hEP] at h
 
+omit [Finite G] in
 private theorem inf_EX_EX_neg_le_centralizer_PX
     (hab : IsElemAbelian 2 (t.EX t.QT 1))
     (hPX : t.PX t.QT = t.EX t.QT 1 ⊔ t.EX t.QT (-1)) :
     t.EX t.QT 1 ⊓ t.EX t.QT (-1) ≤ centralizer (t.PX t.QT : Set G) := by
   have hEcent : t.EX t.QT 1 ≤ Subgroup.centralizer (t.EX t.QT 1 : Set G) := by
-    letI := hab.1
+    let := hab.1
     exact Subgroup.le_centralizer (H := t.EX t.QT 1)
   have hE2cent : t.EX t.QT (-1) ≤ Subgroup.centralizer (t.EX t.QT (-1) : Set G) := by
     rw [show t.EX t.QT (-1) = conjSub t.x₁ (t.EX t.QT 1) from (conjSub_EX_x₁ t 1).symm]
@@ -622,7 +635,7 @@ private theorem card_inf_EX_EX_neg {a f : ℕ}
     Nat.card ↥(t.EX t.QT 1 ⊓ t.EX t.QT (-1)) =
       2 ^ f * Nat.card ↥(centerOf (t.LX t.QT 1)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let E : Subgroup G := t.EX t.QT 1
   let E2 : Subgroup G := t.EX t.QT (-1)
   let A : Subgroup G := centerOf (t.LX t.QT 1)
@@ -697,14 +710,14 @@ private theorem centralizer_EX_le_EX {a f : ℕ}
     (hnat : St84.NatQuot (t.LX t.QT 1) (t.EX t.QT 1) (centerOf (t.LX t.QT 1)) f) :
     t.LX t.QT 1 ⊓ centralizer (t.EX t.QT 1 : Set G) ≤ t.EX t.QT 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let L : Subgroup G := t.LX t.QT 1
   let E : Subgroup G := t.EX t.QT 1
   let C : Subgroup G := L ⊓ centralizer (E : Set G)
   have hLE : E ≤ L := by
     rw [show E = pCoreOf 2 L from (ArcL.pCoreOf_LX_one t hfr hQ).symm]
     exact pCoreOf_le 2 L
-  have hEC : E ≤ C := le_inf hLE (by letI := hab.1; exact Subgroup.le_centralizer (H := E))
+  have hEC : E ≤ C := le_inf hLE (by let := hab.1; exact Subgroup.le_centralizer (H := E))
   have hLC : L ≤ Subgroup.normalizer (C : Set G) := by
     have hLE' : L ≤ Subgroup.normalizer (E : Set G) := by
       have h := le_normalizer_pCoreOf 2 L
@@ -713,13 +726,13 @@ private theorem centralizer_EX_le_EX {a f : ℕ}
       hLE'.trans (CFSG.Walter.Huppert.normalizer_le_normalizer_centralizer E)
     exact fun l hl =>
       Subgroup.inf_normalizer_le_normalizer_inf ⟨Subgroup.le_normalizer hl, hLcen hl⟩
-  haveI hCnormal : (C.subgroupOf L).Normal :=
+  have hCnormal : (C.subgroupOf L).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hLC
   let π : ↥L →* oTwoQuot ↥L := QuotientGroup.mk' (pCore 2 ↥L)
-  haveI : IsSimpleGroup (oTwoQuot ↥L) :=
+  have : IsSimpleGroup (oTwoQuot ↥L) :=
     CFSG.Quasithin.S1421NS.isSimpleGroup_of_isL2Quot hfr.hf
       (by rw [show L = t.LX t.QT 1 from rfl]; exact ArcL.isL2Quot_LX_one t hfr hQ)
-  haveI hN : ((C.subgroupOf L).map π).Normal :=
+  have hN : ((C.subgroupOf L).map π).Normal :=
     hCnormal.map π (QuotientGroup.mk'_surjective _)
   rcases Subgroup.Normal.eq_bot_or_eq_top ((C.subgroupOf L).map π) with hbot | htop
   · intro c hc
@@ -885,6 +898,7 @@ private theorem sup_centerOf_le_centerOf_PX {a f : ℕ}
     have hcent : a ∈ Subgroup.centralizer (t.LX t.QT (-1) : Set G) := (Subgroup.mem_inf.mp ha).2
     exact (Subgroup.mem_centralizer_iff.mp hcent) p (hPneg hp)
 
+omit [Finite G] in
 private theorem Zv_zero_le_centerOf_PX (hZ0 : t.Zv 0 ≤ normIn t.QT (t.Gw (-1) 1)) :
     t.Zv 0 ≤ centerOf (t.PX t.QT) := by
   have hN : t.Zv 0 ≤ Subgroup.normalizer (t.QT : Set G) := hZ0.trans inf_le_left
@@ -959,14 +973,14 @@ private theorem D2_fixed_points {a f : ℕ}
     exact Nat.Even.sub_odd (one_le_pow₀ one_le_two) heven odd_one
   have hkE : k ∉ t.EX t.QT 1 := by
     intro hkE
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨n, hn⟩ := (show IsPGroup 2 (t.EX t.QT 1) from
       (t.isPGroup_Qv 1).to_le inf_le_left).exists_orderOf_eq_pow ⟨k, hkE⟩
     have hkord : orderOf k = 2 ^ n := (Subgroup.orderOf_mk k hkE).symm.trans hn
     have hn0 : n = 0 := by
       by_contra hn0
       have heven : Even (2 ^ n) := by
-        simpa [Nat.even_pow, hn0] using even_two
+        simp [Nat.even_pow, hn0]
       rw [← hkord] at heven
       exact Nat.not_even_iff_odd.mpr hodd heven
     exact hk1 (orderOf_eq_one_iff.mp (by rw [hkord, hn0, pow_zero]))
@@ -984,12 +998,14 @@ private theorem centerOf_LX_relIndex_centerOf_PX {a f : ℕ}
   rw [← inf_EX_EX_neg_eq_relCent t hfr hQ hab hnat hP hEP, hEE] at h
   exact h
 
+omit [Finite G] in
 private theorem card_centerOf_LX_neg_eq_centerOf_LX :
     Nat.card (centerOf (t.LX t.QT (-1))) = Nat.card (centerOf (t.LX t.QT 1)) := by
   rw [show centerOf (t.LX t.QT (-1)) = conjSub t.x₁ (centerOf (t.LX t.QT 1)) from
     (map_centerOf_LX_x₁ t).1.symm]
   exact CFSG.Quasithin.H13.F431.L3.card_conjSub t.x₁ (centerOf (t.LX t.QT 1))
 
+omit [Finite G] in
 private theorem D2_le_normalizer_centerOf_LX_neg :
     t.D2 ≤ Subgroup.normalizer (centerOf (t.LX t.QT (-1)) : Set G) := by
   have hK : t.K ≤ Subgroup.normalizer (centerOf (t.LX t.QT (-1)) : Set G) :=
@@ -1020,7 +1036,7 @@ private theorem relIndex_EX_PX {a f : ℕ}
   have hcard := card_PX t hfr hQ hP hEP
   have hrel := Subgroup.relIndex_mul_card (H := t.EX t.QT 1) (K := t.PX t.QT)
   rw [inf_eq_left.mpr hEP, hcard] at hrel
-  haveI : Nonempty ↥(t.EX t.QT 1) := ⟨1, (t.EX t.QT 1).one_mem⟩
+  have : Nonempty ↥(t.EX t.QT 1) := ⟨1, (t.EX t.QT 1).one_mem⟩
   exact Nat.eq_of_mul_eq_mul_right Nat.card_pos hrel
 
 private theorem D2_transitive_on_centerOf {a f : ℕ}

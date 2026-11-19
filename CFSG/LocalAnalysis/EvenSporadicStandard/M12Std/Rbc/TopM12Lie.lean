@@ -57,7 +57,7 @@ theorem sporadicRep_of_stdHyp
       · exact (hNo (noM12List_of_childL34W (hL34 G hUG X (stdSetting_of_stdHyp hX) hl34))).elim
       · exact (hNo (noM12List_of_childL34W
           (Or.inl (hHe G hUG X (stdSetting_of_stdHyp hX) hhe)))).elim
-    · haveI := hX.simple
+    · have := hX.simple
       obtain ⟨S, hS⟩ := hX.cyclicSylow
       have hres := hCTE G hX.nonabelian hX.kProper X hX.standard hX.oddCore S hS (Or.inl hEven)
         hexc

@@ -14,6 +14,7 @@ namespace TorusBasisEquivFour
 variable {D : StrothTypeData B (StrothTypeIndex.t100 m)} {hBC : B ≤ C} {e f : C}
   (E : TorusBasisEquivFour D hBC e f)
 
+omit [Finite S] in
 theorem conjTorusFour_comp_apply {g h : S}
     (hg : g ∈ Subgroup.normalizer C) (hh : h ∈ Subgroup.normalizer C)
     (x : Torus (Type200.k m)) :
@@ -25,24 +26,28 @@ theorem conjTorusFour_comp_apply {g h : S}
   exact (DFunLike.congr_fun (conjByHom_mul h g hh hg)
     (Additive.toMul (E.E x))).symm
 
+omit [Finite S] in
 theorem conjTorusFour_congr {g g' : S}
     (hg : g ∈ Subgroup.normalizer C) (hg' : g' ∈ Subgroup.normalizer C) (h : g = g') :
     conjTorusFour D hBC E hg = conjTorusFour D hBC E hg' := by
   subst h
   rfl
 
+omit [Finite S] in
 theorem conjTorusFour_one_apply (x : Torus (Type200.k m)) :
     conjTorusFour (C := C) (D := D) (hBC := hBC) (E := E)
       (Subgroup.one_mem _) x = x := by
   rw [conjTorusFour_apply]
   simp [conjBy]
 
+omit [Finite S] in
 theorem conjTorusFour_one :
     conjTorusFour (C := C) (D := D) (hBC := hBC) (E := E) (Subgroup.one_mem _) =
       AddEquiv.refl (Torus (Type200.k m)) := by
   refine AddEquiv.ext fun x => ?_
   exact conjTorusFour_one_apply E x
 
+omit [Finite S] in
 theorem conjTorusFour_mul_hom {g h : S}
     (hg : g ∈ Subgroup.normalizer C) (hh : h ∈ Subgroup.normalizer C) :
     (conjTorusFour D hBC E (Subgroup.mul_mem _ hg hh)).toAddMonoidHom =
@@ -51,6 +56,7 @@ theorem conjTorusFour_mul_hom {g h : S}
   refine AddMonoidHom.ext fun x => ?_
   exact (conjTorusFour_comp_apply E hh hg x).symm
 
+omit [Finite S] in
 theorem conjTorusFour_rels
     (hL : D.L ≤ Subgroup.normalizer C) :
     SigmaFourRels (A := Torus (Type200.k m))
@@ -263,6 +269,7 @@ theorem hom_two_torsion_eq_zero {δ : Torus (Type200.k m) →+ Torus (Type200.k 
 
 
 
+omit [Finite S] in
 theorem cocycleU_involution (E : TorusBasisEquivFour D hBC e f)
     (hL : D.L ≤ Subgroup.normalizer C)
     (he : e * e = ⟨D.a, hBC D.a.2⟩) (hf : f * f = ⟨D.b, hBC D.b.2⟩)
@@ -305,6 +312,7 @@ theorem cocycleU_involution (E : TorusBasisEquivFour D hBC e f)
     simpa [add_assoc] using hα2
   rwa [add_comm] at h'
 
+omit [Finite S] in
 theorem cocycleU_gen2_eq (E : TorusBasisEquivFour D hBC e f)
     (hL : D.L ≤ Subgroup.normalizer C)
     (he : e * e = ⟨D.a, hBC D.a.2⟩) (hf : f * f = ⟨D.b, hBC D.b.2⟩) :
@@ -342,10 +350,11 @@ section UNormalize
 variable (hL : D.L ≤ Subgroup.normalizer C)
   (he : e * e = ⟨D.a, hBC D.a.2⟩) (hf : f * f = ⟨D.b, hBC D.b.2⟩) (hm : 1 ≤ m)
 
+omit [Finite S] in
 theorem exists_u_normalized (E : TorusBasisEquivFour D hBC e f)
     (hL : D.L ≤ Subgroup.normalizer C)
     (he : e * e = ⟨D.a, hBC D.a.2⟩) (hf : f * f = ⟨D.b, hBC D.b.2⟩)
-    (hm : 1 ≤ m) :
+    (_hm : 1 ≤ m) :
     ∃ z w : C, z * z = 1 ∧ w * w = 1 ∧
       ∃ E1 : TorusBasisEquivFour D hBC (e * z) (f * w), cocycleU E1 hL = 0 := by
   classical
@@ -368,7 +377,6 @@ theorem exists_u_normalized (E : TorusBasisEquivFour D hBC e f)
   let w : C := Additive.toMul (E.E (π (gen (Type200.k m) 2)))
   have hz : z * z = 1 := by
     apply Additive.ofMul.injective
-    change Additive.ofMul (z * z) = Additive.ofMul (1 : C)
     rw [ofMul_mul, ofMul_one]
     have h : (2 : ℕ) • (E.E (π (gen (Type200.k m) 1))) = 0 := by
       rw [← map_nsmul]
@@ -378,7 +386,6 @@ theorem exists_u_normalized (E : TorusBasisEquivFour D hBC e f)
     rwa [two_nsmul] at h
   have hw : w * w = 1 := by
     apply Additive.ofMul.injective
-    change Additive.ofMul (w * w) = Additive.ofMul (1 : C)
     rw [ofMul_mul, ofMul_one]
     have h : (2 : ℕ) • (E.E (π (gen (Type200.k m) 2))) = 0 := by
       rw [← map_nsmul]
@@ -414,7 +421,6 @@ theorem exists_u_normalized (E : TorusBasisEquivFour D hBC e f)
         rw [AddEquiv.trans_apply]
         change E.E (ψ (gen (Type200.k m) 1)) = Additive.ofMul (e * z)
         rw [psiBasis_gen1]
-        change E.E (gen (Type200.k m) 1 + p) = Additive.ofMul (e * z)
         rw [map_add, E.E_gen1, ofMul_mul]
         have hzp : Additive.ofMul z = E.E p := by
           rw [show z = Additive.toMul (E.E p) from by
@@ -426,7 +432,6 @@ theorem exists_u_normalized (E : TorusBasisEquivFour D hBC e f)
         rw [AddEquiv.trans_apply]
         change E.E (ψ (gen (Type200.k m) 2)) = Additive.ofMul (f * w)
         rw [psiBasis_gen2]
-        change E.E (gen (Type200.k m) 2 + q) = Additive.ofMul (f * w)
         rw [map_add, E.E_gen2, ofMul_mul]
         have hzq : Additive.ofMul w = E.E q := by
           rw [show w = Additive.toMul (E.E q) from by
@@ -561,7 +566,6 @@ theorem exists_u_normalized (E : TorusBasisEquivFour D hBC e f)
         simpa [Torus.b] using Type200.u_b m]
       rw [sub_self]
   exact ⟨z, w, hz, hw, E1, by
-    change cocycleU E1 hL = 0
     exact cocycle_eq_zero_of_gen_eq_zero E1 (hL D.u_mem_L) _ hgen⟩
 
 

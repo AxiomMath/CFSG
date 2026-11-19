@@ -50,12 +50,12 @@ theorem Ctx.hBC_iff_vone_ne (h34 : Stroth34Statement) (hRoot : Stroth310RootStat
     have hcEq : Nat.card ↥V1 = Nat.card ↥V := by rw [hEq]
     omega
   · intro hne
-    haveI : FiniteDimensional K M₀.E := M₀.fin
-    haveI hTfin : FiniteDimensional K ↥T := FiniteDimensional.finiteDimensional_submodule T
+    have : FiniteDimensional K M₀.E := M₀.fin
+    have hTfin : FiniteDimensional K ↥T := FiniteDimensional.finiteDimensional_submodule T
     let W : Submodule K M₀.E :=
       imgSub M₀ V1 (hc.img_vone_smul (C := conjSubgroup r B) hs hcC hnoC hD)
     let d : ℕ := Module.finrank K ↥W
-    haveI hWfin : FiniteDimensional K ↥W := FiniteDimensional.finiteDimensional_submodule W
+    have hWfin : FiniteDimensional K ↥W := FiniteDimensional.finiteDimensional_submodule W
     have hWmem : ∀ e : M₀.E, e ∈ W ↔ e ∈ M₀.img V1 := fun e => mem_imgSub
     have hWcard : Nat.card ↥(M₀.img V1) = Nat.card K ^ d := by
       rw [← Nat.card_congr (Equiv.subtypeEquivRight hWmem)]

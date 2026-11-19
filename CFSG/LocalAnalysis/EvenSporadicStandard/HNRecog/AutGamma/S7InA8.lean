@@ -56,7 +56,7 @@ private lemma orderOf_ne_twelve_of_sign_one (σ : Equiv.Perm (Fin 8)) (hσ : ord
   have h2le : ∀ b ∈ σ.cycleType, 2 ≤ b := fun b hb => Equiv.Perm.two_le_of_mem_cycleType hb
   have h4exists : ∃ b ∈ σ.cycleType, 4 ∣ b := by
     by_contra h
-    push_neg at h
+    push Not at h
     have h6 : ∀ b ∈ σ.cycleType, b ∣ 6 :=
       fun b hb => dvd_six_of_dvd_twelve_of_not_four (hdvd b hb) (h b hb)
     have hle : σ.cycleType.lcm ∣ 6 := Multiset.lcm_dvd.2 h6
@@ -65,7 +65,7 @@ private lemma orderOf_ne_twelve_of_sign_one (σ : Equiv.Perm (Fin 8)) (hσ : ord
     omega
   have h3exists : ∃ b ∈ σ.cycleType, 3 ∣ b := by
     by_contra h
-    push_neg at h
+    push Not at h
     have h4 : ∀ b ∈ σ.cycleType, b ∣ 4 :=
       fun b hb => dvd_four_of_dvd_twelve_of_not_three (hdvd b hb) (h b hb)
     have hle : σ.cycleType.lcm ∣ 4 := Multiset.lcm_dvd.2 h4

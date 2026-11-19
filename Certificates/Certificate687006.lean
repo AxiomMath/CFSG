@@ -191,7 +191,7 @@ theorem repH (g : Fin 8) :
 
 theorem ofFn_getD {n : ℕ} (f : Fin n → Array V4) (g : Fin n) :
     ((Array.ofFn f)[g.val]?).getD idRows = f g := by
-  simp [Array.getElem?_ofFn, g.isLt]
+  simp [g.isLt]
 
 theorem repL (g : Fin 6) :
     Rep ((B₀.L[g.val]?).getD idRows) (CFSG.KD.Th687006.RL (g.val + 1)) ∧
@@ -266,7 +266,7 @@ theorem repWI (i : Fin 2) : Rep (get1 B₀.WI i) (wpIP i) := by
 
 theorem get2_ofFn (f : Fin 2 → Fin 8 → Array V4) (i : Fin 2) (m : Fin 8) :
     get2 (Array.ofFn fun i => Array.ofFn fun m => f i m) i m = f i m := by
-  simp [get2, Array.getElem?_ofFn, i.isLt, m.isLt]
+  simp [get2, i.isLt, m.isLt]
 
 theorem repR (i : Fin 2) (m : Fin 8) : Rep (repRows B₀ i m) (repP i m) := by
   change Rep (get2 (Array.ofFn fun i => Array.ofFn fun m => wRowsArr B₀.h B₀.hI (repWord i m)) i m) _

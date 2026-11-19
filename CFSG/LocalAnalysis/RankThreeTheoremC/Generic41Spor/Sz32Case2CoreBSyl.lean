@@ -54,12 +54,12 @@ variable {Y : Type} [Group Y] [Finite Y] {Pb : Subgroup Y} {a c y : Y} {L₁ L�
 
 theorem sz32b_isSylowOf_N1 (hY : Sz32Case2Data Pb a c y) (h : Szh1Two Pb L₁ L₂ t) :
     CFSG.ABGLocalTools.IsSylowOf 5 Pb (Subgroup.normalizer (L₁ : Set Y)) := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨S, hS⟩ := hY.sylow
   rw [CFSG.ABGLocalTools.isSylowOf_iff]
   refine ⟨sz32b_Pb_le_N1 h, ?_, ?_⟩
   · rw [← hS]
-    exact S.isPGroup'
+    exact S.isPGroup
   · intro hd
     apply S.not_dvd_index
     rw [hS]
@@ -68,7 +68,7 @@ theorem sz32b_isSylowOf_N1 (hY : Sz32Case2Data Pb a c y) (h : Szh1Two Pb L₁ L�
 theorem sz32b_pRank_le_one (hY : Sz32Case2Data Pb a c y) (h : Szh1Two Pb L₁ L₂ t)
     (hs : Szh1Cyc Pb a c y L₁ L₂) :
     CFSG.Open.pRank 5 (⊤ : Subgroup ↥L₁) ≤ 1 ∧ CFSG.Open.pRank 5 (⊤ : Subgroup ↥L₂) ≤ 1 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hP := sz32b_isSylowOf_N1 hY h
   have hL1 : CFSG.ABGLocalTools.IsSylowOf 5 (Pb ⊓ L₁) L₁ :=
     hP.inf_of_le_normalizer (sup_le_iff.1 (sz32b_sup_le_N1 h)).1 le_rfl

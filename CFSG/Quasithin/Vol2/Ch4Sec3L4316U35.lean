@@ -87,7 +87,7 @@ theorem exists_lift (h135 : AsC135Three) (hR : L2RankOneSylowFact) (hC : LemmaC5
     have hpker : (p : ↥KZ) ∈ φ.ker := by
       rw [MonoidHom.mem_ker, ← hψv, h1]
       rfl
-    obtain ⟨e, he⟩ := P.isPGroup' ⟨p, hp⟩
+    obtain ⟨e, he⟩ := P.isPGroup ⟨p, hp⟩
     have h2 : orderOf p ∣ 5 ^ e := orderOf_dvd_of_pow_eq_one (congrArg Subtype.val he)
     have h3 : orderOf p ∣ Nat.card φ.ker := by
       have := orderOf_dvd_natCard (⟨(p : ↥KZ), hpker⟩ : ↥φ.ker)

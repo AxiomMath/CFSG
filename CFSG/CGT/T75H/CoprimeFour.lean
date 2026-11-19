@@ -24,7 +24,7 @@ theorem exists_invariant_sylow_of_isPGroup_two {N S : Subgroup G} (hS2 : IsPGrou
   let _ := invariantSubgroupAction N hinv
   have hcop : ¬ 2 ∣ Nat.card N := fun h => (Nat.not_even_iff_odd.mpr hNodd) (even_iff_two_dvd.mpr h)
   obtain ⟨P, hP⟩ := coprime_pgroup_exists_invariant_sylow (G := N) (A := S) 2 q hS2 hcop
-  refine ⟨(P : Subgroup N).map N.subtype, ?_, P.isPGroup'.map _, ?_, ?_⟩
+  refine ⟨(P : Subgroup N).map N.subtype, ?_, P.isPGroup.map _, ?_, ?_⟩
   · rintro _ ⟨x, -, rfl⟩
     exact x.2
   · have : ((P : Subgroup N).map N.subtype).subgroupOf N = (P : Subgroup N) :=

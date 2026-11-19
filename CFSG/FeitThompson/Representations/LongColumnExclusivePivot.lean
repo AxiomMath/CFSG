@@ -129,9 +129,9 @@ theorem exists_isSignedCoordVec_dotProduct_eq_delta {d m n : ℕ} (hm : 4 ≤ m)
   rw [dotProduct_sharedSignedCoord, hs]
   by_cases hkj : k = j
   · subst hkj
-    rw [if_pos rfl, hcol i]
+    rw [ite_eq_left rfl, hcol i]
     rcases hs1 with h | h <;> simp [h]
-  · rw [if_neg hkj, hoth i k hkj, zero_mul]
+  · rw [ite_eq_right hkj, hoth i k hkj, zero_mul]
 
 theorem exists_pivot_family {d m n : ℕ} (hm : 4 ≤ m) (hn : 2 ≤ n)
     {b : Fin m → Fin n → Fin d → ℤ} (hb : IsGramArray b) :

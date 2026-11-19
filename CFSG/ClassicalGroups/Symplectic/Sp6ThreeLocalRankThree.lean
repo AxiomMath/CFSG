@@ -51,7 +51,7 @@ theorem crossMat_transpose (a b : K) : (crossMat a b)ᵀ = -crossMat a b := by
 
 theorem isoMat_transpose (a b : K) : (isoMat a b)ᵀ = isoMat a b := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [isoMat, mul_comm]
+  fin_cases i <;> fin_cases j <;> simp [isoMat]
 
 @[expose] def orthUnip (a b : K) : Matrix (Fin 3) (Fin 3) K :=
   1 + crossMat a b + (2 : K)⁻¹ • isoMat a b
@@ -68,8 +68,7 @@ theorem orthUnip_transpose_mul {a b : K} (h : a ^ 2 + b ^ 2 + 1 = 0) (h2 : (2 : 
     Matrix.transpose_smul, isoMat_transpose]
   have key : (1 + -crossMat a b + (2 : K)⁻¹ • isoMat a b) *
       (1 + crossMat a b + (2 : K)⁻¹ • isoMat a b) = 1 + (2 * (2 : K)⁻¹ - 1) • isoMat a b := by
-    simp only [add_mul, mul_add, Matrix.smul_mul, Matrix.mul_smul, Matrix.neg_mul, Matrix.mul_neg,
-      Matrix.one_mul, Matrix.mul_one, hNN, hNQ, hQN, hQQ, smul_zero, add_zero, smul_smul]
+    simp only [add_mul, mul_add, Matrix.smul_mul, Matrix.mul_smul, Matrix.neg_mul, Matrix.one_mul, Matrix.mul_one, hNN, hNQ, hQN, hQQ, smul_zero, add_zero]
     module
   rw [key, show 2 * (2 : K)⁻¹ - 1 = 0 by linear_combination e, zero_smul, add_zero]
 
@@ -89,7 +88,7 @@ theorem orthUnip_pow {a b : K} (h : a ^ 2 + b ^ 2 + 1 = 0) (h2 : (2 : K) ≠ 0) 
       linear_combination (k : K) * e
     rw [Nat.cast_succ, hc]
     simp only [add_mul, mul_add, Matrix.smul_mul, Matrix.mul_smul, Matrix.one_mul, Matrix.mul_one,
-      hNN, hNQ, hQN, hQQ, smul_zero, add_zero, smul_smul]
+      hNN, hNQ, hQN, hQQ, smul_zero, add_zero]
     module
 
 theorem orthUnip_pow_char {r : ℕ} [CharP K r] {a b : K} (h : a ^ 2 + b ^ 2 + 1 = 0)
@@ -211,7 +210,7 @@ theorem two_le_pRank_centralizer_c₀_weight_three [Finite K] {r : ℕ} (hr : r.
     (h5 : 5 ≤ r) {s : SL(2, K)} (hs : IsCubeRootBlock s) :
     2 ≤ CFSG.Open.pRank r (Subgroup.centralizer
       ({c₀ hs (Multiplicative.ofAdd ![1, 1, 1])} : Set (StatedSp 3 K))) := by
-  haveI := Fact.mk hr
+  have := Fact.mk hr
   obtain ⟨a, b, h⟩ := exists_sq_add_sq_eq_neg_one (K := K) hr
   have h2 : (2 : K) ≠ 0 := two_ne_zero_of_five_le h5
   have hu₁ : isoElement hs h ∈ Subgroup.centralizer

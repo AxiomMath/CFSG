@@ -176,27 +176,34 @@ section StdFormFacts
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 variable {G L : Subgroup (GLV V)} {z : GLV V}
 
+omit [Finite V] in
 theorem z_mem_G (h : StdForm G L z) : z ∈ G :=
   h.extremal.setup.S_le (Subgroup.mem_zpowers z)
 
+omit [Finite V] in
 theorem L_le_G (h : StdForm G L z) : L ≤ G :=
   h.extremal.L_le
 
+omit [Finite V] in
 theorem z_mem_cent (h : StdForm G L z) : z ∈ Subgroup.centralizer (L : Set (GLV V)) :=
-  Subgroup.mem_centralizer_iff.2 fun l hl =>
+  Subgroup.mem_centralizer_iff.2 fun _l hl =>
     ((Subgroup.mem_centralizer_iff.1 (h.extremal.setup.component.1 hl).2) z
       (Subgroup.mem_zpowers z)).symm
 
+omit [Finite V] in
 theorem z_mem_K (h : StdForm G L z) : z ∈ G ⊓ Subgroup.centralizer (L : Set (GLV V)) :=
   ⟨z_mem_G h, z_mem_cent h⟩
 
+omit [Finite V] in
 theorem z_mul_z (h : StdForm G L z) : z * z = 1 := by
   have := pow_orderOf_eq_one z
   rwa [h.orderOf_s, pow_two] at this
 
+omit [Finite V] in
 theorem quasisimple_L (h : StdForm G L z) : CFSG.Open.IsQuasisimple ↥L :=
   h.extremal.setup.component.2.2
 
+omit [Finite V] in
 theorem perfect_L (h : StdForm G L z) : ⁅L, L⁆ = L :=
   commutator_eq_self_of_isQuasisimple (quasisimple_L h)
 
@@ -208,6 +215,7 @@ theorem mem_map_conj_iff {Γ : Type*} [Group Γ] {H : Subgroup Γ} {g x : Γ} :
   · intro hx
     exact ⟨g⁻¹ * x * g, hx, by simp [mul_assoc]⟩
 
+omit [Finite V] in
 theorem conj_mem_K {x c : GLV V} (hxG : x ∈ G)
     (hxN : x ∈ Subgroup.normalizer (L : Set (GLV V)))
     (hc : c ∈ G ⊓ Subgroup.centralizer (L : Set (GLV V))) :
@@ -220,6 +228,7 @@ theorem conj_mem_K {x c : GLV V} (hxG : x ∈ G)
     _ = x * (c * (x⁻¹ * l * x)) * x⁻¹ := by rw [hcl]
     _ = x * c * x⁻¹ * l := by group
 
+omit [Finite V] in
 theorem cent_le_normalizer (h : StdForm G L z) :
     ∀ a ∈ G ⊓ Subgroup.centralizer (L : Set (GLV V)), orderOf a = 2 →
       G ⊓ Subgroup.centralizer ({a} : Set (GLV V)) ≤ Subgroup.normalizer (L : Set (GLV V)) := by
@@ -329,6 +338,7 @@ theorem not_commutator_le_inf (h : StdForm G L z) :
   exact h.commutator_ne_bot g⁻¹ (G.inv_mem hg)
     (commutator_eq_bot_of_le_inf (quasisimple_L h) hcard hne hle)
 
+omit [Finite V] in
 theorem fix_commSpace (h : StdForm G L z) :
     ∀ x ∈ G ⊓ Subgroup.centralizer (L : Set (GLV V)), orderOf x = 2 →
       ∀ v ∈ commSpace (Subgroup.zpowers x) ⊤, ∀ d ∈ L, d v = v := by
@@ -381,7 +391,7 @@ theorem exists_conj_of_pRank_one {K : Subgroup (GLV V)} (hK : CFSG.Open.pRank 2 
   have hmem : k * a' * k⁻¹ ∈ (R : Subgroup ↥K) := by
     rw [← hk, Sylow.coe_subgroup_smul]
     exact Subgroup.smul_mem_pointwise_smul _ _ _ (hP (Subgroup.mem_zpowers a'))
-  have hRmap : IsPGroup 2 ((R : Subgroup ↥K).map K.subtype) := R.isPGroup'.map K.subtype
+  have hRmap : IsPGroup 2 ((R : Subgroup ↥K).map K.subtype) := R.isPGroup.map K.subtype
   have hka : orderOf (((k * a' * k⁻¹ : ↥K) : GLV V)) = 2 := by
     rw [Subgroup.orderOf_coe, orderOf_conj_eq, ha2']
   have heq := eq_of_isPGroup_of_pRank_one hK (Subgroup.map_subtype_le _) hRmap
@@ -465,6 +475,7 @@ theorem false_of_normalizer (h : StdForm G L z)
     omega
   exact hne (eq_of_commute_of_pRank_one hrank huK hzK hu2 h.orderOf_s hzu.symm)
 
+omit [Finite V] in
 theorem conj_mem_normalizer_of_mem {L : Subgroup (GLV V)} {k z : GLV V}
     (hz : z ∈ Subgroup.normalizer
       ((L.map (MulAut.conj k⁻¹).toMonoidHom : Subgroup (GLV V)) : Set (GLV V))) :

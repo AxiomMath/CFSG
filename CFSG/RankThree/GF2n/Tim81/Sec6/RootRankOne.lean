@@ -257,7 +257,7 @@ theorem RootSetup.solvable_quot (h : RootSetup X Δ f) :
     rw [CFSG.fittingSubgroup, sSup_le_iff]
     rintro M ⟨hM, hMnil⟩
     rw [h.no_nilpotent_quot M hM hMnil]
-  haveI : N.Normal := hN
+  have : N.Normal := hN
   exact CFSG.ClassicalInvolution.Asc77.AscThmA.eq_bot_of_normal_of_isSolvable_of_fitting_eq_bot
     hF N hsol
 
@@ -311,7 +311,7 @@ theorem RootSetup.quotSub_eq_rootCenter (h : RootSetup X Δ f)
         h.isTransvectionClass_quot.root.conjSub_mem hT'mem c⁻¹
       have hzC' : z ∈ C' := by
         rw [hzc']
-        simpa [C'] using conj_mem_conjSub c⁻¹ t.2
+        simp [C']
       have hcommzt : Commute z (t : quotY X) :=
         (Subgroup.mem_centralizer_iff.mp hzc t htQ).symm
       by_cases hC'T : C' = T'
@@ -321,6 +321,7 @@ theorem RootSetup.quotSub_eq_rootCenter (h : RootSetup X Δ f)
           h.isL2Gen_quotDelta_of_ne hnc hC'mem hT'mem hC'T
         exact absurd hcommzt (hL2.not_commute_of_ne_one hzC' hz1 t.2 ht1')
 
+omit [Finite K] in
 theorem RootSetup.injective_conjAction (h : RootSetup X Δ f) {L : Subgroup K}
     (hLX : L ⊓ cenOf X = ⊥) :
     Function.Injective (normalizerToCenterQuotientAut X L (h.le_normalizer L)) := by
@@ -329,6 +330,7 @@ theorem RootSetup.injective_conjAction (h : RootSetup X Δ f) {L : Subgroup K}
   rw [Subgroup.subgroupOf_eq_bot, disjoint_iff, inf_eq_left.mpr inf_le_left]
   exact hLX
 
+omit [Finite K] in
 private theorem RootSetup.range_conjAction_le_autCentralizer (h : RootSetup X Δ f)
     {T L : Subgroup K} (hLT : L ≤ cenOf T) :
     (normalizerToCenterQuotientAut X L (h.le_normalizer L)).range ≤
@@ -412,7 +414,7 @@ private theorem card_le_two_mul_card_of_normal_sup {M : Type*} [Group M] [Finite
   let D' : Subgroup H := D.subgroupOf H
   let R' : Subgroup H := R.subgroupOf H
   have hAnorm' : A'.Normal := hAnorm
-  haveI : A'.Normal := hAnorm'
+  have : A'.Normal := hAnorm'
   have hA_le_H : A ≤ H := le_sup_left
   have hD_le_H : D ≤ H := le_sup_right
   have hRleH : R ≤ H := hR

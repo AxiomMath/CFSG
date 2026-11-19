@@ -71,7 +71,7 @@ theorem exists_conj_into_bar (hS : CFSG.ABGLocalTools.IsSylowOf 2 S ⊤) (hSC : 
   have hle : barIn H S ≤ barIn H (Cen z) := Subgroup.map_mono (Subgroup.comap_mono hSC)
   have hPb : IsPGroup 2 ↥(barIn H S) := by
     rw [← hT]
-    exact T.isPGroup'
+    exact T.isPGroup
   have hP : IsPGroup 2 ↥((barIn H S).subgroupOf (barIn H (Cen z))) :=
     hPb.of_equiv (Subgroup.subgroupOfEquivOfLe hle).symm
   have hidx : ¬ 2 ∣ ((barIn H S).subgroupOf (barIn H (Cen z))).index := by

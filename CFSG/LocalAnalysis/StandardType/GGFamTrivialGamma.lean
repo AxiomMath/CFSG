@@ -66,8 +66,8 @@ theorem famTrivial_Γ_data_twE6
         CFSG.Open.IsQuasisimple ↥S.Γ := by
   obtain ⟨f, hf1, hqf⟩ := ssTw_exists_f S (ℓ := 2)
   obtain ⟨K, hKf, hKfin, hKa, σ, e, hKq, hσ, he⟩ := S.descendsTwE6 hΦ hAlg
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   have hK2 : Nat.card K = (2 ^ f) ^ 2 := by rw [hKq, hqf]
   have hσ' : ∀ c : K, σ c = c ^ 2 ^ f := by
     intro c
@@ -92,9 +92,9 @@ theorem famTrivial_Γ_data_twE6
       graphFixedRootGroup TwistTag.E6 K σ.toRingHom⁆ =
       graphFixedRootGroup TwistTag.E6 K σ.toRingHom :=
     (finite_fixed_root_group_perfect TwistTag.E6 Nat.prime_two hf1 K hK2 σ.toRingHom hσ').1
-  haveI : Group.IsPerfect ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom) :=
+  have : Group.IsPerfect ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom) :=
     Subgroup.isPerfect_iff.2 hperfC0
-  haveI : Group.IsPerfect ↥S.Γ :=
+  have : Group.IsPerfect ↥S.Γ :=
     Group.IsPerfect.ofSurjective (f := e.toMonoidHom) e.surjective
   have hCE : ChevalleyExceptionalModel (S.Γ ⧸ Subgroup.center S.Γ) .twistedE6 2 f :=
     ((LieModel.chevalleyExceptional_iff (t := .twistedE6) (by decide)).1 hLieZ).2
@@ -117,7 +117,7 @@ theorem famTrivial_Γ_data_tag
     S.exists_algebraicRestriction
   obtain ⟨f, hf1, hqf⟩ := ssTw_exists_f S (ℓ := 2)
   have hq0f : S0.D.q = 2 ^ f := hq0.trans hqf
-  haveI : CharP ↥(algebraicClosure (ZMod 2) L) 2 :=
+  have : CharP ↥(algebraicClosure (ZMod 2) L) 2 :=
     CharP.of_ringHom_of_ne_zero (algebraMap (ZMod 2) ↥(algebraicClosure (ZMod 2) L)) 2
       (by norm_num)
   obtain ⟨S5, hD5, hρ5⟩ :=
@@ -145,15 +145,15 @@ theorem famTrivial_Γ_data_tag
       obtain ⟨K, hKf, hKfin, hKa, e, hKq, he⟩ :=
         S5.descends_of_untw 3 (Or.inl ⟨rfl, rfl⟩) (by norm_num) hΦ5 hAlg5
           (fun K' _ _ => commutator_adjointGroup_E6_eq_top K')
-      letI : Field K := hKf
-      letI : Finite K := hKfin
+      let : Field K := hKf
+      let : Finite K := hKfin
       have hk : Nat.card K = 2 ^ f' := hKq.trans hqf'
       have hadm : StatedLieAdmissible .E6 0 2 f' := ⟨Nat.prime_two, hf1', rfl⟩
       have hLie : LieModel (S5.Γ ⧸ Subgroup.center S5.Γ) .E6 0 2 f' :=
         CFSG.ComponentClassification.CatLeafProof.lieModel_centralQuotient_of_mulEquiv_adjointGroup
           (by decide) hadm hk e.symm
-      haveI : Group.IsPerfect ↥(adjointGroup .E6 K) := ⟨commutator_adjointGroup_E6_eq_top K⟩
-      haveI : Group.IsPerfect ↥S5.Γ :=
+      have : Group.IsPerfect ↥(adjointGroup .E6 K) := ⟨commutator_adjointGroup_E6_eq_top K⟩
+      have : Group.IsPerfect ↥S5.Γ :=
         Group.IsPerfect.ofSurjective (f := e.toMonoidHom) e.surjective
       have hCE : ChevalleyExceptionalModel (S5.Γ ⧸ Subgroup.center S5.Γ) .E6 2 f' :=
         ((LieModel.chevalleyExceptional_iff (t := .E6) (by decide)).1 hLie).2
@@ -191,7 +191,7 @@ theorem famTrivial_Γ_data_tag
           refine ⟨Fr, hFr, ?_⟩
           ext g
           rw [hΦeq]
-          simp only [diagramAt, twistHom, MulAut.conj_apply, MonoidHom.comp_apply]
+          simp only [diagramAt, twistHom]
           rfl
         have hΦE : ∀ g, S5.D.Φ g = e6Diagram (algebraicClosure (ZMod 2) L) *
             Units.map (entrywiseHom Fr) g * (e6Diagram (algebraicClosure (ZMod 2) L))⁻¹ := by
@@ -224,15 +224,15 @@ theorem famTrivial_Γ_data_tag
     obtain ⟨K, hKf, hKfin, hKa, e, hKq, he⟩ :=
       S5.descends_of_untw 2 (Or.inr (Or.inl ⟨rfl, rfl⟩)) (by norm_num) hΦ5 hAlg5
         (fun K' _ _ => commutator_adjointGroup_E7_eq_top K')
-    letI : Field K := hKf
-    letI : Finite K := hKfin
+    let : Field K := hKf
+    let : Finite K := hKfin
     have hk : Nat.card K = 2 ^ f' := hKq.trans hqf'
     have hadm : StatedLieAdmissible .E7 0 2 f' := ⟨Nat.prime_two, hf1', rfl⟩
     have hLie : LieModel (S5.Γ ⧸ Subgroup.center S5.Γ) .E7 0 2 f' :=
       CFSG.ComponentClassification.CatLeafProof.lieModel_centralQuotient_of_mulEquiv_adjointGroup
         (by decide) hadm hk e.symm
-    haveI : Group.IsPerfect ↥(adjointGroup .E7 K) := ⟨commutator_adjointGroup_E7_eq_top K⟩
-    haveI : Group.IsPerfect ↥S5.Γ :=
+    have : Group.IsPerfect ↥(adjointGroup .E7 K) := ⟨commutator_adjointGroup_E7_eq_top K⟩
+    have : Group.IsPerfect ↥S5.Γ :=
       Group.IsPerfect.ofSurjective (f := e.toMonoidHom) e.surjective
     have hCE : ChevalleyExceptionalModel (S5.Γ ⧸ Subgroup.center S5.Γ) .E7 2 f' :=
       ((LieModel.chevalleyExceptional_iff (t := .E7) (by decide)).1 hLie).2
@@ -249,15 +249,15 @@ theorem famTrivial_Γ_data_tag
     obtain ⟨K, hKf, hKfin, hKa, e, hKq, he⟩ :=
       S5.descends_of_untw 1 (Or.inr (Or.inr ⟨rfl, rfl⟩)) (by norm_num) hΦ5 hAlg5
         (fun K' _ _ => commutator_adjointGroup_E8_eq_top K')
-    letI : Field K := hKf
-    letI : Finite K := hKfin
+    let : Field K := hKf
+    let : Finite K := hKfin
     have hk : Nat.card K = 2 ^ f' := hKq.trans hqf'
     have hadm : StatedLieAdmissible .E8 0 2 f' := ⟨Nat.prime_two, hf1', rfl⟩
     have hLie : LieModel (S5.Γ ⧸ Subgroup.center S5.Γ) .E8 0 2 f' :=
       CFSG.ComponentClassification.CatLeafProof.lieModel_centralQuotient_of_mulEquiv_adjointGroup
         (by decide) hadm hk e.symm
-    haveI : Group.IsPerfect ↥(adjointGroup .E8 K) := ⟨commutator_adjointGroup_E8_eq_top K⟩
-    haveI : Group.IsPerfect ↥S5.Γ :=
+    have : Group.IsPerfect ↥(adjointGroup .E8 K) := ⟨commutator_adjointGroup_E8_eq_top K⟩
+    have : Group.IsPerfect ↥S5.Γ :=
       Group.IsPerfect.ofSurjective (f := e.toMonoidHom) e.surjective
     have hCE : ChevalleyExceptionalModel (S5.Γ ⧸ Subgroup.center S5.Γ) .E8 2 f' :=
       ((LieModel.chevalleyExceptional_iff (t := .E8) (by decide)).1 hLie).2

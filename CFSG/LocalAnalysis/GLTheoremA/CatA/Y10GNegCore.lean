@@ -14,12 +14,14 @@ theorem two_eq_zero' : (2 : F) = 0 := by
   have h : ((2 : ℕ) : F) = 0 := (CharP.cast_eq_zero_iff F 2 2).2 dvd_rfl
   simpa using h
 
+omit [CharP F 2] in
 theorem mulVec_mulVec_comm {A B : Matrix (Fin 6) (Fin 6) F} (h : Commute A B) (v : Fin 6 → F) :
     A *ᵥ (B *ᵥ v) = B *ᵥ (A *ᵥ v) := by
   rw [Matrix.mulVec_mulVec, Matrix.mulVec_mulVec, h.eq]
 
 section Adjoint
 
+omit [CharP F 2] in
 theorem herm_adj_one {Y : Matrix (Fin 6) (Fin 6) F}
     (hY : ∀ a b : Fin 6 → F, herm (Y *ᵥ a) (Y *ᵥ b) = herm a b) (hY7 : Y ^ 7 = 1) (a b : Fin 6 → F) :
     herm (Y *ᵥ a) b = herm a ((Y ^ 6) *ᵥ b) := by
@@ -31,6 +33,7 @@ theorem herm_adj_one {Y : Matrix (Fin 6) (Fin 6) F}
   calc herm (Y *ᵥ a) b = herm (Y *ᵥ a) (Y *ᵥ ((Y ^ 6) *ᵥ b)) := by rw [h]
     _ = herm a ((Y ^ 6) *ᵥ b) := hY _ _
 
+omit [CharP F 2] in
 theorem herm_adj_pow {Y : Matrix (Fin 6) (Fin 6) F}
     (hY : ∀ a b : Fin 6 → F, herm (Y *ᵥ a) (Y *ᵥ b) = herm a b) (hY7 : Y ^ 7 = 1) (k : ℕ)
     (a b : Fin 6 → F) : herm ((Y ^ k) *ᵥ a) b = herm a (((Y ^ 6) ^ k) *ᵥ b) := by
@@ -63,6 +66,7 @@ theorem poly_I2 : ((X ^ 6) ^ 3 + X ^ 6 + 1 : F[X]) * (X ^ 3 * (X + 1)) =
     1 + X * (X ^ 3 + X + 1) + (X ^ 7 - 1) * ((X + 1) * (X ^ 14 + X ^ 7 + 1) + X ^ 3 + X ^ 2) := by
   linear_combination (X ^ 3 : F[X]) * (poly_two (F := F))
 
+omit [CharP F 2] in
 theorem poly_I3 : ((X ^ 6) ^ 3 + X ^ 6 + 1 : F[X]) =
     X ^ 4 * (X ^ 3 + X ^ 2 + 1) + (X ^ 7 - 1) * (X ^ 11 + X ^ 4 - 1) := by
   ring
@@ -84,6 +88,7 @@ theorem matI2 (hZ7 : Z ^ 7 = 1) :
   rw [hZ7, sub_self, zero_mul, add_zero] at h
   exact h
 
+omit [CharP F 2] in
 theorem matI3 (hZ7 : Z ^ 7 = 1) : (Z ^ 6) ^ 3 + Z ^ 6 + 1 = Z ^ 4 * (Z ^ 3 + Z ^ 2 + 1) := by
   have h := congrArg (Polynomial.aeval (R := F) Z) (poly_I3 (F := F))
   simp only [map_mul, map_add, map_sub, map_pow, map_one, Polynomial.aeval_X] at h
@@ -134,7 +139,7 @@ variable (Z : Matrix (Fin 6) (Fin 6) F)
 theorem indep3 (hf3 : ∀ x : F, x ^ 3 + x + 1 ≠ 0) {u : Fin 6 → F} (hu0 : u ≠ 0)
     (hu : (Z ^ 3 + Z + 1) *ᵥ u = 0) : LinearIndependent F ![u, Z *ᵥ u, Z *ᵥ (Z *ᵥ u)] := by
   have hpow3 : (Z ^ 3) *ᵥ u = Z *ᵥ (Z *ᵥ (Z *ᵥ u)) := by
-    simp only [pow_succ', pow_one, pow_zero, mul_one, Matrix.mulVec_mulVec]
+    simp only [pow_succ', pow_zero, mul_one, Matrix.mulVec_mulVec]
   have hexp : (Z ^ 3 + Z + 1) *ᵥ u = Z *ᵥ (Z *ᵥ (Z *ᵥ u)) + Z *ᵥ u + u := by
     rw [Matrix.add_mulVec, Matrix.add_mulVec, Matrix.one_mulVec, hpow3]
   have R0 : Z *ᵥ (Z *ᵥ (Z *ᵥ u)) + Z *ᵥ u + u = 0 := by
@@ -215,9 +220,11 @@ variable {F : Type} [Field F] [CharP F 2]
     funext i
     simp [herm_smul_right]
 
+omit [CharP F 2] in
 theorem phiHerm_apply (w : Fin 3 → Fin 6 → F) (v : Fin 6 → F) (i : Fin 3) :
     phiHerm w v i = herm (w i) v := rfl
 
+omit [CharP F 2] in
 theorem eq_zero_of_herm_forall {x : Fin 6 → F} (h : ∀ v : Fin 6 → F, herm x v = 0) : x = 0 := by
   funext j
   have h1 := h (fun k => if k = j then 1 else 0)

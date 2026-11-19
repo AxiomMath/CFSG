@@ -55,8 +55,9 @@ section Irred
 
 variable {K : Type} [Field K] [CharP K 2] (S : AddSubgroup (V K))
 
+omit [CharP K 2] in
 theorem scalar_closure_all (hE : ∀ g ∈ EGrp K, ∀ s ∈ S, (g : Module.End K (V K)) s ∈ S)
-    {β : Fin (Tag.rank .E7) → ℤ} (hβ : IsRoot .E7 β) (c : K) {s : V K} (hs : s ∈ S) :
+    {β : Fin (Tag.rank .E7) → ℤ} (_hβ : IsRoot .E7 β) (c : K) {s : V K} (hs : s ∈ S) :
     c • e7Data.rootOp K β s ∈ S := by
   have h1 : (e7Data_valid.xu K β c : Module.End K (V K)) s ∈ S :=
     hE _ (e7Data_valid.xu_mem K β c) s hs
@@ -95,7 +96,7 @@ theorem exists_single_of_ne_bot_all
       have h := scalar_closure_all S hE hβ 1 hs
       rwa [one_smul] at h
     have hval : (e7Data.rootOp K β s) (shift β x) = s x := by
-      rw [rootOp_apply (K := K) hβ s (shift β x), if_pos (pr_shift_self hβ hx1),
+      rw [rootOp_apply (K := K) hβ s (shift β x), ite_eq_left (pr_shift_self hβ hx1),
         shift_neg_shift hβ hx1]
     have hs'0 : e7Data.rootOp K β s ≠ 0 := by
       intro h0
@@ -105,7 +106,7 @@ theorem exists_single_of_ne_bot_all
       intro b hb
       rw [Finsupp.mem_support_iff, rootOp_apply (K := K) hβ s b] at hb
       by_cases hb1 : pr b β = 1
-      · rw [if_pos hb1] at hb
+      · rw [ite_eq_left hb1] at hb
         rw [Finset.mem_image]
         refine ⟨shift (-β) b, ?_, shift_shift_neg hβ hb1⟩
         rw [Finset.mem_erase, Finsupp.mem_support_iff]
@@ -114,7 +115,7 @@ theorem exists_single_of_ne_bot_all
         have hpa : pr (shift (-β) b) β = -1 := pr_shift_neg hβ hb1
         rw [h] at hpa
         exact hy1 hpa
-      · rw [if_neg hb1] at hb
+      · rw [ite_eq_right hb1] at hb
         exact absurd rfl hb
     have hcard1 : (e7Data.rootOp K β s).support.card ≤ (s.support.erase y).card :=
       (Finset.card_le_card hsub).trans Finset.card_image_le
@@ -154,7 +155,7 @@ theorem exists_single_of_ne_bot_all
         have hbm : b ∈ s.support := Finsupp.mem_support_iff.mpr hne2
         rw [hsupp, Finset.mem_singleton] at hbm
         exact hb hbm
-      rw [hb0, Finsupp.smul_apply, Finsupp.single_apply, if_neg (Ne.symm hb), smul_zero]
+      rw [hb0, Finsupp.smul_apply, Finsupp.single_apply, ite_eq_right (Ne.symm hb), smul_zero]
   refine ⟨a, s a, hsa, ?_⟩
   rw [← hseq]
   exact hs
@@ -184,7 +185,7 @@ theorem EGrp_irreducible_V (hE : ∀ g ∈ EGrp K, ∀ s ∈ S, (g : Module.End 
     have h1 := scalar_closure_all S hE (isRoot_neg hβ) (c'' / c) (hmult (shift β b))
     have h2 : e7Data.rootOp K (-β) (c • Finsupp.single (shift β b) (1 : K)) =
         c • Finsupp.single b (1 : K) := by
-      rw [map_smul, rootOp_single (K := K) (isRoot_neg hβ) (shift β b), if_pos hb',
+      rw [map_smul, rootOp_single (K := K) (isRoot_neg hβ) (shift β b), ite_eq_left hb',
         shift_neg_shift hβ hpa]
     have hcc : c'' / c * c = c'' := by field_simp
     rw [h2, smul_smul, hcc] at h1

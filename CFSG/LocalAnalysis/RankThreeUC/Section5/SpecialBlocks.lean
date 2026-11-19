@@ -16,13 +16,16 @@ variable {G : Type} [Group G] [Finite G]
 def radical (Q D : Subgroup G) : Subgroup G :=
   Subgroup.closure {x | x ∈ Q ∧ ∀ y ∈ Q, x * y * x⁻¹ * y⁻¹ ∈ D}
 
+omit [Finite G] in
 theorem mem_radical_of {Q D : Subgroup G} {x : G} (hx : x ∈ Q)
     (h : ∀ y ∈ Q, x * y * x⁻¹ * y⁻¹ ∈ D) : x ∈ radical Q D :=
   Subgroup.subset_closure ⟨hx, h⟩
 
+omit [Finite G] in
 theorem radical_le (Q D : Subgroup G) : radical Q D ≤ Q :=
   (Subgroup.closure_le Q).2 fun _ hx => hx.1
 
+omit [Finite G] in
 theorem mem_radical_iff {P Q D : Subgroup G} (hQQP : ∀ x ∈ Q, ∀ y ∈ Q, x * y * x⁻¹ * y⁻¹ ∈ P)
     (hQP : Q ≤ Subgroup.centralizer (P : Set G)) {x : G} :
     x ∈ radical Q D ↔ x ∈ Q ∧ ∀ y ∈ Q, x * y * x⁻¹ * y⁻¹ ∈ D := by
@@ -32,7 +35,7 @@ theorem mem_radical_iff {P Q D : Subgroup G} (hQQP : ∀ x ∈ Q, ∀ y ∈ Q, x
   unfold radical at hx
   induction hx using Subgroup.closure_induction with
   | mem u hu => exact hu
-  | one => exact ⟨Q.one_mem, fun y _ => by simpa using D.one_mem⟩
+  | one => exact ⟨Q.one_mem, fun y _ => by simp⟩
   | mul a b _ _ ha hb =>
     refine ⟨Q.mul_mem ha.1 hb.1, fun y hy => ?_⟩
     have hc : a * (b * y * b⁻¹ * y⁻¹) = (b * y * b⁻¹ * y⁻¹) * a := hcen b hb.1 y hy a ha.1
@@ -53,13 +56,14 @@ theorem mem_radical_iff {P Q D : Subgroup G} (hQQP : ∀ x ∈ Q, ∀ y ∈ Q, x
     rw [key]
     exact D.inv_mem (ha.2 y hy)
 
+omit [Finite G] in
 theorem map_radical {Q : Subgroup G} (hQn : Q.Normal) (g : G) (D : Subgroup G) :
     (radical Q D).map (MulAut.conj g).toMonoidHom = radical Q (D.map (MulAut.conj g).toMonoidHom) := by
   unfold radical
   rw [MonoidHom.map_closure]
   congr 1
   ext x
-  simp only [Set.mem_image, Set.mem_setOf_eq, MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
+  simp only [Set.mem_image, Set.mem_ofPred_eq, MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
   constructor
   · rintro ⟨x₀, ⟨hx₀, h⟩, rfl⟩
     refine ⟨hQn.conj_mem x₀ hx₀ g, fun y hy => ?_⟩
@@ -98,8 +102,8 @@ theorem mem_of_commutator_mem {p : ℕ} {P T B : Subgroup G} {e : ℕ}
     (hby : b * y * b⁻¹ * y⁻¹ ∈ P) : y ∈ P := by
   have hS := hc.oddPrimeClassTwoAction.setting
   have hPn : P.Normal := hc.faithfulBinaryIrreducibleAction.normal
-  haveI : Fact p.Prime := ⟨hS.prime⟩
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact p.Prime := ⟨hS.prime⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hCQ := InvariantElemAbelianFixed.inf_centralizer_eq hc hPQ hQexp hb hb1 hcyc
   let St : Subgroup G :=
     { carrier := {a | a * y * a⁻¹ * y⁻¹ ∈ P}
@@ -144,6 +148,7 @@ theorem mem_of_commutator_mem {p : ℕ} {P T B : Subgroup G} {e : ℕ}
     exact h4.1
   simpa using P.mul_mem (P.inv_mem hcy) hcP
 
+omit [Finite G] in
 theorem map_mem_fixedSubmodule {V : Type} [AddCommGroup V] [Module (ZMod 2) V]
     (ρ : Representation (ZMod 2) G V) {D : Subgroup G} {g : G} (hg : ∀ d ∈ D, d * g = g * d) {v : V}
     (hv : v ∈ fixedSubmodule ρ D) : ρ g v ∈ fixedSubmodule ρ D := by
@@ -151,6 +156,7 @@ theorem map_mem_fixedSubmodule {V : Type} [AddCommGroup V] [Module (ZMod 2) V]
   intro d hd
   rw [← Module.End.mul_apply, ← map_mul, hg d hd, map_mul, Module.End.mul_apply, hv d hd]
 
+omit [Finite G] in
 theorem le_sup_zpowers {D P : Subgroup G} {p : ℕ} (hp : p.Prime) (hDP : D ≤ P)
     (hidx : D.relIndex P = p) {w : G} (hwP : w ∈ P) (hwD : w ∉ D) :
     P ≤ D ⊔ Subgroup.zpowers w := by
@@ -339,9 +345,9 @@ theorem card_mul_le {p : ℕ} {P T B : Subgroup G} {e : ℕ}
     {m : ℕ} (hm : ∀ D ∈ Γ, m ≤ Module.finrank (ZMod 2) ((fixedSubmodule ρ D).map (ρ t - 1))) :
     m * Nat.card ↥Γ ≤ Module.finrank (ZMod 2) (V ⧸ fixedSubmodule ρ (Subgroup.zpowers t)) := by
   classical
-  haveI : Finite (Subgroup G) :=
+  have : Finite (Subgroup G) :=
     Finite.of_injective (fun H : Subgroup G => (H : Set G)) SetLike.coe_injective
-  haveI : Fintype ↥Γ := Fintype.ofFinite _
+  have : Fintype ↥Γ := Fintype.ofFinite _
   have hind :=
     (isInternal_hyperplane_fixedSubmodule_of_binary_rank_counterexample hc).submodule_iSupIndep
   let f : ↥Γ → ↥(Delta p P ρ) := fun D => ⟨D.1, hΓ D.2⟩

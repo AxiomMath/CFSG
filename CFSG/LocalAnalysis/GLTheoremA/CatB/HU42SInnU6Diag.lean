@@ -53,7 +53,7 @@ theorem eig_of_factor {f : Module.End K V} (hf : f ^ 3 = 1) (lam c' : K) (q : K[
     Algebra.algebraMap_eq_smul_one] at h
   have h1 := congrArg (fun φ : Module.End K V => φ v) h
   simp only [Module.End.mul_apply, LinearMap.sub_apply, LinearMap.smul_apply,
-    Module.End.one_apply, LinearMap.zero_apply, smul_eq_mul] at h1
+    Module.End.one_apply, LinearMap.zero_apply] at h1
   exact sub_eq_zero.1 h1
 
 theorem mem_iSup_eigenspace_of_pow_three {c : K} (h2 : (2 : K) = 0) (hc : c ^ 2 + c + 1 = 0)

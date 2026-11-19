@@ -176,7 +176,6 @@ theorem factC_k : FactC := by
     obtain ⟨⟨hlt', -, hw'⟩, hm⟩ := forall2_getD hlb i (by rw [hlen]; exact hi)
     refine ⟨?_, hm⟩
     rw [hw']
-    beta_reduce
     rw [wE_conj hWok, hwd _ hlt']
   have hcb := cb_spec (woks_of words.2.2.1) (woks_of words.2.2.2.2.2.2.2.2) tw101701cb
   have hcomm : ∀ w ∈ ePW, ∀ i : Fin 4, wE w * (wE hW * tabElt gC (parT eCN eCPar) (aGen.getD i 0) *

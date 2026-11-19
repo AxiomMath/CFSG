@@ -12,6 +12,7 @@ open QuadraticMap CFSG.SignalizerFunctorTheorem.NonLocal.Orth
 variable {K V : Type*} [Field K] [AddCommGroup V] [Module K V] [FiniteDimensional K V]
   {Q : QuadraticForm K V}
 
+omit [FiniteDimensional K V] in
 theorem submodule_eq_bot_or_top_of_elementaryGroup_invariant
     (hQ : (polarBilin Q).Nondegenerate)
     (hP : ∃ P : Fin 2 → HypPair Q, ∀ i j, i ≠ j → (P i).Orth (P j))

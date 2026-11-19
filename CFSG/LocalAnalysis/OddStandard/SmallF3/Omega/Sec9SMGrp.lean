@@ -58,7 +58,7 @@ theorem sec9m_card_mul_dvd {Γ : Type*} [Group Γ] [Finite Γ] {H K R : Subgroup
   rw [hcard, mul_comm (Nat.card R) (Nat.card K)] at hdvd
   exact hdvd
 
-private def neOneMulAction {B : Type*} [Group B] (H : Subgroup (MulAut B)) :
+@[instance_reducible] private def neOneMulAction {B : Type*} [Group B] (H : Subgroup (MulAut B)) :
     MulAction ↥H {b : B // b ≠ 1} where
   smul h x := ⟨h.1 x.1, fun hx => x.2 (h.1.injective (by rw [hx, map_one]))⟩
   one_smul x := Subtype.ext rfl
@@ -75,14 +75,14 @@ theorem sec9m_normal_fixes {B : Type*} [Group B] [Finite B] {H R : Subgroup (Mul
   · subst hb
     exact map_one r
   · let s := {b : B // b ≠ 1}
-    letI : MulAction ↥H s := neOneMulAction H
-    haveI hpre : MulAction.IsPretransitive ↥H s :=
+    let : MulAction ↥H s := neOneMulAction H
+    have hpre : MulAction.IsPretransitive ↥H s :=
       ⟨fun x y => by
         obtain ⟨h, hh, hhx⟩ := htrans x.1 y.1 x.2 y.2
         exact ⟨⟨h, hh⟩, Subtype.ext hhx⟩⟩
     have hHnorm : H ≤ Subgroup.normalizer (R : Set (MulAut B)) :=
       Subgroup.le_normalizer_iff.mpr hnorm
-    haveI hN : (R.subgroupOf H).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hHnorm
+    have hN : (R.subgroupOf H).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hHnorm
     let a : s := ⟨b, hb⟩
     have hblock : MulAction.IsBlock ↥H (MulAction.orbit (R.subgroupOf H) a) :=
       MulAction.IsBlock.orbit_of_normal a
@@ -102,7 +102,7 @@ theorem sec9m_normal_fixes {B : Type*} [Group B] [Finite B] {H R : Subgroup (Mul
       rwa [hB1] at hcop
     have hd1 : Nat.card (MulAction.orbit (R.subgroupOf H) a) = 1 :=
       Nat.eq_one_of_dvd_coprimes hcop_s hdvd_R hdvd_s
-    haveI : Subsingleton (MulAction.orbit (R.subgroupOf H) a) :=
+    have : Subsingleton (MulAction.orbit (R.subgroupOf H) a) :=
       Finite.card_le_one_iff_subsingleton.mp (le_of_eq hd1)
     have htriv : ∀ n : R.subgroupOf H, n • a = a := by
       intro n

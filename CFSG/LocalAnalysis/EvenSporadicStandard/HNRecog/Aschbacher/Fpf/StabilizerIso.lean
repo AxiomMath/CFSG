@@ -17,7 +17,7 @@ theorem nonempty_mulEquiv_stabilizer (σ : A5 × A5 →* (V ≃ₗ[ZMod 2] V))
     (h8 : finrank (ZMod 2) V = 8)
     (hfix : ∀ y : A5, orderOf y = 5 →
       (∀ u : V, σ (y, 1) u = u → u = 0) ∧ (∀ u : V, σ (1, y) u = u → u = 0))
-    (v : V) (hv : v ≠ 0) (k : ℕ) (hk1 : 1 ≤ k) (hk4 : k ≤ 4) (hvk : σ (a₀ ^ k, a₀) v = v)
+    (v : V) (hv : v ≠ 0) (k : ℕ) (_hk1 : 1 ≤ k) (_hk4 : k ≤ 4) (hvk : σ (a₀ ^ k, a₀) v = v)
     (S : Subgroup (A5 × A5)) (hS : ∀ g, g ∈ S ↔ σ g v = v) : Nonempty (S ≃* A5) := by
   classical
   let T : Subgroup A5 := S.comap (MonoidHom.inr A5 A5)
@@ -76,7 +76,7 @@ theorem nonempty_mulEquiv_stabilizer (σ : A5 × A5 →* (V ≃ₗ[ZMod 2] V))
       _ = 60 * 60 := by rw [hA5]
       _ = 3600 := by norm_num
   have hVcard : Nat.card V = 256 := by
-    haveI : Fintype V := Fintype.ofFinite V
+    have : Fintype V := Fintype.ofFinite V
     rw [Nat.card_eq_fintype_card, Module.card_eq_pow_finrank (K := ZMod 2), h8, ZMod.card]
     norm_num
   have hsub : Nat.card {u : V // u ≠ 0} ≤ 255 := by

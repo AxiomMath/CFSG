@@ -18,8 +18,8 @@ private theorem coverWitness_of_spec {Y : Type} [Group Y] [Finite Y]
     (hind : ∀ a : Fin r → ZMod 3, ∑ i, a i • v i = 0 → a = 0) :
     ∃ E T : Subgroup Y, IsElemAbelian 3 E ∧ Nat.card E = 3 ^ (r + 1) ∧ T ≠ ⊥ ∧ IsPGroup 2 T ∧
       E ≤ Subgroup.normalizer (T : Set Y) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set π := QuotientGroup.mk' (Subgroup.center Y) with hπdef
   have hπ : Function.Surjective π := QuotientGroup.mk'_surjective _
   have hker : π.ker = Subgroup.center Y := QuotientGroup.ker_mk' _
@@ -109,7 +109,7 @@ private theorem coverWitness_of_modCheckV {M V : Type} [Inhabited M] {O : Ops M 
     (hind : ∀ a : Fin r → ZMod 3, ∑ i, a i • v i = 0 → a = 0) :
     ∃ E T : Subgroup Y, IsElemAbelian 3 E ∧ Nat.card E = 3 ^ (r + 1) ∧ T ≠ ⊥ ∧ IsPGroup 2 T ∧
       E ≤ Subgroup.normalizer (T : Set Y) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   unfold modCheckV at h
   simp only [Bool.and_eq_true, decide_eq_true_eq] at h
   obtain ⟨⟨⟨⟨⟨⟨⟨hC, hw⟩, -⟩, -⟩, -⟩, -⟩, hfun⟩, halt⟩ := h

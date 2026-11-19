@@ -135,8 +135,8 @@ theorem hH1 : Subgroup.closure ((fun j => bv g0 (wWord (CFSG.KD.F1.selST j))
     split_ifs <;> omega
   · rintro ⟨g, hg, rfl⟩
     rcases hg with hg | rfl
-    · exact ⟨g, (by change g < 10; omega), (stWords g (by omega)).trans (by rw [if_neg (by omega)])⟩
-    · exact ⟨9, (by change 9 < 10; omega), (stWords 9 (by omega)).trans (by rw [if_pos rfl])⟩
+    · exact ⟨g, (by change g < 10; omega), (stWords g (by omega)).trans (by rw [ite_eq_right (by omega)])⟩
+    · exact ⟨9, (by change 9 < 10; omega), (stWords 9 (by omega)).trans (by rw [ite_eq_left rfl])⟩
 
 theorem hK1 : Subgroup.closure (g0 '' {g | 2 * g < 24}) = ⊤ := by
   have e : {g : ℕ | 2 * g < 24} = {g | g < 12} := by

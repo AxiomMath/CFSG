@@ -12,7 +12,7 @@ open CFSG.RankThree.PartTwo.KFacts CFSG.RankThree.PartTwo.Sec4.RonanK429
 open CFSG.GorensteinWalter (PSL2)
 open CFSG.Assembly.RankThreeEven (projSL projSU)
 
-theorem not_isTypeEpsCube_of_two_mul_card_eq {X : Type} [Group X] {f : ℕ} (hf : 1 ≤ f)
+theorem not_isTypeEpsCube_of_two_mul_card_eq {X : Type} [Group X] {f : ℕ} (_hf : 1 ≤ f)
     (hX : 2 * Nat.card X = 3 ^ f * ((3 ^ f) ^ 2 - 1)) : ¬ IsTypeEpsCube X := by
   intro h
   have hlt : 3 ^ f * ((3 ^ f) ^ 2 - 1) < (3 ^ f) ^ 3 := by
@@ -100,7 +100,7 @@ theorem noCfgSEps_psl2_char_three {F : Type} [Field F] [Finite F] [CharP F 3]
   intro A σ K hc
   have hZ := RowV.center_eq_bot_of_simple hs hna
   have h3 : σ ^ 3 = 1 := hc.isE27.1.2 σ hc.mem
-  haveI : Group.IsPerfect K := hc.isPerfect
+  have : Group.IsPerfect K := hc.isPerfect
   have hX : ¬ Nat.card K ∣ 12 := fun h => by
     have h1 := le_card_of_isTypeEpsCube (isTypeEpsCube_of_cfgSEps hc)
     have h2 : Nat.card (K ⧸ CFSG.pCore 2 K) ∣ 12 := (Subgroup.card_quotient_dvd_card _).trans h
@@ -140,7 +140,7 @@ theorem noCfgSEps_psl2_char_three {F : Type} [Field F] [Finite F] [CharP F 3]
       apply Subtype.ext
       apply φ.injective
       simpa only [Subgroup.coe_mul, map_mul] using h
-    haveI : IsMulCommutative K := ⟨⟨hcomm⟩⟩
+    have : IsMulCommutative K := ⟨⟨hcomm⟩⟩
     exact hX (by rw [Nat.card_unique]; exact one_dvd _)
   ·
     set β := MulAut.congr φ σ with hβ

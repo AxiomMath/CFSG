@@ -65,7 +65,7 @@ theorem exists_he_normal_of_fi24Prime (hb : LieOrderBridge) (hOrd : SporadicOrde
   set W : Subgroup ↥J := (X₁.subgroupOf K).map φm with hWdef
   have hNQ : Subgroup.normalizer (Q7 : Set ↥J) ≤ W := by
     rw [← hSφ, ← Subgroup.map_normalizer_eq_of_bijective _ ⟨hφinj, hφsurj⟩]
-    exact Subgroup.map_mono (hEN S S.isPGroup' hES)
+    exact Subgroup.map_mono (hEN S S.isPGroup hES)
   have hEtC : ∀ t ∈ Et, t ≠ 1 → Subgroup.centralizer ({t} : Set ↥J) ≤ W := by
     rintro _ ⟨v, hv, rfl⟩ ht x hx
     have hv1 : v ≠ 1 := fun h1 => ht (by rw [h1, map_one])

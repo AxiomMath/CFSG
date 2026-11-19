@@ -134,7 +134,7 @@ theorem rho_transvGL_r0 (c : K) :
     decide
   unfold r0 p0
   rw [rho_transvGL_cubeBasis (a := 2) (b := 3) (Or.inl (by decide)) (by decide) c S034,
-    dif_pos h, hrep]
+    dite_eq_left h, hrep]
 
 theorem r0_fix_of_ne {a b : Fin 6} (hne : a ≠ b) (c : K) (ha : a.val % 2 = 0)
     (hb : b.val % 2 = 1) (h23 : ¬ (a = 2 ∧ b = 3)) :
@@ -233,10 +233,10 @@ theorem coord_eq_zero_of_mem_W0 {v : Cube K}
     have hcS : c ∈ S024.val := by rw [h]; exact hcJ
     exact odd_not_mem_S024 c hc hcS
   have hp0 : coord K (p0 K) J = 0 := by
-    rw [p0, coord_cubeBasis, if_neg hSJ]
+    rw [p0, coord_cubeBasis, ite_eq_right hSJ]
   have hJc : a ∈ J.val ∧ b ∉ J.val := ⟨haJ, hbJ⟩
   have key := coord_rho_transvGL hab hne 1 v J
-  rw [dif_pos hJc, one_mul] at key
+  rw [dite_eq_left hJc, one_mul] at key
   have hW : coord K v (replSet J b a hJc.1 hJc.2) = coord K v I := by rw [hIJ]
   have ht' : rho K (transvGL K a b hne 1) v - v = t • p0 K := ht.symm
   have h1 : coord K (rho K (transvGL K a b hne 1) v - v) J = coord K (t • p0 K) J := by
@@ -280,7 +280,7 @@ theorem p0_ne_zero : p0 K ≠ 0 := by
   intro h
   have h1 : coord K (p0 K) S024 = 1 := by
     unfold p0
-    rw [coord_cubeBasis, if_pos rfl]
+    rw [coord_cubeBasis, ite_eq_left rfl]
   rw [h, coord_zero] at h1
   exact zero_ne_one h1
 
@@ -312,10 +312,10 @@ theorem r0_not_mem_span : r0 K ∉ Submodule.span K {p0 K} := by
   obtain ⟨t, ht⟩ := h
   have h1 : coord K (r0 K) S034 = 1 := by
     unfold r0
-    rw [coord_cubeBasis, if_pos rfl]
+    rw [coord_cubeBasis, ite_eq_left rfl]
   have h2 : coord K (p0 K) S034 = 0 := by
     unfold p0
-    rw [coord_cubeBasis, if_neg S024_ne_S034]
+    rw [coord_cubeBasis, ite_eq_right S024_ne_S034]
   have h3 : coord K (r0 K) S034 = t * coord K (p0 K) S034 := by
     rw [← ht, coord_smul]
   rw [h1, h2, mul_zero] at h3
@@ -329,7 +329,7 @@ theorem exists_gam_plane (a b : K) (h : a ≠ 0 ∨ b ≠ 0) :
     have h0 := congrFun hc 0
     have h2 := congrFun hc 2
     have h4 := congrFun hc 4
-    simp [Fin.sum_univ_three, e, Pi.single_apply] at h0 h2 h4
+    simp [Fin.sum_univ_three, e] at h0 h2 h4
     intro i
     fin_cases i <;> simp_all
   have hw : LinearIndependent K ![e K 0, a • e K 2 + b • e K 3, e K 4] := by
@@ -339,7 +339,7 @@ theorem exists_gam_plane (a b : K) (h : a ≠ 0 ∨ b ≠ 0) :
     have h2 := congrFun hc 2
     have h3 := congrFun hc 3
     have h4 := congrFun hc 4
-    simp [Fin.sum_univ_three, e, Pi.single_apply] at h0 h2 h3 h4
+    simp [Fin.sum_univ_three, e] at h0 h2 h3 h4
     have hc1 : c 1 = 0 := by
       rcases h with ha | hb
       · exact h2.resolve_right ha

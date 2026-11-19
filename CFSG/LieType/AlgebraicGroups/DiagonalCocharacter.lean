@@ -76,7 +76,7 @@ theorem diagonalCocharacterAlgHom_point (wt : ι → ℤ)
       (laurentMonomialUnit (k := k) (Multiplicative.ofAdd 1)) (wt i)
     have h' := congrArg Units.val hmap
     simpa only [Units.coe_map, Units.val_zpow_eq_zpow_val, laurentMonomialUnit_val,
-      TauCeti.DiagonalizableGroup.pointsMulEquiv_apply, DiagonalizableGroup.charOfPoint_apply_coe, MonoidHom.coe_coe] using h'
+      TauCeti.DiagonalizableGroup.pointsMulEquiv_apply, DiagonalizableGroup.charOfPoint_apply_coe, _root_.MonoidHom.coe_ofClass] using h'
   · simp
 
 @[irreducible] def diagonalCocharacterBialgHom [IsAlgClosed k] (wt : ι → ℤ) :

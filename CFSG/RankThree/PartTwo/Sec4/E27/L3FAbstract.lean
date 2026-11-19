@@ -79,16 +79,18 @@ theorem seitzHyperGamma_eq_top_of_two_lines (hZ : Subgroup.center X = ⊥)
   map_mul' a b := Subtype.ext (by simp)
 
 @[expose] noncomputable def restrictHom (L : Subgroup X) (E : Subgroup (MulAut X))
-    (hinv : ∀ e ∈ E, ∀ l ∈ L, e l ∈ L) : E →* MulAut L where
+    (hinv : ∀ e ∈ E, ∀ _l ∈ L, e _l ∈ L) : E →* MulAut L where
   toFun e := restrictAut L e (hinv e e.2) (hinv e⁻¹ (E.inv_mem e.2))
-  map_one' := MulEquiv.ext fun l => Subtype.ext rfl
-  map_mul' a b := MulEquiv.ext fun l => Subtype.ext rfl
+  map_one' := MulEquiv.ext fun _l => Subtype.ext rfl
+  map_mul' _a _b := MulEquiv.ext fun _l => Subtype.ext rfl
 
+omit [Finite X] in
 theorem coe_restrictHom (L : Subgroup X) (E : Subgroup (MulAut X))
     (hinv : ∀ e ∈ E, ∀ l ∈ L, e l ∈ L) (e : E) (l : L) :
     (restrictHom L E hinv e l : X) = (e : MulAut X) l := rfl
 
 open CFSG.LocalAnalysis.RankThreeTheoremC.SL3CoverGen in
+omit [Finite X] in
 theorem le_closure_fixed_of_plane (hA : Sec19.SeitzThreeLThreePi) {p m : ℕ} [Fact p.Prime]
     (hm : 1 ≤ m) (h2 : 2 < p ^ m) (h4 : ¬ (p = 2 ∧ m = 2)) {L : Subgroup X}
     (hL : IsoLThreePi ↥L p m) {E : Subgroup (MulAut X)} (hE : IsElemAbelian 3 E)

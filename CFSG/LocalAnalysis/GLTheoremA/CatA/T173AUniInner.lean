@@ -157,7 +157,7 @@ private theorem exists_dth_root_of_gcd_dvd {F : Type} [Field F] [Finite F]
     (hgu : Nat.gcd d (2 ^ n + 1) ∣ u) {δ : Fˣ} (hδ : δ ^ (2 ^ n + 1) = 1) :
     ∃ ν : Fˣ, ν ^ d = (δ ^ u)⁻¹ ∧ ν ^ (2 ^ n + 1) = 1 := by
   set G : Subgroup Fˣ := (powMonoidHom (2 ^ n + 1) : Fˣ →* Fˣ).ker with hG
-  haveI : IsCyclic G := isCyclic_of_injective (Subgroup.subtype G) (Subtype.coe_injective)
+  have : IsCyclic G := isCyclic_of_injective (Subgroup.subtype G) (Subtype.coe_injective)
   have hcardG : Nat.card G = 2 ^ n + 1 := by
     rw [hG, IsCyclic.card_powMonoidHom_ker]
     rw [Nat.gcd_comm, Nat.gcd_eq_left_iff_dvd]
@@ -219,8 +219,8 @@ theorem uni_conjImage_pPower_inner {p n d : ℕ} {F : Type} [Field F] [Finite F]
   have hcard2 : Nat.card F = 2 ^ (2 * n) := by
     rw [hFcard, ← pow_mul, Nat.mul_comm n 2]
   have hU : UnitaryFieldData 2 n F := ⟨Nat.prime_two, hn1, hcard2⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := hU.charP
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := hU.charP
   obtain ⟨A, hA, hgraph⟩ := hφ
   obtain ⟨μ, hμ0, hμq, hAμ⟩ := hA
   have hfix : CFSG.LieType.BorelTits.unitaryInvolution F 2 n μ⁻¹ = μ⁻¹ := by

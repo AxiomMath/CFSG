@@ -140,7 +140,7 @@ theorem card_eq_cntK {α : Type*} {S : Set α} {f : Nat → α} {m : Nat} (hS : 
   classical
   have e : {y | y ∈ S ∧ p y} = f '' ↑((List.range m).filter b).toFinset := by
     ext y
-    simp only [Set.mem_setOf_eq, hS, Set.mem_image, Finset.mem_coe, List.mem_toFinset,
+    simp only [Set.mem_ofPred_eq, hS, Set.mem_image, Finset.mem_coe, List.mem_toFinset,
       List.mem_filter, List.mem_range]
     constructor
     · rintro ⟨⟨i, hi, rfl⟩, hp⟩

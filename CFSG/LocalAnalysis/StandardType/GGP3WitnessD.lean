@@ -57,10 +57,10 @@ private theorem p3d_extend_shift {n b₀ : ℕ} (hn : b₀ ≤ n) (m : Option (F
     (x : Option (Fin b₀)) : p3d_extend hn m (p3d_shift hn x) = m x := by
   unfold p3d_extend p3d_single
   rw [Finset.sum_apply, Fintype.sum_eq_single x]
-  · rw [Pi.smul_apply, smul_eq_mul, Pi.single_apply, if_pos rfl, mul_one]
+  · rw [Pi.smul_apply, smul_eq_mul, Pi.single_apply, ite_eq_left rfl, mul_one]
   · intro j hj
     rw [Pi.smul_apply, smul_eq_mul, Pi.single_apply,
-      if_neg (fun h => hj (p3d_shift_inj hn h).symm), mul_zero]
+      ite_eq_right (fun h => hj (p3d_shift_inj hn h).symm), mul_zero]
 
 private theorem p3d_extend_single {n b₀ : ℕ} (hn : b₀ ≤ n) (x : Option (Fin b₀)) :
     p3d_extend hn (Pi.single x 1) = p3d_single hn x := by
@@ -226,8 +226,8 @@ private theorem p3d_attach_sub {n b₀ : ℕ} (hb : 4 ≤ b₀) (hn : b₀ ≤ n
   · simp only [p3d_shift, ggAttachCartan_none_some]
     rw [hk]
     by_cases h : j = kb
-    · rw [if_pos h, if_pos (by rw [h])]
-    · rw [if_neg h, if_neg (by
+    · rw [ite_eq_left h, ite_eq_left (by rw [h])]
+    · rw [ite_eq_right h, ite_eq_right (by
         intro hh
         exact h (Fin.ext (by
           have h' : n - b₀ + (j : ℕ) = n - b₀ + (kb : ℕ) := congrArg Fin.val hh
@@ -235,8 +235,8 @@ private theorem p3d_attach_sub {n b₀ : ℕ} (hb : 4 ≤ b₀) (hn : b₀ ≤ n
   · simp only [p3d_shift, ggAttachCartan_some_none]
     rw [hk]
     by_cases h : i = kb
-    · rw [if_pos h, if_pos (by rw [h])]
-    · rw [if_neg h, if_neg (by
+    · rw [ite_eq_left h, ite_eq_left (by rw [h])]
+    · rw [ite_eq_right h, ite_eq_right (by
         intro hh
         exact h (Fin.ext (by
           have h' : n - b₀ + (i : ℕ) = n - b₀ + (kb : ℕ) := congrArg Fin.val hh
@@ -252,7 +252,7 @@ private theorem p3d_extend_eq_zero_of_not_mem {n b₀ : ℕ} (hn : b₀ ≤ n)
   apply Finset.sum_eq_zero
   intro j _
   rw [Pi.smul_apply, smul_eq_mul, Pi.single_apply,
-    if_neg (fun h => hy ⟨j, h.symm⟩), mul_zero]
+    ite_eq_right (fun h => hy ⟨j, h.symm⟩), mul_zero]
 
 private theorem p3d_not_mem_shift {n b₀ : ℕ} (hn : b₀ ≤ n) {i : ℕ} (hi : i < n - b₀) :
     (some ⟨i, by omega⟩ : Option (Fin n)) ∉ Set.range (p3d_shift hn) := by
@@ -324,7 +324,7 @@ private theorem p3d_invTest3_of_block {n b₀ : ℕ} (hb : 5 ≤ b₀) (hn : b�
     have hvl : ∀ i (h : i < n), vl i = v (some ⟨i, h⟩) := by
       intro i h
       dsimp only [vl]
-      rw [dif_pos h]
+      rw [dite_eq_left h]
     have hzero : ∀ i < n - b₀, vl i = 0 := by
       intro i hi
       have hcon_i := congrFun hcon (some ⟨i, by omega⟩)

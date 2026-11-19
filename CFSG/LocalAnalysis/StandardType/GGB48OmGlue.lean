@@ -29,7 +29,7 @@ theorem ggB48_of_omega_minus_eight_four
     (hinn : GGInnerDiagOn Bs N) (hlab : GGHasLabel ⟨.twD, 4, 2⟩ (↥N ⧸ Subgroup.center ↥N)) :
     48 ≤ Nat.card (ggAutomizer N Bs) := by
   have hq : CFSG.Assembly.IsQuasisimple ↥N := isQuasisimple_of_largeEvenMarking hinn
-  haveI : Group.IsPerfect ↥N := ⟨hq.1⟩
+  have : Group.IsPerfect ↥N := ⟨hq.1⟩
   have hmod := B48Om.statedClassicalModel_of_hasLabel_twD42 hlab
   have hZ : Subgroup.center ↥N = ⊥ := HalfRowData.center_eq_bot_of_pomegaMinus_two hmod
   obtain ⟨φ, hφi, hφr⟩ := B48Om.exists_spinLift hZ hmod

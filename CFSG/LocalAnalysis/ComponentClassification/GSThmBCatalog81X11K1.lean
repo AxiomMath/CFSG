@@ -43,7 +43,7 @@ theorem X11.exists_sylowIn_ge {H : Type*} [Group H] [Finite H] {K C : Subgroup H
     IsPGroup.of_equiv hK (subgroupOfEquivOfLe hKC).symm
   obtain ⟨R, hR⟩ := hK'.exists_le_sylow
   refine ⟨(R : Subgroup ↥C).map C.subtype, fun x hx => ?_, map_subtype_le _,
-    R.isPGroup'.map C.subtype, ?_⟩
+    R.isPGroup.map C.subtype, ?_⟩
   · exact ⟨⟨x, hKC hx⟩, hR (show (⟨x, hKC hx⟩ : ↥C) ∈ K.subgroupOf C from hx), rfl⟩
   · have hS' : ((R : Subgroup ↥C).map C.subtype).subgroupOf C = (R : Subgroup ↥C) := by
       ext z

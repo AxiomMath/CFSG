@@ -39,7 +39,7 @@ theorem IsMinFam16.hat_free (h1 : W16One G) (h5 : W16Five G) (hS : Std15 G)
     ∀ a ∈ D.img V, a ∈ Subgroup.normalizer
       ((D.img (conjSubgroup V g) : Subgroup (LGL 2 D.W)) : Set (LGL 2 D.W)) → a = 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hVH : V ≤ H := h.V_le_S.trans hH.1.1
   have hass : Assumption131 (D.img H) (D.conjImgFam V) (D.conjImgSpace V₀ V)
       (mRank (D.img V)) := Cex16.assumption131_iSub16 h1 h5 hS h hH.1 hV D

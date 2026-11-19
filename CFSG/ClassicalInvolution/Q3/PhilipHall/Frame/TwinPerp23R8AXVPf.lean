@@ -425,7 +425,7 @@ theorem zSub_props (hcit : CIT3Below n) (hP : TL4.TightBelowRPlus 3 n)
     intro c hcX z hz
     induction hz using Subgroup.closure_induction with
     | mem x hx => exact hcX x hx
-    | one => simp [Subgroup.one_mem]
+    | one => simp
     | mul a b _ _ ha hb =>
       have := Subgroup.mul_mem _ ha hb
       rwa [show c * a * c⁻¹ * (c * b * c⁻¹) = c * (a * b) * c⁻¹ by group] at this
@@ -951,8 +951,8 @@ theorem s2_u (hc : P23Cfg n Y R S t K' W u e g)
     rcases he' with rfl | rfl
     · rfl
     · rw [zOf_vec_apply, zOf_vec_apply,
-        if_pos (show i ∈ Set.range (emb β hβ) by rw [range_emb]; exact hi),
-        if_pos (show j ∈ Set.range (emb β hβ) by rw [range_emb]; exact hj)]
+        ite_eq_left (show i ∈ Set.range (emb β hβ) by rw [range_emb]; exact hi),
+        ite_eq_left (show j ∈ Set.range (emb β hβ) by rw [range_emb]; exact hj)]
   have hwc : ∀ i ∈ β, ∀ j ∈ β, w.vec i = w.vec j := by
     intro i hi j hj
     rw [hwv, hwv, (hcβ i hi).1, (hcβ j hj).1, he'c i hi j hj]
@@ -976,9 +976,9 @@ theorem s2_u (hc : P23Cfg n Y R S t K' W u e g)
         show w.vec i + (zOf (emb β hβ)).vec i = w.vec q₀ + 1
         rw [zOf_vec_apply]
         by_cases hi : i ∈ β
-        · rw [if_pos (show i ∈ Set.range (emb β hβ) by rw [range_emb]; exact hi),
+        · rw [ite_eq_left (show i ∈ Set.range (emb β hβ) by rw [range_emb]; exact hi),
             hwc i hi q₀ hq₀]
-        · rw [if_neg (show i ∉ Set.range (emb β hβ) by rw [range_emb]; exact hi), add_zero,
+        · rw [ite_eq_right (show i ∉ Set.range (emb β hβ) by rw [range_emb]; exact hi), add_zero,
             hout i i₀ hi hi₀β]
           generalize w.vec i₀ = a at hi₀ ⊢
           generalize w.vec q₀ = b at hi₀ ⊢
@@ -1180,7 +1180,7 @@ theorem exists_acts {c : Y}
     (hcC : c ∈ Subgroup.centralizer ({e} : Set Y)) :
     ∃ w : Wr 6, D.toAEData.Acts
       (TwinExitPf6.secAut (Om R) e (ZTwo.hΩ_of hc) (ZTwo.hc2e_of hc) ⟨c, hcC⟩) w :=
-  D.toAEData.exists_wr _ (fun L hL => ZTwo.secAut_preserves hc ⟨c, hcC⟩ hL)
+  D.toAEData.exists_wr _ (fun _L hL => ZTwo.secAut_preserves hc ⟨c, hcC⟩ hL)
 
 end E6
 
@@ -1330,8 +1330,8 @@ theorem vec_type {β : Finset (Fin 6)} (hβ : β.card = 4) {w : Wr 6} (hwp : w.p
     rcases he' with rfl | rfl
     · rfl
     · rw [zOf_vec_apply, zOf_vec_apply,
-        if_pos (show i ∈ Set.range (emb β hβ) by rw [range_emb]; exact hi),
-        if_pos (show j ∈ Set.range (emb β hβ) by rw [range_emb]; exact hj)]
+        ite_eq_left (show i ∈ Set.range (emb β hβ) by rw [range_emb]; exact hi),
+        ite_eq_left (show j ∈ Set.range (emb β hβ) by rw [range_emb]; exact hj)]
   have hwc : ∀ i ∈ β, ∀ j ∈ β, w.vec i = w.vec j := by
     intro i hi j hj
     rw [hwv, hwv, (hcβ i hi).1, (hcβ j hj).1, he'c i hi j hj]
@@ -1364,9 +1364,9 @@ theorem vec_type {β : Finset (Fin 6)} (hβ : β.card = 4) {w : Wr 6} (hwp : w.p
         show w.vec i + (zOf (emb β hβ)).vec i = w.vec q₀ + 1
         rw [zOf_vec_apply]
         by_cases hi : i ∈ β
-        · rw [if_pos (show i ∈ Set.range (emb β hβ) by rw [range_emb]; exact hi),
+        · rw [ite_eq_left (show i ∈ Set.range (emb β hβ) by rw [range_emb]; exact hi),
             hwc i hi q₀ hq₀]
-        · rw [if_neg (show i ∉ Set.range (emb β hβ) by rw [range_emb]; exact hi), add_zero]
+        · rw [ite_eq_right (show i ∉ Set.range (emb β hβ) by rw [range_emb]; exact hi), add_zero]
           rcases hout i hi with rfl | rfl
           · exact flip _ _ hva
           · exact flip _ _ hvb
@@ -1450,7 +1450,7 @@ theorem conj_mem_sup {A B : Subgroup Y} {c : Y} (hA : ∀ a ∈ A, c * a * c⁻�
     rcases hx with hx | hx
     · exact hA x hx
     · exact hB x hx
-  | one => simp [Subgroup.one_mem]
+  | one => simp
   | mul a b _ _ ha hb =>
     have := Subgroup.mul_mem _ ha hb
     rwa [show c * a * c⁻¹ * (c * b * c⁻¹) = c * (a * b) * c⁻¹ by group] at this
@@ -1463,7 +1463,7 @@ theorem conj_mem_closure {X : Set Y} {H : Subgroup Y} {c : Y} (hX : ∀ x ∈ X,
   intro v hv
   induction hv using Subgroup.closure_induction with
   | mem x hx => exact hX x hx
-  | one => simp [Subgroup.one_mem]
+  | one => simp
   | mul a b _ _ ha hb =>
     have := Subgroup.mul_mem _ ha hb
     rwa [show c * a * c⁻¹ * (c * b * c⁻¹) = c * (a * b) * c⁻¹ by group] at this
@@ -2016,7 +2016,7 @@ theorem p23E8AXV_of_caseB (hE : TwinThmEW.ThmEQ8)
     intro a
     refine ⟨1, ?_⟩
     ext
-    simp only [pow_one, Subgroup.coe_pow, Subgroup.coe_one, pow_two]
+    simp only [pow_one, Subgroup.coe_one, pow_two]
     exact hZsq a a.2
   have hQ2 := AXV.qE_isPGroup (hc := hc) (D := D) hOE
   have hZQ : Z ≤ Subgroup.normalizer (Q : Set Y) := fun z hz =>

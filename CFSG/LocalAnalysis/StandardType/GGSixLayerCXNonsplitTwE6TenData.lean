@@ -272,7 +272,7 @@ theorem twE6_ten_structure
     have hP := hPfix _ (hρmem B)
     have hmapid : SpecialLinearGroup.map (RingEquiv.refl L).toRingHom B = B := by
       ext i j
-      simp [SpecialLinearGroup.map_apply_coe]
+      simp
     have e : Units.map (entrywiseHom (RingEquiv.refl L).toRingHom)
         (rootSL2 TwistTag.E6.tag L e6HighestRoot B) = rootSL2 TwistTag.E6.tag L e6HighestRoot B :=
       Units.ext (entrywise_id _)
@@ -284,9 +284,9 @@ theorem twE6_ten_structure
           (diagramMap TwistTag.E6 L)⁻¹ * n⁻¹ := by group
       _ = rootSL2 TwistTag.E6.tag L e6HighestRoot (WSL * B * WSL⁻¹) := h
   have : NeZero f := ⟨by omega⟩
-  letI : Algebra (ZMod ℓ) L := ZMod.algebra L ℓ
+  let : Algebra (ZMod ℓ) L := ZMod.algebra L ℓ
   let k := GaloisField ℓ f
-  letI : Algebra k L := (IsAlgClosed.lift : k →ₐ[ZMod ℓ] L).toRingHom.toAlgebra
+  let : Algebra k L := (IsAlgClosed.lift : k →ₐ[ZMod ℓ] L).toRingHom.toAlgebra
   have hkcard : Nat.card k = ℓ ^ f := GaloisField.card ℓ f (by omega)
   have hFrk : ∀ c, Fr c = c ^ Nat.card k := fun c => by rw [hkcard]; exact hFr c
   obtain ⟨P, hP⟩ := exists_WSL_twist (K := k) (L := L) Fr hFrk
@@ -305,7 +305,7 @@ theorem twE6_ten_structure
         (Matrix.GeneralLinearGroup.scalar (Fin 2)).range :=
     sl2_conj_range_centralizer (K := k) P
   obtain ⟨e0⟩ := E6Nonsplit.nonempty_mulEquiv_sl2_conj_range (K := k) (L := L) P
-  haveI : Finite ↥S := Finite.of_equiv _ e0.toEquiv
+  have : Finite ↥S := Finite.of_equiv _ e0.toEquiv
   have hStr := a1_twisted_structure (ℓ := ℓ) hf K hK σ hσ L hp hp7 hordW n hnC hθroot hZcyc hN
     hZcard hord hkerZ S hS1 hS3
   intro x hx X hXcomp
@@ -318,10 +318,10 @@ theorem twE6_ten_structure
     exact ⟨hK4, ⟨e0.trans e1⟩⟩
   · exfalso
     have hklt : Nat.card k < 4 := by rw [hkcard]; omega
-    haveI hsolSL : Group.IsSolvable SL(2, k) := isSolvable_SL_two_of_card_lt_four hklt
-    haveI : Group.IsSolvable ↥S :=
+    have hsolSL : Group.IsSolvable SL(2, k) := isSolvable_SL_two_of_card_lt_four hklt
+    have : Group.IsSolvable ↥S :=
       Group.isSolvable_of_isSolvable_injective (f := e0.symm.toMonoidHom) e0.symm.injective
-    haveI := (hStr x hx).2 inferInstance
+    have := (hStr x hx).2 inferInstance
     exact ExcNonsplit.not_isComponentOf_of_isSolvable hXcomp
 
 end TwE6Nonsplit

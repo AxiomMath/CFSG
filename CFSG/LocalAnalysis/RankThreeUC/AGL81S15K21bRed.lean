@@ -58,7 +58,7 @@ theorem isLThreeTwoPower_innAut (S : Type) [Group S]
 theorem finite_mulAut (S : Type) [Group S] [Finite S] : Finite (MulAut S) :=
   Finite.of_injective (fun e : MulAut S => (e : S → S)) DFunLike.coe_injective
 
-theorem isElemAbelian_subgroupOf {G : Type} [Group G] {N E : Subgroup G} (hEN : E ≤ N)
+theorem isElemAbelian_subgroupOf {G : Type} [Group G] {N E : Subgroup G} (_hEN : E ≤ N)
     (hE : CFSG.Open.IsElemAbelian 3 E) : CFSG.Open.IsElemAbelian 3 (E.subgroupOf N) := by
   refine ⟨⟨⟨fun a b => ?_⟩⟩, fun x hx => ?_⟩
   · apply Subtype.ext
@@ -191,8 +191,8 @@ theorem claimA (hG : K21bGeom) (Jh : Type) [Group Jh] [Finite Jh]
     (hperm : Permutable E T') (hQ8 : HasQ8 (autInduced T' E)) {g : MulAut Jh} (hgT : g ∈ T')
     (hgN : g ∈ Subgroup.normalizer (E : Set (MulAut Jh))) (hgI : g ∈ innAut Jh) {e : MulAut Jh}
     (he : e ∈ E) : g * e = e * g := by
-  haveI := finite_mulAut Jh
-  haveI := innAut_normal Jh
+  have := finite_mulAut Jh
+  have := innAut_normal Jh
   have hdich : (E ⊓ innAut Jh).subgroupOf E = ⊥ ∨ (E ⊓ innAut Jh).subgroupOf E = ⊤ := by
     refine eq_bot_or_eq_top_of_hasQ8 (V := ↥E) (fun x y => hE.1.is_comm.comm x y)
       (fun x => Subtype.ext (by simpa using hE.2 x.1 x.2)) hE9 hQ8 _ ?_

@@ -170,6 +170,7 @@ theorem e6_actual_insideU_membership_of_literal_axis
   exact e6_actual_insideU_membership_of_same_coroot hH ι hFjoin hRmem hFlin hRlin
     hselfF hselfR
 
+omit [Finite G] in
 theorem e6_actual_literal_axis_of_finite_test
     {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
     {ι : Additive ↥Bs ≃+ V}
@@ -320,6 +321,7 @@ theorem unitRoot_mem_rootVec : ∀ j : Fin 6,
     ∃ m : Fin 72, rootVec m = unitRoot j := by
   decide +kernel
 
+omit [Finite G] in
 theorem e6_AL_preserves_rootVec
     {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
     {ι : Additive ↥Bs ≃+ V}
@@ -423,6 +425,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 variable {G : Type} [Group G] [Finite G]
   {B Bs L D J K : Subgroup G} {x y : G}
 
+omit [Finite G] in
 theorem e6_hFrestrict_of_restriction
     {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
     {ι : Additive ↥Bs ≃+ V}
@@ -452,15 +455,8 @@ theorem e6_hFrestrict_of_restriction
       _ = (2 : ZMod 3) * (norm s)⁻¹ := by rw [hself_mu]
   intro u
   rw [hFlin (Fintype.linearCombination (ZMod 3) h u)]
-  change Fintype.linearCombination (ZMod 3) h u - aa (Fintype.linearCombination (ZMod 3) h u) • ha =
-    Fintype.linearCombination (ZMod 3) h (refl s u)
   rw [hres u, hha, hmu]
   rw [refl_apply]
-  change Fintype.linearCombination (ZMod 3) h u -
-      (((2 : ZMod 3) * (norm s)⁻¹) * e6dot (Cmul s) u) •
-        Fintype.linearCombination (ZMod 3) h s =
-    Fintype.linearCombination (ZMod 3) h
-      (u - ((((2 : ZMod 3) * (norm s)⁻¹) * (∑ i, Cmul s i * u i)) • s))
   rw [map_sub, map_smul]
   congr 1
 
@@ -671,7 +667,7 @@ theorem e6_actual_inside_unit_functional_from_original
   have hneg : w - (2 : ZMod 3) • w = -w := by module
   rw [hneg] at hh
   simp only [map_neg, map_sub, map_smul, LinearMap.neg_apply,
-    LinearMap.sub_apply, LinearMap.smul_apply, smul_eq_mul] at hh
+    smul_eq_mul] at hh
   rw [hww] at hh
   have heq : aa v * (2 : ZMod 3) = Bform w v * 2 := by linear_combination hh
   exact mul_right_cancel₀ (by decide : (2 : ZMod 3) ≠ 0) heq
@@ -700,12 +696,12 @@ theorem e6_actual_originalL_six_independent_join
   obtain ⟨Λ, i1, i2, S, Λa, i3, i4, ML, CL, MK, CK, V, i5, i6, ι, φ, h, α,
     hS, hΛa1, hΛa3, hMLweyl, hCL, hMKweyl, hCK, htyp, hlin, hrefl, hpair, hpairK,
     hsel, ⟨fL, hfL⟩, ⟨fK, hfK⟩, hclosL, hclosK, hconn, hclosJ⟩ := hD
-  letI := i1
-  letI := i2
-  letI := i3
-  letI := i4
-  letI := i5
-  letI := i6
+  let := i1
+  let := i2
+  let := i3
+  let := i4
+  let := i5
+  let := i6
   have hE6 : GGIsTypeE6 ML := htyp
   obtain ⟨e, hML⟩ := hE6
   let φL : Fin 6 → MulAut ↥Bs := fun i => φ (Sum.inl (e i))
@@ -856,14 +852,14 @@ theorem e6_raw_all_added_inside_join
     (hFix : GGTBFixInput)
     (hcard : Nat.card Bs = 3 ^ 7)
     {Λ : Type} [Fintype Λ] [DecidableEq Λ]
-    (S : Finset Λ) (hS : S.card = 2)
+    (S : Finset Λ) (_hS : S.card = 2)
     {Λa : Type} [Fintype Λa] [DecidableEq Λa]
-    (hΛa1 : 1 ≤ Nat.card Λa) (hΛa2 : Nat.card Λa ≤ 3)
+    (hΛa1 : 1 ≤ Nat.card Λa) (_hΛa2 : Nat.card Λa ≤ 3)
     {ML : CoxeterMatrix Λ} {CL : Matrix Λ Λ ℤ}
     {MK : CoxeterMatrix ({i : Λ // i ∉ S} ⊕ Λa)}
     {CK : Matrix ({i : Λ // i ∉ S} ⊕ Λa) ({i : Λ // i ∉ S} ⊕ Λa) ℤ}
     (hML : GGIsWeylMatrix ML) (hCL : GGIntCartan ML CL)
-    (hMK : GGIsWeylMatrix MK) (hCK : GGIntCartan MK CK)
+    (_hMK : GGIsWeylMatrix MK) (hCK : GGIntCartan MK CK)
     (htyp : GGIsTypeE6 ML)
     {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
     (ι : Additive ↥Bs ≃+ V)
@@ -878,15 +874,15 @@ theorem e6_raw_all_added_inside_join
     (hsel : LinearIndependent (ZMod 3) (fun i : Λ => hV (Sum.inl i)))
     (hfL : ∃ fL : ML.Group ≃* ↥(ggAutomizer L Bs),
       ∀ i, (fL (ML.simple i) : MulAut ↥Bs) = φ (Sum.inl i))
-    (hfK : ∃ fK : MK.Group ≃* ↥(ggAutomizer K Bs),
+    (_hfK : ∃ fK : MK.Group ≃* ↥(ggAutomizer K Bs),
       ∀ o, (fK (MK.simple o) : MulAut ↥Bs) = φ (o.map Subtype.val id))
     (hclosL : ggAutomizer L Bs =
       Subgroup.closure (Set.range fun i : Λ => φ (Sum.inl i)))
     (hclosK : ggAutomizer K Bs = Subgroup.closure
       (Set.range (fun j : {j : Λ // j ∉ S} => φ (Sum.inl j)) ∪
         Set.range fun a : Λa => φ (Sum.inr a)))
-    (hconn : GGDeletedConnectedS ML S)
-    (hclosJ : ggAutomizer J Bs = Subgroup.closure
+    (_hconn : GGDeletedConnectedS ML S)
+    (_hclosJ : ggAutomizer J Bs = Subgroup.closure
       (Set.range fun j : {j : Λ // j ∉ S} => φ (Sum.inl j)))
     (hallinside : ∀ a : Λa,
       hV (Sum.inr a) ∈ Submodule.span (ZMod 3)

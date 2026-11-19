@@ -35,7 +35,7 @@ theorem not_finite_centralizer_subgroup_of_cube_eq_one_of_ne_one
       rwa [map_one, MulEquiv.apply_symm_apply] at this
     simpa using congrArg Subtype.val h
   have hcore : ¬ {z : WithConv (H →ₐ[k] k) | Commute z x}.Finite := by
-    haveI : IsDomain H := hK.isDomain
+    have : IsDomain H := hK.isDomain
     exact not_finite_centralizer_of_cube_eq_one_of_ne_one H h3 hx3 hx1
   intro hfin
   apply hcore

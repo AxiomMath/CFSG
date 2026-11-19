@@ -40,7 +40,7 @@ theorem burnside_fusion {X : Type*} [Group X] [Finite X] {p : ℕ}
     calc g * a * g⁻¹ * (g * w * g⁻¹) = g * (a * w) * g⁻¹ := by group
       _ = g * (w * a) * g⁻¹ := by rw [this]
       _ = g * w * g⁻¹ * (g * a * g⁻¹) := by group
-  have hWp : IsPGroup p W := S.isPGroup'.to_le hWS
+  have hWp : IsPGroup p W := S.isPGroup.to_le hWS
   have hWp' : IsPGroup p (W.subgroupOf C) := hWp.comap_of_injective C.subtype C.subtype_injective
   set Wg : Subgroup X := W.map (MulAut.conj g).toMonoidHom
   have hWgp' : IsPGroup p (Wg.subgroupOf C) :=
@@ -48,7 +48,7 @@ theorem burnside_fusion {X : Type*} [Group X] [Finite X] {p : ℕ}
   obtain ⟨Q₁, hQ₁⟩ := hWp'.exists_le_sylow
   obtain ⟨Q₂, hQ₂⟩ := hWgp'.exists_le_sylow
   obtain ⟨c, hc⟩ := MulAction.exists_smul_eq C Q₂ Q₁
-  have hQp : IsPGroup p ((Q₁ : Subgroup C).map C.subtype) := Q₁.isPGroup'.map C.subtype
+  have hQp : IsPGroup p ((Q₁ : Subgroup C).map C.subtype) := Q₁.isPGroup.map C.subtype
   obtain ⟨R, hR⟩ := hQp.exists_le_sylow
   obtain ⟨r, hr⟩ := MulAction.exists_smul_eq X R S
   have hWR : ∀ a ∈ W, a ∈ (R : Subgroup X) := fun a ha =>

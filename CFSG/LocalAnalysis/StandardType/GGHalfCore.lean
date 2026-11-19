@@ -30,7 +30,7 @@ private theorem ggHalfCore_closure_slE_eq_top :
   · rw [SpecialLinearGroup.transvection_coeff_zero hij]
     exact Subgroup.one_mem _
   · have hE : slE i j = SpecialLinearGroup.transvection hij (1 : F2) := by
-      rw [slE, dif_neg hij]
+      rw [slE, dite_eq_right hij]
     rw [← hE]
     exact Subgroup.subset_closure ⟨i, j, hij, rfl⟩
 

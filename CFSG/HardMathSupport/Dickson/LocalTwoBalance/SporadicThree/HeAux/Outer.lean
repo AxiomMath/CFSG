@@ -47,7 +47,7 @@ theorem heOuterQuot_class_ge {q : ↥heOuterD ⧸ Subgroup.center ↥heOuterD} (
     rw [← key i h1, hi]
   obtain ⟨i, hi⟩ := e.surjective (ConjClasses.mk q)
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have hsz : heOuterClassSizes i < 70 := by rw [← he i, hi]; exact hlt
   have key : ∀ j : Fin 9, heOuterClassSizes j < 70 → j = 0 := by decide
   rw [key i hsz, h0] at hi
@@ -116,7 +116,7 @@ theorem heOuterD_central_of_centralizer_le {d : Equiv.Perm (Fin 8330)} (hdP : d 
       (Subgroup.centralizer ({(⟨d, hdD⟩ : ↥heOuterD)} : Set ↥heOuterD))
     rw [card_heOuterD] at h1
     by_contra hgt
-    push_neg at hgt
+    push Not at hgt
     nlinarith
   have hq1 : (QuotientGroup.mk (⟨d, hdD⟩ : ↥heOuterD) : ↥heOuterD ⧸ Subgroup.center ↥heOuterD) =
       1 := by

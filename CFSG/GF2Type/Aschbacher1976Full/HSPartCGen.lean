@@ -12,6 +12,7 @@ open CFSG CFSG.Blueprint CFSG.GF2Type.CenterFour Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem exists_gen_eq {y y' : G} (hy : orderOf y = 4)
     (h : Subgroup.zpowers y = Subgroup.zpowers y') : ∃ j : ℤ, y' = (y ^ 2) ^ j * y := by
   have hy' : y' ∈ Subgroup.zpowers y := h ▸ Subgroup.mem_zpowers y'
@@ -47,6 +48,7 @@ theorem ZF_conj (hD : Width.Z4Data z 2 Z A) (hz : orderOf z = 2) (hF2 : IsPGroup
   rw [← ZF_z hD hz hF2]
   exact centerAt_conj z g
 
+omit [Finite G] in
 theorem exists_conj {v : G} (h : IsConj z v) : ∃ g : G, v = g⁻¹ * z * g := by
   obtain ⟨c, hc⟩ := isConj_iff.mp h
   exact ⟨c⁻¹, by rw [← hc]; simp⟩
@@ -56,7 +58,7 @@ theorem ZF_props (hD : Width.Z4Data z 2 Z A) (hz : orderOf z = 2) (hF2 : IsPGrou
     IsCyclic (ZF v) ∧ Nat.card (ZF v) = 4 ∧ v ∈ ZF v ∧ v ^ 2 = 1 ∧ v ≠ 1 := by
   obtain ⟨g, rfl⟩ := exists_conj h
   rw [ZF_conj hD hz hF2 g]
-  haveI := hD.cyc
+  have := hD.cyc
   refine ⟨Width.isCyclic_conjugate' Z g, by rw [Width.card_conjugate', hD.card_Z], ?_, ?_, ?_⟩
   · apply Width.mem_conjugate_iff.mpr
     rw [show g * (g⁻¹ * z * g) * g⁻¹ = z by group]
@@ -101,12 +103,14 @@ theorem exists_gen (hD : Width.Z4Data z 2 Z A) (hz : orderOf z = 2) (hF2 : IsPGr
     (ZF_props hD hz hF2 h).1
   exact ⟨y, hy.symm⟩
 
+omit [Finite G] in
 theorem mem_ZF_conj_iff {v n x : G} : x ∈ ZF (n * v * n⁻¹) ↔ n⁻¹ * x * n ∈ ZF v := by
   have h : ZF (n * v * n⁻¹) = conjugate (ZF v) n⁻¹ := by
     have := centerAt_conj v n⁻¹
     rwa [inv_inv] at this
   rw [h, Width.mem_conjugate_iff, inv_inv]
 
+omit [Finite G] in
 theorem ZF_conj_zpowers {v y : G} (n : G) (hy : ZF v = zpowers y) :
     ZF (n * v * n⁻¹) = zpowers (n * y * n⁻¹) := by
   ext x
@@ -119,6 +123,7 @@ theorem ZF_conj_zpowers {v y : G} (n : G) (hy : ZF v = zpowers y) :
     calc y ^ i = n⁻¹ * (n * y ^ i * n⁻¹) * n := by group
       _ = n⁻¹ * x * n := by rw [← conj_zpow, hi]
 
+omit [Finite G] in
 theorem Dinv_conj {v n : G} (hv : v ∈ Dinv z) (hn : n ∈ Hz z) : n * v * n⁻¹ ∈ Dinv z := by
   obtain ⟨hconj, hne, hle⟩ := hv
   have hnz : n * z = z * n := Subgroup.mem_centralizer_singleton_iff.mp hn
@@ -154,7 +159,7 @@ theorem yBar_eq (hD : Width.Z4Data z 2 Z A) (hz : orderOf z = 2) (hF2 : IsPGroup
     (hti : HSTI z) {v : G} (hv : v ∈ Dinv z) {y : ↥(Hz z)} (hy : ZF v = zpowers (y : G)) :
     yBar z v = qmk z y := by
   have h : ∃ y : ↥(Hz z), ZF v = zpowers (y : G) := ⟨y, hy⟩
-  rw [yBar, dif_pos h]
+  rw [yBar, dite_eq_left h]
   have hy₀ : ZF v = zpowers ((h.choose : ↥(Hz z)) : G) := h.choose_spec
   obtain ⟨hord, hsq⟩ := gen_props hD hz hF2 hv.1 hy
   obtain ⟨j, hj⟩ := exists_gen_eq hord (hy.symm.trans hy₀)
@@ -179,7 +184,7 @@ theorem yBar_ne_one (hD : Width.Z4Data z 2 Z A) (hz : orderOf z = 2) (hF2 : IsPG
 
 theorem orderOf_yBar (hD : Width.Z4Data z 2 Z A) (hz : orderOf z = 2) (hF2 : IsPGroup 2 (Fz z))
     (hti : HSTI z) {v : G} (hv : v ∈ Dinv z) : orderOf (yBar z v) = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact orderOf_eq_prime (yBar_sq hD hz hF2 hti hv) (yBar_ne_one hD hz hF2 hti hv)
 
 theorem yBar_conj (hD : Width.Z4Data z 2 Z A) (hz : orderOf z = 2) (hF2 : IsPGroup 2 (Fz z))

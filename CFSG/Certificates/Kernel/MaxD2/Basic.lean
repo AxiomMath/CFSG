@@ -111,7 +111,7 @@ theorem perm_spec {p q : Nat} (h : permOK n w (mask w) (n * w) p q = true) :
     unfold permOK at h
     simp only [PK.bAnd_eq, Bool.and_eq_true] at h
     have := (PK.allN_iff.1 h.2.2) i hi
-    simp only [PK.strictB_eq, PK.bAnd_eq, Bool.and_eq_true, Nat.blt_eq] at this
+    simp only [PK.strictB_eq, Bool.and_eq_true, Nat.blt_eq] at this
     exact ⟨this.1, Nat.eq_of_beq_eq_true this.2⟩
   refine ⟨hpr, ?_⟩
   have hsurj := Finset.surj_on_of_inj_on_of_card_le (s := Finset.range n) (t := Finset.range n)
@@ -136,7 +136,7 @@ theorem perm_canon {p q : Nat} (h : permOK n w (mask w) (n * w) p q = true) (hn 
   simp only [PK.bAnd_eq, Bool.and_eq_true] at h'
   have hs := perm_spec h
   unfold Cn canonK
-  simp only [PK.bAnd_eq, Bool.and_eq_true, hn, true_and]
+  simp only [PK.bAnd_eq, Bool.and_eq_true, hn]
   refine ⟨⟨h'.1, PK.allN_iff.2 fun i hi => Nat.blt_eq.mpr (hs.1 i hi).1⟩,
     ⟨h'.2.1, PK.allN_iff.2 fun i hi => Nat.blt_eq.mpr (hs.2 i hi).1⟩⟩
 
@@ -163,7 +163,7 @@ theorem comp_inv {p q : Nat} (h : permOK n w (mask w) (n * w) p q = true) :
 theorem pidn_canon (hn : szOK n w = true) : Cn n w (pidn n w) := by
   obtain ⟨h1, h2⟩ := CFSG.KS.Raw.Orb.szOK_facts hn
   unfold Cn canonK
-  simp only [PK.bAnd_eq, Bool.and_eq_true, hn, true_and]
+  simp only [PK.bAnd_eq, Bool.and_eq_true, hn]
   refine ⟨?_, PK.allN_iff.2 fun i hi => Nat.blt_eq.mpr ?_⟩
   · have := CFSG.KS.PF.pidn_shr h1 h2
     simp only [Nat.shiftRight_eq] at this ⊢

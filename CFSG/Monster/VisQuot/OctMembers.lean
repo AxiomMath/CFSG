@@ -366,7 +366,7 @@ theorem octCoord_octB {ws ds : List (ℕ × ℕ)}
   · subst hik
     simp
   · rw [show decide (i = k) = false from by simp [hik], boolZ_false, Pi.single_apply,
-      if_neg hik]
+      ite_eq_right hik]
 
 theorem octV_eq_sum {ws ds : List (ℕ × ℕ)}
     (hdual : ∀ i k : Fin 12,
@@ -380,7 +380,7 @@ theorem octV_eq_sum {ws ds : List (ℕ × ℕ)}
     rw [Finset.sum_eq_single k]
     · rw [octCoord_octB hdual k k, Pi.single_eq_same, one_smul]
     · intro i _ hik
-      rw [octCoord_octB hdual i k, Pi.single_apply, if_neg hik, zero_smul]
+      rw [octCoord_octB hdual i k, Pi.single_apply, ite_eq_right hik, zero_smul]
     · intro hk
       exact absurd (Finset.mem_univ k) hk
   | zero => rw [map_zero]; simp
@@ -411,7 +411,7 @@ theorem octCoord_sum {ws ds : List (ℕ × ℕ)}
   rw [Finset.sum_apply, Finset.sum_eq_single i]
   · rw [Pi.smul_apply, octCoord_octB hdual i i, Pi.single_eq_same, smul_eq_mul, mul_one]
   · intro k _ hki
-    rw [Pi.smul_apply, octCoord_octB hdual i k, Pi.single_apply, if_neg (Ne.symm hki),
+    rw [Pi.smul_apply, octCoord_octB hdual i k, Pi.single_apply, ite_eq_right (Ne.symm hki),
       smul_zero]
   · intro hi
     exact absurd (Finset.mem_univ i) hi
@@ -681,14 +681,14 @@ theorem octU_mul_rhoGvis {a b : ℕ} {ws : List (ℕ × ℕ)}
   have hx : ∀ x : ZMod 2, gpow x (hS a) * rhoGvis s = rhoGvis s * gpow x (hS a) := by
     intro x
     rcases zmod2_cases x with h | h
-    · rw [gpow, if_pos h, one_mul, mul_one]
-    · rw [gpow, if_neg (by rw [h]; exact one_ne_zero)]
+    · rw [gpow, ite_eq_left h, one_mul, mul_one]
+    · rw [gpow, ite_eq_right (by rw [h]; exact one_ne_zero)]
       exact (commute_hS_rhoGvis_octE hA s hs).eq
   have hy : ∀ x : ZMod 2, gpow x (hS b) * rhoGvis s = rhoGvis s * gpow x (hS b) := by
     intro x
     rcases zmod2_cases x with h | h
-    · rw [gpow, if_pos h, one_mul, mul_one]
-    · rw [gpow, if_neg (by rw [h]; exact one_ne_zero)]
+    · rw [gpow, ite_eq_left h, one_mul, mul_one]
+    · rw [gpow, ite_eq_right (by rw [h]; exact one_ne_zero)]
       exact (commute_hS_rhoGvis_octE hB s hs).eq
   show gpow i.1 (hS a) * gpow i.2 (hS b) * rhoGvis s =
     rhoGvis s * (gpow i.1 (hS a) * gpow i.2 (hS b))
@@ -699,12 +699,12 @@ theorem octU_mem {a b : ℕ} {ws : List (ℕ × ℕ)} (i : ZMod 2 × ZMod 2) :
   show gpow i.1 (hS a) * gpow i.2 (hS b) ∈ octA a b ws
   refine (octA a b ws).mul_mem ?_ ?_
   · rcases zmod2_cases i.1 with h | h
-    · rw [gpow, if_pos h]; exact (octA a b ws).one_mem
-    · rw [gpow, if_neg (by rw [h]; exact one_ne_zero)]
+    · rw [gpow, ite_eq_left h]; exact (octA a b ws).one_mem
+    · rw [gpow, ite_eq_right (by rw [h]; exact one_ne_zero)]
       exact Subgroup.subset_closure (Or.inl (by simp))
   · rcases zmod2_cases i.2 with h | h
-    · rw [gpow, if_pos h]; exact (octA a b ws).one_mem
-    · rw [gpow, if_neg (by rw [h]; exact one_ne_zero)]
+    · rw [gpow, ite_eq_left h]; exact (octA a b ws).one_mem
+    · rw [gpow, ite_eq_right (by rw [h]; exact one_ne_zero)]
       exact Subgroup.subset_closure (Or.inl (by simp))
 
 theorem PhiV_octU (a b : ℕ) (i : ZMod 2 × ZMod 2) :
@@ -791,11 +791,11 @@ theorem octA_exists_rep {a b : ℕ} {ws : List (ℕ × ℕ)}
       · exact ⟨1, (octE ws).one_mem, (1, 0), by
           rw [rhoGvis_one, one_mul]
           show hS a = gpow (1 : ZMod 2) (hS a) * gpow (0 : ZMod 2) (hS b)
-          rw [gpow, gpow, if_neg one_ne_zero, if_pos rfl, mul_one]⟩
+          rw [gpow, gpow, ite_eq_right one_ne_zero, ite_eq_left rfl, mul_one]⟩
       · exact ⟨1, (octE ws).one_mem, (0, 1), by
           rw [rhoGvis_one, one_mul]
           show hS b = gpow (0 : ZMod 2) (hS a) * gpow (1 : ZMod 2) (hS b)
-          rw [gpow, gpow, if_neg one_ne_zero, if_pos rfl, one_mul]⟩
+          rw [gpow, gpow, ite_eq_right one_ne_zero, ite_eq_left rfl, one_mul]⟩
     · exact ⟨r, hr, 0, by rw [octU_zero, mul_one]⟩
   exact hle
 

@@ -80,7 +80,7 @@ theorem exists_pos_root_pair (m : ℕ) {i j : Fin (m + 1)} (hij : i < j) :
         simp only [Pi.sub_apply, Pi.single_apply]
         have h1 : σ b ≠ (0 : Fin (m + 1)) := hσ0
         have h2 : σ b ≠ (⟨1, by omega⟩ : Fin (m + 1)) := hσ1
-        rw [if_neg h1, if_neg h2]
+        rw [ite_eq_right h1, ite_eq_right h2]
         simp [hbi, hbj]
   refine ⟨γ, ?_, hstd, ?_⟩
   · rw [roots_eq]
@@ -169,7 +169,7 @@ theorem card_le_posUnipotent (F : Type) [Field F] [Finite F] :
       intro x hx
       rw [List.mem_map] at hx
       obtain ⟨γ, hγ, rfl⟩ := hx
-      rw [dif_pos hγ]
+      rw [dite_eq_left hγ]
       have hmemroot : SpecialLinearGroup.transvection (idx_spec m (hroot γ hγ)).1
           (c ⟨γ, hγ⟩) ∈ rootGroup m F γ := by
         rw [rootGroup_eq_idx m F (hroot γ hγ)]
@@ -186,13 +186,13 @@ theorem card_le_posUnipotent (F : Type) [Field F] [Finite F] :
     have hf : ∀ γ ∈ L, f γ ∈ rootGroup m F γ := by
       intro γ hγ
       rw [show f γ = SpecialLinearGroup.transvection (idx_spec m (hroot γ hγ)).1 (c ⟨γ, hγ⟩) from by
-        simp only [f, dif_pos hγ]]
+        simp only [f, dite_eq_left hγ]]
       rw [rootGroup_eq_idx m F (hroot γ hγ)]
       exact transvection_mem_rootSubgroup (idx_spec m (hroot γ hγ)).1 _
     have hg : ∀ γ ∈ L, g γ ∈ rootGroup m F γ := by
       intro γ hγ
       rw [show g γ = SpecialLinearGroup.transvection (idx_spec m (hroot γ hγ)).1 (d ⟨γ, hγ⟩) from by
-        simp only [g, dif_pos hγ]]
+        simp only [g, dite_eq_left hγ]]
       rw [rootGroup_eq_idx m F (hroot γ hγ)]
       exact transvection_mem_rootSubgroup (idx_spec m (hroot γ hγ)).1 _
     have hprod : (L.map f).prod = (L.map g).prod := by
@@ -203,7 +203,7 @@ theorem card_le_posUnipotent (F : Type) [Field F] [Finite F] :
     have hγ := hfg γ.1 γ.2
     have hc : c γ = d γ := by
       apply SpecialLinearGroup.transvection_injective (idx_spec m (hroot γ.1 γ.2)).1
-      simpa only [f, g, dif_pos γ.2] using hγ
+      simpa only [f, g, dite_eq_left γ.2] using hγ
     exact hc
   have hcard := Nat.card_le_card_of_injective toU hinj
   rwa [Nat.card_fun, Nat.card_congr e] at hcard
@@ -354,7 +354,7 @@ theorem card_le_negUnipotent (F : Type) [Field F] [Finite F] :
       intro x hx
       rw [List.mem_map] at hx
       obtain ⟨γ, hγ, rfl⟩ := hx
-      rw [dif_pos hγ]
+      rw [dite_eq_left hγ]
       have hmemroot : SpecialLinearGroup.transvection (idx_spec m (hroot γ hγ)).1
           (c ⟨γ, hγ⟩) ∈ rootGroup m F γ := by
         rw [rootGroup_eq_idx m F (hroot γ hγ)]
@@ -371,13 +371,13 @@ theorem card_le_negUnipotent (F : Type) [Field F] [Finite F] :
     have hf : ∀ γ ∈ L, f γ ∈ rootGroup m F γ := by
       intro γ hγ
       rw [show f γ = SpecialLinearGroup.transvection (idx_spec m (hroot γ hγ)).1 (c ⟨γ, hγ⟩) from by
-        simp only [f, dif_pos hγ]]
+        simp only [f, dite_eq_left hγ]]
       rw [rootGroup_eq_idx m F (hroot γ hγ)]
       exact transvection_mem_rootSubgroup (idx_spec m (hroot γ hγ)).1 _
     have hg : ∀ γ ∈ L, g γ ∈ rootGroup m F γ := by
       intro γ hγ
       rw [show g γ = SpecialLinearGroup.transvection (idx_spec m (hroot γ hγ)).1 (d ⟨γ, hγ⟩) from by
-        simp only [g, dif_pos hγ]]
+        simp only [g, dite_eq_left hγ]]
       rw [rootGroup_eq_idx m F (hroot γ hγ)]
       exact transvection_mem_rootSubgroup (idx_spec m (hroot γ hγ)).1 _
     have hprod : (L.map f).prod = (L.map g).prod := by
@@ -388,7 +388,7 @@ theorem card_le_negUnipotent (F : Type) [Field F] [Finite F] :
     have hγ := hfg γ.1 γ.2
     have hc : c γ = d γ := by
       apply SpecialLinearGroup.transvection_injective (idx_spec m (hroot γ.1 γ.2)).1
-      simpa only [f, g, dif_pos γ.2] using hγ
+      simpa only [f, g, dite_eq_left γ.2] using hγ
     exact hc
   have hcard := Nat.card_le_card_of_injective toU hinj
   rwa [Nat.card_fun, Nat.card_congr e] at hcard

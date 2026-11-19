@@ -31,7 +31,7 @@ theorem kgLangTorusNTCont_of_univ {p : ℕ} (hp : p.Prime) {R : Type} [Group R]
     KGLangTorusNTCont p R I F := by
   intro K _ _ θ hK A hA hAI hA0 α₀ hα₀ hα₀I
   obtain ⟨hfin, hperf, θC, κ, lift, hκ, hκc, -, hlift, hind⟩ := KGUniv.exists_universal_cover_lift hK θ
-  haveI := hfin
+  have := hfin
   have hliftInj : Function.Injective lift := by
     refine (injective_iff_map_eq_one lift).2 fun α hα => ?_
     refine MulEquiv.ext fun k => ?_

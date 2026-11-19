@@ -37,7 +37,7 @@ theorem commOn_comp_subtype (K : Subgroup G) (X : Subgroup ↥K) (U : Submodule 
   rw [commOn, commOn]
   congr 1
   ext w
-  simp only [Set.mem_setOf_eq, Subgroup.mem_map, exists_exists_and_eq_and, MonoidHom.comp_apply,
+  simp only [Set.mem_ofPred_eq, Subgroup.mem_map, exists_exists_and_eq_and, MonoidHom.comp_apply,
     Subgroup.coe_subtype]
 
 theorem isInvariant_comp_subtype_iff (K : Subgroup G) (X : Subgroup ↥K)
@@ -190,9 +190,9 @@ theorem allowedShape_of_mulEquiv {X Y : Type} [Group X] [Group Y] (e : X ≃* Y)
 
 theorem commutator_ne_bot_of_le {L M : Subgroup G} (hL : IsComponentOf L ⊤) (hLM : L ≤ M) :
     ⁅L, M⁆ ≠ ⊥ := by
-  haveI : Group.IsPerfect ↥L := ⟨hL.2.2.1⟩
-  haveI := hL.2.2.2
-  haveI : Nontrivial ↥L := (QuotientGroup.mk'_surjective (Subgroup.center ↥L)).nontrivial
+  have : Group.IsPerfect ↥L := ⟨hL.2.2.1⟩
+  have := hL.2.2.2
+  have : Nontrivial ↥L := (QuotientGroup.mk'_surjective (Subgroup.center ↥L)).nontrivial
   intro h
   have hle : L ≤ ⁅L, M⁆ :=
     Subgroup.commutator_eq_self.symm.le.trans (Subgroup.commutator_mono le_rfl hLM)

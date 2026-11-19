@@ -19,7 +19,7 @@ theorem card_generic_exceptional_psl44 :
 theorem center_eq_bot_of_quasisimple_psl44 {Y : Type} [Group Y] [Finite Y]
     (hY : CFSG.IsQuasisimple Y) (hL : CFSG.Blueprint.LieModel (Y ⧸ Subgroup.center Y) .PSL 4 2 2) :
     Subgroup.center Y = ⊥ := by
-  haveI : Group.IsPerfect Y := hY.1
+  have : Group.IsPerfect Y := hY.1
   have hM : CFSG.Models.LieModel (Y ⧸ Subgroup.center Y) .PSL 4 2 2 :=
     CFSG.ComponentClassification.CatFactsL4U4.Cover82.Mult.models_lieModel hL
   obtain ⟨-, ⟨e⟩⟩ :=

@@ -45,7 +45,7 @@ theorem tag_of_marks (lab : LargeEvenLabel) (ht : markTag lab = .PSU) (hr : mark
   · by_cases h2' : rank = 2
     · simp [h2'] at ht
     · by_cases h3 : rank = 3
-      · simp [h2', h3] at hn
+      · simp [h3] at hn
         exact ⟨h3, hn⟩
       · simp [h2', h3] at ht
 

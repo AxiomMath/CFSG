@@ -125,7 +125,7 @@ theorem rowGoR_spec (EP : ℕ) (RB : List ℕ) (i T : ℕ) :
     have e1 := Nat.eq_of_beq_eq_true h.1
     have hlk : Nat.land R 1023 = lookK RB i j := by
       have e2 : Nat.land R 1023 = R % 2 ^ 10 := Nat.and_two_pow_sub_one_eq_mod _ 10
-      rw [e2, hR, segMod_R _ _ (by omega), lookK, if_pos hj,
+      rw [e2, hR, segMod_R _ _ (by omega), lookK, ite_eq_left hj,
         show 10 * (1024 * (i % 32) + j) = 10240 * (i % 32) + 10 * j by ring, Nat.shiftRight_add]
       try rfl
     rw [hlk, fld_eq, tmulR_eq] at e1
@@ -173,13 +173,13 @@ theorem rowsAt_of_R {EP : ℕ} {RB IV K : List ℕ} {L : List (List ℕ)} (hiv :
   cases hc : isInv (L.getD i []) with
   | false =>
     rw [hc] at h
-    rw [if_neg Bool.false_ne_true]
+    rw [ite_eq_right Bool.false_ne_true]
     exact h
   | true =>
     rw [hc] at h
     change strictRB _ _ = true at h
     simp only [strictRB_eq] at h
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     refine rowGoR_spec EP RB i _ K 0 _ ?_ (by omega) h
     rw [Nat.mul_zero, Nat.shiftRight_zero, mask10240R_eq]
     try rfl

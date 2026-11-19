@@ -272,7 +272,7 @@ theorem three_le_pRank_center_quotient_of_core {D : Data G} {V₀ V L X : Subgro
   obtain ⟨t, m, hmodel, hdisj⟩ := core.shape
   have hp : p.Prime := (D.sig_prime p ctx.p_mem).1
   have hp2 : p ≠ 2 := (D.sig_prime p ctx.p_mem).2
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hqK : CFSG.Open.IsQuasisimple (Bar2 L) := ctx.mem_calC.2.2
   have hoddK : Odd (Nat.card (Subgroup.center (Bar2 L))) :=
     uc22p20p_odd_center_bar2 ↥L
@@ -296,7 +296,7 @@ theorem three_le_pRank_center_quotient_of_core {D : Data G} {V₀ V L X : Subgro
       have hd2 : p ∣ 2 ^ 2 := by simpa using hd4
       exact hp2 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).mp
         (hp.dvd_of_dvd_pow hd2))
-    haveI : Group.IsPerfect (Bar2 L) := Group.isPerfect_def.mpr hqK.1
+    have : Group.IsPerfect (Bar2 L) := Group.isPerfect_def.mpr hqK.1
     have hcomp : CFSG.HasNormalPComplement p
         (Outer (Bar2 L ⧸ Subgroup.center (Bar2 L))) :=
       hasNormalPComplement_outer_of_outPNice hp hnice
@@ -337,7 +337,7 @@ theorem three_le_pRank_center_quotient_of_core {D : Data G} {V₀ V L X : Subgro
         rcases (Nat.Prime.dvd_mul hp).mp hd6 with h | h
         · exact hp2 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).mp h)
         · exact hp3 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_three).mp h)
-      haveI : Group.IsPerfect (Bar2 L) := Group.isPerfect_def.mpr hqK.1
+      have : Group.IsPerfect (Bar2 L) := Group.isPerfect_def.mpr hqK.1
       have hcomp : CFSG.HasNormalPComplement p
           (Outer (Bar2 L ⧸ Subgroup.center (Bar2 L))) :=
         hasNormalPComplement_outer_of_outPNice hp hnice
@@ -363,9 +363,9 @@ theorem three_le_pRank_center_quotient_of_core {D : Data G} {V₀ V L X : Subgro
     obtain ⟨F, hFld, hFin, hChar, -, ⟨eSp⟩⟩ :=
       CFSG.SeitzReduction.SymplecticPilot.exists_mulEquiv_statedSp_of_lieModel
         (L := Bar2 L) hmodelK
-    letI := hFld
-    letI := hFin
-    letI := hChar
+    let := hFld
+    let := hFin
+    let := hChar
     have hOut : IsCyclic (Outer (Bar2 L)) :=
       CFSG.SeitzReduction.SymplecticPilot.isCyclic_outer_of_mulEquiv_statedSp
         (K := F) (r := 3) (by norm_num) eSp
@@ -376,7 +376,7 @@ theorem three_le_pRank_center_quotient_of_core {D : Data G} {V₀ V L X : Subgro
     have hZcard : ¬ p ∣ Nat.card (Subgroup.center (Bar2 L)) := by
       rw [hZ, Subgroup.card_bot]
       exact hp.not_dvd_one
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have heq : CFSG.Open.pRank p
         (⊤ : Subgroup (Bar2 L ⧸ Subgroup.center (Bar2 L))) =
           CFSG.Open.pRank p (⊤ : Subgroup (Bar2 L)) :=
@@ -388,7 +388,7 @@ theorem three_le_pRank_center_quotient_of_core {D : Data G} {V₀ V L X : Subgro
       CFSG.HardMathSupport.Timmesfeld.Tables.T1b.outPNice_POmegaMinus_all hp hp2
         (n := 4) (r := 2) (m := n)
         (LieModel.statedClassicalModel hmodelQuot (by decide))
-    haveI : Group.IsPerfect (Bar2 L) := Group.isPerfect_def.mpr hqK.1
+    have : Group.IsPerfect (Bar2 L) := Group.isPerfect_def.mpr hqK.1
     have hcomp : CFSG.HasNormalPComplement p
         (Outer (Bar2 L ⧸ Subgroup.center (Bar2 L))) :=
       hasNormalPComplement_outer_of_outPNice hp hnice
@@ -416,7 +416,7 @@ theorem dvd_add_one_of_core
   classical
   have hp : p.Prime := (D.sig_prime p ctx.p_mem).1
   have hp2 : p ≠ 2 := (D.sig_prime p ctx.p_mem).2
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hqK : CFSG.Open.IsQuasisimple (Bar2 L) := ctx.mem_calC.2.2
   have hoddK : Odd (Nat.card (Subgroup.center (Bar2 L))) :=
     uc22p20p_odd_center_bar2 ↥L
@@ -440,7 +440,7 @@ theorem dvd_add_one_of_core
   have hnotSub : ¬ p ∣ 2 ^ n - 1 := by
     intro hd
     have h := cartanRank_le_pRank_cartan_on hK4 ctx.mem_calC ctx.cartan
-      (by change CS17LieRank t m ≤ 3; rw [hrk, hl]) hmodel hp hp2 hd hPSL hE6
+      (by rw [hrk, hl]) hmodel hp hp2 hd hPSL hE6
     rw [hrk3] at h
     have hc := core.cartanCent
     omega
@@ -483,7 +483,7 @@ theorem dvd_add_one_of_core
     have hZcard : Nat.card (Subgroup.center (Bar2 L)) = 1 := by
       rw [hZ]
       simp
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have heq : CFSG.Open.pRank p
         (⊤ : Subgroup (Bar2 L ⧸ Subgroup.center (Bar2 L))) =
           CFSG.Open.pRank p (⊤ : Subgroup (Bar2 L)) :=
@@ -498,7 +498,7 @@ theorem dvd_add_one_of_core
     have heP1 : eP (2 ^ n) p ≠ 1 := fun h =>
       hnotSub ((eP_eq_one_iff Nat.one_le_two_pow).mp h)
     have hle2 : rkLin 4 true (2 ^ n) p (Nat.card (Subgroup.center (Bar2 L))) ≤ 2 := by
-      rw [rank_eq_two_of_in1512_aux_rkLin_true, if_neg heP1]
+      rw [rank_eq_two_of_in1512_aux_rkLin_true, ite_eq_right heP1]
       exact four_div_le_two_of_eS heP1
     omega
   have hshape3 : (t = .PSU ∧ m = 6) ∨ (t = .PSp ∧ m = 3) ∨
@@ -526,7 +526,7 @@ theorem dvd_add_one_of_core
         have hp3' : p = 3 :=
           (Nat.prime_dvd_prime_iff_eq hp Nat.prime_three).mp (hd.trans hZ3)
         exact hp3 hp3'
-      haveI : Fact p.Prime := ⟨hp⟩
+      have : Fact p.Prime := ⟨hp⟩
       have heq : CFSG.Open.pRank p
           (⊤ : Subgroup (Bar2 L ⧸ Subgroup.center (Bar2 L))) =
             CFSG.Open.pRank p (⊤ : Subgroup (Bar2 L)) :=
@@ -543,7 +543,7 @@ theorem dvd_add_one_of_core
         hnotSub (rank_eq_two_of_in1512_aux_eM hp Nat.one_le_two_pow h)
       have hle2 : rkLin 6 false (2 ^ n) p
           (Nat.card (Subgroup.center (Bar2 L))) ≤ 2 := by
-        rw [rank_eq_two_of_in1512_aux_rkLin_false, if_neg heM1]
+        rw [rank_eq_two_of_in1512_aux_rkLin_false, ite_eq_right heM1]
         exact six_div_le_two_of_eM heM1 heM2
       omega
   ·
@@ -562,7 +562,7 @@ theorem dvd_add_one_of_core
     have hZcard : Nat.card (Subgroup.center (Bar2 L)) = 1 := by
       rw [hZ]
       simp
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have heq : CFSG.Open.pRank p
         (⊤ : Subgroup (Bar2 L ⧸ Subgroup.center (Bar2 L))) =
           CFSG.Open.pRank p (⊤ : Subgroup (Bar2 L)) :=
@@ -597,7 +597,7 @@ theorem dvd_add_one_of_core
     have hZcard : Nat.card (Subgroup.center (Bar2 L)) = 1 := by
       rw [hZ]
       simp
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have heq : CFSG.Open.pRank p
         (⊤ : Subgroup (Bar2 L ⧸ Subgroup.center (Bar2 L))) =
           CFSG.Open.pRank p (⊤ : Subgroup (Bar2 L)) :=
@@ -627,8 +627,8 @@ theorem exists_lift_elemAbelian_pRank_centralizer {L M : Subgroup G} {r p : ℕ}
           CFSG.Open.pRank p (⊤ : Subgroup (Subgroup.centralizer (E : Set (Bar2 L)))) ≤
             CFSG.Open.pRank p (M ⊓ Subgroup.centralizer (Etilde : Set G)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact r.Prime := ⟨hr⟩
   let Q : Subgroup ↥L := CFSG.pCore 2 ↥L
   let π : ↥L →* Bar2 L := QuotientGroup.mk' Q
   have hπ : Function.Surjective π := QuotientGroup.mk'_surjective Q
@@ -735,7 +735,7 @@ theorem false_of_core_torus {D : Data G} {V₀ V L X : Subgroup G}
   have hr2 : r ≠ 2 := by omega
   have hp : p.Prime := (D.sig_prime p ctx.p_mem).1
   have hp2 : p ≠ 2 := (D.sig_prime p ctx.p_mem).2
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hqK : CFSG.Open.IsQuasisimple (Bar2 L) := ctx.mem_calC.2.2
   have hoddK : Odd (Nat.card (Subgroup.center (Bar2 L))) :=
     uc22p20p_odd_center_bar2 ↥L
@@ -788,7 +788,7 @@ theorem false_of_core_sp6 {D : Data G} {V₀ V L X : Subgroup G}
   have hr2 : r ≠ 2 := by omega
   have hp : p.Prime := (D.sig_prime p ctx.p_mem).1
   have hp2 : p ≠ 2 := (D.sig_prime p ctx.p_mem).2
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hqK : CFSG.Open.IsQuasisimple (Bar2 L) := ctx.mem_calC.2.2
   have hoddK : Odd (Nat.card (Subgroup.center (Bar2 L))) :=
     uc22p20p_odd_center_bar2 ↥L
@@ -853,8 +853,8 @@ theorem false_of_core_sp6 {D : Data G} {V₀ V L X : Subgroup G}
   have hybar_cent : ybar ∈ Subgroup.centralizer (E : Set (Bar2 L)) := aC.2
   let Q : Subgroup ↥L := CFSG.pCore 2 ↥L
   let π : ↥L →* Bar2 L := QuotientGroup.mk' Q
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hQr : ¬ r ∣ Nat.card Q :=
     CFSG.GroupTheory.not_dvd_card_of_isPGroup (CFSG.pCore_isPGroup (p := 2) (G := ↥L))
       hr hr2
@@ -911,9 +911,9 @@ theorem false_of_core_sp6 {D : Data G} {V₀ V L X : Subgroup G}
   obtain ⟨F, hFld, hFin, hChar, -, ⟨eSp⟩⟩ :=
     CFSG.SeitzReduction.SymplecticPilot.exists_mulEquiv_statedSp_of_lieModel
       (L := Bar2 L) (LieModel.of_quotient_center hZ hmodelQuot)
-  letI := hFld
-  letI := hFin
-  letI := hChar
+  let := hFld
+  let := hFin
+  let := hChar
   have hOut : IsCyclic (Outer (Bar2 L)) :=
     CFSG.SeitzReduction.SymplecticPilot.isCyclic_outer_of_mulEquiv_statedSp
       (K := F) (r := 3) (by norm_num) eSp

@@ -10,7 +10,7 @@ namespace CFSG.Quasithin.H13
 open CFSG.GorensteinWalter CFSG.Open CFSG.QuasithinUnique CFSG.Quasithin
 
 theorem centralizer_mem_of_perfect_action614 {Γ : Type*} [Group Γ] {L : Subgroup Γ}
-    (hperf : Group.IsPerfect ↥L) {g : Γ} (hg : g ∈ Subgroup.normalizer (L : Set Γ))
+    (hperf : Group.IsPerfect ↥L) {g : Γ} (_hg : g ∈ Subgroup.normalizer (L : Set Γ))
     (α : ↥L → ↥L) (hα : ∀ k : ↥L, (α k : Γ) = g * k * g⁻¹)
     (hz : ∀ k : ↥L, (α k)⁻¹ * k ∈ Subgroup.center ↥L) :
     g ∈ Subgroup.centralizer (L : Set Γ) := by
@@ -53,10 +53,10 @@ theorem IsL3Levi.mem_center_iff (h : IsL3Levi K u p) (x : ↥K) :
     x ∈ Subgroup.center ↥K ↔ (x : G) = 1 ∨ (x : G) = u :=
   h.2.2.1 x
 
-theorem IsL3Levi.pCore_eq_center (hp : p.Prime) (hp5 : 5 ≤ p) (h : IsL3Levi K u p) :
+theorem IsL3Levi.pCore_eq_center (_hp : p.Prime) (hp5 : 5 ≤ p) (h : IsL3Levi K u p) :
     CFSG.pCore 2 ↥K = Subgroup.center ↥K := by
   obtain ⟨hu2, -, hcen, -, F, hF, hFin, hcard, ⟨ψ⟩⟩ := h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hZ2 : IsPGroup 2 ↥(Subgroup.center ↥K) := by
     intro x
     refine ⟨1, ?_⟩
@@ -76,10 +76,10 @@ theorem IsL3Levi.pCore_eq_center (hp : p.Prime) (hp5 : 5 ≤ p) (h : IsL3Levi K 
     obtain ⟨z, rfl⟩ := ψ.surjective y
     obtain ⟨x, rfl⟩ := QuotientGroup.mk'_surjective (Subgroup.center ↥K) z
     exact ⟨x, rfl⟩
-  haveI hQn : ((CFSG.pCore 2 ↥K).map θ).Normal := Subgroup.Normal.map inferInstance θ hθs
+  have hQn : ((CFSG.pCore 2 ↥K).map θ).Normal := Subgroup.Normal.map inferInstance θ hθs
   have hsimple : IsSimpleGroup (PSL2 F) :=
     Matrix.ProjectiveSpecialLinearGroup.rank_two_simple (by omega)
-  haveI : Nontrivial (PSL2 F) := hsimple.toNontrivial
+  have : Nontrivial (PSL2 F) := hsimple.toNontrivial
   rcases hsimple.eq_bot_or_eq_top_of_normal ((CFSG.pCore 2 ↥K).map θ) with hbot | htop
   · intro x hx
     have h1 : θ x ∈ (CFSG.pCore 2 ↥K).map θ := Subgroup.mem_map_of_mem θ hx
@@ -97,7 +97,7 @@ theorem IsL3Levi.pCore_eq_center (hp : p.Prime) (hp5 : 5 ≤ p) (h : IsL3Levi K 
       have hx1 : x ^ 2 ^ k = 1 := by simpa using congrArg Subtype.val hk
       refine ⟨k, ?_⟩
       rw [← map_pow, hx1, map_one]
-    haveI : Finite (PSL2 F) := inferInstance
+    have : Finite (PSL2 F) := inferInstance
     have hnt := IsPGroup.center_nontrivial hPG
     rw [psl2_center_eq_bot F] at hnt
     obtain ⟨a, b, hab⟩ := hnt.exists_pair_ne
@@ -122,7 +122,7 @@ theorem IsL3Levi.exists_action (hp : p.Prime) (hp5 : 5 ≤ p) (h : IsL3Levi K u 
     obtain ⟨-, -, -, hpf, -⟩ := h
     exact hpf
   obtain ⟨F, hF, hFin, hcard, ⟨ϕ⟩⟩ := IsL3Levi.exists_equiv_psl2 hp hp5 h
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hK : IsOddPrimePower (Nat.card F) :=
     ⟨p, 1, hp, hp.odd_of_ne_two (by omega), le_refl 1, by rw [hcard, pow_one]⟩
   have hcardF : 3 < Nat.card F := by

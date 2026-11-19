@@ -17,7 +17,7 @@ theorem w135c2_psl_five {W : Type} [CommGroup W] [Finite W] [Module (ZMod 2) (Ad
     (hK : Fintype.card K = 2) (φ : SpecialLinearGroup (Fin 5) K →* ↥L)
     (hφ : Function.Surjective φ) (hker : φ.ker ≤ Subgroup.center (SpecialLinearGroup (Fin 5) K))
     {j r : ℕ} (hj : j = 2 ∨ j = 3) (β : Additive W ≃+ (Set.powersetCard (Fin 5) j → K))
-    (hβ : ∀ g w, β (pslRep φ g w) = extTwist 5 j r K g *ᵥ β w) : Chev2Item3 W L := by
+    (_hβ : ∀ g w, β (pslRep φ g w) = extTwist 5 j r K g *ᵥ β w) : Chev2Item3 W L := by
   have hcenter : Subgroup.center (SpecialLinearGroup (Fin 5) K) = ⊥ :=
     center_specialLinear_eq_bot_of_card_two hK
   have hkerbot : φ.ker = ⊥ := le_bot_iff.mp (hker.trans (le_of_eq hcenter))

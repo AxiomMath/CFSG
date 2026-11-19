@@ -212,7 +212,7 @@ theorem factor_conj_exists {Y : Type} [Group Y] {ι : Type} {Gs : Subgroup Y}
       exact hcomm j' x hx
     exact h.centre m hmG fun g hg =>
       Subgroup.mem_centralizer_iff.mp (hcen hg) m (Set.mem_singleton m)
-  haveI := h.simple j
+  have := h.simple j
   have hXM : X j ≤ conjSubgroup y (X i) :=
     le_of_simple_normalized_inter (conjSubgroup y (X i)) (X j)
       (fun b hb a ha => hMn b (h.le j hb) a ha.1) hj
@@ -412,7 +412,7 @@ theorem proj_conj {Y : Type} [Group Y] [Finite Y] {ι : Type} [Fintype ι] {Gs :
 
 theorem proj_injOn_of_ne {Y : Type} [Group Y] [Finite Y] {ι : Type} [Fintype ι]
     {Gs : Subgroup Y} {X : ι → Subgroup Y} (h : SimpleFactors Gs X) {π : ι → ↥Gs →* Y}
-    (hπ : IsProj Gs X π) (V : Subgroup Y) (hVG : V ≤ Gs) (hV2 : ∀ v ∈ V, v * v = 1)
+    (hπ : IsProj Gs X π) (V : Subgroup Y) (_hVG : V ≤ Gs) (hV2 : ∀ v ∈ V, v * v = 1)
     (hti : IsTI V) (i : ι) (hne : ∃ v : ↥Gs, (v : Y) ∈ V ∧ π i v ≠ 1) :
     ∀ v : ↥Gs, (v : Y) ∈ V → π i v = 1 → v = 1 := by
   intro v0 hv0 hπv0
@@ -439,7 +439,7 @@ theorem proj_injOn_of_ne {Y : Type} [Group Y] [Finite Y] {ι : Type} [Fintype ι
     exact hwV
   obtain ⟨g, hg, hgVi⟩ : ∃ g ∈ X i, conjSubgroup g Vi ≠ Vi := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     have hinv : ∀ a ∈ X i, ∀ x ∈ Vi, a * x * a⁻¹ ∈ Vi := by
       intro a ha x hx
       have hx' : x ∈ conjSubgroup a⁻¹ Vi := by

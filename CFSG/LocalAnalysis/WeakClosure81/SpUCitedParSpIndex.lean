@@ -22,8 +22,7 @@ private theorem spUCited_eval_add_smul (hr : 2 ≤ r) (c : K) :
       Sum.inl (⟨0, by omega⟩ : Fin r) := by
     intro h
     exact absurd (Sum.inl.inj h) (by simp)
-  simp [Pi.add_apply, Pi.smul_apply, Pi.single_eq_same, Pi.single_eq_of_ne' hne,
-    smul_eq_mul]
+  simp [Pi.add_apply, Pi.smul_apply, Pi.single_eq_same, smul_eq_mul]
 
 private theorem spUCited_isoFlag_one_eq (hr : 1 ≤ r) :
     isoFlag r K 1 =
@@ -31,7 +30,7 @@ private theorem spUCited_isoFlag_one_eq (hr : 1 ≤ r) :
   unfold isoFlag
   congr 1
   ext v
-  simp only [Set.mem_image, Set.mem_setOf_eq, Set.mem_singleton_iff]
+  simp only [Set.mem_image, Set.mem_ofPred_eq, Set.mem_singleton_iff]
   constructor
   · rintro ⟨j, hj, rfl⟩
     have hj0 : j = ⟨0, by omega⟩ := by
@@ -73,7 +72,7 @@ theorem spUCited_unipotent_apply_one (hr : 2 ≤ r) {u : ↥(StatedSp r K)} (hu 
           exact hj (Sum.inl.inj h).symm
         simp [v1, Pi.single_eq_of_ne' hne]
     · have hne : (Sum.inl e1 : Fin r ⊕ Fin r) ≠ Sum.inr j := by simp
-      simp [v1, Pi.single_eq_of_ne' hne]
+      simp [v1]
   have hsub := unipotent_sub_mulVec_mem_flag (r := r) (K := K) hu (i := 1) hv1
   have hsub' : spEnd u v1 - v1 ∈ flag r K 1 := by
     simpa [spEnd_apply] using hsub
@@ -114,12 +113,12 @@ theorem spUCited_index_le [Finite K] (hr : 2 ≤ r) :
       apply Subtype.ext
       have hcw : w.1 (Sum.inl (⟨0, by omega⟩ : Fin r)) = c := by
         rw [hc]
-        simpa [v0, v1, e0, e1] using spUCited_eval_add_smul hr c
+        simp [v0, v1, e0, e1]
       dsimp only
       rw [hcw]
       exact hc.symm
     · intro c
-      simpa [v0, v1, e0, e1] using spUCited_eval_add_smul hr c
+      simp [v0, v1, e0, e1]
   let f : U ⧸ H → T := Quotient.lift
     (fun u : U => ⟨spEnd (u : S) v1, spUCited_unipotent_apply_one hr u.2⟩)
     (fun u v huv => by
@@ -143,7 +142,7 @@ theorem spUCited_index_le [Finite K] (hr : 2 ≤ r) :
             simp [v1, e1, Pi.smul_apply, Pi.single_eq_same, smul_eq_mul]
           have h3 : (v1 + c' • v0 : Fin r ⊕ Fin r → K)
               (Sum.inl (⟨1, by omega⟩ : Fin r)) = 1 := by
-            simpa [v0, v1, e0, e1] using spUCited_eval_add_smul_one hr c'
+            simp [v0, v1, e0, e1]
           rw [h2, h3] at h
           exact h
         have hc2 : c' = 0 := by
@@ -154,10 +153,10 @@ theorem spUCited_index_le [Finite K] (hr : 2 ≤ r) :
             exact absurd (Sum.inl.inj hh) (by simp)
           have h2 : (c • v1 : Fin r ⊕ Fin r → K)
               (Sum.inl (⟨0, by omega⟩ : Fin r)) = 0 := by
-            simp [v1, e1, Pi.smul_apply, Pi.single_eq_of_ne' hne]
+            simp [v1, e1, Pi.smul_apply]
           have h3 : (v1 + c' • v0 : Fin r ⊕ Fin r → K)
               (Sum.inl (⟨0, by omega⟩ : Fin r)) = c' := by
-            simpa [v0, v1, e0, e1] using spUCited_eval_add_smul hr c'
+            simp [v0, v1, e0, e1]
           rw [h2, h3] at h
           exact h.symm
         rw [hc2] at hc''
@@ -190,8 +189,8 @@ theorem spUCited_index_le [Finite K] (hr : 2 ≤ r) :
       rw [hcomp, inv_mul_cancel, spEnd_one]
       rfl
     simpa using hfix
-  haveI : Finite T := by
-    letI : Fintype K := Fintype.ofFinite K
+  have : Finite T := by
+    let : Fintype K := Fintype.ofFinite K
     infer_instance
   change N.relIndex U ≤ Nat.card K
   rw [Subgroup.relIndex, Subgroup.index_eq_card]

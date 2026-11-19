@@ -47,7 +47,7 @@ theorem D_ne_T (hσ : σ.IsValid) : σ.D ≠ σ.T := by
       exact hs'
     rw [hTeq] at hT4
     omega
-  have hnil : Group.IsNilpotent (σ.S : Subgroup G) := σ.S.isPGroup'.isNilpotent
+  have hnil : Group.IsNilpotent (σ.S : Subgroup G) := σ.S.isPGroup.isNilpotent
   have hnorm := Group.normalizerCondition_of_isNilpotent (G := (σ.S : Subgroup G)) _ hlt
   rw [← Subgroup.subgroupOf_normalizer_eq hTS] at hnorm
   obtain ⟨⟨n, hnS⟩, hnN, hnT⟩ := IsConcreteLE.exists_of_lt hnorm
@@ -64,7 +64,7 @@ theorem Setting.dGroupSignalizerInput_of (hσ : σ.IsValid) : V4.DGroupSignalize
   have hTH : σ.T ≤ H := hTD.trans hDH
   have hxH : σ.x ∈ H := hTH σ.x_mem_T
   have hT : IsKleinFour σ.T := TotallyInverted.Conjugacy.isKleinFour_T hσ
-  have hD2 : IsPGroup 2 σ.D := σ.S.isPGroup'.to_le σ.D_le_S
+  have hD2 : IsPGroup 2 σ.D := σ.S.isPGroup.to_le σ.D_le_S
   have hT2 : IsPGroup 2 σ.T := hD2.to_le hTD
   have hQ : IsDGroup (H ⧸ CFSG.oddCore H) := isDGroup_quotient_oddCore hDG
   have hO : CFSG.oddCore (H ⧸ CFSG.oddCore H) = ⊥ :=

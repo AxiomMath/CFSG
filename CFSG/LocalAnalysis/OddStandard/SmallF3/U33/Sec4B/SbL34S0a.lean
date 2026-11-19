@@ -15,6 +15,7 @@ open CFSG.OddStandard.SmallF3.HarrisU33.L34
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau : G}
 
 
+omit [Finite G] in
 theorem O_normal_M (t tau x₁ x₂ : G) : NormalIn (ctxO t tau x₁ x₂) (ctxM t tau x₁ x₂) :=
   ⟨CFSG.LieType.BorelTits.pCoreOf_le 2 (ctxM t tau x₁ x₂), fun _ hg _ hk =>
     (Subgroup.mem_normalizer_iff.mp
@@ -27,6 +28,7 @@ include hc
 
 theorem U_le_M : ctxU t tau x₁ x₂ lam ≤ ctxM t tau x₁ x₂ := hc.U_sylow.1
 
+omit [Finite G] hc in
 theorem O_le_U : ctxO t tau x₁ x₂ ≤ ctxU t tau x₁ x₂ lam := le_sup_left
 
 theorem card_U : Nat.card (ctxU t tau x₁ x₂ lam) = 2 ^ 9 := by

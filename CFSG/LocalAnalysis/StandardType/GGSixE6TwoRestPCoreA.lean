@@ -119,20 +119,20 @@ private lemma e6pa_le_normalizer_A {G : Type*} [Group G] (T N V Z : Subgroup G)
 private lemma e6pa_exists_fixed {G : Type*} [Group G] (T V Z : Subgroup G)
     (hTV : T ≤ Subgroup.normalizer (V : Set G))
     (hTZ : ∀ t ∈ T, ∀ z : G, z ∈ Z ↔ t * z * t⁻¹ ∈ Z)
-    (hZV : Z ≤ V) (hZnorm : (Z.subgroupOf V).Normal) [Finite V]
+    (_hZV : Z ≤ V) (hZnorm : (Z.subgroupOf V).Normal) [Finite V]
     (hVp : IsPGroup 2 V) (hTp : IsPGroup 2 T) (hZlt : Z < V) :
     ∃ v ∈ V, v ∉ Z ∧ ∀ t ∈ T, ⁅t, v⁆ ∈ Z := by
   classical
-  letI : Subgroup.Normalizes T V := ⟨hTV⟩
+  let : Subgroup.Normalizes T V := ⟨hTV⟩
   let K : Subgroup ↥V := Z.subgroupOf V
-  haveI : K.Normal := hZnorm
+  have : K.Normal := hZnorm
   have hInv : CFSG.IsInvariant ↥T ↥V K := by
     refine ⟨?_⟩
     intro a x
     rw [Subgroup.mem_subgroupOf, Subgroup.mem_subgroupOf]
     rw [Subgroup.conjMulDistribMulActionOfLeNormalizer_smul_coe]
     exact hTZ (a : G) a.2 (x : G)
-  letI : MulDistribMulAction ↥T (↥V ⧸ K) := quotientMulDistribMulAction K hInv
+  let : MulDistribMulAction ↥T (↥V ⧸ K) := quotientMulDistribMulAction K hInv
   have hquotp : IsPGroup 2 (↥V ⧸ K) := hVp.to_quotient K
   have hcard_ne : Nat.card (↥V ⧸ K) ≠ 1 := by
     intro h1
@@ -263,7 +263,7 @@ private lemma e6pa_l1Root_not_mem_z0E
   have h1 : (1 : ZMod 2) = 0 := by
     have := congrFun hzero i
     rw [Pi.single_eq_same] at this
-    simpa using this
+    simp at this
   exact one_ne_zero h1
 
 private lemma e6pa_l1Root_not_mem_ZU1

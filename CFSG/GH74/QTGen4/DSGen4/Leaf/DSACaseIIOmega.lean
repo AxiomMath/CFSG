@@ -78,7 +78,7 @@ private theorem dsa2_le_normalizer_centMod {G : Type} [Group G] {P L Q Φ : Subg
     exact (Subgroup.mem_normalizer_iff.mp (hPΦ hg) _).mp (hxc _ hl')
 
 private theorem dsa2_le_centMod {G : Type} [Group G] {P L Q Φ : Subgroup G}
-    (hLP : L ≤ P) (hPL : P ≤ Subgroup.normalizer (L : Set G))
+    (hLP : L ≤ P) (_hPL : P ≤ Subgroup.normalizer (L : Set G))
     (hPΦ : P ≤ Subgroup.normalizer (Φ : Set G)) (hΦP : Φ ≤ P) (hΦQ : Φ ≤ Q) :
     Φ ≤ Q ⊓ dsCentMod P L Φ := by
   intro t ht
@@ -120,7 +120,7 @@ theorem leafDSACaseIIOmega [DSLeaf LeafDSANoField] [DSLeaf LeafZiStructure] [DSL
     rw [hbotN]; exact le_top
   have hcomm1 : ∀ l ∈ L2, ∀ y ∈ dsOmega1 (centerOf (dsQ L2 L1 S)), l * y = y * l := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨l, hl, y, hy, hne⟩ := hcon
     have hnt : ∃ l ∈ L2, ∃ e ∈ dsOmega1 (centerOf (dsQ L2 L1 S)), ⁅l, e⁆ ∉ (⊥ : Subgroup G) :=
       ⟨l, hl, y, hy, fun h1 => hne (commutatorElement_eq_one_iff_mul_comm.mp (Subgroup.mem_bot.mp h1))⟩

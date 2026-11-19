@@ -48,7 +48,7 @@ theorem a6c_model_of_rep {n : ℕ} {Γ₀ : Type} [Group Γ₀] (Z : Subgroup Γ
     intro M hM γ hγ
     have hγ' : γ = pre M hM := hinj (by rw [pre_spec M hM, hγ])
     show (if h : A6CSimMat M then (pre M h : Γ₀ ⧸ Z) else 1) = (γ : Γ₀ ⧸ Z)
-    rw [dif_pos hM, hγ']
+    rw [dite_eq_left hM, hγ']
   refine ⟨⟨ofMat, ?_, ?_, ?_⟩, ?_⟩
   · intro M N hM hN
     have hρ : ρ (pre M hM * pre N hN) = M * N := by

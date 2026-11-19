@@ -47,6 +47,7 @@ private theorem s16h_card_le_mul_card_comap {H N : Type*} [Group H] [Group N]
     _ = k * (Nat.card ↥(E.map f ⊓ K) * Nat.card ↥(E ⊓ f.ker)) := by
         rw [mul_assoc]
 
+omit [Finite G] in
 theorem s16h_card_le_mul_card_preBarSub {M V₀ V E : Subgroup G} (hV : IsElemAbelian 2 V)
     (hEM : E ≤ M) (hEs : E ≤ stabTil V₀ V) (Xbar : Subgroup (MulAut (Vtil V₀ V hV))) {k : ℕ}
     (h : Nat.card ↥(barSub V₀ V hV E) ≤ k * Nat.card ↥(barSub V₀ V hV E ⊓ Xbar)) :
@@ -106,7 +107,7 @@ theorem s16h_card_le_three_mul_card_inf_normalizer {A : Type*} [Group A] [Finite
   have hCS : C ⊆ S := by
     rintro F ⟨x, hx, rfl⟩
     exact hE x hx L hL
-  haveI : Finite (Subgroup A) :=
+  have : Finite (Subgroup A) :=
     Finite.of_injective (fun H : Subgroup A => (H : Set A)) SetLike.coe_injective
   have hCn : C.ncard ≤ 3 := le_trans (Set.ncard_le_ncard hCS (Set.toFinite S)) hS
   have hCindex : C.ncard = ((normalizer (L : Set A)).subgroupOf E).index :=
@@ -132,6 +133,7 @@ theorem s16h_centSub_inf_le_centSub_sup {W : Type*} [CommGroup W] (Y₁ Y₂ : S
   rw [map_mul, (mem_centSub.mp (Subgroup.mem_inf.mp hg).1) a ha,
     (mem_centSub.mp (Subgroup.mem_inf.mp hg).2) b hb]
 
+omit [Finite G] in
 theorem s16h_preBarSub_le_cElt_of_le_centSub {M V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
     {Y : Subgroup (Vtil V₀ V hV)} {K : Subgroup (MulAut (Vtil V₀ V hV))} (hK : K ≤ centSub Y)
     {w : G} (hw : w ∈ preTil V₀ V hV Y) :

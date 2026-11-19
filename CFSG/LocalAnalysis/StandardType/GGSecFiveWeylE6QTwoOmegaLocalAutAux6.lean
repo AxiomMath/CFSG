@@ -16,17 +16,21 @@ variable {Bs L : Subgroup G} {x : G}
 
 @[expose] public def eBs (Bs L : Subgroup G) (e : ↥(Bs ⊓ L)) : ↥Bs := ⟨(e : G), e.2.1⟩
 
+omit [Finite G] in
 public theorem eBs_coe (Bs L : Subgroup G) (e : ↥(Bs ⊓ L)) :
     ((eBs Bs L e : ↥Bs) : G) = (e : G) := rfl
 
 @[expose] public def eE (Bs L : Subgroup G) (b : ↥Bs) (hb : b ∈ EB Bs L) : ↥(Bs ⊓ L) :=
   ⟨(b : G), mem_EB.mp hb⟩
 
+omit [Finite G] in
 public theorem eE_eBs (Bs L : Subgroup G) (e : ↥(Bs ⊓ L)) : eE Bs L (eBs Bs L e) e.2 = e := rfl
 
+omit [Finite G] in
 public theorem eBs_eE (Bs L : Subgroup G) (b : ↥Bs) (hb : b ∈ EB Bs L) :
     eBs Bs L (eE Bs L b hb) = b := rfl
 
+omit [Finite G] in
 public theorem conjBs_conjE (l : ↥(NL L Bs)) (e : ↥(Bs ⊓ L)) :
     conjBs L Bs l (eBs Bs L e) = eBs Bs L (conjE L Bs l e) := by
   apply Subtype.ext
@@ -37,12 +41,14 @@ public theorem conjBs_conjE (l : ↥(NL L Bs)) (e : ↥(Bs ⊓ L)) :
     ↥Bs ≃ ↥(EB Bs L) × ↥((Subgroup.zpowers x).subgroupOf Bs) :=
   (Subgroup.isComplement'_def.mp hcompl).equiv
 
+omit [Finite G] in
 public theorem bstarEquiv_fst_mul_snd
     (hcompl : Subgroup.IsComplement' (EB Bs L) ((Subgroup.zpowers x).subgroupOf Bs))
     (b : ↥Bs) :
     ((bstarEquiv hcompl b).1 : ↥Bs) * ((bstarEquiv hcompl b).2 : ↥Bs) = b :=
   (Subgroup.isComplement'_def.mp hcompl).equiv_fst_mul_equiv_snd b
 
+omit [Finite G] in
 public theorem bstarEquiv_eq_of_mul_eq
     (hcompl : Subgroup.IsComplement' (EB Bs L) ((Subgroup.zpowers x).subgroupOf Bs))
     {e : ↥(EB Bs L)} {y : ↥((Subgroup.zpowers x).subgroupOf Bs)} {b : ↥Bs}
@@ -54,6 +60,7 @@ public theorem bstarEquiv_eq_of_mul_eq
     hex.unique h (bstarEquiv_fst_mul_snd hcompl b)
   exact h1.symm
 
+omit [Finite G] in
 public theorem conjBs_zpowers (hLx : L ≤ Subgroup.centralizer ({x} : Set G))
     (l : ↥(NL L Bs)) (y : ↥((Subgroup.zpowers x).subgroupOf Bs)) :
     conjBs L Bs l y = y := by
@@ -72,6 +79,7 @@ public theorem conjBs_zpowers (hLx : L ≤ Subgroup.centralizer ({x} : Set G))
   rw [← h2]
   group
 
+omit [Finite G] in
 public theorem card_fix_conjBs
     (hcompl : Subgroup.IsComplement' (EB Bs L) ((Subgroup.zpowers x).subgroupOf Bs))
     (hLx : L ≤ Subgroup.centralizer ({x} : Set G)) (l : ↥(NL L Bs)) :
@@ -151,10 +159,12 @@ public theorem card_fixedPoints_congr {M N : Type} [Group M] [Group N] (e : M �
     rw [MulAut.congr_apply, MulEquiv.trans_apply, MulEquiv.trans_apply,
       MulEquiv.symm_apply_apply, x.2]
 
+omit [Finite G] in
 public theorem conjBs_sq (l : ↥(NL L Bs)) (e : ↥(Bs ⊓ L)) :
     ((conjBs L Bs l) ^ 2) (eBs Bs L e) = eBs Bs L (((conjE L Bs l) ^ 2) e) := by
   rw [pow_two, pow_two, MulAut.mul_apply, MulAut.mul_apply, conjBs_conjE, conjBs_conjE]
 
+omit [Finite G] in
 public theorem isReflection_conjE
     (hcompl : Subgroup.IsComplement' (EB Bs L) ((Subgroup.zpowers x).subgroupOf Bs))
     (hxBs : x ∈ Bs) (hord : orderOf x = 3)

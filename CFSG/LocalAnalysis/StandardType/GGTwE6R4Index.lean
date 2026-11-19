@@ -16,11 +16,11 @@ theorem three_pow_five_le_inf_conj {n : ℕ} (hn : 1 ≤ n) {K : Type} [Field K]
     3 ^ 5 ≤ Nat.card ↥(Y ⊓ (MulAut.conj : TwE6Delta.RecipeR K n →*
       MulAut (TwE6Delta.RecipeR K n)).range) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
   set Ω := AlgebraicClosure K
-  haveI : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
-  haveI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
+  have : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
+  have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
   set Fr : Ω →+* Ω := iterateFrobenius Ω 2 n with hFrdef
   have hFr : ∀ c, Fr c = c ^ 2 ^ n := fun c => iterateFrobenius_def 2 n c
   obtain ⟨σ, hσ, ε, hε⟩ := TwE6Transport.exists_recipeConj (K := K) hn hK
@@ -101,7 +101,7 @@ theorem three_pow_five_le_inf_conj {n : ℕ} (hn : 1 ≤ n) {K : Type} [Field K]
         ((NoOffTwE6Three.rgrpConjAut hn hK σ hσ Fr hFr) z)
       rw [show (NoOffTwE6Three.rgrpConjAut hn hK σ hσ Fr hFr) z = MulAut.conj c
           from hc.symm, hconj]
-  haveI : Finite (MulAut (TwE6Delta.RecipeR K n)) := TwE6Delta.finite_mulAut_recipeR hK
+  have : Finite (MulAut (TwE6Delta.RecipeR K n)) := TwE6Delta.finite_mulAut_recipeR hK
   calc 3 ^ 5 ≤ Nat.card ↥(X ⊓ TwistedDiag.Cgrp K σ.toRingHom Ω) := h35
     _ = Nat.card Z := hZcard.symm
     _ = Nat.card (Z.map Ψ) := (Subgroup.card_map_of_injective (K := Z) hΨinj).symm

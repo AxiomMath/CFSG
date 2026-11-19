@@ -84,7 +84,7 @@ omit h in
 theorem exists_involution_pow [Finite X] {c : X} (hc : c ∈ (T : Subgroup X)) (hc1 : c ≠ 1) :
     ∃ k : ℕ, (c ^ k) ^ 2 = 1 ∧ c ^ k ≠ 1 := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  obtain ⟨n, hn⟩ := (IsPGroup.iff_orderOf.mp T.isPGroup') ⟨c, hc⟩
+  obtain ⟨n, hn⟩ := (IsPGroup.iff_orderOf.mp T.isPGroup) ⟨c, hc⟩
   have hn' : orderOf c = 2 ^ n := by
     rw [← hn, Subgroup.orderOf_mk]
   have hn0 : n ≠ 0 := by
@@ -350,7 +350,7 @@ theorem isSuzukiTwoGroup [Finite X] (hab : ¬ IsMulCommutative (T : Subgroup X))
     intro z hz hz1
     refine orderOf_eq_prime (Subtype.ext (by simpa using h.sq z hz)) fun h' => hz1 ?_
     exact congrArg Subtype.val h'
-  refine ⟨inferInstance, T.isPGroup', hab, ?_,
+  refine ⟨inferInstance, T.isPGroup, hab, ?_,
     (CFSG.ComponentClassification.AschbacherToolkit.Goldschmidt.conjAct h.le).range, ?_, ?_⟩
   · obtain ⟨a, ha, b, hb, ha1, hb1, hab'⟩ :=
       GoldType.exists_ne_one_of_two_lt (S := sylowCenter (T : Subgroup X)) (by
@@ -460,7 +460,7 @@ omit h in
 theorem eq_one_of_pow_odd [Finite X] {w : X} (hw : w ∈ (T : Subgroup X)) {r : ℕ} (hr : Odd r)
     (hwr : w ^ r = 1) : w = 1 := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  obtain ⟨n, hn⟩ := (IsPGroup.iff_orderOf.mp T.isPGroup') ⟨w, hw⟩
+  obtain ⟨n, hn⟩ := (IsPGroup.iff_orderOf.mp T.isPGroup) ⟨w, hw⟩
   have hn' : orderOf w = 2 ^ n := by rw [← hn, Subgroup.orderOf_mk]
   have hdvd : 2 ^ n ∣ r := hn' ▸ orderOf_dvd_of_pow_eq_one hwr
   have hn0 : n = 0 := by
@@ -592,7 +592,7 @@ theorem eq_one_of_fix_coset [Finite X] {e₀ : X} (he₀ : e₀ ∈ D)
       rw [Set.ncard_image_of_injective _ (mul_right_injective y), ← Nat.card_coe_set_eq]
       rfl
     rw [hS, Nat.card_zpowers] at hE
-    obtain ⟨c, hc⟩ := (IsPGroup.iff_card.mp (T.isPGroup'.to_le hWT))
+    obtain ⟨c, hc⟩ := (IsPGroup.iff_card.mp (T.isPGroup.to_le hWT))
     rw [hc] at hE
     have hodd : Odd (orderOf f) := h.odd.of_dvd_nat (Subgroup.orderOf_dvd_natCard D hfD)
     have hcop : Nat.Coprime (orderOf f) (2 ^ c) :=
@@ -791,7 +791,7 @@ theorem eq_or_eq_of_invariant [Finite X]
   set q := Nat.card (sylowCenter (T : Subgroup X)) with hq
   have hDm : Nat.card D = (q - 1) * Nat.card (kerD D T) := h.card_eq_mul
   have hq4 : 4 ≤ q := h.four
-  obtain ⟨m, hm⟩ := IsPGroup.iff_card.mp (T.isPGroup'.to_le (sylowCenter_le (T : Subgroup X)))
+  obtain ⟨m, hm⟩ := IsPGroup.iff_card.mp (T.isPGroup.to_le (sylowCenter_le (T : Subgroup X)))
   rw [← hq] at hm
   have hm1 : 1 ≤ m := by
     by_contra hlt
@@ -840,7 +840,7 @@ theorem eq_or_eq_of_invariant [Finite X]
   obtain ⟨e₀, he₀, hord, hfree⟩ := h.exists_D₀ hcop
   have hdvd := h.dvd_card_sub he₀ hfree hZY hYT hDY
   rw [hord, ← hq] at hdvd
-  obtain ⟨a, ha⟩ := IsPGroup.iff_card.mp (T.isPGroup'.to_le hYT)
+  obtain ⟨a, ha⟩ := IsPGroup.iff_card.mp (T.isPGroup.to_le hYT)
   have hZYd : q ∣ Nat.card Y := Subgroup.card_dvd_of_le hZY
   have hma : m ≤ a := by
     rw [hm, ha] at hZYd

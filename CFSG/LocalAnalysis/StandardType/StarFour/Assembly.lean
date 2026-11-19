@@ -63,7 +63,7 @@ theorem starFour_of_vlevel
     simpa using congrArg Subtype.val hcomm
   obtain ⟨P, instP, η, fr, i, hη, hgood, hJψ⟩ :=
     exists_frame_of_component ψ hψ B₁ D J hat hhat hDB hDab hD0 hJ
-  letI : CommGroup P := instP
+  let : CommGroup P := instP
   have hm : 3 ≤ fr.m i :=
     three_le_of_shape η fr i hgood ψ hψ p hp hp2 B₁ D J hat hhat hElem hcard hDB hDcard hη
       hJψ hB₁C

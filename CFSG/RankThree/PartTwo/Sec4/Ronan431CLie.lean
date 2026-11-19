@@ -35,8 +35,8 @@ theorem noCfgS431_of_simple_of_card_lt {S : Type} [Group S] [Finite S] (hs : IsS
     apply hc.ne_one
     ext x
     exact hc.le_autFix (hK ▸ Subgroup.mem_top x)
-  · haveI := hs
-    haveI := Subgroup.normal_of_index_eq_two hi
+  · have := hs
+    have := Subgroup.normal_of_index_eq_two hi
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal K with hb | ht
     · rw [hb, Subgroup.card_bot] at hle
       omega
@@ -93,9 +93,9 @@ theorem seven_SU3 (hI : I1430LieTwoInn) : ∀ n : ℕ, 1 ≤ n → RowSOf431 (pr
   rcases (show n = 1 ∨ 2 ≤ n by omega) with rfl | hn2
   · refine rowSOf431_of_noCfg fun S _ _ hs hna ⟨e⟩ => ?_
     exfalso
-    haveI := hs
-    haveI : Group.IsSolvable (projSU 3 2 1) := CFSG.RankThree.PartTwo.Sec13.isSolvable_projSU_two
-    haveI : Group.IsSolvable S :=
+    have := hs
+    have : Group.IsSolvable (projSU 3 2 1) := CFSG.RankThree.PartTwo.Sec13.isSolvable_projSU_two
+    have : Group.IsSolvable S :=
       Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective
     obtain ⟨a, b, hab⟩ := hna
     exact hab (IsSimpleGroup.comm_iff_isSolvable.mpr inferInstance a b)

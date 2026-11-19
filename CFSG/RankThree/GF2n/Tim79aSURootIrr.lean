@@ -17,7 +17,7 @@ section Centre
 variable {F : Type} [Field F]
 
 theorem center_le_uLine [CharP F 2] {σ : F ≃+* F} (hσ : ∀ c, σ (σ c) = c) {m : ℕ}
-    {a : Fin m → F} (ha : a ≠ 0) (haa : uForm σ a a = 0) {T : Subgroup (SU σ m)}
+    {a : Fin m → F} (ha : a ≠ 0) (_haa : uForm σ a a = 0) {T : Subgroup (SU σ m)}
     (hT : IsUTransGroup σ a T) : Subgroup.center (SU σ m) ≤ uLine σ a := by
   rw [← normalizer_eq_uLine hσ ha hT]
   exact Subgroup.center_le_normalizer _
@@ -38,7 +38,7 @@ theorem pCoreOf_normalizer_map_eq {F : Type} [Field F] [Finite F] [CharP F 2] {f
     pCoreOf 2 (Subgroup.normalizer ((T.map Φ : Subgroup K) : Set K)) =
       (uRad (unitaryInvolution F 2 f) a).map Φ := by
   have hσ := unitaryInvolution_involutive hF
-  haveI : Finite (SU (unitaryInvolution F 2 f) m) := Finite.of_injective _ Subtype.val_injective
+  have : Finite (SU (unitaryInvolution F 2 f) m) := Finite.of_injective _ Subtype.val_injective
   have hNT := normalizer_eq_uLine hσ ha hT
   have hcomap : (Subgroup.normalizer ((T.map Φ : Subgroup K) : Set K)).comap Φ =
       uLine (unitaryInvolution F 2 f) a := by

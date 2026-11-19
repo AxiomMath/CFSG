@@ -21,7 +21,7 @@ theorem exists_descent {N : ℕ} (hN : 3 ≤ N) {K : Type} [Field K] [Finite K] 
       Function.Injective ι ∧ (∀ v, b (ι v) = ι v) ∧
       (∀ x : projectiveSL N K, b x = x → ∀ v, x * ι v * x⁻¹ ∈ ι.range) ∧
       (∀ x : projectiveSL N K, b x = x → x ^ 3 = 1 → x ∈ ι.range) := by
-  haveI : NeZero N := ⟨by omega⟩
+  have : NeZero N := ⟨by omega⟩
   obtain ⟨A, σ, hbeq, hσord, c, hc⟩ := exists_sigma_of_outer_three hN b hb3 hbout
   let lift : Matrix.SpecialLinearGroup (Fin N) K →* Matrix.SpecialLinearGroup (Fin N) K :=
     (CatalogueBHigherLinearAction.slConjugation N K A).toMonoidHom.comp
@@ -65,7 +65,7 @@ theorem exists_descent {N : ℕ} (hN : 3 ≤ N) {K : Type} [Field K] [Finite K] 
       (by rw [hK]; norm_num) σ
     rw [hσord] at h
     simpa using h
-  haveI : Finite (fixField σ) := inferInstance
+  have : Finite (fixField σ) := inferInstance
   obtain ⟨e₀⟩ := exists_ringEquiv_zmod2 (fixField σ) hF0
   have hunit1 : ∀ d : (fixField σ)ˣ, d = 1 := fun d =>
     Units.ext ((zero_or_one_of_ringEquiv e₀ (d : fixField σ)).resolve_left d.ne_zero)

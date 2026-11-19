@@ -41,7 +41,7 @@ theorem qrow_Co1_three (hOut : SporadicOuterLeTwo)
   have hQ : ∀ (T : Type) [Group T] {N : ℕ}, Nat.card T = N → 0 < N → N < 2 ^ 200 →
       (∀ q ∈ N.primeFactorsList, q ≠ 2 → q ≠ 3 → ∀ k < 200, q ^ k ∣ N → q ^ (3 * k) ≤ N) →
       CFSG.LocalAnalysis.GLTheoremA.I1416QRows.QTypeThree T := fun T _ N hT hN0 hNlt hN => by
-    haveI : Finite T := Nat.finite_of_card_ne_zero (by omega)
+    have : Finite T := Nat.finite_of_card_ne_zero (by omega)
     exact CFSG.LocalAnalysis.GLTheoremA.I1416QRows.qtypeOK_of_card hb hT hN0 hNlt hN
       (fun h => absurd rfl h) (fun _ => by
         intro h5

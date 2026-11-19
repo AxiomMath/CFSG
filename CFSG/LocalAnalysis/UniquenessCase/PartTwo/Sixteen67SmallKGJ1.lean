@@ -21,8 +21,8 @@ theorem s1667_kg_j1_equiv {J : Type} [Group J]
 
 theorem s1667_kg_j1_not_four_dvd_card_centralizer {y : walterJ1} (hy : orderOf y = 3) :
     ¬ 4 ∣ Nat.card (centralizer ({y} : Set walterJ1)) := by
-  haveI := CFSG.Adapters.certificate43_holds
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := CFSG.Adapters.certificate43_holds
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro h4
   have hP : Nat.card (zpowers y) = 3 := by rw [Nat.card_zpowers, hy]
   let S : Sylow 3 walterJ1 :=
@@ -81,7 +81,7 @@ theorem s1667_kg_j1_not_four_dvd_card_centralizer {y : walterJ1} (hy : orderOf y
 theorem s1667_kg_j1_aut_mem_range {J : Type} [Group J]
     (hj1 : CFSG.Blueprint.NativeSporadic.IsSporadic J .J1) (α : MulAut J) :
     α ∈ (MulAut.conj : J →* MulAut J).range := by
-  haveI := CFSG.Adapters.certificate43_holds
+  have := CFSG.Adapters.certificate43_holds
   obtain ⟨e⟩ := s1667_kg_j1_equiv hj1
   obtain ⟨g, hg⟩ := J3_aut (MulAut.congr e α)
   refine ⟨e.symm g, ?_⟩
@@ -96,8 +96,8 @@ theorem s1667_kg_j1_aut_mem_range {J : Type} [Group J]
 theorem s1667_kg_j1_exists_inverting {J : Type} [Group J]
     (hj1 : CFSG.Blueprint.NativeSporadic.IsSporadic J .J1) {x : J} (hx : orderOf x = 3) :
     ∃ s : J, s ^ 2 = 1 ∧ s * x * s⁻¹ = x⁻¹ := by
-  haveI := CFSG.Adapters.certificate43_holds
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := CFSG.Adapters.certificate43_holds
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e⟩ := s1667_kg_j1_equiv hj1
   have hy : orderOf (e x) = 3 := by rw [MulEquiv.orderOf_eq]; exact hx
   have hP : Nat.card (zpowers (e x)) = 3 := by rw [Nat.card_zpowers, hy]
@@ -131,7 +131,7 @@ theorem s1667_kg_j1_comm_two {J : Type} [Group J]
 theorem k67BPrimeOneAt_j1 {Q : Type} [Group Q] [Finite Q] (J : Subgroup Q) (hJ : J.Normal)
     (hC : centralizer (J : Set Q) = ⊥)
     (hj1 : CFSG.Blueprint.NativeSporadic.IsSporadic ↥J .J1) : K67BPrimeOneAt Q J := by
-  haveI := hJ
+  have := hJ
   intro x hxJ hx3 A hA hAx _ h4
   exfalso
   have hQJ : ∀ q : Q, q ∈ J := fun q =>
@@ -158,10 +158,10 @@ theorem k67BPrimeOneAt_j1 {Q : Type} [Group Q] [Finite Q] (J : Subgroup Q) (hJ :
     (hcardA' ▸ s1667_kg_four_dvd_card hA h4).trans (Subgroup.card_dvd_of_le hA'C)
   exact s1667_kg_j1_not_four_dvd_card_centralizer hx'3 hdvd
 
-theorem k67CaseIIIAt_j1 {Q : Type} [Group Q] [Finite Q] (J : Subgroup Q) (hJ : J.Normal)
-    (hC : centralizer (J : Set Q) = ⊥)
+theorem k67CaseIIIAt_j1 {Q : Type} [Group Q] [Finite Q] (J : Subgroup Q) (_hJ : J.Normal)
+    (_hC : centralizer (J : Set Q) = ⊥)
     (hj1 : CFSG.Blueprint.NativeSporadic.IsSporadic ↥J .J1) : K67CaseIIIAt Q J := by
-  haveI := hJ
+  have := _hJ
   intro x hxJ hx3 E _ hE4 hEJ hEx W _ _ _ _ hN
   let x' : ↥J := ⟨x, hxJ⟩
   have hx'3 : orderOf x' = 3 := (Subgroup.orderOf_coe x').symm.trans hx3

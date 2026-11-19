@@ -53,7 +53,7 @@ theorem normalizer_le_M_of_mem_sigmaSet (h : TwelveCtx G M p Q H)
     (hns : ¬ Group.IsSolvable ↥M) {d : ℕ} (hd : d ∈ sigmaSet G M) {F : Subgroup G}
     (hF : IsPGroup d F) (hFM : F ≤ M) (hF1 : F ≠ ⊥) :
     Subgroup.normalizer (F : Set G) ≤ M := by
-  haveI : Fact d.Prime :=
+  have : Fact d.Prime :=
     ⟨CFSG.RankThreeCoreUniqueness.Helpers.sigmaA_prime d hd.1⟩
   obtain ⟨-, -, hstr⟩ := isStronglyPEmbedded_of_twelveCtx' h hns d hd
   obtain ⟨n, hn⟩ := hF.exists_card_eq
@@ -78,7 +78,7 @@ theorem isSylowOf_H_of_isSylowOf_inf (h : TwelveCtx G M p Q H)
     (hns : ¬ Group.IsSolvable ↥M) {d : ℕ} (hd : d ∈ sigmaSet G M) {D : Subgroup G}
     (hD : CFSG.ABGLocalTools.IsSylowOf d D (H ⊓ M)) (hD1 : D ≠ ⊥) :
     CFSG.ABGLocalTools.IsSylowOf d D H := by
-  haveI : Fact d.Prime :=
+  have : Fact d.Prime :=
     ⟨CFSG.RankThreeCoreUniqueness.Helpers.sigmaA_prime d hd.1⟩
   rw [CFSG.ABGLocalTools.isSylowOf_iff]
   refine ⟨hD.le.trans inf_le_left, hD.isPGroup, ?_⟩
@@ -118,7 +118,7 @@ theorem not_dvd_card_primeComplementCore_of_twelveCtx (h : TwelveCtx G M p Q H) 
 theorem starImg_ne_bot_of_not_dvd {d : ℕ} (hd : d.Prime)
     (hO : ¬ d ∣ Nat.card (primeComplementCore (G := ↥H) p)) {D : Subgroup G} (hDH : D ≤ H)
     (hD : IsPGroup d D) (hD1 : D ≠ ⊥) : starImg p H D ≠ ⊥ := by
-  haveI : Fact d.Prime := ⟨hd⟩
+  have : Fact d.Prime := ⟨hd⟩
   intro hbot
   let O : Subgroup ↥H := primeComplementCore (G := ↥H) p
   have hle : D.subgroupOf H ≤ O := by
@@ -141,7 +141,7 @@ theorem starImg_ne_bot_of_not_dvd {d : ℕ} (hd : d.Prime)
 theorem isSylowOf_starImg_top_of_prime {d : ℕ} (hd : d.Prime) {D : Subgroup G}
     (hD : CFSG.ABGLocalTools.IsSylowOf d D H) :
     CFSG.ABGLocalTools.IsSylowOf d (starImg p H D) ⊤ := by
-  haveI : Fact d.Prime := ⟨hd⟩
+  have : Fact d.Prime := ⟨hd⟩
   obtain ⟨Q, hQ⟩ := hD
   let π : ↥H →* StarGroup p H :=
     QuotientGroup.mk' (primeComplementCore (G := ↥H) p)
@@ -156,6 +156,7 @@ theorem isSylowOf_starImg_top_of_prime {d : ℕ} (hd : d.Prime) {D : Subgroup G}
     _ = (D.subgroupOf H).map π := by rw [hQ]
     _ = starImg p H D := rfl
 
+omit [Finite G] in
 private theorem starImg_map_subtype (p : ℕ) (A : Subgroup ↥H) :
     starImg p H (A.map H.subtype) =
       A.map (QuotientGroup.mk' (primeComplementCore (G := ↥H) p)) := by
@@ -167,7 +168,7 @@ theorem starImg_normalizer_eq_of_not_dvd {d : ℕ} (hd : d.Prime)
     (hD : IsPGroup d D) :
     Subgroup.normalizer (starImg p H D : Set (StarGroup p H)) =
       starImg p H (Subgroup.normalizer (D : Set G) ⊓ H) := by
-  haveI : Fact d.Prime := ⟨hd⟩
+  have : Fact d.Prime := ⟨hd⟩
   let O : Subgroup ↥H := primeComplementCore (G := ↥H) p
   let π : ↥H →* StarGroup p H := QuotientGroup.mk' O
   have hD' : IsPGroup d (D.subgroupOf H) := hD.comap_subtype (K := H)
@@ -185,7 +186,7 @@ theorem le_M_and_normalizer_le_of_le (hI : NineNineOneInput) (h : TwelveCtx G M 
     {E : Subgroup G} (hEQ : E ≤ Q) (hE : IsElemAbelian p E) (hEc : Nat.card E = p ^ 2)
     (hΓ : rankThreeGamma 1 p E ≤ M) {R : Subgroup G} (hR : IsPGroup p R) (hER : E ≤ R) :
     R ≤ M ∧ Subgroup.normalizer (R : Set G) ≤ M := by
-  haveI : Fact p.Prime := ⟨h.p_prime⟩
+  have : Fact p.Prime := ⟨h.p_prime⟩
   have hgen : NineSettingGen G M p Q H E 2 := nineSettingGen h hEQ hE hEc hΓ
   have hp : p ∉ CFSG.LocalAnalysis.RankThreeUC.S15.sigmaM G M := h.p_not_mem_sigma
   have hU : NineNineOne M p := hI G M Q H E p hgen hp
@@ -215,6 +216,7 @@ theorem isKGroupCat_of_starGroup (hbridge : CFSG.RankThree.PartOne.TauCetiCatalo
     hH.quotient (CFSG.pPrimeCore p ↥H)
   exact (hstar.subgroup N).subgroup K
 
+omit [Finite G] in
 private theorem starImg_map_conj_symm {x : StarGroup p H} (hx : x ∈ starImg p H M) :
     (starImg p H M).map (MulAut.conj x).symm.toMonoidHom = starImg p H M := by
   have hconj : (MulAut.conj x).symm = MulAut.conj x⁻¹ := by
@@ -223,6 +225,7 @@ private theorem starImg_map_conj_symm {x : StarGroup p H} (hx : x ∈ starImg p 
   exact Subgroup.mem_normalizer_iff_map_conj_eq.mp
     (Subgroup.le_normalizer ((starImg p H M).inv_mem hx))
 
+omit [Finite G] in
 private theorem conj_data_of_mem_starImg {D : Subgroup G} (hDM : D ≤ H ⊓ M)
     {C : Subgroup (StarGroup p H)} (hC : CFSG.IsComponent C)
     (hCM : ¬ C ≤ starImg p H M) {x : StarGroup p H} (hx : x ∈ starImg p H D) :
@@ -260,13 +263,14 @@ private theorem conj_data_of_mem_starImg {D : Subgroup G} (hDM : D ≤ H ⊓ M)
   exact ⟨CFSG.LocalCores.isComponent_map_mulEquiv (MulAut.conj x) hC,
     CFSG.LocalCores.isComponent_map_mulEquiv (MulAut.conj (x ^ 2)) hC, hC1M, hC2M⟩
 
+omit [Finite G] in
 private theorem conj_ne_self_of_mem_starImg {d : ℕ} (hd : d.Prime) (hd2 : d ≠ 2)
     {D : Subgroup G} (hD : IsPGroup d D) {x : StarGroup p H}
     {C : Subgroup (StarGroup p H)} (hx : x ∈ starImg p H D)
     (hxN : x ∉ Subgroup.normalizer (C : Set (StarGroup p H))) :
     C ≠ C.map (MulAut.conj x).toMonoidHom ∧
       C ≠ C.map (MulAut.conj (x ^ 2)).toMonoidHom := by
-  haveI : Fact d.Prime := ⟨hd⟩
+  have : Fact d.Prime := ⟨hd⟩
   have hDstar : IsPGroup d (starImg p H D) := by
     change IsPGroup d ((D.subgroupOf H).map
       (QuotientGroup.mk' (primeComplementCore (G := ↥H) p)))
@@ -288,6 +292,7 @@ private theorem conj_ne_self_of_mem_starImg {d : ℕ} (hd : d.Prime) (hd2 : d �
       (Subgroup.normalizer (C : Set (StarGroup p H))).pow_mem hx2N m
     rwa [hm] at hmem
 
+omit [Finite G] in
 private theorem conj_conj_ne_of_mem_starImg {x : StarGroup p H}
     {C : Subgroup (StarGroup p H)}
     (hxN : x ∉ Subgroup.normalizer (C : Set (StarGroup p H))) :
@@ -349,7 +354,7 @@ theorem starImg_le_normalizer_of_isComponent (h : TwelveCtx G M p Q H) {d : ℕ}
   obtain ⟨E, hEQ, hE, hEc, hΓ⟩ := h.exists_E_sq
   have hS : NineSettingGen G M p Q H E 2 := nineSettingGen h hEQ hE hEc hΓ
   by_contra hnot
-  obtain ⟨x, hx, hxN⟩ := SetLike.not_le_iff_exists.mp hnot
+  obtain ⟨x, hx, hxN⟩ := IsConcreteLE.not_le_iff_exists.mp hnot
   have h4 := four_le_pRank_of_moved_component h hd hd2 hD hDM hS hC hCM hx hxN
   have h3 := hS.pRank_star_le_three h.H_mem_H2Star.1 h.p_not_mem_sigma
   omega

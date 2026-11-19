@@ -131,7 +131,7 @@ theorem land_mask {a s : Nat} (h : Nat.land a (Nat.shiftLeft 65535 s) = 0) :
       change (a &&& 65535 <<< s).testBit (s + i) = false at this
       rw [Nat.testBit_and, Nat.testBit_shiftLeft, e15, Nat.testBit_two_pow_sub_one] at this
       simp only [ge_iff_le, Nat.le_add_right, decide_true, Nat.add_sub_cancel_left, hi,
-        Bool.true_and, Bool.and_true] at this
+        Bool.and_true] at this
       simp [this]
     · simp [hi]
   · right
@@ -424,7 +424,7 @@ theorem cloP_spec [Fact P.p.Prime] {F : Fd} (hL : LaneOK F P) (C : List (Nat × 
       rw [List.getD_eq_getElem _ _ hqC, List.getD_eq_getElem _ _ hq]
       have := congrArg (fun l => l[e.2.1]?) hacc
       simp only [List.getElem?_map, List.getElem?_eq_getElem hq, List.getElem?_take,
-        if_pos hq, List.getElem?_eq_getElem hqC,
+        ite_eq_left hq, List.getElem?_eq_getElem hqC,
         Option.map_some, Option.some.injEq] at this
       exact this.symm
     have hGj : nthK (0, 0) (P.gens.map (packR P)) e.1 = packR P (P.gens.getD e.1 ⟨[], []⟩) := by
@@ -440,7 +440,7 @@ theorem cloP_spec [Fact P.p.Prime] {F : Fd} (hL : LaneOK F P) (C : List (Nat × 
       exact sem_step hx hj
     have hacc' : (acc ++ [stepC P acc e]).map (fun x => packR P x.1) =
         C.take (acc ++ [stepC P acc e]).length := by
-      rw [List.map_append, hacc, List.length_append, List.length_singleton, List.take_succ]
+      rw [List.map_append, hacc, List.length_append, List.length_singleton, List.take_add_one]
       have h0 : C[acc.length]? = some (ent e) := by
         have := congrArg (fun l => l[0]?) hdrop
         simpa using this
@@ -593,10 +593,10 @@ theorem kids_spec {F : Fd} {P : Pt} (hL : LaneOK F P) {km : Nat} {Sv : List Refl
     rw [List.map_cons, kidsM_cons] at hfl ⊢
     cases hm : Nat.beq m 0
     · rw [hm] at hfl
-      simp only [cond_false] at hfl ⊢
+      simp only [Bool.cond_false] at hfl ⊢
       cases hb : Nat.beq (Nat.land m 1) 0
       · rw [hb] at hfl
-        simp only [cond_false] at hfl ⊢
+        simp only [Bool.cond_false] at hfl ⊢
         have hw : appK F (packR P r) (pkP P.p P.D V) = pkP P.p P.D (P.applyRefl r V) :=
           hL.app r.h r.f V
         rw [hw] at hfl ⊢
@@ -657,9 +657,9 @@ theorem kids_spec {F : Fd} {P : Pt} (hL : LaneOK F P) {km : Nat} {Sv : List Refl
         obtain ⟨T', ⟨new, hT'⟩, hI''⟩ := kids_spec hL rs (k + 1) _ _ _ _ _ (T ++ [e]) hk' hpar' (by rw [getD_append_left _ _ _ hpar, hV]) hI' hfl
         exact ⟨T', ⟨e :: new, by rw [hT']; simp⟩, hI''⟩
       · rw [hb] at hfl
-        simp only [cond_true] at hfl ⊢
+        simp only [_root_.Bool.cond_true] at hfl ⊢
         exact kids_spec hL rs (k + 1) _ bk bs cnt fl T hk' hpar hV hI hfl
-    · simp only [cond_true]
+    · simp only [_root_.Bool.cond_true]
       exact ⟨T, ⟨[], by simp⟩, hI⟩
 
 @[expose] noncomputable def tloop (F : Fd) (km : Nat) (S : List (Nat × Nat)) (ms : List Nat) :
@@ -708,7 +708,7 @@ theorem tloop_spec {F : Fd} {P : Pt} (hL : LaneOK F P) {km : Nat} {Sv : List Ref
     rw [tloop_nil] at h ⊢
     cases hf : st.2.2.2.2
     · rw [hf] at h; exact absurd rfl h
-    · exact ⟨T, ⟨hI.q3, hI.q5, hI.q6⟩, by rw [cond_true, hI.q2]⟩
+    · exact ⟨T, ⟨hI.q3, hI.q5, hI.q6⟩, by rw [_root_.Bool.cond_true, hI.q2]⟩
   | m :: ms, st, T, np, hI, h => by
     rw [tloop_cons] at h ⊢
     have hk : (kidsM F km (popK st.1 st.2.1).1 (Sv.map (packR P)) m ((popK st.1 st.2.1).2.2.1,
@@ -902,7 +902,7 @@ theorem chainM_spec [Fact P.p.Prime] {F : Fd} (hL : LaneOK F P) (hwf : P.WF) (hp
     · rw [hc] at h
       exact absurd rfl h
     rw [hc] at h
-    simp only [cond_true] at h ⊢
+    simp only [_root_.Bool.cond_true] at h ⊢
     simp only [Bool.and_eq_true, Nat.blt_eq, Bool.not_eq_true', List.all_eq_true, Nat.beq_eq] at hc
     obtain ⟨⟨⟨hb, hsort⟩, hall⟩, ht0⟩ := hc
     have ht : treeM F km (selK L.2.1 0 C) (Nat.shiftLeft 1 (Nat.mul 16 L.1)) L.2.2 ≠ 0 := by
@@ -941,7 +941,7 @@ theorem chainM_spec [Fact P.p.Prime] {F : Fd} (hL : LaneOK F P) (hwf : P.WF) (hp
       · rw [List.mem_singleton.mp hc]; exact hb
     obtain ⟨Ls, hLs⟩ := chainM_spec hL hwf hp' Dl hs lv (bs ++ [L.1]) _ _ hbs' hE' h
     refine ⟨lev P Dl L.1 L.2.1 T :: Ls, ?_⟩
-    rw [Pt.chainProd, if_pos (levelOK_of hwf hp' hs hbs hidx hfix hT)]
+    rw [Pt.chainProd, ite_eq_left (levelOK_of hwf hp' hs hbs hidx hfix hT)]
     rw [List.map_append, List.map_singleton] at hLs
     change P.chainProd (bs.map P.unit ++ [P.unit L.1]) Ls (prod * T.length) = _
     rw [← htl]
@@ -1113,7 +1113,7 @@ theorem oK_verify {F : Fd} {P : Pt} (hp : P.p.Prime) (hp3 : 3 ≤ P.p) (hp' : P.
   constructor
   · intro h0
     have hb : Nat.beq o.2.1 0 = true := by rw [h0]; rfl
-    rw [hb, cond_true, Nat.blt_eq] at hrest'
+    rw [hb, _root_.Bool.cond_true, Nat.blt_eq] at hrest'
     obtain ⟨Ls, hLs⟩ := chainM_spec (km := o.2.2.1) hL hWF hp' Dl hsem o.2.2.2.2.1 [] 0 1
       (by simp) (by simp) (by omega)
     simp only [List.map_nil] at hLs
@@ -1126,7 +1126,7 @@ theorem oK_verify {F : Fd} {P : Pt} (hp : P.p.Prime) (hp3 : 3 ≤ P.p) (hp' : P.
       rw [Bool.eq_false_iff]
       intro hq
       exact h0 (Nat.eq_of_beq_eq_true hq)
-    rw [hb, cond_false] at hrest'
+    rw [hb, Bool.cond_false] at hrest'
     unfold wPosK at hrest'
     simp only [Bool.and_eq_true] at hrest'
     obtain ⟨⟨⟨⟨⟨⟨⟨k1, k2⟩, k3⟩, k4⟩, k5⟩, k6⟩, k7⟩, k8⟩ := hrest'

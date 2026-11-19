@@ -88,7 +88,7 @@ theorem cL_inv_conj_pinnedX {u β : Fin Tag.E8.rank → ℤ} (hu : IsRoot Tag.E8
   group
 
 theorem pair_pos2 {β₀ β₁ u₀ u₁ : Fin Tag.E8.rank → ℤ} (hu₀ : u₀ ∈ Deg1 Tag.E8)
-    (hu₁ : u₁ ∈ Deg1 Tag.E8) (hν₀ : νW • u₀ = β₀) (hν₁ : νW • u₁ = β₁) (hne : u₀ ≠ u₁)
+    (hu₁ : u₁ ∈ Deg1 Tag.E8) (hν₀ : νW • u₀ = β₀) (hν₁ : νW • u₁ = β₁) (_hne : u₀ ≠ u₁)
     {s d : D.L} {l : ModGL Tag.E8 K}
     (hl : baseChangeGL (algebraMap K D.L) l =
       gE D * (pinnedX Tag.E8 D.L β₀ s * pinnedX Tag.E8 D.L β₁ d) * (gE D)⁻¹) :

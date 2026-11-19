@@ -15,11 +15,11 @@ variable {G : Type} [Group G] [Finite G] {A M : Subgroup G} {n : ℕ}
 
 theorem Setting12Two.four_le_card (h : Setting12Two A M n) (hA : IsElemAbelian 2 A) :
     2 ^ 2 ≤ Nat.card ↥A := by
-  haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
+  have : Fact (Nat.Prime 2) := Nat.fact_prime_two
   let π := QuotientGroup.mk' (CFSG.Quasithin.kerIn M ⊤)
   have hnc : ¬ IsCyclic ↥A := by
     intro hcyc
-    haveI : IsCyclic ↥A := hcyc
+    have : IsCyclic ↥A := hcyc
     exact h.not_isCyclic_map hA
       (isCyclic_of_surjective (π.subgroupMap A) (MonoidHom.subgroupMap_surjective π A))
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp h.A_two
@@ -33,13 +33,14 @@ theorem Setting12Two.four_le_card (h : Setting12Two A M n) (hA : IsElemAbelian 2
   calc 2 ^ 2 ≤ 2 ^ k := Nat.pow_le_pow_right (by norm_num) hk2
     _ = Nat.card ↥A := hk.symm
 
+omit [Finite V] in
 theorem Setting12Two.stabilizes_of_fix_eq (h : Setting12Two A M n) (hA : IsElemAbelian 2 A)
     (hKodd : Odd (Nat.card ↥(CFSG.Quasithin.kerIn M ⊤))) (ρ : G →* LGL 2 V)
     (U : Submodule (ZMod 2) V)
     (hfix : ∀ a ∈ A, a ∉ CFSG.Quasithin.kerIn M ⊤ → ∀ v : V, ρ a v = v ↔ v ∈ U) :
     ∀ x ∈ CFSG.Quasithin.kerIn M ⊤, ∀ u ∈ U, ρ x u ∈ U := by
   let K : Subgroup G := CFSG.Quasithin.kerIn M ⊤
-  haveI hKnorm : K.Normal := kerIn_top_normal12 M
+  have hKnorm : K.Normal := kerIn_top_normal12 M
   let S : Subgroup G :=
     { carrier := {x | ∀ u ∈ U, ρ x u ∈ U ∧ ρ x⁻¹ u ∈ U}
       one_mem' := by
@@ -106,7 +107,7 @@ theorem Setting12Two.commute_ker (h : Setting12Two A M n) (ρ : G →* LGL 2 V)
     (hnt : IsNoncentral ρ ⊤ ⊥) :
     ∀ x ∈ CFSG.Quasithin.kerIn M ⊤, ∀ a ∈ A, x * a = a * x := by
   let K : Subgroup G := CFSG.Quasithin.kerIn M ⊤
-  haveI hKnorm : K.Normal := kerIn_top_normal12 M
+  have hKnorm : K.Normal := kerIn_top_normal12 M
   let U : Submodule (ZMod 2) V := commSub (A.map ρ)
   have hA : IsElemAbelian 2 A := isElemAbelian_of_repQuad hρ hq
   have hO : CFSG.pCore 2 G = ⊥ := pCore_eq_bot_of_irreducible ρ hρ hirr
@@ -132,7 +133,7 @@ theorem Setting12Two.commute_ker (h : Setting12Two A M n) (ρ : G →* LGL 2 V)
     simpa [c, mul_assoc] using this
   have hxx : ∀ w : V, ρ x⁻¹ (ρ x w) = w := by
     intro w
-    simpa [map_inv] using inv_apply_apply' (ρ x) w
+    simp [map_inv]
   have hcu : ∀ u ∈ U, ρ c u = u := by
     intro u hu
     have hau : ρ a u = u := hUfix a ha u hu
@@ -214,7 +215,7 @@ theorem Setting12Two.ker_le_center (h : Setting12Two A M n) (ρ : G →* LGL 2 V
     (hρ : Function.Injective ρ) (hq : RepQuad ρ A) (hirr : IsChiefFactor ρ ⊤ ⊥)
     (hnt : IsNoncentral ρ ⊤ ⊥) : CFSG.Quasithin.kerIn M ⊤ ≤ Subgroup.center G := by
   let K : Subgroup G := CFSG.Quasithin.kerIn M ⊤
-  haveI hKnorm : K.Normal := kerIn_top_normal12 M
+  have hKnorm : K.Normal := kerIn_top_normal12 M
   have hTnormal : (Subgroup.centralizer (K : Set G)).Normal := by
     refine ⟨fun t ht g => ?_⟩
     rw [Subgroup.mem_centralizer_iff] at ht ⊢
@@ -231,7 +232,7 @@ theorem Setting12Two.ker_le_center (h : Setting12Two A M n) (ρ : G →* LGL 2 V
     rw [Subgroup.mem_centralizer_iff]
     intro b hb
     exact h.commute_ker ρ hρ hq hirr hnt b hb a ha
-  haveI : (Subgroup.centralizer (K : Set G)).Normal := hTnormal
+  have : (Subgroup.centralizer (K : Set G)).Normal := hTnormal
   have hle : Subgroup.normalClosure (A : Set G) ≤ Subgroup.centralizer (K : Set G) :=
     Subgroup.normalClosure_le_normal hAleT
   have hTtop : Subgroup.centralizer (K : Set G) = ⊤ :=
@@ -252,7 +253,7 @@ theorem twelveSix_irreducible (hMult : SchurMultiplierInput) (h : Setting12Two A
     h.ker_le_center ρ hρ hq hirr hnt
   have hAK : A ⊓ CFSG.Quasithin.kerIn M ⊤ = ⊥ := h.inf_ker_eq_bot hKodd
   have hgen : Subgroup.normalClosure (A : Set G) = ⊤ := h.normalClosure_eq_top
-  haveI : (CFSG.Quasithin.kerIn M ⊤).Normal := kerIn_top_normal12 M
+  have : (CFSG.Quasithin.kerIn M ⊤).Normal := kerIn_top_normal12 M
   exact twelveSix (X := G) (K := CFSG.Quasithin.kerIn M ⊤) (A := A)
     hMult hKcen hKodd h.A_two hAK ⟨n, h.one_lt_n, h.type⟩ hgen
 

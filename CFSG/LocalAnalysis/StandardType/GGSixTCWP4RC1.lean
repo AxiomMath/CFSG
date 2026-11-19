@@ -29,7 +29,7 @@ theorem tcC1_row_of_allowed {ΨJ Ψx : Set (Fin Tag.E6.rank → ℤ)} {dJ dx : T
   obtain ⟨hJe, hJr, hJN, hJk⟩ := hJ
   obtain ⟨hXe, hXr, hXN, hXk⟩ := hx
   unfold tcrAllowedC1 at h
-  simp only [Bool.and_eq_true, Bool.or_eq_true, beq_iff_eq, if_true, Bool.true_and,
+  simp only [Bool.and_eq_true, Bool.or_eq_true, beq_iff_eq, ite_true, Bool.true_and,
     Int.reduceBEq, Nat.reduceBEq] at h
   have key : ∀ (Ψ : Set (Fin Tag.E6.rank → ℤ)) (d : TcrCData) (k : TcrKind),
       tcrKindOfK (twistKindOf ρ Ψ) ∈ d.ks → d.ks = [k] → tcrKindOfK (twistKindOf ρ Ψ) = k := by

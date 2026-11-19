@@ -52,7 +52,7 @@ private theorem isMulCommutative_sup_sigmaSetCommuting (hS : Sec5Hyp M V) :
   have hXab : ∀ X : sigmaSetCommuting M V, IsMulCommutative ↥(X : Subgroup G) := by
     rintro ⟨X, hXmem, -⟩
     obtain ⟨g, rfl, -⟩ := hXmem
-    letI := hVab
+    let := hVab
     exact Subgroup.map_isMulCommutative V (MulAut.conj g).toMonoidHom
   have hVcomm : ∀ X ∈ sigmaSetCommuting M V, ⁅V, X⁆ = ⊥ := by
     rintro X ⟨hXmem, -⟩
@@ -144,7 +144,7 @@ theorem Sec6Hyp.exists_isL2Gen (hS : Sec6Hyp M V) {U : Subgroup G} (hU : U ∈ s
 
 theorem Sec5Hyp.card_orbit_Pc (hS : Sec5Hyp M V) {U : Subgroup G} (hU : U ∈ sigmaSet M V) :
     Nat.card (MulAction.orbit ↥(Pc M V) U) = Nat.card V ^ 2 := by
-  letI : MulAction ↥(Pc M V) (Subgroup G) :=
+  let : MulAction ↥(Pc M V) (Subgroup G) :=
     MulAction.compHom (Subgroup G) (MulAut.conj.comp (Pc M V).subtype)
   have hstab_eq : MulAction.stabilizer ↥(Pc M V) U =
       (Pc M V ⊓ Subgroup.normalizer (U : Set G)).subgroupOf (Pc M V) := by
@@ -156,9 +156,9 @@ theorem Sec5Hyp.card_orbit_Pc (hS : Sec5Hyp M V) {U : Subgroup G} (hU : U ∈ si
       Nat.card ↥(Pc M V ⊓ Subgroup.centralizer (U : Set G)) := by
     rw [hstab_eq, Nat.card_congr (Subgroup.subgroupOfEquivOfLe inf_le_left).toEquiv,
       hS.Pc_inf_normalizer_eq_centralizer hU]
-  letI : Fintype ↥(Pc M V) := Fintype.ofFinite _
-  letI : Fintype (MulAction.orbit ↥(Pc M V) U) := Fintype.ofFinite _
-  letI : Fintype (MulAction.stabilizer ↥(Pc M V) U) := Fintype.ofFinite _
+  let : Fintype ↥(Pc M V) := Fintype.ofFinite _
+  let : Fintype (MulAction.orbit ↥(Pc M V) U) := Fintype.ofFinite _
+  let : Fintype (MulAction.stabilizer ↥(Pc M V) U) := Fintype.ofFinite _
   have horb := MulAction.card_orbit_mul_card_stabilizer_eq_card_group
     (G := ↥(Pc M V)) (X := Subgroup G) U
   simp only [← Nat.card_eq_fintype_card] at horb
@@ -175,7 +175,7 @@ theorem Sec5Hyp.card_orbit_Pc (hS : Sec5Hyp M V) {U : Subgroup G} (hU : U ∈ si
 theorem Sec5Hyp.sq_dvd_card_sigmaSet (hS : Sec5Hyp M V) :
     Nat.card V ^ 2 ∣ Nat.card (sigmaSet M V) := by
   classical
-  letI : MulAction ↥(Pc M V) (Subgroup G) :=
+  let : MulAction ↥(Pc M V) (Subgroup G) :=
     MulAction.compHom (Subgroup G) (MulAut.conj.comp (Pc M V).subtype)
   refine CFSG.GroupTheory.TransferOrderFour.dvd_card_of_forall_orbit
     (K := ↥(Pc M V)) (X := Subgroup G) (S := sigmaSet M V) ?_ (Nat.card V ^ 2) ?_
@@ -185,7 +185,7 @@ theorem Sec5Hyp.sq_dvd_card_sigmaSet (hS : Sec5Hyp M V) :
     exact (hS.card_orbit_Pc hX) ▸ dvd_refl _
 
 theorem Sec6Hyp.stmt60 (hS : Sec6Hyp M V) : Sec6.Stmt60 M V :=
-  ⟨fun U hU => hS.exists_isL2Gen hU, hS.sec5.sq_dvd_card_sigmaSet,
-    fun U hU => hS.sec5.V_le_commutator hU⟩
+  ⟨fun _U hU => hS.exists_isL2Gen hU, hS.sec5.sq_dvd_card_sigmaSet,
+    fun _U hU => hS.sec5.V_le_commutator hU⟩
 
 end CFSG.RankThree.GF2n.Tim81

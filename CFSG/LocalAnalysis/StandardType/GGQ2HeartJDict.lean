@@ -40,7 +40,7 @@ private theorem ggQ2HeartJDictAux_symC (k l : Fin Tag.E6.rank) :
 private theorem ggQ2HeartJDictAux_iform_single (γ : Fin Tag.E6.rank → ℤ) (i : Fin Tag.E6.rank) :
     iform γ (Pi.single i 1) = ∑ k, γ k * Tag.E6.symmetrizedCartan k i := by
   simp only [iform, Pi.single_apply, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq',
-    Finset.mem_univ, if_true]
+    Finset.mem_univ, ite_true]
 
 private theorem ggQ2HeartJDictAux_pr_iform (γ γ' : Fin Tag.E6.rank → ℤ) :
     ∑ j, (γ' j : ZMod 3) * (iform γ (Pi.single j 1) : ZMod 3) = (iform γ γ' : ZMod 3) := by

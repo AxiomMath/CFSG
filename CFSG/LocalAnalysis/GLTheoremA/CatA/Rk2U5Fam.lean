@@ -38,13 +38,13 @@ theorem rk2_twoLocal_equiv_le {X Y : Type} [Group X] [Finite X] [Group Y] [Finit
 @[expose] def rk2V (r : ℕ) : (Fin 3 → ZMod r) →+ (Fin 5 → ZMod r) where
   toFun u := ![u 0, u 0, u 1, u 2, -(2 * u 0 + u 1 + u 2)]
   map_zero' := by ext i; fin_cases i <;> simp
-  map_add' u u' := by ext i; fin_cases i <;> simp <;> ring
+  map_add' u u' := by ext i; fin_cases i <;> simp; ring
 
 theorem rk2_twoLocal_SU_five {F : Type} [Field F] [Finite F] {n r : ℕ} (hFD : UnitaryFieldData 2 n F)
     [CharP F 2] (hr : r.Prime) (hrQ : r ∣ 2 ^ n + 1) :
     3 ≤ GLATwoLocalRank r ↥(StatedSU 5 (2 ^ n) F) := by
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : NeZero r := ⟨hr.ne_zero⟩
+  have : Fact r.Prime := ⟨hr⟩
+  have : NeZero r := ⟨hr.ne_zero⟩
   have hn1 : 1 ≤ n := hFD.one_le
   have hq1 : 1 ≤ 2 ^ n := Nat.one_le_pow _ _ (by norm_num)
   have hrK : r ∣ Nat.card F - 1 := by
@@ -84,7 +84,7 @@ theorem rk2_twoLocal_SU_five {F : Type} [Field F] [Finite F] {n r : ℕ} (hFD : 
     intro h1
     have := congrArg (fun A : StatedSU 5 (2 ^ n) F =>
       ((A : GL (Fin 5) F) : Matrix (Fin 5) (Fin 5) F) 0 1) h1
-    simp [ht, coe_swapGL, swapBlock, Matrix.one_apply] at this
+    simp [ht, coe_swapGL, swapBlock] at this
   have hEt : ∀ x ∈ E, x * t = t * x := by
     rintro _ ⟨u, rfl⟩
     refine Subtype.ext (Units.ext ?_)
@@ -109,7 +109,7 @@ theorem rk2_pRank_bot {Y : Type} [Group Y] [Finite Y] {q : ℕ} (hq : q.Prime) :
 
 theorem rk2_pRank_le_of_card_le {Y : Type} [Group Y] [Finite Y] {q k : ℕ} (hq : q.Prime)
     {H : Subgroup Y} (hH : Nat.card H ≤ q ^ k) : CFSG.Open.pRank q H ≤ k :=
-  CFSG.SectionRank.pRank_le hq.one_lt fun E hE _ => (Subgroup.card_le_of_le hE).trans hH
+  CFSG.SectionRank.pRank_le hq.one_lt fun _E hE _ => (Subgroup.card_le_of_le hE).trans hH
 
 section Main
 
@@ -123,8 +123,8 @@ theorem rk2_twA4_family {K₀ : Type} [Group K₀] [Finite K₀] {q n : ℕ} (hq
   obtain ⟨-, F, hF, hFin, hcard, ⟨e⟩⟩ := hM'.statedClassicalModel (by decide)
   have hn1 : 1 ≤ n := hl.1
   have hFD : UnitaryFieldData 2 n F := ⟨Nat.prime_two, hn1, by rw [hcard, ← pow_mul, mul_comm]⟩
-  haveI : CharP F 2 := hFD.charP
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : CharP F 2 := hFD.charP
+  have : Fact q.Prime := ⟨hq⟩
   have hex : CFSG.Blueprint.Multiplier.exceptionalOrders .PSU 5 2 n = (1, 1) := rfl
   have hZg : Nat.card (Subgroup.center K₀) ∣ Nat.gcd 5 (2 ^ n + 1) :=
     rk2_card_center_dvd_twA (ℓ := 4) hK₀ hex
@@ -156,7 +156,7 @@ theorem rk2_twA4_family {K₀ : Type} [Group K₀] [Finite K₀] {q n : ℕ} (hq
     have hdvd5 : 5 ∣ Nat.gcd 5 (2 ^ n + 1) := by
       have := hZg
       rwa [h5] at this
-    haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     have hadm : StatedLieAdmissible .PSU 5 2 n := hM'.admissible
     have hmm : CFSG.Models.LieModel (StatedProj H) .PSU 5 2 n :=
       CFSG.HardMathSupport.Timmesfeld.Tables.Multiplier.lieModel_of_classical
@@ -191,7 +191,7 @@ theorem rk2_twA4_family {K₀ : Type} [Group K₀] [Finite K₀] {q n : ℕ} (hq
       CFSG.HardMathSupport.Timmesfeld.Tables.Multiplier.isPerfect_linUni (K := F) (p := 2) (f := n)
         Nat.prime_two (by norm_num) (Or.inr ⟨hcard, rfl⟩)
     have hLperf : Group.IsPerfect K₀ := ⟨hQ.1⟩
-    haveI := hfin
+    have := hfin
     obtain ⟨ψ, hψs, hβψ⟩ := CFSG.HardMathSupport.Timmesfeld.Tables.Multiplier.exists_hom_of_cover
       (X := StatedProj H) hHperf hLperf α hα hαc β hβ hβk.le (p := 5) (by norm_num) hβp
       (by rw [hαk]; exact hM)

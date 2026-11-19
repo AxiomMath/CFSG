@@ -52,7 +52,7 @@ theorem w135c2_four_le_mQuot_trialityD4_direct (hW : ∀ w : W, w ^ 2 = 1)
   obtain ⟨hf, K, _, _, σ, hK, hσ, ⟨e⟩⟩ :=
     CFSG.QuasithinUnique.Setup.X6.exists_mulEquiv_triality_model hX
   have hrk : 24 * f ≤ rk W := w135c2_twentyFour_mul_le_rk_of_triality hW hctx hlie
-  haveI hchar : CharP K 2 := CFSG.Quasithin.B42D4.charP_two_of_card hf hK
+  have hchar : CharP K 2 := CFSG.Quasithin.B42D4.charP_two_of_card hf hK
   have hσ3 : σ.toRingHom ^ 3 = 1 := CFSG.Quasithin.B42D4.sigma_cube hK σ hσ
   by_cases htL : t ∈ L
   · let x : ↥L := ⟨t, htL⟩

@@ -123,7 +123,7 @@ theorem l4Up2_mul_l4Low2_comm (X Y : Matrix (Fin 2) (Fin 2) K) :
     l4Up2 X * l4Low2 Y = l4Low2 Y * l4Up2 X := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [l4Up2, l4Low2, Matrix.mul_apply, Fin.sum_univ_two, Fin.sum_univ_four]
+    simp [l4Up2, l4Low2, Matrix.mul_apply, Fin.sum_univ_four]
 
 theorem blkUp_blkLow_comm (X Y : GL (Fin 2) K) : blkUp X * blkLow Y = blkLow Y * blkUp X := by
   apply Units.ext
@@ -266,7 +266,7 @@ theorem l4Eps_good_two_blocks [Finite K] {G : Subgroup (GL (Fin 4) K)}
     (h01 : d 0 = d 1) (h20 : d 2 ≠ d 0) (h30 : d 3 ≠ d 0) :
     GoodEps (Subgroup.centralizer ({D} : Set (GL (Fin 4) K)) ⊓ G) := by
   intro L hLC hLp hLs hT
-  haveI := hLp
+  have := hLp
   have e02 : d 0 ≠ d 2 := fun h => h20 h.symm
   have e03 : d 0 ≠ d 3 := fun h => h30 h.symm
   have e12 : d 1 ≠ d 2 := fun h => h20 (h.symm.trans h01.symm)
@@ -346,7 +346,7 @@ theorem l4Eps_good_two_blocks [Finite K] {G : Subgroup (GL (Fin 4) K)}
   have hQ₁q : IsQuasisimple (Q₁.subgroupOf C) :=
     CFSG.LocalCores.isQuasisimple_of_mulEquiv eQ.symm hQ₂
   have eL : (L.subgroupOf C) ≃* L := Subgroup.subgroupOfEquivOfLe hLC
-  haveI hL'p : Group.IsPerfect (L.subgroupOf C) :=
+  have hL'p : Group.IsPerfect (L.subgroupOf C) :=
     Group.IsPerfect.ofSurjective (f := eL.symm.toMonoidHom) eL.symm.surjective
   have hL'T : EpsQuot (L.subgroupOf C) := EpsQuot.congr eL.symm hT
   have hL'S : IsSimpleGroup (L.subgroupOf C ⧸ CFSG.pCore 2 (L.subgroupOf C)) :=
@@ -488,13 +488,13 @@ theorem l4Eps_good_two_blocks [Finite K] {G : Subgroup (GL (Fin 4) K)}
       have h32' : ((l : GL (Fin 4) K) : Matrix (Fin 4) (Fin 4) K) 3 2 = 0 :=
         l4_entry_eq_zero hD (hLH hl) e32
       ext i j
-      fin_cases i <;> fin_cases j <;> simp [Matrix.one_apply, h22, h33, h23', h32']
+      fin_cases i <;> fin_cases j <;> simp [h22, h33, h23', h32']
   have hLtriv : ∀ l ∈ L, (l : GL (Fin 4) K) = 1 := by
     intro l hl
     apply Units.ext
     rw [Units.val_one, l4E_blockdiag_eq _ (hz l (hLH hl)), hU l hl, hD2 l hl, l4Up2_one,
       l4Low2_one, mul_one]
-  haveI : Nontrivial L := hT.nontrivial
+  have : Nontrivial L := hT.nontrivial
   obtain ⟨x, hx⟩ := exists_ne (1 : L)
   exact hx (Subtype.ext (hLtriv x.1 x.2))
 
@@ -517,7 +517,7 @@ theorem l4Eps_good_three_one [Finite K] {G : Subgroup (GL (Fin 4) K)}
     (h23 : d 2 ≠ d 3) (hdet : (D : Matrix (Fin 4) (Fin 4) K).det = 1) (hD3 : D ^ 3 = 1) :
     GoodEps (Subgroup.centralizer ({D} : Set (GL (Fin 4) K)) ⊓ G) := by
   intro L hLC hLp hLs hT
-  haveI := hLp
+  have := hLp
   set H := Subgroup.centralizer ({D} : Set (GL (Fin 4) K)) with hH
   set C := H ⊓ G with hC
   have hd : ∀ i : Fin 3, d (Fin.castSucc i) = d 0 := by
@@ -588,7 +588,7 @@ theorem l4Eps_good_three_one [Finite K] {G : Subgroup (GL (Fin 4) K)}
     ext i j
     simp [mul_diagonal, diagonal_mul, mul_comm]
   have hzo : orderOf z = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     apply orderOf_eq_prime
     · have hD3' : Dc ^ 3 = 1 := Subtype.ext hD3
       rw [hz, ← map_pow, hD3', map_one]
@@ -724,7 +724,7 @@ theorem l4Eps_good_diag [Finite K] {ω : K} (hω : IsPrimitiveRoot ω 3)
     exact l4Eps_good_three_one hQ hE hβ hDσ (hσD σ) (heq _ _ h.1) (heq _ _ h.2.1)
       (hne _ _ h.2.2) (hGdet _ hDσ) (by rw [← map_pow, hD3, map_one])
 
-theorem l4Eps_good_of_conj [Finite K] (h3 : (3 : K) ≠ 0) {ω : K} (hω : IsPrimitiveRoot ω 3)
+theorem l4Eps_good_of_conj [Finite K] (_h3 : (3 : K) ≠ 0) {ω : K} (hω : IsPrimitiveRoot ω 3)
     {G : Subgroup (GL (Fin 4) K)} {Q : Subgroup (GL (Fin 3) K)} (hQ : IsQuasisimple Q)
     (hGdet : ∀ g ∈ G, (g : Matrix (Fin 4) (Fin 4) K).det = 1)
     (hGσ : ∀ (σ : Equiv.Perm (Fin 4)) (g : GL (Fin 4) K),
@@ -767,7 +767,7 @@ theorem l4Eps_good_of_conj [Finite K] (h3 : (3 : K) ≠ 0) {ω : K} (hω : IsPri
       by_cases hij : i = j
       · subst hij
         simp [hc, hcon i 0]
-      · simp [diagonal_apply_ne _ hij, hij]
+      · simp [hij]
     have hcen : ∀ x : GL (Fin 4) K, x * GeneralLinearGroup.scalar (Fin 4) c =
         GeneralLinearGroup.scalar (Fin 4) c * x := fun x =>
       Subgroup.mem_center_iff.mp (by

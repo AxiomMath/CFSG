@@ -53,7 +53,7 @@ theorem odd_card_of_odd_orders {H : Type*} [Group H] [Finite H] (S : Subgroup H)
     (hS : ∀ n ∈ S, Odd (orderOf n)) : Odd (Nat.card S) := by
   by_contra hodd
   have heven : 2 ∣ Nat.card S := even_iff_two_dvd.1 (Nat.not_odd_iff_even.1 hodd)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 2 heven
   have h2 : Odd (orderOf (x : H)) := hS (x : H) x.2
   rw [Subgroup.orderOf_coe, hx] at h2

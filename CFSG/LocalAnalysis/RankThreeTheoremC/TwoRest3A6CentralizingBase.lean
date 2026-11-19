@@ -54,7 +54,7 @@ theorem not_two_dvd_index_inf_of_isMaxInvariantTwo {B R O L : Subgroup G}
   set T : Subgroup G := (T₀ : Subgroup D).map D.subtype with hT
   have hTD : T ≤ D := Subgroup.map_subtype_le _
   have hRT : R ≤ T := fun x hx => ⟨⟨x, hRD hx⟩, hT₀ hx, rfl⟩
-  have hT2 : IsPGroup 2 T := T₀.isPGroup'.map D.subtype
+  have hT2 : IsPGroup 2 T := T₀.isPGroup.map D.subtype
   have hDN : D ≤ Subgroup.normalizer (L : Set G) := sup_le Subgroup.le_normalizer hRL
   have hLT : L ⊔ T = D :=
     le_antisymm (sup_le le_sup_left hTD) (sup_le le_sup_left (hRT.trans le_sup_right))

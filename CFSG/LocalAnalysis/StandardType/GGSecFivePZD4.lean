@@ -116,7 +116,7 @@ theorem ggPsiInnerDiag_pz_D4_of_two_le_degree {B Bs L D J : Subgroup G} {x : G} 
     all_goals try cases ht
     all_goals
       have hr' : r = 4 := by
-        simpa only [markRank, if_neg (by assumption)] using hr
+        simpa only [markRank, ite_eq_right (by assumption)] using hr
       have hd' : k = f := hd
       subst r k
       rfl

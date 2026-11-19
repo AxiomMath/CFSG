@@ -44,19 +44,20 @@ private theorem q2cO5s_map_centralizer_mulEquiv {G H : Type*} [Group G] [Group H
   rw [map_mul, map_mul]
   exact h1
 
+omit [Fact (Nat.Prime p)] in
 private theorem q2cO5s_dinv_dinv {m : ℕ} {i k : Fin m} (hik : i ≠ k)
     (f : Fin m → Multiplicative (ZMod p)) : NbrOrth.dinv i k (NbrOrth.dinv i k f) = f := by
   funext j
-  rw [OrthNs.dinv_apply_eq, OrthNs.dinv_apply_eq, if_neg hik, if_neg hik]
+  rw [OrthNs.dinv_apply_eq, OrthNs.dinv_apply_eq, ite_eq_right hik, ite_eq_right hik]
   by_cases hji : j = i
-  · rw [hji, if_pos (Or.inl rfl), if_pos (Or.inl rfl), inv_inv]
+  · rw [hji, ite_eq_left (Or.inl rfl), ite_eq_left (Or.inl rfl), inv_inv]
   · by_cases hjk : j = k
-    · rw [hjk, if_pos (Or.inr rfl), if_pos (Or.inr rfl), inv_inv]
+    · rw [hjk, ite_eq_left (Or.inr rfl), ite_eq_left (Or.inr rfl), inv_inv]
     · have hnot : ¬ (j = i ∨ j = k) := by
         rintro (h' | h')
         · exact hji h'
         · exact hjk h'
-      rw [if_neg hnot, if_neg hnot]
+      rw [ite_eq_right hnot, ite_eq_right hnot]
 
 private theorem q2cO5s_dinv_mem_coordPos {i j k : Fin r} (hij : i ≠ j)
     (hjk : j ≠ k) (hik : i ≠ k) {f : Fin r → Multiplicative (ZMod p)}
@@ -68,9 +69,9 @@ private theorem q2cO5s_dinv_mem_coordPos {i j k : Fin r} (hij : i ≠ j)
     change f i / f j = 1 at h
     rwa [div_eq_one] at h
   have hi : NbrOrth.dinv j k f i = f i := by
-    rw [OrthNs.dinv_apply_eq, if_neg hjk, if_neg (fun h => h.elim hij hik)]
+    rw [OrthNs.dinv_apply_eq, ite_eq_right hjk, ite_eq_right (fun h => h.elim hij hik)]
   have hj : NbrOrth.dinv j k f j = (f j)⁻¹ := by
-    rw [OrthNs.dinv_apply_eq, if_neg hjk, if_pos (Or.inl rfl)]
+    rw [OrthNs.dinv_apply_eq, ite_eq_right hjk, ite_eq_left (Or.inl rfl)]
   rw [reflFixedCoordPos, MonoidHom.mem_ker]
   change NbrOrth.dinv j k f i * NbrOrth.dinv j k f j = 1
   rw [hi, hj, hfij, mul_inv_cancel]
@@ -85,14 +86,15 @@ private theorem q2cO5s_dinv_mem_coord {i j k : Fin r} (hij : i ≠ j)
     change g i * g j = 1 at h
     exact mul_eq_one_iff_eq_inv.mp h
   have hi : NbrOrth.dinv j k g i = g i := by
-    rw [OrthNs.dinv_apply_eq, if_neg hjk, if_neg (fun h => h.elim hij hik)]
+    rw [OrthNs.dinv_apply_eq, ite_eq_right hjk, ite_eq_right (fun h => h.elim hij hik)]
   have hj : NbrOrth.dinv j k g j = (g j)⁻¹ := by
-    rw [OrthNs.dinv_apply_eq, if_neg hjk, if_pos (Or.inl rfl)]
+    rw [OrthNs.dinv_apply_eq, ite_eq_right hjk, ite_eq_left (Or.inl rfl)]
   rw [reflFixedCoord, MonoidHom.mem_ker]
   change NbrOrth.dinv j k g i / NbrOrth.dinv j k g j = 1
   rw [hi, hj, div_eq_one]
   exact hgij
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem TBJOmData.reflFixed_map_dinv (Δ : TBJOmData Q p A r)
     {i j k : Fin r} (hij : i ≠ j) (hjk : j ≠ k) (hik : i ≠ k) (w : V ≃ₗ[K] V)
     (hwconj : ∀ f, w * Δ.τ f * w⁻¹ = Δ.τ (NbrOrth.dinv j k f)) :
@@ -118,6 +120,7 @@ theorem TBJOmData.reflFixed_map_dinv (Δ : TBJOmData Q p A r)
           w * Δ.τ (NbrOrth.dinv j k g) * w⁻¹ := MulAut.conj_apply w _
       rw [hconj, hwconj (NbrOrth.dinv j k g), q2cO5s_dinv_dinv hjk g]
 
+omit [Finite K] in
 private theorem q2cO5s_mem_piece_iff_fixed (Δ : TBJOmData Q p A r)
     (hfix : ∀ v : V, (∀ a ∈ A, a v = v) → v = 0) (l : Fin r) {v : V} :
     v ∈ Δ.F.U l ↔ ∀ f : Fin r → Multiplicative (ZMod p), f l = 1 → Δ.τ f v = v := by
@@ -136,7 +139,7 @@ private theorem q2cO5s_mem_piece_iff_fixed (Δ : TBJOmData Q p A r)
       have hvv := hv _ hfl
       rw [Δ.τ_eq] at hvv
       have h0 : toAdd (piMul r p (Pi.mulSingle m (ofAdd 1))) m ≠ 0 := by
-        simpa [piMul_apply] using (one_ne_zero : (1 : ZMod p) ≠ 0)
+        simp [piMul_apply]
       exact (Δ.F.fix (piMul r p (Pi.mulSingle m (ofAdd 1))) v).mp hvv m h0 u hu
     obtain ⟨w, hw, hvw⟩ := Δ.exists_sum_pieces hfix v
     have hzero : ∀ m, m ≠ l → w m = 0 := by
@@ -150,6 +153,7 @@ private theorem q2cO5s_mem_piece_iff_fixed (Δ : TBJOmData Q p A r)
     · intro hl
       exact absurd (Finset.mem_univ l) hl
 
+omit [Finite K] in
 private theorem q2cO5s_piece_preserved (Δ : TBJOmData Q p A r)
     (hfix : ∀ v : V, (∀ a ∈ A, a v = v) → v = 0) {j k : Fin r} (hjk : j ≠ k)
     {w : V ≃ₗ[K] V} (hwconj : ∀ f, w * Δ.τ f * w⁻¹ = Δ.τ (NbrOrth.dinv j k f))
@@ -159,10 +163,10 @@ private theorem q2cO5s_piece_preserved (Δ : TBJOmData Q p A r)
   have hgl_eq : ∀ f : Fin r → Multiplicative (ZMod p),
       NbrOrth.dinv j k f l = (f l)⁻¹ := by
     intro f
-    rw [OrthNs.dinv_apply_eq, if_neg hjk]
+    rw [OrthNs.dinv_apply_eq, ite_eq_right hjk]
     rcases hl with rfl | rfl
-    · rw [if_pos (Or.inl rfl)]
-    · rw [if_pos (Or.inr rfl)]
+    · rw [ite_eq_left (Or.inl rfl)]
+    · rw [ite_eq_left (Or.inr rfl)]
   constructor
   · rw [q2cO5s_mem_piece_iff_fixed Δ hfix l]
     intro f hfl
@@ -230,6 +234,7 @@ theorem ggOTwoPrime_orthCentralizer_map_conj (w : V ≃ₗ[K] V) (hwΩ : w ∈ o
   rw [q2cO5s_map_ggOTwoPrime_conj w
     (Subgroup.centralizer (H : Set (V ≃ₗ[K] V)) ⊓ orthDerived Q), hY]
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem TBJOmData.rankOne_map_dinv (Δ : TBJOmData Q p A r)
     {i j k : Fin r} (hij : i ≠ j) (hjk : j ≠ k) (hik : i ≠ k) (w : V ≃ₗ[K] V)
     (hwΩ : w ∈ orthDerived Q)
@@ -238,6 +243,7 @@ theorem TBJOmData.rankOne_map_dinv (Δ : TBJOmData Q p A r)
   exact ggOTwoPrime_orthCentralizer_map_conj w hwΩ _ _
     (Δ.reflFixed_map_dinv hij hjk hik w hwconj)
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem TBJOmData.reflFixed_map_dinv_self (Δ : TBJOmData Q p A r)
     {i j : Fin r} (hij : i ≠ j) (w : V ≃ₗ[K] V)
     (hwconj : ∀ f, w * Δ.τ f * w⁻¹ = Δ.τ (NbrOrth.dinv i j f)) :
@@ -246,9 +252,9 @@ theorem TBJOmData.reflFixed_map_dinv_self (Δ : TBJOmData Q p A r)
       NbrOrth.dinv i j f ∈ reflFixedCoord p r i j ↔ f ∈ reflFixedCoord p r i j := by
     intro f
     have hi : NbrOrth.dinv i j f i = (f i)⁻¹ := by
-      rw [OrthNs.dinv_apply_eq, if_neg hij, if_pos (Or.inl rfl)]
+      rw [OrthNs.dinv_apply_eq, ite_eq_right hij, ite_eq_left (Or.inl rfl)]
     have hj : NbrOrth.dinv i j f j = (f j)⁻¹ := by
-      rw [OrthNs.dinv_apply_eq, if_neg hij, if_pos (Or.inr rfl)]
+      rw [OrthNs.dinv_apply_eq, ite_eq_right hij, ite_eq_left (Or.inr rfl)]
     simp only [reflFixedCoord, MonoidHom.mem_ker, MonoidHom.div_apply]
     change (NbrOrth.dinv i j f i / NbrOrth.dinv i j f j = 1) ↔ f i / f j = 1
     rw [hi, hj, div_eq_one, div_eq_one, _root_.inv_inj]
@@ -262,6 +268,7 @@ theorem TBJOmData.reflFixed_map_dinv_self (Δ : TBJOmData Q p A r)
     change w * Δ.τ (NbrOrth.dinv i j f) * w⁻¹ = Δ.τ f
     rw [hwconj, q2cO5s_dinv_dinv hij]
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem TBJOmData.rankOne_map_dinv_self (Δ : TBJOmData Q p A r)
     {i j : Fin r} (hij : i ≠ j) (w : V ≃ₗ[K] V) (hwΩ : w ∈ orthDerived Q)
     (hwconj : ∀ f, w * Δ.τ f * w⁻¹ = Δ.τ (NbrOrth.dinv i j f)) :
@@ -269,6 +276,7 @@ theorem TBJOmData.rankOne_map_dinv_self (Δ : TBJOmData Q p A r)
   exact ggOTwoPrime_orthCentralizer_map_conj w hwΩ _ _
     (Δ.reflFixed_map_dinv_self hij w hwconj)
 
+omit [Finite K] in
 theorem TBJOmData.exists_dinv_conj (Δ : TBJOmData Q p A r)
     (hfix : ∀ v : V, (∀ a ∈ A, a v = v) → v = 0) {i j k : Fin r} (hij : i ≠ j) (hjk : j ≠ k)
     (hik : i ≠ k) :
@@ -297,6 +305,7 @@ theorem TBJOmData.exists_dinv_conj (Δ : TBJOmData Q p A r)
   refine ⟨w, hwΩ, hwfix', hpres, ?_⟩
   exact (Δ.rankOne_map_dinv hij hjk hik w hwΩ hwconj).symm
 
+omit [Finite K] [FiniteDimensional K V] [Fact (Nat.Prime p)] in
 theorem TBJOmData.fixes_outside_rankOne (Δ : TBJOmData Q p A r) (h2 : Δ.RankOneModel)
     {i j : Fin r} (hij : i ≠ j) :
     ∀ x ∈ Δ.rankOne i j, ∀ l, l ≠ i → l ≠ j → ∀ u ∈ Δ.F.U l, x u = u := by
@@ -305,6 +314,7 @@ theorem TBJOmData.fixes_outside_rankOne (Δ : TBJOmData Q p A r) (h2 : Δ.RankOn
   rw [← hrange] at hx
   exact hfixed x hx l hli hlj u hu
 
+omit [Finite K] in
 theorem TBJOmData.fixes_outside_rankOnePos (Δ : TBJOmData Q p A r)
     (hfix : ∀ v : V, (∀ a ∈ A, a v = v) → v = 0) (hr : 3 ≤ r) (h2 : Δ.RankOneModel)
     {i j : Fin r} (hij : i ≠ j) :

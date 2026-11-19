@@ -81,7 +81,7 @@ theorem lf_stab_index_lt_flag {n : ℕ} {K : Type} [Field K] [Finite K] (hn : 4 
 
 theorem parabolicPair_orthPlus {n : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2] (hn : 4 ≤ n) :
     ∃ U : Subgroup ↥(orthElementaryGroup (quadPlus n K)), IsSylowTwoOf U ⊤ ∧ ParabolicPair U := by
-  haveI : Finite ↥(orthElementaryGroup (quadPlus n K)) := finite_orthElementaryGroup
+  have : Finite ↥(orthElementaryGroup (quadPlus n K)) := finite_orthElementaryGroup
   obtain ⟨S, hS⟩ := posUnip_isSylow (r := n) (K := K) 2 (by omega)
     (fun a ha => map_flag_top_ne_Xstar (r := n) (K := K) (by omega) ha)
   have hU : IsSylowTwoOf ((posUnip n K).subgroupOf (orthElementaryGroup (quadPlus n K))) ⊤ := by

@@ -43,7 +43,7 @@ theorem basePointsRepresentation_mem_basisFlag {n : ℕ} {b : Module.Basis (Fin 
   by_cases hl : j ≤ l.val
   · rw [hv l hl, zero_mul]
   · have hli : l < i := by
-      rw [Fin.lt_iff_val_lt_val]
+      rw [Fin.lt_def]
       omega
     rw [htri hli, map_zero, mul_zero]
 
@@ -57,7 +57,7 @@ theorem coord_basePointsRepresentation_of_mem_basisFlag {n : ℕ} {b : Module.Ba
   · intro l _ hli
     rcases lt_or_gt_of_ne hli with h | h
     · rw [htri h, map_zero, mul_zero]
-    · rw [(mem_basisFlag.mp hv) l (by rw [Fin.lt_iff_val_lt_val] at h; omega), zero_mul]
+    · rw [(mem_basisFlag.mp hv) l (by rw [Fin.lt_def] at h; omega), zero_mul]
   · simp
 
 theorem basePointsRepresentation_eq_smul_of_finite [IsAlgClosed k] [Algebra.FiniteType k H]

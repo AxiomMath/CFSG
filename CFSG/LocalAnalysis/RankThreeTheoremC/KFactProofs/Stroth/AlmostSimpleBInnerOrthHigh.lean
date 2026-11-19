@@ -15,6 +15,7 @@ section Helpers
 variable {K : Type} [Field K] [Finite K] {W : Type} [AddCommGroup W] [Module K W]
   [FiniteDimensional K W]
 
+omit [Finite K] [FiniteDimensional K W] in
 private theorem mem_commutator_of_mem_orthDerived (R : QuadraticForm K W)
     {g : ↥(TauCeti.QuadraticMap.orthogonalGroup R)}
     (hg : (g : W ≃ₗ[K] W) ∈ CFSG.RankThree.Classical2.orthDerived R) :

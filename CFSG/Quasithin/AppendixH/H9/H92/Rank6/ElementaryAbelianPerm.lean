@@ -93,7 +93,7 @@ theorem card_le_two_pow_half [Finite α] :
           exact apply_eq_of_mem_orbit hE (hKE g hg) (hKfix g hg) hxO
         · exact hfix g (hKE g hg) x hxS
       have hSO : (S \ O).ncard = m - 2 ^ k := by
-        rw [Set.ncard_diff hOS, hS, hk]
+        rw [Set.ncard_sdiff hOS, hS, hk]
       have hlt : m - 2 ^ k < m := by omega
       have hKle := ih (m - 2 ^ k) hlt (S \ O) hSO K hKab hKS
       calc Nat.card E = Nat.card K * 2 ^ k := by rw [← hcard, hKcard, hk]

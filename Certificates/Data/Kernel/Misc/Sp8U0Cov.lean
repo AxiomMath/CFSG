@@ -15,7 +15,7 @@ open CFSG.KD.BfsK CFSG.KD.Sp8Syl3 CFSG.KC.Mat8P CFSG.KC.Loop
 
 @[expose] noncomputable def nK (Q : Nat → Nat) (k : Nat) : Nat := Q (Nat.add 143 k)
 
-@[expose] noncomputable def orbAt (Q : Nat → Nat) (k o n : Nat) : Bool :=
+@[expose] noncomputable def orbAt (Q : Nat → Nat) (_k o n : Nat) : Bool :=
   Nat.blt 0 n && Nat.ble n 128 && tableKk Q (cst Q) o n 5 2 10 2
 
 @[expose] noncomputable def orbK (Q : Nat → Nat) : Bool :=

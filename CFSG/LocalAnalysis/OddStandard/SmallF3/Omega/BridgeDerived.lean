@@ -30,7 +30,7 @@ private lemma aux_squareClass_zmod3_comm
 
 theorem commutator_le_omegaGroup (hQ : Q.Nondegenerate) :
     commutator (OGroup Q) ≤ omegaGroup hQ := by
-  haveI : IsMulCommutative ((ZMod 3)ˣ × Multiplicative (SquareClassGroup (ZMod 3))) :=
+  have : IsMulCommutative ((ZMod 3)ˣ × Multiplicative (SquareClassGroup (ZMod 3))) :=
     IsMulCommutative.of_comm fun a b =>
       Prod.ext (aux_units_zmod3_comm a.1 b.1) (aux_squareClass_zmod3_comm a.2 b.2)
   rw [omegaGroup]
@@ -39,12 +39,12 @@ theorem commutator_le_omegaGroup (hQ : Q.Nondegenerate) :
 theorem index_commutator_le_four (hQ : Q.Nondegenerate)
     (h2 : 2 ≤ Module.finrank (ZMod 3) V) : (commutator (OGroup Q)).index ≤ 4 := by
   classical
-  haveI : NeZero (2 : ZMod 3) := ⟨(isUnit_of_invertible (2 : ZMod 3)).ne_zero⟩
-  haveI : Finite (OGroup Q) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
+  have : NeZero (2 : ZMod 3) := ⟨(isUnit_of_invertible (2 : ZMod 3)).ne_zero⟩
+  have : Finite (OGroup Q) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
   let O := OGroup Q
   let N : Subgroup O := commutator O
-  haveI hN : N.Normal := inferInstance
-  haveI hcomm : IsMulCommutative (O ⧸ N) :=
+  have hN : N.Normal := inferInstance
+  have hcomm : IsMulCommutative (O ⧸ N) :=
     Subgroup.Normal.quotient_commutative_iff_commutator_le.mpr le_rfl
   obtain ⟨v1, hv1⟩ := exists_eq_unit_of_two_le_finrank hQ h2 (1 : (ZMod 3)ˣ)
   obtain ⟨v2, hv2⟩ := exists_eq_unit_of_two_le_finrank hQ h2 (-1 : (ZMod 3)ˣ)
@@ -52,8 +52,8 @@ theorem index_commutator_le_four (hQ : Q.Nondegenerate)
   have hv2' : Q v2 = -1 := by rw [hv2]; rfl
   have hQv1 : Q v1 ≠ 0 := by rw [hv1']; exact one_ne_zero
   have hQv2 : Q v2 ≠ 0 := by rw [hv2']; exact neg_ne_zero.mpr one_ne_zero
-  haveI : Invertible (Q v1) := invertibleOfNonzero hQv1
-  haveI : Invertible (Q v2) := invertibleOfNonzero hQv2
+  have : Invertible (Q v1) := invertibleOfNonzero hQv1
+  have : Invertible (Q v2) := invertibleOfNonzero hQv2
   set π : O →* O ⧸ N := QuotientGroup.mk' N with hπ
   set s1 : O := TauCeti.QuadraticMap.reflectionOrthogonal Q v1 with hs1def
   set s2 : O := TauCeti.QuadraticMap.reflectionOrthogonal Q v2 with hs2def
@@ -79,7 +79,7 @@ theorem index_commutator_le_four (hQ : Q.Nondegenerate)
           V ≃ₗ[ZMod 3] V) : V → V) v1 = v
         rw [TauCeti.QuadraticMap.coe_orthogonalGroupEquivIsometryEquiv_symm]
         exact hf
-      haveI : Invertible (Q ((g : V ≃ₗ[ZMod 3] V) v1)) := by rw [hgv]; exact inferInstance
+      have : Invertible (Q ((g : V ≃ₗ[ZMod 3] V) v1)) := by rw [hgv]; exact inferInstance
       have hconj := TauCeti.QuadraticMap.mul_reflectionOrthogonal_mul_inv Q g v1
       have hrefl_eq : TauCeti.QuadraticMap.reflectionOrthogonal Q v =
           TauCeti.QuadraticMap.reflectionOrthogonal Q ((g : V ≃ₗ[ZMod 3] V) v1) := by
@@ -104,7 +104,7 @@ theorem index_commutator_le_four (hQ : Q.Nondegenerate)
           V ≃ₗ[ZMod 3] V) : V → V) v2 = v
         rw [TauCeti.QuadraticMap.coe_orthogonalGroupEquivIsometryEquiv_symm]
         exact hf
-      haveI : Invertible (Q ((g : V ≃ₗ[ZMod 3] V) v2)) := by rw [hgv]; exact inferInstance
+      have : Invertible (Q ((g : V ≃ₗ[ZMod 3] V) v2)) := by rw [hgv]; exact inferInstance
       have hconj := TauCeti.QuadraticMap.mul_reflectionOrthogonal_mul_inv Q g v2
       have hrefl_eq : TauCeti.QuadraticMap.reflectionOrthogonal Q v =
           TauCeti.QuadraticMap.reflectionOrthogonal Q ((g : V ≃ₗ[ZMod 3] V) v2) := by

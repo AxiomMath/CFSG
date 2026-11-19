@@ -21,9 +21,9 @@ private theorem not_three_dvd_card_of_isPGroup_two' {X : Subgroup G} (hX : IsPGr
   omega
 
 theorem B_frattini_B {S B : Subgroup G} (hS : IsPGroup 2 S) (hB : IsPGroup 3 B) (hBS : B ≤ Nor S)
-    (hSN : S ⊓ Nor B = S ⊓ CenS B) :
+    (_hSN : S ⊓ Nor B = S ⊓ CenS B) :
     Nor (S ⊔ B) ⊓ Nor S = (S ⊔ B) ⊓ Nor S ⊔ Nor B ⊓ Nor S := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hLS : S ⊔ B ≤ Nor S := sup_le (fun x hx => Subgroup.le_normalizer hx) hBS
   have hsyl : CFSG.ABGLocalTools.IsSylowOf 3 B (S ⊔ B) := by
     rw [sup_comm]

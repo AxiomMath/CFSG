@@ -53,7 +53,7 @@ theorem singer_frobenius [Nontrivial V] (hV2 : ∀ v : V, v * v = 1)
     apply Additive.toMul.injective
     rw [toMul_nsmul, toMul_zero, sq]
     exact hV2 _
-  letI : Module (ZMod 2) (Additive V) := AddCommGroup.zmodModule h2
+  let : Module (ZMod 2) (Additive V) := AddCommGroup.zmodModule h2
   let ρE : Dg →* Module.End (ZMod 2) (Additive V) :=
     { toFun := fun d => toEnd (ρ d)
       map_one' := by simp [toEnd_one]
@@ -65,9 +65,9 @@ theorem singer_frobenius [Nontrivial V] (hV2 : ∀ v : V, v * v = 1)
     show ρE a * ρE b = ρE b * ρE a
     rw [← map_mul, ← map_mul, mul_comm]
   let R : Subalgebra (ZMod 2) (Module.End (ZMod 2) (Additive V)) := adjoin (ZMod 2) S
-  haveI hRcomm : IsMulCommutative R := Algebra.isMulCommutative_adjoin (ZMod 2) hS
+  have hRcomm : IsMulCommutative R := Algebra.isMulCommutative_adjoin (ZMod 2) hS
   have hSR : ∀ d, ρE d ∈ R := fun d => Algebra.subset_adjoin ⟨d, rfl⟩
-  haveI : Finite R := by
+  have : Finite R := by
     have : Finite (Module.End (ZMod 2) (Additive V)) :=
       Finite.of_injective (fun f : Module.End (ZMod 2) (Additive V) =>
         (f : Additive V → Additive V)) DFunLike.coe_injective
@@ -83,11 +83,11 @@ theorem singer_frobenius [Nontrivial V] (hV2 : ∀ v : V, v * v = 1)
     let W : Subgroup V :=
       { carrier := {w | e.1 (Additive.ofMul w) = 0}
         mul_mem' := fun {a b} ha hb => by
-          simp only [Set.mem_setOf_eq] at *
+          simp only [Set.mem_ofPred_eq] at *
           rw [ofMul_mul, map_add, ha, hb, add_zero]
         one_mem' := by simp
         inv_mem' := fun {a} ha => by
-          simp only [Set.mem_setOf_eq] at *
+          simp only [Set.mem_ofPred_eq] at *
           rw [ofMul_inv, map_neg, ha, neg_zero] }
     have hWinv : ∀ d, ∀ w ∈ W, ρ d w ∈ W := by
       intro d w hw
@@ -111,7 +111,7 @@ theorem singer_frobenius [Nontrivial V] (hV2 : ∀ v : V, v * v = 1)
       have hx : Additive.toMul x ∈ W := by rw [h]; trivial
       have : e.1 (Additive.ofMul (Additive.toMul x)) = 0 := hx
       simpa using this
-  haveI : NoZeroDivisors R := ⟨fun {a b} hab => by
+  have : NoZeroDivisors R := ⟨fun {a b} hab => by
     by_contra hcon
     push Not at hcon
     obtain ⟨ha, hb⟩ := hcon
@@ -123,11 +123,11 @@ theorem singer_frobenius [Nontrivial V] (hV2 : ∀ v : V, v * v = 1)
       have := congrArg (fun r : R => r.1 v) hab
       simpa using this
     exact (injective_iff_map_eq_zero _).mp (hinj a ha) _ h1⟩
-  haveI : IsDomain R := NoZeroDivisors.to_isDomain R
+  have : IsDomain R := NoZeroDivisors.to_isDomain R
   have hF : IsField R := Finite.isDomain_to_isField R
-  letI : Field R := hF.toField
+  let : Field R := hF.toField
   let Aℓ : Additive V ≃ₗ[ZMod 2] Additive V :=
-    LinearEquiv.ofLinear (toEnd A) (toEnd A⁻¹)
+    LinearEquiv.ofLinearMap (toEnd A) (toEnd A⁻¹)
       (by
         rw [← Module.End.mul_eq_comp, ← toEnd_mul, mul_inv_cancel, toEnd_one]
         rfl)
@@ -163,7 +163,7 @@ theorem singer_frobenius [Nontrivial V] (hV2 : ∀ v : V, v * v = 1)
   let β : R →ₐ[ZMod 2] R :=
     ((c : Module.End (ZMod 2) (Additive V) →ₐ[ZMod 2] Module.End (ZMod 2) (Additive V)).comp
       R.val).codRestrict R (fun r => hmem r.1 r.2)
-  haveI : FiniteDimensional (ZMod 2) R := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) R := Module.Finite.of_finite
   have hβb : Function.Bijective β := AlgHom.bijective β
   let βe : R ≃ₐ[ZMod 2] R := AlgEquiv.ofBijective β hβb
   obtain ⟨n, hn⟩ := (FiniteField.bijective_frobeniusAlgEquivOfAlgebraic_pow (ZMod 2) R).2 βe

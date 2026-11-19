@@ -53,9 +53,9 @@ theorem sec7End_card_le [Finite G] {H Q : Subgroup G} (hHQ : H ≤ Q) (hQ : IsCy
     (hn : 0 < n) (hexp : ∀ x ∈ H, x ^ n = 1) : Nat.card H ≤ n := by
   classical
   let C := ↥(H.subgroupOf Q)
-  haveI : IsCyclic ↥Q := hQ
-  haveI : IsCyclic C := Subgroup.isCyclic (H.subgroupOf Q)
-  haveI : Fintype C := Fintype.ofFinite C
+  have : IsCyclic ↥Q := hQ
+  have : IsCyclic C := Subgroup.isCyclic (H.subgroupOf Q)
+  have : Fintype C := Fintype.ofFinite C
   have hcard : Nat.card H = Nat.card C :=
     (Nat.card_congr (Subgroup.subgroupOfEquivOfLe hHQ).toEquiv).symm
   rw [hcard]

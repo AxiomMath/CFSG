@@ -53,7 +53,7 @@ theorem section_inputs_of_mem_sec19BPrime (hd : Sec19DataT p f K z S W L t V) {x
   obtain ⟨⟨⟨hxS, hxR⟩, hxW⟩, hxL⟩ := hx
   have hd0 := hd.toSec19Data
   have h5 : 5 ≤ p ^ f := hd0.tight.branch.five
-  have hx2 : IsPGroup 2 (Subgroup.zpowers x) := S.isPGroup'.to_le (Subgroup.zpowers_le.mpr hxS)
+  have hx2 : IsPGroup 2 (Subgroup.zpowers x) := S.isPGroup.to_le (Subgroup.zpowers_le.mpr hxS)
   have hxK : x ∈ centralizerModOdd ⊤ K := S19B.mem_centralizerModOdd_K hd hxS hxR
   have hzx : z ∈ Subgroup.centralizer ({x} : Set G) :=
     Subgroup.mem_centralizer_singleton_iff.mpr

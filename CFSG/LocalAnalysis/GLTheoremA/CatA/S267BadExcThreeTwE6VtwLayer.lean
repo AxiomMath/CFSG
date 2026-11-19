@@ -52,7 +52,7 @@ theorem glaPLayer_inf_fixSubgroup_ne_bot (hℓ2 : ℓ ≠ 2) (h3 : 3 ∣ ℓ ^ f
     simp only [Subgroup.coe_subtype] at hl
     have h00 := (mem_coordBlockSU_iff.1 y.2) 0 0 (Or.inl (by decide))
     rw [hl] at h00
-    simp only [Matrix.smul_apply, Matrix.one_apply_eq, smul_eq_mul, mul_one, if_pos] at h00
+    simp only [Matrix.smul_apply, Matrix.one_apply_eq, smul_eq_mul, mul_one, ite_eq_left] at h00
     apply Subtype.ext
     apply Subtype.ext
     apply Units.ext

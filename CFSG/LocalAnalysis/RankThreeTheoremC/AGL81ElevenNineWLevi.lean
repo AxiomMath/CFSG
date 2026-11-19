@@ -19,7 +19,7 @@ variable {X : Type*} [Group X]
 theorem mem_of_pow_two_pow_eq_one {N : Subgroup X} [N.Normal] (hN : ¬ 2 ∣ N.index) {x : X}
     {k : ℕ} (hx : x ^ (2 ^ k) = 1) : x ∈ N := by
   have hi : N.index ≠ 0 := fun h => hN (h ▸ dvd_zero 2)
-  haveI : N.FiniteIndex := ⟨hi⟩
+  have : N.FiniteIndex := ⟨hi⟩
   have hco : Nat.Coprime (2 ^ k) (Nat.card (X ⧸ N)) := by
     rw [← Subgroup.index]
     exact Nat.Coprime.pow_left k ((Nat.Prime.coprime_iff_not_dvd Nat.prime_two).mpr hN)
@@ -63,7 +63,7 @@ theorem map_eq_one_of_pow_two_pow {X A : Type*} [Group X] [Group A] [Finite A]
 theorem wSup_le_map_of_odd_index {Q R : Type} [Group Q] [Group R] {τ : Q →* R}
     (hτ : Function.Surjective τ) {N : Subgroup Q} [hN : N.Normal] (hi : ¬ 2 ∣ N.index)
     (hc : commutator Q ≤ N) : wSup R ≤ N.map τ := by
-  haveI : (N.map τ).Normal := hN.map τ hτ
+  have : (N.map τ).Normal := hN.map τ hτ
   have hi' : ¬ 2 ∣ (N.map τ).index := fun h => hi (h.trans (Subgroup.index_map_dvd N hτ))
   refine iSup₂_le fun T hT => ?_
   have h1 : (⊤ : Subgroup ↥T).map T.subtype = T := by
@@ -100,6 +100,7 @@ section Census
 variable {Q R : Type} [Group Q] [Finite Q] [Group R] [Finite R]
 variable {k : ℕ} {G : Fin k → Type} [∀ j, Group (G j)] [∀ j, Finite (G j)]
 
+omit [Finite Q] [Finite R] in
 theorem le_ker_mk_comp_of_isPGroup_two (σ : Q →* R) (hσ : Function.Surjective σ)
     {M : Subgroup Q} [hM : M.Normal] (h2 : IsPGroup 2 M) :
     M ≤ ((QuotientGroup.mk' (CFSG.pCore 2 R)).comp σ).ker := by
@@ -112,15 +113,18 @@ theorem le_ker_mk_comp_of_isPGroup_two (σ : Q →* R) (hσ : Function.Surjectiv
 abbrev blockPre (β : Q →* ∀ j, G j) (S : ∀ j, Subgroup (G j)) (j : Fin k) : Subgroup Q :=
   ((S j).map (MonoidHom.mulSingle G j)).comap β
 
+omit [∀ (j : Fin k), Finite (G j)] in
 theorem map_mulSingle_le_pi (S : ∀ j, Subgroup (G j)) (j : Fin k) :
     (S j).map (MonoidHom.mulSingle G j) ≤ Subgroup.pi Set.univ S := by
   rintro _ ⟨s, hs, rfl⟩
   exact (Subgroup.mulSingle_mem_pi j s).mpr fun _ => hs
 
+omit [Finite Q] [∀ (j : Fin k), Finite (G j)] in
 theorem blockPre_le (β : Q →* ∀ j, G j) (S : ∀ j, Subgroup (G j)) (j : Fin k) :
     blockPre β S j ≤ (Subgroup.pi Set.univ S).comap β :=
   Subgroup.comap_mono (map_mulSingle_le_pi S j)
 
+omit [Finite Q] [∀ (j : Fin k), Finite (G j)] in
 theorem mem_blockPre_iff {β : Q →* ∀ j, G j} {S : ∀ j, Subgroup (G j)} {j : Fin k} {x : Q} :
     x ∈ blockPre β S j ↔ β x j ∈ S j ∧ β x = Pi.mulSingle j (β x j) := by
   constructor
@@ -130,6 +134,7 @@ theorem mem_blockPre_iff {β : Q →* ∀ j, G j} {S : ∀ j, Subgroup (G j)} {j
   · rintro ⟨hs, hx⟩
     exact ⟨_, hs, hx.symm⟩
 
+omit [Finite Q] [∀ (j : Fin k), Finite (G j)] in
 theorem comap_pi_le_iSup_sup_ker (β : Q →* ∀ j, G j) (S : ∀ j, Subgroup (G j))
     (hle : Subgroup.pi Set.univ S ≤ β.range) :
     (Subgroup.pi Set.univ S).comap β ≤ (⨆ j, blockPre β S j) ⊔ β.ker := by
@@ -141,12 +146,14 @@ theorem comap_pi_le_iSup_sup_ker (β : Q →* ∀ j, G j) (S : ∀ j, Subgroup (
   rw [← hmapB]
   exact Subgroup.map_mono (le_iSup (blockPre β S) j)
 
+omit [Finite Q] [∀ (j : Fin k), Finite (G j)] in
 theorem normal_comap_pi (β : Q →* ∀ j, G j) (S : ∀ j, Subgroup (G j))
     (hn : β.range ≤ normalizer (Subgroup.pi Set.univ S : Set (∀ j, G j))) :
     ((Subgroup.pi Set.univ S).comap β).Normal := ⟨fun n hnN x => by
   rw [Subgroup.mem_comap, map_mul, map_mul, map_inv]
   exact (Subgroup.mem_normalizer_iff.mp (hn ⟨x, rfl⟩) (β n)).mp hnN⟩
 
+omit [Finite Q] [∀ (j : Fin k), Finite (G j)] in
 theorem normal_blockPre_subgroupOf (β : Q →* ∀ j, G j) (S : ∀ j, Subgroup (G j)) (j : Fin k) :
     ((blockPre β S j).subgroupOf ((Subgroup.pi Set.univ S).comap β)).Normal :=
   ⟨fun b hb n => by
@@ -163,6 +170,7 @@ theorem normal_blockPre_subgroupOf (β : Q →* ∀ j, G j) (S : ∀ j, Subgroup
       simp [Pi.mul_apply, Pi.inv_apply]
     · simp [Pi.mul_apply, Pi.inv_apply, hij]⟩
 
+omit [Finite Q] [∀ (j : Fin k), Finite (G j)] in
 theorem exists_blockPre_factor (β : Q →* ∀ j, G j) (S : ∀ j, Subgroup (G j))
     (hle : Subgroup.pi Set.univ S ≤ β.range) (j : Fin k) {X : Type*} [Group X] (f : Q →* X)
     (hf : β.ker ≤ f.ker) :
@@ -193,6 +201,7 @@ theorem exists_blockPre_factor (β : Q →* ∀ j, G j) (S : ∀ j, Subgroup (G 
   rw [hs']
   exact hfψ ⟨x, hx⟩
 
+omit [Finite R] in
 theorem map_comap_pi_le_wSup (σ : Q →* R) (hσ : Function.Surjective σ)
     (hc : σ.ker ≤ center Q) (ho : Odd (Nat.card σ.ker)) (β : Q →* ∀ j, G j)
     (S : ∀ j, Subgroup (G j)) (h2 : IsPGroup 2 β.ker) (hle : Subgroup.pi Set.univ S ≤ β.range)
@@ -231,7 +240,7 @@ theorem map_comap_pi_le_wSup (σ : Q →* R) (hσ : Function.Surjective σ)
       intro z hz
       rw [Subgroup.mem_comap, MonoidHom.mem_ker.mp hz]
       exact (CFSG.pCore 2 R).one_mem
-    haveI hZn : (σ.ker.subgroupOf H).Normal := (inferInstance : σ.ker.Normal).subgroupOf H
+    have hZn : (σ.ker.subgroupOf H).Normal := (inferInstance : σ.ker.Normal).subgroupOf H
     have hquot : IsPGroup 2 (↥H ⧸ σ.ker.subgroupOf H) := by
       let g : ↥H →* R := σ.domRestrict H
       have hker : g.ker = σ.ker.subgroupOf H := MonoidHom.ker_domRestrict H σ
@@ -261,7 +270,7 @@ theorem map_comap_pi_le_wSup (σ : Q →* R) (hσ : Function.Surjective σ)
         (normal_blockPre_subgroupOf β S j)
     obtain ⟨f, hf, hfψ⟩ := exists_blockPre_factor β S hle j τ hβτ
     rcases hW j with hbot | hWj
-    · haveI : Subsingleton ↥(S j) := by rw [hbot]; infer_instance
+    · have : Subsingleton ↥(S j) := by rw [hbot]; infer_instance
       intro y hy
       obtain ⟨s, hs⟩ := hf ⟨y, hy⟩
       rw [Subsingleton.elim s 1, map_one] at hs
@@ -272,7 +281,7 @@ theorem map_comap_pi_le_wSup (σ : Q →* R) (hσ : Function.Surjective σ)
     · by_cases hbotg : (blockPre β S j).map τ = ⊥
       · rw [hbotg]
         exact bot_le
-      haveI : Nontrivial ↥((blockPre β S j).map τ) := (Subgroup.nontrivial_iff_ne_bot _).mpr hbotg
+      have : Nontrivial ↥((blockPre β S j).map τ) := (Subgroup.nontrivial_iff_ne_bot _).mpr hbotg
       exact le_wSup_of_subnormal_of_isQuasisimple hsub
         (Lemma512Ns.isQuasisimple_of_surjective_of_nontrivial hq f hf)
     · have hsym : IsSymThreeOrSUThreeTwo ↥(S j) := by
@@ -306,6 +315,7 @@ theorem map_comap_pi_le_wSup (σ : Q →* R) (hσ : Function.Surjective σ)
         rw [(Subgroup.map_eq_bot_iff _).mpr hβτ, sup_bot_eq]
         exact iSup_le hblock
 
+omit [Finite Q] [∀ (j : Fin k), Finite (G j)] in
 theorem eqOn_comap_pi_of_central {L' : Type*} [Group L'] [Finite L']
     (hZL : Odd (Nat.card (center L'))) (θ₁ θ₂ : Q →* L')
     (h : ∀ x, θ₁ x * (θ₂ x)⁻¹ ∈ center L') (β : Q →* ∀ j, G j) (S : ∀ j, Subgroup (G j))
@@ -336,7 +346,7 @@ theorem eqOn_comap_pi_of_central {L' : Type*} [Group L'] [Finite L']
     have h1 := hfψ x hx ⟨β x j, (mem_blockPre_iff.mp hx).1⟩ rfl
     rw [MonoidHom.mem_ker, ← h1]
     rcases hW j with hbot | hWj
-    · haveI : Subsingleton ↥(S j) := by rw [hbot]; infer_instance
+    · have : Subsingleton ↥(S j) := by rw [hbot]; infer_instance
       rw [Subsingleton.elim (⟨β x j, (mem_blockPre_iff.mp hx).1⟩ : ↥(S j)) 1, map_one]
       rfl
     · exact IsWBlock.eq_one_of_comm hWj hZL hcomm (((blockPre β S j).map D).subtype.comp f) _
@@ -345,6 +355,7 @@ theorem eqOn_comap_pi_of_central {L' : Type*} [Group L'] [Finite L']
     (sup_le (iSup_le hB) hkerβ)) hx
   exact mul_inv_eq_one.mp (congrArg Subtype.val (MonoidHom.mem_ker.mp hxD))
 
+omit [Finite Q] [∀ (j : Fin k), Finite (G j)] in
 theorem pow_conj_eq_of_central (β : Q →* ∀ j, G j) (S : ∀ j, Subgroup (G j))
     (hle : Subgroup.pi Set.univ S ≤ β.range) (φ : MulAut Q) (g : ∀ j, G j)
     (hφ : ∀ x, β (φ x) = g * β x * g⁻¹) (hgN : ∀ j, ∀ s ∈ S j, g j * s * (g j)⁻¹ ∈ S j)
@@ -483,7 +494,7 @@ theorem actsInnerlyW_of_levi_dataP {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2)
   set τ := (QuotientGroup.mk' (CFSG.pCore 2 ↥P)).comp σ with hτdef
   have hτ : Function.Surjective τ := (QuotientGroup.mk'_surjective _).comp hσ
   have hn := le_normalizer_of_commutator_le hS hc
-  haveI hNn : N.Normal := normal_comap_pi β S hn
+  have hNn : N.Normal := normal_comap_pi β S hn
   have hWB : N.map τ ≤ wSup (↥P ⧸ CFSG.pCore 2 ↥P) :=
     map_comap_pi_le_wSup σ hσ hσc hσo β S h2 hS hn hodd hW hZW'
   have hWA : wSup (↥P ⧸ CFSG.pCore 2 ↥P) ≤ N.map τ := by

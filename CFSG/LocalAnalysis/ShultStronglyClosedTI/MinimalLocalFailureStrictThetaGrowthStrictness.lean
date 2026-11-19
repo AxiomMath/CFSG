@@ -70,7 +70,7 @@ theorem theta_strict_of_full_sylow
   let : Nontrivial AQ := (Subgroup.nontrivial_iff_ne_bot AQ).mpr hAQne
   have hRne : R ≠ ⊥ := by
     intro hbot
-    exact primeComplementGrowth_order_zj_ne_bot p (Q.isPGroup'.map J.subtype)
+    exact primeComplementGrowth_order_zj_ne_bot p (Q.isPGroup.map J.subtype)
       ((Subgroup.map_eq_bot_iff_of_injective _ AQ.subtype_injective).mp hbot)
   have hthetaB : minimalLocalFailurePairConfinementTheta p B =
       (CFSG.pPrimeCore p J).map J.subtype :=
@@ -88,7 +88,7 @@ theorem theta_strict_of_full_sylow
       exact Nat.coprime_one_right p
     have hmap : (((orderZJ (Q : Subgroup J)).map (Q : Subgroup J).subtype).map
         J.subtype) = R :=
-      LocalTheta.orderZJ_image_of_coprime_kernel hp J.subtype hcop Q Q.isPGroup'
+      LocalTheta.orderZJ_image_of_coprime_kernel hp J.subtype hcop Q Q.isPGroup
     have hJR : J ≤ Subgroup.normalizer (R : Set G) := by
       rw [← hmap]
       exact Subgroup.le_normalizer.trans

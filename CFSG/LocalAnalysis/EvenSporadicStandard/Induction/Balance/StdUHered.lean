@@ -17,7 +17,7 @@ open CFSG.ComponentClassification
 theorem _root_.CFSG.EvenSporadicStandard.StdHyp.uHered
     (hCU : CatalogueU.CatalogAlmostSimpleUnbalancedOutcome) {G : Type} [Group G] [Finite G]
     {L : Subgroup G} (h : StdHyp G L) : UHered G := by
-  haveI := h.simple
+  have := h.simple
   exact UHered.of_simple hCU h.kProper (UGTAt.of_balanced h.oddCore)
 
 theorem StdUHered.of_catalog (hCU : CatalogueU.CatalogAlmostSimpleUnbalancedOutcome) :

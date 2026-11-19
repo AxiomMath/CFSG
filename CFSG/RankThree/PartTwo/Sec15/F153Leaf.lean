@@ -62,7 +62,7 @@ theorem concl153Push_of_noFFModule (h149 : Sec16.Item149S14) (htwin : Claim153Tw
 theorem nonempty_centerQuotient_equiv_of_simple {Q T : Type} [Group Q] [Group T]
     (hq : CFSG.IsQuasisimple Q) (hT : IsSimpleGroup T) (e : Q ≃* T) :
     Nonempty (Q ⧸ Subgroup.center Q ≃* T) := by
-  haveI := hT
+  have := hT
   have hQs : IsSimpleGroup Q := e.isSimpleGroup
   have hnab : ∃ a b : Q, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hq.2.2

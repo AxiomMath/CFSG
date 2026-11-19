@@ -63,21 +63,21 @@ theorem Sit813.fiveData {V H T A L K : Subgroup G} {i : ℕ} (h : Sit813 V H T i
   setup := ⟨inf_le_left, h.oTwoMod_le_inf, h.oTwoMod_normal, h.concl813.d_index, h.kn1, h.kn2⟩
   ti := h.isTI_form
   a_card := h.card_A_eq_four
-  a_sq := fun a ha => h.isElemAbelian_A.mul_self_eq_one ha
-  a_comm := fun a ha b hb => h.isElemAbelian_A.comm ha hb
+  a_sq := fun _a ha => h.isElemAbelian_A.mul_self_eq_one ha
+  a_comm := fun _a ha _b hb => h.isElemAbelian_A.comm ha hb
   a_le_T := h.mem.1
   a_normV := h.a_le_normalizer_V
   a_normK := Sit813.a_le_normalizer h
   r_le_T := Sit813.rGrp_le_T
-  r_comm := fun t ht k hk => (Sit813.mem_rGrp_iff.mp ht).2.2 k hk
-  inf_le_R := fun x hx hxT => h.mem_rGrp_of_mem_oTwoMod hx hxT
-  decomp := fun a ha => h.exists_decomp ha
+  r_comm := fun _t ht _k hk => (Sit813.mem_rGrp_iff.mp ht).2.2 _k hk
+  inf_le_R := fun _x hx hxT => h.mem_rGrp_of_mem_oTwoMod hx hxT
+  decomp := fun _a ha => h.exists_decomp ha
   alpha := ((Sit813.isSylowIn_sup_iff h).mp h.isSylowIn_sup).1
-  u_comm := fun x hx y hy => h.isElemAbelian_uGrp.comm hx hy
-  u_sq := fun x hx => h.isElemAbelian_uGrp.mul_self_eq_one hx
+  u_comm := fun _x hx _y hy => h.isElemAbelian_uGrp.comm hx hy
+  u_sq := fun _x hx => h.isElemAbelian_uGrp.mul_self_eq_one hx
   u_normK := le_normalizer_conjClosure V K
   u_normA := h.a_le_normalizer_uGrp
-  u_gen := fun k hk v hv => mem_conjClosure hk hv
+  u_gen := fun _k hk _v hv => mem_conjClosure hk hv
   u_cent := (Sit813.faithful h).2
 
 theorem Sit813.commutator_sGrp_ne_bot {V H T A L K : Subgroup G} {i : ℕ}

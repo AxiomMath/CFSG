@@ -21,22 +21,24 @@ open Subgroup CFSG.Open CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem card_bar_of_isL3 {L : Subgroup G} (hshape : IsL3 (Bar2 L) 2) :
     Nat.card (Bar2 L) = 2 ^ 6 * 3 ^ 2 * 5 * 7 := by
   obtain ⟨K, hfield, hfin, hKcard, ⟨e⟩⟩ :=
     CFSG.RankThree.PartOne.AUTSL.exists_projectiveSL_equiv_of_lieModel hshape
-  letI := hfield
-  letI := hfin
+  let := hfield
+  let := hfin
   have hk : Nat.card K = 4 := by rw [hKcard]; norm_num
   rw [Nat.card_congr e.toEquiv, CFSG.RankThree.PartTwo.KFacts.L34.card_projectiveSL hk]
   norm_num
 
+omit [Finite G] in
 theorem card_mulAut_bar_of_isL3 {L : Subgroup G} (hshape : IsL3 (Bar2 L) 2) :
     Nat.card (MulAut (Bar2 L)) = 2 ^ 8 * 3 ^ 3 * 5 * 7 := by
   obtain ⟨K, hfield, hfin, hKcard, ⟨e⟩⟩ :=
     CFSG.RankThree.PartOne.AUTSL.exists_projectiveSL_equiv_of_lieModel hshape
-  letI := hfield
-  letI := hfin
+  let := hfield
+  let := hfin
   have hk : Nat.card K = 4 := by rw [hKcard]; norm_num
   rw [Nat.card_congr (MulAut.congr e).toEquiv,
     CFSG.RankThree.PartTwo.KFacts.L34.card_mulAut hk]
@@ -45,7 +47,7 @@ theorem card_mulAut_bar_of_isL3 {L : Subgroup G} (hshape : IsL3 (Bar2 L) 2) :
 theorem card_sylow_three_eq_nine {L A : Subgroup G}
     (hshape : IsL3 (Bar2 L) 2)
     (hA : CFSG.ABGLocalTools.IsSylowOf 3 A L) : Nat.card A = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcardBar : Nat.card (Bar2 L) = 2 ^ 6 * 3 ^ 2 * 5 * 7 := card_bar_of_isL3 hshape
   have hcardO : Nat.card (pCoreOf 2 L) = Nat.card (CFSG.pCore 2 ↥L) :=
     Subgroup.card_map_of_injective L.subtype_injective
@@ -75,19 +77,19 @@ theorem card_sylow_three_eq_nine {L A : Subgroup G}
 theorem isElemAbelian_sylow_three {L A : Subgroup G}
     (hshape : IsL3 (Bar2 L) 2)
     (hA : CFSG.ABGLocalTools.IsSylowOf 3 A L) : IsElemAbelian 3 A := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hAcard : Nat.card A = 9 := card_sylow_three_eq_nine hshape hA
   obtain ⟨K, hfield, hfin, hKcard, ⟨e⟩⟩ :=
     CFSG.RankThree.PartOne.AUTSL.exists_projectiveSL_equiv_of_lieModel hshape
-  letI := hfield
-  letI := hfin
+  let := hfield
+  let := hfin
   have hk : Nat.card K = 4 := by rw [hKcard]; norm_num
   let π : ↥L →* Bar2 L := QuotientGroup.mk' (CFSG.pCore 2 ↥L)
   let iA : ↥A →* ↥L := Subgroup.inclusion hA.le
   let g : ↥A →* CFSG.LocalAnalysis.ComponentInitial.LinearFlag.projectiveSL 3 K :=
     e.toMonoidHom.comp (π.comp iA)
   have hcardO : ∃ k : ℕ, Nat.card (pCoreOf 2 L) = 2 ^ k := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp (CFSG.pCore_isPGroup (p := 2) (G := ↥L))
     exact ⟨k, by simpa only [pCoreOf, Subgroup.card_map_of_injective L.subtype_injective] using hk⟩
   obtain ⟨k, hkO⟩ := hcardO
@@ -270,8 +272,8 @@ theorem seventeen_fiftynine (D : Data G) {V₀ V : Subgroup G}
     hSg.sig1_sp p (CFSG.LocalAnalysis.UniquenessCase.UC6S846.sig_subset_sig1 hSg hns hpmem)
   have h76M : CFSG.LocalAnalysis.UniquenessCase.PartOne.Section7.Conclusion76 D.M p :=
     h76 p hp hp2 hsp
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hF : 2 ≤ CFSG.Open.pRank p (D.M ⊓ centralizer (A : Set G)) := by
     by_cases hp3 : p = 3
     · subst p
@@ -280,7 +282,7 @@ theorem seventeen_fiftynine (D : Data G) {V₀ V : Subgroup G}
         intro x hx
         rw [Subgroup.mem_centralizer_iff]
         intro y hy
-        haveI : IsMulCommutative ↥A := hAea.1
+        have : IsMulCommutative ↥A := hAea.1
         exact congrArg Subtype.val (mul_comm' (⟨y, hy⟩ : A) ⟨x, hx⟩)
       have h := CFSG.SectionRank.le_pRank (p := 3) (by norm_num)
         (H := D.M ⊓ centralizer (A : Set G)) (E := A) hAle hAea (k := 2) (by simpa using hAcard)

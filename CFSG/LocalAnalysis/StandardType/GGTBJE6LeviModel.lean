@@ -32,7 +32,7 @@ open CFSG CFSG.Assembly CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
     (∀ g ∈ Subgroup.normalizer ((TableBExc.torusPow .E6 Fq p) : Set (adjointGroup .E6 Fq)),
       ∃ v : WeylGroup .E6, ∀ s, g * ι₀ (Multiplicative.ofAdd s) * g⁻¹ =
         ι₀ (Multiplicative.ofAdd (TableBExc.torusAct .E6 p v s))) ∧
-    wt.Holds CartanMatrix.E₆ CoxeterMatrix.E₆
+    wt.Holds (CartanMatrix.E 6) CoxeterMatrix.E₆
 
 private theorem ggE6Split_coverModel_of_marking
     {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime] [NeZero p]
@@ -97,7 +97,7 @@ theorem ggE6Split_coverModel_L
   subst hEq
   obtain ⟨Fq, _instFq, _finFq, hFqcard, hQ⟩ := hraw
   obtain ⟨-, -, θ, -, hN, hBsI⟩ := hQ
-  haveI : CharP Fq 2 := charP_two_of_card hFqcard
+  have : CharP Fq 2 := charP_two_of_card hFqcard
   have hpq : p ∣ Nat.card Fq - 1 := by rw [hFqcard]; exact hpn
   have hlift : GGTorusLift p 6 (TableBExc.RecipeGroup .E6 Fq) :=
     TableBExc.ggTorusLift_E6 hp hp2 hp3 hpq
@@ -125,7 +125,7 @@ theorem ggE6Split_coverModel_K
   subst hEq
   obtain ⟨Fq, _instFq, _finFq, hFqcard, hQ⟩ := hraw
   obtain ⟨-, -, θ, -, hN, hBsI⟩ := hQ
-  haveI : CharP Fq 2 := charP_two_of_card hFqcard
+  have : CharP Fq 2 := charP_two_of_card hFqcard
   have hpq : p ∣ Nat.card Fq - 1 := by rw [hFqcard]; exact hpn
   have hlift : GGTorusLift p 6 (TableBExc.RecipeGroup .E6 Fq) :=
     TableBExc.ggTorusLift_E6 hp hp2 hp3 hpq

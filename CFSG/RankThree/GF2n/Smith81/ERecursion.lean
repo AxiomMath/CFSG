@@ -38,10 +38,11 @@ section Nt
 
 variable [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem Q_le_Nt (hc : Ctx M Q Z B) {t : G} (ht : t ∈ LB M Q B) : Q ≤ Nt M (LB M Q B) t := by
   have hRM : Rt M (LB M Q B) t ≤ M := Rt_le_M hc.LB_le_M t
   have hQR : Q ≤ Rt M (LB M Q B) t := hc.Q_le_Rt ht
-  haveI : (Q.subgroupOf (Rt M (LB M Q B) t)).Normal :=
+  have : (Q.subgroupOf (Rt M (LB M Q B) t)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer fun x hx => hc.hyp.Q_normal.2 (hRM hx)
   have hp : IsPGroup 2 (Q.subgroupOf (Rt M (LB M Q B) t)) :=
     (isPGroup_Q' hc.hyp).comap_of_injective _ (Subgroup.subtype_injective _)
@@ -65,6 +66,7 @@ section Recursion
 
 variable [Finite G]
 
+omit [Finite G] in
 theorem card_H0_quot_lt [Finite G] {M Q Z : Subgroup G}
     (H : StrothHyp M Q Z) [(Q.subgroupOf (H0 M Z)).Normal] :
     Nat.card (↥(H0 M Z) ⧸ Q.subgroupOf (H0 M Z)) < Nat.card G := by
@@ -103,7 +105,7 @@ theorem exists_smithConclusion_of_subConfig {M Q Z N : Subgroup G} (H : StrothHy
         SmithConclusion (SubCfgM M Q Z N) (SubCfgQ M Q Z N) (SubCfgZ M Q Z N) B' := by
   obtain ⟨hN, hsub⟩ := h
   refine ⟨hN, ?_⟩
-  haveI := hN
+  have := hN
   obtain ⟨B', hB'⟩ := exists_ctx_of_strothHyp hsub
   have hc := hS _ (card_H0_quot_lt H) _ _ _ hsub B' hB'.conj hB'.le hB'.ne
   exact ⟨B', hB'.conj, hB'.le, hB'.ne, hc,
@@ -150,7 +152,7 @@ theorem lieModel_of_caseE4_recursion {M Q Z B : Subgroup G} {t : G}
   obtain ⟨hN, B', hg, hle, hne, hStr, hSm⟩ :=
     exists_smithConclusion_of_subConfig hc.ctx.hyp hb hS h4.2.2.2
   refine ⟨hN, ?_⟩
-  haveI := hN
+  have := hN
   obtain ⟨hN', hsub⟩ := h4.2.2.2
   obtain ⟨t', ht', hE2⟩ := hX G M Q Z B t _ rfl hb hc h4 hsub B' hg hle hne hStr
   obtain ⟨f, hf, hL⟩ := ((smithConclusion_iff_lanes _ _ _ _).mp hSm).2.1.2.2.1 t' 4 ht' hE2
@@ -175,7 +177,7 @@ theorem lieModel_of_caseE5_recursion {M Q Z B : Subgroup G} {t : G}
   obtain ⟨hN, B', hg, hle, hne, hStr, hSm⟩ :=
     exists_smithConclusion_of_subConfig hc.ctx.hyp hb hS h5.2.2.2
   refine ⟨hN, ?_⟩
-  haveI := hN
+  have := hN
   obtain ⟨hN', hsub⟩ := h5.2.2.2
   obtain ⟨t', ht', hE4⟩ := hX G M Q Z B t _ rfl hb hc h5 hsub B' hg hle hne hStr
   obtain ⟨f, hf, hL⟩ := ((smithConclusion_iff_lanes _ _ _ _).mp hSm).2.2.1.2.2.1 t' ht' hE4

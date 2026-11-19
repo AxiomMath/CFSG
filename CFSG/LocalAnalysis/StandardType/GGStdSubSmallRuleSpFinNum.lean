@@ -120,17 +120,20 @@ section Decomp
 
 open CFSG.RankThree.PartOne.OddIso
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
 theorem sub_one_apply_comm {x y : Module.End K V} (h : x * y = y * x) (v : V) :
     (x - 1) (y v) = y ((x - 1) v) := by
   have h' : x (y v) = y (x v) := by rw [← Module.End.mul_apply, h, Module.End.mul_apply]
   simp [LinearMap.sub_apply, h']
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem isCompl_fix_rng {x₀ : (Module.End K V)ˣ} (hx3 : x₀ ^ 3 = 1) :
     IsCompl (LinearMap.ker ((x₀ : Module.End K V) - 1))
       (LinearMap.range ((x₀ : Module.End K V) - 1)) :=
   isCompl_ker_range (p := 3) ⟨1, by norm_num⟩
     (by rw [← Units.val_pow_eq_pow_val, hx3, Units.val_one])
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
 theorem fix_rng_orth (B : LinearMap.BilinForm K V) {x₀ : (Module.End K V)ˣ}
     (hinv : ∀ v w, B ((x₀ : Module.End K V) v) ((x₀ : Module.End K V) w) = B v w) {v w : V}
     (hv : v ∈ LinearMap.ker ((x₀ : Module.End K V) - 1))
@@ -138,6 +141,7 @@ theorem fix_rng_orth (B : LinearMap.BilinForm K V) {x₀ : (Module.End K V)ˣ}
   obtain ⟨u, rfl⟩ := hw
   exact B_fix_range B hinv (sub_eq_zero.mp (LinearMap.mem_ker.mp hv)) u
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
 theorem rng_fix_orth (B : LinearMap.BilinForm K V) {x₀ : (Module.End K V)ˣ}
     (hinv : ∀ v w, B ((x₀ : Module.End K V) v) ((x₀ : Module.End K V) w) = B v w) {v w : V}
     (hv : v ∈ LinearMap.ker ((x₀ : Module.End K V) - 1))
@@ -145,6 +149,7 @@ theorem rng_fix_orth (B : LinearMap.BilinForm K V) {x₀ : (Module.End K V)ˣ}
   obtain ⟨u, rfl⟩ := hw
   exact B_range_fix B hinv (sub_eq_zero.mp (LinearMap.mem_ker.mp hv)) u
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem fix_sup_orth (B : LinearMap.BilinForm K V) {x₀ : (Module.End K V)ˣ} (hx3 : x₀ ^ 3 = 1)
     (hinv : ∀ v w, B ((x₀ : Module.End K V) v) ((x₀ : Module.End K V) w) = B v w) :
     LinearMap.ker ((x₀ : Module.End K V) - 1) ⊔
@@ -157,6 +162,7 @@ theorem fix_sup_orth (B : LinearMap.BilinForm K V) {x₀ : (Module.End K V)ˣ} (
   intro v hv
   exact fix_rng_orth B hinv hv hw
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem rng_sup_orth (B : LinearMap.BilinForm K V) {x₀ : (Module.End K V)ˣ} (hx3 : x₀ ^ 3 = 1)
     (hinv : ∀ v w, B ((x₀ : Module.End K V) v) ((x₀ : Module.End K V) w) = B v w) :
     LinearMap.range ((x₀ : Module.End K V) - 1) ⊔
@@ -169,12 +175,14 @@ theorem rng_sup_orth (B : LinearMap.BilinForm K V) {x₀ : (Module.End K V)ˣ} (
   intro w hw
   exact rng_fix_orth B hinv hv hw
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
 theorem fix_invariant {x₀ g : (Module.End K V)ˣ} (h : x₀ * g = g * x₀) {v : V}
     (hv : v ∈ LinearMap.ker ((x₀ : Module.End K V) - 1)) :
     (g : Module.End K V) v ∈ LinearMap.ker ((x₀ : Module.End K V) - 1) := by
   have h' : (x₀ : Module.End K V) * g = g * x₀ := by rw [← Units.val_mul, ← Units.val_mul, h]
   rw [LinearMap.mem_ker, sub_one_apply_comm h' v, LinearMap.mem_ker.mp hv, map_zero]
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
 theorem rng_invariant' {x₀ g : (Module.End K V)ˣ} (h : x₀ * g = g * x₀) {v : V}
     (hv : v ∈ LinearMap.range ((x₀ : Module.End K V) - 1)) :
     (g : Module.End K V) v ∈ LinearMap.range ((x₀ : Module.End K V) - 1) := by
@@ -182,6 +190,7 @@ theorem rng_invariant' {x₀ g : (Module.End K V)ˣ} (h : x₀ * g = g * x₀) {
   obtain ⟨u, rfl⟩ := hv
   exact ⟨(g : Module.End K V) u, by rw [sub_one_apply_comm h']⟩
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
 theorem rng_ne_bot {x₀ : (Module.End K V)ˣ} (hx₁ : x₀ ≠ 1) :
     LinearMap.range ((x₀ : Module.End K V) - 1) ≠ ⊥ := by
   intro h
@@ -201,6 +210,7 @@ theorem even_finrank_rng (hK : Nat.card K = 2) {x₀ : (Module.End K V)ˣ} (hx3 
     (fun u hu h => eq_zero_of_fixed_range (p := 3) ⟨1, by norm_num⟩
       (by rw [← Units.val_pow_eq_pow_val, hx3, Units.val_one]) hu h)
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem splitTI {x₀ : (Module.End K V)ˣ}
     (hx3' : x₀ ^ 3 = 1) {T : Submodule K V} (hT : ∀ t ∈ T, (x₀ : Module.End K V) t ∈ T)
     (hT0 : T ≠ ⊥) :
@@ -363,7 +373,7 @@ theorem lemI (hK : Nat.card K = 2) {B : LinearMap.BilinForm K V} (hB : B.Nondege
 
 theorem lemII (hK : Nat.card K = 2) {B : LinearMap.BilinForm K V} (hB : B.Nondegenerate)
     (hr : B.IsRefl) {X : Subgroup (Module.End K V)ˣ} (hX : IsoSetup B X)
-    {x₀ : (Module.End K V)ˣ} (hx₀ : x₀ ∈ X) (hx₁ : x₀ ≠ 1) {n : ℕ} (hn : 3 ≤ n)
+    {x₀ : (Module.End K V)ˣ} (hx₀ : x₀ ∈ X) (_hx₁ : x₀ ≠ 1) {n : ℕ} (hn : 3 ≤ n)
     (hdim : finrank K V = 2 * n) (hcard : 3 ^ (n - 1) ≤ Nat.card X) {T : Submodule K V}
     (hT0 : T ≠ ⊥) (hTiso : ∀ u ∈ T, ∀ v ∈ T, B u v = 0)
     (hTX : ∀ x ∈ X, ∀ t ∈ T, (x : Module.End K V) t ∈ T)

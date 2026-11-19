@@ -45,22 +45,22 @@ theorem covOne_cases {E : Nat → Nat} {T0 T1 h : Nat} (hc : covOne E T0 T1 h = 
   unfold covOne at hc
   simp only [bIf_eq', strictB_eq'] at hc
   by_cases h1 : Nat.blt h 1391 = true
-  · rw [if_pos h1] at hc
+  · rw [ite_eq_left h1] at hc
     exact Or.inl ⟨Nat.blt_eq.mp h1, Nat.eq_of_beq_eq_true hc⟩
-  · rw [if_neg h1] at hc
+  · rw [ite_eq_right h1] at hc
     by_cases h2 : Nat.blt h 5451 = true
-    · rw [if_pos h2] at hc
+    · rw [ite_eq_left h2] at hc
       refine Or.inr (Or.inl ⟨h - 1391, ?_, fun e => ?_⟩)
       · have := Nat.blt_eq.mp h2
         have : ¬ h < 1391 := fun hh => h1 (Nat.blt_eq.mpr hh)
         omega
       · have e' : Nat.beq (apP T0 (apP T1 (apP T0 (apP T1 (Nat.sub h 1391))))) (Nat.sub h 1391) = true :=
           Nat.beq_eq.mpr e
-        rw [if_pos e'] at hc
+        rw [ite_eq_left e'] at hc
         exact Bool.false_ne_true hc
-    · rw [if_neg h2] at hc
+    · rw [ite_eq_right h2] at hc
       refine Or.inr (Or.inr fun e => ?_)
-      rw [if_pos (Nat.beq_eq.mpr e)] at hc
+      rw [ite_eq_left (Nat.beq_eq.mpr e)] at hc
       exact Bool.false_ne_true hc
 
 theorem foldN_count (p : Nat → Bool) (n : Nat) :

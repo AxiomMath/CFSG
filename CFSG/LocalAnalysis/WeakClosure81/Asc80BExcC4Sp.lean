@@ -74,7 +74,7 @@ theorem exists_isometry_one_add_sqZero (hK : ringChar K ≠ 2) (B : BilinForm K 
     rw [show (1 + N) * (1 - N) = 1 - N * N by noncomm_ring, hNN, sub_zero]
   have hright : (1 - N) * (1 + N) = 1 := by
     rw [show (1 - N) * (1 + N) = 1 - N * N by noncomm_ring, hNN, sub_zero]
-  let U : V ≃ₗ[K] V := LinearEquiv.ofLinear (1 + N) (1 - N)
+  let U : V ≃ₗ[K] V := LinearEquiv.ofLinearMap (1 + N) (1 - N)
     (by rw [← Module.End.mul_eq_comp, hleft, ← Module.End.one_eq_id])
     (by rw [← Module.End.mul_eq_comp, hright, ← Module.End.one_eq_id])
   have hU : ∀ x, U x = x + N x := fun x => rfl

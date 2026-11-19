@@ -51,9 +51,7 @@ theorem wfMatn_of_stripBits {n : Nat} {M : List Nat} (hl : M.length = 69)
     (Nat.sub (Nat.shiftLeft 1 (rowsSn n s)) 1))) T) M 0) 69 = true
   rw [wfFold_of _ M 0 (fun i hi => ?_), Nat.zero_add, hl]
   · exact Nat.beq_refl 69
-  · change Nat.beq (Nat.land (M.getD i 0) (Nat.mul (SMn n)
-      (Nat.sub (Nat.shiftLeft 1 (rowsSn n (0 + i))) 1))) (M.getD i 0) = true
-    rw [Nat.zero_add]
+  · rw [Nat.zero_add]
     have e : Nat.land (M.getD i 0) (Nat.mul (SMn n) (Nat.sub (Nat.shiftLeft 1 (rowsSn n i)) 1)) =
         M.getD i 0 := by
       apply Nat.eq_of_testBit_eq

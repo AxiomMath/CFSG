@@ -77,7 +77,7 @@ private lemma y7a_mem_normalizer_V (h : Y7ACfg A C0 V a₁ b₁ a₂ b₂ z t d)
     · rw [hwd]
       change x * d * x⁻¹ ∈ (closure ({z, d} : Set G) : Subgroup G)
       exact hd'
-  haveI := hfin
+  have := hfin
   have hcard : Nat.card ↥(V.map (MulAut.conj x).toMonoidHom) = Nat.card ↥V :=
     Subgroup.card_map_of_injective (MulAut.conj x).injective
   have hcard' : Nat.card ↥V ≤ Nat.card ↥(V.map (MulAut.conj x).toMonoidHom) := by

@@ -239,7 +239,7 @@ variable {L : Type} [Field L]
 private theorem frobShapeAux_d4Q_mul_x (i : Fin Tag.D4.rank) (c : L) :
     d4Q L * xUnit Tag.D4 L i c * (d4Q L)⁻¹ = xUnit Tag.D4 L (d4Swap i) c := by
   refine Units.ext ?_
-  simp only [Units.val_mul, Units.val_inv, coe_xUnit]
+  simp only [Units.val_mul, coe_xUnit]
   have h1 := labelMap_mul_xOp L (π := d4Swap) (hπ := d4Swap_cartan) i c
   change (d4Q L : Module.End L (RootModule Tag.D4 L)) * xOp Tag.D4 L i c =
     xOp Tag.D4 L (d4Swap i) c * (d4Q L : Module.End L (RootModule Tag.D4 L)) at h1
@@ -249,7 +249,7 @@ private theorem frobShapeAux_d4Q_mul_x (i : Fin Tag.D4.rank) (c : L) :
 private theorem frobShapeAux_d4Q_mul_y (i : Fin Tag.D4.rank) (c : L) :
     d4Q L * yUnit Tag.D4 L i c * (d4Q L)⁻¹ = yUnit Tag.D4 L (d4Swap i) c := by
   refine Units.ext ?_
-  simp only [Units.val_mul, Units.val_inv, coe_yUnit]
+  simp only [Units.val_mul, coe_yUnit]
   have h1 := labelMap_mul_yOp L (π := d4Swap) (hπ := d4Swap_cartan) i c
   change (d4Q L : Module.End L (RootModule Tag.D4 L)) * yOp Tag.D4 L i c =
     yOp Tag.D4 L (d4Swap i) c * (d4Q L : Module.End L (RootModule Tag.D4 L)) at h1
@@ -441,7 +441,7 @@ end
 
 theorem ntpD4_frob_shape
     {L : Type} [Field L] [IsAlgClosed L] [CharP L 2] {p₀ : ℕ}
-    (S : LangSetup .E6 L p₀) (a : Fin Tag.E6.rank → Lˣ) (ha3 : ∀ i, a i ^ 3 = 1)
+    (S : LangSetup .E6 L p₀) (a : Fin Tag.E6.rank → Lˣ) (_ha3 : ∀ i, a i ^ 3 = 1)
     (hT : rootDiagUnit .E6 a ∈ S.D.torus) (v : WeylGroup Tag.E6)
     (hv : rootCharKernel a = (fun α => v • α) '' parabolicRoots Tag.E6 (d4Nodes Tag.E6))
     (Y : Subgroup (ModGL Tag.E6 L)) (hY : Y = rootSpan Tag.E6 L (rootCharKernel a))
@@ -453,7 +453,7 @@ theorem ntpD4_frob_shape
       ((y : ModGL Tag.E6 L) = canonicalRep (coxeterSystem Tag.E6) L v *
           yUnit Tag.E6 L (d4Idx k) c * (canonicalRep (coxeterSystem Tag.E6) L v)⁻¹ →
         (Θ y : ModGL Tag.D4 L) = yUnit Tag.D4 L k c))
-    {f : ℕ} (hf : 1 ≤ f) (hq : S.D.q = 2 ^ f) (Fr : L →+* L)
+    {f : ℕ} (_hf : 1 ≤ f) (hq : S.D.q = 2 ^ f) (Fr : L →+* L)
     (hFr : ∀ c, Fr c = c ^ ((2 : ℕ) ^ f)) :
     ∃ (r s : ℕ) (c : ↥(adjointGroup Tag.D4 L)), r < 3 ∧ s < 2 ∧
       ∀ (y : ModGL Tag.E6 L) (hy : y ∈ Y) (hy' : S.D.step y ∈ Y),
@@ -522,7 +522,7 @@ theorem ntpD4_frob_shape
   have hd4Idx_mem : ∀ k : Fin Tag.D4.rank, d4Idx k ∈ d4Nodes .E6 := by
     intro k
     have hk : k.val < 4 := k.isLt
-    rw [d4Nodes, Set.mem_setOf_eq]
+    rw [d4Nodes, Set.mem_ofPred_eq]
     change 1 ≤ k.val + 1 ∧ k.val + 1 ≤ 4
     omega
   have hGens_eq : Gens = (fun z => nv * z * nv⁻¹) ''

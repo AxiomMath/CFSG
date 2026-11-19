@@ -114,7 +114,7 @@ private lemma t173UniComb_p_dvd_card_units {p n : ℕ} (hpq : p ∣ 2 ^ n + 1)
 private lemma t173UniComb_card_muP [Finite F] {p n : ℕ} (hp : p.Prime) (hpq : p ∣ 2 ^ n + 1)
     (hF : Nat.card F = (2 ^ n) ^ 2) : p ≤ Nat.card (t173UniComb_muP p F) := by
   have hpdvd : p ∣ Nat.card Fˣ := t173UniComb_p_dvd_card_units hpq hF
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨a, haord⟩ := exists_prime_orderOf_dvd_card' (G := Fˣ) p hpdvd
   have hmem : a ∈ t173UniComb_muP p F := by
     show a ^ p = 1
@@ -146,13 +146,13 @@ private lemma t173UniComb_card_ker [Finite F] {p n d : ℕ} (hp : p.Prime) (hpq 
     (htor : MToral p d F G)
     (hrank : p ^ max 3 (d - 3) ≤ (LargeEvenScalars (Fin d) F).relIndex G) :
     p ^ (max 3 (d - 3) + 1) ≤ Nat.card (t173UniComb_powHom (G := G) p htor.1).ker := by
-  haveI : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Finite ↥G := Subtype.finite
+  have : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
+  have : Fintype F := Fintype.ofFinite F
+  have : Finite ↥G := Subtype.finite
   set sc := LargeEvenScalars (Fin d) F with hsc
   set scG := sc.subgroupOf G with hscG
   set Λ := (t173UniComb_powHom (G := G) p htor.1).ker with hΛ
-  haveI : Finite ↥Λ := Subtype.finite
+  have : Finite ↥Λ := Subtype.finite
   let πΛ : ↥Λ →* ↥G ⧸ scG := (QuotientGroup.mk' scG).comp Λ.subtype
   have hscalar : ∀ c : Fˣ, Matrix.GeneralLinearGroup.scalar (Fin d) c ∈ sc := by
     intro c
@@ -216,7 +216,7 @@ private lemma t173UniComb_card_ker [Finite F] {p n d : ℕ} (hp : p.Prime) (hpq 
         have := congrArg (fun M : GL (Fin d) F => (M : Matrix (Fin d) (Fin d) F)) h2
         simpa [Matrix.GeneralLinearGroup.coe_scalar] using this
       exact (Matrix.scalar_inj).mp hmat
-    haveI : Finite πΛ.ker := Subtype.finite
+    have : Finite πΛ.ker := Subtype.finite
     exact Nat.card_le_card_of_injective f hf_inj
   have hmain : Nat.card ↥Λ = Nat.card πΛ.ker * scG.index := by
     have h := Subgroup.card_ker_mul_card_range πΛ
@@ -241,9 +241,9 @@ private lemma t173UniComb_exists_separating [Finite F] {p n d : ℕ} (hp : p.Pri
     ∃ A ∈ G, A ^ p = 1 ∧ (∀ i, i ∉ I → MWt P A i = 1) ∧
       (∏ i ∈ I, MWt P A i = 1) ∧ ∃ s ∈ I, ∃ t ∈ I, s ≠ t ∧ MWt P A s ≠ MWt P A t := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fintype (t173UniComb_muP p F) := Fintype.ofFinite _
-  haveI : IsCyclic Fˣ := inferInstance
+  have : Fintype F := Fintype.ofFinite F
+  have : Fintype (t173UniComb_muP p F) := Fintype.ofFinite _
+  have : IsCyclic Fˣ := inferInstance
   have hIle : I.card ≤ d := by simpa using I.card_le_univ
   have hIlt : I.card < d := by
     have hsub : I ⊆ Finset.univ.erase a := by
@@ -324,7 +324,7 @@ private lemma t173UniComb_exists_separating [Finite F] {p n d : ℕ} (hp : p.Pri
     have h2 : ((∏ i ∈ I, wΛ A i : Fˣ) : F) = 1 := by rw [h1]; rfl
     simpa only [Units.coe_prod, hwΛ A] using h2
   have hmu_le : Nat.card (t173UniComb_muP p F) ≤ p := by
-    haveI : Fintype Fˣ := Fintype.ofFinite _
+    have : Fintype Fˣ := Fintype.ofFinite _
     have h := IsCyclic.card_pow_eq_one_le (α := Fˣ) (n := p) hp.pos
     rw [Nat.card_eq_fintype_card, Fintype.card_subtype]
     simpa [t173UniComb_muP] using h
@@ -405,16 +405,16 @@ private lemma t173UniComb_exists_separating [Finite F] {p n d : ℕ} (hp : p.Pri
   exact ⟨(A : GL (Fin d) F), (A : ↥G).2, hΛpow A, hweights_of_ker A hAker,
     hprod_of_ker A hAker, s, hs, t, ht, hstne, hst⟩
 
-theorem uni_comb {p n d : ℕ} {F : Type} [Field F] [Finite F] (hp : p.Prime) (hp2 : p ≠ 2)
-    (hF : Nat.card F = (2 ^ n) ^ 2) (hn : 1 ≤ n) (hpq : p ∣ 2 ^ n + 1) (hpd : p ∣ d)
+theorem uni_comb {p n d : ℕ} {F : Type} [Field F] [Finite F] (hp : p.Prime) (_hp2 : p ≠ 2)
+    (hF : Nat.card F = (2 ^ n) ^ 2) (_hn : 1 ≤ n) (hpq : p ∣ 2 ^ n + 1) (_hpd : p ∣ d)
     (hd : 5 ≤ d) (P : GL (Fin d) F) {G : Subgroup (GL (Fin d) F)}
-    (hZG : LargeEvenScalars (Fin d) F ≤ G) (hel : MElemMod p d F G) (htor : MToral p d F G)
+    (hZG : LargeEvenScalars (Fin d) F ≤ G) (_hel : MElemMod p d F G) (htor : MToral p d F G)
     (hdiag : MDiagAt d F P G)
     (hrank : p ^ max 3 (d - 3) ≤ (LargeEvenScalars (Fin d) F).relIndex G)
     (a a' : Fin d) (haa : a ≠ a') (hpair : ∀ A ∈ G, MWt P A a = MWt P A a')
     (I : Finset (Fin d)) (hI2 : 2 ≤ I.card) (hI3 : I.card ≤ 3 → 2 ≤ n)
     (A₀ : GL (Fin d) F) (hA₀ : A₀ ∈ G) (hlev : ∃ i₀ ∈ I, ∀ i, i ∈ I ↔ MWt P A₀ i = MWt P A₀ i₀)
-    (hD : ∀ A ∈ G, (∀ i ∈ I, ∀ j ∈ I, MWt P A i = MWt P A j) →
+    (_hD : ∀ A ∈ G, (∀ i ∈ I, ∀ j ∈ I, MWt P A i = MWt P A j) →
       ∃ (c : Fˣ) (k : ℕ), A = Matrix.GeneralLinearGroup.scalar (Fin d) c * A₀ ^ k)
     (hsing : 2 ≤ n → ∀ i j : Fin d, i ∉ I → j ∉ I → i ≠ j → MWt P A₀ i ≠ MWt P A₀ j) :
     ∃ s t : Fin d, s ∈ I ∧ t ∈ I ∧ s ≠ t ∧
@@ -471,9 +471,9 @@ theorem uni_comb {p n d : ℕ} {F : Type} [Field F] [Finite F] (hp : p.Prime) (h
         rw [hdiagA]
         by_cases h : i = j
         · subst h
-          rw [Matrix.diagonal_apply_eq, if_pos rfl]
+          rw [Matrix.diagonal_apply_eq, ite_eq_left rfl]
           exact hw1 i (hij.elim id id)
-        · rw [Matrix.diagonal_apply_ne _ h, if_neg h]
+        · rw [Matrix.diagonal_apply_ne _ h, ite_eq_right h]
 
 end CFSG.LocalAnalysis.GLTheoremA.T173A
 

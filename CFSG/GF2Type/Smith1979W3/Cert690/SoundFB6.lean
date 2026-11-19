@@ -27,8 +27,7 @@ theorem pglF4Of_facts {D : PGLData} (h : pglF4Of D = true) :
     (∀ j, j < kPGL0Gens.length → ∃ i x, i < D.elems.size ∧ x < D.elems.size ∧
       Code.mul (Code.mul (Code.mul (D.elems[i]!) (D.elems[x]!)) (D.invs[i]!)) (D.invs[x]!) =
         kPGL0Gens[j]!) := by
-  simp only [pglF4Of, Array.all_eq_true, List.all_eq_true, Bool.and_eq_true, beq_iff_eq,
-    decide_eq_true_eq] at h
+  simp only [pglF4Of, Array.all_eq_true, List.all_eq_true, Bool.and_eq_true, beq_iff_eq] at h
   obtain ⟨⟨⟨⟨hsub, hnorm⟩, hcomm⟩, hsize⟩, hwit⟩ := h
   refine ⟨?_, ?_, ?_, hsize, ?_⟩
   · intro i hi
@@ -125,7 +124,7 @@ theorem pglF12Of_facts {D : PGLData} (h : pglF12Of D = true) :
       (∀ j, j < D.outers.size → D.w12[j]! < D.elems.size ∧
         Code.mul (Code.mul (D.elems[D.w12[j]!]!) (D.outers[0]!)) (D.invs[D.w12[j]!]!) =
           D.outers[j]!) := by
-  simp only [pglF12Of, Array.all_eq_true, List.all_eq_true, Bool.and_eq_true, beq_iff_eq,
+  simp only [pglF12Of, List.all_eq_true, Bool.and_eq_true, beq_iff_eq,
     decide_eq_true_eq, bne_iff_ne] at h
   obtain ⟨⟨⟨⟨hInv, hOut⟩, hne⟩, hsize⟩, hwit⟩ := h
   refine ⟨hInv, hOut, hne, hsize, ?_⟩
@@ -243,13 +242,13 @@ theorem pglF9Of_facts {D : PGLData} (h : pglF9Of D = true) :
       D.w9.size = 64 ∧
       (∀ x ∈ List.filter (fun v => v != 0) (vPlusVecs ++ vStarVecs),
         D.w9[x]! < D.elems.size ∧ Code.act (D.elems[D.w9[x]!]!) 2 = x) := by
-  simp only [pglF9Of, Array.all_eq_true, List.all_eq_true, Bool.and_eq_true, beq_iff_eq,
-    decide_eq_true_eq, bne_iff_ne] at h
+  simp only [pglF9Of, List.all_eq_true, Bool.and_eq_true, beq_iff_eq,
+    decide_eq_true_eq] at h
   obtain ⟨⟨h1, h2⟩, h3⟩ := h
   exact ⟨h1, h2, h3⟩
 
 theorem pglF9_sound_of (hK : EnumCert kPGLGens (pglData ()).elems.toList)
-    (hK0 : EnumCert kPGL0Gens (pglData ()).elems0.toList) (h : pglFactsCheck () = true) :
+    (_hK0 : EnumCert kPGL0Gens (pglData ()).elems0.toList) (h : pglFactsCheck () = true) :
     ∀ e e' : V₀, e ≠ 0 → e' ≠ 0 → (e ∈ VPlus ∨ e ∈ VStar) →
       (e' ∈ VPlus ∨ e' ∈ VStar) → ∃ k ∈ KPGL, k e = e' := by
   obtain ⟨-, -, -, -, -, -, -, -, h9, -, -, -, -⟩ := pglFactsCheck_all h
@@ -301,10 +300,10 @@ theorem pglF8Of_facts {D : PGLData} (h : pglF8Of D = true) :
       let B := spanArr ((D.elems0.map fun k => Code.act k n).toList)
       (B.size = 8 ∧ sameSet B vPlusVecs = true) ∨
         (B.size = 8 ∧ sameSet B vStarVecs = true) ∨ B.size = 64 := by
-  simp only [pglF8Of, List.all_eq_true, Bool.and_eq_true, beq_iff_eq] at h
+  simp only [pglF8Of, List.all_eq_true, beq_iff_eq] at h
   intro n hn hn0
   have h' := h n (List.mem_range.mpr hn)
-  rw [if_neg (by simpa using hn0)] at h'
+  rw [ite_eq_right (by simpa using hn0)] at h'
   simp only [Bool.or_eq_true, Bool.and_eq_true, beq_iff_eq] at h'
   rcases h' with hAB' | h64
   · rcases hAB' with hAB | hA'B'
@@ -316,7 +315,7 @@ theorem Code.act_one_of_lt {m : ℕ} (hm : m < 64) : Code.act Code.one m = m := 
   apply vec_injective_of_lt (Code.act_lt _ _) hm
   rw [Code.vec_act, Code.mat_one, Matrix.one_mulVec]
 
-theorem orbit_span_trichotomy {D : PGLData} (hK0 : EnumCert kPGL0Gens D.elems0.toList)
+theorem orbit_span_trichotomy {D : PGLData} (_hK0 : EnumCert kPGL0Gens D.elems0.toList)
     (h8 : pglF8Of D = true) {n : ℕ} (hn : n < 64) (hn0 : n ≠ 0) :
     let S := (D.elems0.map fun k => Code.act k n).toList
     spanOfList S = VPlus ∨ spanOfList S = VStar ∨ spanOfList S = ⊤ := by
@@ -389,7 +388,7 @@ theorem orbit_span_le_of_invariant {D : PGLData} (hK0 : EnumCert kPGL0Gens D.ele
   rw [spanOfList, Submodule.span_le]
   rintro v ⟨x, hx, rfl⟩
   dsimp only [S] at hx
-  simp only [Set.mem_setOf_eq] at hx
+  simp only [Set.mem_ofPred_eq] at hx
   rw [Array.mem_toList_iff] at hx
   obtain ⟨i, hi, rfl⟩ := Array.mem_iff_getElem.mp hx
   have hi0 : i < D.elems0.size := by simpa using hi
@@ -405,7 +404,7 @@ theorem orbit_span_le_of_invariant {D : PGLData} (hK0 : EnumCert kPGL0Gens D.ele
   rw [array_getElem!_eq_getElem_of_lt hi0] at hkw
   exact hkw
 
-theorem pglF8_sound_of (hK : EnumCert kPGLGens (pglData ()).elems.toList)
+theorem pglF8_sound_of (_hK : EnumCert kPGLGens (pglData ()).elems.toList)
     (hK0 : EnumCert kPGL0Gens (pglData ()).elems0.toList) (h : pglFactsCheck () = true) :
     ∀ W : Submodule (ZMod 2) V₀, (∀ k ∈ KPGL0, ∀ w ∈ W, k w ∈ W) →
       W = ⊥ ∨ W = VPlus ∨ W = VStar ∨ W = ⊤ := by
@@ -425,8 +424,8 @@ theorem pglF8_sound_of (hK : EnumCert kPGLGens (pglData ()).elems.toList)
       · exact Or.inl hEq
       · right; right
         have hnotle : ¬ W ≤ VPlus := fun hle' => hEq (le_antisymm hle' hVPW)
-        rw [SetLike.le_def] at hnotle
-        push_neg at hnotle
+        rw [_root_.IsConcreteLE.le_iff] at hnotle
+        push Not at hnotle
         obtain ⟨v, hvW, hvP⟩ := hnotle
         have hv0 : v ≠ 0 := by intro h0; exact hvP (by rw [h0]; exact Submodule.zero_mem _)
         obtain ⟨m, hm, rfl⟩ := exists_vec v
@@ -449,8 +448,8 @@ theorem pglF8_sound_of (hK : EnumCert kPGLGens (pglData ()).elems.toList)
       · exact Or.inr (Or.inl hEq)
       · right; right
         have hnotle : ¬ W ≤ VStar := fun hle' => hEq (le_antisymm hle' hVSW)
-        rw [SetLike.le_def] at hnotle
-        push_neg at hnotle
+        rw [_root_.IsConcreteLE.le_iff] at hnotle
+        push Not at hnotle
         obtain ⟨v, hvW, hvS⟩ := hnotle
         have hv0 : v ≠ 0 := by intro h0; exact hvS (by rw [h0]; exact Submodule.zero_mem _)
         obtain ⟨m, hm, rfl⟩ := exists_vec v
@@ -488,7 +487,7 @@ theorem pglF4_sound_of (hK : EnumCert kPGLGens (pglData ()).elems.toList)
     ⁅KPGL, KPGL⁆ = KPGL0 := by
   obtain ⟨h1, -, h3, h4, -, -, -, -, -, -, -, -, -⟩ := pglFactsCheck_all h
   obtain ⟨⟨-, -⟩, hinv, -⟩ := pglF1Of_facts h1
-  haveI : Finite (V₀ ≃ₗ[ZMod 2] V₀) := finite_linearEquiv
+  have : Finite (V₀ ≃ₗ[ZMod 2] V₀) := finite_linearEquiv
   have hK0K : KPGL0 ≤ KPGL := KPGL0_le_KPGL_of_check hK hK0 h
   have hcardK : Nat.card KPGL = 336 := natCard_KPGL_check hK h3
   have hcardK0 : Nat.card KPGL0 = 168 := natCard_KPGL0_check hK0 h3

@@ -142,7 +142,7 @@ private lemma bil6_mulVec_of_gram {M : Mat6} {c : ZMod 3}
   exact dotProduct_comm _ _
 
 theorem kgen_of_conjGenerates {M : Mat6} {c : ZMod 3} {h : Vec6}
-    (hMy : M.mulVec (kY c) = 0) (hMker : ∀ v, M.mulVec v = 0 → ∃ j : ZMod 3, v = j • kY c)
+    (_hMy : M.mulVec (kY c) = 0) (hMker : ∀ v, M.mulVec v = 0 → ∃ j : ZMod 3, v = j • kY c)
     (hM5 : ∀ v, M.mulVec v 5 = 0)
     (hG : Mᵀ * gram6 * M = gbeta c)
     {Λ : Type} [Fintype Λ] (k : Λ → Mat6)
@@ -244,7 +244,7 @@ theorem reflFix_xs_centre : ∀ g ∈ reflFix xs, ∃ u ∈ cS, g = reflNorm u :
     have hmem : g ∈ (reflFix xs).filter (fun g => ¬ (g ∈ cS.image reflNorm)) :=
       Finset.mem_filter.mpr ⟨hg, hg'⟩
     rw [hempty] at hmem
-    simpa using hmem
+    simp at hmem
   intro g hg
   obtain ⟨u, hu, hu_eq⟩ := Finset.mem_image.mp (hsub g hg)
   exact ⟨u, hu, hu_eq.symm⟩

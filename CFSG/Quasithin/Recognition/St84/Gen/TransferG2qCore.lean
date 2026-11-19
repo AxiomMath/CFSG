@@ -31,10 +31,10 @@ private theorem g2q_centralizer_pCoreOfRight {L1 L2 S : Subgroup H} {f : ℕ}
   let Zβ := centerOf Qβ
   obtain ⟨F, hFld, hFintype, hFcard, α, hα, hker, _, W, _, hWQ, _, hcommW, hWnat⟩ :=
     hd.local_.nat_right
-  letI := hFld
-  letI := hFintype
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := f) hFcard
+  let := hFld
+  let := hFintype
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := f) hFcard
   have hQeq : pCoreOf 2 Lβ = Qβ := pCoreOf_oTwoPrime Eβ
   have hZeq : centerOf (pCoreOf 2 Lβ) = Zβ := by rw [hQeq]
   have hWcomm : ⁅W, Lβ⁆ ≤ Zβ := by
@@ -179,10 +179,10 @@ theorem G2qEdgeData.transferLeftData {L1 L2 S : Subgroup H} {m n f : ℕ}
     TransferLeftData L1 L2 S where
   nat_right := by
     obtain ⟨F, hFld, hFintype, hFcard, α, hα, hker, hnat, -⟩ := hd.local_.nat_right
-    letI := hFld
-    letI := hFintype
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := f) hFcard
+    let := hFld
+    let := hFintype
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := f) hFcard
     exact ⟨F, hFld, inferInstance, α, hα, hker, hnat⟩
   centerRight_le := g2q_centerRight_le_pCoreOfLeft hd
   commutator_le := g2q_commutator_pCoreOf_le_center hd.local_

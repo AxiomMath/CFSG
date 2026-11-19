@@ -64,10 +64,10 @@ theorem rootSpan_inf_rootSpan_le_rootSpan_inter (R : Type) [CommRing R]
     obtain ⟨c, hc⟩ := exists_list_prod_pinnedX_eq R hSpos hSc (l := l.filter (· ∈ S))
       (hl.filter _) (fun α => by rw [List.mem_filter, hm α]; exact
         ⟨fun h => of_decide_eq_true h.2, fun h => ⟨hS h, decide_eq_true h⟩⟩) hu
-    refine ⟨fun α => if α ∈ S then c α else 0, fun α hα => if_neg hα, ?_⟩
+    refine ⟨fun α => if α ∈ S then c α else 0, fun α hα => ite_eq_right hα, ?_⟩
     rw [← hc]
-    exact (prod_map_filter_eq (· ∈ S) _ _ (fun α hα => by simp only [if_pos hα])
-      (fun α hα => by simp only [if_neg hα, pinnedX_zero]) l).symm
+    exact (prod_map_filter_eq (· ∈ S) _ _ (fun α hα => by simp only [ite_eq_left hα])
+      (fun α hα => by simp only [ite_eq_right hα, pinnedX_zero]) l).symm
   obtain ⟨c, hc0, hc⟩ := key Set.subset_union_left hA hAc hgA
   obtain ⟨d, hd0, hd⟩ := key Set.subset_union_right hB hBc hgB
   have hcd := pinnedX_list_prod_injective l hl (fun α hα => hAB α ((hm α).1 hα)) c d

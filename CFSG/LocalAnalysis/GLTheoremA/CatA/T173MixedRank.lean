@@ -24,7 +24,7 @@ theorem card_le_pow_pred_of_normalizes (hQ : (QuadraticMap.polarBilin Q).Nondege
     (hpq : p ∣ Nat.card F + 1) {E : Subgroup ↥(orthDerived Q)} (hE : IsElemAbelian p E)
     {T : Subgroup ↥(orthDerived Q)} (hT0 : T ≠ ⊥) (hT2 : IsPGroup 2 T)
     (hET : E ≤ Subgroup.normalizer (T : Set ↥(orthDerived Q))) : Nat.card E ≤ p ^ (l - 1) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hlt
   push Not at hlt
   have hreg : RegOn Q ⊤ := fun u _ h =>
@@ -78,7 +78,7 @@ theorem glaTwoLocalRank_eq (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {l :
     (hpq : p ∣ Nat.card F + 1) (htype : IsPlusType Q ↔ Even l) :
     GLATwoLocalRank p ↥(orthDerived Q) = l - 1 := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨A₀, hA₀e, hA₀c, T, hT0, hT2, hA₀T⟩ := exists_twoLocal_witness hQ hdim hl hp hp2 hpq htype
   have hle : ∀ H : Subgroup ↥(orthDerived Q), IsTwoLocal H → CFSG.Open.pRank p H ≤ l - 1 := by
     rintro H ⟨P, hP0, hP2, rfl⟩

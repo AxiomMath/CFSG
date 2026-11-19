@@ -16,7 +16,7 @@ variable {G : Type} [Group G]
 
 theorem s900_central_mem_sylow [Finite G] {X P : Subgroup G} (hP : IsSylow2Of P X) {z : G}
     (hzX : z ∈ X) (hz2 : orderOf z = 2) (hzc : ∀ x ∈ X, x * z = z * x) : z ∈ P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S, hS⟩ := hP.exists_sylow
   let N : Subgroup ↥X := Subgroup.zpowers (⟨z, hzX⟩ : ↥X)
   have hNcard : Nat.card N = 2 := by
@@ -30,7 +30,7 @@ theorem s900_central_mem_sylow [Finite G] {X P : Subgroup G} (hP : IsSylow2Of P 
   have hNcent : N ≤ Subgroup.center ↥X := by
     change Subgroup.zpowers (⟨z, hzX⟩ : ↥X) ≤ Subgroup.center ↥X
     exact Subgroup.zpowers_le.2 hzcent
-  haveI : N.Normal := Subgroup.normal_of_le_center hNcent
+  have : N.Normal := Subgroup.normal_of_le_center hNcent
   have hNS : N ≤ (S : Subgroup ↥X) := IsPGroup.le_sylow_of_normal hN2 S
   have hzS : (⟨z, hzX⟩ : ↥X) ∈ (S : Subgroup ↥X) := hNS (Subgroup.mem_zpowers _)
   rw [← hS]

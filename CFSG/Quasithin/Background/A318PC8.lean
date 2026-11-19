@@ -81,7 +81,7 @@ theorem three_elements_mem_of_arith {C Z : Subgroup X} [hC : C.Normal] [hZn : Z.
       exact hc'Z (hc'ord ▸ Z.one_mem)
     · exact hc'Z (h1 c' hc'C (by simpa using hc'ord))
   set Q : Subgroup X := (P : Subgroup X) ⊓ C with hQ
-  have hQp : IsPGroup 3 Q := P.isPGroup'.to_le inf_le_left
+  have hQp : IsPGroup 3 Q := P.isPGroup.to_le inf_le_left
   have hQcyc : IsCyclic Q := isCyclic_of_unique_three hQp hZ fun r hr hr3 => h1 r hr.2 hr3
   obtain ⟨u, hu⟩ := IsCyclic.exists_generator (α := Q)
   obtain ⟨m, hm⟩ := (IsPGroup.iff_orderOf.1 hQp) u
@@ -137,7 +137,7 @@ theorem normal_le_of_three_elements {C Z : Subgroup X} [hCnorm : C.Normal] (hZC 
   obtain ⟨P, hZP⟩ := hZ''p.exists_le_sylow
   have hPZ : (P : Subgroup ↥C) ≤ Z'' := by
     intro g hg
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 P.isPGroup') ⟨g, hg⟩
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 P.isPGroup) ⟨g, hg⟩
     have hk' : orderOf ((g : ↥C) : X) = 3 ^ k := by
       rw [Subgroup.orderOf_coe]
       have := Subgroup.orderOf_coe (⟨g, hg⟩ : (P : Subgroup ↥C))

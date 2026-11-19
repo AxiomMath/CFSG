@@ -397,12 +397,12 @@ theorem mat4_inj {a b : Fin 4 → Nat} (ha : ∀ i, VCanon 5 133 13 (a i))
     (h : mat4 (a 0) (a 1) (a 2) (a 3) = mat4 (b 0) (b 1) (b 2) (b 3)) : a = b := by
   funext i
   have := congrArg (lane 1729 · i) h
-  simp only [lane_mat4' ha, lane_mat4' hb, dif_pos i.isLt] at this
+  simp only [lane_mat4' ha, lane_mat4' hb, dite_eq_left i.isLt] at this
   exact this
 
 theorem rowK_mat4 {c : Fin 4 → Nat} (hc : ∀ i, VCanon 5 133 13 (c i)) (i : Fin 4) :
     rowK (mat4 (c 0) (c 1) (c 2) (c 3)) i = c i := by
-  rw [rowK_eq, lane_mat4' hc, dif_pos i.isLt]
+  rw [rowK_eq, lane_mat4' hc, dite_eq_left i.isLt]
 
 theorem img4_eq (vec : Nat → Nat → Nat) (P G : Nat) (k : Nat → Bool) :
     img4 vec P G k = k (mat4 (vec (rowK P 0) G) (vec (rowK P 1) G) (vec (rowK P 2) G)
@@ -782,13 +782,13 @@ private theorem hs_shl_row {v : Nat} (hv : VCanon 5 133 13 v) {s : Nat} (hs : s 
     rw [Finset.sum_mul]
     refine Finset.sum_congr rfl fun j hj => ?_
     have hj' := Finset.mem_range.1 hj
-    rw [if_pos (by omega), show (133 * s + j) % 133 = j by omega, Nat.mul_assoc, ← Nat.pow_add]
+    rw [ite_eq_left (by omega), show (133 * s + j) % 133 = j by omega, Nat.mul_assoc, ← Nat.pow_add]
     congr 2
     ring
   · intro i _ hi
     refine Finset.sum_eq_zero fun j hj => ?_
     have hj' := Finset.mem_range.1 hj
-    rw [if_neg (by omega), Nat.zero_mul]
+    rw [ite_eq_right (by omega), Nat.zero_mul]
   · intro h
     exact absurd (Finset.mem_range.2 hs) h
 

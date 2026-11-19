@@ -63,7 +63,6 @@ theorem ggKGEp_normalizer_data
           by group
       _ = k⁻¹ * yhat e * k := by rw [h1]
       _ = yhat e := by
-          change k⁻¹ * yhat e * k = yhat e
           rw [mul_assoc, ← hcomm, ← mul_assoc, inv_mul_cancel, one_mul]
   · have he : ((Additive.toMul (ggKGEp_pi hp hp5 F hFr hΦ ζ hζ hlong hpq y) : ↥E) :
         adjointGroup Tag.E6 K) ∈ E :=
@@ -167,7 +166,7 @@ theorem ggKGEp_modAct_eq {p : ℕ} [NeZero p] (V : WeylGroup Tag.E6) (x : Fin 4 
       (((ggKGEp_mat4 V).mulVec (ggKGEp_liftZ x)) i : ZMod p) := by
   simp only [ggKGEp_modAct, ggKGEp_liftZ, Matrix.mulVec, Matrix.map_apply, dotProduct]
   push_cast
-  exact Finset.sum_congr (M := ZMod p) rfl fun j _ => by simp [ZMod.natCast_zmod_val]
+  exact Finset.sum_congr (M := ZMod p) rfl fun j _ => by simp
 
 noncomputable def ggKGEp_pibar
     {K : Type} [Field K] [Finite K] {p : ℕ} {E : Subgroup (adjointGroup Tag.E6 K)}
@@ -189,7 +188,7 @@ theorem ggKGEp_pibar_bijective
     (ζ : (AlgebraicClosure K)ˣ) (hζ : IsPrimitiveRoot ζ p)
     (hlong : ExcIsLongest Tag.E6 F.w) (hpq : p ∣ Nat.card K + 1) :
     Function.Bijective (ggKGEp_pibar hp hp5 F hFr hΦ ζ hζ hlong hpq) := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   constructor
   · intro x x' h
     have h' : ggKGEp_pi hp hp5 F hFr hΦ ζ hζ hlong hpq (ggKGEp_liftZ x) =
@@ -235,7 +234,7 @@ theorem ggKGEp_pibar_modAct
           adjointGroup Tag.E6 K) * w₀⁻¹,
         (Subgroup.mem_normalizer_iff.mp hN _).mp
           (ggKGEp_pibar hp hp5 F hFr hΦ ζ hζ hlong hpq x).2⟩ := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   apply Subtype.ext
   dsimp only [ggKGEp_pibar]
   have h1 : ggKGEp_pi hp hp5 F hFr hΦ ζ hζ hlong hpq (ggKGEp_liftZ (ggKGEp_modAct V x)) =
@@ -264,13 +263,13 @@ theorem ggKGEp_fix_count
     Nat.card {x : Fin 4 → ZMod p //
       ((ggKGEp_mat4 V).map (Int.castRingHom (ZMod p))).mulVec x = x} = p ^ (4 - 1) := by
   change Nat.card {x : Fin 4 → ZMod p // ggKGEp_modAct V x = x} = p ^ (4 - 1)
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hbij := ggKGEp_pibar_bijective hp hp5 F hFr hΦ ζ hζ hlong hpq
   let eE : (Fin 4 → ZMod p) ≃ ↥E := Equiv.ofBijective _ hbij
   have heE : ∀ x, eE x = ggKGEp_pibar hp hp5 F hFr hΦ ζ hζ hlong hpq x := fun x => rfl
   have hcardE : Nat.card ↥E = p ^ 4 := by
     rw [← Nat.card_congr eE]
-    simp [Nat.card_fun, Nat.card_zmod]
+    simp
   have hfixeq : Nat.card {x : Fin 4 → ZMod p // ggKGEp_modAct V x = x} =
       Nat.card {e : ↥E // w₀ * ((e : ↥E) : adjointGroup Tag.E6 K) * w₀⁻¹ =
         ((e : ↥E) : adjointGroup Tag.E6 K)} := by

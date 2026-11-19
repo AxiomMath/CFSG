@@ -101,14 +101,14 @@ theorem indBetween_hallCoreIn_eq_indClassFun [Finite G] (L : Subgroup G) [Fintyp
   congr 1
   refine Finset.sum_congr rfl fun t _ => ?_
   by_cases hmem : ((t : ↥L)⁻¹ * y * t) ∈ hallCore ↥L
-  · rw [dif_pos hmem]
+  · rw [dite_eq_left hmem]
     have hmemG : ((t : G)⁻¹ * (y : G) * (t : G)) ∈ CFSG.FeitThompson.hallCoreIn L :=
       ⟨(t : ↥L)⁻¹ * y * t, hmem, rfl⟩
     rw [show ((t : G)⁻¹ * (y : G) * (t : G))
         = (((⟨_, hmemG⟩ : ↥(CFSG.FeitThompson.hallCoreIn L))) : G) from rfl,
       CFSG.FeitThompson.extendSub_apply_coe]
     rfl
-  · rw [dif_neg hmem]
+  · rw [dite_eq_right hmem]
     refine CFSG.FeitThompson.extendSub_apply_of_notMem _ θ ?_
     rintro ⟨x, hx, hxe⟩
     exact hmem (by rwa [show x = (t : ↥L)⁻¹ * y * t from Subtype.ext hxe] at hx)

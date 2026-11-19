@@ -167,7 +167,7 @@ theorem ring_iso_field4 {R : Type} [Ring R] [Finite R] [Nontrivial R] (h2 : (2 :
     intro h
     have : (0 : R) = 1 := by
       have := congrArg (fun x => x - A) h
-      simpa using this
+      simp at this
     exact h01 this
   have hinj : Function.Injective (![0, 1, A, A + 1] : Fin 4 → R) := by
     intro i j hij
@@ -205,7 +205,7 @@ theorem ring_iso_zmod2 {R : Type} [Ring R] [Finite R] [Nontrivial R] (hcard : Na
     have h1 : 1 < Nat.card R := Finite.one_lt_card_iff_nontrivial.mpr inferInstance
     rw [← Nat.card_eq_fintype_card]
     omega
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact ⟨ZMod 2, inferInstance, inferInstance, Nat.card_zmod 2,
     ⟨(ZMod.ringEquivOfPrime R Nat.prime_two h2).symm⟩⟩
 
@@ -213,7 +213,7 @@ theorem ring_iso_matrix2 {R : Type} [Ring R] [Finite R] [Nontrivial R] (h2 : (2 
     (e : Fin 2 → Fin 2 → R) (he : ∀ i j k l, e i j * e k l = if j = k then e i l else 0)
     (hsum : e 0 0 + e 1 1 = 1) (hcard : Nat.card R ≤ 16) :
     Nonempty (R ≃+* Matrix (Fin 2) (Fin 2) (ZMod 2)) := by
-  haveI : CharP R 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
+  have : CharP R 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
   let ι : ZMod 2 →+* R := ZMod.castHom (dvd_refl 2) R
   have hι : ∀ (a : ZMod 2) (x : R), ι a * x = x * ι a := by
     intro a x

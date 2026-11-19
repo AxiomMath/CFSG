@@ -130,7 +130,7 @@ theorem exists_plus_semilinear_representatives
         conjAct (coordinateQuadPlus m K) data.g ∧
       data.g.val.right = σ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hm3 : 3 ≤ m := by omega
   let Θ : LargeEvenProj (LargeEvenOmega (LargeEvenQPlus K m)) ≃*
       matrixDerived (coordinateQuadPlus m K) := plusEquiv hm1
@@ -225,7 +225,7 @@ theorem exists_minus_semilinear_representatives
       MulAut.congr (minusEquiv hn4 b c) f = conjAct (coordinateQuadMinus n K hn1 b c) data.g ∧
       data.g.val.right = frobeniusEquiv K 2 ^ k := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hb : b ≠ 0 := ne_zero_of_irreducible_tail b c hirr
   let Θ : LargeEvenProj (LargeEvenOmega (LargeEvenQMinus (n - 1) b c)) ≃*
       matrixDerived (coordinateQuadMinus n K hn1 b c) := minusEquiv hn4 b c

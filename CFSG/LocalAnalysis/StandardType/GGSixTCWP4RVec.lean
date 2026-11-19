@@ -20,7 +20,7 @@ theorem mem_kernelRoots_chiQ (p : ℕ) (Q : Set (Fin τ.rank → ZMod p)) (γ : 
     γ ∈ kernelRoots (tcChiQ τ p Q) ↔
       IsRoot τ γ ∧ ∀ v ∈ Q, ∑ k, ((γ k : ℤ) : ZMod p) * v k = 0 := by
   unfold kernelRoots tcChiQ
-  simp only [Set.mem_setOf_eq, MonoidHom.coe_mk, OneHom.coe_mk, toAdd_ofAdd]
+  simp only [Set.mem_ofPred_eq, MonoidHom.coe_mk, OneHom.coe_mk, toAdd_ofAdd]
   refine and_congr_right fun _ => ?_
   rw [← ofAdd_zero, Multiplicative.ofAdd.injective.eq_iff]
   constructor

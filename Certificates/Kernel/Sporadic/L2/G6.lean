@@ -54,7 +54,7 @@ theorem basicOK_true : basicOK = true := by
     · rw [OddCore.inM_eq (pG hs).1 (pG hs).2]
       exact c2
   unfold basicOK
-  simp only [Bool.and_eq_true, Bool.not_eq_true', E, and_true, true_and]
+  simp only [Bool.and_eq_true, Bool.not_eq_true', E, and_true]
   refine ⟨⟨⟨⟨⟨⟨⟨⟨⟨Q3AG.pRhoI.2, ?_⟩, ?_⟩, ?_⟩, ?_⟩, ?_⟩, ?_⟩, ?_⟩, ?_⟩, ?_⟩
   · rw [eqA_P (p_comp pRho (p_comp pRho pRho)) pidn_P]
     exact Q3AK.kRho3

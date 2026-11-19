@@ -26,37 +26,44 @@ theorem mem_map_conj_iff_inv_mul_mul_mem {G : Type*} [Group G] {H : Subgroup G} 
     y ∈ H.map (MulAut.conj g).toMonoidHom ↔ g⁻¹ * y * g ∈ H := by
   rw [Subgroup.mem_map_equiv, MulAut.conj_symm_apply]
 
+omit [Finite K] in
 theorem eq_one_of_sq_eq_one_in_charTwo {r : K} (h : r ^ 2 = 1) : r = 1 := by
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
   have h1 : (r - 1) ^ 2 = 0 := by linear_combination h - (r - 1) * h2
   have h3 : r - 1 = 0 := (pow_eq_zero_iff two_ne_zero).mp h1
   linear_combination h3
 
+omit [Finite K] [CharP K 2] in
 theorem eq_zero_of_mul_eq_self_of_ne_one {s x : K} (hs : s ≠ 1) (h : s * x = x) : x = 0 := by
   have h1 : (s - 1) * x = 0 := by linear_combination h
   exact (mul_eq_zero.mp h1).resolve_left (sub_ne_zero.mpr hs)
 
+omit [Finite K] [CharP K 2] in
 theorem glMat_coe_mul (x y : antiSp K) :
     glMat ((x * y : antiSp K) : GL (Fin 4) K) =
       glMat (x : GL (Fin 4) K) * glMat (y : GL (Fin 4) K) :=
   rfl
 
+omit [Finite K] in
 theorem uElt_congr {a b c d a' b' c' d' : K} (h₁ : a = a') (h₂ : b = b') (h₃ : c = c')
     (h₄ : d = d') : uElt a b c d = uElt a' b' c' d' := by
   rw [h₁, h₂, h₃, h₄]
 
+omit [Finite K] [CharP K 2] in
 theorem weylMat_one_mul_two :
     weylMat K Axis.one * weylMat K Axis.two =
       !![0, 0, 1, 0; 1, 0, 0, 0; 0, 0, 0, 1; 0, 1, 0, 0] := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [weylMat, Matrix.mul_apply, Fin.sum_univ_four]
 
+omit [Finite K] [CharP K 2] in
 theorem weylMat_two_mul_one :
     weylMat K Axis.two * weylMat K Axis.one =
       !![0, 1, 0, 0; 0, 0, 0, 1; 1, 0, 0, 0; 0, 0, 1, 0] := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [weylMat, Matrix.mul_apply, Fin.sum_univ_four]
 
+omit [Finite K] [CharP K 2] in
 theorem weylMat_one_mul_two_mul_one :
     weylMat K Axis.one * weylMat K Axis.two * weylMat K Axis.one =
       !![0, 0, 0, 1; 0, 1, 0, 0; 0, 0, 1, 0; 1, 0, 0, 0] := by
@@ -64,6 +71,7 @@ theorem weylMat_one_mul_two_mul_one :
   ext i j
   fin_cases i <;> fin_cases j <;> simp [weylMat, Matrix.mul_apply, Fin.sum_univ_four]
 
+omit [Finite K] in
 theorem commutator_uElt_uElt (a b c d A B C D : K) :
     ⁅uElt a b c d, uElt A B C D⁆ = uElt 0 (a * D + A * d) (a ^ 2 * D + A ^ 2 * d) 0 := by
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
@@ -75,6 +83,7 @@ theorem commutator_uElt_uElt (a b c d A B C D : K) :
       2 * a * d * A + a * b + a ^ 2 * d) * h2
   · linear_combination (D + d) * h2
 
+omit [Finite K] in
 theorem uElt_coords_of_commute {a b c d A B C D : K}
     (h : uElt a b c d * uElt A B C D = uElt A B C D * uElt a b c d) :
     a * D = A * d ∧ a * A * D = a * A * d := by
@@ -82,6 +91,7 @@ theorem uElt_coords_of_commute {a b c d A B C D : K}
   obtain ⟨-, h₁, h₃, -⟩ := uElt_inj h
   exact ⟨by linear_combination h₁, by linear_combination h₃⟩
 
+omit [Finite K] [CharP K 2] in
 theorem coords_eq_of_orth {a d A D : K} (ha : a ≠ 0) (hd : d ≠ 0) (h₁ : a * D = A * d)
     (h₂ : a * A * D = a * A * d) : (A = 0 ∧ D = 0) ∨ (A = a ∧ D = d) := by
   have h₃ : (a * A) * (D - d) = 0 := by linear_combination h₂
@@ -95,6 +105,7 @@ theorem coords_eq_of_orth {a d A D : K} (ha : a ≠ 0) (hd : d ≠ 0) (h₁ : a 
     have h₅ : (a - A) * d = 0 := by linear_combination h₁ - a * h₄
     exact (sub_eq_zero.mp ((mul_eq_zero.mp h₅).resolve_right hd)).symm
 
+omit [Finite K] in
 theorem exists_uElt_add_mem {H : Subgroup (antiSp K)} {a d a' d' : K}
     (h : ∃ b c : K, uElt a b c d ∈ H) (h' : ∃ b c : K, uElt a' b c d' ∈ H) :
     ∃ b c : K, uElt (a + a') b c (d + d') ∈ H := by
@@ -104,6 +115,7 @@ theorem exists_uElt_add_mem {H : Subgroup (antiSp K)} {a d a' d' : K}
   rw [uElt_mul] at hmul
   exact ⟨_, _, hmul⟩
 
+omit [Finite K] in
 theorem eq_antiUnipotent_of_pairs (hK : 2 < Nat.card K) {H : Subgroup (antiSp K)}
     (hH : H ≤ antiUnipotent K) (hp : ∀ a d : K, ∃ b c : K, uElt a b c d ∈ H) :
     H = antiUnipotent K := by
@@ -151,6 +163,7 @@ theorem exists_mul_mul_of_mem_sup_sup {G : Type*} [Group G] {H₁ H₂ Z : Subgr
   obtain ⟨h₁, hh₁, h₂, hh₂, rfl⟩ := hy'
   exact ⟨h₁, hh₁, h₂, hh₂, z, hz, rfl⟩
 
+omit [Finite K] in
 theorem exists_pairs_of_le_sup {H₁ H₂ : Subgroup (antiSp K)} (hH₁ : H₁ ≤ antiUnipotent K)
     (hH₂ : H₂ ≤ antiUnipotent K) (hc : ∀ x ∈ H₁, ∀ y ∈ H₂, x * y = y * x)
     (hU : antiUnipotent K ≤ H₁ ⊔ H₂ ⊔ antiUnipotentCenter K) (x y : K) :
@@ -168,6 +181,7 @@ theorem exists_pairs_of_le_sup {H₁ H₂ : Subgroup (antiSp K)} (hH₁ : H₁ �
   exact ⟨a₁, d₁, a₂, d₂, ⟨b₁, c₁, hh₁⟩, ⟨b₂, c₂, hh₂⟩, by linear_combination hx₁,
     by linear_combination hx₄⟩
 
+omit [Finite K] in
 theorem eq_antiUnipotent_of_commute_of_pair (hK : 2 < Nat.card K) {H H' : Subgroup (antiSp K)}
     (hH : H ≤ antiUnipotent K) (hc : ∀ x ∈ H, ∀ y ∈ H', x * y = y * x)
     (hspan : ∀ x y : K, ∃ a₁ d₁ a₂ d₂ : K, (∃ b c : K, uElt a₁ b c d₁ ∈ H) ∧
@@ -184,15 +198,16 @@ theorem eq_antiUnipotent_of_commute_of_pair (hK : 2 < Nat.card K) {H H' : Subgro
   · rw [hA, hD]
     exact exists_uElt_add_mem h₁ ⟨b₀, c₀, h₀'⟩
 
+omit [Finite K] in
 theorem antiUnipotent_eq_of_commute (hK : 4 ≤ Nat.card K) {H₁ H₂ : Subgroup (antiSp K)}
     (hH₁ : H₁ ≤ antiUnipotent K) (hH₂ : H₂ ≤ antiUnipotent K)
-    (hn₁ : ∀ u ∈ antiUnipotent K, ∀ x ∈ H₁, u * x * u⁻¹ ∈ H₁)
-    (hn₂ : ∀ u ∈ antiUnipotent K, ∀ x ∈ H₂, u * x * u⁻¹ ∈ H₂)
+    (_hn₁ : ∀ u ∈ antiUnipotent K, ∀ x ∈ H₁, u * x * u⁻¹ ∈ H₁)
+    (_hn₂ : ∀ u ∈ antiUnipotent K, ∀ x ∈ H₂, u * x * u⁻¹ ∈ H₂)
     (hc : ∀ x ∈ H₁, ∀ y ∈ H₂, x * y = y * x)
     (hU : antiUnipotent K ≤ H₁ ⊔ H₂ ⊔ antiUnipotentCenter K) :
     H₁ = antiUnipotent K ∨ H₂ = antiUnipotent K := by
   have hK2 : 2 < Nat.card K := by omega
-  clear hn₁ hn₂
+  clear _hn₁ _hn₂
   have hspan := exists_pairs_of_le_sup hH₁ hH₂ hc hU
   have hspan' : ∀ x y : K, ∃ a₁ d₁ a₂ d₂ : K, (∃ b c : K, uElt a₁ b c d₁ ∈ H₂) ∧
       (∃ b c : K, uElt a₂ b c d₂ ∈ H₁) ∧ x = a₁ + a₂ ∧ y = d₁ + d₂ := by
@@ -217,6 +232,7 @@ theorem antiUnipotent_eq_of_commute (hK : 4 ≤ Nat.card K) {H₁ H₂ : Subgrou
     exact h₂ ⟨a₂, d₂, by rw [ha₂]; exact one_ne_zero, by rw [hd₂]; exact one_ne_zero, b₂, c₂, hb₂⟩
   · exact h₁ ⟨a₁, d₁, ha₁, by rw [hdd]; exact ha₁, b₁, c₁, hb₁⟩
 
+omit [Finite K] in
 theorem antiUnipotent_inf_centralizer_axisTorus_le (hK : 4 ≤ Nat.card K) (i : Axis) :
     antiUnipotent K ⊓ centralizer (axisTorus K i : Set (antiSp K)) ≤ antiUnipotentCenter K := by
   intro g hg
@@ -254,6 +270,7 @@ theorem antiUnipotent_inf_centralizer_axisTorus_le (hK : 4 ≤ Nat.card K) (i : 
         (fun h => hr1' (eq_one_of_sq_eq_one_in_charTwo h)) hd
     exact ⟨b, c, by rw [ha0, hd0]⟩
 
+omit [Finite K] [CharP K 2] in
 theorem weylElt_mul_weylElt_pow_four :
     (weylElt K Axis.one * weylElt K Axis.two) ^ 4 = 1 := by
   set w₁ := weylElt K Axis.one
@@ -275,6 +292,7 @@ theorem weylElt_mul_weylElt_pow_four :
   ext i j
   fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_four]
 
+omit [Finite K] in
 theorem exists_root_trick_axis :
     ∃ i : Axis,
       antiUnipotent K = rootA K i.swap ⊔

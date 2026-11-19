@@ -157,8 +157,8 @@ theorem card_of_index {F : Subgroup A} (hF : F.index = p) : Nat.card F = p ^ 2 :
 
 theorem fixA_regular : PolarNondegOn Q (fixA A) := by
   classical
-  haveI := finite_sub A
-  letI : Fintype A := Fintype.ofFinite A
+  have := finite_sub A
+  let : Fintype A := Fintype.ofFinite A
   have h := polarNondegOn_qFix (φ := (elementaryGroup Q).subtype.comp A.subtype) S.nondeg
     (fun f => mem_O (f : elementaryGroup Q)) (by
       rw [Fintype.card_eq_nat_card, S.card_eq, Nat.cast_pow]
@@ -313,8 +313,8 @@ variable {P : Submodule K V}
 theorem exists_hyperplane_fix (hP : IsCubePiece A P) :
     ∃ F : Subgroup A, F.index = p ∧ F ≤ pieceKer A P := by
   classical
-  haveI : Fact p.Prime := ⟨S.prime⟩
-  haveI := finite_sub A
+  have : Fact p.Prime := ⟨S.prime⟩
+  have := finite_sub A
   by_contra hcon
   push Not at hcon
   have hbot : ∀ F : Subgroup A, F.index = p → hyperFixed (aRep A) F ⊓ P = ⊥ := by
@@ -410,7 +410,7 @@ theorem exists_quadratic (hP : IsCubePiece A P) {b : A} (hb : b ∉ pieceKer A P
   classical
   set T : Module.End K V := ((b : elementaryGroup Q) : V ≃ₗ[K] V).toLinearMap with hT
   have hTP : ∀ x ∈ P, T x ∈ P := fun x hx => hP.astable b b.2 x hx
-  haveI : Nontrivial P := Submodule.nontrivial_iff_ne_bot.mpr hP.ne_bot
+  have : Nontrivial P := Submodule.nontrivial_iff_ne_bot.mpr hP.ne_bot
   have hTp : T ^ p = 1 := by
     rw [hT, ← toLinearMap_pow, S.coe_pow_eq_one b.2]
     rfl
@@ -532,7 +532,7 @@ theorem indep_of_fix {z x : elementaryGroup Q} (hz : z ∈ A) (hx : x ∈ A) (hz
     {U : Submodule K V} (hzU : ∀ u ∈ U, (z : V ≃ₗ[K] V) u = u)
     (hxj : ∀ j : ℤ, (∀ u ∈ U, ((x ^ j : elementaryGroup Q) : V ≃ₗ[K] V) u = u) → (p : ℤ) ∣ j) :
     ∀ i j : ℤ, z ^ i * x ^ j = 1 → (p : ℤ) ∣ i ∧ (p : ℤ) ∣ j := by
-  haveI : Fact p.Prime := ⟨S.prime⟩
+  have : Fact p.Prime := ⟨S.prime⟩
   intro i j hij
   have hc : Commute z x := S.comm z hz x hx
   have hji : x ^ j * z ^ i = 1 := by rw [← (hc.zpow_zpow i j).eq]; exact hij
@@ -560,8 +560,8 @@ theorem eichler_mem_pair {P₁ P₂ : Submodule K V} (hP₁ : IsCubePiece A P₁
     ∀ e ∈ P₁ ⊔ P₂, ∀ w ∈ P₁ ⊔ P₂,
       eichler Q e w ∈ (hyperClosure p ⊤ A).map (elementaryGroup Q).subtype := by
   classical
-  haveI : Fact p.Prime := ⟨S.prime⟩
-  haveI := finite_sub A
+  have : Fact p.Prime := ⟨S.prime⟩
+  have := finite_sub A
   set F₁ := pieceKer A P₁ with hF₁
   set F₂ := pieceKer A P₂ with hF₂
   have hi₁ : F₁.index = p := S.index_pieceKer hP₁
@@ -715,7 +715,7 @@ theorem eichler_mem_pair {P₁ P₂ : Submodule K V} (hP₁ : IsCubePiece A P₁
       (by rw [Subgroup.relIndex_top_right]; exact hi₂) (Subgroup.mem_top _) hb₁F₂
     have hF₁G : F₁ ≤ G := by
       intro f hf
-      haveI : (Subgroup.zpowers b₁).Normal :=
+      have : (Subgroup.zpowers b₁).Normal :=
         ⟨fun n hn g => by rw [S.comm' g n, mul_inv_cancel_right]; exact hn⟩
       have hfmem : f ∈ ((F₂ ⊔ Subgroup.zpowers b₁ : Subgroup A) : Set A) := by
         rw [hsup₂]
@@ -1052,17 +1052,17 @@ variable {K V : Type} [Field K] [Finite K] [AddCommGroup V] [Module K V] [Finite
 
 theorem sgn2_zero : sgn2 (0 : K) = 1 := by
   unfold sgn2
-  exact if_pos rfl
+  exact ite_eq_left rfl
 
 theorem sgn2_of_ne {x : K} (hx : x ≠ 0) : sgn2 x = -1 := by
   unfold sgn2
-  exact if_neg hx
+  exact ite_eq_right hx
 
 omit [Finite K] in
 theorem eq_one_of_ne_zero_of_card [Finite K] (hK2 : Nat.card K = 2) {x : K} (hx : x ≠ 0) :
     x = 1 := by
   classical
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hu : Fintype.card Kˣ = 1 := by
     rw [Fintype.card_units, ← Nat.card_eq_fintype_card, hK2]
   have h1 : Units.mk0 x hx = 1 := Fintype.card_le_one_iff.mp hu.le _ _
@@ -1094,8 +1094,8 @@ theorem sgn2_sum (hK2 : Nat.card K = 2) {ι : Type*} (s : Finset ι) (f : ι →
 
 theorem chi2_bot : chi2 Q ⊥ = 1 := by
   classical
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Fintype (⊥ : Submodule K V) := Fintype.ofFinite _
+  have : Finite V := Module.finite_of_finite K
+  have : Fintype (⊥ : Submodule K V) := Fintype.ofFinite _
   rw [chi2, finsum_eq_sum_of_fintype, Fintype.sum_unique]
   have : ((default : (⊥ : Submodule K V)) : V) = 0 :=
     (Submodule.mem_bot K).mp (default : (⊥ : Submodule K V)).2
@@ -1104,10 +1104,10 @@ theorem chi2_bot : chi2 Q ⊥ = 1 := by
 theorem chi2_sup (hK2 : Nat.card K = 2) {U W : Submodule K V} (hUW : Disjoint U W)
     (horth : OrthSep Q U W) : chi2 Q (U ⊔ W) = chi2 Q U * chi2 Q W := by
   classical
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Fintype U := Fintype.ofFinite U
-  haveI : Fintype W := Fintype.ofFinite W
-  haveI : Fintype ↥(U ⊔ W) := Fintype.ofFinite _
+  have : Finite V := Module.finite_of_finite K
+  have : Fintype U := Fintype.ofFinite U
+  have : Fintype W := Fintype.ofFinite W
+  have : Fintype ↥(U ⊔ W) := Fintype.ofFinite _
   rw [chi2, chi2, chi2, finsum_eq_sum_of_fintype, finsum_eq_sum_of_fintype,
     finsum_eq_sum_of_fintype]
   let f : U × W → ↥(U ⊔ W) := fun x => ⟨x.1 + x.2, Submodule.add_mem_sup x.1.2 x.2.2⟩
@@ -1133,8 +1133,8 @@ theorem chi2_sup (hK2 : Nat.card K = 2) {U W : Submodule K V} (hUW : Disjoint U 
 theorem chi2_plane (hK2 : Nat.card K = 2) {P : Submodule K V} (hP : finrank K P = 2)
     (haniso : ∀ s ∈ P, Q s = 0 → s = 0) : chi2 Q P = -2 := by
   classical
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Fintype P := Fintype.ofFinite P
+  have : Finite V := Module.finite_of_finite K
+  have : Fintype P := Fintype.ofFinite P
   rw [chi2, finsum_eq_sum_of_fintype]
   have hcard : Fintype.card P = 4 := by
     rw [Fintype.card_eq_nat_card, Module.natCard_eq_pow_finrank (K := K), hK2, hP]
@@ -1143,9 +1143,9 @@ theorem chi2_plane (hK2 : Nat.card K = 2) {P : Submodule K V} (hP : finrank K P 
     intro x
     by_cases hx : x = 0
     · subst hx
-      rw [if_pos rfl, Submodule.coe_zero, QuadraticMap.map_zero, sgn2_zero]
+      rw [ite_eq_left rfl, Submodule.coe_zero, QuadraticMap.map_zero, sgn2_zero]
       norm_num
-    · rw [if_neg hx, sgn2_of_ne fun h => hx (Subtype.ext (haniso x x.2 h))]
+    · rw [ite_eq_right hx, sgn2_of_ne fun h => hx (Subtype.ext (haniso x x.2 h))]
       norm_num
   rw [Finset.sum_congr rfl fun x _ => key x, Finset.sum_sub_distrib, Finset.sum_ite_eq']
   simp [hcard]
@@ -1188,7 +1188,7 @@ theorem chi2_iSup (hK2 : Nat.card K = 2) {n : ℕ} (P : Fin n → Submodule K V)
 
 theorem chi2_top_eq [Fintype V] : chi2 Q ⊤ = ∑ v : V, sgn2 (Q v) := by
   classical
-  haveI : Fintype (⊤ : Submodule K V) := Fintype.ofFinite _
+  have : Fintype (⊤ : Submodule K V) := Fintype.ofFinite _
   rw [chi2, finsum_eq_sum_of_fintype]
   exact Fintype.sum_equiv Submodule.topEquiv.toEquiv _ _ (fun x => rfl)
 
@@ -1289,7 +1289,7 @@ theorem sum_sgn2_aniso (hK2 : Nat.card K = 2) [Fintype K] {b c : K}
     by_cases hz : z = 0
     · subst hz
       simp [sgn2_zero]
-    · rw [if_neg hz, sgn2_of_ne fun h => hz (hzero z h)]
+    · rw [ite_eq_right hz, sgn2_of_ne fun h => hz (hzero z h)]
       norm_num
   rw [Finset.sum_congr rfl fun z _ => key z, Finset.sum_sub_distrib, Finset.sum_ite_eq']
   have hcard : Fintype.card (Fin 2 → K) = 4 := by
@@ -1301,7 +1301,7 @@ open CFSG.LieType.Universal.Spin
 
 theorem chi2_quadPlus (hK2 : Nat.card K = 2) (r : ℕ) : chi2 (quadPlus r K) ⊤ = 2 ^ r := by
   classical
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   rw [chi2_top_eq]
   simp only [quadPlus_apply, sgn2_sum hK2]
   rw [← (Equiv.sumArrowEquivProdArrow (Fin r) (Fin r) K).symm.sum_comp, Fintype.sum_prod_type]
@@ -1312,7 +1312,7 @@ theorem chi2_quadPlus (hK2 : Nat.card K = 2) (r : ℕ) : chi2 (quadPlus r K) ⊤
 theorem chi2_quadMinus (hK2 : Nat.card K = 2) {r : ℕ} (hr : 1 ≤ r) {b c : K}
     (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) : chi2 (quadMinus r K b c) ⊤ = -2 ^ r := by
   classical
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   rw [chi2_top_eq]
   simp only [quadMinus_apply]
   have hsplit : ∀ v : Fin (r - 1) ⊕ Fin (r - 1) ⊕ Fin 2 → K,
@@ -1363,15 +1363,15 @@ theorem exists_twoSetup {G : Type} [Group G] {π : elementaryGroup Q →* G}
       (∀ g : elementaryGroup Q, π g ∈ E₀ → ∀ w ∈ W, (g : V ≃ₗ[K] V) w ∈ W) → W = ⊥) :
     ∃ A : Subgroup (elementaryGroup Q), TwoSetup Q p A ∧ A.map π = E₀ ∧ Disjoint A π.ker := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Finite (V ≃ₗ[K] V) := finite_linearEquiv
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite V := Module.finite_of_finite K
+  have : Finite (V ≃ₗ[K] V) := finite_linearEquiv
   have hp2 : p ≠ 2 := (manyTwo_ne_two_and_ne_ringChar hp h2).1
   have hE1 : 1 < Nat.card E₀ := by
     rw [hcard]
     exact Nat.one_lt_pow (by norm_num) hp.one_lt
-  haveI : Finite E₀ := Nat.finite_of_card_ne_zero (by omega)
-  haveI : Nontrivial V := by
+  have : Finite E₀ := Nat.finite_of_card_ne_zero (by omega)
+  have : Nontrivial V := by
     by_contra hV
     rw [not_nontrivial_iff_subsingleton] at hV
     have h1 : ∀ a b : elementaryGroup Q, a = b := fun a b =>
@@ -1664,7 +1664,7 @@ theorem seitzGoodInnerOrthTwoF2_holds : SeitzGoodInnerOrthTwoF2 := by
     have hr4 : 4 ≤ r := ((TauCeti.LieTypeIndex.inStandardRange_iff _).1
       ((TauCeti.LieTypeIndex.valid_iff _).1 hv).1)
     have hsix : ¬ IsSixIndex (.twistedD r q) := by
-      simp [IsSixIndex, IsF4EightIndex, IsD4FourIndex, FourIndex, IsTwoPow, hqp]
+      simp [IsSixIndex, IsF4EightIndex, IsD4FourIndex, FourIndex]
     have hexc : ¬ ExcIndex p (.twistedD r q) := hgood.resolve_right hsix
     have hev : Even r := by
       by_contra hodd

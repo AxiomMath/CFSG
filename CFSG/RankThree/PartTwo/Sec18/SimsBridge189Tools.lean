@@ -150,6 +150,7 @@ private theorem exists_conj_sKAlpha189 {a : G}
   rw [← hψ]
   rfl
 
+omit [Finite G] in
 private theorem map_imAlpha189_le_of_conj {a : G} {φ : SKAlpha189 M H c ≃* SKAlpha189 M H c}
     (haX : a ∈ Subgroup.normalizer (sk189 M H c : Set G))
     (hφ : ∀ (y : ↥(sk189 M H c)) (hy : a * y * a⁻¹ ∈ sk189 M H c),

@@ -30,7 +30,7 @@ theorem k150_rowAll_of_card_le {J : Type} [Group J] (hF : K150Facts J) {X : Type
     omega
 
 variable {J : Type} [Group J] (hF : K150Facts J) (hLSC : LieSemisimpleCent)
-  (hLC : LieComp.LieComp)
+  (hLC : LieComp.LieCompAll)
 
 include hF hLSC hLC
 

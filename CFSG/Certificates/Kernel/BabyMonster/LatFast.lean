@@ -47,6 +47,7 @@ theorem isB64_eq (c : Nat) : isB64 c = isB64T c := by
       e2 47 (by decide), e2 61 (by decide), hb]
     rfl
 
+set_option exponentiation.threshold 738 in
 theorem b64v_eq (c : Nat) : b64v c = b64vT c := by
   rcases Nat.lt_or_ge c 256 with h | h
   · exact b64v_lt c h

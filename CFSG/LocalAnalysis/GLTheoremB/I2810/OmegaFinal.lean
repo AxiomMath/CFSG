@@ -13,12 +13,14 @@ namespace CFSG.LocalAnalysis.GLTheoremB.Prop95Iv.I2810.OmegaFinal
 
 variable {X : Type} [Group X] [Finite X] {W K S : Subgroup X} [W.Normal]
 
+omit [Finite X] in
 theorem indHom_toBar_eq (h : Setup28 W K S) {a : X} (haS : a ∈ S) (k : ↥K)
     (hak : a * (k : X) * a⁻¹ ∈ K) :
     InducedAux.indHom W K S h.hN ⟨a, haS⟩ (toBar W K k) = toBar W K ⟨a * k * a⁻¹, hak⟩ :=
   Subtype.ext ((InducedAux.indHom_toBar S h.hN ⟨a, haS⟩ k).trans
     (InducedAux.toBar_coe (W := W) ⟨a * k * a⁻¹, hak⟩).symm)
 
+omit [Finite X] in
 theorem theta_ne_one {ι : Type} [Fintype ι] [DecidableEq ι] (Q : (ι → ZMod 2) → ZMod 2)
     {U₁ U₂ V : Subgroup X} (sf : SingleFactor K V U₁ U₂)
     (θ : ↥K →* ↥(StatedOmega Q))
@@ -39,6 +41,7 @@ theorem theta_ne_one {ι : Type} [Fintype ι] [DecidableEq ι] (Q : (ι → ZMod
     simp only [Subgroup.coe_mul, Subgroup.coe_inv, commutatorElement_def]; group
   rwa [e] at h3
 
+omit [Finite X] in
 theorem concl_of_model {ι : Type} [Fintype ι] [DecidableEq ι] (Q : (ι → ZMod 2) → ZMod 2)
     (h : Setup28 W K S) (hR : Red28 W K S) {U₁ U₂ : Subgroup X}
     (sf : SingleFactor K (vOf W K S) U₁ U₂)
@@ -94,11 +97,11 @@ theorem concl_of_model {ι : Type} [Fintype ι] [DecidableEq ι] (Q : (ι → ZM
       exact hna (InducedAux.mem_kerAct_of_indHom_eq_one h haS this)
     have hcardL : Nat.card ↥((indAut W K S).map (MulAut.congr e).toMonoidHom) = 2 := by
       rw [Subgroup.card_map_of_injective (MulAut.congr e).injective]; exact hS2
-    haveI : Finite ↥((indAut W K S).map (MulAut.congr e).toMonoidHom) :=
+    have : Finite ↥((indAut W K S).map (MulAut.congr e).toMonoidHom) :=
       Nat.finite_of_card_ne_zero (by rw [hcardL]; norm_num)
     have hle : Subgroup.zpowers τ ≤ (indAut W K S).map (MulAut.congr e).toMonoidHom :=
       Subgroup.zpowers_le.2 hmem
-    haveI : Finite ↥(Subgroup.zpowers τ) := Finite.of_injective _ (Subgroup.inclusion_injective hle)
+    have : Finite ↥(Subgroup.zpowers τ) := Finite.of_injective _ (Subgroup.inclusion_injective hle)
     have hz1 : 1 < Nat.card ↥(Subgroup.zpowers τ) := by
       rw [Subgroup.one_lt_card_iff_ne_bot]
       intro hb

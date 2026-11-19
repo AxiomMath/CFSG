@@ -19,12 +19,12 @@ theorem monsterCaseThreeData_of_five_thirteen
       SporCaseThreePrimeData (CFSG.Blueprint.NativeSporadic.Carrier .M) 7) :
     MonsterCaseThreeData := by
   have :Finite (CFSG.Blueprint.NativeSporadic.Carrier .M) :=
-    CFSG.Sporadic.finite_carrier_M_of_card CFSG.Open.Open.monster_y443_derived_card
+    CFSG.Sporadic.finite_carrier_M_of_card CFSG.Open.Thm.monster_y443_derived_card
   have :IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .M) := carrier_M_simple
   have :Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have :Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hMcard : Nat.card CFSG.Open.MonsterY443Derived = monsterOrder :=
-    CFSG.Open.Open.monster_y443_derived_card
+    CFSG.Open.Thm.monster_y443_derived_card
   have hcard : Nat.card (CFSG.Blueprint.NativeSporadic.Carrier .M) = monsterOrder :=
     CFSG.AGLEmbedding.MonsterRows.card_eq_monsterOrder hMcard (MulEquiv.refl _)
   have hS : ¬ 13 ^ 4 ∣ Nat.card (CFSG.Blueprint.NativeSporadic.Carrier .M) := by

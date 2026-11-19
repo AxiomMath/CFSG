@@ -23,7 +23,7 @@ theorem endN1 (hG : G64Out) (h622 : Stmt6_2_2) (h629 : Stmt6_2_9)
       ∀ a : ↥(HH T), (a : G) ∈ V → (a : G) ∉ CHU T L V → (ψ a).IsSwap ∧
         ∀ c : ↥(HH T), ((c : G) ∈ Subgroup.normalizer (V : Set G) ↔ ψ c * ψ a = ψ a * ψ c) := by
   have hZ : Nat.card (quasithinOmegaOneCenter T) = 2 := (h622 G T M L V h).2.1
-  haveI : Fact (IsElemAbelianMod (UU T L V) (quasithinOmegaOneCenter T)) :=
+  have : Fact (IsElemAbelianMod (UU T L V) (quasithinOmegaOneCenter T)) :=
     ⟨isElemAbelianMod_UU h h6210 hZ⟩
   obtain ⟨z₀, hz₀, hz₀Z, hw⟩ := exists_z0 h hZ
   have hw1 : zt T L V z₀ hz₀ ≠ 1 := fun h1 => hz₀Z ((tmk_eq_one_iff _).mp h1)
@@ -45,7 +45,7 @@ theorem endN1 (hG : G64Out) (h622 : Stmt6_2_2) (h629 : Stmt6_2_9)
     have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     refine orderOf_eq_prime ?_ hw1
     exact Sec.sq_eq_one _ _ _
-  have hspan := span_rep h z₀ hz₀ hw
+  have hspan := span_rep z₀ hz₀ hw
   rw [← hcomm] at hspan
   have hTH : T ≤ HH T := T_le_HH T
   have hTsyl : IsPGroup 2 (T.subgroupOf (HH T)) ∧ ¬ 2 ∣ (T.subgroupOf (HH T)).index := by

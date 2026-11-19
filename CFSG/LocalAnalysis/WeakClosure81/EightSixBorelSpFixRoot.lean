@@ -94,7 +94,7 @@ theorem borel86_spr_exists_eq_conj_mul_fieldSp [Finite F] (hF : Nat.card F = 2 ^
     have h2 : 1 < 2 ^ n := by rw [← hF]; exact Finite.one_lt_card
     have h3 : n ≠ 0 := Nat.one_lt_two_pow_iff.mp h2
     omega
-  haveI : CharP F 2 :=
+  have : CharP F 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       (K := F) Nat.prime_two hn1 hF
   rcases (show k = 1 ∨ 3 ≤ k by omega) with rfl | hk3
@@ -130,7 +130,7 @@ theorem borel86_spr_mem_range_conj_two [Finite F] (hF : Nat.card F = 2 ^ n) (hn 
     have h2 : 1 < 2 ^ n := by rw [← hF]; exact Finite.one_lt_card
     have h3 : n ≠ 0 := Nat.one_lt_two_pow_iff.mp h2
     omega
-  haveI : CharP F 2 :=
+  have : CharP F 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       (K := F) Nat.prime_two hn1 hF
   have hπ := CFSG.LocalAnalysis.ComponentInitial.UnitaryHigher.proj_bijective_of_charTwo

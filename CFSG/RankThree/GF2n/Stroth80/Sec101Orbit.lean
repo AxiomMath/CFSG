@@ -54,8 +54,8 @@ theorem Ctx.centralizes_of_comm (hc : Ctx M Q Z B) {y b : G} (hy : y ∈ Q) (hb 
   have hcardBZ : Nat.card ↥B = Nat.card ↥Z := by
     obtain ⟨g, hg⟩ := hc.conj
     rw [hg, card_conjSubgroup]
-  letI : Fintype ↥B := Fintype.ofFinite _
-  letI : Fintype ↥Z := Fintype.ofFinite _
+  let : Fintype ↥B := Fintype.ofFinite _
+  let : Fintype ↥Z := Fintype.ofFinite _
   have hFcard : Fintype.card ↥B = Fintype.card ↥Z := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card]
     exact hcardBZ
@@ -69,6 +69,7 @@ theorem Ctx.centralizes_of_comm (hc : Ctx M Q Z B) {y b : G} (hy : y ∈ Q) (hb 
   exact hb1 (congrArg Subtype.val hb1')
 
 
+omit [Finite G] in
 theorem IsRootB.isZConjugate (hc : Ctx M Q Z B) {E : Subgroup G}
     (hE : IsRootB M B E) : Smith81.IsZConjugate Z E := by
   obtain ⟨m, -, hEB⟩ := hE
@@ -110,6 +111,7 @@ private theorem conj_inf_QB_of_mem_Q (hc : Ctx M Q Z B) {E : Subgroup G}
         rw [(IsRootB.ctx hc hE).conj_Q_eq (hc.hyp.Q_normal.1 hp), ← QB_conj]
     _ = Q ⊓ QB E := (IsRootB.ctx hc hE).conj_inf_QB_of_mem_Q hp
 
+omit [Finite G] in
 private theorem le_inf_and_not_le_sup_of_conj_eq {E D : Subgroup G} {g : G}
     (hinf : conjSubgroup g (Q ⊓ QB E) = Q ⊓ QB E)
     (hsup : conjSubgroup g (E ⊔ Z) = E ⊔ Z)
@@ -315,14 +317,16 @@ private def PermutesRoots101 (M Q Z B E : Subgroup G) (g : G) : Prop :=
     IsRootB M B (conjSubgroup g D) ∧ conjSubgroup g D ≤ Q ⊓ QB E ∧
       ¬ conjSubgroup g D ≤ E ⊔ Z
 
-private theorem permutesRoots101_one (hc : Ctx M Q Z B) {E : Subgroup G}
-    (hE : IsRootB M B E) : PermutesRoots101 M Q Z B E 1 := by
+omit [Finite G] in
+private theorem permutesRoots101_one (_hc : Ctx M Q Z B) {E : Subgroup G}
+    (_hE : IsRootB M B E) : PermutesRoots101 M Q Z B E 1 := by
   intro D hD hDle hDZ
   rw [conjSubgroup_one]
   exact ⟨hD, hDle, hDZ⟩
 
-private theorem permutesRoots101_mul (hc : Ctx M Q Z B) {E : Subgroup G}
-    (hE : IsRootB M B E) {g h : G} (hg : PermutesRoots101 M Q Z B E g)
+omit [Finite G] in
+private theorem permutesRoots101_mul (_hc : Ctx M Q Z B) {E : Subgroup G}
+    (_hE : IsRootB M B E) {g h : G} (hg : PermutesRoots101 M Q Z B E g)
     (hh : PermutesRoots101 M Q Z B E h) : PermutesRoots101 M Q Z B E (g * h) := by
   intro D hD hDle hDZ
   obtain ⟨hDroot, hDle', hDZ'⟩ := hh D hD hDle hDZ

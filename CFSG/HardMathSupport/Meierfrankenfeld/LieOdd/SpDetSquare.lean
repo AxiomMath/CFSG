@@ -106,7 +106,7 @@ theorem det_statedSp_eq_one [NeZero r] (hsimple : IsSimpleGroup (StatedProj (Sta
         Matrix (Fin r ⊕ Fin r) (Fin r ⊕ Fin r) K) = (d : K) • 1 := by
       ext i j
       by_cases hij : i = j <;>
-        simp [Matrix.GeneralLinearGroup.scalar, Matrix.diagonal_apply, Matrix.one_apply, hij]
+        simp [Matrix.GeneralLinearGroup.scalar, hij]
     rw [hs, Matrix.det_smul, Matrix.det_one, mul_one, Fintype.card_sum, Fintype.card_fin,
       ← two_mul, pow_mul]
     have : (d : K) ^ 2 = 1 := by

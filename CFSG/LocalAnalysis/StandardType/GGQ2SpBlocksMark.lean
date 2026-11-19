@@ -22,11 +22,11 @@ theorem spMarkedYcode_holds : SpMarkedYcode := by
       ↥⁅blockGroup ζ m (.zero S), blockGroup ζ m (.zero S)⁆
       (fun lab _ _ _ _ _ => lab = if S.card = 2 then ⟨.B2der, 0, 1⟩ else ⟨.C, S.card, 1⟩)
     by_cases h2 : S.card = 2
-    · rw [if_pos h2]
+    · rw [ite_eq_left h2]
       revert e
       rw [h2]
       exact largeEvenMarking_commutator_of_mulEquiv_statedSp_two hK
-    · rw [if_neg h2]
+    · rw [ite_eq_right h2]
       exact largeEvenMarking_commutator_of_mulEquiv_statedSp hK (by omega) e
   | extension e =>
     obtain ⟨he, h4⟩ := hc

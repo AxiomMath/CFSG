@@ -19,7 +19,7 @@ namespace P64Asm
 
 theorem pRank_top_le_of_sylow {G : Type*} [Group G] [Finite G] {p : ℕ} (hp : p.Prime)
     (P : Sylow p G) : Open.pRank p (⊤ : Subgroup G) ≤ Open.pRank p (P : Subgroup G) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨E, -, hE, hEc⟩ := SU1.exists_pRank hp.one_lt (⊤ : Subgroup G)
   obtain ⟨P', hEP'⟩ := (CFSG.Open.IsElemAbelian.isPGroup hE).exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq G P P'
@@ -37,10 +37,10 @@ theorem isCyclic_of_pRank_le_one {G : Type*} [Group G] [Finite G] {p : ℕ} (hp 
     (hp2 : p ≠ 2) {P : Subgroup G} (hP : IsPGroup p P) (hrk : Open.pRank p P ≤ 1) :
     IsCyclic P := by
   by_contra hnc
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (IsPGroup p P) := ⟨hP⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (IsPGroup p P) := ⟨hP⟩
   obtain ⟨S, -, hScard, hSel⟩ := CFSG.lemma_4_5_a hp2 hnc
-  haveI := hSel
+  have := hSel
   have hSm : CFSG.IsElementaryAbelian p (S.map P.subtype) :=
     CFSG.IsElementaryAbelian.map_subtype
   have hcard : Nat.card (S.map P.subtype) = p ^ 2 := by
@@ -52,7 +52,7 @@ theorem isCyclic_of_pRank_le_one {G : Type*} [Group G] [Finite G] {p : ℕ} (hp 
 theorem mem_zpowers_of_cyclic {C : Type*} [Group C] [Finite C] [IsCyclic C] {p : ℕ}
     (hp : p.Prime) {x y : C} (hx1 : x ≠ 1) (hx : x ^ p = 1) (hy : y ^ p = 1) :
     y ∈ zpowers x := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_cases hy1 : y = 1
   · rw [hy1]
     exact one_mem _
@@ -67,7 +67,7 @@ end P64Asm
 
 theorem kdI278Rank1_of_i713 (hI : GL83.I_7_13_1) : KDI278Rank1 := by
   rintro p hp hp5 Z _ _ K hKn hKs hKna hKcat hcen ⟨P, hPrk⟩ Q a ha b hb hap hbp
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   have hKrk : Open.pRank p (⊤ : Subgroup ↥K) ≤ 1 :=
     (P64Asm.pRank_top_le_of_sylow hp P).trans hPrk
@@ -91,19 +91,19 @@ theorem kdI278Rank1_of_i713 (hI : GL83.I_7_13_1) : KDI278Rank1 := by
     have hxk' : x = (k : Z) := inv_mul_eq_one.mp hxk
     rw [hxk']
     exact k.2
-  have hNp : IsPGroup p ↥((Q : Subgroup Z) ⊓ K) := Q.isPGroup'.to_le inf_le_left
+  have hNp : IsPGroup p ↥((Q : Subgroup Z) ⊓ K) := Q.isPGroup.to_le inf_le_left
   have hKrk' : Open.pRank p (K : Subgroup Z) ≤ 1 := by
     have := hKrk
     rwa [← pRank_map_subtype hp.one_lt, Subgroup.map_top, Subgroup.range_subtype] at this
   have hNrk : Open.pRank p ((Q : Subgroup Z) ⊓ K) ≤ 1 :=
     (SU1.pRank_mono hp.one_lt (inf_le_right : (Q : Subgroup Z) ⊓ K ≤ K)).trans hKrk'
-  haveI hNcyc : IsCyclic ↥((Q : Subgroup Z) ⊓ K) :=
+  have hNcyc : IsCyclic ↥((Q : Subgroup Z) ⊓ K) :=
     P64Asm.isCyclic_of_pRank_le_one hp hp2 hNp hNrk
-  haveI : Finite (Outer ↥K) := inferInstance
-  have hCp : IsPGroup p ((Q : Subgroup Z).map ψ) := Q.isPGroup'.map ψ
+  have : Finite (Outer ↥K) := inferInstance
+  have hCp : IsPGroup p ((Q : Subgroup Z).map ψ) := Q.isPGroup.map ψ
   have hCrk : Open.pRank p ((Q : Subgroup Z).map ψ) ≤ 1 :=
     (SU1.pRank_mono hp.one_lt le_top).trans hOut
-  haveI hCcyc : IsCyclic ↥((Q : Subgroup Z).map ψ) :=
+  have hCcyc : IsCyclic ↥((Q : Subgroup Z).map ψ) :=
     P64Asm.isCyclic_of_pRank_le_one hp hp2 hCp hCrk
   have key : ∀ a ∈ (Q : Subgroup Z), ∀ b ∈ (Q : Subgroup Z), a ^ p = 1 → b ^ p = 1 →
       ψ a ≠ 1 → a * b = b * a := by

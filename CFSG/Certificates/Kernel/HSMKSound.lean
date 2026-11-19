@@ -83,7 +83,7 @@ theorem gen_sound {n : ℕ} {T : List NMat} {V : List KPair} {tab : List (List �
   let H : Subgroup (owEm_GL n) := Subgroup.closure {g : owEm_GL n | ∃ s < T.length, (g : Mat n) = toM n (T.getD s [])}
   have hguv : ∀ s < T.length, (gu s : Mat n) = toM n (T.getD s []) := fun s hs => by simp [gu, hs, owEm_unit]
   have hgu : ∀ s < T.length, gu s ∈ H ∧ (gu s)⁻¹ = gu s := fun s hs =>
-    ⟨Subgroup.subset_closure ⟨s, hs, hguv s hs⟩, by simp only [gu, hs, dif_pos, owEm_unit_inv]⟩
+    ⟨Subgroup.subset_closure ⟨s, hs, hguv s hs⟩, by simp only [gu, hs, dite_eq_left, owEm_unit_inv]⟩
   have htab' : ∀ i < V.length, ∀ s < T.length, (tab.getD i []).getD s 0 < V.length ∧
       (gu s : Mat n) * Lm n V i * (gu s : Mat n) = Lm n V ((tab.getD i []).getD s 0) := by
     intro i hi s hs

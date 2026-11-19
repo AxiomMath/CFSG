@@ -215,9 +215,9 @@ end Irred937
 theorem ggNbrKGF4ThreeAdd_holds
     : GGNbrKGF4ThreeAdd := by
   intro K _ _ _ hpq
-  haveI : Finite (CFSG.Blueprint.Chevalley.adjointGroup CFSG.Blueprint.Chevalley.Tag.F4 K) :=
+  have : Finite (CFSG.Blueprint.Chevalley.adjointGroup CFSG.Blueprint.Chevalley.Tag.F4 K) :=
     Subtype.finite
-  haveI : Finite (TableBF4.RecipeGroup K) :=
+  have : Finite (TableBF4.RecipeGroup K) :=
     Finite.of_equiv (CFSG.Blueprint.Chevalley.adjointGroup CFSG.Blueprint.Chevalley.Tag.F4 K)
       (TableBF4.recipeEquiv K).toEquiv.symm
   exact Irred937.ggTorusNoLineComp_of_compIrred (TableBF4.center_recipeGroup_eq_bot K)

@@ -73,7 +73,7 @@ include hl k c
 
 theorem lin_E_normal_S : (d.E.subgroupOf c.S).Normal := by
   obtain ⟨-, hEchar, -⟩ := k.s9_1 c.S c.S_syl c.P_le_S
-  haveI := hEchar
+  have := hEchar
   infer_instance
 
 theorem lin_S_le_L₁ : c.S ≤ d.L₁ := (k.s10_2 c.S c.S_syl c.P_le_S).2.2.2.2.2.2.1.le
@@ -120,7 +120,7 @@ theorem lin_F_inf_E : d.F ⊓ d.E = d.W := by
     rw [key]
     exact this
   · intro w hw
-    refine ⟨s313a_W_le_F hl.toCaseHyp k c.S_syl c.P_le_S hw, ?_⟩
+    refine ⟨s313a_W_le_F k c.S_syl c.P_le_S hw, ?_⟩
     rw [hE6]
     exact mem_sup_left (mem_sup_left hw)
 
@@ -223,7 +223,7 @@ theorem lin_exists_radicals_quotient [(d.E.subgroupOf c.S).Normal] :
     ha.E_inf₂ hR⟩
 
 theorem lin_sec42_of_hyp (h41 : c.Sec41) : c.Sec42 := by
-  haveI := lin_E_normal_S hl k c
+  have := lin_E_normal_S hl k c
   obtain ⟨hBel, hBcard, hBinf, hBsup⟩ := lin_sec42_basic hl k c h41
   exact ⟨hBel.isElementaryAbelian, hBcard, hBinf, hBsup,
     lin_card_Bc_inf_E hl k c h41 (lin_exists_radicals_quotient hl k c)⟩

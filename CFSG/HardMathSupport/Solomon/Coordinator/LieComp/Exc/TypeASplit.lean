@@ -53,7 +53,7 @@ theorem split_exists_hom (hT : rootDiagUnit τ ta ∈ S.D.torus)
     (hΨ : componentRoots (rootCharHom ta) i = frameRoots σ) (π : Equiv.Perm (Fin ν))
     (hπ : ∀ a b, a ≠ b → (S.ρ : (Fin τ.rank → ℤ) → _)^[componentOrbitLength S.ρ
       (componentRoots (rootCharHom ta) i)] (σ a b) = σ (π a) (π b))
-    {r e : ℕ} (hr : r.Prime) (hchar : CharP L r) (he : 0 < e) (hq : S.D.q = r ^ e) :
+    {r e : ℕ} (hr : r.Prime) (hchar : CharP L r) (_he : 0 < e) (hq : S.D.q = r ^ e) :
     ∃ σQ : L ≃+* L,
       (∀ c, σQ c = c ^ (r ^ (e * componentOrbitLength S.ρ (componentRoots (rootCharHom ta) i)))) ∧
       ∃ f : SL(ν, ↥(fixSubfield σQ)) →* ModGL τ L,

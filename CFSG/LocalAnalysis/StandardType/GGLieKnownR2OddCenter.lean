@@ -32,7 +32,7 @@ private theorem centerPPrime_two_spin {σ : Type} [Fintype σ] [DecidableEq σ] 
 
 theorem odd_card_center_of_centerPPrime_two {K : Type} [Group K] [Finite K]
     (h : CenterPPrime K 2) : Odd (Nat.card (Subgroup.center K)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hodd
   have h2 : 2 ∣ Nat.card (Subgroup.center K) :=
     even_iff_two_dvd.1 (Nat.not_odd_iff_even.1 hodd)
@@ -91,7 +91,7 @@ theorem finite_ggU
         Spin.plusDatum n (GaloisField 2 f) hn⟩ := by
       simp only [ggU, lieUniversal, hn, ↓reduceDIte]
     rw [hK]
-    haveI : NeZero n := ⟨by omega⟩
+    have : NeZero n := ⟨by omega⟩
     exact finite_spinGroup_two _
       (coe_ker_spinMatrix_quadPlus (n := n) (K := GaloisField 2 f))
   · exact finite_spinGroup_two _
@@ -152,7 +152,7 @@ theorem odd_card_center_ggU
       t = .E7 ∨ t = .E8 ∨ t = .twistedE6)
     {n f : ℕ} (hadm : CFSG.Open.StatedLieAdmissible t n 2 f) :
     Odd (Nat.card (Subgroup.center (ggU t n f).K)) := by
-  haveI := finite_ggU ht hadm
+  have := finite_ggU ht hadm
   exact odd_card_center_of_centerPPrime_two (centerPPrime_ggU ht hadm)
 
 end CFSG.StandardType.LieKnownR2.OddCenter

@@ -91,7 +91,7 @@ theorem exists_frameAct_of_mem_toralRootGroup
     refine ⟨CFSG.RankThree.PartOne.KE.diagGLn
       (fun k => rootChar (fun l => u ^ τ.cartan j l) (σ k ⟨0, by decide⟩)),
       u3frame_frameAct_false_iff.mpr fun X => ?_⟩
-    simp only [Prod.fst, Prod.snd]
+    simp only
     rw [torusElt_eq_rootDiagUnit j u,
       hψ.torus ⟨0, by decide⟩ (fun l => u ^ τ.cartan j l) X,
       u3frame_conjDiagn_slConj]
@@ -139,7 +139,7 @@ private theorem u3frame_core
   have hG : ∀ a b (hab : a ≠ b), G a b =
       (ε (π a) (π b) (π.injective.ne hab))⁻¹ * β a b hab := by
     intro a b hab
-    simp only [G, dif_pos hab]
+    simp only [G, dite_eq_left hab]
   have hg : ∀ (a b : Fin 3) (hab : a ≠ b) (c : L),
       θ (Matrix.SpecialLinearGroup.transvection hab c) =
         ψ (Matrix.SpecialLinearGroup.transvection (π.injective.ne hab)
@@ -296,7 +296,7 @@ theorem exists_frameAct_of_semilinear
     rw [slMap_transvection, he, hβ, map_mul]
     have hcancel : η (η.symm.toRingHom c) = c := η.apply_symm_apply c
     rw [hcancel]
-    simp only [Units.val_mul, Units.coe_map, RingEquiv.coe_toRingHom]
+    simp only [Units.val_mul, Units.coe_map]
     rw [mul_assoc]
     rfl
   rcases hψ.aut_cases (le_refl 3) hκ hnorm f hmaps hneg hform with ⟨π, hπ⟩ | ⟨π, hπ⟩
@@ -472,7 +472,7 @@ theorem false_of_graph_trivial {L : Type} [Field L] [IsAlgClosed L] (h2 : (2 : L
       ext t
       simp [Polynomial.IsRoot, Polynomial.eval_sub, Polynomial.eval_pow, Polynomial.eval_X,
         Polynomial.eval_one, sub_eq_zero]
-    have hroot := Polynomial.finite_setOf_isRoot hp
+    have hroot := Polynomial.finite_setOfPred_isRoot hp
     rw [hset] at hroot
     exact (Set.finite_singleton (0 : L)).union hroot
   obtain ⟨t, ht⟩ := Set.Finite.exists_notMem hfin

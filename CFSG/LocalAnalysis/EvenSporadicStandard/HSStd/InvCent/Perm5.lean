@@ -24,7 +24,7 @@ theorem rhyp_perm5 : RHyp (Equiv.Perm (Fin 5)) (alternatingGroup (Fin 5)) where
         (Equiv.Perm.swap_isSwap_iff.mpr (by decide))
     · decide
   min := fun N hN hNne => by
-    haveI : N.Normal := hN
+    have : N.Normal := hN
     exact Equiv.Perm.alternatingGroup_le_of_normal (α := Fin 5) (by simp)
       ((Subgroup.nontrivial_iff_ne_bot N).mpr hNne)
   center := fun x h => CFSG.perm_eq_one_of_forall_commute (by simp) fun y => (h y).symm

@@ -22,7 +22,7 @@ theorem E187C.exists_two_twins_of {z : G} (hc : ConjInvariant Ω)
     (hzH : Subgroup.centralizer ({z} : Set G) ≤ H)
     (hSylz : IsSylow2In ((S : Subgroup G) ⊓ Subgroup.centralizer ({z} : Set G))
       (Subgroup.centralizer ({z} : Set G)))
-    (hg : g ∉ H) (ht : t = g * z * g⁻¹) (htS : t ∈ (S : Subgroup G)) (hnc : ¬ t * z = z * t)
+    (hg : g ∉ H) (ht : t = g * z * g⁻¹) (_htS : t ∈ (S : Subgroup G)) (hnc : ¬ t * z = z * t)
     (hdel : t * t = 1 → ¬ t * z = z * t →
       ∃ B : Subgroup G, ∃ b : G, B ≤ (S : Subgroup G) ∧ B ≤ Subgroup.centralizer ({t} : Set G) ∧
         IsUniqueInvolution B b ∧ 8 ≤ Nat.card B ∧ b = z * (t * z * t⁻¹) ∧ b ∈ W ∧
@@ -42,7 +42,7 @@ theorem E187C.exists_two_twins_of {z : G} (hc : ConjInvariant Ω)
     calc g * z * g⁻¹ * (g * z * g⁻¹) = g * (z * z) * g⁻¹ := by group
       _ = 1 := by rw [hz.sq]; group
   obtain ⟨B, b, hBS, hBt, hBb, hB8, hbdef, hbW, hbH⟩ := hdel ht2 hnc
-  have hBp : IsPGroup 2 B := S.isPGroup'.to_le hBS
+  have hBp : IsPGroup 2 B := S.isPGroup.to_le hBS
   have hB'z : conjSub g⁻¹ B ≤ Subgroup.centralizer ({z} : Set G) := by
     intro x hx
     rw [mem_conjSub_iff, inv_inv] at hx

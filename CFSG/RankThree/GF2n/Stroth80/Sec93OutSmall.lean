@@ -16,7 +16,7 @@ open CFSG.ComponentClassification.CatalogueSchreierAlternating
   (outer_card_dvd_two_of_equiv_outside_six)
 
 theorem outer_finite_of_finite_group (S : Type) [Group S] [Finite S] : Finite (Outer S) := by
-  haveI : Finite (MulAut S) := Finite.of_injective (fun f : MulAut S => (f : S → S))
+  have : Finite (MulAut S) := Finite.of_injective (fun f : MulAut S => (f : S → S))
     DFunLike.coe_injective
   infer_instance
 
@@ -53,25 +53,25 @@ theorem card_outer_le_two_m24
 
 theorem listOutBound_alt {S : Type} [Group S] [Finite S] {k : ℕ} (hk6 : 6 ≤ k) (hk9 : k ≤ 9)
     (e : S ≃* alternatingGroup (Fin k)) (A : Subgroup (Outer S)) : Nat.card A ≤ 4 := by
-  haveI := outer_finite_of_finite_group S
+  have := outer_finite_of_finite_group S
   exact (Subgroup.card_le_card_group A).trans (card_outer_le_four_of_alternating hk6 hk9 e)
 
 theorem listOutBound_m22
     {S : Type} [Group S] [Finite S] (e : S ≃* Blueprint.NativeSporadic.Carrier .M22)
     (A : Subgroup (Outer S)) : Nat.card A ≤ 4 := by
-  haveI := outer_finite_of_finite_group S
+  have := outer_finite_of_finite_group S
   exact (Subgroup.card_le_card_group A).trans ((card_outer_le_two_m22 e).trans (by norm_num))
 
 theorem listOutBound_m23
     {S : Type} [Group S] [Finite S] (e : S ≃* Blueprint.NativeSporadic.Carrier .M23)
     (A : Subgroup (Outer S)) : Nat.card A ≤ 4 := by
-  haveI := outer_finite_of_finite_group S
+  have := outer_finite_of_finite_group S
   exact (Subgroup.card_le_card_group A).trans ((card_outer_le_two_m23 e).trans (by norm_num))
 
 theorem listOutBound_m24
     {S : Type} [Group S] [Finite S] (e : S ≃* Blueprint.NativeSporadic.Carrier .M24)
     (A : Subgroup (Outer S)) : Nat.card A ≤ 4 := by
-  haveI := outer_finite_of_finite_group S
+  have := outer_finite_of_finite_group S
   exact (Subgroup.card_le_card_group A).trans ((card_outer_le_two_m24 e).trans (by norm_num))
 
 end CFSG.RankThree.GF2n.Stroth80

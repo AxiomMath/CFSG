@@ -43,6 +43,7 @@ private theorem s16h_z3_barImage11_barPreimage11 (D : Data G) {V₀ V : Subgroup
   rw [hsub]
   exact Subgroup.map_comap_eq_self_of_surjective (QuotientGroup.mk'_surjective _) Xbar
 
+omit [Finite G] in
 theorem s16h_z3_card_eq_barSub_mul {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
     {M Y : Subgroup G} (hYM : Y ≤ M) (hM : M ≤ normalizer (V : Set G))
     (hY : Y ≤ stabTil V₀ V) :
@@ -56,7 +57,6 @@ theorem s16h_z3_card_eq_barSub_mul {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V
     constructor
     · rintro ⟨hxY, hx1⟩
       refine ⟨hxY, ?_⟩
-      change (x : G) ∈ F11.CTilde M V₀ V
       rw [mem_cTilde_iff (M := M) (V₀ := V₀) (V := V) hV hM]
       exact ⟨hYM hxY, x.2, by simpa using hx1⟩
     · rintro ⟨hxY, hxC⟩
@@ -73,6 +73,7 @@ theorem s16h_z3_card_eq_barSub_mul {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V
   rw [h1, h2, h4, h3] at h
   exact h
 
+omit [Finite G] in
 theorem s16h_z3_le_cTilde_of_barSub_eq_bot {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
     {M Y : Subgroup G} (hM : M ≤ normalizer (V : Set G)) (hYM : Y ≤ M)
     (hY : Y ≤ stabTil V₀ V) (hbar : barSub V₀ V hV Y = ⊥) :
@@ -85,6 +86,7 @@ theorem s16h_z3_le_cTilde_of_barSub_eq_bot {V₀ V : Subgroup G} (hV : IsElemAbe
   rw [hbar] at hmem
   exact Subgroup.mem_bot.1 hmem
 
+omit [Finite G] in
 theorem s16h_z3_conj_mem_barSub {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
     {N Y : Subgroup G} (hN : N ≤ normalizer (Y : Set G))
     {n : stabTil V₀ V} (hn : (n : G) ∈ N)

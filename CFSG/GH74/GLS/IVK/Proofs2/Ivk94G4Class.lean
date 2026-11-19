@@ -63,7 +63,7 @@ theorem unpack_four_subgroup {H : Type} [Group H] [Finite H] {z : H} {P : Sylow 
       have h1 := Subgroup.card_le_of_le hUP
       have h2 := hU4.2
       omega
-    have := (P.isPGroup').center_nontrivial
+    have := (P.isPGroup).center_nontrivial
     have hbot := Subgroup.eq_bot_iff_forall _ |>.1 hcen'
     obtain ⟨c, hc⟩ := exists_ne (1 : ↥(Subgroup.center ↥(P : Subgroup H)))
     exact hc (Subtype.ext (hbot c.1 c.2))

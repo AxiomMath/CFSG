@@ -21,19 +21,21 @@ open Polynomial Module QuadraticMap CFSG.ClassicalGroups.Orthogonal
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type} [AddCommGroup V] [Module F V]
   [FiniteDimensional F V] {Q : QuadraticForm F V} {p : ℕ}
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem blockDet_pow_eq_one {x g : V ≃ₗ[F] V} {h : F[X]} (hg : g ∈ supportedBlock Q x h)
     (hgp : g ^ p = 1) : blockDet Q x h ⟨g, hg⟩ ^ p = 1 := by
   rw [← map_pow, show (⟨g, hg⟩ : ↥(supportedBlock Q x h)) ^ p = 1 from Subtype.ext hgp, map_one]
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem exists_mul_pow_mem_specialBlock {x a b : V ≃ₗ[F] V} {h : F[X]} (hh : Irreducible h)
     (hp : p.Prime) (ha : a ∈ supportedBlock Q x h) (hb : b ∈ supportedBlock Q x h)
     (hap : a ^ p = 1) (hbp : b ^ p = 1) (hbS : b ∉ specialBlock Q x h) :
     ∃ i : ℕ, i < p ∧ a * b ^ i ∈ specialBlock Q x h := by
   classical
-  haveI : Fact (Irreducible h) := ⟨hh⟩
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : Fintype (rootsOfUnity p (AdjoinRoot h)) := Fintype.ofFinite _
+  have : Fact (Irreducible h) := ⟨hh⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : Fintype (rootsOfUnity p (AdjoinRoot h)) := Fintype.ofFinite _
   have hdet_a : blockDet Q x h ⟨a, ha⟩ ^ p = 1 := blockDet_pow_eq_one ha hap
   have hdet_b : blockDet Q x h ⟨b, hb⟩ ^ p = 1 := blockDet_pow_eq_one hb hbp
   have hdet_b1 : blockDet Q x h ⟨b, hb⟩ ≠ 1 := fun h1 =>
@@ -78,6 +80,7 @@ theorem exists_mul_pow_mem_specialBlock {x a b : V ≃ₗ[F] V} {h : F[X]} (hh :
     ((z : (AdjoinRoot h)ˣ) : AdjoinRoot h)) hprod
   simpa [hα, hγ] using h2
 
+omit [Finite F] [CharP F 2] in
 theorem mem_supportedBlock_of_fullSupport {n : ℕ} (hdim : Module.finrank F V = 2 * n)
     {U : Fin n → Submodule F V} {e : Fin n → ↥(orthDerived Q)} {Bb : Subgroup ↥(orthDerived Q)}
     (hF : IsPlaneFrame Q p U e Bb) {d : ↥(orthDerived Q)} (hd : d ∈ Bb)
@@ -135,6 +138,7 @@ theorem eichler_mem_specialBlock_of_mem_primaryComponent
   have hc1 : c = 1 := eq_one_of_pow_eq_one_of_dvd_card_add_one hp hp2 hpq hcp
   exact hu0 (eq_zero_of_mem_primaryComponent_of_apply_eq hh hh1 hu (by rw [hc, hc1, one_smul]))
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem pow_eq_one_of_frame {n : ℕ} {U : Fin n → Submodule F V}
     {e : Fin n → ↥(orthDerived Q)} {Bb : Subgroup ↥(orthDerived Q)} (hF : IsPlaneFrame Q p U e Bb)
     (i : Fin n) : ((e i : V ≃ₗ[F] V)) ^ p = 1 := by
@@ -142,6 +146,7 @@ private theorem pow_eq_one_of_frame {n : ℕ} {U : Fin n → Submodule F V}
     (hF.orderOf_eq i ▸ pow_orderOf_eq_one (e i))
   simpa using h
 
+omit [Finite F] [CharP F 2] in
 private theorem mem_sup_of_mem_normalizer_of_not_mem_specialBlock {n : ℕ}
     (hdim : Module.finrank F V = 2 * n) (hp : p.Prime) {U : Fin n → Submodule F V}
     {e : Fin n → ↥(orthDerived Q)} {Bb : Subgroup ↥(orthDerived Q)} (hF : IsPlaneFrame Q p U e Bb)
@@ -184,7 +189,7 @@ private theorem exists_twoGroup_centralized_of_fullSupport
     ∃ T : Subgroup ↥(orthDerived Q), T ≠ ⊥ ∧ IsPGroup 2 T ∧
       T ≤ (specialBlock Q (d : V ≃ₗ[F] V) h).subgroupOf (orthDerived Q) ∧
       e k ∈ Subgroup.centralizer (T : Set ↥(orthDerived Q)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hVh : primaryComponent (d : V ≃ₗ[F] V).toLinearMap h = ⊤ := by
     rw [eq_top_iff, ← T173M.iSup_eq_top_of_finrank hF.toIsPlaneSystem hdim]
     exact iSup_le hUh
@@ -241,7 +246,7 @@ theorem exists_twoGroup_decomp_fullSupport (hQ : (QuadraticMap.polarBilin Q).Non
       T ≤ (specialBlock Q (d : V ≃ₗ[F] V) h).subgroupOf (orthDerived Q) ∧
       Bb = (Bb ⊓ (specialBlock Q (d : V ≃ₗ[F] V) h).subgroupOf (orthDerived Q)) ⊔
         (Bb ⊓ Subgroup.normalizer (T : Set ↥(orthDerived Q))) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hx : OddOrderIsometry Q p (d : V ≃ₗ[F] V) :=
     oddOrderIsometry_of_orthDerived hp (by rw [ringChar.eq F 2]; exact hp2) hQ d
       (orderOf_eq_prime (hF.isElemAbelian.2 d hd) hd1)

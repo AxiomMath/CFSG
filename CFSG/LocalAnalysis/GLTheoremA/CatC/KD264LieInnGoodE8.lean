@@ -27,7 +27,7 @@ open CFSG.Open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
 
 theorem eq_seventeen_of_orderOf_two_eq_eight {p : ℕ} (hp : p.Prime)
     (h : orderOf ((2 : ℕ) : ZMod p) = 8) : p = 17 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h8 : ((2 : ℕ) : ZMod p) ^ 8 = 1 := by
     rw [← h]
     exact pow_orderOf_eq_one _
@@ -62,7 +62,7 @@ theorem bigComponentSet_nonempty_E8_eight {L : Type} [Field L] [IsAlgClosed L] {
     (hord : orderOf ((S.D.q : ℕ) : ZMod p) = 8)
     {D₁ : Subgroup (ModGL .E8 L)} (hD₁E : D₁ ≤ S.E) (hD₁c : Nat.card D₁ = p ^ 2) :
     (CFSG.HardMathSupport.Timmesfeld.CrossChar.bigComponentSet S D₁).Nonempty := by
-  haveI : Fact p.Prime := ⟨S.hp⟩
+  have : Fact p.Prime := ⟨S.hp⟩
   by_cases hq3 : 3 ≤ S.D.q
   · exact bigComponentSet_nonempty_of_classCheck S (Or.inr (Or.inr (Or.inr rfl)))
       (toMat_cartanList _) hρ hq3 hp7 hord e8Eight_classCheck hD₁E hD₁c
@@ -89,8 +89,8 @@ theorem perfectCentralizerPlanes_cat_E8_three_char (q : TauCeti.PrimePower)
   classical
   obtain ⟨K, hF, hFin, hK, -, ⟨φ⟩⟩ :=
     exists_catEquiv_adjointGroup CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e8 q hv
-  letI : Field K := hF
-  letI : Finite K := hFin
+  let : Field K := hF
+  let : Finite K := hFin
   have h3K : ¬ 3 ∣ Nat.card K := by
     rw [hK]
     exact h3q
@@ -112,8 +112,8 @@ theorem perfectCentralizerPlanes_cat_E8_one_two (q : TauCeti.PrimePower)
   classical
   obtain ⟨K, hF, hFin, hK, -, ⟨φ⟩⟩ :=
     exists_catEquiv_adjointGroup CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e8 q hv
-  letI : Field K := hF
-  letI : Finite K := hFin
+  let : Field K := hF
+  let : Finite K := hFin
   rw [← hK] at hord
   have hp5 : 5 ≤ p := hp.five_le_of_ne_two_of_ne_three hp2 hp3
   rcases hord with h1 | h2
@@ -152,7 +152,7 @@ theorem perfectCentralizerPlanes_cat_E8_one_two (q : TauCeti.PrimePower)
       refine perfectCentralizerPlanes_cat_of_langTorusAtAlgM (k := .E8) trivial
         (langTorusAtAlgM_E8_2 frobeniusOnRoots_proved) ?_ q hv hp ⟨hp11, ?_⟩ hpq
       · intro L _ _ p' S q' hR hSq hAlg hρ D₁ hD₁E hD₁c
-        haveI : Fact p'.Prime := ⟨S.hp⟩
+        have : Fact p'.Prime := ⟨S.hp⟩
         exact bigComponentSet_nonempty_of_classCheck S (Or.inr (Or.inr (Or.inr rfl)))
           (toMat_cartanList _) hρ
             (three_le_q_of_class S (by omega) (Or.inr (Or.inl rfl))
@@ -171,11 +171,11 @@ theorem perfectCentralizerPlanes_cat_E8_three_four_six (q : TauCeti.PrimePower)
   classical
   obtain ⟨K, hF, hFin, hK, -, ⟨φ⟩⟩ :=
     exists_catEquiv_adjointGroup CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e8 q hv
-  letI : Field K := hF
-  letI : Finite K := hFin
+  let : Field K := hF
+  let : Finite K := hFin
   rw [← hK] at hord
   have hp5 : 5 ≤ p := hp.five_le_of_ne_two_of_ne_three hp2 hp3
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpK : ¬ p ∣ Nat.card K := by
     rw [hK]
     exact not_dvd_card_of_ne hp hpq
@@ -189,7 +189,7 @@ theorem perfectCentralizerPlanes_cat_E8_three_four_six (q : TauCeti.PrimePower)
     refine perfectCentralizerPlanes_cat_of_langTorusAtAlgClass (k := .E8) trivial
       (langTorusAtAlgClass_E8_three frobeniusOnRoots_proved) ?_ q hv hp ⟨hp7, ?_⟩ hpq
     · intro L _ _ p' S q' hR hSq hAlg hC D₁ hD₁E hD₁c
-      haveI : Fact p'.Prime := ⟨S.hp⟩
+      have : Fact p'.Prime := ⟨S.hp⟩
       exact bigComponentSet_nonempty_of_bigAnyPBig S
         (S.bigAnyPBig_of_weylClass_tri (Or.inr (Or.inr (Or.inr rfl))) hR.1 e8ThreeMat_rel hC)
         hD₁E hD₁c
@@ -205,7 +205,7 @@ theorem perfectCentralizerPlanes_cat_E8_three_four_six (q : TauCeti.PrimePower)
       refine perfectCentralizerPlanes_cat_of_langTorusAtAlgM (k := .E8) trivial
         (langTorusAtAlgM_E8_4 frobeniusOnRoots_proved) ?_ q hv hp ⟨hp7, ?_⟩ hpq
       · intro L _ _ p' S q' hR hSq hAlg hρ D₁ hD₁E hD₁c
-        haveI : Fact p'.Prime := ⟨S.hp⟩
+        have : Fact p'.Prime := ⟨S.hp⟩
         exact bigComponentSet_nonempty_of_classCheck S (Or.inr (Or.inr (Or.inr rfl)))
           (toMat_cartanList _) hρ
             (three_le_q_of_class S hR.1 (Or.inr (Or.inr (Or.inl rfl)))
@@ -219,7 +219,7 @@ theorem perfectCentralizerPlanes_cat_E8_three_four_six (q : TauCeti.PrimePower)
     refine perfectCentralizerPlanes_cat_of_langTorusAtAlgClass (k := .E8) trivial
       (langTorusAtAlgClass_E8_six frobeniusOnRoots_proved) ?_ q hv hp ⟨hp7, ?_⟩ hpq
     · intro L _ _ p' S q' hR hSq hAlg hC D₁ hD₁E hD₁c
-      haveI : Fact p'.Prime := ⟨S.hp⟩
+      have : Fact p'.Prime := ⟨S.hp⟩
       exact bigComponentSet_nonempty_of_bigAnyPBig S
         (S.bigAnyPBig_of_weylClass_hex (Or.inr (Or.inr (Or.inr rfl))) hR.1 e8SixMat_rel hC)
         hD₁E hD₁c
@@ -234,8 +234,8 @@ theorem perfectCentralizerPlanes_cat_E8_eight (q : TauCeti.PrimePower)
   classical
   obtain ⟨K, hF, hFin, hK, -, ⟨φ⟩⟩ :=
     exists_catEquiv_adjointGroup CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e8 q hv
-  letI : Field K := hF
-  letI : Finite K := hFin
+  let : Field K := hF
+  let : Finite K := hFin
   rw [← hK] at hord
   have hp5 : 5 ≤ p := hp.five_le_of_ne_two_of_ne_three hp2 hp3
   have hpK : ¬ p ∣ Nat.card K := by
@@ -244,7 +244,7 @@ theorem perfectCentralizerPlanes_cat_E8_eight (q : TauCeti.PrimePower)
   have hq0 : ((Nat.card K : ℕ) : ZMod p) ≠ 0 := by
     intro h0
     exact hpK ((ZMod.natCast_eq_zero_iff (Nat.card K) p).1 h0)
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hdvd : 8 ∣ p - 1 := hord ▸ ZMod.orderOf_dvd_card_sub_one hq0
   have hp5' : p ≠ 5 := by rintro rfl; norm_num at hdvd
   have hp7 : 7 ≤ p := seven_le_of_prime_of_five_lt hp (by omega)
@@ -265,10 +265,10 @@ theorem perfectCentralizerPlanes_cat_E8_rigid (q : TauCeti.PrimePower)
   classical
   obtain ⟨K, hF, hFin, hK, -, ⟨φ⟩⟩ :=
     exists_catEquiv_adjointGroup CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e8 q hv
-  letI : Field K := hF
-  letI : Finite K := hFin
+  let : Field K := hF
+  let : Finite K := hFin
   rw [← hK] at hord
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpK : ¬ p ∣ Nat.card K := by
     rw [hK]
     exact not_dvd_card_of_ne hp hpq
@@ -344,9 +344,9 @@ theorem innGoodAt_E8 (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeIndex.E8 q).
     InnGoodAt p (.E8 q) (Cat ⟨.E8 q, hv⟩) := by
   obtain ⟨K, hF, hFin, -, -, ⟨φ⟩⟩ :=
     exists_catEquiv_adjointGroup CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e8 q hv
-  letI : Field K := hF
-  letI : Finite K := hFin
-  haveI : Finite (Cat ⟨.E8 q, hv⟩) := Finite.of_equiv _ φ.symm.toEquiv
+  let : Field K := hF
+  let : Finite K := hFin
+  have : Finite (Cat ⟨.E8 q, hv⟩) := Finite.of_equiv _ φ.symm.toEquiv
   have hZ : Subgroup.center (Cat ⟨.E8 q, hv⟩) = ⊥ := by
     rw [← Subgroup.map_center_eq φ.symm, center_adjointGroup_eq_bot, Subgroup.map_bot]
   exact innGoodAt_of_outPNice hp hZ (outPNice_cat_E8 q hv hp)

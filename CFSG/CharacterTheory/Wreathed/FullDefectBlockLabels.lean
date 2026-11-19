@@ -428,7 +428,7 @@ theorem coefficientBlockDefect_of_normal_sylow [Fintype G]
     (P : Sylow p G) [(P : Subgroup G).Normal] (χ : basis.index) :
     coefficientBlockDefect basis ideal p χ P := by
   obtain ⟨D, hD⟩ := coefficientBlockDefect_exists basis ideal p χ
-  have hPD := normal_p_le_coefficientBlockDefect basis ideal p P P.isPGroup' hD
+  have hPD := normal_p_le_coefficientBlockDefect basis ideal p P P.isPGroup hD
   have hDP := CompatibleFamily.pSubgroup_subconjugate_sylow P
     (coefficientBlockDefect_isPGroup basis ideal hD)
   have heq : (P : Subgroup G) = D :=
@@ -497,28 +497,28 @@ theorem full_defect_block_canonical_sylow_centralizer_labels {G : Type*} [Group 
           complexCharacterIdempotent (eb.representation θ).character) ∧
     (∀ (θ : eb.index) (θhat : nb.index), InflatedLabel (oddCore_le_normalizer S) nb eb θ θhat →
       ∃ B : basis.index, brauerNormalizerCharacterResidueHom ideal 2 (S : Subgroup G)
-          S.isPGroup' (Subgroup.normalizer ((S : Subgroup G) : Set G))
+          S.isPGroup (Subgroup.normalizer ((S : Subgroup G) : Set G))
           (Subgroup.centralizer_le_normalizer _) le_rfl nb θhat =
             centralCharacterResidueHom basis ideal B ∧
         coefficientBlockDefect basis ideal 2 B S) ∧
     (∀ B : basis.index, coefficientBlockDefect basis ideal 2 B S →
       ∃ (θ : eb.index) (θhat : nb.index), InflatedLabel (oddCore_le_normalizer S) nb eb θ θhat ∧
-        brauerNormalizerCharacterResidueHom ideal 2 (S : Subgroup G) S.isPGroup'
+        brauerNormalizerCharacterResidueHom ideal 2 (S : Subgroup G) S.isPGroup
           (Subgroup.normalizer ((S : Subgroup G) : Set G))
           (Subgroup.centralizer_le_normalizer _) le_rfl nb θhat =
             centralCharacterResidueHom basis ideal B) ∧
     (∀ (θ₁ θ₂ : eb.index) (θhat₁ θhat₂ : nb.index),
       InflatedLabel (oddCore_le_normalizer S) nb eb θ₁ θhat₁ →
       InflatedLabel (oddCore_le_normalizer S) nb eb θ₂ θhat₂ →
-      brauerNormalizerCharacterResidueHom ideal 2 (S : Subgroup G) S.isPGroup'
+      brauerNormalizerCharacterResidueHom ideal 2 (S : Subgroup G) S.isPGroup
           (Subgroup.normalizer ((S : Subgroup G) : Set G))
           (Subgroup.centralizer_le_normalizer _) le_rfl nb θhat₁ =
-        brauerNormalizerCharacterResidueHom ideal 2 (S : Subgroup G) S.isPGroup'
+        brauerNormalizerCharacterResidueHom ideal 2 (S : Subgroup G) S.isPGroup
           (Subgroup.normalizer ((S : Subgroup G) : Set G))
           (Subgroup.centralizer_le_normalizer _) le_rfl nb θhat₂ → θ₁ = θ₂) ∧
     (∀ (θ : eb.index) (θhat : nb.index), (eb.representation θ).character = 1 →
       InflatedLabel (oddCore_le_normalizer S) nb eb θ θhat →
-      brauerNormalizerCharacterResidueHom ideal 2 (S : Subgroup G) S.isPGroup'
+      brauerNormalizerCharacterResidueHom ideal 2 (S : Subgroup G) S.isPGroup
           (Subgroup.normalizer ((S : Subgroup G) : Set G))
           (Subgroup.centralizer_le_normalizer _) le_rfl nb θhat =
         centralCharacterResidueHom basis ideal principal) := by
@@ -579,7 +579,7 @@ theorem full_defect_block_canonical_sylow_centralizer_labels {G : Type*} [Group 
   have hZS : modelCenter S e ≤ (S : Subgroup G) := by
     rintro _ ⟨x, -, rfl⟩
     exact (e.symm x).2
-  have hZp : IsPGroup 2 (modelCenter S e) := S.isPGroup'.to_le hZS
+  have hZp : IsPGroup 2 (modelCenter S e) := S.isPGroup.to_le hZS
   have hZW : ∀ a ∈ modelCenter S e, a ∈ (Subgroup.centralizer ((S : Subgroup G) : Set G)) := by
     intro a ha
     have h := (dW (⟨a, ha⟩, 1)).2
@@ -660,7 +660,7 @@ theorem full_defect_block_canonical_sylow_centralizer_labels {G : Type*} [Group 
       ← characterSubsetIdempotent_singleton, scalar_characterSubsetIdempotent,
       ite_eq_left (Finset.mem_singleton_self θ)]
   have hP : IsPGroup 2 ((S : Subgroup G).subgroupOf
-      (Subgroup.normalizer ((S : Subgroup G) : Set G))) := S.isPGroup'.comap_subtype
+      (Subgroup.normalizer ((S : Subgroup G) : Set G))) := S.isPGroup.comap_subtype
   have hconst : ∀ (θ : eb.index) (χ χ' : nb.index),
       χ ∈ embSupport (oddCore_le_normalizer S) nb eb θ →
       χ' ∈ embSupport (oddCore_le_normalizer S) nb eb θ →
@@ -736,7 +736,7 @@ theorem full_defect_block_canonical_sylow_centralizer_labels {G : Type*} [Group 
       ((S : Subgroup G).subgroupOf (Subgroup.normalizer ((S : Subgroup G) : Set G))) := fun χ =>
     coefficientBlockDefect_of_normal_sylow nb ideal 2 SN χ
   obtain ⟨himg, hmapdef, hsurj, hinj⟩ :=
-    defect_normalizer_brauer_correspondence basis ideal 2 (S : Subgroup G) S.isPGroup' nb
+    defect_normalizer_brauer_correspondence basis ideal 2 (S : Subgroup G) S.isPGroup nb
   have hsingle : ∀ θ : eb.index,
       coefficientBlock eb (localizedComplexIntegerRing ideal) θ = {θ} := fun θ =>
     (full_prime_part_character_degree_singleton_block_singular_vanishing eb ideal 2 θ (by
@@ -764,7 +764,7 @@ theorem full_defect_block_canonical_sylow_centralizer_labels {G : Type*} [Group 
     exact ⟨B, hB, hmapdef θhat B (hdef θhat) hB⟩
   · obtain ⟨χ, -, hχ⟩ := hsurj B hB
     obtain ⟨θ, θhat, h, hsame⟩ := hcover χ
-    exact ⟨θ, θhat, h, (brauer_eq_of_same ideal 2 _ S.isPGroup' _ _ le_rfl nb hsame).trans hχ⟩
+    exact ⟨θ, θhat, h, (brauer_eq_of_same ideal 2 _ S.isPGroup _ _ le_rfl nb hsame).trans hχ⟩
   · exact hlabel_inj θ₁ θ₂ θhat₁ θhat₂ h₁ h₂ (hinj θhat₁ θhat₂ (hdef θhat₁) (hdef θhat₂) hBr)
   · have hchar : (nb.representation θhat).character = 1 := by
       funext k
@@ -775,7 +775,7 @@ theorem full_defect_block_canonical_sylow_centralizer_labels {G : Type*} [Group 
           hmulmem ⟨v, hv⟩ ⟨x, hx⟩⟩ := Subtype.ext hk
       subst hk'
       exact (h ⟨v, hv⟩ ⟨x, hx⟩).trans (congrFun h1 ⟨x, hx⟩)
-    exact brauerNormalizer_principal_residue_image basis ideal 2 (S : Subgroup G) S.isPGroup' _
+    exact brauerNormalizer_principal_residue_image basis ideal 2 (S : Subgroup G) S.isPGroup _
       (Subgroup.centralizer_le_normalizer _) le_rfl nb principal hprincipal θhat hchar
 
 end CFSG.Wreathed

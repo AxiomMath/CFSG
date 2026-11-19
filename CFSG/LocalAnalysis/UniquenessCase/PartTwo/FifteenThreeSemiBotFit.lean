@@ -77,7 +77,7 @@ theorem s15_semiBot_odd_card_fitting (h : Hyp151 D V₀ V L) :
     (Subgroup.normal_subgroupOf_iff hFL).mpr fun x l hx hl => conj_mem_fittingOf hl hx
   by_contra hodd
   have h2 : 2 ∣ Nat.card ↥F := even_iff_two_dvd.mp (Nat.not_odd_iff_even.mp hodd)
-  haveI : Group.IsNilpotent ↥F := fittingOf_nilpotent Lb
+  have : Group.IsNilpotent ↥F := fittingOf_nilpotent Lb
   obtain ⟨H2, hH2card, hH2norm⟩ :=
     Group.IsNilpotent.exists_normal_card_eq_of_dvd_card (G := ↥F) h2
   have hH2p : IsPGroup 2 ↥H2 := IsPGroup.of_card (p := 2) (n := 1) (by rw [hH2card]; norm_num)

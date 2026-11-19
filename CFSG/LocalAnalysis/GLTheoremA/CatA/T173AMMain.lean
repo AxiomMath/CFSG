@@ -29,7 +29,7 @@ theorem t173AMNonzeroLin_holds : T173AMNonzeroLin := by
     have h1 := Nat.le_of_dvd (by omega) hpd
     have h2 := hp.two_le
     omega
-  haveI : CharP F 2 := charP_two_of_card hn1 hF
+  have : CharP F 2 := charP_two_of_card hn1 hF
   have hpF2 : p ∣ Nat.card F - 1 := by
     rw [hF]
     exact hpF
@@ -56,7 +56,7 @@ theorem t173AMNonzeroLin_holds : T173AMNonzeroLin := by
     have := Nat.pow_lt_pow_right hp.one_lt (by norm_num : 2 < 3)
     omega
   have hrow := lin_hopf_row hF hn hd3 (fun h => hd3' h.1)
-  haveI : Finite (CFSG.Open.griessHopfMultiplier
+  have : Finite (CFSG.Open.griessHopfMultiplier
       (LargeEvenProj (LargeEvenSLGroup (Fin d) F))) := hrow.1
   have hSodd : Odd (Nat.card (Subgroup.center ↥S)) :=
     Odd.of_dvd_nat hodd ((cover_center_dvd hcfg.qs θ).trans hrow.2)
@@ -118,11 +118,11 @@ theorem t173AMNonzeroUni_holds : T173AMNonzeroUni := by
     have h61 : d = 6 ∧ n = 1 := by
       by_contra hne
       obtain ⟨hfin, hdvd⟩ := uni_hopf_row hF hn1 hd3 hdn hd4
-      haveI : Finite (CFSG.Open.griessHopfMultiplier
+      have : Finite (CFSG.Open.griessHopfMultiplier
           (LargeEvenProj (LargeEvenSUGroup (Fin d) F (2 ^ n)))) := hfin
       apply hZodd
       refine Odd.of_dvd_nat hodd ((cover_center_dvd hcfg.qs θ).trans (hdvd.trans ?_))
-      rw [if_neg hne]
+      rw [ite_eq_right hne]
       simp
     obtain ⟨rfl, rfl⟩ := h61
     exact uni_exceptional θ hcfg hmark0 hpd hZodd

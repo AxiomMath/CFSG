@@ -18,6 +18,7 @@ local notation "𝓡[" S ", " D "]" =>
 variable {G : Type} [Group G] [Finite G] {S D : Subgroup G} {τ : StrothTypeIndex}
   {dD : StrothWeakTypeData D τ}
 
+omit [Finite G] in
 theorem commutator_pow_four (hk : ∀ i, 2 ≤ τ.k i)
     (hcent : S ⊓ Subgroup.centralizer (D : Set G) = D) {x y : G} (hx : x ∈ 𝓡[S, D])
     (hy : y ∈ 𝓡[S, D]) :
@@ -48,6 +49,7 @@ theorem commutator_pow_four (hk : ∀ i, 2 ≤ τ.k i)
   calc w ^ 4 = (w * w) ^ 2 := by rw [← pow_two, ← pow_mul]
     _ = 1 := h4'
 
+omit [Finite G] in
 theorem barD_commutator_one_two (hfam : τ.m + 2 = τ.n) (hk : ∀ i, 2 ≤ τ.k i)
     (hcent : S ⊓ Subgroup.centralizer (D : Set G) = D) {x y : G} (hx : x ∈ 𝓡[S, D])
     (hy : y ∈ 𝓡[S, D]) :
@@ -85,6 +87,7 @@ variable (hfam : τ.m + 2 = τ.n) (hk : ∀ i, 2 ≤ τ.k i)
 
 include hfam hcent hd
 
+omit [Finite G] in
 theorem conj_commutator_s_eq {x : G} (hx : x ∈ 𝓡[S, D]) :
     s * (x * s * x⁻¹ * s⁻¹) * s⁻¹ = x * s * x⁻¹ * s⁻¹ := by
   obtain ⟨h1, h2⟩ := barD_commutator_one_two (dD := dD) hfam hk hcent hx hs
@@ -99,6 +102,7 @@ theorem conj_commutator_s_eq {x : G} (hx : x ∈ 𝓡[S, D]) :
 
 include hs2
 
+omit [Finite G] in
 theorem torusHalf_devMat_mulVec_c {x : G} (hx : x ∈ 𝓡[S, D]) :
     torusHalf τ.k (devMat dD hk x hx *ᵥ ![1, 0, 0]) =
       (2 : ℤ) • dD.e (Additive.ofMul
@@ -117,6 +121,7 @@ theorem torusHalf_devMat_mulVec_c {x : G} (hx : x ∈ 𝓡[S, D]) :
   rw [barD_c, hxc] at h
   rw [← h, ofMul_mul, map_add, two_zsmul]
 
+omit [Finite G] in
 theorem devMat_mulVec_c_add_barD {x : G} (hx : x ∈ 𝓡[S, D]) :
     devMat dD hk x hx *ᵥ
         (![1, 0, 0] + barD dD hk ⟨x * s * x⁻¹ * s⁻¹, commutator_mem_D dD hk hcent hx hs⟩) =
@@ -148,6 +153,7 @@ theorem devMat_mulVec_c_add_barD {x : G} (hx : x ∈ 𝓡[S, D]) :
   rw [Matrix.mulVec_add, map_add, h3,
     show sqBar dD hk hcent x hx = barD dD hk ⟨x * x, hx2⟩ from rfl, ← h1, e1, hneg]
 
+omit [Finite G] in
 theorem barD_commutator_zero_eq (hm2 : τ.m = 2) {x : G} (hx : x ∈ 𝓡[S, D]) :
     barD dD hk ⟨x * s * x⁻¹ * s⁻¹, commutator_mem_D dD hk hcent hx hs⟩ 0 =
       devMat dD hk x hx 0 0 := by
@@ -161,6 +167,7 @@ theorem barD_commutator_zero_eq (hm2 : τ.m = 2) {x : G} (hx : x ∈ 𝓡[S, D])
   rw [show τ.k 0 - 1 = 1 by omega, pow_one] at h2
   exact (halfHom_injective (one_le_of_two_le hk 0) (h.trans h2)).symm
 
+omit [Finite G] in
 theorem devMat_mulVec_c_eq {x : G} (hx : x ∈ 𝓡[S, D])
     (h : 3 ≤ τ.m ∨ devMat dD hk x hx 0 0 = 0) :
     devMat dD hk x hx *ᵥ ![1, 0, 0] = devD *ᵥ sqBar dD hk hcent x hx := by

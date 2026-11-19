@@ -194,7 +194,7 @@ private theorem orthTFix_orthRealized_six_minus {K : Type} [Field K] [Finite K] 
   obtain ⟨E, hEfield, hEfin, hEcard, ⟨eΩ⟩⟩ :=
     CFSG.SeitzReduction.OmegaPilot.nonempty_orthDerived_mulEquiv_statedSU_of_six
       (f := n) hK hx.polarBilin_fixed_nondegenerate hdim hts
-  haveI : CharP E 2 :=
+  have : CharP E 2 :=
     CFSG.RankThree.PartOne.charP_two_of_card_eq_pow (K := E) (f := 2 * n) (by
       rw [hEcard, ← pow_mul, mul_comm n 2])
   have hn1 : 1 ≤ n := by
@@ -260,7 +260,7 @@ private theorem orthTFix_orthRealized_four_plus {K : Type} [Field K] [Finite K] 
   have hK3 : Nat.card K ≠ 3 := fun h3 => two_pow_ne_three n (by rw [← hK]; exact h3)
   have hK2 : Nat.card K ≠ 2 := by
     intro hK2
-    haveI hFnt : Nontrivial ↥F := CFSG.LocalCores.isQuasisimple_nontrivial hFq
+    have hFnt : Nontrivial ↥F := CFSG.LocalCores.isQuasisimple_nontrivial hFq
     have hsolvO : Group.IsSolvable ↥(TauCeti.QuadraticMap.orthogonalGroup R) :=
       CFSG.LocalAnalysis.GLTheoremA.T123CB.isSolvable_orthogonalGroup_of_card_two_of_plus
         R hR hK2 hdim ⟨hsplit.choose, by omega, hsplit.choose_spec.2⟩
@@ -310,8 +310,8 @@ private theorem orthTFix_orthRealized_four_plus {K : Type} [Field K] [Finite K] 
     ((F.subgroupOf (supportedBlock Q x (X - 1))).equivMapOfInjective
       (fixedBlockEquiv hx).toMonoidHom (fixedBlockEquiv hx).injective) with heFL
   have hLq : CFSG.IsQuasisimple ↥L := CFSG.LocalCores.isQuasisimple_of_mulEquiv eFL hFq
-  haveI : Finite (fixedSpace x) := Module.finite_of_finite K
-  haveI : Finite ((fixedSpace x) ≃ₗ[K] (fixedSpace x)) :=
+  have : Finite (fixedSpace x) := Module.finite_of_finite K
+  have : Finite ((fixedSpace x) ≃ₗ[K] (fixedSpace x)) :=
     Finite.of_injective
       (fun g : (fixedSpace x) ≃ₗ[K] (fixedSpace x) => (g : fixedSpace x → fixedSpace x))
       fun g₁ g₂ h => LinearEquiv.ext (congrFun h)
@@ -391,8 +391,8 @@ theorem orthT_fixedLabel {K : Type} [Field K] [Finite K] [CharP K 2] {n : ℕ} (
         (s = 2 ∧ CFSG.GroupTheory.WeirSylow.IsPlusType (Q.comp (fixedSpace (x : V ≃ₗ[K] V)).subtype) ∧
           2 ≤ n ∧ GGHasLabel ⟨.A, 1, n⟩ (L ⧸ Subgroup.center L))) := by
   classical
-  haveI hFnt : Nontrivial ↥F := CFSG.LocalCores.isQuasisimple_nontrivial hFq
-  haveI hVnt : Nontrivial V := by
+  have hFnt : Nontrivial ↥F := CFSG.LocalCores.isQuasisimple_nontrivial hFq
+  have hVnt : Nontrivial V := by
     obtain ⟨f, hf⟩ := exists_ne (1 : ↥F)
     have hfL : (f : V ≃ₗ[K] V) ≠ 1 := fun h => hf (Subtype.ext h)
     obtain ⟨v, hv⟩ : ∃ v : V, (f : V ≃ₗ[K] V) v ≠ v := by
@@ -549,7 +549,7 @@ theorem orthT_fixedExists {K : Type} [Field K] [Finite K] [CharP K 2] {n : ℕ} 
   set W := fixedSpace (x : V ≃ₗ[K] V) with hW
   set QW := Q.comp W.subtype with hQW
   have hQWnd : (QuadraticMap.polarBilin QW).Nondegenerate := hx.polarBilin_fixed_nondegenerate
-  haveI hVnt : Nontrivial V := Module.nontrivial_of_finrank_pos (R := K) (by
+  have hVnt : Nontrivial V := Module.nontrivial_of_finrank_pos (R := K) (by
     have := Submodule.finrank_le W
     omega)
   by_cases hsplit4 : Module.finrank K W = 4 ∧ CFSG.GroupTheory.WeirSylow.IsPlusType QW
@@ -696,13 +696,13 @@ theorem orthT_fixed_ne_block {K : Type} [Field K] [Finite K] [CharP K 2]
     (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
     {x : ↥(orthDerived Q)} (hx : OddOrderIsometry Q 3 (x : V ≃ₗ[K] V))
     {h : K[X]} (hh : h ∈ primaryFactors (x : V ≃ₗ[K] V).toLinearMap) (hne1 : h ≠ X - 1)
-    (hq : CFSG.IsQuasisimple ↥(specialBlock Q (x : V ≃ₗ[K] V) h))
+    (_hq : CFSG.IsQuasisimple ↥(specialBlock Q (x : V ≃ₗ[K] V) h))
     {F : Subgroup (V ≃ₗ[K] V)} (hFq : CFSG.IsQuasisimple ↥F)
     (hFle : F ≤ supportedFixedDerived Q (x : V ≃ₗ[K] V)) :
     (F.subgroupOf (orthDerived Q)).map (QuotientGroup.mk' ((scalars K V).subgroupOf (orthDerived Q))) ≠
       componentImage Q (x : V ≃ₗ[K] V) h := by
-  haveI hnt : Nontrivial ↥F := CFSG.LocalCores.isQuasisimple_nontrivial hFq
-  haveI hVnt : Nontrivial V := by
+  have hnt : Nontrivial ↥F := CFSG.LocalCores.isQuasisimple_nontrivial hFq
+  have hVnt : Nontrivial V := by
     obtain ⟨f, hf⟩ := exists_ne (1 : ↥F)
     have hfL : (f : V ≃ₗ[K] V) ≠ 1 := fun h => hf (Subtype.ext h)
     obtain ⟨v, hv⟩ : ∃ v : V, (f : V ≃ₗ[K] V) v ≠ v := by

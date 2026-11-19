@@ -147,8 +147,8 @@ theorem ggFixLine_T_props {p N : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V]
       Submodule.span (ZMod p) (Set.range h) ≤ ggFixLineT r s ∧
       N - 1 ≤ Module.finrank (ZMod p) ↥(ggFixLineT r s) ∧
       Module.finrank (ZMod p) ↥(ggFixLineT r s) ≤ N := by
-  haveI : Finite ι := S.finite_family
-  haveI : Module.Finite (ZMod p) V :=
+  have : Finite ι := S.finite_family
+  have : Module.Finite (ZMod p) V :=
     ggFixLine_finite (p := p) s S.s_refl S.fix_H
   have hA : ∀ g ∈ Subgroup.closure (Set.range r ∪ Set.range s), ∀ v,
       g v - v ∈ ggFixLineT r s := by
@@ -274,8 +274,8 @@ theorem ggFixLine_restrict_injective {p N : ℕ} [Fact p.Prime] {V : Type} [AddC
     (S : GGFixLineHyp p N h α r s x) :
     Function.Injective ((ggLinRestrictHom (ggFixLineT r s)).comp
       (Subgroup.inclusion (ggFixLine_A_le_stab S))) := by
-  haveI : Finite ι := S.finite_family
-  haveI : Module.Finite (ZMod p) V :=
+  have : Finite ι := S.finite_family
+  have : Module.Finite (ZMod p) V :=
     ggFixLine_finite (p := p) s S.s_refl S.fix_H
   rw [injective_iff_map_eq_one]
   intro a ha

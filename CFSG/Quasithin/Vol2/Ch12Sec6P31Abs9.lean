@@ -39,6 +39,7 @@ theorem card_sylow_eq_of_card {X S : Subgroup Y} (hS : IsSylowTwoOf S X) {k m : 
       ((Nat.pow_dvd_pow_iff_le_right (by norm_num)).1 h3)
   rw [hj, hjk]
 
+omit [Finite Y] in
 theorem conjNormal_injective_of_centralizer_eq_bot (X : Subgroup Y) [X.Normal]
     (hC : Subgroup.centralizer (X : Set Y) = ⊥) :
     Function.Injective (MulAut.conjNormal : Y →* MulAut ↥X) := by
@@ -49,11 +50,12 @@ theorem conjNormal_injective_of_centralizer_eq_bot (X : Subgroup Y) [X.Normal]
     rw [Subgroup.mem_centralizer_iff]
     intro x hx
     have h := congrArg (fun φ : MulAut ↥X => (φ ⟨x, hx⟩ : Y)) hy
-    simp only [MulAut.conjNormal_val, MulAut.one_apply] at h
+    simp only [MulAut.one_apply] at h
     exact (mul_inv_eq_iff_eq_mul.1 h).symm
   rw [hC] at hyC
   exact hyC
 
+omit [Finite Y] in
 theorem oTwoRes_top_le_of_sq (X : Subgroup Y) (hsq : ∀ y : Y, y ^ 2 ∈ X) :
     oTwoRes (⊤ : Subgroup Y) ≤ X := by
   refine (Subgroup.closure_le X).2 ?_
@@ -63,6 +65,7 @@ theorem oTwoRes_top_le_of_sq (X : Subgroup Y) (hsq : ∀ y : Y, y ^ 2 ∈ X) :
   rw [e]
   exact X.pow_mem (hsq x) _
 
+omit [Finite Y] in
 theorem ker_conjNormal_eq_centralizer_P31 (X : Subgroup Y) [X.Normal] :
     (MulAut.conjNormal : Y →* MulAut ↥X).ker = Subgroup.centralizer (X : Set Y) := by
   ext y
@@ -72,7 +75,7 @@ theorem ker_conjNormal_eq_centralizer_P31 (X : Subgroup Y) [X.Normal] :
     rw [Subgroup.mem_centralizer_iff]
     intro x hx
     have h := congrArg (fun φ : MulAut ↥X => (φ ⟨x, hx⟩ : Y)) hy
-    simp only [MulAut.conjNormal_val, MulAut.one_apply] at h
+    simp only [MulAut.one_apply] at h
     exact (mul_inv_eq_iff_eq_mul.1 h).symm
   · intro hy
     refine MulEquiv.ext fun n => Subtype.ext ?_
@@ -93,7 +96,7 @@ theorem case1L_abs {Y : Type*} [Group Y] [Finite Y]
     (hsol : ∀ Z : Subgroup Y, Ts ≤ Z → Group.IsSolvable ↥Z → Z ≤ Ms) (hXM : ¬ X ≤ Ms)
     (hTB : Ts ≤ Bs) (hBM : Bs ≤ Ms) (hLB : Ls ≤ Bs)
     (hLn : Ms ≤ Subgroup.normalizer (Ls : Set Y))
-    (hsup : X ⊔ Bs = ⊤) (h27 : ¬ 27 ∣ Nat.card Ms) (h9 : 9 ∣ Nat.card Ls)
+    (hsup : X ⊔ Bs = ⊤) (_h27 : ¬ 27 ∣ Nat.card Ms) (h9 : 9 ∣ Nat.card Ls)
     (hL23 : ∀ p : ℕ, p.Prime → p ∣ Nat.card Ls → p = 2 ∨ p = 3)
     (hcop : ∀ (y : Y) (n : ℕ), y ^ n = 1 → Nat.Coprime n 6 → y ∈ X)
     (hm3 : ∀ A B C : Subgroup Y, Nat.card A = 3 → Nat.card B = 3 → Nat.card C = 3 →
@@ -198,7 +201,7 @@ theorem case1L_abs {Y : Type*} [Group Y] [Finite Y]
   refine ⟨⟨MulEquiv.ofBijective _ hbij⟩, ?_⟩
   obtain ⟨P', hP'n, hP'i, hP'I⟩ := hLie.normal_index_four
   set P : Subgroup Y := P'.comap (MulAut.conjNormal : Y →* MulAut ↥X) with hP
-  haveI hPn : P.Normal := hP'n.comap _
+  have hPn : P.Normal := hP'n.comap _
   have hPidx : P.index = 4 := by
     rw [hP, Subgroup.index_comap_of_surjective P' hbij.2]
     exact hP'i
@@ -207,11 +210,11 @@ theorem case1L_abs {Y : Type*} [Group Y] [Finite Y]
     apply hP'I
     refine ⟨⟨x, hx⟩, ?_⟩
     refine MulEquiv.ext fun n => Subtype.ext ?_
-    simp [MulAut.conjNormal_val, MulAut.conj_apply]
+    simp [MulAut.conj_apply]
   have hXidx : X.index = 12 := by
     rw [hYeq] at hXidx_mul
     omega
-  haveI hOn := normal_oTwoRes_top (Y := Y)
+  have hOn := normal_oTwoRes_top (Y := Y)
   exact eq_sup_borel_of_normal X (oTwoRes (⊤ : Subgroup Y)) Ts Ms hT
     (le_oTwoRes_top_of_perfect X hperf) exists_pow_two_mem_oTwoRes_top
     (inf_oTwoRes_le X P Ts hXP hPidx hXidx hT.2.1) (hTB.trans hBM) hKM hsol
@@ -343,7 +346,7 @@ theorem case1S_abs {Y : Type*} [Group Y] [Finite Y]
   have hφX : ∀ (x : Y) (hx : x ∈ X), (MulAut.conjNormal : Y →* MulAut ↥X) x =
       MulAut.conj (⟨x, hx⟩ : ↥X) := fun x hx => by
     refine MulEquiv.ext fun n => Subtype.ext ?_
-    simp [MulAut.conjNormal_val, MulAut.conj_apply]
+    simp [MulAut.conj_apply]
   have hsq : ∀ y : Y, y ^ 2 ∈ X := by
     intro y
     have h4 : y ^ 4 ∈ X := hidx ▸ Subgroup.pow_index_mem X y

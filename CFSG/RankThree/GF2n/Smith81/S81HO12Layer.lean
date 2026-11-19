@@ -10,6 +10,7 @@ open Matrix CFSG.RankThree.PartOne.StrongP
 
 variable {ι : Type} [Fintype ι] [DecidableEq ι] {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 private theorem mul_apply_of_ne (a b : GL ι K) {i j : ι} (hij : i ≠ j) :
     ((a * b : GL ι K) : Matrix ι ι K) i j = (a : Matrix ι ι K) i j + (b : Matrix ι ι K) i j +
       (((a : Matrix ι ι K) - 1) * ((b : Matrix ι ι K) - 1)) i j := by
@@ -21,6 +22,7 @@ private theorem mul_apply_of_ne (a b : GL ι K) {i j : ι} (hij : i ≠ j) :
   simp only [Matrix.add_apply, Matrix.sub_apply, Matrix.one_apply_ne hij]
   ring
 
+omit [Finite K] in
 private theorem mul_apply_of_vanish {r : ι → ℕ} {a b : GL ι K} (ha : IsUnitri r a)
     (hb : IsUnitri r b) {i j : ι} (hij : r i < r j)
     (h : ∀ l, r i < r l → r l < r j → (a : Matrix ι ι K) i l = 0) :
@@ -70,6 +72,7 @@ private theorem mem_filt {r : ι → ℕ} {A : Subgroup (GL ι K)} {hAu : ∀ a 
     a ∈ filt r A hAu P hP ↔ a ∈ A ∧ ∀ p ∈ P, (a : Matrix ι ι K) p.1 p.2 = 0 :=
   Iff.rfl
 
+omit [Finite K] in
 private theorem exists_pow_of_ker {G : Type*} [Group G] (φ : G →* Multiplicative K)
     (hmul : ∀ (u : Kˣ) (g : G),
       ∃ g' : G, Multiplicative.toAdd (φ g') = (u : K) * Multiplicative.toAdd (φ g))
@@ -97,6 +100,7 @@ private theorem exists_pow_of_ker {G : Type*} [Group G] (φ : G →* Multiplicat
     rw [MonoidHom.range_eq_top_of_surjective φ hsurj, Subgroup.card_top, pow_succ,
       Nat.card_congr (Multiplicative.toAdd : Multiplicative K ≃ K)]
 
+omit [Finite K] in
 private theorem conj_apply {T : Type*} (D : T → GL ι K) (χ : T → ι → Kˣ)
     (hD : ∀ t, (D t : Matrix ι ι K) = Matrix.diagonal fun i => ((χ t i : Kˣ) : K))
     (t : T) (a : GL ι K) (k l : ι) :
@@ -119,6 +123,7 @@ private theorem conj_mem {T : Type*} (D : T → GL ι K) (χ : T → ι → Kˣ)
   refine mem_filt.2 ⟨hAT t a haA, fun p hp => ?_⟩
   rw [conj_apply D χ hD, ha0 p hp, mul_zero, zero_mul]
 
+omit [Fintype ι] in
 private theorem good_insert {r : ι → ℕ} {P : Finset (ι × ι)} (hP : Good r P) {i j : ι}
     (hij : r i < r j)
     (hmin : ∀ q : ι × ι, r q.1 < r q.2 → r q.2 - r q.1 < r j - r i → q ∈ P) :
@@ -190,6 +195,7 @@ private theorem step_pow (r : ι → ℕ) {T : Type*} (D : T → GL ι K) (χ : 
 private def positions (r : ι → ℕ) : Finset (ι × ι) :=
   Finset.univ.filter fun q => r q.1 < r q.2
 
+omit [DecidableEq ι] in
 private theorem mem_positions {r : ι → ℕ} {q : ι × ι} : q ∈ positions r ↔ r q.1 < r q.2 := by
   simp [positions]
 

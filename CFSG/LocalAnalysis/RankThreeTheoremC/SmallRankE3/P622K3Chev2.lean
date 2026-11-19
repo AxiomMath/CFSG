@@ -25,8 +25,8 @@ theorem false_of_chev2_three (hL62 : P622Lemma62Three) (hexit : P622L27Exit) (h1
     (hbot : rankThreePrimeCore 3 (centralizer ({x} : Set G)) = ⊥)
     (c : P622KxCfg 3 P M x z T S L) (hC : IsChevSimple 2 ↥L) : False := by
   have hp := c.prime
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp2 : (3 : ℕ) ≠ 2 := c.ne_two
   have hS2 : IsPGroup 2 S := c.conf.S_isPGroup
   have hSM : S ≤ M := c.S_le_M

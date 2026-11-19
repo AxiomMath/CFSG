@@ -15,7 +15,7 @@ variable {G : Type} [Group G] [Finite G]
 
 private theorem odd_card_fusionOddCore' (X : Type) [Group X] [Finite X] :
     Odd (Nat.card (fusionOddCore X)) := by
-  haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
+  have : Fact (Nat.Prime 2) := Nat.fact_prime_two
   have h : fusionOddCore X = CFSG.pPrimeCore 2 X := by
     unfold fusionOddCore CFSG.pPrimeCore
     congr 1
@@ -37,13 +37,13 @@ theorem seven_eight_core {V H E J L N : Subgroup G} (h : Hyp78 V H E J L)
     intro hVJ
     exact hnotO (hVJ.trans h.pcore_le)
   obtain ⟨v, hv, hvJ⟩ := Set.not_subset.mp hVnotJ
-  haveI : (J.subgroupOf H).Normal := h.jnormal
+  have : (J.subgroupOf H).Normal := h.jnormal
   let Q := ↥H ⧸ J.subgroupOf H
   let φ : ↥H →* Q := QuotientGroup.mk' (J.subgroupOf H)
   have hφ : IsBarMap H J φ :=
     ⟨QuotientGroup.mk'_surjective (J.subgroupOf H), fun k => by
       rw [QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf]⟩
-  haveI : Finite Q := Quotient.finite _
+  have : Finite Q := Quotient.finite _
   have hvH : v ∈ H := h.omega_le V h.mem hv
   have hNH : N ≤ H := hNK.trans (kSub_le_of_forall_le h.omega_le)
   apply Hyp78.commutator_le_of_forall_commutator_mem h hV2 hNK hNnorm hv hvJ
@@ -115,7 +115,7 @@ theorem seven_eight {V H E J L N : Subgroup G} (h : Hyp78 V H E J L)
     exact hnotO (hVJ.trans h.pcore_le)
   have hne1 : J.relIndex V ≠ 1 := fun h1 => hVnotJ (Subgroup.relIndex_eq_one.mp h1)
   have hne0 : J.relIndex V ≠ 0 := by
-    haveI : Finite (↥V ⧸ (J.subgroupOf V)) := inferInstance
+    have : Finite (↥V ⧸ (J.subgroupOf V)) := inferInstance
     exact Subgroup.index_ne_zero_of_finite
   rcases eq_or_lt_of_le (show 2 ≤ J.relIndex V by omega) with h2 | h2
   · exact seven_eight_core h h2.symm hNK hNnorm hJN hNodd
@@ -126,7 +126,7 @@ theorem seven_eight_barSub {V H E J L : Subgroup G} (h : Hyp78 V H E J L) {X : T
     {φ : ↥(kSub V H E) →* X} (hφ : IsBarMap (kSub V H E) J φ) :
     ⁅barSub (kSub V H E) φ L, fusionOddCore X⁆ = ⊥ := by
   let N₀ : Subgroup G := ((fusionOddCore X).comap φ).map (kSub V H E).subtype
-  haveI : Finite X := Finite.of_surjective φ hφ.surjective
+  have : Finite X := Finite.of_surjective φ hφ.surjective
   have hN₀K : N₀ ≤ kSub V H E := Subgroup.map_subtype_le _
   have hN₀norm : kSub V H E ≤ Subgroup.normalizer (N₀ : Set G) := by
     rw [Subgroup.le_normalizer_iff]

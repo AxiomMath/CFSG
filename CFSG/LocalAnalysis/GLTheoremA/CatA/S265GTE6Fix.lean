@@ -121,8 +121,8 @@ private theorem mem_left_of_pow_prime_eq_one {G : Type*} [Group G] [Finite G] {X
 private theorem card_le_of_le_cyclic {G : Type*} [Group G] [Finite G] {X H : Subgroup G}
     (hX : IsCyclic X) (hHX : H ≤ X) {p : ℕ} (hp : 0 < p) (hH : ∀ h ∈ H, h ^ p = 1) :
     Nat.card H ≤ p := by
-  haveI := hX
-  haveI := Subgroup.isCyclic_of_le hHX
+  have := hX
+  have := Subgroup.isCyclic_of_le hHX
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := H)
   rw [← orderOf_eq_card_of_forall_mem_zpowers hg]
   refine Nat.le_of_dvd hp (orderOf_dvd_of_pow_eq_one ?_)
@@ -154,8 +154,8 @@ theorem exists_fix_glaPLayer_twE6Eight {K : Type} [Field K] [Finite K]
     ∃ a ∈ A, a ≠ 1 ∧ GLAPLayer 3 (fixSubgroup (fieldActor (t := TwistTag.E6) σ δ) ⊓
       fixSubgroup (MulAut.conj a)) ≠ ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨A₁, hA₁A, hA₁c⟩ : ∃ A₁ : Subgroup ↥(twistedE6RootGroup K σ), A₁ ≤ A ∧
       Nat.card A₁ = 3 ^ 4 := by
     obtain ⟨k, hk⟩ := hA.isPGroup.exists_card_eq
@@ -185,7 +185,7 @@ theorem exists_fix_glaPLayer_twE6Eight {K : Type} [Field K] [Finite K]
   obtain ⟨-, hK₀'⟩ := CFSG.StandardType.TwE6FieldCore.fixSubfield_card_of_odd (n := 3)
     (by norm_num) hK δ hδodd
   have hK₀ : Nat.card (fixSubfield δ) = (2 ^ 1) ^ 2 := by
-    rw [hK₀', hδ] <;> norm_num
+    rw [hK₀', hδ]
   have hσ₀ : ∀ c, fixSubfieldRestrict σ δ c = c ^ 2 ^ 1 := fun c =>
     CFSG.StandardType.TwE6FieldCore.fixSubfieldRestrict_eq_pow hK₀ (p := 3) (by decide)
       (fun c => (hσ c).trans (by norm_num)) c
@@ -243,7 +243,7 @@ theorem exists_fix_glaPLayer_twE6Eight {K : Type} [Field K] [Finite K]
   have hZ₀ : Subgroup.center ↥(twistedE6RootGroup (fixSubfield δ) (fixSubfieldRestrict σ δ)) = ⊥ :=
     exceptional_fixed_center_trivial TwistTag.E6 _ (fixSubfieldRestrict σ δ)
   have hconj₀ := conj_injective_of_center_eq_bot hZ₀
-  haveI : Finite (MulAut ↥(twistedE6RootGroup (fixSubfield δ) (fixSubfieldRestrict σ δ))) :=
+  have : Finite (MulAut ↥(twistedE6RootGroup (fixSubfield δ) (fixSubfieldRestrict σ δ))) :=
     Finite.of_injective _ MulEquiv.toEquiv_injective
   have hV₀1 : Subgroup.zpowers (MulAut.conj (⟨u₀, hu₀C⟩ :
       ↥(twistedE6RootGroup (fixSubfield δ) (fixSubfieldRestrict σ δ)))) ≠ ⊥ := by
@@ -320,7 +320,7 @@ theorem exists_fix_glaPLayer_twE6Eight {K : Type} [Field K] [Finite K]
     rw [← range_twistedE6InndiagConj]
     exact hYrange
   have h81 := card_le_card_mul_card_inf_of_le_sup hYsub
-  have hD9 := card_twistedE6Diag_le_nine (fixSubfield δ) (by rw [hK₀] <;> norm_num)
+  have hD9 := card_twistedE6Diag_le_nine (fixSubfield δ) (by rw [hK₀]; norm_num)
     (fixSubfieldRestrict σ δ) (fun c => (hσ₀ c).trans (by rw [pow_one]))
   have hcardY₀ : Nat.card ↥(Y.comap (MulAut.conj :
       ↥(twistedE6RootGroup (fixSubfield δ) (fixSubfieldRestrict σ δ)) →* _)) =

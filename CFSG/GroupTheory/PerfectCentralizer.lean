@@ -26,7 +26,7 @@ theorem MulAut.eq_one_of_mul_mem_center {H : Type*} [Group H] [Finite H]
       map_mul' := by
         intro x y
         apply Subtype.ext
-        simp only [Subgroup.coe_mul, Subtype.coe_mk]
+        simp only [Subgroup.coe_mul]
         have hc : x * (σ y * y⁻¹) = (σ y * y⁻¹) * x := Subgroup.mem_center_iff.mp (hσ y) x
         have hcinv : (σ y * y⁻¹) * x⁻¹ = x⁻¹ * (σ y * y⁻¹) := by
           rw [show (σ y * y⁻¹) * x⁻¹ = x⁻¹ * (x * (σ y * y⁻¹)) * x⁻¹ by group, hc]
@@ -36,11 +36,11 @@ theorem MulAut.eq_one_of_mul_mem_center {H : Type*} [Group H] [Finite H]
           _ = σ x * ((σ y * y⁻¹) * x⁻¹) := by group
           _ = σ x * (x⁻¹ * (σ y * y⁻¹)) := by rw [hcinv]
           _ = σ x * x⁻¹ * (σ y * y⁻¹) := by group }
-  haveI : Group.IsPerfect ↥f.range := Group.IsPerfect.range f
-  haveI : IsMulCommutative ↥f.range :=
+  have : Group.IsPerfect ↥f.range := Group.IsPerfect.range f
+  have : IsMulCommutative ↥f.range :=
     IsMulCommutative.of_comm fun a b =>
       Subtype.ext (Subtype.ext (Subgroup.mem_center_iff.mp b.1.2 a.1.1))
-  haveI : Subsingleton ↥f.range := Group.IsPerfect.subsingleton_of_isMulCommutative
+  have : Subsingleton ↥f.range := Group.IsPerfect.subsingleton_of_isMulCommutative
   have hf : ∀ h : H, f h = 1 := by
     intro h
     have h1 : (⟨f h, h, rfl⟩ : ↥f.range) = 1 := Subsingleton.elim _ _
@@ -194,6 +194,7 @@ private noncomputable def toAutQuot {H : Subgroup (MulAut W)} {A' : Subgroup W}
       (quotHom A' ⟨x, hHA x.2⟩ : MulAut (W ⧸ A')) * quotHom A' ⟨y, hHA y.2⟩
     rw [map_mul]
 
+omit [Finite W] in
 private theorem toAutSub_surjective {H : Subgroup (MulAut W)} {A' : Subgroup W}
     (hHA : H ≤ stabSub A') : Function.Surjective (toAutSub hHA) := by
   rintro ⟨φ, hφ⟩
@@ -201,12 +202,14 @@ private theorem toAutSub_surjective {H : Subgroup (MulAut W)} {A' : Subgroup W}
   exact ⟨⟨(g : MulAut W), hg⟩, by simp [toAutSub]⟩
 
 
+omit [Finite W] in
 private theorem toAutQuot_surjective {H : Subgroup (MulAut W)} {A' : Subgroup W}
     (hHA : H ≤ stabSub A') : Function.Surjective (toAutQuot hHA) := by
   rintro ⟨φ, hφ⟩
   obtain ⟨g, hg, rfl⟩ := mem_autQuot.mp hφ
   exact ⟨⟨(g : MulAut W), hg⟩, by simp [toAutQuot]⟩
 
+omit [Finite W] in
 private theorem toAutSub_ker {H : Subgroup (MulAut W)} {A' : Subgroup W}
     (hHA : H ≤ stabSub A') (h : ↥H) :
     toAutSub hHA h = 1 ↔ (h : MulAut W) ∈ centSub A' := by
@@ -222,6 +225,7 @@ private theorem toAutSub_ker {H : Subgroup (MulAut W)} {A' : Subgroup W}
       exact h1
     exact Subtype.ext (by simpa [toAutSub] using h2)
 
+omit [Finite W] in
 private theorem toAutQuot_ker {H : Subgroup (MulAut W)} {A' : Subgroup W}
     (hHA : H ≤ stabSub A') (h : ↥H) :
     toAutQuot hHA h = 1 ↔ (h : MulAut W) ∈ centQuot A' := by
@@ -237,6 +241,7 @@ private theorem toAutQuot_ker {H : Subgroup (MulAut W)} {A' : Subgroup W}
       exact h1
     exact Subtype.ext (by simpa [toAutQuot] using h2)
 
+omit [Finite W] in
 private theorem ker_toAutQuot_le_ker_center {H : Subgroup (MulAut W)} {A' : Subgroup W}
     (hHA : H ≤ stabSub A')
     (hCW : ∀ h : ↥H, (h : MulAut W) ∈ centQuot A' → h ∈ Subgroup.center ↥H) :
@@ -271,7 +276,6 @@ private theorem mem_center_of_ker_center {H : Subgroup (MulAut W)} {A' : Subgrou
   refine mem_center_of_commutator_mem_center hperfH (h := h) fun k => ?_
   have hfix : ((⁅h, k⁆ : ↥H) : MulAut W) ∈ centSub A' := by
     rw [← toAutSub_ker hHA ⁅h, k⁆]
-    change toAutSub hHA ⁅h, k⁆ = 1
     have hmap : toAutSub hHA ⁅h, k⁆ = ⁅toAutSub hHA h, toAutSub hHA k⁆ :=
       map_commutatorElement _ h k
     have hcomm : toAutSub hHA k * toAutSub hHA h = toAutSub hHA h * toAutSub hHA k :=

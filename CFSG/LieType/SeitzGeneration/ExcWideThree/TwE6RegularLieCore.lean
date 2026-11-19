@@ -46,7 +46,7 @@ theorem twE6InnerLineLie_core
     (hσ : ∀ c, σ c = c ^ q) (hK : Nat.card K = q ^ 2)
     (E : Subgroup (MulAut (twistedE6RootGroup K σ)))
     (hE : E ≤ twistedE6Inn K σ ⊔ twistedE6Diag K σ)
-    (D : TwLangData K σ q (twPlanePre K σ E)) (e : MulAut (twistedE6RootGroup K σ)) (heE : e ∈ E)
+    (D : TwLangData K σ q (twPlanePre K σ E)) (e : MulAut (twistedE6RootGroup K σ)) (_heE : e ∈ E)
     (a : Fin TwistTag.E6.tag.rank → (AlgebraicClosure K)ˣ)
     (ha : ∃ g : ↥(twistedE6InndiagGL K σ), twistedE6InndiagConj K σ g = e ∧
       rootDiagUnit TwistTag.E6.tag a = D.g0⁻¹ *
@@ -63,15 +63,15 @@ theorem twE6InnerLineLie_core
       ∃ R : Subgroup (twistedE6RootGroup K σ), R ≤ twE6LongRootRadical X ∧
         (∀ u ∈ R, e u = u) ∧ ¬ R ≤ X := by
   classical
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
-  haveI : Finite (twistedE6RootGroup K σ) := Subtype.finite
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Finite (twistedE6RootGroup K σ) := Subtype.finite
   have hK1 : 1 < Nat.card K := Finite.one_lt_card
   have hq2 : 2 ≤ q := by
     by_contra h
     push Not at h
     interval_cases q <;> norm_num at hK <;> omega
   obtain ⟨hpr, f, hf1, hqf⟩ := twE6_exists_pow_ringChar_of_card_sq K q hK hq2
-  haveI : Fact (ringChar K).Prime := ⟨hpr⟩
+  have : Fact (ringChar K).Prime := ⟨hpr⟩
   have hK' : Nat.card K = (ringChar K ^ f) ^ 2 := by rw [hK, hqf]
   have hσ' : ∀ c, σ c = c ^ (ringChar K ^ f) := fun c => by rw [hσ c, hqf]
   have hSL2 : ∀ u : twistedE6RootGroup K σ,

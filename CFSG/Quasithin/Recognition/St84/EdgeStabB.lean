@@ -17,10 +17,10 @@ theorem oTwoPrime_mono {X Y : Subgroup G} (hXY : X ≤ Y) : oTwoPrime X ≤ oTwo
   exact Subgroup.subset_closure ⟨hXY hx, n, hn⟩
 
 theorem oTwoPrime_le_of_odd_relIndex {X Y : Subgroup G} [Finite ↥X]
-    (hYX : Y ≤ X) (hY : (Y.subgroupOf X).Normal) (hodd : ¬ 2 ∣ Y.relIndex X) :
+    (_hYX : Y ≤ X) (hY : (Y.subgroupOf X).Normal) (hodd : ¬ 2 ∣ Y.relIndex X) :
     oTwoPrime X ≤ Y := by
   classical
-  haveI : (Y.subgroupOf X).Normal := hY
+  have : (Y.subgroupOf X).Normal := hY
   rw [oTwoPrime, Subgroup.closure_le]
   rintro x ⟨hxX, n, hxn⟩
   let xX : ↥X := ⟨x, hxX⟩
@@ -50,7 +50,7 @@ theorem relIndex_stabilizer_inf_stabilizer (h : Hyp30 Γ G) {α β : V} (hαβ :
   classical
   let Gα := MulAction.stabilizer G α
   let Δ : SubMulAction Gα V := neighborActionOf h Gα le_rfl
-  haveI : Finite Gα := h.finite_stab α
+  have : Finite Gα := h.finite_stab α
   obtain ⟨N, hN⟩ := h.locL2 α
   have htrans : MulAction.IsPretransitive Gα Δ := by
     refine ⟨fun x y => ?_⟩
@@ -61,7 +61,7 @@ theorem relIndex_stabilizer_inf_stabilizer (h : Hyp30 Γ G) {α β : V} (hαβ :
     apply Subtype.ext
     rw [SubMulAction.val_smul, MulAction.subgroup_smul_def]
     exact hg
-  haveI := htrans
+  have := htrans
   let βΔ : Δ := ⟨β, by
     change β ∈ Γ.neighborSet α
     rw [SimpleGraph.mem_neighborSet]
@@ -100,13 +100,13 @@ theorem relIndex_pointSubgroup_local (h : Hyp30 Γ G) {α : V} {N : Subgroup G}
     (hN : IsLocL2 Γ G α (nOf Γ α) N) {β : V} (hαβ : Γ.Adj α β) :
     (N ⊓ MulAction.stabilizer G β).relIndex N = 2 ^ nOf Γ α + 1 := by
   classical
-  haveI : Finite ↥N := finite_of_le_stabilizer h (α := α) (H := N) hN.le
+  have : Finite ↥N := finite_of_le_stabilizer h (α := α) (H := N) hN.le
   let Δ : SubMulAction N V := hN.neighborAction h.adj_smul
   let βΔ : Δ := ⟨β, by
     change β ∈ Γ.neighborSet α
     rw [SimpleGraph.mem_neighborSet]
     exact hαβ⟩
-  haveI : MulAction.IsPretransitive N Δ := hN.neighborAction_isPretransitive h.adj_smul
+  have : MulAction.IsPretransitive N Δ := hN.neighborAction_isPretransitive h.adj_smul
   have hidx : (MulAction.stabilizer N βΔ).index = Nat.card Δ :=
     MulAction.index_stabilizer_of_transitive N βΔ
   have hstab : MulAction.stabilizer N βΔ = (N ⊓ MulAction.stabilizer G β).subgroupOf N :=
@@ -140,17 +140,17 @@ theorem exists_complement_pCoreOf_edgeStab (h : Hyp30 Γ G) {α β : V} (hαβ :
   let H := MulAction.stabilizer G α ⊓ MulAction.stabilizer G β
   let S := pCoreOf 2 H
   have hSle : S ≤ H := CFSG.LieType.BorelTits.pCoreOf_le 2 H
-  haveI : Finite ↥H := finite_of_le_stabilizer h (α := α) (H := H) inf_le_left
+  have : Finite ↥H := finite_of_le_stabilizer h (α := α) (H := H) inf_le_left
   let Ssub : Subgroup H := S.subgroupOf H
   have hSsubNormal : Ssub.Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer
       (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 H)
-  haveI : Ssub.Normal := hSsubNormal
+  have : Ssub.Normal := hSsubNormal
   have hSylow : IsSylowTwoOf S H := isSylowTwoOf_pCoreOf_edgeStab h hαβ
   have hSp : IsPGroup 2 Ssub :=
     hSylow.2.1.of_equiv (Subgroup.subgroupOfEquivOfLe hSle).symm
   have hSodd : ¬ 2 ∣ Ssub.index := hSylow.2.2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcop : Nat.Coprime (Nat.card Ssub) Ssub.index := by
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hSp
     rw [hk]
@@ -195,7 +195,7 @@ theorem odd_card_of_complement (h : Hyp30 Γ G) {α β : V} (hαβ : Γ.Adj α �
   let H := MulAction.stabilizer G α ⊓ MulAction.stabilizer G β
   let S := pCoreOf 2 H
   have hSle : S ≤ H := CFSG.LieType.BorelTits.pCoreOf_le 2 H
-  haveI : Finite ↥H := finite_of_le_stabilizer h (α := α) (H := H) inf_le_left
+  have : Finite ↥H := finite_of_le_stabilizer h (α := α) (H := H) inf_le_left
   have hSylow : IsSylowTwoOf S H := isSylowTwoOf_pCoreOf_edgeStab h hαβ
   have hoddS : Odd (S.relIndex H) := by
     rw [← Nat.not_even_iff_odd]
@@ -215,7 +215,7 @@ theorem odd_card_of_complement (h : Hyp30 Γ G) {α β : V} (hαβ : Γ.Adj α �
       exact Subgroup.mem_bot.mpr (Subtype.ext (Subgroup.mem_bot.mp hxKS))
     · have hsup_sub : K.subgroupOf H ⊔ S.subgroupOf H = ⊤ := by
         rw [← Subgroup.subgroupOf_sup hKle hSle, hKsup, Subgroup.subgroupOf_self]
-      haveI : (S.subgroupOf H).Normal := hSsubNormal
+      have : (S.subgroupOf H).Normal := hSsubNormal
       rw [← Subgroup.mul_normal (K.subgroupOf H) (S.subgroupOf H), hsup_sub]
       rfl
   have hcard := hcomp.card_mul_card
@@ -225,7 +225,7 @@ theorem odd_card_of_complement (h : Hyp30 Γ G) {α β : V} (hαβ : Γ.Adj α �
   have hcardK : Nat.card K = Nat.card (K.subgroupOf H) :=
     (Nat.card_congr (Subgroup.subgroupOfEquivOfLe hKle).toEquiv).symm
   have h3 : Nat.card (K.subgroupOf H) = S.relIndex H := by
-    haveI : Finite ↥(S.subgroupOf H) := Subtype.finite
+    have : Finite ↥(S.subgroupOf H) := Subtype.finite
     have h4 : Nat.card (K.subgroupOf H) * Nat.card (S.subgroupOf H) =
         S.relIndex H * Nat.card (S.subgroupOf H) := by
       calc Nat.card (K.subgroupOf H) * Nat.card (S.subgroupOf H)
@@ -241,7 +241,6 @@ theorem isSylowTwoOf_of_edgeStab (h : Hyp30 Γ G) {α β : V} (hαβ : Γ.Adj α
     (hP : IsSylowTwoOf P (MulAction.stabilizer G α ⊓ MulAction.stabilizer G β)) :
     IsSylowTwoOf P (MulAction.stabilizer G α) := by
   refine F7.isSylowTwoOf_of_relIndex (hP.1.trans inf_le_left) hP.2.1 ?_
-  change ¬ 2 ∣ P.relIndex (MulAction.stabilizer G α)
   rw [← Subgroup.relIndex_mul_relIndex P (MulAction.stabilizer G α ⊓ MulAction.stabilizer G β)
     (MulAction.stabilizer G α) hP.1 inf_le_left]
   exact Nat.prime_two.not_dvd_mul hP.2.2
@@ -263,8 +262,8 @@ theorem le_oTwoPrime_stabilizer (h : Hyp30 Γ G) {v : V} {N : Subgroup G}
     (hN : IsLocL2 Γ G v (nOf Γ v) N) :
     N ≤ oTwoPrime (MulAction.stabilizer G v) := by
   classical
-  haveI : Finite ↥N := finite_of_le_stabilizer h (α := v) (H := N) hN.le
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite ↥N := finite_of_le_stabilizer h (α := v) (H := N) hN.le
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨a, ha⟩ := h.exists_adj v
   obtain ⟨b, hb, hba⟩ := h.exists_adj_ne v a
   let L := PSL(2, GaloisField 2 (nOf Γ v))
@@ -291,8 +290,8 @@ theorem le_oTwoPrime_stabilizer (h : Hyp30 Γ G) {v : V} {N : Subgroup G}
   let S2 : Subgroup G := (Sb : Subgroup N).map N.subtype
   have hS1le : S1 ≤ N := Subgroup.map_subtype_le _
   have hS2le : S2 ≤ N := Subgroup.map_subtype_le _
-  have hS1p : IsPGroup 2 S1 := Sa.isPGroup'.map N.subtype
-  have hS2p : IsPGroup 2 S2 := Sb.isPGroup'.map N.subtype
+  have hS1p : IsPGroup 2 S1 := Sa.isPGroup.map N.subtype
+  have hS2p : IsPGroup 2 S2 := Sb.isPGroup.map N.subtype
   have hex : ∃ g ∈ S2, g ∉ Subgroup.normalizer (S1 : Set G) := by
     by_contra hcon
     have hnorm : S2 ≤ Subgroup.normalizer (S1 : Set G) := by
@@ -311,7 +310,7 @@ theorem le_oTwoPrime_stabilizer (h : Hyp30 Γ G) {v : V} {N : Subgroup G}
         Subgroup.mem_subgroupOf.mpr hxnorm
       rwa [hsub] at hx'
     have hSaSylowN : IsSylowTwoOf (Sa : Subgroup N) ⊤ :=
-      F7.isSylowTwoOf_of_relIndex le_top Sa.isPGroup' (by
+      F7.isSylowTwoOf_of_relIndex le_top Sa.isPGroup (by
         simpa using Sa.not_dvd_index)
     let K := Subgroup.normalizer ((Sa : Subgroup N) : Set N)
     have hSaNorm : (Sa : Subgroup N) ≤ Subgroup.normalizer ((Sa : Subgroup N) : Set N) :=
@@ -320,16 +319,16 @@ theorem le_oTwoPrime_stabilizer (h : Hyp30 Γ G) {v : V} {N : Subgroup G}
       F7.isSylowTwoOf_mono_right hSaSylowN hSaNorm le_top
     have hSaKn : ((Sa : Subgroup N).subgroupOf K).Normal :=
       Subgroup.normal_subgroupOf_of_le_normalizer le_rfl
-    haveI : ((Sa : Subgroup N).subgroupOf K).Normal := hSaKn
+    have : ((Sa : Subgroup N).subgroupOf K).Normal := hSaKn
     obtain ⟨x, hxK, hxle⟩ :=
-      F7.isSylowTwoOf_exists_conj_le hSaK hSb_le Sb.isPGroup'
+      F7.isSylowTwoOf_exists_conj_le hSaK hSb_le Sb.isPGroup
     have hconj : conjSub x (Sa : Subgroup N) = (Sa : Subgroup N) :=
       (Subgroup.mem_normalizer_iff_map_conj_eq).mp hxK
     have hSb_le_Sa : (Sb : Subgroup N) ≤ (Sa : Subgroup N) := by
       rw [← hconj]
       exact hxle
     have heqSub : (Sa : Subgroup N) = (Sb : Subgroup N) :=
-      le_antisymm (Sb.maximal_isPGroup.2 Sa.isPGroup' hSb_le_Sa) hSb_le_Sa
+      le_antisymm (Sb.maximal_isPGroup.2 Sa.isPGroup hSb_le_Sa) hSb_le_Sa
     exact hne (Sylow.ext heqSub)
   obtain ⟨g, hgS2, hgnorm⟩ := hex
   have hgN : g ∈ N := hS2le hgS2
@@ -351,8 +350,8 @@ theorem IsLocL2.eq_oTwoPrime (h : Hyp30 Γ G) {v : V} {N : Subgroup G}
     N = oTwoPrime (MulAction.stabilizer G v) := by
   classical
   refine le_antisymm (le_oTwoPrime_stabilizer h hN) ?_
-  haveI : Finite ↥(MulAction.stabilizer G v) := h.finite_stab v
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite ↥(MulAction.stabilizer G v) := h.finite_stab v
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨a, ha⟩ := h.exists_adj v
   let Gv := MulAction.stabilizer G v
   let Ga := MulAction.stabilizer G a
@@ -365,7 +364,6 @@ theorem IsLocL2.eq_oTwoPrime (h : Hyp30 Γ G) {v : V} {N : Subgroup G}
     exact isSylowTwoOf_vertexSylowMap_edge hN ha
   have hSylowN : IsSylowTwoOf S N := by
     refine F7.isSylowTwoOf_of_relIndex hSleN hSylowB.2.1 ?_
-    change ¬ 2 ∣ S.relIndex N
     rw [← Subgroup.relIndex_mul_relIndex S B N hSB inf_le_left]
     exact Nat.prime_two.not_dvd_mul hSylowB.2.2
       (not_two_dvd_relIndex_pointSubgroup_local h hN ha)
@@ -441,7 +439,7 @@ theorem complement_inf_oTwoPrime (h : Hyp30 Γ G) {α β : V} (hαβ : Γ.Adj α
   let H := MulAction.stabilizer G α ⊓ MulAction.stabilizer G β
   let S := pCoreOf 2 H
   have hSleH : S ≤ H := CFSG.LieType.BorelTits.pCoreOf_le 2 H
-  haveI : Finite ↥H := finite_of_le_stabilizer h (α := α) (H := H) inf_le_left
+  have : Finite ↥H := finite_of_le_stabilizer h (α := α) (H := H) inf_le_left
   have hSleB : S ≤ oTwoPrime (MulAction.stabilizer G α) ⊓ MulAction.stabilizer G β := by
     rw [show S = pCoreOf 2 (localSubgroup h α ⊓ MulAction.stabilizer G β) from
       edgeSylow_eq_pCoreOf_edge h hαβ (localSubgroup_spec h α) (localSubgroup_spec h β)]
@@ -471,7 +469,7 @@ theorem complement_inf_oTwoPrime (h : Hyp30 Γ G) {α β : V} (hαβ : Γ.Adj α
       have hsup_sub : K.subgroupOf H ⊔ S.subgroupOf H = ⊤ := by
         rw [← Subgroup.subgroupOf_sup hKle hSleH, hKsup, Subgroup.subgroupOf_self]
       have hmul : ((↑(K.subgroupOf H) : Set H)) * ((↑(S.subgroupOf H) : Set H)) = Set.univ := by
-        haveI : (S.subgroupOf H).Normal := hSsubNormal
+        have : (S.subgroupOf H).Normal := hSsubNormal
         rw [← Subgroup.mul_normal (K.subgroupOf H) (S.subgroupOf H), hsup_sub]
         rfl
       have hx' : (⟨x, hxH⟩ : H) ∈
@@ -519,7 +517,7 @@ theorem eq_bot_of_pCoreOf_eq (h : Hyp30 Γ G) {α β : V} (hαβ : Γ.Adj α β)
 theorem le_of_normal_isSylowTwoOf {S P H : Subgroup G} [Finite ↥H] (hS : IsSylowTwoOf S H)
     (hSn : (S.subgroupOf H).Normal) (hPH : P ≤ H) (hP : IsPGroup 2 P) : P ≤ S := by
   classical
-  haveI : (S.subgroupOf H).Normal := hSn
+  have : (S.subgroupOf H).Normal := hSn
   have hS' : IsSylowTwoOf (S.subgroupOf H) ⊤ := by
     refine F7.isSylowTwoOf_of_relIndex le_top ?_ ?_
     · exact hS.2.1.of_equiv (Subgroup.subgroupOfEquivOfLe hS.1).symm
@@ -549,11 +547,11 @@ theorem mem_pCoreOf_of_fixes_two (h : Hyp30 Γ G) {α : V} {x : G}
     (hxa : x • a = a) (hxb : x • b = b) :
     x ∈ pCoreOf 2 (MulAction.stabilizer G α) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hxGa : x ∈ MulAction.stabilizer G a := MulAction.mem_stabilizer_iff.mpr hxa
   have hxH : x ∈ MulAction.stabilizer G α ⊓ MulAction.stabilizer G a := ⟨hxα, hxGa⟩
   let H := MulAction.stabilizer G α ⊓ MulAction.stabilizer G a
-  haveI : Finite ↥H := finite_of_le_stabilizer h (α := α) (H := H) inf_le_left
+  have : Finite ↥H := finite_of_le_stabilizer h (α := α) (H := H) inf_le_left
   let S := pCoreOf 2 H
   have hSylow : IsSylowTwoOf S H := by
     rw [show S = pCoreOf 2 (localSubgroup h α ⊓ MulAction.stabilizer G a) from
@@ -593,9 +591,9 @@ theorem le_pCoreOf_of_isPGroup_fixes_two (h : Hyp30 Γ G) {α : V} {P : Subgroup
     (hPa : ∀ y ∈ P, y • a = a) (hPb : ∀ y ∈ P, y • b = b) :
     P ≤ pCoreOf 2 (MulAction.stabilizer G α) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let H := MulAction.stabilizer G α ⊓ MulAction.stabilizer G a
-  haveI : Finite ↥H := finite_of_le_stabilizer h (α := α) (H := H) inf_le_left
+  have : Finite ↥H := finite_of_le_stabilizer h (α := α) (H := H) inf_le_left
   let S := pCoreOf 2 H
   have hPa' : P ≤ MulAction.stabilizer G a := by
     intro y hy
@@ -657,19 +655,19 @@ theorem oTwoRes_trans (h : Hyp30 Γ G) {α β : V} (hαβ : Γ.Adj α β) :
     ∀ a b : V, Γ.Adj α a → Γ.Adj α b →
       ∃ g ∈ oTwoRes (oTwoPrime (MulAction.stabilizer G α)), g • a = b := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let N := oTwoPrime (MulAction.stabilizer G α)
   have hN : IsLocL2 Γ G α (nOf Γ α) N := Hyp30.isLocL2_oTwoPrime h α
   let M := oTwoRes N
   have hMN : (M.subgroupOf N).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (le_normalizer_oTwoRes N)
-  haveI : (M.subgroupOf N).Normal := hMN
+  have : (M.subgroupOf N).Normal := hMN
   let Δ : SubMulAction N V := hN.neighborAction h.adj_smul
-  haveI : MulAction.IsPretransitive N Δ := hN.neighborAction_isPretransitive h.adj_smul
-  haveI : Finite ↥N := finite_of_le_stabilizer h (α := α) (H := N) (oTwoPrime_le _)
-  haveI : Finite (Γ.neighborSet α) :=
+  have : MulAction.IsPretransitive N Δ := hN.neighborAction_isPretransitive h.adj_smul
+  have : Finite ↥N := finite_of_le_stabilizer h (α := α) (H := N) (oTwoPrime_le _)
+  have : Finite (Γ.neighborSet α) :=
     Nat.finite_of_card_ne_zero (by rw [(h.valency α).2]; positivity)
-  haveI : Finite ↥Δ :=
+  have : Finite ↥Δ :=
     Finite.of_injective (fun x : Δ => (⟨x.1, x.2⟩ : Γ.neighborSet α))
       (fun a b h => Subtype.ext (congrArg Subtype.val h))
   have hΔcard : Nat.card ↥Δ = 2 ^ nOf Γ α + 1 := (h.valency α).2
@@ -715,7 +713,7 @@ theorem oTwoRes_trans (h : Hyp30 Γ G) {α β : V} (hαβ : Γ.Adj α β) :
       simpa using congrArg Subtype.val hg3
     have hgQ : (g : G) ∉ pCoreOf 2 (MulAction.stabilizer G α) := by
       intro hgq
-      haveI : Finite ↥(pCoreOf 2 (MulAction.stabilizer G α)) :=
+      have : Finite ↥(pCoreOf 2 (MulAction.stabilizer G α)) :=
         finite_of_le_stabilizer h (α := α) (H := pCoreOf 2 (MulAction.stabilizer G α))
           (CFSG.LieType.BorelTits.pCoreOf_le 2 _)
       have hdiv : orderOf (g : G) ∣ Nat.card (pCoreOf 2 (MulAction.stabilizer G α)) :=
@@ -747,8 +745,8 @@ theorem oTwoRes_trans (h : Hyp30 Γ G) {α β : V} (hαβ : Γ.Adj α β) :
     let pt : Δ := hmoves.choose
     have hpt : g • pt ≠ pt := hmoves.choose_spec
     let P := Subgroup.zpowers g
-    haveI : Fintype ↥P := Fintype.ofFinite _
-    haveI : Fintype (MulAction.orbit P pt) := Fintype.ofFinite _
+    have : Fintype ↥P := Fintype.ofFinite _
+    have : Fintype (MulAction.orbit P pt) := Fintype.ofFinite _
     have hPcard : Nat.card ↥P = 3 := by
       rw [Nat.card_zpowers]
       exact hgord
@@ -955,7 +953,7 @@ theorem sup_pCoreOf_eq_edgeSylow_of_not_le (h : Hyp30 Γ G) {α β : V} (hαβ :
     pCoreOf 2 (MulAction.stabilizer G α) ⊔ pCoreOf 2 (MulAction.stabilizer G β) =
       pCoreOf 2 (MulAction.stabilizer G α ⊓ MulAction.stabilizer G β) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Gα := MulAction.stabilizer G α
   let Gβ := MulAction.stabilizer G β
   let H := Gα ⊓ Gβ
@@ -999,8 +997,8 @@ theorem sup_pCoreOf_eq_edgeSylow_of_not_le (h : Hyp30 Γ G) {α β : V} (hαβ :
     have h2 : (Qβ.subgroupOf H).Normal :=
       Subgroup.normal_subgroupOf_of_le_normalizer
         ((inf_le_right : H ≤ Gβ).trans (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 Gβ))
-    haveI : (Qα.subgroupOf H).Normal := h1
-    haveI : (Qβ.subgroupOf H).Normal := h2
+    have : (Qα.subgroupOf H).Normal := h1
+    have : (Qβ.subgroupOf H).Normal := h2
     rw [Subgroup.subgroupOf_sup hQαH hQβH]
     infer_instance
   let Kβ := edgeTorus h hNβ hαβ.symm

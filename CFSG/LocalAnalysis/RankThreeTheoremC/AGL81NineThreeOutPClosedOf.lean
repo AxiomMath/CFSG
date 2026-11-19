@@ -118,10 +118,10 @@ theorem normal_sup_sup_centralizer_of_outer {Y : Type*} [Group Y] [Finite Y] {p 
           rw [← hc y y.2, mul_inv_cancel_right])
         show QuotientGroup.mk' (inner K) (MulAut.conjNormal c) = 1
         rw [h1, map_one]
-  obtain ⟨S, hS⟩ := (R.isPGroup'.map ψ).exists_le_sylow
+  obtain ⟨S, hS⟩ := (R.isPGroup.map ψ).exists_le_sylow
   have := hOut S
   rw [← hker]
-  exact CFSG.AGLEmbedding.normal_sup_ker_of_le_normal ψ R S.isPGroup' hS
+  exact CFSG.AGLEmbedding.normal_sup_ker_of_le_normal ψ R S.isPGroup hS
 
 theorem kFactNineThreeOutPClosed_of
     (hsimple : ∀ (p : ℕ) (i : TauCeti.CFSGIndex), p.Prime → p ≠ 2 → IsNineThreeIndex p i →
@@ -133,11 +133,11 @@ theorem kFactNineThreeOutPClosed_of
           (TauCeti.CFSGIndex.lie d).Group))).Normal) :
     KFactNineThreeOutPClosed := by
   intro p Y _ _ K hp hp2 hKn hlist R
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine normal_sup_sup_centralizer_of_outer K R ?_
   rcases hlist with ⟨i, hi, ⟨e⟩⟩ | ⟨d, hd, ⟨e⟩⟩
   · exact sylow_normal_outer_of_mulEquiv e (hsimple p i hp hp2 hi (Finite.of_equiv K e.toEquiv))
-  · haveI := Finite.of_equiv K e.toEquiv
+  · have := Finite.of_equiv K e.toEquiv
     exact sylow_normal_outer_of_mulEquiv e (hprod p d hp hp2 hd
       (Finite.of_surjective (Prod.fst (β := (TauCeti.CFSGIndex.lie d).Group))
         Prod.fst_surjective))
@@ -178,7 +178,7 @@ theorem nonabelian_of_isNineThreeProductIndex {p : ℕ} {d : TauCeti.ValidLieTyp
   rcases hd with ⟨-, q, hqp, hqe, hdq⟩ | ⟨-, hdq⟩
   · dsimp only at hdq
     subst hdq
-    haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+    have : Fact q.p.Prime := ⟨q.prime_p⟩
     have h4 : 4 ≤ Nat.card (GaloisField q.p q.exponent) := by
       rw [GaloisField.card q.p q.exponent q.exponent_pos.ne', hqp, hqe]
       norm_num
@@ -202,8 +202,8 @@ theorem kFactNineThreeOutPClosed_of_simple
       Finite i.Group → ∀ S : Sylow p (Outer i.Group), (S : Subgroup (Outer i.Group)).Normal) :
     KFactNineThreeOutPClosed := by
   refine kFactNineThreeOutPClosed_of hsimple fun p d hp hp2 hd hfin => ?_
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := isSimpleGroup_of_isNineThreeProductIndex hd
+  have : Fact p.Prime := ⟨hp⟩
+  have := isSimpleGroup_of_isNineThreeProductIndex hd
   exact sylow_normal_outer_prod_of_simple (nonabelian_of_isNineThreeProductIndex hd) hp2
     (hsimple p _ hp hp2 (isNineThreeIndex_of_isNineThreeProductIndex hd) hfin)
 

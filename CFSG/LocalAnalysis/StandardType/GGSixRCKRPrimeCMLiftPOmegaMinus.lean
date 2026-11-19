@@ -257,7 +257,7 @@ theorem rckLiftToBlock_POmegaMinus {F : Type} [Field F] [Finite F] [CharP F 2] {
     (hJ'G : J' ≤ glBlockCentralizer (Spin.spinMatrix (Spin.quadMinus n F bq cq))
       {Spin.spinMatrix (Spin.quadMinus n F bq cq) s} ε)
     (hperf : ⁅J', J'⁆ = J') {p : ℕ} (hp : Odd p) {b : X} (hbp : b ^ p = 1)
-    (hbN : b ∈ Subgroup.normalizer (ψ.range : Set X))
+    (_hbN : b ∈ Subgroup.normalizer (ψ.range : Set X))
     (hbID : GGPsiInnerDiag (Spin.Twisted.minusDatum n hirr) ψ b) (hbe : Commute b e)
     (hbK : b ∈ Subgroup.normalizer ((J'.map ψ : Subgroup X) : Set X)) :
     ∃ s₁ ∈ glBlockCentralizer (Spin.spinMatrix (Spin.quadMinus n F bq cq))
@@ -274,7 +274,7 @@ theorem rckLiftToBlock_POmegaMinus {F : Type} [Field F] [Finite F] [CharP F 2] {
   have hinj : Function.Injective (Spin.spinMatrix (Spin.quadMinus n F bq cq)) :=
     (MonoidHom.ker_eq_bot_iff _).mp
       (Spin.ker_spinMatrix_quadMinus_eq_bot hirr (CharP.cast_eq_zero F 2))
-  haveI : Finite (spinGroup (Spin.quadMinus n F bq cq)) :=
+  have : Finite (spinGroup (Spin.quadMinus n F bq cq)) :=
     Finite.of_injective _ hinj
   have hZnorm : ψ.ker ≤
       Subgroup.normalizer (J' : Set (spinGroup (Spin.quadMinus n F bq cq))) := by

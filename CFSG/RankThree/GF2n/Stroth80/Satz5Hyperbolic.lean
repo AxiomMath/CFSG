@@ -17,7 +17,7 @@ theorem exists_hyperbolic_quadruple (M₀ : Tim79.QuadModel P Z K γ)
       M₀.B v₁ w₁ = 1 ∧ M₀.B v₂ w₂ = 1 ∧ M₀.B v₁ w₂ = 0 ∧ M₀.B v₂ w₁ = 0 ∧
       M₀.B v₁ v₂ = 0 ∧ M₀.B w₁ w₂ = 0 := by
   classical
-  haveI : Module.Finite K M₀.E := M₀.fin
+  have : Module.Finite K M₀.E := M₀.fin
   have hB₁ : ∀ x ∈ S₁, ∀ y ∈ S₁, M₀.B x y = 0 := fun x hx y hy =>
     Tim79.QuadModel.B_eq_zero_of_singular M₀ (U := S₁.toAddSubgroup) hS₁ hx hy
   have hB₂ : ∀ x ∈ S₂, ∀ y ∈ S₂, M₀.B x y = 0 := fun x hx y hy =>

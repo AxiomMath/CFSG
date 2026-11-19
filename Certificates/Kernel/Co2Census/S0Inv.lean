@@ -76,7 +76,7 @@ theorem s0_inv_mem
     {s : K} (hs : s ∈ S0)
     (h2 : s * s = 1) : ∃ i < 5104, repK s (LPt i) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let T' : Subgroup S0 := (gensSub gT 9).subgroupOf S0
   have hT' : Nat.card T' = 2 ^ (Nat.card S0).factorization 2 := by
     rw [card_S0, factorization_S0,
@@ -109,7 +109,6 @@ theorem s0_inv_mem
   have hsq : mulV (TPt j) (TPt j) = IDP :=
     repK_unique (repK_mul hrep hrep) (htt ▸ repK_one)
   obtain ⟨hpos, hpe⟩ := posK_sound T_pos j hj (by
-    change Nat.beq (mulV (TPt j) (TPt j)) IDP = true
     rw [hsq]
     exact Nat.beq_refl IDP)
   have hrepL : repK ((g⁻¹ * s' * g : S0) : K) (LPt (TPOSt j)) := hpe ▸ hrep
@@ -131,10 +130,10 @@ theorem s0Rep_sq
   obtain ⟨-, -, -, -, -, -, -, h7⟩ := L_misc_spec
   by_cases h0 : j = 0
   · subst h0
-    rw [s0Rep, if_pos rfl, one_mul]
+    rw [s0Rep, ite_eq_left rfl, one_mul]
     exact ⟨S0.one_mem, rfl⟩
   · obtain ⟨j', rfl⟩ := Nat.exists_eq_succ_of_ne_zero h0
-    rw [s0Rep, if_neg h0, Nat.succ_sub_one]
+    rw [s0Rep, ite_eq_right h0, Nat.succ_sub_one]
     refine ⟨sElt_mem_S0 _, ?_⟩
     have hr := repK_sElt (s0Reps.getD j' 0)
     have h := (h7 j' (by omega))

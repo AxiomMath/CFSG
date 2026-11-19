@@ -33,8 +33,8 @@ theorem uc22s206v_ranks [Finite G] (hS : Standing4 G) (hU : uniqueFourUnique G) 
 
 theorem uc22s206v_pRank_bar [Finite G] {M : Subgroup G} (h3 : CFSG.Open.pRank 3 M ≤ 3) :
     CFSG.Open.pRank 3 (⊤ : Subgroup (Bar2 M)) ≤ 3 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hO : ¬ 3 ∣ Nat.card (CFSG.pCore 2 ↥M) := by
     obtain ⟨n, hn⟩ := (CFSG.pCore_isPGroup : IsPGroup 2 (CFSG.pCore 2 ↥M)).exists_card_eq
     rw [hn]
@@ -85,7 +85,7 @@ theorem uc22s206v_le_of_inner [Finite G] {L : Subgroup G} (α : ↥L →* altern
     (hA : IsElemAbelian 3 A) (hAc : Nat.card A = 3 ^ 2) (φ ψ : ↥(ptCore α i) →* Y)
     (hψC : ∀ k, ψ k ∈ C) (hrel : ∀ k, ∀ m ∈ C, φ k * m * (φ k)⁻¹ = ψ k * m * (ψ k)⁻¹) :
     ∀ k, φ k ∈ C := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let χ : ↥(ptCore α i) →* Y := MonoidHom.mk' (fun k => (ψ k)⁻¹ * φ k) fun a b => by
     have h := hrel a _ (C.inv_mem (hψC b))
     simp only [map_mul, mul_inv_rev]
@@ -143,7 +143,7 @@ theorem uc22s206v_component
       (IsAlt ↥C 8 ∨ LieModel ↥C .PSL 5 2 1 ∨ IsSpor ↥C .M24 ∨ IsSpor ↥C .J4) ∧
       ∀ k : ↥(ptCore α i),
         QuotientGroup.mk' (CFSG.pCore 2 ↥D.M) (Subgroup.inclusion hKM k) ∈ C := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set φ : ↥(ptCore α i) →* Bar2 D.M :=
     (QuotientGroup.mk' (CFSG.pCore 2 ↥D.M)).comp (Subgroup.inclusion hKM)
   have hrange : ((ptCore α i).subgroupOf D.M).map (QuotientGroup.mk' (CFSG.pCore 2 ↥D.M)) =
@@ -155,14 +155,14 @@ theorem uc22s206v_component
     · rintro ⟨k, rfl⟩
       exact ⟨Subgroup.inclusion hKM k, k.2, rfl⟩
   rw [hrange] at hF hNc
-  haveI : Group.IsPerfect ↥(ptCore α i) :=
+  have : Group.IsPerfect ↥(ptCore α i) :=
     Subgroup.isPerfect_iff.2 (CFSG.Quasithin.perfectCore_perfect (ptPre α i))
-  haveI : Group.IsPerfect φ.range := Group.IsPerfect.range φ
+  have : Group.IsPerfect φ.range := Group.IsPerfect.range φ
   obtain ⟨C, hC, hKC⟩ := uc22s206o_exists_component φ.range
     (uc22s206l_range_ne_bot α hα hker φ (uc22s206l_ker_le hKM)) hF hNc hout
-  haveI : Group.IsPerfect C := ⟨hC.2.2.1⟩
-  haveI := hout C hC
-  haveI := CFSG.ComponentClassification.OuterAutomorphisms.solvable_of_centerQuotient C
+  have : Group.IsPerfect C := ⟨hC.2.2.1⟩
+  have := hout C hC
+  have := CFSG.ComponentClassification.OuterAutomorphisms.solvable_of_centerQuotient C
   obtain ⟨ψ, hψ⟩ := uc22s206o_exists_hom φ fun k =>
     CFSG.ComponentClassification.ComponentInnerActions.perfect_normalizer_action_inner
       φ.range C (hNc C hC) ⟨φ k, k, rfl⟩
@@ -172,7 +172,7 @@ theorem uc22s206v_component
     have hmem : ψ k ∈ ψ.range := ⟨k, rfl⟩
     rwa [hbot, Subgroup.mem_bot] at hmem)
   obtain ⟨TS, hTS, hTSn⟩ := uc22s206o_sylow hKM hT hTK hC (fun _ => rfl) hψ
-  haveI : IsSimpleGroup (↥C ⧸ Subgroup.center ↥C) := hC.2.2.2
+  have : IsSimpleGroup (↥C ⧸ Subgroup.center ↥C) := hC.2.2.2
   obtain ⟨A, hA, ⟨e₁⟩⟩ := uc22s206r_calC D hC
   have h3C : CFSG.Open.pRank 3 (⊤ : Subgroup ↥C) ≤ 2 := by
     rw [← CFSG.SectionRank.pRank_top_eq_of_mulEquiv (by norm_num) e₁]
@@ -184,7 +184,7 @@ theorem uc22s206v_component
     rcases hK331 (↥C ⧸ Subgroup.center ↥C) hC.2.2.2 (uc22s206r_isCatalogGroup D hC)
       (uc22s206q_pRank α hα hker ψ hψ1 h3C) TS hTS ψ.range ⟨e₈⟩ hTSn with hR | h
     · obtain ⟨-, -, -, ha1, -⟩ := uc22s206p_rel
-      haveI : Nontrivial (alternatingGroup (Fin 8)) := ⟨⟨uc22s206pA0, 1, ha1⟩⟩
+      have : Nontrivial (alternatingGroup (Fin 8)) := ⟨⟨uc22s206pA0, 1, ha1⟩⟩
       exact Or.inl (uc22s206r_mulEquiv_of_top hR e₈)
     · exact Or.inr h
   have hodd : Odd (Nat.card (Subgroup.center ↥C)) := by

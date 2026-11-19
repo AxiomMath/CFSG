@@ -128,10 +128,10 @@ private theorem w85g_four_not_dvd_card_quot_center_of_symGp {Y : Type} [Group Y]
 private theorem w85g_exists_sylow_weaklyClosed_of_card_two {X : Type} [Group X] [Finite X]
     {S : Subgroup X} (hS : Nat.card S = 2) (h4 : ¬ 4 ∣ Nat.card X) :
     ∃ P : Sylow 2 X, S ≤ (P : Subgroup X) ∧ IsWeaklyClosedIn S (P : Subgroup X) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSp : IsPGroup 2 S := IsPGroup.of_card (n := 1) (by rw [hS]; norm_num)
   obtain ⟨Q, hSQ⟩ := hSp.exists_le_sylow
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp Q.isPGroup'
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp Q.isPGroup
   have hk_ge1 : 1 ≤ k := by
     by_contra h
     have hk0 : k = 0 := by omega
@@ -341,7 +341,7 @@ theorem notSpPSU_of_alt6 {Y : Type} [Group Y] (h : Nonempty (Y ≃* alternatingG
     norm_num at h16
 
 theorem notSpPSU_of_symGp_le_three {Y : Type} [Group Y] [Finite Y] {n : ℕ} (hn : n ≤ 3)
-    (hodd : Odd (Nat.card (Subgroup.center Y))) (h : IsSymGp (Y ⧸ fusionOddCore Y) n) :
+    (_hodd : Odd (Nat.card (Subgroup.center Y))) (h : IsSymGp (Y ⧸ fusionOddCore Y) n) :
     NotSpPSU (Y ⧸ Subgroup.center Y) := by
   have h4 := w85g_four_not_dvd_card_quot_center_of_symGp hn h
   rintro ⟨m, n', hm, hSp | hPSU⟩
@@ -364,8 +364,8 @@ theorem exists_sylow_weaklyClosed_of_isSpGp_two_one {X : Type} [Group X] [Finite
   obtain ⟨k, hk, F, hFld, hFin, hFcard, ⟨e⟩⟩ := h
   have hk1 : k = 1 := by omega
   subst hk1
-  haveI := hFld
-  haveI := hFin
+  have := hFld
+  have := hFin
   have hq : Nat.card (X ⧸ Subgroup.center X) = 6 := by
     refine (Nat.card_congr e.toEquiv).trans ?_
     rw [@CFSG.LocalAnalysis.ComponentInitial.SymplecticFlag.card_statedSp F hFld hFin 1]
@@ -386,7 +386,7 @@ theorem exists_sylow_weaklyClosed_of_symGp_le_three {X : Type} [Group X] [Finite
     ∃ P : Sylow 2 X, S ≤ (P : Subgroup X) ∧ IsWeaklyClosedIn S (P : Subgroup X) := by
   refine w85g_exists_sylow_weaklyClosed_of_card_two hS ?_
   obtain ⟨e⟩ := h
-  haveI : (fusionOddCore X).Normal := fusionOddCore_normal X
+  have : (fusionOddCore X).Normal := fusionOddCore_normal X
   have hq : Nat.card (X ⧸ fusionOddCore X) = n.factorial := by
     rw [Nat.card_congr e.toEquiv, Nat.card_perm, Nat.card_fin]
   have hcard : Nat.card X = Nat.card (fusionOddCore X) * Nat.card (X ⧸ fusionOddCore X) := by
@@ -423,7 +423,7 @@ theorem ShapeData.kBarCenterShape (d : ShapeData V H T φ) {P : ∀ (Y : Type) [
 
 theorem ShapeData.odd_card_center (d : ShapeData V H T φ) :
     Odd (Nat.card (Subgroup.center X)) := by
-  haveI := d.finite
+  have := d.finite
   exact odd_card_center_of_pCore_eq_bot d.situation.pCore_eq_bot
 
 private theorem w85g_isSpGp_of_mulEquiv {Y Z : Type} [Group Y] [Group Z] {m n : ℕ}
@@ -437,7 +437,7 @@ private theorem w85g_conjSubgroup_map {Y Z : Type} [Group Y] [Group Z] (ψ : Y �
   have h : (MulAut.conj (ψ x)⁻¹).toMonoidHom.comp ψ =
       ψ.comp (MulAut.conj x⁻¹).toMonoidHom := by
     ext a
-    simp [MulAut.conj_apply]
+    simp
   calc conjSubgroup (A.map ψ) (ψ x)
       = (A.map ψ).map (MulAut.conj (ψ x)⁻¹).toMonoidHom := rfl
     _ = A.map ((MulAut.conj (ψ x)⁻¹).toMonoidHom.comp ψ) :=
@@ -450,7 +450,7 @@ private theorem w85g_conjSubgroup_map {Y Z : Type} [Group Y] [Group Z] (ψ : Y �
 private theorem w85g_exists_sylow_barSub_T {h : Hyp83 V H T} (hKT : H = kGenIn V H ⊔ T)
     {Z : Type} [Group Z] {φ : ↥(kGenIn V H) →* Z} (hφ : Function.Surjective φ) :
     ∃ P : Sylow 2 Z, (P : Subgroup Z) = barSub (kGenIn V H) φ T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hKH : kGenIn V H ≤ H := kGenIn_le_H h.le_H
   have hKN : ((kGenIn V H).subgroupOf H).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hKH).mpr
@@ -478,7 +478,7 @@ theorem shape86WeakC_of_weakClosed (d : ShapeData V H T φ) (hn : NotSpPSU (X �
     (P : Sylow 2 X) (hSP : barSub (kGenIn V H) φ V ≤ (P : Subgroup X))
     (hw : IsWeaklyClosedIn (barSub (kGenIn V H) φ V) (P : Subgroup X)) :
     Shape86WeakC V H T := by
-  haveI := d.finite
+  have := d.finite
   constructor
   · rintro ⟨m, n, hm, hSp | hPSU⟩
     · obtain ⟨Z, hZgrp, hZSp, ⟨e⟩⟩ :=
@@ -489,8 +489,8 @@ theorem shape86WeakC_of_weakClosed (d : ShapeData V H T φ) (hn : NotSpPSU (X �
       exact hn ⟨m, n, hm, Or.inr (CFSG.Blueprint.LieModel.of_mulEquiv e.symm hZPSU)⟩
   · obtain ⟨Y, hYgrp, φ', ψ, hφ', hψsurj, hψcomp, hψker⟩ :=
       exists_central_quotient d.hyp83 d.eq_sup d.bar
-    letI := hYgrp
-    haveI : Finite Y := Finite.of_surjective ψ hψsurj
+    let := hYgrp
+    have : Finite Y := Finite.of_surjective ψ hψsurj
     have hVbar_p : IsPGroup 2 (barSub (kGenIn V H) φ V) :=
       CFSG.CGT.Timmesfeld75.isPGroup_two_of_isElemAbelian
         (isElemAbelian_barSub d.hyp83.elemAbelian φ)
@@ -552,11 +552,11 @@ theorem shape86C'_of_isSpGp (d : ShapeData V H T φ) {m n : ℕ}
       ∃ P : Sylow 2 X, barSub (kGenIn V H) φ V ≤ (P : Subgroup X) ∧
         IsWeaklyClosedIn (barSub (kGenIn V H) φ V) (P : Subgroup X)) :
     Hyp85Three' V H T ∨ Shape86Delta' V H T ∨ Shape86WeakC V H T := by
-  haveI := d.finite
+  have := d.finite
   have hSp0 := hSp
   obtain ⟨k, hk, F, hFld, hFin, hFcard, ⟨e⟩⟩ := hSp
-  haveI := hFld
-  haveI := hFin
+  have := hFld
+  have := hFin
   have hn1 : 1 ≤ n := by
     have h1 : 1 < Nat.card F := Finite.one_lt_card
     rw [hFcard] at h1
@@ -566,7 +566,7 @@ theorem shape86C'_of_isSpGp (d : ShapeData V H T φ) {m n : ℕ}
   rcases k with _ | k
   ·
     exfalso
-    haveI : Subsingleton (X ⧸ Subgroup.center X) :=
+    have : Subsingleton (X ⧸ Subgroup.center X) :=
       ⟨fun a b => e.injective (Subsingleton.elim (e a) (e b))⟩
     have hcenter : Subgroup.center X = ⊤ := by
       rw [Subgroup.eq_top_iff']
@@ -736,12 +736,12 @@ theorem false_of_symGp_four_five {X : Type} [Group X] [Finite X] {S : Subgroup X
 
 theorem hyp85Three'_of_symGp (d : ShapeData V H T φ) {n : ℕ}
     (h : IsSymGp (X ⧸ fusionOddCore X) n) (hn : 6 ≤ n) : Hyp85Three' V H T := by
-  haveI := d.finite
+  have := d.finite
   obtain ⟨e₀⟩ := h
   obtain ⟨Y, hYgrp, φ', ψ, hφ', hψsurj, -, hψker⟩ :=
     exists_central_quotient d.hyp83 d.eq_sup d.bar
-  letI := hYgrp
-  haveI : Finite Y := Finite.of_surjective ψ hψsurj
+  let := hYgrp
+  have : Finite Y := Finite.of_surjective ψ hψsurj
   have hodd : Odd (Nat.card ψ.ker) :=
     Odd.of_dvd_nat d.odd_card_center (Subgroup.card_dvd_of_le hψker)
   obtain ⟨π, hπs, -, hπodd, hπmax, -⟩ := gap5X_exists_pi ψ hψsurj hodd e₀
@@ -757,7 +757,7 @@ theorem shape86C'_of_rootGroupShape (d : ShapeData V H T φ)
     {n : ℕ}
     (h : IsRootGroupShape X n (barSub (kGenIn V H) φ V)) :
     Hyp85Three' V H T ∨ Shape86Delta' V H T ∨ Shape86WeakC V H T := by
-  haveI := d.finite
+  have := d.finite
   have hrank : ∀ {S : Subgroup X}, S = barSub (kGenIn V H) φ V → Nat.card S = 2 ^ n →
       rankBarV V H T = n := by
     intro S hS hSn
@@ -796,7 +796,7 @@ theorem shape86C'_of_four (g4 : W3Lem85TwoGap4) (d : ShapeData V H T φ)
         ∀ s ∈ barSub (kGenIn V H) φ V, s ≠ 1 → IsUnitaryTransvection X m n s) ∨
       IsOrthGp (X ⧸ Subgroup.center X) m n ∨ IsL2WrSymGp (X ⧸ Subgroup.center X) n m) :
     Hyp85Three' V H T ∨ Shape86Delta' V H T ∨ Shape86WeakC V H T := by
-  haveI := d.finite
+  have := d.finite
   have hr1 : rankBarV V H T = 1 := by
     have h1 := d.hyp83.card_barSub_eq_two_pow_rankBarV d.eq_sup d.bar
     rw [hS2] at h1
@@ -824,7 +824,7 @@ theorem shape86C'_of_symGp (d : ShapeData V H T φ)
     (hS2 : Nat.card (barSub (kGenIn V H) φ V) = 2) {n : ℕ}
     (h5 : IsSymGp (X ⧸ fusionOddCore X) n) :
     Hyp85Three' V H T ∨ Shape86Delta' V H T ∨ Shape86WeakC V H T := by
-  haveI := d.finite
+  have := d.finite
   by_cases hn3 : n ≤ 3
   · obtain ⟨P, hSP, hw⟩ := exists_sylow_weaklyClosed_of_symGp_le_three hS2 hn3 h5
     exact Or.inr (Or.inr (shape86WeakC_of_weakClosed d
@@ -837,7 +837,7 @@ theorem shape86C'_of_alt (g4 : W3Lem85TwoGap4)
     (g6 : W3Lem85TwoGap6) (d : ShapeData V H T φ)
     (halt : SevenElevenAlt X (barSub (kGenIn V H) φ V)) :
     Hyp85Three' V H T ∨ Shape86Delta' V H T ∨ Shape86WeakC V H T := by
-  haveI := d.finite
+  have := d.finite
   rcases halt with ⟨⟨n', h1⟩, -⟩ | h2 | ⟨-, h3⟩ | ⟨hS2, m', n', h4⟩ | ⟨hS2, n', h5⟩ | ⟨hS2, h6⟩
   · exact shape86C'_of_rootGroupShape d h1
   · exact shape86C'_of_linearShape d h2
@@ -855,7 +855,7 @@ theorem exists_shapeData (h711 : ∀ H : Subgroup G, W3Lem711Alt ↥H) {V H T : 
   let X : Type := ↥(kGenIn V H) ⧸ CFSG.pCore 2 ↥(kGenIn V H)
   let φ : ↥(kGenIn V H) →* X := QuotientGroup.mk' (CFSG.pCore 2 ↥(kGenIn V H))
   have hφ : IsBarMap (kGenIn V H) (pCoreOf 2 (kGenIn V H)) φ := isBarMap_mk_pCore (kGenIn V H)
-  haveI : Finite X := Finite.of_surjective φ hφ.surjective
+  have : Finite X := Finite.of_surjective φ hφ.surjective
   obtain ⟨φ', hφ', hS⟩ := exists_ambient_barMap h hKT hφ
   have hSit : BarSituation X (barSub (kGenIn V H) φ V) := by
     rw [← hS]

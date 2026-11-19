@@ -33,7 +33,7 @@ private theorem conj_mem_center_iff (P g : GL (Fin 3) F) :
 private theorem conj_mem_fixSetThree_iff (P : GL (Fin 3) F) (A : Subgroup (GL (Fin 3) F))
     (x : GL (Fin 3) F) :
     MulAut.conj P x ∈ fixSetThree p (A.map (MulAut.conj P).toMonoidHom) ↔ x ∈ fixSetThree p A := by
-  simp only [fixSetThree, Set.mem_setOf_eq, det_conj, MulEquiv.orderOf_eq]
+  simp only [fixSetThree, Set.mem_ofPred_eq, det_conj, MulEquiv.orderOf_eq]
   refine and_congr_right fun _ => and_congr_right fun _ => ⟨?_, ?_⟩
   · rintro ⟨g', ⟨g, hg, rfl⟩, hgZ, hgx⟩
     refine ⟨g, hg, fun h => hgZ ((conj_mem_center_iff P g).2 h), ?_⟩

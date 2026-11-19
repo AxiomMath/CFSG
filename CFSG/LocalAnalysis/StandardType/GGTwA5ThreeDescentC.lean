@@ -127,7 +127,7 @@ private theorem twd_alpha_of_mem {L' R : Type} [Group L'] [Finite L'] [Group R]
     (h : φ ∈ U63TB.presZ (U63TB.twoSub ψ.ker hker)) :
     twd_alpha hker hAle w₁ k φ =
       w₁.α k (U63TB.redHom (U63TB.twoSub ψ.ker hker) ⟨φ, h⟩) := by
-  rw [twd_alpha, dif_pos h]
+  rw [twd_alpha, dite_eq_left h]
 
 private theorem twd_n_exists {L' R : Type} [Group L'] [Finite L'] [Group R]
     {N : ℕ} {C : Matrix (Fin N) (Fin N) ℤ} {M : CoxeterMatrix (Fin N)}

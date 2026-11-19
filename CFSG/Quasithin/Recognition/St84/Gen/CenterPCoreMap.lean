@@ -62,7 +62,7 @@ theorem centerOf_pCoreOf_eq_of_mulEquiv (e : ↥L ≃* ↥N) {p : ℕ}
     rw [h]
     exact (mem_centerOf_iff_of_mulEquiv e ⟨x, hxL⟩).mp hx
 
-private theorem mem_map_subgroupOf_map (e : ↥L ≃* ↥N) {W : Subgroup G} (hWL : W ≤ L)
+private theorem mem_map_subgroupOf_map (e : ↥L ≃* ↥N) {W : Subgroup G} (_hWL : W ≤ L)
     (y : ↥N) :
     ((y : H) ∈ ((W.subgroupOf L).map e.toMonoidHom).map N.subtype ↔
       ((e.symm y : ↥L) : G) ∈ W) := by

@@ -17,7 +17,7 @@ theorem sec63PT_factAt_of_quotient {A P : Type} [Group A] [Finite A] [Group P]
     (e : A ⧸ oddCore A ≃* P) (hcen : oddCore A ≤ center A) {σ : MulAut A} {α : MulAut P}
     (hσ : σ * σ = 1) (hασ : ∀ a : A, e (QuotientGroup.mk (σ a)) = α (e (QuotientGroup.mk a)))
     (hF : Sec63PTFactAt P α) : Sec63PTFactAt A σ := by
-  haveI : Finite P := Finite.of_surjective (⇑e) e.surjective
+  have : Finite P := Finite.of_surjective (⇑e) e.surjective
   let ρ : A →* P := e.toMonoidHom.comp (QuotientGroup.mk' (oddCore A))
   have h : OddCentralCover ρ := sec63PT_oddCentralCover_of_equiv e hcen
   unfold Sec63PTFactAt at hF ⊢

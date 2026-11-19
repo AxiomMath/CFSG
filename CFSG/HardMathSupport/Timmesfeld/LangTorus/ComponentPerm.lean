@@ -122,7 +122,7 @@ theorem exists_mul_canonicalRep_of_mem_toralCentralizer
 
 theorem map_conj_componentRootSpan
     {τ : Tag} {K : Type} [Field K] (a : Fin τ.rank → Kˣ) {w : WeylGroup τ}
-    (hw : w ∈ rootCharStabilizer a) {m : ModGL τ K} (hm : m ∈ toralRootGroup τ K a)
+    (_hw : w ∈ rootCharStabilizer a) {m : ModGL τ K} (hm : m ∈ toralRootGroup τ K a)
     {j j' : KernelComponent (rootCharHom a)}
     (hjj' : (fun γ => w • γ) '' componentRoots (rootCharHom a) j =
       componentRoots (rootCharHom a) j') :
@@ -232,7 +232,7 @@ theorem weyl_image_component_eq_of_cube
     rw [hconj_mul y y, hconj_mul (y * y) y, hy3']
     rw [show (MulAut.conj (1 : ModGL τ L)).toMonoidHom = MonoidHom.id (ModGL τ L) from by
       ext x
-      simp [MulAut.conj_apply]]
+      simp]
     exact Subgroup.map_id _
   have hrc_iter : ∀ (j : KernelComponent (rootCharHom a)) (k : ℕ),
       (S.ρ : (Fin τ.rank → ℤ) → _)^[k] '' componentRoots (rootCharHom a) j =
@@ -310,7 +310,7 @@ theorem weyl_image_component_eq_of_cube
         (hR_le_j' y.2)).eq
     have hcomm_sub : ∀ x y : ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i), x * y = y * x :=
       fun x y => Subtype.ext (hcomm x y)
-    haveI : IsMulCommutative ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) :=
+    have : IsMulCommutative ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) :=
       isMulCommutative_iff.2 hcomm_sub
     have hsing : Subsingleton (↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) ⧸
         Subgroup.center ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i)) := by

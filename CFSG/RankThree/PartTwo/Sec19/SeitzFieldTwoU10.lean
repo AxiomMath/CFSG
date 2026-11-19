@@ -13,7 +13,7 @@ open CFSG.LocalAnalysis.ComponentInitial CFSG.RankThree.PartTwo.KFacts
 theorem three_ne_zero_of_unitaryFieldData {p f : ℕ} {K : Type} [Field K]
     (h : UnitaryFieldData p f K) (hQ : p ^ f % 3 = 2) : (3 : K) ≠ 0 := by
   intro h3
-  haveI := h.charP
+  have := h.charP
   have h3' : ((3 : ℕ) : K) = 0 := by exact_mod_cast h3
   rw [CharP.cast_eq_zero_iff K p] at h3'
   have hp3 : p = 3 := (Nat.prime_dvd_prime_iff_eq h.prime Nat.prime_three).1 h3'
@@ -79,7 +79,7 @@ theorem planeGen_unitaryPSU_field {p f : ℕ} {K : Type} [Field K]
   have := h.finite
   have h3 := three_ne_zero_of_unitaryFieldData h hQ
   have hnot := not_le_psuConj_range_of_not_narrow h3 hq hE hN
-  obtain ⟨φ, hφE, hφN⟩ := SetLike.not_le_iff_exists.1 hnot
+  obtain ⟨φ, hφE, hφN⟩ := IsConcreteLE.not_le_iff_exists.1 hnot
   obtain ⟨y, hyE, hyN, hy1⟩ := exists_ne_one_inf_psuConj_range h3 hq hE hc hnot
   obtain ⟨σ, -, H, hφH⟩ := unitary_order_three_field_descent hq φ (hE.2 φ hφE) hφN
   obtain ⟨B, hB⟩ := hyN

@@ -85,10 +85,10 @@ theorem r4_holds_gl12 (hLP : Sec4.Item4_1LargePrime)
     (hTC : Sec4.Item4_1ThreeCover) (h42 : Sec4.Item4_2) (hG1 : KFactG1)
     (hG1G : K135SF.KFactG1GL12) : R4 := by
   intro G _ _ A c L p C c4
-  haveI : c4.R.Normal := c4.R_normal
+  have : c4.R.Normal := c4.R_normal
   have hcrit := c4.crit
   have hp : p.Prime := hcrit.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp7 : 7 ≤ p := c4.p_ge_seven
   have hp2 : p ≠ 2 := by omega
   have hzL := c4.z_mem

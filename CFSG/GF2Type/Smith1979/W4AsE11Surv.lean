@@ -43,15 +43,15 @@ theorem card_singular_eq_136 {Q : QuadraticForm (ZMod 2) V} (hQ : Q.polarBilin.N
     (h8 : finrank (ZMod 2) V = 8) {W : Submodule (ZMod 2) V} (hW4 : finrank (ZMod 2) W = 4)
     (hW : ∀ v ∈ W, Q v = 0) : Nat.card {v : V // Q v = 0} = 136 := by
   classical
-  haveI : Finite V := Module.finite_of_finite (ZMod 2)
-  letI : Fintype V := Fintype.ofFinite V
+  have : Finite V := Module.finite_of_finite (ZMod 2)
+  let : Fintype V := Fintype.ofFinite V
   have hperp := orthogonal_eq_of_totallySingular hQ hW (by omega)
   have hz1 : ∀ a : ZMod 2, a ≠ 0 → a = 1 := by decide
   have hz2 : ∀ a : ZMod 2, a ≠ 0 → a + 1 = 0 := by decide
   have hex : ∀ x : V, x ∉ W → ∃ c ∈ W, QuadraticMap.polar Q c x ≠ 0 := by
     intro x hx
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hx
     rw [← hperp, LinearMap.BilinForm.mem_orthogonal_iff]
     intro c hc
@@ -82,7 +82,7 @@ theorem card_singular_eq_136 {Q : QuadraticForm (ZMod 2) V} (hQ : Q.polarBilin.N
       have := W.sub_mem h hout
       rwa [sub_sub_cancel] at this)
     have h := hex _ hxo
-    simp only [g, dif_pos h]
+    simp only [g, dite_eq_left h]
     rw [← hconst _ h.choose_spec.1 _ _ hout]
     exact hz1 _ h.choose_spec.2
   let σ : V → V := fun x => x + g (W.mkQ x)
@@ -195,7 +195,7 @@ theorem pow_three_eq_one_of_pow_nine_eq_one {V : Type*} [AddCommGroup V] [Module
 theorem exists_pow_three_eq_add_one : ∃ α : GaloisField 2 3, α ^ 3 = α + 1 := by
   have hcard : Nat.card (GaloisField 2 3)ˣ = 7 := by
     rw [Nat.card_units, GaloisField.card 2 3 (by decide)]; rfl
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' 7 (by rw [hcard])
   have two : (2 : GaloisField 2 3) = 0 := CharTwo.two_eq_zero
   have h7 : (g : GaloisField 2 3) ^ 7 = 1 := by

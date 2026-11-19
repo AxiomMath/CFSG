@@ -21,7 +21,7 @@ theorem two_eq_zero_F8 : (2 : F8) = 0 := by exact_mod_cast CharP.cast_eq_zero F8
 abbrev uMat : Matrix (Fin 2) (Fin 2) F8 := !![1, 1; 0, 1]
 
 theorem invol_matrix_conj (G : Matrix (Fin 2) (Fin 2) F8)
-    (hdet : G 0 0 * G 1 1 - G 0 1 * G 1 0 = 1) (hsq : G * G = 1) (hne : G ≠ 1) :
+    (_hdet : G 0 0 * G 1 1 - G 0 1 * G 1 0 = 1) (hsq : G * G = 1) (hne : G ≠ 1) :
     ∃ P : Matrix (Fin 2) (Fin 2) F8, P.det = 1 ∧ G * P = P * uMat := by
   have h2 : (2 : F8) = 0 := two_eq_zero_F8
   have hchar : ringChar F8 = 2 := ringChar.eq F8 2
@@ -55,20 +55,20 @@ theorem invol_matrix_conj (G : Matrix (Fin 2) (Fin 2) F8)
       revert i j
       refine Fin.forall_fin_two.2 ⟨Fin.forall_fin_two.2 ⟨?_, ?_⟩, Fin.forall_fin_two.2 ⟨?_, ?_⟩⟩
       · simp only [Matrix.mul_apply, Fin.sum_univ_two, uMat, Matrix.of_apply, Matrix.cons_val',
-          Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, Matrix.empty_val',
-          Matrix.cons_val_fin_one, Matrix.head_fin_const, Fin.isValue]
+          Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.empty_val',
+          Matrix.cons_val_fin_one, Fin.isValue]
         linear_combination (x * G 1 0) * hb
       · simp only [Matrix.mul_apply, Fin.sum_univ_two, uMat, Matrix.of_apply, Matrix.cons_val',
-          Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, Matrix.empty_val',
-          Matrix.cons_val_fin_one, Matrix.head_fin_const, Fin.isValue]
+          Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.empty_val',
+          Matrix.cons_val_fin_one, Fin.isValue]
         linear_combination x * ha1
       · simp only [Matrix.mul_apply, Fin.sum_univ_two, uMat, Matrix.of_apply, Matrix.cons_val',
-          Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, Matrix.empty_val',
-          Matrix.cons_val_fin_one, Matrix.head_fin_const, Fin.isValue]
+          Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.empty_val',
+          Matrix.cons_val_fin_one, Fin.isValue]
         linear_combination (x * G 1 0) * hd1
       · simp only [Matrix.mul_apply, Fin.sum_univ_two, uMat, Matrix.of_apply, Matrix.cons_val',
-          Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, Matrix.empty_val',
-          Matrix.cons_val_fin_one, Matrix.head_fin_const, Fin.isValue]
+          Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.empty_val',
+          Matrix.cons_val_fin_one, Fin.isValue]
         ring
   ·
     obtain ⟨x, hx⟩ := FiniteField.isSquare_of_char_two hchar ((G 0 1)⁻¹)
@@ -80,20 +80,20 @@ theorem invol_matrix_conj (G : Matrix (Fin 2) (Fin 2) F8)
       revert i j
       refine Fin.forall_fin_two.2 ⟨Fin.forall_fin_two.2 ⟨?_, ?_⟩, Fin.forall_fin_two.2 ⟨?_, ?_⟩⟩
       · simp only [Matrix.mul_apply, Fin.sum_univ_two, uMat, Matrix.of_apply, Matrix.cons_val',
-          Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, Matrix.empty_val',
-          Matrix.cons_val_fin_one, Matrix.head_fin_const, Fin.isValue]
+          Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.empty_val',
+          Matrix.cons_val_fin_one, Fin.isValue]
         linear_combination (x * G 0 0 * G 0 1) * h2
       · simp only [Matrix.mul_apply, Fin.sum_univ_two, uMat, Matrix.of_apply, Matrix.cons_val',
-          Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, Matrix.empty_val',
-          Matrix.cons_val_fin_one, Matrix.head_fin_const, Fin.isValue]
+          Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.empty_val',
+          Matrix.cons_val_fin_one, Fin.isValue]
         ring
       · simp only [Matrix.mul_apply, Fin.sum_univ_two, uMat, Matrix.of_apply, Matrix.cons_val',
-          Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, Matrix.empty_val',
-          Matrix.cons_val_fin_one, Matrix.head_fin_const, Fin.isValue]
+          Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.empty_val',
+          Matrix.cons_val_fin_one, Fin.isValue]
         linear_combination x * e00 + x * (G 0 0 + 1) * hd
       · simp only [Matrix.mul_apply, Fin.sum_univ_two, uMat, Matrix.of_apply, Matrix.cons_val',
-          Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, Matrix.empty_val',
-          Matrix.cons_val_fin_one, Matrix.head_fin_const, Fin.isValue]
+          Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.empty_val',
+          Matrix.cons_val_fin_one, Fin.isValue]
         linear_combination x * hd - x * h2
 
 theorem sl2_conj_uElt_of_invol (g : Matrix.SpecialLinearGroup (Fin 2) F8)
@@ -188,15 +188,15 @@ theorem finrank_range_ge_four_of_conj (P g : Matrix.SpecialLinearGroup (Fin 2) F
   have hPP : rhoM P * rhoM P⁻¹ = 1 := by rw [← map_mul, mul_inv_cancel, map_one]
   have hPP' : rhoM P⁻¹ * rhoM P = 1 := by rw [← map_mul, inv_mul_cancel, map_one]
   have hg' : rhoM g = rhoM P * rhoM (uElt (1 : F8)) * rhoM P⁻¹ := by rw [hg, map_mul, map_mul]
-  let Pe : Model ≃ₗ[F8] Model := LinearEquiv.ofLinear (rhoM P) (rhoM P⁻¹)
+  let Pe : Model ≃ₗ[F8] Model := LinearEquiv.ofLinearMap (rhoM P) (rhoM P⁻¹)
     (by rw [← Module.End.mul_eq_comp, hPP, Module.End.one_eq_id])
     (by rw [← Module.End.mul_eq_comp, hPP', Module.End.one_eq_id])
   have key : ∀ z, ((rhoM g - LinearMap.id : Module.End F8 Model)) (Pe z) = Pe (Tu z) := by
     intro z
     have h1 : rhoM P⁻¹ (rhoM P z) = z := by
       have := congrArg (fun f : Module.End F8 Model => f z) hPP'
-      simpa using this
-    simp only [Pe, LinearEquiv.ofLinear_apply, Tu, LinearMap.sub_apply, LinearMap.id_apply]
+      simp
+    simp only [Pe, LinearEquiv.coe_ofLinearMap, Tu, LinearMap.sub_apply, LinearMap.id_apply]
     rw [hg']
     simp only [Module.End.mul_apply, h1, map_sub]
   have hle : (LinearMap.range Tu).map (Pe : Model →ₗ[F8] Model) ≤

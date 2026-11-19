@@ -26,10 +26,10 @@ theorem z3E9A5Mod2_of_map {H H' : Type} [Group H] [Group H'] (f : H →* H')
     (hf : Function.Injective f) (Y : Subgroup H) (h : Z3E9A5Mod2 (Y.map f)) :
     Z3E9A5Mod2 Y := by
   intro N hNnorm hN
-  haveI : N.Normal := hNnorm
+  have : N.Normal := hNnorm
   let e : ↥Y ≃* ↥(Y.map f) := Subgroup.equivMapOfInjective Y f hf
   let N' : Subgroup ↥(Y.map f) := N.map e.toMonoidHom
-  haveI : N'.Normal := hNnorm.map e.toMonoidHom e.surjective
+  have : N'.Normal := hNnorm.map e.toMonoidHom e.surjective
   have hN' : N' = (CFSG.Open.pCoreOf 2 (Y.map f)).subgroupOf (Y.map f) := by
     have h1 : N' = CFSG.pCore 2 ↥(Y.map f) := by
       dsimp only [N']
@@ -54,7 +54,7 @@ theorem pairX_of_pairSp (hSymp : SympData) (hPair : PairSp) : PairX := by
   let b' : W ≃ₗ[ZMod 2] W := φ (QuotientGroup.mk b)
   let Y : Subgroup (G ⧸ N) := (Subgroup.closure ({a, b} : Set G)).map (QuotientGroup.mk' N)
   have hZpos : 0 < Nat.card ↥((Subgroup.center ↥X).map X.subtype) := by
-    haveI : Nonempty ↥((Subgroup.center ↥X).map X.subtype) := ⟨1, by simp⟩
+    have : Nonempty ↥((Subgroup.center ↥X).map X.subtype) := ⟨1, by simp⟩
     exact Nat.card_pos
   have ha3 : orderOf a' = 3 := by
     change orderOf (φ (QuotientGroup.mk a)) = 3

@@ -18,39 +18,48 @@ open CFSG.RankThree.PartOne (IsStronglyPEmbedded)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem uniqueFourConj_conj_inv {H : Subgroup G} {g : G} :
     uniqueFourConj g (uniqueFourConj g⁻¹ H) = H := by
   ext x
   rw [mem_uniqueFourConj_iff, mem_uniqueFourConj_iff]
   simp [mul_assoc]
 
+omit [Finite G] in
 theorem uniqueFourConj_inv_conj {H : Subgroup G} {g : G} :
     uniqueFourConj g⁻¹ (uniqueFourConj g H) = H := by
   simpa using (uniqueFourConj_conj_inv (H := H) (g := g⁻¹))
 
+omit [Finite G] in
 theorem uniqueFourConj_mono {H K : Subgroup G} (h : H ≤ K) (g : G) :
     uniqueFourConj g H ≤ uniqueFourConj g K := Subgroup.map_mono h
 
+omit [Finite G] in
 theorem card_uniqueFourConj (H : Subgroup G) (g : G) :
     Nat.card (uniqueFourConj g H) = Nat.card H :=
   Subgroup.card_map_of_injective (MulAut.conj g⁻¹).injective
 
+omit [Finite G] in
 theorem uniqueFourConj_normalizer (H : Subgroup G) (g : G) :
     uniqueFourConj g (normalizer (H : Set G)) = normalizer (uniqueFourConj g H : Set G) :=
   Subgroup.map_equiv_normalizer_eq H (MulAut.conj g⁻¹)
 
+omit [Finite G] in
 theorem isPGroup_uniqueFourConj {p : ℕ} {H : Subgroup G} (h : IsPGroup p H) (g : G) :
     IsPGroup p (uniqueFourConj g H) := h.map _
 
+omit [Finite G] in
 theorem uniqueFourConj_ne_bot {H : Subgroup G} (h : H ≠ ⊥) (g : G) : uniqueFourConj g H ≠ ⊥ :=
   fun hb => h ((Subgroup.map_eq_bot_iff_of_injective _ (MulAut.conj g⁻¹).injective).1 hb)
 
+omit [Finite G] in
 theorem isTwoLocal_conj {H : Subgroup G} (h : IsTwoLocal H) (g : G) :
     IsTwoLocal (uniqueFourConj g H) := by
   obtain ⟨P, hP1, hP2, rfl⟩ := h
   exact ⟨uniqueFourConj g P, uniqueFourConj_ne_bot hP1 g, isPGroup_uniqueFourConj hP2 g,
     uniqueFourConj_normalizer P g⟩
 
+omit [Finite G] in
 theorem isMaxTwoLocal_conj {M : Subgroup G} (h : IsMaxTwoLocalSubgroup M) (g : G) :
     IsMaxTwoLocalSubgroup (uniqueFourConj g M) := by
   refine ⟨isTwoLocal_conj h.1 g, fun H hH hle => ?_⟩
@@ -91,6 +100,7 @@ theorem mem_uniqueFourSigma_conj {M : Subgroup G} {p : ℕ} (h : p ∈ uniqueFou
   · rw [← uniqueFourConj_normalizer]
     exact uniqueFourConj_mono hBU g
 
+omit [Finite G] in
 theorem isStronglyPEmbedded_uniqueFourConj {p : ℕ} {M : Subgroup G} (h : IsStronglyPEmbedded p M)
     (g : G) : IsStronglyPEmbedded p (uniqueFourConj g M) :=
   CFSG.RankThree.PartOne.IsStronglyPEmbedded.conj h g⁻¹
@@ -145,7 +155,7 @@ theorem four_le_pRank_of_sigma {N : Subgroup G} {p : ℕ} (hp : p ∈ uniqueFour
 
 theorem four_le_pRank_sylow {p : ℕ} (hp : p ∈ uniqueFourBeta G) (P : Sylow p G) :
     4 ≤ Open.pRank p (P : Subgroup G) := by
-  haveI : Fact p.Prime := ⟨hp.1⟩
+  have : Fact p.Prime := ⟨hp.1⟩
   rw [pRank_sylow_eq_top]
   exact CFSG.PreuniquenessRankFour.Helpers.betaFour_globalRank hp
 
@@ -153,10 +163,10 @@ theorem isStronglyPEmbedded_of_sigmaOne (hU : uniqueFourUnique G) {M : Subgroup 
     (hM : uniqueFourIsMaxTwoLocal M) {p : ℕ} (hp : p ∈ uniqueFourSigma M)
     (h1 : p ∈ SigmaOne4 G) : IsStronglyPEmbedded p M := by
   obtain ⟨-, N, hN, hpN, hNs⟩ := h1
-  haveI : Fact p.Prime := ⟨hp.1.1⟩
+  have : Fact p.Prime := ⟨hp.1.1⟩
   obtain ⟨PM, hPM, -⟩ := exists_sylow_le_of_sigma hU hM hp
   obtain ⟨PN, hPN, -⟩ := exists_sylow_le_of_sigma hU hN hpN
-  obtain ⟨g, hg⟩ := exists_le_uniqueFourConj_sylow (PM.isPGroup') PN
+  obtain ⟨g, hg⟩ := exists_le_uniqueFourConj_sylow (PM.isPGroup) PN
   have hPMN : (PM : Subgroup G) ≤ uniqueFourConj g N :=
     hg.trans (uniqueFourConj_mono hPN g)
   have hN' : uniqueFourIsMaxTwoLocal (uniqueFourConj g N) := isMaxTwoLocal_conj hN g
@@ -172,7 +182,7 @@ theorem isStronglyPEmbedded_of_sigmaOne (hU : uniqueFourUnique G) {M : Subgroup 
 theorem four_le_pRank_imp_mem_sigma (hU : uniqueFourUnique G) {M : Subgroup G}
     (hM : uniqueFourIsMaxTwoLocal M) {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2)
     (h4 : 4 ≤ Open.pRank r M) : r ∈ uniqueFourSigma M := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hdvd : r ∣ Nat.card G :=
     CFSG.PreuniquenessRankFour.Helpers.prime_dvd_card_of_positive_rank r hr M (by omega)
   have hrank : 4 ≤ uniqueFourTwoLocalRank r G :=
@@ -207,10 +217,10 @@ theorem groupPRank_eq_pRank (p : ℕ) (E : Subgroup G) :
 
 theorem two_le_pRank_of_not_isCyclic {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {X : Subgroup G}
     (hX : IsPGroup p X) (hnc : ¬ IsCyclic X) : 2 ≤ Open.pRank p X := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (IsPGroup p X) := ⟨hX⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (IsPGroup p X) := ⟨hX⟩
   obtain ⟨S, -, hScard, hSel⟩ := CFSG.lemma_4_5_a hp2 hnc
-  haveI := hSel
+  have := hSel
   have hSm : CFSG.IsElementaryAbelian p (S.map X.subtype) :=
     CFSG.IsElementaryAbelian.map_subtype
   have hcard : Nat.card (S.map X.subtype) = p ^ 2 := by

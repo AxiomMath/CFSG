@@ -287,7 +287,7 @@ theorem exists_pGroup_conj_le {K' V U : Subgroup G} (hVK' : V ≤ K') (hV2 : IsP
       ∃ k ∈ K', U.map (MulAut.conj k).toMonoidHom ≤ P := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q, hQ⟩ := (hV2.comap_of_injective K'.subtype K'.subtype_injective).exists_le_sylow
-  refine ⟨(Q : Subgroup ↥K').map K'.subtype, map_subtype_le _, Q.isPGroup'.map _, ?_, ?_⟩
+  refine ⟨(Q : Subgroup ↥K').map K'.subtype, map_subtype_le _, Q.isPGroup.map _, ?_, ?_⟩
   · intro v hv
     exact ⟨⟨v, hVK' hv⟩, hQ hv, rfl⟩
   · obtain ⟨g, hg⟩ := CFSG.RankThree.PartOne.KF1514B.exists_conj_le_of_not_dvd_index

@@ -52,17 +52,17 @@ public theorem ig1114_i_actsTrivially_of_fixedPointSubgroup_eq_bot
     (hfixB : fixedPointSubgroup (↥B) T = ⊥) :
     ActsTrivially (A := ↥A) (G := T) := by
   classical
-  letI : Fact (IsPGroup p T) := ⟨hT⟩
+  let : Fact (IsPGroup p T) := ⟨hT⟩
   by_cases hTnon : Nontrivial T
-  · letI : Nontrivial T := hTnon
+  · let : Nontrivial T := hTnon
     let Phi : Subgroup T := frattini T
-    letI : Phi.Characteristic := frattini_characteristic
-    letI : Phi.Normal := inferInstance
+    let : Phi.Characteristic := frattini_characteristic
+    let : Phi.Normal := inferInstance
     let hPhiInvS : IsInvariant S T Phi :=
       isInvariant_of_characteristic (A := S) (G := T) Phi
-    letI : MulDistribMulAction S (T ⧸ Phi) :=
+    let : MulDistribMulAction S (T ⧸ Phi) :=
       quotientMulDistribMulAction (A := S) (G := T) Phi hPhiInvS
-    letI : IsElementaryAbelian p (T ⧸ Phi) :=
+    let : IsElementaryAbelian p (T ⧸ Phi) :=
       isElementaryAbelian_quotient_frattini (R := T) (p := p)
     let rho : Representation (ZMod p) S (Additive (T ⧸ Phi)) :=
       Theory.Representation.ofElementaryAbelianAction
@@ -71,7 +71,7 @@ public theorem ig1114_i_actsTrivially_of_fixedPointSubgroup_eq_bot
       Nat.Coprime.of_dvd_left (Subgroup.card_subgroup_dvd_card A) hcopST
     have hBcopT : Nat.Coprime (Nat.card B) (Nat.card T) :=
       Nat.Coprime.of_dvd_left (Subgroup.card_subgroup_dvd_card B) hcopST
-    letI : Group.IsNilpotent T := hT.isNilpotent
+    let : Group.IsNilpotent T := hT.isNilpotent
     have hsolvT : Group.IsSolvable T := by infer_instance
     let hPhiInvB : IsInvariant (↥B) T Phi :=
       isInvariant_of_characteristic (A := ↥B) (G := T) Phi
@@ -126,7 +126,7 @@ public theorem ig1114_i_actsTrivially_of_fixedPointSubgroup_eq_bot
       actsTrivially_of_trivial_quotient_frattini_of_sup_eq_top
         (R := T) (A := ↥A) (p := p) hsupA
         (by simpa [Phi] using htrivq)
-  · letI : Subsingleton T := not_nontrivial_iff_subsingleton.mp hTnon
+  · let : Subsingleton T := not_nontrivial_iff_subsingleton.mp hTnon
     intro a x
     exact Subsingleton.elim (a • x) x
 
@@ -154,13 +154,13 @@ public theorem ig1114_i_actsTrivially_of_nilpotent_fixedPointSubgroup_eq_bot
     rw [← Sylow.iSup_sylow_eq_top (G := T)]
     refine iSup_le fun q ↦ iSup_le fun hq ↦ ?_
     have hqprime : q.Prime := Nat.prime_of_mem_primeFactors hq
-    letI : Fact q.Prime := ⟨hqprime⟩
+    let : Fact q.Prime := ⟨hqprime⟩
     let Q : Sylow q T := default
     have hQnormal : (Q : Subgroup T).Normal :=
       Group.IsNilpotent.sylow_normal hTnil q Q
-    letI : (Q : Subgroup T).Characteristic :=
+    let : (Q : Subgroup T).Characteristic :=
       Sylow.characteristic_of_normal Q hQnormal
-    letI : IsInvariant S T (Q : Subgroup T) :=
+    let : IsInvariant S T (Q : Subgroup T) :=
       isInvariant_of_characteristic (A := S) (G := T) (Q : Subgroup T)
     have hfixBQ : fixedPointSubgroup (↥B) (Q : Subgroup T) = ⊥ := by
       rw [Subgroup.eq_bot_iff_forall]
@@ -178,7 +178,7 @@ public theorem ig1114_i_actsTrivially_of_nilpotent_fixedPointSubgroup_eq_bot
         (Subgroup.card_subgroup_dvd_card (Q : Subgroup T)) hcopST
     have htrivQ : ActsTrivially (A := ↥A) (G := (Q : Subgroup T)) :=
       ig1114_i_actsTrivially_of_fixedPointSubgroup_eq_bot
-        A B Q.isPGroup' hoddS hA_normal hAB hcopAB hB_prime hcopSQ
+        A B Q.isPGroup hoddS hA_normal hAB hcopAB hB_prime hcopSQ
           hcomm hfixBQ
     intro x hx
     rw [FixedPoints.mem_subgroup]
@@ -199,7 +199,7 @@ public theorem ig1114_commutator_idempotent_of_coprime
     (hPnormR : P ≤ Subgroup.normalizer (R : Set X)) :
     ⁅⁅R, P⁆, P⁆ = ⁅R, P⁆ := by
   let A0 : Subgroup X := ⁅R, P⁆
-  letI : Subgroup.Normalizes P R := ⟨hPnormR⟩
+  let : Subgroup.Normalizes P R := ⟨hPnormR⟩
   have hA0leR : A0 ≤ R := by
     rw [Subgroup.commutator_le]
     intro r hr p hp
@@ -218,7 +218,7 @@ public theorem ig1114_commutator_idempotent_of_coprime
         (show A0 ≤ R ⊔ P from hA0leR.trans le_sup_left)).mp hA0normRP
     exact le_sup_right.trans hRPnormA0
   let C : Subgroup R := commutatorAction (A := ↥P) (G := ↥R)
-  letI : IsInvariant (↥P) (↥R) C := by
+  let : IsInvariant (↥P) (↥R) C := by
     simpa [C] using commutatorAction_isInvariant (G := ↥R) (A := ↥P)
   have hCmap : C.map R.subtype = A0 := by
     simpa [C, A0] using
@@ -244,7 +244,7 @@ public theorem ig1114_commutator_idempotent_of_coprime
     rcases Subgroup.mem_map.mp hxmap with ⟨y, hy, hyx⟩
     have hy_eq_x : y = x := C.subtype_injective hyx
     simpa [hy_eq_x] using hy
-  letI : Subgroup.Normalizes P A0 := ⟨hPnormA0⟩
+  let : Subgroup.Normalizes P A0 := ⟨hPnormA0⟩
   let e : C ≃* A0 :=
     (Subgroup.equivMapOfInjective C R.subtype R.subtype_injective).trans
       (MulEquiv.subgroupCongr hCmap)
@@ -252,7 +252,6 @@ public theorem ig1114_commutator_idempotent_of_coprime
     simp [e, Subgroup.coe_equivMapOfInjective_apply]
   have he_smul (a : P) (c : C) : e (a • c) = a • e c := by
     apply Subtype.ext
-    change ((e (a • c) : A0) : X) = ((a • e c : A0) : X)
     rw [he_coe]
     change ((a • (c : R) : R) : X) = ((a • e c : A0) : X)
     simp [Subgroup.conjMulDistribMulActionOfLeNormalizer_smul_coe, he_coe]
@@ -368,7 +367,7 @@ public theorem ig1114_i_commutator_le_centralizer_of_fixedPointFree
     sup_le (hA0leR.trans le_sup_left) le_sup_right
   have hoddS : Odd (Nat.card S) :=
     hoddRP.of_dvd_nat (Subgroup.card_dvd_of_le hSleRP)
-  letI : Subgroup.Normalizes S K := ⟨hSleRP.trans hRPnormK⟩
+  let : Subgroup.Normalizes S K := ⟨hSleRP.trans hRPnormK⟩
   let AS : Subgroup S := A0.subgroupOf S
   let BS : Subgroup S := P.subgroupOf S
   have hASnormal : AS.Normal := by
@@ -380,14 +379,14 @@ public theorem ig1114_i_commutator_le_centralizer_of_fixedPointFree
     apply (Subgroup.normal_subgroupOf_iff_le_normalizer
       (show A0 ≤ S from le_sup_left)).2
     exact hSnormA0
-  letI : AS.Normal := hASnormal
+  let : AS.Normal := hASnormal
   have hcopAB : Nat.Coprime (Nat.card AS) (Nat.card BS) := by
     simpa [AS, BS] using
       coprime_card_subgroupOf_sup_of_le A0 R P hA0leR hcopPR.symm
   have hAB : AS.IsComplement' BS := by
     have hdisj : Disjoint AS BS := by
       rw [disjoint_iff]
-      exact Subgroup.inf_eq_bot_of_coprime hcopAB
+      exact (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcopAB))
     apply Subgroup.isComplement'_of_disjoint_and_mul_eq_univ hdisj
     have hsup : AS ⊔ BS = ⊤ := by
       rw [← Subgroup.subgroupOf_sup
@@ -411,7 +410,7 @@ public theorem ig1114_i_commutator_le_centralizer_of_fixedPointFree
     rw [hBcard]
     exact hcopPK
   have hcopSK : Nat.Coprime (Nat.card S) (Nat.card K) := by
-    rw [← hAB.card_mul]
+    rw [← hAB.card_mul_card]
     exact hcopASK.mul_left hcopBSK
   have hcomm : ⁅BS, AS⁆ = AS := by
     have hA0S : A0 ≤ S := by

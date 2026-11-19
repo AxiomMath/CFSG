@@ -24,7 +24,7 @@ theorem kdClubAt_of_projModel {π : Bool} {p f : ℕ} {K : Type}
     (e : Y ≃* (↥(slPi π 3 (p ^ f) K) ⧸ Subgroup.center ↥(slPi π 3 (p ^ f) K))) :
     KDClubAt Y := by
   have hfin := hK.finite
-  haveI : Finite Y := Finite.of_equiv _ e.symm.toEquiv
+  have : Finite Y := Finite.of_equiv _ e.symm.toEquiv
   intro β hβ1 hβ3 J hJ
   rcases dichot_proj_field hK hq hq2 e hβ3 hβ1 with ⟨σ, hσ⟩ | hin
   · exfalso

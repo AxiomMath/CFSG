@@ -21,15 +21,15 @@ theorem eq_uSL_of_mulVec_single {g : SL(2, K)}
   have h0 := congrFun h 0
   have h1 := congrFun h 1
   simp only [Matrix.mulVec, dotProduct, Fin.sum_univ_two, Pi.single_apply, Fin.isValue,
-    one_ne_zero, ↓reduceIte, mul_one, mul_zero, add_zero, zero_ne_one] at h0 h1
+    one_ne_zero, ↓reduceIte, mul_one, mul_zero, add_zero] at h0 h1
   have hdet := g.2
   rw [Matrix.det_fin_two, h0, h1] at hdet
   apply Matrix.SpecialLinearGroup.ext
   intro i j
-  fin_cases i <;> fin_cases j <;> simp [uSL, h0, h1] <;> linear_combination hdet
+  fin_cases i <;> fin_cases j <;> simp [uSL, h0, h1]; linear_combination hdet
 
 theorem two_dvd_card [Finite K] [CharP K 2] : 2 ∣ Nat.card K := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, -, hn⟩ := FiniteField.card K 2
   rw [Nat.card_eq_fintype_card, hn]
   exact dvd_pow_self 2 n.pos.ne'
@@ -39,8 +39,8 @@ theorem exists_conj_stabilizer [Finite K] [CharP K 2] {R : Subgroup SL(2, K)}
     ∃ (h : SL(2, K)) (v : Fin 2 → K), v ≠ 0 ∧ (h : Mat2 K) *ᵥ (Pi.single 0 1) = v ∧
       ∀ a : K, h * uSL a * h⁻¹ ∈ R := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : MulAction ↥R (Fin 2 → K) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : MulAction ↥R (Fin 2 → K) :=
     { smul := fun r v => ((r : SL(2, K)) : Mat2 K).mulVec v
       one_smul := fun v => by
         show (((1 : ↥R) : SL(2, K)) : Mat2 K).mulVec v = v
@@ -50,7 +50,7 @@ theorem exists_conj_stabilizer [Finite K] [CharP K 2] {R : Subgroup SL(2, K)}
           ((a : SL(2, K)) : Mat2 K).mulVec (((b : SL(2, K)) : Mat2 K).mulVec v)
         rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.mulVec_mulVec] }
   have hdvd : 2 ∣ Nat.card (Fin 2 → K) := by
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     rw [Nat.card_eq_fintype_card, Fintype.card_fun, Fintype.card_fin, ← Nat.card_eq_fintype_card]
     exact Dvd.dvd.pow two_dvd_card (by norm_num)
   have h0 : (0 : Fin 2 → K) ∈ MulAction.fixedPoints ↥R (Fin 2 → K) := by
@@ -102,6 +102,7 @@ namespace D3Data
 
 variable (D : D3Data Q Z M₀ φS F)
 
+omit [Finite G] [CharP K 2] in
 theorem fix_U {f : M₀.E} (hf : ∀ a : F, ∃ s : ↥S, D.p s = D2.uSL a ∧ φS s f = f) :
     ∃ c : K, f = c • D.ptv (Pi.single 0 1) := by
   classical
@@ -112,7 +113,7 @@ theorem fix_U {f : M₀.E} (hf : ∀ a : F, ∃ s : ↥S, D.p s = D2.uSL a ∧ �
     have := D.act s f
     rw [hsf, hs] at this
     exact this.symm
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hqK : Fintype.card K = Fintype.card K := rfl
   have hq2 : 2 ≤ Fintype.card K := by
     have := Fintype.one_lt_card (α := K)
@@ -127,6 +128,7 @@ theorem fix_U {f : M₀.E} (hf : ∀ a : F, ∃ s : ↥S, D.p s = D2.uSL a ∧ �
   funext i j k
   simp [Algebra.smul_def]
 
+omit [Finite G] [CharP K 2] in
 theorem fixed_in_line [CharP F 2] {R : Subgroup SL(2, F)} (hR2 : IsPGroup 2 R)
     (hRcard : Nat.card F ≤ Nat.card R) :
     ∃ w : Fin 2 → F, w ≠ 0 ∧ ∀ e : M₀.E, (∀ m : ↥S, D.p m ∈ R → φS m e = e) →
@@ -197,6 +199,7 @@ namespace D3Data
 variable (D : D3Data Q Z M₀ φS F)
 
 include D in
+omit [Finite G] [CharP K 2] in
 theorem cube_mem [CharP F 2] (hK4 : 4 ≤ Nat.card K)
     {H : Subgroup G} (hSH : S ≤ H) (hQS : Q ≤ S)
     (hnorm : ∀ m ∈ H, ∀ s ∈ S, m * s * m⁻¹ ∈ S)
@@ -205,7 +208,7 @@ theorem cube_mem [CharP F 2] (hK4 : 4 ≤ Nat.card K)
     (φ : ↥H →* (M₀.E ≃ₗ[K] M₀.E)) (hφS : ∀ m : ↥S, φS m = φ ⟨m, hSH m.2⟩)
     {m : G} (hm : m ∈ H) : m ^ 3 ∈ S := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hq2 : 2 ≤ Fintype.card K := by
     have := Fintype.one_lt_card (α := K)
     omega
@@ -300,7 +303,7 @@ theorem cube_mem [CharP F 2] (hK4 : 4 ≤ Nat.card K)
       have a10 : ((D.p t : SL(2, F)) : Mat2 F) 1 0 = 0 :=
         σ'.injective (by rw [e10, map_zero])
       ext i
-      fin_cases i <;> simp [Matrix.mulVec, dotProduct, Fin.sum_univ_two, Pi.single_apply, a00, a10]
+      fin_cases i <;> simp [Matrix.mulVec, dotProduct, Pi.single_apply, a00, a10]
     refine ⟨sa, hsa, ?_⟩
     have h3 := hΦ t (Φ v₀)
     rw [hct, hΦinv, hfixe t h2] at h3
@@ -324,8 +327,7 @@ theorem cube_mem [CharP F 2] (hK4 : 4 ≤ Nat.card K)
     have hmv : ((D.p sμ : SL(2, F)) : Mat2 F) *ᵥ (Pi.single 0 1) = μ • (Pi.single 0 1) := by
       rw [hsμ]
       ext i
-      fin_cases i <;> simp [D2.diagSL, Matrix.mulVec, dotProduct, Fin.sum_univ_two,
-        Pi.single_apply]
+      fin_cases i <;> simp [D2.diagSL, Matrix.mulVec, dotProduct, Pi.single_apply]
     obtain ⟨κ, hκ, hκv⟩ := D.ptv_smul μ (Pi.single 0 1)
     have hφ1 : φS sμ v₀ = κ • v₀ := by rw [hv₀, D.φS_ptv, hmv, hκv]
     have e00 : ((D.p (c' sμ) : SL(2, F)) : Mat2 F) 0 0 = σ' μ := by
@@ -337,7 +339,7 @@ theorem cube_mem [CharP F 2] (hK4 : 4 ≤ Nat.card K)
     have hmv' : ((D.p (c' sμ) : SL(2, F)) : Mat2 F) *ᵥ (Pi.single 0 1) =
         σ' μ • (Pi.single 0 1) := by
       ext i
-      fin_cases i <;> simp [Matrix.mulVec, dotProduct, Fin.sum_univ_two, Pi.single_apply, e00,
+      fin_cases i <;> simp [Matrix.mulVec, dotProduct, Pi.single_apply, e00,
         e10]
     obtain ⟨κ', hκ', hκ'v⟩ := D.ptv_smul (σ' μ) (Pi.single 0 1)
     have hφ2 : φS (c' sμ) v₀ = κ' • v₀ := by rw [hv₀, D.φS_ptv, hmv', hκ'v]
@@ -418,6 +420,7 @@ namespace D3Data
 
 variable (D : D3Data Q Z M₀ φS F)
 
+omit [CharP K 2] in
 theorem fixed_in_line_of_card [CharP F 2] {T : Subgroup G} (hTS : T ≤ S)
     (hT2 : ∀ t ∈ T, ∃ k : ℕ, t ^ (2 ^ k) ∈ Q)
     (hcard : Nat.card F * Nat.card ↥(T ⊓ Q) ≤ Nat.card T) :
@@ -457,6 +460,7 @@ theorem fixed_in_line_of_card [CharP F 2] {T : Subgroup G} (hTS : T ≤ S)
   rw [D.φS_eq_of_p_eq ht.symm]
   exact he t t.2
 
+omit [Finite G] [CharP K 2] in
 theorem exists_B_ne_zero [CharP F 2] {t : ↥S} (ht1 : D.p t ≠ 1) (ht2 : D.p t * D.p t = 1)
     (hBinv : ∀ (m : ↥S) (e f : M₀.E), M₀.B (φS m e) (φS m f) = M₀.B e f) :
     ∃ v : M₀.E, M₀.B v (φS t v) ≠ 0 := by
@@ -476,16 +480,17 @@ theorem exists_B_ne_zero [CharP F 2] {t : ↥S} (ht1 : D.p t ≠ 1) (ht2 : D.p t
   have hw2 : ((D.p mu : SL(2, F)) : Mat2 F) *ᵥ (Pi.single 1 1) = ![a, 1] := by
     rw [hmu]
     ext i
-    fin_cases i <;> simp [D2.uSL, Matrix.mulVec, dotProduct, Fin.sum_univ_two, Pi.single_apply]
+    fin_cases i <;> simp [D2.uSL, Matrix.mulVec, dotProduct, Pi.single_apply]
   have h2 := D.algebraMap_B_ptv (Pi.single 1 1) ((D.p mu : Mat2 F) *ᵥ Pi.single 1 1)
   rw [← D.φS_ptv mu, ← hv₀, h0, map_zero, hw2] at h2
   simp only [Pi.single_apply, Fin.isValue, Matrix.cons_val_zero, Matrix.cons_val_one,
-    zero_ne_one, ↓reduceIte, one_ne_zero, zero_mul, one_mul, zero_add] at h2
+    zero_ne_one, ↓reduceIte, zero_mul, one_mul, zero_add] at h2
   have hτ : ∀ x : F, x ≠ 0 → (FiniteField.frobeniusAlgHom K F) x ≠ 0 := fun x hx =>
     (map_ne_zero (FiniteField.frobeniusAlgHom K F)).mpr hx
   exact mul_ne_zero (mul_ne_zero ha (hτ _ ha)) (hτ _ (hτ _ ha)) h2.symm
 
 include D in
+omit [CharP K 2] in
 theorem card_le_mul [CharP F 2] {T : Subgroup G} (hTS : T ≤ S) (hT2 : IsPGroup 2 T) :
     Nat.card T ≤ Nat.card ↥(T ⊓ Q) * Nat.card F := by
   classical

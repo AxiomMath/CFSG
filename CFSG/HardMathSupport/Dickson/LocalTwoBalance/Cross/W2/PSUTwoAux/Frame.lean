@@ -225,12 +225,12 @@ theorem frame_expand {u : Fin m → Fin n → K} (hu : IsOrthonormalFamily h u) 
         (frameAdj_mul_frameMat hu)
       simp only [← Matrix.mulVec_mulVec, Matrix.one_mulVec] at this
       have e : frameMat u *ᵥ (Pi.single i 1 : Fin m → K) = u i := by
-        ext k; simp [frameMat, Matrix.mulVec_single_one]
+        ext k; simp [frameMat]
       rw [e] at this
       exact this
     rw [h1]
     ext k
-    simp [frameMat, Matrix.mulVec_single_one]
+    simp [frameMat]
   | zero => simp
   | add x y _ _ hx hy => rw [Matrix.mulVec_add, Matrix.mulVec_add, hx, hy]
   | smul c x _ hx => rw [Matrix.mulVec_smul, Matrix.mulVec_smul, hx]
@@ -544,10 +544,10 @@ theorem exists_gramSU_with_columns
       simp [ht]
     · simp [hj]
   rw [Finset.sum_eq_single (Fin.castAdd s i)]
-  · rw [hDdiag (Fin.castAdd s i), if_pos rfl, mul_one]
+  · rw [hDdiag (Fin.castAdd s i), ite_eq_left rfl, mul_one]
     exact congrArg (fun w => w k) (hpref i)
   · intro j _ hjc
-    rw [hDdiag j, if_neg hjc, mul_zero]
+    rw [hDdiag j, ite_eq_right hjc, mul_zero]
   · intro h
     exact absurd (Finset.mem_univ (Fin.castAdd s i)) h
 

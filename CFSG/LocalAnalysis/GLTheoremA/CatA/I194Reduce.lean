@@ -72,6 +72,7 @@ section BarX
 
 variable {G : Type} [Group G] [Finite G] {p : ℕ}
 
+omit [Finite G] in
 theorem isSubnormal_barX_top {X J : Subgroup G} (hsn : IsSubnormal J X) :
     IsSubnormal (barX p X J) ⊤ := by
   have h := isSubnormal_barX p (C := X) hsn

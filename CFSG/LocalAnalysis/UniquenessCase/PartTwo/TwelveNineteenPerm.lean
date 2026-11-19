@@ -40,7 +40,7 @@ theorem exists_conj_le_normalizer_sup {p : ℕ} [Fact p.Prime] {H N R S T : Subg
     (hRN : R ≤ N) (hR : ¬ 2 ∣ R.relIndex N) (hS : IsSylowOf p S N) (hTH : T ≤ H)
     (hT : IsPGroup 2 T) :
     ∃ k ∈ H, T ≤ normalizer ((S.map (MulAut.conj k).toMonoidHom ⊔ R : Subgroup G) : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set K : Subgroup G := H ⊓ normalizer ((S ⊔ R : Subgroup G) : Set G) with hKdef
   have hKH : K ≤ H := inf_le_left
   have hKN : K ≤ normalizer (N : Set G) := hKH.trans hHN
@@ -102,6 +102,7 @@ theorem exists_conj_le_normalizer_sup {p : ℕ} [Fact p.Prime] {H N R S T : Subg
   have e : k⁻¹ * x * k * (k⁻¹ * z * k) * (k⁻¹ * x * k)⁻¹ = k⁻¹ * (x * z * x⁻¹) * k := by group
   rw [e]
 
+omit [Finite G] in
 theorem permutes_of_le_normalizer_sup {X R T : Subgroup G} (hRT : R ≤ T)
     (hT : T ≤ normalizer ((X ⊔ R : Subgroup G) : Set G)) (hXR : X ≤ normalizer (R : Set G)) :
     Permutes X T := by
@@ -136,8 +137,8 @@ theorem not_two_dvd_relIndex (D : Data G) (h613 : UC6.R6_13 D) {p : ℕ} {P P₀
     exact Or.inl (Or.inr hH.mem_sig2)
   have hpP : p.Prime := (D.sig_prime p hpσ).1
   have hp2 : p ≠ 2 := (D.sig_prime p hpσ).2
-  haveI : Fact p.Prime := ⟨hpP⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hpP⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set L := UC6.inftyOf (centralizer (P₀ : Set G)) with hLdef
   set C := centralizer (L : Set G) with hCdef
   set S : Subgroup G := P₀ ⊔ P ⊓ L with hSdef
@@ -206,7 +207,7 @@ theorem exists_permutes (D : Data G) (hstd : Sigma23Std D) (h613 : UC6.R6_13 D) 
     exact Or.inl (Or.inr hH.mem_sig2)
   have hpP : p.Prime := (D.sig_prime p hpσ).1
   have hp2 : p ≠ 2 := (D.sig_prime p hpσ).2
-  haveI : Fact p.Prime := ⟨hpP⟩
+  have : Fact p.Prime := ⟨hpP⟩
   set L := UC6.inftyOf (centralizer (P₀ : Set G)) with hLdef
   set S : Subgroup G := P₀ ⊔ P ⊓ L with hSdef
   set Q := uniqueFourPrimeCore p D.M with hQdef

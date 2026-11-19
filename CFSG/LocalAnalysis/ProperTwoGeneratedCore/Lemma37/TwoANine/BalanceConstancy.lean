@@ -130,7 +130,7 @@ theorem exists_le_sylow_of_isCentralInvolution (S : Sylow 2 X) {t : X}
     ∃ A : Subgroup X, A ≤ S ∧ (∀ x ∈ A, x ^ 2 = 1) ∧ Nat.card A = 16 ∧ t ∈ A := by
   have hSt := le_centralizer_of_isCentralInvolution ht
   set S' : Subgroup (centralizer ({t} : Set X)) := (S : Subgroup X).subgroupOf (centralizer {t})
-  have hS' : IsPGroup 2 S' := S.isPGroup'.comap_subtype
+  have hS' : IsPGroup 2 S' := S.isPGroup.comap_subtype
   obtain ⟨E, hES, hE2, hE⟩ := hJ.exists_le_sylow
     ((S.subtype hSt).mapSurjective (QuotientGroup.mk'_surjective _))
   rw [Sylow.coe_mapSurjective, Sylow.coe_subtype] at hES

@@ -102,6 +102,7 @@ theorem eq_one_of_mul_center {Q : Type*} [Group Q] (hQ : commutator Q = ⊤) (α
   have : y ∈ F := hcomm (Subgroup.mem_top y)
   simpa [F] using this
 
+omit [Finite G] in
 theorem mem_centralizer_of_centMod {L : Subgroup G} (hperf : ⁅L, L⁆ = L)
     (hOz : ∀ o ∈ GLAPPrimeCoreOf 3 L, ∀ l ∈ L, l * o = o * l) {c : G}
     (hc : c ∈ centModSubgroup 3 L) : c ∈ Subgroup.centralizer (L : Set G) := by
@@ -180,7 +181,7 @@ theorem exists_decomp_of_inner {B : Subgroup G} {x : G} {L : Subgroup G} (h : Is
   have hk1 : k % 3 = 1 := by
     have : r % 3 = 1 ∨ r % 3 = 2 := by omega
     rw [hk, Nat.pow_mod]
-    rcases this with h1 | h1 <;> rw [h1] <;> norm_num
+    rcases this with h1 | h1 <;> rw [h1]
   have hzk : (l ^ 3) ^ k = 1 := by
     have : r ∣ k := Dvd.intro_left _ (by rw [hk]; ring)
     obtain ⟨m, hm⟩ := this
@@ -272,6 +273,7 @@ theorem card_sup_zpowers_of_not_mem {x : G} (hxp : x ^ 3 = 1) (hx1 : x ≠ 1) {A
   rw [hbot, Subgroup.card_bot, mul_one, Nat.card_zpowers, orderOf_eq_prime hxp hx1] at h1
   exact h1
 
+omit [Finite G] in
 theorem commutatorElement_mul_zpow {t a x : G} (htx : t * x = x * t) (j : ℤ) :
     ⁅t, a * x ^ j⁆ = (t * a * t⁻¹) * a⁻¹ := by
   have h1 : Commute t (x ^ j) := Commute.zpow_right (show Commute t x from htx) j

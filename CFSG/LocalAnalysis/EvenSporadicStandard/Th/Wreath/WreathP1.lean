@@ -14,6 +14,7 @@ open Subgroup SylowEnd CFSG.GroupTheory Matrix
 variable {G : Type} [Group G] [Finite G] {L R : Subgroup G} {t : G}
   {S A B Aa D : Subgroup G} {z b : G}
 
+omit [Finite G] in
 theorem wFix_add_one (hD : DHyp A Aa t D) (w : AddMonoid.End (VSub hD)) :
     wFix hD (w + 1) = wKer hD w := by
   ext v
@@ -28,6 +29,7 @@ theorem wFix_add_one (hD : DHyp A Aa t D) (w : AddMonoid.End (VSub hD)) :
     change w x + x = x
     rw [hx, zero_add]
 
+omit [Finite G] in
 theorem wKer_add_one (hD : DHyp A Aa t D) (w : AddMonoid.End (VSub hD)) :
     wKer hD (w + 1) = wFix hD w := by
   ext v
@@ -43,6 +45,7 @@ theorem wKer_add_one (hD : DHyp A Aa t D) (w : AddMonoid.End (VSub hD)) :
     rw [hx]
     exact VSub.add_self_apply hD x
 
+omit [Finite G] in
 theorem wComm_add_one (hD : DHyp A Aa t D) (w : AddMonoid.End (VSub hD)) :
     wComm hD (w + 1) = wComm hD w := by
   ext n
@@ -56,10 +59,12 @@ theorem wComm_add_one (hD : DHyp A Aa t D) (w : AddMonoid.End (VSub hD)) :
     refine ⟨hn, ?_⟩
     rw [mul_add, mul_one, add_mul, one_mul, hc]
 
+omit [Finite G] in
 theorem add_one_add_one (hD : DHyp A Aa t D) (w : AddMonoid.End (VSub hD)) :
     w + 1 + 1 = w := by
   rw [add_assoc, VSub.add_self hD 1, add_zero]
 
+omit [Finite G] in
 theorem add_one_mul_add_one (hD : DHyp A Aa t D) {w : AddMonoid.End (VSub hD)}
     (hww : w * w = w) : (w + 1) * (w + 1) = w + 1 := by
   calc (w + 1) * (w + 1) = w * (w + 1) + 1 * (w + 1) := add_mul w 1 (w + 1)
@@ -78,10 +83,12 @@ theorem vConj_t_mul_add_one_mul (H : ThCyc G L R t) (W : ThLocalIn L S A B z)
     _ = vConj hD t * w * vConj hD t + vConj hD t * vConj hD t := by rw [add_mul]
     _ = (w + 1) + 1 := by rw [hτw, hτ]
 
+omit [Finite G] in
 theorem commute_add_one_of_commute (hD : DHyp A Aa t D) {f w : AddMonoid.End (VSub hD)}
     (h : f * w = w * f) : f * (w + 1) = (w + 1) * f := by
   rw [mul_add, mul_one, add_mul, one_mul, h]
 
+omit [Finite G] in
 theorem conj_mem_wreathN₁ (hD : DHyp A Aa t D) {Q : Subgroup G}
     {w : AddMonoid.End (VSub hD)} {n x : G}
     (hn : n ∈ normalizer (Q : Set G) ⊓ wComm hD w) (hx : x ∈ wreathN₁ hD Q w) :
@@ -102,6 +109,7 @@ theorem conj_mem_wreathN₁ (hD : DHyp A Aa t D) {Q : Subgroup G}
       _ = n * (n⁻¹ * v * n) * n⁻¹ := by rw [hx'.2.2 _ hv']
       _ = v := by group
 
+omit [Finite G] in
 theorem conj_mem_wreathP₁ (hD : DHyp A Aa t D) {Q : Subgroup G}
     {w : AddMonoid.End (VSub hD)} {n x : G}
     (hn : n ∈ normalizer (Q : Set G) ⊓ wComm hD w) (hx : x ∈ wreathP₁ hD Q w) :
@@ -115,7 +123,7 @@ theorem conj_mem_wreathP₁ (hD : DHyp A Aa t D) {Q : Subgroup G}
       exact MulEquiv.orderOf_eq (MulAut.conj n) y
     rw [hord]
     exact hy.2
-  · simpa using (wreathP₁ hD Q w).one_mem
+  · simp
   · intro x y _ _ hx' hy'
     have h : n * (x * y) * n⁻¹ = (n * x * n⁻¹) * (n * y * n⁻¹) := by group
     rw [h]
@@ -125,10 +133,12 @@ theorem conj_mem_wreathP₁ (hD : DHyp A Aa t D) {Q : Subgroup G}
     rw [h]
     exact (wreathP₁ hD Q w).inv_mem hx'
 
+omit [Finite G] in
 theorem wreathP₁_le (hD : DHyp A Aa t D) (Q : Subgroup G) (w : AddMonoid.End (VSub hD)) :
     wreathP₁ hD Q w ≤ normalizer (Q : Set G) ⊓ wComm hD w :=
   (wreathP₁_le_wreathN₁ hD Q w).trans inf_le_left
 
+omit [Finite G] in
 theorem conj_mem_wreathE₂ (hD : DHyp A Aa t D) {Q : Subgroup G}
     {w : AddMonoid.End (VSub hD)} {n e : G}
     (hn : n ∈ normalizer (Q : Set G) ⊓ wComm hD w) (he : e ∈ wreathE₂ hD Q w) :
@@ -144,6 +154,7 @@ theorem conj_mem_wreathE₂ (hD : DHyp A Aa t D) {Q : Subgroup G}
       _ = n * (e * (n⁻¹ * x * n)) * n⁻¹ := by rw [he'.2 _ hx']
       _ = (n * e * n⁻¹) * x := by group
 
+omit [Finite G] in
 theorem commutator_mem_wreathP₁_inf (hD : DHyp A Aa t D) {Q : Subgroup G}
     {w : AddMonoid.End (VSub hD)} {x y : G} (hx : x ∈ wreathP₁ hD Q w)
     (hy : y ∈ wreathP₁ hD Q (w + 1)) :
@@ -267,7 +278,7 @@ private theorem conj_t_mem_wreathP₁_forward (H : ThCyc G L R t) (W : ThLocalIn
       exact MulEquiv.orderOf_eq (MulAut.conj t) y
     rw [hord]
     exact hy.2
-  · simpa using (wreathP₁ hD Q (w + 1)).one_mem
+  · simp
   · intro x y _ _ hx' hy'
     have h : t * (x * y) * t⁻¹ = (t * x * t⁻¹) * (t * y * t⁻¹) := by group
     rw [h]

@@ -19,7 +19,7 @@ private theorem fzrAux_xor_decide (P Q R : Prop) [Decidable P] [Decidable Q] [De
     (h : P ↔ (Q ↔ R)) :
     Bool.not (decide P) = Bool.xor (Bool.not (decide Q)) (Bool.not (decide R)) := by
   by_cases hq : Q <;> by_cases hr : R <;> by_cases hP : P <;>
-    simp_all [Bool.decide_iff]
+    simp_all
 
 private theorem fzrAux_not_decide_eq_false {P : Prop} [Decidable P] :
     Bool.not (decide P) = false ↔ P := by

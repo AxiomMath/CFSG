@@ -12,7 +12,7 @@ open CFSG.Open CFSG.Yardstones.Md0ec50421ce4 CFSG.LocalAnalysis.GLTheoremB
 theorem pPrimeCore_eq_ker {A B : Type*} [Group A] [Finite A] [Group B] [Finite B] (f : A →* B)
     (hf : Function.Surjective f) (hker : ¬ 3 ∣ Nat.card f.ker)
     (hB : GLAPPrimeCore 3 B = ⊥) : GLAPPrimeCore 3 A = f.ker := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have := (CFSG.prime_complement_kernel_core_preimage (p := 3) f hf hker).1
   have hB' : CFSG.pPrimeCore 3 B = ⊥ := hB
   rw [hB', MonoidHom.comap_bot] at this
@@ -26,7 +26,7 @@ theorem pPrimeCore_eq_ker {A B : Type*} [Group A] [Finite A] [Group B] [Finite B
 
 theorem pPrimeCore_normal_eq_bot {C : Type*} [Group C] [Finite C] (hC : GLAPPrimeCore 3 C = ⊥)
     (S : Subgroup C) [S.Normal] : GLAPPrimeCore 3 ↥S = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hC' : CFSG.pPrimeCore 3 C = ⊥ := hC
   show CFSG.pPrimeCore 3 ↥S = ⊥
   set N : Subgroup ↥S := CFSG.pPrimeCore 3 ↥S with hN
@@ -39,7 +39,7 @@ theorem pPrimeCore_normal_eq_bot {C : Type*} [Group C] [Finite C] (hC : GLAPPrim
       rw [← hmap]
       exact Subgroup.mem_map_of_mem _ hx
     refine ⟨_, hmem, ?_⟩
-    simp [MulAut.conjNormal_val]
+    simp
   have hcop : Nat.Coprime 3 (Nat.card (N.map S.subtype)) := by
     rw [Subgroup.card_map_of_injective S.subtype_injective]
     exact CFSG.pPrimeCore_coprime_card
@@ -53,7 +53,7 @@ theorem pPrimeCore_eq_bot_of_ker {C A : Type*} [Group C] [Finite C] [CommGroup A
     (hρ : ∀ g, ρ g ^ 9 = 1) (hS : CFSG.Open.IsQuasisimple ↥ρ.ker)
     (hZ : ∀ z ∈ Subgroup.center ↥ρ.ker, z ^ 3 = 1) (h3 : ∃ s : ↥ρ.ker, orderOf s = 3) :
     GLAPPrimeCore 3 C = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   show CFSG.pPrimeCore 3 C = ⊥
   rw [CFSG.pPrimeCore_eq_bot_iff]
   intro N hN hcop
@@ -71,7 +71,7 @@ theorem pPrimeCore_eq_bot_of_ker {C A : Type*} [Group C] [Finite C] [CommGroup A
       simpa using this
     exact orderOf_eq_one_iff.1 (Nat.eq_one_of_dvd_coprimes h9 h2 h1)
   set N' : Subgroup ↥ρ.ker := N.subgroupOf ρ.ker with hN'
-  haveI : N'.Normal := hN.subgroupOf _
+  have : N'.Normal := hN.subgroupOf _
   have hcard : Nat.card N' = Nat.card N := Nat.card_congr (Subgroup.subgroupOfEquivOfLe hNk).toEquiv
   by_cases htop : N' = ⊤
   · exfalso
@@ -115,6 +115,7 @@ variable {G : Type} [Group G] [Finite G] {X : Subgroup G} {C : Type} [Group C] [
     (hH : ∀ h : ↥H, π (Subgroup.inclusion hHX h) ∈ S) : ↥H →* ↥S :=
   (π.comp (Subgroup.inclusion hHX)).codRestrict S hH
 
+omit [Finite G] [Finite C] in
 theorem restrictTo_surjective (π : ↥X →* C) (S : Subgroup C) {H : Subgroup G} (hHX : H ≤ X)
     (hH : ∀ h : ↥H, π (Subgroup.inclusion hHX h) ∈ S)
     (hS : ∀ s ∈ S, ∃ h : ↥H, π (Subgroup.inclusion hHX h) = s) :
@@ -123,6 +124,7 @@ theorem restrictTo_surjective (π : ↥X →* C) (S : Subgroup C) {H : Subgroup 
   obtain ⟨h, hh⟩ := hS s.1 s.2
   exact ⟨h, Subtype.ext hh⟩
 
+omit [Finite G] [Finite C] in
 theorem restrictTo_ker (π : ↥X →* C) (S : Subgroup C) {H : Subgroup G} (hHX : H ≤ X)
     (hH : ∀ h : ↥H, π (Subgroup.inclusion hHX h) ∈ S) (hker : ¬ 3 ∣ Nat.card π.ker) :
     ¬ 3 ∣ Nat.card (restrictTo π S hHX hH).ker := by
@@ -142,7 +144,7 @@ theorem layer_of_surj (π : ↥X →* C) (hπ : Function.Surjective π) (hker : 
     (hperf : ∀ T : Subgroup C, ⁅T, T⁆ = T → T ≤ S) :
     ∃ J : Subgroup G, GLAPComponent 3 X J ∧ GLAPLayer 3 X = J ∧
       (J.subgroupOf X).map π = S ∧ Nonempty (PQuot 3 J ≃* ↥S) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hSc : GLAPPrimeCore 3 ↥S = ⊥ := pPrimeCore_normal_eq_bot hC S
   set P : Subgroup ↥X := S.comap π with hP
   set Y : Subgroup G := P.map X.subtype with hY
@@ -227,11 +229,11 @@ theorem layer_of_surj (π : ↥X →* C) (hπ : Function.Surjective π) (hker : 
 
 theorem pPrimeCore_eq_bot_of_simple {W : Type*} [Group W] [Finite W] [IsSimpleGroup W]
     (h3 : 3 ∣ Nat.card W) : GLAPPrimeCore 3 W = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   show CFSG.pPrimeCore 3 W = ⊥
   rw [CFSG.pPrimeCore_eq_bot_iff]
   intro N hN hcop
-  haveI := hN
+  have := hN
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal N with h | h
   · exact h
   · exfalso
@@ -241,7 +243,7 @@ theorem pPrimeCore_eq_bot_of_simple {W : Type*} [Group W] [Finite W] [IsSimpleGr
 theorem layer_ne_bot_of_normal_simple {Y W : Subgroup G} (hWY : W ≤ Y)
     (hn : (W.subgroupOf Y).Normal) [IsSimpleGroup ↥W] (hna : ¬ IsMulCommutative ↥W)
     (h3 : 3 ∣ Nat.card W) : GLAPLayer 3 Y ≠ ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hO : GLAPPrimeCore 3 ↥W = ⊥ := pPrimeCore_eq_bot_of_simple h3
   have hq : CFSG.Open.IsQuasisimple ↥W := isQuasisimple_of_simple_nonabelian hna
   have hWq : CFSG.Open.IsQuasisimple (↥W ⧸ GLAPPrimeCore 3 ↥W) :=
@@ -260,7 +262,7 @@ theorem layer_ne_bot_of_normal_simple {Y W : Subgroup G} (hWY : W ≤ Y)
     unfold barX
     simp
   rw [hb] at hnt
-  haveI : Subsingleton ↥(⊥ : Subgroup (↥W ⧸ GLAPPrimeCore 3 ↥W)) := inferInstance
+  have : Subsingleton ↥(⊥ : Subgroup (↥W ⧸ GLAPPrimeCore 3 ↥W)) := inferInstance
   exact not_nontrivial_iff_subsingleton.2 this hnt
 
 end Lay

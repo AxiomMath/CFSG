@@ -35,7 +35,7 @@ theorem gj_eq (d c : ℕ) (A : Array V) : gjStep d A c =
       else elimF d c (swapF A (pivF d c A) c))
     else A := by
   unfold gjStep pivF pivStep elimF elimStep swapF
-  simp only [Id.run_bind, Id.run_pure, Std.Legacy.Range.forIn_eq_forIn_range', ite_pure_yield,
+  simp only [Std.Legacy.Range.forIn_eq_forIn_range', ite_pure_yield,
     List.forIn_pure_yield_eq_foldl, pure_bind, bind_pure, Std.Legacy.Range.size, Nat.add_sub_cancel,
     Nat.div_one]
   split <;> (try split) <;> rfl
@@ -48,8 +48,8 @@ theorem gj_eq (d c : ℕ) (A : Array V) : gjStep d A c =
 theorem invV_eq (d : ℕ) (X : Array V) : invV d X =
     ((List.range' 0 d).foldl (fun A c => gjStep d A c) (augF d X)).map (rightF d) := by
   unfold invV augF rightF
-  simp only [Id.run_bind, Id.run_pure, Std.Legacy.Range.forIn_eq_forIn_range',
-    List.forIn_pure_yield_eq_foldl, pure_bind, bind_pure, Std.Legacy.Range.size, Nat.add_sub_cancel,
+  simp only [Id.run_pure, Std.Legacy.Range.forIn_eq_forIn_range',
+    List.forIn_pure_yield_eq_foldl, pure_bind, Std.Legacy.Range.size, Nat.add_sub_cancel,
     Nat.div_one]
   rfl
 
@@ -173,25 +173,25 @@ theorem pivot_exists {d c : ℕ} {L : Matrix (Fin d) (Fin d) (ZMod 3)} (hdet : L
           simp
         · simp [hci]
       · have hk : k ≠ ⟨c, hc⟩ := fun e => h1 (by rw [e])
-        rw [if_neg h1, if_neg hk, zero_add]
+        rw [ite_eq_right h1, ite_eq_right hk, zero_add]
         by_cases h2 : k.val < c
-        · rw [if_pos h2, hu i k h2]
+        · rw [ite_eq_left h2, hu i k h2]
           by_cases hik : i = k
           · subst hik
             simp [h2]
-          · rw [if_neg hik, if_neg (Ne.symm hik), zero_mul]
-        · rw [if_neg h2, mul_zero]
+          · rw [ite_eq_right hik, ite_eq_right (Ne.symm hik), zero_mul]
+        · rw [ite_eq_right h2, mul_zero]
           by_cases hik : k = i
           · subst hik
-            rw [if_pos rfl, if_neg h2]
-          · rw [if_neg hik]
+            rw [ite_eq_left rfl, ite_eq_right h2]
+          · rw [ite_eq_right hik]
     rw [Finset.sum_congr rfl (fun k _ => key k), Finset.sum_add_distrib, Finset.sum_ite_eq',
       Finset.sum_ite_eq']
-    simp only [Finset.mem_univ, if_true]
+    simp only [Finset.mem_univ, ite_true]
     by_cases hi : i.val < c
-    · rw [if_pos hi]
+    · rw [ite_eq_left hi]
       exact add_neg_cancel _
-    · rw [if_neg hi, hne i (by omega), add_zero]
+    · rw [ite_eq_right hi, hne i (by omega), add_zero]
 
 theorem piv_aux (A : Array V) (c d : ℕ) : ∀ m s p, c ≤ s → s + m ≤ d →
     (p = d ∨ (c ≤ p ∧ p < d ∧ A[p]!.get c ≠ 0)) →
@@ -212,14 +212,14 @@ theorem piv_aux (A : Array V) (c d : ℕ) : ∀ m s p, c ≤ s → s + m ≤ d �
     rw [List.range'_succ, List.foldl_cons]
     unfold pivStep
     by_cases hc : (p == d && A[s]!.get c != 0) = true
-    · rw [if_pos hc]
+    · rw [ite_eq_left hc]
       simp only [Bool.and_eq_true, beq_iff_eq, bne_iff_ne, ne_eq] at hc
       obtain ⟨-, hnz⟩ := hc
       obtain ⟨h1, h2⟩ := ih (s + 1) s (by omega) (by omega) (Or.inr ⟨hs, by omega, hnz⟩)
       refine ⟨h1, fun h => ?_⟩
       obtain ⟨e, -⟩ := h2 h
       omega
-    · rw [if_neg hc]
+    · rw [ite_eq_right hc]
       obtain ⟨h1, h2⟩ := ih (s + 1) p (by omega) (by omega) hp
       refine ⟨h1, fun h => ?_⟩
       obtain ⟨e, hr⟩ := h2 h
@@ -246,18 +246,18 @@ theorem swap_get {A : Array V} {p c : ℕ} (hp : p < A.size) (hc : c < A.size) (
   unfold swapF
   by_cases h1 : i = c
   · subst h1
-    rw [Array.getElem!_set!_self _ _ _ (by rw [Array.size_set!]; exact hc), if_pos rfl]
-  · rw [Array.getElem!_set!_ne _ _ _ _ (Ne.symm h1), if_neg h1]
+    rw [Array.getElem!_set!_self _ _ _ (by rw [Array.size_set!]; exact hc), ite_eq_left rfl]
+  · rw [Array.getElem!_set!_ne _ _ _ _ (Ne.symm h1), ite_eq_right h1]
     by_cases h2 : i = p
     · subst h2
-      rw [Array.getElem!_set!_self _ _ _ hp, if_pos rfl]
-    · rw [Array.getElem!_set!_ne _ _ _ _ (Ne.symm h2), if_neg h2]
+      rw [Array.getElem!_set!_self _ _ _ hp, ite_eq_left rfl]
+    · rw [Array.getElem!_set!_ne _ _ _ _ (Ne.symm h2), ite_eq_right h2]
 
 theorem ite_iff_congr {α : Type} {P Q : Prop} [Decidable P] [Decidable Q] (h : P ↔ Q) (a b : α) :
     (if P then a else b) = if Q then a else b := by
   by_cases hp : P
-  · rw [if_pos hp, if_pos (h.1 hp)]
-  · rw [if_neg hp, if_neg (fun hq => hp (h.2 hq))]
+  · rw [ite_eq_left hp, ite_eq_left (h.1 hp)]
+  · rw [ite_eq_right hp, ite_eq_right (fun hq => hp (h.2 hq))]
 
 theorem swap_aug {d c p : ℕ} {Xm : Matrix (Fin d) (Fin d) (ZMod 3)} {A : Array V}
     (h : Aug d c Xm A) (hc : c < d) (hcp : c ≤ p) (hp : p < d) :
@@ -274,11 +274,11 @@ theorem swap_aug {d c p : ℕ} {Xm : Matrix (Fin d) (Fin d) (ZMod 3)} {A : Array
     · have h1' : i.val ≠ c := fun e => h1 (Fin.ext e)
       by_cases h2 : i = ⟨p, hp⟩
       · subst h2
-        simp only [h1', h1, if_false, if_true]
+        simp only [h1', h1, ite_false, ite_true]
       · have h2' : i.val ≠ p := fun e => h2 (Fin.ext e)
-        rw [if_neg h1', if_neg h2', if_neg h1, if_neg h2]
+        rw [ite_eq_right h1', ite_eq_right h2', ite_eq_right h1, ite_eq_right h2]
   obtain ⟨e1, -, e3⟩ := perm_rows h.eqn _ hσ
-  refine ⟨⟨by simp [swapF, hs], fun i => ?_, e3, ?_, fun i j hj => ?_⟩, by rw [hget, if_pos rfl]⟩
+  refine ⟨⟨by simp [swapF, hs], fun i => ?_, e3, ?_, fun i j hj => ?_⟩, by rw [hget, ite_eq_left rfl]⟩
   · rw [hget]
     split_ifs <;> exact h.rows _
   · rw [e1]
@@ -329,9 +329,9 @@ theorem neg_aug {d c : ℕ} {Xm : Matrix (Fin d) (Fin d) (ZMod 3)} {A : Array V}
     by_cases hi : i = ⟨c, hc⟩
     · subst hi
       have hjc : (⟨c, hc⟩ : Fin d) ≠ j := fun e => by rw [← e] at hj; exact lt_irrefl _ hj
-      rw [Matrix.updateRow_self, if_neg hjc]
+      rw [Matrix.updateRow_self, ite_eq_right hjc]
       have := h.unit ⟨c, hc⟩ j hj
-      rw [if_neg hjc] at this
+      rw [ite_eq_right hjc] at this
       simp [this]
     · rw [Matrix.updateRow_ne hi]
       exact h.unit i j hj
@@ -365,7 +365,7 @@ theorem addrow_aug {d c : ℕ} {Xm : Matrix (Fin d) (Fin d) (ZMod 3)} {B : Array
       have hcj : (⟨c, hc⟩ : Fin d) ≠ j := fun e => by rw [← e] at hj; exact lt_irrefl _ hj
       have u1 := hB.unit ⟨s, hs⟩ j hj
       have u2 := hB.unit ⟨c, hc⟩ j hj
-      rw [if_neg hcj] at u2
+      rw [ite_eq_right hcj] at u2
       rw [Matrix.updateRow_self, Pi.add_apply, Pi.smul_apply, u1, u2, smul_zero, add_zero]
     · rw [Matrix.updateRow_ne hi]
       exact hB.unit i j hj
@@ -388,9 +388,9 @@ theorem elim_one {d c : ℕ} {Xm : Matrix (Fin d) (Fin d) (ZMod 3)} {A2 B : Arra
       ∀ r : Fin d, r.val < s + 1 → r.val ≠ c → Lm d (elimStep c A2[c]! B s) r ⟨c, hc⟩ = 0 := by
   unfold elimStep
   by_cases hsc : s = c
-  · rw [if_neg (by simp [hsc])]
+  · rw [ite_eq_right (by simp [hsc])]
     exact ⟨hB, hBc, fun r hr hrc => hz r (by omega) hrc⟩
-  rw [if_pos (by simp [hsc])]
+  rw [ite_eq_left (by simp [hsc])]
   have hwc : B[c]!.val c = 1 := by rw [hBc, h1]
   have hws := (hB.rows s).1
   have hwc' := (hB.rows c).1
@@ -407,18 +407,18 @@ theorem elim_one {d c : ℕ} {Xm : Matrix (Fin d) (Fin d) (ZMod 3)} {A2 B : Arra
       rw [hB' r.val hrs]
       exact this
   rcases get_cases B[s]! c with ⟨g, v⟩ | ⟨g, v⟩ | ⟨g, v⟩
-  · rw [g, if_neg (by decide), if_neg (by decide)]
+  · rw [g, ite_eq_right (by decide), ite_eq_right (by decide)]
     refine ⟨hB, hBc, hrest B (fun _ _ => rfl) ?_⟩
     simp only [Lm, Matrix.of_apply]
     exact v
-  · rw [g, if_pos (by decide), ← hBc]
+  · rw [g, ite_eq_left (by decide), ← hBc]
     obtain ⟨a1, a2, a3⟩ := addrow_aug hB hc hs hsc _ 2 (val_sub' hws hwc')
       (rowC_sub (hB.rows s) (hB.rows c))
     refine ⟨a1, by rw [a2 c (Ne.symm hsc), hBc], hrest _ a2 ?_⟩
     simp only [Lm, Matrix.of_apply]
     rw [a3, val_sub' hws hwc', v, hwc]
     decide
-  · rw [g, if_neg (by decide), if_pos (by decide), ← hBc]
+  · rw [g, ite_eq_right (by decide), ite_eq_left (by decide), ← hBc]
     obtain ⟨a1, a2, a3⟩ := addrow_aug hB hc hs hsc _ 1 (val_add' hws hwc')
       (rowC_add (hB.rows s) (hB.rows c))
     refine ⟨a1, by rw [a2 c (Ne.symm hsc), hBc], hrest _ a2 ?_⟩
@@ -456,10 +456,10 @@ theorem elim_aug {d c : ℕ} {Xm : Matrix (Fin d) (Fin d) (ZMod 3)} {A2 : Array 
     subst e
     by_cases hi : i = ⟨c, hc⟩
     · subst hi
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       simp only [Lm, Matrix.of_apply]
       rw [a2, h1]
-    · rw [if_neg hi]
+    · rw [ite_eq_right hi]
       exact a3 i (by omega) (fun e => hi (Fin.ext e))
 
 theorem val_of_get {a : V} {j k : ℕ} (h : a.get j = k) : a.val j = (k : ZMod 3) := by
@@ -475,7 +475,7 @@ theorem gj_aug {d c : ℕ} {Xm : Matrix (Fin d) (Fin d) (ZMod 3)} {A : Array V}
     rw [val_of_get g]
     rfl
   obtain ⟨p1, p2, p3⟩ := pivF_spec hc hex
-  rw [gj_eq, if_pos p2]
+  rw [gj_eq, ite_eq_left p2]
   obtain ⟨s1, s2⟩ := swap_aug h hc p1 p2
   have hnz : (swapF A (pivF d c A) c)[c]!.get c ≠ 0 := by
     rw [s2]
@@ -559,7 +559,7 @@ theorem aug_base {d : ℕ} {X : Array V} (hX : canonM d X = true)
       simp [bitVal]
     · have : ¬ d + j.val = d + i.val := fun e => hij (Fin.ext (by omega))
       have hji : ¬ j.val = i.val := fun e => hij (Fin.ext e.symm)
-      simp [bitVal, this, hij, hji]
+      simp [bitVal, hij, hji]
   refine ⟨by simp [augF], hrow, by rw [hL, hR, one_mul], ?_,
     fun i j hj => absurd hj (Nat.not_lt_zero _)⟩
   rw [hL]

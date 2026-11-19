@@ -14,12 +14,12 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
 theorem ggTwE6Three_oddInstOne_holds
     : GGTwE6ThreeOddInstOne :=
-  fun {K₁} [Field K₁] [Finite K₁] hK {L₁} [Group L₁] [Finite L₁] {ψ₁} {A₁} hodd hTB =>
+  fun {K₁} [Field K₁] [Finite K₁] hK {L₁} [Group L₁] [Finite L₁] {_ψ₁} {_A₁} hodd hTB =>
     ggTwE6Three_frameClass_of_tb_one hK hodd hTB
 
 theorem ggTwE6Three_compInvOne_holds
     : GGTwE6ThreeCompInvOne :=
-  fun {K₁} [Field K₁] [Finite K₁] hK {L₁} [Group L₁] [Finite L₁] {ψ₁} {A₁} hodd hTB =>
+  fun {K₁} [Field K₁] [Finite K₁] hK {L₁} [Group L₁] [Finite L₁] {_ψ₁} {_A₁} hodd hTB =>
     ggTwE6Three_comp_invariant_one hK hodd hTB
 
 theorem ggTBJTwE6LeviL_threeOne

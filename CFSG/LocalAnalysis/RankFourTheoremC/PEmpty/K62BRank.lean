@@ -35,13 +35,13 @@ variable {p : ℕ} {Y : Type} [Group Y] [Finite Y] {P : Subgroup Y} {x z : Y}
 theorem Cfg.isPGroup (h : Cfg p P x z) : IsPGroup p P := h.sylow.isPGroup
 
 theorem Cfg.orderOf_z (h : Cfg p P x z) : orderOf z = p := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   exact orderOf_eq_prime h.z_pow h.z_ne_one
 
 theorem Cfg.z_mem_of_normal (h : Cfg p P x z) {N : Subgroup Y} (hNP : N ≤ P)
     (hN : ∀ g ∈ P, ∀ n ∈ N, g * n * g⁻¹ ∈ N) (hne : N ≠ ⊥) : z ∈ N := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
-  haveI : Group.IsNilpotent ↥P := h.isPGroup.isNilpotent
+  have : Fact p.Prime := ⟨h.prime⟩
+  have : Group.IsNilpotent ↥P := h.isPGroup.isNilpotent
   have hnorm : (N.subgroupOf P).Normal :=
     ⟨fun n hn g => by
       rw [Subgroup.mem_subgroupOf] at hn ⊢
@@ -58,7 +58,7 @@ theorem Cfg.z_mem_of_normal (h : Cfg p P x z) {N : Subgroup Y} (hNP : N ≤ P)
     Group.IsNilpotent.inf_center_ne_bot_of_normal hHne
   set W : Subgroup ↥P := N.subgroupOf P ⊓ center ↥P
   have hWp : IsPGroup p W := h.isPGroup.to_subgroup W
-  haveI : Nontrivial W := (Subgroup.nontrivial_iff_ne_bot W).2 hW
+  have : Nontrivial W := (Subgroup.nontrivial_iff_ne_bot W).2 hW
   obtain ⟨m, hm, hmcard⟩ := hWp.nontrivial_iff_card.mp inferInstance
   have hdvdW : p ∣ Nat.card W := hmcard ▸ dvd_pow_self p hm.ne'
   obtain ⟨w, hw⟩ := exists_prime_orderOf_dvd_card' (G := W) p hdvdW
@@ -94,7 +94,7 @@ theorem card_le_card_ker_pow {M : Type u} [CommGroup M] [Finite M] (k : ℕ) (φ
       have hb : b = 1 := h b
       rw [ha, hb]⟩
     have : Nat.card M = 1 := Nat.card_eq_one_iff_unique.mpr ⟨hsub, ⟨1⟩⟩
-    simp [this]
+    simp
   | succ k ih =>
     have h1 := Subgroup.card_ker_mul_card_range φ
     set M1 : Subgroup M := φ.range with hM1
@@ -131,10 +131,10 @@ theorem card_le_card_ker_pow {M : Type u} [CommGroup M] [Finite M] (k : ℕ) (φ
 theorem iterate_div_id_eq_one {M : Type*} [CommGroup M] {p : ℕ} [hp : Fact p.Prime]
     (hM : ∀ a : M, a ^ p = 1) (σ : M →* M) (hσ : ∀ a, σ^[p] a = a) (a : M) :
     (⇑(σ / MonoidHom.id M))^[p] a = 1 := by
-  haveI : NeZero p := ⟨hp.out.ne_zero⟩
+  have : NeZero p := ⟨hp.out.ne_zero⟩
   have hV : ∀ v : Additive M, p • v = 0 := fun v => by
     rw [← ofMul_toMul v, ← ofMul_pow, hM]; rfl
-  haveI : Module (ZMod p) (Additive M) := AddCommGroup.zmodModule hV
+  have : Module (ZMod p) (Additive M) := AddCommGroup.zmodModule hV
   let σ' : Module.End (ZMod p) (Additive M) :=
     AddMonoidHom.toZModLinearMap p (MonoidHom.toAdditive σ)
   have hσ'apply : ∀ v : Additive M, σ' v = Additive.ofMul (σ (Additive.toMul v)) :=
@@ -173,8 +173,8 @@ theorem iterate_div_id_eq_one {M : Type*} [CommGroup M] {p : ℕ} [hp : Fact p.P
 theorem card_le_card_centralizer_pow (hp : p.Prime) {E : Subgroup Y} (hE : IsElemAbelian p E)
     {x : Y} (hx : x ∈ normalizer (E : Set Y)) (hxp : x ^ p = 1) :
     Nat.card E ≤ Nat.card ↥(E ⊓ centralizer ({x} : Set Y)) ^ p := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  letI : CommGroup ↥E := { (inferInstance : Group ↥E) with
+  have : Fact p.Prime := ⟨hp⟩
+  let : CommGroup ↥E := { (inferInstance : Group ↥E) with
     mul_comm := fun a b => hE.1.is_comm.comm a b }
   have hconj : ∀ a : ↥E, x * (a : Y) * x⁻¹ ∈ E := fun a => (mem_normalizer_iff.mp hx a).mp a.2
   let σ : ↥E →* ↥E := MonoidHom.mk' (fun a => ⟨x * a * x⁻¹, hconj a⟩) (fun a b =>
@@ -232,6 +232,7 @@ theorem card_mul_le_card_sup {K X : Subgroup Y} (h : K ⊓ X = ⊥) :
     exact mul_left_cancel h1
   exact Prod.ext (Subtype.ext h3.symm) (Subtype.ext h4)
 
+omit [Finite Y] in
 theorem isElemAbelian_sup {A B : Subgroup Y} (hA : IsElemAbelian p A) (hB : IsElemAbelian p B)
     (hAB : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a) : IsElemAbelian p (A ⊔ B) := by
   have e : A ⊔ B = ⨆ i : Bool, cond i A B := sup_eq_iSup A B
@@ -265,7 +266,7 @@ theorem Cfg.card_cent_le (h : Cfg p P x z) {E : Subgroup Y} (hEP : E ≤ P)
     (hE : IsElemAbelian p E) (hxE : x ∉ E) :
     Nat.card ↥(E ⊓ centralizer ({x} : Set Y)) ≤ p := by
   have hp := h.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set K : Subgroup Y := E ⊓ centralizer ({x} : Set Y) with hK
   have hxne : x ≠ 1 := fun h1 => hxE (h1 ▸ E.one_mem)
   have hXc : Nat.card (zpowers x) = p := by
@@ -322,7 +323,7 @@ theorem Cfg.card_le_sq_of_comm (h : Cfg p P x z) {E : Subgroup Y} (hEP : E ≤ P
     (hE : IsElemAbelian p E) (hcomm : ∀ e ∈ E, x * e * x⁻¹ * e⁻¹ ∈ zpowers z) :
     Nat.card E ≤ p ^ 2 := by
   have hp := h.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_cases hxE : x ∈ E
   · have hc : ∀ e ∈ E, e * x = x * e := fun e he =>
       congrArg Subtype.val (hE.1.is_comm.comm ⟨e, he⟩ ⟨x, hxE⟩)
@@ -372,7 +373,7 @@ theorem Cfg.comm_mem_zpowers (h : Cfg p P x z) {U : Subgroup Y} (hUP : U ≤ P)
     (hUn : ∀ g ∈ P, ∀ u ∈ U, g * u * g⁻¹ ∈ U) (hUc : Nat.card U = p ^ 2) :
     ∀ g ∈ P, ∀ u ∈ U, g * u * g⁻¹ * u⁻¹ ∈ zpowers z := by
   have hp := h.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hU1 : U ≠ ⊥ := by
     intro hb
     rw [hb, Subgroup.card_bot] at hUc
@@ -381,7 +382,7 @@ theorem Cfg.comm_mem_zpowers (h : Cfg p P x z) {U : Subgroup Y} (hUP : U ≤ P)
   have hzU : z ∈ U := h.z_mem_of_normal hUP hUn hU1
   have hzc : Nat.card (zpowers z) = p := by rw [Nat.card_zpowers, h.orderOf_z]
   have hAU : zpowers z ≤ U := zpowers_le.mpr hzU
-  haveI hAn : ((zpowers z).subgroupOf P).Normal := by
+  have hAn : ((zpowers z).subgroupOf P).Normal := by
     refine Subgroup.normal_of_le_center ?_
     intro a ha
     rw [Subgroup.mem_subgroupOf, mem_zpowers_iff] at ha
@@ -392,7 +393,7 @@ theorem Cfg.comm_mem_zpowers (h : Cfg p P x z) {U : Subgroup Y} (hUP : U ≤ P)
     show (t : Y) * (a : Y) = (a : Y) * t
     rw [← hn]
     exact (Commute.zpow_right (show Commute (t : Y) z from h.z_central t t.2) n).eq
-  haveI hCn : (U.subgroupOf P).Normal := ⟨fun n hn g => by
+  have hCn : (U.subgroupOf P).Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     exact hUn g g.2 n hn⟩
   have hAC : (zpowers z).subgroupOf P < U.subgroupOf P := by

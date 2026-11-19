@@ -40,7 +40,7 @@ theorem ggResX2_isSolvable_supportedFixedDerived_of_le_two
     hx.polarBilin_fixed_nondegenerate
   have hOrthSol : Group.IsSolvable ↥(orthDerived (Q.comp (fixedSpace x).subtype)) := by
     rcases Nat.lt_or_ge (Module.finrank K (fixedSpace x)) 2 with h1 | h2'
-    · refine isSolvable_of_comm fun a b => ?_
+    · refine _root_.Group.isSolvable_of_comm fun a b => ?_
       have ha1 : (a : fixedSpace x ≃ₗ[K] fixedSpace x) = 1 :=
         eq_one_of_dicksonHom_eq_one_of_finrank_le_one hRnd (by omega)
           (dicksonHom_apply_orthDerived_eq_one hRnd a.2)
@@ -51,7 +51,7 @@ theorem ggResX2_isSolvable_supportedFixedDerived_of_le_two
       show (a : fixedSpace x ≃ₗ[K] fixedSpace x) * b = b * a
       rw [ha1, hb1]
     · have hdim : Module.finrank K (fixedSpace x) = 2 := by omega
-      refine isSolvable_of_comm fun a b => ?_
+      refine _root_.Group.isSolvable_of_comm fun a b => ?_
       have ha : dicksonHom (Q.comp (fixedSpace x).subtype) hRnd
           ⟨(a : fixedSpace x ≃ₗ[K] fixedSpace x), orthDerived_le_orthogonalGroup a.2⟩ = 1 :=
         dicksonHom_apply_orthDerived_eq_one hRnd a.2

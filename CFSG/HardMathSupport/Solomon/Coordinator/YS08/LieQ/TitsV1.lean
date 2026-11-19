@@ -64,7 +64,7 @@ theorem reeLIOddAt_zero_of_witness (hK : Nat.card K = 2 ^ (2 * a + 1))
     (hW : ∀ r ∈ rankOneGroupOne K a, Nat.Coprime (orderOf r) 2 → r ≠ 1 →
       ∃ w ∈ ReeTag.F4.reeFixedOrbitComplementUnipotent K a ⟨0, by decide⟩, r * w ≠ w * r) :
     ReeLIOddAt K a ⟨0, by decide⟩ := by
-  haveI : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
+  have : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
   intro x hxo hx
   have hQ1 : sylowL a K 1 ∈ tKernel K a := sylowL_mem_tKernel hK 1
   have hV : sylowL a K 1 ∈ ReeTag.F4.reeFixedOrbitComplementUnipotent K a ⟨0, by decide⟩ :=

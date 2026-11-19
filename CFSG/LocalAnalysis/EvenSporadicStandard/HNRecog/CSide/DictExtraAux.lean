@@ -13,6 +13,7 @@ open scoped commutatorElement
 variable {C : Type} [Group C] {Q : Subgroup C} [hQn : Q.Normal]
   [Module (ZMod 2) (Additive (Abelianization Q))]
 
+omit hQn [Module (ZMod 2) (Additive (Abelianization ↥Q))] in
 theorem cSide_centerOf_eq_map_center :
     centerOf Q = (Subgroup.center ↥Q).map Q.subtype := by
   ext x
@@ -29,11 +30,13 @@ theorem cSide_centerOf_eq_map_center :
     intro h hh
     exact congrArg Subtype.val (Subgroup.mem_center_iff.mp hy ⟨h, hh⟩)
 
+omit hQn [Module (ZMod 2) (Additive (Abelianization Q))] in
 theorem cSide_card_centerOf [Finite Q] (hE : IsExtraspecialPGroup 2 Q) :
     Nat.card ↥(centerOf Q) = 2 := by
   rw [cSide_centerOf_eq_map_center, Subgroup.card_map_of_injective Q.subtype_injective,
     hE.2.2.2]
 
+omit [Module (ZMod 2) (Additive (Abelianization ↥Q))] in
 theorem cSide_centerOf_le_cent (hE : IsExtraspecialPGroup 2 Q) (ρ : C) :
     centerOf Q ≤ Q ⊓ Subgroup.centralizer ({ρ} : Set C) := by
   intro c hc
@@ -193,9 +196,9 @@ theorem cSide_top_eq_closure {E : Subgroup C} {x y z : C} (hx : x ∈ E) (hy : y
 
 theorem cSide_exists_two_ne_one {α : Type*} [Group α] (h : 3 ≤ Nat.card α) :
     ∃ v w : α, v ≠ 1 ∧ w ≠ 1 ∧ v ≠ w := by
-  haveI : Finite α := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite α := Nat.finite_of_card_ne_zero (by omega)
   have h1 : 1 < Nat.card α := by omega
-  haveI : Nontrivial α := Finite.one_lt_card_iff_nontrivial.mp h1
+  have : Nontrivial α := Finite.one_lt_card_iff_nontrivial.mp h1
   obtain ⟨v, hv⟩ : ∃ v : α, v ≠ 1 := exists_ne 1
   by_contra hcon
   have hkey : ∀ x : α, x = 1 ∨ x = v := by
@@ -211,7 +214,8 @@ theorem cSide_exists_two_ne_one {α : Type*} [Group α] (h : 3 ≤ Nat.card α) 
     rwa [Set.ncard_univ, Set.ncard_pair (Ne.symm hv)] at hle
   omega
 
-theorem cSide_center_eq_one_or {z : ↥Q} (hz : z ∈ Subgroup.center ↥Q) (hz1 : z ≠ 1)
+omit hQn [Module (ZMod 2) (Additive (Abelianization ↥Q))] in
+theorem cSide_center_eq_one_or {z : ↥Q} (hz : z ∈ Subgroup.center ↥Q) (_hz1 : z ≠ 1)
     (hzuniq : ∀ y : Subgroup.center ↥Q, y ≠ 1 → y = ⟨z, hz⟩)
     {a : ↥Q} (ha : a ∈ Subgroup.center ↥Q) : a = 1 ∨ a = z := by
   by_cases h : (⟨a, ha⟩ : Subgroup.center ↥Q) = 1

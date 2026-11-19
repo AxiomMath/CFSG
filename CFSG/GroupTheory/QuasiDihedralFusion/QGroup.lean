@@ -47,7 +47,7 @@ theorem centerOf_isolated (S : Sylow 2 H)
   have hA := (hwc A hAZ).2 g hle
   have hgN : g⁻¹ ∈ Subgroup.normalizer (A : Set H) := mem_normalizer_of_rightConjugate_eq hA
   let N := Subgroup.normalizer (A : Set H)
-  have hA2 : IsPGroup 2 A := S.isPGroup'.to_le (hAZ.trans inf_le_left)
+  have hA2 : IsPGroup 2 A := S.isPGroup.to_le (hAZ.trans inf_le_left)
   have hAut := CFSG.TwoRankLowerBound.Helpers.cyclic_two_group_automorphisms_isPGroup A hA2
   have hSC : (S : Subgroup H) ≤ Subgroup.centralizer (A : Set H) := by
     intro x hx

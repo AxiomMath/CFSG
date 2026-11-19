@@ -138,7 +138,7 @@ end Data
 theorem not_two_pow_eleven_dvd_card_X (D : Data S g t) (hCE : S4.CentralExtInput.{0}) :
     ¬ 2 ^ 11 ∣ Nat.card (timmesfeldLayer S.Mbar ⧸ center (timmesfeldLayer S.Mbar)) := by
   intro h
-  haveI : (timmesfeldLayer S.Mbar).Normal := Layer.normal S.Mbar
+  have : (timmesfeldLayer S.Mbar).Normal := Layer.normal S.Mbar
   have hE : 2 ^ 11 ∣ Nat.card (timmesfeldLayer S.Mbar) :=
     h.trans ⟨_, Subgroup.card_eq_card_quotient_mul_card_subgroup
       (center (timmesfeldLayer S.Mbar))⟩

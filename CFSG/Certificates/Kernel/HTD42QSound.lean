@@ -121,7 +121,7 @@ theorem frK_packA (A : Array GF8) : frK (packA A) = packA (frobArr A) := by
     have i1 : 64 + (q + 64 * 2 - 128) = q + 64 * 1 := by omega
     have i2 : 128 + (q + 64 * 2 - 128) = q + 64 * 2 := by omega
     simp only [d1, d2, d3, d4, i1, i2, Bool.and_true, Bool.and_false, Bool.true_and,
-      Bool.false_and, Bool.or_false, Bool.false_or]
+      Bool.or_false, Bool.false_or]
     rw [testBit_packA_pos _ _ _ hq, testBit_packA_pos _ _ _ hq, b2]
   · have d1 : decide (q + 64 * L < 64) = false := decide_eq_false (by omega)
     have d2 : decide (q + 64 * L - 64 < 64) = false := decide_eq_false (by omega)
@@ -171,11 +171,11 @@ theorem fixQ_spec {y : Pr} {F : Array GF8} (h : fixQ (encQ y) (packA F) = true) 
     exact h
   exact packA_inj (size_mulArr _ _) (size_mulArr _ _) (Nat.eq_of_beq_eq_true h')
 
-theorem planeQ_spec {u v : Array GF8} (hu : u.size = 64) (hv : v.size = 64)
+theorem planeQ_spec {u v : Array GF8} (_hu : u.size = 64) (_hv : v.size = 64)
     (h : planeQ (packA u) (packA v) = true) :
     mulArr u (mulArr u u) = oneArr ∧ mulArr v (mulArr v v) = oneArr ∧ mulArr u v = mulArr v u ∧
       u ≠ oneArr ∧ v ≠ oneArr ∧ v ≠ u ∧ v ≠ mulArr u u := by
-  simp only [planeQ, cube1P, commP, Bool.and', Bool.not', Bool.and_eq_true,
+  simp only [planeQ, cube1P, commP, Bool.and_eq_true,
     Bool.not_eq_true', beq_iff_eq, ← packA_mulArr, ← packA_oneArr] at h
   obtain ⟨h1, h2, h3, h4, h5, h6, h7⟩ := h
   exact ⟨packA_inj (size_mulArr _ _) size_oneArr h1, packA_inj (size_mulArr _ _) size_oneArr h2,
@@ -196,11 +196,11 @@ theorem encQ_symP (s : Nat) : encQ (ChevOuter.symP s) = symQ ls s := by
   rw [symQ]
   by_cases hs : s < 18
   · have hb : Nat.blt s 18 = true := Nat.blt_eq ▸ hs
-    rw [if_pos hs, hb]
+    rw [ite_eq_left hs, hb]
     change (packA (letterArr s), 0) = (letP ls s, 0)
     rw [packA_letterArr hL]
   · have hb : Nat.blt s 18 = false := Bool.eq_false_iff.2 fun e => hs (Nat.blt_eq ▸ e)
-    rw [if_neg hs, hb]
+    rw [ite_eq_right hs, hb]
     change (packA oneArr, 1) = (oneP, 1)
     rw [packA_oneArr]
 

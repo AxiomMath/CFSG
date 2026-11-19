@@ -117,8 +117,8 @@ theorem sign_comm_eq_one (g s : Equiv.Perm (Fin 12)) :
 theorem injective_of_alt_ne_one {H : Type*} [Group H] (ψ : Equiv.Perm (Fin 12) →* H)
     {τ : Equiv.Perm (Fin 12)} (hτ : τ ∈ alternatingGroup (Fin 12)) (hψτ : ψ τ ≠ 1) :
     Function.Injective ψ := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin 12)) := alternatingGroup.isSimpleGroup (by simp)
-  haveI : (ψ.ker.subgroupOf (alternatingGroup (Fin 12))).Normal :=
+  have : IsSimpleGroup (alternatingGroup (Fin 12)) := alternatingGroup.isSimpleGroup (by simp)
+  have : (ψ.ker.subgroupOf (alternatingGroup (Fin 12))).Normal :=
     (ψ.normal_ker).subgroupOf (alternatingGroup (Fin 12))
   have hKA : (ψ.ker.subgroupOf (alternatingGroup (Fin 12))) = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (ψ.ker.subgroupOf (alternatingGroup (Fin 12)))
@@ -198,8 +198,8 @@ theorem layer_of_model (ψ : Equiv.Perm (Fin 12) →* S) (hψ : Function.Injecti
     ∃ Λ : Subgroup S, GLAPComponent 5 (Subgroup.centralizer ({x} : Set S)) Λ ∧
       (∀ H : Subgroup S, GLAPComponent 5 (Subgroup.centralizer ({x} : Set S)) H → H = Λ) ∧
       CFSG.LocalAnalysis.GLTheoremB.MovingAround.IsAltType 7 ↥Λ ∧ x ∉ Λ := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : IsSimpleGroup (alternatingGroup (Fin 7)) := alt7_simple
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : IsSimpleGroup (alternatingGroup (Fin 7)) := alt7_simple
   set φ : Equiv.Perm (Fin 7) →* S := ψ.comp iota7 with hφ
   have hφinj : Function.Injective φ := hψ.comp iota7_injective
   set C : Subgroup S := Subgroup.centralizer ({x} : Set S) with hC
@@ -255,7 +255,7 @@ theorem layer_of_model (ψ : Equiv.Perm (Fin 12) →* S) (hψ : Function.Injecti
     (Subgroup.mem_normalizer_iff.1 (hCN hg) l).1 hl
   set eΛ : ↥Λ ≃* ↥(alternatingGroup (Fin 7)) :=
     (Subgroup.equivMapOfInjective (alternatingGroup (Fin 7)) φ hφinj).symm with heΛ
-  haveI hΛs : IsSimpleGroup ↥Λ := eΛ.isSimpleGroup
+  have hΛs : IsSimpleGroup ↥Λ := eΛ.isSimpleGroup
   have hΛnab : ∃ a b : ↥Λ, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := alt7_nonab
     refine ⟨eΛ.symm a, eΛ.symm b, fun h => hab ?_⟩
@@ -299,7 +299,7 @@ open CFSG.RankThree.Native CFSG.Monster.B.Fischer CFSG.HardMathSupport.Solomon.C
 
 theorem fi22_line_conj (t : Equiv.Perm (Fin 3510)) (ht : t ∈ fi22P) (hto : orderOf t = 5) :
     ∃ y ∈ fi22P, Subgroup.zpowers (y * t * y⁻¹) = Subgroup.zpowers (fi22FiveLine 0) := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨⟨hQP, -, -, hQsyl⟩, ⟨hlinesSet, -⟩, -, -⟩ :=
     R3E_Fi22_full_five_centralizers_common_outer_involution
   have hQ := card_eq_of_sylow_subgroupOf hQP hQsyl
@@ -347,7 +347,7 @@ theorem pow_five_of_comm {G : Type*} [Group G] {u c : G} (huc : u * c = c * u) (
 
 theorem cd_fusion {a b : CFSG.Sporadic.Fi23.J} (ha : a * d = d * a) (hb : b * d = d * b) (hao : orderOf a = 5)
     (hbo : orderOf b = 5) : ∃ k : CFSG.Sporadic.Fi23.J, k * d = d * k ∧ k * a * k⁻¹ ∈ Subgroup.zpowers b := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   set a' : Cd := ⟨a, mem_Cd.2 ha⟩ with ha'
   set b' : Cd := ⟨b, mem_Cd.2 hb⟩ with hb'
   have hρo : ∀ c : Cd, orderOf c = 5 → orderOf (rho c) = 5 := by
@@ -452,8 +452,8 @@ theorem fusion_J
     {ψ : Equiv.Perm (Fin 12) →* CFSG.Sporadic.Fi23.J} (hψ : Function.Injective ψ)
     (hψu : ψ (adjSwap 11 10) ∈ D23) (w : CFSG.Sporadic.Fi23.J) (hw : orderOf w = 5) :
     ∃ g : CFSG.Sporadic.Fi23.J, g * w * g⁻¹ ∈ Subgroup.zpowers (ψ cyc5) := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Finite CFSG.Sporadic.Fi23.J := Nat.finite_of_card_ne_zero (by rw [card_J]; norm_num)
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Finite CFSG.Sporadic.Fi23.J := Nat.finite_of_card_ne_zero (by rw [card_J]; norm_num)
   have hcomm : Commute (ψ cyc5) (ψ cyc5') :=
     (show Commute cyc5 cyc5' from cyc5_comm_cyc5').map ψ
   have hx5 : ψ cyc5 ^ 5 = 1 := by rw [← map_pow, cyc5_pow_five, map_one]
@@ -538,7 +538,7 @@ theorem layer_of_facts (ψ : Equiv.Perm (Fin 12) →* S) (hψ : Function.Injecti
     group
   have hψ'o : orderOf (ψ' cyc5) = 5 := by
     rw [orderOf_injective ψ' hψ' cyc5]
-    haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+    have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
     exact orderOf_eq_prime cyc5_pow_five cyc5_ne_one
   have hzp : Subgroup.zpowers x = Subgroup.zpowers (ψ' cyc5) := by
     apply Subgroup.eq_of_le_of_card_ge ((Subgroup.zpowers_le).2 hxmem)

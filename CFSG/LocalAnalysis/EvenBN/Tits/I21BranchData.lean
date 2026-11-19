@@ -11,12 +11,12 @@ open Subgroup CFSG.Open CFSG.LocalAnalysis.EvenBN.Tits
 variable {G : Type} [Group G]
 
 theorem fusionIsSylowIn_top (S : Sylow 2 G) : fusionIsSylowIn 2 (S : Subgroup G) ⊤ :=
-  ⟨le_top, S.isPGroup', fun _ _ hP hle => S.maximal_isPGroup.eq_of_ge hP hle⟩
+  ⟨le_top, S.isPGroup, fun _ _ hP hle => S.maximal_isPGroup.eq_of_ge hP hle⟩
 
 theorem fusionIsSylowIn_inf_normal [Finite G] (S : Sylow 2 G) {L : Subgroup G}
     (hL : L.Normal) :
     fusionIsSylowIn 2 ((S : Subgroup G) ⊓ L) L := by
-  refine ⟨inf_le_right, S.isPGroup'.to_inf_left, fun P hPL hP hle => ?_⟩
+  refine ⟨inf_le_right, S.isPGroup.to_inf_left, fun P hPL hP hle => ?_⟩
   obtain ⟨c, -, hc⟩ := secTwo_exists_conj_le (fusionIsSylowIn_top S) (le_top : P ≤ ⊤) hP
   have hmap : P.map (MulAut.conj c).toMonoidHom ≤ (S : Subgroup G) ⊓ L := by
     rintro _ ⟨p, hp, rfl⟩
@@ -58,7 +58,7 @@ theorem sylow_data [Finite G] (S : Sylow 2 G) {L : Subgroup G} (hL : L.Normal) {
       fusionIsSylowIn 2 ((S : Subgroup G) ⊓ L ⊓ centralizer ({t} : Set G))
         (L ⊓ centralizer ({t} : Set G)) ∧
       (S : Subgroup G) ⊓ L ⊓ centralizer ({t} : Set G) = zpowers w := by
-  have hP : IsPGroup 2 ((S : Subgroup G) ⊓ L : Subgroup G) := S.isPGroup'.to_inf_left
+  have hP : IsPGroup 2 ((S : Subgroup G) ⊓ L : Subgroup G) := S.isPGroup.to_inf_left
   have hP' : IsPGroup 2 ((S : Subgroup G) ⊓ L ⊓ centralizer ({t} : Set G) : Subgroup G) :=
     hP.to_inf_left
   have hle : (S : Subgroup G) ⊓ L ⊓ centralizer ({t} : Set G) ≤ L ⊓ centralizer ({t} : Set G) :=

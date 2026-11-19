@@ -46,7 +46,7 @@ theorem s16c1G_nk_mem (hφ : φ z = 1) (x : V) : φ (s16c1G_nk φ z x) = 0 := by
 
 theorem s16c1G_nk_of_ker {x : V} (h : φ x = 0) : s16c1G_nk φ z x = x := by
   unfold s16c1G_nk
-  rw [if_pos h]
+  rw [ite_eq_left h]
 
 theorem s16c1G_nk_add (hφ : φ z = 1) (x : V) : s16c1G_nk φ z (x + z) = s16c1G_nk φ z x := by
   rcases s16c1G_zmod_two (φ x) with h0 | h1
@@ -54,7 +54,7 @@ theorem s16c1G_nk_add (hφ : φ z = 1) (x : V) : s16c1G_nk φ z (x + z) = s16c1G
       rw [map_add, h0, hφ]
       decide
     unfold s16c1G_nk
-    rw [if_neg h1, if_pos h0, add_assoc, s16c1G_add_self, add_zero]
+    rw [ite_eq_right h1, ite_eq_left h0, add_assoc, s16c1G_add_self, add_zero]
   · have h0 : φ (x + z) = 0 := by
       rw [map_add, h1, hφ]
       decide
@@ -62,7 +62,7 @@ theorem s16c1G_nk_add (hφ : φ z = 1) (x : V) : s16c1G_nk φ z (x + z) = s16c1G
       rw [h1]
       decide
     unfold s16c1G_nk
-    rw [if_pos h0, if_neg h1']
+    rw [ite_eq_left h0, ite_eq_right h1']
 
 theorem s16c1G_nk_eq_nk_iff (hφ : φ z = 1) (x y : V) :
     s16c1G_nk φ z x = s16c1G_nk φ z y ↔ x = y ∨ x = y + z := by

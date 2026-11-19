@@ -30,7 +30,7 @@ theorem uc22ine229_l34_not_dvd (hG3 : Gls3StronglyThreeEmbeddedPlus)
     {r : ℕ} (hr : r.Prime) (hr5 : 5 ≤ r) (hsp : IsStronglyPEmbedded r k.M) :
     ¬ r ∣ Nat.card ↥(H ⊓ k.M) := by
   intro hdvd
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨y₀, hy₀⟩ := exists_prime_orderOf_dvd_card' r hdvd
   have hyo : orderOf (y₀ : G) = r := by rw [Subgroup.orderOf_coe, hy₀]
   have h6 : Nat.Coprime (orderOf (y₀ : G)) 6 := by
@@ -63,7 +63,7 @@ theorem uc22ine229_l34_not_dvd (hG3 : Gls3StronglyThreeEmbeddedPlus)
     refine hsp.2.2 _ hg ?_
     have hy : (y₀ : G) ∈ k.M ⊓ k.M.map (MulAut.conj (n : G)⁻¹).toMonoidHom := by
       refine ⟨y₀.2.2, Subgroup.mem_map.2 ⟨(n : G) * y₀ * (n : G)⁻¹, h2, ?_⟩⟩
-      simp [MulAut.conj_apply, mul_assoc]
+      simp [mul_assoc]
     have h3 := Subgroup.card_dvd_of_le (Subgroup.zpowers_le.2 hy)
     rwa [Nat.card_zpowers, hyo] at h3
   have hle : (⊤ : Subgroup ↥H) ≤ k.M.subgroupOf H := by
@@ -109,12 +109,12 @@ theorem uc22ine229_l34_normalizes {M Y : Subgroup G} (hY : Y ∈ calC M) {X : Su
     have h5 : (y : G) ∈ normalizer (X : Set G) ⊓ M := ⟨hyN, y.2⟩
     rw [show w = (y : G) * ((y : G)⁻¹ * w) by group]
     exact Subgroup.mul_mem _ (Subgroup.mem_sup_right h5) (Subgroup.mem_sup_left h4)
-  haveI : Group.IsNilpotent ↥(pCoreOf 2 M) := (UC6S846.isPGroup_pCoreOf M).isNilpotent
-  haveI : Group.IsSolvable ↥(pCoreOf 2 M ⊔ (normalizer (X : Set G) ⊓ M)) :=
+  have : Group.IsNilpotent ↥(pCoreOf 2 M) := (UC6S846.isPGroup_pCoreOf M).isNilpotent
+  have : Group.IsSolvable ↥(pCoreOf 2 M ⊔ (normalizer (X : Set G) ⊓ M)) :=
     CFSG.RankThree.GroupTheory.isSolvable_sup_of_le_normalizer
       (inf_le_right.trans (Subgroup.le_normalizer.trans
         (UC6S846.normalizer_le_normalizer_pCoreOf M))) inferInstance hsol
-  haveI : Group.IsSolvable ↥W :=
+  have : Group.IsSolvable ↥W :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hWV)
       (Subgroup.inclusion_injective hWV)
   exact UC6S846.not_solvable_of_mem_calC
@@ -124,7 +124,7 @@ theorem uc22ine229_l34_eq_mul {M Y : Subgroup G} (hYM : Y ≤ M)
     (hnorm : M ≤ normalizer (Y : Set G)) {X : Subgroup G} (hXY : X ≤ Y) {q : ℕ} (hq : q.Prime)
     (hq2 : q ≠ 2) (hXc : Nat.card X = q) (hq1 : CFSG.Open.pRank q Y ≤ 1) :
     ∀ m ∈ M, ∃ h ∈ normalizer (X : Set G) ⊓ M, ∃ y ∈ Y, m = h * y := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   intro m hm
   set Xm := X.map (MulAut.conj m).toMonoidHom with hXm
   have hXmY : Xm ≤ Y := by

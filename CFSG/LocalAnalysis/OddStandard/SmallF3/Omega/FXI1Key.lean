@@ -47,6 +47,7 @@ private theorem fx_key_gram (b : ℕ → ℕ → ZMod 3) (hs : ∀ i j, b i j = 
     simpa using h
   exact ⟨h30, h31, h32, h33⟩
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem fx_key_indep (N : Module.End (ZMod 3) V) (v : V) (h3 : (N ^ 3) v ≠ 0)
     (h4 : (N ^ 4) v = 0) :
     LinearIndependent (ZMod 3) (fun i : Fin 4 => (N ^ (i : ℕ)) v) := by
@@ -65,8 +66,7 @@ private theorem fx_key_indep (N : Module.End (ZMod 3) V) (v : V) (h3 : (N ^ 3) v
   have hc0 : c 0 • (N ^ 3) v = 0 := by
     have h := congrArg (fun x => (N ^ 3) x) hc'
     simp only [map_add, map_smul, hNpow, Nat.reduceAdd, h5 4 (by norm_num),
-      h5 5 (by norm_num), h5 6 (by norm_num), map_zero, smul_zero, zero_smul,
-      add_zero, zero_add] at h
+      h5 5 (by norm_num), h5 6 (by norm_num), map_zero, smul_zero, add_zero] at h
     simpa using h
   have hc0z : c 0 = 0 := by
     rcases eq_zero_or_eq_zero_of_smul_eq_zero hc0 with h | h
@@ -181,7 +181,7 @@ theorem fx_key (B : LinearMap.BilinForm (ZMod 3) V) (hsymm : ∀ a b, B a b = B 
   have horth : ∀ w' ∈ W, B (f 3) w' = 0 := by
     intro w' hw'
     obtain ⟨c, rfl⟩ := hspan w' hw'
-    simp only [map_sum, map_smul, smul_eq_mul, Fin.sum_univ_four]
+    simp only [Fin.sum_univ_four]
     simp [b30, b31, b32, b33]
   exact hN3 (hWnd _ (hfW 3) horth)
 

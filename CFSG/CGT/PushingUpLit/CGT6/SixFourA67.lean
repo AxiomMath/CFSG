@@ -262,7 +262,7 @@ theorem eight_sl_not_good {Y R : Subgroup G} {T : Sylow 2 G} [R.Normal] (h : Eig
       have := hconjU x⁻¹ (X.inv_mem hx) (x * u * x⁻¹) hu
       rw [h3] at this
       exact this
-  have hU₀2 : IsPGroup 2 U₀ := T.isPGroup'.to_le hU₀T
+  have hU₀2 : IsPGroup 2 U₀ := T.isPGroup.to_le hU₀T
   have hsubX := isSubnormal_of_clause hY hcR h.hR hU₀2 hU hYU hYs hYX hXU
   let lam : ↥X →* Q := ((MonoidHom.ofInjective hκ').symm.toMonoidHom).comp
     ((π.subgroupComap κ'.range).comp (MulEquiv.subgroupCongr hX).toMonoidHom)

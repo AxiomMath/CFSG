@@ -16,7 +16,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem F11_kernel_eq_zpowers {B Bs : Subgroup G} {x z : G} {L D₁ J₁ K : Subgroup G}
     (h : P5Out B Bs x z L D₁ J₁)
     (hK : LargeEvenPComponent 3 (Subgroup.centralizer ({z} : Set G)) K) (hJK : J₁ ≤ K)
-    (hBsK : Bs ≤ Subgroup.normalizer (K : Set G))
+    (_hBsK : Bs ≤ Subgroup.normalizer (K : Set G))
     (hNK : Subgroup.normalizer (Bs : Set G) ⊓ Subgroup.centralizer ({z} : Set G) ≤
       Subgroup.normalizer (K : Set G))
     (hirr : ∀ V : Subgroup G, V ≤ Bs → z ∈ V →

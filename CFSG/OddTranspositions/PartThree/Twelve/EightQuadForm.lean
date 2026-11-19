@@ -33,7 +33,7 @@ private theorem sum_ringHom_smul_injective {K F : Type} [Field K] [Field F] (ι 
     Function.Injective fun c : Fin 4 → K => ∑ i, ι (c i) • e i := by
   intro c c' h
   have hli : LinearIndependent F e :=
-    Matrix.linearIndependent_rows_iff_isUnit.2
+    Matrix.linearIndependent_row_iff_isUnit.2
       ((Matrix.isUnit_iff_isUnit_det _).2 (isUnit_iff_ne_zero.2 he))
   have h0 : ∑ i, (ι (c i) - ι (c' i)) • e i = 0 := by
     simp only [sub_smul, Finset.sum_sub_distrib]
@@ -155,7 +155,7 @@ theorem exists_isFixedQuadForm_of_exactMarked {K F : Type} [Field K] [Finite K] 
       have hej : Φ (Pi.single j 1) = e j := sum_ringHom_smul_single ι e j
       rw [← hej, ← hb, hv, map_zero]
     have hli : LinearIndependent F e :=
-      Matrix.linearIndependent_rows_iff_isUnit.2
+      Matrix.linearIndependent_row_iff_isUnit.2
         ((Matrix.isUnit_iff_isUnit_det _).2 (isUnit_iff_ne_zero.2 he))
     have htop := hli.span_eq_top_of_card_eq_finrank' (by simp)
     have hΦv : Φ v = 0 := by

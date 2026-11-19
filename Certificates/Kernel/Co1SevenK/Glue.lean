@@ -121,7 +121,7 @@ theorem tgt_of_rep {x : Nat} {w : ↥GA} (hw : MRep (U x) (w : GL24)) (hp : (ord
     · left
       refine eq_one_of_rep (valid_mul _ _) (hw.mul hw) ?_
       rw [← hcoe]
-      simp only [pow_succ, pow_zero, one_mul, mul_assoc]
+      simp only [pow_succ, pow_zero, one_mul]
     · right; left
       have hv : CFSG.Sporadic.Co1.InvNative.validRows (mul (mul (U x) (U x)) (U x)) = true := by
         rw [mul_unpackW]
@@ -215,7 +215,7 @@ end Closure
 theorem rep_dag {k : ℕ} (hk : k < D.N) :
     MRep (U (D.M k)) ((gE k : ↥GA) : GL24) := by
   have h := rep_gE (sylowOK_parts sylowOK_K).1 k
-  rwa [rowAt_eq, if_pos hk] at h
+  rwa [rowAt_eq, ite_eq_left hk] at h
 
 theorem comm_of_K {G : Nat → Nat} {ng X : Nat} (h : commGK G ng X = true) {gg : ℕ → ↥GA}
     {x : ↥GA} (hrep : ∀ l < ng, MRep (U (G l)) (gg l : GL24)) (hx : MRep (U X) (x : GL24)) :

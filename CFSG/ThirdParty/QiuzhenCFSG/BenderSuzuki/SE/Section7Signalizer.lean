@@ -36,7 +36,7 @@ public theorem theorem4b_pConstrainedGroup_of_solvable
   classical
   intro Q _hQp hQeq
   let M : Subgroup G := pPrimeCore p G
-  letI : M.Normal := by
+  let : M.Normal := by
     dsimp [M]
     infer_instance
   let q : G →* G ⧸ M := QuotientGroup.mk' M
@@ -59,7 +59,7 @@ public theorem theorem4b_pConstrainedGroup_of_solvable
     rcases Subgroup.mem_map.mp hy with ⟨a, ha, rfl⟩
     exact congrArg q (hx a ha)
   have hqxcore : q x ∈ pCore p (G ⧸ M) := by
-    letI : Group.IsSolvable G := hsolv
+    let : Group.IsSolvable G := hsolv
     have hcoreQ : pPrimeCore p (G ⧸ M) = ⊥ := by
       simpa [M] using (pPrimeCore_quotient_pPrimeCore_eq_bot (G := G) (p := p))
     have hsolvQ : Group.IsSolvable (G ⧸ M) :=
@@ -91,7 +91,7 @@ public theorem theorem4b_order_p_mem_sylow_of_mem_centralizer
       (Subgroup.zpowers_le.mpr
         (centralizer_le_normalizer (P : Subgroup G) hxcent))
   have hsupP : IsPGroup p ((P : Subgroup G) ⊔ Z : Subgroup G) :=
-    IsPGroup.to_sup_of_normal_left' P.isPGroup' hZp hZnormP
+    IsPGroup.to_sup_of_normal_left' P.isPGroup hZp hZnormP
   have hsupEq : (P : Subgroup G) ⊔ Z = (P : Subgroup G) :=
     P.maximal_isPGroup.eq_of_ge hsupP le_sup_left
   have hxZ : x ∈ Z := by simp [Z]
@@ -135,7 +135,7 @@ public theorem theorem4b_section7_theta_le_normalizer
     E ≤ Subgroup.normalizer (corollary64Theta p E : Set X) := by
   let O : Subgroup X := corollary64OddCore E
   let T : Subgroup X := corollary64Theta p E
-  haveI : (twoPrimeCore E).Characteristic := by
+  have : (twoPrimeCore E).Characteristic := by
     simpa [twoPrimeCore] using
       (pPrimeCore_characteristic (p := 2) (G := E))
   have hNormENormO : Subgroup.normalizer (E : Set X) ≤
@@ -209,7 +209,7 @@ public theorem theorem4b_lemma76_of_pgroup_centralizer_le_E
       change (w : D) ∈ W
       exact hw)
   have hAp : IsPGroup p A := by
-    exact R.isPGroup'.map H.subtype
+    exact R.isPGroup.map H.subtype
   have hcentral :
       ∀ x : D,
         x ∈ Subgroup.centralizer (A : Set D) →

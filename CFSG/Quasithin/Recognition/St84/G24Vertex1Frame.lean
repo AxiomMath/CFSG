@@ -68,7 +68,7 @@ theorem v1Frame_castAdd (k : G) (e : Fin 4 → G) (i : Fin 4) :
 
 theorem v1Frame_natAdd (k : G) (e : Fin 4 → G) (i : Fin 4) :
     v1Frame k e (Fin.natAdd 4 i) = k * e i * k⁻¹ := by
-  simp [v1Frame, Fin.natAdd, Nat.add_mod, Nat.mod_eq_of_lt i.isLt]
+  simp [v1Frame, Fin.natAdd, Nat.mod_eq_of_lt i.isLt]
 
 theorem eElt_v1Frame (k : G) (e : Fin 4 → G) (v : Fin 8 → ZMod 2) :
     eElt (v1Frame k e) v =
@@ -97,7 +97,7 @@ theorem v1Diag_castAdd_natAdd (X : Matrix (Fin 4) (Fin 4) (ZMod 2)) (i j : Fin 4
 
 theorem v1Diag_natAdd_natAdd (X : Matrix (Fin 4) (Fin 4) (ZMod 2)) (i j : Fin 4) :
     v1Diag X (Fin.natAdd 4 i) (Fin.natAdd 4 j) = X i j := by
-  simp [v1Diag, Fin.natAdd, Nat.add_mod, Nat.mod_eq_of_lt i.isLt, Nat.mod_eq_of_lt j.isLt]
+  simp [v1Diag, Fin.natAdd, Nat.mod_eq_of_lt i.isLt, Nat.mod_eq_of_lt j.isLt]
 
 theorem v1Omega_castAdd_castAdd (i j : Fin 4) :
     v1Omega (Fin.castAdd 4 i) (Fin.castAdd 4 j) = 0 := by
@@ -105,35 +105,32 @@ theorem v1Omega_castAdd_castAdd (i j : Fin 4) :
 
 theorem v1Omega_natAdd_castAdd (i j : Fin 4) :
     v1Omega (Fin.natAdd 4 i) (Fin.castAdd 4 j) = (if i = j then (1 : ZMod 2) else 0) := by
-  simp [v1Omega, Fin.natAdd, Fin.castAdd, Fin.ext_iff, Nat.add_mod,
-    Nat.mod_eq_of_lt i.isLt, Nat.mod_eq_of_lt j.isLt]
+  simp [v1Omega, Fin.natAdd, Fin.castAdd, Fin.ext_iff, Nat.mod_eq_of_lt i.isLt, Nat.mod_eq_of_lt j.isLt]
 
 theorem v1Omega_castAdd_natAdd (i j : Fin 4) :
     v1Omega (Fin.castAdd 4 i) (Fin.natAdd 4 j) = (if i = j then (1 : ZMod 2) else 0) := by
-  simp [v1Omega, Fin.natAdd, Fin.castAdd, Fin.ext_iff, Nat.add_mod,
-    Nat.mod_eq_of_lt i.isLt, Nat.mod_eq_of_lt j.isLt]
+  simp [v1Omega, Fin.natAdd, Fin.castAdd, Fin.ext_iff, Nat.mod_eq_of_lt i.isLt, Nat.mod_eq_of_lt j.isLt]
 
 theorem v1Omega_natAdd_natAdd (i j : Fin 4) :
     v1Omega (Fin.natAdd 4 i) (Fin.natAdd 4 j) = (if i = j then (1 : ZMod 2) else 0) := by
-  simp [v1Omega, Fin.natAdd, Fin.ext_iff, Nat.add_mod,
-    Nat.mod_eq_of_lt i.isLt, Nat.mod_eq_of_lt j.isLt]
+  simp [v1Omega, Fin.natAdd, Fin.ext_iff, Nat.mod_eq_of_lt i.isLt, Nat.mod_eq_of_lt j.isLt]
 
 section Local
 
 variable {L1 L2 S : Subgroup G}
 
 theorem G24Vertex1.commutator_mem_centerOf_dsQ (hD : G24LocalData L1 L2 S) :
-    ∀ x ∈ dsQ L1 L2 S, ∀ y ∈ dsQ L1 L2 S, ⁅x, y⁆ ∈ centerOf (dsQ L1 L2 S) :=
-  fun x hx y hy =>
+    ∀ _x ∈ dsQ L1 L2 S, ∀ _y ∈ dsQ L1 L2 S, ⁅_x, _y⁆ ∈ centerOf (dsQ L1 L2 S) :=
+  fun _x hx _y hy =>
     hD.special_left.1.commutator_le_centerOf (Subgroup.commutator_mem_commutator hx hy)
 
 theorem G24Vertex1.sq_mem_centerOf_dsQ [Finite G] (hD : G24LocalData L1 L2 S) :
-    ∀ x ∈ dsQ L1 L2 S, x ^ 2 ∈ centerOf (dsQ L1 L2 S) :=
-  fun x hx => hD.special_left.1.pow_mem_centerOf hx
+    ∀ _x ∈ dsQ L1 L2 S, _x ^ 2 ∈ centerOf (dsQ L1 L2 S) :=
+  fun _x hx => hD.special_left.1.pow_mem_centerOf hx
 
 theorem G24Vertex1.centerOf_dsQ_comm {L1 L2 S : Subgroup G} :
-    ∀ z ∈ centerOf (dsQ L1 L2 S), ∀ x ∈ dsQ L1 L2 S, z * x = x * z :=
-  fun z hz x hx => (Subgroup.mem_centralizer_iff.mp (Subgroup.mem_inf.mp hz).2 x hx).symm
+    ∀ _z ∈ centerOf (dsQ L1 L2 S), ∀ x ∈ dsQ L1 L2 S, _z * x = x * _z :=
+  fun _z hz x hx => (Subgroup.mem_centralizer_iff.mp (Subgroup.mem_inf.mp hz).2 x hx).symm
 
 end Local
 
@@ -141,14 +138,14 @@ section Frame
 
 variable {L1 L2 S : Subgroup G} {F : G24Frame1 L1 L2 S}
 
-private theorem frame_mem (hD : G24LocalData L1 L2 S) :
+private theorem frame_mem (_hD : G24LocalData L1 L2 S) :
     ∀ i : Fin 8, v1Frame F.k F.e i ∈ dsQ L1 L2 S := by
   intro i
   rw [v1Frame]
   by_cases h : i.val < 4
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     exact F.e_mem _
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     exact (Subgroup.mem_normalizer_iff.mp
       (P_le_normalizer_dsQ_left L1 L2 S (Subgroup.mem_sup_right F.k_mem)) _).mp
       (F.e_mem _)

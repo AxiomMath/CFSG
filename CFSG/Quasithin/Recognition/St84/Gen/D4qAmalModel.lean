@@ -72,7 +72,7 @@ theorem normalizer_Ust_eq_inf :
 theorem card_pCoreOf_Pst1 {f : ℕ} (hf : 1 ≤ f) (hK : Nat.card K = (2 ^ f) ^ 3)
     (hσ : ∀ c, σ c = c ^ (2 ^ f)) :
     Nat.card ↥(pCoreOf 2 (Struct.Pst1 σ)) = 2 ^ (11 * f) := by
-  haveI : CharP K 2 := CFSG.Quasithin.H13.F431.D4q.NFq.charP_two_of_std hf hK
+  have : CharP K 2 := CFSG.Quasithin.H13.F431.D4q.NFq.charP_two_of_std hf hK
   have hle : Q1 σ ≤ graphFixedRootGroup TwistTag.D4 K σ.toRingHom :=
     graphFixedParabolicRadical_le_graphFixedRootGroup (t := TwistTag.D4) (K := K)
       (σ := σ.toRingHom) {fa1}

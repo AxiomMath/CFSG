@@ -42,7 +42,7 @@ theorem relIndex_inf_normalizer_V_le_three (hc : ConfHyp S H) (h : W2Hyp S) :
   set ℓ := commSpace (S.rhoL htM)
   have hℓ2 : finrank (ZMod 2) ℓ = 2 := hA.2.2.2.1
   have hℓq : ∀ x ∈ ℓ, S.q x = 0 := hA.2.2.2.2
-  letI := actSubspace S
+  let := actSubspace S
   set X : Set (Submodule (ZMod 2) S.Qt) :=
     {U | finrank (ZMod 2) U = 2 ∧ (∀ v ∈ U, S.q v = 0) ∧ U ⊓ ℓ = ⊥}
   have hstab : MulAction.stabilizer S.M ℓ =

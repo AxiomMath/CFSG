@@ -109,7 +109,7 @@ private theorem claim_5_b_twisted_factor_ne_one_obligation
     · simpa [pow_two] using hyI.sq_eq_one
   have hyaQ0 : rightConjugateElem y a ∈ Q0 := by
     rcases (hsec2.Q0_def y).1 hyQ0 with rfl | ⟨hyH, hyI⟩
-    · simpa [rightConjugateElem] using Q0.one_mem
+    · simp [rightConjugateElem]
     · have haH : a ∈ H := PFchapter4section1.rankOneSplit_D_le_M hD_eq haD
       exact (hsec2.Q0_def _).2 (Or.inr
         ⟨H.mul_mem (H.mul_mem (H.inv_mem haH) hyH) haH,

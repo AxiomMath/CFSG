@@ -90,7 +90,7 @@ theorem blockDiag_of_mul_eq_smul {B : Matrix (Fin 3) (Fin 3) K} (hB : B.det ≠ 
     hcomm 2 0 (h12 ▸ Ne.symm h01)⟩
 
 theorem diag_of_blockDiag {B : Matrix (Fin 3) (Fin 3) K} (hB : B.det ≠ 0) (h01 : B 0 1 = 0)
-    (h02 : B 0 2 = 0) (h10 : B 1 0 = 0) (h20 : B 2 0 = 0) {y : Fin 3 → K} (hy0 : y 0 ≠ 0)
+    (h02 : B 0 2 = 0) (_h10 : B 1 0 = 0) (_h20 : B 2 0 = 0) {y : Fin 3 → K} (hy0 : y 0 ≠ 0)
     (hy12 : y 1 ≠ y 2) {c : K} (h : B * diagonal y = c • (diagonal y * B)) :
     c = 1 ∧ B 1 2 = 0 ∧ B 2 1 = 0 := by
   have hent : ∀ k l, B k l * y l = c * (y k * B k l) := by
@@ -148,6 +148,7 @@ theorem apply_mul_inv_mem_center {G : Type*} [Group G] {γ : MulAut G} {d : G}
 
 variable [Finite K]
 
+omit [Finite K] in
 theorem rel_of_commute {A : GL (Fin 3) K} {τ : K ≃+* K} {d : SpecialLinearGroup (Fin 3) K}
     (h : slC A * slF τ * MulAut.conj d = MulAut.conj d * (slC A * slF τ)) :
     ∃ c : K, c ^ 3 = 1 ∧
@@ -171,6 +172,7 @@ theorem rel_of_commute {A : GL (Fin 3) K} {τ : K ≃+* K} {d : SpecialLinearGro
     _ = (c : K) • ((d : Matrix (Fin 3) (Fin 3) K) * (A : Matrix (Fin 3) (Fin 3) K)) := by
         rw [scalar_apply, ← Matrix.smul_eq_diagonal_mul, Matrix.smul_mul]
 
+omit [Finite K] in
 theorem apply_eq_of_pow_three {τ : K ≃+* K} (hτ : τ ^ 3 = 1) {u : K} (hu : u ^ 3 = 1) : τ u = u := by
   by_cases hu1 : u = 1
   · rw [hu1, map_one]
@@ -218,6 +220,7 @@ theorem apply_eq_of_pow_three {τ : K ≃+* K} (hτ : τ ^ 3 = 1) {u : K} (hu : 
     · exact absurd h hu0
     · exact sub_eq_zero.1 h
 
+omit [Finite K] in
 theorem eq_diag3_of_isDiag {g : SpecialLinearGroup (Fin 3) K}
     (hg : ∀ i j, i ≠ j → (g : Matrix (Fin 3) (Fin 3) K) i j = 0) :
     ∃ hd : ∏ i, (g : Matrix (Fin 3) (Fin 3) K) i i = 1,
@@ -234,6 +237,7 @@ theorem eq_diag3_of_isDiag {g : SpecialLinearGroup (Fin 3) K}
     exact this
   exact ⟨hd, Matrix.SpecialLinearGroup.ext _ _ fun i j => by rw [coe_diag3, ← hmat]⟩
 
+omit [Finite K] in
 theorem mul_apply_of_isDiag {g h : SpecialLinearGroup (Fin 3) K}
     (hg : ∀ i j, i ≠ j → (g : Matrix (Fin 3) (Fin 3) K) i j = 0) (i : Fin 3) :
     ((g * h : SpecialLinearGroup (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) i i =
@@ -243,6 +247,7 @@ theorem mul_apply_of_isDiag {g h : SpecialLinearGroup (Fin 3) K}
     rw [hg i b (Ne.symm hb), zero_mul]
   · simp
 
+omit [Finite K] in
 theorem pow_apply_of_isDiag {g : SpecialLinearGroup (Fin 3) K}
     (hg : ∀ i j, i ≠ j → (g : Matrix (Fin 3) (Fin 3) K) i j = 0) (n : ℕ) :
     (∀ i j, i ≠ j → ((g ^ n : SpecialLinearGroup (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) i j = 0) ∧
@@ -254,6 +259,7 @@ theorem pow_apply_of_isDiag {g : SpecialLinearGroup (Fin 3) K}
   rw [diagonal_apply_eq, Pi.pow_apply]
   simp [coe_diag3]
 
+omit [Finite K] in
 theorem exists_scalar_of_mem_center {z : SpecialLinearGroup (Fin 3) K}
     (hz : z ∈ Subgroup.center (SpecialLinearGroup (Fin 3) K)) :
     ∃ c : K, c ^ 3 = 1 ∧ (z : Matrix (Fin 3) (Fin 3) K) = scalar (Fin 3) c := by
@@ -268,12 +274,14 @@ variable {AM : Subgroup (SpecialLinearGroup (Fin 3) K)}
   (hcube : ∀ d ∈ AM, d ^ 3 ∈ Subgroup.center (SpecialLinearGroup (Fin 3) K))
 include hdiag
 
+omit [Finite K] in
 theorem entry_pow_three {d : SpecialLinearGroup (Fin 3) K} (hd : d ∈ AM) (hd3 : d ^ 3 = 1)
     (i : Fin 3) : (d : Matrix (Fin 3) (Fin 3) K) i i ^ 3 = 1 := by
   have h := (pow_apply_of_isDiag (hdiag d hd) 3).2 i
   rw [hd3, Matrix.SpecialLinearGroup.coe_one, one_apply_eq] at h
   exact h.symm
 
+omit [Finite K] in
 theorem exists_pow_three_ne_one (h27 : Nat.card AM = 27) :
     ∃ x ∈ AM, x ^ 3 ≠ 1 := by
   classical
@@ -330,7 +338,7 @@ theorem exists_pow_three_ne_one (h27 : Nat.card AM = 27) :
   have : Nat.card (rootsOfUnity 3 K) * Nat.card (rootsOfUnity 3 K) ≤ 3 * 3 := Nat.mul_le_mul h3 h3
   omega
 
-omit hdiag in
+omit hdiag [Finite K] in
 theorem mem_zpowers_of_mem_center {x z : SpecialLinearGroup (Fin 3) K} {cx : K}
     (hcx : ((x ^ 3 : SpecialLinearGroup (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) = scalar (Fin 3) cx)
     (hcxp : IsPrimitiveRoot cx 3) (hz : z ∈ Subgroup.center (SpecialLinearGroup (Fin 3) K)) :
@@ -372,7 +380,7 @@ theorem exists_y0_aprime (hcomm : IsMulCommutative AM) (h27 : Nat.card AM = 27) 
     rw [show (9 : ℕ) = 3 * 3 by norm_num, pow_mul, Matrix.SpecialLinearGroup.coe_pow, hcx, ← map_pow,
       hcx3, map_one, Matrix.SpecialLinearGroup.coe_one]
   have hxo : orderOf x = 9 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have := orderOf_eq_prime_pow (p := 3) (n := 1) (x := x) (by simpa using hx3) (by simpa using hx9)
     simpa using this
   obtain ⟨v, hvAM, hvx⟩ : ∃ v ∈ AM, v ∉ Subgroup.zpowers x := by
@@ -518,6 +526,7 @@ end AM
 
 section Frame
 
+omit [Finite K] in
 theorem slC_diagGL_mul_slF_apply (α : Fin 3 → Kˣ) (τ : K ≃+* K) (g : SpecialLinearGroup (Fin 3) K)
     (i j : Fin 3) :
     (((slC (diagGL α) * slF τ) g : SpecialLinearGroup (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) i j =
@@ -525,6 +534,7 @@ theorem slC_diagGL_mul_slF_apply (α : Fin 3 → Kˣ) (τ : K ≃+* K) (g : Spec
   rw [MulAut.mul_apply]
   exact slConjugation_diagGL_apply α _ i j
 
+omit [Finite K] in
 theorem eq_diagGL_of_isDiag {A : GL (Fin 3) K}
     (hA : ∀ i j, i ≠ j → (A : Matrix (Fin 3) (Fin 3) K) i j = 0) :
     ∃ α : Fin 3 → Kˣ, A = diagGL α := by
@@ -611,6 +621,7 @@ theorem exists_diag_form {E : Subgroup (MulAut (SpecialLinearGroup (Fin 3) K))} 
   exact ⟨α, τ, hτ3, rfl⟩
 
 
+omit [Finite K] in
 theorem slC_diagGL_mem_coordBlockSL (d : Fin 3 → Kˣ) {g : SpecialLinearGroup (Fin 3) K}
     (hg : g ∈ coordBlockSL K blk) : slC (diagGL d) g ∈ coordBlockSL K blk := by
   rw [mem_coordBlockSL_iff] at hg ⊢
@@ -621,6 +632,7 @@ theorem slC_diagGL_mem_coordBlockSL (d : Fin 3 → Kˣ) {g : SpecialLinearGroup 
     simp
   · simp [hij']
 
+omit [Finite K] in
 theorem slC_diagGL_mul_slF_x12 (α : Fin 3 → Kˣ) (τ : K ≃+* K) (c : K) :
     (slC (diagGL α) * slF τ) (x12 c) = x12 ((α 1 : K) * (((α 2)⁻¹ : Kˣ) : K) * τ c) := by
   apply Matrix.SpecialLinearGroup.ext
@@ -646,8 +658,7 @@ theorem glaPLayer_block_inf_fix_ne_bot {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 
     rw [pow_succ, pow_succ, pow_one, MulAut.mul_apply, MulAut.mul_apply, haX, haX, haX, map_one,
       mul_one] at h1
     have h2 := congrArg (fun g : SpecialLinearGroup (Fin 3) K => (g : Matrix (Fin 3) (Fin 3) K) 1 2) h1
-    simp [x12, Matrix.SpecialLinearGroup.transvection_coe, Matrix.add_apply, Matrix.one_apply,
-      Matrix.single_apply] at h2
+    simp [x12, Matrix.SpecialLinearGroup.transvection_coe, Matrix.add_apply] at h2
     rw [Finset.prod_range_succ, Finset.prod_range_succ, Finset.prod_range_one, pow_zero, pow_one,
       sq, RingAut.mul_apply, RingAut.one_apply]
     linear_combination h2
@@ -701,7 +712,7 @@ theorem glaPLayer_block_inf_fix_ne_bot {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 
       ((diagGL d₀ : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K).map τ = (diagGL b' : GL (Fin 3) K)
     rw [coe_diagGL_inv, coe_diagGL, coe_diagGL, coe_diagGL, Matrix.diagonal_map (map_zero τ),
       diagonal_mul_diagonal, diagonal_mul_diagonal]
-    congr 1 <;> (funext i; simp [hb', Units.coe_map])
+    congr 1
   have ha₀B : ∀ g ∈ coordBlockSL K blk, ((slC D)⁻¹ * a * slC D) g = slF τ g := by
     intro g hg
     rw [ha₀, MulAut.mul_apply]
@@ -797,15 +808,18 @@ end Frame
 
 section Data
 
+omit [Finite K] in
 theorem x12_mul_inv (a b : K) : x12 a * (x12 b)⁻¹ = x12 (a - b) := by
   rw [x12, x12, x12, Matrix.SpecialLinearGroup.transvection_inv,
     ← Matrix.SpecialLinearGroup.transvection_add, sub_eq_add_neg]
 
+omit [Finite K] in
 theorem diagGL_mul (u v : Fin 3 → Kˣ) : diagGL u * diagGL v = diagGL (u * v) := by
   apply Units.ext
   rw [Matrix.GeneralLinearGroup.coe_mul, coe_diagGL, coe_diagGL, coe_diagGL, diagonal_mul_diagonal]
   congr 1
 
+omit [Finite K] in
 theorem slC_diagGL_pow (u : Fin 3 → Kˣ) (k : ℕ) : slC (diagGL u) ^ k = slC (diagGL (u ^ k)) := by
   induction k with
   | zero =>
@@ -820,6 +834,7 @@ theorem slC_diagGL_pow (u : Fin 3 → Kˣ) (k : ℕ) : slC (diagGL u) ^ k = slC 
     rw [pow_zero, pow_zero, h1, map_one]
   | succ k ih => rw [pow_succ, ih, ← map_mul, diagGL_mul, pow_succ]
 
+omit [Finite K] in
 theorem conj_diag3 (d : Fin 3 → K) (hd : ∏ i, d i = 1) :
     MulAut.conj (diag3 d hd) =
       slC (diagGL fun i => Units.mk0 (d i) (ne_zero_of_prod_eq_one hd i)) := by
@@ -850,6 +865,7 @@ theorem mem_center_of_conj_eq_one {G : Type*} [Group G] {d : G} (h : MulAut.conj
   calc g * d = d * g * d⁻¹ * d := by rw [h1]
     _ = d * g := by group
 
+omit [Finite K] in
 theorem slC_diagGL_mul_slF_du (α : Fin 3 → Kˣ) (τ : K ≃+* K) :
     (slC (diagGL α) * slF τ) (diag3 ![1, -1, -1] prod_du) = diag3 ![1, -1, -1] prod_du := by
   apply Matrix.SpecialLinearGroup.ext
@@ -867,7 +883,7 @@ theorem mem_zpowers_of_centMod {s : K} (hs : s ≠ 0) (hω : IsPrimitiveRoot (s 
       (slC (diagGL α) * slF τ) j * j⁻¹ ∈ GLAPPrimeCoreOf 3 (coordBlockSL K blk)) :
     slC (diagGL α) * slF τ ∈
       Subgroup.zpowers (MulAut.conj (diag3 ![(s ^ 2)⁻¹, s, s] (prod_dr hs))) := by
-  have hq := isQuasisimple_coordBlockSL_blk Nat.prime_three (by norm_num) hω hF
+  have hq := isQuasisimple_coordBlockSL_blk hF
   have hdvd := dvd_card_coordBlockSL_blk (F := K) Nat.prime_three (by norm_num) hω
   have htest : ∀ c : K, (α 1 : K) * (((α 2)⁻¹ : Kˣ) : K) * τ c = c := by
     intro c
@@ -922,7 +938,7 @@ theorem mem_zpowers_of_centMod {s : K} (hs : s ≠ 0) (hω : IsPrimitiveRoot (s 
       field_simp
     · simp only [Fin.reduceFinMk, Fin.isValue, Units.val_mul, Units.val_inv_eq_inv_val,
         Units.val_pow_eq_pow_val, Units.val_mk0, Pi.pow_apply, Matrix.cons_val_two,
-        Matrix.cons_val_one, Matrix.cons_val_zero, Matrix.tail_cons, Matrix.head_cons]
+        Matrix.tail_cons, Matrix.head_cons]
       rw [← hα12]
       field_simp
   rw [hγ]
@@ -939,7 +955,7 @@ theorem z3Data_of_diag {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f) (hK : Nat
     (haD : a ∉ (slC (K := K)).range) :
     Z3Data 3 (SpecialLinearGroup (Fin 3) K) E := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hconjE : ∀ d ∈ AM, MulAut.conj d ∈ E := by
     intro d hd
     have h : MulAut.conj d ∈ E ⊓ (MulAut.conj : SpecialLinearGroup (Fin 3) K →*
@@ -971,7 +987,7 @@ theorem z3Data_of_diag {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f) (hK : Nat
     rw [hfix]
     exact CFSG.LocalAnalysis.GLTheoremA.H81.layer_eq_of_unique
       (glaPComponent_cent_diag3 Nat.prime_three (by norm_num) hω hF (prod_dr hs) rfl h01)
-      (fun _ hK' => eq_of_glaPComponent_cent_diag3 Nat.prime_three (by norm_num) hω hF (prod_dr hs) rfl
+      (fun _ hK' => eq_of_glaPComponent_cent_diag3 hF (prod_dr hs) rfl
         h01 hK')
   set u := diag3 ![1, -1, -1] (prod_du (K := K)) with hu
   have hu1 : u ≠ 1 := by

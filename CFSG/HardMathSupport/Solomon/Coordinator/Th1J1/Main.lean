@@ -14,6 +14,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_normalizer_of_mem_centralizer {X : Subgroup G} {k : G}
     (hk : k ∈ Subgroup.centralizer (X : Set G)) : k ∈ Subgroup.normalizer (X : Set G) := by
   rw [Subgroup.mem_normalizer_iff]

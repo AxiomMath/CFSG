@@ -56,7 +56,7 @@ theorem order6_data : ∃ w ∈ P, w * rP 8 = rP 8 * w ∧ orderOf w = 6 := by
       e3 (orderOf_dvd_iff_pow_eq_one.1 hh)
     have hle : orderOf (permOfArr 820 order6W) ≤ 6 := Nat.le_of_dvd (by norm_num) hd
     generalize orderOf (permOfArr 820 order6W) = m at hd hn2 hn3 hle
-    interval_cases m <;> simp_all <;> omega
+    interval_cases m <;> simp_all
 
 end Data
 

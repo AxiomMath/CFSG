@@ -112,7 +112,7 @@ theorem fin76bOuterRest₇_of_rest₈
       z ∈ S → OuterSylowFacts z E S ∧ ∀ b ∈ B', ∀ s ∈ S, b * s = s * b := by
     intro S hS2 hSC hSmax hzS
     exact ⟨(hSyl S hS2 hSC hSmax hzS).1,
-      hE.B_centralizes_S hzt hW haut hT Q.isPGroup' hTQ hxQ hxT hxN hB' hS2 hSC hSmax hzS⟩
+      hE.B_centralizes_S hzt hW haut hT Q.isPGroup hTQ hxQ hxT hxN hB' hS2 hSC hSmax hzS⟩
   obtain ⟨S, hS2, hSC, hSmax, hzS⟩ := exists_maximal_two_subgroup (centralizer (E : Set G))
     (hE.zpowers_le_cent_E (mem_zpowers z)) hE.cfg.z_order
   obtain ⟨hshape, hBS⟩ := hSyl' S hS2 hSC hSmax hzS

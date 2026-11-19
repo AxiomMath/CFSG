@@ -14,6 +14,7 @@ namespace L32HatStep
 
 variable {G : Type} [Group G] [Finite G] {T L V : Subgroup G}
 
+omit [Finite G] in
 theorem oTwoUpper_mono_gen {A B : Subgroup G} (h : A ≤ B) : oTwoUpper A ≤ oTwoUpper B :=
   Subgroup.closure_mono fun _ hx => ⟨h hx.1, hx.2⟩
 
@@ -26,6 +27,7 @@ theorem step21 {S : Setting4 G T L V}
   · exact (caseII_false h139 h37 h38 h1334 hS hhat hH hK hKn hP hXK).elim
   · exact step21_of_not_le hH hK hKn hP hXK
 
+omit [Finite G] in
 theorem mem_mul_of_sup_eq {H K M : Subgroup G} (hK : H ≤ Subgroup.normalizer (K : Set G))
     (hMH : M ≤ H) (hHKM : H = K ⊔ M) : ∀ h ∈ H, ∃ k ∈ K, ∃ m ∈ M, h = k * m := by
   let D : Subgroup G :=
@@ -98,8 +100,8 @@ theorem X_le_solvRad {S : Setting4 G T L V}
         exact hcen
       exact Subgroup.mem_bot.mp this
     exact (hker kn).mp hkn1
-  haveI : (K.subgroupOf H).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hKn
-  haveI hLsolv : Group.IsSolvable ↥(S.L1 ⊔ T) := S.isSolvable_L1T h1334 hS
+  have : (K.subgroupOf H).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hKn
+  have hLsolv : Group.IsSolvable ↥(S.L1 ⊔ T) := S.isSolvable_L1T h1334 hS
   have hQsolv : Group.IsSolvable (↥H ⧸ K.subgroupOf H) := by
     refine Group.isSolvable_of_surjective (f := (QuotientGroup.mk' (K.subgroupOf H)).comp
       (Subgroup.inclusion hL1H)) ?_
@@ -125,11 +127,11 @@ theorem X_le_solvRad {S : Setting4 G T L V}
       apply Subtype.ext
       have := congrArg Subtype.val hk
       simpa using this
-    haveI : Group.IsNilpotent ↥((pCoreOf 2 K).subgroupOf N) := IsPGroup.isNilpotent hAp
+    have : Group.IsNilpotent ↥((pCoreOf 2 K).subgroupOf N) := IsPGroup.isNilpotent hAp
     infer_instance
   have hNsolv : Group.IsSolvable ↥N := by
-    haveI := hAs
-    haveI := hQsolv
+    have := hAs
+    have := hQsolv
     refine Group.isSolvable_of_ker_le_range ((pCoreOf 2 K).subgroupOf N).subtype
       ((QuotientGroup.mk' (K.subgroupOf H)).comp (Subgroup.inclusion hNH)) ?_
     intro x hx

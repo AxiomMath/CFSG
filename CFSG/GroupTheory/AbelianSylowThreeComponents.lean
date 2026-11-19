@@ -34,7 +34,7 @@ private lemma layer_le_map_of_disjoint_normalClosures {X : Type*} [Group X] [Fin
       (Subgroup.normalClosure (D₂ : Set X)).map (QuotientGroup.mk' O) = ⊥) :
     CFSG.layer (X ⧸ O) ≤ K.map (QuotientGroup.mk' O) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let π : X →* X ⧸ O := QuotientGroup.mk' O
   let Kbar : Subgroup (X ⧸ O) := K.map π
   let N₁ : Subgroup (X ⧸ O) := (Subgroup.normalClosure (D₁ : Set X)).map π
@@ -96,7 +96,7 @@ private lemma generalizedFitting_le_map {X : Type*} [Group X] [Finite X]
     (hE : CFSG.layer (X ⧸ O) ≤ K.map (QuotientGroup.mk' O)) :
     CFSG.generalizedFitting (X ⧸ O) ≤ K.map (QuotientGroup.mk' O) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let π : X →* X ⧸ O := QuotientGroup.mk' O
   let Y := X ⧸ O
   let Kbar : Subgroup Y := K.map π
@@ -132,14 +132,14 @@ private lemma preimage_generalizedFitting_frattini {X : Type*} [Group X] [Finite
     F ≤ K ∧ CFSG.ABGLocalTools.IsSylowOf 3 S F ∧
       F ⊔ Subgroup.normalizer (S : Set X) = ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hF_le_K : F ≤ K := by
     rw [hF]
     exact (Subgroup.comap_mono hFstar).trans (le_of_eq hcomap)
   have hFnormal : F.Normal := by
     rw [hF]
     exact (CFSG.LocalCores.generalized_fitting_characteristic (G := X ⧸ O)).2.comap _
-  letI : F.Normal := hFnormal
+  let : F.Normal := hFnormal
   have hS_sylow : CFSG.ABGLocalTools.IsSylowOf 3 S F := by
     rw [hS]
     exact hQ.inf_of_le_normalizer le_top (by rw [Subgroup.normalizer_eq_top])
@@ -202,7 +202,7 @@ private lemma mk'_center_order_three_data {X : Type*} [Group X] [Finite X]
     QuotientGroup.mk' O z ∈ Subgroup.center (X ⧸ O) ∧
       (QuotientGroup.mk' O z) ^ 3 = 1 ∧ orderOf (QuotientGroup.mk' O z) = 3 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hz3 : z ^ 3 = 1 := by
     have h := pow_orderOf_eq_one z
     rwa [hz] at h
@@ -232,7 +232,7 @@ private lemma mem_comap_generalizedFitting_of_central_order_three {X : Type*} [G
     (hcopO : ¬ 3 ∣ Nat.card O) (hzZ : z ∈ Subgroup.center X) (hz : orderOf z = 3) :
     z ∈ (CFSG.generalizedFitting (X ⧸ O)).comap (QuotientGroup.mk' O) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hcenter, hpow, horder⟩ := mk'_center_order_three_data hcopO hzZ hz
   have hpgrp : IsPGroup 3 ↥(Subgroup.zpowers (QuotientGroup.mk' O z)) :=
     IsPGroup.of_card (p := 3) (n := 1)
@@ -250,8 +250,8 @@ private lemma isCyclic_of_forall_pow_three_mem_zpowers {X : Type*} [Group X] [Fi
     {S : Subgroup X} {z : X} (hS : IsPGroup 3 ↥S) (hzS : z ∈ S) (hz : orderOf z = 3)
     (hno : ∀ s ∈ S, s ^ 3 = 1 → s ∈ Subgroup.zpowers z) : IsCyclic ↥S := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (IsPGroup 3 ↥S) := ⟨hS⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (IsPGroup 3 ↥S) := ⟨hS⟩
   by_contra hnc
   obtain ⟨A, -, hAcard, hAelem⟩ := CFSG.lemma_4_5_a (p := 3) (by norm_num) hnc
   have hZ0card : Nat.card ↥(Subgroup.zpowers (⟨z, hzS⟩ : ↥S)) = 3 := by
@@ -280,7 +280,7 @@ private lemma map_preimage_sylow_data {X : Type*} [Group X] [Finite X]
         (CFSG.generalizedFitting (X ⧸ O)) ∧
       IsCyclic ↥(S.map (QuotientGroup.mk' O)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let π : X →* X ⧸ O := QuotientGroup.mk' O
   let Y := X ⧸ O
   let Qbar : Subgroup Y := Q.map π
@@ -312,7 +312,7 @@ private lemma map_preimage_sylow_data {X : Type*} [Group X] [Finite X]
     simpa [Qbar] using hSbarcoe
   have hSmap_sylow : CFSG.ABGLocalTools.IsSylowOf 3 (S.map π)
       (CFSG.generalizedFitting Y) := by
-    letI : (CFSG.generalizedFitting Y).Normal :=
+    let : (CFSG.generalizedFitting Y).Normal :=
       (CFSG.LocalCores.generalized_fitting_characteristic (G := Y)).2
     have h := hQbar_sylow.inf_of_le_normalizer (N := CFSG.generalizedFitting Y) le_top (by
       rw [Subgroup.normalizer_eq_top])
@@ -338,7 +338,7 @@ private lemma map_eq_top_of_cyclic_of_layer_eq_bot {X : Type*} [Group X] [Finite
     (hcore : CFSG.pPrimeCore 3 (X ⧸ O) = ⊥) :
     K.map (QuotientGroup.mk' O) = ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let π : X →* X ⧸ O := QuotientGroup.mk' O
   let Y := X ⧸ O
   have hSmap_sylow' : CFSG.ABGLocalTools.IsSylowOf 3 (S.map π)
@@ -376,7 +376,7 @@ private lemma map_eq_top_of_cyclic_of_layer_eq_bot {X : Type*} [Group X] [Finite
     rw [← hFstar_eq_S]
     exact CFSG.centralizer_generalizedFitting_le Y
   have hQbar_cyc : IsCyclic ↥(Q.map π) := by
-    letI : IsCyclic ↥(S.map π) := hSmap_cyc'
+    let : IsCyclic ↥(S.map π) := hSmap_cyc'
     exact isCyclic_of_le hQbar_le_Smap
   have hQcyc' : IsCyclic ↥Q := by
     let f : ↥Q →* ↥(Q.map π) :=
@@ -399,7 +399,7 @@ private lemma false_of_cyclic_of_layer_ne_bot {X : Type*} [Group X] [Finite X]
     (hEbot : CFSG.layer (X ⧸ O) ≠ ⊥) :
     False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let π : X →* X ⧸ O := QuotientGroup.mk' O
   let Y := X ⧸ O
   have hSmap_sylow' : CFSG.ABGLocalTools.IsSylowOf 3 (S.map π)
@@ -452,10 +452,10 @@ private lemma false_of_cyclic_of_layer_ne_bot {X : Type*} [Group X] [Finite X]
     rw [hP, hbot]
     simp
   have hInt_cyc : IsCyclic ↥(S.map π ⊓ J) := by
-    letI : IsCyclic ↥(S.map π) := hSmap_cyc'
+    let : IsCyclic ↥(S.map π) := hSmap_cyc'
     exact isCyclic_of_le inf_le_left
   have hP_cyc : IsCyclic ↥(P : Subgroup J) := by
-    letI : IsCyclic ↥(S.map π ⊓ J) := hInt_cyc
+    let : IsCyclic ↥(S.map π ⊓ J) := hInt_cyc
     let f : ↥(P : Subgroup J) →* ↥(S.map π ⊓ J) :=
       (J.subtype.comp (P : Subgroup J).subtype).codRestrict _
         (fun x => by
@@ -468,13 +468,13 @@ private lemma false_of_cyclic_of_layer_ne_bot {X : Type*} [Group X] [Finite X]
     apply Subtype.ext
     apply Subtype.ext
     exact congrArg (fun t : ↥(S.map π ⊓ J) => (t : Y)) hab
-  letI : Group.IsPerfect ↥J := hJ.1.1
-  letI : IsCyclic ↥(P : Subgroup J) := hP_cyc
+  let : Group.IsPerfect ↥J := hJ.1.1
+  let : IsCyclic ↥(P : Subgroup J) := hP_cyc
   obtain ⟨n, -, hnInv⟩ :=
     CFSG.GroupTheory.exists_mem_normalizer_conj_eq_inv_of_perfect P hPne
   let ΩS : Subgroup Y :=
     (CFSG.omega₁ ↥(S.map π) (p := 3)).map (S.map π).subtype
-  letI : CommGroup ↥(S.map π) := IsCyclic.commGroup
+  let : CommGroup ↥(S.map π) := IsCyclic.commGroup
   have hzbar_mem_Smap : π z ∈ S.map π := Subgroup.mem_map.mpr ⟨z, hzS, rfl⟩
   have h3dvdSmap : 3 ∣ Nat.card ↥(S.map π) := by
     have h := Subgroup.orderOf_dvd_natCard (S.map π) hzbar_mem_Smap
@@ -492,7 +492,7 @@ private lemma false_of_cyclic_of_layer_ne_bot {X : Type*} [Group X] [Finite X]
       rcases hH_pgroup.card_eq_or_dvd with h | h
       · exact absurd h hHcard_ne
       · exact h
-    haveI : Fintype ↥(S.map π ⊓ J) := Fintype.ofFinite _
+    have : Fintype ↥(S.map π ⊓ J) := Fintype.ofFinite _
     have h3dvdH' : 3 ∣ Fintype.card ↥(S.map π ⊓ J) := by
       rwa [Nat.card_eq_fintype_card] at h3dvdH
     obtain ⟨y, hy3⟩ := exists_prime_orderOf_dvd_card (G := ↥(S.map π ⊓ J)) 3 h3dvdH'
@@ -532,7 +532,7 @@ private lemma false_of_cyclic_of_layer_ne_bot {X : Type*} [Group X] [Finite X]
     exact h.symm
   have hzpowers_normal : (Subgroup.zpowers aJ).Normal :=
     Subgroup.normal_of_le_center (Subgroup.zpowers_le.mpr haJ_center)
-  letI : (Subgroup.zpowers aJ).Normal := hzpowers_normal
+  let : (Subgroup.zpowers aJ).Normal := hzpowers_normal
   have haJ_pgroup : IsPGroup 3 ↥(Subgroup.zpowers aJ) :=
     IsPGroup.of_card (p := 3) (n := 1) (by rw [Nat.card_zpowers, haJ_order]; norm_num)
   have hzpowers_le_P : Subgroup.zpowers aJ ≤ (P : Subgroup J) :=
@@ -540,7 +540,7 @@ private lemma false_of_cyclic_of_layer_ne_bot {X : Type*} [Group X] [Finite X]
   have haJP : aJ ∈ (P : Subgroup J) := hzpowers_le_P (Subgroup.mem_zpowers aJ)
   have haJ_omegaP : (⟨aJ, haJP⟩ : ↥(P : Subgroup J)) ∈
       CFSG.omega₁ ↥(P : Subgroup J) (p := 3) := by
-    letI : CommGroup ↥(P : Subgroup J) := IsCyclic.commGroup
+    let : CommGroup ↥(P : Subgroup J) := IsCyclic.commGroup
     rw [CFSG.mem_omega₁_iff_of_comm (fun a b => mul_comm a b)]
     apply Subtype.ext
     change aJ ^ 3 = 1
@@ -583,7 +583,7 @@ theorem eq_top_of_abelianSylowThree {X : Type*} [Group X] [Finite X]
         (QuotientGroup.mk' (CFSG.pPrimeCore 3 X)) = ⊥) :
     K = ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let O : Subgroup X := CFSG.pPrimeCore 3 X
   have hcopO : ¬ 3 ∣ Nat.card O :=
     (Nat.prime_three.coprime_iff_not_dvd).1

@@ -13,7 +13,7 @@ open CFSG.Sporadic.Th CFSG.Sporadic.Th.Native CFSG.Sporadic.Th.Max3 CFSG.Sporadi
 
 noncomputable abbrev planeWSet : Set RowV := (planeW : Set RowV)
 
-@[expose] noncomputable def matRows (X : Matrix (Fin 248) (Fin 248) (ZMod 2)) : Array V4 :=
+noncomputable def matRows (X : Matrix (Fin 248) (Fin 248) (ZMod 2)) : Array V4 :=
   Array.ofFn fun i : Fin 248 => V4.ofFn fun j => if h : j < 248 then X i ⟨j, h⟩ = 1 else false
 
 theorem frApply_matRows_wf (X : Matrix (Fin 248) (Fin 248) (ZMod 2)) (v : V4) :

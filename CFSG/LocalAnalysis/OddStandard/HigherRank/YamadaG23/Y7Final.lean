@@ -18,7 +18,7 @@ open Subgroup CFSG.Open CFSG.OddStandard.HigherRank.G2Three
 
 theorem sec7False_of_sylow (h : Sec7Sylow) : Sec7False := by
   intro G _ _ L hS hL c hc
-  haveI : IsSimpleGroup G := hS.std.simple
+  have : IsSimpleGroup G := hS.std.simple
   obtain ⟨Q, N, hsyl, hNle, hsec, hext⟩ := h G L hS hL c hc
   exact transfer_of_isSylowIn hS.std.nonab hsyl hNle hsec c.s.t_order hext
 

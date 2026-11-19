@@ -123,7 +123,7 @@ theorem ggDepA_restrict {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V] [Mo
       Nat.card ↥res.range ≤ Nat.card ↥(Subgroup.closure S) ∧
       res.range = Subgroup.closure
         {t | ∃ (s : V ≃ₗ[ZMod p] V) (hs : s ∈ S), t = res ⟨s, Subgroup.subset_closure hs⟩} := by
-  haveI hfinU : Module.Finite (ZMod p) ↥U :=
+  have hfinU : Module.Finite (ZMod p) ↥U :=
     FiniteDimensional.finiteDimensional_submodule U
   let H : Subgroup (V ≃ₗ[ZMod p] V) :=
     { carrier := {g | ∀ u ∈ U, g u ∈ U}
@@ -158,12 +158,12 @@ theorem ggDepA_restrict {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V] [Mo
     show ((l05nDR_resEndo U (g : V ≃ₗ[ZMod p] V) (hmap g g.2) u : ↥U) : V) =
       (g : V ≃ₗ[ZMod p] V) u
     rw [l05nDR_resEndo_apply]
-  · haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
-    haveI : Finite V := Module.finite_of_finite (ZMod p)
-    haveI : Finite (V ≃ₗ[ZMod p] V) :=
+  · have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+    have : Finite V := Module.finite_of_finite (ZMod p)
+    have : Finite (V ≃ₗ[ZMod p] V) :=
       Finite.of_injective (fun e : V ≃ₗ[ZMod p] V => (e : V → V))
         (fun _ _ h => LinearEquiv.ext (congrFun h))
-    haveI : Finite ↥(Subgroup.closure S) :=
+    have : Finite ↥(Subgroup.closure S) :=
       Finite.of_injective (Subtype.val : ↥(Subgroup.closure S) → V ≃ₗ[ZMod p] V)
         Subtype.val_injective
     refine Nat.card_le_card_of_surjective

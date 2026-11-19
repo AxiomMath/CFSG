@@ -20,6 +20,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem yo2_mk_one_iff {H₀ : Subgroup G} (x : ↥H₀) :
     QuotientGroup.mk' (CFSG.pCore 2 ↥H₀) x = 1 ↔ (x : G) ∈ pCoreOf 2 H₀ := by
   rw [QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff]
@@ -31,6 +32,7 @@ theorem yo2_mk_one_iff {H₀ : Subgroup G} (x : ↥H₀) :
     rw [← this]
     exact hy
 
+omit [Finite G] in
 theorem yo2_card_le_two_mul {T S : Subgroup G} {t' : G} (ht' : t' ∈ T)
     (h : ∀ s ∈ T, s ∈ S ∨ t'⁻¹ * s ∈ S) : Nat.card T ≤ 2 * Nat.card ↥(T ⊓ S) := by
   set N := (T ⊓ S).subgroupOf T with hN

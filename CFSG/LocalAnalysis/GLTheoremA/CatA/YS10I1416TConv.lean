@@ -375,7 +375,7 @@ theorem conv_reeF4 {R : Type} [Group R] {a : ℕ} (hv : (TauCeti.LieTypeIndex.re
     (K : Type) [Field K] [Finite K] (hK : Nat.card K = 2 ^ (2 * a + 1))
     (φ : R ≃* CFSG.Blueprint.DerivedCentralQuotient (reeFixedGroup .F4 K reeF4Perm
       fun i => if i ∈ reeF4Long then 2 ^ a else 2 ^ (a + 1))) : IsChevSimple 2 R := by
-  haveI : CharP K 2 := CFSG.TauCetiBridge.charP_two_of_card_eq_two_pow hK
+  have : CharP K 2 := CFSG.TauCetiBridge.charP_two_of_card_eq_two_pow hK
   have hhalf : (ReeF4LieIndex.of a hv).toSuzukiReeIndex.halfExponent = a :=
     SuzukiReeIndex.halfExponent_reeF4 a hv
   have hcard : Nat.card K = 2 ^ (2 * (ReeF4LieIndex.of a hv).toSuzukiReeIndex.halfExponent + 1) := by
@@ -388,7 +388,7 @@ theorem conv_reeF4 {R : Type} [Group R] {a : ℕ} (hv : (TauCeti.LieTypeIndex.re
 theorem conv_tits {R : Type} [Group R] (K : Type) [Field K] [Finite K] (hK : Nat.card K = 2)
     (φ : R ≃* CFSG.Blueprint.DerivedCentralQuotient (reeFixedGroup .F4 K reeF4Perm
       fun i => if i ∈ reeF4Long then 2 ^ 0 else 2 ^ (0 + 1))) : IsChevSimple 2 R := by
-  haveI : CharP K 2 := CFSG.TauCetiBridge.charP_two_of_card_eq_two_pow (f := 1) (by rw [hK]; norm_num)
+  have : CharP K 2 := CFSG.TauCetiBridge.charP_two_of_card_eq_two_pow (f := 1) (by rw [hK]; norm_num)
   obtain ⟨e₁⟩ := CFSG.TauCetiBridge.tits_candidate_equiv_of_card TitsLieIndex.of hK
   have hv : (TauCeti.LieTypeIndex.tits).Valid := by
     simp [TauCeti.LieTypeIndex.valid_iff, TauCeti.LieTypeIndex.inStandardRange_iff,
@@ -437,7 +437,7 @@ theorem chev2MarkedConverse_of (hM : Chev2MinusInput) : Chev2MarkedConverse := b
         have hMR' := hMR
         simp only [CFSG.StandardType.MarkedModel, CFSG.StandardType.markTag,
           CFSG.StandardType.markRank, CFSG.StandardType.markChar, CFSG.StandardType.markDeg,
-          h3, if_false] at hMR'
+          h3, ite_false] at hMR'
         exact hMR'
       exact conv_Dp (by omega) hn hL
   | twD =>
@@ -455,7 +455,7 @@ theorem chev2MarkedConverse_of (hM : Chev2MinusInput) : Chev2MarkedConverse := b
           have hMR' := hMR
           simp only [CFSG.StandardType.MarkedModel, CFSG.StandardType.markTag,
             CFSG.StandardType.markRank, CFSG.StandardType.markChar, CFSG.StandardType.markDeg,
-            h2, h3, if_false] at hMR'
+            h2, h3, ite_false] at hMR'
           exact hMR'
         exact hM R rank n (by omega) hn hL
   | E6 =>

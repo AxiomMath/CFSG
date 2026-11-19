@@ -45,11 +45,11 @@ private theorem ggInvE7_isogeny_xm_pinnedX {f : ℕ}
     e7Isogeny (GaloisField 2 f) (e7Data_valid.xm (GaloisField 2 f) γ 1) =
       (⟨pinnedX .E7 (GaloisField 2 f) γ 1,
         pinnedX_mem_adjointGroup γ 1⟩ : adjointGroup .E7 (GaloisField 2 f)) := by
-  haveI : CharP (GaloisField 2 f) 2 := inferInstance
+  have : CharP (GaloisField 2 f) 2 := inferInstance
   rw [e7Isogeny_xm]
   rw [xPar_of_isRoot (F := rootOperatorFamily .E7) hγ]
   apply Subtype.ext
-  simp only [RootOperatorFamily.coe_eltElement, Subtype.coe_mk]
+  simp only [RootOperatorFamily.coe_eltElement]
   rw [RootOperatorFamily.pinnedX_eq_eltUnit (F := rootOperatorFamily .E7)
     (GaloisField 2 f) hγ 1]
   have h1 : (e7Eps γ : GaloisField 2 f) * 1 = 1 := by
@@ -79,8 +79,8 @@ private theorem ggInvE7_lift_frame {n f : ℕ}
         e7Isogeny (GaloisField 2 f) r' =
           (⟨(F.map fun σ => pinnedX .E7 (GaloisField 2 f) σ 1).prod,
             list_prod_map_pinnedX_mem_adjointGroup F⟩ : adjointGroup .E7 (GaloisField 2 f)) := by
-  haveI : CharP (GaloisField 2 f) 2 := inferInstance
-  haveI : Finite (GaloisField 2 f) := inferInstance
+  have : CharP (GaloisField 2 f) 2 := inferInstance
+  have : Finite (GaloisField 2 f) := inferInstance
   have hroot : ∀ σ ∈ F, IsRoot .E7 σ := by
     intro σ hσ
     have hZ : σ ∈ ({β : Fin (ggU .E7 n f).D.rank → ℤ | List.ofFn β ∈ L}) := hF σ hσ
@@ -117,9 +117,9 @@ theorem ggExcKGInvolutions_E7 (n f : ℕ) (G : Type) [Group G] [Finite G]
         g * s * g⁻¹ ∈ ⨆ β ∈ Z, ((ggU .E7 n f).D.rootGroup β).map ψ := by
   obtain ⟨⟨hadm, hrk⟩, hker, ⟨hcomm, hlie⟩, hcent⟩ := hset
   have hf : 1 ≤ f := hadm.2.1
-  haveI : NeZero f := ⟨by omega⟩
-  haveI : Finite (GaloisField 2 f) := inferInstance
-  haveI : CharP (GaloisField 2 f) 2 := inferInstance
+  have : NeZero f := ⟨by omega⟩
+  have : Finite (GaloisField 2 f) := inferInstance
+  have : CharP (GaloisField 2 f) 2 := inferInstance
   let K := GaloisField 2 f
   let φ : (ggU .E7 n f).K →* adjointGroup .E7 K := e7Isogeny K
   let χ : adjointGroup .E7 K →* G := ψ.comp (e7Equiv (K := K)).symm.toMonoidHom

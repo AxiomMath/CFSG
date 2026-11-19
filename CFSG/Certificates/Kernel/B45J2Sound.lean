@@ -18,9 +18,9 @@ theorem testBit_rowOf : ∀ (L : List ℕ) (i : ℕ),
   | l :: ls, i => by
     rw [rowOf, Nat.add_comm, Nat.testBit_two_pow_mul_add _ (Nat.mod_lt _ (by positivity))]
     by_cases h : i < 60
-    · rw [if_pos h, Nat.testBit_mod_two_pow, Nat.div_eq_of_lt h, Nat.mod_eq_of_lt h]
+    · rw [ite_eq_left h, Nat.testBit_mod_two_pow, Nat.div_eq_of_lt h, Nat.mod_eq_of_lt h]
       simp [h]
-    · rw [if_neg h, testBit_rowOf ls]
+    · rw [ite_eq_right h, testBit_rowOf ls]
       have h1 : i / 60 = (i - 60) / 60 + 1 := by omega
       have h2 : (i - 60) % 60 = i % 60 := by omega
       rw [h1, List.getD_cons_succ, h2]
@@ -173,9 +173,9 @@ theorem pairMat_kronF4 {m n : ℕ} {A B : List (ℕ × ℕ)} (hA : A.length = m)
     exact a.2
   rw [getD_kronF4 m n B hB A a b ha b.2, pent_actF4, length_shiftsF4]
   rw [Finset.sum_eq_single (i : ℕ)]
-  · rw [getD_shiftsF4 n m _ _ i i.2, pent_shift j.2, if_pos rfl]
+  · rw [getD_shiftsF4 n m _ _ i i.2, pent_shift j.2, ite_eq_left rfl]
   · intro l hl hli
-    rw [getD_shiftsF4 n m _ _ l (Finset.mem_range.1 hl), pent_shift j.2, if_neg hli, mul_zero]
+    rw [getD_shiftsF4 n m _ _ l (Finset.mem_range.1 hl), pent_shift j.2, ite_eq_right hli, mul_zero]
   · intro h
     exact absurd (Finset.mem_range.2 i.2) h
 

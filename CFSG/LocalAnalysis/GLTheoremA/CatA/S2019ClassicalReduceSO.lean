@@ -27,7 +27,7 @@ theorem s2019Omega_of_conj_of_not_conj {p : ℕ} (hp : p.Prime) {S B D J : Subgr
   by_cases hinn : ∃ a, transAut (MulEquiv.refl (↥S ⧸ Subgroup.center ↥S)) b = MulAut.conj a
   · obtain ⟨a, ha⟩ := hinn
     rw [ha] at hβp ⊢
-    haveI : Group.IsPerfect ↥S := ⟨hSq.1⟩
+    have : Group.IsPerfect ↥S := ⟨hSq.1⟩
     refine hI a ?_
     have h1 : MulAut.conj (a ^ p) = 1 := by rw [map_pow, hβp]
     have hmem : a ^ p ∈ Subgroup.center (↥S ⧸ Subgroup.center ↥S) := by
@@ -57,7 +57,7 @@ theorem s2019FactClassicalOn_symplectic (hI5 : S2019SympInner (5 ≤ ·))
     cases d <;> first | exact ⟨_, _, rfl⟩ | simp [s2019Family] at hfam
   have hQq : Q.p = q := by simpa using hchar
   subst hQq
-  haveI := hSn
+  have := hSn
   have hG := CFSG.QuasithinUnique.SQTK.statedClassicalModel_typeC m Q hv
     ((pSimpleEquivQuotCenter hSp).symm.trans e₀)
   refine s2019Omega_of_conj_of_not_conj hp hSq hSp hBel (fun a ha => ?_) (fun β hβ hn => ?_)
@@ -81,7 +81,7 @@ theorem s2019FactClassicalOn_orthogonal (hI5 : S2019OrthInner (5 ≤ ·))
   swap
   · exact absurd hi id
   obtain ⟨hchar, hfam, -⟩ := hi
-  haveI := hSn
+  have := hSn
   have hinner : ∀ (t : StatedLieTag), (t = .POmegaOdd ∨ t = .POmegaPlus ∨ t = .POmegaMinus) →
       ∀ n f, StatedClassicalModel (↥S ⧸ Subgroup.center ↥S) t n q f →
       ∀ a : ↥S ⧸ Subgroup.center ↥S, a ^ p = 1 → S2019FixCentralizes p (MulAut.conj a) := by

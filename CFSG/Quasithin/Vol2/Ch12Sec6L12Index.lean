@@ -26,8 +26,8 @@ private theorem isElemAbelian_V_of_h1222 {G : Type} [Group G] [Finite G] {T L V 
 private theorem not_le_of_quasisimple_isSolvable {G : Type} [Group G] {K N : Subgroup G}
     (hq : CFSG.IsQuasisimple ↥K) (hN : Group.IsSolvable ↥N) : ¬ K ≤ N := by
   intro hKN
-  haveI : Nontrivial ↥K := CFSG.LocalCores.isQuasisimple_nontrivial hq
-  haveI : Group.IsPerfect ↥K := hq.1
+  have : Nontrivial ↥K := CFSG.LocalCores.isQuasisimple_nontrivial hq
+  have : Group.IsPerfect ↥K := hq.1
   have hsolvK : Group.IsSolvable ↥K :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hKN)
       (Subgroup.inclusion_injective hKN)
@@ -99,7 +99,7 @@ theorem relIndex_Tv_S_le_two (h1222 : Stmt12_2_2) (hD2 : Lemma12_6_4_5) {G : Typ
   have hO2 : pCoreOf 2 (Gv v) ≠ ⊥ := pCoreOf_Gv_ne_bot_of_ctx h1222 hC
   have hKG : Kv ≤ Gv v := le_of_mem_cComp hC.cComp
   have hNs : Group.IsSolvable ↥(pCoreOf 2 (Gv v)) := by
-    haveI : Group.IsNilpotent ↥(pCoreOf 2 (Gv v)) :=
+    have : Group.IsNilpotent ↥(pCoreOf 2 (Gv v)) :=
       (pCoreOf_isPGroup 2 (Gv v)).isNilpotent
     infer_instance
   have hKN : Kv ≤ Subgroup.normalizer (pCoreOf 2 (Gv v) : Set G) :=
@@ -139,10 +139,10 @@ theorem relIndex_Tv_S_le_two (h1222 : Stmt12_2_2) (hD2 : Lemma12_6_4_5) {G : Typ
   rw [hn] at hdvd
   obtain ⟨m, -, hm⟩ := (Nat.dvd_prime_pow Nat.prime_two).1 hdvd
   by_contra hgt
-  push_neg at hgt
+  push Not at hgt
   have hm2 : 2 ≤ m := by
     by_contra h
-    push_neg at h
+    push Not at h
     interval_cases m <;> simp only [pow_zero, pow_one] at hm <;> omega
   have h4dvd : 4 ∣ (Tv T v).relIndex S := by
     have h4 : (4 : ℕ) = 2 ^ 2 := by norm_num

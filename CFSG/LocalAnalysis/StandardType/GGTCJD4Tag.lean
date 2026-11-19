@@ -51,7 +51,7 @@ private theorem l05nL4d_nonabelian_of_central_extension
     ∃ a b : R, a * b ≠ b * a := by
   by_contra hnab
   push Not at hnab
-  haveI : IsMulCommutative R := isMulCommutative_iff.mpr hnab
+  have : IsMulCommutative R := isMulCommutative_iff.mpr hnab
   have hRcomm : commutator R = ⊥ := (commutator_eq_bot_iff R).mpr inferInstance
   have hmap : (commutator L').map ψ = ⊥ := by
     have h1 : (commutator L').map ψ = commutator R := by
@@ -69,14 +69,14 @@ private theorem l05nL4d_nonabelian_of_central_extension
     (commutator_eq_bot_iff L').mpr (isMulCommutative_iff.mpr fun a b =>
       (Subgroup.mem_center_iff.mp (hZtop.symm ▸ Subgroup.mem_top a) b).symm)
   have htopbot : (⊤ : Subgroup L') = ⊥ := by rw [← hperf, hcommL']
-  haveI : Subsingleton L' := ⟨fun a b => by
+  have : Subsingleton L' := ⟨fun a b => by
     have ha : a = 1 := Subgroup.mem_bot.mp (by rw [← htopbot]; exact Subgroup.mem_top a)
     have hb : b = 1 := Subgroup.mem_bot.mp (by rw [← htopbot]; exact Subgroup.mem_top b)
     rw [ha, hb]⟩
-  haveI : Subsingleton J := ⟨fun a b =>
+  have : Subsingleton J := ⟨fun a b =>
     Subtype.ext (Subsingleton.elim (a : L') (b : L'))⟩
-  haveI : Subsingleton (J ⧸ Subgroup.center J) := inferInstance
-  haveI : Nontrivial (J ⧸ Subgroup.center J) := hJsimple.toNontrivial
+  have : Subsingleton (J ⧸ Subgroup.center J) := inferInstance
+  have : Nontrivial (J ⧸ Subgroup.center J) := hJsimple.toNontrivial
   obtain ⟨a, b, hab⟩ := exists_pair_ne (J ⧸ Subgroup.center J)
   exact hab (Subsingleton.elim a b)
 
@@ -109,15 +109,15 @@ private theorem l05nL4d_tag_of_orth_component
     rcases hmodel with hG | hG
     · exact ⟨_, Or.inl rfl, by simpa only [hcan] using hG⟩
     · exact ⟨_, Or.inr rfl, by simpa only [hcan] using hG⟩
-  haveI : IsSimpleGroup (K ⧸ Subgroup.center K) := hK.2.2.2
+  have : IsSimpleGroup (K ⧸ Subgroup.center K) := hK.2.2.2
   rcases TCJ.tcjOrth_quotCenter_cases_of_component_conj_omega ht hG
       (by norm_num : Nat.Prime 3) (by norm_num : (3 : ℕ) ≠ 2) a hap
       ((CFSG.Assembly.isComponentOf_iff_open).mp hK) with
     hlin | huni | hsymp | horth
   ·
     obtain ⟨b, k, E, hfE, hfinE, hb, hE, -, hφ⟩ := hlin
-    letI : Field E := hfE
-    letI : Finite E := hfinE
+    let : Field E := hfE
+    let : Finite E := hfinE
     obtain ⟨eφ⟩ := hφ
     have hM0 : StatedClassicalModel (K ⧸ Subgroup.center K) .PSL b 2 k :=
       CFSG.LocalAnalysis.GLTheoremA.Y10GInnLin.statedClassicalModel_psl_of_isSimpleGroup
@@ -132,15 +132,15 @@ private theorem l05nL4d_tag_of_orth_component
       (show (.A : LargeEvenLieTag) ≠ .triD4 by decide)
   ·
     obtain ⟨b, k, E, hfE, hfinE, τ, hτ, hb, hτk, hE, -, hφ⟩ := huni
-    letI : Field E := hfE
-    letI : Finite E := hfinE
+    let : Field E := hfE
+    let : Finite E := hfinE
     obtain ⟨eφ⟩ := hφ
     by_cases hb2 : b = 2
     · subst hb2
       obtain ⟨k', hfK', hfinK', hk', ⟨ψ⟩⟩ :=
         CFSG.LocalAnalysis.GLTheoremA.Y10GInnUni.exists_quot_heldSU_two_equiv_psl τ hτ hτk hE
-      letI : Field k' := hfK'
-      letI : Finite k' := hfinK'
+      let : Field k' := hfK'
+      let : Finite k' := hfinK'
       have hM : StatedClassicalModel (K ⧸ Subgroup.center K) .PSL 2 2 k :=
         CFSG.LocalAnalysis.GLTheoremA.Y10GInnLin.statedClassicalModel_psl_of_isSimpleGroup
           (le_refl 2) hk' (eφ.trans ψ)
@@ -152,10 +152,10 @@ private theorem l05nL4d_tag_of_orth_component
     · by_cases h31 : b = 3 ∧ k = 1
       · exfalso
         obtain ⟨rfl, rfl⟩ := h31
-        haveI := CFSG.LocalAnalysis.GLTheoremA.Y10GInnUni.isSolvable_quot_heldSU_three_two
+        have := CFSG.LocalAnalysis.GLTheoremA.Y10GInnUni.isSolvable_quot_heldSU_three_two
           τ hτ (fun x => by simpa using hτk x) (by simpa using hE)
         have hsolK : Group.IsSolvable (K ⧸ Subgroup.center K) :=
-          solvable_of_surjective (f := eφ.symm.toMonoidHom) eφ.symm.surjective
+          Group.isSolvable_of_surjective (f := eφ.symm.toMonoidHom) eφ.symm.surjective
         exact (CFSG.LocalAnalysis.GLTheoremA.Y10GInnUni.not_isSolvable_quot_center
           (J := K)) hsolK
       · have hb3 : 3 ≤ b := by omega
@@ -192,8 +192,8 @@ private theorem l05nL4d_tag_of_orth_component
           (show (.twA : LargeEvenLieTag) ≠ .triD4 by decide)
   ·
     obtain ⟨s, K', hfK', hfinK', hs, hK'card, hne, hφ⟩ := hsymp
-    letI : Field K' := hfK'
-    letI : Finite K' := hfinK'
+    let : Field K' := hfK'
+    let : Finite K' := hfinK'
     obtain ⟨eφ⟩ := hφ
     have hlab' : LargeEvenInLambda2 (⟨.B, s, n⟩ : LargeEvenLabel) := by
       refine CFSG.LocalAnalysis.GLTheoremA.Y10GSympLabel.largeEvenInLambda2_typeB hn.1 hs ?_
@@ -218,7 +218,7 @@ private theorem l05nL4d_tag_of_orth_component
         exact ⟨hn.1, by omega⟩
       have hhas' : GGHasLabel (⟨.D, s, n⟩ : LargeEvenLabel) (K ⧸ Subgroup.center K) := by
         show (if s = 3 then _ else _)
-        rw [if_neg hm3]
+        rw [ite_eq_right hm3]
         exact recipeOmegaPlus_of_statedClassicalModel hM
       exact l05nL4d_tag_ne_of_ggLabelIso
         (hRig labJ (⟨.D, s, n⟩ : LargeEvenLabel) (K ⧸ Subgroup.center K) hlabJ
@@ -233,7 +233,7 @@ private theorem l05nL4d_tag_of_orth_component
         exact ⟨hn.1, by omega⟩
       have hhas' : GGHasLabel (⟨.twD, s, n⟩ : LargeEvenLabel) (K ⧸ Subgroup.center K) := by
         show (if s = 2 then _ else if s = 3 then _ else _)
-        rw [if_neg hm2, if_neg hm3]
+        rw [ite_eq_right hm2, ite_eq_right hm3]
         exact recipeOmegaMinus_of_statedClassicalModel hM
       exact l05nL4d_tag_ne_of_ggLabelIso
         (hRig labJ (⟨.twD, s, n⟩ : LargeEvenLabel) (K ⧸ Subgroup.center K) hlabJ
@@ -253,8 +253,7 @@ private theorem l05nL4d_tag_of_orth_component
 
 theorem ggTCJD4TagKnown_holds :
     GGTCJD4TagKnown := by
-  intro n hn
-  intro Q hQ
+  intro n hn Q hQ
   refine largeEvenRawDatum_mono (fun R _ I F hqP => ⟨hqP.1, ?_⟩)
     (TCJ.ggTCJ_datum_marking hn Q hQ)
   intro L' _ _ ψ hψ hker hperf e he hφe J hJ
@@ -263,7 +262,7 @@ theorem ggTCJD4TagKnown_holds :
   have hφind : ∀ l : L', φ (ψ l) = ψ (e l) := hφe.choose_spec.2
   have hna : ∃ a b : R, a * b ≠ b * a :=
     l05nL4d_nonabelian_of_central_extension ψ hψ hker hperf J hJ.2.2.2
-  haveI : Finite R := hqP.2.1
+  have : Finite R := hqP.2.1
   have hRsimple : IsSimpleGroup R := (hqP.2.2 hna).1
   have hRinn : InnDiagKind R (⟨.D, 4, n⟩ : LargeEvenLabel) φ := (hqP.2.2 hna).2 φ hφI
   have hRcenter : Subgroup.center R = ⊥ := center_eq_bot_of_isSimpleGroup_of_nonabelian hna

@@ -64,11 +64,11 @@ theorem card_invariant_ge_seven {V : Type} [Group V] [Finite V] (hV : Nat.card V
     {σ : MulAut V} (h7 : σ ^ 7 = 1) (h1 : σ ≠ 1) {T : Set V} (hinv : ∀ v ∈ T, σ v ∈ T)
     (hT : ∃ v ∈ T, v ≠ 1) : 7 ≤ Nat.card T := by
   classical
-  haveI : Fintype V := Fintype.ofFinite V
+  have : Fintype V := Fintype.ofFinite V
   have hV' : Fintype.card V = 8 := by rw [← Nat.card_eq_fintype_card]; exact hV
   obtain ⟨x, hx⟩ : ∃ x, σ x ≠ x := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact h1 (MulEquiv.ext fun y => hcon y)
   let f : Fin 7 → V := fun i => (σ ^ (i : ℕ)) x
   have hfinj : Function.Injective f := fun i j hij =>

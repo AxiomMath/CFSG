@@ -64,13 +64,13 @@ theorem exists_lift_mem_pCore {G P : Type} [Group G] [Finite G] [Group P] [Finit
     (hRn : (R.subgroupOf K).Normal) (hR2 : IsPGroup 2 ↥R) {r : P} (hr : r ∈ R) :
     ∃ x : ↥Y, ρ x = r ∧
       (x : G) ∈ CFSG.inSubgroup (CFSG.pCore 2) ((K.comap ρ).map Y.subtype) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Kt : Subgroup ↥Y := K.comap ρ
   let ρK : ↥Kt →* ↥K := ρ.subgroupComap K
   have hK : OddCentralCover ρK := h.subgroupComap K
   let R₀ : Subgroup ↥K := R.subgroupOf K
   have hR₀2 : IsPGroup 2 ↥R₀ := hR2.of_equiv (Subgroup.subgroupOfEquivOfLe hRK).symm
-  haveI : Group.IsNilpotent ↥R₀ := hR₀2.isNilpotent
+  have : Group.IsNilpotent ↥R₀ := hR₀2.isNilpotent
   obtain ⟨a, ha⟩ := h.surjective r
   have haKt : a ∈ Kt := by
     change ρ a ∈ K
@@ -83,7 +83,7 @@ theorem exists_lift_mem_pCore {G P : Type} [Group G] [Finite G] [Group P] [Finit
   obtain ⟨m, hm1, hm2⟩ := h.exists_lift_pow_two_pow hrk
   have hxKt : a ^ m ∈ Kt := pow_mem haKt m
   let N' : Subgroup ↥Kt := R₀.comap ρK
-  haveI hN'n : N'.Normal := hRn.comap ρK
+  have hN'n : N'.Normal := hRn.comap ρK
   have hN'nil : Group.IsNilpotent ↥N' :=
     Subgroup.isNilpotent_of_ker_le_center (ρK.subgroupComap R₀) (hK.subgroupComap_ker_le_center R₀)
   have hxN' : (⟨a ^ m, hxKt⟩ : ↥Kt) ∈ N' := by

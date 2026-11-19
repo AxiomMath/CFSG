@@ -18,7 +18,7 @@ open scoped MatrixGroups
 theorem rankOneSyl_top_of_isPSL_two_cs5 {G : Type} [Group G] [Finite G] {n : ℕ} (hn : 2 ≤ n)
     (hG : IsPSL 2 2 n G) {S : Subgroup G} (hS : IsSylowTwoOf S ⊤) :
     RankOneSyl (⊤ : Subgroup G) S (2 ^ n) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e⟩ := CFSG.Adapters.RankTwoModelTransports.nonempty_mulEquiv_psl_galoisField G 2 2 n hG
   have hfin : Finite PSL(2, GaloisField 2 n) := Finite.of_equiv G e.toEquiv
   have hB : fusionBenderBorel G (2 ^ n) 1 :=
@@ -29,7 +29,7 @@ theorem rankOneSyl_top_of_isPSL_two_cs5 {G : Type} [Group G] [Finite G] {n : ℕ
   have hQcard' : Nat.card ↥(P : Subgroup G) = 2 ^ n := by simpa using hQcard
   have hZtop : Subgroup.center ↥(P : Subgroup G) = ⊤ :=
     Subgroup.eq_top_of_card_eq _ (by rw [hZcard, hQcard'])
-  haveI : NeZero n := ⟨by omega⟩
+  have : NeZero n := ⟨by omega⟩
   have hFcard : Nat.card (GaloisField 2 n) = 2 ^ n := GaloisField.card 2 n (by omega)
   have hsimple : IsSimpleGroup G :=
     e.isSimpleGroup_congr.mpr
@@ -65,7 +65,7 @@ theorem rankOneSyl_top_of_isPSL_two_cs5 {G : Type} [Group G] [Finite G] {n : ℕ
     rw [h1, ← hidx, CFSG.LargeExtraspecial.Bender.card_sylow_of_psl2 G 2 n hG, hQcard']
   ·
     intro N hN hnorm
-    haveI : N.Normal := ⟨fun n hn g => hnorm g (Subgroup.mem_top g) n hn⟩
+    have : N.Normal := ⟨fun n hn g => hnorm g (Subgroup.mem_top g) n hn⟩
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal N with h | h
     · exact h
     · exfalso

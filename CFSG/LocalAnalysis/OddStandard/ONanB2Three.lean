@@ -27,7 +27,7 @@ theorem exists_conj_of_card_nine {H : Type*} [Group H] [Finite H] (hH : ¬ 27 �
     have hAp : IsPGroup 3 A := IsPGroup.of_card (n := 2) (by rw [hA]; norm_num)
     obtain ⟨S, hS⟩ := hAp.exists_le_sylow
     refine ⟨S, (Subgroup.eq_of_le_of_card_ge hS ?_).symm⟩
-    obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 S.isPGroup'
+    obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 S.isPGroup
     have h9 : 9 ∣ 3 ^ n := by rw [← hn, ← hA]; exact Subgroup.card_dvd_of_le hS
     have hdvd : 3 ^ n ∣ Nat.card H := by rw [← hn]; exact Subgroup.card_subgroup_dvd_card _
     have hn2 : n ≤ 2 := by
@@ -874,7 +874,7 @@ theorem not_seven [Finite G]
   obtain ⟨P₁, hP₁⟩ := hrp.exists_le_sylow
   have hP₁eq : φ.range = P₁ := by
     refine Subgroup.eq_of_le_of_card_ge hP₁ ?_
-    obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 P₁.isPGroup'
+    obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 P₁.isPGroup
     have hdvd : 2 ^ n ∣ 336 := by
       rw [← hn, ← hAut]
       exact Subgroup.card_subgroup_dvd_card _

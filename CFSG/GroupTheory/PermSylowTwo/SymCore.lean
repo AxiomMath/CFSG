@@ -38,6 +38,7 @@ theorem le_of_isSylowTwoOf_of_isPGroup {G : Type*} [Group G] [Finite G] {S H M :
   rw [hEq] at hx'
   exact Subgroup.mem_subgroupOf.mp hx'
 
+omit [Fintype β] [Fintype γ] in
 theorem isPGroup_two_pairSwaps_sup {R : Subgroup (Perm β)} (hR : IsPGroup 2 R) :
     IsPGroup 2 ↥(pairSwaps β γ ⊔ R.map ((pairCent β γ).subtype.comp (pairLift β γ))) := by
   let f : Perm β →* Perm ((β × Bool) ⊕ γ) := (pairCent β γ).subtype.comp (pairLift β γ)
@@ -50,6 +51,7 @@ theorem isPGroup_two_pairSwaps_sup {R : Subgroup (Perm β)} (hR : IsPGroup 2 R) 
     (isPGroup_two_pairSwaps : IsPGroup 2 ↥(pairSwaps β γ)) hR' hle
   simpa [f] using hsup
 
+omit [DecidableEq β] [Fintype γ] [DecidableEq γ] in
 theorem isSylowTwoOf_map_pairHom {P : Subgroup (Perm ((β × Bool) ⊕ γ))} (hP : IsPGroup 2 P)
     {R : Subgroup (Perm β)} (hR : IsSylowTwoOf R ⊤)
     (hRP : R.map ((pairCent β γ).subtype.comp (pairLift β γ)) ≤ P) :
@@ -80,6 +82,7 @@ theorem isSylowTwoOf_map_pairHom {P : Subgroup (Perm ((β × Bool) ⊕ γ))} (hP
   rw [hEq]
   exact hR.2.2
 
+omit [Fintype β] [DecidableEq β] [Fintype γ] [DecidableEq γ] in
 theorem map_pairHom_cond {P H : Subgroup (Perm ((β × Bool) ⊕ γ))} (hHC : H ≤ pairCent β γ)
     (h3 : ¬ 3 ∣ Nat.card H ∨ H ≤ Subgroup.normalizer (P : Set (Perm ((β × Bool) ⊕ γ)))) :
     ¬ 3 ∣ Nat.card ((H.subgroupOf (pairCent β γ)).map (pairHom β γ)) ∨
@@ -107,6 +110,7 @@ theorem map_pairHom_cond {P H : Subgroup (Perm ((β × Bool) ⊕ γ))} (hHC : H 
     refine Subgroup.mem_map_of_mem _ (Subgroup.mem_subgroupOf.mpr ?_)
     simpa using hconj
 
+omit [Fintype β] [DecidableEq β] [Fintype γ] [DecidableEq γ] in
 theorem isPGroup_two_of_le_pairCent [Subsingleton γ] {H : Subgroup (Perm ((β × Bool) ⊕ γ))}
     (hHC : H ≤ pairCent β γ)
     (h1 : IsPGroup 2 ((H.subgroupOf (pairCent β γ)).map (pairHom β γ))) : IsPGroup 2 H := by

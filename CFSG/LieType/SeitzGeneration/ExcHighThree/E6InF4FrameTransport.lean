@@ -57,9 +57,9 @@ theorem e6TwistedTransport_of_facts (hLevi : E6TransportLevi) (hFrob : E6Transpo
   unfold E6TransportSplit at hSplit
   unfold E6TwistedTransport
   intro K _ _ hK h3 D₁ ω hω z hzbc
-  letI : Field D₁.L := D₁.field
-  letI : Algebra K D₁.L := D₁.algebra
-  letI : IsAlgClosure K D₁.L := D₁.isAlgClosure
+  let : Field D₁.L := D₁.field
+  let : Algebra K D₁.L := D₁.algebra
+  let : IsAlgClosure K D₁.L := D₁.isAlgClosure
   obtain ⟨h₁, hh₁, hLev⟩ := hLevi D₁.L D₁.g D₁.g_mem
   obtain ⟨h₄, hh₄, hE₄⟩ := hTits D₁.L
   obtain ⟨h', hh', hF⟩ := hFrob D₁.L D₁.Fr h₁

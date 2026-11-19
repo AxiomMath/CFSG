@@ -20,7 +20,7 @@ theorem ggSecFiveBCoordBSpSpChartInput_of_frames (hfr : GGSecFiveBSpCoordFrameIn
   intro G _ _ p B Bs x L D J 𝒦 hR hT1 n e hpres h4 eta i0 hBfull hLeta hLab hBB hnbr hG0 f K
     hcell
   obtain ⟨hp, hp2⟩ := ggRouteCfg_prime hR
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hdvd : p ∣ 2 ^ f - 1 := GGSecFiveBCoordBSpSpCell.dvd_two_pow_sub_one hcell hLab hRig
   obtain ⟨s, hn⟩ : ∃ s, n = s + 3 := ⟨n - 3, by omega⟩
   subst n

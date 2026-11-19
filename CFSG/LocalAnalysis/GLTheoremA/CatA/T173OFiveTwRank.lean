@@ -123,7 +123,7 @@ private theorem exists_elemAbelian_five_normalizer {Ω : Type} [Group Ω] [Finit
     ∃ E U : Subgroup Ω, U ≠ ⊥ ∧ IsPGroup 2 U ∧ IsElemAbelian 3 E ∧
       Nat.card E = 3 ^ 5 ∧ E ≤ Subgroup.normalizer (U : Set Ω) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hn : 1 ≤ n := by
     rcases Nat.eq_zero_or_pos n with h0 | h0
     · subst h0

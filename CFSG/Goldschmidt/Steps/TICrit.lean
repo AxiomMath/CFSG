@@ -24,7 +24,7 @@ theorem exists_fusionIsSylowIn {U X : Subgroup G} (hU : IsPGroup 2 U) (hUX : U �
   obtain ⟨P, hP⟩ := (hU.comap_subtype (K := X)).exists_le_sylow
   refine ⟨(P : Subgroup X).map X.subtype,
     fun u hu => ⟨⟨u, hUX hu⟩, hP (show (⟨u, hUX hu⟩ : X) ∈ U.comap X.subtype from hu), rfl⟩,
-    Subgroup.map_subtype_le _, P.isPGroup'.map _, fun Q hQX hQ hPQ => ?_⟩
+    Subgroup.map_subtype_le _, P.isPGroup.map _, fun Q hQX hQ hPQ => ?_⟩
   have h1 : (Q.subgroupOf X : Subgroup X) = ↑P :=
     (P.maximal_isPGroup.eq_of_ge hQ.comap_subtype (fun x hx => hPQ ⟨x, hx, rfl⟩))
   refine le_antisymm (fun q hq => ⟨⟨q, hQX hq⟩, ?_, rfl⟩) hPQ
@@ -91,7 +91,7 @@ theorem N32 :
         let M := normalClosureIn (Subgroup.centralizer ({u} : Set G)) U
         goldschmidtLayer (M ⧸ goldschmidtOddCore M) = ⊥ ∧ ⁅oddCoreOf M, U⁆ = ⊥) := by
   intro G _ _ _ hnab hIH S U hUS hUab hcl
-  have hU2 : IsPGroup 2 U := S.isPGroup'.to_le hUS
+  have hU2 : IsPGroup 2 U := S.isPGroup.to_le hUS
   rw [isTI_iff_centralizer_le_normalizer S hUS hcl hUab]
   refine forall₂_congr fun u hu => imp_congr_right fun hu1 => ?_
   dsimp only

@@ -31,9 +31,9 @@ theorem exists_linComp_block {F : Type} [Field F] [Finite F] (h2 : (2 : F) = 0) 
     exact hA
   obtain ⟨r, D, dd, hFld, hFin, hAlg, Φ, θ, _hNZ, hΦinj, _hΦrange, hθinj, hθrange, hθapply⟩ :=
     exists_piMat_commutant (Subgroup.zpowers A) hA'
-  letI : ∀ i, Field (D i) := hFld
-  haveI : ∀ i, Finite (D i) := hFin
-  letI : ∀ i, Algebra F (D i) := hAlg
+  let : ∀ i, Field (D i) := hFld
+  have : ∀ i, Finite (D i) := hFin
+  let : ∀ i, Algebra F (D i) := hAlg
   have hcent : Subgroup.centralizer ((Subgroup.zpowers A : Subgroup (GL (Fin d) F)) :
       Set (GL (Fin d) F)) = Subgroup.centralizer ({A} : Set (GL (Fin d) F)) := by
     ext g
@@ -115,7 +115,7 @@ theorem exists_linComp_block {F : Type} [Field F] [Finite F] (h2 : (2 : F) = 0) 
         intro j c
         ext a b
         by_cases hab : a = b <;>
-          simp [Matrix.smul_apply, Matrix.one_apply, Algebra.smul_def, hab]
+          simp [Matrix.smul_apply, Algebra.smul_def, hab]
       have e1 : (fun j => (algebraMap F (D j) (z : F)) •
           (1 : Matrix (Fin (dd j)) (Fin (dd j)) (D j))) =
           (algebraMap F (Π j, Matrix (Fin (dd j)) (Fin (dd j)) (D j))) (z : F) := by

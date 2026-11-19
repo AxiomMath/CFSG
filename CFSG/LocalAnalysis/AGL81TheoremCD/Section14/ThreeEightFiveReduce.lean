@@ -31,10 +31,10 @@ theorem inf_pPrimeCore_eq_bot_of_isSimpleGroup {q : ℕ} (hq : q.Prime)
     (hKsimple : IsSimpleGroup ↥K) (hqK : q ∣ Nat.card ↥K) :
     K ⊓ CFSG.pPrimeCore q X = ⊥ := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : K.Normal := hKnormal
+  have : Fact q.Prime := ⟨hq⟩
+  have : K.Normal := hKnormal
   let O : Subgroup X := CFSG.pPrimeCore q X
-  haveI : O.Normal := CFSG.pPrimeCore_normal
+  have : O.Normal := CFSG.pPrimeCore_normal
   have hKOn : (K ⊓ O).Normal := Subgroup.normal_inf_normal K O
   have hsub : ((K ⊓ O).subgroupOf K).Normal := Subgroup.normal_subgroupOf
   rcases hKsimple.eq_bot_or_eq_top_of_normal ((K ⊓ O).subgroupOf K) with h | h
@@ -73,8 +73,8 @@ theorem map_le_generalizedFitting_of_isSimpleGroup {X : Type*} [Group X] [Finite
     map_ne_bot_of_inf_eq_bot hKO ((Subgroup.nontrivial_iff_ne_bot K).mp hKsimple.toNontrivial)
   apply CFSG.LocalCores.le_generalizedFitting_of_minimal hKbar_norm hKbar_ne_bot
   intro M hMn hMle
-  haveI : M.Normal := hMn
-  haveI : (M.subgroupOf (K.map (QuotientGroup.mk' O))).Normal := Subgroup.normal_subgroupOf
+  have : M.Normal := hMn
+  have : (M.subgroupOf (K.map (QuotientGroup.mk' O))).Normal := Subgroup.normal_subgroupOf
   rcases hKbar_simple.eq_bot_or_eq_top_of_normal (M.subgroupOf (K.map (QuotientGroup.mk' O)))
     with h | h
   · left
@@ -100,7 +100,7 @@ theorem generalizedFitting_quotient_eq_map {q : ℕ} (hq : q.Prime)
     map_ne_bot_of_inf_eq_bot hKO ((Subgroup.nontrivial_iff_ne_bot K).mp hKsimple.toNontrivial)
   have hKbar_le := map_le_generalizedFitting_of_isSimpleGroup hKO hKsimple
   have hFdata := CFSG.RankThree.PartOne.Sec1511.spe_fstar hq hO hN
-  haveI : (CFSG.generalizedFitting (X ⧸ O)).Normal := hFdata.2.2.1
+  have : (CFSG.generalizedFitting (X ⧸ O)).Normal := hFdata.2.2.1
   exact le_antisymm
     (CFSG.GroupTheory.generalizedFitting_le_of_normal hFdata.1 hKbar_norm hKbar_ne_bot)
     hKbar_le
@@ -130,8 +130,8 @@ theorem quotient_pPrimeCore_data {q : ℕ} (hq : q.Prime) {X : Type} [Group X] [
       CFSG.RankThree.PartOne.IsStronglyPEmbedded q
         (X₁.map (QuotientGroup.mk' (CFSG.pPrimeCore q X))) ∧
       CFSG.pPrimeCore q (X ⧸ CFSG.pPrimeCore q X) = ⊥ := by
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : (CFSG.pPrimeCore q X).Normal := CFSG.pPrimeCore_normal
+  have : Fact q.Prime := ⟨hq⟩
+  have : (CFSG.pPrimeCore q X).Normal := CFSG.pPrimeCore_normal
   have hqO : ¬ q ∣ Nat.card (CFSG.pPrimeCore q X) :=
     (Nat.Prime.coprime_iff_not_dvd hq).mp CFSG.pPrimeCore_coprime_card
   have hOle : CFSG.pPrimeCore q X ≤ X₁ :=
@@ -145,7 +145,7 @@ theorem exists_orderOf_prime_mem_inf_centralizer {X : Type*} [Group X] [Finite X
     (hq : q.Prime) {X₁ D : Subgroup X}
     (hdvd : q ∣ Nat.card ↥(X₁ ⊓ Subgroup.centralizer (D : Set X))) :
     ∃ x : X, x ∈ X₁ ∧ x ∈ Subgroup.centralizer (D : Set X) ∧ orderOf x = q := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨x, hxord⟩ :=
     exists_prime_orderOf_dvd_card' q (G := ↥(X₁ ⊓ Subgroup.centralizer (D : Set X))) hdvd
   exact ⟨x, x.2.1, x.2.2, (Subgroup.orderOf_coe x).trans hxord⟩
@@ -155,7 +155,7 @@ theorem le_of_centralizer_of_isStronglyPEmbedded {q : ℕ} (hq : q.Prime)
     (hX₁ : CFSG.RankThree.PartOne.IsStronglyPEmbedded q X₁) (hxX₁ : x ∈ X₁)
     (hxord : orderOf x = q) (hxD : x ∈ Subgroup.centralizer (D : Set X)) :
     D ≤ X₁ := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hx1 : x ≠ 1 := by
     intro h
     rw [h, orderOf_one] at hxord
@@ -269,12 +269,12 @@ theorem kFactThreeEightFive_of_centralizerHasPElementOutside
     KFactThreeEightFive := by
   classical
   intro q hq hq2 X _ _ K hKnorm hlist hrank X₁ hX₁ D hD hqDvd hle
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hqK : q ∣ Nat.card ↥K := hdvd q hq hq2 ↥K hlist
-  haveI : K.Normal := hKnorm
+  have : K.Normal := hKnorm
   have hKsimple : IsSimpleGroup ↥K := hlist.1
   let O : Subgroup X := CFSG.pPrimeCore q X
-  haveI : O.Normal := CFSG.pPrimeCore_normal
+  have : O.Normal := CFSG.pPrimeCore_normal
   let π : X →* X ⧸ O := QuotientGroup.mk' O
   have hKO : K ⊓ O = ⊥ := inf_pPrimeCore_eq_bot_of_isSimpleGroup hq hKnorm hKsimple hqK
   have hKnot : ¬ K ≤ X₁ := fun hKle => hX₁.not_dvd_card_of_normal_le hKle hqK

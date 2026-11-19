@@ -34,6 +34,7 @@ private theorem exists_equiv_projectiveSL {S : Type} [Group S]
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 private theorem conjAut_mem_range_conj (hK : Nat.card K = 2 ^ 2) (A : GL (Fin 4) K) :
     conjAut 4 K A ∈ (MulAut.conj : projectiveSL 4 K →* MulAut (projectiveSL 4 K)).range := by
   refine conjAut_mem_range_conj_of_det_eq_pow (μ := Matrix.GeneralLinearGroup.det A) ?_
@@ -43,6 +44,7 @@ private theorem conjAut_mem_range_conj (hK : Nat.card K = 2 ^ 2) (A : GL (Fin 4)
     simpa using h
   rw [pow_succ, h3, one_mul]
 
+omit [Finite K] in
 private theorem eq_one_of_commute {S : Type} [Group S] (e : S ≃* projectiveSL 4 K) {g : S}
     (hg : ∀ x : S, g * x = x * g) : g = 1 := by
   have hc : e g ∈ Subgroup.center (projectiveSL 4 K) := Subgroup.mem_center_iff.2 fun y => by
@@ -231,7 +233,7 @@ private theorem graphField_case (hK : Nat.card K = 2 ^ 2) (A : GL (Fin 4) K) {σ
 end L44
 
 open L44 in
-theorem outerNotSylowCentral_l44 {S : Type} [Group S] [Finite S] (hS : IsSimpleGroup S)
+theorem outerNotSylowCentral_l44 {S : Type} [Group S] [Finite S] (_hS : IsSimpleGroup S)
     (hL : Blueprint.LieModel S .PSL 4 2 2) : OuterNotSylowCentral S := by
   intro σ _ T hT
   obtain ⟨K, _, _, hK, ⟨e⟩⟩ := exists_equiv_projectiveSL hL

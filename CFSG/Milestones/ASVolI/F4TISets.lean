@@ -27,7 +27,7 @@ variable {K : Type} [Field K]
 
 theorem burnsideF4jb_form_e1_left (y : Fin 2 ⊕ Fin 2 → K) :
     burnsideF4gSpInv_form (Pi.single (Sum.inl 1) 1) y = y (Sum.inr 1) := by
-  simp [burnsideF4gSpInv_form, Pi.single_apply]
+  simp [burnsideF4gSpInv_form]
 
 theorem burnsideF4jb_Q2_one_e {g : StatedSp 2 K} (hg : g ∈ Q2 K 1) (i : Fin 2) :
     burnsideF4gSpInv_mv g (Pi.single (Sum.inl i) 1) (Sum.inr 0) = 0 ∧
@@ -35,7 +35,7 @@ theorem burnsideF4jb_Q2_one_e {g : StatedSp 2 K} (hg : g ∈ Q2 K 1) (i : Fin 2)
   have h := (burnsideF4gSpInv_mem_Q2_one g).1 hg (Pi.single (Sum.inl i) 1)
   have he : (Pi.single (Sum.inl i) 1 : Fin 2 ⊕ Fin 2 → K) ∈ flag 2 K 2 := by
     rw [burnsideF4gSpInv_mem_flag_two]
-    simp [Pi.single_apply]
+    simp
   exact (burnsideF4gSpInv_mem_flag_two _).1 (h.2 he)
 
 theorem burnsideF4jb_mul_xs [CharP K 2] {g : StatedSp 2 K} (hg : g ∈ Q2 K 1) (s : K) :
@@ -59,7 +59,7 @@ theorem burnsideF4jb_mul_xs [CharP K 2] {g : StatedSp 2 K} (hg : g ∈ Q2 K 1) (
   simp only [burnsideF4gSpInv_form, hX0, hX1, hY0, hY1, zero_mul, add_zero, sub_zero] at hf0 hf1
   ext i
   rcases i with i | i <;> fin_cases i <;>
-    simp [Pi.single_apply, hX0, hX1, hY0, hY1]
+    simp [hX0, hX1, hY0, hY1]
   · linear_combination (-(s * Y (Sum.inl 0))) * hf0 + (-(s * X (Sum.inl 0))) * hf1 +
       (s * X (Sum.inl 0) * Y (Sum.inl 0) * u (Sum.inr 0) +
         s * X (Sum.inl 1) * Y (Sum.inl 0) * u (Sum.inr 1)) * h2
@@ -138,11 +138,11 @@ theorem burnsideF4jb_xd_mem_Q2_one (t : K) : burnsideF4jb_xd t ∈ Q2 K 1 := by
   intro v
   have e0 : burnsideF4gSpInv_mv (burnsideF4jb_xd t) v (Sum.inr 0) = v (Sum.inr 0) := by
     rw [burnsideF4jb_xd_mv]
-    simp [Pi.single_apply]
+    simp
   have e1 : burnsideF4gSpInv_mv (burnsideF4jb_xd t) v (Sum.inr 1) =
       v (Sum.inr 1) - t * v (Sum.inr 0) := by
     rw [burnsideF4jb_xd_mv]
-    simp [Pi.single_apply]
+    simp
   rw [burnsideF4gSpInv_mem_flag_two, burnsideF4gSpInv_mem_flag_two, e0, e1]
   constructor
   · rintro ⟨h1, h2⟩
@@ -158,10 +158,10 @@ theorem burnsideF4jb_xe_mem_Q2_one (t : K) : burnsideF4jb_xe t ∈ Q2 K 1 := by
   have e0 : burnsideF4gSpInv_mv (burnsideF4jb_xe t) v (Sum.inr 0) =
       v (Sum.inr 0) - t * v (Sum.inr 1) := by
     rw [burnsideF4jb_xe_mv]
-    simp [Pi.single_apply]
+    simp
   have e1 : burnsideF4gSpInv_mv (burnsideF4jb_xe t) v (Sum.inr 1) = v (Sum.inr 1) := by
     rw [burnsideF4jb_xe_mv]
-    simp [Pi.single_apply]
+    simp
   rw [burnsideF4gSpInv_mem_flag_two, burnsideF4gSpInv_mem_flag_two, e0, e1]
   constructor
   · rintro ⟨h1, h2⟩
@@ -186,7 +186,7 @@ theorem burnsideF4jb_xe_sq [CharP K 2] (t : K) : burnsideF4jb_xe t * burnsideF4j
 theorem burnsideF4jb_xl_mem_Rad2 (t : K) : burnsideF4gSpInv_xl t ∈ burnsideF4gSpInv_Rad2 K := by
   refine ⟨fun v => ?_, fun w hw => ?_⟩
   · rw [burnsideF4gSpInv_xl_mv, add_sub_cancel_left, burnsideF4gSpInv_mem_flag_two]
-    simp [Pi.single_apply]
+    simp
   · rw [burnsideF4gSpInv_mem_flag_two] at hw
     rw [burnsideF4gSpInv_xl_mv, hw.1]
     simp
@@ -211,7 +211,7 @@ theorem burnsideF4jb_ctr_oPPrime_le [CharP K 2] {z : StatedSp 2 K}
       Pi.single (Sum.inl 0) 1 + Pi.single (Sum.inl 1) 1 := by
     rw [burnsideF4jb_xe_mv]
     ext i
-    rcases i with i | i <;> fin_cases i <;> simp [Pi.single_apply]
+    rcases i with i | i <;> fin_cases i <;> simp
   have he1 : burnsideF4gSpInv_mv z (Pi.single (Sum.inl 1) 1) = Pi.single (Sum.inl 1) 1 := by
     have h := congrArg (fun g => burnsideF4gSpInv_mv g (Pi.single (Sum.inl 0) 1)) he
     simp only [burnsideF4gSpInv_mv_mul] at h
@@ -221,12 +221,12 @@ theorem burnsideF4jb_ctr_oPPrime_le [CharP K 2] {z : StatedSp 2 K}
       Pi.single (Sum.inr 0) 1 - Pi.single (Sum.inr 1) 1 := by
     rw [burnsideF4jb_xd_mv]
     ext i
-    rcases i with i | i <;> fin_cases i <;> simp [Pi.single_apply]
+    rcases i with i | i <;> fin_cases i <;> simp
   have hxef1 : burnsideF4gSpInv_mv (burnsideF4jb_xe (1 : K)) (Pi.single (Sum.inr 1) 1) =
       Pi.single (Sum.inr 1) 1 - Pi.single (Sum.inr 0) 1 := by
     rw [burnsideF4jb_xe_mv]
     ext i
-    rcases i with i | i <;> fin_cases i <;> simp [Pi.single_apply]
+    rcases i with i | i <;> fin_cases i <;> simp
   have hD := congrArg (fun g => burnsideF4gSpInv_mv g (Pi.single (Sum.inr 0) 1)) hd
   have hE := congrArg (fun g => burnsideF4gSpInv_mv g (Pi.single (Sum.inr 1) 1)) he
   simp only [burnsideF4gSpInv_mv_mul] at hD hE
@@ -243,9 +243,9 @@ theorem burnsideF4jb_ctr_oPPrime_le [CharP K 2] {z : StatedSp 2 K}
   rw [he1, burnsideF4jb_form_e1_left, burnsideF4jb_form_e1_left] at a10 a11
   generalize hc1 : burnsideF4gSpInv_mv z (Pi.single (Sum.inr 0) 1) = c1 at *
   generalize hc2 : burnsideF4gSpInv_mv z (Pi.single (Sum.inr 1) 1) = c2 at *
-  simp [Pi.single_apply] at a00 a01 a10 a11 hD1 hE0
+  simp at a00 a01 a10 a11 hD1 hE0
   simp only [burnsideF4gSpInv_form, a00, a01, a10, a11] at aff
-  simp [Pi.single_apply] at aff
+  simp at aff
   have g21 : c2 (Sum.inl 1) = 0 := by linear_combination hD1
   have g10 : c1 (Sum.inl 0) = 0 := by linear_combination hE0
   have sym : c1 (Sum.inl 1) = c2 (Sum.inl 0) := by linear_combination aff
@@ -255,7 +255,7 @@ theorem burnsideF4jb_ctr_oPPrime_le [CharP K 2] {z : StatedSp 2 K}
   rw [burnsideF4gSpInv_xs_mv]
   ext i
   rcases i with i | i <;> fin_cases i <;>
-    simp [Pi.single_apply, a00, a01, a10, a11, g21, g10, sym] <;> ring
+    simp [a00, a01, a10, a11, g21, g10, sym] <;> ring
 
 theorem burnsideF4jb_ctr_oPPrime_Q2_one [CharP K 2] :
     ctr (oPPrime 2 (Q2 K 1)) = burnsideF4gSpInv_Xs K := by
@@ -280,7 +280,7 @@ theorem burnsideF4jb_torus_mul_xs (a : Fin 2 → Kˣ) (t : K) :
   ext i
   simp only [burnsideF4gSpInv_mv, coe_torusHom, Matrix.mulVec_diagonal, Pi.add_apply,
     Pi.smul_apply, smul_eq_mul]
-  rcases i with i | i <;> fin_cases i <;> simp [Pi.single_apply] <;> field_simp <;> ring
+  rcases i with i | i <;> fin_cases i <;> simp <;> field_simp
 
 theorem burnsideF4jb_torus_conj_xs (a : Fin 2 → Kˣ) (t : K) :
     torusHom a * burnsideF4gSpInv_xs t * (torusHom a)⁻¹ =
@@ -294,7 +294,7 @@ theorem burnsideF4jb_xs_conj {t t' : K} (ht : t ≠ 0) (ht' : t' ≠ 0) :
     exact torus_le_borelSubgroup (torusHom_mem_torus _)
   · rw [burnsideF4jb_torus_conj_xs]
     congr 1
-    simp [Pi.mulSingle_apply]
+    simp
     field_simp
 
 end BurnsideF4jbNative
@@ -341,7 +341,7 @@ theorem burnsideF4jb_Z2_conj {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subg
   have hK : Nat.card marking.field = 2 ^ f := by
     have := marking.field_card
     simpa using this
-  haveI : CharP marking.field 2 := burnsideF4gSp_charP_of_card hK
+  have : CharP marking.field 2 := burnsideF4gSp_charP_of_card hK
   have hbasis : marking.basis = 1 := marking.basis_compatible
   let φ : StatedSp 2 marking.field →* E := Gp.subtype.comp marking.transport
   have hφinj : Function.Injective φ := by
@@ -674,7 +674,7 @@ theorem burnsideF4j_mem_normalizer_subgroupOf {E : Type} [Group E] {Gp X : Subgr
 theorem burnsideF4j_restrict (hcompat : NativeChartCompatibilityGoal) {κ : GLKind} {p f : ℕ}
     {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E} (hyp : HypF_4_4 κ p f Gp M₁ M₂) :
     HypF_4_4 κ p f (⊤ : Subgroup ↥Gp) ((Gp ⊓ M₁).subgroupOf Gp) ((Gp ⊓ M₂).subgroupOf Gp) := by
-  haveI := hyp.finite
+  have := hyp.finite
   have hP := burnsideF4j_parabolics hcompat hyp
   obtain ⟨chart, hchart⟩ := hyp.lie_amalgam
   obtain ⟨chart', hchart'⟩ := burnsideF4j_chart_restrict chart hchart
@@ -869,7 +869,7 @@ theorem burnsideF4j_top_Z1_conj {κ : GLKind} {f : ℕ} {P : Type} [Group P]
     (hG2d : κ ≠ .G2d) {w w' : P} (hw : w ∈ ctr (oPPrime 2 M₁)) (hw1 : w ≠ 1)
     (hw' : w' ∈ ctr (oPPrime 2 M₁)) (hw1' : w' ≠ 1) :
     ∃ m ∈ M₁ ⊓ M₂, m * w * m⁻¹ = w' := by
-  haveI := hyp.finite
+  have := hyp.finite
   have h27 := as_F_4_27 κ f P ⊤ M₁ M₂ hyp rfl
   dsimp only at h27
   obtain ⟨-, -, -, -, h4, -⟩ := h27
@@ -894,7 +894,7 @@ theorem burnsideF4j_top_ZS_inv_mem_Z1 {κ : GLKind} {f : ℕ} {P : Type} [Group 
     (hSp : κ ≠ .Sp4) (hG2d : κ ≠ .G2d) {z : P} (hz : z ∈ ctr (oPPrime 2 M₁)) (hz1 : z ≠ 1)
     {w : P} (hw : w ∈ ctr (pCoreOf 2 (M₁ ⊓ M₂))) (hw1 : w ≠ 1) (hw2 : w * w = 1) :
     w ∈ ctr (oPPrime 2 M₁) := by
-  haveI := hyp.finite
+  have := hyp.finite
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h27 := as_F_4_27 κ f P ⊤ M₁ M₂ hyp rfl
   dsimp only at h27
@@ -1010,7 +1010,7 @@ theorem burnsideF4j_ctr_subImg {Mb G : Type} [Group Mb] [Group G] {N : Subgroup 
   rw [burnsideF4j_ctr_map b hb, burnsideF4j_ctr_subgroupOf hX]
 
 theorem burnsideF4j_trans_subImg {Mb G : Type} [Group Mb] [Group G] {N : Subgroup Mb}
-    (b : ↥N →* G) {X H : Subgroup Mb} (hX : X ≤ N) (hH : H ≤ N)
+    (b : ↥N →* G) {X H : Subgroup Mb} (_hX : X ≤ N) (hH : H ≤ N)
     (htr : ∀ w ∈ X, w ≠ 1 → ∀ w' ∈ X, w' ≠ 1 → ∃ m ∈ H, m * w * m⁻¹ = w') :
     ∀ x ∈ subImg b X, x ≠ 1 → ∀ x' ∈ subImg b X, x' ≠ 1 →
       ∃ h ∈ subImg b H, h * x * h⁻¹ = x' := by
@@ -1270,7 +1270,7 @@ variable {κ : GLKind} {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E
 theorem burnsideF4j_sylow_data (hyp : HypF_4_4 κ 2 f Gp M₁ M₂) :
     IsSylowTwoOf (pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂))) Gp ∧
       Gp ⊓ (M₁ ⊓ M₂) = Gp ⊓ Subgroup.normalizer ((pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) : Subgroup E) : Set E) := by
-  haveI := hyp.finite
+  have := hyp.finite
   obtain ⟨⟨S, hS, hB⟩, -⟩ := burnsideF4j_parabolics ChF.nativeChartCompatibility hyp
   have hS' : IsSylowTwoOf S Gp := hS
   have hP := burnsideF4j_pCoreOf_borel hS' hB
@@ -1293,7 +1293,7 @@ theorem burnsideF4j_normalizer_S_le (hyp : HypF_4_4 κ 2 f Gp M₁ M₂) :
 
 theorem burnsideF4j_S_le_sylow (hyp : HypF_4_4 κ 2 f Gp M₁ M₂) {T : Subgroup E}
     (hT : IsSylowTwoOf T (M₁ ⊓ M₂)) : pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) ≤ T := by
-  haveI := hyp.finite
+  have := hyp.finite
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h1 : pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) ≤ pCoreOf 2 (M₁ ⊓ M₂) :=
     CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2
@@ -1305,7 +1305,7 @@ theorem burnsideF4j_S_le_sylow (hyp : HypF_4_4 κ 2 f Gp M₁ M₂) {T : Subgrou
 
 theorem burnsideF4j_sylow_inf_Gp (hyp : HypF_4_4 κ 2 f Gp M₁ M₂) {T : Subgroup E}
     (hT : IsSylowTwoOf T (M₁ ⊓ M₂)) : T ⊓ Gp = pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) := by
-  haveI := hyp.finite
+  have := hyp.finite
   obtain ⟨hS, -⟩ := burnsideF4j_sylow_data hyp
   have hSle := burnsideF4j_S_le_sylow hyp hT
   exact burnsideF4j_eq_of_sylow_le hS (hT.2.1.to_le inf_le_left)
@@ -1313,7 +1313,7 @@ theorem burnsideF4j_sylow_inf_Gp (hyp : HypF_4_4 κ 2 f Gp M₁ M₂) {T : Subgr
 
 theorem burnsideF4j_sylow_M1 (hyp : HypF_4_4 κ 2 f Gp M₁ M₂) {T : Subgroup E}
     (hT : IsSylowTwoOf T (M₁ ⊓ M₂)) : IsSylowTwoOf T M₁ := by
-  haveI := hyp.finite
+  have := hyp.finite
   obtain ⟨hS, -⟩ := burnsideF4j_sylow_data hyp
   refine CFSG.Quasithin.H13.F431.L3.isSylowTwoOf_of_max (hT.1.trans inf_le_left) hT.2.1
     fun P hP hTP hPM => ?_
@@ -1442,7 +1442,7 @@ theorem burnsideF4j_mem_omegaCtr {G : Type} [Group G] {T : Subgroup G} {x : G} :
 theorem burnsideF4j_exists_omegaCtr {G : Type} [Group G] [Finite G] {T : Subgroup G}
     (hT : IsPGroup 2 T) (hne : T ≠ ⊥) : ∃ w ∈ burnsideF4j_omegaCtr T, w ≠ 1 := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Nontrivial ↥T := (Subgroup.nontrivial_iff_ne_bot T).mpr hne
+  have : Nontrivial ↥T := (Subgroup.nontrivial_iff_ne_bot T).mpr hne
   have hZ : Nontrivial (Subgroup.center ↥T) := hT.center_nontrivial
   have hdvd : 2 ∣ Nat.card (Subgroup.center ↥T) := by
     obtain ⟨n, hn⟩ := (hT.to_subgroup (Subgroup.center ↥T)).exists_card_eq
@@ -1517,8 +1517,8 @@ theorem burnsideF4j_F_4_33_main {κ : GLKind} {f : ℕ} {E : Type} [Group E]
     (hout : ∀ x ∈ M₁ ⊓ M₂, x ∉ Gp → x * x = 1 →
       ∃ s ∈ pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)), x * s ≠ s * x)
     {T : Subgroup M} (hT : ChF.IsSylowOf 2 T (MiOne β ε ⊓ MiTwo β ε)) : ChF.IsSylowOf 2 T ⊤ := by
-  haveI := hyp.finite_M
-  haveI := hyp.amalgam.finite
+  have := hyp.finite_M
+  have := hyp.amalgam.finite
   set b := burnsideF4d_bOne β ε with hbdef
   have hb : Function.Injective b := burnsideF4j_bOne_injective hyp
   have hinter : MiOne β ε ⊓ MiTwo β ε = subImg b (M₁ ⊓ M₂) :=
@@ -1604,8 +1604,8 @@ theorem burnsideF4j_F_4_33_odd {κ : GLKind} {f : ℕ} {E : Type} [Group E]
     {Gp M₁ M₂ : Subgroup E} {Y : Type} [Group Y] {β : Cpl M₁ M₂ Y} {M : Type} [Group M]
     {ε : Y →* M} {z : M} (hyp : HypF_4_31 κ f Gp M₁ M₂ β ε z) (hodd : Odd Gp.index)
     {T : Subgroup M} (hT : ChF.IsSylowOf 2 T (MiOne β ε ⊓ MiTwo β ε)) : ChF.IsSylowOf 2 T ⊤ := by
-  haveI := hyp.amalgam.finite
-  haveI := hyp.amalgam.normal
+  have := hyp.amalgam.finite
+  have := hyp.amalgam.normal
   by_cases hL3 : κ = .L3
   · subst hL3
     exact burnsideF4d_Z6_F_4_33_L3 hyp hT
@@ -1631,7 +1631,7 @@ theorem burnsideF4j_exists_sylow {G : Type} [Group G] [Finite G] (H : Subgroup G
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P⟩ : Nonempty (Sylow 2 ↥H) := inferInstance
   refine ⟨(P : Subgroup ↥H).map H.subtype, Subgroup.map_subtype_le _,
-    P.isPGroup'.map _, ?_⟩
+    P.isPGroup.map _, ?_⟩
   have h : ((P : Subgroup ↥H).map H.subtype).subgroupOf H = (P : Subgroup ↥H) :=
     Subgroup.comap_map_eq_self_of_injective H.subtype_injective _
   show ¬ 2 ∣ (((P : Subgroup ↥H).map H.subtype).subgroupOf H).index
@@ -1643,7 +1643,7 @@ theorem burnsideF4j_F_4_35_forward {κ : GLKind} {f : ℕ} {E : Type} [Group E]
     {ε : Y →* M} {z : M} (hyp : HypF_4_31 κ f Gp M₁ M₂ β ε z) (i j : ↥(M₁ ⊓ M₂))
     (hi : (i : E) ∈ pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂))) (hj : (j : E) ∈ pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)))
     (hg : ∃ g ∈ Gp, g * (i : E) * g⁻¹ = (j : E)) : IsConj (bM β ε i) (bM β ε j) := by
-  haveI := hyp.amalgam.finite
+  have := hyp.amalgam.finite
   obtain ⟨T, hT⟩ := burnsideF4j_exists_sylow (M₁ ⊓ M₂)
   have hST := burnsideF4j_S_le_sylow hyp.amalgam (show IsSylowTwoOf T (M₁ ⊓ M₂) from hT)
   obtain ⟨g, -, hgij⟩ := hg
@@ -1662,7 +1662,7 @@ theorem burnsideF4j_F_4_35_L3 {f : ℕ} {E : Type} [Group E]
     (hi : (i : E) ∈ pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂))) (hj : (j : E) ∈ pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)))
     (hi1 : i ≠ 1) (hj1 : j ≠ 1) (hi2 : i * i = 1) (hj2 : j * j = 1) :
     ((∃ g ∈ Gp, g * (i : E) * g⁻¹ = (j : E)) ↔ IsConj (bM β ε i) (bM β ε j)) := by
-  haveI := hyp.amalgam.finite
+  have := hyp.amalgam.finite
   refine ⟨burnsideF4j_F_4_35_forward hyp i j hi hj, fun _ => ?_⟩
   have hyp' := burnsideF4j_restrict ChF.nativeChartCompatibility hyp.amalgam
   have h27 := as_F_4_27 .L3 f ↥Gp ⊤ _ _ hyp' rfl

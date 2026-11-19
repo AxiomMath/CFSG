@@ -7,7 +7,7 @@ import CFSG.FeitThompson.Local.TypePInnerActionFaithful
 import CFSG.FeitThompson.Foundations.DiagonalDivisorRatioForcesQThree
 import CFSG.FeitThompson.Representations.TypePNoFittingInducedWitness
 public import Mathlib.Algebra.Order.Ring.Star
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 
 namespace CFSG.FeitThompson
 

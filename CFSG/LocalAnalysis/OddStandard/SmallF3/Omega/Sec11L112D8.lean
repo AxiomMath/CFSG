@@ -68,7 +68,7 @@ theorem sec11Pw_conj {a b : G} (ha4 : a ^ 4 = 1) (hb2 : b * b = 1) (hba : b * a 
 theorem sec11D8Hom_injective {a b : G} (ha4 : a ^ 4 = 1) (hb2 : b * b = 1)
     (hba : b * a * b = a⁻¹) (ha2 : a ^ 2 ≠ 1) :
     Function.Injective (sec11D8Hom a b ha4 hb2 hba) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hord : orderOf a = 4 := by
     have := orderOf_eq_prime_pow (p := 2) (n := 1) (x := a) (by simpa using ha2)
       (by simpa using ha4)

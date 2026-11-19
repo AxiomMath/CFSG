@@ -247,12 +247,12 @@ theorem sigDelta_eq [Finite G] (M : Subgroup G) :
 open scoped Classical in
 theorem dadeT_of_mem [Finite G] {M : Subgroup G} {a : G}
     (ha : a ∈ ((⁅M, M⁆ : Subgroup G) : Set G) \ {1}) : dadeT M a = sigSignalizer a :=
-  if_pos ha
+  ite_eq_left ha
 
 open scoped Classical in
 theorem dadeT_of_notMem [Finite G] {M : Subgroup G} {a : G}
     (ha : a ∉ ((⁅M, M⁆ : Subgroup G) : Set G) \ {1}) : dadeT M a = ⊥ :=
-  if_neg ha
+  ite_eq_right ha
 
 theorem mixedConj_eq (M W₁ W₂ : Subgroup G) :
     mixedConj M W₁ W₂ = ⋃ m ∈ (M : Set G), (fun x => m⁻¹ * x * m) '' cyclicTIset W₁ W₂ := (rfl)
@@ -304,11 +304,14 @@ theorem hasCoherentMap_iff [Fintype G] {M W₁ W₂ : Subgroup G} {S : Set (↥M
         ∀ f : ↥(Submodule.span ℤ S), (f : ↥M → ℂ) 1 = 0 →
           (ν f : G → ℂ) = dadeTau M W₁ W₂ (f : ↥M → ℂ) := Iff.rfl
 
+omit [Group G] in
 theorem supportedOn_iff {D : Set G} {f : G → ℂ} :
     SupportedOn D f ↔ ∀ g : G, g ∉ D → f g = 0 := Iff.rfl
 
+omit [Group G] in
 theorem supportedOn_zero (D : Set G) : SupportedOn D (0 : G → ℂ) := fun _ _ => rfl
 
+omit [Group G] in
 theorem SupportedOn.mono {D E : Set G} {f : G → ℂ} (h : SupportedOn D f) (hDE : D ⊆ E) :
     SupportedOn E f := fun g hg => h g fun hgD => hg (hDE hgD)
 

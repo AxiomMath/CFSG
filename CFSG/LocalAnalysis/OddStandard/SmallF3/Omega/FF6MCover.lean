@@ -21,14 +21,14 @@ theorem ff6m_cover_solvable_iff (hρ : OddCentralCover ρ) :
     Group.IsSolvable A ↔ Group.IsSolvable B := by
   constructor
   · intro hA
-    haveI := hA
+    have := hA
     exact Group.isSolvable_of_surjective (f := ρ) hρ.surjective
   · intro hB
-    haveI := hB
+    have := hB
     have hcomm : IsMulCommutative ↥ρ.ker :=
       IsMulCommutative.of_comm fun a b =>
         Subtype.ext (Subgroup.mem_center_iff.mp (hρ.ker_le_center a.2) (b : A)).symm
-    haveI := hcomm
+    have := hcomm
     refine Group.isSolvable_of_ker_le_range ρ.ker.subtype ρ ?_
     rw [Subgroup.range_subtype]
 
@@ -71,11 +71,12 @@ section InGroup
 variable {G : Type} [Group G] [Finite G] {C : Subgroup G} {B : Type} [Group B] [Finite B]
   {ρ : ↥C →* B}
 
+omit [Finite B] in
 theorem ff6m_cover_isL29 (hρ : OddCentralCover ρ) (h : LayerModel B .PSL 2 2) :
     IsL29 (CFSG.inSubgroup CFSG.layer C) ∧
       twoPrimeRes (twoRes C) = CFSG.inSubgroup CFSG.layer C := by
   obtain ⟨E, hE, hlie, hp⟩ := h
-  haveI : E.Normal := hE
+  have : E.Normal := hE
   obtain ⟨hs, hnc⟩ := ff_simple_of_lieModel_psl2 hlie
   have hev : 2 ∣ Nat.card ↥E := by rw [ff_card_model_psl2 hlie]; norm_num
   obtain ⟨⟨e⟩, hx⟩ := ff6m_cover_layer (A := ↥C) hρ E hs hnc hev hp
@@ -85,11 +86,12 @@ theorem ff6m_cover_isL29 (hρ : OddCentralCover ρ) (h : LayerModel B .PSL 2 2) 
       C.subtype_injective).symm).mpr hL
   exact ⟨hX, by rw [ff_XOut_eq_map C, hx]; rfl⟩
 
+omit [Finite B] in
 theorem ff6m_cover_isOmega5 (hρ : OddCentralCover ρ) (h : LayerModel B .PSp 2 1) :
     IsOmega5 (CFSG.inSubgroup CFSG.layer C) ∧
       twoPrimeRes (twoRes C) = CFSG.inSubgroup CFSG.layer C := by
   obtain ⟨E, hE, hlie, hp⟩ := h
-  haveI : E.Normal := hE
+  have : E.Normal := hE
   obtain ⟨hs, hnc⟩ := ff_simple_of_lieModel_psp hlie
   have hev : 2 ∣ Nat.card ↥E := by rw [ff_card_model_psp hlie]; norm_num
   obtain ⟨⟨e⟩, hx⟩ := ff6m_cover_layer (A := ↥C) hρ E hs hnc hev hp
@@ -99,11 +101,12 @@ theorem ff6m_cover_isOmega5 (hρ : OddCentralCover ρ) (h : LayerModel B .PSp 2 
       C.subtype_injective).symm).mpr hL
   exact ⟨hX, by rw [ff_XOut_eq_map C, hx]; rfl⟩
 
+omit [Finite B] in
 theorem ff6m_cover_isU33 (hρ : OddCentralCover ρ) (h : LayerModel B .PSU 3 1) :
     IsU33 (CFSG.inSubgroup CFSG.layer C) ∧
       twoPrimeRes (twoRes C) = CFSG.inSubgroup CFSG.layer C := by
   obtain ⟨E, hE, hlie, hp⟩ := h
-  haveI : E.Normal := hE
+  have : E.Normal := hE
   obtain ⟨hs, hnc⟩ := ff_simple_of_lieModel_psu3 hlie
   have hev : 2 ∣ Nat.card ↥E := by rw [ff_card_model_psu3 hlie]; norm_num
   obtain ⟨⟨e⟩, hx⟩ := ff6m_cover_layer (A := ↥C) hρ E hs hnc hev hp
@@ -113,6 +116,7 @@ theorem ff6m_cover_isU33 (hρ : OddCentralCover ρ) (h : LayerModel B .PSU 3 1) 
       C.subtype_injective).symm (t := .PSU) (n := 3) (p := 3) (f := 1)).mpr hL
   exact ⟨hX, by rw [ff_XOut_eq_map C, hx]; rfl⟩
 
+omit [Finite G] [Finite B] in
 theorem ff6m_cover_layer_eq_bot (hρ : OddCentralCover ρ) (h : Group.IsSolvable B) :
     CFSG.inSubgroup CFSG.layer C = ⊥ := by
   have hA : Group.IsSolvable ↥C := (ff6m_cover_solvable_iff (A := ↥C) hρ).mpr h
@@ -120,6 +124,7 @@ theorem ff6m_cover_layer_eq_bot (hρ : OddCentralCover ρ) (h : Group.IsSolvable
   unfold CFSG.inSubgroup
   rw [hlayer, Subgroup.map_bot]
 
+omit [Finite B] in
 theorem ff6m_cover_X_eq_pCore (hρ : OddCentralCover ρ) (h : XTwoCore B) :
     twoPrimeRes (twoRes C) = CFSG.inSubgroup (CFSG.pCore 2) (twoRes C) := by
   have hX : XTwoCore ↥C := ff6m_cover_xTwoCore (A := ↥C) hρ h
@@ -131,6 +136,7 @@ theorem ff6m_cover_X_eq_pCore (hρ : OddCentralCover ρ) (h : XTwoCore B) :
   unfold XTwoCore at hX
   rw [ff_XOut_eq_map C, hX, h2]
 
+omit [Finite G] [Finite B] in
 theorem ff6m_cover_lift_involution_in (hρ : OddCentralCover ρ) {w : B}
     (hw : w ∈ twoRes (⊤ : Subgroup B)) (hw2 : w * w = 1) :
     ∃ (u : G) (hu : u ∈ C), u ∈ twoRes C ∧ u * u = 1 ∧ ρ ⟨u, hu⟩ = w := by

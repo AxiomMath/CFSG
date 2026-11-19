@@ -83,7 +83,7 @@ private theorem ggHalfInnerLine_mixed {G : Type} [Group G] {a b z : G}
     simp only [_root_.zpow_one]
   · right
     rw [hzred, hJ1, hI2]
-    simp only [_root_.zpow_one, zpow_ofNat, pow_one]
+    simp only [zpow_ofNat, pow_one]
   · right
     rw [hzred, hJ2, hI1]
     simp only [_root_.zpow_one]

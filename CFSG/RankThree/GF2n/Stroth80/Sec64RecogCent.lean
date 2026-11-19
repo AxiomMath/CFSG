@@ -20,7 +20,7 @@ theorem centralizes_of_perfect_action {Y : Type} [Group Y] [Finite Y] {T S X : S
   have hXnc : ∃ a b : ↥X, a * b ≠ b * a := by
     by_contra hcon
     push Not at hcon
-    haveI : IsMulCommutative ↥X := ⟨⟨fun a b => hcon a b⟩⟩
+    have : IsMulCommutative ↥X := ⟨⟨fun a b => hcon a b⟩⟩
     have hp : (Nat.card ↥X).Prime := Group.is_simple_iff_prime_card.mp inferInstance
     rcases hp.eq_one_or_self_of_dvd 4 hX4 with h | h
     · omega
@@ -40,7 +40,7 @@ theorem centralizes_of_perfect_action {Y : Type} [Group Y] [Finite Y] {T S X : S
   let φ : ↥X →* MulAut ↥S := (MulAut.conjNormal (H := S)).comp X.subtype
   have hφ : ∀ (x : ↥X) (y : ↥S), ((φ x y : ↥S) : Y) = (x : Y) * (y : Y) * (x : Y)⁻¹ :=
     fun x y => rfl
-  haveI := hperf
+  have := hperf
   have hP : commutator ↥(φ.range) = ⊤ := (Group.IsPerfect.range φ).commutator_eq_top
   have hinner : ∀ x : ↥X, ∃ s : ↥S, ∀ y : ↥S,
       (s : Y) * (y : Y) * (s : Y)⁻¹ = (x : Y) * (y : Y) * (x : Y)⁻¹ := by
@@ -128,7 +128,7 @@ theorem centralizes_of_perfect_action {Y : Type} [Group Y] [Finite Y] {T S X : S
       apply hinj
       refine MulEquiv.ext fun y => Subtype.ext ?_
       rw [hφ, hφ, hL y, hR y, hcT]
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨u, hu⟩ := exists_prime_orderOf_dvd_card' 2 (dvd_trans (by norm_num : 2 ∣ 4) hX4)
     have hu2 : u * u = 1 := by
       rw [← pow_two, ← hu]
@@ -137,7 +137,7 @@ theorem centralizes_of_perfect_action {Y : Type} [Group Y] [Finite Y] {T S X : S
       intro h
       rw [h, orderOf_one] at hu
       norm_num at hu
-    haveI hDn : (Subgroup.centralizer {v : ↥X | v * v = 1}).Normal := ⟨fun d hd g => by
+    have hDn : (Subgroup.centralizer {v : ↥X | v * v = 1}).Normal := ⟨fun d hd g => by
       rw [Subgroup.mem_centralizer_iff]
       intro v hv
       have hv' : (g⁻¹ * v * g) * (g⁻¹ * v * g) = 1 := by

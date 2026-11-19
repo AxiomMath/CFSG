@@ -1133,7 +1133,7 @@ namespace Setting
 variable {G : Type u} [Group G] [Finite G] (σ : Setting G)
 
 private theorem isPGroup_two_T' (hσ : σ.IsValid) : IsPGroup 2 σ.T :=
-  σ.S.isPGroup'.to_le (σ.T_le_S hσ)
+  σ.S.isPGroup.to_le (σ.T_le_S hσ)
 
 private theorem T_comm (hσ : σ.IsValid) {s t : G} (hs : s ∈ σ.T) (ht : t ∈ σ.T) :
     s * t = t * s :=
@@ -1460,7 +1460,7 @@ private theorem x₂_not_mem_solvRadIn_K (hσ : σ.IsValid) (hII : σ.ChapterIIF
       Subgroup G) : Set G) := h
   rw [Subgroup.coe_mul_of_right_le_normalizer_left _ _ hZK] at h'
   obtain ⟨o, ho, z, hz, hoz⟩ := Set.mem_mul.mp h'
-  have hD2 : IsPGroup 2 σ.D := σ.S.isPGroup'.to_le σ.D_le_S
+  have hD2 : IsPGroup 2 σ.D := σ.S.isPGroup.to_le σ.D_le_S
   have hx₂D : σ.x₂ ∈ σ.D := σ.T_le_D hσ σ.x₂_mem_T
   have hoD : o ∈ σ.D := by
     have : o = σ.x₂ * z⁻¹ := by rw [← hoz]; group

@@ -26,7 +26,7 @@ theorem isSec_of_mulEquiv_left (e : S ≃* S') (h : IsSec S G) : IsSec S' G :=
   IsSectionOf.trans (X := S') (Y := S) (Z := G) (IsSectionOf.of_mulEquiv e) h
 
 theorem not_isSolvable_of_isSimpleGroup [IsSimpleGroup S] (hS : ∃ a b : S, a * b ≠ b * a) :
-    ¬ IsSolvable S := fun h => by
+    ¬ Group.IsSolvable S := fun h => by
   obtain ⟨a, b, hab⟩ := hS
   exact hab (IsSimpleGroup.comm_iff_isSolvable.mpr h a b)
 
@@ -65,9 +65,9 @@ theorem isSec_quotient_center_of_sup {X : Type*} [Group X] [Finite X] [IsSimpleG
       rw [MonoidHom.noncommCoprod_range, Subgroup.range_subtype, Subgroup.range_subtype, hsup]
     rwa [MonoidHom.range_eq_top] at hrange
   have hprod : IsSec S (↥K₁ × ↥K₂) := IsSec.of_surjective hμ h
-  have hnsol : ¬ IsSolvable S := not_isSolvable_of_isSimpleGroup hS
-  have hcenter : ∀ K : Subgroup X, IsSolvable ↥(Subgroup.center ↥K) := fun K =>
-    isSolvable_of_comm fun a b =>
+  have hnsol : ¬ Group.IsSolvable S := not_isSolvable_of_isSimpleGroup hS
+  have hcenter : ∀ K : Subgroup X, Group.IsSolvable ↥(Subgroup.center ↥K) := fun K =>
+    _root_.Group.isSolvable_of_comm fun a b =>
       Subtype.ext (Subgroup.mem_center_iff.mp a.2 b.1).symm
   rcases isSec_prod hprod with h1 | h2
   · exact ⟨K₁, by simp, IsSec.quotient_of_isSolvable hnsol (hcenter K₁) h1⟩

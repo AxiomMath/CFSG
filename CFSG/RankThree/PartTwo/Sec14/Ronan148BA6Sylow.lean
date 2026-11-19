@@ -131,11 +131,11 @@ theorem exists_mem_map_conj_eq_of_map_eq {N : Subgroup H} [N.Normal] (hN : ¬ p 
   constructor
   · rintro ⟨y, hy, rfl⟩
     refine ⟨q * y * q⁻¹, P₁.mul_mem (P₁.mul_mem hq hy) (P₁.inv_mem hq), ?_⟩
-    simp only [MonoidHom.coe_coe, MulAut.conj_apply, MulEquiv.coe_toMonoidHom, hmq]
+    simp only [MulAut.conj_apply, MulEquiv.coe_toMonoidHom, hmq]
     group
   · rintro ⟨y, hy, rfl⟩
     refine ⟨q⁻¹ * y * q, P₁.mul_mem (P₁.mul_mem (P₁.inv_mem hq) hy) hq, ?_⟩
-    simp only [MonoidHom.coe_coe, MulAut.conj_apply, MulEquiv.coe_toMonoidHom, hmq]
+    simp only [MulAut.conj_apply, MulEquiv.coe_toMonoidHom, hmq]
     group
 
 end CFSG.RankThree.PartTwo.Sec14.Ronan148B

@@ -112,7 +112,7 @@ theorem apply_mem_commSub_of_commute {z g : MulAut W} (hgz : g * z = z * g) {u :
   omSevenA_apply_mem_commSub_of_commute_of_maps hgz (fun _ _ => Subgroup.mem_top _) hu
 
 theorem rk_commSub_le_two_mul_rkIdx_of_inverts (hW : ∀ w : W, w ^ 2 = 1) {z t : MulAut W}
-    (hz : orderOf z = 3) (ht : t ^ 2 = 1) (htz : t * z * t⁻¹ = z⁻¹) :
+    (hz : orderOf z = 3) (_ht : t ^ 2 = 1) (htz : t * z * t⁻¹ = z⁻¹) :
     rk ↥(commSub ⊤ (zpowers z)) ≤ 2 * rkIdx (fixV (zpowers t)) := by
   have hz3 : z ^ 3 = 1 := by rw [← hz]; exact pow_orderOf_eq_one z
   have hz_inv : z⁻¹ = z ^ 2 := by
@@ -201,7 +201,7 @@ theorem even_rk_commSub_of_commute (hW : ∀ w : W, w ^ 2 = 1) {z t : MulAut W}
     rw [hU] at hmem
     rw [fixV_inf_commSub_zpowers_eq_bot hW hz3, Subgroup.mem_bot] at hmem
     exact hmem
-  haveI : Fintype V := Fintype.ofFinite V
+  have : Fintype V := Fintype.ofFinite V
   let f : V → V := fun v => ⟨z v, hzV v v.2⟩
   have hfinj : Function.Injective f := by
     intro a b h

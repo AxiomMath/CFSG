@@ -28,6 +28,7 @@ open CFSG.LocalAnalysis.UniquenessCase.PartOne.Section7 (Conclusion76 StronglyEm
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem uc22p2213e_exists_centralizesBar {K : Subgroup G} {n p : ℕ} (hL2 : IsL2 (Bar2 K) n)
     (hp : p.Prime) (hp2 : p ≠ 2) (hpn : ¬ p ∣ n) {B : Subgroup G} (hB : IsElemAbelian p B)
     (hBN : B ≤ normalizer (K : Set G)) :
@@ -51,13 +52,13 @@ theorem uc22p2213e_exists_centralizesBar {K : Subgroup G} {n p : ℕ} (hL2 : IsL
     · obtain ⟨a, ha⟩ : MulAut.conj (x : Bar2 K) ∈ φ.range := x.2
       obtain ⟨b, hb⟩ : MulAut.conj (y : Bar2 K) ∈ φ.range := y.2
       have hab : a * b = b * a := by
-        haveI := hB.1
+        have := hB.1
         exact mul_comm' a b
       rw [Subgroup.coe_mul, Subgroup.coe_mul, map_mul, map_mul, ← ha, ← hb, ← map_mul, hab,
         map_mul]
     · obtain ⟨a, ha⟩ : MulAut.conj x ∈ φ.range := hx
       rw [map_pow, ← ha, hpow, map_one]
-  haveI := hQel.isElementaryAbelian
+  have := hQel.isElementaryAbelian
   have hQle : Nat.card Q ≤ p := uc22p22g_rank hp hp2 hL2 Q
   refine ⟨φ.ker.map B.subtype, Subgroup.map_subtype_le _, ?_, ?_⟩
   · rintro _ ⟨b, hb, rfl⟩
@@ -138,8 +139,8 @@ theorem r8100E_of_conclusion76 (D : Data G) (hx : DataExt D) (hSg : UC6S846.Sigm
   obtain ⟨p, hp⟩ := hSg.nonempty
   obtain ⟨hpp, hp2⟩ := D.sig_prime p hp
   have h76p := h76 ((Data.k_eq_two_iff D).2 h3) p hp (UC6S846.sp_of_mem_sig hSg hns hp)
-  haveI : Fact p.Prime := ⟨hpp⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact p.Prime := ⟨hpp⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨K₁, K₂, hne, hS⟩ := Set.ncard_eq_two.1 hc2
   have h1S : K₁ ∈ conjSetOf D.M K := by
     rw [hS]

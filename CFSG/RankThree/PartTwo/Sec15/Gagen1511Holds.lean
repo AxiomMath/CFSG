@@ -18,7 +18,7 @@ theorem not_case148Five_of_sec15R (h158 : Item158Y0R) (hset : Item13SetupAt) (h1
     (h : Sec15R G A c L) {Y : Subgroup G} (hY : Y ∈ scriptY0 A (lB A)) :
     letI := ker148_normal hY.1.1.2
     ¬ Case148Five A (lB A) Y := by
-  letI := ker148_normal hY.1.1.2
+  let := ker148_normal hY.1.1.2
   rintro ⟨c', hc'A, L', n, m, hc', hL', hn, hm, hX, hsplit, -, hfield, hε, -, K, hKLY, hKn, hKp,
     hKΔ⟩
   exact Proof1511Field.false_of_field_point h158 hset h133 h159 h1510 hBr h134 h48 h hY hc'A hc'

@@ -15,7 +15,7 @@ theorem s16c1_G47_comm_of_card_le_four {Hs : Type} [Group Hs] [Finite Hs] {Xs Vs
     (hX : IsSL2Prime ↥Xs 5) (hXV : ∀ x ∈ Xs, ∀ v ∈ Vs, x * v * x⁻¹ ∈ Vs)
     (hV4 : Nat.card ↥Vs ≤ 4) : ∀ v ∈ Vs, ∀ x ∈ Xs, v * x = x * v := by
   obtain ⟨hcard, hperf, -⟩ := s16c1_sl2five_facts hX
-  haveI : Group.IsPerfect ↥Xs := Group.isPerfect_def.2 (by simpa [commutator_def] using hperf)
+  have : Group.IsPerfect ↥Xs := Group.isPerfect_def.2 (by simpa [commutator_def] using hperf)
   have hnorm : Xs ≤ normalizer (Vs : Set Hs) := by
     intro x hx
     rw [Subgroup.mem_normalizer_iff]

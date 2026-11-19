@@ -71,8 +71,8 @@ theorem sec3101B_inf_bot_of_inf_bot {α : Type*} [Group α] {S D C : Subgroup α
   rw [hDC] at h1
   exact eq_bot_iff.2 h1
 
-theorem sec3101B_of_hyp (hp : d.CaseHyp) (k : d.Know93) (h2 : d.Sec3_10_two)
-    (S : Subgroup G) (hS : IsSylowOf 2 S d.L₂) (hP : d.P ≤ S) (hO : d.Sec3101Orders S)
+theorem sec3101B_of_hyp (_hp : d.CaseHyp) (k : d.Know93) (_h2 : d.Sec3_10_two)
+    (S : Subgroup G) (hS : IsSylowOf 2 S d.L₂) (hP : d.P ≤ S) (_hO : d.Sec3101Orders S)
     (ha : d.Sec3101A S) (he : d.Sec3101E S) : d.Sec3101B S := by
   have h91 := k.s9_1 S hS hP
   have h39a := k.s9a S hS hP
@@ -82,7 +82,7 @@ theorem sec3101B_of_hyp (hp : d.CaseHyp) (k : d.Know93) (h2 : d.Sec3_10_two)
   have hDS : d.D ≤ S := by rw [hSED]; exact le_sup_right
   have hES : d.E ≤ S := by rw [hSED]; exact le_sup_left
   have hEN : (d.E.subgroupOf S).Normal := by
-    haveI := hEchar
+    have := hEchar
     infer_instance
   have hSN : S ≤ Subgroup.normalizer (d.E : Set G) :=
     (normal_subgroupOf_iff_le_normalizer hES).1 hEN

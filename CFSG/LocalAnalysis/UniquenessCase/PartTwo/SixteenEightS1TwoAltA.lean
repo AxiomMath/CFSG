@@ -33,13 +33,13 @@ private theorem s16e_two_alt_not_dvd_six_factorial {p n : ℕ} (hpp : p.Prime) (
   interval_cases p <;> interval_cases n <;>
     first
       | (norm_num at h; done)
-      | (norm_num at hpp; done)
+      | (norm_num at hpp)
 
-theorem s16e_two_alt_card_mbar (D : Data G) (hx : DataExt D) (h4 : 3 < CFSG.Open.evenRank G)
-    (h61 : UC6.R6_1 D) (h127 : R127 D) (h1214 : F12.R1214 D) (h638 : UC6.R6_38 D)
+theorem s16e_two_alt_card_mbar (D : Data G) (hx : DataExt D) (_h4 : 3 < CFSG.Open.evenRank G)
+    (h61 : UC6.R6_1 D) (h127 : R127 D) (h1214 : F12.R1214 D) (_h638 : UC6.R6_38 D)
     {V₀ V L : Subgroup G} (hV : IsElemAbelian 2 V) (hset : Setting16 D V₀ V L)
-    (hL : barSub V₀ V hV L ≠ ⊥) (hconc : Conc4_136 D V₀ V hV L)
-    (hs : s15 D.M V₀ V hV L = 1) {n : ℕ} (hn5 : 5 ≤ n) (hn11 : n ≤ 11) (hn6 : n ≠ 6)
+    (hL : barSub V₀ V hV L ≠ ⊥) (_hconc : Conc4_136 D V₀ V hV L)
+    (hs : s15 D.M V₀ V hV L = 1) {n : ℕ} (hn5 : 5 ≤ n) (_hn11 : n ≤ 11) (hn6 : n ≠ 6)
     (hA : UC22.IsAlt ↥(lBar V₀ V hV L) n)
     (hsum : SumOfNat (fun H U Z => AlternatingNatural H U Z n)
       (lStar D.M V₀ V hV L) (wStar D.M V₀ V hV L) ⊥ 2) :

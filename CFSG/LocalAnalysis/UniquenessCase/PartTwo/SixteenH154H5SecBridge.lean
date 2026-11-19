@@ -131,7 +131,7 @@ private theorem s16h_commSub_commSub_eq (L : Subgroup (MulAut W))
   exact le_antisymm hle hge
 
 theorem s16h_realizes_autSec_of_realizes [Finite W] {U Z : Subgroup W} {L : Subgroup (MulAut W)}
-    (hZU : Z ≤ U) (hLU : L ≤ stabSub U) (hLZ : L ≤ stabSub Z)
+    (_hZU : Z ≤ U) (hLU : L ≤ stabSub U) (hLZ : L ≤ stabSub Z)
     (hfaith : L ⊓ centSec U Z = ⊥) {D : FFModel} (h : D.Realizes L U Z) :
     D.Realizes (autSec L U Z) (⊤ : Subgroup (Sec U Z)) ⊥ := by
   obtain ⟨π, hsurj, -, hkersec, -, -, hsecinv, hkerinv, β, hβsurj, hβker, hβeq⟩ := h
@@ -205,7 +205,7 @@ theorem s16h_H5_card_autSub_eq_autSec [Finite W] {A L : Subgroup (MulAut W)} {t 
     (hE : E ≤ A ⊓ normalizer (L : Set (MulAut W))) :
     Nat.card ↥(autSub E (commSub ⊤ L)) =
       Nat.card ↥(autSec E (commSub ⊤ L) (commSub ⊤ L ⊓ fixV L)) := by
-  haveI : Finite (MulAut W) := s16h_finite_mulAut
+  have : Finite (MulAut W) := s16h_finite_mulAut
   set U : Subgroup W := commSub ⊤ L with hU
   set Z : Subgroup W := commSub ⊤ L ⊓ fixV L with hZ
   have hEN : E ≤ normalizer (L : Set (MulAut W)) :=
@@ -277,8 +277,8 @@ theorem s16h_H5_faithful_on_quotient [Finite W] {A L : Subgroup (MulAut W)} {t :
       exact MulEquiv.ext (fun w =>
         mem_fixV.mp ((commSub_eq_bot_iff.mp (by rw [← hU]; exact hUbot))
           (Subgroup.mem_top w)) l hl)
-    haveI : Nontrivial (↥L ⧸ Subgroup.center ↥L) := hLq.2.toNontrivial
-    haveI hnt : Nontrivial ↥L :=
+    have : Nontrivial (↥L ⧸ Subgroup.center ↥L) := hLq.2.toNontrivial
+    have hnt : Nontrivial ↥L :=
       (QuotientGroup.mk'_surjective (Subgroup.center ↥L)).nontrivial
     exact (Subgroup.nontrivial_iff_ne_bot L).mp hnt hLbot
   have hKcenter : φ.ker ≤ Subgroup.center ↥L :=

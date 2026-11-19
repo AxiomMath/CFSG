@@ -22,6 +22,7 @@ theorem mem_stabS_iff {I : Type} [AddCommGroup I] [Module (ZMod 2) I] {S : Submo
     Subgroup.normalizer (V : Set G) →* (Additive ↥V ≃ₗ[ZMod 2] Additive ↥V) :=
   linHom.comp (conjAct V)
 
+omit [Finite G] in
 theorem coe_linAct {V : Subgroup G} [IsMulCommutative ↥V] [Module (ZMod 2) (Additive ↥V)]
     (g : Subgroup.normalizer (V : Set G)) (x : Additive ↥V) :
     ((Additive.toMul (linAct g x) : ↥V) : G) =
@@ -29,6 +30,7 @@ theorem coe_linAct {V : Subgroup G} [IsMulCommutative ↥V] [Module (ZMod 2) (Ad
   show ((conjAct V g (Additive.toMul x) : ↥V) : G) = _
   rw [AutOn.coe_conjAct_apply]
 
+omit [Finite G] in
 theorem linHom_surj {V : Subgroup G} [IsMulCommutative ↥V] [Module (ZMod 2) (Additive ↥V)]
     (σ' : Additive ↥V ≃ₗ[ZMod 2] Additive ↥V) : ∃ σ : MulAut ↥V, linHom σ = σ' := by
   refine ⟨{ toFun := fun x => Additive.toMul (σ' (Additive.ofMul x))
@@ -39,8 +41,9 @@ theorem linHom_surj {V : Subgroup G} [IsMulCommutative ↥V] [Module (ZMod 2) (A
   ext x
   simp [linHom, linOfMulAut_apply]
 
+omit [Finite G] in
 theorem exists_lift {V : Subgroup G} [IsMulCommutative ↥V] [Module (ZMod 2) (Additive ↥V)]
-    {X V₁ : Subgroup G} (hXV : X ≤ Subgroup.normalizer (V : Set G)) (htop : autOn X V = ⊤)
+    {X V₁ : Subgroup G} (_hXV : X ≤ Subgroup.normalizer (V : Set G)) (htop : autOn X V = ⊤)
     (hV₁ : V₁ ≤ V) {γ : Additive ↥V ≃ₗ[ZMod 2] Additive ↥V}
     (hγ : γ ∈ stabS (subOf (V := V) V₁)) :
     ∃ l : G, ∃ hl : l ∈ Subgroup.normalizer (V : Set G), l ∈ X ∧
@@ -109,7 +112,7 @@ theorem odd_mem_image_oTwoUpper {V : Subgroup G} [IsMulCommutative ↥V]
     (hodd : Odd (orderOf γ)) :
     ∃ l : G, ∃ hl : l ∈ Subgroup.normalizer (V : Set G),
       l ∈ oTwoUpper (X ⊓ Subgroup.normalizer (V₁ : Set G)) ∧ linAct (V := V) ⟨l, hl⟩ = γ := by
-  haveI hfin : Finite (Additive ↥V ≃ₗ[ZMod 2] Additive ↥V) :=
+  have hfin : Finite (Additive ↥V ≃ₗ[ZMod 2] Additive ↥V) :=
     Finite.of_injective (fun f : Additive ↥V ≃ₗ[ZMod 2] Additive ↥V =>
       (f : Additive ↥V → Additive ↥V)) DFunLike.coe_injective
   have hγfin : IsOfFinOrder γ := isOfFinOrder_of_finite γ
@@ -140,6 +143,7 @@ section Step2Q
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem step2_q {K₁ V V₁ : Subgroup G}
     (hK : quasithinIsCComponent K₁ (Subgroup.normalizer (V₁ : Set G)))
     (hK4 : Nonempty (↥K₁ ⧸ CFSG.pCore 2 ↥K₁ ≃* Matrix.SpecialLinearGroup (Fin 4) (ZMod 2)))
@@ -152,7 +156,7 @@ theorem step2_q {K₁ V V₁ : Subgroup G}
     (himg : (D.img K₁).relIndex (D.img (Subgroup.normalizer (V₁ : Set G))) ≤ 2) :
     (D.img K₁).relIndex (orthogonalSubgroupOf q) = 2 ∧ D.img K₁ ≤ orthogonalSubgroupOf q ∧
       Nat.card (D.img K₁) = 20160 ∧
-      ∀ k : G, ∀ hk : k ∈ K₁, ∀ hkN : k ∈ Subgroup.normalizer (u128 V V₁ : Set G),
+      ∀ k : G, ∀ _hk : k ∈ K₁, ∀ hkN : k ∈ Subgroup.normalizer (u128 V V₁ : Set G),
         D.ρ ⟨k, hkN⟩ = 1 ↔ k ∈ pCoreOf 2 K₁ := by
   classical
   have hK₁U := K₁_le_normalizer_u128 (V := V) hK
@@ -224,6 +228,7 @@ theorem finrank_of_natCard {M : Type} [AddCommGroup M] [Module (ZMod 2) M] [Fini
   rw [Nat.card_zmod] at h1
   exact Nat.pow_right_injective le_rfl (h1.symm.trans h)
 
+omit [Finite G] in
 theorem natCard_subOf {V W : Subgroup G} [IsMulCommutative ↥V] [Module (ZMod 2) (Additive ↥V)]
     (hWV : W ≤ V) : Nat.card (subOf (V := V) W) = Nat.card W := by
   apply Nat.card_congr
@@ -271,11 +276,11 @@ theorem totally_singular (h1222 : Stmt12_2_2) (h12213 : Stmt12_2_13) (F5 : FactF
     (hq : ∀ v w, q (v + w) = q v + q w + D.B v w)
     (hΓO : D.img (Subgroup.normalizer (V₁ : Set G)) ≤ orthogonalSubgroupOf q) :
     ∀ v ∈ V, q (D.π v) = 0 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hc, -⟩ := hcx.hyp.natural
   obtain ⟨hcard, hsq, -⟩ := hcx.hyp.card_sq
-  haveI := hc
-  letI : Module (ZMod 2) (Additive ↥V) := zmodModuleOf hsq
+  have := hc
+  let : Module (ZMod 2) (Additive ↥V) := zmodModuleOf hsq
   have hV₁V : V₁ ≤ V := hs.v1.1
   have hLV : L ≤ Subgroup.normalizer (V : Set G) := hcx.hyp.hyp.irrPlus.2.2.1
   have htop : autOn L V = ⊤ := autOn_eq_top_of_hyp1281One hcx.hyp
@@ -348,12 +353,12 @@ theorem totally_singular (h1222 : Stmt12_2_2) (h12213 : Stmt12_2_13) (F5 : FactF
     by_contra hne
     obtain ⟨x₀, hx₀⟩ : ∃ x₀, lam x₀ ≠ 0 := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact hne (LinearMap.ext fun x => h x)
-    haveI : Finite (Additive ↥V) := by
+    have : Finite (Additive ↥V) := by
       show Finite ↥V
       infer_instance
-    haveI : Module.Finite (ZMod 2) (Additive ↥V) := Module.Finite.of_finite
+    have : Module.Finite (ZMod 2) (Additive ↥V) := Module.Finite.of_finite
     have h4 : Module.finrank (ZMod 2) (Additive ↥V) = 4 := finrank_of_natCard hcard
     have h1 : lam x₀ = 1 := by
       rcases zmod_two_cases (lam x₀) with h | h
@@ -417,11 +422,11 @@ theorem step3_main (h1222 : Stmt12_2_2) (h12213 : Stmt12_2_13) (F5 : FactF5)
       ∀ t ∈ T, ∀ htU : t ∈ Subgroup.normalizer (u128 V V₁ : Set G),
         D.ρ ⟨t, htU⟩ ∈ stabS S := by
   have htot := totally_singular h1222 h12213 F5 hcx hs D hq hΓO
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hc, -⟩ := hcx.hyp.natural
   obtain ⟨hcard, hsq, -⟩ := hcx.hyp.card_sq
-  haveI := hc
-  letI : Module (ZMod 2) (Additive ↥V) := zmodModuleOf hsq
+  have := hc
+  let : Module (ZMod 2) (Additive ↥V) := zmodModuleOf hsq
   have hV₁V : V₁ ≤ V := hs.v1.1
   have hTV : T ≤ Subgroup.normalizer (V : Set G) := (hcx.hyp.hyp.le_and_normalizes h1222).2
   have hTV₁ : T ≤ Subgroup.normalizer (V₁ : Set G) := hs.v1.2.2

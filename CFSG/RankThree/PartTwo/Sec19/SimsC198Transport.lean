@@ -35,6 +35,7 @@ variable {G : Type} [Group G] [Finite G]
     Subgroup.normalizer (K : Set G) →* MulAut (K ⧸ CFSG.pCore 2 K) :=
   (Transport.pCoreQuotMulAut K).comp (Sec4.compAction K)
 
+omit [Finite G] in
 theorem quotAct_mk (K : Subgroup G) (g : Subgroup.normalizer (K : Set G)) (k : K)
     (hk : (g : G) * k * (g : G)⁻¹ ∈ K) :
     quotAct K g (k : K ⧸ CFSG.pCore 2 K) =
@@ -45,12 +46,14 @@ theorem quotAct_mk (K : Subgroup G) (g : Subgroup.normalizer (K : Set G)) (k : K
     Subgroup (MulAut (K ⧸ CFSG.pCore 2 K)) :=
   (D.subgroupOf (Subgroup.normalizer (K : Set G))).map (quotAct K)
 
+omit [Finite G] in
 theorem mem_actImage {K D : Subgroup G} {φ : MulAut (K ⧸ CFSG.pCore 2 K)}
     (hφ : φ ∈ actImage K D) :
     ∃ (d : G) (hd : d ∈ Subgroup.normalizer (K : Set G)), d ∈ D ∧ quotAct K ⟨d, hd⟩ = φ := by
   obtain ⟨⟨d, hd⟩, hdD, rfl⟩ := hφ
   exact ⟨d, hd, Subgroup.mem_subgroupOf.mp hdD, rfl⟩
 
+omit [Finite G] in
 theorem Transport.mem_pCore_iff_mem_pCoreOf (K : Subgroup G) (x : K) :
     x ∈ CFSG.pCore 2 K ↔ (x : G) ∈ CFSG.Open.pCoreOf 2 K := by
   unfold CFSG.Open.pCoreOf
@@ -61,6 +64,7 @@ theorem Transport.mem_pCore_iff_mem_pCoreOf (K : Subgroup G) (x : K) :
   · rintro ⟨y, hy, hyx⟩
     exact (Subtype.ext hyx : y = x) ▸ hy
 
+omit [Finite G] in
 theorem quotAct_eq_one_iff (K : Subgroup G) (g : Subgroup.normalizer (K : Set G)) :
     quotAct K g = 1 ↔ ∀ k ∈ K, (g : G) * k * (g : G)⁻¹ * k⁻¹ ∈ CFSG.Open.pCoreOf 2 K := by
   constructor
@@ -81,6 +85,7 @@ theorem quotAct_eq_one_iff (K : Subgroup G) (g : Subgroup.normalizer (K : Set G)
         ((Transport.mem_pCore_iff_mem_pCoreOf K _).mpr ?_)
       simpa [div_eq_mul_inv] using h k k.2
 
+omit [Finite G] in
 theorem quotAct_conj (K : Subgroup G) {c : G} (hcK : c ∈ K)
     (hcN : c ∈ Subgroup.normalizer (K : Set G)) :
     quotAct K ⟨c, hcN⟩ = MulAut.conj ((⟨c, hcK⟩ : K) : K ⧸ CFSG.pCore 2 K) := by
@@ -182,9 +187,11 @@ variable {K L : Subgroup G}
   ((QuotientGroup.mk' (CFSG.pCore 2 K)).subgroupMap (L.subgroupOf K)).comp
     (Subgroup.subgroupOfEquivOfLe hLK).symm.toMonoidHom
 
+omit [Finite G] in
 theorem toBar_surjective (hLK : L ≤ K) : Function.Surjective (toBar hLK) :=
   (MonoidHom.subgroupMap_surjective _ _).comp (MulEquiv.surjective _)
 
+omit [Finite G] in
 theorem mem_ker_toBar (hLK : L ≤ K) (y : L) :
     y ∈ (toBar hLK).ker ↔ (⟨(y : G), hLK y.2⟩ : K) ∈ CFSG.pCore 2 K := by
   rw [MonoidHom.mem_ker]
@@ -194,6 +201,7 @@ theorem mem_ker_toBar (hLK : L ≤ K) (y : L) :
   · intro h
     exact Subtype.ext ((QuotientGroup.eq_one_iff _).mpr h)
 
+omit [Finite G] in
 theorem isPGroup_ker_toBar (hLK : L ≤ K) : IsPGroup 2 (toBar hLK).ker := by
   intro y
   obtain ⟨k, hk⟩ := (CFSG.pCore_isPGroup (p := 2) (G := K)) ⟨_, (mem_ker_toBar hLK y.1).mp y.2⟩
@@ -259,6 +267,7 @@ theorem nonempty_thetaQuotEquiv (hLK : L ≤ K) :
   exact ⟨(QuotientGroup.quotientMulEquivOfEq hker.symm).trans
     (QuotientGroup.quotientKerEquivOfSurjective φ hφ)⟩
 
+omit [Finite G] in
 theorem isPerfect_bar (hLK : L ≤ K) (hLp : Group.IsPerfect L) :
     Group.IsPerfect ((L.subgroupOf K).map (QuotientGroup.mk' (CFSG.pCore 2 K))) := by
   have := hLp
@@ -291,6 +300,7 @@ section Local
 
 variable {K L : Subgroup G} {c : G}
 
+omit [Finite G] in
 theorem orderOf_mk_eq_three (hcK : c ∈ K) (hc3 : orderOf c = 3) :
     orderOf ((⟨c, hcK⟩ : K) : K ⧸ CFSG.pCore 2 K) = 3 := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
@@ -356,7 +366,7 @@ theorem exists_centralizer_preimage (hcK : c ∈ K) (hc3 : orderOf c = 3)
   have := Subgroup.mem_centralizer_iff.mp hx c' (Subgroup.mem_zpowers c')
   exact (congrArg Subtype.val this).symm
 
-theorem isSubnormal_bar (hLK : L ≤ K) (hcK : c ∈ K) (hc3 : orderOf c = 3)
+theorem isSubnormal_bar (_hLK : L ≤ K) (hcK : c ∈ K) (hc3 : orderOf c = 3)
     (hLc : L ≤ Subgroup.centralizer ({c} : Set G))
     (hLsn : (L.subgroupOf (K ⊓ Subgroup.centralizer ({c} : Set G))).IsSubnormal) :
     (((L.subgroupOf K).map (QuotientGroup.mk' (CFSG.pCore 2 K))).subgroupOf
@@ -443,6 +453,7 @@ theorem thetaQuotCentralizer_spec {L : Subgroup G} {d : G}
   have h3 := QuotientGroup.eq_iff_div_mem.mp h2
   rwa [div_eq_mul_inv] at h3
 
+omit [Finite G] in
 theorem card_actImage {K D : Subgroup G} (hDK : D ≤ Subgroup.normalizer (K : Set G))
     (hD9 : Nat.card D = 9)
     (hfaith : ∀ d ∈ D, (∀ k ∈ K, d * k * d⁻¹ * k⁻¹ ∈ CFSG.Open.pCoreOf 2 K) → d = 1) :

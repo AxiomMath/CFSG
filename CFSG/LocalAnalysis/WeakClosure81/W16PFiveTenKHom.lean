@@ -14,6 +14,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] {M V₀ V U S H : Subgroup G}
 
+omit [Finite G] in
 private theorem w16tenk_cong_of_spec {K N V : Subgroup G} (hVK : V ≤ K) {a v : G} (hvV : v ∈ V)
     (hv : ∀ k ∈ K, (a * v⁻¹) * k * (a * v⁻¹)⁻¹ * k⁻¹ ∈ N) :
     ∀ k ∈ K, (a * k * a⁻¹) * (v * k * v⁻¹)⁻¹ ∈ N := by
@@ -24,8 +25,9 @@ private theorem w16tenk_cong_of_spec {K N V : Subgroup G} (hVK : V ≤ K) {a v :
       (a * k * a⁻¹) * (v * k * v⁻¹)⁻¹ := by group
   rwa [hkey] at hmem
 
+omit [Finite G] in
 private theorem w16tenk_cong_mul {K N V : Subgroup G} (hVK : V ≤ K)
-    {a b v v' : G} (haN : a ∈ Subgroup.normalizer (N : Set G)) (hvV : v ∈ V) (hv'V : v' ∈ V)
+    {a b v v' : G} (haN : a ∈ Subgroup.normalizer (N : Set G)) (_hvV : v ∈ V) (hv'V : v' ∈ V)
     (ha : ∀ k ∈ K, (a * k * a⁻¹) * (v * k * v⁻¹)⁻¹ ∈ N)
     (hb : ∀ k ∈ K, (b * k * b⁻¹) * (v' * k * v'⁻¹)⁻¹ ∈ N) :
     ∀ k ∈ K, ((a * b) * k * (a * b)⁻¹) * ((v * v') * k * (v * v')⁻¹)⁻¹ ∈ N := by
@@ -42,6 +44,7 @@ private theorem w16tenk_cong_mul {K N V : Subgroup G} (hVK : V ≤ K)
   rw [hkey]
   exact N.mul_mem h1' h2
 
+omit [Finite G] in
 private theorem w16tenk_map_mem_center {K N : Subgroup G} {X : Type} [Group X]
     {φ : ↥K →* X} (hφ : SevenK.IsBarMap K N φ) {d : G} (hdK : d ∈ K)
     (hd : ∀ m ∈ K, d * m * d⁻¹ * m⁻¹ ∈ N) :
@@ -59,6 +62,7 @@ private theorem w16tenk_map_mem_center {K N : Subgroup G} {X : Type} [Group X]
     simpa only [mul_assoc] using h1
   exact (mul_inv_eq_one.mp h2).symm
 
+omit [Finite G] in
 private theorem w16tenk_barSub_eq_one {K N V : Subgroup G} {X : Type} [Group X]
     {φ : ↥K →* X} (hVK : V ≤ K) (hφ : SevenK.IsBarMap K N φ)
     (hY : IsElemAbelian 2 (SevenK.barSub K φ V))
@@ -71,8 +75,9 @@ private theorem w16tenk_barSub_eq_one {K N V : Subgroup G} {X : Type} [Group X]
     w16tenk_map_mem_center hφ (hVK hdV) hd
   exact CFSG.CGT.Timmesfeld75.eq_one_of_mem_of_odd_card hY hodd hmem hcen
 
+omit [Finite G] in
 private theorem w16tenk_conj_mem_of_cong {K N V : Subgroup G} (hVK : V ≤ K) {a v v' : G}
-    (hvV : v ∈ V) (hv'V : v' ∈ V)
+    (_hvV : v ∈ V) (hv'V : v' ∈ V)
     (hv : ∀ k ∈ K, (a * k * a⁻¹) * (v * k * v⁻¹)⁻¹ ∈ N)
     (hv' : ∀ k ∈ K, (a * k * a⁻¹) * (v' * k * v'⁻¹)⁻¹ ∈ N) :
     ∀ m ∈ K, (v * v'⁻¹) * m * (v * v'⁻¹)⁻¹ * m⁻¹ ∈ N := by
@@ -87,6 +92,7 @@ private theorem w16tenk_conj_mem_of_cong {K N V : Subgroup G} (hVK : V ≤ K) {a
       (v * v'⁻¹) * m * (v * v'⁻¹)⁻¹ * m⁻¹ := by group
   rwa [hkey] at hmem
 
+omit [Finite G] in
 private theorem w16tenk_eq_of_cong {K N V : Subgroup G} {X : Type} [Group X]
     {φ : ↥K →* X} (hVK : V ≤ K) (hφ : SevenK.IsBarMap K N φ)
     (hY : IsElemAbelian 2 (SevenK.barSub K φ V))
@@ -119,7 +125,7 @@ theorem IsMinFam16.exists_hom_of_comm_mem (h1 : W16One G) (hS : Std15 G) (h : Ce
       ∀ (a : ↥(conjSubgroup V x)) (k k' : ↥(conjClosure V H)),
         (k' : G) = (a : G) * k * (a : G)⁻¹ → φ k' = w a * φ k * (w a)⁻¹ := by
   classical
-  haveI : Finite X := Finite.of_surjective φ hφ.surjective
+  have : Finite X := Finite.of_surjective φ hφ.surjective
   have hVK : V ≤ conjClosure V H := le_conjClosure V H
   have hSH : S ≤ H := hH.1.1
   have hAH : conjSubgroup V x ≤ H := hxS.trans hSH
@@ -149,7 +155,7 @@ theorem IsMinFam16.exists_hom_of_comm_mem (h1 : W16One G) (hS : Std15 G) (h : Ce
   have hcong_one : ∀ k ∈ conjClosure V H,
       ((1 : G) * k * (1 : G)⁻¹) * (1 * k * 1⁻¹)⁻¹ ∈ pCoreOf 2 (conjClosure V H) := by
     intro k _
-    simpa using (pCoreOf 2 (conjClosure V H)).one_mem
+    simp
   have hw1 : φ ⟨vOf 1, hVK (vOf_mem 1)⟩ = 1 := by
     have heq := w16tenk_eq_of_cong hVK hφ hY hodd (vOf_mem 1) V.one_mem (hcong 1) hcong_one
     have hone : (⟨(1 : G), hVK V.one_mem⟩ : ↥(conjClosure V H)) = 1 := Subtype.ext rfl

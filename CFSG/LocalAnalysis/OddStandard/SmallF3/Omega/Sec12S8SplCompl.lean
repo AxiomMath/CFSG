@@ -169,7 +169,7 @@ theorem s8_complement {P : Type} [Group P] [Finite P] {H V1 : Subgroup P}
   have hindex : (V1 ⊔ K0).relIndex H = 15 := by
     rw [hsup, Subgroup.inf_relIndex_left, Subgroup.relIndex_comap]
     rw [hmap, Subgroup.relIndex_top_right, s8K4_index]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard : ∃ n : ℕ, Nat.card V1 = 2 ^ n := by
     have hpgrp : IsPGroup 2 ↥V1 := by
       intro g

@@ -68,7 +68,7 @@ theorem card_le_of_forall_mem_eq_smul {p m : ℕ} [NeZero p] (S : Finset (Fin m)
   have he : Function.Injective e := by
     rintro ⟨a, g⟩ ⟨a', g'⟩ hgg
     have h₁ := congrFun (congrArg Subtype.val hgg) i₀
-    simp only [e, dif_pos hi₀] at h₁
+    simp only [e, dite_eq_left hi₀] at h₁
     have ha : a = a' := by
       have h₂ := congrArg (fun z => s i₀ * toAdd z) h₁
       simpa only [toAdd_ofAdd, ← mul_assoc, hs i₀, one_mul] using h₂
@@ -106,8 +106,8 @@ private theorem ggTBJ_sp_sideDatum_of_cover_aux {G : Type} [Group G] [Finite G]
     GGResSideDatum p Bs X J ∨ (c = 2 ∧ GGResLeviSideDatumLE3 p Bs X J) := by
   classical
   have hp : p.Prime := Fact.out
-  haveI : NeZero m := ⟨by omega⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero m := ⟨by omega⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨κ, hfull, hblock, -, hAinn⟩ :=
     ggTBJ_sp_cover_block_automizers hp hp2 hpq ψ₀ _ hA y hy hy1 hJ hcount
   have hinj : Function.Injective (MulAut.conj : ↥X →* MulAut ↥X) := by

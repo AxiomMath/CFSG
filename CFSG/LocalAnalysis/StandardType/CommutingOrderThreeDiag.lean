@@ -82,7 +82,7 @@ theorem exists_diagonalizing_basis {ι κ Ω : Type} [Fintype ι] [DecidableEq �
     DirectSum.isInternal_submodule_of_iSupIndep_of_iSup_eq_top hind htop
   let b' : Module.Basis (Σ χ : κ → Ω, Fin (finrank Ω (joint χ))) Ω V :=
     hdecomp.collectedBasis fun χ => Module.finBasis Ω (joint χ)
-  letI : Fintype (Σ χ : κ → Ω, Fin (finrank Ω (joint χ))) :=
+  let : Fintype (Σ χ : κ → Ω, Fin (finrank Ω (joint χ))) :=
     FiniteDimensional.fintypeBasisIndex b'
   have hcard : Fintype.card (Σ χ : κ → Ω, Fin (finrank Ω (joint χ))) = Fintype.card ι := by
     have h1 : Fintype.card (Σ χ : κ → Ω, Fin (finrank Ω (joint χ))) = finrank Ω V :=

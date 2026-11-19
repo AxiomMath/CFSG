@@ -33,7 +33,7 @@ private theorem l48nD_order_three {R : Type} [Group R] {L' : Type} [Group L'] {�
 
 theorem ggRankOne_su6_cases_at {R : Type} [Group R] {I : Set (MulAut R)}
     (hb : GGSU6DiagInvertedAt I) {L' : Type} [Group L'] [Finite L'] (ψ : L' →* R)
-    (hψ : Function.Surjective ψ) (hker : ψ.ker ≤ Subgroup.center L') (hperf : commutator L' = ⊤)
+    (hψ : Function.Surjective ψ) (_hker : ψ.ker ≤ Subgroup.center L') (_hperf : commutator L' = ⊤)
     {e : MulAut L'} {J : Subgroup L'} {n : ℕ} {a : MulAut L'} (hset : GGRankOneSetup I ψ 3 e J n a)
     (houter : ¬ ∃ r : R, ∀ l : L', ψ (e l) = r * ψ l * r⁻¹)
     (hc : ∀ A : Subgroup (MulAut L'), IsElemAbelian 3 A → Nat.card A = 3 ^ 3 → e ∈ A → a ∈ A →

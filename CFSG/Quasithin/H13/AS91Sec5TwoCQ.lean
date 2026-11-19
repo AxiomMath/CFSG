@@ -33,7 +33,7 @@ theorem pow_three_mem_Q_of_mem_sup_X {u : G} (hu : u ∈ Q z ⊔ c.X) : u ^ 3 �
     rw [← Subgroup.subgroupOf_sup (A := Q z) (A' := c.X) (B := H z)
       (CFSG.LieType.BorelTits.pCoreOf_le 2 (H z)) c.X_le]
     exact Subgroup.mem_subgroupOf.mpr hu
-  letI : ((Q z).subgroupOf (H z)).Normal := hQn
+  let : ((Q z).subgroupOf (H z)).Normal := hQn
   obtain ⟨q, hq, x, hx, hqx⟩ :=
     (Subgroup.mem_sup_of_normal_left (s := (Q z).subgroupOf (H z))
       (t := (c.X).subgroupOf (H z))).mp huH'
@@ -267,16 +267,16 @@ theorem exists_orderOf_eq_five_commute {g : G} (hg : g ∈ c.G2)
     rw [horbit]
     exact c.card_ptsL
   have h5dvd : 5 ∣ Nat.card ↥A := by
-    letI : Fintype ↥A := Fintype.ofFinite _
-    letI : Fintype ↥(MulAction.orbit ↥A c.x0) := Fintype.ofFinite _
-    letI : Fintype ↥(MulAction.stabilizer ↥A c.x0) := Fintype.ofFinite _
+    let : Fintype ↥A := Fintype.ofFinite _
+    let : Fintype ↥(MulAction.orbit ↥A c.x0) := Fintype.ofFinite _
+    let : Fintype ↥(MulAction.stabilizer ↥A c.x0) := Fintype.ofFinite _
     have h := MulAction.card_orbit_mul_card_stabilizer_eq_card_group (G := ↥A) c.x0
     rw [show Fintype.card ↥(MulAction.orbit ↥A c.x0) = 5 by
       rw [← Nat.card_eq_fintype_card, horbit_card]] at h
     refine ⟨Fintype.card ↥(MulAction.stabilizer ↥A c.x0), ?_⟩
     rw [Nat.card_eq_fintype_card]
     exact h.symm
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨a, ha5⟩ := exists_prime_orderOf_dvd_card' (G := ↥A) 5 h5dvd
   have ha5G : orderOf (a : G) = 5 := (Subgroup.orderOf_coe a).trans ha5
   exact ⟨(a : G), hA_H a.2, ha5G, fun w hw => hcentral (a : G) a.2 w hw⟩

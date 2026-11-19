@@ -71,15 +71,15 @@ theorem foldr_cnt (p : ℕ → Bool) (l : List ℕ) (s : ℕ) :
   | cons a l ih =>
     rw [List.foldr_cons, ih, List.filter_cons]
     cases h : p a
-    · simp [h]
-    · simp [h]
+    · simp
+    · simp
       omega
 
 theorem cntN_eq (n : ℕ) (p : ℕ → Bool) : cntN n p = {i | i < n ∧ p i = true}.ncard := by
   unfold cntN
   have h : {i | i < n ∧ p i = true} = ↑((List.range n).filter p).toFinset := by
     ext i
-    simp [List.mem_filter, List.mem_range]
+    simp [List.mem_range]
   rw [PK.foldN_eq, foldr_cnt, h, Set.ncard_coe_finset,
     List.toFinset_card_of_nodup (List.nodup_range.filter p)]
   exact Nat.zero_add _
@@ -152,9 +152,9 @@ theorem DE_comm {i : ℕ} (hi : i < 16) :
       rw [GC_eq (kD_spec.1 i hi) q hq, G0P_eq _ (Fin.is_lt _), Fin.eta, Equiv.Perm.mul_apply])
     (kD_spec.2.2.1 i hi)
 
-theorem DE_injOn : Set.InjOn (fun i => CE (DT i)) (Set.Iio 16) := fun i hi j hj e =>
-  inj_of_incK (F := fun i => GC (DT i)) (g := fun i => CE (DT i))
-    (fun i hi q hq => GC_eq (kD_spec.1 i hi) q hq) kD_spec.2.1 hi hj e
+theorem DE_injOn : Set.InjOn (fun _i => CE (DT _i)) (Set.Iio 16) := fun _i hi _j hj e =>
+  inj_of_incK (F := fun _i => GC (DT _i)) (g := fun _i => CE (DT _i))
+    (fun _i hi q hq => GC_eq (kD_spec.1 _i hi) q hq) kD_spec.2.1 hi hj e
 
 theorem cent_g0_eq :
     (fun i => CE (DT i)) '' Set.Iio 16 =

@@ -12,11 +12,13 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
+omit [Finite G] in
 private lemma y7bd_comm_mem {H : Subgroup G} {a b : G} (ha : a ∈ H) (hb : b ∈ H) :
     ⁅a, b⁆ ∈ H := by
   rw [commutatorElement_def]
   exact H.mul_mem (H.mul_mem (H.mul_mem ha hb) (H.inv_mem ha)) (H.inv_mem hb)
 
+omit [Finite G] in
 private lemma y7bd_conj_mem_closure {a b w g : G}
     (ha : g * a * g⁻¹ = a) (hb : g * b * g⁻¹ = b)
     (hw : w ∈ Subgroup.closure ({a, b} : Set G)) :
@@ -36,10 +38,12 @@ private lemma y7bd_conj_mem_closure {a b w g : G}
     rw [show g * u⁻¹ * g⁻¹ = (g * u * g⁻¹)⁻¹ from by group]
     exact Subgroup.inv_mem _ hu
 
+omit [Finite G] in
 private lemma y7bd_conj_zpow_eq {g z : G} (hz : g * z * g⁻¹ = z) (k : ℤ) :
     g * z ^ k * g⁻¹ = z ^ k := by
   rw [← conj_zpow (a := g) (b := z) (i := k), hz]
 
+omit [Finite G] in
 private lemma y7bd_zpow_two_eq_one_or_self {x : G} (hx : x ^ 2 = 1) (k : ℤ) :
     x ^ k = 1 ∨ x ^ k = x := by
   have hdvd : orderOf x ∣ 2 := orderOf_dvd_of_pow_eq_one hx
@@ -126,7 +130,7 @@ theorem y7b_T_inf_cs_le_A (c : Ctx7 G L) (hb : B5Std c) :
     c.s.T ⊓ centralizerSection (M5 c.e) (V1 c.e) ≤ c.s.fr.A := by
   intro x hx
   obtain ⟨hxT, hxcs⟩ := Subgroup.mem_inf.mp hx
-  simp only [centralizerSection, Set.mem_setOf_eq] at hxcs
+  simp only [centralizerSection] at hxcs
   obtain ⟨_, _, hxcomm⟩ := hxcs
   by_cases hxR : x ∈ c.s.R
   · exact y7b_R_cs_le_A c hb x hxR hxcomm

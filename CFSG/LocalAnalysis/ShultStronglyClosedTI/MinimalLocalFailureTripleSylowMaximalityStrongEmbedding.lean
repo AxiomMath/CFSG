@@ -170,7 +170,7 @@ theorem stronglyEmbedded_base_triple_sylow_maximality_and_conjugacy
   have hPp : IsPGroup p P := by
     obtain ⟨S, hS⟩ := hP
     rw [hS]
-    exact S.isPGroup'.map _
+    exact S.isPGroup.map _
   have hPthree := stronglyEmbedded_triple_sylow_three_fixed hH hzH hz hbeta hP
   obtain ⟨Q, _hPQ, hQ⟩ := exists_maximal_three_fixed_overgroup
     (Ω := conjugateCosetSpace H) p P hPp hPthree

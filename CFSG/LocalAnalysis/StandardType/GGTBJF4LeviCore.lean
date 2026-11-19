@@ -42,31 +42,31 @@ private theorem f4lv_compRank_pair_le (j : Fin Tag.F4.rank) :
 private theorem f4lv_B3_eq :
     f4LeviB3 = {j : Fin Tag.F4.rank | j ∉ ({3} : Finset (Fin Tag.F4.rank))} := by
   ext j
-  simp only [f4LeviB3, Set.mem_range, Set.mem_setOf_eq]
+  simp only [f4LeviB3, Set.mem_range, Set.mem_ofPred_eq]
   fin_cases j <;> decide
 
 private theorem f4lv_C3_eq :
     f4LeviC3 = {j : Fin Tag.F4.rank | j ∉ ({0} : Finset (Fin Tag.F4.rank))} := by
   ext j
-  simp only [f4LeviC3, Set.mem_range, Set.mem_setOf_eq]
+  simp only [f4LeviC3, Set.mem_range, Set.mem_ofPred_eq]
   fin_cases j <;> decide
 
 private theorem f4lv_long_eq :
     f4LongSupport = {j : Fin Tag.F4.rank | j ∉ ({2, 3} : Finset (Fin Tag.F4.rank))} := by
   ext j
-  simp only [f4LongSupport, Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_setOf_eq]
+  simp only [f4LongSupport, Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_ofPred_eq]
   fin_cases j <;> decide
 
 private theorem f4lv_short_eq :
     f4ShortSupport = {j : Fin Tag.F4.rank | j ∉ ({0, 1} : Finset (Fin Tag.F4.rank))} := by
   ext j
-  simp only [f4ShortSupport, Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_setOf_eq]
+  simp only [f4ShortSupport, Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_ofPred_eq]
   fin_cases j <;> decide
 
 private theorem f4lv_B2_eq :
     nodesTU = {j : Fin Tag.F4.rank | j ∉ ({0, 3} : Finset (Fin Tag.F4.rank))} := by
   ext j
-  simp only [nodesTU, Set.mem_setOf_eq]
+  simp only [nodesTU, Set.mem_ofPred_eq]
   fin_cases j <;> decide
 
 theorem f4_class_levi
@@ -78,7 +78,7 @@ theorem f4_class_levi
       componentRoots (rootCharHom a) i =
         (fun α => v • α) '' parabolicRoots .F4 {j | j ∉ S} := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   let f : L →+* AlgebraicClosure L := algebraMap L (AlgebraicClosure L)
   let a' : Fin Tag.F4.rank → (AlgebraicClosure L)ˣ := fun j => Units.map f.toMonoidHom (a j)
   have hfu : Function.Injective (Units.map f.toMonoidHom) := Units.map_injective f.injective

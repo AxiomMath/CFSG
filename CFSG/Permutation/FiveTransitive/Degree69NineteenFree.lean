@@ -58,7 +58,7 @@ theorem not_dvd_five_fixer
   let F := sylowFixedPoints X P s S
   let N := sylowNormalizer X P s S
   let _ : Fintype F := Fintype.ofFinite _
-  have hQ : IsPGroup 19 Q := S.isPGroup'.map _
+  have hQ : IsPGroup 19 Q := S.isPGroup.map _
   have hQcard : Nat.card Q = Nat.card S := Subgroup.card_map_of_injective (fixingSubgroup P s).subtype_injective
   have hF : Nat.card F = 12 := fixed_card P hcard h5 hnotAlt hseven s hs S hS
   have hfixeq : (F : Set X) = fixedPoints Q X := FixedNormalizerAction.fixed_eq Q

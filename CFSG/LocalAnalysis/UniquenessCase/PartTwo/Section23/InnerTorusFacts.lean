@@ -16,7 +16,7 @@ theorem IsL2.isL2Ev {X : Type} [Group X] {f : ℕ} (h : IsL2 X f) : IsL2Ev X f :
   have hf1 : 1 ≤ f := h.admissible.2.1
   obtain ⟨-, hmodel⟩ := CFSG.Blueprint.LieModel.classical_iff (t := .PSL) (by decide) |>.1 h
   obtain ⟨K, _, _, hK, ⟨e⟩⟩ := hmodel
-  haveI : CharP K 2 := uc22p22d_charP_two hf1 hK
+  have : CharP K 2 := uc22p22d_charP_two hf1 hK
   have hZ := CFSG.Open.StatedAPI.statedScalars_subgroupOf_statedSL_two_eq_bot (K := K)
   let q : StatedProj (StatedSL 2 K) ≃* StatedSL 2 K :=
     (QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot

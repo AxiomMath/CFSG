@@ -34,7 +34,7 @@ theorem isCyclic_center_of_isIrreducibleOn {K : Type} [Field K] [Finite K] {σ :
     IsCyclic ↥(Subgroup.center ↥G) := by
   classical
   let C := CFSG.RankThree.SubgroupLists.commutant G
-  letI : Field C := CFSG.RankThree.SubgroupLists.commutantField hG
+  let : Field C := CFSG.RankThree.SubgroupLists.commutantField hG
   have hmem : ∀ z : ↥G, z ∈ Subgroup.center ↥G → ((z : GL σ K) : Matrix σ σ K) ∈ C := by
     intro z hz
     rw [CFSG.RankThree.SubgroupLists.mem_commutant]
@@ -52,7 +52,7 @@ theorem isCyclic_center_of_isIrreducibleOn {K : Type} [Field K] [Finite K] {σ :
           (by apply Subtype.ext; simp) (by apply Subtype.ext; simp)
       map_one' := Units.ext (Subtype.ext (by simp))
       map_mul' := fun a b => Units.ext (Subtype.ext (by simp)) }
-  haveI : IsCyclic Cˣ := instIsCyclicUnitsOfFinite
+  have : IsCyclic Cˣ := instIsCyclicUnitsOfFinite
   have hf : Function.Injective f := by
     intro a b hab
     apply Subtype.ext
@@ -84,7 +84,7 @@ private theorem exists_orderOf_eq_four_of_isPGroup_two {A : Type*} [Group A] [Fi
     rw [hn]
     exact Nat.pow_dvd_pow 2 hn2
   obtain ⟨B, hBcard⟩ := Sylow.exists_subgroup_card_pow_prime (G := A) 2 (n := 2) hdvd
-  haveI : IsCyclic ↥B := Subgroup.isCyclic B
+  have : IsCyclic ↥B := Subgroup.isCyclic B
   obtain ⟨y, hy⟩ := IsCyclic.exists_ofOrder_eq_natCard (α := ↥B)
   refine ⟨(y : ↥B), ?_⟩
   rw [Subgroup.orderOf_coe, hy, hBcard]
@@ -98,7 +98,7 @@ private theorem eq_scalar_two_or_neg_two_of_mem_center_of_sq_eq_neg_one {K : Typ
       ((y : GL σ K) : Matrix σ σ K) = Matrix.scalar σ (-2) := by
   classical
   let C := CFSG.RankThree.SubgroupLists.commutant G
-  letI : Field C := CFSG.RankThree.SubgroupLists.commutantField hG
+  let : Field C := CFSG.RankThree.SubgroupLists.commutantField hG
   have hmem : ((y : GL σ K) : Matrix σ σ K) ∈ C := by
     rw [CFSG.RankThree.SubgroupLists.mem_commutant]
     intro g hg
@@ -195,8 +195,8 @@ theorem card_le_two_of_le_center {p : ℕ} [Fact p.Prime] (hp5 : p = 5)
     (hG : CFSG.RankThree.SubgroupLists.IsIrreducibleOn G) {A : Subgroup ↥G} (hA : IsPGroup 2 ↥A)
     (hAZ : A ≤ Subgroup.center ↥G) : Nat.card ↥A ≤ 2 := by
   classical
-  haveI : IsCyclic ↥(Subgroup.center ↥G) := isCyclic_center_of_isIrreducibleOn hG
-  haveI : IsCyclic ↥A :=
+  have : IsCyclic ↥(Subgroup.center ↥G) := isCyclic_center_of_isIrreducibleOn hG
+  have : IsCyclic ↥A :=
     isCyclic_of_injective (Subgroup.inclusion hAZ) (Subgroup.inclusion_injective hAZ)
   by_contra hle
   have h2lt : 2 < Nat.card ↥A := by omega

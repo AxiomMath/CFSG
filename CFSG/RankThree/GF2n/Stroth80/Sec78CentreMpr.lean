@@ -43,6 +43,7 @@ section model
 
 variable {K : Type} [Field K] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ}
 
+omit [Finite G] in
 theorem Ctx.conj_mem_Q (hc : Ctx M Q Z B) {m x : G} (hm : m ∈ M) (hx : x ∈ Q) :
     m * x * m⁻¹ ∈ Q :=
   (Subgroup.mem_normalizer_iff.mp (hc.hyp.Q_normal.2 hm) x).mp hx
@@ -56,6 +57,7 @@ theorem Ctx.exists_T_of_LB (hc : Ctx M Q Z B) (h : GlobalModelData M Q Z γ M₀
     rw [← this]; group
   exact ⟨T, hT⟩
 
+omit [Finite G] in
 theorem Ctx.pi_comm_eq (hc : Ctx M Q Z B) {T : M₀.E ≃ₗ[K] M₀.E} {l a : G} (hl : l ∈ M)
     (ha : a ∈ Q) (hT : ∀ x ∈ Q, M₀.π (l * x * l⁻¹) = T (M₀.π x)) :
     M₀.π ⁅l, a⁆ = T (M₀.π a) - M₀.π a := by
@@ -63,11 +65,13 @@ theorem Ctx.pi_comm_eq (hc : Ctx M Q Z B) {T : M₀.E ≃ₗ[K] M₀.E} {l a : G
   rw [commutatorElement_def, M₀.π_mul _ hla _ (Q.inv_mem ha), Tim79.QuadModel.pi_inv M₀ ha,
     hT a ha, sub_eq_add_neg]
 
+omit [Finite G] in
 theorem Ctx.comm_mem_Q_left (hc : Ctx M Q Z B) {l a : G} (hl : l ∈ M) (ha : a ∈ Q) :
     ⁅l, a⁆ ∈ Q := by
   rw [commutatorElement_def]
   exact Q.mul_mem (hc.conj_mem_Q hl ha) (Q.inv_mem ha)
 
+omit [Finite G] in
 theorem Ctx.pi_mem_img_B_of_mem_sup (hc : Ctx M Q Z B) {y : G} (hy : y ∈ Z ⊔ B) :
     M₀.π y ∈ M₀.img B := by
   have hZQ : Z ≤ Q := hc.Z_le_Q
@@ -219,7 +223,7 @@ theorem sec7CentreMpr_of_inputs (h34 : Stroth34Statement) (h51 : Stroth51Stateme
     have h1 := Subgroup.card_eq_card_quotient_mul_card_subgroup H
     rw [hcardH, hcard, mul_comm] at h1
     exact (Nat.eq_of_mul_eq_mul_right Nat.card_pos h1).symm
-  haveI : Finite M₀.E := Module.finite_of_finite (GaloisField 2 d)
+  have : Finite M₀.E := Module.finite_of_finite (GaloisField 2 d)
   have hbij := hginj.bijective_of_nat_card_le (by rw [hcardL, h.card, hcardQuot])
   obtain ⟨s, hs⟩ := hline x hx a0 ha0
   obtain ⟨z, hz⟩ := hbij.2 ⟨M₀.π ⁅x, a0⁆, by

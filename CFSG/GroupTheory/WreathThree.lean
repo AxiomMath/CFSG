@@ -75,7 +75,7 @@ private theorem map_conjSq_conj_eq (h : IsWreathThree S y) :
     ext x
     simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
     rw [show y * (y ^ 2 * x * (y ^ 2)⁻¹) * y⁻¹ = y ^ 3 * x * (y ^ 3)⁻¹ by
-      simp only [pow_succ, pow_two]
+      simp only [pow_succ]
       group]
   rw [conjSq, conjS, Subgroup.map_map, hcomp, map_conj_three_eq h]
 
@@ -117,8 +117,8 @@ private theorem finite_of_isWreathThree (h : IsWreathThree S y) : Finite S := by
 
 private theorem card_base_ne_zero (h : IsWreathThree S y) : Nat.card (base S y) ≠ 0 := by
   rw [h.card_base]
-  haveI : Finite S := finite_of_isWreathThree h
-  haveI : Nonempty S := ⟨1⟩
+  have : Finite S := finite_of_isWreathThree h
+  have : Nonempty S := ⟨1⟩
   exact pow_ne_zero 3 (Nat.card_pos (α := S)).ne'
 
 private theorem finite_base (h : IsWreathThree S y) : Finite (base S y) :=
@@ -135,13 +135,13 @@ private noncomputable abbrev conjEquiv (S : Subgroup G) (g : G) : S ≃* conjS S
 @[simp] private theorem conjEquiv_coe_apply (S : Subgroup G) (g : G) (x : S) :
     ((conjEquiv S g x : conjS S g) : G) = MulAut.conj g (x : G) := rfl
 
-private noncomputable def coordF1 (h : IsWreathThree S y) : S →* base S y :=
+private noncomputable def coordF1 (_h : IsWreathThree S y) : S →* base S y :=
   (Subgroup.subtype S).codRestrict (base S y) fun a => le_base_left S y a.2
 
-private noncomputable def coordF2 (h : IsWreathThree S y) : S →* base S y :=
+private noncomputable def coordF2 (_h : IsWreathThree S y) : S →* base S y :=
   (Subgroup.inclusion (conjS_le_base S y)).comp (conjEquiv S y).toMonoidHom
 
-private noncomputable def coordF3 (h : IsWreathThree S y) : S →* base S y :=
+private noncomputable def coordF3 (_h : IsWreathThree S y) : S →* base S y :=
   (Subgroup.inclusion (conjSq_le_base S y)).comp (conjEquiv S (y ^ 2)).toMonoidHom
 
 private theorem coordF1_comm (h : IsWreathThree S y) (a b : S) :
@@ -194,11 +194,11 @@ private theorem conjSq_le_normalizer_sup (h : IsWreathThree S y) :
   have hza : z * a * z⁻¹ = a := by
     have hc := h.comm z (conjSq_le_base S y hz) a (le_base_left S y ha)
     rw [hc]
-    simpa using ha
+    simp
   have hzb : z * b * z⁻¹ = b := by
     have hc := h.comm z (conjSq_le_base S y hz) b (conjS_le_base S y hb)
     rw [hc]
-    simpa using hb
+    simp
   have hzab : z * (a * b) * z⁻¹ = a * b := by
     calc z * (a * b) * z⁻¹ = (z * a * z⁻¹) * (z * b * z⁻¹) := by group
       _ = a * b := by rw [hza, hzb]
@@ -223,7 +223,7 @@ private theorem coordHom_surjective (h : IsWreathThree S y) :
   refine ⟨((⟨a, ha⟩, ⟨b', hb'⟩), ⟨c', hc'⟩), ?_⟩
   ext
   rw [coordHom_coe]
-  simp only [Subgroup.coe_inclusion, Subgroup.coe_subtype]
+  simp only
   rw [show (conjEquiv S y ⟨b', hb'⟩ : G) = b from hbval,
     show (conjEquiv S (y ^ 2) ⟨c', hc'⟩ : G) = c from hcval, ← hkc, ← hab]
 
@@ -280,7 +280,7 @@ private theorem conj_y_conj_y_sq (h : IsWreathThree S y) {x : G} (hx : x ∈ bas
   have hc := h.comm (y ^ 3) h.pow_three_mem x hx
   simp only [MulAut.conj_apply]
   calc y * (y ^ 2 * x * (y ^ 2)⁻¹) * y⁻¹ = y ^ 3 * x * (y ^ 3)⁻¹ := by
-        simp only [pow_succ, pow_two]
+        simp only [pow_succ]
         group
     _ = x := by rw [hc]; group
 
@@ -289,7 +289,7 @@ private theorem conj_y_sq_conj_y (h : IsWreathThree S y) {x : G} (hx : x ∈ bas
   have hc := h.comm (y ^ 3) h.pow_three_mem x hx
   simp only [MulAut.conj_apply]
   calc y ^ 2 * (y * x * y⁻¹) * (y ^ 2)⁻¹ = y ^ 3 * x * (y ^ 3)⁻¹ := by
-        simp only [pow_succ, pow_two]
+        simp only [pow_succ]
         group
     _ = x := by rw [hc]; group
 
@@ -320,7 +320,7 @@ private theorem conj_y_coord (h : IsWreathThree S y) (x : (S × S) × S) :
     _ = (c : G) * (conjEquiv S y a : G) * (conjEquiv S (y ^ 2) b : G) := by
         rw [hcomm3.eq, mul_assoc]
 
-private theorem mul_y_pow_three (h : IsWreathThree S y) {b : G} (hb : b ∈ base S y) :
+private theorem mul_y_pow_three (_h : IsWreathThree S y) {b : G} (_hb : b ∈ base S y) :
     (b * y) ^ 3 = b * MulAut.conj y b * MulAut.conj (y ^ 2) b * y ^ 3 := by
   have hyb : y * b = MulAut.conj y b * y := by
     simp only [MulAut.conj_apply]
@@ -338,7 +338,7 @@ private theorem mul_y_pow_three (h : IsWreathThree S y) {b : G} (hb : b ∈ base
       group
     _ = b * MulAut.conj y b * (MulAut.conj (y ^ 2) b * y ^ 2) * y := by rw [hy2b]
     _ = b * MulAut.conj y b * MulAut.conj (y ^ 2) b * y ^ 3 := by
-      simp only [pow_succ, pow_two]
+      simp only [pow_succ]
       group
 
 private theorem y_mul_pow_three (h : IsWreathThree S y) {b : G} (hb : b ∈ base S y) :
@@ -403,9 +403,9 @@ private theorem mul_y_pow_three_coord (h : IsWreathThree S y) [CommMonoid S]
 
 theorem exists_mul_pow_three_eq_one (h : IsWreathThree S y) :
     ∃ s ∈ base S y, (y * s) ^ 3 = 1 := by
-  haveI : Finite S := finite_of_isWreathThree h
-  haveI : IsCyclic S := h.isCyclic
-  letI : CommGroup S := IsCyclic.commGroup
+  have : Finite S := finite_of_isWreathThree h
+  have : IsCyclic S := h.isCyclic
+  let : CommGroup S := IsCyclic.commGroup
   let e := coordEquiv h
   have hfix : MulAut.conj y (y ^ 3) = y ^ 3 := by
     simp only [MulAut.conj_apply]
@@ -430,7 +430,7 @@ theorem exists_mul_pow_three_eq_one (h : IsWreathThree S y) :
   rw [← hz, y_mul_pow_three_coord h z]
   have hnorm : coordNorm S z = ((t⁻¹, t⁻¹), t⁻¹) := by
     rw [coordNorm]
-    ext <;> simp [shiftAut_apply, z, mul_assoc]
+    ext <;> simp [shiftAut_apply, z]
   have hmul2 : ((e ((t⁻¹, t⁻¹), t⁻¹) : base S y) : G) * ((e ((t, t), t) : base S y) : G) =
       ((e (((t⁻¹, t⁻¹), t⁻¹) * ((t, t), t)) : base S y) : G) := by
     rw [map_mul]
@@ -470,7 +470,7 @@ private theorem exists_mul_y_or_mul_y_sq (h : IsWreathThree S y) (hy : y ^ 3 = 1
 
 theorem not_mem_base (h : IsWreathThree S y) : y ∉ base S y := by
   intro hy
-  haveI : Finite S := finite_of_isWreathThree h
+  have : Finite S := finite_of_isWreathThree h
   have hfix : ∀ x ∈ S, MulAut.conj y x = x := by
     intro x hx
     have hc := h.comm y hy x (le_base_left S y hx)
@@ -502,8 +502,8 @@ theorem not_mem_base (h : IsWreathThree S y) : y ∉ base S y := by
   have hcard : Nat.card S ^ 3 = Nat.card S := by
     rw [← h.card_base, hbase]
   have h2 : 2 ≤ Nat.card S := by
-    haveI : Nontrivial S := (Subgroup.nontrivial_iff_ne_bot S).mpr h.ne_bot
-    haveI : Fintype S := Fintype.ofFinite S
+    have : Nontrivial S := (Subgroup.nontrivial_iff_ne_bot S).mpr h.ne_bot
+    have : Fintype S := Fintype.ofFinite S
     rw [Nat.card_eq_fintype_card]
     exact Fintype.one_lt_card
   have hnpos : 0 < Nat.card S := by positivity
@@ -560,7 +560,7 @@ theorem card_sup_zpowers [Finite G] (h : IsWreathThree S y) (hy : y ^ 3 = 1) :
   rw [hcard]
   have hord : Nat.card (Subgroup.zpowers y) = 3 := by
     rw [Nat.card_zpowers]
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     apply orderOf_eq_prime hy
     intro hy1
     exact not_mem_base h (hy1 ▸ (base S y).one_mem)
@@ -632,7 +632,7 @@ private theorem diag_range_eq (h : IsWreathThree S y) :
     exact hmem
 
 theorem exists_eq_mul_conj_mul_conj_sq_of_mem_inf_centralizer (h : IsWreathThree S y)
-    (hy : y ^ 3 = 1) {x : G}
+    (_hy : y ^ 3 = 1) {x : G}
     (hx : x ∈ base S y ⊓ Subgroup.centralizer ({y} : Set G)) :
     ∃ a : S, x = (a : G) * MulAut.conj y (a : G) * MulAut.conj (y ^ 2) (a : G) := by
   have hx' : x ∈ (diag h).range.map (base S y).subtype := by
@@ -685,11 +685,11 @@ private theorem mem_centralizer_mul_y_sq_iff (h : IsWreathThree S y) (hy : y ^ 3
     have h3 : y * (z * y ^ 2) * y = y * (y ^ 2 * z) * y := by rw [hzy2]
     have hleft : y * (z * y ^ 2) * y = y * z := by
       rw [show y * (z * y ^ 2) * y = y * z * y ^ 3 by
-        simp only [pow_succ, pow_two]; group]
+        simp only [pow_succ]; group]
       rw [hy, mul_one]
     have hright : y * (y ^ 2 * z) * y = z * y := by
       rw [show y * (y ^ 2 * z) * y = y ^ 3 * z * y by
-        simp only [pow_succ, pow_two]; group]
+        simp only [pow_succ]; group]
       rw [hy, one_mul]
     rw [hleft, hright] at h3
     exact h3.symm
@@ -737,7 +737,7 @@ theorem card_base_inf_centralizer [Finite G] (h : IsWreathThree S y) (hy : y ^ 3
 
 private theorem false_of_forall_conj_y_fix (h : IsWreathThree S y)
     (hfix : ∀ z ∈ base S y, MulAut.conj y z = z) : False := by
-  haveI : Finite S := finite_of_isWreathThree h
+  have : Finite S := finite_of_isWreathThree h
   have hS2 : conjS S y = S := by
     apply le_antisymm
     · rintro z hz
@@ -763,8 +763,8 @@ private theorem false_of_forall_conj_y_fix (h : IsWreathThree S y)
   have hcard : Nat.card S ^ 3 = Nat.card S := by
     rw [← h.card_base, hbase]
   have h2 : 2 ≤ Nat.card S := by
-    haveI : Nontrivial S := (Subgroup.nontrivial_iff_ne_bot S).mpr h.ne_bot
-    haveI : Fintype S := Fintype.ofFinite S
+    have : Nontrivial S := (Subgroup.nontrivial_iff_ne_bot S).mpr h.ne_bot
+    have : Fintype S := Fintype.ofFinite S
     rw [Nat.card_eq_fintype_card]
     exact Fintype.one_lt_card
   have hnpos : 0 < Nat.card S := by positivity
@@ -878,9 +878,9 @@ theorem center_eq [Finite G] (h : IsWreathThree S y) (hy : y ^ 3 = 1) :
 private theorem exists_conj_eq_of_mul_y (h : IsWreathThree S y) (hy : y ^ 3 = 1)
     {b : G} (hb : b ∈ base S y) (hcube : (b * y) ^ 3 = 1) :
     ∃ c ∈ base S y, c * (b * y) * c⁻¹ = y ∨ c * (b * y) * c⁻¹ = y⁻¹ := by
-  haveI : Finite S := finite_of_isWreathThree h
-  haveI : IsCyclic S := h.isCyclic
-  letI : CommGroup S := IsCyclic.commGroup
+  have : Finite S := finite_of_isWreathThree h
+  have : IsCyclic S := h.isCyclic
+  let : CommGroup S := IsCyclic.commGroup
   let e := coordEquiv h
   let x0 : (S × S) × S := e.symm ⟨b, hb⟩
   have hx0 : ((e x0 : base S y) : G) = b := by simp [x0]
@@ -908,7 +908,7 @@ private theorem exists_conj_eq_of_mul_y (h : IsWreathThree S y) (hy : y ^ 3 = 1)
   let c : base S y := e xc
   have hcoord : xc * (shiftAut S xc)⁻¹ = ((u, v), w) := by
     rw [show xc = ((1, v), u⁻¹) from rfl]
-    ext <;> simp [shiftAut_apply, huvinv, mul_assoc, mul_comm, mul_left_comm]
+    ext <;> simp [shiftAut_apply, huvinv, mul_comm]
   have hcalc : ((e (xc * (shiftAut S xc)⁻¹) : base S y) : G) =
       ((e xc : base S y) : G) * ((e (shiftAut S xc) : base S y) : G)⁻¹ := by
     rw [map_mul, map_inv, Subgroup.coe_mul, Subgroup.coe_inv]
@@ -1004,14 +1004,14 @@ private theorem card_omega_base (h : IsWreathThree S y)
     (hcS : ∀ a b : S, a * b = b * a)
     (hcB : ∀ a b : base S y, a * b = b * a) :
     Nat.card ↥(CFSG.omega₁ (base S y) (p := 3)) = 27 := by
-  haveI : Finite S := finite_of_isWreathThree h
-  haveI : IsCyclic S := h.isCyclic
+  have : Finite S := finite_of_isWreathThree h
+  have : IsCyclic S := h.isCyclic
   rw [Nat.card_congr (kerPowEquiv h hcS hcB)]
   rw [Nat.card_prod, Nat.card_prod]
   have hK : Nat.card ↥(CFSG.omega₁ S (p := 3)) = 3 := by
     rw [CFSG.card_omega₁_of_isCyclic]
     have hdvd : 3 ∣ Nat.card S := by
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       rcases h.isPGroup.card_eq_or_dvd with h1 | h3
       · exact absurd (Subgroup.card_eq_one.mp h1) h.ne_bot
       · exact h3
@@ -1020,14 +1020,14 @@ private theorem card_omega_base (h : IsWreathThree S y)
 
 private theorem three_dvd_card_of_isWreathThree (h : IsWreathThree S y) :
     3 ∣ Nat.card S := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rcases h.isPGroup.card_eq_or_dvd with h1 | h3
   · exact absurd (Subgroup.card_eq_one.mp h1) h.ne_bot
   · exact h3
 
 private theorem isCyclic_diag (h : IsWreathThree S y) :
     IsCyclic ↥(base S y ⊓ Subgroup.centralizer ({y} : Set G)) := by
-  haveI : IsCyclic S := h.isCyclic
+  have : IsCyclic S := h.isCyclic
   let D : Subgroup G := base S y ⊓ Subgroup.centralizer ({y} : Set G)
   let f : S →* D :=
     ((base S y).subtype.comp (diag h)).codRestrict D (fun a => by
@@ -1038,7 +1038,6 @@ private theorem isCyclic_diag (h : IsWreathThree S y) :
     intro z
     have hz : (z : G) ∈ (diag h).range.map (base S y).subtype := by
       rw [diag_range_eq h]
-      change (z : G) ∈ base S y ⊓ Subgroup.centralizer ({y} : Set G)
       exact z.2
     obtain ⟨w, hw, hwz⟩ := Subgroup.mem_map.mp hz
     obtain ⟨a, rfl⟩ := hw
@@ -1081,7 +1080,7 @@ private theorem sup_base_zpowers_y_le_sup_base_zpowers_x (h : IsWreathThree S y)
       exact hgoal.mp h2B
     exact sup_le le_sup_left (Subgroup.zpowers_le.mpr hy')
 
-private theorem eq_inf_sup_of_le_sup (h : IsWreathThree S y) {x : G}
+private theorem eq_inf_sup_of_le_sup (_h : IsWreathThree S y) {x : G}
     (hxnorm : x ∈ Subgroup.normalizer (base S y : Set G)) {E : Subgroup G}
     (hE : E ≤ base S y ⊔ Subgroup.zpowers x) (hxE : x ∈ E) :
     E = (E ⊓ base S y) ⊔ Subgroup.zpowers x := by
@@ -1105,7 +1104,7 @@ private theorem eq_inf_sup_of_le_sup (h : IsWreathThree S y) {x : G}
     exact Subgroup.mul_mem_sup hbBE (Subgroup.mem_zpowers_iff.mpr ⟨k, rfl⟩)
   · exact sup_le inf_le_left (Subgroup.zpowers_le.mpr hxE)
 
-private theorem disjoint_base_zpowers_of_not_mem (h : IsWreathThree S y) {x : G}
+private theorem disjoint_base_zpowers_of_not_mem (_h : IsWreathThree S y) {x : G}
     (hxB : x ∉ base S y) (hx3 : x ^ 3 = 1) :
     Disjoint (base S y) (Subgroup.zpowers x) := by
   rw [disjoint_iff]
@@ -1147,9 +1146,9 @@ theorem exists_unique_elemAbelian [Finite G] (h : IsWreathThree S y) (hy : y ^ 3
       (∀ x ∈ base S y, x ^ 3 = 1 → x ∈ A) ∧
       ∀ E : Subgroup G, E ≤ base S y ⊔ Subgroup.zpowers y → CFSG.Open.IsElemAbelian 3 E →
         Nat.card E = 27 → E = A := by
-  haveI : Finite S := finite_of_isWreathThree h
+  have : Finite S := finite_of_isWreathThree h
   have hcS : ∀ a b : S, a * b = b * a := by
-    haveI : IsCyclic S := h.isCyclic
+    have : IsCyclic S := h.isCyclic
     exact isMulCommutative_iff.mp (IsCyclic.isMulCommutative (α := S))
   have hcB : ∀ a b : base S y, a * b = b * a := fun a b =>
     Subtype.ext (h.comm (a : G) a.2 (b : G) b.2)
@@ -1224,7 +1223,7 @@ theorem exists_unique_elemAbelian [Finite G] (h : IsWreathThree S y) (hy : y ^ 3
         (E ⊓ base S y) (Subgroup.zpowers x) hxEBnorm hdisj]
       congr 1
       rw [Nat.card_zpowers]
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       exact orderOf_eq_prime hx3 (by intro h1; exact hxB (h1 ▸ (base S y).one_mem))
     have hDcomm : ∀ a b : ↥(base S y ⊓ Subgroup.centralizer ({y} : Set G)), a * b = b * a := by
       intro a b
@@ -1249,8 +1248,8 @@ theorem exists_unique_elemAbelian [Finite G] (h : IsWreathThree S y) (hy : y ^ 3
         intro a b hab
         apply Subtype.ext
         exact congrArg (fun w => ((w : ↥(CFSG.omega₁ (↥D) (p := 3))) : G)) hab
-      haveI : Finite ↥D := Subtype.finite
-      haveI : IsCyclic ↥D := isCyclic_diag h
+      have : Finite ↥D := Subtype.finite
+      have : IsCyclic ↥D := isCyclic_diag h
       have hDcard : Nat.card ↥(CFSG.omega₁ (↥D) (p := 3)) = 3 := by
         rw [CFSG.card_omega₁_of_isCyclic]
         show (Nat.card ↥(base S y ⊓ Subgroup.centralizer ({y} : Set G))).gcd 3 = 3

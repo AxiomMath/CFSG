@@ -15,6 +15,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
+omit [Finite G] in
 private theorem eq_of_le_of_le_of_card_eq_two {Z K V : Subgroup G}
     (hZK : Z ≤ K) (hKV : K ≤ V) (hV : Nat.card ↥V = 4) (hZ : Nat.card ↥Z = 2)
     (hne : K ≠ V) : K = Z := by

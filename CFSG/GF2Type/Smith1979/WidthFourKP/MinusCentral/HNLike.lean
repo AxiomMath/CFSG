@@ -50,7 +50,7 @@ include ht1 in
 theorem not_mem_commutator_Mbar_w4 (ν : NLbar S g →* Multiplicative (ZMod 2))
     (hν : ν ⟨t, mem_NLbar_of_mem_Lbar ht⟩ ≠ 1) :
     t ∉ (_root_.commutator S.Mbar).map S.Mbar.subtype := by
-  haveI : Finite S.Mbar := inferInstance
+  have : Finite S.Mbar := inferInstance
   obtain ⟨P, hsyl, hcP, hPN⟩ := CaseI25Transfer.exists_sylow_data H C ht
   have hPle : P ≤ (NLbar S g).subgroupOf S.Mbar := fun x hx =>
     Subgroup.mem_subgroupOf.mpr ⟨x.2, hPN x hx⟩
@@ -88,7 +88,7 @@ variable {t : S.O}
     rw [hab]
     by_cases ha : (a : S.O) ∈ Delta S g t <;> by_cases hb : (b : S.O) ∈ Delta S g t
     · have : (a : S.O) * b ∉ Delta S g t := fun hm => h.mp hm (iff_of_true ha hb)
-      simp only [ha, hb, this, if_true, if_false]
+      simp only [ha, hb, this, ite_true, ite_false]
       decide
     · have : (a : S.O) * b ∈ Delta S g t := h.mpr fun hiff => hb (hiff.mp ha)
       simp [ha, hb, this]
@@ -120,7 +120,7 @@ theorem not_mem_commutator_Mbar_of_deltaChar (H : Hyp4 S g) (C : Cons311 S g)
     t ∉ (_root_.commutator S.Mbar).map S.Mbar.subtype := by
   obtain ⟨ν, hν⟩ := Case25.exists_nu_extending H C (deltaChar hΔmul) (deltaChar_conj hΔmul)
   refine not_mem_commutator_Mbar_w4 H C ht ht1 hfusL ν ?_
-  rw [hν t ht, deltaChar_apply, if_pos (mem_Delta_self S g t)]
+  rw [hν t ht, deltaChar_apply, ite_eq_left (mem_Delta_self S g t)]
   decide
 
 end Character
@@ -254,7 +254,7 @@ theorem sixteen_dvd_card_inf_NLbar (hw : S.width = 4) (H : Hyp4 S g) (C : Cons31
     exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe inf_le_left).toEquiv
   have hL8 : Nat.card (S.Lbar g) = 8 := by rw [C.card_Lbar, hw]; norm_num
   have hft : deltaChar hΔmul ⟨t, ht⟩ = Multiplicative.ofAdd 1 := by
-    rw [deltaChar_apply, if_pos (mem_Delta_self S g t)]
+    rw [deltaChar_apply, ite_eq_left (mem_Delta_self S g t)]
   have hfsurj : Function.Surjective (deltaChar hΔmul) := by
     intro z
     have hz : ∀ z : Multiplicative (ZMod 2), z = 1 ∨ z = Multiplicative.ofAdd 1 := by decide
@@ -270,7 +270,7 @@ theorem sixteen_dvd_card_inf_NLbar (hw : S.width = 4) (H : Hyp4 S g) (C : Cons31
     omega
   have hmemK : ∀ l : S.Lbar g, l ∈ (deltaChar hΔmul).ker → (l : S.O) ∉ Delta S g t := by
     intro l hl hlΔ
-    rw [MonoidHom.mem_ker, deltaChar_apply, if_pos hlΔ] at hl
+    rw [MonoidHom.mem_ker, deltaChar_apply, ite_eq_left hlΔ] at hl
     exact absurd hl (by decide)
   have hKmC : (deltaChar hΔmul).ker.map (S.Lbar g).subtype ≤
       (Y ⊓ NLbar S g) ⊓ centralizer ({t} : Set S.O) := by
@@ -395,7 +395,7 @@ theorem false_of_layer_delta_four (hw : S.width = 4) (H : Hyp4 S g) (C : Cons311
       h1
   have htt : t * t = 1 := S4.mul_self_of_mem_Lbar S H.conj_mem ht
   have htM : (⟨t, S.Lbar_le_Mbar g ht⟩ : S.Mbar) ∉ E := fun h => htE ⟨_, h, rfl⟩
-  haveI := hEn
+  have := hEn
   have h2idx : 2 ∣ E.index :=
     Case25.two_dvd_index_of_not_mem E (Subtype.ext htt) htM
   have h64 : ¬ 2 ^ 6 ∣ Nat.card (E ⧸ center E) := by
@@ -404,7 +404,7 @@ theorem false_of_layer_delta_four (hw : S.width = 4) (H : Hyp4 S g) (C : Cons311
     apply not_two_pow_seven_dvd_card_Mbar H C hNcard
     rw [← E.card_mul_index, show (2 : ℕ) ^ 7 = 2 ^ 6 * 2 from rfl]
     exact Nat.mul_dvd_mul h1 h2idx
-  haveI : IsSimpleGroup (E ⧸ center E) := hXs
+  have : IsSimpleGroup (E ⧸ center E) := hXs
   exact hF hXcat hXnab hord h5 h16 h64
 
 

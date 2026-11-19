@@ -48,14 +48,14 @@ theorem xOp_eq_decomp (H : AdjHyp τ θ) (i : Fin τ.rank) (c : F) (v : RootModu
     by_cases h1 : α = Pi.single i 1
     · subst h1
       rw [xOp_rootVec_single_eq, Dop_rootVec_single, Bop_apply,
-        coordR_rootVec (isRoot_single τ i), if_neg (single_ne_neg_single i)]
+        coordR_rootVec (isRoot_single τ i), ite_eq_right (single_ne_neg_single i)]
       simp
     by_cases h2 : α = -Pi.single i 1
     · subst h2
       rw [xOp_rootVec_neg_single_eq, Dop_rootVec_neg_single, Bop_apply,
-        coordR_rootVec (isRoot_neg_single τ i), if_pos rfl]
+        coordR_rootVec (isRoot_neg_single τ i), ite_eq_left rfl]
       simp only [one_smul, add_sub_cancel_right]
-    · rw [Bop_apply, coordR_rootVec hα, if_neg (fun h => h2 h), zero_smul,
+    · rw [Bop_apply, coordR_rootVec hα, ite_eq_right (fun h => h2 h), zero_smul,
         Dop_rootVec_of_ne H i hα h1 h2]
       by_cases hr : IsRoot τ (α + Pi.single i 1)
       · rw [xOp_rootVec_of_up_one H i c hα h1 h2 hr]

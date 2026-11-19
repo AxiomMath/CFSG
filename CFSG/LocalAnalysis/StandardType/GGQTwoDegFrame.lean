@@ -39,13 +39,14 @@ private theorem qTwoDegFrame_permCongr_swap {α β : Type*} [DecidableEq α] [De
     simp
   · by_cases h2 : x = f b
     · subst h2
-      simp [h]
+      simp
     · have hx : f.symm x ≠ a := fun hh =>
         h ((f.apply_symm_apply x).symm.trans (congrArg f hh))
       have hx2 : f.symm x ≠ b := fun hh =>
         h2 ((f.apply_symm_apply x).symm.trans (congrArg f hh))
       simp [Equiv.swap_apply_def, h, h2, hx, hx2]
 
+omit [Finite G] in
 theorem qTwoDegFrame_perm_equiv {Bs : Subgroup G} {A : Subgroup (MulAut ↥Bs)} {ι : Type}
     {M : CoxeterMatrix ι} {e : M.Group ≃* ↥A}
     (hP : ∀ i : ι, GGIsReflection 3 ((e (M.simple i) : ↥A) : MulAut ↥Bs))
@@ -134,6 +135,7 @@ theorem qTwoDegFrame_perm_equiv {Bs : Subgroup G} {A : Subgroup (MulAut ↥Bs)} 
     simp [eb, hsym]
   rw [hEb, hkd_eq]
 
+omit [Finite G] in
 theorem qTwoDegFrame_card_weyl {Bs : Subgroup G} {AL : Subgroup (MulAut ↥Bs)} {m : ℕ}
     (hm : 1 ≤ m) (hW : GGWeylOfType 3 (CoxeterMatrix.A (m - 1)) AL) :
     Nat.card ↥AL = m.factorial := by
@@ -240,15 +242,15 @@ theorem qTwoDegFrame_path {Bs : Subgroup G} (hBs : IsElemAbelian 3 Bs)
   let t : ℕ → Equiv.Perm (Fin N) := fun i => if h : i < n then π ⟨i, h⟩ else 1
   have ht_swap : ∀ i < n, (t i).IsSwap := by
     intro i hi
-    simp only [t, dif_pos hi]
+    simp only [t, dite_eq_left hi]
     exact hπswap ⟨i, hi⟩
   have ht_adj : ∀ i, i + 1 < n → ¬ Commute (t i) (t (i + 1)) := by
     intro i hi
-    simp only [t, dif_pos (by omega : i < n), dif_pos hi]
+    simp only [t, dite_eq_left (by omega : i < n), dite_eq_left hi]
     exact hπnc ⟨i, by omega⟩ hi
   have ht_far : ∀ i j, i + 2 ≤ j → j < n → Commute (t i) (t j) ∧ t i ≠ t j := by
     intro i j hij hj
-    simp only [t, dif_pos (by omega : i < n), dif_pos hj]
+    simp only [t, dite_eq_left (by omega : i < n), dite_eq_left hj]
     exact ⟨hπcomm ⟨i, by omega⟩ ⟨j, hj⟩ hij, hπne ⟨i, by omega⟩ ⟨j, hj⟩ hij⟩
   obtain ⟨p, hpdist, hpt⟩ := qTwoDegFrame_path_labelling hn1 t ht_swap ht_adj ht_far
   refine ⟨p, ?_, ?_⟩
@@ -289,7 +291,7 @@ theorem qTwoDegFrame_path {Bs : Subgroup G} (hBs : IsElemAbelian 3 Bs)
       have hi' : i < n := Set.mem_Iio.mp hi
       have hti : Equiv.swap (p i) (p (i + 1)) = π ⟨i, hi'⟩ := by
         rw [← hpt i hi']
-        simp only [t, dif_pos hi']
+        simp only [t, dite_eq_left hi']
       rw [hti, hπE ⟨i, hi'⟩]
       exact (eL ((CoxeterMatrix.A n).simple ⟨i, hi'⟩)).2
     have hle2 : AL ≤ Subgroup.map E (Subgroup.closure
@@ -302,7 +304,7 @@ theorem qTwoDegFrame_path {Bs : Subgroup G} (hBs : IsElemAbelian 3 Bs)
           ((fun i : ℕ => Equiv.swap (p i) (p (i + 1))) '' Set.Iio n))
       have hswap_eq : Equiv.swap (p i) (p (i + 1)) = π i := by
         rw [← hpt i i.2]
-        simp only [t, dif_pos i.2]
+        simp only [t, dite_eq_left i.2]
       rw [← hπE i, ← hswap_eq]
       exact Subgroup.mem_map_of_mem E (Subgroup.subset_closure ⟨i, i.2, rfl⟩)
     exact le_antisymm hle2 hle1

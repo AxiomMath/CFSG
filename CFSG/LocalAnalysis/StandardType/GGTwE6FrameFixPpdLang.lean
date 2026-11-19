@@ -39,7 +39,7 @@ theorem exists_lang_datum_of_pow_three
       (∀ i, a i ^ 3 = 1) ∧ weylAct u (a ^ 2 ^ n)⁻¹ = a ∧ s = y * rootDiagUnit Tag.E6 a * y⁻¹ ∧
       y⁻¹ * twistE6 Ω Fr y = canonicalRep (coxeterSystem Tag.E6) Ω (u * twE6W0) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hsG, hsF⟩ := (TwistedDiag.mem_Rgrp Fr).1 hs
   obtain ⟨g, hgG, hgT⟩ :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieSemisimple.exists_conj_torusGroup_of_pow_eq_one
@@ -191,10 +191,10 @@ theorem exists_inn_conj_langCube
       (TwE6DD2.langCube hn hK σ hσ Fr hFr g₁).map (MulAut.conj β).toMonoidHom =
         TwE6DD2.langCube hn hK σ hσ Fr hFr g₂ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
-  haveI : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
-  haveI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
+  have : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
+  have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
   have h30 : (3 : Ω) ≠ 0 := three_ne_zero_of_dvd_card_add_one (ℓ := 2) hn h3
   obtain ⟨ζ, hζ, hζo⟩ := TwistedDiag.exists_cube_root (Ω := Ω) h30
   have hL : CFSG.StandardType.E6ThreeModel.IsLang Fr g₁ := ⟨hg₁, hgn₁⟩
@@ -207,7 +207,7 @@ theorem exists_inn_conj_langCube
   let C : Subgroup (ModGL Tag.E6 Ω) := TwistedDiag.Cgrp K σ.toRingHom Ω
   obtain ⟨hfinR, hCRle, hCnorm, hCidx, -⟩ :=
     TwistedDiag.cgrp_facts (ℓ := 2) (f := n) hn K hK σ.toRingHom hσ h3 Ω Fr hFr
-  haveI : Finite ↥R := hfinR
+  have : Finite ↥R := hfinR
   obtain ⟨c, hc, rfl⟩ := TwistedDiag.mem_thetaTorus.1 hxθ
   have hxfix : rootDiagUnit Tag.E6 c ∈ TwistedDiag.thetaFixed Fr := by
     rw [TwistedDiag.mem_thetaFixed]
@@ -219,7 +219,7 @@ theorem exists_inn_conj_langCube
   let hR : ↥R := ⟨g₂ * g₁⁻¹, TwE6DD2.mul_inv_mem_Rgrp Fr hg₁ hgn₁ hg₂ hgn₂⟩
   let tR : ↥R := ⟨t, htR⟩
   let CR : Subgroup ↥R := C.subgroupOf R
-  haveI : CR.Normal := hCnorm
+  have : CR.Normal := hCnorm
   have hcardq : Nat.card (↥R ⧸ CR) = 3 := by
     rw [← Subgroup.index_eq_card]
     exact hCidx

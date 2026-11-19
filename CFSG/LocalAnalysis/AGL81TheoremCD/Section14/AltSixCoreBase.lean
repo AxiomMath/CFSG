@@ -131,7 +131,7 @@ private theorem alt_fixed_dimensions {F V : Type*} [Field F] [Finite F] (h3 : (3
     A9Lin.finrank_ker_eq_of_isConj ρ hyz2yz⟩
 
 private theorem false_of_bounds {m d₁ d₂ c₀ : ℕ} (hm : m ≤ 4) (hd₁ : 1 ≤ d₁) (hd₁' : d₁ < m)
-    (hd₂ : 1 ≤ d₂) (hd₂' : d₂ ≤ m) (hc₀ : c₀ ≤ m) (he₁ : Even (m - d₁))
+    (hd₂ : 1 ≤ d₂) (hd₂' : d₂ ≤ m) (_hc₀ : c₀ ≤ m) (he₁ : Even (m - d₁))
     (he₂ : Even (m - d₂)) (hBW : m + 3 * c₀ = 2 * d₁ + 2 * d₂) : False := by
   obtain ⟨a, ha⟩ := he₁
   obtain ⟨b, hb⟩ := he₂

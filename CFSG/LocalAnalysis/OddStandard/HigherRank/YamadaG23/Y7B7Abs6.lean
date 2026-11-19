@@ -32,7 +32,7 @@ theorem y7b_secProp_of_sq_mem {V N : Subgroup G} (hNV : N ≤ V)
   have hN : (N.subgroupOf V).Normal :=
     (Subgroup.normal_subgroupOf_iff hNV).mpr fun h k hh hk => hnorm k hk h hh
   refine ⟨hN, ?_⟩
-  haveI : (N.subgroupOf V).Normal := hN
+  have : (N.subgroupOf V).Normal := hN
   apply isElemAbelian_top_of_sq_eq_one
   intro q
   obtain ⟨x, rfl⟩ := QuotientGroup.mk'_surjective (N.subgroupOf V) q
@@ -42,6 +42,7 @@ theorem y7b_secProp_of_sq_mem {V N : Subgroup G} (hNV : N ≤ V)
   rw [← map_pow]
   exact (QuotientGroup.eq_one_iff (x ^ 2)).mpr hx
 
+omit [Finite G] in
 theorem y7b_quotEquiv_sup {B M F : Subgroup G} (hBM : B ≤ normalizer (M : Set G))
     (hF : B ⊓ M = F) [(F.subgroupOf B).Normal] [(M.subgroupOf (B ⊔ M)).Normal] :
     ∃ ι : ↥B ⧸ F.subgroupOf B ≃* ↥(B ⊔ M) ⧸ M.subgroupOf (B ⊔ M),

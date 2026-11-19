@@ -18,16 +18,16 @@ theorem pCore_eq_bot_of_isQuasisimple_of_center_eq_bot {X : Type} [Group X] [Fin
     CFSG.pCore p X = ⊥ := by
   let e : X ⧸ Subgroup.center X ≃* X :=
     (QuotientGroup.quotientMulEquivOfEq hc).trans QuotientGroup.quotientBot
-  haveI : IsSimpleGroup (X ⧸ Subgroup.center X) := hq.2
-  haveI : IsSimpleGroup X := e.symm.isSimpleGroup
+  have : IsSimpleGroup (X ⧸ Subgroup.center X) := hq.2
+  have : IsSimpleGroup X := e.symm.isSimpleGroup
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (CFSG.pCore p X) with h | h
   · exact h
   · exfalso
     have hp : IsPGroup p (⊤ : Subgroup X) := by
       rw [← h]
       exact CFSG.pCore_isPGroup
-    haveI : Group.IsNilpotent X := (hp.of_equiv Subgroup.topEquiv).isNilpotent
-    haveI : Group.IsSolvable X := inferInstance
+    have : Group.IsNilpotent X := (hp.of_equiv Subgroup.topEquiv).isNilpotent
+    have : Group.IsSolvable X := inferInstance
     exact (Group.IsSolvable.commutator_lt_top_of_nontrivial X).ne hq.1
 
 theorem prodFactor_of_isSpTwoFactor {X : Type} [Group X] [Finite X]
@@ -43,8 +43,8 @@ theorem prodFactor_of_isSpTwoFactor {X : Type} [Group X] [Finite X]
     · left
       exact ⟨e⟩
     · exfalso
-      letI := hK
-      haveI := hKfin
+      let := hK
+      have := hKfin
       have h3 : Nat.card (Subgroup.center ↥(StatedSU 3 2 K)) = 3 :=
         CFSG.Open.StatedCenterThree.card_center_statedSU_three (q := 2) (by rw [hK4]; norm_num)
           (by norm_num)
@@ -65,9 +65,9 @@ theorem exists_mem_conj_eq_of_normalizer_spTwo (hZ : OddCenterRest) {A : Type} [
   obtain ⟨hPY, T, hT, hTN⟩ := hP
   obtain ⟨r, K, hKfield, hKfin, hKchar, hr, hK, hψ⟩ :=
     ParabCensus.exists_mulEquiv_statedSp_of_isQuasisimple hZ hY hO hB2
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
-  letI : CharP K 2 := hKchar
+  let : Field K := hKfield
+  let : Finite K := hKfin
+  let : CharP K 2 := hKchar
   obtain ⟨ψ⟩ := hψ
   let α : MulAut ↥Y := Y.normalizerMonoidHom ⟨t, htY⟩
   have hαcoe : ∀ y : ↥Y, (α y : A) = t * (y : A) * t⁻¹ := fun y =>

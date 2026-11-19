@@ -18,10 +18,12 @@ section Decomp
 variable {K V Γ : Type} [Field K] [AddCommGroup V] [Module K V] [FiniteDimensional K V]
   [Group Γ] [Fintype Γ] {ρ : Γ →* Module.End K V}
 
+omit [FiniteDimensional K V] in
 theorem right_mul_av {D : Subgroup Γ} {g : Γ} (hg : g ∈ D) : av ρ D * ρ g = av ρ D := by
   unfold av
   rw [smul_mul_assoc, sum_right_mul ρ hg]
 
+omit [FiniteDimensional K V] in
 theorem commute_av_of (D : Subgroup Γ) (Y : Module.End K V)
     (hY : ∀ g ∈ D, Y * ρ g = ρ g * Y) : Y * av ρ D = av ρ D * Y := by
   unfold av
@@ -30,6 +32,7 @@ theorem commute_av_of (D : Subgroup Γ) (Y : Module.End K V)
   refine Finset.sum_congr rfl fun g hg => ?_
   exact hY g ((mem_subEl D g).1 hg)
 
+omit [FiniteDimensional K V] in
 theorem commute_Qf (hcomm : ∀ g h : Γ, g * h = h * g) (o : Option (Subgroup Γ)) (γ : Γ) :
     ρ γ * Qf ρ o = Qf ρ o * ρ γ := by
   have key : ∀ D : Subgroup Γ, ρ γ * av ρ D = av ρ D * ρ γ := fun D =>
@@ -42,6 +45,7 @@ theorem commute_Qf (hcomm : ∀ g h : Γ, g * h = h * g) (o : Option (Subgroup �
     · rw [Qf_some_of_not_mem hF]
       simp
 
+omit [FiniteDimensional K V] in
 theorem av_top_apply_of_fixed (h3 : (3 : K) ≠ 0) (hΓ : Nat.card Γ = 27) {y : V}
     (hy : ∀ γ : Γ, ρ γ y = y) : av ρ ⊤ y = y := by
   unfold av
@@ -54,6 +58,7 @@ theorem av_top_apply_of_fixed (h3 : (3 : K) ≠ 0) (hΓ : Nat.card Γ = 27) {y :
     exact mul_ne_zero (mul_ne_zero h3 h3) h3
   rw [← Nat.cast_smul_eq_nsmul K 27 y, smul_smul, inv_mul_cancel₀ h27, one_smul]
 
+omit [FiniteDimensional K V] in
 theorem sq_add_self_add_one (h3 : (3 : K) ≠ 0) (hΓ : Nat.card Γ = 27) (hexp : ∀ g : Γ, g ^ 3 = 1)
     (hcomm : ∀ g h : Γ, g * h = h * g) {F : Subgroup Γ} (hF : F ∈ idx3 Γ) {g : Γ} (hg : g ∉ F)
     {x : V} (hx : x ∈ LinearMap.range (Qf ρ (some F))) :

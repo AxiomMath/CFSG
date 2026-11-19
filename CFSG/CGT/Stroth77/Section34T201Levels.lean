@@ -60,8 +60,7 @@ theorem not_matEq_sq_of_wMat {p : ℕ} (hp : 2 ≤ p) (i : Fin 3) {M T : IntMat}
   have e₂₂ := hk 2 2
   have e₂₁ := hk 2 1
   have e₁₂ := hk 1 2
-  simp only [Type200.k, wMat_apply, Matrix.cons_val, Matrix.cons_val_zero, Matrix.cons_val_one,
-    Matrix.head_cons] at e₂₀ e₁₀ e₀₁ e₀₂ e₁₁ e₂₂ e₂₁ e₁₂
+  simp only [Type200.k, wMat_apply, Matrix.cons_val, Matrix.cons_val_zero, Matrix.cons_val_one] at e₂₀ e₁₀ e₀₁ e₀₂ e₁₁ e₂₂ e₂₁ e₁₂
   have h4 : (4 : ℤ) ∣ 2 ^ (q + 2) := ⟨2 ^ q, by ring⟩
   have neg : ∀ {n : ℕ} {a : ℤ}, (2 : ℤ) ^ n ∣ 0 - a → (2 : ℤ) ^ n ∣ a := fun h => by
     simpa using h
@@ -70,7 +69,7 @@ theorem not_matEq_sq_of_wMat {p : ℕ} (hp : 2 ≤ p) (i : Fin 3) {M T : IntMat}
   have h21 := Int.modEq_iff_dvd.mp (hsq 2 1)
   have h12 := Int.modEq_iff_dvd.mp (hsq 1 2)
   simp only [Type200.k, Matrix.cons_val, Matrix.cons_val_one, Matrix.cons_val_zero,
-    Matrix.head_cons, hT₁, hT₂, Matrix.mul_apply, Fin.sum_univ_three] at h21 h12
+    hT₁, hT₂, Matrix.mul_apply, Fin.sum_univ_three] at h21 h12
   fin_cases i
   ·
     refine not_two_pow_dvd_sq_entry (s₁ := 0) (s₂ := 0) (neg e₂₀) (neg e₀₁)

@@ -115,7 +115,7 @@ theorem T2Base.S_le_normalizer_Z [Finite G] (h : T2Base G V V₂ Z J T S M M₂ 
 theorem T2Base.isPGroup_S [Finite G] (h : T2Base G V V₂ Z J T S M M₂ e) : IsPGroup 2 S := by
   obtain ⟨Q, hQ⟩ := h.sylow
   have : IsPGroup 2 ((Q : Subgroup (⊤ : Subgroup G)).map (⊤ : Subgroup G).subtype) :=
-    Q.isPGroup'.map _
+    Q.isPGroup.map _
   rwa [hQ] at this
 
 theorem T2Base.one_lt_card_Z (h : T2Base G V V₂ Z J T S M M₂ e) : 1 < Nat.card Z := by

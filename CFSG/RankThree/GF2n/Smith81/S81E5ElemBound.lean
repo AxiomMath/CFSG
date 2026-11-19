@@ -23,7 +23,7 @@ theorem card_le_pow_of_isElemAbelian_EAut {K : Type} [Field K] [Finite K] [CharP
     { toFun := fun a => ⟨vAut K ((a : e7Data_valid.minGroup K) : (Module.End K (V K))ˣ),
         (hmem a).mp a.2⟩
       invFun := fun x => ⟨⟨(vAut K).symm x, mem_EAut_iff.mp (hA x.2)⟩,
-        (hmem _).mpr (by simpa using x.2)⟩
+        (hmem _).mpr (by simp)⟩
       left_inv := fun a => by
         apply Subtype.ext
         apply Subtype.ext

@@ -48,7 +48,7 @@ theorem rankThreeGamma_eq_top_of_ambLeaves {G : Type} [Group G] [Finite G] (K : 
     hpos.2.2.2.2.2.1 hP
   obtain ⟨Q, rfl⟩ := hP
   set PG : Subgroup G := (Q.map X.subtype).map K.subtype
-  have hP3 : IsPGroup 3 PG := (Q.isPGroup'.map X.subtype).map K.subtype
+  have hP3 : IsPGroup 3 PG := (Q.isPGroup.map X.subtype).map K.subtype
   have hPK : PG ≤ K := by
     rintro _ ⟨x, -, rfl⟩
     exact x.2

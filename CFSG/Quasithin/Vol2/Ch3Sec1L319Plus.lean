@@ -13,6 +13,7 @@ section Aux
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem exists_noncentral_of_series {G₂ U N : Subgroup G} {n : ℕ}
     (h : IsChiefSeriesFrom G₂ U N n) (hn : n ≠ 0) :
     ∃ L' N' : Subgroup G, IsChiefStep G₂ U L' N' ∧ ¬ IsCentralStep G₂ L' N' := by

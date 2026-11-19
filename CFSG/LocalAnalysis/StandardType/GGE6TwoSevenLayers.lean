@@ -62,7 +62,7 @@ private theorem ltqLay_A2_kernelLayer_type
     ∃ KL : KernelLayer (phi3N Ω) (Units.map (entrywiseHom Fr)) (torusRootKernel x) K Unit,
       ∀ i, Nonempty (↥(KL.P i) ≃* SL(3, K)) ∨ ∃ e : ℕ, (e = 1 ∨ e = 2) ∧
         Nonempty (↥(KL.P i) ≃* ↥(d4ThetaFixed Ω Fr e)) := by
-  haveI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
   obtain ⟨w, hw⟩ := hA2
   obtain ⟨hQ, hfin, hq, hcomm, h₀, hsl⟩ := phi3_A2_layer_data hf hK hFr hx hw
   obtain ⟨KL, hKL⟩ := exists_kernelLayer_single_P (S := torusRootKernel x) (fun α hα => hα.1)

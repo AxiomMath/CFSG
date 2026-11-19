@@ -268,7 +268,7 @@ theorem not_pumpup_alt {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) {ε : Bool} {n :
     (hx : Lemma1314.PumpupVia p J K x) : False := by
   obtain ⟨hxo, J1, hJ1, ⟨eJ⟩⟩ := hx
   have hn2 := two_le_of_fpf hp hp5 hn hF
-  haveI : Finite J := Finite.of_equiv _ eJ.toEquiv
+  have : Finite J := Finite.of_equiv _ eJ.toEquiv
   have hpodd : Odd p := hp.odd_of_ne_two (by omega)
   have hA : ∀ a ∈ Subgroup.zpowers x, a ^ p = 1 := by
     rintro a ⟨k, rfl⟩
@@ -384,7 +384,7 @@ theorem lie_case {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) {ε : Bool} {n : ℕ} 
     n = 2 ∧ ε = false ∧ p = 5 ∧ d.1.characteristic = 3 := by
   have hn2 := two_le_of_fpf hp hp5 hn hF
   obtain ⟨hxo, J1, hJ1, ⟨eJ⟩⟩ := hx
-  haveI : Finite J := Finite.of_equiv _ eJ.toEquiv
+  have : Finite J := Finite.of_equiv _ eJ.toEquiv
   have hr : d.1.characteristic.Prime := d.characteristic_prime
   have hchev : IsChevSimple d.1.characteristic (K ⧸ Subgroup.center K) := Or.inl ⟨.lie d, rfl, ⟨e⟩⟩
   obtain ⟨hJr, -⟩ := Inputs1315.input14_4_1_holds p _ hp hp5 hr K hK hO hchev J x

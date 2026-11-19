@@ -59,7 +59,7 @@ theorem isTvElt_pairActN_gZJ : IsTvElt (pairActN 4 gZJ) := by
 theorem ncard_tv_A1g : Set.ncard {g : MulAut (PairN 4) | g ∈ A1g ∧ IsTvElt g} = 1 := by
   have hset : {g : MulAut (PairN 4) | g ∈ A1g ∧ IsTvElt g} = {pairActN 4 gZJ} := by
     ext g
-    simp only [Set.mem_setOf_eq, Set.mem_singleton_iff]
+    simp only [Set.mem_ofPred_eq, Set.mem_singleton_iff]
     constructor
     · rintro ⟨hgA, hgT⟩
       obtain ⟨ρ, -, hrange, hact, hL⟩ := exists_param_A1g
@@ -73,7 +73,7 @@ theorem ncard_tv_A1g : Set.ncard {g : MulAut (PairN 4) | g ∈ A1g ∧ IsTvElt g
         intro a
         have h1 := (hact ε a 0).symm.trans (hvec a)
         have h2 := (pairVec_inj.mp h1).1
-        rw [A1fst, if_pos h3] at h2
+        rw [A1fst, ite_eq_left h3] at h2
         exact h2
       rcases A1vec_transvection_cases ε u f hA with h | h | ⟨h0, h1, h2⟩
       · exact absurd h hu

@@ -21,7 +21,6 @@ theorem certificate13690_of_bridge
         1152 ∧
       FixFacts [16] 221549 ∧ FreeFacts [2] ⟨12, by norm_num⟩ :=
   by
-    intros
     exact ⟨fixFacts_of hB (r := 0) (by norm_num), fixFacts_of hB (r := 1) (by norm_num),
       fixFacts_of hB (r := 2) (by norm_num), orbit_lvl3 hB hlv, fixFacts_of hB (r := 3) (by norm_num),
       freeFacts_of hB⟩
@@ -33,7 +32,6 @@ theorem certificate13690 :
         1152 ∧
       FixFacts [16] 221549 ∧ FreeFacts [2] ⟨12, by norm_num⟩ :=
   certificate13690_of_bridge KernelFi24OrbL.bridge (by
-    intros
     rw [KernelFi24OrbL.levelLetters_eq 3 (by norm_num)]
     decide)
 

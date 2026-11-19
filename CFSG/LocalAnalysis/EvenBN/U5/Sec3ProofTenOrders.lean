@@ -25,7 +25,7 @@ variable {G : Type} [Group G] [Finite G] {f : ℕ} {K : Type} [Field K]
 
 theorem s4o_sc {X H : Subgroup G} (hX : IsPGroup 2 X) (hH : Odd (Nat.card H)) :
     Group.IsSolvable X ∧ (Nat.card H).Coprime (Nat.card X) := by
-  haveI : Group.IsNilpotent X := hX.isNilpotent
+  have : Group.IsNilpotent X := hX.isNilpotent
   exact ⟨inferInstance, Data.coprime_card_of_odd hH hX⟩
 
 theorem s4o_I_le_normalizer_U₁ (hd : d.Hyp) : d.I ≤ normalizer (d.U₁ : Set G) := by
@@ -170,7 +170,7 @@ theorem Hyp.s4o_cFB₃ (hGMS : GMSK.GMSUnitarySharpKRankOneStatement) (hd : d.Hy
   have hA₁F : d.A₁ ≤ d.F := hFB3 ▸ inf_le_left
   have hFB₃N : d.F ⊔ d.B₃ ≤ normalizer (d.B₃ : Set G) :=
     sup_le (hFN.trans hN13.le) le_normalizer
-  haveI : (d.B₃.subgroupOf (d.F ⊔ d.B₃)).Normal :=
+  have : (d.B₃.subgroupOf (d.F ⊔ d.B₃)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer le_sup_right).2 hFB₃N
   have hF2 : IsPGroup 2 d.F := hFel.isPGroup
   have hFB2 : IsPGroup 2 (d.F ⊔ d.B₃ : Subgroup G) := d.isPGroup_B₆_caseB.to_le hFB₃B₆
@@ -280,6 +280,7 @@ theorem Hyp.s4o_cD (hGMS : GMSK.GMSUnitarySharpKRankOneStatement) (hd : d.Hyp)
   rw [key, hd.s4o_card_zpowers_t_inf hH] at h6
   linarith
 
+omit [Finite G] in
 theorem s4o_comm_of_mem {A : Subgroup G} [hA : CFSG.IsElementaryAbelian 2 A] {x y : G}
     (hx : x ∈ A) (hy : y ∈ A) : x * y = y * x :=
   congrArg Subtype.val ((IsMulCommutative.is_comm (M := A)).comm ⟨x, hx⟩ ⟨y, hy⟩)
@@ -332,7 +333,7 @@ theorem Hyp.s4o_card_C₃₆ (hGMS : GMSK.GMSUnitarySharpKRankOneStatement) (hd 
   obtain ⟨-, -, -, ⟨h4, h4b⟩, -⟩ := d.sec2_1_two hd.two_le
   obtain ⟨-, -, -, -, -, -, hFB3, hFel, -, -⟩ := hd.sec3_4 hGMS
   have hA₁F : d.A₁ ≤ d.F := hFB3 ▸ inf_le_left
-  haveI : CFSG.IsElementaryAbelian 2 d.A₁ := isElementaryAbelian_of_le' hFel hA₁F
+  have : CFSG.IsElementaryAbelian 2 d.A₁ := isElementaryAbelian_of_le' hFel hA₁F
   have hle : d.P ⊓ centralizer ((d.I₃ ⊓ d.I₆ : Subgroup G) : Set G) ≤
       normalizer ((d.P ⊓ centralizer (d.I₄ : Set G) : Subgroup G) : Set G) := by
     refine s2a2_le_normalizer_of_comm fun x hx n hn => ?_
@@ -403,8 +404,8 @@ theorem sec3101Orders_of_hyp (hp : d.CaseHyp) (k : d.Know93) : d.Sec3101OrdersAl
   have sa := k.s9a S hS hPS
   have se := k.s9e
   obtain ⟨hSED, hEchar, hDchar⟩ := k.s9_1 S hS hPS
-  haveI : (d.E.subgroupOf S).Characteristic := hEchar
-  haveI : (d.D.subgroupOf S).Characteristic := hDchar
+  have : (d.E.subgroupOf S).Characteristic := hEchar
+  have : (d.D.subgroupOf S).Characteristic := hDchar
   have hES : d.E ≤ S := hSED ▸ le_sup_left
   have hDS : d.D ≤ S := hSED ▸ le_sup_right
   have hSE : S ≤ normalizer (d.E : Set G) :=

@@ -24,7 +24,7 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 
 private theorem w183k3_eight_le_card_of_three_le_mRank {A : Subgroup (LGL 2 V)}
     (h : 3 ≤ mRank A) : 8 ≤ Nat.card A := by
-  haveI : Nonempty ↥A := (OneMemClass.coe_nonempty A).to_subtype
+  have : Nonempty ↥A := (OneMemClass.coe_nonempty A).to_subtype
   have hlog : 3 ≤ Nat.log 2 (Nat.card A) := by simpa only [mRank] using h
   have hpow : 2 ^ 3 ≤ Nat.card A := Nat.pow_le_of_le_log Nat.card_pos.ne' hlog
   simpa using hpow

@@ -12,6 +12,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau : G}
 
+omit [Finite G] in
 theorem w4_comm_commutator {r a b : G} (ha : r * a = a * r) (hb : r * b = b * r) :
     r * (a * b * a⁻¹ * b⁻¹) = (a * b * a⁻¹ * b⁻¹) * r := by
   have ha' : Commute r a := ha

@@ -57,7 +57,7 @@ theorem not_elData_titsD
     have h4 := h.V4
     rw [hb0, Subgroup.card_bot] at h4
     omega
-  obtain ⟨v, hvV, hv1, hvc⟩ := exists_central_of_normal titsSylow.isPGroup' h.VT hV0 h.TV
+  obtain ⟨v, hvV, hv1, hvc⟩ := exists_central_of_normal titsSylow.isPGroup h.VT hV0 h.TV
   have hvS : v ∈ (titsSylow : Subgroup titsD) := h.VT hvV
   have hvz : v = titsZD := (titsSylow_central_eq v hvS hvc).resolve_left hv1
   rcases titsSylow_central_eq b hbSyl (fun p hp => (hbS p hp).symm) with hb1 | hbz
@@ -78,7 +78,7 @@ theorem not_elConfig_titsD :
     ¬ ElConfig titsD := by
   intro hc
   have hsyl : IsSylowTwoOf (titsSylow : Subgroup titsD) ⊤ :=
-    K1.isSylowTwoOf_top_iff.mpr ⟨titsSylow.isPGroup', titsSylow.not_dvd_index⟩
+    K1.isSylowTwoOf_top_iff.mpr ⟨titsSylow.isPGroup, titsSylow.not_dvd_index⟩
   obtain ⟨V, H, ζ, hd⟩ := ElConfig.of_sylow hsyl hc
   exact not_elData_titsD hd
 
@@ -102,7 +102,7 @@ theorem no_two_klein_tits
     rw [Subgroup.index_map_of_bijective (f := ψ.toMonoidHom) ψ.bijective]
     exact hi
   have hsyl : IsSylowTwoOf (titsSylow : Subgroup titsD) ⊤ :=
-    K1.isSylowTwoOf_top_iff.mpr ⟨titsSylow.isPGroup', titsSylow.not_dvd_index⟩
+    K1.isSylowTwoOf_top_iff.mpr ⟨titsSylow.isPGroup, titsSylow.not_dvd_index⟩
   obtain ⟨g, hg⟩ := exists_conj_of_isSylowTwoOf_top hT' hsyl
   set Φ : X ≃* titsD := ψ.trans (MulAut.conj g) with hΦ
   have hΦT : T.map Φ.toMonoidHom = (titsSylow : Subgroup titsD) := by
@@ -126,7 +126,7 @@ theorem no_two_klein_tits
       intro t ht
       obtain ⟨t₀, ht₀, rfl⟩ := ht
       exact (R3c11.mem_normalizer_map_equiv_iff Φ V t₀).mpr (hNV ht₀)
-    obtain ⟨v, hvV, hv1, hvc⟩ := exists_central_of_normal titsSylow.isPGroup' hVS hV0 hSV
+    obtain ⟨v, hvV, hv1, hvc⟩ := exists_central_of_normal titsSylow.isPGroup hVS hV0 hSV
     exact ⟨v, hvV, hv1, (titsSylow_central_eq v (hVS hvV) hvc).resolve_left hv1⟩
   obtain ⟨v₁, hv₁, hv₁1, hv₁z⟩ := key V₁ hV₁T h4₁ hN₁
   obtain ⟨v₂, hv₂, -, hv₂z⟩ := key V₂ hV₂T h4₂ hN₂

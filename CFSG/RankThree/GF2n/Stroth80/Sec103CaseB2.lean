@@ -27,7 +27,7 @@ theorem stroth_10_3_caseB2 (h34 : Stroth34Statement) (hspread : StrothNoA2Spread
     Stroth103CaseB2Statement := by
   intro G _ _ M Q Z B hc n t Y H ht hs hB h2
   by_contra hbad
-  obtain ⟨α, hα, hαV⟩ := SetLike.not_le_iff_exists.mp hbad
+  obtain ⟨α, hα, hαV⟩ := IsConcreteLE.not_le_iff_exists.mp hbad
   have hAB := ht.inf_QB_le_QB_of_not_caseA h34 hspread H hs hB h2
   obtain ⟨c, hcQ, hcα, hcB, hcW⟩ :=
     ht.exists_mem_centralizer_not_mem_Wt H hα.1 hαV

@@ -19,6 +19,7 @@ variable {X : Type} [Group X] [Finite X]
 
 section General
 
+omit [Finite X] in
 theorem three_lt_of_isoLThreePi {p e : ℕ} [hp : Fact p.Prime] (he : 1 ≤ e) (hp2 : p ≠ 2)
     (hiso : Sec4.IsoLThreePi X p e) : 3 < p := by
   have hmod : p ^ e % 3 ≠ 0 := by
@@ -42,7 +43,7 @@ theorem pCoreOf_two_le_theta (C : Subgroup X) :
     obtain ⟨v', hv', rfl⟩ := Subgroup.mem_map.mp hv
     exact Subgroup.mem_map.mpr ⟨⟨g, hg⟩ * v' * ⟨g, hg⟩⁻¹,
       (inferInstance : (CFSG.pCore 2 ↥C).Normal).conj_mem v' hv' ⟨g, hg⟩, rfl⟩
-  · haveI := hp.isNilpotent
+  · have := hp.isNilpotent
     infer_instance
   · obtain ⟨n, hn⟩ := hp.exists_card_eq
     rw [hn]
@@ -160,6 +161,7 @@ theorem hessU_comm {b : X} (hbE : b ∈ E) (hb1 : b ≠ 1) :
   thetaC_comm_of_hessian he hp2 hiso hEe hE9 htr hbE hb1 x (pCoreOf_two_le_theta _ hx) y
     (pCoreOf_two_le_theta _ hy)
 
+omit hp2 in
 theorem hessU_fixed {b c : X} (hbE : b ∈ E) (hb1 : b ≠ 1) (hcE : c ∈ E)
     (hcb : c ∉ Subgroup.zpowers b) :
     ∀ u ∈ pCoreOf 2 (Subgroup.centralizer ({b} : Set X)), c * u * c⁻¹ = u → u = 1 := by
@@ -180,6 +182,7 @@ theorem hessU_card_layer_one {b : X} (hbE : b ∈ E) (hb1 : b ≠ 1) :
   · intro x hx
     simpa using hx.2
 
+omit [Finite X] [Fact (Nat.Prime p)] he hp2 hiso hE9 htr in
 theorem hessU_conj_mem {b c : X} (hbE : b ∈ E) (hcE : c ∈ E) :
     ∀ u ∈ pCoreOf 2 (Subgroup.centralizer ({b} : Set X)),
       c * u * c⁻¹ ∈ pCoreOf 2 (Subgroup.centralizer ({b} : Set X)) := by
@@ -192,6 +195,7 @@ theorem hessU_conj_mem {b c : X} (hbE : b ∈ E) (hcE : c ∈ E) :
     (inferInstance : (CFSG.pCore 2 ↥(Subgroup.centralizer ({b} : Set X))).Normal).conj_mem u'
       hu' ⟨c, hcC⟩, rfl⟩
 
+omit [Fact (Nat.Prime p)] he hp2 hiso htr in
 theorem exists_mem_not_mem_zpowers_of_hessian {b : X} (hbE : b ∈ E) :
     ∃ c ∈ E, c ∉ Subgroup.zpowers b := by
   by_contra h
@@ -202,23 +206,24 @@ theorem exists_mem_not_mem_zpowers_of_hessian {b : X} (hbE : b ∈ E) :
   have := Nat.le_of_dvd (by norm_num) (orderOf_dvd_of_pow_eq_one (hEe.2 b hbE))
   omega
 
+omit hp2 in
 theorem hessU_layer_data {b : X} (hbE : b ∈ E) (hb1 : b ≠ 1) :
     IsPGroup 2 (pCoreOf 2 (Subgroup.centralizer ({b} : Set X))) ∧
       ∃ c ∈ E, (∀ u ∈ pCoreOf 2 (Subgroup.centralizer ({b} : Set X)),
         c * u * c⁻¹ ∈ pCoreOf 2 (Subgroup.centralizer ({b} : Set X))) ∧
         ∀ u ∈ pCoreOf 2 (Subgroup.centralizer ({b} : Set X)), c * u * c⁻¹ = u → u = 1 := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  obtain ⟨c, hcE, hcb⟩ := exists_mem_not_mem_zpowers_of_hessian he hp2 hiso hEe hE9 htr hbE
+  obtain ⟨c, hcE, hcb⟩ := exists_mem_not_mem_zpowers_of_hessian hEe hE9 hbE
   exact ⟨(CFSG.pCore_isPGroup (p := 2) (G := ↥(Subgroup.centralizer ({b} : Set X)))).map _,
-    c, hcE, hessU_conj_mem he hp2 hiso hEe hE9 htr hbE hcE,
-    hessU_fixed he hp2 hiso hEe hE9 htr hbE hb1 hcE hcb⟩
+    c, hcE, hessU_conj_mem hEe hbE hcE,
+    hessU_fixed he hiso hEe hE9 htr hbE hb1 hcE hcb⟩
 
 theorem hessU_layer_one_le {b : X} (hbE : b ∈ E) (hb1 : b ≠ 1) {W : Subgroup X}
     (hWU : W ≤ pCoreOf 2 (Subgroup.centralizer ({b} : Set X)))
     (hEW : E ≤ Subgroup.normalizer (W : Set X)) (hW1 : W ≠ ⊥) :
     layer (pCoreOf 2 (Subgroup.centralizer ({b} : Set X)))
       (hessU_comm he hp2 hiso hEe hE9 htr hbE hb1) 1 ≤ W := by
-  obtain ⟨hU2, c, hcE, hcU, hfix⟩ := hessU_layer_data he hp2 hiso hEe hE9 htr hbE hb1
+  obtain ⟨hU2, c, hcE, hcU, hfix⟩ := hessU_layer_data he hiso hEe hE9 htr hbE hb1
   exact layer_one_le_of_invariant _ _ hU2 hcU hfix
     (hessU_card_layer_one he hp2 hiso hEe hE9 htr hbE hb1) hWU
     (fun w hw => (Subgroup.mem_normalizer_iff.mp (hEW hcE) w).mp hw) hW1

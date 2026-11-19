@@ -54,7 +54,7 @@ theorem pblk_pow_eq_one {T : Module.End K V} (hT : ∀ v, π (T v) = T (π v)) {
 
 @[expose] noncomputable def pblkEquiv {T : Module.End K V} (hT : ∀ v, π (T v) = T (π v))
     {n : ℕ} (hn : 0 < n) (hTn : T ^ n = 1) : V ≃ₗ[K] V :=
-  LinearEquiv.ofLinear (pblk π T) (pblk π T ^ (n - 1))
+  LinearEquiv.ofLinearMap (pblk π T) (pblk π T ^ (n - 1))
     (LinearMap.ext fun v => by
       rw [LinearMap.comp_apply, ← Module.End.mul_apply, ← pow_succ', Nat.sub_add_cancel hn,
         pblk_pow_eq_one hπ hT hTn]
@@ -98,12 +98,13 @@ variable (β : LinearMap.BilinForm K V) (ρ : Representation K A V)
 variable (hA : ∀ a : A, a ^ p = 1)
 
 include hA in
+omit [DecidableEq K] [Finite A] in
 theorem trace_pow_card [Nontrivial V] (hq : p ∣ Fintype.card K - 1 ∨ p ∣ Fintype.card K + 1)
     (x : A) : (ρ x + ρ x⁻¹) ^ Fintype.card K = ρ x + ρ x⁻¹ := by
   obtain ⟨ℓ, hchar, n, hℓ, hcard⟩ := FiniteField.card' K
-  haveI := hchar
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : CharP (Module.End K V) ℓ :=
+  have := hchar
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : CharP (Module.End K V) ℓ :=
     charP_of_injective_algebraMap (algebraMap K (Module.End K V)).injective ℓ
   have hcomm : Commute (ρ x) (ρ x⁻¹) := by
     show ρ x * ρ x⁻¹ = ρ x⁻¹ * ρ x
@@ -135,7 +136,7 @@ theorem finrank_weightSpace_eq_two [FiniteDimensional K V] (hβ : β.SeparatingL
     Module.finrank K (weightSpace ρ H.1) = 2 := by
   classical
   obtain ⟨v₁, hv₁W, hv₁0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hH
-  haveI : Nontrivial V := ⟨⟨v₁, 0, hv₁0⟩⟩
+  have : Nontrivial V := ⟨⟨v₁, 0, hv₁0⟩⟩
   obtain ⟨x, hx⟩ := exists_not_mem_hyperplane hp H
   have hfix : ∀ v ∈ weightSpace ρ H.1, ρ x v = v → v = 0 := fun v hv h =>
     eq_zero_of_mem_weightSpace_of_fixed ρ hp hA hpK hx hv h
@@ -342,7 +343,7 @@ theorem finrank_weightSpace_eq_two [FiniteDimensional K V] (hβ : β.SeparatingL
     have hv0W : v - π v ∈ weightSpace ρ H.1 := (weightSpace ρ H.1).sub_mem hv (hUW (hπU v))
     have hgv0 : g (v - π v) = v - π v := by
       rw [hgapp, hπright _ (hπsub v), map_zero, sub_zero, add_zero]
-    have hg1 := eq_one_of_supported_of_fixed β ρ hp hA hpK hρ hmax H g hg hgp hgA
+    have hg1 := eq_one_of_supported_of_fixed β ρ hp hA hpK hmax H g hg hgp hgA
       (fun s hs => absurd hs (Set.notMem_empty s)) hgW hv0W hv0 hgv0
     have hgw : g w = ρ x w := by
       rw [hgapp, hπleft w hwU, sub_self, zero_add]

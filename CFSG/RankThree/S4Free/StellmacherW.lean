@@ -28,7 +28,7 @@ theorem Holds.of_mulEquiv {𝒦 : HostClass} {X Y : Type*} [Group X] [Group Y] (
   cases 𝒦 with
   | solvable =>
     have : Group.IsSolvable X := h
-    exact solvable_of_surjective (f := e.toMonoidHom) e.surjective
+    exact Group.isSolvable_of_surjective (f := e.toMonoidHom) e.surjective
   | szL3 => exact SzL3Sections.of_mulEquiv e h
   | sz => exact SzSections.of_mulEquiv e h
 
@@ -77,7 +77,7 @@ theorem omegaOneCenterOf_le_centerOf (X : Subgroup G) : omegaOneCenterOf X ≤ c
 
 theorem isElemAbelian_omegaOneCenterOf' (X : Subgroup G) : IsElemAbelian 2 (omegaOneCenterOf X) :=
   isElemAbelian_closure_of_commute
-    (fun a ha b hb => mem_centralizer_iff.1 (mem_inf.1 hb.1).2 a (mem_inf.1 ha.1).1)
+    (fun a ha _b hb => mem_centralizer_iff.1 (mem_inf.1 hb.1).2 a (mem_inf.1 ha.1).1)
     fun _ ha => ha.2
 
 theorem isElemAbelian_of_le {A B : Subgroup G} (hB : IsElemAbelian 2 B) (hAB : A ≤ B) :
@@ -108,7 +108,7 @@ theorem omegaOneCenterOf_map_of_injective' {H : Type*} [Group H] {f : G →* H}
     centerOf_map_of_injective hf]
   congr 1
   ext y
-  simp only [Set.mem_setOf_eq, Set.mem_image]
+  simp only [Set.mem_ofPred_eq, Set.mem_image]
   constructor
   · rintro ⟨⟨x, hx, rfl⟩, hy⟩
     exact ⟨x, ⟨hx, hf (by rw [map_pow, hy, map_one])⟩, rfl⟩
@@ -420,7 +420,7 @@ theorem stellW_induction [Finite S] (P : Subgroup S → Prop)
   rwa [hι.admissible.injective hwx] at hw
 
 theorem le_normalizer_of_normal_codRestrict {S : Type*} [Group S] {X : Type*} [Group X]
-    {ι : S →* X} (hinj : Function.Injective ι) {K : Subgroup X} (hK : ι.range ≤ K)
+    {ι : S →* X} (_hinj : Function.Injective ι) {K : Subgroup X} (hK : ι.range ≤ K)
     {W : Subgroup S} (hW : (W.map (ι.codRestrict K fun s => hK ⟨s, rfl⟩)).Normal) :
     K ≤ normalizer ((W.map ι : Subgroup X) : Set X) := by
   have key : ∀ k ∈ K, ∀ w ∈ W, k * ι w * k⁻¹ ∈ W.map ι := by

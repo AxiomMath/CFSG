@@ -12,7 +12,7 @@ open CFSG.Quasithin CFSG.Open Subgroup
 theorem w183finSp44pv_nodupE_sound : ∀ {l : List El}, nodupE l = true → l.Nodup
   | [], _ => List.nodup_nil
   | x :: l, h => by
-    simp only [nodupE, Bool.and_eq_true, Bool.not_eq_true] at h
+    simp only [nodupE, Bool.and_eq_true] at h
     obtain ⟨h1, h2⟩ := h
     refine List.nodup_cons.mpr ⟨?_, w183finSp44pv_nodupE_sound h2⟩
     intro hx

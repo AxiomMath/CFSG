@@ -49,7 +49,7 @@ theorem td4G2At_holds (G : Type) [Group G] [Finite G] : TD4G2At G := by
   intro X L b' hL hchev hTD4 hb'N hb'3 hNI hcent a haN ha3 hab
   classical
   have hp3 : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp3⟩
+  have : Fact (Nat.Prime 3) := ⟨hp3⟩
   obtain ⟨q, hv, hq2c, hq3c, ⟨eS⟩⟩ := td4g2_td4_of_catalog hTD4
   have hq2 : q.p = 2 := td4g2_p_two hv eS hchev
   obtain ⟨K, _, _, σ, hK, hσ, -, ⟨eC⟩⟩ := exists_catEquiv_trialityD4 q hv
@@ -107,7 +107,7 @@ theorem td4G2At_holds (G : Type) [Group G] [Finite G] : TD4G2At G := by
     simp only [MulAut.mul_apply, barAut_mk]
     congr 1
     apply Subtype.ext
-    simp only [CFSG.LocalAnalysis.GLTheoremA.CatB.conjL_apply, Subgroup.coe_mul, Subgroup.coe_inv]
+    simp only [CFSG.LocalAnalysis.GLTheoremA.CatB.conjL_apply]
     rw [show a⁻¹ * (b'⁻¹ * (x : G) * b') * a = (a⁻¹ * b'⁻¹) * x * (b' * a) by group,
       show b'⁻¹ * (a⁻¹ * (x : G) * a) * b' = (b'⁻¹ * a⁻¹) * x * (a * b') by group, h1, hab]
   have hcomm : MulAut.congr eQC (barAut L a haN) * MulAut.congr eQC (barAut L b' hb'N) =
@@ -138,7 +138,7 @@ theorem td4G2At_holds (G : Type) [Group G] [Finite G] : TD4G2At G := by
     obtain ⟨i, hi, ⟨e⟩⟩ := hcatβ
     exact ⟨i, hi, ⟨(CFSG.RankThree.PartTwo.Sec4.autFixCongrEquiv eQC (barAut L b' hb'N)).symm.trans e⟩⟩
   obtain ⟨hsimpleS, hnabS, h3S⟩ := (kd91_holds (PSimple 3 L) hTD4).2.2 _ hcatS
-  haveI := hsimpleS
+  have := hsimpleS
   have hnab : ¬ IsMulCommutative ↥(CFSG.RankThree.PartTwo.Sec4.autFix (barAut L b' hb'N)) := by
     rintro ⟨h⟩
     obtain ⟨x, y, hxy⟩ := hnabS
@@ -184,7 +184,7 @@ theorem td4G2At_holds (G : Type) [Group G] [Finite G] : TD4G2At G := by
       intro hI0
       have hbot : barX 3 Sb ⊥ = ⊥ := by simp [barX]
       rw [hI0, hbot] at hbar
-      haveI := isQuasisimple_nontrivial hQS'
+      have := isQuasisimple_nontrivial hQS'
       obtain ⟨x, hx⟩ := exists_ne (1 : ↥Sb ⧸ GLAPPrimeCore 3 ↥Sb)
       have hxT : x ∈ (⊤ : Subgroup (↥Sb ⧸ GLAPPrimeCore 3 ↥Sb)) := Subgroup.mem_top x
       rw [← hbar, Subgroup.mem_bot] at hxT

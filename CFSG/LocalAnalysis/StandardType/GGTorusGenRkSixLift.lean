@@ -55,7 +55,7 @@ theorem torus_lift_mem_E_six_one
     (hℓp : ∃ k : ℕ, orderOf ℓ = p ^ k) :
     (ℓ : M) ∈ E := by
   obtain ⟨v, hv⟩ := hs
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hker_le_center : (QuotientGroup.mk' Z).ker ≤ Subgroup.center L' := by
     rw [QuotientGroup.ker_mk']
     intro z hz
@@ -67,7 +67,7 @@ theorem torus_lift_mem_E_six_one
   have hnotdvd : ¬ p ∣ Nat.card (QuotientGroup.mk' Z).ker := by
     rw [QuotientGroup.ker_mk']
     intro hdvd
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨n, hn⟩ := h2group.exists_card_eq
     rw [hn] at hdvd
     exact hp2 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).1 (hp.dvd_of_dvd_pow hdvd))

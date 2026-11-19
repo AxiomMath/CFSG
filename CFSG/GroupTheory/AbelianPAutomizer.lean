@@ -14,7 +14,7 @@ theorem not_dvd_card_range_of_conj_action {H : Type*} [Group H] [Finite H]
     ¬ p ∣ Nat.card f.range := by
   classical
   obtain ⟨P, hEP⟩ := hEp.exists_le_sylow
-  have hPab : IsMulCommutative ↥(P : Subgroup H) := hAb P P.isPGroup'
+  have hPab : IsMulCommutative ↥(P : Subgroup H) := hAb P P.isPGroup
   have hPker : (P : Subgroup H) ≤ f.ker := by
     intro q hq
     rw [MonoidHom.mem_ker]

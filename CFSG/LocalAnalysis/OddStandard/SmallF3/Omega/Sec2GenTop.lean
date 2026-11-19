@@ -61,8 +61,8 @@ theorem gen_of_genP {G : Type} [Group G] [Finite G] (Y : Subgroup G) (hq : CFSG.
     (hGen : GenP (e (QuotientGroup.mk (⟨z, hzY⟩ : ↥Y)))) :
     Y ≤ ⨆ (d : G) (_ : orderOf d = 2 ∧ d ∈ pocketCore2 Y z ∧ ¬ IsI4PlusIn Y d),
       twoU43Comps Y d := by
-  haveI : Finite P := Finite.of_equiv _ e.toEquiv
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite P := Finite.of_equiv _ e.toEquiv
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let ρ : ↥Y →* P := e.toMonoidHom.comp (QuotientGroup.mk' (oddCore ↥Y))
   have hρ : OddCentralCover ρ := oddCentralCover_quotient_oddCore hq e
   let H : Subgroup G := ⨆ (d : G) (_ : orderOf d = 2 ∧ d ∈ pocketCore2 Y z ∧ ¬ IsI4PlusIn Y d),

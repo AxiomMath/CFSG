@@ -20,15 +20,15 @@ private theorem closure_orderOf_eq_prime_eq_top {C : Type*} [Group C] [Finite C]
     {p : ℕ} (hp : p.Prime) (hodd : p ≠ 2) (hC : CFSG.IsQuasisimple C)
     (hcore : CFSG.pPrimeCore p C = ⊥) :
     Subgroup.closure {x : C | orderOf x = p} = ⊤ := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI hCperf : Group.IsPerfect C := hC.1
+  have : Fact p.Prime := ⟨hp⟩
+  have hCperf : Group.IsPerfect C := hC.1
   let Z : Subgroup C := Subgroup.center C
   let D : Subgroup C := Subgroup.closure {x : C | orderOf x = p}
   have hDn : D.Normal :=
     Subgroup.closure_normal_of_forall_conj_mem fun g x hx => by
       have hord : orderOf (g * x * g⁻¹) = orderOf x :=
         (SemiconjBy.orderOf_eq g (by simp [SemiconjBy, mul_assoc])).symm
-      rw [Set.mem_setOf_eq] at hx ⊢
+      rw [Set.mem_ofPred_eq] at hx ⊢
       rwa [hord]
   have hdvdC : p ∣ Nat.card C := by
     have h := (CFSG.GroupTheory.prime_corefree_quasisimple_prime_generation hC hp hcore).1
@@ -37,9 +37,9 @@ private theorem closure_orderOf_eq_prime_eq_top {C : Type*} [Group C] [Finite C]
     CFSG.HardMathSupport.Timmesfeld.ComponentBalance.exists_orderOf_eq_prime_not_mem_center
       ((CFSG.Foundations.SteinbergCA.quasisimple_iff C).2.2.1.mp hC) hp hodd hdvdC
   have hxmem : x ∈ D := Subgroup.subset_closure hxord
-  haveI : IsSimpleGroup (C ⧸ Subgroup.center C) := hC.2.1
+  have : IsSimpleGroup (C ⧸ Subgroup.center C) := hC.2.1
   have hmap : D.map (QuotientGroup.mk' Z) = ⊤ := by
-    haveI : (D.map (QuotientGroup.mk' Z)).Normal :=
+    have : (D.map (QuotientGroup.mk' Z)).Normal :=
       hDn.map (QuotientGroup.mk' Z) (QuotientGroup.mk'_surjective Z)
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (D.map (QuotientGroup.mk' Z)) with h | h
     · exfalso
@@ -68,9 +68,9 @@ private theorem mem_centralizer_pCore_of_forall_orderOf_eq_prime {X : Type*} [Gr
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {w : X} (hcop : Nat.Coprime (orderOf w) p)
     (hfix : ∀ x : X, orderOf x = p → x * w = w * x) :
     w ∈ Subgroup.centralizer (CFSG.pCore p X : Set X) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let P : Subgroup X := CFSG.pCore p X
-  haveI hPn : P.Normal := CFSG.pCore_normal
+  have hPn : P.Normal := CFSG.pCore_normal
   let α : MulAut ↥P := MulAut.conjNormal (H := P) w
   have hαcop : Nat.Coprime (orderOf α) p :=
     hcop.coprime_dvd_left (orderOf_map_dvd (MulAut.conjNormal (H := P)) w)
@@ -105,7 +105,7 @@ private theorem le_centralizer_singleton_of_isComponent {X : Type*} [Group X] [F
     (hcore : CFSG.pPrimeCore p X = ⊥) {w : X}
     (hw : ∀ x : X, orderOf x = p → x * w = w * x) :
     C ≤ Subgroup.centralizer ({w} : Set X) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hCcore : CFSG.pPrimeCore p ↥C = ⊥ :=
     CFSG.RankThreeCoreUniqueness.Helpers.cfsg_subnormal_primeComplementCore_eq_bot
       p C (CFSG.Open.IsSubnormal.top_iff.mpr hC.2) hcore
@@ -179,7 +179,7 @@ private theorem mk_eq_one_of_le_xSub (h : TwelveCtx G M p Q H) (hL : pLayerIn p 
     {W : Subgroup G} (hW : Nat.Coprime p (Nat.card W)) (hWX : W ≤ xSub p M H)
     (hWH : W ≤ H) {w : G} (hw : w ∈ W) :
     (QuotientGroup.mk' (primeComplementCore (G := ↥H) p)) ⟨w, hWH hw⟩ = 1 := by
-  haveI : Fact p.Prime := ⟨h.p_prime⟩
+  have : Fact p.Prime := ⟨h.p_prime⟩
   let π : ↥H →* StarGroup p H := QuotientGroup.mk' (primeComplementCore (G := ↥H) p)
   have hcore : CFSG.pPrimeCore p (StarGroup p H) = ⊥ :=
     CFSG.pPrimeCore_quotient_pPrimeCore_eq_bot (G := ↥H) p
@@ -215,7 +215,7 @@ private theorem mk_eq_one_of_le_xSub (h : TwelveCtx G M p Q H) (hL : pLayerIn p 
 theorem TwelveCtx.le_relPPrimeCore_of_le_xSub (h : TwelveCtx G M p Q H)
     (hL : pLayerIn p H ≤ M) {W : Subgroup G} (hW : Nat.Coprime p (Nat.card W))
     (hWX : W ≤ xSub p M H) : W ≤ relPPrimeCore p H := by
-  haveI : Fact p.Prime := ⟨h.p_prime⟩
+  have : Fact p.Prime := ⟨h.p_prime⟩
   let π : ↥H →* StarGroup p H := QuotientGroup.mk' (primeComplementCore (G := ↥H) p)
   have hWH : W ≤ H := hWX.trans (xSub_le_H p M H)
   intro w hw

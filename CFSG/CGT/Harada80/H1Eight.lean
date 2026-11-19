@@ -91,7 +91,7 @@ theorem rels_eq : ∀ r ∈ rels,
   simp
 
 theorem h1OmegaMinusEight_holds : CFSG.CGT.Foote82.H1OmegaMinusEight :=
-  h1Natural_of_checks closure_gens sCols_lt (fun i x hx => gens_vec i hx) rels_eq
+  h1Natural_of_checks closure_gens sCols_lt (fun i _x hx => gens_vec i hx) rels_eq
     (foxCheck_spec (Certificates.certificate840012.2.2.2.2))
 
 end CFSG.CGT.Harada80.OmegaEight

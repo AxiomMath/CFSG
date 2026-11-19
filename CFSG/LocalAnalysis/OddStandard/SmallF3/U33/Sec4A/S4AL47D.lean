@@ -15,6 +15,7 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau : G}
 
+omit [Finite G] in
 private theorem baseGrp_le_m12Grp : baseGrp x₁ x₂ ≤ m12Grp x₁ x₂ lam tau := by
   rw [baseGrp, m12Grp, Subgroup.closure_le]
   rintro x (hx : x ∈ ({x₁, x₂} : Set G))
@@ -22,6 +23,7 @@ private theorem baseGrp_le_m12Grp : baseGrp x₁ x₂ ≤ m12Grp x₁ x₂ lam t
   simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hx ⊢
   rcases hx with rfl | rfl <;> simp
 
+omit [Finite G] in
 private theorem lam_conj_mem_baseGrp {x₁ x₂ lam : G} (h : WreathRel x₁ x₂ lam) {a : G}
     (ha : a ∈ baseGrp x₁ x₂) : lam * a * lam⁻¹ ∈ baseGrp x₁ x₂ := by
   have hll : lam * lam = 1 := by rw [← pow_two, ← h.ord_lam]; exact pow_orderOf_eq_one lam
@@ -38,7 +40,7 @@ private theorem lam_conj_mem_baseGrp {x₁ x₂ lam : G} (h : WreathRel x₁ x�
       rcases hx with rfl | rfl
       · rw [h.conj_x₁]; exact Subgroup.subset_closure (by simp)
       · rw [hconj₂]; exact Subgroup.subset_closure (by simp)
-  | one => simpa using Subgroup.one_mem (closure ({x₁, x₂} : Set G))
+  | one => simp
   | mul x y _ _ ihx ihy =>
       have hmul : lam * (x * y) * lam⁻¹ = (lam * x * lam⁻¹) * (lam * y * lam⁻¹) := by group
       rw [hmul]
@@ -60,7 +62,7 @@ private theorem tau_conj_mem_baseGrp (h : Ctx t L S x₁ x₂ lam rho tau) {a : 
         exact Subgroup.inv_mem _ (Subgroup.subset_closure (by simp))
       · rw [h.tau_x₂]
         exact Subgroup.inv_mem _ (Subgroup.subset_closure (by simp))
-  | one => simpa using Subgroup.one_mem (closure ({x₁, x₂} : Set G))
+  | one => simp
   | mul x y _ _ ihx ihy =>
       have hmul : tau * (x * y) * tau⁻¹ = (tau * x * tau⁻¹) * (tau * y * tau⁻¹) := by group
       rw [hmul]

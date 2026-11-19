@@ -108,6 +108,7 @@ theorem beqL {i j : ℕ} (hi : i < 243) (hj : j < 243) :
 theorem idL {i : ℕ} (hi : i < 243) : ((t3List U Z O)[i]! == idCode) = Nat.beq i 0 := by
   rw [← zeroL F, beqL F hi (by norm_num)]
 
+omit F in
 theorem memL {k : ℕ} (hk : k < 243) : (t3List U Z O).contains (t3List U Z O)[k]! = true := by
   rw [Array.contains_iff_mem, getElem!_pos (t3List U Z O) k (by rw [size_t3List]; exact hk)]
   exact Array.getElem_mem _
@@ -191,17 +192,19 @@ theorem aL {t : ℕ} (ht : t < 81) : (aList U Z)[t]! = (t3List U Z O)[aI t]! := 
   rw [decode_mulCode (valid_powCode F.vU _) (valid_powCode F.vZ _), decode_powCode F.vU,
     decode_powCode F.vZ, decL F hlt, aI, fT_pcIdxG F.R, pow_zero, mul_one]
 
+omit F in
 theorem size_aList : (aList U Z).size = 81 := by simp [aList]
 
+omit F in
 theorem memA {k : ℕ} (hk : k < 81) : (aList U Z).contains (aList U Z)[k]! = true := by
-  rw [Array.contains_iff_mem, getElem!_pos (aList U Z) k (by rw [size_aList F]; exact hk)]
+  rw [Array.contains_iff_mem, getElem!_pos (aList U Z) k (by rw [size_aList]; exact hk)]
   exact Array.getElem_mem _
 
 theorem inA_mem {x : ℕ} (hx : x < 243) (h : inA x = true) :
     (aList U Z).contains (t3List U Z O)[x]! = true := by
   have e : aI (kOf x) = x := Nat.eq_of_beq_eq_true h
   rw [← e, ← aL F (kOf_lt hx)]
-  exact memA F (kOf_lt hx)
+  exact memA (kOf_lt hx)
 
 end Facts
 
@@ -228,7 +231,7 @@ theorem frobStable_F : frobStable (t3List U Z O) = true := by
   simp only [frobStable, List.all_eq_true, List.mem_range, size_t3List]
   intro n hn
   rw [frobL F hn]
-  exact memL F (pcIdx_lt _ _ _)
+  exact memL (pcIdx_lt _ _ _)
 
 theorem centerOK_F : centerOK (t3List U Z O) [(U, 0), (Z, 0), (O, 0), (idCode, 1)]
     (powCode U 3) = true := by
@@ -274,7 +277,7 @@ theorem aOK_F : aOK (t3List U Z O) U Z = true := by
     rw [beq_true (F.inj _ (hA hi) _ (hA (by omega)) e)] at this
     exact absurd this (by decide)
   · rw [aL F hi]
-    exact memL F (hA hi)
+    exact memL (hA hi)
 
 theorem omegaOK_F : omegaOK U Z = true := by
   simp only [chkI, Bool.and_eq_true] at hI

@@ -49,7 +49,6 @@ theorem gensK_of {n w : Nat} {V : VData} {GP GPI EG GT GTI : Nat → Nat}
     gensK n w V GP GPI EG GT GTI = true := by
   unfold gensK
   rw [h1, h2, h3]
-  all_goals rfl
 
 theorem k_gens : gensK 4060 12 ruThreeLinesData GP GPI RE.G GT GTI = true :=
   gensK_of k_gens_a k_gens_b k_gens_c

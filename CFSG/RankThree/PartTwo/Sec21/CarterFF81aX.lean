@@ -14,29 +14,30 @@ variable {G : Type} [Group G] [Finite G] {b : G} {L : Subgroup G}
 noncomputable def FF81X (B : Subgroup G) : Subgroup (MulAut ↥B) :=
   (Subgroup.normalizerMonoidHom (H := B)).range
 
+omit [Finite G] in
 theorem mem_FF81X_iff {B : Subgroup G} {σ : MulAut ↥B} :
     σ ∈ FF81X B ↔ ∃ n : ↥(Nor B), Subgroup.normalizerMonoidHom (H := B) n = σ := by
   rw [FF81X, MonoidHom.mem_range]
 
-theorem FF81Hyp.tau_mem_normalizer (h : FF81Hyp b L)
-    {τ b₁ b₂ b₃ : G} (hτL : τ ∈ L) (hb₁ : b₁ ∈ L) (hb₂ : b₂ ∈ L) (hb₃ : b₃ ∈ L)
-    (hE : IsElemAb 3 3 (Subgroup.closure ({b₁, b₂, b₃} : Set G)))
+theorem FF81Hyp.tau_mem_normalizer (_h : FF81Hyp b L)
+    {τ b₁ b₂ b₃ : G} (_hτL : τ ∈ L) (_hb₁ : b₁ ∈ L) (_hb₂ : b₂ ∈ L) (_hb₃ : b₃ ∈ L)
+    (_hE : IsElemAb 3 3 (Subgroup.closure ({b₁, b₂, b₃} : Set G)))
     (hb : τ * b * τ⁻¹ = b)
     (hinv : τ * b₁ * τ⁻¹ = b₁⁻¹ ∧ τ * b₂ * τ⁻¹ = b₂⁻¹ ∧ τ * b₃ * τ⁻¹ = b₃⁻¹) :
     τ ∈ Nor (Subgroup.closure ({b, b₁, b₂, b₃} : Set G)) := by
   refine mem_nor_of_gen ?_
   intro x hx
   simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hx
-  rcases hx with h | h | h | h
-  · rw [h, hb]
+  rcases hx with _h | _h | _h | _h
+  · rw [_h, hb]
     exact Subgroup.subset_closure (by simp)
-  · rw [h, hinv.1]
+  · rw [_h, hinv.1]
     exact (Subgroup.closure ({b, b₁, b₂, b₃} : Set G)).inv_mem
       (Subgroup.subset_closure (by simp))
-  · rw [h, hinv.2.1]
+  · rw [_h, hinv.2.1]
     exact (Subgroup.closure ({b, b₁, b₂, b₃} : Set G)).inv_mem
       (Subgroup.subset_closure (by simp))
-  · rw [h, hinv.2.2]
+  · rw [_h, hinv.2.2]
     exact (Subgroup.closure ({b, b₁, b₂, b₃} : Set G)).inv_mem
       (Subgroup.subset_closure (by simp))
 
@@ -50,7 +51,7 @@ theorem FF81Hyp.cen_X_tau_maps_b (h : FF81Hyp b L)
     (hinv : τ * b₁ * τ⁻¹ = b₁⁻¹ ∧ τ * b₂ * τ⁻¹ = b₂⁻¹ ∧ τ * b₃ * τ⁻¹ = b₃⁻¹)
     (hbB : b ∈ Subgroup.closure ({b, b₁, b₂, b₃} : Set G))
     {σ : MulAut ↥(Subgroup.closure ({b, b₁, b₂, b₃} : Set G))}
-    (hσX : σ ∈ FF81X (Subgroup.closure ({b, b₁, b₂, b₃} : Set G)))
+    (_hσX : σ ∈ FF81X (Subgroup.closure ({b, b₁, b₂, b₃} : Set G)))
     (hcomm : σ * (FF81X.tau (FF81Hyp.tau_mem_normalizer h hτL hb₁ hb₂ hb₃ hE hb hinv)) =
       (FF81X.tau (FF81Hyp.tau_mem_normalizer h hτL hb₁ hb₂ hb₃ hE hb hinv)) * σ) :
     Subgroup.map σ (Subgroup.zpowers

@@ -19,9 +19,9 @@ variable {X : Type} [Group X] [Finite X]
 
 theorem component_le_centralizer_pCore {J : Subgroup X} (hJ : IsComponentOf J ⊤) :
     J ≤ Subgroup.centralizer (CFSG.pCore 3 X : Set X) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : (CFSG.pCore 3 X).Normal := CFSG.pCore_normal
-  haveI : Group.IsNilpotent (CFSG.pCore 3 X) := (CFSG.pCore_isPGroup (p := 3)).isNilpotent
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : (CFSG.pCore 3 X).Normal := CFSG.pCore_normal
+  have : Group.IsNilpotent (CFSG.pCore 3 X) := (CFSG.pCore_isPGroup (p := 3)).isNilpotent
   exact Subgroup.commutator_eq_bot_iff_le_centralizer.1
     (CFSG.ComponentClassification.LocalComponents.commutes_with_solvable_subnormal J _ hJ
       (isSubnormal_of_normal inferInstance))
@@ -49,6 +49,7 @@ theorem isPGroup_center (hcore : GLAPPrimeCore 3 X = ⊥) {J : Subgroup X}
   apply Subtype.ext
   simpa using congrArg Subtype.val hk
 
+omit [Finite X] in
 theorem commute_of_isPGroup
     (hab : ∀ S : Sylow 3 X, ∀ a ∈ (S : Subgroup X), ∀ b ∈ (S : Subgroup X), a * b = b * a)
     {U : Subgroup X} (hU : IsPGroup 3 U) {a b : X} (ha : a ∈ U) (hb : b ∈ U) : a * b = b * a := by
@@ -58,8 +59,8 @@ theorem commute_of_isPGroup
 theorem center_eq_bot (hcore : GLAPPrimeCore 3 X = ⊥)
     (hab : ∀ S : Sylow 3 X, ∀ a ∈ (S : Subgroup X), ∀ b ∈ (S : Subgroup X), a * b = b * a)
     {J : Subgroup X} (hJ : IsComponentOf J ⊤) : Subgroup.center J = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Group.IsPerfect J := ⟨hJ.2.2.1⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Group.IsPerfect J := ⟨hJ.2.2.1⟩
   obtain ⟨T⟩ : Nonempty (Sylow 3 J) := inferInstance
   have hT : ⁅(T : Subgroup J), (T : Subgroup J)⁆ = ⊥ := by
     rw [Subgroup.commutator_eq_bot_iff_le_centralizer]
@@ -67,7 +68,7 @@ theorem center_eq_bot (hcore : GLAPPrimeCore 3 X = ⊥)
     rw [Subgroup.mem_centralizer_iff]
     intro b hb
     apply Subtype.ext
-    exact commute_of_isPGroup hab (T.isPGroup'.map J.subtype) ⟨b, hb, rfl⟩ ⟨a, ha, rfl⟩
+    exact commute_of_isPGroup hab (T.isPGroup.map J.subtype) ⟨b, hb, rfl⟩ ⟨a, ha, rfl⟩
   have h := (CFSG.ShultStronglyClosedTI.MiscAlgebra.central_sylow_transfer_derived T _ le_rfl
     (isPGroup_center hcore hJ)).1
   rw [hT] at h
@@ -75,16 +76,17 @@ theorem center_eq_bot (hcore : GLAPPrimeCore 3 X = ⊥)
 
 theorem three_dvd_card (hcore : GLAPPrimeCore 3 X = ⊥) {J : Subgroup X}
     (hJ : IsComponentOf J ⊤) : 3 ∣ Nat.card J := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra h
   have hle := CFSG.GH74.GLS.le_pPrimeCore_of_subnormal 3
     (CFSG.ComponentClassification.Components.mathlib_subnormal_of_chain hJ.2.1
       Subgroup.IsSubnormal.top)
     ((Nat.Prime.coprime_iff_not_dvd Nat.prime_three).2 h)
   have hbot : J = ⊥ := le_bot_iff.1 (hle.trans (le_of_eq hcore))
-  haveI := CFSG.ComponentClassification.Quasisimple.nontrivial hJ.2.2
+  have := CFSG.ComponentClassification.Quasisimple.nontrivial hJ.2.2
   exact (Subgroup.nontrivial_iff_ne_bot J).1 inferInstance hbot
 
+omit [Finite X] in
 theorem eq_one_of_commute {J : Subgroup X} (hZ : Subgroup.center J = ⊥) {x : X} (hx : x ∈ J)
     (hc : ∀ j ∈ J, j * x = x * j) : x = 1 := by
   have h : (⟨x, hx⟩ : J) ∈ Subgroup.center J :=
@@ -92,6 +94,7 @@ theorem eq_one_of_commute {J : Subgroup X} (hZ : Subgroup.center J = ⊥) {x : X
   rw [hZ, Subgroup.mem_bot] at h
   exact congrArg Subtype.val h
 
+omit [Finite X] in
 theorem inf_eq_bot_of_le_center {J Q U : Subgroup X} (hZ : Subgroup.center J = ⊥)
     (hQZ : Q ≤ Subgroup.center X) (hUJ : U ≤ J) : Q ⊓ U = ⊥ := by
   rw [eq_bot_iff]
@@ -99,11 +102,13 @@ theorem inf_eq_bot_of_le_center {J Q U : Subgroup X} (hZ : Subgroup.center J = �
   rw [Subgroup.mem_bot]
   exact eq_one_of_commute hZ (hUJ hxU) fun j _ => Subgroup.mem_center_iff.1 (hQZ hxQ) j
 
+omit [Finite X] in
 theorem normal_of_le_center {Q : Subgroup X} (hQZ : Q ≤ Subgroup.center X) : Q.Normal :=
   ⟨fun n hn g => by
     rw [Subgroup.mem_center_iff.1 (hQZ hn) g, mul_inv_cancel_right]
     exact hn⟩
 
+omit [Finite X] in
 theorem card_map_eq_of_inf_eq_bot {Q U : Subgroup X} [Q.Normal] (h : Q ⊓ U = ⊥) :
     Nat.card (U.map (QuotientGroup.mk' Q)) = Nat.card U := by
   have h' := Subgroup.relIndex_mul_card (QuotientGroup.mk' Q).ker U
@@ -123,7 +128,7 @@ theorem LayerConfig.exists_sylow (h : LayerConfig X Q) {U : Subgroup X} (hU : Is
     haveI := normal_of_le_center h.central
     ∃ S : Sylow 3 X, U ≤ S ∧ Q ≤ S ∧
       Nat.card ((S : Subgroup X).map (QuotientGroup.mk' Q)) = 3 := by
-  haveI := normal_of_le_center h.central
+  have := normal_of_le_center h.central
   have hQp : IsPGroup 3 Q := IsPGroup.of_card (n := 2) (by rw [h.card9]; norm_num)
   obtain ⟨S, hS⟩ := (hU.to_sup_of_normal_right hQp).exists_le_sylow
   refine ⟨S, le_sup_left.trans hS, le_sup_right.trans hS, ?_⟩
@@ -134,13 +139,13 @@ theorem LayerConfig.exists_sylow (h : LayerConfig X Q) {U : Subgroup X} (hU : Is
 
 theorem LayerConfig.card_sylow (h : LayerConfig X Q) {J : Subgroup X} (hJ : IsComponentOf J ⊤)
     (T : Sylow 3 J) : Nat.card (T : Subgroup J) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := normal_of_le_center h.central
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := normal_of_le_center h.central
   have hZ := center_eq_bot h.core h.ab hJ
   set T' := (T : Subgroup J).map J.subtype with hT'
   have hT'card : Nat.card T' = Nat.card (T : Subgroup J) :=
     Subgroup.card_map_of_injective J.subtype_injective
-  obtain ⟨S, hT'S, -, hS3⟩ := h.exists_sylow (T.isPGroup'.map J.subtype)
+  obtain ⟨S, hT'S, -, hS3⟩ := h.exists_sylow (T.isPGroup.map J.subtype)
   have hle : Nat.card (T'.map (QuotientGroup.mk' Q)) ≤ 3 :=
     hS3 ▸ Subgroup.card_le_of_le (Subgroup.map_mono hT'S)
   rw [card_map_eq_of_inf_eq_bot (inf_eq_bot_of_le_center hZ h.central
@@ -157,7 +162,7 @@ theorem LayerConfig.card_sylow (h : LayerConfig X Q) {J : Subgroup X} (hJ : IsCo
 
 theorem LayerConfig.factorization_eq_one (h : LayerConfig X Q) {J : Subgroup X}
     (hJ : IsComponentOf J ⊤) : (Nat.card J).factorization 3 = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨T⟩ : Nonempty (Sylow 3 J) := inferInstance
   have h1 := h.card_sylow hJ T
   rw [T.card_eq_multiplicity] at h1
@@ -165,8 +170,8 @@ theorem LayerConfig.factorization_eq_one (h : LayerConfig X Q) {J : Subgroup X}
 
 theorem LayerConfig.component_eq (h : LayerConfig X Q) {J₁ J₂ : Subgroup X}
     (h₁ : IsComponentOf J₁ ⊤) (h₂ : IsComponentOf J₂ ⊤) : J₁ = J₂ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := normal_of_le_center h.central
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := normal_of_le_center h.central
   by_contra hne
   have hZ₁ := center_eq_bot h.core h.ab h₁
   have hZ₂ := center_eq_bot h.core h.ab h₂
@@ -190,7 +195,7 @@ theorem LayerConfig.component_eq (h : LayerConfig X Q) {J₁ J₂ : Subgroup X}
     intro b hb
     exact Subgroup.mem_centralizer_iff.1 (hc (hT₂J hb)) a (hT₁J ha) |>.symm
   have hU : IsPGroup 3 ↥(T₁' ⊔ T₂') :=
-    (T₁.isPGroup'.map J₁.subtype).to_sup_of_normal_right' (T₂.isPGroup'.map J₂.subtype) hN
+    (T₁.isPGroup.map J₁.subtype).to_sup_of_normal_right' (T₂.isPGroup.map J₂.subtype) hN
   obtain ⟨S, hUS, -, hS3⟩ := h.exists_sylow hU
   have e₁ : T₁'.map (QuotientGroup.mk' Q) = (S : Subgroup X).map (QuotientGroup.mk' Q) := by
     refine Subgroup.eq_of_le_of_card_ge (Subgroup.map_mono (le_sup_left.trans hUS)) ?_
@@ -251,7 +256,7 @@ theorem mem_inner_of_pow_eq_one {J : Type*} [Group J] [Finite J]
 theorem card_le_three {J : Type*} [Group J] [Finite J] (hZ : Subgroup.center J = ⊥)
     (h3 : (Nat.card J).factorization 3 = 1) (hout : ¬ 3 ∣ Nat.card (Outer J))
     {H : Subgroup (MulAut J)} (hH : IsPGroup 3 H) : Nat.card H ≤ 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hle : H ≤ inner J := fun σ hσ => by
     obtain ⟨k, hk⟩ := hH ⟨σ, hσ⟩
     exact mem_inner_of_pow_eq_one hout (k := k) (by simpa using congrArg Subtype.val hk)
@@ -298,9 +303,9 @@ theorem GoodLayer.normal {J : Subgroup X} (hJ : GoodLayer X J) : J.Normal :=
 theorem GoodLayer.sylow_le (hcore : GLAPPrimeCore 3 X = ⊥) {J : Subgroup X} (hJ : GoodLayer X J)
     (P : Sylow 3 X) (hPab : ∀ a ∈ (P : Subgroup X), ∀ b ∈ (P : Subgroup X), a * b = b * a) :
     (P : Subgroup X) ≤ J ⊔ CFSG.pCore 3 X := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : (CFSG.pCore 3 X).Normal := CFSG.pCore_normal
-  haveI := hJ.normal
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : (CFSG.pCore 3 X).Normal := CFSG.pCore_normal
+  have := hJ.normal
   intro x hx
   have hOP : CFSG.pCore 3 X ≤ P := (CFSG.pCore_isPGroup (p := 3)).le_sylow_of_normal P
   have hxO : x ∈ Subgroup.centralizer (CFSG.pCore 3 X : Set X) := by
@@ -311,7 +316,7 @@ theorem GoodLayer.sylow_le (hcore : GLAPPrimeCore 3 X = ⊥) {J : Subgroup X} (h
     rw [Subgroup.normalizer_eq_top J]
     exact Subgroup.mem_top x
   set σ := J.normalizerMonoidHom ⟨x, hxN⟩ with hσdef
-  obtain ⟨k, hk⟩ := P.isPGroup' ⟨x, hx⟩
+  obtain ⟨k, hk⟩ := P.isPGroup ⟨x, hx⟩
   have hxk : x ^ (3 ^ k) = 1 := by simpa using congrArg Subtype.val hk
   have hσ : σ ^ (3 ^ k) = 1 := by
     rw [hσdef, ← map_pow]
@@ -341,9 +346,9 @@ theorem GoodLayer.sylow_le (hcore : GLAPPrimeCore 3 X = ⊥) {J : Subgroup X} (h
 theorem GoodLayer.top_le (hcore : GLAPPrimeCore 3 X = ⊥) {J : Subgroup X} (hJ : GoodLayer X J)
     (P : Sylow 3 X) (hPab : ∀ a ∈ (P : Subgroup X), ∀ b ∈ (P : Subgroup X), a * b = b * a) :
     (⊤ : Subgroup X) ≤ Subgroup.normalizer (P : Set X) ⊔ J := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : (CFSG.pCore 3 X).Normal := CFSG.pCore_normal
-  haveI := hJ.normal
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : (CFSG.pCore 3 X).Normal := CFSG.pCore_normal
+  have := hJ.normal
   have h := Sylow.normalizer_sup_eq_top' P (hJ.sylow_le hcore P hPab)
   rw [← h]
   refine sup_le le_sup_left (sup_le le_sup_right ?_)
@@ -380,11 +385,11 @@ theorem map_core {Y : Type} [Group Y] (σ : MulAut Y) :
     Subgroup Y where
   carrier := {y | ∀ e ∈ E, β e y = y}
   mul_mem' := fun {a b} ha hb e he => by
-    simp only [Set.mem_setOf_eq] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq] at ha hb ⊢
     rw [map_mul, ha e he, hb e he]
   one_mem' := fun e _ => map_one _
   inv_mem' := fun {a} ha e he => by
-    simp only [Set.mem_setOf_eq] at ha ⊢
+    simp only [Set.mem_ofPred_eq] at ha ⊢
     rw [map_inv, ha e he]
 
 theorem mem_fixSub {B Y : Type} [Group B] [Group Y] {β : B →* MulAut Y} {E : Subgroup B} {y : Y} :
@@ -395,9 +400,9 @@ theorem exists_fixed_mem_coset {B Y : Type} [Group B] [Group Y] [Finite Y] (β :
     {E : Subgroup B} (hE : IsPGroup 3 E) {N : Subgroup Y} (hN : ¬ 3 ∣ Nat.card N)
     (hβN : ∀ e ∈ E, ∀ n ∈ N, β e n ∈ N) {l : Y} (hl : ∀ e ∈ E, l⁻¹ * β e l ∈ N) :
     ∃ n ∈ N, l * n ∈ fixSub β E := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let α := {y : Y // l⁻¹ * y ∈ N}
-  letI : MulAction E α :=
+  let : MulAction E α :=
     { smul := fun e y => ⟨β e y, by
         have h1 := hl e e.2
         have h2 := hβN e e.2 _ y.2
@@ -411,7 +416,7 @@ theorem exists_fixed_mem_coset {B Y : Type} [Group B] [Group Y] [Finite Y] (β :
         rw [Subgroup.coe_mul, map_mul]; rfl) }
   have hcard : Nat.card α = Nat.card N := Nat.card_congr
     { toFun := fun y => ⟨l⁻¹ * y, y.2⟩
-      invFun := fun n => ⟨l * n, by simpa using n.2⟩
+      invFun := fun n => ⟨l * n, by simp⟩
       left_inv := fun y => Subtype.ext (by simp)
       right_inv := fun n => Subtype.ext (by simp) }
   obtain ⟨y, hy⟩ := hE.nonempty_fixed_point_of_prime_not_dvd_card α (by rwa [hcard])
@@ -431,7 +436,7 @@ theorem GoodLayer.exists_sub {B : Type} [Group B] [Finite B] (hB : IsPGroup 3 B)
     (hJ : GoodLayer _ J) :
     ∃ E : Subgroup B, Nat.card E = 9 ∧
       J.comap (QuotientGroup.mk' (GLAPPrimeCore 3 Y)) ≤ GLAPPrimeCore 3 Y ⊔ fixSub β E := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set N := GLAPPrimeCore 3 Y with hNdef
   set ψ : B →* MulAut J := (restrictAut J hJ.char).comp ((quotAut Y).comp β) with hψ
   have hrange : Nat.card ψ.range ≤ 3 :=
@@ -483,7 +488,7 @@ theorem GoodLayer.exists_sub {B : Type} [Group B] [Finite B] (hB : IsPGroup 3 B)
 omit [Finite Y] in
 theorem isSimpleGroup_of_center_eq_bot {X : Type} [Group X] {J : Subgroup X}
     (hJ : IsComponentOf J ⊤) (hZ : Subgroup.center J = ⊥) : IsSimpleGroup J := by
-  haveI := hJ.2.2.2
+  have := hJ.2.2.2
   exact ((QuotientGroup.quotientBot (G := J)).symm.trans
     (QuotientGroup.quotientMulEquivOfEq hZ.symm)).isSimpleGroup
 
@@ -494,6 +499,7 @@ theorem nonabelian_of_component {X : Type} [Group X] {J : Subgroup X} (hJ : IsCo
     (QuotientGroup.quotientMulEquivOfEq hZ.symm))
     (CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian J hJ.2.2)
 
+omit [Finite Y] in
 theorem isCatalogGroup_of_le_quotient (hK : CFSG.KCore.KGroupNonab @CFSG.Open.IsCatalogGroup Y)
     (J : Subgroup (Y ⧸ GLAPPrimeCore 3 Y)) [IsSimpleGroup J] (hnonab : ∃ a b : J, a * b ≠ b * a) :
     CFSG.Open.IsCatalogGroup J := by
@@ -508,9 +514,9 @@ theorem isCatalogGroup_of_le_quotient (hK : CFSG.KCore.KGroupNonab @CFSG.Open.Is
     (fun e ⟨i, ⟨ψ⟩⟩ => ⟨i, ⟨e.trans ψ⟩⟩) hK L hnonab φ hφ
 
 theorem core_inf_eq_bot {U : Subgroup Y} (hU : IsPGroup 3 U) : GLAPPrimeCore 3 Y ⊓ U = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, hk⟩ := hU.exists_card_eq
-  refine Subgroup.inf_eq_bot_of_coprime ?_
+  refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
   rw [hk]
   exact Nat.Coprime.pow_right k (CFSG.pPrimeCore_coprime_card (p := 3) (G := Y)).symm
 
@@ -518,13 +524,13 @@ theorem layerConfig_of {Q : Subgroup Y} (hQZ : Q ≤ Subgroup.center Y) (hQ9 : N
     (P : Sylow 3 Y) (hPab : ∀ a ∈ (P : Subgroup Y), ∀ b ∈ (P : Subgroup Y), a * b = b * a)
     (hP27 : Nat.card (P : Subgroup Y) = 27) :
     LayerConfig (Y ⧸ GLAPPrimeCore 3 Y) (Q.map (QuotientGroup.mk' (GLAPPrimeCore 3 Y))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set N := GLAPPrimeCore 3 Y with hN
   set π := QuotientGroup.mk' N with hπdef
   have hπ : Function.Surjective π := QuotientGroup.mk'_surjective N
   set P' := P.mapSurjective hπ with hP'
   have hP'c : Nat.card (P' : Subgroup (Y ⧸ N)) = 27 := by
-    rw [hP', Sylow.coe_mapSurjective, card_map_eq_of_inf_eq_bot (core_inf_eq_bot P.isPGroup'),
+    rw [hP', Sylow.coe_mapSurjective, card_map_eq_of_inf_eq_bot (core_inf_eq_bot P.isPGroup),
       hP27]
   have hP'ab : ∀ u ∈ (P' : Subgroup (Y ⧸ N)), ∀ v ∈ (P' : Subgroup (Y ⧸ N)), u * v = v * u := by
     rw [hP', Sylow.coe_mapSurjective]
@@ -563,13 +569,13 @@ theorem layer_step (hK : CFSG.KCore.KGroupNonab @CFSG.Open.IsCatalogGroup Y)
     (hB27 : Nat.card B = 27) (β : B →* MulAut Y) :
     ∃ E : Subgroup B, Nat.card E = 9 ∧
       (⊤ : Subgroup Y) ≤ GLAPPrimeCore 3 Y ⊔ Subgroup.normalizer (P : Set Y) ⊔ fixSub β E := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set N := GLAPPrimeCore 3 Y with hN
   set π := QuotientGroup.mk' N with hπdef
   have hπ : Function.Surjective π := QuotientGroup.mk'_surjective N
   have hcfg := layerConfig_of hQZ hQ9 P hPab hP27
   obtain ⟨J, hJ⟩ := hcfg.exists_goodLayer fun J hJ hZ h3 => by
-    haveI := isSimpleGroup_of_center_eq_bot hJ hZ
+    have := isSimpleGroup_of_center_eq_bot hJ hZ
     exact hI J inferInstance (nonabelian_of_component hJ hZ)
       (isCatalogGroup_of_le_quotient hK J (nonabelian_of_component hJ hZ)) h3
   obtain ⟨E, hE9, hLE⟩ := hJ.exists_sub hB hB27 β
@@ -579,7 +585,7 @@ theorem layer_step (hK : CFSG.KCore.KGroupNonab @CFSG.Open.IsCatalogGroup Y)
   have hNc : ¬ 3 ∣ Nat.card N :=
     (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).1 CFSG.pPrimeCore_coprime_card
   have hnorm := CFSG.RankThree.PartTwo.Sec4.map_normalizer_eq_of_not_dvd Nat.prime_three N hNc
-    P.isPGroup'
+    P.isPGroup
   have h1 := Subgroup.comap_mono (f := π) htop
   rw [Subgroup.comap_top, ← Subgroup.comap_sup_eq_of_le_range π
     (by rw [MonoidHom.range_eq_top.2 hπ]; exact le_top)
@@ -609,13 +615,13 @@ theorem exists_sylow_map_eq {G : Type} [Group G] {C P : Subgroup G} (hP : IsSylo
   have hPC : IsPGroup 3 (P.subgroupOf C) :=
     hP.2.1.comap_of_injective C.subtype C.subtype_injective
   obtain ⟨S, hS⟩ := hPC.exists_le_sylow
-  refine ⟨S, hP.2.2 _ (Subgroup.map_subtype_le _) (S.isPGroup'.map _) ?_⟩
+  refine ⟨S, hP.2.2 _ (Subgroup.map_subtype_le _) (S.isPGroup.map _) ?_⟩
   intro x hx
   exact ⟨⟨x, hP.1 hx⟩, hS (Subgroup.mem_subgroupOf.2 hx), rfl⟩
 
 theorem centralizerLayerInput_of_I_7_13_3 (hI : I_7_13_3) : Claims135b.CentralizerLayerInput := by
   intro G _ _ hK Q P₁ B₀ hQe hQc hCtop hsyl hab h27 hB₀N hB₀e hB₀c
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set C := Subgroup.centralizer (Q : Set G) with hC
   have hKC : CFSG.KCore.KGroupNonab @CFSG.Open.IsCatalogGroup C :=
     CFSG.KCore.KProperNonab.kGroupNonab (fun e ⟨i, ⟨ψ⟩⟩ => ⟨i, ⟨e.trans ψ⟩⟩) hK C hCtop
@@ -671,8 +677,8 @@ set_option linter.unusedSectionVars false
 
 theorem i_7_13_3_holds : I_7_13_3 := by
   intro p hp hp2 K _ _ hs hnab hcat h1
-  haveI : IsSimpleGroup K := hs
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : IsSimpleGroup K := hs
+  have : Fact p.Prime := ⟨hp⟩
   exact CFSG.LocalAnalysis.RankThreeTheoremC.Generic41Spor.not_dvd_card_outer_of_sylow_card_eq_prime
     CFSG.LocalAnalysis.RankThreeTheoremC.Generic41Spor.reducedOuterSylow_holds hp hp2 hnab hcat
     (fun S => by rw [Sylow.card_eq_multiplicity, h1, pow_one])

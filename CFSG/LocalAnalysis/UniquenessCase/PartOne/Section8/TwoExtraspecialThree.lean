@@ -41,15 +41,18 @@ namespace TwoExtraThree
 
 variable {P R R' : Subgroup G}
 
+omit [Finite G] in
 theorem isExtraspecial_sup (hT : TwoExtraThree P R R') :
     CFSG.IsExtraspecial 3 ↥(R ⊔ R') ∧ Nat.card ↥(R ⊔ R') = 3 ^ 5 :=
   isExtraspecial_sup_of_two_extraspecial_27 hT.extra hT.extra' hT.card hT.card' hT.exp hT.exp'
     hT.comm hT.cen hT.cen'
 
+omit [Finite G] in
 theorem card_inf (hT : TwoExtraThree P R R') : Nat.card ↥(R ⊓ R') = 3 := by
   rw [hT.cen, Subgroup.card_map_of_injective R.subtype_injective]
   exact hT.extra.center_order_p
 
+omit [Finite G] in
 theorem upperCentralSeries_two_map (hT : TwoExtraThree P R R') :
     (Subgroup.upperCentralSeries ↥(R ⊔ R') 2).map (R ⊔ R').subtype = R ⊔ R' := by
   have hext := hT.isExtraspecial_sup.1

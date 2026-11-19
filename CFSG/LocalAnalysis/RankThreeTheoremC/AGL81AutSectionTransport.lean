@@ -25,7 +25,7 @@ theorem eq_one_of_coprime_prime_pows {G : Type*} [Group G] {p q : ℕ} (hp : p.P
   exact orderOf_eq_one_iff.mp (Nat.eq_one_of_dvd_coprimes hcop h1 h2)
 
 theorem dvd_pow_sub_one_iff_orderOf_dvd {p q : ℕ} [hp : Fact p.Prime] (hq : q.Prime)
-    (hpq : p ≠ q) (j : ℕ) : p ∣ q ^ j - 1 ↔ orderOf (q : ZMod p) ∣ j := by
+    (_hpq : p ≠ q) (j : ℕ) : p ∣ q ^ j - 1 ↔ orderOf (q : ZMod p) ∣ j := by
   have h1 : 1 ≤ q ^ j := Nat.one_le_pow _ _ hq.pos
   rw [orderOf_dvd_iff_pow_eq_one, ← Nat.cast_pow, ← (Nat.cast_one (R := ZMod p)),
     ZMod.natCast_eq_natCast_iff, Nat.ModEq.comm, Nat.modEq_iff_dvd' h1]
@@ -35,7 +35,7 @@ theorem smallAutomizer_of_surjective {p q : ℕ} [hp : Fact p.Prime] [hq : Fact 
     (hM : HasSmallLinearModel q V) (A : Subgroup (MulAut V)) {K : Type} [Group K] [Finite K]
     (φ : ↥A →* K) (hφ : Function.Surjective φ) : SmallAutomizer p K := by
   obtain ⟨W, _, _, _, hW, ρ, hker⟩ := hM
-  haveI : Finite (MulAut V) := MulEquiv.finite_left
+  have : Finite (MulAut V) := MulEquiv.finite_left
   set ρ' : ↥A →* (Module.End (ZMod q) W)ˣ := ρ.comp A.subtype with hρ'
   have hinj : ∀ {P : Subgroup ↥A}, IsPGroup p P → ∀ x ∈ P, ∀ y ∈ P, ρ' x = ρ' y → x = y := by
     intro P hP x hx y hy hxy
@@ -79,7 +79,7 @@ theorem smallAutomizer_of_surjective {p q : ℕ} [hp : Fact p.Prime] [hq : Fact 
   have hTP : (T : Subgroup K) = (P : Subgroup ↥A).map φ := by
     rw [← hPT]
     rfl
-  have hPp : IsPGroup p (P : Subgroup ↥A) := P.isPGroup'
+  have hPp : IsPGroup p (P : Subgroup ↥A) := P.isPGroup
   refine ⟨⟨⟨fun a b => ?_⟩⟩, fun k hk => ?_⟩
   ·
     obtain ⟨x, hx, hxa⟩ := (Subgroup.mem_map.mp (hTP ▸ a.2 : (a : K) ∈ (P : Subgroup ↥A).map φ))
@@ -107,7 +107,7 @@ theorem smallAutomizer_of_surjective {p q : ℕ} [hp : Fact p.Prime] [hq : Fact 
         group
       rw [h2]
       exact (Subgroup.mem_normalizer_iff.mp hk _).mp h1
-    haveI : Finite ↥H := inferInstance
+    have : Finite ↥H := inferInstance
     obtain ⟨h, hh⟩ := MulAction.exists_smul_eq ↥H ((a • P).subtype haPH) (P.subtype hPH)
     have hhP : ((h : ↥A) * a) • P = P := by
       have h1 := hh

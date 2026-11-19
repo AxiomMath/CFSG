@@ -23,6 +23,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   {φ : Lgen M (LB M Q B) →* (V ≃ₗ[K] V)} {Γ : Subgroup (V ≃ₗ[K] V)} {p₀ : V}
   {U₀ : Subgroup (V ≃ₗ[K] V)}
 
+omit [Finite K] in
 theorem EGeom.EUniData.LB_le_Lgen_and_map_eq (d : EUniData M Q Z B M₀ ψ φ Γ p₀ U₀)
     (hLM : LB M Q B ≤ M) {X : Subgroup G} {g : V ≃ₗ[K] V} (hX : d.IsPt X g) {n : ℕ}
     (hc : Nat.card ↥(LB M Q X) = Nat.card Q * Nat.card Z ^ (n - 1))

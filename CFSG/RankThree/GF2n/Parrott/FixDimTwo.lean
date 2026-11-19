@@ -100,6 +100,7 @@ variable (h : Tim79a.ParrottHyp z)
   (addAutLinearEquivMonoidHom
     (MulAut.congr (mulEquivVAdd (z := z)) (conjV h x))).toLinearMap
 
+omit [Finite G] in
 @[simp] theorem conjVLinearMap_apply (x : H z) (v : Additive (QuotientV.V z)) :
     letI : CommGroup (QuotientV.V z) := commGroupV h
     letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
@@ -109,6 +110,7 @@ variable (h : Tim79a.ParrottHyp z)
   rw [conjVLinearMap, addAutLinearEquivMonoidHom_toLinearMap, mulAutToLinearMap_apply]
   rfl
 
+omit [Finite G] in
 theorem fixSubmodule_eq_ker (x : H z) :
     letI : CommGroup (QuotientV.V z) := commGroupV h
     letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
@@ -132,6 +134,7 @@ section ConjZCube
 
 variable [hN : ((J z).subgroupOf (H z)).Normal]
 
+omit hN in
 theorem conjZ_cube_eq_one (h : Tim79a.ParrottHyp z) {y : H z} (hy : orderOf y = 9) :
     (conjZ z y) ^ 3 = 1 := by
   have hdvd9 : orderOf (conjZ z y) ∣ 9 := by
@@ -151,6 +154,8 @@ section ConjVNeOne
 
 variable [hN : ((J z).subgroupOf (H z)).Normal]
 
+omit hN in
+omit [Finite G] in
 private theorem conjJ'_eq_one_of_conjV_eq_one (h : Tim79a.ParrottHyp z) {σ : H z}
     (hσ : orderOf σ = 3) (hZσ : conjZ z σ = 1) (hVσ : conjV h σ = 1) :
     conjJ' z σ = 1 := by
@@ -226,6 +231,8 @@ private theorem conjJ'_eq_one_of_conjV_eq_one (h : Tim79a.ParrottHyp z) {σ : H 
   rw [hconjx, hζJ_one, one_mul]
   rfl
 
+omit hN in
+omit [Finite G] in
 theorem conjV_ne_one_of_order_three (h : Tim79a.ParrottHyp z) {σ : H z}
     (hσ : orderOf σ = 3) (hZσ : conjZ z σ = 1) :
     conjV h σ ≠ 1 := by
@@ -269,6 +276,7 @@ section FixDimTwo
 
 variable [hN : ((J z).subgroupOf (H z)).Normal]
 
+omit hN in
 theorem fixDimV_eq_two (h : Tim79a.ParrottHyp z) {y σ : H z}
     (hy : orderOf y = 9) (hyσ : y ^ 3 = σ) :
     fixDimV h σ = 2 := by
@@ -328,6 +336,7 @@ theorem fixDimV_eq_two (h : Tim79a.ParrottHyp z) {y σ : H z}
   rw [fixDimV, fixSubmodule_eq_ker h σ, ← hT3]
   exact hmain
 
+omit hN in
 theorem card_centralizerJ_eq_sixteen (h : Tim79a.ParrottHyp z) {y σ : H z}
     (hy : orderOf y = 9) (hyσ : y ^ 3 = σ) :
     Nat.card (centralizerJ σ) = 16 := by

@@ -32,12 +32,14 @@ noncomputable local instance subgroupFintype (H : Subgroup G) : Fintype H :=
     Submodule (ZMod 2) V :=
   (involutionDifference ρ w).ker
 
+omit [Fintype G] in
 private theorem mem_brauerKernel_iff
     (ρ : Representation (ZMod 2) G V) (w : G) (x : V) :
     x ∈ brauerKernel ρ w ↔ ρ w x = x := by
   change ρ w x - x = 0 ↔ ρ w x = x
   exact sub_eq_zero
 
+omit [Fintype G] in
 private theorem brauerKernel_fixed
     (ρ : Representation (ZMod 2) G V) (w : G)
     (x : brauerKernel ρ w) :
@@ -144,6 +146,7 @@ private theorem representation_asAlgebraHom_apply_eq_sum
     (representation_asAlgebraHom_eq_sum ρ a)
   simpa using h
 
+omit [Fintype G] in
 theorem centralAlgebraAction_mem_brauerKernel
     (ρ : Representation (ZMod 2) G V) (w : G)
     (a : GroupAlgebraTwo G) (ha : IsGroupCentral G a)
@@ -161,6 +164,7 @@ theorem centralAlgebraAction_mem_brauerKernel
   rw [brauerKernel_fixed] at happ
   exact happ
 
+omit [Fintype G] in
 private theorem involutionDifference_sq_eq_zero
     (ρ : Representation (ZMod 2) G V) (w : G) (hw2 : w * w = 1) :
     involutionDifference ρ w * involutionDifference ρ w = 0 := by
@@ -179,6 +183,7 @@ private theorem involutionDifference_sq_eq_zero
       abel
     _ = 0 := by rw [add_self_eq_zero, add_self_eq_zero, zero_add]
 
+omit [Fintype G] in
 theorem involutionDifference_range_le_ker
     (ρ : Representation (ZMod 2) G V) (w : G) (hw2 : w * w = 1) :
     (involutionDifference ρ w).range ≤ (involutionDifference ρ w).ker := by
@@ -189,6 +194,7 @@ theorem involutionDifference_range_le_ker
     (involutionDifference_sq_eq_zero ρ w hw2)
   simpa using h
 
+omit [Fintype G] in
 private theorem involutionDifference_commute_centralizer
     (ρ : Representation (ZMod 2) G V) (w : G)
     (h : involutionCentralizer w) :
@@ -199,6 +205,7 @@ private theorem involutionDifference_commute_centralizer
     rw [commute_iff_eq, ← map_mul, ← map_mul, ← hhw]
   exact hcomm.sub_left (Commute.one_left _)
 
+omit [Fintype G] in
 private theorem brauerKernel_stable
     (ρ : Representation (ZMod 2) G V) (w : G)
     (h : involutionCentralizer w) :
@@ -223,6 +230,7 @@ private theorem brauerKernel_stable
       simpa only [MonoidHom.comp_apply, Subgroup.subtype_apply] using
         brauerKernel_stable ρ w h)
 
+omit [Fintype G] in
 @[simp]
 theorem brauerKernelRepresentation_apply_coe
     (ρ : Representation (ZMod 2) G V) (w : G)
@@ -232,6 +240,7 @@ theorem brauerKernelRepresentation_apply_coe
   rw [brauerKernelRepresentation, Representation.subrepresentation_apply]
   rfl
 
+omit [Fintype G] in
 theorem brauerRangeInKernel_stable
     (ρ : Representation (ZMod 2) G V) (w : G)
     (h : involutionCentralizer w) :
@@ -258,6 +267,7 @@ theorem brauerRangeInKernel_stable
   (brauerKernelRepresentation ρ w).quotient
     (brauerRangeInKernel ρ w) (brauerRangeInKernel_stable ρ w)
 
+omit [Fintype G] in
 @[simp]
 theorem brauerQuotientRepresentation_mk
     (ρ : Representation (ZMod 2) G V) (w : G)
@@ -301,6 +311,7 @@ private theorem brauerQuotientRepresentation_asAlgebraHom_mk
   rw [map_sum]
   simp only [map_smul, Submodule.mkQ_apply]
 
+omit [Fintype G] in
 private theorem conjugate_weighted_action_eq_mod_range
     (ρ : Representation (ZMod 2) G V) (w : G) (hw2 : w * w = 1)
     (a : GroupAlgebraTwo G) (ha : IsGroupCentral G a)

@@ -119,7 +119,7 @@ theorem eq_of_centralizes (h3 : 3 ≤ M)
         rw [mul_assoc, hvK k hk, ← mul_assoc, hvK k hk, mul_assoc]
       have h1 := ih (v * v) hvv hvvK (by rw [← pow_two, ← pow_mul, ← pow_succ']; exact hv)
       exact hC v hvQ hvK h1
-  obtain ⟨k, hk⟩ := Q.isPGroup' ⟨w, hwQ⟩
+  obtain ⟨k, hk⟩ := Q.isPGroup ⟨w, hwQ⟩
   exact hind k w hwQ hwK (by simpa using congrArg Subtype.val hk)
 
 include hc in

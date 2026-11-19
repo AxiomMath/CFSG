@@ -27,7 +27,7 @@ theorem not_le_of_le_center {K : Type*} [Group K] {J N : Subgroup K}
     rw [Subgroup.mem_bot, commutatorElement_eq_one_iff_mul_comm]
     exact hab a b
   have htop : (⊤ : Subgroup ↥J) = ⊥ := hperf ▸ hbot
-  haveI := hs
+  have := hs
   obtain ⟨q, hq⟩ := exists_ne (1 : ↥J ⧸ Subgroup.center ↥J)
   obtain ⟨j, rfl⟩ := QuotientGroup.mk'_surjective (Subgroup.center ↥J) q
   have : j = 1 := by
@@ -66,13 +66,13 @@ theorem u33_isComponentOf_map_fixSubgroup {K Q : Type*} [Group K] [Group Q] (π 
   refine ⟨(Subgroup.map_mono hJ.1).trans hle, ?_, ?_⟩
   · exact (hJ.2.1.map π).trans (CFSG.Open.IsSubnormal.step hle hn (CFSG.Open.IsSubnormal.refl _))
   · obtain ⟨hperf, hs⟩ := hJ.2.2
-    haveI : Group.IsPerfect ↥J := ⟨hperf⟩
+    have : Group.IsPerfect ↥J := ⟨hperf⟩
     obtain ⟨e⟩ := nonempty_centerQuot_map π hker (J := J) ‹_›
     refine ⟨?_, ?_⟩
     · have hP : Group.IsPerfect ↥(J.map π) :=
         Group.IsPerfect.ofSurjective (f := π.subgroupMap J) (π.subgroupMap_surjective J)
       exact hP.commutator_eq_top
-    · haveI := hs
+    · have := hs
       exact e.symm.isSimpleGroup
 
 end Transport
@@ -112,7 +112,7 @@ theorem exists_sLevel_of_component {p : ℕ} {Γ : Type} [Group Γ] [Finite Γ]
     exact hyC ((chevAut_eq_one_iff_of_quasisimple hq hyN).1 h1)
   have hne : (chevQuotHom p L).ker ≠ ⊤ := by
     intro htop
-    haveI : IsSimpleGroup (PSimple p L) := hq.2
+    have : IsSimpleGroup (PSimple p L) := hq.2
     obtain ⟨s, hs⟩ := exists_ne (1 : PSimple p L)
     obtain ⟨l, rfl⟩ := chevQuotHom_surjective p L s
     exact hs (MonoidHom.mem_ker.1 (htop ▸ Subgroup.mem_top l))
@@ -132,7 +132,7 @@ theorem exists_sLevel_of_component {p : ℕ} {Γ : Type} [Group Γ] [Finite Γ]
       CFSG.Open.IsQuasisimple.of_mulEquiv (Subgroup.subgroupOfEquivOfLe hKL) hK.2.2⟩
   have hJ := u33_isComponentOf_map_fixSubgroup (chevQuotHom p L) hker α (chevAut p L ⟨y, hyN⟩) hαβ
     (chevQuotHom_surjective p L) hK'
-  haveI : Group.IsPerfect ↥(K.subgroupOf L) := ⟨hK'.2.2.1⟩
+  have : Group.IsPerfect ↥(K.subgroupOf L) := ⟨hK'.2.2.1⟩
   obtain ⟨e₂⟩ := nonempty_centerQuot_map (chevQuotHom p L) hker (J := K.subgroupOf L) ‹_›
   let g : ↥(K.subgroupOf L) ≃* ↥K := Subgroup.subgroupOfEquivOfLe hKL
   have e₁ : ↥K ⧸ Subgroup.center ↥K ≃* ↥(K.subgroupOf L) ⧸ Subgroup.center ↥(K.subgroupOf L) :=
@@ -170,33 +170,28 @@ private lemma ambiguous_le_u33RankSmall {i : TauCeti.CFSGIndex}
   | cyclic p hp => simp_all [ambiguousChev]
   | sporadic s => simp_all [ambiguousChev]
   | alternating n hn =>
-      simp_all [ambiguousChev, u33RankSmall, rsG2Char2, rsG2Odd, rsU3, rsAlt, rsL27, rsTits, onLie]
+      simp_all [ambiguousChev, u33RankSmall, rsG2Char2, rsU3, rsAlt, rsL27, rsTits, onLie]
   | lie d =>
       obtain ⟨d, hv⟩ := d
       cases d with
       | A r q =>
           rcases r with _ | _ | _ | r
-          · simp_all [ambiguousChev, u33RankSmall, rsG2Char2, rsG2Odd, rsU3, rsAlt, rsL27,
+          · simp_all [ambiguousChev]
+          · simp_all [ambiguousChev, u33RankSmall, rsG2Char2, rsU3, rsAlt, rsL27,
               rsTits, onLie, TauCeti.PrimePower.card_def]
-          · simp_all [ambiguousChev, u33RankSmall, rsG2Char2, rsG2Odd, rsU3, rsAlt, rsL27,
-              rsTits, onLie, TauCeti.PrimePower.card_def]
-          · simp_all [ambiguousChev, u33RankSmall, rsG2Char2, rsG2Odd, rsU3, rsAlt, rsL27,
-              rsTits, onLie, TauCeti.PrimePower.card_def]
+          · simp_all [ambiguousChev]
           · rw [ambiguousChev_lie_A_ge hv (by omega)] at h
             exact absurd h (by simp)
       | twistedA r q =>
           rcases r with _ | _ | _ | r
-          · simp_all [ambiguousChev, u33RankSmall, rsG2Char2, rsG2Odd, rsU3, rsAlt, rsL27,
-              rsTits, onLie, TauCeti.PrimePower.card_def]
-          · simp_all [ambiguousChev, u33RankSmall, rsG2Char2, rsG2Odd, rsU3, rsAlt, rsL27,
-              rsTits, onLie, TauCeti.PrimePower.card_def]
-          · simp_all [ambiguousChev, u33RankSmall, rsG2Char2, rsG2Odd, rsU3, rsAlt, rsL27,
+          · simp_all [ambiguousChev]
+          · simp_all [ambiguousChev]
+          · simp_all [ambiguousChev, u33RankSmall, rsG2Char2, rsU3, rsAlt, rsL27,
               rsTits, onLie, TauCeti.PrimePower.card_def]
           · rw [ambiguousChev_lie_twistedA_ge hv (by omega)] at h
             exact absurd h (by simp)
       | _ =>
-          simp_all [ambiguousChev, u33RankSmall, rsG2Char2, rsG2Odd, rsU3, rsAlt, rsL27,
-            rsTits, onLie, TauCeti.PrimePower.card_def]
+          simp_all [ambiguousChev]
 
 private theorem catalogIs_tits_of_char2 {S : Type} [Group S]
     (h : catalogIs S (onLie fun d => d.characteristic = 2))

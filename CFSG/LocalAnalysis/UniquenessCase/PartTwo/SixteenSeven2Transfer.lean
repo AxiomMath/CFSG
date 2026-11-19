@@ -12,6 +12,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem s16c167_preTil_sup (V₀ V : Subgroup G) (hV : IsElemAbelian 2 V)
     (S₁ S₂ : Subgroup (Vtil V₀ V hV)) :
     preTil V₀ V hV (S₁ ⊔ S₂) = preTil V₀ V hV S₁ ⊔ preTil V₀ V hV S₂ := by
@@ -19,6 +20,7 @@ private theorem s16c167_preTil_sup (V₀ V : Subgroup G) (hV : IsElemAbelian 2 V
   rw [← Subgroup.comap_sup_eq (mkTil V₀ V hV) S₁ S₂ (mkTil_surjective V₀ V hV),
     Subgroup.map_sup]
 
+omit [Finite G] in
 private theorem s16c167_preTil_inf (V₀ V : Subgroup G) (hV : IsElemAbelian 2 V)
     (S T : Subgroup (Vtil V₀ V hV)) :
     preTil V₀ V hV (S ⊓ T) = preTil V₀ V hV S ⊓ preTil V₀ V hV T := by
@@ -31,6 +33,7 @@ private theorem s16c167_rk_map_of_injective {A B : Type*} [Group A] [Group B]
   unfold rk
   rw [Subgroup.card_map_of_injective hι]
 
+omit [Finite G] in
 theorem s16c167_preTil_decomp {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) (h0 : V₀ = ⊥)
     {Δt : Set (Subgroup (Vtil V₀ V hV))} (hn : Δt.ncard = 2) (hi : sSupIndep Δt)
     (hs : sSup Δt = ⊤) :
@@ -59,6 +62,7 @@ theorem s16c167_preTil_decomp {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) (h0
   · have hsup : a ⊔ b = ⊤ := by rw [← sSup_pair]; exact hs
     rw [sSup_pair, ← s16c167_preTil_sup, hsup, preTil_top]
 
+omit [Finite G] in
 theorem s16c167_rk_preTil {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) (h0 : V₀ = ⊥)
     (S : Subgroup (Vtil V₀ V hV)) : rk ↥(preTil V₀ V hV S) = rk ↥S := by
   subst h0
@@ -77,6 +81,7 @@ theorem s16c167_rk_preTil {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) (h0 : V
   rw [s16c167_rk_map_of_injective (valHom V hV) IntMod.val_injective]
   rw [s16c167_rk_map_of_injective e.symm.toMonoidHom e.symm.injective]
 
+omit [Finite G] in
 theorem s16c167_conjSubgroup_preTil {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) {m : G}
     (hm : m ∈ stabTil V₀ V) (S : Subgroup (Vtil V₀ V hV)) :
     conjSubgroup (preTil V₀ V hV S) m = preTil V₀ V hV

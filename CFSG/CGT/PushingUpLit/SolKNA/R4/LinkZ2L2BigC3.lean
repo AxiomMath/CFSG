@@ -54,7 +54,7 @@ theorem secImg_conjSub_eq_or (hs : Z2SetR r n R S t J u R₀ T₀ P)
     exact hU₀
   have hU₁N : U₁ ≤ pCore 2 (SecQuot (CoreAssembly.conjClass (tightCore R)) (t * u)) := by
     rw [hU₁]
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hchar :
         (pCore 2 (SecQuot (CoreAssembly.conjClass (tightCore R)) (t * u))).Characteristic :=
       CFSG.LieType.BorelTits.pCore_characteristic 2

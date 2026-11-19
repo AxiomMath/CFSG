@@ -23,7 +23,7 @@ theorem simpleElemRank_of_model {p r : ℕ} {s : TauCeti.SporadicName} {Q : Type
     obtain ⟨y, y', hy', rfl⟩ := y
     show φ x' * φ y' = φ y' * φ x'
     rw [← map_mul, ← map_mul]
-    haveI := hE.1
+    have := hE.1
     have := congrArg Subtype.val (mul_comm' (⟨x', hx'⟩ : E) ⟨y', hy'⟩)
     simp only [Subgroup.coe_mul] at this
     rw [this]
@@ -71,7 +71,7 @@ theorem i1017CoOneRank_holds : I1017CoOneRank := by
   have hc : Nat.card E' = 3 ^ 6 := by
     rw [show Nat.card E' = Nat.card ElemThree.E from
       Nat.card_congr (Subgroup.subgroupOfEquivOfLe hEGA).toEquiv, card_E]
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨E'', hle, hE'', hc''⟩ := CFSG.LocalAnalysis.GLTheoremB.exists_le_isElemAbelian_card hE'
     (n := 5) (by rw [hc]; exact pow_dvd_pow 3 (by norm_num))
   exact ⟨E'', hE'', hc''⟩

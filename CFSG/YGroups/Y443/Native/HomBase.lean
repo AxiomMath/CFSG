@@ -22,7 +22,7 @@ local instance : DecidableRel MonsterY443Adj := fun a b => by
   rcases a with _ | ⟨i, j⟩ <;> rcases b with _ | ⟨i', j'⟩ <;> unfold MonsterY443Adj <;>
     infer_instance
 
-@[expose] def wIdx (g : E443Gen) : ℕ := ([0, 4, 8] : List ℕ)[(g.1 : ℕ)]! + g.2
+def wIdx (g : E443Gen) : ℕ := ([0, 4, 8] : List ℕ)[(g.1 : ℕ)]! + g.2
 
 theorem wIdx_lt : ∀ g : E443Gen, wIdx g < 11 := by decide
 
@@ -43,26 +43,26 @@ theorem ordI_pos (k : ℕ) : 1 ≤ ordI k := by
   unfold ordI
   split_ifs <;> norm_num
 
-@[expose] noncomputable def gGen (g : E443Gen) : Gmat := ⟨M (wIdx g), M_mem _⟩
+noncomputable def gGen (g : E443Gen) : Gmat := ⟨M (wIdx g), M_mem _⟩
 
 theorem coe_gGen (g : E443Gen) : ((gGen g : Gmat) : SpaceB ≃ₗ[ℚ] SpaceB) = M (wIdx g) := rfl
 
-@[expose] noncomputable def fGen (g : E443Gen) : Gmat :=
+noncomputable def fGen (g : E443Gen) : Gmat :=
   ⟨(M (wIdx g))⁻¹, Subgroup.inv_mem _ (M_mem _)⟩
 
 theorem coe_fGen (g : E443Gen) : ((fGen g : Gmat) : SpaceB ≃ₗ[ℚ] SpaceB) = (M (wIdx g))⁻¹ := rfl
 
 theorem fGen_eq (g : E443Gen) : fGen g = (gGen g)⁻¹ := rfl
 
-@[expose] def y443U11 : E443Gen := ⟨0, ⟨0, by decide⟩⟩
+def y443U11 : E443Gen := ⟨0, ⟨0, by decide⟩⟩
 
-@[expose] def axElt (g : E443Gen) : MonsterY443Derived :=
+def axElt (g : E443Gen) : MonsterY443Derived :=
   ⟨PresentedGroup.of none * PresentedGroup.of (some g), e443_ax_mem_derived g⟩
 
 theorem axElt_eq (g : E443Gen) : axElt g = e443Phi (PresentedGroup.of g) :=
   (e443Phi_of g).symm
 
-@[expose] def IsFM (f : MonsterY443Derived →* Gmat) : Prop :=
+def IsFM (f : MonsterY443Derived →* Gmat) : Prop :=
   ∀ g : E443Gen, f (axElt g) = gGen g
 
 end CFSG.YGroups.Y443

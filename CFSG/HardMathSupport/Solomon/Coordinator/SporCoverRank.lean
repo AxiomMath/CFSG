@@ -51,7 +51,7 @@ theorem succ_le_pRank_of_datum {K X : Type} [Group K] [Finite K] [Group X]
   obtain ⟨T⟩ := (inferInstance : Nonempty (Sylow 3 K))
   obtain ⟨A, hAT, hAe, hcard⟩ := exists_elemAbelian_succ_of_datum Nat.prime_three (by norm_num) π
     hπ hker hZ1 hZp hZc D hA hF P hP T
-  have hAp : IsPGroup 3 A := T.isPGroup'.to_le hAT
+  have hAp : IsPGroup 3 A := T.isPGroup.to_le hAT
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card (p := 3)).1 hAp
   rw [hk] at hcard
   have := (Nat.pow_le_pow_iff_right (by norm_num : 1 < 3)).1 hcard

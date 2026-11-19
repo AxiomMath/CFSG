@@ -31,7 +31,7 @@ private theorem w16l_false_of_borel {X : Type} [Group X] [Finite X] {B P : Subgr
       BorelLieFacts (X ⧸ Subgroup.center X) (QuotientGroup.mk s)) :
     False := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Z : Subgroup X := Subgroup.center X
   let π : X →* X ⧸ Z := QuotientGroup.mk' Z
   obtain ⟨s, hsB, hsne⟩ : ∃ s : X, s ∈ B ∧ s ≠ 1 := by
@@ -96,7 +96,7 @@ private theorem w16l_false_of_borel {X : Type} [Group X] [Finite X] {B P : Subgr
     _ = QuotientGroup.mk s := rfl
 
 theorem w16l_false_of_borel_sp {X : Type} [Group X] [Finite X] {B P : Subgroup X} {m n : ℕ}
-    (hn : 1 < n) (hB2 : Nat.card B = 2) (hcore : CFSG.pCore 2 X = ⊥) (hBP : B ≤ P)
+    (hn : 1 < n) (hB2 : Nat.card B = 2) (hcore : CFSG.pCore 2 X = ⊥) (_hBP : B ≤ P)
     (hP2 : IsPGroup 2 P) (hPsyl : ¬ 2 ∣ P.index)
     (hM : ∀ d ∈ Subgroup.normalizer (P : Set X), d ∈ Subgroup.normalizer (B : Set X))
     (hs : ∀ s ∈ B, s ≠ 1 → IsSymplecticTransvection X m n s) :
@@ -108,7 +108,7 @@ theorem w16l_false_of_borel_sp {X : Type} [Group X] [Finite X] {B P : Subgroup X
     (borelLieFacts_sp hF hn (w16l_one_le_of_sympTransvection ht) ht)
 
 theorem w16l_false_of_borel_psu {X : Type} [Group X] [Finite X] {B P : Subgroup X} {m n : ℕ}
-    (hn : 1 < n) (hm : 3 ≤ m) (hB2 : Nat.card B = 2) (hcore : CFSG.pCore 2 X = ⊥) (hBP : B ≤ P)
+    (hn : 1 < n) (hm : 3 ≤ m) (hB2 : Nat.card B = 2) (hcore : CFSG.pCore 2 X = ⊥) (_hBP : B ≤ P)
     (hP2 : IsPGroup 2 P) (hPsyl : ¬ 2 ∣ P.index)
     (hM : ∀ d ∈ Subgroup.normalizer (P : Set X), d ∈ Subgroup.normalizer (B : Set X))
     (hs : ∀ s ∈ B, s ≠ 1 → IsUnitaryTransvection X m n s) :

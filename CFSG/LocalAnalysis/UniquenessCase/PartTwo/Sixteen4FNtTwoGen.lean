@@ -13,12 +13,14 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
 variable {Γ : Type} [Group Γ] {Q : Type} [AddCommGroup Q] [Module (ZMod 2) Q] [Finite Q]
 
+omit [Finite Q] in
 private theorem w183_Z1_one (ρ : Representation (ZMod 2) Γ Q) {f : Γ → Q} (hf : f ∈ Z1 ρ) :
     f 1 = 0 := by
   have h : f 1 = f 1 + f 1 := by simpa using hf 1 1
   have h' : f 1 + 0 = f 1 + f 1 := by rw [add_zero]; exact h
   exact (add_left_cancel h').symm
 
+omit [Finite Q] in
 private theorem w183_Z1_pow_apply (ρ : Representation (ZMod 2) Γ Q) {f : Γ → Q}
     (hf : f ∈ Z1 ρ) (a : Γ) (n : ℕ) :
     f (a ^ n) = (∑ i ∈ Finset.range n, ρ a ^ i) (f a) := by
@@ -45,6 +47,7 @@ private def w183_zeroSubgroup (ρ : Representation (ZMod 2) Γ Q) {f : Γ → Q}
     rw [inv_mul_cancel, hx, map_zero, add_zero, w183_Z1_one ρ hf] at h
     exact h.symm
 
+omit [Finite Q] in
 private theorem w183_zeroSubgroup_eq_top (ρ : Representation (ZMod 2) Γ Q) {f : Γ → Q}
     (hf : f ∈ Z1 ρ) {a b : Γ} (ha : f a = 0) (hb : f b = 0)
     (hab : Subgroup.closure {a, b} = ⊤) : f = 0 := by
@@ -64,6 +67,7 @@ private def w183_ev (ρ : Representation (ZMod 2) Γ Q) (a b : Γ) :
   map_add' _ _ := rfl
   map_smul' _ _ := rfl
 
+omit [Finite Q] in
 private theorem w183_ev_injective (ρ : Representation (ZMod 2) Γ Q) {a b : Γ}
     (hab : Subgroup.closure {a, b} = ⊤) : Function.Injective (w183_ev ρ a b) := by
   intro f g hfg
@@ -79,6 +83,7 @@ private theorem w183_ev_injective (ρ : Representation (ZMod 2) Γ Q) {a b : Γ}
   have hzero := w183_zeroSubgroup_eq_top ρ hsub ha hb hab
   exact sub_eq_zero.mp (Subtype.ext hzero)
 
+omit [Finite Q] in
 private theorem w183_ev_range_le (ρ : Representation (ZMod 2) Γ Q) {a b : Γ} {r s : ℕ}
     (ha : a ^ r = 1) (hb : b ^ s = 1) :
     LinearMap.range (w183_ev ρ a b) ≤
@@ -93,6 +98,7 @@ private theorem w183_ev_range_le (ρ : Representation (ZMod 2) Γ Q) {a b : Γ} 
     rw [hb, w183_Z1_one ρ f.2] at h
     exact h.symm
 
+omit [Finite Q] in
 private theorem w183_dualMap_pow (f : Q →ₗ[ZMod 2] Q) (n : ℕ) :
     f.dualMap ^ n = (f ^ n).dualMap := by
   induction n with
@@ -107,11 +113,13 @@ private theorem w183_dualMap_pow (f : Q →ₗ[ZMod 2] Q) (n : ℕ) :
         _ = (f * f ^ n).dualMap := rfl
         _ = (f ^ (n + 1)).dualMap := by rw [pow_succ']
 
+omit [Finite Q] in
 private theorem w183_dualMap_sum (f : ℕ → Q →ₗ[ZMod 2] Q) (n : ℕ) :
     (∑ i ∈ Finset.range n, (f i).dualMap) = (∑ i ∈ Finset.range n, f i).dualMap := by
   simp only [LinearMap.dualMap_def]
   exact (map_sum (Module.Dual.transpose (R := ZMod 2)) f (Finset.range n)).symm
 
+omit [Finite Q] in
 private theorem w183_finrank_range_norm_inv (A A' : Q →ₗ[ZMod 2] Q)
     (hAA' : A * A' = 1) (hA'A : A' * A = 1) (r : ℕ) :
     Module.finrank (ZMod 2) (LinearMap.range (∑ i ∈ Finset.range r, A' ^ i)) =
@@ -158,9 +166,9 @@ theorem s16nt_h1_le_of_two_gen (ρ : Representation (ZMod 2) Γ Q) {a b : Γ}
       Module.finrank (ZMod 2) (LinearMap.range (∑ i ∈ Finset.range s, ρ b ^ i)) ≤
         Module.finrank (ZMod 2) Q := by
   classical
-  haveI : Finite ↥(Z1 ρ) :=
+  have : Finite ↥(Z1 ρ) :=
     Finite.of_injective (w183_ev ρ a b) (w183_ev_injective ρ hab)
-  haveI : Module.Finite (ZMod 2) ↥(Z1 ρ) := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) ↥(Z1 ρ) := Module.Finite.of_finite
   have hcob : Function.Injective (coboundary ρ) := by
     rw [← LinearMap.ker_eq_bot]
     ext v
@@ -221,7 +229,8 @@ theorem s16nt_h1_le_of_two_gen (ρ : Representation (ZMod 2) Γ Q) {a b : Γ}
       Module.finrank (ZMod 2) Q := Submodule.finrank_le _
   omega
 
-theorem s16nt_rank_norm_dual (ρ : Representation (ZMod 2) Γ Q) {a : Γ} {r : ℕ} (ha : a ^ r = 1) :
+omit [Finite Q] in
+theorem s16nt_rank_norm_dual (ρ : Representation (ZMod 2) Γ Q) {a : Γ} {r : ℕ} (_ha : a ^ r = 1) :
     Module.finrank (ZMod 2)
         (LinearMap.range (∑ i ∈ Finset.range r, (Representation.dual ρ a) ^ i)) =
       Module.finrank (ZMod 2) (LinearMap.range (∑ i ∈ Finset.range r, ρ a ^ i)) := by

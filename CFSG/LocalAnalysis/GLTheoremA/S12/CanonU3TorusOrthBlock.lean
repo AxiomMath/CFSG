@@ -118,9 +118,9 @@ theorem isSolvable_statedSU_of_isSolvable_specialBlock {K : Type} [Field K] {V :
     (hε : ∀ g, ((ε g : ↥(StatedSU k (Nat.card K) (AdjoinRoot h))) :
       Matrix.GeneralLinearGroup (Fin k) (AdjoinRoot h)) = specialMat Q y h b g)
     {z : V ≃ₗ[K] V} (hz : z ∈ isometryCentralizer Q y)
-    (hsol : IsSolvable ↥(specialBlock Q y h ⊓
+    (hsol : Group.IsSolvable ↥(specialBlock Q y h ⊓
       Subgroup.centralizer ({z} : Set (V ≃ₗ[K] V)))) :
-    IsSolvable ↥(StatedSU k (Nat.card K) (AdjoinRoot h) ⊓
+    Group.IsSolvable ↥(StatedSU k (Nat.card K) (AdjoinRoot h) ⊓
       Subgroup.centralizer ({toMatGL b (centralizerGL y h
         ⟨z, (Subgroup.mem_inf.mp hz).2⟩)} :
           Set (Matrix.GeneralLinearGroup (Fin k) (AdjoinRoot h)))) := by
@@ -173,7 +173,7 @@ theorem isSolvable_statedSU_of_isSolvable_specialBlock {K : Type} [Field K] {V :
     apply Subtype.ext
     exact congrArg (fun x : ↥(specialBlock Q y h ⊓
       Subgroup.centralizer ({z} : Set (V ≃ₗ[K] V))) => (x : V ≃ₗ[K] V)) hAB
-  haveI : Group.IsSolvable ↥(specialBlock Q y h ⊓
+  have : Group.IsSolvable ↥(specialBlock Q y h ⊓
       Subgroup.centralizer ({z} : Set (V ≃ₗ[K] V))) := hsol
   exact Group.isSolvable_of_isSolvable_injective (f := φ) hinj
 
@@ -188,9 +188,9 @@ theorem not_isSolvable_and_of_specialBlock {K : Type} [Field K] [Finite K] {V : 
     (h₁ : y₁ ^ 3 = 1) (h₂ : y₂ ^ 3 = 1) (hc₁₂ : Commute y₁ y₂)
     (hmoves : ∀ k : ℕ, ∃ g ∈ specialBlock Q y h,
       g * (y₂ * y₁ ^ k) ≠ (y₂ * y₁ ^ k) * g) :
-    ¬ (IsSolvable ↥(specialBlock Q y h ⊓
+    ¬ (Group.IsSolvable ↥(specialBlock Q y h ⊓
         Subgroup.centralizer ({y₁} : Set (V ≃ₗ[K] V))) ∧
-      IsSolvable ↥(specialBlock Q y h ⊓
+      Group.IsSolvable ↥(specialBlock Q y h ⊓
         Subgroup.centralizer ({y₂} : Set (V ≃ₗ[K] V)))) := by
   classical
   obtain ⟨hdeg, b, hb⟩ := exists_selfDual_matrix_data hy hh hne1 hself hk
@@ -282,11 +282,11 @@ theorem not_isSolvable_and_of_specialBlock {K : Type} [Field K] [Finite K] {V : 
       obtain ⟨G, hG, hneG⟩ := hk' k
       exact ⟨G, by simpa [hK] using hG, hneG⟩)
   rintro ⟨hsol₁, hsol₂⟩
-  have hs₁ : IsSolvable ↥(StatedSU 3 (Nat.card K) (AdjoinRoot h) ⊓
+  have hs₁ : Group.IsSolvable ↥(StatedSU 3 (Nat.card K) (AdjoinRoot h) ⊓
       Subgroup.centralizer ({M₁} :
         Set (Matrix.GeneralLinearGroup (Fin 3) (AdjoinRoot h)))) :=
     isSolvable_statedSU_of_isSolvable_specialBlock hy hh hself b ε hε hy₁ hsol₁
-  have hs₂ : IsSolvable ↥(StatedSU 3 (Nat.card K) (AdjoinRoot h) ⊓
+  have hs₂ : Group.IsSolvable ↥(StatedSU 3 (Nat.card K) (AdjoinRoot h) ⊓
       Subgroup.centralizer ({M₂} :
         Set (Matrix.GeneralLinearGroup (Fin 3) (AdjoinRoot h)))) :=
     isSolvable_statedSU_of_isSolvable_specialBlock hy hh hself b ε hε hy₂ hsol₂

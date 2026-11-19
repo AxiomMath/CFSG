@@ -24,9 +24,9 @@ theorem uvec_moved (hn : 5 ≤ n) {σ : Perm (Fin n)} {x y : Fin n} (hxy : x ≠
   have hσxy : σ x ≠ σ y := fun h => hxy (σ.injective h)
   unfold uvec
   refine bar_mk_ne_of_coords (i := σ x) (j := j) ?_ ?_
-  · simp only [Pi.add_apply, Pi.single_apply, if_true, hσxy, h1, h2, if_false]
+  · simp only [Pi.add_apply, Pi.single_apply, ite_true, hσxy, h1, h2, ite_false]
     decide
-  · simp only [Pi.add_apply, Pi.single_apply, hj1, hj2, hj3, hj4, if_false]
+  · simp only [Pi.add_apply, Pi.single_apply, hj1, hj2, hj3, hj4, ite_false]
 
 theorem barAct_uvec_ne_of_fourGroup (hn : 5 ≤ n) {I : Finset (Fin n)}
     {N : Subgroup (Perm (Fin n))} (h : FourGroup I N) (hI : I.card = 4) {σ σ' : Perm (Fin n)}
@@ -43,7 +43,7 @@ theorem uvec_self (a : Fin n) : uvec a a = 0 := by
     · subst hm
       simp only [Pi.add_apply, Pi.single_eq_same, Pi.zero_apply]
       decide
-    · simp [Pi.single_apply, hm]
+    · simp [hm]
   rw [this]
   rfl
 
@@ -65,9 +65,9 @@ theorem uvec_mem_qbar0 {I : Finset (Fin n)} (hI : Even I.card) (hIc : Even Iᶜ.
     intro S hS
     simp only [Pi.add_apply, Finset.sum_add_distrib, Finset.sum_pi_single']
     by_cases haS : a ∈ S
-    · rw [if_pos haS, if_pos (hS.1 haS)]
+    · rw [ite_eq_left haS, ite_eq_left (hS.1 haS)]
       decide
-    · rw [if_neg haS, if_neg (fun h => haS (hS.2 h)), add_zero]
+    · rw [ite_eq_right haS, ite_eq_right (fun h => haS (hS.2 h)), add_zero]
   have hab : ∀ S : Finset (Fin n), (S = I ∨ S = Iᶜ) → (a ∈ S ↔ b ∈ S) := by
     intro S hS
     rcases hJ with rfl | rfl <;> rcases hS with rfl | rfl
@@ -105,9 +105,8 @@ theorem qbar0_le_of_pairs {I : Finset (Fin n)} (hI : Even I.card) (hIc : Even I�
   have hvec : x = ∑ i ∈ S₁, (Pi.single i (1 : ZMod 2) + Pi.single a 1) +
       ∑ k ∈ S₂, (Pi.single k (1 : ZMod 2) + Pi.single b 1) := by
     funext m
-    simp only [Finset.sum_apply, Pi.add_apply, Finset.sum_add_distrib, Finset.sum_pi_single',
-      Finset.sum_const, nsmul_eq_mul]
-    simp only [Pi.single_apply, Finset.sum_ite_eq', Finset.sum_const_zero]
+    simp only [Finset.sum_apply, Pi.add_apply, Finset.sum_add_distrib, Finset.sum_const, nsmul_eq_mul]
+    simp only [Pi.single_apply]
     by_cases hmI : m ∈ I
     · have hmb : m ≠ b := fun h => (Finset.mem_compl.1 hb) (h ▸ hmI)
       have hmS₂ : m ∉ S₂ := fun h => (Finset.mem_compl.1 (Finset.mem_filter.1 h).1) hmI
@@ -239,14 +238,14 @@ theorem exists_pair_of_nonconst {J : Finset (Fin n)} (hJ : J.card = 4) {W : AddS
       funext m
       by_cases hma : m = a
       · subst hma
-        simp [hca', hza, hzb, Pi.single_apply, Ne.symm hca]
+        simp [hca', hza, hzb, Ne.symm hca]
       by_cases hmb : m = b
       · subst hmb
-        simp [hcb', hzb, hzc, Pi.single_apply, hma, Ne.symm hcb]
+        simp [hcb', hzb, hzc, hma, Ne.symm hcb]
       by_cases hmc : m = c
       · subst hmc
-        simp [hcc', hza, hzc, Pi.single_apply, hma]
-      · simp [hfix m hma hmb hmc, Pi.single_apply, hma, hmc]
+        simp [hcc', hza, hzc, hma]
+      · simp [hfix m hma hmb hmc, hma, hmc]
     rwa [e] at hmem
   ·
     refine ⟨b, hb, hab, ?_⟩
@@ -256,14 +255,14 @@ theorem exists_pair_of_nonconst {J : Finset (Fin n)} (hJ : J.card = 4) {W : AddS
       funext m
       by_cases hma : m = a
       · subst hma
-        simp [hca', hza, hzb, Pi.single_apply, hab]
+        simp [hca', hza, hzb, hab]
       by_cases hmb : m = b
       · subst hmb
-        simp [hcb', hzb, hzc, Pi.single_apply, hma]
+        simp [hcb', hzb, hzc, hma]
       by_cases hmc : m = c
       · subst hmc
-        simp [hcc', hza, hzc, Pi.single_apply, hma, hcb]
-      · simp [hfix m hma hmb hmc, Pi.single_apply, hma, hmb]
+        simp [hcc', hza, hzc, hma, hcb]
+      · simp [hfix m hma hmb hmc, hma, hmb]
     rwa [e] at hmem
 
 end Pairs
@@ -296,8 +295,8 @@ theorem qbar0_le_of_invariant (hI : I.card = 4) {W : AddSubgroup (permBar 8)}
     obtain ⟨k₀, hk₀⟩ : Iᶜ.Nonempty := Finset.card_pos.1 (by omega)
     have hzI : ∀ m, z m = if m ∈ I then z i₀ else z k₀ := fun m => by
       by_cases hm : m ∈ I
-      · rw [if_pos hm]; exact hconst I (Or.inl rfl) m hm i₀ hi₀
-      · rw [if_neg hm]; exact hconst Iᶜ (Or.inr rfl) m (Finset.mem_compl.2 hm) k₀ hk₀
+      · rw [ite_eq_left hm]; exact hconst I (Or.inl rfl) m hm i₀ hi₀
+      · rw [ite_eq_right hm]; exact hconst Iᶜ (Or.inr rfl) m (Finset.mem_compl.2 hm) k₀ hk₀
     rcases zmod_two_cases' (z i₀) with hi | hi <;> rcases zmod_two_cases' (z k₀) with hk | hk
     · apply h0
       have : z = 0 := funext fun m => by rw [hzI m]; split_ifs <;> simp [hi, hk]
@@ -389,8 +388,8 @@ theorem eq_zero_or_barInd_of_fixed (hI : I.card = 4) {v : permBar 8}
   obtain ⟨k₀, hk₀⟩ := hIne
   have hxI : ∀ m, x m = if m ∈ I then x i₀ else x k₀ := fun m => by
     by_cases hm : m ∈ I
-    · rw [if_pos hm]; exact hcI m hm i₀ hi₀
-    · rw [if_neg hm]; exact hcIc m (Finset.mem_compl.2 hm) k₀ hk₀
+    · rw [ite_eq_left hm]; exact hcI m hm i₀ hi₀
+    · rw [ite_eq_right hm]; exact hcIc m (Finset.mem_compl.2 hm) k₀ hk₀
   rcases zmod_two_cases' (x i₀) with hi | hi <;> rcases zmod_two_cases' (x k₀) with hk | hk
   · left
     have : x = 0 := funext fun m => by rw [hxI m]; split_ifs <;> simp [hi, hk]
@@ -470,10 +469,10 @@ theorem card_qbar0 (hI : I.card = 4) : Nat.card ↥(qbar0 I) = 2 ^ 5 := by
   have hbI : b ∉ I := Finset.mem_compl.1 hb
   have hφa : φ ((Pi.single a (1 : ZMod 2) : Fin 8 → ZMod 2) : permBar 8) = (1, 0) := by
     simp only [φ, AddMonoidHom.prod_apply, barParOn_mk hIe, barParOn_mk hIce,
-      Finset.sum_pi_single', if_pos ha, if_neg haI]
+      Finset.sum_pi_single', ite_eq_left ha, ite_eq_right haI]
   have hφb : φ ((Pi.single b (1 : ZMod 2) : Fin 8 → ZMod 2) : permBar 8) = (0, 1) := by
     simp only [φ, AddMonoidHom.prod_apply, barParOn_mk hIe, barParOn_mk hIce,
-      Finset.sum_pi_single', if_neg hbI, if_pos hb]
+      Finset.sum_pi_single', ite_eq_right hbI, ite_eq_left hb]
   have hsurj : Function.Surjective φ := by
     rintro ⟨s, t⟩
     rcases zmod_two_cases' s with rfl | rfl <;> rcases zmod_two_cases' t with rfl | rfl

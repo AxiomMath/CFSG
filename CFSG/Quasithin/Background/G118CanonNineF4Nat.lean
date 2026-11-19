@@ -97,7 +97,7 @@ theorem exists_moved_of_finrank_four (D : E11Data H I) (hU : Module.finrank D.F 
     (hB4 : Module.finrank (ZMod 2) B = 4) : ∃ h ∈ H, ∃ b ∈ B, h b ≠ b := by
   by_contra hcon
   push Not at hcon
-  haveI : Module.Finite (ZMod 2) ↥B := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) ↥B := Module.Finite.of_finite
   obtain ⟨x, hx⟩ := Module.finrank_pos_iff_exists_ne_zero.1
     (by omega : 0 < Module.finrank (ZMod 2) B)
   have hx0 : (x : V) ≠ 0 := fun h => hx (Subtype.ext h)
@@ -114,7 +114,7 @@ theorem restrictHom_injective_B (D : E11Data H I) (hU : Module.finrank D.F D.U =
     (hdim : Module.finrank (ZMod 2) V = 8) (φH : ↥H ≃* ↥(alternatingGroup (Fin 5)))
     {B : Submodule (ZMod 2) V} (hBH : Invariant H B) (hB4 : Module.finrank (ZMod 2) B = 4) :
     Function.Injective (restrictHom H B hBH) := by
-  haveI : IsSimpleGroup ↥H := φH.isSimpleGroup
+  have : IsSimpleGroup ↥H := φH.isSimpleGroup
   rcases Subgroup.Normal.eq_bot_or_eq_top (restrictHom H B hBH).ker with hbot | htop
   · exact (MonoidHom.ker_eq_bot_iff _).1 hbot
   · exfalso
@@ -150,6 +150,7 @@ theorem exists_natural_B (D : E11Data H I) (hU : Module.finrank D.F D.U = 2)
   have h2 := congrArg (fun T : Module.End (ZMod 2) V => T (x : V)) h1
   exact h2
 
+omit [Finite V] in
 theorem exists_action_eq {α : ↥H ≃* SpecialLinearGroup (Fin 2) (GaloisField 2 2)}
     {B : Submodule (ZMod 2) V} {hBH : Invariant H B}
     {ι : ↥B ≃ₗ[ZMod 2] (Fin 2 → GaloisField 2 2)}

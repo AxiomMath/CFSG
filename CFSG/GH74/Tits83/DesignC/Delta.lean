@@ -144,11 +144,11 @@ theorem thetaPair_coordMul (hθ : ∀ t, θ (c.σ t) = c'.σ (θ t)) (p q : c.K 
 
 theorem g_of_even {j : ℤ} (hj : Even j) :
     g c c' θ hθ j = gEven c c' θ hθ j hj := by
-  rw [g, dif_pos hj]
+  rw [g, dite_eq_left hj]
 
 theorem g_of_odd {j : ℤ} (hj : Odd j) :
     g c c' θ hθ j = gOdd c c' θ j hj := by
-  rw [g, dif_neg (Int.not_even_iff_odd.mpr hj)]
+  rw [g, dite_eq_right (Int.not_even_iff_odd.mpr hj)]
 
 theorem g_eOdd (j : ℤ) (hj : Odd j) (t : c.K) :
     g c c' θ hθ j (c.eOdd j hj t) = c'.eOdd j hj (θ t) := by
@@ -224,7 +224,7 @@ theorem gpX'_mem_range_psi (j : ℤ) (hj : Even j) (t : c.K) :
 
 theorem Gen_subset_range_psi (j : ℤ) : Gen c c' θ j ⊆ (psi c c' θ hθ j).range := by
   intro x hx
-  simp only [Gen, Set.mem_setOf_eq] at hx
+  simp only [Gen, Set.mem_ofPred_eq] at hx
   rcases hx with ⟨t, rfl⟩ | ⟨hj, t, rfl⟩
   · exact gpX_mem_range_psi c c' θ hθ j t
   · exact gpX'_mem_range_psi c c' θ hθ j hj t

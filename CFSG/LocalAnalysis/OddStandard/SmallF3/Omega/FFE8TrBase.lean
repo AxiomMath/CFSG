@@ -42,11 +42,11 @@ theorem ffOutFFE8TrRho_range (hQ : Q.Nondegenerate)
     exact ⟨l, rfl⟩
 
 theorem ffOutFFE8Tr_finite_projSim (Q : QuadraticForm (ZMod 3) V) : Finite (ProjSim Q) := by
-  haveI : Finite V := Module.finite_of_finite (ZMod 3)
-  haveI : Finite (V ≃ₗ[ZMod 3] V) :=
+  have : Finite V := Module.finite_of_finite (ZMod 3)
+  have : Finite (V ≃ₗ[ZMod 3] V) :=
     Finite.of_injective (fun f : V ≃ₗ[ZMod 3] V => (f : V → V))
       (fun f g h => LinearEquiv.ext (congrFun h))
-  haveI : Finite (simGroup Q) := Subtype.finite
+  have : Finite (simGroup Q) := Subtype.finite
   infer_instance
 
 theorem ffOutFFE8TrThetaImg_eq (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V = 6)

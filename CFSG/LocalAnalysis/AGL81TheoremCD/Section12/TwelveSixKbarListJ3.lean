@@ -99,7 +99,7 @@ theorem TwelveSixKbarHyp.false_of_j3 (hJS : CFSG.AGLEmbedding.KFactJ3Sylow)
   have hNB : normalizer (((PH.mapSurjective hψ's : Sylow 3 ↥ψ.range) : Subgroup ↥ψ.range) :
       Set ↥ψ.range) ≤ B := by
     have h := CFSG.LocalAnalysis.UniquenessCase.PartTwo.Om8Lift.map_normalizer_sylow ψ'
-      Nat.prime_three PH.isPGroup' PH.not_dvd_index
+      Nat.prime_three PH.isPGroup PH.not_dvd_index
     rw [MonoidHom.range_eq_top.2 hψ's, inf_top_eq] at h
     rw [Sylow.coe_mapSurjective, ← h]
     exact map_mono hNPH

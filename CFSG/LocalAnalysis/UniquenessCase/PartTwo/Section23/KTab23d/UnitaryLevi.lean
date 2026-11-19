@@ -84,8 +84,8 @@ theorem nonempty_bar2_hinf_lineStab_statedSU_four {a : ℕ} {K : Type} [Field K]
       (Pi.single 0 1 + Pi.single 1 1 : Fin 4 → K))) ≃*
         Matrix.SpecialLinearGroup (Fin 2) h.fixedField) := by
   obtain ⟨R, hR, he⟩ := exists_isHypTransport_four h
-  haveI : Finite (hypSU h 2 0) := CFSG.ClassicalGroups.UnitaryFlag.finite_hypSU h
-  haveI : Finite (unitarySU 2 a K (2 * 2 + 0)) := inferInstance
+  have : Finite (hypSU h 2 0) := CFSG.ClassicalGroups.UnitaryFlag.finite_hypSU h
+  have : Finite (unitarySU 2 a K (2 * 2 + 0)) := inferInstance
   obtain ⟨e⟩ := nonempty_bar2_hinf_map (hypTransport h hR) (parP h)
   rw [map_parP_hypTransport_eq_lineStab h hR he] at e
   obtain ⟨f⟩ := nonempty_bar2_hinf_parP_sl2_Q07 h ha

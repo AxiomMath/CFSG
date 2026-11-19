@@ -100,7 +100,7 @@ theorem mem_S_triv [IsSimpleGroup G] (hM5 : Om5Centerless p f)
       exact (S : Subgroup G).mul_mem ((S : Subgroup G).mul_mem
         ((S : Subgroup G).mul_mem hwS hrS) ((S : Subgroup G).inv_mem hwS))
         ((S : Subgroup G).inv_mem hrS)
-    have h3 := eq_one_of_isPGroup_of_odd S.isPGroup' hO h2 h1
+    have h3 := eq_one_of_isPGroup_of_odd S.isPGroup hO h2 h1
     rw [commutatorElement_eq_one_iff_mul_comm] at h3
     exact Subgroup.mem_centralizer_singleton_iff.mpr h3.symm
   have hle : R ⊔ R' ≤ Subgroup.centralizer ({w} : Set G) :=
@@ -180,7 +180,7 @@ theorem twoElt_triv [IsSimpleGroup G] (hM5 : Om5Centerless p f)
   have hSN : (S : Subgroup G) ≤ Subgroup.normalizer (A₀ : Set G) := fun s hs =>
     mem_normalizer_of_conjSub_eq (T7T.conjSub_centralizer_of_hyp C.hyp hs)
   have hSsyl : IsSylow2In (S : Subgroup G) (Subgroup.normalizer (A₀ : Set G)) :=
-    ⟨hSN, S.isPGroup', fun V' _ hV' hle => S.maximal_isPGroup.eq_of_ge hV' hle⟩
+    ⟨hSN, S.isPGroup, fun V' _ hV' hle => S.maximal_isPGroup.eq_of_ge hV' hle⟩
   have hfixA : ∀ h ∈ A₀, w₁ * h * w₁⁻¹ = h := by
     intro h hh
     rcases C.hA0 h hh with rfl | rfl | rfl | rfl

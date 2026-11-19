@@ -23,14 +23,14 @@ private theorem qtwoDB44_s2_zeta_sq_add_one {L : Type} [Field L] [Algebra (ZMod 
 
 private theorem qtwoDB44_s2_zeta_add_sq {L : Type} [Field L] [Algebra (ZMod 2) L] {ζ : L}
     (hζ : IsPrimitiveRoot ζ 3) : ζ + ζ ^ 2 = 1 := by
-  haveI : CharP L 2 := charP_of_injective_algebraMap (algebraMap (ZMod 2) L).injective 2
+  have : CharP L 2 := charP_of_injective_algebraMap (algebraMap (ZMod 2) L).injective 2
   have h := qtwoDB44_s2_zeta_sq_add_one hζ
   have h1 : ζ ^ 2 + ζ = -1 := by linear_combination h
   rw [add_comm, h1, CharTwo.neg_eq]
 
 private theorem qtwoDB44_s2_beta_symm {L : Type} [Field L] [Algebra (ZMod 2) L]
     {β : LinearMap.BilinForm (ZMod 2) L} (hβalt : β.IsAlt) (u v : L) : β u v = β v u := by
-  haveI : CharP L 2 := charP_of_injective_algebraMap (algebraMap (ZMod 2) L).injective 2
+  have : CharP L 2 := charP_of_injective_algebraMap (algebraMap (ZMod 2) L).injective 2
   have h := hβalt.neg_eq u v
   rw [CharTwo.neg_eq] at h
   exact h
@@ -39,7 +39,7 @@ private theorem qtwoDB44_s2_beta_key {L : Type} [Field L] [Algebra (ZMod 2) L] {
     {β : LinearMap.BilinForm (ZMod 2) L} (hζ : IsPrimitiveRoot ζ 3)
     (hζβ : ∀ u v, β (ζ * u) (ζ * v) = β u v) (hβalt : β.IsAlt) (u v : L) :
     β u (ζ * v) + β v (ζ * u) = β u v := by
-  haveI : CharP L 2 := charP_of_injective_algebraMap (algebraMap (ZMod 2) L).injective 2
+  have : CharP L 2 := charP_of_injective_algebraMap (algebraMap (ZMod 2) L).injective 2
   have hsymm : β v (ζ * u) = β u (ζ ^ 2 * v) := by
     have h1 := ChoiceTwo.bilin_pow_mul hζβ 2 v (ζ * u)
     have h2 : ζ ^ 2 * (ζ * u) = u := by
@@ -138,7 +138,7 @@ private theorem qtwoDB44_s2_qL_not_plus {L : Type} [Field L] [Algebra (ZMod 2) L
     (hL : Module.finrank (ZMod 2) L = 2) :
     ¬ CFSG.GroupTheory.WeirSylow.IsPlusType
       (LinearMap.BilinMap.toQuadraticMap (β.compl₂ (LinearMap.mulLeft (ZMod 2) ζ))) := by
-  haveI : CharP L 2 := charP_of_injective_algebraMap (algebraMap (ZMod 2) L).injective 2
+  have : CharP L 2 := charP_of_injective_algebraMap (algebraMap (ZMod 2) L).injective 2
   intro hplus
   obtain ⟨W, hW, hWs⟩ := hplus
   have hdimW : Module.finrank (ZMod 2) W = 1 := by omega
@@ -187,7 +187,7 @@ private noncomputable def qtwoDB44_s2_piSuccIsometry {L : Type} [Field L] [Algeb
       left_inv := fun d => Fin.cons_self_tail d
       right_inv := fun p => by
         obtain ⟨a, g⟩ := p
-        exact Prod.ext (by simpa using Fin.cons_zero a g) (by simpa using Fin.tail_cons a g)
+        exact Prod.ext (by simp) (by simp)
       map_add' := fun d d' => by
         refine Prod.ext ?_ ?_
         · rfl
@@ -198,7 +198,7 @@ private noncomputable def qtwoDB44_s2_piSuccIsometry {L : Type} [Field L] [Algeb
         · funext i; rfl }
   map_app' := fun d => by
     simp only [QuadraticMap.prod_apply, QuadraticMap.pi_apply, Fin.sum_univ_succ,
-      Prod.fst, Prod.snd, Fin.tail]
+      Fin.tail]
 
 private theorem qtwoDB44_s2_pi_even {L : Type} [Field L] [Algebra (ZMod 2) L]
     [Module.Finite (ZMod 2) L] (Q : QuadraticForm (ZMod 2) L)
@@ -224,7 +224,7 @@ private theorem qtwoDB44_s2_pi_even {L : Type} [Field L] [Algebra (ZMod 2) L]
   induction n with
   | zero =>
     refine ⟨fun _ => Even.zero, fun _ => ?_⟩
-    haveI : Subsingleton (Fin 0 → L) :=
+    have : Subsingleton (Fin 0 → L) :=
       ⟨fun f g => funext fun i => Fin.elim0 i⟩
     exact CFSG.GroupTheory.WeirSylow.isPlusType_of_subsingleton _
   | succ n ih =>
@@ -252,7 +252,7 @@ theorem qtwoDB44_frameQ {n : ℕ} (hn : 1 ≤ n) {E : Subgroup (StatedSp n (ZMod
   obtain ⟨s, Φ, β, σ, form, ζβ, σζ, σσ, σβ, tor, tor_acts, tor_mem, mem_tor⟩ := F
   have hs' : s = n := hs
   subst s
-  haveI hCharL : CharP L 2 := charP_of_injective_algebraMap (algebraMap (ZMod 2) L).injective 2
+  have hCharL : CharP L 2 := charP_of_injective_algebraMap (algebraMap (ZMod 2) L).injective 2
   have hβalt : β.IsAlt := qtwoDB44_s2_beta_alt form hn
   have hβn : β.Nondegenerate := qtwoDB44_s2_beta_nondegenerate form hβalt hn
   let qL : QuadraticForm (ZMod 2) L :=

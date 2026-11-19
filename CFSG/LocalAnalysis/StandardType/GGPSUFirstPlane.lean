@@ -23,10 +23,10 @@ private theorem ggPSUFP_inv_apply {K : Type} [Field K] (σ : K ≃+* K) {n : ℕ
       (antidiag n : Matrix (Fin n) (Fin n) K) * conjTr σ (P : Matrix (Fin n) (Fin n) K) :=
     Matrix.inv_eq_left_inv hleft
   rw [Matrix.coe_units_inv, hinv, Matrix.mul_apply, Finset.sum_eq_single (Fin.rev c)]
-  · rw [antidiag, Matrix.of_apply, if_pos rfl, one_mul]
+  · rw [antidiag, Matrix.of_apply, ite_eq_left rfl, one_mul]
     simp only [conjTr, Matrix.transpose_apply, Matrix.map_apply]
   · intro k _ hk
-    rw [antidiag, Matrix.of_apply, if_neg hk, zero_mul]
+    rw [antidiag, Matrix.of_apply, ite_eq_right hk, zero_mul]
   · intro h
     exact absurd (Finset.mem_univ (Fin.rev c)) h
 
@@ -43,7 +43,7 @@ theorem exists_suBridge_firstPlane {K : Type} [Field K] [Finite K] {p f : ℕ} [
     CFSG.StandardType.ggPSUFP_exists_wittMatrix_firstPlane (K := K) (p := p) (f := f) hK hn
   refine ⟨conjEquiv P hP, ?_⟩
   intro g hg
-  simp only [CFSG.StandardType.ggSuPairBlock, Set.mem_setOf_eq]
+  simp only [CFSG.StandardType.ggSuPairBlock]
   intro i j hij
   have hcoe : (((conjEquiv P hP g : Su K p f n) : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) =
       (P : Matrix (Fin n) (Fin n) K) * ((g : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) *

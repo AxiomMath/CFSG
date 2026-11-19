@@ -31,7 +31,7 @@ theorem strongModel_of_d5_component (K : Type) [Field K] [Finite K] (σ : K ≃+
     (hJ : CFSG.Open.IsComponentOf J (fixedPoints (Subgroup.zpowers (twistedE6InndiagConj K σ h)))) :
     ∃ r e : ℕ, ringChar K = r ∧ DStrongModel J 5 r e := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨hp, f, hf, hqf⟩ := prime_ringChar_and_eq_pow_of_card_sq K q hKq hq2
   have hK' : Nat.card K = (ringChar K ^ f) ^ 2 := by rw [← hqf]; exact hKq
   have hσ' : ∀ c, σ c = c ^ (ringChar K ^ f) := by intro c; rw [← hqf]; exact hσ c
@@ -59,7 +59,7 @@ theorem strongModel_of_d5_component (K : Type) [Field K] [Finite K] (σ : K ≃+
   have h3q' : 3 ∣ S.D.q + 1 := by rw [hDq, ← hqf]; exact h3q
   have hFr' : ∀ c, Fr c = c ^ S.D.q := fun c => by rw [hDq]; exact hFr c
   obtain ⟨r, e', hr, -, hmodel⟩ := d5_class_strongModel S hFr' hΦ hL3 hT hap h3q' hk i
-  haveI : CharP (AlgebraicClosure K) (ringChar K) :=
+  have : CharP (AlgebraicClosure K) (ringChar K) :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective (ringChar K)
   refine ⟨r, e', ?_, DStrongModel.of_equiv e hmodel⟩
   rw [← hr, ringChar.eq (AlgebraicClosure K) (ringChar K)]

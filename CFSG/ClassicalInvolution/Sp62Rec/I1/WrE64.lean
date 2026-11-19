@@ -80,9 +80,9 @@ private theorem double_zero : ∀ c : Fin 6 → ZMod 2, c + c = 0 := by
   decide +kernel
 
 private def blkHom : Multiplicative (Fin 6 → ZMod 2) →* Wr 6 :=
-  MonoidHom.mk' (fun c => blkEps (Multiplicative.toAdd c)) fun a b => blkEps_add _ _
+  MonoidHom.mk' (fun c => blkEps (Multiplicative.toAdd c)) fun _a _b => blkEps_add _ _
 
-private theorem blkHom_injective : Function.Injective blkHom := fun a b h =>
+private theorem blkHom_injective : Function.Injective blkHom := fun _a _b h =>
   Multiplicative.toAdd.injective (blkEps_inj _ _ h)
 
 def A64 : Subgroup (Wr 6) := blkHom.range

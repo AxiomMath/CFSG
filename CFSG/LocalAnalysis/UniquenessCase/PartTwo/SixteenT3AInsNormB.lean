@@ -108,7 +108,7 @@ theorem s16t_a_card_stab_all {T : Type} [CommGroup T] {ι : Type} [Fintype ι]
     exact ⟨hfΛ, fun j => (s16t_a_fix_iff hinj hρ g j).2 (by rw [h1]; rfl)⟩
   have hpow3 : (ρ g) ^ 3 = 1 := by
     rw [← map_pow, hpow g, map_one]
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hmod : (ρ g).supportᶜ.card ≡ 3 [MOD 3] := by
     have h := Equiv.Perm.card_compl_support_modEq (σ := ρ g) (p := 3) (n := 1)
       (by simpa using hpow3)

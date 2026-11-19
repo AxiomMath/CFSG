@@ -22,6 +22,7 @@ theorem J6.c₁_mem_Efin : J6.c₁ ∈ J6.Efin := by decide +kernel
 
 theorem J6.c₂_mem_Efin : J6.c₂ ∈ J6.Efin := by decide +kernel
 
+omit [Finite H] in
 theorem FS79Hyp.mem_B₁_iff_std (h : FS79Hyp b t b₁ b₂ J) (φ : ↥J ≃* J6.S6)
     (hφ₁ : φ ⟨b₁, h.b₁_mem⟩ = J6.c₁) (hφ₂ : φ ⟨b₂, h.b₂_mem⟩ = J6.c₂) (y : ↥J) :
     (y : H) ∈ Subgroup.closure ({b₁, b₂} : Set H) ↔ φ y ∈ J6.Efin := by

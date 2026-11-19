@@ -154,7 +154,7 @@ theorem isSumOfNaturalSections_of_coord {I Z J : Subgroup Γ} (hZP : Z ≤ P) (h
         obtain ⟨hy, hy0⟩ := (mem_coordSub φ).1 hyW
         refine (mem_coordSub φ).2 ⟨hy, fun l hl => hy0 l ?_⟩
         rw [Set.mem_singleton_iff] at hl
-        rw [Set.mem_setOf_eq, hl]
+        rw [Set.mem_ofPred_eq, hl]
         exact Ne.symm hj
     obtain ⟨hxP, hx0⟩ := (mem_coordSub φ).1 hxi
     obtain ⟨hxP', hx1⟩ := (mem_coordSub φ).1 (hle hxo)

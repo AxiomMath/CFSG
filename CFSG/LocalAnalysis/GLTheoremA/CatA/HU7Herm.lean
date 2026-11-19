@@ -31,6 +31,7 @@ theorem herm2_add_left (u u' v : Fin 6 → F) : herm2 (u + u') v = herm2 u v + h
   rw [sq_add_two]
   ring
 
+omit [CharP F 2] in
 theorem herm2_smul_left (c : F) (u v : Fin 6 → F) : herm2 (c • u) v = c ^ 2 * herm2 u v := by
   unfold herm2
   rw [Finset.mul_sum]
@@ -38,6 +39,7 @@ theorem herm2_smul_left (c : F) (u v : Fin 6 → F) : herm2 (c • u) v = c ^ 2 
   simp only [Pi.smul_apply, smul_eq_mul]
   ring
 
+omit [CharP F 2] in
 theorem herm2_add_right (u v v' : Fin 6 → F) : herm2 u (v + v') = herm2 u v + herm2 u v' := by
   unfold herm2
   rw [← Finset.sum_add_distrib]
@@ -45,6 +47,7 @@ theorem herm2_add_right (u v v' : Fin 6 → F) : herm2 u (v + v') = herm2 u v + 
   simp only [Pi.add_apply]
   ring
 
+omit [CharP F 2] in
 theorem herm2_smul_right (c : F) (u v : Fin 6 → F) : herm2 u (c • v) = c * herm2 u v := by
   unfold herm2
   rw [Finset.mul_sum]
@@ -52,10 +55,12 @@ theorem herm2_smul_right (c : F) (u v : Fin 6 → F) : herm2 u (c • v) = c * h
   simp only [Pi.smul_apply, smul_eq_mul]
   ring
 
+omit [CharP F 2] in
 theorem herm2_zero_left (v : Fin 6 → F) : herm2 0 v = 0 := by
   unfold herm2
   simp
 
+omit [CharP F 2] in
 theorem herm2_zero_right (u : Fin 6 → F) : herm2 u 0 = 0 := by
   unfold herm2
   simp
@@ -67,6 +72,7 @@ theorem herm2_sum_left {ι : Type} (s : Finset ι) (u : ι → Fin 6 → F) (v :
   | empty => simp [herm2_zero_left]
   | insert a s ha ih => rw [Finset.sum_insert ha, Finset.sum_insert ha, herm2_add_left, ih]
 
+omit [CharP F 2] in
 theorem herm2_sum_right {ι : Type} (s : Finset ι) (u : Fin 6 → F) (v : ι → Fin 6 → F) :
     herm2 u (∑ i ∈ s, v i) = ∑ i ∈ s, herm2 u (v i) := by
   classical
@@ -105,6 +111,7 @@ theorem herm2_unitary {g : Matrix (Fin 6) (Fin 6) F}
   simp only [step2, mul_ite, mul_one, mul_zero]
   simp
 
+omit [CharP F 2] in
 theorem herm2_adj_one {Y : Matrix (Fin 6) (Fin 6) F}
     (hY : ∀ a b : Fin 6 → F, herm2 (Y *ᵥ a) (Y *ᵥ b) = herm2 a b) (hY7 : Y ^ 7 = 1) (a b : Fin 6 → F) :
     herm2 (Y *ᵥ a) b = herm2 a ((Y ^ 6) *ᵥ b) := by
@@ -116,6 +123,7 @@ theorem herm2_adj_one {Y : Matrix (Fin 6) (Fin 6) F}
   calc herm2 (Y *ᵥ a) b = herm2 (Y *ᵥ a) (Y *ᵥ ((Y ^ 6) *ᵥ b)) := by rw [h]
     _ = herm2 a ((Y ^ 6) *ᵥ b) := hY _ _
 
+omit [CharP F 2] in
 theorem herm2_adj_pow {Y : Matrix (Fin 6) (Fin 6) F}
     (hY : ∀ a b : Fin 6 → F, herm2 (Y *ᵥ a) (Y *ᵥ b) = herm2 a b) (hY7 : Y ^ 7 = 1) (k : ℕ)
     (a b : Fin 6 → F) : herm2 ((Y ^ k) *ᵥ a) b = herm2 a (((Y ^ 6) ^ k) *ᵥ b) := by

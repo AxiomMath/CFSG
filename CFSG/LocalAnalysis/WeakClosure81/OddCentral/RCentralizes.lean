@@ -53,13 +53,13 @@ theorem frame_induction {H : Subgroup G} (hHodd : Odd (Nat.card H)) {z₀ z₁ :
     rw [← hinv h3', mul_inv_rev, hinv h1', hinv h2']
   have hz₀T : z₀ ∈ T₁ := by simp [T₁]
   have hz₁T : z₁ ∈ T₁ := by simp [T₁]
-  letI iC : CommGroup T₁ :=
+  let iC : CommGroup T₁ :=
     { (inferInstance : Group T₁) with mul_comm := fun a b => Subtype.ext (hT₁comm a a.2 b b.2) }
-  haveI : CFSG.IsElementaryAbelian 2 T₁ :=
+  have : CFSG.IsElementaryAbelian 2 T₁ :=
     { toIsMulCommutative := ⟨⟨fun a b => Subtype.ext (hT₁comm a a.2 b b.2)⟩⟩
       exponent_dvd_p := Monoid.exponent_dvd_of_forall_pow_eq_one fun g =>
         Subtype.ext (by rw [sq]; simpa using hT₁sq g g.2) }
-  haveI : Nontrivial T₁ := ⟨⟨⟨z₀, hz₀T⟩, 1, fun h => hn0 (congrArg Subtype.val h)⟩⟩
+  have : Nontrivial T₁ := ⟨⟨⟨z₀, hz₀T⟩, 1, fun h => hn0 (congrArg Subtype.val h)⟩⟩
   have hT₁H : ∀ u ∈ T₁, ∀ h ∈ H, u * h * u⁻¹ ∈ H := by
     intro u hu h hh
     rcases hT₁mem u hu with rfl | rfl | rfl | rfl
@@ -136,6 +136,7 @@ theorem fix_of_inverted {Q₀ : Subgroup G} (hQ₀odd : Odd (Nat.card Q₀)) (hQ
   have := eq_one_of_mul_self hQ₀odd hδ hδ1
   rw [hyv, this, one_mul]
 
+omit [Finite G] in
 theorem conj_pow_mul_inv {y v : G} (hc : y * v * y⁻¹ * v⁻¹ ∈ center G) (n : ℕ) :
     y * v ^ n * y⁻¹ * (v ^ n)⁻¹ = (y * v * y⁻¹ * v⁻¹) ^ n := by
   set δ := y * v * y⁻¹ * v⁻¹ with hδd
@@ -175,7 +176,7 @@ theorem exists_translations {R₁ Q Q₀ V : Subgroup G} [hRn : R₁.Normal]
     simpa using e
   have hS : ∀ a, ∃ y ∈ R₁, z a * y * (z a)⁻¹ = y ∧ ∃ v ∈ Vi a, y * v * y⁻¹ ≠ v := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨a₀, ha₀⟩ := hcon
     have hall : ∀ a, S a := by
       have h1 := hstep a₀ ha₀
@@ -237,7 +238,7 @@ theorem centralizes_of_frame {r : ℕ} (hr : r.Prime) (hrM : ¬ r ∣ Nat.card M
     (ht : ∀ a, t * z a * t⁻¹ = z (a + 1)) (htV : ∀ a v, v ∈ Vi a ↔ t * v * t⁻¹ ∈ Vi (a + 1)) :
     ∀ y ∈ R₁, ∀ x ∈ Q, y * x * y⁻¹ = x := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨y, hy⟩ := exists_translations hR₁odd hQodd hQ₀Q hQ₀Z hRQ hQV hVQ hViV hVgen hz hz2 h01
     hn0 hn1 hn01 hzinv ht htV hcon
   have hQ₀odd : Odd (Nat.card Q₀) := Odd.of_dvd_nat hQodd (Subgroup.card_dvd_of_le hQ₀Q)

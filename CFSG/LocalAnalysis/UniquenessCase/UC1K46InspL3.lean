@@ -64,14 +64,14 @@ theorem xOdd_mul_self : xOdd K * xOdd K = 1 := by
   change (xOdd K : Matrix (Fin 3) (Fin 3) K) * (xOdd K : Matrix (Fin 3) (Fin 3) K) = 1
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [xOdd, Matrix.mul_apply, Fin.sum_univ_three] <;> ring
+    simp [xOdd, Matrix.mul_apply, Fin.sum_univ_three]
 
 theorem yOdd_mul_self : yOdd K * yOdd K = 1 := by
   apply Subtype.ext
   change (yOdd K : Matrix (Fin 3) (Fin 3) K) * (yOdd K : Matrix (Fin 3) (Fin 3) K) = 1
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [yOdd, Matrix.mul_apply, Fin.sum_univ_three] <;> ring
+    simp [yOdd, Matrix.mul_apply, Fin.sum_univ_three]
 
 theorem xOdd_mul_yOdd_eq : xOdd K * yOdd K = yOdd K * xOdd K := by
   apply Subtype.ext
@@ -79,7 +79,7 @@ theorem xOdd_mul_yOdd_eq : xOdd K * yOdd K = yOdd K * xOdd K := by
     (yOdd K : Matrix (Fin 3) (Fin 3) K) * (xOdd K : Matrix (Fin 3) (Fin 3) K)
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [xOdd, yOdd, Matrix.mul_apply, Fin.sum_univ_three] <;> ring
+    simp [xOdd, yOdd, Matrix.mul_apply, Fin.sum_univ_three]
 
 theorem xOdd_ne_one (h2 : (2 : K) ≠ 0) : xOdd K ≠ 1 := by
   intro h
@@ -109,14 +109,14 @@ theorem cycMat_mul_xOdd : (cycMat (F := K) : Matrix (Fin 3) (Fin 3) K) *
   rw [Matrix.SpecialLinearGroup.coe_mul]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [cycMat, xOdd, yOdd, Matrix.mul_apply, Fin.sum_univ_three] <;> ring
+    simp [cycMat, xOdd, yOdd, Matrix.mul_apply, Fin.sum_univ_three]
 
 theorem cycMat_mul_yOdd : (cycMat (F := K) : Matrix (Fin 3) (Fin 3) K) *
     (yOdd K : Matrix (Fin 3) (Fin 3) K) =
     (xOdd K : Matrix (Fin 3) (Fin 3) K) * cycMat (F := K) := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [cycMat, xOdd, yOdd, Matrix.mul_apply, Fin.sum_univ_three] <;> ring
+    simp [cycMat, xOdd, yOdd, Matrix.mul_apply, Fin.sum_univ_three]
 
 theorem exists_inspPair_cycSL_odd (h2 : (2 : K) ≠ 0) :
     ∃ S : Subgroup (SL(3, K)), InspPair 2 (Subgroup.zpowers (cycSL K)) S := by
@@ -171,21 +171,21 @@ theorem xEven_ne_one : xEven K ≠ 1 := by
   intro h
   have h00 := congrFun (congrFun (congrArg (fun z : SL(3, K) =>
     (z : Matrix (Fin 3) (Fin 3) K)) h) 0) 0
-  have h00' : (0 : K) = 1 := by simpa [xEven] using h00
+  have h00' : (0 : K) = 1 := by simp [xEven] at h00
   exact zero_ne_one h00'
 
 theorem yEven_ne_one : yEven K ≠ 1 := by
   intro h
   have h00 := congrFun (congrFun (congrArg (fun z : SL(3, K) =>
     (z : Matrix (Fin 3) (Fin 3) K)) h) 0) 0
-  have h00' : (0 : K) = 1 := by simpa [yEven] using h00
+  have h00' : (0 : K) = 1 := by simp [yEven] at h00
   exact zero_ne_one h00'
 
 theorem xEven_ne_yEven : xEven K ≠ yEven K := by
   intro h
   have h01 := congrFun (congrFun (congrArg (fun z : SL(3, K) =>
     (z : Matrix (Fin 3) (Fin 3) K)) h) 0) 1
-  have h01' : (1 : K) = 0 := by simpa [xEven, yEven] using h01
+  have h01' : (1 : K) = 0 := by simp [xEven, yEven] at h01
   exact one_ne_zero h01'
 
 theorem cycMat_mul_xEven : (cycMat (F := K) : Matrix (Fin 3) (Fin 3) K) *
@@ -253,7 +253,7 @@ theorem cycMat_ne_scalar {K : Type} [Field K] (c : K) :
     cycMat (F := K) ≠ c • (1 : Matrix (Fin 3) (Fin 3) K) := by
   intro h
   have h02 := congrFun (congrFun h 0) 2
-  have h02' : (1 : K) = 0 := by simpa [cycMat, Matrix.smul_apply] using h02
+  have h02' : (1 : K) = 0 := by simp [cycMat, Matrix.smul_apply] at h02
   exact one_ne_zero h02'
 
 theorem inspPair_sl3_of_std {K : Type} [Field K] (h3 : (3 : K) ≠ 0)
@@ -302,8 +302,8 @@ theorem insp2L3_psl (G : Type) [Group G] [Finite G] (p f : ℕ) (hq : p ^ f % 3 
   rcases hL with ⟨-, ⟨-, K, hKf, hKfin, hK, ⟨e⟩⟩⟩ | ⟨h, -⟩ | ⟨h, -⟩ | ⟨h, -⟩
   · have hp : p.Prime := hadm.1
     have hf : 1 ≤ f := hadm.2.1
-    haveI : Fact p.Prime := ⟨hp⟩
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fact p.Prime := ⟨hp⟩
+    have : Fintype K := Fintype.ofFinite K
     have hKc : CharP K p :=
       charP_of_card_eq_prime_pow (f := f) (by rw [← Nat.card_eq_fintype_card, hK])
     have hq' : Nat.card K % 3 = 2 := by rw [hK]; exact hq

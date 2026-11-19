@@ -20,15 +20,18 @@ variable {G : Type} [Group G] [Finite G]
     (r : MulAut ↥Bs) (v : DVec m) : DVec m :=
   β (Additive.ofMul (r (Additive.toMul (β.symm v))))
 
+omit [Finite G] in
 theorem qtwoDCoordAct_mul {Bs : Subgroup G} {m : ℕ} (β : Additive ↥Bs ≃+ DVec m)
     (r r' : MulAut ↥Bs) (v : DVec m) :
     qtwoDCoordAct β (r * r') v = qtwoDCoordAct β r (qtwoDCoordAct β r' v) := by
   simp [qtwoDCoordAct, MulAut.mul_apply]
 
+omit [Finite G] in
 theorem qtwoDCoordAct_one {Bs : Subgroup G} {m : ℕ} (β : Additive ↥Bs ≃+ DVec m) (v : DVec m) :
     qtwoDCoordAct β 1 v = v := by
   simp [qtwoDCoordAct]
 
+omit [Finite G] in
 theorem qtwoDCoordAct_injective {Bs : Subgroup G} {m : ℕ} (β : Additive ↥Bs ≃+ DVec m)
     {r r' : MulAut ↥Bs} (h : ∀ v, qtwoDCoordAct β r v = qtwoDCoordAct β r' v) : r = r' := by
   ext a
@@ -36,6 +39,7 @@ theorem qtwoDCoordAct_injective {Bs : Subgroup G} {m : ℕ} (β : Additive ↥Bs
   simp only [qtwoDCoordAct, AddEquiv.symm_apply_apply, toMul_ofMul] at this
   exact congrArg (fun z : ↥Bs => (z : G)) (Additive.ofMul.injective (β.injective this))
 
+omit [Finite G] in
 theorem qtwoDNbr_coxRefl_dTau {Bs : Subgroup G} {A : Subgroup (MulAut ↥Bs)} {ι : Type}
     {M : CoxeterMatrix ι} (e : M.Group ≃* ↥A) {m : ℕ} (hm : 2 ≤ m) (e' : Fin m ≃ ι)
     (β : Additive ↥Bs ≃+ DVec m)

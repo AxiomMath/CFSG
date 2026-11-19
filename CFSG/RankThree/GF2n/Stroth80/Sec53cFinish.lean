@@ -11,6 +11,7 @@ open scoped commutatorElement Matrix
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem inf_QB_inf_QB_le_vone (Q B C V : Subgroup G) :
     QB B ⊓ QB C ⊓ Q ≤ Vone Q B C V := by
   intro x hx

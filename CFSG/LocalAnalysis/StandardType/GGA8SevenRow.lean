@@ -188,7 +188,7 @@ theorem ggTorusRootGenAvoidKG_ggSL9 :
         ggConjAut A ((hkey u.1 u.2).choose) = ρ := ⟨t, ht⟩
     have hspec := Classical.choose_spec hex
     have huu : t = Classical.choose hex := huniq t (Classical.choose hex) (ht.trans hspec.symm)
-    rw [hρ₀def, dif_pos hex]
+    rw [hρ₀def, dite_eq_left hex]
     exact congrArg Subtype.val huu
   have hhyp : ∀ (t : Fin 3 × Fin 3 × ZMod 3) (ht : t ∈ GGSL9Refl),
       ggHypCent A (nOf t ht) = (Subgroup.centralizer

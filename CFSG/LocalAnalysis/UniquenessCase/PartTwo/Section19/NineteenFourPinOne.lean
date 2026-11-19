@@ -45,7 +45,7 @@ theorem false_of_trivial_factor_19 (D : Data G)
       exact h1.2
     · exact UC22.InS3.UC49.five_dvd_card_of_isAlt h.hKshape
   obtain ⟨x, hx5⟩ := exists_prime_orderOf_dvd_card' 5 h5F
-  obtain ⟨v, hvA, hvQ⟩ := SetLike.not_le_iff_exists.mp hAQ
+  obtain ⟨v, hvA, hvQ⟩ := IsConcreteLE.not_le_iff_exists.mp hAQ
   have hvx : v * (x : G) * v⁻¹ * (x : G)⁻¹ ∈ pCoreOf 2 (L ⊔ K ⊔ D.T) := by
     have h1 : ⁅v, (x : G)⁆ ∈ ⁅A, F⁆ := Subgroup.commutator_mem_commutator hvA x.2
     rw [Subgroup.commutator_comm] at h1
@@ -94,9 +94,9 @@ theorem pin_one_swap_19 (D : Data G)
   have hZ := inf_centerOf_wClos_LKT_ne_bot_19 D hSg h hm hN2 hA hAM hAQ (by omega)
   obtain ⟨s, hsA, hsL, hsQ⟩ : ∃ s ∈ A, s ∉ normalizer (L : Set G) ∧
       s ∉ pCoreOf 2 (L ⊔ K ⊔ D.T) := by
-    obtain ⟨s₀, hs₀A, hs₀L⟩ := SetLike.not_le_iff_exists.mp hAL
+    obtain ⟨s₀, hs₀A, hs₀L⟩ := IsConcreteLE.not_le_iff_exists.mp hAL
     by_cases hs₀Q : s₀ ∈ pCoreOf 2 (L ⊔ K ⊔ D.T)
-    · obtain ⟨v, hvA, hvQ⟩ := SetLike.not_le_iff_exists.mp hAQ
+    · obtain ⟨v, hvA, hvQ⟩ := IsConcreteLE.not_le_iff_exists.mp hAQ
       by_cases hvL : v ∈ normalizer (L : Set G)
       · refine ⟨v * s₀, A.mul_mem hvA hs₀A, fun h1 => hs₀L ?_, fun h1 => hvQ ?_⟩
         · have h2 := (normalizer (L : Set G)).mul_mem
@@ -189,7 +189,7 @@ theorem pin_one_swap_19 (D : Data G)
     have hy'1 : y'X ^ 5 = 1 := by
       apply Subtype.ext
       have : (s * y * s⁻¹) ^ 5 = s * y ^ 5 * s⁻¹ := conj_pow
-      simp [y'X, this, ← hy5, pow_orderOf_eq_one]
+      simp [y'X, ← hy5, pow_orderOf_eq_one]
     have hπx : π (yX * y'X) ^ 5 = 1 := by
       rw [map_mul, (Commute.mul_pow hc 5), ← map_pow, ← map_pow, hy1, hy'1, map_one, mul_one]
     rw [← map_pow, hπ1] at hπx

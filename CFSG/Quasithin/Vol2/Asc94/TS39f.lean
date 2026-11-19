@@ -10,6 +10,7 @@ open CFSG.CGT.Timmesfeld75 CFSG.Open
 
 variable {G : Type} [Group G] [Finite G] {z : G}
 
+omit [Finite G] in
 theorem Frame2.not_mem_H_of_order (F : Frame2 G z) (p : ℕ) [Fact p.Prime] (hpH : ¬ p ∣ 21504)
     {x : G} (hx : orderOf x = p) : x ∉ Cz z := by
   intro hxH
@@ -22,7 +23,7 @@ theorem Frame2.not_mem_H_of_order (F : Frame2 G z) (p : ℕ) [Fact p.Prime] (hpH
 
 theorem Frame2.R_inf_Cz (F : Frame2 G z) {R : Subgroup G} (hAR : F.A ≤ R)
     (hRc : Nat.card R = 31 * 64) : R ⊓ Cz z = F.A := by
-  haveI : Fact (Nat.Prime 31) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 31) := ⟨by norm_num⟩
   have hAle : F.A ≤ R ⊓ Cz z := fun a ha =>
     ⟨hAR ha, Subgroup.mem_centralizer_singleton_iff.2 (F.comm_A ha F.z_mem_A)⟩
   have hdvd1 : Nat.card ↥(R ⊓ Cz z) ∣ 31 * 64 := by
@@ -51,7 +52,7 @@ theorem Frame2.fix_all (F : Frame2 G z) {R : Subgroup G} (hRL : R ≤ Subgroup.n
     (hRc : Nat.card R = 31 * 64) {γ : G} (hγ : γ ∈ F.NA) {r₁ : G} (hr₁ : r₁ ∈ R)
     (hr₁A : r₁ ∉ F.A) (hfix : γ⁻¹ * (r₁⁻¹ * z * r₁) * γ = r₁⁻¹ * z * r₁) :
     ∀ r ∈ R, γ⁻¹ * (r⁻¹ * z * r) * γ = r⁻¹ * z * r := by
-  haveI : Fact (Nat.Prime 31) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 31) := ⟨by norm_num⟩
   have hγN : γ ∈ Subgroup.normalizer (F.A : Set G) := hγ.2
   have hγz : γ⁻¹ * z * γ = z := by
     have h := Subgroup.mem_centralizer_singleton_iff.1 hγ.1
@@ -68,7 +69,7 @@ theorem Frame2.fix_all (F : Frame2 G z) {R : Subgroup G} (hRL : R ≤ Subgroup.n
             (γ⁻¹ * a * γ * a⁻¹) * (a * (γ⁻¹ * b * γ * b⁻¹) * a⁻¹) := by group
         rw [e]
         exact F.A.mul_mem ha.2 (hconjA a (hRL ha.1) _ hb.2)
-      one_mem' := ⟨R.one_mem, by simpa using F.A.one_mem⟩
+      one_mem' := ⟨R.one_mem, by simp⟩
       inv_mem' := fun {a} ha => by
         refine ⟨R.inv_mem ha.1, ?_⟩
         have e : γ⁻¹ * a⁻¹ * γ * a⁻¹⁻¹ = a⁻¹ * (γ⁻¹ * a * γ * a⁻¹)⁻¹ * a := by group
@@ -143,6 +144,7 @@ theorem Frame3.orbit_R_eq (F : Frame3 G z) (h31 : F.Sz.ncard = 31) {R : Subgroup
   have h31' : {x : G | ∃ l ∈ R, x = l⁻¹ * z * l}.ncard = 31 := by omega
   exact Set.eq_of_subset_of_ncard_le hsub (by rw [h31, h31']) (Set.toFinite _)
 
+omit [Finite G] in
 theorem conj_eq_iff {γ s : G} : γ⁻¹ * s * γ = s ↔ γ * s = s * γ := by
   constructor
   · intro h

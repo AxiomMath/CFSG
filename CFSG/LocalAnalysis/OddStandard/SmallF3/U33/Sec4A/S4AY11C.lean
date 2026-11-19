@@ -145,16 +145,19 @@ theorem m11_center_F (h : L41GPh10 t L S x₁ x₂ lam rho) :
   rw [m13_cent_F h]
   exact inf_eq_right.mpr ((n4_base_le_R h.toL41GPh3).trans le_sup_left)
 
+omit [Finite G] in
 theorem m11_F2_cases {y z g : G} (hy : y * y = 1) (hz : z * z = 1) (hyz : y * z = z * y)
     (hg : g ∈ closure ({y, z} : Set G)) : g = 1 ∨ g = y ∨ g = z ∨ g = y * z :=
   (m11_mem_closure_pair_iff hy hz hyz).mp hg
 
+omit [Finite G] in
 theorem m11_lam_conj_y (h : WreathRel x₁ x₂ lam) :
     lam * x₁ ^ 2 * lam⁻¹ = x₁ ^ 2 * (x₁ * x₂) ^ 2 := by
   calc lam * x₁ ^ 2 * lam⁻¹ = (lam * x₁ * lam⁻¹) ^ 2 := conj_pow.symm
     _ = x₂ ^ 2 := by rw [h.conj_x₁]
     _ = x₁ ^ 2 * (x₁ * x₂) ^ 2 := h.x₂_sq
 
+omit [Finite G] in
 theorem m11_lam_conj_z (h : WreathRel x₁ x₂ lam) : lam * (x₁ * x₂) ^ 2 * lam⁻¹ = (x₁ * x₂) ^ 2 := by
   have h2 : lam * x₂ * lam⁻¹ = x₁ := by
     calc lam * x₂ * lam⁻¹ = lam * (lam * x₁ * lam⁻¹) * lam⁻¹ := by rw [h.conj_x₁]

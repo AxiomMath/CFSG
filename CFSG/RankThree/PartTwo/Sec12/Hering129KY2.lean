@@ -210,7 +210,7 @@ theorem resCent_mem_thetaComponentsIn {K Y : Subgroup G} {b x : G}
   have hXK : resCent K x ≤ K := (resCent_le K x).trans inf_le_left
   have hXM : resCent K x ≤ Y ⊓ Subgroup.centralizer ({b} : Set G) :=
     le_inf hXY (hXK.trans hKb)
-  haveI : Group.IsPerfect ↥(resCent K x) := isPerfect_resCent K x
+  have : Group.IsPerfect ↥(resCent K x) := isPerfect_resCent K x
   refine mem_thetaComponentsIn_iff.mpr ⟨hXM, ?_, ?_, ?_⟩
   · exact Group.IsPerfect.ofSurjective (f := (Subgroup.subgroupOfEquivOfLe hXM).symm.toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hXM).symm.surjective

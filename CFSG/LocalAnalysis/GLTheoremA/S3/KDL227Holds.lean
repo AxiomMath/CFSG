@@ -49,7 +49,7 @@ private theorem kdL227_catalog_iso {S : Type} [Group S]
     obtain ⟨p, f, hpp, hff⟩ := q
     have hpf : p ^ f = 27 := (TauCeti.PrimePower.card_def _).symm.trans hq
     obtain ⟨rfl, rfl⟩ := kdL227_prime_pow_27 hpp hff hpf
-    haveI : Fact (Nat.Prime 3) := ⟨hpp⟩
+    have : Fact (Nat.Prime 3) := ⟨hpp⟩
     exact ⟨e.trans (CFSG.ClassicalModels.linearCatalogCandidateEquivPSL 1 ⟨3, 3, hpp, hff⟩ hv)⟩
   | sporadic name => exact False.elim hi
 
@@ -58,8 +58,8 @@ private theorem kdL227_center_eq_bot (E : Type) [Group E] [Finite E]
     (hcat : catalogIs (E ⧸ Subgroup.center E) (onLie (isL2 27))) :
     Subgroup.center E = ⊥ := by
   obtain ⟨e⟩ := kdL227_catalog_iso hcat
-  haveI : Group.IsPerfect E := ⟨hq.1⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Group.IsPerfect E := ⟨hq.1⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let π : E →* Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 3 3) :=
     e.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center E))
   have hπs : Function.Surjective π := e.surjective.comp (QuotientGroup.mk'_surjective _)
@@ -120,7 +120,7 @@ private theorem kdL227_fix_iff {K : Type} [Field K] [Finite K] {σ : K ≃+* K}
   · rw [h x]
     constructor
     · intro hx9
-      haveI : Fintype K := Fintype.ofFinite K
+      have : Fintype K := Fintype.ofFinite K
       have hc : Fintype.card K = 27 := (Fintype.card_eq_nat_card).trans (hK.trans (by norm_num))
       have h27 : x ^ 27 = x := by rw [← hc]; exact FiniteField.pow_card x
       have h3 : x ^ 3 = x ^ 27 := by rw [show x ^ 27 = (x ^ 9) ^ 3 by ring, hx9]
@@ -162,7 +162,7 @@ private def kdL227Incl {K : Type} [Field K] (K₀ : Subfield K) :
         show Matrix.scalar (Fin 2) (K₀.subtype r) i j =
           K₀.subtype.mapMatrix (A : Matrix (Fin 2) (Fin 2) K₀) i j
         rw [RingHom.mapMatrix_apply, Matrix.map_apply, ← hij]
-        by_cases h : i = j <;> simp [Matrix.scalar_apply, Matrix.diagonal_apply, h])
+        by_cases h : i = j <;> simp [Matrix.scalar_apply, h])
 
 private theorem kdL227_no_neg {K : Type} [Field K] [CharP K 3] {σ : K ≃+* K}
     (hσ3 : σ ^ 3 = 1) (a : K) (h : σ a = -a) : a = 0 := by
@@ -236,7 +236,7 @@ private theorem kdL227_fix_card_le {K : Type} [Field K] [Finite K] [CharP K 3]
     (T : Subgroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) K))
     (hT : IsPGroup 3 T) (hfix : ∀ t ∈ T, CFSG.GorensteinWalter.psl2FieldAut K σ t = t) :
     Nat.card T ≤ 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hσ3 : σ ^ 3 = 1 := by rw [← hσ]; exact pow_orderOf_eq_one σ
   let K₀ : Subfield K := σ.toRingHom.eqLocusField (RingHom.id K)
   have hK₀ : ∀ x, x ∈ K₀ ↔ σ x = x := fun x => RingHom.mem_eqLocusField
@@ -259,8 +259,8 @@ private theorem kdL227_fix_card_le {K : Type} [Field K] [Finite K] [CharP K 3]
     norm_num at this
 
 private instance kdL227_finite_mulAut (G : Type) [Group G] [Finite G] : Finite (MulAut G) :=
-  Finite.of_injective (fun f : MulAut G => f.toEquiv)
-    (fun f g h => MulEquiv.ext fun x => congrArg (fun e : G ≃ G => e x) h)
+  Finite.of_injective (fun _f : MulAut G => _f.toEquiv)
+    (fun _f _g h => MulEquiv.ext fun x => congrArg (fun e : G ≃ G => e x) h)
 
 private theorem kdL227_aut_card_le_nine {K : Type} [Field K] [Finite K] [CharP K 3]
     (hK : Nat.card K = 3 ^ 3)
@@ -268,7 +268,7 @@ private theorem kdL227_aut_card_le_nine {K : Type} [Field K] [Finite K] [CharP K
     (hD : IsElemAbelian 3 D)
     (hnot : ¬ D ≤ inner (Matrix.ProjectiveSpecialLinearGroup (Fin 2) K)) :
     Nat.card D ≤ 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set G := Matrix.ProjectiveSpecialLinearGroup (Fin 2) K with hGdef
   have hDpg : IsPGroup 3 D := fun x => ⟨1, by
     rw [pow_one]

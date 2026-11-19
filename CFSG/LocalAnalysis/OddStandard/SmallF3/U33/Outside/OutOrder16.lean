@@ -11,7 +11,7 @@ open Subgroup
 theorem abelian_of_card_sixteen {G : Type} [Group G] [Finite G] (h16 : Nat.card G = 16)
     (ρ : MulAut G) (hρ : ρ ^ 3 = 1) (hfpf : ∀ g : G, ρ g = g → g = 1) (a b : G) :
     a * b = b * a := by
-  haveI : Nontrivial G :=
+  have : Nontrivial G :=
     Finite.one_lt_card_iff_nontrivial.mp (by rw [h16]; norm_num)
   have hZmod : Nat.card (center G) % 3 = 1 :=
     card_mod_three_of_fpf ρ hρ hfpf (center G) (fun z hz => rho_mem_center ρ hz)
@@ -32,7 +32,7 @@ theorem abelian_of_card_sixteen {G : Type} [Group G] [Finite G] (h16 : Nat.card 
   rcases hZcases with hZ | hZ | hZ
   · exfalso
     have hG2 : IsPGroup 2 G := IsPGroup.of_card (n := 4) (by rw [h16]; norm_num)
-    haveI : Nontrivial (center G) := IsPGroup.center_nontrivial hG2
+    have : Nontrivial (center G) := IsPGroup.center_nontrivial hG2
     have h1lt : 1 < Nat.card (center G) := Finite.one_lt_card
     omega
   · exfalso

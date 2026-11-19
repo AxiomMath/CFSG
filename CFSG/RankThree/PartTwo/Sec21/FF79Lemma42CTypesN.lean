@@ -59,7 +59,7 @@ theorem card_trace {J R : Subgroup G} (e : ↥J ≃* G52) (hRJ : R ≤ J) (hRcar
     (t : ZMod 2) :
     Nat.card {x : G // x ∈ R ∧ x ≠ 1 ∧ ∃ hx : x ∈ J, Matrix.trace ((e ⟨x, hx⟩ : G52) : M5) = t}
       = 4 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let R' : Subgroup G52 := (R.subgroupOf J).map e.toMonoidHom
   have hmem : ∀ r : ↥J, e r ∈ R' ↔ (r : G) ∈ R := by
     intro r

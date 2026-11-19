@@ -12,6 +12,7 @@ open CFSG.Open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem IsThreeOnePlusTwo.centerIn_le_of_card_nine {D E : Subgroup G}
     (hD : IsThreeOnePlusTwo ↥D) (hED : E ≤ D) (hEcard : Nat.card E = 9) :
     CFSG.centerIn D ≤ E := by
@@ -27,11 +28,11 @@ theorem IsThreeOnePlusTwo.centerIn_le_of_card_nine {D E : Subgroup G}
     apply Subgroup.normal_of_index_eq_minFac_card
     rw [hE'index, hD.2.1]
     norm_num
-  haveI : E'.Normal := hE'normal
+  have : E'.Normal := hE'normal
   have hquotcard : Nat.card (↥D ⧸ E') = 3 := by
     rw [← Subgroup.index_eq_card, hE'index]
   have hqcomm : IsMulCommutative (↥D ⧸ E') := by
-    haveI : Fact (Nat.card (↥D ⧸ E')).Prime := ⟨by rw [hquotcard]; norm_num⟩
+    have : Fact (Nat.card (↥D ⧸ E')).Prime := ⟨by rw [hquotcard]; norm_num⟩
     exact (isCyclic_of_prime_card (p := 3) hquotcard).isMulCommutative
   have hcommle : _root_.commutator ↥D ≤ E' :=
     Subgroup.Normal.quotient_commutative_iff_commutator_le.mp hqcomm

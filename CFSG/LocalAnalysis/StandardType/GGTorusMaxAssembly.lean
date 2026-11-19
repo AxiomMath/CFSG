@@ -109,7 +109,7 @@ theorem tmAsm_E7
     rw [h, Subgroup.card_bot] at hcard
     omega
   have hsyl : ∃ P : Sylow 3 G, (P : Subgroup G) ≤ Subgroup.normalizer (E : Set G) := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     refine tmAsm_exists_sylow_le 3 _ ?_
     rw [hMcard, hG]
     have hk : orderE7 2 = 3 ^ 7 * 2903040 * 1259653636703600996790650798080 := by
@@ -122,7 +122,7 @@ theorem tmAsm_E7
   refine tmAsm_isCoatom_of_coatom_overgroups _
     (tmAsm_normalizer_ne_top E hEcomm (by norm_num) hcard) ?_
   intro H hHc hMH
-  haveI := hsimple
+  have := hsimple
   rcases hOver G 7 hEm hsimple hK E hE hcard H hHc hMH with
     ⟨P, hPH, hPn, hP2, -, hv⟩ | ⟨hrow, hsurv⟩ | ⟨J, hJH, hJn, hJs, hJna, hJC⟩
   · exact tmAsm_case_parabolic E P H 8 hE.2 hMH.le hPH hPn hP2 hcent
@@ -140,7 +140,7 @@ theorem tmAsm_E7
       apply hHc.1
       rw [eq_top_iff]
       exact h ▸ hJH
-    haveI := hJs
+    have := hJs
     have hcat : InCatalog J := tmAsm_inCatalog_of_kProper hK J hJne hJna
     have hdvdJ : Nat.card J ∣ orderE7 2 := hG ▸ Subgroup.card_subgroup_dvd_card J
     have hltJ : Nat.card J < orderE7 2 := by
@@ -191,7 +191,7 @@ theorem tmAsm_E8
     rw [h, Subgroup.card_bot] at hcard
     omega
   have hsyl : ∃ P : Sylow 3 G, (P : Subgroup G) ≤ Subgroup.normalizer (E : Set G) := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     refine tmAsm_exists_sylow_le 3 _ ?_
     rw [hMcard, hG]
     have hk : orderE8 2 = 3 ^ 8 * 696729600 *
@@ -205,7 +205,7 @@ theorem tmAsm_E8
   refine tmAsm_isCoatom_of_coatom_overgroups _
     (tmAsm_normalizer_ne_top E hEcomm (by norm_num) hcard) ?_
   intro H hHc hMH
-  haveI := hsimple
+  have := hsimple
   rcases hOver G 8 hEm hsimple hK E hE hcard H hHc hMH with
     ⟨P, hPH, hPn, hP2, -, hv⟩ | ⟨hrow, hsurv⟩ | ⟨J, hJH, hJn, hJs, hJna, hJC⟩
   · exact tmAsm_case_parabolic E P H 11 hE.2 hMH.le hPH hPn hP2 hcent
@@ -223,7 +223,7 @@ theorem tmAsm_E8
       apply hHc.1
       rw [eq_top_iff]
       exact h ▸ hJH
-    haveI := hJs
+    have := hJs
     have hcat : InCatalog J := tmAsm_inCatalog_of_kProper hK J hJne hJna
     have hdvdJ : Nat.card J ∣ orderE8 2 := hG ▸ Subgroup.card_subgroup_dvd_card J
     have hltJ : Nat.card J < orderE8 2 := by
@@ -275,7 +275,7 @@ theorem tmAsm_E8
         Nat.card_congr (Subgroup.subgroupOfEquivOfLe hMH.le).toEquiv
       have hidx : ((Subgroup.normalizer (E : Set G)).subgroupOf H).index ≤ 26 :=
         tmIdx_index_le_of_card_le _ (by rw [hMcard']; exact hHle)
-      haveI : IsSimpleGroup (J.subgroupOf H) :=
+      have : IsSimpleGroup (J.subgroupOf H) :=
         (Subgroup.subgroupOfEquivOfLe hJH).isSimpleGroup
       exact tmIdx_omega8plus3_excluded ((Subgroup.normalizer (E : Set G)).subgroupOf H)
         (J.subgroupOf H)

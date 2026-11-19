@@ -20,6 +20,7 @@ theorem sq_sq_eq {u : L} (hu : u ^ 3 = 1) : (u ^ 2) ^ 2 = u := by
   calc (u ^ 2) ^ 2 = u * u ^ 3 := by ring
     _ = u := by rw [hu, mul_one]
 
+omit [Group P] [Fintype P] in
 theorem sq_fun_inj {u v : P → L} (hu : ∀ x, u x ^ 3 = 1) (hv : ∀ x, v x ^ 3 = 1)
     (h : (fun x => u x ^ 2) = fun x => v x ^ 2) : u = v := by
   funext x
@@ -27,12 +28,14 @@ theorem sq_fun_inj {u v : P → L} (hu : ∀ x, u x ^ 3 = 1) (hv : ∀ x, v x ^ 
     _ = (v x ^ 2) ^ 2 := by rw [congrFun h x]
     _ = v x := sq_sq_eq (hv x)
 
+omit [Group P] [Fintype P] in
 theorem sq_fun_eq {u v : P → L} (hu : ∀ x, u x ^ 3 = 1)
     (h : (fun x => u x ^ 2) = v) : u = fun x => v x ^ 2 := by
   funext x
   calc u x = (u x ^ 2) ^ 2 := (sq_sq_eq (hu x)).symm
     _ = v x ^ 2 := by rw [congrFun h x]
 
+omit [Group P] [Fintype P] in
 theorem sq_fun_ne (hζ : IsPrimitiveRoot ζ 3) {u : P → L} (hu : ∀ x, u x ^ 3 = 1)
     (hnt : ∃ x, u x ≠ 1) : (fun x => u x ^ 2) ≠ u := by
   obtain ⟨x, hx⟩ := hnt
@@ -45,6 +48,7 @@ theorem sq_fun_ne (hζ : IsPrimitiveRoot ζ 3) {u : P → L} (hu : ∀ x, u x ^ 
   · rw [h1] at hx'
     exact ne_sq_of_prim hζ ((sq_sq_eq hζ.pow_eq_one).symm.trans hx')
 
+omit [Fintype P] in
 theorem exists_eq_zeta {c : P → L} (hζ : IsPrimitiveRoot ζ 3)
     (hcmul : ∀ x y, c (x * y) = c x * c y) (hcpow : ∀ x, c x ^ 3 = 1)
     (hcnt : ∃ x, c x ≠ 1) : ∃ y, c y = ζ := by
@@ -69,13 +73,11 @@ theorem ker_card (hζ : IsPrimitiveRoot ζ 3) {c : P → L}
   have hz1 : (univ.filter fun x => c x = ζ).card = (univ.filter fun x => c x = 1).card := by
     apply Finset.card_nbij' (fun z => z * y⁻¹) (fun x => x * y)
     · intro z hz
-      simp only [Finset.coe_filter, Finset.mem_coe, Set.mem_setOf_eq, Finset.mem_filter,
-        Finset.mem_univ, true_and] at hz ⊢
+      simp only [Finset.coe_filter, Set.mem_ofPred_eq, Finset.mem_univ, true_and] at hz ⊢
       show c (z * y⁻¹) = 1
       rw [hcmul, hz, mul_comm, hyinv]
     · intro x hx
-      simp only [Finset.coe_filter, Finset.mem_coe, Set.mem_setOf_eq, Finset.mem_filter,
-        Finset.mem_univ, true_and] at hx ⊢
+      simp only [Finset.coe_filter, Set.mem_ofPred_eq, Finset.mem_univ, true_and] at hx ⊢
       show c (x * y) = ζ
       rw [hcmul, hx, hy, one_mul]
     · intro z _
@@ -85,13 +87,11 @@ theorem ker_card (hζ : IsPrimitiveRoot ζ 3) {c : P → L}
   have hz2 : (univ.filter fun x => c x = ζ ^ 2).card = (univ.filter fun x => c x = 1).card := by
     apply Finset.card_nbij' (fun z => z * (y * y)⁻¹) (fun x => x * (y * y))
     · intro z hz
-      simp only [Finset.coe_filter, Finset.mem_coe, Set.mem_setOf_eq, Finset.mem_filter,
-        Finset.mem_univ, true_and] at hz ⊢
+      simp only [Finset.coe_filter, Set.mem_ofPred_eq, Finset.mem_univ, true_and] at hz ⊢
       show c (z * (y * y)⁻¹) = 1
       rw [hcmul, hz, mul_comm, hyyinv]
     · intro x hx
-      simp only [Finset.coe_filter, Finset.mem_coe, Set.mem_setOf_eq, Finset.mem_filter,
-        Finset.mem_univ, true_and] at hx ⊢
+      simp only [Finset.coe_filter, Set.mem_ofPred_eq, Finset.mem_univ, true_and] at hx ⊢
       show c (x * (y * y)) = ζ ^ 2
       rw [hcmul, hx, hyy, one_mul]
     · intro z _
@@ -104,7 +104,7 @@ theorem ker_card (hζ : IsPrimitiveRoot ζ 3) {c : P → L}
     rcases mu3_cases hζ (hcpow x) with h | h | h
     · simp [h, one_ne_of_prim hζ, one_ne_sq_of_prim hζ]
     · simp [h, ne_one_of_prim hζ, ne_sq_of_prim hζ]
-    · simp [h, sq_ne_one_of_prim hζ, ne_sq_of_prim hζ, (ne_sq_of_prim hζ).symm]
+    · simp [h, sq_ne_one_of_prim hζ, (ne_sq_of_prim hζ).symm]
   have hpart : (univ.filter fun x => c x = 1).card + (univ.filter fun x => c x = ζ).card +
       (univ.filter fun x => c x = ζ ^ 2).card = Fintype.card P := by
     simp only [Finset.card_filter]
@@ -122,9 +122,7 @@ theorem common_kernel (hζ : IsPrimitiveRoot ζ 3) {c c' : P → L}
   have ginj : ∀ {u v : L}, u ^ 3 = 1 → v ^ 3 = 1 → g u = g v → u = v := by
     intro u v hu hv huv
     rcases mu3_cases hζ hu with h1 | h1 | h1 <;> rcases mu3_cases hζ hv with h2 | h2 | h2 <;>
-      simp only [g, h1, h2] at huv <;> simp_all [ne_one_of_prim hζ, one_ne_of_prim hζ,
-        ne_sq_of_prim hζ, (ne_sq_of_prim hζ).symm, sq_ne_one_of_prim hζ,
-        one_ne_sq_of_prim hζ]
+      simp only [g, h1, h2] at huv <;> simp_all [ne_one_of_prim hζ, (ne_sq_of_prim hζ).symm, sq_ne_one_of_prim hζ]
   let φ : P → Fin 3 × Fin 3 := fun x => (g (c x), g (c' x))
   have hlt : Fintype.card (Fin 3 × Fin 3) < Fintype.card P := by
     rw [hcard, Fintype.card_prod, Fintype.card_fin]
@@ -154,6 +152,7 @@ theorem common_kernel (hζ : IsPrimitiveRoot ζ 3) {c c' : P → L}
       rw [hc'mul, mul_assoc, hzinv', mul_one, hc'xz]
     exact mul_right_cancel₀ hz0' (by rw [one_mul]; exact key)
 
+omit [Fintype P] in
 theorem triv_mem (hζ : IsPrimitiveRoot ζ 3) {c d : P → L}
     (hcmul : ∀ x y, c (x * y) = c x * c y) (hcpow : ∀ x, c x ^ 3 = 1)
     (hdmul : ∀ x y, d (x * y) = d x * d y) (hdpow : ∀ x, d x ^ 3 = 1)
@@ -188,7 +187,7 @@ theorem exists_good_char (hζ : IsPrimitiveRoot ζ 3) {d : Fin 7 → P → L}
       (univ.filter fun i => ∀ x, c x = 1 → d i x = 1).card = 3 := by
   have hnt : ∃ i, ∃ x, d i x ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hall : ∀ x : P, x = 1 := fun x => hfaith x (fun i => hcon i x)
     have hle : Fintype.card P ≤ 1 :=
       Fintype.card_le_one_iff.mpr (fun a b => (hall a).trans (hall b).symm)
@@ -208,7 +207,7 @@ theorem exists_good_char (hζ : IsPrimitiveRoot ζ 3) {d : Fin 7 → P → L}
   obtain ⟨i2, hi2⟩ : ∃ i2, ¬ (d i2 = (fun _ => 1) ∨ d i2 = d i1 ∨
       d i2 = fun x => d i1 x ^ 2) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hall : ∀ i, d i x0 = 1 := by
       intro i
       rcases hcon i with h | h | h
@@ -224,14 +223,14 @@ theorem exists_good_char (hζ : IsPrimitiveRoot ζ 3) {d : Fin 7 → P → L}
   have h2c : d i2 ≠ fun x => d i1 x ^ 2 := fun h => hi2 (Or.inr (Or.inr h))
   have hc2cnt : ∃ x, d i2 x ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact h2a (funext hcon)
   obtain ⟨x2, hx2, hx2a, hx2b⟩ :=
     common_kernel hζ (hdmul i1) (hdpow i1) (hdmul i2) (hdpow i2) hcard
   obtain ⟨i3, hi3⟩ : ∃ i3, ¬ (d i3 = (fun _ => 1) ∨ d i3 = d i1 ∨
       d i3 = (fun x => d i1 x ^ 2) ∨ d i3 = d i2 ∨ d i3 = fun x => d i2 x ^ 2) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hall : ∀ i, d i x2 = 1 := by
       intro i
       rcases hcon i with h | h | h | h | h
@@ -254,7 +253,7 @@ theorem exists_good_char (hζ : IsPrimitiveRoot ζ 3) {d : Fin 7 → P → L}
   have h3e : d i3 ≠ fun x => d i2 x ^ 2 := fun h => hi3 (Or.inr (Or.inr (Or.inr (Or.inr h))))
   have hc3cnt : ∃ x, d i3 x ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact h3a (funext hcon)
   have hsq1 := sq_fun_ne hζ (hdpow i1) hc1cnt
   have hsq2 := sq_fun_ne hζ (hdpow i2) hc2cnt
@@ -285,7 +284,7 @@ theorem exists_good_char (hζ : IsPrimitiveRoot ζ 3) {d : Fin 7 → P → L}
     intro j hj
     have hjnt : ∃ x, d j x ≠ 1 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hj (funext hcon)
     rw [hm, hm]
     exact (mult_inv_eq hζ hdmul hdpow hsymm (hdmul j) (hdpow j) hjnt).symm
@@ -296,7 +295,7 @@ theorem exists_good_char (hζ : IsPrimitiveRoot ζ 3) {d : Fin 7 → P → L}
   have hnt_of : ∀ j, d j ≠ (fun _ => 1) → ∃ x, d j x ≠ 1 := by
     intro j hj
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hj (funext hcon)
   have sq_ne_one : ∀ j, d j ≠ (fun _ => 1) → (fun x => d j x ^ 2) ≠ fun _ => 1 := by
     intro j hj h

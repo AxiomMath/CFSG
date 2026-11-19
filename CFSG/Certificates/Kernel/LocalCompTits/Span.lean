@@ -36,7 +36,7 @@ private theorem xorSel_xor (f : Nat → Nat) (m m' : Nat) :
   | k + 1 => by
     simp only [xorSel, Nat.testBit_xor, xorSel_xor f m m' k]
     cases m.testBit k <;> cases m'.testBit k <;>
-      simp [xor_dup, xor_dup', Nat.xor_assoc, Nat.xor_comm, xor_left_comm']
+      simp [xor_dup', Nat.xor_assoc, Nat.xor_comm, xor_left_comm']
 
 private theorem xorSel_two_pow (f : Nat → Nat) (t : Nat) :
     ∀ k, xorSel f (2 ^ t) k = if t < k then f t else 0
@@ -106,7 +106,7 @@ private theorem xorSel_piv {pv : Array Nat} (hf : PForm pv) (m : Nat) :
     have hpk : 2 ^ k < 2 ^ (k + 1) := Nat.pow_lt_pow_right (by decide) (by omega)
     simp only [xorSel]
     by_cases hb : m.testBit k = true
-    · rw [if_pos hb]
+    · rw [ite_eq_left hb]
       rcases hf k (by omega) with e | ⟨e1, e2⟩
       · simp only [e, Nat.xor_zero]
         exact ⟨by omega, ih2⟩
@@ -124,10 +124,10 @@ private theorem xorSel_piv {pv : Array Nat} (hf : PForm pv) (m : Nat) :
         rw [h0] at e1
         have := Nat.two_pow_pos k
         omega
-    · rw [if_neg hb]
+    · rw [ite_eq_right hb]
       exact ⟨by omega, ih2⟩
 
-private theorem pv_ne_of_rep {pv : Array Nat} (hf : PForm pv) {c : Nat} (hc : c < 52)
+private theorem pv_ne_of_rep {pv : Array Nat} (hf : PForm pv) {c : Nat} (_hc : c < 52)
     (h : ∃ m, xorSel (fun b => pv[b]!) m 52 = 2 ^ c) : pv[c]! ≠ 0 := by
   obtain ⟨m, e⟩ := h
   have := (xorSel_piv hf m 52 (Nat.le_refl 52)).2
@@ -283,19 +283,19 @@ private theorem phase1_spec (vs : Array Nat) (hv : ∀ t < vs.size, vs[t]! < 2 ^
         rw [set_get _ _ _ _ (by omega)]
         by_cases e : r.fst.log2 = b
         · subst e
-          rw [if_pos rfl]
+          rw [ite_eq_left rfl]
           exact Or.inr ((Nat.log2_eq_iff hz).1 rfl)
-        · rw [if_neg e]; exact I.form b hb
+        · rw [ite_eq_right e]; exact I.form b hb
       · intro b hb
         rw [set_get _ _ _ _ (by omega), set_get _ _ _ _ (by omega)]
         by_cases e : r.fst.log2 = b
-        · subst e; rw [if_pos rfl, if_pos rfl]; exact hr2
-        · rw [if_neg e, if_neg e]; exact I.lin b hb
+        · subst e; rw [ite_eq_left rfl, ite_eq_left rfl]; exact hr2
+        · rw [ite_eq_right e, ite_eq_right e]; exact I.lin b hb
       · intro t' ht'
         by_cases e : t' = j
         · subst e
           have hg := Span.gen (pv := pv.set! r.fst.log2 r.fst) r.fst.log2 hj0
-          rw [set_get _ _ _ _ (by omega), if_pos rfl] at hg
+          rw [set_get _ _ _ _ (by omega), ite_eq_left rfl] at hg
           have e2 : vs[t']! = (vs[t']! ^^^ r.fst) ^^^ r.fst := by
             rw [Nat.xor_assoc, Nat.xor_self, Nat.xor_zero]
           rw [e2]
@@ -349,7 +349,7 @@ private theorem inner2 {vs pv pm : Array Nat} (I : PInv vs pv pm) {b : Nat} (hb 
             rw [hc] at this
             simp [h1] at this
             simp [h1, this]
-          · simp [h1, h3, show ¬ i < j + 1 by omega, show ¬ j = i by omega]
+          · simp [h1, show ¬ i < j + 1 by omega, show ¬ j = i by omega]
     · refine ⟨(s.fst, s.snd), by simp [body2in, hc], h2, fun i => ?_⟩
       rw [h4 i]
       by_cases h1 : i < j
@@ -390,24 +390,24 @@ private theorem phase2_spec {vs pv pm : Array Nat} (hP : P2 vs pv pm 0) :
   · intro b hb
     rw [set_get _ _ _ _ (by omega)]
     by_cases e : j = b
-    · subst e; rw [if_pos rfl, hr1]
+    · subst e; rw [ite_eq_left rfl, hr1]
       exact Or.inr ⟨Nat.le_refl _, Nat.pow_lt_pow_right (by decide) (by omega)⟩
-    · rw [if_neg e]; exact I.form b hb
+    · rw [ite_eq_right e]; exact I.form b hb
   · intro b hb
     rw [set_get _ _ _ _ (by omega), set_get _ _ _ _ (by omega)]
     by_cases e : j = b
-    · subst e; rw [if_pos rfl, if_pos rfl]; exact hr2
-    · rw [if_neg e, if_neg e]; exact I.lin b hb
+    · subst e; rw [ite_eq_left rfl, ite_eq_left rfl]; exact hr2
+    · rw [ite_eq_right e, ite_eq_right e]; exact I.lin b hb
   · intro b hb
     rw [set_get _ _ _ _ (by omega)]
     by_cases e : j = b
-    · subst e; rw [if_pos rfl, hr1]; exact Nat.pos_iff_ne_zero.1 (Nat.two_pow_pos _)
-    · rw [if_neg e]; exact hne b hb
+    · subst e; rw [ite_eq_left rfl, hr1]; exact Nat.pos_iff_ne_zero.1 (Nat.two_pow_pos _)
+    · rw [ite_eq_right e]; exact hne b hb
   · intro b hb
     rw [set_get _ _ _ _ (by omega)]
     by_cases e : j = b
-    · subst e; rw [if_pos rfl, hr1]
-    · rw [if_neg e]; exact hd b (by omega)
+    · subst e; rw [ite_eq_left rfl, hr1]
+    · rw [ite_eq_right e]; exact hd b (by omega)
 
 theorem spanOK_of_reps (vs : Array Nat) (hv : ∀ t < vs.size, vs[t]! < 2 ^ 52)
     (hM : ∀ c < 52, ∃ m, xorSel (fun t => vs[t]!) m vs.size = 2 ^ c) :
@@ -457,7 +457,7 @@ private theorem foldr_xorSel (g : Nat → Nat) (m : Nat) :
     simp only [xorSel, bitnat, xor_eq]
     cases m.testBit k
     · simp
-    · simp [xor_eq, Nat.xor_assoc, Nat.xor_comm, xor_left_comm']
+    · simp [Nat.xor_assoc, Nat.xor_comm]
 
 open CFSG.KC.LocalComp.TitsChain in
 theorem span_sound {N : Nat} {TP M : Nat → Nat} {CP : List Nat}

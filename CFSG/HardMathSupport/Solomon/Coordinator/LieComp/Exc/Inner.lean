@@ -23,7 +23,7 @@ set_option linter.unusedSectionVars false
 theorem perfect_le_iSup_rationalComponent_of_prime
     {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] {p₀ p : ℕ}
     (S : LangSetup τ L p₀) (hp : p.Prime) {a : Fin τ.rank → Lˣ} (hT : rootDiagUnit τ a ∈ S.D.torus)
-    (hap : ∀ i, a i ^ p = 1) (h1 : rootDiagUnit τ a ≠ 1)
+    (hap : ∀ i, a i ^ p = 1) (_h1 : rootDiagUnit τ a ≠ 1)
     (hTame : ∀ i : KernelComponent (rootCharHom a),
       CFSG.IsQuasisimple (rationalComponent S.ρ S.Γ (rootCharHom a) i) ∨
         Group.IsSolvable (rationalComponent S.ρ S.Γ (rootCharHom a) i))
@@ -43,9 +43,9 @@ theorem perfect_le_iSup_rationalComponent_of_prime
     Subgroup.mem_inf.2 ⟨hΓ (Subgroup.mem_inf.1 (hP hx)).1, (Subgroup.mem_inf.1 (hP hx)).2⟩
   have hPU : P ≤ rootSpan τ L (rootCharKernel a) :=
     perfect_le_rootSpan_kernel hp a hap hPX hperf
-  haveI : Finite (KernelComponent (rootCharHom a)) :=
+  have : Finite (KernelComponent (rootCharHom a)) :=
     (root_character_kernel_orthogonal_central_product τ L (rootCharHom a)).2.1
-  haveI : Finite (Set.range (rationalRoots S.ρ (rootCharHom a))) :=
+  have : Finite (Set.range (rationalRoots S.ρ (rootCharHom a))) :=
     (Set.finite_range _).to_subtype
   let A : Set.range (rationalRoots S.ρ (rootCharHom a)) → Subgroup (ModGL τ L) :=
     fun O => rootSpan τ L O.1
@@ -65,14 +65,14 @@ theorem perfect_le_iSup_rationalComponent_of_prime
         rootSpan_mono fun γ hγ => ⟨0, γ, hγ, rfl⟩
       exact h.trans (le_iSup A ⟨_, i, rfl⟩)
   have hAadj : ∀ O, A O ≤ adjointGroup τ L := fun O => rootSpan_le_adjointGroup L O.1
-  have h1 := perfect_le_iSup_inf_fixed S.D.step A hc hF hperf (hPU.trans hU.ge)
+  have _h1 := perfect_le_iSup_inf_fixed S.D.step A hc hF hperf (hPU.trans hU.ge)
     fun x hx => hΓfix x (Subgroup.mem_inf.1 (hP hx)).1
   have hc2 : ∀ O O', O ≠ O' → ∀ x ∈ A O ⊓ S.D.step.eqLocus (MonoidHom.id _),
       ∀ y ∈ A O' ⊓ S.D.step.eqLocus (MonoidHom.id _), Commute x y :=
     fun O O' hne x hx y hy => hc O O' hne x hx.1 y hy.1
   have h2 : P ≤ ⨆ O, A O ⊓ S.Γ := by
     refine (perfect_le_iSup_commutator (fun O => A O ⊓ S.D.step.eqLocus (MonoidHom.id _)) hc2
-      hperf h1).trans (iSup_mono fun O => le_inf ?_ ?_)
+      hperf _h1).trans (iSup_mono fun O => le_inf ?_ ?_)
     · exact (Subgroup.commutator_mono inf_le_left inf_le_left).trans
         (Subgroup.commutator_le_self _)
     · exact Subgroup.commutator_mono (fun x hx => ⟨hAadj O hx.1, hx.2⟩)
@@ -152,10 +152,10 @@ theorem components_of_langSetup {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] 
   have hCdrange : S.Γ ⊓ Subgroup.centralizer {d} ≤ ι.range := fun x hx => by
     rw [hrange]
     exact (Subgroup.mem_inf.1 hx).1
-  haveI : Finite (KernelComponent (rootCharHom a)) :=
+  have : Finite (KernelComponent (rootCharHom a)) :=
     (root_character_kernel_orthogonal_central_product τ L (rootCharHom a)).2.1
   let Q := {i : KernelComponent (rootCharHom a) // CFSG.IsQuasisimple (R i)}
-  haveI : Finite Q := Subtype.finite
+  have : Finite Q := Subtype.finite
   have hcompR : ∀ i : Q, IsComponentOf (R i.1) (S.Γ ⊓ Subgroup.centralizer {d}) := by
     intro i
     obtain ⟨hle, hsub⟩ := langSubnormal_of_mem_torus S hT i.1
@@ -218,8 +218,8 @@ theorem lieCompExport_of_langSetup (hres : ExcRationalLieTypes) {τ : Tag} {L : 
     rwa [hℓ] at this
   refine ⟨hlayer, fun K hK => ?_, fun ⟨K, hK, ⟨e⟩⟩ => ?_⟩
   · obtain ⟨R, eK, hq, hty⟩ := hdata hK
-    haveI : Finite ↥K := Subtype.finite
-    haveI : Finite ↥R := Finite.of_equiv _ eK.toEquiv
+    have : Finite ↥K := Subtype.finite
+    have : Finite ↥R := Finite.of_equiv _ eK.toEquiv
     refine ⟨↥R, inferInstance, inferInstance, ⟨hq.1.commutator_eq_top, hty.1,
       fun ⟨e'⟩ => (hty.2.false e').elim⟩, eK.symm.toMonoidHom, eK.symm.surjective, ?_⟩
     intro x hx

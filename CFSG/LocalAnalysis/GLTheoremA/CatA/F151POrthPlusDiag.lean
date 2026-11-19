@@ -16,8 +16,8 @@ open CFSG.HardMathSupport.Solomon.Coordinator.LieComp.OmegaAux.C
 private theorem catalogIs_projOrthDerived_plus (n m : ℕ) (K : Type) [Field K] [Finite K]
     (hK : Nat.card K = 2 ^ m) (hn : 4 ≤ n) :
     catalogIs (ProjOrthDerived (quadPlus n K)) (onLie fun d => d.characteristic = 2) := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
   have hring : ringChar K = 2 := ringChar.eq K 2
   obtain ⟨q, hv, -, hqp, ⟨iso⟩⟩ := exists_mulEquiv_catalogue_statedProj_plus (K := K) n hn
   refine ⟨TauCeti.CFSGIndex.lie ⟨.D n q, hv⟩, ?_,
@@ -29,7 +29,7 @@ theorem orthPlusDiag_of_block (hL : CatLayer) (hC : CatChevComps) (hB : DiagOfBl
     (hT : MarkTransport) (hI : ShapeModelDiagIso)
     (hM : T171Sh.OrthComponentBlockAnalysisPlus) : OrthPlusDiag := by
   intro n m K _ _ hn hKcard p hp hp2
-  haveI : Finite (ProjOrthDerived (quadPlus n K)) :=
+  have : Finite (ProjOrthDerived (quadPlus n K)) :=
     Finite.of_injective (T171Sh.orthModelEquivPlus n K).symm
       (T171Sh.orthModelEquivPlus n K).symm.injective
   have hcat : catalogIs (ProjOrthDerived (quadPlus n K))

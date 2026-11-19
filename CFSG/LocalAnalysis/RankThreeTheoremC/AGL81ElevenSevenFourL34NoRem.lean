@@ -23,6 +23,7 @@ variable {G : Type} [Group G] [Finite G]
 
 namespace NoRem
 
+omit [Finite G] in
 theorem pCoreOf_map_conj (K : Subgroup G) (g : G) :
     pCoreOf 2 (K.map (MulAut.conj g).toMonoidHom) =
       (pCoreOf 2 K).map (MulAut.conj g).toMonoidHom := by
@@ -33,6 +34,7 @@ theorem pCoreOf_map_conj (K : Subgroup G) (g : G) :
   rw [← h, map_map, map_map]
   rfl
 
+omit [Finite G] in
 theorem shape_map_conj {X I : Subgroup G}
     (hb : pCoreOf 2 I = pCoreOf 2 X ∧ IsSymThreeOrSUThreeTwo (↥I ⧸ CFSG.pCore 2 ↥I)) {g : G}
     (hg : g ∈ normalizer (X : Set G)) :
@@ -96,7 +98,7 @@ theorem eq_of_oUpperTwo_eq_cZero (hD : SubnormalSUThreeTwoDetermined) {X I₁ I�
     (hb₁ : pCoreOf 2 I₁ = pCoreOf 2 X ∧ IsSymThreeOrSUThreeTwo (↥I₁ ⧸ CFSG.pCore 2 ↥I₁))
     (hb₂ : pCoreOf 2 I₂ = pCoreOf 2 X ∧ IsSymThreeOrSUThreeTwo (↥I₂ ⧸ CFSG.pCore 2 ↥I₂))
     (h : oUpperTwo I₁ = oUpperTwo I₂) : I₁ = I₂ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hs₁, hb₁', hN₁, hm₁⟩ := image_data h₁ hb₁
   obtain ⟨hs₂, hb₂', hN₂, hm₂⟩ := image_data h₂ hb₂
   set π := QuotientGroup.mk' (CFSG.pCore 2 ↥X)
@@ -148,9 +150,11 @@ theorem two_le_pRank_of_commuting_mod' {Y N C₂ : Subgroup G} (hN : IsPGroup 2 
   exact SevenFourL34.two_le_pRank_of_commuting_mod hN hYN huY hvY (mem_zpowers u) hvC hmeet hu hv
     hcomm
 
+omit [Finite G] in
 theorem oUpperTwo_idem (I : Subgroup G) : oUpperTwo (oUpperTwo I) = oUpperTwo I := by
   simpa using CZeroProduct.oUpperTwo_sup_eq (I := I) (N := ⊥) bot_le
 
+omit [Finite G] in
 theorem oUpperTwo_mono {A B : Subgroup G} (h : A ≤ B) : oUpperTwo A ≤ oUpperTwo B :=
   closure_mono fun _ hx => ⟨h hx.1, hx.2⟩
 
@@ -162,8 +166,8 @@ theorem oUpperTwo_eq_of_rank {Xc R I₁ I₂ : Subgroup G} (h₁ : IsCZeroMember
     (h3 : 3 ∣ Nat.card (oUpperTwo I₂))
     (hcard : Nat.card (oUpperTwo I₁) = Nat.card (oUpperTwo I₂)) :
     oUpperTwo I₁ = oUpperTwo I₂ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hne
   set N := pCoreOf 2 Xc
   have hcomm := commutator_oUpperTwo_le_pCoreOf
@@ -180,7 +184,7 @@ theorem oUpperTwo_eq_of_rank {Xc R I₁ I₂ : Subgroup G} (h₁ : IsCZeroMember
     exact hne (eq_of_le_of_card_ge h12 hcard.symm.le)
   obtain ⟨u, ⟨huI, hodd⟩, hu⟩ : ∃ u, (u ∈ I₁ ∧ Odd (orderOf u)) ∧ u ∉ oUpperTwo I₂ ⊔ N := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hnle ((closure_le _).mpr fun x hx => hcon x hx)
   have huO : u ∈ oUpperTwo I₁ := subset_closure ⟨huI, hodd⟩
   have hu3 : u ^ 3 = 1 := by
@@ -270,7 +274,7 @@ theorem agl81ElevenSevenFourL34_of_noRem (hD : SubnormalSUThreeTwoDetermined)
     AGL81ElevenSevenFourL34 G := by
   intro hS p P M H Q K hσ hd hnc L hL hLn hno hp hK b hb x hx
   subst hp
-  haveI hKn : K.Normal := h9N hS 3 P M H Q K hd
+  have hKn : K.Normal := h9N hS 3 P M H Q K hd
   have hZ : Subgroup.center K = ⊥ := CFSG.LocalAnalysis.RankThreeTheoremC.Hyp111.center_eq_bot_of_isLinThreeFour hK
   have h1 : ∀ I₀ ∈ cZero (H ⊓ L),
       CFSG.ComponentClassification.AS76b.oUpperTwo I₀ ≤ d1PlusCore 3 H K := by

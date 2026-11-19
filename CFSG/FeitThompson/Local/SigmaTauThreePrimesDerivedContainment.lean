@@ -42,7 +42,7 @@ theorem le_commutator_of_mem_tau3Primes (hodd : Odd (Nat.card G)) (hq3 : q ∈ t
   have hrank : elementaryAbelianPRank q ↥(P : Subgroup ↥M) = elementaryAbelianPRank q ↥M :=
     elementaryAbelianPRank_eq_of_natCard_eq_pow_factorization hq P.card_eq_multiplicity
   have : IsCyclic ↥(P : Subgroup ↥M) :=
-    isCyclic_of_elementaryAbelianPRank_le_one hq hqodd P.isPGroup' (by rw [hrank, hrank1])
+    isCyclic_of_elementaryAbelianPRank_le_one hq hqodd P.isPGroup (by rw [hrank, hrank1])
   have hdvd' : q ∣ Nat.card ↥(_root_.commutator ↥M) := by
     rw [natCard_commutator_subtype]; exact hdvd
   have h2 := Subgroup.map_mono (f := M.subtype) (hP.trans (cyclicSylow_le_commutator P hdvd'))

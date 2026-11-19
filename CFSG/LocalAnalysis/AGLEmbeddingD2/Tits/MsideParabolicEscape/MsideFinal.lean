@@ -19,7 +19,7 @@ open CFSG.Open CFSG.AGLEmbedding CFSG.RankThreeCoreUniqueness.Helpers
       IsS3Parabolic U (U ⊔ Q) ∧ ∀ g : G, ¬ Q.map (MulAut.conj g).toMonoidHom ≤ H
 
 theorem permutableOrderThreeAt : PermutableOrderThreeAt :=
-  fun G _ _ M D₀ P₀ Rc hD₀M hD₀n hD₀cop hP₀M hP₀ hNn hRcM hRc hsyl =>
+  fun _G _ _ _M _D₀ _P₀ _Rc hD₀M hD₀n hD₀cop hP₀M hP₀ hNn hRcM hRc hsyl =>
     CFSG.AGLEmbeddingD2.Tits.OrdinaryProofs.exists_permutable_order_three_of_normal
       hD₀M hD₀n hD₀cop hP₀M hP₀ hNn hRcM hRc hsyl
 

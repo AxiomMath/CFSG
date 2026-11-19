@@ -255,7 +255,7 @@ theorem inf_le_pCoreOf_of_cases
     have hY3 : ¬ 3 ∣ Nat.card (projQ Kz I) := fun h =>
       hI3 (h.trans (card_projQ_dvd hOutKz hcen hIK hI))
     have hle : projQ Kz I ≤ Sb := hPar _ hcase Sb _ hSbN hY3
-    have hnil : TwoNilpotent ↥(projQ Kz I) := twoNilpotent_of_isPGroup (Sb.isPGroup'.to_le hle)
+    have hnil : TwoNilpotent ↥(projQ Kz I) := twoNilpotent_of_isPGroup (Sb.isPGroup.to_le hle)
     intro t ht d hd
     obtain ⟨n, hn⟩ := h2elt t ht.1
     exact commutator_mem_of_quotConj_eq_one

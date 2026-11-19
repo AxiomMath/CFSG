@@ -55,7 +55,7 @@ theorem conj_splitMinusRhoOfTwoLe_mem_nodeOmega (r : ℕ) (hr : 2 ≤ r)
     rintro _ ⟨_, ⟨g, hg, rfl⟩, rfl⟩
     rcases hg with ⟨x, rfl⟩ | ⟨x, rfl⟩
     · rw [CFSG.ClassicalInvolution.WeakCT.rLong_tv01, MulEquiv.toMonoidHom_eq_coe,
-        MonoidHom.coe_coe, MulAut.conj_apply]
+        _root_.MonoidHom.coe_ofClass, MulAut.conj_apply]
       rcases hσ with ⟨h0, h1⟩ | ⟨h0, h1⟩
       · have h := (minusFrame (r + 2) b c).conj_longRoot w (succ_ne_of_lt (r + 2) hi') true false
           (succ_ne_of_lt (r + 2) hj') true false (hvec _ true |>.trans (by rw [h0]))
@@ -69,7 +69,7 @@ theorem conj_splitMinusRhoOfTwoLe_mem_nodeOmega (r : ℕ) (hr : 2 ≤ r)
         rw [h, one_mul, one_mul, ← CFSG.ClassicalInvolution.WeakCT.rLong_tv10]
         exact ⟨_, rfl⟩
     · rw [CFSG.ClassicalInvolution.WeakCT.rLong_tv10, MulEquiv.toMonoidHom_eq_coe,
-        MonoidHom.coe_coe, MulAut.conj_apply]
+        _root_.MonoidHom.coe_ofClass, MulAut.conj_apply]
       rcases hσ with ⟨h0, h1⟩ | ⟨h0, h1⟩
       · have h := (minusFrame (r + 2) b c).conj_longRoot w (succ_ne_of_lt (r + 2) hi').symm true
           false (succ_ne_of_lt (r + 2) hj').symm true false
@@ -308,7 +308,7 @@ theorem spinAction_longRoot_mem_supportedDerived_pure {n : ℕ} (hcard : 2 < Nat
   · rw [minusVec_eq_single]
     exact (pureSupport F n S).smul_mem x (single_mem_pureSupport hi s 1)
   · rw [polar_smul_right, polar_minusVec_minusVec,
-      if_neg (by rintro ⟨hji, -⟩; exact hij hji.symm)]
+      ite_eq_right (by rintro ⟨hji, -⟩; exact hij hji.symm)]
     simp
   · exact eichler_mem_orthDerived_of_ne_zero_ne_one hnd hν0 hν1 _ _
 
@@ -409,6 +409,7 @@ theorem chartPure_le_chartSubgroup {n : ℕ}
     (nondegenerate_polarBilin_restrict (polarNondegOn_pureSupport S))
     (nondegenerate_polarBilin_restrict (polarNondegOn_anchoredSupport hirr S)) he
 
+omit [Finite F] [CharP F 2] in
 theorem chartPure_le_centralizer_inf (r : ℕ) (_hr : 2 ≤ r)
     (_hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) {i j : Fin (r + 1)} (hij : i ≠ j)
     (S : Finset (Fin (r + 1))) :

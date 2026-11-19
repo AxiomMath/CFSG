@@ -68,7 +68,7 @@ theorem TV : T ≤ Subgroup.normalizer (V : Set G) := c.hyp.normalizes.trans c.N
 
 theorem T2 : IsPGroup 2 ↥T :=
   (CFSG.Quasithin.exists_sylow_of_quasithinIsSylowTwo c.hyp.sylow).elim
-    fun S hS => hS ▸ S.isPGroup'
+    fun S hS => hS ▸ S.isPGroup
 
 theorem zVL : z ∈ V ⊓ Subgroup.centralizer (L : Set G) := by
   rw [c.VL]

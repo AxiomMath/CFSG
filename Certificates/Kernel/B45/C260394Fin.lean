@@ -73,14 +73,14 @@ theorem tabXc : TabSpec 495 (cK CM) (pK PR) Xc :=
     fun _ hi _ hj => x_prod hT0 hT1 hgen hin hcov hinv hrow hk hi hj⟩
 
 theorem covXc : ∀ x ∈ ruS, x * x = 1 → (fixFinset x).card = 92 → ∃ i < 495, x = Xc i :=
-  fun _ hx h2 h92 => x_cover hT0 hT1 hgen hin hcov hinv hk hx h2 h92
+  fun _ hx h2 h92 => x_cover hT0 hT1 hgen hcov hx h2 h92
 
 theorem xP_rep : ∀ i < 495, PRep 4060 12 (xP RuSqS.TR (roff 4060 48720 (RuSqS.LR 0))
     (roff 4060 48720 (RuSqS.LR 1)) (CD i)) (Xc i) := fun i hi => by
   have hcd := (inv_parts (hinv i hi)).1
   obtain ⟨ha, hb⟩ := code_lt hcd
   have e : Xc i = lT 0 (Nat.shiftRight (CD i) 3) * lT 1 (Nat.land (CD i) 7) := by
-    simp only [Xc, CFSG.KC.B45P.RuSylS.X, if_pos hi, sig]
+    simp only [Xc, CFSG.KC.B45P.RuSylS.X, ite_eq_left hi, sig]
   rw [e]
   exact prep_pcomp (by norm_num) (hT0 _ ha) (hT1 _ hb)
 

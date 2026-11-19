@@ -137,7 +137,7 @@ theorem peel_sound {Ys Zs : List Nat} (D : Matrix (Fin 22) (Fin 22) (ZMod 2))
         unfold linP
         rw [Finset.sum_eq_single (p, q)]
         · simp only []
-          rw [← hpa, hea, if_pos rfl]
+          rw [← hpa, hea, ite_eq_left rfl]
         · intro pq _ hne
           have hlt : 22 * pq.1.val + pq.2.val < 484 := by omega
           by_cases hk : K.testBit (22 * pq.1.val + pq.2.val) = true
@@ -199,7 +199,7 @@ private theorem ent_pair (Q : Matrix (Fin 22) (Fin 22) (ZMod 2)) (p q : Fin 22) 
 private theorem ent_MatP (X a : Nat) (ha : a < 484) :
     ent (MatP 22 X) a = if X.testBit a then 1 else 0 := by
   unfold ent
-  rw [dif_pos ha, MatP_apply22]
+  rw [dite_eq_left ha, MatP_apply22]
   simp only []
   rw [show 22 * (a / 22) + a % 22 = a by omega]
 
@@ -226,7 +226,7 @@ private theorem maskOf_testBit {l : List Nat} {a : Nat} (h : (maskOf l).testBit 
   · exact h1
 
 theorem span_of_peel {Ys Zs Bs free : List Nat} {L : List (Nat × List Nat)}
-    (hfr : free.length = 11) (hf : ∀ f ∈ free, f < 484)
+    (hfr : free.length = 11) (_hf : ∀ f ∈ free, f < 484)
     (hpeel : peelK Ys Zs (maskOf free) L = true)
     (hsol : ∀ i < 11, ∀ k < 3, MatP 22 (Bs.getD i 0) * MatP 22 (Ys.getD k 0) =
       MatP 22 (Zs.getD k 0) * MatP 22 (Bs.getD i 0))

@@ -61,7 +61,7 @@ theorem zc' (h : NGKData X P z D) (g : X) : z * g = g * z :=
   (mem_center_iff.1 h.zc g).symm
 
 theorem planeData (h : NGKData X P z D) : PlaneData (P : Subgroup X) D z where
-  pgroup := P.isPGroup'
+  pgroup := P.isPGroup
   plane := h.plane
   normal := h.normal
   card := h.card

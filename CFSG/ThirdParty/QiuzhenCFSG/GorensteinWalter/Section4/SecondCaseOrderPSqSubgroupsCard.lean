@@ -51,7 +51,7 @@ public theorem order_p_sq_subgroups_card_of_order_p_cube
       Monoid.exponent_dvd_iff_forall_pow_eq_one.mp (by rw [hexp]) z
     have hzord : orderOf z = p := orderOf_eq_prime (x := z) (p := p) hzpow (by
       intro hz1
-      exact hzX (by simpa [hz1] using X.one_mem))
+      exact hzX (by simp [hz1]))
     have hZpcard : Nat.card Zp = p := by
       dsimp [Zp]
       rw [Nat.card_zpowers]
@@ -74,7 +74,7 @@ public theorem order_p_sq_subgroups_card_of_order_p_cube
     have hsupcard : Nat.card (X ⊔ Zp : Subgroup Q) = p ^ 3 := by
       rw [card_sup_eq_mul_of_disjoint_of_le_normalizer X Zp hnorm
         (disjoint_iff.mpr hcap), hX, hZpcard]
-      simp [pow_succ, pow_two, Nat.mul_assoc, Nat.mul_left_comm, Nat.mul_comm]
+      simp [pow_succ, Nat.mul_comm]
     have hsuptop : X ⊔ Zp = (⊤ : Subgroup Q) := by
       have hcard_le : Nat.card (⊤ : Subgroup Q) ≤
           Nat.card (X ⊔ Zp : Subgroup Q) := by
@@ -144,7 +144,7 @@ public theorem order_p_sq_subgroups_card_of_order_p_cube
       have hpbase : 1 < p := (Fact.out : p.Prime).one_lt
       have hp2 : 1 < p ^ 2 := one_lt_pow₀ hpbase (by norm_num : 2 ≠ 0)
       simpa only [hquotcard] using hp2
-    letI : Nontrivial (Q ⧸ Z) := hquotnontriv
+    let : Nontrivial (Q ⧸ Z) := hquotnontriv
     have hdiv : Monoid.exponent (Q ⧸ Z) ∣ p := by
       simpa only [hexp] using (Group.exponent_quotient_dvd Z)
     rcases (Nat.dvd_prime (Fact.out : p.Prime)).mp hdiv with h1 | hp
@@ -155,7 +155,7 @@ public theorem order_p_sq_subgroups_card_of_order_p_cube
   let S1 : Type u := {Y : Subgroup (Q ⧸ Z) // Nat.card Y = p}
   let f : S2 → S1 := fun X => by
     let Y : Subgroup (Q ⧸ Z) := X.1.map q
-    have hker : q.ker = Z := by simpa [q] using QuotientGroup.ker_mk' Z
+    have hker : q.ker = Z := by simp [q]
     have hmapcard := card_map_eq_card_mul_card_ker q X.1
     have hcapZ : X.1 ⊓ q.ker = Z := by
       rw [hker]
@@ -172,7 +172,7 @@ public theorem order_p_sq_subgroups_card_of_order_p_cube
     exact ⟨Y, hYcard⟩
   let g : S1 → S2 := fun Y => by
     let X : Subgroup Q := Y.1.comap q
-    have hker : q.ker = Z := by simpa [q] using QuotientGroup.ker_mk' Z
+    have hker : q.ker = Z := by simp [q]
     have hmap : X.map q = Y.1 := by
       dsimp [X]
       exact Subgroup.map_comap_eq_self_of_surjective
@@ -195,7 +195,7 @@ public theorem order_p_sq_subgroups_card_of_order_p_cube
     intro X
     apply Subtype.ext
     dsimp [g, f]
-    have hker : q.ker = Z := by simpa [q] using QuotientGroup.ker_mk' Z
+    have hker : q.ker = Z := by simp [q]
     rw [Subgroup.comap_map_eq, hker]
     exact sup_eq_left.mpr (hZle X.1 X.2)
   have hgf : Function.RightInverse g f := by

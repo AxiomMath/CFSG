@@ -21,8 +21,8 @@ theorem S717LN.card_sl4_eq {K₁ K₂ : Type} [Field K₁] [Field K₂] [Finite 
     Nat.card (Matrix.SpecialLinearGroup (Fin 4) K₁) =
       Nat.card (Matrix.SpecialLinearGroup (Fin 4) K₂) := by
   classical
-  haveI := Fintype.ofFinite K₁
-  haveI := Fintype.ofFinite K₂
+  have := Fintype.ofFinite K₁
+  have := Fintype.ofFinite K₂
   rw [Matrix.card_SL_field, Matrix.card_SL_field, ← Nat.card_eq_fintype_card,
     ← Nat.card_eq_fintype_card, h]
 
@@ -182,7 +182,7 @@ theorem sec717LTyping_of_kstruct (h34 : Stroth34Statement) (h311a : Stroth311aSt
     S717LN.deltaRep_eq_one_iff D Bs.LN Bs.VL Bs.NR hLR hΔ (Ctx.sec717_RN_simple hc hs hp3)
       hinvL (by rw [hfinS]; norm_num)
   obtain ⟨K', fK', finK', hK'Z, φ₀, hφr, hφker, -⟩ := hp3
-  haveI : CharP K' 2 := by
+  have : CharP K' 2 := by
     obtain ⟨k, -, hk, -⟩ := hc.hyp.cp
     exact charP_two_of_card_eq_two_pow (hK'Z.trans hk)
   have hφker' : ∀ x, φ₀ x = 1 ↔ (x : G) ∈ hc.CN t := fun x => by

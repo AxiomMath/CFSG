@@ -22,7 +22,7 @@ theorem chkComm_parts {n : ℕ} (hn : n < 24576) :
   simp only [Bool.and_eq_true, List.all_eq_true, List.mem_range] at h
   obtain ⟨-, h⟩ := h
   have h1 := h n hn
-  simp only [Bool.and_eq_true, Bool.or_eq_true, Bool.not_eq_true', decide_eq_true_eq] at h1
+  simp only [Bool.or_eq_true, Bool.not_eq_true', decide_eq_true_eq] at h1
   obtain ⟨⟨⟨h2, h3⟩, h4⟩, h5⟩ := h1
   refine ⟨h2, h3, h4, fun he => ?_⟩
   rcases h5 with h5 | h5

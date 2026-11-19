@@ -60,7 +60,7 @@ end TwoCfg
 theorem noTwoCfgPSp45_holds :
     NoTwoCfgPSp45 := by
   intro G _ _ S hSn hS hcent t v J h _
-  haveI := hSn
+  have := hSn
   have htop : centralizer ({t} : Set G) ≠ ⊤ := centralizer_singleton_ne_top hcent h.t_ne_one
   have h480 := h.card_centralizer htop
   obtain ⟨ψ, hψ⟩ := exists_pgsp45Emb S hS hcent

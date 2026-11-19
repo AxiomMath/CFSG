@@ -249,7 +249,7 @@ theorem false_of_intermediate_fixed_subgroup [Finite G] {ell : ℕ} (hell : ell.
   obtain ⟨Ws, hP₁W, hTW⟩ := exists_invariant_sylow_containing hell T R P₁ hT2 hRodd
     (hTH.trans hHR) hP₁R hP₁p hTP₁
   set W := (Ws : Subgroup R).map R.subtype with hW
-  have hWp : IsPGroup ell W := Ws.isPGroup'.map R.subtype
+  have hWp : IsPGroup ell W := Ws.isPGroup.map R.subtype
   have hWR : W ≤ R := Subgroup.map_subtype_le _
   have hx₀W : x₀ ∈ W := hP₁W ⟨hx₀Q, hx₀H⟩
   have hyW : ¬ W ≤ Subgroup.centralizer ({y} : Set G) := by

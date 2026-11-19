@@ -30,7 +30,7 @@ theorem exists_sylowThreeData (c : Ctx812 G) (h812 : ¬ QuasisimpleModOTwo c.L)
       Function.Injective d.Lf ∧ (∀ i, Asc83CComponent c.S.M (d.Lf i)) ∧
       ∀ m ∈ c.S.M, ∀ i, ∃ j, (d.Lf i).map (MulAut.conj m).toMonoidHom = d.Lf j := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rcases c.hyp81.2.2.2.2 with hq | ⟨L₁, L₂, L₃, hLjoin, hL₁L, hL₂L, hL₃L,
     hcomp₁, hr₁, hcomp₂, hr₂, hcomp₃, hr₃, -⟩
   · exact absurd hq h812
@@ -63,7 +63,7 @@ theorem exists_sylowThreeData (c : Ctx812 G) (h812 : ¬ QuasisimpleModOTwo c.L)
     have hTrank : ∀ L : T, CFSG.Open.pRank 3 L.1 = 1 := by
       rintro ⟨L, k, rfl⟩
       exact hrankLf k
-    letI : MulAction ↥c.S.M T :=
+    let : MulAction ↥c.S.M T :=
       { smul m L :=
           ⟨L.1.map (MulAut.conj (m : G)).toMonoidHom, by
             rcases hconj_mem (m : G) m.2 L.1 (hTcomp L) (hTrank L) with h | h | h
@@ -87,22 +87,22 @@ theorem exists_sylowThreeData (c : Ctx812 G) (h812 : ¬ QuasisimpleModOTwo c.L)
           ext g
           simp [mul_assoc] }
     let ρ : ↥c.S.M →* Equiv.Perm T := MulAction.toPermHom ↥c.S.M T
-    haveI hperfLj : Group.IsPerfect ↥(Lf j) :=
+    have hperfLj : Group.IsPerfect ↥(Lf j) :=
       Subgroup.isPerfect_iff.mpr (hcompLf j).2.2.1
     let ej : ↥((Lf j).subgroupOf c.S.M) ≃* ↥(Lf j) :=
       Subgroup.subgroupOfEquivOfLe (hcompLf j).1
-    haveI hperfj : Group.IsPerfect ↥((Lf j).subgroupOf c.S.M) :=
+    have hperfj : Group.IsPerfect ↥((Lf j).subgroupOf c.S.M) :=
       Group.IsPerfect.ofSurjective (f := ej.symm.toMonoidHom) ej.symm.surjective
     let eT : Fin 3 → T := fun i => ⟨Lf i, ⟨i, rfl⟩⟩
     have hsurjT : Function.Surjective eT := by
       rintro ⟨L, i, rfl⟩
       exact ⟨i, rfl⟩
-    haveI : Finite T := Finite.of_surjective eT hsurjT
+    have : Finite T := Finite.of_surjective eT hsurjT
     have hTcard : Nat.card T ≤ 4 := by
       have h : Nat.card T ≤ 3 := by
         simpa using Nat.card_le_card_of_surjective eT hsurjT
       omega
-    haveI : Finite ↥(Set.univ : Set T) := Finite.of_equiv T (Equiv.Set.univ T).symm
+    have : Finite ↥(Set.univ : Set T) := Finite.of_equiv T (Equiv.Set.univ T).symm
     have hcardT : Nat.card (Set.univ : Set T) ≤ 4 := by
       rw [Nat.card_congr (Equiv.Set.univ T)]
       exact hTcard
@@ -129,7 +129,7 @@ theorem exists_sylowThreeData (c : Ctx812 G) (h812 : ¬ QuasisimpleModOTwo c.L)
     let B : Subgroup G := Lf b
     let H : Subgroup G := A ⊔ B
     have hAB : B ≤ Subgroup.normalizer (A : Set G) := hLnorm a b
-    haveI : (A.subgroupOf H).Normal := by
+    have : (A.subgroupOf H).Normal := by
       have h := Subgroup.normal_subgroupOf_sup_of_le_normalizer (H := B) (N := A) hAB
       rw [sup_comm] at h
       simpa [H] using h
@@ -225,7 +225,7 @@ namespace Ctx812E
 
 theorem pRank_Lf_le_one (c : Ctx812E G) {p : ℕ} (hp : p ∈ c.sig)
     (h76 : CFSG.LocalAnalysis.UniquenessCase.PartOne.Section7.Conclusion76 c.S.M p)
-    (d : SylowThreeData G) (hdM : d.M = c.S.M) (hdL : d.L = c.L) {P : Subgroup G}
+    (d : SylowThreeData G) (hdM : d.M = c.S.M) (_hdL : d.L = c.L) {P : Subgroup G}
     (hP : CFSG.ABGLocalTools.IsSylowOf 3 P c.S.M) (hdS : d.S = P ⊓ c.L)
     (hPn : ∀ i, P ≤ Subgroup.normalizer (d.Lf i)) (k : Fin 3) :
     CFSG.Open.pRank p (d.Lf k) ≤ 1 := by

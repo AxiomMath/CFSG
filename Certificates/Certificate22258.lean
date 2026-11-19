@@ -50,7 +50,7 @@ private theorem nine_e32_chunk_9 : (List.range' 9000 1000).all checkOne = true :
 private theorem nine_e32_0 : check () = true := by
   unfold check
   rw [range_split]
-  simp only [List.all_append, nine_e32_chunk_0, nine_e32_chunk_1, nine_e32_chunk_2, nine_e32_chunk_3, nine_e32_chunk_4, nine_e32_chunk_5, nine_e32_chunk_6, nine_e32_chunk_7, nine_e32_chunk_8, nine_e32_chunk_9, Bool.and_self, Bool.true_and, Bool.and_true]
+  simp only [List.all_append, nine_e32_chunk_0, nine_e32_chunk_1, nine_e32_chunk_2, nine_e32_chunk_3, nine_e32_chunk_4, nine_e32_chunk_5, nine_e32_chunk_6, nine_e32_chunk_7, nine_e32_chunk_8, nine_e32_chunk_9, Bool.and_self]
 
 end CertificateChecks.Batch22258
 

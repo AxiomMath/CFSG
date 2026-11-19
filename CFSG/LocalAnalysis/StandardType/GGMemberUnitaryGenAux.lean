@@ -40,7 +40,7 @@ theorem ggMUG1_block_eq (K : Type) [Field K] [Finite K] (p f m : ℕ)
       rw [blockMat_apply]
       by_cases hxy : ((i : ℕ) ≤ (x : ℕ) ∧ (x : ℕ) < (i : ℕ) + 2) ∧
           ((i : ℕ) ≤ (y : ℕ) ∧ (y : ℕ) < (i : ℕ) + 2)
-      · rw [dif_pos hxy]
+      · rw [dite_eq_left hxy]
         obtain ⟨⟨hix, hxi⟩, hyx, hyi⟩ := hxy
         simp only [Bm, Matrix.of_apply]
         refine congrArg₂ _ ?_ ?_
@@ -52,7 +52,7 @@ theorem ggMUG1_block_eq (K : Type) [Field K] [Finite K] (p f m : ℕ)
           rw [blockIdx_val]
           show (y : ℕ) = (i : ℕ) + ((y : ℕ) - (i : ℕ))
           omega
-      · rw [dif_neg hxy]
+      · rw [dite_eq_right hxy]
         exact hA x y (by
           rcases not_and_or.mp hxy with hx | hy
           · left
@@ -81,7 +81,7 @@ theorem ggMUG1_block_eq (K : Type) [Field K] [Finite K] (p f m : ℕ)
     apply Subtype.ext
     apply Units.ext
     rw [coe_coe_blockEmb]
-    simp only [Subtype.coe_mk]
+    simp only
     rw [hBval]
     exact hAmat.symm
   ·

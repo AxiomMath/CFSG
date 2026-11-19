@@ -12,6 +12,7 @@ open CFSG.EvenSporadicStandard.HNRecog
 
 variable {G : Type} [Group G] [Finite G] {a z : G}
 
+omit [Finite G] in
 private lemma gamma_inf_Gxy_Gxyz_le_Gxyz (a b y t : G) :
     Gxy a y ⊓ Gxyz b y t ≤ Gxyz a y t := by
   intro g hg

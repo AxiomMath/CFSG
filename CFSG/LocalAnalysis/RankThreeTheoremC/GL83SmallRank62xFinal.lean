@@ -155,7 +155,7 @@ theorem false_of_closing_paragraph (hK : KFactAbelianSylowRankThree) {f : ℕ} (
     ⟨1, Subtype.ext (Subtype.ext (by
       simpa using hFe.2 ((y.1 : ↥J) : G) (Subgroup.mem_subgroupOf.1 y.2).1))⟩
   obtain ⟨Q, hQ⟩ := hF₁'p.exists_le_sylow
-  have hP : IsPGroup f (Q : Subgroup ↥J) := Q.isPGroup'
+  have hP : IsPGroup f (Q : Subgroup ↥J) := Q.isPGroup
   have hPi : ¬ f ∣ (Q : Subgroup ↥J).index := Q.not_dvd_index
   have hPc : IsMulCommutative (Q : Subgroup ↥J) := by
     have hc := final62x_comm_of_isPGroup hf hE hEi hEc (hP.map J.subtype)

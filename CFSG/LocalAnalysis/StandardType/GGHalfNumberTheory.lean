@@ -73,7 +73,7 @@ private lemma card_sl_two_le_of_le {k m : ℕ} (hk : 2 ≤ k) (hkm : k ≤ m) :
   · rw [h]
   · exact le_of_lt (card_sl_two_strictMono hk h)
 
-private lemma pow_two_mul_odd_ne {a b O O' : ℕ} (hO : ¬ 2 ∣ O) (hO' : ¬ 2 ∣ O')
+private lemma pow_two_mul_odd_ne {a b O O' : ℕ} (hO : ¬ 2 ∣ O) (_hO' : ¬ 2 ∣ O')
     (h : 2 ^ a * O = 2 ^ b * O') (hab : a < b) : False := by
   obtain ⟨d, rfl⟩ : ∃ d, b = a + d := ⟨b - a, by omega⟩
   have hd : 1 ≤ d := by omega

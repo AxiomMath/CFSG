@@ -74,6 +74,7 @@ theorem eq_one_or_z_of_central {g : G} (hg : g ∈ closure ({t, x} : Set G))
     have := Nat.le_of_dvd (by norm_num) this
     omega
 
+omit [Finite G] in
 theorem exists_mul_of_conj_parity {p p' : G} (hp : p ∈ P) (hp' : p' ∈ P) {k k' : ℤ}
     (hk : p * t * p⁻¹ = t * x ^ k) (hk' : p' * t * p'⁻¹ = t * x ^ k') (hpar : Even (k - k')) :
     ∃ (j : ℤ) (r : G), r ∈ secTwoR t u ∧ p' = x ^ j * p * r := by

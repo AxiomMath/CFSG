@@ -12,6 +12,7 @@ open CFSG.Open CFSG.LocalAnalysis.RankThreeUC Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem uc22p22vk_conj_cent {M V : Subgroup G} (hV : M ≤ normalizer (V : Set G)) {x y : G}
     (hx : x ∈ M) (hy : y ∈ centralizer (V : Set G)) : x * y * x⁻¹ ∈ centralizer (V : Set G) := by
   rw [Subgroup.mem_centralizer_iff] at hy ⊢
@@ -24,6 +25,7 @@ private theorem uc22p22vk_conj_cent {M V : Subgroup G} (hV : M ≤ normalizer (V
     _ = x * (y * (x⁻¹ * v * x)) * x⁻¹ := by rw [h]
     _ = (x * y * x⁻¹) * v := by group
 
+omit [Finite G] in
 private theorem uc22p22vk_phi_injective (M V Q : Subgroup G) (hV : M ≤ normalizer (V : Set G))
     (hQM : Q ≤ M) (hQV : Q ⊓ centralizer (V : Set G) = ⊥) :
     Function.Injective (uc22br4_phi M V Q hQM) := by
@@ -54,8 +56,8 @@ private theorem uc22p22vk_rpart {X Y : Type*} [Group X] [Group Y] [Finite X] (f 
 
 private theorem uc22p22vk_cyclic_of_le {X : Type*} [Group X] {H K : Subgroup X} (h : H ≤ K)
     (hK : IsCyclic ↥K) : IsCyclic ↥H := by
-  haveI := hK
-  haveI : IsCyclic ↥(H.subgroupOf K) := inferInstance
+  have := hK
+  have : IsCyclic ↥(H.subgroupOf K) := inferInstance
   exact (Subgroup.subgroupOfEquivOfLe h).isCyclic.1 this
 
 private theorem uc22p22vk_core (D : Data G) (Ch : Choice2011 G) (h1930 : H1930 D)
@@ -67,7 +69,7 @@ private theorem uc22p22vk_core (D : Data G) (Ch : Choice2011 G) (h1930 : H1930 D
     ∃ Q : Subgroup G, Q ≤ D.M ∧ mbarImage D.M c.V Q = Qb ∧
       Q ⊓ centralizer (c.V : Set G) = ⊥ ∧ ¬ IsCyclic ↥Q ∧ b ∈ normalizer (Q : Set G) ∧
       IsCyclic ↥(Q ⊓ centralizer ({b} : Set G)) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hAM : Subgroup.zpowers b ≤ D.M := (Subgroup.zpowers_le.2 hb).trans c.hBM
   have hA : (Odd (Nat.card (Subgroup.zpowers b)) ∧ IsMulCommutative ↥(Subgroup.zpowers b) ∧
       ¬ q ∣ Nat.card (Subgroup.zpowers b)) ∨ IsPGroup q ↥(Subgroup.zpowers b) := by
@@ -90,6 +92,7 @@ private theorem uc22p22vk_core (D : Data G) (Ch : Choice2011 G) (h1930 : H1930 D
   exact ⟨Q, hQM, hmb, hQV, hQnc, hAQ (Subgroup.mem_zpowers b),
     uc22p22vf_cyclic_cent D Ch h1930 hV h8 h63 h67 hSg c hq hq2 hQM hQp hΓ hb hb1⟩
 
+omit [Finite G] in
 private theorem uc22p22vk_transfer (M V Q : Subgroup G) (hV : M ≤ normalizer (V : Set G))
     (hQM : Q ≤ M) (hQV : Q ⊓ centralizer (V : Set G) = ⊥) {b : G} (hbM : b ∈ M)
     (hbQ : b ∈ normalizer (Q : Set G)) (hcyc : IsCyclic ↥(Q ⊓ centralizer ({b} : Set G))) :
@@ -100,9 +103,9 @@ private theorem uc22p22vk_transfer (M V Q : Subgroup G) (hV : M ≤ normalizer (
   have hinj : Function.Injective φ := uc22p22vk_phi_injective M V Q hV hQM hQV
   have hrange : φ.range = mbarImage M V Q := uc22br4_range_phi M V Q hQM
   set H' : Subgroup ↥Q := (Q ⊓ centralizer ({b} : Set G)).subgroupOf Q with hH'
-  haveI hH'cyc : IsCyclic ↥H' :=
+  have hH'cyc : IsCyclic ↥H' :=
     (Subgroup.subgroupOfEquivOfLe (inf_le_left : Q ⊓ centralizer ({b} : Set G) ≤ Q)).isCyclic.2 hcyc
-  haveI hIcyc : IsCyclic ↥(H'.map φ) :=
+  have hIcyc : IsCyclic ↥(H'.map φ) :=
     isCyclic_of_surjective (φ.subgroupMap H') (φ.subgroupMap_surjective H')
   refine uc22p22vk_cyclic_of_le (K := H'.map φ) ?_ hIcyc
   intro y hy

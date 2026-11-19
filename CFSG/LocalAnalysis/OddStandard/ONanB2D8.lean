@@ -80,9 +80,9 @@ theorem sylow_eq_centralizer [Finite X] (h : CentD8 X) (hinv : ∃ t : X, orderO
     rw [← Finite.one_lt_card_iff_nontrivial]
     have := Nat.le_of_dvd Nat.card_pos hP2
     omega
-  have hcen : Nontrivial (center P) := P.isPGroup'.center_nontrivial
+  have hcen : Nontrivial (center P) := P.isPGroup.center_nontrivial
   have hc2 : 2 ∣ Nat.card (center P) := by
-    obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 (P.isPGroup'.to_subgroup (center P))
+    obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 (P.isPGroup.to_subgroup (center P))
     rw [hn]
     rcases n with _ | n
     · exfalso
@@ -287,7 +287,7 @@ theorem eq_top_of_odd_index [Finite X] (h : CentD8 X) (hinv : ∃ t : X, orderOf
       exact orderOf_dvd_natCard _
     have h2 : orderOf (QuotientGroup.mk p : X ⧸ L) ∣ orderOf p :=
       orderOf_map_dvd (QuotientGroup.mk' L) p
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨p, hp⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨p, hp⟩
     have h3 : orderOf p ∣ 2 ^ k := by
       rw [← Subgroup.orderOf_mk p hp]
       exact orderOf_dvd_of_pow_eq_one hk

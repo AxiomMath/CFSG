@@ -84,7 +84,7 @@ theorem h4StarFam_contra_spine {M : Subgroup G} {p : ℕ} {Q H : Subgroup G}
   have hstr7 : CFSG.RankThree.PartOne.IsStronglyPEmbedded 7 M :=
     isStronglyPEmbedded_of_twelveCtx' h hns 7 (by rw [hσ7]; exact Set.mem_singleton 7)
   obtain ⟨D, hD, hDQ, h7⟩ := twelveTenFinalStep_of_twelveSevenA h hs.hSevenA hs.hfinalB
-  obtain ⟨x, hxK, hxM⟩ := SetLike.not_le_iff_exists.mp (hs.hNineW D hD hDQ)
+  obtain ⟨x, hxK, hxM⟩ := IsConcreteLE.not_le_iff_exists.mp (hs.hNineW D hD hDQ)
   exact hstr7.2.2 x hxM (h7 x hxK hxM)
 
 end CFSG.LocalAnalysis.AGL81TheoremCD.Section12

@@ -52,7 +52,7 @@ public theorem secondCase_psl2_aligned_outer_involution
   let I : Subgroup G := (c.S : Subgroup G) ⊓ w.M
   let IM : Subgroup w.M := I.subgroupOf w.M
   have hIMp : IsPGroup 2 IM := by
-    have hIp : IsPGroup 2 I := c.S.isPGroup'.to_inf_left
+    have hIp : IsPGroup 2 I := c.S.isPGroup.to_inf_left
     exact hIp.comap_subtype
   have hSMleIM : (SM : Subgroup w.M) ≤ IM := by
     intro x hx
@@ -72,7 +72,7 @@ public theorem secondCase_psl2_aligned_outer_involution
     secondCase_psl2_aligned_sylow_intersection_escape c w d SM hSMleS SE
       hSEamb F hF_eq hNF hSnotE
   have hAnotE : ¬ A ≤ d.E := by simpa [hAeqI] using hInotE
-  obtain ⟨x, hxA, hxE⟩ := SetLike.not_le_iff_exists.mp hAnotE
+  obtain ⟨x, hxA, hxE⟩ := IsConcreteLE.not_le_iff_exists.mp hAnotE
   have hAnc : ¬ IsCyclic A := by
     intro hAcyc
     let eSM : (SM : Subgroup w.M) ≃* A :=
@@ -85,7 +85,7 @@ public theorem secondCase_psl2_aligned_outer_involution
     intro hAle
     let : IsCyclic c.S0 := c.S0_cyclic
     exact hAnc (Subgroup.isCyclic_of_le hAle)
-  obtain ⟨s, hsA, hsS0⟩ := SetLike.not_le_iff_exists.mp hAnotS0
+  obtain ⟨s, hsA, hsS0⟩ := IsConcreteLE.not_le_iff_exists.mp hAnotS0
   have hAleS : A ≤ (c.S : Subgroup G) := hSMleS
   have hAleM : A ≤ w.M := Subgroup.map_subtype_le (SM : Subgroup w.M)
   have memSM_of_mem_A {z : G} (hz : z ∈ A) :

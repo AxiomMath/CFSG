@@ -32,7 +32,7 @@ noncomputable def a2lNineBaseEquiv {F : Type} [Field F] [Fintype F] (hF : Fintyp
 
 theorem a2lSLReindex_injective {m n : Type} [Fintype m] [DecidableEq m] [Fintype n]
     [DecidableEq n] {R : Type} [CommRing R] (e : m ≃ n) :
-    Function.Injective (a2lSLReindex (R := R) e) := fun A B h =>
+    Function.Injective (a2lSLReindex (R := R) e) := fun _A _B h =>
   Subtype.ext ((Matrix.reindex e e).injective (congrArg Subtype.val h))
 
 @[expose] noncomputable def a2lNineSL4 {F : Type} [Field F] [Fintype F]
@@ -77,14 +77,14 @@ theorem a2lNineSL4_negOne_mem_center {F : Type} [Field F] [Fintype F] (hF : Fint
 theorem a2l_centralDatum_psl43 (hC : HypA2.ChevOddInChev2) {K : Type} [Group K] [Finite K]
     (hq : IsQuasisimple K) (h2 : IsPGroup 2 ↥(center K)) (hZ : center K ≠ ⊥)
     (hm : LieModel (K ⧸ center K) .PSL 4 3 1) : HypA2.CentralDatum K := by
-  haveI : Group.IsPerfect K := hq.1
+  have : Group.IsPerfect K := hq.1
   obtain ⟨-, F, _, _, hcard, ⟨e⟩⟩ := hm.statedClassicalModel (by decide)
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   classical
   have hF : Fintype.card F = 3 := by rw [← Nat.card_eq_fintype_card, hcard]; norm_num
   obtain ⟨ψ, -⟩ := ComponentClassification.CatFactsL4U4.exists_equiv_statedSL_four h2 hZ
     (by rw [hF]) e
-  haveI := Fintype.ofFinite (GaloisField 3 2)
+  have := Fintype.ofFinite (GaloisField 3 2)
   have hE : Fintype.card (GaloisField 3 2) = 9 := by
     rw [← Nat.card_eq_fintype_card, card_galoisField_three_two]
   have hTU : HypA2.TypU K := a2l_typU_of_not_inChev2 hq h2

@@ -128,7 +128,7 @@ variable {G : Type} [Group G]
 theorem sylow_map_isPGroup_ne_bot {J : Subgroup G} (S : Sylow 2 J)
     (hS : ∃ r : ℕ, 3 ≤ r ∧ Nonempty ((S : Subgroup J) ≃* QuaternionGroup (2 ^ (r - 2)))) :
     IsPGroup 2 ((S : Subgroup J).map J.subtype) ∧ (S : Subgroup J).map J.subtype ≠ ⊥ := by
-  refine ⟨S.isPGroup'.map J.subtype, ?_⟩
+  refine ⟨S.isPGroup.map J.subtype, ?_⟩
   obtain ⟨r, -, ⟨e⟩⟩ := hS
   intro hbot
   have hS1 : (S : Subgroup J) = ⊥ :=

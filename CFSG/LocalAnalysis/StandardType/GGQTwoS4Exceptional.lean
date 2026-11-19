@@ -204,13 +204,13 @@ private lemma ggQ2s4e_leaf_G2 {p : ℕ} [Fact p.Prime] (D : GGQ2Lin p) (e : Fin 
       obtain ⟨f, hf⟩ := ggQ2s4e_transfer D e he 0 ha₀
         (ggQ2s4e_mk (m := 1) (a₀ := 0) (Y := CartanMatrix.A 1)
           (g := ![0]) (by decide)
-          (by intro i j; fin_cases i <;> fin_cases j <;> decide))
+          (by intro i j; fin_cases i; fin_cases j; decide))
       exact Or.inl ⟨1, f, by norm_num, Or.inl hf⟩
     · have ha₀ : e 1 = D.a := by rw [← h, e.apply_symm_apply]
       obtain ⟨f, hf⟩ := ggQ2s4e_transfer D e he 1 ha₀
         (ggQ2s4e_mk (m := 1) (a₀ := 1) (Y := CartanMatrix.A 1)
           (g := ![0]) (by decide)
-          (by intro i j; fin_cases i <;> fin_cases j <;> decide))
+          (by intro i j; fin_cases i; fin_cases j; decide))
       exact Or.inl ⟨1, f, by norm_num, Or.inl hf⟩
   · have he' : ∀ i j, D.cartan (e i) (e j) = CartanMatrix.G₂.transpose i j := by
       intro i j; rw [he]; rfl
@@ -223,13 +223,13 @@ private lemma ggQ2s4e_leaf_G2 {p : ℕ} [Fact p.Prime] (D : GGQ2Lin p) (e : Fin 
       obtain ⟨f, hf⟩ := ggQ2s4e_transfer D e he' 0 ha₀
         (ggQ2s4e_mk (m := 1) (a₀ := 0) (Y := CartanMatrix.A 1)
           (g := ![0]) (by decide)
-          (by intro i j; fin_cases i <;> fin_cases j <;> decide))
+          (by intro i j; fin_cases i; fin_cases j; decide))
       exact Or.inl ⟨1, f, by norm_num, Or.inl hf⟩
     · have ha₀ : e 1 = D.a := by rw [← h, e.apply_symm_apply]
       obtain ⟨f, hf⟩ := ggQ2s4e_transfer D e he' 1 ha₀
         (ggQ2s4e_mk (m := 1) (a₀ := 1) (Y := CartanMatrix.A 1)
           (g := ![0]) (by decide)
-          (by intro i j; fin_cases i <;> fin_cases j <;> decide))
+          (by intro i j; fin_cases i; fin_cases j; decide))
       exact Or.inl ⟨1, f, by norm_num, Or.inl hf⟩
 
 theorem ggQ2s4_leaf_exceptional {p : ℕ} [Fact p.Prime] (D : GGQ2Lin p)

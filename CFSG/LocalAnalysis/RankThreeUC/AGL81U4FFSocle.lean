@@ -112,8 +112,8 @@ lemma eq_of_forall_apply_sub_eq_zero {K R : Type*} [Field K] [Finite K] [CharP K
     obtain ⟨w, rfl⟩ := LinearMap.mem_range.mp hx
     rw [hcomm' e he w]
     exact LinearMap.mem_range_self a (e w)
-  haveI : Finite R := Module.finite_of_finite K
-  letI : MulAction 𝒟 (LinearMap.range a) :=
+  have : Finite R := Module.finite_of_finite K
+  let : MulAction 𝒟 (LinearMap.range a) :=
     { smul := fun e m => ⟨(e : R ≃ₗ[K] R) (m : R), hinv (e : R ≃ₗ[K] R) e.2 (m : R) m.2⟩
       one_smul := fun m => Subtype.ext rfl
       mul_smul := fun g h m => Subtype.ext rfl }
@@ -184,7 +184,7 @@ theorem card_le_pow_of_fixed_line {K R : Type*} [Field K] [Finite K] [CharP K 2]
           = ((d : R ≃ₗ[K] R) x - x) - ((d' : R ≃ₗ[K] R) x - x) by abel,
         map_sub, hx, sub_self]
     exact Subtype.ext (eq_of_forall_apply_sub_eq_zero 𝒟 hcomm h2 hline hf d.2 d'.2 hfun)
-  haveI : Finite (LinearMap.ker (evalAtVec (K := K) v)) := Module.finite_of_finite K
+  have : Finite (LinearMap.ker (evalAtVec (K := K) v)) := Module.finite_of_finite K
   calc Nat.card 𝒟 ≤ Nat.card (LinearMap.ker (evalAtVec (K := K) v)) :=
         Nat.card_le_card_of_injective Φ hΦ
     _ = Nat.card K ^ (Module.finrank K R - 1) := natCard_ker_evalAtVec hf

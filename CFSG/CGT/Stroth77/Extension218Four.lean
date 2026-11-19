@@ -19,7 +19,7 @@ theorem exists_ne_ne_of_card_eq_four218 {Q : Type*} [Finite Q] (hQ : Nat.card Q 
   classical
   by_contra h
   push Not at h
-  haveI := Fintype.ofFinite Q
+  have := Fintype.ofFinite Q
   have hle : (Finset.univ : Finset Q).card ≤ ({a, b} : Finset Q).card :=
     Finset.card_le_card fun q _ => by
       by_cases hq : q = a
@@ -36,7 +36,7 @@ theorem eq_or_of_card_eq_four218 {Q : Type*} [Finite Q] (hQ : Nat.card Q = 4) {q
   by_contra hq
   push Not at hq
   obtain ⟨hq0, hq1, hq2, hq3⟩ := hq
-  haveI := Fintype.ofFinite Q
+  have := Fintype.ofFinite Q
   have h5 : ({q, q₀, q₁, q₂, q₃} : Finset Q).card = 5 := by
     rw [Finset.card_insert_of_notMem (by simp [hq0, hq1, hq2, hq3]),
       Finset.card_insert_of_notMem (by simp [h01, h02, h03]),
@@ -55,15 +55,18 @@ noncomputable def sigma221 (x : C) : ZMod 2 × ZMod 2 × ZMod 2 :=
 
 variable {D hexp}
 
+omit [Finite S] in
 theorem comm_of_mem218 (hC : C ≤ Subgroup.centralizer (B : Set S)) {b z : S} (hb : b ∈ B)
     (hz : z ∈ C) : b * z = z * b :=
   Subgroup.mem_centralizer_iff.mp (hC hz) b hb
 
+omit [Finite S] in
 theorem par221_ec_mul (b c : B) :
     par221 s (D.ec (b * c)) = par221 s (D.ec b) + par221 s (D.ec c) := by
   rw [D.ec_mul]
   exact map_add (par221 s) (D.ec b) (D.ec c)
 
+omit [Finite S] in
 theorem par221_ec_of_sq_eq_one {b : B} (hb : b * b = 1) : par221 s (D.ec b) = 0 := by
   have h2 : (2 : ℤ) • (D.ec b : Torus (Type221.k s)) = 0 := by
     rw [two_zsmul]
@@ -74,6 +77,7 @@ theorem par221_ec_of_sq_eq_one {b : B} (hb : b * b = 1) : par221 s (D.ec b) = 0 
   rw [hω]
   exact par221_bv x y z
 
+omit [Finite S] in
 theorem sigma221_mul (hC : C ≤ Subgroup.centralizer (B : Set S)) (x y : C) :
     sigma221 D hexp (x * y) = sigma221 D hexp x + sigma221 D hexp y := by
   set X : S := (x : S) with hX
@@ -120,12 +124,14 @@ theorem sigma221_mul (hC : C ≤ Subgroup.centralizer (B : Set S)) (x y : C) :
   rw [hxy, hsq, par221_ec_mul, par221_ec_mul, hpK, add_zero, add_comm]
   rfl
 
+omit [Finite S] in
 theorem sigma221_inclusion (hBC : B ≤ C) (b : B) :
     sigma221 D hexp (Subgroup.inclusion hBC b) = 0 := by
   have h : sigma221 D hexp (Subgroup.inclusion hBC b) = par221 s (D.ec (b * b)) := rfl
   rw [h, D.ec_mul, ← two_zsmul]
   exact par221_two_smul _
 
+omit [Finite S] in
 theorem mem_of_sigma221_eq_zero {S' : Subgroup S} (hBC : B ≤ C)
     (hC : C ≤ Subgroup.centralizer (B : Set S)) (hH : NoInvolutionsCentralizing S' B)
     (hcS : C ≤ S') {x : C} (h : sigma221 D hexp x = 0) : (x : S) ∈ B := by
@@ -154,6 +160,7 @@ theorem mem_of_sigma221_eq_zero {S' : Subgroup S} (hBC : B ≤ C)
   rw [hXe]
   exact B.mul_mem hyB b.2
 
+omit [Finite S] in
 theorem sigma221_conj {g : S} (hgC : g ∈ Subgroup.normalizer C)
     (hgB : g ∈ Subgroup.normalizer B) (x : C) :
     sigma221 D hexp (conjBy hgC x) = par221 s (D.ec (conjBy hgB ⟨(x : S) * x, hexp _ x.2⟩)) := by
@@ -164,11 +171,13 @@ theorem sigma221_conj {g : S} (hgC : g ∈ Subgroup.normalizer C)
     group
   exact congrArg (fun z => par221 s (D.ec z)) h
 
+omit [Finite S] in
 theorem sigma221_conj_ρ (hL : D.L ≤ Subgroup.normalizer C) (x : C) :
     sigma221 D hexp (conjBy (hL D.ρ_mem_L) x) = rhoBar221 (sigma221 D hexp x) := by
   rw [sigma221_conj (hL D.ρ_mem_L) D.ρ_mem, ec_conj_ρ_t221 D]
   exact par221_phiR (Type221.data s) _
 
+omit [Finite S] in
 theorem sigma221_conj_uv (hL : D.L ≤ Subgroup.normalizer C) (x : C) :
     sigma221 D hexp (conjBy (hL D.uv_mem_L) x) = uvBar221 (sigma221 D hexp x) := by
   rw [sigma221_conj (hL D.uv_mem_L) D.uv_mem, ec_conj_uv_t221 D]

@@ -301,7 +301,7 @@ private theorem excTable_pairing_eq {m : Fin 6} {τ : Tag}
     rw [CFSG.HardMathSupport.Timmesfeld.RootAut.corootPair_sum
       (IsRoot.basis (Fin.cast hdim k)) Finset.univ (fun l => γ i l) (fun l => Pi.single l 1)]
     exact Finset.sum_congr rfl fun l _ => by simp [excTableC]
-  rw [ExcRaw.pairing, if_neg hm]
+  rw [ExcRaw.pairing, ite_eq_right hm]
   calc
     ∑ k, ExcRaw.F m i k * ExcRaw.H m j k
         = ∑ k, corootPair (Pi.single (Fin.cast hdim k) 1) (γ i) * ExcRaw.H m j k := by

@@ -19,7 +19,7 @@ theorem ob5_O2K_le_T {T U K : Subgroup G} (hKle : K ≤ Subgroup.normalizer (U :
     (hKn : Subgroup.normalizer (U : Set G) ≤ Subgroup.normalizer (K : Set G))
     (hS : QuasithinUnique.IsSylowTwoOf T (Subgroup.normalizer (U : Set G))) :
     pCoreOf 2 K ≤ T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h1 : pCoreOf 2 K ≤ pCoreOf 2 (Subgroup.normalizer (U : Set G)) :=
     CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2
       ((CFSG.LieType.BorelTits.pCoreOf_le 2 K).trans hKle)
@@ -30,7 +30,7 @@ theorem ob5_O2K_le_T {T U K : Subgroup G} (hKle : K ≤ Subgroup.normalizer (U :
 theorem ob5_O2K_inter_le {I K : Subgroup G}
     (hIn : ∀ i ∈ I, ∀ q ∈ pCoreOf 2 K, i * q * i⁻¹ ∈ pCoreOf 2 K) :
     pCoreOf 2 K ⊓ I ≤ pCoreOf 2 I := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have back : ∀ i ∈ I, ∀ x : G, i * x * i⁻¹ ∈ pCoreOf 2 K → x ∈ pCoreOf 2 K := by
     intro i hi x hx
     have h1 := hIn i⁻¹ (I.inv_mem hi) _ hx
@@ -128,14 +128,14 @@ theorem ob5_K_normalizes_P {T L I H : Subgroup G} {h : G} {k : ℕ}
         κ * p * κ⁻¹ ∈ pCoreOf 2 (ch82I (fsuV T I) h)) ∧
       (∀ κ ∈ K, κ * y * κ⁻¹ * y⁻¹ ∈ pCoreOf 2 (ch82I (fsuV T I) h)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have S := ob5_setup_of_c c
   set f := ob5dihHom c e hkerI with hfdef
   have hsurj : Function.Surjective f := ob5dihHom_surj c e hkerI
   have hfP : ∀ g ∈ ch82I (fsuV T I) h, ob5dd f g = 1 ↔ g ∈ pCoreOf 2 (ch82I (fsuV T I) h) := by
     intro g hg
     have e1 : ob5dd f g = f ⟨g, hg⟩ := by
-      simp only [ob5dd, dif_pos hg]
+      simp only [ob5dd, dite_eq_left hg]
     rw [e1]
     exact ob5dihHom_ker c e hkerI ⟨g, hg⟩
   have hVI : fsuV T I ≤ ch82I (fsuV T I) h := fun x hx => Subgroup.mem_sup_left hx

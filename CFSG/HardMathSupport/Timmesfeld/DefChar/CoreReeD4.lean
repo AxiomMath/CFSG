@@ -76,9 +76,9 @@ theorem innerCoreFree_transport {S Y : Type} [Group S] [Group Y] (e : S ≃* Y) 
 theorem innerCoreFree_of_parCharP_top {Y : Type} [Group Y] [Finite Y] {p : ℕ} [Fact p.Prime]
     (hBT : CFSG.LieType.BorelTits.Holds Y p) (hcen : Subgroup.center Y = ⊥)
     (hd : PCharData Y p ⊤) :
-    ∀ H' : Subgroup (MulAut Y), innerAut Y ≤ H' → ∀ x' ∈ innerAut Y, orderOf x' = p →
-      GLAPPrimeCoreOf p (H' ⊓ Subgroup.centralizer ({x'} : Set (MulAut Y))) = ⊥ :=
-  fun H' hH' x' hx' hxo =>
+    ∀ _H' : Subgroup (MulAut Y), innerAut Y ≤ _H' → ∀ _x' ∈ innerAut Y, orderOf _x' = p →
+      GLAPPrimeCoreOf p (_H' ⊓ Subgroup.centralizer ({_x'} : Set (MulAut Y))) = ⊥ :=
+  fun _H' hH' _x' hx' hxo =>
     gLAPPrimeCoreOf_centralizer_eq_bot_of_parCharP hBT hcen (parCharP_of_data hcen hd)
       le_top hH' hx' hxo
 

@@ -74,7 +74,7 @@ theorem sporL3DownInner_HS
 
 theorem sporL3DownInner_J1 (hbr : SporadicBridges) :
     SporL3DownInner .J1 := by
-  haveI : Finite NativeSporadic.J1 := Nat.finite_of_card_ne_zero (by
+  have : Finite NativeSporadic.J1 := Nat.finite_of_card_ne_zero (by
     rw [CFSG.Sporadic.J1.card_J1]; norm_num)
   exact sporL3DownInner_of_ninth NativeSporadic.J1 (hbr .J1) (by
     rw [CFSG.Sporadic.J1.card_J1]; norm_num)

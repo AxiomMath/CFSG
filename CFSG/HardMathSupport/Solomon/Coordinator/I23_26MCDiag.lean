@@ -13,6 +13,7 @@ section Diag
 
 variable {Y : Type*} [Group Y] [Finite Y]
 
+omit [Finite Y] in
 theorem mc_isComponentOf_gLBConj {L : Subgroup Y} (hL : IsComponentOf L ⊤) (g : Y) :
     IsComponentOf (GLBConj g L) ⊤ := by
   have hX : (⊤ : Subgroup Y).map (MulAut.conj g⁻¹).toMonoidHom = ⊤ :=
@@ -30,11 +31,13 @@ theorem mc_comm_of_ne {A B : Subgroup Y} (hA : IsComponentOf A ⊤) (hB : IsComp
   · exact absurd h hne
   · exact h x hx y hy
 
+omit [Finite Y] in
 theorem mc_conj_conj (g f : Y) (H : Subgroup Y) :
     GLBConj g (GLBConj f H) = GLBConj (f * g) H := gLBConj_gLBConj g f H
 
 @[expose] def mcD (g k : Y) : Y := k * (g⁻¹ * k * g) * (g * k * g⁻¹)
 
+omit [Finite Y] in
 theorem mc_gLBConj_inv_ne {K₁ : Subgroup Y} {g : Y} (hg3 : g ^ 3 = 1)
     (hne : GLBConj g K₁ ≠ K₁) : GLBConj g⁻¹ K₁ ≠ K₁ ∧ GLBConj g K₁ ≠ GLBConj g⁻¹ K₁ := by
   have hgg : g * g = g⁻¹ := by
@@ -51,11 +54,13 @@ theorem mc_gLBConj_inv_ne {K₁ : Subgroup Y} {g : Y} (hg3 : g ^ 3 = 1)
   rw [mc_conj_conj, mc_conj_conj, inv_mul_cancel, gLBConj_one, hgg] at this
   exact this
 
+omit [Finite Y] in
 theorem mc_mem_conj {K₁ : Subgroup Y} {g k : Y} (hk : k ∈ K₁) : g⁻¹ * k * g ∈ GLBConj g K₁ :=
   mem_gLBConj.2 (by
     have e : g * (g⁻¹ * k * g) * g⁻¹ = k := by group
     rw [e]; exact hk)
 
+omit [Finite Y] in
 theorem mc_mem_conj_inv {K₁ : Subgroup Y} {g k : Y} (hk : k ∈ K₁) :
     g * k * g⁻¹ ∈ GLBConj g⁻¹ K₁ :=
   mem_gLBConj.2 (by
@@ -63,6 +68,7 @@ theorem mc_mem_conj_inv {K₁ : Subgroup Y} {g k : Y} (hk : k ∈ K₁) :
     have e : g⁻¹ * (g * k * g⁻¹) * g = k := by group
     rw [e]; exact hk)
 
+omit [Finite Y] in
 theorem mc_mul_perm {k k' b b' c c' : Y} (h1 : b * k' = k' * b) (h2 : c * k' = k' * c)
     (h3 : c * b' = b' * c) :
     k * b * c * (k' * b' * c') = k * k' * (b * b') * (c * c') :=
@@ -80,6 +86,7 @@ variable {K₁ : Subgroup Y} (hK₁ : IsComponentOf K₁ ⊤) {g : Y} (hg3 : g ^
   (hne : GLBConj g K₁ ≠ K₁)
 include hK₁ hg3 hne
 
+omit hg3 in
 theorem mc_comm_12 {x y : Y} (hx : x ∈ GLBConj g K₁) (hy : y ∈ K₁) : x * y = y * x :=
   mc_comm_of_ne (mc_isComponentOf_gLBConj hK₁ g) hK₁ hne hx hy
 
@@ -97,7 +104,7 @@ theorem mcD_mul {k k' : Y} (hk : k ∈ K₁) (hk' : k' ∈ K₁) :
   have e : k * k' * (g⁻¹ * (k * k') * g) * (g * (k * k') * g⁻¹) =
       k * k' * ((g⁻¹ * k * g) * (g⁻¹ * k' * g)) * ((g * k * g⁻¹) * (g * k' * g⁻¹)) := by group
   rw [e]
-  exact (mc_mul_perm (mc_comm_12 hK₁ hg3 hne (mc_mem_conj hk) hk')
+  exact (mc_mul_perm (mc_comm_12 hK₁ hne (mc_mem_conj hk) hk')
     (mc_comm_13 hK₁ hg3 hne (mc_mem_conj_inv hk) hk')
     (mc_comm_23 hK₁ hg3 hne (mc_mem_conj_inv hk) (mc_mem_conj hk'))).symm
 
@@ -109,7 +116,7 @@ theorem mcD_inv_mul_comm {k : Y} (hk : k ∈ K₁) {y : Y} (hy : y ∈ K₁) :
   rw [e]
   have h2 : (g⁻¹ * k * g)⁻¹ ∈ GLBConj g K₁ := (GLBConj g K₁).inv_mem (mc_mem_conj hk)
   have h3 : (g * k * g⁻¹)⁻¹ ∈ GLBConj g⁻¹ K₁ := (GLBConj g⁻¹ K₁).inv_mem (mc_mem_conj_inv hk)
-  have e2 := mc_comm_12 hK₁ hg3 hne h2 hy
+  have e2 := mc_comm_12 hK₁ hne h2 hy
   have e3 := mc_comm_13 hK₁ hg3 hne h3 hy
   calc y * ((g * k * g⁻¹)⁻¹ * (g⁻¹ * k * g)⁻¹)
       = (y * (g * k * g⁻¹)⁻¹) * (g⁻¹ * k * g)⁻¹ := by group
@@ -132,7 +139,7 @@ theorem mcD_conj_g {k : Y} (hk : k ∈ K₁) : g⁻¹ * mcD g k * g = mcD g k :=
   have e : g⁻¹ * (k * (g⁻¹ * k * g) * (g * k * g⁻¹)) * g =
       (g⁻¹ * k * g) * (g⁻¹ * (g⁻¹ * k * g) * g) * (g⁻¹ * (g * k * g⁻¹) * g) := by group
   rw [e, e1, e2]
-  have c1 := mc_comm_12 hK₁ hg3 hne (mc_mem_conj hk) hk
+  have c1 := mc_comm_12 hK₁ hne (mc_mem_conj hk) hk
   have c2 := mc_comm_13 hK₁ hg3 hne (mc_mem_conj_inv hk) hk
   calc g⁻¹ * k * g * (g * k * g⁻¹) * k = g⁻¹ * k * g * ((g * k * g⁻¹) * k) := by group
     _ = g⁻¹ * k * g * (k * (g * k * g⁻¹)) := by rw [c2]
@@ -142,6 +149,7 @@ theorem mcD_conj_g {k : Y} (hk : k ∈ K₁) : g⁻¹ * mcD g k * g = mcD g k :=
 
 end Comm
 
+omit [Finite Y] in
 theorem mcD_conj {g c k : Y} (hcg : c * g = g * c) :
     c * mcD g k * c⁻¹ = mcD g (c * k * c⁻¹) := by
   have hC : Commute c g := hcg

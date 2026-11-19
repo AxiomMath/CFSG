@@ -48,6 +48,7 @@ structure Stroth12Hyp (hc : Ctx M Q Z B) (n : ℕ) : Prop where
   notTI : ¬ IsTIMod M Q (LB M Q B)
   large : ∀ τ ∈ LB M Q B, τ ∉ Q → Nat.card Q * Nat.card Z < Nat.card ↥(hc.CN τ)
 
+omit [Finite G] in
 theorem Stroth12Hyp.toSec5 {hc : Ctx M Q Z B} {n : ℕ} (h : Stroth12Hyp hc n) {t : G}
     (ht : t ∈ LB M Q B) (htQ : t ∉ Q) : Sec5Hyp hc n t :=
   ⟨h.width, h.n_gt, h.noA2, h.gen, ht, htQ⟩
@@ -109,6 +110,7 @@ theorem Stroth12Hyp.toSec5 {hc : Ctx M Q Z B} {n : ℕ} (h : Stroth12Hyp hc n) {
     QuotSat (Rt M (LB M Q B) t) (Nt M (LB M Q B) t) (IsOmegaPlus 6 (Nat.card Z)) ∧
     SubConfig M Q Z (Nt M (LB M Q B) t)
 
+omit [Finite G] in
 theorem strothConclusion_of {M Q Z B : Subgroup G} (hf : FrobClause M Z)
     (h : (∃ n : ℕ, Nat.card Z = 2 ^ n ∧ Tim79.IsL3Type n Q) ∨
       StrothC2 Q Z (Lgen M (LB M Q B)) ∨ StrothC3 M Q Z (Lgen M (LB M Q B)) ∨

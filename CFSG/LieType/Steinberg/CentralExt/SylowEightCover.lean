@@ -187,7 +187,7 @@ theorem ker_eq_bot_of_sylow_eight {G : Type*} [Group G] [Finite G] (P : Sylow 2 
   rw [← hker]
   refine CFSG.LocalAnalysis.ComponentInitial.ker_eq_bot_of_coprime_central_series ηT hηT
     (hker ▸ hC) (hker ▸ h2) (U := (P : Subgroup G)) le_top
-    (P.isPGroup'.of_equiv (subgroupOfEquivOfLe le_top).symm)
+    (P.isPGroup.of_equiv (subgroupOfEquivOfLe le_top).symm)
     (by
       change ¬ 2 ∣ (P : Subgroup G).relIndex ⊤
       rwa [relIndex_top_right])

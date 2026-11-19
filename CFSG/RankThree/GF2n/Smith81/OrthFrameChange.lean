@@ -90,6 +90,7 @@ section TypeA
 
 variable {K ι : Type} [Field K] [CharP K 2]
 
+omit [CharP K 2] in
 theorem pairTypeA_orthTensor_id_iff (h : GL (Fin 2) K) (qU : QuadraticForm K (ι → K))
     (p : (ι → K) × (ι → K)) :
     PairTypeA qU (orthTensor (h : Matrix (Fin 2) (Fin 2) K) id p) ↔ PairTypeA qU p := by
@@ -116,6 +117,7 @@ variable {G : Type} [Group G] {Q Z : Subgroup G} {K : Type} [Field K] {γ : G �
   {M₀ : Tim79.QuadModel Q Z K γ} {ι : Type} [Fintype ι] [DecidableEq ι]
   {qU : QuadraticForm K (ι → K)} {φ : M₀.E ≃ₗ[K] (ι → K) × (ι → K)}
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem OrthPreFrame.change [CharP K 2] (hF : OrthPreFrame Q Z M₀ qU φ) {h : GL (Fin 2) K}
     (hdet : (h : Matrix (Fin 2) (Fin 2) K).det = 1) :
     OrthPreFrame Q Z M₀ qU (φ.trans (orthTensorEquiv h)) := by
@@ -141,6 +143,7 @@ variable {G : Type} [Group G] {Q Z : Subgroup G} {K : Type} [Field K] {γ : G �
   {M₀ : Tim79.QuadModel Q Z K γ} {ι : Type} [Fintype ι] [DecidableEq ι]
   {qU : QuadraticForm K (ι → K)} {φ : M₀.E ≃ₗ[K] (ι → K) × (ι → K)}
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem ActsAsTensor.change {s : G} {g : Matrix (Fin 2) (Fin 2) K} {o : (ι → K) → (ι → K)}
     (hs : ActsAsTensor Q Z M₀ φ s g o) (h : GL (Fin 2) K)
     (ho : ∀ x y : ι → K, o (x + y) = o x + o y) (ho' : ∀ (c : K) x, o (c • x) = c • o x) :
@@ -165,6 +168,7 @@ theorem ActsAsTensor.change {s : G} {g : Matrix (Fin 2) (Fin 2) K} {o : (ι → 
   rw [hs x hx]
   exact hL.trans hR.symm
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem OrthAct.change {S : Subgroup G} (hA : OrthAct Q Z M₀ qU φ S) {h : GL (Fin 2) K}
     (hdet : (h : Matrix (Fin 2) (Fin 2) K).det = 1) :
     OrthAct Q Z M₀ qU (φ.trans (orthTensorEquiv h)) S where
@@ -172,11 +176,11 @@ theorem OrthAct.change {S : Subgroup G} (hA : OrthAct Q Z M₀ qU φ S) {h : GL 
     obtain ⟨g, o, hg, hq, hsa⟩ := hA.act s hs
     refine ⟨(h : Matrix (Fin 2) (Fin 2) K) * g * ((h⁻¹ : GL (Fin 2) K) : Matrix (Fin 2) (Fin 2) K),
       o, ?_, hq, hsa.change h (fun x y => map_add o x y) (fun c x => map_smul o c x)⟩
-    simp only [Matrix.det_mul, hg, hdet, det_units_inv_eq_one h hdet, one_mul, mul_one]
+    simp only [Matrix.det_mul, hg, hdet, det_units_inv_eq_one h hdet, mul_one]
   sl g hg := by
     obtain ⟨s, hs, hsa⟩ := hA.sl
       (((h⁻¹ : GL (Fin 2) K) : Matrix (Fin 2) (Fin 2) K) * g * (h : Matrix (Fin 2) (Fin 2) K))
-      (by simp only [Matrix.det_mul, hg, hdet, det_units_inv_eq_one h hdet, one_mul, mul_one])
+      (by simp only [Matrix.det_mul, hg, hdet, det_units_inv_eq_one h hdet, mul_one])
     refine ⟨s, hs, ?_⟩
     have hc := hsa.change h (fun x y => rfl) (fun c x => rfl)
     rwa [mul_conj_cancel_of_mul_eq_one (Units.mul_inv h) g] at hc
@@ -216,7 +220,7 @@ theorem exists_SL_mulVec_eq (c : Fin 2 → K) (hc : c ≠ 0) :
   · refine key !![(c 0)⁻¹, 0; -c 1, c 0] ?_ ?_
     · simp [Matrix.det_fin_two_of, h0]
     · funext k
-      fin_cases k <;> simp [Matrix.mulVec, dotProduct, Fin.sum_univ_two, h0] <;> ring
+      fin_cases k <;> simp [Matrix.mulVec, dotProduct, Fin.sum_univ_two, h0]; ring
 
 theorem exists_change_pure {ι : Type} (c : Fin 2 → K) (hc : c ≠ 0) (u : ι → K) :
     ∃ h : GL (Fin 2) K, (h : Matrix (Fin 2) (Fin 2) K).det = 1 ∧

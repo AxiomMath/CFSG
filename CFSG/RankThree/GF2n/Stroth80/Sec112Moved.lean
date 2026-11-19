@@ -51,14 +51,14 @@ private noncomputable def fixingSubgroup [(Q.subgroupOf M).Normal]
       simpa using congrArg (fun f : M₀.E ≃ₗ[K] M₀.E => f w) h2
     exact (liftF φ k).injective (by rw [e, hf w hw])
 
-omit [Finite K] in
+omit [Finite K] [Finite G] in
 private theorem mem_fixingSubgroup [(Q.subgroupOf M).Normal] {φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E)}
     {hφker : ∀ g : ↥(H0 M Z), φ g = 1 ↔ (g : G) ∈ Q} {t k : Mbar M Q} :
     k ∈ fixingSubgroup φ hφker t ↔ k ∈ bar M Q (H0 M Z) ∧
       ∀ w ∈ commSpace (liftF φ t), liftF φ k w = w :=
   Iff.rfl
 
-omit [Finite K] in
+omit [Finite K] [Finite G] in
 private theorem Ctx.map_commSpace_eq_of_commute [(Q.subgroupOf M).Normal]
     {φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E)}
     (hφker : ∀ g : ↥(H0 M Z), φ g = 1 ↔ (g : G) ∈ Q) {c t : Mbar M Q}
@@ -67,7 +67,7 @@ private theorem Ctx.map_commSpace_eq_of_commute [(Q.subgroupOf M).Normal]
       commSpace (liftF φ t) := by
   rw [← commSpace_liftF_conj hφker hcH htH, hct]
 
-omit [Finite K] in
+omit [Finite K] [Finite G] in
 private theorem Ctx.mem_commSpace_apply_of_commute [(Q.subgroupOf M).Normal]
     {φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E)}
     (hφker : ∀ g : ↥(H0 M Z), φ g = 1 ↔ (g : G) ∈ Q) {c t : Mbar M Q}
@@ -252,7 +252,7 @@ private theorem Ctx.eq_bot_Kbar [(Q.subgroupOf M).Normal] [CharP K 2] (hc : Ctx 
   have hXK := hc.Xbar_le_normalizer_Kbar hD φ hφker ht
   have hLK := hc.bar_LB_le_normalizer_Kbar hc' hφker htB'
   have hKX : EbarClassGen M Q Z B t ⊓ fixingSubgroup φ hφker t ≤ Xbar M Q Z B :=
-    fun k hk => Subgroup.closure_mono (Set.diff_subset) hk.1
+    fun k hk => Subgroup.closure_mono (Set.sdiff_subset) hk.1
   have hKH : EbarClassGen M Q Z B t ⊓ fixingSubgroup φ hφker t ≤ bar M Q (H0 M Z) :=
     fun k hk => (mem_fixingSubgroup.mp hk.2).1
   have hfix : ∀ z ∈ EbarClassGen M Q Z B t ⊓ fixingSubgroup φ hφker t,

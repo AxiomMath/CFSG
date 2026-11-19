@@ -67,8 +67,8 @@ theorem comBit_comm (x y : G) : comBit x y = comBit y x := by
     exact eq_comm
   unfold comBit
   by_cases h1 : ⁅x, y⁆ = 1
-  · rw [if_pos h1, if_pos (h.mp h1)]
-  · rw [if_neg h1, if_neg (fun h2 => h1 (h.mpr h2))]
+  · rw [ite_eq_left h1, ite_eq_left (h.mp h1)]
+  · rw [ite_eq_right h1, ite_eq_right (fun h2 => h1 (h.mpr h2))]
 
 theorem comBit_self (x : G) : comBit x x = 0 := by
   rw [comBit_eq_zero_iff, commutatorElement_self]
@@ -223,7 +223,7 @@ theorem exists_p10 {P V F : Subgroup G} {a t0 t1 : G} (S : CoordSetup P V F a t0
     have e1 : comBit s (p * p₁) = 1 := by
       rw [comBit_mul_right S hsP hp hp₁, h0, hk₁, zero_add]
     have e2 : comBit t (p * p₁) = 0 := by
-      rw [comBit_mul_right S htP hp hp₁, hp1, hk₂] <;> decide
+      rw [comBit_mul_right S htP hp hp₁, hp1, hk₂]; decide
     exact H' (p * p₁) hq e1 e2
   have hiv : ∀ p ∈ P, comBit s p = comBit t p := by
     intro p hp
@@ -252,7 +252,7 @@ theorem exists_normal {P V F : Subgroup G} {a t0 t1 : G} (S : CoordSetup P V F a
   · have hs1 : sqBit u = 1 := (zmod2_cases _).resolve_left hs
     have hfP : f ∈ P := S.hFP hf
     refine ⟨u * f, P.mul_mem hu hfP, ?_, ?_, ?_⟩
-    · rw [sqBit_mul S hu hfP, sqBit_F S hf, comBit_comm u f, h1, hs1] <;> decide
+    · rw [sqBit_mul S hu hfP, sqBit_F S hf, comBit_comm u f, h1, hs1]; decide
     · rw [comBit_mul_right S hfP hu hfP, h1, comBit_self, add_zero]
     · rw [comBit_mul_right S (S.hFP hg) hu hfP, h2, comBit_F S hg hf, add_zero]
 
@@ -266,10 +266,10 @@ theorem exists_fix {P V F : Subgroup G} {a t0 t1 : G} (S : CoordSetup P V F a t0
     have ht0P : t0 ∈ P := S.hFP S.ht0
     have ht1P : t1 ∈ P := S.hFP S.ht1
     refine ⟨w1 * t0, P.mul_mem h1 ht0P, ?_, ?_, ?_, ?_⟩
-    · rw [sqBit_mul S h1 ht0P, hs, sqBit_F S S.ht0, comBit_comm w1 t0, ha] <;> decide
+    · rw [sqBit_mul S h1 ht0P, hs, sqBit_F S S.ht0, comBit_comm w1 t0, ha]; decide
     · rw [comBit_mul_right S ht0P h1 ht0P, ha, comBit_self, add_zero]
     · rw [comBit_mul_right S ht1P h1 ht0P, hb, comBit_F S S.ht1 S.ht0, add_zero]
-    · rw [comBit_mul_right S h0 h1 ht0P, hc1, comBit_comm w0 t0, hk] <;> decide
+    · rw [comBit_mul_right S h0 h1 ht0P, hc1, comBit_comm w0 t0, hk]; decide
 
 theorem exists_frame {P V F : Subgroup G} {a t0 t1 : G} (S : CoordSetup P V F a t0 t1) :
     ∃ w0 w1 : G, CoordFrame P V F a t0 t1 w0 w1 := by
@@ -387,8 +387,8 @@ theorem coordMap_w1 {P V F : Subgroup G} {a t0 t1 w0 w1 : G}
 theorem coordMap_ite {t0 t1 w0 w1 g : G} {v : Vec4} (hg : coordMap t0 t1 w0 w1 g = v)
     (c : ZMod 2) : coordMap t0 t1 w0 w1 (if c = 0 then (1 : G) else g) = c • v := by
   rcases zmod2_cases c with rfl | rfl
-  · rw [if_pos rfl, coordMap_one, zero_smul]
-  · rw [if_neg one_ne_zero, one_smul, hg]
+  · rw [ite_eq_left rfl, coordMap_one, zero_smul]
+  · rw [ite_eq_right one_ne_zero, one_smul, hg]
 
 theorem sectMap_mem {P V F : Subgroup G} {a t0 t1 w0 w1 : G}
     (S : CoordFrame P V F a t0 t1 w0 w1) (c : Vec4) : sectMap t0 t1 w0 w1 c ∈ P := by
@@ -437,9 +437,9 @@ theorem psiMap_injective {P V F : Subgroup G} {a t0 t1 w0 w1 : G}
 
 theorem psiMap_surjective {P V F : Subgroup G} {a t0 t1 w0 w1 : G}
     (S : CoordFrame P V F a t0 t1 w0 w1) : Function.Surjective (psiMap S) := by
-  haveI : Finite P := Nat.finite_of_card_ne_zero (by rw [S.hP]; norm_num)
+  have : Finite P := Nat.finite_of_card_ne_zero (by rw [S.hP]; norm_num)
   have hcard : Nat.card (Vec4 × V) = Nat.card P := by
-    rw [Nat.card_prod, card_vec4, S.hV, S.hP] <;> norm_num
+    rw [Nat.card_prod, card_vec4, S.hV, S.hP]
   exact ((Nat.bijective_iff_injective_and_card (psiMap S)).mpr
     ⟨psiMap_injective S, hcard⟩).2
 
@@ -479,7 +479,7 @@ theorem vanish_of_additive {P V F : Subgroup G} {a t0 t1 w0 w1 : G}
     unfold sectMap
     rw [hadd _ _ (P.mul_mem (P.mul_mem m0 m1) m2) m3, hadd _ _ (P.mul_mem m0 m1) m2,
       hadd _ _ m0 m1, ite_vanish h1 hg0 (c 0), ite_vanish h1 hg1 (c 1),
-      ite_vanish h1 hw0 (c 2), ite_vanish h1 hw1 (c 3)] <;> simp
+      ite_vanish h1 hw0 (c 2), ite_vanish h1 hw1 (c 3)]; simp
   intro x hx
   obtain ⟨z, hzV, hxz⟩ := normal_form S hx
   rw [hxz, hadd _ _ (sectMap_mem S _) (S.hVP hzV), hsect, hz z hzV, zero_add]
@@ -597,7 +597,7 @@ theorem exists_coords {G : Type} [Group G] (P V F : Subgroup G) (a t0 t1 : G)
     refine ⟨⟨sectMap t0 t1 w0 w1 x, sectMap_mem S x⟩, ?_, coordMap_sect S x⟩
     show sectMap t0 t1 w0 w1 x ∈ F
     unfold sectMap
-    rw [if_pos hx2, if_pos hx3, mul_one, mul_one]
+    rw [ite_eq_left hx2, ite_eq_left hx3, mul_one, mul_one]
     exact F.mul_mem (ite_one_mem S.ht0 (x 0)) (ite_one_mem S.ht1 (x 1))
   · exact coordMap_t0 S
   · exact coordMap_t1 S

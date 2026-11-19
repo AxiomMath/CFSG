@@ -102,7 +102,7 @@ theorem isSylowOf_map (p : ℕ) {P K : Subgroup A} (h : CFSG.ABGLocalTools.IsSyl
     CFSG.ABGLocalTools.IsSylowOf p (P.map f.toMonoidHom) (K.map f.toMonoidHom) := by
   obtain ⟨Q, rfl⟩ := h
   let g : ↥K ≃* ↥(K.map f.toMonoidHom) := subEquiv f rfl
-  refine ⟨⟨(Q : Subgroup K).map g.toMonoidHom, Q.isPGroup'.map g.toMonoidHom, ?_⟩, ?_⟩
+  refine ⟨⟨(Q : Subgroup K).map g.toMonoidHom, Q.isPGroup.map g.toMonoidHom, ?_⟩, ?_⟩
   · intro R hR hle
     have hR' : IsPGroup p ↥(R.map g.symm.toMonoidHom) := hR.map g.symm.toMonoidHom
     have hle' : (Q : Subgroup K) ≤ R.map g.symm.toMonoidHom := by

@@ -54,11 +54,11 @@ theorem exists_modDataE {J E : Subgroup G} (hE : IsElemAbelian 2 E)
   classical
   let hc : ∀ a b : ↥E, a * b = b * a := fun a b => Subtype.ext (hE.comm a.2 b.2)
   let hp : ∀ a : ↥E, a ^ 2 = 1 := fun a => Subtype.ext (by simpa using hE.2 a.1 a.2)
-  letI : CommGroup ↥E := commGroupOfComm'' hc
-  letI : Module (ZMod 2) (Additive ↥E) := elemTwoModule'' hc hp
+  let : CommGroup ↥E := commGroupOfComm'' hc
+  let : Module (ZMod 2) (Additive ↥E) := elemTwoModule'' hc hp
   let ι : G → Additive ↥E := fun g => if hg : g ∈ E then Additive.ofMul ⟨g, hg⟩ else 0
   have hι_of : ∀ (g : G) (hg : g ∈ E), ι g = Additive.ofMul (⟨g, hg⟩ : ↥E) := fun g hg =>
-    dif_pos hg
+    dite_eq_left hg
   have hnorm : ∀ j : ↥J, ∀ v ∈ E, (J.subtype j : G) * v * (J.subtype j : G)⁻¹ ∈ E :=
     fun j v hv => (Subgroup.mem_normalizer_iff.mp (hJ j.2) v).1 hv
   let ρ : ↥J →* LGL 2 (Additive ↥E) :=
@@ -87,16 +87,19 @@ namespace ModDataE
 
 variable {J E : Subgroup G} (M : ModDataE J E)
 
+omit [Finite G] in
 theorem ι_one : M.ι 1 = 0 := by
   have h := M.ι_mul 1 E.one_mem 1 E.one_mem
   rw [mul_one] at h
   exact left_eq_add.mp h
 
+omit [Finite G] in
 theorem ι_inv {e : G} (he : e ∈ E) : M.ι e⁻¹ = - M.ι e := by
   have h := M.ι_mul e he e⁻¹ (E.inv_mem he)
   rw [mul_inv_cancel, M.ι_one] at h
   exact eq_neg_of_add_eq_zero_right h.symm
 
+omit [Finite G] in
 theorem ι_injOn {e e' : G} (he : e ∈ E) (he' : e' ∈ E) (h : M.ι e = M.ι e') : e = e' := by
   have h1 : M.ι (e * e'⁻¹) = 0 := by
     rw [M.ι_mul e he e'⁻¹ (E.inv_mem he'), M.ι_inv he', h]
@@ -107,12 +110,14 @@ theorem ι_injOn {e e' : G} (he : e ∈ E) (he' : e' ∈ E) (h : M.ι e = M.ι e
 @[expose] def img (S : Subgroup G) : Subgroup (LGL 2 M.W) :=
   (S.subgroupOf J).map M.ρ
 
+omit [Finite G] in
 theorem mem_img {S : Subgroup G} {r : LGL 2 M.W} :
     r ∈ M.img S ↔ ∃ j : ↥J, (j : G) ∈ S ∧ M.ρ j = r := by
   unfold img
   rw [Subgroup.mem_map]
   exact ⟨fun ⟨h, hh, e⟩ => ⟨h, hh, e⟩, fun ⟨h, hh, e⟩ => ⟨h, hh, e⟩⟩
 
+omit [Finite G] in
 theorem ρ_eq_one_iff (j : ↥J) : M.ρ j = 1 ↔ (j : G) ∈ centralizer (E : Set G) := by
   constructor
   · intro h
@@ -135,6 +140,7 @@ theorem ρ_eq_one_iff (j : ↥J) : M.ρ j = 1 ↔ (j : G) ∈ centralizer (E : S
     rw [h2]
     rfl
 
+omit [Finite G] in
 theorem card_img {S : Subgroup G} (hS : S ≤ J) :
     Nat.card (M.img S) = (centralizer (E : Set G)).relIndex S := by
   have hker : M.ρ.ker = (centralizer (E : Set G)).subgroupOf J := by
@@ -145,6 +151,7 @@ theorem card_img {S : Subgroup G} (hS : S ≤ J) :
   rw [← Subgroup.relIndex_ker, hker, Subgroup.relIndex_subgroupOf hS]
 
 include M in
+omit [Finite G] in
 theorem commutator_le_E {A : Subgroup G} (hA : A ≤ J) : ⁅E, A⁆ ≤ E := by
   refine Subgroup.commutator_le.2 fun e he a ha => ?_
   have h1 : a * e⁻¹ * a⁻¹ ∈ E :=
@@ -153,6 +160,7 @@ theorem commutator_le_E {A : Subgroup G} (hA : A ≤ J) : ⁅E, A⁆ ≤ E := by
   rw [this]
   exact E.mul_mem he h1
 
+omit [Finite G] in
 theorem ι_commutator {j : G} (hj : j ∈ J) {e : G} (he : e ∈ E) :
     M.ι ⁅j, e⁆ = M.ρ ⟨j, hj⟩ (M.ι e) - M.ι e := by
   have hn : j * e * j⁻¹ ∈ E := (Subgroup.mem_normalizer_iff.1 (M.le_normalizer hj) e).1 he
@@ -161,6 +169,7 @@ theorem ι_commutator {j : G} (hj : j ∈ J) {e : G} (he : e ∈ E) :
   rw [M.ι_inv he, ← h2] at h1
   rw [commutatorElement_def, h1, sub_eq_add_neg]
 
+omit [Finite G] in
 theorem mem_commSub_img_iff {A : Subgroup G} (hA : A ≤ J) {e : G} (he : e ∈ E) :
     M.ι e ∈ commSub (M.img A) ↔ e ∈ ⁅E, A⁆ := by
   have hEA : ⁅E, A⁆ ≤ E := M.commutator_le_E hA
@@ -211,7 +220,8 @@ theorem mem_commSub_img_iff {A : Subgroup G} (hA : A ≤ J) {e : G} (he : e ∈ 
         exact ⟨E.inv_mem hxE, by rw [M.ι_inv hxE]; exact Submodule.neg_mem _ hx⟩
     exact (key e h).2
 
-theorem img_conj {A : Subgroup G} (hA : A ≤ J) (j : ↥J) :
+omit [Finite G] in
+theorem img_conj {A : Subgroup G} (_hA : A ≤ J) (j : ↥J) :
     cj (M.ρ j) (M.img A) = M.img (conjSubgroup A (j : G)⁻¹) := by
   ext r
   rw [mem_cj, M.mem_img, M.mem_img]
@@ -235,20 +245,24 @@ theorem img_conj {A : Subgroup G} (hA : A ≤ J) (j : ↥J) :
       exact hx
     · rw [map_mul, map_mul, map_inv]
 
+omit [Finite G] in
 theorem img_mono {S S' : Subgroup G} (h : S ≤ S') : M.img S ≤ M.img S' := by
   intro r hr
   obtain ⟨j, hj, rfl⟩ := M.mem_img.1 hr
   exact M.mem_img.2 ⟨j, h hj, rfl⟩
 
+omit [Finite G] in
 theorem img_sup {S S' : Subgroup G} (hS : S ≤ J) (hS' : S' ≤ J) :
     M.img (S ⊔ S') = M.img S ⊔ M.img S' := by
   unfold img
   rw [Subgroup.subgroupOf_sup hS hS', Subgroup.map_sup]
 
+omit [Finite G] in
 theorem isPGroup_img {p : ℕ} {S : Subgroup G} (hS : IsPGroup p S) : IsPGroup p (M.img S) :=
   (hS.comap_subtype (K := J)).map M.ρ
 
-theorem img_le_normalizer {A S : Subgroup G} (hA : A ≤ J) (hS : S ≤ J)
+omit [Finite G] in
+theorem img_le_normalizer {A S : Subgroup G} (_hA : A ≤ J) (hS : S ≤ J)
     (h : A ≤ normalizer (S : Set G)) : M.img A ≤ normalizer ((M.img S : Subgroup (LGL 2 M.W)) :
       Set (LGL 2 M.W)) := by
   intro r hr
@@ -269,7 +283,7 @@ theorem img_le_normalizer {A S : Subgroup G} (hA : A ≤ J) (hS : S ≤ J)
 
 theorem img_pCoreOf (hC : IsPGroup 2 ↥(J ⊓ centralizer (E : Set G))) :
     M.img (pCoreOf 2 J) = pCoreOf 2 (M.img J) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hO : pCoreOf 2 J ≤ J := CFSG.LieType.BorelTits.pCoreOf_le 2 J
   apply le_antisymm
   ·

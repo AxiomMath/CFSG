@@ -33,7 +33,7 @@ theorem dEven_reflection_norm {r : DVec m ≃ₗ[ZMod 3] DVec m} (hr : r ∈ dEv
     have h1 : dDot m (φ (dBasis m j) • c) (φ (dBasis m j) • c) = 2 := by
       rw [key j]
       simp only [map_sub, map_smul, LinearMap.sub_apply, LinearMap.smul_apply, smul_eq_mul,
-        dDot_basis, if_neg (Ne.symm hj), if_neg hj]
+        dDot_basis, ite_eq_right (Ne.symm hj), ite_eq_right hj]
       rcases hs j with h | h <;> rw [h] <;> decide
     simp only [map_smul, LinearMap.smul_apply, smul_eq_mul] at h1
     revert h1
@@ -53,7 +53,7 @@ theorem dEven_reflection_norm {r : DVec m ≃ₗ[ZMod 3] DVec m} (hr : r ∈ dEv
         simp only at h ⊢
         rw [h]
         ring
-      · simp only [if_neg hl, if_neg (Ne.symm hl)] at h ⊢
+      · simp only [ite_eq_right hl, ite_eq_right (Ne.symm hl)] at h ⊢
         rw [h]
         ring
     have hc0 : c ≠ 0 := by
@@ -71,7 +71,7 @@ theorem dEven_reflection_norm {r : DVec m ≃ₗ[ZMod 3] DVec m} (hr : r ∈ dEv
     have hcl : ∀ l, l ≠ j → c l = 0 := by
       intro l hl
       have h := E1 j l
-      rw [if_neg (Ne.symm hl), mul_zero] at h
+      rw [ite_eq_right (Ne.symm hl), mul_zero] at h
       exact (mul_eq_zero.mp h).resolve_left hj
     have hcj : c j ≠ 0 := by
       intro h0
@@ -83,7 +83,7 @@ theorem dEven_reflection_norm {r : DVec m ≃ₗ[ZMod 3] DVec m} (hr : r ∈ dEv
       · exact hcl l hl
     have hsj : s j = -1 := by
       have h := E1 j j
-      rw [if_pos rfl, mul_one] at h
+      rw [ite_eq_left rfl, mul_one] at h
       have hne : 1 - s j ≠ 0 := by
         rw [← h]
         exact mul_ne_zero hj hcj
@@ -93,7 +93,7 @@ theorem dEven_reflection_norm {r : DVec m ≃ₗ[ZMod 3] DVec m} (hr : r ∈ dEv
     have hsk : ∀ k, k ≠ j → s k = 1 := by
       intro k hk
       have h := E1 k k
-      rw [if_pos rfl, mul_one, hcl k hk, mul_zero] at h
+      rw [ite_eq_left rfl, mul_one, hcl k hk, mul_zero] at h
       exact (sub_eq_zero.mp h.symm).symm
     have hp : ∏ k, s k = s j :=
       Finset.prod_eq_single j (fun k _ hk => hsk k hk) (fun h => absurd (Finset.mem_univ j) h)
@@ -128,7 +128,7 @@ theorem qtwoD_not_conj_neg (hm : 4 ≤ m) {H : Subgroup (DVec m ≃ₗ[ZMod 3] D
   have h2 : ∀ k, k ≠ i → g c k = 0 := by
     intro k hk
     have h := congrFun h1 k
-    rw [dNeg_apply_coord, if_neg hk, Pi.neg_apply] at h
+    rw [dNeg_apply_coord, ite_eq_right hk, Pi.neg_apply] at h
     have h3 : ∀ x : ZMod 3, -x = x → x = 0 := by decide
     exact h3 _ h
   have h3 : dDot m (g c) (g c) = g c i * g c i := by

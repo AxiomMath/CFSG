@@ -13,7 +13,7 @@ open scoped Pointwise
 theorem s1abs_relIndex_sup {G : Type} [Group G] (N P : Subgroup G)
     (h : N ≤ Subgroup.normalizer (P : Set G)) :
     P.relIndex (N ⊔ P) = P.relIndex N := by
-  haveI : (P.subgroupOf (N ⊔ P)).Normal := Subgroup.normal_subgroupOf_sup_of_le_normalizer h
+  have : (P.subgroupOf (N ⊔ P)).Normal := Subgroup.normal_subgroupOf_sup_of_le_normalizer h
   have key := Subgroup.relIndex_sup_right (H := N.subgroupOf (N ⊔ P))
     (K := P.subgroupOf (N ⊔ P))
   have hsup : N.subgroupOf (N ⊔ P) ⊔ P.subgroupOf (N ⊔ P) = ⊤ := by
@@ -26,7 +26,7 @@ theorem s1abs_relIndex_sup {G : Type} [Group G] (N P : Subgroup G)
 theorem s1abs_isSylowOf {G : Type} [Group G] [Finite G] {B M Q : Subgroup G}
     (hMB : M ≤ B) (hQ : IsMaxThreeSub B Q) (hQM : Q ≤ M) :
     CFSG.ABGLocalTools.IsSylowOf 3 Q M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hQ3 : IsPGroup 3 (Q.subgroupOf M) := hQ.1.comap_subtype
   obtain ⟨S, hS⟩ := hQ3.exists_le_sylow
   have hP : CFSG.ABGLocalTools.IsSylowOf 3 ((S : Subgroup M).map M.subtype) M := ⟨S, rfl⟩
@@ -41,7 +41,7 @@ theorem s1abs_isSylowOf {G : Type} [Group G] [Finite G] {B M Q : Subgroup G}
 
 theorem s1abs_inf_eq_bot {G : Type} [Group G] [Finite G] {Θ P : Subgroup G}
     (hΘ : ¬ 3 ∣ Nat.card Θ) (hP : IsPGroup 3 P) : P ⊓ Θ = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hR : IsPGroup 3 (P ⊓ Θ : Subgroup G) := hP.to_inf_left
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hR
   have hdvd : Nat.card (P ⊓ Θ : Subgroup G) ∣ Nat.card Θ :=
@@ -78,7 +78,7 @@ theorem s1abs_le_normalizer {G : Type} [Group G] {Θ Y K : Subgroup G} (hΘK : �
 theorem s1abs_holds : S1abs := by
   intro G _ _ B Y K Θ F Q b hQmax hFQ hQC hQN hYB hKN hNYK hQYK hcomm hΘY hΘK hYKΘ hΘ3 hY27
     _hYex hFe hFmax hbF hFdec hFK
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hQ3 : IsPGroup 3 Q := hQmax.1
   have hQB : Q ≤ B := hQmax.2.1
   have hYN : Y ≤ Subgroup.normalizer (K : Set G) := s1abs_le_normalizer hΘK hcomm

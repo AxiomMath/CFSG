@@ -27,18 +27,18 @@ theorem twistedE6SCUnique_five {f : ℕ} (hf : 1 ≤ f) (h5 : 5 ∣ 2 ^ f + 1) (
     (hSC' : ∀ c : ↥(graphFixedRootGroup TwistTag.E6 K σ), (∀ a ∈ A', c * a = a * c) →
       c ^ 5 = 1 → c ∈ A') :
     ∃ c : ↥(graphFixedRootGroup TwistTag.E6 K σ), A' = A.map (MulAut.conj c).toMonoidHom := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : NeZero (5 : ℕ) := ⟨by norm_num⟩
-  letI modulePi : Module (ZMod 5) (Fin 6 → ZMod 5) := inferInstance
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : NeZero (5 : ℕ) := ⟨by norm_num⟩
+  let modulePi : Module (ZMod 5) (Fin 6 → ZMod 5) := inferInstance
+  have : Finite K := Nat.finite_of_card_ne_zero (by
     rw [hK]
     exact pow_ne_zero _ (by norm_num))
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := f * 2)
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := f * 2)
     (by rw [← Nat.card_eq_fintype_card, hK, ← pow_mul])
   let L := AlgebraicClosure K
-  haveI : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
+  have : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
   let Fr : L →+* L := iterateFrobenius L 2 f
   have hFr : ∀ c, Fr c = c ^ (2 ^ f) := fun c => iterateFrobenius_def 2 f c
   obtain ⟨ζK, hζ, g₀, T, ι₀, hζKord, hg₀C, _htwist, hι₀, hbase, hTcomm, hrangeT, htors,

@@ -79,11 +79,13 @@ variable {n : ℕ} {K : Type} [Field K] {Q : QuadraticForm K (Fin n → K)}
   {A : Subgroup ↥(orthDerived Q)} [Fintype ↥(A.map (orthToSL Q))]
   [IsMulCommutative ↥(A.map (orthToSL Q))]
 
+omit [Fintype ↥(Subgroup.map (orthToSL Q) A)] [IsMulCommutative ↥(Subgroup.map (orthToSL Q) A)] in
 private theorem actEquiv_orthToSL {g : ↥(orthDerived Q)} (hg : g ∈ A) :
     actEquiv (⟨orthToSL Q g, Subgroup.mem_map_of_mem _ hg⟩ : ↥(A.map (orthToSL Q))) =
       (g : (Fin n → K) ≃ₗ[K] (Fin n → K)) :=
   LinearEquiv.toLinearMap_injective (toLin'_orthToSL Q g)
 
+omit [Fintype ↥(A.map (orthToSL Q))] [IsMulCommutative ↥(A.map (orthToSL Q))] in
 private theorem mul_comm_of_commute_act {y : (Fin n → K) ≃ₗ[K] (Fin n → K)}
     (hy : ∀ e : ↥(A.map (orthToSL Q)),
       Commute y.toLinearMap (act (planeRep (A.map (orthToSL Q))) e))
@@ -93,6 +95,7 @@ private theorem mul_comm_of_commute_act {y : (Fin n → K) ≃ₗ[K] (Fin n → 
   rw [← actEquiv_toLinearMap, actEquiv_orthToSL hg] at h1
   exact LinearEquiv.toLinearMap_injective h1.eq
 
+omit [Fintype ↥(A.map (orthToSL Q))] [IsMulCommutative ↥(A.map (orthToSL Q))] in
 private theorem commute_act_of_mem_centralizer {g' : ↥(orthDerived Q)}
     (hg' : g' ∈ Subgroup.centralizer (A : Set ↥(orthDerived Q)))
     (e : ↥(A.map (orthToSL Q))) :

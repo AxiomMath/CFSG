@@ -104,7 +104,7 @@ theorem fixV_ne_fixV_sup {W : Type} [CommGroup W] [Finite W] (hw : ∀ w : W, w 
   have h2dvd : 2 ∣ Nat.card W := by
     rw [show Nat.card W = 2 ^ n from by simpa using hn]
     exact dvd_pow_self 2 hn0
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hmod := CFSG.Quasithin.S152N2.card_modEq_card_inf_fixV (V := W) (p := 2) hT
     (W := (⊤ : Subgroup W)) (fun g _ w _ => Subgroup.mem_top (g w))
   have hmod' : Nat.card W ≡ Nat.card (fixV T) [MOD 2] := by simpa using hmod
@@ -120,7 +120,7 @@ theorem fixV_ne_fixV_sup {W : Type} [CommGroup W] [Finite W] (hw : ∀ w : W, w 
 theorem odd_card_center_of_mulEquiv_of_isSimpleGroup {A B : Type*} [Group A] [Group B]
     (e : A ≃* B) (hsimple : IsSimpleGroup A) (hperf : commutator A = ⊤) :
     Odd (Nat.card (Subgroup.center B)) := by
-  haveI := hsimple
+  have := hsimple
   have hperfect : ⁅(⊤ : Subgroup A), (⊤ : Subgroup A)⁆ = ⊤ := by
     simpa [commutator_def] using hperf
   have hcenterA : Subgroup.center A = ⊥ :=
@@ -133,7 +133,7 @@ theorem odd_card_center_of_mulEquiv_of_isSimpleGroup {A B : Type*} [Group A] [Gr
   norm_num
 
 theorem bParam_le_of_normal {W : Type} [CommGroup W] [Finite W]
-    {L Y T : Subgroup (MulAut W)} (hLY : L ≤ Y)
+    {L Y T : Subgroup (MulAut W)} (_hLY : L ≤ Y)
     (hNY : Y ≤ Subgroup.normalizer (L : Set (MulAut W)))
     (hT : CFSG.Quasithin.IsSylowIn 2 T Y) : bParam L Y ≤ bParam L (L ⊔ T) := by
   classical

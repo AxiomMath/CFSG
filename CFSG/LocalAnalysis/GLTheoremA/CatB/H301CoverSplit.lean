@@ -157,11 +157,11 @@ private theorem exists_log_of_card_eq_three {Z : Subgroup E} (hZ : Nat.card Z = 
   let e : Z ≃* Multiplicative (ZMod 3) := mulEquivOfPrimeCardEq hZ (by simp)
   refine ⟨fun x => if hx : x ∈ Z then (e ⟨x, hx⟩).toAdd else 0, ?_, ?_⟩
   · intro x hx y hy
-    simp only [dif_pos hx, dif_pos hy, dif_pos (Z.mul_mem hx hy)]
+    simp only [dite_eq_left hx, dite_eq_left hy, dite_eq_left (Z.mul_mem hx hy)]
     rw [← toAdd_mul, ← map_mul]
     rfl
   · intro x hx h
-    simp only [dif_pos hx] at h
+    simp only [dite_eq_left hx] at h
     have h1 : e ⟨x, hx⟩ = 1 := by
       rw [← ofAdd_toAdd (e ⟨x, hx⟩), h]
       rfl

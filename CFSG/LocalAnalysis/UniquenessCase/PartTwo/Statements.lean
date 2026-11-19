@@ -13,6 +13,7 @@ variable {G : Type} [Group G] [Finite G]
 @[expose] def Thm1669 (D : Data G) : Prop :=
   ∀ V₀ V : Subgroup G, Hyp125 D V₀ V → Nat.card V₀ ≤ 4 → MBarGT D.M V₀ V 3
 
+omit [Finite G] in
 theorem inCalV_of_hyp123 {M T V₀ V : Subgroup G} (h : Hyp123 M T V₀ V) : InCalV M V := by
   rcases h with h | h
   · exact h.1.1.1.1

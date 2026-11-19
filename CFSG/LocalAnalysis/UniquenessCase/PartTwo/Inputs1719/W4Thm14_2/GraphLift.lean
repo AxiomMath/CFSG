@@ -272,7 +272,7 @@ theorem exists_graphType_of_moves
     ∃ ν : MulAut SL(3, K), (∀ s, ((α (ν s) : ↥L) : G) = x * (α s : G) * x⁻¹) ∧
       L34Out.IsGraphType ν := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let β : SL(3, K) →* G := L.subtype.comp α
   obtain ⟨Q, hQ⟩ := exists_sylow_unitriangular (K := K) 2 (n := 3) (by norm_num)
   let Q' : Sylow 2 ↥L := Q.mapSurjective hα
@@ -280,7 +280,7 @@ theorem exists_graphType_of_moves
     rw [Sylow.coe_mapSurjective, hQ]
   have hA : IsSylowIn 2 ((unitriangular 3 K).map α) (⊤ : Subgroup ↥L) := by
     refine ⟨le_top, ?_, ?_⟩
-    · exact hQ ▸ Q.isPGroup'.map α
+    · exact hQ ▸ Q.isPGroup.map α
     · rw [Subgroup.relIndex_top_right, ← hQ'coe]
       exact Q'.not_dvd_index
   have hSαG : IsSylowIn 2 ((unitriangular 3 K).map β) L := by

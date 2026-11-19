@@ -30,7 +30,7 @@ private theorem lk0xlqtwod_label_of_model {X : Type} [Group X] {r N : ℕ} (h4 :
   have h3 : ¬ r = 3 := by omega
   unfold GGHasLabel LargeEvenRawDatum
   dsimp only
-  rw [if_neg h2, if_neg h3]
+  rw [ite_eq_right h2, ite_eq_right h3]
   exact recipeOmegaMinus_of_statedClassicalModel h
 
 private theorem lk0xlqtwod_finish {X : Type} [Group X] {r e N s q : ℕ} (h4 : 4 ≤ r)
@@ -140,7 +140,7 @@ private theorem lk0xlqtwod_four
         ext1 g
         rw [hΦ, one_mul, inv_one, mul_one]
       obtain ⟨ℓ, f, hℓ, hchar, hf, hq⟩ := S.exists_char_pow
-      haveI : Fact ℓ.Prime := ⟨hℓ⟩
+      have : Fact ℓ.Prime := ⟨hℓ⟩
       have h := l154td4_d4_untw d4Base_E6 (d4SwapLayer_E6 e6FixDNAll_proved) d4SwapLayerFine_E6
         S hFr hΦ' hn (fun γ hγ => S.rho_eq_smul_of_frob hFr hΦ' hn hγ) i v hv hρ hout h2 hf hq
       have hℓ2 : ℓ = 2 := (ringChar.eq L ℓ).symm.trans hL2
@@ -166,7 +166,7 @@ private theorem lk0xlqtwod_four
     obtain ⟨Fr, hFr, hΦ⟩ := S.D.exists_frob_of_untwisted twistTag_tag_ne_E7
     obtain ⟨w, hn⟩ := S.D.n_weyl
     obtain ⟨ℓ, f, hℓ, hchar, hf, hq⟩ := S.exists_char_pow
-    haveI : Fact ℓ.Prime := ⟨hℓ⟩
+    have : Fact ℓ.Prime := ⟨hℓ⟩
     have h := lq_d4_untw (Or.inr (Or.inl rfl)) d4Base_E7 (d4SwapLayer_E7 e6FixDNAll_proved)
       (lq_d4SwapLayerFine_E7) S hFr hΦ hn (fun γ hγ => S.rho_eq_smul_of_frob hFr hΦ hn hγ) i v hv
       hρ hout h2 hf hq
@@ -187,7 +187,7 @@ private theorem lk0xlqtwod_four
     obtain ⟨Fr, hFr, hΦ⟩ := S.D.exists_frob_of_untwisted twistTag_tag_ne_E8
     obtain ⟨w, hn⟩ := S.D.n_weyl
     obtain ⟨ℓ, f, hℓ, hchar, hf, hq⟩ := S.exists_char_pow
-    haveI : Fact ℓ.Prime := ⟨hℓ⟩
+    have : Fact ℓ.Prime := ⟨hℓ⟩
     have h := lq_d4_untw (Or.inr (Or.inr rfl)) d4Base_E8 (d4SwapLayer_E8 e6FixDNAll_proved)
       (lq_d4SwapLayerFine_E8) S hFr hΦ hn (fun γ hγ => S.rho_eq_smul_of_frob hFr hΦ hn hγ) i v hv
       hρ hout h2 hf hq

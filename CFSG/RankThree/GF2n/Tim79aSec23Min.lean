@@ -91,6 +91,7 @@ theorem oBar_central : ∀ z ∈ barOf V H (inSubgroup (pCore 2) (xOf V H)),
   rw [hF] at h
   exact h
 
+omit [Finite G] hc in
 theorem exists_pow_eq_one_of_mem_oBar {z : Hbar V H}
     (hz : z ∈ barOf V H (inSubgroup (pCore 2) (xOf V H))) : ∃ k : ℕ, z ^ 2 ^ k = 1 := by
   obtain ⟨a, ha, rfl⟩ := mem_barOf_iff.mp hz
@@ -130,7 +131,7 @@ theorem sup_eq_or_central_of_odd {S : Subgroup (Hbar V H)} [S.Normal]
       rw [commutatorElement_def, mul_assoc, mul_assoc]
       exact S.mul_mem hs (by simpa [mul_assoc] using
         Subgroup.Normal.conj_mem ‹S.Normal› _ (S.inv_mem hs) v)
-    obtain ⟨k, hk⟩ := hc.exists_pow_eq_one_of_mem_oBar hcomm
+    obtain ⟨k, hk⟩ := MinCex.exists_pow_eq_one_of_mem_oBar hcomm
     have hd1 : orderOf ⁅s, v⁆ ∣ 2 ^ k := orderOf_dvd_of_pow_eq_one hk
     have hd2 : orderOf ⁅s, v⁆ ∣ Nat.card S := by
       have := orderOf_dvd_natCard (⟨⁅s, v⁆, hS⟩ : S)

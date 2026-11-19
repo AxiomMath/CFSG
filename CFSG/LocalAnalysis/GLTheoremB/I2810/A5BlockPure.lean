@@ -21,7 +21,7 @@ theorem card_alt5 : Nat.card ↥(alternatingGroup (Fin 5)) = 60 := by
 
 theorem not_isPGroup_alt5 : ¬ IsPGroup 2 ↥(alternatingGroup (Fin 5)) := by
   intro h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := h.exists_card_eq
   rw [card_alt5] at hn
   have h3 : 3 ∣ 2 ^ n := by rw [← hn]; norm_num
@@ -36,14 +36,14 @@ theorem oTwo_of_hom_aux {X : Type} [Group X] [Finite X] {I N : Subgroup X} (hNI 
     ext x
     rw [MonoidHom.mem_ker, Subgroup.mem_subgroupOf]
     exact hker x
-  haveI : (N.subgroupOf I).Normal := hker' ▸ MonoidHom.normal_ker φ
+  have : (N.subgroupOf I).Normal := hker' ▸ MonoidHom.normal_ker φ
   have hP : IsPGroup 2 ↥(N.subgroupOf I) :=
     hN.comap_of_injective I.subtype I.subtype_injective
   have hle1 : N.subgroupOf I ≤ CFSG.pCore 2 ↥I := s0_le_pCore_of_normal _ hP
-  haveI : IsSimpleGroup ↥(alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup ↥(alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by simp)
   have hle2 : CFSG.pCore 2 ↥I ≤ N.subgroupOf I := by
     rw [← hker']
-    haveI hPn : ((CFSG.pCore 2 ↥I).map φ).Normal := (CFSG.pCore_normal (p := 2) (G := ↥I)).map φ hφ
+    have hPn : ((CFSG.pCore 2 ↥I).map φ).Normal := (CFSG.pCore_normal (p := 2) (G := ↥I)).map φ hφ
     have hP2 : IsPGroup 2 ↥((CFSG.pCore 2 ↥I).map φ) := CFSG.pCore_isPGroup.map φ
     have hbot : (CFSG.pCore 2 ↥I).map φ = ⊥ := by
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((CFSG.pCore 2 ↥I).map φ) with h | h

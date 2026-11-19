@@ -183,7 +183,7 @@ theorem BenderCore.exponent_two_of_inf_eq [Finite K] {q i e : ℕ} {Q : Sylow 2 
   have hT₁sq : ∀ y ∈ (T₁ : Subgroup L), (y : K) * y = 1 := by
     set T₁' : Subgroup K := (T₁ : Subgroup L).map L.subtype with hT₁'
     have hT₁'2 : IsPGroup 2 T₁' := by
-      obtain ⟨k, hk⟩ := T₁.isPGroup'.exists_card_eq
+      obtain ⟨k, hk⟩ := T₁.isPGroup.exists_card_eq
       refine IsPGroup.of_card (n := k) ?_
       rw [hT₁', Subgroup.card_map_of_injective L.subtype_injective]
       exact hk
@@ -338,7 +338,7 @@ theorem BenderType.lemma_3_2_h_suzuki
           rintro _ ⟨w, -, rfl⟩
           exact w.2
         have hT2 : IsPGroup 2 T := by
-          obtain ⟨k, hk⟩ := Tc.isPGroup'.exists_card_eq
+          obtain ⟨k, hk⟩ := Tc.isPGroup.exists_card_eq
           refine IsPGroup.of_card (n := k) ?_
           rw [hT, Subgroup.card_map_of_injective L.subtype_injective,
             Subgroup.card_map_of_injective Xc.subtype_injective]

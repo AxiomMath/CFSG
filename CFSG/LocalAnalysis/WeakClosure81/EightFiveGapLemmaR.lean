@@ -23,6 +23,7 @@ structure LemmaRHyp {G : Type} [Group G] (V E K : Subgroup G) {X : Type} [Group 
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_normalizer_of_commute_ne_one {V : Subgroup G}
     (hTI : CFSG.CGT.Timmesfeld75.IsTI V) {c y : G} (hc : c ∈ V) (hc1 : c ≠ 1)
     (hy : y * c = c * y) : y ∈ Subgroup.normalizer (V : Set G) := by
@@ -51,6 +52,7 @@ namespace LemmaRHyp
 
 variable {V E K : Subgroup G} {X : Type} [Group X] {φ : ↥K →* X}
 
+omit [Finite G] in
 theorem mem_normalizer_of_mem_E (h : LemmaRHyp V E K φ) {e : G} (he : e ∈ E) :
     e ∈ Subgroup.normalizer (V : Set G) := by
   obtain ⟨c, hc1⟩ := (Subgroup.ne_bot_iff_exists_ne_one).1 h.inf_ne_bot
@@ -59,6 +61,7 @@ theorem mem_normalizer_of_mem_E (h : LemmaRHyp V E K φ) {e : G} (he : e ∈ E) 
     exact hc1 (Subtype.ext h1)
   · exact congrArg Subtype.val (h.elemAbelian_E.1.is_comm.comm ⟨e, he⟩ ⟨(c : G), c.2.2⟩)
 
+omit [Finite G] in
 theorem comm_of_fixed (h : LemmaRHyp V E K φ) {v : ↥K} (hvV : (v : G) ∈ V) {p : ℕ}
     (hp : p.Prime) (hp2 : p ≠ 2) {P : Subgroup X} (hPp : ∀ x ∈ P, x ^ p = 1)
     (hinv : ∀ x ∈ P, φ v * x * (φ v)⁻¹ = x⁻¹) {B : Subgroup X} (hBP : B ≤ P) (hB : B ≠ ⊥)
@@ -179,13 +182,13 @@ theorem comm_of_forall_fixed (h : LemmaRHyp V E K φ) {p : ℕ} (hp : p.Prime) (
     MonoidHom.liftOfRightInverse_comp_apply (f := φ) (f_inv := Function.surjInv h.surjective)
       (hf := Function.rightInverse_surjInv h.surjective) (g := ⟨ν, hker⟩) (x := y)
   let α' : ↥P →* MulAut ↥E := α.comp P.subtype
-  haveI : Finite ↥P := Nat.finite_of_card_ne_zero (by
+  have : Finite ↥P := Nat.finite_of_card_ne_zero (by
     rw [hPcard]; exact pow_ne_zero 2 hp.ne_zero)
-  haveI : Nontrivial ↥P := Finite.one_lt_card_iff_nontrivial.1 (by
+  have : Nontrivial ↥P := Finite.one_lt_card_iff_nontrivial.1 (by
     rw [hPcard]; nlinarith [hp.two_le])
-  letI : CommGroup ↥P :=
+  let : CommGroup ↥P :=
     { (inferInstance : Group ↥P) with mul_comm := fun a b => hPa.1.is_comm.comm a b }
-  haveI : @CFSG.IsElementaryAbelian p ↥P CommGroup.toGroup :=
+  have : @CFSG.IsElementaryAbelian p ↥P CommGroup.toGroup :=
     { toIsMulCommutative := ⟨⟨mul_comm⟩⟩
       exponent_dvd_p := Monoid.exponent_dvd_of_forall_pow_eq_one fun a =>
         Subtype.ext (by simpa using hPa.2 (a : P) a.2) }

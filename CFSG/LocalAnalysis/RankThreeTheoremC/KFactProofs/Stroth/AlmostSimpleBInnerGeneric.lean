@@ -30,7 +30,7 @@ theorem OddPCoreInClosure.of_noncommPiCoprod [Finite G] (hp : p.Prime) {ι : Typ
     (hind : iSupIndep A) (h : ∀ i, OddPCoreInClosure p ↥(A i)) :
     OddPCoreInClosure p ↥(⨆ i, A i) := by
   classical
-  haveI := Fintype.ofFinite ι
+  have := Fintype.ofFinite ι
   let φ : (∀ i, ↥(A i)) →* G := Subgroup.noncommPiCoprod hcomm
   have hφinj : Function.Injective φ := Subgroup.injective_noncommPiCoprod_of_iSupIndep hind
   have hrange : φ.range = ⨆ i, A i := Subgroup.noncommPiCoprod_range
@@ -54,7 +54,7 @@ theorem exists_lift_pow_eq_one_of_central [Finite X] (hp : p.Prime) (Z : Subgrou
   have hcop : Nat.Coprime (Nat.card Z) p := by
     rw [Nat.coprime_comm, Nat.Prime.coprime_iff_not_dvd hp]
     intro hdvd
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := Z) p hdvd
     have hz1 : (z : X) ^ p = 1 := by
       have := pow_orderOf_eq_one z

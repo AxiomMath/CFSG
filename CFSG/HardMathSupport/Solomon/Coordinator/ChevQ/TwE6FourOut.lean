@@ -23,7 +23,7 @@ theorem rootDiagUnit_compatDiag_mem_C0 {K : Type} [Field K] [Finite K] [CharP K 
       graphFixedRootGroup TwistTag.E6 K σ := by
   classical
   have hσsurj : Function.Surjective σ := Finite.surjective_of_injective σ.injective
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   obtain ⟨Fr, hFr⟩ : ∃ Fr : AlgebraicClosure K →+* AlgebraicClosure K,
       ∀ c, Fr c = c ^ 2 ^ 2 :=
@@ -50,7 +50,7 @@ theorem rootDiagUnit_compatDiag_mem_C0 {K : Type} [Field K] [Finite K] [CharP K 
       (baseChangeGL (τ := TwistTag.E6.tag) (algebraMap K (AlgebraicClosure K)))) =
       Nat.card (compatTorus (t := TwistTag.E6) σ) :=
     Subgroup.card_map_of_injective (baseChangeGL_injective (τ := TwistTag.E6.tag) _)
-  haveI : Finite (graphFixedTorus TwistTag.E6 (AlgebraicClosure K) Fr) :=
+  have : Finite (graphFixedTorus TwistTag.E6 (AlgebraicClosure K) Fr) :=
     Nat.finite_of_card_ne_zero (by rw [hTcard]; norm_num)
   have hTeq : graphFixedTorus TwistTag.E6 (AlgebraicClosure K) Fr ⊓
       (graphFixedRootGroup TwistTag.E6 K σ).map

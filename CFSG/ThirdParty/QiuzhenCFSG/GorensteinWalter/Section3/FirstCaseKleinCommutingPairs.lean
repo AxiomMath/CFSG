@@ -192,7 +192,7 @@ public theorem firstCase_klein_Hhat_outside_commuting_fiber_card_two
         apply hsV
         have hsEq : s = (s * (v : G)) * (v : G)⁻¹ := by group
         rw [hsEq]
-        exact V.mul_mem (by simpa [h] using V.one_mem) (V.inv_mem v.2.1)
+        exact V.mul_mem (by simp [h]) (V.inv_mem v.2.1)
       · rw [pow_two]
         calc
           (s * (v : G)) * (s * (v : G)) = s * ((v : G) * s) * (v : G) := by group

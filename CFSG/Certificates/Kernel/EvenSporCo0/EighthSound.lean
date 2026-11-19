@@ -65,7 +65,7 @@ theorem pop24_wt : (fun x => badWt (pop24 x)) = wtF := by
   rfl
 
 theorem unpack_get24 (p : ℕ) {i : ℕ} (hi : i < 24) : (unpack 24 5 p)[i]! = pg 5 (mask 5) p i := by
-  rw [unpack_getElem!, if_pos hi]
+  rw [unpack_getElem!, ite_eq_left hi]
 
 theorem sigRec_unpack (p w : ℕ) : ∀ n, n ≤ 24 → sigRec (unpack 24 5 p) w n = sigRecP p w n
   | 0, _ => rfl

@@ -95,7 +95,7 @@ theorem uc22pdiag_join_eq_top_of_invPair [IsSimpleGroup X] {V : Subgroup X} (h :
       have hle : Q ⊔ normalizer (V : Set X) ≤ normalizer (Q : Set X) :=
         sup_le (le_normalizer) hN
       rw [htop, top_le_iff, normalizer_eq_top_iff] at hle
-      haveI : Q.Normal := hle
+      have : Q.Normal := hle
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal Q with h | h
       exacts [hQ0 h, hQ h]
     · have hV : V.map α.toMonoidHom = V := (uc22pdiag_map_eq_iff_aut α V).2 (hA α hα)

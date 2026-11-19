@@ -41,7 +41,7 @@ theorem ggRC_classify (hKG : GGReflClassLargeInput') {p : ℕ} [Fact p.Prime] (h
           (∀ i, c i = 1 ∨ c i = -1) ∧ ∀ i, a (b' i) = c i • b' (σ i)) :
     ZS.LinWeyl p A ∨ ∃ (N : ℕ) (_ : 3 ≤ N) (e : A ≃* Equiv.Perm (Fin N)),
       ∀ r : A, GGLinRefl (r : V ≃ₗ[ZMod p] V) → ∃ i j, i ≠ j ∧ e r = Equiv.swap i j := by
-  haveI : Module.Finite (ZMod p) V := Module.finite_of_finrank_pos (by omega)
+  have : Module.Finite (ZMod p) V := Module.finite_of_finrank_pos (by omega)
   rcases hKG p hp2 V n hn h9 A hirr hgen with himp | hcard | hsym1 | hsym2
   · obtain ⟨b, hmon0⟩ := ggRC_monomial_of_imprimitive hn A hirr hgen himp
     rcases l05nK8_prime_eq_three_or_five_le hp2 with hp3 | hp5

@@ -67,7 +67,7 @@ private theorem eq_of_card_le_four {G : Type*} [Group G] [Finite G] {R : Subgrou
     rw [Finset.card_insert_of_notMem n1, Finset.card_insert_of_notMem n2,
       Finset.card_insert_of_notMem n3, Finset.card_insert_of_notMem n4, Finset.card_singleton]
   have h6 := Nat.card_mono (Set.toFinite (R : Set G)) hsub
-  simp only [Finset.coe_sort_coe, Nat.card_eq_finsetCard, h5, SetLike.coe_sort_coe] at h6
+  simp only [Nat.card_eq_finsetCard, h5, SetLike.coe_sort_coe] at h6
   omega
 
 private theorem eq_pow_mul_pow : ∀ y : DihedralGroup 4, ∃ i : Fin 4, ∃ j : Fin 2,

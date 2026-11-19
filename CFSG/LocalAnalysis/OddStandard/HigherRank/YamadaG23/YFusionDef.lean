@@ -60,7 +60,7 @@ private lemma yfd_z_mul_t_ne_t (hA : LFactsA s) : s.fr.z * s.t ≠ s.t := by
 private lemma yfd_relIndex_inf_H_eq_two (N : Subgroup G) (hA : LFactsA s)
     (hconj : conjClass N s.t = s.tCoset (cen s.fr.S)) :
     (N ⊓ s.H).relIndex N = 2 := by
-  letI := yfd_conjAct (G := G) N
+  let := yfd_conjAct (G := G) N
   have hidx := MulAction.index_stabilizer ↥N s.t
   have hstab : MulAction.stabilizer ↥N s.t = (N ⊓ s.H).subgroupOf N := by
     ext x
@@ -100,7 +100,7 @@ private lemma yfd_conjClass_T1 (hA : LFactsA s) (h31 : s.Fact31) (e : Setting3.E
         rw [← hrel, yfd_relIndex_inf_H_eq_two s (normalizer (cen s.R : Set G)) hA hN]
         exact dvd_mul_left 2 _
       exact e.sylow.2.2 hdvd
-    obtain ⟨x, hxT₁, hxH⟩ := SetLike.not_le_iff_exists.mp hnotle
+    obtain ⟨x, hxT₁, hxH⟩ := IsConcreteLE.not_le_iff_exists.mp hnotle
     have hxconj : x * s.t * x⁻¹ ≠ s.t := by
       intro h
       apply hxH
@@ -126,7 +126,7 @@ private lemma yfd_conjClass_T1 (hA : LFactsA s) (h31 : s.Fact31) (e : Setting3.E
 
 private lemma yfd_relIndex_T1_eq_two (hA : LFactsA s) (h31 : s.Fact31) (e : Setting3.Ext s) :
     s.T.relIndex e.T₁ = 2 := by
-  letI := yfd_conjAct (G := G) e.T₁
+  let := yfd_conjAct (G := G) e.T₁
   have hidx := MulAction.index_stabilizer ↥e.T₁ s.t
   have hstab : MulAction.stabilizer ↥e.T₁ s.t = s.T.subgroupOf e.T₁ := by
     ext x
@@ -154,7 +154,7 @@ theorem fusionDef_aut (hS : HRSetting G L) (h31 : s.Fact31)
     SecProp s.T (zpowers s.t)
         (fun Y _ _ _ => ∀ P : Sylow 2 (MulAut (L ⧸ center L)), Nonempty (Y ≃* P)) ∧
       ∃ g ∈ s.T, g ∉ s.R ∧ ActsAs L g s.fr'.σ ∧ (g ^ 2 = 1 ∨ g ^ 2 = s.t) := by
-  haveI hperf : Group.IsPerfect ↥L := isPerfect_of_hrSetting hS
+  have hperf : Group.IsPerfect ↥L := isPerfect_of_hrSetting hS
   let φ : ↥s.T →* MulAut (L ⧸ center L) := jOn L (s3_T_le_N s hS)
   have hker : φ.ker = (zpowers s.t).subgroupOf s.T := by
     change (jOn L (s3_T_le_N s hS)).ker = (zpowers s.t).subgroupOf s.T
@@ -169,12 +169,12 @@ theorem fusionDef_aut (hS : HRSetting G L) (h31 : s.Fact31)
   · have hN : ((zpowers s.t).subgroupOf s.T).Normal := hker ▸ MonoidHom.normal_ker φ
     refine ⟨hN, ?_⟩
     intro P
-    haveI : ((zpowers s.t).subgroupOf s.T).Normal := hN
+    have : ((zpowers s.t).subgroupOf s.T).Normal := hN
     let Q : Sylow 2 (MulAut (L ⧸ center L)) :=
       s.facts.1.2.2.2.1.toSylow (by
         rw [← Subgroup.relIndex_top_right]
         exact s.facts.1.2.2.2.2)
-    haveI : Finite (Sylow 2 (MulAut (L ⧸ center L))) := Sylow.finite_of_finiteIndex Q
+    have : Finite (Sylow 2 (MulAut (L ⧸ center L))) := Sylow.finite_of_finiteIndex Q
     refine ⟨(QuotientGroup.quotientMulEquivOfEq hker.symm).trans
       ((QuotientGroup.quotientKerEquivRange φ).trans ?_)⟩
     rw [hrange]

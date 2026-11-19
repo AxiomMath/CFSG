@@ -172,7 +172,7 @@ theorem input31_3_zero {G : Type} [Group G] [Finite G] {p : ℕ} (R : Subgroup G
 theorem input31_3_one {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.Prime) {R : Subgroup G}
     (hR : IsPGroup p ↥R) (h1 : 1 ≤ CFSG.Open.pRank p R) :
     ∃ E : Subgroup G, IsEkIn p 1 R E ∧ (E.subgroupOf R).Normal := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨E₁, hE₁R, hE₁, hE₁c⟩ := CFSG.SectionRank.exists_pRank hp.one_lt R
   have hE₁ne : E₁ ≠ ⊥ := by
     intro h
@@ -181,10 +181,10 @@ theorem input31_3_one {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.Prime) {
     rw [← hE₁c, hcard, pow_one] at hle
     exact absurd hp.one_lt (by omega)
   obtain ⟨⟨x, hxE⟩, hx1⟩ := Subgroup.ne_bot_iff_exists_ne_one.1 hE₁ne
-  haveI : Nontrivial ↥R :=
+  have : Nontrivial ↥R :=
     ⟨⟨⟨x, hE₁R hxE⟩, 1, fun h => hx1 (Subtype.ext (by
       simpa using congrArg (fun r : ↥R => (r : G)) h))⟩⟩
-  haveI : Nontrivial (Subgroup.center ↥R) := IsPGroup.center_nontrivial hR
+  have : Nontrivial (Subgroup.center ↥R) := IsPGroup.center_nontrivial hR
   have hZ : IsPGroup p ↥(Subgroup.center ↥R) := hR.to_subgroup _
   have hdvd : p ∣ Nat.card ↥(Subgroup.center ↥R) := by
     rcases hZ.card_eq_or_dvd with h | h
@@ -222,7 +222,7 @@ theorem input31_3_of_rankFourOdd
     (hOdd : CFSG.LocalAnalysis.RankFourTheoremC.P5.GL83NormalElementaryRankFourOdd) :
     Input31_3 := by
   intro G _ _ p hp hp2 R hR k hk4 hkr
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hk : k = 0 ∨ k = 1 ∨ k = 2 ∨ k = 3 ∨ k = 4 := by omega
   rcases hk with rfl | rfl | rfl | rfl | rfl
   · exact input31_3_zero R
@@ -268,7 +268,7 @@ theorem piece3_contra' {m : ℕ} {B M E A : Subgroup G} {a : G} (h : Sec10Fails 
     {F : Subgroup G} (hAF : A ≤ F) (hF : IsExtraspecialFive F a)
     (hP2 : ∀ R : Subgroup G, IsSylowIn 3 M R → E ⊔ A ≤ R →
       ∀ e ∈ omegaOne 3 (centerOf R), e ≠ 1 → Cg e ≤ M) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hF' := hF
   obtain ⟨hcardF, hexpF, -, hcenF, hderF⟩ := hF'
   have ha3 : a ^ 3 = 1 := hexpF a (hAF ha)
@@ -284,8 +284,8 @@ theorem piece3_contra' {m : ℕ} {B M E A : Subgroup G} {a : G} (h : Sec10Fails 
   obtain ⟨R0, hR0, hEAR0⟩ := Lemma113b.exists_sylowIn_above' hEAM hpEA
   have hER0 : E ≤ R0 := le_trans le_sup_left hEAR0
   have hAR0 : A ≤ R0 := le_trans le_sup_right hEAR0
-  haveI : Nontrivial ↥R0 := ⟨⟨⟨a, hAR0 ha⟩, 1, fun h' => ha1 (congrArg Subtype.val h')⟩⟩
-  haveI hcen : Nontrivial (Subgroup.center ↥R0) := IsPGroup.center_nontrivial hR0.2.1
+  have : Nontrivial ↥R0 := ⟨⟨⟨a, hAR0 ha⟩, 1, fun h' => ha1 (congrArg Subtype.val h')⟩⟩
+  have hcen : Nontrivial (Subgroup.center ↥R0) := IsPGroup.center_nontrivial hR0.2.1
   obtain ⟨⟨zR, hzc⟩, hz1⟩ := exists_ne (1 : Subgroup.center ↥R0)
   have hzG : zR.1 ∈ centerOf R0 := by
     refine (mem_centerOf_iff R0 zR.1).2 ⟨zR.2, fun h' hh => ?_⟩
@@ -577,7 +577,7 @@ theorem quot_diag_hom [Finite Y] {p : ℕ} (hp : p.Prime) {M : Subgroup Y}
       exact (Subgroup.mem_normalizer_iff.1 hgN _).1 hn
     exact hN.map (QuotientGroup.mk' P) (QuotientGroup.mk'_surjective P)
   have hdich : ∀ X ∈ 𝓛, R ≤ K X ∨ ⁅R, K X⁆ = ⊥ := fun X hX => by
-    haveI := hKn X hX
+    have := hKn X hX
     exact CFSG.LocalCores.component_normal_subgroup ((CFSG.isComponent_iff_open R).2 hRc)
       inferInstance
   have hcomm_of : ∀ X ∈ 𝓛, (⁅R, K X⁆ = ⊥) → ∀ r ∈ R, ∀ k ∈ K X, k * r = r * k := by
@@ -715,7 +715,7 @@ theorem quot_diag_hom [Finite Y] {p : ℕ} (hp : p.Prime) {M : Subgroup Y}
       have htK : t ∈ K X₀ := hRK ht
       have hc := Subgroup.mem_center_iff.1 hz ⟨t, htK⟩
       have hc' := congrArg Subtype.val hc
-      simp only [Subgroup.coe_mul, Subtype.coe_mk] at hc'
+      simp only [Subgroup.coe_mul] at hc'
       have hz' : ((z : ↥(K X₀)) : ↥M ⧸ P) = r := hzr
       rw [hz'] at hc'
       exact hc'.symm
@@ -817,7 +817,7 @@ theorem diag_data_of_family :
         exact gLBConj_eq_of_mem_normalizer ((Subgroup.normalizer _).inv_mem (hbN' X hX))
     have hOJ : ∀ X ∈ 𝓛, Input183.OJ b X = X := fun X hX => by
       rw [Input183.OJ_eq_fin hb hp0]
-      haveI : Nonempty (Fin p) := ⟨⟨0, hp0⟩⟩
+      have : Nonempty (Fin p) := ⟨⟨0, hp0⟩⟩
       simp only [hbX X hX]
       exact iSup_const
     have hDM : ∀ X ∈ 𝓛, X ≤ L ⊓ Subgroup.centralizer ({b} : Set Y) := fun X hX x hx =>
@@ -844,7 +844,7 @@ theorem diag_data_of_family :
     let Dg : Subgroup Y → Subgroup Y := fun X =>
       if h : X ∈ 𝓛 then (diagHom' (hAcomm_of X h)).range else ⊥
     have hDg : ∀ X (hX : X ∈ 𝓛), Dg X = (diagHom' (hAcomm_of X hX)).range :=
-      fun X hX => dif_pos hX
+      fun X hX => dite_eq_left hX
     have hdiag_fixed : ∀ X (hX : X ∈ 𝓛) (x : ↥X),
         b * diagHom' (hAcomm_of X hX) x * b⁻¹ = diagHom' (hAcomm_of X hX) x :=
       fun X hX x => Input183.diag_shift hb hp0 (hAcomm_of X hX) (x : Y) x.2
@@ -932,7 +932,7 @@ theorem comp_diag_hom [Finite Y] {M : Subgroup Y} {𝓛 : Set (Subgroup Y)}
       _ = (d * w) * r := by group
   obtain ⟨X₀, hX₀, hQD⟩ := hexists
   obtain ⟨ψ, hψr⟩ := hψ X₀ hX₀
-  haveI hTn : ψ.ker.Normal := MonoidHom.normal_ker ψ
+  have hTn : ψ.ker.Normal := MonoidHom.normal_ker ψ
   have hT_ne : ψ.ker ≠ ⊤ := by
     intro htop
     apply hrt
@@ -963,7 +963,7 @@ theorem comp_diag_hom [Finite Y] {M : Subgroup Y} {𝓛 : Set (Subgroup Y)}
       have htK : t ∈ D X₀ := hQD ht
       have hc := Subgroup.mem_center_iff.1 hz ⟨t, htK⟩
       have hc' := congrArg Subtype.val hc
-      simp only [Subgroup.coe_mul, Subtype.coe_mk] at hc'
+      simp only [Subgroup.coe_mul] at hc'
       have hz' : ((z : ↥(D X₀)) : Y) = r := hzr
       rw [hz'] at hc'
       exact hc'.symm
@@ -1026,7 +1026,7 @@ open scoped commutatorElement
 
 theorem Bridges1.input22_5Layer_holds : Input22_5Layer := by
   intro X _ _ p hp hcore K B hK hB hrank b hbJ Y hY
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hbB, hb1, hcase⟩ := hbJ
   have hbp : b ^ p = 1 := hB.2 b hbB
   have hbo : orderOf b = p := orderOf_eq_prime hbp hb1
@@ -1075,7 +1075,7 @@ theorem Bridges1.sec13e_clause1_holds : ∀ (X : Type) [Group X] [Finite X] (p :
             (CFSG.Open.GLAPLayer p (L ⊓ Subgroup.centralizer ({b} : Set X))) →
           ∃ K ∈ 𝒦, ∃ φ : ↥K →* ↥Y, Function.Surjective φ ∧ φ.ker ≤ Subgroup.center ↥K) := by
   intro X _ _ p hp L B K₁ 𝒦 hK₁ hcomp hL hcomm htrans hB hBN hpL b hbJ Y hY
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hbB, hb1, hcase⟩ := hbJ
   have hbp : b ^ p = 1 := hB.2 b hbB
   have hbo : orderOf b = p := orderOf_eq_prime hbp hb1

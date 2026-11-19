@@ -21,8 +21,8 @@ theorem card_le_two_mul_card_ker_orthLeviHom {K : Type} [Field K] [Finite K] [Ch
     {S : Subgroup ↥(orthParab 3 (minusTailForm K b c) d)} (hS : IsPGroup 2 S) :
     Nat.card S ≤ 2 * Nat.card (orthLeviHom b c hd).ker := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (((Fin 3 ⊕ Fin 3 → K) × (Fin 2 → K)) ≃ₗ[K] ((Fin 3 ⊕ Fin 3 → K) × (Fin 2 → K))) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (((Fin 3 ⊕ Fin 3 → K) × (Fin 2 → K)) ≃ₗ[K] ((Fin 3 ⊕ Fin 3 → K) × (Fin 2 → K))) :=
     finite_orthLinearEquiv
   let Tj : ∀ j : Fin s ⊕ Unit, Subgroup (orthLeviGroup K 3 d j) := fun j =>
     match j with
@@ -93,7 +93,7 @@ theorem card_le_two_mul_pCoreOf_of_solvThree {A : Type} [Group A] [Finite A] {Y 
   obtain ⟨ρ, s, d, hd, hρ⟩ :=
     LeviBlock.exists_comap_eq_orthParab (by norm_num) hirr hP φ.symm
   let C : OmCover Y P 3 K b c d := ⟨ρ, hρ⟩
-  haveI : Finite ↥(orthElementaryGroup (quadTail 3 (minusTailForm K b c))) :=
+  have : Finite ↥(orthElementaryGroup (quadTail 3 (minusTailForm K b c))) :=
     Finite.of_equiv _ C.ρ.symm.toEquiv
   have hlast : d (Fin.last s) = 3 := by
     by_contra hne

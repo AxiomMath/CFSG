@@ -51,6 +51,7 @@ variable {n : ℕ} {X : Type} [Field X] [Finite X] {σ : X ≃+* X}
 
 open CFSG.RankThree.PartOne.SEITZ7 CFSG.LieType.Steinberg.TwistedD4
   CFSG.LieType.Steinberg.Adjoint in
+omit [Finite X] in
 theorem entrywise_xd [CharP X 2] {p : ℕ} (hp : p < 24) (δ : X →+* X) (c : X) :
     Units.map (entrywiseHom δ) ((xd p c : adjointGroup d4 X) : ModGL d4 X) =
       ((xd p (δ c) : adjointGroup d4 X) : ModGL d4 X) := by
@@ -101,6 +102,7 @@ theorem coe_etaB (P : D4Par n X σ) (h : Matrix.SpecialLinearGroup (Fin 2) (fixS
 
 open CFSG.RankThree.PartOne.SEITZ7 CFSG.LieType.Steinberg.TwistedD4
   CFSG.LieType.Steinberg.Adjoint in
+omit [Finite X] in
 theorem entrywise_xA [CharP X 2] (c : X) :
     Units.map (entrywiseHom σ.toRingHom) ((xA σ.toRingHom c : adjointGroup d4 X) : ModGL d4 X) =
       ((xA σ.toRingHom (σ c) : adjointGroup d4 X) : ModGL d4 X) := by
@@ -111,6 +113,7 @@ theorem entrywise_xA [CharP X 2] (c : X) :
 
 open CFSG.RankThree.PartOne.SEITZ7 CFSG.LieType.Steinberg.TwistedD4
   CFSG.LieType.Steinberg.Adjoint in
+omit [Finite X] in
 theorem entrywise_xAm [CharP X 2] (c : X) :
     Units.map (entrywiseHom σ.toRingHom) ((xAm σ.toRingHom c : adjointGroup d4 X) : ModGL d4 X) =
       ((xAm σ.toRingHom (σ c) : adjointGroup d4 X) : ModGL d4 X) := by
@@ -124,7 +127,7 @@ open CFSG.RankThree.PartOne.SEITZ7 CFSG.LieType.Steinberg.TwistedD4
   CFSG.LieType.Steinberg.Adjoint in
 theorem tau_iotaA (P : D4Par n X σ) (g : Matrix.SpecialLinearGroup (Fin 2) X) :
     tauAut σ (iotaA P g) = iotaA P (Matrix.SpecialLinearGroup.map σ.toRingHom g) := by
-  haveI := P.charP
+  have := P.charP
   let Ψ₁ : Matrix.SpecialLinearGroup (Fin 2) X →* C0 σ := (tauAut σ).toMonoidHom.comp (iotaA P)
   let Ψ₂ : Matrix.SpecialLinearGroup (Fin 2) X →* C0 σ :=
     (iotaA P).comp (Matrix.SpecialLinearGroup.map σ.toRingHom)
@@ -160,7 +163,7 @@ open CFSG.RankThree.PartOne.SEITZ7 CFSG.LieType.Steinberg.TwistedD4
   CFSG.LieType.Steinberg.Adjoint in
 theorem tau_etaB (P : D4Par n X σ) (h : Matrix.SpecialLinearGroup (Fin 2) (fixSubfield σ)) :
     tauAut σ (etaB P h) = etaB P h := by
-  haveI := P.charP
+  have := P.charP
   let Ψ₁ : Matrix.SpecialLinearGroup (Fin 2) (fixSubfield σ) →* C0 σ :=
     (tauAut σ).toMonoidHom.comp (etaB P)
   have hfix : ∀ c : fixSubfield σ, σ.toRingHom (c : X) = (c : X) := fun c =>

@@ -12,10 +12,12 @@ attribute [local instance] Fintype.ofFinite
 variable {G : Type*} [Group G] [Finite G] {p : ℕ}
 variable {V : Type*} [AddCommGroup V] [Module (ZMod p) V]
 
+omit [Finite G] in
 theorem mem_invariants_comp_subtype {ρ : Representation (ZMod p) G V} {X : Subgroup G} {v : V} :
     v ∈ Representation.invariants (ρ.comp X.subtype) ↔ ∀ a ∈ X, ρ a v = v :=
   ⟨fun h a ha => h ⟨a, ha⟩, fun h a => h a a.2⟩
 
+omit [Finite G] in
 theorem invariants_comp_subtype_antitone (ρ : Representation (ZMod p) G V) {X Y : Subgroup G}
     (h : X ≤ Y) :
     Representation.invariants (ρ.comp Y.subtype) ≤
@@ -36,6 +38,7 @@ private def stabilizer (ρ : Representation (ZMod p) G V) (w : V) : Subgroup G w
     conv_lhs => rw [← hg]
     rw [← Module.End.mul_apply, ← map_mul, inv_mul_cancel, map_one, Module.End.one_apply]
 
+omit [Finite G] in
 theorem invariants_comp_subtype_sup (ρ : Representation (ZMod p) G V) (X Y : Subgroup G) :
     Representation.invariants (ρ.comp (X ⊔ Y).subtype) =
       Representation.invariants (ρ.comp X.subtype) ⊓
@@ -73,7 +76,7 @@ theorem subgroupAverage_mem_invariants (ρ : Representation (ZMod p) G V) (X : S
 theorem subgroupAverage_eq_self (ρ : Representation (ZMod p) G V) (hp : p.Prime) {X : Subgroup G}
     {v : V} (hcard : (Nat.card X : ZMod p) ≠ 0)
     (hv : v ∈ Representation.invariants (ρ.comp X.subtype)) : subgroupAverage ρ X v = v := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [subgroupAverage_apply]
   have h : ∀ y : X, ρ (y : G) v = v :=
     fun y => mem_invariants_comp_subtype.mp hv (y : G) y.2
@@ -104,15 +107,15 @@ theorem subgroupAverage_rho_of_mem_normalizer (ρ : Representation (ZMod p) G V)
         ⟨g⁻¹ * (x : G) * g, (Subgroup.mem_normalizer_iff''.mp hg (x : G)).mp x.2⟩
       invFun := fun x =>
         ⟨g * (x : G) * g⁻¹, (Subgroup.mem_normalizer_iff.mp hg (x : G)).mp x.2⟩
-      left_inv := fun x => by ext; simp only [Subtype.coe_mk]; group
-      right_inv := fun x => by ext; simp only [Subtype.coe_mk]; group }
+      left_inv := fun x => by ext; simp only; group
+      right_inv := fun x => by ext; simp only; group }
   have h := Equiv.sum_comp e (fun y : X => ρ (g * (y : G)) v)
   simpa [e, mul_assoc] using h
 
 theorem natCast_card_ne_zero_of_isPGroup {q : ℕ} (hp : p.Prime) (hq : q.Prime) (hqp : q ≠ p)
     {X : Subgroup G} (hX : IsPGroup q X) : (Nat.card X : ZMod p) ≠ 0 := by
-  letI : Fact p.Prime := ⟨hp⟩
-  letI : Fact q.Prime := ⟨hq⟩
+  let : Fact p.Prime := ⟨hp⟩
+  let : Fact q.Prime := ⟨hq⟩
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card (p := q) (G := X)).mp hX
   rw [hn, Nat.cast_pow]
   exact pow_ne_zero n fun h0 =>
@@ -121,7 +124,7 @@ theorem natCast_card_ne_zero_of_isPGroup {q : ℕ} (hp : p.Prime) (hq : q.Prime)
 private theorem natCast_card_ne_zero_of_le_elemAbelian {q : ℕ} (hp : p.Prime) (hq : q.Prime)
     (hqp : q ≠ p) {A X : Subgroup G} (hA : CFSG.Open.IsElemAbelian q A) (hX : X ≤ A) :
     (Nat.card X : ZMod p) ≠ 0 := by
-  haveI : CFSG.IsElementaryAbelian q A :=
+  have : CFSG.IsElementaryAbelian q A :=
     { toIsMulCommutative := hA.1
       exponent_dvd_p := Monoid.exponent_dvd_iff_forall_pow_eq_one.mpr fun x => by
         apply Subtype.ext
@@ -192,7 +195,7 @@ theorem iSupIndep_invariants_hyperplanes (ρ : Representation (ZMod p) G V) (hp 
       (fun B : {B : {B : Subgroup G // B ≤ A ∧ B.relIndex A = q} // B ≠ B₀} =>
         Representation.invariants (ρ.comp B.1.1.subtype)) hv' ?_ ?_ ?_
     · intro B x hx
-      haveI := hA.1
+      have := hA.1
       have hne : B₀.1 ≠ B.1.1 := fun h => B.2 (Subtype.ext h).symm
       have hcomm : ∀ a ∈ B₀.1, ∀ b ∈ B.1.1, a * b = b * a := fun a ha b hb =>
         congrArg Subtype.val (mul_comm' (⟨a, B₀.2.1 ha⟩ : ↥A) (⟨b, B.1.2.1 hb⟩ : ↥A))
@@ -217,16 +220,16 @@ theorem iSup_invariants_hyperplanes_eq_top [Finite V] (ρ : Representation (ZMod
     (hA : CFSG.Open.IsElemAbelian q A) (hA1 : A ≠ ⊥) :
     ⨆ B : {B : Subgroup G // B ≤ A ∧ B.relIndex A = q},
       Representation.invariants (ρ.comp B.1.subtype) = ⊤ := by
-  letI : Fact p.Prime := ⟨hp⟩
-  letI : Fact q.Prime := ⟨hq⟩
-  haveI : CFSG.IsElementaryAbelian q A :=
+  let : Fact p.Prime := ⟨hp⟩
+  let : Fact q.Prime := ⟨hq⟩
+  have : CFSG.IsElementaryAbelian q A :=
     { toIsMulCommutative := hA.1
       exponent_dvd_p := Monoid.exponent_dvd_iff_forall_pow_eq_one.mpr fun x => by
         apply Subtype.ext
         exact hA.2 (x : G) x.2 }
-  haveI : Nontrivial ↥A := (Subgroup.nontrivial_iff_ne_bot A).mpr hA1
-  letI : MulDistribMulAction ↥A (Multiplicative V) := act ρ A
-  haveI : Module.Finite (ZMod p) V := Module.Finite.of_finite
+  have : Nontrivial ↥A := (Subgroup.nontrivial_iff_ne_bot A).mpr hA1
+  let : MulDistribMulAction ↥A (Multiplicative V) := act ρ A
+  have : Module.Finite (ZMod p) V := Module.Finite.of_finite
   have hcardV : Nat.card (Multiplicative V) = p ^ Module.finrank (ZMod p) V := by
     have := Module.natCard_eq_pow_finrank (K := ZMod p) (V := V)
     rw [Nat.card_zmod] at this
@@ -269,9 +272,7 @@ theorem iSup_invariants_hyperplanes_eq_top [Finite V] (ρ : Representation (ZMod
       (p := fun B : {B : Subgroup G // B ≤ A ∧ B.relIndex A = q} =>
         Representation.invariants (ρ.comp B.1.subtype))
       ⟨B.1.map A.subtype, hmemB⟩ hxB
-  · simpa using Submodule.zero_mem
-      (⨆ B : {B : Subgroup G // B ≤ A ∧ B.relIndex A = q},
-        Representation.invariants (ρ.comp B.1.subtype))
+  · simp
   · intro x y hx hy
     rw [toAdd_mul]
     exact Submodule.add_mem _ hx hy

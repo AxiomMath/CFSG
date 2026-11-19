@@ -48,7 +48,7 @@ theorem fw_mono (hU : Φ.IsTotallyIsotropic U) :
     · simp [hi, show j ≠ 0 by omega]
   · intro k
     by_cases hk : k = 0
-    · simp only [hk, if_true]
+    · simp only [hk, ite_true]
       exact bot_le
     · simpa [hk] using hU
 
@@ -94,11 +94,11 @@ theorem mem_Urad_iff [Finite V] (hU : Φ.IsTotallyIsotropic U) (hρ : IsIsometri
 
 theorem urad_isPGroup [CharP F 2] (hinj : Function.Injective ρ) :
     IsPGroup 2 (Urad Φ ρ U) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   unfold Urad
   exact isPGroup_flagKernel ρ 2 hinj fw_zero (m := 3) (fw_of_ge le_rfl)
 
-theorem mem_flagStab_Fw [Finite V] (hU : Φ.IsTotallyIsotropic U) (hρ : IsIsometric Φ ρ) {u : H} :
+theorem mem_flagStab_Fw [Finite V] (_hU : Φ.IsTotallyIsotropic U) (_hρ : IsIsometric Φ ρ) {u : H} :
     u ∈ flagStab ρ (isoCompletion Φ (fun k => if k = 0 then (⊥ : Submodule F V) else U) 1) ↔
       (∀ v ∈ U, ρ u v ∈ U) ∧ (∀ v ∈ Φ.perp U, ρ u v ∈ Φ.perp U) := by
   constructor

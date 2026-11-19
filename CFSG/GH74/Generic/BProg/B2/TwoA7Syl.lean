@@ -33,7 +33,7 @@ theorem isSylowOf_inf_of_isSubnormal_of_le {X : Type*} [Group X] [Finite X] {T C
   obtain ⟨S, hS⟩ := hT.exists_sylow_eq_subgroupOf
   have hS' : IsSylowOf 2 (S : Subgroup ↥C) ⊤ := by
     rw [isSylowOf_iff]
-    exact ⟨le_top, S.isPGroup', by rw [Subgroup.relIndex_top_right]; exact S.not_dvd_index⟩
+    exact ⟨le_top, S.isPGroup, by rw [Subgroup.relIndex_top_right]; exact S.not_dvd_index⟩
   have hJ' : (J.subgroupOf C).IsSubnormal := hJ.comap C.subtype
   have key := isSylowOf_inf_of_isSubnormal hS' hJ'
   have e : T.subgroupOf C ⊓ J.subgroupOf C = (T ⊓ J).subgroupOf C :=

@@ -70,10 +70,10 @@ theorem exists_involution_of_mGV_le [Finite G] [Finite V] (ρ : Representation (
       Module.finrank (ZMod 2) V - Module.finrank (ZMod 2) (repFixedSpace ρ {t}) ≤ k := by
   classical
   unfold mGV at h
-  rw [if_pos hev] at h
+  rw [ite_eq_left hev] at h
   have hne : {k | ∃ t : G, orderOf t = 2 ∧
       k = Module.finrank (ZMod 2) (V ⧸ fixSub ρ (Subgroup.zpowers t))}.Nonempty := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨t, ht⟩ := exists_prime_orderOf_dvd_card' 2 (even_iff_two_dvd.mp hev)
     exact ⟨_, t, ht, rfl⟩
   obtain ⟨t, ht, hk⟩ := Nat.sInf_mem hne
@@ -317,9 +317,9 @@ theorem isIrreducible_of_disp_lt {c : ℕ}
   by_contra hne
   rw [not_or] at hne
   let U' : Subrepresentation π := ⟨U, fun g v hv => hU g v hv⟩
-  haveI : Nontrivial U'.toSubmodule := Submodule.nontrivial_iff_ne_bot.mpr hne.1
-  haveI : Nontrivial (X ⧸ U'.toSubmodule) := Submodule.Quotient.nontrivial_iff.mpr hne.2
-  haveI : Finite (X ⧸ U'.toSubmodule) := Finite.of_surjective _ (Submodule.mkQ_surjective _)
+  have : Nontrivial U'.toSubmodule := Submodule.nontrivial_iff_ne_bot.mpr hne.1
+  have : Nontrivial (X ⧸ U'.toSubmodule) := Submodule.Quotient.nontrivial_iff.mpr hne.2
+  have : Finite (X ⧸ U'.toSubmodule) := Finite.of_surjective _ (Submodule.mkQ_surjective _)
   have h1 := le_disp_of_forall_irreducible ι t hc U'.toRepresentation (h.sub U')
   have h2 := le_disp_of_forall_irreducible ι t hc U'.quotient (h.quot U')
   have h3 := codim_sub_quot π U' {t}

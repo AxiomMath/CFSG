@@ -178,7 +178,7 @@ theorem map_conj_inf' {M : Type*} [Group M] (X Y : Subgroup M) (a : M) :
 theorem exists_map_conj_le_titsS_of_le_titsN {Y : Subgroup (Equiv.Perm (Fin 1755))}
     (hYN : Y ≤ titsN) (hp : IsPGroup 2 Y) :
     ∃ n ∈ titsN, Y.map (MulAut.conj n).toMonoidHom ≤ titsS := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSN : titsS ≤ titsN := titsS_le_titsN
   have hfac : (6144 : ℕ).factorization 2 = 11 := by
     have h : (6144 : ℕ) = 2 ^ 11 * 3 := by norm_num

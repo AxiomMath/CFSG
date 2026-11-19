@@ -23,6 +23,7 @@ variable {G : Type} [Group G] [Finite G] {L1 L2 S : Subgroup G}
     (x : GPath (f112Amalgam L1 L2 S).graphHat b) : Subgroup (f112Amalgam L1 L2 S).Ghat :=
   caseAOddN2 b x ⊓ CosetGeom.Qy (x (b - 1))
 
+omit [Finite G] in
 theorem caseA_odd_N_le_Qy {b : ℕ} {x : GPath (f112Amalgam L1 L2 S).graphHat b}
     (hx : caseACritPath L1 L2 S b x) (hb : 5 ≤ b) : caseAN (x 1) ≤ CosetGeom.Qy (x (b - 3)) := by
   have hvt1 : CosetGeom.vtype (x 1) = false :=
@@ -122,7 +123,7 @@ theorem caseA_odd_relIndex_N2_E_le
 
 theorem caseA_odd_X_le_E
     {a : ℕ}
-    (hfr : Str83G4Frame L1 L2 S a) (hA : str83R L1 L2 S ≤ Q1 L1 L2 S) {b : ℕ}
+    (hfr : Str83G4Frame L1 L2 S a) (_hA : str83R L1 L2 S ≤ Q1 L1 L2 S) {b : ℕ}
     {x : GPath (f112Amalgam L1 L2 S).graphHat b} (hx : caseACritPath L1 L2 S b x) (hbo : Odd b)
     (hb : 5 ≤ b) :
     caseAX (x 1) ≤ caseAOddE b x := by
@@ -142,7 +143,7 @@ theorem caseA_odd_X_le_E
 
 theorem caseA_odd_E_le_caseAS {a : ℕ}
     (hfr : Str83G4Frame L1 L2 S a) {b : ℕ} {x : GPath (f112Amalgam L1 L2 S).graphHat b}
-    (hx : caseACritPath L1 L2 S b x) (hb : 5 ≤ b) :
+    (_hx : caseACritPath L1 L2 S b x) (hb : 5 ≤ b) :
     caseAOddE b x ≤ caseAS (x b) (x (b - 1)) := by
   intro t ht
   have htE : t ∈ caseAOddN2 b x ⊓ CosetGeom.Qy (x (b - 1)) := by
@@ -157,7 +158,7 @@ theorem caseA_odd_E_le_caseAS {a : ℕ}
 theorem caseA_odd_E_le_centralizer
     {a : ℕ}
     (hfr : Str83G4Frame L1 L2 S a) (hA : str83R L1 L2 S ≤ Q1 L1 L2 S) {b : ℕ}
-    {x : GPath (f112Amalgam L1 L2 S).graphHat b} (hx : caseACritPath L1 L2 S b x) (hbo : Odd b)
+    {x : GPath (f112Amalgam L1 L2 S).graphHat b} (hx : caseACritPath L1 L2 S b x) (_hbo : Odd b)
     (hb : 5 ≤ b) :
     caseAOddE b x ≤ Subgroup.centralizer (caseAX (x 1) : Set (f112Amalgam L1 L2 S).Ghat) := by
   have hvt1 : CosetGeom.vtype (x 1) = false :=
@@ -186,7 +187,7 @@ private theorem oddbb_commutator_zpowers_mem {G : Type*} [Group G] {H : Subgroup
 
 private theorem oddbb_finite_of_le_stab {v : f112Gamma L1 L2 S}
     {H : Subgroup (f112Amalgam L1 L2 S).Ghat} (hH : H ≤ CosetGeom.stab v) : Finite ↥H := by
-  haveI : Finite ↥(CosetGeom.stab v) := caseA_finite_stab L1 L2 S v
+  have : Finite ↥(CosetGeom.stab v) := caseA_finite_stab L1 L2 S v
   exact Finite.of_injective (fun h : ↥H => (⟨h.1, hH h.2⟩ : ↥(CosetGeom.stab v)))
     (fun a b hab => Subtype.ext
       (congrArg (fun x : ↥(CosetGeom.stab v) => (x : (f112Amalgam L1 L2 S).Ghat)) hab))
@@ -384,11 +385,11 @@ private theorem oddbb_relIndex_E_N_eq
     rw [mem_centralizerMod]
     exact ⟨hEN he, caseA_stab_le_normalizer_X (x 1) (hEstab he),
       oddbb_commutator_zpowers_mem ht2 (htcomm e he)⟩
-  haveI : Finite ↥(caseAN (x 1)) :=
+  have : Finite ↥(caseAN (x 1)) :=
     oddbb_finite_of_le_stab (H := caseAN (x 1))
       (((caseA_N_le_Y hfr hA hv1).trans inf_le_left).trans (caseA_Qy_le_stab (x 1)))
   have hErel : (caseAOddE b x).relIndex (caseAN (x 1)) ≠ 0 := by
-    haveI : (caseAOddE b x).IsFiniteRelIndex (caseAN (x 1)) :=
+    have : (caseAOddE b x).IsFiniteRelIndex (caseAN (x 1)) :=
       Subgroup.isFiniteRelIndex_iff_finiteIndex.mpr
         (inferInstance : ((caseAOddE b x).subgroupOf (caseAN (x 1))).FiniteIndex)
     exact Subgroup.relIndex_ne_zero
@@ -412,7 +413,7 @@ private theorem oddbb_relIndex_E_N_eq
 
 private theorem oddbb_relIndex_split
     {a : ℕ}
-    (hfr : Str83G4Frame L1 L2 S a) (hA : str83R L1 L2 S ≤ Q1 L1 L2 S) {b : ℕ}
+    (hfr : Str83G4Frame L1 L2 S a) (_hA : str83R L1 L2 S ≤ Q1 L1 L2 S) {b : ℕ}
     {x : GPath (f112Amalgam L1 L2 S).graphHat b} (hx : caseACritPath L1 L2 S b x) (hbo : Odd b)
     (hb : 5 ≤ b)
     (hEN : (caseAOddE b x).relIndex (caseAN (x 1)) = (2 ^ (2 * a + 1)) ^ 2) :
@@ -510,7 +511,7 @@ theorem caseA_odd_N2_sup_eq
       Nat.card (caseAS (x (b - 1)) (x (b - 2)) :
         Subgroup (f112Amalgam L1 L2 S).Ghat) := by
     rw [← hcardL, ← hcardS, h1, h2]
-  haveI : Finite ↥(caseAS (x (b - 1)) (x (b - 2))) :=
+  have : Finite ↥(caseAS (x (b - 1)) (x (b - 2))) :=
     oddbb_finite_of_le_stab (H := caseAS (x (b - 1)) (x (b - 2))) (v := x (b - 1))
       (caseAS_le_stab_left (x (b - 1)) (x (b - 2)))
   exact Subgroup.eq_of_le_of_card_ge hle (le_of_eq hcard.symm)

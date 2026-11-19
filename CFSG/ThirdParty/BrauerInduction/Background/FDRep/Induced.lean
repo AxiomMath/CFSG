@@ -64,8 +64,8 @@ finitely generated underlying module.
   let A : Rep k G := asRep σ
   let τind : Rep k H := Rep.ind φ A
   have h_fin_τ : Module.Finite k τind.V := by
-    letI : Fintype H := Fintype.ofFinite H
-    haveI : Module.Finite k A.V := by
+    let : Fintype H := Fintype.ofFinite H
+    have : Module.Finite k A.V := by
       change Module.Finite k σ
       infer_instance
     exact Module.Finite.of_surjective
@@ -179,14 +179,14 @@ noncomputable abbrev coindHom [Finite H]
   let τcoind : Rep k H := Rep.coind φ A
 
   have h_fin_τ : Module.Finite k τcoind.V := by
-    letI : Fintype H := Fintype.ofFinite H
+    let : Fintype H := Fintype.ofFinite H
 
-    haveI : Module.Finite k A.V := by
+    have : Module.Finite k A.V := by
       change Module.Finite k σ
       infer_instance
 
     -- The ambient function space is finite as `H` is finite.
-    haveI : Module.Finite k (H → A.V) :=
+    have : Module.Finite k (H → A.V) :=
       Module.Finite.pi_iff.mpr fun _ => inferInstance
 
     -- The coinduced space is a submodule of this finite module.

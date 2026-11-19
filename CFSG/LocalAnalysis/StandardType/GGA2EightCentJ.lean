@@ -94,7 +94,7 @@ theorem ggA2EightAb_card_le {X : Type} [Group X] [Finite X] {A Ab : Subgroup (Mu
   have hperfJ : commutator ↥J = ⊤ := hlocCore.2.2.2.1.2.2.1
   have hAbab : IsElemAbelian 7 Ab := by
     obtain ⟨hc, hp⟩ := hlocCore.1
-    haveI : IsMulCommutative A := hc
+    have : IsMulCommutative A := hc
     refine ⟨⟨⟨fun u v => ?_⟩⟩, fun z hz => ?_⟩
     · apply Subtype.ext
       exact setLike_mul_comm (s := A) (hAbA u.2) (hAbA v.2)
@@ -118,14 +118,14 @@ theorem ggCentJRank_a2Eight {X : Type} [Group X] [Finite X] {A Ab : Subgroup (Mu
     dsimp only [LargeEvenRawDatum] at hhJ
     unfold LargeEvenRecipeLinear at hhJ
     obtain ⟨K, hKf, hKfin, hKcard, ⟨e⟩⟩ := hhJ
-    haveI : CharP K 2 := CFSG.TauCetiBridge.charP_two_of_card_eq_two_pow hKcard
+    have : CharP K 2 := CFSG.TauCetiBridge.charP_two_of_card_eq_two_pow hKcard
     have hsec : TypeA.SLHasSections 3 K :=
       TypeA.slHasSections_of_card (d := 3) (K := K) (by norm_num) (by omega) (by omega) (by omega)
     have hproj := TypeA.ggTorusLift_coprime (p := 7) (d := 3) (K := K) (by norm_num)
       (by rw [hKcard]; norm_num) (by norm_num) (by norm_num) hsec
     exact TypeA.ggTorusLift_of_mulEquiv (e.trans (TypeA.recipeEquiv 3 K)) hproj
   intro hcop E hE hcent
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨s, hs⟩ := IsPGroup.iff_card.mp (TableB.isPGroup_of_isElemAbelian hE)
   have hmain : s + 2 ≤ LargeEvenTwoLocalRank 7 X :=
     a2c_le_twoLocalRank_of_torusLift (p := 7) (r := 2) (s := s) (by norm_num)
@@ -136,7 +136,7 @@ theorem ggCentJRank_a2Eight {X : Type} [Group X] [Finite X] {A Ab : Subgroup (Mu
   have hm3 : m ≤ 3 := by
     have h : 7 ^ m ≤ 7 ^ 3 := by rw [← hmcard]; exact hAb_le
     exact (Nat.pow_le_pow_iff_right (by norm_num : 1 < 7)).mp h
-  rw [if_neg h7] at hmrank
+  rw [ite_eq_right h7] at hmrank
   have hmrank3 : LargeEvenTwoLocalRank 7 X ≤ 3 := by omega
   have hs1 : s ≤ 1 := by omega
   rw [hs]

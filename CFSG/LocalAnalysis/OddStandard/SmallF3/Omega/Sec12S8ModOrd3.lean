@@ -71,8 +71,8 @@ theorem sec12S8Mod_trans {k : Type*} [Field k] (hk : Nat.card k = 4) {a b : proj
 
 theorem sec12S8Mod_conj3 {k : Type*} [Field k] (hk : Nat.card k = 4) {a b : projectiveSL 3 k}
     (ha : orderOf a = 3) (hb : orderOf b = 3) : IsConj a b := by
-  haveI := CFSG.LocalAnalysis.ComponentInitial.LinearFieldFour.finite_of_card_eq_four hk
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := CFSG.LocalAnalysis.ComponentInitial.LinearFieldFour.finite_of_card_eq_four hk
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have ha1 : a ≠ 1 := by rintro rfl; simp at ha
   have hb1 : b ≠ 1 := by rintro rfl; simp at hb
   have hpa : IsPGroup 3 (Subgroup.zpowers a) :=

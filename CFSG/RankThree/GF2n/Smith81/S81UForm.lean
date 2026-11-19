@@ -30,12 +30,14 @@ private theorem h52_partner_val_even (a : Fin 6) (ha : a.val % 2 = 0) :
     (partner a).val = a.val + 1 := by
   simp [partner, ha]
 
+omit [CharP F 2] in
 private theorem h52_conj_fix (S X : GL (Fin 6) F) (ξ : Cube F)
     (h : rho F (S * X * S⁻¹) ξ = ξ) : rho F X (rho F S⁻¹ ξ) = rho F S⁻¹ ξ := by
   rw [rho_mul_apply, rho_mul_apply] at h
   have h2 : rho F S⁻¹ (rho F S (rho F X (rho F S⁻¹ ξ))) = rho F S⁻¹ ξ := by rw [h]
   rwa [← rho_mul_apply, inv_mul_cancel, rho_one, Module.End.one_apply] at h2
 
+omit [CharP F 2] in
 private theorem h52_transvGL_congr {i k i' k' : Fin 6} (hik : i ≠ k) (hik' : i' ≠ k')
     (h1 : i = i') (h2 : k = k') (c : F) : transvGL F i k hik c = transvGL F i' k' hik' c := by
   subst h1 h2
@@ -71,6 +73,7 @@ private theorem h52_short_fix (hσ : IsUnitaryInvolution σ) {ω : F} (hω : ω 
   rw [hgeq] at hfix
   exact h52_conj_fix _ _ _ hfix
 
+omit [CharP F 2] in
 private theorem h52_eq_smul (ξ : Cube F) (I : Set.powersetCard (Fin 6) 3)
     (h : ∀ J : Set.powersetCard (Fin 6) 3, J ≠ I → coord F ξ J = 0) :
     ξ = coord F ξ I • cubeBasis F I := by
@@ -81,7 +84,7 @@ private theorem h52_eq_smul (ξ : Cube F) (I : Set.powersetCard (Fin 6) 3)
   by_cases hJ : I = J
   · subst hJ
     simp
-  · rw [if_neg hJ, mul_zero]
+  · rw [ite_eq_right hJ, mul_zero]
     exact h J (fun h' => hJ h'.symm)
 
 private theorem h52_claimA (hσ : IsUnitaryInvolution σ) {ω : F} (hω : ω + σ ω = 1) (ξ : Cube F)
@@ -132,7 +135,7 @@ theorem fixU0_eq_smul_pt0 (hσ : IsUnitaryInvolution σ) {ξ : Cube F}
   rw [← h1, hc, map_smul, rho_frameGL_p0]
 
 theorem reach_all (P : Set.powersetCard (Fin 6) 3 → Prop) (h0 : P S024)
-    (hstep : ∀ (I : Set.powersetCard (Fin 6) 3) (a b : Fin 6) (hab : a ≠ b)
+    (hstep : ∀ (I : Set.powersetCard (Fin 6) 3) (a b : Fin 6) (_hab : a ≠ b)
       (h : b ∈ I.val ∧ a ∉ I.val), P I → P (replSet I a b h.1 h.2)) :
     ∀ I, P I := by
   have hcard : ∀ J : Set.powersetCard (Fin 6) 3, J.val.card = 3 := fun J => J.prop
@@ -166,7 +169,7 @@ theorem reach_all (P : Set.powersetCard (Fin 6) 3 → Prop) (h0 : P S024)
         have heq : S024.val = I.val :=
           Finset.eq_of_subset_of_card_le hsub (le_of_eq (by rw [hcard I, hcard S024]))
         exact hbS (by rw [heq]; exact hbI)
-      have hab : a ≠ b := by
+      have _hab : a ≠ b := by
         rintro rfl
         exact hbS haS
       have haJ : a ∈ (replSet I a b hbI haI).val := by
@@ -175,7 +178,7 @@ theorem reach_all (P : Set.powersetCard (Fin 6) 3 → Prop) (h0 : P S024)
       have hbJ : b ∉ (replSet I a b hbI haI).val := by
         show b ∉ insert a (I.val.erase b)
         rw [Finset.mem_insert, not_or]
-        exact ⟨Ne.symm hab, fun h => (Finset.mem_erase.mp h).1 rfl⟩
+        exact ⟨Ne.symm _hab, fun h => (Finset.mem_erase.mp h).1 rfl⟩
       have hJcard : ((replSet I a b hbI haI).val \ S024.val).card = n := by
         have hset : (replSet I a b hbI haI).val \ S024.val = (I.val \ S024.val).erase b := by
           ext x
@@ -196,14 +199,16 @@ theorem reach_all (P : Set.powersetCard (Fin 6) 3 → Prop) (h0 : P S024)
       have hI' : I = replSet (replSet I a b hbI haI) b a haJ hbJ :=
         (replSet_eq_iff hbI haI haJ hbJ).mp rfl
       rw [hI']
-      exact hstep _ b a hab.symm ⟨haJ, hbJ⟩ hPJ
+      exact hstep _ b a _hab.symm ⟨haJ, hbJ⟩ hPJ
   intro I
   exact key _ I rfl
 
+omit [CharP F 2] in
 private theorem h53_rho_conj (g t : GL (Fin 6) F) (v : Cube F) :
     rho F (g * t * g⁻¹) (rho F g v) = rho F (g * t) v := by
   rw [← rho_mul_apply, inv_mul_cancel_right]
 
+omit [CharP F 2] in
 private theorem h53_rho_sub (g t : GL (Fin 6) F) (v : Cube F) :
     rho F g (rho F t v - v) = rho F (g * t * g⁻¹) (rho F g v) - rho F g v := by
   rw [map_sub, h53_rho_conj, ← rho_mul_apply]
@@ -268,7 +273,7 @@ theorem orbit_span_top (hσ : IsUnitaryInvolution σ) :
     refine reach_all (fun J => cubeBasis F J ∈ Q.comap (rho F (frameGL σ ω hω))) hcb ?_ I
     intro J a b hab h hJ
     have hN := Nop_cubeBasis (F := F) hab J
-    rw [dif_pos h] at hN
+    rw [dite_eq_left h] at hN
     show cubeBasis F (replSet J a b h.1 h.2) ∈ Q.comap (rho F (frameGL σ ω hω))
     rw [← hN]
     exact h53_nop_comap hσ hω Q hstab hab (cubeBasis F J) hJ
@@ -392,9 +397,9 @@ private noncomputable def h54_BW (hσ : IsUnitaryInvolution σ) :
     Wform σ →ₗ[Fσ σ] Wform σ →ₗ[Fσ σ] Fσ σ :=
   LinearMap.mk₂ (Fσ σ) (h54_fval hσ)
     (fun m₁ m₂ n => Subtype.ext (by simp [h54_fval]))
-    (fun c m n => Subtype.ext (by simp [h54_fval] <;> rfl))
+    (fun c m n => Subtype.ext (by simp [h54_fval]; rfl))
     (fun m n₁ n₂ => Subtype.ext (by simp [h54_fval]))
-    (fun c m n => Subtype.ext (by simp [h54_fval] <;> rfl))
+    (fun c m n => Subtype.ext (by simp [h54_fval]; rfl))
 
 theorem exists_commuting_T [Finite F] (hσ : IsUnitaryInvolution σ)
     (B' : Wform σ →ₗ[Fσ σ] Wform σ →ₗ[Fσ σ] Fσ σ)
@@ -402,9 +407,9 @@ theorem exists_commuting_T [Finite F] (hσ : IsUnitaryInvolution σ)
     ∃ T : Wform σ →ₗ[Fσ σ] Wform σ,
       (∀ u v : Wform σ, ((B' u v : Fσ σ) : F) = beta F (u : Cube F) ((T v : Wform σ) : Cube F)) ∧
       ∀ (g : SUid σ 6) (v : Wform σ), T (Wact σ g v) = Wact σ g (T v) := by
-  haveI : FiniteDimensional F (Cube F) := Module.Finite.of_basis (cubeBasis F)
-  haveI : Finite (Cube F) := Module.finite_of_finite F
-  haveI : Finite (Wform σ) := Subtype.finite
+  have : FiniteDimensional F (Cube F) := Module.Finite.of_basis (cubeBasis F)
+  have : Finite (Cube F) := Module.finite_of_finite F
+  have : Finite (Wform σ) := Subtype.finite
   obtain ⟨BW, hBW⟩ : ∃ BW : Wform σ →ₗ[Fσ σ] Wform σ →ₗ[Fσ σ] Fσ σ,
       ∀ u v : Wform σ, ((BW u v : Fσ σ) : F) = beta F (u : Cube F) (v : Cube F) :=
     ⟨h54_BW hσ, fun _ _ => rfl⟩

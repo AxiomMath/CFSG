@@ -60,7 +60,7 @@ theorem q13d_I_relIndex (h : Q13Om t L S x₁ x₂ lam rho tau om)
   exact Nat.eq_of_mul_eq_mul_right (by norm_num) hcard
 
 theorem q13d_I_mem_E0 (h : Q13Om t L S x₁ x₂ lam rho tau om)
-    (hI : closure ({t, om} : Set G) ⊓
+    (_hI : closure ({t, om} : Set G) ⊓
       centralizer ((q13A t tau x₁ x₂ rho : Subgroup G) : Set G) = closure ({tau, om} :
         Set G)) {x : G} :
     x ∈ q13E0 t tau x₁ x₂ rho om ↔ x ∈ (q13A t tau x₁ x₂ rho ⊔ closure ({tau, om} : Set G))
@@ -105,7 +105,6 @@ private lemma q13d_I_E0_le_cent_y (h : Q13Om t L S x₁ x₂ lam rho tau om) :
   rw [q13d_E0_eq_AC h]
   refine sup_le ?_ ?_
   · intro a ha
-    change a ∈ centralizer ({x₁ ^ 2} : Set G)
     rw [Subgroup.mem_centralizer_singleton_iff]
     exact q13a_A_comm h a ha (x₁ ^ 2)
       (q13a_V_le_A h (q13a_x₁_facts h).2.2.2.2.1)

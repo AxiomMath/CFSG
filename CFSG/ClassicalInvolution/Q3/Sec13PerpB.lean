@@ -77,6 +77,7 @@ private def PerpBClique (Q : Set (Subgroup G)) : Prop :=
 private def perpBOrb (P : Set (Subgroup G)) (M : Subgroup G) : Set (Subgroup G) :=
   {L | ∃ x ∈ pSpan P, conjSub x M = L}
 
+omit [Finite G] in
 private theorem perpB_dComp_eq {K L : Subgroup G} (hK : K ∈ Ω) (hL : L ∈ dComp Ω K) :
     dComp Ω L = dComp Ω K := by
   ext J
@@ -86,6 +87,7 @@ private theorem perpB_dComp_eq {K L : Subgroup G} (hK : K ∈ Ω) (hL : L ∈ dC
   · intro hJ
     exact Relation.ReflTransGen.trans (reflTransGen_dAdj_symm hK hL) hJ
 
+omit [Finite G] in
 private theorem perpB_omegaNbr_mem_dComp {K J : Subgroup G} (hJ : J ∈ omegaNbr Ω K) :
     J ∈ dComp Ω K :=
   Relation.ReflTransGen.single ⟨hJ.1, Or.inl hJ⟩
@@ -97,6 +99,7 @@ private theorem perpB_star_comm (h : EndHyp Ω) {L L' : Subgroup G} (hL : L ∈ 
     exact not_mem_dComp_of_omegaStar h hL hs hn hL'
   exact comm_of_mem_omegaNbr h.thmD.hyp h.thmD.two hL hn
 
+omit [Finite G] in
 private theorem perpB_conjSub_eq_of_comm {K : Subgroup G} {y : G}
     (hc : ∀ x ∈ K, x * y = y * x) : conjSub y K = K := by
   have h1 : ∀ x ∈ K, y⁻¹ * x * y = x := fun x hx => by
@@ -117,7 +120,7 @@ private theorem perpB_conjSub_eq_of_comm {K : Subgroup G} {y : G}
     rw [h1 x hx]
     exact hx
 
-private theorem perpB_mem_omegaNbr_of_comm {K J : Subgroup G} (h : EndHyp Ω) (hK : K ∈ Ω)
+private theorem perpB_mem_omegaNbr_of_comm {K J : Subgroup G} (h : EndHyp Ω) (_hK : K ∈ Ω)
     (hJ : J ∈ Ω)
     (hne : J ≠ K) (hc : Commutes K J) : J ∈ omegaNbr Ω K := by
   rw [TC.mem_omegaNbr_iff h.thmD.hyp h.thmD.two]
@@ -125,14 +128,17 @@ private theorem perpB_mem_omegaNbr_of_comm {K J : Subgroup G} (h : EndHyp Ω) (h
   rw [mem_normalizer_iff_conjSub_eq]
   exact perpB_conjSub_eq_of_comm fun x hx => hc x hx y hy
 
+omit [Finite G] in
 private theorem perpBOrb_self (P : Set (Subgroup G)) (M : Subgroup G) : M ∈ perpBOrb P M :=
   ⟨1, one_mem _, conjSub_one M⟩
 
+omit [Finite G] in
 private theorem perpBOrb_conj {P : Set (Subgroup G)} {M L : Subgroup G} {x : G} (hx : x ∈ pSpan P)
     (hL : L ∈ perpBOrb P M) : conjSub x L ∈ perpBOrb P M := by
   obtain ⟨y, hy, rfl⟩ := hL
   exact ⟨x * y, mul_mem hx hy, by rw [conjSub_mul]⟩
 
+omit [Finite G] in
 private theorem perpBOrb_eq {P : Set (Subgroup G)} {M L : Subgroup G} (hL : L ∈ perpBOrb P M) :
     perpBOrb P L = perpBOrb P M := by
   obtain ⟨x, hx, rfl⟩ := hL
@@ -145,6 +151,7 @@ private theorem perpBOrb_eq {P : Set (Subgroup G)} {M L : Subgroup G} (hL : L �
     refine ⟨y * x⁻¹, mul_mem hy (inv_mem hx), ?_⟩
     rw [conjSub_mul, conjSub_inv_conjSub]
 
+omit [Finite G] in
 private theorem perpBOrb_trans {P : Set (Subgroup G)} {M L L' : Subgroup G} (hL : L ∈ perpBOrb P M)
     (hL' : L' ∈ perpBOrb P M) : ∃ x ∈ pSpan P, conjSub x L = L' := by
   obtain ⟨a, ha, rfl⟩ := hL
@@ -152,6 +159,7 @@ private theorem perpBOrb_trans {P : Set (Subgroup G)} {M L L' : Subgroup G} (hL 
   refine ⟨b * a⁻¹, mul_mem hb (inv_mem ha), ?_⟩
   rw [conjSub_mul, conjSub_inv_conjSub]
 
+omit [Finite G] in
 private theorem perpB_conjSub_commutes {g : G} {L L' : Subgroup G} (hc : Commutes L L') :
     Commutes (conjSub g L) (conjSub g L') := by
   rintro _ ⟨x, hx, rfl⟩ _ ⟨y, hy, rfl⟩
@@ -164,9 +172,11 @@ private theorem perpB_conjSub_commutes {g : G} {L L' : Subgroup G} (hc : Commute
 private def PerpBNorm (g : G) (P : Set (Subgroup G)) : Prop :=
   ∀ L : Subgroup G, L ∈ P ↔ conjSub g L ∈ P
 
+omit [Finite G] in
 private theorem perpB_conj_conj_inv (g : G) (L : Subgroup G) : conjSub g (conjSub g⁻¹ L) = L := by
   rw [← conjSub_mul, mul_inv_cancel, conjSub_one]
 
+omit [Finite G] in
 private theorem PerpBNorm.inv {g : G} {P : Set (Subgroup G)} (hg : PerpBNorm g P) :
     PerpBNorm g⁻¹ P := by
   intro L
@@ -177,12 +187,14 @@ private theorem PerpBNorm.inv {g : G} {P : Set (Subgroup G)} (hg : PerpBNorm g P
     have := (hg (conjSub g⁻¹ L)).1 hL
     rwa [perpB_conj_conj_inv] at this
 
+omit [Finite G] in
 private theorem perpB_conj_pSpan {P : Set (Subgroup G)} {g : G} (hg : PerpBNorm g P) {x : G}
     (hx : x ∈ pSpan P) : g * x * g⁻¹ ∈ pSpan P := by
   let S : Subgroup G := (pSpan P).comap (MulAut.conj g).toMonoidHom
   have hS : pSpan P ≤ S := pSpan_le fun L hL y hy => le_pSpan ((hg L).1 hL) ⟨y, hy, rfl⟩
   exact hS hx
 
+omit [Finite G] in
 private theorem perpB_conj_mem_orb {P : Set (Subgroup G)} {g : G} (hg : PerpBNorm g P)
     {M L : Subgroup G} (hL : L ∈ perpBOrb P M) : conjSub g L ∈ perpBOrb P (conjSub g M) := by
   obtain ⟨x, hx, rfl⟩ := hL
@@ -193,6 +205,7 @@ private theorem perpB_conj_mem_orb {P : Set (Subgroup G)} {g : G} (hg : PerpBNor
     _ = conjSub g (conjSub x M) := by rw [conjSub_mul]
 
 
+omit [Finite G] in
 private theorem perpB_mem_dComp_conj_iff (hΩ : ConjInvariant Ω) (g : G) {K L : Subgroup G} :
     L ∈ dComp Ω K ↔ conjSub g L ∈ dComp Ω (conjSub g K) := by
   constructor
@@ -202,6 +215,7 @@ private theorem perpB_mem_dComp_conj_iff (hΩ : ConjInvariant Ω) (g : G) {K L :
     have h1 := Thompson.mem_dComp_conjSub hΩ hL g⁻¹
     rwa [conjSub_inv_conjSub, conjSub_inv_conjSub] at h1
 
+omit [Finite G] in
 private theorem perpB_norm_dComp (h : EndHyp Ω) {K M : Subgroup G} (hK : K ∈ Ω)
     (hM : M ∈ dComp Ω K) :
     ∃ g : G, conjSub g K = M ∧ PerpBNorm g (dComp Ω K) := by
@@ -210,6 +224,7 @@ private theorem perpB_norm_dComp (h : EndHyp Ω) {K M : Subgroup G} (hK : K ∈ 
   exact (perpB_mem_dComp_conj_iff h.thmD.hyp.conjInvariant g).trans
     (by rw [hg, perpB_dComp_eq hK hM])
 
+omit [Finite G] in
 private theorem perpB_trans_of_cross {S P₁ : Set (Subgroup G)}
     (hA : ∀ L ∈ P₁, ∀ x ∈ pSpan P₁, conjSub x L ∈ P₁)
     (hcross : ∀ A ∈ P₁, ∀ B ∈ S, B ∉ P₁ → Commutes A B)
@@ -258,6 +273,7 @@ private theorem perpB_trans_of_cross {S P₁ : Set (Subgroup G)}
   rw [← hcL, hh, conjSub_mul, perpB_conjSub_eq_of_comm ((hc_mem c).mp hc L hL)]
 
 
+omit [Finite G] in
 private theorem perpB_secHyp (h : EndHyp Ω) {Q : Set (Subgroup G)} (hQΩ : Q ⊆ Ω)
     (hinv : ∀ L ∈ Q, ∀ x ∈ pSpan Q, conjSub x L ∈ Q)
     (htr : ∀ L ∈ Q, ∀ L' ∈ Q, ∃ x ∈ pSpan Q, conjSub x L = L')
@@ -303,6 +319,7 @@ private theorem perpB_sigma_clique_false (h : EndHyp Ω) {K J : Subgroup G} (hK 
           (hcl J hJS L hL (Ne.symm hLJ)))
   exact hne (hJP.trans hKP.symm)
 
+omit [Finite G] in
 private theorem perpB_sigma_clique_of_orb (h : EndHyp Ω) {K M : Subgroup G} (hK : K ∈ Ω)
     (hM : M ∈ dComp Ω K)
     (hcross : ∀ A ∈ dComp Ω K, ∀ B ∈ dComp Ω K,
@@ -325,6 +342,7 @@ private theorem perpB_sigma_clique_of_orb (h : EndHyp Ω) {K M : Subgroup G} (hK
     rwa [hg1, perpB_conj_conj_inv] at this
   · exact hcross L1 hL1 L2 hL2 hor
 
+omit [Finite G] in
 private theorem perpB_dSet_conj (h : EndHyp Ω) {W R : Subgroup G} (hR : R ∈ DSet Ω W) (g : G) :
     conjSub g R ∈ DSet Ω (conjSub g W) := by
   rw [h.mem_dSet_iff] at hR ⊢
@@ -364,14 +382,17 @@ private theorem perpB_wylD4_of_card (h : EndHyp Ω) {C : Set (Subgroup G)} (hC :
   · exact h5
 
 
+omit [Finite G] in
 private theorem perpB_pSpan_mono {P S : Set (Subgroup G)} (hPS : P ⊆ S) : pSpan P ≤ pSpan S :=
-  pSpan_le fun L hL => le_pSpan (hPS hL)
+  pSpan_le fun _L hL => le_pSpan (hPS hL)
 
+omit [Finite G] in
 private theorem perpB_orb_sub (h : EndHyp Ω) {K M : Subgroup G} (hK : K ∈ Ω) (hM : M ∈ dComp Ω K)
     {L : Subgroup G} (hL : L ∈ perpBOrb (dComp Ω K) M) : L ∈ dComp Ω K := by
   obtain ⟨x, hx, rfl⟩ := hL
   exact h.conjSub_mem_dComp hK hM hx
 
+omit [Finite G] in
 private theorem perpB_norm_orb {S : Set (Subgroup G)} {M : Subgroup G} {g : G} (hg : g ∈ pSpan S) :
     PerpBNorm g (perpBOrb S M) := by
   intro L
@@ -443,6 +464,7 @@ private theorem perpB_exists_W (h : EndHyp Ω) {K : Subgroup G} (hK : K ∈ Ω) 
   exact TC.conjSub_etaSpan_eq (fun V hV => hinv k (hKS hk) V hV)
     (fun V hV => hinv k⁻¹ ((S : Subgroup G).inv_mem (hKS hk)) V hV)
 
+omit [Finite G] in
 private theorem perpB_comm_symm {X Y : Subgroup G} (c : Commutes X Y) : Commutes Y X :=
   fun y hy x hx => (c x hx y hy).symm
 
@@ -619,7 +641,7 @@ private theorem perpB_omegaStar_of_restrict {P : Set (Subgroup G)} (hPΩ : P ⊆
     rw [← hUcard]
     exact (Nat.card_congr
     (Subgroup.equivMapOfInjective U _ (pSpan P).subtype_injective).toEquiv).symm
-  haveI : IsCyclic U := hcyc
+  have : IsCyclic U := hcyc
   have hVcyc : IsCyclic ↥V :=
     isCyclic_of_surjective
       (Subgroup.equivMapOfInjective U _ (pSpan P).subtype_injective).toMonoidHom
@@ -660,6 +682,7 @@ private theorem perpB_omegaStar_of_restrict {P : Set (Subgroup G)} (hPΩ : P ⊆
       rw [e] at h2'
       exact h2'
 
+omit [Finite G] in
 private theorem perpB_q8_iso {L : Subgroup G} (hq : IsQuatSub L) (hL : Nat.card L = 8) :
     Nonempty (↥L ≃* QuaternionGroup 2) := by
   obtain ⟨k, -, ⟨e⟩⟩ := hq
@@ -672,7 +695,7 @@ private theorem perpB_q8_iso {L : Subgroup G} (hq : IsQuatSub L) (hL : Nat.card 
   subst hk
   exact ⟨e⟩
 
-private theorem perpB_q8fam (h : EndHyp Ω) {Q : Set (Subgroup G)} (hP : SecHyp 3 Ω Q) :
+private theorem perpB_q8fam (_h : EndHyp Ω) {Q : Set (Subgroup G)} (hP : SecHyp 3 Ω Q) :
     CFSG.ClassicalInvolution.Q3.PhilipHall.Frame.TwinDisc.ExitO2.Q8Fam ↥(pSpan Q)
       (restrictFamily Q (pSpan Q)) := by
   have hT := hP.thmDHyp
@@ -683,6 +706,7 @@ private theorem perpB_q8fam (h : EndHyp Ω) {Q : Set (Subgroup G)} (hP : SecHyp 
   obtain ⟨e⟩ := perpB_q8_iso hq (hP.card L (hP.sub hL))
   exact ⟨(Subgroup.subgroupOfEquivOfLe hLX).trans e⟩
 
+omit [Finite G] in
 private theorem perpB_transport_map {P : Set (Subgroup G)} {H : Type} [Group H]
     (hgen : pSpan (restrictFamily P (pSpan P)) = ⊤) (φ : ↥(pSpan P) →* H) (L : Subgroup G) :
     ((L.subgroupOf (pSpan P)).subgroupOf (pSpan (restrictFamily P (pSpan P)))).map
@@ -808,7 +832,7 @@ private theorem perpB_omegaStar_aeIdentOn (h : EndHyp Ω) {Q : Set (Subgroup G)}
 
 private theorem perpB_label_of_commutes {Q : Set (Subgroup G)} (h : EndHyp Ω) (hP : SecHyp 3 Ω Q)
     {n : ℕ} (hn : 5 ≤ n) (φ : ↥(pSpan Q) →* AE.AEQ n) {L M : Subgroup G} (hL : L ∈ Q)
-    (hM : M ∈ Q) (hcomm : Commutes L M) {α β : Finset (Fin n)} {hα : α.card = 4}
+    (_hM : M ∈ Q) (hcomm : Commutes L M) {α β : Finset (Fin n)} {hα : α.card = 4}
     {hβ : β.card = 4} {b c : Bool}
     (hlab : (L.subgroupOf (pSpan Q)).map φ = AE.memBar α hα b)
     (hlab' : (M.subgroupOf (pSpan Q)).map φ = AE.memBar β hβ c) :

@@ -104,10 +104,10 @@ private theorem hbad_mul_conj_eq (h : Tim79a.ParrottHyp z) (P : GL8)
     (ha : a ∈ J z) (hc : c ∈ J z) :
     a * c * a⁻¹ = (if b (hbadCoord h P a) (hbadCoord h P c) = 0 then 1 else z) * c := by
   by_cases hb : b (hbadCoord h P a) (hbadCoord h P c) = 0
-  · rw [if_pos hb, one_mul]
+  · rw [ite_eq_left hb, one_mul]
     have hcomm : a * c = c * a := (commute_iff_hbadCoord (z := z) D h P hP ha hc).mpr hb
     rw [hcomm]; group
-  · rw [if_neg hb]
+  · rw [ite_eq_right hb]
     have hb1 : b (hbadCoord h P a) (hbadCoord h P c) = 1 := zmod2_eq_one_of_ne_zero hb
     have h2 : a * c * a⁻¹ = z * c := by
       have h3 := congrArg (fun t => t * c)
@@ -423,23 +423,23 @@ theorem conj_mul_inv_mul_of_utA (h : Tim79a.ParrottHyp z) (P : GL8)
   have hck : k * c * k⁻¹ = c := by
     rw [show c = if b m (S *ᵥ w) = 0 then 1 else z from rfl]
     by_cases hb : b m (S *ᵥ w) = 0
-    · rw [if_pos hb]; group
-    · rw [if_neg hb]
+    · rw [ite_eq_left hb]; group
+    · rw [ite_eq_right hb]
       have hcomm : k * z = z * k :=
         Subgroup.mem_centralizer_iff.mp (z_centralizes_H h) k (J_le_H hk)
       rw [hcomm]; group
   have hcc : c * c = 1 := by
     rw [show c = if b m (S *ᵥ w) = 0 then 1 else z from rfl]
     by_cases hb : b m (S *ᵥ w) = 0
-    · rw [if_pos hb]; group
-    · rw [if_neg hb]
+    · rw [ite_eq_left hb]; group
+    · rw [ite_eq_right hb]
       exact centerIn_J_sq h (z_mem_centerIn_J h)
   have hst1 : k₁ * x2 * k₁⁻¹ = c * x2 := by
     rw [hbad_mul_conj_eq D h P hP hk₁J hx2J, hbf,
       show c = if b m (S *ᵥ w) = 0 then 1 else z from rfl]
   have hst2a : k * (x2 * x1) * k⁻¹ = x2 * x1 := by
     rw [hbad_mul_conj_eq D h P hP hk hx21J, hcx21, hbmw]
-    rw [if_pos rfl, one_mul]
+    rw [ite_eq_left rfl, one_mul]
   have hst2 : k * (c * x2 * x1) * k⁻¹ = c * (x2 * x1) := by
     calc k * (c * x2 * x1) * k⁻¹ = (k * c * k⁻¹) * (k * (x2 * x1) * k⁻¹) := by group
       _ = c * (x2 * x1) := by rw [hck, hst2a]
@@ -542,8 +542,8 @@ theorem conj_mul_inv_mul_mem_of_utA (h : Tim79a.ParrottHyp z) (P : GL8)
     rw [hcdef]
     by_cases hb : b (hbadCoord h P k) (((rhoA hbadS : GL8) : Mat8) *ᵥ
         (((rhoA (uA * tA) : GL8) : Mat8) *ᵥ hbadCoord h P k + hbadCoord h P k)) = 0
-    · rw [if_pos hb]; group
-    · rw [if_neg hb]
+    · rw [ite_eq_left hb]; group
+    · rw [ite_eq_right hb]
       exact inv_eq_of_mul_eq_one_right (centerIn_J_sq h (z_mem_centerIn_J h))
   have hζinv : ζ⁻¹ = ζ := inv_eq_of_mul_eq_one_right hζ2
   have hfin : (xk * ζ) * (c * ζ)⁻¹ ∈ B := B.mul_mem hB (B.inv_mem hcζB)

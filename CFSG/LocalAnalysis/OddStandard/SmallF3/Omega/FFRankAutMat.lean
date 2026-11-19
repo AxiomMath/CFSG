@@ -36,6 +36,7 @@ private lemma ffOutFFRankAutMat_dot_mul_D (d : Fin 6 → ZMod 3)
   rw [ffOutFFRankAutMat_dot_transpose M y (Matrix.diagonal d *ᵥ (M *ᵥ y))]
   simp only [Matrix.mulVec_mulVec, mul_assoc]
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma ffOutFFRankAutMat_isSimilitude
     (b : Module.Basis (Fin 6) (ZMod 3) V)
     {d : Fin 6 → ZMod 3} (hb : ∀ x, Q x = ∑ i, d i * (b.repr x i) ^ 2)
@@ -119,6 +120,7 @@ private lemma ffOutFFRankAutMat_good_neg {d : Fin 6 → ZMod 3}
   show (-M)ᵀ * Matrix.diagonal d * (-M) = c • Matrix.diagonal d
   rw [Matrix.transpose_neg, neg_mul, neg_mul_neg, hMc]
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma ffOutFFRankAutMat_g_one (b : Module.Basis (Fin 6) (ZMod 3) V)
     {d : Fin 6 → ZMod 3} (hb : ∀ x, Q x = ∑ i, d i * (b.repr x i) ^ 2)
     (hd : ∀ i, d i ≠ 0) (h : ffOutFFRankAutMat_Good d 1) :
@@ -131,6 +133,7 @@ private lemma ffOutFFRankAutMat_g_one (b : Module.Basis (Fin 6) (ZMod 3) V)
   rw [Matrix.toLin_one]
   rfl
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma ffOutFFRankAutMat_g_mul (b : Module.Basis (Fin 6) (ZMod 3) V)
     {d : Fin 6 → ZMod 3} (hb : ∀ x, Q x = ∑ i, d i * (b.repr x i) ^ 2)
     (hd : ∀ i, d i ≠ 0) {M N : Matrix (Fin 6) (Fin 6) (ZMod 3)}
@@ -143,6 +146,7 @@ private lemma ffOutFFRankAutMat_g_mul (b : Module.Basis (Fin 6) (ZMod 3) V)
   change Matrix.toLin b b (M * N) v = Matrix.toLin b b M (Matrix.toLin b b N v)
   exact Matrix.toLin_mul_apply (v₁ := b) (v₂ := b) (v₃ := b) (A := M) (B := N) v
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma ffOutFFRankAutMat_g_neg (b : Module.Basis (Fin 6) (ZMod 3) V)
     {d : Fin 6 → ZMod 3} (hb : ∀ x, Q x = ∑ i, d i * (b.repr x i) ^ 2)
     (hd : ∀ i, d i ≠ 0) {M : Matrix (Fin 6) (Fin 6) (ZMod 3)}
@@ -162,6 +166,7 @@ private lemma ffOutFFRankAutMat_g_neg (b : Module.Basis (Fin 6) (ZMod 3) V)
     _ = -(L M v) := rfl
     _ = (L M) (-v) := (LinearMap.map_neg (L M) v).symm
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma ffOutFFRankAutMat_cls_proof_irrel (b : Module.Basis (Fin 6) (ZMod 3) V)
     {d : Fin 6 → ZMod 3} (hb : ∀ x, Q x = ∑ i, d i * (b.repr x i) ^ 2)
     (hd : ∀ i, d i ≠ 0) {M : Matrix (Fin 6) (Fin 6) (ZMod 3)}
@@ -175,6 +180,7 @@ private lemma ffOutFFRankAutMat_cls_proof_irrel (b : Module.Basis (Fin 6) (ZMod 
   change Matrix.toLin b b M v = Matrix.toLin b b M v
   rfl
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma ffOutFFRankAutMat_cls_one (b : Module.Basis (Fin 6) (ZMod 3) V)
     {d : Fin 6 → ZMod 3} (hb : ∀ x, Q x = ∑ i, d i * (b.repr x i) ^ 2)
     (hd : ∀ i, d i ≠ 0) (h : ffOutFFRankAutMat_Good d 1) :
@@ -183,6 +189,7 @@ private lemma ffOutFFRankAutMat_cls_one (b : Module.Basis (Fin 6) (ZMod 3) V)
   rw [ffOutFFRankAutMat_g_one]
   rfl
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma ffOutFFRankAutMat_cls_mul (b : Module.Basis (Fin 6) (ZMod 3) V)
     {d : Fin 6 → ZMod 3} (hb : ∀ x, Q x = ∑ i, d i * (b.repr x i) ^ 2)
     (hd : ∀ i, d i ≠ 0) {M N : Matrix (Fin 6) (Fin 6) (ZMod 3)}
@@ -192,6 +199,7 @@ private lemma ffOutFFRankAutMat_cls_mul (b : Module.Basis (Fin 6) (ZMod 3) V)
   unfold ffOutFFRankAutMat_cls
   rw [ffOutFFRankAutMat_g_mul, QuotientGroup.mk_mul]
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma ffOutFFRankAutMat_cls_neg (b : Module.Basis (Fin 6) (ZMod 3) V)
     {d : Fin 6 → ZMod 3} (hb : ∀ x, Q x = ∑ i, d i * (b.repr x i) ^ 2)
     (hd : ∀ i, d i ≠ 0) {M : Matrix (Fin 6) (Fin 6) (ZMod 3)}
@@ -205,6 +213,7 @@ private lemma ffOutFFRankAutMat_cls_neg (b : Module.Basis (Fin 6) (ZMod 3) V)
       (mem_piSim_iff.mpr (Or.inr rfl))
   rw [hpi, mul_one]
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma ffOutFFRankAutMat_cls_congr (b : Module.Basis (Fin 6) (ZMod 3) V)
     {d : Fin 6 → ZMod 3} (hb : ∀ x, Q x = ∑ i, d i * (b.repr x i) ^ 2)
     (hd : ∀ i, d i ≠ 0) {M N : Matrix (Fin 6) (Fin 6) (ZMod 3)} (h : M = N)
@@ -213,6 +222,7 @@ private lemma ffOutFFRankAutMat_cls_congr (b : Module.Basis (Fin 6) (ZMod 3) V)
   subst h
   exact ffOutFFRankAutMat_cls_proof_irrel b hb hd hM hN
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma ffOutFFRankAutMat_cls_neg' (b : Module.Basis (Fin 6) (ZMod 3) V)
     {d : Fin 6 → ZMod 3} (hb : ∀ x, Q x = ∑ i, d i * (b.repr x i) ^ 2)
     (hd : ∀ i, d i ≠ 0) {M : Matrix (Fin 6) (Fin 6) (ZMod 3)}
@@ -221,6 +231,7 @@ private lemma ffOutFFRankAutMat_cls_neg' (b : Module.Basis (Fin 6) (ZMod 3) V)
   rw [ffOutFFRankAutMat_cls_proof_irrel b hb hd h (ffOutFFRankAutMat_good_neg hM)]
   exact ffOutFFRankAutMat_cls_neg b hb hd hM
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma ffOutFFRankAutMat_cls_mul' (b : Module.Basis (Fin 6) (ZMod 3) V)
     {d : Fin 6 → ZMod 3} (hb : ∀ x, Q x = ∑ i, d i * (b.repr x i) ^ 2)
     (hd : ∀ i, d i ≠ 0) {M N : Matrix (Fin 6) (Fin 6) (ZMod 3)}
@@ -231,6 +242,7 @@ private lemma ffOutFFRankAutMat_cls_mul' (b : Module.Basis (Fin 6) (ZMod 3) V)
   rw [ffOutFFRankAutMat_cls_proof_irrel b hb hd h (ffOutFFRankAutMat_good_mul hM hN)]
   exact ffOutFFRankAutMat_cls_mul b hb hd hM hN
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma ffOutFFRankAutMat_cls_inj (b : Module.Basis (Fin 6) (ZMod 3) V)
     {d : Fin 6 → ZMod 3} (hb : ∀ x, Q x = ∑ i, d i * (b.repr x i) ^ 2)
     (hd : ∀ i, d i ≠ 0) {M N : Matrix (Fin 6) (Fin 6) (ZMod 3)}
@@ -267,6 +279,7 @@ private lemma ffOutFFRankAutMat_cls_inj (b : Module.Basis (Fin 6) (ZMod 3) V)
     rw [hNM]
     exact (neg_neg M).symm
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffRA_exists_table (b : Module.Basis (Fin 6) (ZMod 3) V) {d : Fin 6 → ZMod 3}
     (hb : ∀ x, Q x = ∑ i, d i * (b.repr x i) ^ 2) (hd : ∀ i, d i ≠ 0)
     {n : ℕ} {flag : Bool} {bound : ℕ} (hs : FFRASide n d flag bound) :

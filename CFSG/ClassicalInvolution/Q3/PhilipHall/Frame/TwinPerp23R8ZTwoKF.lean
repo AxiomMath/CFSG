@@ -23,7 +23,7 @@ theorem exists_fixed_in_coset {Y : Type} [Group Y] [Finite Y] (O : Subgroup Y)
     (hvx : x⁻¹ * (v * x * v⁻¹) ∈ O) :
     ∃ o ∈ O, v * (x * o) * v⁻¹ = x * o := by
   classical
-  haveI : Fintype Y := Fintype.ofFinite Y
+  have : Fintype Y := Fintype.ofFinite Y
   let S : Set Y := {z | x⁻¹ * z ∈ O}
   have hvS : ∀ z ∈ S, v * z * v⁻¹ ∈ S := by
     intro z hz
@@ -39,7 +39,7 @@ theorem exists_fixed_in_coset {Y : Type} [Group Y] [Finite Y] (O : Subgroup Y)
     show v * (v * (z : Y) * v⁻¹) * v⁻¹ = z
     calc v * (v * (z : Y) * v⁻¹) * v⁻¹ = (v * v) * (z : Y) * (v * v)⁻¹ := by group
       _ = z := by rw [hv2]; group
-  haveI : Fintype S := Fintype.ofFinite S
+  have : Fintype S := Fintype.ofFinite S
   have hcard : Fintype.card S = Nat.card O := by
     rw [← Nat.card_eq_fintype_card]
     refine Nat.card_congr
@@ -175,7 +175,7 @@ theorem false_of_zv (hT : Thm4RTwinBelow 3 n) (hc : P23Cfg n Y R S t K' W u e g)
     rw [hσv_apply, hw, map_mul, map_mul, map_inv, hz]
     have : zBar β hβ = mkQ 6 (zOf (emb β hβ)) := rfl
     rw [this]
-    simp only [map_mul, map_inv, mul_inv_rev]
+    simp only [map_mul, mul_inv_rev]
     group
   obtain ⟨γ, hγ, hc₀γ, hγβ, hβγ⟩ := exists_gamma β c₀ hβ hc₀
   obtain ⟨L, hL, hLlab⟩ := D.label_surj γ hγ true

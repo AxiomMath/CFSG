@@ -17,7 +17,7 @@ variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
 theorem lf18_3a_of (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))
     (s : Setting3 G L) : LF18_3a s := by
-  haveI : Group.IsPerfect ↥L := isPerfect_of_hrSetting hS
+  have : Group.IsPerfect ↥L := isPerfect_of_hrSetting hS
   change normIn L s.fr.B = normIn L (cen s.fr.B)
   obtain ⟨-, -, hR, -, -⟩ := s.facts.2.2.2.2.2.2.2.1
   obtain ⟨hA, -, -, -, -⟩ := hR
@@ -38,7 +38,7 @@ theorem lf18_3a_of (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))
 
 theorem lf18_3b_of (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))
     (s : Setting3 G L) : LF18_3b s := by
-  haveI : Group.IsPerfect ↥L := isPerfect_of_hrSetting hS
+  have : Group.IsPerfect ↥L := isPerfect_of_hrSetting hS
   change normIn L s.fr.B ≤ normIn L s.fr.F
   obtain ⟨-, -, hR, -, -⟩ := s.facts.2.2.2.2.2.2.2.1
   obtain ⟨-, hBleF, -, -, -⟩ := hR
@@ -59,7 +59,7 @@ theorem lf18_3b_of (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))
 
 theorem lf18_3c_of (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))
     (s : Setting3 G L) : LF18_3c s := by
-  haveI : Group.IsPerfect ↥L := isPerfect_of_hrSetting hS
+  have : Group.IsPerfect ↥L := isPerfect_of_hrSetting hS
   change SecProp (normIn L s.fr.B) (zL L ⊔ s.fr.B)
     (fun Y _ _ _ => Nonempty (Y ≃* Equiv.Perm (Fin 3)))
   obtain ⟨-, -, hR, -, -⟩ := s.facts.2.2.2.2.2.2.2.1
@@ -83,7 +83,7 @@ theorem lf18_3c_of (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))
 
 theorem lf18_3d_of (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))
     (s : Setting3 G L) : LF18_3d s := by
-  haveI : Group.IsPerfect ↥L := isPerfect_of_hrSetting hS
+  have : Group.IsPerfect ↥L := isPerfect_of_hrSetting hS
   change ∃ k ∈ normIn L s.fr.B, IsPGroup 3 (zpowers k) ∧ k ∉ zL L
   obtain ⟨hP, -, hR, -, -⟩ := s.facts.2.2.2.2.2.2.2.1
   obtain ⟨-, -, hSec, -, -⟩ := hR
@@ -107,7 +107,7 @@ theorem lf18_3d_of (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))
 
 theorem lf18_3f_of (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))
     (s : Setting3 G L) : LF18_3f s := by
-  haveI : Group.IsPerfect ↥L := isPerfect_of_hrSetting hS
+  have : Group.IsPerfect ↥L := isPerfect_of_hrSetting hS
   change centIn L (cen s.fr.B) = zL L ⊔ s.fr.B
   obtain ⟨-, -, hR, -, -⟩ := s.facts.2.2.2.2.2.2.2.1
   obtain ⟨-, -, -, -, hcent⟩ := hR

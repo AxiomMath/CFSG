@@ -426,11 +426,11 @@ theorem exists_conj_mem_torus {y : ↥C₀} (hy : orderOf y = 7) {P : Subgroup �
       intro v
       constructor
       · rintro ⟨w, hw, rfl⟩
-        simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply]
+        simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply]
         rwa [show g₁⁻¹ * (g₁ * w * g₁⁻¹) * g₁ = w by group]
       · intro hv
         refine ⟨g₁⁻¹ * v * g₁, hv, ?_⟩
-        simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply]
+        simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply]
         group
     rw [e, e] at hyP'
     have e1 : g₁⁻¹ * (g₁ * u * g₁⁻¹) * g₁ = u := by group
@@ -469,7 +469,7 @@ theorem exists_conj_mem_torus {y : ↥C₀} (hy : orderOf y = 7) {P : Subgroup �
     refine IsPGroup.of_card (n := 1) ?_
     rw [Nat.card_zpowers, pow_one, ← Subgroup.orderOf_coe]
     have h := orderOf_injective (MulAut.conj g₁⁻¹).toMonoidHom (MulAut.conj g₁⁻¹).injective y
-    simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply, inv_inv] at h
+    simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply, inv_inv] at h
     exact h.trans hy
   obtain ⟨Q', hQ'⟩ := hz7.exists_le_sylow
   have hQ : CFSG.ABGLocalTools.IsSylowOf 7 ((Q' : Subgroup ↥B).map B.subtype) B := ⟨Q', rfl⟩
@@ -532,7 +532,7 @@ theorem centralizer_seven_of_is3D4 {Y : Type} [Group Y] [Finite Y] {f : ℕ} (hY
   obtain ⟨g, hg⟩ := exists_conj_mem_torus σ hy₀ hP hy₀P
   have hgo : orderOf (g⁻¹ * y₀ * g) = 7 := by
     have h := orderOf_injective (MulAut.conj g⁻¹).toMonoidHom (MulAut.conj g⁻¹).injective y₀
-    simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply, inv_inv] at h
+    simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply, inv_inv] at h
     exact h.trans hy₀
   have h7' : 7 ∣ (2 ^ f) ^ 2 + 2 ^ f + 1 := (uc22s2114_seven_factorization hf).1
   obtain ⟨⟨S, hSc, hSp, hS2⟩, ⟨z, hzc, hz3⟩, hA⟩ := centralizer_of_torus_seven σ hσ3 hf1 hK hσ hk

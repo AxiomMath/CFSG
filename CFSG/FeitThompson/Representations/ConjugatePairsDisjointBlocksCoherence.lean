@@ -67,10 +67,10 @@ theorem eq_single_of_gram_diag {ι : Type*} [Fintype ι] [DecidableEq ι]
   have h1 := cfInner_sum_smul_right_of_gram_diag hu (fun k => (c k : ℂ)) j
   rw [← hc, hu i j] at h1
   by_cases hij : i = j
-  · rw [if_pos hij] at h1 ⊢
+  · rw [ite_eq_left hij] at h1 ⊢
     subst hij
     exact mul_right_cancel₀ (hg i) (h1.symm.trans (one_mul _).symm)
-  · rw [if_neg hij] at h1 ⊢
+  · rw [ite_eq_right hij] at h1 ⊢
     exact (mul_eq_zero.1 h1.symm).resolve_right (hg j)
 
 theorem cfInner_sum_sum_of_subset {G : Type*} [Fintype G] [DecidableEq (G → ℂ)]
@@ -317,19 +317,17 @@ theorem exists_isCoherentWith_of_four_member_mixed_norm
     intro i j
     by_cases hij : i = j
     · subst hij
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       fin_cases i <;> simpa [hudef, hgdef] using ‹_›
-    · rw [if_neg hij]
+    · rw [ite_eq_right hij]
       exact ho _ (hmemu i) _ (hmemu j) fun h => hij (hinj h)
   have hgne : ∀ i, g i ≠ 0 := by
     intro i
-    fin_cases i <;> simp only [hgdef, Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.cons_val_two, Matrix.cons_val_three, Matrix.head_cons, Matrix.tail_cons] <;>
+    fin_cases i <;> simp only [hgdef] <;>
       exact Nat.cast_ne_zero.2 (by omega)
   have hPsub : ∀ i, P i ⊆ R ∪ T := by
     intro i
-    fin_cases i <;> simp only [hPdef, Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.cons_val_two, Matrix.cons_val_three, Matrix.head_cons, Matrix.tail_cons]
+    fin_cases i <;> simp only [hPdef]
     · exact hR₀.trans hRsub
     · exact hR₁.trans hRsub
     · exact hT₀.trans hTsub
@@ -358,8 +356,7 @@ theorem exists_isCoherentWith_of_four_member_mixed_norm
     have b11 : T₁ ∩ R₁ = ∅ := eTR _ hT₁ _ hR₁
     intro i j hij
     fin_cases i <;> fin_cases j <;>
-      simp only [hPdef, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
-        Matrix.cons_val_three, Matrix.head_cons, Matrix.tail_cons]
+      simp only [hPdef]
     · exact absurd rfl hij
     · exact e01
     · exact a00
@@ -383,9 +380,9 @@ theorem exists_isCoherentWith_of_four_member_mixed_norm
     rw [cfInner_smul_left, cfInner_smul_right, hin _ (hPsub i) _ (hPsub j)]
     by_cases hij : i = j
     · subst hij
-      rw [if_pos rfl, Finset.inter_self, hPcard i]
+      rw [ite_eq_left rfl, Finset.inter_self, hPcard i]
       fin_cases i <;> simp [hεdef]
-    · rw [if_neg hij, hPinter i j hij]
+    · rw [ite_eq_right hij, hPinter i j hij]
       simp
   have hvmem : ∀ i, v i ∈ Submodule.span ℤ (Irr G) := by
     have hmem : ∀ X ⊆ R ∪ T, (∑ x ∈ X, x) ∈ Submodule.span ℤ (Irr G) := by
@@ -432,7 +429,7 @@ theorem exists_isCoherentWith_of_four_member_mixed_norm
       have hcoe : (((-c 1) • A + (-c 3) • B + (c 0 + c 1) • C : charSpanZero S) : L → ℂ)
           = ((-c 1 : ℤ) : ℂ) • (ξ - star ξ) + ((-c 3 : ℤ) : ℂ) • (ψ - star ψ)
             + ((c 0 + c 1 : ℤ) : ℂ) • (ξ - ψ) := by
-        simp only [AddSubmonoid.coe_add, Submodule.coe_add, SetLike.val_smul, hAdef, hBdef,
+        simp only [Submodule.coe_add, SetLike.val_smul, hAdef, hBdef,
           hCdef, Int.cast_smul_eq_zsmul]
       rw [hcoe, hcw, Fin.sum_univ_four, hu0, hu1, hu2, hu3]
       funext x
@@ -442,7 +439,7 @@ theorem exists_isCoherentWith_of_four_member_mixed_norm
       ring
     have hτCf : (τ C : G → ℂ) = ∑ r ∈ R₀, r - ∑ t ∈ T₀, t := hfeq
     rw [hwdec, map_add, map_add, map_zsmul, map_zsmul, map_zsmul]
-    simp only [AddSubmonoid.coe_add, Submodule.coe_add, SetLike.val_smul,
+    simp only [Submodule.coe_add, SetLike.val_smul,
       ← Int.cast_smul_eq_zsmul ℂ, hτR A rfl, hτT B rfl, hτCf]
     rw [Fin.sum_univ_four, hv0, hv1, hv2, hv3, ← hsumR, ← hsumT]
     funext x

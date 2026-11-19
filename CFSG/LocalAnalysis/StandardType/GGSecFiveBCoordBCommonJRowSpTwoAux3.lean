@@ -54,11 +54,11 @@ private lemma planeMat_mulVec_coord {K : Type} [Field K] {r : ℕ}
   rw [Fintype.sum_sum_type,
     Finset.sum_eq_single i (fun p _ hp => by
       rw [WitSpNs.planeMat_apply,
-        if_neg (by simp only [WitSpNs.plane_coord, WitSpNs.plane_inl]; exact fun h => hp h.symm),
+        ite_eq_right (by simp only [WitSpNs.plane_coord, WitSpNs.plane_inl]; exact fun h => hp h.symm),
         zero_mul]) (fun h => absurd (Finset.mem_univ i) h),
     Finset.sum_eq_single i (fun p _ hp => by
       rw [WitSpNs.planeMat_apply,
-        if_neg (by simp only [WitSpNs.plane_coord, WitSpNs.plane_inr]; exact fun h => hp h.symm),
+        ite_eq_right (by simp only [WitSpNs.plane_coord, WitSpNs.plane_inr]; exact fun h => hp h.symm),
         zero_mul]) (fun h => absurd (Finset.mem_univ i) h),
     Fin.sum_univ_two, ← CFSG.StandardType.SympMinus.sympMinusZ_coord_zero,
     ← CFSG.StandardType.SympMinus.sympMinusZ_coord_one, WitSpNs.planeMat_coord,
@@ -255,8 +255,8 @@ private lemma spPlaneTorus_adjoin_algEquiv {K : Type} [Field K] [CharP K 2] [Fin
     subst hx
     subst hy
     exact Commute.refl _
-  letI : IsMulCommutative A := Algebra.isMulCommutative_adjoin K hcommP
-  letI : CommRing A := IsMulCommutative.instCommRing
+  let : IsMulCommutative A := Algebra.isMulCommutative_adjoin K hcommP
+  let : CommRing A := IsMulCommutative.instCommRing
   have hbA : b ∈ A := Algebra.subset_adjoin (by simp)
   let x : A := ⟨b, hbA⟩
   have hx' : Polynomial.aeval x p = 0 := by
@@ -268,9 +268,9 @@ private lemma spPlaneTorus_adjoin_algEquiv {K : Type} [Field K] [CharP K 2] [Fin
   have hPirr : Irreducible p := by
     simpa [p] using
       CFSG.HardMathSupport.Curtis.Coordinator.irreducible_X_sq_add_X_add_one_of_card_eq_two hK
-  haveI : Fact (Irreducible p) := ⟨hPirr⟩
-  haveI : Nonempty (Fin r) := ⟨⟨0, hr⟩⟩
-  haveI : Nontrivial A := by
+  have : Fact (Irreducible p) := ⟨hPirr⟩
+  have : Nonempty (Fin r) := ⟨⟨0, hr⟩⟩
+  have : Nontrivial A := by
     refine ⟨⟨1, 0, ?_⟩⟩
     intro h
     exact one_ne_zero (α := Matrix (Fin r ⊕ Fin r) (Fin r ⊕ Fin r) K)
@@ -309,7 +309,7 @@ private lemma spPlaneTorus_adjoin_finrank {K : Type} [Field K] [CharP K 2] [Fini
   obtain ⟨e⟩ := spPlaneTorus_adjoin_algEquiv hK hr hζ hdense
   have hPirr : Irreducible (X ^ 2 + X + 1 : K[X]) :=
     CFSG.HardMathSupport.Curtis.Coordinator.irreducible_X_sq_add_X_add_one_of_card_eq_two hK
-  haveI : Fact (Irreducible (X ^ 2 + X + 1 : K[X])) := ⟨hPirr⟩
+  have : Fact (Irreducible (X ^ 2 + X + 1 : K[X])) := ⟨hPirr⟩
   have hpne : (X ^ 2 + X + 1 : K[X]) ≠ 0 := hPirr.ne_zero
   have hdim : Module.finrank K (AdjoinRoot (X ^ 2 + X + 1 : K[X])) = 2 := by
     rw [(AdjoinRoot.powerBasis hpne).finrank, AdjoinRoot.powerBasis_dim hpne,
@@ -326,7 +326,7 @@ private lemma idem_eq_zero_or_one {K : Type} [Field K] [CharP K 2] [Finite K] {r
       Matrix (Fin r ⊕ Fin r) (Fin r ⊕ Fin r) K)})
     (hidem : IsIdempotentElem e) : e = 0 ∨ e = 1 := by
   obtain ⟨φ⟩ := spPlaneTorus_adjoin_algEquiv hK hr hζ hdense
-  haveI : Fact (Irreducible (X ^ 2 + X + 1 : K[X])) :=
+  have : Fact (Irreducible (X ^ 2 + X + 1 : K[X])) :=
     ⟨CFSG.HardMathSupport.Curtis.Coordinator.irreducible_X_sq_add_X_add_one_of_card_eq_two hK⟩
   have hidemA : IsIdempotentElem
       (⟨e, heA⟩ : Algebra.adjoin K {((spPlaneTorus r ζ f : GL (Fin r ⊕ Fin r) K) :
@@ -363,26 +363,26 @@ private lemma blockDegree_one_eq_two {K : Type} [Field K] [CharP K 2] [Finite K]
 theorem ggCommonJSpTwo_label_dense {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2)
     {r : ℕ} (hr : 4 ≤ r)
     {ζ : Multiplicative (ZMod 3) →* Matrix.SpecialLinearGroup (Fin 2) K}
-    (hζ : Function.Injective ζ) (hζW : ∀ a, sl2W * ζ a * sl2W⁻¹ = ζ a⁻¹)
+    (hζ : Function.Injective ζ) (_hζW : ∀ a, sl2W * ζ a * sl2W⁻¹ = ζ a⁻¹)
     {f : Fin r → Multiplicative (ZMod 3)} {J : Subgroup (StatedSp r K)}
     (hJ : CFSG.Assembly.IsComponentOf J
       (Subgroup.centralizer ({spPlaneTorus r ζ f} : Set (StatedSp r K))))
     (hdense : GGCoordDense f) {S : Finset (Fin r)} {s : Fin r → ZMod 3}
     (hs : ∀ i, s i * s i = 1) (hS : S.card = r)
-    (hAut : FrameBs.sectionFrameAut (spPlaneTorus r ζ) J =
+    (_hAut : FrameBs.sectionFrameAut (spPlaneTorus r ζ) J =
       TypeBDatum.twistedPermAut r 3 S s hs) :
     LargeEvenInLambda2 ⟨.twA, r - 1, 1⟩ ∧
       GGHasLabel ⟨.twA, r - 1, 1⟩ (↥J ⧸ Subgroup.center ↥J) ∧
       ((⟨.twA, r - 1, 1⟩ : LargeEvenLabel) = ⟨.twA, 3, 1⟩ → Subgroup.center ↥J = ⊥) := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by simpa using hK)
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by simpa using hK)
   have hKf : Fintype.card K = 2 := by
     rw [← Nat.card_eq_fintype_card]
     exact hK
   have hr0 : 0 < r := by omega
-  haveI : Nonempty (Fin r) := ⟨⟨0, hr0⟩⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Nonempty (Fin r) := ⟨⟨0, hr0⟩⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set b : StatedSp r K := spPlaneTorus r ζ f with hb
   have hb3 : b ^ 3 = 1 := CFSG.StandardType.SympMinus.sympMinusZ_spPlaneTorus_pow (p := 3) ζ f
   have hf1 : f ≠ 1 := by
@@ -433,13 +433,13 @@ theorem ggCommonJSpTwo_label_dense {K : Type} [Field K] [Finite K] (hK : Nat.car
     have h2 : 2 * d = 2 := by rw [← hbdeg, hbd]
     omega
   subst hd
-  letI : Field E := hEfield
-  letI : Fintype E := hEfin
-  letI : Finite E := Fintype.finite hEfin
+  let : Field E := hEfield
+  let : Fintype E := hEfin
+  let : Finite E := Fintype.finite hEfin
   have hEcard4 : Fintype.card E = 2 ^ 2 := by
     rw [hEcard, hKf]
     norm_num
-  letI : CharP E 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2) hEcard4
+  let : CharP E 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2) hEcard4
   have hE4 : Nat.card E = (Fintype.card K ^ 1) ^ 2 := by
     rw [Nat.card_eq_fintype_card]
     exact hEcard
@@ -566,8 +566,8 @@ theorem ggCommonJSpTwo_label_sparse {K : Type} [Field K] [Finite K] (hK : Nat.ca
         GGHasLabel ⟨.C, r - 1, 1⟩ (↥J ⧸ Subgroup.center ↥J)) ∨
       (r = 3 ∧ LargeEvenInLambda2 ⟨.B2der, 0, 1⟩ ∧
         GGHasLabel ⟨.B2der, 0, 1⟩ (↥J ⧸ Subgroup.center ↥J)) := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by simpa using hK)
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by simpa using hK)
   classical
   have hf1 : f ≠ 1 := by
     intro hf
@@ -718,7 +718,7 @@ theorem ggCommonJSpTwo_label_sparse {K : Type} [Field K] [Finite K] (hK : Nat.ca
       rw [hZsp, Subgroup.mem_bot] at hez
       rw [Subgroup.mem_bot]
       exact eJ.injective (hez.trans (map_one eJ).symm)
-    haveI : NeZero (r - 1) := ⟨by omega⟩
+    have : NeZero (r - 1) := ⟨by omega⟩
     have hrec : GGHasLabel ⟨.C, r - 1, 1⟩ (↥J ⧸ Subgroup.center ↥J) := by
       change ∃ (K' : Type) (_ : Field K') (_ : Finite K'),
         Nat.card K' = 2 ^ 1 ∧ Nonempty ((↥J ⧸ Subgroup.center ↥J) ≃*
@@ -731,11 +731,11 @@ theorem ggCommonJSpTwo_label_sparse {K : Type} [Field K] [Finite K] (hK : Nat.ca
     exact ⟨le_refl 1, by omega, fun h2 => by omega⟩
 
 theorem ggCommonJSpTwo_label_a6 {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2)
-    {r : ℕ} (hr : r = 3) {ζ : Multiplicative (ZMod 3) →* Matrix.SpecialLinearGroup (Fin 2) K}
+    {r : ℕ} (_hr : r = 3) {ζ : Multiplicative (ZMod 3) →* Matrix.SpecialLinearGroup (Fin 2) K}
     {f : Fin r → Multiplicative (ZMod 3)} {J : Subgroup (StatedSp r K)}
-    (hJ : CFSG.Assembly.IsComponentOf J
+    (_hJ : CFSG.Assembly.IsComponentOf J
       (Subgroup.centralizer ({spPlaneTorus r ζ f} : Set (StatedSp r K))))
-    (hsparse : GGCoordSparse f)
+    (_hsparse : GGCoordSparse f)
     (hA6 : ∃ f₀ : ℕ, SpPrimaryBlocks 2 f₀ 3 (spPlaneTorus r ζ f)
       (CFSG.LocalAnalysis.ComponentInitial.SymplecticFlag.proj r K (spPlaneTorus r ζ f)) ∧
       spFixedDim (spPlaneTorus r ζ f) = 4 ∧

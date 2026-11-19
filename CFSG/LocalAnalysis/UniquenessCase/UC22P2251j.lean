@@ -26,9 +26,9 @@ theorem le_of_calNOf {M X H : Subgroup G} (hN : calNOf X = {M}) (hXH : X ≤ H) 
 theorem calMOf_eq_of_card (D : Data G) (Ch : Choice2011 G) (h211 : S21_1 D Ch) (hH : H1930 D) (c : Ctx21 D Ch)
     {X : Subgroup G} {r a : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) (hXr : Nat.card X = r)
     (hcard : Nat.card ↥(X ⊔ D.T) = 2 ^ a * r) (hXU : X ∈ uniqueSet D.M) : calMOf (X ⊔ D.T) = {D.M} := by
-  haveI : Fact r.Prime := ⟨hr⟩
-  have hsol : IsSolvable ↥(X ⊔ D.T) := by
-    haveI := Fintype.ofFinite ↥(X ⊔ D.T)
+  have : Fact r.Prime := ⟨hr⟩
+  have hsol : Group.IsSolvable ↥(X ⊔ D.T) := by
+    have := Fintype.ofFinite ↥(X ⊔ D.T)
     exact CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow (a := a) (b := 1)
       Nat.prime_two hr (Ne.symm hr2) (by rw [← Nat.card_eq_fintype_card, hcard, pow_one])
   have hhall : IsHallOddIn X (X ⊔ D.T) := by
@@ -54,7 +54,7 @@ theorem calMOf_eq_of_card (D : Data G) (Ch : Choice2011 G) (h211 : S21_1 D Ch) (
       rw [hj]
       exact Nat.Coprime.pow j a ((Nat.coprime_primes hr Nat.prime_two).2 hr2)
     exact (Nat.le_of_dvd hr.pos (h2.dvd_of_dvd_mul_left h1)).trans (Nat.le_self_pow (by norm_num) r)
-  haveI : IsCyclic X := isCyclic_of_prime_card hXr
+  have : IsCyclic X := isCyclic_of_prime_card hXr
   exact (h211 hH c X (by rw [hXr]; exact hr) (by rw [hXr]; exact hr2) hsol ⟨X, hhall, inferInstance⟩ hrank
     hXU).1
 
@@ -75,7 +75,7 @@ theorem uc22p2251j_sylow_mem (D : Data G) (hk : D.k = 1) {K : Subgroup G} (hKM :
 theorem uc22p2251j_uniqueMax (D : Data G) (Ch : Choice2011 G) (h211 : S21_1 D Ch) (hH : H1930 D)
     (c : Ctx21 D Ch) (hk : D.k = 1) {K : Subgroup G} (hKM : K ≤ D.M) (hKN : D.M ≤ normalizer (K : Set G))
     (e : Bar2 K ≃* alternatingGroup (Fin 5)) : UniqueMax D.M (K ⊔ D.T) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨X, hXB, hX3, hXS, hsup⟩ := CFSG.Quasithin.FA5.exists_cartan_three (L := K) (S := D.T)
     (CFSG.ABGLocalTools.isSylowOf_iff.1 (D.sylowM.inf_of_le_normalizer hKM hKN)) e
   have hBK := CFSG.Quasithin.F1.borelOf_le K D.T

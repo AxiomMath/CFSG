@@ -19,13 +19,14 @@ variable (K : Type) [Field K] [Finite K] (σ : K →+* K)
 
 @[expose] def Cq (q : ℕ) : Subgroup Kˣ := (powMonoidHom (q - 1) : Kˣ →* Kˣ).ker
 
-theorem card_Cq {q : ℕ} (hq : 1 < q) (hK : Nat.card K = q ^ 2) : Nat.card (Cq K q) = q - 1 := by
+theorem card_Cq {q : ℕ} (_hq : 1 < q) (hK : Nat.card K = q ^ 2) : Nat.card (Cq K q) = q - 1 := by
   rw [Cq, IsCyclic.card_powMonoidHom_ker, Nat.card_units, hK]
   refine Nat.gcd_eq_right ?_
   have : q - 1 ∣ q ^ 2 - 1 := by
     simpa only [one_pow] using Nat.sub_dvd_pow_sub_pow q 1 2
   exact this
 
+omit [Finite K] in
 theorem sigma_Cq {q : ℕ} (hq : 1 < q) (hσ : ∀ c, σ c = c ^ q) {x : Kˣ} (hx : x ∈ Cq K q) :
     Units.map σ.toMonoidHom x = x := by
   have h1 : x ^ q = x := by
@@ -44,6 +45,7 @@ theorem sigma_Cq {q : ℕ} (hq : 1 < q) (hσ : ∀ c, σ c = c ^ q) {x : Kˣ} (h
   map_one' := by funext k; rfl
   map_mul' s t := by funext k; rfl
 
+omit [Finite K] in
 theorem unfoldE_mem_compat {q : ℕ} (hq : 1 < q) (hσ : ∀ c, σ c = c ^ q) (t : Fin 4 → ↥(Cq K q)) :
     unfoldE K q t ∈ compatSubgroup (t := TwistTag.E6) σ := by
   intro i
@@ -53,6 +55,7 @@ theorem unfoldE_mem_compat {q : ℕ} (hq : 1 < q) (hσ : ∀ c, σ c = c ^ q) (t
 
 noncomputable abbrev N1 : Subgroup (ModGL Tag.E6 K) := graphFixedRootMonomial TwistTag.E6 K σ
 
+omit [Finite K] in
 theorem torusCoord_unfold_mem_N1 {q : ℕ} (hq : 1 < q) (hσ : ∀ c, σ c = c ^ q)
     (t : Fin 4 → ↥(Cq K q)) :
     (torusCoordHom Tag.E6 K (unfoldE K q t) : ModGL Tag.E6 K) ∈ N1 K σ :=
@@ -101,6 +104,7 @@ theorem prod_fold {G : Type*} [CommGroup G] (a : Fin 4) (t : Fin 4 → G) :
   simp only [cartanE6_apply]
   exact sum_fiber_eq a b
 
+omit [Finite K] in
 theorem iota0_injective {q : ℕ} (hq : 1 < q) (hσ : ∀ c, σ c = c ^ q) :
     Function.Injective (iota0 K σ hq hσ) := by
   rw [injective_iff_map_eq_one]
@@ -118,8 +122,8 @@ theorem iota0_injective {q : ℕ} (hq : 1 < q) (hσ : ∀ c, σ c = c ^ q) :
   funext b
   exact Subtype.ext (congrFun h4 b)
 
-theorem exists_wordW (τ : Tag) (w : WeylGroup τ) : ∃ l : List (Fin τ.rank), w = wordW τ l :=
-  (coxeterSystem τ).wordProd_surjective w |>.imp fun l hl => hl.symm
+theorem exists_wordW (τ : Tag) (w : WeylGroup τ) : ∃ _l : List (Fin τ.rank), w = wordW τ _l :=
+  (coxeterSystem τ).wordProd_surjective w |>.imp fun _l hl => hl.symm
 
 @[expose] noncomputable def latMat (τ : Tag) (w : WeylGroup τ) : Matrix (Fin τ.rank) (Fin τ.rank) ℤ :=
   Matrix.of fun i j => (w • (Pi.single j 1 : Fin τ.rank → ℤ)) i
@@ -131,11 +135,13 @@ theorem latMat_wordW (τ : Tag) (l : List (Fin τ.rank)) :
     latMat τ (wordW τ l) = (l.map (Smat τ)).prod := by
   ext i j
   simp only [latMat, Matrix.of_apply, smul_eq_mulVec', Matrix.mulVec, dotProduct, Pi.single_apply,
-    mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+    mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
 
+omit [Finite K] in
 theorem N1_mem_adjoint (g : ↥(N1 K σ)) : (g : ModGL Tag.E6 K) ∈ adjointGroup Tag.E6 K :=
   (graphFixedRootGroup_le TwistTag.E6 K σ (graphFixedRootMonomial_le TwistTag.E6 K σ g.2)).1
 
+omit [Finite K] in
 theorem N1_mem_monomial (g : ↥(N1 K σ)) : (g : ModGL Tag.E6 K) ∈ monomialSubgroup Tag.E6 K :=
   graphFixedMonomial_le_monomialSubgroup TwistTag.E6 K σ g.2.1
 
@@ -144,30 +150,36 @@ theorem N1_mem_monomial (g : ↥(N1 K σ)) : (g : ModGL Tag.E6 K) ∈ monomialSu
   map_one' := rfl
   map_mul' _ _ := rfl
 
+omit [Finite K] in
 theorem jHom_coe (g : ↥(N1 K σ)) :
     monoι Tag.E6 K (jHom K σ g) = (g : ModGL Tag.E6 K) := rfl
 
 @[expose] noncomputable def psi1 : ↥(N1 K σ) →* WeylGroup Tag.E6 :=
   graphFixedRootWeylHom TwistTag.E6 K σ
 
+omit [Finite K] in
 theorem psi1_eq (g : ↥(N1 K σ)) :
     monomialSubHom (τ := Tag.E6) (K := K) (jHom K σ g) = psi1 K σ g := rfl
 
+omit [Finite K] in
 theorem psi1_mem (g : ↥(N1 K σ)) : psi1 K σ g ∈ relWeylTwist TwistTag.E6 := by
   have : psi1 K σ g ∈ (graphFixedRootWeylHom TwistTag.E6 K σ).range := MonoidHom.mem_range.2 ⟨g, rfl⟩
   rwa [graphFixedRootWeylHom_range] at this
 
+omit [Finite K] in
 theorem jHom_iota0 {q : ℕ} (hq : 1 < q) (hσ : ∀ c, σ c = c ^ q) (t : Fin 4 → ↥(Cq K q)) :
     jHom K σ (iota0 K σ hq hσ t) = torusN Tag.E6 K (unfoldE K q t) := by
   apply monoι_injective Tag.E6 K
   rw [jHom_coe]
   exact (monoι_torusN Tag.E6 K _).symm
 
+omit [Finite K] in
 theorem psi1_iota0 {q : ℕ} (hq : 1 < q) (hσ : ∀ c, σ c = c ^ q) (t : Fin 4 → ↥(Cq K q)) :
     psi1 K σ (iota0 K σ hq hσ t) = 1 := by
   rw [← psi1_eq, jHom_iota0]
   exact psi_torusN Tag.E6 K _
 
+omit [Finite K] in
 theorem conj_coord_word (g : ↥(N1 K σ)) (l : List (Fin Tag.E6.rank))
     (hl : psi1 K σ g = wordW Tag.E6 l) (c : Fin Tag.E6.rank → Kˣ) :
     (g : ModGL Tag.E6 K) * (torusCoordHom Tag.E6 K c : ModGL Tag.E6 K) * (g : ModGL Tag.E6 K)⁻¹ =
@@ -186,6 +198,7 @@ theorem prod_zpow_fiber {G : Type*} [CommGroup G] (c : Fin 4 → G) (e : Fin 6 �
       c (oi j) ^ e j = c b ^ e j := fun j hj => by rw [(Finset.mem_filter.1 hj).2]
   rw [Finset.prod_congr rfl h1, prod_zpow_sum_aux]
 
+omit [Finite K] in
 theorem mact_unfold {q : ℕ} (M : Matrix (Fin 6) (Fin 6) ℤ) (Mb : Matrix (Fin 4) (Fin 4) ℤ)
     (h : ∀ k b, ∑ j ∈ Finset.univ.filter (fun j : Fin 6 => oi j = b), M k j = Mb (oi k) b)
     (t : Fin 4 → ↥(Cq K q)) :
@@ -195,8 +208,9 @@ theorem mact_unfold {q : ℕ} (M : Matrix (Fin 6) (Fin 6) ℤ) (Mb : Matrix (Fin
   rw [prod_zpow_fiber (fun b => (t b : Kˣ)) (M k)]
   have := map_prod (Cq K q).subtype (fun b => t b ^ Mb (oi k) b) Finset.univ
   simp only [h k]
-  simpa [map_zpow] using this.symm
+  simp
 
+omit [Finite K] in
 theorem fold_cond (g : ↥(N1 K σ)) (l : List (Fin Tag.E6.rank)) (lb : List (Fin Tag.F4.rank))
     (hl : psi1 K σ g = wordW Tag.E6 l)
     (hlb : foldedWeylEquiv TwistTag.E6 ⟨psi1 K σ g, psi1_mem K σ g⟩ = wordW Tag.F4 lb) :
@@ -248,8 +262,9 @@ theorem fold_cond (g : ↥(N1 K σ)) (l : List (Fin Tag.E6.rank)) (lb : List (Fi
 theorem foldMat_of_mem {w : WeylGroup TwistTag.E6.tag} (h : w ∈ relWeylTwist TwistTag.E6) :
     foldMat w = latMat Tag.F4 (foldEquiv ⟨w, h⟩) := by
   unfold foldMat
-  rw [dif_pos h]
+  rw [dite_eq_left h]
 
+omit [Finite K] in
 theorem conj_iota0 {q : ℕ} (hq : 1 < q) (hσ : ∀ c, σ c = c ^ q) (g : ↥(N1 K σ))
     (t : Fin 4 → ↥(Cq K q)) :
     g * iota0 K σ hq hσ t * g⁻¹ = iota0 K σ hq hσ (mactC (foldMat (psi1 K σ g)) t) := by

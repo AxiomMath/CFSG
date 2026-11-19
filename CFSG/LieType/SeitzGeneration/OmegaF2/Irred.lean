@@ -16,7 +16,7 @@ theorem eq_top_of_stable (Ω : Submodule K (Fin 3 → K))
     {ω : Fin 3 → K} (hω : ω ∈ Ω) (hne : ω ≠ 0) : Ω = ⊤ := by
   obtain ⟨b, hb⟩ : ∃ b, ω b ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hne (funext h)
   have key : ∀ j, j ≠ b → (Pi.single j (1 : K) : Fin 3 → K) ∈ Ω := by
     intro j hj
@@ -27,7 +27,7 @@ theorem eq_top_of_stable (Ω : Submodule K (Fin 3 → K))
       by_cases hij : i = j
       · subst hij
         simp
-      · simp [Function.update_of_ne hij, Pi.single_apply, hij]
+      · simp [hij]
     rw [h3] at h2
     have h4 := Ω.smul_mem (ω b)⁻¹ h2
     rwa [smul_smul, inv_mul_cancel₀ hb, one_smul] at h4
@@ -43,8 +43,8 @@ theorem eq_top_of_stable (Ω : Submodule K (Fin 3 → K))
       funext i
       by_cases hib : i = b
       · subst hib
-        simp [Pi.single_apply, hbj]
-      · simp [Function.update_of_ne hib, Pi.single_apply, hib]
+        simp [hbj]
+      · simp [Pi.single_apply, hib]
     rwa [h3] at h2
   have hbasis : ∀ i : Fin 3, (Pi.single i (1 : K) : Fin 3 → K) ∈ Ω := by
     intro i

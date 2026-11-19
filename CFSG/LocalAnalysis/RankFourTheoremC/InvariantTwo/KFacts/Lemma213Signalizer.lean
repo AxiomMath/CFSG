@@ -22,7 +22,7 @@ theorem injective_of_surjective_perm {p : ℕ} (hp : p.Prime) {S : Type*} [Group
     (hdvd : p ∣ Nat.card S) {V : Subgroup (Equiv.Perm (Fin p))} (f : V →* S)
     (hf : Function.Surjective f) : Function.Injective f := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [← MonoidHom.ker_eq_bot_iff]
   have hVcard : Nat.card V = Nat.card S * Nat.card f.ker := by
     rw [Subgroup.card_eq_card_quotient_mul_card_subgroup f.ker,
@@ -84,7 +84,7 @@ theorem conj_injective_of_center_eq_bot {S : Type*} [Group S] (hc : center S = �
 theorem GL83I203Sigma_of_centralizer (h : SigmaCentralizerPGroup) : GL83I203Sigma := by
   intro p hp h5 S _ _ _ hnab hcat hdvd hinv x hx A hAcop hAnorm
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨V, f, hf⟩ := hinv
   have hfinj := injective_of_surjective_perm hp hdvd f hf
   let e : V ≃* S := MulEquiv.ofBijective f ⟨hfinj, hf⟩

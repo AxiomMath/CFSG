@@ -49,7 +49,7 @@ theorem D1CaseTwoDataAt.exists_axis_transv (hAut : KFactCycAut) (hSc : KFactSeit
   obtain ⟨L, hL, hLX, hzR, hzo, hRz, hzL⟩ := hz
   have hQC := hd.inf_centralizer_le hB0
   have hne := hd.neSylow z ⟨L, hL, hLX, hzR, hzo, hRz, hzL⟩ hnSP
-  obtain ⟨x, hxP, hxN, hxz⟩ := exists_mem_normalizer_not_mem_zpowers P.isPGroup'
+  obtain ⟨x, hxP, hxN, hxz⟩ := exists_mem_normalizer_not_mem_zpowers P.isPGroup
     hd.cfg.ext.le_P hne hzo hQC
   have hxM : x ∈ M := hd.cfg.ext.sylow_le hxP
   have hzc : ∀ g ∈ R, Commute (z : G) g := fun g hg =>
@@ -72,7 +72,7 @@ theorem D1CaseTwoDataAt.exists_axis_transv (hAut : KFactCycAut) (hSc : KFactSeit
   obtain ⟨u, hu, v, hv, huv⟩ := (mem_zpowers_sup_zpowers_iff hwzc).mp (hΩR _ hxzR hxzc hxzp)
   obtain ⟨a, rfl⟩ := Subgroup.mem_zpowers_iff.mp hu
   obtain ⟨b, rfl⟩ := Subgroup.mem_zpowers_iff.mp hv
-  obtain ⟨m, hm⟩ := P.isPGroup' ⟨x, hxP⟩
+  obtain ⟨m, hm⟩ := P.isPGroup ⟨x, hxP⟩
   have hxm : x ^ p ^ m = 1 := by simpa using congrArg Subtype.val hm
   have hxz' : x * z * x⁻¹ = (z : G) ^ b * w₀ ^ a := by rw [← huv, (hwzc.zpow_zpow a b).eq]
   have hxw' : x * w₀ * x⁻¹ = w₀ := by rw [hxw.eq, mul_inv_cancel_right]

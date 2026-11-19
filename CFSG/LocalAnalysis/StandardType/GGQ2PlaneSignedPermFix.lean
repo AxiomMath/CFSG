@@ -87,12 +87,12 @@ theorem hyperplane_eq_of_mem_signedPermGroup_fix {t : ℕ} {φ : V t ≃ₗ[F] V
         rcases hε i with h | h
         · exact h
         · exact absurd h (hne i)
-      rw [hεi, one_mul, hσ, Equiv.Perm.one_symm]
+      rw [hεi, one_mul, hσ, ← Equiv.Perm.inv_def 1, inv_one]
       simp
     obtain ⟨k, hk⟩ := hneg
     refine ⟨k, eq_coord_zero_of_fix_of_flip hfix ?_ hW⟩
     intro w hw
-    rw [hφform w k, hσ, hk, Equiv.Perm.one_symm]
+    rw [hφform w k, hσ, hk, ← Equiv.Perm.inv_def 1, inv_one]
     simp
   · right
     have hex : ∃ k, σ.symm k ≠ k := by
@@ -101,7 +101,7 @@ theorem hyperplane_eq_of_mem_signedPermGroup_fix {t : ℕ} {φ : V t ≃ₗ[F] V
       apply hσ
       have h' : σ.symm = 1 := Equiv.ext hne
       have := congrArg (fun τ : Equiv.Perm (Fin t) => τ.symm) h'
-      simpa [Equiv.Perm.one_symm] using this
+      simpa [← Equiv.Perm.inv_def 1, inv_one] using this
     obtain ⟨k, hk⟩ := hex
     let l := σ.symm k
     have hkl : k ≠ l := fun h => hk h.symm

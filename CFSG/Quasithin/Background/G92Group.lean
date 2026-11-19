@@ -27,7 +27,7 @@ private theorem le_iSup_pCore_of_normal_nilpotent {Y : Type*} [Group Y] [Finite 
   refine hsup.symm.le.trans ?_
   simp only [Subgroup.map_iSup]
   refine iSup₂_le fun p hp => ?_
-  haveI : Fact p.Prime := ⟨Nat.prime_of_mem_primeFactors hp⟩
+  have : Fact p.Prime := ⟨Nat.prime_of_mem_primeFactors hp⟩
   exact le_iSup₂_of_le p hp (Sylow.map_le_pCore hK hnil p (default : Sylow p ↥K))
 
 theorem commutator_piPrimeCoreG92_eq_bot {G : Type*} [Group G] [Finite G]
@@ -37,7 +37,7 @@ theorem commutator_piPrimeCoreG92_eq_bot {G : Type*} [Group G] [Finite G]
   rw [Subgroup.commutator_eq_bot_iff_le_centralizer]
   refine sSup_le fun N hN => ?_
   obtain ⟨hNX, hNn, hNc⟩ := hN
-  haveI := hX
+  have := hX
   have hKnil : Group.IsNilpotent ↥(N.subgroupOf X) := inferInstance
   have hKle := le_iSup_pCore_of_normal_nilpotent hNn hKnil
   have hcard : Nat.card ↥(N.subgroupOf X) = Nat.card ↥N :=
@@ -60,8 +60,8 @@ theorem dihedral_eq_closure {G : Type*} [Group G] {K : Subgroup G} {p : ℕ} (hp
     (hodd : Odd p) (e : ↥K ≃* DihedralGroup p) {x a : G} (hxK : x ∈ K) (haK : a ∈ K)
     (hxo : orderOf x = p) (ha2 : a * a = 1) (hax : a * x * a⁻¹ = x⁻¹) :
     K = Subgroup.closure {x, a} := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : Finite ↥K := Finite.of_equiv _ e.symm.toEquiv
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : Finite ↥K := Finite.of_equiv _ e.symm.toEquiv
   have hKcard : Nat.card ↥K = 2 * p := by
     rw [Nat.card_congr e.toEquiv, DihedralGroup.nat_card]
   have hSK : Subgroup.closure ({x, a} : Set G) ≤ K := by
@@ -70,7 +70,7 @@ theorem dihedral_eq_closure {G : Type*} [Group G] {K : Subgroup G} {p : ℕ} (hp
     simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hg
     rcases hg with rfl | rfl
     exacts [hxK, haK]
-  haveI : Finite ↥(Subgroup.closure ({x, a} : Set G)) :=
+  have : Finite ↥(Subgroup.closure ({x, a} : Set G)) :=
     Finite.of_injective _ (Subgroup.inclusion_injective hSK)
   have hxS : x ∈ Subgroup.closure ({x, a} : Set G) := Subgroup.subset_closure (by simp)
   have haS : a ∈ Subgroup.closure ({x, a} : Set G) := Subgroup.subset_closure (by simp)

@@ -133,6 +133,7 @@ private theorem relIndex_ne_zero_of_finite (H K : Subgroup G) : H.relIndex K ≠
   rw [h, zero_mul] at this
   exact (Nat.card_pos (α := K)).ne' this.symm
 
+omit [Finite G] in
 private theorem le_normalizer_of_forall_conj_mem {L K : Subgroup G}
     (h : ∀ l ∈ L, ∀ k ∈ K, l * k * l⁻¹ ∈ K) : L ≤ Subgroup.normalizer (K : Set G) := by
   intro l hl
@@ -166,7 +167,7 @@ private theorem commutator_eq_one_of_not_thompsonJ_le
     by_contra h
     push Not at h
     exact hJ (GammaExtra.thompsonJ_le h)
-  obtain ⟨x, hxA, hxE⟩ := SetLike.not_le_iff_exists.mp hAE
+  obtain ⟨x, hxA, hxE⟩ := IsConcreteLE.not_le_iff_exists.mp hAE
   have hxL : x ∈ L := hP.1 (hA.1 hxA)
   obtain ⟨e⟩ := hSz
   set N₀ := CFSG.pCore 2 ↥L with hN₀
@@ -346,9 +347,9 @@ theorem le_normalizer_centerOf_or_le_normalizer_thompsonJ
   have hBt : CFSG.GH74.Uniqueness.Bender.BenderType (oTwoQuot ↥L) (2 * a + 1) 2 1 :=
     CFSG.GH74.Uniqueness.Bender.BenderType.suzuki a ha
       (e.trans (MulEquiv.subgroupCongr (CFSG.GH74.Uniqueness.Bender.szModel_eq_open_sz a).symm))
-  haveI hsimple : IsSimpleGroup (oTwoQuot ↥L) := hBt.isSimple
+  have hsimple : IsSimpleGroup (oTwoQuot ↥L) := hBt.isSimple
   have hmap : N'.map (QuotientGroup.mk' N₀) = ⊤ := by
-    haveI : (N'.map (QuotientGroup.mk' N₀)).Normal :=
+    have : (N'.map (QuotientGroup.mk' N₀)).Normal :=
       hN'norm.map (QuotientGroup.mk' N₀) (QuotientGroup.mk'_surjective N₀)
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (N'.map (QuotientGroup.mk' N₀)) with
       hbot | htop

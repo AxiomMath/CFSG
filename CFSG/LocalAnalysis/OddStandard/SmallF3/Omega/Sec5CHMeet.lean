@@ -36,7 +36,7 @@ theorem asc82Fact512H_meet_holds : ∀ (G : Type) [Group G] [Finite G] (L : Subg
   have hle := sec5c_card_le_two ((zpowers r ⊔ B) ⊓ twoRes (L ⊓ centralizer ({z} : Set G))) z
     (fun p hp => by
       by_contra hne
-      push_neg at hne
+      push Not at hne
       exact hcon ⟨p, hp.1, hp.2, hne.1, hne.2⟩)
   omega
 

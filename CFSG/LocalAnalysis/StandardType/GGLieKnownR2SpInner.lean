@@ -328,7 +328,7 @@ private theorem l10ss1c_spJ_mulVec_single {n : ℕ} {F : Type} [Field F] [CharP 
   ext k
   rcases b with i | i <;> rcases k with k | k <;>
     simp [spJ, Matrix.mulVec, dotProduct, Pi.single_apply, Matrix.fromBlocks,
-      Fintype.sum_sum_type, Matrix.one_apply, CharTwo.neg_eq, eq_comm]
+      Matrix.one_apply, CharTwo.neg_eq, eq_comm]
 
 private theorem l10ss1c_std_dot_J_single {n : ℕ} {F : Type} [Field F] [CharP F 2]
     (a b : Fin n ⊕ Fin n) :
@@ -589,13 +589,13 @@ private theorem l10ss1_field_trivial {n : ℕ} {F : Type} [Field F] [Finite F] [
           simp only [SpPlanePair]
           refine ⟨?_, ?_, ⟨?_, ?_, ?_, ?_⟩⟩ <;>
             rw [l10ss1c_std_dot_J_single] <;>
-            simp [a₁, a₂, b₁, b₂, hij, hij.symm]
+            simp [hij]
         have hW : (spForm n F).IsTotallyIsotropic (Submodule.span F {a₁, a₂}) :=
           l10ss1c_isTotallyIsotropic_span_pair
-            (by simp [a₁, l10ss1c_std_dot_J_single])
-            (by simp [a₂, l10ss1c_std_dot_J_single])
-            (by simp [a₁, a₂, l10ss1c_std_dot_J_single, hij, hij.symm])
-            (by simp [a₁, a₂, l10ss1c_std_dot_J_single, hij, hij.symm])
+            (by simp [a₁])
+            (by simp [a₂])
+            (by simp [a₁, a₂, hij])
+            (by simp [a₁, a₂, hij.symm])
         let tfun : Fin n → Fˣ := fun a => if a = i then lam else if a = j then lam⁻¹ else 1
         let t : StatedSp n F := diagSp F n tfun
         have htv₁ : mat n F t *ᵥ a₁ = (lam : F) • a₁ := by
@@ -603,13 +603,13 @@ private theorem l10ss1_field_trivial {n : ℕ} {F : Type} [Field F] [Finite F] [
             (lam : F) • Pi.single (Sum.inl i) 1
           rw [l10ss1c_diagSp_mulVec_single]
           congr 1
-          simp [tfun, diagSpEntry, hij]
+          simp [tfun, diagSpEntry]
         have htv₂ : mat n F t *ᵥ a₂ = (lam : F) • a₂ := by
           change mat n F (diagSp F n tfun) *ᵥ Pi.single (Sum.inr j) 1 =
             (lam : F) • Pi.single (Sum.inr j) 1
           rw [l10ss1c_diagSp_mulVec_single]
           congr 1
-          simp [tfun, diagSpEntry, hij, hij.symm, inv_inv]
+          simp [tfun, diagSpEntry, hij.symm, inv_inv]
         have htW : ∀ w ∈ Submodule.span F {a₁, a₂}, mat n F t *ᵥ w = (lam : F) • w :=
           l10ss1c_diagSp_scalar_on_span htv₁ htv₂
         have hfv₁ : mat n F (fieldSp n F σ t) *ᵥ a₁ = σ (lam : F) • a₁ := by
@@ -617,13 +617,13 @@ private theorem l10ss1_field_trivial {n : ℕ} {F : Type} [Field F] [Finite F] [
             σ (lam : F) • Pi.single (Sum.inl i) 1
           rw [l10ss1c_fieldSp_diagSp_mulVec_single]
           congr 1
-          simp [tfun, diagSpEntry, hij]
+          simp [tfun, diagSpEntry]
         have hfv₂ : mat n F (fieldSp n F σ t) *ᵥ a₂ = σ (lam : F) • a₂ := by
           change mat n F (fieldSp n F σ (diagSp F n tfun)) *ᵥ Pi.single (Sum.inr j) 1 =
             σ (lam : F) • Pi.single (Sum.inr j) 1
           rw [l10ss1c_fieldSp_diagSp_mulVec_single]
           congr 1
-          simp [tfun, diagSpEntry, hij, hij.symm, inv_inv]
+          simp [tfun, diagSpEntry, hij.symm, inv_inv]
         have hftW : ∀ w ∈ Submodule.span F {a₁, a₂},
             mat n F (fieldSp n F σ t) *ᵥ w = σ (lam : F) • w :=
           l10ss1c_fieldSp_diagSp_scalar_on_span σ hfv₁ hfv₂
@@ -633,14 +633,14 @@ private theorem l10ss1_field_trivial {n : ℕ} {F : Type} [Field F] [Finite F] [
             (lam : F)⁻¹ • Pi.single (Sum.inl i) 1
           rw [l10ss1c_diagSp_mulVec_single]
           congr 1
-          simp [tfun, diagSpEntry, hij]
+          simp [tfun, diagSpEntry]
         have htv₂_inv : mat n F (diagSp F n (fun a => (tfun a)⁻¹)) *ᵥ a₂ =
             (lam : F)⁻¹ • a₂ := by
           change mat n F (diagSp F n (fun a => (tfun a)⁻¹)) *ᵥ Pi.single (Sum.inr j) 1 =
             (lam : F)⁻¹ • Pi.single (Sum.inr j) 1
           rw [l10ss1c_diagSp_mulVec_single]
           congr 1
-          simp [tfun, diagSpEntry, hij, hij.symm, inv_inv]
+          simp [tfun, diagSpEntry, hij.symm, inv_inv]
         have htW_inv : ∀ w ∈ Submodule.span F {a₁, a₂},
             mat n F t⁻¹ *ᵥ w = ((lam : F)⁻¹) • w := by
           intro w hw
@@ -666,20 +666,20 @@ private theorem l10ss1_field_trivial {n : ℕ} {F : Type} [Field F] [Finite F] [
             Matrix.single (Sum.inl i) (Sum.inr j) 1 + Matrix.single (Sum.inl j) (Sum.inr i) 1
           rw [l10ss1c_spJ_mulVec_single, l10ss1c_spJ_mulVec_single,
             l10ss1c_vecMulVec_single, l10ss1c_vecMulVec_single]
-          simp [Sum.swap_inl, Sum.swap_inr]
+          simp [Sum.swap_inl]
         have hXeq : spAltSiegel n F a₁ a₂ = rootGroup n F β :=
           l10ss1c_spAltSiegel_eq_rootGroup hr hE
         have hp : SpPlanePair n F a₁ a₂ b₁ b₂ := by
           simp only [SpPlanePair]
           refine ⟨?_, ?_, ⟨?_, ?_, ?_, ?_⟩⟩ <;>
             rw [l10ss1c_std_dot_J_single] <;>
-            simp [a₁, a₂, b₁, b₂, hij.ne, hij.ne']
+            simp [hij.ne, hij.ne']
         have hW : (spForm n F).IsTotallyIsotropic (Submodule.span F {a₁, a₂}) :=
           l10ss1c_isTotallyIsotropic_span_pair
-            (by simp [a₁, l10ss1c_std_dot_J_single])
-            (by simp [a₂, l10ss1c_std_dot_J_single])
-            (by simp [a₁, a₂, l10ss1c_std_dot_J_single])
-            (by simp [a₁, a₂, l10ss1c_std_dot_J_single])
+            (by simp [a₁])
+            (by simp [a₂])
+            (by simp [a₁, a₂])
+            (by simp [a₁, a₂])
         let tfun : Fin n → Fˣ := fun a => if a = i then lam else if a = j then lam else 1
         let t : StatedSp n F := diagSp F n tfun
         have htv₁ : mat n F t *ᵥ a₁ = (lam : F) • a₁ := by
@@ -687,7 +687,7 @@ private theorem l10ss1_field_trivial {n : ℕ} {F : Type} [Field F] [Finite F] [
             (lam : F) • Pi.single (Sum.inl i) 1
           rw [l10ss1c_diagSp_mulVec_single]
           congr 1
-          simp [tfun, diagSpEntry, hij.ne']
+          simp [tfun, diagSpEntry]
         have htv₂ : mat n F t *ᵥ a₂ = (lam : F) • a₂ := by
           change mat n F (diagSp F n tfun) *ᵥ Pi.single (Sum.inl j) 1 =
             (lam : F) • Pi.single (Sum.inl j) 1
@@ -701,7 +701,7 @@ private theorem l10ss1_field_trivial {n : ℕ} {F : Type} [Field F] [Finite F] [
             σ (lam : F) • Pi.single (Sum.inl i) 1
           rw [l10ss1c_fieldSp_diagSp_mulVec_single]
           congr 1
-          simp [tfun, diagSpEntry, hij.ne']
+          simp [tfun, diagSpEntry]
         have hfv₂ : mat n F (fieldSp n F σ t) *ᵥ a₂ = σ (lam : F) • a₂ := by
           change mat n F (fieldSp n F σ (diagSp F n tfun)) *ᵥ Pi.single (Sum.inl j) 1 =
             σ (lam : F) • Pi.single (Sum.inl j) 1
@@ -717,7 +717,7 @@ private theorem l10ss1_field_trivial {n : ℕ} {F : Type} [Field F] [Finite F] [
             (lam : F)⁻¹ • Pi.single (Sum.inl i) 1
           rw [l10ss1c_diagSp_mulVec_single]
           congr 1
-          simp [tfun, diagSpEntry, hij.ne']
+          simp [tfun, diagSpEntry]
         have htv₂_inv : mat n F (diagSp F n (fun a => (tfun a)⁻¹)) *ᵥ a₂ =
             (lam : F)⁻¹ • a₂ := by
           change mat n F (diagSp F n (fun a => (tfun a)⁻¹)) *ᵥ Pi.single (Sum.inl j) 1 =
@@ -750,20 +750,20 @@ private theorem l10ss1_field_trivial {n : ℕ} {F : Type} [Field F] [Finite F] [
             Matrix.single (Sum.inr i) (Sum.inl j) 1 + Matrix.single (Sum.inr j) (Sum.inl i) 1
           rw [l10ss1c_spJ_mulVec_single, l10ss1c_spJ_mulVec_single,
             l10ss1c_vecMulVec_single, l10ss1c_vecMulVec_single]
-          simp [Sum.swap_inl, Sum.swap_inr]
+          simp [Sum.swap_inr]
         have hXeq : spAltSiegel n F a₁ a₂ = rootGroup n F β :=
           l10ss1c_spAltSiegel_eq_rootGroup hr hE
         have hp : SpPlanePair n F a₁ a₂ b₁ b₂ := by
           simp only [SpPlanePair]
           refine ⟨?_, ?_, ⟨?_, ?_, ?_, ?_⟩⟩ <;>
             rw [l10ss1c_std_dot_J_single] <;>
-            simp [a₁, a₂, b₁, b₂, hij.ne, hij.ne']
+            simp [hij.ne, hij.ne']
         have hW : (spForm n F).IsTotallyIsotropic (Submodule.span F {a₁, a₂}) :=
           l10ss1c_isTotallyIsotropic_span_pair
-            (by simp [a₁, l10ss1c_std_dot_J_single])
-            (by simp [a₂, l10ss1c_std_dot_J_single])
-            (by simp [a₁, a₂, l10ss1c_std_dot_J_single])
-            (by simp [a₁, a₂, l10ss1c_std_dot_J_single])
+            (by simp [a₁])
+            (by simp [a₂])
+            (by simp [a₁, a₂])
+            (by simp [a₁, a₂])
         let tfun : Fin n → Fˣ := fun a => if a = i then lam⁻¹ else if a = j then lam⁻¹ else 1
         let t : StatedSp n F := diagSp F n tfun
         have htv₁ : mat n F t *ᵥ a₁ = (lam : F) • a₁ := by
@@ -771,7 +771,7 @@ private theorem l10ss1_field_trivial {n : ℕ} {F : Type} [Field F] [Finite F] [
             (lam : F) • Pi.single (Sum.inr i) 1
           rw [l10ss1c_diagSp_mulVec_single]
           congr 1
-          simp [tfun, diagSpEntry, hij.ne', inv_inv]
+          simp [tfun, diagSpEntry, inv_inv]
         have htv₂ : mat n F t *ᵥ a₂ = (lam : F) • a₂ := by
           change mat n F (diagSp F n tfun) *ᵥ Pi.single (Sum.inr j) 1 =
             (lam : F) • Pi.single (Sum.inr j) 1
@@ -785,13 +785,13 @@ private theorem l10ss1_field_trivial {n : ℕ} {F : Type} [Field F] [Finite F] [
             σ (lam : F) • Pi.single (Sum.inr i) 1
           rw [l10ss1c_fieldSp_diagSp_mulVec_single]
           congr 1
-          simp [tfun, diagSpEntry, hij.ne', inv_inv, map_inv₀]
+          simp [tfun, diagSpEntry, inv_inv]
         have hfv₂ : mat n F (fieldSp n F σ t) *ᵥ a₂ = σ (lam : F) • a₂ := by
           change mat n F (fieldSp n F σ (diagSp F n tfun)) *ᵥ Pi.single (Sum.inr j) 1 =
             σ (lam : F) • Pi.single (Sum.inr j) 1
           rw [l10ss1c_fieldSp_diagSp_mulVec_single]
           congr 1
-          simp [tfun, diagSpEntry, hij.ne', inv_inv, map_inv₀]
+          simp [tfun, diagSpEntry, hij.ne', inv_inv]
         have hftW : ∀ w ∈ Submodule.span F {a₁, a₂},
             mat n F (fieldSp n F σ t) *ᵥ w = σ (lam : F) • w :=
           l10ss1c_fieldSp_diagSp_scalar_on_span σ hfv₁ hfv₂
@@ -801,7 +801,7 @@ private theorem l10ss1_field_trivial {n : ℕ} {F : Type} [Field F] [Finite F] [
             (lam : F)⁻¹ • Pi.single (Sum.inr i) 1
           rw [l10ss1c_diagSp_mulVec_single]
           congr 1
-          simp [tfun, diagSpEntry, hij.ne', inv_inv]
+          simp [tfun, diagSpEntry, inv_inv]
         have htv₂_inv : mat n F (diagSp F n (fun a => (tfun a)⁻¹)) *ᵥ a₂ =
             (lam : F)⁻¹ • a₂ := by
           change mat n F (diagSp F n (fun a => (tfun a)⁻¹)) *ᵥ Pi.single (Sum.inr j) 1 =
@@ -831,9 +831,9 @@ private theorem l10ss1_rank_single_one_eq_one {F : Type} [Field F] {ι : Type} [
       (fun _ : Fin 1 => i) (fun _ : Fin 1 => j) = 1 := by
     ext a b
     fin_cases a; fin_cases b
-    simp [Matrix.single_apply]
+    simp
   rw [h1, Matrix.rank_one] at hsub
-  simp only [Fintype.card_fin, Finset.univ_unique, Finset.card_singleton] at hsub
+  simp only [Fintype.card_fin] at hsub
   have hle : (Matrix.single i j (1 : F)).rank ≤ 1 := by
     rw [Matrix.single_eq_single_vecMulVec_single]
     exact Matrix.rank_vecMulVec_le _ _
@@ -850,11 +850,11 @@ private theorem l10ss1_rank_sub_ge_two {F : Type} [Field F] {ι : Type} [Fintype
       (fun a : Fin 2 => if a = 0 then j else l) = !![(1 : F), 0; 0, -1] := by
     ext a b
     fin_cases a <;> fin_cases b <;>
-      simp [Matrix.single_apply, hik, hjl, hik.symm, hjl.symm]
+      simp [hik, hjl, hik.symm, hjl.symm]
   rw [hM] at hsub
   have hunit : IsUnit (!![(1 : F), 0; 0, -1] : Matrix (Fin 2) (Fin 2) F) := by
     rw [Matrix.isUnit_iff_isUnit_det]
-    simp [Matrix.det_fin_two, isUnit_neg_one]
+    simp [Matrix.det_fin_two]
   have hrank : (!![(1 : F), 0; 0, -1] : Matrix (Fin 2) (Fin 2) F).rank = 2 := by
     rw [Matrix.rank_of_isUnit _ hunit]
     simp
@@ -872,7 +872,7 @@ private theorem l10ss1_rank_add_ge_two {F : Type} [Field F] {ι : Type} [Fintype
       (fun a : Fin 2 => if a = 0 then j else l) = !![(1 : F), 0; 0, 1] := by
     ext a b
     fin_cases a <;> fin_cases b <;>
-      simp [Matrix.single_apply, hik, hjl, hik.symm, hjl.symm]
+      simp [hik, hjl, hik.symm, hjl.symm]
   rw [hM] at hsub
   have hunit : IsUnit (!![(1 : F), 0; 0, 1] : Matrix (Fin 2) (Fin 2) F) := by
     rw [Matrix.isUnit_iff_isUnit_det]

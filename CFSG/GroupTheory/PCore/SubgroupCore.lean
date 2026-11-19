@@ -13,7 +13,7 @@ open scoped commutatorElement
 theorem coprime_card_pPrimeCore (p : ℕ) (G : Type*) [Group G] [Finite G] :
     Nat.Coprime p (Nat.card (pPrimeCore p G)) := by
   refine Nat.coprime_of_dvd fun q hq hqp => ?_
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hle : pPrimeCore p G ≤ pPrimeCore q G :=
     sSup_le fun N hN =>
       le_sSup (show N ∈ {K : Subgroup G | K.Normal ∧ Nat.Coprime q (Nat.card K)} from
@@ -107,7 +107,7 @@ theorem gLAPPrimeCoreOf_inf_centralizer_conj (p : ℕ) (I : Subgroup G) [I.Norma
 theorem odd_card_gLAPPrimeCoreOf_of_odd_relIndex [Finite G] {p : ℕ} {L X : Subgroup G}
     (hLX : L ≤ X) (hn : (L.subgroupOf X).Normal) (hi : Odd (L.relIndex X))
     (hL : Odd (Nat.card (GLAPPrimeCoreOf p L))) : Odd (Nat.card (GLAPPrimeCoreOf p X)) := by
-  haveI := hn
+  have := hn
   have hAX : GLAPPrimeCoreOf p X ≤ X := Subgroup.map_subtype_le (pPrimeCore p ↥X)
   have hXN : X ≤ Subgroup.normalizer (GLAPPrimeCoreOf p X : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hAX).1 (gLAPPrimeCoreOf_normal p X)
@@ -148,10 +148,10 @@ theorem odd_card_gLAPPrimeCoreOf_of_odd_relIndex [Finite G] {p : ℕ} {L X : Sub
   rw [← hcard, hker]
   exact hodd_inf.mul hodd_range
 
-theorem gLAPPrimeCoreOf_eq_bot_of_relIndex_eq_pow [Finite G] {p : ℕ} (hp : p.Prime) {L X : Subgroup G}
+theorem gLAPPrimeCoreOf_eq_bot_of_relIndex_eq_pow [Finite G] {p : ℕ} (_hp : p.Prime) {L X : Subgroup G}
     (hLX : L ≤ X) (hn : (L.subgroupOf X).Normal) {k : ℕ} (hi : L.relIndex X = p ^ k)
     (hL : GLAPPrimeCoreOf p L = ⊥) : GLAPPrimeCoreOf p X = ⊥ := by
-  haveI := hn
+  have := hn
   have hAX : GLAPPrimeCoreOf p X ≤ X := Subgroup.map_subtype_le (pPrimeCore p ↥X)
   have hXN : X ≤ Subgroup.normalizer (GLAPPrimeCoreOf p X : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hAX).1 (gLAPPrimeCoreOf_normal p X)
@@ -200,7 +200,7 @@ theorem gLAPPrimeCore_eq_bot_of_quasisimple_of_isPGroup_center {p : ℕ} (hp : p
     (hdvd : p ∣ Nat.card (Y ⧸ Subgroup.center Y)) : GLAPPrimeCore p Y = ⊥ := by
   classical
   obtain ⟨-, hsimple⟩ := hq
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set N : Subgroup Y := GLAPPrimeCore p Y with hN
   have hNn : N.Normal := inferInstance
   have hcop : Nat.Coprime p (Nat.card N) := by
@@ -232,7 +232,7 @@ theorem gLAPPrimeCore_eq_bot_of_quasisimple_of_isPGroup_center {p : ℕ} (hp : p
       ⟨hinj, (QuotientGroup.mk' (Subgroup.center Y)).subgroupMap_surjective N⟩
     exact Nat.card_congr
       (Equiv.ofBijective ((QuotientGroup.mk' (Subgroup.center Y)).subgroupMap N) hbij).symm
-  haveI := hMn
+  have := hMn
   rcases hsimple.eq_bot_or_eq_top_of_normal (N.map (QuotientGroup.mk' (Subgroup.center Y)))
     with h | h
   · have hNZle : N ≤ Subgroup.center Y := by

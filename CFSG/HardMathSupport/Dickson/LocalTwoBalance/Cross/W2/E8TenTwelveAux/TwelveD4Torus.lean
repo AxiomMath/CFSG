@@ -32,7 +32,7 @@ theorem e8T12_hm_coroot {γ : Fin Tag.E8.rank → ℤ} (hγ : IsRoot Tag.E8 γ)
   have hB : Tag.E8.symmetrizedCartan = Tag.E8.cartan := by
     simp [Tag.symmetrizedCartan, Tag.symmetrizer]
   have e : iform γ δ = ∑ i, δ i * e8T12Coroot γ i := by
-    simp only [iform, hB, e8T12Coroot, Finset.mul_sum, Finset.sum_mul]
+    simp only [iform, hB, e8T12Coroot, Finset.mul_sum]
     rw [Finset.sum_comm]
     refine Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun j _ => ?_
     ring
@@ -100,7 +100,7 @@ theorem e8T12_rootDiagUnit_mem_twistedTorus {L : Type} [Field L] {p : ℕ} {ζ :
 theorem e8T12_orderOf_rootDiagUnit {L : Type} [Field L] {p : ℕ} (hp : p.Prime) {ζ : Lˣ}
     (hζ : orderOf ζ = p) (e : Fin Tag.E8.rank → ℤ) (he : ∃ i, ¬ (p : ℤ) ∣ e i) :
     orderOf (rootDiagUnit Tag.E8 (fun i => ζ ^ e i) : ModGL Tag.E8 L) = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine orderOf_eq_prime ?_ ?_
   · have : (rootDiagUnitHom Tag.E8 L (fun i => ζ ^ e i)) ^ p = rootDiagUnitHom Tag.E8 L 1 := by
       rw [← map_pow (rootDiagUnitHom Tag.E8 L)]

@@ -121,13 +121,13 @@ private theorem exists_ne_one_right_eq_one (A' : Subgroup (Model piE7 piE7_pow_t
     {y1 : Model piE7 piE7_pow_three} (hy1 : y1 ∈ A')
     (hy1r : y1.right = .ofAdd 1) :
     ∃ b ∈ A', b ≠ 1 ∧ b.right = 1 := by
-  haveI := finite_model (π := piE7) (hπ := piE7_pow_three)
+  have := finite_model (π := piE7) (hπ := piE7_pow_three)
   have hy1ne : y1 ≠ 1 := by
     have hright1 : y1.right ≠ 1 := by
       rw [hy1r]
       decide
     exact fun h1 => hright1 (by rw [h1, SemidirectProduct.one_right])
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have horder : orderOf y1 = 3 := orderOf_eq_prime (hA'3 y1 hy1) hy1ne
   have hnotle : ¬ A' ≤ Subgroup.zpowers y1 := by
     intro hle
@@ -244,7 +244,7 @@ theorem exists_inl_mem (A : Subgroup (WeylGroup .E6)) (hAS : A ≤ modelHomE6.ra
     ∃ v : Multiplicative (Fin 3 → ZMod 3), (∀ i, v.toAdd i ≠ 0) ∧
       modelHomE6 (SemidirectProduct.inl v) ∈ A := by
   classical
-  haveI := finite_model (π := piE7) (hπ := piE7_pow_three)
+  have := finite_model (π := piE7) (hπ := piE7_pow_three)
   set A' : Subgroup (Model piE7 piE7_pow_three) := A.comap modelHomE6 with hA'
   have hmap : A'.map modelHomE6 = A := Subgroup.map_comap_eq_self hAS
   have hcard : Nat.card A' = Nat.card A := by

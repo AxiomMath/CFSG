@@ -124,7 +124,7 @@ theorem y7b_R5_inf_cs (c : Ctx7 G L) (hb : B5Std c) :
   apply le_antisymm
   · intro x hx
     obtain ⟨hxR5, hxCS⟩ := Subgroup.mem_inf.mp hx
-    simp only [centralizerSection, Set.mem_setOf_eq] at hxCS
+    simp only [centralizerSection] at hxCS
     obtain ⟨_, _, hxcomm⟩ := hxCS
     have hxR5' : x ∈ c.s.R ⊔ M5 c.e := hxR5
     obtain ⟨r, hrR, m, hmM5, hxrm⟩ :=

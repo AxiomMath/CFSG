@@ -14,7 +14,7 @@ theorem isCyclic_sylow_of_le {G : Type*} [Group G] [Finite G] {p : ℕ} [Fact p.
     {H K : Subgroup G} (hHK : H ≤ K) (hK : ∀ P : Sylow p ↥K, IsCyclic (P : Subgroup ↥K))
     (P : Sylow p ↥H) : IsCyclic (P : Subgroup ↥H) := by
   set Q : Subgroup ↥K := (P : Subgroup ↥H).map (Subgroup.inclusion hHK)
-  obtain ⟨R, hQR⟩ := (P.isPGroup'.map (Subgroup.inclusion hHK)).exists_le_sylow
+  obtain ⟨R, hQR⟩ := (P.isPGroup.map (Subgroup.inclusion hHK)).exists_le_sylow
   have := hK R
   have hQ : IsCyclic Q := Subgroup.isCyclic_of_le hQR
   exact ((P : Subgroup ↥H).equivMapOfInjective (Subgroup.inclusion hHK)

@@ -14,7 +14,7 @@ theorem sporKRest_generating_of_seeds {K : Type} [Group K] [Finite K] {p : ℕ} 
     (hU : ∀ z ∈ U, z ∈ S₀ ∨ ∃ g y, y ∈ S₀ ∧ x₀ * g = g * y ∧ z * y = y * z)
     (ha : a ∈ Subgroup.closure U) (hb : b ∈ Subgroup.closure U) {x : K} (hx : IsConj x₀ x) :
     SporKRestGenerating p x := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨S, hSS⟩ := hS₀.exists_le_sylow
   refine ggSporKRest_generating_of_closure hp S hx
     {z | ∃ g y, y ∈ S₀ ∧ x₀ * g = g * y ∧ z * y = y * z} ?_ ?_
@@ -38,7 +38,7 @@ theorem sporKRest_generating_of_seeds {K : Type} [Group K] [Finite K] {p : ℕ} 
 theorem isPGroup_closure_of_commute {K : Type} [Group K] {p : ℕ} (S : Set K)
     (hc : ∀ x ∈ S, ∀ y ∈ S, Commute x y) (ho : ∀ x ∈ S, x ^ p = 1) :
     IsPGroup p (Subgroup.closure S) := by
-  haveI : IsMulCommutative (Subgroup.closure S) :=
+  have : IsMulCommutative (Subgroup.closure S) :=
     Subgroup.isMulCommutative_closure fun x hx y hy _ => hc x hx y hy
   have hcomm : ∀ x (hx : x ∈ Subgroup.closure S) y (hy : y ∈ Subgroup.closure S), Commute x y :=
     fun x hx y hy => setLike_mul_comm hx hy

@@ -25,6 +25,7 @@ theorem rel_arith (r s : ℕ) (h : r * s = 4) (hs : s ≠ 1) : r = 1 ∨ r = 2 :
   have hle : s ≤ 4 := Nat.le_of_dvd (by norm_num) hd
   interval_cases s <;> omega
 
+omit [Finite G] in
 theorem mem_sup_decomp {I W : Subgroup G} (hc : ∀ i ∈ I, ∀ w ∈ W, i * w = w * i) :
     ∀ x ∈ I ⊔ W, ∃ i ∈ I, ∃ w ∈ W, x = i * w := by
   intro x hx
@@ -116,17 +117,17 @@ theorem DIEnv.natCard_D0 (E : DIEnv T L V V₁ V₂ K₁ g D) (F2 : FactF2) :
 
 theorem DIEnv.exists_not_centralize (E : DIEnv T L V V₁ V₂ K₁ g D) (h1222 : Stmt12_2_2)
     (h1289 : Lemma12_8_9W) (h12813 : Lemma12_8_13) (F2 : FactF2) :
-    ∃ d ∈ CFSG.conjugate (zU128 V V₁) g, ∃ i : G, ∃ hi : i ∈ E.I, d * i * d⁻¹ ≠ i := by
+    ∃ d ∈ CFSG.conjugate (zU128 V V₁) g, ∃ i : G, ∃ _hi : i ∈ E.I, d * i * d⁻¹ ≠ i := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hall : ∀ γ ∈ kmapOf (D.img K₁) E.kap (D.img (CFSG.conjugate (zU128 V V₁) g)), γ = 1 := by
     intro γ hγ
     apply LinearEquiv.ext
     intro m
-    have hm : ∃ i : G, ∃ hi : i ∈ E.I, m = Additive.ofMul ⟨i, hi⟩ :=
+    have hm : ∃ i : G, ∃ _hi : i ∈ E.I, m = Additive.ofMul ⟨i, _hi⟩ :=
       ⟨(Additive.toMul m : ↥E.I), (Additive.toMul m : ↥E.I).2, by simp⟩
-    obtain ⟨i, hi, rfl⟩ := hm
-    have hfix := (E.fixD0_iff h1222 h1289 h12813 i hi).2 (fun d hd => hcon d hd i hi)
+    obtain ⟨i, _hi, rfl⟩ := hm
+    have hfix := (E.fixD0_iff h1222 h1289 h12813 i _hi).2 (fun d hd => hcon d hd i _hi)
     exact hfix γ hγ
   have hbot : kmapOf (D.img K₁) E.kap (D.img (CFSG.conjugate (zU128 V V₁) g)) = ⊥ := by
     apply eq_bot_iff.2
@@ -206,10 +207,10 @@ theorem DIEnv.C_Z_Dg (E : DIEnv T L V V₁ V₂ K₁ g D) (h1222 : Stmt12_2_2) (
     have hy₀N : E.y₀ ∈ Subgroup.normalizer (zU128 V V₁ : Set G) :=
       CFSG.Quasithin.A4.normalizer_le_normalizer_centerOf (u128 V V₁) (E.hK₁U hy₀K)
     have hyW : ∀ z ∈ wcSub T L V V₁, E.y₀ * z * E.y₀⁻¹ ∈ wcSub T L V V₁ :=
-      wc_normalized (V₂ := V₂) hy₀I2 hy₀V₁
+      wc_normalized (_V₂ := V₂) hy₀I2 hy₀V₁
     have hyW' : ∀ z ∈ wcSub T L V V₁, E.y₀⁻¹ * z * E.y₀ ∈ wcSub T L V V₁ := by
       intro z hz
-      have := wc_normalized (V₂ := V₂) (Subgroup.inv_mem _ hy₀I2) (Subgroup.inv_mem _ hy₀V₁) z hz
+      have := wc_normalized (_V₂ := V₂) (Subgroup.inv_mem _ hy₀I2) (Subgroup.inv_mem _ hy₀V₁) z hz
       simpa using this
     have hyCC : ∀ z ∈ CC, E.y₀ * z * E.y₀⁻¹ ∈ CC := by
       intro z hz
@@ -226,7 +227,7 @@ theorem DIEnv.C_Z_Dg (E : DIEnv T L V V₁ V₂ K₁ g D) (h1222 : Stmt12_2_2) (
         _ = (E.y₀ * z * E.y₀⁻¹) * d := by group
     have hnot : ∃ j ∈ CC, j ∉ wcSub T L V V₁ := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have hle : CC ≤ wcSub T L V V₁ := fun j hj => hcon j hj
       have h1 := Subgroup.relIndex_eq_one.2 hle
       rw [hr2] at h1
@@ -292,7 +293,7 @@ theorem DIEnv.plane_false (E : DIEnv T L V V₁ V₂ K₁ g D) (h1222 : Stmt12_2
     omega
   obtain ⟨j, hjI, hjW⟩ : ∃ j ∈ E.I, j ∉ wcSub T L V V₁ := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hle : E.I ≤ E.I ⊓ wcSub T L V V₁ := fun j hj => Subgroup.mem_inf.2 ⟨hj, hcon j hj⟩
     have h1 := Subgroup.relIndex_eq_one.2 hle
     rw [h1] at hrel2
@@ -306,11 +307,11 @@ theorem DIEnv.plane_false (E : DIEnv T L V V₁ V₂ K₁ g D) (h1222 : Stmt12_2
     simpa using this
   have hyIW : ∀ z ∈ E.I ⊓ wcSub T L V V₁, E.y₀ * z * E.y₀⁻¹ ∈ E.I ⊓ wcSub T L V V₁ := fun z hz =>
     Subgroup.mem_inf.2 ⟨hyI z (Subgroup.mem_inf.1 hz).1,
-      wc_normalized (V₂ := V₂) hy₀I2 hy₀V₁ z (Subgroup.mem_inf.1 hz).2⟩
+      wc_normalized (_V₂ := V₂) hy₀I2 hy₀V₁ z (Subgroup.mem_inf.1 hz).2⟩
   have hyIW' : ∀ z ∈ E.I ⊓ wcSub T L V V₁, E.y₀⁻¹ * z * E.y₀ ∈ E.I ⊓ wcSub T L V V₁ := by
     intro z hz
     refine Subgroup.mem_inf.2 ⟨hyI' z (Subgroup.mem_inf.1 hz).1, ?_⟩
-    have := wc_normalized (V₂ := V₂) (Subgroup.inv_mem _ hy₀I2) (Subgroup.inv_mem _ hy₀V₁) z
+    have := wc_normalized (_V₂ := V₂) (Subgroup.inv_mem _ hy₀I2) (Subgroup.inv_mem _ hy₀V₁) z
       (Subgroup.mem_inf.1 hz).2
     simpa using this
   have hjH : j ∉ E.I ⊓ wcSub T L V V₁ := fun h => hjW (Subgroup.mem_inf.1 h).2

@@ -94,7 +94,7 @@ theorem eq_one_of_mem_normalizer {Q Q' : Sylow 2 K} (h : Q ≠ Q') {u : K}
   have hmem : u ∈ (Nq Q) ⊓ (Nq Q') := ⟨huN, hu'⟩
   have hodd := H.odd_inter Q Q' h
   have h1 : orderOf u ∣ Nat.card ↥((Nq Q) ⊓ (Nq Q')) := Subgroup.orderOf_dvd_natCard _ hmem
-  obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 Q.isPGroup') ⟨u, hu⟩
+  obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 Q.isPGroup) ⟨u, hu⟩
   have h2 : orderOf u = 2 ^ k := by simpa using hk
   have h3 : Odd (orderOf u) := Odd.of_dvd_nat hodd h1
   rw [h2] at h3
@@ -304,7 +304,7 @@ theorem eq_one_of_fixes_three {Q₀ Q₁ Q₂ : Sylow 2 K} (h01 : Q₁ ≠ Q₀)
     calc y * u = (y * u * y⁻¹) * y := by group
       _ = u * y := by rw [hyu']
   have hu1 : u ≠ 1 := fun h => h12 (by rw [h, one_smul] at huQ; exact huQ)
-  obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 Q₀.isPGroup') ⟨u, hu⟩
+  obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 Q₀.isPGroup) ⟨u, hu⟩
   have hk' : orderOf u = 2 ^ k := by simpa using hk
   have hkpos : 0 < k := by
     rcases Nat.eq_zero_or_pos k with h0 | h0

@@ -55,11 +55,11 @@ theorem anyMvL_of (F : Nat → Nat) : ∀ l : List Nat, (∃ q ∈ l, F q ≠ q)
       (fun q _ ih => bIf(Nat.beq (F q) q, ih, true)) l, true) = true
     rw [Raw.Orb.bIf_eq]
     by_cases e : F a = a
-    · rw [if_pos (by rw [Nat.beq_eq]; exact e)]
+    · rw [ite_eq_left (by rw [Nat.beq_eq]; exact e)]
       rcases List.mem_cons.1 hq with rfl | hq'
       · exact absurd e hne
       · exact anyMvL_of F l ⟨q, hq', hne⟩
-    · rw [if_neg (fun h => e (Nat.eq_of_beq_eq_true h))]
+    · rw [ite_eq_right (fun h => e (Nat.eq_of_beq_eq_true h))]
 
 theorem anyMvL_false (F : Nat → Nat) : ∀ l : List Nat, (∀ q ∈ l, F q = q) →
     List.rec (motive := fun _ => Bool) false (fun q _ ih => bIf(Nat.beq (F q) q, ih, true)) l = false
@@ -67,7 +67,7 @@ theorem anyMvL_false (F : Nat → Nat) : ∀ l : List Nat, (∀ q ∈ l, F q = q
   | a :: l, h => by
     change bIf(Nat.beq (F a) a, List.rec (motive := fun _ => Bool) false
       (fun q _ ih => bIf(Nat.beq (F q) q, ih, true)) l, true) = false
-    rw [Raw.Orb.bIf_eq, if_pos (by rw [Nat.beq_eq]; exact h a List.mem_cons_self)]
+    rw [Raw.Orb.bIf_eq, ite_eq_left (by rw [Nat.beq_eq]; exact h a List.mem_cons_self)]
     exact anyMvL_false F l fun q hq => h q (List.mem_cons_of_mem a hq)
 
 theorem allFix_of {F : Nat → Nat} (h : ∀ q ∈ QL, F q = q) : allFix F = true := allFixL_of F QL h
@@ -91,7 +91,7 @@ theorem memL_spec (c : Nat) : ∀ L : List Nat,
     by_cases e : a = c
     · rw [← e]
       exact List.mem_cons_self
-    · rw [if_neg (fun h => e (Nat.eq_of_beq_eq_true h))] at h
+    · rw [ite_eq_right (fun h => e (Nat.eq_of_beq_eq_true h))] at h
       exact List.mem_cons_of_mem a (memL_spec c L h)
 
 theorem mem_of_check {k j : Nat} (hk : k < 1024) (hj : j < 128) (hf : c24671flag k j = true) :
@@ -112,7 +112,7 @@ theorem mem_of_check {k j : Nat} (hk : k < 1024) (hj : j < 128) (hf : c24671flag
   by_cases hm : c24671mem (Nat.add (Nat.mul k 128) j) = true
   · rw [← e2]
     exact memL_spec _ c24671F hm
-  · rw [if_neg hm] at h2
+  · rw [ite_eq_right hm] at h2
     exact absurd h2 (by decide)
 
 theorem tabS_eq (i : ℕ) : tabS i = KernelFi22S.tabK i := by
@@ -213,11 +213,11 @@ theorem flag_of_mem_D {k j : ℕ} (hk : k < 1024) (hj : j < 128) {x : J}
       rw [hf, Bool.and_false, Bool.and_false]
   have hl := leafK_of hk hj
   unfold leafK leafF at hl
-  rw [Raw.Orb.bIf_eq, if_neg (by rw [anyMv_false hsq]; exact Bool.false_ne_true), Raw.Orb.bIf_eq,
-    if_neg (by rw [allFix_false hmv]; exact Bool.false_ne_true), Raw.Orb.bIf_eq] at hl
+  rw [Raw.Orb.bIf_eq, ite_eq_right (by rw [anyMv_false hsq]; exact Bool.false_ne_true), Raw.Orb.bIf_eq,
+    ite_eq_right (by rw [allFix_false hmv]; exact Bool.false_ne_true), Raw.Orb.bIf_eq] at hl
   have hcube : allFix (cb fun x => strictN (gA x) (gK k j)) = true := by
     by_contra hc
-    rw [if_neg hc, Raw.Orb.bIf_eq, hno 0 (by norm_num), if_neg Bool.false_ne_true,
+    rw [ite_eq_right hc, Raw.Orb.bIf_eq, hno 0 (by norm_num), ite_eq_right Bool.false_ne_true,
       hno 1 (by norm_num)] at hl
     exact Bool.false_ne_true hl
   unfold c24671flag c24671flagF

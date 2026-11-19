@@ -204,6 +204,7 @@ private theorem exists_isPolarHomology_scalar (hP : IsGeneralizedPolygon Γ 4) (
     simp only [smul_smul]
     rw [mul_comm]
 
+omit [Fintype V] [DecidableRel Γ.Adj] [Fintype K] in
 private theorem map_le_sup_center {X : Submodule K W} {σ : W →ₗ[K] W}
     (hσ : IsPolarHomology c ι X σ) (z : V) : (ι z).map σ ≤ X ⊔ ι z := by
   refine (Submodule.map_le_iff_le_comap).mpr ?_
@@ -344,6 +345,7 @@ private theorem mem_polar_of_map_mem_polar
   rw [← hxh, hx0, zero_add]
   exact hhπ
 
+omit [Fintype V] [DecidableRel Γ.Adj] [Fintype K] in
 private theorem map_eq_self_of_le_polar {X U : Submodule K W} {σ : W →ₗ[K] W}
     (hσ : IsPolarHomology c ι X σ) (hU : U ≤ polar c ι X) : U.map σ = U := by
   refine le_antisymm ?_ ?_
@@ -470,7 +472,7 @@ private theorem exists_line_map
     rw [← (Submodule.equivMapOfInjective σ hinj (ι N)).finrank_eq]
     exact hι.finrank_line N hN
   let F : V → V := fun y => if hy : c y = 0 then (φ ⟨y, hy⟩).1 else y
-  have hF : ∀ y (hy : c y = 0), F y = (φ ⟨y, hy⟩).1 := fun y hy => dif_pos hy
+  have hF : ∀ y (hy : c y = 0), F y = (φ ⟨y, hy⟩).1 := fun y hy => dite_eq_left hy
   have hmem : ∀ y ∈ Γ.neighborSet N, F y ∈ sectionPoints c ι U := by
     intro y hy
     have hy0 : c y = 0 := color_eq_zero_of_adj_of_color_eq_one hN hy
@@ -492,7 +494,7 @@ private theorem exists_line_map
     exact hι.injective (Submodule.map_injective_of_injective hinj hmap)
   have hcard : (Γ.neighborSet N).ncard ≤ (sectionPoints c ι U).ncard :=
     Set.ncard_le_ncard_of_injOn F hmem hinjOn
-  have hdegN : Γ.degree N = s + 1 := by rw [hdeg N, if_neg (by rw [hN]; decide)]
+  have hdegN : Γ.degree N = s + 1 := by rw [hdeg N, ite_eq_right (by rw [hN]; decide)]
   rw [ncard_neighborSet, hdegN] at hcard
   by_cases hline : ∃ L, c L = 1 ∧ ι L = U
   · obtain ⟨L, hL1, hLU⟩ := hline

@@ -372,7 +372,7 @@ theorem e7_conj_into_frame_five (hodd : Odd (Nat.card K)) (hpq : 5 ∣ Nat.card 
     (hE₀c : Nat.card E₀ = 5 ^ 2) (hN : ¬ NormalizesRGroup (ringChar K) E₀) :
     ∃ g : adjointGroup .E7 K, E₀.map (MulAut.conj g).toMonoidHom ≤ e7FrameGroup K := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hp5p : (5 : ℕ).Prime := Nat.prime_five
   have hord := orderOf_eq_two_of_dvd_add_one hp5p (by norm_num) hpq
   have hpK : ¬ 5 ∣ Nat.card K := not_dvd_card_of_dvd_add_one hp5p hpq
@@ -391,8 +391,8 @@ theorem e7_conj_into_frame_five (hodd : Odd (Nat.card K)) (hpq : 5 ∣ Nat.card 
   obtain ⟨ρ, hρi, hρr⟩ := exists_sl2_hom_rootPairE7 (K := K) isRoot_e7Theta
   have hcomm : ∀ (a : SL(2, K)) (t : spinGroup (Spin.quadPlus 6 K)), Commute (ρ a) (Ψ t) :=
     fun a t => commute_rootPairE7_theta_of_mem_e7D6Group (hρr ▸ ⟨a, rfl⟩) (hrange ▸ ⟨t, rfl⟩)
-  haveI : Nonempty (Fin 6 ⊕ Fin 6) := ⟨Sum.inl 0⟩
-  haveI : Finite (spinGroup (Spin.quadPlus 6 K)) :=
+  have : Nonempty (Fin 6 ⊕ Fin 6) := ⟨Sum.inl 0⟩
+  have : Finite (spinGroup (Spin.quadPlus 6 K)) :=
     CFSG.ClassicalInvolution.ModelFacts.finite_spinGroup_of_ker _ coe_ker_spinMatrix_quadPlus
   have hcen5 := not_dvd_card_center_spinPlus (K := K) hn3 (p := 5) (by norm_num) hpq1
   let ψ : SL(2, K) × spinGroup (Spin.quadPlus 6 K) →* adjointGroup .E7 K :=
@@ -467,7 +467,7 @@ theorem e7_conj_into_frame_five (hodd : Odd (Nat.card K)) (hpq : 5 ∣ Nat.card 
     by_contra hT0
     obtain ⟨U, hU0, hUp, hUn⟩ :=
       exists_rGroup_normalized_of_invariant_singular hodd hn3 E₂ T hT0 hTs hTi
-    haveI : Fact (ringChar K).Prime := ⟨hℓ⟩
+    have : Fact (ringChar K).Prime := ⟨hℓ⟩
     have hr2 : ringChar K ≠ 2 := by
       intro h2
       have : Even (Nat.card K) := by
@@ -500,7 +500,7 @@ theorem e7_conj_into_frame_five (hodd : Odd (Nat.card K)) (hpq : 5 ∣ Nat.card 
       x * e * x⁻¹ ∈ spinFrameGroup 6 K hn3 ι6 := by
     rcases hE₂card with h5 | h25
     ·
-      haveI : Nontrivial E₂ := Finite.one_lt_card_iff_nontrivial.mp (by rw [h5]; norm_num)
+      have : Nontrivial E₂ := Finite.one_lt_card_iff_nontrivial.mp (by rw [h5]; norm_num)
       obtain ⟨b', hb'⟩ := exists_ne (1 : E₂)
       set b : spinGroup (Spin.quadPlus 6 K) := (b' : spinGroup (Spin.quadPlus 6 K)) with hbdef
       have hbE : b ∈ E₂ := b'.2

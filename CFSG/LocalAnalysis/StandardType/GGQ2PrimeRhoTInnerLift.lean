@@ -92,7 +92,7 @@ theorem rhoTInner_kappa_apply {G : Type} [Group G] {Bs : Subgroup G} {A : Subgro
   rw [hσ, hW.x_coord, hW.x_coord] at hx
   have hm : σ.symm m = m := by
     by_contra hne
-    rw [if_neg hne, if_pos rfl] at hx
+    rw [ite_eq_right hne, ite_eq_left rfl] at hx
     exact one_ne_ω3 hx.symm
   rw [hσ, hm]
 

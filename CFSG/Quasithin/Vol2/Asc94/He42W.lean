@@ -16,7 +16,7 @@ private theorem he42w_sup_eq_of_card {R Z Z' B : Subgroup G} (hZR : Z ≤ R) (hZ
     (hRc : ∀ x ∈ R, ∀ y ∈ R, x * y = y * x) (hR : Nat.card R = 64) (hZ : Nat.card Z = 16)
     (hZ' : Nat.card Z' = 16) (hint : Z ⊓ Z' ≤ B) (hBR : B ≤ R) (hB : Nat.card B = 4) :
     R ≤ Z ⊔ Z' := by
-  haveI hZn : (Z.subgroupOf R).Normal := by
+  have hZn : (Z.subgroupOf R).Normal := by
     refine ⟨fun n hn g => ?_⟩
     have hgn : (g : G) * (n : G) = (n : G) * (g : G) := hRc _ g.2 _ n.2
     have e : g * n * g⁻¹ = n := by
@@ -74,6 +74,7 @@ private theorem he42w_sup_eq_of_card {R Z Z' B : Subgroup G} (hZR : Z ≤ R) (hZ
     sup_le (Subgroup.subgroupOf_mono R le_sup_right) (Subgroup.subgroupOf_mono R le_sup_left)
   exact Subgroup.mem_subgroupOf.mp (hle (hTop (Subgroup.mem_top (⟨r, hr⟩ : R))))
 
+omit [Finite G] in
 private theorem he42w_mem_inf_comm {H K : Subgroup G} {x : G} (h : x ∈ H ⊓ K) : x ∈ K ⊓ H :=
   Subgroup.mem_inf.mpr ⟨(Subgroup.mem_inf.mp h).2, (Subgroup.mem_inf.mp h).1⟩
 

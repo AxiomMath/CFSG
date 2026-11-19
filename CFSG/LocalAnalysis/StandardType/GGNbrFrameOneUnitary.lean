@@ -13,7 +13,7 @@ open Matrix CFSG.ClassicalGroups.UnitaryFlag CFSG.LocalAnalysis.ComponentInitial
 theorem ggTorusFrameEltSC_hypSU_three {n p : ℕ} {K : Type} [Field K]
     (h : UnitaryFieldData 2 n K) (hp : p.Prime) (hp2 : p ≠ 2) (hpq : p ∣ 2 ^ n - 1) :
     GGTorusFrameEltSC p (hypSU h 3 0) := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   intro E hE h3 _
   obtain ⟨ζ, hζ⟩ := exists_primitiveRoot_of_dvd_two_pow_sub_one h hp hpq
   have hbar : h.bar ζ = ζ := bar_eq_self_of_pow_eq_one h hpq hζ.pow_eq_one
@@ -89,9 +89,9 @@ theorem ggTorusFrameEltSC_hypSU_three {n p : ℕ} {K : Type} [Field K]
     intro l
     rw [hηs_apply l]
     by_cases hl : l = 0
-    · rw [if_pos hl]
+    · rw [ite_eq_left hl]
       exact Subgroup.mem_zpowers (-1)
-    · rw [if_neg hl]
+    · rw [ite_eq_right hl]
       exact Subgroup.one_mem _
   have hsign : ∃ w : hypSU h 3 0, ∀ t : Fin 3 → ZMod p,
       w⁻¹ * τ (ofAdd t) * w = τ (ofAdd (Function.update t 0 (-t 0))) := by
@@ -102,8 +102,6 @@ theorem ggTorusFrameEltSC_hypSU_three {n p : ℕ} {K : Type} [Field K]
         ((ηs l : (ZMod p)ˣ) : ZMod p) * t ((Equiv.refl (Fin 3)) l)) =
         Function.update t 0 (-t 0) := by
       funext l
-      change ((ηs l : (ZMod p)ˣ) : ZMod p) * t ((Equiv.refl (Fin 3)) l) =
-        Function.update t (0 : Fin 3) (-t 0) l
       rw [Function.update_apply, hηs_apply l]
       by_cases hl : l = 0
       · simp [hl]

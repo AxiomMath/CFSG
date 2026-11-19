@@ -14,6 +14,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem w16q_conj_mem_centralizer {A : Subgroup G} {g z : G}
     (hg : g ∈ normalizer (A : Set G)) (hz : z ∈ centralizer (A : Set G)) :
     g * z * g⁻¹ ∈ centralizer (A : Set G) := by
@@ -24,6 +25,7 @@ private theorem w16q_conj_mem_centralizer {A : Subgroup G} {g z : G}
     _ = g * (z * (g⁻¹ * w * g)) * g⁻¹ := by rw [hz (g⁻¹ * w * g) hgw]
     _ = (g * z * g⁻¹) * w := by group
 
+omit [Finite G] in
 private theorem w16q_commutator_mul_identity (a c d : G) :
     a * c * a⁻¹ * c⁻¹ =
       (a * (c * d) * a⁻¹ * (c * d)⁻¹) *
@@ -83,7 +85,7 @@ theorem exists_borel_elt [Finite X] (d : DichCfg M V₀ V U S H φ) (hB : Borel1
       (S ⊓ conjClosure V H ≤ tSub16 V₀ S ∨
         tSub16 V₀ S ⊓ (S ⊓ conjClosure V H) ≤ V ⊔ iSub16 V H) ∧
       (∀ x ∈ S ⊓ conjClosure V H, y * x * y⁻¹ * x⁻¹ ∈ V ⊔ iSub16 V H → x ∈ V ⊔ iSub16 V H) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let K : Subgroup G := conjClosure V H
   let I : Subgroup G := iSub16 V H
   let TK : Subgroup G := S ⊓ K

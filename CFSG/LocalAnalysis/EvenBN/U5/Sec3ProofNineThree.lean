@@ -27,6 +27,7 @@ section Prod
 
 variable {J : Type*} [Group J] [Finite J]
 
+omit [Finite J] in
 theorem center_eq_bot_of_simple [IsSimpleGroup J] (hJ : ∃ x y : J, x * y ≠ y * x) :
     center J = ⊥ := by
   rcases (center J).normal_of_characteristic.eq_bot_or_eq_top with h | h
@@ -36,6 +37,7 @@ theorem center_eq_bot_of_simple [IsSimpleGroup J] (hJ : ∃ x y : J, x * y ≠ y
     have hy : y ∈ center J := by rw [h]; exact mem_top y
     exact hxy (mem_center_iff.1 hy x)
 
+omit [Finite J] in
 theorem hom_eq_one_or_injective [IsSimpleGroup J] {K : Type*} [Group K] (p : J →* K) :
     (∀ a, p a = 1) ∨ Function.Injective p := by
   rcases p.normal_ker.eq_bot_or_eq_top with h | h
@@ -127,6 +129,7 @@ theorem aut_prod_diag_odd [IsSimpleGroup J] (hJ : ∃ x y : J, x * y ≠ y * x)
 
 
 open scoped commutatorElement in
+omit [Finite J] in
 theorem commutator_eq_top_of_simple [IsSimpleGroup J] (hJ : ∃ x y : J, x * y ≠ y * x) :
     ⁅(⊤ : Subgroup J), (⊤ : Subgroup J)⁆ = ⊤ := by
   have hn : (⁅(⊤ : Subgroup J), (⊤ : Subgroup J)⁆ : Subgroup J).Normal := inferInstance
@@ -140,6 +143,7 @@ theorem commutator_eq_top_of_simple [IsSimpleGroup J] (hJ : ∃ x y : J, x * y �
   · exact h
 
 open scoped commutatorElement in
+omit [Finite J] in
 theorem prod_normal_diag_top [IsSimpleGroup J] (hJ : ∃ x y : J, x * y ≠ y * x)
     (N : Subgroup (J × J)) [N.Normal] (hdiag : ∀ a : J, (a, a) ∈ N) : N = ⊤ := by
   have hc1 : ∀ a b : J, (⁅a, b⁆, (1 : J)) ∈ N := by
@@ -227,7 +231,7 @@ theorem layerSide_prod [IsSimpleGroup J] (hJnab : ∃ x y : J, x * y ≠ y * x)
         rw [this, map_one] at hu'
         have := congrArg Prod.fst hu'
         exact this.symm)
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       exact orderOf_eq_prime (by rw [pow_two]; exact congrArg Subtype.val hu2) hne
     · have : u * v = v * u := by rw [huv, hvu]
       exact congrArg Subtype.val this
@@ -269,7 +273,7 @@ theorem layerSide_prod [IsSimpleGroup J] (hJnab : ∃ x y : J, x * y ≠ y * x)
     simpa [hβ, MulAut.conjNormal_apply] using h5
   · intro N hJN hNΛ hNinv
     set N' : Subgroup (J × J) := (N.subgroupOf Λ).map ψ.toMonoidHom with hN'
-    haveI : N'.Normal := ⟨by
+    have : N'.Normal := ⟨by
       rintro _ ⟨n, hn, rfl⟩ g
       obtain ⟨g₀, rfl⟩ := ψ.surjective g
       refine ⟨g₀ * n * g₀⁻¹, ?_, by simp⟩
@@ -401,7 +405,7 @@ theorem sl2_centralizer_involution_comm (h2 : (2 : F) = 0)
   have y10 := congrFun (congrFun hym 1) 0
   have y11 := congrFun (congrFun hym 1) 1
   simp only [Matrix.mul_apply, Fin.sum_univ_two, Matrix.one_apply_eq, Matrix.one_apply_ne,
-    ne_eq, Fin.isValue, Fin.zero_eta, Fin.mk_one, one_ne_zero, not_false_eq_true, zero_ne_one] at e00 e01 e10 e11 x00 x01 x10 x11 y00 y01 y10 y11
+    ne_eq, Fin.isValue, one_ne_zero, not_false_eq_true, zero_ne_one] at e00 e01 e10 e11 x00 x01 x10 x11 y00 y01 y10 y11
   obtain ⟨k00, k01, k10, k11⟩ := aux_comm_entries h2 _ _ _ _ _ _ _ _ _ _ _ _ e00 e01 e10 e11 hg1'
     x00 x01 x10 x11 y00 y01 y10 y11
   refine Matrix.SpecialLinearGroup.ext _ _ fun i j => ?_
@@ -444,6 +448,7 @@ section Simple
 variable {X : Type} [Group X] [Finite X] {Λ J : Subgroup X} [Λ.Normal] {t : X}
   {F : Type} [Field F] [Finite F]
 
+omit [Finite X] [Finite F] in
 theorem not_inner_of_centralizer_nonabelian [CharP F 2] (ι : Λ ≃* SL(2, F))
     (hfaith : ∀ z : X, (∀ d ∈ Λ, z * d * z⁻¹ = d) → z = 1) (ht2 : orderOf t = 2)
     (hJΛ : J ≤ Λ) (htJ : ∀ j ∈ J, t * j = j * t) (hJnab : ∃ x y : J, x * y ≠ y * x) :
@@ -489,6 +494,7 @@ theorem not_inner_of_centralizer_nonabelian [CharP F 2] (ι : Λ ≃* SL(2, F))
   exact Subtype.ext (by simpa using h5)
 
 
+omit [Finite X] in
 theorem simple_normal_form [CharP F 2] {e : ℕ} (he : 1 ≤ e) (hF : Nat.card F = 2 ^ (2 * e))
     (ι : Λ ≃* SL(2, F)) (hfaith : ∀ z : X, (∀ d ∈ Λ, z * d * z⁻¹ = d) → z = 1)
     (ht2 : orderOf t = 2) (hJΛ : J ≤ Λ) (htJ : ∀ j ∈ J, t * j = j * t)
@@ -506,6 +512,7 @@ theorem simple_normal_form [CharP F 2] {e : ℕ} (he : 1 ≤ e) (hF : Nat.card F
   exact ⟨ψ, hψ⟩
 
 
+omit [Finite X] in
 theorem simple_fixed_eq [CharP F 2] {e : ℕ} (he : 1 ≤ e) (hF : Nat.card F = 2 ^ (2 * e))
     {k : Type} [Field k] [Finite k] (hk : Nat.card k = 2 ^ e) (φJ : J ≃* SL(2, k))
     (hJΛ : J ≤ Λ) (htJ : ∀ j ∈ J, t * j = j * t) (ψ : Λ ≃* SL(2, F))
@@ -540,7 +547,7 @@ open CFSG.CGT.Timmesfeld75 in
 theorem exists_not_frob_fixed [CharP F 2] {e : ℕ} (he : 1 ≤ e) (hF : Nat.card F = 2 ^ (2 * e)) :
     ∃ s : F, s ^ 2 ^ e ≠ s := by
   by_contra hall
-  push_neg at hall
+  push Not at hall
   have h1 := GMS.natCard_subfield_le_of_pow_two_pow_eq he (⊤ : Subfield F) fun c _ => hall c
   have h2 : Nat.card (⊤ : Subfield F) = Nat.card F :=
     Nat.card_congr (Equiv.subtypeUnivEquiv fun _ => trivial)
@@ -549,6 +556,7 @@ theorem exists_not_frob_fixed [CharP F 2] {e : ℕ} (he : 1 ≤ e) (hF : Nat.car
   omega
 
 open CFSG.CGT.Timmesfeld75 in
+omit [Finite X] in
 theorem simple_exists_u [CharP F 2] {e : ℕ} (he : 1 ≤ e) (hF : Nat.card F = 2 ^ (2 * e))
     (ψ : Λ ≃* SL(2, F)) (ht2 : t * t = 1)
     (hψ : ∀ x : Λ, ((ψ (MulAut.conjNormal t x) : SL(2, F)) : Matrix (Fin 2) (Fin 2) F) =
@@ -560,7 +568,7 @@ theorem simple_exists_u [CharP F 2] {e : ℕ} (he : 1 ≤ e) (hF : Nat.card F = 
   obtain ⟨s, hs⟩ := exists_not_frob_fixed he hF
   set s' : F := s ^ 2 ^ e with hs'
   have hss : s' ^ 2 ^ e = s := by
-    haveI := Fintype.ofFinite F
+    have := Fintype.ofFinite F
     have : Fintype.card F = 2 ^ (2 * e) := by rw [← Nat.card_eq_fintype_card, hF]
     rw [hs', ← pow_mul, ← pow_add, ← two_mul, ← this]
     exact FiniteField.pow_card s
@@ -589,7 +597,7 @@ theorem simple_exists_u [CharP F 2] {e : ℕ} (he : 1 ≤ e) (hF : Nat.card F = 
       have h3 := congrArg ψ hu1''
       rw [hu₀, MulEquiv.apply_symm_apply, map_one] at h3
       exact utriElt_injective (h3.trans utriElt_zero.symm))
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime (by rwa [← pow_two] at hu1') hne
   ·
     rw [hconj]
@@ -625,6 +633,7 @@ theorem simple_exists_u [CharP F 2] {e : ℕ} (he : 1 ≤ e) (hF : Nat.card F = 
 
 
 open CFSG.CGT.Timmesfeld75 in
+omit [Finite F] in
 theorem eq_one_of_commute_unitri [CharP F 2] (g : SL(2, F)) (hU : g * utriElt 1 = utriElt 1 * g)
     (hL : g * ltriElt 1 = ltriElt 1 * g) : g = 1 := by
   have h2 : (2 : F) = 0 := CharP.cast_eq_zero F 2
@@ -660,7 +669,7 @@ theorem eq_one_of_commute_unitri [CharP F 2] (g : SL(2, F)) (hU : g * utriElt 1 
 theorem fieldAut_sq_of_fixes [CharP F 2] {e : ℕ} (hF : Nat.card F = 2 ^ (2 * e)) (σ : F ≃+* F)
     (hσ : ∀ c : F, c ^ 2 ^ e = c → σ c = c) (c : F) : σ (σ c) = c := by
   have h2 : (2 : F) = 0 := CharP.cast_eq_zero F 2
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   have hcard : Fintype.card F = 2 ^ (2 * e) := by rw [← Nat.card_eq_fintype_card, hF]
   have hss : ∀ a : F, (a ^ 2 ^ e) ^ 2 ^ e = a := fun a => by
     rw [← pow_mul, ← pow_add, ← two_mul, ← hcard]
@@ -690,6 +699,7 @@ theorem fieldAut_sq_of_fixes [CharP F 2] {e : ℕ} (hF : Nat.card F = 2 ^ (2 * e
 
 
 open CFSG.CGT.Timmesfeld75 in
+omit [Finite X] in
 theorem simple_odd_centralizer [CharP F 2] {e : ℕ} (hF : Nat.card F = 2 ^ (2 * e))
     (ψ : Λ ≃* SL(2, F)) (hY : (J.subgroupOf Λ).map ψ.toMonoidHom = fixSL F e)
     (hfaith : ∀ z : X, (∀ d ∈ Λ, z * d * z⁻¹ = d) → z = 1)
@@ -767,6 +777,7 @@ theorem simple_odd_centralizer [CharP F 2] {e : ℕ} (hF : Nat.card F = 2 ^ (2 *
   simpa [hβ, MulAut.conjNormal_apply] using this
 
 
+omit [Finite X] in
 theorem layerSide_simple [CharP F 2] {e : ℕ} (he : 2 ≤ e) (hF : Nat.card F = 2 ^ (2 * e))
     {k : Type} [Field k] [Finite k] (hk : Nat.card k = 2 ^ e) (φJ : J ≃* SL(2, k))
     (ι : Λ ≃* SL(2, F)) (hfaith : ∀ z : X, (∀ d ∈ Λ, z * d * z⁻¹ = d) → z = 1)
@@ -788,7 +799,7 @@ theorem layerSide_simple [CharP F 2] {e : ℕ} (he : 2 ≤ e) (hF : Nat.card F =
   · intro z hz hm
     exact simple_odd_centralizer hF ψ hY hfaith hz hm (pow_orderOf_eq_one z)
   · intro N hJN hNΛ hNinv
-    haveI : Fintype F := Fintype.ofFinite F
+    have : Fintype F := Fintype.ofFinite F
     have hcardF : Fintype.card F = 2 ^ (2 * e) := by rw [← Nat.card_eq_fintype_card, hF]
     have hsimple : IsSimpleGroup Λ := by
       have : IsSimpleGroup (SL(2, F)) := GMSK.sl2_isSimpleGroup h2 (by
@@ -805,7 +816,7 @@ theorem layerSide_simple [CharP F 2] {e : ℕ} (he : 2 ≤ e) (hF : Nat.card F =
       obtain ⟨x, y, hxy⟩ := hJnab
       have hx1 : x ≠ 1 ∨ y ≠ 1 := by
         by_contra hcon
-        push_neg at hcon
+        push Not at hcon
         exact hxy (by rw [hcon.1, hcon.2])
       have hJ1 : ∃ j : J, j ≠ 1 := by
         rcases hx1 with h1 | h1
@@ -862,15 +873,15 @@ theorem layerSide_of_conclusion {X : Type} [Group X] [Finite X] {J : Subgroup X}
     LayerSide X J t e := by
   obtain ⟨-, -, hJl, hnc, -, halt, hfaith'⟩ := hconc
   have h2k : (2 : k) = 0 := by
-    haveI := Fintype.ofFinite k
+    have := Fintype.ofFinite k
     exact GMSK.two_eq_zero_of_card (n := e) (by omega) (by rw [← Nat.card_eq_fintype_card, hk])
-  haveI : CharP k 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2k
-  haveI : Fintype k := Fintype.ofFinite k
+  have : CharP k 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2k
+  have : Fintype k := Fintype.ofFinite k
   have hk4 : 4 ≤ Fintype.card k := by
     rw [← Nat.card_eq_fintype_card, hk]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ e := Nat.pow_le_pow_right (by norm_num) he
-  haveI hJsimple : IsSimpleGroup J := by
+  have hJsimple : IsSimpleGroup J := by
     have : IsSimpleGroup (SL(2, k)) := GMSK.sl2_isSimpleGroup h2k hk4
     exact φJ.isSimpleGroup
   have hJnab : ∃ x y : J, x * y ≠ y * x := by
@@ -894,7 +905,7 @@ theorem layerSide_of_conclusion {X : Type} [Group X] [Finite X] {J : Subgroup X}
   ·
     rcases hred with ⟨⟨e'⟩⟩ | hL
     · exfalso
-      haveI : Nontrivial J := ⟨⟨hinv.choose, 1, hinv.choose_spec.2⟩⟩
+      have : Nontrivial J := ⟨⟨hinv.choose, 1, hinv.choose_spec.2⟩⟩
       have hs : IsSimpleGroup (CFSG.layer X) := by rw [hlayer]; exact hDs
       exact not_isSimpleGroup_prod' (e'.symm.isSimpleGroup)
     · rcases hL with ⟨-, -, F, hFf, hFfin, hFcard, ⟨eF⟩⟩ | ⟨h0, -⟩ | ⟨h0, -⟩ | ⟨h0, -⟩
@@ -905,7 +916,7 @@ theorem layerSide_of_conclusion {X : Type} [Group X] [Finite X] {J : Subgroup X}
       swap
       · exact absurd h0 (by norm_num)
       have hFcard' : Nat.card F = 2 ^ (2 * e) := hFcard
-      haveI : CharP F 2 := ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
+      have : CharP F 2 := ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
         (k := 2 * e) (by omega) hFcard'
       set eSL : CFSG.layer X ≃* SL(2, F) := eF.trans
         ((CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 2 F).symm.trans
@@ -1016,13 +1027,13 @@ variable {F : Type*} [Group F] [Finite F]
 theorem exists_two_subgroup_lift (R : Subgroup F) [R.Normal] {t : F} (ht : IsPGroup 2 (zpowers t))
     (Q : Subgroup (F ⧸ R)) (hQ : IsPGroup 2 Q) (htQ : QuotientGroup.mk' R t ∈ Q) :
     ∃ P : Subgroup F, IsPGroup 2 P ∧ t ∈ P ∧ P.map (QuotientGroup.mk' R) = Q := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set θ := QuotientGroup.mk' R with hθ
   set Qt : Subgroup F := Q.comap θ with hQt
   have htQt : t ∈ Qt := htQ
   have hz : IsPGroup 2 ((zpowers t).subgroupOf Qt) := ht.comap_subtype
   obtain ⟨S, hS⟩ := hz.exists_le_sylow
-  refine ⟨(S : Subgroup Qt).map Qt.subtype, S.isPGroup'.map _, ?_, ?_⟩
+  refine ⟨(S : Subgroup Qt).map Qt.subtype, S.isPGroup.map _, ?_, ?_⟩
   · have : (⟨t, htQt⟩ : Qt) ∈ (zpowers t).subgroupOf Qt := mem_zpowers t
     exact ⟨⟨t, htQt⟩, hS this, rfl⟩
   ·
@@ -1127,10 +1138,11 @@ section OddCore
 
 variable {H : Type} [Group H] [Finite H]
 
+omit [Finite H] in
 theorem eq_of_mk'_eq_of_pgroup (R : Subgroup H) [R.Normal] (hR : Odd (Nat.card R))
     {P : Subgroup H} (hP : IsPGroup 2 P) {x y : H} (hx : x ∈ P) (hy : y ∈ P)
     (hxy : QuotientGroup.mk' R x = QuotientGroup.mk' R y) : x = y := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hz : x⁻¹ * y ∈ R := QuotientGroup.eq.1 hxy
   have hzP : x⁻¹ * y ∈ P := mul_mem (inv_mem hx) hy
   have h1 : orderOf (x⁻¹ * y) ∣ Nat.card R := by
@@ -1145,6 +1157,7 @@ theorem eq_of_mk'_eq_of_pgroup (R : Subgroup H) [R.Normal] (hR : Odd (Nat.card R
   exact inv_mul_eq_one.1 h4
 
 
+omit [Finite H] in
 theorem mem_of_involution_mem_map {A : Subgroup H} {t : H} (R : Subgroup H) [R.Normal]
     (hR : Odd (Nat.card R)) [IsSimpleGroup A] (hAeven : Even (Nat.card A))
     (hAt : A ≤ centralizer ({t} : Set H))
@@ -1216,7 +1229,7 @@ theorem odd_core_commutes_of_layer {A : Subgroup H} {t : H} (R : Subgroup H) [R.
     (hne : u * v ≠ 1) (hA : u * v ∈ A.map (QuotientGroup.mk' R)) :
     Group.IsPerfect (normalClosure (A : Set H)) ∧
       ∀ A' : Subgroup H, A'.Normal → Odd (Nat.card A') → ⁅A', normalClosure (A : Set H)⁆ = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set θ := QuotientGroup.mk' R with hθ
   have htt : t * t = 1 := by rw [← pow_two, ← ht2]; exact pow_orderOf_eq_one t
   have htinv : t⁻¹ = t := inv_eq_of_mul_eq_one_right htt
@@ -1228,7 +1241,7 @@ theorem odd_core_commutes_of_layer {A : Subgroup H} {t : H} (R : Subgroup H) [R.
     calc θ t * u * θ t * (θ t * u * θ t) = θ t * (u * (θ t * θ t) * u) * θ t := by group
       _ = 1 := by rw [hθt2, mul_one, hu2, mul_one, hθt2]
   set Ub := kleinSub u v hu2 hv2 huv with hUb
-  haveI hUbE : CFSG.IsElementaryAbelian 2 Ub := kleinSub_isElementaryAbelian u v hu2 hv2 huv
+  have hUbE : CFSG.IsElementaryAbelian 2 Ub := kleinSub_isElementaryAbelian u v hu2 hv2 huv
   have hUb2 : IsPGroup 2 Ub := CFSG.IsElementaryAbelian.isPGroup 2 Ub
   have htz : IsPGroup 2 (zpowers (θ t)) := by
     refine IsPGroup.of_card_dvd_pow (n := 1) ?_
@@ -1298,7 +1311,7 @@ theorem odd_core_commutes_of_layer {A : Subgroup H} {t : H} (R : Subgroup H) [R.
       _ = u1 * v1 * t := by rw [← hu1v1]
   have hbA : b ∈ A :=
     mem_of_involution_mem_map R hR hAeven hAt hAn hb2 hbt (by rw [hθb]; exact hA)
-  haveI hUE : CFSG.IsElementaryAbelian 2 (kleinSub u1 v1 hu12 hv12 hu1v1) :=
+  have hUE : CFSG.IsElementaryAbelian 2 (kleinSub u1 v1 hu12 hv12 hu1v1) :=
     kleinSub_isElementaryAbelian u1 v1 hu12 hv12 hu1v1
   have hv1t : t * v1 * t = u1 := by
     rw [hv1def]
@@ -1385,7 +1398,7 @@ theorem hdata_of_input {A : Subgroup H} {t : H} {n : ℕ} (hn : 2 ≤ n) {k : Ty
         ↥(A.map (QuotientGroup.mk' (CFSG.Open.standardComponentOddCore H)))) ∨
       LieModel (CFSG.layer (H ⧸ CFSG.Open.standardComponentOddCore H)) .PSL 2 2 (2 * n)) :
     HData H A n := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set O := CFSG.Open.standardComponentOddCore H with hO
   set θ := QuotientGroup.mk' O with hθ
   have hOodd : Odd (Nat.card O) := odd_card_standardComponentOddCore H
@@ -1401,8 +1414,8 @@ theorem hdata_of_input {A : Subgroup H} {t : H} {n : ℕ} (hn : 2 ≤ n) {k : Ty
     rw [hk]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn
-  haveI : IsSimpleGroup (SL(2, k)) := sl2_isSimpleGroup h2 hk4
-  haveI : IsSimpleGroup A := φ.isSimpleGroup
+  have : IsSimpleGroup (SL(2, k)) := sl2_isSimpleGroup h2 hk4
+  have : IsSimpleGroup A := φ.isSimpleGroup
   have hAnab : ∃ x y : A, x * y ≠ y * x := by
     obtain ⟨x, y, hxy⟩ := sl2_exists_mul_ne (K := k)
     exact ⟨φ.symm x, φ.symm y, fun e => hxy (by simpa using congrArg φ e)⟩
@@ -1494,6 +1507,7 @@ section LayerEq
 
 variable {H : Type} [Group H] [Finite H]
 
+omit [Finite H] in
 theorem le_of_perfect_of_factor {L N : Subgroup H} (hperf : ⁅L, L⁆ = L) (hNL : N ≤ L)
     (hfac : ∀ x ∈ L, ∃ n ∈ N, ∀ y ∈ L, (n⁻¹ * x) * y = y * (n⁻¹ * x)) : L ≤ N := by
   rw [← hperf]
@@ -1533,11 +1547,11 @@ theorem le_of_perfect_of_mem_sup_odd {L M O : Subgroup H} [L.Normal] (hM : ⁅M,
     have h1 : Nat.card K ∣ Nat.card (O.map q) := Subgroup.card_dvd_of_le hKO
     have h2 : Nat.card (O.map q) ∣ Nat.card O := Subgroup.card_map_dvd (H := O) q
     exact (hO.of_dvd_nat (h1.trans h2))
-  haveI : Group.IsSolvable K := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hKodd
-  haveI : Group.IsPerfect K := Subgroup.isPerfect_iff.2 hKperf
+  have : Group.IsSolvable K := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hKodd
+  have : Group.IsPerfect K := Subgroup.isPerfect_iff.2 hKperf
   have hKbot : K = ⊥ := by
     by_contra hne
-    haveI : Nontrivial K := (Subgroup.nontrivial_iff_ne_bot K).2 hne
+    have : Nontrivial K := (Subgroup.nontrivial_iff_ne_bot K).2 hne
     exact Group.IsPerfect.not_isSolvable K inferInstance
   intro m hm
   have : q m ∈ K := ⟨m, hm, rfl⟩
@@ -1552,11 +1566,13 @@ open CFSG.LocalAnalysis.EvenBN.Common.NormalizerQuotient
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem subgroupOf_perfect {X K : Subgroup G} (hK : ⁅K, K⁆ = K) (hKX : K ≤ X) :
     ⁅K.subgroupOf X, K.subgroupOf X⁆ = K.subgroupOf X := by
   apply Subgroup.map_injective X.subtype_injective
   rw [Subgroup.map_commutator, Subgroup.map_subgroupOf_eq_of_le hKX, hK]
 
+omit [Finite G] in
 theorem bar_perfect {D K : Subgroup G} (hK : ⁅K, K⁆ = K) (hKN : K ≤ normalizer (D : Set G)) :
     ⁅bar D K, bar D K⁆ = bar D K := by
   unfold bar
@@ -1577,8 +1593,8 @@ namespace Data
 variable {G : Type} [Group G] [Finite G] {f : ℕ} {K : Type} [Field K]
   {h : UnitaryFieldData 2 f K} {d : Data G h}
 
-theorem sec39_layer (hp : d.CaseHyp) (k : d.Know92) (he : d.Sec39e)
-    (hin : d.Sec39Input) (hnn : d.Sec39NotNormal) (ho : d.Sec39Outcome)
+theorem sec39_layer (hp : d.CaseHyp) (_k : d.Know92) (_he : d.Sec39e)
+    (hin : d.Sec39Input) (hnn : d.Sec39NotNormal) (_ho : d.Sec39Outcome)
     (hr : d.Sec39Reduced) : d.Sec39Layer := by
   obtain ⟨kf, _, _, hkf, ⟨φ⟩⟩ := hin.field
   have h2 := hp.hyp.two_le

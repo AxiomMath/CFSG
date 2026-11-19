@@ -43,9 +43,9 @@ theorem card_filter_comm_of_cntCommK [DecidableEq (Equiv.Perm (Fin n))] {x : Nat
         (Nat.beq (pcomp n w (mask w) v x) (pcomp n w (mask w) x v)) := rfl
     rw [List.map_cons, List.map_cons, List.toFinset_cons, Finset.filter_insert, e]
     by_cases hc : toPerm n w v * toPerm n w x = toPerm n w x * toPerm n w v
-    · rw [if_pos hc, (toPerm_comm_iff hv hx).2 hc, Finset.card_insert_of_notMem
+    · rw [ite_eq_left hc, (toPerm_comm_iff hv hx).2 hc, Finset.card_insert_of_notMem
         (fun hm => hnot (Finset.mem_filter.1 hm).1), ih]
-    · rw [if_neg hc, ih]
+    · rw [ite_eq_right hc, ih]
       have hb : Nat.beq (pcomp n w (mask w) v x) (pcomp n w (mask w) x v) = false := by
         rw [Bool.eq_false_iff]
         exact fun h => hc ((toPerm_comm_iff hv hx).1 h)

@@ -12,9 +12,11 @@ open Subgroup CFSG.Open CFSG.Blueprint CFSG.EvenSporadicStandard.M24Std
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem natCard_egaLayer_dvd : Nat.card (egaLayer (G ⧸ fusionOddCore G)) ∣ Nat.card G :=
   (Subgroup.card_subgroup_dvd_card _).trans (Subgroup.card_quotient_dvd_card _)
 
+omit [Finite G] in
 theorem false_of_layer_psu52
     (hG : Nat.card G ∣ gl8)
     (h : LieModel (egaLayer (G ⧸ fusionOddCore G)) .PSU 5 2 1) : False := by
@@ -23,6 +25,7 @@ theorem false_of_layer_psu52
     simpa [CFSG.Open.ordTwistedA, Finset.prod_Icc_succ_top] using hU rfl
   exact not_dvd_gl8_u52 (hc ▸ natCard_egaLayer_dvd.trans hG)
 
+omit [Finite G] in
 theorem false_of_layer_psu43
     (hG : Nat.card G ∣ gl8)
     (h : LieModel (egaLayer (G ⧸ fusionOddCore G)) .PSU 4 3 1) : False := by

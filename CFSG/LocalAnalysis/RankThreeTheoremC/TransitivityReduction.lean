@@ -70,7 +70,7 @@ theorem normalizer_le_of_isSylowOf_two_of_le (hD1 : TheoremD1 G) {p : ℕ}
     exact hTne ((map_eq_bot_iff_of_injective (f := (MulAut.conj (x : G)).toMonoidHom) T
       (MulAut.conj (x : G)).injective).mp h)
   have hlocal : IsTwoLocal (normalizer (((S : Subgroup X).map X.subtype : Subgroup G) : Set G)) :=
-    ⟨_, hT₀ne, S.isPGroup'.map X.subtype, rfl⟩
+    ⟨_, hT₀ne, S.isPGroup.map X.subtype, rfl⟩
   have hNT₀ := le_of_three_le_pRank_inf hD1 hp hM hlocal
     (hR3.trans (pRank_mono p hprime.one_lt (le_inf hRT₀ hRM)))
   have hmap : (normalizer (T : Set G)).map (MulAut.conj (x : G)).toMonoidHom ≤ M := by
@@ -84,7 +84,7 @@ theorem normalizer_le_of_isSylowOf_two (hS : Setting G) (hD1 : TheoremD1 G) {p :
     (hX : Nat.Coprime p (Nat.card X)) (hT : CFSG.ABGLocalTools.IsSylowOf 2 T X)
     (hTne : T ≠ ⊥) : normalizer (T : Set G) ≤ M := by
   obtain ⟨hPM, hP3⟩ := sylow_le_of_isCoreMaxLocal hS hp hM
-  exact normalizer_le_of_isSylowOf_two_of_le hD1 hp hM hPM P.isPGroup' hP3.ge hXM hPX hX hT hTne
+  exact normalizer_le_of_isSylowOf_two_of_le hD1 hp hM hPM P.isPGroup hP3.ge hXM hPX hX hT hTne
 
 omit [Finite G] in
 theorem le_normalizer_zpowers_of_le_centralizer {P : Subgroup G} {z : G}
@@ -186,7 +186,7 @@ theorem transitivityCase_of_steps (hS : Setting G) (hD1 : TheoremD1 G)
   have hDM : D ≤ M := hext.obstruction.2.1.trans hPM
   obtain ⟨A, hAP, hA, hAc⟩ := pRank_attained p (P : Subgroup G) (by rw [hP3]; norm_num)
   rw [hP3] at hAc
-  obtain ⟨-, z, hzD, hz1, hzc, hzp, -⟩ := isolatedPlane_structure hprime P.isPGroup'
+  obtain ⟨-, z, hzD, hz1, hzc, hzp, -⟩ := isolatedPlane_structure hprime P.isPGroup
     (hext.isIsolatedPlane_of_isMulCommutative hprime hDab) hAP
     ((CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian p A).2 hA) hAc
   have hPN₀ := le_normalizer_zpowers_of_le_centralizer hzc
@@ -228,7 +228,7 @@ theorem gl83InvariantTwoTransitivity_of_containment (hS : Setting G)
   obtain ⟨hPM, hP3⟩ := sylow_le_of_isCoreMaxLocal hS hp hM
   obtain ⟨A, hAP, hA, hAc⟩ := pRank_attained p (P : Subgroup G) (by rw [hP3]; norm_num)
   rw [hP3] at hAc
-  obtain ⟨-, z, hzD, hz1, hzc, hzp, -⟩ := isolatedPlane_structure hprime P.isPGroup'
+  obtain ⟨-, z, hzD, hz1, hzc, hzp, -⟩ := isolatedPlane_structure hprime P.isPGroup
     (hext.isIsolatedPlane_of_isMulCommutative hprime hDab) hAP
     ((CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian p A).2 hA) hAc
   have hPN₀ := le_normalizer_zpowers_of_le_centralizer hzc
@@ -243,7 +243,7 @@ theorem gl83InvariantTwoTransitivity_of_containment (hS : Setting G)
   have hT'X := (hX T' (global_invariant_two_maximal_is_maximal_within D M T' hT'
     (hcont p hp P M D hext hPD hDab T' hT'))).le
   exact rank_two_maximal_two_subgroups_common_signalizer_transitivity p hprime D T' T _
-    (P.isPGroup'.to_le hext.obstruction.2.1) hT' hT (coprime_card_pPrimeCoreIn_sup hN₀M)
+    (P.isPGroup.to_le hext.obstruction.2.1) hT' hT (coprime_card_pPrimeCoreIn_sup hN₀M)
     (hext.obstruction.2.1.trans hPX) hT'X hTX
 
 theorem transitivityCase_of_containment (hS : Setting G) (hD1 : TheoremD1 G)

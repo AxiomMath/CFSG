@@ -74,7 +74,7 @@ theorem weightClass_union_partner_eq_pairCoords {a : HypIndex m ε}
   classical
   ext x
   rcases x with i | k | i
-  · rw [Set.mem_union, weightClass, weightClassPartner, Set.mem_setOf_eq, Set.mem_setOf_eq,
+  · rw [Set.mem_union, weightClass, weightClassPartner, Set.mem_ofPred_eq, Set.mem_ofPred_eq,
       mem_pairCoords_inl, Finset.mem_union, ← mem_posSet, ← mem_negSet]
   ·
     constructor
@@ -119,7 +119,7 @@ theorem weightClass_union_partner_eq_pairCoords {a : HypIndex m ε}
       ·
         rw [Set.mem_union]
         refine Or.inr ?_
-        rw [weightClassPartner, Set.mem_setOf_eq]
+        rw [weightClassPartner, Set.mem_ofPred_eq]
         intro t ht
         have h' := (mem_posSet.mp h) t ht
         rw [splitWeight_inr]
@@ -128,7 +128,7 @@ theorem weightClass_union_partner_eq_pairCoords {a : HypIndex m ε}
       ·
         rw [Set.mem_union]
         refine Or.inl ?_
-        rw [weightClass, Set.mem_setOf_eq]
+        rw [weightClass, Set.mem_ofPred_eq]
         intro t ht
         have h' := (mem_negSet.mp h) t ht
         rw [splitWeight_inr]
@@ -211,17 +211,17 @@ theorem conj_signWeyl_inv_mem_hypBlock_pair {S Neg : Finset (Fin m)}
     rcases x with i | k | i
     · rw [hπinl i]
       by_cases hi : i ∈ Neg
-      · rw [if_pos hi]
+      · rw [ite_eq_left hi]
         exact mem_pairCoords_inr_inr.mpr (hNegS i hi)
-      · rw [if_neg hi]
+      · rw [ite_eq_right hi]
         exact mem_pairCoords_inl.mpr (mem_pairCoords_inl.mp hx)
     · rw [hπz k]
       exact absurd hx (inr_inl_not_mem_pairCoords (S := S))
     · rw [hπinr i]
       by_cases hi : i ∈ Neg
-      · rw [if_pos hi]
+      · rw [ite_eq_left hi]
         exact mem_pairCoords_inl.mpr (hNegS i hi)
-      · rw [if_neg hi]
+      · rw [ite_eq_right hi]
         exact mem_pairCoords_inr_inr.mpr (mem_pairCoords_inr_inr.mp hx)
   have hπT : π '' pairCoords (ε := ε) S = pairCoords (ε := ε) S := by
     refine Set.Subset.antisymm ?_ ?_

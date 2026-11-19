@@ -81,7 +81,7 @@ theorem centralizer_plane_eq_sylow_of_data {Γ : Type*} [Group Γ] [Finite Γ]
     exact congrArg Subtype.val (hE₀.1.is_comm.comm ⟨y, hy⟩ ⟨x, hx⟩)
   have hCp : IsPGroup 5 C := fun g => ⟨4, Subtype.ext (hexp g.1 g.2)⟩
   obtain ⟨P', hP'⟩ := hCp.exists_le_sylow
-  obtain ⟨eP⟩ := hshape (P' : Subgroup Γ) P'.isPGroup' P'.not_dvd_index
+  obtain ⟨eP⟩ := hshape (P' : Subgroup Γ) P'.isPGroup P'.not_dvd_index
   have hcomm : ∀ x ∈ (P' : Subgroup Γ), ∀ y ∈ (P' : Subgroup Γ), x * y = y * x := by
     intro x hx y hy
     have := mul_comm (eP ⟨x, hx⟩) (eP ⟨y, hy⟩)
@@ -403,7 +403,7 @@ theorem exists_plane_exponent_625 (D : ReeFrameData K L 2) :
   obtain ⟨Φ, hΦinj, hΦF, hΦ⟩ := exists_hom_phi4m_five D.isFrob
   obtain ⟨g₀, hg₀, hFg₀, Ψ, hΨinj, hΨ⟩ :=
     exists_hom_reeGamma_explicit D wPhi4m Φ hΦinj hΦF
-  obtain ⟨ζ₀, hζ₀⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L 5
+  obtain ⟨ζ₀, hζ₀⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L 5
   lift ζ₀ to Lˣ using hζ₀.isUnit (by norm_num)
   rw [IsPrimitiveRoot.coe_units_iff] at hζ₀
   have hζord : orderOf ζ₀ = 5 := hζ₀.eq_orderOf.symm

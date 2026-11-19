@@ -42,7 +42,7 @@ theorem exists_chain_typeU_three (hMFZ : FundNoncentral p) (hp2 : p ≠ 2) (hq :
     · exact hN.1
     · exact (nd.mem 2 (by omega)).1
   · intro i j hij
-    fin_cases i <;> fin_cases j <;> first | (exfalso; exact absurd hij (by decide)) | skip
+    fin_cases i <;> fin_cases j <;> try (exfalso; exact absurd hij (by decide))
     · exact nd.commK 0 (by omega)
     · exact typeU_commutes_K_of_ne c.hp2 c.hq c.hm hΩ hex hK hz hP1 c.d hN hNK
     · exact nd.commK 2 (by omega)
@@ -50,7 +50,7 @@ theorem exists_chain_typeU_three (hMFZ : FundNoncentral p) (hp2 : p ≠ 2) (hq :
     · exact hlast
     · exact nd.far 0 (by omega) 2 (by omega) (by omega)
   · intro i j hij
-    fin_cases i <;> fin_cases j <;> first | (exfalso; exact absurd hij (by decide)) | skip
+    fin_cases i <;> fin_cases j <;> try (exfalso; exact absurd hij (by decide))
     · exact ⟨W1, hW1⟩
     · exact ⟨W2, hW2⟩
     · exact ⟨W3, hW3⟩

@@ -78,7 +78,7 @@ theorem invE9_M : InvE9 M := by
     have := Sec21.TablesL44.eω_injective h03
     revert this
     decide
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hF'e, hF'c⟩ := CFSG.RankThree.PartTwo.Sec5.isElemAbelian_sup_zpowers (p := 3)
     hFe huF hu3 hcu
   let t : M := ⟨transvection (0 : Fin 4) 3 (1 : F4),

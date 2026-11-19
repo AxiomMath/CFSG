@@ -270,7 +270,7 @@ theorem Cp_constraints {g z : ↥(U0 b c)} (hz : Dm z = 1) (hLz : Lp z = 0) (h :
     E02, E10, E20, E21, d0, d1, d2, s10, s20, s21] at e01 e02
   have h2 := two_eq_zero_K (K := K)
   constructor
-  · simp only [da, db, dc]
+  · simp only [db, dc]
     linear_combination (-1 : K) * e01 - ((Dm g : Matrix (Fin 3) (Fin 3) K) 0 1 *
       (Dm g : Matrix (Fin 3) (Fin 3) K) 1 2 * Cp z 1 2) * h2
   · simp only [da]

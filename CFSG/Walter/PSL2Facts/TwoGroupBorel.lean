@@ -19,6 +19,7 @@ noncomputable def psl2DiagFixedHom (Φ : Subgroup (K ≃+* K)) :
 noncomputable def psl2DiagFixed (Φ : Subgroup (K ≃+* K)) : Subgroup (PSL2 K) :=
   (⊤ : Subgroup (FixedPoints.subfield Φ K)ˣ).map (psl2DiagFixedHom Φ)
 
+omit [Finite K] in
 theorem psl2DiagFixedHom_injective [CharP K 2] (Φ : Subgroup (K ≃+* K)) :
     Function.Injective (psl2DiagFixedHom Φ) :=
   (psl2QuotientMap_injective_of_charTwo (K := K)).comp <|
@@ -26,6 +27,7 @@ theorem psl2DiagFixedHom_injective [CharP K 2] (Φ : Subgroup (K ≃+* K)) :
       Units.map_injective (f := (FixedPoints.subfield Φ K).subtype.toMonoidHom)
         (fun _ _ h => Subtype.ext h)
 
+omit [Finite K] in
 theorem card_psl2DiagFixed [CharP K 2] (Φ : Subgroup (K ≃+* K)) :
     Nat.card (psl2DiagFixed Φ) = Nat.card (FixedPoints.subfield Φ K)ˣ := by
   rw [psl2DiagFixed, Subgroup.card_map_of_injective (psl2DiagFixedHom_injective Φ),
@@ -34,38 +36,42 @@ theorem card_psl2DiagFixed [CharP K 2] (Φ : Subgroup (K ≃+* K)) :
 theorem card_psl2DiagFixed_eq_two_pow (hK : Nat.card K = 2 ^ a)
     (Φ : Subgroup (K ≃+* K)) :
     Nat.card (psl2DiagFixed Φ) = 2 ^ (a / Nat.card Φ) - 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (by
     rw [← Nat.card_eq_fintype_card]; exact hK)
   rw [card_psl2DiagFixed Φ, Nat.card_units,
     CFSG.Semidihedral.FixedFieldData.fixedSubfield_card 2 a K hK Φ]
 
 theorem isCyclic_psl2DiagFixed [CharP K 2] (Φ : Subgroup (K ≃+* K)) :
     IsCyclic (psl2DiagFixed Φ) := by
-  haveI : IsCyclic (FixedPoints.subfield Φ K)ˣ := inferInstance
-  haveI : IsCyclic (⊤ : Subgroup (FixedPoints.subfield Φ K)ˣ) := Subgroup.isCyclic ⊤
+  have : IsCyclic (FixedPoints.subfield Φ K)ˣ := inferInstance
+  have : IsCyclic (⊤ : Subgroup (FixedPoints.subfield Φ K)ˣ) := Subgroup.isCyclic ⊤
   exact (Subgroup.equivMapOfInjective (⊤ : Subgroup (FixedPoints.subfield Φ K)ˣ)
     (psl2DiagFixedHom Φ) (psl2DiagFixedHom_injective Φ)).isCyclic.mp inferInstance
 
+omit [Finite K] in
 theorem mem_psl2DiagFixed_iff (Φ : Subgroup (K ≃+* K)) {x : PSL2 K} :
     x ∈ psl2DiagFixed Φ ↔
       ∃ μ : (FixedPoints.subfield Φ K)ˣ, psl2DiagFixedHom Φ μ = x := by
   rw [psl2DiagFixed, Subgroup.mem_map]
   simp
 
+omit [Finite K] in
 theorem psl2DiagFixed_le_diag (Φ : Subgroup (K ≃+* K)) :
     psl2DiagFixed Φ ≤ burnsideAut_psl2Diag K := by
   intro x hx
   obtain ⟨μ, rfl⟩ := (mem_psl2DiagFixed_iff Φ).mp hx
   exact ⟨Units.map (FixedPoints.subfield Φ K).subtype.toMonoidHom μ, rfl⟩
 
+omit [Finite K] in
 theorem psl2DiagFixed_le_normalizer_upper (Φ : Subgroup (K ≃+* K)) :
     psl2DiagFixed Φ ≤ Subgroup.normalizer
       ((psl2UpperUnipotentSubgroup K) : Set (PSL2 K)) := by
   rw [psl2UpperUnipotent_normalizer_eq_borel]
   exact (psl2DiagFixed_le_diag Φ).trans (burnsideAut_psl2Diag_le_borel)
 
+omit [Finite K] in
 theorem psl2FieldAut_apply_psl2DiagFixed (Φ : Subgroup (K ≃+* K)) {σ : K ≃+* K}
     (hσ : σ ∈ Φ) {h : PSL2 K} (hh : h ∈ psl2DiagFixed Φ) :
     psl2FieldAut K σ h = h := by
@@ -77,6 +83,7 @@ theorem psl2FieldAut_apply_psl2DiagFixed (Φ : Subgroup (K ≃+* K)) {σ : K ≃
       (μ : FixedPoints.subfield Φ K).2 ⟨σ, hσ⟩
   simpa using hfix
 
+omit [Finite K] in
 theorem burnsideAut_psl2Diag_comm {x y : PSL2 K}
     (hx : x ∈ burnsideAut_psl2Diag K) (hy : y ∈ burnsideAut_psl2Diag K) :
     x * y = y * x := by
@@ -84,6 +91,7 @@ theorem burnsideAut_psl2Diag_comm {x y : PSL2 K}
   obtain ⟨m, rfl⟩ := hy
   exact psl2DiagHom_comm l m
 
+omit [Finite K] in
 theorem conj_diag_mul_field_apply_psl2DiagFixed (Φ : Subgroup (K ≃+* K)) {σ : K ≃+* K}
     (hσ : σ ∈ Φ) {d : PSL2 K} (hd : d ∈ burnsideAut_psl2Diag K) {h : PSL2 K}
     (hh : h ∈ psl2DiagFixed Φ) :
@@ -94,6 +102,7 @@ theorem conj_diag_mul_field_apply_psl2DiagFixed (Φ : Subgroup (K ≃+* K)) {σ 
   rw [MulAut.conj_apply, hcomm]
   group
 
+omit [Finite K] in
 theorem psl2DiagFixed_centralized_mod_upper (Φ : Subgroup (K ≃+* K))
     {θ : MulAut (PSL2 K)} {u d : PSL2 K} {σ : K ≃+* K}
     (hu : u ∈ psl2UpperUnipotentSubgroup K) (hd : d ∈ burnsideAut_psl2Diag K)
@@ -134,7 +143,7 @@ theorem exists_fieldPart_factorization [CharP K 2] (hK : Nat.card K = 2 ^ a)
   exact hΦ θ hθ
 
 theorem psl2DiagFixed_conj_centralizes [CharP K 2] (hK : Nat.card K = 2 ^ a)
-    (Θ : Subgroup (MulAut (PSL2 K))) (hΘ : IsPGroup 2 Θ)
+    (Θ : Subgroup (MulAut (PSL2 K))) (_hΘ : IsPGroup 2 Θ)
     (S : Sylow 2 (PSL2 K))
     (hΘS : ∀ θ ∈ Θ, ∀ x ∈ (S : Subgroup (PSL2 K)),
       θ x ∈ (S : Subgroup (PSL2 K)))
@@ -203,9 +212,9 @@ theorem exists_borel_fixed_psl2 (hK : Nat.card K = 2 ^ a)
         Nat.card H = 2 ^ m - 1 ∧
         H ≤ Subgroup.normalizer ((S : Subgroup (PSL2 K)) : Set (PSL2 K)) ∧
         (∀ θ ∈ Θ, ∀ h ∈ H, θ h * h⁻¹ ∈ (S : Subgroup (PSL2 K))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (by
     rw [← Nat.card_eq_fintype_card]; exact hK)
   have ha1 : 1 ≤ a := by
     have h2 : 2 ≤ Nat.card K := Finite.one_lt_card
@@ -216,7 +225,7 @@ theorem exists_borel_fixed_psl2 (hK : Nat.card K = 2 ^ a)
   let Φ : Subgroup (K ≃+* K) := Θ.map (psl2FieldPart K)
   have hΦ : IsPGroup 2 Φ := hΘ.map (psl2FieldPart K)
   obtain ⟨e, he⟩ := hΦ.exists_card_eq
-  haveI : Finite (K ≃+* K) :=
+  have : Finite (K ≃+* K) :=
     Finite.of_injective (fun e : K ≃+* K => (e : K → K))
       (fun _ _ h => RingEquiv.ext (congrFun h))
   have hAut : Nat.card (K ≃+* K) = a :=
@@ -237,21 +246,21 @@ theorem exists_borel_fixed_psl2 (hK : Nat.card K = 2 ^ a)
     hHcyc, hHcard, hHnorm, hHcent⟩
 
 theorem exists_not_inner_of_trivial_fixed_field (hK : Nat.card K = 2 ^ a)
-    (Θ : Subgroup (MulAut (PSL2 K))) (hΘ : IsPGroup 2 Θ) {e m : ℕ}
+    (Θ : Subgroup (MulAut (PSL2 K))) (_hΘ : IsPGroup 2 Θ) {e m : ℕ}
     (he : Nat.card (Θ.map (psl2FieldPart K)) = 2 ^ e)
     (hm : m = 1) (ha : a = 2 ^ e * m) (ha2 : 2 ≤ a) :
     ∃ θ ∈ Θ, ∀ x : PSL2 K, θ ^ (a / 2) ≠ MulAut.conj x := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (K ≃+* K) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (K ≃+* K) :=
     Finite.of_injective (fun e : K ≃+* K => (e : K → K))
       (fun _ _ h => RingEquiv.ext (congrFun h))
   obtain ⟨hAut, hcyc⟩ :=
     CFSG.LocalAnalysis.ComponentInitial.card_ringAut_and_isCyclic Nat.prime_two K hK
-  letI : IsCyclic (K ≃+* K) := hcyc
+  let : IsCyclic (K ≃+* K) := hcyc
   have ha' : a = 2 ^ e := by rw [ha, hm, mul_one]
   have hΦcard : Nat.card (Θ.map (psl2FieldPart K)) = a := by rw [he, ha']
   have htop : Θ.map (psl2FieldPart K) = ⊤ := by
-    haveI : Finite ↥(Θ.map (psl2FieldPart K)) :=
+    have : Finite ↥(Θ.map (psl2FieldPart K)) :=
       Finite.of_injective (fun x : ↥(Θ.map (psl2FieldPart K)) => (x : K ≃+* K))
         Subtype.coe_injective
     refine Subgroup.eq_top_of_card_eq (H := Θ.map (psl2FieldPart K)) ?_

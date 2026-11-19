@@ -58,8 +58,8 @@ theorem exists_mem_secondLayer (hW : ∀ w : W, w ^ 2 = 1) {A : Subgroup (MulAut
       φ a = QuotientGroup.congr F F (a : MulAut W) (hNmap a) :=
     ⟨MonoidHom.mk' (fun a : A => QuotientGroup.congr F F (a : MulAut W) (hNmap a)) hmul,
       fun a => rfl⟩
-  letI : MulAction A (W ⧸ F) := MulAction.compHom (W ⧸ F) φ
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : MulAction A (W ⧸ F) := MulAction.compHom (W ⧸ F) φ
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQp : IsPGroup 2 (W ⧸ F) := (isPGroup_two_of_sq_eq_one hW).to_quotient F
   have hcard : 2 ∣ Nat.card (W ⧸ F) := by
     rcases hQp.card_eq_or_dvd with h1 | h2
@@ -93,6 +93,7 @@ theorem fixV_ne_bot [Nontrivial W] (hW : ∀ w : W, w ^ 2 = 1) {A : Subgroup (Mu
   intro h
   exact hm1 ((Subgroup.eq_bot_iff_forall _).1 h m (mem_fixV.2 hm))
 
+omit [Finite W] in
 theorem fixV_ne_top {A : Subgroup (MulAut W)} (hA : A ≠ ⊥) : fixV A ≠ ⊤ := by
   intro h
   apply hA
@@ -104,7 +105,7 @@ theorem fixV_ne_top {A : Subgroup (MulAut W)} (hA : A ≠ ⊥) : fixV A ≠ ⊤ 
 theorem two_pow_mQuot_stabAt_le {A : Subgroup (MulAut W)} (hA : IsElemAbelian2 A)
     {U : Subgroup W} {w : W} (hw : ∀ a ∈ A, a w * w⁻¹ ∈ U) :
     2 ^ E3.mQuot A (stabAt A w) ≤ Nat.card U := by
-  letI : MulAction A W := MulAction.compHom W A.subtype
+  let : MulAction A W := MulAction.compHom W A.subtype
   have hstab : MulAction.stabilizer A w = (stabAt A w).subgroupOf A := by
     ext a
     simp only [MulAction.mem_stabilizer_iff, Subgroup.mem_subgroupOf, mem_stabAt,

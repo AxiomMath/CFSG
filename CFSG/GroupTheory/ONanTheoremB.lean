@@ -145,7 +145,7 @@ private lemma onanB_card_sup_eq {X : Type} {Ω : Type*} [Group X] [Finite X]
   have hcard : Nat.card (K x z) = Nat.card (K x y) :=
     natCard_eq_natCard h2 K hKconj hxz hxy
   have hpos : 0 < Nat.card ↥(K y x ⊓ K x z) := by
-    haveI : Nonempty ↥(K y x ⊓ K x z) := ⟨⟨1, by simp⟩⟩
+    have : Nonempty ↥(K y x ⊓ K x z) := ⟨⟨1, by simp⟩⟩
     exact Nat.card_pos
   refine Nat.mul_right_cancel hpos ?_
   rw [h1, hcard, ← h2', sup_comm (K y x) (K x y), inf_comm (K y x) (K x y), hinf]
@@ -174,7 +174,7 @@ private lemma onanB_exists_conj_witness {X : Type} [Group X] [Finite X]
   have hHp : IsPGroup p ↥(P ⊔ Q) := by
     have h := IsPGroup.to_sup_of_normal_left' hQ hP hPQ
     rwa [sup_comm] at h
-  haveI : Group.IsNilpotent ↥(P ⊔ Q) := hHp.isNilpotent
+  have : Group.IsNilpotent ↥(P ⊔ Q) := hHp.isNilpotent
   have hPRle : P ⊔ R ≤ P ⊔ Q := by
     rw [sup_le_iff]
     exact ⟨le_sup_left, le_trans le_sup_right hlt.le⟩

@@ -114,8 +114,8 @@ theorem settingOfInvolution_width [Finite G] [Finite K] (hG : IsCharTwoType G)
         (L ⊓ Subgroup.normalizer (Bs : Set G)) ⊔ Subgroup.centralizer (Bs : Set G)) :
     (settingOfInvolution hG hS ht ht2 htb htL hnA).width = 10 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let S : CFSG.LargeExtraspecial.Setting G := settingOfInvolution hG hS ht ht2 htb htL hnA
   change S.width = 10
   obtain ⟨n, hn, hnL, hnφ, htA⟩ := hnA

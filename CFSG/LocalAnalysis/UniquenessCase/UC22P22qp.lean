@@ -18,7 +18,7 @@ theorem uc22p22qp_Op_le_sup {H : Type*} [Group H] [Finite H] {p : ℕ} [Fact p.P
   set Q' : Subgroup H := CFSG.pPrimeCore p H with hQ'
   have hQK : Q' ≤ K₀ := pPrimeCore_le_Op_p'p
   have hpow : ∃ k : ℕ, Q'.relIndex K₀ = p ^ k := by
-    haveI : (Q'.subgroupOf K₀).Normal := Subgroup.normal_subgroupOf
+    have : (Q'.subgroupOf K₀).Normal := Subgroup.normal_subgroupOf
     have hp : IsPGroup p (↥K₀ ⧸ Q'.subgroupOf K₀) := by
       intro x
       induction x using QuotientGroup.induction_on with

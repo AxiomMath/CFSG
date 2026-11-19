@@ -63,7 +63,7 @@ theorem le_and_map_eq_of_radical {α β : Type} [Group α] [Finite α] [Group β
     obtain ⟨t, htT, htf⟩ := hsurj u hu
     exact Subgroup.mem_map.mpr
       ⟨t, Subgroup.mem_subgroupOf.mpr (Subgroup.mem_inf.mpr ⟨htT, t.2⟩), htf⟩
-  haveI := finite_map_aux f ((T ⊓ L).subgroupOf L)
+  have := finite_map_aux f ((T ⊓ L).subgroupOf L)
   have hle1 : Nat.card ↥T ≤ Nat.card ↥(T ⊓ L) := by
     rw [hA, hcard]
     exact Nat.mul_le_mul le_rfl (Subgroup.card_le_of_le hRle)
@@ -72,7 +72,7 @@ theorem le_and_map_eq_of_radical {α β : Type} [Group α] [Finite α] [Group β
     rw [← hTL]
     exact inf_le_right
   rw [hTL] at hA hRle
-  haveI := finite_map_aux f (T.subgroupOf L)
+  have := finite_map_aux f (T.subgroupOf L)
   have hQpos : 0 < Nat.card ↥Q := Nat.card_pos
   have hcardM : Nat.card ↥((T.subgroupOf L).map f) = Nat.card ↥R :=
     Nat.eq_of_mul_eq_mul_left hQpos (hA.symm.trans hcard)

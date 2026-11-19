@@ -129,7 +129,7 @@ theorem E_one : E 1 = permTwoA := by
 
 theorem E_mem {k : ℕ}
     (hk : k < 128) : E k ∈ centralizerIn P permTwoA :=
-  sgnProd_mem (fun i hi => gC_mem hi) _ (vWords_lettersOK k hk)
+  sgnProd_mem (fun _i hi => gC_mem hi) _ (vWords_lettersOK k hk)
 
 noncomputable abbrev cR (j : ℕ) : Equiv.Perm (Fin 315) := permOfArr 315 crTStrong[j]!
 
@@ -202,9 +202,9 @@ theorem vT_eq : vT = tabT vTt := by
       have hr := CFSG.Sporadic.Th.Rep.compT (thRep_vTbls hi) (thRep_vTbls hj)
       rw [← E_mul hi hj] at hr
       exact vFind_eq (tabT_lt _ _ _) hr
-    · rw [ofFn_getElem!_neg _ hj, tabT, if_neg (by omega)]
+    · rw [ofFn_getElem!_neg _ hj, tabT, ite_eq_right (by omega)]
       rfl
-  · rw [ofFn_getElem!_neg _ hi, tabT, if_neg (by omega)]
+  · rw [ofFn_getElem!_neg _ hi, tabT, ite_eq_right (by omega)]
     rfl
 
 theorem vI_eq : vI = tabI vIt := by
@@ -215,7 +215,7 @@ theorem vI_eq : vI = tabI vIt := by
     have hr := CFSG.GH74.Generic.S45.EvSpor.rep_invT_of_rep (by norm_num) (thRep_vTbls hi)
     rw [← E_inv hi] at hr
     exact vFind_eq (tabI_lt _ _) hr
-  · rw [ofFn_getElem!_neg _ hi, tabI, if_neg hi]
+  · rw [ofFn_getElem!_neg _ hi, tabI, ite_eq_right hi]
     rfl
 
 theorem vCu_eq :
@@ -228,7 +228,7 @@ theorem vCu_eq :
       (CFSG.GH74.Generic.S45.EvSpor.rep_invT_of_rep (by norm_num) tp_u0Tbl)
     rw [U_conj hk] at hr
     exact vFind_eq (tabI_lt _ _) hr
-  · rw [ofFn_getElem!_neg _ hk, tabI, if_neg hk]
+  · rw [ofFn_getElem!_neg _ hk, tabI, ite_eq_right hk]
     rfl
 
 theorem vUsq_eq :

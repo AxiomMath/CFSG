@@ -25,7 +25,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 theorem eq_bot_of_normal_pgroup_of_pCore {X : Type*} [Group X] [Finite X] {H P : Subgroup X}
     (hpc : pCore 2 ↥H = ⊥) (hPH : P ≤ H) (hPn : ∀ h ∈ H, h ∈ Subgroup.normalizer (P : Set X))
     (hP2 : IsPGroup 2 P) : P = ⊥ := by
-  haveI : (P.subgroupOf H).Normal :=
+  have : (P.subgroupOf H).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hPH).mpr fun h hh => hPn h hh
   have h1 : IsPGroup 2 ↥(P.subgroupOf H) := hP2.of_equiv (Subgroup.subgroupOfEquivOfLe hPH).symm
   have h2 : P.subgroupOf H ≤ pCore 2 ↥H := le_sSup ⟨inferInstance, h1⟩

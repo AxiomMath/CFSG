@@ -34,10 +34,10 @@ variable {F : Type} [Field F] [Finite F]
     intro g h hg hh i
     rw [Subgroup.coe_mul, Units.val_mul, Matrix.mul_apply]
     rw [Finset.sum_eq_single w]
-    · rw [hh w, if_pos rfl, mul_one]
+    · rw [hh w, ite_eq_left rfl, mul_one]
       exact hg i
     · intro k _ hk
-      rw [hh k, if_neg hk, mul_zero]
+      rw [hh k, ite_eq_right hk, mul_zero]
     · simp
   inv_mem' := by
     intro g hg
@@ -49,7 +49,7 @@ variable {F : Type} [Field F] [Finite F]
         Matrix (Fin 6) (Fin 6) F) * ((g : GL (Fin 6) F) : Matrix (Fin 6) (Fin 6) F) = 1 := by
       have hGL : ((g⁻¹ : ↥(LargeEvenSUGroup (Fin 6) F 2)) : GL (Fin 6) F) *
           (g : GL (Fin 6) F) = 1 := inv_mul_cancel _
-      simpa using congrArg (fun u : GL (Fin 6) F => (u : Matrix (Fin 6) (Fin 6) F)) hGL
+      simp
     have hinv : (((g⁻¹ : ↥(LargeEvenSUGroup (Fin 6) F 2)) : GL (Fin 6) F) :
         Matrix (Fin 6) (Fin 6) F) *ᵥ (Pi.single w (1 : F)) = Pi.single w 1 := by
       calc
@@ -69,6 +69,7 @@ variable {F : Type} [Field F] [Finite F]
     rw [Matrix.mulVec_single_one, Matrix.col_apply, Pi.single_apply] at this
     exact this
 
+omit [Finite F] in
 private theorem ggQ2s08r6_stab_col_iff {w : Fin 6}
     {g : ↥(LargeEvenSUGroup (Fin 6) F 2)} :
     (∀ i, ((g : GL (Fin 6) F) : Matrix (Fin 6) (Fin 6) F) i w = if i = w then 1 else 0) ↔
@@ -95,6 +96,7 @@ private abbrev ggQ2s08r6StabSUid (σ : F ≃+* F) (w : Fin 6) :
   MulAction.stabilizer (CFSG.LieType.Universal.Unitary.SUid σ 6)
     (Pi.single w (1 : F) : Fin 6 → F)
 
+omit [Finite F] in
 private theorem ggQ2s08r6Stab_eq_stabSUid_map
     (σ : F ≃+* F) (hSU : CFSG.LieType.Universal.Unitary.SUid σ 6 =
       LargeEvenSUGroup (Fin 6) F 2) (w : Fin 6) :
@@ -129,6 +131,7 @@ private theorem ggQ2s08r6Stab_eq_stabSUid_map
     intro i
     exact hcol i
 
+omit [Finite F] in
 private theorem ggQ2s08r6_suid_stab_row (σ : F ≃+* F) (w : Fin 6)
     {g : ↥(CFSG.LieType.Universal.Unitary.SUid σ 6)}
     (hg : g ∈ ggQ2s08r6StabSUid (F := F) σ w) (i : Fin 6) :
@@ -154,15 +157,15 @@ private theorem ggQ2s08r6_suid_stab_row (σ : F ≃+* F) (w : Fin 6)
     simp only [map_one, one_mul, Pi.single_eq_of_ne (Ne.symm hi)] at hiso
     rw [CFSG.ClassicalGroups.Unitary.smul_def, Matrix.mulVec_single_one,
       Matrix.col_apply] at hiso
-    rw [hiso, if_neg hi]
+    rw [hiso, ite_eq_right hi]
 
 theorem ggQ2s08r6_stab_row (hF : Nat.card F = 4) {w : Fin 6}
     {g : ↥(LargeEvenSUGroup (Fin 6) F 2)} (hg : g ∈ ggQ2s08r6Stab F w) (i : Fin 6) :
     ((g : GL (Fin 6) F) : Matrix (Fin 6) (Fin 6) F) w i = if i = w then 1 else 0 := by
   have hFc : Nat.card F = (2 ^ 1) ^ 2 := by simpa using hF
   have hU := CFSG.ClassicalGroups.UnitaryFlag.unitaryFieldDataOfCard hFc
-  haveI : Fact (Nat.Prime 2) := ⟨hU.prime⟩
-  haveI : CharP F 2 := hU.charP
+  have : Fact (Nat.Prime 2) := ⟨hU.prime⟩
+  have : CharP F 2 := hU.charP
   let σ : F ≃+* F := unitaryInvolution F 2 1
   have hSU := ggQ2s08r6_su_eq (F := F) hF
   have hmap := ggQ2s08r6Stab_eq_stabSUid_map (F := F) σ hSU w
@@ -188,11 +191,12 @@ theorem ggQ2s08r6_stab_commute (hF : Nat.card F = 4) {w : Fin 6}
     · simp [hj]
     · simp [hj]
   · by_cases hj : j = w
-    · rw [hj, hg i, if_neg hi]
+    · rw [hj, hg i, ite_eq_right hi]
       simp
     · rw [ht i j hi hj]
       ring
 
+omit [Finite F] in
 theorem ggQ2s08r6_permGL_mem_stab {σ : Equiv.Perm (Fin 6)} {w : Fin 6} (hσ : σ w = w)
     (g : ↥(LargeEvenSUGroup (Fin 6) F 2)) (hg : (g : GL (Fin 6) F) = permGL σ) :
     g ∈ ggQ2s08r6Stab F w := by
@@ -205,17 +209,17 @@ theorem ggQ2s08r6_permGL_mem_stab {σ : Equiv.Perm (Fin 6)} {w : Fin 6} (hσ : �
     rw [CFSG.RankThree.Classical.permGL_mulVec]
     simp only [Function.comp_apply, Pi.single_apply]
     by_cases hi : i = w
-    · rw [if_pos hi]
+    · rw [ite_eq_left hi]
       have h : σ⁻¹ i = w := by
         rw [hi, Equiv.Perm.inv_def, ← hσ, Equiv.symm_apply_apply, hσ]
-      rw [if_pos h]
-    · rw [if_neg hi]
+      rw [ite_eq_left h]
+    · rw [ite_eq_right hi]
       have hne : σ⁻¹ i ≠ w := by
         intro h
         apply hi
         rw [Equiv.Perm.inv_def, Equiv.symm_apply_eq] at h
         rwa [hσ] at h
-      rw [if_neg hne]
+      rw [ite_eq_right hne]
   intro i
   have := congrFun hcol i
   rwa [Matrix.mulVec_single_one, Matrix.col_apply, Pi.single_apply] at this
@@ -247,6 +251,7 @@ private noncomputable def ggQ2s08r6_blockMat0 (X : Matrix (Fin 5) (Fin 5) F) :
     Matrix (Fin 6) (Fin 6) F :=
   Matrix.reindexAlgEquiv F F ggQ2s08r6_ee (Matrix.fromBlocks 1 0 0 X)
 
+omit [Finite F] in
 private theorem ggQ2s08r6_blockMat0_apply (X : Matrix (Fin 5) (Fin 5) F)
     (p q : Fin 1 ⊕ Fin 5) :
     ggQ2s08r6_blockMat0 X (ggQ2s08r6_ee p) (ggQ2s08r6_ee q) =
@@ -254,45 +259,53 @@ private theorem ggQ2s08r6_blockMat0_apply (X : Matrix (Fin 5) (Fin 5) F)
   rw [ggQ2s08r6_blockMat0, Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply]
   simp
 
+omit [Finite F] in
 private theorem ggQ2s08r6_blockMat0_zero_zero (X : Matrix (Fin 5) (Fin 5) F) :
     ggQ2s08r6_blockMat0 X 0 0 = 1 := by
   have h := ggQ2s08r6_blockMat0_apply (F := F) X (Sum.inl 0) (Sum.inl 0)
   simpa using h
 
+omit [Finite F] in
 private theorem ggQ2s08r6_blockMat0_zero_succ (X : Matrix (Fin 5) (Fin 5) F)
     (j : Fin 5) : ggQ2s08r6_blockMat0 X 0 j.succ = 0 := by
   have h := ggQ2s08r6_blockMat0_apply (F := F) X (Sum.inl 0) (Sum.inr j)
   simpa using h
 
+omit [Finite F] in
 private theorem ggQ2s08r6_blockMat0_succ_zero (X : Matrix (Fin 5) (Fin 5) F)
     (i : Fin 5) : ggQ2s08r6_blockMat0 X i.succ 0 = 0 := by
   have h := ggQ2s08r6_blockMat0_apply (F := F) X (Sum.inr i) (Sum.inl 0)
   simpa using h
 
+omit [Finite F] in
 private theorem ggQ2s08r6_blockMat0_succ_succ (X : Matrix (Fin 5) (Fin 5) F)
     (i j : Fin 5) : ggQ2s08r6_blockMat0 X i.succ j.succ = X i j := by
   have h := ggQ2s08r6_blockMat0_apply (F := F) X (Sum.inr i) (Sum.inr j)
   simpa using h
 
+omit [Finite F] in
 private theorem ggQ2s08r6_blockMat0_det (X : Matrix (Fin 5) (Fin 5) F) :
     (ggQ2s08r6_blockMat0 X).det = X.det := by
   rw [ggQ2s08r6_blockMat0, Matrix.det_reindexAlgEquiv,
     Matrix.det_fromBlocks_zero₂₁, Matrix.det_one, one_mul]
 
+omit [Finite F] in
 private theorem ggQ2s08r6_blockMat0_mul (X Y : Matrix (Fin 5) (Fin 5) F) :
     ggQ2s08r6_blockMat0 (X * Y) =
       ggQ2s08r6_blockMat0 X * ggQ2s08r6_blockMat0 Y := by
   rw [ggQ2s08r6_blockMat0, ggQ2s08r6_blockMat0, ggQ2s08r6_blockMat0,
-    ← Matrix.reindexAlgEquiv_mul]
+    ← map_mul]
   congr 1
   rw [Matrix.fromBlocks_multiply]
   simp
 
+omit [Finite F] in
 private theorem ggQ2s08r6_blockMat0_one :
     ggQ2s08r6_blockMat0 (1 : Matrix (Fin 5) (Fin 5) F) = 1 := by
   rw [ggQ2s08r6_blockMat0, Matrix.fromBlocks_one]
   exact map_one _
 
+omit [Finite F] in
 private theorem ggQ2s08r6_blockMat0_map (f : F →+* F)
     (X : Matrix (Fin 5) (Fin 5) F) :
     (ggQ2s08r6_blockMat0 X).map f = ggQ2s08r6_blockMat0 (X.map f) := by
@@ -311,6 +324,7 @@ private theorem ggQ2s08r6_blockMat0_map (f : F →+* F)
   rw [Matrix.fromBlocks_map]
   simp
 
+omit [Finite F] in
 private theorem ggQ2s08r6_blockMat0_transpose (X : Matrix (Fin 5) (Fin 5) F) :
     (ggQ2s08r6_blockMat0 X)ᵀ = ggQ2s08r6_blockMat0 Xᵀ := by
   rw [ggQ2s08r6_blockMat0, ggQ2s08r6_blockMat0, Matrix.coe_reindexAlgEquiv,
@@ -323,11 +337,13 @@ private noncomputable def ggQ2s08r6_blockGL (X : GL (Fin 5) F) : GL (Fin 6) F :=
     (ggQ2s08r6_blockMat0 (X : Matrix (Fin 5) (Fin 5) F))
     (by rw [ggQ2s08r6_blockMat0_det]; exact Matrix.GeneralLinearGroup.det_ne_zero X)
 
+omit [Finite F] in
 private theorem ggQ2s08r6_val_blockGL (X : GL (Fin 5) F) :
     ((ggQ2s08r6_blockGL X : GL (Fin 6) F) : Matrix (Fin 6) (Fin 6) F) =
       ggQ2s08r6_blockMat0 (X : Matrix (Fin 5) (Fin 5) F) :=
   Matrix.GeneralLinearGroup.val_mkOfDetNeZero _ _
 
+omit [Finite F] in
 private theorem ggQ2s08r6_blockGL_mem_SUid (σ : F ≃+* F) {X : GL (Fin 5) F}
     (hX : X ∈ CFSG.LieType.Universal.Unitary.SUid σ 5) :
     ggQ2s08r6_blockGL X ∈ CFSG.LieType.Universal.Unitary.SUid σ 6 := by
@@ -362,6 +378,7 @@ private theorem ggQ2s08r6_blockGL_mem_SUid (σ : F ≃+* F) {X : GL (Fin 5) F}
                   (X : Matrix (Fin 5) (Fin 5) F) from rfl, hX.2]
       _ = 1 := ggQ2s08r6_blockMat0_one
 
+omit [Finite F] in
 private theorem ggQ2s08r6_blockMat0_fixes_e0 (X : Matrix (Fin 5) (Fin 5) F) :
     ggQ2s08r6_blockMat0 X *ᵥ (Pi.single (0 : Fin 6) (1 : F)) = Pi.single 0 1 := by
   funext i
@@ -370,12 +387,14 @@ private theorem ggQ2s08r6_blockMat0_fixes_e0 (X : Matrix (Fin 5) (Fin 5) F) :
   | zero => rw [ggQ2s08r6_blockMat0_zero_zero]; simp
   | succ j => rw [ggQ2s08r6_blockMat0_succ_zero]; simp
 
+omit [Finite F] in
 private theorem ggQ2s08r6_blkMat_blockMat0 (X : Matrix (Fin 5) (Fin 5) F) :
     CFSG.ClassicalGroups.Unitary.blkMat (ggQ2s08r6_blockMat0 X) = X := by
   ext i j
   rw [CFSG.ClassicalGroups.Unitary.blkMat, Matrix.submatrix_apply,
     ggQ2s08r6_blockMat0_succ_succ]
 
+omit [Finite F] in
 private theorem ggQ2s08r6_blockMat0_blkMat (σ : F ≃+* F)
     {M : ↥(CFSG.LieType.Universal.Unitary.SUid σ 6)}
     (hM : M ∈ ggQ2s08r6StabSUid (F := F) σ 0) :
@@ -453,8 +472,7 @@ private noncomputable def ggQ2s08r6_stab0Equiv (σ : F ≃+* F) :
       ((((ggQ2s08r6_blockHomStab σ) X : ↥(CFSG.LieType.Universal.Unitary.SUid σ 6)) :
         GL (Fin 6) F) : Matrix (Fin 6) (Fin 6) F)) =
       ((X : GL (Fin 5) F) : Matrix (Fin 5) (Fin 5) F)
-    simp only [ggQ2s08r6_blockHomStab, ggQ2s08r6_blockHom,
-      ggQ2s08r6_val_blockGL, Matrix.GeneralLinearGroup.val_mkOfDetNeZero]
+    simp only [ggQ2s08r6_blockHomStab, ggQ2s08r6_blockHom]
     exact ggQ2s08r6_blkMat_blockMat0 _
   right_inv M := by
     apply Subtype.ext
@@ -466,6 +484,7 @@ private noncomputable def ggQ2s08r6_stab0Equiv (σ : F ≃+* F) :
     exact ggQ2s08r6_blockMat0_blkMat (σ := σ) (M := M) M.2
   map_mul' X Y := map_mul (ggQ2s08r6_blockHomStab σ) X Y
 
+omit [Finite F] in
 private theorem ggQ2s08r6_stabSUid_conj (σ : F ≃+* F)
     (P : ↥(CFSG.LieType.Universal.Unitary.SUid σ 6)) {v w : Fin 6}
     (hP : P • (Pi.single v (1 : F) : Fin 6 → F) =
@@ -516,6 +535,7 @@ private noncomputable def ggQ2s08r6_stabEquiv (σ : F ≃+* F)
     (MulEquiv.subgroupMap (MulEquiv.subgroupCongr hSU)
       (ggQ2s08r6StabSUid (F := F) σ w)).symm
 
+omit [Finite F] in
 private theorem ggQ2s08r6_permGL_mem_SUid
     (hU : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 1 F)
     (σ : F ≃+* F)
@@ -525,6 +545,7 @@ private theorem ggQ2s08r6_permGL_mem_SUid
   rw [hSU]
   exact CFSG.StandardType.LineU.permGL_mem_unitarySU hU π
 
+omit [Finite F] in
 private theorem ggQ2s08r6_permGL_smul_single {σ : F ≃+* F}
     (hP : ∀ π : Equiv.Perm (Fin 6),
       permGL π ∈ CFSG.LieType.Universal.Unitary.SUid σ 6)
@@ -537,17 +558,17 @@ private theorem ggQ2s08r6_permGL_smul_single {σ : F ≃+* F}
     CFSG.RankThree.Classical.permGL_mulVec]
   simp only [Function.comp_apply, Pi.single_apply]
   by_cases hk : k = π i
-  · rw [if_pos hk]
+  · rw [ite_eq_left hk]
     have h : π⁻¹ k = i := by
       rw [hk, Equiv.Perm.inv_def, Equiv.symm_apply_apply]
-    rw [if_pos h]
-  · rw [if_neg hk]
+    rw [ite_eq_left h]
+  · rw [ite_eq_right hk]
     have h : π⁻¹ k ≠ i := by
       intro h
       apply hk
       calc k = π (π⁻¹ k) := (Equiv.apply_symm_apply π k).symm
         _ = π i := by rw [h]
-    rw [if_neg h]
+    rw [ite_eq_right h]
 
 private theorem ggQ2s08r6_exists_perm (w w' : Fin 6) (h : w ≠ w') :
     ∃ π : Equiv.Perm (Fin 6), π 0 = w ∧ π 5 = w' := by
@@ -558,7 +579,7 @@ private theorem ggQ2s08r6_exists_perm (w w' : Fin 6) (h : w ≠ w') :
     fin_cases i <;> fin_cases j <;> simp_all [f]
   have hg : Function.Injective g := by
     intro i j hij
-    fin_cases i <;> fin_cases j <;> simp_all [g, h]
+    fin_cases i <;> fin_cases j <;> simp_all [g]
   obtain ⟨π, hπ⟩ := Equiv.Perm.exists_extending_pair f g hf hg
   refine ⟨π, ?_, ?_⟩
   · simpa [f, g] using hπ 0
@@ -580,7 +601,7 @@ private noncomputable def ggQ2s08r6_stabWEquiv (σ : F ≃+* F)
     (ggQ2s08r6_stab0Equiv σ).symm
 
 private theorem ggQ2s08r6_stabSUid_sup
-    (hU : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 1 F)
+    (_hU : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 1 F)
     (σ : F ≃+* F) (hσ : CFSG.ClassicalGroups.Unitary.IsUnitaryInvolution σ)
     (hP : ∀ π : Equiv.Perm (Fin 6),
       permGL π ∈ CFSG.LieType.Universal.Unitary.SUid σ 6)
@@ -617,8 +638,8 @@ theorem ggQ2s08r6_stab_sup (hF : Nat.card F = 4) {w w' : Fin 6} (h : w ≠ w') :
     ggQ2s08r6Stab F w ⊔ ggQ2s08r6Stab F w' = ⊤ := by
   have hFc : Nat.card F = (2 ^ 1) ^ 2 := by simpa using hF
   have hU := CFSG.ClassicalGroups.UnitaryFlag.unitaryFieldDataOfCard hFc
-  haveI : Fact (Nat.Prime 2) := ⟨hU.prime⟩
-  haveI : CharP F 2 := hU.charP
+  have : Fact (Nat.Prime 2) := ⟨hU.prime⟩
+  have : CharP F 2 := hU.charP
   let σ : F ≃+* F := unitaryInvolution F 2 1
   have hSU := ggQ2s08r6_su_eq (F := F) hF
   have hSU6 : CFSG.LieType.Universal.Unitary.SUid σ 6 = StatedSU 6 (2 ^ 1) F := by
@@ -647,8 +668,8 @@ theorem ggQ2s08r6_stab_perfect (hF : Nat.card F = 4) (w : Fin 6) :
     ⁅ggQ2s08r6Stab F w, ggQ2s08r6Stab F w⁆ = ggQ2s08r6Stab F w := by
   have hFc : Nat.card F = (2 ^ 1) ^ 2 := by simpa using hF
   have hU := CFSG.ClassicalGroups.UnitaryFlag.unitaryFieldDataOfCard hFc
-  haveI : Fact (Nat.Prime 2) := ⟨hU.prime⟩
-  haveI : CharP F 2 := hU.charP
+  have : Fact (Nat.Prime 2) := ⟨hU.prime⟩
+  have : CharP F 2 := hU.charP
   let σ : F ≃+* F := unitaryInvolution F 2 1
   have hSU := ggQ2s08r6_su_eq (F := F) hF
   have hSU6 : CFSG.LieType.Universal.Unitary.SUid σ 6 = StatedSU 6 (2 ^ 1) F := by
@@ -661,12 +682,12 @@ theorem ggQ2s08r6_stab_perfect (hF : Nat.card F = 4) (w : Fin 6) :
   have hσ : CFSG.ClassicalGroups.Unitary.IsUnitaryInvolution σ := by
     dsimp [σ]
     exact CFSG.ClassicalGroups.Unitary.isUnitaryInvolution_unitaryInvolution hFc
-  haveI : Group.IsPerfect ↥(CFSG.LieType.Universal.Unitary.SUid σ 5) :=
+  have : Group.IsPerfect ↥(CFSG.LieType.Universal.Unitary.SUid σ 5) :=
     CFSG.ClassicalGroups.Unitary.isPerfect_SUid hσ (n := 5) (by norm_num) (by norm_num)
   let e : ↥(ggQ2s08r6Stab F w) ≃*
       ↥(CFSG.LieType.Universal.Unitary.SUid σ 5) :=
     (ggQ2s08r6_stabEquiv σ hSU w).trans (ggQ2s08r6_stabWEquiv σ hP w)
-  haveI : Group.IsPerfect ↥(ggQ2s08r6Stab F w) :=
+  have : Group.IsPerfect ↥(ggQ2s08r6Stab F w) :=
     Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
   exact Subgroup.isPerfect_iff.mp ‹Group.IsPerfect ↥(ggQ2s08r6Stab F w)›
 
@@ -674,8 +695,8 @@ theorem ggQ2s08r6_stab_simple (hF : Nat.card F = 4) (w : Fin 6) :
     IsSimpleGroup ↥(ggQ2s08r6Stab F w) := by
   have hFc : Nat.card F = (2 ^ 1) ^ 2 := by simpa using hF
   have hU := CFSG.ClassicalGroups.UnitaryFlag.unitaryFieldDataOfCard hFc
-  haveI : Fact (Nat.Prime 2) := ⟨hU.prime⟩
-  haveI : CharP F 2 := hU.charP
+  have : Fact (Nat.Prime 2) := ⟨hU.prime⟩
+  have : CharP F 2 := hU.charP
   let σ : F ≃+* F := unitaryInvolution F 2 1
   have hSU := ggQ2s08r6_su_eq (F := F) hF
   have hSU6 : CFSG.LieType.Universal.Unitary.SUid σ 6 = StatedSU 6 (2 ^ 1) F := by
@@ -717,7 +738,7 @@ theorem ggQ2s08r6_stab_simple (hF : Nat.card F = 4) (w : Fin 6) :
       rw [Subgroup.mem_bot] at hg
       rw [hg, Subgroup.mem_subgroupOf]
       exact ⟨1, by simp⟩
-  haveI : IsSimpleGroup ↥(StatedSU 5 (2 ^ 1) F) := by
+  have : IsSimpleGroup ↥(StatedSU 5 (2 ^ 1) F) := by
     have hsimple := CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU
       F 2 1 hFc 5 (by norm_num) (by norm_num)
     have e : CFSG.Open.StatedProj (StatedSU 5 (2 ^ 1) F) ≃*
@@ -725,7 +746,7 @@ theorem ggQ2s08r6_stab_simple (hF : Nat.card F = 4) (w : Fin 6) :
       (QuotientGroup.quotientMulEquivOfEq
         (G := ↥(StatedSU 5 (2 ^ 1) F)) hscal).trans QuotientGroup.quotientBot
     exact MulEquiv.isSimpleGroup e.symm
-  haveI : IsSimpleGroup ↥(CFSG.LieType.Universal.Unitary.SUid σ 5) := by
+  have : IsSimpleGroup ↥(CFSG.LieType.Universal.Unitary.SUid σ 5) := by
     rw [hSU5]
     infer_instance
   let e : ↥(ggQ2s08r6Stab F w) ≃*
@@ -737,7 +758,7 @@ theorem ggQ2s08r6_three_dvd_card_stab (hF : Nat.card F = 4) (w : Fin 6) :
     3 ∣ Nat.card ↥(ggQ2s08r6Stab F w) := by
   have hFc : Nat.card F = (2 ^ 1) ^ 2 := by simpa using hF
   have hU := CFSG.ClassicalGroups.UnitaryFlag.unitaryFieldDataOfCard hFc
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let a : Fin 6 := w.succAbove 0
   let b : Fin 6 := w.succAbove 1
   let c : Fin 6 := w.succAbove 2
@@ -795,7 +816,7 @@ theorem ggQ2s08r6_three_dvd_card_stab (hF : Nat.card F = 4) (w : Fin 6) :
     simp only [Function.comp_apply, Pi.single_apply] at hstar
     have hinv : ρ⁻¹ a = a := by
       by_contra hne
-      rw [if_neg hne] at hstar
+      rw [ite_eq_right hne] at hstar
       exact zero_ne_one hstar
     have hfix : ρ a = a := by
       rw [Equiv.Perm.inv_def, Equiv.symm_apply_eq] at hinv

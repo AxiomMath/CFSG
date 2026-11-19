@@ -70,7 +70,7 @@ theorem asc_centralizer_order_three [Finite G] (hyp : Asc03Hyp G z) {x : ↥(asc
   have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨X, hX⟩ := hxp.exists_le_sylow
   have hXcard : Nat.card ↥(X : Subgroup ↥(ascH z)) = 3 := by
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 X.isPGroup'
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 X.isPGroup
     have hdvd : 3 ^ k ∣ 192 := by
       rw [← AscModel.card_ascH hyp, ← hk]
       exact Subgroup.card_subgroup_dvd_card _

@@ -52,7 +52,7 @@ private noncomputable def s16k_coordEquiv {K L : Type} [Field K] [Field L] (ψ :
   map_mul' v w := by
     apply Multiplicative.toAdd.injective
     funext i
-    simp [map_add]
+    simp
 
 private theorem s16k_coordEquiv_natAct {K L : Type} [Field K] [Field L] (ψ : L ≃+* K)
     (y : ↥(StatedOmega (StatedQuadPlus 4 L)))

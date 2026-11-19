@@ -104,7 +104,7 @@ theorem exists_inner_of_innerData {G : Type} [Group G] [Finite G] (Y : Subgroup 
     rw [h1, orderOf_one] at this
     omega
   have hord : orderOf (⟨u₀, hu₀D⟩ : ↥(coverDerived ρ Xb)) = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     refine orderOf_eq_prime ?_ ?_
     · apply Subtype.ext
       change u₀ ^ 2 = 1

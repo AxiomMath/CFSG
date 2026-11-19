@@ -26,7 +26,7 @@ theorem gnC_le_centralizer_uCore (M T : Subgroup X) :
 
 theorem le_gnC_of_normal {T N : Subgroup X} (hN : N.Normal)
     (h : N ≤ Subgroup.centralizer (CFSG.Quasithin.omegaOneCenterOf T : Set X)) : N ≤ gnC T := by
-  haveI := hN
+  have := hN
   have h2 : gnV T ≤ Subgroup.centralizer (N : Set X) :=
     Subgroup.normalClosure_le_normal fun z hz => Subgroup.le_centralizer_iff.mp h hz
   exact Subgroup.le_centralizer_iff.mpr h2
@@ -100,10 +100,10 @@ theorem inf_centralizer_uCore_le_gnC_of_le {T L M : Subgroup X} (hLn : L.Normal)
     (hZ : L ⊓ (Subgroup.centralizer (L.map (toStar T) : Set (X ⧸ gnC T))).comap (toStar T) ≤
       Subgroup.centralizer (uCore M T : Set X)) :
     L ⊓ Subgroup.centralizer (uCore M T : Set X) ≤ gnC T := by
-  haveI := hLn
-  haveI : (L.map (toStar T)).Normal := hLn.map (toStar T) (QuotientGroup.mk'_surjective _)
-  haveI hCn : (Subgroup.centralizer (L.map (toStar T) : Set (X ⧸ gnC T))).Normal := inferInstance
-  haveI : ((Subgroup.centralizer (L.map (toStar T) : Set (X ⧸ gnC T))).comap (toStar T)).Normal :=
+  have := hLn
+  have : (L.map (toStar T)).Normal := hLn.map (toStar T) (QuotientGroup.mk'_surjective _)
+  have hCn : (Subgroup.centralizer (L.map (toStar T) : Set (X ⧸ gnC T))).Normal := inferInstance
+  have : ((Subgroup.centralizer (L.map (toStar T) : Set (X ⧸ gnC T))).comap (toStar T)).Normal :=
     hCn.comap _
   have hZhn :
       (L ⊓ (Subgroup.centralizer (L.map (toStar T) : Set (X ⧸ gnC T))).comap (toStar T)).Normal :=

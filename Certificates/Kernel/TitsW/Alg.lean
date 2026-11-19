@@ -104,7 +104,7 @@ theorem wordArr_pk {A : Array (Array Nat)} {k : Nat} {S SI : Nat → Nat}
   have hw : wordEqK 1755 11 (mask 11) (pidn 1755 11) S SI k wd
       (wordK 1755 11 (mask 11) (pidn 1755 11) S SI wd) = true := by
     rw [wordEqK]
-    simp only [bAnd_iff, szT, hl, true_and]
+    simp only [szT, hl]
     exact Nat.beq_refl _
   exact (wordEqK_sound hA hp hw).1
 

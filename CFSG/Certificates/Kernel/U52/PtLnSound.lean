@@ -79,11 +79,11 @@ theorem f2_ext {x y : Nat} (hx : x >>> 10 = 0) (hy : y >>> 10 = 0)
     h 3 (by norm_num), h 4 (by norm_num)]
 
 theorem unpack_f2 (x : Nat) {j : Nat} (hj : j < 5) : (unpack 5 2 x)[j]! = f2 x j := by
-  rw [CFSG.KS.WordF.getElem!_unpack, if_pos hj]
+  rw [CFSG.KS.WordF.getElem!_unpack, ite_eq_left hj]
   rfl
 
 theorem unpack_f8 (q : Nat) {a : Nat} (ha : a < 5) : (unpack 5 8 q)[a]! = f8 q a := by
-  rw [CFSG.KS.WordF.getElem!_unpack, if_pos ha]
+  rw [CFSG.KS.WordF.getElem!_unpack, ite_eq_left ha]
   rfl
 
 theorem unpack_size5 (w x : Nat) : (unpack 5 w x).size = 5 := by
@@ -190,7 +190,7 @@ theorem norm_spec {x : Nat} (hx : x >>> 10 = 0) (h : ptNorm (normK x) = true) :
     have : x / 1024 = 0 := by simpa using hx
     omega
   have e := allN_spec normC x hx'
-  rw [bIf_ite, if_pos h, bAnd_iff, bAnd_iff] at e
+  rw [bIf_ite, ite_eq_left h, bAnd_iff, bAnd_iff] at e
   exact ⟨beq_t.1 e.1, Nat.blt_eq.mp e.2.1, Nat.blt_eq.mp e.2.2⟩
 
 theorem scale_spec {y l : Nat} (hl : l < 4) (hl0 : 0 < l) (hy : ptNorm y = true)
@@ -204,7 +204,7 @@ theorem scale_spec {y l : Nat} (hl : l < 4) (hl0 : 0 < l) (hy : ptNorm y = true)
   have hc : bAnd(ptNorm y, bAnd(ptNorm (scK l y), Nat.blt 0 l)) = true := by
     rw [bAnd_iff, bAnd_iff]
     exact ⟨hy, h, Nat.blt_eq.mpr hl0⟩
-  rw [bIf_ite, if_pos hc] at e
+  rw [bIf_ite, ite_eq_left hc] at e
   exact beq_t.1 e
 
 theorem ptsK_spec {F : Nat → Nat} (h : ptsK F = true) :

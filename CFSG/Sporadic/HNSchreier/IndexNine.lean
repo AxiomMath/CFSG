@@ -122,7 +122,7 @@ theorem hnNineU0_fix (g : Equiv.Perm (Fin 10)) (hg : g ∈ hnNineU0) :
     hnNineX0.map g.toEmbedding = hnNineX0 := by
   induction hg using Subgroup.closure_induction with
   | mem x hx =>
-      simp only [Set.mem_setOf_eq, hnNineGens, List.mem_cons, List.not_mem_nil,
+      simp only [Set.mem_ofPred_eq, hnNineGens, List.mem_cons, List.not_mem_nil,
         or_false] at hx
       rcases hx with rfl | rfl | rfl | rfl | rfl
       exacts [hnNineA_fix, hnNineB_fix, hnNineC_fix, hnNineD_fix, hnNineT_fix]
@@ -690,8 +690,8 @@ theorem hnNineE_map_eq
 theorem hnNine_fullPackage :
     IndexNinePackage phiQ.range := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite phiQ.range :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite phiQ.range :=
     Nat.finite_of_card_ne_zero (by rw [card_range_phi]; norm_num)
   let P : Subgroup phiQ.range := Subgroup.normalizer (hnNineE : Set phiQ.range)
   have hQP : hnNineQ ≤ P := hnNineQ_le_normalizer_E
@@ -784,10 +784,10 @@ theorem hnNineUbar_inf_conj :
 theorem hnNine_no_normal_two :
     ∀ N : Subgroup phiQ.range, N.Normal → IsPGroup 2 ↥N → N = ⊥ := by
   intro N hNnorm hN2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite phiQ.range :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite phiQ.range :=
     Nat.finite_of_card_ne_zero (by rw [card_range_phi]; norm_num)
-  haveI := hNnorm
+  have := hNnorm
   have hUidx : ¬ 2 ∣ hnNineUbar.index := by
     have h := hnNineUbar_isSylow.2.2
     rw [show (hnNineUbar.subgroupOf ⊤).index = hnNineUbar.index from
@@ -825,11 +825,11 @@ theorem hnNine_no_normal_two :
 theorem hn_index_nine_package :
     IndexNinePackage ↥JH := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite JH := Nat.finite_of_card_ne_zero (by rw [card_JH]; norm_num)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite JH := Nat.finite_of_card_ne_zero (by rw [card_JH]; norm_num)
   let C : Subgroup JH := CFSG.EvenSporadicStandard.HNRecog.SideF4.CJ
-  haveI : Finite C := Subtype.finite
-  haveI : Finite phiQ.range :=
+  have : Finite C := Subtype.finite
+  have : Finite phiQ.range :=
     Nat.finite_of_card_ne_zero (by rw [card_range_phi]; norm_num)
   let U : Subgroup JH := (hnNineUbar.comap phiQ.rangeRestrict).map C.subtype
   let R₀ : Subgroup JH := QJ.map C.subtype

@@ -592,7 +592,7 @@ public theorem no_a7_quotient_subgroup_of_psl2_odd
     have hz_ne : z ≠ 0 := by
       intro hz
       have hcard0 : Nat.card H = 0 := by
-        simpa [hcardH, hz]
+        simp [hcardH, hz]
       exact Nat.card_pos.ne' hcard0
     let : NeZero z := ⟨hz_ne⟩
     have hDsolv : Group.IsSolvable (DihedralGroup z) := isSolvable_of_dihedralGroup z

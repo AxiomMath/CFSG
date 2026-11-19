@@ -68,7 +68,7 @@ theorem splitShape_of_twistKind_inner
     {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] {p₀ : ℕ} (S : LangSetup τ L p₀)
     {a : Fin τ.rank → Lˣ} (hT : rootDiagUnit τ a ∈ S.D.torus)
     (i : KernelComponent (rootCharHom a)) (hkind : twistKind S.ρ (rootCharHom a) i = .inner)
-    {ν : ℕ} (hν : 3 ≤ ν) {ψ : SL(ν, L) →* ModGL τ L} {σ : Fin ν → Fin ν → Fin τ.rank → ℤ}
+    {ν : ℕ} (_hν : 3 ≤ ν) {ψ : SL(ν, L) →* ModGL τ L} {σ : Fin ν → Fin ν → Fin τ.rank → ℤ}
     (hψ : IsSLFrame ψ σ) {κ : ℤ} (hκ : κ ≠ 0)
     (hnorm : ∀ x y, x ≠ y → iform (σ x y) (σ x y) = 2 * κ)
     (hΨ : componentRoots (rootCharHom a) i = frameRoots σ) :
@@ -121,7 +121,7 @@ theorem split_exists_hom_untwist
     (hΨ : componentRoots (rootCharHom ta) i = frameRoots σ) (π : Equiv.Perm (Fin ν))
     (hπ : ∀ a b, a ≠ b → (S.ρ : (Fin τ.rank → ℤ) → _)^[componentOrbitLength S.ρ
       (componentRoots (rootCharHom ta) i)] (σ a b) = σ (π a) (π b))
-    {r e : ℕ} (hr : r.Prime) (hchar : CharP L r) (he : 0 < e) (hq : S.D.q = r ^ e) :
+    {r e : ℕ} (hr : r.Prime) (hchar : CharP L r) (_he : 0 < e) (hq : S.D.q = r ^ e) :
     ∃ σQ : L ≃+* L,
       (∀ c, σQ c = c ^ (r ^ (e * componentOrbitLength S.ρ (componentRoots (rootCharHom ta) i)))) ∧
       ∃ z ∈ torusGroup τ L ⊔ rootSpan τ L (kernelRoots (rootCharHom ta)),

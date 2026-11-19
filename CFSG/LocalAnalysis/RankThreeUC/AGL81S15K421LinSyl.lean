@@ -13,6 +13,7 @@ open CFSG.Open K421MonoProof
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem centralizer_zpowers_eq (x : G) :
     Subgroup.centralizer ((Subgroup.zpowers x : Subgroup G) : Set G) =
       Subgroup.centralizer ({x} : Set G) := by
@@ -20,7 +21,7 @@ theorem centralizer_zpowers_eq (x : G) :
 
 theorem exists_zpowers_of_card_three {D : Subgroup G} (h : Nat.card D = 3) :
     ∃ x : G, orderOf x = 3 ∧ D = Subgroup.zpowers x := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨x, hxD, hx1⟩ : ∃ x ∈ D, x ≠ 1 := by
     by_contra hcon
     have hall : ∀ x ∈ D, x = 1 := fun x hx => by_contra fun hx1 => hcon ⟨x, hx, hx1⟩
@@ -56,6 +57,7 @@ theorem isElemAbelian_of_map_inj {S P : Type} [Group S] [Group P] {p : ℕ} {f :
     rw [map_pow, map_one]
     exact hexp (f x) (Subgroup.mem_map_of_mem f hx)
 
+omit [Finite G] in
 theorem mem_centralizer_of_mem_normalizer {x h : G} (hx : orderOf x = 3)
     (hN : h ∈ Subgroup.normalizer ((Subgroup.zpowers x : Subgroup G) : Set G)) {k : ℕ}
     (hk : h ^ (3 ^ k) = 1) : h ∈ Subgroup.centralizer ({x} : Set G) := by
@@ -133,7 +135,7 @@ theorem sylowShape_of_data {x : G} (hx : orderOf x = 3) {A : Subgroup G} (hAe : 
     (hA27 : Nat.card A = 27) (hAC : A ≤ Subgroup.centralizer ({x} : Set G)) {m : ℕ}
     (hC : Nat.card (Subgroup.centralizer ({x} : Set G)) = 27 * m) (hm : ¬ 3 ∣ m) :
     SylowShape1517 (Subgroup.zpowers x) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set N : Subgroup G := Subgroup.normalizer ((Subgroup.zpowers x : Subgroup G) : Set G) with hNdef
   have hCN : Subgroup.centralizer ({x} : Set G) ≤ N := by
     rw [← centralizer_zpowers_eq]
@@ -172,7 +174,7 @@ theorem sylowShape_of_data {x : G} (hx : orderOf x = 3) {A : Subgroup G} (hAe : 
   obtain ⟨Q', hQ'⟩ := hA'p.exists_le_sylow
   have hQ'le : Nat.card Q' ≤ 27 := by
     have hp := hcard ((Q' : Subgroup N).map N.subtype) (Subgroup.map_subtype_le _)
-      ((Q'.isPGroup').map N.subtype)
+      ((Q'.isPGroup).map N.subtype)
     rwa [Subgroup.card_map_of_injective N.subtype_injective] at hp
   have hQ'ge : 27 ≤ Nat.card Q' := hA'card ▸ Subgroup.card_le_of_le hQ'
   have hQ'eq : Nat.card Q' = 27 := le_antisymm hQ'le hQ'ge

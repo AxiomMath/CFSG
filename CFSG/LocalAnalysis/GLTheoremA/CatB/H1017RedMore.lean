@@ -55,7 +55,7 @@ theorem i1017_moreover (hR : I1017RowRanks) {p : ℕ} {L : Subgroup G} {x : G} (
   obtain ⟨rfl, hcat, hZ⟩ := hrow
   have hp : row.prime.Prime := by
     cases row <;> first | exact Nat.prime_three | exact Nat.prime_five
-  haveI : Fact row.prime.Prime := ⟨hp⟩
+  have : Fact row.prime.Prime := ⟨hp⟩
   have hLx : L ≤ cx x := hL.1
   rcases rank_fact hR row with ⟨h1, hrk⟩ | ⟨h3, hp3, hrk⟩
   ·
@@ -64,7 +64,7 @@ theorem i1017_moreover (hR : I1017RowRanks) {p : ℕ} {L : Subgroup G} {x : G} (
     obtain ⟨W, hWL, hW, hWc⟩ := exists_lift hE₀
     have hxL : x ∉ L := fun hx => hx1 (L84.eq_one_of_mem_core hp
       (L84.mem_core_of_centMod hZ hx (L84.centMod_of_comm hLx)) hxp)
-    have hlt : W < W ⊔ Subgroup.zpowers x := SetLike.lt_iff_le_and_exists.2
+    have hlt : W < W ⊔ Subgroup.zpowers x := IsConcreteLE.lt_iff_le_and_exists.2
       ⟨le_sup_left, x, Subgroup.mem_sup_right (Subgroup.mem_zpowers x), fun hx => hxL (hWL hx)⟩
     refine ⟨W ⊔ Subgroup.zpowers x, sup_le_sup_right hWL _,
       isElemAbelian_sup hW (isElemAbelian_zpowers hxp) fun a ha b hb => ?_, ?_⟩

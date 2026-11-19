@@ -64,7 +64,7 @@ theorem homogeneousComponent_mem_vanishingIdeal [IsAlgClosed k] {Z : Set (σ →
     intro t
     rw [show P.eval t = ∑ j ∈ Finset.range (p.totalDegree + 1),
         MvPolynomial.aeval x (homogeneousComponent j p) * t ^ j from by
-      simp only [P, Polynomial.eval_finset_sum, Polynomial.eval_mul, Polynomial.eval_C,
+      simp only [P, Polynomial.eval_finsetSum, Polynomial.eval_mul, Polynomial.eval_C,
         Polynomial.eval_pow, Polynomial.eval_X]]
     exact Finset.sum_congr rfl fun j _ => mul_comm _ _
   have hP : P = 0 := by
@@ -77,13 +77,13 @@ theorem homogeneousComponent_mem_vanishingIdeal [IsAlgClosed k] {Z : Set (σ →
       change (∑ j ∈ Finset.range (p.totalDegree + 1),
         Polynomial.C (MvPolynomial.aeval x (homogeneousComponent j p)) *
           Polynomial.X ^ j).coeff m = _
-      rw [Polynomial.finset_sum_coeff]
+      rw [Polynomial.finsetSum_coeff]
     rw [hsum]
     by_cases hm : m ∈ Finset.range (p.totalDegree + 1)
     · rw [Finset.sum_eq_single m]
-      · rw [Polynomial.coeff_C_mul, Polynomial.coeff_X_pow, if_pos rfl, mul_one]
+      · rw [Polynomial.coeff_C_mul, Polynomial.coeff_X_pow, ite_eq_left rfl, mul_one]
       · intro j _ hjm
-        rw [Polynomial.coeff_C_mul, Polynomial.coeff_X_pow, if_neg (Ne.symm hjm), mul_zero]
+        rw [Polynomial.coeff_C_mul, Polynomial.coeff_X_pow, ite_eq_right (Ne.symm hjm), mul_zero]
       · exact fun h => absurd hm h
     · have hlt : p.totalDegree < m := by
         simp only [Finset.mem_range, not_lt] at hm
@@ -92,7 +92,7 @@ theorem homogeneousComponent_mem_vanishingIdeal [IsAlgClosed k] {Z : Set (σ →
       rw [hz, map_zero, Finset.sum_eq_zero]
       intro j hj
       rw [Polynomial.coeff_C_mul, Polynomial.coeff_X_pow,
-        if_neg (fun h : m = j => hm (h ▸ hj)), mul_zero]
+        ite_eq_right (fun h : m = j => hm (h ▸ hj)), mul_zero]
   rw [← hcoeff, hP, Polynomial.coeff_zero]
 
 theorem homogeneousComponent_eq_zero_of_isHomogeneous {R : Type*} [CommSemiring R] {σ : Type*}
@@ -420,7 +420,7 @@ theorem finite_setOf_mem_zeroLocus_and_apply_eq_one [IsAlgClosed k]
     have hArt : IsArtinianRing (MvPolynomial σ k ⧸ K) :=
       @IsArtinianRing.of_finite k (MvPolynomial σ k ⧸ K) _ _ _ _ _ hRfin
     have hmax : {I : Ideal (MvPolynomial σ k ⧸ K) | I.IsMaximal}.Finite :=
-      @IsArtinianRing.setOf_isMaximal_finite (MvPolynomial σ k ⧸ K) _ hArt
+      @IsArtinianRing.setOfPred_isMaximal_finite (MvPolynomial σ k ⧸ K) _ hArt
     have hrange : (Set.range Φ).Finite := hmax.subset (Set.range_subset_iff.mpr hΦmax)
     have hinj : Function.Injective Φ := by
       intro x y hxy
@@ -479,7 +479,7 @@ theorem finite_setOf_mem_and_eq_one [IsAlgClosed k] [FiniteDimensional k V] {C :
   have hpre : {v | v ∈ C ∧ φ v = 1} =
       e ⁻¹' {x | x ∈ Z ∧ (φ.comp e.symm.toLinearMap) x = 1} := by
     ext v
-    simp only [Set.mem_setOf_eq, Set.mem_preimage]
+    simp only [Set.mem_ofPred_eq, Set.mem_preimage]
     constructor
     · rintro ⟨hv, h1⟩
       exact ⟨⟨v, hv, rfl⟩, by simpa [LinearMap.comp_apply] using h1⟩

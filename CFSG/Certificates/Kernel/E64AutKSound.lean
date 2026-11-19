@@ -66,10 +66,10 @@ theorem tab_getD (he : enc (1 : Wr 7) = e) (L : List (Wr 7)) (k : Nat) :
   | cons x L ih =>
     rw [tab_cons]
     rcases k with _ | _ | k
-    · rw [List.getD_cons_zero, if_pos (Nat.zero_mod 2), Nat.zero_div, List.getD_cons_zero]
+    · rw [List.getD_cons_zero, ite_eq_left (Nat.zero_mod 2), Nat.zero_div, List.getD_cons_zero]
     · have h1 : (0 + 1) % 2 ≠ 0 := by decide
       have h2 : (0 + 1) / 2 = 0 := rfl
-      rw [List.getD_cons_succ, List.getD_cons_zero, if_neg h1, h2, List.getD_cons_zero]
+      rw [List.getD_cons_succ, List.getD_cons_zero, ite_eq_right h1, h2, List.getD_cons_zero]
     · have h1 : (k + 1 + 1) % 2 = k % 2 := by omega
       have h2 : (k + 1 + 1) / 2 = k / 2 + 1 := by omega
       rw [List.getD_cons_succ, List.getD_cons_succ, ih k, h1, h2, List.getD_cons_succ]

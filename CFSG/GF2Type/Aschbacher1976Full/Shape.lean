@@ -16,7 +16,7 @@ theorem shapeBigZ :
         8 ≤ Nat.card (Zof D) → Asc76Shape z := by
   intro G _ _ z hS D hD hmax hk8
   obtain ⟨-, -, hz, hsymp⟩ := hS
-  haveI := nontrivial_Fz hz
+  have := nontrivial_Fz hz
   obtain ⟨E, R, zz, cd⟩ := exists_critData hsymp.1 hsymp.2 hD
   have hzz : zF z = zz := cd.center_uniq _ (zF_mem_center z) ((orderOf_zF z).trans hz)
   rcases cd.cases with ⟨hE, -⟩ | ⟨w, hw, -, hEcard, hER, -⟩
@@ -28,7 +28,7 @@ theorem asc76ShapeHolds_of_bigZ : Asc76ShapeHolds := by
   intro G _ _ z hS
   have hS' := hS
   obtain ⟨-, -, hz, hsymp⟩ := hS'
-  haveI := nontrivial_Fz hz
+  have := nontrivial_Fz hz
   obtain ⟨D, hD, hmax⟩ := exists_max_critical hsymp.1
   by_cases hk : Nat.card (Zof D) ≤ 4
   · exact shape_small hz hsymp hD hk

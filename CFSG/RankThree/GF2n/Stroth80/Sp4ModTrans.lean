@@ -95,7 +95,7 @@ theorem sp4AddAutLin_injective (Y : Type) [AddCommGroup Y] [Module (ZMod 2) Y] :
 
 theorem sp4_card_pow (K : Type) [Field K] [Finite K] [CharP K 2] :
     ∃ f : ℕ, 1 ≤ f ∧ Nat.card K = 2 ^ f := by
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   obtain ⟨n, -, hK⟩ := FiniteField.card K 2
   exact ⟨(n : ℕ), n.pos, by rw [Nat.card_eq_fintype_card, hK]⟩
 
@@ -137,17 +137,17 @@ theorem sp4ModTransStatement_holds :
       ∀ y y' : Y, y ≠ 0 → y' ≠ 0 → ∃ g, π g y = y' := by
   intro K _ _ _ h4 Y _ _ hY2 hYcard π hπ y y' hy hy'
   obtain ⟨f, hf, hKc⟩ := sp4_card_pow K
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hF : Fintype.card K = 2 ^ f := by rw [← Nat.card_eq_fintype_card]; exact hKc
   have hP : Group.IsPerfect ↥(StatedSp 2 K) :=
     (statedSp_quasisimple_of_card 2 K (by norm_num) h4).1
   have hG : Group.IsPerfect ↥(antiSp K) := by
-    haveI := hP
+    have := hP
     exact Group.IsPerfect.ofSurjective (f := (antiSpEquiv K).symm.toMonoidHom)
       (antiSpEquiv K).symm.surjective
   have h2Y : ∀ y : Y, (2 : ℕ) • y = 0 := fun y => by rw [two_nsmul]; exact hY2 y
-  letI : Module (ZMod 2) Y := AddCommGroup.zmodModule h2Y
-  haveI : Module.Finite (ZMod 2) Y := Module.Finite.of_finite
+  let : Module (ZMod 2) Y := AddCommGroup.zmodModule h2Y
+  have : Module.Finite (ZMod 2) Y := Module.Finite.of_finite
   have hYcard2 : Nat.card Y = 2 ^ (4 * f) := by
     rw [hYcard, hKc, ← pow_mul, Nat.mul_comm]
   have hYfin : Module.finrank (ZMod 2) Y = 4 * f := by
@@ -167,14 +167,14 @@ theorem sp4ModTransStatement_holds :
     exact sp4AddAutLin_injective Y (h1.trans (map_one (sp4AddAutLin Y)).symm)
   obtain ⟨Y', _, _, _, σ, hle, hσnt, hσirr, hfull⟩ :=
     exists_irr_section_card hG (4 * f) Y ρ hYfin hρnt
-  haveI : Module.Finite (ZMod 2) Y' := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) Y' := Module.Finite.of_finite
   have hY'card : Nat.card Y' ≤ 2 ^ (4 * f) := by
     have h := Module.natCard_eq_pow_finrank (K := ZMod 2) (V := Y')
     rw [Nat.card_zmod] at h
     rw [h]
     exact Nat.pow_le_pow_right (by norm_num) hle
   have hY'fin : Module.finrank (ZMod 2) Y' = 4 * f := by
-    haveI : Fact (CFSG.Quasithin.B42Sp4.repOf σ).IsIrreducible :=
+    have : Fact (CFSG.Quasithin.B42Sp4.repOf σ).IsIrreducible :=
       ⟨sp4_repOf_isIrreducible σ hσirr⟩
     have hσnt' := sp4_exists_repOf_ne_one σ hσnt
     have hdim := CFSG.Quasithin.Ch3E215M.Sp4.finrank_eq_four_of_card_le hF hf σ hσnt' hY'card
@@ -185,7 +185,7 @@ theorem sp4ModTransStatement_holds :
     have h := Module.natCard_eq_pow_finrank (K := ZMod 2) (V := Y')
     rw [Nat.card_zmod, hnat] at h
     exact (Nat.pow_right_injective (le_refl 2) h).symm
-  haveI : Fact (CFSG.Quasithin.B42Sp4.repOf ρ).IsIrreducible :=
+  have : Fact (CFSG.Quasithin.B42Sp4.repOf ρ).IsIrreducible :=
     ⟨sp4_repOf_isIrreducible ρ (hfull hY'fin)⟩
   obtain ⟨g, hg⟩ := CFSG.Quasithin.Ch3E215M.Sp4.exists_apply_eq_of_card_le hF hf ρ
     (sp4_exists_repOf_ne_one ρ hρnt) hYcard2.le hy hy'

@@ -92,7 +92,7 @@ theorem forall_normal_isPGroup_eq_bot_of_inf_centralizer_le [Finite M] {p : ℕ}
   intro N hN hNp
   by_contra hne
   have hNS : N ≤ S := hNp.le_sylow_of_normal S
-  have hnil : Group.IsNilpotent (S : Subgroup M) := S.isPGroup'.isNilpotent
+  have hnil : Group.IsNilpotent (S : Subgroup M) := S.isPGroup.isNilpotent
   have hN' : (N.subgroupOf (S : Subgroup M)).Normal := by
     refine ⟨fun x hx g => ?_⟩
     rw [mem_subgroupOf] at hx ⊢

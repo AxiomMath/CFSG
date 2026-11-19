@@ -49,6 +49,7 @@ private theorem commute_mul_conj_gen {d r : G} (hd : d * d = 1)
 
 variable [Finite G] {Ω : Set (Subgroup G)}
 
+omit [Finite G] in
 theorem exists_four_group_gen {K : Subgroup G} {S' : Sylow 2 G} {R : Subgroup G} {z t g : G}
     (hconj : ConjInvariant Ω) (hK : K ∈ Ω) (hz : IsUniqueInvolution K z)
     (hRΩ : R ∈ RSet Ω) (hRsyl : IsSylow2In R K) (hRS' : R ≤ (S' : Subgroup G))

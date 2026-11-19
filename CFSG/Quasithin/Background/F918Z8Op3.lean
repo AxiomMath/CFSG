@@ -23,7 +23,7 @@ theorem opq_core {G : Type*} [Group G] [Finite G] {M : Subgroup G} (hS : IsQuoti
       ∃ m : ℕ, Nat.card L = Nat.card P * m ∧ ¬ p ∣ m := by
     obtain ⟨P₀⟩ := (inferInstance : Nonempty (Sylow p ↥L))
     refine ⟨(P₀ : Subgroup ↥L).map L.subtype, Subgroup.map_subtype_le _,
-      P₀.isPGroup'.map L.subtype, Nat.card L / p ^ ((Nat.card L).factorization p), ?_, ?_⟩
+      P₀.isPGroup.map L.subtype, Nat.card L / p ^ ((Nat.card L).factorization p), ?_, ?_⟩
     · rw [Subgroup.card_map_of_injective L.subtype_injective, Sylow.card_eq_multiplicity]
       exact (Nat.ordProj_mul_ordCompl_eq_self (Nat.card L) p).symm
     · exact Nat.not_dvd_ordCompl hp Nat.card_pos.ne'

@@ -38,7 +38,7 @@ theorem normConcl_of_card (hp : p.Prime) {Ω A D : Subgroup M} {a : M}
     (hEc : p < Nat.card E) (hU1 : U ≠ ⊥) (hUD : U ≤ D) (hU2 : IsPGroup 2 U)
     (hUA : ∀ s ∈ A, ∀ u ∈ U, s * u * s⁻¹ ∈ U) [Finite M] : NormConcl p A D := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hap : a ^ p = 1 := hE.A_elem.2 a hE.a_mem
   have hord : orderOf a = p := orderOf_eq_prime hap hE.a_ne
   obtain ⟨t, htE, htz⟩ : ∃ t ∈ E, t ∉ Subgroup.zpowers a := by

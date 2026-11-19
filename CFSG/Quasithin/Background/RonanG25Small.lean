@@ -91,7 +91,7 @@ theorem chiefStep_index_two_central {A B : Subgroup G} (hs : ChiefStep X A B)
 theorem exists_chain_small [Finite G] {A B : Subgroup G} (hAB : A ≤ B) (hA : Inv X A)
     (hB : Inv X B) (hnorm : ∀ y ∈ B, ∀ z ∈ A, y * z * y⁻¹ ∈ A) (hdvd : A.relIndex B ∣ 6) :
     ChainCounts F X true A B 0 0 := by
-  haveI : Finite (Subgroup G) :=
+  have : Finite (Subgroup G) :=
     Finite.of_injective (fun H : Subgroup G => (H : Set G)) SetLike.coe_injective
   have key : ∀ T : Subgroup G, Inv X T → ∀ S : Subgroup G, S ≤ T → Inv X S →
       (∀ y ∈ T, ∀ z ∈ S, y * z * y⁻¹ ∈ S) → S.relIndex T ∣ 6 →

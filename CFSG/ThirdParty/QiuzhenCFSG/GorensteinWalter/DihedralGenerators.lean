@@ -76,7 +76,7 @@ private lemma pow_val_add_eq {D : Type u} [Group D] [Finite D] {ρ : D} {n : ℕ
 private lemma pow_val_sub_zpow {D : Type u} [Group D] [Finite D] {ρ : D} {n : ℕ} (hn : orderOf ρ = n)
     (i j : ZMod n) : ρ ^ ((j - i).val) = ρ ^ ((j.val : ℤ) - (i.val : ℤ)) := by
   have : NeZero n := ⟨by rw [← hn]; exact (orderOf_pos ρ).ne'⟩
-  have hji : (i + (j - i) : ZMod n) = j := by simp [sub_eq_add_neg, add_assoc]
+  have hji : (i + (j - i) : ZMod n) = j := by simp [sub_eq_add_neg]
   have hval : j.val = (i.val + (j - i).val) % n := by
     calc
       j.val = (i + (j - i) : ZMod n).val := by rw [hji]
@@ -251,7 +251,7 @@ public theorem dihedral_of_generators_of_not_mem
     refine ⟨DihedralGroup.sr 0, ?_⟩
     dsimp [φ, dihedralMap]
     rw [show ZMod.val (0 : ZMod (orderOf ρ)) = 0 % orderOf ρ by
-      simpa using (ZMod.val_natCast (n := orderOf ρ) (a := 0))]
+      simp]
     simp
   have hle : ⊤ ≤ φ.range := by
     rw [hgen]

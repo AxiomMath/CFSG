@@ -95,7 +95,7 @@ theorem exists_ne (h : SixData G ω₀ a b) : ∃ ω : Ω, ω ≠ ω₀ := by
   omega
 
 theorem orderOf_a (h : SixData G ω₀ a b) : orderOf a = 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨ω, hω⟩ := h.exists_ne
   refine orderOf_eq_prime h.a_five ?_
   intro h1
@@ -178,7 +178,7 @@ theorem exists_a_pow (h : SixData G ω₀ a b) {ω ω' : Ω} (hω : ω ≠ ω₀
   exact ⟨i, Finset.mem_range.1 hi, hiω⟩
 
 theorem exists_fix_b (h : SixData G ω₀ a b) : ∃ ω₁ : Ω, ω₁ ≠ ω₀ ∧ b ω₁ = ω₁ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h4 : b ^ 2 ^ 2 = 1 := by
     norm_num
     exact h.b_four
@@ -204,11 +204,13 @@ theorem exists_fix_b (h : SixData G ω₀ a b) : ∃ ω₁ : Ω, ω₁ ≠ ω₀
     rw [hx', hy']
   omega
 
+omit [DecidableEq Ω] in
 theorem a_pow_four (h : SixData G ω₀ a b) : a ^ 4 = a⁻¹ := by
   apply eq_inv_of_mul_eq_one_left
   rw [← pow_succ]
   exact h.a_five
 
+omit [DecidableEq Ω] in
 theorem b_sq_conj (h : SixData G ω₀ a b) : b ^ 2 * a * (b ^ 2)⁻¹ = a⁻¹ := by
   have e : b ^ 2 * a * (b ^ 2)⁻¹ = b * (b * a * b⁻¹) * b⁻¹ := by
     rw [pow_two]
@@ -275,8 +277,9 @@ theorem two_trans (h : SixData G ω₀ a b) (p q p' q' : Ω) (hp : p ≠ p') (hq
     rw [hiy]
     simp
 
+omit [DecidableEq Ω] in
 theorem orderOf_b (h : SixData G ω₀ a b) : orderOf b = 4 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h1 : ¬ b ^ 2 ^ 1 = 1 := by simpa using h.b_two
   have h2 : b ^ 2 ^ (1 + 1) = 1 := by simpa using h.b_four
   have := orderOf_eq_prime_pow h1 h2
@@ -284,7 +287,7 @@ theorem orderOf_b (h : SixData G ω₀ a b) : orderOf b = 4 := by
 
 theorem card_stab (h : SixData G ω₀ a b) : {g : Perm Ω | g ∈ G ∧ g ω₀ = ω₀}.ncard = 20 := by
   classical
-  haveI : MulAction.IsPretransitive ↥G Ω := ⟨fun x y => by
+  have : MulAction.IsPretransitive ↥G Ω := ⟨fun x y => by
     obtain ⟨gx, hgx, hx⟩ := h.trans x
     obtain ⟨gy, hgy, hy⟩ := h.trans y
     refine ⟨⟨gy * gx⁻¹, mul_mem hgy (inv_mem hgx)⟩, ?_⟩
@@ -450,7 +453,7 @@ theorem fixCount_le_two (h : SixData G ω₀ a b) {g : Perm Ω} (hg : g ∈ G) (
 
 theorem fixCount_invol (h : SixData G ω₀ a b) {g : Perm Ω} (hg : g ∈ G) (hg1 : g ≠ 1)
     (hg2 : g * g = 1) : fixCount g = 0 ∨ fixCount g = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2 : g ^ 2 ^ 1 = 1 := by rw [pow_one, pow_two]; exact hg2
   have hmod := fixCount_modEq 2 1 h2
   rw [h.card_Ω] at hmod

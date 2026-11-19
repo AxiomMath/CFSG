@@ -175,7 +175,7 @@ theorem exists_four_lift (h415 : Sec4.Item4_15) {L B : Subgroup G}
   have hS4 : Nat.card S = 4 := by
     have h4dvd : 2 ^ 2 ∣ Nat.card S := S.pow_dvd_card_of_pow_dvd_card (by
       rw [hPcard]; exact Dvd.intro _ rfl)
-    obtain ⟨k, hk⟩ := S.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := S.isPGroup.exists_card_eq
     have hdvdP : Nat.card S ∣ Nat.card P := (S : Subgroup P).card_subgroup_dvd_card
     rw [hk, hPcard] at hdvdP
     rw [hk] at h4dvd
@@ -191,7 +191,7 @@ theorem exists_four_lift (h415 : Sec4.Item4_15) {L B : Subgroup G}
     norm_num
   have hSθ : ∀ s : P, s ∈ S → ((s : ↥L) ∈ N₀) → s = 1 := by
     intro s hs hsN
-    obtain ⟨k, hk⟩ := S.isPGroup' ⟨s, hs⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨s, hs⟩
     have hk' : (s : ↥L) ^ 2 ^ k = 1 := by
       have := congrArg (fun t : S => ((t : P) : ↥L)) hk
       simpa using this

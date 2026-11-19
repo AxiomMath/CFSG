@@ -81,7 +81,7 @@ theorem ssTw_exists_pgroup_of_layer (S : LangSetup τ L p) {a : Fin τ.rank → 
 theorem ssTw_finite_rationalComponent (S : LangSetup τ L p) {a : Fin τ.rank → Lˣ}
     (i : KernelComponent (rootCharHom a)) :
     Finite ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) := by
-  haveI := S.finite
+  have := S.finite
   have hcomm : ∀ H : Subgroup (ModGL τ L), ⁅H, H⁆ ≤ H := fun H =>
     Subgroup.commutator_le.2 fun x hx y hy => by
       rw [commutatorElement_def]

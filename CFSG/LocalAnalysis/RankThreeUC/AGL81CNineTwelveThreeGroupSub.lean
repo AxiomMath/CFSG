@@ -66,7 +66,7 @@ theorem omegaOnePSub_of_pElement {R : Subgroup G} (hR : IsPGroup 3 ↥R)
     have hfix : α₀ r' = r' := by
       rw [hα01, MulAut.one_apply]
     have hco : ((α₀ r' : ↥R) : G) = y * r * y⁻¹ := by
-      simpa [α₀, g, r'] using Subgroup.normalizerMonoidHom_apply_apply_coe R g r'
+      simp [α₀, g, r']
     have h : y * r * y⁻¹ = r := by
       rw [← hco, hfix]
     have h' : y * r = r * y := by
@@ -112,7 +112,7 @@ theorem omegaOnePSub_of_pElement {R : Subgroup G} (hR : IsPGroup 3 ↥R)
     intro x hx
     rcases hcase with ⟨-, -, hDcard27, hDc⟩ | ⟨-, hDext, hDcard5⟩
     · exact mem_of_pow_three_eq_one_of_le_center hR hrk' hDexp hDc hDcard27 hx
-    · haveI : D.Characteristic := hDchar
+    · have : D.Characteristic := hDchar
       exact mem_of_pow_three_eq_one_of_extraspecial hR hrk' hDexp hDcomm hDext hDcard5 hx
   have himg : R.subtype '' (D : Set ↥R) = {x : G | x ∈ R ∧ x ^ 3 = 1} := by
     ext x
@@ -152,7 +152,7 @@ theorem omegaOnePSub_of_pElement {R : Subgroup G} (hR : IsPGroup 3 ↥R)
         apply hα0d
         apply Subtype.ext
         have hcoe : ((α₀ d : ↥R) : G) = y * (d : G) * y⁻¹ := by
-          simpa [α₀, g] using Subgroup.normalizerMonoidHom_apply_apply_coe R g d
+          simp [α₀, g]
         rw [hcoe]
         exact hconj
   · refine Or.inr ⟨hp5, ?_, ?_, ?_⟩
@@ -170,7 +170,7 @@ theorem omegaOnePSub_of_pElement {R : Subgroup G} (hR : IsPGroup 3 ↥R)
         simpa using congrArg Subtype.val (hDexp d hd)
       have hexpne : Monoid.exponent ↥(D.map R.subtype) ≠ 1 := by
         intro h1
-        haveI : Subsingleton ↥(D.map R.subtype) := Monoid.exp_eq_one_iff.mp h1
+        have : Subsingleton ↥(D.map R.subtype) := Monoid.exp_eq_one_iff.mp h1
         have hle : Nat.card ↥(D.map R.subtype) ≤ 1 :=
           Finite.card_le_one_iff_subsingleton.mpr inferInstance
         rw [Subgroup.card_map_of_injective R.subtype_injective, hDcard5] at hle

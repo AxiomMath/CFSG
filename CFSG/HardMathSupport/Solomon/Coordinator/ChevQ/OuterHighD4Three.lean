@@ -70,7 +70,7 @@ theorem apply_eq_of_comm_conj {α : MulAut ↥(adjointGroup Tag.D4 K)}
     simp [MulAut.mul_apply, MulAut.conj_apply]
   rw [← h2, h, mul_inv_cancel_right]
 
-theorem isTwoPow_of_card {q : TauCeti.PrimePower} {k : ℕ} (hk : 1 ≤ k) (h : q.card = 2 ^ k) :
+theorem isTwoPow_of_card {q : TauCeti.PrimePower} {k : ℕ} (_hk : 1 ≤ k) (h : q.card = 2 ^ k) :
     IsTwoPow q k := by
   have h8 : q.p ^ q.exponent = 2 ^ k := by rw [← TauCeti.PrimePower.card_def, h]
   have hdvd : q.p ∣ 2 ^ k := h8 ▸ dvd_pow_self q.p q.exponent_pos.ne'
@@ -159,7 +159,7 @@ theorem d4ThreeOuterCubes_of_types (hF : D4ThreeFieldCubes) (hGF : D4ThreeGraphF
 theorem d4EightGraphCubes_of_graphCubes (h : D4ThreeGraphCubes) :
     OuterFourSeitz.D4EightGraphCubes := by
   intro K _ _ hK E hE hc hinn hG
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hchar : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
       (k := 3) (by norm_num) hK
@@ -172,6 +172,7 @@ section Planes
 
 variable {S : Type} [Group S] [Finite S]
 
+omit [Finite S] in
 theorem apply_mem_fixedSubgroup_of_comm {β e : MulAut S} (h : e * β = β * e) {u : S}
     (hu : u ∈ fixedSubgroup β) : e u ∈ fixedSubgroup β := by
   rw [mem_fixedSubgroup] at hu ⊢
@@ -643,7 +644,7 @@ theorem seitzHyperGamma_eq_top_of_graphField (hS2 : CFSG.AGLEmbeddingD2.KFactSei
   classical
   have : Finite (ModGL Tag.D4 K) := finite_modGL
   have : Finite ↥(adjointGroup Tag.D4 K) := Subtype.finite
-  haveI := inner_normal ↥(adjointGroup Tag.D4 K)
+  have := inner_normal ↥(adjointGroup Tag.D4 K)
   obtain ⟨g, a, σ, ε, hεlt, hσ3, ⟨hε0, hσ1⟩, hβ⟩ := hβT
   have hε12 : ε = 1 ∨ ε = 2 := by omega
   have : Fintype K := Fintype.ofFinite K

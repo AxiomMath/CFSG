@@ -112,12 +112,12 @@ theorem aut_coset_fixed {G : Type*} [Group G] [Finite G] (N : Subgroup G) (hidx 
   rw [mul_inv_rev, inv_inv] at h3
   exact h3
 
-theorem conj_coset_fixed {K : Type*} [Group K] [Finite K] (Q N : Subgroup K) (hNQ : N ≤ Q)
+theorem conj_coset_fixed {K : Type*} [Group K] [Finite K] (Q N : Subgroup K) (_hNQ : N ≤ Q)
     (hidx : N.relIndex Q ≤ 4)
     (x : K) (hxQ : ∀ g ∈ Q, x * g * x⁻¹ ∈ Q) (hxQ' : ∀ g ∈ Q, x⁻¹ * g * x ∈ Q)
     (hxN : ∀ g ∈ Q, (x * g * x⁻¹ ∈ N ↔ g ∈ N)) (m : ℕ) (hx : x ^ m = 1)
     (hm : Nat.Coprime m 6) : ∀ g ∈ Q, g⁻¹ * (x * g * x⁻¹) ∈ N := by
-  clear hNQ
+  clear _hNQ
   obtain ⟨σ, hσval⟩ : ∃ σ : MulAut Q, ∀ g : Q, ((σ g : Q) : K) = x * (g : K) * x⁻¹ :=
     ⟨{ toFun := fun g => ⟨x * (g : K) * x⁻¹, hxQ g g.2⟩
        invFun := fun g => ⟨x⁻¹ * (g : K) * x, hxQ' g g.2⟩
@@ -173,7 +173,7 @@ theorem frat_four_mul_closed {M : Type*} [CommGroup M] (p q : M) (hp : p * p = 1
 theorem aut_eq_one_of_frattini {H : Type*} [Group H] [Finite H] (hH : IsPGroup 2 H)
     (σ : MulAut H) (m : ℕ) (hσ : σ ^ m = 1) (hm : Nat.Coprime m 2)
     (hfr : ∀ g : H, g⁻¹ * σ g ∈ frattini H) : σ = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hker : σ ∈ (CFSG.OrderReductions.FrattiniAutomorphisms.quotientAutomorphism
       (frattini H)).ker :=
     (CFSG.OrderReductions.FrattiniAutomorphisms.mem_quotientAutomorphism_kernel
@@ -190,9 +190,9 @@ theorem aut_eq_one_of_frattini {H : Type*} [Group H] [Finite H] (hH : IsPGroup 2
 
 theorem frattini_index_le_four {H : Type*} [Group H] [Finite H] (hH : IsPGroup 2 H) (u v : H)
     (hgen : Subgroup.closure {u, v} = ⊤) : (frattini H).index ≤ 4 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, hcomm, hpow, -, -⟩ := CFSG.GroupTheory.frattini_elementary_quotient hH
-  letI : CommGroup (H ⧸ frattini H) :=
+  let : CommGroup (H ⧸ frattini H) :=
     { (inferInstance : Group (H ⧸ frattini H)) with
       mul_comm := fun x y => hcomm.is_comm.comm x y }
   have hsq : ∀ y : H ⧸ frattini H, y * y = 1 := fun y => (pow_two y).symm.trans (hpow y)
@@ -464,7 +464,7 @@ theorem qpair_card_ge [Finite K] {u v : K} (h : QPair u v) :
     rw [pow_two]
     exact mul_eq_one_iff_eq_inv.mpr hu_inv
   have hpos : 0 < Nat.card H := by
-    haveI : Nonempty H := ⟨⟨1, H.one_mem⟩⟩
+    have : Nonempty H := ⟨⟨1, H.one_mem⟩⟩
     exact Nat.card_pos
   have hdvd : Nat.card (Subgroup.zpowers u) ∣ Nat.card H := Subgroup.card_dvd_of_le hle
   rw [hzp] at hdvd

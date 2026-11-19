@@ -202,7 +202,6 @@ theorem i112d_chev_A2_char {S : Type} [Group S] (Q : TauCeti.PrimePower)
       q ^ 3 * ((q ^ 2 - 1) * (q ^ 3 - 1)) := by
     simp only [CFSG.ComponentClassification.CatLeaf.lieOrderNumerator]
     rw [show Finset.Icc 2 3 = {2, 3} from by decide, Finset.prod_pair (by decide)]
-    all_goals norm_num
   have hbig : 25920 < Nat.card S := by
     by_contra hle
     rw [not_lt] at hle

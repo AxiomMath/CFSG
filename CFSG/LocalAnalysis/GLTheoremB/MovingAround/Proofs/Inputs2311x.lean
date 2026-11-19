@@ -72,7 +72,7 @@ theorem exists_moving_rElt_minus_inputs2311x (hEsc : Inputs2311u.TriOddA2Escape)
   obtain ⟨-, -, -, -, -, -, hZ, -⟩ :=
     odd_triality_exact_automorphism_normal_form hℓ hℓ2 hf K hK σ hσ
   have hinj : Function.Injective (MulAut.conj : C0 σ →* MulAut (C0 σ)) := nf1_conj_injective hZ
-  haveI : Finite (C0 σ) := by
+  have : Finite (C0 σ) := by
     have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
     exact Finite.of_injective (fun x : C0 σ => (x : ModGL TwistTag.D4.tag K)) Subtype.val_injective
   obtain ⟨β, hβE, hβout⟩ : ∃ β ∈ E, β ∉ innerAut (C0 σ) := by
@@ -86,7 +86,7 @@ theorem exists_moving_rElt_minus_inputs2311x (hEsc : Inputs2311u.TriOddA2Escape)
   have hβG : ¬ TriOddIsGLine σ β := fun h => hng ⟨β, hβE, h⟩
   obtain ⟨s, hsβ, hs3, hsG⟩ :=
     Parrott.ClosingMinus.Escape.outerToralForm_holds ℓ f hℓ hℓ2 hℓ3 hf hq K hK σ hσ β hβ3 hβout hβG
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hcx1 : MulAut.conj x ≠ 1 := fun h => hx1 (hinj (h.trans (map_one MulAut.conj).symm))
   have hcx3 : MulAut.conj x ^ 3 = 1 := by rw [← map_pow, hx3, map_one]
   have hEcl : E = Subgroup.closure ({MulAut.conj x, β} : Set (MulAut (C0 σ))) :=

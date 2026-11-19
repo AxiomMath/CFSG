@@ -138,6 +138,7 @@ theorem sec73b_core {H : Type*} [Group H] (A L F : Subgroup H) {t : H}
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem s73b_bar_mono [(Q.subgroupOf M).Normal] {S T : Subgroup G} (hST : S ≤ T) :
     bar M Q S ≤ bar M Q T := by
   intro x hx
@@ -145,11 +146,13 @@ theorem s73b_bar_mono [(Q.subgroupOf M).Normal] {S T : Subgroup G} (hST : S ≤ 
   exact Subgroup.mem_map.mpr
     ⟨y, Subgroup.mem_subgroupOf.mpr (hST (Subgroup.mem_subgroupOf.mp hy)), rfl⟩
 
+omit [Finite G] in
 theorem s73b_mk_eq_one [(Q.subgroupOf M).Normal] {y : G} (hy : y ∈ M) (hyQ : y ∈ Q) :
     QuotientGroup.mk' (Q.subgroupOf M) (⟨y, hy⟩ : M) = 1 := by
   rw [QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff]
   exact Subgroup.mem_subgroupOf.mpr hyQ
 
+omit [Finite G] in
 theorem s73b_mk_ne_one [(Q.subgroupOf M).Normal] {y : G} (hy : y ∈ M) (hyQ : y ∉ Q) :
     QuotientGroup.mk' (Q.subgroupOf M) (⟨y, hy⟩ : M) ≠ 1 := by
   intro h
@@ -157,24 +160,28 @@ theorem s73b_mk_ne_one [(Q.subgroupOf M).Normal] {y : G} (hy : y ∈ M) (hyQ : y
   rw [QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff] at h
   exact Subgroup.mem_subgroupOf.mp h
 
+omit [Finite G] in
 theorem s73b_mk_eq_of_mem [(Q.subgroupOf M).Normal] {a b : M}
     (h : ((a⁻¹ * b : M) : G) ∈ Q) :
     QuotientGroup.mk' (Q.subgroupOf M) a = QuotientGroup.mk' (Q.subgroupOf M) b := by
   rw [QuotientGroup.mk'_apply, QuotientGroup.mk'_apply, QuotientGroup.eq]
   exact Subgroup.mem_subgroupOf.mpr h
 
+omit [Finite G] in
 theorem s73b_inv_mul_mem (hc : Ctx M Q Z B) {x y : G} (hx : x ∈ M) (h : y * x⁻¹ ∈ Q) :
     x⁻¹ * y ∈ Q := by
   have h1 := (Subgroup.mem_normalizer_iff.mp (hc.hyp.Q_normal.2 (M.inv_mem hx)) (y * x⁻¹)).mp h
   have e : x⁻¹ * (y * x⁻¹) * x⁻¹⁻¹ = x⁻¹ * y := by group
   rwa [e] at h1
 
+omit [Finite G] in
 theorem s73b_mul_inv_mem (hc : Ctx M Q Z B) {x y : G} (hx : x ∈ M) (h : x⁻¹ * y ∈ Q) :
     y * x⁻¹ ∈ Q := by
   have h1 := (Subgroup.mem_normalizer_iff.mp (hc.hyp.Q_normal.2 hx) (x⁻¹ * y)).mp h
   have e : x * (x⁻¹ * y) * x⁻¹ = y * x⁻¹ := by group
   rwa [e] at h1
 
+omit [Finite G] in
 theorem s73b_isConj_iff [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) {σ y : G}
     (hσ : σ ∈ M) (hy : y ∈ M) :
     IsConj (QuotientGroup.mk' (Q.subgroupOf M) (⟨σ, hσ⟩ : M) : Mbar M Q)
@@ -198,18 +205,19 @@ theorem s73b_isConj_iff [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) {σ y : G}
     have hxM : g * σ * g⁻¹ ∈ M := M.mul_mem (M.mul_mem hg hσ) (M.inv_mem hg)
     simpa [Subgroup.coe_mul, Subgroup.coe_inv] using s73b_inv_mul_mem hc hxM hq
 
+omit [Finite G] in
 theorem s73b_mem_normalizer_bar [(Q.subgroupOf M).Normal] {S : Subgroup G} (hQS : Q ≤ S)
     (γ : M) (hγ : (γ : G) ∈ Subgroup.normalizer (S : Set G)) :
     QuotientGroup.mk' (Q.subgroupOf M) γ ∈
       Subgroup.normalizer ((bar M Q S : Subgroup (Mbar M Q)) : Set (Mbar M Q)) := by
   rw [Subgroup.mem_normalizer_iff]
   intro x
-  try simp only [SetLike.mem_coe]
   obtain ⟨y, rfl⟩ := QuotientGroup.mk'_surjective (Q.subgroupOf M) x
   rw [← map_inv, ← map_mul, ← map_mul, Tim37.mk_mem_bar_iff' hQS, Tim37.mk_mem_bar_iff' hQS]
   have h1 := Subgroup.mem_normalizer_iff.mp hγ (y : G)
   simpa [Subgroup.coe_mul, Subgroup.coe_inv] using h1
 
+omit [Finite G] in
 theorem s73b_mem_normalizer_of_bar [(Q.subgroupOf M).Normal] {S : Subgroup G} (hQS : Q ≤ S)
     (hSM : S ≤ M) (γ : M)
     (hN : QuotientGroup.mk' (Q.subgroupOf M) γ ∈
@@ -217,10 +225,8 @@ theorem s73b_mem_normalizer_of_bar [(Q.subgroupOf M).Normal] {S : Subgroup G} (h
     (γ : G) ∈ Subgroup.normalizer (S : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
   intro x
-  try simp only [SetLike.mem_coe]
   by_cases hxM : x ∈ M
   · have h1 := Subgroup.mem_normalizer_iff.mp hN (QuotientGroup.mk' (Q.subgroupOf M) ⟨x, hxM⟩)
-    try simp only [SetLike.mem_coe] at h1
     rw [← map_inv, ← map_mul, ← map_mul, Tim37.mk_mem_bar_iff' hQS,
       Tim37.mk_mem_bar_iff' hQS] at h1
     simpa [Subgroup.coe_mul, Subgroup.coe_inv] using h1
@@ -235,12 +241,14 @@ theorem s73b_mem_normalizer_of_bar [(Q.subgroupOf M).Normal] {S : Subgroup G} (h
       have e : (γ : G)⁻¹ * ((γ : G) * x * (γ : G)⁻¹) * (γ : G) = x := by group
       rwa [e] at h2
 
+omit [Finite G] in
 theorem s73b_conc71a_congr (hc : Ctx M Q Z B) {s t : G}
     (hR : Rt M (LB M Q B) s = Rt M (LB M Q B) t) (hCN : hc.CN s = hc.CN t) :
     Conc71a hc s ↔ Conc71a hc t := by
   unfold Conc71a
   rw [hR, hCN]
 
+omit [Finite G] in
 theorem s73b_conc71abcd_congr (hc : Ctx M Q Z B) {n : ℕ} {s t : G}
     (hR : Rt M (LB M Q B) s = Rt M (LB M Q B) t)
     (hV : Vt M (LB M Q B) B Z s = Vt M (LB M Q B) B Z t) :
@@ -273,7 +281,7 @@ theorem stroth73b_of_72 (h72 : Stroth72Statement) (h73a : Stroth73aStatement)
     (hZV : Sec7ZVStatement) (hZt : Sec7ZtStatement) (hZc : Sec7CentreMpStatement)
     (hNC : Sec7ConjStatement) (hNC4 : Sec7ConjOm4Statement) : Stroth73bStatement := by
   intro G _ _ M Q Z B hc n t hs hno Z0 hZ0
-  haveI : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
+  have : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
   by_cases hF : Fgen M Q (LB M Q B) Z0 = Z0
   · exact Or.inl hF
   refine Or.inr ?_

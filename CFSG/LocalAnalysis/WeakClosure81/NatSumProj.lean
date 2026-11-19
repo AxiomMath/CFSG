@@ -11,7 +11,7 @@ open CFSG.SignalizerFunctorTheorem.Quadratic
 theorem exists_projection_onto_summand {G : Type} [Group G] {W : Type} [AddCommGroup W]
     [Module (ZMod 2) W] [Finite W] (ρ : G →* LGL 2 W) (W₂ : Submodule (ZMod 2) W)
     (hW₂ : ∀ g : G, ∀ w ∈ W₂, ρ g w ∈ W₂) (s : Finset (Submodule (ZMod 2) W))
-    (hsinv : ∀ U ∈ s, ∀ g : G, ∀ u ∈ U, ρ g u ∈ U) (hsle : ∀ U ∈ s, W₂ ≤ U)
+    (hsinv : ∀ U ∈ s, ∀ g : G, ∀ u ∈ U, ρ g u ∈ U) (_hsle : ∀ U ∈ s, W₂ ≤ U)
     (hsup : s.sup id ⊔ W₂ = ⊤) (hind : ∀ U ∈ s, U ⊓ ((s.erase U).sup id ⊔ W₂) ≤ W₂)
     {U : Submodule (ZMod 2) W} (hU : U ∈ s) {K : Type} [Field K]
     (φ : G →* Matrix.SpecialLinearGroup (Fin 2) K) (ψ : ↥U →+ (Fin 2 → K))

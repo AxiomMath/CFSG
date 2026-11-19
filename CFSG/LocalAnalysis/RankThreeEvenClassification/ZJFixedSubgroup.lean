@@ -30,7 +30,7 @@ theorem zj_fixed_subgroup_exists {G : Type u} [Group G] [Finite G]
     apply (Subgroup.map_lt_map_iff_of_injective overgroup.subtype_injective).mp
     rw [Subgroup.map_subgroupOf_eq_of_le (hproper.le.trans hnormalLe), Subgroup.map_subgroupOf_eq_of_le hnormalLe]
     exact hproper
-  have hstrict := normalFixedModulo_strict prime hprime sylow.isPGroup'
+  have hstrict := normalFixedModulo_strict prime hprime sylow.isPGroup
     (normal.subgroupOf overgroup) (kernel.subgroupOf overgroup) hrestrictedProper
   have hambientStrict : kernel < fixed.map overgroup.subtype := by
     have hmapped := (Subgroup.map_lt_map_iff_of_injective overgroup.subtype_injective).mpr hstrict

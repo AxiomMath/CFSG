@@ -15,7 +15,7 @@ theorem card_fix_sq_le {F : Type} [Field F] [Finite F] {ι : Type} [Finite ι] {
     Nat.card {x : ι → F // α x = x} ^ 2 ≤ Nat.card (ι → F) := by
   obtain ⟨c₀, hc₀⟩ : ∃ c₀ : F, θ c₀ ≠ c₀ := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hθ (RingHom.ext h)
   let P := {x : ι → F // α x = x}
   have hinj : Function.Injective (fun p : P × P => (p.1 : ι → F) + c₀ • (p.2 : ι → F)) := by
@@ -51,6 +51,7 @@ section Act2
 
 variable {G : Type} [Group G] [Finite G] {n : ℕ} {M L V : Subgroup G} (d : O6NatData G n L V)
 
+omit [Finite G] in
 theorem O6NatData.act_inv_act (hMV : M ≤ normalizer (V : Set G)) {m : G} (hm : m ∈ M)
     (x : Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2 → d.F) :
     d.act m⁻¹ (hMV (M.inv_mem hm)) (d.act m (hMV hm) x) = x := by
@@ -63,6 +64,7 @@ theorem O6NatData.act_inv_act (hMV : M ≤ normalizer (V : Set G)) {m : G} (hm :
   rw [O6NatData.rho_apply, O6NatData.rho_apply] at h'
   exact h'
 
+omit [Finite G] in
 theorem O6NatData.act_act_inv (hMV : M ≤ normalizer (V : Set G)) {m : G} (hm : m ∈ M)
     (x : Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2 → d.F) :
     d.act m (hMV hm) (d.act m⁻¹ (hMV (M.inv_mem hm)) x) = x := by
@@ -84,6 +86,7 @@ theorem O6NatData.act_act_inv (hMV : M ≤ normalizer (V : Set G)) {m : G} (hm :
   right_inv := d.act_act_inv hMV hm
   map_add' := d.act_add m (hMV hm)
 
+omit [Finite G] in
 theorem O6NatData.act_normalizes (hLM : L ≤ M) (hML : M ≤ normalizer (L : Set G))
     (hMV : M ≤ normalizer (V : Set G)) {m : G} (hm : m ∈ M)
     {g : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) d.F}
@@ -108,15 +111,17 @@ theorem O6NatData.act_normalizes (hLM : L ≤ M) (hML : M ≤ normalizer (L : Se
   rw [← hgl]
   exact e
 
+omit [Finite G] in
 theorem O6NatData.act_semilinear (hn : 1 ≤ n) (hLM : L ≤ M) (hML : M ≤ normalizer (L : Set G))
     (hMV : M ≤ normalizer (V : Set G)) {m : G} (hm : m ∈ M) :
     ∃ θ : d.F →+* d.F, ∀ (c : d.F) (x : Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2 → d.F),
       d.act m (hMV hm) (c • x) = θ c • d.act m (hMV hm) x := by
-  haveI := d.charP hn
+  have := d.charP hn
   refine omega_semilinear d.irred (d.actAddEquiv hMV hm) (fun g hg => ?_)
   obtain ⟨g', hg', hgx⟩ := d.act_normalizes hLM hML hMV (M.inv_mem hm) hg
   exact ⟨g', hg', hgx⟩
 
+omit [Finite G] in
 theorem O6NatData.mem_centralizer_of_act_eq (hMV : M ≤ normalizer (V : Set G)) {m : G}
     (hm : m ∈ M) (h : ∀ x, d.act m (hMV hm) x = x) : m ∈ centralizer (V : Set G) := by
   rw [Subgroup.mem_centralizer_iff]

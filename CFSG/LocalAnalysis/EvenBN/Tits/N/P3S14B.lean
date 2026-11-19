@@ -17,7 +17,7 @@ section S14B
 variable {G : Type} [Group G] [Finite G] {d : Data G} {z₀ : G}
 
 
-theorem liftSub_inf' {X Y : Subgroup (Equiv.Perm (Fin 1755))} (hX : X ≤ titsD) (hY : Y ≤ titsD) :
+theorem liftSub_inf' {X Y : Subgroup (Equiv.Perm (Fin 1755))} (_hX : X ≤ titsD) (_hY : Y ≤ titsD) :
     d.liftSub (X ⊓ Y) = d.liftSub X ⊓ d.liftSub Y := by
   ext g
   constructor

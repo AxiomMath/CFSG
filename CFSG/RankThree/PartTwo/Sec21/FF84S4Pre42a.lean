@@ -14,8 +14,10 @@ open CFSG.RankThree.LocalRank (aschbacherSolvableCore
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem theta_le (H : Subgroup G) : Theta H ≤ H := Subgroup.map_subtype_le _
 
+omit [Finite G] in
 theorem theta_norm (H : Subgroup G) {h x : G} (hh : h ∈ H) (hx : x ∈ Theta H) :
     h * x * h⁻¹ ∈ Theta H := by
   obtain ⟨t, ht, rfl⟩ := hx
@@ -25,7 +27,7 @@ theorem theta_norm (H : Subgroup G) {h x : G} (hh : h ∈ H) (hx : x ∈ Theta H
 theorem theta_solv (H : Subgroup G) : Group.IsSolvable ↥(Theta H) := by
   obtain ⟨hs, -⟩ := solvable_prime_complement_core_characterization (H := ↥H) Nat.prime_three
   let e := (aschbacherSolvableCore 3 ↥H).equivMapOfInjective H.subtype H.subtype_injective
-  exact solvable_of_solvable_injective (f := e.symm.toMonoidHom) e.symm.injective
+  exact Group.isSolvable_of_isSolvable_injective (f := e.symm.toMonoidHom) e.symm.injective
 
 theorem theta_three (H : Subgroup G) : ¬ 3 ∣ Nat.card ↥(Theta H) := by
   obtain ⟨-, -, h3, -⟩ := solvable_prime_complement_core_characterization (H := ↥H) Nat.prime_three
@@ -43,7 +45,7 @@ theorem le_theta_of_normal {N H : Subgroup G} (hNH : N ≤ H)
     exact hn g.1 g.2 n hnn⟩
   have hsolv : Group.IsSolvable ↥(N.subgroupOf H) := by
     have e := Subgroup.subgroupOfEquivOfLe hNH
-    exact solvable_of_solvable_injective (f := e.toMonoidHom) e.injective
+    exact Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective
   have h3' : ¬ 3 ∣ Nat.card ↥(N.subgroupOf H) := by
     rwa [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hNH).toEquiv]
   have hle := hmax _ hnorm hsolv h3'
@@ -77,7 +79,7 @@ theorem theta_conj_mem {H H' : Subgroup G} {g : G} (hg : ∀ y, y ∈ H' ↔ g�
     · have e := (Theta H).equivMapOfInjective (MulAut.conj g).toMonoidHom
         (MulAut.conj g).injective
       have := theta_solv H
-      exact solvable_of_solvable_injective (f := e.symm.toMonoidHom) e.symm.injective
+      exact Group.isSolvable_of_isSolvable_injective (f := e.symm.toMonoidHom) e.symm.injective
     · have : Nat.card ↥N' = Nat.card ↥(Theta H) :=
         Subgroup.card_map_of_injective (MulAut.conj g).injective
       rw [this]

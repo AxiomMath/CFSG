@@ -32,7 +32,7 @@ private theorem borel86_outer_sq_eq_comm {M : Type*} [Group M] {x x' : M} (hx : 
 private theorem borel86_outer_exists_two_ne_one {M : Type*} [Group M] [Finite M]
     (h : 2 < Nat.card M) :
     ∃ x y : M, x ≠ 1 ∧ y ≠ 1 ∧ x ≠ y := by
-  haveI : Fintype M := Fintype.ofFinite M
+  have : Fintype M := Fintype.ofFinite M
   rw [Nat.card_eq_fintype_card] at h
   obtain ⟨x, y, z, hxy, hxz, hyz⟩ := Fintype.two_lt_card_iff.mp h
   by_cases hx : x = 1
@@ -41,6 +41,7 @@ private theorem borel86_outer_exists_two_ne_one {M : Type*} [Group M] [Finite M]
     · exact ⟨x, z, hx, fun hz => hyz (hy.trans hz.symm), hxz⟩
     · exact ⟨x, y, hx, hy, hxy⟩
 
+omit [Finite G] in
 private theorem borel86_outer_sq_eq_one {W : Subgroup G} (hW : IsElemAbelian 2 W) {g : G} {x : G}
     (hx : x ∈ conjSubgroup W g) : x * x = 1 := by
   have h : x ^ 2 = 1 := (isElemAbelian_conjSubgroup' hW g).2 x hx
@@ -199,7 +200,7 @@ theorem rho_mem_range_conj (hD : Borel86Data V H T S ψ ρ t₀) {g : G}
     obtain ⟨w₁, w₂, hw₁1, hw₂1, hw₁₂⟩ := borel86_outer_exists_two_ne_one hcard
     let i : ↥(conjSubgroup V g) → ↥H := fun w => ⟨(w : G), hUH w.2⟩
     have hi : ∀ w : ↥(conjSubgroup V g), (i w : G) = (w : G) := fun _ => rfl
-    haveI : IsMulCommutative ↥(conjSubgroup V g) :=
+    have : IsMulCommutative ↥(conjSubgroup V g) :=
       (isElemAbelian_conjSubgroup' hD.hyp.elemAbelian g).1
     have hfix : ∀ w : ↥(conjSubgroup V g), ρ (i w) t₀ = t₀ := fun w =>
       hD.rho_apply_eq_of_mem_normalizer (i w) (hD.hyp.T_le_normalizer (hUT w.2))
@@ -252,7 +253,7 @@ theorem rho_mem_range_conj (hD : Borel86Data V H T S ψ ρ t₀) {g : G}
     · have hu1 : u = 1 := Subtype.ext (by simpa using hueq)
       rw [hu1, map_one]
       exact (MulAut.conj : S →* MulAut S).range.one_mem
-    · have hwU : (i w : G) ∈ conjSubgroup V g := by simpa [hi] using w.2
+    · have hwU : (i w : G) ∈ conjSubgroup V g := by simp [hi]
       have hw1' : (i w : G) ≠ 1 := fun h => hw1 (Subtype.ext (by simpa [hi] using h))
       have hfixu : ρ u t₀ = t₀ :=
         hD.rho_apply_eq_of_mem_normalizer u (hD.hyp.T_le_normalizer (hUT hu))

@@ -31,7 +31,7 @@ theorem y1431_noCfg_psuBadHigh (hGA : GriessAllModelsStatement) : Y1431NoCfgAt F
   have hC : StatedClassicalModel (Y ⧸ Subgroup.center Y) .PSU n p f :=
     (lieModel_classical_iff (by decide)).mp hm
   obtain ⟨K, _, _, h, -, hq, ⟨e0⟩⟩ := CFSG.RankThree.PartOne.FOC.exists_psu_model hC
-  haveI : Finite (GL (Fin n) K) :=
+  have : Finite (GL (Fin n) K) :=
     Finite.of_injective (fun g : GL (Fin n) K => (g : Matrix (Fin n) (Fin n) K)) Units.val_injective
   have hdvd : 3 ∣ p ^ f + 1 := (Nat.dvd_gcd_iff.1 hdiv).2
   have h2 : ¬(n = 6 ∧ p = 2 ∧ f = 1) := fun ⟨ha, hb, hc⟩ => hn6' ⟨ha, hb, by rw [hc]; exact odd_one⟩
@@ -43,7 +43,7 @@ theorem y1431_noCfg_psuBadHigh (hGA : GriessAllModelsStatement) : Y1431NoCfgAt F
       by_contra hlt
       exact hn6' ⟨by omega, rfl, hf⟩
     · left
-      haveI := h.charP
+      have := h.charP
       rw [ringChar.eq K p]
       exact hp
   have h3K : 3 ∣ Nat.card Kˣ := by
@@ -52,7 +52,7 @@ theorem y1431_noCfg_psuBadHigh (hGA : GriessAllModelsStatement) : Y1431NoCfgAt F
     rw [one_pow] at this
     rw [this]
     exact Dvd.dvd.mul_right hdvd _
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ζ, hζ⟩ : ∃ ζ : Kˣ, orderOf ζ = 3 := exists_prime_orderOf_dvd_card' 3 h3K
   let qY : Y →* Y ⧸ Subgroup.center Y := QuotientGroup.mk' (Subgroup.center Y)
   obtain ⟨ρ, hρ⟩ := exists_suHom_to_cover hGA h hC e0 (by omega) h2 qY

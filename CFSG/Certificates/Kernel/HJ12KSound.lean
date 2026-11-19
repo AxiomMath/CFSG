@@ -215,16 +215,16 @@ theorem foldl_step : ∀ (L : List ℕ), (∀ t ∈ L, t < 2 ^ 144) →
     have hc : h.contains (unpackA x) = memP t x := hr x hx
     by_cases hm : memP t x = true
     · have e1 : stepM (l.map unpackA, h) (unpackA x) = (l.map unpackA, h) := by
-        simp only [stepM, hc, hm, if_true]
-      have e2 : stepP (l, t) x = (l, t) := by simp only [stepP, hm, if_true]
+        simp only [stepM, hc, hm, ite_true]
+      have e2 : stepP (l, t) x = (l, t) := by simp only [stepP, hm, ite_true]
       rw [e1, e2]
       exact foldl_step L hL' l h t hl hr
     · have hm' : memP t x = false := by simpa using hm
       have e1 : stepM (l.map unpackA, h) (unpackA x) =
           ((x :: l).map unpackA, h.insert (unpackA x)) := by
-        simp only [stepM, hc, hm', Bool.false_eq_true, if_false, List.map_cons]
+        simp only [stepM, hc, hm', Bool.false_eq_true, ite_false, List.map_cons]
       have e2 : stepP (l, t) x = (x :: l, insP t x) := by
-        simp only [stepP, hm', Bool.false_eq_true, if_false]
+        simp only [stepP, hm', Bool.false_eq_true, ite_false]
       rw [e1, e2]
       refine foldl_step L hL' (x :: l) _ _ ?_ ?_
       · intro q hq
@@ -367,7 +367,7 @@ theorem hjX7Check_of (h : x7Q = true) : hjX7Check = true := by
   rw [← wordR_eq] at this
   exact this
 
-theorem p3_sound (gs : List ℕ) (hgs : ∀ g ∈ gs, g < 2 ^ 144) (J : ℕ) (hJ : J < 2 ^ 144)
+theorem p3_sound (gs : List ℕ) (_hgs : ∀ g ∈ gs, g < 2 ^ 144) (J : ℕ) (_hJ : J < 2 ^ 144)
     (h : p3At gs (enumQ gs) J 27 = true) :
     (gensOKN (gs.map unpackA) && closedCheck (gs.map unpackA) (enumGrp (gs.map unpackA)) &&
       (enumGrp (gs.map unpackA)).dedup.length == 27 &&

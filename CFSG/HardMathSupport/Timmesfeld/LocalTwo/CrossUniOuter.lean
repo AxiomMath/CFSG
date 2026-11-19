@@ -57,7 +57,7 @@ theorem dvd_card_range_of_dvd_q (h : UnitaryFieldData ℓ f K) (hp : p.Prime) (h
   exact hdvd
 
 theorem exists_fieldCore_unitary_outer (h : UnitaryFieldData ℓ f K) (hn : 3 ≤ n)
-    (hne : ¬(n = 3 ∧ ℓ ^ f = 2)) (hp : p.Prime) (hp5 : 5 < p) (hpℓ : p ≠ ℓ)
+    (hne : ¬(n = 3 ∧ ℓ ^ f = 2)) (hp : p.Prime) (hp5 : 5 < p) (_hpℓ : p ≠ ℓ)
     {D : Subgroup (MulAut (primeFormP h (idGram K n)))} (hD : IsElemAbelian p D)
     (hcard : Nat.card D = p ^ 2) (hDl : ¬ D ≤ primeFormD h (idGram K n)) :
     ∃ x ∈ D, x ∉ primeFormD h (idGram K n) ∧ FieldCoreAt p x := by

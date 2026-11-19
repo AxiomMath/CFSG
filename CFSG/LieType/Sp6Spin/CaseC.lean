@@ -134,11 +134,11 @@ theorem IsSpinPattern.neg {x : ZMod (Nat.card Kˣ)} (hP : S.IsSpinPattern x) :
 theorem IsSpinPattern.mult_spinWt {x : ZMod (Nat.card Kˣ)} (hP : S.IsSpinPattern x)
     (σ : Fin 3 → Bool) : S.mult (spinWt x σ) = 1 := by
   rw [hP.mult_eq]
-  exact if_pos fun i => by cases h : σ i <;> simp [spinWt, h]
+  exact ite_eq_left fun i => by cases h : σ i <;> simp [spinWt, h]
 
 theorem IsSpinPattern.mult_eq_zero {x : ZMod (Nat.card Kˣ)} (hP : S.IsSpinPattern x)
     {a : Fin 3 → ZMod (Nat.card Kˣ)} (ha : ∀ σ, a ≠ spinWt x σ) : S.mult a = 0 := by
-  rw [hP.mult_eq, if_neg]
+  rw [hP.mult_eq, ite_eq_right]
   rintro h
   refine ha (fun i => decide (a i = x)) ?_
   funext i
@@ -148,7 +148,7 @@ theorem IsSpinPattern.mult_eq_zero {x : ZMod (Nat.card Kˣ)} (hP : S.IsSpinPatte
   · have hnx : a i = -x := hi.resolve_left hx
     have hx' : x ≠ -x := ne_neg_of_ne_zero odd_natCard_units hP.ne_zero
     have hx'' : ¬ a i = x := hx
-    simp [spinWt, hx, hnx, hx''] at hi ⊢
+    simp [spinWt, hnx] at hi ⊢
 
 theorem IsSpinPattern.exists_ne_zero {x : ZMod (Nat.card Kˣ)} (hP : S.IsSpinPattern x)
     (σ : Fin 3 → Bool) : ∃ v ∈ S.X (spinWt x σ), v ≠ 0 := by
@@ -202,11 +202,12 @@ private theorem mult_eq_zero_of_coord {x : ZMod (Nat.card Kˣ)} (hP : S.IsSpinPa
   refine hP.mult_eq_zero S fun σ h => ?_
   have hi := congrFun h i
   cases hσ : σ i
-  · simp only [spinWt, hσ, if_false] at hi
+  · simp only [spinWt, hσ] at hi
     exact h2 hi
-  · simp only [spinWt, hσ, if_true] at hi
+  · simp only [spinWt, hσ, ite_true] at hi
     exact h1 hi
 
+omit [CharP K 2] in
 private theorem spinWt_add_two_mul_rootWt {x : ZMod (Nat.card Kˣ)} {r : RootSubgroupIndex 3}
     (hr : IsShortIndex r) {σ : Fin 3 → Bool} (hsrc : IsSrc (stdVec r) σ) :
     spinWt x σ + (2 * x) • rootWt K r = spinWt x (flipAt (stdVec r) σ) := by
@@ -214,18 +215,18 @@ private theorem spinWt_add_two_mul_rootWt {x : ZMod (Nat.card Kˣ)} {r : RootSub
   have hsrcb := hsrc b
   simp only [Pi.add_apply, Pi.smul_apply, spinWt, rootWt, castW, smul_eq_mul]
   rcases stdVec_trichotomy hr b with h0 | h1 | hm
-  · have hflip : flipAt (stdVec r) σ b = σ b := by rw [flipAt, if_pos h0]
+  · have hflip : flipAt (stdVec r) σ b = σ b := by rw [flipAt, ite_eq_left h0]
     rw [h0, hflip]
     simp
   · have hσ : σ b = false := hsrcb.1 h1
     have hzero : ¬ stdVec r b = 0 := by rw [h1]; norm_num
-    have hflip : flipAt (stdVec r) σ b = true := by rw [flipAt, if_neg hzero, hσ]; rfl
+    have hflip : flipAt (stdVec r) σ b = true := by rw [flipAt, ite_eq_right hzero, hσ]; rfl
     rw [h1, hflip]
     simp [hσ]
     ring
   · have hσ : σ b = true := hsrcb.2 hm
     have hzero : ¬ stdVec r b = 0 := by rw [hm]; norm_num
-    have hflip : flipAt (stdVec r) σ b = false := by rw [flipAt, if_neg hzero, hσ]; rfl
+    have hflip : flipAt (stdVec r) σ b = false := by rw [flipAt, ite_eq_right hzero, hσ]; rfl
     rw [hm, hflip]
     simp [hσ]
     ring
@@ -259,7 +260,7 @@ private theorem mult_add_smul_eq_zero {x : ZMod (Nat.card Kˣ)} (hP : S.IsSpinPa
     · exact hkm hm
 
 private theorem mult_add_two_mul_eq_zero_of_not_src {x : ZMod (Nat.card Kˣ)}
-    (hP : S.IsSpinPattern x) {r : RootSubgroupIndex 3} (hr : IsShortIndex r)
+    (hP : S.IsSpinPattern x) {r : RootSubgroupIndex 3} (_hr : IsShortIndex r)
     {σ : Fin 3 → Bool} (h : ¬ IsSrc (stdVec r) σ) :
     S.mult (spinWt x σ + (2 * x) • rootWt K r) = 0 := by
   have h3 := three_mul_ne_pm odd_natCard_units hP.ne_zero
@@ -285,7 +286,7 @@ private theorem mult_add_two_mul_eq_zero_of_not_src {x : ZMod (Nat.card Kˣ)}
     · rw [hcoord]; exact h3.2.2.2
 
 private theorem mult_add_neg_two_mul_eq_zero_of_not_src {x : ZMod (Nat.card Kˣ)}
-    (hP : S.IsSpinPattern x) {r : RootSubgroupIndex 3} (hr : IsShortIndex r)
+    (hP : S.IsSpinPattern x) {r : RootSubgroupIndex 3} (_hr : IsShortIndex r)
     {σ : Fin 3 → Bool} (h : ¬ IsSrc (stdVec r) (fun i => !σ i)) :
     S.mult (spinWt x σ + (-(2 * x)) • rootWt K r) = 0 := by
   have h3 := three_mul_ne_pm odd_natCard_units hP.ne_zero
@@ -342,9 +343,9 @@ private theorem not_src_neg {r : RootSubgroupIndex 3} (hr : IsShortIndex r)
 
 private theorem short_A_card_eq_zero {x : ZMod (Nat.card Kˣ)} (hP : S.IsSpinPattern x)
     {r : RootSubgroupIndex 3} (hr : IsShortIndex r) : S.A r (Nat.card Kˣ) = 0 := by
-  haveI : NeZero (Nat.card Kˣ) := ⟨Nat.card_pos.ne'⟩
+  have : NeZero (Nat.card Kˣ) := ⟨Nat.card_pos.ne'⟩
   have hx' : (2 : ZMod (Nat.card Kˣ)) * x ≠ 0 := two_mul_ne_zero odd_natCard_units hP.ne_zero
-  haveI : NeZero ((2 : ZMod (Nat.card Kˣ)) * x) := ⟨hx'⟩
+  have : NeZero ((2 : ZMod (Nat.card Kˣ)) * x) := ⟨hx'⟩
   have hkp : (((2 * x).val : ℕ) : ZMod (Nat.card Kˣ)) = 2 * x := ZMod.natCast_zmod_val _
   have hkm : (((-(2 * x)).val : ℕ) : ZMod (Nat.card Kˣ)) = -(2 * x) :=
     ZMod.natCast_zmod_val _
@@ -392,7 +393,7 @@ private theorem short_A_card_eq_zero {x : ZMod (Nat.card Kˣ)} (hP : S.IsSpinPat
 private theorem short_A_neg_kill_target {x : ZMod (Nat.card Kˣ)} (hP : S.IsSpinPattern x)
     {r : RootSubgroupIndex 3} (hr : IsShortIndex r) {kp km : ℕ}
     (hkp : (kp : ZMod (Nat.card Kˣ)) = 2 * x)
-    (hkm : (km : ZMod (Nat.card Kˣ)) = -(2 * x))
+    (_hkm : (km : ZMod (Nat.card Kˣ)) = -(2 * x))
     (hfac : S.A r km * S.A r kp = S.A r (Nat.card Kˣ))
     (hAN : S.A r (Nat.card Kˣ) = 0)
     {σ : Fin 3 → Bool} (hsrc : IsSrc (stdVec r) σ) {u₀ : V}
@@ -436,9 +437,9 @@ private theorem short_dichotomy_witness {x : ZMod (Nat.card Kˣ)} (hP : S.IsSpin
       IsSrc (stdVec r) σ₀ ∧ σ₂ = (fun i => !flipAt (stdVec r) σ₀ i) ∧
       (∀ u ∈ S.X (spinWt x (flipAt (stdVec r) σ₀)), S.A r (-(2 * x)).val u = 0) ∧
       (∀ u ∈ S.X (spinWt x (fun i => !σ₀ i)), S.A r (-(2 * x)).val u = 0) := by
-  haveI : NeZero (Nat.card Kˣ) := ⟨Nat.card_pos.ne'⟩
+  have : NeZero (Nat.card Kˣ) := ⟨Nat.card_pos.ne'⟩
   have hx' : (2 : ZMod (Nat.card Kˣ)) * x ≠ 0 := two_mul_ne_zero odd_natCard_units hP.ne_zero
-  haveI : NeZero ((2 : ZMod (Nat.card Kˣ)) * x) := ⟨hx'⟩
+  have : NeZero ((2 : ZMod (Nat.card Kˣ)) * x) := ⟨hx'⟩
   have hkp : (((2 * x).val : ℕ) : ZMod (Nat.card Kˣ)) = 2 * x := ZMod.natCast_zmod_val _
   have hkm : (((-(2 * x)).val : ℕ) : ZMod (Nat.card Kˣ)) = -(2 * x) :=
     ZMod.natCast_zmod_val _
@@ -506,7 +507,7 @@ private theorem short_dichotomy {x : ZMod (Nat.card Kˣ)} (hP : S.IsSpinPattern 
     {r : RootSubgroupIndex 3} (hr : IsShortIndex r)
     (hE : S.A r (2 * x).val ≠ 0) : S.A r (-(2 * x)).val = 0 := by
   obtain ⟨σ₀, σ₂, hsrc₀, hσ₂, hkill₀, hkill₂⟩ := short_dichotomy_witness S hP hr hE
-  haveI : NeZero (Nat.card Kˣ) := ⟨Nat.card_pos.ne'⟩
+  have : NeZero (Nat.card Kˣ) := ⟨Nat.card_pos.ne'⟩
   have hkm : (((-(2 * x)).val : ℕ) : ZMod (Nat.card Kˣ)) = -(2 * x) :=
     ZMod.natCast_zmod_val _
   refine ext_of_wtSpace (diagHom 3 K) S.ρ (f := S.A r ((-(2 * x)).val)) (g := 0)
@@ -573,7 +574,7 @@ private theorem psi_apply_of_vanishing
   simp
 
 private theorem short_vanishing {x : ZMod (Nat.card Kˣ)} (hP : S.IsSpinPattern x)
-    (hE : S.A (.difference 0 1 (by decide)) (2 * x).val ≠ 0)
+    (_hE : S.A (.difference 0 1 (by decide)) (2 * x).val ≠ 0)
     (hkm : S.A (.difference 0 1 (by decide)) (-(2 * x)).val = 0) :
     ∀ r, IsShortIndex r → ∀ k, 1 ≤ k → k ≤ Nat.card Kˣ →
       (k : ZMod (Nat.card Kˣ)) ≠ 2 * x → S.A r k = 0 := by
@@ -663,11 +664,11 @@ private theorem short_not_both_zero {x : ZMod (Nat.card Kˣ)} (hP : S.IsSpinPatt
     rw [h1, elt_zero]
   exact one_ne_zero (elt_injective (F := K) (.difference 0 1 (by decide)) h10)
 
-private theorem long_coord_ne {N : ℕ} (hN : Odd N) {x k : ZMod N} (hx : x ≠ 0)
+private theorem long_coord_ne {N : ℕ} (hN : Odd N) {x k : ZMod N} (_hx : x ≠ 0)
     (hk0 : k ≠ 0) (hkx : k ≠ x) (hkn : k ≠ -x) (s : Bool) :
     (if s then x else -x) + k * 2 ≠ x ∧ (if s then x else -x) + k * 2 ≠ -x := by
   cases s
-  · simp only [Bool.false_eq_true, if_false]
+  · simp only [Bool.false_eq_true, ite_false]
     constructor
     · intro h
       refine hkx (two_mul_cancel hN ?_)
@@ -675,7 +676,7 @@ private theorem long_coord_ne {N : ℕ} (hN : Odd N) {x k : ZMod N} (hx : x ≠ 
     · intro h
       refine hk0 (two_mul_eq_zero hN ?_)
       linear_combination h
-  · simp only [if_true]
+  · simp only [ite_true]
     constructor
     · intro h
       refine hk0 (two_mul_eq_zero hN ?_)
@@ -685,6 +686,7 @@ private theorem long_coord_ne {N : ℕ} (hN : Odd N) {x k : ZMod N} (hx : x ≠ 
       have hk : k + x = 0 := two_mul_eq_zero hN h'
       exact hkn (by linear_combination hk)
 
+omit [CharP K 2] in
 private theorem spinWt_add_x_rootWt {x : ZMod (Nat.card Kˣ)} (σ : Fin 3 → Bool)
     (hσ2 : σ 2 = false) :
     spinWt x σ + x • rootWt K (.positiveLong 2) = spinWt x (Function.update σ 2 true) := by
@@ -693,8 +695,9 @@ private theorem spinWt_add_x_rootWt {x : ZMod (Nat.card Kˣ)} (σ : Fin 3 → Bo
   · subst hb
     simp [spinWt, rootWt_positiveLong, Pi.smul_apply, smul_eq_mul, hσ2]
     ring
-  · simp [spinWt, rootWt_positiveLong, Pi.single_eq_of_ne hb, hb]
+  · simp [spinWt, rootWt_positiveLong, hb]
 
+omit [CharP K 2] in
 private theorem spinWt_add_neg_x_rootWt {x : ZMod (Nat.card Kˣ)} (σ : Fin 3 → Bool)
     (hσ2 : σ 2 = true) :
     spinWt x σ + (-x) • rootWt K (.positiveLong 2) = spinWt x (Function.update σ 2 false) := by
@@ -703,7 +706,7 @@ private theorem spinWt_add_neg_x_rootWt {x : ZMod (Nat.card Kˣ)} (σ : Fin 3 �
   · subst hb
     simp [spinWt, rootWt_positiveLong, Pi.smul_apply, smul_eq_mul, hσ2]
     ring
-  · simp [spinWt, rootWt_positiveLong, Pi.single_eq_of_ne hb, hb]
+  · simp [spinWt, rootWt_positiveLong, hb]
 
 private theorem long_mult_eq_zero {x : ZMod (Nat.card Kˣ)} (hP : S.IsSpinPattern x)
     {k : ℕ} (hk1 : 1 ≤ k) (hkN : k < Nat.card Kˣ)
@@ -763,14 +766,14 @@ private theorem long_A_neg_x_apply_eq_zero {x : ZMod (Nat.card Kˣ)} (hP : S.IsS
   rw [S.X_eq_bot_iff.mpr hkill] at hmem
   simpa using hmem
 
-private theorem long_A_x_mem {x : ZMod (Nat.card Kˣ)} (hP : S.IsSpinPattern x)
+private theorem long_A_x_mem {x : ZMod (Nat.card Kˣ)} (_hP : S.IsSpinPattern x)
     {σ : Fin 3 → Bool} (hσ2 : σ 2 = false) {v : V} (hv : v ∈ S.X (spinWt x σ)) :
     S.A (.positiveLong 2) x.val v ∈ S.X (spinWt x (Function.update σ 2 true)) := by
   have hxval : ((x.val : ℕ) : ZMod (Nat.card Kˣ)) = x := ZMod.natCast_zmod_val x
   have h := S.A_mem (.positiveLong 2) hv x.val
   rwa [hxval, spinWt_add_x_rootWt σ hσ2] at h
 
-private theorem long_A_neg_x_mem {x : ZMod (Nat.card Kˣ)} (hP : S.IsSpinPattern x)
+private theorem long_A_neg_x_mem {x : ZMod (Nat.card Kˣ)} (_hP : S.IsSpinPattern x)
     {σ : Fin 3 → Bool} (hσ2 : σ 2 = true) {v : V} (hv : v ∈ S.X (spinWt x σ)) :
     S.A (.positiveLong 2) (-x).val v ∈ S.X (spinWt x (Function.update σ 2 false)) := by
   have hxval : (((-x).val : ℕ) : ZMod (Nat.card Kˣ)) = -x := ZMod.natCast_zmod_val (-x)
@@ -779,8 +782,8 @@ private theorem long_A_neg_x_mem {x : ZMod (Nat.card Kˣ)} (hP : S.IsSpinPattern
 
 private theorem long_A_card_eq_zero {x : ZMod (Nat.card Kˣ)} (hP : S.IsSpinPattern x) :
     S.A (.positiveLong 2) (Nat.card Kˣ) = 0 := by
-  haveI : NeZero (Nat.card Kˣ) := ⟨Nat.card_pos.ne'⟩
-  haveI : NeZero x := ⟨hP.ne_zero⟩
+  have : NeZero (Nat.card Kˣ) := ⟨Nat.card_pos.ne'⟩
+  have : NeZero x := ⟨hP.ne_zero⟩
   have hval : x.val < Nat.card Kˣ := ZMod.val_lt _
   have hval' : (-x).val < Nat.card Kˣ := ZMod.val_lt _
   have hsum : x.val + (-x).val = Nat.card Kˣ := by
@@ -835,11 +838,11 @@ private theorem update_spinWt {N : ℕ} (x : ZMod N) (σ : Fin 3 → Bool) (k : 
   by_cases hik : i = k
   · subst hik
     simp only [Function.update_self, spinWt]
-    cases h : σ i <;> simp [h]
+    cases h : σ i <;> simp
   · simp only [spinWt, Function.update_of_ne hik]
 
 private theorem long_shift_ne_zero {m : ℕ} {k : Fin 3} (hk : k ≠ 2) {x : ZMod (Nat.card Kˣ)}
-    {σ : Fin 3 → Bool} {v : V} (hv : v ∈ S.X (spinWt x σ)) (hv0 : v ≠ 0)
+    {σ : Fin 3 → Bool} {v : V} (_hv : v ∈ S.X (spinWt x σ)) (_hv0 : v ≠ 0)
     (hE : S.A (.positiveLong 2) m v ≠ 0) :
     S.A (.positiveLong 2) m (S.ψ (lw k) v) ≠ 0 := by
   have hcomm := long_A_commute_lw S hk m
@@ -879,7 +882,7 @@ private theorem bool_vec_cases {σ σ' : Fin 3 → Bool} (h2 : σ' 2 = σ 2) :
 
 private theorem long_ne_zero_all {x : ZMod (Nat.card Kˣ)} (hP : S.IsSpinPattern x)
     {m : ℕ} {b : Bool}
-    (hmap : ∀ (σ : Fin 3 → Bool), σ 2 = b → ∀ v ∈ S.X (spinWt x σ),
+    (_hmap : ∀ (σ : Fin 3 → Bool), σ 2 = b → ∀ v ∈ S.X (spinWt x σ),
       S.A (.positiveLong 2) m v ∈ S.X (spinWt x (Function.update σ 2 (!b))))
     (hkill : ∀ (σ : Fin 3 → Bool), σ 2 = !b → ∀ v ∈ S.X (spinWt x σ),
       S.A (.positiveLong 2) m v = 0)
@@ -946,8 +949,8 @@ private theorem long_ne_zero_on {x : ZMod (Nat.card Kˣ)} (hP : S.IsSpinPattern 
 
 private theorem long_dichotomy_pos {x : ZMod (Nat.card Kˣ)} (hP : S.IsSpinPattern x)
     (hF : S.A (.positiveLong 2) x.val ≠ 0) : S.A (.positiveLong 2) (-x).val = 0 := by
-  haveI : NeZero (Nat.card Kˣ) := ⟨Nat.card_pos.ne'⟩
-  haveI : NeZero x := ⟨hP.ne_zero⟩
+  have : NeZero (Nat.card Kˣ) := ⟨Nat.card_pos.ne'⟩
+  have : NeZero x := ⟨hP.ne_zero⟩
   have hval : x.val < Nat.card Kˣ := ZMod.val_lt _
   have hval' : (-x).val < Nat.card Kˣ := ZMod.val_lt _
   have hsum : x.val + (-x).val = Nat.card Kˣ := by
@@ -1003,8 +1006,8 @@ private theorem long_not_both_zero {x : ZMod (Nat.card Kˣ)} (hP : S.IsSpinPatte
   have hpos' : S.A (.positiveLong 2) x.val = 0 := not_not.mp hpos
   have hneg' : S.A (.positiveLong 2) (-x).val = 0 := not_not.mp hneg
   have hxval : ((x.val : ℕ) : ZMod (Nat.card Kˣ)) = x := ZMod.natCast_zmod_val x
-  haveI : NeZero (Nat.card Kˣ) := ⟨Nat.card_pos.ne'⟩
-  haveI : NeZero x := ⟨hP.ne_zero⟩
+  have : NeZero (Nat.card Kˣ) := ⟨Nat.card_pos.ne'⟩
+  have : NeZero x := ⟨hP.ne_zero⟩
   have hval : x.val < Nat.card Kˣ := ZMod.val_lt _
   have hsum : x.val + (-x).val = Nat.card Kˣ := by
     rw [show (-x).val = Nat.card Kˣ - x.val from ZMod.val_neg_of_ne_zero x]
@@ -1058,7 +1061,7 @@ private theorem short_A_kp_apply_eq_zero_of_not_src {x : ZMod (Nat.card Kˣ)}
   rw [hkp, S.X_eq_bot_iff.mpr hkill] at hmem
   simpa using hmem
 
-private theorem short_A_kp_mem_flip {x : ZMod (Nat.card Kˣ)} (hP : S.IsSpinPattern x)
+private theorem short_A_kp_mem_flip {x : ZMod (Nat.card Kˣ)} (_hP : S.IsSpinPattern x)
     {r : RootSubgroupIndex 3} (hr : IsShortIndex r) {kp : ℕ}
     (hkp : (kp : ZMod (Nat.card Kˣ)) = 2 * x) {σ : Fin 3 → Bool}
     (hsrc : IsSrc (stdVec r) σ) {v : V} (hv : v ∈ S.X (spinWt x σ)) :
@@ -1141,8 +1144,8 @@ private theorem neg_x_mul_difference_eq_zero {x : ZMod (Nat.card Kˣ)}
         simp
 
 private theorem long_Fplus_ne_zero {x : ZMod (Nat.card Kˣ)} (hP : S.IsSpinPattern x)
-    (hE : S.A (.difference 0 1 (by decide)) (2 * x).val ≠ 0)
-    (hkm : S.A (.difference 0 1 (by decide)) (-(2 * x)).val = 0)
+    (_hE : S.A (.difference 0 1 (by decide)) (2 * x).val ≠ 0)
+    (_hkm : S.A (.difference 0 1 (by decide)) (-(2 * x)).val = 0)
     (hvan : ∀ r, IsShortIndex r → ∀ k, 1 ≤ k → k ≤ Nat.card Kˣ →
       (k : ZMod (Nat.card Kˣ)) ≠ 2 * x → S.A r k = 0) :
     S.A (.positiveLong 2) x.val ≠ 0 := by

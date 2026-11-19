@@ -43,7 +43,7 @@ theorem image_coe_puigSeries (f : X ≃* Y) (n : ℕ) :
 @[simp] theorem mem_puigSeries_map_iff (f : X ≃* Y) (n : ℕ) (x : X) :
     f x ∈ puigSeries Y n ↔ x ∈ puigSeries X n := by
   rw [← puigSeries_map f n]
-  simp [Subgroup.mem_map_equiv]
+  simp
 
 theorem puigLower_map (f : X ≃* Y) : (puigLower X).map f.toMonoidHom = puigLower Y := by
   rw [puigLower_eq_iSup, Subgroup.map_iSup, puigLower_eq_iSup]
@@ -63,7 +63,7 @@ theorem image_coe_puigSubgroup (f : X ≃* Y) :
 @[simp] theorem mem_puigSubgroup_map_iff (f : X ≃* Y) (x : X) :
     f x ∈ puigSubgroup Y ↔ x ∈ puigSubgroup X := by
   rw [← puigSubgroup_map f]
-  simp [Subgroup.mem_map_equiv]
+  simp
 
 theorem puigCenter_map (f : X ≃* Y) : (puigCenter X).map f.toMonoidHom = puigCenter Y := by
   rw [puigCenter_eq_inf_centralizer, Subgroup.map_inf_eq _ _ _ f.injective,
@@ -76,7 +76,7 @@ theorem image_coe_puigCenter (f : X ≃* Y) :
 @[simp] theorem mem_puigCenter_map_iff (f : X ≃* Y) (x : X) :
     f x ∈ puigCenter Y ↔ x ∈ puigCenter X := by
   rw [← puigCenter_map f]
-  simp [Subgroup.mem_map_equiv]
+  simp
 
 theorem puig_map_of_equiv_finite (X : Type*) [Group X] [Finite X] (Y : Type*) [Group Y] [Finite Y]
     (f : X ≃* Y) :

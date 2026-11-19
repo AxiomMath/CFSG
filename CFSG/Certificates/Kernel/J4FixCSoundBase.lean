@@ -219,7 +219,7 @@ theorem foldr_cnt (f : Nat → Bool) : ∀ n s,
     simp only [List.foldr_cons, List.foldr_nil]
     cases h : f n
     · simp
-    · rw [if_pos rfl, Finset.card_insert_of_notMem (by simp)]
+    · rw [ite_eq_left rfl, Finset.card_insert_of_notMem (by simp)]
       simp only
       omega
 
@@ -227,7 +227,7 @@ theorem cntN_eq (n : Nat) (f : Nat → Bool) :
     cntN n f = ((Finset.range n).filter fun a => f a = true).card := by
   rw [cntN, CFSG.KC.Pack.foldN_eq, foldr_cnt, Nat.zero_add]
 
-@[expose] def PairRep (g : J) (p : ℕ) : Prop :=
+def PairRep (g : J) (p : ℕ) : Prop :=
   ∃ k ∈ K, g = η (paK p) * k ∧ ActsBy k (unpack11 (pcK p))
 
 theorem letter_neg_codeL (c : ℕ) : letter x y (-(codeL c)) = (letter x y (codeL c))⁻¹ := by
@@ -250,10 +250,10 @@ include hX hXI hY hYI
 
 end Gen
 
-@[expose] noncomputable def letE (gs : List J) (c : ℕ) : J :=
+noncomputable def letE (gs : List J) (c : ℕ) : J :=
   if c % 2 = 0 then nth 1 gs (c / 2) else (nth 1 gs (c / 2))⁻¹
 
-@[expose] noncomputable def wordE (gs : List J) (w : List ℕ) : J := (w.map (letE gs)).prod
+noncomputable def wordE (gs : List J) (w : List ℕ) : J := (w.map (letE gs)).prod
 
 theorem wordE_cons (gs : List J) (c : ℕ) (w : List ℕ) :
     wordE gs (c :: w) = letE gs c * wordE gs w := by
@@ -279,8 +279,8 @@ theorem letE_inv (gs : List J) (c : ℕ) : letE gs (c + 1 - 2 * (c % 2)) = (letE
   unfold letE
   rw [e]
   by_cases h : c % 2 = 0
-  · rw [if_neg (by omega), if_pos h]
-  · rw [if_pos (by omega), if_neg h, inv_inv]
+  · rw [ite_eq_right (by omega), ite_eq_left h]
+  · rw [ite_eq_left (by omega), ite_eq_right h, inv_inv]
 
 theorem wordE_append (gs : List J) (w w' : List ℕ) :
     wordE gs (w ++ w') = wordE gs w * wordE gs w' := by

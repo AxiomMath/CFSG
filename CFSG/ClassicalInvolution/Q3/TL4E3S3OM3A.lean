@@ -31,7 +31,7 @@ theorem eq_of_theta_eq_of_apply (hQ : (polarBilin Q).Nondegenerate)
     {θ : ↥(orthDerived Q) →* S} (hker : θ.ker = (scalars K V).subgroupOf (orthDerived Q))
     {m m' : V ≃ₗ[K] V} (hm : m ∈ orthDerived Q) (hm' : m' ∈ orthDerived Q)
     (h : θ ⟨m, hm⟩ = θ ⟨m', hm'⟩) {u : V} (hu : u ≠ 0) (hmu : m u = m' u) : m = m' := by
-  haveI : Nontrivial V := ⟨⟨u, 0, hu⟩⟩
+  have : Nontrivial V := ⟨⟨u, 0, hu⟩⟩
   obtain ⟨c, -, hc⟩ := exists_smul_of_map_eq hQ hker h
   have hmu0 : m u ≠ 0 := fun h0 => hu (m.injective (by rw [h0, map_zero]))
   have hc1 : c = 1 := by
@@ -73,7 +73,7 @@ theorem commute_La_neg_one_of_fix [Finite K] [FiniteDimensional K V] (hK : Nat.c
     (hfix : ∀ a ∈ frameMember θ F, x a = a) : g * F.La (-1) = F.La (-1) * g := by
   have h2 : (2 : K) ≠ 0 := OrthQ8.two_ne_zero' hK
   obtain ⟨v₀, hv₀, hv₀0⟩ := exists_ne_zero_mem_perp F hn
-  haveI : Nontrivial V := ⟨⟨v₀, 0, hv₀0⟩⟩
+  have : Nontrivial V := ⟨⟨v₀, 0, hv₀0⟩⟩
   obtain ⟨c, hc, hcv⟩ := exists_smul_conj hQ hker hx (La_neg_one_mem_orthDerived F)
     (hfix _ (La_mem_frameMember θ F (neg_one_mem_commutator hK)))
   have hcases : c = 1 ∨ c = -1 := by

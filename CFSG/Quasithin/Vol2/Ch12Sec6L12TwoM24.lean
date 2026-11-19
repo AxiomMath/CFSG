@@ -30,7 +30,7 @@ theorem a6LocM24_holds :
       omega
     calc 32 = 2 ^ 5 := by norm_num
       _ ≤ 2 ^ m := Nat.pow_le_pow_right (by norm_num) h5
-  haveI : Finite ↥NativeSporadic.M24 := Finite.of_equiv X e.toEquiv
+  have : Finite ↥NativeSporadic.M24 := Finite.of_equiv X e.toEquiv
   have h' := a6Config_map_mulEquiv e h
   have hF' : 32 ≤ Nat.card (F.map e.toMonoidHom) := by
     rw [Subgroup.card_map_of_injective e.injective]

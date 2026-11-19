@@ -155,7 +155,7 @@ theorem idxMap_spec {E : Array (Array ℕ)} {m : ℕ}
       rw [hne]
       exact hI.1 i h1
     · have e : i = q := by omega
-      rw [e, beq_self_eq_true, if_pos rfl]
+      rw [e, beq_self_eq_true, ite_eq_left rfl]
   · rw [Std.HashMap.getElem?_insert] at hy
     split_ifs at hy with hz
     · cases hy
@@ -190,7 +190,7 @@ theorem csNxt_spec (n : ℕ) (gens E : Array (Array ℕ)) (idx : Std.HashMap (Ar
         exact inner.2.2 k hk
     · obtain ⟨hs, hold, hnew⟩ := hJ
       refine ⟨by rw [size_set!', hs], fun i hi k hk => ?_, fun k hk => ?_⟩
-      · rw [get!_set!_eq _ _ _ _ (by rw [hs]; exact hlt i (by omega) k hk), if_neg ?_]
+      · rw [get!_set!_eq _ _ _ _ (by rw [hs]; exact hlt i (by omega) k hk), ite_eq_right ?_]
         · exact hold i hi k hk
         · intro e
           have h1 : i * gens.size + k < (i + 1) * gens.size := by rw [Nat.succ_mul]; omega
@@ -283,7 +283,7 @@ theorem ginv_push (hgens : ∀ k < gens.size, Rep n gens[k]! (Gs k)) {E : Array 
     · rw [get!_push_lt _ _ h1, hne i h1]
       exact hi1 i h1
     · have e : i = E.size := by omega
-      rw [e, get!_push_eq, beq_self_eq_true, if_pos rfl]
+      rw [e, get!_push_eq, beq_self_eq_true, ite_eq_left rfl]
   · rw [Std.HashMap.getElem?_insert] at hz
     split_ifs at hz with h2
     · cases hz

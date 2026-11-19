@@ -16,7 +16,7 @@ theorem commute_of_big_prime {A : Type} [Group A] [Finite A] (L K₀ : Subgroup 
     ∀ y ∈ pCoreOf 2 K₀, w * y = y * w := by
   intro y hy
   by_contra hne
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hYP : IsPGroup 2 (pCoreOf 2 K₀) := pCoreOf_isPGroup 2 K₀
   have hYL : pCoreOf 2 K₀ ≤ L := (pCoreOf_le 2 K₀).trans hK₀L
   have hwY : w ∈ normalizer ((pCoreOf 2 K₀ : Subgroup A) : Set A) :=
@@ -67,7 +67,7 @@ theorem false_of_bigW {G : Type} [Group G] [Finite G] {p r : ℕ} (hp : p.Prime)
   obtain ⟨g, hg⟩ := exists_conj_zpowers hp hsyl hz hz'
   obtain ⟨j, hj⟩ := mem_zpowers_iff.mp hg
   let φ : G ≃* G := MulAut.conj g⁻¹
-  have hφ : ∀ x : G, φ x = g⁻¹ * x * g := fun x => by simp [φ, MulAut.conj_apply]
+  have hφ : ∀ x : G, φ x = g⁻¹ * x * g := fun x => by simp [φ]
   have hzz1 : z ∈ zpowers (φ z') := by
     refine mem_zpowers_iff.mpr ⟨j, ?_⟩
     rw [← map_zpow, hj, hφ]

@@ -31,8 +31,8 @@ theorem exists_centralizer_complement [Finite G] {P Q : Subgroup G} {k : G}
   have hKcard : Nat.card ↥K = 3 := by
     rw [show Nat.card ↥K = orderOf k from Nat.card_zpowers k, hk3]
   have hKp : IsPGroup 3 ↥K := IsPGroup.of_card (n := 1) (by simpa using hKcard)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite ↥K := Nat.finite_of_card_ne_zero (by rw [hKcard]; norm_num)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite ↥K := Nat.finite_of_card_ne_zero (by rw [hKcard]; norm_num)
   let ρ : ↥K →* MulAut ↥P := CFSG.GroupTheory.conjHom P K hKPn
   let R : Subgroup ↥P := Q.subgroupOf P
   have hRn : R.Normal := Subgroup.normal_subgroupOf_of_le_normalizer hQn
@@ -62,7 +62,7 @@ theorem exists_centralizer_complement [Finite G] {P Q : Subgroup G} {k : G}
           intro b c hb hc
           change ρ (b * c) xP * xP⁻¹ ∈ R
           have hbc : ρ (b * c) xP * xP⁻¹ = ρ b (ρ c xP * xP⁻¹) * (ρ b xP * xP⁻¹) := by
-            simp [map_mul, map_inv, MulAut.mul_apply, mul_inv_rev]
+            simp [map_mul, map_inv, MulAut.mul_apply]
           rw [hbc]
           exact R.mul_mem (hR b _ hc) hb
         inv_mem' := by
@@ -70,7 +70,7 @@ theorem exists_centralizer_complement [Finite G] {P Q : Subgroup G} {k : G}
           change ρ b⁻¹ xP * xP⁻¹ ∈ R
           have h2 : ρ b (ρ b⁻¹ xP * xP⁻¹) ∈ R := by
             have h1 : ρ b (ρ b⁻¹ xP * xP⁻¹) = (ρ b xP * xP⁻¹)⁻¹ := by
-              simp [map_mul, map_inv, MulAut.mul_apply, mul_inv_rev]
+              simp [map_mul, map_inv, mul_inv_rev]
             rw [h1]
             exact R.inv_mem hb
           have h3 : ρ b⁻¹ (ρ b (ρ b⁻¹ xP * xP⁻¹)) = ρ b⁻¹ xP * xP⁻¹ := by simp
@@ -117,7 +117,7 @@ theorem exists_centralizer_complement [Finite G] {P Q : Subgroup G} {k : G}
     group
 
 theorem centralizer_eq_bot_of_fpf {Q Z : Subgroup G} {k : G}
-    (hkQ : k ∈ Subgroup.normalizer (Q : Set G))
+    (_hkQ : k ∈ Subgroup.normalizer (Q : Set G))
     (hZ : ∀ z ∈ Z, k * z * k⁻¹ = z → z = 1)
     (hQZ : ∀ x ∈ Q, k * x * k⁻¹ * x⁻¹ ∈ Z → x ∈ Z) :
     Q ⊓ Subgroup.centralizer ({k} : Set G) = ⊥ := by
@@ -135,7 +135,7 @@ theorem centralizer_eq_bot_of_fpf {Q Z : Subgroup G} {k : G}
   exact hx1
 
 theorem exists_mul_mem_centralizer_of_acts_trivially [Finite G] {Q Z : Subgroup G} {k : G}
-    (hZQ : Z ≤ Q) (hQ2 : IsPGroup 2 Q) (hk3 : orderOf k = 3)
+    (_hZQ : Z ≤ Q) (hQ2 : IsPGroup 2 Q) (hk3 : orderOf k = 3)
     (hkQ : k ∈ Subgroup.normalizer (Q : Set G))
     (hkZ : k ∈ Subgroup.normalizer (Z : Set G))
     (hZn : ∀ q ∈ Q, ∀ z ∈ Z, q * z * q⁻¹ ∈ Z)
@@ -146,8 +146,8 @@ theorem exists_mul_mem_centralizer_of_acts_trivially [Finite G] {Q Z : Subgroup 
   have hKQ : K ≤ Subgroup.normalizer (Q : Set G) := Subgroup.zpowers_le.mpr hkQ
   have hKcard : Nat.card ↥K = 3 := by
     rw [show Nat.card ↥K = orderOf k from Nat.card_zpowers k, hk3]
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite ↥K := Nat.finite_of_card_ne_zero (by rw [hKcard]; norm_num)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite ↥K := Nat.finite_of_card_ne_zero (by rw [hKcard]; norm_num)
   have hKp : IsPGroup 3 ↥K := IsPGroup.of_card (n := 1) (by simpa using hKcard)
   let Q' := ↥Q
   let R : Subgroup Q' := Z.subgroupOf Q
@@ -248,7 +248,7 @@ theorem exists_mul_mem_centralizer_of_acts_trivially [Finite G] {Q Z : Subgroup 
 
 theorem sq_mul_of_central {Z : Subgroup G} {x y : G}
     (hZ : ∀ z ∈ Z, ∀ g : G, g * z = z * g)
-    (hx : x ^ 2 ∈ Z) (hy : y ^ 2 ∈ Z) (hc : ⁅y, x⁆ ∈ Z) :
+    (_hx : x ^ 2 ∈ Z) (_hy : y ^ 2 ∈ Z) (hc : ⁅y, x⁆ ∈ Z) :
     (x * y) ^ 2 = x ^ 2 * y ^ 2 * ⁅y, x⁆ := by
   have hcomm : Commute x ⁅y, x⁆ := hZ _ hc x
   have hx' : Commute (⁅y, x⁆) (x ^ 2) := (hZ _ hc (x ^ 2)).symm
@@ -336,7 +336,7 @@ theorem equivariant_of_gens {A A' V V' : Type*} [Group A] [Group A'] [Group V] [
       inv_mem' := by
         intro a ha v
         have h1 := ha ((φ a)⁻¹ v)
-        simp only [MulAut.inv_apply, inv_mul_cancel, MulAut.one_apply] at h1
+        simp only [MulAut.inv_apply] at h1
         have h2 : β ((φ a)⁻¹ v) = (φ' (α a))⁻¹ (β v) := by
           have := congrArg (fun w => (φ' (α a))⁻¹ w) h1
           simpa using this.symm
@@ -349,13 +349,13 @@ theorem equivariant_of_gens {A A' V V' : Type*} [Group A] [Group A'] [Group V] [
         map_one' := by simp
         map_mul' := by
           intro v w
-          simp only [map_mul, MulAut.mul_apply] }
+          simp only [map_mul] }
     let g : V →* V' :=
       { toFun := fun v => φ' (α a) (β v)
         map_one' := by simp
         map_mul' := by
           intro v w
-          simp only [map_mul, MulAut.mul_apply] }
+          simp only [map_mul] }
     have hfg : f = g := MonoidHom.eq_of_eqOn_dense hV fun v hv => h a ha v hv
     intro v
     exact congrArg (fun f : V →* V' => f v) hfg

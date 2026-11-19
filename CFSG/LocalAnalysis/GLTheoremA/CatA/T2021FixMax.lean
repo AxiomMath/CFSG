@@ -54,8 +54,8 @@ theorem t2021Fix_sylow_of_max {p : ℕ} (hp : p.Prime) {𝔅 : Type} [Group 𝔅
     (hTX : T ≤ X) (hXinv : ∀ g : 𝔅, ∀ x ∈ X, ψ g x ∈ X) (hX : ¬ p ∣ Nat.card X) :
     Nat.card T = 2 ^ (Nat.card X).factorization 2 := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set M : Subgroup H := X ⊓ Subgroup.normalizer (T : Set H) with hM
   have hMinv : ∀ g : 𝔅, ∀ x ∈ M, ψ g x ∈ M := fun g x hx =>
     ⟨hXinv g x hx.1, t2021Fix_normalizer_inv (ψ g) (hTinv g) hx.2⟩
@@ -68,7 +68,7 @@ theorem t2021Fix_sylow_of_max {p : ℕ} (hp : p.Prime) {𝔅 : Type} [Group 𝔅
     have hm : (m : H) ∈ Subgroup.normalizer (T : Set H) := m.2.2
     simpa using (Subgroup.mem_normalizer_iff.1 hm (n : H)).1 hn
   have hTP : T.subgroupOf M ≤ (P : Subgroup ↥M) := by
-    haveI : (Subgroup.comap M.subtype T).Normal := hTn
+    have : (Subgroup.comap M.subtype T).Normal := hTn
     exact (hT2.comap_of_injective M.subtype M.subtype_injective).le_sylow_of_normal P
   set P' : Subgroup H := (P : Subgroup ↥M).map M.subtype with hP'
   have hTP' : T ≤ P' := by
@@ -143,8 +143,8 @@ theorem t2021Fix_maxQ {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {𝔅 : Type} [Gr
     (hTV : T.map (QuotientGroup.mk' (GLAPPrimeCore p H)) ≤ V) :
     V = T.map (QuotientGroup.mk' (GLAPPrimeCore p H)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set π : H →* ppQuot p H := QuotientGroup.mk' (GLAPPrimeCore p H) with hπ
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective _
   set X : Subgroup H := V.comap π with hX
@@ -213,7 +213,7 @@ theorem t2021Fix_maxS {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {𝔅 : Type} [Gr
     W = (T.map (QuotientGroup.mk' (GLAPPrimeCore p H))).map
       (QuotientGroup.mk' (Subgroup.center (ppQuot p H))) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Z := Subgroup.center (ppQuot p H) with hZ
   set ρ : ppQuot p H →* psimpleOf p H := QuotientGroup.mk' Z with hρ
   have hρs : Function.Surjective ρ := QuotientGroup.mk'_surjective Z
@@ -257,7 +257,7 @@ theorem t2021Fix_maxS {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {𝔅 : Type} [Gr
     have h2 := QuotientGroup.eq.1 h1
     simpa using h2
   obtain ⟨P₂⟩ : Nonempty (Sylow 2 ↥V) := inferInstance
-  haveI := hsub
+  have := hsub
   have hchar : (P₂ : Subgroup ↥V).Characteristic := Sylow.characteristic_of_subsingleton P₂
   set V₂ := (P₂ : Subgroup ↥V).map V.subtype with hV₂
   have hTqV₂ : Tq ≤ V₂ := by
@@ -301,7 +301,7 @@ theorem t2021Fix_radical {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {𝔅 : Type} 
         (QuotientGroup.mk' (Subgroup.center (ppQuot p H))) : Subgroup (psimpleOf p H)) : Set (psimpleOf p H))) =
       (T.map (QuotientGroup.mk' (GLAPPrimeCore p H))).map
         (QuotientGroup.mk' (Subgroup.center (ppQuot p H))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Tb : Subgroup (psimpleOf p H) := (T.map (QuotientGroup.mk' (GLAPPrimeCore p H))).map
     (QuotientGroup.mk' (Subgroup.center (ppQuot p H))) with hTb
   have hTb2 : IsPGroup 2 Tb := (hT2.map _).map _
@@ -331,6 +331,7 @@ theorem t2021Fix_radical {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {𝔅 : Type} 
     exact hle ⟨w, hw, rfl⟩
   exact (t2021Fix_maxS hp hp2 ψ ψQ hψQ ψS hψS h𝔅 hT2 hTinv hTmax hW2 hWinv hTbW)
 
+omit [Finite H] in
 theorem t2021Fix_trivAut {p : ℕ} (hperf : commutator (ppQuot p H) = ⊤) (φ : MulAut H)
     (φQ : MulAut (ppQuot p H)) (hφQ : ∀ l : H, φQ (QuotientGroup.mk l) = QuotientGroup.mk (φ l))
     (h1 : MulAut.mapQuotient (Subgroup.center (ppQuot p H)) φQ = 1) : TrivAut p H φ := by

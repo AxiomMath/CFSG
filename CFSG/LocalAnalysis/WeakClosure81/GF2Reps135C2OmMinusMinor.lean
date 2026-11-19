@@ -54,9 +54,9 @@ private theorem o8mMI_prod_map_ite {α : Type*} [DecidableEq α] {R : Type*} [Co
   | cons s ω ih =>
     rw [List.map_cons, List.prod_cons]
     by_cases hs : s ∈ J
-    · rw [if_pos hs, zero_mul]
+    · rw [ite_eq_left hs, zero_mul]
       exact (Finset.prod_eq_zero hs (by simp)).symm
-    · rw [if_neg hs, one_mul, ih]
+    · rw [ite_eq_right hs, one_mul, ih]
       refine Finset.prod_congr rfl fun i hi => ?_
       have his : i ≠ s := fun h => hs (h ▸ hi)
       simp [List.mem_cons, his]
@@ -78,7 +78,7 @@ theorem o8mMinor_mat_nW_wordProd {ω : List (Fin (4 - 1))}
       (o8mDatum hirrQ).nW_simple_mul _ _ hlen, mat_mul]
     by_cases hsi : s = i
     · subst hsi
-      rw [if_pos (by simp)]
+      rw [ite_eq_left (by simp)]
       by_cases hi : s.val < 2
       · exact o8mMinor_mat_n_mul_eq_zero_of_long (hirrQ := hirrQ) (i := s) hi _
           (fun x hx => o8mMI_minor_X_mul_nW (hirrQ := hirrQ) hlen hx)

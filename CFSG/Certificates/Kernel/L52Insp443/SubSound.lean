@@ -24,13 +24,13 @@ theorem maskK_cons (b : ℕ) (bs : List ℕ) (m : ℕ) :
   · have hb : Nat.beq (Nat.mod m 2) 1 = true := by
       rw [Nat.beq_eq]
       exact h
-    rw [if_pos h, hb]
+    rw [ite_eq_left h, hb]
     rfl
   · have hb : Nat.beq (Nat.mod m 2) 1 = false := by
       rw [Bool.eq_false_iff]
       intro e
       exact h (Nat.eq_of_beq_eq_true e)
-    rw [if_neg h, hb]
+    rw [ite_eq_right h, hb]
     rfl
 
 theorem mcode_maskG : ∀ {cs : List ℕ}, (∀ c ∈ cs, unitK c = true) → ∀ m,
@@ -42,8 +42,8 @@ theorem mcode_maskG : ∀ {cs : List ℕ}, (∀ c ∈ cs, unitK c = true) → �
     have ih := mcode_maskG (fun c hc => hu c (List.mem_cons_of_mem b hc)) (m / 2)
     rw [maskG.eq_2, maskK_cons]
     by_cases h : m % 2 = 1
-    · rw [if_pos h, if_pos h, kG_mul, mcode_gD (hu b List.mem_cons_self), ih]
-    · rw [if_neg h, if_neg h, one_mul, ih]
+    · rw [ite_eq_left h, ite_eq_left h, kG_mul, mcode_gD (hu b List.mem_cons_self), ih]
+    · rw [ite_eq_right h, ite_eq_right h, one_mul, ih]
 
 theorem rep_maskProd : ∀ {cs : List ℕ} {Ts : List Table},
     List.Forall₂ (Rep 31) Ts (cs.map fun c => glPerm (gD c)) → ∀ m,
@@ -59,9 +59,9 @@ theorem rep_maskProd : ∀ {cs : List ℕ} {Ts : List Table},
     unfold maskProd
     refine Rep.compT ?_ (rep_maskProd h.2 (m / 2))
     by_cases hm : m % 2 = 1
-    · rw [if_pos hm, if_pos hm]
+    · rw [ite_eq_left hm, ite_eq_left hm]
       exact h.1
-    · rw [if_neg hm, if_neg hm, map_one]
+    · rw [ite_eq_right hm, ite_eq_right hm, map_one]
       exact Rep.idT hn31
 
 theorem length_of_f2 {cs : List ℕ} {Ts : List Table}

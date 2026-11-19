@@ -159,7 +159,7 @@ theorem nbhdSemisimple_of_centralizes [Finite G] {x y : G} {K E : Subgroup G}
     set S : Subgroup G := (S1 : Subgroup ↥I1).map I1.subtype with hS
     have hSI0 : S ≤ I0 := by
       rintro _ ⟨s, hs, rfl⟩
-      obtain ⟨k, hk⟩ := (S1.isPGroup' ⟨s, hs⟩)
+      obtain ⟨k, hk⟩ := (S1.isPGroup ⟨s, hs⟩)
       have hk' : (s : G) ^ (2 ^ k) = 1 := by
         have := congrArg (fun z : ↥(S1 : Subgroup ↥I1) => ((z : ↥I1) : G)) hk
         simpa using this

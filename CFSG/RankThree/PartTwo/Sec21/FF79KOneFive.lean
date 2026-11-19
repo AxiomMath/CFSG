@@ -19,7 +19,7 @@ theorem card_modEq_card_inf_cen [Finite G] {p : ℕ} [Fact p.Prime] {a : G} (ha 
   let α : Subgroup.zpowers a →* MulAut G := MulAut.conj.comp (Subgroup.zpowers a).subtype
   have hS : ∀ b : Subgroup.zpowers a, ∀ x ∈ (H : Set G), α b x ∈ (H : Set G) := fun b x hx =>
     conj_mem_of_mem_nor (Subgroup.zpowers_le.mpr haH b.2) hx
-  letI := Semidihedral.Principal.CoprimeFixedPoint.subsetAction α (H : Set G) hS
+  let := Semidihedral.Principal.CoprimeFixedPoint.subsetAction α (H : Set G) hS
   have hfix : ∀ x : (H : Set G),
       x ∈ MulAction.fixedPoints (Subgroup.zpowers a) (H : Set G) ↔ (x : G) ∈ Cen a := by
     intro x

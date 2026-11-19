@@ -13,6 +13,7 @@ open scoped commutatorElement
 
 variable {Y : Type*} [Group Y] [Finite Y]
 
+omit [Finite Y] in
 theorem commutatorElement_mem_of_isMulCommutative_normalizerQuotient {P : Subgroup Y}
     (hP : IsMulCommutative (Subgroup.normalizerQuotient P)) {u v : Y}
     (hu : u ∈ Subgroup.normalizer (P : Set Y)) (hv : v ∈ Subgroup.normalizer (P : Set Y)) :
@@ -34,6 +35,7 @@ theorem commutatorElement_mem_of_isMulCommutative_normalizerQuotient {P : Subgro
   rw [Subgroup.normalizerQuotientMk_eq_one_iff] at h2
   simpa [commutatorElement_def] using h2
 
+omit [Finite Y] in
 theorem commutatorElement_mem_of_isMulCommutative_subgroupOf {K P : Subgroup Y}
     (h : IsMulCommutative (Subgroup.normalizerQuotient (P.subgroupOf K)))
     {u v : Y} (hu : u ∈ K) (hv : v ∈ K) (huN : u ∈ Subgroup.normalizer (P : Set Y))

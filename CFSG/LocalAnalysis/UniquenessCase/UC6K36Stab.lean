@@ -18,7 +18,7 @@ include h
 
 theorem dvd_card_component {L : Subgroup G} (hL : CFSG.IsComponent L) (hne : ⁅L, pCoreOf 2 M⁆ ≠ ⊥) :
     p ∣ Nat.card L := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   by_contra hdvd
   have hcop : Nat.Coprime p (Nat.card L) := (Nat.Prime.coprime_iff_not_dvd h.prime).2 hdvd
   have hLX : L ≤ relPPrimeCore p (⊤ : Subgroup G) := by
@@ -39,7 +39,7 @@ theorem dvd_card_component {L : Subgroup G} (hL : CFSG.IsComponent L) (hne : ⁅
 theorem exists_noncentral_sylow_inf {L : Subgroup G} (hL : CFSG.IsComponent L)
     (hne : ⁅L, pCoreOf 2 M⁆ ≠ ⊥) (P : Sylow p G) :
     ∃ x ∈ (P : Subgroup G) ⊓ L, ∃ y ∈ L, x * y ≠ y * x := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   by_contra hcon
   push Not at hcon
   obtain ⟨R, hR⟩ := CFSG.Walter.exists_sylow_map_eq_inf_of_isSubnormal P hL.2
@@ -60,7 +60,7 @@ theorem pCoreOf_le_normalizer {L : Subgroup G} (hL : CFSG.IsComponent L) {P : Sy
     (hPM : (P : Subgroup G) ≤ M)
     (hS : ∃ x ∈ (P : Subgroup G) ⊓ L, ∃ y ∈ L, x * y ≠ y * x) :
     pCoreOf 2 M ≤ normalizer (L : Set G) := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   intro q hq
   by_contra hqN
   obtain ⟨x0, hx0, y0, hy0, hxy0⟩ := hS
@@ -97,7 +97,7 @@ theorem pCoreOf_le_normalizer {L : Subgroup G} (hL : CFSG.IsComponent L) {P : Sy
     have hyc : y * x ^ (2 ^ k) = x ^ (2 ^ k) * y := by
       rw [hpow]
       exact (Subgroup.mem_centralizer_iff.1 (hLc hy) _ (L'.pow_mem hw _)).symm
-    obtain ⟨b, hb⟩ := P.isPGroup' ⟨x, hxP⟩
+    obtain ⟨b, hb⟩ := P.isPGroup ⟨x, hxP⟩
     have hb' : x ^ (p ^ b) = 1 := congrArg Subtype.val hb
     have hcop : Nat.Coprime (2 ^ k) (orderOf x) :=
       Nat.Coprime.coprime_dvd_right (orderOf_dvd_of_pow_eq_one hb')
@@ -113,7 +113,7 @@ theorem le_normalizer_of_component {L : Subgroup G} (hL : CFSG.IsComponent L)
     (hne : ⁅L, pCoreOf 2 M⁆ ≠ ⊥) {P : Sylow p G} (hPM : (P : Subgroup G) ≤ M)
     (hS : ∃ x ∈ (P : Subgroup G) ⊓ L, ∃ y ∈ L, x * y ≠ y * x) :
     E ≤ normalizer (L : Set G) := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   intro e he
   by_contra heN
   have he1 : e ≠ 1 := by
@@ -161,13 +161,13 @@ theorem le_normalizer_of_component {L : Subgroup G} (hL : CFSG.IsComponent L)
     have := commutator_eq_self_of_not_central hL.1 (inf_le_right : (P : Subgroup G) ⊓ L ≤ L) hS'
     rw [← this]
     exact hcommM
-  exact h.false_of_component_le hL hne hLM
+  exact CFSG.LocalAnalysis.UniquenessCase.UCK.Hyp36.false_of_component_le hL hne hLM
 
 theorem normalizes_component {L : Subgroup G} (hL : CFSG.IsComponent L)
     (hne : ⁅L, pCoreOf 2 M⁆ ≠ ⊥) :
     E ≤ normalizer (L : Set G) ∧ pCoreOf 2 M ≤ normalizer (L : Set G) := by
   obtain ⟨P, hEP⟩ := IsPGroup.exists_le_sylow h.isPGroup
-  have hPM : (P : Subgroup G) ≤ M := h.le_of_isPGroup P.isPGroup' hEP
+  have hPM : (P : Subgroup G) ≤ M := h.le_of_isPGroup P.isPGroup hEP
   have hS := h.exists_noncentral_sylow_inf hL hne P
   exact ⟨h.le_normalizer_of_component hL hne hPM hS, h.pCoreOf_le_normalizer hL hPM hS⟩
 

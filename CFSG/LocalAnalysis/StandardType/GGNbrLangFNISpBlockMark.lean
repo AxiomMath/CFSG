@@ -31,8 +31,7 @@ theorem kgfniSpMark_map_reindexGL {ι ι' : Type} [Fintype ι] [DecidableEq ι]
         (Matrix.GeneralLinearGroup.map φ A) := by
   apply Matrix.GeneralLinearGroup.ext
   intro i j
-  simp [CFSG.RankThree.GF2n.Stroth80.coe_reindexGL, Matrix.reindex_apply,
-    Matrix.GeneralLinearGroup.map_apply]
+  simp [CFSG.RankThree.GF2n.Stroth80.coe_reindexGL, Matrix.GeneralLinearGroup.map_apply]
 
 
 theorem kgfniSpMark_spBlock_of_semilinear {H : Type} [Group H]
@@ -49,7 +48,7 @@ theorem kgfniSpMark_spBlock_of_semilinear {H : Type} [Group H]
       ¬ ∃ φ ∈ Subgroup.closure I,
         LargeEvenInduces θ (fun c c' : ↥C0 => f' c = c') φ) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, -, hfcard⟩ := FiniteField.card K 2
   let fe : ℕ := (f : ℕ)
   have hfcard' : Fintype.card K = 2 ^ fe := by
@@ -68,7 +67,7 @@ theorem kgfniSpMark_spBlock_of_semilinear {H : Type} [Group H]
     rw [hcard]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ fe := Nat.pow_le_pow_right (by norm_num) hf2
-  haveI : NeZero n₁ := ⟨by omega⟩
+  have : NeZero n₁ := ⟨by omega⟩
   have hqSp : CFSG.Assembly.IsQuasisimple ↥(StatedSp n₁ K) :=
     Sp.isQuasisimple_statedSp_of_not_small
       (m := n₁) (by omega) (by omega) (by omega)

@@ -143,7 +143,7 @@ theorem exists_lift [Finite G] (h : Stage2Hyp M t TH W φ) {S : Subgroup GL12}
     le_antisymm le_top ((Q.mapSurjective hf).maximal_isPGroup.le_of_ge
       (hS2.of_equiv Subgroup.topEquiv.symm) le_top)
   refine ⟨(Q : Subgroup K).map K.subtype, fun g hg => ⟨⟨g, hPK hg⟩,
-    hQ (Subgroup.mem_subgroupOf.2 hg), rfl⟩, ?_, Q.isPGroup'.map _, ?_⟩
+    hQ (Subgroup.mem_subgroupOf.2 hg), rfl⟩, ?_, Q.isPGroup.map _, ?_⟩
   · rintro _ ⟨k, -, rfl⟩
     exact hKN k.2
   · have hTN : (Q : Subgroup K).map K.subtype ≤ NW W := by

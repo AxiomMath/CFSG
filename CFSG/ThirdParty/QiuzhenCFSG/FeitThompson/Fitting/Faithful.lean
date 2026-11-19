@@ -2,7 +2,7 @@ module
 
 public import Mathlib.Algebra.Group.Action.Faithful
 public import Mathlib.Algebra.Group.Defs
-public import Mathlib.Data.Finite.Defs
+public import Mathlib.Basic.Finite.Defs
 public import Mathlib.GroupTheory.Solvable
 public import Mathlib.SetTheory.Cardinal.Finite
 
@@ -56,7 +56,7 @@ public instance CFSG.instMulDistribMulAction_fittingSubgroup (G A : Type*) [Grou
     simp
 
 public theorem CFSG.faithful_on_fitting_of_coprime {G : Type*} [Group G] [Finite G] {A : Type*} [Group A]
-    [MulDistribMulAction A G] [FaithfulSMul A G] (hsolv : IsSolvable G) :
+    [MulDistribMulAction A G] [FaithfulSMul A G] (hsolv : Group.IsSolvable G) :
     Nat.Coprime (Nat.card A) (Nat.card G) -> FaithfulSMul A (fittingSubgroup G) := by
   intro hcoprime
   classical

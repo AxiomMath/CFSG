@@ -18,7 +18,7 @@ private theorem ggTorEnnExc_eq_zero_of_dvd_pred {p : ℕ} (hp : p.Prime) (hp2 : 
     (lab : LargeEvenLabel) (h : p ∣ 2 ^ lab.n - 1) : ggTorEnn p lab = 0 := by
   have h1 : 1 ≤ 2 ^ lab.n := Nat.one_le_two_pow
   unfold ggTorEnn
-  rw [if_neg]
+  rw [ite_eq_right]
   intro h2
   have h3 : p ∣ (2 ^ lab.n + 1) - (2 ^ lab.n - 1) := Nat.dvd_sub h2 h
   have h4 : (2 ^ lab.n + 1) - (2 ^ lab.n - 1) = 2 := by omega

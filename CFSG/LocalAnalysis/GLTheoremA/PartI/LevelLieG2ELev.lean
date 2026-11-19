@@ -12,9 +12,9 @@ open CFSG.Open CFSG.Yardstones.Md0ec50421ce4 CFSG.HardMathSupport.Solomon.Coordi
 
 theorem kLevel_le_two_of_k2 {T : Type} [Group T] (h : catalogIs T (k2 3)) : kLevel 3 T ≤ 2 := by
   unfold kLevel
-  split_ifs <;> first | omega | exact absurd h ‹_›
+  split_ifs <;> first | omega
 
-theorem primePower_p_eq {q : TauCeti.PrimePower} {r e : ℕ} (hr : r.Prime) (he : e ≠ 0)
+theorem primePower_p_eq {q : TauCeti.PrimePower} {r e : ℕ} (hr : r.Prime) (_he : e ≠ 0)
     (hq : q.card = r ^ e) : q.p = r := by
   have h1 : q.p ∣ r ^ e := by
     rw [← hq, TauCeti.PrimePower.card_def]
@@ -23,7 +23,7 @@ theorem primePower_p_eq {q : TauCeti.PrimePower} {r e : ℕ} (hr : r.Prime) (he 
 
 theorem kLevel_le_two_of_chev {T : Type} [Group T] (h : IsChevSimple 3 T) : kLevel 3 T ≤ 2 := by
   unfold kLevel
-  rw [if_pos h]
+  rw [ite_eq_left h]
   norm_num
 
 
@@ -63,7 +63,7 @@ theorem level_of_chev2 {T : Type} [Group T] [Finite T] (hT : IsChevSimple 2 T)
     | sporadic _ => exact hi.elim
     | alternating n hn =>
       exfalso
-      haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
+      have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
       have hcard : Nat.card T = n.factorial / 2 := by
         rw [Nat.card_congr e.toEquiv, Nat.card_eq_fintype_card, card_alternatingGroup,
           Fintype.card_fin]
@@ -129,16 +129,16 @@ theorem downLe_of_chev2 {S : Type} [Group S] [Finite S] [IsSimpleGroup S]
       have := hlc.1.chev
       have hc : lieIndexChar idx.1 = 2 := by
         cases idx using Subtype.rec with
-        | _ d hv => cases d <;> first | exact hchar | simp_all [lieIndexChar]
+        | _ d hv => cases d <;> (simp_all [lieIndexChar])
       rw [hc] at this
       exact this
-    haveI : Finite ↥I := Finite.of_injective _ (Subgroup.subtype_injective I)
+    have : Finite ↥I := Finite.of_injective _ (Subgroup.subtype_injective I)
     have hT1 : Nat.card (PSimple 3 I) ∣ Nat.card (PQuot 3 I) := Subgroup.card_quotient_dvd_card _
     have hT2 : Nat.card (PQuot 3 I) ∣ Nat.card ↥I := Subgroup.card_quotient_dvd_card _
     have hT3 : Nat.card ↥I ∣ Nat.card ↥(fixSubgroup β) := Subgroup.card_dvd_of_le hI.1
     have hT4 : Nat.card ↥(fixSubgroup β) ∣ Nat.card S := Subgroup.card_subgroup_dvd_card _
     have hcT : Nat.card (PSimple 3 I) ∣ Nat.card ↥(fixSubgroup β) := hT1.trans (hT2.trans hT3)
-    haveI : Finite (PSimple 3 I) := inferInstance
+    have : Finite (PSimple 3 I) := inferInstance
     rcases level_of_chev2 hchev (hcT.trans (hT4.trans hSN)) with h | ⟨h49, h73⟩
     · exact h
     · exact absurd ⟨h49.trans hcT, h73.trans hcT⟩ (hbad β hβ h1)

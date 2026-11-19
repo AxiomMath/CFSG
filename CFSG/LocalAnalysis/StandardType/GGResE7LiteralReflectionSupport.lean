@@ -457,7 +457,7 @@ lemma e7Refl_toEquiv_eq_s7 (i : Fin 7) :
 @[expose] noncomputable def e7PermHom : (V7 ≃ₗ[F3] V7) →* Equiv.Perm V7 where
   toFun e := e.toEquiv
   map_one' := rfl
-  map_mul' e f := rfl
+  map_mul' _e _f := rfl
 
 @[simp] lemma e7PermHom_apply (e : V7 ≃ₗ[F3] V7) :
     e7PermHom e = e.toEquiv := rfl
@@ -487,7 +487,7 @@ lemma e7LinHom_injective {G : Type} [Group G] {Bs : Subgroup G}
   rw [e7LinHom_apply_ofMul, e7LinHom_apply_ofMul] at hb
   exact Additive.ofMul.injective (ι.injective hb)
 
-@[expose] noncomputable def e7Liftable : CoxeterMatrix.E₇.IsLiftable e7Refl :=
+theorem e7Liftable : CoxeterMatrix.E₇.IsLiftable e7Refl :=
   @CFSG.StandardType.isLiftable_reflection_of_intCartan F3 V7 (ZMod.commRing 3) (Pi.addCommGroup)
     (Pi.Function.module (Fin 7) F3 F3) (Γ := Fin 7) (M := CoxeterMatrix.E₇)
     (C := CartanMatrix.E 7) CFSG.StandardType.ggIntCartan_E₇
@@ -682,10 +682,10 @@ lemma closure_range_e7Gen : Subgroup.closure (Set.range e7Gen) = ⊤ := by
     · rintro ⟨i, hi, rfl⟩
       obtain ⟨j, rfl⟩ := hi
       exact ⟨j, by
-        simpa [CoxeterMatrix.toCoxeterSystem_simple] using (e7GenLift_apply_simple j).symm⟩
+        simp [CoxeterMatrix.toCoxeterSystem_simple]⟩
     · rintro ⟨i, rfl⟩
       exact ⟨CoxeterMatrix.E₇.simple i, ⟨i, rfl⟩,
-        by simpa [CoxeterMatrix.toCoxeterSystem_simple] using e7GenLift_apply_simple i⟩
+        by simp⟩
   rw [← hrange, e7GenLift_range_eq_top]
 
 theorem GGWeylReflectionGroup_of_e7_chart_equiv {G : Type} [Group G] {Bs : Subgroup G}
@@ -977,7 +977,7 @@ theorem normalized_chart_H_last
     omega
   rw [Fintype.linearCombination_apply, map_sum]
   simp_rw [map_smul, hchi]
-  simp [e, Finset.sum_apply, Pi.single_apply, hne]
+  simp [e, Finset.sum_apply, hne]
 
 theorem normalized_inside_reflection_lift_mem_actualL
     {G : Type} [Group G] [Finite G]

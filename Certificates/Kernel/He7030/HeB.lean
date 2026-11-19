@@ -218,7 +218,7 @@ theorem norm_V {k : ℕ} (hk : k = 3 ∨ k = 4) :
     exact conj_mem ho (enum_k hk) hv hvi (good_we (ho.lt w hw)) e (hn _ hmem w hw)
   rw [Y_k hk, Subgroup.closure_le]
   intro x hx
-  simp only [Set.mem_setOf_eq, List.mem_append, List.mem_singleton] at hx
+  simp only [Set.mem_ofPred_eq, List.mem_append, List.mem_singleton] at hx
   rcases hx with hx | rfl
   · rw [heSg_eq] at hx
     have hS : ∀ i < 4, E (heQp.getD i (0, 0)).1 ∈ Subgroup.normalizer (YV k : Set J) := by
@@ -263,13 +263,13 @@ theorem subO2_of_le {U : Subgroup J} (hSU : heCtxK.S ≤ U) (hU : Nat.card U = 2
   obtain ⟨j, -, rfl⟩ := heK_complete U hSU
   unfold memberOrTop at hU ⊢
   by_cases h : j < 11
-  · rw [if_pos h] at hU ⊢
+  · rw [ite_eq_left h] at hU ⊢
     rw [heK_member_card j h] at hU
     interval_cases j <;> norm_num at hU
     · exact subO2_mem (Or.inl rfl) (by decide) (by decide) (by decide)
     · exact subO2_mem (Or.inl rfl) (by decide) (by decide) (by decide)
     · exact subO2_mem (Or.inr rfl) (by decide) (by decide) (by decide)
-  · rw [if_neg h, Subgroup.card_top, he_card] at hU
+  · rw [ite_eq_right h, Subgroup.card_top, he_card] at hU
     norm_num at hU
 
 theorem heSubO2_JK : ∀ U : Subgroup J, Nat.card U = 2 ^ 10 * 3 ^ 2 → SubO2Prop (2 ^ 6 * 3) U :=

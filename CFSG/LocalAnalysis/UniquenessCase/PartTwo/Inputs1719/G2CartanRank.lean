@@ -72,7 +72,7 @@ theorem g2Torus_card {K : Type} [Field K] :
   ring
 
 theorem g2Torus_rtorsion {K : Type} [Field K] [Finite K]
-    {r : ℕ} (hr : r.Prime) (hdvd : r ∣ Nat.card K - 1) :
+    {r : ℕ} (_hr : r.Prime) (hdvd : r ∣ Nat.card K - 1) :
     Nat.card {x : CFSG.AGLEmbedding.KFactProofs.G2Q.torusSub K // x ^ r = 1} = r ^ 2 := by
   have h1 : Nat.card {x : Kˣ // x ^ r = 1} = r :=
     CFSG.LocalAnalysis.RankFourTheoremC.card_units_pow_eq_one hdvd
@@ -117,10 +117,10 @@ theorem k_G2CartanRank_holds : K_G2CartanRank := by
     CFSG.Blueprint.LieModel.chevalleyExceptionalModel hY (by decide)
   obtain ⟨-, K, hF, hFin, hcp, hK, ⟨e⟩⟩ :=
     CFSG.QuasithinUnique.Setup.X6.exists_mulEquiv_G2_model hCE
-  letI := hF
-  letI := hFin
-  letI := hcp
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let := hF
+  let := hFin
+  let := hcp
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK4 : 4 ≤ Nat.card K := by
     rw [hK]
     calc 4 = 2 ^ 2 := by norm_num

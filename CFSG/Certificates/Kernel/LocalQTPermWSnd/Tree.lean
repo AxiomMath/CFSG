@@ -74,7 +74,7 @@ private theorem getD_append_single_ne {α : Type*} (l : List α) (v d : α) (i :
 
 private theorem getD_append_length_single {α : Type*} (l : List α) (v d : α) :
     (l ++ [v]).getD l.length d = v := by
-  simp [List.getElem?_concat_length]
+  simp
 
 theorem length_bfsT {Ω Γ : Type*} (op : Ω → Γ → Ω) (d : Γ) (gens : List Γ) (start : Ω)
     (par : List (ℕ × ℕ)) : (bfsT op d gens start par).length = par.length + 1 := by

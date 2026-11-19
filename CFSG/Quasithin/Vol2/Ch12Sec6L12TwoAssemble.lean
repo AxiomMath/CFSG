@@ -10,7 +10,7 @@ namespace CFSG.Quasithin.H13.K1262Two
 
 open CFSG.Open CFSG.Blueprint Subgroup
 
-theorem mk_mem_normalizer_map {G : Type} [Group G] {K L : Subgroup G} (hLK : L ≤ K)
+theorem mk_mem_normalizer_map {G : Type} [Group G] {K L : Subgroup G} (_hLK : L ≤ K)
     (t : ↥K) (ht : (t : G) ∈ Subgroup.normalizer (L : Set G)) :
     QuotientGroup.mk' (Subgroup.center ↥K) t ∈
       Subgroup.normalizer (((L.subgroupOf K).map (QuotientGroup.mk' (Subgroup.center ↥K)) :

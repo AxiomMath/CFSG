@@ -17,7 +17,7 @@ open CertificateChecks.KernelSporSch.J4NoCK CertificateChecks.KernelSporSch.J4No
 
 noncomputable abbrev qv (l : ℕ) : Row := toRow (toVecD 112 repVecs[l]!)
 
-@[expose] def SZ : List ℕ := [1, 32643072, 82575360, 54405120, 3400320, 15180, 28336]
+def SZ : List ℕ := [1, 32643072, 82575360, 54405120, 3400320, 15180, 28336]
 
 theorem orb1_pt {i : ℕ} (hi : i < 1771) : orb1.1[i]! = J4O1.PT i := by
   have h1 := CFSG.KS.SporSch.C11.bfsK_sound_proved J4Orbits.xy_bind J4Orbits.b1

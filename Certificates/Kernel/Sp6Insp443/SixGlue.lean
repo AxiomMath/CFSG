@@ -100,7 +100,7 @@ theorem sixTest_of
         Subgroup.closure (Set.range fun i : Fin 4 => y s i) := by
     rintro _ ⟨j, hj, rfl⟩ r hr
     have hgj := Orb.allN_iff.1 h13 j hj
-    simp only [Orb.strictB_eq, Orb.bAnd_eq, Bool.and_eq_true] at hgj
+    simp only [Bool.and_eq_true] at hgj
     obtain ⟨hpj, hsig⟩ := hgj
     have hxj := hgen j hj
     have hxji := prep_inv_of_permOK hpj hxj
@@ -144,13 +144,13 @@ theorem sixTest_of
       s = E.zM.getD t 0 := by
     intro s hs h
     have := Orb.allN_iff.1 h12 s (h32 ▸ hs)
-    rw [Orb.bIf_eq, if_pos (by rw [Nat.beq_eq]; exact h)] at this
+    rw [Orb.bIf_eq, ite_eq_left (by rw [Nat.beq_eq]; exact h)] at this
     exact Nat.eq_of_beq_eq_true this
   have hfz : fixK 36 6 (laneK (36 * 6) (E.sW.getD t 0) (E.zM.getD t 0)) = 16 := by
     have := Orb.allN_iff.1 h12 _ (h32 ▸ hzm)
     rw [Orb.bIf_eq] at this
     by_contra hne
-    rw [if_neg (by rw [Nat.beq_eq]; exact hne), Orb.bIf_eq, if_pos (by rw [Nat.beq_eq])] at this
+    rw [ite_eq_right (by rw [Nat.beq_eq]; exact hne), Orb.bIf_eq, ite_eq_left (by rw [Nat.beq_eq])] at this
     exact Bool.false_ne_true this
   have hK : ∀ g ∈ sp6Q.originalSubgroup,
       (∀ i, ∃ e, g * (fun i : Fin 5 => x i) i * g⁻¹ = eElt (fun i : Fin 5 => x i) e) →
@@ -185,7 +185,7 @@ theorem sixTest_of
     rw [e] at hmap
     refine Subgroup.closure_mono ?_ hmap
     rintro _ ⟨u, hu, rfl⟩
-    obtain ⟨j, hj, rfl⟩ := List.mem_iff_getElem.1 (Set.mem_setOf_eq ▸ hu)
+    obtain ⟨j, hj, rfl⟩ := List.mem_iff_getElem.1 (Set.mem_ofPred_eq ▸ hu)
     refine ⟨j, hlen1 ▸ hj, ?_⟩
     change MulAut.conj c _ = _
     rw [MulAut.conj_apply, List.getD_eq_getElem _ _ hj]
@@ -199,7 +199,7 @@ theorem sixTest_of
   have hne : ∀ s < 2 ^ 5, ∀ s' < s, (E.pat.getD t []).getD s 0 ≠ (E.pat.getD t []).getD s' 0 := by
     intro s hs s' hs' he
     have := Orb.allN_iff.1 (hpat s hs).2 s' hs'
-    rw [Orb.bIf_eq, if_pos (by rw [Nat.beq_eq]; exact he)] at this
+    rw [Orb.bIf_eq, ite_eq_left (by rw [Nat.beq_eq]; exact he)] at this
     exact Bool.false_ne_true this
   have hsep : ∀ a b : Equiv.Perm (Fin 36),
       a ∈ Subgroup.closure (Set.range fun i : Fin 5 => x i) →

@@ -37,7 +37,7 @@ theorem wprod_eq_prod_zpow_expSum {A : Type*} [CommGroup A] {n : ℕ} (y : Fin n
       · simp
       · intro j _ hji
         have hij : i ≠ j := fun h => hji h.symm
-        rw [if_neg hij, zpow_zero]
+        rw [ite_eq_right hij, zpow_zero]
       · intro hi
         simp at hi
     rw [hsingle]
@@ -75,7 +75,7 @@ theorem wprod_mul_zpow_of_commute {X : Type*} [Group X] {n : ℕ} (y : Fin n →
         · simp
         · intro j _ hji
           have hij : i ≠ j := fun h => hji h.symm
-          rw [if_neg hij, mul_zero]
+          rw [ite_eq_right hij, mul_zero]
         · intro hi
           simp at hi
       rw [h2, mul_comm]

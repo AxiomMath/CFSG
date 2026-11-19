@@ -100,7 +100,7 @@ theorem card_fixed_mul_le_of_ne {g₁ g₂ : MulAut W}
     (hl₁ : ∀ (c : S.K) (w : W), g₁ (S.smul c w) = S.smul c (g₁ w))
     (hl₂ : ∀ (c : S.K) (w : W), g₂ (S.smul c w) = S.smul c (g₂ w))
     (hi₁ : ∀ w : W, S.Q (g₁ w) = S.Q w) (hi₂ : ∀ w : W, S.Q (g₂ w) = S.Q w)
-    (ho₁ : g₁ * g₁ = 1) (ho₂ : g₂ * g₂ = 1) (hne₁ : g₁ ≠ 1) (hne₂ : g₂ ≠ 1) (hne : g₁ ≠ g₂)
+    (ho₁ : g₁ * g₁ = 1) (_ho₂ : g₂ * g₂ = 1) (hne₁ : g₁ ≠ 1) (hne₂ : g₂ ≠ 1) (hne : g₁ ≠ g₂)
     (hf₁ : Nat.card S.K ^ 2 < Nat.card {v : W // g₁ v = v})
     (hf₂ : Nat.card S.K ^ 2 < Nat.card {v : W // g₂ v = v}) :
     Nat.card {v : W // (g₁ * g₂) v = v} ≤ Nat.card S.K ^ 2 := by
@@ -280,8 +280,8 @@ theorem card_le_two_of_card_fixed_gt (H : Subgroup (MulAut W))
   classical
   by_contra hcon
   have hcard : 2 < Nat.card H := not_le.1 hcon
-  haveI : Finite H := Nat.finite_of_card_ne_zero (by omega)
-  haveI : Fintype H := Fintype.ofFinite H
+  have : Finite H := Nat.finite_of_card_ne_zero (by omega)
+  have : Fintype H := Fintype.ofFinite H
   have hcard' : 2 < Fintype.card H := by rwa [← Nat.card_eq_fintype_card]
   obtain ⟨a, b, c, hab, hac, hbc⟩ := Fintype.two_lt_card_iff.1 hcard'
   have hex : ∃ g₁ ∈ H, ∃ g₂ ∈ H, g₁ ≠ 1 ∧ g₂ ≠ 1 ∧ g₁ ≠ g₂ := by

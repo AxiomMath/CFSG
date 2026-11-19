@@ -31,8 +31,8 @@ theorem sevenRankFree_of_two_le_pRank {J : Type} [Group J] [Finite J]
           apply Subtype.ext
           simpa using hE.2 (x : J) x.2)
     obtain ⟨Q, hEQ⟩ := hEpg.exists_le_sylow
-    haveI : IsCyclic ↥(Q : Subgroup J) := (Sylow.equiv P Q).isCyclic.mp hPcyc
-    haveI : IsCyclic ↥E := Subgroup.isCyclic_of_le hEQ
+    have : IsCyclic ↥(Q : Subgroup J) := (Sylow.equiv P Q).isCyclic.mp hPcyc
+    have : IsCyclic ↥E := Subgroup.isCyclic_of_le hEQ
     have hcard : Nat.card ↥E ∣ 7 := by
       rw [← IsCyclic.exponent_eq_card]
       exact Monoid.exponent_dvd_of_forall_pow_eq_one fun x => by

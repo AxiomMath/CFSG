@@ -98,7 +98,7 @@ theorem FormHyp.ind2_mul (hP : FormHyp V₁ P) {c₁ c₂ : G} (h₁ : c₁ ∈ 
   · rw [e1, one_mul, ind2_one, zero_add]
   by_cases e2 : c₂ = 1
   · rw [e2, mul_one, ind2_one, add_zero]
-  rw [← hP.eq_of_ne_one h₁ h₂ e1 e2, hP.sq_eq_one_of_mem h₁, ind2_one, ind2_of_ne e1] <;> decide
+  rw [← hP.eq_of_ne_one h₁ h₂ e1 e2, hP.sq_eq_one_of_mem h₁, ind2_one, ind2_of_ne e1]; decide
 
 theorem FormHyp.conj_eq_of_mem (hP : FormHyp V₁ P) {z r : G} (hz : z ∈ V₁) (hr : r ∈ P) :
     z * r * z⁻¹ = r := by

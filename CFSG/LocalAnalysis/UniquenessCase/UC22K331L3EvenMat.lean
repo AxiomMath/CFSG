@@ -114,7 +114,7 @@ theorem commutator_three_eq_one_of_isPGroup_gl {E : Subgroup (GL (Fin 3) K)}
 theorem twoGroupsClassTwo_statedProj {H : Subgroup (GL (Fin 3) K)} (hH : H ≤ StatedSL 3 K) :
     TwoGroupsClassTwo (StatedProj H) := by
   intro P hP x hx y hy z hz
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨E, hE, hEP⟩ := CFSG.RankThree.PartTwo.Sec17.Proof176Steps.exists_isPGroup_map_eq
     ((StatedScalars (Fin 3) K).subgroupOf H) hP
   rw [← hEP] at hx hy hz

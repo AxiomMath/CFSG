@@ -70,10 +70,10 @@ theorem powB_enc : ∀ (fuel e : Nat) {X : Array Nat}, WfN X → e < 2 ^ fuel �
         powBJ c rm one fuel (encN (O.mul X X)) (e / 2))
     by_cases hm : e % 2 = 1
     · have hb2 : Nat.beq (e % 2) 1 = true := by rw [hm]; rfl
-      rw [if_pos hm, hb2]
+      rw [ite_eq_left hm, hb2]
       have m := J4B.mul_enc hK hX ih.1
       exact ⟨m.1, by rw [m.2, ih.2]⟩
-    · rw [if_neg hm, beq_false₃ hm]
+    · rw [ite_eq_right hm, beq_false₃ hm]
       exact ih
 
 theorem powP_okB {P : Pair} {a b : Nat} (hP : PairOK P a b) {fuel e : Nat} (he : e < 2 ^ fuel) :

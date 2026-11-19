@@ -90,7 +90,7 @@ theorem i141U9Fam_e6 (hG2 : U9Gf8Absurd) (hTwE6 : I141U9Fam u9FamTwE6Two) : I141
       rcases u9_char_two hI1 e with h | h
       · exact h
       · exact absurd (Nat.le_of_dvd Nat.card_pos hdvd0) (by omega)
-    haveI := hs
+    have := hs
     by_cases hα1 : chevAut 3 K ⟨x, hI1.1 (Subgroup.mem_zpowers x)⟩ = 1
     ·
       exfalso

@@ -55,7 +55,7 @@ theorem line_smul_fst {a b : Fin 306936} (h : ¬Cm a b) {w : J} (hw : jR w = cls
   rw [← CFSG.Sporadic.Fi24.jR_smul, hw]
   exact cls_mul_cls_smul h
 
-theorem line_smul_snd {a b : Fin 306936} (h : ¬Cm a b) {w : J} (hw : jR w = cls a * cls b) :
+theorem line_smul_snd {a b : Fin 306936} (_h : ¬Cm a b) {w : J} (hw : jR w = cls a * cls b) :
     w • b = third a b := by
   rw [← CFSG.Sporadic.Fi24.jR_smul, hw, mul_smul, cls_smul_self']
   rfl

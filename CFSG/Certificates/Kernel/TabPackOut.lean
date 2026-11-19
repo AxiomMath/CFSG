@@ -91,7 +91,7 @@ theorem uniqOK_eq {T F : List (List Nat)} (hT : ∀ x ∈ T, W 22 x) (hF : ∀ x
   rw [← filter_enc (fun x hx => isInv_enc (by decide) (hT x hx)),
     ← filter_enc (I := T.filter (isInvT 22)) (f := fun x => (classTabs T x).length == 8)
       (g := fun y => Nat.beq (classN (T.map fun a => (enc a, enc (tinv a))) y).length 8)
-      (fun x hx => by beta_reduce; rw [← class_enc hT (hI x hx), List.length_map, beq_nat])]
+      (fun x hx => by rw [← class_enc hT (hI x hx), List.length_map, beq_nat])]
   refine all_enc hI8 fun a ha => ?_
   have hC := class_W hT (hI8 a ha)
   rw [← class_enc hT (hI8 a ha)]

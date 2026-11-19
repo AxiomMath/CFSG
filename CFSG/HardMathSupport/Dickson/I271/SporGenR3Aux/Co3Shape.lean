@@ -156,7 +156,7 @@ theorem co3_centShapeRk :
   obtain ⟨hXB3, -, hXBm, -⟩ := caseB_spec
   intro k hk1 hkp
   have hs3 : orderOf (k : Equiv.Perm (Fin 276)) = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have h1 : (k : Equiv.Perm (Fin 276)) ^ 3 = 1 := by
       have := congrArg Subtype.val hkp
       simpa using this
@@ -183,7 +183,7 @@ theorem co3_centShapeRk :
   exact hconj
 
 theorem leafShape_Co3 : LeafShape .Co3 3 := by
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier .Co3) :=
+  have : Finite (CFSG.Blueprint.NativeSporadic.Carrier .Co3) :=
     Finite.of_equiv ↥co3P (co3PermEquiv : CFSG.Blueprint.NativeSporadic.Co3 ≃* co3P).symm.toEquiv
   exact CentShape.of_centShapeRk (CentShapeRk.of_equiv Nat.prime_three
     (fun _ _ _ _ e h => LeafType.of_equiv e h) (fun _ _ _ _ _ h => h)

@@ -21,14 +21,14 @@ theorem noSocle185Factor_statedOmega_quadMinus_two (hO : LieOrderFormulasInput) 
     (hbc : ∀ s : F, s ^ 2 + b * s + c ≠ 0) :
     NoSocle185Factor ↥(StatedOmega (StatedQuadMinus 2 F b c)) := by
   have hn : 1 ≤ n := one_le_of_natCard_eq_two_pow hF
-  haveI : CharP F 2 := charP_two_of_natCard_eq_two_pow hF
+  have : CharP F 2 := charP_two_of_natCard_eq_two_pow hF
   obtain ⟨E, _, _, D, ψ, ρ, -, -, -, -, hcomm, hs, -, hna, hcard, -⟩ :=
     CFSG.RankThree.PartOne.even_minus_four_actual_derived_extraction (quadMinus 2 F b c)
       (nondegenerate_polarBilin_quadMinus_of_finite 2 F hbc)
       (finrank_minusSpace_small (n := 2) (by norm_num))
       (fun U hU => exists_quadMinus_ne_zero_small hbc (by norm_num) U hU)
   obtain ⟨e⟩ := nonempty_range_equiv_statedOmega ρ hcomm
-  haveI : IsSimpleGroup ↥(StatedOmega (StatedQuadMinus 2 F b c)) := e.symm.isSimpleGroup
+  have : IsSimpleGroup ↥(StatedOmega (StatedQuadMinus 2 F b c)) := e.symm.isSimpleGroup
   have hΩ : Nat.card ↥(StatedOmega (StatedQuadMinus 2 F b c)) =
       (2 ^ n) ^ 2 * ((2 ^ n) ^ 4 - 1) := by
     rw [← Nat.card_congr e.toEquiv, hcard, hF]
@@ -61,14 +61,14 @@ theorem noSocle185Factor_statedOmega_quadMinus_three (hO : LieOrderFormulasInput
     (hbc : ∀ s : F, s ^ 2 + b * s + c ≠ 0) :
     NoSocle185Factor ↥(StatedOmega (StatedQuadMinus 3 F b c)) := by
   have hn : 1 ≤ n := one_le_of_natCard_eq_two_pow hF
-  haveI : CharP F 2 := charP_two_of_natCard_eq_two_pow hF
+  have : CharP F 2 := charP_two_of_natCard_eq_two_pow hF
   obtain ⟨E, _, _, D, ψ, ρ, -, -, -, -, hcomm, hs, -, hna, hcard, -⟩ :=
     CFSG.RankThree.PartOne.even_minus_six_actual_derived_extraction (quadMinus 3 F b c)
       (nondegenerate_polarBilin_quadMinus_of_finite 3 F hbc)
       (finrank_minusSpace_small (n := 3) (by norm_num))
       (fun U hU => exists_quadMinus_ne_zero_small hbc (by norm_num) U hU)
   obtain ⟨e⟩ := nonempty_range_equiv_statedOmega ρ hcomm
-  haveI : IsSimpleGroup ↥(StatedOmega (StatedQuadMinus 3 F b c)) := e.symm.isSimpleGroup
+  have : IsSimpleGroup ↥(StatedOmega (StatedQuadMinus 3 F b c)) := e.symm.isSimpleGroup
   have hΩ : Nat.card ↥(StatedOmega (StatedQuadMinus 3 F b c)) =
       (2 ^ n) ^ 6 * ((2 ^ n) ^ 2 - 1) * ((2 ^ n) ^ 3 + 1) * ((2 ^ n) ^ 4 - 1) := by
     rw [← Nat.card_congr e.toEquiv, hcard, hF]

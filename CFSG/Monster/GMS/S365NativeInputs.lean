@@ -9,7 +9,7 @@ namespace CFSG.Monster.GMS.S365
 open CFSG.Blueprint CFSG.Sporadic.SmallF2 CFSG.Sporadic.SmallF2.Native
   CFSG.Sporadic.Co1.Module CFSG.Sporadic.Co1.Module.Pairs
 
-@[expose] def eightCheck : Bool :=
+def eightCheck : Bool :=
   let O := orbitOf 2 98280
   let pos := posTable 24 O.pts
   let L := tyLab O.pts pos 98280

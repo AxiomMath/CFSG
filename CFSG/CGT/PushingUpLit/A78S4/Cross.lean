@@ -19,9 +19,11 @@ variable {G : Type} [Group G] [Finite G] {L₁ L₂ V W Z Z₂ T : Subgroup G} {
 
 include P hZ
 
+omit [Finite G] P hZ in
 theorem utype_symm {u : G} (hu : UType V W Z Z₂ u) : UType W V Z₂ Z u :=
   ⟨by rw [inf_comm]; exact hu.1, hu.2.2, hu.2.1⟩
 
+omit hZ in
 theorem utype_of_decomp {z z₂ : G} (hz : z ∈ Z) (hz₂ : z₂ ∈ Z₂) (hz1 : z ≠ 1) (hz₂1 : z₂ ≠ 1) :
     UType V W Z Z₂ (z * z₂) := by
   refine ⟨mul_mem (P.side₁.Z_le_N hz) (P.Z₂_le_N hz₂), fun h1 => hz₂1 ?_, fun h1 => hz1 ?_⟩
@@ -99,7 +101,7 @@ theorem exists_central_u : ∃ u₀ : G, UType V W Z Z₂ u₀ ∧ ∀ x ∈ S, 
   have hsz1 : s * z₀ * s⁻¹ ≠ 1 := fun h1 => hz₀1 (by
     have : z₀ = s⁻¹ * (s * z₀ * s⁻¹) * s := by group
     rw [this, h1]; group)
-  refine ⟨z₀ * (s * z₀ * s⁻¹), P.utype_of_decomp hZ hz₀ hsz hz₀1 hsz1, ?_⟩
+  refine ⟨z₀ * (s * z₀ * s⁻¹), P.utype_of_decomp hz₀ hsz hz₀1 hsz1, ?_⟩
   have hTu : ∀ t ∈ T, t * (z₀ * (s * z₀ * s⁻¹)) * t⁻¹ = z₀ * (s * z₀ * s⁻¹) := by
     intro t ht
     have hst : s⁻¹ * t * s ∈ T := by
@@ -173,7 +175,7 @@ theorem u_not_conj (hsyl₂ : IsSylowOf 2 T (Subgroup.normalizer (W : Set G)))
 
 end Sylow
 
-theorem inv_class_V {x : G} (hx : x ∈ V) (hx1 : x ≠ 1) :
+theorem inv_class_V {x : G} (hx : x ∈ V) (_hx1 : x ≠ 1) :
     ∃ g : G, g⁻¹ * x * g ∈ Z ∨ g⁻¹ * x * g ∈ Z₂ ∨ UType V W Z Z₂ (g⁻¹ * x * g) := by
   by_cases hxZ : x ∈ Z
   · exact ⟨1, Or.inl (by simpa using hxZ)⟩
@@ -197,7 +199,7 @@ theorem inv_class_V {x : G} (hx : x ∈ V) (hx1 : x ≠ 1) :
   rw [inv_inv]
   by_cases hz1 : z = 1
   · exact Or.inr (Or.inl (by rw [← hdec, hz1, one_mul]; exact hz₂))
-  · exact Or.inr (Or.inr (by rw [← hdec]; exact P.utype_of_decomp hZ hz hz₂ hz1 hz₂1))
+  · exact Or.inr (Or.inr (by rw [← hdec]; exact P.utype_of_decomp hz hz₂ hz1 hz₂1))
 
 theorem inv_class {x : G} (hx : x ∈ V ⊔ W) (hxx : x * x = 1) (hx1 : x ≠ 1) :
     ∃ g : G, g⁻¹ * x * g ∈ Z ∨ g⁻¹ * x * g ∈ Z₂ ∨ UType V W Z Z₂ (g⁻¹ * x * g) := by
@@ -208,7 +210,7 @@ theorem inv_class {x : G} (hx : x ∈ V ⊔ W) (hxx : x * x = 1) (hx1 : x ≠ 1)
     rcases hg with h | h | h
     · exact Or.inr (Or.inl h)
     · exact Or.inl h
-    · exact Or.inr (Or.inr (P.symm.utype_symm (P.Z₂_ne_bot hZ) h))
+    · exact Or.inr (Or.inr (CFSG.CGT.PushingUpLit.A78S4.S4Pair.utype_symm h))
 
 theorem sup_eq_of_inf_eq_bot {A : Subgroup G} (hAV : A ≤ V) (hA : Nat.card A = 2 ^ e)
     (hNA : (V ⊓ W) ⊓ A = ⊥) : (V ⊓ W) ⊔ A = V := by
@@ -313,7 +315,7 @@ theorem conj_in_V {s : G} (hsZ : cj s Z = Z₂ ∧ cj s Z₂ = Z)
       rw [hbot] at this
       exact this
   exfalso
-  have hu : UType V W Z Z₂ a := by rw [← hdec]; exact P.utype_of_decomp hZ hz hz₂ hz1 hz₂1
+  have hu : UType V W Z Z₂ a := by rw [← hdec]; exact P.utype_of_decomp hz hz₂ hz1 hz₂1
   exact hnot a _ hu hk hk1 k rfl
 
 end S4Pair

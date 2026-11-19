@@ -54,14 +54,14 @@ theorem exists_inndiag_of_mem_innAutDerived_untw {τ : Tag}
     ∃ h ∈ inndiagGroup τ K, (∀ c : adjointGroup τ K, (β c : ModGL τ K) = h * c * h⁻¹) ∧
       h ^ p = 1 ∧ h ≠ 1 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, hℓ, hcard⟩ := FiniteField.card K (ringChar K)
   have hK : Nat.card K = ringChar K ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hcard
   rcases hτ with rfl | rfl | hE
   ·
     refine exists_inndiag_of_mem_inner β ?_ hβp hβ1
     by_cases h3 : ringChar K = 3
-    · haveI : CharP K CFSG.LieType.Ree.ReeTag.G2.prime := by
+    · have : CharP K CFSG.LieType.Ree.ReeTag.G2.prime := by
         have : CharP K (ringChar K) := ringChar.charP K
         rw [h3] at this
         exact this
@@ -127,7 +127,7 @@ theorem compNormal_adjointGroup {τ : Tag}
   classical
   obtain ⟨h, hh, hβh, hp1, hh1⟩ :=
     exists_inndiag_of_mem_innAutDerived_untw hτ hG2 hp β hβmem hβp hβ1
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, hℓ, hcardK⟩ := FiniteField.card K (ringChar K)
   have hK : Nat.card K = ringChar K ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hcardK
   have hpℓ : p ≠ ringChar K := fun h' => hpK (by rw [hK, ← h']; exact dvd_pow_self p f.ne_zero)
@@ -298,7 +298,7 @@ theorem genNormalExcInner_holds : GenNormalExcInner := by
       e x hxp hx1 hxmem
   | twistedE6 q =>
     obtain ⟨K, _, σ, hK, hσ, ⟨eK⟩⟩ := CFSG.LieType.SeitzGeneration.exists_catEquiv_twistedE6 q hv
-    haveI : Finite K := Nat.finite_of_card_ne_zero (by
+    have : Finite K := Nat.finite_of_card_ne_zero (by
       rw [hK]
       exact pow_ne_zero _ (pow_ne_zero _ q.prime_p.ne_zero))
     let e' := e.trans eK

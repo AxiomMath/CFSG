@@ -147,7 +147,7 @@ theorem k32_lift_two_group {G P : Type*} [Group G] [Group P] [Finite G] (π : G 
     rw [← hQ]
     rfl
   set V : Subgroup G := (Q : Subgroup G) ⊓ W.comap π with hV
-  have hV2 : IsPGroup 2 ↥V := Q.isPGroup'.to_le inf_le_left
+  have hV2 : IsPGroup 2 ↥V := Q.isPGroup.to_le inf_le_left
   have hVmap : V.map π = W := by
     ext w
     constructor

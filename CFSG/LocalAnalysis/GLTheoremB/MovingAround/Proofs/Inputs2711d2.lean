@@ -50,7 +50,7 @@ theorem false_of_nonabelian_sylow {Q : Type} [Group Q] [Finite Q] {p : ℕ} (hp 
     {C A R : Subgroup Q} (hAC : A ≤ C) (hA : IsElemAbelian p A) (hA4 : p ^ 4 ≤ Nat.card A)
     (hC5 : ¬ p ^ 5 ∣ Nat.card C) (hRC : R ≤ C) (hR : IsPGroup p R)
     (hRnc : ∃ a ∈ R, ∃ b ∈ R, a * b ≠ b * a) : False := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨k, hk⟩ := exists_card_eq_pow_of_isElemAbelian hp hA
   have hk4 : 4 ≤ k := by
     rw [hk] at hA4
@@ -152,6 +152,7 @@ theorem exists_mem_B0 (hp : p.Prime) {L B E : Subgroup X} (hB : IsElemAbelian p 
     exact Nat.pow_le_pow_right hp.pos hB4
   exact false_of_nonabelian_sylow hp hAC hAel hA4 h5 hRC hRp hRnc
 
+omit [Finite X] in
 theorem inf_centralizer_sup_eq {L : Subgroup X} {e z : X}
     (hz : z ∈ Subgroup.centralizer (L : Set X)) :
     L ⊓ Subgroup.centralizer ((Subgroup.zpowers e ⊔ Subgroup.zpowers z : Subgroup X) : Set X) =
@@ -198,7 +199,7 @@ theorem exists_jD_one (hp : p.Prime) (hp2 : p ≠ 2) (h183 : Input18_3_4)
       ((Inputs2711c.AltOrChevTwo (PSimple p J) ∧ ¬ sporOrd name ∣ Nat.card (PSimple p J)) ∨
         (Nat.card (PSimple p J) ∣ 720 ∨ Nat.card (PSimple p J) ∣ 20160 ∨
           Nat.card (PSimple p J) ∣ 25920 ∨ Nat.card (PSimple p J) ∣ 60)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hEel : IsElemAbelian p E := isElemAbelian_mono hB hEB
   have hzE : z ∈ E := hEC hz
   set D : Subgroup X := Subgroup.zpowers e ⊔ Subgroup.zpowers z with hD
@@ -333,7 +334,7 @@ theorem fullRankBound_B_five
       ∃ g : NativeSporadic.B, g * zFive ^ c * g⁻¹ = y ∨ g * sFiveA ^ c * g⁻¹ = y)
     (hNC : TabBFiveBNoComp) (hA : TabBFiveACard) (hHS : TabBFiveAHS) :
     FullRankBound 5 NativeSporadic.B := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   intro y hy1 hy5 hI
   have hord : orderOf y = 5 := orderOf_eq_prime hy5 hy1
   obtain ⟨c, hc, g, hg | hg⟩ := hconj y hord
@@ -405,7 +406,7 @@ theorem downStep_PBZero (hOut : SporadicOuterLeTwo) (hBr : SporadicBridges)
     DownStep 5 PBZero PBOne := by
   intro S _ _ hs hnab hP α hα I hI
   obtain ⟨bB⟩ := hBr .B
-  haveI : Finite (NativeSporadic.Carrier .B) := Finite.of_equiv _ (hP.some.trans bB.symm).toEquiv
+  have : Finite (NativeSporadic.Carrier .B) := Finite.of_equiv _ (hP.some.trans bB.symm).toEquiv
   exact Inputs2711c.pSimple_of_sporCensus Nat.prime_five (by norm_num) hOut bB
     (Good := fun T _ => CFSG.Yardstones.Md0ec50421ce4.catalogIs T (· = .sporadic .HS))
     (fun _ _ _ _ e h => CFSG.HardMathSupport.Dickson.BMRows.catalogIs_of_mulEquiv _ _ e h) hcen
@@ -448,7 +449,7 @@ theorem sporPairCase_B_five (h183 : Input18_3_4)
   have hname' := hname
   obtain ⟨eS⟩ := hname'
   obtain ⟨bB⟩ := hBr .B
-  haveI : Finite (NativeSporadic.Carrier .B) := Finite.of_equiv _ (eS.trans bB.symm).toEquiv
+  have : Finite (NativeSporadic.Carrier .B) := Finite.of_equiv _ (eS.trans bB.symm).toEquiv
   have σ : (↥L ⧸ Subgroup.center ↥L) ≃* NativeSporadic.Carrier .B := eS.trans bB.symm
   obtain ⟨z, hz, hz1⟩ := exists_mem_B0 hp hB hin hEB hE2 hC1 hle hB4 σ (hFR hK)
   obtain ⟨e, he, heC⟩ := Inputs2711b.exists_not_mem_centralizer hp hEB hE2 hC1
@@ -517,8 +518,8 @@ theorem exists_nonabelian_seven_heP
 
 theorem fullRankBound_Gmat
     : FullRankBound 7 Gmat := by
-  haveI : Finite Gmat := CFSG.Monster.Generated.finite_Gmat
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Finite Gmat := CFSG.Monster.Generated.finite_Gmat
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨hcls, h2A, h2B, hG5⟩ := gmat_seven_bounds
   obtain ⟨hHk, ⟨e⟩⟩ := tabMSeven_he_le_cent_dG
   have hE8 : HePE8 := hePE8
@@ -607,8 +608,8 @@ theorem fullRankBound_M_seven
   let e : CFSG.Monster.Existence.MGriess ≃* NativeSporadic.Carrier .M := e₀
   have φ := CFSG.YGroups.Y443.griessEquivGmat CFSG.YGroups.Y443.Gmat_eq_AutO_of_stroth
   let eG : Gmat ≃* NativeSporadic.Carrier .M := φ.symm.trans e
-  haveI : Finite Gmat := CFSG.Monster.Generated.finite_Gmat
-  haveI : Finite (NativeSporadic.Carrier .M) := Finite.of_equiv Gmat eG.toEquiv
+  have : Finite Gmat := CFSG.Monster.Generated.finite_Gmat
+  have : Finite (NativeSporadic.Carrier .M) := Finite.of_equiv Gmat eG.toEquiv
   exact FullRankBound.of_equiv (by norm_num) eG fullRankBound_Gmat
 
 end PairM7FullRank
@@ -649,7 +650,7 @@ theorem downStep_PMSZero (hOut : SporadicOuterLeTwo) (hBr : SporadicBridges)
     DownStep 7 PMSZero PMSOne := by
   intro S _ _ hs hnab hP α hα I hI
   obtain ⟨bM⟩ := hBr .M
-  haveI : Finite (NativeSporadic.Carrier .M) := Finite.of_equiv _ (hP.some.trans bM.symm).toEquiv
+  have : Finite (NativeSporadic.Carrier .M) := Finite.of_equiv _ (hP.some.trans bM.symm).toEquiv
   exact Inputs2711c.pSimple_of_sporCensus (by norm_num) (by norm_num) hOut bM
     (Good := fun T _ => CFSG.Yardstones.Md0ec50421ce4.catalogIs T (· = .sporadic .He))
     (fun _ _ _ _ e h => CFSG.HardMathSupport.Dickson.BMRows.catalogIs_of_mulEquiv _ _ e h) hcen
@@ -688,7 +689,7 @@ theorem sporPairCase_M_seven (h183 : Input18_3_4)
   have hname' := hname
   obtain ⟨eS⟩ := hname'
   obtain ⟨bM⟩ := hBr .M
-  haveI : Finite (NativeSporadic.Carrier .M) := Finite.of_equiv _ (eS.trans bM.symm).toEquiv
+  have : Finite (NativeSporadic.Carrier .M) := Finite.of_equiv _ (eS.trans bM.symm).toEquiv
   have σ : (↥L ⧸ Subgroup.center ↥L) ≃* NativeSporadic.Carrier .M := eS.trans bM.symm
   obtain ⟨z, hz, hz1⟩ := exists_mem_B0 hp hB hin hEB hE2 hC1 hle hB4 σ hFR
   obtain ⟨e, he, heC⟩ := Inputs2711b.exists_not_mem_centralizer hp hEB hE2 hC1
@@ -861,7 +862,7 @@ theorem suzM_census_five
       PX₀ (PSimple 3 I)) ∧
     (∀ I I' : Subgroup ↥suzM, GLAPComponent 3 (Subgroup.centralizer ({x} : Set ↥suzM)) I →
       GLAPComponent 3 (Subgroup.centralizer ({x} : Set ↥suzM)) I' → I = I') := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hs3 : orderOf (x : Equiv.Perm (Fin 1782)) = 3 := by
     have h1 : (x : Equiv.Perm (Fin 1782)) ^ 3 = 1 := by
       have := congrArg Subtype.val hx3
@@ -934,8 +935,8 @@ theorem sporPairCase_Suz_three_of_not_dvd (h183 : Input18_3_4)
     (hOrd : SporadicOrdersTable) (hBr : SporadicBridges)
     (hKD : CFSG.LocalAnalysis.GLTheoremA.KDChevInner 3) (hb : LieOrderBridge)
     (hD2 : CFSG.LocalAnalysis.GLTheoremA.KDChevDownQ 3 2) :
-    SporPairCaseWith .Suz 3 fun X _ L _ => ¬ 3 ∣ Nat.card (Subgroup.center ↥L) := by
-  intro X _ _ hp hp2 L B hZL hLK hLq hB hBN hmax _ _ _ _ hC1 hname hin J0 hJ0 hJt _ E hEB _ _ hEl hE2 _
+    SporPairCaseWith .Suz 3 fun _X _ L _ => ¬ 3 ∣ Nat.card (Subgroup.center ↥L) := by
+  intro _X _ _ hp hp2 L B hZL hLK hLq hB hBN hmax _ _ _ _ hC1 hname hin J0 hJ0 hJt _ E hEB _ _ hEl hE2 _
     _
   exfalso
   have hname' := hname
@@ -950,7 +951,7 @@ theorem sporPairCase_Suz_three_of_not_dvd (h183 : Input18_3_4)
   obtain ⟨D, hDE, heD, hDc⟩ := exists_card_sq hp hEel hE2 he
   have hDel : IsElemAbelian 3 D := isElemAbelian_mono hEel hDE
   have hD2r : 2 ≤ CFSG.Open.pRank 3 D := (pRank_eq_two hp hDel hDc).ge
-  have hDC : ¬ D ≤ Subgroup.centralizer (L : Set X) := fun h => heC (h heD)
+  have hDC : ¬ D ≤ Subgroup.centralizer (L : Set _X) := fun h => heC (h heD)
   have hpS : 3 ∣ sporOrd .Suz := by simp only [sporOrd]; norm_num
   have h12 : ¬ sporOrd .Suz ∣ Nat.factorial 12 := fun h =>
     absurd (Nat.le_of_dvd (Nat.factorial_pos 12) h)
@@ -1005,7 +1006,7 @@ theorem downStep_PFZero (hOut : SporadicOuterLeTwo) (hBr : SporadicBridges)
     DownStep 3 PFZero PFOne := by
   intro S _ _ hs hnab hF α hα I hI
   obtain ⟨bF⟩ := hBr .Fi24Prime
-  haveI : Finite (NativeSporadic.Carrier .Fi24Prime) :=
+  have : Finite (NativeSporadic.Carrier .Fi24Prime) :=
     Finite.of_equiv _ (hF.some.trans bF.symm).toEquiv
   exact Inputs2711c.pSimple_of_sporShape Nat.prime_three (by norm_num) hOut bF fiGood_iso
     (fun _ _ _ _ _ h => h) hFi isoInv_PFOne (Or.inl ⟨MulEquiv.refl _⟩)
@@ -1099,7 +1100,7 @@ theorem false_of_terminal_comp (hp : p.Prime) (hp2 : p ≠ 2) (h183 : Input18_3_
     {T : Subgroup (↥L ⧸ Subgroup.center ↥L)}
     (hTL : T ≤ (L₁.subgroupOf L).map (QuotientGroup.mk' (Subgroup.center ↥L)))
     (hT : IsElemAbelian p T) {r : ℕ} (hTc : Nat.card T = p ^ r) (hr : 3 ≤ r) : False := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hEel : IsElemAbelian p E := isElemAbelian_mono hB hEB
   have hEN : E ≤ Subgroup.normalizer (L : Set X) := hEB.trans hBN
   obtain ⟨J, hJ⟩ := Inputs2711.exists_glaPComponent_of_ne_bot hlE
@@ -1220,7 +1221,7 @@ theorem co2_comp_XB (hXB : co2XB ∈ co2P) :
   set C' : Subgroup ↥co2P := Subgroup.centralizer ({x} : Set ↥co2P) with hC'
   set L' : Subgroup ↥co2P := Lsub.comap co2P.subtype with hL'
   have e' : ↥L' ≃* ↥QP45.originalSubgroup := (Subgroup.subgroupOfEquivOfLe hLP).trans eL
-  haveI hs : IsSimpleGroup ↥L' := isSimpleGroup_of_equiv_QP45 e'
+  have hs : IsSimpleGroup ↥L' := isSimpleGroup_of_equiv_QP45 e'
   have hnab : ∃ a b : ↥L', a * b ≠ b * a := nonabelian_of_equiv_QP45 e'
   have hp3 : 3 ∣ Nat.card ↥L' := three_dvd_card_of_equiv_QP45 e'
   have hmapC : C'.map co2P.subtype = Subgroup.centralizer ({(x : Equiv.Perm (Fin 2300))} :
@@ -1265,7 +1266,7 @@ theorem co2_comps {x : ↥co2P} (hx1 : x ≠ 1) (hx3 : x ^ 3 = 1)
     ∃ g : ↥co2P, ∀ I : Subgroup ↥co2P,
       GLAPComponent 3 (Subgroup.centralizer ({x} : Set ↥co2P)) I →
         I = (Lsub.comap co2P.subtype).map (MulAut.conj g).toMonoidHom := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hs3 : orderOf (x : Equiv.Perm (Fin 2300)) = 3 := by
     have h1 : (x : Equiv.Perm (Fin 2300)) ^ 3 = 1 := by
       have := congrArg Subtype.val hx3
@@ -1312,7 +1313,7 @@ theorem co2_conj_data (hXB : co2XB ∈ co2P) (g : ↥co2P) :
   set L' : Subgroup ↥co2P := Lsub.comap co2P.subtype with hL'
   set K : Subgroup ↥co2P := L'.map (MulAut.conj g).toMonoidHom with hK
   have eK : ↥K ≃* ↥QP45.originalSubgroup := ((MulAut.conj g).subgroupMap L').symm.trans e'
-  haveI hs : IsSimpleGroup ↥K := isSimpleGroup_of_equiv_QP45 eK
+  have hs : IsSimpleGroup ↥K := isSimpleGroup_of_equiv_QP45 eK
   have hnab : ∃ a b : ↥K, a * b ≠ b * a := nonabelian_of_equiv_QP45 eK
   have hp3 : 3 ∣ Nat.card ↥K := three_dvd_card_of_equiv_QP45 eK
   have hcore : GLAPPrimeCore 3 ↥K = ⊥ := Inputs2711c.glaPPrimeCore_eq_bot_of_simple Nat.prime_three hp3
@@ -1718,7 +1719,7 @@ theorem gaAct_zero (g : ↥GA) : gaAct g 0 = 0 := by
 
 theorem co1_six_le_pRank :
     6 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup ↥GA) := by
-  haveI : Finite ↥GA := finite_GA
+  have : Finite ↥GA := finite_GA
   have hTc : Nat.card CFSG.HardMathSupport.Timmesfeld.SporadicBalance.Co1T.eSplit.T = 3 ^ 6 := by
     rw [CFSG.HardMathSupport.Timmesfeld.SporadicBalance.Co1T.SplitData.T, MonoidHom.range_eq_map,
       Subgroup.card_map_of_injective
@@ -1730,7 +1731,7 @@ theorem co1_six_le_pRank :
 
 
 theorem co1Dich_GA : Co1Dich ↥GA gaAct := by
-  haveI : Finite ↥GA := finite_GA
+  have : Finite ↥GA := finite_GA
   intro t hto h6 hI
   obtain ⟨g, x', hy, hcases⟩ := CFSG.HardMathSupport.Dickson.I271.TabCo1.tabCo1_census_three t hto
   have hC : Subgroup.centralizer ({t} : Set ↥GA) =
@@ -1852,14 +1853,14 @@ theorem co1VAct_fpf_conj {g x : CFSG.Blueprint.NativeSporadic.Carrier .Co1}
 
 theorem co1Dich_carrier [Finite (CFSG.Blueprint.NativeSporadic.Carrier .Co1)] :
     Co1Dich (CFSG.Blueprint.NativeSporadic.Carrier .Co1) co1VAct := by
-  haveI : Finite ↥GA := finite_GA
+  have : Finite ↥GA := finite_GA
   exact @Co1Dich.of_equiv ↥GA (CFSG.Blueprint.NativeSporadic.Carrier .Co1) (Subgroup.toGroup GA)
     finite_GA _ _ co1GAEquiv gaAct co1VAct
     (fun g v => by unfold co1VAct; rw [MulEquiv.symm_apply_apply]) co1Dich_GA
 
 theorem co1_six_le_pRank_carrier [Finite (CFSG.Blueprint.NativeSporadic.Carrier .Co1)] :
     6 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup (CFSG.Blueprint.NativeSporadic.Carrier .Co1)) := by
-  haveI : Finite ↥GA := finite_GA
+  have : Finite ↥GA := finite_GA
   have h2 : CFSG.Open.pRank 3 (⊤ : Subgroup ↥GA) =
       CFSG.Open.pRank 3 (⊤ : Subgroup (CFSG.Blueprint.NativeSporadic.Carrier .Co1)) :=
     CFSG.SectionRank.pRank_top_eq_of_mulEquiv (p := 3) (by norm_num) co1GAEquiv
@@ -1875,9 +1876,9 @@ theorem sporPairCase_Co1_three (h183 : Input18_3_4)
   intro X _ _ hp hp2 L B hLK hLq hB hBN hmax _ _ _ _ hC1 hname hin J0 hJ0 hJt _ E hEB hEC hEi hEl hE2
     _ hle
   exfalso
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier .Co1) :=
+  have : Finite (CFSG.Blueprint.NativeSporadic.Carrier .Co1) :=
     CFSG.Sporadic.finite_carrier_of_ne_M .Co1 (by decide)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hZL : ¬ 3 ∣ Nat.card (Subgroup.center ↥L) := not_dvd_card_center hSpM hLq hname (by decide)
   have hname' := hname
   obtain ⟨eS⟩ := hname'
@@ -2066,18 +2067,18 @@ theorem comps_of_simple_pindex {Q : Type} [Group Q] [Finite Q] {p : ℕ} (hp : p
   let E : Subgroup ↥C := L.subgroupOf C
   have eL : ↥E ≃* ↥L := Subgroup.subgroupOfEquivOfLe hLC
   have hEmap : E.map C.subtype = L := Subgroup.map_subgroupOf_eq_of_le hLC
-  haveI hsE' : IsSimpleGroup ↥E := eL.isSimpleGroup_congr.2 hs
+  have hsE' : IsSimpleGroup ↥E := eL.isSimpleGroup_congr.2 hs
   have hcardE : Nat.card ↥E = Nat.card ↥L := Nat.card_congr eL.toEquiv
   have hpos : 0 < Nat.card ↥L := Nat.card_pos
   have hidx : E.index = p ^ k := by
     have h1 : E.index * Nat.card ↥E = Nat.card ↥C := Subgroup.index_mul_card E
     rw [hcardE, hk] at h1
     exact Nat.eq_of_mul_eq_mul_right hpos (by rw [h1, mul_comm])
-  haveI hEn : E.Normal := normal_of_isSimple_of_index E hidx (pow_ne_zero k hp.ne_zero) hfac
+  have hEn : E.Normal := normal_of_isSimple_of_index E hidx (pow_ne_zero k hp.ne_zero) hfac
   have hq : IsPGroup p (↥C ⧸ E) := by
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     exact IsPGroup.of_card (n := k) hidx
-  haveI := hs
+  have := hs
   have hZL : Subgroup.center ↥L = ⊥ := center_eq_bot_of_simple_nonab hnab
   have hZ : Subgroup.center ↥(E.map C.subtype) = ⊥ := by
     rw [hEmap]
@@ -2102,8 +2103,8 @@ theorem exists_mem_B0_of_card_center (hp : p.Prime) {L B : Subgroup X} (hB : IsE
     (hmax : ∀ A : Subgroup X, A ≤ B ⊔ L → IsElemAbelian p A → Nat.card A ≤ Nat.card B)
     (hZ : Nat.card (Subgroup.center ↥L) = p) :
     ∃ z ∈ B ⊓ Subgroup.centralizer (L : Set X), z ≠ 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI hcyc : IsCyclic (Subgroup.center ↥L) := isCyclic_of_prime_card hZ
+  have : Fact p.Prime := ⟨hp⟩
+  have hcyc : IsCyclic (Subgroup.center ↥L) := isCyclic_of_prime_card hZ
   obtain ⟨z₀, hz₀⟩ := hcyc.exists_generator
   set z : X := ((z₀ : ↥L) : X) with hzdef
   have hord₀ : orderOf z₀ = p := by
@@ -2278,7 +2279,7 @@ theorem glaPLayer_inf_centralizer_eq_bot {Q : Type} [Group Q] [Finite Q]
     GLAPLayer 3 (K ⊓ Subgroup.centralizer ({κ} : Set Q)) = ⊥ := by
   by_contra hne
   obtain ⟨J', hJ'⟩ := Inputs2711.exists_glaPComponent_of_ne_bot hne
-  haveI := hs
+  have := hs
   set α : MulAut ↥K := MulAut.conj (⟨κ, hκK⟩ : ↥K) with hα
   have hα3 : α ^ 3 = 1 := by
     rw [hα, ← map_pow]
@@ -2372,7 +2373,7 @@ open CFSG.Sporadic.Fi24 (J lvl)
 
 
 theorem fiAt_s0 : FiAt ↥J s0 := by
-  haveI : Finite ↥J := Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
+  have : Finite ↥J := Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
   obtain ⟨hcard, hsimple, hnab, hleaf⟩ := fiN_facts
   have hKC : fiN ≤ Subgroup.centralizer ({s0} : Set ↥J) := fiN_le_lvl_two.trans lvl_two_le_cent0
   have hk : Nat.card ↥(Subgroup.centralizer ({s0} : Set ↥J)) = Nat.card ↥fiN * 3 ^ 2 := by
@@ -2392,7 +2393,7 @@ theorem fiAt_s0 : FiAt ↥J s0 := by
 
 
 theorem fiAt_xJ : FiAt ↥J xJ := by
-  haveI : Finite ↥J := Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
+  have : Finite ↥J := Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
   have hF := frame_facts
   obtain ⟨hleaf, hsimp, hnab, hcard⟩ := leaf_closure_of_six_some epsJ hF.eps_rel hF.eps_ne
   have hLS : Subgroup.closure (Set.range epsJ) ≤ stab4 := by
@@ -2423,7 +2424,7 @@ theorem fiAt_xJ : FiAt ↥J xJ := by
 
 
 theorem fiDich_J : FiDich ↥J := by
-  haveI : Finite ↥J := Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
+  have : Finite ↥J := Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
   intro t hto hI
   obtain ⟨i, hconj⟩ := CFSG.HardMathSupport.Timmesfeld.SporadicBalance.Fi24Sylow.fi24ThreeClasses_holds t hto
   obtain ⟨c, hc⟩ := isConj_iff.1 hconj
@@ -2469,7 +2470,7 @@ theorem fiDich_J : FiDich ↥J := by
 
 theorem fiDich_carrier [Finite (CFSG.Blueprint.NativeSporadic.Carrier .Fi24Prime)] :
     FiDich (CFSG.Blueprint.NativeSporadic.Carrier .Fi24Prime) := by
-  haveI : Finite ↥J := Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
+  have : Finite ↥J := Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
   have e : CFSG.Blueprint.NativeSporadic.Fi24prime ≃* ↥J := CFSG.Sporadic.Fi24.fi24EquivJ
   exact FiDich.of_equiv (Q := ↥J) (Q' := CFSG.Blueprint.NativeSporadic.Carrier .Fi24Prime) e.symm
     fiDich_J
@@ -2505,7 +2506,7 @@ theorem sporPairCase_Fi24_three_of_bot (h183 : Input18_3_4)
     SporPairCaseWith .Fi24Prime 3 fun X _ L B => B ⊓ Subgroup.centralizer (L : Set X) = ⊥ := by
   intro X _ _ hp hp2 L B hB0 hLK hLq hB hBN hmax _ _ _ _ _ hname hin _ _ _ _ E hEB _ hEi _ _ hLE hle
   exfalso
-  haveI : Finite (NativeSporadic.Carrier .Fi24Prime) :=
+  have : Finite (NativeSporadic.Carrier .Fi24Prime) :=
     CFSG.Sporadic.finite_carrier_of_ne_M .Fi24Prime (by decide)
   obtain ⟨eS⟩ := hname
   obtain ⟨bF⟩ := hBr .Fi24Prime
@@ -2704,7 +2705,7 @@ theorem pow_pRank_le_mul_card_range (hp : p.Prime) {L B : Subgroup X} (hB : IsEl
     (hin : ∀ b ∈ B, ∃ k ∈ L, k⁻¹ * b ∈ Subgroup.centralizer (L : Set X))
     (hZ : ¬ p ^ 2 ∣ Nat.card (Subgroup.center ↥L)) :
     p ^ CFSG.Open.pRank p (⊤ : Subgroup ↥L) ≤ p * Nat.card (barHom hin).range := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨A₀, -, hA₀, hA₀c⟩ := CFSG.SectionRank.exists_pRank hp.one_lt (⊤ : Subgroup ↥L)
   set A : Subgroup X := A₀.map L.subtype with hAdef
   have hA : IsElemAbelian p A := CFSG.SectionRank.isElemAbelian_map hA₀ L.subtype
@@ -2806,8 +2807,8 @@ theorem sporPairCase_Suz_three_of_dvd (h183 : Input18_3_4)
     (hOrd : SporadicOrdersTable) (hBr : SporadicBridges)
     (hKD : CFSG.LocalAnalysis.GLTheoremA.KDChevInner 3) (hb : LieOrderBridge)
     (hD2 : CFSG.LocalAnalysis.GLTheoremA.KDChevDownQ 3 2) :
-    SporPairCaseWith .Suz 3 fun X _ L _ => 3 ∣ Nat.card (Subgroup.center ↥L) := by
-  intro X _ _ hp hp2 L B hZ3 hLK hLq hB hBN hmax _ _ _ _ hC1 hname hin J0 hJ0 hJt _ E hEB _ _ hEl hE2 _
+    SporPairCaseWith .Suz 3 fun _X _ L _ => 3 ∣ Nat.card (Subgroup.center ↥L) := by
+  intro _X _ _ hp hp2 L B hZ3 hLK hLq hB hBN hmax _ _ _ _ hC1 hname hin J0 hJ0 hJt _ E hEB _ _ hEl hE2 _
     _
   exfalso
   have hname' := hname
@@ -2853,7 +2854,7 @@ theorem sporPairCase_Suz_three_of_dvd (h183 : Input18_3_4)
   obtain ⟨D, hDE, heD, hDc⟩ := exists_card_sq hp hEel hE2 he
   have hDel : IsElemAbelian 3 D := isElemAbelian_mono hEel hDE
   have hD2r : 2 ≤ CFSG.Open.pRank 3 D := (pRank_eq_two hp hDel hDc).ge
-  have hDC : ¬ D ≤ Subgroup.centralizer (L : Set X) := fun h => heC (h heD)
+  have hDC : ¬ D ≤ Subgroup.centralizer (L : Set _X) := fun h => heC (h heD)
   have hpS : 3 ∣ sporOrd .Suz := by simp only [sporOrd]; norm_num
   have h12 : ¬ sporOrd .Suz ∣ Nat.factorial 12 := fun h =>
     absurd (Nat.le_of_dvd (Nat.factorial_pos 12) h)

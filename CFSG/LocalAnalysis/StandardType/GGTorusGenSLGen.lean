@@ -42,9 +42,9 @@ private theorem pairElem_self {d : ℕ} {K : Type} [Field K]
     funext m
     rw [TypeA.ggPairVec_apply]
     by_cases h : m = a
-    · rw [if_pos h, if_pos h, mul_inv_cancel₀ hμ]
+    · rw [ite_eq_left h, ite_eq_left h, mul_inv_cancel₀ hμ]
       simp
-    · rw [if_neg h, if_neg h, one_mul]
+    · rw [ite_eq_right h, ite_eq_right h, one_mul]
       simp
   rw [hfun]
   exact Matrix.diagonal_one
@@ -60,14 +60,14 @@ private theorem pairElem_pow_eq_one {d : ℕ} {K : Type} [Field K]
     show TypeA.ggPairVec a b μ m ^ N = 1
     rw [TypeA.ggPairVec_apply, mul_pow]
     by_cases h1 : m = a
-    · rw [if_pos h1]
+    · rw [ite_eq_left h1]
       by_cases h2 : m = b
-      · rw [if_pos h2]; simp [hμN, inv_pow]
-      · rw [if_neg h2]; simp [hμN, inv_pow]
-    · rw [if_neg h1]
+      · rw [ite_eq_left h2]; simp [hμN, inv_pow]
+      · rw [ite_eq_right h2]; simp [hμN]
+    · rw [ite_eq_right h1]
       by_cases h2 : m = b
-      · rw [if_pos h2]; simp [hμN, inv_pow]
-      · rw [if_neg h2]; simp [hμN, inv_pow]
+      · rw [ite_eq_left h2]; simp [hμN, inv_pow]
+      · rw [ite_eq_right h2]; simp
   rw [hfun]
   exact Matrix.diagonal_one
 
@@ -80,16 +80,16 @@ private theorem pairElem_mem_blockSpecialLinear {d : ℕ} {K : Type} [Field K]
   rw [coe_pairElem, Matrix.diagonal_apply, Matrix.one_apply]
   by_cases h : i = j
   · subst h
-    rw [if_pos rfl, if_pos rfl, TypeA.ggPairVec_apply]
+    rw [ite_eq_left rfl, ite_eq_left rfl, TypeA.ggPairVec_apply]
     have hia : i ≠ a := by
       rintro rfl
       exact hij.elim (fun hi => hi ha) (fun hj => hj ha)
     have hib : i ≠ b := by
       rintro rfl
       exact hij.elim (fun hi => hi hb) (fun hj => hj hb)
-    rw [if_neg hia, if_neg hib]
+    rw [ite_eq_right hia, ite_eq_right hib]
     simp
-  · rw [if_neg h, if_neg h]
+  · rw [ite_eq_right h, ite_eq_right h]
 
 private theorem conj_pairElem {d : ℕ} {K : Type} [Field K] [CharP K 2]
     (σ : Equiv.Perm (Fin d)) (a b : Fin d) (μ : K) (hμ : μ ≠ 0) :

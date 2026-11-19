@@ -44,7 +44,7 @@ theorem s168e3_l5_s1_false
   have hirrPair : commSub (commSub (⊤ : Subgroup W) H) H = commSub (⊤ : Subgroup W) H ∧
       IsIrrOn H (commSub (⊤ : Subgroup W) H)
         (commSub (⊤ : Subgroup W) H ⊓ fixV H) := by
-    simpa only [irrSet, Set.mem_setOf_eq, H, W] using hirr
+    simpa only [irrSet, Set.mem_ofPred_eq, H, W] using hirr
   have hirrOn : IsIrrOn H (⊤ : Subgroup W) (fixV H) := by
     simpa [hcomm, H, W, top_inf_eq] using hirrPair.2
   have hdim' : E3.mQuot (⊤ : Subgroup W) (fixV H) = 10 := by

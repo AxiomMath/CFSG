@@ -254,7 +254,7 @@ theorem order96_cyclic_orderThree_fixed_action_kernel_data
     rw [hRangeCard, show Nat.card N = 4320 by
       simpa only [R, F, N] using hNcard] at hKerProduct
     omega
-  letI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 2) := ⟨by norm_num⟩
   obtain ⟨t, htOrder⟩ :=
     exists_prime_orderOf_dvd_card' (G := ρ.ker) 2 (by
       rw [hKerCard]

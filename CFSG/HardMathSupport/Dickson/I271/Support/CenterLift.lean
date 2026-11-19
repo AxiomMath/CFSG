@@ -93,7 +93,7 @@ theorem fix_of_pow_eq_one {Z : Type*} [Group Z] {p : ℕ} (hp : p.Prime) (φ : Z
     (hφ : ∀ z, φ^[p] z = z)
     (hΩ : ∀ y y' : Z, y ≠ 1 → y ^ p = 1 → y' ^ p = 1 → y' ∈ Subgroup.zpowers y)
     (y : Z) (hy : y ^ p = 1) : φ y = y := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_cases hy1 : y = 1
   · rw [hy1, map_one]
   have hφy : (φ y) ^ p = 1 := by rw [← map_pow, hy, map_one]
@@ -123,7 +123,7 @@ theorem pow_eq_one_of_mul_pow_eq_one {Z : Type*} [Group Z] (hcomm : ∀ a b : Z,
     apply hι
     rw [iterate_conj ι φ b hφ, hb, one_mul, inv_one, mul_one]
   have hfix := fix_of_pow_eq_one hp φ hφp hΩ
-  letI : CommGroup Z := { ‹Group Z› with mul_comm := hcomm }
+  let : CommGroup Z := { ‹Group Z› with mul_comm := hcomm }
   have h1 := mul_pow_eq_prod ι φ b hφ w p
   rw [h, hb, mul_one] at h1
   have h2 : ∏ i ∈ Finset.range p, φ^[i] w = 1 := hι (by rw [← h1, map_one])
@@ -137,7 +137,7 @@ theorem mem_zpowers_of_pRank_le_one {p : ℕ} (hp : p.Prime) {G : Type*} [Group 
     (hrk : CFSG.Open.pRank p (Subgroup.center G) ≤ 1) {y y' : G} (hy : y ∈ Subgroup.center G)
     (hy' : y' ∈ Subgroup.center G) (hne : y ≠ 1) (hyp : y ^ p = 1) (hy'p : y' ^ p = 1) :
     y' ∈ Subgroup.zpowers y := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set E : Subgroup G := Subgroup.closure {y, y'} with hE
   have hcomm : ∀ a ∈ ({y, y'} : Set G), ∀ b ∈ ({y, y'} : Set G), a * b = b * a := by
     intro a ha b hb

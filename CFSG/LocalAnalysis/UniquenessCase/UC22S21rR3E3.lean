@@ -38,7 +38,7 @@ theorem false_of_inner (u : R3Pair D L K n p)
   obtain ⟨x₁, hx₁, hc₁⟩ := hinK
   have hβq : uc22p21cPi D.M ⟨b, c.hBM hb⟩ ^ q = 1 := by
     rw [← map_pow, show (⟨b, c.hBM hb⟩ : ↥D.M) ^ q = 1 from
-      Subtype.ext (by simpa [← hbo] using pow_orderOf_eq_one b), map_one]
+      Subtype.ext (by simp [← hbo]), map_one]
   have hpow : ∀ {F : Subgroup (Bar2 D.M)} {β x : Bar2 D.M}, center ↥F = ⊥ → x ∈ F →
       (∀ f ∈ F, β * f * β⁻¹ = x * f * x⁻¹) → β ^ q = 1 → x ^ q = 1 := by
     intro F β x hZ hx h hβ

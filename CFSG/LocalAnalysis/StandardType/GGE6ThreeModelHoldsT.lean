@@ -25,7 +25,7 @@ variable {n : ℕ} (hn : 1 ≤ n) {K : Type} [Field K] [Finite K] (hK : Nat.card
   [IsAlgClosure K Ω] (Fr : Ω →+* Ω) (hFr : ∀ c, Fr c = c ^ 2 ^ n)
 
 include hn hK hσ in
-theorem coverOdd_T (h3 : 3 ∣ 2 ^ n + 1) : CoverOdd ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom) := by
+theorem coverOdd_T (_h3 : 3 ∣ 2 ^ n + 1) : CoverOdd ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom) := by
   obtain ⟨ε, -⟩ := TwE6DD2.exists_recipeEquiv hn hK σ hσ
   refine coverOdd_transport ε.symm ?_
   intro L' _ _ ψ hψ hker hperf
@@ -39,11 +39,11 @@ include hn hK in
 theorem e6ThreeModel_holds_T (hAL : GGAbelianLift) (h3 : 3 ∣ 2 ^ n + 1) :
     GGE6ThreeModelSCr (TwE6Delta.RecipeR K n) (TwE6Delta.RecipeI K n) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
-  haveI : IsAlgClosed (AlgebraicClosure K) := AlgebraicClosure.isAlgClosed K
+  have : IsAlgClosed (AlgebraicClosure K) := AlgebraicClosure.isAlgClosed K
   have hinj : Function.Injective (iterateFrobenius K 2 n) := (iterateFrobenius K 2 n).injective
   set σ : K ≃+* K := RingEquiv.ofBijective (iterateFrobenius K 2 n)
     ⟨hinj, Finite.surjective_of_injective hinj⟩ with hσdef
@@ -58,7 +58,7 @@ theorem e6ThreeModel_holds_T (hAL : GGAbelianLift) (h3 : 3 ∣ 2 ^ n + 1) :
   have hL : IsLang Fr g := ⟨hg, hgn⟩
   obtain ⟨D, hD⟩ := exists_tFrame hn hK σ hσ Fr hFr h3 hL hζ hζo
   have hgood : D.Good :=
-    { center := tFrame_center hn hK σ hσ
+    { center := tFrame_center σ
       faithful := tFrame_faithful hn hK σ hσ Fr hFr h3 hL hζ hζo hD
       shape := tFrame_shape hn hK σ hσ Fr hFr h3 hL hζ hζo hD
       torus := tFrame_torus hn hK σ hσ Fr hFr h3 hL hζ hζo hD

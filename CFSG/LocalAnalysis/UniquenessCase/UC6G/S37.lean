@@ -44,7 +44,7 @@ theorem card_A : Nat.card ↥m.A = m.r ^ 3 := by
 
 theorem isElemAbelian_A : IsElemAbelian m.r m.A :=
   IsElemAbelian.sup_of_commute (isElemAbelian_of_card_prime m.hr m.card_Z) m.d.E_el
-    (fun z hz e he => m.Z_comm_E hz he)
+    (fun _z hz _e he => m.Z_comm_E hz he)
 
 theorem card_A_inf_L (h620 : m.C620) : Nat.card ↥(m.A ⊓ m.L) = m.r ^ 2 := by
   have hZL : m.Z ⊓ m.L = ⊥ :=

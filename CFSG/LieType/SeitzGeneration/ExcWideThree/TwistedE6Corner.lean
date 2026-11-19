@@ -18,11 +18,13 @@ section Corner
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem twE6Corner_C0_le (σ : K ≃+* K) :
     twistedE6RootGroup K σ ≤ adjointGroup TwistTag.E6.tag K :=
   (graphFixedRootGroup_le TwistTag.E6 K σ.toRingHom).trans
     (twistedFixedGroup_le_adjointGroup TwistTag.E6 K σ.toRingHom)
 
+omit [Finite K] in
 theorem twE6Corner_decomp (σ : K ≃+* K) (ι : MulAut (twistedE6RootGroup K σ))
     (hι : ι ∈ twistedE6Inn K σ ⊔ twistedE6Diag K σ) :
     ∃ (g : twistedE6RootGroup K σ) (a : Fin TwistTag.E6.tag.rank → Kˣ),
@@ -49,6 +51,7 @@ noncomputable abbrev twE6Corner_orbitProd (a : Fin TwistTag.E6.tag.rank → Kˣ)
     ModGL TwistTag.E6.tag K :=
   (FieldGraphFieldPointwise.orbitIdx.map fun i => xUnit TwistTag.E6.tag K i (a i : K)).prod
 
+omit [Finite K] in
 theorem twE6Corner_conj_regular (a : Fin TwistTag.E6.tag.rank → Kˣ) :
     rootDiagUnit TwistTag.E6.tag a *
         (FieldGraphFieldPointwise.regularElt K : ModGL TwistTag.E6.tag K) *
@@ -59,6 +62,7 @@ theorem twE6Corner_conj_regular (a : Fin TwistTag.E6.tag.rank → Kˣ) :
   simp only [Function.comp_apply, MulAut.conj_apply]
   rw [(root_diagonal_conjugation TwistTag.E6.tag K a).1 i 1, mul_one]
 
+omit [Finite K] in
 theorem twE6Corner_posUnipotent_prod (a : Fin TwistTag.E6.tag.rank → Kˣ) :
     twE6Corner_orbitProd a ∈ posUnipotent TwistTag.E6.tag K := by
   refine Subgroup.list_prod_mem _ fun x hx => ?_

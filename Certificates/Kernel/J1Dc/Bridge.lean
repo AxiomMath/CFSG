@@ -37,7 +37,7 @@ theorem card_closure_of_list {Γ : Type} [Group Γ] (gens els : List Γ) (h1 : (
   have hset : ((Subgroup.closure {x | x ∈ gens} : Subgroup Γ) : Set Γ) =
       ((els.toFinset : Finset Γ) : Set Γ) := by
     ext x
-    simp only [SetLike.mem_coe, Finset.coe_sort_coe, List.coe_toFinset, Set.mem_setOf_eq]
+    simp only [SetLike.mem_coe, List.coe_toFinset, Set.mem_ofPred_eq]
     exact ⟨hle x, hsub x⟩
   rw [← SetLike.coe_sort_coe, hset, Nat.card_coe_set_eq, Set.ncard_coe_finset,
     List.toFinset_card_of_nodup hnd]

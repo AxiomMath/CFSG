@@ -40,7 +40,7 @@ theorem exists_not_comm_ggOTwoPrime_of_card_six {G : Type} [Group G] [Finite G] 
       have hab : a * b = b * a := congrArg Subtype.val (hcomm ⟨a, ha⟩ ⟨b, hb⟩)
       rw [(Commute.mul_pow hab 2), iha, ihb, one_mul]
     | inv a ha iha => rw [inv_pow, iha, inv_one]
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' (G := ↥(ggOTwoPrime Y)) 3 (by rw [h6]; norm_num)
   have h2 : g ^ 2 = 1 := Subtype.ext (by rw [Subgroup.coe_pow]; exact hsq g g.2)
   have := orderOf_dvd_of_pow_eq_one h2
@@ -59,7 +59,7 @@ theorem ggRk1ConclEx_of_card_six {G : Type} [Group G] [Finite G] {p : ℕ} {Bs X
     GGRk1ConclEx p Bs X r := by
   obtain ⟨e₁⟩ := CFSG.Quasithin.SBd.nonempty_mulEquiv_perm_three_of_card_six h6
     (exists_not_comm_ggOTwoPrime_of_card_six h6)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e₂⟩ :=
     CFSG.LocalAnalysis.RankThreeTheoremC.TenThreeThree.ParabComm.Lin.nonempty_mulEquiv_perm_three_of_card_two
       (K := ZMod 2) (Nat.card_zmod 2)

@@ -112,9 +112,9 @@ theorem not_swap {x u v : G} {a : ℕ} (hx : x ^ 3 ^ a = 1) (huv : u ≠ v) (hu 
 
 theorem exists_central_involution [Finite G] {T : Subgroup G} (hT : IsPGroup 2 T) (hne : T ≠ ⊥) :
     ∃ z ∈ T, orderOf z = 2 ∧ ∀ x ∈ T, z * x = x * z := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Nontrivial T := (Subgroup.nontrivial_iff_ne_bot T).2 hne
-  haveI := hT.center_nontrivial
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Nontrivial T := (Subgroup.nontrivial_iff_ne_bot T).2 hne
+  have := hT.center_nontrivial
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 (hT.to_subgroup (Subgroup.center T))
   have hn0 : n ≠ 0 := by
     rintro rfl

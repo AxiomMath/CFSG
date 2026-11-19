@@ -67,6 +67,7 @@ lemma coindCoeff_apply
   change Module.Basis ι k σ
   exact bV
 
+omit [IsNoetherianRing k] in
 private lemma basisAsRep_apply
     {H : Type*} [Group H]
     (σ : FDRep k H) {ι : Type*} (bV : Module.Basis ι k σ) (i : ι) :
@@ -115,6 +116,7 @@ noncomputable def coindBasisVectorOfVector
   · exact (map_zero _).symm
 
 open Classical in
+omit [IsNoetherianRing k] [Finite G] in
 private lemma coindBasisVectorOfVector_val
     (H : Subgroup G) (σ : FDRep k H)
     (b : FDRep.asRep σ)
@@ -333,7 +335,7 @@ lemma coindBasis_apply
     (q : Quotient (QuotientGroup.rightRel I)) (i : ι) :
     (FDRep.coindBasis I σ bV) (q, i) =
       FDRep.coindBasisVector I σ bV q i := by
-  letI : Fintype G := Fintype.ofFinite G
+  let : Fintype G := Fintype.ofFinite G
   dsimp [FDRep.coindBasis]
   rw [Module.Basis.coe_ofEquivFun]
   change
@@ -371,8 +373,8 @@ theorem finrank_coind_of_basis
     finrank (FDRep.coind I σ) =
       Nat.card (Quotient (QuotientGroup.rightRel I)) * finrank σ := by
   classical
-  letI: Fintype ι := Fintype.ofFinite ι
-  letI : Fintype G := Fintype.ofFinite G
+  let: Fintype ι := Fintype.ofFinite ι
+  let : Fintype G := Fintype.ofFinite G
   simp only [Module.finrank_eq_card_basis (FDRep.coindBasis I σ bV)]
   simp only [Module.finrank_eq_card_basis bV]
   simp only [Fintype.card_prod, Nat.card_eq_fintype_card]

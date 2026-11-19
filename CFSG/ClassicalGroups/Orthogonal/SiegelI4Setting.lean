@@ -33,7 +33,7 @@ theorem i4Setting_of (hq : 4 ≤ Nat.card K) (hBN : BN.IsAlt) (hBNnd : BN.Nondeg
     rw [h, movedSpace_one_eq_bot, finrank_bot] at h2
     exact absurd h2 (by norm_num)
   have hinj : Function.Injective ρ := by
-    haveI := isSimpleGroup_Gsp hq hBN hBNnd (by omega)
+    have := isSimpleGroup_Gsp hq hBN hBNnd (by omega)
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ρ.ker with hker | hker
     · exact (MonoidHom.ker_eq_bot_iff ρ).mp hker
     · exact absurd (MonoidHom.mem_ker.mp (hker ▸ Subgroup.mem_top (lineElt hBN a₀ c₀))) hne

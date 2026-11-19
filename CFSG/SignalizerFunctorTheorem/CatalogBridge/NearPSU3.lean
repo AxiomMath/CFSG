@@ -165,7 +165,7 @@ theorem nearPSolvable_psu3
   by_cases hK : K = ⊤
   · subst hK
     exact nearSimpleModel_top_section (Or.inr (Or.inr (Or.inr ⟨MulEquiv.refl _⟩))) L hsimple
-  · have hB := isBenderGroup_of_simple_section (CFSG.Open.Open.bender_psu3_borel p (by omega))
+  · have hB := isBenderGroup_of_simple_section (CFSG.Open.Thm.bender_psu3_borel p (by omega))
       K L hLK hsimple hnonab
     have hdvdK : Nat.card (K ⧸ L.subgroupOf K) ∣ Nat.card K := Subgroup.card_quotient_dvd_card _
     have hdvd : Nat.card (K ⧸ L.subgroupOf K) ∣ Nat.card (PSU3 2 p) :=

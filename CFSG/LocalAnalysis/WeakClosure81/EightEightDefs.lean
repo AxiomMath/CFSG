@@ -20,6 +20,7 @@ variable {G : Type} [Group G] [Finite G]
 @[expose] def kerMV (V H : Subgroup G) : Subgroup G :=
   ((normalizer (V : Set G)).subgroupOf H).normalCore.map H.subtype
 
+omit [Finite G] in
 theorem mem_kerMV_iff {V H : Subgroup G} {x : G} :
     x ∈ kerMV V H ↔ x ∈ H ∧ ∀ h ∈ H, h * x * h⁻¹ ∈ normalizer (V : Set G) := by
   unfold kerMV
@@ -31,11 +32,14 @@ theorem mem_kerMV_iff {V H : Subgroup G} {x : G} :
   · rintro ⟨hx, h⟩
     exact ⟨⟨x, hx⟩, fun b => by simpa [Subgroup.mem_subgroupOf] using h b b.2, rfl⟩
 
+omit [Finite G] in
 theorem kerMV_le_self (V H : Subgroup G) : kerMV V H ≤ H := fun _ hx => (mem_kerMV_iff.mp hx).1
 
+omit [Finite G] in
 theorem kerMV_le_normalizer (V H : Subgroup G) : kerMV V H ≤ normalizer (V : Set G) :=
   fun x hx => by simpa using (mem_kerMV_iff.mp hx).2 1 H.one_mem
 
+omit [Finite G] in
 theorem conj_mem_kerMV {V H : Subgroup G} {h x : G} (hh : h ∈ H) (hx : x ∈ kerMV V H) :
     h * x * h⁻¹ ∈ kerMV V H := by
   rw [mem_kerMV_iff] at hx ⊢
@@ -43,6 +47,7 @@ theorem conj_mem_kerMV {V H : Subgroup G} {h x : G} (hh : h ∈ H) (hx : x ∈ k
   have := hx.2 (k * h) (H.mul_mem hk hh)
   simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem le_kerMV_of_normal {V H N : Subgroup G} (hNH : N ≤ H)
     (hNn : ∀ h ∈ H, ∀ n ∈ N, h * n * h⁻¹ ∈ N) (hNM : N ≤ normalizer (V : Set G)) :
     N ≤ kerMV V H := fun n hn =>
@@ -85,6 +90,7 @@ theorem le_kerMV_of_normal {V H N : Subgroup G} (hNH : N ≤ H)
 @[expose] def calNIn (H T : Subgroup G) : Set (Subgroup G) :=
   {X | T ≤ X ∧ X < H ∧ ∀ Y : Subgroup G, X < Y → Y ≤ H → Y = H}
 
+omit [Finite G] in
 theorem isSylowIn_of_le_of_le {p : ℕ} {P K K' : Subgroup G} (hP : IsSylowIn p P K)
     (hPK' : P ≤ K') (hK'K : K' ≤ K) : IsSylowIn p P K' := by
   refine ⟨hPK', hP.isPGroup, fun h => hP.not_dvd_relIndex ?_⟩
@@ -139,6 +145,7 @@ structure Hyp88 (V H T : Subgroup G) (i : ℕ) : Prop where
   normW : H ⊓ normalizer (E3.wClos V i T : Set G) ≤ normalizer (V : Set G)
   centr : CentralizersInM V H T
 
+omit [Finite G] in
 theorem Hyp88.of_le {V H T X : Subgroup G} {i : ℕ} (h : Hyp88 V H T i) (hTX : T ≤ X)
     (hXH : X ≤ H) (hXM : ¬ X ≤ normalizer (V : Set G)) : Hyp88 V X T i where
   hyp7 := h.hyp7
@@ -197,7 +204,7 @@ theorem MinCex88.concl_of_lt {V H T X : Subgroup G} {i : ℕ} (h : MinCex88 V H 
     (∀ p : ℕ, p.Prime → p ≠ 2 →
       CFSG.Open.pRank p H ≤ 3 ∨ CFSG.Open.pRank p (lGen IsCalL0 H T) ≤ 1) →
     (calNIn H T = {lGen IsCalL0 H T} ∧
-      (IsSolvable ↥H ∨ ∃ L : Subgroup Q, IsComponentModN (OInf H) H L ∧ L ⊔ T = H)) ∧
+      (Group.IsSolvable ↥H ∨ ∃ L : Subgroup Q, IsComponentModN (OInf H) H L ∧ L ⊔ T = H)) ∧
     (InFSq 1 H ∨
       (InFSq 2 H ∧ ∃ L : Subgroup Q, IsComponentModN (OInf H) H L ∧ L ⊔ T = H ∧
         (HasQuotShape L (OInf H : Set Q) (fun X _ => IsL2 X 2) ∨

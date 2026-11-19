@@ -19,6 +19,7 @@ variable {G : Type} [Group G] [Finite G]
 @[expose] def str86Core (L1 L2 S : Subgroup G) : Subgroup G :=
   ⨅ h ∈ P2 L1 L2 S, MulAut.conj h • Q1 L1 L2 S
 
+omit [Finite G] in
 theorem mem_str86Core_iff {L1 L2 S : Subgroup G} {x : G} :
     x ∈ str86Core L1 L2 S ↔ ∀ h ∈ P2 L1 L2 S, h⁻¹ * x * h ∈ Q1 L1 L2 S := by
   simp only [str86Core, Subgroup.mem_iInf, mem_conj_smul_iff']
@@ -73,6 +74,7 @@ theorem str86_exists_mem_p2_not_mem_bigB {L1 L2 S : Subgroup G}
   have : 1 ≤ 2 ^ n := Nat.one_le_two_pow
   omega
 
+omit [Finite G] in
 theorem le_normalizer_str86Core (L1 L2 S : Subgroup G) :
     P2 L1 L2 S ≤ Subgroup.normalizer (str86Core L1 L2 S : Set G) := by
   intro p hp
@@ -89,6 +91,7 @@ theorem le_normalizer_str86Core (L1 L2 S : Subgroup G) :
     have e : (p * h)⁻¹ * (p * x * p⁻¹) * (p * h) = h⁻¹ * x * h := by group
     rwa [e] at this
 
+omit [Finite G] in
 theorem z2_le_str86Core {L1 L2 S : Subgroup G} (hZ : Z2 L1 L2 S ≤ Q1 L1 L2 S) :
     Z2 L1 L2 S ≤ str86Core L1 L2 S := by
   intro z hz
@@ -99,6 +102,7 @@ theorem z2_le_str86Core {L1 L2 S : Subgroup G} (hZ : Z2 L1 L2 S ≤ Q1 L1 L2 S) 
   rw [inv_inv] at this
   exact hZ this
 
+omit [Finite G] in
 theorem str86Core_le_q1 (L1 L2 S : Subgroup G) : str86Core L1 L2 S ≤ Q1 L1 L2 S := by
   intro x hx
   have := (mem_str86Core_iff.mp hx) 1 (P2 L1 L2 S).one_mem

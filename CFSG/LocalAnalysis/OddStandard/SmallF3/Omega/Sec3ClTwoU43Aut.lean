@@ -119,7 +119,7 @@ theorem cl_exists_simil_of_mulAut_six_minus (hQ : Q.Nondegenerate)
     have h1 := htoProj (α⁻¹ a)
     have h3 : α (α⁻¹ a) = a := by
       have hh := congrArg (fun f : MulAut (omegaGroup hQ) => f a) (mul_inv_cancel α)
-      simpa [MulAut.mul_apply, MulAut.one_apply] using hh
+      simp
     rw [h3] at h1
     rw [show (((cγ * α⁻¹) a : omegaGroup hQ) : OGroup Q) =
         simAct Q γ (((α⁻¹) a : omegaGroup hQ) : OGroup Q) from by

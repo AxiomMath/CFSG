@@ -134,6 +134,7 @@ section Product
 
 variable {Y : Type} [Group Y] [Finite Y] {p : ℕ}
 
+omit [Finite Y] in
 theorem map_conj_map_subtype {K : Subgroup Y} [K.Normal] (B : Subgroup K) (g : Y) :
     (B.map K.subtype).map (MulAut.conj g).toMonoidHom =
       (B.map (MulAut.conjNormal (H := K) g).toMonoidHom).map K.subtype := by
@@ -147,19 +148,19 @@ theorem le_centralizer_of_prod
     U ≤ Subgroup.centralizer (K : Set Y) := by
   classical
   have hNo2 : KFactCaseTwoNoTwo := kFactCaseTwoNoTwo
-  haveI : Finite A := Finite.of_injective (fun a => e.symm (a, 1)) fun a b h => by
+  have : Finite A := Finite.of_injective (fun a => e.symm (a, 1)) fun a b h => by
     simpa using congrArg Prod.fst (e.symm.injective h)
-  haveI hAs : IsSimpleGroup A := RankOneSylow.isSimpleGroup_of_isCaseTwoGroup hA
+  have hAs : IsSimpleGroup A := RankOneSylow.isSimpleGroup_of_isCaseTwoGroup hA
   have hp : p.Prime := by
     rcases RankOneSylow.eq_three_or_five_of_isCaseTwoGroup hA with rfl | rfl
     · exact Nat.prime_three
     · exact Nat.prime_five
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hsq : ∀ (B : Type) [Group B] [Finite B], IsCaseTwoGroup p B → ∀ R : Sylow p B,
       p ^ 2 ∣ Nat.card R := by
     intro B _ _ hB R
     have hle := kFactCaseTwoSylow p B hB R
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_card.mp R.isPGroup')
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_card.mp R.isPGroup)
     rw [hk] at hle ⊢
     exact pow_dvd_pow p (by
       by_contra h
@@ -171,7 +172,7 @@ theorem le_centralizer_of_prod
     nonabelian_of_simple_of_sq_dvd hp ((hsq A hA RA).trans (Subgroup.card_subgroup_dvd_card (RA : Subgroup A)))
   have hA1 : 1 < Nat.card A := by
     obtain ⟨a, b, hab⟩ := hnab
-    haveI : Nontrivial A := ⟨⟨a * b, b * a, hab⟩⟩
+    have : Nontrivial A := ⟨⟨a * b, b * a, hab⟩⟩
     exact Finite.one_lt_card
   set B₁ : Subgroup K := ((⊤ : Subgroup A).prod ⊥).comap e.toMonoidHom with hB₁
   set B₂ : Subgroup K := ((⊥ : Subgroup A).prod ⊤).comap e.toMonoidHom with hB₂
@@ -179,8 +180,8 @@ theorem le_centralizer_of_prod
     simp [hB₁, Subgroup.mem_prod]
   have mem₂ : ∀ x : K, x ∈ B₂ ↔ (e x).1 = 1 := fun x => by
     simp [hB₂, Subgroup.mem_prod]
-  haveI : B₁.Normal := Subgroup.Normal.comap inferInstance _
-  haveI : B₂.Normal := Subgroup.Normal.comap inferInstance _
+  have : B₁.Normal := Subgroup.Normal.comap inferInstance _
+  have : B₂.Normal := Subgroup.Normal.comap inferInstance _
   have equiv₁ : Nonempty (B₁ ≃* A) := by
     refine ⟨MulEquiv.ofBijective ((MonoidHom.fst A A).comp (e.toMonoidHom.comp B₁.subtype))
       ⟨fun x y hxy => ?_, fun a => ⟨⟨e.symm (a, 1), (mem₁ _).2 (by simp)⟩, by simp⟩⟩⟩
@@ -199,7 +200,7 @@ theorem le_centralizer_of_prod
     rw [Nat.card_congr e.toEquiv, Nat.card_prod]
   have normal_cases : ∀ N : Subgroup K, N.Normal → Nat.card N = Nat.card A → N = B₁ ∨ N = B₂ := by
     intro N hN hc
-    haveI : (N.map e.toMonoidHom).Normal := hN.map _ e.surjective
+    have : (N.map e.toMonoidHom).Normal := hN.map _ e.surjective
     have hNe : N = (N.map e.toMonoidHom).comap e.toMonoidHom :=
       (Subgroup.comap_map_eq_self_of_injective e.injective N).symm
     rcases CFSG.EvenSporadicStandard.HSStd.Zassenhaus.PartA.normal_prod_cases hnab
@@ -230,7 +231,7 @@ theorem le_centralizer_of_prod
     exact ⟨d, hd, ⟨f.trans g⟩⟩
   have hcenter : ∀ L : Subgroup Y, Nonempty (L ≃* A) → Subgroup.center L = ⊥ := by
     intro L ⟨f⟩
-    haveI : IsSimpleGroup L := f.isSimpleGroup
+    have : IsSimpleGroup L := f.isSimpleGroup
     refine center_bot_of_simple_nonab ?_
     obtain ⟨a, b, hab⟩ := hnab
     exact ⟨f.symm a, f.symm b, fun h => hab (by simpa using congrArg f h)⟩
@@ -360,7 +361,7 @@ theorem agl81NineEightTwo_of
     rw [hy, one_mul, mul_one]
   have hat := (h9 (aglGlobal_of_setting hS) p P M H (muAt_of_escape he) hH hHM hc Q H hQ hQH
     hH hHM hQH (aglCovers_self H _)).1
-  haveI : (d1KBar p M H).Normal := hat.nineThree.normal
+  have : (d1KBar p M H).Normal := hat.nineThree.normal
   by_cases hL34 : p = 3 ∧ IsLinThreeFour (d1KBar p M H)
   ·
     right

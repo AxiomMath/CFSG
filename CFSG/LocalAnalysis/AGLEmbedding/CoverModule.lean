@@ -106,7 +106,7 @@ theorem coverModuleLemma : CoverModuleLemma := by
     rw [pow_one]
     exact Subtype.ext (D'.pow_eq_one_of_mem u.2)
   have hÂT : D'.span.comap π ≤ T :=
-    sup_eq_right.mp (T.maximal_isPGroup.eq_of_ge (hÂp.to_sup_of_normal_left' T.isPGroup' hTÂ) le_sup_right)
+    sup_eq_right.mp (T.maximal_isPGroup.eq_of_ge (hÂp.to_sup_of_normal_left' T.isPGroup hTÂ) le_sup_right)
   refine ⟨omegaOf (D'.span.comap π) hcomm p, omegaOf_le.trans hÂT, le_normalizer_omegaOf hTÂ,
     isElemAbelian_omegaOf, ?_⟩
   calc p ^ (p + 1) ≤ p ^ (D'.n + 1) := Nat.pow_le_pow_right hp.pos (Nat.succ_le_succ hn)

@@ -41,7 +41,7 @@ section Bound
 theorem card_inf_tR_le (v : J) (hv : orderOf v = 5) (hvt : jR v * tR = tR * jR v) :
     Nat.card ↥(Subgroup.centralizer ({jR v} : Set R) ⊓ Subgroup.centralizer ({tR} : Set R)) ≤
       2 * 25200 := by
-  haveI := CFSG.Sporadic.Fi24.normal_JR
+  have := CFSG.Sporadic.Fi24.normal_JR
   set H := Subgroup.centralizer ({jR v} : Set R) ⊓ Subgroup.centralizer ({tR} : Set R)
   have hvM : v ∈ M := (CFSG.Sporadic.Fi24.commute_tR_iff v).1 hvt
   have hvMR : jR v ∈ CFSG.Sporadic.Fi24.MR := ⟨v, hvM, rfl⟩
@@ -62,7 +62,7 @@ theorem card_inf_tR_le (v : J) (hv : orderOf v = 5) (hvt : jR v * tR = tR * jR v
     rw [SetLike.mem_coe, Subgroup.mem_centralizer_singleton_iff]
     exact Subtype.ext h
   have hcardM : Nat.card ↥(Subgroup.centralizer ({vM} : Set ↥CFSG.Sporadic.Fi24.MR)) ≤ 25200 := by
-    haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+    have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
     have hv5 : v ^ 5 = 1 := hv ▸ pow_orderOf_eq_one v
     have hv1 : v ≠ 1 := fun h1 => by rw [h1, orderOf_one] at hv; exact absurd hv (by norm_num)
     have hvM5 : vM ^ 5 = 1 := Subtype.ext (by rw [Subgroup.coe_pow, ← map_pow, hv5, map_one]; rfl)
@@ -102,7 +102,7 @@ theorem card_inf_D24_le (w : J) (hw : orderOf w = 5) {x : R} (hx : x ∈ D24)
 theorem card_centralizer_le_of_ncard (w : J) (hw : orderOf w = 5)
     (hF : (fixD24 (jR w)).ncard = 36) :
     Nat.card ↥(Subgroup.centralizer ({w} : Set J)) ≤ 907200 := by
-  haveI := CFSG.Sporadic.Fi24.normal_JR
+  have := CFSG.Sporadic.Fi24.normal_JR
   set r := jR w
   obtain ⟨x₀, hx₀⟩ : (fixD24 r).Nonempty := Set.nonempty_of_ncard_ne_zero (by rw [hF]; norm_num)
   have hact : ∀ c ∈ Subgroup.centralizer ({r} : Set R), ∀ x ∈ fixD24 r,

@@ -123,7 +123,7 @@ variable {X : Type*} [Group X]
 
 theorem exists_orderOf_five_alternatingGroup_five :
     ∃ g : alternatingGroup (Fin 5), orderOf g = 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   exact exists_prime_orderOf_dvd_card' 5 (by rw [card_alternatingGroup_five_k]; norm_num)
 
 theorem false_of_pow_eighteen {K : Type*} [Group K]
@@ -283,8 +283,8 @@ theorem mem_normalizer_of_forall_commute {N : Subgroup X} {a : X}
 theorem relIndex_sup_zpowers_eq_three {N : Subgroup X} {a : X} (ha3 : a ^ 3 = 1) (haN : a ∉ N)
     (hnorm : Subgroup.zpowers a ≤ Subgroup.normalizer (N : Set X)) :
     N.relIndex (Subgroup.zpowers a ⊔ N) = 3 := by
-  haveI := Subgroup.normal_subgroupOf_of_le_normalizer hnorm
-  haveI := Subgroup.normal_subgroupOf_sup_of_le_normalizer hnorm
+  have := Subgroup.normal_subgroupOf_of_le_normalizer hnorm
+  have := Subgroup.normal_subgroupOf_sup_of_le_normalizer hnorm
   have e := QuotientGroup.quotientInfEquivProdNormalizerQuotient (Subgroup.zpowers a) N hnorm
   have h1 : N.relIndex (Subgroup.zpowers a ⊔ N) = N.relIndex (Subgroup.zpowers a) := by
     rw [Subgroup.relIndex, Subgroup.relIndex, Subgroup.index_eq_card, Subgroup.index_eq_card]
@@ -293,7 +293,7 @@ theorem relIndex_sup_zpowers_eq_three {N : Subgroup X} {a : X} (ha3 : a ^ 3 = 1)
   have ha1 : a ≠ 1 := fun h => haN (h ▸ N.one_mem)
   have hord : orderOf a = 3 := orderOf_eq_prime ha3 ha1
   have hcard : Nat.card (Subgroup.zpowers a) = 3 := by rw [Nat.card_zpowers, hord]
-  haveI : Finite (Subgroup.zpowers a) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite (Subgroup.zpowers a) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hbot : N.subgroupOf (Subgroup.zpowers a) = ⊥ := by
     have hd : Nat.card (N.subgroupOf (Subgroup.zpowers a)) ∣ 3 :=
       hcard ▸ Subgroup.card_subgroup_dvd_card _
@@ -513,15 +513,15 @@ theorem false_of_torus_comp (hcomm : ∀ i j, Commute (d i) (d j)) (hpow : ∀ i
   classical
   set A := (vecProdHom d hcomm hpow).range with hAdef
   have hAcard : Nat.card A = 3 ^ m := card_vecProdHom_range hcomm hpow hinj
-  haveI : Finite A := Nat.finite_of_card_ne_zero (by rw [hAcard]; positivity)
+  have : Finite A := Nat.finite_of_card_ne_zero (by rw [hAcard]; positivity)
   have hKC : K ≤ C := hK.1
-  haveI : Finite K := Finite.of_injective (Subgroup.inclusion hKC) (Subgroup.inclusion_injective _)
+  have : Finite K := Finite.of_injective (Subgroup.inclusion hKC) (Subgroup.inclusion_injective _)
   have hperf : commutator K = ⊤ := hK.2.2.1
   have hAcomm : ∀ x ∈ A, ∀ y ∈ A, x * y = y * x := fun x hx y hy =>
     vecProdHom_range_comm hcomm hpow hx hy
   have hA3 : ∀ x ∈ A, x ^ 3 = 1 := fun x hx => vecProdHom_range_pow_three hcomm hpow hx
   set A₀ := A ⊓ Subgroup.normalizer (K : Set X) with hA₀def
-  haveI : Finite A₀ := Finite.of_injective (Subgroup.inclusion (inf_le_left : A₀ ≤ A))
+  have : Finite A₀ := Finite.of_injective (Subgroup.inclusion (inf_le_left : A₀ ≤ A))
     (Subgroup.inclusion_injective _)
   have hA₀card : Nat.card A₀ ∣ 3 ^ m := hAcard ▸ Subgroup.card_dvd_of_le inf_le_left
   have hnorm₀ : ∀ a ∈ A₀, ∀ r ∈ K, a * r * a⁻¹ ∈ K := fun a ha r hr =>
@@ -660,7 +660,7 @@ theorem false_of_torus_comp (hcomm : ∀ i j, Commute (d i) (d j)) (hpow : ∀ i
     let H : Fin 3 × Fin 3 → Subgroup X := fun p => K.map (MulAut.conj (c p) : X →* X)
     have hH : ∀ p, CFSG.Open.IsComponentOf (H p) C := fun p =>
       isComponentOf_map_conj_of_mem_k hK (hAC (hcA p))
-    haveI : ∀ p, Finite (H p) := fun p =>
+    have : ∀ p, Finite (H p) := fun p =>
       Finite.of_injective (Subgroup.inclusion (hH p).1) (Subgroup.inclusion_injective _)
     have hdist : ∀ p q, H p = H q → p = q := by
       intro p q hpq
@@ -786,6 +786,7 @@ open CFSG.Open CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley CFSG.LieType.Stei
 
 variable {τ : Tag} {L : Type} [Field L] [CharP L 2]
 
+omit [CharP L 2] in
 theorem mem_familyCentralizer_of_commute {ω : Lˣ} {kb : List (List ℕ)} {g : ModGL τ L}
     (hgC : g ∈ adjointGroup τ L)
     (h : ∀ b ∈ kb, dV ω (listVec τ.rank b) * g = g * dV ω (listVec τ.rank b)) :
@@ -1017,6 +1018,7 @@ open CFSG.HardMathSupport.Solomon.Coordinator (fixSubgroup mem_fixSubgroup)
 
 variable {τ : Tag} {L : Type} [Field L] [CharP L 2] [IsAlgClosed L] {w₀ : WeylGroup τ}
 
+omit [IsAlgClosed L] in
 theorem false_of_inner_twModel (hw₀ : ∀ u : Fin τ.rank → ℤ, w₀ • u = -u)
     (htorL : ∀ a : Fin τ.rank → Lˣ, rootDiagUnit τ a ∈ torusGroup τ L)
     {M : Subgroup (ModGL τ L)} [Finite M]

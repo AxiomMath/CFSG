@@ -120,31 +120,26 @@ def plane (i j : Fin 4) (hij : i ≠ j) : Plane Q where
   isPolar_a := F.isPolar_hyp i
   isPolar_b := (F.isPolar_X i).add (F.isPolar_hyp j)
     (by rw [F.polar_X (F.isPolar_hyp j), F.hyp_Y hij, zero_add, add_zero])
-  f_b := by simp [hypF, hyp, F.injX.eq_iff, F.injY.eq_iff, F.Y_ne_X, F.X_ne_Y, hij, Ne.symm hij]
+  f_b := by simp [hypF, hyp, F.injX.eq_iff, F.injY.eq_iff, F.Y_ne_X, F.X_ne_Y, hij]
 
 theorem plane_orth {i j k l : Fin 4} (hij : i ≠ j) (hkl : k ≠ l) (hik : i ≠ k) (hil : i ≠ l)
     (hjk : j ≠ k) (hjl : j ≠ l) : (F.plane i j hij).Orth (F.plane k l hkl) where
-  f_a := by simp [plane, hyp, hypF, F.injX.eq_iff, F.injY.eq_iff, F.X_ne_Y, F.Y_ne_X, hik,
-    Ne.symm hik]
-  f_b := by simp [plane, hyp, hypF, F.injX.eq_iff, F.injY.eq_iff, F.X_ne_Y, F.Y_ne_X, hik, hil,
-    Ne.symm hik, Ne.symm hil]
-  g_a := by simp [plane, hyp, hypF, F.injX.eq_iff, F.injY.eq_iff, F.X_ne_Y, F.Y_ne_X, hik, hjk,
-    Ne.symm hik, Ne.symm hjk]
-  g_b := by simp [plane, hyp, hypF, F.injX.eq_iff, F.injY.eq_iff, F.X_ne_Y, F.Y_ne_X, hik, hil,
-    hjk, hjl, Ne.symm hik, Ne.symm hil, Ne.symm hjk, Ne.symm hjl]
+  f_a := by simp [plane, hyp, hypF, F.injX.eq_iff, F.injY.eq_iff, F.X_ne_Y, F.Y_ne_X, hik]
+  f_b := by simp [plane, hyp, hypF, F.injX.eq_iff, F.injY.eq_iff, F.X_ne_Y, F.Y_ne_X, hik, hil]
+  g_a := by simp [plane, hyp, hypF, F.injX.eq_iff, F.injY.eq_iff, F.X_ne_Y, F.Y_ne_X, hik, hjk]
+  g_b := by simp [plane, hyp, hypF, F.injX.eq_iff, F.injY.eq_iff, F.X_ne_Y, F.Y_ne_X, hil,
+    hjk, hjl]
 
 variable [CharP K 2]
 
 theorem plane_orth_swap {i j : Fin 4} (hij : i ≠ j) :
     (F.plane i j hij).Orth (F.plane j i (Ne.symm hij)) where
-  f_a := by simp [plane, hyp, hypF, F.injX.eq_iff, F.injY.eq_iff, F.X_ne_Y, F.Y_ne_X, hij,
-    Ne.symm hij]
-  f_b := by simp [plane, hyp, hypF, F.injX.eq_iff, F.injY.eq_iff, F.X_ne_Y, F.Y_ne_X, hij,
-    Ne.symm hij, CharTwo.add_self_eq_zero]
-  g_a := by simp [plane, hyp, hypF, F.injX.eq_iff, F.injY.eq_iff, F.X_ne_Y, F.Y_ne_X, hij,
-    Ne.symm hij, CharTwo.add_self_eq_zero]
-  g_b := by simp [plane, hyp, hypF, F.injX.eq_iff, F.injY.eq_iff, F.X_ne_Y, F.Y_ne_X, hij,
-    Ne.symm hij, CharTwo.add_self_eq_zero]
+  f_a := by simp [plane, hyp, hypF, F.injX.eq_iff, F.injY.eq_iff, F.X_ne_Y, F.Y_ne_X, hij]
+  f_b := by simp [plane, hyp, hypF, F.injX.eq_iff, F.X_ne_Y, F.Y_ne_X, hij,
+    CharTwo.add_self_eq_zero]
+  g_a := by simp [plane, hyp, hypF, F.injY.eq_iff, F.X_ne_Y, F.Y_ne_X, hij,
+    CharTwo.add_self_eq_zero]
+  g_b := by simp [plane, hyp, hypF, F.injX.eq_iff, F.injY.eq_iff, F.X_ne_Y, F.Y_ne_X, Ne.symm hij, CharTwo.add_self_eq_zero]
 
 include F in
 theorem four_le_pRank [Fintype ι] [Finite K] :

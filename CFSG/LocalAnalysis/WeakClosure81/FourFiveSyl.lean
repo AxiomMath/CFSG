@@ -13,6 +13,7 @@ open scoped Pointwise
 
 variable {Q : Type} [Group Q] [Finite Q]
 
+omit [Finite Q] in
 private theorem fourFive_le_normalizer_centralizer {A Y : Subgroup Q}
     (h : A ≤ Subgroup.normalizer (Y : Set Q)) :
     A ≤ Subgroup.normalizer (Subgroup.centralizer (Y : Set Q) : Set Q) := by
@@ -48,11 +49,13 @@ private theorem fourFive_isSylowIn_two_inf_of_isSubnormal {T H L : Subgroup Q}
       have h2 := h1.inf_normal hLM hMn
       rwa [inf_assoc, inf_eq_right.mpr hLM] at h2
 
+omit [Finite Q] in
 private theorem fourFive_autNL_le_normalizer (T J : Subgroup Q) :
     F12.autNL T J ≤ Subgroup.normalizer (J : Set Q) := by
   rw [F12.autNL]
   exact sup_le inf_le_right Subgroup.le_normalizer
 
+omit [Finite Q] in
 private theorem fourFive_quotient_autNL_isPGroup {T J : Subgroup Q} (hT : IsPGroup 2 T)
     [hJn : (J.subgroupOf (F12.autNL T J)).Normal] :
     IsPGroup 2 (F12.autNL T J ⧸ (J.subgroupOf (F12.autNL T J))) := by
@@ -81,6 +84,7 @@ private theorem fourFive_quotient_autNL_isPGroup {T J : Subgroup Q} (hT : IsPGro
     rfl
   exact hS2.of_surjective φ hφ
 
+omit [Finite Q] in
 theorem fourFive_component_normal_autNL {T J : Subgroup Q} :
     (J.subgroupOf (F12.autNL T J)).Normal :=
   Subgroup.normal_subgroupOf_of_le_normalizer (fourFive_autNL_le_normalizer T J)
@@ -105,7 +109,7 @@ theorem fourFive_sylow_autNL {T N J : Subgroup Q} (hT : IsSylowIn 2 T ⊤) (hN :
   have hSJ : S ⊓ J = T ⊓ J := by
     rw [hS, inf_assoc, inf_eq_right.mpr Subgroup.le_normalizer]
   have hkey : S.relIndex D = (S ⊓ J).relIndex J := by
-    haveI := hJn
+    have := hJn
     have h1 := CFSG.ABGLocalTools.relIndex_sup_eq_relIndex_of_normal
       (J.subgroupOf D) (S.subgroupOf D)
     have hsup : J.subgroupOf D ⊔ S.subgroupOf D = ⊤ := by
@@ -122,10 +126,10 @@ theorem fourFive_sylow_autNL {T N J : Subgroup Q} (hT : IsSylowIn 2 T ⊤) (hN :
 
 theorem fourFive_autC_isPGroup {T N J : Subgroup Q} (hT : IsSylowIn 2 T ⊤) (hN : FourFiveNMN N)
     (hJ : IsComponentOf J N) : IsPGroup 2 (F12.autC T J) := by
-  haveI hJn : (J.subgroupOf (F12.autNL T J)).Normal := fourFive_component_normal_autNL
+  have hJn : (J.subgroupOf (F12.autNL T J)).Normal := fourFive_component_normal_autNL
   have hquot : IsPGroup 2 (F12.autNL T J ⧸ (J.subgroupOf (F12.autNL T J))) :=
     fourFive_quotient_autNL_isPGroup hT.isPGroup
-  haveI : IsSimpleGroup ↥J := (fourFive_nmn_component_simple hN hJ).1
+  have : IsSimpleGroup ↥J := (fourFive_nmn_component_simple hN hJ).1
   have hcenter : Subgroup.center ↥J = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center ↥J) with h | h
     · exact h
@@ -147,7 +151,7 @@ theorem fourFive_autC_isPGroup {T N J : Subgroup Q} (hT : IsSylowIn 2 T ⊤) (hN
     rw [hcenter] at hxcenter
     exact Subtype.ext_iff.mp (Subgroup.mem_bot.mp hxcenter)
   let D := F12.autNL T J
-  haveI hJnD : (J.subgroupOf D).Normal := hJn
+  have hJnD : (J.subgroupOf D).Normal := hJn
   let π : D →* D ⧸ (J.subgroupOf D) := QuotientGroup.mk' (J.subgroupOf D)
   let φ : F12.autC T J →* D ⧸ (J.subgroupOf D) :=
     π.comp (Subgroup.inclusion (show F12.autC T J ≤ D from inf_le_left))

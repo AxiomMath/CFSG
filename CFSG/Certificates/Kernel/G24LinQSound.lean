@@ -40,7 +40,7 @@ theorem quadM_entry {n d : ℕ} (R : Fin 3 → Matrix (Fin n) (Fin n) (ZMod 2))
   generalize monoB (wvK RC n g.val (laneK TB (monoKey μ))) ν = a
   generalize monoB (laneK TB (monoKey μ)) ν = c
   generalize bitK (laneK SR (g.val * d + t.val)) s.val = b
-  by_cases h : t = s <;> cases a <;> cases b <;> cases c <;> simp [h, zB] <;> decide
+  by_cases h : t = s <;> cases a <;> cases b <;> cases c <;> simp [h, zB]; decide
 
 theorem pinM_spec {R C : Type*} {rows : List R} {cols : List C} {M : R → C → ZMod 2}
     {kr : R → ℕ} {kc : C → ℕ} {o : ℕ} {D : ℕ → ℕ} (h : pinM rows cols M kr kc o D = true) :
@@ -74,7 +74,7 @@ theorem bits_ofList_getD (l : List Char) (j : ℕ) :
   rw [bz_eq_zB, bitK_packC]
   unfold bits zB
   rw [String.toList_ofList, getD_toList]
-  simp only [Array.toList_map, List.toList_toArray]
+  simp only [Array.toList_map]
   rw [List.getD_eq_getElem?_getD, List.getElem?_map, List.getD_eq_getElem?_getD]
   cases l[j]? with
   | none => simp

@@ -25,11 +25,11 @@ private theorem map_ne_iff {G G' : Type} [Group G] [Group G'] (e : G ≃* G') (x
 
 private theorem mem_tab4Base_map (e : H ≃* H') (a b y x : H) :
     e x ∈ tab4Base (e a) (e b) (e y) ↔ x ∈ tab4Base a b y := by
-  simp only [tab4Base, Set.mem_setOf_eq, ← map_mul, isConj_map_iff, map_ne_iff]
+  simp only [tab4Base, Set.mem_ofPred_eq, ← map_mul, isConj_map_iff, map_ne_iff]
 
 private theorem mem_tab6Base_map (e : H ≃* H') (a z y x : H) :
     e x ∈ tab6Base (e a) (e z) (e y) ↔ x ∈ tab6Base a z y := by
-  simp only [tab6Base, Set.mem_setOf_eq, ← map_mul, isConj_map_iff, map_ne_iff]
+  simp only [tab6Base, Set.mem_ofPred_eq, ← map_mul, isConj_map_iff, map_ne_iff]
 
 theorem HIsA_map (e : H ≃* H') (a z b x : H) : HIsA (e a) (e z) (e b) (e x) ↔ HIsA a z b x := by
   unfold HIsA
@@ -114,13 +114,12 @@ theorem natCard_Gx_map (e : H ≃* H') (y : H) : Nat.card ↥(Gx (e y)) = Nat.ca
 theorem mem_tab4Set_map (e : H ≃* H') (a z b z₁ y x : H) (i : Fin 6) :
     e x ∈ tab4Set (e a) (e z) (e b) (e z₁) (e y) i ↔ x ∈ tab4Set a z b z₁ y i := by
   fin_cases i <;>
-    simp [tab4Set, mem_tab4Base_map, HIsA_map', HIsB_map', HIsA_map, HIsB_map, HIsA_pow_map,
-      HIsB_pow_map, pow_eq_map, orderOf_mul_map]
+    simp [tab4Set, mem_tab4Base_map, HIsA_map', HIsB_map', HIsB_pow_map, pow_eq_map, orderOf_mul_map]
 
 theorem mem_tab6Set_map (e : H ≃* H') (a z b z₁ y x : H) (i : Fin 8) :
     e x ∈ tab6Set (e a) (e z) (e b) (e z₁) (e y) i ↔ x ∈ tab6Set a z b z₁ y i := by
   fin_cases i <;>
-    simp [tab6Set, mem_tab6Base_map, HIsA_map', HIsB_map', HIsA_map, HIsB_map, HIsA_pow_map,
+    simp [tab6Set, mem_tab6Base_map, HIsA_map', HIsB_map', HIsA_pow_map,
       HIsB_pow_map, orderOf_mul_map, isShapeFiveC_Gx_mul_map, isShapeFiveB_Gx_mul_map]
 
 theorem mem_tabXSet_map (e : H ≃* H') (a z b z₁ x : H) (i : Fin 2) :
@@ -169,7 +168,7 @@ private theorem isConj_mul_center {a : H} (ha : a ∈ Subgroup.center H) {z z' :
 
 private theorem mem_tab4Base_conj {a : H} (ha : a ∈ Subgroup.center H) (b y x g : H) :
     g * x * g⁻¹ ∈ tab4Base a b (g * y * g⁻¹) ↔ x ∈ tab4Base a b y := by
-  simp only [tab4Base, Set.mem_setOf_eq]
+  simp only [tab4Base, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨h1, h2, h3⟩
     refine ⟨(isConj_congr_right_conj g b x).mp h1, (conj_ne_iff g x y).mp h2, ?_⟩
@@ -182,7 +181,7 @@ private theorem mem_tab4Base_conj {a : H} (ha : a ∈ Subgroup.center H) (b y x 
 
 private theorem mem_tab6Base_conj (a z y x g : H) :
     g * x * g⁻¹ ∈ tab6Base a z (g * y * g⁻¹) ↔ x ∈ tab6Base a z y := by
-  simp only [tab6Base, Set.mem_setOf_eq]
+  simp only [tab6Base, Set.mem_ofPred_eq]
   exact and_congr (isConj_congr_right_conj g (a * z) x) (conj_ne_iff g x y)
 
 private theorem HIsA_conj (a z b y x g : H) :
@@ -293,7 +292,7 @@ theorem mem_tab4Set_conj {a : H} (ha : a ∈ Subgroup.center H) (z b z₁ y x g 
     simp [tab4Set, mem_tab4Base_conj ha b y x g, HIsA_conj, HIsB_conj, HIsB_conj_pow,
       conj_pow_mul_eq ha y x g, orderOf_conj_mul]
 
-theorem mem_tab6Set_conj {a : H} (ha : a ∈ Subgroup.center H) (z b z₁ y x g : H) (i : Fin 8) :
+theorem mem_tab6Set_conj {a : H} (_ha : a ∈ Subgroup.center H) (z b z₁ y x g : H) (i : Fin 8) :
     g * x * g⁻¹ ∈ tab6Set a z b z₁ (g * y * g⁻¹) i ↔ x ∈ tab6Set a z b z₁ y i := by
   fin_cases i <;>
     simp [tab6Set, mem_tab6Base_conj, HIsA_conj, HIsB_conj, HIsA_conj_pow, HIsB_conj_pow,

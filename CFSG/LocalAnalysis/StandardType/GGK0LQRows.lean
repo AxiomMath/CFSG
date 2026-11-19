@@ -36,11 +36,13 @@ private theorem lk0xlqrows_marks_length (T : GGKacType) :
     (k0DiagOf T).marks.length = (absTag T).rank + 1 := by
   cases T <;> rfl
 
+omit [IsAlgClosed Omega] in
 theorem lq_p_ne_zero (hpair : GGKacExcPair lab p) : (p : Omega) ≠ 0 := by
   intro h
   have h2 : (2 : ℕ) ∣ p := (CharP.cast_eq_zero_iff Omega 2 p).1 h
   exact hpair.2.1 ((Nat.prime_dvd_prime_iff_eq Nat.prime_two hpair.1).1 h2).symm
 
+omit [CharP Omega 2] in
 theorem lq_zero_length_lt (A : K0LangMark Omega lab p R I phi) :
     ((List.range (k0DiagOf A.row.T).marks.length).filter
       (fun i => decide (A.row.s.getD i 0 = 0))).length < (k0DiagOf A.row.T).marks.length := by
@@ -65,6 +67,7 @@ theorem lq_zero_length_lt (A : K0LangMark Omega lab p R I phi) :
   have := (List.length_filter_lt_length_iff_exists).2 hlt
   simpa using this
 
+omit [CharP Omega 2] in
 theorem lq_shape_K0 (A : K0LangMark Omega lab p R I phi) (P : K0Positions A)
     (j : Fin A.row.D.orbits.length) :
     (componentRoots (rootCharHom A.a) (P.repr j)).ncard =
@@ -107,6 +110,7 @@ theorem lq_k0AutOrder_pos (c rk : List ℕ) : 1 ≤ k0AutOrder c rk := by
         · exact le_trans (Nat.le_succ o) (ih _ _)
   exact key _ 1 rk
 
+omit [CharP Omega 2] in
 theorem lq_tw_pos (A : K0LangMark Omega lab p R I phi) (P : K0Positions A)
     (j : Fin A.row.D.orbits.length) : 1 ≤ lqTw A P j := by
   unfold lqTw
@@ -115,6 +119,7 @@ theorem lq_tw_pos (A : K0LangMark Omega lab p R I phi) (P : K0Positions A)
   dsimp only
   split_ifs <;> omega
 
+omit [CharP Omega 2] in
 theorem lq_fam_facts (A : K0LangMark Omega lab p R I phi) (P : K0Positions A)
     (j : Fin A.row.D.orbits.length) :
     ((k0CompType (k0DiagOf A.row.T) (lqNodes A P j)).1 = .E6 →
@@ -138,6 +143,7 @@ theorem lq_fam_facts (A : K0LangMark Omega lab p R I phi) (P : K0Positions A)
     (lq_zero_length_lt A) _ (lq_nodes_mem_comps A P j)
   ⟨h1.1, h1.2.1, h1.2.2.1, h1.2.2.2.1, h1.2.2.2.2.1, h1.2.2.2.2.2.1, h1.2.2.2.2.2.2, h2.1, h2.2⟩
 
+omit [CharP Omega 2] in
 theorem lq_ncard_lt_rootCount (A : K0LangMark Omega lab p R I phi) (P : K0Positions A)
     (j : Fin A.row.D.orbits.length) :
     (componentRoots (rootCharHom A.a) (P.repr j)).ncard < A.tau.rootCount := by
@@ -145,6 +151,7 @@ theorem lq_ncard_lt_rootCount (A : K0LangMark Omega lab p R I phi) (P : K0Positi
   push Not at h
   exact A.a_ne (rootDiagUnit_eq_one_of_ncard (P.repr j) h)
 
+omit [CharP Omega 2] in
 theorem lq_kind_inner_of_shape (A : K0LangMark Omega lab p R I phi) (P : K0Positions A)
     (j : Fin A.row.D.orbits.length) {r c : ℕ}
     (hr : compRank (componentRoots (rootCharHom A.a) (P.repr j)) = r)
@@ -157,8 +164,8 @@ theorem lq_kind_inner_of_shape (A : K0LangMark Omega lab p R I phi) (P : K0Posit
   by_cases hin : twistInner (componentRoots (rootCharHom A.a) (P.repr j))
       ((A.setup.ρ : (Fin A.tau.rank → ℤ) → _)^[componentOrbitLength A.setup.ρ
         (componentRoots (rootCharHom A.a) (P.repr j))])
-  · exact if_pos hin
-  · rw [if_neg hin]
+  · exact ite_eq_left hin
+  · rw [ite_eq_right hin]
     have e1 : ¬ ((r = 6 ∧ c = 72) ∨ (r = 4 ∧ c = 24 ∧ ¬ twistInner
         (componentRoots (rootCharHom A.a) (P.repr j))
         ((A.setup.ρ : (Fin A.tau.rank → ℤ) → _)^[2 * componentOrbitLength A.setup.ρ
@@ -166,8 +173,9 @@ theorem lq_kind_inner_of_shape (A : K0LangMark Omega lab p R I phi) (P : K0Posit
       rintro (h | ⟨h4', h24, -⟩)
       · exact h6 h
       · exact h4 ⟨h4', h24⟩
-    rw [if_neg e1, if_neg htwoD, if_neg hsuN]
+    rw [ite_eq_right e1, ite_eq_right htwoD, ite_eq_right hsuN]
 
+omit [CharP Omega 2] in
 theorem lq_twistInner_of_shape
     (A : K0LangMark Omega lab p R I phi) (P : K0Positions A)
     (j : Fin A.row.D.orbits.length) {r c : ℕ}
@@ -213,7 +221,7 @@ theorem lq_row_A
       · exact (lq_kind_A A P j (by rw [hlen]; omega) (by rw [hct]) hn).1 htw
     have hlabel : A.row.D.orbits[j].lab = ⟨.A, r, A.row.D.orbits[j].lab.n⟩ := by
       have h := congrArg (fun o => o.lab) hdesc
-      simp only [k0LabelOf, htw, if_true] at h
+      simp only [k0LabelOf, htw, ite_true] at h
       rw [h]
     have hΛ : LargeEvenInLambda2 (⟨.A, r, A.row.D.orbits[j].lab.n⟩ : LargeEvenLabel) :=
       ⟨hn1, (by omega : 1 ≤ r), fun h => by
@@ -239,7 +247,7 @@ theorem lq_row_A
       exact absurd this (by decide)
     have hlabel : A.row.D.orbits[j].lab = ⟨.twA, r, A.row.D.orbits[j].lab.n⟩ := by
       have h := congrArg (fun o => o.lab) hdesc
-      simp only [k0LabelOf, if_neg htw] at h
+      simp only [k0LabelOf, ite_eq_right htw] at h
       rw [h]
     have hΛ : LargeEvenInLambda2 (⟨.twA, r, A.row.D.orbits[j].lab.n⟩ : LargeEvenLabel) :=
       ⟨hn1, hr, fun h2 => by
@@ -259,6 +267,7 @@ private theorem lk0xlqrows_rootCount :
       Tag.F4.rootCount = 48 := by
   decide +kernel
 
+omit [CharP Omega 2] in
 private theorem lk0xlqrows_tau (A : K0LangMark Omega lab p R I phi) :
     (A.row.T = .F4 ∧ A.tau = .F4) ∨ (A.row.T = .E6 ∧ A.tau = .E6) ∨
       (A.row.T = .E7 ∧ A.tau = .E7) ∨ (A.row.T = .E8 ∧ A.tau = .E8) := by
@@ -303,7 +312,7 @@ theorem lq_row_D
   · have hinner := ((lq_kind_D A P j hrk hD hn).1 htw1)
     have hlabel : A.row.D.orbits[j].lab = ⟨.D, r, A.row.D.orbits[j].lab.n⟩ := by
       have h := congrArg (fun o => o.lab) hdesc
-      simp only [k0LabelOf, htw1, if_true] at h
+      simp only [k0LabelOf, htw1, ite_true] at h
       rw [h]
     refine ⟨by rw [hlabel]; exact ⟨hn1, (by omega : 3 ≤ r)⟩, ?_⟩
     have h := lq_rec_D hτ A.setup hpair.1 (lq_p_ne_zero hpair) A.a_torus hTp (P.repr j)
@@ -316,7 +325,7 @@ theorem lq_row_D
       have hlabel : A.row.D.orbits[j].lab = ⟨.twD, r, A.row.D.orbits[j].lab.n⟩ := by
         have h := congrArg (fun o => o.lab) hdesc
         simp only [k0LabelOf] at h
-        rw [if_neg htw1, if_pos htw2] at h
+        rw [ite_eq_right htw1, ite_eq_left htw2] at h
         rw [h]
       refine ⟨by rw [hlabel]; exact ⟨hn1, (by omega : 2 ≤ r)⟩, ?_⟩
       have h := lq_rec_twoD A.setup hpair.1 (lq_p_ne_zero hpair) A.a_torus hTp A.a_ne (P.repr j)
@@ -329,7 +338,7 @@ theorem lq_row_D
       have hlabel : A.row.D.orbits[j].lab = ⟨.triD4, 0, A.row.D.orbits[j].lab.n⟩ := by
         have h := congrArg (fun o => o.lab) hdesc
         simp only [k0LabelOf] at h
-        rw [if_neg htw1, if_neg htw2] at h
+        rw [ite_eq_right htw1, ite_eq_right htw2] at h
         rw [h]
       refine ⟨by rw [hlabel]; exact ⟨hn1, rfl⟩, ?_⟩
       have h := lq_rec_triD4 A.setup hpair.1 (lq_p_ne_zero hpair) A.a_torus hTp A.a_ne (P.repr j)
@@ -339,7 +348,7 @@ theorem lq_row_D
 
 
 theorem lq_row_A1
-    (hlab : LargeEvenInLambda2 lab) (hpair : GGKacExcPair lab p)
+    (hlab : LargeEvenInLambda2 lab) (_hpair : GGKacExcPair lab p)
     (A : K0LangMark Omega lab p R I phi) (P : K0Positions A)
     (j : Fin A.row.D.orbits.length) (hj : A.row.D.orbits[j].qs = true)
     (hct : k0CompType (k0DiagOf A.row.T) (lqNodes A P j) = (.A, 1)) :
@@ -363,7 +372,7 @@ theorem lq_row_A1
   rw [hct] at hdesc
   have hlabel : A.row.D.orbits[j].lab = ⟨.A, 1, A.row.D.orbits[j].lab.n⟩ := by
     have h := congrArg (fun o => o.lab) hdesc
-    simp only [k0LabelOf, htw, if_true] at h
+    simp only [k0LabelOf, htw, ite_true] at h
     rw [h]
   have hN2 : 2 ≤ A.row.D.orbits[j].lab.n := by
     by_contra hlt
@@ -477,7 +486,7 @@ theorem lq_row_E6
   · have hlabel : A.row.D.orbits[j].lab = ⟨.E6, 0, A.row.D.orbits[j].lab.n⟩ := by
       have h := congrArg (fun o => o.lab) hdesc
       rw [hE] at h
-      simp only [k0LabelOf, htw, if_true] at h
+      simp only [k0LabelOf, htw, ite_true] at h
       rw [h]
     refine ⟨by rw [hlabel]; exact ⟨hn1, rfl⟩, ?_⟩
     have h := lq_rec_E6 hτ A.setup hpair.1 (lq_p_ne_zero hpair) A.a_torus hTp (P.repr j) hrank hn
@@ -488,7 +497,7 @@ theorem lq_row_E6
       have h := congrArg (fun o => o.lab) hdesc
       rw [hE] at h
       simp only [k0LabelOf] at h
-      rw [if_neg htw] at h
+      rw [ite_eq_right htw] at h
       rw [h]
     refine ⟨by rw [hlabel]; exact ⟨hn1, rfl⟩, ?_⟩
     have h := lq_rec_twE6 A.setup hpair.1 (lq_p_ne_zero hpair) A.a_torus hTp A.a_ne (P.repr j)
@@ -562,8 +571,9 @@ private theorem lk0xlqrows_label_C2_ne (tw : ℕ) {nEff : ℕ} (h : nEff ≠ 1) 
     (k0LabelOf .C 2 tw nEff).lab = ⟨.C, 2, nEff⟩ := by
   unfold k0LabelOf
   dsimp only
-  rw [if_neg (fun h' => h h'.2)]
+  rw [ite_eq_right (fun h' => h h'.2)]
 
+omit [CharP Omega 2] in
 private theorem lk0xlqrows_tau_F4 (A : K0LangMark Omega lab p R I phi) (hT : A.row.T = .F4) :
     A.tau = .F4 := by
   rcases lk0xlqrows_tau A with ⟨-, h⟩ | ⟨h, -⟩ | ⟨h, -⟩ | ⟨h, -⟩
@@ -626,7 +636,7 @@ theorem lq_row_C
   have hlabel : A.row.D.orbits[j].lab = ⟨.C, 3, A.row.D.orbits[j].lab.n⟩ := by
     have h := congrArg (fun o => o.lab) hdesc
     simp only [k0LabelOf] at h
-    rw [if_neg (fun h2 => by omega)] at h
+    rw [ite_eq_right (fun h2 => by omega)] at h
     rw [h]
   refine ⟨by rw [hlabel]; exact ⟨hn1, by norm_num, fun h => by
     exfalso

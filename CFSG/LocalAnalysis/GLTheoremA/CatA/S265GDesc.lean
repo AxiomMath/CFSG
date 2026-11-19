@@ -17,6 +17,7 @@ open CFSG.Timmesfeld.ExceptionalOrders CFSG.RankThree.PartOne.KFU
 variable
   {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 private theorem entrywise_mem_parabolic_iff {σ : K ≃+* K} (hσ : σ ^ 3 = 1)
     (J : Set (Fin Tag.F4.rank)) (c : adjointGroup .F4 K) :
     ((entrywiseAdjointAut .F4 σ c : adjointGroup .F4 K) : ModGL .F4 K) ∈
@@ -38,10 +39,10 @@ theorem exists_fixed_two_subgroup {f : ℕ} (hf : Odd f) (hK : Nat.card K = 2 ^ 
       (∀ u ∈ U, entrywiseAdjointAut .F4 σ u = u) ∧
         A ≤ Subgroup.normalizer (U : Set (adjointGroup .F4 K)) := by
   classical
-  haveI : CharP K 2 := by
-    haveI : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := by
+    have : Fintype K := Fintype.ofFinite K
     exact charP_of_card_eq_prime_pow (f := f) (by rw [← Nat.card_eq_fintype_card, hK])
-  haveI : Finite (ModGL .F4 K) := finite_modGL
+  have : Finite (ModGL .F4 K) := finite_modGL
   set φ : MulAut (adjointGroup .F4 K) := entrywiseAdjointAut .F4 σ with hφdef
   have hφ3 : ∀ x, φ (φ (φ x)) = x := entrywiseAdjointAut_apply_three hσ
   obtain ⟨P, S, hPtop, hSP, hAP, hPφ⟩ :=
@@ -180,7 +181,7 @@ theorem exists_fixed_two_subgroup {f : ℕ} (hf : Odd f) (hK : Nat.card K = 2 ^ 
       simpa [MulAut.conj_apply, mul_assoc] using ha
     · intro ha'
       refine ⟨g * a' * g⁻¹, ha', ?_⟩
-      simp [MulAut.conj_apply, mul_assoc]
+      simp [mul_assoc]
   have hA'3 : IsPGroup 3 A' := hA3.map _
   have hA'2 : A' ≤ P₂' := by
     intro a' ha'

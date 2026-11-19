@@ -68,6 +68,7 @@ private theorem exists_conj_le_of_card_eq {C A B : Subgroup X} (hAC : A ≤ C)
   rw [key] at h1
   simpa [MulAut.smul_def, MulAut.conj_apply, mem_subgroupOf] using h1
 
+omit [Finite X] in
 private theorem disjoint_of_odd {A N : Subgroup X} {k : ℕ} (hk : Nat.card A = 2 ^ k)
     (hN : Odd (Nat.card N)) : Disjoint N A := by
   refine Subgroup.disjoint_of_coprime_natCard ?_
@@ -86,6 +87,7 @@ private theorem card_eq_two_pow_of_odd {A N : Subgroup X} {k : ℕ} (hk : Nat.ca
     Nat.Prime.factorization_pow Nat.prime_two]
   simp
 
+omit [Finite X] in
 private theorem conj_mem_of_mem_normalizer {N : Subgroup X} {g n : X}
     (hg : g ∈ normalizer (N : Set X)) (hn : n ∈ N) : g * n * g⁻¹ ∈ N :=
   (mem_set_normalizer_iff.mp hg n).mp hn

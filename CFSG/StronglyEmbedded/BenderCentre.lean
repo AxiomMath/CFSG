@@ -74,6 +74,7 @@ theorem sylow_eq_of_le_sylowCenter (hK : IsBenderGroup K) {S S' : Sylow 2 K} {E 
   rw [← inf_eq_bot_of_fusionBenderBorel hB hne]
   exact le_inf (hS.trans (sylowCenter_le _)) (hS'.trans (sylowCenter_le _))
 
+omit [Finite K] in
 theorem conjSubgroup_le_sylowCenter {S : Sylow 2 K} {n : K}
     (hn : n ∈ Subgroup.normalizer ((S : Subgroup K) : Set K)) {E : Subgroup K}
     (hE : E ≤ sylowCenter (S : Subgroup K)) :
@@ -108,7 +109,7 @@ theorem not_mem_normalizer_of_mem_conj (hK : IsBenderGroup K)
     exact sylowCenter_le _ (hES (mem_conjSubgroup.mp ha))
   have haS : a ∈ (S : Subgroup K) := by
     have hp : IsPGroup 2 (Subgroup.zpowers a) :=
-      (w • S).isPGroup'.to_le (Subgroup.zpowers_le.mpr haw)
+      (w • S).isPGroup.to_le (Subgroup.zpowers_le.mpr haw)
     have hmem : a ∈ Subgroup.zpowers a ⊓ (S : Subgroup K) := by
       rw [← hp.inf_normalizer_sylow S]
       exact ⟨Subgroup.mem_zpowers a, haN⟩
@@ -151,6 +152,7 @@ theorem card_sylowCenter_psu3 {n : ℕ} (hn : 2 ≤ n) (e : K ≃* PSU3Model n) 
     e.trans (MulEquiv.subgroupCongr (CFSG.Models.benderPSU3Model_eq_psu3 n))
   exact (benderBorel_sylowCenter (fusionBenderBorel_of_mulEquiv_psu3 hn e') S).2.2.1
 
+omit [Finite K] in
 private theorem mem_sylowCenter_smul_iff {S : Sylow 2 K} {g x : K} :
     x ∈ sylowCenter ((g • S : Sylow 2 K) : Subgroup K) ↔
       g⁻¹ * x * g ∈ sylowCenter (S : Subgroup K) := by
@@ -178,7 +180,7 @@ theorem sylowCenter_sup_zpowers_eq_top
     rw [sylowCenter_eq_of_psl2 hn e S]
     obtain ⟨D, hD⟩ :=
       CFSG.Goldschmidt.G3a.exists_borelSetup (fusionIsBenderGroup_of_isBenderGroup hK') S
-    haveI : IsSimpleGroup K := IsBenderGroup.isSimpleGroup hK'
+    have : IsSimpleGroup K := IsBenderGroup.isSimpleGroup hK'
     by_contra hne
     exact ha (hD.le_normalizer_of_le le_sup_left hne
       (Subgroup.mem_sup_right (Subgroup.mem_zpowers a)))
@@ -206,7 +208,7 @@ theorem aut_eq_conj_of_centralizes (hK : IsBenderGroup K)
     ∃ s ∈ (S : Subgroup K), φ = MulAut.conj s := by
   have hf := fusionIsBenderGroup_of_isBenderGroup hK
   obtain ⟨D, hD⟩ := CFSG.Goldschmidt.G3a.exists_borelSetup hf S
-  haveI : IsSimpleGroup K := IsBenderGroup.isSimpleGroup hK
+  have : IsSimpleGroup K := IsBenderGroup.isSimpleGroup hK
   exact hD.eq_conj
     ((CFSG.ComponentClassification.AschbacherToolkit.BenderExt.benderData_of_isBenderGroup hf).aut
       S) φ hS hZ hSZ

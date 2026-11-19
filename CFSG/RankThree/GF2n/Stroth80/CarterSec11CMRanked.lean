@@ -106,7 +106,7 @@ theorem exists_naturalRep_cmComm
       show M₀.π (v : G) = 0
       exact (M₀.π_ker (v : G) (hZQ hv)).mpr hv
   have hZnorm : (Z.subgroupOf V).Normal := Z_subgroupOf_sup_comm_normal hc
-  haveI := hZnorm
+  have := hZnorm
   let ψ : ↥V ⧸ Z.subgroupOf V ≃* Multiplicative (Fin d → K) :=
     (QuotientGroup.quotientMulEquivOfEq hf_ker.symm).trans
       (QuotientGroup.quotientKerEquivOfSurjective f hf_surj)

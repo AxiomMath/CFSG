@@ -65,7 +65,7 @@ theorem eq_zero_of_mem_center {a b : K}
     congrArg (fun g : Matrix.SpecialLinearGroup (Fin 3) K => (g : Matrix (Fin 3) (Fin 3) K) 0 1)
       (hc e₂)
   simp [e₁, e₂, uni, Matrix.mul_apply, Fin.sum_univ_three] at h1 h2
-  refine ⟨?_, ?_⟩ <;> first | exact h2.symm | exact h2 | exact h1.symm | exact h1
+  refine ⟨?_, ?_⟩ <;> first | exact h2.symm | exact h1
 
 theorem uniHom_injective_mod_center :
     Function.Injective ((QuotientGroup.mk' (Subgroup.center
@@ -101,6 +101,7 @@ section Field
 
 variable {K : Type} [Field K] [Finite K] [CharP K 3]
 
+omit [Finite K] in
 theorem exists_pow_six_of_field (hK : Nat.card K = 27) :
     ∃ P : Subgroup (Matrix.ProjectiveSpecialLinearGroup (Fin 3) K),
       IsElemAbelian 3 P ∧ Nat.card P = 3 ^ 6 := by
@@ -137,9 +138,9 @@ theorem exists_six_of_A2 {S : Type} [Group S] (q : TauCeti.PrimePower)
     (hv : (TauCeti.LieTypeIndex.A 2 q).Valid) (hq : q.card = 27)
     (e : S ≃* (TauCeti.ValidLieTypeIndex.Group ⟨TauCeti.LieTypeIndex.A 2 q, hv⟩)) :
     ∃ P : Subgroup S, IsElemAbelian 3 P ∧ Nat.card P = 3 ^ 6 := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hp3 : q.p = 3 := prime_eq_three_of_card_eq_27 q hq
-  haveI : CharP (GaloisField q.p q.exponent) 3 := by
+  have : CharP (GaloisField q.p q.exponent) 3 := by
     rw [← hp3]
     infer_instance
   have hK : Nat.card (GaloisField q.p q.exponent) = 27 := by

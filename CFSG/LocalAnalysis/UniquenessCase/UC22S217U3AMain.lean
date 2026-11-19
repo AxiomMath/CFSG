@@ -185,7 +185,7 @@ theorem uc22s217u3a_false_of_four_dvd (D : Data G) (Ch : Choice2011 G) (h5 : S21
     (hqn : q ∣ 2 ^ n + 1) (h76 : Conclusion76 D.M q) : False := by
   classical
   have h5p : (5 : ℕ).Prime := by norm_num
-  haveI : Fact (5 : ℕ).Prime := ⟨h5p⟩
+  have : Fact (5 : ℕ).Prime := ⟨h5p⟩
   have h5B : 5 ∣ Nat.card c.B0 := by
     have hmod := uc22s217u3a_two_pow_mod_five hc4
     have : 5 ∈ piSet c.B0 := by
@@ -201,7 +201,7 @@ theorem uc22s217u3a_false_of_four_dvd (D : Data G) (Ch : Choice2011 G) (h5 : S21
   have hLM : L ≤ D.M := hL.1.le
   have hnN' : ¬ D.M ≤ normalizer (L : Set G) := fun h =>
     hnN ((Subgroup.normal_subgroupOf_iff_le_normalizer hLM).2 h)
-  obtain ⟨m, hmM, hmN⟩ := SetLike.not_le_iff_exists.1 hnN'
+  obtain ⟨m, hmM, hmN⟩ := IsConcreteLE.not_le_iff_exists.1 hnN'
   let f : MulAut G := MulAut.conj m
   have hMf : D.M.map f.toMonoidHom = D.M :=
     UC6S846.mem_normalizer_iff_map_conj.1 (Subgroup.le_normalizer hmM)
@@ -240,7 +240,7 @@ theorem uc22s217u3a_false_of_not_isPowTwo (D : Data G) (Ch : Choice2011 G) (h5 :
     (h5q : q = 5 → 2 ^ 12 ∣ Nat.card (Bar2 (conjClosure D.M L))) : False := by
   classical
   obtain ⟨s, r, hs, hsn, hr, hrs, -⟩ := uc22s217u3b_exists_sr hc0 hc
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hr5 : 5 ≤ r := UC6S898.prime_ne_two_three_of_dvd hr hs hrs
   have hr2 : r ≠ 2 := by omega
   have hrB : r ∣ Nat.card c.B0 := by
@@ -317,12 +317,12 @@ theorem uc22s217u3a_not_isSU3_of_griess (hG : CFSG.Open.GriessAllModelsStatement
       h5q
 
 theorem s21_17R_one_pow_of_griess (hG : CFSG.Open.GriessAllModelsStatement) (D : Data G)
-    (Ch : Choice2011 G) (h5 : S21_5 D Ch) (hn3 : H1930 D → ∀ c : Ctx21 D Ch, 3 ≤ c.n)
+    (Ch : Choice2011 G) (h5 : S21_5 D Ch) (hn3 : H1930 D → ∀ _c : Ctx21 D Ch, 3 ≤ _c.n)
     (hSg : SigmaStd D) (h76 : ∀ p ∈ D.sig, IsStronglyPEmbedded p D.M → Conclusion76 D.M p)
     (h869 : F08.R869NS5 D) :
-    H1930 D → ∀ c : Ctx21 D Ch, ∀ L ∈ calC D.M, ¬ (L.subgroupOf D.M).Normal →
+    H1930 D → ∀ _c : Ctx21 D Ch, ∀ L ∈ calC D.M, ¬ (L.subgroupOf D.M).Normal →
       ∀ n : ℕ, IsPowTwo n → ¬ IsSU3 (Bar2 L) n :=
-  fun hH c _ hL hnN _ hn =>
-    uc22s217u3a_not_isSU3_of_griess hG D Ch h5 hH c (hn3 hH c) hSg h76 h869 hL hnN hn
+  fun hH _c _ hL hnN _ hn =>
+    uc22s217u3a_not_isSU3_of_griess hG D Ch h5 hH _c (hn3 hH _c) hSg h76 h869 hL hnN hn
 
 end CFSG.LocalAnalysis.UniquenessCase.UC22

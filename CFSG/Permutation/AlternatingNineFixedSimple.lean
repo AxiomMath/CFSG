@@ -13,7 +13,7 @@ private lemma exists_isCycle_orderOf_five_of_card_sixty
     (X : Subgroup (alternatingGroup (Fin 9))) (hX : Nat.card X = 60) :
     ∃ c : alternatingGroup (Fin 9), c ∈ X ∧ (c : Perm (Fin 9)).IsCycle ∧
       orderOf (c : Perm (Fin 9)) = 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have h5 : 5 ∣ Nat.card X := by rw [hX]; norm_num
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := X) 5 h5
   let c : alternatingGroup (Fin 9) := x
@@ -40,9 +40,7 @@ private lemma exists_nat_pow_eq_on_support_of_commute_of_card_five {π c : Perm 
     intro x hx
     have h := congrArg (fun f : Perm c.support => (f ⟨x, hx⟩ : c.support)) hi
     have h2 : (((c.subtypePermOfSupport ^ i) ⟨x, hx⟩ : c.support) : Fin 9) = (c ^ i) x := by
-      simpa [subtypePermOfSupport] using
-        subtypePerm_apply_zpow_of_mem (g := c) (s := c.support)
-          (fun _ => apply_mem_support) (i := i) hx
+      simp [subtypePermOfSupport]
     exact (h2.symm.trans (congrArg Subtype.val h)).symm
   let j : ℕ := (i % 5).toNat
   have hmod : i % 5 = (j : ℤ) := by
@@ -56,7 +54,7 @@ private lemma exists_nat_pow_eq_on_support_of_commute_of_card_five {π c : Perm 
   rw [happ x hx, hcij, zpow_natCast]
 
 private lemma cube_eq_one_of_fixes_support_of_card_five {c : Perm (Fin 9)} (hc : c.IsCycle)
-    (hc5 : c.support.card = 5) {j : ℕ} (h : ∀ x ∈ c.support, ((c ^ j) ^ 3) x = x) :
+    (_hc5 : c.support.card = 5) {j : ℕ} (h : ∀ x ∈ c.support, ((c ^ j) ^ 3) x = x) :
     (c ^ j) ^ 3 = 1 := by
   have hpow : (c ^ j) ^ 3 = c ^ (3 * j) := by
     have h1 : (c ^ j) ^ 3 = c ^ (j * 3) := (pow_mul c j 3).symm
@@ -94,13 +92,13 @@ private lemma fix_support_of_commute_of_cube {π c : Perm (Fin 9)} (hc : c.IsCyc
 
 private lemma eq_one_or_isThreeCycle_of_cube_of_support_card_le_four {π : Perm (Fin 9)}
     (hπ3 : π ^ 3 = 1) (hcard : π.support.card ≤ 4) : π = 1 ∨ π.IsThreeCycle := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hcycle : π.cycleType = Multiset.replicate π.cycleType.card 3 :=
     cycleType_of_pow_prime_eq_one hπ3
   have hsum : π.cycleType.sum = π.support.card := sum_cycleType π
   have hc3 : π.cycleType.card * 3 = π.support.card := by
     rw [← hsum, hcycle]
-    simp [Multiset.sum_replicate, nsmul_eq_mul]
+    simp [Multiset.sum_replicate]
   have hle1 : π.cycleType.card ≤ 1 := by omega
   interval_cases hc : π.cycleType.card
   · exact Or.inl (card_cycleType_eq_zero.mp hc)
@@ -177,7 +175,7 @@ private lemma isSimpleGroup_and_card_altStabilizer_of_isThreeCycle {π : Perm (F
         alternatingGroup (Fin 6) :=
       (CFSG.CGT.PushingUpLit.CGT6.altStabilizerEquiv π.support).trans
         (Equiv.altCongrHom (finCongr h6))
-    haveI : IsSimpleGroup (alternatingGroup (Fin 6)) :=
+    have : IsSimpleGroup (alternatingGroup (Fin 6)) :=
       alternatingGroup.isSimpleGroup (by rw [Nat.card_fin]; norm_num)
     exact eW.isSimpleGroup
   · rw [CFSG.CGT.PushingUpLit.CGT6.card_altStabilizer π.support (by omega), hcard]
@@ -197,7 +195,7 @@ private lemma le_altStabilizer_of_isThreeCycle
     { smul := fun x y => ⟨((x : X) : Perm (Fin 9)) y, hmaps x y⟩
       one_smul := by intro y; apply Subtype.ext; rfl
       mul_smul := by intro x y z; apply Subtype.ext; rfl }
-  letI : MulAction X ↥S := act
+  let : MulAction X ↥S := act
   let φ : X →* Perm ↥S := MulAction.toPermHom X ↥S
   have hker_top : φ.ker = ⊤ := by
     rcases Subgroup.Normal.eq_bot_or_eq_top φ.ker with hbot | htop
@@ -244,7 +242,7 @@ private theorem exists_simple_fixed_of_aut_eq_one (α : MulAut (alternatingGroup
   refine ⟨⊤, le_top, ?_, ?_, ?_⟩
   · intro w _
     rw [hα1, MulAut.one_apply]
-  · haveI : IsSimpleGroup (alternatingGroup (Fin 9)) :=
+  · have : IsSimpleGroup (alternatingGroup (Fin 9)) :=
       alternatingGroup.isSimpleGroup (by rw [Nat.card_fin]; norm_num)
     exact (Subgroup.topEquiv).isSimpleGroup
   · rw [Subgroup.card_top, nat_card_alternatingGroup, Nat.card_fin]

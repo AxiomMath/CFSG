@@ -47,7 +47,7 @@ theorem conj_e6LineElt_apply_of_mem {ω : Kˣ} (h3 : ω ^ 3 = 1) (h1 : ω ≠ 1)
     rootSpan_le_centralizer (e6LineChar ω) hS hx
   exact Subtype.ext (conj_eq_iff_mem_centralizer.2 hmem)
 
-theorem e6LineFactor_le_seitzHyperGamma [Finite K] (hchar : ringChar K ≠ 3)
+theorem e6LineFactor_le_seitzHyperGamma [Finite K] (_hchar : ringChar K ≠ 3)
     (h3 : 3 ∣ Nat.card K - 1) (h4 : Nat.card K ≠ 4) {ω : Kˣ} (hw3 : ω ^ 3 = 1) (hw1 : ω ≠ 1)
     {E : Subgroup (MulAut (adjointGroup Tag.E6 K))} (hE : IsElemAbelian 3 E)
     (hcard : Nat.card E = 3 ^ 3) (hEd : E ≤ e6Inndiag K)
@@ -70,7 +70,7 @@ theorem e6LineFactor_le_seitzHyperGamma [Finite K] (hchar : ringChar K ≠ 3)
   exact key
 
 theorem e6ThreeLayerGen_holds : E6ThreeLayerGen :=
-  fun K _ _ hc h3 h4 ω hw3 hw1 E hE hcard hEd hsig i =>
+  fun _K _ _ hc h3 h4 _ω hw3 hw1 _E hE hcard hEd hsig i =>
     e6LineFactor_le_seitzHyperGamma hc h3 h4 hw3 hw1 hE hcard hEd hsig i
 
 end Gen

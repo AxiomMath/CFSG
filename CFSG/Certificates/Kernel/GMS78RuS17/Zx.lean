@@ -94,7 +94,7 @@ private theorem zLoop_eq (rows : List Nat) (iu i2 : Nat) : ∀ n,
   | n + 1 => by
     have e : zLoop rows iu i2 (n + 1) = strictN (zLoop rows iu i2 n) (zStep rows iu i2 n) := rfl
     rw [e, P117.strictN_eq, zLoop_eq rows iu i2 n]
-    simp only [zStep, brec_eq, Nat.shiftLeft_eq, Nat.add_eq, List.range_succ, List.countP_append,
+    simp only [zStep, brec_eq, Nat.add_eq, List.range_succ, List.countP_append,
       List.countP_cons, List.countP_nil]
     cases h1 : zG rows iu n <;> cases h2 : zG rows i2 n <;> simp <;> omega
 
@@ -105,7 +105,7 @@ variable {m : Nat → Nat → Nat} {C : List Nat}
 private theorem idxf_eq (hnd : C.Nodup) (hlen : C.length = 256) {x : Nat} (hx : x ∈ C) :
     idxf C x = C.idxOf x := by
   unfold idxf
-  rw [sIdx_fget hnd (by omega), if_pos hx]
+  rw [sIdx_fget hnd (by omega), ite_eq_left hx]
   rfl
 
 private theorem idxf_lt (hnd : C.Nodup) (hlen : C.length = 256) {x : Nat} (hx : x ∈ C) :
@@ -187,7 +187,7 @@ private theorem countP_getD (P : Nat → Bool) : ∀ l : List Nat,
   | a :: l => by
     have ih := countP_getD P l
     simp only [List.length_cons, List.range_succ_eq_map, List.countP_cons, List.countP_map,
-      Function.comp, List.getD_cons_succ, List.getD_cons_zero]
+      List.getD_cons_zero]
     rw [ih]
     rfl
 

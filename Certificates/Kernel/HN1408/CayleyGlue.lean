@@ -40,12 +40,12 @@ theorem pushes_size (g : Array T → Nat → T) (a : Array T) :
 theorem getD_push_lt {a : Array T} {x : T} {j : Nat} (d : T) (h : j < a.size) :
     (a.push x).getD j d = a.getD j d := by
   unfold Array.getD
-  rw [dif_pos (by rw [Array.size_push]; omega), dif_pos h]
+  rw [dite_eq_left (by rw [Array.size_push]; omega), dite_eq_left h]
   exact Array.getElem_push_lt h
 
 theorem getD_push_eq (a : Array T) (x d : T) : (a.push x).getD a.size d = x := by
   unfold Array.getD
-  rw [dif_pos (by rw [Array.size_push]; omega)]
+  rw [dite_eq_left (by rw [Array.size_push]; omega)]
   exact Array.getElem_push_eq
 
 theorem pushes_stable (g : Array T → Nat → T) (a : Array T) (d : T) {n : Nat} {j : Nat}
@@ -92,7 +92,7 @@ theorem cyBA {a b : Bool} (h : bAnd(a, b) = true) : a = true ∧ b = true := (bA
 theorem ofFn_getD {α : Type} {n k : Nat} (f : Nat → α) (d : α) (hk : k < n) :
     (Array.ofFn (n := n) fun i => f i.val).getD k d = f k := by
   unfold Array.getD
-  rw [dif_pos (by rw [Array.size_ofFn]; exact hk)]
+  rw [dite_eq_left (by rw [Array.size_ofFn]; exact hk)]
   exact Array.getElem_ofFn ..
 
 theorem ofFn_getElem! {α : Type} [Inhabited α] {n k : Nat} (f : Nat → α) (hk : k < n) :
@@ -162,7 +162,7 @@ theorem cayleyOK_of {T : Type} [Group T] [DecidableEq T] (M : CodeM T) {cap m cn
     intro i hi
     rw [← htc, List.getD_eq_getElem _ _ (by rw [List.length_map]; exact hi), List.getElem_map]
     unfold Array.getD
-    rw [dif_pos (by simpa using hi)]
+    rw [dite_eq_left (by simpa using hi)]
     rfl
   set fv := cayleyImages ts.toArray (hRec 1408 11 cnt TT PL).2.1 (hRec 1408 11 cnt TT PL).2.2
     with hfv

@@ -20,7 +20,7 @@ theorem pPrimeCore_le {M H : Subgroup G} {p : ℕ} (hM : IsStronglyPEmbedded p M
     (hp : p.Prime) (hrank : 2 ≤ CFSG.Open.pRank p (H ⊓ M)) :
     (CFSG.pPrimeCore p ↥H).map H.subtype ≤ M := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨E, hEHM, hE, hEcard⟩ := CFSG.SectionRank.exists_pRank hp.one_lt (H ⊓ M)
   have hEM : E ≤ M := hEHM.trans inf_le_right
   have hEH : E ≤ H := hEHM.trans inf_le_left
@@ -47,8 +47,8 @@ theorem odd_card_pPrimeCore {M H : Subgroup G} {p : ℕ} (hM : IsStronglyPEmbedd
     (hHM : ¬ H ≤ M) (hrank : 2 ≤ CFSG.Open.pRank p (H ⊓ M)) :
     Odd (Nat.card (CFSG.pPrimeCore p ↥H)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [← Nat.not_even_iff_odd, even_iff_two_dvd]
   intro h2dvd
   set K : Subgroup ↥H := CFSG.pPrimeCore p ↥H
@@ -63,7 +63,7 @@ theorem odd_card_pPrimeCore {M H : Subgroup G} {p : ℕ} (hM : IsStronglyPEmbedd
   obtain ⟨S, hS⟩ := CFSG.GroupTheory.exists_sylow_le_normalizer_of_isPGroup
     (G := ↥H) hp Nat.prime_two hEp hEnorm hKcop'
   let D : Subgroup G := ((S : Subgroup ↥K).map K.subtype).map H.subtype
-  have hD2 : IsPGroup 2 D := ((S.isPGroup').map K.subtype).map H.subtype
+  have hD2 : IsPGroup 2 D := ((S.isPGroup).map K.subtype).map H.subtype
   have hSne : (S : Subgroup ↥K) ≠ ⊥ := Sylow.ne_bot_of_dvd_card S h2dvd
   have hDne : D ≠ ⊥ := by
     have h1 : (S : Subgroup ↥K).map K.subtype ≠ ⊥ := by

@@ -129,6 +129,7 @@ theorem Sec108Data.exists_sylow_le_normalizer (D : Sec108Data hc t Y) :
   exact ⟨S, le_sup_left.trans hS0, le_sup_right.trans hS0, hSN⟩
 
 
+omit [(Q.subgroupOf M).Normal] in
 private theorem Sec108Data.conj_B_le_Vt (D : Sec108Data hc t Y) {m y : G} (hm : m ∈ M)
     (hy : y ∈ Y) (hy1 : y ≠ 1) (hx : m⁻¹ * y * m ∈ LB M Q B) :
     conjSubgroup m B ≤ Vt M (LB M Q B) B Z t := by
@@ -153,6 +154,7 @@ private theorem Sec108Data.conj_B_le_Vt (D : Sec108Data hc t Y) {m y : G} (hm : 
     _ = Vt M (LB M Q B) B Z y := h2
     _ = Vt M (LB M Q B) B Z t := h3
 
+omit [(Q.subgroupOf M).Normal] in
 private theorem Sec108Data.exists_coord_conj_B (D : Sec108Data hc t Y)
     (AM : Smith81.Smith23E1.ActionModel M Q Z) {m y : G} (hm : m ∈ M) (hy : y ∈ Y)
     (hy1 : y ≠ 1) (hx : m⁻¹ * y * m ∈ LB M Q B) :
@@ -194,6 +196,7 @@ private theorem Sec108Data.exists_coord_conj_B (D : Sec108Data hc t Y)
 
 
 
+omit [(Q.subgroupOf M).Normal] in
 private theorem Sec108Data.phi_bV_eq_of_mulVec (D : Sec108Data hc t Y)
     (AM : Smith81.Smith23E1.ActionModel M Q Z) {c β : Fin 3 → AM.K} {A : GL (Fin 3) AM.K}
     {r : G} (hrH : r ∈ H0 M Z)
@@ -225,13 +228,17 @@ private theorem Sec108Data.phi_bV_eq_of_mulVec (D : Sec108Data hc t Y)
         rw [← hAc]
         rfl
 
-private theorem Sec108Data.mem_Q_of_mem_conj_B (D : Sec108Data hc t Y) {m z : G}
+omit [(Q.subgroupOf M).Normal] in
+omit [Finite G] in
+private theorem Sec108Data.mem_Q_of_mem_conj_B (_D : Sec108Data hc t Y) {m z : G}
     (hm : m ∈ M) (hz : z ∈ conjSubgroup m B) : z ∈ Q := by
   have hmem := (mem_conjSubgroup (g := m) (T := B) (x := z)).mp hz
   rw [show z = m * (m⁻¹ * z * m) * m⁻¹ by group]
   exact (Subgroup.mem_normalizer_iff.mp (hc.hyp.Q_normal.2 hm) (m⁻¹ * z * m)).mp
     (hc.le hmem)
 
+omit [(Q.subgroupOf M).Normal] in
+omit [Finite G] in
 private theorem Sec108Data.mem_Q_of_mem_conj_conj_B (D : Sec108Data hc t Y) {m r x : G}
     (hm : m ∈ M) (hr : r ∈ M) (hx : x ∈ conjSubgroup r (conjSubgroup m B)) : x ∈ Q := by
   have hz := (mem_conjSubgroup (g := r) (T := conjSubgroup m B) (x := x)).mp hx
@@ -239,9 +246,10 @@ private theorem Sec108Data.mem_Q_of_mem_conj_conj_B (D : Sec108Data hc t Y) {m r
   exact (Subgroup.mem_normalizer_iff.mp (hc.hyp.Q_normal.2 hr) (r⁻¹ * x * r)).mp
     (D.mem_Q_of_mem_conj_B hm hz)
 
+omit [(Q.subgroupOf M).Normal] in
 private theorem Sec108Data.phi_conj_B_le_Bsp (D : Sec108Data hc t Y)
-    (AM : Smith81.Smith23E1.ActionModel M Q Z) {m y : G} (hm : m ∈ M) (hy : y ∈ Y)
-    (hy1 : y ≠ 1) (hx : m⁻¹ * y * m ∈ LB M Q B) {c β : Fin 3 → AM.K} {r : G}
+    (AM : Smith81.Smith23E1.ActionModel M Q Z) {m y : G} (hm : m ∈ M) (_hy : y ∈ Y)
+    (_hy1 : y ≠ 1) (_hx : m⁻¹ * y * m ∈ LB M Q B) {c β : Fin 3 → AM.K} {r : G}
     (hrH : r ∈ H0 M Z)
     (hline : ∀ x ∈ conjSubgroup m B, ∃ s : AM.K,
       AM.M₀.π x = s • (∑ i, c i • (D.bV AM i : AM.M₀.E)))
@@ -254,23 +262,26 @@ private theorem Sec108Data.phi_conj_B_le_Bsp (D : Sec108Data hc t Y)
   rw [AM.φ_π ⟨r, hrH⟩ z (D.mem_Q_of_mem_conj_B hm hz), hs, map_smul, hφb]
   exact (D.mem_Bsp AM).mp ((D.Bsp AM).smul_mem s hβB)
 
+omit [(Q.subgroupOf M).Normal] in
+omit [Finite G] in
 private theorem Sec108Data.sup_conj_B_le (D : Sec108Data hc t Y)
-    (AM : Smith81.Smith23E1.ActionModel M Q Z) {m y : G} (hm : m ∈ M) (hy : y ∈ Y)
-    (hy1 : y ≠ 1) (hx : m⁻¹ * y * m ∈ LB M Q B) {r : G}
+    (AM : Smith81.Smith23E1.ActionModel M Q Z) {m y : G} (hm : m ∈ M) (_hy : y ∈ Y)
+    (_hy1 : y ≠ 1) (_hx : m⁻¹ * y * m ∈ LB M Q B) {r : G}
     (hrR : r ∈ Rt M (LB M Q B) t)
     (hπ : ∀ z ∈ conjSubgroup m B, AM.M₀.π (r * z * r⁻¹) ∈ AM.M₀.img B) :
     conjSubgroup r (conjSubgroup m B) ⊔ Z ≤ B ⊔ Z := by
   refine sup_le ?_ le_sup_right
-  intro x hx
+  intro x _hx
   have hrM : r ∈ M := hc.Rt_le_M t hrR
   have hz : r⁻¹ * x * r ∈ conjSubgroup m B :=
-    (mem_conjSubgroup (g := r) (T := conjSubgroup m B) (x := x)).mp hx
+    (mem_conjSubgroup (g := r) (T := conjSubgroup m B) (x := x)).mp _hx
   have hxr := hπ _ hz
   rw [show r * (r⁻¹ * x * r) * r⁻¹ = x by group] at hxr
   exact (AM.M₀.mem_img_iff (le_sup_right : Z ≤ B ⊔ Z)
-    (D.mem_Q_of_mem_conj_conj_B hm hrM hx)).mp
+    (D.mem_Q_of_mem_conj_conj_B hm hrM _hx)).mp
     (AM.M₀.img_mono (le_sup_left : B ≤ B ⊔ Z) hxr)
 
+omit [(Q.subgroupOf M).Normal] in
 private theorem Sec108Data.bV_sum_ne_zero (D : Sec108Data hc t Y)
     (AM : Smith81.Smith23E1.ActionModel M Q Z) {β : Fin 3 → AM.K} (hβ : β ≠ 0) :
     (∑ i, β i • (D.bV AM i : AM.M₀.E)) ≠ 0 := by
@@ -283,11 +294,12 @@ private theorem Sec108Data.bV_sum_ne_zero (D : Sec108Data hc t Y)
   funext i
   exact Fintype.linearIndependent_iff.mp (D.bV AM).linearIndependent β hsum i
 
+omit [(Q.subgroupOf M).Normal] in
 private theorem Sec108Data.le_sup_conj_B (D : Sec108Data hc t Y)
-    (AM : Smith81.Smith23E1.ActionModel M Q Z) {m y : G} (hm : m ∈ M) (hy : y ∈ Y)
-    (hy1 : y ≠ 1) (hx : m⁻¹ * y * m ∈ LB M Q B) {c β : Fin 3 → AM.K} (hc0 : c ≠ 0)
+    (AM : Smith81.Smith23E1.ActionModel M Q Z) {m y : G} (hm : m ∈ M) (_hy : y ∈ Y)
+    (_hy1 : y ≠ 1) (_hx : m⁻¹ * y * m ∈ LB M Q B) {c β : Fin 3 → AM.K} (_hc0 : c ≠ 0)
     (hβ : β ≠ 0)
-    (hline : ∀ x ∈ conjSubgroup m B, ∃ s : AM.K,
+    (_hline : ∀ x ∈ conjSubgroup m B, ∃ s : AM.K,
       AM.M₀.π x = s • (∑ i, c i • (D.bV AM i : AM.M₀.E)))
     (hsurj : ∀ s : AM.K, ∃ x ∈ conjSubgroup m B,
       AM.M₀.π x = s • (∑ i, c i • (D.bV AM i : AM.M₀.E)))
@@ -302,9 +314,9 @@ private theorem Sec108Data.le_sup_conj_B (D : Sec108Data hc t Y)
     · simpa using hβB
     · rw [finrank_span_singleton hβne, D.finrank_Bsp AM]
   refine sup_le ?_ le_sup_right
-  intro x hx
-  have hxQ : x ∈ Q := hc.le hx
-  have hxImg : AM.M₀.π x ∈ AM.M₀.img B := AM.M₀.pi_mem_img hx hxQ
+  intro x _hx
+  have hxQ : x ∈ Q := hc.le _hx
+  have hxImg : AM.M₀.π x ∈ AM.M₀.img B := AM.M₀.pi_mem_img _hx hxQ
   have hxspan : AM.M₀.π x ∈
       Submodule.span AM.K {(∑ i, β i • (D.bV AM i : AM.M₀.E))} := by
     rw [← hspan]
@@ -325,6 +337,7 @@ private theorem Sec108Data.le_sup_conj_B (D : Sec108Data hc t Y)
     (AM.M₀.img_mono (le_sup_left : conjSubgroup r (conjSubgroup m B) ≤
       conjSubgroup r (conjSubgroup m B) ⊔ Z) hximg)
 
+omit [(Q.subgroupOf M).Normal] in
 private theorem Sec108Data.exists_normalizer_BZ (D : Sec108Data hc t Y)
     (AM : Smith81.Smith23E1.ActionModel M Q Z) {m y : G} (hm : m ∈ M) (hy : y ∈ Y)
     (hy1 : y ≠ 1) (hx : m⁻¹ * y * m ∈ LB M Q B) :
@@ -516,13 +529,13 @@ theorem Sec108Data.exists_sylow_stronglyClosed (D : Sec108Data hc t Y)
   have hxH : x ∈ bar M Q (H0 M Z) := by
     have haH : a ∈ bar M Q (H0 M Z) :=
       HS6.bar_mono ((smith_1_12 D.sit).1 : Y ≤ H0 M Z) ha
-    haveI : (bar M Q (H0 M Z)).Normal := hc.normal_bar_H0
+    have : (bar M Q (H0 M Z)).Normal := hc.normal_bar_H0
     have hconj := Subgroup.Normal.conj_mem inferInstance a haH g⁻¹
     simpa [hx] using hconj
   have hxN : x ∈ Subgroup.normalizer (bar M Q Y : Set (Mbar M Q)) := hN (hSN hxS)
   obtain ⟨d, hdH, hdY, hdx⟩ := D.exists_lift_H0_normalizer_root hxH hxN
   have hdM : d ∈ M := hdH.1
-  obtain ⟨k, hk⟩ := S.isPGroup'.exists_pow_pow_eq_one ⟨x, hxS⟩
+  obtain ⟨k, hk⟩ := S.isPGroup.exists_pow_pow_eq_one ⟨x, hxS⟩
   have hxk : x ^ 2 ^ k = 1 := by
     have h := congrArg Subtype.val hk
     simpa using h

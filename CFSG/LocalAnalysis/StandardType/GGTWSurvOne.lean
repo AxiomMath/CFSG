@@ -37,7 +37,7 @@ private theorem l05nS1_reindex_trans {ι κ ν : Type} (M : CoxeterMatrix ι) (e
     (f : κ ≃ ν) : (M.reindex e).reindex f = M.reindex (e.trans f) := by
   apply CoxeterMatrix.ext
   funext x y
-  simp only [CoxeterMatrix.reindex_apply, Equiv.trans_apply, Equiv.symm_trans_apply]
+  simp only [CoxeterMatrix.reindex_apply, Equiv.symm_trans_apply]
 
 private theorem l05nS1_weyl_reindex {ι κ : Type} {M : CoxeterMatrix ι} (h : GGIsWeylMatrix M)
     (f : ι ≃ κ) : GGIsWeylMatrix (M.reindex f) := by
@@ -100,7 +100,7 @@ theorem ggTWSurv1_cell {p N : ℕ} [Fact p.Prime] (hp : 3 ≤ p) (hpN : p ∣ N)
       ({i : Λ // i ≠ b₁ ∧ i ≠ b₂} ⊕ Λa) ℤ}
     {e : Fin (N - 1) ≃ Λ} {r : Λ ⊕ Λa → V ≃ₗ[ZMod p] V} {h : Λ ⊕ Λa → V}
     {α : Λ ⊕ Λa → Module.Dual (ZMod p) V} {xV yV : V}
-    (hb : b₁ ≠ b₂) (hcard : Nat.card Λa = 1)
+    (_hb : b₁ ≠ b₂) (hcard : Nat.card Λa = 1)
     (hJpos : ∀ i : Fin (N - 1), ggTWInJ N pos i.val ↔ (e i ≠ b₁ ∧ e i ≠ b₂))
     (hWMK : GGIsWeylMatrix MK) (hCK : GGIntCartan MK CK)
     (hr : ∀ o w, r o w = w - α o w • h o)
@@ -154,9 +154,9 @@ theorem ggTWSurv1_cell {p N : ℕ} [Fact p.Prime] (hp : 3 ≤ p) (hpN : p ∣ N)
   have hN5 : 5 ≤ N := by omega
   obtain ⟨a₀, ha₀⟩ := hxa
   obtain ⟨θ, hθx, hθh, hθα⟩ := ggTW_model_iso (p := p) (N := N) hN5 hdim hF
-  haveI : Subsingleton Λa := (Nat.card_eq_one_iff_unique.mp hcard).1
+  have : Subsingleton Λa := (Nat.card_eq_one_iff_unique.mp hcard).1
   obtain ⟨a⟩ := (Nat.card_eq_one_iff_unique.mp hcard).2
-  letI : Unique Λa := uniqueOfSubsingleton a
+  let : Unique Λa := uniqueOfSubsingleton a
   let ha : GGTWE p N := θ (h (Sum.inr a))
   obtain ⟨αa, hαa_dot⟩ := l05nS1_dot_of_comp_symm (p := p) (N := N) (α (Sum.inr a)) θ
   let eJ : {i : Λ // i ≠ b₁ ∧ i ≠ b₂} ≃ {c : Fin (N - 1) // ggTWInJ N pos c.val} :=
@@ -203,7 +203,7 @@ theorem ggTWSurv1_cell {p N : ℕ} [Fact p.Prime] (hp : 3 ≤ p) (hpN : p ∣ N)
       (CK' (some i) (some j) : ZMod p) = (CartanMatrix.A (N - 1) i.1 j.1 : ZMod p) := by
     intro i j
     have hpk := hpairK (Sum.inl (eJ.symm i)) (Sum.inl (eJ.symm j))
-    simp only [Sum.map_inl, id_eq] at hpk
+    simp only [Sum.map_inl] at hpk
     have h3 : (eJ.symm i).1 = e i.1 := rfl
     have h4 : (eJ.symm j).1 = e j.1 := rfl
     show (CK (F.symm (some i)) (F.symm (some j)) : ZMod p) =
@@ -214,7 +214,7 @@ theorem ggTWSurv1_cell {p N : ℕ} [Fact p.Prime] (hp : 3 ≤ p) (hpN : p ∣ N)
     ggTW_pattern1_rows (p := p) (N := N) hp hN pos hWMK' hCK' hJ'
   have hpairs : GGTWPairs1 p N pos c0 m n ha αa := by
     intro c hc
-    have hb := hbonds ⟨c, hc⟩
+    have _hb := hbonds ⟨c, hc⟩
     constructor
     · have h1 : ggTWdot αa (ggTWh p N c) = α (Sum.inr a) (θ.symm (ggTWh p N c)) :=
         hαa_dot _
@@ -227,7 +227,7 @@ theorem ggTWSurv1_cell {p N : ℕ} [Fact p.Prime] (hp : 3 ≤ p) (hpN : p ∣ N)
           CK (Sum.inr a) (Sum.inl ⟨e c, (hJpos c).1 hc⟩) := by
         show CK (F.symm none) (F.symm (some ⟨c, hc⟩)) = _
         rw [hnoneF, hsomeFe c hc]
-      rw [hpk, ← hck, hb.1]
+      rw [hpk, ← hck, _hb.1]
       split_ifs <;> simp
     · have h1 : ggTWdot (ggTWα p N c) ha =
           ggTWdot (ggTWα p N c) (θ (h (Sum.inr a))) := rfl
@@ -239,7 +239,7 @@ theorem ggTWSurv1_cell {p N : ℕ} [Fact p.Prime] (hp : 3 ≤ p) (hpN : p ∣ N)
           CK (Sum.inl ⟨e c, (hJpos c).1 hc⟩) (Sum.inr a) := by
         show CK (F.symm (some ⟨c, hc⟩)) (F.symm none) = _
         rw [hnoneF, hsomeFe c hc]
-      rw [hpk, ← hck, hb.2]
+      rw [hpk, ← hck, _hb.2]
       split_ifs <;> simp
   have hha : ggTWdot αa ha = 2 := by
     have h1 : ggTWdot αa ha = α (Sum.inr a) (θ.symm ha) := hαa_dot ha
@@ -407,12 +407,12 @@ theorem ggTWSurv1_of_vcfg {p N : ℕ} [Fact p.Prime] (hp : 3 ≤ p) (hpN : p ∣
   obtain ⟨pos, V, iV1, iV2, Λ, iΛ1, iΛ2, b₁, b₂, Λa, iΛa1, iΛa2, MK, CK, e, r, h, α,
     xV, yV, hb, hcard, hJpos, hWMK, hCK, _hk2, hr, hF, hdim, hpairK, hnt, hHL,
     ⟨a₀, ha₀⟩, hy0, hyJ, hya⟩ := hv
-  letI := iV1
-  letI := iV2
-  letI := iΛ1
-  letI := iΛ2
-  letI := iΛa1
-  letI := iΛa2
+  let := iV1
+  let := iV2
+  let := iΛ1
+  let := iΛ2
+  let := iΛa1
+  let := iΛa2
   obtain ⟨θ, a, c0, m, n, ha, αa, lam, mu, news, rN, hθx, _hθh, _hθα, _hha_eq, hpat, hpairs,
     hha, hxne, hlam_mu_ne, hdoty, hy_lam_mu, hnews, hrF, hrN, _hrNr_eq, hsub, hnt', hHL',
     _hrootsO⟩ :=

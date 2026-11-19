@@ -23,7 +23,7 @@ open Equiv Equiv.Perm
 
 theorem localDeltaTwoIn_commutator_eq_bot {M : Type*} [Group M] (H D : Subgroup M) :
     ⁅localDeltaTwoIn H D, D⁆ = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [eq_bot_iff, Subgroup.commutator_le]
   intro x hx d hd
   by_cases hd1 : d = 1
@@ -193,6 +193,7 @@ section Alt
 
 variable {S : Type} [Group S] [Finite S] {n : ℕ}
 
+omit [Finite S] in
 theorem alt_le_map (e : S ≃* alternatingGroup (Fin n)) (h5 : 5 ≤ n) (h6 : n ≠ 6) {H : Subgroup (MulAut S)}
     (hH : innerAut S ≤ H) :
     alternatingGroup (Fin n) ≤ H.map (AltWeakBalance.autPerm e h5 h6).toMonoidHom := by
@@ -200,6 +201,7 @@ theorem alt_le_map (e : S ≃* alternatingGroup (Fin n)) (h5 : 5 ≤ n) (h6 : n 
   exact ⟨(AltWeakBalance.autPerm e h5 h6).symm u,
     hH (AltWeakBalance.autPerm_symm_mem_innerAut e h5 h6 hu), by simp⟩
 
+omit [Finite S] in
 theorem pCoreOf_eq_bot_of_fix (e : S ≃* alternatingGroup (Fin n)) (h5 : 5 ≤ n) (h6 : n ≠ 6) {p : ℕ}
     (hp : p.Prime) (hp2 : p ≠ 2) {H : Subgroup (MulAut S)} (hH : innerAut S ≤ H) {b : MulAut S}
     (hb : b ^ p = 1) (h2 : Fintype.card {i // AltWeakBalance.autPerm e h5 h6 b i = i} ≠ 2)
@@ -215,6 +217,7 @@ theorem pCoreOf_eq_bot_of_fix (e : S ≃* alternatingGroup (Fin n)) (h5 : 5 ≤ 
   rw [← hmap, CFSG.LieType.BorelTits.pCoreOf_map_mulEquiv 2 (AltWeakBalance.autPerm e h5 h6)] at h0
   exact (Subgroup.map_eq_bot_iff_of_injective _ (AltWeakBalance.autPerm e h5 h6).injective).1 h0
 
+omit [Finite S] in
 theorem alt_fix_eq (e : S ≃* alternatingGroup (Fin n)) (h5 : 5 ≤ n) (h6 : n ≠ 6) {p : ℕ}
     (hp : p.Prime) (hp2 : p ≠ 2) {B H : Subgroup (MulAut S)} (hB : IsElemAbelian p B)
     (hH : innerAut S ≤ H) (hne : localDeltaTwoIn H B ≠ ⊥) :
@@ -278,7 +281,7 @@ theorem alt_case {p k : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hk : 2 ≤ k) {K : 
     (f : (K ⧸ Subgroup.center K) ≃* alternatingGroup (Fin n))
     (B : Subgroup (MulAut K)) (hB : IsElemAbelian p B) (hBc : Nat.card B = p ^ k) :
     IsLocallyOTwoBalanced p k B ∨ Lemma129.Alt1916 p k B := by
-  haveI : IsSimpleGroup (K ⧸ Subgroup.center K) := hq.2
+  have : IsSimpleGroup (K ⧸ Subgroup.center K) := hq.2
   have htr : ∀ k', IsLocallyOTwoBalancedWrtP p k' (K ⧸ Subgroup.center K) → IsLocallyOTwoBalanced p k' B :=
     fun k' h => Inputs123a.isLocallyOTwoBalancedWrtP_of_quot hq.1 h B hB
   by_cases h6 : n = 6
@@ -332,11 +335,11 @@ theorem alt_case {p k : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hk : 2 ≤ k) {K : 
       _ ≤ p ^ k := Nat.pow_le_pow_right hp.pos hk
   have h8 : 8 ≤ n := by rw [hnm]; nlinarith
   have hodd : Odd (Nat.card (Subgroup.center K)) := by
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     obtain ⟨a, ha⟩ := (AltFacts2.isPGroup_center_of_core_eq_bot hp hO).exists_card_eq
     rw [ha]
     exact (hp.odd_of_ne_two hp2).pow
-  haveI : Group.IsPerfect K := ⟨hq.1⟩
+  have : Group.IsPerfect K := ⟨hq.1⟩
   have hZ : Subgroup.center K = ⊥ :=
     CFSG.HardMathSupport.Timmesfeld.Balance.Alt.center_eq_bot_of_odd h8 f hodd
   refine alt1916_of_fix B ((quotCenterEquiv hZ).trans f)
@@ -355,8 +358,8 @@ theorem spor1916_fi22 (hout : SporadicOuterLeTwo) (hbr : SporadicBridges) (hord 
     (hs : IsSporType .Fi22 (K ⧸ Subgroup.center K))
     (B : Subgroup (MulAut K)) (hB : IsElemAbelian 5 B) (hBc : Nat.card B = 5 ^ k) :
     Lemma129.Spor1916 5 k B := by
-  haveI : Group.IsPerfect K := ⟨hq.1⟩
-  haveI : IsSimpleGroup (K ⧸ Subgroup.center K) := hq.2
+  have : Group.IsPerfect K := ⟨hq.1⟩
+  have : IsSimpleGroup (K ⧸ Subgroup.center K) := hq.2
   have hZ : Subgroup.center K = ⊥ := by
     have h := hFi K (K ⧸ Subgroup.center K) (QuotientGroup.mk' (Subgroup.center K))
       ⟨hs.some.trans (hbr .Fi22).some.symm⟩ (QuotientGroup.mk'_surjective _)
@@ -364,7 +367,7 @@ theorem spor1916_fi22 (hout : SporadicOuterLeTwo) (hbr : SporadicBridges) (hord 
       (by rw [QuotientGroup.ker_mk']; exact AltFacts2.isPGroup_center_of_core_eq_bot Nat.prime_five hO)
     rwa [QuotientGroup.ker_mk'] at h
   have eK : K ≃* K ⧸ Subgroup.center K := quotCenterEquiv hZ
-  haveI hKs : IsSimpleGroup K := eK.isSimpleGroup
+  have hKs : IsSimpleGroup K := eK.isSimpleGroup
   have hnab : ∃ a b : K, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := Prop1116Design.not_isCommutative_barQuot K hq
     refine ⟨eK.symm a, eK.symm b, fun h => hab ?_⟩
@@ -387,7 +390,7 @@ theorem spor1916_fi22 (hout : SporadicOuterLeTwo) (hbr : SporadicBridges) (hord 
     intro A hA
     have hAI : A ≤ innerAut K := fun a ha => hinn a (hA.2 a ha)
     have hdvd : Nat.card A ∣ 64561751654400 := hcardK ▸ (Subgroup.card_dvd_of_le hAI).trans hInn
-    haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+    have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
     obtain ⟨j, hj⟩ := (CFSG.Open.IsElemAbelian.isPGroup hA).exists_card_eq
     rw [hj] at hdvd ⊢
     have hj2 : j ≤ 2 := by
@@ -417,7 +420,7 @@ theorem spor_case (h03 : CFSG.Yardstones.M67c2c3e09a6b.LocalTwoBalanceThreeFive)
     (hs : IsSporType s (K ⧸ Subgroup.center K))
     (B : Subgroup (MulAut K)) (hB : IsElemAbelian p B) (hBc : Nat.card B = p ^ k) :
     IsLocallyOTwoBalanced p k B ∨ Lemma129.Spor1916 p k B := by
-  haveI : IsSimpleGroup (K ⧸ Subgroup.center K) := hq.2
+  have : IsSimpleGroup (K ⧸ Subgroup.center K) := hq.2
   have hnab := Prop1116Design.not_isCommutative_barQuot K hq
   by_cases hexc : p = 5 ∧ s = .Fi22
   · obtain ⟨rfl, rfl⟩ := hexc
@@ -438,7 +441,7 @@ theorem lie_case (h02 : LocalThreeBalanceCrossChar)
     (he : Nonempty ((K ⧸ Subgroup.center K) ≃* (TauCeti.CFSGIndex.lie idx).Group))
     (B : Subgroup (MulAut K)) (hB : IsElemAbelian p B) (hBc : Nat.card B = p ^ k) :
     IsLocallyOTwoBalanced p k B ∨ Lemma129.Lie1916 p k B := by
-  haveI : IsSimpleGroup (K ⧸ Subgroup.center K) := hq.2
+  have : IsSimpleGroup (K ⧸ Subgroup.center K) := hq.2
   have hnab := Prop1116Design.not_isCommutative_barQuot K hq
   have htr : ∀ k', IsLocallyOTwoBalancedWrtP p k' (K ⧸ Subgroup.center K) → IsLocallyOTwoBalanced p k' B :=
     fun k' h => Inputs123a.isLocallyOTwoBalancedWrtP_of_quot hq.1 h B hB

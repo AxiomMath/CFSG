@@ -19,7 +19,7 @@ theorem gamma_le_of_isPGroup_le_of_isSylowOf
     (hΓ : CFSG.Open.rankThreeGamma 1 3 Q ≤ M)
     (hE : E ≤ L) (hEp : IsPGroup 3 E) :
     CFSG.Open.rankThreeGamma 1 3 E ≤ M := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hEp' : IsPGroup 3 (E.subgroupOf L) :=
     hEp.of_equiv (Subgroup.subgroupOfEquivOfLe hE).symm
   obtain ⟨S, hES⟩ := hEp'.exists_le_sylow

@@ -41,7 +41,7 @@ theorem nParam_eq_of_natOmegaPlusSix {H S P : Subgroup (MulAut W)} {k n : ℕ}
   obtain ⟨-, -, -, -, -, -, -, -, hO6p, -⟩ :=
     kTab23b_holds W H k hnat hperf hS.toSylow ((hS.toSylow : Subgroup ↥H).map H.subtype)
       ((Subgroup.map_subtype_le _).trans Subgroup.le_normalizer)
-      ((hS.toSylow.isPGroup').map H.subtype) le_rfl
+      ((hS.toSylow.isPGroup).map H.subtype) le_rfl
   obtain ⟨-, K, _, _, hK, hreal⟩ := h.2
   have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
   have : Finite ((Fin 3 ⊕ Fin 3 → K) ≃ₗ[K] (Fin 3 ⊕ Fin 3 → K)) := finite_plusAut 3

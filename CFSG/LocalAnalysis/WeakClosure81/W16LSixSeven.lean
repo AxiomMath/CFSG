@@ -19,7 +19,7 @@ variable {G : Type} [Group G] [Finite G] {M V₀ V U S H : Subgroup G}
 section Certified
 
 
-private theorem w16l_hatK_transitive_img (h1 : W16One G) (h5 : W16Five G) (hS : Std15 G)
+private theorem w16l_hatK_transitive_img (h1 : W16One G) (_h5 : W16Five G) (hS : Std15 G)
     (h : Cex16 M V₀ V U S) (hH : IsMinFam16 M U S H) (hV : ¬ V ≤ pCoreOf 2 H)
     (D : ModDataE H (iSub16 V H)) :
     ∀ B ∈ hatGamma D V, ∃ n : ↥(D.img H),
@@ -66,7 +66,7 @@ theorem IsMinFam16.card_hatS_img (h1 : W16One G) (h5 : W16Five G) (hS : Std15 G)
     (h : Cex16 M V₀ V U S) (hH : IsMinFam16 M U S H) (hV : ¬ V ≤ pCoreOf 2 H)
     (D : ModDataE H (iSub16 V H)) :
     Nat.card (hatS D V) = 2 ^ E3.mQuot V (V ⊓ iSub16 V H) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hVH : V ≤ H := h.V_le_S.trans hH.1.1
   have hK0_le_H : CFSG.Quasithin.conjClosure V H ≤ H :=
     CFSG.Quasithin.conjClosure_le fun g hg z hz =>

@@ -27,6 +27,7 @@ variable {ι : Type*} [Fintype ι] [DecidableEq ι]
   map_one' := by ext; rfl
   map_mul' a b := by ext; rfl
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem resPred_surjective (p : ι → Prop) [DecidablePred p] : Function.Surjective (resPred p) := by
   intro τ
   have hmem : (Equiv.Perm.ofSubtype τ) ∈ predStab p := by

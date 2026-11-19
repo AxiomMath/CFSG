@@ -30,10 +30,13 @@ section
 variable (hK : K.Sound d)
 include hK
 
-theorem eMul_lt (x y : ℕ) : K.eMul x y < K.p * K.p := pack_lt hK (hK.add_lt _ _) (hK.add_lt _ _)
+omit [NoCubeRoot F] in
+theorem eMul_lt (x y : ℕ) : K.eMul x y < K.p * K.p := pack_lt (hK.add_lt _ _) (hK.add_lt _ _)
 
+omit [NoCubeRoot F] in
 theorem ePow_succ_lt (x n : ℕ) : K.ePow x (n + 1) < K.p * K.p := eMul_lt hK _ _
 
+omit [NoCubeRoot F] in
 theorem one_lt_sq : 1 < K.p * K.p := by
   have h1 := hK.one_lt
   have h2 : K.p ≤ K.p * K.p := Nat.le_mul_self _

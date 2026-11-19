@@ -102,9 +102,9 @@ theorem spRootAlpha_torusSL_mulVec (m : ℕ) {K : Type} [Field K] (c : Kˣ) :
   rcases x with x | x
   · by_cases hx : x = 0
     · subst hx
-      simp [Pi.mulSingle_apply, Pi.single_apply]
-    · simp [Pi.single_apply, Pi.mulSingle_apply, hx]
-  · simp [Pi.single_apply, Pi.mulSingle_apply]
+      simp [Pi.mulSingle_apply]
+    · simp [Pi.mulSingle_apply, hx]
+  · simp [Pi.mulSingle_apply]
 
 theorem hasRootSL2_statedSp (m : ℕ) {K : Type} [Field K] [Finite K] [CharP K 2] :
     HasRootSL2 (StatedSp (m + 2) K) (Pi.single (Sum.inl 0) 1) := by

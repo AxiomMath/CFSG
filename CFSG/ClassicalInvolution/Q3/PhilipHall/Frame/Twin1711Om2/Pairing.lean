@@ -31,7 +31,7 @@ private theorem pr2_lookup {f : ℕ → ℕ} {n : ℕ} (hf : ∀ i < n, ∀ j < 
     · have hjn' : j < n := by omega
       have hne : f n ≠ f j := fun h => hjn (hf n (by omega) j hj h).symm
       have := ih (fun i hi k hk => hf i (by omega) k (by omega)) j hjn'
-      rw [if_neg (by simpa using hne)]
+      rw [ite_eq_right (by simpa using hne)]
       exact this
 
 private theorem pr2_commutes_closure {G : Type*} [Group G] {S T : Set G}
@@ -184,7 +184,7 @@ private theorem pr2_treeArrs_eq (gs : Array (Array ℕ)) (c : ArrCert) :
   unfold treeArrs
   simp only [Id.run, Std.Legacy.Range.forIn_eq_forIn_range', List.forIn_pure_yield_eq_foldl,
     Std.Legacy.Range.size]
-  simp only [Nat.add_sub_cancel, Nat.div_one, bind_pure, pure_bind]
+  simp only [Nat.add_sub_cancel, Nat.div_one, bind_pure]
   rfl
 
 private theorem pr2_tw_succ (gs : Array (Array ℕ)) (c : ArrCert) (k : ℕ) :
@@ -344,7 +344,7 @@ private theorem pr2_closureG_eq_top : closureG = ⊤ := by
     unfold letE closureG
     split_ifs with h
     · exact Subgroup.subset_closure ⟨l, h, rfl⟩
-    · exact Subgroup.inv_mem _ (Subgroup.subset_closure ⟨l - 8, by simp only [Set.mem_setOf_eq]; omega, rfl⟩)
+    · exact Subgroup.inv_mem _ (Subgroup.subset_closure ⟨l - 8, by simp only [Set.mem_ofPred_eq]; omega, rfl⟩)
   have hT : closureY wT ≤ closureG := by
     rw [closureY, Subgroup.closure_le]
     rintro _ ⟨w, hw, rfl⟩

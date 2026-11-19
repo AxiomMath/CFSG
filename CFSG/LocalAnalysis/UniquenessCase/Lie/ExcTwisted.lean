@@ -38,7 +38,7 @@ theorem uc22pwex_twisted_torus {t : TwistTag} {K : Type} [Field K] [Finite K] (�
     have h2n : 1 ≤ 2 ^ n := Nat.one_le_two_pow
     rw [hσ, show 2 ^ n = p * k + 1 by omega, pow_succ, pow_mul, h1, one_pow, one_mul]
   let ι : (Fin t.foldedTag.rank → μ) →* (Fin t.tag.rank → Kˣ) :=
-    Pi.monoidHom fun i => μ.subtype.comp (Pi.evalMonoidHom (fun _ => μ) (t.orbitIndex i))
+    _root_.MonoidHom.pi fun i => μ.subtype.comp (Pi.evalMonoidHom (fun _ => μ) (t.orbitIndex i))
   have hι : ∀ s, ι s ∈ compatSubgroup σ := by
     intro s
     rw [mem_compatSubgroup]
@@ -98,7 +98,7 @@ theorem uc22pwex_twE6_borelWit {G : Type} [Group G] [Finite G] {n : ℕ}
     uc22p20oBorelWit G p 4 := by
   obtain ⟨-, K, _, _, σ, hK, hσ, ⟨e⟩⟩ :=
     CFSG.SeitzReduction.TwistedE6Pilot.exists_mulEquiv_graphFixedRootGroup_of_lieModel hG
-  haveI : CharP K 2 := uc22pwex_charP_two (m := n * 2) (by rw [hK, ← pow_mul])
+  have : CharP K 2 := uc22pwex_charP_two (m := n * 2) (by rw [hK, ← pow_mul])
   have hσs : Function.Surjective σ := Finite.surjective_of_injective σ.injective
   obtain ⟨F, hN, hE, hc⟩ := uc22pwex_twisted_torus (t := .E6) σ hσs hσ (m := 2) hK hp hpn
     (fun c hc h => uc22pwex_e6_torusCoordHom_ker hp hp3 hc h)
@@ -120,7 +120,7 @@ theorem uc22pwex_d4_borelWit {G : Type} [Group G] [Finite G] {n : ℕ}
   obtain ⟨K, _, _, σ, hK, hσ, ⟨e⟩⟩ :=
     CFSG.RankThree.PartTwo.Sec4.exists_mulEquiv_graphFixedRootGroup_D4
       (hG.chevalleyExceptionalModel (by decide))
-  haveI : CharP K 2 := uc22pwex_charP_two (m := n * 3) (by rw [hK, ← pow_mul])
+  have : CharP K 2 := uc22pwex_charP_two (m := n * 3) (by rw [hK, ← pow_mul])
   have hσs : Function.Surjective σ := Finite.surjective_of_injective σ.injective
   obtain ⟨F, hN, hE, hc⟩ :=
     uc22pwex_twisted_torus (t := .D4) σ.toRingHom hσs hσ (m := 3) hK hp hpn

@@ -11,6 +11,7 @@ open Matrix
 
 variable {K : Type} [Field K]
 
+omit [Field K] in
 theorem map_fin_three_of {L : Type*} (φ : K → L) (a b c d e f g h i : K) :
     (!![a, b, c; d, e, f; g, h, i] : Matrix (Fin 3) (Fin 3) K).map φ =
       !![φ a, φ b, φ c; φ d, φ e, φ f; φ g, φ h, φ i] := by
@@ -91,7 +92,7 @@ theorem u37Y_pow_fortyThree (h7 : (7 : K) = 0) (hz : z ^ 2 = 3) : u37Y z ^ 43 = 
 
 theorem u37Y_zero_one_ne_zero (h7 : (7 : K) = 0) (hz : z ^ 2 = 3) : u37Y z 0 1 ≠ 0 := by
   simp only [u37Y, Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
-    Matrix.empty_val', Matrix.cons_val_fin_one, Matrix.head_cons]
+    Matrix.empty_val', Matrix.cons_val_fin_one]
   intro h
   exact one_ne_zero (α := K) (by linear_combination h7 + 3 * hz + 3 * (z + 1) * h)
 
@@ -211,7 +212,7 @@ theorem u37W_pow_fortyThree (h7 : (7 : K) = 0) (hz : z ^ 2 = 3) : u37W z ^ 43 = 
 
 theorem u37W_zero_zero_ne (hz : z ^ 2 = 3) (h3 : (3 : K) ≠ 0) : u37W z 0 0 ≠ u37W z 1 1 := by
   simp only [u37W, Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
-    Matrix.empty_val', Matrix.cons_val_fin_one, Matrix.head_cons]
+    Matrix.empty_val', Matrix.cons_val_fin_one]
   rintro rfl
   exact h3 (by rw [← hz]; ring)
 

@@ -68,7 +68,7 @@ theorem commSub_top_barSub_eq_top_of_ctx17_40 {D : Data G} {V₀ V L : Subgroup 
         (Subgroup.mem_iSup_of_mem (Subgroup.one_mem _)
           (show x ∈ (barSub V₀ V hV L).map
               (MulAut.conj (1 : MulAut (Vtil V₀ V hV))).toMonoidHom from
-            ⟨x, hx, by simp [MulAut.conj_apply]⟩))
+            ⟨x, hx, by simp⟩))
     · refine iSup₂_le fun φ hφ => ?_
       intro x hx
       obtain ⟨l, hl, rfl⟩ := Subgroup.mem_map.mp hx

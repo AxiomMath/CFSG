@@ -83,7 +83,7 @@ theorem exists_orthRefl_of_reflModel {X : Type} [Group X] {L S : Subgroup X} {p 
   refine ⟨a, ha, fun x => ⟨?_, ?_⟩⟩
   · intro hxS
     by_cases hx1 : x = 1
-    · simpa [hx1] using Subgroup.one_mem (Subgroup.zpowers (orthRefl f a))
+    · simp [hx1]
     · have hxd : x = d₀ := key x hxS hx1
       rw [hxd, hda]
       exact Subgroup.mem_zpowers (orthRefl f a)
@@ -106,7 +106,7 @@ theorem exists_orthRefl_of_reflModel {X : Type} [Group X] {L S : Subgroup X} {p 
 theorem orthReflParabolic_holds : OrthReflParabolic := by
   intro X _ _ L S hSL hS hG
   rcases hG with ⟨f, hf, hnd, hW, e, he⟩ | ⟨f, hf, hnd, ⟨e, he⟩ | ⟨e, he⟩⟩
-  · haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  · have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
     obtain ⟨a, ha, hSa⟩ :=
       exists_orthRefl_of_reflModel (p := 5) (m := 4) (f := f) (by decide) e hSL hS he
     obtain ⟨F, rfl⟩ := exists_orthFrameFive f hf hnd hW ha

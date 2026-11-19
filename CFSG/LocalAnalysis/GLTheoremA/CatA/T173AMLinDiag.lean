@@ -49,7 +49,7 @@ private theorem diagonal_mul_single {d : ℕ} {F : Type} [Field F] (v : Fin d �
   by_cases h : i = k ∧ j = l
   · obtain ⟨rfl, rfl⟩ := h
     simp
-  · rw [if_neg h, if_neg h, mul_zero]
+  · rw [ite_eq_right h, ite_eq_right h, mul_zero]
 
 private theorem single_mul_diagonal {d : ℕ} {F : Type} [Field F] (i j : Fin d) (a : F)
     (v : Fin d → F) :
@@ -59,7 +59,7 @@ private theorem single_mul_diagonal {d : ℕ} {F : Type} [Field F] (i j : Fin d)
   by_cases h : i = k ∧ j = l
   · obtain ⟨rfl, rfl⟩ := h
     simp
-  · rw [if_neg h, if_neg h, zero_mul]
+  · rw [ite_eq_right h, ite_eq_right h, zero_mul]
 
 private theorem diagonal_transvection_conj {d : ℕ} {F : Type} [Field F]
     (v : Fin d → F) (hv : ∀ k, v k ≠ 0) {i j : Fin d} (hij : i ≠ j) (b : F) :
@@ -102,7 +102,7 @@ private noncomputable def linRootHom {d : ℕ} {F : Type} [Field F] (i j : Fin d
   (Matrix.SpecialLinearGroup.toGL (n := Fin d) (R := F)).comp
     { toFun := fun c => Matrix.SpecialLinearGroup.transvection hij c.toAdd
       map_one' := by
-        simpa using Matrix.SpecialLinearGroup.transvection_coeff_zero hij
+        simp
       map_mul' := fun a b => by
         rw [show (a * b).toAdd = a.toAdd + b.toAdd from rfl]
         exact Matrix.SpecialLinearGroup.transvection_add hij _ _ }
@@ -183,7 +183,7 @@ private theorem mem_normalizer_of_conj_mem {G : Type*} [Group G] {H : Subgroup G
 
 theorem lin_ES_le {p n d : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S B N D K : Subgroup Ω}
     {x : Ω} (hcfg : Cfg173 p S B N D K x) {F : Type} [Field F] [Finite F]
-    (hF : Nat.card F = 2 ^ n) (hn : 1 ≤ n) (hd : 3 ≤ d) (hpd : p ∣ d) (hpF : p ∣ 2 ^ n - 1)
+    (hF : Nat.card F = 2 ^ n) (_hn : 1 ≤ n) (hd : 3 ≤ d) (_hpd : p ∣ d) (_hpF : p ∣ 2 ^ n - 1)
     (θ : ↥S ⧸ Subgroup.center ↥S ≃* LargeEvenProj (LargeEvenSLGroup (Fin d) F))
     (ψ : ↥(LargeEvenSLGroup (Fin d) F) →* ↥S) (hψ : GLifts θ ψ) (P : GL (Fin d) F)
     (hB : ∀ b ∈ B, GDiagAct p ψ P b) {t : GL (Fin d) F} (ht : t ∈ LinDiagTors p d F)
@@ -407,9 +407,9 @@ theorem lin_ES_le {p n d : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S B N D K : 
 
 theorem lin_perm_mem_N {p n d : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S B N D K : Subgroup Ω}
     {x : Ω} (hcfg : Cfg173 p S B N D K x) {F : Type} [Field F] [Finite F]
-    (hF : Nat.card F = 2 ^ n) (hn : 1 ≤ n) (hd : 3 ≤ d) (hpd : p ∣ d) (hpF : p ∣ 2 ^ n - 1)
+    (_hF : Nat.card F = 2 ^ n) (_hn : 1 ≤ n) (_hd : 3 ≤ d) (_hpd : p ∣ d) (_hpF : p ∣ 2 ^ n - 1)
     (θ : ↥S ⧸ Subgroup.center ↥S ≃* LargeEvenProj (LargeEvenSLGroup (Fin d) F))
-    (ψ : ↥(LargeEvenSLGroup (Fin d) F) →* ↥S) (hψ : GLifts θ ψ) (P : GL (Fin d) F)
+    (ψ : ↥(LargeEvenSLGroup (Fin d) F) →* ↥S) (_hψ : GLifts θ ψ) (P : GL (Fin d) F)
     (hB : ∀ b ∈ B, GDiagAct p ψ P b)
     (hES : ∀ (t : GL (Fin d) F) (u : ↥(LargeEvenSLGroup (Fin d) F)), t ∈ LinDiagTors p d F →
       (u : GL (Fin d) F) = P⁻¹ * t * P → (ψ u : Ω) ∈ B)
@@ -441,7 +441,7 @@ theorem lin_perm_mem_N {p n d : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S B N D
       let vU : ↥(LargeEvenSLGroup (Fin d) F) := AuA * u⁻¹
       have hvUcoe : (vU : GL (Fin d) F) =
           A * (u : GL (Fin d) F) * A⁻¹ * (u : GL (Fin d) F)⁻¹ := by
-        simp [vU, AuA, Subgroup.coe_mul, Subgroup.coe_inv]
+        simp [vU, AuA, Subgroup.coe_mul]
       let t : GL (Fin d) F := (P * A * P⁻¹) * Pσ * (P * A * P⁻¹)⁻¹ * Pσ⁻¹
       have ht_matrix : (t : Matrix (Fin d) (Fin d) F) =
           Matrix.diagonal (fun i => dvec i * (dvec (σ i))⁻¹) := by

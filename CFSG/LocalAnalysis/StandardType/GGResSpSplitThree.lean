@@ -77,7 +77,7 @@ theorem GGResHyp.spSplit_three_model
         simp [MulAut.congr_apply, MulAut.conj_apply]⟩) hTB
   have hn1 : 1 ≤ n := by
     have hcard : 2 ≤ Nat.card F := by
-      haveI : Fintype F := Fintype.ofFinite F
+      have : Fintype F := Fintype.ofFinite F
       rw [Nat.card_eq_fintype_card]
       exact Fintype.one_lt_card
     by_contra h

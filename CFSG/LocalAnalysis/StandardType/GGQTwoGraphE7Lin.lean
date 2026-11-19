@@ -23,7 +23,7 @@ theorem ggQ2g_E7_coord (D : GGQ2Lin 3) (e : Fin 7 ≃ D.ι)
     have := hbas.2
     rw [Fintype.card_congr e.symm, Fintype.card_fin] at this
     exact this
-  haveI : Module.Finite (ZMod 3) D.V := by
+  have : Module.Finite (ZMod 3) D.V := by
     refine Module.finite_of_finrank_pos ?_
     rw [← hcard]; norm_num
   have hspan : Submodule.span (ZMod 3) (Set.range fun i : Fin 7 => D.coroot (e i)) = ⊤ :=

@@ -23,8 +23,8 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem map_pCore_le_pCore {X : Subgroup G} (hX : X.Normal) :
     (pCore 2 ↥X).map X.subtype ≤ pCore 2 G := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : (pCore 2 ↥X).Characteristic := CFSG.LieType.BorelTits.pCore_characteristic 2
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : (pCore 2 ↥X).Characteristic := CFSG.LieType.BorelTits.pCore_characteristic 2
   have hn := CFSG.LieType.BorelTits.normalizer_le_normalizer_map_of_characteristic
     (H := X) (pCore 2 ↥X)
   have hN : ((pCore 2 ↥X).map X.subtype).Normal := by
@@ -121,7 +121,7 @@ theorem exists_sylow_image (hs : Z2SetR r n R S t J u R₀ T₀ P) :
     rw [hP₂]
     exact Subgroup.map_subgroupOf_eq_of_le inf_le_right
   have hP₂leP : P₂.map X.subtype ≤ (P : Subgroup Y) := hP₂map.le.trans inf_le_left
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hodd : Odd (Nat.card ↥(classicalInvolutionOddCore ↥X)) :=
     CFSG.ComponentClassification.OddCore.odd_card ↥X
   set Q₂ : Subgroup (SecQuot Ω (t * u)) :=
@@ -132,7 +132,7 @@ theorem exists_sylow_image (hs : Z2SetR r n R S t J u R₀ T₀ P) :
     rwa [hQ₂]
   have hpZ2 : IsPGroup 2 ↥(pCore 2 (SecQuot Ω (t * u))) :=
     CFSG.LieType.BorelTits.pCore_isPGroup 2
-  haveI : (pCore 2 (SecQuot Ω (t * u))).Normal :=
+  have : (pCore 2 (SecQuot Ω (t * u))).Normal :=
     CFSG.LieType.BorelTits.pCore_normal 2
   have hsup : pCore 2 (SecQuot Ω (t * u)) ⊔ Q₂ = Q₂ :=
     hQ₂syl.2.2 _ le_top (hpZ2.to_sup_of_normal_left hQ₂syl.2.1) le_sup_right

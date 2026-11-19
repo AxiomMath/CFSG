@@ -156,6 +156,7 @@ theorem isHallSubgroup_subgroupOf_of_natCard_eq {G' : Type*} [Group G'] [Finite 
       _ = Nat.card A * (A.subgroupOf B).index := by rw [e1]
   exact ⟨by rw [e2, ← hA, ← e1]; exact h.natCard, by rw [hidx]; exact h.index⟩
 
+omit [Finite G] in
 theorem le_normalizer_normalizer {K R : Subgroup G} (h : R ≤ normalizer (K : Set G)) :
     R ≤ normalizer ((normalizer (K : Set G) : Subgroup G) : Set G) := by
   intro r hr
@@ -362,6 +363,7 @@ theorem fittingRawPreimage_ne_fittingRaw_of_minimal :
   rw [htop, Subgroup.index_top]
   exact fun hd => (Fact.out : p.Prime).one_lt.ne' (Nat.dvd_one.1 hd)
 
+omit [Fact (Nat.Prime p)] hnot hmin in
 theorem normal_map_subtype_fittingRawPreimage_of_minimal :
     ((fittingRawPreimage ↥H).map H.subtype).Normal :=
   normal_map_subtype_fittingRawPreimage hadm.normal
@@ -390,8 +392,8 @@ theorem exists_invariant_complement_sylow_of_minimal :
     have := hS
     rw [Subgroup.normalizer_eq_top (H := S)]
     exact le_top
-  haveI hVn : V.Normal := normal_map_subtype_fittingRaw hHn
-  have hUn : U.Normal := normal_map_subtype_fittingRawPreimage_of_minimal hadm hnot hmin
+  have hVn : V.Normal := normal_map_subtype_fittingRaw hHn
+  have hUn : U.Normal := normal_map_subtype_fittingRawPreimage_of_minimal hadm
   have hUH : U ≤ H := Subgroup.map_subtype_le _
   have hVH : V ≤ H := Subgroup.map_subtype_le _
   have hVU : V ≤ U := Subgroup.map_mono (fittingRaw_le_fittingRawPreimage _)

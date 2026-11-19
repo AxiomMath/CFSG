@@ -101,8 +101,8 @@ theorem u42_psu_bar {f n : ℕ} {K : Type} [Field K] (h : UnitaryFieldData 3 f K
           primeFormConjHom h (idGram K n) g =
         primeFormConjHom h (idGram K n) g *
           primeFormPsi h (isPrimeFormGram_one : IsPrimeFormGram (1 : GL (Fin n) K)) ⟨A, φ⟩ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite K := h.finite
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite K := h.finite
   have hC : IsPrimeFormGram (1 : GL (Fin n) K) := isPrimeFormGram_one
   have hfpos := h.one_le
   have hq : ¬(n = 3 ∧ 3 ^ f = 2) := fun h3 => by
@@ -148,7 +148,7 @@ theorem u42_psu_bar {f n : ℕ} {K : Type} [Field K] (h : UnitaryFieldData 3 f K
     exact two_ne_zero_of_odd h (by norm_num) h1
   have hrc : ringChar h.fixedField ≠ 2 := fun h0 => by
     apply h2
-    haveI : CharP h.fixedField 2 := ringChar.of_eq h0
+    have : CharP h.fixedField 2 := ringChar.of_eq h0
     simpa using CharP.cast_eq_zero h.fixedField 2
   rcases hμ1 with hμ1 | hμ1
   ·

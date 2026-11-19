@@ -20,6 +20,7 @@ section Frobenius
 
 variable {X : Type*} [Group X] [Fintype X] {H E : Subgroup X}
 
+omit [Fintype X] in
 theorem inf_centralizer_eq_bot_iff_forall_conj_eq_imp_eq_one :
     (∀ u ∈ E, u ≠ 1 → H ⊓ Subgroup.centralizer {u} = ⊥) ↔
       ∀ u ∈ E, u ≠ 1 → ∀ h ∈ H, u * h * u⁻¹ = h → h = 1 := by
@@ -136,6 +137,7 @@ section Ind
 
 variable [Fintype G]
 
+omit [Fintype G] in
 theorem charSpanZero_Irr_le_virtualChars : charSpanZero (Irr G) ≤ virtualChars G := by
   rw [virtualChars_eq_span_Irr]; exact charSpanZero_le _
 
@@ -145,6 +147,7 @@ noncomputable def IsTIWithNormalizer.indCharSpanZeroHom (hTI : IsTIWithNormalize
   ((Submodule.inclusion charSpanZero_Irr_le_virtualChars).toAddMonoidHom).comp
     (hTI.indZMap.comp (Submodule.inclusion hS).toAddMonoidHom)
 
+omit [Fintype ↥L] in
 theorem IsTIWithNormalizer.coe_indCharSpanZeroHom (hTI : IsTIWithNormalizer A L)
     {S : Set (↥L → ℂ)} (hS : charSpanZero S ≤ dadeZDomain L A) (f : charSpanZero S) :
     ((hTI.indCharSpanZeroHom hS f : virtualChars G) : G → ℂ)

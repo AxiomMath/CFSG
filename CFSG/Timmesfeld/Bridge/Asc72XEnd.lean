@@ -93,7 +93,7 @@ theorem false_of_pCore_not_commute [Finite G] (hS : Setup G D) (hdisc : Disconne
   have hv₀ : v ∈ D ∩ (S₀ : Set G) := ⟨hv, hvS⟩
   have hd₀ : d ∈ D ∩ (S₀ : Set G) := ⟨hdD, hdS⟩
   have hLcomm : ∀ s ∈ D ∩ (S₀ : Set G), ∀ t ∈ D ∩ (S₀ : Set G), Commute s t :=
-    fun s hs t ht => hD.commute_of_isPGroup S₀.isPGroup' hs.1 ht.1 hs.2 ht.2
+    fun s hs t ht => hD.commute_of_isPGroup S₀.isPGroup hs.1 ht.1 hs.2 ht.2
   have hzabd : z = u * v * d := by
     rw [hddef, ← mul_assoc, IsTriangle.uv_mul_self hD htri, one_mul]
   have hLz : ∀ s ∈ D ∩ (S₀ : Set G), Commute s z := fun s hs => by
@@ -191,7 +191,7 @@ theorem false_of_pCore_not_commute [Finite G] (hS : Setup G D) (hdisc : Disconne
   obtain ⟨y, hy, hay, htri₂, m, hm, hm1, hord₂⟩ :=
     exists_thirdKind hS hdisc hnorm hu he hae hcae haeD
   obtain ⟨-, -, hta, hte, -, haet⟩ := htri₂.third_kind hD hN hm hord₂
-  have hP' : IsPGroup 2 ((S₀ : Subgroup G).subgroupOf X) := S₀.isPGroup'.comap_subtype
+  have hP' : IsPGroup 2 ((S₀ : Subgroup G).subgroupOf X) := S₀.isPGroup.comap_subtype
   obtain ⟨T, hT⟩ := hP'.exists_le_sylow
   have hLT : ∀ s (hs : s ∈ D ∩ (S₀ : Set G)), (⟨s, hLX s hs⟩ : X) ∈ T := fun s hs =>
     hT (Subgroup.mem_subgroupOf.mpr hs.2)

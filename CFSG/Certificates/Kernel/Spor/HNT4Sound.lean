@@ -158,7 +158,7 @@ theorem decodePoolT4_sound {s : String} {WN P : Nat → Nat} {N K : Nat}
   obtain ⟨hKN, hPN⟩ := pos_bounds_t4 hPK hlt
   unfold decodePoolT4
   simp only [Id.run, hs, Std.Legacy.Range.forIn_eq_forIn_range', Std.Legacy.Range.size,
-    Nat.sub_zero, Nat.add_sub_cancel, Nat.div_one, bind_pure]
+    Nat.sub_zero, Nat.add_sub_cancel, Nat.div_one]
   rw [forIn_iter_t4,
     iterate_reach_t4 (fun j => ((Array.ofFn (n := j) fun i => poolRec WN P i.val), P j)) (K := K)]
   · rfl
@@ -169,16 +169,16 @@ theorem decodePoolT4_sound {s : String} {WN P : Nat → Nat} {N K : Nat}
     have hj1 := hst j hj
     have hj2 := hPN j hj
     dsimp only
-    rw [if_pos (show P j < (List.map WN (List.range N)).toArray.size by
+    rw [ite_eq_left (show P j < (List.map WN (List.range N)).toArray.size by
         rw [arr_size_t4]; exact hPj),
       arr_get_t4 hPj, arr_get_t4 (show P j + 1 + WN (P j) < N by omega),
       arr_extract_t4 (show P j + 1 + WN (P j) ≤ N by omega),
       arr_extract_t4 (show P j + 2 + WN (P j) + WN (P j + 1 + WN (P j)) ≤ N by omega)]
     show ((Array.ofFn fun i : Fin j => poolRec WN P i.val).push _, _) = _
     rw [Array.ofFn_succ, hj1]
-    simp only [Fin.coe_castSucc, poolRec, wordAt_t4]
+    simp only [Fin.val_castSucc, poolRec, wordAt_t4]
   · dsimp only
-    rw [if_neg (show ¬ P K < (List.map WN (List.range N)).toArray.size by
+    rw [ite_eq_right (show ¬ P K < (List.map WN (List.range N)).toArray.size by
       rw [arr_size_t4, hPK]; exact Nat.lt_irrefl N)]
     rfl
   · rw [arr_size_t4]
@@ -197,7 +197,7 @@ theorem decodeT4_sound {s : String} {WN P : Nat → Nat} {N K : Nat}
   obtain ⟨hKN, hPN⟩ := pos_bounds_t4 hPK hlt
   unfold decodeT4
   simp only [Id.run, hs, Std.Legacy.Range.forIn_eq_forIn_range', Std.Legacy.Range.size,
-    Nat.sub_zero, Nat.add_sub_cancel, Nat.div_one, bind_pure]
+    Nat.sub_zero, Nat.add_sub_cancel, Nat.div_one]
   rw [forIn_iter_t4,
     iterate_reach_t4 (fun j => ((Array.ofFn (n := j) fun i => t4Wit WN P i.val), P j)) (K := K)]
   · rfl
@@ -209,43 +209,43 @@ theorem decodeT4_sound {s : String} {WN P : Nat → Nat} {N K : Nat}
     have hj2 := hPN j hj
     rw [t4Len_t4] at hj1
     dsimp only
-    rw [if_pos (show P j < (List.map WN (List.range N)).toArray.size by
+    rw [ite_eq_left (show P j < (List.map WN (List.range N)).toArray.size by
         rw [arr_size_t4]; exact hPj),
       arr_get_t4 hPj]
     by_cases c0 : WN (P j) = 0
-    · rw [if_pos (beq_true_t4 c0)]
-      rw [if_pos c0] at hj1
+    · rw [ite_eq_left (beq_true_t4 c0)]
+      rw [ite_eq_left c0] at hj1
       show ((Array.ofFn fun i : Fin j => t4Wit WN P i.val).push _, _) = _
       rw [Array.ofFn_succ, hj1]
-      simp only [Fin.coe_castSucc, t4Wit, if_pos c0]
-    rw [if_neg (beq_false_t4 c0)]
-    rw [if_neg c0] at hj1
+      simp only [Fin.val_castSucc, t4Wit, ite_eq_left c0]
+    rw [ite_eq_right (beq_false_t4 c0)]
+    rw [ite_eq_right c0] at hj1
     by_cases c1 : WN (P j) = 1
-    · rw [if_pos (beq_true_t4 c1)]
-      rw [if_pos c1] at hj1
+    · rw [ite_eq_left (beq_true_t4 c1)]
+      rw [ite_eq_left c1] at hj1
       rw [arr_get_t4 (show P j + 1 < N by omega),
         arr_extract_t4 (show P j + 2 + WN (P j + 1) ≤ N by omega),
         arr_get_t4 (show P j + 2 + WN (P j + 1) < N by omega)]
       show ((Array.ofFn fun i : Fin j => t4Wit WN P i.val).push _, _) = _
       rw [Array.ofFn_succ, show P (j + 1) = P j + 3 + WN (P j + 1) by omega]
-      simp only [Fin.coe_castSucc, t4Wit, if_neg c0, if_pos c1, listUp_shift_t4]
-    rw [if_neg (beq_false_t4 c1)]
-    rw [if_neg c1] at hj1
+      simp only [Fin.val_castSucc, t4Wit, ite_eq_right c0, ite_eq_left c1, listUp_shift_t4]
+    rw [ite_eq_right (beq_false_t4 c1)]
+    rw [ite_eq_right c1] at hj1
     by_cases c2 : WN (P j) = 2
-    · rw [if_pos (beq_true_t4 c2)]
-      rw [if_pos c2] at hj1
+    · rw [ite_eq_left (beq_true_t4 c2)]
+      rw [ite_eq_left c2] at hj1
       rw [arr_get_t4 (show P j + 1 < N by omega), arr_get_t4 (show P j + 2 < N by omega)]
       show ((Array.ofFn fun i : Fin j => t4Wit WN P i.val).push _, _) = _
       rw [Array.ofFn_succ, hj1]
-      simp only [Fin.coe_castSucc, t4Wit, if_neg c0, if_neg c1, if_pos c2]
-    rw [if_neg (beq_false_t4 c2)]
-    rw [if_neg c2] at hj1
+      simp only [Fin.val_castSucc, t4Wit, ite_eq_right c0, ite_eq_right c1, ite_eq_left c2]
+    rw [ite_eq_right (beq_false_t4 c2)]
+    rw [ite_eq_right c2] at hj1
     rw [arr_get_t4 (show P j + 1 < N by omega)]
     show ((Array.ofFn fun i : Fin j => t4Wit WN P i.val).push _, _) = _
     rw [Array.ofFn_succ, hj1]
-    simp only [Fin.coe_castSucc, t4Wit, if_neg c0, if_neg c1, if_neg c2]
+    simp only [Fin.val_castSucc, t4Wit, ite_eq_right c0, ite_eq_right c1, ite_eq_right c2]
   · dsimp only
-    rw [if_neg (show ¬ P K < (List.map WN (List.range N)).toArray.size by
+    rw [ite_eq_right (show ¬ P K < (List.map WN (List.range N)).toArray.size by
       rw [arr_size_t4, hPK]; exact Nat.lt_irrefl N)]
     rfl
   · rw [arr_size_t4]
@@ -287,13 +287,13 @@ theorem t4WK_spec {ps : List Nat} {WN P T CP CQ : Nat → Nat} {I nc k : Nat}
     · simpa [k0] using h
   · have e0 : Nat.beq (0 + 1) 0 = false := rfl
     have e1 : Nat.beq (0 + 1) 1 = true := rfl
-    simp only [e0, e1, Bool.false_eq_true, if_false, if_true] at h
+    simp only [e0, e1, Bool.false_eq_true, ite_false, ite_true] at h
     split_ifs at h with h1
     · exact Or.inr (Or.inl ⟨rfl, fun f hf => Nat.blt_eq.mp ((allL_iff' _ _).1 h1 f hf), h⟩)
   · have e0 : Nat.beq (0 + 1 + 1) 0 = false := rfl
     have e1 : Nat.beq (0 + 1 + 1) 1 = false := rfl
     have e2 : Nat.beq (0 + 1 + 1) 2 = true := rfl
-    simp only [e0, e1, e2, Bool.false_eq_true, if_false, if_true] at h
+    simp only [e0, e1, e2, Bool.false_eq_true, ite_false, ite_true] at h
     split_ifs at h with h1 h2
     exact Or.inr (Or.inr (Or.inl ⟨rfl, Nat.blt_eq.mp h1, Nat.blt_eq.mp h2,
       Nat.eq_of_beq_eq_true h⟩))
@@ -301,13 +301,13 @@ theorem t4WK_spec {ps : List Nat} {WN P T CP CQ : Nat → Nat} {I nc k : Nat}
     have e1 : Nat.beq (0 + 1 + 1 + 1) 1 = false := rfl
     have e2 : Nat.beq (0 + 1 + 1 + 1) 2 = false := rfl
     have e3 : Nat.beq (0 + 1 + 1 + 1) 3 = true := rfl
-    simp only [e0, e1, e2, e3, Bool.false_eq_true, if_false, if_true] at h
+    simp only [e0, e1, e2, e3, Bool.false_eq_true, ite_false, ite_true] at h
     exact Or.inr (Or.inr (Or.inr ⟨rfl, Nat.blt_eq.mp h⟩))
   · have e0 : Nat.beq (c + 1 + 1 + 1 + 1) 0 = false := rfl
     have e1 : Nat.beq (c + 1 + 1 + 1 + 1) 1 = false := rfl
     have e2 : Nat.beq (c + 1 + 1 + 1 + 1) 2 = false := rfl
     have e3 : Nat.beq (c + 1 + 1 + 1 + 1) 3 = false := rfl
-    simp only [e0, e1, e2, e3, Bool.false_eq_true, if_false] at h
+    simp only [e0, e1, e2, e3, Bool.false_eq_true, ite_false] at h
 
 abbrev Cn (p : Nat) : Prop := canonK 800 10 (mask 10) (800 * 10) p = true
 

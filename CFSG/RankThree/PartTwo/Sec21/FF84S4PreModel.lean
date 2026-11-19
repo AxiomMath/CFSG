@@ -49,7 +49,7 @@ theorem normal_three'_central {b : G} {L : Subgroup G} (h : FF84Hyp b L) (hA : A
   have hmapn : (N'.map (QuotientGroup.mk' Z)).Normal :=
     Subgroup.Normal.map hN'n _ (QuotientGroup.mk'_surjective Z)
   intro x hx l hl
-  haveI := hmapn
+  have := hmapn
   rcases hsimple.eq_bot_or_eq_top_of_normal (N'.map (QuotientGroup.mk' Z)) with hb | ht
   · have hxN' : (⟨x, hNL hx⟩ : ↥L) ∈ N' := hx
     have : QuotientGroup.mk' Z ⟨x, hNL hx⟩ ∈ N'.map (QuotientGroup.mk' Z) := ⟨_, hxN', rfl⟩
@@ -87,7 +87,7 @@ theorem X_le_cenS_L {b : G} {L : Subgroup G} (h : FF84Hyp b L) (hA : A8Model L) 
         (h3.trans (Subgroup.card_dvd_of_le inf_le_left))
 
 theorem S41_cen_X {b b₁ b₂ : G} {L B K : Subgroup G} (hA : A8Model L)
-    (h : FF84Sec4 b L B K b₁ b₂) : Opp 3 (Cen b) ≤ Cen b₁ := fun x hx =>
+    (h : FF84Sec4 b L B K b₁ b₂) : Opp 3 (Cen b) ≤ Cen b₁ := fun _x hx =>
   Subgroup.mem_centralizer_singleton_iff.2
     ((X_le_cenS_L h.hyp hA hx b₁ (Subgroup.mem_inf.1 h.hb₁).2).symm)
 

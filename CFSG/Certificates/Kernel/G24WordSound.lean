@@ -35,8 +35,8 @@ theorem wordL_mem {G : Type*} [SetLike G Pm] [SubgroupClass G Pm] {H : G} {a b :
 theorem nif_beq (c k t e : ℕ) :
     Bool.rec (motive := fun _ => ℕ) e t (Nat.beq c k) = if c = k then t else e := by
   cases h : Nat.beq c k
-  · rw [if_neg fun e => by rw [e, Nat.beq_refl] at h; exact Bool.noConfusion h]
-  · rw [if_pos (Nat.eq_of_beq_eq_true h)]
+  · rw [ite_eq_right fun e => by rw [e, Nat.beq_refl] at h; exact Bool.noConfusion h]
+  · rw [ite_eq_left (Nat.eq_of_beq_eq_true h)]
 
 theorem letC_eq (A AI B BI c : ℕ) : letC A AI B BI c =
     if c = 2 then A else if c = 3 then AI else if c = 4 then B else BI := by

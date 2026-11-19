@@ -3,7 +3,7 @@ module
 public import CFSG.Certificates.Kernel.RouteP.MonoPerm
 public import CFSG.Certificates.Kernel.RouteP.Slp
 public import Certificates.Data.Kernel.RouteP.Lines
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 
 public section
 
@@ -22,12 +22,12 @@ theorem ρT_apply {NW : Nat → Nat → Nat} {KA KB : Nat → Nat} {z : ℤ} (hz
   | ofNat m =>
     rcases m with _ | j
     · exact absurd rfl hz0
-    · rw [if_pos (by simp)]
+    · rw [ite_eq_left (by simp)]
       have e : (Int.ofNat (j + 1)).toNat - 1 = j := by simp
       rw [e]
       exact gT_inv_apply hz y
   | negSucc n =>
-    rw [if_neg (by omega)]
+    rw [ite_eq_right (by omega)]
     have e : (-Int.negSucc n).toNat - 1 = n := by omega
     rw [e]
     exact gT_apply hz y
@@ -35,13 +35,13 @@ theorem ρT_apply {NW : Nat → Nat → Nat} {KA KB : Nat → Nat} {z : ℤ} (hz
 theorem ρT_pos (NW : Nat → Nat → Nat) (KA KB : Nat → Nat) (j : Nat) :
     ρT NW KA KB ((j + 1 : Nat) : ℤ) = (gT NW KA KB j)⁻¹ := by
   unfold ρT
-  rw [if_pos (by omega)]
+  rw [ite_eq_left (by omega)]
   congr 2
 
 theorem ρT_neg (NW : Nat → Nat → Nat) (KA KB : Nat → Nat) (j : Nat) :
     ρT NW KA KB (-((j + 1 : Nat) : ℤ)) = gT NW KA KB j := by
   unfold ρT
-  rw [if_neg (by omega)]
+  rw [ite_eq_right (by omega)]
   congr 1
 
 theorem wordG_replicate {G : Type*} [Group G] (ρ : ℤ → G) (n : Nat) (z : ℤ) :
@@ -71,11 +71,11 @@ theorem wordG_lineW (NW : Nat → Nat → Nat) (KA KB : Nat → Nat) (o : Nat) {
   have e : p.1 + o = (p.1 - 1 + o) + 1 := by omega
   simp only [Function.comp]
   by_cases hs : p.2 < 0
-  · rw [if_pos hs, e, wordG_replicate, ρT_neg]
+  · rw [ite_eq_left hs, e, wordG_replicate, ρT_neg]
     have hp2 : p.2 = -(p.2.natAbs : ℤ) := by omega
     conv_rhs => rw [hp2]
     rw [zpow_neg, inv_inv, zpow_natCast]
-  · rw [if_neg hs, e, wordG_replicate, ρT_pos, inv_pow]
+  · rw [ite_eq_right hs, e, wordG_replicate, ρT_pos, inv_pow]
     have hp2 : p.2 = (p.2.natAbs : ℤ) := by omega
     conv_rhs => rw [hp2]
     rw [zpow_natCast]

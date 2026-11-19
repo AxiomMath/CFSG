@@ -66,7 +66,7 @@ theorem ggResII_linWeyl_dual (hp2 : p ≠ 2) [Module.Finite (ZMod p) V] {I : Typ
     simp only [LinearMap.sum_apply, LinearMap.smul_apply, smul_eq_mul, LinearMap.zero_apply] at h1
     have hA : ∀ i, A i w = (Pi.single k 1 : I → ZMod p) i := fun i => congrFun hw i
     simp only [hA, Pi.single_apply, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq',
-      Finset.mem_univ, if_true] at h1
+      Finset.mem_univ, ite_true] at h1
     exact h1
   let ev : I → Module.Dual (ZMod p) (Module.Dual (ZMod p) V) :=
     fun i => Module.Dual.eval (ZMod p) V (H i)

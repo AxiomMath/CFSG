@@ -23,7 +23,7 @@ theorem toM_mul (a b : List ℕ) : toM p (mul p a b) = toM p a * toM p b := by
 
 theorem toM_one : toM p one3 = 1 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [toM, one3, ent, Matrix.one_apply]
+  fin_cases i <;> fin_cases j <;> simp [toM, one3, ent]
 
 theorem toV_vec (x M : List ℕ) : toV p (vec p x M) = toV p x ᵥ* toM p M := by
   ext j

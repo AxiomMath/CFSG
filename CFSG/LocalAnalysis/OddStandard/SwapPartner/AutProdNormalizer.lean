@@ -50,7 +50,7 @@ theorem le_layer (H : WreathCase t Sg V K) : K ≤ CFSG.layer X := by
   exact CFSG.LocalCores.component_le_layer H.isComponent
 
 theorem mem_normalizer_xor (H : WreathCase t Sg V K) (x : X) :
-    Xor' (x * t ∈ normalizer (K : Set X)) (x ∈ normalizer (K : Set X)) := by
+    Xor (x * t ∈ normalizer (K : Set X)) (x ∈ normalizer (K : Set X)) := by
   have hxA : x ∈ normalizer (K : Set X) ↔ K.map (MulAut.conj x).toMonoidHom = K :=
     Subgroup.mem_normalizer_iff_map_conj_eq
   have hB_eq : (K.map (MulAut.conj t).toMonoidHom).map (MulAut.conj x).toMonoidHom

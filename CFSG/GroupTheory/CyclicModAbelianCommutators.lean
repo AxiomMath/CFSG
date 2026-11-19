@@ -376,7 +376,7 @@ private theorem card_le_target_of_delta {N : Type*} [CommGroup N] [Finite N] {p 
     (hf : ∀ b, f b = b ^ p) :
     Nat.card ↥(f.ker.comap (QuotientGroup.mk' (Z.subgroupOf W))) ≤
       Nat.card {u : N // u ^ p ∈ Z} := by
-  haveI : Finite {u : N // u ^ p ∈ Z} := Subtype.finite
+  have : Finite {u : N // u ^ p ∈ Z} := Subtype.finite
   refine Nat.card_le_card_of_injective
     (fun k : ↥(f.ker.comap (QuotientGroup.mk' (Z.subgroupOf W))) =>
       ⟨((k : ↥W) : N), ?_⟩) ?_
@@ -473,7 +473,7 @@ private theorem delta_count_conclusion {G : Type*} [Group G] {S N Z V : Subgroup
     (hZ : ∀ z ∈ Z, ∀ s ∈ S, z * s = s * z)
     (hZN : Z ≤ N) (hVD : V ≤ cyclicD hN g hgS hNn) :
     Nat.card V * Nat.card Z ≤ Nat.card {u : G // u ∈ N ∧ u ^ p ∈ Z} := by
-  letI : CommGroup ↥N :=
+  let : CommGroup ↥N :=
     { (inferInstance : Group ↥N) with
       mul_comm := fun x y => Subtype.ext (hN x x.2 y y.2) }
   let δ := cyclicDelta hN (cyclicConj g hgS hNn)
@@ -515,7 +515,7 @@ theorem card_mul_card_le_of_commutator_of_cyclic {G : Type*} [Group G] {p : ℕ}
     Nat.card V * Nat.card Z ≤ Nat.card {u : G // u ∈ N ∧ u ^ p ∈ Z} := by
   classical
   obtain ⟨g, hgS, hgcyc⟩ := hcyc
-  haveI hDnormal : ((cyclicD hN g hgS hNn).subgroupOf S).Normal :=
+  have hDnormal : ((cyclicD hN g hgS hNn).subgroupOf S).Normal :=
     cyclicD_normal hNS hN g hgS hgcyc hNn
   have hqg := quotient_g_comm_N hNS hN g hgS hNn
   have hNN := quotient_N_comm hNS hN g hgS hNn

@@ -34,6 +34,7 @@ include H
         rw [← H.coe_sup_WE]; exact hv)) 0
   else 0
 
+omit [CharP F 2] in
 theorem qc_eq_of_decompE {w e w' e' : G} (hw : w ∈ burnsideC135_Wc β 1)
     (he : e ∈ pCoreOf 2 X ⊓ Subgroup.centralizer (c134Q X L : Set G))
     (hw' : w' ∈ burnsideC135_Wc β 1)
@@ -49,7 +50,7 @@ theorem qc_eq_of_decompE {w e w' e' : G} (hw : w ∈ burnsideC135_Wc β 1)
     rw [e1]
     exact (pCoreOf 2 X ⊓ Subgroup.centralizer (c134Q X L : Set G)).mul_mem he'
       ((pCoreOf 2 X ⊓ Subgroup.centralizer (c134Q X L : Set G)).inv_mem he)
-  have hU : w'⁻¹ * w ∈ centerOf (c134Q X L) := H.inf_WE_le ⟨hmemW, hmemE⟩
+  have hU : w'⁻¹ * w ∈ centerOf (c134Q X L) := CFSG.ASVolI.burnsideC135_H1.inf_WE_le ⟨hmemW, hmemE⟩
   have hwQ := burnsideC135_Wc_le 1 hw
   have hw'Q := burnsideC135_Wc_le 1 hw'
   have h0 := (H.qc_eq_zero_iff ((c134Q X L).mul_mem ((c134Q X L).inv_mem hw'Q) hwQ)).mpr hU
@@ -58,12 +59,13 @@ theorem qc_eq_of_decompE {w e w' e' : G} (hw : w ∈ burnsideC135_Wc β 1)
   simp only [Pi.add_apply, Pi.neg_apply, Pi.zero_apply] at this
   linear_combination this
 
+omit [CharP F 2] in
 theorem projE_eq {v w e : G} (hw : w ∈ burnsideC135_Wc β 1)
     (he : e ∈ pCoreOf 2 X ⊓ Subgroup.centralizer (c134Q X L : Set G)) (hv : v = w * e) :
     H.projE v = burnsideC135_qc β w 0 := by
   have hvS : v ∈ burnsideC135_Wc β 1 ⊔ (pCoreOf 2 X ⊓ Subgroup.centralizer (c134Q X L : Set G)) :=
     hv ▸ Subgroup.mul_mem _ (Subgroup.mem_sup_left hw) (Subgroup.mem_sup_right he)
-  rw [projE, dif_pos hvS]
+  rw [projE, dite_eq_left hvS]
   have hspec := Classical.choose_spec (show v ∈ (burnsideC135_Wc β 1 : Set G) *
       ((pCoreOf 2 X ⊓ Subgroup.centralizer (c134Q X L : Set G) : Subgroup G) : Set G) by
         rw [← H.coe_sup_WE]; exact hvS)
@@ -71,6 +73,7 @@ theorem projE_eq {v w e : G} (hw : w ∈ burnsideC135_Wc β 1)
   obtain ⟨e₀, he₀, hve₀⟩ := hrest
   exact H.qc_eq_of_decompE hw₀ he₀ hw he (hve₀.trans hv)
 
+omit [CharP F 2] in
 theorem projE_mul {v v' : G}
     (hv : v ∈ burnsideC135_Wc β 1 ⊔ (pCoreOf 2 X ⊓ Subgroup.centralizer (c134Q X L : Set G)))
     (hv' : v' ∈ burnsideC135_Wc β 1 ⊔ (pCoreOf 2 X ⊓ Subgroup.centralizer (c134Q X L : Set G))) :
@@ -94,6 +97,7 @@ theorem projE_mul {v v' : G}
     H.projE_eq hw he rfl, H.projE_eq hw' he' rfl,
     burnsideC135_qc_mul (burnsideC135_Wc_le 1 hw) (burnsideC135_Wc_le 1 hw'), Pi.add_apply]
 
+omit [CharP F 2] in
 theorem projE_eq_zero_iff {v : G}
     (hv : v ∈ burnsideC135_Wc β 1 ⊔ (pCoreOf 2 X ⊓ Subgroup.centralizer (c134Q X L : Set G))) :
     H.projE v = 0 ↔ v ∈ pCoreOf 2 X ⊓ Subgroup.centralizer (c134Q X L : Set G) := by
@@ -107,7 +111,7 @@ theorem projE_eq_zero_iff {v : G}
     fun u hu => ⟨H.Q_le hu.1, hu.2⟩
   constructor
   · intro h
-    have hw1 := (H.mem_W₁_iff.mp hw).2
+    have hw1 := (CFSG.ASVolI.burnsideC135_H1.mem_W₁_iff.mp hw).2
     have hwU : w ∈ centerOf (c134Q X L) := by
       refine (H.qc_eq_zero_iff hwQ).mp ?_
       funext i
@@ -121,10 +125,11 @@ theorem projE_eq_zero_iff {v : G}
       rw [e1]
       exact (pCoreOf 2 X ⊓ Subgroup.centralizer (c134Q X L : Set G)).mul_mem h
         ((pCoreOf 2 X ⊓ Subgroup.centralizer (c134Q X L : Set G)).inv_mem he)
-    have hwU : w ∈ centerOf (c134Q X L) := H.inf_WE_le ⟨hw, hwE⟩
+    have hwU : w ∈ centerOf (c134Q X L) := CFSG.ASVolI.burnsideC135_H1.inf_WE_le ⟨hw, hwE⟩
     have := (H.qc_eq_zero_iff hwQ).mpr hwU
     exact congrFun this 0
 
+omit [CharP F 2] in
 theorem projE_conj {A : Subgroup G} (hAX : A ≤ X) (a : ↥A) {v : G}
     (hv : v ∈ burnsideC135_Wc β 1 ⊔ (pCoreOf 2 X ⊓ Subgroup.centralizer (c134Q X L : Set G))) :
     H.projE ((a : G) * v * (a : G)⁻¹) =
@@ -145,6 +150,7 @@ theorem projE_conj {A : Subgroup G} (hAX : A ≤ X) (a : ↥A) {v : G}
   rw [H.q1_κ, H.q1_κ, burnsideC135_βc_apply, burnsideC135_βc_apply] at h
   exact h.symm
 
+omit [CharP F 2] in
 theorem rep_eq_of_triv {A : Subgroup G} (hAX : A ≤ X)
     (htriv : ∀ t ∈ pCoreOf 2 X, ∀ q ∈ c134Q X L, t * q * t⁻¹ * q⁻¹ ∈ centerOf (c134Q X L))
     (a : ↥A) (x : Fin 3 → F) :

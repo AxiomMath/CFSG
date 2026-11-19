@@ -69,12 +69,12 @@ theorem rootOp_raises {a : Fin e7Data.d} {γ : Fin (Tag.rank .E7) → ℤ} (hγ 
   intro b b' hne
   rw [rootOp_single hγ] at hne
   by_cases hb : pr b γ = -1
-  · rw [if_pos hb, Finsupp.single_apply] at hne
+  · rw [ite_eq_left hb, Finsupp.single_apply] at hne
     by_cases h : shift γ b = b'
     · rw [← h, levA_shift a hγ hb, ha, mul_one]
-    · rw [if_neg h] at hne
+    · rw [ite_eq_right h] at hne
       exact absurd rfl hne
-  · rw [if_neg hb] at hne
+  · rw [ite_eq_right hb] at hne
     exact absurd rfl hne
 
 set_option maxRecDepth 20000 in
@@ -95,7 +95,7 @@ theorem coef_prod (a : Fin e7Data.d) (L : List (Fin (Tag.rank .E7) → ℤ))
       intro γ hγ
       rw [rootOp_single (hL γ hγ).1]
       by_cases hbγ : pr b γ = -1
-      · rw [if_pos hbγ, Finsupp.single_apply]
+      · rw [ite_eq_left hbγ, Finsupp.single_apply]
         by_cases h : γ = δ
         · subst h
           simp
@@ -104,8 +104,8 @@ theorem coef_prod (a : Fin e7Data.d) (L : List (Fin (Tag.rank .E7) → ℤ))
             have h2 := wt_shift hδ hb
             rw [e] at h1
             exact add_left_cancel (h1.symm.trans h2)))
-          rw [if_neg hne, if_neg h, mul_zero]
-      · rw [if_neg hbγ]
+          rw [ite_eq_right hne, ite_eq_right h, mul_zero]
+      · rw [ite_eq_right hbγ]
         by_cases h : γ = δ
         · exfalso
           subst h
@@ -113,7 +113,7 @@ theorem coef_prod (a : Fin e7Data.d) (L : List (Fin (Tag.rank .E7) → ℤ))
         · simp [h]
     rw [List.map_congr_left hterm, sum_ite_eq_of_nodup L hnd δ c]
   · have hδL : δ ∉ L := fun h => hδa (hL δ h).2
-    rw [if_neg hδL]
+    rw [ite_eq_right hδL]
     have hlt : levA a (shift δ b) < levA a b + dE7 := by
       rw [levA_shift a hδ hb]
       rcases pr_mem hδ a with h | h | h

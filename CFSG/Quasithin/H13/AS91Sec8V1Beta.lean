@@ -42,13 +42,13 @@ theorem todd_conjE (k : ↥c.G1) (e : ↥c.E) :
   have harg : (⟨((k⁻¹ : ↥c.G1) : G) * (e : G) * (((k⁻¹ : ↥c.G1)) : G)⁻¹,
       c.conj_mem_E k⁻¹ e.2⟩ : ↥c.E) = c.conjE k e := by
     apply Subtype.ext
-    simp [conjE, Subgroup.coe_inv]
+    simp [conjE]
   rw [harg] at h
   rw [h]
   have hphi : (⟨r.φ (k⁻¹), r.φ_mem (k⁻¹)⟩ : ↥CFSG.Monster.Code.AutPerm) =
       (⟨r.φ k, r.φ_mem k⟩ : ↥CFSG.Monster.Code.AutPerm)⁻¹ := by
     apply Subtype.ext
-    simp [Subgroup.coe_inv]
+    simp
   rw [hphi, map_inv]
 
 theorem betaLift_mul (m k : ↥c.G1) :
@@ -142,7 +142,7 @@ theorem betaFun_mem_G3 (m : ↥c.G1) :
 theorem betaCocycle_inclusion (h : ↥(c.G3 ⊓ c.G1)) :
     betaCocycle c r (Subgroup.inclusion inf_le_right h) =
       M24G.dBeta M24G.sextStab (c.phiS r hU h) := by
-  simp only [betaCocycle, M24G.dBeta, Subgroup.coe_mk, c.coe_phiS r hU h]
+  simp only [betaCocycle, M24G.dBeta, c.coe_phiS r hU h]
 
 theorem hasBetaTwist : c.HasBetaTwist r hU := by
   refine ⟨betaEquiv c r, betaFun_mem_G3 c r, ?_⟩

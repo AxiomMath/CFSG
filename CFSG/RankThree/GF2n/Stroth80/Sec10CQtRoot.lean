@@ -14,6 +14,7 @@ section LinearAlgebra
 
 variable {K E : Type} [Field K] [Finite K] [CharP K 2] [AddCommGroup E] [Module K E] [Finite E]
 
+omit [Finite K] in
 theorem involution_apply_eq_self_of_card_le {D : Submodule K E} (hD : Nat.card D ≤ Nat.card K)
     (L : E →ₗ[K] E) (hL : ∀ d ∈ D, L d ∈ D) (hL2 : ∀ e, L (L e) = e) {d : E} (hd : d ∈ D) :
     L d = d := by
@@ -62,7 +63,7 @@ private theorem mem_CQt_sup_of_forall (H : StrothHyp M Q Z) {P : Subgroup G} (hP
         refine Z.mul_mem ?_ ha
         have := (Subgroup.mem_normalizer_iff.mp (H.Z_normal.2 haM) _).mp hb
         simpa using this
-      one_mem' := ⟨M.one_mem, by simpa [commutatorElement_def] using Z.one_mem⟩
+      one_mem' := ⟨M.one_mem, by simp [commutatorElement_def]⟩
       inv_mem' := by
         rintro a ⟨haM, ha⟩
         refine ⟨M.inv_mem haM, ?_⟩

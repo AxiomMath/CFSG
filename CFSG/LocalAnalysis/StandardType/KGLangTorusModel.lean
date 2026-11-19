@@ -43,7 +43,7 @@ theorem kgLangDescent {p : ℕ} (hp : p.Prime) {K R : Type} [Group K] [Finite K]
       (∀ α ∈ A, kgInducedAut θ α ∈ I → ∀ t ∈ M, α t = t) ∧
       (∀ c ∈ M, ((List.range p).map fun i => (α₀ ^ i) c).prod = 1 → ∃ s ∈ M, c = s⁻¹ * α₀ s) ∧
       ∃ e ∈ M, e ≠ 1 ∧ e ^ p = 1 ∧ α₀ e = e ∧ ∀ α ∈ A, kgInducedAut θ α ∈ I → α e = e := by
-  letI : Bracket K K := commutatorElement
+  let : Bracket K K := commutatorElement
   let π : K →* R := θ.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center K))
   have hπ_apply : ∀ x : K, π x = θ (QuotientGroup.mk x) := fun _ => rfl
   have hπker : ∀ x : K, π x = 1 ↔ x ∈ Subgroup.center K := by
@@ -84,7 +84,7 @@ theorem kgLangDescent {p : ℕ} (hp : p.Prime) {K R : Type} [Group K] [Finite K]
     have hc1 : ⁅x, y⁆ = 1 :=
       kgLangModelAux_eq_one_of_mem_center_of_pow hp hZ hc_center ⟨k, by rw [h2, h1]⟩
     exact commutatorElement_eq_one_iff_mul_comm.mp hc1
-  letI : CommGroup P := CommGroup.mk fun a b => Subtype.ext (hPab a a.2 b b.2)
+  let : CommGroup P := CommGroup.mk fun a b => Subtype.ext (hPab a a.2 b b.2)
   let M : Subgroup K := (CommGroup.primaryComponent P p).map P.subtype
   have mem_M : ∀ x : K, x ∈ M ↔ x ∈ P ∧ ∃ k : ℕ, x ^ p ^ k = 1 := by
     intro x
@@ -260,7 +260,7 @@ theorem kgLangLT5_of_model {p : ℕ} (hp : p.Prime) {K R G : Type} [Group K] [Fi
         ∃ s ∈ M, c = s⁻¹ * α₀ s) ∧
       ∃ e ∈ M, e ≠ 1 ∧ e ^ p = 1 ∧ α₀ e = e ∧
         ∀ α ∈ A, kgInducedAut θ α ∈ I → α e = e := by
-  letI : CommGroup N := CommGroup.mk fun a b => Subtype.ext (hNab a a.2 b b.2)
+  let : CommGroup N := CommGroup.mk fun a b => Subtype.ext (hNab a a.2 b b.2)
   let Np : Subgroup G := (CommGroup.primaryComponent N p).map N.subtype
   let Mb : Subgroup R := Np.comap ι
   have mem_Np : ∀ y : G, y ∈ Np ↔ y ∈ N ∧ ∃ k : ℕ, y ^ p ^ k = 1 := by
@@ -433,7 +433,7 @@ theorem kgLangModelHom {p : ℕ} {K R G : Type} [Group K] [Group R] [Group G]
       ∀ r, ι (kgInducedAut θ α r) = h α * ι r * (h α)⁻¹ := by
     intro α hJ r
     have hαeq : h α = Classical.choose (hG6 (kgInducedAut θ α) hJ) := by
-      simp only [h]; rw [dif_pos hJ]
+      simp only [h]; rw [dite_eq_left hJ]
     rw [hαeq]
     exact Classical.choose_spec (hG6 (kgInducedAut θ α) hJ) r
   refine ⟨h, ?_, ?_, ?_⟩
@@ -465,7 +465,7 @@ theorem kgLangModelHom {p : ℕ} {K R G : Type} [Group K] [Group R] [Group G]
         have hcommapply : (kgInducedAut θ α₀) ((kgInducedAut θ α) r')
             = (kgInducedAut θ α) ((kgInducedAut θ α₀) r') := by
           have hcommA : α₀ * α = α * α₀ := by
-            letI : IsMulCommutative A := hA.1
+            let : IsMulCommutative A := hA.1
             exact congrArg (fun x : A => (x : MulAut K))
               (mul_comm' (⟨α₀, hα₀⟩ : A) (⟨α, hα⟩ : A))
           rw [← MulAut.mul_apply, ← map_mul, hcommA, map_mul, MulAut.mul_apply]

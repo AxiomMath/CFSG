@@ -26,9 +26,9 @@ theorem sp4F6Data_unipotent {F : Type} [Field F] [Finite F] (hF : Nat.card F = 4
     Nat.card ↥(unipotent 2 F ⊓ centralizer ((unipotent 2 F : Subgroup (StatedSp 2 F)) :
       Set (StatedSp 2 F))) = 16 ∧
     CenterIrred (unipotent 2 F : Subgroup (StatedSp 2 F)) := by
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2) (by
+  have : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2) (by
     rw [← Nat.card_eq_fintype_card, hF]
     norm_num)
   exact ⟨by rw [card_unipotent, hF]; norm_num, wcgaps6_card_center hF,
@@ -40,14 +40,14 @@ theorem sp4F6Data_statedSp {F : Type} [Field F] [Finite F] (hF : Nat.card F = 4)
     Nat.card ↥((S : Subgroup (StatedSp 2 F)) ⊓ centralizer
       ((S : Subgroup (StatedSp 2 F)) : Set (StatedSp 2 F))) = 16 ∧
     CenterIrred (S : Subgroup (StatedSp 2 F)) := by
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2) (by
+  have : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2) (by
     rw [← Nat.card_eq_fintype_card, hF]
     norm_num)
   obtain ⟨P, hP⟩ := exists_sylow_unipotent (K := F) 2 2
-  haveI : Finite (StatedSp 2 F) := Subtype.finite
-  haveI : Finite (Sylow 2 (StatedSp 2 F)) := Sylow.finite_of_finiteIndex P
+  have : Finite (StatedSp 2 F) := Subtype.finite
+  have : Finite (Sylow 2 (StatedSp 2 F)) := Sylow.finite_of_finiteIndex P
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq (StatedSp 2 F) P S
   have hS : (S : Subgroup (StatedSp 2 F)) =
       (unipotent 2 F).map (MulAut.conj g).toMonoidHom := by
@@ -67,10 +67,10 @@ theorem sp4F6Data_isSp4 {G : Type} [Group G] [Finite G] (h : IsSp4 G 2) (S : Syl
     Nat.card ↥((S : Subgroup G) ⊓ centralizer ((S : Subgroup G) : Set G)) = 16 ∧
     CenterIrred (S : Subgroup G) := by
   obtain ⟨F, hFld, hFin, hF, ⟨e⟩⟩ := exists_mulEquiv_statedSp_of_isSp4 h
-  letI : Field F := hFld
-  letI : Finite F := hFin
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Finite (StatedSp 2 F) := Subtype.finite
+  let : Field F := hFld
+  let : Finite F := hFin
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Finite (StatedSp 2 F) := Subtype.finite
   let T : Sylow 2 (StatedSp 2 F) :=
     @Sylow.mapSurjective 2 G _ _ (StatedSp 2 F) _ e.toMonoidHom e.surjective _ S
   obtain ⟨h256, hZ, hirr⟩ := sp4F6Data_statedSp hF T
@@ -94,7 +94,7 @@ theorem sp4F6Data_isSp4 {G : Type} [Group G] [Finite G] (h : IsSp4 G 2) (S : Syl
 theorem borelGL32CenterOn_shapeSp4 : BorelGL32CenterOn ShapeSp4 :=
   borelGL32CenterOn_of_kills ShapeSp4 fun Y _ _ L hL S hSy => by
     obtain ⟨h256, hZ, hirr⟩ := sp4F6Data_isSp4 hL.2 hSy.toSylow
-    exact borelKills_center_of_irred (S := (hSy.toSylow : Subgroup ↥L)) hSy.toSylow.isPGroup'
+    exact borelKills_center_of_irred (S := (hSy.toSylow : Subgroup ↥L)) hSy.toSylow.isPGroup
       (by rw [hZ, h256]; norm_num) hirr
 
 end CFSG.LocalAnalysis.WeakClosure81

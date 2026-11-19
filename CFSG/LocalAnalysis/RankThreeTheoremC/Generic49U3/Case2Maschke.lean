@@ -20,7 +20,7 @@ private theorem exists_invariant_complement_field {k : Type} [Field k] {Y : Type
   classical
   let ρ' : Representation k (Y ⧸ K) E := QuotientGroup.lift K ρ (fun g hg => hKρ g hg)
   have hρ' : ∀ (g : Y) (e : E), ρ' (g : Y ⧸ K) e = ρ g e := fun g e => rfl
-  haveI : NeZero (Nat.card (Y ⧸ K) : k) := ⟨hK⟩
+  have : NeZero (Nat.card (Y ⧸ K) : k) := ⟨hK⟩
   let σ : Subrepresentation ρ' :=
     ⟨W, fun g v hv => by
       induction g using QuotientGroup.induction_on with
@@ -53,7 +53,7 @@ private theorem exists_invariant_complement {p : ℕ} [Fact p.Prime] {Y : Type} 
   have hker : ∀ g ∈ ρ.ker, ρ g = 1 := fun g hg => MonoidHom.mem_ker.1 hg
   exact exists_invariant_complement_field (k := ZMod p) ρ.ker hK ρ hker W hW
 
-private theorem exists_quotient_module {p : ℕ} (hp : p.Prime) {Y : Type} [Group Y]
+private theorem exists_quotient_module {p : ℕ} (_hp : p.Prime) {Y : Type} [Group Y]
     (V Z : Subgroup Y) (hV : V.Normal) (hZ : Z.Normal)
     (hVcomm : ∀ a ∈ V, ∀ b ∈ V, a * b * a⁻¹ * b⁻¹ ∈ Z) (hVexp : ∀ v ∈ V, v ^ p = 1) :
     ∃ (E : Type) (_ : AddCommGroup E) (_ : Module (ZMod p) E)
@@ -63,11 +63,11 @@ private theorem exists_quotient_module {p : ℕ} (hp : p.Prime) {Y : Type} [Grou
       (∀ e : E, ∃ v ∈ V, π v = e) ∧
       (∀ g : Y, ∀ v ∈ V, π (g * v * g⁻¹) = ρ g (π v)) := by
   classical
-  haveI := hZ
-  haveI := hV
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have := hZ
+  have := hV
+  have : NeZero p := ⟨_hp.ne_zero⟩
   let E₀ : Subgroup (Y ⧸ Z) := V.map (QuotientGroup.mk' Z)
-  haveI : E₀.Normal := Subgroup.Normal.map hV (QuotientGroup.mk' Z) (QuotientGroup.mk'_surjective Z)
+  have : E₀.Normal := Subgroup.Normal.map hV (QuotientGroup.mk' Z) (QuotientGroup.mk'_surjective Z)
   have hcomm : ∀ x y : E₀, x * y = y * x := by
     rintro ⟨_, a, ha, rfl⟩ ⟨_, b, hb, rfl⟩
     apply Subtype.ext
@@ -77,7 +77,7 @@ private theorem exists_quotient_module {p : ℕ} (hp : p.Prime) {Y : Type} [Grou
     show ((a : Y) : Y ⧸ Z) * (b : Y ⧸ Z) = (b : Y ⧸ Z) * (a : Y ⧸ Z)
     rw [← QuotientGroup.mk_mul, ← QuotientGroup.mk_mul, QuotientGroup.eq]
     simpa [mul_assoc] using h
-  letI : CommGroup E₀ := { (inferInstance : Group E₀) with mul_comm := hcomm }
+  let : CommGroup E₀ := { (inferInstance : Group E₀) with mul_comm := hcomm }
   have hexp : ∀ x : Additive E₀, p • x = 0 := by
     intro x
     obtain ⟨a, ha, hay⟩ := Subgroup.mem_map.1 (Additive.toMul x).2
@@ -88,7 +88,7 @@ private theorem exists_quotient_module {p : ℕ} (hp : p.Prime) {Y : Type} [Grou
     apply Additive.toMul.injective
     rw [toMul_nsmul, h1]
     rfl
-  haveI : Module (ZMod p) (Additive E₀) := AddCommGroup.zmodModule hexp
+  have : Module (ZMod p) (Additive E₀) := AddCommGroup.zmodModule hexp
   let ρ₀ : Y →* MulAut E₀ := MulAut.conjNormal.comp (QuotientGroup.mk' Z)
   let lin : MulAut E₀ →* (Additive E₀ →ₗ[ZMod p] Additive E₀) :=
     { toFun := fun σ => AddMonoidHom.toZModLinearMap p (MonoidHom.toAdditive σ.toMonoidHom)
@@ -101,7 +101,7 @@ private theorem exists_quotient_module {p : ℕ} (hp : p.Prime) {Y : Type} [Grou
   refine ⟨Additive E₀, inferInstance, inferInstance, π, ρ, ?_, ?_, ?_, ?_⟩
   · intro a ha b hb
     have hab : a * b ∈ V := V.mul_mem ha hb
-    simp only [π, dif_pos ha, dif_pos hb, dif_pos hab]
+    simp only [π, dite_eq_left ha, dite_eq_left hb, dite_eq_left hab]
     apply Additive.toMul.injective
     apply Subtype.ext
     simp
@@ -109,18 +109,18 @@ private theorem exists_quotient_module {p : ℕ} (hp : p.Prime) {Y : Type} [Grou
     have key : (⟨QuotientGroup.mk' Z v, Subgroup.mem_map_of_mem _ hv⟩ : E₀) = 1 ↔ v ∈ Z := by
       rw [Subtype.ext_iff]
       exact QuotientGroup.eq_one_iff v
-    simp only [π, dif_pos hv, ofMul_eq_zero]
+    simp only [π, dite_eq_left hv, ofMul_eq_zero]
     exact key
   · intro e
     obtain ⟨a, ha, hay⟩ := Subgroup.mem_map.1 (Additive.toMul e).2
     refine ⟨a, ha, ?_⟩
-    simp only [π, dif_pos ha]
+    simp only [π, dite_eq_left ha]
     apply Additive.toMul.injective
     apply Subtype.ext
     simpa using hay
   · intro g v hv
     have hgv : g * v * g⁻¹ ∈ V := hV.conj_mem v hv g
-    simp only [π, dif_pos hv, dif_pos hgv]
+    simp only [π, dite_eq_left hv, dite_eq_left hgv]
     apply Additive.toMul.injective
     apply Subtype.ext
     simp [ρ, ρ₀, lin, MulAut.conjNormal_apply]
@@ -133,7 +133,7 @@ theorem exists_normal_complement {p : ℕ} (hp : p.Prime) {Y : Type} [Group Y] [
     ∃ T' : Subgroup Y, T'.Normal ∧ Z ≤ T' ∧ T' ≤ V ∧ T' ⊓ Λ = ⊥ ∧ T' ⊔ Λ = V := by
   classical
   have _ := hΛcard
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨E, _, _, π, ρ, h1, h2, h3, h4⟩ := exists_quotient_module hp V Z hV hZ hVcomm hVexp
   have hπ1 : π 1 = 0 := by
     have := h1 1 V.one_mem 1 V.one_mem

@@ -60,7 +60,7 @@ theorem transfer_eq_pow_index_of_extremal {G : Type*} [Group G] [Finite G] {p : 
   let := Fintype.ofFinite (G ⧸ (P : Subgroup G))
   have hϕ : ∀ h : (P : Subgroup G), orderOf (h : G) < orderOf x → ϕ h = 1 := by
     intro h hlt
-    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp P.isPGroup' h
+    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp P.isPGroup h
     rw [Subgroup.orderOf_coe, hk] at hlt
     have hxle : orderOf x ≤ p := orderOf_le_of_pow_eq_one hp.out.pos hxp
     have hk0 : k = 0 := by
@@ -72,7 +72,7 @@ theorem transfer_eq_pow_index_of_extremal {G : Type*} [Group G] [Finite G] {p : 
   have hxD : x ∈ (P : Subgroup G) ⊓ Subgroup.centralizer {x} :=
     ⟨hx, Subgroup.mem_centralizer_singleton_iff.mpr rfl⟩
   have hDp : IsPGroup p ((P : Subgroup G) ⊓ Subgroup.centralizer {x} : Subgroup G) :=
-    P.isPGroup'.to_inf_left
+    P.isPGroup.to_inf_left
   have ha : ϕ ⟨x, hx⟩ ^ p = 1 := by
     rw [← map_pow]
     have : (⟨x, hx⟩ : (P : Subgroup G)) ^ p = 1 := Subtype.ext (by simp [hxp])

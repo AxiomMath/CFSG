@@ -84,7 +84,7 @@ theorem q8WitFreeK_of_P2 {N nc nm ID : ℕ} {T SQ D C CI MK MZ R RM RF RO RN : �
   generalize fldK 14 (R i) j = v at hj'
   unfold pairP2 at hj'
   cases hv : Nat.ble v 8192
-  · rw [hv, cond_false] at hj'
+  · rw [hv, Bool.cond_false] at hj'
     simp only [Bool.and_eq_true] at hj'
     obtain ⟨⟨hm, hz⟩, hw4⟩ := hj'
     have hm' := Nat.blt_eq.mp hm
@@ -99,7 +99,7 @@ theorem q8WitFreeK_of_P2 {N nc nm ID : ℕ} {T SQ D C CI MK MZ R RM RF RO RN : �
     rw [Bool.or_eq_true]
     exact Or.inl (wit4K_of_P hsz (hT i hi).1 (hT j hj).1 (hS i hi) (hC _ hk') (hCI _ hk')
       (wit4PK_of_R hcomm hw4))
-  · rw [hv, cond_true] at hj'
+  · rw [hv, _root_.Bool.cond_true] at hj'
     simp only [Bool.and_eq_true] at hj'
     obtain ⟨⟨-, hp⟩, hne⟩ := hj'
     have hp' := Nat.blt_eq.mp hp

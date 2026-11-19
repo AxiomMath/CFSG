@@ -22,7 +22,7 @@ theorem opp_cenS_le {b : G} {J B : Subgroup G} {b₁ b₂ : G} (h4 : FF79Sec4 b 
     (hX : Odd (Nat.card (Opp 3 (Cen b)))) (e : J ≃* GL (Fin 5) (ZMod 2))
     (hset : setMul3 (Subgroup.zpowers b) (Opp 3 (Cen b)) J = Cen b)
     (hXY : Opp 3 (Cen b) ≤ Opp 3 (CenS B)) : Opp 3 (CenS B) ≤ Opp 3 (Cen b) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have S := setup_of_sec4 h4 e
   obtain ⟨ho1, ho2, hb₁b₂, hK1⟩ := s43_orders h4
   have hbB : b ∈ B := s43_hbB h4
@@ -103,7 +103,7 @@ theorem opp_cenS_le {b : G} {J B : Subgroup G} {b₁ b₂ : G} (h4 : FF79Sec4 b 
     exact B.mul_mem (B.zpow_mem hb₁B k) (B.zpow_mem hb₂B l)
   have hzB : b ^ i * j ∈ B := B.mul_mem (B.zpow_mem hbB i) hjB
   have hz3 : (b ^ i * j) ^ 3 = 1 := by
-    haveI := h4.mono.1.1
+    have := h4.mono.1.1
     exact elemPow_eq_one_of_isElementaryAbelian (A := B) _ hzB
   have hz1 : b ^ i * j = 1 := by
     have h1 : orderOf (⟨b ^ i * j, hz⟩ : Opp 3 (CenS B)) ∣ 3 :=
@@ -125,7 +125,7 @@ theorem ff79_4_3_of_K (hO5 : FF79KO2L5) (hF5 : FF79KAut5Fix) (hJ5 : FF79_JL5)
   have hodd : Odd (Nat.card (CenS B)) := by
     rcases Nat.even_or_odd (Nat.card (CenS B)) with hev | hodd
     · exfalso
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       obtain ⟨t, ht⟩ := exists_prime_orderOf_dvd_card' (G := ↥(CenS B)) 2
         (even_iff_two_dvd.mp hev)
       have hto : orderOf (t : G) = 2 := by rw [Subgroup.orderOf_coe]; exact ht

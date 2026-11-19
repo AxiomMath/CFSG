@@ -131,7 +131,7 @@ theorem core_five [IsAlgClosed L] {B : Matrix (Fin 4) (Fin 4) L}
     have h10 : μ ^ 10 = 1 := by rw [show 10 = 5 * 2 by norm_num, pow_mul, hμ5, one_pow]
     have h15 : μ ^ 15 = 1 := by rw [show 15 = 5 * 3 by norm_num, pow_mul, hμ5, one_pow]
     intro k
-    fin_cases k <;> simp [hlam_def, hσ, ← pow_mul, ← pow_add, hμ5, h10, h15] <;>
+    fin_cases k <;> simp [hlam_def, hσ, ← pow_mul, ← pow_add, hμ5, h10, h15];
       first | done | (rw [← pow_succ]; exact h10)
   have hlam0 : ∀ k, lam k ≠ 0 := fun k => pow_ne_zero _ hμ0
   have hσ_unique : ∀ k j, lam k ^ 3 * lam j = 1 → j = σ k := by
@@ -208,7 +208,7 @@ theorem core_five [IsAlgClosed L] {B : Matrix (Fin 4) (Fin 4) L}
   have hr2 := hrel 2
   have hr3 := hrel 3
   simp only [hσ, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
-    Matrix.cons_val_three, Matrix.head_cons] at hr0 hr1 hr2 hr3
+    Matrix.cons_val_three] at hr0 hr1 hr2 hr3
   rw [hdet, Fin.prod_univ_four] at hdetc
   set c := cf 0 with hc
   have hc0 : c ≠ 0 := by rintro h; rw [h] at hr0; simp at hr0
@@ -245,7 +245,7 @@ theorem core_five [IsAlgClosed L] {B : Matrix (Fin 4) (Fin 4) L}
     rw [hbs, Matrix.toLin'_apply, Matrix.toLin'_apply, hcf, hall, scalar_apply]
     funext j
     rw [mulVec_diagonal]
-    simp [mul_comm]
+    simp
   exact Matrix.toLin'.injective hlin
 
 end Linear
@@ -314,7 +314,7 @@ theorem card_centralizer_le_five_projSU (x : projSU 4 3 1) (hx : orderOf x = 5) 
   have hU : UnitaryFieldData 3 1 K :=
     ⟨Nat.prime_three, le_rfl, GaloisField.card 3 (2 * 1) (by norm_num)⟩
   have : CharP K 3 := hU.charP
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hlift : ∀ z : projSU 4 3 1, ∃ Z : GL (Fin 4) K, Z ∈ unitarySU 3 1 K 4 ∧
       ProjGenLinGroup.mk Z = (z : ProjGenLinGroup (Fin 4) K) := fun z =>
     Subgroup.mem_map.mp
@@ -354,7 +354,7 @@ theorem card_centralizer_le_five_projSU (x : projSU 4 3 1) (hx : orderOf x = 5) 
       (Subgroup.mem_centralizer_iff.mp y.2 x (Set.mem_singleton x)).symm
     have h := eq_of_mk_eq (n := 5) (A := Lf y * B * (Lf y)⁻¹) (C := B) (by norm_num)
       (by rw [show Lf y * B * (Lf y)⁻¹ = MulAut.conj (Lf y) B by simp, ← map_pow, hB5, map_one])
-      hB5 (by simp [map_mul, map_inv, mul_comm])
+      hB5 (by simp only [Nat.reduceMul, map_mul, map_inv, mul_inv_cancel_comm])
       (by
         rw [map_mul, map_mul, map_inv, hLf, hBx, mul_inv_eq_iff_eq_mul]
         exact_mod_cast hyx)
@@ -442,7 +442,7 @@ theorem card_centralizer_le_five_projSU (x : projSU 4 3 1) (hx : orderOf x = 5) 
 theorem u43Cent5 : U43Cent5Statement := by
   unfold U43Cent5Statement
   intro S _ _ hS x hx
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e⟩ := projSU_of_statedClassicalModel_gen (hS.statedClassicalModel (by decide))
   have hle : Nat.card (Subgroup.centralizer ({x} : Set S)) ≤ 5 := by
     refine le_trans ?_

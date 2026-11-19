@@ -263,8 +263,8 @@ private def e6rc_shiftA (γ : V) : V :=
 private theorem e6rc_shiftA_mem_rootFinset (γ : V) (hγ : γ ∈ e6rc_level 1) :
     e6rc_shiftA γ ∈ rootFinset .E6 := by
   by_cases h : (γ - e6rc_a) ∈ rootFinset .E6
-  · rw [e6rc_shiftA, if_pos h]; exact h
-  · rw [e6rc_shiftA, if_neg h]
+  · rw [e6rc_shiftA, ite_eq_left h]; exact h
+  · rw [e6rc_shiftA, ite_eq_right h]
     rcases e6rc_level1_cases γ hγ with hA | hB
     · exact absurd hA.1 h
     · exact hB.2.1
@@ -276,11 +276,11 @@ private theorem e6rc_stageA_mem
   have hγroot : IsRoot .E6 γ := mem_rootFinset.mp (Finset.mem_filter.mp hγ).1
   have hxγ : xr γ ∈ H := hq (e6rc_xr_mem_qE (Finset.mem_union_left _ hγ))
   by_cases h : (γ - e6rc_a) ∈ rootFinset .E6
-  · rw [e6rc_shiftA, if_pos h]
+  · rw [e6rc_shiftA, ite_eq_left h]
     rcases e6rc_level1_cases γ hγ with hA | hB
     · exact e6rc_stageA_caseA hA hγroot hg1 hxγ
     · exact absurd h hB.1
-  · rw [e6rc_shiftA, if_neg h]
+  · rw [e6rc_shiftA, ite_eq_right h]
     rcases e6rc_level1_cases γ hγ with hA | hB
     · exact absurd hA.1 h
     · exact e6rc_stageA_caseB hB hγroot hg1 hxγ

@@ -13,6 +13,7 @@ open Subgroup
 
 variable {Q : Type} [Group Q] [Finite Q] (f : Q →* Equiv.Perm (Fin 3))
 
+omit [Finite Q] in
 theorem eq_one_of_sq_of_pow_odd {k : Q} {n : ℕ} (hn : Odd n) (hk : k ^ n = 1) (h2 : k ^ 2 = 1) :
     k = 1 := by
   have h1 : orderOf k ∣ Nat.gcd n 2 := Nat.dvd_gcd (orderOf_dvd_of_pow_eq_one hk)
@@ -23,6 +24,7 @@ theorem eq_one_of_sq_of_pow_odd {k : Q} {n : ℕ} (hn : Odd n) (hk : k ^ n = 1) 
   rw [hg, Nat.dvd_one, orderOf_eq_one_iff] at h1
   exact h1
 
+omit [Finite Q] in
 theorem exists_involution_lift (hf : Function.Surjective f) (hodd : Odd (Nat.card f.ker))
     {τ : Equiv.Perm (Fin 3)} (hτ : τ ^ 2 = 1) : ∃ t : Q, t ^ 2 = 1 ∧ f t = τ := by
   obtain ⟨q, rfl⟩ := hf τ
@@ -37,6 +39,7 @@ theorem exists_involution_lift (hf : Function.Surjective f) (hodd : Odd (Nat.car
   · obtain ⟨m, hm⟩ := hodd
     rw [map_pow, hm, pow_succ, pow_mul, hτ, one_pow, one_mul]
 
+omit [Finite Q] in
 theorem eq_of_involution (hodd : Odd (Nat.card f.ker))
     (hc : ∀ k ∈ f.ker, ∀ q : Q, k * q = q * k) {t t' : Q} (ht : t ^ 2 = 1) (ht' : t' ^ 2 = 1)
     (he : f t = f t') : t = t' := by

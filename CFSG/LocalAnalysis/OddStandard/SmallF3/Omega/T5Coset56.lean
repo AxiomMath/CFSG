@@ -25,9 +25,9 @@ theorem asc82Coset56_of (hS : Asc82SchurU43) : Asc82Coset56 := by
   have hb2' : b * b = 1 := mul_self_eq_one_of_orderOf_eq_two' hb2
   have he2' : e * e = 1 := mul_self_eq_one_of_orderOf_eq_two' he2
   obtain ⟨α, V, i1, i2, i3, Q, hQ, e₀, x, hdim, hsgn, hind, hsim⟩ := hInd
-  letI := i1
-  letI := i2
-  letI := i3
+  let := i1
+  let := i2
+  let := i3
   obtain ⟨φ, h, he₀⟩ := t5_cover_of_model hS hL hdim hsgn e₀
   obtain ⟨y, hyx, _, s, hss, hsty, hsy⟩ := hsim
   have hs3 : invDim s = 3 := congrArg Prod.fst hsty

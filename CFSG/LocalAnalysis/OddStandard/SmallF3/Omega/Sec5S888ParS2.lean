@@ -177,7 +177,7 @@ theorem par_card_sq_eq_z (hq : Sec5B517Quad K z) (i : Fin 4) :
     simp [f, g]
   · intro y
     apply Subtype.ext
-    simp [f, g, par_s2_apply_symm_coe]
+    simp [f, g]
 
 theorem par_mem_q8_decomp (hq : Sec5B517Quad K z) (i : Fin 4) {a b x : G} (ha : a ∈ K i)
     (hb : b ∈ K i) (ha2 : a * a = z) (hb2 : b * b = z) (hba : b ≠ a) (hba' : b ≠ a * z)

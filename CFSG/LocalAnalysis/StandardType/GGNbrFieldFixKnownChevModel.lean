@@ -39,7 +39,7 @@ theorem chev_fixed_data {τ : Tag} (hτ : τ = .F4 ∨ τ = .E7 ∨ τ = .E8) {K
     (hσ : orderOf σ = p) :
     ∃ (k : Type) (_ : Field k) (_ : Finite k) (n' : ℕ), Nat.card k = 2 ^ n' ∧ n = p * n' ∧
       1 ≤ n' ∧ Nonempty (adjointGroup τ k ≃* ↥(ggAutFixedSubgroup (entrywiseAdjointAut τ σ))) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcharP : CharP K 2 :=
     charP_of_card_eq_prime_pow (p := 2) (f := n)
       (by rw [← Nat.card_eq_fintype_card]; exact hK)

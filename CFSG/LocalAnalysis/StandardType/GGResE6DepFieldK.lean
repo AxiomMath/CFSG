@@ -148,8 +148,8 @@ theorem ggResE6Dep_K_field_of_tablePRow
     have hle : (Nat.card ↥K).factorization 2 ≤ 36 * labK.n + 2 :=
       ggResE6Dep_two_part_le_E6 hT3 hKperf hKnt hK2 hK hlK
     have hdvd : Nat.card ↥J ∣ Nat.card ↥K := Subgroup.card_dvd_of_le hJK
-    haveI : Nonempty ↥J := ⟨1, J.one_mem⟩
-    haveI : Nonempty ↥K := ⟨1, K.one_mem⟩
+    have : Nonempty ↥J := ⟨1, J.one_mem⟩
+    have : Nonempty ↥K := ⟨1, K.one_mem⟩
     have hJne : Nat.card ↥J ≠ 0 := Nat.card_ne_zero.mpr ⟨inferInstance, inferInstance⟩
     have hKne : Nat.card ↥K ≠ 0 := Nat.card_ne_zero.mpr ⟨inferInstance, inferInstance⟩
     have hfac : (Nat.card ↥J).factorization 2 ≤ (Nat.card ↥K).factorization 2 :=

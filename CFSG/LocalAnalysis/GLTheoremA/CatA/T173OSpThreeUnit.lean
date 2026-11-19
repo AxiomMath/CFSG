@@ -18,11 +18,13 @@ open scoped commutatorElement
 
 variable {F : Type} [Field F] [Finite F] {ℓ : ℕ}
 
+omit [Finite F] in
 theorem three_ne_zero_of_charP_two [CharP F 2] : (3 : F) ≠ 0 := by
   intro h
   have h2 : (2 : ℕ) ∣ 3 := (CharP.cast_eq_zero_iff F 2 3).mp h
   norm_num at h2
 
+omit [Finite F] in
 private theorem add_smul_add_smul_add_smul [CharP F 2] {V : Type} [AddCommGroup V]
     [Module F V] (v x y : V) (a b : F) :
     v + a • x + b • y + (a + b) • (x + y) = v + a • y + b • x := by
@@ -37,19 +39,22 @@ private theorem add_smul_add_smul_add_smul [CharP F 2] {V : Type} [AddCommGroup 
   rw [h, hss a x, hss b y]
   abel
 
+omit [Finite F] in
 theorem primaryComponent_sub_one_eq_fixSub {d : ↥(StatedSp ℓ F)} :
     primaryComponent (spEnd d) (X - 1) = CFSG.LieType.SeitzGeneration.fixSub d := by
   rw [primaryComponent, CFSG.LieType.SeitzGeneration.fixSub]
   congr 1
   simp [map_sub, map_one, aeval_X]
 
+omit [Finite F] in
 theorem primaryComponent_quad_eq_normKer {d : ↥(StatedSp ℓ F)} :
     primaryComponent (spEnd d) (X ^ 2 + X + 1) = CFSG.LieType.SeitzGeneration.normKer d := by
   rw [primaryComponent, CFSG.LieType.SeitzGeneration.normKer]
   congr 1
-  simp only [map_add, map_mul, map_pow, map_one, aeval_X, aeval_C, pow_two]
+  simp only [map_add, map_mul, map_one, aeval_X, pow_two]
   abel
 
+omit [Finite F] in
 theorem spEnd_sq_apply_of_mem_primary [CharP F 2] {d : ↥(StatedSp ℓ F)}
     {u : Fin ℓ ⊕ Fin ℓ → F} (hu : u ∈ primaryComponent (spEnd d) (X ^ 2 + X + 1)) :
     spEnd d (spEnd d u) = u + spEnd d u := by
@@ -68,6 +73,7 @@ theorem spEnd_sq_apply_of_mem_primary [CharP F 2] {d : ↥(StatedSp ℓ F)}
   rw [← hx]
   exact (neg_eq_of_add_eq_zero_left h).symm
 
+omit [Finite F] in
 theorem spEnd_mem_normKer {d : ↥(StatedSp ℓ F)} (hd3 : d ^ 3 = 1)
     {u : Fin ℓ ⊕ Fin ℓ → F} (hu : u ∈ CFSG.LieType.SeitzGeneration.normKer d) :
     spEnd d u ∈ CFSG.LieType.SeitzGeneration.normKer d := by
@@ -78,6 +84,7 @@ theorem spEnd_mem_normKer {d : ↥(StatedSp ℓ F)} (hd3 : d ^ 3 = 1)
   rw [spEnd_cube_apply hd3 u] at h
   simpa [add_comm, add_left_comm, add_assoc] using h
 
+omit [Finite F] in
 private theorem aeval_primary_identities [CharP F 2] {V : Type} [AddCommGroup V] [Module F V]
     (T : Module.End F V) (hT3 : T ^ 3 = 1) :
     aeval T (X ^ 2 + X + 1 : F[X]) * aeval T (X ^ 2 + X + 1 : F[X]) =
@@ -110,6 +117,7 @@ private theorem aeval_primary_identities [CharP F 2] {V : Type} [AddCommGroup V]
   · rw [← map_add, hp2, map_one]
   · rw [← map_mul, hp3, map_mul, hzero, zero_mul]
 
+omit [Finite F] in
 theorem split_primary [CharP F 2] {d : ↥(StatedSp ℓ F)} (hd3 : d ^ 3 = 1)
     (v : Fin ℓ ⊕ Fin ℓ → F) :
     ((spEnd d) ^ 2 + spEnd d + 1 : Module.End F (Fin ℓ ⊕ Fin ℓ → F)) v ∈
@@ -122,9 +130,9 @@ theorem split_primary [CharP F 2] {d : ↥(StatedSp ℓ F)} (hd3 : d ^ 3 = 1)
   have hT3 : T ^ 3 = 1 := spEnd_pow hd3
   obtain ⟨he1', hTe1', hsum', hprod'⟩ := aeval_primary_identities T hT3
   have he1eq : aeval T (X ^ 2 + X + 1 : F[X]) = T ^ 2 + T + 1 := by
-    simp only [map_add, map_mul, map_pow, map_one, aeval_X, aeval_C, pow_two]
+    simp only [map_add, map_mul, map_one, aeval_X, pow_two]
   have he3eq : aeval T (X ^ 2 + X : F[X]) = T ^ 2 + T := by
-    simp only [map_add, map_mul, map_pow, map_one, aeval_X, aeval_C, pow_two]
+    simp only [map_add, map_mul, aeval_X, pow_two]
   have he1 : (T ^ 2 + T + 1) * (T ^ 2 + T + 1) = T ^ 2 + T + 1 := by
     rw [← he1eq]
     exact he1'
@@ -153,6 +161,7 @@ theorem split_primary [CharP F 2] {d : ↥(StatedSp ℓ F)} (hd3 : d ^ 3 = 1)
     rw [← Module.End.mul_apply, hprod, LinearMap.zero_apply]
   · rw [← LinearMap.add_apply, hsum, Module.End.one_apply]
 
+omit [Finite F] in
 private theorem nondegenerate_primary [CharP F 2] {d : ↥(StatedSp ℓ F)} (hd3 : d ^ 3 = 1)
     {f : F[X]} (hf : f = X - 1 ∨ f = X ^ 2 + X + 1) :
     ((spForm ℓ F).restrict (primaryComponent (spEnd d) f)).Nondegenerate := by
@@ -162,7 +171,8 @@ private theorem nondegenerate_primary [CharP F 2] {d : ↥(StatedSp ℓ F)} (hd3
   · rw [primaryComponent_quad_eq_normKer]
     exact nondegenerate_normKer (three_ne_zero_of_charP_two) hd3
 
-theorem exists_spForm_eq_one_of_mem_primary [CharP F 2] (hF : Nat.card F = 2)
+omit [Finite F] in
+theorem exists_spForm_eq_one_of_mem_primary [CharP F 2] (_hF : Nat.card F = 2)
     {d : ↥(StatedSp ℓ F)} (hd3 : d ^ 3 = 1) {f : F[X]}
     (hf : f = X - 1 ∨ f = X ^ 2 + X + 1) {r : Fin ℓ ⊕ Fin ℓ → F}
     (hr : r ∈ primaryComponent (spEnd d) f) (hr0 : r ≠ 0) :
@@ -181,12 +191,14 @@ theorem exists_spForm_eq_one_of_mem_primary [CharP F 2] (hF : Nat.card F = 2)
   spTransvection u (1 : F) * spTransvection (spEnd d u) (1 : F) *
     spTransvection (u + spEnd d u) (1 : F)
 
-private theorem unitTransv_eq_mixElt [CharP F 2] {d : ↥(StatedSp ℓ F)} (hd3 : d ^ 3 = 1)
+omit [Finite F] in
+private theorem unitTransv_eq_mixElt [CharP F 2] {d : ↥(StatedSp ℓ F)} (_hd3 : d ^ 3 = 1)
     {u : Fin ℓ ⊕ Fin ℓ → F} (hu : u ∈ primaryComponent (spEnd d) (X ^ 2 + X + 1)) :
     unitTransv d u = mixElt d u 1 := by
   unfold unitTransv mixElt
   rw [spEnd_sq_apply_of_mem_primary hu]
 
+omit [Finite F] in
 theorem spEnd_unitTransv [CharP F 2] {d : ↥(StatedSp ℓ F)} (hd3 : d ^ 3 = 1)
     {u : Fin ℓ ⊕ Fin ℓ → F} (hu : u ∈ primaryComponent (spEnd d) (X ^ 2 + X + 1))
     (hQ : spForm ℓ F u (spEnd d u) = 0) (v : Fin ℓ ⊕ Fin ℓ → F) :
@@ -198,6 +210,7 @@ theorem spEnd_unitTransv [CharP F 2] {d : ↥(StatedSp ℓ F)} (hd3 : d ^ 3 = 1)
     (add_smul_add_smul_add_smul (V := Fin ℓ ⊕ Fin ℓ → F) v u (spEnd d u)
       (spForm ℓ F v u) (spForm ℓ F v (spEnd d u)))
 
+omit [Finite F] in
 private theorem unitTransv_sq [CharP F 2] {d : ↥(StatedSp ℓ F)} (hd3 : d ^ 3 = 1)
     {u : Fin ℓ ⊕ Fin ℓ → F} (hu : u ∈ primaryComponent (spEnd d) (X ^ 2 + X + 1))
     (hQ : spForm ℓ F u (spEnd d u) = 0) : unitTransv d u ^ 2 = 1 := by
@@ -335,7 +348,8 @@ theorem unitTransv_mem [CharP F 2] (hF : Nat.card F = 2) {d : ↥(StatedSp ℓ F
   ⟨unitTransv_mem_aux hF hd3 hu hQ, unitTransv_sq hd3 hu hQ,
     fun hu0 => unitTransv_ne_one hF hd3 hu hQ hu0⟩
 
-private theorem spEnd_mem_primary_and_isotropic [CharP F 2] {d : ↥(StatedSp ℓ F)} (hd3 : d ^ 3 = 1)
+omit [Finite F] in
+private theorem spEnd_mem_primary_and_isotropic [CharP F 2] {d : ↥(StatedSp ℓ F)} (_hd3 : d ^ 3 = 1)
     {u : Fin ℓ ⊕ Fin ℓ → F} (hu : u ∈ primaryComponent (spEnd d) (X ^ 2 + X + 1))
     (hQ : spForm ℓ F u (spEnd d u) = 0) :
     spEnd d u ∈ primaryComponent (spEnd d) (X ^ 2 + X + 1) ∧
@@ -344,6 +358,7 @@ private theorem spEnd_mem_primary_and_isotropic [CharP F 2] {d : ↥(StatedSp �
   rw [spEnd_sq_apply_of_mem_primary hu, map_add, spForm_isAlt.self_eq_zero, add_zero,
     ← spForm_isAlt.neg_eq u, hQ, neg_zero]
 
+omit [Finite F] in
 private theorem unitTransv_shift [CharP F 2] {d : ↥(StatedSp ℓ F)} (hd3 : d ^ 3 = 1)
     {u : Fin ℓ ⊕ Fin ℓ → F} (hu : u ∈ primaryComponent (spEnd d) (X ^ 2 + X + 1))
     (hQ : spForm ℓ F u (spEnd d u) = 0) :
@@ -377,6 +392,7 @@ private theorem unitTransv_shift [CharP F 2] {d : ↥(StatedSp ℓ F)} (hd3 : d 
     k12u.mul_right k13u
   simpa only [mul_assoc] using hc.eq.symm
 
+omit [Finite F] in
 private theorem conj_unitTransv {x d : ↥(StatedSp ℓ F)} (hxd : x * d = d * x)
     (u : Fin ℓ ⊕ Fin ℓ → F) :
     x * unitTransv d u * x⁻¹ = unitTransv d (spEnd x u) := by
@@ -399,6 +415,7 @@ private theorem conj_unitTransv {x d : ↥(StatedSp ℓ F)} (hxd : x * d = d * x
         spTransvection (spEnd x u + spEnd d (spEnd x u)) (1 : F) := by
         rw [map_add, hxdu]
 
+omit [Finite F] in
 theorem commute_unitTransv [CharP F 2] {d : ↥(StatedSp ℓ F)} (hd3 : d ^ 3 = 1)
     {u : Fin ℓ ⊕ Fin ℓ → F} (hu : u ∈ primaryComponent (spEnd d) (X ^ 2 + X + 1))
     (hQ : spForm ℓ F u (spEnd d u) = 0) {x : ↥(StatedSp ℓ F)} (hxd : x * d = d * x)
@@ -417,10 +434,12 @@ theorem commute_unitTransv [CharP F 2] {d : ↥(StatedSp ℓ F)} (hd3 : d ^ 3 = 
         (spEnd_mem_primary_and_isotropic hd3 hu hQ).2).trans (unitTransv_shift hd3 hu hQ)
   exact mul_inv_eq_iff_eq_mul.mp hconj
 
+omit [Finite F] in
 private theorem eq_of_spEnd_eq_of_apply {g h : ↥(StatedSp ℓ F)}
     (hgh : ∀ v, spEnd g v = spEnd h v) : g = h :=
   spLin_injective (Units.ext (LinearMap.ext hgh))
 
+omit [Finite F] in
 private theorem char_two_rotation_vector [CharP F 2] {V : Type} [AddCommGroup V] [Module F V]
     (a b : F) (z w dw : V) :
     z + a • dw + (a + b) • (w + dw) = z + (a + b) • w + b • dw := by
@@ -437,6 +456,7 @@ private theorem char_two_rotation_vector [CharP F 2] {V : Type} [AddCommGroup V]
     _ = z + (a + b) • w + (a + (a + b)) • dw := by rw [← add_smul]
     _ = z + (a + b) • w + b • dw := by rw [hcoef]
 
+omit [Finite F] in
 private lemma rotation_comm_d [CharP F 2] {d : ↥(StatedSp ℓ F)} (hd3 : d ^ 3 = 1)
     {w : Fin ℓ ⊕ Fin ℓ → F} (hw : w ∈ primaryComponent (spEnd d) (X ^ 2 + X + 1))
     (hQ : spForm ℓ F w (spEnd d w) = 1) :

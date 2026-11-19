@@ -37,7 +37,7 @@ private def s1614_pl_fX' : Fin 8 → s1614_pl_Vec :=
 private lemma s1614_pl_frame_ok :
     ∀ i, S1614OmFrame (quadMinus 3 (ZMod 2) 1 1)
       (s1614_pl_fA i) (s1614_pl_fA' i) (s1614_pl_fX i) (s1614_pl_fX' i) := by
-  simp only [S1614OmFrame, quadMinus_apply, polar_quadMinus, Fin.sum_univ_two]
+  simp only [S1614OmFrame, quadMinus_apply, polar_quadMinus]
   decide
 
 private lemma s1614_pl_cover :
@@ -65,7 +65,7 @@ private lemma s1614_pl_map_sub_three (φ : ZMod 2 →+* K) (A B C : ZMod 2) :
 private lemma s1614_pl_Q (φ : ZMod 2 →+* K) (w : s1614_pl_Vec) :
     quadMinus 3 K 1 1 (s1614_pl_map K φ w) = φ (quadMinus 3 (ZMod 2) 1 1 w) := by
   simp only [s1614_pl_map, quadMinus_apply, map_add, map_mul, map_pow, map_sum,
-    map_one, map_ofNat]
+    map_one]
 
 private lemma s1614_pl_polar (φ : ZMod 2 →+* K) (w w' : s1614_pl_Vec) :
     QuadraticMap.polar (quadMinus 3 K 1 1) (s1614_pl_map K φ w) (s1614_pl_map K φ w') =
@@ -116,10 +116,10 @@ theorem s1614_om_planes (K : Type) [Field K] [Finite K] (hK : Nat.card K = 2) (b
     {s : Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2 → K} (hs : s ≠ 0) :
     ∃ a a' x x' : Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2 → K,
       S1614OmFrame (quadMinus 3 K b c) a a' x x' ∧ dotProduct s a = 0 ∧ dotProduct s a' = 0 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcardK : Fintype.card K = 2 := by
     rw [← Nat.card_eq_fintype_card, hK]
-  haveI : CharP K 2 := charP_of_card_eq_prime hcardK
+  have : CharP K 2 := charP_of_card_eq_prime hcardK
   let e : K ≃+* ZMod 2 :=
     FiniteField.ringEquivOfCardEq (by rw [hcardK, ZMod.card])
   have hc0 : c ≠ 0 := by

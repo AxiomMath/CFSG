@@ -31,7 +31,7 @@ theorem i167COrth_outPChain {S : Type} [Group S] {p N a : ℕ} (hp : p.Prime) (h
 
 private theorem i167COrth_outer_cyclic_aux1 {S : Type} [Group S] {p : ℕ} (hp : p.Prime)
     {Bb : Subgroup (MulAut S)} {β β' : MulAut S} (hβ : β ∈ Bb) (hβ' : β' ∈ Bb)
-    (hβp : β ^ p = 1) (hβ'p : β' ^ p = 1) (hcomm : Commute β β')
+    (_hβp : β ^ p = 1) (hβ'p : β' ^ p = 1) (hcomm : Commute β β')
     (hout : ∀ s : S, (MulAut.conj s : MulAut S) ≠ β) {m : ℤ} (hm : β * β' ^ m ∈ Inn S) :
     ∃ (j : ℤ) (s : S), (MulAut.conj s : MulAut S) ∈ Bb ∧ β' = MulAut.conj s * β ^ j := by
   obtain ⟨s₁, hs₁⟩ := MonoidHom.mem_range.mp hm

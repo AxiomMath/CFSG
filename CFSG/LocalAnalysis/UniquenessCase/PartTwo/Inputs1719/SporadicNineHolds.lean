@@ -112,7 +112,7 @@ theorem sporadicNine_J2
       have h3 : (2 : ℕ) ^ j2CtxA.k = 2 ^ 7 := by simpa using h2
       exact Nat.pow_right_injective (le_refl 2) h3
     have hP : Nat.card (j2CtxA.Y 2) = 9 * Nat.card j2CtxA.S := by
-      rw [card_Y2, j2CtxA.S_card, hk] <;> norm_num
+      rw [card_Y2, j2CtxA.S_card, hk]; norm_num
     exact exists_overgroup_of_invariant j2A_sylow (j2CtxA.S_le_Y 2) 9 hP
       (fun α hα => map_eq_of_unique_card (j2CtxA.S_le_Y 2) unique_Y2 α hα)
       (eN.trans CFSG.Sporadic.J2.nativeEquiv) hSyl
@@ -283,7 +283,7 @@ theorem sporadicNine_M11
     Subgroup ↥CFSG.Blueprint.NativeSporadic.M11) : Set ↥CFSG.Blueprint.NativeSporadic.M11)
     with hPdef
   have hP : Nat.card P = 9 * 2 ^ 4 := by
-    rw [hPdef, CFSG.AGLEmbedding.KFactProofs.SmallIdent.card_normalizer_m11T0] <;> norm_num
+    rw [hPdef, CFSG.AGLEmbedding.KFactProofs.SmallIdent.card_normalizer_m11T0]; norm_num
   have hPi : ¬ 2 ∣ P.index := by
     have h1 := Subgroup.card_mul_index P
     rw [hP, hcard] at h1

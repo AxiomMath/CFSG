@@ -48,8 +48,8 @@ section RootSubgroup
 theorem twE6RootSubgroup_pow_ringChar {k : Type} [Field k] [Finite k] {σ : k ≃+* k}
     {β : Fin TwistTag.E6.tag.rank → ℤ} {x : twistedE6RootGroup k σ}
     (hx : x ∈ twE6RootSubgroup k σ β) : x ^ ringChar k = 1 := by
-  haveI : Fact (ringChar k).Prime := ⟨CharP.char_is_prime k (ringChar k)⟩
-  haveI : CharP k (ringChar k) := ringChar.charP k
+  have : Fact (ringChar k).Prime := ⟨CharP.char_is_prime k (ringChar k)⟩
+  have : CharP k (ringChar k) := ringChar.charP k
   have hx' : ((x : twistedE6RootGroup k σ) : ModGL TwistTag.E6.tag k) ∈
       rootSubgroup TwistTag.E6.tag k β := hx
   by_cases h1 : ((x : twistedE6RootGroup k σ) : ModGL TwistTag.E6.tag k) = 1
@@ -64,13 +64,13 @@ end RootSubgroup
 section RSet
 
 theorem closure_hyperRSet_le_map_seitzHyperGamma {K : Type*} [Group K] [Finite K]
-    (hperf : commutator K = ⊤) {p r : ℕ} (hp : p.Prime) (hr : r.Prime) (hrp : r ≠ p)
+    (_hperf : commutator K = ⊤) {p r : ℕ} (hp : p.Prime) (hr : r.Prime) (hrp : r ≠ p)
     {E : Subgroup (MulAut K)} (hE : IsElemAbelian p E)
     (hinn : E ≤ (MulAut.conj : K →* MulAut K).range) :
     Subgroup.closure (hyperRSet ⊤ (innerImage E) r p) ≤
       (seitzHyperGamma p E).map (QuotientGroup.mk' (Subgroup.center K)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine (Subgroup.closure_le _).2 ?_
   rintro s ⟨-, ⟨n, hn⟩, B, hBE, hBi, hsB⟩
   obtain ⟨F, hFE, hFrel, hF⟩ := exists_hyperplane_of_innerImage hinn hBE hBi
@@ -97,7 +97,7 @@ theorem closure_hyperRSet_le_map_seitzHyperGamma {K : Type*} [Group K] [Finite K
   exact (QuotientGroup.eq.2 hxy).symm
 
 theorem coverImage_eq_map_innerImage {K G : Type*} [Group K] [Group G]
-    (hperf : commutator K = ⊤) (θ : K ⧸ Subgroup.center K ≃* G)
+    (_hperf : commutator K = ⊤) (θ : K ⧸ Subgroup.center K ≃* G)
     {E : Subgroup (MulAut K)} (hinn : E ≤ (MulAut.conj : K →* MulAut K).range) :
     coverImage θ E =
       ((innerImage E).map θ.toMonoidHom).map (MulAut.conj : G →* MulAut G) := by
@@ -332,7 +332,7 @@ theorem leviAction_inner {K G : Type} [Group K] [Group G]
 theorem leviAction_injective {K G : Type} [Group K] [Group G] [Finite K]
     (θ : K ⧸ Subgroup.center K ≃* G)
     {Q : TauCeti.PrimePower} {J : Subgroup G} (hJ : IsPSU6Cover J Q) [Group.IsPerfect J]
-    {E : Subgroup (MulAut K)} (hE : IsElemAbelian 3 E)
+    {E : Subgroup (MulAut K)} (_hE : IsElemAbelian 3 E)
     (hinn : E ≤ (MulAut.conj : K →* MulAut K).range)
     {E₀ : Subgroup G}
     (hE₀ : E₀ = (coverImage θ E).comap (MulAut.conj : G →* MulAut G))
@@ -535,7 +535,7 @@ theorem leviAction_unitary {K G : Type} [Group K] [Group G] [Finite K]
     (eZ.trans eJ) hci hE_J hcard_J hex
 
 theorem levi_le_map_seitzHyperGamma {K G : Type} [Group K] [Group G] [Finite K]
-    (hperf : commutator K = ⊤)
+    (_hperf : commutator K = ⊤)
     (θ : K ⧸ Subgroup.center K ≃* G)
     {Q : TauCeti.PrimePower} {J : Subgroup G} (hJ : IsPSU6Cover J Q)
     {E : Subgroup (MulAut K)} (hE : IsElemAbelian 3 E)
@@ -557,7 +557,7 @@ theorem levi_le_map_seitzHyperGamma {K G : Type} [Group K] [Group G] [Finite K]
       θ.injective).trans (QuotientGroup.ker_mk' _)
   have hπsurj : Function.Surjective π :=
     θ.surjective.comp (QuotientGroup.mk'_surjective (Subgroup.center K))
-  haveI hJperf : Group.IsPerfect ↥J := ⟨by
+  have hJperf : Group.IsPerfect ↥J := ⟨by
     rw [commutator_def]
     apply Subgroup.map_injective J.subtype_injective
     rw [Subgroup.map_commutator, ← MonoidHom.range_eq_map, Subgroup.range_subtype]
@@ -590,7 +590,7 @@ theorem levi_le_map_seitzHyperGamma {K G : Type} [Group K] [Group G] [Finite K]
     leviAction_injective θ hJ hE hinn hE₀ hE₀ab φ hφ hφJ hφc act hact_apply
   obtain ⟨hE_J, hcard_J, hE_J_inner⟩ :=
     leviAction_image θ hE hcard act hact_inner hact_inj
-  haveI : Group.IsPerfect ↥(derivedPreimage (coverPi θ) J) := hJtperf
+  have : Group.IsPerfect ↥(derivedPreimage (coverPi θ) J) := hJtperf
   have hunit := leviAction_unitary θ hJ act hE_J hcard_J hE_J_inner h3q hq2
   have hJt_le := leviAction_fixed_le θ act hact_apply hact_inj hunit
   have hJle : J ≤ (seitzHyperGamma 3 E).map

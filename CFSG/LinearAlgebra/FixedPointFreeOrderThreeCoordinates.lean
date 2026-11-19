@@ -27,11 +27,11 @@ theorem exists_omega_coordinates_of_order_three
         Multiplicative.toAdd (e (z w)) =
           omega • Multiplicative.toAdd (e w) := by
   classical
-  haveI hEA : IsElementaryAbelian 2 W :=
+  have hEA : IsElementaryAbelian 2 W :=
     { toIsMulCommutative := inferInstance
       exponent_dvd_p := Monoid.exponent_dvd_iff_forall_pow_eq_one.mpr hW }
   let V := Additive W
-  haveI : Finite V := inferInstance
+  have : Finite V := inferInstance
   have hfin : Module.finrank (ZMod 2) V = 2 * n := by
     have h := card_eq_prime_pow_finrank (p := 2) (R := W)
     rw [hcard] at h
@@ -52,8 +52,8 @@ theorem exists_omega_coordinates_of_order_three
     change Additive.ofMul (Additive.toMul v) = 0
     rw [hv1]
     rfl
-  letI : Module OmegaField V := omegaModule zGL hzGLord hzGLfix
-  haveI : IsScalarTower (ZMod 2) OmegaField V :=
+  let : Module OmegaField V := omegaModule zGL hzGLord hzGLfix
+  have : IsScalarTower (ZMod 2) OmegaField V :=
     omegaModule_isScalarTower zGL hzGLord hzGLfix
   have homega : ∀ v : V, omega • v = (zGL : V →ₗ[ZMod 2] V) v :=
     omegaModule_omega_smul zGL hzGLord hzGLfix
@@ -61,7 +61,7 @@ theorem exists_omega_coordinates_of_order_three
     have hmul := Module.finrank_mul_finrank (ZMod 2) OmegaField V
     rw [finrank_omegaField, hfin] at hmul
     omega
-  haveI : Module.Finite OmegaField V := Module.Finite.of_finite
+  have : Module.Finite OmegaField V := Module.Finite.of_finite
   let b : Module.Basis (Fin n) OmegaField V :=
     Module.finBasisOfFinrankEq OmegaField V hfindim
   let eLin : V ≃ₗ[OmegaField] (Fin n → OmegaField) := b.equivFun

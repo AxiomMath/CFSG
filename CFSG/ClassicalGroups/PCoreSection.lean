@@ -80,14 +80,14 @@ theorem exists_fixed_mem_of_isPGroup (h : IsLinearAction K app) {T : Subgroup G}
     (hP : ∀ t ∈ T, ∀ x ∈ P, app t x ∈ P) (hL : ∀ t ∈ T, ∀ x ∈ L, app t x ∈ L)
     (hne : L ≠ P) : ∃ x ∈ P, x ∉ L ∧ ∀ t ∈ T, app t x - x ∈ L := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let r : T → (P →ₗ[K] P) := fun t =>
     { toFun := fun x => ⟨app t x, hP t t.2 x x.2⟩
       map_add' := fun x y => Subtype.ext (h.add t x y)
       map_smul' := fun c x => Subtype.ext (h.smul t c x) }
   let L' : Submodule K P := L.comap P.subtype
   have hr : ∀ t : T, L' ≤ L'.comap (r t) := fun t x hx => hL t t.2 x hx
-  letI : MulAction T (P ⧸ L') :=
+  let : MulAction T (P ⧸ L') :=
     { smul := fun t w => L'.mapQ L' (r t) (hr t) w
       one_smul := fun w => Submodule.Quotient.induction_on L' w fun x =>
         congrArg (Submodule.Quotient.mk (p := L')) (Subtype.ext (h.one x))
@@ -102,13 +102,13 @@ theorem exists_fixed_mem_of_isPGroup (h : IsLinearAction K app) {T : Subgroup G}
     intro htop
     have : (⟨x₀, hx₀P⟩ : P) ∈ L' := by rw [htop]; trivial
     exact hx₀L this
-  haveI : Finite P := Subtype.finite
-  haveI : Module.Finite K P := Module.Finite.of_finite
-  haveI : Finite (P ⧸ L') := Module.finite_of_finite K
+  have : Finite P := Subtype.finite
+  have : Module.Finite K P := Module.Finite.of_finite
+  have : Finite (P ⧸ L') := Module.finite_of_finite K
   have hdvd : 2 ∣ Nat.card (P ⧸ L') := by
     rw [Module.natCard_eq_pow_finrank (K := K) (V := P ⧸ L')]
     have hK : 2 ∣ Nat.card K := by
-      haveI := Fintype.ofFinite K
+      have := Fintype.ofFinite K
       rw [Nat.card_eq_fintype_card]
       exact (CharP.cast_eq_zero_iff K 2 _).mp (FiniteField.cast_card_eq_zero K)
     exact dvd_pow hK (Module.finrank_pos (R := K) (M := P ⧸ L')).ne'

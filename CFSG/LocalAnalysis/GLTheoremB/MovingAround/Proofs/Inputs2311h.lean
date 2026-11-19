@@ -16,7 +16,7 @@ open CFSG.LocalAnalysis.GLTheoremB.MovingAround.Inputs256g
 theorem ne_two_of_dvd_pow_add_one_of_ne_eight {ℓ f f₀ p : ℕ} (hp : p.Prime) (hf : f = p * f₀)
     (hpq : p ∣ ℓ ^ f + 1) (h8 : ℓ ^ f ≠ 8) : ℓ ^ f₀ ≠ 2 := by
   intro h2
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpow : ℓ ^ f = 2 ^ p := by rw [hf, mul_comm, pow_mul, h2]
   rw [hpow] at hpq h8
   have h0 : ((2 ^ p + 1 : ℕ) : ZMod p) = 0 := (ZMod.natCast_eq_zero_iff _ _).2 hpq
@@ -189,7 +189,7 @@ theorem uniPlaneGen_of_pair_anyChar (h : UnitaryFieldData ℓ f K) (hq : ℓ ^ f
         ((Y : GL (Fin n) K) : Matrix (Fin n) (Fin n) K))) :
     UniPlaneGen ℓ E ∨ (n = p ∧ X * Y ≠ Y * X) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hn0 : 0 < n := by omega
   have hp1 : ¬ p ∣ 1 := fun hd => hp.one_lt.ne' (Nat.dvd_one.mp hd)
   set H := (uniPlaneClosure ℓ E).comap (suP h) with hHdef
@@ -339,7 +339,7 @@ theorem uniPlaneGen_inndiag_anyChar (h : UnitaryFieldData ℓ f K) (hq : ℓ ^ f
       primeFormConjHom h (idGram K n) A ∈ E ∧ primeFormConjHom h (idGram K n) B ∈ E ∧
         A * B ≠ B * A) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hn0 : 0 < n := by omega
   obtain ⟨x, hxE, y, hyE, hy1, hxy⟩ := exists_independent_pair hp E hE.2 hc
   obtain ⟨A, rfl⟩ := hD hxE
@@ -462,7 +462,7 @@ theorem uniPlaneGen_field_outer_anyChar_of_ne_eight_or_four_le (h : UnitaryField
     {E : Subgroup (MulAut (primeFormP h (idGram K n)))} (hE : IsElemAbelian p E)
     (hc : Nat.card E = p ^ 2) (hD : ¬ E ≤ primeFormD h (idGram K n)) : UniPlaneGen ℓ E := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hℓ : ℓ.Prime := Fact.out
   have hne : ¬(n = 3 ∧ ℓ ^ f = 2) := fun h3 => hq h3.2
   have hC : IsPrimeFormGram (1 : GL (Fin n) K) := isPrimeFormGram_one
@@ -788,9 +788,9 @@ theorem not_two_dvd_card_fixedSubgroup_of_heis (h : UnitaryFieldData ℓ f K) (h
     ¬ 2 ∣ Nat.card ↥(CFSG.RankThree.PartOne.CTP.fixedSubgroup (primeFormConjHom h (idGram K n) B)) := by
   classical
   intro h2
-  haveI : Finite (primeFormP h (idGram K n)) :=
+  have : Finite (primeFormP h (idGram K n)) :=
     Finite.of_surjective (QuotientGroup.mk' _) (QuotientGroup.mk'_surjective _)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨s, hs⟩ := exists_prime_orderOf_dvd_card' 2 h2
   have hs1 : (s : primeFormP h (idGram K n)) ≠ 1 := by
     intro h1
@@ -827,14 +827,14 @@ theorem uniPlaneGen_psu_even_of_nonsolvable {ℓ f n p : ℕ} {K : Type} [Field 
     (h : UnitaryFieldData ℓ f K) (hℓ2 : ℓ = 2) (hn : 3 ≤ n) (hp : p.Prime) (hp5 : 5 ≤ p)
     (hpq : p ∣ ℓ ^ f + 1) {E : Subgroup (MulAut (primeFormP h (idGram K n)))}
     (hE : IsElemAbelian p E) (hc : Nat.card E = p ^ 2)
-    (hns : ∃ e ∈ E, e ≠ 1 ∧ ¬ IsSolvable ↥(CFSG.RankThree.PartOne.CTP.fixedSubgroup e)) :
+    (hns : ∃ e ∈ E, e ≠ 1 ∧ ¬ Group.IsSolvable ↥(CFSG.RankThree.PartOne.CTP.fixedSubgroup e)) :
     UniPlaneGen ℓ E := by
   classical
   subst hℓ2
   have := h.finite
-  haveI : CharP K 2 := h.charP
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : CharP K 2 := h.charP
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   have hp3 : p ≠ 3 := by omega
   have hq : 2 ^ f ≠ 2 := by
@@ -868,7 +868,7 @@ theorem uniPlaneGen_psu_even_of_nonsolvable {ℓ f n p : ℕ} {K : Type} [Field 
   by_contra hsolv
   have h2 : 2 ∣ Nat.card ↥(CFSG.RankThree.PartOne.CTP.fixedSubgroup (primeFormConjHom h (idGram K n) b)) := by
     by_contra hodd
-    haveI : Finite (primeFormP h (idGram K n)) :=
+    have : Finite (primeFormP h (idGram K n)) :=
       Finite.of_surjective (QuotientGroup.mk' _) (QuotientGroup.mk'_surjective _)
     exact hsolv (CFSG.FeitThompson.isSolvable_of_odd_natCard _ (Nat.odd_iff.2 (Nat.two_dvd_ne_zero.1 hodd)))
   exact not_two_dvd_card_fixedSubgroup_of_heis h hn hp hnp hζ (hE.2 _ he₁E) hcomm₁₂.symm hnc h2
@@ -880,7 +880,7 @@ section Cat
 theorem uniSeitzPlanes_unitary_nonCpf_even :
     UniSeitzPlanes fun d p E => IsUnitaryIndex' d.1 ∧ d.1.characteristic = 2 ∧ 5 ≤ p ∧
       ¬ CentralPrimeFree p d.1 ∧
-        ∃ e ∈ E, e ≠ 1 ∧ ¬ IsSolvable ↥(CFSG.RankThree.PartOne.CTP.fixedSubgroup e) := by
+        ∃ e ∈ E, e ≠ 1 ∧ ¬ Group.IsSolvable ↥(CFSG.RankThree.PartOne.CTP.fixedSubgroup e) := by
   rintro ⟨d, hv⟩ p hp hp2 hpd _ E hE hc ⟨⟨m, q, hd⟩, hch, hp5, hncpf, hns⟩
   subst hd
   have hq2 : q.p = 2 := by simpa using hch
@@ -892,7 +892,7 @@ theorem uniSeitzPlanes_unitary_nonCpf_even :
   have hE'el : IsElemAbelian p (E.map (MulAut.congr θ).toMonoidHom) := isElemAbelian_map_congr θ hE
   have hE'c : Nat.card (E.map (MulAut.congr θ).toMonoidHom) = p ^ 2 := (card_map_congr θ E).trans hc
   have hns' : ∃ ε ∈ E.map (MulAut.congr θ).toMonoidHom, ε ≠ 1 ∧
-      ¬ IsSolvable ↥(CFSG.RankThree.PartOne.CTP.fixedSubgroup ε) := by
+      ¬ Group.IsSolvable ↥(CFSG.RankThree.PartOne.CTP.fixedSubgroup ε) := by
     obtain ⟨ε, hεE, hε1, hεs⟩ := hns
     refine ⟨MulAut.congr θ ε, ⟨ε, hεE, rfl⟩, fun h => hε1 ?_, fun hs => hεs ?_⟩
     · exact (MulAut.congr θ).injective (h.trans (map_one _).symm)

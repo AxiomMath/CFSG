@@ -277,7 +277,7 @@ private theorem coreFreeAt_five_suzuki_outer {F : Type} [Field F]
       · obtain ⟨m, rfl⟩ := Subgroup.mem_zpowers_iff.1 hn
         have hfc : Commute f c := (hcomm f hf).symm
         rw [(hfc.zpow_right m).eq]
-        simpa using Subgroup.zpow_mem_zpowers c m
+        simp
       · rw [Nat.card_zpowers, ← orderOf_injective _ hinj c, hc]
         exact hg
     have hc1 : c = 1 := Subgroup.zpowers_eq_bot.1 hz

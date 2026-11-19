@@ -57,7 +57,7 @@ theorem sylowPrimeComplement_spec [Fact p.Prime] {X : Type*} [Group X] [Finite X
       sSup_le fun M ⟨q, hq, hqp, Q, hM⟩ => by
         have : Fact q.Prime := ⟨hq⟩
         refine le_sSup ⟨hM ▸ hsyl q Q, ?_⟩
-        obtain ⟨k, hk⟩ := (Q.isPGroup'.map C.subtype).exists_card_eq
+        obtain ⟨k, hk⟩ := (Q.isPGroup.map C.subtype).exists_card_eq
         rw [hM, hk]
         exact Nat.Coprime.pow_right k ((Nat.coprime_primes Fact.out hq).2 (Ne.symm hqp))
     intro h

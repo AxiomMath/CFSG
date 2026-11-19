@@ -104,10 +104,10 @@ theorem isSolvable_minusProjectiveBorel {K : Type} [Field K] [Finite K] [CharP K
       (orthElementaryGroup (quadTail r qA))).map
       (QuotientGroup.mk' (elemScalars (quadTail r qA)))) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hpos : 0 < finrank K A := by rcases hm with h | h <;> omega
-  haveI : FiniteDimensional K A := Module.finite_of_finrank_pos hpos
-  haveI : Finite A := Module.finite_of_finite K
+  have : FiniteDimensional K A := Module.finite_of_finrank_pos hpos
+  have : Finite A := Module.finite_of_finite K
   obtain ⟨n, hn⟩ :=
     (CFSG.ComponentClassification.UnbalancedCatalog.finite_even_regular_quadratic_normal_forms
       qA hreg).1
@@ -174,13 +174,13 @@ theorem isSolvable_minusProjectiveBorel {K : Type} [Field K] [Finite K] [CharP K
       rw [show Φ = Φ1.symm.trans Φ2 from rfl, MulEquiv.trans_apply,
         MulEquiv.symm_apply_apply]
     rw [hcomp, hB2]
-  haveI hTB : Group.IsSolvable ↥(tailBorel r (minusTailForm K b c)) :=
+  have hTB : Group.IsSolvable ↥(tailBorel r (minusTailForm K b c)) :=
     isSolvable_borel_orth_minus hirr r
-  haveI hB0' : Group.IsSolvable ↥B0' :=
+  have hB0' : Group.IsSolvable ↥B0' :=
     Group.isSolvable_of_isSolvable_injective
       (f := (Subgroup.subgroupOfEquivOfLe tailBorel_le).toMonoidHom) (MulEquiv.injective _)
-  haveI hB0 : Group.IsSolvable ↥B0 := by
-    haveI : Group.IsSolvable ↥(B0.map Φ.toMonoidHom) := hmap ▸ hB0'
+  have hB0 : Group.IsSolvable ↥B0 := by
+    have : Group.IsSolvable ↥(B0.map Φ.toMonoidHom) := hmap ▸ hB0'
     exact Group.isSolvable_of_isSolvable_injective
       (f := (Subgroup.equivMapOfInjective B0 Φ.toMonoidHom Φ.injective).toMonoidHom)
       (MulEquiv.injective _)
@@ -201,10 +201,10 @@ theorem isMulCommutative_minusProjectiveBorel_quotient {K : Type} [Field K] [Fin
         CFSG.pCore 2 ↥(((tailBorel r qA).subgroupOf (orthElementaryGroup (quadTail r qA))).map
           (QuotientGroup.mk' (elemScalars (quadTail r qA))))) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hpos : 0 < finrank K A := by rcases hm with h | h <;> omega
-  haveI : FiniteDimensional K A := Module.finite_of_finrank_pos hpos
-  haveI : Finite A := Module.finite_of_finite K
+  have : FiniteDimensional K A := Module.finite_of_finrank_pos hpos
+  have : Finite A := Module.finite_of_finite K
   have h2 : finrank K A = 2 := by
     obtain ⟨n, hn⟩ :=
       (CFSG.ComponentClassification.UnbalancedCatalog.finite_even_regular_quadratic_normal_forms
@@ -318,9 +318,9 @@ theorem isMulCommutative_minusProjectiveBorel_quotient {K : Type} [Field K] [Fin
       hr hirr x.2 y.2
   have hcommPC : IsMulCommutative (↥B0' ⧸ CFSG.pCore 2 ↥B0') :=
     Subgroup.Normal.quotient_commutative_iff_commutator_le.mpr hcomm
-  haveI : Finite (orthElementaryGroup (quadTail r (minusTailForm K b c))) := Subtype.finite
-  haveI : Finite (((Fin r ⊕ Fin r → K) × (Fin 2 → K))) := inferInstance
-  haveI : Finite (((Fin r ⊕ Fin r → K) × (Fin 2 → K)) ≃ₗ[K]
+  have : Finite (orthElementaryGroup (quadTail r (minusTailForm K b c))) := Subtype.finite
+  have : Finite (((Fin r ⊕ Fin r → K) × (Fin 2 → K))) := inferInstance
+  have : Finite (((Fin r ⊕ Fin r → K) × (Fin 2 → K)) ≃ₗ[K]
       ((Fin r ⊕ Fin r → K) × (Fin 2 → K))) :=
     Finite.of_injective (fun g : ((Fin r ⊕ Fin r → K) × (Fin 2 → K)) ≃ₗ[K]
       ((Fin r ⊕ Fin r → K) × (Fin 2 → K)) => (g : _ → _)) DFunLike.coe_injective
@@ -352,7 +352,7 @@ theorem isMulCommutative_minusProjectiveBorel_quotient {K : Type} [Field K] [Fin
   let eQ : (↥(B0.map q0) ⧸ CFSG.pCore 2 ↥(B0.map q0)) ≃*
       (↥(B0'.map q') ⧸ CFSG.pCore 2 ↥(B0'.map q')) :=
     QuotientGroup.congr _ _ eBar (CFSG.pCore_map_iso 2 eBar)
-  haveI := hcommBbar
+  have := hcommBbar
   exact Function.Surjective.isMulCommutative eQ.symm.surjective
 
 theorem three_le_pRank_diagTorus_orthogonal_minus_gen {K : Type} [Field K] [Finite K]
@@ -361,10 +361,10 @@ theorem three_le_pRank_diagTorus_orthogonal_minus_gen {K : Type} [Field K] [Fini
     3 ≤ CFSG.Open.pRank q ((diagTorusMinus m K).subgroupOf
       (StatedOmega (StatedQuadMinus m K b c))) := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hqne : q ≠ 2 := by
     rintro rfl
-    letI : Fintype K := Fintype.ofFinite K
+    let : Fintype K := Fintype.ofFinite K
     have heven : Even (Nat.card K) := by
       rw [Nat.card_eq_fintype_card]
       exact Nat.even_iff.mpr

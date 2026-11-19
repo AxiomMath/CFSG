@@ -25,7 +25,7 @@ theorem lieCompExport_twE6 (hres : ExcRationalLieTypes)
     LieCompExport q.p β := by
   classical
   obtain ⟨K, _, σ, hK, hσ, ⟨eK⟩⟩ := CFSG.LieType.SeitzGeneration.exists_catEquiv_twistedE6 q hv
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by
+  have : Finite K := Nat.finite_of_card_ne_zero (by
     rw [hK]
     exact pow_ne_zero _ (pow_ne_zero _ q.prime_p.ne_zero))
   let e' : S ≃* ↥(twistedE6RootGroup K σ) := e.trans eK

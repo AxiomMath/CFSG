@@ -71,7 +71,7 @@ theorem central_le_commutator [Finite G] (hA : CFSG.Open.IsQuasisimple A) (S₀ 
     rw [mem_center_iff]
     intro b
     exact Subtype.ext (mem_centralizer_iff.1 hwc b b.2)
-  have hZp : IsPGroup 2 Z := S₀.isPGroup'.to_le inf_le_right
+  have hZp : IsPGroup 2 Z := S₀.isPGroup.to_le inf_le_right
   have hG := AschbacherToolkit.central_sylow_commutator S₀ (Z := Z) inf_le_left hZp
   have haZ' : a ∈ Z ⊓ commutator A := mem_inf.2 ⟨haZ, by rw [hA.1]; exact mem_top a⟩
   rw [hG] at haZ'

@@ -19,7 +19,7 @@ theorem ob5_det_E (b : Module.Basis (Fin 2) F M) :
   have hm : LinearMap.toMatrix b b (ob5E b) = !![1, 1; 0, 1] := by
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [LinearMap.toMatrix_apply, h0, h1, Module.Basis.repr_self, Finsupp.single_apply]
+      simp [LinearMap.toMatrix_apply, h0, h1, Module.Basis.repr_self]
   rw [hm, Matrix.det_fin_two_of]
   ring
 
@@ -30,7 +30,7 @@ theorem ob5_det_Dg (b : Module.Basis (Fin 2) F M) {μ : F} (hμ : μ ≠ 0) :
   have hm : LinearMap.toMatrix b b (ob5Dg b μ) = !![μ, 0; 0, μ⁻¹] := by
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [LinearMap.toMatrix_apply, h0, h1, Module.Basis.repr_self, Finsupp.single_apply]
+      simp [LinearMap.toMatrix_apply, h0, h1, Module.Basis.repr_self]
   rw [hm, Matrix.det_fin_two_of]
   simp [mul_inv_cancel₀ hμ]
 
@@ -42,7 +42,7 @@ theorem ob5_det_Wr (b : Module.Basis (Fin 2) F M) :
   have hm : LinearMap.toMatrix b b (ob5Wr b) = !![0, -1; 1, 0] := by
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [LinearMap.toMatrix_apply, h0, h1, Module.Basis.repr_self, Finsupp.single_apply]
+      simp [LinearMap.toMatrix_apply, h0, h1, Module.Basis.repr_self]
   rw [hm, Matrix.det_fin_two_of]
   ring
 
@@ -96,7 +96,7 @@ theorem ob5_zero_div_end (b : Module.Basis ι (ZMod 2) N) {i j : ι} (hij : i �
   have hci : b.coord i (b i) = 1 := by
     simp [Module.Basis.coord_apply, Module.Basis.repr_self]
   have hcj : b.coord i (b j) = 0 := by
-    simp [Module.Basis.coord_apply, Module.Basis.repr_self, Finsupp.single_apply, hij.symm]
+    simp [Module.Basis.coord_apply, Module.Basis.repr_self, hij.symm]
   refine ⟨((b.coord i).smulRight (b i)).toAddMonoidHom,
     ((b.coord i).smulRight (b j)).toAddMonoidHom, ?_, ?_, ?_⟩
   · intro hp

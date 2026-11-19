@@ -18,8 +18,8 @@ theorem y7n_aut_bound (h29 : Aut29Idx) {Lam : Subgroup G} (hext : Sec2.IsExt26 1
     {Z : Subgroup G} (hZ : IsPGroup 2 Z) (hN : Z ≤ normalizer (Lam : Set G)) :
     Nat.card ↥Z ≤ 2 ^ 7 * Nat.card ↥(Z ⊓ centralizer (Lam : Set G)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hfinAut : Finite (MulAut ↥Lam) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hfinAut : Finite (MulAut ↥Lam) :=
     Finite.of_injective (fun f : MulAut ↥Lam => (f : ↥Lam → ↥Lam)) (by
       intro f g h
       ext x

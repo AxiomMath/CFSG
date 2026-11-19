@@ -81,7 +81,7 @@ theorem exists_statedSL_mulVec_eq (hm : 2 ≤ m) {x y : Fin m → K} (hx : x ≠
     have hwx : ∀ c' : K, w ≠ c' • x := by
       intro c' h
       have := congrFun h i
-      simp [hw, Pi.single_apply, hj.symm] at this
+      simp [hw, hj.symm] at this
       rcases this with h' | h'
       · subst h'
         simp at h

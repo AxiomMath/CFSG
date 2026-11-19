@@ -16,11 +16,11 @@ variable {K : Type*} [Field K] {σ : K ≃+* K} {n : ℕ} {ω : K} {𝔈 : Set (
 @[expose] def EigenFrame.spanOf (S : Finset (Fin n)) : Submodule K (Fin n → K) :=
   Submodule.span K (F.u '' (S : Set (Fin n)))
 
-theorem EigenFrame.spanOf_hasON (hσ : ∀ c, σ (σ c) = c) {S : Finset (Fin n)} (hS : 4 ≤ S.card) :
+theorem EigenFrame.spanOf_hasON (_hσ : ∀ c, σ (σ c) = c) {S : Finset (Fin n)} (hS : 4 ≤ S.card) :
     HasONBasis σ (F.spanOf S) := by
   refine ⟨S.card, fun i => F.u (S.equivFin.symm i : Fin n), fun i j => ?_, ?_, Or.inl hS⟩
   · rw [F.herm_u]
-    simp [Subtype.ext_iff]
+    simp
   · rw [EigenFrame.spanOf]
     congr 1
     ext v
@@ -131,9 +131,9 @@ theorem closure_centralizers_unitarySU_two (h : UnitaryFieldData ℓ f K) (hq : 
     (hcard : Nat.card E = 3 ^ 2) :
     Subgroup.closure {g : unitarySU ℓ f K n | ∃ x ∈ E, x ≠ 1 ∧ g * x = x * g} = ⊤ := by
   classical
-  haveI : Finite K := h.finite
-  haveI : Fact ℓ.Prime := ⟨h.prime⟩
-  haveI : CharP K ℓ := h.charP
+  have : Finite K := h.finite
+  have : Fact ℓ.Prime := ⟨h.prime⟩
+  have : CharP K ℓ := h.charP
   set σ := unitaryInvolution K ℓ f with hσdef
   have hσ : IsUnitaryInvolution σ := isUnitaryInvolution_unitaryInvolution h.card_eq_sq
   have hcard4 : Nat.card K = 4 := by
@@ -205,7 +205,7 @@ theorem closure_centralizers_unitarySU_two (h : UnitaryFieldData ℓ f K) (hq : 
   let 𝔈 : Set (SUid σ n) := φ '' X
   have hmemE : ∀ y : E, y ≠ 1 → φ y.1 ∈ 𝔈 := fun y hy =>
     ⟨y.1, ⟨y.2, fun h1 => hy (Subtype.ext h1)⟩, rfl⟩
-  haveI : Nontrivial E := Finite.one_lt_card_iff_nontrivial.1 (by omega)
+  have : Nontrivial E := Finite.one_lt_card_iff_nontrivial.1 (by omega)
   obtain ⟨y₀, hy₀⟩ := exists_ne (1 : E)
   have hne : 𝔈.Nonempty := ⟨_, hmemE y₀ hy₀⟩
   let F : EigenFrame σ n 𝔈 := ⟨u, huON, hspan, fun e he => by

@@ -22,7 +22,7 @@ private theorem hasEnoughRootsOfUnity_of_dvd_card_sub_one {F : Type} [Field F] [
   have hNpos : 0 < N := by
     have h1 : 1 < Nat.card F := Finite.one_lt_card
     omega
-  haveI : NeZero N := ⟨by omega⟩
+  have : NeZero N := ⟨by omega⟩
   have htop : rootsOfUnity N F = ⊤ := by
     ext x
     simp only [mem_rootsOfUnity, Subgroup.mem_top, iff_true]
@@ -30,7 +30,7 @@ private theorem hasEnoughRootsOfUnity_of_dvd_card_sub_one {F : Type} [Field F] [
     exact pow_card_eq_one'
   have hNcard : N ≤ Nat.card (rootsOfUnity N F) := by
     rw [htop, Subgroup.card_top, hNu]
-  haveI : HasEnoughRootsOfUnity F N := HasEnoughRootsOfUnity.of_card_le hNcard
+  have : HasEnoughRootsOfUnity F N := HasEnoughRootsOfUnity.of_card_le hNcard
   exact HasEnoughRootsOfUnity.of_dvd F hn
 
 private lemma mapsTo_eigenspace_of_comm {F V : Type*} [Field F] [AddCommGroup V] [Module F V]
@@ -80,8 +80,8 @@ theorem tor_lemmaB {p d : ℕ} {F : Type} [Field F] [Finite F] [CharP F 2] (hp :
   · subst hd0
     exact absurd (Subsingleton.elim (g ^ p) ((Matrix.GeneralLinearGroup.scalar (Fin 0) 1) ^ p))
       (hgc 1)
-  haveI : Nonempty (Fin d) := ⟨⟨0, Nat.pos_of_ne_zero hd0⟩⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Nonempty (Fin d) := ⟨⟨0, Nat.pos_of_ne_zero hd0⟩⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hel_mem : ∀ x : ↥G, ∃ a : Fˣ,
       Matrix.GeneralLinearGroup.scalar (Fin d) a = (x : GL (Fin d) F) ^ p := by
     intro x
@@ -229,11 +229,11 @@ theorem tor_lemmaB {p d : ℕ} {F : Type} [Field F] [Finite F] [CharP F 2] (hp :
     exact (Nat.not_even_iff_odd.mpr hpodd.pow) (even_iff_two_dvd.mpr h2dvd)
   have hExpDvd : Monoid.exponent G₁ ∣ p :=
     Monoid.exponent_dvd_of_forall_pow_eq_one hG1_exp
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : HasEnoughRootsOfUnity F p := hasEnoughRootsOfUnity_of_dvd_card_sub_one hpF
-  haveI : HasEnoughRootsOfUnity F (Monoid.exponent G₁) :=
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : HasEnoughRootsOfUnity F p := hasEnoughRootsOfUnity_of_dvd_card_sub_one hpF
+  have : HasEnoughRootsOfUnity F (Monoid.exponent G₁) :=
     HasEnoughRootsOfUnity.of_dvd F hExpDvd
-  haveI : IsMulCommutative G₁ := IsMulCommutative.of_comm fun a b => by
+  have : IsMulCommutative G₁ := IsMulCommutative.of_comm fun a b => by
     obtain ⟨ka, hka, hkaeq⟩ := Subgroup.mem_map.mp a.2
     obtain ⟨kb, hkb, hkbeq⟩ := Subgroup.mem_map.mp b.2
     apply Subtype.ext
@@ -398,7 +398,7 @@ theorem tor_lemmaB {p d : ℕ} {F : Type} [Field F] [Finite F] [CharP F 2] (hp :
   have htop : ⨆ χ : G₁ →* Fˣ, W χ = ⊤ := by
     simpa [W] using TauCeti.iSup_iInf_eigenspace_unitHom_eq_top_of_commGroup (ρ := ρ) hcardUnit
   let S := {χ : G₁ →* Fˣ // W χ ≠ ⊥}
-  haveI : Fintype S := hind.fintypeNeBotOfFiniteDimensional
+  have : Fintype S := hind.fintypeNeBotOfFiniteDimensional
   let b := Fintype.card S
   have hindS : iSupIndep (fun χ : S => W χ.1) := hind.comp Subtype.coe_injective
   have htopS : ⨆ χ : S, W χ.1 = ⊤ := by
@@ -479,7 +479,7 @@ theorem tor_lemmaB {p d : ℕ} {F : Type} [Field F] [Finite F] [CharP F 2] (hp :
     rw [h1, hrel_sc_G0, hG0_rel, ← hcap]
     exact hrel_card
   have hpd : p ∣ d := by
-    haveI : Nontrivial V := Function.nontrivial
+    have : Nontrivial V := Function.nontrivial
     have hmin : minpoly F ρg = Polynomial.X ^ p - Polynomial.C ((s ⟨g, hg⟩ : Fˣ) : F) :=
       NonPth.minpoly_eq_X_pow_sub_C hp hρg_pow hc
     have hPirr : Irreducible (minpoly F ρg) := by

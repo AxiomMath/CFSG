@@ -38,25 +38,32 @@ abbrev altSub (H : Subgroup (GLV V)) (φ : ↥H ≃* Perm (Fin N)) : Subgroup (G
 @[expose] noncomputable def tG (φ : ↥H ≃* Perm (Fin N)) : Perm (Fin N) →* GLV V :=
   H.subtype.comp φ.symm.toMonoidHom
 
+omit [Finite V] in
 theorem tG_apply (σ : Perm (Fin N)) : tG φ σ = ((φ.symm σ : ↥H) : GLV V) := rfl
 
+omit [Finite V] in
 theorem tG_mem (σ : Perm (Fin N)) : tG φ σ ∈ H := (φ.symm σ).2
 
+omit [Finite V] in
 theorem tG_phi (g : ↥H) : tG φ (φ g) = g := by
   rw [tG_apply, MulEquiv.symm_apply_apply]
 
+omit [Finite V] in
 theorem tG_injective : Function.Injective (tG φ) :=
   Subtype.val_injective.comp φ.symm.injective
 
+omit [Finite V] in
 theorem tG_mem_altSub {σ : Perm (Fin N)} (hσ : σ ∈ alternatingGroup (Fin N)) :
     tG φ σ ∈ altSub H φ :=
   ⟨φ.symm σ, by simpa using hσ, rfl⟩
 
+omit [Finite V] in
 theorem exists_eq_tG {g : GLV V} (hg : g ∈ altSub H φ) :
     ∃ σ ∈ alternatingGroup (Fin N), tG φ σ = g := by
   obtain ⟨h, hh, rfl⟩ := hg
   exact ⟨φ h, hh, tG_phi h⟩
 
+omit [Finite V] in
 theorem altSub_eq_map : altSub H φ = (alternatingGroup (Fin N)).map (tG φ) := by
   ext g
   constructor
@@ -66,14 +73,17 @@ theorem altSub_eq_map : altSub H φ = (alternatingGroup (Fin N)).map (tG φ) := 
   · rintro ⟨σ, hσ, rfl⟩
     exact tG_mem_altSub hσ
 
+omit [Finite V] in
 theorem altSub_perfect (hN : 5 ≤ N) : ⁅altSub H φ, altSub H φ⁆ = altSub H φ := by
   rw [altSub_eq_map, ← Subgroup.map_commutator,
     commutator_alternatingGroup_eq_self (by simpa using hN)]
 
+omit [Finite V] in
 theorem altSub_le : altSub H φ ≤ H := by
   rintro _ ⟨h, -, rfl⟩
   exact h.2
 
+omit [Finite V] in
 theorem conj_mem_altSub {h k : GLV V} (hh : h ∈ H) (hk : k ∈ altSub H φ) :
     h * k * h⁻¹ ∈ altSub H φ := by
   obtain ⟨σ, hσ, rfl⟩ := exists_eq_tG hk
@@ -83,12 +93,15 @@ theorem conj_mem_altSub {h k : GLV V} (hh : h ∈ H) (hk : k ∈ altSub H φ) :
   exact tG_mem_altSub
     ((inferInstance : (alternatingGroup (Fin N)).Normal).conj_mem σ hσ (φ ⟨h, hh⟩))
 
+omit [Finite V] in
 theorem invariant_V₀ : Invariant H (commSpace (altSub H φ) ⊤) :=
   invariant_commSpace (fun _ hh _ hk => conj_mem_altSub hh hk) (invariant_top H)
 
+omit [Finite V] in
 theorem invariant_V₁ : Invariant H (fixedSpace (altSub H φ)) :=
   invariant_fixedSpace (fun _ hh _ hk => conj_mem_altSub hh hk)
 
+omit [Finite V] in
 theorem heartFor {β : ↥(commSpace (altSub H φ) ⊤) →+ altHeart N}
     (hβs : Function.Surjective β)
     (hβk : β.ker = ((fixedSpace (altSub H φ)).comap
@@ -110,6 +123,7 @@ theorem heartFor {β : ↥(commSpace (altSub H φ) ⊤) →+ altHeart N}
 
 variable {β : ↥(commSpace (altSub H φ) ⊤) →+ altHeart N}
 
+omit [Finite V] in
 theorem beta_tG (hH : CaseIHeart.HeartFor H N φ.toMonoidHom (altSub H φ) β) (σ : Perm (Fin N))
     (w w' : ↥(commSpace (altSub H φ) ⊤)) (hw : (w' : V) = tG φ σ (w : V)) :
     β w' = altAct σ (β w) := by
@@ -118,17 +132,20 @@ theorem beta_tG (hH : CaseIHeart.HeartFor H N φ.toMonoidHom (altSub H φ) β) (
   rw [h1, ← hx, altAct_mk]
   simp
 
+omit [Finite V] in
 theorem beta_eq_zero (hH : CaseIHeart.HeartFor H N φ.toMonoidHom (altSub H φ) β)
     (w : ↥(commSpace (altSub H φ) ⊤)) (hw : (w : V) ∈ fixedSpace (altSub H φ)) : β w = 0 := by
   have : w ∈ β.ker := by rw [hH.ker]; exact hw
   exact this
 
+omit [Finite V] in
 theorem mem_fixedSpace_of_beta (hH : CaseIHeart.HeartFor H N φ.toMonoidHom (altSub H φ) β)
     (w : ↥(commSpace (altSub H φ) ⊤)) (hw : β w = 0) : (w : V) ∈ fixedSpace (altSub H φ) := by
   have : w ∈ β.ker := hw
   rw [hH.ker] at this
   exact this
 
+omit [Finite V] in
 theorem map_fixedSpace_eq {t₁ t₂ : ↥H} (hs : sign (φ t₁) = sign (φ t₂)) :
     (fixedSpace (altSub H φ)).map (((t₁ : GLV V) : V →ₗ[ZMod 2] V) - LinearMap.id) =
       (fixedSpace (altSub H φ)).map (((t₂ : GLV V) : V →ₗ[ZMod 2] V) - LinearMap.id) := by
@@ -157,11 +174,13 @@ open scoped Classical in
     β ⟨tG φ σ v - v, sub_mem_commSpace (tG_mem_altSub h) Submodule.mem_top⟩
   else 0
 
+omit [Finite V] in
 theorem cocy_of_mem (v : V) {σ : Perm (Fin N)} (hσ : σ ∈ alternatingGroup (Fin N)) :
     cocy φ β v σ =
       β ⟨tG φ σ v - v, sub_mem_commSpace (tG_mem_altSub hσ) Submodule.mem_top⟩ := by
-  rw [cocy, dif_pos hσ]
+  rw [cocy, dite_eq_left hσ]
 
+omit [Finite V] in
 theorem cocy_add (v v' : V) (σ : Perm (Fin N)) :
     cocy φ β (v + v') σ = cocy φ β v σ + cocy φ β v' σ := by
   by_cases hσ : σ ∈ alternatingGroup (Fin N)
@@ -170,8 +189,9 @@ theorem cocy_add (v v' : V) (σ : Perm (Fin N)) :
     apply Subtype.ext
     simp only [Submodule.coe_add, map_add]
     abel
-  · simp only [cocy, dif_neg hσ, add_zero]
+  · simp only [cocy, dite_eq_right hσ, add_zero]
 
+omit [Finite V] in
 theorem cocy_mul (hH : CaseIHeart.HeartFor H N φ.toMonoidHom (altSub H φ) β) (v : V)
     {σ τ : Perm (Fin N)} (hσ : σ ∈ alternatingGroup (Fin N)) (hτ : τ ∈ alternatingGroup (Fin N)) :
     cocy φ β v (σ * τ) = cocy φ β v σ + altAct σ (cocy φ β v τ) := by
@@ -188,6 +208,7 @@ theorem cocy_mul (hH : CaseIHeart.HeartFor H N φ.toMonoidHom (altSub H φ) β) 
   rw [e, map_add, beta_tG hH σ
     ⟨tG φ τ v - v, sub_mem_commSpace (tG_mem_altSub hτ) Submodule.mem_top⟩ ⟨_, hmem⟩ rfl, add_comm]
 
+omit [Finite V] in
 theorem mem_sup_of_cob (hH : CaseIHeart.HeartFor H N φ.toMonoidHom (altSub H φ) β)
     (hN : 5 ≤ N) (v : V) (z : altHeart N)
     (hz : ∀ σ ∈ alternatingGroup (Fin N), cocy φ β v σ = altAct σ z - z) :
@@ -243,6 +264,7 @@ theorem mem_sup_of_cob (hH : CaseIHeart.HeartFor H N φ.toMonoidHom (altSub H φ
   rw [hv]
   exact Submodule.add_mem_sup w.2 huV₁
 
+omit [Finite V] in
 theorem exists_complement (hH : CaseIHeart.HeartFor H N φ.toMonoidHom (altSub H φ) β)
     (hN : 7 ≤ N) : ∃ v₀ : V, ∀ v : V,
       v ∈ commSpace (altSub H φ) ⊤ ⊔ fixedSpace (altSub H φ) ∨
@@ -283,7 +305,7 @@ theorem finrank_le_of_top {v₀ : V}
           ((t : V →ₗ[ZMod 2] V) - LinearMap.id)) +
         Module.finrank (ZMod 2) ↥((fixedSpace (altSub H φ)).map
           ((t : V →ₗ[ZMod 2] V) - LinearMap.id)) + 1 := by
-  haveI : Module.Finite (ZMod 2) V := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) V := Module.Finite.of_finite
   set f : V →ₗ[ZMod 2] V := (t : V →ₗ[ZMod 2] V) - LinearMap.id with hf
   have htop : (commSpace (altSub H φ) ⊤ ⊔ fixedSpace (altSub H φ)) ⊔ (ZMod 2 ∙ v₀) = ⊤ := by
     refine eq_top_iff.2 fun v _ => ?_
@@ -403,13 +425,13 @@ theorem swap_sub_eq {a b : Fin N} (hab : a ≠ b) (x : evenWeight N) :
     rw [swap_inv, pairEW_apply]
     by_cases hia : i = a
     · subst hia
-      rw [swap_apply_left, if_pos rfl, if_neg hab, add_zero]
+      rw [swap_apply_left, ite_eq_left rfl, ite_eq_right hab, add_zero]
       exact zmod2_sub_eq_one _ _ hx
     by_cases hib : i = b
     · subst hib
-      rw [swap_apply_right, if_neg (Ne.symm hab), if_pos rfl, zero_add]
+      rw [swap_apply_right, ite_eq_right (Ne.symm hab), ite_eq_left rfl, zero_add]
       exact zmod2_sub_eq_one _ _ (Ne.symm hx)
-    rw [swap_apply_of_ne_of_ne hia hib, sub_self, if_neg hia, if_neg hib, add_zero]
+    rw [swap_apply_of_ne_of_ne hia hib, sub_self, ite_eq_right hia, ite_eq_right hib, add_zero]
 
 theorem altAct_swap_sub {a b : Fin N} (hab : a ≠ b) (y : altHeart N) :
     altAct (swap a b) y - y = 0 ∨ altAct (swap a b) y - y = (pairEW a b : altHeart N) := by
@@ -425,6 +447,7 @@ theorem altAct_fix_pair {τ : Perm (Fin N)} {a b : Fin N} (ha : τ a = a) (hb : 
     altAct τ (pairEW a b : altHeart N) = (pairEW a b : altHeart N) := by
   rw [altAct_mk, evenWeightPerm_pairEW, ha, hb]
 
+omit [Finite V] in
 theorem eq_of_pow_three {g : GLV V} (hg3 : g ^ 3 = 1) {m : V} (hz : g (g m - m) = g m - m) :
     g m = m := by
   have h3 : g (g (g m)) = m := by
@@ -590,6 +613,7 @@ theorem finrank_map_swap_le_one (hH : CaseIHeart.HeartFor H N φ.toMonoidHom (al
     Nat.pow_le_pow_right (by norm_num) hlt
   omega
 
+omit [Finite V] in
 theorem exists_vec (hH : CaseIHeart.HeartFor H N φ.toMonoidHom (altSub H φ) β) (t : ↥H)
     (y : evenWeight N) :
     ∃ w : ↥(commSpace (altSub H φ) ⊤), (w : V) ∈ commSpace (Subgroup.zpowers (t : GLV V)) ⊤ ∧
@@ -607,7 +631,7 @@ theorem three_le (hH : CaseIHeart.HeartFor H N φ.toMonoidHom (altSub H φ) β) 
     Module.finrank (ZMod 2) ↥((fixedSpace (altSub H φ)).map
         ((t : V →ₗ[ZMod 2] V) - LinearMap.id)) + 3 ≤
       Module.finrank (ZMod 2) ↥(commSpace (Subgroup.zpowers t) ⊤) := by
-  haveI : Module.Finite (ZMod 2) V := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) V := Module.Finite.of_finite
   set R₁ := (fixedSpace (altSub H φ)).map ((t : V →ₗ[ZMod 2] V) - LinearMap.id) with hR₁
   have hR₁R : R₁ ≤ commSpace (Subgroup.zpowers t) ⊤ := by
     rw [hR₁, commSpace_zpowers_top]
@@ -629,7 +653,7 @@ theorem three_le (hH : CaseIHeart.HeartFor H N φ.toMonoidHom (altSub H φ) β) 
     have h1 : Θ k (∑ i, ε i • x i) = ε k := by
       rw [map_sum]
       simp only [map_smul, Θ, AddMonoidHom.coe_toZModLinearMap, AddMonoidHom.comp_apply, hμ,
-        smul_eq_mul, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq, Finset.mem_univ, if_true]
+        smul_eq_mul, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq, Finset.mem_univ, ite_true]
     have h2 : Θ k (∑ i, ε i • x i) = 0 := by
       simp only [Θ, AddMonoidHom.coe_toZModLinearMap, AddMonoidHom.comp_apply, hβy, map_zero]
     rw [← h1, h2]
@@ -671,18 +695,18 @@ theorem pairFun_dual {τ : Perm (Fin N)} (a : Fin 3 → Fin N) (q r : Fin N)
     CaseIHeart.pairFun (a k) r
         ((evenWeightPerm τ (pairEW (a i) q) - pairEW (a i) q : evenWeight N) : altHeart N) =
       if k = i then 1 else 0 := by
-  rw [CaseIHeart.pairFun_comm, if_neg (haτ k i), if_neg (haτq k), if_neg (haq k),
-    if_neg (hrτa i), if_neg (hra i)]
+  rw [CaseIHeart.pairFun_comm, ite_eq_right (haτ k i), ite_eq_right (haτq k), ite_eq_right (haq k),
+    ite_eq_right (hrτa i), ite_eq_right (hra i)]
   have hlast : ((0 : ZMod 2) + if r = τ q then 1 else 0) - (0 + if r = q then 1 else 0) = 0 := by
     rcases hrq with ⟨h1, h2⟩ | ⟨h1, h2⟩
-    · rw [if_pos (h1.trans h2.symm), if_pos h1, sub_self]
-    · rw [if_neg h2, if_neg h1, sub_self]
+    · rw [ite_eq_left (h1.trans h2.symm), ite_eq_left h1, sub_self]
+    · rw [ite_eq_right h2, ite_eq_right h1, sub_self]
   rw [hlast, add_zero]
   by_cases hki : k = i
   · subst hki
-    simp only [if_true]
+    simp only [ite_true]
     decide
-  · rw [if_neg (fun h => hki (ha h)), if_neg hki]
+  · rw [ite_eq_right (fun h => hki (ha h)), ite_eq_right hki]
     decide
 
 theorem lower_bound (hH : CaseIHeart.HeartFor H N φ.toMonoidHom (altSub H φ) β) (hN : 7 ≤ N)

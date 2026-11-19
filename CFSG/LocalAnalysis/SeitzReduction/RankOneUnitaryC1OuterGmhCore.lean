@@ -220,7 +220,7 @@ theorem gmh_exists_two_complement [Finite G] {N A R : Subgroup G} (hAN : A ≤ N
     intro n hn hnodd
     set n' : N := ⟨n, hn⟩
     have hindex : Y'.index = Nat.card (Q : Subgroup N) := hcomp.symm.index_eq_card
-    obtain ⟨j, hj⟩ := IsPGroup.iff_card.mp Q.isPGroup'
+    obtain ⟨j, hj⟩ := IsPGroup.iff_card.mp Q.isPGroup
     have hpow : n' ^ Y'.index ∈ Y' := Subgroup.pow_index_mem Y' n'
     have hord : orderOf n' = orderOf n := by
       rw [← orderOf_injective N.subtype N.subtype_injective n']

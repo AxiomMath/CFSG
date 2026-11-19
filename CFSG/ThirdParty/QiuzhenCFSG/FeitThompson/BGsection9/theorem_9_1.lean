@@ -445,7 +445,7 @@ public theorem CFSG.section9_sylow_map_subtype_of_normalizer_le
   classical
   let PG : Subgroup G := (P : Subgroup M).map M.subtype
   have hPGp : IsPGroup p PG := by
-    exact IsPGroup.map (p := p) (H := (P : Subgroup M)) P.isPGroup' M.subtype
+    exact IsPGroup.map (p := p) (H := (P : Subgroup M)) P.isPGroup M.subtype
   suffices hnot : ¬ p ∣ PG.index by
     exact ⟨hPGp.toSylow hnot, rfl⟩
   intro hpidx
@@ -778,7 +778,7 @@ private theorem CFSG.section9_pCore_le_sylow
     pCore p G ≤ (S : Subgroup G) := by
   have hsup_p : IsPGroup p (((S : Subgroup G) ⊔ pCore p G : Subgroup G)) := by
     exact IsPGroup.to_sup_of_normal_right (p := p) (H := (S : Subgroup G)) (K := pCore p G)
-      S.isPGroup' (pCore_isPGroup (G := G) (p := p))
+      S.isPGroup (pCore_isPGroup (G := G) (p := p))
   have hEq : (((S : Subgroup G) ⊔ pCore p G : Subgroup G)) = (S : Subgroup G) :=
     S.maximal_isPGroup.eq_of_ge hsup_p le_sup_left
   exact sup_eq_left.mp hEq
@@ -1451,7 +1451,7 @@ private theorem CFSG.section9_t91_fitting_groupRank_le_two_of_no_unique
     have hqodd : q.val ≠ 2 := Odd.ne_two_of_dvd_nat IsMinCE.odd_order hqG
     obtain ⟨S, hSscn⟩ :=
       lemma_5_1_a (p := q.val) hqodd
-        (R := ↥(P : Subgroup H)) P.isPGroup' hPrank
+        (R := ↥(P : Subgroup H)) P.isPGroup hPrank
     have hSdata := hscn_unique S hSscn
     have hYunique : section8SylowSubgroupInAmbient H P S ∈ section9UniqueSubgroups G :=
       section9_unique_of_section8_unique hSdata.2
@@ -1528,7 +1528,7 @@ public theorem CFSG.theorem_9_1
     rintro x ⟨y, _hy, rfl⟩
     exact y.2.2
   have hRp : IsPGroup p R := by
-    exact IsPGroup.map (p := p) (H := (R₀ : Subgroup I)) R₀.isPGroup' I.subtype
+    exact IsPGroup.map (p := p) (H := (R₀ : Subgroup I)) R₀.isPGroup I.subtype
   have hR_card_measure :
       section9SylowCardInf p H M = Nat.card R := by
     simpa [R, I] using
@@ -1544,7 +1544,7 @@ public theorem CFSG.theorem_9_1
     exact hRM_le_P (by simpa [R_M, Subgroup.mem_subgroupOf] using hr)
   let P_G : Subgroup G := (P : Subgroup M).map M.subtype
   have hPGp : IsPGroup p P_G := by
-    exact IsPGroup.map (p := p) (H := (P : Subgroup M)) P.isPGroup' M.subtype
+    exact IsPGroup.map (p := p) (H := (P : Subgroup M)) P.isPGroup M.subtype
   have hB_le_PG : B ≤ P_G := hB_le_R.trans hR_le_P
   have hPG_le_M : P_G ≤ M := by
     rintro x ⟨y, _hy, rfl⟩
@@ -1608,7 +1608,7 @@ public theorem CFSG.theorem_9_1
         hM T_M hT_ne_bot
   have hCenter_Thompson_ne_bot : centerIn (G := M) (thompsonSubgroup P) ≠ ⊥ :=
     section9_centerIn_thompsonSubgroup_ne_bot_of_isPGroup_ne_bot
-      (G := M) (p := p) (S := (P : Subgroup M)) P.isPGroup' hP_ne_bot
+      (G := M) (p := p) (S := (P : Subgroup M)) P.isPGroup hP_ne_bot
   have hT_M_ne_bot : T_M ≠ ⊥ := by
     exact section9_sup_ne_bot_of_left_ne_bot hCenter_Thompson_ne_bot
   have hNorm_Thompson_join_eq_M_unconditional :

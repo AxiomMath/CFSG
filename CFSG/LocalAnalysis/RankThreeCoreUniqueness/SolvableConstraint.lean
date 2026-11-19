@@ -69,7 +69,7 @@ theorem normal_nilpotent_isPGroup_of_primeComplementCore_eq_bot
   have hambientNormal : (Subgroup.map normalGroup.subtype
       (sylowGroup : Subgroup normalGroup)).Normal := by infer_instance
   have hcoprime : prime.Coprime (Nat.card (sylowGroup : Subgroup normalGroup)) := by
-    obtain ⟨exponent, hcard⟩ := IsPGroup.iff_card.mp sylowGroup.isPGroup'
+    obtain ⟨exponent, hcard⟩ := IsPGroup.iff_card.mp sylowGroup.isPGroup
     rw [hcard]
     exact ((Nat.coprime_primes hprime hotherPrime).mpr (Ne.symm hdistinct)).pow_right exponent
   have hambientBot : Subgroup.map normalGroup.subtype

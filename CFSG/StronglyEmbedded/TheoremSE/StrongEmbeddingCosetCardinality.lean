@@ -85,8 +85,8 @@ theorem IsStronglyEmbedded.sylow_card_dvd_nonbase_cosets
     let t : S := s ^ (orderOf s / 2)
     have htord : orderOf t = 2 :=
       orderOf_pow_orderOf_div
-        (S.isPGroup'.isOfFinOrder (by decide) s).orderOf_pos.ne'
-        (S.isPGroup'.dvd_orderOf hsone)
+        (S.isPGroup.isOfFinOrder (by decide) s).orderOf_pos.ne'
+        (S.isPGroup.dvd_orderOf hsone)
     have ht : IsInvolution (t : X) := by
       have h := orderOf_eq_prime_iff.mp ((Subgroup.orderOf_coe t).trans htord)
       exact ⟨h.2, h.1⟩

@@ -34,7 +34,7 @@ private theorem y52_z_comm {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp 
 
 private theorem y52_a12_order {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) :
     orderOf (s.fr.a₁ * s.fr.a₂) = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact orderOf_eq_prime (y5_a12_sq hH)
     (fun h1 => y5_a12_not_mem_J hH (h1 ▸ Subgroup.one_mem (thompsonSubgroup s.fr.B)))
 
@@ -97,7 +97,7 @@ private theorem mem_sup_zpowers_of_centralizer {G : Type*} [Group G] {c : G} {J 
         exact h1
       exact heq ▸ hj
   have hNnorm : N ≤ Subgroup.normalizer (J : Set G) := sup_le Subgroup.le_normalizer hcN
-  haveI : (J.subgroupOf N).Normal :=
+  have : (J.subgroupOf N).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (H := N) (N := J) hNnorm
   have htop : (⊤ : Subgroup ↥N) = J.subgroupOf N ⊔ (Subgroup.zpowers c).subgroupOf N := by
     rw [← Subgroup.subgroupOf_sup hJN hKN, ← hN, Subgroup.subgroupOf_self]
@@ -159,7 +159,7 @@ private theorem y52_mem_B {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s
       have h := y5_J_conj s y⁻¹ hyinv (y * j * y⁻¹) hj
       have heq : y⁻¹ * (y * j * y⁻¹) * (y⁻¹)⁻¹ = j := by group
       rwa [heq] at h
-  haveI : ((thompsonSubgroup s.fr.B).subgroupOf s.fr.B).Normal :=
+  have : ((thompsonSubgroup s.fr.B).subgroupOf s.fr.B).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (H := s.fr.B)
       (N := thompsonSubgroup s.fr.B) hJnormB
   have hJleB : thompsonSubgroup s.fr.B ≤ s.fr.B := y5_J_le_B s
@@ -197,7 +197,7 @@ private theorem y52_mem_B {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s
     rw [h1] at hval
     exact hval.symm
 
-theorem y52_N0_le_P {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) :
+theorem y52_N0_le_P {s : Setting3 G L} {e : Setting3.Ext s} (_hH : F33Hyp s e) :
     y52N0 s ≤ f3P s := by
   apply sup_le
   · exact (y5_J_le_B s).trans le_sup_left

@@ -52,7 +52,7 @@ theorem normalizer_redSub {A : Subgroup (MulAut L')} (hAle : A ≤ presZ (twoSub
     {n : L'} (hn : MulAut.conj n ∈ Subgroup.normalizer (A : Set (MulAut L'))) :
     MulAut.conj (n : L' ⧸ twoSub ψ.ker hker) ∈
       Subgroup.normalizer ((redSub hker hAle).range : Set (MulAut (L' ⧸ twoSub ψ.ker hker))) := by
-  haveI : Finite (MulAut (L' ⧸ twoSub ψ.ker hker)) :=
+  have : Finite (MulAut (L' ⧸ twoSub ψ.ker hker)) :=
     Finite.of_injective (fun φ : MulAut (L' ⧸ twoSub ψ.ker hker) =>
       (φ : L' ⧸ twoSub ψ.ker hker → L' ⧸ twoSub ψ.ker hker)) DFunLike.coe_injective
   refine Subgroup.mem_normalizer_fintype fun a₁ ha₁ => ?_
@@ -74,7 +74,7 @@ theorem actConclW_descent (hψ : Function.Surjective ψ) (hperf : commutator L' 
   have hAle : A ≤ presZ (twoSub ψ.ker hker) := fun a ha =>
     mem_presZ_of_ker hker fun z hz => preserves_ker (hAI a ha) hz
   have hρinj := redSub_injective hker hAle hperf
-  haveI : Finite (MulAut (L' ⧸ twoSub ψ.ker hker)) :=
+  have : Finite (MulAut (L' ⧸ twoSub ψ.ker hker)) :=
     Finite.of_injective (fun φ : MulAut (L' ⧸ twoSub ψ.ker hker) =>
       (φ : L' ⧸ twoSub ψ.ker hker → L' ⧸ twoSub ψ.ker hker)) DFunLike.coe_injective
   obtain ⟨H₁, W₁, hH₁A, hH₁ne, hH₁inv, hW₁, hirr₁, h6₁, h7₁, h8₁, h9₁, h10₁⟩ :=
@@ -237,7 +237,7 @@ theorem actConclW_descent (hψ : Function.Surjective ψ) (hperf : commutator L' 
       have hp : f a.1 ∈ presZ (twoSub ψ.ker hker) := hAle (hfa a ha)
       show (if h : f (σ (redSub hker hAle a)).1 ∈ presZ (twoSub ψ.ker hker) then
         redHom (twoSub ψ.ker hker) ⟨f (σ (redSub hker hAle a)).1, h⟩ else _) = _
-      rw [hσ a, dif_pos hp]
+      rw [hσ a, dite_eq_left hp]
       rfl
     have hA₁ : ∀ x₁ ∈ H₁, f₁ x₁ ∈ H₁ := by
       intro x₁ hx₁

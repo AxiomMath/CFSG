@@ -19,7 +19,7 @@ theorem commV_map (e : V ≃* V') (G : Subgroup (MulAut V)) :
   rw [MonoidHom.map_closure]
   congr 1
   ext w'
-  simp only [Set.mem_setOf_eq, Set.mem_image]
+  simp only [Set.mem_ofPred_eq, Set.mem_image]
   constructor
   · rintro ⟨x, hx, v', rfl⟩
     obtain ⟨g, hg, rfl⟩ := Subgroup.mem_map.mp hx

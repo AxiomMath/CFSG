@@ -70,10 +70,10 @@ theorem i144InnFact_holds : I144InnFact := by
           _ < Nat.card ↥(⊤ : Subgroup (K ⧸ Subgroup.center K)) :=
             Subgroup.card_lt_of_lt (lt_top_iff_ne_top.2 hfix)
           _ = Nat.card (K ⧸ Subgroup.center K) := Subgroup.card_top
-      haveI := CFSG.GroupTheory.groups_order_below_sixty_solvable hlt
+      have := CFSG.GroupTheory.groups_order_below_sixty_solvable hlt
       have hQs := isQuasisimple_pQuot_of_glaPComponent hp3 hJb
-      haveI := hQs.2
-      haveI : Nontrivial (PQuot 3 (J.map π)) :=
+      have := hQs.2
+      have : Nontrivial (PQuot 3 (J.map π)) :=
         (QuotientGroup.mk'_surjective (Subgroup.center (PQuot 3 (J.map π)))).nontrivial
       exact (Group.IsSolvable.commutator_lt_top_of_nontrivial (PQuot 3 (J.map π))).ne hQs.1
     ·

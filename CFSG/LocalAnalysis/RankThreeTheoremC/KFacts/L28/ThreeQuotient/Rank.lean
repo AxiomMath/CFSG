@@ -30,6 +30,7 @@ theorem exists_sylow_eq_of_isSylowOf_top {X : Type*} [Group X] [Finite X] {p : �
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem isPGroup_of_isElemAbelian {F : Subgroup X} (hF : IsElemAbelian 3 F) : IsPGroup 3 F :=
   fun x => ⟨1, Subtype.ext (by simpa using hF.2 x x.2)⟩
 
@@ -39,7 +40,7 @@ variable {Q₀ : Subgroup X}
 
 theorem card_le_of_isElemAbelian_of_sylow (S : Sylow 3 X) (hD : ShapeData (S : Subgroup X) Q₀)
     {F : Subgroup X} (hF : IsElemAbelian 3 F) : Nat.card F ≤ 27 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨g, hg⟩ := exists_conj_le S (isPGroup_of_isElemAbelian hF)
   have hle : F.map (MulAut.conj g).toMonoidHom ≤ (S : Subgroup X) := by
     rintro _ ⟨f, hf, rfl⟩
@@ -77,10 +78,10 @@ theorem not_le_commutator_of_normal_index {p : ℕ} [Fact p.Prime] (S : Sylow p 
     rintro rfl
     rw [pow_zero] at hk
     exact hN (Subgroup.index_eq_one.1 hk)
-  haveI : Nontrivial (X ⧸ N) := by
+  have : Nontrivial (X ⧸ N) := by
     rw [← Finite.one_lt_card_iff_nontrivial, hcard]
     exact Nat.one_lt_pow hk0 hp.one_lt
-  haveI : Group.IsNilpotent (X ⧸ N) := (IsPGroup.of_card hcard).isNilpotent
+  have : Group.IsNilpotent (X ⧸ N) := (IsPGroup.of_card hcard).isNilpotent
   have hsurj := QuotientGroup.mk'_surjective N
   have htop : (S : Subgroup X).map (QuotientGroup.mk' N) = ⊤ := by
     have h1 : ((S : Subgroup X) ⊔ N).map (QuotientGroup.mk' N) = ⊤ := by
@@ -95,6 +96,6 @@ theorem not_le_commutator_of_normal_index {p : ℕ} [Fact p.Prime] (S : Sylow p 
       _ = ⁅(⊤ : Subgroup X).map (QuotientGroup.mk' N), (⊤ : Subgroup X).map
           (QuotientGroup.mk' N)⁆ := Subgroup.map_commutator _ _ _
       _ = ⁅(⊤ : Subgroup (X ⧸ N)), ⊤⁆ := by rw [Subgroup.map_top_of_surjective _ hsurj]
-  exact (IsSolvable.commutator_lt_top_of_nontrivial (X ⧸ N)).ne hcomm
+  exact (Group.IsSolvable.commutator_lt_top_of_nontrivial (X ⧸ N)).ne hcomm
 
 end CFSG.LocalAnalysis.RankThreeTheoremC.L28.ThreeQuotient

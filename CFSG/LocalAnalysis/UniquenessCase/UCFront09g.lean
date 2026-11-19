@@ -21,7 +21,7 @@ theorem not_le_of_mem_calMOf (D : Data G) {X N : Subgroup G} (hN : N ∈ calMOf 
 
 theorem calNOf_ne_of_calMOf_ne (D : Data G) {X : Subgroup G} (hXM : X ≤ D.M)
     (hMX : calMOf X ≠ {D.M}) : calNOf X ≠ {D.M} := by
-  haveI := D.standing.simple
+  have := D.standing.simple
   obtain ⟨N, hN, hNM⟩ : ∃ N ∈ calMOf X, N ≠ D.M := by
     by_contra h
     push Not at h
@@ -38,7 +38,7 @@ theorem mem_calY2_9_of_strong3 (hG3 : Gls3StronglyThreeEmbeddedPlus)
     {L X : Subgroup G} (hLM : L ≤ D.M) (hLN : D.M ≤ normalizer (L : Set G))
     (hXL : X ≤ L) (hcov : L = X ⊔ pCoreOf 2 L) (hA5 : IsAlt (Bar2 L) 5) (hX : Opp 3 X = X)
     (hMX : calMOf X ≠ {D.M}) : X ∈ calY2_9 D := by
-  haveI := D.standing.simple
+  have := D.standing.simple
   have hXM : X ≤ D.M := hXL.trans hLM
   refine ⟨⟨hXM, calNOf_ne_of_calMOf_ne D hXM hMX, fun A hAX hA3 => ?_⟩, hMX,
     fun N hN => ?_, fun A hA => ?_, ⟨0, ?_⟩⟩

@@ -53,7 +53,7 @@ theorem decP_encP (z : PermMod 7) : decP (encP z) = z := by
 
 theorem encP_lt (z : PermMod 7) : encP z < 128 := by
   have : encP z < 2 ^ 7 := Nat.lt_pow_two_of_testBit _ fun j hj => by
-    rw [testBit_encP, dif_neg (by omega)]
+    rw [testBit_encP, dite_eq_right (by omega)]
   simpa using this
 
 theorem encP_injective : Function.Injective encP := fun x y h => by
@@ -66,7 +66,7 @@ theorem encP_mul (x y : PermMod 7) : encP (x * y) = encP x ^^^ encP y := by
   by_cases h : j < 7
   · simp only [h, dite_true, toAdd_mul, Pi.add_apply]
     rcases zmod2_cases (Multiplicative.toAdd x ⟨j, h⟩) with hx | hx <;>
-      rcases zmod2_cases (Multiplicative.toAdd y ⟨j, h⟩) with hy | hy <;> simp [hx, hy] <;> decide
+      rcases zmod2_cases (Multiplicative.toAdd y ⟨j, h⟩) with hy | hy <;> simp [hx, hy]
   · simp [h]
 
 theorem encP_one : encP 1 = 0 := by

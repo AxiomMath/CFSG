@@ -20,9 +20,9 @@ theorem isI4PlusIn_top_of_isOmegaStar (hP : Asc82PocketCover) {X : Type} [Group 
     (hf : Function.Injective f) :
     IsI4PlusIn (⊤ : Subgroup X) (f (QuaternionGroup.a 2)) := by
   obtain ⟨V, i1, i2, i3, Q, hQ, hdim, hs, ⟨e⟩⟩ := hX
-  letI := i1
-  letI := i2
-  letI := i3
+  let := i1
+  let := i2
+  let := i3
   have hπQ : piOrth Q ∉ omegaGroup hQ := by
     rw [piOrth_mem_omegaGroup_iff hQ, hdim, hs]
     exact hπ
@@ -44,9 +44,9 @@ theorem isI4PlusIn_top_of_isOmegaCover (hP : Asc82PocketCover) {X : Type} [Group
     {f : QuaternionGroup 2 →* X} (hf : Function.Injective f) :
     IsI4PlusIn (⊤ : Subgroup X) (f (QuaternionGroup.a 2)) := by
   obtain ⟨V, i1, i2, i3, Q, hQ, hdim, hs, ⟨e⟩⟩ := hX
-  letI := i1
-  letI := i2
-  letI := i3
+  let := i1
+  let := i2
+  let := i3
   have hn' : Module.finrank (ZMod 3) V ≤ 7 ∨
       (Module.finrank (ZMod 3) V = 8 ∧ quadSign Q = -1) := by
     rw [hdim, hs]

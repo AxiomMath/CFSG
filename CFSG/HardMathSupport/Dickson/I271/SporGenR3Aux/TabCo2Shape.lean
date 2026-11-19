@@ -54,7 +54,7 @@ theorem co2_centShapeRk :
   obtain ⟨hXB3, -, hXBm, -⟩ := co2CaseB_spec
   intro k hk1 hkp
   have hs3 : orderOf (k : Equiv.Perm (Fin 2300)) = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have h1 : (k : Equiv.Perm (Fin 2300)) ^ 3 = 1 := by
       have := congrArg Subtype.val hkp
       simpa using this
@@ -84,7 +84,7 @@ section Carrier
 
 
 theorem leafShape_Co2 : LeafShape .Co2 3 := by
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier .Co2) :=
+  have : Finite (CFSG.Blueprint.NativeSporadic.Carrier .Co2) :=
     Finite.of_equiv ↥co2P (co2PermEquiv : CFSG.Blueprint.NativeSporadic.Co2 ≃* co2P).symm.toEquiv
   exact CentShape.of_centShapeRk (CentShapeRk.of_equiv Nat.prime_three
     (fun _ _ _ _ e h => LeafType.of_equiv e h) (fun _ _ _ _ _ h => h)

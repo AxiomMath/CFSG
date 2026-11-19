@@ -15,7 +15,7 @@ theorem gffa2_marking {Y : Type} [Group Y] {lab : LargeEvenLabel}
       IsSimpleGroup R₀ ∧ (∃ a b : R₀, a * b ≠ b * a) ∧ Nonempty (Y ≃* R₀)) :
     Subgroup.center Y = ⊥ ∧ LargeEvenMarking Y fun lab' _ _ _ _ _ => GGLabelA2 lab' := by
   obtain ⟨R₀, _, I, F, hR₀simp, hna, ⟨e⟩⟩ := largeEvenRawDatum_exists h
-  haveI : IsSimpleGroup R₀ := hR₀simp
+  have : IsSimpleGroup R₀ := hR₀simp
   have hZR : Subgroup.center R₀ = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center R₀) with hbot | htop
     · exact hbot
@@ -26,12 +26,12 @@ theorem gffa2_marking {Y : Type} [Group Y] {lab : LargeEvenLabel}
   have hZ : Subgroup.center Y = ⊥ := center_eq_bot_of_mulEquiv e hZR
   have hcommR : commutator R₀ = ⊤ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (commutator R₀) with hbot | htop
-    · haveI : IsMulCommutative R₀ := (commutator_eq_bot_iff R₀).mp hbot
+    · have : IsMulCommutative R₀ := (commutator_eq_bot_iff R₀).mp hbot
       obtain ⟨a, b, hab⟩ := hna
       exact absurd (mul_comm' a b) hab
     · exact htop
   have hcomm : commutator Y = ⊤ := by
-    haveI : Group.IsPerfect R₀ := ⟨hcommR⟩
+    have : Group.IsPerfect R₀ := ⟨hcommR⟩
     exact (Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom)
       e.symm.surjective).commutator_eq_top
   refine ⟨hZ, ?_⟩

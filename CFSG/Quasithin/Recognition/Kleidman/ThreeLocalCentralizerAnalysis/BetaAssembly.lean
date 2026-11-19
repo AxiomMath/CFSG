@@ -159,7 +159,7 @@ theorem exists_beta_of_check {G : Type} [Group G] [Finite G] {y : G} (hy3 : orde
         rcases a2Rels_letters r hr x hx with h | h
         · exact h
         · exact absurd (Fin.ext h) h6
-      simp only [h6, if_false]
+      simp only [h6, ite_false]
       exact (hbet s x.1 h3).symm
   obtain ⟨β0, hβ0⟩ := exists_lift_beta hyc hy3K κ hκs hκk' 𝒮 h𝒮
     (fun x hx h3 h1 => hreal3 x hx h3 h1) τ hτ0 hτ𝒮 hτsq hs hrelκ'

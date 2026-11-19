@@ -260,7 +260,7 @@ theorem exists_triangle (hs : Std8A7 Ω K J S R T W z t) (hdisc : ¬ DConnected 
     have h1 := map_mk_subgroupOf_conjSub (Y := Y) (M := M) ho
     rw [hEq] at h1
     exact h1.symm
-  have hE : IsPGroup 2 ↥(R ⊔ T) := S.isPGroup'.to_le (sup_le hs.hR.2.2 hs.hT.2.2)
+  have hE : IsPGroup 2 ↥(R ⊔ T) := S.isPGroup.to_le (sup_le hs.hR.2.2 hs.hT.2.2)
   have hOn : ∀ e ∈ R ⊔ T, ∀ o ∈ Balance.oddCoreIn Y, e * o * e⁻¹ ∈ Balance.oddCoreIn Y :=
     fun e he o ho => Balance.conj_mem_oddCoreIn
       (sup_le (hs.hR.2.1.trans hKY) ((hs.hT.2.1.trans hJX).trans hXY) he) ho

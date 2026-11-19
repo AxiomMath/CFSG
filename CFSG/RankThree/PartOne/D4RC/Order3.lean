@@ -326,7 +326,7 @@ theorem rco_pow_three_conj (F : RclFrame ℓ f K σ ε p L) [Fact p.Prime] (S : 
   have hQ : (fixSubgroup D.Φ').map D.ρ = rclQ F i :=
     rcl_map_fix_eq D.frame.injective hrange D.Φ_eq
   have hψ : Function.Injective (rclPsi sp) := d4QPsi_injective triEmb_injective F.g0 sp.c x
-  have hTp : IsPGroup p T := S.isPGroup'
+  have hTp : IsPGroup p T := S.isPGroup
   have : IsCyclic ↥(T ⊓ P) := hcyc
   obtain ⟨a₀', ha₀gen⟩ := IsCyclic.exists_generator (α := ↥(T ⊓ P))
   set a₀ : 𝒞[K, σ] := a₀'.1 with ha₀def

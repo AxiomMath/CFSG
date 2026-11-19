@@ -16,6 +16,7 @@ open CFSG.HardMathSupport.Meierfrankenfeld.GeneralFF
 variable {F : Type} [Field F] [Fintype F] [CharP F 2] [Algebra (ZMod 2) F]
   {l : ℕ} (hF : Fintype.card F = 2 ^ (2 * l))
 
+omit [CharP F 2] [Algebra (ZMod 2) F] in
 theorem mul_sig_mul_fix (hF : Fintype.card F = 2 ^ (2 * l)) (c a : F)
     (ha : a ^ 2 ^ l = a) :
     (c * c ^ 2 ^ l * a) ^ 2 ^ l = c * c ^ 2 ^ l * a := by
@@ -25,6 +26,7 @@ theorem mul_sig_mul_fix (hF : Fintype.card F = 2 ^ (2 * l)) (c a : F)
   rw [hc, ha]
   ring
 
+omit [Algebra (ZMod 2) F] in
 private theorem exists_mul_sig_mul_eq (hF : Fintype.card F = 2 ^ (2 * l))
     (a b : F) (ha : a ^ 2 ^ l = a) (hb : b ^ 2 ^ l = b)
     (ha0 : a ≠ 0) (hb0 : b ≠ 0) :
@@ -35,6 +37,7 @@ private theorem exists_mul_sig_mul_eq (hF : Fintype.card F = 2 ^ (2 * l))
     (mul_ne_zero hb0 (inv_ne_zero ha0))
   exact ⟨c, hc0, by rw [hc]; field_simp⟩
 
+omit [Fintype F] [CharP F 2] [Algebra (ZMod 2) F] in
 private theorem inv_tMat (c : F) (hc : c ≠ 0) :
     (tMat c hc)⁻¹ = tMat c⁻¹ (inv_ne_zero hc) := by
   apply inv_eq_of_mul_eq_one_right
@@ -43,6 +46,7 @@ private theorem inv_tMat (c : F) (hc : c ≠ 0) :
   fin_cases i <;> fin_cases j <;>
     simp [tMat_coe, Matrix.mul_apply, Fin.sum_univ_two, hc]
 
+omit [CharP F 2] [Algebra (ZMod 2) F] in
 theorem tMat_mem_normalizer (c : F) (hc : c ≠ 0) :
     tMat c hc ∈ Subgroup.normalizer (upperSylow (F := F) : Set (SL(2, F))) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -62,6 +66,7 @@ theorem tMat_mem_normalizer (c : F) (hc : c ≠ 0) :
     rw [h2, inv_tMat c hc, ← hlast, tMat_conj]
     exact mem_upperSylow_iff.mpr ⟨(c⁻¹) ^ 2 * t, rfl⟩
 
+omit [Algebra (ZMod 2) F] in
 theorem hermAct_tMat_hermDiag (c : F) (hc : c ≠ 0) (a : F) (ha : a ^ 2 ^ l = a) :
     hermAct l (sig_sig hF) (tMat c hc) (hermDiag l hF a ha) =
       hermDiag l hF (c * c ^ 2 ^ l * a) (mul_sig_mul_fix (hF := hF) c a ha) := by
@@ -125,6 +130,7 @@ theorem hermDiag_one_mem_fixedSub :
   rw [fixedSub_upperSylow (hF := hF)]
   exact hermDiag_mem_herm1101 (hF := hF) 1 (by simp)
 
+omit [Algebra (ZMod 2) F] in
 theorem hermAct_hermDiag_one_eq_iff (g : SL(2, F)) :
     hermAct l (sig_sig hF) g (hermDiag l hF 1 (one_pow (2 ^ l))) =
       hermDiag l hF 1 (one_pow (2 ^ l)) ↔
@@ -145,7 +151,7 @@ theorem hermAct_hermDiag_one_eq_iff (g : SL(2, F)) :
     have h10 := congrFun (congrFun hEq 1) 0
     simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.transpose_apply, frobPow,
       Matrix.map_apply, Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero,
-      Matrix.cons_val_one, Matrix.cons_val_fin_one, Fin.zero_eta, Fin.mk_one] at h00 h10
+      Matrix.cons_val_one, Matrix.cons_val_fin_one] at h00 h10
     have hg00 : (g : Matrix (Fin 2) (Fin 2) F) 0 0 ≠ 0 := by
       intro h0
       rw [h0, zero_mul] at h00
@@ -161,7 +167,7 @@ theorem hermAct_hermDiag_one_eq_iff (g : SL(2, F)) :
       simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.transpose_apply, frobPow,
         Matrix.map_apply, Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero,
         Matrix.cons_val_one, Matrix.cons_val_fin_one, Fin.zero_eta, Fin.mk_one, h10,
-        h00, sig_apply, mul_assoc, mul_comm, mul_left_comm]
+        h00, mul_comm, mul_left_comm]
 
 theorem mem_cenOn_fixedSub (g : SL(2, F)) :
     g ∈ cenOn (hermRep l hF) ⊤ (fixedSub (hermRep l hF) upperSylow) ↔
@@ -191,8 +197,7 @@ theorem mem_cenOn_fixedSub (g : SL(2, F)) :
     fin_cases i <;> fin_cases j
     · simp only [Matrix.mul_apply, Fin.sum_univ_two, Matrix.transpose_apply, frobPow,
         Matrix.map_apply, Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero,
-        Matrix.cons_val_one, Matrix.cons_val_fin_one, Fin.zero_eta, Fin.mk_one, mul_one,
-        mul_zero, add_zero, zero_add, sig_apply, h10]
+        Matrix.cons_val_one, Matrix.cons_val_fin_one, Fin.zero_eta, mul_zero, add_zero]
       linear_combination ((X : Matrix (Fin 2) (Fin 2) F) 0 0) * h00
     · simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.transpose_apply, frobPow,
         Matrix.map_apply, Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero,
@@ -202,9 +207,10 @@ theorem mem_cenOn_fixedSub (g : SL(2, F)) :
         Matrix.cons_val_one, Matrix.cons_val_fin_one, Fin.zero_eta, Fin.mk_one, h10]
     · simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.transpose_apply, frobPow,
         Matrix.map_apply, Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero,
-        Matrix.cons_val_one, Matrix.cons_val_fin_one, Fin.zero_eta, Fin.mk_one, h10]
+        Matrix.cons_val_one, Matrix.cons_val_fin_one, Fin.mk_one, h10]
 
 
+omit [CharP F 2] [Algebra (ZMod 2) F] in
 private theorem card_roots_pow (hF : Fintype.card F = 2 ^ (2 * l)) :
     Nat.card {x : F // x ^ (2 ^ l + 1) = 1} = 2 ^ l + 1 := by
   have hq : 1 ≤ 2 ^ l := Nat.one_le_two_pow
@@ -215,14 +221,13 @@ private theorem card_roots_pow (hF : Fintype.card F = 2 ^ (2 * l)) :
           intro hx
           have := x.2
           rw [hx] at this
-          exact zero_ne_one (show (0 : F) = 1 by simpa using this)
+          exact zero_ne_one (show (0 : F) = 1 by simp at this)
         refine ⟨Units.mk0 x hx0, ?_⟩
         rw [MonoidHom.mem_ker]
         apply Units.ext
         change ((x : F) : F) ^ (2 ^ l + 1) = 1
         exact x.2
       invFun := fun u => ⟨(u : Fˣ), by
-        change ((u : Fˣ) : F) ^ (2 ^ l + 1) = 1
         have hu := u.2
         rw [MonoidHom.mem_ker] at hu
         exact congrArg Units.val hu⟩
@@ -296,7 +301,7 @@ private theorem exists_injective_roots :
         intro h
         have := p.1.2
         rw [h] at this
-        exact zero_ne_one (show (0 : F) = 1 by simpa using this)
+        exact zero_ne_one (show (0 : F) = 1 by simp at this)
       rw [Matrix.det_fin_two_of, mul_zero, sub_zero]
       exact mul_inv_cancel₀ hp0⟩, by
         refine (mem_cenOn_fixedSub (hF := hF) _).mpr ⟨by simp, ?_⟩

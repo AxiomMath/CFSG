@@ -171,7 +171,7 @@ private lemma ggQ2s08k3_monoEven_iff {N : ℕ} {V : Type} [AddCommGroup V] [Modu
         _ = ((x i)⁻¹ * ε i) • (x (σ i) • b (σ i)) := by rw [hf (σ i)]
         _ = ((x i)⁻¹ * ε i * x (σ i)) • b (σ i) := by rw [smul_smul]
 
-theorem ggQ2s08core_rescale {V : Type} [AddCommGroup V] [Module (ZMod 3) V] {N : ℕ} (hN : 4 ≤ N)
+theorem ggQ2s08core_rescale {V : Type} [AddCommGroup V] [Module (ZMod 3) V] {N : ℕ} (_hN : 4 ≤ N)
     (b : Module.Basis (Fin N) (ZMod 3) V) (R W : Subgroup (V ≃ₗ[ZMod 3] V))
     (hR : (∀ a, a ∈ R ↔ GGQ2S08Mono b a) ∨ (∀ a, a ∈ R ↔ GGQ2S08MonoEven b a))
     (hWR : W ≤ R) (hWgen : W = Subgroup.closure {s | s ∈ W ∧ GGLinRefl s})
@@ -264,7 +264,7 @@ theorem ggQ2s08core_rescale {V : Type} [AddCommGroup V] [Module (ZMod 3) V] {N :
   have hS_closure : Subgroup.closure S = π.range := by
     change Subgroup.closure (π '' G') = π.range
     rw [← Subgroup.map_top π, hG'_gen, MonoidHom.map_closure]
-  haveI : MulAction.IsPretransitive (Subgroup.closure S) (Fin N) := by
+  have : MulAction.IsPretransitive (Subgroup.closure S) (Fin N) := by
     rw [hS_closure]
     exact htrans_range
   have htop_closure : Subgroup.closure S = ⊤ :=

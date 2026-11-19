@@ -24,12 +24,14 @@ theorem mem_zpowers_map_of_mem {A B : Type} [Group A] [Group B] (f : A →* B) {
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 hz
   exact Subgroup.mem_zpowers_iff.2 ⟨k, (map_zpow f x k).symm⟩
 
+omit [Finite G] in
 theorem mem_zpowers_sub {H : Subgroup G} {x : G} (hxH : x ∈ H) {a : G} (ha : a ∈ Subgroup.zpowers x) :
     ∃ haH : a ∈ H, (⟨a, haH⟩ : ↥H) ∈ Subgroup.zpowers (⟨x, hxH⟩ : ↥H) := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 ha
   refine ⟨H.zpow_mem hxH k, Subgroup.mem_zpowers_iff.2 ⟨k, Subtype.ext ?_⟩⟩
   simp
 
+omit [Finite G] in
 theorem mem_normalizer_subgroupOf' {H L : Subgroup G} {g : G} (hgH : g ∈ H)
     (hg : g ∈ Subgroup.normalizer (L : Set G)) :
     (⟨g, hgH⟩ : ↥H) ∈ Subgroup.normalizer ((L.subgroupOf H : Subgroup ↥H) : Set ↥H) := by
@@ -38,12 +40,14 @@ theorem mem_normalizer_subgroupOf' {H L : Subgroup G} {g : G} (hgH : g ∈ H)
   simp only [Subgroup.mem_subgroupOf, Subgroup.coe_mul, Subgroup.coe_inv]
   exact Subgroup.mem_normalizer_iff.1 hg (y : G)
 
+omit [Finite G] in
 theorem subgroupOf_inf_centralizer {H X : Subgroup G} {x : G} (hXH : X ≤ H) (hxH : x ∈ H) :
     (X ⊓ Subgroup.centralizer ({x} : Set G)).subgroupOf H =
       X.subgroupOf H ⊓ Subgroup.centralizer ({(⟨x, hxH⟩ : ↥H)} : Set ↥H) := by
   apply Subgroup.map_injective (f := H.subtype) Subtype.coe_injective
   rw [Subgroup.map_subgroupOf_eq_of_le (inf_le_left.trans hXH), map_centralizer_subgroupOf hXH hxH]
 
+omit [Finite Ω] in
 theorem glaPComponent_forth {p : ℕ} (hp : p.Prime) {H K L : Subgroup G} (hKH : K ≤ H) {x : G} (hxH : x ∈ H)
     (hxK : x ∈ Subgroup.normalizer (K : Set G)) (hxp : x ^ p = 1) {π : ↥H →* Ω}
     (hN : ¬ p ∣ Nat.card π.ker) (hL : GLAPComponent p (K ⊓ Subgroup.centralizer ({x} : Set G)) L) :
@@ -166,6 +170,7 @@ theorem fgOn_back {p : ℕ} (hp : p.Prime) {H L : Subgroup G} (hLH : L ≤ H) {�
   hg.elim (fun h => Or.inl (fieldOn_back hp hLH hN hxH hxn h))
     (fun h => Or.inr (gfOn_back hp hLH hN hxH hxn h))
 
+omit [Finite Ω] in
 private theorem eq_one_of_pow_prime_of_mem_ker {p : ℕ} (hp : p.Prime) {H : Type} [Group H] {π : H →* Ω}
     (hN : ¬ p ∣ Nat.card π.ker) {u : H} (hu : u ^ p = 1) (hπ : π u = 1) : u = 1 := by
   have hker : u ∈ π.ker := hπ
@@ -176,6 +181,7 @@ private theorem eq_one_of_pow_prime_of_mem_ker {p : ℕ} (hp : p.Prime) {H : Typ
     · exact h
   exact hN (by rw [← hord]; exact Subgroup.orderOf_dvd_natCard π.ker hker)
 
+omit [Finite G] [Finite Ω] in
 theorem not_mem_zpowers_forth {p : ℕ} (hp : p.Prime) {H : Subgroup G} {π : ↥H →* Ω}
     (hN : ¬ p ∣ Nat.card π.ker) {x y : G} (hxH : x ∈ H) (hyH : y ∈ H) (hxp : x ^ p = 1) (hyp : y ^ p = 1)
     (hxy : x * y = y * x) (h : x ∉ Subgroup.zpowers y) :
@@ -237,7 +243,7 @@ theorem i158Inn_of_fact {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.Prime)
     have h := normalizer_le_normalizer_glaPPrimeCoreOf p M
     rw [Subgroup.normalizer_eq_top_iff.2 hMn, top_le_iff] at h
     exact Subgroup.normalizer_eq_top_iff.1 h
-  haveI := hN0n
+  have := hN0n
   set N0 : Subgroup ↥H := GLAPPrimeCoreOf p M with hN0def
   set π : ↥H →* ↥H ⧸ N0 := QuotientGroup.mk' N0 with hπdef
   have hN : ¬ p ∣ Nat.card π.ker := by
@@ -315,7 +321,7 @@ theorem i158FG_of_fact {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.Prime) 
     have h := normalizer_le_normalizer_glaPPrimeCoreOf p M
     rw [Subgroup.normalizer_eq_top_iff.2 hMn, top_le_iff] at h
     exact Subgroup.normalizer_eq_top_iff.1 h
-  haveI := hN0n
+  have := hN0n
   set N0 : Subgroup ↥H := GLAPPrimeCoreOf p M with hN0def
   set π : ↥H →* ↥H ⧸ N0 := QuotientGroup.mk' N0 with hπdef
   have hN : ¬ p ∣ Nat.card π.ker := by

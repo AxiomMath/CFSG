@@ -15,6 +15,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {z : G} {E F : Subgroup G}
 
+omit [Finite G] in
 theorem sq_eq_one_of_isConj (S : Setting z E F) {a : G} (ha : IsConj z a) : a ^ 2 = 1 := by
   have hz2 : z ^ 2 = 1 := by
     rw [← S.hyp.orderOf_z]
@@ -125,13 +126,13 @@ theorem exists_conj_eq_mul_z_of_mem_Q (S : Setting z E F) {a b : G}
     (haQ : a ∈ Q z) (hbQ : b ∈ Q z) (hb : b ∉ Subgroup.zpowers a ⊔ ZQ z) :
     ∃ c : G, c ∈ Q z ∧ c ∈ Subgroup.centralizer ({a} : Set G) ∧ c * b * c⁻¹ = b * z := by
   classical
-  letI : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
+  let : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
   let V := Additive (QbarOf S)
   let B : LinearMap.BilinForm (ZMod 2) V := (q S).polarBilin
   let aV : V := Additive.ofMul (QuotientGroup.mk (⟨a, haQ⟩ : ↥(Q z)))
   let bV : V := Additive.ofMul (QuotientGroup.mk (⟨b, hbQ⟩ : ↥(Q z)))
-  haveI : Finite V := inferInstance
-  haveI : Module.Finite (ZMod 2) V := Module.Finite.of_finite
+  have : Finite V := inferInstance
+  have : Module.Finite (ZMod 2) V := Module.Finite.of_finite
   have hB : B.Nondegenerate := by
     dsimp only [B]
     exact q_nondegenerate S

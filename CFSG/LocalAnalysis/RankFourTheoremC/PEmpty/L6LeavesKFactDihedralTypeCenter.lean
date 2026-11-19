@@ -27,7 +27,7 @@ theorem commutative_of_four_abelian_index_two {H : Type} [Group H] [Finite H]
   classical
   by_contra hnab
   have hnab' : ¬ ∀ a b : H, a * b = b * a := hnab
-  haveI : ∀ k, (N k).Normal := fun k => Subgroup.normal_of_index_eq_two (hidx k)
+  have : ∀ k, (N k).Normal := fun k => Subgroup.normal_of_index_eq_two (hidx k)
   have hcov : ∀ i j, i ≠ j → ∀ y : H, ∃ a ∈ N i, ∃ b ∈ N j, y = a * b := by
     intro i j hij y
     have hne : N j ≠ N i := fun h => hij (hinj h).symm
@@ -40,7 +40,7 @@ theorem commutative_of_four_abelian_index_two {H : Type} [Group H] [Finite H]
       have h2 := hidx i
       rw [htop, Subgroup.index_top] at h2
       exact absurd h2 (by norm_num)
-    obtain ⟨b₀, hb₀j, hb₀i⟩ := SetLike.not_le_iff_exists.mp hnle
+    obtain ⟨b₀, hb₀j, hb₀i⟩ := IsConcreteLE.not_le_iff_exists.mp hnle
     by_cases hy : y ∈ N i
     · exact ⟨y, hy, 1, (N j).one_mem, (mul_one y).symm⟩
     · have h1 : y * b₀⁻¹ ∈ N i :=
@@ -99,8 +99,8 @@ theorem commutative_of_four_abelian_index_two {H : Type} [Group H] [Finite H]
       have hcard : Nat.card (H ⧸ Z) = 2 := by
         have h2 : Z.index = 2 := by simpa using hZi
         exact h2
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-      haveI : IsCyclic (H ⧸ Z) := isCyclic_of_prime_card hcard
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : IsCyclic (H ⧸ Z) := isCyclic_of_prime_card hcard
       have hcomm : IsMulCommutative H :=
         MonoidHom.isMulCommutative_of_isCyclic_of_ker_le_center (QuotientGroup.mk' Z)
           (le_of_eq ((QuotientGroup.ker_mk' Z).trans hZdef))
@@ -137,7 +137,7 @@ theorem commutative_of_four_abelian_index_two {H : Type} [Group H] [Finite H]
   have hAScard : ∀ k, (AS k).ncard = (Z : Set H).ncard := by
     intro k
     have hsub : (Z : Set H) ⊆ (N k : Set H) := SetLike.coe_subset_coe.mpr (hZle k)
-    have hu : (Z : Set H) ∪ AS k = (N k : Set H) := Set.union_diff_cancel hsub
+    have hu : (Z : Set H) ∪ AS k = (N k : Set H) := Set.union_sdiff_cancel hsub
     have hdisj : Disjoint (Z : Set H) (AS k) := Set.disjoint_sdiff_right
     have h := Set.ncard_union_eq hdisj
     rw [hu, hNn k] at h

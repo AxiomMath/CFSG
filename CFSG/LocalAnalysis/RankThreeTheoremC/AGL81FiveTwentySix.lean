@@ -20,7 +20,7 @@ namespace FiveTwentySix
 theorem ne_top_of_charTwo (hS : Setting G) {X : Subgroup G} (hc : CharTwo X) : X ≠ ⊤ := by
   intro hX
   subst hX
-  haveI : IsSimpleGroup G := hS.simple
+  have : IsSimpleGroup G := hS.simple
   have hO : CFSG.Open.pCoreOf 2 (⊤ : Subgroup G) = ⊥ := by
     rw [CFSG.RankThreeCoreUniqueness.Helpers.pCoreOf_top_eq_pCore,
       CFSG.CGT.PushingUp.pCore_eq_bot_of_isSimpleGroup hS.nonab]
@@ -58,6 +58,7 @@ theorem isC2_subgroupOf {X L : Subgroup G} (hL : IsTwoPrimeComponent X L) :
     exact CFSG.ComponentClassification.SolMax.oddGen_eq_of_perfect hperf
   · exact hL.component
 
+omit [Finite G] in
 theorem map_threeNormalizerJoin_le {X T L : Subgroup G} (hTX : T ≤ X) (hLX : L ≤ X) :
     (threeNormalizerJoin (T.subgroupOf X) (L.subgroupOf X)).map X.subtype ≤
       threeNormalizerJoin T L := by

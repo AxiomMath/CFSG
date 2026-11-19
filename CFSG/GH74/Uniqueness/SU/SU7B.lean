@@ -67,7 +67,7 @@ theorem conj_mem_T (hKI3 : K.KI3) (hH : Hyp184 S U M) (hconf : Conf18H S M V x z
     exact ⟨hbarS, hbarF⟩
   obtain ⟨m, hmT, hm⟩ := mem_barImage_iff.1 hbarT
   have hmS : (m : G) ∈ (S : Subgroup G) := Base.T_le_S hmT
-  have hmeq : (m : G) = n * u * n⁻¹ := Bar.eq_of_proj_eq S.isPGroup' hconf.S_le hmS hy hm
+  have hmeq : (m : G) = n * u * n⁻¹ := Bar.eq_of_proj_eq S.isPGroup hconf.S_le hmS hy hm
   rw [← hmeq]
   exact hmT
 

@@ -224,7 +224,7 @@ theorem twoSignalizerOn_of_exists_signalizerAutAt {p : ℕ} (hp : p.Prime) (hp2 
       SignalizerAutAt p i ∧ Nonempty (↥K ≃* i.Group) ∧ (B ≤ K ∨ GL83OuterType24 p i)) :
     TwoSignalizerOn p C := by
   intro X _ _ K hKn _ _ B hB hBc hBC hCB T hT hBT
-  haveI := hKn
+  have := hKn
   obtain ⟨i, h, hK, hin⟩ := hC X K B hCB
   exact commutator_le_centralizer_of_signalizerAutAt hp hp2 h hK hB hBc hBC hin hT hBT
 
@@ -277,8 +277,8 @@ private theorem not_pow_three_dvd_factorial {p : ℕ} (hp : p.Prime) (hp3 : 3 �
 
 theorem twoSignalizerAlt_holds : TwoSignalizerAlt := by
   intro p hp hp5 X _ _ K hKn _ _ B hB hBc _ ⟨⟨e⟩, hBK⟩ T hT hBT
-  haveI := hKn
-  haveI : Fact p.Prime := ⟨hp⟩
+  have := hKn
+  have : Fact p.Prime := ⟨hp⟩
   set θ : X →* MulAut K := MulAut.conjNormal
   have hB'card : Nat.card (B.subgroupOf K) = p ^ 2 := by
     have h := Subgroup.card_map_of_injective (K := B.subgroupOf K) K.subtype_injective
@@ -291,7 +291,7 @@ theorem twoSignalizerAlt_holds : TwoSignalizerAlt := by
   obtain ⟨P, hBP⟩ := hB'p.exists_le_sylow
   have hKcard : ¬ p ^ 3 ∣ Nat.card K := by
     intro hdvd
-    haveI : Nontrivial (Fin (2 * p)) := Fin.nontrivial_iff_two_le.mpr (by omega)
+    have : Nontrivial (Fin (2 * p)) := Fin.nontrivial_iff_two_le.mpr (by omega)
     apply not_pow_three_dvd_factorial hp (by omega)
     have hA : 2 * Nat.card (alternatingGroup (Fin (2 * p))) = (2 * p).factorial := by
       rw [two_mul_nat_card_alternatingGroup, Nat.card_perm, Nat.card_eq_fintype_card,

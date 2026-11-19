@@ -20,7 +20,7 @@ variable {G : Type} [Group G] [Finite G]
       normalizer (A : Set G) ≤ D.M) → False
 
 theorem ne_top_of_mem_calMOf (D : Data G) {Z N : Subgroup G} (hN : N ∈ calMOf Z) : N ≠ ⊤ := by
-  haveI := D.standing.simple
+  have := D.standing.simple
   exact CFSG.PreuniquenessRankFour.Helpers.twoLocal_ne_top D.standing.nonab hN.1.1
 
 structure Std96 (D : Data G) (Y H D₃ : Subgroup G) : Prop where

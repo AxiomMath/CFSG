@@ -120,12 +120,14 @@ private theorem thmc_two_bound {P : Type} [Group P] [Finite P] [Group.IsPerfect 
   simp only [Nat.card_eq_fintype_card, Fintype.card_fin] at h3
   omega
 
+omit [Finite G] in
 private theorem thmc_conj_mem {H : Subgroup G} {g : G} (hg : g ∈ Subgroup.normalizer (H : Set G))
     {y : G} (hy : y ∈ H) : g⁻¹ * y * g ∈ H := by
   have h := Subgroup.mem_normalizer_iff.mp (inv_mem hg) y
   rw [inv_inv] at h
   exact h.mp hy
 
+omit [Finite G] in
 private theorem thmc_conj_comm {Y : Subgroup G} {g : G}
     (hg : g ∈ Subgroup.normalizer (Y : Set G)) :
     ∀ x ∈ ⁅CFSG.Open.pCoreOf 2 Y, Y⁆, g⁻¹ * x * g ∈ ⁅CFSG.Open.pCoreOf 2 Y, Y⁆ := by
@@ -143,6 +145,7 @@ private theorem thmc_conj_comm {Y : Subgroup G} {g : G}
   have h := Subgroup.mem_comap.mp (hcomm hx)
   rwa [hc] at h
 
+omit [Finite G] in
 private theorem thmc_G_elt {Y : Subgroup G} {g : G} (hg : g ∈ Subgroup.normalizer (Y : Set G))
     (hVD2 : ∀ u ∈ CFSG.Open.pCoreOf 2 Y, ∀ v ∈ CFSG.Open.pCoreOf 2 Y,
       u ∉ ⁅CFSG.Open.pCoreOf 2 Y, Y⁆ → v ∉ ⁅CFSG.Open.pCoreOf 2 Y, Y⁆ →
@@ -175,11 +178,11 @@ private theorem thmc_G_elt {Y : Subgroup G} {g : G} (hg : g ∈ Subgroup.normali
       rwa [show g⁻¹ * ((g⁻¹)⁻¹ * v * g⁻¹) * g = v by group] at h2
     exact hVD3 v hv _ hw hvD hwD
 
-theorem lemma9_of {A : Subgroup G} {Y : Subgroup G} (hY : Y ∈ scriptY0 A (lB A))
+theorem lemma9_of {A : Subgroup G} {Y : Subgroup G} (_hY : Y ∈ scriptY0 A (lB A))
     (hperf : Group.IsPerfect ↥Y)
-    (hodd : Odd (Nat.card (Subgroup.center (↥Y ⧸ CFSG.pCore 2 ↥Y))))
+    (_hodd : Odd (Nat.card (Subgroup.center (↥Y ⧸ CFSG.pCore 2 ↥Y))))
     (hM : TwoMultLeTwo ((↥Y ⧸ CFSG.pCore 2 ↥Y) ⧸ Subgroup.center (↥Y ⧸ CFSG.pCore 2 ↥Y)))
-    {e : G} (he : e ∈ Subgroup.normalizer (Y : Set G)) (he3 : IsPGroup 3 ↥(Subgroup.zpowers e)) :
+    {e : G} (he : e ∈ Subgroup.normalizer (Y : Set G)) (_he3 : IsPGroup 3 ↥(Subgroup.zpowers e)) :
     ⁅CFSG.Open.pCoreOf 2 Y, Subgroup.zpowers e⁆ ≤ ⁅CFSG.Open.pCoreOf 2 Y, Y⁆ := by
   have hV2 : IsPGroup 2 ↥(CFSG.pCore 2 ↥Y) := CFSG.pCore_isPGroup
   have hY2 := thmc_two_bound (CFSG.pCore 2 ↥Y) ⁅CFSG.pCore 2 ↥Y, ⊤⁆

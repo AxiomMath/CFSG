@@ -81,6 +81,7 @@ private theorem s11f3_prod_ofFn_four {α : Type*} [Group α] (f : Fin 4 → α) 
   rw [h1, h2, h3]
   group
 
+omit [Finite G] in
 private theorem s11f3_prod_map_conj_eq {n : G} {l : List G} (hnodup : l.Nodup)
     (hmem : ∀ x, x ∈ l ↔ n * x * n⁻¹ ∈ l)
     (hcomm : ∀ x ∈ l, ∀ y ∈ l, Commute x y) :
@@ -117,7 +118,7 @@ theorem d_mem_Halpha_of_frameLift (h : ElevenOneHyp hC) {T : Sylow 2 (Halpha D h
     (hwr : ∀ i, QuotientGroup.mk' (CFSG.solvableRadical (Halpha D hC.alpha)) (w i) = r i)
     (hw : (T : Set (Halpha D hC.alpha)) ∩ DstarH hC = Set.range w) {S : Sylow 2 G}
     (hTS : (T : Subgroup (Halpha D hC.alpha)).map (Halpha D hC.alpha).subtype ≤ S)
-    (hd : hC.d ∈ (S : Subgroup G)) (hp : w 0 * w 1 * w 2 * w 3 ≠ 1) :
+    (hd : hC.d ∈ (S : Subgroup G)) (_hp : w 0 * w 1 * w 2 * w 3 ≠ 1) :
     hC.d ∈ Halpha D hC.alpha := by
   classical
   by_contra hu
@@ -126,7 +127,7 @@ theorem d_mem_Halpha_of_frameLift (h : ElevenOneHyp hC) {T : Sylow 2 (Halpha D h
   let e : G := hC.d * (p : G)
   let l : List G := hC.d :: List.ofFn v
   have hΔ : (S : Set G) ∩ D = insert hC.d (Set.range v) := by
-    simpa [v] using inter_D_eq_of_frameLift h hw S.isPGroup' hTS hd
+    simpa [v] using inter_D_eq_of_frameLift h hw S.isPGroup hTS hd
   have hw_mem : ∀ i, w i ∈ DstarH hC := by
     intro i
     have : w i ∈ Set.range w := Set.mem_range_self i
@@ -154,7 +155,7 @@ theorem d_mem_Halpha_of_frameLift (h : ElevenOneHyp hC) {T : Sylow 2 (Halpha D h
     simp only [List.mem_cons, List.mem_ofFn, Set.mem_insert_iff, Set.mem_range]
   have hcomm : ∀ x ∈ l, ∀ y ∈ l, Commute x y := by
     intro x hx y hy
-    exact hC.setup.oddT.commute_of_isPGroup S.isPGroup'
+    exact hC.setup.oddT.commute_of_isPGroup S.isPGroup
       ((mem_l x).mp hx).2 ((mem_l y).mp hy).2 ((mem_l x).mp hx).1 ((mem_l y).mp hy).1
   have hpM : p ∈ CFSG.solvableRadical (Halpha D hC.alpha) :=
     prod_frameLift_mem (hC := hC) hr hwr

@@ -38,7 +38,7 @@ theorem FNI_type_p_elementary_core_structure
   obtain ⟨hpp, hqp, hop, hoq, hne, -, -, -, -, -, -, -, htypes, -⟩ :=
     h₃ G hG M U W₁ W₂ hM hc p q hp hq
   subst hp hq
-  haveI : Fintype G := Fintype.ofFinite G
+  have : Fintype G := Fintype.ofFinite G
   have hG6 : CFSG.FeitThompson.Prep06.IsMinimalOddSimple G :=
     ⟨hG.odd_natCard, hG.isSimpleGroup, hG.not_isMulCommutative, hG.isSolvable_of_ne_top⟩
   have hsolvM : Group.IsSolvable ↥M := hG.isSolvable_of_ne_top M hM.1
@@ -169,7 +169,7 @@ theorem FNI_type_p_elementary_core_structure
       exact Subgroup.card_eq_one.1 (Nat.eq_of_mul_eq_mul_right hpos (by rw [one_mul]; exact h1))
     rw [hKbot] at hNK
     exact le_bot_iff.1 hNK
-  haveI : Fact (Nat.card ↥W₂).Prime := ⟨hpp⟩
+  have : Fact (Nat.card ↥W₂).Prime := ⟨hpp⟩
   refine ⟨htype, hpp, hqp, hop, hoq, hne, hUne, hUab,
     { sup_eq := hsup
       le_normalizer := by

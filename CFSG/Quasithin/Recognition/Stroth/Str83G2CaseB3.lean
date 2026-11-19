@@ -19,6 +19,7 @@ open scoped Pointwise commutatorElement
 variable {G : Type} [Group G] [Finite G]
 variable {L1 L2 S : Subgroup G} {a : ℕ}
 
+omit [Finite G] in
 theorem bigB_le_normalizer_Z1 (L1 L2 S : Subgroup G) :
     bigB L1 L2 S ≤ Subgroup.normalizer (Z1 L1 L2 S : Set G) := by
   have hBP1 : bigB L1 L2 S ≤ P1 L1 L2 S := by
@@ -56,7 +57,7 @@ theorem str83_partTwo_caseB_step4_dimension
   set H : Subgroup G := L2 ⊔ S with hHdef
   set V : Subgroup G := Z1 L1 L2 S with hVdef
   set X : Subgroup G := conjClosure V H with hXdef
-  letI : CommGroup ↥X := hXe.1.instCommGroup
+  let : CommGroup ↥X := hXe.1.instCommGroup
   have hHleP2 : H ≤ P2 L1 L2 S := by
     rw [hHdef]
     exact sup_le le_sup_left ((le_sup_right : S ≤ bigB L1 L2 S).trans le_sup_right)
@@ -149,7 +150,7 @@ theorem str83_partTwo_caseB_step4_dimension
         convert hx using 1
         group
       exact (Subgroup.mem_normalizer_iff.mp (hD2V hwd) (w * x * w⁻¹)).mpr hconj
-  haveI : Fintype (GaloisField 2 (2 * a + 1)) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 (2 * a + 1)) := Fintype.ofFinite _
   have hGF : Nat.card (GaloisField 2 (2 * a + 1)) = 2 ^ (2 * a + 1) :=
     GaloisField.card 2 (2 * a + 1) (by omega)
   have hb : ∀ L N : Subgroup G, IsChiefStep H X L N → ¬ IsCentralStep H L N →
@@ -302,10 +303,11 @@ theorem str83_partTwo_caseB_step4
       calc 2 = 2 ^ 1 := by norm_num
         _ ≤ 2 ^ (2 * a + 1) := Nat.pow_le_pow_right (by norm_num) (by omega)
     have : 2 ^ (2 * a + 1) * 2 ^ (2 * a + 1) ≤ 2 ^ (2 * a + 1) := by
-      simpa [pow_two] using hqsq
+      simp [pow_two] at hqsq
     exact absurd this (not_le.mpr (by nlinarith))
 
 
+omit [Finite G] in
 theorem exists_topmost_noncentral_factor {H X N : Subgroup G} {c : ℕ}
     (hser : IsChiefSeriesFrom H X N c) (hc : 0 < c) :
     ∃ M L : Subgroup G, L ≤ M ∧ M ≤ N ∧ IsChiefStep H X L M ∧
@@ -430,8 +432,8 @@ theorem topmost_factor_eq_of_le {H0 S X V D N L : Subgroup G} {w : G}
       have hd' : (⟨d, hDH0 hd⟩ : Hs) ∈ D' := Subgroup.mem_subgroupOf.mpr hd
       exact Subgroup.mem_subgroupOf.mp (hxd ⟨d, hDH0 hd⟩ hd')
     exact Subgroup.mem_subgroupOf.mpr (hC (x' : G) hxN hxdG)
-  haveI : L'.Normal := hL'normal
-  haveI : N'.Normal := hN'normal
+  have : L'.Normal := hL'normal
+  have : N'.Normal := hN'normal
   have hN'eq : N' = L' :=
     topmost_factor_eq (H := Hs) (X := X') (V := V') (D := D') (S := S')
       (N := N') (L := L') (w := w') hX'normal hXe' hLN' hNX' hVX' hgen' hDodd'

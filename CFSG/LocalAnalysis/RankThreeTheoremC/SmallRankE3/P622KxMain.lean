@@ -26,7 +26,7 @@ namespace P622KxCfg
 variable {p : ℕ} {P : Sylow p G} {M : Subgroup G} {x z : G} {T S L : Subgroup G}
 
 theorem isCatalogGroup (c : P622KxCfg p P M x z T S L) : IsCatalogGroup ↥L := by
-  haveI : IsSimpleGroup ↥L := c.isSimple
+  have : IsSimpleGroup ↥L := c.isSimple
   have hKH : CFSG.Open.IsKGroup ↥(centralizer ({x} : Set G)) :=
     fun K L' _ _ hsimple _ =>
       k631_isKGroup_centralizer c.setting c.conf.failure.point.ne_one K (L'.subgroupOf K) hsimple

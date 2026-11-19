@@ -43,7 +43,7 @@ theorem asc82Fact517Fuse_of_heart (h514 : Asc82Lemma514) (hdict : Asc82HeartDict
   refine ⟨m, hm, ?_, ?_⟩
   · rw [hmz']
     refine Or.inr ⟨?_, ?_, ?_⟩
-    · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       exact orderOf_eq_prime (by rw [pow_two]; exact hmp2) hmp1
     · rwa [sec5b517_Qsub_eq, hq.core_eq]
     · intro P hP

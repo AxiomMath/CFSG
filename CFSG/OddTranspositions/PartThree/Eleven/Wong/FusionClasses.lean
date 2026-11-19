@@ -270,7 +270,7 @@ theorem exists_mem_normalizer_E_conj_t_ne [Finite G]
     rw [Subgroup.card_map_of_injective (Subgroup.subtype_injective _),
       Sylow.card_eq_multiplicity Q, hcardCy, factorization_14400_two]
     norm_num
-  have hV2 : IsPGroup 2 V := IsPGroup.map Q.isPGroup' (Subgroup.subtype _)
+  have hV2 : IsPGroup 2 V := IsPGroup.map Q.isPGroup (Subgroup.subtype _)
   have hVle : V ≤ centralizer ({D.t * D.u} : Set G) := Subgroup.map_subtype_le _
   have hE_le_V : D.E ≤ V := by
     intro g hg
@@ -282,7 +282,7 @@ theorem exists_mem_normalizer_E_conj_t_ne [Finite G]
     rw [D.card_E, hVcard] at hc
     norm_num at hc
   obtain ⟨z₀, hz₀, hz₀E⟩ :=
-    SetLike.exists_of_lt (CFSG.GroupTheory.lt_inf_normalizer_of_isPGroup hV2 hE_lt_V)
+    _root_.IsConcreteLE.exists_of_lt (CFSG.GroupTheory.lt_inf_normalizer_of_isPGroup hV2 hE_lt_V)
   have hz₀V : z₀ ∈ V := (mem_inf.mp hz₀).1
   have hz₀N : z₀ ∈ normalizer (D.E : Set G) := (mem_inf.mp hz₀).2
   refine ⟨z₀, hz₀N, ?_⟩

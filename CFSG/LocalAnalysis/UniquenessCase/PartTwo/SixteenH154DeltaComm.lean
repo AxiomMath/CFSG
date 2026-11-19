@@ -88,7 +88,7 @@ theorem s16h_dc_core {W : Type} [CommGroup W] [Finite W] {A L : Subgroup (MulAut
     apply hne
     have htinv : t⁻¹ x = x := by
       apply t.injective
-      simpa [hkfix x hx] using (MulEquiv.apply_symm_apply t x)
+      simp [hkfix x hx]
     have hlinv : l⁻¹ x ∈ Δ k := by
       have hmap := hmapL l⁻¹ (L.inv_mem hlL) k
       rw [← hmap]
@@ -172,7 +172,7 @@ theorem s16h_dc_core {W : Type} [CommGroup W] [Finite W] {A L : Subgroup (MulAut
     have hu_eq : u m = ⁅(MulAut.conj (g m : MulAut W)) l, (MulAut.conj (g m : MulAut W)) t⁆ := by
       have h1 : u m = (MulAut.conj (g m : MulAut W)).toMonoidHom y := rfl
       rw [h1]
-      simpa [y] using map_commutatorElement (MulAut.conj (g m : MulAut W)).toMonoidHom l t
+      simp [y]
     rw [hu_eq]
     exact hmem
   have hu_mem : ∀ m, Fin.castSucc m ∈ s16h_dc_supp Δ (u m) := fun m => by

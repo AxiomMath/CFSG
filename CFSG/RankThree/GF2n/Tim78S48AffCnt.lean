@@ -57,11 +57,11 @@ private theorem signChar_mul {B F : Subgroup G} (hFB : F ≤ B)
   unfold signChar
   by_cases h1 : u ∈ F
   · by_cases h2 : v ∈ F
-    · rw [if_pos h1, if_pos h2, if_pos (key.mpr (iff_of_true h1 h2)), mul_one]
-    · rw [if_pos h1, if_neg h2, if_neg fun h => h2 ((key.mp h).mp h1), one_mul]
+    · rw [ite_eq_left h1, ite_eq_left h2, ite_eq_left (key.mpr (iff_of_true h1 h2)), mul_one]
+    · rw [ite_eq_left h1, ite_eq_right h2, ite_eq_right fun h => h2 ((key.mp h).mp h1), one_mul]
   · by_cases h2 : v ∈ F
-    · rw [if_neg h1, if_pos h2, if_neg fun h => h1 ((key.mp h).mpr h2), mul_one]
-    · rw [if_neg h1, if_neg h2, if_pos (key.mpr (iff_of_false h1 h2))]
+    · rw [ite_eq_right h1, ite_eq_left h2, ite_eq_right fun h => h1 ((key.mp h).mpr h2), mul_one]
+    · rw [ite_eq_right h1, ite_eq_right h2, ite_eq_left (key.mpr (iff_of_false h1 h2))]
       simp
 
 private theorem relIndex_le_and_surj {P B C : Subgroup G}
@@ -71,7 +71,7 @@ private theorem relIndex_le_and_surj {P B C : Subgroup G}
     (hηker : ∀ p ∈ P, η p ∈ B → p ∈ C) :
     C.relIndex P ≤ B.relIndex C ∧
       (C.relIndex P = B.relIndex C → ∀ c ∈ C, ∃ p ∈ P, ∃ β ∈ B, η p = c * β) := by
-  haveI : IsMulCommutative C :=
+  have : IsMulCommutative C :=
     isMulCommutative_iff.mpr fun a b => Subtype.ext (hCab a a.2 b b.2)
   let e : P → C := fun p => ⟨η p, hηC p p.2⟩
   let φ : P →* C ⧸ B.subgroupOf C := MonoidHom.mk'
@@ -131,10 +131,10 @@ private theorem relIndex_le_relIndex {P B C F : Subgroup G}
   set N : Subgroup P := C.subgroupOf P
   have hN : ∀ a b : P, ⁅a, b⁆ ∈ N := fun a b =>
     Subgroup.mem_subgroupOf.mpr (hBC (hcommP _ a.2 _ b.2))
-  haveI : N.Normal := ⟨fun n hn g => by
+  have : N.Normal := ⟨fun n hn g => by
     have h := N.mul_mem (hN g n) hn
     simpa [commutatorElement_def, mul_assoc] using h⟩
-  haveI : IsMulCommutative (P ⧸ N) :=
+  have : IsMulCommutative (P ⧸ N) :=
     Subgroup.Normal.quotient_commutative_iff_commutator_le.mpr (by
       rw [commutator_eq_closure]
       exact (Subgroup.closure_le N).mpr (by rintro _ ⟨a, b, rfl⟩; exact hN a b))
@@ -164,11 +164,11 @@ private theorem relIndex_le_relIndex {P B C F : Subgroup G}
       refine MonoidHom.ext fun x => QuotientGroup.induction_on x fun p => ?_
       change signChar F ⁅(c : G), (p : G)⁆ = 1
       rw [hone _ hcB _ p.2, signChar_one]
-  haveI : NeZero ((Monoid.exponent (P ⧸ N) : ℕ) : ℂ) :=
+  have : NeZero ((Monoid.exponent (P ⧸ N) : ℕ) : ℂ) :=
     ⟨by exact_mod_cast Monoid.exponent_ne_zero_of_finite⟩
   have hcard : Nat.card ((P ⧸ N) →* ℂˣ) = Nat.card (P ⧸ N) :=
     CommGroup.card_monoidHom_of_hasEnoughRootsOfUnity (P ⧸ N) ℂ
-  haveI : Finite ((P ⧸ N) →* ℂˣ) :=
+  have : Finite ((P ⧸ N) →* ℂˣ) :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; exact Nat.card_pos.ne')
   calc B.relIndex C = ψ.ker.index := by rw [hker]; rfl
     _ = Nat.card ψ.range := Subgroup.index_ker ψ

@@ -24,14 +24,14 @@ theorem pRank_le_one_of_surjective' {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {M 
   obtain ⟨P₀⟩ : Nonempty (Sylow p M) := inferInstance
   have hP₀ : CFSG.pRank p (P₀ : Subgroup M) ≤ 1 := (CFSG.SectionRank.pRank_sylow P₀).2 ▸ hM
   have hcyc : IsCyclic (P₀ : Subgroup M) :=
-    ((CFSG.LocalAnalysis.ComponentInitial.pgroup_rank_one_classification hp P₀.isPGroup').1
+    ((CFSG.LocalAnalysis.ComponentInitial.pgroup_rank_one_classification hp P₀.isPGroup).1
       hP₀).resolve_right fun h => hp2 h.1
   have hQ : IsCyclic ((P₀.mapSurjective hψ : Sylow p N) : Subgroup N) := by
     rw [Sylow.coe_mapSurjective]
     exact isCyclic_of_surjective (ψ.subgroupMap _) (ψ.subgroupMap_surjective _)
   rw [← (CFSG.SectionRank.pRank_sylow (P₀.mapSurjective hψ)).2]
   exact (CFSG.LocalAnalysis.ComponentInitial.pgroup_rank_one_classification hp
-    (P₀.mapSurjective hψ).isPGroup').2 (Or.inl hQ)
+    (P₀.mapSurjective hψ).isPGroup).2 (Or.inl hQ)
 
 variable {Ω : Type*} [Group Ω] [Finite Ω]
 

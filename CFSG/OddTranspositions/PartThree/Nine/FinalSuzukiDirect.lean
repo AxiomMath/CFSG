@@ -52,7 +52,7 @@ private theorem le_normalizer_centralizer {G : Type*} [Group G] {U : Subgroup G}
     _ = (x * c * x⁻¹) * u := by group
 
 theorem false_of_wcl_not_commutative_of_sz_direct (hH : Th91Hyp D hC)
-    (hs : IsSimpleGroup (commutator G)) (h3 : Conclusion9_3 D hC) (h4 : Conclusion9_4 D hC T S)
+    (_hs : IsSimpleGroup (commutator G)) (h3 : Conclusion9_3 D hC) (h4 : Conclusion9_4 D hC T S)
     (h5 : Conclusion9_5 D hC T S) (hU : DeltaSetup hC T S U) {Q : Subgroup G}
     (hQ : IsRegularCore ((S : Set G) ∩ D) Q)
     (h7 : ∀ d ∈ D, ∀ e ∈ D, d ≠ e → Commute d e →
@@ -64,7 +64,7 @@ theorem false_of_wcl_not_commutative_of_sz_direct (hH : Th91Hyp D hC)
   classical
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hUel : IsElementaryAbelian 2 U := hU.isElementaryAbelian
-  haveI : IsMulCommutative U := hUel.toIsMulCommutative
+  have : IsMulCommutative U := hUel.toIsMulCommutative
   have hQS : Q = (S : Subgroup G) := hU.regularCore_eq_sylow h3 h4 hQ hUn (odd_two_mul_add_one m)
   have hQC : Q = Subgroup.centralizer (U : Set G) := hU.regularCore_eq_centralizer hH h3 h5 hQ
   have hSU : (S : Subgroup G) = Subgroup.centralizer (U : Set G) := hQS.symm.trans hQC
@@ -436,7 +436,7 @@ theorem false_of_wcl_not_commutative_of_sz_direct (hH : Th91Hyp D hC)
     rw [heq]
     exact hcomm
   have hq : 1 < q := by
-    simpa [q] using Nat.one_lt_two_pow (show 2 * m + 1 ≠ 0 by omega)
+    simp [q]
   have hcommR : IsMulCommutative R :=
     isMulCommutative_of_two_elementary_and_cyclic_image (S := (S : Subgroup G)) (V := V)
       (U := U) (R := R) (A := A) (B := B) (X := X) (u := hC.d) (q := q) (Y := Y)

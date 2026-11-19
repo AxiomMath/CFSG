@@ -54,10 +54,10 @@ lemma finrank_mackeyHomTerm_cast_eq_char_sum
         (mackeyConjRes (k := k) I σ g).character h *
           (mackeyLeftRes (k := k) I σ g).character h⁻¹ := by
   intro H
-  letI : Fintype H := Fintype.ofFinite H
+  let : Fintype H := Fintype.ofFinite H
   have hcard0H : (Fintype.card H : k) ≠ 0 := by
     exact Nat.cast_ne_zero.2 Fintype.card_ne_zero
-  letI : Invertible (Fintype.card H : k) :=
+  let : Invertible (Fintype.card H : k) :=
     invertibleOfNonzero hcard0H
   let V : FDRep k H := mackeyLeftRes (k := k) I σ g
   let W : FDRep k H := mackeyConjRes (k := k) I σ g
@@ -146,7 +146,7 @@ lemma finrank_hom_res_ind_cast_eq_char_sum
       ∑ i : I,
         (FDRep.res (FDRep.ind I σ) I).character i *
           σ.character i⁻¹ := by
-  letI : Fintype I := Fintype.ofFinite I
+  let : Fintype I := Fintype.ofFinite I
   have h :=
     FDRep.char_scalarProduct_eq_finrank_hom
       (k := k) (G := I)
@@ -516,7 +516,7 @@ lemma finrank_mackeyHomTerm_cast_eq_product_sum
     simpa [H, F, Sprod] using
       (mackey_product_sum_eq_card_sq_mul_expanded_sum
         (k := k) I σ g)
-  letI : Fintype H := Fintype.ofFinite H
+  let : Fintype H := Fintype.ofFinite H
   let Sexp : k :=
     ∑ h : H,
       σ.character
@@ -562,7 +562,7 @@ lemma finrank_mackeyHomTerm_cast_eq_doubleCoset_sum
           if h : x * (i : G) * x⁻¹ ∈ I
           then σ.character ⟨x * (i : G) * x⁻¹, h⟩ * σ.character i⁻¹
           else 0 := by
-  letI : Fintype G := Fintype.ofFinite G
+  let : Fintype G := Fintype.ofFinite G
 
   let F : G → k := fun x =>
     ∑ i : I,
@@ -677,8 +677,8 @@ lemma inner_char_res_ind_eq_sum_doubleCoset_element_sums
       (Nat.card I : k)⁻¹ * (Nat.card I : k)⁻¹ *
         mackeyDoubleCosetElementSum
           (k := k) I σ (Quotient.out d) := by
-  letI : Fintype G := Fintype.ofFinite G
-  letI : Fintype (DoubleCoset.Quotient (G := G) I I) :=
+  let : Fintype G := Fintype.ofFinite G
+  let : Fintype (DoubleCoset.Quotient (G := G) I I) :=
     DoubleCoset.quotientFintype I I
 
   let c : k := (Nat.card I : k)
@@ -850,8 +850,8 @@ lemma inner_char_res_ind_eq_sum_mackeyHomTerm
     ∑ d : DoubleCoset.Quotient (G := G) I I,
       ((Module.finrank k
         (mackeyHomTerm (k := k) I σ (Quotient.out d))) : k) := by
-  letI : Fintype G := Fintype.ofFinite G
-  letI : Fintype (DoubleCoset.Quotient (G := G) I I) :=
+  let : Fintype G := Fintype.ofFinite G
+  let : Fintype (DoubleCoset.Quotient (G := G) I I) :=
     DoubleCoset.quotientFintype I I
 
   calc
@@ -899,9 +899,9 @@ lemma finrank_hom_res_ind_cast_eq_sum_mackeyHomTerm
     ∑ d : DoubleCoset.Quotient (G := G) I I,
       ((Module.finrank k
         (mackeyHomTerm (k := k) I σ (Quotient.out d))) : k) := by
-  letI : Fintype (DoubleCoset.Quotient (G := G) I I) :=
+  let : Fintype (DoubleCoset.Quotient (G := G) I I) :=
     DoubleCoset.quotientFintype I I
-  letI : Fintype G := Fintype.ofFinite G
+  let : Fintype G := Fintype.ofFinite G
   let f : I → k := fun i =>
     (FDRep.res (FDRep.ind I σ) I).character i * σ.character i⁻¹
   have hsumI :
@@ -951,7 +951,7 @@ lemma finrank_hom_res_ind_eq_sum_mackeyHomTerm
     ∑ d : DoubleCoset.Quotient (G := G) I I,
       Module.finrank k
         (mackeyHomTerm (k := k) I σ (Quotient.out d)) := by
-  letI : Fintype (DoubleCoset.Quotient (G := G) I I) :=
+  let : Fintype (DoubleCoset.Quotient (G := G) I I) :=
     DoubleCoset.quotientFintype I I
 
   apply Nat.cast_injective (R := k)

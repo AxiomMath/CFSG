@@ -13,7 +13,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   [(Q.subgroupOf M).Normal] {K : Type} [Field K] [Finite K] {γ : G → K}
   {M₀ : Tim79.QuadModel Q Z K γ}
 
-omit [(Q.subgroupOf M).Normal] [Finite K] in
+omit [(Q.subgroupOf M).Normal] [Finite K] [Finite G] in
 theorem Ctx.mem_centralizer_B_of_odd_fix (hc : Ctx M Q Z B)
     (φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E))
     (hφπ : ∀ (m : ↥(H0 M Z)) (x : G), x ∈ Q →
@@ -63,7 +63,7 @@ theorem Ctx.mem_centralizer_B_of_odd_fix (hc : Ctx M Q Z B)
   rw [hgpow]
   exact Subgroup.pow_mem _ hg2 _
 
-omit [Finite K] in
+omit [Finite K] [Finite G] in
 theorem conj_mem_QB_of_mem_normalizer {g : G} (hgB : g ∈ Subgroup.normalizer (B : Set G))
     {x : G} (hx : x ∈ QB B) : g * x * g⁻¹ ∈ QB B := by
   have h1 : conjSubgroup g⁻¹ B = B := by
@@ -75,7 +75,7 @@ theorem conj_mem_QB_of_mem_normalizer {g : G} (hgB : g ∈ Subgroup.normalizer (
   have h3 : x ∈ conjSubgroup g⁻¹ (QB B) := by rw [← h2]; exact hx
   rwa [mem_conjSubgroup, inv_inv] at h3
 
-omit [(Q.subgroupOf M).Normal] [Finite K] in
+omit [(Q.subgroupOf M).Normal] [Finite K] [Finite G] in
 theorem Ctx.act_mem_img_inf_QB_of_normalizer (hc : Ctx M Q Z B)
     (φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E))
     (hφπ : ∀ (m : ↥(H0 M Z)) (x : G), x ∈ Q →
@@ -88,7 +88,7 @@ theorem Ctx.act_mem_img_inf_QB_of_normalizer (hc : Ctx M Q Z B)
     (Subgroup.mem_normalizer_iff.mp (hc.hyp.Q_normal.2 hgH.1) x).mp hxQ
   exact M₀.pi_mem_img ⟨hgxQ, conj_mem_QB_of_mem_normalizer hgB (Subgroup.mem_inf.mp hxS).2⟩ hgxQ
 
-omit [(Q.subgroupOf M).Normal] in
+omit [(Q.subgroupOf M).Normal] [Finite G] in
 theorem Ctx.conj_mem_LB_of_normalizer (hc : Ctx M Q Z B) {g : G} (hgM : g ∈ M)
     (hgB : g ∈ Subgroup.normalizer (B : Set G)) {l : G} (hl : l ∈ LB M Q B) :
     g * l * g⁻¹ ∈ LB M Q B := by

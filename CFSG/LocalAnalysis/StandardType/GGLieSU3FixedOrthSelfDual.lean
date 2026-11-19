@@ -90,7 +90,7 @@ private lemma ggLieSU3Fixed_restrictionInRange {K : Type} [Field K]
   refine ⟨⟨(RankThree.PartOne.KCOrthogonal.blockComponent hy xc j).1, hy.blockComponent_mem hx hj⟩, ?_⟩
   refine Units.ext (LinearMap.ext fun v => Subtype.ext ?_)
   rw [coe_blockGL, coe_centralizerGL, blockComponent_apply_of_mem hy xc j hj v.2,
-    if_pos (Or.inl rfl)]
+    ite_eq_left (Or.inl rfl)]
 
 private lemma ggLieSU3Fixed_toLin_diagGL_apply {L : Type} [Field L] {W : Type}
     [AddCommGroup W] [Module L W] {n : ℕ} (b : Module.Basis (Fin n) L W)
@@ -131,9 +131,9 @@ private lemma ggLieSU3Fixed_toLin_perm_apply {L : Type} [Field L] {W : Type}
     rw [Function.comp_apply, Pi.single_apply, Pi.single_apply]
     by_cases h : σ a = k
     · have ha : a = σ.symm k := by rw [← h, Equiv.symm_apply_apply]
-      rw [if_pos h, if_pos ha]
+      rw [ite_eq_left h, ite_eq_left ha]
     · have ha : a ≠ σ.symm k := fun ha => h (by rw [ha, Equiv.apply_symm_apply])
-      rw [if_neg h, if_neg ha]
+      rw [ite_eq_right h, ite_eq_right ha]
   rw [hmv, Module.Basis.equivFun_symm_apply]
   simp [Pi.single_apply]
 
@@ -166,13 +166,13 @@ theorem ggLieSU3Fixed_torus_selfDual {K : Type} [Field K] [Finite K] [CharP K 2]
     ∃ t ∈ specialBlock Q y j, (∀ x ∈ E, t * x = x * t) ∧
       ∃ u ∈ specialBlock Q y j, t * u ≠ u * t := by
   classical
-  haveI hirr : Fact (Irreducible j) := ⟨irreducible_of_mem_primaryFactors hj⟩
-  haveI hchar : CharP (AdjoinRoot j) 2 :=
+  have hirr : Fact (Irreducible j) := ⟨irreducible_of_mem_primaryFactors hj⟩
+  have hchar : CharP (AdjoinRoot j) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AdjoinRoot j)).injective 2
   obtain ⟨ℓ, f, d, hU, B, hdeg, hq, hBs, hBl, hbar, hrange⟩ :=
     ggLieSU3Fixed_selfDualData hy hj hj1 hjs
   have hVfin : Finite V := Module.finite_of_finite K
-  haveI hEquivFin : Finite (V ≃ₗ[K] V) :=
+  have hEquivFin : Finite (V ≃ₗ[K] V) :=
     Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
       (fun a b h => LinearEquiv.ext (fun v => congrFun h v))
   have hωord : orderOf (AdjoinRoot.root j) = 3 := orderOf_root_eq_three hy hj hj1

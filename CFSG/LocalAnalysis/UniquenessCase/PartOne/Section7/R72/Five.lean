@@ -109,9 +109,9 @@ theorem r72Shape_of_sz32 (k : Sec7Core4 G) {H : Subgroup G}
     (hcyc : IsCyclic ↥((P : Subgroup (QuotK7 k.p H)) ⊓ CFSG.generalizedFitting (QuotK7 k.p H)))
     (hrk : 2 ≤ CFSG.Open.pRank k.p (P : Subgroup (QuotK7 k.p H))) :
     R72Shape k.p (LKQuot7 k.p H) := by
-  haveI : Fact k.p.Prime := ⟨k.prime⟩
+  have : Fact k.p.Prime := ⟨k.prime⟩
   obtain ⟨-, -, hKn, hKC⟩ := k.isSimpleGroup_generalizedFitting_quotient hH
-  haveI := hKn
+  have := hKn
   set K := CFSG.generalizedFitting (QuotK7 k.p H)
   have hout : Nat.card (MulAut ↥K ⧸ (MulAut.conj : ↥K →* MulAut ↥K).range) = 5 :=
     CFSG.LocalAnalysis.RankThreeTheoremC.Generic41Spor.sz32_outer _ ⟨rfl, hiso⟩
@@ -120,7 +120,7 @@ theorem r72Shape_of_sz32 (k : Sec7Core4 G) {H : Subgroup G}
     CFSG.RankThree.PartOne.CTP.card_quotient_le_outer K hKC
   have hdvd : k.p ∣ Nat.card (QuotK7 k.p H ⧸ K) := by
     by_contra hnd
-    have hPK := CFSG.RankThree.PartOne.CTP.le_of_isPGroup_of_not_dvd_card_quotient P.isPGroup' hnd
+    have hPK := CFSG.RankThree.PartOne.CTP.le_of_isPGroup_of_not_dvd_card_quotient P.isPGroup hnd
     rw [inf_eq_left.2 hPK] at hcyc
     have := CFSG.SectionRank.pRank_le_one_of_isCyclic k.prime hcyc
     omega
@@ -128,7 +128,7 @@ theorem r72Shape_of_sz32 (k : Sec7Core4 G) {H : Subgroup G}
     have := Nat.le_of_dvd Nat.card_pos hdvd
     omega
   have hLK := imageModK_opp_eq_top k hH ⟨1, by rw [Subgroup.index_eq_card, hcard, h5, pow_one]⟩
-  haveI : Finite (MulAut ↥K) :=
+  have : Finite (MulAut ↥K) :=
     Finite.of_injective (fun f : MulAut ↥K => (f : ↥K → ↥K)) DFunLike.coe_injective
   have hAut : Nat.card (MulAut ↥K) ≤ Nat.card (QuotK7 k.p H) := by
     rw [Subgroup.card_eq_card_quotient_mul_card_subgroup (MulAut.conj : ↥K →* MulAut ↥K).range,
@@ -155,9 +155,9 @@ theorem r72Shape_of_isSmallStrongP
         MulAut ↥(CFSG.generalizedFitting (QuotK7 k.p H))).range)
     (hs : CFSG.AGLEmbedding.IsSmallStrongP k.p ↥(CFSG.generalizedFitting (QuotK7 k.p H))) :
     R72Shape k.p (LKQuot7 k.p H) := by
-  haveI : Fact k.p.Prime := ⟨k.prime⟩
+  have : Fact k.p.Prime := ⟨k.prime⟩
   obtain ⟨-, -, hKn, hKC⟩ := k.isSimpleGroup_generalizedFitting_quotient hH
-  haveI := hKn
+  have := hKn
   have hLK := imageModK_opp_eq_generalizedFitting k hH fun _ _ hx =>
     UCK.mem_of_forall_inner _ hKC hinn hx
   have hspor : ∀ s : TauCeti.SporadicName,
@@ -197,11 +197,11 @@ theorem r72Shape_five (hId : CFSG.AGLEmbedding.KFactSmallIdent)
     (k : Sec7Core4 G) (hp5 : 5 ≤ k.p) (hno : k.KIDExcluded) (h75 : k.Step75)
     {H : Subgroup G} (hH : k.Config H) : R72Shape k.p (LKQuot7 k.p H) := by
   classical
-  haveI : Fact k.p.Prime := ⟨k.prime⟩
+  have : Fact k.p.Prime := ⟨k.prime⟩
   have hp2 : k.p ≠ 2 := by omega
   obtain ⟨hKs, hKnab, hKn, hKC⟩ := k.isSimpleGroup_generalizedFitting_quotient hH
-  haveI := hKn
-  haveI := hKs
+  have := hKn
+  have := hKs
   have hN := k.isStronglyPEmbedded_map_quotient_pPrimeCore hH
   have hX : CFSG.Open.IsKGroup (QuotK7 k.p H) :=
     CFSG.LocalAnalysis.GLTheoremB.isKGroup_quotient'
@@ -221,7 +221,7 @@ theorem r72Shape_five (hId : CFSG.AGLEmbedding.KFactSmallIdent)
       exact isCyclic_of_surjective (Subgroup.subgroupOfEquivOfLe inf_le_right)
         (Subgroup.subgroupOfEquivOfLe inf_le_right).surjective
     have hΓ : CFSG.Open.rankThreeGamma 1 k.p (P : Subgroup (QuotK7 k.p H)) ≠ ⊤ :=
-      ne_top_of_le_ne_top hN.1 (UCK.glbCore_le_of_isStronglyPEmbedded hN P.isPGroup' hPN)
+      ne_top_of_le_ne_top hN.1 (UCK.glbCore_le_of_isStronglyPEmbedded hN P.isPGroup hPN)
     rcases hCyc (QuotK7 k.p H) K hKn hKs hKnab hcat hKC k.p k.prime hp2 P hcycP hrk hΓ with
       ⟨h3, -⟩ | ⟨h5, hiso⟩
     · omega

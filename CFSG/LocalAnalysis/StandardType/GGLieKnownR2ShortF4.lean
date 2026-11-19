@@ -33,10 +33,10 @@ theorem coreOne_F4
     (hRm : Rm = ggRootSub (ggU .F4 n f).D (MonoidHom.id (ggU .F4 n f).K) (-β) u)
     (hQ : Q = pCoreOf 2 (Subgroup.normalizer (Rr : Set (ggU .F4 n f).K))) :
     Q ⊔ (Rr ⊔ Rm) = ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hf : 1 ≤ f := hadm.2.1
-  haveI : NeZero f := ⟨by omega⟩
-  haveI : CharP (GaloisField 2 f) ReeTag.F4.prime :=
+  have : NeZero f := ⟨by omega⟩
+  have : CharP (GaloisField 2 f) ReeTag.F4.prime :=
     inferInstanceAs (CharP (GaloisField 2 f) 2)
   let φ : MulAut (ggU .F4 n f).K := ReeTag.F4.finiteExceptionalAut (GaloisField 2 f)
   obtain ⟨β', hβ', hXβ', hXmβ', hlong⟩ :=
@@ -79,10 +79,10 @@ theorem coreFour_F4
     (hRm : Rm = ggRootSub (ggU .F4 n f).D (MonoidHom.id (ggU .F4 n f).K) (-β) u)
     (hQ : Q = pCoreOf 2 (Subgroup.normalizer (Rr : Set (ggU .F4 n f).K))) :
     ⁅Q, Q⁆ ≤ Rr ∧ Q ≤ Subgroup.centralizer (Rr : Set (ggU .F4 n f).K) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hf : 1 ≤ f := hadm.2.1
-  haveI : NeZero f := ⟨by omega⟩
-  haveI : CharP (GaloisField 2 f) ReeTag.F4.prime :=
+  have : NeZero f := ⟨by omega⟩
+  have : CharP (GaloisField 2 f) ReeTag.F4.prime :=
     inferInstanceAs (CharP (GaloisField 2 f) 2)
   let φ : MulAut (ggU .F4 n f).K := ReeTag.F4.finiteExceptionalAut (GaloisField 2 f)
   obtain ⟨β', hβ', hXβ', hXmβ', hlong⟩ :=

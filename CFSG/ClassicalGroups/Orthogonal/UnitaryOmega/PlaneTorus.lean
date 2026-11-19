@@ -248,7 +248,7 @@ theorem normOmegaConj_apply {m : ℕ}
   map_smul' c x := by
     funext i
     by_cases hi : i ∈ S
-    · simp only [hi, if_true, Pi.smul_apply, RingHom.id_apply, Algebra.smul_def, map_mul, E.fix]
+    · simp only [hi, ite_true, Pi.smul_apply, RingHom.id_apply, Algebra.smul_def, map_mul, E.fix]
     · simp [hi]
   left_inv x := by
     funext i
@@ -281,9 +281,9 @@ theorem normBar_mem_orthogonalGroup {m : ℕ} (S : Finset (Fin m)) :
   refine Finset.sum_congr rfl fun i _ => ?_
   rw [planeBar_apply]
   by_cases hi : i ∈ S
-  · rw [if_pos hi, E.isUnitary.invol]
+  · rw [ite_eq_left hi, E.isUnitary.invol]
     exact mul_comm _ _
-  · rw [if_neg hi]
+  · rw [ite_eq_right hi]
 
 private theorem normBar_apply {m : ℕ} (S : Finset (Fin m))
     (v : (F × F) × (Fin m → K)) :
@@ -301,8 +301,8 @@ private theorem normBar_mul_self {m : ℕ} (S : Finset (Fin m)) :
         (if i ∈ S then unitaryInvolution K 2 f (v.2 i) else v.2 i) else
         (if i ∈ S then unitaryInvolution K 2 f (v.2 i) else v.2 i)) = v.2 i
   by_cases hi : i ∈ S
-  · rw [if_pos hi, if_pos hi, E.isUnitary.invol]
-  · rw [if_neg hi, if_neg hi]
+  · rw [ite_eq_left hi, ite_eq_left hi, E.isUnitary.invol]
+  · rw [ite_eq_right hi, ite_eq_right hi]
 
 private theorem unitaryInvolution_unitChar_eq_inv {p : ℕ} (hpq : p ∣ 2 ^ f + 1)
     (χ : Multiplicative (ZMod p) →* Kˣ) (a : Multiplicative (ZMod p)) :
@@ -354,10 +354,10 @@ theorem normOmegaConj_normBar_normPlaneTorus {m p : ℕ} (hm : 2 ≤ m) (hpq : p
     normPlaneTorus_apply E hm hpq χ _ v]
   refine Prod.ext rfl (funext fun i => ?_)
   by_cases hi : i ∈ S
-  · simp only [if_pos hi]
+  · simp only [ite_eq_left hi]
     rw [map_mul, unitaryInvolution_unitChar_eq_inv hpq χ (t i), E.isUnitary.invol, map_inv,
       Units.val_inv_eq_inv_val]
-  · simp only [if_neg hi]
+  · simp only [ite_eq_right hi]
 
 end Omega
 

@@ -77,13 +77,13 @@ theorem perm_pair_iff_22 {a b j : Fin 24} (hab : a ≠ b) (hja : j ≠ a) (hjb :
         ext x
         by_cases h1 : x = a
         · subst h1
-          simp [Finset.mem_symmDiff, hab, hja', hjb', Ne.symm hab]
+          simp [Finset.mem_symmDiff, hab, hja']
         · by_cases h2 : x = b
           · subst h2
-            simp [Finset.mem_symmDiff, hba, hjb', h1]
+            simp [Finset.mem_symmDiff, hba, hjb']
           · by_cases h3 : x = j
             · subst h3
-              simp [Finset.mem_symmDiff, hja, hjb, h1, h2]
+              simp [Finset.mem_symmDiff, hja, hjb]
             · simp [Finset.mem_symmDiff, h1, h2, h3]
       exact iff_of_true (Or.inr key) rfl
     · have hgj' : j ≠ g j := Ne.symm hgj
@@ -119,13 +119,13 @@ theorem symmDiff_pair_swap {a b j : Fin 24} (hab : a ≠ b) (hja : j ≠ a) (hjb
   ext x
   by_cases h1 : x = a
   · subst h1
-    simp [Finset.mem_symmDiff, hab, hja', hjb', hba]
+    simp [Finset.mem_symmDiff, hab, hja']
   · by_cases h2 : x = b
     · subst h2
-      simp [Finset.mem_symmDiff, hba, hjb', h1]
+      simp [Finset.mem_symmDiff, hba, hjb']
     · by_cases h3 : x = j
       · subst h3
-        simp [Finset.mem_symmDiff, hja, hjb, h1, h2]
+        simp [Finset.mem_symmDiff, hja, hjb]
       · simp [Finset.mem_symmDiff, h1, h2, h3]
 
 end CFSG.Quasithin.RonanH15

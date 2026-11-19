@@ -33,7 +33,7 @@ theorem caseTwoG2_of_uniqueTwoLocalKy (hL3 : L3Overgroup)
     hHnot ((t.centralizer_y_le_iff hK32 hGA hSp hK332 hOut hp hN hZ).mpr hXle)
   have hKyX : t.Ky ≤ t.Xz := t.Ky_le_Xz hK32 hGA hSp
   have hKZ : ⁅CFSG.Open.pCoreOf 2 t.Kyhat, t.Zhat⁆ ≠ ⊥ := fun hbot => by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hO2X : CFSG.Open.pCoreOf 2 t.Xz = ⊥ := by
       by_contra hne
       have hV2 : IsPGroup 2 ↥(CFSG.Open.pCoreOf 2 t.Xz) :=

@@ -33,7 +33,7 @@ theorem stabilizer_zero_eq_titsH :
   exact ⟨fun h => ⟨g.2, h⟩, fun h => h.2⟩
 
 theorem isCoatom_titsH : IsCoatom (titsH.subgroupOf titsD) := by
-  haveI : MulAction.IsPreprimitive titsD (Fin 1755) := CERT_Tits_derived_primitive
+  have : MulAction.IsPreprimitive titsD (Fin 1755) := CERT_Tits_derived_primitive
   rw [← stabilizer_zero_eq_titsH]
   exact MulAction.IsPreprimitive.isCoatom_stabilizer_of_isPreprimitive (G := titsD) (0 : Fin 1755)
 
@@ -44,8 +44,8 @@ theorem card_titsH_subgroupOf : Nat.card (titsH.subgroupOf titsD) = 10240 := by
 theorem normalizer_oTwoUpper_titsH :
     Subgroup.normalizer ((oTwoUpper (titsH.subgroupOf titsD) : Subgroup titsD) : Set titsD) =
       titsH.subgroupOf titsD := by
-  haveI : IsSimpleGroup titsD := titsD_simple
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : IsSimpleGroup titsD := titsD_simple
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   set H' : Subgroup titsD := titsH.subgroupOf titsD with hH'
   set K : Subgroup titsD := oTwoUpper H' with hK
   have hHN : H' ≤ Subgroup.normalizer (K : Set titsD) := le_normalizer_oTwoUpper H'
@@ -141,7 +141,7 @@ theorem titsParabolicNormalizerFact_holds : TitsParabolicNormalizerFact := by
     mem_inner_of_pow_three card_outer_titsD hψ3
   obtain ⟨d, hd⟩ := MonoidHom.mem_range.mp hinner
   have hd3 : d ^ 3 = 1 := by
-    haveI : (Subgroup.center titsD).Normal := inferInstance
+    have : (Subgroup.center titsD).Normal := inferInstance
     have h1 : MulAut.conj (d ^ 3) = 1 := by rw [map_pow, hd, hψ3]
     have hz : d ^ 3 ∈ Subgroup.center titsD := by
       rw [Subgroup.mem_center_iff]

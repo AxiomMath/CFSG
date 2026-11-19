@@ -256,7 +256,7 @@ theorem zp_exists_pow_coprime_eq {τ : Tag} {K : Type} [Field K] {p : ℕ} [hpF 
     ∃ u ∈ zp p N, u ^ m = s := by
   obtain ⟨-, n, hn⟩ := id hs
   have hcop : Nat.Coprime m (p ^ n) := Nat.Coprime.pow_right n hm
-  haveI : NeZero (p ^ n) := ⟨pow_ne_zero n hpF.out.ne_zero⟩
+  have : NeZero (p ^ n) := ⟨pow_ne_zero n hpF.out.ne_zero⟩
   obtain ⟨m', hm'⟩ : ∃ m' : ℕ, m * m' ≡ 1 [MOD p ^ n] := by
     refine ⟨(((m : ZMod (p ^ n))⁻¹ : ZMod (p ^ n))).val, ?_⟩
     rw [← ZMod.natCast_eq_natCast_iff]

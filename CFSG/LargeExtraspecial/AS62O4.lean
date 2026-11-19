@@ -165,7 +165,7 @@ theorem polar_sub_comm (x y : V) : polar q x (ρ y - y) = polar q y (ρ x - x) :
   rw [polar_sub_self_eq_zero hV hq hU2 hUq hρ hρU x,
     polar_sub_self_eq_zero hV hq hU2 hUq hρ hρU y, zero_add, add_zero] at h
   rw [← sub_eq_zero, CharTwo.sub_eq_add]
-  first | exact h | (rw [add_comm]; exact h)
+  (rw [add_comm]; exact h)
 
 theorem eq_one_of_fix_tsPlane_of_fix {v : V} (hvU : v ∉ U) (hρv : ρ v = v) : ρ = 1 := by
   set K := U ⊔ (ZMod 2 ∙ v) with hK

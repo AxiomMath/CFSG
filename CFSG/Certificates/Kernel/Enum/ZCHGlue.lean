@@ -15,12 +15,12 @@ theorem mem_normalizer_conj_list {A : Type} [Group A] [Finite A] {z u g : A} {p 
   refine zc_mem_normalizer_of_conj_mem _ fun v hv => ?_
   induction hv using Subgroup.closure_induction with
   | mem c hc =>
-    simp only [Set.mem_setOf_eq, List.mem_map, List.mem_range] at hc
+    simp only [Set.mem_ofPred_eq, List.mem_map, List.mem_range] at hc
     obtain ⟨e, he, rfl⟩ := hc
     obtain ⟨f, hf, hfe⟩ := hg e he
     rw [hfe]
     exact Subgroup.subset_closure (by
-      simp only [Set.mem_setOf_eq, List.mem_map, List.mem_range]
+      simp only [Set.mem_ofPred_eq, List.mem_map, List.mem_range]
       exact ⟨f, hf, rfl⟩)
   | one => simp
   | mul x y _ _ hx hy =>
@@ -139,7 +139,7 @@ theorem zcw_of_lists_H {A : Type} [Group A] [Finite A] {ga gb z : A} {p k nL nS 
       fun heq => hne ?_⟩
     have h2 := congrArg Subtype.val heq
     simp only [one_mul, inv_one, mul_one, Subgroup.coe_mul, Subgroup.coe_inv,
-      SubgroupClass.coe_pow, Subgroup.coe_mk] at h2
+      SubgroupClass.coe_pow] at h2
     rw [hUj, hi'e']
     exact h2
   ·

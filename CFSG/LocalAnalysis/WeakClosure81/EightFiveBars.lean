@@ -91,6 +91,7 @@ private def commSub (K J : Subgroup G) (hJ : K ≤ Subgroup.normalizer (J : Set 
     rw [e]
     exact h1
 
+omit [Finite G] in
 theorem forall_comm_mem_pCoreOf_of_forall_gen {V H : Subgroup G} {r : G}
     (hgen : ∀ k ∈ conjClosure V H, ∀ u ∈ conjSubgroup V k,
       r * u * r⁻¹ * u⁻¹ ∈ pCoreOf 2 (kGenIn V H)) :
@@ -103,7 +104,7 @@ theorem forall_comm_mem_pCoreOf_of_forall_gen {V H : Subgroup G} {r : G}
 theorem mem_pCoreOf_of_comm_mem_of_pow_mem {K : Subgroup G} {c : G} (hcK : c ∈ K)
     (hcz : ∀ x ∈ K, c * x * c⁻¹ * x⁻¹ ∈ pCoreOf 2 K) {n : ℕ} (hn : c ^ 2 ^ n ∈ pCoreOf 2 K) :
     c ∈ pCoreOf 2 K := by
-  haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
+  have : Fact (Nat.Prime 2) := Nat.fact_prime_two
   have hφ : IsBarMap K (pCoreOf 2 K) (QuotientGroup.mk' (CFSG.pCore 2 ↥K)) :=
     isBarMap_mk_pCore K
   set φ : ↥K →* ↥K ⧸ CFSG.pCore 2 ↥K := QuotientGroup.mk' (CFSG.pCore 2 ↥K) with hφdef
@@ -136,6 +137,7 @@ theorem mem_pCoreOf_of_comm_mem_of_pow_mem {K : Subgroup G} {c : G} (hcK : c ∈
   rw [pCore_eq_bot_of_isBarMap hφ, Subgroup.mem_bot] at hz1
   exact (hφ.ker_iff ĉ).mp hz1
 
+omit [Finite G] in
 theorem isElemAbelian_conjClosure_of_comm {D H : Subgroup G} (hsq : ∀ z ∈ D, z * z = 1)
     (hcomm : ∀ x ∈ H, ∀ z ∈ D, ∀ y ∈ H, ∀ z' ∈ D,
       (x * z * x⁻¹) * (y * z' * y⁻¹) = (y * z' * y⁻¹) * (x * z * x⁻¹)) :
@@ -166,10 +168,11 @@ variable {G : Type} [Group G] [Finite G] {V H T : Subgroup G}
 namespace Hyp83
 
 theorem pCoreOf_kGenIn_le_centralizer_eSub (h : Hyp83 V H T) :
-    pCoreOf 2 (kGenIn V H) ≤ Subgroup.centralizer (eSub V H T : Set G) := fun x hx =>
+    pCoreOf 2 (kGenIn V H) ≤ Subgroup.centralizer (eSub V H T : Set G) := fun _x hx =>
   Subgroup.le_centralizer_iff.mp (eSub_centralizes_pCoreOf h.elemAbelian h.isCalH h.sylow)
     (pCoreOf_kGenIn_le h.le_H hx)
 
+omit [Finite G] in
 theorem conj_mem_centralizer_eSub (h : Hyp83 V H T) {g x : G} (hg : g ∈ H)
     (hx : x ∈ Subgroup.centralizer (eSub V H T : Set G)) :
     g * x * g⁻¹ ∈ Subgroup.centralizer (eSub V H T : Set G) := by

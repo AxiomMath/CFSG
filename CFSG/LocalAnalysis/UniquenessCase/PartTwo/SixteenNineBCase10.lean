@@ -14,12 +14,12 @@ section CyclicRank
 variable {T : Type} [CommGroup T] [Finite T]
 
 private theorem s16n9b_dParam_three : dParam 3 = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   unfold dParam
   exact orderOf_eq_prime (by decide) (by decide)
 
 private theorem s16n9b_dParam_seven : dParam 7 = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   unfold dParam
   exact orderOf_eq_prime (by decide) (by decide)
 
@@ -36,7 +36,7 @@ theorem s16n9b_zpowers_eq_of_ne_one {A : Subgroup (MulAut T)} {p : ℕ} (hp : p.
 
 theorem s16n9b_exists_gen {A : Subgroup (MulAut T)} {p : ℕ} (hp : p.Prime)
     (hA : Nat.card A = p) : ∃ a ∈ A, orderOf a = p ∧ Subgroup.zpowers a = A := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := A) p (by rw [hA])
   refine ⟨(x : MulAut T), x.2, ?_, ?_⟩
   · rw [← hx]
@@ -47,6 +47,7 @@ theorem s16n9b_exists_gen {A : Subgroup (MulAut T)} {p : ℕ} (hp : p.Prime)
     rw [h2, orderOf_one] at hx
     exact hp.one_lt.ne hx
 
+omit [Finite T] in
 theorem s16n9b_map_conj_of_mem {A : Subgroup (MulAut T)} {a : MulAut T} (ha : a ∈ A) :
     A.map (MulAut.conj a).toMonoidHom = A := by
   ext x

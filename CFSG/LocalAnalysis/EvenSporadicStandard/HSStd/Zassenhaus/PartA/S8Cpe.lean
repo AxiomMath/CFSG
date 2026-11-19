@@ -42,7 +42,7 @@ theorem centralizes_orbit {t : Γ} (ht : t * t = 1) {K : Subgroup Γ} (hK : IsCo
   rw [e, hcomm _ hk y hy] at hfk
   exact hfk
 
-theorem centralizes_sup_orbit {t : Γ} (ht : t * t = 1) {K : Subgroup Γ} (hK : IsComponent K)
+theorem centralizes_sup_orbit {t : Γ} (_ht : t * t = 1) {K : Subgroup Γ} (hK : IsComponent K)
     (hne : cj t K ≠ K) (g : Γ) (h1 : ∀ k ∈ K, g * k * g⁻¹ = k)
     (h2 : ∀ y ∈ cj t K, g * y * g⁻¹ = y) : ∀ x ∈ K ⊔ cj t K, g * x * g⁻¹ = x := by
   have hK' := isComponent_cj t hK

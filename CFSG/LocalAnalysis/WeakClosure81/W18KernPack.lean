@@ -19,6 +19,7 @@ private theorem kpack_mem_normalizer_iff_cj_eq {W : Type} [AddCommGroup W]
     g ∈ Subgroup.normalizer (A : Set (LGL 2 W)) ↔ cj g A = A :=
   Subgroup.mem_normalizer_iff_map_conj_eq
 
+omit [Finite G] in
 private theorem kpack_normalizer_le_normalizer_centralizer (X : Subgroup G) :
     Subgroup.normalizer (X : Set G) ≤
       Subgroup.normalizer (Subgroup.centralizer (X : Set G) : Set G) :=
@@ -39,6 +40,7 @@ private theorem kpack_padicValNat_two_lt_of_lt_pow {n j : ℕ} (hn0 : n ≠ 0)
     (hn : n < 2 ^ j) : padicValNat 2 n < j :=
   (padicValNat_le_nat_log n).trans_lt (Nat.log_lt_of_lt_pow hn0 hn)
 
+omit [Finite G] in
 private theorem kpack_mem_sup_of_le_normalizer {A C : Subgroup G}
     (hAC : A ≤ Subgroup.normalizer (C : Set G)) {x : G} :
     x ∈ A ⊔ C ↔ ∃ a ∈ A, ∃ c ∈ C, a * c = x := by
@@ -53,11 +55,13 @@ private theorem kpack_mem_sup_of_le_normalizer {A C : Subgroup G}
     rw [Subgroup.coe_mul_of_left_le_normalizer_right A C hAC]
     exact Set.mem_mul.mpr ⟨a, ha, c, hc, rfl⟩
 
+omit [Finite G] in
 private theorem kpack_conj_mem {A C : Subgroup G}
     (hAC : A ≤ Subgroup.normalizer (C : Set G)) {a : G} (ha : a ∈ A) {c : G} (hc : c ∈ C) :
     a * c * a⁻¹ ∈ C :=
   (Subgroup.mem_normalizer_iff.mp (hAC ha) c).mp hc
 
+omit [Finite G] in
 private theorem kpack_sq_mem_of_mem_sup {A C : Subgroup G}
     (hAC : A ≤ Subgroup.normalizer (C : Set G)) (hA2 : ∀ a ∈ A, a * a = 1) {x : G}
     (hx : x ∈ A ⊔ C) : x * x ∈ C := by
@@ -66,6 +70,7 @@ private theorem kpack_sq_mem_of_mem_sup {A C : Subgroup G}
   rw [h1, hA2 a ha, mul_one]
   exact C.mul_mem (kpack_conj_mem hAC ha hc) hc
 
+omit [Finite G] in
 private theorem kpack_commutator_mem_of_mem_sup {A C : Subgroup G}
     (hAC : A ≤ Subgroup.normalizer (C : Set G))
     (hAcomm : ∀ a ∈ A, ∀ a' ∈ A, a * a' = a' * a) {x y : G} (hx : x ∈ A ⊔ C)
@@ -93,6 +98,7 @@ namespace Gam183
 
 variable {V H E : Subgroup G} {i : ℕ}
 
+omit [Finite G] in
 theorem conj (hE : H ≤ normalizer (E : Set G)) {g y : G} (hy : y ∈ H) (hg : Gam183 V H E i g) :
     Gam183 V H E i (g * y) :=
   (Gam188.conj hE hy (k := E3.mQuot (vInH V H g) (vInH V H g ⊓ Subgroup.centralizer (E : Set G)))
@@ -111,7 +117,7 @@ theorem quadratic_of_ne_bot (h : Hyp183 D V₀ V H i) {g : G}
   set A : Subgroup G := vInH V H g with hAeq
   have hAE : A ≤ conjSubgroup V g := inf_le_left
   have hlt : (⊥ : Subgroup G) < E ⊓ conjSubgroup V₀ g := bot_lt_iff_ne_bot.mpr hE
-  obtain ⟨w, hw, hwbot⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨w, hw, hwbot⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   have hw1 : w ≠ 1 := fun h1 => hwbot (Subgroup.mem_bot.mpr h1)
   have hwCent : E ≤ Subgroup.centralizer ({w} : Set G) :=
     (Subgroup.le_centralizer_iff_isMulCommutative.mpr h.isElemAbelian_eOmegaZ.1).trans
@@ -178,8 +184,8 @@ theorem inCalA_pre (x : Ctx188 D V₀ V H i j) {g : G} (hg : Gam183 V H (eOmegaZ
   · intro a ha
     exact hCle (kpack_sq_mem_of_mem_sup hAC hA2 ha)
 
-theorem exists_index_witness_of_sixth (x : Ctx188 D V₀ V H i j) {g : G}
-    (hg : Gam183 V H (eOmegaZ H D.T) i g) {B : Subgroup G}
+theorem exists_index_witness_of_sixth (_x : Ctx188 D V₀ V H i j) {g : G}
+    (_hg : Gam183 V H (eOmegaZ H D.T) i g) {B : Subgroup G}
     (hCB : H ⊓ Subgroup.centralizer (eOmegaZ H D.T : Set G) ≤ B)
     (hBA : B ≤ vInH V H g ⊔ (H ⊓ Subgroup.centralizer (eOmegaZ H D.T : Set G)))
     (hidx : B.relIndex
@@ -275,7 +281,7 @@ theorem exists_comm_witness (x : Ctx188 D V₀ V H i j) {g : G}
   have hCentLe : E ⊓ Subgroup.centralizer (Dg : Set G) ≤
       E ⊓ Subgroup.centralizer (B : Set G) :=
     inf_le_inf_left E (Subgroup.centralizer_le (SetLike.coe_subset_coe.mpr hBD))
-  obtain ⟨e, heB, heNotDg⟩ := SetLike.exists_of_lt (lt_of_le_of_ne hCentLe hne)
+  obtain ⟨e, heB, heNotDg⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne hCentLe hne)
   have heE : e ∈ E := heB.1
   have heNotCent : e ∉ Subgroup.centralizer (Dg : Set G) := fun h => heNotDg ⟨heE, h⟩
   have hx : ∃ d ∈ Dg, d * e ≠ e * d := by

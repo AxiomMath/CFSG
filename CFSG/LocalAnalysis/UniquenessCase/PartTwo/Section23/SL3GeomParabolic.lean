@@ -35,7 +35,7 @@ private theorem phiL_smul_mkTil {D : Data G} {Ch : Choice2011 G} (c : Ctx23L D C
       (c.phiL hV x) • mkTil (⊥ : Subgroup G) c.V hV v =
         mkTil (⊥ : Subgroup G) c.V hV
           (actStab (⊥ : Subgroup G) c.V hV ⟨(x : G), c.L_le_stabTil x.2⟩ v) := by
-  letI : MulAction ↥(c.H hV) (c.W hV) := MulAction.compHom (c.W hV) (c.H hV).subtype
+  let : MulAction ↥(c.H hV) (c.W hV) := MulAction.compHom (c.W hV) (c.H hV).subtype
   intro x v
   rw [show (c.phiL hV x) • mkTil (⊥ : Subgroup G) c.V hV v =
     (c.phiL hV x : MulAut (c.W hV)) (mkTil (⊥ : Subgroup G) c.V hV v) from rfl]
@@ -91,15 +91,15 @@ private theorem imgTil_Z_le_Ztil {D : Data G} {Ch : Choice2011 G} (c : Ctx2311 D
     (hSLH : IsSLn ↥(c.H hV) 3 (CFSG.Open.pRank 2 D.Z))
     (hnat : CFSG.Quasithin.BinaryNaturalSL (c.H hV) ⊤ ⊥ 3 (CFSG.Open.pRank 2 D.Z)) :
     imgTil (⊥ : Subgroup G) c.V hV D.Z ≤ c.Ztil hV := by
-  letI : MulDistribMulAction ↥(c.H hV) (c.toCtx23L.W hV) :=
+  let : MulDistribMulAction ↥(c.H hV) (c.toCtx23L.W hV) :=
     MulDistribMulAction.compHom (c.toCtx23L.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (c.toCtx23L.W hV) :=
+  let : MulAction ↥(c.H hV) (c.toCtx23L.W hV) :=
     MulAction.compHom (c.toCtx23L.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (Set (c.toCtx23L.W hV)) := Set.mulActionSet
-  letI : MulDistribMulAction ↥(c.sylowStar hV) (c.toCtx23L.W hV) :=
+  let : MulAction ↥(c.H hV) (Set (c.toCtx23L.W hV)) := Set.mulActionSet
+  let : MulDistribMulAction ↥(c.sylowStar hV) (c.toCtx23L.W hV) :=
     MulDistribMulAction.compHom (c.toCtx23L.W hV)
       ((c.H hV).subtype.comp (c.sylowStar hV : Subgroup ↥(c.H hV)).subtype)
-  letI : MulAction ↥(c.sylowStar hV) (c.toCtx23L.W hV) :=
+  let : MulAction ↥(c.sylowStar hV) (c.toCtx23L.W hV) :=
     MulAction.compHom (c.toCtx23L.W hV)
       ((c.H hV).subtype.comp (c.sylowStar hV : Subgroup ↥(c.H hV)).subtype)
   have hℓ : fixedPointSubgroup ↥(c.sylowStar hV) (c.toCtx23L.W hV) = c.Ztil hV :=
@@ -145,15 +145,15 @@ theorem Pstar_ne_stabilizer (hV : IsElemAbelian 2 c.V) (h4 : S23_4 D Ch) (h1930 
       MulAction.stabilizer ↥(c.H hV)
         (((fixedPointSubgroup ↥(c.sylowStar hV) (c.toCtx23L.W hV) :
           Subgroup (c.toCtx23L.W hV)) : Set (c.toCtx23L.W hV))) := by
-  letI : MulDistribMulAction ↥(c.H hV) (c.toCtx23L.W hV) :=
+  let : MulDistribMulAction ↥(c.H hV) (c.toCtx23L.W hV) :=
     MulDistribMulAction.compHom (c.toCtx23L.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (c.toCtx23L.W hV) :=
+  let : MulAction ↥(c.H hV) (c.toCtx23L.W hV) :=
     MulAction.compHom (c.toCtx23L.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (Set (c.toCtx23L.W hV)) := Set.mulActionSet
-  letI : MulDistribMulAction ↥(c.sylowStar hV) (c.toCtx23L.W hV) :=
+  let : MulAction ↥(c.H hV) (Set (c.toCtx23L.W hV)) := Set.mulActionSet
+  let : MulDistribMulAction ↥(c.sylowStar hV) (c.toCtx23L.W hV) :=
     MulDistribMulAction.compHom (c.toCtx23L.W hV)
       ((c.H hV).subtype.comp (c.sylowStar hV : Subgroup ↥(c.H hV)).subtype)
-  letI : MulAction ↥(c.sylowStar hV) (c.toCtx23L.W hV) :=
+  let : MulAction ↥(c.sylowStar hV) (c.toCtx23L.W hV) :=
     MulAction.compHom (c.toCtx23L.W hV)
       ((c.H hV).subtype.comp (c.sylowStar hV : Subgroup ↥(c.H hV)).subtype)
   intro heq
@@ -183,7 +183,7 @@ theorem line_le_imgTil_W {D : Data G} {Ch : Choice2011 G} (c : Ctx2311 D Ch)
     closure (⋃ p ∈ c.Pstar hV,
         p • ((c.Ztil hV : Subgroup (c.toCtx23L.W hV)) : Set (c.toCtx23L.W hV))) ≤
       imgTil (⊥ : Subgroup G) c.V hV c.W := by
-  letI : MulAction ↥(c.H hV) (c.toCtx23L.W hV) :=
+  let : MulAction ↥(c.H hV) (c.toCtx23L.W hV) :=
     MulAction.compHom (c.toCtx23L.W hV) (c.H hV).subtype
   have hZ := Ztil_eq_imgTil_Z c hV hm hSLH hnat
   refine (Subgroup.closure_le _).2 ?_
@@ -217,9 +217,9 @@ private theorem closure_smul_imgTil_W_le_imgTil_conjClosure {D : Data G} {Ch : C
         k • ((imgTil (⊥ : Subgroup G) c.V hV c.W : Subgroup (c.toCtx23L.W hV)) :
           Set (c.toCtx23L.W hV))) ≤
       imgTil (⊥ : Subgroup G) c.V hV (conjClosure c.K c.W) := by
-  letI : MulAction ↥(c.H hV) (c.toCtx23L.W hV) :=
+  let : MulAction ↥(c.H hV) (c.toCtx23L.W hV) :=
     MulAction.compHom (c.toCtx23L.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (Set (c.toCtx23L.W hV)) := Set.mulActionSet
+  let : MulAction ↥(c.H hV) (Set (c.toCtx23L.W hV)) := Set.mulActionSet
   have himgK := Ctx23L.map_Hinf_inf_eq c.toCtx23L hV h4 h1930
   refine (Subgroup.closure_le _).2 ?_
   rintro w hw
@@ -253,15 +253,15 @@ theorem conjClosure_K_W_eq_of_sl3 (h4 : S23_4 D Ch) (h1930 : H1930 D)
     (hnat : CFSG.Quasithin.BinaryNaturalSL (c.H hV) ⊤ ⊥ 3 (CFSG.Open.pRank 2 D.Z))
     (hKS : KSL3Span) (hker : (c.phiL hV).ker = CFSG.pCore 2 ↥c.L) :
     conjClosure c.K c.W = c.V := by
-  letI : MulDistribMulAction ↥(c.H hV) (c.toCtx23L.W hV) :=
+  let : MulDistribMulAction ↥(c.H hV) (c.toCtx23L.W hV) :=
     MulDistribMulAction.compHom (c.toCtx23L.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (c.toCtx23L.W hV) :=
+  let : MulAction ↥(c.H hV) (c.toCtx23L.W hV) :=
     MulAction.compHom (c.toCtx23L.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (Set (c.toCtx23L.W hV)) := Set.mulActionSet
-  letI : MulDistribMulAction ↥(c.sylowStar hV) (c.toCtx23L.W hV) :=
+  let : MulAction ↥(c.H hV) (Set (c.toCtx23L.W hV)) := Set.mulActionSet
+  let : MulDistribMulAction ↥(c.sylowStar hV) (c.toCtx23L.W hV) :=
     MulDistribMulAction.compHom (c.toCtx23L.W hV)
       ((c.H hV).subtype.comp (c.sylowStar hV : Subgroup ↥(c.H hV)).subtype)
-  letI : MulAction ↥(c.sylowStar hV) (c.toCtx23L.W hV) :=
+  let : MulAction ↥(c.sylowStar hV) (c.toCtx23L.W hV) :=
     MulAction.compHom (c.toCtx23L.W hV)
       ((c.H hV).subtype.comp (c.sylowStar hV : Subgroup ↥(c.H hV)).subtype)
   have hℓ : fixedPointSubgroup ↥(c.sylowStar hV) (c.toCtx23L.W hV) = c.Ztil hV :=
@@ -289,7 +289,7 @@ theorem imgTil_W_le_line {D : Data G} {Ch : Choice2011 G} (c : Ctx2311 D Ch)
     imgTil (⊥ : Subgroup G) c.V hV c.W ≤
       closure (⋃ p ∈ c.Pstar hV,
         p • ((c.Ztil hV : Subgroup (c.toCtx23L.W hV)) : Set (c.toCtx23L.W hV))) := by
-  letI : MulAction ↥(c.H hV) (c.toCtx23L.W hV) :=
+  let : MulAction ↥(c.H hV) (c.toCtx23L.W hV) :=
     MulAction.compHom (c.toCtx23L.W hV) (c.H hV).subtype
   have hZtil := imgTil_Z_le_Ztil c hV hm hSLH hnat
   have hWle : c.W ≤ preTil (⊥ : Subgroup G) c.V hV (closure (⋃ p ∈ c.Pstar hV,
@@ -329,7 +329,7 @@ private theorem mkTil_mem_line {D : Data G} {Ch : Choice2011 G} (c : Ctx2311 D C
           (CFSG.Quasithin.IntMod.mk hV ⟨w, W_le_V c hwW⟩) ∈
         closure (⋃ p ∈ c.Pstar hV,
           p • ((c.Ztil hV : Subgroup (c.toCtx23L.W hV)) : Set (c.toCtx23L.W hV))) := by
-  letI : MulAction ↥(c.H hV) (c.toCtx23L.W hV) :=
+  let : MulAction ↥(c.H hV) (c.toCtx23L.W hV) :=
     MulAction.compHom (c.toCtx23L.W hV) (c.H hV).subtype
   have hline : imgTil (⊥ : Subgroup G) c.V hV c.W = closure (⋃ p ∈ c.Pstar hV,
       p • ((c.Ztil hV : Subgroup (c.toCtx23L.W hV)) : Set (c.toCtx23L.W hV))) :=
@@ -383,15 +383,15 @@ private theorem exists_conjSubgroup_of_mem_line {D : Data G} {Ch : Choice2011 G}
         closure (⋃ p ∈ c.Pstar hV,
           p • ((c.Ztil hV : Subgroup (c.toCtx23L.W hV)) : Set (c.toCtx23L.W hV))) →
       ∃ x ∈ c.X, w ∈ CFSG.Quasithin.conjSubgroup D.Z x := by
-  letI : MulDistribMulAction ↥(c.H hV) (c.toCtx23L.W hV) :=
+  let : MulDistribMulAction ↥(c.H hV) (c.toCtx23L.W hV) :=
     MulDistribMulAction.compHom (c.toCtx23L.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (c.toCtx23L.W hV) :=
+  let : MulAction ↥(c.H hV) (c.toCtx23L.W hV) :=
     MulAction.compHom (c.toCtx23L.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (Set (c.toCtx23L.W hV)) := Set.mulActionSet
-  letI : MulDistribMulAction ↥(c.sylowStar hV) (c.toCtx23L.W hV) :=
+  let : MulAction ↥(c.H hV) (Set (c.toCtx23L.W hV)) := Set.mulActionSet
+  let : MulDistribMulAction ↥(c.sylowStar hV) (c.toCtx23L.W hV) :=
     MulDistribMulAction.compHom (c.toCtx23L.W hV)
       ((c.H hV).subtype.comp (c.sylowStar hV : Subgroup ↥(c.H hV)).subtype)
-  letI : MulAction ↥(c.sylowStar hV) (c.toCtx23L.W hV) :=
+  let : MulAction ↥(c.sylowStar hV) (c.toCtx23L.W hV) :=
     MulAction.compHom (c.toCtx23L.W hV)
       ((c.H hV).subtype.comp (c.sylowStar hV : Subgroup ↥(c.H hV)).subtype)
   have hℓ : fixedPointSubgroup ↥(c.sylowStar hV) (c.toCtx23L.W hV) = c.Ztil hV :=
@@ -417,15 +417,15 @@ theorem exists_mem_X_of_mem_W_of_sl3 (h4 : S23_4 D Ch) (h1930 : H1930 D)
     (hnat : CFSG.Quasithin.BinaryNaturalSL (c.H hV) ⊤ ⊥ 3 (CFSG.Open.pRank 2 D.Z))
     (hKL : KSL3Line) (hker : (c.phiL hV).ker = CFSG.pCore 2 ↥c.L) :
     ∀ w ∈ c.W, ∃ x ∈ c.X, w ∈ CFSG.Quasithin.conjSubgroup D.Z x := by
-  letI : MulDistribMulAction ↥(c.H hV) (c.toCtx23L.W hV) :=
+  let : MulDistribMulAction ↥(c.H hV) (c.toCtx23L.W hV) :=
     MulDistribMulAction.compHom (c.toCtx23L.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (c.toCtx23L.W hV) :=
+  let : MulAction ↥(c.H hV) (c.toCtx23L.W hV) :=
     MulAction.compHom (c.toCtx23L.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (Set (c.toCtx23L.W hV)) := Set.mulActionSet
-  letI : MulDistribMulAction ↥(c.sylowStar hV) (c.toCtx23L.W hV) :=
+  let : MulAction ↥(c.H hV) (Set (c.toCtx23L.W hV)) := Set.mulActionSet
+  let : MulDistribMulAction ↥(c.sylowStar hV) (c.toCtx23L.W hV) :=
     MulDistribMulAction.compHom (c.toCtx23L.W hV)
       ((c.H hV).subtype.comp (c.sylowStar hV : Subgroup ↥(c.H hV)).subtype)
-  letI : MulAction ↥(c.sylowStar hV) (c.toCtx23L.W hV) :=
+  let : MulAction ↥(c.sylowStar hV) (c.toCtx23L.W hV) :=
     MulAction.compHom (c.toCtx23L.W hV)
       ((c.H hV).subtype.comp (c.sylowStar hV : Subgroup ↥(c.H hV)).subtype)
   intro w hwW
@@ -502,15 +502,15 @@ theorem commutator_W_T_le_Z_of_sl3 (h4 : S23_4 D Ch) (h1930 : H1930 D)
     (hnat : CFSG.Quasithin.BinaryNaturalSL (c.H hV) ⊤ ⊥ 3 (CFSG.Open.pRank 2 D.Z))
     (hKL : KSL3Line) (hker : (c.phiL hV).ker = CFSG.pCore 2 ↥c.L) :
     ⁅c.W, D.T⁆ ≤ D.Z := by
-  letI : MulDistribMulAction ↥(c.H hV) (c.toCtx23L.W hV) :=
+  let : MulDistribMulAction ↥(c.H hV) (c.toCtx23L.W hV) :=
     MulDistribMulAction.compHom (c.toCtx23L.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (c.toCtx23L.W hV) :=
+  let : MulAction ↥(c.H hV) (c.toCtx23L.W hV) :=
     MulAction.compHom (c.toCtx23L.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (Set (c.toCtx23L.W hV)) := Set.mulActionSet
-  letI : MulDistribMulAction ↥(c.sylowStar hV) (c.toCtx23L.W hV) :=
+  let : MulAction ↥(c.H hV) (Set (c.toCtx23L.W hV)) := Set.mulActionSet
+  let : MulDistribMulAction ↥(c.sylowStar hV) (c.toCtx23L.W hV) :=
     MulDistribMulAction.compHom (c.toCtx23L.W hV)
       ((c.H hV).subtype.comp (c.sylowStar hV : Subgroup ↥(c.H hV)).subtype)
-  letI : MulAction ↥(c.sylowStar hV) (c.toCtx23L.W hV) :=
+  let : MulAction ↥(c.sylowStar hV) (c.toCtx23L.W hV) :=
     MulAction.compHom (c.toCtx23L.W hV)
       ((c.H hV).subtype.comp (c.sylowStar hV : Subgroup ↥(c.H hV)).subtype)
   have hℓ : fixedPointSubgroup ↥(c.sylowStar hV) (c.toCtx23L.W hV) = c.Ztil hV :=

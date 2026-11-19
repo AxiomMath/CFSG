@@ -32,9 +32,10 @@ section Core
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem inf_eq_bot_of_pGroup {M P : Subgroup G} [hPn : P.Normal] (hP2 : IsPGroup 2 P)
     (hMs : IsSimpleGroup ↥M) (hM2 : ¬ IsPGroup 2 ↥M) : P ⊓ M = ⊥ := by
-  haveI hnorm : (P.subgroupOf M).Normal := Subgroup.Normal.subgroupOf hPn M
+  have hnorm : (P.subgroupOf M).Normal := Subgroup.Normal.subgroupOf hPn M
   rcases hMs.eq_bot_or_eq_top_of_normal (P.subgroupOf M) with h | h
   · rw [eq_bot_iff]
     intro y hy
@@ -49,8 +50,9 @@ theorem inf_eq_bot_of_pGroup {M P : Subgroup G} [hPn : P.Normal] (hP2 : IsPGroup
       exact this
     exact hP2.to_le hle
 
+omit [Finite G] in
 theorem pCore_eq_of_levi {U N M : Subgroup G} {m : ℕ} (hm : Odd m) (hU : IsPGroup 2 U)
-    (hUN : U ≤ N) (hMN : M ≤ N) (hUn : U.Normal) (hNn : N.Normal)
+    (hUN : U ≤ N) (_hMN : M ≤ N) (hUn : U.Normal) (hNn : N.Normal)
     (hN : ∀ x ∈ N, ∃ u ∈ U, ∃ y ∈ M, x = u * y) (hq : ∀ g : G, g ^ m ∈ N)
     (hMs : IsSimpleGroup ↥M) (hM2 : ¬ IsPGroup 2 ↥M) :
     CFSG.pCore 2 G = U := by
@@ -78,6 +80,7 @@ theorem pCore_eq_of_levi {U N M : Subgroup G} {m : ℕ} (hm : Odd m) (hU : IsPGr
     exact hu
   refine le_antisymm (fun x hx => hPU ⟨hx, hON hx⟩) hUO
 
+omit [Finite G] in
 theorem map_pElementSubgroup_le {H : Type*} [Group H] (f : G →* H) (A : Subgroup G) :
     (pElementSubgroup 2 A).map f ≤ pElementSubgroup 2 (A.map f) := by
   rw [pElementSubgroup, MonoidHom.map_closure]
@@ -88,6 +91,7 @@ theorem map_pElementSubgroup_le {H : Type*} [Group H] (f : G →* H) (A : Subgro
   obtain ⟨j, -, hj⟩ := (Nat.dvd_prime_pow Nat.prime_two).1 hd
   exact ⟨j, hj⟩
 
+omit [Finite G] in
 theorem le_pElementSubgroup_of_gen {M : Subgroup G}
     (hMgen : ∀ P : Subgroup G, (∀ x ∈ M, (∃ k : ℕ, x ^ 2 ^ k = 1) → x ∈ P) → M ≤ P) :
     M ≤ pElementSubgroup 2 M := by
@@ -96,6 +100,7 @@ theorem le_pElementSubgroup_of_gen {M : Subgroup G}
   obtain ⟨j, -, hj⟩ := (Nat.dvd_prime_pow Nat.prime_two).1 (orderOf_dvd_of_pow_eq_one hk)
   exact Subgroup.subset_closure ⟨hx, j, hj⟩
 
+omit [Finite G] in
 theorem exists_mulEquiv_of_levi {U N M : Subgroup G} {m : ℕ} (hm : Odd m) (hU : IsPGroup 2 U)
     (hUN : U ≤ N) (hMN : M ≤ N) (hUn : U.Normal) (hNn : N.Normal)
     (hN : ∀ x ∈ N, ∃ u ∈ U, ∃ y ∈ M, x = u * y) (hq : ∀ g : G, g ^ m ∈ N)
@@ -149,6 +154,7 @@ section Surj
 
 variable {H G : Type*} [Group H] [Finite H] [Group G] [Finite G]
 
+omit [Finite H] [Finite G] in
 theorem exists_mulEquiv_of_levi_surj (ψ : H →* G) (hψ : Function.Surjective ψ)
     (hker : ∀ x, ψ x = 1 → x ∈ Subgroup.center H) {U N M : Subgroup H} {m : ℕ} (hm : Odd m)
     (hU : IsPGroup 2 U) (hUN : U ≤ N) (hMN : M ≤ N) (hUn : U.Normal) (hNn : N.Normal)
@@ -157,7 +163,7 @@ theorem exists_mulEquiv_of_levi_surj (ψ : H →* G) (hψ : Function.Surjective 
     (hMgen : ∀ P : Subgroup H, (∀ x ∈ M, (∃ k : ℕ, x ^ 2 ^ k = 1) → x ∈ P) → M ≤ P) :
     Nonempty (↥(pElementSubgroup 2 (⊤ : Subgroup (G ⧸ CFSG.pCore 2 G))) ≃* ↥M) := by
   have hcen : Subgroup.center ↥M = ⊥ := by
-    haveI : (Subgroup.center ↥M).Normal := inferInstance
+    have : (Subgroup.center ↥M).Normal := inferInstance
     rcases hMs.eq_bot_or_eq_top_of_normal (Subgroup.center ↥M) with h | h
     · exact h
     · exfalso
@@ -179,7 +185,7 @@ theorem exists_mulEquiv_of_levi_surj (ψ : H →* G) (hψ : Function.Surjective 
     rw [MonoidHom.range_comp, Subgroup.range_subtype]
   set eM : ↥M ≃* ↥(M.map ψ) :=
     (MonoidHom.ofInjective hinj).trans (MulEquiv.subgroupCongr hrM) with heM
-  haveI : IsSimpleGroup ↥(M.map ψ) := eM.symm.isSimpleGroup
+  have : IsSimpleGroup ↥(M.map ψ) := eM.symm.isSimpleGroup
   have hM2' : ¬ IsPGroup 2 ↥(M.map ψ) := fun h => hM2 (h.of_equiv eM.symm)
   have hMgen' : ∀ P : Subgroup G, (∀ x ∈ M.map ψ, (∃ k : ℕ, x ^ 2 ^ k = 1) → x ∈ P) →
       M.map ψ ≤ P := by
@@ -222,7 +228,7 @@ theorem exists_mulEquiv_of_levi_map (ψ : K →* Y) (hker : ∀ x, ψ x = 1 → 
   have hψ' : Function.Surjective ψ' := by
     rintro ⟨_, x, hx, rfl⟩
     exact ⟨⟨x, hx⟩, rfl⟩
-  haveI : Finite ↥(Xt.map ψ) := Finite.of_surjective ψ' hψ'
+  have : Finite ↥(Xt.map ψ) := Finite.of_surjective ψ' hψ'
   have hker' : ∀ x, ψ' x = 1 → x ∈ Subgroup.center ↥Xt := by
     intro x hx
     have h1 : ψ (x : K) = 1 := congrArg Subtype.val hx
@@ -233,10 +239,10 @@ theorem exists_mulEquiv_of_levi_map (ψ : K →* Y) (hker : ∀ x, ψ x = 1 → 
   have eU : ↥(U.subgroupOf Xt) ≃* ↥U := Subgroup.subgroupOfEquivOfLe hUX
   have eN : ↥(N.subgroupOf Xt) ≃* ↥N := Subgroup.subgroupOfEquivOfLe hNX
   have eM : ↥(M.subgroupOf Xt) ≃* ↥M := Subgroup.subgroupOfEquivOfLe hMX
-  haveI : (U.subgroupOf Xt).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hUX).2 hUn
-  haveI : (N.subgroupOf Xt).Normal :=
+  have : (U.subgroupOf Xt).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hUX).2 hUn
+  have : (N.subgroupOf Xt).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNX).2 hNn
-  haveI : IsSimpleGroup ↥(M.subgroupOf Xt) := eM.isSimpleGroup
+  have : IsSimpleGroup ↥(M.subgroupOf Xt) := eM.isSimpleGroup
   have hMgen' : ∀ P : Subgroup ↥Xt, (∀ x ∈ M.subgroupOf Xt, (∃ k : ℕ, x ^ 2 ^ k = 1) → x ∈ P) →
       M.subgroupOf Xt ≤ P := by
     intro P hP y hy

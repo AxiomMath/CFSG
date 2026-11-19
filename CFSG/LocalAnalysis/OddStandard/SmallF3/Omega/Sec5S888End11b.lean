@@ -44,7 +44,7 @@ theorem caseB_pocket {H X : Type} [Group H] [Finite H] [Group X] {z : H} (hz : z
     change α x ∈ B
     rw [hx]
     exact y.2
-  haveI hObBnorm : (Ob.subgroupOf B).Normal :=
+  have hObBnorm : (Ob.subgroupOf B).Normal :=
     (inferInstance : Ob.Normal).subgroupOf B
   let φ : ↥P →* ↥B ⧸ Ob.subgroupOf B := (QuotientGroup.mk' (Ob.subgroupOf B)).comp αB
   have hφsurj : Function.Surjective φ := by

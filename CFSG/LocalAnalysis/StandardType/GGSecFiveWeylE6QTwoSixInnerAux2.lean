@@ -47,6 +47,7 @@ private theorem exists_threeA_preimage (hK : Nat.card K = 4) {ω : K}
   rw [hπa] at h1
   exact threeA_ne_one hK hω h1
 
+omit [Finite G] in
 private theorem cElem_mem_sup_ZL (hK : Nat.card K = 4) {ω : K}
     (hω : ω ^ 2 + ω + 1 = 0) {Bs L : Subgroup G}
     (θ : L ⧸ Subgroup.center L ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))
@@ -155,7 +156,7 @@ private theorem sup_ZL_facts (hZ2 : IsPGroup 2 (Subgroup.center L))
     rw [hcard]
     exact Nat.Coprime.coprime_dvd_right hm
       ((by norm_num : Nat.Coprime 3 2).pow_left 6 |>.pow_right m)
-  have hdisj : Bs ⊓ ZL (L := L) = ⊥ := Subgroup.inf_eq_bot_of_coprime hcop
+  have hdisj : Bs ⊓ ZL (L := L) = ⊥ := (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcop))
   refine ⟨hcop, hdisj, ?_⟩
   rw [sup_comm]
   have hdisj' : Disjoint (ZL (L := L)) Bs := Subgroup.disjoint_of_coprime_natCard hcop.symm
@@ -289,6 +290,7 @@ private theorem exists_conj_ZL (hcard : Nat.card Bs = 3 ^ 6)
   obtain ⟨z, hz⟩ := Subgroup.exists_conj_eq_of_isComplement' hcop hcomp1 hcomp2
   exact ⟨z, Subgroup.mem_subgroupOf.mp z.2, hz⟩
 
+omit [Finite G] [Finite K] in
 private theorem ZL_piOf_eq_one
     (θ : L ⧸ Subgroup.center L ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))
     {z0 : G} (hz0Z : z0 ∈ ZL (L := L)) (hz0L : z0 ∈ L) :

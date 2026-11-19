@@ -22,7 +22,7 @@ element in the corresponding subgroup. -/
 public theorem secondCase_a7_k0_exists_order_three
     {G : Type u} [Group G] [Finite G]
     {M : Subgroup G} (O : Subgroup M) [O.Normal]
-    (K0 : Subgroup G) (hK0leM : K0 ≤ M)
+    (K0 : Subgroup G) (_hK0leM : K0 ≤ M)
     (hcard : Nat.card ((K0.subgroupOf M).map
       (QuotientGroup.mk' O)) = 3) :
     ∃ x : G, x ∈ K0 ∧ orderOf x = 3 := by

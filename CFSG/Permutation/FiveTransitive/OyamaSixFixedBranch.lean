@@ -65,7 +65,7 @@ theorem involution_fixed_zero_two_or_six
   · exact Or.inr (Or.inr (fixed_six_of_four_le G X h4 s hs S hfree hSfix g hg hfix))
   have hcyc : IsPGroup 2 (Subgroup.zpowers g) :=
     IsPGroup.of_card (n := 1) (by simp only [Nat.card_zpowers, hg, pow_one])
-  have hmod := (S.isPGroup'.card_modEq_card_fixedPoints X).symm.trans
+  have hmod := (S.isPGroup.card_modEq_card_fixedPoints X).symm.trans
     (hcyc.card_modEq_card_fixedPoints X)
   rw [fixedPoints_zpowers_eq_fixedBy, Nat.card_coe_set_eq, Nat.card_coe_set_eq,
     hSfix] at hmod

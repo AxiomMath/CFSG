@@ -182,12 +182,12 @@ theorem uB_pair : ∀ i j : Fin 3, i ≠ j → ∀ x : V4, ∃ w : V4, uB i w + 
 
 theorem uA_sum : ∀ w : V4, uA 0 w + uA 1 w + uA 2 w = Cf (x0 0) w :=
   eqK_sound (F := fun w => uA 0 w + uA 1 w + uA 2 w) (G := Cf (x0 0))
-    (fun w => by beta_reduce; rw [val_add2, val_add2, uA_v0, uA_v1, uA_v2])
+    (fun w => by rw [val_add2, val_add2, uA_v0, uA_v1, uA_v2])
     (fun w => by rw [cf_val, vc_x00]) check_sA
 
 theorem uB_sum : ∀ w : V4, uB 0 w + uB 1 w + uB 2 w = Cf (x0 1) w :=
   eqK_sound (F := fun w => uB 0 w + uB 1 w + uB 2 w) (G := Cf (x0 1))
-    (fun w => by beta_reduce; rw [val_add2, val_add2, uB_v0, uB_v1, uB_v2])
+    (fun w => by rw [val_add2, val_add2, uB_v0, uB_v1, uB_v2])
     (fun w => by rw [cf_val, vc_x01]) check_sB
 
 theorem T5_0_eq : T5_0 0 = swap 1 2 * swap 4 5 ∧ T5_0 1 = swap 1 3 * swap 2 3 := by decide +kernel
@@ -263,7 +263,7 @@ theorem orb_sound {U : Fin 3 → V4 → ZMod 2} {f0 f1 f2 : ℕ → ℕ}
       eqK f0 (fun v => fi (hK m v)) = true → ∀ w, U 0 (M' *ᵥ w) = U i w := by
     intro i fi hi he w
     have e : ∀ v, U 0 v = U i (M *ᵥ v) :=
-      eqK_sound (G := fun v => U i (M *ᵥ v)) h0 (fun v => by beta_reduce; rw [hi, hM]) he
+      eqK_sound (G := fun v => U i (M *ᵥ v)) h0 (fun v => by rw [hi, hM]) he
     rw [e (M' *ᵥ w), mulVec_mulVec, hMM, one_mulVec]
   rw [orbK, Bool.or_eq_true, Bool.or_eq_true] at h
   rcases h with (h | h) | h
@@ -273,7 +273,7 @@ theorem fix_sound {U : V4 → ZMod 2} {f : ℕ → ℕ} (h0 : ∀ w, (U w).val =
     {M M' : Matrix (Fin 4) (Fin 4) (ZMod 2)} {m : ℕ} (hM : ∀ v, vc (M *ᵥ v) = hK m (vc v))
     (hMM : M * M' = 1) (h : fixK f m = true) : ∀ w, U (M' *ᵥ w) = U w := by
   have e : ∀ v, U v = U (M *ᵥ v) :=
-    eqK_sound (G := fun v => U (M *ᵥ v)) h0 (fun v => by beta_reduce; rw [h0, hM]) h
+    eqK_sound (G := fun v => U (M *ᵥ v)) h0 (fun v => by rw [h0, hM]) h
   intro w
   rw [e (M' *ᵥ w), mulVec_mulVec, hMM, one_mulVec]
 

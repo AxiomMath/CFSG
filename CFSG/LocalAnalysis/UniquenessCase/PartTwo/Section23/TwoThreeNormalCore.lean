@@ -26,6 +26,7 @@ theorem commutator_le_pCoreOf_of_mem_calL {T M L R : Subgroup G} (hL : L ∈ cal
   exact Subgroup.commutator_le.mpr fun x hx y hy => by
     simpa only [commutatorElement_def] using hcomm x hx y hy
 
+omit [Finite G] in
 theorem commutator_le_pCoreOf_of_rotate {H L R Q : Subgroup G} (hLH : L ≤ H) (hRH : R ≤ H)
     (hQH : Q ≤ H) (hHQ : H ≤ Subgroup.normalizer (Q : Set G)) (hLperf : ⁅L, L⁆ = L)
     (hdouble : ⁅⁅R, L⁆, L⁆ ≤ Q) : ⁅R, L⁆ ≤ Q := by

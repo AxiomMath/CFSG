@@ -38,7 +38,7 @@ theorem wt_injective : ∀ a b : Fin e7Data.d, e7Data.wt a = e7Data.wt b → a =
 
 theorem wt_idx {w : Fin (Tag.rank .E7) → ℤ} (h : ∃ a : Fin e7Data.d, e7Data.wt a = w) :
     e7Data.wt (e8fIdx w) = w := by
-  rw [e8fIdx, dif_pos h]
+  rw [e8fIdx, dite_eq_left h]
   exact h.choose_spec
 
 theorem idx_wt (a : Fin e7Data.d) : e8fIdx (e7Data.wt a) = a :=

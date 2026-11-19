@@ -32,7 +32,7 @@ theorem rowSOf431_alt_of_not_dvd {T : TauCeti.CFSGIndex → Prop}
         CompOfType S σ T)
     {n : ℕ} (hn : 5 ≤ n) (h6 : ¬ 3 ∣ n - 6) : RowSOf431 (alternatingGroup (Fin n)) := by
   intro S _ _ hs hna ⟨e⟩
-  haveI := hs
+  have := hs
   have hsA : IsSimpleGroup (alternatingGroup (Fin n)) := e.symm.isSimpleGroup
   have hnaA : ∃ a b : alternatingGroup (Fin n), a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hna

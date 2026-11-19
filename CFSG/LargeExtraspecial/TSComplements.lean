@@ -89,10 +89,10 @@ private theorem q_graph {q : QuadraticForm (ZMod 2) E} {U B : Submodule (ZMod 2)
   intro x hx
   obtain ⟨b, rfl⟩ := (mem_graph f).mp hx
   rw [QuadraticMap.map_add (f := ⇑q)]
-  simp only [hB b b.2, hU (f b) (f b).2, hf b, zero_add, add_zero]
+  simp only [hB b b.2, hU (f b) (f b).2, hf b, add_zero]
 
 private theorem projectionOnto_alt {q : QuadraticForm (ZMod 2) E}
-    {U B W : Submodule (ZMod 2) E} (hUB : IsCompl U B)
+    {U B W : Submodule (ZMod 2) E} (_hUB : IsCompl U B)
     (hU : ∀ u ∈ U, q u = 0) (hB : ∀ b ∈ B, q b = 0) (hW : W ∈ tsCompl q U) :
     ∀ b : B, polar q (b : E) (((U.projectionOnto W hW.1).comp B.subtype) b) = 0 := by
   intro b
@@ -122,7 +122,7 @@ private theorem projectionOnto_alt {q : QuadraticForm (ZMod 2) E}
 
 private theorem graph_projectionOnto_eq {q : QuadraticForm (ZMod 2) E}
     {U B W : Submodule (ZMod 2) E} (hUB : IsCompl U B)
-    (hU : ∀ u ∈ U, q u = 0) (hB : ∀ b ∈ B, q b = 0) (hW : W ∈ tsCompl q U) :
+    (_hU : ∀ u ∈ U, q u = 0) (_hB : ∀ b ∈ B, q b = 0) (hW : W ∈ tsCompl q U) :
     graph ((U.projectionOnto W hW.1).comp B.subtype) = W := by
   apply le_antisymm
   · rintro x ⟨b, rfl⟩
@@ -152,7 +152,7 @@ private theorem graph_projectionOnto_eq {q : QuadraticForm (ZMod 2) E}
 
 private theorem projectionOnto_graph_eq {q : QuadraticForm (ZMod 2) E}
     {U B : Submodule (ZMod 2) E} (hUB : IsCompl U B)
-    (f : B →ₗ[ZMod 2] U) (hf : ∀ b : B, polar q (b : E) (f b) = 0) :
+    (f : B →ₗ[ZMod 2] U) (_hf : ∀ b : B, polar q (b : E) (f b) = 0) :
     (U.projectionOnto (graph f) (isCompl_graph hUB f)).comp B.subtype = f := by
   apply LinearMap.ext
   intro b
@@ -190,7 +190,7 @@ private noncomputable def pairToDualU (q : QuadraticForm (ZMod 2) E)
 
 private theorem pairToDualB_injective (q : QuadraticForm (ZMod 2) E) {U B : Submodule (ZMod 2) E}
     (hq : q.polarBilin.Nondegenerate) (hUB : IsCompl U B)
-    (hU : ∀ u ∈ U, q u = 0) (hB : ∀ b ∈ B, q b = 0) :
+    (_hU : ∀ u ∈ U, q u = 0) (hB : ∀ b ∈ B, q b = 0) :
     Function.Injective (pairToDualB q (U := U) (B := B)) := by
   intro b b' h
   have hzero : pairToDualB q (U := U) (B := B) (b - b') = 0 := by
@@ -218,7 +218,7 @@ private theorem pairToDualB_injective (q : QuadraticForm (ZMod 2) E) {U B : Subm
 
 private theorem pairToDualU_injective (q : QuadraticForm (ZMod 2) E) {U B : Submodule (ZMod 2) E}
     (hq : q.polarBilin.Nondegenerate) (hUB : IsCompl U B)
-    (hU : ∀ u ∈ U, q u = 0) (hB : ∀ b ∈ B, q b = 0) :
+    (hU : ∀ u ∈ U, q u = 0) (_hB : ∀ b ∈ B, q b = 0) :
     Function.Injective (pairToDualU q (U := U) (B := B)) := by
   intro u u' h
   have hzero : pairToDualU q (U := U) (B := B) (u - u') = 0 := by
@@ -270,7 +270,7 @@ private theorem swapMap_apply {U B : Submodule (ZMod 2) E}
 
 private theorem swapMap_basis {U B : Submodule (ZMod 2) E}
     {e : Basis (Fin 3) (ZMod 2) B} {u : Basis (Fin 3) (ZMod 2) U}
-    {i j : Fin 3} (hij : i ≠ j) (k : Fin 3) :
+    {i j : Fin 3} (_hij : i ≠ j) (k : Fin 3) :
     swapMap e u i j (e k) = if k = i then u j else if k = j then u i else 0 := by
   rw [swapMap, Basis.constr_basis]
 
@@ -282,7 +282,7 @@ private theorem polar_eq_coeff {q : QuadraticForm (ZMod 2) E} {U B : Submodule (
   have hb : (b : E) = ∑ k, e.repr b k • (e k : E) := by
     simpa only [Submodule.coe_sum, Submodule.coe_smul] using (congrArg Subtype.val (e.sum_repr b)).symm
   rw [hb, ← polarBilin_apply_apply]
-  simp only [map_sum, map_smul, polarBilin_apply_apply]
+  simp only [map_sum, map_smul]
   rw [Fin.sum_univ_three]
   fin_cases i <;> simp [hpair]
 

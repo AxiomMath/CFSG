@@ -12,12 +12,13 @@ open scoped commutatorElement
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 private theorem w16g_central_conj_eq_self {p : ℕ} {t : MulAut W} {P : Subgroup (MulAut W)}
     (h : InvCfg131 p t P)
     (hα : ¬ ∃ z ∈ P, orderOf z = p ∧ (∀ y ∈ P, y * z = z * y) ∧ t * z * t⁻¹ = z⁻¹)
     {z : MulAut W} (hzP : z ∈ P) (hzc : ∀ y ∈ P, y * z = z * y) :
     t * z * t⁻¹ = z := by
-  haveI : Fact p.Prime := ⟨h.hp⟩
+  have : Fact p.Prime := ⟨h.hp⟩
   have htt : t * t = 1 := by
     have h2 := pow_orderOf_eq_one t
     rw [h.ht, pow_two] at h2
@@ -94,8 +95,8 @@ private theorem w16g_exists_central_prime_order {p : ℕ} {t : MulAut W}
     (hcen : ∀ z ∈ P, (∀ y ∈ P, y * z = z * y) → t * z * t⁻¹ = z) :
     ∃ z₀ : MulAut W, z₀ ∈ P ∧ orderOf z₀ = p ∧
       (∀ y ∈ P, y * z₀ = z₀ * y) ∧ t * z₀ * t⁻¹ = z₀ := by
-  haveI : Fact p.Prime := ⟨h.hp⟩
-  haveI : Nontrivial ↥P := (Subgroup.nontrivial_iff_ne_bot P).mpr h.hne
+  have : Fact p.Prime := ⟨h.hp⟩
+  have : Nontrivial ↥P := (Subgroup.nontrivial_iff_ne_bot P).mpr h.hne
   have hcenter : Nontrivial (Subgroup.center ↥P) := IsPGroup.center_nontrivial h.hP
   obtain ⟨g, hg, hg1⟩ :=
     (Subgroup.nontrivial_iff_exists_ne_one (H := Subgroup.center ↥P)).mp hcenter

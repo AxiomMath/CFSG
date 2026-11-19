@@ -10,11 +10,13 @@ open Subgroup CFSG CFSG.LocalAnalysis.GorensteinLyons
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem ti_conjugate_inf (X Y : Subgroup G) (g : G) :
     conjugate (X ⊓ Y) g = conjugate X g ⊓ conjugate Y g := by
   ext x
   simp only [Subgroup.mem_inf, mem_conjugate_iff_conj_mem]
 
+omit [Finite G] in
 private theorem ti_conjugate_bot (g : G) : conjugate (⊥ : Subgroup G) g = ⊥ := by
   ext x
   simp only [mem_conjugate_iff_conj_mem, Subgroup.mem_bot]
@@ -27,6 +29,7 @@ private theorem ti_conjugate_bot (g : G) : conjugate (⊥ : Subgroup G) g = ⊥ 
     rw [h]
     group
 
+omit [Finite G] in
 private theorem ti_conjugate_pair {A : Subgroup G}
     (hTI : ∀ g : G, conjugate A g = A ∨ A ⊓ conjugate A g = ⊥) (x y : G) :
     conjugate A x = conjugate A y ∨ conjugate A x ⊓ conjugate A y = ⊥ := by
@@ -49,7 +52,7 @@ theorem commute_of_mem_conjugate_of_mem_normalizer {A : Subgroup G} (hA : IsCycl
   intro a ha
   have hcomm : ∀ x y : A, x * y = y * x := by
     intro x y
-    letI := IsCyclic.commGroup (α := ↥A)
+    let := IsCyclic.commGroup (α := ↥A)
     exact mul_comm x y
   have hN : ∀ x : G, x ∈ A ↔ k * x * k⁻¹ ∈ A := fun x => mem_normalizer_iff.mp hkN x
   have hinv : ∀ x : G, k⁻¹ * x * k ∈ A ↔ x ∈ A := by

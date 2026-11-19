@@ -73,7 +73,7 @@ theorem mem_of_centralizes_sylow {P H : Subgroup P24} (hP : IsSylowIn 2 P H) {z 
       have hz1 : z ^ 2 ^ (k + 1) = 1 := by
         rw [Nat.pow_succ', pow_mul, show z ^ 2 = 1 by rw [pow_two, hz], one_pow]
       rw [hs1, hz1, mul_one]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQsub : IsPGroup 2 (Q.subgroupOf H) :=
     hQ2.of_equiv (Subgroup.subgroupOfEquivOfLe hQH).symm
   have hle : P.subgroupOf H ≤ Q.subgroupOf H :=

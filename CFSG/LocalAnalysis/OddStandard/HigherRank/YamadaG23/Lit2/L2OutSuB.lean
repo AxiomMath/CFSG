@@ -45,7 +45,7 @@ theorem l2out_center_dvd_four_cyclic (hG : GriessNativeTable) {B : Type} [Group 
     exact Subgroup.card_dvd_of_surjective hψ
   have hb : ¬ 3 ∣ Nat.card (center B) := by
     intro h3
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨c, hc⟩ := exists_prime_orderOf_dvd_card' (G := center B) 3 h3
     let N : Subgroup B := Subgroup.zpowers (c : B)
     have hNle : N ≤ center B := Subgroup.zpowers_le.mpr c.2
@@ -81,7 +81,7 @@ theorem l2out_center_dvd_four_cyclic (hG : GriessNativeTable) {B : Type} [Group 
       map_mul' := fun a b => by
         refine Prod.ext (Prod.ext ?_ ?_) (Prod.ext ?_ ?_) <;> simp }
   have hsurj : Function.Surjective (ψ.comp ι) := by
-    haveI : Subsingleton (Multiplicative (ZMod (genericOrders .PSU 4 3 1).2)) := by
+    have : Subsingleton (Multiplicative (ZMod (genericOrders .PSU 4 3 1).2)) := by
       have h2 : (genericOrders .PSU 4 3 1).2 = 1 := by decide
       rw [h2]
       infer_instance

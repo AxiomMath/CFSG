@@ -54,6 +54,7 @@ include S
 
 theorem W_le_Y : blockU X ≤ blockQ X := fun _ hw => (S.block.1.blockU_le_center hw).1
 
+omit [Finite G] S in
 theorem W_le_X : blockU X ≤ X := blockU_le_self X
 
 theorem Y_comm_W {y w : G} (hy : y ∈ blockQ X) (hw : w ∈ blockU X) : y * w = w * y :=
@@ -64,11 +65,12 @@ theorem W_comm {a b : G} (ha : a ∈ blockU X) (hb : b ∈ blockU X) : a * b = b
 
 theorem W_sq {w : G} (hw : w ∈ blockU X) : w ^ 2 = 1 := S.elemU.2 w hw
 
+omit [Finite G] S in
 theorem Y_isPGroup : IsPGroup 2 (blockQ X) :=
   CFSG.RankThreeCoreUniqueness.Helpers.pCoreOf_isPGroup 2 X
 
 theorem commutator_W_eq : ⁅blockU X, X⁆ = blockU X :=
-  SimsTheoremC.commutator_commutator_eq_of_twoResidual S.block.1.eq_twoResidual S.Y_isPGroup
+  SimsTheoremC.commutator_commutator_eq_of_twoResidual S.block.1.eq_twoResidual Setting.Y_isPGroup
     (CFSG.RankThreeCoreUniqueness.Helpers.localGroup_le_normalizer_pCoreOf 2 X)
 
 theorem M_normalizes_W {m : G} (hm : m ∈ M) {w : G} (hw : w ∈ blockU X) :
@@ -235,7 +237,7 @@ theorem isElementaryAbelian_tildeU : CFSG.IsElementaryAbelian 2 (tildeU X) := by
     rfl
 
 theorem card_tildeU : Nat.card (tildeU X) = 16 := by
-  haveI := S.isElementaryAbelian_tildeU
+  have := S.isElementaryAbelian_tildeU
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := (CFSG.IsElementaryAbelian.isPGroup 2 (tildeU X)).exists_card_eq
   have h := CFSG.pRank_eq_of_card_eq_pow Nat.one_lt_two hn
@@ -327,7 +329,7 @@ theorem comm_mem_W {m : G} (hmY : ∀ x ∈ X, ⁅m, x⁆ ∈ blockQ X) {x : G} 
     rw [h1]
     exact hn⟩
   have hq2 : IsPGroup 2 (↥(blockQ X) ⧸ (blockU X).subgroupOf (blockQ X)) :=
-    S.Y_isPGroup.to_quotient _
+    Setting.Y_isPGroup.to_quotient _
   have hY : ∀ x' : ↥X, ⁅m, (x' : G)⁆ ∈ blockQ X := fun x' => hmY x' x'.2
   let f : ↥X →* (↥(blockQ X) ⧸ (blockU X).subgroupOf (blockQ X)) :=
     { toFun := fun x' => QuotientGroup.mk ⟨⁅m, (x' : G)⁆, hY x'⟩

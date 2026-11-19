@@ -17,7 +17,7 @@ variable {G : Type*} [Group G] {t v : G} {J : Subgroup G}
 theorem pCore_two_le_kleinV [Finite G] (cfg : H2Cfg G t v J) : pCore 2 G ≤ kleinV t v := by
   by_cases hW : pCore 2 G = ⊥
   · rw [hW]; exact bot_le
-  · haveI : (pCore 2 G).Normal := pCore_normal
+  · have : (pCore 2 G).Normal := pCore_normal
     have hWp : IsPGroup 2 ↥(pCore 2 G) := pCore_isPGroup
     have hZne : pCore 2 G ⊓ centralizer (pCore 2 G : Set G) ≠ ⊥ :=
       inf_centralizer_ne_bot hWp hW

@@ -79,7 +79,7 @@ theorem fS_threeAArg_eq_one_iff (u : T4) :
   fun j => if j = i.castSucc then 1 else if j = 5 then -1 else 0
 
 theorem sum_deltaB (i : Fin 5) : ∑ j, deltaB i j = 0 := by
-  fin_cases i <;> simp [deltaB, Fin.sum_univ_six] <;> decide
+  fin_cases i <;> simp [deltaB, Fin.sum_univ_six]
 
 @[expose] def deltaSB (i : Fin 5) : ↥sumZeroSubgroup :=
   ⟨Multiplicative.ofAdd (deltaB i), by
@@ -89,7 +89,7 @@ theorem sum_deltaB (i : Fin 5) : ∑ j, deltaB i j = 0 := by
 theorem deltaB_eq_delta (i : Fin 5) : deltaB i = delta i := by
   funext j
   fin_cases i <;> fin_cases j <;>
-    simp [deltaB, delta, delta0, delta1, delta2, delta3, delta4] <;> rfl
+    simp [deltaB, delta, delta0, delta1, delta2, delta3, delta4]
 
 theorem deltaSB_eq_deltaS (i : Fin 5) : deltaSB i = deltaS i := by
   apply Subtype.ext
@@ -175,7 +175,7 @@ theorem Hfun_zero : Hfun hK hω 0 = ⊤ := by
   rw [Hfun]
   have hexp0 : expLift (0 : T4) = 0 := by
     funext i
-    fin_cases i <;> simp [expLift] <;> decide
+    fin_cases i <;> simp [expLift]
   have hfS0 : fS 0 = 1 := by
     ext x
     rw [fS_apply, hexp0]
@@ -236,7 +236,7 @@ theorem exists_Hfun_eq_of_index_eq_three (H : Subgroup ↥(torU K)) (hH : H.inde
     simp [u, expLift]
   let oneVec : Fin 6 → ZMod 3 := fun _ => 1
   have hOneSum : ∑ i, oneVec i = 0 := by
-    simp [oneVec, Fin.sum_univ_six]
+    simp [oneVec]
     decide
   let oneS : ↥sumZeroSubgroup := ⟨Multiplicative.ofAdd oneVec, hOneSum⟩
   have hOneKer : oneS ∈ (torHom hK hω).ker := by
@@ -249,8 +249,7 @@ theorem exists_Hfun_eq_of_index_eq_three (H : Subgroup ↥(torU K)) (hH : H.inde
     apply Multiplicative.toAdd.injective
     funext i
     fin_cases i <;>
-      simp [deltaS, delta, delta0, delta1, delta2, delta3, delta4, oneS, oneVec,
-        Fin.sum_univ_six] <;> decide
+      simp [deltaS, delta, delta0, delta1, delta2, delta3, delta4, oneS, oneVec]; decide
   have hχone : χ oneS = 1 := MonoidHom.mem_ker.mp (hχker hOneKer)
   have hχprod :
       χ (deltaS 0) * χ (deltaS 1) * χ (deltaS 2) * χ (deltaS 3) * χ (deltaS 4) = 1 := by
@@ -468,6 +467,7 @@ theorem Hfun_permU_eq_map_conj {σ : Equiv.Perm (Fin 6)} {v : T4}
   rw [map_conjAutTor_eq hK hω σ (Hfun hK hω v)]
   exact hconj.symm
 
+omit [Finite V] in
 theorem finrank_Hfun_lineStep (σ : Equiv.Perm (Fin 6)) {v : T4}
     (hconj : ((Hfun hK hω v).map (torU K).subtype).map
         (MulAut.conj (Psigma (K := K) hK σ)).toMonoidHom =
@@ -479,31 +479,37 @@ theorem finrank_Hfun_lineStep (σ : Equiv.Perm (Fin 6)) {v : T4}
     CFSG.StandardType.USixTwo.ModuleProof.finrank_weightSpace_conj hK hω ρ σ
       (Hfun hK hω v)]
 
+omit [Finite V] in
 theorem finrank_Hfun_lineStep_s01 (v : T4) :
     Module.finrank (ZMod 2) (weightSpace (repTor ρ) (Hfun hK hω (lineStep s01 v))) =
       Module.finrank (ZMod 2) (weightSpace (repTor ρ) (Hfun hK hω v)) :=
   finrank_Hfun_lineStep hK hω ρ s01 (Hfun_conj_s01 hK hω v)
 
+omit [Finite V] in
 theorem finrank_Hfun_lineStep_s12 (v : T4) :
     Module.finrank (ZMod 2) (weightSpace (repTor ρ) (Hfun hK hω (lineStep s12 v))) =
       Module.finrank (ZMod 2) (weightSpace (repTor ρ) (Hfun hK hω v)) :=
   finrank_Hfun_lineStep hK hω ρ s12 (Hfun_conj_s12 hK hω v)
 
+omit [Finite V] in
 theorem finrank_Hfun_lineStep_s23 (v : T4) :
     Module.finrank (ZMod 2) (weightSpace (repTor ρ) (Hfun hK hω (lineStep s23 v))) =
       Module.finrank (ZMod 2) (weightSpace (repTor ρ) (Hfun hK hω v)) :=
   finrank_Hfun_lineStep hK hω ρ s23 (Hfun_conj_s23 hK hω v)
 
+omit [Finite V] in
 theorem finrank_Hfun_lineStep_s34 (v : T4) :
     Module.finrank (ZMod 2) (weightSpace (repTor ρ) (Hfun hK hω (lineStep s34 v))) =
       Module.finrank (ZMod 2) (weightSpace (repTor ρ) (Hfun hK hω v)) :=
   finrank_Hfun_lineStep hK hω ρ s34 (Hfun_conj_s34 hK hω v)
 
+omit [Finite V] in
 theorem finrank_Hfun_lineStep_s45 (v : T4) :
     Module.finrank (ZMod 2) (weightSpace (repTor ρ) (Hfun hK hω (lineStep s45 v))) =
       Module.finrank (ZMod 2) (weightSpace (repTor ρ) (Hfun hK hω v)) :=
   finrank_Hfun_lineStep hK hω ρ s45 (Hfun_conj_s45 hK hω v)
 
+omit [Finite V] in
 theorem finrank_Hfun_mem_reach (base : T4) :
     ∀ (n : ℕ) {u : T4}, u ∈ reach base n →
       Module.finrank (ZMod 2) (weightSpace (repTor ρ) (Hfun hK hω u)) =
@@ -527,21 +533,25 @@ theorem finrank_Hfun_mem_reach (base : T4) :
     · rw [hu]; exact (finrank_Hfun_lineStep_s34 hK hω ρ v).trans (ih hv)
     · rw [hu]; exact (finrank_Hfun_lineStep_s45 hK hω ρ v).trans (ih hv)
 
+omit [Finite V] in
 theorem finrank_Hfun_mem_O1 {u : T4} (hu : u ∈ O₁) :
     Module.finrank (ZMod 2) (weightSpace (repTor ρ) (Hfun hK hω u)) =
       Module.finrank (ZMod 2) (weightSpace (repTor ρ) (Hfun hK hω base₁)) :=
   finrank_Hfun_mem_reach hK hω ρ base₁ 6 hu
 
+omit [Finite V] in
 theorem finrank_Hfun_mem_O2 {u : T4} (hu : u ∈ O₂) :
     Module.finrank (ZMod 2) (weightSpace (repTor ρ) (Hfun hK hω u)) =
       Module.finrank (ZMod 2) (weightSpace (repTor ρ) (Hfun hK hω base₂)) :=
   finrank_Hfun_mem_reach hK hω ρ base₂ 6 hu
 
+omit [Finite V] in
 theorem finrank_Hfun_mem_O3 {u : T4} (hu : u ∈ O₃) :
     Module.finrank (ZMod 2) (weightSpace (repTor ρ) (Hfun hK hω u)) =
       Module.finrank (ZMod 2) (weightSpace (repTor ρ) (Hfun hK hω base₃)) :=
   finrank_Hfun_mem_reach hK hω ρ base₃ 6 hu
 
+omit [Finite V] in
 theorem sum_weightSpace_eq_sum_lineReps
     [Fintype (Hyperplane ↥(torU K) 3)] :
     (∑ H : Hyperplane ↥(torU K) 3,
@@ -577,14 +587,14 @@ theorem finrank_eq_fixedSpace_add_orbits :
         15 * Module.finrank (ZMod 2) (weightSpace (repTor ρ) (Hfun hK hω base₂)) +
         15 * Module.finrank (ZMod 2) (weightSpace (repTor ρ) (Hfun hK hω base₃)) := by
   classical
-  haveI : Finite ↥(torU K) := Nat.finite_of_card_ne_zero (by rw [card_torU hK]; norm_num)
-  haveI : Finite (Subgroup ↥(torU K)) :=
+  have : Finite ↥(torU K) := Nat.finite_of_card_ne_zero (by rw [card_torU hK]; norm_num)
+  have : Finite (Subgroup ↥(torU K)) :=
     Finite.of_injective (fun H : Subgroup ↥(torU K) => (H : Set ↥(torU K)))
       SetLike.coe_injective
-  haveI : Finite (Hyperplane ↥(torU K) 3) :=
+  have : Finite (Hyperplane ↥(torU K) 3) :=
     Finite.of_injective (fun H : Hyperplane ↥(torU K) 3 =>
       (H.1 : Subgroup ↥(torU K))) (fun a b h => Subtype.ext h)
-  haveI : Fintype (Hyperplane ↥(torU K) 3) := Fintype.ofFinite _
+  have : Fintype (Hyperplane ↥(torU K) 3) := Fintype.ofFinite _
   have h := finrank_eqLocus_eq hK hω (ρ := ρ) (a := (1 : ↥(torU K)))
     (T := Finset.univ.filter (fun H : Hyperplane ↥(torU K) 3 =>
       weightSpace (repTor ρ) H.1 ≠ ⊥)) (by intro H; simp)
@@ -663,6 +673,7 @@ theorem finrank_eq_fixedSpace_add_orbits :
   rw [hO1, hO2, hO3]
   ring
 
+omit [Finite V] in
 theorem sum_filter_weightSpace_threeA
     [Fintype (Hyperplane ↥(torU K) 3)]
     [DecidablePred (fun H : Hyperplane ↥(torU K) 3 => threeAElt hω ∈ H.1)] :
@@ -713,11 +724,11 @@ theorem finrank_eqLocus_threeA_eq :
         6 * Module.finrank (ZMod 2) (weightSpace (repTor ρ) (Hfun hK hω base₂)) +
         3 * Module.finrank (ZMod 2) (weightSpace (repTor ρ) (Hfun hK hω base₃)) := by
   classical
-  haveI : Finite ↥(torU K) := Nat.finite_of_card_ne_zero (by rw [card_torU hK]; norm_num)
-  haveI : Finite (Subgroup ↥(torU K)) :=
+  have : Finite ↥(torU K) := Nat.finite_of_card_ne_zero (by rw [card_torU hK]; norm_num)
+  have : Finite (Subgroup ↥(torU K)) :=
     Finite.of_injective (fun H : Subgroup ↥(torU K) => (H : Set ↥(torU K)))
       SetLike.coe_injective
-  haveI : Fintype (Hyperplane ↥(torU K) 3) := Fintype.ofFinite _
+  have : Fintype (Hyperplane ↥(torU K) 3) := Fintype.ofFinite _
   let T : Finset (Hyperplane ↥(torU K) 3) :=
     Finset.univ.filter (fun H => weightSpace (repTor ρ) H.1 ≠ ⊥)
   have hT : ∀ H : Hyperplane ↥(torU K) 3,
@@ -807,7 +818,7 @@ theorem twenty_le_finrank_of_faithful (hK : Nat.card K = 4) {ω : K}
     (hω : ω ^ 2 + ω + 1 = 0) (hρ : Function.Injective ρ) :
     20 ≤ Module.finrank (ZMod 2) V := by
   classical
-  haveI : Finite ↥(torU K) := Nat.finite_of_card_ne_zero (by rw [card_torU hK]; norm_num)
+  have : Finite ↥(torU K) := Nat.finite_of_card_ne_zero (by rw [card_torU hK]; norm_num)
   have hformula := finrank_eq_fixedSpace_add_orbits hK hω ρ
   have hex : (Module.finrank (ZMod 2) (weightSpace (repTor ρ) (Hfun hK hω base₁)) ≠ 0) ∨
       (Module.finrank (ZMod 2) (weightSpace (repTor ρ) (Hfun hK hω base₂)) ≠ 0) ∨
@@ -856,7 +867,7 @@ theorem finrank_eq_twenty_of_fixed (hK : Nat.card K = 4) {ω : K}
       (LinearMap.eqLocus (ρ (threeA hω) : V →ₗ[ZMod 2] V) LinearMap.id) = 8) :
     Module.finrank (ZMod 2) V = 20 := by
   classical
-  haveI : Finite ↥(torU K) := Nat.finite_of_card_ne_zero (by rw [card_torU hK]; norm_num)
+  have : Finite ↥(torU K) := Nat.finite_of_card_ne_zero (by rw [card_torU hK]; norm_num)
   have hCbot : fixedSpace (repTor ρ) ⊤ = ⊥ := by
     rw [eq_bot_iff]
     intro v hv

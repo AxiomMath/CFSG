@@ -16,7 +16,7 @@ theorem normalizer_le_of_weakCoreRank {p : ℕ} {P : Sylow p G} {M H₁ R₁ : S
     (hA3 : 3 ≤ CFSG.Open.pRank p (A ⊔ (U ⊓ Subgroup.centralizer (A : Set G)))) :
     Subgroup.normalizer (A : Set G) ≤ M := by
   have hp := he.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨m, hm, hUP⟩ := exists_conj_le he.sylow_le hU hUM
   refine (CFSG.PreuniquenessRankFour.Helpers.normalizer_le_weakCore p (hAU.trans hUP) hA2 ?_).trans
     (weakCore_conj_le hp he.weakCore_le hm)
@@ -39,7 +39,7 @@ theorem weakCore_le_d1X0_of_escape {p : ℕ} {P : Sylow p G} {M H₁ R₁ : Subg
     GLBWeakCore p ((P₁.subgroupOf N).map (QuotientGroup.mk' (primeComplementCore (G := N) p))) ≤
       d1X0 p M N := by
   have hp := he.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set O := primeComplementCore (G := N) p
   set π := QuotientGroup.mk' O with hπ
   have hO : p.Coprime (Nat.card O) := primeComplementCore_coprime p
@@ -84,7 +84,7 @@ theorem gammaOne_le_d1X0 {p : ℕ} (hp : p.Prime) {M N E : Subgroup G} (hEN : E 
     (hEp : IsPGroup p E) (hΓ : GLBCore p 1 E ≤ M) :
     GLBCore p 1 ((E.subgroupOf N).map (QuotientGroup.mk' (primeComplementCore (G := N) p))) ≤
       d1X0 p M N := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set O := primeComplementCore (G := N) p
   set π := QuotientGroup.mk' O with hπ
   have hO : p.Coprime (Nat.card O) := primeComplementCore_coprime p

@@ -22,7 +22,7 @@ theorem exists_odd_five_fixer
     ∃ z : fixingSubgroup P s, z.val.val ∉ alternatingGroup X := by
   classical
   let Q := sylowImage X P s S
-  have hQ : IsPGroup 2 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup 2 Q := S.isPGroup.map (fixingSubgroup P s).subtype
   have hQcard : Nat.card Q = 32 := by
     rw [Subgroup.card_map_of_injective (fixingSubgroup P s).subtype_injective]
     exact hS

@@ -12,7 +12,7 @@ open CFSG CFSG.Assembly TableB Matrix CFSG.LocalAnalysis.ComponentInitial
   CFSG.LocalAnalysis.ComponentInitial.LinearFlag
 
 private theorem exists_comp_eq_of_model_SL {d : ℕ} {K : Type} [Field K] [CharP K 2]
-    (hd : 3 ≤ d)
+    (_hd : 3 ≤ d)
     {φ : SpecialLinearGroup (Fin d) K →* projectiveSL d K} (hφs : Function.Surjective φ)
     (hφk : ∀ g, φ g = 1 → g ∈ scalars d K) :
     ∃ α₀ : MulAut (projectiveSL d K), ∀ x, φ x = α₀ (proj d K x) := by
@@ -59,7 +59,6 @@ private theorem exists_comp_eq_of_model_SL {d : ℕ} {K : Type} [Field K] [CharP
     have hx : φ x = 1 := by rw [← hψ' x, hr]
     exact (QuotientGroup.eq_one_iff x).mpr (hle_phi_pi (MonoidHom.mem_ker.mpr hx))
   refine ⟨eπ.symm.trans (MulEquiv.ofBijective ψ ⟨hψinj, hψsurj⟩), fun x => ?_⟩
-  change φ x = (eπ.symm.trans (MulEquiv.ofBijective ψ ⟨hψinj, hψsurj⟩)) (proj d K x)
   rw [MulEquiv.trans_apply]
   change φ x = ψ (eπ.symm (proj d K x))
   rw [← heπ x, MulEquiv.symm_apply_apply, hψ' x]

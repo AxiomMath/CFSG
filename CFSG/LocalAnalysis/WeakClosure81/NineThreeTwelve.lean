@@ -11,6 +11,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {V T A K S X : Subgroup G} {p : ℕ} {g x : G}
 
+omit [Finite G] in
 private theorem nineThree_conj_sup_twelve (P Q : Subgroup G) (g : G) :
     conjSubgroup (P ⊔ Q) g = conjSubgroup P g ⊔ conjSubgroup Q g := by
   simp only [CFSG.Quasithin.conjSubgroup]
@@ -50,7 +51,7 @@ theorem commutator_nineI_conj_le (hc : Nine3Choice V T A K S X p g x)
       (hc.nineI_le_conj_S hI).trans ((E3.conjSubgroup_mono_left g hc.core.S_le_K).trans hKgN)
     exact (Subgroup.le_normalizer_iff_commutator_le_right).mp hIN
 
-theorem nine_twelve_H_le_normalizer (hc : Nine3Choice V T A K S X p g x)
+theorem nine_twelve_H_le_normalizer (_hc : Nine3Choice V T A K S X p g x)
     (hH : ⁅nineH V K, conjSubgroup (nineI V K) g⁆ ≤ nineI V K) :
     nineH V K ≤ normalizer (nineI0 V K g : Set G) := by
   have key : ∀ h ∈ nineH V K, conjSubgroup (nineI0 V K g) h ≤ nineI0 V K g := by

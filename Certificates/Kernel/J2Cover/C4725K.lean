@@ -90,12 +90,12 @@ theorem step_ok {k : Nat} (h : condK KT k = true) : stepT (pre k) k = pre (k + 1
   unfold condK at h
   simp only [kc_pt, xAct_eq, act_pt]
   by_cases hr : pg 14 (mask 14) KC k % 3 = 0
-  · rw [if_pos hr] at h ⊢
+  · rw [ite_eq_left hr] at h ⊢
     simp only [Bool.and_eq_true, beq_iff_eq] at h
     obtain ⟨⟨h1, h2⟩, h3⟩ := h
     congr 1
     rw [← h1, ← h2, ← h3]
-  · rw [if_neg hr] at h ⊢
+  · rw [ite_eq_right hr] at h ⊢
     simp only [Bool.and_eq_true, beq_iff_eq, decide_eq_true_eq] at h
     obtain ⟨⟨⟨hlt, h1⟩, h2⟩, h3⟩ := h
     have hp : (pre k)[pg 14 (mask 14) KC k / 3]! = D KT (pg 14 (mask 14) KC k / 3) := by

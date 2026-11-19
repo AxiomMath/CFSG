@@ -13,8 +13,8 @@ variable {G : Type*} [Group G]
 theorem exists_conj_of_card_nine {H P S : Subgroup G} (hH : Nat.card H = 576) (hPH : P ≤ H)
     (hSH : S ≤ H) (hP : Nat.card P = 9) (hS : Nat.card S = 9) :
     ∃ h ∈ H, ∀ x ∈ P, h * x * h⁻¹ ∈ S := by
-  haveI : Finite H := Nat.finite_of_card_ne_zero (by rw [hH]; norm_num)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite H := Nat.finite_of_card_ne_zero (by rw [hH]; norm_num)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have key : ∀ T : Subgroup G, T ≤ H → Nat.card T = 9 →
       ∃ Tsyl : Sylow 3 H, (Tsyl : Subgroup H) = T.subgroupOf H := by
     intro T hTH hT
@@ -45,8 +45,8 @@ theorem exists_conj_of_card_nine {H P S : Subgroup G} (hH : Nat.card H = 576) (h
 theorem exists_conj_into_of_pow_three {H P : Subgroup G} (hH : Nat.card H = 576) (hPH : P ≤ H)
     (hP : Nat.card P = 9) {x : G} (hx : x ∈ H) (hx3 : x ^ 3 = 1) :
     ∃ h ∈ H, h * x * h⁻¹ ∈ P := by
-  haveI : Finite H := Nat.finite_of_card_ne_zero (by rw [hH]; norm_num)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite H := Nat.finite_of_card_ne_zero (by rw [hH]; norm_num)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hP' : Nat.card (P.subgroupOf H) = 9 := by
     rw [← hP]; exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hPH).toEquiv
   have hP3 : IsPGroup 3 (P.subgroupOf H) := IsPGroup.of_card (n := 2) (by rw [hP']; norm_num)

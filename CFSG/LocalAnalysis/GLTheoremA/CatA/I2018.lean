@@ -101,7 +101,7 @@ theorem i2018At_of_facts {G : Type} [Group G] [Finite G]
     (hBT : I2018BorelTits) (hCore : I2018ChevCore) : I2018At G := by
   intro _ x K J S₀ hK hX _ hx3 _ hJ hJU hS₀K hS₀2 hJS₀ hS₀n hxN
   obtain ⟨hsimple, hna⟩ := chev_pSimple_simple_nonabelian Nat.prime_three hK
-  haveI := hsimple
+  have := hsimple
   have hcat : IsCatalogGroup (PSimple 3 K) :=
     CFSG.LocalAnalysis.GLTheoremA.I2611.isCatalogGroup_center_quotient' ((hX.of_le hK.1).quotient _)
       (isQuasisimple_pQuot_of_glaPComponent Nat.prime_three hK)

@@ -62,10 +62,10 @@ theorem uc22pwc_pow_alike {H : Type} [Group H] (ρ : MulAut H) (F : Subgroup H) 
     (hl2 : ∀ x ∈ F, (ρ ^ l) ((ρ ^ l) x) = x) (hl1 : ∃ x ∈ F, (ρ ^ l) x ≠ x) :
     ∀ x ∈ F, (ρ ^ k) x = (ρ ^ l) x := by
   let K : Subgroup (MulAut H) := zpowers ρ ⊓ uc22pwtStab (MonoidHom.id (MulAut H)) F
-  haveI : IsCyclic K := Subgroup.isCyclic_of_le inf_le_left
+  have : IsCyclic K := Subgroup.isCyclic_of_le inf_le_left
   let r : K →* MulAut F :=
     (uc22pwtRes (MonoidHom.id (MulAut H)) F).comp (Subgroup.inclusion inf_le_right)
-  haveI : IsCyclic r.range := isCyclic_of_surjective r.rangeRestrict r.rangeRestrict_surjective
+  have : IsCyclic r.range := isCyclic_of_surjective r.rangeRestrict r.rangeRestrict_surjective
   have hr : ∀ (g : K) (x : F), (((r.rangeRestrict g : r.range) : MulAut F) x : H) = (g : MulAut H) x :=
     fun _ _ => rfl
   have hsq : ∀ g : K, (∀ x ∈ F, (g : MulAut H) ((g : MulAut H) x) = x) → (r.rangeRestrict g) ^ 2 = 1 := by

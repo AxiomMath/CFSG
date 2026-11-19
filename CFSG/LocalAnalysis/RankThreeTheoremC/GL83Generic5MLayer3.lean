@@ -30,7 +30,7 @@ theorem gen5_exists_perfect_lift (hG : Gen5Global G) (hK : GL83Generic5KFacts)
   have hKperf : ⁅Kb, Kb⁆ = Kb := Subgroup.isPerfect_iff.mp ⟨hKb.2.2.1⟩
   have hUM : U ≤ M :=
     inf_le_left.trans (sylow_le_of_isCoreMaxLocal hG.setting hl.sigma hl.core).1
-  have hUp : IsPGroup p (U.subgroupOf M) := (P.isPGroup'.to_le inf_le_left).comap_subtype
+  have hUp : IsPGroup p (U.subgroupOf M) := (P.isPGroup.to_le inf_le_left).comap_subtype
   have hKC : Kb ≤ (centralizer ((U.subgroupOf M : Subgroup M) : Set M)).map
       (QuotientGroup.mk' O) := by
     have h1 : Kb ≤ centralizer (((U.subgroupOf M).map (QuotientGroup.mk' O) :

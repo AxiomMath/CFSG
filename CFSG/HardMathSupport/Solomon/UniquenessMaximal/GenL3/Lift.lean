@@ -27,6 +27,7 @@ theorem exists_central_of_fixed {S : Subgroup (MulAut Y)} {a : Y}
   have h2 : ((s a : Y) : Y ⧸ Subgroup.center Y) = (a : Y ⧸ Subgroup.center Y) := h
   exact QuotientGroup.eq.1 h2.symm
 
+omit [Finite Y] in
 theorem commutator_mem_map {S : Subgroup (MulAut Y)} {a b : Y}
     (ha : proj Y a ∈ c25Fix (S.map (centerDescend Y)))
     (hb : proj Y b ∈ c25Fix (S.map (centerDescend Y))) :

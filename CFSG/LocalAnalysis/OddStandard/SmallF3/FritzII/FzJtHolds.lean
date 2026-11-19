@@ -14,6 +14,7 @@ variable {G : Type} [Group G]
 section
 variable [Finite G] {t : G} {L S T₂ : Subgroup G} {x₁ x₂ lam rho tau a₁₂ a₂₂ a₃₂ : G}
 
+omit [Finite G] in
 theorem fzJt_mul_invol {v w : G} (hv2 : v ^ 2 = 1) (hw2 : w ^ 2 = 1) (hvw : v ≠ w)
     (hc : v * w = w * v) :
     (v * w) ^ 2 = 1 ∧ v * w ≠ 1 := by

@@ -86,7 +86,7 @@ private theorem commute_of_commute_matrix_of_not_scalar {K : Type} [Field K] (h3
     by_cases hij : i = j
     · subst hij
       simp [Φ]
-    · simp [Φ, Matrix.one_apply, hij]
+    · simp [Φ, hij]
   obtain ⟨g, j, hg, hcase⟩ := exists_normal_form hτ3 hτ1 h3' hW'3 hys
   have hgdet : IsUnit g.det := (Matrix.isUnit_iff_isUnit_det g).mp hg
   have hdetj : (τ ^ (j : ℕ) • Φ W).det = 1 := by

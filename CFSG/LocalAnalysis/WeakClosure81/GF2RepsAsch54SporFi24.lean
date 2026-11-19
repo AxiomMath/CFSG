@@ -55,7 +55,7 @@ theorem letter_eq {j : ℕ} {z : ℤ} (h3 : 3 ≤ z.natAbs) (hzj : z.natAbs - 3 
     (if z.natAbs ≤ 2 then genG z else if z.natAbs - 3 < j then
       (if 0 < z then slpG genG W (z.natAbs - 3) else (slpG genG W (z.natAbs - 3))⁻¹) else 1) =
       if 0 < z then line (z.natAbs - 3) else (line (z.natAbs - 3))⁻¹ := by
-  rw [if_neg (by omega), if_pos hzj]
+  rw [ite_eq_right (by omega), ite_eq_left hzj]
   rfl
 
 theorem slpG_shiftWord {j : ℕ} (hj : 13 ≤ j) {w : List ℤ}
@@ -70,12 +70,12 @@ theorem slpG_shiftWord {j : ℕ} (hj : 13 ≤ j) {w : List ℤ}
   simp only [Function.comp_apply]
   unfold genLetterG
   rcases lt_or_gt_of_ne hl0 with hneg | hpos
-  · rw [if_neg (show ¬ (0 < l) by omega), letter_eq (by omega) (by omega),
-      if_neg (show ¬ (0 < l - 2) by omega), show (l - 2).natAbs - 3 = l.natAbs - 1 by omega,
-      line_eq_gs (j := l.natAbs - 1) (by omega), if_neg (show ¬ (0 < l) by omega)]
-  · rw [if_pos hpos, letter_eq (by omega) (by omega), if_pos (show 0 < l + 2 by omega),
+  · rw [ite_eq_right (show ¬ (0 < l) by omega), letter_eq (by omega) (by omega),
+      ite_eq_right (show ¬ (0 < l - 2) by omega), show (l - 2).natAbs - 3 = l.natAbs - 1 by omega,
+      line_eq_gs (j := l.natAbs - 1) (by omega), ite_eq_right (show ¬ (0 < l) by omega)]
+  · rw [ite_eq_left hpos, letter_eq (by omega) (by omega), ite_eq_left (show 0 < l + 2 by omega),
       show (l + 2).natAbs - 3 = l.natAbs - 1 by omega, line_eq_gs (j := l.natAbs - 1) (by omega),
-      if_pos hpos]
+      ite_eq_left hpos]
 
 theorem line_lineNA : line lineNA = nA := by
   unfold nA extWord
@@ -121,34 +121,34 @@ theorem tAut_line {g t : ℕ} (hg : g < W.size) (ht : twistOK W g t = true) :
   ·
     rcases lt_or_gt_of_ne (show z ≠ 0 by omega) with hz0 | hz0
     · have htw : twistZ z = -16 := by
-        unfold twistZ; rw [if_pos h, if_neg (by omega), hNA]; rfl
-      rw [htw, letter_eq (by decide) (by omega), if_neg (show ¬ (0 < z) by omega),
-        if_neg (show ¬ ((0 : ℤ) < -16) by decide), show z.natAbs - 3 = 0 by omega,
+        unfold twistZ; rw [ite_eq_left h, ite_eq_right (by omega), hNA]; rfl
+      rw [htw, letter_eq (by decide) (by omega), ite_eq_right (show ¬ (0 < z) by omega),
+        ite_eq_right (show ¬ ((0 : ℤ) < -16) by decide), show z.natAbs - 3 = 0 by omega,
         show (-16 : ℤ).natAbs - 3 = lineNA from rfl,
         map_inv tAut, line_zero, tAut_a, line_lineNA]
     · have htw : twistZ z = 16 := by
-        unfold twistZ; rw [if_pos h, if_pos hz0, hNA]; rfl
-      rw [htw, letter_eq (by decide) (by omega), if_pos hz0,
-        if_pos (show (0 : ℤ) < 16 by decide), show z.natAbs - 3 = 0 by omega,
+        unfold twistZ; rw [ite_eq_left h, ite_eq_left hz0, hNA]; rfl
+      rw [htw, letter_eq (by decide) (by omega), ite_eq_left hz0,
+        ite_eq_left (show (0 : ℤ) < 16 by decide), show z.natAbs - 3 = 0 by omega,
         show (16 : ℤ).natAbs - 3 = lineNA from rfl,
         line_zero, tAut_a, line_lineNA]
   ·
     rcases lt_or_gt_of_ne (show z ≠ 0 by omega) with hz0 | hz0
     · have htw : twistZ z = -17 := by
-        unfold twistZ; rw [if_neg (by omega), if_pos h, if_neg (by omega), hNB]; rfl
-      rw [htw, letter_eq (by decide) (by omega), if_neg (show ¬ (0 < z) by omega),
-        if_neg (show ¬ ((0 : ℤ) < -17) by decide), show z.natAbs - 3 = 1 by omega,
+        unfold twistZ; rw [ite_eq_right (by omega), ite_eq_left h, ite_eq_right (by omega), hNB]; rfl
+      rw [htw, letter_eq (by decide) (by omega), ite_eq_right (show ¬ (0 < z) by omega),
+        ite_eq_right (show ¬ ((0 : ℤ) < -17) by decide), show z.natAbs - 3 = 1 by omega,
         show (-17 : ℤ).natAbs - 3 = lineNB from rfl,
         map_inv tAut, line_one, tAut_b, line_lineNB]
     · have htw : twistZ z = 17 := by
-        unfold twistZ; rw [if_neg (by omega), if_pos h, if_pos hz0, hNB]; rfl
-      rw [htw, letter_eq (by decide) (by omega), if_pos hz0,
-        if_pos (show (0 : ℤ) < 17 by decide), show z.natAbs - 3 = 1 by omega,
+        unfold twistZ; rw [ite_eq_right (by omega), ite_eq_left h, ite_eq_left hz0, hNB]; rfl
+      rw [htw, letter_eq (by decide) (by omega), ite_eq_left hz0,
+        ite_eq_left (show (0 : ℤ) < 17 by decide), show z.natAbs - 3 = 1 by omega,
         show (17 : ℤ).natAbs - 3 = lineNB from rfl,
         line_one, tAut_b, line_lineNB]
   ·
     have htw : twistZ z = z := by
-      unfold twistZ; rw [if_neg (by omega), if_neg (by omega)]
+      unfold twistZ; rw [ite_eq_right (by omega), ite_eq_right (by omega)]
     rw [htw, letter_eq h3 (by omega)]
     have hfix : tAut (line (z.natAbs - 3)) = line (z.natAbs - 3) := by
       rw [line_eq_gs (j := z.natAbs - 3) (by omega)]

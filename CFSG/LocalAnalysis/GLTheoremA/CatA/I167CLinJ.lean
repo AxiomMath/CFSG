@@ -21,8 +21,8 @@ private theorem i167CLin_jrigid_aux1 {M : Type} [Group M] [Finite M] {b e : ℕ}
     canonLabel lab = (⟨.A, b - 1, e⟩ : GLALabel) := by
   simp only [StatedClassicalModel, StatedLieAdmissible] at hmodel
   obtain ⟨hadm, E, hfield, hfin, hE, hiso⟩ := hmodel
-  letI : Field E := hfield
-  letI : Finite E := hfin
+  let : Field E := hfield
+  let : Finite E := hfin
   obtain ⟨-, -, hb2, -, -⟩ := hadm
   exact (CFSG.LocalAnalysis.GLTheoremA.Y10GInnLin.linLabelDict_of_ggLabelRigidInput
     CFSG.StandardType.ggLabelRigidInput_holds) M lab b e E hb2 hE hlab hiso
@@ -78,7 +78,7 @@ private theorem i167CLin_jrigid_aux4 {G : Type} [Group G] {p : ℕ} {J : Subgrou
   have hdictlab := i167CLin_jrigid_aux1 hmodel hlab
   by_cases hn3' : n = 3
   · have hcanon3 : canonLabel lab = (⟨.A, 3, k⟩ : GLALabel) := by
-      rw [if_pos hn3'] at hcanon
+      rw [ite_eq_left hn3'] at hcanon
       exact hcanon
     have key : (⟨.A, 3, k⟩ : GLALabel) = ⟨.A, b - 1, e⟩ := hcanon3.symm.trans hdictlab
     have hrank : 3 = b - 1 := congrArg (fun l : GLALabel => l.rank) key
@@ -87,7 +87,7 @@ private theorem i167CLin_jrigid_aux4 {G : Type} [Group G] {p : ℕ} {J : Subgrou
     exact ⟨k, hk3 hn3', hkdiv, hke.symm, hb4, by simpa [hn3'] using hcat⟩
   · exfalso
     have hcanonD : canonLabel lab = (⟨.D, n, k⟩ : GLALabel) := by
-      rw [if_neg hn3'] at hcanon
+      rw [ite_eq_right hn3'] at hcanon
       exact hcanon
     have key : (⟨.D, n, k⟩ : GLALabel) = ⟨.A, b - 1, e⟩ := hcanonD.symm.trans hdictlab
     exact absurd (congrArg (fun l : GLALabel => l.tag) key) (by simp)

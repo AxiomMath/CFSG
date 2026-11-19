@@ -41,7 +41,7 @@ def commSub (U : Subgroup G) (z : G) : Subgroup G where
         (z * a * z⁻¹ * a⁻¹) * (a * (z * b * z⁻¹ * b⁻¹) * a⁻¹) := by group
     rw [e]
     exact mul_mem ha' ((mem_normalizer_iff.1 ha _).1 hb')
-  one_mem' := ⟨one_mem _, by simpa using one_mem U⟩
+  one_mem' := ⟨one_mem _, by simp⟩
   inv_mem' := by
     rintro a ⟨ha, ha'⟩
     refine ⟨inv_mem ha, ?_⟩
@@ -125,12 +125,13 @@ section SL2
 variable [Finite G]
 
 open CFSG.LocalAnalysis.EvenBN.TrialityD4.ProductCase.ProductN1SylowAux in
+omit [CharP K 2] in
 theorem sl2Pair_sup_inf {N D K₁ K₂ : Subgroup G} (hS : Sl2Pair K N D K₁ K₂) {A A' : Subgroup G}
     (hDA : D ≤ A) (hDA' : D ≤ A') (hAK : A ≤ K₁) (hA'K : A' ≤ K₁)
     (hcard : Nat.card A = Nat.card D * Nat.card K)
     (hcard' : Nat.card A' = Nat.card D * Nat.card K) (hne : A ≠ A') :
     A ⊔ A' = K₁ ∧ A ⊓ A' = D := by
-  haveI := hS.charTwo
+  have := hS.charTwo
   obtain ⟨φ, hφ, hker⟩ := hS.isoK
   obtain ⟨m, hm⟩ := SL2Aux.card_eq_two_pow (F := K)
   have hm1 : 1 ≤ m := by
@@ -218,6 +219,7 @@ theorem sl2Pair_sup_inf {N D K₁ K₂ : Subgroup G} (hS : Sl2Pair K N D K₁ K�
       ⟨⟨x, hxK⟩, mem_subgroupOf.2 hxA, rfl⟩ ⟨⟨x, hxK⟩, mem_subgroupOf.2 hxA', rfl⟩ hφ1)
 
 open CFSG.LocalAnalysis.EvenBN.TrialityD4.ProductCase.ProductN1SylowAux in
+omit [CharP K 2] [Finite G] in
 theorem sl2Pair_eq_or_eq {N D K₁ K₂ : Subgroup G} (hS : Sl2Pair K N D K₁ K₂) {t : G}
     (ht : t * t = 1) (hKt : K₁ᵍ[t] = K₂) {X : Subgroup G} (hDX : D ≤ X) (hXN : X ≤ N)
     (hNX : N ≤ normalizer (X : Set G)) (hXt : Xᵍ[t] = X) : X = D ∨ X = N := by
@@ -389,9 +391,10 @@ section SL2b
 variable [Finite G]
 
 open CFSG.LocalAnalysis.EvenBN.TrialityD4.ProductCase.ProductN1SylowAux in
+omit [CharP K 2] in
 theorem sl2Pair_sylow_conj {N D K₁ K₂ : Subgroup G} (hS : Sl2Pair K N D K₁ K₂) {t r : G}
     (ht : t * t = 1) (hKt : K₁ᵍ[t] = K₂) {P : Subgroup G} (hP : IsSylowOf 2 P N) (hDP : D ≤ P)
-    (hPt : Pᵍ[t] = P) (hrN : r ∈ N) (hr2 : r * r = 1) (htr : t * r = r * t)
+    (hPt : Pᵍ[t] = P) (hrN : r ∈ N) (_hr2 : r * r = 1) (htr : t * r = r * t)
     (hrP : r ∉ normalizer (P : Set G)) :
     P ⊓ Pᵍ[r] = D ∧ K₁ = (P ⊓ K₁) ⊔ (P ⊓ K₁)ᵍ[r] ∧ K₂ = (P ⊓ K₂) ⊔ (P ⊓ K₂)ᵍ[r] := by
   have hK₂t : K₂ᵍ[t] = K₁ := by rw [← hKt, conj_conj_of_mul_self ht]
@@ -514,6 +517,7 @@ variable
   [CharP K 2]
 
 omit [Finite G] [Finite K] in
+omit [CharP K 2] in
 private theorem wa_mem_leviA (d : G2Data L K) : d.wa ∈ d.leviA :=
   d.emb_mem_image (weylElt_mem_g2RankOne g2ir 1)
 
@@ -569,6 +573,7 @@ private theorem wa_not_mem_normalizer_P (hW : CFSG.Walter.WalterOrderForm) (h : 
   rwa [yamadaP_inf_centralizer_S hW h d hK hQ] at this
 
 omit [Finite G] [Finite K] in
+omit [CharP K 2] in
 private theorem yamadaK₁_le_inf_aux (d : G2Data L K) :
     yamadaK₁ d ≤ L ⊓ normalizer (d.U : Set G) :=
   commutator_le.2 fun a ha b hb => by

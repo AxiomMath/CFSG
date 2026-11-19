@@ -35,13 +35,14 @@ theorem ncard_eq_sum_of_dich {α : Type} [Finite α] {n : ℕ} (Δ : Fin n → S
   rw [Set.ncard_iUnion_of_finite hfin hpair, finsum_eq_sum_of_fintype]
   refine Finset.sum_congr rfl fun i _ => ?_
   rcases hdich i with h | h
-  · rw [if_pos h, Set.inter_eq_right.2 h]
+  · rw [ite_eq_left h, Set.inter_eq_right.2 h]
   · have hsub : ¬ Δ i ⊆ S := by
       intro hsub
       obtain ⟨a, ha⟩ := hne i
       exact Set.disjoint_left.1 h ha (hsub ha)
-    rw [if_neg hsub, Set.inter_comm, h.inter_eq, Set.ncard_empty]
+    rw [ite_eq_right hsub, Set.inter_comm, h.inter_eq, Set.ncard_empty]
 
+omit [Finite G] in
 theorem conj_mem_of_mem_normalizer {X : Subgroup G} {a l : G} (ha : a ∈ X)
     (hl : l ∈ Subgroup.normalizer (X : Set G)) : l⁻¹ * a * l ∈ X := by
   have := (Subgroup.mem_normalizer_iff.1 (Subgroup.inv_mem _ hl) a).1 ha
@@ -50,8 +51,10 @@ theorem conj_mem_of_mem_normalizer {X : Subgroup G} {a l : G} (ha : a ∈ X)
 @[expose] def Frame4.Gz (F : Frame4 G z) : Set G :=
   {b | b ∈ F.A ⊓ F.A' ∧ b ≠ 1 ∧ InZG z b}
 
+omit [Finite G] in
 theorem Frame4.z_mem_B (F : Frame4 G z) : z ∈ F.A ⊓ F.A' := ⟨F.z_mem_A, F.z_mem_A'⟩
 
+omit [Finite G] in
 theorem Frame4.conj_mem_Gz_of {F : Frame4 G z} {b l : G} (hb : b ∈ F.Gz)
     (hlA : l⁻¹ * b * l ∈ F.A ⊓ F.A') : l⁻¹ * b * l ∈ F.Gz := by
   obtain ⟨-, hb1, g, hg⟩ := hb
@@ -68,6 +71,7 @@ theorem Frame4.conj_mem_Gz_J (F : Frame4 G z) {b l : G} (hb : b ∈ F.Gz)
   exact F.conj_mem_Gz_of hb ⟨conj_mem_of_mem_normalizer (Subgroup.mem_inf.1 hb.1).1 hlA,
     conj_mem_of_mem_normalizer (Subgroup.mem_inf.1 hb.1).2 hlA'⟩
 
+omit [Finite G] in
 theorem Frame4.conj_mem_Gz_T (F : Frame4 G z) {b l : G} (hb : b ∈ F.Gz) (hl : l ∈ F.T) :
     l⁻¹ * b * l ∈ F.Gz :=
   F.conj_mem_Gz_of hb ⟨F.A_normal l hl b (Subgroup.mem_inf.1 hb.1).1,

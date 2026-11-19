@@ -29,7 +29,7 @@ private theorem three_not_dvd_Oz : ¬ 3 ∣ Nat.card t.Oz := by
   have hcard : Nat.card t.Oz = Nat.card (CFSG.pPrimeCore 3 ↥t.Xz) :=
     Subgroup.card_map_of_injective t.Xz.subtype_injective
   rw [hcard] at h3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcop : Nat.Coprime 3 (Nat.card (CFSG.pPrimeCore 3 ↥t.Xz)) :=
     CFSG.pPrimeCore_coprime_card
   have h : 3 ∣ Nat.gcd 3 (Nat.card (CFSG.pPrimeCore 3 ↥t.Xz)) := Nat.dvd_gcd dvd_rfl h3
@@ -139,7 +139,7 @@ private theorem forall_fixed_of_fixed {U W : Subgroup G}
         u⁻¹ * (b * y * b⁻¹) * u * (b * y * b⁻¹)⁻¹ ∈ W},
       one_mem' := by
         refine ⟨Subgroup.one_mem _, ?_⟩
-        simpa using W.one_mem,
+        simp,
       mul_mem' := by
         rintro y₁ y₂ ⟨h1N, h1⟩ ⟨h2N, h2⟩
         have hA1N : b * y₁ * b⁻¹ ∈ Subgroup.normalizer (W : Set G) :=
@@ -176,13 +176,13 @@ private theorem forall_fixed_of_fixed {U W : Subgroup G}
 
 private theorem mem_sup_inf_of_fixed (hZ : Subgroup.centralizer (t.Z : Set G) ≤ c.S.M)
     {U W : Subgroup G} (hFW : ¬ 3 ∣ Nat.card W) (hWle : W ≤ U)
-    (hWU : U ≤ Subgroup.normalizer (W : Set G))
+    (_hWU : U ≤ Subgroup.normalizer (W : Set G))
     (hWK : t.Ky ≤ Subgroup.normalizer (W : Set G))
     {b : G} (hb : b ∈ t.Ky) {u : G} (hu : u ∈ U)
     (hq : ∀ x ∈ t.Z, u⁻¹ * (b * x * b⁻¹) * u * (b * x * b⁻¹)⁻¹ ∈ W) :
     u ∈ ((U ⊓ c.S.M) ⊔ W) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hbM : b ∈ c.S.M := c.hyp81.1 (t.Ky_le hb).1
   set X : Subgroup G := Subgroup.map (MulAut.conj b).toMonoidHom t.Z with hX
   have hXcard : Nat.card X = 3 := by
@@ -230,6 +230,7 @@ private theorem mem_sup_inf_of_fixed (hZ : Subgroup.centralizer (t.Z : Set G) �
   exact Subgroup.mul_mem ((U ⊓ c.S.M) ⊔ W) h1 h2
 
 
+omit [Finite G] in
 private theorem inv_mul_conj_mem_of_mul_conj_mem {W : Subgroup G} {u x : G}
     (hu : u ∈ Subgroup.normalizer (W : Set G)) (h : x * u * x⁻¹ * u⁻¹ ∈ W) :
     u⁻¹ * (x * u * x⁻¹) ∈ W := by
@@ -245,7 +246,7 @@ theorem le_inf_sup_of_commutator_not_le
     (hZ : Subgroup.centralizer (t.Z : Set G) ≤ c.S.M)
     {U W : Subgroup G} (hU3 : ¬ 3 ∣ Nat.card U) (hne : U ⊔ t.Ky ≠ ⊤)
     (hUK : t.Ky ≤ Subgroup.normalizer (U : Set G))
-    (hWle : W ≤ U) (hWne : W ≠ U)
+    (hWle : W ≤ U) (_hWne : W ≠ U)
     (hWU : U ≤ Subgroup.normalizer (W : Set G))
     (hWK : t.Ky ≤ Subgroup.normalizer (W : Set G))
     (hWmax : ∀ X : Subgroup G, W ≤ X → X ≤ U → U ≤ Subgroup.normalizer (X : Set G) →
@@ -258,7 +259,7 @@ theorem le_inf_sup_of_commutator_not_le
   have hSnormW : S ≤ Subgroup.normalizer (W : Set G) := sup_le hWU hWK
   have hWSnormal : (W.subgroupOf S).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer (hWle.trans hUS)).mpr hSnormW
-  letI : (W.subgroupOf S).Normal := hWSnormal
+  let : (W.subgroupOf S).Normal := hWSnormal
   let Γ : Type := ↥S ⧸ (W.subgroupOf S)
   let πS : ↥S →* Γ := QuotientGroup.mk' (W.subgroupOf S)
   let A : Subgroup Γ := (t.Ky.subgroupOf S).map πS
@@ -650,7 +651,7 @@ theorem exists_vStar (hK32 : CFSG.LocalAnalysis.UniquenessCase.UCK.K32)
     have hSleX : U ⊔ t.Ky ≤ t.Xz :=
       sup_le (hUle.trans t.Oz_le_Xz) (t.Ky_le_Xz hK32 hGA hSp)
     intro htop
-    haveI : IsSimpleGroup G := c.standing.simple
+    have : IsSimpleGroup G := c.standing.simple
     have hcent : Subgroup.centralizer ({t.y} : Set G) = ⊤ :=
       top_le_iff.mp (htop ▸ hSleX.trans t.Xz_le_centralizer)
     have hy : t.y ∈ Subgroup.center G :=
@@ -691,7 +692,7 @@ theorem exists_vStar (hK32 : CFSG.LocalAnalysis.UniquenessCase.UCK.K32)
       hWmax ((U ⊓ c.S.M) ⊔ W) le_sup_right hXle (hNX _ le_sup_right hXle) hKySupW hXne
     rw [← hXeq]
     exact le_sup_left
-  haveI hWUnormal : (W.subgroupOf U).Normal :=
+  have hWUnormal : (W.subgroupOf U).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hWle).mpr hWU
   have hWsub_ne_top : W.subgroupOf U ≠ ⊤ := by
     intro htop
@@ -778,7 +779,7 @@ theorem exists_vStar (hK32 : CFSG.LocalAnalysis.UniquenessCase.UCK.K32)
     show ((QuotientGroup.mk' (W.subgroupOf U)) ⟨(b : G) * (u : G) * b⁻¹, hconjU⟩) ^ r = 1
     rw [← map_pow]
     exact (QuotientGroup.eq_one_iff _).mpr (Subgroup.mem_subgroupOf.mpr hpow)
-  haveI : Fact r.Prime := ⟨hprime⟩
+  have : Fact r.Prime := ⟨hprime⟩
   obtain ⟨q, hqord⟩ := exists_prime_orderOf_dvd_card' r hdvd
   have hq_ne : q ≠ 1 := by
     intro h

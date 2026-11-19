@@ -12,7 +12,7 @@ theorem odd_card_sub_one_of_char_two {F : Type} [Field F] [Finite F] [CharP F 2]
     Odd (Nat.card F - 1) := by
   have hring : ringChar F = 2 := CharP.ringChar_of_prime_eq_zero Nat.prime_two (by
     simpa using (CharP.cast_eq_zero F 2))
-  letI := Fintype.ofFinite F
+  let := Fintype.ofFinite F
   have heven : Even (Nat.card F) := by
     rw [Nat.card_eq_fintype_card]
     exact Nat.even_iff.mpr (FiniteField.even_card_of_char_two hring)
@@ -22,7 +22,7 @@ instance finite_lie_A (m : ℕ) (Q : TauCeti.PrimePower)
     (hv : (TauCeti.LieTypeIndex.A m Q).Valid) :
     Finite (TauCeti.CFSGIndex.lie
       (⟨TauCeti.LieTypeIndex.A m Q, hv⟩ : TauCeti.ValidLieTypeIndex)).Group := by
-  haveI : Fact Q.p.Prime := ⟨Q.prime_p⟩
+  have : Fact Q.p.Prime := ⟨Q.prime_p⟩
   let F := GaloisField Q.p Q.exponent
   have hFcard : Nat.card F = Q.p ^ Q.exponent :=
     GaloisField.card Q.p Q.exponent Q.exponent_pos.ne'

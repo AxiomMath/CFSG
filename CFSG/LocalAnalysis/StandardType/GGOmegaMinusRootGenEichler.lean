@@ -90,7 +90,7 @@ theorem eichler_extend_of_isCoordSplit (he : Function.Injective e)
     rw [eichler_of_not h, eichler_of_not h']
     rfl
 
-private theorem eichler_apply_of_not_mem (hs : IsCoordSplit ⇑Q ⇑Q' e) {u w : ι → F}
+private theorem eichler_apply_of_not_mem (_hs : IsCoordSplit ⇑Q ⇑Q' e) {u w : ι → F}
     (hu : ∀ a, a ∉ Set.range e → u a = 0) (hw : ∀ a, a ∉ Set.range e → w a = 0)
     {a : ι} (ha : a ∉ Set.range e) (v : ι → F) : eichler Q u w v a = v a := by
   by_cases h : Q u = 0 ∧ polar Q u w = 0
@@ -147,6 +147,7 @@ private theorem eichler_quadPlus_eq_elt {m : ℕ} {K : Type} [Field K] [CharP K 
   simp only [neg_neg] at hmat
   rw [hmat, toMatrix'_toLinEquiv, mat_elt_difference]
 
+omit [Finite K] in
 theorem eichler_root_mem_omMinusShortBlock {i j : Fin m} (hij : i ≠ j) (t : K) :
     (toLinEquiv _ K).symm (eichler (quadMinus (m + 1) K b c)
       (Pi.single (Sum.inl i) 1) (t • Pi.single (Sum.inr (Sum.inl j)) 1)) ∈
@@ -172,23 +173,23 @@ theorem eichler_root_mem_omMinusShortBlock {i j : Fin m} (hij : i ≠ j) (t : K)
     rcases a with a | a | a
     · exact absurd ⟨Sum.inl a, rfl⟩ ha
     · exact absurd ⟨Sum.inr a, rfl⟩ ha
-    · fin_cases a <;> simp [u, Pi.single_apply]
+    · fin_cases a <;> simp [u]
   have hw : ∀ a, a ∉ Set.range e → w a = 0 := by
     intro a ha
     rcases a with a | a | a
     · exact absurd ⟨Sum.inl a, rfl⟩ ha
     · exact absurd ⟨Sum.inr a, rfl⟩ ha
-    · fin_cases a <;> simp [w, Pi.single_apply]
+    · fin_cases a <;> simp [w]
   have hsplit := eichler_extend_of_isCoordSplit he hs hu hw
   have hu_comp : u ∘ e = (Pi.single (Sum.inl i) 1 : Fin m ⊕ Fin m → K) := by
     funext a
     rcases a with a | a
     · simp [u, e, Pi.single_apply, Sum.inl_injective.eq_iff]
-    · simp [u, e, Pi.single_apply]
+    · simp [u, e]
   have hw_comp : w ∘ e = (t • Pi.single (Sum.inr j) 1 : Fin m ⊕ Fin m → K) := by
     funext a
     rcases a with a | a
-    · simp [w, e, Pi.single_apply]
+    · simp [w, e]
     · simp [w, e, Pi.single_apply, Sum.inr_injective.eq_iff, Sum.inl_injective.eq_iff]
   have hsingle : ∀ y : Fin m ⊕ Fin m,
       (Pi.single (e y) (1 : K) : ι → K) = Function.extend e (Pi.single y 1) 0 := by
@@ -224,7 +225,7 @@ theorem eichler_root_mem_omMinusShortBlock {i j : Fin m} (hij : i ≠ j) (t : K)
     · have ha : a ∉ Set.range e := fun ha => hab ⟨ha, hb⟩
       rw [hcol, hrow ha (Pi.single b 1), Matrix.one_apply]
       have hne : a ≠ b := fun h => ha (h ▸ hb)
-      simp [Pi.single_eq_of_ne hne, hne]
+      simp [hne]
     · rw [hcol, hzero (Pi.single b 1) (by
         funext d
         rw [Function.comp_apply,
@@ -234,7 +235,7 @@ theorem eichler_root_mem_omMinusShortBlock {i j : Fin m} (hij : i ≠ j) (t : K)
       by_cases hab' : a = b
       · subst hab'
         simp
-      · simp [Pi.single_eq_of_ne hab', hab']
+      · simp [hab']
   have hentry : ∀ x y : Fin m ⊕ Fin m,
       (A : Matrix ι ι K) (e x) (e y) = (g : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) K) x y := by
     intro x y
@@ -333,7 +334,7 @@ theorem eichler_plane_mem_omMinusLongBlock (hirr : ∀ s : K, s ^ 2 + b * s + c 
     · have ha : a ∉ Set.range e := fun ha => hab ⟨ha, hb⟩
       rw [hcol, hrow ha (Pi.single b 1), Matrix.one_apply]
       have hne : a ≠ b := fun h => ha (h ▸ hb)
-      simp [Pi.single_eq_of_ne hne, hne]
+      simp [hne]
     · rw [hcol, hzero (Pi.single b 1) (by
         funext d
         rw [Function.comp_apply,
@@ -343,7 +344,7 @@ theorem eichler_plane_mem_omMinusLongBlock (hirr : ∀ s : K, s ^ 2 + b * s + c 
       by_cases hab' : a = b
       · subst hab'
         simp
-      · simp [Pi.single_eq_of_ne hab', hab']
+      · simp [hab']
   obtain ⟨g, hg⟩ := exists_coordEmbedGL_eq_of_mem_suppGL he (mem_suppGL.mpr hsupp)
   have hg_entry : ∀ x y : ι', (g : Matrix ι' ι' K) x y =
       eichler Q' (u ∘ e) (w ∘ e) (Pi.single y 1) x := by

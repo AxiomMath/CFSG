@@ -59,21 +59,21 @@ theorem sec12W_base2_card [Finite D] (U0 U1 : Subgroup D) :
     · refine ⟨⟨⟨fun i => if i = 1 then (p.1 : D) else (p.2 : D), 1⟩,
         ⟨rfl, ?_, ?_⟩⟩, ?_⟩
       · show (if (1 : Multiplicative (ZMod 2)) = 1 then (p.1 : D) else (p.2 : D)) ∈ U0
-        rw [if_pos rfl]
+        rw [ite_eq_left rfl]
         exact p.1.2
       · show (if (Multiplicative.ofAdd 1 : Multiplicative (ZMod 2)) = 1 then (p.1 : D)
             else (p.2 : D)) ∈ U1
-        rw [if_neg (by decide)]
+        rw [ite_eq_right (by decide)]
         exact p.2.2
       · apply Prod.ext
         · exact Subtype.ext (by
             show (if (1 : Multiplicative (ZMod 2)) = 1 then (p.1 : D) else (p.2 : D)) =
               (p.1 : D)
-            rw [if_pos rfl])
+            rw [ite_eq_left rfl])
         · exact Subtype.ext (by
             show (if (Multiplicative.ofAdd 1 : Multiplicative (ZMod 2)) = 1 then (p.1 : D)
               else (p.2 : D)) = (p.2 : D)
-            rw [if_neg (by decide)])
+            rw [ite_eq_right (by decide)])
   exact (Nat.card_congr (Equiv.ofBijective f hbij)).trans (Nat.card_prod U0 U1)
 
 end CFSG.OddStandard.SmallF3.Omega

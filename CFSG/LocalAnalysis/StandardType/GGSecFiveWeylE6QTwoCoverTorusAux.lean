@@ -13,7 +13,7 @@ namespace CFSG.StandardType.USixTwo
 variable {K : Type} [Field K] [Finite K]
 
 @[expose]
-noncomputable def genT (hK : Nat.card K = 4) {ω : K} (hω : ω ^ 2 + ω + 1 = 0)
+noncomputable def genT (_hK : Nat.card K = 4) {ω : K} (hω : ω ^ 2 + ω + 1 = 0)
     (i : Fin 5) : torSU K :=
   USixTwo.diagTwoTor hω (show (0 : Fin 6) ≠ Fin.succ i from (Fin.succ_ne_zero i).symm)
 
@@ -158,7 +158,7 @@ private theorem diagTwoUnit_swap {ω : K} (hω : ω ^ 2 + ω + 1 = 0) {i j : Fin
     simp [diagTwoUnit, Equiv.swap_apply_right, hij, unitOmega_sq_inv hω]
   · by_cases hki : k = i
     · subst hki
-      simp [diagTwoUnit, Equiv.swap_apply_left, hij, hkj, unitOmega_inv hω]
+      simp [diagTwoUnit, Equiv.swap_apply_left, hij, unitOmega_inv hω]
     · have hki' : (Equiv.swap i j)⁻¹ k ≠ i := by
         intro h
         exact hkj (by simpa using congrArg (Equiv.swap i j) h)

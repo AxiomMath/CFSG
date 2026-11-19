@@ -15,7 +15,7 @@ theorem noHardG2Mid : NoLowTwoRankSectionFor IsHardG2MidIndex := by
   rcases i with ⟨p, hp⟩ | ⟨n, hn⟩ | ⟨⟨li, hv⟩⟩ | ⟨s⟩
   · exact (hi : False).elim
   · exact (hi : False).elim
-  · cases li <;> first | exact (hi : False).elim | skip
+  · cases li <;> try exact (hi : False).elim
     obtain ⟨hq2, he, h9⟩ := hi
     rename_i q
     exact ⟨q.p, q.prime_p, hq2, rankFourCover_G2_two q hv hq2 he h9⟩

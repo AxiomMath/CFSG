@@ -434,11 +434,11 @@ theorem elt_smul (E : QuadExt F K σ) (m : ℕ)
       (bcLin E (m + 1) (g : (Fin (m + 1) → K) →ₗ[F] (Fin (m + 1) → K))) := by
   rw [FlipFrame.elt, FlipFrame.elt]
   by_cases hlast : i = Fin.last m
-  · rw [if_pos hlast, if_pos hlast, smul_sub]
-  · rw [if_neg hlast, if_neg hlast]
+  · rw [ite_eq_left hlast, ite_eq_left hlast, smul_sub]
+  · rw [ite_eq_right hlast, ite_eq_right hlast]
     by_cases halt : (i : ℕ) + 1 = m
-    · rw [if_pos halt, if_pos halt, smul_alt]
-    · rw [if_neg halt, if_neg halt, smul_sub]
+    · rw [ite_eq_left halt, ite_eq_left halt, smul_alt]
+    · rw [ite_eq_right halt, ite_eq_right halt, smul_sub]
 
 omit [CharP K 2] in
 theorem FlipFrame.even_iff_not_even_alt (hσ : ∀ x, σ (σ x) = x) (c : FlipFrame σ (m + 1)) :
@@ -524,7 +524,7 @@ theorem jEmb_eq_sum_stdE (E : QuadExt F K σ) (n : ℕ) (x : Fin n → K) :
     rw [Finset.sum_eq_single i]
     · simp
     · intro j _ hj
-      rw [if_neg (Ne.symm hj), mul_zero]
+      rw [ite_eq_right (Ne.symm hj), mul_zero]
     · intro h; exact absurd (Finset.mem_univ i) h
   | inr i =>
     simp only [jEmb_apply_inr, Pi.add_apply, Finset.sum_apply, Pi.smul_apply, stdE_inr,

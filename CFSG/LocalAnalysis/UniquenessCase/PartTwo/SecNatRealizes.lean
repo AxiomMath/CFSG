@@ -89,7 +89,7 @@ theorem natL2_realizes_autSub_commSub {Q : Type} [Group Q] (ι : Q →* MulAut E
           (commSub (⊤ : Subgroup E) (L.map ι)))) := by
   classical
   obtain ⟨F, hFf, hFfin, hFcard, hAinv, hBinv, hBA, φ, ψ, hψ0, hψker, hψsurj, hψeq⟩ := hnat
-  letI : Field F := hFf
+  let : Field F := hFf
   have : Finite F := hFfin
   let ρ : Representation (ZMod 2) Q (Additive E) := (autRep E).comp ι
   let H : Subgroup (MulAut E) := L.map ι

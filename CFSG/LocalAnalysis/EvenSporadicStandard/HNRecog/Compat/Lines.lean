@@ -18,7 +18,7 @@ variable {G G' : Type} [Group G] [Group G'] {a z : G} {a' z' : G'} {α : G → G
 theorem IsLine.isClique3 {c u v w : G} (hc : c ≠ 1) (hl : IsLine c {u, v, w}) :
     IsClique3 c u v w := by
   classical
-  haveI : IsKleinFour (Elem2 2) := cp_isKleinFour_elem2
+  have : IsKleinFour (Elem2 2) := cp_isKleinFour_elem2
   obtain ⟨hconj, hcard, ⟨φ⟩⟩ := hl
   let f : Fin 3 → G := ![u, v, w]
   have hf_range : Set.range f = ({u, v, w} : Set G) := by

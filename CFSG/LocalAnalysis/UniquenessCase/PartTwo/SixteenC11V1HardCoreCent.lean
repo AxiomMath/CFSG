@@ -122,7 +122,7 @@ private theorem s16c11_v1_coreAct_pairCM (n : ℕ) (σ : Equiv.Perm (Fin n)) (i 
     evenWeightPerm_pairEW]
 
 private theorem s16c11_v1_pairEW_add (n : ℕ) {i j k : Fin n}
-    (hij : i ≠ j) (hjk : j ≠ k) (hik : i ≠ k) :
+    (_hij : i ≠ j) (_hjk : j ≠ k) (_hik : i ≠ k) :
     pairEW i j + pairEW j k = (pairEW i k : CFSG.QuasithinUnique.evenWeight n) := by
   apply Subtype.ext
   funext p
@@ -207,10 +207,10 @@ private theorem s16c11_v1_eq_top_of_pairCM_mem {n : ℕ}
       rw [hm'def, hcoe, toAdd_mul, Pi.add_apply, s16c11_v1_pairCM_coord]
       ac_rfl
     have hmi : Multiplicative.toAdd (m' : G6.PermMod n) i = 0 := by
-      rw [hcoord i, hi, if_pos rfl, if_neg hji.symm]
+      rw [hcoord i, hi, ite_eq_left rfl, ite_eq_right hji.symm]
       decide
     have hmj : Multiplicative.toAdd (m' : G6.PermMod n) j = 0 := by
-      rw [hcoord j, hj, if_neg hji, if_pos rfl]
+      rw [hcoord j, hj, ite_eq_right hji, ite_eq_left rfl]
       decide
     have hlt : (Finset.univ.filter fun p =>
         Multiplicative.toAdd (m' : G6.PermMod n) p = 1).card < k := by
@@ -227,7 +227,7 @@ private theorem s16c11_v1_eq_top_of_pairCM_mem {n : ℕ}
           · subst hpj
             rw [hmj] at hp
             exact absurd hp (by decide)
-          · rw [hcoord p, if_neg hpi, if_neg hpj] at hp
+          · rw [hcoord p, ite_eq_right hpi, ite_eq_right hpj] at hp
             simpa using hp
       · intro hsub
         have hmem := hsub (show i ∈ Finset.univ.filter
@@ -384,7 +384,7 @@ theorem s16c11_v1_coreAct_centralizer {n : ℕ} (hn : 5 ≤ n)
   have hγid : γ.toAddMonoidHom = AddMonoidHom.id (altHeart n) := by
     rcases altHeart_endo_eq_zero_or_id hn γ.toAddMonoidHom hcomm with h0 | hid
     · exfalso
-      haveI : Nontrivial (altHeart n) := altHeart_nontrivial (n := n) (by omega)
+      have : Nontrivial (altHeart n) := altHeart_nontrivial (n := n) (by omega)
       obtain ⟨y, hy⟩ := exists_ne (0 : altHeart n)
       have hy0 : γ y = 0 := by
         have := congrArg (fun f : altHeart n →+ altHeart n => f y) h0

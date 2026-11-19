@@ -133,7 +133,7 @@ theorem kFactKlingenSylowNormalCyclic_of_five_le (p : ℕ) [Fact p.Prime] (hp5 :
   obtain ⟨eK⟩ := KlingenSpFour.nonempty_mulEquiv_psp4 (p := p) (by omega)
     (KlingenSpFour.statedClassicalModel_of_spFourIndex d hd' e)
   refine KlingenSylowFive.card_le_of_forall_pow_eq_one hc hp.pos fun y hy => ?_
-  obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp (Sylow.isPGroup' T) ⟨y, hN hy⟩
+  obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp (Sylow.isPGroup T) ⟨y, hN hy⟩
   have hk' : orderOf y = p ^ k := by rwa [Subgroup.orderOf_mk] at hk
   have h1 : (eK y) ^ p ^ k = 1 := by
     rw [← map_pow, ← hk', pow_orderOf_eq_one, map_one]

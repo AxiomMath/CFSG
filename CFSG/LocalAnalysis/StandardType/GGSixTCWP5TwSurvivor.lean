@@ -41,14 +41,14 @@ section Glue
 private theorem w5T_two_pow_cast_three {f : ℕ} (hf : f % 2 = 1) :
     (((2 ^ f : ℕ)) : ZMod 3) = 2 := by
   have h := tc_two_pow_mod_three f
-  rw [if_neg (by omega)] at h
+  rw [ite_eq_right (by omega)] at h
   rw [← ZMod.natCast_mod, h]
   rfl
 
 private theorem w5T_two_pow_cast_three_even {f : ℕ} (hf : f % 2 = 0) :
     (((2 ^ f : ℕ)) : ZMod 3) = 1 := by
   have h := tc_two_pow_mod_three f
-  rw [if_pos hf] at h
+  rw [ite_eq_left hf] at h
   rw [← ZMod.natCast_mod, h]
   rfl
 
@@ -191,7 +191,7 @@ theorem GGTCHyp.survivor_twE6
   have hforb : famOrbit S₁.ρ (fun _ : PUnit.{1} => a xg) ixp =
       rationalRoots S₁.ρ (rootCharHom (a xg)) ix₀ := by
     ext γ
-    simp only [famOrbit, rationalRoots, Set.mem_setOf_eq]
+    simp only [famOrbit, rationalRoots, Set.mem_ofPred_eq]
     rw [hixp]
   have hspanL : fr.JimgO L ≤ rootSpan .E6 (AlgebraicClosure K)
       (famOrbit S₁.ρ (fun _ : PUnit.{1} => a xg) ixp) := by
@@ -294,7 +294,7 @@ theorem GGTCHyp.survivor_twE6
     have hforbd : famOrbit S₁.ρ (fun _ : PUnit.{1} => a ud) idp =
         rationalRoots S₁.ρ (rootCharHom (a ud)) ik' := by
       ext γ
-      simp only [famOrbit, rationalRoots, Set.mem_setOf_eq]
+      simp only [famOrbit, rationalRoots, Set.mem_ofPred_eq]
       rw [hidp]
     have hspanRC : rationalComponent S₁.ρ S₁.Γ (rootCharHom (a ud)) ik' ≤ rootSpan .E6
         (AlgebraicClosure K) (famOrbit S₁.ρ (fun _ : PUnit.{1} => a ud) idp) := by

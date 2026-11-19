@@ -147,6 +147,7 @@ variable {u : Fin 4 → Fin n → ZMod 5}
   (hu : ∀ i j, b (u i) (u j) = if i = j then minusCoeff i else 0)
 include hu
 
+omit hu in
 private theorem bilin_frameEmbed_right (x : Fin n → ZMod 5) (y : Fin 4 → ZMod 5) :
     b x (frameEmbed u y) = ∑ j, y j * b x (u j) := by
   rw [frameEmbed_apply, LinearMap.BilinForm.sum_right]
@@ -156,19 +157,20 @@ theorem frameProj_frameEmbed (y : Fin 4 → ZMod 5) : frameProj b u (frameEmbed 
   funext i
   rw [frameProj_apply, frameEmbed_apply, LinearMap.BilinForm.sum_left]
   simp only [LinearMap.BilinForm.smul_left, hu, mul_ite, mul_zero, Finset.sum_ite_eq',
-    Finset.mem_univ, if_true]
+    Finset.mem_univ, ite_true]
   linear_combination y i * minusCoeffInv_mul i
 
+omit hu in
 theorem minusBilin_frameProj (x : Fin n → ZMod 5) (y : Fin 4 → ZMod 5) :
     minusBilin (frameProj b u x) y = b x (frameEmbed u y) := by
-  rw [minusBilin_eq_sum, bilin_frameEmbed_right hu]
+  rw [minusBilin_eq_sum, bilin_frameEmbed_right]
   refine Finset.sum_congr rfl fun j _ => ?_
   rw [frameProj_apply]
   linear_combination (y j * b x (u j)) * minusCoeffInv_mul j
 
 theorem bilin_frameEmbed (y y' : Fin 4 → ZMod 5) :
     b (frameEmbed u y) (frameEmbed u y') = minusBilin y y' := by
-  rw [← minusBilin_frameProj hu, frameProj_frameEmbed hu]
+  rw [← minusBilin_frameProj, frameProj_frameEmbed hu]
 
 theorem toMatrix'_frameProj_mul :
     LinearMap.toMatrix' (frameProj b u) * LinearMap.toMatrix' (frameEmbed u) = 1 := by
@@ -219,13 +221,13 @@ theorem act_frameHom_of_frameProj_eq_zero (g : GL (Fin 4) (ZMod 5)) {x : Fin n �
     (hx : frameProj b u x = 0) : act (frameHom b u hu g) x = x := by
   rw [act_frameHom, hx, Matrix.mulVec_zero, map_zero, add_zero]
 
-theorem frameHom_refl (hsym : ∀ x y, b x y = b y x) (y : Fin 4 → ZMod 5) :
+theorem frameHom_refl (_hsym : ∀ x y, b x y = b y x) (y : Fin 4 → ZMod 5) :
     frameHom b u hu (refl minusBilin y) = refl b (frameEmbed u y) := by
   have hn : b (frameEmbed u y) (frameEmbed u y) = minusBilin y y := bilin_frameEmbed hu y y
   by_cases hy : minusBilin y y = 1
   · refine gl_ext fun x => ?_
     rw [act_frameHom, act_refl (hn.trans hy), Matrix.sub_mulVec, Matrix.one_mulVec, ← act,
-      act_refl hy, add_sub_cancel_left, map_smul, minusBilin_frameProj hu]
+      act_refl hy, add_sub_cancel_left, map_smul, minusBilin_frameProj]
   · rw [refl_of_ne hy, refl_of_ne (hn ▸ hy), map_one]
 
 theorem frameHom_injective : Function.Injective (frameHom b u hu) := by

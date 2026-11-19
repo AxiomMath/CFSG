@@ -82,7 +82,7 @@ theorem ActsOnE.unique (hr : f.range = aeSub 6) {h : G} {w w' : Wr 6}
 end Acts
 
 theorem card_piSub : Nat.card (piSub 6) = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h1 : piSub 6 = Subgroup.zpowers (allOnes 6) := by
     apply le_antisymm
     · rintro a (rfl | rfl)
@@ -108,11 +108,12 @@ structure KappaHyp (e : G) (E : Subgroup G) (f : ↥E →* Wr 6) : Prop where
 
 def actionGraph (H : KappaHyp e E f) : Subgroup (G × Wr 6) where
   carrier := {p | p.1 ∈ Subgroup.centralizer ({e} : Set G) ∧ ActsOnE f p.1 p.2}
-  mul_mem' := fun {a b} ha hb =>
+  mul_mem' := fun {_a _b} ha hb =>
     ⟨Subgroup.mul_mem _ ha.1 hb.1, ActsOnE.mul H.normal hb.1 ha.2 hb.2⟩
   one_mem' := ⟨Subgroup.one_mem _, ActsOnE.one⟩
-  inv_mem' := fun {a} ha => ⟨Subgroup.inv_mem _ ha.1, ha.2.inv⟩
+  inv_mem' := fun {_a} ha => ⟨Subgroup.inv_mem _ ha.1, ha.2.inv⟩
 
+omit [Finite G] in
 theorem KappaHyp.mem_zpowers_of_acts (H : KappaHyp e E f) {g : G}
     (hgC : g ∈ Subgroup.centralizer ({e} : Set G)) (hg : ActsOnE f g 1) :
     g ∈ Subgroup.zpowers e := by
@@ -125,6 +126,7 @@ theorem KappaHyp.mem_zpowers_of_acts (H : KappaHyp e E f) {g : G}
   calc x * g = (g * x * g⁻¹) * g := by rw [h3]
     _ = g * x := by group
 
+omit [Finite G] in
 theorem KappaHyp.acts_one_of_mem_zpowers (H : KappaHyp e E f) {g : G}
     (hg : g ∈ Subgroup.zpowers e) : ActsOnE f g 1 := by
   have hgE : g ∈ Subgroup.centralizer (E : Set G) := H.centE ▸ hg
@@ -137,15 +139,18 @@ theorem KappaHyp.acts_one_of_mem_zpowers (H : KappaHyp e E f) {g : G}
   rw [h2]
   group
 
-theorem KappaHyp.zpowers_le (H : KappaHyp e E f) :
+omit [Finite G] in
+theorem KappaHyp.zpowers_le (_H : KappaHyp e E f) :
     Subgroup.zpowers e ≤ Subgroup.centralizer ({e} : Set G) := by
   rw [Subgroup.zpowers_le]
   exact Subgroup.mem_centralizer_iff.mpr fun h hh => by rw [Set.mem_singleton_iff.mp hh]
 
+omit [Finite G] in
 theorem KappaHyp.card_zpowers (H : KappaHyp e E f) : Nat.card (Subgroup.zpowers e) = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [Nat.card_zpowers, orderOf_eq_prime (by rw [sq]; exact H.he2) H.he1]
 
+omit [Finite G] in
 theorem card_eq_card_wset (H : KappaHyp e E f) {K : Subgroup G}
     (hKH : K ≤ Subgroup.centralizer ({e} : Set G)) (heK : e ∈ K) :
     Nat.card K = Nat.card ((actionGraph H ⊓ K.prod ⊤).map (MonoidHom.snd G (Wr 6))) := by
@@ -215,6 +220,7 @@ theorem card_eq_card_wset (H : KappaHyp e E f) {K : Subgroup G}
   rw [hq_ker] at h2
   omega
 
+omit [Finite G] in
 theorem KappaHyp.card_centralizer_dvd (H : KappaHyp e E f) :
     Nat.card (Subgroup.centralizer ({e} : Set G)) ∣ 46080 := by
   have h := card_eq_card_wset H (K := Subgroup.centralizer ({e} : Set G)) le_rfl
@@ -225,7 +231,7 @@ theorem KappaHyp.card_centralizer_dvd (H : KappaHyp e E f) :
 theorem KappaHyp.card_le_of_isPGroup (H : KappaHyp e E f)
     (hS : ∃ S : Sylow 2 G, (S : Subgroup G) ≤ Subgroup.centralizer ({e} : Set G))
     {Q : Subgroup G} (hQ : IsPGroup 2 Q) : Nat.card Q ≤ 1024 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S, hS⟩ := hS
   obtain ⟨S', hQS'⟩ := hQ.exists_le_sylow
   have h1 : Nat.card Q ∣ Nat.card S' := Subgroup.card_dvd_of_le hQS'
@@ -248,7 +254,7 @@ section Sylow
 open scoped Pointwise
 
 theorem exists_conj_A64 {P At : Subgroup (Wr 6)} (hPW : P ≤ Wsub) (hP : Nat.card P = 512)
-    (hAtP : At ≤ P) (hAt : IsE64 At) (hu : ∀ A' : Subgroup (Wr 6), A' ≤ P → IsE64 A' → A' = At) :
+    (_hAtP : At ≤ P) (_hAt : IsE64 At) (hu : ∀ A' : Subgroup (Wr 6), A' ≤ P → IsE64 A' → A' = At) :
     ∃ g : Wr 6, ∀ x : Wr 6, x ∈ At ↔ g⁻¹ * x * g ∈ A64 := by
   classical
   set P' : Subgroup ↥Wsub := P.subgroupOf Wsub with hP'
@@ -308,6 +314,7 @@ structure E64Pair (B T A : Subgroup G) (e : G) : Prop where
   uniq : ∀ A' : Subgroup G, A' ≤ T → IsE64 A' → A' = A
   e_mem : e ∈ A
 
+omit [Finite G] in
 theorem atilde_facts {B T A : Subgroup G} (Ψ : ↥B →* Wr 6) (hΨ : Function.Injective Ψ)
     (hΨW : ∀ b : ↥B, Ψ b ∈ Wsub) (P : E64Pair B T A e)
     (hΨe : Ψ ⟨e, P.T_le (P.A_le P.e_mem)⟩ = allOnes 6) :
@@ -401,6 +408,7 @@ section Final
 variable {G : Type} [Group G] [Finite G] {z e : G}
   {E B : Subgroup G} {f : ↥E →* Wr 6} {Θ : ↥Wsub ≃* ↥Hhat} {φ : ↥B →* ↥Hhat}
 
+omit [Finite G] in
 theorem E64Pair.of_theta {B T A : Subgroup G} (hTB : T ≤ B) (hT : Nat.card T = 512)
     (hAT : A ≤ T) (hA : IsE64 A) (hAuniq : ∀ A' : Subgroup G, A' ≤ T → IsE64 A' → A' = A)
     (θ : ↥T ≃* ↥S0) (heT : e ∈ T) (hθe : θ ⟨e, heT⟩ = ⟨alpha, alpha_mem_S0⟩)

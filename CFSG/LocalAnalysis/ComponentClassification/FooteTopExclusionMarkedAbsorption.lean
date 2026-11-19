@@ -325,7 +325,7 @@ variable {G : Type} [Group G] [Finite G]
 
 private theorem oddCore_quotient_eq_bot (H : Subgroup G) :
     pPrimeCore 2 (↥H ⧸ pPrimeCore 2 ↥H) = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact CFSG.pPrimeCore_quotient_pPrimeCore_eq_bot 2
 
 theorem isComponent_image_of_relativeIdentity {T : Type} [Group T] {𝓢 : Set (Subgroup G)}
@@ -417,7 +417,7 @@ theorem footeMarkedRelativeLift_holds
     hset.2.1.1.1
   have hFam : FooteMarked.IsomorphicFamily 𝓢 (L ⧸ Open.fusionZStar L) :=
     hset.2.2.2.2.1
-  haveI : IsSimpleGroup (L ⧸ Open.fusionZStar L) :=
+  have : IsSimpleGroup (L ⧸ Open.fusionZStar L) :=
     (GrSLit.fusionZStar_quotient_of_isPComponent hset.2.1.1.2.2.1.2.1
       hset.2.1.1.2.2.1.2.2).1
   have hS : CFSG.LocalAnalysis.ComponentInitial.SchreierFor CFSG.Blueprint.Catalog :=

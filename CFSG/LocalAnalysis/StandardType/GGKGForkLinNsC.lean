@@ -37,12 +37,12 @@ private theorem ggKGLn_card_le_psl_small {d p : ℕ} {K : Type} [Field K] [Finit
     (hd : 1 ≤ d) (hd5 : d ≤ 5) (E : Subgroup (projectiveSL d K)) (hE : IsElemAbelian p E) :
     Nat.card E ≤ p ^ 2 := by
   classical
-  haveI : Nonempty K := ⟨0⟩
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Nonempty K := ⟨0⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hpK' : ¬ p ∣ Nat.card K - 1 := SpNS.not_dvd_card_sub_one hp hp2 hpq
   obtain ⟨g, hg, hgd⟩ := ggKGLn_exists_irreducible_dvd_cyclotomic (K := K) (p := p) hp
-  haveI : Fact (Irreducible g) := ⟨hg⟩
+  have : Fact (Irreducible g) := ⟨hg⟩
   have hζo := CoordSL.root_isPrimitiveRoot (g := g) hp hpK0 hgd
   have hCdet : (CoordSL.rootMat g).det = 1 := CoordSL.det_rootMat hp hpK' hpK0 hgd
   have hCp : (CoordSL.rootMat g) ^ p = 1 := CoordSL.rootMat_pow_eq_one hp hpK0 hgd
@@ -53,7 +53,7 @@ private theorem ggKGLn_card_le_psl_small {d p : ℕ} {K : Type} [Field K] [Finit
   have hcp : ¬ p ∣ Nat.card (Subgroup.center (Matrix.SpecialLinearGroup (Fin d) K)) := by
     intro h
     exact hpK' (h.trans (card_center_specialLinear_dvd (by omega)))
-  letI : CommGroup ↥E :=
+  let : CommGroup ↥E :=
     { (inferInstance : Group ↥E) with
       mul_comm := fun a b => Subtype.ext (TableB.IsElemAbelian.comm hE a.2 b.2) }
   have hV : ∀ v : ↥E, v ^ p = 1 := fun v => Subtype.ext (hE.2 v v.2)
@@ -186,7 +186,7 @@ theorem ggKGLn_recipeLinear_lattice {d N p : ℕ} (hp : p.Prime) (hpN : p ∣ N 
     · rw [h0, pow_zero] at hK; omega
     · exact h0
   have hp2 : p ≠ 2 := TableBU.ne_two_of_dvd_two_pow_add_one hm hpN
-  haveI : CharP K 2 := NbrInnerMore.charP_two_of_card_pow hm hK
+  have : CharP K 2 := NbrInnerMore.charP_two_of_card_pow hm hK
   have hpK : p ∣ Nat.card K + 1 := by rw [hK]; exact hpN
   have hpK' : ¬ p ∣ Nat.card K - 1 := SpNS.not_dvd_card_sub_one hp hp2 hpK
   have hpK0 : (p : K) ≠ 0 := by

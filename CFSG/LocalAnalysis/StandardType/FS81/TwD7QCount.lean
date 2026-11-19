@@ -189,7 +189,7 @@ theorem card_ggAutomizer_twD7Quot {G : Type} [Group G] [Finite G] {b₀ : G} {K 
       _ = (720 * Nat.card ↥(ggAutomizer ⊤ B.twD7Quot.span)) *
             Nat.card ↥(Subgroup.centralizer
               (B.twD7Quot.span : Set (TwD7Q.Q (B.b 0 * B.b 1)))) := by ring
-  haveI : Nonempty ↥(Subgroup.centralizer
+  have : Nonempty ↥(Subgroup.centralizer
       (B.twD7Quot.span : Set (TwD7Q.Q (B.b 0 * B.b 1)))) := ⟨1⟩
   have hpos : 0 < Nat.card ↥(Subgroup.centralizer
       (B.twD7Quot.span : Set (TwD7Q.Q (B.b 0 * B.b 1)))) := Nat.card_pos

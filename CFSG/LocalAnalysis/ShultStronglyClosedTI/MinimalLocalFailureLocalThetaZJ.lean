@@ -118,7 +118,7 @@ theorem solvable_abelian_sylow_two_orderZJ_ne_bot {p : ℕ} (hp : p.Prime)
     (orderZJ (Q : Subgroup G)).map (Q : Subgroup G).subtype ≠ ⊥ := by
   let : Fact p.Prime := ⟨hp⟩
   let : Nontrivial (Q : Subgroup G) := (Subgroup.nontrivial_iff_ne_bot _).mpr hQ
-  have hne := primeComplementGrowth_order_zj_ne_bot p Q.isPGroup'
+  have hne := primeComplementGrowth_order_zj_ne_bot p Q.isPGroup
   intro hbot
   apply hne
   exact (Subgroup.map_eq_bot_iff_of_injective _ (Q : Subgroup G).subtype_injective).mp hbot

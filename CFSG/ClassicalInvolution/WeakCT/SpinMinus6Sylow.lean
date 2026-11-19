@@ -150,7 +150,7 @@ theorem not_dvd_index_posUnipotent [Finite K] {p : ℕ} [Fact p.Prime]
       intro x hx
       have : (⟨x, hx⟩ : (S : Subgroup K)) ∈ U.subgroupOf (S : Subgroup K) := by rw [h]; trivial
       exact this)
-    have hnil : Group.IsNilpotent ↥(S : Subgroup K) := (S.isPGroup').isNilpotent
+    have hnil : Group.IsNilpotent ↥(S : Subgroup K) := (S.isPGroup).isNilpotent
     have hlt := Group.normalizerCondition_of_isNilpotent (G := ↥(S : Subgroup K))
       (U.subgroupOf (S : Subgroup K)) (lt_top_iff_ne_top.2 hne)
     obtain ⟨y, hyN, hyU⟩ := IsConcreteLE.exists_of_lt hlt
@@ -170,7 +170,7 @@ theorem not_dvd_index_posUnipotent [Finite K] {p : ℕ} [Fact p.Prime]
           simpa [mul_assoc] using h1
         have := (hy' ⟨u, huS⟩).2 (by simpa [Subgroup.mem_subgroupOf] using hu)
         simpa [Subgroup.mem_subgroupOf] using this
-    obtain ⟨k, hk⟩ := S.isPGroup' y
+    obtain ⟨k, hk⟩ := S.isPGroup y
     have hk' : (y : K) ^ p ^ k = 1 := by
       have := congrArg (fun g : (S : Subgroup K) => (g : K)) hk
       simpa using this

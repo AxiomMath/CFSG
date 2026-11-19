@@ -23,7 +23,7 @@ theorem shift_mem_idx0 {γ : Fin (Tag.rank .E7) → ℤ} (hγ : γ ∈ Perp) {a 
 theorem shiftW_val {γ : Fin (Tag.rank .E7) → ℤ} (hγ : γ ∈ Perp) {a : Idx0}
     (h : pr (a : Fin e7Data.d) γ = -1) : ((shiftW γ a : Idx0) : Fin e7Data.d) = shift γ a := by
   unfold shiftW
-  rw [dif_pos (shift_mem_idx0 hγ a.2 h)]
+  rw [dite_eq_left (shift_mem_idx0 hγ a.2 h)]
 
 @[expose] def EWfun (γ : Fin (Tag.rank .E7) → ℤ) (w : W K) (b : Idx0) : K :=
   if pr (b : Fin e7Data.d) γ = 1 then w (shiftW (-γ) b) else 0
@@ -54,22 +54,22 @@ theorem emb_EW [CharP K 2] {γ : Fin (Tag.rank .E7) → ℤ} (hγ : γ ∈ Perp)
   · obtain ⟨a, rfl⟩ : ∃ a : Idx0, (a : Fin e7Data.d) = b := ⟨⟨b, hb⟩, rfl⟩
     rw [emb_apply_coe, EW_apply]
     by_cases h1 : pr (a : Fin e7Data.d) γ = 1
-    · rw [if_pos h1, if_pos h1]
+    · rw [ite_eq_left h1, ite_eq_left h1]
       have h2 : pr (a : Fin e7Data.d) (-γ) = -1 := by rw [pr_neg, h1]
       have h4 := emb_apply_coe w (shiftW (-γ) a)
       rw [shiftW_val hnγ h2] at h4
       exact h4.symm
-    · rw [if_neg h1, if_neg h1]
+    · rw [ite_eq_right h1, ite_eq_right h1]
   · rw [emb_apply_of_not_mem _ hb]
     by_cases h1 : pr b γ = 1
-    · rw [if_pos h1]
+    · rw [ite_eq_left h1]
       have h2 : pr b (-γ) = -1 := by rw [pr_neg, h1]
       have h3 : shift (-γ) b ∉ idx0 := fun h => hb (by
         rw [mem_idx0] at h ⊢
         rw [← pr_theta_shift_perp hnγ h2]
         exact h)
       exact (emb_apply_of_not_mem w h3).symm
-    · rw [if_neg h1]
+    · rw [ite_eq_right h1]
 
 theorem EW_mul_self [CharP K 2] {γ : Fin (Tag.rank .E7) → ℤ} (hγ : γ ∈ Perp) :
     EW K γ * EW K γ = 0 := by
@@ -86,8 +86,8 @@ theorem EW_single [CharP K 2] {γ : Fin (Tag.rank .E7) → ℤ} (hγ : γ ∈ Pe
   apply emb_injective
   rw [emb_EW hγ, emb_single, rootOp_single hγ.1]
   by_cases h : pr (a : Fin e7Data.d) γ = -1
-  · rw [if_pos h, if_pos h, emb_single, shiftW_val hγ h]
-  · rw [if_neg h, if_neg h]
+  · rw [ite_eq_left h, ite_eq_left h, emb_single, shiftW_val hγ h]
+  · rw [ite_eq_right h, ite_eq_right h]
     simp
 
 theorem EW_mul_self_apply [CharP K 2] {γ : Fin (Tag.rank .E7) → ℤ} (hγ : γ ∈ Perp) (w : W K) :
@@ -104,14 +104,14 @@ theorem EW_mul_self_apply [CharP K 2] {γ : Fin (Tag.rank .E7) → ℤ} (hγ : �
     intro w
     simp only [Module.End.mul_apply, LinearMap.add_apply, LinearMap.sub_apply,
       Module.End.one_apply, LinearMap.smul_apply, map_sub, map_smul, EW_mul_self_apply hγ,
-      smul_zero, sub_zero]
+      smul_zero]
     abel_nf
   inv_val := by
     apply LinearMap.ext
     intro w
     simp only [Module.End.mul_apply, LinearMap.add_apply, LinearMap.sub_apply,
       Module.End.one_apply, LinearMap.smul_apply, map_add, map_smul, EW_mul_self_apply hγ,
-      smul_zero, add_zero]
+      smul_zero]
     abel_nf
 
 theorem xuWUnit_val [CharP K 2] {γ : Fin (Tag.rank .E7) → ℤ} (hγ : γ ∈ Perp) (c : K) :

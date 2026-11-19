@@ -53,7 +53,7 @@ theorem Hyp.s56_pv7_conj_E (hd : d.Hyp) {e : G} (he : e ∈ d.E) :
     d.pv 7 * e * (d.pv 7)⁻¹ * e⁻¹ ∈ zpowers d.z :=
   hd.s56_J_comm_E (s56_pv7_mem_J d) he
 
-theorem Hyp.s56_pv7_comm_iff (hd : d.Hyp) {e : G} (he : e ∈ d.E) :
+theorem Hyp.s56_pv7_comm_iff (_hd : d.Hyp) {e : G} (he : e ∈ d.E) :
     d.pv 7 * e = e * d.pv 7 ↔ e ∈ d.F := by
   obtain ⟨ê, hê, hêD, rfl⟩ := mem_liftSub.1 he
   have h7 : Model.parrottV 7 ∈ titsD := Model.parrottF_le_titsD (Model.parrottV_mem_parrottF
@@ -73,7 +73,7 @@ theorem s56_pv8_mem_E (d : Data G) : d.pv 8 ∈ d.E :=
     s56_hatE_le_titsD Model.parrottV_eight_mem_hatE, rfl⟩
 
 theorem Hyp.s56_orderOf_z (hd : d.Hyp) : orderOf d.z = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact orderOf_eq_prime (by rw [pow_two]; exact hd.s56_z_sq) hd.s56_z_ne_one
 
 theorem Hyp.s56_mem_zpowers_z (hd : d.Hyp) {w : G} (hw : w ∈ zpowers d.z) : w = 1 ∨ w = d.z :=

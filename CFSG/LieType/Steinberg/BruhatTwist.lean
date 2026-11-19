@@ -47,11 +47,13 @@ set_option hygiene false in
 local notation "cs" => (coxeterMatrix hA).toCoxeterSystem
 
 include hπ in
+omit [Fintype I] in
 theorem coxeterMatrix_perm (i j : I) :
     (coxeterMatrix hA).M (π i) (π j) = (coxeterMatrix hA).M i j := by
   simp only [coxeterMatrix, TauCeti.coxeterMatrixOfCartanMatrix_apply, hπ]
 
 include hπ in
+omit [Fintype I] in
 theorem isLiftable_simple_perm : (coxeterMatrix hA).IsLiftable fun i => (cs).simple (π i) :=
   fun i j => by
     have h := (cs).simple_mul_simple_pow (π i) (π j)
@@ -60,9 +62,11 @@ theorem isLiftable_simple_perm : (coxeterMatrix hA).IsLiftable fun i => (cs).sim
 noncomputable def weylPerm : W →* W :=
   (cs).lift ⟨fun i => (cs).simple (π i), isLiftable_simple_perm hA hπ⟩
 
+omit [Fintype I] in
 theorem weylPerm_simple (i : I) : weylPerm hA hπ ((cs).simple i) = (cs).simple (π i) :=
   (cs).lift_apply_simple _ i
 
+omit [Fintype I] in
 theorem weylPerm_wordProd (ω : List I) :
     weylPerm hA hπ ((cs).wordProd ω) = (cs).wordProd (ω.map π) := by
   induction ω with
@@ -76,28 +80,33 @@ include hπ in
 theorem cartan_perm_symm (i j : I) : A (π.symm i) (π.symm j) = A i j := by
   simpa using (hπ (π.symm i) (π.symm j)).symm
 
+omit [Fintype I] in
 theorem weylPerm_symm_weylPerm (w : W) :
     weylPerm hA (cartan_perm_symm hπ) (weylPerm hA hπ w) = w := by
   obtain ⟨ω, rfl⟩ := (cs).wordProd_surjective w
   rw [weylPerm_wordProd, weylPerm_wordProd, List.map_map]
   simp
 
+omit [Fintype I] in
 theorem length_weylPerm_le (w : W) : (cs).length (weylPerm hA hπ w) ≤ (cs).length w := by
   obtain ⟨ω, hω, rfl⟩ := (cs).exists_isReduced w
   rw [weylPerm_wordProd, (show (cs).length ((cs).wordProd ω) = ω.length from hω)]
   exact ((cs).length_wordProd_le _).trans (by rw [List.length_map])
 
+omit [Fintype I] in
 theorem length_weylPerm (w : W) : (cs).length (weylPerm hA hπ w) = (cs).length w := by
   refine le_antisymm (length_weylPerm_le hA hπ w) ?_
   have h := length_weylPerm_le hA (cartan_perm_symm hπ) (weylPerm hA hπ w)
   rwa [weylPerm_symm_weylPerm] at h
 
 include hπ in
+omit [Fintype I] in
 theorem isReduced_map_perm {ω : List I} (hω : (cs).IsReduced ω) : (cs).IsReduced (ω.map π) := by
   change (cs).length ((cs).wordProd (ω.map π)) = (ω.map π).length
   rw [← weylPerm_wordProd hA hπ, length_weylPerm, List.length_map]
   exact hω
 
+omit [Fintype I] in
 theorem isLeftDescent_weylPerm_iff (w : W) (i : I) :
     (cs).IsLeftDescent (weylPerm hA hπ w) (π i) ↔ (cs).IsLeftDescent w i := by
   unfold CoxeterSystem.IsLeftDescent
@@ -135,7 +144,7 @@ theorem reflection_single_of_eq_zero {i j : I} (h : A i j = 0) :
     reflection A i (Pi.single j 1) = Pi.single j 1 := by
   rw [reflection_apply_coroot, coroot_single, h, zero_smul, sub_zero]
 
-omit [DecidableEq I] in
+omit [DecidableEq I] [Fintype I] in
 theorem simple_mul_simple_comm {i j : I} (h : A i j = 0) :
     (cs).simple i * (cs).simple j = (cs).simple j * (cs).simple i := by
   have hM : (coxeterMatrix hA).M i j = 2 := by

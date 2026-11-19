@@ -14,6 +14,7 @@ open CFSG.SignalizerFunctorTheorem.Quadratic CFSG.Quasithin.G11 CFSG.Quasithin C
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem w183_hasQuotShape_of_mulEquiv {K L L' : Subgroup G} (e : ↥L ≃* ↥L')
     (hK : ∀ l : ↥L, (l : G) ∈ K ↔ (e l : G) ∈ K) {P : ∀ (X : Type) [Group X], Prop}
     (hQ : HasQuotShape L K P) : HasQuotShape L' K P := by
@@ -25,6 +26,7 @@ private theorem w183_hasQuotShape_of_mulEquiv {K L L' : Subgroup G} (e : ↥L �
   have h := hK (e.symm k)
   rwa [show e (e.symm k) = k from e.apply_symm_apply k] at h
 
+omit [Finite G] in
 private theorem w183_isComponentModN_map_mulEquiv {K H L : Subgroup G} (e : G ≃* G)
     (hK : K.map e.toMonoidHom = K) (hH : H.map e.toMonoidHom = H)
     (h : IsComponentModN K H L) :
@@ -59,14 +61,15 @@ private theorem w183_isComponentModN_map_mulEquiv {K H L : Subgroup G} (e : G �
       have hkl : k = l := e.injective hkeq
       rwa [hkl] at hkK
 
+omit [Finite G] in
 private theorem w183_isQuasisimple_image_quotient {K H L : Subgroup G}
     (hKn : (K.subgroupOf H).Normal) (hLH : L ≤ H)
     (hQ : HasQuotShape L (K : Set G) (fun X _ => IsQuasisimple X)) :
     IsQuasisimple ((L.subgroupOf H).map (QuotientGroup.mk' (K.subgroupOf H))) := by
   classical
-  haveI := hKn
+  have := hKn
   obtain ⟨X, hX, φ, hφs, hφk, hXq⟩ := hQ
-  letI : Group X := hX
+  let : Group X := hX
   let q := QuotientGroup.mk' (K.subgroupOf H)
   let A : Subgroup (↥H ⧸ (K.subgroupOf H)) := (L.subgroupOf H).map q
   let eL : ↥(L.subgroupOf H) ≃* ↥L := Subgroup.subgroupOfEquivOfLe hLH
@@ -156,7 +159,7 @@ private theorem w183_center_sup_eq_bot {Y : Type*} [Group Y] {A B : Subgroup Y}
   have hAn : (A.subgroupOf (A ⊔ B)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hAX).mpr
       (sup_le Subgroup.le_normalizer hBA)
-  haveI := hAn
+  have := hAn
   rw [eq_bot_iff]
   intro z hz
   rw [Subgroup.mem_bot]
@@ -208,8 +211,9 @@ private theorem w183_center_sup_eq_bot {Y : Type*} [Group Y] {A B : Subgroup Y}
     exact Subtype.ext (by simpa using congrArg Subtype.val hmem)
   rw [← hab, ha1, hb1, mul_one]
 
+omit [Finite G] in
 private theorem w183_comap_img {J E K : Subgroup G} (M : ModDataE J E)
-    (hker : ∀ h : ↥J, M.ρ h = 1 ↔ (h : G) ∈ K) {A : Subgroup G} (hAJ : A ≤ J)
+    (hker : ∀ h : ↥J, M.ρ h = 1 ↔ (h : G) ∈ K) {A : Subgroup G} (_hAJ : A ≤ J)
     (hKA : K ≤ A) : (M.img A).comap M.ρ = A.subgroupOf J := by
   have hkereq : M.ρ.ker = K.subgroupOf J := by
     ext h
@@ -222,7 +226,7 @@ theorem w183_components_commute {H K L₁ L₂ : Subgroup G} (h₁ : IsComponent
     (h₂ : IsComponentModN K H L₂) (hne : L₁ ≠ L₂) :
     ∀ a ∈ L₁, ∀ b ∈ L₂, a * b * a⁻¹ * b⁻¹ ∈ K := by
   classical
-  haveI hKn : (K.subgroupOf H).Normal := h₁.1
+  have hKn : (K.subgroupOf H).Normal := h₁.1
   let q : ↥H →* ↥H ⧸ (K.subgroupOf H) := QuotientGroup.mk' (K.subgroupOf H)
   let A : Subgroup (↥H ⧸ (K.subgroupOf H)) := (L₁.subgroupOf H).map q
   let B : Subgroup (↥H ⧸ (K.subgroupOf H)) := (L₂.subgroupOf H).map q
@@ -527,7 +531,7 @@ theorem br1_twoComp (x : Ctx188 D V₀ V H i j) (M : ModDataE H (eOmegaZ H D.T))
   have hcent : ∀ z ∈ M.img H, (∀ l ∈ M.img L, z * l = l * z) →
       (∀ l ∈ M.img L₂, z * l = l * z) → z = 1 := by
     intro z hz hzL hzL₂
-    haveI := hXn
+    have := hXn
     have hcentbot := w183_centralizer_eq_bot hZ hXT hT2 hO2
     have hzc : (⟨z, hz⟩ : ↥(M.img H)) ∈ Subgroup.centralizer
         (((M.img L ⊔ M.img L₂).subgroupOf (M.img H) : Subgroup ↥(M.img H)) :
@@ -558,7 +562,7 @@ theorem br1_twoComp (x : Ctx188 D V₀ V H i j) (M : ModDataE H (eOmegaZ H D.T))
     exact congrArg Subtype.val h1
   have hgen : ∀ z ∈ M.img H, ∃ l ∈ M.img L ⊔ M.img L₂, ∃ w ∈ M.img D.T, z = l * w := by
     intro z hz
-    haveI := hXn
+    have := hXn
     have hzX : (⟨z, hz⟩ : ↥(M.img H)) ∈
         ((M.img L ⊔ M.img L₂).subgroupOf (M.img H)) ⊔
           ((M.img D.T).subgroupOf (M.img H)) := by

@@ -26,7 +26,7 @@ theorem chevOddSporadicClause_holds
     : ChevOddSporadicClause := by
   intro S _ _ hS hna ⟨s, ⟨e⟩⟩ σ P h r hr hr2 ⟨τ, n, f, hL⟩ hnot
   have : IsSimpleGroup S := hS
-  have hMcard := Open.Open.monster_y443_derived_card
+  have hMcard := Open.Thm.monster_y443_derived_card
   have hO := oddLieOrder_of_lieModel hr hr2 hL
   cases s
   case J3 => exact ⟨⟨e⟩, SporSmall.lieModel_of_j3 e h hr2 hL hnot⟩

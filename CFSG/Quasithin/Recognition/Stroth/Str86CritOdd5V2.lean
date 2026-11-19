@@ -21,6 +21,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem str86_conjSub_eq_of_forall_commute {x : G} {Z : Subgroup G}
     (h : ∀ z ∈ Z, x * z = z * x) : conjSub x Z = Z := by
   ext z

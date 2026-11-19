@@ -25,9 +25,9 @@ theorem le_of_isPGroup_of_Pc_le (h : Hyp M V) {S : Subgroup G} (hS : IsPGroup 2 
     intro p hp
     exact Subgroup.mem_centralizer_iff.mp hz.2 p (hPS hp)
   have hZne : Z ≠ ⊥ := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Nontrivial ↥S := (Subgroup.nontrivial_iff_ne_bot S).mpr hSne
-    haveI : Nontrivial ↥(Subgroup.center ↥S) := hS.center_nontrivial
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Nontrivial ↥S := (Subgroup.nontrivial_iff_ne_bot S).mpr hSne
+    have : Nontrivial ↥(Subgroup.center ↥S) := hS.center_nontrivial
     obtain ⟨w, hw1⟩ := exists_ne (1 : Subgroup.center ↥S)
     have hwZ : ((w : ↥S) : G) ∈ Z :=
       ⟨(w : ↥S).2, Subgroup.mem_centralizer_iff.mpr fun s hs =>

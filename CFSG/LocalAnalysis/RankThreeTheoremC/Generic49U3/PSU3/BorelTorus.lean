@@ -37,7 +37,7 @@ private theorem addSubgroup_eq_top_of_closed {E : Type} [Field E] [Finite E] {p 
     (S : AddSubgroup E) {s₀ : E} (hs₀ : s₀ ∈ S) (hne : s₀ ≠ 0)
     (hS : ∀ a ∈ S, ∀ k : Eˣ, a * ((k : E) * (σ (k : E))⁻¹ ^ 2) ∈ S) : S = ⊤ := by
   classical
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype E := Fintype.ofFinite E
   let φ : Eˣ → S := fun k => ⟨s₀ * ((k : E) * (σ (k : E))⁻¹ ^ 2), hS s₀ hs₀ k⟩
   have hfib : ∀ b ∈ (Finset.univ : Finset Eˣ).image φ,
       (Finset.univ.filter fun a : Eˣ => φ a = b).card ≤ 3 := by
@@ -51,7 +51,7 @@ private theorem addSubgroup_eq_top_of_closed {E : Type} [Field E] [Finite E] {p 
             have h1 := congrArg (fun s : S => (s : E)) ha'
             simp only [φ] at h1
             have h2 := cube_eq_one_of_eq σ hσ a.ne_zero k₀.ne_zero (mul_left_cancel₀ hne h1)
-            simp only [Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_setOf_eq]
+            simp only [Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_ofPred_eq]
             apply Units.ext
             simpa [div_eq_mul_inv] using h2
           · intro a _ b _ hab
@@ -139,7 +139,7 @@ private theorem model_torus_irreducible [Finite E] {p : ℕ} [Fact p.Prime] (hp5
       Subgroup.centralizer (rootGroup J hJ : Set (ProjectiveSpecialUnitaryMatrixGroup J))
   · exact Or.inl (le_antisymm hA hZA)
   right
-  obtain ⟨x, hxA, hxZ⟩ := SetLike.not_le_iff_exists.1 hA
+  obtain ⟨x, hxA, hxZ⟩ := IsConcreteLE.not_le_iff_exists.1 hA
   obtain ⟨z, rfl⟩ := (mem_rootGroup J hJ).1 (hAR hxA)
   have hz : z.1.1 ≠ 0 := fun h => hxZ (root_mem_center_of_fst_zero J hJ z h)
   have hz1 : z.1.1 ∈ fstSet J hJ A := ⟨z, rfl, hxA⟩

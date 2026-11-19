@@ -31,7 +31,7 @@ theorem norm_triple_trivial [Finite Ω] {V : Subgroup Ω} (hV : IsElemAbelian 3 
     (hVcard : Nat.card V ≤ 9) {φ : Ω ≃* Ω} {a b d : Ω} (ha : a ∈ V) (hb : b ∈ V) (hd : d ∈ V)
     (hab : φ a = b) (hbd : φ b = d) (hda : φ d = a) : a * b * d = 1 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcomm : ∀ x ∈ V, ∀ y ∈ V, x * y = y * x := fun x hx y hy =>
     CFSG.Open.IsElemAbelian.comm hV hx hy
   have hcube : ∀ x ∈ V, x ^ 3 = 1 := hV.2
@@ -177,7 +177,7 @@ section Rel
 
 variable {X : Type} [Group X] [Finite X]
 
-theorem center_comm_conj {K B : Subgroup X} (hH : I271Hyp 3 K B) {b : X} (hb : b ∈ B) {y z : X}
+theorem center_comm_conj {K B : Subgroup X} (hH : I271Hyp 3 K B) {b : X} (_hb : b ∈ B) {y z : X}
     (hy : y ∈ GLBConj b K) (hz : z ∈ K ⊓ Subgroup.centralizer (K : Set X)) : z * y = y * z := by
   have hKc : CFSG.Open.IsComponentOf K ⊤ := i116pI_isComponentOf hH.core hH.comp
   have hyb : b * y * b⁻¹ ∈ K := mem_gLBConj.1 hy

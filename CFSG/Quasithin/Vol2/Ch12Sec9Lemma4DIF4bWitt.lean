@@ -51,7 +51,7 @@ theorem q_hyp_add (q : W → ZMod 2) (B : LinearMap.BilinForm (ZMod 2) W)
 theorem exists_common_perp (q : W → ZMod 2) (B : LinearMap.BilinForm (ZMod 2) W)
     (hq : ∀ v w, q (v + w) = q v + q w + B v w)
     (hB : ∀ v : W, (∀ w, B v w = 0) → v = 0) {v w : W} (hv : v ≠ 0) (hw : w ≠ 0)
-    (hqv : q v = 0) (hqw : q w = 0) (hBvw : B v w = 0) (hvw : v ≠ w) :
+    (hqv : q v = 0) (_hqw : q w = 0) (hBvw : B v w = 0) (_hvw : v ≠ w) :
     ∃ z : W, B v z = 1 ∧ B w z = 1 ∧ q z = 0 := by
   obtain ⟨v', hvv', hqv'⟩ := exists_hyp_partner q B hq hB hv hqv
   have hv'v : B v' v = 1 := by
@@ -75,17 +75,17 @@ theorem exists_common_perp (q : W → ZMod 2) (B : LinearMap.BilinForm (ZMod 2) 
     have hrv : B r v = 0 := by
       rw [hr]
       simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul,
-        hBvv, hvv', hv'v, mul_zero, zero_add, mul_one, add_zero]
+        hBvv, hv'v, mul_zero, mul_one, add_zero]
       exact zmod2_add_self _
     have hrv' : B r v' = 0 := by
       rw [hr]
       simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul,
-        hBvv, hvv', hv'v, mul_zero, zero_add, mul_one, B_self q B hq v', add_zero]
+        hvv', mul_zero, mul_one, B_self q B hq v', add_zero]
       exact zmod2_add_self _
     have hwr : B w r = 1 := by
       rw [hr]
-      simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul,
-        hBwv, hwv', mul_zero, zero_add, add_zero, hwx]
+      simp only [map_add, map_smul, smul_eq_mul,
+        hBwv, hwv', mul_zero, add_zero, hwx]
     have hrv_symm : B v r = 0 := by
       rw [B_symm q B hq]
       exact hrv
@@ -93,9 +93,9 @@ theorem exists_common_perp (q : W → ZMod 2) (B : LinearMap.BilinForm (ZMod 2) 
       rw [B_symm q B hq]
       exact hrv'
     refine ⟨q r • v + v' + r, ?_, ?_, ?_⟩
-    · simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul,
+    · simp only [map_add, map_smul, smul_eq_mul,
         hBvv, hvv', hrv_symm, mul_zero, zero_add, add_zero]
-    · simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul,
+    · simp only [map_add, map_smul, smul_eq_mul,
         hBwv, hwv', hwr, mul_zero, zero_add, add_zero]
     · rw [q_hyp_add q B hq hqv hqv' hvv' hrv_symm hrv'_symm (q r)]
       exact zmod2_add_self _

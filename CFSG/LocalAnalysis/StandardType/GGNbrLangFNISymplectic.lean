@@ -163,7 +163,7 @@ theorem kgFieldRestrictionCont_symplectic {K : Type} [Field K] [Finite K] [CharP
       (LargeEvenMatConjImage (LargeEvenProjMk (LargeEvenSpGroup K r)) (LargeEvenGSpSet K r))
       (LargeEvenMatFieldImage (LargeEvenProjMk (LargeEvenSpGroup K r))) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   intro f hf hord h hh hhp hcomm J₀ hJ₀ f' hf'
   obtain ⟨σ, u, hσ1, hσp, hup, hσu, hhu, hfσ⟩ :=
     RecipeFieldSp.exists_semilinear_representatives hp hf hord hh hhp hcomm
@@ -236,13 +236,13 @@ theorem kgFieldRestrictionOn_symplectic : KGFieldRestrictionOn (kgfniRow .symple
   change t = .B ∨ t = .C at htag
   have hl2 : 2 ≤ l := by
     rcases htag with rfl | rfl <;> exact hlab.2.1
-  haveI : NeZero l := ⟨by omega⟩
+  have : NeZero l := ⟨by omega⟩
   intro Q hQ
   rcases htag with rfl | rfl
   all_goals
     dsimp only [LargeEvenRawDatum, LargeEvenRecipeSymplectic] at hQ ⊢
     obtain ⟨K, i1, i2, hK, hq⟩ := hQ
-    haveI : CharP K 2 := charP_two_of_card hK
+    have : CharP K 2 := charP_two_of_card hK
     exact ⟨K, i1, i2, hK, hq, kgFieldRestrictionCont_symplectic hp hp2⟩
 
 end CFSG.StandardType

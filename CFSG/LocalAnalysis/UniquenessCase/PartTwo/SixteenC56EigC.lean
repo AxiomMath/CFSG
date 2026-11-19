@@ -30,9 +30,11 @@ def perpPair (e₀ f : OmI → K) : Submodule K (OmI → K) where
     exact ⟨by rw [pol_smul_right, hr.1, mul_zero],
       by rw [pol_smul_right, hr.2, mul_zero]⟩
 
+omit [Fintype K] [DecidableEq K] [CharP K 2] in
 theorem mem_perpPair {e₀ f r : OmI → K} :
     r ∈ perpPair e₀ f ↔ pol e₀ r = 0 ∧ pol f r = 0 := Iff.rfl
 
+omit [Fintype K] [DecidableEq K] [CharP K 2] in
 theorem pol_zero_left (w : OmI → K) : pol 0 w = 0 := by
   rw [pol_comm, pol_zero_right]
 
@@ -59,6 +61,7 @@ theorem exists_pol_ne_zero_of_mem_perpPair {e₀ f u : OmI → K} (hef : pol e�
       mul_zero, add_zero, add_zero]
     exact hwne
 
+omit [Fintype K] [DecidableEq K] [CharP K 2] in
 theorem mulVec_mem_perpPair {A : Matrix OmI OmI K} {c : K} (hc0 : c ≠ 0)
     (hQ : ∀ v, quad (A *ᵥ v) = c * quad v) {e₀ f : OmI → K} (he₀ : A *ᵥ e₀ = e₀)
     (hf : A *ᵥ f = c • f) {r : OmI → K} (hr : r ∈ perpPair e₀ f) :
@@ -72,6 +75,7 @@ theorem mulVec_mem_perpPair {A : Matrix OmI OmI K} {c : K} (hc0 : c ≠ 0)
     rw [hf, pol_smul_left, hrf, mul_zero] at h
     exact (mul_eq_zero.mp h).resolve_left hc0
 
+omit [Fintype K] [DecidableEq K] [CharP K 2] in
 theorem pol_eq_zero_of_eigen_mul_ne {A : Matrix OmI OmI K} {c a b : K}
     (hQ : ∀ v, quad (A *ᵥ v) = c * quad v) {r s : OmI → K} (hr : A *ᵥ r = a • r)
     (hs : A *ᵥ s = b • s) (h : a * b ≠ c) : pol r s = 0 := by
@@ -82,6 +86,7 @@ theorem pol_eq_zero_of_eigen_mul_ne {A : Matrix OmI OmI K} {c a b : K}
     rw [sub_mul, key, sub_self]
   exact (mul_eq_zero.mp h2).resolve_left (sub_ne_zero.mpr h)
 
+omit [Fintype K] [DecidableEq K] [CharP K 2] in
 theorem quad_eq_zero_of_eigen_sq_ne {A : Matrix OmI OmI K} {c a : K}
     (hQ : ∀ v, quad (A *ᵥ v) = c * quad v) {r : OmI → K} (hr : A *ᵥ r = a • r)
     (h : a ^ 2 ≠ c) : quad r = 0 := by
@@ -91,6 +96,7 @@ theorem quad_eq_zero_of_eigen_sq_ne {A : Matrix OmI OmI K} {c a : K}
     rw [sub_mul, key, sub_self]
   exact (mul_eq_zero.mp h2).resolve_left (sub_ne_zero.mpr h)
 
+omit [Fintype K] [DecidableEq K] [CharP K 2] in
 theorem sq_ne_of_mul_eq {c a b : K} (hc0 : c ≠ 0) (h : a * b = c) (ha : a ^ 2 ≠ c) :
     b ^ 2 ≠ c := by
   intro hb
@@ -232,7 +238,7 @@ theorem adaptedQuad_of_eigen {A : GL OmI K} (hA : A ^ (Fintype.card K - 1) = 1) 
       (fun u ν hue huf hu hAu => h u ν hue huf hu hAu)
 
 theorem exists_adapted_basis (A : GL OmI K) (hA : A ^ (Fintype.card K - 1) = 1) {c : K}
-    (hc0 : c ≠ 0) (hc1 : c ≠ 1) (hQ : ∀ v, quad ((A : Matrix OmI OmI K) *ᵥ v) = c * quad v)
+    (hc0 : c ≠ 0) (_hc1 : c ≠ 1) (hQ : ∀ v, quad ((A : Matrix OmI OmI K) *ᵥ v) = c * quad v)
     {e₀ f : OmI → K} (he₀ : (A : Matrix OmI OmI K) *ᵥ e₀ = e₀) (hQe : quad e₀ = 0)
     (hf : (A : Matrix OmI OmI K) *ᵥ f = c • f) (hQf : quad f = 0) (hef : pol e₀ f = 1) :
     ∃ (γ : GL OmI K) (l m : Kˣ), (∀ v, quad ((γ : Matrix OmI OmI K) *ᵥ v) = quad v) ∧
@@ -255,7 +261,7 @@ theorem exists_adapted_basis (A : GL OmI K) (hA : A ^ (Fintype.card K - 1) = 1) 
     by_cases h : i = j
     · subst h
       simp
-    · simp [Pi.single_apply, h]
+    · simp [h]
   rw [← Matrix.mulVec_mulVec, ← Matrix.mulVec_mulVec, hd j, Matrix.mulVec_smul]
   rcases j with j | j <;> fin_cases j
   · simp [diagVals, hγ1, he₀]

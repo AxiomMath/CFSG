@@ -105,10 +105,12 @@ section Blocks
 
 variable [Finite K] [CharP K 2]
 
-theorem omMinusLongBlock_le (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) (l : Fin m) :
+omit [Finite K] [CharP K 2] in
+theorem omMinusLongBlock_le (_hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) (l : Fin m) :
     omMinusLongBlock K b c l ≤ StatedOmega (StatedQuadMinus (m + 1) K b c) :=
   (kOmM_isCoordSplit_long b c l).map_statedOmega_le (kOmMLongEmb_injective l)
 
+omit [CharP K 2] in
 theorem omMinusShortBlock_le (hK : 4 ≤ Nat.card K) {i j : Fin m} (hij : i ≠ j) :
     omMinusShortBlock K i j ≤ StatedOmega (StatedQuadMinus (m + 1) K b c) :=
   kOmM_short_le_statedOmega hK b c hij
@@ -256,6 +258,7 @@ theorem dvd_card_omMinusLongBlock (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0)
   rw [hpow]
   exact Dvd.dvd.mul_left (hpq.trans h1) _
 
+omit [CharP K 2] in
 theorem dvd_card_omMinusShortBlock (hK : 4 ≤ Nat.card K) (hpq : p ∣ Nat.card K - 1)
     {i j : Fin m} (hij : i ≠ j) :
     p ∣ Nat.card ((omMinusShortBlock K i j).subgroupOf
@@ -314,6 +317,7 @@ private theorem permAut_swap_eq_self_iff {p k : ℕ} {a b : Fin k}
         rw [Equiv.swap_apply_right, h]
       · rw [Equiv.swap_apply_of_ne_of_ne hja hjb]
 
+omit [Finite K] [CharP K 2] in
 private theorem omMinusTorusParam_mulSingle (hζ : ζ ^ p = 1) (j : Fin m)
     (x : Multiplicative (ZMod p)) :
     omMinusTorusParam m hζ (Pi.mulSingle j x) =
@@ -321,8 +325,8 @@ private theorem omMinusTorusParam_mulSingle (hζ : ζ ^ p = 1) (j : Fin m)
   funext k
   rw [omMinusTorusParam_apply, Pi.mulSingle_apply, Pi.mulSingle_apply]
   by_cases h : k = j
-  · rw [if_pos h, if_pos h]
-  · rw [if_neg h, if_neg h, map_one]
+  · rw [ite_eq_left h, ite_eq_left h]
+  · rw [ite_eq_right h, ite_eq_right h, map_one]
 
 private theorem isComponentOf_of_perfectCore_eq {G : Type*} [Group G] {C S : Subgroup G}
     (h : perfectCore C = S) (hq : CFSG.Assembly.IsQuasisimple S) :
@@ -353,7 +357,7 @@ private theorem centralizer_omMinusTorus_image (b c : K) (hζ : ζ ^ p = 1)
     rintro _ ⟨f, hf, rfl⟩
     exact Subtype.ext (h _ ⟨_, ⟨f, hf, rfl⟩, rfl⟩)
 
-theorem isComponentOf_omMinusLongBlock (hK : 4 ≤ Nat.card K)
+theorem isComponentOf_omMinusLongBlock (_hK : 4 ≤ Nat.card K)
     (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) (hp : p.Prime) (hp2 : p ≠ 2)
     (hζ : ζ ^ p = 1) (hζo : orderOf ζ = p) (l : Fin m) :
     CFSG.Assembly.IsComponentOf

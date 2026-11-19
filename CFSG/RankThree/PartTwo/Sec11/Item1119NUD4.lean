@@ -67,7 +67,7 @@ theorem numFamD4 : NumFamD4 := by
   have hσK3 : σK ^ 3 = 1 := by
     apply RingEquiv.ext
     intro c
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     have h1 : σK (σK (σK c)) = c := by
       rw [hσK, hσK, hσK, ← pow_mul, ← pow_mul]
       have h2 : 2 ^ n * (2 ^ n * 2 ^ n) = Fintype.card K := by
@@ -75,8 +75,8 @@ theorem numFamD4 : NumFamD4 := by
         ring
       rw [h2, FiniteField.pow_card]
     exact h1
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hsimple : IsSimpleGroup (graphFixedRootGroup TwistTag.D4 K σK.toRingHom) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hsimple : IsSimpleGroup (graphFixedRootGroup TwistTag.D4 K σK.toRingHom) :=
     isSimpleGroup_graphFixedRootGroup_d4 (ℓ := 2) hn1 hKcard hσK
   have hz1 : z ≠ 1 := by
     rintro rfl
@@ -106,7 +106,7 @@ theorem numFamD4 : NumFamD4 := by
   set M : Subgroup Z := CS.comap e'.toMonoidHom with hM
   have hMeq : M ≃* Matrix.SpecialLinearGroup (Fin 2) k :=
     (G2eComapMulEquiv e' CS).trans Φ.symm
-  haveI : Finite (Matrix.SpecialLinearGroup (Fin 2) k) := Finite.of_equiv M hMeq.toEquiv
+  have : Finite (Matrix.SpecialLinearGroup (Fin 2) k) := Finite.of_equiv M hMeq.toEquiv
   have hM3 : ∀ P : Sylow 3 M, IsCyclic P := fun P =>
     KS11LieProof.isCyclic_sylow_of_mulEquiv hMeq.symm
       (fun Q => isCyclic_sylow_three_sl2 (by rw [ringChar.eq k 2]) Q) P

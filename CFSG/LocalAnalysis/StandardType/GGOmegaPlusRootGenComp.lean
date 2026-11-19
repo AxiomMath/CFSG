@@ -53,8 +53,8 @@ private theorem omPlusParams_mulSingle (hζ : ζ ^ p = 1) (j : Fin m)
   funext k
   rw [omPlusParams_apply, Pi.mulSingle_apply, Pi.mulSingle_apply]
   by_cases h : k = j
-  · rw [if_pos h, if_pos h]
-  · rw [if_neg h, if_neg h, map_one]
+  · rw [ite_eq_left h, ite_eq_left h]
+  · rw [ite_eq_right h, ite_eq_right h, map_one]
 
 private theorem omPlusParams_sgnAut (hζ : ζ ^ p = 1) (j : Fin m)
     (f : Fin m → Multiplicative (ZMod p)) :
@@ -97,16 +97,16 @@ private theorem omPlusRefl_true_apply {i j : Fin m} (hij : i < j)
   simp only [SpCoord.sgnAut_apply, SpCoord.permAut_apply, Equiv.swap_inv]
   by_cases hki : k = i
   · subst hki
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     simp only [Function.update_self, Function.update_of_ne hne, Function.comp_apply,
       Equiv.swap_apply_left]
-  · rw [if_neg hki]
+  · rw [ite_eq_right hki]
     by_cases hkj : k = j
     · subst hkj
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       simp only [Function.update_self, Function.update_of_ne (Ne.symm hne),
         Function.comp_apply, Equiv.swap_apply_right]
-    · rw [if_neg hkj]
+    · rw [ite_eq_right hkj]
       simp only [Function.update_of_ne hki, Function.update_of_ne hkj,
         Function.comp_apply, Equiv.swap_apply_of_ne_of_ne hki hkj]
 
@@ -118,9 +118,9 @@ private theorem omPlusRefl_true_fixed {i j : Fin m} (hij : i < j) :
   constructor
   · intro hf
     have h1 := congrFun hf i
-    rw [omPlusRefl_true_apply hij, if_pos rfl] at h1
+    rw [omPlusRefl_true_apply hij, ite_eq_left rfl] at h1
     refine ⟨SpCoord.sgnAut j f, ?_, ?_⟩
-    · simp only [Set.mem_setOf_eq, SpCoord.sgnAut_apply, Function.update_of_ne hne,
+    · simp only [Set.mem_ofPred_eq, SpCoord.sgnAut_apply, Function.update_of_ne hne,
         Function.update_self]
       exact h1.symm
     · rw [← MulAut.mul_apply,
@@ -134,16 +134,16 @@ private theorem omPlusRefl_true_fixed {i j : Fin m} (hij : i < j) :
     rw [omPlusRefl_true_apply hij]
     by_cases hki : k = i
     · subst hki
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       simp only [SpCoord.sgnAut_apply, Function.update_self, Function.update_of_ne hne,
         inv_inv]
       exact hg'.symm
-    · rw [if_neg hki]
+    · rw [ite_eq_right hki]
       by_cases hkj : k = j
       · subst hkj
-        rw [if_pos rfl]
+        rw [ite_eq_left rfl]
         simp only [SpCoord.sgnAut_apply, Function.update_self, Function.update_of_ne hne, hg']
-      · rw [if_neg hkj]
+      · rw [ite_eq_right hkj]
 
 private theorem centralizer_omPlusTorus_image [Finite K] [CharP K 2] (hζ : ζ ^ p = 1)
     (X : Set (Fin m → Multiplicative (ZMod p))) :
@@ -219,7 +219,7 @@ theorem isComponentOf_omPlusBlock (hK : 4 ≤ Nat.card K)
     by_cases hbJ : planeOf b ∉ ({i, j} : Finset (Fin m))
     · refine ⟨omPlusParams hζ (Pi.mulSingle (planeOf b) (ofAdd (1 : ZMod p))),
         ⟨_, ?_, rfl⟩, ?_⟩
-      · simp only [Set.mem_setOf_eq]
+      · simp only [Set.mem_ofPred_eq]
         rw [Pi.mulSingle_eq_of_ne (fun h => hbJ (by rw [h]; simp)),
           Pi.mulSingle_eq_of_ne (fun h => hbJ (by rw [h]; simp))]
       · rw [omPlusParams_mulSingle, hχg]
@@ -227,7 +227,7 @@ theorem isComponentOf_omPlusBlock (hK : 4 ≤ Nat.card K)
     · by_cases haJ : planeOf a ∉ ({i, j} : Finset (Fin m))
       · refine ⟨omPlusParams hζ (Pi.mulSingle (planeOf a) (ofAdd (1 : ZMod p))),
           ⟨_, ?_, rfl⟩, ?_⟩
-        · simp only [Set.mem_setOf_eq]
+        · simp only [Set.mem_ofPred_eq]
           rw [Pi.mulSingle_eq_of_ne (fun h => haJ (by rw [h]; simp)),
             Pi.mulSingle_eq_of_ne (fun h => haJ (by rw [h]; simp))]
         · rw [omPlusParams_mulSingle, hχg]

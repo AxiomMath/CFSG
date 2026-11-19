@@ -15,7 +15,7 @@ theorem d4Even_simple :
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨U⟩ : Nonempty (Sylow 2 ↥L) := inferInstance
   refine G2.false_of_borel_data hp5 hcfg (MulEquiv.refl ↥L) (U := (U : Subgroup ↥L))
-    (B := Subgroup.normalizer ((U : Subgroup ↥L) : Set ↥L)) U.isPGroup' U.not_dvd_index ?_ ?_ ?_
+    (B := Subgroup.normalizer ((U : Subgroup ↥L) : Set ↥L)) U.isPGroup U.not_dvd_index ?_ ?_ ?_
   · intro a H ha hUH hH
     exact D4.le_normalizer_of_card_eq_prime hL U (Fact.out : p.Prime) hp5 ha hUH hH
   · exact D4.commutator_mem_of_mem_normalizer hL U

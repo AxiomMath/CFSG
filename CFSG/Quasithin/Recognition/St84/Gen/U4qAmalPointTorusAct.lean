@@ -91,9 +91,9 @@ theorem U4qTorusData.exists_mul_beta (hT : U4qTorusData L1 L2 S H₀ f) {F : Typ
       Multiplicative.toAdd (c₁.β ⟨h * u * h⁻¹, hhu⟩) =
         Multiplicative.toAdd (c₁.β ⟨u, hu⟩) * M := by
   classical
-  haveI : Finite F := Nat.finite_of_card_ne_zero (by rw [c₁.card]; positivity)
-  haveI := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, c₁.card])
+  have : Finite F := Nat.finite_of_card_ne_zero (by rw [c₁.card]; positivity)
+  have := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, c₁.card])
   have hN : h ∈ Subgroup.normalizer (pCoreOf 2 L1 : Set G) := hT.le_normalizer_pCoreOf_left hh
   let ψ : MulAut ↥(pCoreOf 2 L1) := (pCoreOf 2 L1).normalizerMonoidHom ⟨h, hN⟩
   have hψ : ∀ u : ↥(pCoreOf 2 L1), ((ψ u : ↥(pCoreOf 2 L1)) : G) = h * u * h⁻¹ := fun u =>
@@ -205,21 +205,21 @@ private theorem twist_smul_one_tor (c : K) (X : Matrix (Fin 2) (Fin 2) K) :
         ((c • (1 : Matrix (Fin 2) (Fin 2) K)).map hU.bar)ᵀ = (c * hU.bar c) • X := by
   ext i j
   rw [mul_mul_map_bar_transpose_apply]
-  fin_cases i <;> fin_cases j <;> simp [Matrix.smul_apply, Matrix.one_apply] <;> ring
+  fin_cases i <;> fin_cases j <;> simp [Matrix.smul_apply] <;> ring
 
 private theorem twist_mul_self_eq_of_eq_tor {A : Matrix (Fin 2) (Fin 2) K} (h10 : A 1 0 = 0)
     (hd : A 0 0 = A 1 1) (hN : A 1 1 * hU.bar (A 1 1) = 1) (X : Matrix (Fin 2) (Fin 2) K) :
     A * A * X * ((A * A).map hU.bar)ᵀ = X := by
-  haveI := hU.charP
+  have := hU.charP
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
   have hsq : A * A = (A 1 1 * A 1 1) • (1 : Matrix (Fin 2) (Fin 2) K) := by
     ext i j
     fin_cases i <;> fin_cases j
     · simp [Matrix.mul_apply, Fin.sum_univ_two, h10, hd]
-    · simp [Matrix.mul_apply, Fin.sum_univ_two, h10, hd]
+    · simp [Matrix.mul_apply, Fin.sum_univ_two, hd]
       linear_combination (A 0 1 * A 1 1) * h2
     · simp [Matrix.mul_apply, Fin.sum_univ_two, h10, hd]
-    · simp [Matrix.mul_apply, Fin.sum_univ_two, h10, hd]
+    · simp [Matrix.mul_apply, Fin.sum_univ_two, h10]
   have hc : A 1 1 * A 1 1 * hU.bar (A 1 1 * A 1 1) = 1 := by
     rw [map_mul]
     linear_combination (A 1 1 * hU.bar (A 1 1) + 1) * hN
@@ -343,7 +343,7 @@ theorem U4qLocalData.exists_twist_of_mem_torus (hH : Hyp111 L1 L2 S)
   have hz' := ((c₂.mem_center_iff z').mp (conj_mem_centerOf_tor hN1 hzZ)).2
   rw [htw z z' rfl, hz, mul_mul_map_bar_transpose_apply] at hz'
   simp only [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
-    Matrix.empty_val', Matrix.cons_val_fin_one, Matrix.head_cons] at hz'
+    Matrix.empty_val', Matrix.cons_val_fin_one] at hz'
   have hA10 : Am 1 0 = 0 := by
     have h0 : Am 1 0 * hU.bar (Am 1 0) = 0 := by linear_combination hz'
     rcases mul_eq_zero.mp h0 with h0 | h0
@@ -361,7 +361,7 @@ theorem U4qLocalData.exists_twist_of_mem_torus (hH : Hyp111 L1 L2 S)
     rw [map_mul, map_inv, toAdd_mul, toAdd_inv, htw e e' rfl, he, Matrix.add_apply,
       Matrix.neg_apply, mul_mul_map_bar_transpose_apply] at h11
     simp only [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.empty_val', Matrix.cons_val_fin_one, Matrix.head_cons] at h11
+      Matrix.empty_val', Matrix.cons_val_fin_one] at h11
     rw [UnitaryFieldData.norm]
     linear_combination h11
   ·
@@ -406,7 +406,7 @@ theorem U4qLocalData.exists_torusTwist (hH : Hyp111 L1 L2 S) (hD : U4qLocalData 
             (A h : Matrix (Fin 2) (Fin 2) K) =
           (A h : Matrix (Fin 2) (Fin 2) K) * (c₂.α ⟨x, hx⟩ : Matrix (Fin 2) (Fin 2) K) := by
   classical
-  haveI : Finite K := hU.finite
+  have : Finite K := hU.finite
   have hf : 1 ≤ f := hD.one_le
   choose Af hAf using fun h : ↥H₀ => hD.exists_twist_of_mem_torus hH hS hT c₂ hU h.2
   have hN2 : ∀ h : ↥H₀, (h : G) ∈ Subgroup.normalizer (pCoreOf 2 L2 : Set G) :=
@@ -485,9 +485,9 @@ theorem U4qLocalData.exists_torusTwist (hH : Hyp111 L1 L2 S) (hD : U4qLocalData 
       rw [hpow]
       exact Subgroup.pow_mem _ hC _
     have hhQ : (h : G) ∈ pCoreOf 2 L2 := hcent ⟨Subgroup.mem_sup_right (hT.le_bigB h.2), hhC⟩
-    have hbot : H₀ ⊓ pCoreOf 2 L2 = ⊥ := Subgroup.inf_eq_bot_of_coprime (by
+    have hbot : H₀ ⊓ pCoreOf 2 L2 = ⊥ := (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard (by
       rw [hD.card_right]
-      exact hT.coprime_two_pow hf _)
+      exact hT.coprime_two_pow hf _)))
     have hmem : (h : G) ∈ H₀ ⊓ pCoreOf 2 L2 := ⟨h.2, hhQ⟩
     rw [hbot, Subgroup.mem_bot] at hmem
     exact Subtype.ext hmem
@@ -503,7 +503,7 @@ theorem U4qLocalData.exists_torusCoord (hH : Hyp111 L1 L2 S) (hD : U4qLocalData 
     (hS : Nat.card S = 2 ^ (6 * f)) (hT : U4qTorusData L1 L2 S H₀ f) {K : Type} [Field K]
     (c₂ : U4qCoordRight L1 L2 S f K) (hU : UnitaryFieldData 2 f K) :
     ∃ κ : ↥H₀ ≃* Kˣ,
-      (∀ (h : ↥H₀) (a : G) (ha : a ∈ pCoreOf 2 L1) (ha' : a ∈ L2)
+      (∀ (h : ↥H₀) (a : G) (_ha : a ∈ pCoreOf 2 L1) (ha' : a ∈ L2)
           (hha : (h : G) * a * (h : G)⁻¹ ∈ L2),
         (c₂.α ⟨(h : G) * a * (h : G)⁻¹, hha⟩ : Matrix (Fin 2) (Fin 2) K) 0 1 =
           (κ h : K) * (c₂.α ⟨a, ha'⟩ : Matrix (Fin 2) (Fin 2) K) 0 1) ∧
@@ -515,7 +515,7 @@ theorem U4qLocalData.exists_torusCoord (hH : Hyp111 L1 L2 S) (hD : U4qLocalData 
           (hhz : (h : G) * z * (h : G)⁻¹ ∈ pCoreOf 2 L2), z ∈ centerOf (pCoreOf 2 L1) →
         Multiplicative.toAdd (c₂.β ⟨(h : G) * z * (h : G)⁻¹, hhz⟩) 0 0 =
           hU.norm (κ h : K) * Multiplicative.toAdd (c₂.β ⟨z, hz⟩) 0 0) ∧
-      ∀ (h : ↥H₀) (s : G) (hs : s ∈ S) (hs' : s ∈ L2) (hhs : (h : G) * s * (h : G)⁻¹ ∈ L2),
+      ∀ (h : ↥H₀) (s : G) (_hs : s ∈ S) (hs' : s ∈ L2) (hhs : (h : G) * s * (h : G)⁻¹ ∈ L2),
         (c₂.α ⟨(h : G) * s * (h : G)⁻¹, hhs⟩ : Matrix (Fin 2) (Fin 2) K) 0 1 =
           (κ h : K) * (c₂.α ⟨s, hs'⟩ : Matrix (Fin 2) (Fin 2) K) 0 1 := by
   obtain ⟨A, κ, -, hA10, hN, hκ, htw, hα⟩ := hD.exists_torusTwist hH hS hT c₂ hU
@@ -531,24 +531,24 @@ theorem U4qLocalData.exists_torusCoord (hH : Hyp111 L1 L2 S) (hD : U4qLocalData 
       exact Units.ne_zero _
     rw [Matrix.det_fin_two, hA10 h, mul_zero, sub_zero] at hdet
     exact left_ne_zero_of_mul hdet
-  have hSκ : ∀ (h : ↥H₀) (s : G) (hs : s ∈ S) (hs' : s ∈ L2)
+  have hSκ : ∀ (h : ↥H₀) (s : G) (_hs : s ∈ S) (hs' : s ∈ L2)
       (hhs : (h : G) * s * (h : G)⁻¹ ∈ L2),
       (c₂.α ⟨(h : G) * s * (h : G)⁻¹, hhs⟩ : Matrix (Fin 2) (Fin 2) K) 0 1 =
         (κ h : K) * (c₂.α ⟨s, hs'⟩ : Matrix (Fin 2) (Fin 2) K) 0 1 := by
-    intro h s hs hs' hhs
-    obtain ⟨t, ht⟩ := (c₂.mem_iff ⟨s, hs'⟩).mp hs
+    intro h s _hs hs' hhs
+    obtain ⟨t, ht⟩ := (c₂.mem_iff ⟨s, hs'⟩).mp _hs
     have hc := hα h s hs' hhs
     rw [ht] at hc ⊢
     have e00 := congrFun (congrFun hc 0) 0
     have e01 := congrFun (congrFun hc 0) 1
     simp only [Matrix.mul_apply, Fin.sum_univ_two, hA10 h, mul_zero, add_zero, Matrix.of_apply,
       Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.empty_val',
-      Matrix.cons_val_fin_one, Matrix.head_cons, mul_one] at e00 e01 ⊢
+      Matrix.cons_val_fin_one, mul_one] at e00 e01 ⊢
     have hM00 : (c₂.α ⟨(h : G) * s * (h : G)⁻¹, hhs⟩ : Matrix (Fin 2) (Fin 2) K) 0 0 = 1 :=
       mul_right_cancel₀ (hA00 h) (e00.trans (one_mul _).symm)
     rw [hκ h, div_mul_eq_mul_div, eq_div_iff (hA11 h)]
     linear_combination e01 - (A h : Matrix (Fin 2) (Fin 2) K) 0 1 * hM00
-  refine ⟨κ, fun h a ha ha' hha => hSκ h a (hH.pCoreOf_le_left ha) ha' hha, ?_, ?_, hSκ⟩
+  refine ⟨κ, fun h a _ha ha' hha => hSκ h a (hH.pCoreOf_le_left _ha) ha' hha, ?_, ?_, hSκ⟩
   ·
     intro h x hx hhx hx1
     have hX11 : Multiplicative.toAdd (c₂.β ⟨x, hx⟩) 1 1 = 0 := (c₂.mem_inf_iff ⟨x, hx⟩).mp hx1
@@ -570,7 +570,7 @@ theorem U4qLocalData.exists_torusCoord (hH : Hyp111 L1 L2 S) (hD : U4qLocalData 
     have hN' := hN h
     rw [UnitaryFieldData.norm] at hN'
     rw [htw h ⟨z, hz⟩ ⟨_, hhz⟩ rfl, mul_mul_map_bar_transpose_apply, hX01, hX10, hX11, hκ h]
-    simp only [map_zero, mul_zero, zero_mul, add_zero, zero_add]
+    simp only [mul_zero, zero_mul, add_zero]
     rw [UnitaryFieldData.norm, map_div₀, div_mul_div_comm, hN', div_one]
     ring
 
@@ -579,9 +579,9 @@ theorem U4qLocalData.eq_one_of_torus_fixed (hH : Hyp111 L1 L2 S) (hD : U4qLocalD
     (hx : x ∈ pCoreOf 2 L1) (hfix : ∀ h ∈ H₀, h * x * h⁻¹ = x) : x = 1 := by
   classical
   obtain ⟨K, hK, -, ⟨c₂⟩⟩ := hD.exists_coordRight hH hS
-  letI := hK
+  let := hK
   have hU : UnitaryFieldData 2 f K := ⟨Nat.prime_two, hD.one_le, c₂.card⟩
-  haveI := hU.charP
+  have := hU.charP
   obtain ⟨κ, hQκ, hℓκ, hZκ, -⟩ := hD.exists_torusCoord hH hS hT c₂ hU
   obtain ⟨c, hcf, hc0, hc1⟩ := exists_fixed_ne_zero_ne_one_tor hU hf
   obtain ⟨h, hκh⟩ : ∃ h : ↥H₀, (κ h : K) = c :=
@@ -594,7 +594,7 @@ theorem U4qLocalData.eq_one_of_torus_fixed (hH : Hyp111 L1 L2 S) (hD : U4qLocalD
   obtain ⟨t, ht⟩ := (c₂.mem_iff ⟨x, hxL2⟩).mp (hH.pCoreOf_le_left hx)
   rw [ht] at hα1
   simp only [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
-    Matrix.empty_val', Matrix.cons_val_fin_one, Matrix.head_cons] at hα1
+    Matrix.empty_val', Matrix.cons_val_fin_one] at hα1
   have ht0 : t = 0 := by
     have e : (c - 1) * t = 0 := by linear_combination -hα1
     exact (mul_eq_zero.mp e).resolve_left (sub_ne_zero.mpr hc1)
@@ -649,25 +649,25 @@ theorem U4qLocalData.phi_conj_of_torus (hH : Hyp111 L1 L2 S) (hD : U4qLocalData 
     (hS : Nat.card S = 2 ^ (6 * f)) (hT : U4qTorusData L1 L2 S H₀ f) {F K : Type} [Field F]
     [Field K] (c₁ : U4qCoordLeft L1 L2 S f F) (c₂ : U4qCoordRight L1 L2 S f K)
     {φ : (Fin 2 → F) → K}
-    (hφ : ∀ (a : G) (ha : a ∈ pCoreOf 2 L1) (ha' : a ∈ L2),
-      φ (Multiplicative.toAdd (c₁.β ⟨a, ha⟩) 1) = (c₂.α ⟨a, ha'⟩ : Matrix (Fin 2) (Fin 2) K) 0 1)
+    (hφ : ∀ (a : G) (_ha : a ∈ pCoreOf 2 L1) (ha' : a ∈ L2),
+      φ (Multiplicative.toAdd (c₁.β ⟨a, _ha⟩) 1) = (c₂.α ⟨a, ha'⟩ : Matrix (Fin 2) (Fin 2) K) 0 1)
     {h : G} (hh : h ∈ H₀) {c : K}
-    (hc : ∀ (a : G) (ha : a ∈ pCoreOf 2 L1) (ha' : a ∈ L2) (hha : h * a * h⁻¹ ∈ L2),
+    (hc : ∀ (a : G) (_ha : a ∈ pCoreOf 2 L1) (ha' : a ∈ L2) (hha : h * a * h⁻¹ ∈ L2),
       (c₂.α ⟨h * a * h⁻¹, hha⟩ : Matrix (Fin 2) (Fin 2) K) 0 1 =
         c * (c₂.α ⟨a, ha'⟩ : Matrix (Fin 2) (Fin 2) K) 0 1)
     (u : G) (hu : u ∈ pCoreOf 2 L1) (hhu : h * u * h⁻¹ ∈ pCoreOf 2 L1) (i : Fin 2) :
     φ (Multiplicative.toAdd (c₁.β ⟨h * u * h⁻¹, hhu⟩) i) =
       c * φ (Multiplicative.toAdd (c₁.β ⟨u, hu⟩) i) := by
   obtain ⟨M, hM⟩ := hT.exists_mul_beta c₁ hh
-  have hQ1L2 : ∀ {a : G}, a ∈ pCoreOf 2 L1 → a ∈ L2 := fun ha =>
-    hD.le_right hH hS (hH.pCoreOf_le_left ha)
+  have hQ1L2 : ∀ {a : G}, a ∈ pCoreOf 2 L1 → a ∈ L2 := fun _ha =>
+    hD.le_right hH hS (hH.pCoreOf_le_left _ha)
   have hN : h ∈ Subgroup.normalizer (pCoreOf 2 L1 : Set G) := hT.le_normalizer_pCoreOf_left hh
   have key : ∀ v : Fin 2 → F, φ (v ᵥ* M) = c * φ v := by
     intro v
-    obtain ⟨a, ha⟩ := c₁.surjective_β (Multiplicative.ofAdd (Matrix.of ![0, v]))
+    obtain ⟨a, _ha⟩ := c₁.surjective_β (Multiplicative.ofAdd (Matrix.of ![0, v]))
     have hrow : Multiplicative.toAdd (c₁.β ⟨(a : G), a.2⟩) 1 = v := by
       change Multiplicative.toAdd (c₁.β a) 1 = v
-      rw [ha]
+      rw [_ha]
       rfl
     have hha : h * (a : G) * h⁻¹ ∈ pCoreOf 2 L1 := (Subgroup.mem_normalizer_iff.mp hN a).mp a.2
     have e := hφ (h * (a : G) * h⁻¹) hha (hQ1L2 hha)
@@ -732,7 +732,7 @@ theorem U4qLocalData.inf_inf_centralizer_torus_le (hH : Hyp111 L1 L2 S)
   classical
   rintro s ⟨hsS, -, hsC⟩
   obtain ⟨K, hK, -, ⟨c₂⟩⟩ := hD.exists_coordRight hH hS
-  letI := hK
+  let := hK
   have hU : UnitaryFieldData 2 f K := ⟨Nat.prime_two, hD.one_le, c₂.card⟩
   obtain ⟨κ, -, -, -, hSκ⟩ := hD.exists_torusCoord hH hS hT c₂ hU
   obtain ⟨c, hc⟩ := hU.exists_bar_ne
@@ -753,7 +753,7 @@ theorem U4qLocalData.inf_inf_centralizer_torus_le (hH : Hyp111 L1 L2 S)
   obtain ⟨t, ht⟩ := (c₂.mem_iff ⟨s, hsL2⟩).mp hsS
   rw [ht] at e
   simp only [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
-    Matrix.empty_val', Matrix.cons_val_fin_one, Matrix.head_cons] at e
+    Matrix.empty_val', Matrix.cons_val_fin_one] at e
   have ht0 : t = 0 := by
     have e' : (c - 1) * t = 0 := by linear_combination -e
     exact (mul_eq_zero.mp e').resolve_left (sub_ne_zero.mpr hc1)

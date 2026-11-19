@@ -136,7 +136,7 @@ private theorem e6w_Dinv_mulVec (v : Fin Tag.F4.rank → ZMod 3) :
   rw [Finset.sum_eq_single i]
   · rw [e6w_Dinv, Matrix.diagonal_apply_eq]
   · intro j _ hj
-    rw [e6w_Dinv, Matrix.diagonal_apply, if_neg (Ne.symm hj), zero_mul]
+    rw [e6w_Dinv, Matrix.diagonal_apply, ite_eq_right (Ne.symm hj), zero_mul]
   · intro hi
     exact absurd (Finset.mem_univ i) hi
 
@@ -160,9 +160,9 @@ private theorem e6w_torusAct_coord (k : Fin Tag.F4.rank) (v : Fin Tag.F4.rank �
   funext i
   by_cases hi : i = k
   · subst hi
-    simp only [Pi.sub_apply, Pi.smul_apply, Pi.single_eq_same, mul_one]
+    simp only [Pi.sub_apply, Pi.smul_apply, Pi.single_eq_same]
     ring
-  · simp only [Pi.sub_apply, Pi.smul_apply, Pi.single_eq_of_ne hi, mul_zero]
+  · simp only [Pi.sub_apply, Pi.smul_apply, Pi.single_eq_of_ne hi]
     ring
 
 private theorem e6w_cartanF4_eq : Tag.F4.cartan.transpose = CartanMatrix.F₄ := by
@@ -220,15 +220,15 @@ theorem e6Two_frame_selfCentralizing {K : Type} [Field K] [Finite K] [CharP K 2]
     {ζ : (AlgebraicClosure K)ˣ} {hζ : ζ ^ 3 = 1} (D : E6QPlusThreeFrame K)
     (hFr : ∀ c, Fr c = c ^ Nat.card K) (hg0C : g0 ∈ adjointGroup .E6 (AlgebraicClosure K))
     (hg0 : Units.map (entrywiseHom Fr) g0 = g0 * eqpN (AlgebraicClosure K))
-    (hζo : orderOf ζ = 3) (hFrζ : Units.map Fr.toMonoidHom ζ = ζ ^ 2)
+    (hζo : orderOf ζ = 3) (_hFrζ : Units.map Fr.toMonoidHom ζ = ζ ^ 2)
     (hcoord : ∀ s, baseChangeGL (algebraMap K (AlgebraicClosure K)) (D.frame s : ModGL .E6 K) =
       g0 * e6ThreeDiag ζ hζ s * g0⁻¹) :
     ∀ g : adjointGroup .E6 K, (∀ s, g * D.frame s = D.frame s * g) → g ∈ D.frame.range := by
   classical
   intro g hg
   let L := AlgebraicClosure K
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
   let D0 : LangDatum .E6 L := LangDatum.ofFrobenius Fr (Nat.card K) hFr e6W0 hg0C hg0
   have hd : LangDescent D0 7 ((baseChangeGL (algebraMap K L)).comp (adjointGroup .E6 K).subtype) :=
     CFSG.HardMathSupport.Timmesfeld.CrossChar.langDescent_ofFrobenius (Or.inr (Or.inl rfl)) e6W0 K
@@ -457,7 +457,7 @@ theorem e6Two_torusWitness {K : Type} [Field K] [Finite K] [CharP K 2] (D : E6QP
     rw [← map_inv, ← map_mul, hwT, ← ofAdd_neg, ← ofAdd_add, ← sub_eq_add_neg]
     exact congrArg (fun z => D.frame z)
       (congrArg Multiplicative.ofAdd (e6w_torusAct_coord k (fun j => (a j).toAdd)))
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨_hnA, ρ, hρ, hρrange, hρsimple⟩ :=
     exists_markedWeyl_innerHom (τ := .F4) (p := 3) (by decide : Odd 3) E
       (CFSG.mulAutConj_injective_of_center_eq_bot

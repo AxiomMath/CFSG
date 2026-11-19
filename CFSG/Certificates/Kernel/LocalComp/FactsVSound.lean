@@ -41,7 +41,7 @@ private def ksFV_CorrN (c : Lay) (V : Nat → Nat) (N n : Nat) (R : Nat → Nat)
   Rn.size = n ∧ ∀ r < n, (R r < N ∨ R r < 3) ∧ WFb c.d Rn[r]! ∧
     CFSG.F3.Native.toMat c.d Rn[r]! = mat3 c (V (R r))
 
-private theorem ksFV_replay_init {c : Lay} (hc : c.ok = true) (hp : c.p = 3)
+private theorem ksFV_replay_init {c : Lay} (_hc : c.ok = true) (_hp : c.p = 3)
     {LA LB : List Char} {sA sB : String} (hsA : sA = String.ofList LA)
     (hsB : sB = String.ofList LB) {V P : Nat → Nat} {N n : Nat}
     (hA : SeedM c (V 0) LA) (hB : SeedM c (V 1) LB)
@@ -66,19 +66,19 @@ private theorem ksFV_replay_init {c : Lay} (hc : c.ok = true) (hp : c.p = 3)
     rw [hRk, hRn]
     by_cases h0 : r = 0
     · subst h0
-      simp only [if_true]
+      simp only [ite_true]
       refine ⟨Or.inr (by norm_num), wfb_rowsOf c.d sA, ?_⟩
       change CFSG.F3.Native.toMat c.d (CFSG.F3.Native.rowsOf c.d sA) = mat3 c (V 0)
       exact ((spec3b c.d).toMat_decode sA).trans
         (by rw [hsA]; exact hA.2.symm)
     by_cases h01 : r = 1
     · subst h01
-      simp only [if_false, if_true, one_ne_zero]
+      simp only [ite_false, ite_true, one_ne_zero]
       refine ⟨Or.inr (by norm_num), wfb_rowsOf c.d sB, ?_⟩
       change CFSG.F3.Native.toMat c.d (CFSG.F3.Native.rowsOf c.d sB) = mat3 c (V 1)
       exact ((spec3b c.d).toMat_decode sB).trans
         (by rw [hsB]; exact hB.2.symm)
-    · simp only [h0, h01, if_false]
+    · simp only [h0, h01, ite_false]
       refine ⟨Or.inr (by norm_num), wfb_idM c.d, ?_⟩
       change CFSG.F3.Native.toMat c.d (CFSG.F3.Native.idM c.d) = mat3 c (V 2)
       rw [CFSG.F3.Native.toMat_idM, hV.two]
@@ -398,7 +398,7 @@ private theorem ksFV_toVec_vmul_unit {c : Lay} {V P : Nat → Nat} {N : Nat} (hV
     toVec_unit c.d t, ← hmat']
   simp only [Matrix.vecMul, dotProduct]
   rw [Finset.sum_eq_single ⟨t, ht⟩]
-  · rw [if_pos rfl, one_mul]
+  · rw [ite_eq_left rfl, one_mul]
     rfl
   · intro b _ hb
     have hb' : (b : Nat) ≠ t := fun h => hb (Fin.ext h)
@@ -620,18 +620,18 @@ private theorem ksFV_canon_pow {p d : Nat} (hp : 1 < p) {X : Array (Array Nat)}
   | _ e ih =>
     unfold Ops.pow
     by_cases h0 : e = 0
-    · rw [if_pos h0]
+    · rw [ite_eq_left h0]
       exact ksFV_canon_idM hp
     by_cases h1 : e = 1
-    · rw [if_neg h0, if_pos h1]
+    · rw [ite_eq_right h0, ite_eq_left h1]
       exact hX
-    rw [if_neg h0, if_neg h1]
+    rw [ite_eq_right h0, ite_eq_right h1]
     have hXX := ksFV_canon_mulM hp0 hX.1 fun i _ => (hX.2 i (by omega)).1
     have hpow := ih (e / 2) (by omega) hXX
     by_cases ho : e % 2 = 1
-    · rw [if_pos ho]
+    · rw [ite_eq_left ho]
       exact ksFV_canon_mulM hp0 hX.1 fun i _ => (hpow.2 i (by omega)).1
-    · rw [if_neg ho]
+    · rw [ite_eq_right ho]
       exact hpow
 
 private theorem ksFV_toMat_unpackL {p d w S X : Nat} (i j : Fin d) :
@@ -760,17 +760,17 @@ private theorem ksFV_pexpoK_mat {c : Lay} {V P : Nat → Nat} {N : Nat}
     intro t ht h
     rw [expoK] at h ⊢
     by_cases h1 : t = a
-    · rw [if_pos h1] at h ⊢
+    · rw [ite_eq_left h1] at h ⊢
       rw [h1, pow_one]
-    · rw [if_neg h1] at h ⊢
+    · rw [ite_eq_right h1] at h ⊢
       by_cases h2 : t = 2
-      · rw [if_pos h2] at h ⊢
+      · rw [ite_eq_left h2] at h ⊢
         rw [h2, hV.two, (one_sound hV.hc).2, pow_zero]
-      · rw [if_neg h2] at h ⊢
+      · rw [ite_eq_right h2] at h ⊢
         by_cases h3 : t < 2
-        · rw [if_pos h3] at h
+        · rw [ite_eq_left h3] at h
           exact absurd h (lt_irrefl _)
-        · rw [if_neg h3] at h ⊢
+        · rw [ite_eq_right h3] at h ⊢
           have ht3 : 3 ≤ t := by omega
           have htN : t < N := by rcases ht with h' | h' <;> omega
           have hstep : stepOK c V P t = true := hV.step t ht3 htN
@@ -1147,7 +1147,7 @@ private theorem ksFV_toVec_vmul_unitP {c : Lay} {V P : Nat → Nat} {N : Nat}
   rw [(specP c.p c.d).toVec_vmul trivial trivial, ksFV_toVec_unitP c.p c.d t, ← hmat']
   simp only [Matrix.vecMul, dotProduct]
   rw [Finset.sum_eq_single ⟨t, ht⟩]
-  · rw [if_pos rfl, one_mul]
+  · rw [ite_eq_left rfl, one_mul]
     rfl
   · intro b _ hb
     have hb' : (b : Nat) ≠ t := fun h => hb (Fin.ext h)
@@ -1329,13 +1329,13 @@ private theorem ksFV_pinitial {c : Lay} (hc : c.ok = true) {V : Nat → Nat} {N 
   rw [hRk, hRn]
   by_cases h0r : r = 0
   · subst h0r
-    simp only [if_true]
+    simp only [ite_true]
     exact ⟨Or.inr (by norm_num), h0, hAcan, hAmat⟩
   by_cases h1r : r = 1
   · subst h1r
-    simp only [if_false, if_true, one_ne_zero]
+    simp only [ite_false, ite_true, one_ne_zero]
     exact ⟨Or.inr (by norm_num), h1, hBcan, hBmat⟩
-  · simp only [h0r, h1r, if_false]
+  · simp only [h0r, h1r, ite_false]
     exact ⟨Or.inr (by norm_num), by rw [h2]; exact h2v, ksFV_canon_idM h1p, hOmat⟩
 
 

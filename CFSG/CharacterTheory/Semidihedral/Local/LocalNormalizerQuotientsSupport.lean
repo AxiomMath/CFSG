@@ -163,7 +163,7 @@ theorem sylow_inf_normalizer (S : Sylow 2 G) (T : Subgroup G) (hT2 : IsPGroup 2 
           (Subgroup.normalizer (T : Set G)) := by
   have hR2 : IsPGroup 2 (((S : Subgroup G) ⊓ Subgroup.normalizer (T : Set G)).subgroupOf
       (Subgroup.normalizer (T : Set G))) :=
-    (S.isPGroup'.to_le inf_le_left).of_equiv (Subgroup.subgroupOfEquivOfLe inf_le_right).symm
+    (S.isPGroup.to_le inf_le_left).of_equiv (Subgroup.subgroupOfEquivOfLe inf_le_right).symm
   obtain ⟨U, hRU⟩ := hR2.exists_le_sylow
   have hTN : (T.subgroupOf (Subgroup.normalizer (T : Set G))).Normal :=
     Subgroup.normal_in_normalizer
@@ -171,7 +171,7 @@ theorem sylow_inf_normalizer (S : Sylow 2 G) (T : Subgroup G) (hT2 : IsPGroup 2 
     hT2.of_equiv (Subgroup.subgroupOfEquivOfLe Subgroup.le_normalizer).symm
   have hTU : T.subgroupOf (Subgroup.normalizer (T : Set G)) ≤ U := hT2'.le_sylow_of_normal U
   have hUG2 : IsPGroup 2 ((U : Subgroup _).map (Subgroup.normalizer (T : Set G)).subtype) :=
-    U.isPGroup'.map _
+    U.isPGroup.map _
   obtain ⟨P, hUP⟩ := hUG2.exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq G S P
   have hconjS : ((U : Subgroup _).map (Subgroup.normalizer (T : Set G)).subtype).map

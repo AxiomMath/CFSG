@@ -44,7 +44,7 @@ private theorem sbl2dich_ti_projSL {n : ℕ} (hn : 1 ≤ n) {G : Type} [Group G]
     (e : G ≃* projSL 2 (GaloisField 2 n)) {U V : Subgroup G}
     (hU : IsPGroup 2 U) (hUi : ¬ 2 ∣ U.index) (hV : IsPGroup 2 V) (hVi : ¬ 2 ∣ V.index)
     (h : U ⊓ V ≠ ⊥) : U = V := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hF : Nat.card (GaloisField 2 n) = 2 ^ n := GaloisField.card 2 n (by omega)
   obtain ⟨ι⟩ := KFacts.nonempty_sl2_mulEquiv_projSL hF
   let φ : G ≃* SL(2, GaloisField 2 n) := e.trans ι.symm
@@ -91,9 +91,9 @@ private theorem sbl2dich_mem_normalizer_sup {Y : Type} [Group Y] {P Q : Subgroup
 private theorem sbl2dich_exists_sylow {Y : Type} [Group Y] [Finite Y] {N R : Subgroup Y}
     (hR : IsPGroup 2 R) (hRN : R ≤ N) :
     ∃ U, CFSG.QuasithinUnique.IsSylowTwoOf U N ∧ R ≤ U := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hP⟩ := (hR.comap_subtype (K := N)).exists_le_sylow
-  refine ⟨(P : Subgroup N).map N.subtype, ⟨Subgroup.map_subtype_le _, P.isPGroup'.map _, ?_⟩, ?_⟩
+  refine ⟨(P : Subgroup N).map N.subtype, ⟨Subgroup.map_subtype_le _, P.isPGroup.map _, ?_⟩, ?_⟩
   · have h : ((P : Subgroup N).map N.subtype).subgroupOf N = P :=
       Subgroup.comap_map_eq_self_of_injective Subtype.coe_injective _
     rw [h]
@@ -138,7 +138,7 @@ private theorem sbl2dich_main {X Y : Type} [Group X] [Group Y] [Finite X] [Finit
     {A S : Subgroup X} (hS : S ∈ maxInvariantPiSubgroups ⊤ A (piOf 2)) (hKS : π.ker ≤ S) :
     CFSG.QuasithinUnique.IsSylowTwoOf (S ⊓ N.comap π) (N.comap π) ∨
       S ⊓ N.comap π = π.ker := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS2 : IsPGroup 2 S := (isPiSubgroup_piOf_iff Nat.prime_two S).mp hS.prop.2.1
   have hSA : A ≤ Subgroup.normalizer (S : Set X) := hS.prop.2.2
   have hSb2 : IsPGroup 2 (S.map π) := hS2.map π
@@ -200,7 +200,7 @@ theorem sylow_or_pCore_of_typeL2 {n : ℕ} (hn : 2 ≤ n)
   have hM : oResidual 2 X ⊔ CFSG.pCore 2 X =
       (oResidual 2 (X ⧸ CFSG.pCore 2 X)).comap (QuotientGroup.mk' (CFSG.pCore 2 X)) := by
     rw [← hmap, Subgroup.comap_map_eq, hker]
-  haveI : (oResidual 2 (X ⧸ CFSG.pCore 2 X)).Normal :=
+  have : (oResidual 2 (X ⧸ CFSG.pCore 2 X)).Normal :=
     Stage1.Thm6.Prod.oResidual_normal 2 _
   have hkerP : IsPGroup 2 (QuotientGroup.mk' (CFSG.pCore 2 X)).ker := by
     rw [hker]

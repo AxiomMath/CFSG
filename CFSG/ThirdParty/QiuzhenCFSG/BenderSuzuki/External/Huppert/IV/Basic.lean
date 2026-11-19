@@ -182,7 +182,7 @@ public theorem hkt_factorization_lt_normalizerIn_sylow_of_lt_sylow
   have hlt :=
     section8_factorization_lt_normalizer_of_lt_top_in_pgroup
       (S := (S : Subgroup Q)) (p := q)
-      (hS := by simpa using S.isPGroup') (K := K) hKlt
+      (hS := by simpa using S.isPGroup) (K := K) hKlt
   have hcardK : Nat.card K = Nat.card U :=
     natCard_subgroupOf_eq U (S : Subgroup Q) hUS.le
   simpa [K, hcardK] using hlt

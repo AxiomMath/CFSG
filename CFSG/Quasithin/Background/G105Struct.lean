@@ -22,17 +22,19 @@ theorem not_mem_of_invariant {B : LinearMap.BilinForm (ZMod 2) V} {Γ : Subgroup
   rintro _ ⟨γ, rfl⟩
   exact hP γ γ.2 v₁ hv
 
+omit [Finite V] in
 theorem finrank_le_index [Finite V] {B : LinearMap.BilinForm (ZMod 2) V} {Γ : Subgroup (GLV V)}
     {v₁ : V} {W : Submodule (ZMod 2) V} {X X₀ : Subgroup (GLV V)}
     (hG : G101Hyp B Γ v₁ W X X₀) :
     Module.finrank (ZMod 2) V ≤ (MulAction.stabilizer Γ v₁).index := by
   classical
-  haveI : Fintype (MulAction.orbit Γ v₁) := Fintype.ofFinite _
+  have : Fintype (MulAction.orbit Γ v₁) := Fintype.ofFinite _
   have h1 := finrank_span_le_card (R := ZMod 2) (MulAction.orbit Γ v₁)
   rw [hG.span_orbit, finrank_top, ← Set.ncard_eq_toFinset_card'] at h1
   rw [MulAction.index_stabilizer]
   exact h1
 
+omit [Finite V] in
 theorem eq_one_of_sq_normal {Γ : Subgroup (GLV V)} (hO2 : pCoreOf 2 Γ = ⊥)
     {N : Subgroup (GLV V)} (hN : N ≤ Γ)
     (hNn : ∀ γ ∈ Γ, ∀ n ∈ N, γ * n * γ⁻¹ ∈ N) (hsq : ∀ n ∈ N, n * n = 1) :
@@ -50,7 +52,7 @@ theorem eq_one_of_sq_normal {Γ : Subgroup (GLV V)} (hO2 : pCoreOf 2 Γ = ⊥)
     have hg : (g : GLV V) ∈ N := (Subgroup.mem_subgroupOf).1 g.2
     apply Subtype.ext
     apply Subtype.ext
-    simp only [pow_one, Subgroup.coe_pow, Subgroup.coe_one, OneMemClass.coe_one]
+    simp only [pow_one, Subgroup.coe_pow, Subgroup.coe_one]
     rw [pow_two]
     exact hsq _ hg
   have hle : N' ≤ CFSG.pCore 2 Γ := le_sSup ⟨hnorm, hpg⟩
@@ -81,6 +83,7 @@ theorem isCompl_orthogonal_of_inf {B : LinearMap.BilinForm (ZMod 2) V}
   refine ⟨fun x hx => h1 x hx, fun x hx => h1 x fun y => ?_⟩
   exact hrefl _ _ (hx y)
 
+omit [Finite V] in
 theorem inducesTransvection_of_split [Finite V] {U U' : Submodule (ZMod 2) V}
     (hc : IsCompl U U') (hU2 : Module.finrank (ZMod 2) U = 2) {g : GLV V}
     (hgU' : ∀ w ∈ U', g w = w) {h : U ≃ₗ[ZMod 2] U} (hgh : ∀ u : U, g (u : V) = (h u : V))

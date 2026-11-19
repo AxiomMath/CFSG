@@ -96,7 +96,7 @@ private theorem xJ_not_mem_zpowers_zJ :
     rw [show E0 = closure ({⁅xJ, yJ⁆, xJ} : Set GJ) from rfl, closure_le]
     intro g hg
     rcases hg with rfl | rfl
-    · simpa [z_eq] using Subgroup.mem_zpowers zJ
+    · simp [z_eq]
     · exact hx
   have h9 : Nat.card E0 = 9 := by rw [card_E0]; norm_num
   have hle' := Subgroup.card_le_of_le hle

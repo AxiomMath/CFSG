@@ -13,6 +13,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
 namespace HS93
 
+omit [Finite G] in
 theorem conj_mem_Z0 {hc : Ctx M Q Z B} {t : G} {Z0 : Subgroup G}
     (hZ0 : IsCentrePre Z0 (Rt M (LB M Q B) t) Q) {ρ y : G} (hρ : ρ ∈ Rt M (LB M Q B) t)
     (hy : y ∈ Z0) : ρ * y * ρ⁻¹ ∈ Z0 := by

@@ -15,6 +15,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem s16c11_barSub_self_eq_bot {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) :
     barSub V₀ V hV V = ⊥ := by
   refine le_bot_iff.1 fun φ hφ => ?_
@@ -97,7 +98,7 @@ theorem s16c11_normalizer_le_of_routeA (D : Data G) (h61 : UC6.R6_1 D)
   have hTst : D.T ≤ stabTil V₀ V := D.sylowM.le.trans hMst
   have hp2 : p ≠ 2 := (D.sig_prime p hp).2
   have hpp : p.Prime := (D.sig_prime p hp).1
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have hodd : ¬ 2 ∣ Nat.card P := by
     intro h2
     obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 hPp

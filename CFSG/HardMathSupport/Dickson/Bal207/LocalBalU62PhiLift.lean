@@ -165,9 +165,9 @@ theorem u62lb_phi_exists_offdiag (s : gramSU h (idGram K 6))
   rw [diagonal_apply]
   by_cases hxy : x = y
   · subst hxy
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     exact hall x 0
-  · rw [if_neg hxy]
+  · rw [ite_eq_right hxy]
     exact hcon x y hxy
 
 end CFSG.HardMathSupport.Dickson.Bal207

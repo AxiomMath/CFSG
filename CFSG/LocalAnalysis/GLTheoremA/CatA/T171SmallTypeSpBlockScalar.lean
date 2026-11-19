@@ -13,6 +13,7 @@ open Matrix CFSG.LieType.SteinbergBR.EvenSp
 
 variable {W : Type} [AddCommGroup W] [Module (ZMod 2) W] [FiniteDimensional (ZMod 2) W]
 
+omit [FiniteDimensional (ZMod 2) W] in
 private theorem eigen_of_commute
     (B : BilinForm (ZMod 2) W) (hAlt : B.IsAlt) (hBn : B.Nondegenerate)
     (φ : W →ₗ[ZMod 2] W)
@@ -109,7 +110,7 @@ theorem linearEquiv_centralizer_zpowers_nat {P : Type*} [AddCommGroup P] [Module
     {y g : P ≃ₗ[ZMod 2] P} (hy3 : y ^ 3 = 1) (hy1 : y ≠ 1) (hg : g * y = y * g) :
     ∃ k : ℕ, k < 3 ∧ y ^ k = g := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hfin : IsOfFinOrder y := isOfFinOrder_iff_pow_eq_one.mpr ⟨3, by norm_num, hy3⟩
   have hmem : g ∈ Subgroup.zpowers y := linearEquiv_centralizer_zpowers hP hy3 hy1 hg
   rw [IsOfFinOrder.mem_zpowers_iff_mem_range_orderOf hfin, orderOf_eq_prime hy3 hy1] at hmem

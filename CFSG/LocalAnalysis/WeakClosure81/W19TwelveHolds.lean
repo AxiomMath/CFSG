@@ -16,6 +16,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem pow_mul_mem_coset {O : Subgroup G} {y o : G}
     (hyN : y ∈ Subgroup.normalizer (O : Set G)) (ho : o ∈ O) :
     ∀ n k : ℕ, ∃ o' ∈ O, (y ^ n * o) ^ k = y ^ (n * k) * o' := by
@@ -32,6 +33,7 @@ private theorem pow_mul_mem_coset {O : Subgroup G} {y o : G}
     rw [pow_succ, h, Nat.mul_succ, pow_add]
     group
 
+omit [Finite G] in
 private theorem commutatorElement_pow_mem_of_mem {O : Subgroup G} {y u : G}
     (hyN : y ∈ Subgroup.normalizer (O : Set G)) (huy : ⁅u, y⁆ ∈ O) :
     ∀ n : ℕ, ⁅u, y ^ n⁆ ∈ O := by
@@ -46,6 +48,7 @@ private theorem commutatorElement_pow_mem_of_mem {O : Subgroup G} {y u : G}
     rw [pow_succ, commutatorElement_mul_right_eq_mul_conj]
     simpa [mul_assoc] using O.mul_mem ih hmid
 
+omit [Finite G] in
 private theorem commutatorElement_mem_of_mem_coset {O : Subgroup G} {y u z : G}
     (hyN : y ∈ Subgroup.normalizer (O : Set G))
     (huN : u ∈ Subgroup.normalizer (O : Set G))
@@ -63,6 +66,7 @@ private theorem commutatorElement_mem_of_mem_coset {O : Subgroup G} {y u z : G}
   rw [commutatorElement_mul_right_eq_mul_conj]
   simpa [mul_assoc] using O.mul_mem hpow hmid
 
+omit [Finite G] in
 private theorem mem_centralizerQuot_of_commutatorElement_mem {O : Subgroup G} {y : G}
     {U Z : Subgroup G} (hUO : U ≤ Subgroup.normalizer (O : Set G))
     (hgen : ∀ z ∈ Z, ∃ n : ℕ, ∃ o ∈ O, z = y ^ n * o)
@@ -71,6 +75,7 @@ private theorem mem_centralizerQuot_of_commutatorElement_mem {O : Subgroup G} {y
   mem_centralizerQuot.2 ⟨hu, hUO hu, fun z hz =>
     commutatorElement_mem_of_mem_coset hyN (hUO hu) huy (hgen z hz)⟩
 
+omit [Finite G] in
 private theorem centralizes_or_inverts_mod
     {U Z O : Subgroup G} {y : G} {p : ℕ}
     (hp : p.Prime) (hyZ : y ∈ Z) (hypow : y ^ p = 1)
@@ -82,7 +87,7 @@ private theorem centralizes_or_inverts_mod
     (hgen : ∀ z ∈ Z, ∃ n : ℕ, ∃ o ∈ O, z = y ^ n * o)
     (hy1 : y ≠ 1) {u : G} (hu : u ∈ U) :
     ⁅u, y⁆ ∈ O ∨ u * y * u⁻¹ * y ∈ O := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have horder : orderOf y = p := orderOf_eq_prime hypow hy1
   have hyN : y ∈ Subgroup.normalizer (O : Set G) := hZO hyZ
   have huN : u ∈ Subgroup.normalizer (O : Set G) := hUO hu
@@ -157,6 +162,7 @@ private theorem centralizes_or_inverts_mod
     rw [hgoal]
     exact (Subgroup.mem_normalizer_iff''.1 hyN o).mp ho
 
+omit [Finite G] in
 private theorem commutatorElement_mul_mem_of_inverts {O : Subgroup G} {y a b : G}
     (hyN : y ∈ Subgroup.normalizer (O : Set G))
     (hbN : b ∈ Subgroup.normalizer (O : Set G))
@@ -183,6 +189,7 @@ private theorem commutatorElement_mul_mem_of_inverts {O : Subgroup G} {y a b : G
       = (b * ta * b⁻¹) * (y * tb⁻¹ * y⁻¹) by group]
   exact O.mul_mem h1 h2
 
+omit [Finite G] in
 theorem relIndex_le_two_of_coset_cyclic {p : ℕ} (hp : p.Prime)
     {U Z O : Subgroup G} {y : G} (hyZ : y ∈ Z) (hypow : y ^ p = 1)
     (hyO : ∀ n : ℕ, y ^ n ∈ O → y ^ n = 1)
@@ -238,6 +245,7 @@ namespace MinCex193
 
 variable {D : Data G} {V₀ V : Subgroup G} {p : ℕ} {X : Subgroup G}
 
+omit [Finite G] in
 private theorem pCore_comm_mem_of_mem_normalizer {H O : Subgroup G} {t : G}
     (htH : t ∈ H) (hHO : H ≤ normalizer (O : Set G)) {o : G} (ho : o ∈ O) :
     ⁅t, o⁆ ∈ O := by
@@ -246,6 +254,7 @@ private theorem pCore_comm_mem_of_mem_normalizer {H O : Subgroup G} {t : G}
   rw [commutatorElement_def]
   exact O.mul_mem h1 (O.inv_mem ho)
 
+omit [Finite G] in
 private theorem pCore_comm_sup_mem {X O : Subgroup G} {t : G}
     (hXO : X ≤ normalizer (O : Set G))
     (hX : ∀ x ∈ X, ⁅t, x⁆ ∈ O) (hO : ∀ o ∈ O, ⁅t, o⁆ ∈ O) :
@@ -673,7 +682,7 @@ private theorem step8_relIndex (c : MinCex193 D V₀ V p X)
       (fun z hz => hHO (Subgroup.mem_sup_left hz))
   have hXO_set : ((X ⊔ O : Subgroup G) : Set G) = (X : Set G) * (O : Set G) :=
     W19Aux.coe_sup_eq_mul_of_perm hXO_perm
-  haveI hcyc : IsCyclic ↥(X ⊓ K) := isCyclic_inf_centralizerQuot c hE hXE
+  have hcyc : IsCyclic ↥(X ⊓ K) := isCyclic_inf_centralizerQuot c hE hXE
   obtain ⟨y0, hygen0⟩ := IsCyclic.exists_monoid_generator (α := ↥(X ⊓ K))
   let y : G := (y0 : G)
   have hyX : y ∈ X := (Subgroup.mem_inf.1 y0.2).1
@@ -721,6 +730,7 @@ private theorem step8_relIndex (c : MinCex193 D V₀ V p X)
     Subgroup.relIndex_le_of_le_left hCle (E3.relIndex_ne_zero' U _)
   exact hle.trans hCrel
 
+omit [Finite G] in
 private theorem eq_one_or_eq_u_of_mem_conj (h2 : Nat.card ↥V₀ = 2) {g v u : G} (hv : v ∈ V₀)
     (hv1 : v ≠ 1)
     (hu : u = g⁻¹ * v * g) {x : G} (hx : x ∈ conjSubgroup V₀ g) :

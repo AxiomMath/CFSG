@@ -27,7 +27,7 @@ theorem mem_of_mem_normalizer_m24
   obtain ⟨T₀⟩ : Nonempty (Sylow 2 ↥B) := inferInstance
   set T : Subgroup X := (T₀ : Subgroup ↥B).map B.subtype with hT
   have hTB : T ≤ B := Subgroup.map_subtype_le _
-  have hTp : IsPGroup 2 T := T₀.isPGroup'.map B.subtype
+  have hTp : IsPGroup 2 T := T₀.isPGroup.map B.subtype
   have hBi : B.index = 759 := by
     have h1 := Subgroup.card_mul_index B
     rw [hB, hXc] at h1

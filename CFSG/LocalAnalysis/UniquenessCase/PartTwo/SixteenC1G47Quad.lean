@@ -10,7 +10,7 @@ open CFSG.Quasithin CFSG.Open Subgroup
 
 theorem s16c1_no_singular_transvection {W : Type*} [CommGroup W] {Q : W → ZMod 2}
     (hQ : IsNondegQuadF2 Q) (hW : ∀ w : W, w * w = 1) (σ : MulAut W)
-    (hσQ : ∀ x, Q (σ x) = Q x) {z : W} (hz1 : z ≠ 1) (hzQ : Q z = 0)
+    (hσQ : ∀ x, Q (σ x) = Q x) {z : W} (_hz1 : z ≠ 1) (hzQ : Q z = 0)
     (hfix : ∀ y : W, polarQ Q z y = 0 → σ y = y) : σ = 1 := by
   by_contra hσ1
   obtain ⟨v₀, hv₀⟩ : ∃ v : W, σ v ≠ v := by

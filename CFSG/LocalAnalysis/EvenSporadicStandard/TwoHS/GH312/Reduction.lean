@@ -29,8 +29,8 @@ theorem gh312Fixed_of_almostSimple (h : GH312AlmostSimple) : GH312Fixed := by
   intro X _ _ hO hZ hP hU
   obtain ⟨P, ⟨ι⟩⟩ := hP
   obtain ⟨u, hu2, hu1, ⟨e⟩⟩ := hU
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Nontrivial X := ⟨u, 1, hu1⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Nontrivial X := ⟨u, 1, hu1⟩
   have hPcard : Nat.card (P : Subgroup X) = 2 ^ 7 := by
     rw [show Nat.card (P : Subgroup X) = Nat.card W8 from Nat.card_congr ι.toEquiv,
       SAFyGH.card_W8]

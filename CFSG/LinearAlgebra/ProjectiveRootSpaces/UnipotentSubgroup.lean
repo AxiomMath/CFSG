@@ -42,7 +42,7 @@ end
 
 theorem exists_elemAbelian {p : ℕ} [Fact p.Prime] (_hp : p ≠ 2) (n : ℕ) (hn : 1 < n) :
     ∃ E : Subgroup PSL(2, GaloisField p n), CFSG.Open.IsElemAbelian p E ∧ Nat.card E = p ^ n := by
-  haveI : Fact (CharP (GaloisField p n) p) := ⟨inferInstance⟩
+  have : Fact (CharP (GaloisField p n) p) := ⟨inferInstance⟩
   have hn0 : n ≠ 0 := by omega
   set ψ : Multiplicative (GaloisField p n) →* PSL(2, GaloisField p n) :=
     (QuotientGroup.mk' (Subgroup.center SL(2, GaloisField p n))).comp (upper _) with hψ

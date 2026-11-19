@@ -45,9 +45,11 @@ section Members
 variable {Ω : Set (Subgroup G)} (h : StarHyp Ω)
 include h
 
+omit [Finite G] in
 private theorem card_eq_eight {L : Subgroup G} (hL : L ∈ Ω) : Nat.card L = 8 :=
   (h.thmD.card L hL).trans (by norm_num)
 
+omit [Finite G] in
 private theorem exists_mul_ne {L : Subgroup G} (hL : L ∈ Ω) :
     ∃ x ∈ L, ∃ y ∈ L, x * y ≠ y * x := by
   obtain ⟨P, hPL, hP⟩ := (h.thmD.hyp.omega1 L hL).2
@@ -56,6 +58,7 @@ private theorem exists_mul_ne {L : Subgroup G} (hL : L ∈ Ω) :
   obtain ⟨x, y, hxy⟩ := hP
   exact ⟨x, hPL.1 x.2, y, hPL.1 y.2, fun e => hxy (Subtype.ext e)⟩
 
+omit [Finite G] in
 private theorem mem_pCore_of_isUniqueInvolution {L : Subgroup G} (hL : L ∈ Ω) {z : G}
     (hz : IsUniqueInvolution L z) : z ∈ pCore 2 G := by
   obtain ⟨N, hN, hN2, hzN⟩ := h.thmD.inO2 L hL z hz
@@ -115,8 +118,9 @@ variable {Ω : Set (Subgroup G)} {K J : Subgroup G} {t : G} {S : Sylow 2 G}
 include c
 
 private theorem ne_conjSub : K ≠ conjSub t K :=
-  (c.conjSub_ne (c.hyp.mem_dstarComp_self c.hK)).symm
+  (c.conjSub_ne (CFSG.ClassicalInvolution.Q3.Sec13.StarHyp.mem_dstarComp_self c.hK)).symm
 
+omit [Finite G] in
 private theorem conjSub_mem_others {L : Subgroup G}
     (hL : L ∈ Ω ∧ L ≤ (S : Subgroup G) ∧ L ≠ K ∧ L ≠ conjSub t K) :
     conjSub t L ∈ Ω ∧ conjSub t L ≤ (S : Subgroup G) ∧ conjSub t L ≠ K ∧
@@ -137,7 +141,7 @@ private theorem two_pow_le_card_others {𝓟 : Finset (Subgroup G)}
     c.ht.sq 𝓟 (fun L hL => card_eq_eight h (hm L hL).1)
     (fun L hL => exists_mul_ne h (hm L hL).1) (fun L hL => ?_)
     (fun L hL L' hL' hLL' => commutes_of_le_of_isPGroup h (hm L hL).1 (hm L' hL').1 hLL'
-      S.isPGroup' (hm L hL).2 (hm L' hL').2)
+      S.isPGroup (hm L hL).2 (hm L' hL').2)
     (fun L hL => (h𝓟 _).2 (conjSub_mem_others c ((h𝓟 L).1 hL)))
     (fun L hL => c.conjSub_ne (c.mem_dstarComp_of_le (hm L hL).1 (hm L hL).2)) hne
   obtain ⟨z, hz⟩ := (h.thmD.hyp.omega1 L (hm L hL).1).1
@@ -153,7 +157,7 @@ private theorem forall_mem_dstarComp {K₁ M₁ : Subgroup G}
   have hK'S : conjSub t K ≤ (S : Subgroup G) := c.conjSub_le c.hKS
   have hcomm : ∀ {L M : Subgroup G}, L ∈ Ω → M ∈ Ω → L ≠ M → L ≤ (S : Subgroup G) →
       M ≤ (S : Subgroup G) → Commutes L M := fun hL hM hne hLS hMS =>
-    commutes_of_le_of_isPGroup h hL hM hne S.isPGroup' hLS hMS
+    commutes_of_le_of_isPGroup h hL hM hne S.isPGroup hLS hMS
   have cKK' := hcomm c.hK hK' (ne_conjSub c) c.hKS hK'S
   rcases h.centMembers_dichotomy ha haK with hall | hI
   · exact hall
@@ -177,7 +181,7 @@ private theorem forall_mem_dstarComp {K₁ M₁ : Subgroup G}
   have hall := h.mem_dstarComp_of_aeIdent I haK haK' (ne_conjSub c) cKK' hK₁ hx hxa'
     (orderOf_eq_four_of_mul_ne h hK₁ hx hy hxy) (hcomm hK₁ c.hK hK₁K hK₁S c.hKS x hx)
     (hcomm hK₁ hK' hK₁t hK₁S hK'S x hx)
-  exact fun L hL => h.mem_dstarComp_trans (c.mem_dstarComp_of_le hK₁ hK₁S) (hall L hL)
+  exact fun L hL => CFSG.ClassicalInvolution.Q3.Sec13.StarHyp.mem_dstarComp_trans (c.mem_dstarComp_of_le hK₁ hK₁S) (hall L hL)
 
 private theorem conjSub_ne_of_forall {a : G} (haQ : a ∈ pCore 2 G)
     (haK : K ∈ Generic.centMembers Ω a)
@@ -217,13 +221,13 @@ private theorem eq_one_of_conjSub_eq {𝓟 : Finset (Subgroup G)}
   have hm : ∀ L ∈ 𝓟, L ∈ Ω ∧ L ≤ (S : Subgroup G) := fun L hL =>
     ⟨((h𝓟 L).1 hL).1, ((h𝓟 L).1 hL).2.1⟩
   have haK : K ∈ Generic.centMembers Ω a :=
-    mem_centMembers_of_mem_iSup h S.isPGroup' hm c.hK c.hKS (fun hK => ((h𝓟 K).1 hK).2.2.1 rfl)
+    mem_centMembers_of_mem_iSup h S.isPGroup hm c.hK c.hKS (fun hK => ((h𝓟 K).1 hK).2.2.1 rfl)
       haM
   have haK' : conjSub t K ∈ Generic.centMembers Ω a :=
-    mem_centMembers_of_mem_iSup h S.isPGroup' hm (h.thmD.hyp.conjInvariant t K c.hK)
+    mem_centMembers_of_mem_iSup h S.isPGroup hm (h.thmD.hyp.conjInvariant t K c.hK)
       (c.conjSub_le c.hKS) (fun hK => ((h𝓟 _).1 hK).2.2.2 rfl) haM
   have hM₁ : ∀ x ∈ K₁, ∀ y ∈ ⨆ L ∈ 𝓟.erase K₁, L, x * y = y * x := fun x hx y hy =>
-    Subgroup.mem_centralizer_iff.mp (iSup_le_centralizer h S.isPGroup'
+    Subgroup.mem_centralizer_iff.mp (iSup_le_centralizer h S.isPGroup
       (fun L hL => hm L (Finset.mem_of_mem_erase hL)) hK₁Ω hK₁S (Finset.notMem_erase K₁ 𝓟) hy)
       x hx
   have hle : (⨆ L ∈ 𝓟, L) ≤ K₁ ⊔ ⨆ L ∈ 𝓟.erase K₁, L := by

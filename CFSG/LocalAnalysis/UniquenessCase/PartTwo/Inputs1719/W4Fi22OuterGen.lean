@@ -25,7 +25,7 @@ theorem fi22_outerGen_t4 :
       rw [fi22P]
       refine (Subgroup.closure_le _).2 ?_
       intro y hy
-      simp only [Set.mem_setOf_eq] at hy
+      simp only [Set.mem_ofPred_eq] at hy
       obtain ⟨j, hj⟩ := (schreier_vector_mem_toList_iff_get fi22Chain.original y).1 hy
       rw [fi22Chain_original_get j] at hj
       rw [← hj]
@@ -35,7 +35,7 @@ theorem fi22_outerGen_t4 :
     have hsub : conjSet gs {fi22ExtRep 4} ⊆
         {x | ∃ c ∈ gs, x = c * fi22ExtRep 4 * c⁻¹} := by
       rintro x hx
-      simp only [conjSet, Set.mem_setOf_eq, Set.mem_singleton_iff] at hx ⊢
+      simp only [conjSet, Set.mem_ofPred_eq, Set.mem_singleton_iff] at hx ⊢
       obtain ⟨c, hc, t, ht', rfl⟩ := hx
       exact ⟨c, hc, by rw [ht']⟩
     exact hle.trans (Subgroup.closure_mono hsub)

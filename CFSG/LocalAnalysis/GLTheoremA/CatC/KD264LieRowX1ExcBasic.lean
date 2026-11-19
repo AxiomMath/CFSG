@@ -198,7 +198,7 @@ theorem compRank_succ_le_of_relation {Ψ : Set (Fin τ.rank → ℤ)} (ℓ : Fin
     funext l
     have := congrArg (fun g : (Fin τ.rank → ℚ) →ₗ[ℚ] ℚ => g (Pi.single l 1)) h0
     simp only [hf, LinearMap.zero_apply] at this
-    rw [Finset.sum_eq_single l (fun b _ hb => by simp [Pi.single_apply, hb])
+    rw [Finset.sum_eq_single l (fun b _ hb => by simp [hb])
       (fun hl => absurd (Finset.mem_univ l) hl)] at this
     simpa using this
   have hle : Submodule.span ℚ ((fun γ (i : Fin τ.rank) => (γ i : ℚ)) '' Ψ) ≤ LinearMap.ker f := by

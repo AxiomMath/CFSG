@@ -270,7 +270,7 @@ theorem G41 :
       ∀ H : Subgroup G, H ≠ ⊤ → ∃ g : G, U ⊓ H ≤ conjSub g U ∧ IsSStarIn H (conjSub g U ⊓ H) := by
   intro G _ _ hIH S U hUS hUab hUcl H hH
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  have hU2 : IsPGroup 2 U := (S.isPGroup').to_le hUS
+  have hU2 : IsPGroup 2 U := (S.isPGroup).to_le hUS
   obtain ⟨T, hUHT, hTH⟩ := TICrit.exists_fusionIsSylowIn (hU2.to_le inf_le_left)
     (inf_le_right : U ⊓ H ≤ H)
   obtain ⟨Q, hTQ⟩ := hTH.2.1.exists_le_sylow
@@ -289,7 +289,7 @@ theorem G41 :
     simpa [mul_assoc] using h
   ·
     have hTmax : conjSub g₀⁻¹ (S : Subgroup G) ⊓ H = T := by
-      refine hTH.2.2 _ inf_le_right ((S.isPGroup'.map _).to_le inf_le_left)
+      refine hTH.2.2 _ inf_le_right ((S.isPGroup.map _).to_le inf_le_left)
         (le_inf (fun x hx => ?_) hTH.1)
       rw [mem_conjSub, inv_inv]
       exact hTS x hx

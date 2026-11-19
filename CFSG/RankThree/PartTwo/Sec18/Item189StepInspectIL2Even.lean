@@ -69,7 +69,7 @@ theorem eq_top_of_psl2_even189 {n : ℕ} (hn : 2 ≤ n)
       by_contra hne
       have := (pow_dvd_pow 2 (show 3 ≤ n by omega)).trans h60
       norm_num at this
-    exact Subgroup.eq_top_of_card_eq H (by rw [hc, hG, hn2] <;> norm_num)
+    exact Subgroup.eq_top_of_card_eq H (by rw [hc, hG, hn2]; norm_num)
   · have hab : ∀ a b : H ⧸ P, a * b = b * a := fun a b =>
       (IsCyclic.isMulCommutative (α := H ⧸ P)).is_comm.comm a b
     have key : ∀ u : H ⧸ P, u ^ 3 = 1 → u⁻¹ = u → u = 1 := fun u h3 h1 => by

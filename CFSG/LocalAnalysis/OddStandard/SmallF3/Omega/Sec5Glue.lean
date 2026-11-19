@@ -25,7 +25,7 @@ variable {G : Type} [Group G]
 theorem sec5_exists_rctx [Finite G] (h52b : Asc82Lemma52b) (h56 : Asc82Lemma56)
     (hZ : Asc82ZExists) (hB : Asc82Sec5FactB5) {t : G} {L : Subgroup G} (h : Sec5Setting G t L) :
     ∃ (S : Subgroup G) (z r : G) (B A : Subgroup G), Sec5RCtx G t L S z r B A := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S₀, hS₀⟩ := exists_isSylow2Of (centralizer ({t} : Set G))
   obtain ⟨z₀, hz₀⟩ := hZ G t L h.toSec3SettingLB S₀ hS₀
   obtain ⟨r, ⟨g, hg⟩, hrtype⟩ :=

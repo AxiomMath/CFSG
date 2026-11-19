@@ -315,7 +315,7 @@ theorem exists_conj_mem_R (h : IsTypeH2 G z) (hcount : involutionClassCount G = 
   obtain ⟨PR, hPR⟩ := hRp.exists_le_sylow
   have hPReq : ∀ v : ↥Cf, v ∈ (PR : Subgroup ↥Cf) → (v : G) ∈ R := by
     have h1 : (PR : Subgroup ↥Cf).map Cf.subtype ≤ R :=
-      c.le_R_of_isPGroup h hcount hf (PR.isPGroup'.map _) (Subgroup.map_subtype_le _)
+      c.le_R_of_isPGroup h hcount hf (PR.isPGroup.map _) (Subgroup.map_subtype_le _)
         fun r hr => ⟨⟨r, hRCf hr⟩, hPR (Subgroup.mem_subgroupOf.mpr hr), rfl⟩
     exact fun v hv => h1 ⟨v, hv, rfl⟩
   have huC1 : (⟨u, huf⟩ : ↥Cf) ≠ 1 := fun h1 => hu1 (congrArg Subtype.val h1)
@@ -517,7 +517,7 @@ theorem dvd_card_centralizer_five (h : IsTypeH2 G z) (hcount : involutionClassCo
         d * f = f * d := by
       have : Nontrivial ↥(P : Subgroup G) :=
         ⟨⟨⟨f, hfP (Subgroup.mem_zpowers f)⟩, 1, fun h1 => hf.ne_one (congrArg Subtype.val h1)⟩⟩
-      have := P.isPGroup'.center_nontrivial
+      have := P.isPGroup.center_nontrivial
       obtain ⟨c₀, hc₀⟩ := exists_ne (1 : ↥(Subgroup.center ↥(P : Subgroup G)))
       have hc₀1 : ((c₀ : ↥(P : Subgroup G)) : G) ≠ 1 := fun h1 =>
         hc₀ (Subtype.ext (Subtype.ext h1))
@@ -551,7 +551,7 @@ theorem dvd_card_centralizer_five (h : IsTypeH2 G z) (hcount : involutionClassCo
     have hKf : K ≤ Subgroup.centralizer ({f} : Set G) :=
       sup_le (Subgroup.zpowers_le.mpr (Subgroup.mem_centralizer_singleton_iff.mpr hdcomm))
         (Subgroup.zpowers_le.mpr (Subgroup.mem_centralizer_singleton_iff.mpr rfl))
-    have hK5 : IsPGroup 5 K := P.isPGroup'.to_le hKP
+    have hK5 : IsPGroup 5 K := P.isPGroup.to_le hKP
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card.mp hK5)
     have hfK : Subgroup.zpowers f < K := by
       refine lt_of_le_of_ne le_sup_right fun h1 => hdf ?_

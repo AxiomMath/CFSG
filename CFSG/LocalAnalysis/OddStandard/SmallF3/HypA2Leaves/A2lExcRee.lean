@@ -18,7 +18,7 @@ theorem a2l_chev3On_ree (hCL2 : HypA2.ClosureFieldExp) (hQ : a2lFixedQuasi) :
   intro K _ _ hK h2 _ hnF ⟨f, hf⟩ σ hσ X hXσ hXc hXF
   exfalso
   obtain ⟨σ', P, hPF, hF⟩ := a2l_exc_reduce hK hnF hσ hXσ hXc hXF
-  haveI : IsSimpleGroup (K ⧸ center K) := hK.2.1
+  have : IsSimpleGroup (K ⧸ center K) := hK.2.1
   have hq := hQ (K ⧸ center K) hK.2.2
     ⟨.twistedG2, 0, 3, f, Nat.prime_three, by norm_num, hf.admissible, hf⟩
   have hc := a2l_fieldExp_of_fStar hCL2 hq hf hPF hF

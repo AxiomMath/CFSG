@@ -22,7 +22,7 @@ private theorem sylow_count_data {S : Type*} [Group S] [Finite S] [IsSimpleGroup
     (hk1 : p ^ k ∣ N) (hk2 : ¬ p ^ (k + 1) ∣ N) (hk0 : 0 < k) :
     5 ≤ Nat.card (Sylow p S) ∧ Nat.card (Sylow p S) ≤ N ∧
       Nat.card (Sylow p S) * p ^ k ∣ N ∧ Nat.card (Sylow p S) % p = 1 % p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   subst hN
   have hdvd : p ∣ Nat.card S := (dvd_pow_self p hk0.ne').trans hk1
   obtain ⟨c1, c2, c3⟩ := simple_noncommutative_sylow_card_constraints S noncomm p hdvd
@@ -42,7 +42,7 @@ private theorem card_dvd_half_factorial_of_sylow_le {S : Type*} [Group S] [Finit
     [IsSimpleGroup S] (noncomm : ¬ IsMulCommutative S) {p : ℕ} (hp : p.Prime)
     (hdvd : p ∣ Nat.card S) (d : ℕ) (hd : 5 ≤ d) (hcount : Nat.card (Sylow p S) ≤ d) :
     Nat.card S ∣ Nat.factorial d / 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨P⟩ : Nonempty (Sylow p S) := inferInstance
   have proper := simple_noncommutative_sylow_normalizer_ne_top S noncomm p hdvd P
   have index_le : (Subgroup.normalizer (P : Set S)).index ≤ d := by
@@ -56,7 +56,7 @@ private theorem card_eq_sixty_or_360_of_index_le_six {S : Type*} [Group S] [Fini
     (small : H.index ≤ 6) : Nat.card S = 60 ∨ Nat.card S = 360 := by
   classical
   let _ : Fintype (S ⧸ H) := Fintype.ofFinite _
-  haveI := CFSG.OrderReductions.Helpers.simple_noncommutative_isPerfect S noncomm
+  have := CFSG.OrderReductions.Helpers.simple_noncommutative_isPerfect S noncomm
   have coset_bound : Fintype.card (S ⧸ H) ≤ Fintype.card (Fin 6) := by
     simpa only [H.index_eq_card, Nat.card_eq_fintype_card, Fintype.card_fin] using small
   obtain ⟨embedding⟩ := Function.Embedding.nonempty_of_card_le coset_bound
@@ -75,17 +75,17 @@ private theorem card_eq_sixty_or_360_of_index_le_six {S : Type*} [Group S] [Fini
 
 private theorem eight_dvd_of_nonabelian_two_group (G : Type*) [Group G] [Finite G]
     (hG : IsPGroup 2 G) (noncomm : ¬ IsMulCommutative G) : 8 ∣ Nat.card G := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hG
   have three_le : 3 ≤ n := by
     by_contra small
     have lt : n < 3 := by omega
     interval_cases n
     · rw [pow_zero] at hn
-      haveI : Subsingleton G := (Nat.card_eq_one_iff_unique.mp hn).1
+      have : Subsingleton G := (Nat.card_eq_one_iff_unique.mp hn).1
       exact noncomm inferInstance
     · rw [pow_one] at hn
-      haveI : IsCyclic G := isCyclic_of_prime_card hn
+      have : IsCyclic G := isCyclic_of_prime_card hn
       exact noncomm inferInstance
     · exact noncomm (IsPGroup.isMulCommutative_of_card_eq_prime_sq hn)
   have eight : (8 : ℕ) = 2 ^ 3 := by norm_num
@@ -132,7 +132,7 @@ theorem card_gt_120_of_nonabelian_two_subgroup {S : Type*} [Group S] [Finite S]
   ·
     have hN : Nat.card S = 56 := by omega
     have prime7 : Nat.Prime 7 := by norm_num
-    haveI : Fact (Nat.Prime 7) := ⟨prime7⟩
+    have : Fact (Nat.Prime 7) := ⟨prime7⟩
     have hdvd : 7 ∣ Nat.card S := by rw [hN]; decide
     obtain ⟨c1, c2, c3, c4⟩ :=
       sylow_count_data noncomm prime7 1 56 hN (by decide) (by decide) (by decide)
@@ -155,7 +155,7 @@ theorem card_gt_120_of_nonabelian_two_subgroup {S : Type*} [Group S] [Finite S]
     have le_norm : (P : Subgroup S) ≤ Subgroup.normalizer (P : Set S) := Subgroup.le_normalizer
     have eq_norm : Subgroup.normalizer (P : Set S) = (P : Subgroup S) :=
       (Subgroup.eq_of_le_of_card_ge le_norm (by omega)).symm
-    haveI : IsCyclic (P : Subgroup S) := isCyclic_of_prime_card card_P
+    have : IsCyclic (P : Subgroup S) := isCyclic_of_prime_card card_P
     have hcomm : IsMulCommutative (P : Subgroup S) := inferInstance
     have hP : Subgroup.normalizer (P : Set S) ≤ Subgroup.centralizer (P : Set S) := by
       intro x hx
@@ -210,7 +210,7 @@ theorem card_gt_120_of_nonabelian_two_subgroup {S : Type*} [Group S] [Finite S]
   ·
     have hN : Nat.card S = 120 := by omega
     have prime5 : Nat.Prime 5 := by norm_num
-    haveI : Fact (Nat.Prime 5) := ⟨prime5⟩
+    have : Fact (Nat.Prime 5) := ⟨prime5⟩
     have hdvd : 5 ∣ Nat.card S := by rw [hN]; decide
     obtain ⟨c1, c2, c3, c4⟩ :=
       sylow_count_data noncomm prime5 1 120 hN (by decide) (by decide) (by decide)

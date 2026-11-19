@@ -25,7 +25,7 @@ theorem one_mem_kerAct_carrier (K : Subgroup G) :
     (1 : G) ∈ Subgroup.normalizer (K : Set G) ∧
       ∀ k ∈ K, (1 : G) * k * (1 : G)⁻¹ * k⁻¹ ∈ pCoreOf 2 K := by
   refine ⟨Subgroup.one_mem _, fun k _ => ?_⟩
-  simpa using (pCoreOf 2 K).one_mem
+  simp
 
 theorem mul_mem_kerAct_carrier {K : Subgroup G} {a b : G}
     (ha : a ∈ Subgroup.normalizer (K : Set G) ∧ ∀ k ∈ K, a * k * a⁻¹ * k⁻¹ ∈ pCoreOf 2 K)
@@ -201,8 +201,8 @@ theorem center_quot_of_cfg (c : A2Cfg G T M L D H K q) :
     have := c.q_mod
     have := c.q_prime.two_le
     omega
-  haveI : Fact q.Prime := ⟨c.q_prime⟩
-  haveI : NeZero q := ⟨c.q_prime.ne_zero⟩
+  have : Fact q.Prime := ⟨c.q_prime⟩
+  have : NeZero q := ⟨c.q_prime.ne_zero⟩
   obtain ⟨e⟩ := nonempty_mulEquiv_psl_zmod c.q_prime c.model
   have hcen : Subgroup.center (PSL(2, ZMod q)) = ⊥ :=
     L2q.center_eq_bot (Nat.card_zmod q) c.q_prime hq5
@@ -217,6 +217,7 @@ theorem center_quot_of_cfg (c : A2Cfg G T M L D H K q) :
   rw [hcen, Subgroup.mem_bot] at hc
   exact e.injective (by rw [hc, map_one])
 
+omit [Finite G] in
 theorem center_quot_map_conj (K : Subgroup G) (t : G)
     (hZ : Subgroup.center (↥K ⧸ CFSG.pCore 2 ↥K) = ⊥) :
     Subgroup.center (↥(K.map (MulAut.conj t).toMonoidHom) ⧸
@@ -247,7 +248,7 @@ section TCAct
 variable {G : Type} [Group G] [Finite G] {T M L D H K : Subgroup G} {q : ℕ}
 
 theorem A2Cfg.TC_acts_trivially (h37 : A37ForSQTKCat) (h38 : A38ForSQTKCat)
-    (c : A2Cfg G T M L D H K q) {t : G} (ht : t ∈ T) (htK : t ∉ Subgroup.normalizer (K : Set G)) :
+    (c : A2Cfg G T M L D H K q) {t : G} (ht : t ∈ T) (_htK : t ∉ Subgroup.normalizer (K : Set G)) :
     a2TC K T ≤ kerAct K ⊓ kerAct (K.map (MulAut.conj t).toMonoidHom) := by
   have hTG : T ≤ conjClosure K T ⊔ T := le_sup_right
   have hKG : K ≤ conjClosure K T ⊔ T := (le_conjClosure K T).trans le_sup_left
@@ -286,6 +287,7 @@ section LeTC
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem perm_conj {K : Subgroup G} {t t₁ : G} (htK : t ∉ Subgroup.normalizer (K : Set G))
     (hs : K.map (MulAut.conj (t₁ * t)).toMonoidHom = K ∨
       K.map (MulAut.conj (t₁ * t)).toMonoidHom = K.map (MulAut.conj t).toMonoidHom) :
@@ -307,6 +309,7 @@ theorem perm_conj {K : Subgroup G} {t t₁ : G} (htK : t ∉ Subgroup.normalizer
     · exact absurd (map_conj_eq_of_map_conj_eq K (hB.trans h.symm))
         (fun h' => htK (A38.map_conj_eq_iff.mp h'))
 
+omit [Finite G] in
 theorem conj_mem_kerAct_pair {K K' : Subgroup G} {t₁ : G}
     (hperm : (K.map (MulAut.conj t₁).toMonoidHom = K ∧ K'.map (MulAut.conj t₁).toMonoidHom = K') ∨
       (K.map (MulAut.conj t₁).toMonoidHom = K' ∧ K'.map (MulAut.conj t₁).toMonoidHom = K))
@@ -326,6 +329,7 @@ theorem conj_mem_kerAct_pair {K K' : Subgroup G} {t₁ : G}
 @[expose] def a2D1 (K K' T : Subgroup G) : Subgroup G :=
   (conjClosure K T ⊔ T) ⊓ (kerAct K ⊓ kerAct K')
 
+omit [Finite G] in
 theorem mem_a2D1 {K K' T : Subgroup G} {x : G} :
     x ∈ a2D1 K K' T ↔ x ∈ conjClosure K T ⊔ T ∧ x ∈ kerAct K ∧ x ∈ kerAct K' := Iff.rfl
 
@@ -333,7 +337,7 @@ theorem le_TC_core {K K' T : Subgroup G} (hT2 : IsPGroup 2 T)
     (hKK₀ : conjClosure K T = K ⊔ K')
     (hK'N : K' ≤ Subgroup.normalizer (K : Set G)) (hKN' : K ≤ Subgroup.normalizer (K' : Set G))
     (hK'kerK : K' ≤ kerAct K) (hKkerK' : K ≤ kerAct K')
-    (hcomm : ⁅K, K'⁆ ≤ pCoreOf 2 K) (hcomm' : ⁅K, K'⁆ ≤ pCoreOf 2 K')
+    (_hcomm : ⁅K, K'⁆ ≤ pCoreOf 2 K) (_hcomm' : ⁅K, K'⁆ ≤ pCoreOf 2 K')
     (hZ : Subgroup.center (↥K ⧸ CFSG.pCore 2 ↥K) = ⊥)
     (hZ' : Subgroup.center (↥K' ⧸ CFSG.pCore 2 ↥K') = ⊥)
     (hperm : ∀ t₁ ∈ T,

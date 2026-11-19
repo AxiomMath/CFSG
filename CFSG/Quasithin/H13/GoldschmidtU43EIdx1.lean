@@ -9,7 +9,7 @@ namespace CFSG.Quasithin.H13.U43
 theorem u43_card_sylow_two {J : Type} [Group J] [Finite J] {m : ℕ} (hm : Odd m)
     (h : Nat.card J = 4 * m) (P : Sylow 2 J) : Nat.card P = 4 := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  obtain ⟨n, hn⟩ := (IsPGroup.iff_card).mp P.isPGroup'
+  obtain ⟨n, hn⟩ := (IsPGroup.iff_card).mp P.isPGroup
   have h1 : Nat.card P * (P : Subgroup J).index = Nat.card J := Subgroup.card_mul_index _
   have h2 : ¬ 2 ∣ (P : Subgroup J).index := P.not_dvd_index
   rw [h, hn] at h1

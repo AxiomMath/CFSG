@@ -272,7 +272,7 @@ theorem exists_mulEquiv_dihedral
     Finite.of_surjective Matrix.ProjGenLinGroup.mk Matrix.ProjGenLinGroup.mk_surjective
   obtain ⟨T⟩ := (inferInstance : Nonempty (Sylow 2 (PGL2 M.F)))
   have hT : IsSylowOf 2 (T : Subgroup (PGL2 M.F)) ⊤ :=
-    isSylowOf_iff.mpr ⟨le_top, T.isPGroup', by rw [relIndex_top_right]; exact T.not_dvd_index⟩
+    isSylowOf_iff.mpr ⟨le_top, T.isPGroup, by rw [relIndex_top_right]; exact T.not_dvd_index⟩
   have hTd : AschbacherTheorem3.IsDihedralTwoGroup (T : Subgroup (PGL2 M.F)) := by
     obtain ⟨m, hm, ⟨eT⟩⟩ := pgl2_odd_hasDihedralSylowTwo_model M.F M.hF T
     exact ⟨m + 1, by omega, by rw [Nat.add_sub_cancel]; exact ⟨eT⟩⟩

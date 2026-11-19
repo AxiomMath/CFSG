@@ -36,7 +36,7 @@ theorem burnsideF429a_of_model [Finite G] {Gp M : Subgroup G} {C : Type} [Group 
 theorem burnsideF429a_sbar [Finite G] (Gp M₁ M₂ : Subgroup G) :
     IsPGroup 2 (pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂))) ∧ pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) ≤ Gp ⊓ M₁ ∧
       pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) ≤ Gp ⊓ M₂ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hle := CFSG.LieType.BorelTits.pCoreOf_le 2 (Gp ⊓ (M₁ ⊓ M₂))
   exact ⟨CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 _,
     hle.trans (inf_le_inf_left Gp inf_le_left), hle.trans (inf_le_inf_left Gp inf_le_right)⟩
@@ -66,7 +66,7 @@ theorem burnsideF429a_U4_pkg {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subg
         pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) ≤ perfectCore (Gp ⊓ M₂)) ∧
       oPPrime 2 (Gp ⊓ M₁) = perfectCore (Gp ⊓ M₁) ∧
         oPPrime 2 (Gp ⊓ M₂) = perfectCore (Gp ⊓ M₂) := by
-  haveI := hyp.finite
+  have := hyp.finite
   obtain ⟨marking, h1, h2⟩ := burnsideF4g_marking (c := .U4) hyp.toHypF_4_4g
   obtain ⟨Φ, e1, e2⟩ := burnsideF4gU4_exists_equiv marking
   exact burnsideF429a_of_model₂ Φ (h1.trans e1) (h2.trans e2)
@@ -91,11 +91,11 @@ theorem burnsideF429a_Sp4_pkg {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Sub
         pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) ≤ perfectCore (Gp ⊓ M₂)) ∧
       oPPrime 2 (Gp ⊓ M₁) = perfectCore (Gp ⊓ M₁) ∧
         oPPrime 2 (Gp ⊓ M₂) = perfectCore (Gp ⊓ M₂) := by
-  haveI := hyp.finite
+  have := hyp.finite
   obtain ⟨marking, h1, h2⟩ := burnsideF4g_marking (c := .Sp4) hyp.toHypF_4_4g
   obtain ⟨e, he⟩ := burnsideF4gSpOne_parabolic_eq marking
   have hK : Nat.card marking.field = 2 ^ f := by simpa using marking.field_card
-  haveI : CharP marking.field 2 := burnsideF4gSp_charP_of_card hK
+  have : CharP marking.field 2 := burnsideF4gSp_charP_of_card hK
   have hpkg := CFSG.Quasithin.Rk2.rank2PkgExt_sp4 hK hf
   obtain ⟨P, hP⟩ := exists_sylow_projUnipotent (K := marking.field) 2 (r := 2) (by norm_num)
   have hU : ChF.IsSylowOf 2 (projUnipotent 2 marking.field) ⊤ := by
@@ -103,7 +103,7 @@ theorem burnsideF429a_Sp4_pkg {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Sub
     exact CFSG.QuasithinUnique.isSylowTwoOf_top_of_sylow P
   have e0 := he false
   have e1 := he true
-  simp only [Bool.false_eq_true, if_false, if_true] at e0 e1
+  simp only [Bool.false_eq_true, ite_false, ite_true] at e0 e1
   exact burnsideF429a_of_model₂ e (h1.trans e0) (h2.trans e1) hU (hpkg.le_perfectCore 0)
     (hpkg.le_perfectCore 1)
 
@@ -146,8 +146,8 @@ private theorem burnsideF429a_L3_comap_nativeParabolic (q : ℕ) (K : Type) [Fie
     subst hS
     simp only [burnsideF4d_Y1_coordinateSpace_flag]
   cases b
-  · exact key _ 1 (by ext p; simp [flagOne] <;> omega)
-  · exact key _ 2 (by ext p; simp [flagTwo] <;> omega)
+  · exact key _ 1 (by ext p; simp [flagOne])
+  · exact key _ 2 (by ext p; simp [flagTwo]; omega)
 
 noncomputable def burnsideF429a_L3_Psi {f : ℕ} {H : Type} [Group H]
     (marking : ClassicalRoots.Marking .L3 2 f H) : projectiveSL 3 marking.field ≃* H :=
@@ -187,10 +187,10 @@ theorem burnsideF429a_L3_pkg {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subg
         pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) ≤ perfectCore (Gp ⊓ M₂)) ∧
       oPPrime 2 (Gp ⊓ M₁) = perfectCore (Gp ⊓ M₁) ∧
         oPPrime 2 (Gp ⊓ M₂) = perfectCore (Gp ⊓ M₂) := by
-  haveI := hyp.finite
+  have := hyp.finite
   obtain ⟨marking, h1, h2⟩ := burnsideF4g_marking (c := .L3) hyp.toHypF_4_4g
   have hK : Nat.card marking.field = 2 ^ f := by simpa using marking.field_card
-  haveI : CharP marking.field 2 := burnsideF4gSp_charP_of_card hK
+  have : CharP marking.field 2 := burnsideF4gSp_charP_of_card hK
   have hpkg := CFSG.Quasithin.Rk2.rank2PkgExt_proj3 hK hf
   obtain ⟨P, hP⟩ := exists_sylow_projUnitriangular (K := marking.field) 2 (n := 3) (by norm_num)
   have hU : ChF.IsSylowOf 2 (projUnitriangular 3 marking.field) ⊤ := by
@@ -198,7 +198,7 @@ theorem burnsideF429a_L3_pkg {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subg
     exact CFSG.QuasithinUnique.isSylowTwoOf_top_of_sylow P
   have e0 := burnsideF429a_L3_parabolic marking false
   have e1 := burnsideF429a_L3_parabolic marking true
-  simp only [Bool.false_eq_true, if_false, if_true] at e0 e1
+  simp only [Bool.false_eq_true, ite_false, ite_true] at e0 e1
   exact burnsideF429a_of_model₂ (burnsideF429a_L3_Psi marking) (h1.trans e0) (h2.trans e1) hU
     (hpkg.le_perfectCore 0) (hpkg.le_perfectCore 1)
 
@@ -220,7 +220,7 @@ theorem burnsideF429a_U5_pkg {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subg
         pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) ≤ perfectCore (Gp ⊓ M₂)) ∧
       oPPrime 2 (Gp ⊓ M₁) = perfectCore (Gp ⊓ M₁) ∧
         oPPrime 2 (Gp ⊓ M₂) = perfectCore (Gp ⊓ M₂) := by
-  haveI := hyp.finite
+  have := hyp.finite
   obtain ⟨marking, h1, h2⟩ := burnsideF4g_marking (c := .U5) hyp.toHypF_4_4g
   obtain ⟨Ψ, e1, e2⟩ := burnsideF429a_U5_equiv marking
   exact burnsideF429a_of_model₂ Ψ (h1.trans e1) (h2.trans e2) (u5_sylow _)

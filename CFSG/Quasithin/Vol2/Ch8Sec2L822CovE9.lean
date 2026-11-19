@@ -13,9 +13,9 @@ theorem exists_commuting_three_cv {G : Type} [Group G] [Finite G] {L : Subgroup 
     ∃ a b : G, a ∈ L ∧ b ∈ L ∧ a * b = b * a ∧ a ^ 3 = 1 ∧ b ^ 3 = 1 ∧ a ≠ 1 ∧
       b ∉ Subgroup.zpowers a := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hNL : (CFSG.pCore 2 ↥L).Normal := CFSG.pCore_normal
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hNL : (CFSG.pCore 2 ↥L).Normal := CFSG.pCore_normal
   obtain ⟨x, y, hx1, hx3, hy3, hxy, hyx⟩ := kzThreeRank2OfAlt6OrHat_kz3 (Or.inr hLq)
   have hXYcomm : ∀ u ∈ ({x, y} : Set (↥L ⧸ CFSG.pCore 2 ↥L)),
       ∀ v ∈ ({x, y} : Set (↥L ⧸ CFSG.pCore 2 ↥L)), u * v = v * u := by

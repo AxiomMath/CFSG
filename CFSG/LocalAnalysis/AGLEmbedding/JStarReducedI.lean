@@ -19,7 +19,7 @@ theorem inf_isElemAbelian (h : JStarHyp p n Rb Y₀ Jt Xt φ) :
   have hS : CFSG.ABGLocalTools.IsSylowOf p (Rb : Subgroup Y)
       (Subgroup.normalizer (Jt : Set Y)) := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    exact ⟨h.le_normalizer, Rb.isPGroup', fun hdvd => Rb.not_dvd_index
+    exact ⟨h.le_normalizer, Rb.isPGroup, fun hdvd => Rb.not_dvd_index
       (hdvd.trans (Subgroup.relIndex_dvd_index_of_le h.le_normalizer))⟩
   obtain ⟨Q, hQ⟩ := hS.inf_of_le_normalizer Subgroup.le_normalizer le_rfl
   obtain ⟨hQel, hQcard⟩ := h.sylow_isElemAbelian Q

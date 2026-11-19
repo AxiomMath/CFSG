@@ -36,6 +36,7 @@ section Witness
 
 variable {S : Type} [Group S] [Finite S] {σ : MulAut S} {D : Subgroup ↥(fixedSubgroup σ)}
 
+omit [Finite S] in
 theorem A6Hyp.card_dvd_of_perfect_inj (h : A6Hyp σ D) {Q : Type} [Group Q]
     (φ : Q →* ↥(fixedSubgroup σ)) (hφ : Function.Injective φ) (hQ : commutator Q = ⊤) :
     Nat.card Q ∣ 360 := by
@@ -48,6 +49,7 @@ theorem A6Hyp.card_dvd_of_perfect_inj (h : A6Hyp σ D) {Q : Type} [Group Q]
   have h3 := Subgroup.card_dvd_of_le hle
   rwa [h.card_D, ← Nat.card_congr (MonoidHom.ofInjective hφ).toEquiv] at h3
 
+omit [Finite S] in
 theorem A6Hyp.false_of_quasisimple_lie (hO : LieOrderFormulasInput) (h : A6Hyp σ D) {Q : Type}
     [Group Q] (φ : Q →* ↥(fixedSubgroup σ)) (hφ : Function.Injective φ)
     (hQ : CFSG.IsQuasisimple Q) {τ : StatedLieTag} {n p f : ℕ}

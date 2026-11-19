@@ -61,8 +61,8 @@ theorem exists_commuting_of_quotient {G : Type*} [Group G] (Z : Subgroup G) [Z.N
     (h7 : Nat.Coprime m 7) (h3 : Nat.Coprime m 3)
     (y w : G ⧸ Z) (hy : orderOf y = 7) (hw : orderOf w = 3) (hyw : y * w = w * y) :
     ∃ a b : G, orderOf a = 7 ∧ orderOf b = 3 ∧ a * b = b * a := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨a, ha7, ha⟩ := exists_lift_pow Z hm h7 (by norm_num) y hy
   obtain ⟨b, hb3, hb⟩ := exists_lift_pow Z hm h3 (by norm_num) w hw
   obtain ⟨ζ, hζ_def⟩ : ∃ ζ : G, ζ = a * b * a⁻¹ * b⁻¹ := ⟨_, rfl⟩
@@ -112,7 +112,7 @@ theorem natCard_modEq_inf_ker {F V : Type*} [Field F] [AddCommGroup V] [Module F
     (hZ : Z ^ p ^ k = 1) (U : Submodule F V) (hU : ∀ u ∈ U, Z u ∈ U) :
     Nat.card U ≡ Nat.card (U ⊓ LinearMap.ker (Z - 1) : Submodule F V) [MOD p] := by
   classical
-  haveI : Fintype U := Fintype.ofFinite U
+  have : Fintype U := Fintype.ofFinite U
   let f : Function.End U := fun u => ⟨Z u, hU u u.2⟩
   have hfpow : ∀ (m : ℕ) (u : U), ((f ^ m) u : V) = (Z ^ m) u := by
     intro m
@@ -199,7 +199,7 @@ theorem three_dvd_finrank_of_inf_ker_eq_bot {F V : Type*} [Field F] [Finite F]
     (hF : Nat.card F = 9) [AddCommGroup V] [Module F V] [Module.Finite F V] [Finite V]
     (Z : Module.End F V) (hZ : Z ^ 7 = 1) (U : Submodule F V) (hU : ∀ u ∈ U, Z u ∈ U)
     (hK : U ⊓ LinearMap.ker (Z - 1) = ⊥) : 3 ∣ Module.finrank F U := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have h := natCard_modEq_inf_ker Z (p := 7) (k := 1) (by simpa using hZ) U hU
   have hU' : Nat.card U = 9 ^ Module.finrank F U := by
     rw [Module.natCard_eq_pow_finrank (K := F), hF]
@@ -213,7 +213,7 @@ theorem fix_of_finrank_le_one {F V : Type*} [Field F] [Finite F] (hF : Nat.card 
     [AddCommGroup V] [Module F V] [FiniteDimensional F V] (K : Submodule F V)
     (hK : Module.finrank F K ≤ 1) (C : Module.End F V) (hC3 : C ^ 3 = 1)
     (hCK : ∀ v ∈ K, C v ∈ K) : ∀ v ∈ K, C v = v := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hcard : Fintype.card F = 9 := by rw [← hF, Nat.card_eq_fintype_card]
   have hcube : ∀ l : F, l ^ 3 = 1 → l = 1 := by
     intro l hl
@@ -433,16 +433,16 @@ theorem noCommute37_projGenLin {F : Type} [Field F] [Fintype F] [CharP F 3]
     norm_num at hb
 
 theorem noCommute37_projSL_three_nine : NoCommute37 (projSL 3 (GaloisField 3 2)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fintype (GaloisField 3 2) := Fintype.ofFinite _
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fintype (GaloisField 3 2) := Fintype.ofFinite _
   have hF : Fintype.card (GaloisField 3 2) = 9 := by
     rw [← Nat.card_eq_fintype_card, GaloisField.card 3 2 (by norm_num)]
     norm_num
   exact NoCommute37.of_le _ (noCommute37_projGenLin hF (Or.inl rfl))
 
 theorem noCommute37_projSU_four_three : NoCommute37 (projSU 4 3 1) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fintype (GaloisField 3 (2 * 1)) := Fintype.ofFinite _
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fintype (GaloisField 3 (2 * 1)) := Fintype.ofFinite _
   have hF : Fintype.card (GaloisField 3 (2 * 1)) = 9 := by
     rw [← Nat.card_eq_fintype_card, GaloisField.card 3 (2 * 1) (by norm_num)]
     norm_num

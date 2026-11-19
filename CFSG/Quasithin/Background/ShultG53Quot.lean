@@ -28,9 +28,9 @@ theorem exists_simple_quot [Finite A]
     (AddSubgroup.toZModSubmodule 2 K).comap Nm.subtype
   have hle' : ∀ g, Km ≤ Km.comap (ρN g) := fun g m hm => hKinv g m hm
   let ρQ := ρN.quotient Km hle'
-  haveI : Finite ↥Nm := Subtype.finite
-  haveI : Finite (↥Nm ⧸ Km) := Finite.of_surjective _ (Submodule.Quotient.mk_surjective Km)
-  haveI : Nontrivial (↥Nm ⧸ Km) := by
+  have : Finite ↥Nm := Subtype.finite
+  have : Finite (↥Nm ⧸ Km) := Finite.of_surjective _ (Submodule.Quotient.mk_surjective Km)
+  have : Nontrivial (↥Nm ⧸ Km) := by
     obtain ⟨n, hnN, hnK⟩ : ∃ n ∈ N, n ∉ K := by
       by_contra hcon
       push Not at hcon
@@ -118,7 +118,7 @@ theorem exists_simple_quot [Finite A]
     rfl
 
 theorem exists_quot_md [Finite A] {N K : AddSubgroup A} (hN : InvSub (fun g a => ρ g a) N)
-    (hK : InvSub (fun g a => ρ g a) K) (hKN : K ≤ N) :
+    (hK : InvSub (fun g a => ρ g a) K) (_hKN : K ≤ N) :
     ∃ (C : Md ↥(alternatingGroup (Fin 6))) (π : ↥N →+ C.carrier), Function.Surjective π ∧
       (∀ n : ↥N, π n = 0 ↔ (n : A) ∈ K) ∧
       ∀ (g : ↥(alternatingGroup (Fin 6))) (n : ↥N),
@@ -130,8 +130,8 @@ theorem exists_quot_md [Finite A] {N K : AddSubgroup A} (hN : InvSub (fun g a =>
     (AddSubgroup.toZModSubmodule 2 K).comap Nm.subtype
   have hle' : ∀ g, Km ≤ Km.comap (ρN g) := fun g m hm => hK g m hm
   let ρQ := ρN.quotient Km hle'
-  haveI : Finite ↥Nm := Subtype.finite
-  haveI : Finite (↥Nm ⧸ Km) := Finite.of_surjective _ (Submodule.Quotient.mk_surjective Km)
+  have : Finite ↥Nm := Subtype.finite
+  have : Finite (↥Nm ⧸ Km) := Finite.of_surjective _ (Submodule.Quotient.mk_surjective Km)
   refine ⟨⟨↥Nm ⧸ Km, ρQ⟩, ?_, ?_, ?_, ?_⟩
   · exact
       { toFun := fun n => Submodule.Quotient.mk ⟨n.1, n.2⟩

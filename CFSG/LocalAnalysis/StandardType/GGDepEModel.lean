@@ -19,7 +19,7 @@ private lemma lr7em_dot_single {p : ℕ} (w : GGDepAE p 7) (i : Fin 7) :
   rw [← Finset.sum_subset (Finset.subset_univ ({i} : Finset (Fin 7))) (by
     intro x _ hx
     simp only [Finset.mem_singleton] at hx
-    rw [Pi.single_apply, if_neg hx, zero_mul])]
+    rw [Pi.single_apply, ite_eq_right hx, zero_mul])]
   rw [Finset.sum_singleton, Pi.single_eq_same, one_mul]
 
 private lemma lr7em_ggDepEα_eq_single {p : ℕ} (i : Fin 6) :
@@ -27,8 +27,8 @@ private lemma lr7em_ggDepEα_eq_single {p : ℕ} (i : Fin 6) :
   funext j
   rw [ggDepEα, Pi.single_apply]
   by_cases h : j = (⟨i.val, by have := i.isLt; omega⟩ : Fin 7)
-  · rw [if_pos h, if_pos (by rw [h])]
-  · rw [if_neg h, if_neg (fun hv => h (Fin.ext hv))]
+  · rw [ite_eq_left h, ite_eq_left (by rw [h])]
+  · rw [ite_eq_right h, ite_eq_right (fun hv => h (Fin.ext hv))]
 
 private theorem lr7em_transport {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V]
     [Module (ZMod p) V] {h : Fin 6 → V} {α : Fin 6 → Module.Dual (ZMod p) V}
@@ -133,12 +133,12 @@ theorem ggDepE_model_iso {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V] [M
     intro w hw
     have hlamw : lam w = 0 := by
       have h := congr_fun hw (⟨6, by omega⟩ : Fin 7)
-      rw [hθ₀_apply, dif_neg (by omega : ¬ (6 : ℕ) < 6)] at h
+      rw [hθ₀_apply, dite_eq_right (by omega : ¬ (6 : ℕ) < 6)] at h
       exact h
     have hαw : ∀ i : Fin 6, α i w = 0 := by
       intro i
       have h := congr_fun hw (⟨i.val, by have := i.isLt; omega⟩ : Fin 7)
-      rw [hθ₀_apply, dif_pos i.isLt] at h
+      rw [hθ₀_apply, dite_eq_left i.isLt] at h
       simpa using h
     have hspan : w ∈ Submodule.span (ZMod p) {x} := F.fix w hαw
     obtain ⟨c, hc⟩ := Submodule.mem_span_singleton.mp hspan
@@ -157,19 +157,19 @@ theorem ggDepE_model_iso {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V] [M
     rw [LinearMap.linearEquivOfInjective_apply]
     funext j
     by_cases hj : j.val < 6
-    · rw [hθ₀_apply, dif_pos hj, F.pair]
+    · rw [hθ₀_apply, dite_eq_left hj, F.pair]
       simp [ggDepEh, hj]
-    · rw [hθ₀_apply, dif_neg hj, hlamh i]
+    · rw [hθ₀_apply, dite_eq_right hj, hlamh i]
       simp [ggDepEh, hj]
   · intro i v
     rw [LinearMap.linearEquivOfInjective_apply]
     rw [lr7em_ggDepEα_eq_single i, lr7em_dot_single]
-    rw [hθ₀_apply, dif_pos i.isLt]
+    rw [hθ₀_apply, dite_eq_left i.isLt]
   · rw [LinearMap.linearEquivOfInjective_apply]
     funext j
     by_cases hj : j.val < 6
-    · rw [hθ₀_apply, dif_pos hj, F.x_ker, ggDepEx, if_neg (by omega : ¬ j.val = 6)]
-    · rw [hθ₀_apply, dif_neg hj, hlamx, ggDepEx, if_pos (by omega : j.val = 6)]
+    · rw [hθ₀_apply, dite_eq_left hj, F.x_ker, ggDepEx, ite_eq_right (by omega : ¬ j.val = 6)]
+    · rw [hθ₀_apply, dite_eq_right hj, hlamx, ggDepEx, ite_eq_left (by omega : j.val = 6)]
 
 
 theorem ggDepE_small_false {p : ℕ} [Fact p.Prime] (hcells : GGDepECells) {V : Type}

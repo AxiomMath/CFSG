@@ -371,6 +371,7 @@ theorem exists_invariant_complement_hallCoreIn {M K : Subgroup G} (hsolv : Group
       (hinv (⟨k, hKM hk⟩ : ↥M) (show (⟨k, hKM hk⟩ : ↥M) ∈ K.subgroupOf M from hk))
     rwa [map_subtype_conj_smul] at h2
 
+omit [Finite G] in
 theorem isNilpotent_of_isNilpotentQuotient {D H E : Subgroup G} (hHD : H ≤ D) (hED : E ≤ D)
     (hsup : H ⊔ E = D) (hinf : H ⊓ E = ⊥)
     (hnil : IsNilpotentQuotient D H) : Group.IsNilpotent ↥E := by
@@ -508,8 +509,7 @@ theorem not_isTypeV_of_isTypeIV (hsolv : Group.IsSolvable ↥M) (h1 : IsTypeIV M
 theorem localTypes_unique (hsolv : Group.IsSolvable ↥M) {i j : Fin 5}
     (hi : localTypes M i) (hj : localTypes M j) : i = j := by
   fin_cases i <;> fin_cases j <;>
-    simp only [localTypes_zero, localTypes_one, localTypes_two, localTypes_three,
-      localTypes_four] at hi hj <;> first
+    simp only at hi hj <;> first
     | rfl
     | exact absurd hj (not_isTypeI_of_isTypeIIToV hsolv (Or.inl hi))
     | exact absurd hj (not_isTypeI_of_isTypeIIToV hsolv (Or.inr (Or.inl hi)))

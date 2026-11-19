@@ -24,7 +24,7 @@ theorem sec7_op_data [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) {n : ℕ} {K :
         M₀.B.orthogonal (LinearMap.range ((T : M₀.E →ₗ[K] M₀.E) - 1)) ∧
       (∀ y ∈ Q, M₀.π ⁅x, y⁆ = T (M₀.π y) - M₀.π y) := by
   classical
-  haveI : Finite M₀.E := Module.finite_of_finite K
+  have : Finite M₀.E := Module.finite_of_finite K
   have hxM : x ∈ M := hxH.1
   have hxbar : (QuotientGroup.mk (⟨x, hxM⟩ : ↥M) : Mbar M Q) ∈ bar M Q (H0 M Z) :=
     Subgroup.mem_map.mpr ⟨⟨x, hxM⟩, Subgroup.mem_subgroupOf.mpr hxH, rfl⟩

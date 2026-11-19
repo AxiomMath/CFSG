@@ -21,8 +21,8 @@ theorem s16c167_central_fixed_point_free {W : Type} [CommGroup W] [Finite W]
     (hW : ∀ x : W, x * x = 1) (hcard : Nat.card W = 2 ^ 6) {L : Subgroup (MulAut W)}
     (hL : IsPOnePlusTwo 3 ↥L) {ℓ : ↥L} (hℓ : ℓ ∈ Subgroup.center ↥L) (hℓ1 : ℓ ≠ 1) {x : W}
     (hx : (ℓ : MulAut W) x = x) : x = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : CFSG.IsExtraspecial 3 ↥L := hL.1
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : CFSG.IsExtraspecial 3 ↥L := hL.1
   have hZcard : Nat.card (Subgroup.center ↥L) = 3 :=
     CFSG.IsExtraspecial.center_order_p 3 ↥L
   let z : MulAut W := (ℓ : MulAut W)
@@ -110,7 +110,7 @@ theorem s16c167_eq_one_of_commute_involution {W : Type} [CommGroup W] [Finite W]
     (hW : ∀ x : W, x * x = 1) (hcard : Nat.card W = 2 ^ 6) {L : Subgroup (MulAut W)}
     (hL : IsPOnePlusTwo 3 ↥L) {t : MulAut W} (ht : t * t = 1)
     (hcomm : ∀ ℓ ∈ L, t * ℓ = ℓ * t) : t = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have ht2 : ∀ y : W, t (t y) = y := by
     intro y
     have h := congrArg (fun f : MulAut W => f y) ht

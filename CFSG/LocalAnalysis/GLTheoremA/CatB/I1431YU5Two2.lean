@@ -13,6 +13,7 @@ open scoped Pointwise
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 theorem mulVec_mem_of_isoStab {h : UnitaryFieldData 2 1 K} {W : Submodule K (HypIndex 2 1 → K)}
     {g : hypSU h 2 1} (hg : g ∈ isoStabilizer h 2 1 W) {w : HypIndex 2 1 → K} (hw : w ∈ W) :
     ((g : GL (HypIndex 2 1) K) : Matrix (HypIndex 2 1) (HypIndex 2 1) K) *ᵥ w ∈ W := by
@@ -28,11 +29,13 @@ theorem mulVec_mem_of_isoStab {h : UnitaryFieldData 2 1 K} {W : Submodule K (Hyp
     (hx : ∀ w ∈ W, (x : Matrix (HypIndex 2 1) (HypIndex 2 1) K) *ᵥ w ∈ W) : W →ₗ[K] W :=
   LinearMap.restrict (Matrix.mulVecLin (x : Matrix (HypIndex 2 1) (HypIndex 2 1) K)) hx
 
+omit [Finite K] [CharP K 2] in
 theorem resW_apply {W : Submodule K (HypIndex 2 1 → K)} (x : GL (HypIndex 2 1) K)
     (hx : ∀ w ∈ W, (x : Matrix (HypIndex 2 1) (HypIndex 2 1) K) *ᵥ w ∈ W) (w : W) :
     ((resW x hx w : W) : HypIndex 2 1 → K) = (x : Matrix (HypIndex 2 1) (HypIndex 2 1) K) *ᵥ (w : HypIndex 2 1 → K) :=
   rfl
 
+omit [Finite K] [CharP K 2] in
 theorem resW_mul {W : Submodule K (HypIndex 2 1 → K)} {x y : GL (HypIndex 2 1) K}
     (hx : ∀ w ∈ W, (x : Matrix (HypIndex 2 1) (HypIndex 2 1) K) *ᵥ w ∈ W)
     (hy : ∀ w ∈ W, (y : Matrix (HypIndex 2 1) (HypIndex 2 1) K) *ᵥ w ∈ W)
@@ -42,13 +45,15 @@ theorem resW_mul {W : Submodule K (HypIndex 2 1 → K)} {x y : GL (HypIndex 2 1)
   rw [Module.End.mul_apply, resW_apply, resW_apply, resW_apply, Units.val_mul,
     Matrix.mulVec_mulVec]
 
+omit [Finite K] [CharP K 2] in
 theorem resW_one {W : Submodule K (HypIndex 2 1 → K)} (hW : ∀ w ∈ W, (1 : GL (HypIndex 2 1) K) *ᵥ w ∈ W) :
     resW (1 : GL (HypIndex 2 1) K) hW = 1 := by
   refine LinearMap.ext fun w => Subtype.ext ?_
   rw [resW_apply, Module.End.one_apply, Units.val_one, Matrix.one_mulVec]
 
+omit [CharP K 2] in
 theorem card_GL_two_four (hK : Nat.card K = 4) : Nat.card (GL (Fin 2) K) = 180 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcard : Fintype.card K = 4 := by
     rw [← Nat.card_eq_fintype_card]
     exact hK
@@ -59,8 +64,9 @@ theorem card_GL_two_four (hK : Nat.card K = 4) : Nat.card (GL (Fin 2) K) = 180 :
     (b : Module.Basis (Fin 2) K W) (X : Subgroup (hypSU h 2 1)) (hX : X ≤ isoStabilizer h 2 1 W)
     (x : X) : Matrix (Fin 2) (Fin 2) K :=
   LinearMap.toMatrix b b (resW ((x : hypSU h 2 1) : GL (HypIndex 2 1) K)
-    (fun w hw => mulVec_mem_of_isoStab (hX x.2) hw))
+    (fun _w hw => mulVec_mem_of_isoStab (hX x.2) hw))
 
+omit [Finite K] [CharP K 2] in
 theorem restrMat_mul {h : UnitaryFieldData 2 1 K} {W : Submodule K (HypIndex 2 1 → K)}
     (b : Module.Basis (Fin 2) K W) (X : Subgroup (hypSU h 2 1)) (hX : X ≤ isoStabilizer h 2 1 W)
     (x y : X) : restrMat b X hX (x * y) = restrMat b X hX x * restrMat b X hX y := by
@@ -69,6 +75,7 @@ theorem restrMat_mul {h : UnitaryFieldData 2 1 K} {W : Submodule K (HypIndex 2 1
   congr 1
   exact resW_mul _ _ _
 
+omit [Finite K] [CharP K 2] in
 theorem restrMat_one {h : UnitaryFieldData 2 1 K} {W : Submodule K (HypIndex 2 1 → K)}
     (b : Module.Basis (Fin 2) K W) (X : Subgroup (hypSU h 2 1)) (hX : X ≤ isoStabilizer h 2 1 W) :
     restrMat b X hX 1 = 1 := by
@@ -87,11 +94,13 @@ theorem restrMat_one {h : UnitaryFieldData 2 1 K} {W : Submodule K (HypIndex 2 1
   map_one' := Units.ext (restrMat_one b X hX)
   map_mul' x y := Units.ext (restrMat_mul b X hX x y)
 
+omit [Finite K] [CharP K 2] in
 theorem restrHom_apply {h : UnitaryFieldData 2 1 K} {W : Submodule K (HypIndex 2 1 → K)}
     (b : Module.Basis (Fin 2) K W) (X : Subgroup (hypSU h 2 1)) (hX : X ≤ isoStabilizer h 2 1 W)
     (x : X) : ((restrHom b X hX x : GL (Fin 2) K) : Matrix (Fin 2) (Fin 2) K) = restrMat b X hX x :=
   rfl
 
+omit [Finite K] [CharP K 2] in
 theorem fixesPt_of_restrHom_eq_one {h : UnitaryFieldData 2 1 K} {W : Submodule K (HypIndex 2 1 → K)}
     (b : Module.Basis (Fin 2) K W) (X : Subgroup (hypSU h 2 1)) (hX : X ≤ isoStabilizer h 2 1 W)
     (x : X) (hx : restrHom b X hX x = 1) :
@@ -119,7 +128,7 @@ theorem no_surj_two (hK : Nat.card K = 4) {h : UnitaryFieldData 2 1 K}
   let b : Module.Basis (Fin 2) K W := Module.finBasisOfFinrankEq K W hk
   set ψ := restrHom b X hX with hψ
   have hYn : (ψ.ker.map φ).Normal := Subgroup.Normal.map inferInstance φ hφ
-  haveI := hYn
+  have := hYn
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (ψ.ker.map φ) with hbot | htop
   · have hle : ψ.ker ≤ φ.ker := by
       intro y hy

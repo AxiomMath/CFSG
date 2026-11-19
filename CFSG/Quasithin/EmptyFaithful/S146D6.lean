@@ -384,7 +384,7 @@ theorem exists_sylow_eq {D : Subgroup A} (hD : Nat.card D = 8) : ∃ S : Sylow 2
   have hDp : IsPGroup 2 D := IsPGroup.of_card (n := 3) (by rw [hD]; norm_num)
   obtain ⟨S, hS⟩ := hDp.exists_le_sylow
   refine ⟨S, ?_⟩
-  have hSp : IsPGroup 2 (S : Subgroup A) := S.isPGroup'
+  have hSp : IsPGroup 2 (S : Subgroup A) := S.isPGroup
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card).mp hSp
   have hdvd : Nat.card (S : Subgroup A) ∣ 360 := card_A ▸ Subgroup.card_subgroup_dvd_card _
   have hle : Nat.card D ∣ Nat.card (S : Subgroup A) := Subgroup.card_dvd_of_le hS

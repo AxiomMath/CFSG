@@ -22,24 +22,24 @@ theorem rootExp_mul_rootExp_dualRoot
   norm_num at hprod
   unfold rootExp
   rcases ReeTag.quadForm_eq (t := ReeTag.F4) hγ with h | h
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     have hd : ReeTag.F4.quadForm (ReeTag.F4.dualRoot γ) = 4 := by
       rw [h] at hprod
       omega
-    rw [if_neg (by rw [hd]; norm_num), ← pow_add]
+    rw [ite_eq_right (by rw [hd]; norm_num), ← pow_add]
     congr 1
     omega
   · have hne : ¬ ReeTag.F4.quadForm γ = 2 := by
       rw [h, hp]
       norm_num
-    rw [if_neg hne]
+    rw [ite_eq_right hne]
     have h4 : ReeTag.F4.quadForm γ = 4 := by
       rw [h, hp]
       norm_num
     have hd : ReeTag.F4.quadForm (ReeTag.F4.dualRoot γ) = 2 := by
       rw [h4] at hprod
       omega
-    rw [if_pos hd, ← pow_add]
+    rw [ite_eq_left hd, ← pow_add]
     congr 1
     omega
 

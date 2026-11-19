@@ -16,7 +16,7 @@ theorem l2CubeSolvableFix_of_faithful (hFF : SimsR1L2CubeFaithfulFix) :
     SimsR1L2CubeSolvableFix := by
   intro p _ hp5 r _ hr5 X _ _ hperf N _ hN hNodd _ hiso V _ _ _ ρ hρN
   obtain ⟨e⟩ := hiso
-  haveI : Group.IsPerfect X := hperf
+  have : Group.IsPerfect X := hperf
   have hp : p.Prime := Fact.out
   have hF : Nat.card (GaloisField p (3 * 1)) = p ^ 3 := by
     simpa using GaloisField.card p (3 * 1) (by norm_num)

@@ -26,8 +26,8 @@ theorem U6Cent_holds : CFSG.LocalAnalysis.GLTheoremA.Y10F.U6Cent := by
     all_goals omega
   obtain ⟨-, F, hFi, hFf, hF, ⟨e⟩⟩ := hsc6
   have hF' : Nat.card F = (2 ^ 2) ^ 2 := hF
-  haveI : CharP F 2 := charP_two_of_card hF'
-  haveI : Finite F := hFf
+  have : CharP F 2 := charP_two_of_card hF'
+  have : Finite F := hFf
   let Φ1 : CFSG.Open.StatedProj (CFSG.Open.StatedSU 6 (2 ^ 2) F) ≃*
       ↥(CFSG.Open.StatedSU 6 (2 ^ 2) F) :=
     projIso hF'

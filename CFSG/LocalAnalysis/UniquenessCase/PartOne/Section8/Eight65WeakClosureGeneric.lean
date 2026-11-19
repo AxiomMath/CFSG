@@ -112,12 +112,12 @@ theorem conjugate_eq_of_le_normalizer_of_sylow {Y : Type} [Group Y] [Finite Y]
     simpa using hz
   have hQtop : CFSG.ABGLocalTools.IsSylowOf 3 (Q : Subgroup Y) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    exact ⟨le_top, Q.isPGroup', by rw [Subgroup.relIndex_top_right]; exact Q.not_dvd_index⟩
+    exact ⟨le_top, Q.isPGroup, by rw [Subgroup.relIndex_top_right]; exact Q.not_dvd_index⟩
   have hQNsyl : CFSG.ABGLocalTools.IsSylowOf 3 (Q : Subgroup Y)
       (Subgroup.normalizer (Z : Set Y)) :=
     hQtop.of_le hQN le_top
   have hA : IsPGroup 3 ↥(CFSG.conjugate Z g) := by
-    have hZ3 : IsPGroup 3 Z := Q.isPGroup'.to_le hZQ
+    have hZ3 : IsPGroup 3 Z := Q.isPGroup.to_le hZQ
     exact hZ3.map (MulAut.conj g⁻¹).toMonoidHom
   obtain ⟨S, hSN, hAS⟩ := exists_isSylowOf_ge_chain hg hA
   obtain ⟨k, hkN, hk⟩ := hQNsyl.exists_mem_conj hSN
@@ -166,7 +166,7 @@ theorem exists_conjugate_eq_map_of_sylow_center {Y : Type} [Group Y] [Finite Y]
     rw [hQZ, hZ3]
   have hQtop : CFSG.ABGLocalTools.IsSylowOf 3 (Q : Subgroup Y) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    exact ⟨le_top, Q.isPGroup', by rw [Subgroup.relIndex_top_right]; exact Q.not_dvd_index⟩
+    exact ⟨le_top, Q.isPGroup, by rw [Subgroup.relIndex_top_right]; exact Q.not_dvd_index⟩
   have hφQtop : CFSG.ABGLocalTools.IsSylowOf 3 ((Q : Subgroup Y).map φ.toMonoidHom) ⊤ := by
     refine CFSG.ABGLocalTools.isSylowOf_of_card le_top ?_
     rw [Subgroup.card_map_of_injective φ.injective]

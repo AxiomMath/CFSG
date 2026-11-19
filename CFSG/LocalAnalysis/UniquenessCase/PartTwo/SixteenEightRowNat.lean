@@ -11,13 +11,14 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 variable {ι : Type} [Fintype ι] [DecidableEq ι] {K : Type} [Field K] [Finite K]
 variable {W : Type} [CommGroup W]
 
+omit [Finite K] in
 theorem s16g_transport_fix (Γ : Subgroup (Matrix.GeneralLinearGroup ι K))
     {H : Subgroup (MulAut W)} {Z : Subgroup W} (hR : (FFModel.nat Γ).Realizes H ⊤ Z)
     (hW : ∀ w : W, w ^ 2 = 1) (hZ : ∀ h ∈ H, ∀ z ∈ Z, h z = z)
     (hne : ∃ a : Multiplicative (ι → K), a ≠ 1) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hfix : ∀ a : Multiplicative (ι → K), a ≠ 1 → ∃ B : Subgroup ↥Γ, IsPGroup p B ∧
       ¬ IsCyclic ↥B ∧ ∀ b ∈ B, natAct Γ b a = a)
-    {x : W} (hx1 : x ≠ 1) :
+    {x : W} (_hx1 : x ≠ 1) :
     ∃ B : Subgroup (MulAut W), B ≤ H ∧ IsPGroup p B ∧ ¬ IsCyclic ↥B ∧ ∀ b ∈ B, b x = x := by
   simp only [FFModel.nat] at hR
   obtain ⟨π, hπ⟩ := hR
@@ -33,7 +34,7 @@ theorem s16g_transport_fix (Γ : Subgroup (Matrix.GeneralLinearGroup ι K))
     · rw [← Subgroup.map_map]; exact Subgroup.map_subtype_le (B₀.map π)
     · exact hBp.map (H.subtype.comp π)
     · intro hcyc
-      haveI : IsCyclic ↥(B₀.map (H.subtype.comp π)) := hcyc
+      have : IsCyclic ↥(B₀.map (H.subtype.comp π)) := hcyc
       exact hBc (isCyclic_of_injective
         (Subgroup.equivMapOfInjective B₀ (H.subtype.comp π)
           (H.subtype_injective.comp hπi)).toMonoidHom
@@ -77,7 +78,7 @@ theorem s16g_transport_fix (Γ : Subgroup (Matrix.GeneralLinearGroup ι K))
       rw [← h5, map_mul, map_inv, h3, mul_inv_cancel]
     have hZmem : ((π b : ↥H) : MulAut W) x * x⁻¹ ∈ Z :=
       (hβk ⟨((π b : ↥H) : MulAut W) x * x⁻¹, trivial⟩).mp h4
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     obtain ⟨k, hk⟩ := hBp.exists_orderOf_eq_pow (⟨b, hb⟩ : ↥B₀)
     have hbord : orderOf b = p ^ k := by rw [← Subgroup.orderOf_mk b hb, hk]
     have hodd : Odd (orderOf b) := by rw [hbord]; exact (hp.odd_of_ne_two hp2).pow
@@ -87,12 +88,13 @@ theorem s16g_transport_fix (Γ : Subgroup (Matrix.GeneralLinearGroup ι K))
       simpa using congrArg (fun g : ↥H => (g : MulAut W)) h1
     exact s16g_apply_eq_of_odd hW hodd hpow (fun z hz => hZ (π b) (π b).2 z hz) hZmem
 
+omit [Finite K] in
 theorem s16g_transport_fix_ord (Γ : Subgroup (Matrix.GeneralLinearGroup ι K))
     {H : Subgroup (MulAut W)} {Z : Subgroup W} (hR : (FFModel.nat Γ).Realizes H ⊤ Z)
     (hW : ∀ w : W, w ^ 2 = 1) (hZ : ∀ h ∈ H, ∀ z ∈ Z, h z = z)
     (hne : ∃ a : Multiplicative (ι → K), a ≠ 1) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hfix : ∀ a : Multiplicative (ι → K), a ≠ 1 → ∃ g : ↥Γ, orderOf g = p ∧ natAct Γ g a = a)
-    {x : W} (hx1 : x ≠ 1) :
+    {x : W} (_hx1 : x ≠ 1) :
     ∃ y ∈ H, orderOf y = p ∧ y x = x := by
   simp only [FFModel.nat] at hR
   obtain ⟨π, hπ⟩ := hR

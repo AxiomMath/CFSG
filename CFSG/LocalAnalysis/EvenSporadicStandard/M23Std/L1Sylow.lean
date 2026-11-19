@@ -116,7 +116,7 @@ theorem L1_sylow (h : OneClassData L z t)
   set C := centralizer (L1sub h D hgood : Set G) with hC
   have hL1'P : IsPGroup 2 ((L1sub h D hgood).subgroupOf C) := hL1P.comap_subtype
   obtain ⟨P, hP⟩ := hL1'P.exists_le_sylow
-  have hPG : IsPGroup 2 ((P : Subgroup C).map C.subtype) := P.isPGroup'.map _
+  have hPG : IsPGroup 2 ((P : Subgroup C).map C.subtype) := P.isPGroup.map _
   have hLP : L1sub h D hgood ≤ (P : Subgroup C).map C.subtype := fun k hk =>
     ⟨⟨k, hL1C hk⟩, hP (Subgroup.mem_subgroupOf.2 hk), rfl⟩
   have hPC : (P : Subgroup C).map C.subtype ≤ C := by

@@ -217,7 +217,7 @@ theorem invertsByWeyl_twistedF4
       ((ReeTag.F4.reeLocalParabolic K a ⟨0, by decide⟩).subgroupOf (ReeTag.F4.reeGamma K a))
       ((ReeTag.F4.reeLocalParabolic K a ⟨1, by decide⟩).subgroupOf (ReeTag.F4.reeGamma K a))
       m := by
-  haveI : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
+  have : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
   let U₀ := ReeTag.F4.reeFixedPosUnipotent K a
   let H₀ := ReeTag.F4.reeFixedTorus K a
   let U := U₀.subgroupOf (ReeTag.F4.reeGamma K a)
@@ -281,11 +281,11 @@ theorem allInvertsByWeyl_twistedF4
       (CFSG.LieType.Steinberg.CentralExt.GriessNative.reeTits_of_lieModel hLie (by decide)).2
     obtain ⟨a', K, hKF, hKFin, hKcp, ha', hfa, hK, ⟨e⟩⟩ :=
       CFSG.QuasithinUnique.Setup.X6.exists_mulEquiv_largeRee_model hX
-    letI : Field K := hKF
-    letI : Finite K := hKFin
-    letI : CharP K ReeTag.F4.prime := hKcp
+    let : Field K := hKF
+    let : Finite K := hKFin
+    let : CharP K ReeTag.F4.prime := hKcp
     have hK' : Nat.card K = 2 ^ (2 * a' + 1) := by rw [hK, hfa]
-    haveI : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
+    have : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
     exact InvertsByWeyl.of_yamStd (f4_yamStd ha' hK')
       (invertsByWeyl_twistedF4 hK' hm) e hYam
 

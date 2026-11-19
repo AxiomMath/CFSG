@@ -15,13 +15,13 @@ theorem exists_twoPart_of_central_odd {X : Type} [Group X] [Finite X] (P N : Sub
     ∃ Q : Subgroup X, IsPGroup 2 Q ∧ (∀ x, x ∈ Q ↔ x ∈ P ∧ ∃ k : ℕ, x ^ 2 ^ k = 1) ∧
       ∀ x ∈ P, ∃ q ∈ Q, ∃ z ∈ N, x = q * z := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcenter : N.subgroupOf P ≤ Subgroup.center ↥P := by
     intro z hz
     rw [Subgroup.mem_center_iff]
     intro y
     exact Subtype.ext (Subgroup.mem_center_iff.mp (hN hz) (y : X))
-  haveI : (N.subgroupOf P).Normal := Subgroup.normal_of_le_center hcenter
+  have : (N.subgroupOf P).Normal := Subgroup.normal_of_le_center hcenter
   have hquot : IsPGroup 2 (↥P ⧸ N.subgroupOf P) := by
     intro q
     obtain ⟨x, rfl⟩ := QuotientGroup.mk'_surjective (N.subgroupOf P) q
@@ -29,22 +29,22 @@ theorem exists_twoPart_of_central_odd {X : Type} [Group X] [Finite X] (P N : Sub
     refine ⟨k, ?_⟩
     rw [← map_pow, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff]
     simpa [Subgroup.mem_subgroupOf] using hk
-  haveI : Group.IsNilpotent (↥P ⧸ N.subgroupOf P) := hquot.isNilpotent
-  haveI : Group.IsNilpotent ↥P :=
+  have : Group.IsNilpotent (↥P ⧸ N.subgroupOf P) := hquot.isNilpotent
+  have : Group.IsNilpotent ↥P :=
     Subgroup.isNilpotent_of_ker_le_center (QuotientGroup.mk' (N.subgroupOf P))
       (by rw [QuotientGroup.ker_mk']; exact hcenter)
   let P₀ : Sylow 2 ↥P := Classical.arbitrary _
-  haveI : Finite (Sylow 2 ↥P) := Sylow.finite_of_finiteIndex P₀
-  haveI hP₀normal : (P₀ : Subgroup ↥P).Normal := inferInstance
-  haveI : Unique (Sylow 2 ↥P) := Sylow.unique_of_normal P₀ hP₀normal
+  have : Finite (Sylow 2 ↥P) := Sylow.finite_of_finiteIndex P₀
+  have hP₀normal : (P₀ : Subgroup ↥P).Normal := inferInstance
+  have : Unique (Sylow 2 ↥P) := Sylow.unique_of_normal P₀ hP₀normal
   let Q : Subgroup X := (P₀ : Subgroup ↥P).map P.subtype
-  have hQ2 : IsPGroup 2 Q := P₀.isPGroup'.map P.subtype
+  have hQ2 : IsPGroup 2 Q := P₀.isPGroup.map P.subtype
   have hQchar : ∀ x, x ∈ Q ↔ x ∈ P ∧ ∃ k : ℕ, x ^ 2 ^ k = 1 := by
     intro x
     constructor
     · intro hx
       obtain ⟨y, hy, rfl⟩ := Subgroup.mem_map.mp hx
-      obtain ⟨k, hk⟩ := P₀.isPGroup' ⟨y, hy⟩
+      obtain ⟨k, hk⟩ := P₀.isPGroup ⟨y, hy⟩
       have hkP : y ^ 2 ^ k = 1 := by simpa using congrArg Subtype.val hk
       exact ⟨y.2, k, by simpa using congrArg Subtype.val hkP⟩
     · rintro ⟨hxP, k, hk⟩
@@ -121,6 +121,7 @@ theorem exists_twoSubgroup_lift (π : X →* X') (hcen : π.ker ≤ Subgroup.cen
     obtain ⟨q, hq, z, hz, hxz⟩ := hQdec x ⟨hxM, hxA⟩
     exact ⟨q, hq, z, hz.1, hxz⟩
 
+omit [Finite X] in
 theorem sevenTwelveConfig_lift_reflect (π : X →* X') {t g₂ g₃ : X} {y' : X'}
     {W' T' : Subgroup X'}
     (h : SevenTwelveConfig (Subgroup.zpowers (π t)) (π g₂) (π g₃) y' W' T') :
@@ -149,6 +150,7 @@ theorem sevenTwelveConfig_lift_reflect (π : X →* X') {t g₂ g₃ : X} {y' : 
       (Subgroup.mem_map_of_mem π hy)
     rwa [MonoidHom.map_zpowers] at hmap
 
+omit [Finite X] in
 private lemma sevenTwelveLift_conj_sq_eq_one {t g : X} (ht : t * t = 1) :
     (g⁻¹ * t * g) * (g⁻¹ * t * g) = 1 := by
   rw [show (g⁻¹ * t * g) * (g⁻¹ * t * g) = g⁻¹ * (t * t) * g by group, ht]
@@ -166,6 +168,7 @@ private lemma sevenTwelveLift_zpowers_involution_eq {a x : X'} (ha : a * a = 1)
     rw [hm, zpow_add, zpow_mul, ha2, one_zpow]
     simp
 
+omit [Finite X] in
 private lemma sevenTwelveLift_ker_sq_eq_one (π : X →* X')
     (hodd : Odd (Nat.card π.ker)) {z : X} (hz : z ∈ π.ker) (hzsq : z * z = 1) : z = 1 := by
   have hdiv : orderOf z ∣ Nat.card π.ker := by
@@ -181,6 +184,7 @@ private lemma sevenTwelveLift_ker_sq_eq_one (π : X →* X')
     omega
   exact orderOf_eq_one_iff.mp h1
 
+omit [Finite X] in
 private lemma sevenTwelveLift_involution_mem_zpowers (π : X →* X')
     (hcen : π.ker ≤ Subgroup.center X) (hodd : Odd (Nat.card π.ker)) {t s : X}
     (ht : t * t = 1) (hs : s * s = 1) (hmem : π s ∈ Subgroup.zpowers (π t)) :
@@ -207,6 +211,7 @@ private lemma sevenTwelveLift_involution_mem_zpowers (π : X →* X')
     have hz1 : s * t⁻¹ = 1 := sevenTwelveLift_ker_sq_eq_one π hodd hzker hzsq
     rw [hzt, hz1, one_mul]
 
+omit [Finite X] in
 private lemma sevenTwelveLift_mem_commutator_of_mem (π : X →* X')
     (hcen : π.ker ≤ Subgroup.center X) (hodd : Odd (Nat.card π.ker)) {t g₂ g₃ : X}
     (hperf : ⁅sevenTwelveGen (Subgroup.zpowers (π t)) (π g₂) (π g₃),
@@ -267,6 +272,7 @@ private lemma sevenTwelveLift_mem_commutator_of_mem (π : X →* X')
   rw [← hsz]
   exact mul_mem hc hzmem
 
+omit [Finite X] in
 theorem sevenTwelveConfig_lift_perfect (π : X →* X') (hcen : π.ker ≤ Subgroup.center X)
     (hodd : Odd (Nat.card π.ker)) {t g₂ g₃ : X} (ht : t * t = 1)
     (hperf : ⁅sevenTwelveGen (Subgroup.zpowers (π t)) (π g₂) (π g₃),
@@ -320,7 +326,7 @@ theorem sevenTwelveConfig_lift_w (π : X →* X') (hcen : π.ker ≤ Subgroup.ce
         rw [sevenTwelve_conjSubgroup_zpowers]; exact Subgroup.mem_zpowers _)),
       h₂ (by
         rw [sevenTwelve_conjSubgroup_zpowers]
-        simpa using Subgroup.mem_zpowers ((π g₂)⁻¹ * (π t) * (π g₂))),
+        simp),
       ⟨1, by rw [pow_one, pow_two]; exact hx₂sq⟩⟩
   · intro x hx
     exact (hWchar x).mp hx |>.1
@@ -432,7 +438,7 @@ theorem sevenTwelveConfig_lift_t (π : X →* X') (hπ : Function.Surjective π)
       apply top_le_iff.mp
       rw [← hMker_top]
       exact sup_le Subgroup.le_normalizer hker_norm
-    haveI hMnormal : M₀.Normal := Subgroup.normalizer_eq_top_iff.mp hnorm_top
+    have hMnormal : M₀.Normal := Subgroup.normalizer_eq_top_iff.mp hnorm_top
     have hnc : Subgroup.normalClosure ((Subgroup.zpowers t : Subgroup X) : Set X) ≤ M₀ :=
       Subgroup.normalClosure_le_normal (Subgroup.zpowers_le.mpr
         (Subgroup.mem_sup_left (Subgroup.mem_sup_left

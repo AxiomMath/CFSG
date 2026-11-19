@@ -57,7 +57,7 @@ theorem Ki_zero_inf_one_eq_bot (hb : ¬ X.Z 0 ≤ X.Gi 3) (hc : CharTwoStab (V :
     X.odd_card_K.of_dvd_nat (Subgroup.orderOf_dvd_natCard X.K hkK)
   have hkZ : k ∉ X.Z 0 := by
     intro hkZ
-    haveI : Finite ↥(X.Z 0) :=
+    have : Finite ↥(X.Z 0) :=
       finite_of_le_stabilizer X.hyp (H := X.Z 0) (X.Z_le_Gi 0)
     have hZ0pg : IsPGroup 2 (X.Z 0) :=
       (pCoreOf_isPGroup' (X.Gi 0)).to_le (X.Z_le_Q 0)
@@ -129,7 +129,7 @@ private theorem K_mul_comm (hbZ : ¬ X.Z 0 ≤ X.Gi 3)
   have hKC : X.K ≤ Subgroup.centralizer (X.K : Set G) := by
     calc X.K = X.Ki 0 ⊔ X.Ki 1 := X.K_eq_sup
       _ ≤ Subgroup.centralizer (X.K : Set G) := sup_le hK0C hK1C
-  haveI : IsMulCommutative X.K := Subgroup.le_centralizer_iff_isMulCommutative.mp hKC
+  have : IsMulCommutative X.K := Subgroup.le_centralizer_iff_isMulCommutative.mp hKC
   exact congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : ↥X.K) ⟨b, hb⟩)
 
 private theorem Ktwo_eq_Ki_two : X.Ktwo = X.Ki 2 := by
@@ -224,7 +224,7 @@ private theorem Ki_zero_fixes_of_centralizes
   have hcω : c • ω = ω := (hc ω hωadj).trans hkω
   have hc1 : c = 1 := by
     by_contra hcne
-    haveI : Finite ↥(X.Ki 1) :=
+    have : Finite ↥(X.Ki 1) :=
       finite_of_le_stabilizer X.hyp (H := X.Ki 1) (inf_le_left.trans (X.K_le_Gi 1))
     have hne : X.Ki 1 ≠ ⊥ := by
       intro hbot
@@ -385,7 +385,7 @@ private theorem map_subgroupOf_ne_bot_of_Ki_zero_le
   have hpow : 4 ≤ 2 ^ X.n 0 := by
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ X.n 0 := Nat.pow_le_pow_right (by norm_num) hn0
-  haveI : Finite ↥(X.Ki 0) :=
+  have : Finite ↥(X.Ki 0) :=
     finite_of_le_stabilizer X.hyp (H := X.Ki 0) (inf_le_left.trans (X.K_le_Gi 0))
   have hcard : 1 < Nat.card ↥(X.Ki 0) := by
     rw [X.card_Ki 0]
@@ -425,9 +425,9 @@ private theorem exists_mem_Q_zero_mul_of_Ki_zero_le (hn0 : 2 ≤ X.n 0)
     rw [GaloisField.card (p := 2) (n := X.n 0) (by omega)]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ X.n 0 := Nat.pow_le_pow_right (by norm_num) hn0
-  haveI : IsSimpleGroup P := Matrix.ProjectiveSpecialLinearGroup.rank_two_simple hcardF
+  have : IsSimpleGroup P := Matrix.ProjectiveSpecialLinearGroup.rank_two_simple hcardF
   have hRLnormal : RL.Normal := by
-    haveI : (N.subgroupOf (X.L 0)).Normal :=
+    have : (N.subgroupOf (X.L 0)).Normal :=
       Subgroup.normal_subgroupOf_of_le_normalizer hNnorm
     exact Subgroup.Normal.map (inferInstance : (N.subgroupOf (X.L 0)).Normal) φ
       hN.phi_surjective
@@ -435,7 +435,7 @@ private theorem exists_mem_Q_zero_mul_of_Ki_zero_le (hn0 : 2 ≤ X.n 0)
     show (N.subgroupOf (X.L 0)).map hN.phi ≠ ⊥
     exact X.map_subgroupOf_ne_bot_of_Ki_zero_le hN hn0 hK0N
   have hRLtop : RL = ⊤ := by
-    haveI := hRLnormal
+    have := hRLnormal
     rcases Subgroup.Normal.eq_bot_or_eq_top RL with h | h
     · exact absurd h hRLne
     · exact h

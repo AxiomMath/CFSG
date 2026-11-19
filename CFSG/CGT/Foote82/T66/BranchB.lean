@@ -30,7 +30,7 @@ theorem caseMC1_of (h51 : Lemma51) (hA : BranchAFalse) (hI : CaseIFalse) (hII : 
   by_cases hall : ∀ v ∈ commSpace (Subgroup.zpowers s) ⊤, v ≠ 0 →
       G ⊓ vFix v ≤ Subgroup.normalizer (L : Set (GLV V))
   · exact hA V G L s hstd hrank hall
-  · push_neg at hall
+  · push Not at hall
     obtain ⟨v, hv, hv0, hnot⟩ := hall
     have hns : ¬ IsSubnormal L (G ⊓ vFix v) := fun hsub =>
       hnot (BranchB.le_normalizer_of_isSubnormal hstd hsub)

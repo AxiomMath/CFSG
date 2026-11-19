@@ -15,7 +15,7 @@ set_option maxRecDepth 4000
 private theorem wcOn_J_three
     [Finite ↥CFSG.Sporadic.Th.J] :
     WCOn 3 ↥CFSG.Sporadic.Th.J := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨⟨κ, -, -⟩, -⟩ := CFSG.Sporadic.Th.Max3.max3_alternating_quotient
   exact wcOn_of_surj_sylow (A := ↥(alternatingGroup (Fin 9))) CFSG.Sporadic.Th.Max3.M
     (κ.toMonoidHom.comp (QuotientGroup.mk' _))
@@ -24,8 +24,8 @@ private theorem wcOn_J_three
 theorem wcOn_Th_three_aux
     [Finite CFSG.Blueprint.NativeSporadic.Th] :
     WCOn 3 CFSG.Blueprint.NativeSporadic.Th := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite ↥CFSG.Sporadic.Th.J := Finite.of_equiv _ CFSG.Sporadic.Th.thEquivJ.toEquiv
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite ↥CFSG.Sporadic.Th.J := Finite.of_equiv _ CFSG.Sporadic.Th.thEquivJ.toEquiv
   exact WCOn.of_mulEquiv (K := CFSG.Blueprint.NativeSporadic.Th)
     (L := ↥CFSG.Sporadic.Th.J) CFSG.Sporadic.Th.thEquivJ wcOn_J_three
 
@@ -35,7 +35,7 @@ theorem wcOn_Th_three
 
 theorem wcOn_Th_five [Finite (Carrier .Th)] :
     WCOn 5 (Carrier .Th) := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   exact WCOn.of_hasNoncommPair CFSG.RankThree.PartOne.CTP.hasNoncommPair_Th
 
 theorem wcSporadicAt_Th_of_seven

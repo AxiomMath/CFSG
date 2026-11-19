@@ -18,7 +18,7 @@ theorem exists_extremal_conj {ι : L4Model n →* G} (hι : Function.Injective �
       ∀ ν : L4Model n, (∃ g : G, g * ι l * g⁻¹ = ι ν) →
         Nat.card (centralizer {ν}) ≤ Nat.card (centralizer {μ}) := by
   classical
-  haveI : Fintype (L4Model n) := Fintype.ofFinite _
+  have : Fintype (L4Model n) := Fintype.ofFinite _
   set s := Finset.univ.filter fun ν : L4Model n => ∃ g : G, g * ι l * g⁻¹ = ι ν
   have hne : s.Nonempty := ⟨l, Finset.mem_filter.2 ⟨Finset.mem_univ _, 1, by group⟩⟩
   obtain ⟨μ, hμs, hμ⟩ := s.exists_max_image (fun ν => Nat.card (centralizer {ν})) hne

@@ -86,14 +86,14 @@ section Pair
 
 variable {G : Type*} [Group G]
 
-theorem exists_line {p : ℕ} (hp : p.Prime) {x f : G} (hxf : x * f = f * x) (hx : x ^ p = 1)
+theorem exists_line {p : ℕ} (hp : p.Prime) {x f : G} (hxf : x * f = f * x) (_hx : x ^ p = 1)
     (hf : f ^ p = 1) {a b : ℕ} (ha : a < p) (hb : b < p) (hab : a ≠ 0 ∨ b ≠ 0) :
     ∃ m, 0 < m ∧ m < p ∧ (x ^ a * f ^ b = f ^ m ∨ ∃ j < p, x ^ a * f ^ b = (x * f ^ j) ^ m) := by
   have hfp : ∀ n, f ^ n = f ^ (n % p) := fun n => by
     conv_lhs => rw [← Nat.mod_add_div n p, pow_add, pow_mul, hf, one_pow, mul_one]
   rcases Nat.eq_zero_or_pos a with rfl | ha0
   · refine ⟨b, Nat.pos_of_ne_zero (by tauto), hb, Or.inl (by rw [pow_zero, one_mul])⟩
-  · haveI := Fact.mk hp
+  · have := Fact.mk hp
     have ha' : ((a : ℕ) : ZMod p) ≠ 0 := by
       rw [Ne, ZMod.natCast_eq_zero_iff]
       exact fun h => absurd (Nat.le_of_dvd ha0 h) (by omega)
@@ -111,7 +111,7 @@ theorem closure_pair {p : ℕ} (hp : p.Prime) {x f : G} (hxf : x * f = f * x) (h
     (hf : f ^ p = 1) (hx1 : x ≠ 1) (hfx : f ∉ zpowers x) :
     (∀ g ∈ closure ({x, f} : Set G), ∃ a b, a < p ∧ b < p ∧ g = x ^ a * f ^ b) ∧
       Nat.card (closure ({x, f} : Set G)) = p ^ 2 := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hp1 : 1 < p := hp.one_lt
   have hcomm : Commute x f := hxf
   have hxp : ∀ n, x ^ n = x ^ (n % p) := fun n => by
@@ -335,8 +335,8 @@ theorem centralizer_le_of_witnesses (hT3 : BabyTableIII) (hT4 : BabyTableIV)
     {α x : NativeSporadic.B} (hα : BabyInv 0 α) (hx : orderOf x = 7) (hαx : α * x = x * α)
     (hw : ∀ k : Fin 4, OrbitWitness α x k) :
     centralizer ({x} : Set NativeSporadic.B) ≤ centralizer ({α} : Set NativeSporadic.B) := by
-  haveI : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   intro c hc
   have hcx : c * x = x * c := (mem_centralizer_singleton_iff (G := NativeSporadic.B)).1 hc
   refine (mem_centralizer_singleton_iff (G := NativeSporadic.B)).2 ?_

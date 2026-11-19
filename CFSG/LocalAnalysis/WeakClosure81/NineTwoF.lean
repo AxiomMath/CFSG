@@ -20,6 +20,7 @@ theorem nineTwoF_exists_elemAbelian_sq (hp : p.Prime) (hp2 : p ≠ 2) (hX : IsPG
       Subgroup.le_normalizer hnc
   exact ⟨F, hFX, ⟨⟨⟨fun a b => Subtype.ext (hcomm a a.2 b b.2)⟩⟩, hexp⟩, hcard⟩
 
+omit [Finite G] in
 private theorem nineTwoF_mem_sup {R F : Subgroup G} (hF : F ≤ normalizer (R : Set G)) {y : G}
     (hy : y ∈ R ⊔ F) : ∃ r ∈ R, ∃ f ∈ F, y = r * f := by
   have h := Subgroup.coe_mul_of_right_le_normalizer_left R F hF
@@ -67,7 +68,7 @@ theorem nineTwoF_le_commutator_sup (hV : Hyp7 V) (hm : 2 < rk ↥V) (h : Nine2Hy
   have hKN := CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 K
   have hFK : F ≤ K := hFX.trans h.base.sylowP.le
   obtain ⟨g, -, -, hAnot⟩ := mem_omegaSet.mp hA.1
-  obtain ⟨a, haA, haR⟩ := SetLike.not_le_iff_exists.mp hAnot
+  obtain ⟨a, haA, haR⟩ := IsConcreteLE.not_le_iff_exists.mp hAnot
   have hodd : Odd p := h.base.prime.odd_of_ne_two h.base.odd
   obtain ⟨m, hm'⟩ := hodd
   have hfin : ∀ f ∈ F, f ∈ ⁅pCoreOf 2 K ⊔ F, A⁆ ⊔ pCoreOf 2 K := by
@@ -108,7 +109,7 @@ theorem nineTwoF_faithful (hV : Hyp7 V) (hm : 2 < rk ↥V) (h : Nine2Hyp V K S X
   have hbase : TwoPTwo K S X p := h.base.toTwoPTwoIrred.toTwoPTwo
   have hbot : f ^ 2 ∈ X ⊓ pCoreOf 2 K := ⟨hf2X, hf2R⟩
   rw [TwoPTwo.sylowP_inf_pCoreOf hbase, Subgroup.mem_bot] at hbot
-  haveI : Fact p.Prime := ⟨h.base.prime⟩
+  have : Fact p.Prime := ⟨h.base.prime⟩
   obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp h.base.sylowP.isPGroup) ⟨f, hFX hfF⟩
   have hdvd : orderOf (⟨f, hFX hfF⟩ : ↥X) ∣ 2 :=
     orderOf_dvd_of_pow_eq_one (Subtype.ext (by simpa using hbot))
@@ -152,7 +153,7 @@ theorem nineTwoF_commutator_mem (h : Nine2Hyp V K S X p) {F : Subgroup G} (hFX :
   intro y hy z hz
   obtain ⟨r, hr, f, hf, rfl⟩ := nineTwoF_mem_sup (hFK.trans hKN) hy
   obtain ⟨r', hr', f', hf', rfl⟩ := nineTwoF_mem_sup (hFK.trans hKN) hz
-  haveI : (CFSG.pCore 2 ↥K).Normal := CFSG.pCore_normal
+  have : (CFSG.pCore 2 ↥K).Normal := CFSG.pCore_normal
   let π : ↥K →* ↥K ⧸ CFSG.pCore 2 ↥K := QuotientGroup.mk' _
   let rq : ↥K := ⟨r, hRK hr⟩
   let rq' : ↥K := ⟨r', hRK hr'⟩
@@ -190,7 +191,7 @@ theorem nineTwoF_relIndex (h : Nine2Hyp V K S X p) {F : Subgroup G} (hFX : F ≤
   have hsup' : (pCoreOf 2 K ⊔ F).subgroupOf K = (pCoreOf 2 K).subgroupOf K ⊔ F.subgroupOf K :=
     Subgroup.subgroupOf_sup hRK hFK
   rw [hsup']
-  haveI : (CFSG.pCore 2 ↥K).Normal := CFSG.pCore_normal
+  have : (CFSG.pCore 2 ↥K).Normal := CFSG.pCore_normal
   have hRq : (pCoreOf 2 K).subgroupOf K = CFSG.pCore 2 ↥K := CFSG.openPCoreOf_subgroupOf 2 K
   rw [hRq, Subgroup.relIndex_sup_left]
   have hsub2 := Subgroup.relIndex_subgroupOf (H := pCoreOf 2 K) (K := F) (L := K) hFK

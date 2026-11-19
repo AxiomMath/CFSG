@@ -793,7 +793,7 @@ theorem burnsideC5h_p1_umax_alt3 (S : Subgroup ↥(alternatingGroup (Fin 3))) (h
   have hcard : Nat.card ↥(alternatingGroup (Fin 3)) = 3 := by
     rw [Nat.card_eq_fintype_card, card_alternatingGroup, Fintype.card_fin]
     decide
-  haveI : Fact (Nat.Prime (Nat.card ↥(alternatingGroup (Fin 3)))) :=
+  have : Fact (Nat.Prime (Nat.card ↥(alternatingGroup (Fin 3)))) :=
     ⟨by rw [hcard]; exact Nat.prime_three⟩
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSbot : S = ⊥ := by
@@ -845,7 +845,7 @@ theorem burnsideC5h_p1_utri_mul (s t : F) :
   intro i j
   fin_cases i <;> fin_cases j <;>
     simp [Matrix.SpecialLinearGroup.coe_mul, burnsideC5h_p1_coe_utri, Matrix.mul_apply,
-      Fin.sum_univ_two] <;> ring
+      Fin.sum_univ_two]; ring
 
 theorem burnsideC5h_p1_utri_zero : burnsideC5h_p1_utri (0 : F) = 1 := by
   apply Matrix.SpecialLinearGroup.ext
@@ -879,12 +879,12 @@ theorem burnsideC5h_p1_utriHom_injective : Function.Injective (burnsideC5h_p1_ut
   carrier := {g | (g : Matrix (Fin 2) (Fin 2) F) 1 0 = 0}
   mul_mem' := by
     intro a b ha hb
-    simp only [Set.mem_setOf_eq] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq] at ha hb ⊢
     simp [Matrix.SpecialLinearGroup.coe_mul, Matrix.mul_apply, Fin.sum_univ_two, ha, hb]
   one_mem' := by simp
   inv_mem' := by
     intro a ha
-    simp only [Set.mem_setOf_eq] at ha ⊢
+    simp only [Set.mem_ofPred_eq] at ha ⊢
     simp [Matrix.SpecialLinearGroup.coe_inv, Matrix.adjugate_fin_two, ha]
 
 theorem burnsideC5h_p1_utri_mem_U (t : F) : burnsideC5h_p1_utri t ∈ burnsideC5h_p1_U F :=
@@ -973,8 +973,8 @@ theorem burnsideC5h_p1_sl2_ltri_mem {Y : Subgroup (Matrix.SpecialLinearGroup (Fi
     intro i j
     fin_cases i <;> fin_cases j <;>
       simp [Matrix.SpecialLinearGroup.coe_mul, burnsideC5h_p1_coe_utri,
-        burnsideC5h_p1_coe_ltri, burnsideC5h_p1_coe_sl, Matrix.mul_apply, Fin.sum_univ_two] <;>
-      field_simp <;> ring
+        burnsideC5h_p1_coe_ltri, burnsideC5h_p1_coe_sl, Matrix.mul_apply, Fin.sum_univ_two];
+      field_simp
   have h2 : burnsideC5h_p1_ltri z = burnsideC5h_p1_sl 0 (-c⁻¹) c 0 hwdet *
       burnsideC5h_p1_utri (-z / c ^ 2) * (burnsideC5h_p1_sl 0 (-c⁻¹) c 0 hwdet)⁻¹ :=
     eq_mul_inv_of_mul_eq hcomm
@@ -984,7 +984,7 @@ theorem burnsideC5h_p1_sl2_ltri_mem {Y : Subgroup (Matrix.SpecialLinearGroup (Fi
 theorem burnsideC5h_p1_sl2_eq_top_of_not_le {Y : Subgroup (Matrix.SpecialLinearGroup (Fin 2) F)}
     (hUY : burnsideC5h_p1_U F ≤ Y) (hY : ¬ Y ≤ burnsideC5h_p1_B F) : Y = ⊤ := by
   have hU : ∀ t : F, burnsideC5h_p1_utri t ∈ Y := fun t => hUY (burnsideC5h_p1_utri_mem_U t)
-  obtain ⟨y, hyY, hyB⟩ := SetLike.not_le_iff_exists.mp hY
+  obtain ⟨y, hyY, hyB⟩ := IsConcreteLE.not_le_iff_exists.mp hY
   refine burnsideC5h_p1_sl2_eq_top hU ?_
   revert hyY hyB
   refine Matrix.SpecialLinearGroup.fin_two_induction
@@ -1089,10 +1089,10 @@ theorem burnsideC5h_p1_Vset_card : burnsideC5h_p1_Vset.card = 4 := by
   decide
 
 @[expose] def burnsideC5h_p1_V : Subgroup ↥(alternatingGroup (Fin 5)) where
-  carrier := {x | (x : Equiv.Perm (Fin 5)) ∈ burnsideC5h_p1_Vset}
-  mul_mem' := fun {x y} hx hy => burnsideC5h_p1_Vset_mul _ hx _ hy
+  carrier := {_x | (_x : Equiv.Perm (Fin 5)) ∈ burnsideC5h_p1_Vset}
+  mul_mem' := fun {_x _y} hx hy => burnsideC5h_p1_Vset_mul _ hx _ hy
   one_mem' := burnsideC5h_p1_Vset_one
-  inv_mem' := fun {x} hx => burnsideC5h_p1_Vset_inv _ hx
+  inv_mem' := fun {_x} hx => burnsideC5h_p1_Vset_inv _ hx
 
 theorem burnsideC5h_p1_Vset_mem_alt {v : Equiv.Perm (Fin 5)} (hv : v ∈ burnsideC5h_p1_Vset) :
     v ∈ alternatingGroup (Fin 5) :=
@@ -1119,7 +1119,7 @@ theorem burnsideC5h_p1_alt5_five_dvd {Y : Subgroup ↥(alternatingGroup (Fin 5))
     (hVY : burnsideC5h_p1_V ≤ Y)
     (hY : ¬ Y ≤ MulAction.stabilizer ↥(alternatingGroup (Fin 5)) (4 : Fin 5)) :
     5 ∣ Nat.card Y := by
-  obtain ⟨y, hyY, hy4⟩ := SetLike.not_le_iff_exists.mp hY
+  obtain ⟨y, hyY, hy4⟩ := IsConcreteLE.not_le_iff_exists.mp hY
   have hy4' : (y : Equiv.Perm (Fin 5)) 4 ≠ 4 := fun h =>
     hy4 (by rw [MulAction.mem_stabilizer_iff, burnsideC5h_p1_alt5_smul]; exact h)
   have horbit : MulAction.orbit ↥Y (4 : Fin 5) = Set.univ := by
@@ -1143,7 +1143,7 @@ theorem burnsideC5h_p1_alt5_five_dvd {Y : Subgroup ↥(alternatingGroup (Fin 5))
 
 theorem burnsideC5h_p1_alt5_eq_top_of_index_le {Y : Subgroup ↥(alternatingGroup (Fin 5))}
     (h : Y.index ≤ 4) : Y = ⊤ := by
-  have hsimple : IsSimpleGroup ↥(alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+  have hsimple : IsSimpleGroup ↥(alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   let φ : ↥(alternatingGroup (Fin 5)) →* Equiv.Perm (↥(alternatingGroup (Fin 5)) ⧸ Y) :=
     MulAction.toPermHom _ _
   rcases hsimple.eq_bot_or_eq_top_of_normal φ.ker with h0 | h1
@@ -1241,11 +1241,11 @@ theorem burnsideC5h_p1_umaxIn_of_quotient {G Q : Type} [Group G] [Finite G] [Gro
 
 open CFSG.Quasithin CFSG.QuasithinUnique in
 theorem burnsideC5h_p1_blockMax {G : Type} [Group G] [Finite G] {K P : Subgroup G}
-    (hK : IsShort2 K)
+    (_hK : IsShort2 K)
     (hT : (∃ n : ℕ, 1 < n ∧ IsLin2Type K n) ∨ IsAltType K 3 ∨ IsAltType K 5)
     (hP : IsSylowTwoOf P K) :
     ∃ B : Subgroup G, B < K ∧ P ≤ B ∧ ∀ Y : Subgroup G, P ≤ Y → Y < K → Y ≤ B := by
-  clear hK
+  clear _hK
   rcases hT with ⟨n, hn, F, hF, hFin, hcard, α, hα, hker, -⟩ | ⟨α, hα, hker, -⟩ |
     ⟨α, hα, hker, -⟩
   · exact burnsideC5h_p1_umaxIn_of_quotient hP α hα hker fun S hS hSi =>
@@ -1615,18 +1615,18 @@ theorem burnsideC5h_p2_perm3_of_card_six {Y : Type} [Group Y] [Finite Y] (hcard 
         rw [← this, hyx']
       calc y * x ^ k = (y * x ^ k * y⁻¹) * y := by group
         _ = x ^ k * y := by rw [hyk]
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-    haveI : IsCyclic (Y ⧸ P) := isCyclic_of_prime_card hQcard
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : IsCyclic (Y ⧸ P) := isCyclic_of_prime_card hQcard
     have hf : (QuotientGroup.mk' P).ker ≤ Subgroup.center Y := by
       rw [QuotientGroup.ker_mk']; exact hcentral
     obtain ⟨a, b, hab⟩ := hnc
-    haveI := (QuotientGroup.mk' P).isMulCommutative_of_isCyclic_of_ker_le_center hf
+    have := (QuotientGroup.mk' P).isMulCommutative_of_isCyclic_of_ker_le_center hf
     exact hab (IsMulCommutative.is_comm.comm a b)
   have hbij : Function.Bijective φ := by
     refine hinj.bijective_of_nat_card_le ?_
     rw [hcard, Nat.card_perm, hQcard]
     decide
-  haveI : Fintype (Y ⧸ P) := Fintype.ofFinite _
+  have : Fintype (Y ⧸ P) := Fintype.ofFinite _
   let e : Y ⧸ P ≃ Fin 3 := Fintype.equivFinOfCardEq (by rw [← Nat.card_eq_fintype_card]; exact hQcard)
   exact ⟨(MulEquiv.ofBijective φ hbij).trans (Equiv.permCongrHom e)⟩
 
@@ -1827,6 +1827,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {L S : Subgroup G}
 
+omit [Finite G] in
 theorem burnsideC5h_p3_sup_le_normalizer (h : burnsideC5h_p3_Setting L S) :
     L ⊔ S ≤ Subgroup.normalizer (L : Set G) :=
   sup_le Subgroup.le_normalizer h.norm
@@ -1852,6 +1853,7 @@ theorem burnsideC5h_p3_sylow_card_perm_five (P : Sylow 2 (Equiv.Perm (Fin 5))) :
   have h15 : (15 : ℕ).factorization 2 = 0 := Nat.factorization_eq_zero_of_not_dvd (by norm_num)
   simp [h15]
 
+omit [Finite G] in
 theorem burnsideC5h_p3_thompsonJ_conj_mem {s y : G} (hs : s ∈ S) (hy : y ∈ thompsonJ S) :
     s * y * s⁻¹ ∈ thompsonJ S :=
   (Subgroup.mem_normalizer_iff.mp
@@ -2139,6 +2141,7 @@ theorem burnsideC5h_p3_S5 (h : burnsideC5h_p3_Setting L S) :
         _ = u := by group
   · rw [himB, hBeq]
 
+omit [Finite G] in
 theorem burnsideC5h_p3_baum_facts (h : burnsideC5h_p3_Setting L S) :
     baum S ≤ S ∧ baum S ≤ Subgroup.normalizer (L : Set G) ∧ IsPGroup 2 (baum S) ∧
       L ⊔ baum S ≤ Subgroup.normalizer (L : Set G) ∧ L ⊔ baum S ≤ L ⊔ S :=
@@ -2146,6 +2149,7 @@ theorem burnsideC5h_p3_baum_facts (h : burnsideC5h_p3_Setting L S) :
   ⟨hBS, hBS.trans h.norm, h.sylow.2.1.to_le hBS,
     sup_le Subgroup.le_normalizer (hBS.trans h.norm), sup_le_sup_left hBS L⟩
 
+omit [Finite G] in
 theorem burnsideC5h_p3_Q_le_S (h : burnsideC5h_p3_Setting L S) :
     pCoreOf 2 (L ⊔ baum S) ≤ S := by
   obtain ⟨hBS, hBN, hB2, hXN, hXH⟩ := burnsideC5h_p3_baum_facts h

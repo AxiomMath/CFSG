@@ -61,8 +61,8 @@ theorem codeRoots_subset_frameRoots_a8Chain (hτ : τ = .E6 ∨ τ = .E7 ∨ τ 
     codeRoots d.γ c ⊆ frameRoots (chainσ (a8Chain d w)) := by
   have hτ' : τ = .D4 ∨ τ = .E6 ∨ τ = .E7 ∨ τ = .E8 := Or.inr hτ
   intro δ hδ
-  simp only [codeRoots, Set.mem_setOf_eq] at hδ
-  simp only [frameRoots, Set.mem_setOf_eq]
+  simp only [codeRoots, Set.mem_ofPred_eq] at hδ
+  simp only [frameRoots, Set.mem_ofPred_eq]
   obtain ⟨i, hi, hδ⟩ := hδ
   obtain ⟨a, a', haa', ha'8, ε, hε, hspan⟩ := w.span i hi
   have ha9 : a < 8 + 1 := by omega
@@ -150,10 +150,10 @@ theorem exists_a8ChainHom (hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8) (d : ExcCoo
       change (a : ℕ) = (a : ℕ) + 1 at hv
       omega
     have h1 : iform (a8Chain d w a) (a8Chain d w ⟨(a : ℕ) + 1, h⟩) = -1 := by
-      rw [hG, chainGram, if_neg hne]
+      rw [hG, chainGram, ite_eq_right hne]
       have hcond : ((a : ℕ) + 1 = ((⟨(a : ℕ) + 1, h⟩ : Fin 8) : ℕ) ∨
           (((⟨(a : ℕ) + 1, h⟩ : Fin 8) : ℕ) + 1 = (a : ℕ))) := Or.inl rfl
-      rw [if_pos hcond]
+      rw [ite_eq_left hcond]
     obtain ⟨θ, hθ1, hθ2⟩ :=
       exists_a2Hom_of_iform_eq_neg_one (L := L) hτ (hβ a) (hβ ⟨(a : ℕ) + 1, h⟩) h1
     exact ⟨θ, hθ1, hθ2⟩

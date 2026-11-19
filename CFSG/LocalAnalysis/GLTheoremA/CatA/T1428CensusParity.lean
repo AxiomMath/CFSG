@@ -16,18 +16,18 @@ open CFSG.LocalAnalysis.ComponentInitial CFSG.HardMathSupport.Solomon.Coordinato
 
 theorem card_component_quotient_eq_two_pow_mul_odd
     {k : Type} [Field k] [Fintype k] [CharP k 2] {n : ℕ} {A : GL (Fin n) k} {c : kˣ}
-    (hA : A ^ 3 = Matrix.GeneralLinearGroup.scalar (Fin n) c)
+    (_hA : A ^ 3 = Matrix.GeneralLinearGroup.scalar (Fin n) c)
     {K : Subgroup (LinearFlag.projectiveSL n k)}
-    (hK : IsComponentOf K (fixSubgroup (LinearFlag.conjAut n k A)))
-    {s j m : ℕ} (hj : 1 ≤ j) (hm : 2 ≤ m)
+    (_hK : IsComponentOf K (fixSubgroup (LinearFlag.conjAut n k A)))
+    {s j m : ℕ} (_hj : 1 ≤ j) (hm : 2 ≤ m)
     (hcardk : Nat.card k = 2 ^ s) (hE : ∃ E : Type, ∃ (_ : Field E) (_ : Fintype E),
       Nat.card E = Nat.card k ^ j ∧ ∃ f : Matrix.SpecialLinearGroup (Fin m) E →* ↥K,
         Function.Surjective f ∧ f.ker ≤ Subgroup.center _) :
     ∃ O : ℕ, Odd O ∧ Nat.card (↥K ⧸ Subgroup.center ↥K) = 2 ^ (m * (m - 1) / 2 * (s * j)) * O := by
   classical
   obtain ⟨E, hEfield, hEfin, hEcard, f, hf, hker⟩ := hE
-  letI := hEfield
-  letI := hEfin
+  let := hEfield
+  let := hEfin
   have hq : Nat.card E = 2 ^ (s * j) := by
     rw [hEcard, hcardk, ← pow_mul]
   have hq2 : 2 ≤ Nat.card E := Nat.succ_le_of_lt Finite.one_lt_card
@@ -67,11 +67,11 @@ theorem card_component_quotient_eq_two_pow_mul_odd
           have h := Nat.pow_le_pow_right (by norm_num : 1 ≤ 2) hs2
           norm_num at h
           exact h
-        haveI : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) E) :=
+        have : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) E) :=
           CFSG.ClassicalModels.specialLinear_isPerfect_two_of_four_le_card E h4
         exact Group.IsPerfect.center_quotient_center_eq_bot _
     · have hm3 : 3 ≤ m := by omega
-      haveI : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin m) E) :=
+      have : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin m) E) :=
         CFSG.ClassicalModels.specialLinear_isPerfect_of_three_le hm3
       exact Group.IsPerfect.center_quotient_center_eq_bot _
   have hcomap : (Subgroup.center (↥K)).comap f =
@@ -188,7 +188,7 @@ theorem card_of_catalogIs_isL2n_odd
       | A n q =>
           rcases n with _ | _ | n <;> simp [S10.isL2n] at hi
           obtain ⟨hp, hn⟩ := hi
-          haveI : Fact q.p.Prime := ⟨hp ▸ Nat.prime_two⟩
+          have : Fact q.p.Prime := ⟨hp ▸ Nat.prime_two⟩
           have hcardS : Nat.card S =
               Nat.card (Matrix.ProjectiveSpecialLinearGroup (Fin (1 + 1))
                 (GaloisField q.p q.exponent)) :=

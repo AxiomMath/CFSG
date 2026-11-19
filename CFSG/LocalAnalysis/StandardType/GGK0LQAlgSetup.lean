@@ -61,6 +61,7 @@ open CFSG.HardMathSupport.Timmesfeld.LangTorus
 variable {Omega : Type} [Field Omega] [IsAlgClosed Omega] [CharP Omega 2]
   {lab : LargeEvenLabel} {p : ℕ} {R : Type} [Group R] {I : Set (MulAut R)} {phi : MulAut R}
 
+omit [CharP Omega 2] in
 theorem lq_setup_isAlgebraic
     (hAlg : ∀ c : Omega, ∃ n : ℕ, 0 < n ∧ c ^ (2 ^ n) = c)
     (A : K0LangMark Omega lab p R I phi) : A.setup.IsAlgebraic := by

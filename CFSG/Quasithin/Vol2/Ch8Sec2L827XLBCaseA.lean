@@ -267,14 +267,14 @@ private theorem isPrimitiveRoot_root {p : ℕ} (hp : p.Prime) (hp2 : p % 2 = 1)
     rw [h, aeval_geomPoly] at h3
     simp only [one_pow, Finset.sum_const, Finset.card_range, nsmul_eq_mul, mul_one] at h3
     exact hpF h3
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact IsPrimitiveRoot.iff_orderOf.mpr (orderOf_eq_prime hζp hζ1)
 
 private theorem dvd_two_pow_sub_one {F : Type*} [Field F] [Algebra (ZMod 2) F]
     [FiniteDimensional (ZMod 2) F] {p : ℕ} (hp : p.Prime) {ζ : F}
     (hζ : IsPrimitiveRoot ζ p) : p ∣ 2 ^ Module.finrank (ZMod 2) F - 1 := by
-  haveI : Finite F := Module.finite_of_finite (R := ZMod 2)
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Finite F := Module.finite_of_finite (R := ZMod 2)
+  have : Fintype F := Fintype.ofFinite F
   have hcard : Fintype.card F = 2 ^ Module.finrank (ZMod 2) F := by
     rw [← Nat.card_eq_fintype_card, Module.natCard_eq_pow_finrank (K := ZMod 2),
       Nat.card_eq_fintype_card,
@@ -325,7 +325,7 @@ private theorem key_bound {W : Type*} [AddCommGroup W] [Module (ZMod 2) W]
     exact zero_ne_one h1
   obtain ⟨f, hfirr, hfΦ, w, hw0, hwf⟩ :=
     exists_irreducible_ker Z _ (geomPoly p) rfl hΦ0 hΦZ
-  haveI : Fact (Irreducible f) := ⟨hfirr⟩
+  have : Fact (Irreducible f) := ⟨hfirr⟩
   have hcAZ : Commute A Z := hZA.symm
   have hcBZ : Commute B Z := hZB.symm
   have hcZZ : Commute Z Z := Commute.refl Z
@@ -336,7 +336,7 @@ private theorem key_bound {W : Type*} [AddCommGroup W] [Module (ZMod 2) W]
   have hBM := ker_invariant hBf
   have hZM := ker_invariant hZf
   set M := LinearMap.ker (aeval Z f) with hMdef
-  haveI : Nontrivial ↥M :=
+  have : Nontrivial ↥M :=
     ⟨⟨⟨w, LinearMap.mem_ker.mpr hwf⟩, 0, fun h => hw0 (congrArg Subtype.val h)⟩⟩
   have hZr_aeval : aeval (Z.restrict hZM) f = 0 := by
     apply LinearMap.ext
@@ -344,7 +344,7 @@ private theorem key_bound {W : Type*} [AddCommGroup W] [Module (ZMod 2) W]
     apply Subtype.ext
     rw [restrict_aeval_coe Z M hZM f x]
     have hx : aeval Z f (x : W) = 0 := LinearMap.mem_ker.mp x.2
-    simpa using hx
+    simp
   let φ : (ZMod 2)[X] →+* Module.End (ZMod 2) ↥M := (aeval (Z.restrict hZM)).toRingHom
   have hφ : ∀ a : (ZMod 2)[X], a ∈ Ideal.span {f} → φ a = 0 := by
     intro a ha
@@ -360,18 +360,18 @@ private theorem key_bound {W : Type*} [AddCommGroup W] [Module (ZMod 2) W]
     intro r
     show aeval (Z.restrict hZM) (C r) = algebraMap (ZMod 2) (Module.End (ZMod 2) ↥M) r
     rw [aeval_C]
-  letI : Module (AdjoinRoot f) ↥M := Module.compHom ↥M ψ
+  let : Module (AdjoinRoot f) ↥M := Module.compHom ↥M ψ
   have hsmul : ∀ (g : (ZMod 2)[X]) (m : ↥M),
       (AdjoinRoot.mk f g) • m = aeval (Z.restrict hZM) g m := fun g m => rfl
   have hsmul_root : ∀ y : ↥M, (AdjoinRoot.root f) • y = (Z.restrict hZM) y := fun y => by
     show ψ (AdjoinRoot.root f) y = _
     rw [hψroot]
-  haveI hTower : IsScalarTower (ZMod 2) (AdjoinRoot f) ↥M := by
+  have hTower : IsScalarTower (ZMod 2) (AdjoinRoot f) ↥M := by
     apply IsScalarTower.of_algebraMap_smul
     intro r x
     show ψ (algebraMap (ZMod 2) (AdjoinRoot f) r) x = r • x
     rw [hψalg, Module.algebraMap_end_apply]
-  haveI : FiniteDimensional (AdjoinRoot f) ↥M :=
+  have : FiniteDimensional (AdjoinRoot f) ↥M :=
     Module.Finite.of_restrictScalars_finite (ZMod 2) (AdjoinRoot f) ↥M
   have hArZr : Commute (A.restrict hAM) (Z.restrict hZM) := by
     show (A.restrict hAM) * (Z.restrict hZM) = (Z.restrict hZM) * (A.restrict hAM)
@@ -440,7 +440,7 @@ private theorem key_bound {W : Type*} [AddCommGroup W] [Module (ZMod 2) W]
     exact one_ne_zero
   have hG := heis_zmod_range hp hpF hζ hArp hBrp hAF hBF hAB'
   have hG2 := finrank_range_restrict_le A M hAM
-  haveI : FiniteDimensional (ZMod 2) (AdjoinRoot f) :=
+  have : FiniteDimensional (ZMod 2) (AdjoinRoot f) :=
     (AdjoinRoot.powerBasis (K := ZMod 2) hfirr.ne_zero).finite
   have hfin := finrank_adjoinRoot hfirr.ne_zero
   have hkF := dvd_two_pow_sub_one hp hζ

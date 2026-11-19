@@ -52,7 +52,7 @@ theorem s9main_config {G : Type} [Group G] [Finite G] {Lu H K T V U B B₁ : Sub
     (hnonab : ∃ x ∈ Lu, ∃ y ∈ Lu, ∃ b ∈ B₁, ⁅⁅x, y⁆, b⁆ ∉ U)
     (hBdim : Nat.card ↥B ≤ 2 * Nat.card ↥B₁)
     (hKH : K ≤ H) (hKG : K ≤ conjClosure V H) (hKnot2 : ¬ IsPGroup 2 ↥K)
-    (hKU : K ≤ Subgroup.centralizer (U : Set G)) (hKsub : IsSubnormal K H) :
+    (hKU : K ≤ Subgroup.centralizer (U : Set G)) (_hKsub : IsSubnormal K H) :
     ∃ (W₀ W₁ : Subgroup G) (W : Type) (_ : AddCommGroup W) (_ : Module (ZMod 2) W) (_ : Finite W)
       (SW : SectionModule (Lu ⊔ H) W₀ W₁ W),
       TransvConfig (SW.img Lu) (SW.img (conjClosure V H)) (SW.img T) (SW.img V)

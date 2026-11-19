@@ -151,7 +151,7 @@ theorem sporL3DownInner_Co2
     SporL3DownInner .Co2 := by
   have hcard : Nat.card NativeSporadic.Co2 = 42305421312000 := by
     rw [Nat.card_congr co2PermEquiv.toEquiv, card_co2P]
-  haveI : Finite NativeSporadic.Co2 := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite NativeSporadic.Co2 := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   refine sporL3DownInner_of_comp NativeSporadic.Co2 (hbr .Co2)
     (by rw [hcard]; exact noL3Eq_42305421312000) ?_
   intro x hx

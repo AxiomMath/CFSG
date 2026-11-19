@@ -101,7 +101,7 @@ theorem ggAutomizer_card_eq_of_torusSCRank
     (hJperf : commutator ↥J = ⊤) (hZ : ∀ g ∈ Subgroup.center ↥J, Nat.Coprime 3 (orderOf g))
     (hInn : ∀ b ∈ Bs, ∃ k ∈ J, ∀ l ∈ J, b * l * b⁻¹ = k * l * k⁻¹) :
     Nat.card (ggAutomizer J Bs) = N := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact ggAutomizer_card_eq_of_torusSCRank_p (p := 3) (r := 3) (by norm_num)
     θ hInnI hSCRank hAut hBsEA hSC hJperf hZ hInn
 

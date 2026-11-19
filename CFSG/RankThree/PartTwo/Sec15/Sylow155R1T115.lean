@@ -67,7 +67,7 @@ theorem pPrimeCoreOf_two_host_le_n155_of_lt {A : Subgroup G} {c : G} {L : Subgro
     (hX'' : X'' ∈ scriptY4 A (lB A)) (hlt : X < X'') (hX''K : X'' ≤ K) (hX''𝔐 : X'' ≤ 𝔐) :
     pPrimeCoreOf 2 (delta A (lB A) (CFSG.Open.pCoreOf 2 Y ⊔ pPrimeCoreOf 3 (u155 A M X))) ≤
       n155 A K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hX''3 : oPrimeResidualOf 3 X'' = X'' := hX''.2.1.symm
   have hKX'' : K = X'' ⊔ CFSG.Open.pCoreOf 2 K :=
     le_antisymm (hKX.le.trans (sup_le_sup_right hlt.le _))
@@ -109,7 +109,7 @@ theorem delta_inf_le_normalizer {A : Subgroup G} {c : G} {L : Subgroup G}
       𝔐)
     (hX𝔐 : X ≤ 𝔐) :
     delta A (lB A) (CFSG.Open.pCoreOf 2 K ⊓ 𝔐) ≤ Subgroup.normalizer (X : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set V := CFSG.Open.pCoreOf 2 K with hV
   set Q := delta A (lB A) (V ⊓ 𝔐) with hQdef
   have hX4 : X ∈ scriptY4 A (lB A) := hC.res ▸ hC.isY.2.1
@@ -124,7 +124,7 @@ theorem delta_inf_le_normalizer {A : Subgroup G} {c : G} {L : Subgroup G}
     have h1 := Subgroup.mem_normalizer_iff.mp (hHV hx)
     have h2 := Subgroup.mem_normalizer_iff.mp (Subgroup.le_normalizer (hH𝔐 hx))
     exact Subgroup.mem_normalizer_iff.mpr fun g => by
-      simp only [SetLike.mem_coe, Subgroup.mem_inf] at h1 h2 ⊢
+      simp only [Subgroup.mem_inf] at h1 h2 ⊢
       exact and_congr (h1 g) (h2 g)
   have hVI : V ⊓ 𝔐 ∈ invariantPiSubgroups ⊤ A (piCompl 3) :=
     ⟨le_top, Sec15.isPiSubgroup_piCompl_three_of_isPGroup Nat.prime_two (by norm_num)
@@ -190,7 +190,7 @@ theorem inf_le_normalizer_of_mem_scriptQ {A : Subgroup G} {c : G} {L : Subgroup 
     have h1 := Subgroup.mem_normalizer_iff.mp (hAV hx)
     have h2 := Subgroup.mem_normalizer_iff.mp (Subgroup.le_normalizer (hA𝔐 hx))
     exact Subgroup.mem_normalizer_iff.mpr fun g => by
-      simp only [SetLike.mem_coe, Subgroup.mem_inf] at h1 h2 ⊢
+      simp only [Subgroup.mem_inf] at h1 h2 ⊢
       exact and_congr (h1 g) (h2 g)
   exact (le_delta (mem_scriptQ_of_le hV inf_le_left hAI) le_rfl).trans
     (delta_inf_le_normalizer h h146 hC hab hE hRP hKX hE0N h𝔐 hA𝔐 hO𝔐 hX𝔐)
@@ -206,7 +206,7 @@ theorem inf_normalizer_pCoreOf_le_normalizer {A : Subgroup G} {c : G} {L : Subgr
     (hV : CFSG.Open.pCoreOf 2 K ∈ scriptQ A (lB A)) :
     CFSG.Open.pCoreOf 2 K ⊓ Subgroup.normalizer (CFSG.Open.pCoreOf 2 X : Set G) ≤
       Subgroup.normalizer (X : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hX4 : X ∈ scriptY4 A (lB A) := hC.res ▸ hC.isY.2.1
   have hU1 : CFSG.Open.pCoreOf 2 X ≠ ⊥ := (isCharacteristicP_x_and_pCoreOf_ne_bot h h149 hC hIX).2
   have hXU : Subgroup.normalizer (X : Set G) ≤

@@ -41,6 +41,7 @@ theorem H_eq_ch82I_sup_T_829 (hmod : StmtFSUModule) {T L I : Subgroup G} (hyp : 
   have hIN := not_le_normalizer_ch82I_82 hV hhI hker hnt
   exact eq_ch82I_sup_82 hyp.fsu.sylow hH hIC.1 hMIeq hIN
 
+omit [Finite G] in
 theorem oTwoUpper_le_centralizer_U_829 {T H V : Subgroup G} {h : G} (hT2 : IsPGroup 2 T)
     (hHIT : H = ch82I V h ⊔ T)
     (hIU : ch82I V h ≤ Subgroup.centralizer (ch82U V h : Set G))
@@ -54,6 +55,7 @@ theorem oTwoUpper_le_centralizer_U_829 {T H V : Subgroup G} {h : G} (hT2 : IsPGr
   exact mem_of_mem_sup_of_pow_eq_one (B6.le_normalizer_centralizer hTU) hT2 hx hxo
     (pow_orderOf_eq_one x)
 
+omit [Finite G] in
 theorem H_le_normalizer_LU_829 {T H V L : Subgroup G} {h : G}
     (hHIT : H = ch82I V h ⊔ T)
     (hIU : ch82I V h ≤ Subgroup.centralizer (ch82U V h : Set G))
@@ -66,6 +68,7 @@ theorem H_le_normalizer_LU_829 {T H V L : Subgroup G} {h : G}
   rw [hHIT]
   exact sup_le (hIN.trans hNL) (hTU.trans hNL)
 
+omit [Finite G] in
 theorem commutator_oTwoUpper_LU_829 {H U L : Subgroup G}
     (hY : oTwoUpper H ≤ Subgroup.centralizer (U : Set G))
     (h828 : ⁅ch82LU L U, Subgroup.centralizer (U : Set G)⁆ ≤ pCoreOf 2 (ch82LU L U)) :
@@ -86,6 +89,7 @@ theorem pRank_three_le_one_cocode_829 (hLU : HLU82) (hcard : Mathieu.StmtH13Card
   pRank_three_le_one_82 hmod hyp hH hC hC5 hC8
     (exists_f_cocode_829 hLU hcard h827 h37 h38 h39 hmod h711n hyp h731 h821 hrow hcoc hH hh hC hC5)
 
+omit [Finite G] in
 theorem not_le_fsuM_ch82I_829 {M V : Subgroup G} {h : G} (hV : IsElemAbelian 2 V)
     (hhI : h ∈ ch82I V h)
     (hker : kerIn (M ⊓ ch82I V h) (ch82I V h) = pCoreOf 2 (ch82I V h))
@@ -111,6 +115,7 @@ theorem not_le_fsuM_ch82I_829 {M V : Subgroup G} {h : G} (hV : IsElemAbelian 2 V
   rw [hker, hpc, Subgroup.subgroupOf_self] at hnt
   exact (not_nontrivial_iff_subsingleton.mpr QuotientGroup.subsingleton_quotient_top) hnt
 
+omit [Finite G] in
 theorem not_le_of_centralizes_829 {M : Subgroup G} {I : Subgroup G} {X : Subgroup G}
     (hI : ¬ I ≤ M) (hXI : X ≤ Subgroup.centralizer (I : Set G))
     (hNX : Subgroup.normalizer (X : Set G) ≤ M) : False := by

@@ -53,8 +53,8 @@ theorem card_le_of_involution_data_pk {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (
     (R E : Subgroup X) (hR : R ≠ ⊥) (hR2 : IsPGroup 2 R)
     (hER : E ≤ Subgroup.normalizer (R : Set X)) (hE : IsElemAbelian p E) :
     Nat.card E ≤ p ^ k := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hlt
   push Not at hlt
   have hEne : E ≠ ⊥ := by
@@ -83,7 +83,7 @@ theorem card_le_of_involution_data_pk {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (
     rintro _ ⟨b, hb, rfl⟩
     exact hBx b hb
   have hV2 : IsPGroup 2 V := hR2.to_le inf_le_left
-  haveI : Nontrivial V := ⟨⟨⟨x, hxV⟩, 1, fun h => hx1 (congrArg Subtype.val h)⟩⟩
+  have : Nontrivial V := ⟨⟨⟨x, hxV⟩, 1, fun h => hx1 (congrArg Subtype.val h)⟩⟩
   have hZ := hV2.center_nontrivial
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := Subgroup.center V) 2
     (by
@@ -246,7 +246,7 @@ theorem ly_involution_data_five {K : Type} [Group K] [Finite K] (hK : IsSporadic
   refine ⟨fun F hFC hF => ?_, fun F hFC hF hF25 u hu hufF hut => ?_⟩
   · obtain ⟨hE, hc⟩ := hdata F hFC hF
     rw [← hc]
-    haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     exact CFSG.LocalAnalysis.GLTheoremB.MovingAround.AltInputs.card_le_pow_div hE
   · by_contra hne
     have huC : u ∈ C := Subgroup.mem_centralizer_singleton_iff.2 hut
@@ -259,7 +259,7 @@ theorem ly_involution_data_five {K : Type} [Group K] [Finite K] (hK : IsSporadic
       intro h1
       have huZ : (⟨u, huC⟩ : ↥C) ∈ Subgroup.center ↥C := hker h1
       classical
-      haveI : Fintype ↥(Subgroup.center ↥C) := Fintype.ofFinite _
+      have : Fintype ↥(Subgroup.center ↥C) := Fintype.ofFinite _
       have ht1 : t ≠ 1 := fun h => by rw [h, orderOf_one] at ht; norm_num at ht
       have hu1 : u ≠ 1 := fun h => by rw [h, orderOf_one] at hu; norm_num at hu
       let zt : ↥(Subgroup.center ↥C) := ⟨_, htZ⟩

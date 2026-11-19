@@ -38,6 +38,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
     have := (Subgroup.mem_normalizer_iff.mp (hS (S.inv_mem ha)) _).mp (Z.inv_mem hax)
     simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem mem_CentMod {Z S : Subgroup G} {hS : S ≤ Subgroup.normalizer (Z : Set G)} {x a : G} :
     a ∈ CentMod Z S hS x ↔ a ∈ S ∧ ⁅x, a⁆ ∈ Z := Iff.rfl
 
@@ -73,8 +74,9 @@ theorem exists_coord95 (h34 : Stroth34Statement) {hc : Ctx M Q Z B} {n : ℕ} {t
   exact ⟨K, fK, finK, hK2, hnrm,
     ⟨⟨E, φ, ψ, u, hK, hφ, hker, hψ, hQu, hu0, hBiff, hW, hLB⟩⟩⟩
 
+omit [Finite G] in
 theorem Vt_le_normalizer (hc : Ctx M Q Z B) (t : G) :
-    Vt M (LB M Q B) B Z t ≤ Subgroup.normalizer (Z : Set G) := fun v hv =>
+    Vt M (LB M Q B) B Z t ≤ Subgroup.normalizer (Z : Set G) := fun _v hv =>
   hc.hyp.Z_normal.2 (hc.hyp.Q_normal.1 (hc.Vt_le_Q t hv))
 
 section PlaneFacts

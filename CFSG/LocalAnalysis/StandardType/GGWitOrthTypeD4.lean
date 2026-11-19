@@ -18,7 +18,7 @@ theorem owTD4_linWeyl_of_typeD4 {U : Type} [AddCommGroup U] [Module (ZMod 3) U]
     (s : Fin 4 → U ≃ₗ[ZMod 3] U) (hs : ∀ i v, s i v = v - α i v • h i)
     (hs_mem : ∀ i, s i ∈ ClassRefl 3 Q c)
     (hgen : closure (Set.range s) = A) : LinWeyl 3 A := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hα : ∀ i, α i (h i) = 2 := fun i => by
     rw [hP i i, owR34_diagD4 i]
   have hind : LinearIndependent (ZMod 3) h := by

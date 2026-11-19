@@ -57,14 +57,14 @@ theorem wit5_of_cover {Y : Type} [Group Y] {S : Type} [Group S]
 
 theorem uniHighWit_of_griess (hGA : CFSG.Open.GriessAllModelsStatement) : UniHighWit := by
   intro n q hv hq hn Y hGY hFinY hY he
-  letI := hGY
-  letI := hFinY
+  let := hGY
+  let := hFinY
   obtain ⟨e⟩ := he
   obtain ⟨hp, hf⟩ := CFSG.LocalAnalysis.GLTheoremA.I1431C2.cl_primePower_card_two hq
   have hC := CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA n q hv e
   rw [hp, hf] at hC
   obtain ⟨K, _, _, h, -, -, ⟨e0⟩⟩ := CFSG.RankThree.PartOne.FOC.exists_psu_model hC
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   have hdvd : 3 ∣ 2 ^ 1 + 1 := by norm_num
   have h2 : ¬(n + 1 = 6 ∧ 2 = 2 ∧ 1 = 1) := fun ⟨ha, _, _⟩ => by omega
   have hKcard : Nat.card K = 4 := by
@@ -72,7 +72,7 @@ theorem uniHighWit_of_griess (hGA : CFSG.Open.GriessAllModelsStatement) : UniHig
     norm_num
   have h3K : 3 ∣ Nat.card Kˣ := by
     rw [Nat.card_units, hKcard]
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ζ, hζ⟩ : ∃ ζ : Kˣ, orderOf ζ = 3 := exists_prime_orderOf_dvd_card' 3 h3K
   have hroots : Nat.card (rootsOfUnity 3 K) = 3 := by
     have hdvdc : Nat.card (rootsOfUnity 3 K) ∣ Nat.card Kˣ :=

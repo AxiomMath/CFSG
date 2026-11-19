@@ -92,8 +92,8 @@ theorem mem_zpowers_of_central [Finite K] {M : Subgroup K} (hcard : Nat.card M =
   have hne8 : Nat.card N ≠ 8 := by
     intro h8
     have hi : N.index = 2 := by rw [h8] at hidx; omega
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : IsCyclic (M ⧸ Subgroup.center M) :=
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : IsCyclic (M ⧸ Subgroup.center M) :=
       isCyclic_of_prime_card (p := 2) (by rw [← Subgroup.index]; exact hi)
     exact hab (isMulCommutative_iff.mp (isMulCommutative_of_isCyclic_quotient_center_self M))
   have hne16 : Nat.card N ≠ 16 := by
@@ -246,12 +246,12 @@ theorem exists_conj_sylow_le (P : Sylow 2 K) {E C : Subgroup K} (hCE : C ≤ E)
   obtain ⟨g, hg⟩ := hPE
   obtain ⟨Q₀, hQ₀⟩ := (hC.comap_subtype (K := E)).exists_le_sylow
   set Q : Subgroup K := (Q₀ : Subgroup E).map E.subtype with hQ
-  have hQp : IsPGroup 2 Q := Q₀.isPGroup'.map E.subtype
+  have hQp : IsPGroup 2 Q := Q₀.isPGroup.map E.subtype
   have hQE : Q ≤ E := Subgroup.map_subtype_le _
   have hCQ : C ≤ Q := fun x hx =>
     ⟨⟨x, hCE hx⟩, hQ₀ (show (⟨x, hCE hx⟩ : E) ∈ C.subgroupOf E from hx), rfl⟩
   set P' : Subgroup K := (P : Subgroup K).map (MulAut.conj g⁻¹).toMonoidHom with hP'
-  have hP'p : IsPGroup 2 P' := P.isPGroup'.map _
+  have hP'p : IsPGroup 2 P' := P.isPGroup.map _
   have hP'E : P' ≤ E := fun q hq => by
     rw [hP', mem_map_conj_iff, inv_inv] at hq
     simpa only [conj_conj_inv] using hg _ hq
@@ -336,7 +336,7 @@ theorem order16_false [IsSimpleGroup L] (hnab : ∃ a b : L, a * b ≠ b * a) (P
       _ = g⁻¹ * (c ^ 2 * p) * g := by rw [h1]
       _ = g⁻¹ * c ^ 2 * g * (g⁻¹ * p * g) := by group
   obtain ⟨x, hxC, hxE⟩ := exists_conj_sylow_le P (E := centralizer ({e} : Set L)) (C := C)
-    inf_le_left (P.isPGroup'.to_le inf_le_right) ⟨g, hgE⟩
+    inf_le_left (P.isPGroup.to_le inf_le_right) ⟨g, hgE⟩
   set Q : Subgroup L := (P : Subgroup L).map (MulAut.conj x).toMonoidHom with hQ
   have hQ16 : Nat.card Q = 16 := by
     rw [hQ, Subgroup.card_map_of_injective (MulAut.conj x).injective, hcard]

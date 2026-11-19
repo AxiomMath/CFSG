@@ -124,7 +124,7 @@ private theorem bar_not_mem_zpowers_of_not_centralizes (D : Data G) {r : ℕ} (h
     (QuotientGroup.mk' (CFSG.pCore 2 ↥D.M) (⟨y, hyM⟩ : ↥D.M) : Bar2 D.M) ∉
       Subgroup.zpowers (QuotientGroup.mk' (CFSG.pCore 2 ↥D.M) (⟨x, hxM⟩ : ↥D.M)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro hmem
   obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.mp hmem
   let N : Subgroup ↥D.M := CFSG.pCore 2 ↥D.M
@@ -157,7 +157,7 @@ private theorem bar_not_mem_zpowers_of_not_centralizes (D : Data G) {r : ℕ} (h
   exact hyZ (hxykG ▸ hxZ')
 
 private theorem not_mem_zpowers_of_mem_zpowers_ne {K : Type*} [Group K] [Finite K] {q : ℕ}
-    (hq : q.Prime) {x y z : K} (hx : orderOf x = q) (hy : orderOf y = q)
+    (hq : q.Prime) {x y z : K} (_hx : orderOf x = q) (hy : orderOf y = q)
     (hyx : y ∉ Subgroup.zpowers x) (hz : z ∈ Subgroup.zpowers y) (hz1 : z ≠ 1) :
     z ∉ Subgroup.zpowers x := by
   intro hzx
@@ -190,12 +190,12 @@ private theorem not_mem_zpowers_of_mem_zpowers_ne {K : Type*} [Group K] [Finite 
 
 private theorem exists_elemAbelian_card_sq_of_pCore (D : Data G) {q : ℕ} (hq : q.Prime)
     (hq2 : q ≠ 2) {Dbar : Subgroup (Bar2 D.M)} (hDbar_ne : Dbar ≠ ⊥)
-    (hDq : IsPGroup q ↥Dbar) (hDexp : ∀ y ∈ Dbar, y ^ q = 1)
+    (hDq : IsPGroup q ↥Dbar) (_hDexp : ∀ y ∈ Dbar, y ^ q = 1)
     (hDnc : ¬ IsCyclic ↥Dbar) :
     ∃ Ebar : Subgroup (Bar2 D.M), Ebar ≤ Dbar ∧ CFSG.Open.IsElemAbelian q Ebar ∧
       Nat.card Ebar = q ^ 2 := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hrank : 2 ≤ CFSG.Open.pRank q Dbar := by
     by_contra h
     have h1 : CFSG.Open.pRank q Dbar ≤ 1 := by omega
@@ -226,7 +226,7 @@ private theorem exists_elemAbelian_basis (D : Data G) {q : ℕ} (hq : q.Prime) (
       x₁ ∈ Ebar ∧ x₂ ∈ Ebar ∧ x₁ ≠ 1 ∧ orderOf x₁ = q ∧ orderOf x₂ = q ∧
       x₂ ∉ Subgroup.zpowers x₁ := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨Ebar, hEbarD, hEbare, hEbarc⟩ :=
     exists_elemAbelian_card_sq_of_pCore D hq hq2 hDbar_ne hDq hDexp hDnc
   have hEbar_ne : Ebar ≠ ⊥ := by
@@ -234,7 +234,7 @@ private theorem exists_elemAbelian_basis (D : Data G) {q : ℕ} (hq : q.Prime) (
     rw [hbot, Subgroup.card_bot] at hEbarc
     have : 1 < q ^ 2 := Nat.one_lt_pow (by norm_num) hq.one_lt
     omega
-  haveI : Nontrivial ↥Ebar := (Subgroup.nontrivial_iff_ne_bot Ebar).mpr hEbar_ne
+  have : Nontrivial ↥Ebar := (Subgroup.nontrivial_iff_ne_bot Ebar).mpr hEbar_ne
   obtain ⟨x₁, hx₁ne⟩ := exists_ne (1 : ↥Ebar)
   have hx₁bar_ne : (x₁ : Bar2 D.M) ≠ 1 := fun h => hx₁ne (Subtype.ext h)
   have hx₁barq : (x₁ : Bar2 D.M) ^ q = 1 := hEbare.2 (x₁ : Bar2 D.M) x₁.2
@@ -274,7 +274,7 @@ private theorem commutator_mem_pCore_of_commute_bar (D : Data G) {z₁ y : ↥D.
 private theorem exists_mul_centralizer_of_commute (D : Data G) {q : ℕ} (hq : q.Prime)
     (hq2 : q ≠ 2) {a : G} (haM : a ∈ D.M) {z₁ y : ↥D.M}
     (hz₁a : z₁ * ⟨a, haM⟩ = ⟨a, haM⟩ * z₁) (hz₁q : z₁ ^ q = 1) (hz₁ne : z₁ ≠ 1)
-    (hya : y * ⟨a, haM⟩ = ⟨a, haM⟩ * y) (hyq : y ^ q = 1)
+    (hya : y * ⟨a, haM⟩ = ⟨a, haM⟩ * y) (_hyq : y ^ q = 1)
     (hyz : QuotientGroup.mk' (CFSG.pCore 2 ↥D.M) z₁ *
         QuotientGroup.mk' (CFSG.pCore 2 ↥D.M) y =
       QuotientGroup.mk' (CFSG.pCore 2 ↥D.M) y *
@@ -282,8 +282,8 @@ private theorem exists_mul_centralizer_of_commute (D : Data G) {q : ℕ} (hq : q
     ∃ y' : ↥D.M, y' * ⟨a, haM⟩ = ⟨a, haM⟩ * y' ∧ y' * z₁ = z₁ * y' ∧
       QuotientGroup.mk' (CFSG.pCore 2 ↥D.M) y' = QuotientGroup.mk' (CFSG.pCore 2 ↥D.M) y := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact q.Prime := ⟨hq⟩
   let N : Subgroup ↥D.M := CFSG.pCore 2 ↥D.M
   let X : Subgroup ↥D.M := Subgroup.centralizer ({⟨a, haM⟩} : Set ↥D.M)
   let N' : Subgroup ↥D.M := N ⊓ X
@@ -396,8 +396,8 @@ private theorem centralizer_bar_of_noncyclic_pCore (D : Data G) (Ch : Choice2011
       ({QuotientGroup.mk' (CFSG.pCore 2 ↥D.M) (⟨a, Ctx23L.mem_M_of_torus c h1930 h4 hT⟩ :
         ↥D.M)} : Set (Bar2 D.M)) := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Fact r.Prime := ⟨hT.r_prime⟩
+  have : Fact q.Prime := ⟨hq⟩
+  have : Fact r.Prime := ⟨hT.r_prime⟩
   have haM : a ∈ D.M := Ctx23L.mem_M_of_torus c h1930 h4 hT
   have hbM : b ∈ D.M := hT.b_mem_M
   have hcomm : (QuotientGroup.mk' (CFSG.pCore 2 ↥D.M) (⟨a, haM⟩ : ↥D.M)) *
@@ -440,7 +440,7 @@ private theorem false_of_eq_torus_prime (D : Data G) (Ch : Choice2011 G) (h4 : S
     (hDbar_ne : Dbar ≠ ⊥) (hDnc : ¬ IsCyclic ↥Dbar) (hDexp : ∀ y ∈ Dbar, y ^ q = 1)
     (hDcl : ⁅⁅Dbar, Dbar⁆, Dbar⁆ = ⊥) : False := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hZM : D.M ≤ Subgroup.normalizer (D.Z : Set G) := by
     rw [← (h4 h1930 c).1]; exact (h4 h1930 c).2.2
   have hbM : b ∈ D.M := hT.b_mem_M
@@ -478,9 +478,9 @@ private theorem exists_central_lift (D : Data G) {q : ℕ} (hq : q.Prime) (hq2 :
       y ^ q ∈ CFSG.pCore 2 ↥D.M ∧
       QuotientGroup.mk' (CFSG.pCore 2 ↥D.M) y ≠ 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : IsMulCommutative ↥Ebar := hEbare.1
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact q.Prime := ⟨hq⟩
+  have : IsMulCommutative ↥Ebar := hEbare.1
   let N : Subgroup ↥D.M := CFSG.pCore 2 ↥D.M
   have hz₁E : QuotientGroup.mk' N z₁ ∈ Ebar := Subgroup.zpowers_le.mpr hx₁E hz₁mem
   have hy₂E : QuotientGroup.mk' N y₂ ∈ Ebar := Subgroup.zpowers_le.mpr hx₂E hy₂mem
@@ -509,13 +509,13 @@ private theorem exists_pow_of_central_lift (D : Data G) {q : ℕ} (hq : q.Prime)
     (hya : y * ⟨a, haM⟩ = ⟨a, haM⟩ * y) (hyz : y * z₁ = z₁ * y)
     (hyqN : y ^ q ∈ CFSG.pCore 2 ↥D.M)
     (hymem : QuotientGroup.mk' (CFSG.pCore 2 ↥D.M) y ∈ Subgroup.zpowers x₂)
-    (hymk_ne : QuotientGroup.mk' (CFSG.pCore 2 ↥D.M) y ≠ 1) (hx₂ord : orderOf x₂ = q) :
+    (hymk_ne : QuotientGroup.mk' (CFSG.pCore 2 ↥D.M) y ≠ 1) (_hx₂ord : orderOf x₂ = q) :
     ∃ z₂ : ↥D.M, z₂ * ⟨a, haM⟩ = ⟨a, haM⟩ * z₂ ∧ z₂ * z₁ = z₁ * z₂ ∧ z₂ ^ q = 1 ∧
       QuotientGroup.mk' (CFSG.pCore 2 ↥D.M) z₂ ∈ Subgroup.zpowers x₂ ∧
       QuotientGroup.mk' (CFSG.pCore 2 ↥D.M) z₂ ≠ 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact q.Prime := ⟨hq⟩
   let N : Subgroup ↥D.M := CFSG.pCore 2 ↥D.M
   obtain ⟨k, hk⟩ := (CFSG.pCore_isPGroup (p := 2) (G := ↥D.M)).exists_card_eq
   have hord : orderOf (QuotientGroup.mk' N y) = q := by
@@ -581,7 +581,7 @@ private theorem exists_elemAbelian_map_of_sup (D : Data G) {q : ℕ} (hq : q.Pri
     ∃ E : Subgroup G, E ≤ D.M ∧ CFSG.Open.IsElemAbelian q E ∧ Nat.card E = q ^ 2 ∧
       E ≤ Subgroup.centralizer ({a} : Set G) ∧ E ≤ barPreimage D.M Dbar := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   let N : Subgroup ↥D.M := CFSG.pCore 2 ↥D.M
   have hz₂ne : z₂ ≠ 1 := fun h => hz₂_not (h ▸ Subgroup.one_mem (Subgroup.zpowers z₁))
   have hz₁_ord : orderOf z₁ = q := orderOf_eq_prime hz₁q hz₁ne
@@ -611,14 +611,14 @@ private theorem exists_elemAbelian_map_of_sup (D : Data G) {q : ℕ} (hq : q.Pri
 
 private theorem exists_elemAbelian_lift (D : Data G) {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2)
     {a : G} (haM : a ∈ D.M) (har : orderOf a = r) {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2)
-    {Dbar : Subgroup (Bar2 D.M)} (hDn : Dbar.Normal) (hDq : IsPGroup q ↥Dbar)
+    {Dbar : Subgroup (Bar2 D.M)} (_hDn : Dbar.Normal) (hDq : IsPGroup q ↥Dbar)
     (hDbar_ne : Dbar ≠ ⊥) (hDnc : ¬ IsCyclic ↥Dbar) (hDexp : ∀ y ∈ Dbar, y ^ q = 1)
     (hQcent : Dbar ≤ Subgroup.centralizer
       ({QuotientGroup.mk' (CFSG.pCore 2 ↥D.M) (⟨a, haM⟩ : ↥D.M)} : Set (Bar2 D.M))) :
     ∃ E : Subgroup G, E ≤ D.M ∧ CFSG.Open.IsElemAbelian q E ∧ Nat.card E = q ^ 2 ∧
       E ≤ Subgroup.centralizer ({a} : Set G) ∧ E ≤ barPreimage D.M Dbar := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   let N : Subgroup ↥D.M := CFSG.pCore 2 ↥D.M
   let a' : ↥D.M := ⟨a, haM⟩
   obtain ⟨Ebar, x₁, x₂, hEbarD, hEbare, hEbarc, hx₁E, hx₂E, hx₁ne, hx₁ord, hx₂ord, hx₂not⟩ :=
@@ -676,7 +676,7 @@ private theorem exists_bar_of_pCore_not_cyclic (D : Data G) {q : ℕ} (hq : q.Pr
     ∃ Dbar : Subgroup (Bar2 D.M), Dbar.Normal ∧ IsPGroup q ↥Dbar ∧ Dbar ≠ ⊥ ∧
       ¬ IsCyclic ↥Dbar ∧ (∀ y ∈ Dbar, y ^ q = 1) ∧ ⁅⁅Dbar, Dbar⁆, Dbar⁆ = ⊥ := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨Dbar, hDbar_le, hDbar_ne, hDbar_nc, hDbar_exp, hDbar_cl, hDbar_norm⟩ :=
     CFSG.GroupTheory.exists_noncyclic_exponent_classTwo_normalized (G := Bar2 D.M) (p := q)
       hq2 (CFSG.pCore_isPGroup (p := q)) hnc
@@ -699,7 +699,7 @@ private theorem isCyclic_pCore_of_torus (D : Data G) (Ch : Choice2011 G) (h4 : S
     IsCyclic ↥(CFSG.pCore q (Bar2 D.M)) := by
   classical
   by_contra hnc
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨Dbar, hDn, hDq, hDbar_ne, hDbar_nc, hDbar_exp, hDbar_cl⟩ :=
     exists_bar_of_pCore_not_cyclic D hq hq2 hnc
   rcases eq_or_ne q r with hqr | hqr

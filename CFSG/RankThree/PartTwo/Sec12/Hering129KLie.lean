@@ -27,7 +27,7 @@ open CFSG CFSG.RankThree CFSG.RankThree.LocalRank CFSG.RankThree.PartTwo
 
 theorem eq_one_of_mem_theta_of_pow_three {Y : Type} [Group Y] [Finite Y] {n : Y}
     (hn : n ∈ aschbacherSolvableCore 3 Y) (hn3 : n ^ 3 = 1) : n = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨-, -, hθ3, -, -, -, -⟩ :=
     solvable_prime_complement_core_characterization (H := Y) Nat.prime_three
   by_contra hne
@@ -43,7 +43,7 @@ theorem eq_one_of_mem_theta_of_pow_three {Y : Type} [Group Y] [Finite Y] {n : Y}
 theorem gap129KFLieP_of (hTL : KS129ThreeLocalFix) (h1134N : Sec11.Item1134E27N)
     (h1134ST : Sec21.Item1134E27ST) (hKK : Gap129KFKStrong) : Gap129KFLieP := by
   intro G _ _ A c L b a K S cfg hty x hxD hxb Y hY hXY r₀ δ₀ hG₀ hr₄ hr₀p3 hr₀δ
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hstd := cfg.std
   have hAe : CFSG.Assembly.IsElemAbelian 3 A := hstd.isE27.1
   have hA27 : Nat.card A = 27 := hstd.isE27.2
@@ -71,7 +71,7 @@ theorem gap129KFLieP_of (hTL : KS129ThreeLocalFix) (h1134N : Sec11.Item1134E27N)
   obtain ⟨-, -, hθ3, -, -, -, -⟩ :=
     solvable_prime_complement_core_characterization (H := ↥Y) Nat.prime_three
   set N := aschbacherSolvableCore 3 ↥Y with hN
-  haveI hNn : N.Normal := inferInstance
+  have hNn : N.Normal := inferInstance
   set π := QuotientGroup.mk' N with hπ
   have hθ : N = CFSG.pCore 2 ↥Y := Hering129KOut.aschbacherSolvableCore_eq_pCore_two hG₀
   have hGθ₀ : IsG2D4 (↥Y ⧸ N) r₀ δ₀ :=

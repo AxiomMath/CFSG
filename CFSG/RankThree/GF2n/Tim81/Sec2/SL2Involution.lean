@@ -19,9 +19,9 @@ theorem MulAut.exists_sylow_inner_or_two_fixed (θ : MulAut SL(2, F)) (hθ : θ 
         ∃ S' : Subgroup SL(2, F), (∀ a ∈ S', a * a = 1) ∧ Nat.card S' = Fintype.card F ∧
           S' ≠ S ∧ S'.map θ.toMonoidHom = S') := by
   classical
-  haveI : Finite F := Finite.of_fintype F
-  haveI : Finite (Matrix (Fin 2) (Fin 2) F) := Finite.of_fintype _
-  haveI : Finite SL(2, F) :=
+  have : Finite F := Finite.of_fintype F
+  have : Finite (Matrix (Fin 2) (Fin 2) F) := Finite.of_fintype _
+  have : Finite SL(2, F) :=
     Finite.of_injective (fun A : SL(2, F) => (A : Matrix (Fin 2) (Fin 2) F))
       Subtype.coe_injective
   have hθ' : ∀ x, θ (θ x) = x := fun x => by
@@ -51,7 +51,7 @@ theorem MulAut.exists_sylow_inner_or_two_fixed (θ : MulAut SL(2, F)) (hθ : θ 
     intro x
     rw [MulAut.conj_apply]
     exact ht x
-  · push_neg at huniq
+  · push Not at huniq
     obtain ⟨h, hfix, hne⟩ := huniq
     refine ⟨conjSubgroup g (utri F), hexp g, hcard g, hSfix, Or.inr
       ⟨conjSubgroup h (conjSubgroup g (utri F)), ?_, ?_, hne, hfix⟩⟩

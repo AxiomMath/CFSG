@@ -13,6 +13,7 @@ open CFSG CFSG.RankThree.PartTwo.Sec21 CFSG.RankThree.PartTwo.Sec21.FF84
 
 variable {G : Type} [Group G] [Finite G] {b b₁ b₂ : G} {L B K : Subgroup G}
 
+omit [Finite G] in
 theorem pow_conj_mem {Y : Subgroup G} {f : G} (hf : ∀ y ∈ Y, f * y * f⁻¹ ∈ Y) :
     ∀ m : ℕ, ∀ y ∈ Y, f ^ m * y * (f ^ m)⁻¹ ∈ Y := by
   intro m
@@ -25,6 +26,7 @@ theorem pow_conj_mem {Y : Subgroup G} {f : G} (hf : ∀ y ∈ Y, f * y * f⁻¹ 
     rw [e]
     exact hf _ (ih y hy)
 
+omit [Finite G] in
 theorem pow_mul_mem {Y : Subgroup G} {f : G} (hf : ∀ y ∈ Y, f * y * f⁻¹ ∈ Y) {y : G}
     (hy : y ∈ Y) : ∀ m : ℕ, ∃ y' ∈ Y, (y * f) ^ m = y' * f ^ m := by
   intro m
@@ -45,8 +47,8 @@ theorem W_comm_E (h23 : FF84_2_3) (hA : A8Model L)
     (hT2 : IsPGroup 2 T) (hinv : ∀ t ∈ T, ∀ β ∈ B, β * t * β⁻¹ ∈ T) {w : G} (hwT : w ∈ T)
     (hwD : w ∈ Cen (b * b₁)) :
     ∀ e ∈ Subgroup.closure ({b, b₁} : Set G), w * e = e * w := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨D, hD⟩ : ∃ D : Subgroup G, D = Cen (b * b₁) := ⟨_, rfl⟩
   obtain ⟨Y, hY⟩ : ∃ Y : Subgroup G, Y = Opp 3 D := ⟨_, rfl⟩
   obtain ⟨E, hE⟩ : ∃ E : Subgroup G, E = Subgroup.closure ({b, b₁} : Set G) := ⟨_, rfl⟩

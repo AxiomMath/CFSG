@@ -42,7 +42,7 @@ theorem ggKGroupFusionAtFlatKPair_of_finite {s : TauCeti.SporadicName} {p : ℕ}
 private theorem gkF_factorization_seven {K : Type}
     (h : Nat.card K = 4154781481226426191177580544000000) :
     (Nat.card K).factorization 7 = 2 := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   rw [h, Nat.factorization_def _ (Fact.out : Nat.Prime 7),
     show (4154781481226426191177580544000000 : ℕ) = 7 ^ 2 * 84791458800539310024032256000000 by
       norm_num,

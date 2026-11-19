@@ -79,7 +79,7 @@ theorem exists_sl2 {Γ : Subgroup (V ≃ₗ[K] V)} {e₁ e₂ : V} {X Y : K → 
     intro t ht
     show X t (Y (-t⁻¹) (X t e₁)) = _
     simp only [hX1, hY1, map_add, map_smul, hX2]
-    match_scalars <;> field_simp <;> ring
+    match_scalars <;> field_simp; ring
   have hn2 : ∀ t : K, t ≠ 0 → (X t * Y (-t⁻¹) * X t) e₂ = t • e₁ := by
     intro t ht
     show X t (Y (-t⁻¹) (X t e₂)) = _
@@ -92,13 +92,13 @@ theorem exists_sl2 {Γ : Subgroup (V ≃ₗ[K] V)} {e₁ e₂ : V} {X Y : K → 
     show (X a * Y (-a⁻¹) * X a) ((X (-1) * Y (-(-1 : K)⁻¹) * X (-1)) e₁) = _
     rw [hn1 (-1) (by simp)]
     simp only [map_smul, hn2 a ha, hb]
-    match_scalars <;> field_simp <;> ring
+    match_scalars <;> field_simp
   · refine ⟨X (a / b) * (X (-b⁻¹) * Y (-(-b⁻¹)⁻¹) * X (-b⁻¹)), mul_mem (hX _)
       (hn (-b⁻¹) (by simpa using hb)), ?_⟩
     show X (a / b) ((X (-b⁻¹) * Y (-(-b⁻¹)⁻¹) * X (-b⁻¹)) e₁) = _
     rw [hn1 (-b⁻¹) (by simpa using hb)]
     simp only [map_smul, hX2]
-    match_scalars <;> field_simp <;> ring
+    match_scalars <;> field_simp
 
 end Generic
 
@@ -115,7 +115,7 @@ theorem vanish_of_far {S : Set ((ι →₀ K) ≃ₗ[K] (ι →₀ K))} {i₀ : 
   have h1 := (mem_Wsp_closure_iff hfix).mp hv s hs
   obtain ⟨t, ht⟩ := Submodule.mem_span_singleton.mp h1
   rw [← hsb v, ← ht]
-  simp [Finsupp.single_apply, hb'.symm]
+  simp [hb'.symm]
 
 theorem minuscGeom_of_basis [Finite K] {Γ : Subgroup ((ι →₀ K) ≃ₗ[K] (ι →₀ K))}
     {S : Set ((ι →₀ K) ≃ₗ[K] (ι →₀ K))} {i₀ μ : ι} {N : Finset ι} {n : ℕ}
@@ -156,7 +156,7 @@ theorem minuscGeom_of_basis [Finite K] {Γ : Subgroup ((ι →₀ K) ≃ₗ[K] (
       intro h
       obtain ⟨t, ht⟩ := Submodule.mem_span_singleton.mp h
       have h2 := congrArg (fun f : ι →₀ K => f μ) ht
-      simp [Finsupp.single_apply, hμ, hμ.symm] at h2
+      simp [hμ] at h2
     · intro a b hab
       have h' : a + b ≠ 0 ∨ b ≠ 0 := by
         by_cases hb : b = 0

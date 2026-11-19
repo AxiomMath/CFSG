@@ -52,7 +52,7 @@ private lemma l05nTT_toZ_refl {p N : ℕ} [Fact p.Prime] {q : GGDepANPair} {v : 
 private lemma l05nTT_valid_of_dot {q : GGDepANPair} (hq1 : q.1.length = 6)
     (hq2 : q.2.length = 6) (h : ggDepAdot (ggDepELToZ q.2) (ggDepELToZ q.1) = 2) :
     GGDepELNValid q := by
-  haveI : Fact (Nat.Prime 3) := ⟨by decide⟩
+  have : Fact (Nat.Prime 3) := ⟨by decide⟩
   refine ⟨hq1, hq2, ?_⟩
   have hcast := ggDepANDot_cast (p := 3) (N := 6) q.2 q.1 hq2 hq1
   rw [h] at hcast
@@ -97,34 +97,34 @@ theorem ggDepELConj_length {q g : GGDepANPair} (hq1 : q.1.length = 6) (hq2 : q.2
 
 theorem ggDepELToZ_sub {a b : List ℕ} (ha : a.length = 6) (hb : b.length = 6) :
     ggDepELToZ (ggDepANSub 3 a b) = ggDepELToZ a - ggDepELToZ b := by
-  haveI : Fact (Nat.Prime 3) := ⟨by decide⟩
+  have : Fact (Nat.Prime 3) := ⟨by decide⟩
   exact l05nNC_toZ_sub (p := 3) (N := 6) ha hb
 
 theorem ggDepELToZ_smul {a : List ℕ} (ha : a.length = 6) (k : ℕ) :
     ggDepELToZ (ggDepANSmul 3 k a) = (k : ZMod 3) • ggDepELToZ a := by
-  haveI : Fact (Nat.Prime 3) := ⟨by decide⟩
+  have : Fact (Nat.Prime 3) := ⟨by decide⟩
   exact l05nNC_toZ_smul (p := 3) (N := 6) ha k
 
 theorem ggDepELToZ_add {a b : List ℕ} (ha : a.length = 6) (hb : b.length = 6) :
     ggDepELToZ (ggTWNAdd 3 a b) = ggDepELToZ a + ggDepELToZ b := by
-  haveI : Fact (Nat.Prime 3) := ⟨by decide⟩
+  have : Fact (Nat.Prime 3) := ⟨by decide⟩
   exact l05nTT_toZ_add (p := 3) (N := 6) ha hb
 
 theorem ggDepELDot_cast {a b : List ℕ} (ha : a.length = 6) (hb : b.length = 6) :
     ((ggDepANDot 3 a b : ℕ) : ZMod 3) = ggDepAdot (ggDepELToZ a) (ggDepELToZ b) := by
-  haveI : Fact (Nat.Prime 3) := ⟨by decide⟩
+  have : Fact (Nat.Prime 3) := ⟨by decide⟩
   exact ggDepANDot_cast (p := 3) (N := 6) a b ha hb
 
 theorem ggDepELToZ_refl {q : GGDepANPair} {v : List ℕ} (hq1 : q.1.length = 6)
     (hq2 : q.2.length = 6) (hv : v.length = 6) :
     ggDepELToZ (ggTWNRefl 3 q v) =
       ggDepARefl (ggDepELToZ q.1) (ggDepELToZ q.2) (ggDepELToZ v) := by
-  haveI : Fact (Nat.Prime 3) := ⟨by decide⟩
+  have : Fact (Nat.Prime 3) := ⟨by decide⟩
   exact l05nTT_toZ_refl (p := 3) (N := 6) hq1 hq2 hv
 
 theorem ggDepELNValid_dot {q : GGDepANPair} (hq : GGDepELNValid q) :
     ggDepAdot (ggDepELToZ q.2) (ggDepELToZ q.1) = 2 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by decide⟩
+  have : Fact (Nat.Prime 3) := ⟨by decide⟩
   have hcast := ggDepANDot_cast (p := 3) (N := 6) q.2 q.1 hq.2.1 hq.1
   rw [hq.2.2] at hcast
   simpa using hcast.symm
@@ -133,7 +133,7 @@ theorem ggDepELNConj_rfl {q g : GGDepANPair} (hq : GGDepELNValid q) (hg : GGDepE
     GGDepELNValid (ggDepANConj 3 q g) ∧
       ggDepELNRflOf (ggDepANConj 3 q g) =
         ggDepELNRflOf g * ggDepELNRflOf q * ggDepELNRflOf g := by
-  haveI : Fact (Nat.Prime 3) := ⟨by decide⟩
+  have : Fact (Nat.Prime 3) := ⟨by decide⟩
   have hdq : ggDepAdot (ggDepELToZ q.2) (ggDepELToZ q.1) = 2 := ggDepELNValid_dot hq
   have hdg : ggDepAdot (ggDepELToZ g.2) (ggDepELToZ g.1) = 2 := ggDepELNValid_dot hg
   have hlen := l05nNC_conj_length (p := 3) (N := 6) hq.1 hq.2.1 hg.1 hg.2.1

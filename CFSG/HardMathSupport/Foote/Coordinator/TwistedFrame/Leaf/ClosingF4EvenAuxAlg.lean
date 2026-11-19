@@ -25,12 +25,12 @@ namespace T7
 
 variable {L : Type} [Field L]
 
-@[expose] instance : Add (T7 L) := ⟨fun x y => ⟨x.s + y.s, x.a1 + y.a1, x.a2 + y.a2, x.a3 + y.a3,
+instance : Add (T7 L) := ⟨fun x y => ⟨x.s + y.s, x.a1 + y.a1, x.a2 + y.a2, x.a3 + y.a3,
   x.b12 + y.b12, x.b13 + y.b13, x.b23 + y.b23⟩⟩
 
-@[expose] instance : Zero (T7 L) := ⟨⟨0, 0, 0, 0, 0, 0, 0⟩⟩
+instance : Zero (T7 L) := ⟨⟨0, 0, 0, 0, 0, 0, 0⟩⟩
 
-@[expose] instance : SMul L (T7 L) := ⟨fun c x => ⟨c * x.s, c * x.a1, c * x.a2, c * x.a3, c * x.b12,
+instance : SMul L (T7 L) := ⟨fun c x => ⟨c * x.s, c * x.a1, c * x.a2, c * x.a3, c * x.b12,
   c * x.b13, c * x.b23⟩⟩
 
 @[simp] theorem add_s (x y : T7 L) : (x + y).s = x.s + y.s := rfl
@@ -121,27 +121,36 @@ theorem two_eq : (2 : L) = 0 := CharTwo.two_eq_zero
 
 @[expose] def InE (Fr : L →+* L) (l : L) : Prop := Fr (Fr l) = l
 
+omit [CharP L 2] in
 theorem InE.add {l m : L} (hl : InE Fr l) (hm : InE Fr m) : InE Fr (l + m) := by
   unfold InE at *; rw [map_add, map_add, hl, hm]
 
+omit [CharP L 2] in
 theorem InE.mul {l m : L} (hl : InE Fr l) (hm : InE Fr m) : InE Fr (l * m) := by
   unfold InE at *; rw [map_mul, map_mul, hl, hm]
 
+omit [CharP L 2] in
 theorem InE.pow {l : L} (hl : InE Fr l) (n : ℕ) : InE Fr (l ^ n) := by
   unfold InE at *; rw [map_pow, map_pow, hl]
 
+omit [CharP L 2] in
 theorem InE.one : InE Fr (1 : L) := by unfold InE; rw [map_one, map_one]
 
+omit [CharP L 2] in
 theorem InE.zero : InE Fr (0 : L) := by unfold InE; rw [map_zero, map_zero]
 
+omit [CharP L 2] in
 theorem InE.of_fixed {l : L} (h : Fr l = l) : InE Fr l := by unfold InE; rw [h, h]
 
+omit [CharP L 2] in
 theorem InE.inv {l : L} (hl : InE Fr l) : InE Fr l⁻¹ := by
   unfold InE at *; rw [map_inv₀, map_inv₀, hl]
 
+omit [CharP L 2] in
 theorem InE.div {l m : L} (hl : InE Fr l) (hm : InE Fr m) : InE Fr (l / m) := by
   rw [div_eq_mul_inv]; exact hl.mul hm.inv
 
+omit [CharP L 2] in
 theorem InE.of_sum {c : L} (h : c + Fr c = 1) : InE Fr c := by
   unfold InE
   have h2 : Fr c + Fr (Fr c) = 1 := by
@@ -149,12 +158,15 @@ theorem InE.of_sum {c : L} (h : c + Fr c = 1) : InE Fr c := by
     rwa [map_add, map_one] at this
   linear_combination h2 - h
 
+omit [CharP L 2] in
 theorem D5 (hP : PCl Fr P) {x : T7 L} (hx : x ∈ P) {c : L} (hc : Fr c = c) :
     opG5 c x + x ∈ P := hP.add _ _ (hP.g5 c hc x hx) hx
 
+omit [CharP L 2] in
 theorem D5n (hP : PCl Fr P) {x : T7 L} (hx : x ∈ P) {c : L} (hc : Fr c = c) :
     opG5n c x + x ∈ P := hP.add _ _ (hP.g5n c hc x hx) hx
 
+omit [CharP L 2] in
 theorem DU (hP : PCl Fr P) {x : T7 L} (hx : x ∈ P) {c : L} (hc : c + Fr c = 1) :
     opU 1 1 c x + x ∈ P := by
   have h := hP.u 1 c (by rw [map_one, map_one]) (by rw [map_one, one_mul]; exact hc) x hx
@@ -206,7 +218,7 @@ theorem soc_of_ne (hP : PCl Fr P) {ζ : L} (hζ : Fr ζ = ζ) (hζ0 : ζ ≠ 0) 
   by_cases hC : x.a2 ≠ 0
   ·
     have hy3 : (opU 1 1 c x + x).a3 = x.a2 := by
-      simp [opU, ha1] <;> char2
+      simp [opU, ha1]; char2
     refine ⟨_, trick5n hP hU hζ, rfl, rfl, rfl, rfl, Or.inr (Or.inl ?_)⟩
     simp only [hy3]
     exact ne_of_ne hζ0 hζ1 hC
@@ -219,11 +231,11 @@ theorem soc_of_ne (hP : PCl Fr P) {ζ : L} (hζ : Fr ζ = ζ) (hζ0 : ζ ≠ 0) 
       · exact absurd hb12 h
       · exact h
       · exact absurd hb23 h
-    have e1 : (opU 1 1 c x + x).s = 0 := by simp [opU] <;> char2
-    have e2 : (opU 1 1 c x + x).a1 = 0 := by simp [opU, ha1] <;> char2
-    have e3 : (opU 1 1 c x + x).a2 = 0 := by simp [opU, ha1] <;> char2
-    have e4 : (opU 1 1 c x + x).a3 = 0 := by simp [opU, ha1, hC] <;> char2
-    have e5 : (opU 1 1 c x + x).b23 = x.b13 := by simp [opU, ha1, hC, hb12] <;> char2
+    have e1 : (opU 1 1 c x + x).s = 0 := by simp [opU]; char2
+    have e2 : (opU 1 1 c x + x).a1 = 0 := by simp [opU, ha1]
+    have e3 : (opU 1 1 c x + x).a2 = 0 := by simp [opU, ha1]; char2
+    have e4 : (opU 1 1 c x + x).a3 = 0 := by simp [opU, ha1, hC]; char2
+    have e5 : (opU 1 1 c x + x).b23 = x.b13 := by simp [opU, ha1, hC, hb12]; char2
     refine ⟨opU 1 1 c x + x, hU, e1, e2, e3, e4, Or.inr (Or.inr ?_)⟩
     rw [e5]
     exact hb13
@@ -280,12 +292,12 @@ theorem all_of_A3 (hP : PCl Fr P) {ζ : L} (hζ : Fr ζ = ζ) (hζ0 : ζ ≠ 0) 
     intro m hm
     have h := DU hP (hB13 m hm) hc
     convert h using 1
-    ext <;> simp [opU] <;> char2
+    ext <;> simp [opU]; char2
   have hB12 : ∀ m, InE Fr m → (⟨0, 0, 0, 0, m, 0, 0⟩ : T7 L) ∈ P := by
     intro m hm
     have h := D5n hP (hB23 m hm) (c := 1) (map_one Fr)
     convert h using 1
-    ext <;> simp <;> char2
+    ext <;> simp; char2
   have hA2 : ∀ l, InE Fr l → (⟨0, 0, l, 0, 0, 0, 0⟩ : T7 L) ∈ P := by
     intro l hl
     have h0 := DU hP (hA1 l hl) hc

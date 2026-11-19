@@ -121,7 +121,7 @@ theorem exists_noncomm_of_nonabelianSylowTwo {Y V : Type*} [Group Y] [Finite Y]
   have : Finite X := Finite.of_equiv Y e.toEquiv
   set P' : Sylow 2 X := P.mapSurjective (f := e.toMonoidHom) e.surjective with hP'
   obtain ⟨x, hx, y, hy, hxy⟩ := hnab ((P' : Subgroup X).map X.subtype) (map_subtype_le _)
-    (P'.isPGroup'.map _) (by
+    (P'.isPGroup.map _) (by
       rw [Subgroup.relIndex, Subgroup.subgroupOf,
         comap_map_eq_self_of_injective X.subtype_injective]
       exact P'.not_dvd_index)

@@ -32,7 +32,7 @@ theorem sec10D_zStar_abs {X : Type} [Group X] [Finite X] {c τ : X} (hc1 : c ≠
     intro w hw a
     rw [← hcen2 w hw a]
     group
-  haveI hnorm : (zpowers c).Normal := ⟨fun n hn g => by
+  have hnorm : (zpowers c).Normal := ⟨fun n hn g => by
     rw [hcen2 n hn g, mul_assoc, mul_inv_cancel, mul_one]
     exact hn⟩
   have hτh1 : (τ : X ⧸ zpowers c) ≠ 1 := fun h => hτ1 ((QuotientGroup.eq_one_iff τ).mp h)
@@ -66,7 +66,7 @@ theorem sec10D_zStar_abs {X : Type} [Group X] [Finite X] {c τ : X} (hc1 : c ≠
     (t := (τ : X ⧸ zpowers c)) (Subgroup.mem_top _) hτh1 hτh2 hisoQ
   have hdec := sec10_zStar_decomp (G := X ⧸ zpowers c) (H := (⊤ : Subgroup (X ⧸ zpowers c)))
     (t := (τ : X ⧸ zpowers c)) (Subgroup.mem_top _) hτh2 hZ
-  haveI hNn : (oddCoreIn (⊤ : Subgroup (X ⧸ zpowers c))).Normal :=
+  have hNn : (oddCoreIn (⊤ : Subgroup (X ⧸ zpowers c))).Normal :=
     ⟨fun n hn g => CFSG.ClassicalInvolution.Balance.conj_mem_oddCoreIn (X := ⊤)
       (Subgroup.mem_top g) hn⟩
   have hNodd : Odd (Nat.card (oddCoreIn (⊤ : Subgroup (X ⧸ zpowers c)))) :=

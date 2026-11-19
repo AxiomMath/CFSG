@@ -54,6 +54,7 @@ theorem uc22s218u_seven_le {n r : ℕ} (hn : Odd n) (hr : r.Prime) (hrn : r ∣ 
   · omega
   · norm_num at hr
 
+omit [Finite G] in
 theorem uc22s218u_mem_normalizer_inf {A B : Subgroup G} {g : G} (hA : g ∈ normalizer (A : Set G))
     (hB : g ∈ normalizer (B : Set G)) : g ∈ normalizer ((A ⊓ B : Subgroup G) : Set G) := by
   rw [mem_normalizer_iff] at hA hB ⊢
@@ -73,7 +74,7 @@ theorem s21_8U_of_r72 {D : Data G} {Ch : Choice2011 G} (he : CFSG.Open.evenRank 
   have hns := UC6S846.not_solvable_of_mem_calC hL
   obtain ⟨p, hpσ⟩ := hSg.nonempty
   obtain ⟨hp, hp2⟩ := D.sig_prime p hpσ
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hsp : IsStronglyPEmbedded p D.M := UC6S846.sp_of_mem_sig hSg hns hpσ
   have hpn : p ∣ 2 ^ n + 1 := by
     have h1 := (hP he hH c L hL n hn hX p hpσ).dvd
@@ -85,7 +86,7 @@ theorem s21_8U_of_r72 {D : Data G} {Ch : Choice2011 G} (he : CFSG.Open.evenRank 
     calc 8 = 2 ^ 3 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn3
   obtain ⟨r, hr, hrn⟩ := Nat.exists_prime_and_dvd (show 2 ^ n - 1 ≠ 1 by omega)
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hr2 : r ≠ 2 := uc22p218c_ne_two_of_dvd (by omega) hrn
   have hrM : CFSG.Open.pRank r D.M ≤ 2 := by
     by_contra h

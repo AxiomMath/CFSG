@@ -32,7 +32,7 @@ theorem isSubnormal_of_isPGroup {p : ℕ} (hp : p.Prime) {S X : Subgroup G} (hS 
 
 theorem one_le_pRank_of_ne_bot {p : ℕ} (hp : p.Prime) {X : Subgroup G} (hX : IsPGroup p X)
     (hX1 : X ≠ ⊥) : 1 ≤ Open.pRank p X := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hdvd : p ∣ Nat.card X := hX.card_eq_or_dvd.resolve_left fun h =>
     hX1 (Subgroup.card_eq_one.mp h)
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' p hdvd

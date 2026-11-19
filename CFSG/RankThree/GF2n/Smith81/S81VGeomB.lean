@@ -67,7 +67,7 @@ theorem lemmaB (hσ : ∀ c, σ (σ c) = c) {X : Set (Submodule F (Fin 6 → F))
     {R : Submodule F (Fin 6 → F)} {x y z : Fin 6 → F}
     (hx : herm σ x x = 0) (hy : herm σ y y = 0) (hxy : herm σ x y ≠ 0)
     (hxR : ∀ r ∈ R, herm σ r x = 0) (hyR : ∀ r ∈ R, herm σ r y = 0)
-    (hz : z ∈ Submodule.span F {x, y}) (hz0 : z ≠ 0) (hzz : herm σ z z = 0)
+    (hz : z ∈ Submodule.span F {x, y}) (hz0 : z ≠ 0) (_hzz : herm σ z z = 0)
     (hGx : ∀ G, IsPt σ G → R ≤ G → x ∈ G → GenPts σ X G)
     (hGy : ∀ G, IsPt σ G → R ≤ G → y ∈ G → GenPts σ X G) :
     ∀ G, IsPt σ G → R ≤ G → z ∈ G → GenPts σ X G := by

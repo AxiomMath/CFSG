@@ -16,7 +16,7 @@ theorem card_le_three_pow_finrank_of_abelian_good [Finite K] (hK : Nat.card K = 
     Nat.card Q ≤ 3 ^ Module.finrank K V := by
   classical
   by_cases h3 : ∀ x ∈ Q, x ^ 3 = 1
-  · haveI : Finite (V ≃ₗ[K] V) := finite_linearEquiv
+  · have : Finite (V ≃ₗ[K] V) := finite_linearEquiv
     obtain ⟨ζ, hζ⟩ := exists_isPrimitiveRoot_three hK
     have hcomm : ∀ s t : Q,
         Commute ((s : V ≃ₗ[K] V) : V →ₗ[K] V) ((t : V ≃ₗ[K] V) : V →ₗ[K] V) := by
@@ -60,7 +60,7 @@ theorem card_le_three_pow_finrank_of_abelian_good [Finite K] (hK : Nat.card K = 
       three_dvd_finrank_and_card_le_of_abelian_cube hK hQ hab hx hx3
     have hm : Module.finrank K V ≠ 0 := by
       intro h0
-      haveI : Subsingleton V := Module.finrank_zero_iff.1 h0
+      have : Subsingleton V := Module.finrank_zero_iff.1 h0
       exact hx3 (LinearEquiv.ext fun v => Subsingleton.elim _ _)
     have hle : 1 + Module.finrank K V / 3 ≤ Module.finrank K V := by
       obtain ⟨d, hd⟩ := h3dvd

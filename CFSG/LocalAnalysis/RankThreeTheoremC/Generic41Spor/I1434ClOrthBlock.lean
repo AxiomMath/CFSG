@@ -19,7 +19,7 @@ variable {K : Type} [Field K] [Finite K] {V : Type} [AddCommGroup V] [Module K V
   [FiniteDimensional K V] {Q : QuadraticForm K V} {x : V ≃ₗ[K] V}
 
 instance finite_linearEquiv_of_finite : Finite (V ≃ₗ[K] V) := by
-  haveI : Finite V := Module.finite_of_finite K
+  have : Finite V := Module.finite_of_finite K
   exact Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
     fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
 
@@ -63,9 +63,9 @@ theorem selfDual_unitary_data (hx : OddOrderIsometry Q 5 x) {h : K[X]} [Fact (Ir
     ext γ
     rw [hx.mem_range_blockGL_selfDual_iff hh hne1 hself H hH, mem_sesqUnitaryGroup]
     exact Iff.rfl
-  haveI := hU.finite
-  haveI : Fact ℓ.Prime := ⟨hU.prime⟩
-  haveI := hU.charP
+  have := hU.finite
+  have : Fact ℓ.Prime := ⟨hU.prime⟩
+  have := hU.charP
   have hchar : ringChar K = ℓ := by
     rw [Algebra.ringChar_eq K (AdjoinRoot h)]
     exact ringChar.eq _ ℓ
@@ -75,6 +75,7 @@ theorem selfDual_unitary_data (hx : OddOrderIsometry Q 5 x) {h : K[X]} [Fact (Ir
   exact ⟨d, ℓ, f, hU, B, hdeg, hq0, hchar, hx.dvd_card_pow_add_one Nat.prime_five hh hne1 hroot,
     hBsymm, hBl, ⟨e₁⟩⟩
 
+omit [Finite K] in
 theorem two_le_multiplicity_of_quasisimple (hx : OddOrderIsometry Q 5 x) {h : K[X]}
     [Fact (Irreducible h)] (hh : h ∈ primaryFactors x.toLinearMap)
     (hq : CFSG.IsQuasisimple ↥(specialBlock Q x h)) :
@@ -94,9 +95,9 @@ theorem selfDual_a5 (hx : OddOrderIsometry Q 5 x) {h : K[X]} [Fact (Irreducible 
   classical
   obtain ⟨d, ℓ, f, hU, B, hdeg, hq0, hchar, -, hBsymm, hBl, ⟨e₁⟩⟩ :=
     selfDual_unitary_data hx hh hne1 hself
-  haveI := hU.finite
-  haveI : Fact ℓ.Prime := ⟨hU.prime⟩
-  haveI := hU.charP
+  have := hU.finite
+  have : Fact ℓ.Prime := ⟨hU.prime⟩
+  have := hU.charP
   have hm := two_le_multiplicity_of_quasisimple hx hh hq
   have hKd : Nat.card K ^ d = ℓ ^ (f * d) := by rw [hq0, ← pow_mul]
   rcases Nat.lt_or_ge (primaryMultiplicity x.toLinearMap h) 3 with hm3 | hm3
@@ -105,7 +106,7 @@ theorem selfDual_a5 (hx : OddOrderIsometry Q 5 x) {h : K[X]} [Fact (Irreducible 
     have hV : finrank (AdjoinRoot h) (primaryComponent x.toLinearMap h) = 2 := hm2
     obtain ⟨φ⟩ := CFSG.RankThree.Classical.nonempty_sesqSpecialUnitaryGroup_mulEquiv_SL2 hU
       hBsymm hBl hV
-    haveI : Finite hU.fixedField := inferInstance
+    have : Finite hU.fixedField := inferInstance
     have hcardF : Nat.card hU.fixedField = ℓ ^ (f * d) := hU.card_fixedField
     have hSL : Nat.card (Matrix.SpecialLinearGroup (Fin 2) hU.fixedField ⧸
         Subgroup.center (Matrix.SpecialLinearGroup (Fin 2) hU.fixedField)) = 60 := by
@@ -166,7 +167,7 @@ theorem five_dvd_card_specialBlock_selfDual (hx : OddOrderIsometry Q 5 x) {h : K
   classical
   obtain ⟨d, ℓ, f, hU, B, hdeg, hq0, hchar, h5, hBsymm, hBl, ⟨e₁⟩⟩ :=
     selfDual_unitary_data hx hh hne1 hself
-  haveI := hU.finite
+  have := hU.finite
   have hcard := (CFSG.LinearGroups.unitary_full_group_order hU hBsymm hBl
     (n := primaryMultiplicity x.toLinearMap h) rfl (by omega)).2.1
   have hKd : Nat.card K ^ d = ℓ ^ (f * d) := by rw [hq0, ← pow_mul]
@@ -191,7 +192,7 @@ theorem exists_orderOf_five_specialBlock (hx : OddOrderIsometry Q 5 x) {h : K[X]
     [Fact (Irreducible h)] (hh : h ∈ primaryFactors x.toLinearMap) (hne1 : h ≠ X - 1)
     (hself : h = reciprocalPolynomial h) (hm : 2 ≤ primaryMultiplicity x.toLinearMap h) :
     ∃ g ∈ specialBlock Q x h, orderOf g = 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' 5 (five_dvd_card_specialBlock_selfDual hx hh hne1
     hself hm)
   exact ⟨g.1, g.2, by rw [Subgroup.orderOf_coe]; exact hg⟩
@@ -256,7 +257,7 @@ theorem selfDual_of_dvd_card_add_one (hx : OddOrderIsometry Q 5 x) (hq5 : 5 ∣ 
       AdjoinRoot h →ₐ[K] AdjoinRoot h) (AdjoinRoot.root h) h
     have h3 : aeval (AdjoinRoot.root h) h = 0 := by
       rw [AdjoinRoot.aeval_eq, AdjoinRoot.mk_self]
-    simp only [AlgEquiv.coe_algHom] at h2
+    simp only [AlgEquiv.coe_toAlgHom] at h2
     rw [h2, h3, map_zero]
   have hrec : aeval (AdjoinRoot.root h) (reciprocalPolynomial h) = 0 := by
     have := aeval_reciprocalPolynomial_of_unit (A := AdjoinRoot h) u h
@@ -269,6 +270,7 @@ theorem selfDual_of_dvd_card_add_one (hx : OddOrderIsometry Q 5 x) (hq5 : 5 ∣ 
   exact eq_of_monic_of_associated hmon (monic_reciprocalPolynomial h0)
     (hirr.associated_of_dvd (irreducible_reciprocalPolynomial hirr h0) hdvd)
 
+omit [Finite K] in
 theorem sum_natDegree_le (hx : OddOrderIsometry Q 5 x) :
     ∑ a ∈ primaryFactors x.toLinearMap, a.natDegree ≤ 5 := by
   have hprod := prod_primaryFactors hx.squarefree_minpoly

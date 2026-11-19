@@ -22,7 +22,7 @@ theorem inspectSig148L3LocEven_of_list (hList : EvenSimpleList) : InspectSig148L
   have hZ : Subgroup.center K = ⊥ :=
     center_eq_bot_of_isoLThreePi he hiso hKq' (isPGroup_center_of_theta_eq_bot hθ)
   have : IsSimpleGroup (K ⧸ Subgroup.center K) := hKq'.2.1
-  haveI hKs : IsSimpleGroup K := MulEquiv.isSimpleGroup
+  have hKs : IsSimpleGroup K := MulEquiv.isSimpleGroup
     ((QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot).symm
   have hfaith : ∀ ε ∈ E, ε ≠ 1 → ¬ K ≤ Sec4.autFix ε := fun ε hε hε1 =>
     faithful_of_loc hE9 hE3 hloc hfix hKE hKp hK1 hgen hε hε1

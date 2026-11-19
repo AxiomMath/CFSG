@@ -11,12 +11,14 @@ section Operators
 variable {V : Type*} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 variable {A0 A1 A2 X Xi S Si : Module.End (ZMod 2) V}
 
+omit [Finite V] in
 theorem Wt49.cube_A1_A2sq (hW : Wt49 A0 A1 A2 X Xi S Si) : (A1 * A2 ^ 2) ^ 3 = 1 := by
   have hc : Commute A1 (A2 ^ 2) :=
     Commute.pow_right (show Commute A1 A2 from hW.comm12) 2
   rw [hc.mul_pow 3, hW.cube1, one_mul, ← pow_mul, show 2 * 3 = 3 * 2 by norm_num, pow_mul,
     hW.cube2, one_pow]
 
+omit [Finite V] in
 theorem Wt49.A1_eq_A2_on_inf (hW : Wt49 A0 A1 A2 X Xi S Si) :
     ∀ v ∈ LinearMap.range (e2 A0) ⊓ LinearMap.range (e2 (A1 * A2 ^ 2)),
       A1 v = A2 v := by
@@ -35,6 +37,7 @@ theorem Wt49.A1_eq_A2_on_inf (hW : Wt49 A0 A1 A2 X Xi S Si) :
   rw [← Module.End.mul_apply, hmul] at h
   exact h
 
+omit [Finite V] in
 theorem Wt49.A2_mem_inf_of_mem (hW : Wt49 A0 A1 A2 X Xi S Si) :
     ∀ v ∈ LinearMap.range (e2 A0) ⊓ LinearMap.range (e2 (A1 * A2 ^ 2)),
       A2 v ∈ LinearMap.range (e2 A0) ⊓ LinearMap.range (e2 (A1 * A2 ^ 2)) := by
@@ -56,6 +59,7 @@ theorem Wt49.A2_mem_inf_of_mem (hW : Wt49 A0 A1 A2 X Xi S Si) :
         _ = A1 v := by rw [h3]
         _ = A2 v := hA1A2)
 
+omit [Finite V] in
 theorem Wt49.fpf_A2_on_inf (hW : Wt49 A0 A1 A2 X Xi S Si) (hD : Disj49 A0 A1 A2) :
     ∀ v ∈ LinearMap.range (e2 A0) ⊓ LinearMap.range (e2 (A1 * A2 ^ 2)),
       A2 v = v → v = 0 := by
@@ -72,6 +76,7 @@ theorem Wt49.fpf_A2_on_inf (hW : Wt49 A0 A1 A2 X Xi S Si) (hD : Disj49 A0 A1 A2)
   rw [hD.1] at hmem
   simpa using hmem
 
+omit [Finite V] in
 theorem Wt49.z_apply_eq_A2_sq_of_mem (hW : Wt49 A0 A1 A2 X Xi S Si) :
     ∀ v ∈ LinearMap.range (e2 A0) ⊓ LinearMap.range (e2 (A1 * A2 ^ 2)),
       (A0 * A1 * A2) v = A2 (A2 v) := by
@@ -84,6 +89,7 @@ theorem Wt49.z_apply_eq_A2_sq_of_mem (hW : Wt49 A0 A1 A2 X Xi S Si) :
     _ = A1 (A2 v) := by rw [hv0]
     _ = A2 (A2 v) := hA1A2 (A2 v) hA2mem
 
+omit [Finite V] in
 theorem Wt49.fpf_z_on_inf (hW : Wt49 A0 A1 A2 X Xi S Si) (hD : Disj49 A0 A1 A2) :
     ∀ v ∈ LinearMap.range (e2 A0) ⊓ LinearMap.range (e2 (A1 * A2 ^ 2)),
       (A0 * A1 * A2) v = v → v = 0 := by
@@ -115,6 +121,7 @@ theorem Wt49.inf_range_e2_le_Wbz2 (hW : Wt49 A0 A1 A2 X Xi S Si) (hD : Disj49 A0
     · intro w hw hwZ
       exact Wt49.fpf_z_on_inf hW hD w hw hwZ
 
+omit [Finite V] in
 theorem Wt49.comm_A0_products (hW : Wt49 A0 A1 A2 X Xi S Si) :
     A0 * (A1 * A2) = (A1 * A2) * A0 ∧
       A0 * (A1 * A2 ^ 2) = (A1 * A2 ^ 2) * A0 := by
@@ -137,6 +144,7 @@ theorem Wt49.comm_A0_products (hW : Wt49 A0 A1 A2 X Xi S Si) :
       _ = A1 * (A2 ^ 2 * A0) := by rw [h02]
       _ = A1 * A2 ^ 2 * A0 := (mul_assoc A1 (A2 ^ 2) A0).symm
 
+omit [Finite V] in
 theorem Wt49.range_e2_A0_le_sup_range_e2 (hW : Wt49 A0 A1 A2 X Xi S Si)
     (hD : Disj49 A0 A1 A2) :
     LinearMap.range (e2 A0) ≤
@@ -181,6 +189,7 @@ theorem Wt49.range_e2_A0_le_sup_range_e2 (hW : Wt49 A0 A1 A2 X Xi S Si)
       e2 (A1 * A2) v, ⟨hC12, LinearMap.mem_range.mpr ⟨v, rfl⟩⟩, ?_⟩
   exact (add_comm _ _).trans hdecomp.symm
 
+omit [Finite V] in
 theorem Wt49.finrank_inf_range_e2_A0_conj (hW : Wt49 A0 A1 A2 X Xi S Si) :
     Module.finrank (ZMod 2)
         ↥(LinearMap.range (e2 A0) ⊓ LinearMap.range (e2 (A1 * A2))) =
@@ -218,7 +227,7 @@ theorem Wt49.finrank_inf_range_e2_A0_conj (hW : Wt49 A0 A1 A2 X Xi S Si) :
 
 theorem Wt49.finrank_fixed_le_four (hW : Wt49 A0 A1 A2 X Xi S Si) (hD : Disj49 A0 A1 A2) :
     Module.finrank (ZMod 2) ↥(LinearMap.range (e2 A0)) ≤ 4 := by
-  haveI : Module.Finite (ZMod 2) V :=
+  have : Module.Finite (ZMod 2) V :=
     Module.Finite.of_fg_top
       (Submodule.fg_def.mpr ⟨Set.univ, Set.finite_univ, Submodule.span_univ⟩)
   have hWbz2fin : Module.finrank (ZMod 2) ↥(Wbz2 A0 A1 A2) ≤ 2 := by

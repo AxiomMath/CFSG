@@ -41,6 +41,7 @@ theorem pairMat_mul_diagonal (g : Matrix (Fin 2) (Fin 2) R) {d : ι → R} (hd :
       rw [one_apply_eq, one_mul, mul_one]
     · rw [one_apply_ne hxy', zero_mul, mul_zero]
 
+omit [Fintype ι] in
 theorem pairMat_injective (hab : a ≠ b) : Function.Injective (pairMat (R := R) a b) := by
   intro g g' h
   obtain ⟨g1, g2, g3, g4⟩ := pairMat_apply_pair hab g
@@ -62,6 +63,7 @@ theorem pairMat_eq_one_of_eq_scalar {x : ι} (hxa : x ≠ a) (hxb : x ≠ b)
     exact this
   rw [← h, hc, map_one]
 
+omit [Fintype ι] in
 theorem pairMat_map (g : Matrix (Fin 2) (Fin 2) R) {φ : R → R} (h0 : φ 0 = 0) (h1 : φ 1 = 1) :
     (pairMat a b g).map φ = pairMat a b (g.map φ) := by
   ext x y
@@ -98,7 +100,7 @@ theorem wPow_pow_three (hω : orderOf ω = 3) (c : ZMod 3) : wPow ω c ^ 3 = 1 :
 @[expose] def ext4 (a : Fin 3 → ZMod 3) : Fin 4 → ZMod 3 := ![a 0, a 1, a 2, -(a 0 + a 1 + a 2)]
 
 theorem ext4_add (a b : Fin 3 → ZMod 3) (i : Fin 4) : ext4 (a + b) i = ext4 a i + ext4 b i := by
-  fin_cases i <;> simp [ext4] <;> ring
+  fin_cases i <;> simp [ext4]; ring
 
 theorem ext4_pigeon (a : Fin 3 → ZMod 3) : ∃ i j : Fin 4, i ≠ j ∧ ext4 a i = ext4 a j :=
   Fintype.exists_ne_map_eq_of_card_lt (ext4 a) (by simp)
@@ -157,7 +159,7 @@ theorem witness_of_blocks (hω : orderOf ω = 3) (H : Subgroup (GL (Fin 4) L))
         (c : GL (Fin 4) L) * diagGL 4 d = diagGL 4 d * c) ∧
       (∀ c ∈ C, (c : GL (Fin 4) L) ∈ StatedScalars (Fin 4) L → c = 1)) :
     Witness (StatedProj H) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let π : H →* StatedProj H := QuotientGroup.mk' _
   let θ : Multiplicative (Fin 3 → ZMod 3) →* StatedProj H :=
     π.comp ((torHom hω).codRestrict H fun a => hdiag a.toAdd)
@@ -282,11 +284,13 @@ open CFSG.LocalAnalysis.RankThreeTheoremC.WeakClosureThree (PSUThree.mem_statedS
     rw [pairMat_map (R := L) (φ := fun x : L => x ^ ℓ ^ f) _ (zero_pow hq0) (one_pow _),
       pairMat_transpose hij, ← pairMat_mul hij, hg.2, pairMat_one hij]
 
+omit [Finite L] in
 theorem coe_suBlock (hℓ : ℓ.Prime) (hL : Nat.card L = (ℓ ^ f) ^ 2) {i j : Fin 4} (hij : i ≠ j)
     (g : StatedSU 2 (ℓ ^ f) L) :
     (((suBlock hℓ hL hij g : StatedSU 4 (ℓ ^ f) L) : GL (Fin 4) L) : Matrix (Fin 4) (Fin 4) L) =
       pairMat i j ((g : GL (Fin 2) L) : Matrix (Fin 2) (Fin 2) L) := rfl
 
+omit [Finite L] in
 theorem suBlock_injective (hℓ : ℓ.Prime) (hL : Nat.card L = (ℓ ^ f) ^ 2) {i j : Fin 4}
     (hij : i ≠ j) : Function.Injective (suBlock hℓ hL hij) := by
   intro g g' h
@@ -306,7 +310,7 @@ theorem witness_projSU4 {f : ℕ} (hf : 2 ≤ f) (hL : Nat.card L = (2 ^ f) ^ 2)
   have hU : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 f L :=
     ⟨Nat.prime_two, by omega, by rw [hL]; ring⟩
   obtain ⟨F, _, _, hF, ⟨e⟩⟩ := CFSG.GH74.GLS.Stage2.Signalizer.Ivk8.kaU4S3_exists_su2_equiv hU
-  haveI : CharP F 2 :=
+  have : CharP F 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
       (by omega : 1 ≤ f) hF
   have hF4 : 4 ≤ Nat.card F := by

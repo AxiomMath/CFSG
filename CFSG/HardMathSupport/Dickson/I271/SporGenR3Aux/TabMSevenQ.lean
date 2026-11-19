@@ -174,12 +174,12 @@ theorem tG_ne_one : tG ≠ 1 :=
   gw_qT ▸ gw_ne_one_of_moveCheck (Certificates.certificate17487).2.2.2.2.2
 
 theorem orderOf_qZG : orderOf qZG = 7 := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   exact orderOf_eq_prime qZG_pow_seven
     (gw_ne_one_of_moveCheck (Certificates.certificate17487).2.2.2.1)
 
 theorem orderOf_qFG : orderOf qFG = 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   exact orderOf_eq_prime qFG_pow_five
     (gw_ne_one_of_moveCheck (Certificates.certificate17487).2.2.2.2.1)
 

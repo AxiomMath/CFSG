@@ -55,16 +55,16 @@ theorem exists_orthogonal_marking
     omega
   rcases htag with hD | hD
   · have hr3 : lab.rank ≠ 3 := by omega
-    simp only [LargeEvenRawDatumLegacy, LargeEvenRawDatum, hD, ite_eq_right hr3] at hraw
+    simp only [LargeEvenRawDatumLegacy, hD, ite_eq_right hr3] at hraw
     obtain ⟨K, hField, hFinite, hcard, hs, hna, θ, hP⟩ := hraw
-    letI : Field K := hField
-    letI : Finite K := hFinite
+    let : Field K := hField
+    let : Finite K := hFinite
     have hK : Nat.card K = 2 := by simpa only [hn, pow_one] using hcard
-    letI : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq
+    let : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq
       (f := 1) (by simpa using hK)
     let Q := TableBOrth.qPlusForm K lab.rank
     let e := OrthTorus.rPlusEquiv K (show 1 ≤ lab.rank by omega)
-    letI : IsSimpleGroup (OrthRest.RPlus K lab.rank) := hs
+    let : IsSimpleGroup (OrthRest.RPlus K lab.rank) := hs
     have hZ : Subgroup.center (OrthRest.RPlus K lab.rank) = ⊥ :=
       TauCeti.IsSimpleGroup.center_eq_bot_of_not_isMulCommutative (by
         intro h
@@ -98,17 +98,17 @@ theorem exists_orthogonal_marking
       beta_inner_trans θ e hN hinner⟩
   · have hr2 : lab.rank ≠ 2 := by omega
     have hr3 : lab.rank ≠ 3 := by omega
-    simp only [LargeEvenRawDatumLegacy, LargeEvenRawDatum, hD, ite_eq_right hr2,
+    simp only [LargeEvenRawDatumLegacy, hD, ite_eq_right hr2,
       ite_eq_right hr3] at hraw
     obtain ⟨K, hField, hFinite, hcard, b, c, hbc, hs, hna, θ, hP⟩ := hraw
-    letI : Field K := hField
-    letI : Finite K := hFinite
+    let : Field K := hField
+    let : Finite K := hFinite
     have hK : Nat.card K = 2 := by simpa only [hn, pow_one] using hcard
-    letI : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq
+    let : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq
       (f := 1) (by simpa using hK)
     let Q := TableBOrth.qMinusForm K (lab.rank - 1) b c
     let e := OrthTorus.rMinusEquiv K (lab.rank - 1) b c
-    letI : IsSimpleGroup (OrthRest.RMinus K (lab.rank - 1) b c) := hs
+    let : IsSimpleGroup (OrthRest.RMinus K (lab.rank - 1) b c) := hs
     have hZ : Subgroup.center (OrthRest.RMinus K (lab.rank - 1) b c) = ⊥ :=
       TauCeti.IsSimpleGroup.center_eq_bot_of_not_isMulCommutative (by
         intro h
@@ -166,8 +166,8 @@ theorem exists_orthogonal_original_realization
     have h1 := hlab₀.1
     change lab.n < 2 at hq2
     omega
-  haveI : Finite ↥L := inferInstance
-  haveI : Group.IsPerfect ↥L := ⟨hmark.1⟩
+  have : Finite ↥L := inferInstance
+  have : Group.IsPerfect ↥L := ⟨hmark.1⟩
   have hZ : Subgroup.center ↥L = ⊥ :=
     OrthTorus.center_eq_bot_of_hasLabel_orth_two htag hn hHas₀
   have htag' : lab.tag = .D ∨ lab.tag = .twD := by
@@ -178,12 +178,12 @@ theorem exists_orthogonal_original_realization
     rcases htag with ⟨-, h⟩ | ⟨-, h⟩ <;> omega
   obtain ⟨K, hField, hFinite, hChar, V, hAdd, hMod, hFinDim, Q, hK, hQ, hdim,
     htype, hT, θ, hZQ, hinner⟩ := exists_orthogonal_marking hq2 htag' hr hmark hN
-  letI : Field K := hField
-  letI : Finite K := hFinite
-  letI : CharP K 2 := hChar
-  letI : AddCommGroup V := hAdd
-  letI : Module K V := hMod
-  letI : FiniteDimensional K V := hFinDim
+  let : Field K := hField
+  let : Finite K := hFinite
+  let : CharP K 2 := hChar
+  let : AddCommGroup V := hAdd
+  let : Module K V := hMod
+  let : FiniteDimensional K V := hFinDim
   let qe : ↥L ⧸ Subgroup.center ↥L ≃* ↥L :=
     (QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot
   let e : ↥L ≃* ↥(orthDerived Q) := qe.symm.trans θ
@@ -212,12 +212,12 @@ theorem exists_orthogonal_full_image
             E.map (MulAut.conj : ↥(orthDerived Q) →* MulAut _) = (ggBeta L θ hN).range := by
   obtain ⟨K, hField, hFinite, hChar, V, hAdd, hMod, hFinDim, Q, hK, hQ, hdim, -,
     -, θ, hZ, hinner⟩ := exists_orthogonal_marking hq2 htag hr hmark hN
-  letI : Field K := hField
-  letI : Finite K := hFinite
-  letI : CharP K 2 := hChar
-  letI : AddCommGroup V := hAdd
-  letI : Module K V := hMod
-  letI : FiniteDimensional K V := hFinDim
+  let : Field K := hField
+  let : Finite K := hFinite
+  let : CharP K 2 := hChar
+  let : AddCommGroup V := hAdd
+  let : Module K V := hMod
+  let : FiniteDimensional K V := hFinDim
   have hconj := CFSG.mulAutConj_injective_of_center_eq_bot hZ
   let E := (ggBeta L θ hN).range.comap (MulAut.conj : ↥(orthDerived Q) →* MulAut _)
   have hmap : E.map (MulAut.conj : ↥(orthDerived Q) →* MulAut _) =
@@ -254,12 +254,12 @@ theorem exists_orthogonal_full_component
               (Subgroup.centralizer ({t} : Set ↥(orthDerived Q))) := by
   obtain ⟨K, hField, hFinite, hChar, V, hAdd, hMod, hFinDim, Q, hK, hQ, hdim,
     θ, E, hZ, hE, hcardE, hmap⟩ := exists_orthogonal_full_image hS hq2 htag hr hmark hidx hN
-  letI : Field K := hField
-  letI : Finite K := hFinite
-  letI : CharP K 2 := hChar
-  letI : AddCommGroup V := hAdd
-  letI : Module K V := hMod
-  letI : FiniteDimensional K V := hFinDim
+  let : Field K := hField
+  let : Finite K := hFinite
+  let : CharP K 2 := hChar
+  let : AddCommGroup V := hAdd
+  let : Module K V := hMod
+  let : FiniteDimensional K V := hFinDim
   obtain ⟨d, hd1, -, hcommon⟩ := QTwoCav.exists_beta_d_generator θ Nat.prime_three hS hN
   have hDBs : D ≤ Bs := hS.1.1.2.2.1.1.trans hS.1.1.2.1.1
   have hle := range_ggBeta_le θ hDBs (QTwoCav.d_le_normalizer hS hN) hN
@@ -271,7 +271,7 @@ theorem exists_orthogonal_full_component
     intro h1
     apply hd1
     rw [← ht, h1, map_one]
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have horder : orderOf t = 3 := orderOf_eq_prime ht3 ht1
   have hfix : ggFix (MulAut.conj t) = Subgroup.centralizer ({t} : Set ↥(orthDerived Q)) := by
     ext z

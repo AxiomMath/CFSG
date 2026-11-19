@@ -19,9 +19,9 @@ theorem k_SzThirtyTwoMinM_holds :
     K_SzThirtyTwoMinM := by
   intro U _ _ hU N S hSN hnorm h5 hirr
   classical
-  haveI : Finite (MulAut U) :=
+  have : Finite (MulAut U) :=
     Finite.of_injective (fun φ : MulAut U => (φ : U → U)) DFunLike.coe_injective
-  haveI hs : IsSimpleGroup ↥S := UC22.uc22p22r_lieModel_isSimple_twistedB2 h5
+  have hs : IsSimpleGroup ↥S := UC22.uc22p22r_lieModel_isSimple_twistedB2 h5
   obtain ⟨-, -, -, hBS⟩ := CFSG.SeitzReduction.RankOne.exists_benderType_of_lieModel_twistedB2 h5
   have hZ : Subgroup.center ↥S = ⊥ := hBS.center_eq_bot
   have hout := CFSG.LocalAnalysis.EvenBN.GMSK.odd_card_outer_of_lieModel_twistedB2 h5
@@ -36,8 +36,8 @@ theorem k_SzThirtyTwoMinM_holds :
     exact hx hxc
   have hperf : Group.IsPerfect ↥S :=
     CFSG.GH74.Generic.S45.isPerfect_of_isSimpleGroup_of_nonabelian hs hnab
-  obtain ⟨x0, -, hx0⟩ := SetLike.exists_of_lt hirr.1
-  haveI : Nontrivial U := ⟨⟨x0, 1, fun h => hx0 (h ▸ Subgroup.one_mem _)⟩⟩
+  obtain ⟨x0, -, hx0⟩ := _root_.IsConcreteLE.exists_of_lt hirr.1
+  have : Nontrivial U := ⟨⟨x0, 1, fun h => hx0 (h ▸ Subgroup.one_mem _)⟩⟩
   let α : CFSG.QuasithinUnique.Setup.Family.CQ S ≃* CFSG.Blueprint.suzukiGroup a K :=
     (QuotientGroup.quotientMulEquivOfEq hZ).trans (QuotientGroup.quotientBot.trans e)
   have hStroth := CFSG.Quasithin.Stroth.suzuki_pow_le_index_fixV a ha (hn ▸ hK) U
@@ -52,7 +52,7 @@ theorem k_SzThirtyTwoMinM_holds :
     exact even_iff_two_dvd.mpr (h2.trans (Subgroup.card_dvd_of_le hSN))
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   unfold E3.mParam
-  rw [if_pos heven]
+  rw [ite_eq_left heven]
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥N) 2 (even_iff_two_dvd.mp heven)
   refine le_csInf ⟨_, (x : MulAut U), x.2, by rw [Subgroup.orderOf_coe, hx], rfl⟩ ?_
   rintro _ ⟨t, htN, ht2, rfl⟩

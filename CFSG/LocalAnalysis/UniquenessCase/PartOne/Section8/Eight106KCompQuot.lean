@@ -17,6 +17,7 @@ open CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {Y : Type} [Group Y] [Finite Y]
 
+omit [Finite Y] in
 private lemma mul_inv_mem_center_of_quotient_eq {a b : Y}
     (h : QuotientGroup.mk' (center Y) a = QuotientGroup.mk' (center Y) b) :
     a * b⁻¹ ∈ center Y := by
@@ -26,6 +27,7 @@ private lemma mul_inv_mem_center_of_quotient_eq {a b : Y}
     MonoidHom.mem_ker.mpr h1
   rwa [QuotientGroup.ker_mk'] at hmem
 
+omit [Finite Y] in
 private lemma injective_quotient_on_of_inf_center_eq_bot {K : Subgroup Y}
     (hKZ : K ⊓ center Y = ⊥) :
     Function.Injective ((QuotientGroup.mk' (center Y)).comp K.subtype) := by
@@ -38,6 +40,7 @@ private lemma injective_quotient_on_of_inf_center_eq_bot {K : Subgroup Y}
   rw [hKZ, Subgroup.mem_bot] at hmem
   exact Subtype.ext (by simpa using congrArg (fun t => t * (b : Y)) hmem)
 
+omit [Finite Y] in
 private lemma quotient_card_map_of_le {K D : Subgroup Y} (hKZ : K ⊓ center Y = ⊥)
     (hDK : D ≤ K) : Nat.card (D.map (QuotientGroup.mk' (center Y))) = Nat.card D := by
   have hinjK := injective_quotient_on_of_inf_center_eq_bot hKZ
@@ -53,6 +56,7 @@ private lemma quotient_card_map_of_le {K D : Subgroup Y} (hKZ : K ⊓ center Y =
     (MonoidHom.ofInjective hinj).trans (MulEquiv.subgroupCongr hrange)
   exact (Nat.card_congr eD.toEquiv).symm
 
+omit [Finite Y] in
 private lemma mem_centralizer_of_map_mem_centralizer {p : ℕ} {D₀ : Subgroup Y}
     (hp : p.Prime) (hcard : Nat.card D₀ = p) (hpZ : ¬ p ∣ Nat.card (center Y)) {y : Y}
     (hy : QuotientGroup.mk' (center Y) y ∈ Subgroup.centralizer
@@ -103,6 +107,7 @@ private lemma mem_centralizer_of_map_mem_centralizer {p : ℕ} {D₀ : Subgroup 
     simpa [mul_assoc] using h
   exact hdy.symm
 
+omit [Finite Y] in
 private lemma mem_normalizer_of_mem_centralizer {p : ℕ} {K D₀ : Subgroup Y}
     (hSE : IsStronglyPEmbedded p (normalizer (K : Set Y)))
     (hD0K : D₀ ≤ K) (hcardD : Nat.card D₀ = p)
@@ -135,6 +140,7 @@ private lemma mem_normalizer_of_mem_centralizer {p : ℕ} {K D₀ : Subgroup Y}
     rwa [hcardEq, hcardD] at hdiv
   exact (hSE.2.2 y hy) hdvd
 
+omit [Finite Y] in
 private lemma normalizer_eq_top_of_map_eq_top {K : Subgroup Y}
     (h : K.map (QuotientGroup.mk' (center Y)) = ⊤) :
     normalizer (K : Set Y) = ⊤ := by
@@ -154,7 +160,7 @@ private lemma normalizer_eq_top_of_map_eq_top {K : Subgroup Y}
 private lemma pPrimeCore_three_quotient_eq_bot [IsSimpleGroup (Y ⧸ center Y)]
     (h3Ybar : 3 ∣ Nat.card (Y ⧸ center Y)) :
     CFSG.pPrimeCore 3 (Y ⧸ center Y) = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rcases (inferInstance : (CFSG.pPrimeCore 3 (Y ⧸ center Y)).Normal).eq_bot_or_eq_top with
     hbot | htop
   · exact hbot
@@ -181,6 +187,7 @@ private lemma pRank_three_quotient_eq_one
     exact hY3
   omega
 
+omit [Finite Y] in
 private lemma normalClosure_image_eq_top [IsSimpleGroup (Y ⧸ center Y)] {K : Subgroup Y}
     (hKZ : K ⊓ center Y = ⊥) (h3K : 3 ∣ Nat.card K) :
     (⊤ : Subgroup (Y ⧸ center Y)) =
@@ -201,9 +208,10 @@ private lemma normalClosure_image_eq_top [IsSimpleGroup (Y ⧸ center Y)] {K : S
     omega
   · exact htop.symm
 
+omit [Finite Y] in
 private lemma inf_centralizer_le_normalizer {K D₀ : Subgroup Y} {p : ℕ}
     (hSE : IsStronglyPEmbedded p (normalizer (K : Set Y)))
-    (hKZ : K ⊓ center Y = ⊥) (hp : p.Prime) (hpZ : ¬ p ∣ Nat.card (center Y))
+    (_hKZ : K ⊓ center Y = ⊥) (hp : p.Prime) (hpZ : ¬ p ∣ Nat.card (center Y))
     (hD0K : D₀ ≤ K) (hcardD : Nat.card D₀ = p) :
     (⊤ : Subgroup (Y ⧸ center Y)) ⊓ Subgroup.centralizer
         ((D₀.map (QuotientGroup.mk' (center Y)) : Subgroup (Y ⧸ center Y)) :
@@ -222,23 +230,25 @@ private lemma inf_centralizer_le_normalizer {K D₀ : Subgroup Y} {p : ℕ}
   exact Subgroup.le_normalizer_map (QuotientGroup.mk' (center Y))
     (Subgroup.mem_map_of_mem _ hyH)
 
+omit [Finite Y] in
 private lemma top_ne_image_of_isStronglyPEmbedded {K : Subgroup Y} {p : ℕ}
     (hSE : IsStronglyPEmbedded p (normalizer (K : Set Y))) :
     (⊤ : Subgroup (Y ⧸ center Y)) ≠ K.map (QuotientGroup.mk' (center Y)) := by
   intro htop
   exact hSE.1 (normalizer_eq_top_of_map_eq_top htop.symm)
 
+omit [Finite Y] in
 private lemma nonempty_image_equiv_of_inf_center_eq_bot {K : Subgroup Y}
     (hKZ : K ⊓ center Y = ⊥) :
-    ∃ e : ↥K ≃* ↥(K.map (QuotientGroup.mk' (center Y))),
+    ∃ _e : ↥K ≃* ↥(K.map (QuotientGroup.mk' (center Y))),
       Nat.card (K.map (QuotientGroup.mk' (center Y))) = Nat.card K := by
   have hinj := injective_quotient_on_of_inf_center_eq_bot hKZ
   have hrange : ((QuotientGroup.mk' (center Y)).comp K.subtype).range =
       K.map (QuotientGroup.mk' (center Y)) := by
     rw [MonoidHom.range_comp, Subgroup.range_subtype]
-  let e : ↥K ≃* ↥(K.map (QuotientGroup.mk' (center Y))) :=
+  let _e : ↥K ≃* ↥(K.map (QuotientGroup.mk' (center Y))) :=
     (MonoidHom.ofInjective hinj).trans (MulEquiv.subgroupCongr hrange)
-  exact ⟨e, (Nat.card_congr e.toEquiv).symm⟩
+  exact ⟨_e, (Nat.card_congr _e.toEquiv).symm⟩
 
 theorem isU3_quotient_center (hId : KU3Ident) (hYk : CFSG.Open.IsKGroup Y)
     (hYq : CFSG.Open.IsQuasisimple Y) (hZ : Odd (Nat.card (center Y)))
@@ -246,8 +256,8 @@ theorem isU3_quotient_center (hId : KU3Ident) (hYk : CFSG.Open.IsKGroup Y)
     (hp : p.Prime) (hpn : p ∣ 2 ^ n + 1) {K : Subgroup Y} (hK : ⁅K, K⁆ = K)
     (hL2 : IsL2 (Bar2 K) (2 * n)) (hSE : IsStronglyPEmbedded p (normalizer (K : Set Y))) :
     IsU3 (Y ⧸ center Y) (2 * n) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : IsSimpleGroup (Y ⧸ center Y) := hYq.2
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsSimpleGroup (Y ⧸ center Y) := hYq.2
   let π : Y →* (Y ⧸ center Y) := QuotientGroup.mk' (center Y)
   let Kbar : Subgroup (Y ⧸ center Y) := K.map π
   have hKZ : K ⊓ center Y = ⊥ := inf_center_eq_bot_of_isL2 hL2 hZ

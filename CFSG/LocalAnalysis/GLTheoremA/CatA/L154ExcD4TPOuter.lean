@@ -368,6 +368,7 @@ theorem l154d4tp_twist_mem_parabolic {u : WeylGroup Tag.E6}
     exact (e6WeylTwist_simple j).symm
   exact hle ⟨u, hu, rfl⟩
 
+omit [CharP L 2] in
 theorem l154d4tp_tw_pi_sq_ne_one (S : LangSetup .E6 L p) {a : Fin Tag.E6.rank → Lˣ}
     (i : KernelComponent (rootCharHom a)) (v : WeylGroup .E6)
     (hΨ : componentRoots (rootCharHom a) i =

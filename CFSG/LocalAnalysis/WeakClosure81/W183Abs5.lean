@@ -14,7 +14,7 @@ theorem w183_centralizer_eq_bot {Y : Type*} [Group Y] {X T : Subgroup Y} [X.Norm
     (hO2 : ∀ N : Subgroup Y, N.Normal → IsPGroup 2 ↥N → N = ⊥) :
     Subgroup.centralizer (X : Set Y) = ⊥ := by
   set C := Subgroup.centralizer (X : Set Y) with hC
-  haveI hCn : C.Normal := Subgroup.normal_centralizer
+  have hCn : C.Normal := Subgroup.normal_centralizer
   have hCX : C ⊓ X = ⊥ := by
     rw [eq_bot_iff]
     intro x hx
@@ -54,6 +54,7 @@ variable {G : Subgroup (LGL 2 V)} {Γ : Set (Subgroup (LGL 2 V))}
 
 namespace Assumption131
 
+omit [Finite V] in
 theorem centralizes_of_ne_one_centralizes (h : Assumption131 G Γ VA i)
     {A L : Subgroup (LGL 2 V)} [IsSimpleGroup ↥L] (hA : A ∈ Γ) (hr : mRank A ≤ i)
     (hnab : ∃ a ∈ L, ∃ b ∈ L, a * b ≠ b * a) (hLG : L ≤ G)
@@ -63,7 +64,7 @@ theorem centralizes_of_ne_one_centralizes (h : Assumption131 G Γ VA i)
   have hLN : ∀ l ∈ L, l ∈ Subgroup.normalizer (A : Set (LGL 2 V)) := fun l hl =>
     h.centralizer_le_normalizer_of_mRank_le hA hr ht ht1 (hLG hl) (htL l hl).symm
   let N : Subgroup ↥L := (A ⊓ L).subgroupOf L
-  haveI hNn : N.Normal := ⟨fun n hn g => by
+  have hNn : N.Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     refine ⟨?_, L.mul_mem (L.mul_mem g.2 n.2) (L.inv_mem g.2)⟩
     have := (Subgroup.mem_normalizer_iff.mp (hLN g g.2) (n : LGL 2 V)).mp hn.1
@@ -96,6 +97,7 @@ theorem centralizes_of_ne_one_centralizes (h : Assumption131 G Γ VA i)
   calc a * l = a * l * a⁻¹ * l⁻¹ * (l * a) := by group
     _ = l * a := by rw [hc, one_mul]
 
+omit [Finite V] in
 theorem false_of_sylow_and_reflection (h : Assumption131 G Γ VA i)
     {S₁ : Subgroup (LGL 2 V)} (hS₁ : S₁ ∈ Γ) (hS₁r : mRank S₁ ≤ i) (hVfix : VA S₁ ≤ fixSub S₁)
     (hS₁sq : ∀ x ∈ S₁, x * x = 1) {σ : LGL 2 V} (hσG : σ ∈ G) (hσ2 : σ * σ = 1) (hσ1 : σ ≠ 1)

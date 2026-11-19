@@ -746,7 +746,7 @@ theorem zD_iso (hP : Nat.card ↥P1408 = 177408000) :
     have h := orderOf_eq_prime_pow (p := 2) (n := 1) (x := elC (zc (nm 58)))
       (by rw [pow_one, pow_two]; exact hx2)
       (by
-        simp only [pow_succ, pow_zero, pow_one, one_mul]
+        simp only [pow_succ, pow_zero, one_mul]
         exact hx4)
     rw [h]
     norm_num

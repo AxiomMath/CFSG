@@ -22,8 +22,8 @@ theorem u42_psu_concrete {f n : ℕ} {K : Type} [Field K] (h : UnitaryFieldData 
       ∃ g : ↥(primeFormUnitary h (idGram K n)),
         ((g : GL (Fin n) K) : Matrix (Fin n) (Fin n) K).det = -1 ∧
         σ * primeFormConjHom h (idGram K n) g = primeFormConjHom h (idGram K n) g * σ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite K := h.finite
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite K := h.finite
   have hC : IsPrimeFormGram (1 : GL (Fin n) K) := isPrimeFormGram_one
   have hq : ¬(n = 3 ∧ 3 ^ f = 2) := fun h3 => by
     have := h3.2
@@ -52,7 +52,7 @@ theorem oddU42Shape_PSU : OddU42ShapePSU := by
   intro S _ _ n f hadm hm σ J hσ hJ
   obtain ⟨K, _, h, ⟨ψ⟩⟩ := nonempty_mulEquiv_primeFormP_of_lieModel' hadm hm
   have hn : 3 ≤ n := hadm.2.2.1
-  haveI := h.finite
+  have := h.finite
   obtain ⟨hn4, hf1, -⟩ := u42_psu_concrete h hn (MulAut.congr ψ σ)
     ((u42OrderOf_congr ψ σ).trans hσ) (hJ.congr ψ σ J)
   exact ⟨hn4, hf1⟩

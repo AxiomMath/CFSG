@@ -112,7 +112,7 @@ theorem s8d_fin (f : S8A)
     unfold okXY at hok
     simp only [hp5 1 (by norm_num), hp5 16 (by norm_num), hall, beq_self_eq_true,
       Bool.and_self, Bool.not_true, Bool.false_or] at hok
-    exact List.contains_iff.mp hok
+    exact _root_.List.contains_iff_mem.mp hok
   simp only [sols, List.mem_cons, Prod.mk.injEq, List.not_mem_nil, or_false] at hmem
   rcases hmem with ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ |
     ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩

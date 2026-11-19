@@ -36,7 +36,7 @@ private theorem map_conj_inv_le_and_normal {h : G} {S Y : Subgroup G}
         = s * (MulAut.conj h⁻¹).toMonoidHom y₀ * s⁻¹ := by
       simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, inv_inv]
       group
-    rwa [hEq]
+    rw [hEq]
 
 omit [Finite G] in
 private theorem map_conj_inf_centralizer (h : G) (S Y : Subgroup G) :
@@ -81,7 +81,7 @@ private theorem map_conj_inf_centralizer (h : G) (S Y : Subgroup G) :
       have hc' : (h⁻¹ * y * h) * x = x * (h⁻¹ * y * h) := by
         simpa [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, inv_inv] using hc
       have hEq : y * (MulAut.conj h).toMonoidHom x = (MulAut.conj h).toMonoidHom x * y := by
-        simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, inv_inv]
+        simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
         calc y * (h * x * h⁻¹) = h * ((h⁻¹ * y * h) * x) * h⁻¹ := by group
           _ = h * (x * (h⁻¹ * y * h)) * h⁻¹ := by rw [hc']
           _ = (h * x * h⁻¹) * y := by group
@@ -89,7 +89,7 @@ private theorem map_conj_inf_centralizer (h : G) (S Y : Subgroup G) :
     · have hEq : (MulAut.conj h⁻¹).toMonoidHom ((MulAut.conj h).toMonoidHom x) = x := by
         simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, inv_inv]
         group
-      rwa [hEq]
+      rw [hEq]
 
 theorem ThLocalIn.A_le_of_normal (W : ThLocalIn L S A B z) {Y : Subgroup G} (hYS : Y ≤ S)
     (hYn : ∀ s ∈ S, ∀ y ∈ Y, s * y * s⁻¹ ∈ Y) (hY : 16 ≤ Nat.card Y) : A ≤ Y := by

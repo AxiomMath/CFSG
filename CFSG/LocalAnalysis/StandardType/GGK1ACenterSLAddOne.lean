@@ -123,9 +123,9 @@ private theorem cenLA_card_torsGL_eq {p N : ℕ} {K : Type} [Field K] [Finite K]
   · apply Finset.prod_congr rfl
     intro a ha
     by_cases h : (a : K[X]) = X - C 1
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       exact cenLA_gcd_eq_one_of_eq_X_sub_one ⟨a, ha⟩ h hgcd
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       exact cenLA_gcd_eq_prime_of_ne hp hxp ⟨a, ha⟩ h
   · trans ∏ a ∈ (primaryFactors (ggK1A_glEnd x)).filter (fun a => a ≠ X - C 1), p
     · rw [Finset.prod_filter]

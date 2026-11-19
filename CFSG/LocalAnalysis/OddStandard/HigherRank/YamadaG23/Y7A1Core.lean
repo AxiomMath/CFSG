@@ -83,7 +83,7 @@ theorem y7a_core {W D F Z : Subgroup G} {φ : G → G} {k d : G} (hk3 : k ^ 3 = 
     exact h
   let n : G := f * b * c
   have hnF : n ∈ F := F.mul_mem (F.mul_mem hfF hbF) hcF
-  haveI : IsMulCommutative F :=
+  have : IsMulCommutative F :=
     IsMulCommutative.of_comm (fun x y => Subtype.ext (hFcomm x x.2 y y.2))
   let fF : F := ⟨f, hfF⟩
   let bF : F := ⟨b, hbF⟩

@@ -15,13 +15,13 @@ abbrev GL7 : Type := GL (Fin 7) (ZMod 2)
 @[expose] def stab7 : Subgroup GL7 where
   carrier := {g | (g : M7) *ᵥ Pi.single 0 1 = Pi.single 0 1}
   mul_mem' {g h} hg hh := by
-    simp only [Set.mem_setOf_eq, Units.val_mul, ← Matrix.mulVec_mulVec] at hg hh ⊢
+    simp only [Set.mem_ofPred_eq, Units.val_mul, ← Matrix.mulVec_mulVec] at hg hh ⊢
     rw [hh, hg]
   one_mem' := by
     show ((1 : GL7) : M7) *ᵥ _ = _
     rw [Units.val_one, Matrix.one_mulVec]
   inv_mem' {g} hg := by
-    simp only [Set.mem_setOf_eq] at hg ⊢
+    simp only [Set.mem_ofPred_eq] at hg ⊢
     conv_lhs => rw [← hg]
     rw [Matrix.mulVec_mulVec, ← Units.val_mul, inv_mul_cancel, Units.val_one, Matrix.one_mulVec]
 
@@ -93,7 +93,7 @@ theorem exists_kC {g : ↥stab7} (h : piHom g = 1) : ∃ m < 64,
   have hlt : ∀ c ∈ colsN ((g : GL7) : M7), c < 128 := hv.2
   rw [hx] at hp h0 hlt
   simp only [piC, List.drop_succ_cons, List.drop_zero, List.map_cons, List.map_nil, oneN,
-    List.range_succ, List.range_zero, List.map_append, List.map_cons, List.nil_append,
+    List.range_succ, List.range_zero, List.map_cons, List.nil_append,
     List.cons_append, List.cons.injEq] at hp
   simp only [List.getD_cons_zero] at h0
   obtain ⟨e1, e2, e3, e4, e5, e6, -⟩ := hp
@@ -103,7 +103,7 @@ theorem exists_kC {g : ↥stab7} (h : piHom g = 1) : ∃ m < 64,
   refine ⟨x1 % 2 + 2 * (x2 % 2) + 4 * (x3 % 2) + 8 * (x4 % 2) + 16 * (x5 % 2) + 32 * (x6 % 2),
     by omega, ?_⟩
   rw [hx, kC]
-  simp only [List.range_succ, List.range_zero, List.map_append, List.map_cons, List.map_nil,
+  simp only [List.range_succ, List.range_zero, List.map_cons, List.map_nil,
     List.nil_append, List.cons_append, List.cons.injEq]
   norm_num at e1 e2 e3 e4 e5 e6 ⊢
   omega
@@ -234,7 +234,7 @@ theorem U_le_centralizer {pb : GL6} (hpb : colsN (pb : M6) = pibbarC) :
 
 theorem injective_of_ne {G : Type*} [Group G] (f : H6 →* G) (hf : f gamH ≠ 1) :
     Function.Injective f := by
-  haveI : IsSimpleGroup H6 := CFSG.RankThree.PartTwo.Sec4.RonanK429F.Sp8.isSimpleGroup_H6
+  have : IsSimpleGroup H6 := CFSG.RankThree.PartTwo.Sec4.RonanK429F.Sp8.isSimpleGroup_H6
   rw [← MonoidHom.ker_eq_bot_iff]
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal f.ker with h | h
   · exact h

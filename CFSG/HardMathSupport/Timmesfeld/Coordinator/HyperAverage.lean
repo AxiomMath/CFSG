@@ -100,7 +100,7 @@ theorem sum_avgOp_hyper (hp : p.Prime) (hexp : ∀ g : Γ, g ^ p = 1) (hpK : (p 
     rw [← map_natCast (algebraMap K (AlgebraicClosure K))]
     exact (map_ne_zero _).mpr hpK
   have : NeZero (p : K) := ⟨hpK⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot (AlgebraicClosure K) p
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot (AlgebraicClosure K) p
   have : Finite (Additive Γ →+ ZMod p) := Finite.of_injective _ DFunLike.coe_injective
   have : Fintype (Additive Γ →+ ZMod p) := Fintype.ofFinite _
   have hΓL : (Fintype.card Γ : AlgebraicClosure K) ≠ 0 := by

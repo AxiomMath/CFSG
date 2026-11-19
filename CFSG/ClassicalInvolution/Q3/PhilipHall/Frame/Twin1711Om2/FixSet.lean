@@ -28,12 +28,12 @@ private noncomputable def fx2_autHom : MulAut HY →* MulAut omegaT :=
     (CFSG.ComponentClassification.PerfectAutomorphisms.centerQuotientHom HY)
 
 private theorem fx2_autHom_injective : Function.Injective fx2_autHom := by
-  haveI := isPerfect_HY
+  have := isPerfect_HY
   exact (MulAut.congr fx2_quotEquiv).injective.comp
     (CFSG.ComponentClassification.PerfectAutomorphisms.centerQuotientHom_injective HY)
 
 private theorem fx2_card_mulAut_le : Nat.card (MulAut HY) ≤ 1045094400 := by
-  haveI := finite_mulAut_omegaT
+  have := finite_mulAut_omegaT
   rw [← card_mulAut_omegaT]
   exact Nat.card_le_card_of_injective _ fx2_autHom_injective
 
@@ -104,7 +104,7 @@ private theorem fx2_card_fixSet_mul_le {H : Type} [Group H] [Finite H] (B : Set 
     (hF : fixSet (⊤ : Subgroup H) B ≤ A) (hR : ∀ x : H, fx2_conjTop H x ∈ A) :
     Nat.card (fixSet (⊤ : Subgroup H) B) * Nat.card H ≤
       Nat.card (Subgroup.centralizer {y : H | ∃ J ∈ B, y ∈ J}) * Nat.card A := by
-  haveI : Finite (MulAut ↥(⊤ : Subgroup H)) :=
+  have : Finite (MulAut ↥(⊤ : Subgroup H)) :=
     Finite.of_injective
       (fun α : MulAut ↥(⊤ : Subgroup H) => (α : ↥(⊤ : Subgroup H) → ↥(⊤ : Subgroup H)))
       DFunLike.coe_injective
@@ -530,7 +530,7 @@ private theorem fx2_psi_cK1_ne (ψ : MulAut HY) (hψ : ∀ u, qY (ψ u) = sigmaO
   exact zPlus_ne_one (hsq.symm.trans h3)
 
 private theorem fx2_exists_psi : ∃ ψ : MulAut HY, ∀ u, qY (ψ u) = sigmaO (qY u) := by
-  haveI := isPerfect_HY
+  have := isPerfect_HY
   let f' : HY →* omegaT := sigmaO.symm.toMonoidHom.comp qY
   have hfs : Function.Surjective f' := sigmaO.symm.surjective.comp qY_surjective
   have hk : f'.ker ≤ Subgroup.center HY := by

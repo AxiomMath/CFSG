@@ -36,9 +36,10 @@ theorem conj_zpowers_central (hzc : z ∈ center P) {u : P} (hu : u ∈ zpowers 
 
 variable [Finite P]
 
+omit [Finite P] in
 theorem Gen.C2_normal (c : CritData D E R z) (hg : Gen c a k) (hk : 1 ≤ k) :
     (zpowers (a ^ 2)).Normal := by
-  haveI := c.Z_normal
+  have := c.Z_normal
   refine ⟨fun n hn f => ?_⟩
   obtain ⟨j, rfl⟩ := mem_zpowers_iff.mp hn
   obtain ⟨s, -, hs⟩ := exists_act hg.mem hg.gen hg.ord hk f
@@ -51,9 +52,10 @@ theorem Gen.C2_normal (c : CritData D E R z) (hg : Gen c a k) (hk : 1 ≤ k) :
   push_cast
   ring
 
+omit [Finite P] in
 theorem CritData.comm_E_mem (c : CritData D E R z) (f : P) {e : P} (he : e ∈ E) :
     f * e * f⁻¹ * e⁻¹ ∈ zpowers z := by
-  haveI := c.R_normal
+  have := c.R_normal
   have hf : f ∈ E ⊔ R := by rw [c.ER]; exact mem_top f
   obtain ⟨e', he', r, hr, rfl⟩ := mem_sup_of_normal_right.mp hf
   have hconj : r * e * r⁻¹ = e := by
@@ -65,9 +67,11 @@ theorem CritData.comm_E_mem (c : CritData D E R z) (f : P) {e : P} (he : e ∈ E
   rw [h1]
   exact c.E_comm e' he' e he
 
+omit [Finite P] in
 theorem Gen.C2_le_Z (c : CritData D E R z) (hg : Gen c a k) : zpowers (a ^ 2) ≤ Zof D :=
   zpowers_le.mpr (pow_mem hg.mem 2)
 
+omit [Finite P] in
 theorem Gen.comm_D_mem (c : CritData D E R z) (hg : Gen c a k) (hk : 3 ≤ k) (f : P) {d : P}
     (hd : d ∈ D) : f * d * f⁻¹ * d⁻¹ ∈ zpowers (a ^ 2) := by
   obtain ⟨e, he, y, hy, rfl⟩ := c.exists_mul_of_mem_D hd
@@ -82,6 +86,7 @@ theorem Gen.comm_D_mem (c : CritData D E R z) (hg : Gen c a k) (hk : 3 ≤ k) (f
   rw [h4, h3]
   exact mul_mem h1 h2
 
+omit [Finite P] in
 theorem Gen.sq_D_mem [Finite P] (c : CritData D E R z) (hg : Gen c a k) (hk : 2 ≤ k) {d : P}
     (hd : d ∈ D) : d ^ 2 ∈ zpowers (a ^ 2) := by
   obtain ⟨e, he, y, hy, rfl⟩ := c.exists_mul_of_mem_D hd
@@ -89,6 +94,7 @@ theorem Gen.sq_D_mem [Finite P] (c : CritData D E R z) (hg : Gen c a k) (hk : 2 
   rw [hcomm.mul_pow]
   exact mul_mem (zpowers_le.mpr (hg.z_mem_C2 c hk) (c.E_sq e he)) (hg.sq_mem c hy)
 
+omit [Finite P] in
 theorem Gen.sq_x_mem (c : CritData D E R z) (hg : Gen c a k) (hk : 1 ≤ k) {x : P} (hxR : x ∈ R)
     (hxτ : x * a * x⁻¹ = a ^ ((1 : ℤ) + 2 ^ (k - 1))) (hx2 : x ^ 2 ∈ D) :
     ∃ c' : ℤ, x ^ 2 = a ^ (2 * c') := by
@@ -112,10 +118,11 @@ theorem Gen.sq_x_mem (c : CritData D E R z) (hg : Gen c a k) (hk : 1 ≤ k) {x :
   obtain ⟨c', hc'⟩ := (mul_dvd_mul_iff_left (by positivity : (2 : ℤ) ^ j ≠ 0)).mp h4
   exact ⟨c', by rw [← hn, hc']⟩
 
+omit [Finite P] in
 theorem Gen.comm_R_x (c : CritData D E R z) (hg : Gen c a k) (hk : 3 ≤ k) {x : P} (hxR : x ∈ R)
     (hxτ : x * a * x⁻¹ = a ^ ((1 : ℤ) + 2 ^ (k - 1))) (hx2 : x ^ 2 ∈ D) {r : P} (hr : r ∈ R) :
     r * x * r⁻¹ * x⁻¹ ∈ zpowers (a ^ 2) := by
-  haveI := c.Z_normal
+  have := c.Z_normal
   obtain ⟨c', hc'⟩ := hg.sq_x_mem c (by omega) hxR hxτ hx2
   obtain ⟨s, hso, hs⟩ := exists_act hg.mem hg.gen hg.ord (by omega) r
   obtain ⟨s', -, hs'⟩ := exists_act hg.mem hg.gen hg.ord (by omega) r⁻¹
@@ -186,10 +193,11 @@ theorem Gen.comm_R_x (c : CritData D E R z) (hg : Gen c a k) (hk : 3 ≤ k) {x :
   rw [← hm, hm']
   exact zpow_mem_zpowers_sq a m'
 
+omit [Finite P] in
 theorem Gen.comm_P_x (c : CritData D E R z) (hg : Gen c a k) (hk : 3 ≤ k) {x : P} (hxR : x ∈ R)
     (hxτ : x * a * x⁻¹ = a ^ ((1 : ℤ) + 2 ^ (k - 1))) (hx2 : x ^ 2 ∈ D) (f : P) :
     f * x * f⁻¹ * x⁻¹ ∈ zpowers (a ^ 2) := by
-  haveI := c.R_normal
+  have := c.R_normal
   have hf : f ∈ E ⊔ R := by rw [c.ER]; exact mem_top f
   obtain ⟨e', he', r, hr, rfl⟩ := mem_sup_of_normal_right.mp hf
   have h1 : r * x * r⁻¹ ∈ R := mul_mem (mul_mem hr hxR) (inv_mem hr)

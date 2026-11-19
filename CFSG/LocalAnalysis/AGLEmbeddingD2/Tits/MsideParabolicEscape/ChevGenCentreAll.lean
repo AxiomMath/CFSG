@@ -19,6 +19,7 @@ section Generic
 
 variable {W : Type} [Group W] [Finite W] {S₀ : Subgroup W}
 
+omit [Finite W] in
 theorem psSet_of_family {L : Subgroup W} {m : ℕ} {Q : Subgroup W → Prop}
     {P : Fin m → Subgroup W}
     (hmin : ∀ i, CFSG.AGLEmbeddingD2.McLaughlin.WeakBlockModuleData.IsMinOverBorel L S₀ (P i))
@@ -37,6 +38,7 @@ theorem psSet_of_family {L : Subgroup W} {m : ℕ} {Q : Subgroup W → Prop}
   · rintro _ ⟨i, rfl⟩
     exact hQ i
 
+omit [Finite W] in
 theorem centre_of_three_of_noFive {L : Subgroup W} {Ps : Set (Subgroup W)}
     (h3 : ∀ P ∈ Ps, ∃ x ∈ pElementSubgroup 2 P, orderOf x = 3 ∧
       x ∉ (Subgroup.center ↥L).map L.subtype)
@@ -65,7 +67,7 @@ theorem kFactChevGenCentre_of_griess (hGA : CFSG.Open.GriessAllModelsStatement) 
   by_cases h5 : ∀ p : ℕ, p.Prime → 5 ≤ p → ¬ p ∣ Nat.card (Subgroup.center ↥L)
   · obtain ⟨Ps, hmin, hgen, h3⟩ := kFactChevGenThree_proved Y L S₀ hL hcl hS
     exact ⟨Ps, hmin, hgen, centre_of_three_of_noFive h3 h5⟩
-  · push_neg at h5
+  · push Not at h5
     obtain ⟨p5, hp5, hp5ge, hp5Z⟩ := h5
     have hcl' := hcl
     rcases hcl with ⟨d, hd, ⟨e⟩⟩ | ⟨n, hn, ⟨e⟩⟩ | ⟨d, hdq, ⟨e⟩⟩

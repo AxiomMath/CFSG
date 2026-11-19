@@ -17,6 +17,7 @@ namespace Cfg1667Ne
 
 variable {M V₀ V W₁ W₂ : Subgroup G} {g : G}
 
+omit [Finite G] in
 private theorem card_image_mul_card_inf {X H N : Subgroup G} [(N.subgroupOf X).Normal]
     (hH : H ≤ X) :
     Nat.card ((H.subgroupOf X).map (QuotientGroup.mk' (N.subgroupOf X))) *
@@ -43,6 +44,7 @@ private theorem card_image_mul_card_inf {X H N : Subgroup G} [(N.subgroupOf X).N
   rw [mul_comm]
   exact h1
 
+omit [Finite G] in
 private theorem mem_map_mk'_subgroupOf {X E A : Subgroup G} [(E.subgroupOf X).Normal]
     {q : ↥X ⧸ E.subgroupOf X} :
     q ∈ (A.subgroupOf X).map (QuotientGroup.mk' (E.subgroupOf X)) ↔
@@ -54,11 +56,13 @@ private theorem mem_map_mk'_subgroupOf {X E A : Subgroup G} [(E.subgroupOf X).No
   · rintro ⟨a, ha, haX, rfl⟩
     exact ⟨⟨a, haX⟩, Subgroup.mem_subgroupOf.mpr ha, rfl⟩
 
+omit [Finite G] in
 private theorem mk'_eq_one_iff' {X E : Subgroup G} [(E.subgroupOf X).Normal]
     {x : G} (hx : x ∈ X) :
     QuotientGroup.mk' (E.subgroupOf X) ⟨x, hx⟩ = 1 ↔ x ∈ E := by
   rw [QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf]
 
+omit [Finite G] in
 private theorem mk'_eq_mk'_of_inv_mul_mem {X E : Subgroup G} [(E.subgroupOf X).Normal]
     {a b : G} (ha : a ∈ X) (hb : b ∈ X) (h : a⁻¹ * b ∈ E) :
     QuotientGroup.mk' (E.subgroupOf X) ⟨a, ha⟩ =
@@ -67,6 +71,7 @@ private theorem mk'_eq_mk'_of_inv_mul_mem {X E : Subgroup G} [(E.subgroupOf X).N
     Subgroup.mem_subgroupOf]
   simpa using h
 
+omit [Finite G] in
 private theorem map_subgroupOf_eq_bot_of_le {X E A : Subgroup G} [(E.subgroupOf X).Normal]
     (hAE : A ≤ E) :
     (A.subgroupOf X).map (QuotientGroup.mk' (E.subgroupOf X)) = ⊥ := by
@@ -76,6 +81,7 @@ private theorem map_subgroupOf_eq_bot_of_le {X E A : Subgroup G} [(E.subgroupOf 
   rw [Subgroup.mem_bot]
   exact (mk'_eq_one_iff' haX).mpr (hAE haA)
 
+omit [Finite G] in
 private theorem zpowers_subgroupOf' {X : Subgroup G} (z : ↥X) :
     (Subgroup.zpowers (z : G)).subgroupOf X = Subgroup.zpowers z := by
   ext x
@@ -86,6 +92,7 @@ private theorem zpowers_subgroupOf' {X : Subgroup G} (z : ↥X) :
   · rintro ⟨k, hk⟩
     exact ⟨k, by simpa using congrArg (Subtype.val) hk⟩
 
+omit [Finite G] in
 private theorem commutator_mk' {X E : Subgroup G} [(E.subgroupOf X).Normal]
     (a b : G) (ha : a ∈ X) (hb : b ∈ X) (hc : ⁅a, b⁆ ∈ X) :
     QuotientGroup.mk' (E.subgroupOf X) ⟨a, ha⟩ * QuotientGroup.mk' (E.subgroupOf X) ⟨b, hb⟩ *
@@ -121,7 +128,7 @@ theorem f956Data [((V₀ ⊔ conjSubgroup V₀ g).subgroupOf (V ⊔ conjSubgroup
   let U : Subgroup G := V ⊓ conjSubgroup M g
   let B : Subgroup G := conjSubgroup V g ⊓ M
   let N : Subgroup G := U ⊓ B
-  haveI hEnorm : (E.subgroupOf X).Normal :=
+  have hEnorm : (E.subgroupOf X).Normal :=
     show ((V₀ ⊔ conjSubgroup V₀ g).subgroupOf (V ⊔ conjSubgroup V g)).Normal from inferInstance
   change CFSG.Quasithin.H13.VolI.F956Data
     (⊤ : Subgroup (↥X ⧸ E.subgroupOf X))
@@ -383,6 +390,7 @@ theorem card_U_quot [((V₀ ⊔ conjSubgroup V₀ g).subgroupOf (V ⊔ conjSubgr
   rw [U_inf_E h hs, card_U h hs.1] at hcard
   exact Nat.eq_of_mul_eq_mul_right (Nat.card_pos (α := V₀)) hcard
 
+omit [Finite G] in
 theorem isElemAbelian_U_quot
     [((V₀ ⊔ conjSubgroup V₀ g).subgroupOf (V ⊔ conjSubgroup V g)).Normal]
     (h : Cfg1667Ne M V₀ V W₁ W₂) :
@@ -442,7 +450,7 @@ theorem cube_commutator_mem_E (h : Cfg1667Ne M V₀ V W₁ W₂) (hs : InCalOSta
   let U : Subgroup G := V ⊓ conjSubgroup M g
   let B : Subgroup G := conjSubgroup V g ⊓ M
   let N : Subgroup G := U ⊓ B
-  haveI hEnorm : (E.subgroupOf X).Normal :=
+  have hEnorm : (E.subgroupOf X).Normal :=
     show ((V₀ ⊔ conjSubgroup V₀ g).subgroupOf (V ⊔ conjSubgroup V g)).Normal from E_normal h hs hs'
   have hV₀X : V₀ ≤ X := (le_sup_left : V₀ ≤ E).trans (E_le_X h)
   have hV₀gX : conjSubgroup V₀ g ≤ X := (le_sup_right : conjSubgroup V₀ g ≤ E).trans (E_le_X h)

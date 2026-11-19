@@ -37,13 +37,13 @@ theorem longSL2_range_le_spinFixW1 {K : Type} [Field K] {i j : Fin 8} (hij : i �
 
 private theorem lt_four_rootIdxD {k : Fin 8} (hk : (k : ℕ) < 3) : (rootIdxD 8 k : ℕ) < 4 := by
   unfold rootIdxD
-  rw [if_pos (show k.val + 1 < 8 by omega)]
+  rw [ite_eq_left (show k.val + 1 < 8 by omega)]
   omega
 
 private theorem lt_four_rootIdxD' {k : Fin 8} (hk : (k : ℕ) < 3) : (rootIdxD' 8 k : ℕ) < 4 := by
   unfold rootIdxD'
-  rw [dif_pos (show k.val + 1 < 8 by omega)]
-  simp only [Fin.val_mk]
+  rw [dite_eq_left (show k.val + 1 < 8 by omega)]
+  simp only
   omega
 
 private theorem rootD_le_spinFixW1 {K : Type} [Field K] {k : Fin 8} (hk : (k : ℕ) < 3) :

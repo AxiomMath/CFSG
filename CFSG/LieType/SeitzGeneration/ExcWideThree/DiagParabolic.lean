@@ -162,7 +162,7 @@ theorem index_subgroupOf_dvd_card_of_sup {G : Type*} [Group G] [Finite G] {P L Q
     have hx' : x ∈ (↑(L ⊔ Q) : Set G) := by rw [hsup]; exact hx
     rw [Subgroup.coe_mul_of_left_le_normalizer_right L Q hLn] at hx'
     obtain ⟨l, hl, q, hq, rfl⟩ := Set.mem_mul.1 hx'
-    haveI := hQn'
+    have := hQn'
     rw [Subgroup.mem_sup_of_normal_right]
     exact ⟨⟨l, hLP hl⟩, Subgroup.mem_subgroupOf.2 hl, ⟨q, hQP hq⟩,
       Subgroup.mem_subgroupOf.2 hq, rfl⟩
@@ -417,7 +417,7 @@ theorem levi_sup_torus_le_normalizer_opposite (K : Type) [Field K]
       (((parabolicRadical (E6Tag K) K (δ '' J)).map
         (MulAut.conj (canonicalRep (coxeterSystem (E6Tag K)) K w₀)⁻¹).toMonoidHom :
           Subgroup (ModGL (E6Tag K) K)) : Set (ModGL (E6Tag K) K)) :=
-  sup_le (fun m hm => mem_normalizer_map_conj_inv
+  sup_le (fun _m hm => mem_normalizer_map_conj_inv
       (((parabolicLevi_le_parabolicSubgroup (δ '' J)).trans
         (parabolicSubgroup_le_normalizer_parabolicRadical (δ '' J)))
         (map_conj_parabolicLevi_le hδ J (Subgroup.mem_map_of_mem _ hm))))
@@ -428,7 +428,7 @@ theorem not_three_dvd_index_levi_sup (K : Type) [Field K] [Finite K]
     (J : Set (Fin (E6Tag K).rank)) :
     ¬ 3 ∣ ((parabolicLevi (E6Tag K) K J ⊔ e6DiagTorus K).subgroupOf
       (parabolicSubgroup (E6Tag K) K J ⊔ e6DiagTorus K)).index := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hQP, -, -, hMP, -, hsup, -, -, -, -, -, -, hfin⟩ :=
     parabolic_root_radical_Levi_factors (E6Tag K) K J
   have hQp : IsPGroup (ringChar K) (parabolicRadical (E6Tag K) K J) := (hfin (ringChar K)).2.1
@@ -452,22 +452,22 @@ theorem not_three_dvd_index_levi_sup (K : Type) [Field K] [Finite K]
 theorem e6InndiagParabolic_holds : E6InndiagParabolic := by
   intro K _ _ hK3 E hE hEab hcard hnin hnorm
   have hrp : (ringChar K).Prime := CharP.char_is_prime K (ringChar K)
-  haveI : Fact (ringChar K).Prime := ⟨hrp⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (ringChar K).Prime := ⟨hrp⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hK4 : 4 ≤ Nat.card K := four_le_card_of_not_innerAut K hK3 E hE hnin
   have hinj : Function.Injective (e6InndiagConj K) := e6InndiagConj_injective K hK4
-  haveI := finite_modGL (τ := E6Tag K) (K := K)
-  haveI hSimple : IsSimpleGroup (adjointGroup (E6Tag K) K) :=
+  have := finite_modGL (τ := E6Tag K) (K := K)
+  have hSimple : IsSimpleGroup (adjointGroup (E6Tag K) K) :=
     CFSG.LieType.SeitzGeneration.isSimpleGroup_adjointGroup_of_isQuasisimple
       (CFSG.LieType.Simplicity.isQuasisimple_adjointGroup_e6 K)
   have hEle : E ≤ (e6InndiagConj K).range := by rw [range_e6InndiagConj]; exact hE
   have hmap : (E.comap (e6InndiagConj K)).map (e6InndiagConj K) = E := by
     rw [Subgroup.map_comap_eq, inf_eq_right.2 hEle]
-  haveI hEcomap : IsElementaryAbelian 3 (E.comap (e6InndiagConj K)) :=
+  have hEcomap : IsElementaryAbelian 3 (E.comap (e6InndiagConj K)) :=
     IsElementaryAbelian.of_mulEquiv (((Subgroup.equivMapOfInjective _ _ hinj).trans
       (MulEquiv.subgroupCongr hmap)).symm) hEab
   set A : Subgroup (ModGL (E6Tag K) K) := e6PlanePre K E with hAdef
-  haveI hA3 : IsElementaryAbelian 3 A := by
+  have hA3 : IsElementaryAbelian 3 A := by
     rw [hAdef]
     exact @IsElementaryAbelian.map_subtype 3 _ _ _ _ _ hEcomap
   have hAcard : Nat.card A = 3 ^ 2 := (card_e6PlanePre K hK4 E hE).trans hcard
@@ -618,7 +618,7 @@ theorem e6InndiagParabolic_holds : E6InndiagParabolic := by
     have h := hstabG x hx
     rw [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, inv_inv]
     exact h
-  haveI hA0e : IsElementaryAbelian 3 (A.map (MulAut.conj g₀⁻¹).toMonoidHom) :=
+  have hA0e : IsElementaryAbelian 3 (A.map (MulAut.conj g₀⁻¹).toMonoidHom) :=
     IsElementaryAbelian.map _
   have hA0p : IsPGroup 3 (A.map (MulAut.conj g₀⁻¹).toMonoidHom) :=
     IsElementaryAbelian.isPGroup 3 _
@@ -626,7 +626,7 @@ theorem e6InndiagParabolic_holds : E6InndiagParabolic := by
   obtain ⟨y, hyPh, hyA⟩ := exists_conj_le_of_not_dvd_index hA0 hA0p hindex
   obtain ⟨w₀, δ, hδinj, hδ⟩ := exists_longest_simple_perm (E6Tag K)
   set A₁ := (A.map (MulAut.conj g₀⁻¹).toMonoidHom).map (MulAut.conj y).toMonoidHom with hA₁
-  haveI hA₁e : IsElementaryAbelian 3 A₁ := IsElementaryAbelian.map _
+  have hA₁e : IsElementaryAbelian 3 A₁ := IsElementaryAbelian.map _
   have hA₁card : Nat.card A₁ = 3 ^ 2 := by
     rw [hA₁, Subgroup.card_map_of_injective (MulAut.conj y).injective,
       Subgroup.card_map_of_injective (MulAut.conj g₀⁻¹).injective, hAcard]

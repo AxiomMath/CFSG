@@ -16,7 +16,7 @@ theorem relIndex_ker_dvd_two {Γ : Type*} [Group Γ] (φ : Γ →* ℤˣ) (K : S
   rw [Subgroup.relIndex_dvd_two_iff]
   by_cases hK : K ≤ φ.ker
   · exact ⟨1, K.one_mem, fun b hb => Or.inr (hK hb)⟩
-  · obtain ⟨a, haK, ha⟩ := SetLike.not_le_iff_exists.1 hK
+  · obtain ⟨a, haK, ha⟩ := IsConcreteLE.not_le_iff_exists.1 hK
     have ha' : φ a = -1 :=
       (Int.units_eq_one_or (φ a)).resolve_left (fun h => ha (MonoidHom.mem_ker.2 h))
     refine ⟨a, haK, fun b hb => ?_⟩

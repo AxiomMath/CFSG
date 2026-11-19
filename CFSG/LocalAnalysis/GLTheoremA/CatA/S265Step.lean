@@ -30,6 +30,7 @@ theorem s265_inf_zpowers_bot {p : ℕ} (hp : p.Prime) {A : Subgroup G} {e : G}
       exact Subgroup.mem_zpowers e
     exact heA heA'.1
 
+omit [Finite G] in
 theorem s265_zpowers_le_normalizer {p : ℕ} {B A : Subgroup G} (hB : IsElemAbelian p B)
     (hAB : A ≤ B) {e : G} (heB : e ∈ B) :
     Subgroup.zpowers e ≤ Subgroup.normalizer (A : Set G) := by
@@ -62,6 +63,7 @@ theorem s265_card_sup {p n : ℕ} (hp : p.Prime) {B A : Subgroup G} (hB : IsElem
   rw [s265_inf_zpowers_bot hp hord heA, Subgroup.card_bot, hA, hord, mul_one] at hcardprod
   rw [hcardprod, pow_succ]
 
+omit [Finite G] in
 theorem s265_layer_sn (p : ℕ) (X : Subgroup G) : IsSubnormal (GLAPLayer p X) X :=
   IsSubnormal.step (P65.glaPLayer_le_self X)
     ((Subgroup.normal_subgroupOf_iff_le_normalizer (P65.glaPLayer_le_self X)).2
@@ -74,7 +76,7 @@ theorem s265_stepB_gen {p : ℕ} (hp : p.Prime) {B A K L : Subgroup G} (hB : IsE
     (heA : e ∉ A) (hne : GLAPLayer p (K ⊓ Subgroup.centralizer ({e} : Set G)) ≠ ⊥) :
     ∃ E : Subgroup G, IsE3 p B E ∧ A ≤ E ∧
       GLAPLayer p (L ⊓ Subgroup.centralizer (E : Set G)) ≠ ⊥ := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hord : Nat.card (Subgroup.zpowers e) = p := by
     have he1 : e ≠ 1 := fun h => heA (h ▸ A.one_mem)
     rw [Nat.card_zpowers, orderOf_eq_prime (hB.2 e heB) he1]
@@ -143,6 +145,7 @@ theorem s265_stepB_gen {p : ℕ} (hp : p.Prime) {B A K L : Subgroup G} (hB : IsE
   rw [hbot] at hle
   exact le_bot_iff.1 hle
 
+omit [Finite G] in
 theorem dgrp_eq (b x : G) : Dgrp b x = Subgroup.zpowers x ⊔ Subgroup.zpowers b := by
   apply le_antisymm
   · refine (Subgroup.closure_le _).2 ?_
@@ -158,6 +161,7 @@ theorem dgrp_eq (b x : G) : Dgrp b x = Subgroup.zpowers x ⊔ Subgroup.zpowers b
   · exact sup_le (Subgroup.zpowers_le.2 (Subgroup.subset_closure (by simp)))
       (Subgroup.zpowers_le.2 (Subgroup.subset_closure (by simp)))
 
+omit [Finite G] in
 theorem inf_cs_dgrp {L : Subgroup G} {x b : G} (hLx : L ≤ Subgroup.centralizer ({x} : Set G)) :
     L ⊓ Subgroup.centralizer ((Dgrp b x : Subgroup G) : Set G) = L ⊓ cx b := by
   have hbD : b ∈ Dgrp b x := Subgroup.subset_closure (by simp)
@@ -189,7 +193,7 @@ theorem stepB_used {p : ℕ} (hp : p.Prime) {B S : Subgroup G} {x b e : G} (hB :
     (hne : GLAPLayer p (Ipart p S b ⊓ cx e) ≠ ⊥) :
     ∃ E : Subgroup G, E ≤ B ∧ IsElemAbelian p E ∧ Nat.card E = p ^ 3 ∧ Dgrp b x ≤ E ∧
       GLAPLayer p (S ⊓ cs E) ≠ ⊥ := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hzx : Subgroup.zpowers x ≤ B := Subgroup.zpowers_le.2 hxB
   have hDB : Dgrp b x ≤ B := by
     rw [dgrp_eq]

@@ -62,7 +62,7 @@ theorem mem_of_centralizes_mod [Finite G] {L P : Subgroup G} (hP : IsSylowTwoOf 
   have hQ : (Q : Subgroup (↥L ⧸ CFSG.pCore 2 ↥L)) = (P.subgroupOf L).map π := rfl
   obtain ⟨q, k, hq4, hBor⟩ := exists_borel_of_bender hB
   obtain ⟨hSE, ⟨D, hDcyc, -, -, hsup⟩, -, -, -⟩ := hBor Q
-  have hsolvN := isSolvable_normalizer_of_sup_cyclic Q.isPGroup' hDcyc hsup
+  have hsolvN := isSolvable_normalizer_of_sup_cyclic Q.isPGroup hDcyc hsup
   have hxC' : ∀ q' ∈ (Q : Subgroup (↥L ⧸ CFSG.pCore 2 ↥L)),
       π ⟨x, hxL⟩ * q' = q' * π ⟨x, hxL⟩ := by
     intro q' hq'

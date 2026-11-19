@@ -113,7 +113,7 @@ private theorem s16h_H5O4a_autSec_le_normalizer {L Y : Subgroup (MulAut W)}
 theorem s16h_H5_row_O4_two_bridge_strong [Finite W] {A L : Subgroup (MulAut W)}
     {t : MulAut W} (hc : s16h_H5Cfg A L t)
     (h : s16h_H5RowO4 L (commSub ⊤ L) (commSub ⊤ L ⊓ fixV L) 2)
-    {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {E : Subgroup (MulAut W)}
+    {q : ℕ} (_hq : q.Prime) (_hq2 : q ≠ 2) {E : Subgroup (MulAut W)}
     (hE : E ≤ A ⊓ normalizer (L : Set (MulAut W))) (hEab : IsElemAbelian q E) :
     ∃ (K : Type) (_ : Field K) (_ : Finite K) (b c : K) (_ : Nat.card K = 2 ^ 2)
       (_ : ∀ s : K, s ^ 2 + b * s + c ≠ 0)
@@ -126,11 +126,11 @@ theorem s16h_H5_row_O4_two_bridge_strong [Finite W] {A L : Subgroup (MulAut W)}
       IsElemAbelian q D ∧
       Nat.card D = Nat.card ↥(autSub E (commSub ⊤ L)) := by
   classical
-  haveI : Finite (MulAut W) := s16h_H5O4a_finite_mulAut
+  have : Finite (MulAut W) := s16h_H5O4a_finite_mulAut
   obtain ⟨hOm, hNat⟩ := h
   obtain ⟨-, K, hKf, hKfin, b, c, hKcard, hbc, hreal⟩ := hNat
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   have hcenter : Subgroup.center ↥L = ⊥ := by
     have hL2 : IsL2 ↥L (2 * 2) := S18.isL2_of_isOmegaMinus_four (by norm_num) hOm
     exact P22y.center_eq_bot_of_isL2Ev (P22fin.isL2Ev_of_isL2 hL2).1
@@ -232,7 +232,7 @@ private theorem s16h_H5O4a_centralizer_natImage_le_statedScalars {K : Type} [Fie
     have hsingle : (Pi.single (Sum.inl (0 : Fin 1)) (1 : K) : s16h_H5O4aIota → K) ≠ 0 := by
       intro h
       have := congrFun h (Sum.inl (0 : Fin 1))
-      simpa using this
+      simp at this
     refine hsingle ((toAddMap_eq_zero_iff g).mp ?_)
     have h1 : f (Pi.single (Sum.inl (0 : Fin 1)) (1 : K)) = 0 := by
       rw [hμ, h0, zero_smul]
@@ -380,7 +380,7 @@ public theorem s16h_H5_omegaMinusFour_two_conj {K : Type} [Field K] [Finite K] [
   let Ω : Subgroup (MulAut (StdMod s16h_H5O4aIota K)) := natImage Γ
   have hqprime : (3 : ℕ).Prime := by norm_num
   have hq2 : (3 : ℕ) ≠ 2 := by norm_num
-  haveI : Fact (3 : ℕ).Prime := ⟨hqprime⟩
+  have : Fact (3 : ℕ).Prime := ⟨hqprime⟩
   have hInj : Function.Injective (natAut Γ) :=
     matHom_injective.comp (Subgroup.subtype_injective Γ)
   let eImg : ↥Γ ≃* ↥Ω := MonoidHom.ofInjective hInj
@@ -407,7 +407,7 @@ public theorem s16h_H5_omegaMinusFour_two_conj {K : Type} [Field K] [Finite K] [
     IsPGroup.of_card (p := 3) (n := 1) (by rw [Nat.card_zpowers, hzΩord, pow_one])
   obtain ⟨Pz, hzPz⟩ := hPz.exists_le_sylow
   have hPzcyc : IsCyclic ↥Pz := by
-    refine CFSG.isCyclic_of_pRank_le_one hqprime hq2 Pz.isPGroup' ?_
+    refine CFSG.isCyclic_of_pRank_le_one hqprime hq2 Pz.isPGroup ?_
     rw [← CFSG.SectionRank.pRank_eq_pRank_top_subgroup (Pz : Subgroup ↥Ω)]
     exact (CFSG.SectionRank.pRank_mono hqprime.one_lt le_top).trans hprank
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq (M := ↥Ω) Py Pz
@@ -585,7 +585,7 @@ theorem s16h_H5_omegaMinusFour_two_q_sq_fix {K : Type} [Field K] [Finite K] [Cha
       uc22p22d_isL2_of_omegaMinus4 (by norm_num) hK b c hirr e₀.symm
     obtain ⟨hsimple₀, hnonab₀⟩ :=
       CFSG.ComponentClassification.HarrisLit.L415.simple_nonabelian_of_lieModel hL2₀
-    haveI : IsSimpleGroup ↥Ω₀ := hsimple₀
+    have : IsSimpleGroup ↥Ω₀ := hsimple₀
     have hcenter₀ : Subgroup.center ↥Ω₀ = ⊥ :=
       GL83.I713.center_eq_bot_of_simple hnonab₀
     rw [Subgroup.eq_bot_iff_forall]

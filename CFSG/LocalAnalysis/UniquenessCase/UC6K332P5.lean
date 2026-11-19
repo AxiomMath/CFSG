@@ -37,7 +37,7 @@ theorem blk_mul (A B A' B' : Matrix (Fin 2) (Fin 2) K) :
 
 theorem blk_one : blk (1 : Matrix (Fin 2) (Fin 2) K) 1 = 1 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [blk, Matrix.one_apply]
+  fin_cases i <;> fin_cases j <;> simp [blk]
 
 theorem det_blk (A B : Matrix (Fin 2) (Fin 2) K) : (blk A B).det = A.det * B.det := by
   rw [Matrix.det_fin_two, Matrix.det_fin_two]
@@ -45,7 +45,7 @@ theorem det_blk (A B : Matrix (Fin 2) (Fin 2) K) : (blk A B).det = A.det * B.det
   ring
 
 theorem trace_blk_one (A : Matrix (Fin 2) (Fin 2) K) : (blk A 1).trace = A.trace + 3 := by
-  simp [blk, Matrix.trace, Fin.sum_univ_five, Matrix.trace_fin_two] <;> ring
+  simp [blk, Matrix.trace, Fin.sum_univ_five]; ring
 
 @[expose] def swapMat : Matrix (Fin 5) (Fin 5) K :=
   !![0, 0, 1, 0, 0;
@@ -68,7 +68,7 @@ theorem swapMat_mul_blk (A B : Matrix (Fin 2) (Fin 2) K) :
 @[expose] def blkHom : SL(2, K) × SL(2, K) →* SL(5, K) where
   toFun x := blkSL x.1 x.2
   map_one' := Subtype.ext (blk_one (K := K))
-  map_mul' x y := Subtype.ext (blk_mul _ _ _ _).symm
+  map_mul' _x _y := Subtype.ext (blk_mul _ _ _ _).symm
 
 @[expose] def swapSL : SL(5, K) := ⟨swapMat, det_swapMat⟩
 
@@ -115,7 +115,7 @@ theorem exists_witness_prod {G S : Type} [Group G] [Group S] (φ : G × G →* S
     {a b : G} (ha : a ^ 3 = 1) (hb : b ^ 3 = 1) (hab : ((a, b) : G × G) ≠ 1) :
     ∃ g : S, (g * φ (a, b) * g⁻¹) * φ (a, b) = φ (a, b) * (g * φ (a, b) * g⁻¹) ∧
       g * φ (a, b) * g⁻¹ ∉ Subgroup.zpowers (φ (a, b)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hmem : ∀ x y : G × G, φ y ∈ Subgroup.zpowers (φ x) → ∃ k : ℤ, x ^ k = y := by
     intro x y h
     rw [← MonoidHom.map_zpowers, Subgroup.mem_map_iff_mem hφ] at h
@@ -224,7 +224,7 @@ theorem factorization_card_SL_five [Finite K] (hK : Nat.card K % 3 = 2) :
 
 theorem listRow_projSL_five_of_mod_two [Finite K] [Finite (projSL 5 K)]
     (hK : Nat.card K % 3 = 2) : ListRow (projSL 5 K) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3 : (3 : K) ≠ 0 := CFSG.ClassicalGroups.SLnThreeLocal.three_ne_zero_of_natCard_mod_three hK
   obtain ⟨T⟩ : Nonempty (Sylow 3 SL(2, K)) := inferInstance
   set φ : SL(2, K) × SL(2, K) →* projSL 5 K := (projCover5 (K := K)).comp blkHom with hφ
@@ -384,7 +384,7 @@ theorem exists_sl2_trace_pow_ne [Finite K] {p : ℕ} [Fact p.Prime] [CharP K p] 
       Algebra.algebraMap_eq_smul_one, smul_mul_assoc, one_mul,
       Matrix.sq_eq_trace_smul_sub_det_smul_one_fin_two, hdet, one_smul]
     abel
-  haveI : CharP (FiniteField.Extension K p 2) p :=
+  have : CharP (FiniteField.Extension K p 2) p :=
     charP_of_injective_algebraMap (algebraMap K _).injective p
   rcases pow_sub_one_or_pow_add_one_eq_one k ζ hrel hs with h | h
   · have h3 := orderOf_dvd_of_pow_eq_one h
@@ -468,7 +468,7 @@ theorem listRowOf_projSL_five (p e : ℕ) [Fact p.Prime] (h : p ^ e % 3 = 2) :
   have he : e ≠ 0 := by
     rintro rfl
     simp at h
-  haveI : Finite (projSL 5 (GaloisField p e)) := Finite.of_equiv S eS.toEquiv
+  have : Finite (projSL 5 (GaloisField p e)) := Finite.of_equiv S eS.toEquiv
   have hK : Nat.card (GaloisField p e) % 3 = 2 := by
     rw [GaloisField.card p e he]
     exact h
@@ -480,8 +480,8 @@ theorem outerRowOf_projSL_five (p e : ℕ) [Fact p.Prime] (h : p ^ e % 3 = 2) :
   have he : e ≠ 0 := by
     rintro rfl
     simp at h
-  haveI : Finite (projSL 5 (GaloisField p e)) := Finite.of_equiv S eS.toEquiv
-  haveI : Finite (projectiveSL 5 (GaloisField p e)) :=
+  have : Finite (projSL 5 (GaloisField p e)) := Finite.of_equiv S eS.toEquiv
+  have : Finite (projectiveSL 5 (GaloisField p e)) :=
     Finite.of_equiv _ (KFacts.L34.projSLEquivProjectiveSL 5 (GaloisField p e)).toEquiv
   exact OuterRow.of_mulEquiv (eS.trans (KFacts.L34.projSLEquivProjectiveSL 5 _)).symm
     (L5Mod2.outerRow_projectiveSL_five_of_mod_two (GaloisField.card p e he)

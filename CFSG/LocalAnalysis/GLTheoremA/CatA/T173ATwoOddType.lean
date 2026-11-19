@@ -46,10 +46,10 @@ theorem lin_two_catalog_top (hV : 5 ≤ Module.finrank (ZMod 2) V) :
       rw [Module.finrank_fin_fun])
   let E : ↥(⊤ : Subgroup (V ≃ₗ[ZMod 2] V)) ≃* VecAut (Module.finrank (ZMod 2) V) :=
     (Subgroup.topEquiv (G := V ≃ₗ[ZMod 2] V)).trans (S172A.GL.conjEquiv eLin)
-  haveI : IsSimpleGroup (VecAut (Module.finrank (ZMod 2) V)) :=
+  have : IsSimpleGroup (VecAut (Module.finrank (ZMod 2) V)) :=
     (S172A.GL.vecAut_simple_nonab h3).1
-  haveI : IsSimpleGroup (V ≃ₗ[ZMod 2] V) := (S172A.GL.conjEquiv eLin).isSimpleGroup
-  haveI : IsSimpleGroup ↥(⊤ : Subgroup (V ≃ₗ[ZMod 2] V)) :=
+  have : IsSimpleGroup (V ≃ₗ[ZMod 2] V) := (S172A.GL.conjEquiv eLin).isSimpleGroup
+  have : IsSimpleGroup ↥(⊤ : Subgroup (V ≃ₗ[ZMod 2] V)) :=
     (Subgroup.topEquiv (G := V ≃ₗ[ZMod 2] V)).isSimpleGroup
   have hnab : ∃ a b : ↥(⊤ : Subgroup (V ≃ₗ[ZMod 2] V)), a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := (S172A.GL.vecAut_simple_nonab h3).2
@@ -103,11 +103,11 @@ theorem lin_two_oddBlock_type (hV : 6 ≤ Module.finrank (ZMod 2) V) {g : V ≃�
   let eU : (comSp g) ≃ₗ[ZMod 2] (Fin (Module.finrank (ZMod 2) (comSp g)) → ZMod 2) :=
     LinearEquiv.ofFinrankEq (comSp g)
       (Fin (Module.finrank (ZMod 2) (comSp g)) → ZMod 2) (by rw [Module.finrank_fin_fun])
-  haveI : IsSimpleGroup (VecAut (Module.finrank (ZMod 2) (comSp g))) :=
+  have : IsSimpleGroup (VecAut (Module.finrank (ZMod 2) (comSp g))) :=
     (S172A.GL.vecAut_simple_nonab hdimU3).1
-  haveI : IsSimpleGroup ((comSp g) ≃ₗ[ZMod 2] (comSp g)) :=
+  have : IsSimpleGroup ((comSp g) ≃ₗ[ZMod 2] (comSp g)) :=
     (S172A.GL.conjEquiv eU).isSimpleGroup
-  haveI : IsSimpleGroup ↥(φ.range) := eK.symm.isSimpleGroup
+  have : IsSimpleGroup ↥(φ.range) := eK.symm.isSimpleGroup
   have hnabU : ∃ a b : (comSp g) ≃ₗ[ZMod 2] (comSp g), a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := (S172A.GL.vecAut_simple_nonab hdimU3).2
     exact ⟨(S172A.GL.conjEquiv eU).symm a, (S172A.GL.conjEquiv eU).symm b,

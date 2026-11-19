@@ -17,6 +17,7 @@ theorem natCard_z2s6 : Nat.card (Multiplicative (ZMod 2) × Equiv.Perm (Fin 6)) 
 
 variable {G : Type} [Group G] [Finite G] {z : G}
 
+omit [Finite G] in
 theorem natCard_centralizer_eq {U : Subgroup G} {u k : G} (hu : u ∈ U)
     (hk : k ∈ centralizer (U : Set G)) :
     Nat.card (U ⊓ centralizer ({u * k} : Set G) : Subgroup G) =

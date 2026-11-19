@@ -244,7 +244,7 @@ theorem three_le_pRank_of_classicalModel {X : Type} [Group X] [Finite X] {L : Su
 theorem kFact1410a_holds :
     KFact1410a := by
   intro X _ _ L hLn hq hZ hC hcl R hR
-  haveI : L.Normal := hLn
+  have : L.Normal := hLn
   let e0 : ↥L ⧸ Subgroup.center ↥L ≃* ↥L :=
     (QuotientGroup.quotientMulEquivOfEq (G := ↥L) hZ).trans
       (QuotientGroup.quotientBot (G := ↥L))

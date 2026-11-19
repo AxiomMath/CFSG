@@ -114,7 +114,7 @@ theorem of_exponent {U : Subgroup K} (hU : IsPGroup p U) (hexp : ∀ u ∈ U, u 
 
 theorem of_elemAbelian (hp : p.Prime) {E : Subgroup K} (hE : IsElemAbelian p E) {k : ℕ}
     (hk : Nat.card E = p ^ k) (h4 : 4 ≤ k) : SylowDichotomyAt K p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact of_four_le_pRank (IsPGroup.of_card hk)
     (h4.trans (le_pRank_of_elemAbelian hp.one_lt le_rfl hE hk))
 
@@ -131,7 +131,7 @@ theorem of_card_elemAbelian_le (hp : p.Prime)
 
 theorem of_four_le_pRank_top (hp : p.Prime) (h : 4 ≤ CFSG.Open.pRank p (⊤ : Subgroup K)) :
     SylowDichotomyAt K p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hne : {k | ∃ E : Subgroup K, E ≤ (⊤ : Subgroup K) ∧ IsElemAbelian p E ∧
       Nat.card E = p ^ k}.Nonempty :=
     ⟨0, ⊥, bot_le, ⟨inferInstance, fun x hx => by
@@ -147,7 +147,7 @@ theorem of_four_le_pRank_top (hp : p.Prime) (h : 4 ≤ CFSG.Open.pRank p (⊤ : 
 
 theorem of_abelian_full (hp : p.Prime) {A : Subgroup K} (hA : IsMulCommutative A)
     (hcard : Nat.card A = p ^ (Nat.card K).factorization p) : SylowDichotomyAt K p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   apply of_sylow_comm
   intro S
   let A' : Sylow p K := Sylow.ofCard A hcard
@@ -163,7 +163,7 @@ theorem of_abelian_full (hp : p.Prime) {A : Subgroup K} (hA : IsMulCommutative A
 
 theorem of_mulEquiv {L : Type} [Group L] [Finite L] (hp : p.Prime) (e : K ≃* L)
     (h : SylowDichotomyAt L p) : SylowDichotomyAt K p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcard : Nat.card K = Nat.card L := Nat.card_congr e.toEquiv
   rcases h with h | h | h | ⟨U, hU, hv⟩
   · exact of_factorization_le (by rwa [hcard])
@@ -192,7 +192,7 @@ theorem of_mulEquiv {L : Type} [Group L] [Finite L] (hp : p.Prime) (e : K ≃* L
       have hmap : ⁅U.map e.symm.toMonoidHom, U.map e.symm.toMonoidHom⁆ =
           (⁅U, U⁆).map e.symm.toMonoidHom := (Subgroup.map_commutator _ _ _).symm
       rw [hmap] at hcyc
-      haveI : IsCyclic ↥((⁅U, U⁆).map e.symm.toMonoidHom) := hcyc
+      have : IsCyclic ↥((⁅U, U⁆).map e.symm.toMonoidHom) := hcyc
       exact isCyclic_of_surjective
         (Subgroup.equivMapOfInjective ⁅U, U⁆ e.symm.toMonoidHom e.symm.injective).symm.toMonoidHom
         (MulEquiv.surjective _)

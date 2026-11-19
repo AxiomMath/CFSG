@@ -122,8 +122,8 @@ private def scalarOnCoordEigenspace {ι F : Type} [Fintype ι] [DecidableEq ι] 
     · have h0 : ((g : GL ι F) : Matrix ι ι F).mulVec v = 0 := by
         rw [hν v hv, h, zero_smul]
       have hv0 : v = 0 := by rw [← hginv v, h0, Matrix.mulVec_zero]
-      rw [dif_pos h, hv0, Matrix.mulVec_zero, smul_zero]
-    · rw [dif_neg h]
+      rw [dite_eq_left h, hv0, Matrix.mulVec_zero, smul_zero]
+    · rw [dite_eq_right h]
       have h2 : ((g : GL ι F) : Matrix ι ι F).mulVec (ν⁻¹ • v) = v := by
         rw [Matrix.mulVec_smul, hν v hv, smul_smul, inv_mul_cancel₀ h, one_smul]
       conv_lhs => rw [← h2]
@@ -449,16 +449,16 @@ private theorem exists_ratio_function {B ι F : Type} [Fintype ι] [DecidableEq 
   refine ⟨fun b i => if i ∈ I then e b i / e b i₀ else 1, ?_, ?_, ?_, ?_⟩
   · intro b
     change (if i₀ ∈ I then e b i₀ / e b i₀ else 1) = 1
-    rw [if_pos hi₀]
+    rw [ite_eq_left hi₀]
     exact div_self (he0 b i₀)
   · intro b i hi
     simp [hi]
   · intro b i hi
-    simp only [if_pos hi]
+    simp only [ite_eq_left hi]
     rw [div_pow, hep b i, div_self (pow_ne_zero _ (he0 b i₀))]
   · intro b b' hbb' i hi
     have h := congrFun hbb' i
-    simp only [if_pos hi] at h
+    simp only [ite_eq_left hi] at h
     rw [div_eq_div_iff (he0 b i₀) (he0 b' i₀)] at h
     rw [div_mul_eq_mul_div, eq_div_iff (he0 b i₀), ← h, mul_comm]
 

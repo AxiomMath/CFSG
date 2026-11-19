@@ -24,7 +24,7 @@ theorem IsMinFam16.mem_centralizer_V₀_of_odd_of_mul_conj (h1 : W16One G) (h5 :
     {P : Subgroup X} (hP : IsPGroup 2 P) {c : ↥(conjClosure V H)} (hodd : Odd (orderOf c))
     (hcV : φ c ∈ centralizer (SevenK.barSub (conjClosure V H) φ V : Set X))
     (hcP : α (φ c) * φ c ∈ P) : (c : G) ∈ centralizer (V₀ : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hVH : V ≤ H := h.V_le_S.trans hH.1.1
   have hKH : conjClosure V H ≤ H :=
     CFSG.Quasithin.conjClosure_le fun x hx z hz =>

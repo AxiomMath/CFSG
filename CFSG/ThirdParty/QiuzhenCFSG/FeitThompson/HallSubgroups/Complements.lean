@@ -2,8 +2,8 @@ module
 
 public import Mathlib.Algebra.Group.Defs
 public import Mathlib.Algebra.Group.Subgroup.Defs
-public import Mathlib.Data.Bracket
-public import Mathlib.Data.Finite.Defs
+public import Mathlib.Algebra.Notation.Bracket
+public import Mathlib.Basic.Finite.Defs
 public import Mathlib.GroupTheory.SchurZassenhaus
 public import Mathlib.GroupTheory.SemidirectProduct
 

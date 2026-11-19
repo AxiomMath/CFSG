@@ -62,7 +62,7 @@ theorem sec7l78_E16_data [Finite G] (hP : Asc82Tab6P) {L N D : Subgroup G} (hL :
   have hDsub : IsPGroup 2 (D.subgroupOf N) :=
     IsPGroup.of_card (n := 4) (by
       rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hDN).toEquiv, hD.2])
-  haveI : (D.subgroupOf N).Normal := hDnorm
+  have : (D.subgroupOf N).Normal := hDnorm
   have hDlePsub : D.subgroupOf N ≤ (PNsyl : Subgroup ↥N) :=
     IsPGroup.le_sylow_of_normal hDsub PNsyl
   have hDleP : D ≤ P := by

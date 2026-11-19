@@ -33,15 +33,19 @@ structure KData (S : Std b t b₁ b₂ J) (A₁ : Subgroup J6.S6) (x e : J6.S6) 
 
 variable {S : Std b t b₁ b₂ J} {A₁ : Subgroup J6.S6} {x e : J6.S6}
 
+omit [Finite H] in
 theorem KData.ιx_pow (hK : S.KData A₁ x e) : S.ι x ^ 3 = 1 := by
   rw [← map_pow, hK.x3, map_one]
 
+omit [Finite H] in
 theorem KData.ιx_ne (hK : S.KData A₁ x e) : S.ι x ≠ 1 := fun h1 =>
   hK.x1 (S.ι_injective (h1.trans (map_one S.ι).symm))
 
+omit [Finite H] in
 theorem KData.ιx_orderOf (hK : S.KData A₁ x e) : orderOf (S.ι x) = 3 :=
   orderOf_eq_prime hK.ιx_pow hK.ιx_ne
 
+omit [Finite H] in
 theorem KData.cen_frame (hK : S.KData A₁ x e) {y : H} (hy : y ∈ S.frame A₁)
     (hyx : y * S.ι x = S.ι x * y) : y = 1 ∨ y = S.ι e ∨ y = t ∨ y = t * S.ι e := by
   obtain ⟨s, hs, rfl | rfl⟩ := (S.mem_frame_iff A₁ y).mp hy
@@ -64,7 +68,7 @@ theorem KData.cen_frame (hK : S.KData A₁ x e) {y : H} (hy : y ∈ S.frame A₁
         _ = S.ι x * S.ι s := by group
     rcases hK.cen s hs this with rfl | rfl
     · right; right; left
-      simpa using (map_one S.ι)
+      simp
     · right; right; right; rfl
 
 
@@ -72,7 +76,7 @@ theorem KData.cen_mem (hK : S.KData A₁ x e) {w : H} (hwN : w ∈ Nor (S.frame 
     (hwx : w * S.ι x = S.ι x * w) (hw3 : ∃ k : ℕ, w ^ (3 ^ k) = 1) :
     w ∈ Subgroup.zpowers (S.ι x) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h := S.hyp
   by_contra hnot
   have hwx' : w⁻¹ * S.ι x = S.ι x * w⁻¹ := by
@@ -168,7 +172,7 @@ theorem KData.cen_mem (hK : S.KData A₁ x e) {w : H} (hwN : w ∈ Nor (S.frame 
     omega
   have hB₁3 : IsPGroup 3 (Subgroup.closure ({b₁, b₂} : Set H)) := by
     have hE := h.isElemAb_B
-    haveI := hE.1
+    have := hE.1
     exact (IsElementaryAbelian.isPGroup 3 _).to_le (FS79Hyp.B₁_le_B b b₁ b₂)
   have hB₁t : Subgroup.closure ({b₁, b₂} : Set H) ≤ Cen t := fun y hy =>
     Subgroup.mem_centralizer_singleton_iff.mpr (S.J_comm_t (h.B₁_le_J hy))
@@ -230,7 +234,7 @@ theorem KData.ιx_mem_Nor (hK : S.KData A₁ x e) : S.ι x ∈ Nor (S.frame A₁
 theorem KData.isSylowOf (hK : S.KData A₁ x e) :
     CFSG.ABGLocalTools.IsSylowOf 3 (Subgroup.zpowers (S.ι x)) (Nor (S.frame A₁)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set T : Subgroup H := Subgroup.zpowers (S.ι x) with hT
   set M : Subgroup H := Nor (S.frame A₁) with hM
   have hTM : T ≤ M := Subgroup.zpowers_le.mpr hK.ιx_mem_Nor

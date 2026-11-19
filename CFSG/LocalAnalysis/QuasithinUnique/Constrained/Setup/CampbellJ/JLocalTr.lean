@@ -14,6 +14,7 @@ variable {G : Type*} [Group G] [Finite G] {k : Type*} [Field k] [Finite k] {S : 
 
 section Translated
 
+omit [Finite G] in
 private theorem thompsonJ_eq_sup_inf_coreJ {Y : Subgroup G}
     (hY : Y ≤ CFSG.Quasithin.thompsonJ (S : Subgroup G))
     (hS : (S : Subgroup G) = Y ⊔ CFSG.pCore 2 G) :

@@ -76,7 +76,7 @@ theorem ggSplitLie_of_rowSA
     · exact H l hl hX
     · exact H 3 le_rfl hX
   intro m hm hXm
-  haveI : Finite (ggU .PSL (m + 1) n).K := by
+  have : Finite (ggU .PSL (m + 1) n).K := by
     change Finite (Matrix.SpecialLinearGroup (Fin (m + 1)) (GaloisField 2 n))
     infer_instance
   refine ggSplitLie_of_lieModel (t := .PSL) hp (.inl rfl) hpn

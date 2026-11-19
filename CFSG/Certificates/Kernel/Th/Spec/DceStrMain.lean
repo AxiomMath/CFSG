@@ -213,7 +213,7 @@ theorem struct_core (D : DceStructData) (h : dceStructChk D = true)
     rw [← hc.b_cntpts]
     exact sortedCount_lt _
   have hNO0 : 0 < E.ThB_NO := Nat.lt_of_le_of_lt (Nat.zero_le _) hc.b_i0
-  have hgomB := gom_mem hCB hrelsB hnormB himpB hc.b_hdr hc.b_gom
+  have hgomB := gom_mem hCB himpB hc.b_hdr hc.b_gom
   have hpsiB := psi_sem hCB hrelsB hnormB himpB hc.b_hdr hc.b_psi
   have hcov : DceS.runCover E.ThB_FB E.ThB_OB 5 1184 E.ThB_osh E.ThB_owd E.ThB_om E.ThB_NB
       E.ThB_sel E.ThB_NF E.ThB_NO E.ThB_AL E.cs13 1 = 1 + E.ThB_ND * 2 ^ 20 := by
@@ -283,7 +283,7 @@ theorem struct_core (D : DceStructData) (h : dceStructChk D = true)
     by_cases h7 : g < 7
     · exact Or.inl (Subgroup.subset_closure ⟨g, h7, rfl⟩)
     · have h8 : g = 7 := by
-        simp only [Set.mem_setOf_eq] at hg
+        simp only [Set.mem_ofPred_eq] at hg
         omega
       subst h8
       exact Or.inr (Or.inl (xl_u xg hLB).1.symm)
@@ -393,7 +393,7 @@ theorem struct_core (D : DceStructData) (h : dceStructChk D = true)
   have eMD : E.ThB_MD = 5669277530485510631759370250422092589367217792282136242055806976 := pMD
   have eNORD : E.ThK1_nLive * E.ThK3_nLive = 634023936 := pNORD
   have eNCL : E.ThA_NCL = 819 := pNCL
-  haveI hfinG : Finite G := Nat.finite_of_card_ne_zero (by rw [hG]; norm_num)
+  have hfinG : Finite G := Nat.finite_of_card_ne_zero (by rw [hG]; norm_num)
   have hAmem : ∀ D', D' ∈ A ↔ D' < 11 := by
     intro D'
     simp only [A, Finset.mem_filter, Finset.mem_range, eND, eAL]
@@ -574,7 +574,6 @@ theorem struct_core (D : DceStructData) (h : dceStructChk D = true)
   have n2 : ((Finset.range 13824).filter fun j => OutS.invRank 6 (mat E.ThB_E2 j) = true).card =
       19 := by
     rw [show (13824 : ℕ) = 2048 * 6 + 1536 from rfl, card_filter_add]
-    beta_reduce
     rw [sum_countA E.ThB_E2 (by norm_num : 2048 ≤ 64 * 32) 6,
       ← DceClass.countA_eq E.ThB_E2 (by norm_num : 1536 ≤ 64 * 24)]
     simp only [Finset.sum_range_succ, Finset.sum_range_zero, Nat.reduceMul, C143, C144, C145,
@@ -596,7 +595,6 @@ theorem struct_core (D : DceStructData) (h : dceStructChk D = true)
   have n10 : ((Finset.range 3528).filter fun j => OutS.invRank 6 (mat E.ThB_E10 j) = true).card =
       0 := by
     rw [show (3528 : ℕ) = 2048 + 1480 from rfl, card_filter_add]
-    beta_reduce
     rw [countA_zero E.ThB_E10 (by norm_num : 2048 ≤ 64 * 32),
       ← DceClass.countA_eq E.ThB_E10 (by norm_num : 1480 ≤ 64 * 24), C157, C158]
   have hA' : ∀ Dc, Dc < 11 → Dc ∈ A := fun Dc h' => (hAmem Dc).2 h'

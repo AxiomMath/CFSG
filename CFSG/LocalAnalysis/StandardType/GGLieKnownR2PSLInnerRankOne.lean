@@ -89,7 +89,7 @@ theorem rankOne_graph_form_inv_sq {k : Type} [Field k] [Finite k] [CharP k 2]
     intro hf
     have hzero := ((Submodule.mem_dualAnnihilator f).mp hf) ((0 : k), (1 : k), (0 : k))
       (by rw [NoOuterGraph.mem_flagK_iff])
-    simpa [f] using hzero
+    simp [f] at hzero
   have hvK : T f ∈ flagK k k k := NoOuterGraph.T_mem_flagK_of_mem_dualAnnW α hR T hα hfW
   have hvW : T f ∉ flagW k k k := by
     intro hw
@@ -132,7 +132,7 @@ theorem rankOne_graph_form_inv_sq {k : Type} [Field k] [Finite k] [CharP k 2]
 theorem no_ringEquiv_inv_sq {k : Type} [Field k] [Finite k] [CharP k 2] (hk : 8 ≤ Nat.card k)
     (σ : k ≃+* k) (h : ∀ s : k, s ≠ 0 → σ s = (s ^ 2)⁻¹) : False := by
   classical
-  haveI : Fintype k := Fintype.ofFinite k
+  have : Fintype k := Fintype.ofFinite k
   have hk' : 8 ≤ Fintype.card k := by
     rw [← Nat.card_eq_fintype_card]
     exact hk

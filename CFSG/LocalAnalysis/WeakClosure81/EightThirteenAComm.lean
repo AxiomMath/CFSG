@@ -35,6 +35,7 @@ private theorem mem_normalizer_centralizer_C {N : Subgroup G} {g : G}
     _ = g * (z * (g⁻¹ * n * g)) * g⁻¹ := by rw [hcomm]
     _ = (g * z * g⁻¹) * n := by group
 
+omit [Finite G] in
 private theorem inv_mul_mem_of_relIndex_two {C V : Subgroup G} (hidx : C.relIndex V = 2)
     {v w : G} (hv : v ∈ V) (hw : w ∈ V) (hvC : v ∉ C) (hwC : w ∉ C) : v⁻¹ * w ∈ C := by
   have h2 : (C.subgroupOf V).index = 2 := hidx
@@ -64,7 +65,7 @@ theorem Sit813.relIndex_centralizer_oTwoMod_ne_two {V H T A L K : Subgroup G} {i
   have hVC : ¬ V ≤ C := fun hle => by
     have h1 : C.relIndex V = 1 := Subgroup.relIndex_eq_one.mpr hle
     omega
-  obtain ⟨v, hvV, hvC⟩ := SetLike.not_le_iff_exists.mp hVC
+  obtain ⟨v, hvV, hvC⟩ := IsConcreteLE.not_le_iff_exists.mp hVC
   have step1 : ∀ x ∈ normalizer (V : Set G), x ∈ normalizer (N : Set G) →
       v⁻¹ * (x * v * x⁻¹) ∈ C := by
     intro x hxV hxN

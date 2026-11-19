@@ -398,7 +398,7 @@ theorem nineWordValue_map {G H : Type*} [Group G] [Group H] (f : G →* H) (gs :
 
 theorem letterValue_natSucc {G : Type*} [Group G] (gs : List G) (i : ℕ) :
     letterValue gs (((i + 1 : ℕ) : ℤ)) = gs.getD i 1 := by
-  rw [letterValue_def, if_pos (by exact_mod_cast Nat.succ_pos i),
+  rw [letterValue_def, ite_eq_left (by exact_mod_cast Nat.succ_pos i),
     show (((i + 1 : ℕ) : ℤ)).natAbs - 1 = i from by rw [Int.natAbs_natCast]; omega]
 
 theorem wordValue_nineSigned {G : Type*} [Group G] (gs : List G) (w : List ℕ) :

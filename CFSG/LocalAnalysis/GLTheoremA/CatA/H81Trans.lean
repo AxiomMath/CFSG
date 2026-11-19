@@ -13,7 +13,8 @@ section Generic
 
 variable {K K' : Type} [Group K] [Group K'] [Finite K]
 
-theorem coprime_inf_ker {p : ℕ} (hp : p.Prime) (ψ : K →* K')
+omit [Finite K] in
+theorem coprime_inf_ker {p : ℕ} (_hp : p.Prime) (ψ : K →* K')
     (hψ : Nat.Coprime p (Nat.card ψ.ker)) (A : Subgroup K) :
     Nat.Coprime p (Nat.card ↥(A ⊓ ψ.ker)) := by
   have hd : Nat.card ↥(A ⊓ ψ.ker) ∣ Nat.card ψ.ker :=
@@ -32,6 +33,7 @@ theorem component_eq_of_map_eq {p : ℕ} (hp : p.Prime) (ψ : K →* K')
     rw [e1, e2, h]
   exact Subgroup.map_injective (lcEquiv hp ψ A (hψ A)).injective this
 
+omit [Finite K] in
 theorem layer_eq_of_unique {p : ℕ} {A S : Subgroup K}
     (hS : GLAPComponent p A S) (hall : ∀ T : Subgroup K, GLAPComponent p A T → T = S) :
     GLAPLayer p A = S := by
@@ -40,6 +42,7 @@ theorem layer_eq_of_unique {p : ℕ} {A S : Subgroup K}
   · exact sSup_le fun T hT => (hall T hT).le
   · exact le_sSup hS
 
+omit [Finite K] in
 theorem component_ne_bot {p : ℕ} {A S : Subgroup K} (hS : GLAPComponent p A S) : S ≠ ⊥ := by
   intro h
   have hnt := isQuasisimple_nontrivial hS.2.2.1.2.2
@@ -54,7 +57,7 @@ theorem map_inf_centralizer_eq {p : ℕ} (hp : p.Prime) (ψ : K →* K')
     (A ⊓ Subgroup.centralizer ({y} : Set K)).map ψ =
       A.map ψ ⊓ Subgroup.centralizer ({ψ y} : Set K') := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   apply le_antisymm
   · rintro _ ⟨a, ⟨haA, hay⟩, rfl⟩
     refine ⟨Subgroup.mem_map.2 ⟨a, haA, rfl⟩, Subgroup.mem_centralizer_iff.2 fun g hg => ?_⟩
@@ -86,7 +89,7 @@ theorem map_inf_centralizer_eq {p : ℕ} (hp : p.Prime) (ψ : K →* K')
             by rw [map_mul, MonoidHom.mem_ker.1 (Subgroup.mem_inf.1 n.2).2, mul_one]⟩⟩
           left_inv := fun a => Subtype.ext (by simp)
           right_inv := fun n => Subtype.ext (by simp) }
-    letI : MulAction (Subgroup.zpowers y) X :=
+    let : MulAction (Subgroup.zpowers y) X :=
       { smul := fun g a => ⟨(g : K) * a.1 * (g : K)⁻¹, hstab (g : K) g.2 a⟩
         one_smul := fun a => Subtype.ext (by
           show (1 : K) * a.1 * (1 : K)⁻¹ = a.1
@@ -118,7 +121,7 @@ theorem map_inf_centralizer_eq {p : ℕ} (hp : p.Prime) (ψ : K →* K')
 theorem coprime_ker_quot {p : ℕ} (hp : p.Prime) (L : Subgroup K) :
     Nat.Coprime p (Nat.card (QuotientGroup.mk' (GLAPPrimeCore p ↥L)).ker) := by
   rw [QuotientGroup.ker_mk']
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact CFSG.pPrimeCore_coprime_card
 
 theorem coprime_inf_quot {p : ℕ} (hp : p.Prime) (L : Subgroup K) (A : Subgroup ↥L) :

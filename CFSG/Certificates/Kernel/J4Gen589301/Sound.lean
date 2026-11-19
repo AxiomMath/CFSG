@@ -29,20 +29,20 @@ theorem rdK_eq (one : Nat) (mem : List Nat) (n i : Nat) :
   rw [getN_eq]
   by_cases h : i < n
   · have hb : Nat.blt i n = true := Nat.blt_eq.mpr h
-    rw [hb, if_pos h]
+    rw [hb, ite_eq_left h]
     rfl
   · have hb : Nat.blt i n = false := by
       cases e : Nat.blt i n
       · rfl
       · exact absurd (Nat.blt_eq.mp e) h
-    rw [hb, if_neg h]
+    rw [hb, ite_eq_right h]
 
 @[expose] def MemRel (one : Nat) (mem : List Nat) (n : Nat) (memG : List J) : Prop :=
   n = memG.length ∧ ∀ i, VjRep (rdK one mem n i) (memG.getD i 1)
 
 theorem memRel_nil (hK : Consts c rm one pad t0 t1 t2 t3 t4 t5 t6) : MemRel one [] 0 [] :=
   ⟨rfl, fun i => by
-    rw [rdK_eq, if_neg (Nat.not_lt_zero i), List.getD_nil]
+    rw [rdK_eq, ite_eq_right (Nat.not_lt_zero i), List.getD_nil]
     exact vjRep_one hK⟩
 
 theorem memRel_push {mem : List Nat} {n : Nat} {memG : List J} (hm : MemRel one mem n memG)
@@ -52,19 +52,19 @@ theorem memRel_push {mem : List Nat} {n : Nat} {memG : List J} (hm : MemRel one 
   rw [getD_append_singleton]
   rcases lt_trichotomy i n with h | h | h
   · have e : rdK one (v :: mem) (Nat.succ n) i = rdK one mem n i := by
-      rw [rdK_eq, rdK_eq, if_pos (by omega), if_pos h]
+      rw [rdK_eq, rdK_eq, ite_eq_left (by omega), ite_eq_left h]
       have e2 : Nat.succ n - 1 - i = (n - 1 - i) + 1 := by omega
       rw [e2, List.getD_cons_succ]
-    rw [e, if_neg (by omega)]
+    rw [e, ite_eq_right (by omega)]
     exact hr i
   · subst h
-    rw [rdK_eq, if_pos (by omega), if_pos hn]
+    rw [rdK_eq, ite_eq_left (by omega), ite_eq_left hn]
     have e2 : Nat.succ i - 1 - i = 0 := by omega
     rw [e2, List.getD_cons_zero]
     exact hv
   · have e : rdK one (v :: mem) (Nat.succ n) i = rdK one mem n i := by
-      rw [rdK_eq, rdK_eq, if_neg (by omega), if_neg (by omega)]
-    rw [e, if_neg (by omega)]
+      rw [rdK_eq, rdK_eq, ite_eq_right (by omega), ite_eq_right (by omega)]
+    rw [e, ite_eq_right (by omega)]
     exact hr i
 
 theorem runK_gen (inp : List Nat) (fin : List Nat → Nat → Bool) (k : Nat) (ls : List Line)

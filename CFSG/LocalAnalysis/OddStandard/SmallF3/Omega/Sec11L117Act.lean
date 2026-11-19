@@ -125,7 +125,7 @@ theorem Sec11Q8.comm_mem_zpowers_of_mem_Y [Finite G] {z : G} {Q : Subgroup G}
     rw [h_eq]; exact hup
 
 theorem Sec11Q8.comm_mem_Y [Finite G] {z : G} {Q : Subgroup G} (h : Sec11Q8 G z Q) {p : G}
-    (hp : p ∈ Q) (hpz : p ∉ zpowers z) {u : G} (hun : ∀ q ∈ Q, u * q * u⁻¹ ∈ Q)
+    (hp : p ∈ Q) (_hpz : p ∉ zpowers z) {u : G} (hun : ∀ q ∈ Q, u * q * u⁻¹ ∈ Q)
     (huz : u * z = z * u) (hup : u * p * u⁻¹ * p⁻¹ ∈ zpowers z) {q : G} (hq : q ∈ Q) :
     u * q * u⁻¹ * q⁻¹ ∈ sec11Y p Q := by
   set q' : G := u * q * u⁻¹ with hq'

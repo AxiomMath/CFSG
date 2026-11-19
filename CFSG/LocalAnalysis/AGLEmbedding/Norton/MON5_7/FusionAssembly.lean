@@ -34,7 +34,7 @@ theorem exists_sylow_normalizer [Finite G] {p : ℕ} [Fact p.Prime] (W D : Subgr
   refine ⟨((S₀ : Subgroup (D.subgroupOf W)).map (D.subgroupOf W).subtype).map W.subtype, ?_, ?_, ?_, ?_⟩
   · rintro _ ⟨w, ⟨n, hn, rfl⟩, rfl⟩
     exact n.2
-  · exact (S₀.isPGroup'.map _).map _
+  · exact (S₀.isPGroup.map _).map _
   · intro h
     apply hS₀
     rw [Subgroup.map_eq_bot_iff_of_injective _ W.subtype_injective,
@@ -70,7 +70,7 @@ theorem fusionGenerationOf_of_sup_normal [Finite G] {p : ℕ} [Fact p.Prime]
     exact ⟨⟨x, hxK⟩, hSQ (by simpa [Subgroup.mem_subgroupOf] using hx), rfl⟩
   refine fusionGenerationOf_iff.mpr
     ⟨(Q : Subgroup K).map K.subtype,
-      K.subtype '' Γ ∪ {n | n ∈ W ∧ ∀ s ∈ S, n * s * n⁻¹ ∈ S}, Q.isPGroup'.map _, ?_, ?_, ?_⟩
+      K.subtype '' Γ ∪ {n | n ∈ W ∧ ∀ s ∈ S, n * s * n⁻¹ ∈ S}, Q.isPGroup.map _, ?_, ?_, ?_⟩
   · intro h
     exact hS1 (le_bot_iff.mp (h ▸ hSE))
   · have hKC : ∀ z : K, z ∈ Subgroup.closure Γ → (z : G) ∈

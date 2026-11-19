@@ -65,7 +65,7 @@ variable {p : ℕ} {B Bs : Subgroup G} {x : G} {L D J : Subgroup G} {𝒦 : Fins
 
 theorem ggQTwoDUnit_base_cent (hcfg : GGQTwoDCfg p B Bs x L D J 𝒦 M e) (hp : p = 3) :
     x ∈ Bs ∧ orderOf x = 3 ∧ Bs ⊓ Subgroup.centralizer (L : Set G) = Subgroup.zpowers x := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hSStar : LargeEvenSStar p B x L := hcfg.1.1.1.1.2.2.2.2.2.2.1
   have hGstar : GGBstar p B Bs := hcfg.1.1.1.2.1
   have hxBs : x ∈ Bs := hGstar.1 hSStar.2.1
@@ -120,7 +120,7 @@ theorem ggQTwoDUnit_base_n_eq (hTBF : GGTBFixInput) (hWI : GGNbrInnerWeylInput)
     {f n : ℕ} {ψ : Su K 2 f n →* G} (h : GGNSLocalHyp p B Bs K f n ψ) (hψ : ψ.range = L)
     (hd : GGActsDiagonally (p := 2) (f := f) ψ Bs)
     (ε : Equiv.Perm (Fin n) ≃* ↥(ggAutomizer L Bs))
-    (hperm : ∀ (σ : Equiv.Perm (Fin n)) (s : ↥Bs),
+    (_hperm : ∀ (σ : Equiv.Perm (Fin n)) (s : ↥Bs),
       ((((ε σ : ↥(ggAutomizer L Bs)) : MulAut ↥Bs) s : ↥Bs) : G) =
         ψ (ggPermSU σ⁻¹) * (s : G) * (ψ (ggPermSU σ⁻¹))⁻¹)
     (hrefl : ∀ a b : Fin n, a ≠ b →
@@ -147,10 +147,10 @@ theorem ggQTwoDUnit_base_n_eq (hTBF : GGTBFixInput) (hWI : GGNbrInnerWeylInput)
   have hnm : n ≤ m := by
     subst hp
     subst hM
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hrc : GGSecFiveRouteCfg 3 B Bs x L D J 𝒦 := hcfg.1
     obtain ⟨V, iA, iM, ⟨ι'⟩⟩ := exists_ggLinData (ggRouteCfg_isElemAbelian hrc)
-    haveI : Finite V := Finite.of_equiv _ ι'.toEquiv
+    have : Finite V := Finite.of_equiv _ ι'.toEquiv
     obtain ⟨Θ, ϑ, hϑ, hact⟩ :=
       ggQTwoDFrame_module hrc (by omega) e' hcfg.2.2.2.1 ι' (ggQTwoD_fix hTBF hWI hrc)
     let φ : Equiv.Perm (Fin n) →* (DVec m ≃ₗ[ZMod 3] DVec m) :=

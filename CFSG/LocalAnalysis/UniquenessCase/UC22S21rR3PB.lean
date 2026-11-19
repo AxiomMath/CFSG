@@ -38,7 +38,7 @@ theorem exists_le_or_le (u : R3Pair D L K n p) {H₁ H₂ : Subgroup G} (hH₁ :
     ∃ X : Subgroup G, X ≤ D.M ∧ D.T ≤ X ∧ (X ≤ H₁ ∨ X ≤ H₂) ∧
       Nat.card X ∣ r * Nat.card D.T ∧ (b : G) ∈ normalizer (X : Set G) ∧
       x₀ * x₁⁻¹ ∈ barImage D.M X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hcomm, hinf, -, -, -, hXn, -⟩ := u4x_bar_structure u.hL u.hK u.hne u.hset u.shape
   have hT := u4x_isSylowOf_barImage (p := 2) D.sylowM
   have hβ : x₀ * x₁ ∈ normalizer (barImage D.M D.T : Set (Bar2 D.M)) :=
@@ -85,7 +85,7 @@ theorem exists_le_or_le (u : R3Pair D L K n p) {H₁ H₂ : Subgroup G} (hH₁ :
   have hmT : (m : G) ∉ D.T := fun hmT =>
     hy1 (u4x_eq_one_of_isPGroup hT.isPGroup (hm ▸ uc22p21c_mem_barImage.2 ⟨m, hmT, rfl⟩)
       hr hr2 hyr)
-  have hlt : D.T < barPreimage D.M W := SetLike.lt_iff_le_and_exists.2 ⟨hTX, (m : G), hmX, hmT⟩
+  have hlt : D.T < barPreimage D.M W := IsConcreteLE.lt_iff_le_and_exists.2 ⟨hTX, (m : G), hmX, hmT⟩
   obtain ⟨a, ha⟩ := D.sylowM.isPGroup.exists_card_eq
   have hsol : Group.IsSolvable ↥(barPreimage D.M W) :=
     TauCeti.isSolvable_of_card_dvd_prime_pow_mul_prime_pow (a := a) (b := 1) Nat.prime_two
@@ -125,7 +125,7 @@ theorem false_of_eq_one (u : R3Pair D L K n p) {Ch : Choice2011 G} (h211 : S21_1
     {x₀ x₁ : Bar2 D.M} (hx₀ : x₀ ∈ barImage D.M L) (hx₁ : x₁ ∈ barImage D.M K)
     (hx₀q : x₀ ^ r = 1) (hx₁q : x₁ ^ r = 1) (hx₀1 : x₀ ≠ 1)
     (hbx : uc22p21cPi D.M ⟨b, c.hBM hb⟩ = x₀ * x₁) : False := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨hcomm, -⟩ := u4x_bar_structure u.hL u.hK u.hne u.hset u.shape
   obtain ⟨X, hXM, hTX, hXH, hXd, hbX, hyX⟩ :=
     u.exists_le_or_le hH₁.1 hH₂.1 hfX hr hr2 hx₀ hx₁ hx₀q hx₁q hx₀1 (b := ⟨b, c.hBM hb⟩) hbN hbx
@@ -199,7 +199,7 @@ theorem false_of_ne_one (u : R3Pair D L K n p) {Ch : Choice2011 G} (h211 : S21_1
     (hc : uc22p21cPi D.M ⟨b, c.hBM hb⟩ * (x₀ * x₁)⁻¹ ∈ centralizer
       ((barImage D.M L ⊔ barImage D.M K : Subgroup (Bar2 D.M)) : Set (Bar2 D.M)))
     (hc1 : uc22p21cPi D.M ⟨b, c.hBM hb⟩ * (x₀ * x₁)⁻¹ ≠ 1) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hcomm, -, -, -, hX, hXn, hXC⟩ := u4x_bar_structure u.hL u.hK u.hne u.hset u.shape
   have hbq : b ^ r = 1 := by rw [← hbo]; exact pow_orderOf_eq_one b
   have hβq : uc22p21cPi D.M ⟨b, c.hBM hb⟩ ^ r = 1 := by
@@ -208,7 +208,7 @@ theorem false_of_ne_one (u : R3Pair D L K n p) {Ch : Choice2011 G} (h211 : S21_1
   have hcq := u4x_pow_eq_one hcomm hx₀ hx₁ hc₀ hc₁ hβq hx₀q hx₁q
   have hxX : x₀ * x₁ ∈ barImage D.M L ⊔ barImage D.M K :=
     mul_mem (mem_sup_left hx₀) (mem_sup_right hx₁)
-  haveI := hXn
+  have := hXn
   have hcN : uc22p21cPi D.M ⟨b, c.hBM hb⟩ * (x₀ * x₁)⁻¹ ∈
       normalizer (barImage D.M D.T : Set (Bar2 D.M)) := by
     refine u4x_mem_normalizer_right (fun x hx y hy => Subgroup.mem_centralizer_iff.1 hy x hx)

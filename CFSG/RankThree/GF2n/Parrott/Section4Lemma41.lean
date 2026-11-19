@@ -14,6 +14,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {z : G}
 
+omit [Finite G] in
 theorem J_le_of_isSylowOf (T : Subgroup G) (hT : IsSylowOf 2 T (H z)) : J z ≤ T := by
   obtain ⟨Q, hQ⟩ := hT.exists_sylow_eq_subgroupOf
   have hJQ : (J z).subgroupOf (H z) ≤ (Q : Subgroup ↥(H z)) := by
@@ -26,6 +27,7 @@ theorem J_le_of_isSylowOf (T : Subgroup G) (hT : IsSylowOf 2 T (H z)) : J z ≤ 
   exact Subgroup.mem_subgroupOf.mp (hJQ (Subgroup.mem_subgroupOf.mpr hx :
     (⟨x, J_le_H hx⟩ : ↥(H z)) ∈ (J z).subgroupOf (H z)))
 
+omit [Finite G] in
 theorem inf_centralizer_eq_centerIn_of_isSylowOf (h : Tim79a.ParrottHyp z)
     (hZ : centerIn (J z) = centerIn (H z)) (T : Subgroup G) (hT : IsSylowOf 2 T (H z)) :
     T ⊓ Subgroup.centralizer (T : Set G) = centerIn (J z) := by
@@ -46,6 +48,7 @@ theorem inf_centralizer_eq_centerIn_of_isSylowOf (h : Tim79a.ParrottHyp z)
     intro t ht
     exact Subgroup.mem_centralizer_iff.mp hxH.2 t (hTH ht)
 
+omit [Finite G] in
 theorem centralizer_centerIn_J_eq (h : Tim79a.ParrottHyp z)
     (hZ : centerIn (J z) = centerIn (H z)) :
     Subgroup.centralizer (centerIn (J z) : Set G) = H z := by
@@ -60,6 +63,7 @@ theorem centralizer_centerIn_J_eq (h : Tim79a.ParrottHyp z)
     have hyH : y ∈ centerIn (H z) := hZ ▸ hy
     exact (Subgroup.mem_centralizer_iff.mp hyH.2 x hx).symm
 
+omit [Finite G] in
 theorem normalizer_centerIn_J_le (h : Tim79a.ParrottHyp z)
     (hZ : centerIn (J z) = centerIn (H z)) :
     Subgroup.normalizer (centerIn (J z) : Set G) ≤ H z := by
@@ -120,6 +124,7 @@ theorem normalizer_centerIn_J_le (h : Tim79a.ParrottHyp z)
   calc n * z = n * z * n⁻¹ * n := by group
     _ = z * n := by rw [hzn']
 
+omit [Finite G] in
 theorem normalizer_le_H_of_isSylowOf (h : Tim79a.ParrottHyp z)
     (hZ : centerIn (J z) = centerIn (H z)) (T : Subgroup G) (hT : IsSylowOf 2 T (H z)) :
     Subgroup.normalizer (T : Set G) ≤ H z := by

@@ -187,7 +187,7 @@ open CFSG.Monster.B.Co2.Native CFSG.PSL3Four.Native
 @[expose] def zCheck (zT : Array (Array Nat)) : Bool :=
   zT.size == 16 && allBelow zT.size (fun k => comp 1782 zT[k]! zT[k]! == idTab 1782)
 
-@[expose] def qCheck (rA qA cA : Array (Array Nat)) (eR : Enum)
+@[expose] def qCheck (_rA qA cA : Array (Array Nat)) (eR : Enum)
     (ir : Std.HashMap Tab Nat) (eQ : Enum) : Bool :=
   allBelow 3 (fun i => permOK 1782 qA[i]!) &&
     (allBelow 3 (fun i => found ir eR.tabs qA[i]!) &&
@@ -218,7 +218,7 @@ open CFSG.Monster.B.Co2.Native CFSG.PSL3Four.Native
   let g3v := g3vArrs ()
   let g3 := n3Arrs ()
   let e3 := n3Enum ()
-  let i3 := idxN3 ()
+  let _i3 := idxN3 ()
   let qA := qArrs ()
   let cA := cArrs ()
   let eQ := qEnum ()

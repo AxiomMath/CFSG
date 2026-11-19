@@ -37,7 +37,7 @@ theorem s39a1_card_inf_ker_mul {A B : Type*} [Group A] [Group B] [Finite A] (φ 
 theorem s39a1_le_of_normal_isSylowOf [Finite G] {K E S : Subgroup G} (hE : IsPGroup 2 E)
     (hEK : E ≤ K) (hN : K ≤ normalizer (E : Set G)) (hS : IsSylowOf 2 S K) : E ≤ S := by
   obtain ⟨Q, rfl⟩ := hS
-  haveI : (E.subgroupOf K).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hEK).mpr hN
+  have : (E.subgroupOf K).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hEK).mpr hN
   have hEp : IsPGroup 2 (E.subgroupOf K) := hE.comap_subtype
   have h := hEp.le_sylow_of_normal Q
   intro x hx
@@ -91,7 +91,7 @@ theorem s39a1_lift [Finite G] {M N S : Subgroup G} (hNM : N ≤ M) (hMN : M ≤ 
     (hSM : S ≤ normalizer (M : Set G)) (hSN : S ≤ normalizer (N : Set G)) (hM : IsPGroup 2 M)
     (hS : Odd (Nat.card S)) {m : G} (hm : m ∈ M) (hfix : ∀ s ∈ S, m⁻¹ * (s * m * s⁻¹) ∈ N) :
     ∃ c ∈ M ⊓ centralizer (S : Set G), ∃ n ∈ N, m = c * n := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsolv : Group.IsSolvable M := by
     have := hM.isNilpotent
     infer_instance
@@ -105,7 +105,7 @@ theorem s39a1_ebn_eq_one {X : Type*} [Group X] [Finite X] {D D₀ Y : Subgroup X
     (hD₀ : D₀ ≤ D) (hs : IsSimpleGroup D₀) (hna : ∃ x y : D₀, x * y ≠ y * x)
     (hY : IsPGroup 2 Y) (hDY : D ≤ normalizer (Y : Set X)) {c : X} (hcY : c ∈ Y)
     (hcD : c ∈ D₀) : c = 1 := by
-  haveI := hs
+  have := hs
   have hN : (Y.subgroupOf D₀).Normal := by
     refine ⟨fun n hn g => ?_⟩
     rw [Subgroup.mem_subgroupOf] at hn ⊢
@@ -115,8 +115,8 @@ theorem s39a1_ebn_eq_one {X : Type*} [Group X] [Finite X] {D D₀ Y : Subgroup X
   · exact Subgroup.disjoint_def.mp (Subgroup.subgroupOf_eq_bot.mp h) hcY hcD
   · exfalso
     have hp : IsPGroup 2 D₀ := hY.to_le (Subgroup.subgroupOf_eq_top.mp h)
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Group.IsNilpotent D₀ := hp.isNilpotent
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Group.IsNilpotent D₀ := hp.isNilpotent
     have htop : center D₀ = ⊤ :=
       (IsSimpleGroup.eq_bot_or_eq_top_of_normal (center D₀)).resolve_left
         (Group.IsNilpotent.center_ne_bot D₀)
@@ -182,7 +182,7 @@ theorem s39a1_eq_bot_of_normalizes {X : Type*} [Group X] [Finite X] {D D₁ D₂
 
 theorem s39a1_lop_isSylowOf_top_iff {G : Type*} [Group G] [Finite G] {P : Subgroup G} :
     IsSylowOf 2 P ⊤ ↔ IsPGroup 2 P ∧ ¬ 2 ∣ P.index := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [CFSG.ABGLocalTools.isSylowOf_iff, Subgroup.relIndex_top_right]
   exact ⟨fun h => h.2, fun h => ⟨le_top, h⟩⟩
 
@@ -195,13 +195,13 @@ theorem s39a1_lop_map_isSylowOf {G H : Type*} [Group G] [Finite G] [Group H] [Fi
 theorem s39a1_le_of_prod {J : Type*} [Group J] [Finite J] (hTI : S39a1TI J)
     {R Q : Subgroup (J × J)} (hR : IsSylowOf 2 R ⊤) (hQ : IsPGroup 2 Q) {j : J} (hj : j ≠ 1)
     (hjQ : (j, j) ∈ Q) (hjR : (j, j) ∈ R) : Q ≤ R := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have key : ∀ f : J × J →* J, Function.Surjective f → f (j, j) = j → Q.map f ≤ R.map f := by
     intro f hf hfj
     have hRf : IsSylowOf 2 (R.map f) ⊤ := s39a1_lop_map_isSylowOf f hf hR
     obtain ⟨P, hP⟩ := (hQ.map f).exists_le_sylow
     have hPs : IsSylowOf 2 (P : Subgroup J) ⊤ :=
-      s39a1_lop_isSylowOf_top_iff.mpr ⟨P.isPGroup', P.not_dvd_index⟩
+      s39a1_lop_isSylowOf_top_iff.mpr ⟨P.isPGroup, P.not_dvd_index⟩
     by_contra hne
     have hPR : (P : Subgroup J) ≠ R.map f := fun h => hne (h ▸ hP)
     have hbot := hTI _ _ hPs hRf hPR
@@ -224,7 +224,7 @@ theorem s39a1_le_of_prod {J : Type*} [Group J] [Finite J] (hTI : S39a1TI J)
 
 theorem s39a1_tq_isSylowOf_top_iff {G : Type*} [Group G] [Finite G] {P : Subgroup G} :
     IsSylowOf 2 P ⊤ ↔ IsPGroup 2 P ∧ ¬ 2 ∣ P.index := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [CFSG.ABGLocalTools.isSylowOf_iff, Subgroup.relIndex_top_right]
   exact ⟨fun h => h.2, fun h => ⟨le_top, h⟩⟩
 
@@ -245,7 +245,7 @@ theorem s39a1_tq_eq_one {G : Type*} [Group G] {a b c : G} (hbc : Commute b c)
 theorem s39a1_ti_quot {X J : Type*} [Group X] [Finite X] [Group J] [Finite J] (hTI : S39a1TI X)
     (π : X →* J) (hπ : Function.Surjective π) (hker : ∀ z ∈ π.ker, ∀ x : X, z * x = x * z)
     (hodd : Odd (Nat.card π.ker)) : S39a1TI J := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro P' Q' hP' hQ' hne
   rw [s39a1_tq_isSylowOf_top_iff] at hP' hQ'
   obtain ⟨P₀, hP₀⟩ := Sylow.mapSurjective_surjective hπ 2 (hP'.1.toSylow hP'.2)
@@ -257,8 +257,8 @@ theorem s39a1_ti_quot {X J : Type*} [Group X] [Finite X] [Group J] [Finite J] (h
     have := congrArg (fun S : Sylow 2 J => (S : Subgroup J)) hQ₀
     simpa using this
   have hPQ : (P₀ : Subgroup X) ≠ Q₀ := fun h => hne (by rw [← hP₀', ← hQ₀', h])
-  have hbot := hTI _ _ (s39a1_tq_isSylowOf_top_iff.mpr ⟨P₀.isPGroup', P₀.not_dvd_index⟩)
-    (s39a1_tq_isSylowOf_top_iff.mpr ⟨Q₀.isPGroup', Q₀.not_dvd_index⟩) hPQ
+  have hbot := hTI _ _ (s39a1_tq_isSylowOf_top_iff.mpr ⟨P₀.isPGroup, P₀.not_dvd_index⟩)
+    (s39a1_tq_isSylowOf_top_iff.mpr ⟨Q₀.isPGroup, Q₀.not_dvd_index⟩) hPQ
   rw [eq_bot_iff]
   rintro x ⟨hxP, hxQ⟩
   rw [← hP₀'] at hxP
@@ -268,8 +268,8 @@ theorem s39a1_ti_quot {X J : Type*} [Group X] [Finite X] [Group J] [Finite J] (h
   have hz : q⁻¹ * p ∈ π.ker := by
     rw [MonoidHom.mem_ker, map_mul, map_inv, hqp, inv_mul_cancel]
   have hzodd : Odd (orderOf (q⁻¹ * p)) := Odd.of_dvd_nat hodd (π.ker.orderOf_dvd_natCard hz)
-  obtain ⟨m, hm⟩ := P₀.isPGroup' ⟨p, hp⟩
-  obtain ⟨n, hn⟩ := Q₀.isPGroup' ⟨q, hq⟩
+  obtain ⟨m, hm⟩ := P₀.isPGroup ⟨p, hp⟩
+  obtain ⟨n, hn⟩ := Q₀.isPGroup ⟨q, hq⟩
   have hm' : p ^ 2 ^ m = 1 := by
     have := congrArg Subtype.val hm
     simpa using this
@@ -286,7 +286,7 @@ theorem s39a1_ti_quot {X J : Type*} [Group X] [Finite X] [Group J] [Finite J] (h
 
 theorem s39a1_tla_isSylowOf_top_iff {G : Type*} [Group G] [Finite G] {P : Subgroup G} :
     IsSylowOf 2 P ⊤ ↔ IsPGroup 2 P ∧ ¬ 2 ∣ P.index := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [CFSG.ABGLocalTools.isSylowOf_iff, Subgroup.relIndex_top_right]
   exact ⟨fun h => h.2, fun h => ⟨le_top, h⟩⟩
 
@@ -398,21 +398,26 @@ abbrev s39a1Λ (d : Data G h) : Subgroup (s39a1H d ⧸ s39a1O d) :=
 abbrev s39a1J (d : Data G h) : Subgroup (s39a1H d ⧸ s39a1O d) :=
   (d.N₂.subgroupOf (s39a1H d)).map (s39a1θ d)
 
+omit [Finite G] in
 theorem s39a1_N₂_le_M₂ (d : Data G h) : d.N₂ ≤ d.M₂ :=
   (s39a1_closure_facts d.N₂_le_centralizer_I₂).1
 
+omit [Finite G] in
 theorem s39a1_M₂_le_centralizer (d : Data G h) : d.M₂ ≤ centralizer (d.I₂ : Set G) :=
   (s39a1_closure_facts d.N₂_le_centralizer_I₂).2.1
 
+omit [Finite G] in
 theorem s39a1_centralizer_le_normalizer_M₂ (d : Data G h) :
     centralizer (d.I₂ : Set G) ≤ normalizer (d.M₂ : Set G) :=
   (s39a1_closure_facts d.N₂_le_centralizer_I₂).2.2
 
+omit [Finite G] in
 theorem s39a1_I₅_eq (d : Data G h) : d.I₅ = d.I₂.map (MulAut.conj d.r).toMonoidHom := by
   show d.pull (I₅sub h) = _
   rw [I₅sub_eq_conj]
   exact d.pull_conj _ _
 
+omit [Finite G] in
 theorem s39a1_N₅_le_centralizer_I₅ (d : Data G h) : d.N₅ ≤ centralizer (d.I₅ : Set G) := by
   rw [d.N₅_eq, s39a1_I₅_eq]
   rintro _ ⟨n, hn, rfl⟩
@@ -421,12 +426,15 @@ theorem s39a1_N₅_le_centralizer_I₅ (d : Data G h) : d.N₅ ≤ centralizer (
   have hcomm := mem_centralizer_iff.1 (d.N₂_le_centralizer_I₂ hn) i hi
   rw [← map_mul, ← map_mul, hcomm]
 
+omit [Finite G] in
 theorem s39a1_N₅_le_M₅ (d : Data G h) : d.N₅ ≤ d.M₅ :=
   (s39a1_closure_facts (s39a1_N₅_le_centralizer_I₅ d)).1
 
+omit [Finite G] in
 theorem s39a1_M₅_le_centralizer (d : Data G h) : d.M₅ ≤ centralizer (d.I₅ : Set G) :=
   (s39a1_closure_facts (s39a1_N₅_le_centralizer_I₅ d)).2.1
 
+omit [Finite G] in
 theorem s39a1_centralizer_le_normalizer_M₅ (d : Data G h) :
     centralizer (d.I₅ : Set G) ≤ normalizer (d.M₅ : Set G) :=
   (s39a1_closure_facts (s39a1_N₅_le_centralizer_I₅ d)).2.2
@@ -474,7 +482,7 @@ theorem s39a1_conj_r_centralizer_map (g : G) (X : Subgroup G) :
     have h1 : x * z = z * x := mem_centralizer_iff.1 hz x hx
     rw [← map_mul, ← map_mul, h1]
 
-theorem Hyp.s39a1_conj_r (hd : d.Hyp) :
+theorem Hyp.s39a1_conj_r (_hd : d.Hyp) :
     d.M₅ = d.M₂.map (MulAut.conj d.r).toMonoidHom ∧
     centralizer (d.I₅ : Set G) = (centralizer (d.I₂ : Set G)).map (MulAut.conj d.r).toMonoidHom ∧
     d.N₅ = d.N₂.map (MulAut.conj d.r).toMonoidHom := by
@@ -485,10 +493,11 @@ theorem Hyp.s39a1_conj_r (hd : d.Hyp) :
   refine ⟨?_, hC, d.N₅_eq⟩
   rw [Data.M₂, s39a1_map_closure, Data.M₅, ← hC, ← d.N₅_eq]
 
-theorem Hyp.s39a1_map_conj_r_D (hGMS : GMSK.GMSUnitarySharpKRankOneStatement) (hd : d.Hyp) :
+theorem Hyp.s39a1_map_conj_r_D (_hGMS : GMSK.GMSUnitarySharpKRankOneStatement) (hd : d.Hyp) :
     d.D.map (MulAut.conj d.r).toMonoidHom = d.D :=
   map_conj_eq_of_mem_normalizer (hd.N₁_le_normalizer_D d.r_mem_N₁)
 
+omit [Finite G] in
 theorem s39a1_J_le_Λ (d : Data G h) : s39a1J d ≤ s39a1Λ d :=
   map_mono (subgroupOf_mono _ (s39a1_N₂_le_M₂ d))
 
@@ -521,7 +530,7 @@ theorem ProductCaseHyp.s39a1_layer_data (hp : d.ProductCaseHyp) :
 theorem ProductCaseHyp.s39a1_eq_bot (hp : d.ProductCaseHyp) {Y : Subgroup (s39a1H d ⧸ s39a1O d)}
     (hY : IsPGroup 2 Y) (hΛY : s39a1Λ d ≤ normalizer (Y : Set (s39a1H d ⧸ s39a1O d))) :
     Y = ⊥ := by
-  haveI := hp.s39a1_Λ_normal
+  have := hp.s39a1_Λ_normal
   obtain ⟨hC, ⟨D₁, D₂, hsup, h12, hs₁, hna₁, hs₂, hna₂⟩, -⟩ := hp.s39a1_layer_data
   exact s39a1_eq_bot_of_normalizes hsup h12 hs₁ hna₁ hs₂ hna₂ hC hY hΛY
 
@@ -583,8 +592,8 @@ open scoped commutatorElement in
 theorem s39a1_odd_normal_le_center_or_eq_top {X : Type*} [Group X]
     (hX : CFSG.Open.IsQuasisimple X) (Y : Subgroup X) [hYn : Y.Normal] :
     Y ≤ center X ∨ Y = ⊤ := by
-  haveI : IsSimpleGroup (X ⧸ center X) := hX.2
-  haveI : (Y.map (QuotientGroup.mk' (center X))).Normal :=
+  have : IsSimpleGroup (X ⧸ center X) := hX.2
+  have : (Y.map (QuotientGroup.mk' (center X))).Normal :=
     hYn.map _ (QuotientGroup.mk'_surjective _)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Y.map (QuotientGroup.mk' (center X))) with
     hb | ht
@@ -717,7 +726,7 @@ theorem s39a1_odd_comm_N₂ (hp : d.CaseHyp) {c : G}
     (hd.quasisimple_lieModel_N₂ (X := ↥d.N₂) ⟨MulEquiv.refl _⟩).1
   set A := (s39a1O d).map (s39a1H d).subtype
   set Y : Subgroup ↥d.N₂ := A.subgroupOf d.N₂ with hY
-  haveI hYn : Y.Normal := ⟨fun y hy n => by
+  have hYn : Y.Normal := ⟨fun y hy n => by
     rw [hY, mem_subgroupOf] at hy ⊢
     exact hAH n (hN₂H n.2) y hy⟩
   have hYc : Y ≤ center ↥d.N₂ := by
@@ -802,7 +811,7 @@ theorem CaseHyp.s39a1_odd (hp : d.CaseHyp) :
   have hq : CFSG.Open.IsQuasisimple ↥d.N₂ :=
     (hd.quasisimple_lieModel_N₂ (X := ↥d.N₂) ⟨MulEquiv.refl _⟩).1
   set Y : Subgroup ↥d.N₂ := K.subgroupOf d.N₂ with hY
-  haveI hYn : Y.Normal := ⟨fun y hy n => by
+  have hYn : Y.Normal := ⟨fun y hy n => by
     rw [hY, mem_subgroupOf] at hy ⊢
     exact hKH n (hN₂H n.2) y hy⟩
   have hbK : b ∈ K := by
@@ -825,7 +834,7 @@ theorem CaseHyp.s39a1_odd (hp : d.CaseHyp) :
       rw [hY, mem_subgroupOf] at hnY
       exact hnY
   have hM₂K : d.M₂ ≤ K := by
-    haveI hK'n : (K.subgroupOf (s39a1H d)).Normal := ⟨fun y hy g => by
+    have hK'n : (K.subgroupOf (s39a1H d)).Normal := ⟨fun y hy g => by
       rw [mem_subgroupOf] at hy ⊢
       exact hKH g g.2 y hy⟩
     have hcl : normalClosure ((d.N₂.subgroupOf (s39a1H d) : Subgroup (s39a1H d)) :
@@ -1745,7 +1754,7 @@ theorem ProductCaseHyp.s39a1_sylowE₅ (hp : d.ProductCaseHyp) :
       exact hcS
     rw [hc1, one_mul]
     exact hn.2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q, hQ⟩ := (hX2.comap_subtype (K := d.M₅)).exists_le_sylow
   have hQS : IsSylowOf 2 ((Q : Subgroup d.M₅).map d.M₅.subtype) d.M₅ := ⟨Q, rfl⟩
   have hXQ : d.E ⊓ centralizer (d.I₅ : Set G) ≤ (Q : Subgroup d.M₅).map d.M₅.subtype :=

@@ -16,6 +16,7 @@ section Tight
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem quatInvolution_eq_of_uniqueInvolution {r : ℕ} (hr : 4 ≤ r) {M R : Subgroup X} {z : X}
     (hz : IsUniqueInvolution M z) (hRM : R ≤ M) (e : ↥R ≃* QuaternionGroup (2 ^ (r - 2))) :
     quatInvolution r e = z := by

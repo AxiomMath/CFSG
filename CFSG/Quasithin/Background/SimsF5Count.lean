@@ -60,7 +60,7 @@ theorem cnt_ncard_inter {H : Subgroup GL6} (hM : H ≤ MDot) (hsq : ∀ y ∈ H,
   rw [← Set.ncard_coe_finset]
   congr 1
   ext y
-  simp only [Set.mem_inter_iff, Set.mem_setOf_eq, hL, Finset.mem_coe, Finset.coe_filter]
+  simp only [Set.mem_inter_iff, Set.mem_ofPred_eq, hL, Finset.mem_coe, Finset.coe_filter]
   constructor
   · rintro ⟨hc, hy⟩
     have hyH : y ∈ H := by rw [← SetLike.mem_coe, hL]; exact hy
@@ -82,8 +82,8 @@ theorem cnt_M1Dot_le_MDot : M1Dot ≤ MDot := inf_le_left
 theorem cnt_Q2Dot_eq : (Q2Dot : Set GL6) = ↑(cntEvenSets.image eJ) := by
   rw [Q2Dot_coe]
   ext g
-  simp only [cntEvenSets, Set.mem_setOf_eq, Finset.coe_image, Finset.coe_filter,
-    Finset.mem_powerset, Set.mem_image, Finset.mem_coe]
+  simp only [cntEvenSets, Set.mem_ofPred_eq, Finset.coe_image, Finset.coe_filter,
+    Finset.mem_powerset, Set.mem_image]
   constructor
   · rintro ⟨J, hJ, hev, rfl⟩
     exact ⟨J, ⟨hJ, hev⟩, rfl⟩

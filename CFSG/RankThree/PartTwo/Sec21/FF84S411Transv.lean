@@ -89,7 +89,7 @@ theorem hypTransvRank_of (h41 : FF84_4_1) (h47 : S47TransportItem) (hP : A_PiSta
       have := hx'
       rw [hx'x] at this
       exact this
-    exact Subgroup.commutator_mono (c.U_le_S hU) le_rfl this
+    exact Subgroup.commutator_mono (CFSG.RankThree.PartTwo.Sec21.FF84.S4.S48Ctx.U_le_S hU) le_rfl this
   have hyc2 : ((e ⟨t, htL⟩ : A8s) : P8) ∉ trX e U ⊓ Cen cc := by
     intro hm
     have hinf := trX_inf_cen e U hb₁

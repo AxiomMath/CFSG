@@ -62,7 +62,7 @@ theorem false_of_surjective_of_isCyclic_sylow {Y : Type*} [Group Y] [Finite Y] (
     (T.mapSurjective hψs).maximal_isPGroup.eq_of_le (hEp.to_subgroup ⊤) le_top
   rw [Sylow.coe_mapSurjective] at htop
   set T' : Subgroup X := (T : Subgroup W).map W.subtype with hT'
-  have hT'p : IsPGroup 3 T' := T.isPGroup'.map _
+  have hT'p : IsPGroup 3 T' := T.isPGroup.map _
   obtain ⟨S, hS⟩ := hT'p.exists_le_sylow
   have : IsCyclic S := hcyc S
   have hT'c : IsCyclic T' :=
@@ -224,7 +224,7 @@ theorem Ctx444.isZ3L34OrHeisSL34_map_starQuot (h434 : Item4_34Sec) (h45 : Item4_
   set R := (S : Subgroup Q).map Q.subtype with hR
   have hRQ : R ≤ Q := Subgroup.map_subtype_le _
   have hR3 : ¬ 3 ∣ Nat.card R := fun h3 => hQ3 (h3.trans (Subgroup.card_dvd_of_le hRQ))
-  have hRp : IsPGroup r R := S.isPGroup'.map _
+  have hRp : IsPGroup r R := S.isPGroup.map _
   have hs : Group.IsSolvable (A ⊔ R : Subgroup G) :=
     isSolvable_sup_of_le_normalizer (isSolvable_of_isPGroup hA3) (isSolvable_of_isPGroup hRp) hAS
   exact isZ3L34OrHeisSL34_of_item4_34Sec h434 h hL h3L hLM hAL (hRQ.trans hQL) hAS hR3 hs hSne

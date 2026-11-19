@@ -109,19 +109,19 @@ attribute [local simp] ρM uvA tM uvM uM uMat ofCols_apply Matrix.mul_apply
 
 theorem compat_uv (m : ℕ) (i F G : ℤ) : Compat (k m) (uvM i F G) := by
   intro r c
-  fin_cases r <;> fin_cases c <;> simp [k, Type32x.k, dvd_mul_left]
+  fin_cases r <;> fin_cases c <;> simp [k, Type32x.k]
 
 theorem compat_t (m : ℕ) (i F G : ℤ) : Compat (k m) (tM i F G) := by
   intro r c
-  fin_cases r <;> fin_cases c <;> simp [k, Type32x.k, dvd_mul_left]
+  fin_cases r <;> fin_cases c <;> simp [k, Type32x.k]
 
-theorem compat_u (m : ℕ) (i F G : ℤ) : Compat (k m) (uM F) := by
+theorem compat_u (m : ℕ) (_i F _G : ℤ) : Compat (k m) (uM F) := by
   intro r c
-  fin_cases r <;> fin_cases c <;> simp [k, Type32x.k, dvd_mul_left]
+  fin_cases r <;> fin_cases c <;> simp [k, Type32x.k]
 
-theorem compat_rho (m : ℕ) (i F G : ℤ) : Compat (k m) ρM := by
+theorem compat_rho (m : ℕ) (_i _F _G : ℤ) : Compat (k m) ρM := by
   intro r c
-  fin_cases r <;> fin_cases c <;> simp [k, Type32x.k, dvd_mul_left]
+  fin_cases r <;> fin_cases c <;> simp [k, Type32x.k]
 
 theorem uv_sq {m : ℕ} {i F G N : ℤ} (h : Type32x.Data m i F G N) :
     MatEq (k m) ((uvM i F G) * (uvM i F G)) (1) := by
@@ -173,7 +173,7 @@ theorem rho_cube {m : ℕ} {i F G N : ℤ} (h : Type32x.Data m i F G N) :
   refine MatEq.of_dvd (3 * G + 7) hs (P := 0) ?_
   intro r c
   fin_cases r <;> fin_cases c <;>
-    simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1
+    simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]
 
 theorem u_sq {m : ℕ} {i F G N : ℤ} (h : Type32x.Data m i F G N) :
     MatEq (k m) ((uM F) * (uM F)) (1) := by
@@ -186,7 +186,7 @@ theorem u_sq {m : ℕ} {i F G N : ℤ} (h : Type32x.Data m i F G N) :
   refine MatEq.of_dvd (3 * G + 7) hs (P := 0) ?_
   intro r c
   fin_cases r <;> fin_cases c <;>
-    simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1
+    simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]
 
 theorem u_rho {m : ℕ} {i F G N : ℤ} (h : Type32x.Data m i F G N) :
     MatEq (k m) (ρM * ((uM F) * (ρM * (uM F)))) (1) := by
@@ -199,7 +199,7 @@ theorem u_rho {m : ℕ} {i F G N : ℤ} (h : Type32x.Data m i F G N) :
   refine MatEq.of_dvd (3 * G + 7) hs (P := !![0, 32, 0; 0, 0, 0; 0, 0, 0]) ?_
   intro r c
   fin_cases r <;> fin_cases c <;>
-    simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1
+    simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; ring1
 
 theorem uv_rho {m : ℕ} {i F G N : ℤ} (h : Type32x.Data m i F G N) :
     MatEq (k m) (ρM * (uvM i F G)) ((tM i F G) * ρM) := by
@@ -266,18 +266,18 @@ theorem t_u {m : ℕ} {i F G N : ℤ} (h : Type32x.Data m i F G N) :
 theorem uv_a {m : ℕ} {i F G N : ℤ} (h : Type32x.Data m i F G N) :
     (action h).φuv Torus.a = (4*F*i : ℤ) • Torus.c + (-5*i : ℤ) • Torus.a + (2*i : ℤ) • Torus.b := by
   refine (matAct_gen_of (uvM i F G) (compat_uv m i F G) 1 (4*F*i) (-5*i) (2*i) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 theorem uv_b {m : ℕ} {i F G N : ℤ} (h : Type32x.Data m i F G N) :
     (action h).φuv Torus.b = (4*F*i^2 - 16*F*i - 40*G*i^2 - 120*i^2 : ℤ) • Torus.c +
       (-8*F*i - 26*i^2 : ℤ) • Torus.a + (-4*F*i + 5*i^2 : ℤ) • Torus.b := by
   refine (matAct_gen_of (uvM i F G) (compat_uv m i F G) 2 (4*F*i^2 - 16*F*i - 40*G*i^2 - 120*i^2) (-8*F*i - 26*i^2) (-4*F*i + 5*i^2) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; try ring1)
 
 theorem u_c {m : ℕ} {i F G N : ℤ} (h : Type32x.Data m i F G N) :
     (action h).φu Torus.c = (-1 : ℤ) • Torus.c := by
   refine (matAct_gen_of (uM F) (compat_u m i F G) 0 (-1) (0) (0) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 end Type320
 
@@ -303,19 +303,19 @@ attribute [local simp] ρM uvA tM uvM uM uMat ofCols_apply Matrix.mul_apply
 
 theorem compat_uv (m : ℕ) (i F G N : ℤ) : Compat (k m) (uvM i F G N) := by
   intro r c
-  fin_cases r <;> fin_cases c <;> simp [k, Type32x.k, dvd_mul_left]
+  fin_cases r <;> fin_cases c <;> simp [k, Type32x.k]
 
 theorem compat_t (m : ℕ) (i F G N : ℤ) : Compat (k m) (tM i F G N) := by
   intro r c
-  fin_cases r <;> fin_cases c <;> simp [k, Type32x.k, dvd_mul_left]
+  fin_cases r <;> fin_cases c <;> simp [k, Type32x.k]
 
-theorem compat_u (m : ℕ) (i F G N : ℤ) : Compat (k m) (uM F N) := by
+theorem compat_u (m : ℕ) (_i F _G N : ℤ) : Compat (k m) (uM F N) := by
   intro r c
-  fin_cases r <;> fin_cases c <;> simp [k, Type32x.k, dvd_mul_left]
+  fin_cases r <;> fin_cases c <;> simp [k, Type32x.k]
 
-theorem compat_rho (m : ℕ) (i F G N : ℤ) : Compat (k m) ρM := by
+theorem compat_rho (m : ℕ) (_i _F _G _N : ℤ) : Compat (k m) ρM := by
   intro r c
-  fin_cases r <;> fin_cases c <;> simp [k, Type32x.k, dvd_mul_left]
+  fin_cases r <;> fin_cases c <;> simp [k, Type32x.k]
 
 theorem uv_sq {m : ℕ} {i F G N : ℤ} (h : Type32x.Data m i F G N) :
     MatEq (k m) ((uvM i F G N) * (uvM i F G N)) (1) := by
@@ -352,7 +352,6 @@ theorem uv_sq {m : ℕ} {i F G N : ℤ} (h : Type32x.Data m i F G N) :
     | linear_combination (9216*n^3 + 6912*G*n - 6912*n^2 - 5184*G + 16704*n - 12312) * hG'
     | linear_combination (-196608*n^5 - 147456*G*n^3 + 147456*n^4 - 110592*G^2*n + 110592*G*n^2 - 344064*n^3 + 82944*G^2 - 516096*G*n + 253440*n^2 + 383616*G - 601536*n + 443232) * hG'
     | linear_combination (4194304*n^8 + 3145728*G*n^6 - 6291456*n^7 + 2359296*G^2*n^4 - 4718592*G*n^5 + 9437184*n^6 + 1769472*G^3*n^2 - 3538944*G^2*n^3 + 12582912*G*n^4 - 11796480*n^5 - 2654208*G^3*n + 13565952*G^2*n^2 - 17104896*G*n^3 + 15691776*n^4 + 995328*G^3 - 19021824*G^2*n + 33788928*G*n^2 - 20588544*n^3 + 6511104*G^2 - 45374976*G*n + 27479552*n^2 + 14141952*G - 36028416*n + 10194984) * hG'
-    | ring1
 
 theorem t_sq {m : ℕ} {i F G N : ℤ} (h : Type32x.Data m i F G N) :
     MatEq (k m) ((tM i F G N) * (tM i F G N)) (1) := by
@@ -389,7 +388,6 @@ theorem t_sq {m : ℕ} {i F G N : ℤ} (h : Type32x.Data m i F G N) :
     | linear_combination (-384*n - 576) * hG'
     | linear_combination (512*n^3 + 384*G*n + 29184*n^2 + 21888*G + 16*n + 51984) * hG'
     | linear_combination (1024*n^3 + 768*G*n + 17664*n^2 + 13248*G + 1376*n + 31536) * hG'
-    | ring1
 
 theorem uv_comm_t {m : ℕ} {i F G N : ℤ} (h : Type32x.Data m i F G N) :
     MatEq (k m) ((tM i F G N) * (uvM i F G N)) ((uvM i F G N) * (tM i F G N)) := by
@@ -426,7 +424,6 @@ theorem uv_comm_t {m : ℕ} {i F G N : ℤ} (h : Type32x.Data m i F G N) :
     | linear_combination (6144*n^4 + 4608*G*n^2 + 1536*n^3 + 1152*G*n + 5952*n^2 - 3456*G + 624*n - 9072) * hG'
     | linear_combination (-262144*n^5 - 196608*G*n^3 + 196608*n^4 - 147456*G^2*n + 147456*G*n^2 - 455680*n^3 + 110592*G^2 - 685824*G*n + 409344*n^2 + 565056*G - 796768*n + 718200) * hG'
     | linear_combination (212992*n^5 + 159744*G*n^3 + 1892352*n^4 + 119808*G^2*n + 1419264*G*n^2 + 289792*n^3 + 1078272*G^2 + 496896*G*n + 3418368*n^2 + 5111424*G + 504784*n + 6057504) * hG'
-    | ring1
 
 theorem rho_cube {m : ℕ} {i F G N : ℤ} (h : Type32x.Data m i F G N) :
     MatEq (k m) (ρM * (ρM * ρM)) (1) := by
@@ -452,9 +449,7 @@ theorem rho_cube {m : ℕ} {i F G N : ℤ} (h : Type32x.Data m i F G N) :
   intro r c
   rw [h2m r]
   fin_cases r <;> fin_cases c <;>
-    simp [hsub, hNn, -mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;>
-    first
-    | ring1
+    simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]
 
 theorem u_sq {m : ℕ} {i F G N : ℤ} (h : Type32x.Data m i F G N) :
     MatEq (k m) ((uM F N) * (uM F N)) (1) := by
@@ -581,7 +576,6 @@ theorem t_rho {m : ℕ} {i F G N : ℤ} (h : Type32x.Data m i F G N) :
     | linear_combination (1296*n + 216) * hG'
     | linear_combination (-442368*n^5 - 331776*G*n^3 - 1720320*n^4 - 248832*G^2*n - 1290240*G*n^2 - 691200*n^3 - 981504*G^2 - 1099008*G*n - 3085824*n^2 - 4636224*G - 1206576*n - 5474736) * hG'
     | linear_combination (442368*n^5 + 331776*G*n^3 + 1720320*n^4 + 248832*G^2*n + 1290240*G*n^2 + 694272*n^3 + 981504*G^2 + 1101312*G*n + 3108864*n^2 + 4653504*G + 1206672*n + 5515776) * hG'
-    | ring1
 
 theorem uv_comm_u {m : ℕ} {i F G N : ℤ} (h : Type32x.Data m i F G N) :
     MatEq (k m) ((uM F N) * (uvM i F G N)) ((uvM i F G N) * (uM F N)) := by
@@ -653,7 +647,6 @@ theorem t_u {m : ℕ} {i F G N : ℤ} (h : Type32x.Data m i F G N) :
     | linear_combination (2592*n^2 - 864*n - 216) * hG'
     | linear_combination (-442368*n^5 - 331776*G*n^3 - 1720320*n^4 - 248832*G^2*n - 1290240*G*n^2 - 746496*n^3 - 981504*G^2 - 1140480*G*n - 3095040*n^2 - 4643136*G - 1301616*n - 5491152) * hG'
     | linear_combination (110592*n^4 + 82944*G*n^2 - 39936*n^3 - 29952*G*n + 157824*n^2 - 24192*G - 68640*n - 57456) * hG'
-    | ring1
 
 @[expose] def action {m : ℕ} {i F G N : ℤ} (h : Type32x.Data m i F G N) :
     SigmaFourAction (k m) :=

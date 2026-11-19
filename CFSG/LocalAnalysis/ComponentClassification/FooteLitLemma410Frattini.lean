@@ -133,7 +133,7 @@ theorem exists_sq_eq_of_isKleinFour [Finite G] {X V : Subgroup G}
     exact (mem_map_iff_mem X.subtype_injective).symm
   have hinj : ∀ a ∈ (R₁ : Subgroup X), ∀ b ∈ (R₁ : Subgroup X), ρ a = ρ b → a = b := by
     intro a ha b hb hab
-    have := eq_one_of_mk_eq_one_of_isPGroup R₁.isPGroup' (mul_mem ha (inv_mem hb))
+    have := eq_one_of_mk_eq_one_of_isPGroup R₁.isPGroup (mul_mem ha (inv_mem hb))
       (by rw [map_mul, map_inv, hab, mul_inv_cancel])
     rwa [mul_inv_eq_one] at this
   set σ : ↥(R₁ : Subgroup X) →* DihedralGroup 4 := eD.toMonoidHom.comp
@@ -147,7 +147,7 @@ theorem exists_sq_eq_of_isKleinFour [Finite G] {X V : Subgroup G}
       rw [hσ, MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, map_eq_one_iff _ eD.injective]
         at h2
       exact congrArg Subtype.val h2
-    exact Subtype.ext (eq_one_of_mk_eq_one_of_isPGroup R₁.isPGroup' a.2 h1)
+    exact Subtype.ext (eq_one_of_mk_eq_one_of_isPGroup R₁.isPGroup a.2 h1)
   obtain ⟨a, haV, ha1, -⟩ := exists_ne_of_isKleinFour hV 1
   obtain ⟨b, hbV, hb1, hba⟩ := exists_ne_of_isKleinFour hV a
   have hR : ∀ v (hv : v ∈ V), (⟨v, hVX hv⟩ : ↥X) ∈ (R₁ : Subgroup X) := fun v hv =>
@@ -202,7 +202,7 @@ theorem exists_sq_eq_of_isKleinFour [Finite G] {X V : Subgroup G}
     have h2 : DihedralGroup.r 1 ^ 2 = (1 : DihedralGroup 4) := by
       rw [← hzR, hz1, map_one]
     exact absurd h2 (by decide)
-  · obtain ⟨k, hk⟩ := R₁.isPGroup' uR
+  · obtain ⟨k, hk⟩ := R₁.isPGroup uR
     obtain ⟨i, -, hi⟩ := (Nat.dvd_prime_pow Nat.prime_two).mp (orderOf_dvd_of_pow_eq_one hk)
     refine ⟨i, ?_⟩
     rw [← hi, ← Subgroup.orderOf_coe, ← Subgroup.orderOf_coe]

@@ -32,8 +32,8 @@ variable {Γ : Type*} [Group Γ]
 theorem exists_normalized_sylow [Finite Γ] {Y E : Subgroup Γ} {r : ℕ} [Fact r.Prime]
     (hE3 : IsPGroup 3 E) (hY : ¬ 3 ∣ Nat.card Y) (h : E ≤ Subgroup.normalizer (Y : Set Γ)) :
     ∃ P : Sylow r Y, ∀ e ∈ E, ∀ x : Γ, x ∈ P.map Y.subtype → (e * x * e⁻¹) ∈ P.map Y.subtype := by
-  letI : MulDistribMulAction E Y := MulDistribMulAction.compHom Y (conjHom Y E h)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : MulDistribMulAction E Y := MulDistribMulAction.compHom Y (conjHom Y E h)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hmod := hE3.card_modEq_card_fixedPoints (Sylow r Y)
   have hdvd : Nat.card (Sylow r Y) ∣ Nat.card Y := by
     obtain ⟨P⟩ : Nonempty (Sylow r Y) := inferInstance
@@ -71,13 +71,13 @@ theorem exists_elemAbelian_normalized [Finite Γ] {Y E : Subgroup Γ} (hE3 : ∀
   have hcard1 : Nat.card Y ≠ 1 := fun h1 => hYbot (Subgroup.eq_bot_of_card_eq Y h1)
   obtain ⟨r, hr, hrdvd⟩ := Nat.exists_prime_and_dvd hcard1
   have hr3 : r ≠ 3 := fun h3 => hY (h3 ▸ hrdvd)
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hE3' : IsPGroup 3 E := fun g => ⟨1, by
     apply Subtype.ext
     simpa using hE3 g g.2⟩
   obtain ⟨P, hPnorm⟩ := exists_normalized_sylow (r := r) hE3' hY h
   set R : Subgroup Γ := (P : Subgroup Y).map Y.subtype with hR
-  have hRp : IsPGroup r R := P.isPGroup'.map Y.subtype
+  have hRp : IsPGroup r R := P.isPGroup.map Y.subtype
   have hRcard : Nat.card R = Nat.card (P : Subgroup Y) :=
     Subgroup.card_map_of_injective Y.subtype_injective
   have hRdvd : r ∣ Nat.card R := by
@@ -88,10 +88,10 @@ theorem exists_elemAbelian_normalized [Finite Γ] {Y E : Subgroup Γ} (hE3 : ∀
     rw [hRcard, h1]
     exact dvd_pow_self r h2.ne'
   have hRnorm : ∀ e ∈ E, ∀ x ∈ R, e * x * e⁻¹ ∈ R := hPnorm
-  haveI : Nontrivial R := by
+  have : Nontrivial R := by
     rw [← Finite.one_lt_card_iff_nontrivial]
     exact lt_of_lt_of_le hr.one_lt (Nat.le_of_dvd Nat.card_pos hRdvd)
-  haveI : Nontrivial (Subgroup.center R) := hRp.center_nontrivial
+  have : Nontrivial (Subgroup.center R) := hRp.center_nontrivial
   have hZp : IsPGroup r (Subgroup.center R) := hRp.to_subgroup _
   have hZdvd : r ∣ Nat.card (Subgroup.center R) := by
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card).mp hZp

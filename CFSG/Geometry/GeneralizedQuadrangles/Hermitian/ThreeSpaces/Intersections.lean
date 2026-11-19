@@ -17,6 +17,7 @@ universe u
 variable {V : Type u} {Γ : SimpleGraph V} [Fintype V] [DecidableRel Γ.Adj] {c : Γ.Coloring (Fin 2)}
   {q : ℕ}
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem color_zero_of_mem_of_isThreespace {E : Set V}
     (hE : IsThreespace Γ c q E) {z : V} (hz : z ∈ E) : c z = 0 := by
   rcases hE with ⟨x, -, rfl⟩ | hF
@@ -40,7 +41,7 @@ private theorem not_subset_neighborSet_of_isPlane (hΓ : IsThasQuadrangle Γ c q
   intro hsub
   rcases hT with ⟨u, v, hu0, huv4, hTeq⟩ | ⟨a, b, z, ha0, hab4, hzT, hTeq⟩
   · have hTcard : T.ncard = q ^ 3 + 1 := by
-      rw [hTeq, ncard_trace hP huv4, hΓ.deg u, if_pos hu0]
+      rw [hTeq, ncard_trace hP huv4, hΓ.deg u, ite_eq_left hu0]
     have hpos : 0 < T.ncard := by rw [hTcard]; positivity
     obtain ⟨u', hu'T⟩ := (Set.ncard_pos (s := T)).mp hpos
     have h2 : 1 < T.ncard := by
@@ -147,7 +148,7 @@ theorem isStarPlane_inter (hΓ : IsThasQuadrangle Γ c q) {E E' : Set V}
       ⟨Or.inr hE, hsubE hX⟩
     have hset : U X = threeBundle Γ c q (Subtype.val '' X) \ {E} := by
       ext E''
-      simp only [U, Set.mem_setOf_eq, Set.mem_sdiff, Set.mem_singleton_iff]
+      simp only [U, Set.mem_ofPred_eq, Set.mem_sdiff, Set.mem_singleton_iff]
     rw [hset, Set.ncard_sdiff_singleton_of_mem hE_mem, hbcard]
     omega
   have hdisj : S.PairwiseDisjoint U := by
@@ -157,7 +158,7 @@ theorem isStarPlane_inter (hΓ : IsThasQuadrangle Γ c q) {E E' : Set V}
     ext E''
     simp only [Set.mem_inter_iff, Set.mem_empty_iff_false, iff_false, not_and]
     intro hXU hYU
-    simp only [U, Set.mem_setOf_eq] at hXU hYU
+    simp only [U, Set.mem_ofPred_eq] at hXU hYU
     have hTX : IsTracePlane Γ c (Subtype.val '' X) ∨
         IsConePlane Γ c (Subtype.val '' X) :=
       (isStarPlane_subquadrangle_iff hΓ hE).mp hX
@@ -191,14 +192,14 @@ theorem isStarPlane_inter (hΓ : IsThasQuadrangle Γ c q) {E E' : Set V}
     obtain ⟨X, hE''⟩ := hE''
     rw [Set.mem_iUnion] at hE''
     obtain ⟨hXS, hXU⟩ := hE''
-    simp only [U, Set.mem_setOf_eq] at hXU
+    simp only [U, Set.mem_ofPred_eq] at hXU
     exact ⟨hXU.1.1, hXU.2⟩
   have hCcard : C.ncard = q ^ 8 + q ^ 6 + q ^ 4 + q ^ 2 := by
     have hall := ncard_threespaces hΓ
     have hE_all : E ∈ {E'' | IsThreespace Γ c q E''} := Or.inr hE
     have hCeq : C = {E'' | IsThreespace Γ c q E''} \ {E} := by
       ext E''
-      simp only [C, Set.mem_setOf_eq, Set.mem_sdiff, Set.mem_singleton_iff]
+      simp only [C, Set.mem_ofPred_eq, Set.mem_sdiff, Set.mem_singleton_iff]
     rw [hCeq, Set.ncard_sdiff_singleton_of_mem hE_all, hall]
     omega
   have hUnionCard' : (⋃ X ∈ S, U X).ncard = q ^ 8 + q ^ 6 + q ^ 4 + q ^ 2 := by
@@ -215,7 +216,7 @@ theorem isStarPlane_inter (hΓ : IsThasQuadrangle Γ c q) {E E' : Set V}
   obtain ⟨X, hE'union⟩ := hE'union
   rw [Set.mem_iUnion] at hE'union
   obtain ⟨hXS, hXU⟩ := hE'union
-  simp only [U, Set.mem_setOf_eq] at hXU
+  simp only [U, Set.mem_ofPred_eq] at hXU
   have hTX : IsTracePlane Γ c (Subtype.val '' X) ∨
       IsConePlane Γ c (Subtype.val '' X) :=
     (isStarPlane_subquadrangle_iff hΓ hE).mp hXS
@@ -388,10 +389,10 @@ theorem existsUnique_isThreeBundle (hΓ : IsThasQuadrangle Γ c q) {E E' : Set V
           have heqcard : T.ncard = (Γ.neighborSet L').ncard := congrArg Set.ncard heq
           have hTcard : T.ncard = q ^ 3 + 1 := by
             change (traceSet Γ x y).ncard = q ^ 3 + 1
-            rw [ncard_trace hP hxy4, hΓ.deg x, if_pos hx0]
+            rw [ncard_trace hP hxy4, hΓ.deg x, ite_eq_left hx0]
           have hNcard : (Γ.neighborSet L').ncard = q ^ 2 + 1 := by
             rw [SimpleGraph.ncard_neighborSet, hΓ.deg L',
-              if_neg (by rw [hL'1]; decide)]
+              ite_eq_right (by rw [hL'1]; decide)]
           have heq' : q ^ 3 + 1 = q ^ 2 + 1 := by
             rw [← hTcard, ← hNcard]
             exact heqcard

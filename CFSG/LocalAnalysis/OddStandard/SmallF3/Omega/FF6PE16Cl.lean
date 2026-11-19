@@ -23,6 +23,7 @@ theorem ff_g0_fixed_even_E0 {J : Finset (Fin 5)} (hJ : Even J.card)
 @[expose] noncomputable def ffS2p (fr : PFrame Q (Option (Fin 5)) ffC) : Set (OGroup Q) :=
   {g | ∃ σ ∈ ffV4g, ∃ J ∈ ffE0s, g = ffHat fr σ * fr.signChange (ffOpt J)}
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem ffOutFF6PE16Cl_S2_eq_image (fr : PFrame Q (Option (Fin 5)) ffC) :
     ffS2p fr = (fun p : Equiv.Perm (Fin 5) × Finset (Fin 5) =>
       ffHat fr p.1 * fr.signChange (ffOpt p.2)) '' (↑(ffV4g ×ˢ ffE0s) : Set _) := by
@@ -34,10 +35,12 @@ private theorem ffOutFF6PE16Cl_S2_eq_image (fr : PFrame Q (Option (Fin 5)) ffC) 
     have hp' : σ ∈ ffV4g ∧ J ∈ ffE0s := by simpa [Finset.mem_product] using hp
     exact ⟨σ, hp'.1, J, hp'.2, rfl⟩
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffS2p_finite (fr : PFrame Q (Option (Fin 5)) ffC) : (ffS2p fr).Finite := by
   rw [ffOutFF6PE16Cl_S2_eq_image]
   exact (Finset.finite_toSet (ffV4g ×ˢ ffE0s)).image _
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffS2p_ncard_le (fr : PFrame Q (Option (Fin 5)) ffC) : (ffS2p fr).ncard ≤ 16 := by
   rw [ffOutFF6PE16Cl_S2_eq_image]
   calc ((fun p : Equiv.Perm (Fin 5) × Finset (Fin 5) =>

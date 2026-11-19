@@ -57,7 +57,7 @@ theorem diag_mul_tMat (a c : Kˣ) :
   apply Units.ext
   rw [Units.val_mul, Units.val_mul, coe_tMat, coe_diagHom]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_three, Matrix.diagonal_apply]
+  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Matrix.diagonal_apply]
 
 @[expose] def thetaPi (C : Subgroup Kˣ) : ↥C × ↥C →* (Fin 3 → Kˣ) where
   toFun x := ![x.1.1, x.2.1, (x.1.1 * x.2.1)⁻¹]
@@ -92,7 +92,7 @@ theorem nineData_of_mem {S : Subgroup (GL (Fin 3) K)} {ω : Kˣ} (hω : orderOf 
       diagHom 3 ![a, b, (a * b)⁻¹] ∈ S) (ht : tMat K ∈ S) : NineData ↥S := by
   set C := Subgroup.zpowers ω with hC
   have hCcard : Nat.card C = 9 := by rw [hC, Nat.card_zpowers, hω]
-  haveI : IsCyclic C := inferInstance
+  have : IsCyclic C := inferInstance
   have hcardZ : Nat.card (Multiplicative (ZMod 9)) = 9 := by
     rw [Nat.card_congr Multiplicative.toAdd, Nat.card_zmod]
   let eC : C ≃* Multiplicative (ZMod 9) := mulEquivOfCyclicCardEq (hCcard.trans hcardZ.symm)

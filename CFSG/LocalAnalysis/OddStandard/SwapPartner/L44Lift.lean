@@ -24,7 +24,7 @@ theorem card_centralizer_ge_and_seven_dvd_card_of_perfect {H : Type} [Group H] [
       (7 ∣ Nat.card (centralizer ({d} : Set H)) → 7 ∣ Nat.card D₀) := by
   classical
   let S : Subgroup (H ⧸ D₀) := N.map (QuotientGroup.mk' D₀)
-  haveI : S.Normal :=
+  have : S.Normal :=
     Subgroup.Normal.map (H := N) inferInstance (QuotientGroup.mk' D₀)
       (QuotientGroup.mk'_surjective D₀)
   obtain ⟨e⟩ : Nonempty (↥S ≃* (↥N ⧸ Subgroup.center ↥N)) :=

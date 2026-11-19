@@ -27,7 +27,7 @@ theorem mem_of_index_eq_two_of_odd_orderOf {H : Subgroup M} (hH : H.index = 2) {
   exact H.pow_mem (Subgroup.sq_mem_of_index_two hH x) _
 
 theorem le_of_index_eq_two_of_odd [Finite M] {H K : Subgroup M} (hH : H.index = 2)
-    (hK : Odd (Nat.card K)) : K ≤ H := fun x hx =>
+    (hK : Odd (Nat.card K)) : K ≤ H := fun _x hx =>
   mem_of_index_eq_two_of_odd_orderOf hH (hK.of_dvd_nat (Subgroup.orderOf_dvd_natCard K hx))
 
 theorem odd_orderOf_of_mem_isPGroup {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {Q : Subgroup M}
@@ -40,11 +40,11 @@ theorem odd_orderOf_of_mem_isPGroup {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {Q 
   rw [hj]
   exact (hp.odd_of_ne_two hp2).pow
 
-theorem exists_isSylowOf_forall_le_of_odd_mem [Finite M] {C R : Subgroup M} (hRC : R ≤ C)
+theorem exists_isSylowOf_forall_le_of_odd_mem [Finite M] {C R : Subgroup M} (_hRC : R ≤ C)
     (hR : ∀ x ∈ R, ∀ y ∈ R, x * y = y * x) (hodd : ∀ x ∈ C, Odd (orderOf x) → x ∈ R) {p : ℕ}
     (hp : p.Prime) (hp2 : p ≠ 2) :
     ∃ P : Subgroup M, IsSylowOf p P C ∧ ∀ Q : Subgroup M, Q ≤ C → IsPGroup p Q → Q ≤ P := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨P, hP⟩ := CFSG.ABGLocalTools.exists_isSylowOf p C
   have hle : ∀ Q : Subgroup M, Q ≤ C → IsPGroup p Q → Q ≤ R := fun Q hQC hQ x hx =>
     hodd x (hQC hx) (odd_orderOf_of_mem_isPGroup hp hp2 hQ hx)
@@ -100,7 +100,7 @@ theorem mul_comm_of_mem_kleinFour {Z : Subgroup M} (hZ : IsKleinFour Z) {a b : M
 theorem mem_kleinFour_cases {Z : Subgroup M} (hZ : IsKleinFour Z) {a c : M} (ha : a ∈ Z)
     (hc : c ∈ Z) (ha1 : a ≠ 1) (hc1 : c ≠ 1) (hac : a ≠ c) {z : M} (hz : z ∈ Z) :
     z = 1 ∨ z = a ∨ z = c ∨ z = a * c := by
-  haveI := hZ
+  have := hZ
   by_contra h
   push Not at h
   obtain ⟨h1, h2, h3, h4⟩ := h
@@ -110,7 +110,7 @@ theorem mem_kleinFour_cases {Z : Subgroup M} (hZ : IsKleinFour Z) {a c : M} (ha 
     (fun h => h2 (congrArg Subtype.val h)) (fun h => h3 (congrArg Subtype.val h))
   exact h4 (congrArg Subtype.val this)
 
-theorem exists_mem_kleinFour_ne {Z : Subgroup M} (hZ : IsKleinFour Z) {a : M} (ha : a ∈ Z) :
+theorem exists_mem_kleinFour_ne {Z : Subgroup M} (hZ : IsKleinFour Z) {a : M} (_ha : a ∈ Z) :
     ∃ c ∈ Z, c ≠ 1 ∧ c ≠ a := by
   by_contra h
   push Not at h
@@ -120,7 +120,7 @@ theorem exists_mem_kleinFour_ne {Z : Subgroup M} (hZ : IsKleinFour Z) {a : M} (h
       exact one_mem _
     rw [h z hz hz1]
     exact mem_zpowers a
-  haveI := hZ
+  have := hZ
   exact IsKleinFour.not_isCyclic (Subgroup.isCyclic_of_le hle)
 
 theorem sq_conj_eq (g z : M) : g ^ 2 * z * (g ^ 2)⁻¹ = g * (g * z * g⁻¹) * g⁻¹ := by
@@ -278,7 +278,7 @@ theorem gw_lemma_2_1_of_isSimpleGroup [Finite M] [IsSimpleGroup M] (h4 : 4 < Nat
     (∀ S : Sylow 2 M, ∀ Z : Subgroup M, Z ≤ (S : Subgroup M) → IsKleinFour Z →
       CFSG.GorensteinWalter.NormalizerContainsCPrime Z) := by
   have hidx : ∀ N : Subgroup M, N.Normal → N.index ≠ 2 ∧ N.index ≠ 4 := fun N hN => by
-    haveI := hN
+    have := hN
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal N with rfl | rfl
     · rw [Subgroup.index_bot]
       omega
@@ -300,7 +300,7 @@ theorem exists_mem_normalizer_sq_not_mem_centralizer [Finite M] [IsSimpleGroup M
 
 theorem exists_mem_normalizer_not_mem_of_lt [Finite M] {p : ℕ} [Fact p.Prime] {P P' : Subgroup M}
     (hP' : IsPGroup p P') (hlt : P < P') : ∃ x ∈ P', x ∈ normalizer (P : Set M) ∧ x ∉ P := by
-  haveI : Group.IsNilpotent P' := hP'.isNilpotent
+  have : Group.IsNilpotent P' := hP'.isNilpotent
   have hH : P.subgroupOf P' < ⊤ := by
     rw [lt_top_iff_ne_top]
     intro h
@@ -308,7 +308,7 @@ theorem exists_mem_normalizer_not_mem_of_lt [Finite M] {p : ℕ} [Fact p.Prime] 
     intro x hx
     have : (⟨x, hx⟩ : P') ∈ P.subgroupOf P' := h ▸ mem_top _
     exact this
-  obtain ⟨y, hy, hyH⟩ := SetLike.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hH)
+  obtain ⟨y, hy, hyH⟩ := IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hH)
   refine ⟨y, y.2, ?_, hyH⟩
   apply Subgroup.mem_normalizer_fintype
   intro n hn
@@ -399,7 +399,7 @@ theorem psl2_exists_isCyclic_forall_odd_mem (hF : IsOddPrimePower (Nat.card F)) 
   obtain ⟨ε, hε, hε1⟩ := exists_modEq_four_of_odd (odd_of_isOddPrimePower hF)
   obtain ⟨m, hm, ⟨e⟩⟩ := CFSG.ABGDGroups.psl2_centralizer_involution_dihedral hF hε hε1 ht
   have h3 := three_le_of_isOddPrimePower hF
-  haveI : NeZero m := ⟨by rintro rfl; rcases hε1 with rfl | rfl <;> omega⟩
+  have : NeZero m := ⟨by rintro rfl; rcases hε1 with rfl | rfl <;> omega⟩
   exact exists_isCyclic_forall_odd_mem_of_mulEquiv_dihedralGroup e
 
 theorem pgl2_index_range_toPGL (hF : IsOddPrimePower (Nat.card F)) :
@@ -424,7 +424,7 @@ theorem pgl2_exists_isCyclic_forall_odd_mem (hF : IsOddPrimePower (Nat.card F)) 
     obtain ⟨m, hm, ⟨e⟩⟩ :=
       CFSG.ABGDGroups.pgl2_inf_centralizer_outer_involution_dihedral hF hε hε1 hg hgJ
     have h3 := three_le_of_isOddPrimePower hF
-    haveI : NeZero m := ⟨by rintro rfl; rcases hε1 with rfl | rfl <;> omega⟩
+    have : NeZero m := ⟨by rintro rfl; rcases hε1 with rfl | rfl <;> omega⟩
     obtain ⟨R, hRD, hRc, hodd⟩ := exists_isCyclic_forall_odd_mem_of_mulEquiv_dihedralGroup e
     exact ⟨R, hRD.trans inf_le_right, hRc, fun x hx hxo =>
       hodd x ⟨mem_of_index_eq_two_of_odd_orderOf hJ hxo, hx⟩ hxo⟩
@@ -441,7 +441,7 @@ theorem pgl2_card_inf_centralizer_of_mem (hF : IsOddPrimePower (Nat.card F)) {ε
   have ht : orderOf t = 2 := by rwa [orderOf_injective toPGL hinj] at hg
   obtain ⟨m, hm, ⟨e⟩⟩ := CFSG.ABGDGroups.psl2_centralizer_involution_dihedral hF hε hε1 ht
   have h3 := three_le_of_isOddPrimePower hF
-  haveI : NeZero m := ⟨by rintro rfl; rcases hε1 with rfl | rfl <;> omega⟩
+  have : NeZero m := ⟨by rintro rfl; rcases hε1 with rfl | rfl <;> omega⟩
   have hmap := CFSG.ABGDGroups.map_inf_centralizer_of_injective toPGL hinj ⊤ t
   rw [top_inf_eq, ← MonoidHom.range_eq_map] at hmap
   rw [← hmap, card_map_of_injective hinj, Nat.card_congr e.toEquiv, DihedralGroup.nat_card]
@@ -457,7 +457,7 @@ theorem pgl2_card_inf_centralizer_of_not_mem (hF : IsOddPrimePower (Nat.card F))
   obtain ⟨m, hm, ⟨e⟩⟩ :=
     CFSG.ABGDGroups.pgl2_inf_centralizer_outer_involution_dihedral hF hε hε1 hg hgJ
   have h3 := three_le_of_isOddPrimePower hF
-  haveI : NeZero m := ⟨by rintro rfl; rcases hε1 with rfl | rfl <;> omega⟩
+  have : NeZero m := ⟨by rintro rfl; rcases hε1 with rfl | rfl <;> omega⟩
   rw [Nat.card_congr e.toEquiv, DihedralGroup.nat_card]
   push_cast
   exact hm
@@ -490,10 +490,10 @@ theorem pgl2_exists_mem_normalizer_conj_eq_mul
     (ha : a ∈ V) (ha1 : a ≠ 1)
     (haJ : a ∉ (Matrix.ProjectiveSpecialLinearGroup.toPGL (n := Fin 2) (R := F)).range) :
     ∃ g ∈ normalizer (V : Set (PGL2 F)), g * a * g⁻¹ = u * a := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set J := (Matrix.ProjectiveSpecialLinearGroup.toPGL (n := Fin 2) (R := F)).range with hJdef
   have hJ : J.index = 2 := pgl2_index_range_toPGL hF
-  haveI hJn : J.Normal := normal_of_index_eq_two hJ
+  have hJn : J.Normal := normal_of_index_eq_two hJ
   have hCV := pgl2_centralizer_kleinFour hF hV
   have hu2 : orderOf u = 2 := orderOf_eq_prime (sq_eq_one_of_mem_kleinFour hV hu) hu1
   have ha2 : orderOf a = 2 := orderOf_eq_prime (sq_eq_one_of_mem_kleinFour hV ha) ha1
@@ -537,7 +537,7 @@ theorem pgl2_exists_mem_normalizer_conj_eq_mul
     (CFSG.ABGDGroups.isPGroup_two_of_isKleinFour hV).comap_subtype
   obtain ⟨S, hS⟩ := hV2.exists_le_sylow
   set T := (S : Subgroup Cu).map Cu.subtype with hTdef
-  have hT2 : IsPGroup 2 T := S.isPGroup'.map _
+  have hT2 : IsPGroup 2 T := S.isPGroup.map _
   have hVT : V ≤ T := fun v hv => ⟨⟨v, hVCu hv⟩, hS (by simpa [mem_subgroupOf] using hv), rfl⟩
   have hTcard : 2 ^ 3 ∣ Nat.card T := by
     rw [hTdef, card_map_of_injective Cu.subtype_injective]

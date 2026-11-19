@@ -28,6 +28,7 @@ variable (φ : K →* H)
 
 @[expose] def img (Z : Subgroup G) : Subgroup H := (Z.subgroupOf K).map φ
 
+omit [Finite G] [Finite H] in
 theorem mem_img {Z : Subgroup G} {h : H} :
     h ∈ img φ Z ↔ ∃ z : K, (z : G) ∈ Z ∧ φ z = h := by
   unfold img
@@ -38,13 +39,14 @@ theorem mem_img {Z : Subgroup G} {h : H} :
   · rintro ⟨z, hz, rfl⟩
     exact ⟨z, Subgroup.mem_subgroupOf.mpr hz, rfl⟩
 
+omit [Finite G] [Finite H] in
 theorem inj_on_two_group (hN : ∀ x : K, φ x = 1 ↔ (x : G) ∈ N) (hNodd : Odd (Nat.card N))
     {Z : Subgroup G} (hZ : IsPGroup 2 Z) {x y : K} (hx : (x : G) ∈ Z) (hy : (y : G) ∈ Z)
     (hxy : φ x = φ y) : x = y := by
   have h1 : φ (x⁻¹ * y) = 1 := by rw [map_mul, map_inv, hxy, inv_mul_cancel]
   have hmem : ((x⁻¹ * y : K) : G) ∈ N := (hN _).mp h1
   have hZmem : ((x⁻¹ * y : K) : G) ∈ Z := Z.mul_mem (Z.inv_mem hx) hy
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hN2 : ¬ 2 ∣ Nat.card N := by
     have := Nat.odd_iff.mp hNodd
     omega
@@ -55,6 +57,7 @@ theorem inj_on_two_group (hN : ∀ x : K, φ x = 1 ↔ (x : G) ∈ N) (hNodd : O
   rw [hbot, Subgroup.mem_bot] at hmem'
   exact inv_mul_eq_one.mp (Subtype.ext hmem')
 
+omit [Finite G] [Finite H] in
 theorem card_img (hN : ∀ x : K, φ x = 1 ↔ (x : G) ∈ N) (hNodd : Odd (Nat.card N))
     {Z : Subgroup G} (hZK : Z ≤ K) (hZ : IsPGroup 2 Z) : Nat.card (img φ Z) = Nat.card Z := by
   let f : Z.subgroupOf K → img φ Z := fun z =>
@@ -71,6 +74,7 @@ theorem card_img (hN : ∀ x : K, φ x = 1 ↔ (x : G) ∈ N) (hNodd : Odd (Nat.
   rw [← Nat.card_congr (Equiv.ofBijective f ⟨hinj, hsurj⟩)]
   exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hZK).toEquiv
 
+omit [Finite H] in
 theorem exists_lift_sylow (hφ : Function.Surjective φ)
     (hN : ∀ x : K, φ x = 1 ↔ (x : G) ∈ N) (hNK : N ≤ K)
     (hNodd : Odd (Nat.card N)) (hN3 : ¬ 3 ∣ Nat.card N)

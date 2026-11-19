@@ -82,7 +82,7 @@ private theorem s6_a2_kernel
       (π = 1 → w ∈ kernelReflectionGroup a) := by
   classical
   obtain ⟨c, hc⟩ := s6_three a h3L hap h18
-  haveI : Fintype (KernelComponent (rootCharHom a)) :=
+  have : Fintype (KernelComponent (rootCharHom a)) :=
     Fintype.ofEquiv (Fin 3) (Equiv.ofBijective c hc)
   have hΨinj : Function.Injective (componentRoots (rootCharHom a)) := by
     intro i j h
@@ -228,12 +228,12 @@ theorem langNontoralStructure_holds
     have hconj_pow : ∀ k : ℕ, (MulAut.conj n) ^ k = MulAut.conj (n ^ k) := by
       intro k
       induction k with
-      | zero => ext x; simp [MulAut.conj_apply]
+      | zero => ext x; simp
       | succ k ih => rw [pow_succ, ih, ← s6_conj_mul, ← pow_succ]
     have hconj3 : (MulAut.conj n) ^ 3 = 1 := by
       rw [hconj_pow, hn3]
       ext x
-      simp [MulAut.conj_apply]
+      simp
     have hiter : ∀ k : ℕ, ∀ i,
         (componentRootSpan L (rootCharHom a) i).map (((MulAut.conj n) ^ k).toMonoidHom) =
           componentRootSpan L (rootCharHom a) (((σ : Equiv.Perm _) ^ k) i) := by

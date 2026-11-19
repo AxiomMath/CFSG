@@ -21,7 +21,7 @@ theorem trace_eq_of_pow_char_eq_one {m : ℕ} [NeZero m] {X : Matrix (Fin m) (Fi
   rw [Matrix.trace_sub, Matrix.trace_one, Fintype.card_fin] at ht
   linear_combination ht
 
-theorem trace_eq_two_or_neg_two (hp2 : p ≠ 2) {C : Matrix (Fin 2) (Fin 2) K} (hdet : C.det = 1)
+theorem trace_eq_two_or_neg_two (_hp2 : p ≠ 2) {C : Matrix (Fin 2) (Fin 2) K} (hdet : C.det = 1)
     (hC : C ^ (2 * p) = 1) : C.trace = 2 ∨ C.trace = -2 := by
   have h2 : (C ^ 2) ^ p = 1 := by rw [← pow_mul, hC]
   have htr := trace_eq_of_pow_char_eq_one (p := p) h2

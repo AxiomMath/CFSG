@@ -19,7 +19,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem uc22ine229_mk_mem_map_iff {L : Subgroup G} (Q : Sylow 2 ↥L) (l : ↥L) :
     (QuotientGroup.mk l : Bar2 L) ∈ (Q : Subgroup ↥L).map (QuotientGroup.mk' (CFSG.pCore 2 ↥L)) ↔
       l ∈ (Q : Subgroup ↥L) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   change QuotientGroup.mk' (CFSG.pCore 2 ↥L) l ∈ _ ↔ _
   rw [← Subgroup.mem_comap, Subgroup.comap_map_eq, QuotientGroup.ker_mk',
     sup_eq_left.2 (CFSG.fitting_pCore_le_sylow Q)]
@@ -32,8 +32,8 @@ theorem uc22ine229_exists_mem_normalizer_of_concl {L T₀ : Subgroup G}
       ∀ e m' : ℕ, Odd m' → n = 2 ^ e * m' →
         uc22pwlie_Concl uc22pwr1_shape (Bar2 L) U ↥T₀ (uc22pwIndHom L T₀ hT₀L) n m') :
     ∃ x ∈ L, orderOf x = r ∧ x ∈ normalizer (T₀ : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨Q, hQ⟩ := hS
   obtain ⟨U, hU⟩ : ∃ U : Sylow 2 (Bar2 L), ∀ l : ↥L,
       (QuotientGroup.mk l : Bar2 L) ∈ (U : Subgroup (Bar2 L)) ↔ (l : G) ∈ T₀ := by
@@ -51,7 +51,7 @@ theorem uc22ine229_exists_mem_normalizer_of_concl {L T₀ : Subgroup G}
   have hC' := hC U hψ e m' hm' hnem
   unfold uc22pwlie_Concl at hC'
   obtain ⟨E, -, ⟨hcyc, -, -⟩, hpi, -, hα, -⟩ := hC'
-  haveI := hcyc
+  have := hcyc
   have hsm : s ∣ m' :=
     (Nat.Coprime.pow_right e (Nat.coprime_two_right.2 hs)).dvd_of_dvd_mul_left (hnem ▸ hsn)
   have hrm : r ∣ 2 ^ m' - 1 := hrs.trans (Nat.pow_sub_one_dvd_pow_sub_one 2 hsm)

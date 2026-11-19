@@ -65,8 +65,8 @@ variable {τ : Tag} [hτ : E7Sub τ] {K : Type} [Field K]
 private def e7Equiv : Fin Tag.E7.rank ≃ e7Set τ where
   toFun k := ⟨e7Idx k, k.2⟩
   invFun j := ⟨j.val.val, j.2⟩
-  left_inv k := Fin.ext rfl
-  right_inv j := Subtype.ext (Fin.ext rfl)
+  left_inv _k := Fin.ext rfl
+  right_inv _j := Subtype.ext (Fin.ext rfl)
 
 private theorem prod_e7Set_eq_prod_fin [Fintype (e7Set τ)] {M : Type*} [CommMonoid M]
     (g : e7Set τ → M) :
@@ -78,7 +78,7 @@ private theorem eq_one_of_supportedTorus_e7 [CharP K 2] {h : ModGL τ K}
     (h1 : ∀ i : Fin τ.rank, i.val < Tag.E7.rank → torusRootChar h (Pi.single i 1) = 1) :
     h = 1 := by
   classical
-  letI : Fintype (e7Set τ) := Fintype.ofFinite _
+  let : Fintype (e7Set τ) := Fintype.ofFinite _
   obtain ⟨a, rfl⟩ := mem_supportedTorus.1 hh
   let b : Fin Tag.E7.rank → Kˣ := fun k => a (e7Equiv (τ := τ) k)
   have hb1 : ∀ i : Fin Tag.E7.rank, ∏ k, b k ^ Tag.E7.cartan k i = 1 := by

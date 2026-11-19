@@ -179,7 +179,7 @@ theorem fix_lemma {s : J}
 
 theorem eq_or_eq_top {W : Subgroup J} (hW : N ≤ W) : W = N ∨ W = ⊤ := by
   obtain ⟨-, -, -, -, -, hconj, -, hf5, hfne, hfix5, hfix3⟩ := sylow_parts
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hbN : H ≤ N := Subgroup.le_normalizer
   have hfN : fg ∈ N := mem_N_of_conj (hconj (fIdx ()) (by obtain ⟨-, -, h, -⟩ := sylow_parts; exact h))
   have hP5N : Subgroup.zpowers fg ≤ N := (Subgroup.zpowers_le).2 hfN

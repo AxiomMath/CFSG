@@ -35,8 +35,8 @@ theorem rk2_split_up_twE6 (hLev : Rk2TwE6LeviRankInputMaximal) {K : Type} [Group
   refine (twoLocalPrimeRank_le_of_quotient (N := Subgroup.center K) hZodd hr hZr).trans ?_
   obtain ⟨F, hField, hFin, σ', hcardF, hσ', ⟨eK⟩⟩ :=
     exists_twistedE6RootGroup_of_marked hM'
-  letI : Field F := hField
-  letI : Finite F := hFin
+  let : Field F := hField
+  let : Finite F := hFin
   have hcongr : CFSG.Open.twoLocalPrimeRank r (K ⧸ Subgroup.center K) =
       CFSG.Open.twoLocalPrimeRank r ↥(twistedE6RootGroup F σ') := by
     have h := CFSG.HardMathSupport.Timmesfeld.Tables.Census.glaTwoLocalRank_congr

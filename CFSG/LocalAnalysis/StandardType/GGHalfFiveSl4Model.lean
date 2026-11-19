@@ -10,7 +10,7 @@ open CFSG.Assembly CFSG.Assembly.LowTwoRank
 
 private theorem center_sl4_galoisField_eq_bot :
     Subgroup.center (Matrix.SpecialLinearGroup (Fin 4) (GaloisField 2 2)) = ⊥ := by
-  haveI := Fintype.ofFinite (GaloisField 2 2)
+  have := Fintype.ofFinite (GaloisField 2 2)
   rw [Subgroup.eq_bot_iff_forall]
   intro A hA
   obtain ⟨r, hr, hrA⟩ := Matrix.SpecialLinearGroup.mem_center_iff.1 hA
@@ -38,8 +38,8 @@ theorem equiv_sl4_of_statedModel {Y : Type} [Group Y]
     (h : StatedClassicalModel Y .PSL 4 2 2) :
     Nonempty (Y ≃* Matrix.SpecialLinearGroup (Fin 4) (GaloisField 2 2)) := by
   obtain ⟨-, K, hK, hKfin, hKcard, ⟨e⟩⟩ := h
-  letI : Field K := hK
-  letI : Finite K := hKfin
+  let : Field K := hK
+  let : Finite K := hKfin
   refine ⟨e.trans ((CFSG.ClassicalModels.statedLinearModelEquivGaloisPSL K 4 2 2
     (by norm_num) hKcard).trans ?_)⟩
   exact (QuotientGroup.quotientMulEquivOfEq center_sl4_galoisField_eq_bot).trans

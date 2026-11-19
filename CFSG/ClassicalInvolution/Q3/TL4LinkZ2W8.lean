@@ -38,9 +38,9 @@ private theorem aux_comm_of_mem_closure {x t u : Y} (hxt : x * t = t * x) (hxu :
 
 private theorem aux_eq_one_of_mem_odd {P : Sylow 2 Y} {O : Subgroup Y} (hO : Odd (Nat.card O))
     {k : Y} (hkO : k ∈ O) (hkP : k ∈ (P : Subgroup Y)) : k = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h1 : orderOf k ∣ Nat.card O := Subgroup.orderOf_dvd_natCard O hkO
-  obtain ⟨m, hm⟩ := IsPGroup.iff_orderOf.mp P.isPGroup' ⟨k, hkP⟩
+  obtain ⟨m, hm⟩ := IsPGroup.iff_orderOf.mp P.isPGroup ⟨k, hkP⟩
   rw [Subgroup.orderOf_mk] at hm
   rw [hm] at h1
   rcases m with _ | m
@@ -168,7 +168,7 @@ theorem Z2Set.exists_conj_le_edgeCent (hs : Z2Set n R S t J u R₀ T₀ P) {Q : 
   have hPsyl : IsSylow2In (P : Subgroup Y) (Subgroup.normalizer
       ((Subgroup.centralizer ({t} : Set Y) ⊓ Subgroup.centralizer ({u} : Set Y) : Subgroup Y) :
         Set Y)) :=
-    ⟨hPN, P.isPGroup', fun V _ hV hPV => P.maximal_isPGroup.eq_of_ge hV hPV⟩
+    ⟨hPN, P.isPGroup, fun V _ hV hPV => P.maximal_isPGroup.eq_of_ge hV hPV⟩
   have hAsyl := AscP1Nine3.isSylow2In_inf_of_le_normalizer' hPsyl Subgroup.le_normalizer le_rfl
   obtain ⟨V, hV, hQV⟩ := IsSylow2In.exists_ge hQ (le_inf hQt hQu)
   obtain ⟨c, hc, hcV⟩ := exists_conjSub_eq_of_isSylow2In hV hAsyl
@@ -510,7 +510,7 @@ theorem Z2Set.hweak (hs : Z2Set n R S t J u R₀ T₀ P)
       (by rw [← pow_two]; exact h2)).resolve_left hy1
     rw [hyt] at hg ⊢
     exact hs.hweak_t h1 hg
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have h4' : orderOf y = 2 ^ (1 + 1) :=
       orderOf_eq_prime_pow (by simpa using h2) (by simpa using h4)
     exact hs.hweak_four hy (by simpa using h4') hg
@@ -704,9 +704,9 @@ theorem Z2Set.hfus_of_max (hs : Z2Set n R S t J u R₀ T₀ P)
         _ = t * u := by group
   ·
     have hD2 : IsPGroup 2 ↥((P : Subgroup Y) ⊓ Subgroup.centralizer ({b} : Set Y)) :=
-      P.isPGroup'.to_le inf_le_left
+      P.isPGroup.to_le inf_le_left
     have hZ2 : IsPGroup 2 ↥(Subgroup.zpowers (g * (t * u) * g⁻¹)) := by
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       exact IsPGroup.of_card (n := 1) (by
         rw [Nat.card_zpowers, orderOf_eq_prime (by rw [pow_two]; exact hy'2) hy'1, pow_one])
     have hZN : Subgroup.zpowers (g * (t * u) * g⁻¹) ≤ Subgroup.normalizer
@@ -749,7 +749,7 @@ theorem Z2Set.hfus_of_max (hs : Z2Set n R S t J u R₀ T₀ P)
     have hlt : (P : Subgroup Y) ⊓ Subgroup.centralizer ({b} : Set Y) <
         Subgroup.zpowers (g * (t * u) * g⁻¹) ⊔
           ((P : Subgroup Y) ⊓ Subgroup.centralizer ({b} : Set Y)) :=
-      SetLike.lt_iff_le_and_exists.mpr
+      IsConcreteLE.lt_iff_le_and_exists.mpr
         ⟨le_sup_right, _, Subgroup.mem_sup_left (Subgroup.mem_zpowers _), hy'⟩
     have hc1 := Subgroup.card_lt_of_lt hlt
     have hc2 := Subgroup.card_le_of_le hsub

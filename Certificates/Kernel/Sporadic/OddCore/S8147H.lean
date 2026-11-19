@@ -167,7 +167,7 @@ theorem inL_iff {L : List Nat} {y : Nat} : inL L y = true ↔ y ∈ L := by
     · subst h
       simp
     · have hb : Nat.beq x y = false := by rw [beq_eq]; simpa using h
-      rw [hb, if_neg Bool.false_ne_true, ih]
+      rw [hb, ite_eq_right Bool.false_ne_true, ih]
       constructor
       · exact Or.inr
       · rintro (e | e)

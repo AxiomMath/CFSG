@@ -59,8 +59,7 @@ theorem monomGL_one_mem_unitaryIsom3 (h : UnitaryFieldData ℓ f F) :
   rw [mem_unitaryIsom3, monomGL_one_val]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [permP, Matrix.mul_apply, Fin.sum_univ_three, Matrix.transpose_apply, Matrix.map_apply,
-      Matrix.one_apply]
+    simp [permP, Matrix.mul_apply, Fin.sum_univ_three, Matrix.transpose_apply, Matrix.map_apply]
 
 
 theorem u3ThreeHeisGen_holds : U3ThreeHeisGen := by
@@ -113,7 +112,7 @@ theorem u3ThreeHeisGen_holds : U3ThreeHeisGen := by
         diagonal _
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [monomGL, Matrix.mul_apply, Fin.sum_univ_three, diagonal_apply, hνuv, ← hν3] <;>
+      simp [monomGL, Matrix.mul_apply, diagonal_apply, hνuv, ← hν3] <;>
       field_simp
   have hζ3 : (σ ν / ν) ^ 3 = 1 := by
     rw [div_pow, ← map_pow, hν3, hlam, div_self (Units.ne_zero lam)]

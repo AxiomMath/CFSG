@@ -65,7 +65,7 @@ private theorem exists_of_dihedralBasis {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hB : DihedralBasis P U A t) :
     ∃ u ∈ U, u ≠ 1 ∧ ∃ Q₁ : Subgroup G, Q₁ ≤ P ∧ IsElemAbelian p Q₁ ∧ Nat.card Q₁ = p ^ k ∧
       Q₁ ≤ Subgroup.centralizer ({u} : Set G) ∧ (⁅Q₁, U⁆ : Subgroup G) = Q₁ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpodd : Odd p := hp.odd_of_ne_two hp2
   have hPodd : Odd (Nat.card P) := by
     obtain ⟨m, hm⟩ := IsPGroup.iff_card.mp hP
@@ -88,7 +88,7 @@ private theorem exists_of_dihedralBasis {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     exact congrArg Subtype.val h
   have hAcomm : ∀ i, ∀ a ∈ A i, ∀ b ∈ A i, a * b = b * a := by
     intro i a ha b hb
-    haveI : IsCyclic (A i) := isCyclic_of_prime_card (hAp i)
+    have : IsCyclic (A i) := isCyclic_of_prime_card (hAp i)
     exact congrArg Subtype.val
       ((inferInstance : IsMulCommutative (A i)).is_comm.comm (⟨a, ha⟩ : A i) ⟨b, hb⟩)
   have hAne : ∀ i, ∃ a ∈ A i, a ≠ 1 := by
@@ -190,7 +190,7 @@ end Extraction
 
 theorem dihedralUsed : DihedralUsed := by
   intro G _ _ p hp hp2 P U k hP hU hcard hUN hfaith
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hnil : ∀ H : Subgroup G, H ≤ P → Group.IsNilpotent H := fun H hH =>
     (hP.to_le hH).isNilpotent
   have hPodd : Odd (Nat.card P) := by

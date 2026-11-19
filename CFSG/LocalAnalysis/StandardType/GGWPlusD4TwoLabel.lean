@@ -38,7 +38,7 @@ theorem largeEvenLabelAll_irredTableB_D4_two
     · omega
     · subst hrk
       obtain ⟨K, _, _, hK, hQ'⟩ := hQ
-      haveI : CharP K 2 := charP_two_of_card hK
+      have : CharP K 2 := charP_two_of_card hK
       have hn1 : n = 1 := by simpa using hn
       have hK2 : Nat.card K = 2 := by rw [hK, hn1]; norm_num
       refine ⟨K, inferInstance, inferInstance, hK, hQ', ?_⟩

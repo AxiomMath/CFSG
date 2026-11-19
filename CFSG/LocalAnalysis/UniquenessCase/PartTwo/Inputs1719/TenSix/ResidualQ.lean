@@ -48,7 +48,7 @@ private theorem aParam_eq_one_of_aSet_two_eq_empty {W : Type} [CommGroup W] [Fin
       rw [Set.mem_singleton_iff] at hk
       subst hk
       exact ⟨by norm_num, ⟨_, hmem⟩⟩
-  rw [E3.aParam, if_pos hEvenY, hset, csSup_singleton]
+  rw [E3.aParam, ite_eq_left hEvenY, hset, csSup_singleton]
 
 private theorem exists_involution_of_isQuasisimple {W : Type} [CommGroup W] [Finite W]
     {Y L : Subgroup (MulAut W)} (hLY : L ≤ Y) (hLq : IsQuasisimple ↥L) :

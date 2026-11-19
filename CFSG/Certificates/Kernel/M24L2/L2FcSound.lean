@@ -329,7 +329,7 @@ variable {L : List Nat} (hR : ReachL L) (h0 : L.contains 0 = false)
 include hR
 
 theorem tab_zero (h0 : L.contains 0 = false) : (mkCtx ()).tab 0 = tabC idC := by
-  rw [tab_eq hR (by norm_num), tabK, if_neg (by rw [show 0 / 16 = 0 from rfl, h0]; simp)]
+  rw [tab_eq hR (by norm_num), tabK, ite_eq_right (by rw [show 0 / 16 = 0 from rfl, h0]; simp)]
   rfl
 
 include h0 in
@@ -381,9 +381,9 @@ theorem mkReps_eq {C : List Nat} (hC : ∀ e ∈ C, e ∈ (mkCtx ()).codes) (G :
     simp only [List.foldl_cons]
     rw [mkReps_step hR hC hv hacc]
     by_cases hc : (acc.any fun r => C.any fun e => conjEqK e v r) = true
-    · rw [if_pos hc]
+    · rw [ite_eq_left hc]
       exact ih acc hG' hacc
-    · rw [if_neg hc]
+    · rw [ite_eq_right hc]
       refine ih (acc ++ [v]) hG' ?_
       intro x hx
       rcases List.mem_append.1 hx with hx | hx

@@ -27,14 +27,17 @@ theorem FusionSetup.A_mem_Cen_u (S : FusionSetup G L A t u) {a : G} (ha : a ∈ 
 @[expose] def fBarU (S : FusionSetup G L A t u) : ↥A →* QuotT u :=
   (mkT u).comp (Subgroup.inclusion (fun _ ha => S.A_mem_Cen_u ha) : ↥A →* ↥(Cen u))
 
+omit [Finite G] in
 theorem fBarU_apply (S : FusionSetup G L A t u) (a : ↥A) :
     fBarU S a = mkT u ⟨a, S.A_mem_Cen_u a.2⟩ := rfl
 
+omit [Finite G] in
 theorem tBarU_sq (S : FusionSetup G L A t u) : tBarU S * tBarU S = 1 := by
   rw [tBarU, ← map_mul]
   have : (⟨t, S.t_mem_Cen_u⟩ : ↥(Cen u)) * ⟨t, S.t_mem_Cen_u⟩ = 1 := Subtype.ext S.t_sq
   rw [this, map_one]
 
+omit [Finite G] in
 theorem fBarU_injective (S : FusionSetup G L A t u) : Function.Injective (fBarU S) := by
   rw [injective_iff_map_eq_one]
   intro a ha
@@ -50,6 +53,7 @@ theorem fBarU_injective (S : FusionSetup G L A t u) : Function.Injective (fBarU 
     have : u ∈ A := by rw [h2]; exact inv_mem a.2
     exact S.u_ne ((Subgroup.disjoint_def.1 S.disj) (mem_zpowers u) this)
 
+omit [Finite G] in
 theorem tBarU_not_mem_range (S : FusionSetup G L A t u) (a : ↥A) : fBarU S a ≠ tBarU S := by
   intro h
   rw [fBarU_apply, tBarU, mkT_eq_mkT_iff S.u_sq] at h
@@ -62,12 +66,14 @@ theorem tBarU_not_mem_range (S : FusionSetup G L A t u) (a : ↥A) : fBarU S a �
     rw [h1]
     exact mul_mem (S.A_le a.2) S.u_mem
 
+omit [Finite G] in
 theorem fBarU_comm_tBarU (S : FusionSetup G L A t u) (a : ↥A) :
     fBarU S a * tBarU S = tBarU S * fBarU S a := by
   rw [fBarU_apply, tBarU, ← map_mul, ← map_mul]
   congr 1
   exact Subtype.ext (S.t_comm a (S.A_le a.2))
 
+omit [Finite G] in
 theorem cent_tBarU_decomp (S : FusionSetup G L A t u) (hn : ¬ IsConj t (t * u)) (h : ↥(Cen u))
     (hc : mkT u h * tBarU S = tBarU S * mkT u h) :
     ∃ a : ↥A, mkT u h = fBarU S a ∨ mkT u h = tBarU S * fBarU S a := by
@@ -116,6 +122,7 @@ theorem cent_tBarU_decomp (S : FusionSetup G L A t u) (hn : ¬ IsConj t (t * u))
     rw [this, map_mul, mkT_mul_wOf, fBarU_apply]
     rfl
 
+omit [Finite G] in
 theorem exists_mulEquiv_cent_u (S : FusionSetup G L A t u) (hn : ¬ IsConj t (t * u)) {B : Type*}
     [Group B] (eA : ↥A ≃* B) :
     Nonempty (↥(centralizer ({tBarU S} : Set (QuotT u))) ≃* Multiplicative (ZMod 2) × B) := by

@@ -18,6 +18,7 @@ variable {F : Type} [Field F] [CharP F 2]
 
 @[expose] def tvSL (φ v : Fin 3 → F) (h : φ ⬝ᵥ v = 0) : SL(3, F) := ⟨tvM φ v, det_tvM h⟩
 
+omit [CharP F 2] in
 @[simp] theorem coe_tvSL (φ v : Fin 3 → F) (h : φ ⬝ᵥ v = 0) :
     ((tvSL φ v h : SL(3, F)) : Matrix (Fin 3) (Fin 3) F) = tvM φ v := rfl
 
@@ -39,6 +40,7 @@ theorem exists_tvSL_of_invol {z : SL(3, F)} (hz : z * z = 1) (hz1 : z ≠ 1) :
       (fun u => by rw [hmul u, tvM_mulVec])
   exact ⟨φ, v, h, hv, hφ, Subtype.ext hmat⟩
 
+omit [CharP F 2] in
 theorem coe_conj_tvSL (t : SL(3, F)) (φ v : Fin 3 → F) (h : φ ⬝ᵥ v = 0) :
     ((t * tvSL φ v h * t⁻¹ : SL(3, F)) : Matrix (Fin 3) (Fin 3) F) =
       tvM (φ ᵥ* ((t⁻¹ : SL(3, F)) : Matrix (Fin 3) (Fin 3) F))
@@ -73,7 +75,7 @@ theorem eig_or (hω : ∀ x : F, x ^ 2 + x + 1 ≠ 0) (hg : g * gi = 1) (hgi : g
   · obtain ⟨c, hc'⟩ := hpar
     exact Or.inl (Vec.eig_vec_one hg3 hcube hv c hc')
   · right
-    push_neg at hpar
+    push Not at hpar
     obtain ⟨c, hcc⟩ := Tv.parallel_of_orth_three hv hpar hφ hφ1 h o1 o2 h1
     exact Vec.eig_covec_one hg hgi hg3 hcube hφ c hcc
 
@@ -107,6 +109,7 @@ end Eig
 
 section Main
 
+omit [CharP F 2] in
 theorem matrix_facts (t : SL(3, F)) (ht3 : t ^ 3 = 1) (ht1 : t ≠ 1) :
     (t : Matrix (Fin 3) (Fin 3) F) * ((t⁻¹ : SL(3, F)) : Matrix (Fin 3) (Fin 3) F) = 1 ∧
       ((t⁻¹ : SL(3, F)) : Matrix (Fin 3) (Fin 3) F) * (t : Matrix (Fin 3) (Fin 3) F) = 1 ∧

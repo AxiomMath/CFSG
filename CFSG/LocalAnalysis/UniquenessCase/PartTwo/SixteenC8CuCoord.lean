@@ -131,10 +131,9 @@ theorem eq_upMat {M : Matrix (Fin 6) (Fin 6) (ZMod 2)} (hU : IsUpU M)
   rw [g34] at e34
   rw [g35] at e35
   rw [g45] at e45
-  simp only [d0, d1, d2, d3, d4, d5, z10, z20, z30, z40, z50, z21, z31, z41, z51, z32, z42, z52,
-    z43, z53, z54, mul_one, one_mul, mul_zero, zero_mul, add_zero, zero_add] at e15 e24 e25
-  simp only [d0, d1, d2, d3, d4, d5, z10, z20, z30, z40, z50, z21, z31, z41, z51, z32, z42, z52,
-    z43, z53, z54, mul_one, one_mul, mul_zero, zero_mul, add_zero, zero_add] at e34 e35 e45
+  simp only [d1, d2, d4, d5, z21, z31, z41, z51, z32, z42, z52,
+    z54, mul_one, one_mul, mul_zero, zero_mul, add_zero, zero_add] at e15 e24 e25
+  simp only [d3, d4, d5, z43, z53, z54, mul_one, one_mul, mul_zero, zero_mul, add_zero, zero_add] at e34 e35 e45
   have key : ∀ a b : ZMod 2, a + b = 0 → b = a := by decide
   have h45 : M 4 5 = M 0 1 := key _ _ e15
   have h34 : M 3 4 = M 1 2 := key _ _ e24
@@ -213,7 +212,7 @@ theorem pow_eight_matrix (A : Matrix (Fin 6) (Fin 6) (ZMod 2)) :
   simp only [pow_succ, pow_zero, one_mul, mul_assoc]
 
 theorem gM_pow_eight (u : G6) : gM (u ^ 8) = gM u ^ 8 := by
-  simp [gM, Subgroup.coe_pow, Units.val_pow_eq_pow_val]
+  simp [gM, Units.val_pow_eq_pow_val]
 
 theorem Ugrp_pow_eight : ∀ u ∈ Ugrp, u ^ 8 = 1 := by
   intro u hu

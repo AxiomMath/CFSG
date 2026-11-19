@@ -21,6 +21,7 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2] {ι : Type} [Fintype ι] [D
   ∃ u w : ι → K, qU u = 0 ∧ qU w = 0 ∧ QuadraticMap.polar qU u w = 0 ∧
     LinearIndependent K ![u, w] ∧ ∀ p, X p = orthTensor 1 ⇑(eichler qU u w) p
 
+omit [DecidableEq ι] in
 theorem lemmaQ (qU : QuadraticForm K (ι → K))
     (hnd : ∀ u : ι → K, (∀ v : ι → K, QuadraticMap.polar qU u v = 0) → u = 0)
     (hsing : ∃ p : ι → K, p ≠ 0 ∧ qU p = 0)

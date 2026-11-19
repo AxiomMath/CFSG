@@ -13,6 +13,7 @@ open scoped commutatorElement Matrix Pointwise
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem card_mul_card_inf_of_prod {A B D : Subgroup G} (hA : A ≤ D) (hB : B ≤ D)
     (hprod : ∀ d ∈ D, ∃ a ∈ A, ∃ b ∈ B, d = a * b) :
     Nat.card D * Nat.card ↥(A ⊓ B) = Nat.card A * Nat.card B := by
@@ -35,18 +36,18 @@ theorem Ctx.exists_mul_of_mem_Vt_sp (h34 : Stroth34Statement) (hRoot : Stroth310
       ∃ b ∈ Vt M (LB M Q B) B Z t ⊓ QB (conjSubgroup r B), v = a * b := by
   classical
   obtain ⟨K₁, iF, iFin, hK, hrep⟩ := hV
-  letI := iF
-  letI := iFin
-  haveI : CharP K₁ 2 := by
+  let := iF
+  let := iFin
+  have : CharP K₁ 2 := by
     obtain ⟨e, -, he, -⟩ := hc.hyp.cp
     exact charP_two_of_card_eq_two_pow (hK.trans he)
   have hnat : SpNat hc t := ⟨K₁, iF, iFin, hK, m, hm, hrep⟩
   obtain ⟨φ, hφ, hker, hact⟩ := hrep
   obtain ⟨-, hn, ψ, hψ⟩ := hact
-  haveI := hn
+  have := hn
   have hnotQB : ¬ Vt M (LB M Q B) B Z t ≤ QB B :=
     stroth310NotQB_of_34 h34 G M Q Z B hc n t hs (Or.inl hnat)
-  haveI : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
+  have : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
   obtain ⟨nn, γ₂, M₀₂, hD₂, θ, hθ, u₀, hu₀, hBiff₀, hW₀⟩ :=
     Ctx.sp_perp_data h34 hc hs hnotQB hK hm φ hφ hker ψ hψ
   obtain ⟨u₁, hu₁, hBiff₁, hL₁, hplane₁⟩ :=
@@ -179,6 +180,7 @@ theorem Ctx.card_Wt_vone_mul_pow (hc : Ctx M Q Z B) {n m : ℕ} {t : G} (hs : Se
     _ = Nat.card Z ^ (2 * n + 1) * Nat.card Z := h
     _ = Nat.card Z ^ (2 * n) * Nat.card Z ^ 2 := by ring
 
+omit [Finite G] in
 theorem vone_le_sup_of_prod {Q B C V : Subgroup G} (hVab : ∀ v ∈ V, ∀ w ∈ V, v * w = w * v)
     (hVQ : V ≤ Q) (hnorm : Q ≤ Subgroup.normalizer (V : Set G))
     (hVS : ∀ v ∈ V, ∃ a ∈ V ⊓ QB B, ∃ b ∈ V ⊓ QB C, v = a * b) :
@@ -243,9 +245,9 @@ theorem sec53_inf_QB_inf_QB_le_Wt (h34 : Stroth34Statement) (hRoot : Stroth310Ro
   have hcC : Ctx M Q Z (conjSubgroup r B) := hc.conj_of_mem hrM
   have hnoC : NoA2 Q Z (LB M Q (conjSubgroup r B)) := hc.noA2_conj hs.noA2 hrM
   obtain ⟨K, iF, iFin, iCh, γ, M₀, hD⟩ := stroth_globalModelData hc.hyp
-  letI := iF
-  letI := iFin
-  letI := iCh
+  let := iF
+  let := iFin
+  let := iCh
   let T : Submodule K M₀.E :=
     imgSub M₀ (Vt M (LB M Q B) B Z t) (hc.smul_mem_img_Vt hD t)
   have hTmem : ∀ e : M₀.E, e ∈ T ↔ e ∈ M₀.img (Vt M (LB M Q B) B Z t) :=

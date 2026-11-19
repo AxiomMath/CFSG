@@ -165,6 +165,7 @@ variable {i : ℕ} (hi : i = 0 ∨ i = 1) {θ : S.O}
   {φ : S.Qt ≃ₗ[ZMod 2] V12} (hφ : NormTr S g θ i φ) (H : Hyp4 S g) (T : ThetaInputs S g θ)
 include hi hφ H T
 
+omit T in
 theorem not_d1 {N : Subgroup (V12 ≃ₗ[ZMod 2] V12)} (hN : N ≤ Mtr S φ) :
     ¬ ∃ h ∈ N, h (vecOf a0) = vecOf a0 ∧ ∃ r ∈ compOf i,
       ¬ ∃ r' ∈ compOf i, ∀ x, h (linOfRows r (h⁻¹ x)) = linOfRows r' x := by
@@ -188,7 +189,7 @@ theorem step4Hyp_Mtr : Step4Hyp i (Mtr S φ) where
   noViol := by
     intro N hN hV
     rcases hV with h1 | ⟨r, hr, -, hrH, -⟩ | ⟨r, hr, ha, u₁, hu₁, u₂, hu₂, u₃, hu₃, hi₁, hi₂, hi₃, hind⟩
-    · exact not_d1 hi hφ H T hN h1
+    · exact not_d1 hi hφ H hN h1
     · exact hrH hr
     · obtain ⟨s, hs, hsr⟩ := exists_realize hi hφ hr
       have hanti : s * θ = θ⁻¹ * s := inverts_of_anti hφ.theta fun x => by

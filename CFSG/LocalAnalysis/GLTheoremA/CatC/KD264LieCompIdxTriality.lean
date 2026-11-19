@@ -47,7 +47,7 @@ theorem catalogueOver_rationalComponent_rankOne
   classical
   obtain ⟨K, hfield, hfinite, f, hf1, hKcard, hfeq, hring, hK4, g, hgsurj, hgker⟩ :=
     exists_slCover_rationalComponent_rankOne S hT i h1 hn hQS
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hcat := catalogueOver_of_surjective_sl (E := K) (m := 2) le_rfl
     (fun _ => by rw [← Nat.card_eq_fintype_card]; exact hK4) g hgsurj hgker
   rwa [hring, ← Nat.card_eq_fintype_card, hKcard, hfeq] at hcat
@@ -65,7 +65,7 @@ theorem catalogueOver_rationalComponent_splitFrame {ta : Fin τ.rank → Lˣ}
   classical
   obtain ⟨K, hfield, hfinite, f, hf1, hKcard, hfeq, hring, g, hgsurj, hgker⟩ :=
     exists_slCover_rationalComponent_splitFrame S hT i hν hψ hΨ π hπ
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hcat := catalogueOver_of_surjective_sl (E := K) (m := ν) (by omega) (fun _ => by omega)
     g hgsurj hgker
   rwa [hring, ← Nat.card_eq_fintype_card, hKcard, hfeq] at hcat
@@ -84,7 +84,7 @@ theorem catalogueOver_rationalComponent_unitaryFrame {ta : Fin τ.rank → Lˣ}
   classical
   obtain ⟨K, hfield, hfinite, f, hf1, hKcard, hfeq, hring, h32, g, hgsurj, hgker⟩ :=
     exists_suCover_rationalComponent_unitaryFrame S hT i hν hψ hΨ π hπ hQS
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hK' : Fintype.card K = (ringChar L ^ f) ^ 2 := by
     rw [← Nat.card_eq_fintype_card]
     exact hKcard
@@ -188,7 +188,7 @@ theorem compIdxAt_trialityModel
     CompIdxAt p (.trialityD4 q) ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := by
   classical
   intro β hβmem hβp hβ1 J hJ
-  haveI : Finite ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := Subtype.finite
+  have : Finite ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := Subtype.finite
   have hβinn : β ∈ (MulAut.conj : ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) →*
       MulAut ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom)).range :=
     sup_le le_rfl (CFSG.HardMathSupport.Dickson.Sec6.I1431.t6outtrid4_commutator_le_range
@@ -243,8 +243,8 @@ theorem lieCompIdx_triality :
       exact hpc
     obtain ⟨K, hfield, hfinite, σ, hK, hσ, -, ⟨eK⟩⟩ :=
       CFSG.HardMathSupport.Timmesfeld.CrossChar.exists_catEquiv_trialityD4 q hv
-    letI := hfield
-    letI := hfinite
+    let := hfield
+    let := hfinite
     exact compIdxAt_of_mulEquiv eK.symm (compIdxAt_trialityModel hK σ hσ hp hp2 hpq)
   | _ => exact absurd hP (by simp [isTrialityIdx])
 

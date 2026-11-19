@@ -20,12 +20,15 @@ section Aux
 
 variable {K : Type} [Field K] [CharP K 2]
 
+omit [CharP K 2] in
 theorem twistGp_symm_twistGp (σ : K ≃+* K) (g : Gp K) : twistGp σ.symm (twistGp σ g) = g :=
   Subtype.ext (twistUnits_symm_twistUnits σ g.1)
 
+omit [CharP K 2] in
 theorem twistGp_twistGp_symm (σ : K ≃+* K) (g : Gp K) : twistGp σ (twistGp σ.symm g) = g :=
   Subtype.ext (twistUnits_twistUnits_symm σ g.1)
 
+omit [CharP K 2] in
 theorem twistGp_mem_UA_iff (σ : K ≃+* K) (g : Gp K) : twistGp σ g ∈ UA K a7 ↔ g ∈ UA K a7 := by
   have h := twistGp_UA σ
   have h2 : twistGp σ g ∈ (UA K a7).map (twistGp σ).toMonoidHom ↔ g ∈ UA K a7 :=
@@ -34,6 +37,7 @@ theorem twistGp_mem_UA_iff (σ : K ≃+* K) (g : Gp K) : twistGp σ g ∈ UA K a
 
 variable {X : Type} [AddCommGroup X] [Module K X]
 
+omit [CharP K 2] in
 theorem fix7_twist (σ : K ≃+* K) (A : Gp K →* (X ≃ₗ[K] X)) :
     fix7 (A.comp (twistGp σ).toMonoidHom) = fix7 A := by
   ext v
@@ -54,7 +58,7 @@ theorem toRankOne_X (A : Gp K →* (X ≃ₗ[K] X)) (t : K) :
     by_cases h : δ = (⟨alpha7, alpha7_mem⟩ : ↥(Phi a7))
     · subst h
       simp [n1N]
-    · simp [n1N, Pi.single_apply, h]
+    · simp [n1N, h]
   rw [this, uN_single]
 
 end Aux
@@ -74,7 +78,7 @@ theorem core_main_E5 [Finite K] (hq : 4 ≤ Nat.card K) (hChar : E5StabChar K)
       (∀ (g : Gp K) (v : X), ψ (A g v) = endoE (twistGp σ g) (ψ v)) ∧
         (fix7 A).map (ψ : X →ₗ[K] V K) = Submodule.span K {(w0 : V K)} := by
   classical
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   obtain ⟨n, -, hKn⟩ := FiniteField.card K 2
   have hKcard : Fintype.card K = 2 ^ (n : ℕ) := hKn
   have hq' : 4 ≤ Fintype.card K := by rwa [← Nat.card_eq_fintype_card]
@@ -83,7 +87,7 @@ theorem core_main_E5 [Finite K] (hq : 4 ≤ Nat.card K) (hChar : E5StabChar K)
     have : (n : ℕ) ≤ 1 := by omega
     have h1 : 2 ^ (n : ℕ) ≤ 2 ^ 1 := Nat.pow_le_pow_right (by norm_num) this
     omega
-  haveI : FiniteDimensional K X := Module.finite_of_finrank_pos (by omega)
+  have : FiniteDimensional K X := Module.finite_of_finrank_pos (by omega)
   set R := rootDatumE7 K with hR
   set D := R.toRankOne A with hD
   have hfix_ne : fix7 A ≠ ⊥ := by

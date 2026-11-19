@@ -14,7 +14,7 @@ theorem card_projectiveSL_dvd_card_specialLinearGroup {n : ℕ} {F : Type}
 
 theorem card_projectiveSL_dvd_card_GL {n : ℕ} (hn : 1 ≤ n) {F : Type} [Field F] [Finite F] :
     Nat.card (projectiveSL n F) ∣ Nat.card (GL (Fin n) F) := by
-  haveI : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
+  have : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
   have h2 : Nat.card (Matrix.SpecialLinearGroup (Fin n) F) ∣ Nat.card (GL (Fin n) F) :=
     ⟨Nat.card Fˣ, Matrix.card_SL_mul_card_units.symm⟩
   exact (card_projectiveSL_dvd_card_specialLinearGroup (n := n)).trans h2

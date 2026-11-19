@@ -79,7 +79,7 @@ theorem FiveFrame.exists_rowB [Finite G] (F : FiveFrame α d z)
     ∃ B₁ : Subgroup G, (IsElemAbelian 5 B₁ ∧ Nat.card B₁ = 5 ^ 3) ∧ d ∈ B₁ ∧
       B₁ ≤ zpowers d ⊔ (cent2 α d ⊓ cent z) := by
   set X : Subgroup G := cent2 α d ⊓ cent z with hXdef
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨F₀, hF₀⟩ := Sylow.exists_subgroup_card_pow_prime 5 (n := 2) (G := ↥X)
     (by rw [F.card_z]; norm_num)
   set F₁ : Subgroup G := F₀.map X.subtype with hF₁

@@ -12,7 +12,7 @@ open CFSG.StandardType CFSG.Blueprint CFSG.Open
 variable {G : Type} [Group G] [Finite G]
 
 theorem qTwoDeg_m_le_N {B Bs : Subgroup G} {x : G} {L D J : Subgroup G}
-    {𝒦 : Finset (Subgroup G)} (hcfg : GGSecFiveRouteCfg 3 B Bs x L D J 𝒦)
+    {𝒦 : Finset (Subgroup G)} (_hcfg : GGSecFiveRouteCfg 3 B Bs x L D J 𝒦)
     {k : QTwoRowKind} {m d c : ℕ} (hrow : QTwoRowData k m d c Bs L x) (hm : 5 ≤ m)
     {ι : Type} {M : CoxeterMatrix ι} {e : M.Group ≃* ↥(ggAutomizerJoin L Bs 𝒦)}
     (hP : GGCoxeterPres 3 (ggAutomizerJoin L Bs 𝒦) M e)

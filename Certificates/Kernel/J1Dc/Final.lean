@@ -317,7 +317,7 @@ theorem j1K_facts (Z : Subgroup G) (hZ : Subgroup.closure {x | x ∈ sgK} ≤ Z)
   by_cases hj17 : j < 17
   · have e : memberOrTop 17 j1CtxK.Y j = j1CtxK.Y j := by
       unfold memberOrTop
-      rw [if_pos hj17]
+      rw [ite_eq_left hj17]
     rw [e, j1K_card hj17]
     refine ⟨fun h => ?_, fun h => ?_⟩
     · have h16 := sz168 j hj17 (by omega)
@@ -326,7 +326,7 @@ theorem j1K_facts (Z : Subgroup G) (hZ : Subgroup.closure {x | x ∈ sgK} ≤ Z)
     · exact j1K_cent (sz120 j hj17 (by omega))
   · have e : memberOrTop 17 j1CtxK.Y j = ⊤ := by
       unfold memberOrTop
-      rw [if_neg hj17]
+      rw [ite_eq_right hj17]
     rw [e, Subgroup.card_top, card_J]
     exact ⟨fun h => absurd h (by norm_num), fun h => absurd h (by norm_num)⟩
 

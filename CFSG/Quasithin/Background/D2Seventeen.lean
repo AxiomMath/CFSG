@@ -50,7 +50,7 @@ theorem odd_card_fittingOf {X : Subgroup (MulAut V)} (hO2 : pCoreOf 2 X = ⊥) :
   have hSp : IsPGroup 2 ↥((S : Subgroup ↥F).map F.subtype) := by
     intro z
     obtain ⟨s, hs, hz⟩ := z.2
-    obtain ⟨k, hk⟩ := S.isPGroup' ⟨s, hs⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨s, hs⟩
     refine ⟨k, Subtype.ext ?_⟩
     have h1 : s ^ 2 ^ k = 1 := congrArg Subtype.val hk
     calc ((z ^ 2 ^ k : ↥((S : Subgroup ↥F).map F.subtype)) : ↥X) = (z : ↥X) ^ 2 ^ k := rfl

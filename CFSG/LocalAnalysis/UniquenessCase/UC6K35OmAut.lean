@@ -19,7 +19,7 @@ theorem comm_of_central_index_prime {Y : Type} [Group Y] [Finite Y] {p : ℕ} [F
     rw [Subgroup.mem_center_iff]
     intro s
     exact Subtype.ext (hBc n (Subgroup.mem_subgroupOf.1 hn) s s.2).symm
-  haveI : N.Normal := ⟨fun n hn s => by
+  have : N.Normal := ⟨fun n hn s => by
     have h := Subgroup.mem_center_iff.1 (hNc hn) s
     rw [h, mul_inv_cancel_right]
     exact hn⟩
@@ -29,10 +29,10 @@ theorem comm_of_central_index_prime {Y : Type} [Group Y] [Finite Y] {p : ℕ} [F
     rw [hNcard, hcard] at h
     have hB0 : 0 < Nat.card B := Nat.card_pos
     exact (Nat.eq_of_mul_eq_mul_right hB0 h).symm
-  haveI : IsCyclic (↥S ⧸ N) := isCyclic_of_prime_card hq
+  have : IsCyclic (↥S ⧸ N) := isCyclic_of_prime_card hq
   intro x hx y hy
-  have h := commutative_of_cyclic_center_quotient (QuotientGroup.mk' N)
-    (by rw [QuotientGroup.ker_mk']; exact hNc) ⟨x, hx⟩ ⟨y, hy⟩
+  have h := (MonoidHom.isMulCommutative_of_isCyclic_of_ker_le_center (QuotientGroup.mk' N)
+    (by rw [QuotientGroup.ker_mk']; exact hNc)).is_comm.comm ⟨x, hx⟩ ⟨y, hy⟩
   exact congrArg Subtype.val h
 
 end CFSG.LocalAnalysis.UniquenessCase.UCK

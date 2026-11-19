@@ -181,8 +181,8 @@ private theorem s265f_tag_A1 {lab : LargeEvenLabel} {R : Type} [Group R] (hL : C
     | exact absurd rfl hder.1
     | exact absurd rfl hder.2.1
     | exact absurd rfl hder.2.2
-    | (exfalso; simp only [markTag, markRank, markDeg] at e1 e2 e3; first | (cases e1) | omega)
-    | (exfalso; simp only [markTag, markRank, markDeg] at e1 e2 e3; split_ifs at e1 e2 e3 <;> first | omega | (cases e1))
+    | (exfalso; simp only [markTag, markRank, markDeg] at e1 e2 e3; first | (cases e1))
+    | (exfalso; simp only [markTag, markRank, markDeg] at e1 e2 e3; split_ifs at e1 e2 e3; first | omega)
 
 theorem s265f_false_of_l28 {p : ℕ} {S B T : Subgroup Ω} {x b : Ω} (cfg : QUCfg p S B T x b)
     (hp3 : p = 3) (hJ : catalogIs (PSimple p (Ipart p S b)) tyL28) : False := by
@@ -211,12 +211,12 @@ theorem s265f_false_of_l28 {p : ℕ} {S B T : Subgroup Ω} {x b : Ω} (cfg : QUC
     obtain ⟨-, K, _, _, hKcard, ⟨eK⟩⟩ := hSM
     let ePSL : PSimple 3 S ≃* Matrix.ProjectiveSpecialLinearGroup (Fin 2) K :=
       eK.trans (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 2 K).symm
-    haveI : Finite (Matrix.ProjectiveSpecialLinearGroup (Fin 2) K) := Finite.of_equiv _ ePSL.toEquiv
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Fintype K := Fintype.ofFinite K
-    haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := lab.n)
+    have : Finite (Matrix.ProjectiveSpecialLinearGroup (Fin 2) K) := Finite.of_equiv _ ePSL.toEquiv
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fintype K := Fintype.ofFinite K
+    have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := lab.n)
       (by rw [← Nat.card_eq_fintype_card]; simpa using hKcard)
-    haveI : NeZero ((3 : ℕ) : K) :=
+    have : NeZero ((3 : ℕ) : K) :=
       ⟨fun h => by have := (CharP.cast_eq_zero_iff K 2 3).1 h; omega⟩
     obtain ⟨A, hA, hA3⟩ := qu_aut_rank' cfg
     let e : MulAut (PSimple 3 S) ≃* MulAut (Matrix.ProjectiveSpecialLinearGroup (Fin 2) K) :=

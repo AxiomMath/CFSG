@@ -195,8 +195,8 @@ private theorem s1611e3_a5_transfer {W : Type} [CommGroup W] [Finite W]
       s1611e3_a5_sym5.map_one, MulAut.one_apply]
   exact ((congrArg (fun q => s1611e3_a5_sym5 σ q) h2).trans h4).symm
 
-theorem s1611e3_a5_single {W : Type} [CommGroup W] [Finite W] (hW : ∀ w : W, w ^ 2 = 1)
-    {L : Subgroup (MulAut W)} {J : Subgroup W} (hL : IsAlt ↥L 5)
+theorem s1611e3_a5_single {W : Type} [CommGroup W] [Finite W] (_hW : ∀ w : W, w ^ 2 = 1)
+    {L : Subgroup (MulAut W)} {J : Subgroup W} (_hL : IsAlt ↥L 5)
     (hJ : AlternatingNatural L J ⊥ 5) {E : Subgroup (MulAut W)} (hEel : IsElemAbelian2 E)
     (hEL : ∀ e ∈ E, L.map (MulAut.conj e).toMonoidHom = L)
     (hEJ : ∀ e ∈ E, J.map e.toMonoidHom = J) (hE1 : ∃ e ∈ E, ∃ j ∈ J, e j ≠ j) :
@@ -333,7 +333,7 @@ theorem s1611e3_a5_single {W : Type} [CommGroup W] [Finite W] (hW : ∀ w : W, w
         intro hz
         have hdvd := Subgroup.relIndex_dvd_card (H := B) (K := P)
         rw [hz] at hdvd
-        haveI : Finite ↥P :=
+        have : Finite ↥P :=
           Finite.of_injective (fun x : ↥P => (x : Equiv.Perm (Fin 5))) Subtype.val_injective
         have hcard : Nat.card P ≠ 0 :=
           Nat.card_ne_zero.mpr ⟨⟨1, P.one_mem⟩, inferInstance⟩

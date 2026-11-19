@@ -49,6 +49,7 @@ theorem lift_commutator_scalar {n : ℕ} (hn : 3 ≤ n) {g h : GL (Fin n) K}
   obtain ⟨ζ, hζ⟩ := (conjAut_eq_one_iff hn).1 this
   exact ⟨ζ, hζ.symm⟩
 
+omit [Finite K] in
 theorem glA_scalar_apply {n : ℕ} (ν : Kˣ) (v : Fin n → K) :
     ((glA (Matrix.GeneralLinearGroup.scalar (Fin n) ν) : LinearMap.GeneralLinearGroup K (Fin n → K)) :
       Module.End K (Fin n → K)) v = (ν : K) • v := by
@@ -59,6 +60,7 @@ theorem glA_scalar_apply {n : ℕ} (ν : Kˣ) (v : Fin n → K) :
   rw [Matrix.mulVec_diagonal]
   rfl
 
+omit [Finite K] in
 theorem injective_of_glUnit {W : Type*} [AddCommGroup W] [Module K W]
     (u : LinearMap.GeneralLinearGroup K W) : Function.Injective (u : Module.End K W) := by
   intro a b hab
@@ -72,6 +74,7 @@ theorem injective_of_glUnit {W : Type*} [AddCommGroup W] [Module K W]
     rfl
   rw [← h1, ← h2, hab]
 
+omit [Finite K] in
 theorem commute_of_good {g h : GL (Fin 3) K}
     (hsq : Squarefree (minpoly K (glA g : Module.End K (Fin 3 → K)))) {f : K[X]}
     (hf : f ∈ primaryFactors (glA g : Module.End K (Fin 3 → K))) (hgood : IsGoodFactor g f)
@@ -101,6 +104,7 @@ theorem commute_of_good {g h : GL (Fin 3) K}
     exact eigen_twist_false G (injective_of_glUnit _) (by simp) (M := H)
       (injective_of_glUnit _) (μ := (ζ : K)⁻¹) (fun h1 => hz (inv_eq_one.1 h1)) key hc
 
+omit [Finite K] in
 theorem twistfree_of_good {g : GL (Fin 3) K}
     (hsq : Squarefree (minpoly K (glA g : Module.End K (Fin 3 → K)))) {f : K[X]}
     (hf : f ∈ primaryFactors (glA g : Module.End K (Fin 3 → K))) (hgood : IsGoodFactor g f) :
@@ -176,7 +180,7 @@ theorem isSolvable_fixSub_of_no_good {g : GL (Fin 3) K}
   set X := Lemma510Ns.fixSub (conjAut 3 K g) with hX
   have hCs : Group.IsSolvable ↥C := isSolvable_centralizer_of_no_good hsq hno
   set X₀ : Subgroup (projectiveSL 3 K) := C.map (proj 3 K) with hX₀
-  haveI : Group.IsSolvable ↥X₀ :=
+  have : Group.IsSolvable ↥X₀ :=
     Group.isSolvable_of_surjective (f := (proj 3 K).subgroupMap C)
       ((proj 3 K).subgroupMap_surjective C)
   have hX₀X : X₀ ≤ X := by
@@ -203,7 +207,7 @@ theorem isSolvable_fixSub_of_no_good {g : GL (Fin 3) K}
     rw [hxa, hxb, commutator_central_mul_left' (fun y => (Subgroup.mem_center_iff.mp hza y).symm),
       commutator_central_mul_right' (fun y => (Subgroup.mem_center_iff.mp hzb y).symm)]
   set N : Subgroup ↥X := X₀.subgroupOf X with hN
-  haveI : Group.IsSolvable ↥N :=
+  have : Group.IsSolvable ↥N :=
     Group.isSolvable_of_isSolvable_injective
       (f := (Subgroup.subgroupOfEquivOfLe hX₀X).toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hX₀X).injective

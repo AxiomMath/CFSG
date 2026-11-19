@@ -16,7 +16,7 @@ private def w183finL34BlkPres (g : Equiv.Perm (Fin 42)) : Prop :=
 private theorem w183finL34BlkPres_rho (A : GL (Fin 3) F4) : w183finL34BlkPres (rho A) := by
   intro p hp
   rw [rho_apply]
-  simp only [rhoFun, if_pos hp]
+  simp only [rhoFun, ite_eq_left hp]
   exact vIdx_lt _
 
 private theorem w183finL34BlkPres_inv {g : Equiv.Perm (Fin 42)} (hg : w183finL34BlkPres g) :
@@ -177,7 +177,7 @@ private theorem w183finL34Blk_exists_conj_P2_of_not_fixesPt
   · exact ⟨k, hk, h⟩
 
 theorem not_actsOnDynkinMod_of_preserves
-    {τ : Equiv.Perm (Fin 42)} (hτR : τ ∈ R)
+    {τ : Equiv.Perm (Fin 42)} (_hτR : τ ∈ R)
     (hpres : ∀ p : Fin 42, p.val < 21 → (τ p).val < 21) : ¬ ActsOnDynkinMod ⊥ S τ := by
   rintro ⟨hτN, P, hPmax, hPne⟩
   have hQmax : IsMaxParabolicMod ⊥ S (conjSubgroup P τ⁻¹) :=

@@ -277,7 +277,7 @@ theorem z_mem_zpowers_mul (hc : Ctx19 S U M V x z A B R) {v w : G}
     rcases hc.c19.invol y hyT hyo with h' | h'
     · exact hbw.1 h'
     · exact hbw.2 h'
-  have hp2 : IsPGroup 2 ↥(Tsub S U) := (S.isPGroup').to_le Cfg.T_le_S
+  have hp2 : IsPGroup 2 ↥(Tsub S U) := (S.isPGroup).to_le Cfg.T_le_S
   obtain ⟨m, hm⟩ := Gen.exists_orderOf_eq_two_pow hp2 hyT
   have hm2 : 2 ≤ m := by
     by_contra hlt

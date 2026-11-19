@@ -22,6 +22,7 @@ variable {n : ℕ} {K : Type} [Field K] [Finite K]
 local notation "M₀" => (originalM (K := K) (F := F) (σ := σ) (ε := ε) (ψ := ψ) (ι := ι) (t := t))
 local notation "s₀" => (Subtype.val (fixedA2AdjRho (F := F) (fixedA2Scalar (F := F) ω)))
 
+omit [Finite K] [Finite J] in
 theorem originalM_inverted_actor_seed (τ : MulAut J) (g : J)
     (hω3 : ω ^ 3 = 1)
     (hτg : M₀ (τ g) = s₀ * M₀ g * s₀⁻¹)

@@ -274,7 +274,7 @@ theorem crossed_inv_mem_yamadaW₁ {x : G} (hx : x ∈ yamadaR₅ d t)
 include h hNH h561 h562 h591 h592 h593 in
 theorem mem_yamadaR₃_iff_of_mem_yamadaR₄ {x : G} (hx : x ∈ yamadaR₄ d t) :
     x ∈ yamadaR₃ d t ↔ t * x * t * x⁻¹ ∈ yamadaW₁ d t :=
-  (h.mem_inf_normalizer_iff d hNH h561 h562 (yamadaW₁_le_yamadaD₁ d)
+  (h.mem_inf_normalizer_iff d hNH h561 (yamadaW₁_le_yamadaD₁ d)
     (h.yamadaR₅_le_normalizer_yamadaW₁ d hNH h561 h562 h591 h592 h593) (x := x)).trans
     ⟨fun h1 => h1.2, fun h1 => ⟨(mem_inf.1 hx).1, h1⟩⟩
 

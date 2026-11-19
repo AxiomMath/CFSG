@@ -70,7 +70,7 @@ theorem involGenG2_of_native
       apply hσne
       rw [← ht]
       ext x
-      simp [MulAut.conj_apply]
+      simp
     have hconj : MulAut.conj (t * t) = 1 := by
       rw [map_mul, ht, hσ2]
     have hcenter : t * t ∈ Subgroup.center G23 := by

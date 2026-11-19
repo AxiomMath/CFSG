@@ -21,7 +21,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem centralizer_le_of_rankThreeGamma_one {p : ℕ} (hp : p.Prime) {E M : Subgroup G}
     (hE : IsElemAbelian p E) (hΓ : rankThreeGamma 1 p E ≤ M) {x : G} (hxE : x ∈ E)
     (hx1 : x ≠ 1) : Subgroup.centralizer ({x} : Set G) ≤ M := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hord : orderOf x = p := orderOf_eq_prime (hE.2 x hxE) hx1
   have hQE : Subgroup.zpowers x ≤ E := Subgroup.zpowers_le.2 hxE
   have hQel : IsElemAbelian p (Subgroup.zpowers x) := hE.mono hQE

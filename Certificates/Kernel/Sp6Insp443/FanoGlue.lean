@@ -22,11 +22,11 @@ theorem memIs_iff {S c g : Nat} {b : Bool} (h : memIs S c g b = true) :
   unfold memIs at h
   rw [Orb.bIf_eq] at h
   by_cases hm : memPK (36 * 6) S c g = true
-  · rw [if_pos hm] at h
+  · rw [ite_eq_left hm] at h
     exact ⟨fun _ => h, fun _ => hm⟩
-  · rw [if_neg hm, Orb.bIf_eq] at h
+  · rw [ite_eq_right hm, Orb.bIf_eq] at h
     by_cases hb : b = true
-    · rw [if_pos hb] at h
+    · rw [ite_eq_left hb] at h
       exact absurd h Bool.false_ne_true
     · exact ⟨fun h' => absurd h' hm, fun h' => absurd h' hb⟩
 
@@ -72,7 +72,7 @@ theorem map_conj_eq_of_bases {k l : Nat} {d : Fin k → Equiv.Perm (Fin 36)}
     group
 
 theorem fanoTest_of
-    {t : Nat} (ht : t < 2) (hs : ch725107f t = true)
+    {t : Nat} (_ht : t < 2) (hs : ch725107f t = true)
     {g : Equiv.Perm (Fin 36)} (hg : g ∈ co3X36) {T : Table} (hT : Rep 36 T g) :
     fanoTestS 36 (cands7.getD (fanoW t) []) (spanTabs 36 (cands7.getD (fanoW t) []))
       (cands7.getD (fanoA t) []) (spanTabs 36 (cands7.getD (fanoA t) [])) (fanoRows t) T =
@@ -180,7 +180,7 @@ theorem fanoTest_of
       rwa [← mul_assoc] at this
     · have hq := Orb.allN_iff.1 hP (p - 1) (by omega)
       rw [Nat.sub_add_cancel hp] at hq
-      simp only [Orb.strictB_eq, Orb.bAnd_eq, Bool.and_eq_true] at hq
+      simp only [Orb.strictB_eq, Bool.and_eq_true] at hq
       obtain ⟨hq0, hq8, hpq⟩ := hq
       have hq0' := Nat.blt_eq.mp hq0
       have hq8' := Nat.blt_eq.mp hq8
@@ -209,7 +209,7 @@ theorem fanoTest_of
   have hS : ∀ y ∈ S₀, FanoP (Subgroup.closure (Set.range fun i : Fin 3 => a i)) K H y := by
     rintro y (⟨j, hj, rfl⟩ | ⟨q, hq, hy⟩)
     · have hgj := Orb.allN_iff.1 h15 j hj
-      simp only [Orb.strictB_eq, Orb.bAnd_eq, Bool.and_eq_true] at hgj
+      simp only [Bool.and_eq_true] at hgj
       obtain ⟨hpj, hfg⟩ := hgj
       have hxj := prep_of_imageList (chainC4.2.2.2.1 j (by rw [hlen4]; exact hj))
       have hxji := prep_inv_of_permOK hpj hxj
@@ -222,7 +222,7 @@ theorem fanoTest_of
       rw [e2] at hYI
       exact hfanoP hY hYI hfg
     · have hq' := Orb.allN_iff.1 h14 q hq
-      simp only [Orb.strictB_eq, Orb.bAnd_eq, Bool.and_eq_true] at hq'
+      simp only [Bool.and_eq_true] at hq'
       obtain ⟨-, -, -, hperm, -, hfg⟩ := hq'
       exact hfanoP hy (prep_inv_of_permOK hperm hy) hfg
   have hum : F.uM.getD t 0 < 2 ^ 6 := Nat.blt_eq.mp h11
@@ -243,7 +243,7 @@ theorem fanoTest_of
       rw [fixK_eq (hspW s hs), hsz, fixC_conj, ← fixK_eq (hspW _ hum)]
       exact Nat.eq_of_beq_eq_true hfu
     have h13s := Orb.allN_iff.1 h13 s hs
-    rw [Orb.bIf_eq, if_pos (by rw [Nat.beq_eq]; exact hfs), bIf_not_iff] at h13s
+    rw [Orb.bIf_eq, ite_eq_left (by rw [Nat.beq_eq]; exact hfs), bIf_not_iff] at h13s
     obtain ⟨q, hq, hqs⟩ : ∃ q < 28, (F.nM.getD t []).getD q 0 = s := by
       by_contra hne
       push Not at hne
@@ -253,7 +253,7 @@ theorem fanoTest_of
       rw [this] at h13s
       exact Bool.noConfusion h13s
     have hq' := Orb.allN_iff.1 h14 q hq
-    simp only [Orb.strictB_eq, Orb.bAnd_eq, Bool.and_eq_true] at hq'
+    simp only [Bool.and_eq_true] at hq'
     obtain ⟨-, hlet, hword, hperm, hlane, -⟩ := hq'
     obtain ⟨nq, hnqH, hnq⟩ := wordNK_prep (by norm_num) prepOne prepGen prepGenInv genMem _ hlet
     rw [Nat.eq_of_beq_eq_true hword] at hnq
@@ -289,7 +289,7 @@ theorem fanoTest_of
     have hmem : nq⁻¹ * g ∈ Subgroup.closure S₀ := by
       refine Subgroup.closure_mono ?_ hmap
       rintro _ ⟨u, hu, rfl⟩
-      obtain ⟨j, hj, rfl⟩ := List.mem_iff_getElem.1 (Set.mem_setOf_eq ▸ hu)
+      obtain ⟨j, hj, rfl⟩ := List.mem_iff_getElem.1 (Set.mem_ofPred_eq ▸ hu)
       refine Or.inl ⟨j, hlen4 ▸ hj, ?_⟩
       change MulAut.conj c _ = _
       rw [MulAut.conj_apply, List.getD_eq_getElem _ _ hj]

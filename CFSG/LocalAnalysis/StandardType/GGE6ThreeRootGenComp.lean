@@ -43,7 +43,7 @@ private theorem familyKernel_zetaVec_of_mem {τ : Tag} {K : Type} [Field K] {p :
       (fun x : {x : Fin τ.rank → ZMod p // x ∈ V ∧
         ∑ j, (α j : ZMod p) * x j = 0} => zetaVec ζ hζ x.1) = {α, -α} := by
   ext β
-  simp only [CFSG.HardMathSupport.Timmesfeld.Torality.familyKernel, Set.mem_setOf_eq,
+  simp only [CFSG.HardMathSupport.Timmesfeld.Torality.familyKernel, Set.mem_ofPred_eq,
     Set.mem_insert_iff, Set.mem_singleton_iff]
   constructor
   · rintro ⟨hβ, hβ1⟩

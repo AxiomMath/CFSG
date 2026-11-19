@@ -27,7 +27,7 @@ theorem polarNondegOn_planeFixSpace_of_card (hQ : (polarBilin Q).Nondegenerate)
     (E : Subgroup (orthDerived Q)) [Finite E] (hE : (Nat.card E : K) ≠ 0) :
     PolarNondegOn Q (planeFixSpace E) := by
   classical
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype E := Fintype.ofFinite E
   set e : Module.End K V := avgOp (orthRep E) (⊤ : Subgroup E) with he
   have hcard : (Fintype.card (⊤ : Subgroup E) : K) ≠ 0 := by
     rw [← Nat.card_eq_fintype_card, Subgroup.card_top]
@@ -76,6 +76,7 @@ section Decomposition
 variable {K V : Type} [Field K] [AddCommGroup V] [Module K V] [FiniteDimensional K V]
   {Q : QuadraticForm K V} {E : Subgroup (orthDerived Q)}
 
+omit [FiniteDimensional K V] in
 theorem polarNondegOn_of_minimal' (hNS : OrthNoInvariantSingular Q E) {S : Submodule K V}
     (hS0 : S ≠ ⊥) (hSV : Disjoint S (planeFixSpace E)) (hst : EStable E S)
     (hmin : ∀ S' : Submodule K V, S' ≤ S → EStable E S' → S' = ⊥ ∨ S' = S) :
@@ -213,10 +214,12 @@ variable {K V : Type} [Field K] [AddCommGroup V] [Module K V] [FiniteDimensional
 @[expose] noncomputable def restrictE (hP : EStable E P) (x : E) : Module.End K P :=
   (((x : orthDerived Q) : V ≃ₗ[K] V) : V →ₗ[K] V).restrict fun u hu => hP x x.2 u hu
 
+omit [FiniteDimensional K V] in
 theorem restrictE_apply (hP : EStable E P) (x : E) (u : P) :
     ((restrictE hP x u : P) : V) = ((x : orthDerived Q) : V ≃ₗ[K] V) u :=
   rfl
 
+omit [FiniteDimensional K V] in
 theorem restrictE_pow_apply (hP : EStable E P) (x : E) (n : ℕ) (u : P) :
     (((restrictE hP x ^ n) u : P) : V) = (((x : orthDerived Q) : V ≃ₗ[K] V) ^ n) u := by
   induction n generalizing u with
@@ -224,6 +227,7 @@ theorem restrictE_pow_apply (hP : EStable E P) (x : E) (n : ℕ) (u : P) :
   | succ n ih =>
     rw [pow_succ, Module.End.mul_apply, ih, pow_succ, LinearEquiv.mul_apply, restrictE_apply]
 
+omit [FiniteDimensional K V] in
 theorem restrictE_commute (hP : EStable E P) (hcomm : ∀ x y : E, x * y = y * x) (x y : E) :
     Commute (restrictE hP x) (restrictE hP y) := by
   refine LinearMap.ext fun u => Subtype.ext ?_
@@ -231,6 +235,7 @@ theorem restrictE_commute (hP : EStable E P) (hcomm : ∀ x y : E, x * y = y * x
     ((y : orthDerived Q) : V ≃ₗ[K] V) (((x : orthDerived Q) : V ≃ₗ[K] V) u)
   exact act_comm_apply hcomm x y u
 
+omit [FiniteDimensional K V] in
 theorem isPiece_eq_zero_or_injective (hP : IsPiece Q E P) {f : Module.End K P}
     (hf : ∀ x : E, Commute f (restrictE hP.eStable x)) : f = 0 ∨ Function.Injective f := by
   set N : Submodule K V := (LinearMap.ker f).map P.subtype with hN
@@ -260,27 +265,28 @@ theorem isPiece_eq_zero_or_injective (hP : IsPiece Q E P) {f : Module.End K P}
     simpa using hw'
 
 open scoped IsMulCommutative in
+omit [FiniteDimensional K V] in
 theorem isPiece_exists_pow_eq (hP : IsPiece Q E P) (hcomm : ∀ x y : E, x * y = y * x)
     {p : ℕ} (hp : p.Prime) (hexp : ∀ x : E, x ^ p = 1) {a : E}
     (ha : ∃ u ∈ P, ((a : orthDerived Q) : V ≃ₗ[K] V) u ≠ u) (b : E) :
     ∃ i : ℕ, ∀ u ∈ P, ((b : orthDerived Q) : V ≃ₗ[K] V) u =
       (((a : orthDerived Q) : V ≃ₗ[K] V) ^ i) u := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   set r := restrictE hP.eStable with hr
   set s : Set (Module.End K P) := {r a, r b} with hsdef
   have hs : s.Pairwise Commute := by
     intro x hx y hy _
     rcases hx with rfl | rfl <;> rcases hy with rfl | rfl <;>
       exact restrictE_commute hP.eStable hcomm _ _
-  haveI := Algebra.isMulCommutative_adjoin K hs
+  have := Algebra.isMulCommutative_adjoin K hs
   set C := Algebra.adjoin K s with hCdef
   have hCcent : ∀ c ∈ C, ∀ x : E, Commute c (r x) := fun c hc x =>
     (Algebra.commute_of_mem_adjoin_of_forall_mem_commute hc fun y hy => by
       rcases hy with rfl | rfl <;> exact restrictE_commute hP.eStable hcomm _ _).symm
-  haveI : Nontrivial P := Submodule.nontrivial_iff_ne_bot.mpr hP.ne_bot
-  haveI : NoZeroDivisors C := ⟨fun {c d} hcd => by
+  have : Nontrivial P := Submodule.nontrivial_iff_ne_bot.mpr hP.ne_bot
+  have : NoZeroDivisors C := ⟨fun {c d} hcd => by
     rcases isPiece_eq_zero_or_injective hP (f := (c : Module.End K P)) (hCcent c c.2) with
       h0 | hinj
     · exact Or.inl (Subtype.ext h0)
@@ -292,7 +298,7 @@ theorem isPiece_exists_pow_eq (hP : IsPiece Q E P) (hcomm : ∀ x y : E, x * y =
         simpa using this
       have h2 : (d : Module.End K P) w = 0 := hinj (by rw [h1, map_zero])
       simpa using h2⟩
-  haveI : IsDomain C := NoZeroDivisors.to_isDomain C
+  have : IsDomain C := NoZeroDivisors.to_isDomain C
   set T : C := ⟨r a, Algebra.subset_adjoin (Set.mem_insert _ _)⟩ with hTdef
   set S : C := ⟨r b, Algebra.subset_adjoin (Set.mem_insert_of_mem _ rfl)⟩ with hSdef
   have hpow : ∀ x : E, r x ^ p = 1 := fun x => by
@@ -334,6 +340,7 @@ open Polynomial
 variable {K V : Type} [Field K] [Finite K] [AddCommGroup V] [Module K V] [FiniteDimensional K V]
   {Q : QuadraticForm K V} {E : Subgroup (orthDerived Q)} {P : Submodule K V}
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem isPiece_exists_moving (hP : IsPiece Q E P) :
     ∃ a : E, ∃ u ∈ P, ((a : orthDerived Q) : V ≃ₗ[K] V) u ≠ u := by
   obtain ⟨u, hu, hu0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hP.ne_bot
@@ -342,6 +349,7 @@ theorem isPiece_exists_moving (hP : IsPiece Q E P) :
   push Not at hcon
   exact huV (mem_planeFixSpace_iff'.2 fun x => hcon x u hu)
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem restrictE_pow_eq_one (hP : EStable E P) {p : ℕ} {x : E} (hx : x ^ p = 1) :
     restrictE hP x ^ p = 1 := by
   refine LinearMap.ext fun w => Subtype.ext ?_
@@ -351,12 +359,13 @@ theorem restrictE_pow_eq_one (hP : EStable E P) {p : ℕ} {x : E} (hx : x ^ p = 
   rw [this]
   rfl
 
+omit [FiniteDimensional K V] in
 theorem isPiece_finrank_eq (hP : IsPiece Q E P) (hcomm : ∀ x y : E, x * y = y * x)
     {p : ℕ} (hp : p.Prime) (hpl : p ≠ ringChar K) (hexp : ∀ x : E, x ^ p = 1) {a : E}
     (ha : ∃ u ∈ P, ((a : orthDerived Q) : V ≃ₗ[K] V) u ≠ u) :
     finrank K P = orderOf ((Nat.card K : ℕ) : ZMod p) := by
   classical
-  haveI : Nontrivial P := Submodule.nontrivial_iff_ne_bot.mpr hP.ne_bot
+  have : Nontrivial P := Submodule.nontrivial_iff_ne_bot.mpr hP.ne_bot
   set T : Module.End K P := restrictE hP.eStable a with hT
   have hpow : T ^ p = 1 := restrictE_pow_eq_one hP.eStable (hexp a)
   have hfix : ∀ v : P, T v = v → v = 0 := fun v hv =>
@@ -508,13 +517,13 @@ theorem exists_goodPlanes_elem (hQ : (polarBilin Q).Nondegenerate) {p : ℕ} (hp
     ∃ Pl : Fin (2 * k) → Submodule K V,
       GoodPlanes Q {g | ∃ e ∈ E, g = ((e : orthDerived Q) : V ≃ₗ[K] V)} Pl := by
   classical
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Finite (V ≃ₗ[K] V) :=
+  have : Finite V := Module.finite_of_finite K
+  have : Finite (V ≃ₗ[K] V) :=
     Finite.of_injective (β := V → V) (fun f => (f : V → V)) fun f g h =>
       LinearEquiv.ext (congrFun h)
-  haveI : Finite E := inferInstance
+  have : Finite E := inferInstance
   have hpg : IsPGroup p E := fun x => ⟨1, Subtype.ext (by simpa using hexp x x.2)⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨m, hm⟩ := IsPGroup.iff_card.mp hpg
   have hpK : (p : K) ≠ 0 := OrthBlk.natCast_ne_zero_of_ne_ringChar hp hpl
   have hEK : (Nat.card E : K) ≠ 0 := by
@@ -634,8 +643,8 @@ theorem exists_goodPlanes_spin {n : ℕ} (hn : 3 ≤ n) {k : ℕ} (hnk : n = 2 *
     ∃ Pl : Fin (2 * k) → Submodule K (Fin n ⊕ Fin n → K),
       GoodPlanes (quadPlus n K) {g | ∃ e ∈ Ep, g = spinAction (quadPlus n K) e} Pl := by
   classical
-  haveI : NeZero n := ⟨by omega⟩
-  haveI : Nonempty (Fin n ⊕ Fin n) := ⟨Sum.inl ⟨0, by omega⟩⟩
+  have : NeZero n := ⟨by omega⟩
+  have : Nonempty (Fin n ⊕ Fin n) := ⟨Sum.inl ⟨0, by omega⟩⟩
   have hQnd : (polarBilin (quadPlus n K)).Nondegenerate := nondegenerate_polarBilin_quadPlus n K
   have hrange : (spinAction (quadPlus n K)).range = orthDerived (quadPlus n K) :=
     range_spinAction_quadPlus_eq_commutator hn

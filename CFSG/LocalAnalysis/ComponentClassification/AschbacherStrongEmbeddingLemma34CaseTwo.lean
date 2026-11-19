@@ -85,7 +85,7 @@ theorem commute_inf : ∀ x ∈ A₁ ⊓ A₂, ∀ y ∈ A₁ ⊓ A₂, Commute 
   c.commute_one_two hx.1 hy.2
 
 theorem isPGroup_inf : IsPGroup 2 (A₁ ⊓ A₂ : Subgroup G) :=
-  S.isPGroup'.to_le (inf_le_left.trans c.hyp.le_one)
+  S.isPGroup.to_le (inf_le_left.trans c.hyp.le_one)
 
 theorem twist_commute {v : G} (hv : v ∈ A₁) : Commute t (twist t v) := by
   have h1 : v * (t * v * t) = t * v * t * v := (c.commute_one_two hv (c.conj_mem_two hv)).eq
@@ -142,7 +142,7 @@ theorem pair_le {x : G} (hxS : x ∈ (S : Subgroup G))
     (hxC : x ∈ Subgroup.centralizer ({t} : Set G)) :
     IsPGroup 2 (Subgroup.zpowers x ⊔ Subgroup.zpowers z : Subgroup G) ∧
       Subgroup.zpowers x ⊔ Subgroup.zpowers z ≤ Subgroup.centralizer ({t} : Set G) := by
-  refine ⟨S.isPGroup'.to_le (sup_le (Subgroup.zpowers_le.mpr hxS)
+  refine ⟨S.isPGroup.to_le (sup_le (Subgroup.zpowers_le.mpr hxS)
     (Subgroup.zpowers_le.mpr c.z_mem_sylow)), sup_le (Subgroup.zpowers_le.mpr hxC)
     (Subgroup.zpowers_le.mpr c.z_mem_centralizer)⟩
 
@@ -230,7 +230,7 @@ theorem exists_involution : ∃ v ∈ A₁, v ∉ A₂ ∧ v * v = 1 := by
   have hIsq : ∀ p ∈ A₁ ⊓ A₂, p * p = 1 := fun p hp => by
     rw [← sq]; exact hEel.2 p (hEeq ▸ hp)
   obtain ⟨v, hv, hvA, hv2⟩ := exists_mem_sq_mem_of_not_le
-    (S.isPGroup'.to_le h.le_one) c.not_le₁₂
+    (S.isPGroup.to_le h.le_one) c.not_le₁₂
   have hvvI : v * v ∈ A₁ ⊓ A₂ := ⟨A₁.mul_mem hv hv, hv2⟩
   have hvvz : v * v = z := by
     have hx := c.twist_mul_self hv hv2

@@ -170,11 +170,10 @@ theorem exists_mulEquiv_sp6
       sp6Q.originalSubgroup.mul_mem (φ y₂).2 hc
     refine sp6_class1_order_ne_four h1 h2 ?_
     rw [← h4']
-    congr 1 <;> group
+    congr 1
   ·
     refine ⟨φ.trans (MulAut.conj (⟨c, hc⟩ : ↥sp6Q.originalSubgroup)⁻¹), ?_⟩
-    simp only [MulEquiv.trans_apply, MulAut.conj_apply, Subgroup.coe_mul, Subgroup.coe_inv,
-      InvMemClass.coe_inv, hcd]
+    simp only [MulEquiv.trans_apply, MulAut.conj_apply, Subgroup.coe_mul, InvMemClass.coe_inv, hcd]
     group
   ·
     exfalso
@@ -240,8 +239,7 @@ theorem sp6K1Test_iff {T : Table} {g : Equiv.Perm (Fin 36)} (hT : Rep 36 T g) :
     sp6K1Test (sp6SylowTabs ()) T = true ↔ orderOf g = 2 ∧
       ∀ q ∈ sp6SylowPerms (), g * (q * g * q⁻¹) = (q * g * q⁻¹) * g := by
   simp only [sp6K1Test, sp6SylowTabs, List.all_map, Function.comp_def, Bool.and_eq_true,
-    List.all_eq_true, commT_conjT_iff hT, ordTest_iff perm_faithful hT (by norm_num : 0 < 2),
-    decide_eq_true_eq]
+    List.all_eq_true, commT_conjT_iff hT, ordTest_iff perm_faithful hT (by norm_num : 0 < 2)]
 
 theorem sp6_Y_ncard_le :
     {u : Equiv.Perm (Fin 36) | u ∈ sp6CentQ2.originalSubgroup ∧ orderOf u = 2 ∧
@@ -319,7 +317,7 @@ theorem sp6_A_card_le
   refine Set.ncard_le_ncard ?_ (Set.toFinite _)
   rintro _ ⟨u, ⟨hu2, hu1, hu3⟩, rfl⟩
   refine ⟨u.2, ?_, ?_⟩
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     refine orderOf_eq_prime ?_ ?_
     · have := congrArg Subtype.val hu2
       simpa [pow_two] using this
@@ -343,7 +341,7 @@ theorem card_le_eight_of_rootClass
     (hAP : ∀ t : ↥(Subgroup.centralizer ({r} : Set X)), t ∈ P → ∀ x ∈ A,
       (t : X) * x * (t : X)⁻¹ ∈ A) :
     Nat.card ↥A ≤ 8 := by
-  haveI : Finite X := Finite.of_equiv _ (nonempty_mulEquiv_co3X36 hX).some.symm.toEquiv
+  have : Finite X := Finite.of_equiv _ (nonempty_mulEquiv_co3X36 hX).some.symm.toEquiv
   obtain ⟨ψ, hψ⟩ := exists_mulEquiv_sp6 hX hcl hle h4 hr hr2
   have hcent : centralizerIn sp6Q.originalSubgroup (ψ r : Equiv.Perm (Fin 36)) =
       sp6CentQ2.originalSubgroup := by

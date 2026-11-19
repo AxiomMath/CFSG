@@ -96,6 +96,6 @@ theorem sec7l77_cent_s_solvable [Finite G] (h36 : Asc82Lemma36) (hP : Asc82Tab6P
       Subgroup.mem_centralizer_singleton_iff.mp hls
     have h2 := hbc l hl h1
     exact Subgroup.mem_centralizer_singleton_iff.mpr h2
-  exact solvable_of_solvable_injective (Subgroup.inclusion_injective hle)
+  exact Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hle)
 
 end CFSG.OddStandard.SmallF3.Omega

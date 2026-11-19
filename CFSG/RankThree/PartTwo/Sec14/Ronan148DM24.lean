@@ -286,7 +286,7 @@ theorem exists_lift_elemAbelian {X Y : Type*} [Group X] [Group Y] [Finite X] [Fi
   have htop : ((T.mapSurjective hψ : Sylow p E) : Subgroup E) = ⊤ :=
     le_antisymm le_top ((T.mapSurjective hψ).maximal_isPGroup.2 (hEp.to_subgroup ⊤) le_top)
   set T' : Subgroup X := (T : Subgroup W).map W.subtype with hT'
-  have hT'p : IsPGroup p T' := T.isPGroup'.map _
+  have hT'p : IsPGroup p T' := T.isPGroup.map _
   have hT'K : T' ⊓ φ.ker = ⊥ := Sec4.inf_eq_bot_of_isPGroup_of_not_dvd hp hT'p hker
   have hinj : ∀ x ∈ T', ∀ y ∈ T', φ x = φ y → x = y := by
     intro x hx y hy hxy
@@ -442,7 +442,7 @@ theorem mem_conjugate_iff' {H : Subgroup G} {x y : G} :
     simpa [MulAut.conj_apply, mul_assoc] using hh
   · intro hy
     refine ⟨x * y * x⁻¹, hy, ?_⟩
-    simp [MulAut.conj_apply, mul_assoc]
+    simp [mul_assoc]
 
 theorem mem_normalizer_conjugate_iff {H : Subgroup G} {x w : G} :
     w ∈ Subgroup.normalizer ((conjugate H x : Subgroup G) : Set G) ↔

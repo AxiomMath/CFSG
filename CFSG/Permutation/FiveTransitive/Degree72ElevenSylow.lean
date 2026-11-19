@@ -21,7 +21,7 @@ theorem card_le_cube
   · rw [hS]; decide
   let _ : Fact (Nat.Prime 11) := ⟨by decide⟩
   let Q := sylowImage X P s S
-  have hQ : IsPGroup 11 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup 11 Q := S.isPGroup.map (fixingSubgroup P s).subtype
   have hQcard : Nat.card Q = Nat.card S := Subgroup.card_map_of_injective
     (fixingSubgroup P s).subtype_injective
   have hn : Nat.card X < 11 ^ 2 := by rw [Nat.card_eq_fintype_card,hcard]; decide

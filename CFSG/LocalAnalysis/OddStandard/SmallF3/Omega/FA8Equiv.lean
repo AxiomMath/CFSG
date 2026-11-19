@@ -15,6 +15,7 @@ open CFSG.ComponentClassification.CatalogueBOrthogonalLinearFixed
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem fa8_scalarSigns_eq_piGroup : scalarSigns Q = piGroup Q := by
   ext g
   rw [mem_scalarSigns_iff, mem_piGroup_iff]

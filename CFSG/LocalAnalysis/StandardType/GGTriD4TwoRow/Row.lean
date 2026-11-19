@@ -60,7 +60,7 @@ theorem exists_fixed_involution_of_conjCongr (ε : R ≃* P)
 theorem exists_conj_moving_of_conjCongr [Finite R] (ε : R ≃* P)
     (hbij : Function.Bijective (conjCongr ε))
     (h3 : ∀ B : Subgroup G, IsElemAbelian 3 B → 27 ≤ Nat.card B → ∀ u ∈ B, u ∈ P → u ≠ 1 →
-      IsSolvable ↥(centralizer {u} ⊓ P) ∨
+      Group.IsSolvable ↥(centralizer {u} ⊓ P) ∨
         ∃ n ∈ P, n ∈ normalizer (B : Set G) ∧ n * u * n⁻¹ ∉ zpowers u)
     {A : Subgroup (MulAut R)} (hA : IsElemAbelian 3 A) (h27 : 27 ≤ Nat.card A) {a₀ : MulAut R}
     (ha₀ : a₀ ∈ A) (ha₀1 : a₀ ≠ 1) (hI : a₀ ∈ Set.range (MulAut.conj : R →* MulAut R))
@@ -113,7 +113,7 @@ theorem exists_conj_moving_of_conjCongr [Finite R] (ε : R ≃* P)
       simp only [f, MonoidHom.coe_mk, OneHom.coe_mk] at this
       exact Subtype.ext (ε.injective (Subtype.ext this))
     have : Group.IsSolvable ↥(centralizer {u} ⊓ P) := hs
-    exact solvable_of_solvable_injective hf
+    exact Group.isSolvable_of_isSolvable_injective hf
   · refine ⟨ε.symm ⟨n, hnP⟩, ?_, ?_⟩
     · have hρn : ρ n = MulAut.conj (ε.symm ⟨n, hnP⟩) := conjCongr_of_mem ε hnP
       rw [mem_normalizer_iff]
@@ -148,7 +148,7 @@ theorem d4G_exists_normalizer_moving_or_solvable
     (hrk : ∀ E : Subgroup (Equiv.Perm (Fin 2457)), E ≤ d4P → IsElemAbelian 3 E → Nat.card E ≤ 9) :
     ∀ B : Subgroup d4G, IsElemAbelian 3 B → 27 ≤ Nat.card B → ∀ u ∈ B,
       u ∈ d4P.subgroupOf d4G → u ≠ 1 →
-      IsSolvable ↥(centralizer {u} ⊓ d4P.subgroupOf d4G) ∨
+      Group.IsSolvable ↥(centralizer {u} ⊓ d4P.subgroupOf d4G) ∨
         ∃ n ∈ d4P.subgroupOf d4G, n ∈ normalizer (B : Set d4G) ∧ n * u * n⁻¹ ∉ zpowers u := by
   intro B hB h27 u huB huP hu1
   set B₁ : Subgroup (Equiv.Perm (Fin 2457)) := B.map d4G.subtype with hB₁
@@ -174,7 +174,7 @@ theorem d4G_exists_normalizer_moving_or_solvable
         (x : Equiv.Perm (Fin 2457))) hab
       exact Subtype.ext (Subtype.ext this)
     have : Group.IsSolvable ↥(centralizer {(u : Equiv.Perm (Fin 2457))} ⊓ d4P) := hs
-    exact solvable_of_solvable_injective hf
+    exact Group.isSolvable_of_isSolvable_injective hf
   · right
     have hmem : ∀ b : d4G, b ∈ B ↔ (b : Equiv.Perm (Fin 2457)) ∈ B₁ := fun b =>
       ⟨fun hb => ⟨b, hb, rfl⟩, fun ⟨c, hc, he⟩ => (Subtype.ext he : c = b) ▸ hc⟩

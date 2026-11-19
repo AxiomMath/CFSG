@@ -48,9 +48,11 @@ theorem padicValNat_prod_sq_sub_one (hp5 : 5 ≤ p) (heo : Odd e)
   exact Finset.sum_congr rfl fun j hj =>
     padicValNat_sq_sub_one_eq hp5 heo hpe hQ (Finset.mem_Ioc.1 hj).1
 
+omit hp in
 theorem not_dvd_gcd_four (hp5 : 5 ≤ p) (x : ℕ) : ¬ p ∣ Nat.gcd 4 x := fun h =>
   absurd (Nat.le_of_dvd (by norm_num) (h.trans (Nat.gcd_dvd_left 4 x))) (by omega)
 
+omit hp in
 theorem not_dvd_gcd_two (hp5 : 5 ≤ p) (x : ℕ) : ¬ p ∣ Nat.gcd 2 x := fun h =>
   absurd (Nat.le_of_dvd (by norm_num) (h.trans (Nat.gcd_dvd_left 2 x))) (by omega)
 

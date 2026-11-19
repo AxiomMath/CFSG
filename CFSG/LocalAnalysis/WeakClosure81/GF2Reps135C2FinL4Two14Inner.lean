@@ -21,7 +21,7 @@ open Module Matrix CFSG.LargeExtraspecial.SL4Mod CFSG.LargeExtraspecial.SL4Mod.N
 @[expose] def l4Gen14 (s : ℕ) : Matrix (Fin 14) (Fin 14) (ZMod 2) := refMat 14 (pkGen14 s)
 
 theorem l4Gen14_eq {s : ℕ} (hs : s < 6) : l4Gen14 s = l4Mat14 ⟨s, hs⟩ := by
-  simp only [l4Gen14, pkGen14, hs, if_true, l4Mat14]
+  simp only [l4Gen14, pkGen14, hs, ite_true, l4Mat14]
 
 theorem four_le_rank_word_one_fourteen :
     4 ≤ finrank (ZMod 2) (LinearMap.range (([0, 3, 0].map l4Gen14).prod - 1).mulVecLin) := by

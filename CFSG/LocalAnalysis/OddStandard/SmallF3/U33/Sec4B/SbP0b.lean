@@ -29,7 +29,7 @@ private theorem p0b_baseGrp_le_L (h : Ctx0 t L S x₁ x₂ lam rho) : baseGrp x�
 
 private theorem p0b_baseGrp_commute (h : Ctx0 t L S x₁ x₂ lam rho) {a b : G}
     (ha : a ∈ baseGrp x₁ x₂) (hb : b ∈ baseGrp x₁ x₂) : a * b = b * a := by
-  haveI : IsMulCommutative (baseGrp x₁ x₂) := h.wreath.baseGrp_eq.1
+  have : IsMulCommutative (baseGrp x₁ x₂) := h.wreath.baseGrp_eq.1
   exact congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : baseGrp x₁ x₂) ⟨b, hb⟩)
 
 private theorem p0b_baseGrp_conj_eq_of_mem (h : Ctx0 t L S x₁ x₂ lam rho) {a b : G}
@@ -196,6 +196,7 @@ private theorem p0b_mem_fourGrp_cases_rho (h : Ctx0 t L S x₁ x₂ lam rho) {f 
     · exact Or.inr (Or.inr (Or.inl (h1.trans h2)))
     · exact Or.inr (Or.inr (Or.inr (h1.trans h2)))
 
+omit [Finite G] in
 private theorem p0b_fourGrp_le_ctxX (t tau x₁ x₂ : G) :
     fourGrp x₁ x₂ ≤ ctxX t tau x₁ x₂ := by
   rw [fourGrp, ctxX]
@@ -204,6 +205,7 @@ private theorem p0b_fourGrp_le_ctxX (t tau x₁ x₂ : G) :
   simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at ha
   rcases ha with rfl | rfl <;> exact Subgroup.subset_closure (by simp)
 
+omit [Finite G] in
 private theorem p0b_fourGrp_le_baseGrp (x₁ x₂ : G) : fourGrp x₁ x₂ ≤ baseGrp x₁ x₂ := by
   rw [fourGrp, baseGrp]
   refine (Subgroup.closure_le _).mpr ?_
@@ -214,6 +216,7 @@ private theorem p0b_fourGrp_le_baseGrp (x₁ x₂ : G) : fourGrp x₁ x₂ ≤ b
   · exact pow_mem (Subgroup.mul_mem _ (Subgroup.subset_closure (by simp))
       (Subgroup.subset_closure (by simp))) 2
 
+omit [Finite G] in
 private theorem p0b_conj_mem_closure_of_gens {S : Set G} {g : G}
     (hgen : ∀ x ∈ S, g * x * g⁻¹ ∈ Subgroup.closure S) :
     ∀ w ∈ Subgroup.closure S, g * w * g⁻¹ ∈ Subgroup.closure S := by
@@ -270,6 +273,7 @@ private theorem p0b_mem_ctxM_of (h : Ctx t L S x₁ x₂ lam rho tau) {g : G}
   rw [ctxX] at hx ⊢
   exact p0b_conj_mem_closure_of_gens hgen x hx
 
+omit [Finite G] in
 private theorem p0b_conj_tau_eq_sq_mul_tau {a : G} (hinv : tau * a * tau⁻¹ = a⁻¹) :
     a * tau * a⁻¹ = a ^ 2 * tau := by
   calc a * tau * a⁻¹
@@ -299,6 +303,7 @@ private theorem p0b_yz_comm_tau (h : Ctx t L S x₁ x₂ lam rho tau) :
     _ = (tau * x₁ ^ 2) * (x₁ * x₂) ^ 2 := by rw [← hy]
     _ = tau * (x₁ ^ 2 * (x₁ * x₂) ^ 2) := by group
 
+omit [Finite G] in
 private theorem p0b_rho_conj_rho_conj {rho z : G} (h2 : rho * rho = rho⁻¹)
     (hi2 : rho⁻¹ * rho⁻¹ = rho) :
     rho * (rho * z * rho⁻¹) * rho⁻¹ = rho⁻¹ * z * rho := by
@@ -306,6 +311,7 @@ private theorem p0b_rho_conj_rho_conj {rho z : G} (h2 : rho * rho = rho⁻¹)
       = (rho * rho) * z * (rho⁻¹ * rho⁻¹) := by group
     _ = rho⁻¹ * z * rho := by rw [h2, hi2]
 
+omit [Finite G] in
 private theorem p0b_rho_inv_conj_rho_inv_conj {rho z : G} (h2 : rho * rho = rho⁻¹)
     (hi2 : rho⁻¹ * rho⁻¹ = rho) :
     rho⁻¹ * (rho⁻¹ * z * rho) * rho = rho * z * rho⁻¹ := by
@@ -402,6 +408,7 @@ theorem p0_gens_mem_M (hc : Ctx4 t L S x₁ x₂ lam rho tau) :
   have hlamM : lam ∈ ctxM t tau x₁ x₂ := p0b_mem_ctxM_of hc.toCtx hlamH hlamNA hlamτ
   exact ⟨htM, htauM, hx₁M, hx₂M, hrhoM, hlamM⟩
 
+omit [Finite G] in
 theorem p0_V_le_N_le_X (t tau x₁ x₂ : G) :
     fourGrp x₁ x₂ ≤ ctxN tau x₁ x₂ ∧ ctxN tau x₁ x₂ ≤ ctxX t tau x₁ x₂ := by
   constructor
@@ -696,7 +703,7 @@ theorem p0_normal_V (hc : Ctx8 t L S x₁ x₂ lam rho tau)
   intro g hg v hv
   obtain ⟨htM, htauM, hx1M, hx2M, hrhoM, hlamM⟩ := p0_gens_mem_M hc4
   rcases p0b_mem_fourGrp_cases_rho hc4.toCtx0 hv with h1 | h1 | h1 | h1
-  · rw [h1]; simpa using Subgroup.one_mem (fourGrp x₁ x₂)
+  · rw [h1]; simp
   · rw [h1]
     exact p0_conj_z_mem_V hc hM hN hg
   · rw [h1]

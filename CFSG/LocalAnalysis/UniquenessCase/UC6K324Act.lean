@@ -117,7 +117,7 @@ theorem alt6_facts {G : Type} [Group G] [Finite G] {X : Subgroup G} (h : IsAlt �
     IsSimpleGroup ↥X ∧ Nat.card X = 360 ∧ (∃ a b : ↥X, a * b ≠ b * a) ∧
       ∃ P : Subgroup G, P ≤ X ∧ CFSG.Open.IsElemAbelian 3 P ∧ Nat.card P = 3 ^ 2 := by
   obtain ⟨φ⟩ := h
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
   refine ⟨φ.isSimpleGroup, ?_, ?_, ?_⟩
   · rw [Nat.card_congr φ.toEquiv, nat_card_alternatingGroup, Nat.card_eq_fintype_card,
       Fintype.card_fin]
@@ -138,8 +138,8 @@ theorem alt6_facts {G : Type} [Group G] [Finite G] {X : Subgroup G} (h : IsAlt �
 theorem k324_of_simple (hS : K324Simple) (hO : KOutP) : K324 := by
   intro G _ _ hK hrk E hE _ hEc Z _ hZc hX h3
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   set C := centralizer (Z : Set G) with hC
   set X := (genFittingLayer ↥C).map C.subtype with hXdef
   obtain ⟨hXs, hX360, hnab, P, hPX, hP, hPc⟩ := alt6_facts hX
@@ -170,7 +170,7 @@ theorem k324_of_simple (hS : K324Simple) (hO : KOutP) : K324 := by
     intro b hb hbc
     have hcen : (⟨b, hb⟩ : X) ∈ center ↥X :=
       mem_center_iff.2 fun g => Subtype.ext (hbc g g.2).symm
-    haveI := hXs
+    have := hXs
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (center ↥X) with h | h
     · rw [h, mem_bot] at hcen
       exact congrArg Subtype.val hcen
@@ -185,8 +185,8 @@ theorem k324_of_simple (hS : K324Simple) (hO : KOutP) : K324 := by
   set M := normalClosure (X : Set G) with hM
   set R₀ := CFSG.pPrimeCore 3 ↥M with hR₀
   set RG := R₀.map M.subtype with hRG
-  haveI hRGn : RG.Normal := normal_map_pPrimeCore 3 M
-  haveI hSs : IsSimpleGroup (↥M ⧸ R₀) := isSimpleGroup_normalClosure_quot hXs hPX hP hPc' h3X
+  have hRGn : RG.Normal := normal_map_pPrimeCore 3 M
+  have hSs : IsSimpleGroup (↥M ⧸ R₀) := isSimpleGroup_normalClosure_quot hXs hPX hP hPc' h3X
   have hXM : X ≤ M := le_normalClosure
   have hRGmem : ∀ m : ↥M, (m : G) ∈ RG ↔ m ∈ R₀ := fun m =>
     Subgroup.mem_map_iff_mem M.subtype_injective
@@ -225,7 +225,7 @@ theorem k324_of_simple (hS : K324Simple) (hO : KOutP) : K324 := by
       have h1 : ι a ∈ center (↥M ⧸ R₀) := by rw [h]; exact mem_top _
       rw [map_mul, map_mul, mem_center_iff.1 h1 (ι b)]
   obtain ⟨z, hzZ⟩ : ∃ z : G, Z = zpowers z := by
-    haveI : IsCyclic Z := isCyclic_of_prime_card hZc
+    have : IsCyclic Z := isCyclic_of_prime_card hZc
     obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := Z)
     refine ⟨g, le_antisymm (fun x hx => ?_) (zpowers_le.2 g.2)⟩
     obtain ⟨k, hk⟩ := mem_zpowers_iff.1 (hg ⟨x, hx⟩)

@@ -73,14 +73,14 @@ theorem lieL67PlusRank_holds : LieL67PlusRank := by
   rw [CFSG.SectionRank.pRank_coe_eq_openPRank p (⊤ : Subgroup Y)]
   rcases hfam with rfl | rfl
   · obtain ⟨-, -, -, ⟨h3, hm⟩ | ⟨h3, hm⟩⟩ := hY
-    · rw [qPlusPi, if_neg (show ¬ 2 ^ f % 3 = 1 by omega)] at hpq
+    · rw [qPlusPi, ite_eq_right (show ¬ 2 ^ f % 3 = 1 by omega)] at hpq
       exact four_le_pRank_of_lieModel_psl (.inl rfl) hm hp hp5 hpq
-    · rw [qPlusPi, if_pos h3] at hpq
+    · rw [qPlusPi, ite_eq_left h3] at hpq
       exact four_le_pRank_of_lieModel_psu (.inl rfl) hm hp hp5 hpq
   · obtain ⟨-, -, -, ⟨h3, hm⟩ | ⟨h3, hm⟩⟩ := hY
-    · rw [qPlusPi, if_neg (show ¬ 2 ^ f % 3 = 1 by omega)] at hpq
+    · rw [qPlusPi, ite_eq_right (show ¬ 2 ^ f % 3 = 1 by omega)] at hpq
       exact four_le_pRank_of_lieModel_psl (.inr rfl) hm hp hp5 hpq
-    · rw [qPlusPi, if_pos h3] at hpq
+    · rw [qPlusPi, ite_eq_left h3] at hpq
       exact four_le_pRank_of_lieModel_psu (.inr rfl) hm hp hp5 hpq
 
 end CFSG.LocalAnalysis.UniquenessCase.PartOne.Theorem82E3

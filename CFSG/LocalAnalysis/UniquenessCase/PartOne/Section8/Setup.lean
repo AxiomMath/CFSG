@@ -27,7 +27,7 @@ theorem three_mem_uniqueFourBeta_of_four_le_pRank {M : Subgroup G} (hM : IsTwoLo
   show 4 ≤ CFSG.Open.twoLocalPrimeRank 3 G
   omega
 
-theorem pRank_three_le_three_of_not_strong (hS : Standing4 G) (hU : uniqueFourUnique G)
+theorem pRank_three_le_three_of_not_strong (_hS : Standing4 G) (hU : uniqueFourUnique G)
     (S : Setup4 G) (hσ : S.InMSigma)
     (hnot : ¬ CFSG.RankThree.PartOne.IsStronglyPEmbedded 3 S.M) :
     CFSG.Open.pRank 3 S.M ≤ 3 := by
@@ -53,7 +53,7 @@ theorem hyp81_of_calC_of_three_le {M L : Subgroup G} (hL : L ∈ calC M)
   refine ⟨hsub.le, hsub, hperf, h3, Or.inl ?_⟩
   exact ⟨inferInstance, hquasi⟩
 
-theorem isStronglyPEmbedded_three_of_calC_three_le (hS : Standing4 G)
+theorem isStronglyPEmbedded_three_of_calC_three_le (_hS : Standing4 G)
     (S : Setup4 G) (hPart : CFSG.Yardstones.Mf4cdcdf2e013.PartIAt S.M) {L : Subgroup G}
     (hL : L ∈ calC S.M) (h3 : 3 ≤ CFSG.Open.pRank 3 L) :
     CFSG.RankThree.PartOne.IsStronglyPEmbedded 3 S.M :=

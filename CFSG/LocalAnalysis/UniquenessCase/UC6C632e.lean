@@ -22,7 +22,7 @@ theorem c632_of_kernels (hK : UCK.K35c) (h625 : m.C625) (h626 : m.C626) (h628b :
   have hp : m.S.p ∈ uniqueFourSigma m.M := m.S.hp
   set p := m.S.p with hpdef
   have hpr : p.Prime := hp.1.1
-  haveI : Fact p.Prime := ⟨hpr⟩
+  have : Fact p.Prime := ⟨hpr⟩
   have hp2 : p ≠ 2 := hp.1.2.1
   unfold C632
   rw [CFSG.RankThreeCoreUniqueness.Helpers.gamma_le_iff]
@@ -41,7 +41,7 @@ theorem c632_of_kernels (hK : UCK.K35c) (h625 : m.C625) (h626 : m.C626) (h628b :
   by_contra hN
   have hXtop : normalizer (B : Set G) ≠ ⊤ := by
     intro hXt
-    haveI := m.hS.simple
+    have := m.hS.simple
     have hBn : B.Normal :=
       ⟨fun n hn g => by
         have hg : g ∈ normalizer (B : Set G) := hXt ▸ Subgroup.mem_top g

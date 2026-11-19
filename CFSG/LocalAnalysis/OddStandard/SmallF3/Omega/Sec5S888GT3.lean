@@ -37,7 +37,7 @@ theorem centS_of_516a (h516a : Asc82Lemma516a) {G : Type} [Group G] [Finite G] {
     (hNz : normalizer (Qsub K₁ K₂ h : Set G) ≤ centralizer ({z} : Set G)) :
     ∀ s ∈ T, (∀ q ∈ Qsub K₁ K₂ h, s * q * s⁻¹ * q⁻¹ ∈ zpowers z) → s ∈ Qsub K₁ K₂ h := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro s hsT hscomm
   have hQO : Qsub K₁ K₂ h ⊔ oddCoreIn (centralizer ({t} : Set G)) =
       centralizerMod z (normalizer (Qsub K₁ K₂ h : Set G)) (Qsub K₁ K₂ h) :=
@@ -61,7 +61,7 @@ theorem centS_of_516a (h516a : Asc82Lemma516a) {G : Type} [Group G] [Finite G] {
       (H := oddCoreIn (centralizer ({t} : Set G))) (N := Qsub K₁ K₂ h) hO_le
     rw [sup_comm] at h1
     exact h1
-  haveI : ((Qsub K₁ K₂ h).subgroupOf
+  have : ((Qsub K₁ K₂ h).subgroupOf
       (Qsub K₁ K₂ h ⊔ oddCoreIn (centralizer ({t} : Set G)))).Normal := hnorm
   have hsL : (⟨s, hssup⟩ :
       ↥(Qsub K₁ K₂ h ⊔ oddCoreIn (centralizer ({t} : Set G)))) ∈

@@ -32,9 +32,9 @@ open CFSG CFSG.Assembly
     · simp only [ggTDpvFun, Pi.mul_apply, Pi.mulSingle_apply]
       split_ifs
       · exact μ.mul_mem ζ.2 (μ.inv_mem ζ.2)
-      · simpa using ζ.2
-      · simpa using μ.inv_mem ζ.2
-      · simpa using μ.one_mem
+      · simp
+      · simp
+      · simp
     · simp [ggTDpvFun, Finset.prod_mul_distrib, Finset.prod_pi_mulSingle']⟩
   map_one' := Subtype.ext (by ext i; simp [ggTDpvFun])
   map_mul' ζ ξ := Subtype.ext (by

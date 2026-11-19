@@ -72,7 +72,7 @@ theorem t331_uv_fixes_a_half :
   rw [map_nsmul, t331_uv_a]
   funext i
   fin_cases i <;>
-    simp [Torus.c, Torus.a, Torus.b, gen, Pi.single_apply, nsmul_eq_mul]
+    simp [Torus.c, Torus.a, Torus.b, gen, nsmul_eq_mul]
   all_goals decide
 
 theorem t331_uv_fixes_b_half :
@@ -82,7 +82,7 @@ theorem t331_uv_fixes_b_half :
   rw [map_nsmul, t331_uv_b]
   funext i
   fin_cases i <;>
-    simp [Torus.c, Torus.a, Torus.b, gen, Pi.single_apply, nsmul_eq_mul]
+    simp [Torus.c, Torus.a, Torus.b, gen, nsmul_eq_mul]
   all_goals decide
 
 theorem t331_φuv_a_add_b :
@@ -94,7 +94,7 @@ theorem t331_φuv_a_add_b :
   rw [map_add, t331_uv_a, t331_uv_b]
   funext i
   fin_cases i <;>
-    simp [Torus.c, Torus.a, Torus.b, gen, Pi.single_apply]
+    simp [Torus.c, Torus.a, Torus.b, gen]
   all_goals decide
 
 theorem t331_uv_preimage :
@@ -129,6 +129,7 @@ theorem t331_φuv_ab_half :
     abel
   rwa [hv] at h2
 
+omit [Finite G] in
 theorem t331_u_swaps_a_half {D : Subgroup G}
     (dD : StrothWeakTypeData D (StrothTypeIndex.t331)) :
     dD.u⁻¹ * ((dD.a : G) ^ 2 ^ ((StrothTypeIndex.t331).n - 1)) * dD.u =
@@ -164,8 +165,8 @@ theorem t331_d2_sq_eq (h : F.IsD D dD) :
   set bh : G := (dD.b : G) ^ 4 with hbh
   set ab : G := (dD.a : G) * (dD.b : G) with hab
   change ab ^ 2 * ab ^ 2 = x ^ 2 * y ^ 2
-  haveI : IsMulCommutative D := dD.isMulCommutative
-  haveI : IsMulCommutative F.A := F.dA.isMulCommutative
+  have : IsMulCommutative D := dD.isMulCommutative
+  have : IsMulCommutative F.A := F.dA.isMulCommutative
   have haord : orderOf (dD.a : G) = 8 := by
     rw [Subgroup.orderOf_coe, StrothWeakTypeData.orderOf_a, hn]
     norm_num
@@ -325,7 +326,7 @@ theorem t331_d2_sq_eq (h : F.IsD D dD) :
       (4 : ℕ) • Torus.b (k := (StrothTypeIndex.t331).k) := by
     intro htor
     have h1 := congrFun htor 1
-    simp [Torus.a, Torus.b, gen, Pi.single_apply, nsmul_eq_mul] at h1
+    simp [Torus.a, Torus.b, gen, nsmul_eq_mul] at h1
     exact (by decide : ¬ ((4 : ZMod 8) = 0)) h1
   have hahb_ne : ah ≠ bh := by
     intro heq
@@ -371,6 +372,7 @@ theorem t331_d2_sq_eq (h : F.IsD D dD) :
     · exact absurd hahxy hah_ne_xy
   exact hLHS.trans hmain
 
+omit [Finite G] in
 theorem t331_d2_ofTorus :
     ((dD.a : G) * (dD.b : G)) ^ 2 ^ ((StrothTypeIndex.t331).n - 2) =
       dD.ofTorus ((2 ^ ((StrothTypeIndex.t331).n - 2) : ℕ) •
@@ -388,8 +390,8 @@ theorem t331_d2_mem_A (h : F.IsD D dD) :
   let x : G := (F.dA.a : G)⁻¹
   let y : G := (F.dA.b : G)⁻¹
   change d2 ∈ F.A
-  haveI : IsMulCommutative D := dD.isMulCommutative
-  haveI : IsMulCommutative F.A := F.dA.isMulCommutative
+  have : IsMulCommutative D := dD.isMulCommutative
+  have : IsMulCommutative F.A := F.dA.isMulCommutative
   have hd2D : d2 ∈ D := by
     dsimp only [d2]
     exact D.pow_mem (D.mul_mem dD.a.2 dD.b.2) _

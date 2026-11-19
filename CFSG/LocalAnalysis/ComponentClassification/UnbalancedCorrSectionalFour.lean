@@ -53,7 +53,7 @@ theorem card_quotient_le_sixteen_of_four_generated
       exact (dvd_pow_self 2 hm0.ne').trans (hm ▸ h1)
   set U := (T : Subgroup ↥H).map H.subtype
   have hUH : U ≤ H := map_subtype_le _
-  have hU2 : IsPGroup 2 U := T.isPGroup'.map H.subtype
+  have hU2 : IsPGroup 2 U := T.isPGroup.map H.subtype
   obtain ⟨X, hX, hXgen⟩ := hgen U hU2
   obtain ⟨Y, hY, hYgen⟩ :=
     Helpers.subgroup_generators_of_ambient_generators U X hXgen
@@ -98,7 +98,7 @@ theorem perfect_unbalanced_triple_core_or_sectional_four
       GSUnbalancingTriple a x J
   · exact Or.inl hi
   right
-  have hS2 : IsPGroup 2 ↥(S : Subgroup G) := S.isPGroup'
+  have hS2 : IsPGroup 2 ↥(S : Subgroup G) := S.isPGroup
   have hcases : K < ⊤ ∨
       ∀ U : Subgroup ↥S, ∃ X : Finset ↥S, X.card ≤ 4 ∧ closure (X : Set ↥S) = U := by
     by_cases hrank : 3 ≤ CFSG.pRank 2 G

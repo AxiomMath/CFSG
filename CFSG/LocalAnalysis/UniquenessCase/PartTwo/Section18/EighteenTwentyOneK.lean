@@ -14,8 +14,8 @@ theorem le_of_mem_aSet_of_natSUn {W : Type} [CommGroup W] [Finite W]
     (hYN : Y ≤ Subgroup.normalizer (H : Set (MulAut W))) (hA : A ∈ E3.aSet (2 * n) Y) :
     A ≤ H := by
   obtain ⟨F, hFld, hFfin, hFcard, ε, ψ, hψ⟩ := exists_natCoords_of_natSUn hNat
-  letI := hFld
-  letI := hFfin
+  let := hFld
+  let := hFfin
   obtain ⟨hAY, -, hAab, hAfix⟩ := hA
   have hn : 1 ≤ n := by
     by_contra h
@@ -187,8 +187,8 @@ theorem exists_rk_fixV_eq_two_mul_mul_of_natSUn {W : Type} [CommGroup W] [Finite
     {H Y : Subgroup (MulAut W)} {n : ℕ} (hNat : NatSUn H ⊤ ⊥ 4 n) (hYH : Y ≤ H) :
     ∃ k : ℕ, rk ↥(fixV Y) = 2 * n * k := by
   obtain ⟨F, hFld, hFfin, hFcard, ε, ψ, hψ⟩ := exists_natCoords_of_natSUn hNat
-  letI := hFld
-  letI := hFfin
+  let := hFld
+  let := hFfin
   let S : Submodule F (Fin 4 → F) :=
     { carrier := {x | ψ.symm (Multiplicative.ofAdd x) ∈ fixV Y}
       add_mem' := by

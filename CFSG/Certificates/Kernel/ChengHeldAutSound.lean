@@ -96,10 +96,10 @@ theorem twOrbits_eq (hN : M.N = n) (hm : ∀ a b, M.m a b = m a b) (hinv : ∀ a
     dsimp only
     rw [h2 s hsn, twOrb_eq hN hm hinv ha s]
     by_cases hc : (!b.testBit s) = true
-    · rw [if_pos hc, if_pos hc]
+    · rw [ite_eq_left hc, ite_eq_left hc]
       refine ⟨by rw [foldl_set_size, h1], fun i hi => ?_, by rw [h3]⟩
       rw [foldl_set_get' _ _ (by rw [h1]; exact hi), h2 i hi, foldl_or_testBit]
-    · rw [if_neg hc, if_neg hc]
+    · rw [ite_eq_right hc, ite_eq_right hc]
       exact ⟨h1, h2, h3⟩
 
 theorem closure_bit (hN : M.N = n) (hm : ∀ a b, M.m a b = m a b) (hn : 0 < n)
@@ -278,12 +278,11 @@ theorem gAutOK_of {α K : ℕ} {af : ℕ → ℕ} (hN : (mkReg α).N = n)
     subst hα
     unfold gAutOK gRestW
     simp only [hH, hBj, hP, Bool.true_and, beq_self_eq_true, hN, hm, hinv, ha, hg,
-      ↓reduceIte, card_eq sZ gZ, card_eq sD gD, elems_eq sD gD, gZ, gD, op1, op2, ot1, ot2, oq1,
-      oq2]
+      ↓reduceIte, card_eq sZ gZ, card_eq sD gD, elems_eq sD gD, gZ, gD, op1, op2, ot1, ot2, oq2]
   · obtain ⟨sV, gV⟩ := closure_bit hN hm hn hmlt (hV hα)
     unfold gAutOK gRestW
     simp only [hH, hBj, hP, Bool.true_and, beq_self_eq_true, hN, hm, hinv, ha, hg, hα,
-      if_false, pw_eq hm, card_eq sZ gZ, card_eq sD gD, elems_eq sD gD, gZ, gD, op1, op2,
+      ite_false, pw_eq hm, card_eq sZ gZ, card_eq sD gD, elems_eq sD gD, gZ, gD, op1, op2,
       card_eq sV gV, elems_eq sV gV, gV]
 
 theorem autMap_size' (M : RegModel) (img : Array ℕ) : (M.autMap img).size = M.N := by

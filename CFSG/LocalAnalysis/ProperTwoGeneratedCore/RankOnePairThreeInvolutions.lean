@@ -23,11 +23,11 @@ theorem involution_rank_three_coverage_of_no_index_two
     change 3 ≤ Open.pRank 2 (⊤ : Subgroup P)
     rw [← pRank_subgroup_eq_internal_top 2 (by decide), sylow_two_rank_eq]
     exact hrank
-  obtain ⟨V, hVnormal, hV, hVcard⟩ := high_two_rank_normal_four P S.isPGroup' hPrank
+  obtain ⟨V, hVnormal, hV, hVcard⟩ := high_two_rank_normal_four P S.isPGroup hPrank
   let : V.Normal := hVnormal
   obtain ⟨A, hA, hAcard⟩ := exists_elementary_eight_of_rank_three hPrank
   let C := Subgroup.centralizer (V : Set P)
-  obtain ⟨_, _, hindex⟩ := normal_four_centralizer_index S.isPGroup' V hV hVcard
+  obtain ⟨_, _, hindex⟩ := normal_four_centralizer_index S.isPGroup V hV hVcard
   change C.index ≤ 2 at hindex
   let Cimage := C.map P.subtype
   have hCimageP : Cimage ≤ P := Subgroup.map_subtype_le _
@@ -54,7 +54,7 @@ theorem involution_rank_three_coverage_of_no_index_two
     rw [hx]
     simpa only [MulAut.conj_apply, inv_inv, ht] using (MulAut.conj g⁻¹).orderOf_eq t
   obtain ⟨E, _, hE, hEcard, hxE⟩ := normal_four_centralizer_involution_coverage
-    S.isPGroup' V hV hVcard A hA hAcard x ((Subgroup.orderOf_coe x).symm.trans hxOrder) hxC
+    S.isPGroup V hV hVcard A hA hAcard x ((Subgroup.orderOf_coe x).symm.trans hxOrder) hxC
   obtain ⟨F, _, hF, hFcard, hxF⟩ := elementary_eight_coverage_lift P x ⟨E, hE, hEcard, hxE⟩
   exact elementary_eight_coverage_conjugate t g F hF hFcard (hx ▸ hxF)
 
@@ -95,7 +95,7 @@ theorem three_involution_centralizer_forces_two_rank_two
     obtain ⟨⟨t, ht⟩⟩ := (Nat.card_pos_iff.mp (by omega :
       0 < Nat.card {t : P // orderOf t = 2})).1
     have : Nontrivial P := ⟨⟨t, 1, fun h => by simp [h] at ht⟩⟩
-    obtain ⟨c, hc, hcCenter⟩ := exists_central_involution_of_two_group P T.isPGroup'
+    obtain ⟨c, hc, hcCenter⟩ := exists_central_involution_of_two_group P T.isPGroup
     have : Nontrivial {t : P // orderOf t = 2} :=
       Finite.one_lt_card_iff_nontrivial.mp (by omega)
     obtain ⟨d, hd⟩ := exists_ne (⟨c, hc⟩ : {t : P // orderOf t = 2})

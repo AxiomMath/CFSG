@@ -143,12 +143,12 @@ private noncomputable def ggK1Sa_v {R : Type} [Group R] {S C : Subgroup R}
 private lemma ggK1Sa_u_of_mem {R : Type} [Group R] {S C : Subgroup R}
     (hSC : ∀ a ∈ S, ∀ b ∈ C, a * b = b * a) {c : R} (hc : c ∈ S ⊔ C) :
     ggK1Sa_u hSC c = (ggK1Sa_pair hSC c hc).1 := by
-  rw [ggK1Sa_u, dif_pos hc]
+  rw [ggK1Sa_u, dite_eq_left hc]
 
 private lemma ggK1Sa_v_of_mem {R : Type} [Group R] {S C : Subgroup R}
     (hSC : ∀ a ∈ S, ∀ b ∈ C, a * b = b * a) {c : R} (hc : c ∈ S ⊔ C) :
     ggK1Sa_v hSC c = (ggK1Sa_pair hSC c hc).2 := by
-  rw [ggK1Sa_v, dif_pos hc]
+  rw [ggK1Sa_v, dite_eq_left hc]
 
 private lemma ggK1Sa_u_mem {R : Type} [Group R] {S C : Subgroup R}
     (hSC : ∀ a ∈ S, ∀ b ∈ C, a * b = b * a) {c : R} (hc : c ∈ S ⊔ C) :

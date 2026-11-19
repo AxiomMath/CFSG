@@ -214,7 +214,7 @@ theorem exists_E_of_hess_sub (hL3 : Gap129HessL3) (hD4 : Gap129HessD4)
       apply Subtype.ext
       rw [Subgroup.coe_mul, Subgroup.coe_mul, hb₀]
       exact Subgroup.mem_centralizer_singleton_iff.mp (hXb hk)
-    · haveI : Group.IsPerfect X := hXp
+    · have : Group.IsPerfect X := hXp
       exact Group.IsPerfect.ofSurjective (f := (Subgroup.subgroupOfEquivOfLe hXW).symm.toMonoidHom)
         (Subgroup.subgroupOfEquivOfLe hXW).symm.surjective
     · rw [subgroupOf_inf_centralizer_sub b₀ hb₀]

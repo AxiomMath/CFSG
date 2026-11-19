@@ -201,7 +201,7 @@ theorem inSubgroup_pCore_subgroupOf {Y : Type*} [Group Y] {Gs H : Subgroup Y} (h
     exact h1.trans hzx
 
 theorem nonempty_quot_equiv_subgroupOf {Y : Type*} [Group Y] {Gs R N : Subgroup Y}
-    (hRG : R ≤ Gs) (hNR : N ≤ R) [hN : (N.subgroupOf R).Normal] {A : Type*} [Group A]
+    (hRG : R ≤ Gs) (_hNR : N ≤ R) [hN : (N.subgroupOf R).Normal] {A : Type*} [Group A]
     (h : Nonempty ((↥R ⧸ N.subgroupOf R) ≃* A)) :
     ∃ _ : ((N.subgroupOf Gs).subgroupOf (R.subgroupOf Gs)).Normal,
       Nonempty ((↥(R.subgroupOf Gs) ⧸ (N.subgroupOf Gs).subgroupOf (R.subgroupOf Gs)) ≃* A) := by

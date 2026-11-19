@@ -10,7 +10,7 @@ open CFSG.RankThree.PartOne (IsStronglyPEmbedded)
 
 @[expose] def CoverActsTriviallyOnSmall (p : ℕ) (L : Type*) [Group L] : Prop :=
   ∀ (J : Type) [Group J] [Finite J], Group.IsPerfect J → ∀ φ : J →* L, Function.Surjective φ →
-    Nat.Coprime (Nat.card φ.ker) (2 * p) → IsSolvable φ.ker →
+    Nat.Coprime (Nat.card φ.ker) (2 * p) → Group.IsSolvable φ.ker →
     ∀ ℓ : ℕ, ℓ.Prime → ℓ ≠ 2 → ℓ ≠ p →
     ∀ (V : Type) [Group V] [Finite V], (∀ a b : V, a * b = b * a) → (∀ v : V, v ^ ℓ = 1) →
       Nat.card V ≤ ℓ ^ 4 → ∀ ρ : J →* MulAut V, ρ = 1

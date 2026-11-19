@@ -46,9 +46,9 @@ theorem coord_eq_zero_of_single {d : Fin 6 → F4} {D : GL (Fin 6) F4}
     rw [h1, proj_poly (d j) e (hd0 j) (hd0 i)]
     by_cases hj : j = i
     · have hdj : d j = e := by rw [hj]
-      rw [if_pos hdj, if_pos hj, one_mul, hj]
+      rw [ite_eq_left hdj, ite_eq_left hj, one_mul, hj]
     · have : d j ≠ e := fun h => hj (hsing j h)
-      rw [if_neg this, if_neg hj, zero_mul]
+      rw [ite_eq_right this, ite_eq_right hj, zero_mul]
   have hiso := hWiso _ hu _ hu
   simp only [hcoord] at hiso
   have hs : ∑ k : Fin 6, ((if k = i then w i else 0) ^ 2 * (if k = i then w i else 0)) =
@@ -116,14 +116,14 @@ private theorem mulVec_embSU (A : ↥(StatedSU (Fintype.card (Blk d c)) (2 ^ 1) 
         Matrix (Fin (Fintype.card (Blk d c))) (Fin (Fintype.card (Blk d c))) F4)
           (Fintype.equivFin (Blk d c) ⟨i, hi⟩) l * w l)]
     refine Finset.sum_congr rfl fun j _ => ?_
-    rw [extMat_apply, dif_pos ⟨hi, j.2⟩, extV_pos d c w j.2]
+    rw [extMat_apply, dite_eq_left ⟨hi, j.2⟩, extV_pos d c w j.2]
     simp [Matrix.reindex_apply]
   · rw [extV_neg d c _ hi, Matrix.mulVec, dotProduct]
     refine Finset.sum_eq_zero fun j _ => ?_
     rw [extMat_apply]
     by_cases hj : d j = c
     · have hne : i ≠ j := fun h => hi (h ▸ hj)
-      rw [dif_neg (fun h => hi h.1), Matrix.one_apply_ne hne, zero_mul]
+      rw [dite_eq_right (fun h => hi h.1), Matrix.one_apply_ne hne, zero_mul]
     · rw [extV_neg d c w hj, mul_zero]
 
 theorem core_blk (n : ℕ) (hn : n = 4 ∨ n = 5) (W : Submodule F4 (Fin n → F4)) (hW0 : W ≠ ⊥)
@@ -135,7 +135,7 @@ theorem core_blk (n : ℕ) (hn : n = 4 ∨ n = 5) (W : Submodule F4 (Fin n → F
   · apply not_dvd_card_of_stabilizes_isotropic F4_card_four X W hW0 hWiso hXW
     have h1 := Subgroup.card_dvd_of_surjective hψ
     rwa [hS] at h1
-  · haveI : Finite S := Nat.finite_of_card_ne_zero (by rw [hS]; norm_num)
+  · have : Finite S := Nat.finite_of_card_ne_zero (by rw [hS]; norm_num)
     exact CatB.I1431YU5.core_stated F4_card_four W hW0 hWiso X hXW S hS ⟨ψ, hψ⟩
 
 end Ext

@@ -45,7 +45,7 @@ theorem nonempty_sp8_mulEquiv {Y : Type} [Group Y] (Ψ : StatedSp 4 (ZMod 2) →
   have hinj : Function.Injective Ψ := by
     rw [← MonoidHom.ker_eq_bot_iff]
     exact le_antisymm (hk.trans Am4.center_sp4_zmod2_eq_bot.le) bot_le
-  haveI : Fintype (GaloisField 2 1) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 1) := Fintype.ofFinite _
   have hcard : Fintype.card (GaloisField 2 1) = 2 := by
     rw [← Nat.card_eq_fintype_card]; simpa using GaloisField.card 2 1 one_ne_zero
   let r : ZMod 2 ≃+* GaloisField 2 1 :=

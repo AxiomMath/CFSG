@@ -332,13 +332,12 @@ theorem res1U3_torus_inv (h : UnitaryFieldData 2 n K) {τ : K} (hτ : τ ^ 3 = 1
   have hδs : ∀ i, δ i * s (δ i) = 1 := by
     have e1 : g.map s * diagonal (fun i => s (δ i)) = W.map s * g.map s := by
       rw [← res1U3_map_mul, hWg, res1U3_map_mul, Matrix.diagonal_map (map_zero s)]
-      try rfl
     have e2 : W * N * diagonal (fun i => s (δ i)) = N := by
       calc W * N * diagonal (fun i => s (δ i)) =
           W * A * (g.map s * diagonal (fun i => s (δ i))) := by
             rw [hN]; simp only [Matrix.mul_assoc]
         _ = (W * A * W.map s) * g.map s := by rw [e1]; simp only [Matrix.mul_assoc]
-        _ = N := by rw [hAW]; try rfl
+        _ = N := by rw [hAW]
     rw [hNμ, ← Matrix.mul_assoc, hWg, Matrix.mul_assoc, Matrix.mul_assoc,
       Matrix.diagonal_mul_diagonal, Matrix.diagonal_mul_diagonal] at e2
     have e3 := congrArg (fun M => g⁻¹ * M) e2

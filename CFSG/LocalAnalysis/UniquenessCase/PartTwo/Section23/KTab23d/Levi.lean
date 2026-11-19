@@ -11,7 +11,7 @@ private theorem map_perfectResidual_eq_of_leviHom_D1 {G A : Type} [Group G] [Fin
     (P : Subgroup G) (β : ↥P →* A) (S : Subgroup A)
     (hSR : S ≤ β.range) (hcomm : ⁅β.range, β.range⁆ ≤ S) (hperf : ⁅S, S⁆ = S) :
     (CFSG.perfectResidual ↥P).map β = S := by
-  haveI : Finite ↥β.range :=
+  have : Finite ↥β.range :=
     Finite.of_surjective β.rangeRestrict β.rangeRestrict_surjective
   have hA : (CFSG.perfectResidual ↥P).map β =
       (CFSG.perfectResidual ↥β.range).map β.range.subtype := by
@@ -80,9 +80,9 @@ theorem nonempty_bar2_hinf_equiv_of_leviHom {G A : Type} [Group G] [Finite G] [G
 theorem hinf_eq_bot_of_leviHom_solvable {G A : Type} [Group G] [Finite G] [Group A]
     (P : Subgroup G) (β : ↥P →* A) (hker : IsPGroup 2 ↥β.ker)
     (hA : Group.IsSolvable ↥β.range) : Hinf P = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsSolvable ↥β.range := hA
-  haveI : Group.IsSolvable ↥β.ker := by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsSolvable ↥β.range := hA
+  have : Group.IsSolvable ↥β.ker := by
     have hnil := hker.isNilpotent
     infer_instance
   have hsolvP : Group.IsSolvable ↥P :=

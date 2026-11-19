@@ -31,11 +31,11 @@ theorem isCyclic_outer_of_isPSp4 {X : Type} [Group X] {n : ℕ} (h : IsPSp4 2 n 
     IsCyclic (Outer X) := by
   change CFSG.Open.StatedClassicalModel X .PSp 2 2 n at h
   obtain ⟨-, K, hKfield, hKfinite, hKcard, ⟨e⟩⟩ := h
-  letI := hKfield
-  letI := hKfinite
+  let := hKfield
+  let := hKfinite
   have hKchar : CharP K 2 := CFSG.SectionRank.charP_two_of_card hKcard
-  letI := hKchar
-  haveI : IsCyclic (Outer (CFSG.Open.StatedProj (CFSG.Open.StatedSp 2 K))) :=
+  let := hKchar
+  have : IsCyclic (Outer (CFSG.Open.StatedProj (CFSG.Open.StatedSp 2 K))) :=
     CFSG.Quasithin.H13.NQCat.LieThompson.Sp4.isCyclic_outer_projSp (F := K)
   exact GL83.I713.isCyclic_outer_congr e
 
@@ -43,7 +43,7 @@ theorem center_eq_bot_of_isG2_quot
     {Q : Type} [Group Q] [Finite Q] {n : ℕ} (hq : CFSG.IsQuasisimple Q)
     (hZ : Odd (Nat.card (Subgroup.center Q)))
     (h : IsG2 2 n (Q ⧸ Subgroup.center Q)) : Subgroup.center Q = ⊥ := by
-  haveI : Group.IsPerfect Q := hq.1
+  have : Group.IsPerfect Q := hq.1
   have h0 := CFSG.SectionRank.g2_even_perfect_odd_cover_trivial h
     (QuotientGroup.mk' (Subgroup.center Q)) (QuotientGroup.mk'_surjective _)
     (QuotientGroup.ker_mk' _).le (by rw [QuotientGroup.ker_mk']; exact hZ)

@@ -188,11 +188,11 @@ private theorem w8_d : w8 * a8d8 * w8⁻¹ = a8c8 := Subtype.ext (Equiv.ext (by 
 open scoped Pointwise in
 theorem exists_conj_into_P0 {H : Subgroup A8} (hH : IsPGroup 3 H) :
     ∃ h : A8, ∀ m ∈ H, h * m * h⁻¹ ∈ a8P0 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Q₁, hQ₁⟩ := hH.exists_le_sylow
   obtain ⟨Q₂, hQ₂⟩ := a8P0_three.exists_le_sylow
   have hQ₂eq : (Q₂ : Subgroup A8) = a8P0 := by
-    obtain ⟨n, hn⟩ := Q₂.isPGroup'.exists_card_eq
+    obtain ⟨n, hn⟩ := Q₂.isPGroup.exists_card_eq
     have hd : 3 ^ n ∣ 20160 := by
       rw [← a8_card, ← hn]; exact Subgroup.card_subgroup_dvd_card _
     have hn2 := a8_three_part_perm n hd
@@ -235,7 +235,7 @@ theorem exists_H_of_conj {x y g : A8} (hx : g * x * g⁻¹ = a8c8 ∨ g * x * g�
       zpowers x ⊓ H = ⊥ := by
   have hφinj : Function.Injective (MulAut.conj g⁻¹).toMonoidHom := (MulAut.conj g⁻¹).injective
   have hφapp : ∀ a, (MulAut.conj g⁻¹).toMonoidHom a = g⁻¹ * a * g := fun a => by
-    simp [MulAut.conj_apply]
+    simp
   have hxx : (MulAut.conj g⁻¹).toMonoidHom (g * x * g⁻¹) = x := by rw [hφapp]; group
   have hz : zpowers (g * x * g⁻¹) = zpowers a8c8 := zpowers_eq_of a8c8_cube hx
   have hcx : centralizer ({g * x * g⁻¹} : Set A8) = centralizer ({a8c8} : Set A8) :=
@@ -326,7 +326,7 @@ theorem a8_pair {x y : A8} (hx3 : x ^ 3 = 1) (hy3 : y ^ 3 = 1) (hc : x * y = y *
     · intro s hs u hu
       simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hs hu
       rcases hs with h | h <;> rcases hu with h' | h' <;> rw [h, h'] <;>
-        first | rfl | exact hc | exact hc.symm
+        first | exact hc | exact hc.symm
   obtain ⟨h, hh⟩ := exists_conj_into_P0 hP
   have hxP : h * x * h⁻¹ ∈ a8P0 := hh x (subset_closure (by simp))
   have hyP : h * y * h⁻¹ ∈ a8P0 := hh y (subset_closure (by simp))

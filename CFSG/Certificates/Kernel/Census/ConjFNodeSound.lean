@@ -47,7 +47,7 @@ private noncomputable def toPerm (n w p : Nat) : Equiv.Perm (Fin n) :=
 private theorem toPerm_apply {n w p : Nat} (hp : pvalid n w p = true) (i : Fin n) :
     ((toPerm n w p i : Fin n) : Nat) = at' w p i := by
   unfold toPerm
-  rw [dif_pos hp]
+  rw [dite_eq_left hp]
   rfl
 
 private theorem toPerm_inj {n w p q : Nat} (hp : canon1 n w p = true ∧ pvalid n w p = true)
@@ -161,7 +161,7 @@ private theorem maskProd_xor {M : Type} [Monoid M] (f : Nat → M) : ∀ (s : Na
           (if x.testBit s = true then f s else 1) := by
       intro x
       rw [List.range_succ, List.filter_append, List.map_append, List.prod_append]
-      cases hx : x.testBit s <;> simp [List.filter_cons, hx]
+      cases hx : x.testBit s <;> simp [hx]
     rw [last, last]
     rcases Nat.lt_or_ge k s with hks | hks
     · rw [maskProd_xor f s (fun a ha b hb => hc a (by omega) b (by omega))

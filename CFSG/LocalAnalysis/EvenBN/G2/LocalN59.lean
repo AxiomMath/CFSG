@@ -357,6 +357,7 @@ variable
   {K : Type} [Field K] [Finite K] [CharP K 2]
 
 
+omit [Finite K] [CharP K 2] in
 private theorem t_mem_centralizer_inf_normalizer_U (h : Setup G L f t) (d : G2Data L K) :
     t ∈ centralizer ({t} : Set G) ⊓ normalizer (d.U : Set G) := by
   refine ⟨mem_centralizer_singleton_iff.2 rfl, Subgroup.centralizer_le_normalizer _
@@ -394,6 +395,7 @@ private theorem yamada_5_59_N₁_normalizer_factor (hW : CFSG.Walter.WalterOrder
   · rw [h553]
     exact le_normalizer_yamadaC₁ d t (h.centralizer_inf_normalizer_U_le d hc)
 
+omit [Finite K] in
 private theorem t_mem_centralizer_inf_normalizer_Y (h : Setup G L f t) (d : G2Data L K) :
     t ∈ centralizer ({t} : Set G) ⊓ normalizer (d.Y : Set G) := by
   refine ⟨mem_centralizer_singleton_iff.2 rfl, Subgroup.centralizer_le_normalizer _
@@ -435,10 +437,11 @@ private theorem yamada_5_59_N₂_normalizer_factor (hW : CFSG.Walter.WalterOrder
   · rw [h553]
     exact le_normalizer_yamadaL₂ d t (h.centralizer_inf_normalizer_Y_le d hc)
 
+omit [Finite K] [CharP K 2] in
 private theorem t_mem_normalizer_S (h : Setup G L f t) (d : G2Data L K) :
     t ∈ normalizer (d.S : Set G) :=
   Subgroup.centralizer_le_normalizer _
-    (mem_centralizer_iff.2 fun s hs => mem_centralizer_singleton_iff.1 (h.S_le_centralizer d hs))
+    (mem_centralizer_iff.2 fun _s hs => mem_centralizer_singleton_iff.1 (h.S_le_centralizer d hs))
 
 private theorem yamadaP_inf_centralizer_eq (hW : CFSG.Walter.WalterOrderForm) (h : Setup G L f t)
     (d : G2Data L K) (hK : Nat.card K = 2 ^ f) (hQ : h.QFacts d) :
@@ -521,11 +524,13 @@ private theorem act_M_leviB_iff (h : Setup G L f t) (d : G2Data L K)
   rw [himg1, himg2] at this
   exact this
 
+omit [Finite G] [Finite K] [CharP K 2] in
 private theorem yamadaK₁_le_inf (d : G2Data L K) : yamadaK₁ d ≤ L ⊓ normalizer (d.U : Set G) :=
   commutator_le.2 fun a ha b hb => by
     rw [commutatorElement_def]
     exact mul_mem (mul_mem (mul_mem ha hb) (inv_mem ha)) (inv_mem hb)
 
+omit [Finite G] [Finite K] in
 private theorem yamadaK₂_le_inf (d : G2Data L K) : yamadaK₂ d ≤ L ⊓ normalizer (d.Y : Set G) :=
   commutator_le.2 fun a ha b hb => by
     rw [commutatorElement_def]
@@ -629,18 +634,23 @@ private theorem nonempty_mulEquiv_yamadaBarK₁ (hW : CFSG.Walter.WalterOrderFor
       exact ⟨hxD, hxA⟩)
   exact ⟨(e.trans bar).symm⟩
 
+omit [Finite G] [Finite K] in
 private theorem rootGroup_r_le_leviA (d : G2Data L K) : d.rootGroup g2r ≤ d.leviA := fun g hg =>
   (d.yamada_3_11_G.2.2.1 g).2 (Or.inl ⟨g, hg, 1, one_mem _, (mul_one g).symm⟩)
 
+omit [Finite G] [Finite K] in
 private theorem J₁_le_leviA (d : G2Data L K) : d.J₁ ≤ d.leviA := fun g hg =>
   (d.yamada_3_11_G.2.2.1 g).2 (Or.inl ⟨1, one_mem _, g, hg, (one_mul g).symm⟩)
 
+omit [Finite G] [Finite K] in
 private theorem rootGroup_a_le_leviB (d : G2Data L K) : d.rootGroup g2a ≤ d.leviB := fun g hg =>
   (d.yamada_3_11_G.2.2.2 g).2 (Or.inl ⟨g, hg, 1, one_mem _, (mul_one g).symm⟩)
 
+omit [Finite G] [Finite K] in
 private theorem J₂_le_leviB (d : G2Data L K) : d.J₂ ≤ d.leviB := fun g hg =>
   (d.yamada_3_11_G.2.2.2 g).2 (Or.inl ⟨1, one_mem _, g, hg, (one_mul g).symm⟩)
 
+omit [Finite G] in
 private theorem S_le_yamadaK₁ (d : G2Data L K) (hK4 : 4 ≤ Nat.card K) : d.S ≤ yamadaK₁ d := by
   obtain ⟨-, -, -, -, -, hFD, -, -, -, -⟩ := d.inclusions
   obtain ⟨-, -, -, -, -, hM, -, -, hS⟩ := d.yamada_defs
@@ -648,6 +658,7 @@ private theorem S_le_yamadaK₁ (d : G2Data L K) (hK4 : 4 ≤ Nat.card K) : d.S 
   exact sup_le le_sup_left (sup_le ((rootGroup_r_le_leviA d).trans le_sup_right)
     (hFD.trans le_sup_left))
 
+omit [Finite G] in
 private theorem S_le_yamadaK₂ (d : G2Data L K) (hK4 : 4 ≤ Nat.card K) : d.S ≤ yamadaK₂ d := by
   obtain ⟨-, -, -, -, -, -, hFM, -, -, -⟩ := d.inclusions
   obtain ⟨-, -, -, -, hD, -, -, -, hS⟩ := d.yamada_defs
@@ -655,10 +666,12 @@ private theorem S_le_yamadaK₂ (d : G2Data L K) (hK4 : 4 ≤ Nat.card K) : d.S 
   exact sup_le (sup_le ((rootGroup_a_le_leviB d).trans le_sup_right) (hFM.trans le_sup_left))
     le_sup_left
 
+omit [Finite G] in
 private theorem J₁_le_yamadaK₁ (d : G2Data L K) (hK4 : 4 ≤ Nat.card K) : d.J₁ ≤ yamadaK₁ d := by
   rw [yamadaK₁_eq d hK4]
   exact (J₁_le_leviA d).trans le_sup_right
 
+omit [Finite G] in
 private theorem J₂_le_yamadaK₂ (d : G2Data L K) (hK4 : 4 ≤ Nat.card K) : d.J₂ ≤ yamadaK₂ d := by
   rw [yamadaK₂_eq d hK4]
   exact (J₂_le_leviB d).trans le_sup_right

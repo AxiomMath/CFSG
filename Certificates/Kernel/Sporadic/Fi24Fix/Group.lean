@@ -146,7 +146,7 @@ theorem iso_presGen {k : ℕ} (hk : k < 11) :
   have hg : k < fi24PrimePresentation.generatorCount := by
     rw [gcount]
     exact hk
-  rw [presGen, dif_pos hg, g0_of (by norm_num), g0_of (by omega)]
+  rw [presGen, dite_eq_left hg, g0_of (by norm_num), g0_of (by omega)]
   exact coe_fi24PrimeGroupMulEquivCommutator_of ⟨k, hk⟩
 
 end CertificateChecks.KernelFi24Fix

@@ -234,7 +234,7 @@ theorem coordinateActor_intertwines (g : WithConv (H →ₐ[k] k)) :
 
 include hσ in
 def coordinateActorEquiv : D.toRegularSubcomodule ≃ₗ[k] D.toRegularSubcomodule :=
-  LinearEquiv.ofLinear (coordinateActor σ D hD) ((coordinateActor σ D hD) ^ 2)
+  LinearEquiv.ofLinearMap (coordinateActor σ D hD) ((coordinateActor σ D hD) ^ 2)
     (by simpa only [← Module.End.mul_eq_comp, ← pow_succ', Module.End.one_eq_id] using
       coordinateActor_cube σ hσ D hD)
     (by simpa only [← Module.End.mul_eq_comp, ← pow_succ, Module.End.one_eq_id] using

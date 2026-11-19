@@ -92,7 +92,7 @@ private def s16h_e3_CycTwo_line (z : MulAut W) (hz3 : z ^ 3 = 1)
     have hcb : ∀ c : W, z (z c) * z c = c := fun c => by rw [mul_comm, hbc c]
     rcases ha with ha | ha | ha | ha <;> rw [ha] <;>
       rcases hb with hb | hb | hb | hb <;> rw [hb]
-    all_goals simp only [one_mul, mul_one, hsq, hab, hba, hbc, hcb, hac, hca,
+    all_goals simp only [one_mul, mul_one, hsq, hab, hba, hac, hca,
       s16h_e3_CycTwo_iter_three hz3 u]
     all_goals simp
   inv_mem' := by
@@ -747,7 +747,7 @@ theorem s16h_e3_CycTwoP3M4AA2AABAABAA_cover_of_nine
       rw [hOH] at hOHge hOHle
       obtain ⟨k, hk⟩ := h9div
       omega
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨b, hb⟩ := exists_prime_orderOf_dvd_card' (G := MulAction.stabilizer ↥H w) 3 h3stab
     refine ⟨(((b : MulAction.stabilizer ↥H w) : ↥H) : MulAut W), ?_, ?_, ?_, ?_⟩
     · exact ((b : MulAction.stabilizer ↥H w) : ↥H).2

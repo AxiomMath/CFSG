@@ -10,6 +10,7 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private lemma cj_centralizer_singleton_eq {t u h : G} (hh : h * t * h⁻¹ = u) :
     cj h (centralizer ({t} : Set G)) = centralizer ({u} : Set G) := by
   ext x

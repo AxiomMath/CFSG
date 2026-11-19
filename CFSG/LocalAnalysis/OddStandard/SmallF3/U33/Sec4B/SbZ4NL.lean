@@ -12,6 +12,7 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau : G}
 
+omit [Finite G] in
 private lemma isElemAbelian_zpowers_of_mul_self {a : G} (ha : a * a = 1) :
     CFSG.Open.IsElemAbelian 2 (zpowers a) := by
   have ha2 : a ^ 2 = 1 := by rwa [pow_two]

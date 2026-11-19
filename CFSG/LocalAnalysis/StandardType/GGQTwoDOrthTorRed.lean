@@ -162,7 +162,7 @@ theorem OrthFrameCore.exists_torC_eq_inf_centralizer [Fact p.Prime] {D : Subgrou
     obtain ⟨c, hc⟩ := hkerdvd
     rw [zero_mul] at hc
     exact (pow_ne_zero 2 hp.ne_zero) hc
-  haveI : Finite ↥(ρ.ker) := Nat.finite_of_card_ne_zero hkerne
+  have : Finite ↥(ρ.ker) := Nat.finite_of_card_ne_zero hkerne
   have hkerge : p ≤ Nat.card (ρ.ker) := by
     have h := Subgroup.card_le_of_le hzp
     rw [Nat.card_zpowers, hord] at h

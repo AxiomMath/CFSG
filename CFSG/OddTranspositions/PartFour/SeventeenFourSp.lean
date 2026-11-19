@@ -79,7 +79,7 @@ theorem exists_lineMem_ncard_le_of_isSymplecticTransvection {X : Type} [Group X]
       (perpMem {x | IsConj s x} '' lineMem {x | IsConj s x} v w).ncard ≤ 2 ^ f + 1 := by
   obtain ⟨k', hk', F, hF, hFfin, hFcard, e, he⟩ := hs
   obtain rfl : k' = k := by omega
-  haveI : Finite F := hFfin
+  have : Finite F := hFfin
   let ψ : X ≃* X ⧸ Subgroup.center X :=
     (QuotientGroup.quotientBot (G := X)).symm.trans (QuotientGroup.quotientMulEquivOfEq hZ.symm)
   have hψ : ∀ x : X, ψ x = QuotientGroup.mk x := by intro x; simp [ψ]

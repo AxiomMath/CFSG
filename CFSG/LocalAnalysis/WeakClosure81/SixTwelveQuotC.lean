@@ -19,6 +19,7 @@ namespace Hyp612Sym
 
 variable {n : ℕ} {M V : Subgroup G} {g : G}
 
+omit [Finite G] in
 theorem centralizer_V_B_eq (h : Hyp612Sym n M V g) :
     V ⊓ centralizer ((conjSubgroup V g ⊓ M : Subgroup G) : Set G) =
       (V ⊓ conjSubgroup V g) ⊔ ⊥ := by
@@ -49,7 +50,7 @@ variable {n : ℕ} {M V : Subgroup G} {g : G}
 theorem exists_conj_sup (h : Hyp612 n M V g)
     (hd : H3Cond n (conjSubgroup M g) (conjSubgroup V g) g⁻¹) :
     ∃ l ∈ LOf V g, conjSubgroup V g = conjSubgroup V l := by
-  haveI := h.normal_KOf
+  have := h.normal_KOf
   obtain ⟨z, hz⟩ := (h.abs612 hd).exists_conj_eq
   obtain ⟨u, rfl⟩ := QuotientGroup.mk'_surjective ((KOf M V g).subgroupOf (LOf V g)) z
   rw [imgK_conj M V g u V] at hz
@@ -96,7 +97,7 @@ theorem quotShape (h : Hyp612 n M V g)
   refine ⟨hshape, ?_⟩
   change twoRank (↥(LOf V g) ⧸ (KOf M V g).subgroupOf (LOf V g)) =
     padicValNat 2 ((conjSubgroup M g).relIndex V)
-  haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
+  have : Fact (Nat.Prime 2) := Nat.fact_prime_two
   have hrel : (conjSubgroup M g).relIndex V =
       2 ^ twoRank (↥(LOf V g) ⧸ (KOf M V g).subgroupOf (LOf V g)) := by
     rw [← h.card_imgK_V, hcard]
@@ -105,7 +106,7 @@ theorem quotShape (h : Hyp612 n M V g)
 theorem inCalOStar (h : Hyp612 n M V g)
     (hd : H3Cond n (conjSubgroup M g) (conjSubgroup V g) g⁻¹) :
     InCalOStar n M ⊥ V g := by
-  haveI := h.normal_KOf
+  have := h.normal_KOf
   refine ⟨h.inCalO, KOf M V g, h.normal_KOf, h.coe_KOf_eq_BOf_mul_UOf, quotShape h hd,
     exists_conj_sup h hd, ?_, h.centralizer_V_B_eq, h.inf_sup_bot_ne_conjM⟩
   rw [E3.conjSubgroup_bot, Subgroup.commutator_bot_left]

@@ -62,7 +62,7 @@ theorem t2H_oddAut_sl9 {Q : Type} [Group Q] [Finite Q] {F : Type} [Field F] [Fin
     calc s * e p = (s * e p * s⁻¹) * s := by group
       _ = e p * s := by rw [h1]
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  have hP' : IsPGroup 2 ↥((P : Subgroup Q).map e.toMonoidHom) := P.isPGroup'.map e.toMonoidHom
+  have hP' : IsPGroup 2 ↥((P : Subgroup Q).map e.toMonoidHom) := P.isPGroup.map e.toMonoidHom
   have hidx : ¬ 2 ∣ ((P : Subgroup Q).map e.toMonoidHom).index := by
     rw [Subgroup.index_map_of_bijective e.bijective]
     exact P.not_dvd_index

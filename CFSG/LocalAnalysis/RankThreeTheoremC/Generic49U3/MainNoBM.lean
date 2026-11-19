@@ -28,7 +28,7 @@ theorem gl83GenericU3Plane_of_class {G : Type} [Group G] [Finite G] (hS : Settin
   have hc : U3Config G p P M x J :=
     ⟨hp, hM, hfail, hIH, hgen, h5, hJC, hCJ, hperf, hlt, hmin, hnot,
       ⟨Q, inferInstance, ψ, hψ, hker, hQ⟩⟩
-  haveI : Fact p.Prime := ⟨hc.prime⟩
+  have : Fact p.Prime := ⟨hc.prime⟩
   have hfus := u3_fusion_core hS hD1 hU0 hSig hc
   have hL42 := u3_lemma42 hS hclass hSpor hc hfus
   have h47 := u3_cor47 hS hD1 hU0 hc

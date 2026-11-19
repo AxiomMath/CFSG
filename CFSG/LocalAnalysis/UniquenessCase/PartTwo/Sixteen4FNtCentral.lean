@@ -150,7 +150,7 @@ theorem s16nt_fix_eq_bot_of_central_odd [Finite W] (hW2 : ∀ w : W, w ^ 2 = 1)
       rw [heq]
       exact P.mul_mem hlp (P.inv_mem hp)
     have hPUeq : P = U := le_antisymm hPU (by rw [← hUc]; exact hcomm_le_P)
-    haveI : Finite ↥U := Subtype.finite
+    have : Finite ↥U := Subtype.finite
     let ψU : ↥U → ↥U := fun u => ⟨ψ u, hPU (Subgroup.mem_map.mpr ⟨u, u.2, rfl⟩)⟩
     have hsurj : Function.Surjective ψU := by
       intro u
@@ -176,7 +176,7 @@ theorem s16nt_row_u43 [Finite W] (hW2 : ∀ w : W, w ^ 2 = 1) {L : Subgroup (Mul
       E3.mQuot (commSub ⊤ L) (commSub ⊤ L ⊓ fixV L) = 12) :
     3 * rk ↥(commSub ⊤ L ⊓ fixV L) ≤ rk ↥(commSub ⊤ L) := by
   obtain ⟨⟨S, hGrp, hLie, hHat⟩, -⟩ := h
-  letI := hGrp
+  let := hGrp
   have hc3 : Nat.card (Subgroup.center ↥L) = 3 := hHat.2.1
   have hne : Subgroup.center ↥L ≠ ⊥ := by
     intro hbot

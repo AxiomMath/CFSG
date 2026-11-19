@@ -6,7 +6,7 @@ public section
 
 namespace CFSG.EvenSporadicStandard.HNRecog.Section4
 
-theorem cp_klein_quot {X : Type} [Group X] {P D : Subgroup X} [Finite P] (hDP : D ≤ P)
+theorem cp_klein_quot {X : Type} [Group X] {P D : Subgroup X} [Finite P] (_hDP : D ≤ P)
     (hDn : ∀ p ∈ P, ∀ d ∈ D, p * d * p⁻¹ ∈ D) {s r : X} (hs : s * s = 1) (hr : r * r = 1)
     (hsP : ∀ p ∈ P, s * p * s⁻¹ ∈ P) (hrP : ∀ p ∈ P, r * p * r⁻¹ ∈ P)
     (hsD : ∀ d ∈ D, s * d * s⁻¹ ∈ D) (hrD : ∀ d ∈ D, r * d * r⁻¹ ∈ D)
@@ -15,7 +15,7 @@ theorem cp_klein_quot {X : Type} [Group X] {P D : Subgroup X} [Finite P] (hDP : 
     (h3 : ∀ p ∈ P, p⁻¹ * (s * (r * p * r⁻¹) * s⁻¹) ∈ D → p ∈ D) : P ≤ D := by
   let Q := ↥P
   let D' : Subgroup Q := D.subgroupOf P
-  haveI hDnorm : D'.Normal := ⟨fun d hd p => by
+  have hDnorm : D'.Normal := ⟨fun d hd p => by
     have hd' : (d : X) ∈ D := Subgroup.mem_subgroupOf.mp hd
     rw [Subgroup.mem_subgroupOf]
     change (p : X) * (d : X) * (p : X)⁻¹ ∈ D

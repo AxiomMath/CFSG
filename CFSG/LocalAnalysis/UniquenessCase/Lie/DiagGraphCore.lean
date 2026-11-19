@@ -35,7 +35,7 @@ theorem uc22pdiag_map_map_conj_conj (a b : S) (P : Subgroup S) :
 theorem uc22pdiag_map_conj_one (P : Subgroup S) :
     P.map (MulAut.conj (1 : S)).toMonoidHom = P := by
   have h1 : (MulAut.conj (1 : S)).toMonoidHom = MonoidHom.id S := by
-    ext x; simp [MulAut.conj_apply]
+    ext x; simp
   rw [h1, Subgroup.map_id]
 
 theorem uc22pdiag_ClassPres_one : uc22pdiag_ClassPres S 1 := fun _ P _ _ => by
@@ -69,7 +69,7 @@ theorem uc22pdiag_ClassPres_of_std {θ : MulAut S} (𝓕 : Set (Subgroup S))
 
 theorem uc22pdiag_ClassPres_of_congr [Finite S] {N : Type} [Group N] (e : S ≃* N) (ψ : MulAut S)
     (h : uc22pdiag_ClassPres N (MulAut.congr e ψ)) : uc22pdiag_ClassPres S ψ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro Q P hP hNP
   let Q' : Sylow 2 N := Sylow.mapSurjective (f := e.toMonoidHom) e.surjective Q
   have hco : IsCoatom (P.map e.toMonoidHom) :=

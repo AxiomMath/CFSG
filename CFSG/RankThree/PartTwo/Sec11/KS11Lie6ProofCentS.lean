@@ -104,7 +104,7 @@ theorem exists_units_orderOf_nine (L : Type) [Field L] [IsAlgClosed L] (h3 : (3 
     rw [this]
     exact mul_ne_zero h3 h3
   have : NeZero ((9 : ℕ) : L) := ⟨h9⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L 9
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L 9
   refine ⟨(hζ.isUnit (by norm_num)).unit, ?_⟩
   have h : IsPrimitiveRoot ((hζ.isUnit (by norm_num)).unit : L) 9 := by
     rw [IsUnit.unit_spec]

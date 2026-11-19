@@ -48,7 +48,7 @@ theorem cycleType_of_odd {α : Type*} [Fintype α] [DecidableEq α] (hα : Finty
 theorem two_mul_card_centralizer_inf_alt {α : Type*} [Fintype α] [DecidableEq α] {σ : Perm α}
     (h : ¬ centralizer {σ} ≤ alternatingGroup α) :
     2 * Nat.card ↥(centralizer {σ} ⊓ alternatingGroup α) = Nat.card ↥(centralizer {σ}) := by
-  obtain ⟨t, ht, hta⟩ := SetLike.not_le_iff_exists.mp h
+  obtain ⟨t, ht, hta⟩ := IsConcreteLE.not_le_iff_exists.mp h
   have hs : sign t = -1 := by
     rcases Int.units_eq_one_or (sign t) with h1 | h1
     · exact absurd (mem_alternatingGroup.mpr h1) hta
@@ -98,10 +98,10 @@ theorem odd_card_centralizer_alt_six {σ : Perm (Fin 6)} (hodd : Odd (orderOf σ
   rcases cycleType_of_odd (by simp) hodd h1 with h | h | h | h | h <;> rw [h] at hk hc hs
   · simp [Nat.factorial] at hc hk
     omega
-  · simp [Nat.factorial] at hc
+  · simp at hc
     rcases hk with ⟨-, hk⟩ | ⟨-, hk⟩ <;> omega
   · simp at hs
-  · simp [Nat.factorial] at hc
+  · simp at hc
     rcases hk with ⟨⟨-, -, hk⟩, -⟩ | ⟨-, hk⟩
     · have := hk 3
       simp at this

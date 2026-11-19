@@ -84,7 +84,7 @@ theorem exists_conj_plane_of_frame (ψA ψB : M →* G) (hA : Function.Injective
       E.map (MulAut.conj g).toMonoidHom = Subgroup.zpowers (ψA a) ⊔ Subgroup.zpowers (ψB a) := by
   classical
   obtain ⟨P⟩ : Nonempty (Sylow p M) := inferInstance
-  have hPcyc : IsCyclic (P : Subgroup M) := isCyclic_of_isPGroup_of_centralizer hcyc P.isPGroup'
+  have hPcyc : IsCyclic (P : Subgroup M) := isCyclic_of_isPGroup_of_centralizer hcyc P.isPGroup
   let f : (P : Subgroup M) →* G := ψA.comp (P : Subgroup M).subtype
   let g' : (P : Subgroup M) →* G := ψB.comp (P : Subgroup M).subtype
   have hfg : ∀ x y, Commute (f x) (g' y) := fun x y => hcomm _ _
@@ -101,7 +101,7 @@ theorem exists_conj_plane_of_frame (ψA ψB : M →* G) (hA : Function.Injective
       · rintro _ ⟨y, rfl⟩
         exact ⟨_, rfl⟩
     have hpg : IsPGroup p ↥(f.range ⊓ g'.range) :=
-      (IsPGroup.of_surjective P.isPGroup' f.rangeRestrict f.rangeRestrict_surjective).to_le
+      (IsPGroup.of_surjective P.isPGroup f.rangeRestrict f.rangeRestrict_surjective).to_le
         inf_le_left
     obtain ⟨k, hk⟩ := hpg.exists_card_eq
     have hdvd : Nat.card ↥(f.range ⊓ g'.range) ∣ Nat.card ↥(ψA.range ⊓ ψB.range) :=

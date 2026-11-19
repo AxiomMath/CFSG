@@ -60,7 +60,7 @@ theorem noTwist_of_closed {r : ℕ} (hr : 1 ≤ r)
     (E₀ : Subgroup K) (hE₀ : IsElemAbelian 3 E₀) (hcard : 3 ^ r ≤ Nat.card E₀) (T : Subgroup K)
     (hT : IsPGroup 2 T) (hET : E₀ ≤ Subgroup.normalizer (T : Set K)) :
     ∀ e ∈ E₀, ∀ t ∈ T, e * t = t * e := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro e he t ht
   have hE₀p : IsPGroup 3 E₀ := fun g => ⟨1, Subtype.ext (by simpa using hE₀.2 g g.2)⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 hE₀p
@@ -138,7 +138,7 @@ theorem noTwist_of_invClosed {r : ℕ} (hr : 1 ≤ r)
     (E₀ : Subgroup K) (hE₀ : IsElemAbelian 3 E₀) (hcard : 3 ^ r ≤ Nat.card E₀) (T : Subgroup K)
     (hT : IsPGroup 2 T) (hET : E₀ ≤ Subgroup.normalizer (T : Set K)) :
     ∀ e ∈ E₀, ∀ t ∈ T, e * t = t * e := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro e he t ht
   have hE₀p : IsPGroup 3 E₀ := fun g => ⟨1, Subtype.ext (by simpa using hE₀.2 g g.2)⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 hE₀p
@@ -184,7 +184,7 @@ theorem noTwist_of_invClosed {r : ℕ} (hr : 1 ≤ r)
       have hQ2 : IsPGroup 2 ↥(T ⊓ Subgroup.centralizer (D : Set K)) := hT.to_le inf_le_left
       have hQne : T ⊓ Subgroup.centralizer (D : Set K) ≠ ⊥ := fun hb =>
         hx1 ((Subgroup.mem_bot).1 (hb ▸ ⟨hxT, hxD⟩))
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 hQ2
       have hn0 : n ≠ 0 := by
         rintro rfl
@@ -231,7 +231,7 @@ theorem closed_of_sylow {r : ℕ} (P : Sylow 3 K)
       Nat.card D = 3 ^ (r - 1) → PElemsClosed 3 (Subgroup.centralizer (D : Set K))) :
     ∀ E D : Subgroup K, IsElemAbelian 3 E → Nat.card E = 3 ^ r → D ≤ E →
       Nat.card D = 3 ^ (r - 1) → PElemsClosed 3 (Subgroup.centralizer (D : Set K)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro E D hE hEcard hDE hDcard
   have hEp : IsPGroup 3 E := fun g => ⟨1, Subtype.ext (by simpa using hE.2 g g.2)⟩
   obtain ⟨Q, hEQ⟩ := hEp.exists_le_sylow
@@ -303,7 +303,7 @@ theorem exists_gen_pair [Finite G] {D : Subgroup G} (hD : IsElemAbelian 3 D)
     (hc : Nat.card D = 9) : ∃ x ∈ D, ∃ y ∈ D, x ≠ 1 ∧ y ∉ Subgroup.zpowers x ∧
       D = Subgroup.closure {x, y} := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hne : D ≠ ⊥ := by
     intro h
     rw [h, Subgroup.card_bot] at hc

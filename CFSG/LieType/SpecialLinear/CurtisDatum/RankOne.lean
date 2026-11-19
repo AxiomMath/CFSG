@@ -84,7 +84,7 @@ theorem phiVal_eq (k : Fin m) {c : F} (hc : c ≠ 0) :
       SLG m F) : Matrix (Fin (m + 1)) (Fin (m + 1)) F) k.castSucc k.succ = c := by
     rw [SpecialLinearGroup.transvection_coe]
     simp [(Fin.castSucc_lt_succ (i := k)).ne]
-  rw [dif_pos (by rw [hval]; exact hc)]
+  rw [dite_eq_left (by rw [hval]; exact hc)]
   congr 1
   apply Units.ext
   simpa using congrArg Neg.neg hval

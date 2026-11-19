@@ -21,7 +21,7 @@ private theorem s16c4v1_set_vec_of_mem (S : s16c4v1_Sit D V L hV) {v : G} (hv : 
     s16c4v1_vec S v =
       S.F.vec (mkTil (v1Sub D.M ⊥ V hV L) V hV (IntMod.mk hV ⟨v, hv⟩)) := by
   unfold s16c4v1_vec
-  rw [dif_pos hv]
+  rw [dite_eq_left hv]
 
 private theorem s16c4v1_set_rho_pi (S : s16c4v1_Sit D V L hV) (γ : ↥(SUid S.F.σ 4))
     (x : Fin 4 → S.F.K) :
@@ -32,6 +32,7 @@ private theorem s16c4v1_set_rho_pi (S : s16c4v1_Sit D V L hV) (γ : ↥(SUid S.F
     _ = γ • S.F.vec (S.F.ofVec x) := S.F.vec_action γ (S.F.ofVec x)
     _ = γ • x := by rw [S.F.vec_ofVec]
 
+omit [Finite G] in
 private theorem s16c4v1_set_mkTil_bot_injective (V : Subgroup G) (hV : IsElemAbelian 2 V) :
     Function.Injective (mkTil (⊥ : Subgroup G) V hV) := by
   intro x y hxy
@@ -291,7 +292,7 @@ theorem s16c4v1_induces_unique (S : s16c4v1_Sit D V L hV) {m : G} {γ γ' : ↥(
   obtain ⟨v, hv, hvx⟩ := s16c4v1_exists_vec S x
   rw [← hvx, ← h v hv, ← h' v hv]
 
-theorem s16c4v1_induces_mul (S : s16c4v1_Sit D V L hV) {m m' : G} (hm : m ∈ D.M)
+theorem s16c4v1_induces_mul (S : s16c4v1_Sit D V L hV) {m m' : G} (_hm : m ∈ D.M)
     (hm' : m' ∈ D.M) {γ γ' : ↥(SUid S.F.σ 4)} (h : s16c4v1_Induces S m γ)
     (h' : s16c4v1_Induces S m' γ') : s16c4v1_Induces S (m * m') (γ * γ') := by
   intro v hv

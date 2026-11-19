@@ -76,9 +76,9 @@ theorem le_sup_of_quotIs_kleinFour {K N T : Subgroup G}
   have hL4 : Nat.card L = 4 := @IsKleinFour.card_four _ _ hL
   have : Finite L := Nat.finite_of_card_ne_zero (by rw [hL4]; norm_num)
   let g : T →* L := f.comp (inclusion hTK)
-  have hTN : T ⊓ N = ⊥ := inf_eq_bot_of_coprime (by
+  have hTN : T ⊓ N = ⊥ := (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard (by
     rw [hT, show (4 : ℕ) = 2 ^ 2 by norm_num]
-    exact Nat.Coprime.pow_left 2 (Nat.coprime_two_left.mpr hN))
+    exact Nat.Coprime.pow_left 2 (Nat.coprime_two_left.mpr hN))))
   have hinj : Function.Injective g := by
     rw [← MonoidHom.ker_eq_bot_iff, eq_bot_iff]
     intro t ht

@@ -327,7 +327,7 @@ theorem exists_conj_eq_diagonal_mul_signedCycMat_pow (hζ : ∃ ζ : K, IsPrimit
         funext i
         simp only [hB, Matrix.mulVec, dotProduct, Fin.sum_univ_three, Matrix.of_apply,
           Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two, Matrix.head_cons,
-          Matrix.tail_cons, Pi.add_apply, Pi.smul_apply, smul_eq_mul, Pi.zero_apply]
+          Matrix.tail_cons, Pi.add_apply, Pi.smul_apply, smul_eq_mul]
         ring
       obtain ⟨e0, e1, e2⟩ := eq_zero_of_add_smul_mulVec_eq_zero hα' hγ hv0 e
       apply hw0
@@ -340,7 +340,7 @@ theorem exists_conj_eq_diagonal_mul_signedCycMat_pow (hζ : ∃ ζ : K, IsPrimit
     have hB'det : B'.det = 1 := by
       have e : B'.det = lam * B.det := by
         rw [Matrix.det_fin_three, Matrix.det_fin_three]
-        simp [hB', hB] <;> ring
+        simp [hB', hB]; ring
       rw [e, hlam, inv_mul_cancel₀ hBdet]
     set M : Matrix (Fin 3) (Fin 3) K := diagonal ![α / lam, -lam, -1] * signedCycMat with hM
     have hAB : A * B' = B' * M := by
@@ -348,13 +348,13 @@ theorem exists_conj_eq_diagonal_mul_signedCycMat_pow (hζ : ∃ ζ : K, IsPrimit
       fin_cases j
       · show (A *ᵥ (lam • v)) i = (B' * M) i 0
         rw [Matrix.mulVec_smul, ← hc1]
-        simp [hB', hM, signedCycMat, Matrix.mul_apply, Fin.sum_univ_three] <;> ring
+        simp [hB', hM, signedCycMat, Matrix.mul_apply, Fin.sum_univ_three]; ring
       · show (A *ᵥ c1) i = (B' * M) i 1
         rw [← hc2]
         simp [hB', hM, signedCycMat, Matrix.mul_apply, Fin.sum_univ_three]
       · show (A *ᵥ c2) i = (B' * M) i 2
         rw [hA3]
-        simp [hB', hM, signedCycMat, Matrix.mul_apply, Fin.sum_univ_three] <;> field_simp
+        simp [hB', hM, signedCycMat, Matrix.mul_apply, Fin.sum_univ_three]; field_simp
     set Z : SpecialLinearGroup (Fin 3) K := ⟨B', hB'det⟩ with hZ
     refine ⟨Z⁻¹, ![α / lam, -lam, -1], 1, ?_⟩
     have hZZ : ((Z⁻¹ : SpecialLinearGroup (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) * B' = 1 := by

@@ -98,8 +98,8 @@ open CFSG.Open CFSG.Quasithin CFSG.QuasithinUnique CFSG.ASVolI.ChD
 
 theorem as_D_1_2_five_general : D_1_2_five_general := by
   intro G _ G₁ G₂ T V M₂ h hq W hWG hWE hG₂W hWR hRC hCM
-  haveI := h.finite₁
-  haveI := h.finite₂
+  have := h.finite₁
+  have := h.finite₂
   exact CFSG.Quasithin.MS09.d12_five_general
     ⟨h.sylow₁, h.sylow₂, h.reduced, h.nontrivial, h.unique_max, h.centralizer, h.no_normal⟩ hq
     W hWG hWE hG₂W hWR hRC hCM
@@ -109,8 +109,8 @@ section as_D_1_2
 theorem as_D_1_2
     : D_1_2 := by
   intro G _ G₁ G₂ T V M₂ h hq
-  haveI := h.finite₁
-  haveI := h.finite₂
+  have := h.finite₁
+  have := h.finite₂
   obtain ⟨c1, c2, c3, c4, c5⟩ := CFSG.Quasithin.SimsD1.TwelveGen.d12_general
     CFSG.Quasithin.b69One_proved
     ⟨h.sylow₁, h.sylow₂, h.reduced, h.nontrivial, h.unique_max, h.centralizer, h.no_normal⟩ hq
@@ -179,16 +179,16 @@ end as_D_1_2
 
 theorem as_D_1_3_one_three_general : D_1_3_one_three_general := by
   intro G _ G₁ G₂ T V M₂ h hq hVR₂ c hc hser
-  haveI := h.finite₁
-  haveI := h.finite₂
+  have := h.finite₁
+  have := h.finite₂
   exact CFSG.Quasithin.MS09.d13_one_three_general
     ⟨h.sylow₁, h.sylow₂, h.reduced, h.nontrivial, h.unique_max, h.centralizer, h.no_normal⟩
     hq hVR₂ c hc hser
 
 theorem as_D_1_3 : D_1_3 := by
   intro G _ G₁ G₂ T V M₂ h hq hVR₂ c hc hser
-  haveI := h.finite₁
-  haveI := h.finite₂
+  have := h.finite₁
+  have := h.finite₂
   obtain ⟨e1, e2, -, e4, -⟩ := CFSG.Quasithin.SimsD1.ThreeGen.d13_general
     CFSG.Quasithin.MS09.d125NonsolvableSQTK_holds
     ⟨h.sylow₁, h.sylow₂, h.reduced, h.nontrivial, h.unique_max, h.centralizer, h.no_normal⟩
@@ -216,8 +216,8 @@ section as_D_1_4
 
 theorem as_D_1_4 : D_1_4 := by
   intro G _ G₁ G₂ T V M₂ h hVR₂ hchief
-  haveI := h.finite₁
-  haveI := h.finite₂
+  have := h.finite₁
+  have := h.finite₂
   have h' : D11Hyp G₁ G₂ T V M₂ :=
     ⟨h.sylow₁, h.sylow₂, h.reduced, h.nontrivial, h.unique_max, h.centralizer, h.no_normal⟩
   by_cases hdual : IsDualFFInt G₁ V h.reduced.2.2.1
@@ -264,8 +264,8 @@ end as_D_1_4
 
 theorem as_D_1_5_general : D_1_5_general := by
   intro G _ G₁ G₂ T V M₂ h
-  haveI := h.finite₁
-  haveI := h.finite₂
+  have := h.finite₁
+  have := h.finite₂
   exact CFSG.Quasithin.MS09.d15_general
     ⟨h.sylow₁, h.sylow₂, h.reduced, h.nontrivial, h.unique_max, h.centralizer, h.no_normal⟩
 

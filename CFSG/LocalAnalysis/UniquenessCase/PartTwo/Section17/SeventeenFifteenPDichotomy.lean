@@ -261,7 +261,7 @@ theorem exists_conj_le_T_of_le_normalizer (D : Data G) {L : Subgroup G} {x : G}
     group
 
 theorem permutes_NTL17_map_conj (D : Data G) {L X : Subgroup G} (hL : L ∈ calC D.M) {w : G}
-    (hw : w ∈ D.M) (hNT : D.T ≤ Subgroup.normalizer (L : Set G)) (hXL : X ≤ L)
+    (hw : w ∈ D.M) (_hNT : D.T ≤ Subgroup.normalizer (L : Set G)) (hXL : X ≤ L)
     (hperm : Permutes X D.T)
     (hR : NTL17 D (L.map (MulAut.conj w).toMonoidHom) ≤ D.T.map (MulAut.conj w).toMonoidHom) :
     Permutes (X.map (MulAut.conj w).toMonoidHom)

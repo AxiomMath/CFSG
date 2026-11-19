@@ -56,7 +56,7 @@ theorem kronMap_fin3 (k : Fin 3 → Matrix (Fin 2) (Fin 2) K) :
     kronMap k = actMap 0 (k 0) ∘ₗ (actMap 1 (k 1) ∘ₗ actMap 2 (k 2)) := by
   have h : k = Pi.mulSingle 0 (k 0) * Pi.mulSingle 1 (k 1) * Pi.mulSingle 2 (k 2) := by
     funext i
-    fin_cases i <;> simp [Pi.mulSingle_apply]
+    fin_cases i <;> simp
   conv_lhs => rw [h]
   rw [kronMap_mul, kronMap_mul]
   rfl
@@ -76,7 +76,7 @@ theorem kronMap_smul_pi {n : ℕ} (k k' : Fin n → Matrix (Fin 2) (Fin 2) K) (c
 
 @[expose] noncomputable def actUnit {n : ℕ} (i : Fin n) (M : Matrix (Fin 2) (Fin 2) K)
     (hM : IsUnit M.det) : Cube n K ≃ₗ[K] Cube n K :=
-  LinearEquiv.ofLinear (actMap i M) (actMap i M⁻¹)
+  LinearEquiv.ofLinearMap (actMap i M) (actMap i M⁻¹)
     (by rw [← actMap_mul, Matrix.mul_nonsing_inv _ hM, actMap_one])
     (by rw [← actMap_mul, Matrix.nonsing_inv_mul _ hM, actMap_one])
 

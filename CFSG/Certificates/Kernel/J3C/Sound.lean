@@ -507,13 +507,13 @@ theorem fixCnt_eq {A : Nat → Nat} {a : Equiv.Perm (Fin n)} (hA : ∀ x < n, A 
   symm
   refine Finset.card_bij (fun y _ => y.val) (fun y hy => ?_) (fun y _ z _ e => Fin.ext e)
     (fun x hx => ?_)
-  · simp only [Set.toFinset_setOf, Finset.mem_filter, Finset.mem_univ, true_and] at hy
+  · simp only [Set.toFinset_ofPred, Finset.mem_filter, Finset.mem_univ, true_and] at hy
     simp only [Finset.mem_filter, Finset.mem_range]
     rw [hA _ y.isLt, actN_fin, hy]
     exact ⟨y.isLt, Nat.beq_refl _⟩
   · simp only [Finset.mem_filter, Finset.mem_range] at hx
     refine ⟨⟨x, hx.1⟩, ?_, rfl⟩
-    simp only [Set.toFinset_setOf, Finset.mem_filter, Finset.mem_univ, true_and]
+    simp only [Set.toFinset_ofPred, Finset.mem_filter, Finset.mem_univ, true_and]
     apply Fin.ext
     rw [← actN_fin]
     change actN a x = x
@@ -600,7 +600,6 @@ theorem centOK_sound {r0 r1 c0 c1 b0 b1 m k : Nat} {L : Nat → Nat → Nat} {LV
     have hpt : r32 PTS1 j = (tw σ PAR1 LAB1 j ⟨b1, root_lt R1⟩ : Nat) := by
       rw [← actN_fin, tw_pt R1 hσ1 j hj']
     have e1' : conjAt L PAR0 LAB0 A k b1 = ((t⁻¹ * a * t) ⟨b1, root_lt R1⟩ : Nat) := e1
-    beta_reduce
     rw [e1', hpt, e2]
     unfold hd
     rw [walkK_tw R1 hσ1 hj' (q := [((t⁻¹ * a * t) ⟨b1, root_lt R1⟩ : Nat)]) (by simp)]

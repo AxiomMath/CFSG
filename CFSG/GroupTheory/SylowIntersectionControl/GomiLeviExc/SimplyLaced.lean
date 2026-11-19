@@ -78,10 +78,10 @@ private theorem mulVec_level {I : Type} [Fintype I] (d : I → ℚ) (A : Matrix 
   refine Finset.sum_congr rfl fun j _ => ?_
   rw [Matrix.map_apply, hN i j]
   by_cases hdj : d j = c
-  · rw [if_pos hdj]
+  · rw [ite_eq_left hdj]
     ring_nf
   · have hne : d j ≠ d i := by rw [hi]; exact hdj
-    rw [if_neg hdj, hvan i j (Ne.symm hne)]
+    rw [ite_eq_right hdj, hvan i j (Ne.symm hne)]
     simp
 
 private theorem sum_level_eq {I : Type} [Fintype I] (d : I → ℚ) (A : Matrix I I ℤ)
@@ -98,7 +98,7 @@ private theorem sum_level_eq {I : Type} [Fintype I] (d : I → ℚ) (A : Matrix 
           (N *ᵥ fun j => if d j = c then x j else 0) i) := by
     intro i hi
     have hdi : d i = c := (Finset.mem_filter.mp hi).2
-    rw [mulVec_level d A N x c hN hvan hdi, if_pos hdi, hdi]
+    rw [mulVec_level d A N x c hN hvan hdi, ite_eq_left hdi, hdi]
     field_simp [hc]
   calc ∑ i ∈ Finset.univ.filter (fun i => d i = c),
           x i * ((A.map (Int.cast : ℤ → ℚ)) *ᵥ x) i
@@ -116,7 +116,7 @@ private theorem sum_level_eq {I : Type} [Fintype I] (d : I → ℚ) (A : Matrix 
         refine Finset.sum_subset (Finset.filter_subset _ _) ?_
         intro i _ hi
         have hdi : d i ≠ c := fun h => hi (Finset.mem_filter.mpr ⟨Finset.mem_univ i, h⟩)
-        rw [if_neg hdi, zero_mul]
+        rw [ite_eq_right hdi, zero_mul]
     _ = (1 / c) * ((fun i => if d i = c then x i else 0) ⬝ᵥ
           (N *ᵥ fun i => if d i = c then x i else 0)) := rfl
 

@@ -144,7 +144,7 @@ theorem KConfig.conclK_of_fanoEquiv {G : Type} [Group G] [Finite G] {L V MK : Su
       ((f w' : ↥fanoCore) : PMod) = fanoPermAct (α l) (f w)) :
     ConclK G L V MK := by
   unfold ConclK
-  letI : IsMulCommutative ↥V := h.elemAbelian.1
+  let : IsMulCommutative ↥V := h.elemAbelian.1
   let eQ : ↥L ⧸ CFSG.pCore 2 ↥L ≃* ↥(StatedSL 3 (ZMod 2)) :=
     ((QuotientGroup.quotientMulEquivOfEq hker).trans
       (QuotientGroup.quotientKerEquivOfSurjective α hsurj)).trans

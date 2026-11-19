@@ -33,7 +33,7 @@ theorem sup_le_normalizer (hyp : Hyp25 Ω K K' W S R R' z t u₁ u₂) :
   have hR'syl : IsSylow2In R' K' :=
     T7C.isSylow2In_of_mem_RSet_of_le hΩ hK' hyp.hR'.1 hyp.hR'.2.1
   have hc : Commutes R R' := hΩ.commutes_of_twin_of_isPGroup hK hK' hs.hne.symm hz hz'
-    hRsyl.1 hR'syl.1 (S.isPGroup'.to_le (sup_le hyp.hR.2.2 hyp.hR'.2.2))
+    hRsyl.1 hR'syl.1 (S.isPGroup.to_le (sup_le hyp.hR.2.2 hyp.hR'.2.2))
   refine sup_le Subgroup.le_normalizer ?_
   intro x hx
   refine Subgroup.mem_normalizer_fintype (fun n hn => ?_)
@@ -152,7 +152,7 @@ theorem hRS : R ≤ (S : Subgroup G) := h.hyp.hR.2.2
 theorem hR'S : R' ≤ (S : Subgroup G) := h.hyp.hR'.2.2
 theorem hcomm : Commutes R R' :=
   h.hΩ.commutes_of_twin_of_isPGroup h.hK h.hK' h.hs.hne.symm h.hz h.hz' h.hRsyl.1 h.hR'syl.1
-    (S.isPGroup'.to_le (sup_le h.hRS h.hR'S))
+    (S.isPGroup.to_le (sup_le h.hRS h.hR'S))
 theorem hne : R ≠ R' := T7ER.ne_of_hyp25 h.hyp
 theorem hqR : IsQuatSub R := h.hΩ.isQuatSub_of_mem_RSet h.hyp.hR.1
 theorem hqR' : IsQuatSub R' := h.hΩ.isQuatSub_of_mem_RSet h.hyp.hR'.1
@@ -419,7 +419,7 @@ omit h11 in
 
 theorem relIndex_P'_le (h16 : ∀ a ∈ (S : Subgroup G), ¬ IsFAut R' a) : (Psub S R').relIndex
     (Nsub S R) ≤ 2 := by
-  have hN2 : IsPGroup 2 ↥(Nsub S R) := S.isPGroup'.to_le (show Nsub S R ≤ _ from inf_le_left)
+  have hN2 : IsPGroup 2 ↥(Nsub S R) := S.isPGroup.to_le (show Nsub S R ≤ _ from inf_le_left)
   have hF : ∀ y ∈ Nsub S R, ¬ IsFAut R' y := fun y hy =>
     h16 y (mem_Nsub.mp hy).1
   have hB := T7F2.relIndex_sup_centralizer_le_two h.hqR' h.hzR' h.R'_le_N hN2
@@ -435,7 +435,7 @@ theorem relIndex_P'_le (h16 : ∀ a ∈ (S : Subgroup G), ¬ IsFAut R' a) : (Psu
   exact hB
 theorem relIndex_R'_C_le (h16 : ∀ a ∈ (S : Subgroup G), ¬ IsFAut R' a) : R'.relIndex (Csub S R) ≤ 2
     := by
-  have hN2 : IsPGroup 2 ↥(Csub S R) := S.isPGroup'.to_le (show Csub S R ≤ _ from inf_le_left)
+  have hN2 : IsPGroup 2 ↥(Csub S R) := S.isPGroup.to_le (show Csub S R ≤ _ from inf_le_left)
   have hF : ∀ y ∈ Csub S R, ¬ IsFAut R' y := fun y hy =>
     h16 y (mem_Csub.mp hy).1
   have hB := T7F2.relIndex_sup_centralizer_le_two h.hqR' h.hzR' h.R'_le_C hN2
@@ -549,9 +549,9 @@ open CFSG.ClassicalInvolution.Asc77.T7F2.Hyp25T
 variable (h : Asc77.T7F2.Hyp25T Ω K K' W S R R' z t u₁ u₂ t')
 include h
 theorem S_inf_K : (S : Subgroup G) ⊓ K = R :=
-  h.hRsyl.2.2 _ inf_le_right (S.isPGroup'.to_le inf_le_left) (le_inf h.hRS h.hRsyl.1)
+  h.hRsyl.2.2 _ inf_le_right (S.isPGroup.to_le inf_le_left) (le_inf h.hRS h.hRsyl.1)
 theorem S_inf_K' : (S : Subgroup G) ⊓ K' = R' :=
-  h.hR'syl.2.2 _ inf_le_right (S.isPGroup'.to_le inf_le_left) (le_inf h.hR'S h.hR'syl.1)
+  h.hR'syl.2.2 _ inf_le_right (S.isPGroup.to_le inf_le_left) (le_inf h.hR'S h.hR'syl.1)
 theorem conj_twin {x : G} (hx : x⁻¹ * z * x = z) {J : Subgroup G} (hJ : J = K ∨ J = K') :
     conjSub x⁻¹ J = K ∨ conjSub x⁻¹ J = K' := by
   have hJΩ : J ∈ Ω := by rcases hJ with rfl | rfl; exacts [h.hK, h.hK']

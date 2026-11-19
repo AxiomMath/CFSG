@@ -23,7 +23,7 @@ theorem exists_minimal_invariant_two {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {B
       (⁅T', B⁆ : Subgroup G) = T' ∧ T' ≠ ⊥ ∧
       Nat.card B ≤ p * Nat.card (B ⊓ Subgroup.centralizer (T' : Set G) : Subgroup G) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hex : ∃ n : ℕ, ∃ U : Subgroup G, U ≤ T ∧ B ≤ Subgroup.normalizer (U : Set G) ∧
       (⁅U, B⁆ : Subgroup G) ≠ ⊥ ∧ Nat.card U = n := ⟨_, T, le_rfl, hBT, hne, rfl⟩
   obtain ⟨T', hT'T, hBT', hT'ne, hT'card⟩ := Nat.find_spec hex
@@ -35,14 +35,14 @@ theorem exists_minimal_invariant_two {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {B
   have hT'2 : IsPGroup 2 T' := hT.to_le hT'T
   have hBp : IsPGroup p B := isPGroup_of_isElemAbelian hB
   have hcop : Nat.Coprime (Nat.card B) (Nat.card T') := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨k, hk⟩ := hBp.exists_card_eq
     obtain ⟨m, hm⟩ := hT'2.exists_card_eq
     rw [hk, hm]
     exact Nat.Coprime.pow k m ((Nat.coprime_primes hp Nat.prime_two).2 hp2)
   have hsolv : Group.IsSolvable T' := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Group.IsNilpotent T' := hT'2.isNilpotent
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Group.IsNilpotent T' := hT'2.isNilpotent
     infer_instance
   have hdouble : (⁅⁅T', B⁆, B⁆ : Subgroup G) = ⁅T', B⁆ :=
     GL83.commutator_double_eq_self B T' hBT' hcop hsolv
@@ -68,7 +68,7 @@ theorem exists_minimal_invariant_two {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {B
     rw [hk]
     exact Nat.le_self_pow hk0 p
   have hcopT : Nat.Coprime p (Nat.card T') := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨m, hm⟩ := hT'2.exists_card_eq
     rw [hm]
     exact Nat.Coprime.pow_right m ((Nat.coprime_primes hp Nat.prime_two).2 hp2)
@@ -77,7 +77,7 @@ theorem exists_minimal_invariant_two {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {B
   have hH : ∃ H ∈ CFSG.SignalizerFunctorTheorem.Coprime.hyperplanes p B,
       T' ≤ Subgroup.centralizer (H : Set G) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hT'ne
     have hUC : ∀ H ∈ CFSG.SignalizerFunctorTheorem.Coprime.hyperplanes p B,
         T' ⊓ Subgroup.centralizer (H : Set G) ≤ Subgroup.centralizer (B : Set G) := by
@@ -109,8 +109,9 @@ theorem exists_minimal_invariant_two {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {B
     _ ≤ p * Nat.card (B ⊓ Subgroup.centralizer (T' : Set G) : Subgroup G) :=
       Nat.mul_le_mul_left _ (Subgroup.card_le_of_le hHle)
 
+omit [Finite G] in
 theorem autBar_le_innerAut_of_inducesInner {p : ℕ} {B J : Subgroup G}
-    (hBJ : B ≤ Subgroup.normalizer (J : Set G)) (h : ∀ c ∈ B, InducesInnerMod p J c) :
+    (_hBJ : B ≤ Subgroup.normalizer (J : Set G)) (h : ∀ c ∈ B, InducesInnerMod p J c) :
     autBar p B J ≤ innerAut (barOf p J) := by
   rintro _ ⟨γ, hγ, rfl⟩
   have hcB : (γ : G) ∈ B := (Subgroup.mem_inf.1 (Subgroup.mem_subgroupOf.1 hγ)).1
@@ -180,9 +181,9 @@ theorem claimA {m : ℕ} (hctx : ThmACtx G m) {p : ℕ} (hp : p ∈ Mu G m) (hS3
       have h2 : tripleLevel p B J ≤ 2 := h1.trans hd
       unfold tripleLevel at h2
       by_cases hG : IsGStar p B J
-      · rw [if_pos hG] at h2
+      · rw [ite_eq_left hG] at h2
         omega
-      · rw [if_neg hG] at h2
+      · rw [ite_eq_right hG] at h2
         omega
     exact balanced_of_level_le_two hpp hp2 hS3 h1912 hB hbB hb1 hJc hBJ hlev
   have hΔ : GLADelta p (Subgroup.zpowers x) = GLAPPrimeCoreOf p (Subgroup.centralizer ({x} : Set G)) :=

@@ -20,7 +20,7 @@ theorem ggL48TableBKnownFormsRestRkOpen8_of_open9
       decide
     have hrank : GGL48TB0Rank lab = lab.rank := by
       unfold GGL48TB0Rank
-      rw [if_neg hne]
+      rw [ite_eq_right hne]
     simpa [hrank] using largeEvenLabelAll_coverPRk_twA_dvd hp hlab hv hA
   · exact h2E p lab hp hlab hS hv hE
 

@@ -49,7 +49,7 @@ theorem false_of_inv_data {G : Type} [Group G] [Finite G] {E : Subgroup G} {b c 
     {Y EY : Subgroup G} (hEe : CFSG.Assembly.IsElemAbelian 3 E) (hc : c ∈ E) (hc1 : c ≠ 1)
     (hd : InvData E b c Y t EY)
     (hcomm : ∀ x ∈ E, t * x * t⁻¹ * x⁻¹ ∈ Subgroup.zpowers c) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hc3 : c ^ 3 = 1 := hEe.2 c hc
   have hord : orderOf c = 3 := orderOf_eq_prime hc3 hc1
   have hle : EY ≤ Subgroup.zpowers c := by

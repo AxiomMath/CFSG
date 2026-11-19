@@ -273,15 +273,15 @@ theorem conclusion_of_isC134Case_one_core
     (hone : Nonempty (kTwenty M c ⧸ CFSG.pCore 2 (kTwenty M c) ≃* projSL 3 (GaloisField 2 1)) →
       CFSG.Quasithin.IsC134Case 1 (kTwenty M c ⊔ T) (sTwenty M N c T) (kTwenty M c) →
       CFSG.Open.pCoreOf 2 (kTwenty M c) = CFSG.Quasithin.c134Q (kTwenty M c ⊔ T) (kTwenty M c))
-    (hT : Ctx20 G A M L N c T) (hTN : T ≤ N)
-    (h204 : scriptM ((kTwenty M c ⊔ T : Subgroup G) : Set G) = {M})
+    (hT : Ctx20 G A M L N c T) (_hTN : T ≤ N)
+    (_h204 : scriptM ((kTwenty M c ⊔ T : Subgroup G) : Set G) = {M})
     (h207 : kTwenty M c ⊓ Subgroup.centralizer (zTwenty T : Set G) ≤ N)
     (h3 : ∃ n : ℕ, Odd n ∧ Nonempty (kTwenty M c ⧸ CFSG.pCore 2 (kTwenty M c) ≃*
       projSL 3 (GaloisField 2 n)))
     (hKN : ¬ kTwenty M c ≤ N)
-    (hpar : Sec18.IsMaxParabolicRankTwo (((kTwenty M c ⊓ N).subgroupOf (kTwenty M c)).map
+    (_hpar : Sec18.IsMaxParabolicRankTwo (((kTwenty M c ⊓ N).subgroupOf (kTwenty M c)).map
       (QuotientGroup.mk' (CFSG.pCore 2 (kTwenty M c)))))
-    (hLQ : kTwenty M c ⊔ CFSG.Open.pCoreOf 2 (kTwenty M c ⊔ T) = kTwenty M c ⊔ T)
+    (_hLQ : kTwenty M c ⊔ CFSG.Open.pCoreOf 2 (kTwenty M c ⊔ T) = kTwenty M c ⊔ T)
     (hi : CFSG.Quasithin.IsC134Case 1 (kTwenty M c ⊔ T) (sTwenty M N c T) (kTwenty M c)) :
     IsBlock M (kTwenty M c) ∧ vTwenty M c T = CFSG.Open.pCoreOf 2 (kTwenty M c) ∧
       ∃ n : ℕ, Odd n ∧ IsNaturalL3Module (kTwenty M c) (vTwenty M c T) n := by

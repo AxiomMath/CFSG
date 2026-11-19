@@ -72,7 +72,7 @@ theorem five_not_dvd_five_point_stabilizer_of_not_alternating
   classical
   intro hfive
   let H : Subgroup P := fixingSubgroup P s
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨u, huorder⟩ :=
     exists_prime_orderOf_dvd_card' (G := H) 5 hfive
   let uP : P := u

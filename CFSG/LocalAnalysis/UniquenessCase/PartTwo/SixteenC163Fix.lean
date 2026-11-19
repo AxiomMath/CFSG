@@ -23,13 +23,13 @@ private theorem natTensor_bijective {W : Type} [CommGroup W] {L : Subgroup (MulA
   obtain ⟨K, _, _, hK, hReal⟩ := hT
   obtain ⟨π, hVia⟩ := hReal
   obtain ⟨hπsurj, -, -, -, -, -, -, -, -, -, -⟩ := hVia
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hK8 : Nat.card K = 8 := by rw [hK]; norm_num
   have hcardDom : Nat.card (FFModel.tensorNat 2 K).Gam = 254016 := by
     show Nat.card (↥(StatedSL 2 K) × ↥(StatedSL 2 K)) = 254016
     rw [Nat.card_prod, CFSG.Open.StatedAPI.card_statedSL_two, hK8]
     norm_num
-  haveI : Finite (FFModel.tensorNat 2 K).Gam :=
+  have : Finite (FFModel.tensorNat 2 K).Gam :=
     show Finite (↥(StatedSL 2 K) × ↥(StatedSL 2 K)) from inferInstance
   have hπbij : Function.Bijective π :=
     hπsurj.bijective_of_nat_card_le (by rw [hcardDom, hL])
@@ -42,20 +42,20 @@ private theorem exists_orderOf_seven_fix_commSub {W : Type} [CommGroup W]
   classical
   by_cases h1 : w = 1
   · rw [h1]
-    haveI : Finite ↥L := Nat.finite_of_card_ne_zero (by rw [hL]; norm_num)
-    haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+    have : Finite ↥L := Nat.finite_of_card_ne_zero (by rw [hL]; norm_num)
+    have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥L) 7 (by rw [hL]; norm_num)
     exact ⟨(x : MulAut W), x.2, by rw [Subgroup.orderOf_coe, hx], map_one (x : MulAut W)⟩
   · obtain ⟨K, _, _, hK, hReal⟩ := hT
     obtain ⟨π, hVia⟩ := hReal
     obtain ⟨hπsurj, -, -, hUinv, -, -, -, β, -, hβ1, hβint⟩ := hVia
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     have hK8 : Nat.card K = 8 := by rw [hK]; norm_num
     have hcardDom : Nat.card (FFModel.tensorNat 2 K).Gam = 254016 := by
       show Nat.card (↥(StatedSL 2 K) × ↥(StatedSL 2 K)) = 254016
       rw [Nat.card_prod, CFSG.Open.StatedAPI.card_statedSL_two, hK8]
       norm_num
-    haveI : Finite (FFModel.tensorNat 2 K).Gam :=
+    have : Finite (FFModel.tensorNat 2 K).Gam :=
       show Finite (↥(StatedSL 2 K) × ↥(StatedSL 2 K)) from inferInstance
     have hπbij : Function.Bijective π :=
       hπsurj.bijective_of_nat_card_le (by rw [hcardDom, hL])
@@ -99,7 +99,7 @@ private theorem exists_orderOf_seven_fix_commSub {W : Type} [CommGroup W]
         rw [← map_pow, hp17, map_one]
       · show (s p.2) ^ 7 = 1
         rw [← map_pow, hp27, map_one]
-    haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+    have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
     have hordγ : orderOf γ = 7 := orderOf_eq_prime hγ7 hγne
     have hcoe1 : ((γ.1 : GL (Fin 2) K) : Matrix (Fin 2) (Fin 2) K) =
         (p.1 : Matrix (Fin 2) (Fin 2) K) :=
@@ -131,7 +131,7 @@ private theorem center_eq_bot_of_natTensor {W : Type} [CommGroup W] {L : Subgrou
     Subgroup.center ↥L = ⊥ := by
   classical
   obtain ⟨K, _, _, hK8, π, hπbij⟩ := natTensor_bijective hL hT
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   let e : (↥(StatedSL 2 K) × ↥(StatedSL 2 K)) ≃* ↥L := MulEquiv.ofBijective π hπbij
   have hcenterDom : Subgroup.center (↥(StatedSL 2 K) × ↥(StatedSL 2 K)) = ⊥ := by
     rw [Subgroup.center_prod]
@@ -168,7 +168,7 @@ theorem exists_orderOf_seven_fix {W : Type} [CommGroup W] {A L : Subgroup (MulAu
         commSub_eq_bot_iff.mp (hcomm g⁻¹ (A.inv_mem hgA) hgN')
       have hmem : g⁻¹ * l * g ∈ L.map (MulAut.conj g⁻¹).toMonoidHom := by
         refine ⟨l, hl, ?_⟩
-        simp [MulAut.conj_apply]
+        simp
       have h := (mem_fixV.mp (hfix hu)) (g⁻¹ * l * g) hmem
       have h2 : (g⁻¹ * l * g) u = g⁻¹ (l (g u)) := by
         rw [MulAut.mul_apply, MulAut.mul_apply]

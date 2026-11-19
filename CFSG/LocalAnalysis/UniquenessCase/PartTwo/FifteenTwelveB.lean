@@ -103,7 +103,7 @@ theorem s15_Twelve_kernel (D : Data G) {V₀ V L : Subgroup G} (h : Hyp154 D V�
     have hMeq : conjSubgroup D.M (m' * k) = conjSubgroup D.M k := by
       rw [← conjSubgroup_conjSubgroup, s15_Tools_conjSubgroup_M D hm']
     exact h1.trans (le_of_eq hMeq)
-  obtain ⟨f₀, hf₀FZ, hf₀Mk⟩ := SetLike.not_le_iff_exists.1 hZk
+  obtain ⟨f₀, hf₀FZ, hf₀Mk⟩ := IsConcreteLE.not_le_iff_exists.1 hZk
   let C : Subgroup G :=
     { carrier := {y | y ∈ Y ∧ ∀ f ∈ FZ, y * f * y⁻¹ * f⁻¹ ∈ V1}
       mul_mem' := by
@@ -119,7 +119,7 @@ theorem s15_Twelve_kernel (D : Data G) {V₀ V L : Subgroup G} (h : Hyp154 D V�
         exact V1.mul_mem h1 h2
       one_mem' := by
         refine ⟨Y.one_mem, fun f hf => ?_⟩
-        simpa using V1.one_mem
+        simp
       inv_mem' := by
         intro y hy
         refine ⟨Y.inv_mem hy.1, fun f hf => ?_⟩

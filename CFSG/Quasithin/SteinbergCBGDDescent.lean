@@ -2,7 +2,7 @@ module
 
 public import CFSG.Quasithin.SteinbergCBGDCocycle
 public import CFSG.Quasithin.SteinbergCBGDTrace
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 
 public section
 

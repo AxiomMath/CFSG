@@ -246,8 +246,8 @@ theorem step138NoCubeRootC_of_inndiag (h131 : Item131) (hKStr : Step138KStr)
     obtain ⟨hx₀N, π, p, f, Fld, _, hPi, hq, ψ, y₀, hy₀, hy₀3, hx₀act⟩ := hx₀type
     have hx₀ψ : Ronan138S.ActsPGL ψ x₀ y₀ := ⟨hx₀N, hy₀, hx₀act⟩
     have hKq := Sec6.isQuasisimple_of_mem_thetaComponentsAt hK.1
-    haveI : Group.IsPerfect (K ⧸ aschbacherSolvableCore 3 K) := hKq.1
-    haveI : Group.IsPerfect (projImage (Sec4.slPi π 3 (p ^ f) Fld)) :=
+    have : Group.IsPerfect (K ⧸ aschbacherSolvableCore 3 K) := hKq.1
+    have : Group.IsPerfect (projImage (Sec4.slPi π 3 (p ^ f) Fld)) :=
       Group.IsPerfect.ofSurjective (f := ψ.toMonoidHom) ψ.surjective
     obtain ⟨M, hM, hwact⟩ := hinn G A c L E hH hPGL F hF hFmax e K heΩ hK heF hec heL hPGLK P hP
       hEFP hPN horder3 π p f Fld hPi hq ψ w hwN hw hwF hwc

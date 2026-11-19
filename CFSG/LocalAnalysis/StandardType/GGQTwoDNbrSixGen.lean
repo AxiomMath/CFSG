@@ -63,6 +63,7 @@ namespace NsQuot
 
 variable {G : Type} [Group G] [Finite G] {Q : Type} [Group Q]
 
+omit [Finite G] in
 theorem Datum.eq_iSup_of_img_coordBlockSU {p : ℕ} {N : Subgroup G} {f : ↥N →* Q}
     {X Bs Z : Subgroup G} (hD : Datum p N f X Bs Z) (hX : commutator ↥X = ⊤) {K : Type}
     [Field K] [Finite K] [CharP K 2] (hK : Nat.card K = 4) {n : ℕ} (hn : 4 ≤ n)

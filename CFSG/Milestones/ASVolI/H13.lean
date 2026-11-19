@@ -162,9 +162,9 @@ theorem pairVec_eq_eY_pair (a b : Fin 24) (distinct : a ≠ b) :
     Finset.mem_singleton, Pi.single_apply]
   by_cases ha : i = a
   · have hb : ¬ i = b := fun h => distinct (ha.symm.trans h)
-    simp [ha, hb, distinct]
+    simp [ha, distinct]
   · by_cases hb : i = b
-    · simp [ha, hb, Ne.symm distinct]
+    · simp [hb, Ne.symm distinct]
     · simp [ha, hb]
 
 theorem mem_pairKer_iff_dot24 (a b : Fin 24) (representative : PM24) :
@@ -319,7 +319,7 @@ theorem dot24_permAct (σ : Equiv.Perm (Fin 24)) (u v : PM24) :
 theorem exists_dot24_ne_zero {u : PM24} (hu : u ≠ 1) : ∃ v : PM24, dot24 u v ≠ 0 := by
   have hex : ∃ i, Multiplicative.toAdd u i ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     apply hu
     apply Multiplicative.toAdd.injective
     funext i
@@ -334,7 +334,7 @@ theorem exists_dot_coreMod_of_golay_not_zpowers (c : PM24) (hc : c ∈ golayC)
     ∃ w ∈ G6.coreMod 24, dot24 c w ≠ 0 := by
   have hnc : ∃ i j : Fin 24, Multiplicative.toAdd c i ≠ Multiplicative.toAdd c j := by
     by_contra h
-    push_neg at h
+    push Not at h
     apply hcz
     have hc' : c = 1 ∨ c = G6.allOnes 24 := by
       rcases h13_zmod2_cases (Multiplicative.toAdd c 0) with h0 | h0
@@ -381,7 +381,7 @@ theorem exists_golay_dot_of_not_mem_coreMod_pair (a b : Fin 24) (hab : a ≠ b) 
     simp at h2
   have hc0 : ∃ c0 ∈ golayC, dot24 c0 (pairVec a b) ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hp_not (golay_mem_of_dot _ fun c hc => by rw [dot24_comm]; exact h c hc)
   obtain ⟨c0, hc0g, hc0p⟩ := hc0
   have hkey : ∀ c ∈ golayC, dot24 c w = dot24 c (pairVec a b) * dot24 c0 w := by
@@ -481,7 +481,7 @@ theorem natCard_eq_two_mul_of_cover {G : Type*} [Group G] (H K : Subgroup G) (g 
       rcases hcov x hx with hxK | hxK
       · exact ⟨(⟨⟨x, hxK⟩, false⟩), Subtype.ext (by simp [f])⟩
       · refine ⟨(⟨⟨x * g, hxK⟩, true⟩), Subtype.ext ?_⟩
-        simp only [f, if_true]
+        simp only [f, ite_true]
         rw [mul_assoc, hg, mul_one]
   have hcard := Nat.card_eq_of_bijective f hf
   rw [Nat.card_prod, Nat.card_eq_fintype_card (α := Bool), Fintype.card_bool] at hcard
@@ -560,7 +560,7 @@ theorem pairVec_not_mem_golayC (a b : Fin 24) (hab : a ≠ b) : pairVec a b ∉ 
 theorem exists_golay_dot_pairVec_ne (a b : Fin 24) (hab : a ≠ b) :
     ∃ c0 ∈ golayC, dot24 c0 (pairVec a b) ≠ 0 := by
   by_contra h
-  push_neg at h
+  push Not at h
   exact pairVec_not_mem_golayC a b hab (golay_mem_of_dot _ fun c hc => by
     rw [dot24_comm]
     exact h c hc)
@@ -978,7 +978,7 @@ theorem conjHom22_injective : Function.Injective conjHom22 := by
   exact rho10_mog22plus_injective (by rw [hcent, map_one])
 
 theorem conjHom22_bijective : Function.Bijective conjHom22 := by
-  haveI : Finite (MulAut ↥mog22) := finite_mulAut ↥mog22
+  have : Finite (MulAut ↥mog22) := finite_mulAut ↥mog22
   apply Function.Injective.bijective_of_nat_card_le conjHom22_injective
   have h1 := CFSG.Sporadic.Schreier.m22_mulAut_card
   rw [CFSG.Sporadic.Schreier.m22_card] at h1
@@ -1054,7 +1054,7 @@ theorem H_13_1_partial_holds : H_13_1_partial := by
   · rw [rk_golayC, rk_zpowers_allOnes]
   · intro w _ hw
     by_contra h
-    push_neg at h
+    push Not at h
     exact hw (golay_mem_of_dot w fun c hc => by
       rw [dot24_comm]
       exact h c hc)
@@ -1077,7 +1077,7 @@ theorem H_13_1_partial_holds : H_13_1_partial := by
     · exact fun c hc hcz => exists_dot_coreMod_of_golay_not_zpowers c (Subgroup.mem_inf.1 hc).1 hcz
     · intro w _ hw
       by_contra h
-      push_neg at h
+      push Not at h
       exact hw (exists_golay_dot_of_not_mem_coreMod_pair a b hab w fun c hc => h c hc)
 
 theorem as_H_13_1 : H_13_1 := by

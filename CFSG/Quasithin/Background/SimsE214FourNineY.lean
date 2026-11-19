@@ -18,6 +18,7 @@ theorem mem_of_mem_normalizer_of_pow {S : Subgroup Y} (hS : IsSylowTwoOf S ⊤) 
     (E2.isPGroup_zpowers_of_pow hxn) hS.2.1 (Subgroup.zpowers_le.mpr hxN)
   exact le_of_isSylowTwoOf_top hS le_sup_right hR (Subgroup.mem_sup_left (Subgroup.mem_zpowers x))
 
+omit [Finite Y] in
 theorem conj_mem_center_iff {S : Subgroup Y} {c₁ c₂ : Y}
     (h : ∀ z, c₁ * z * c₁⁻¹ ∈ S ↔ c₂ * z * c₂⁻¹ ∈ S) (z : Y) :
     c₁ * z * c₁⁻¹ ∈ S ⊓ Subgroup.centralizer (S : Set Y) ↔
@@ -36,6 +37,7 @@ theorem conj_mem_center_iff {S : Subgroup Y} {c₁ c₂ : Y}
     exact h3
   exact ⟨key c₁ c₂ h z, key c₂ c₁ (fun z => (h z).symm) z⟩
 
+omit [Finite Y] in
 theorem eq_one_of_mem_inf {S : Subgroup Y} {h z : Y}
     (hgen : (S ⊓ Subgroup.centralizer (S : Set Y)) ⊔
       (S ⊓ Subgroup.centralizer (S : Set Y)).map (MulAut.conj h⁻¹).toMonoidHom = ⊤)
@@ -98,6 +100,7 @@ theorem card_mul_card_le {N A B : Subgroup Y} (hA : A ≤ N) (hB : B ≤ N) (hAB
   subst hb
   rfl
 
+omit [Finite Y] in
 theorem eq_one_of_mem_of_odd {S : Subgroup Y} (hS : IsPGroup 2 S) {z : Y} (hz : z ∈ S)
     (hzo : Odd (orderOf z)) : z = 1 := by
   obtain ⟨n, hn⟩ := hS ⟨z, hz⟩
@@ -136,7 +139,7 @@ theorem mem_sylow_of_mem_normalizer (Q : Sylow 2 Y) {x : Y}
     (hxN : x ∈ Subgroup.normalizer ((Q : Subgroup Y) : Set Y)) {n : ℕ} (hxn : x ^ 2 ^ n = 1) :
     x ∈ (Q : Subgroup Y) := by
   have hR : IsPGroup 2 ↥(Subgroup.zpowers x ⊔ (Q : Subgroup Y)) := IsPGroup.to_sup_of_normal_right'
-    (E2.isPGroup_zpowers_of_pow hxn) Q.isPGroup' (Subgroup.zpowers_le.mpr hxN)
+    (E2.isPGroup_zpowers_of_pow hxn) Q.isPGroup (Subgroup.zpowers_le.mpr hxN)
   exact Q.maximal_isPGroup.le_of_ge hR le_sup_right
     (Subgroup.mem_sup_left (Subgroup.mem_zpowers x))
 
@@ -165,7 +168,6 @@ theorem exists_conj_eq_of_card {S : Subgroup Y} (hS : IsSylowTwoOf S ⊤) {h : Y
     intro t₁ t₂ h12
     have h1 : ((t₂ : Y)⁻¹ * t₁) • P' = P' := by
       rw [mul_smul]
-      change (t₂ : Y)⁻¹ • ((t₁ : Y) • P') = P'
       rw [show (t₁ : Y) • P' = (t₂ : Y) • P' from h12, inv_smul_smul]
     rw [Sylow.smul_eq_iff_mem_normalizer] at h1
     obtain ⟨n, hn⟩ := hS.2.1 (t₂⁻¹ * t₁)

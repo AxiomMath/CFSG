@@ -14,6 +14,7 @@ open CFSG.QuasithinUnique.Setup.X7
 
 variable {F : Type} [Field F] [CharP F 2]
 
+omit [CharP F 2] in
 theorem one_le_of_card [Fintype F] {l : ℕ} (hF : Fintype.card F = 2 ^ (2 * l)) : 1 ≤ l := by
   by_contra h
   have h0 : l = 0 := by omega
@@ -147,6 +148,7 @@ theorem hermRep_apply (l : ℕ) (hF : Fintype.card F = 2 ^ (2 * l)) (g : SL(2, F
 abbrev upperSylow : Subgroup (SL(2, F)) :=
   (CFSG.ProperTwoGeneratedCore.LocalCriterionSquareField.upperUnipotent (F := F)).range
 
+omit [CharP F 2] [Fintype F] [Algebra (ZMod 2) F] in
 theorem rootSub_top_eq_stabilizer :
     rootSub (⊤ : AddSubgroup F) =
       MulAction.stabilizer (SL(2, F)) (Pi.single 0 1 : Fin 2 → F) := by
@@ -174,6 +176,7 @@ theorem rootSub_top_eq_stabilizer :
     ext i j
     fin_cases i <;> fin_cases j <;> simp [uMat_coe, h00, h10, h11]
 
+omit [CharP F 2] [Algebra (ZMod 2) F] in
 theorem upperSylow_eq_rootSub_top :
     upperSylow = rootSub (⊤ : AddSubgroup F) := by
   rw [rootSub_top_eq_stabilizer]
@@ -181,6 +184,7 @@ theorem upperSylow_eq_rootSub_top :
     (CFSG.ProperTwoGeneratedCore.LocalCriterionSquareField.sl2_fixes_first_iff g).symm.trans
       MulAction.mem_stabilizer_iff
 
+omit [CharP F 2] [Algebra (ZMod 2) F] in
 theorem mem_upperSylow_iff {g : SL(2, F)} : g ∈ upperSylow ↔ ∃ t : F, g = uMat t := by
   rw [upperSylow_eq_rootSub_top, mem_rootSub]
   exact exists_congr fun t => and_iff_right (AddSubgroup.mem_top t)
@@ -188,11 +192,13 @@ theorem mem_upperSylow_iff {g : SL(2, F)} : g ∈ upperSylow ↔ ∃ t : F, g = 
 @[expose] def wMat : SL(2, F) :=
   ⟨!![0, 1; 1, 0], by simp [Matrix.det_fin_two, CharTwo.neg_eq]⟩
 
+omit [Fintype F] [Algebra (ZMod 2) F] in
 theorem frobPow_wMat (l : ℕ) :
     CFSG.Quasithin.frobPow l ((wMat : SL(2, F)) : Matrix (Fin 2) (Fin 2) F) = !![0, 1; 1, 0] := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [CFSG.Quasithin.frobPow, wMat]
 
+omit [Algebra (ZMod 2) F] in
 theorem hermAct_wMat (l : ℕ) (hF : Fintype.card F = 2 ^ (2 * l)) (X : ↥(hermA l F)) :
     ((hermAct l (sig_sig hF) wMat X : ↥(hermA l F)) : Matrix (Fin 2) (Fin 2) F) =
       !![(X : Matrix (Fin 2) (Fin 2) F) 1 1, (X : Matrix (Fin 2) (Fin 2) F) 1 0;
@@ -202,6 +208,7 @@ theorem hermAct_wMat (l : ℕ) (hF : Fintype.card F = 2 ^ (2 * l)) (X : ↥(herm
   rw [triple_apply]
   fin_cases i <;> fin_cases j <;> simp
 
+omit [Algebra (ZMod 2) F] in
 theorem hermAct_uMat_sub (l : ℕ) (hF : Fintype.card F = 2 ^ (2 * l)) (t : F)
     (X : ↥(hermA l F)) :
     ((hermAct l (sig_sig hF) (uMat t) X - X : ↥(hermA l F)) : Matrix (Fin 2) (Fin 2) F) =
@@ -216,12 +223,13 @@ theorem hermAct_uMat_sub (l : ℕ) (hF : Fintype.card F = 2 ^ (2 * l)) (t : F)
   fin_cases i <;> fin_cases j
   · simp [hermAct_uMat_00, sig_apply]; ring
   · simp [hermAct_uMat_01]
-  · simp [hermAct_uMat_00, hermAct_uMat_01, hermAct_uMat_11, sig_apply, hermA_10,
+  · simp [hermAct_uMat_01, sig_apply, hermA_10,
       add_pow_char_pow, mul_pow]
     left
     simpa [sig_apply] using hermA_11 (a := l) X
   · simp [hermAct_uMat_11]
 
+omit [Algebra (ZMod 2) F] in
 theorem eq_zero_of_hermAct_uMat_fixed (l : ℕ)
     (hF : Fintype.card F = 2 ^ (2 * l))
     (X : ↥(hermA l F)) (hfix : ∀ t : F, hermAct l (sig_sig hF) (uMat t) X = X) :

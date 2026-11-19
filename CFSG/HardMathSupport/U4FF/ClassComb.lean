@@ -81,7 +81,7 @@ theorem bitA_eq_a [NeZero n] (l : Lbl n) (i : Fin n) (j : ℕ) (hj : j % (2 * n)
     l.bitA j = l.a i := by
   have h : j % (2 * n) < n := by rw [hj]; exact i.isLt
   unfold bitA
-  rw [dif_pos h]
+  rw [dite_eq_left h]
   congr 1
   exact Fin.ext hj
 
@@ -89,7 +89,7 @@ theorem bitA_eq_c [NeZero n] (l : Lbl n) (i : Fin n) (j : ℕ) (hj : j % (2 * n)
     l.bitA j = l.c i := by
   have h : ¬ j % (2 * n) < n := by rw [hj]; omega
   unfold bitA
-  rw [dif_neg h]
+  rw [dite_eq_right h]
   congr 1
   apply Fin.ext
   show j % (2 * n) - n = i.val
@@ -212,9 +212,9 @@ theorem dim_ge_pow (l : Lbl n) (P : Finset (Fin n)) (hP : ∀ i, i ∈ P ↔ ¬ 
   unfold dim
   refine Finset.prod_le_prod (fun i _ => ?_)
   by_cases hi : i ∈ P
-  · rw [if_pos hi]
+  · rw [ite_eq_left hi]
     exact hc i hi
-  · rw [if_neg hi]
+  · rw [ite_eq_right hi]
     have hz : l.ZeroAt i := by
       by_contra h
       exact hi ((hP i).2 h)
@@ -230,9 +230,9 @@ theorem fix1_le_pow (l : Lbl n) (P : Finset (Fin n)) (hP : ∀ i, i ∈ P ↔ ¬
   unfold fix1
   refine Finset.prod_le_prod (fun i _ => ?_)
   by_cases hi : i ∈ P
-  · rw [if_pos hi]
+  · rw [ite_eq_left hi]
     exact hc i hi
-  · rw [if_neg hi]
+  · rw [ite_eq_right hi]
     have hz : l.ZeroAt i := by
       by_contra h
       exact hi ((hP i).2 h)
@@ -413,26 +413,26 @@ theorem case_one {n : ℕ} [NeZero n] (l : Lbl n) {d : ℕ} (hd : 0 < d) (i₀ :
   · exact Or.inr (Or.inl ⟨i₀, hz, hx, hy, hz2⟩)
   · have h9 : l.rk1 = 9 := by
       unfold Lbl.rk1
-      rw [hdim, hfix] <;> decide
+      rw [hdim, hfix]; decide
     right; right
     rw [h9]
     omega
   · exact Or.inl ⟨i₀, hz, hy, Or.inl ⟨hx, hz2⟩⟩
   · have h6 : l.rk1 = 6 := by
       unfold Lbl.rk1
-      rw [hdim, hfix] <;> decide
+      rw [hdim, hfix]; decide
     right; right
     rw [h6]
     omega
   · have h9 : l.rk1 = 9 := by
       unfold Lbl.rk1
-      rw [hdim, hfix] <;> decide
+      rw [hdim, hfix]; decide
     right; right
     rw [h9]
     omega
   · have h32 : l.rk1 = 32 := by
       unfold Lbl.rk1
-      rw [hdim, hfix] <;> decide
+      rw [hdim, hfix]; decide
     right; right
     rw [h32]
     omega
@@ -444,7 +444,7 @@ theorem Lbl.comb_lemma75 {n : ℕ} [NeZero n] (l : Lbl n) (hl : ¬ l.IsZero) {d 
     ⟨Finset.univ.filter (fun i => ¬ l.ZeroAt i), fun i => by simp⟩
   obtain ⟨i₁, hi₁⟩ : ∃ i, ¬ l.ZeroAt i := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hl h
   have hk : 0 < P.card := Finset.card_pos.2 ⟨i₁, (hPmem i₁).2 hi₁⟩
   obtain ⟨y, hy0, hyk, hydvd⟩ := exists_orbit_card P i₁

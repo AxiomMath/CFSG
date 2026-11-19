@@ -75,7 +75,7 @@ theorem ipair_comm (a b : Fin 6 → ℤ) : ipair a b = ipair b a := by
   rw [ggE6d_C_symm j i]
   ring
 
-theorem pairZ_eq (a b : List ℤ) (ha : a.length = 6) (hb : b.length = 6) :
+theorem pairZ_eq (a b : List ℤ) (_ha : a.length = 6) (_hb : b.length = 6) :
     Certificates.E6Heart.pairZ a b = ipair (toVec a) (toVec b) := by
   rw [ggE6d_pairZ_sum]
   unfold ipair toVec

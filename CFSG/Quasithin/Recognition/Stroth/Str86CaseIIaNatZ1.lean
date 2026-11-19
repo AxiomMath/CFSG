@@ -16,6 +16,7 @@ open CFSG.LieType.BorelTits
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem str86_vU3Big_of_stated {L1 : Subgroup G} {k : ℕ} {F : Type} [Field F] [Finite F]
     (hk : 2 ≤ k) (hFc : Nat.card F = (2 ^ k) ^ 2)
     (hU3 : Nonempty (oTwoQuot ↥L1 ≃* StatedSU 3 (2 ^ k) F) ∨
@@ -137,7 +138,7 @@ theorem str86_centralizer_z1_sup_eq_bot
       rw [h1, show x⁻¹ * z ^ j * x = z ^ j from by simpa using hconj x⁻¹ hxz' j]
       exact Subgroup.zpow_mem_zpowers z j
   have h2 : IsPGroup 2 (Subgroup.zpowers z) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     by_cases hz1 : z = 1
     · rw [hz1, Subgroup.zpowers_one_eq_bot]
       exact IsPGroup.of_bot
@@ -173,6 +174,7 @@ theorem str86_isSzU3Quot_sup {L1 L2 S : Subgroup G} {k : ℕ}
   IsNormalIn H U N ∧ N ≠ ⊥ ∧
     ∀ M : Subgroup G, IsNormalIn H U M → M ≠ ⊥ → M ≤ N → M = N
 
+omit [Finite G] in
 theorem Str86AtomIn.isChiefStep_bot {H U N : Subgroup G} (h : Str86AtomIn H U N) :
     IsChiefStep H U ⊥ N := by
   refine ⟨h.1, D15Proof.isNormalIn_bot H U, bot_lt_iff_ne_bot.mpr h.2.1, ?_⟩
@@ -181,6 +183,7 @@ theorem Str86AtomIn.isChiefStep_bot {H U N : Subgroup G} (h : Str86AtomIn H U N)
   · exact Or.inl hKbot
   · exact Or.inr (h.2.2 K hK hKbot hKN)
 
+omit [Finite G] in
 theorem Str86AtomIn.not_isCentralStep_bot {H U N : Subgroup G} (h : Str86AtomIn H U N)
     (hC : U ⊓ Subgroup.centralizer (H : Set G) = ⊥) :
     ¬ IsCentralStep H ⊥ N := by
@@ -272,7 +275,7 @@ theorem str86_atom_unique {L1 L2 S : Subgroup G} {k : ℕ}
       have hZea : IsElemAbelian 2 Z :=
         (SmithC27.isElemAbelian_omegaOneCenterOf (Q1 L1 L2 S)).mono
           (sup_le h1.1.1 h2.1.1)
-      letI : CommGroup ↥Z := commGroupOfElemAbelian hZea
+      let : CommGroup ↥Z := commGroupOfElemAbelian hZea
       have htop : (N1.subgroupOf Z) ⊔ (N2.subgroupOf Z) = ⊤ := by
         rw [← Subgroup.subgroupOf_sup (le_sup_left : N1 ≤ Z) (le_sup_right : N2 ≤ Z),
           Subgroup.subgroupOf_self]
@@ -336,6 +339,7 @@ theorem str86_atom_unique {L1 L2 S : Subgroup G} {k : ℕ}
   omega
 
 
+omit [Finite G] in
 private theorem str86_map_conj_isNormalIn {H U M : Subgroup G} {g : G}
     (hGH : g ∈ Subgroup.normalizer (H : Set G))
     (hGU : g ∈ Subgroup.normalizer (U : Set G))

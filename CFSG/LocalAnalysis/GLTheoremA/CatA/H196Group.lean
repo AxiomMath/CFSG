@@ -318,8 +318,7 @@ theorem h196_core {p : ℕ} [hp : Fact p.Prime] [Finite Y] {H S : Subgroup Y}
     intro a b
     ext r
     have hab : (a : Y) * (b : Y) = (b : Y) * (a : Y) := (hWD a a.2 b b.2).symm
-    simp only [MulAut.mul_apply, α, β, MonoidHom.coe_mk, OneHom.coe_mk, conjSubEquiv_val,
-      Subgroup.coe_mul, Subgroup.coe_inv]
+    simp only [MulAut.mul_apply, α, β, MonoidHom.coe_mk, OneHom.coe_mk, conjSubEquiv_val]
     rw [show (a : Y) * ((b : Y) * (r : Y) * (b : Y)⁻¹) * (a : Y)⁻¹
         = ((a : Y) * (b : Y)) * (r : Y) * ((a : Y) * (b : Y))⁻¹ by group,
       show (b : Y) * ((a : Y) * (r : Y) * (a : Y)⁻¹) * (b : Y)⁻¹

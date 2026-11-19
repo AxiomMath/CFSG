@@ -34,13 +34,13 @@ theorem asc82S8NoL34X_of : Asc82S8NoL34X := by
   have hZcard : Nat.card ↥Z = 20160 := by
     rw [Nat.card_congr e'.toEquiv]
     exact CFSG.RankThree.PartTwo.KFacts.L34.card_projectiveSL hk4
-  haveI : Finite ↥Z := Nat.finite_of_card_ne_zero (by rw [hZcard]; norm_num)
-  haveI : Finite ↥V := Nat.finite_of_card_ne_zero (by rw [hV.2]; positivity)
+  have : Finite ↥Z := Nat.finite_of_card_ne_zero (by rw [hZcard]; norm_num)
+  have : Finite ↥V := Nat.finite_of_card_ne_zero (by rw [hV.2]; positivity)
   obtain ⟨g, h, hgX, hhX, hg5, hgfix, hh3, hh1, hhfix⟩ :=
     sec12S8Mod_facX hV hsup hinf hA5 hn1 hn2
   have hhZ : h ∈ Z := hXZ hhX
   have hord : orderOf (⟨h, hhZ⟩ : ↥Z) = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     refine orderOf_eq_prime (Subtype.ext hh3) fun h1 => hh1 (congrArg Subtype.val h1)
   have hconj : ∀ a b : ↥Z, orderOf a = 3 → orderOf b = 3 → IsConj a b := by
     intro a b ha hb

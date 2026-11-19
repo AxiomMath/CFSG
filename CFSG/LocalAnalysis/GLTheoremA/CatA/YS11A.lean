@@ -262,7 +262,7 @@ private theorem ys11a_not_chev3 {S : Type} [Group S]
         have hm6 : m = 6 := by simpa [CFSG.Yardstones.Md0ec50421ce4.ambiguousChev] using hj
         subst hm6
         have e6 : S ≃* alternatingGroup (Fin 6) := e'
-        haveI : Nontrivial (Fin 6) := Fin.nontrivial_iff_two_le.2 (by norm_num)
+        have : Nontrivial (Fin 6) := Fin.nontrivial_iff_two_le.2 (by norm_num)
         left
         rw [Nat.card_congr e6.toEquiv, nat_card_alternatingGroup, Nat.card_fin]
         norm_num [Nat.factorial]
@@ -308,7 +308,7 @@ theorem levelTwoAt_holds (G : Type) [Group G] [Finite G] : LevelTwoAt G := by
     exact ⟨i, ys11a_k2_of_small i hi, he⟩
   have hnc : ¬ IsChevSimple 3 (PSimple 3 L) := ys11a_not_chev3 hcat
   unfold kLevel
-  rw [if_neg hnc, if_pos hk2]
+  rw [ite_eq_right hnc, ite_eq_left hk2]
 
 end LevelTwoInput
 

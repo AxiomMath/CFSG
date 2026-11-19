@@ -20,7 +20,7 @@ private theorem ggTwE6CompFieldInputQ_general
     (hX : CFSG.Open.IsComponentOf X
       (CFSG.StandardType.LayerSixE.autFix (Subgroup.zpowers α))) :
     GGCompFieldDataQ (2 ^ f) X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let q₀ : TauCeti.PrimePower := ⟨2, f, Nat.prime_two, by omega⟩
   have hq₀ : q₀.card = 2 ^ f := TauCeti.PrimePower.card_def q₀
   have hv : (TauCeti.LieTypeIndex.twistedE6 q₀).Valid :=

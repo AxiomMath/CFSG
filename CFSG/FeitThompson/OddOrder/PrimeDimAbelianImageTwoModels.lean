@@ -313,7 +313,7 @@ theorem irreducible_model {s : V} (hs0 : s ≠ 0) (hbs : D.b s = s) :
     injective_unitsHom, D.symm_evalEnvelopingSubalgebraEquiv_smul hs0, hrange, ?_,
     isCyclic_of_isMulCommutative_of_isIrreducible, hcop, hdvd⟩
   · exact natCard_envelopingSubalgebra_eq_pow D.finrank_eq
-  · rw [himage, Subfield.bot_eq_of_zMod_algebra p (K := ↥(envelopingSubalgebra D.A))]
+  · rw [himage, Subfield.bot_eq_of_zmod_algebra p (K := ↥(envelopingSubalgebra D.A))]
     exact RingHom.coe_fieldRange _
 
 end Irreducible

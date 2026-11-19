@@ -41,6 +41,7 @@ theorem herm_add_left (u u' v : Fin 6 → F) : herm (u + u') v = herm u v + herm
   rw [pow4_add]
   ring
 
+omit [CharP F 2] in
 theorem herm_smul_left (c : F) (u v : Fin 6 → F) : herm (c • u) v = c ^ 4 * herm u v := by
   unfold herm
   rw [Finset.mul_sum]
@@ -48,6 +49,7 @@ theorem herm_smul_left (c : F) (u v : Fin 6 → F) : herm (c • u) v = c ^ 4 * 
   simp only [Pi.smul_apply, smul_eq_mul]
   ring
 
+omit [CharP F 2] in
 theorem herm_add_right (u v v' : Fin 6 → F) : herm u (v + v') = herm u v + herm u v' := by
   unfold herm
   rw [← Finset.sum_add_distrib]
@@ -55,6 +57,7 @@ theorem herm_add_right (u v v' : Fin 6 → F) : herm u (v + v') = herm u v + her
   simp only [Pi.add_apply]
   ring
 
+omit [CharP F 2] in
 theorem herm_smul_right (c : F) (u v : Fin 6 → F) : herm u (c • v) = c * herm u v := by
   unfold herm
   rw [Finset.mul_sum]
@@ -62,10 +65,12 @@ theorem herm_smul_right (c : F) (u v : Fin 6 → F) : herm u (c • v) = c * her
   simp only [Pi.smul_apply, smul_eq_mul]
   ring
 
+omit [CharP F 2] in
 theorem herm_zero_left (v : Fin 6 → F) : herm 0 v = 0 := by
   unfold herm
   simp
 
+omit [CharP F 2] in
 theorem herm_zero_right (u : Fin 6 → F) : herm u 0 = 0 := by
   unfold herm
   simp
@@ -128,11 +133,12 @@ theorem five_eq_one : (5 : F) = 1 := by
   calc (5 : F) = 4 + 1 := by norm_num
     _ = 1 := by rw [h4, zero_add]
 
+omit [CharP F 2] in
 theorem exists_zeta [Finite F] (hF : Nat.card F = 16) : ∃ ζ : F, ζ ^ 5 = 1 ∧ ζ ≠ 1 := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hcard : Fintype.card F = 16 := by rw [← Nat.card_eq_fintype_card, hF]
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have h5card : 5 ∣ Fintype.card Fˣ := by
     rw [Fintype.card_units, hcard]
     norm_num
@@ -150,16 +156,19 @@ theorem exists_zeta [Finite F] (hF : Nat.card F = 16) : ∃ ζ : F, ζ ^ 5 = 1 �
 
 variable {ζ : F}
 
+omit [CharP F 2] in
 theorem zeta_pow_eq_one_iff (hζ5 : ζ ^ 5 = 1) (hζ1 : ζ ≠ 1) (n : ℕ) :
     ζ ^ n = 1 ↔ 5 ∣ n := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hord : orderOf ζ = 5 := orderOf_eq_prime hζ5 hζ1
   rw [← orderOf_dvd_iff_pow_eq_one, hord]
 
+omit [CharP F 2] in
 theorem geom5_zero {x : F} (hx5 : x ^ 5 = 1) (hx1 : x ≠ 1) :
     ∑ j ∈ Finset.range 5, x ^ j = 0 := by
   rw [geom_sum_eq hx1, hx5, sub_self, zero_div]
 
+omit [CharP F 2] in
 theorem geom_zeta_mul (hζ5 : ζ ^ 5 = 1) (hζ1 : ζ ≠ 1) (k : ℕ) (hk : ¬ 5 ∣ 4 * k) :
     ∑ j ∈ Finset.range 5, ζ ^ (4 * j * k) = 0 := by
   have hx5 : (ζ ^ (4 * k)) ^ 5 = 1 := by
@@ -195,6 +204,7 @@ theorem pr_sum (g : Matrix (Fin 6) (Fin 6) F) (hζ5 : ζ ^ 5 = 1) (hζ1 : ζ ≠
     Finset.sum_range_succ, Finset.sum_range_zero, zero_add, e0, e1, e2, e3, e4]
   simp
 
+omit [CharP F 2] in
 theorem mulVec_finset_sum (M : Matrix (Fin 6) (Fin 6) F) (s : Finset ℕ) (f : ℕ → Fin 6 → F) :
     M *ᵥ (∑ k ∈ s, f k) = ∑ k ∈ s, M *ᵥ f k := by
   classical
@@ -202,9 +212,11 @@ theorem mulVec_finset_sum (M : Matrix (Fin 6) (Fin 6) F) (s : Finset ℕ) (f : �
   | empty => simp
   | insert a s ha ih => rw [Finset.sum_insert ha, Finset.sum_insert ha, Matrix.mulVec_add, ih]
 
+omit [CharP F 2] in
 theorem pow_five_mul (hζ5 : ζ ^ 5 = 1) (n : ℕ) : ζ ^ (5 * n) = 1 := by
   rw [pow_mul, hζ5, one_pow]
 
+omit [CharP F 2] in
 theorem pr_eigen (g : Matrix (Fin 6) (Fin 6) F) (hζ5 : ζ ^ 5 = 1) (hg5 : g ^ 5 = 1) (j : ℕ)
     (v : Fin 6 → F) : g *ᵥ pr g ζ j v = (ζ ^ j) • pr g ζ j v := by
   have hsc : ∀ k : ℕ, ζ ^ j * ζ ^ (4 * j * (k + 1)) = ζ ^ (4 * j * k) := by
@@ -231,6 +243,7 @@ theorem pr_eigen (g : Matrix (Fin 6) (Fin 6) F) (hζ5 : ζ ^ 5 = 1) (hg5 : g ^ 5
     rw [e1, hlast]
     simp
 
+omit [CharP F 2] in
 theorem herm_sum_right {ι : Type} (s : Finset ι) (u : Fin 6 → F) (f : ι → Fin 6 → F) :
     herm u (∑ i ∈ s, f i) = ∑ i ∈ s, herm u (f i) := by
   classical

@@ -55,7 +55,7 @@ theorem t_quiet_at_e_of_ecase1 (hc : P23Cfg n Y R S t K' W u e g) (hE : ECase1 R
   set N : Subgroup (↥H ⧸ O) := (W.comap ι).map (QuotientGroup.mk' O) with hN
   have hW2 : IsPGroup 2 W := by
     obtain ⟨η, ⟨S₀, hη, -⟩, hWη⟩ := hc.std.hW
-    exact S₀.isPGroup'.to_le (hWη ▸ iSup₂_le fun U hU => (hη.1 hU).2)
+    exact S₀.isPGroup.to_le (hWη ▸ iSup₂_le fun U hU => (hη.1 hU).2)
   have hN2 : IsPGroup 2 N := (hW2.comap_of_injective ι hιinj).map _
   have hconj : ∀ x : ↥H, ι x ∈ Subgroup.normalizer (W : Set Y) → ∀ m ∈ N,
       QuotientGroup.mk' O x * m * (QuotientGroup.mk' O x)⁻¹ ∈ N := by
@@ -353,7 +353,7 @@ theorem lemL_alpha_eq_bot (hE : TwinThmEW.ThmEQ8) (hT : Thm4RTwinBelow 3 n) (hα
   have htCte : t ∈ Subgroup.centralizer ({t * e} : Set Y) := by
     rw [Subgroup.mem_centralizer_singleton_iff]
     have h : Commute t (t * e) := (Commute.refl t).mul_right (T7K.comm_e_of_mem_W hd hd.hzW)
-    first | exact h.eq | exact h.eq.symm
+    first | exact h.eq
   have hNt := ct_le_normalizer_alpha_of_quiet hα hc hYT
     (fun heC => e_quiet_at_t_of_zdata hX.zdata heC)
     (fun htC => t_quiet_at_e_of_ecase1 hc hX.ecase htC)

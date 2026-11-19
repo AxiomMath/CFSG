@@ -79,7 +79,7 @@ theorem glAut_eq_map (σ : K ≃+* K) (g : GL (Fin 3) K) :
     glAut σ g = GeneralLinearGroup.map (σ : K →+* K) g :=
   Units.ext rfl
 
-theorem exists_rational_rep_psu [Finite K] (hq : 2 < p ^ f) {σ : K ≃+* K}
+theorem exists_rational_rep_psu [Finite K] (_hq : 2 < p ^ f) {σ : K ≃+* K}
     (hσ : orderOf σ = 3) {k : Subfield K} (hk : ∀ x, x ∈ k ↔ σ x = x) {M : unitaryIsom3 h}
     (hcomm : psuConj h M * psuField h σ = psuField h σ * psuConj h M) :
     ∃ (u : Kˣ) (g' : GL (Fin 3) K),

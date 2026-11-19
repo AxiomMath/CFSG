@@ -13,6 +13,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G] {T M L Mm I H K : Subgroup G} {m k n j : ℕ}
 
+omit [Finite G] in
 theorem uZero_comm (D : StdData G T L I K m k n j) {x y : G} (hx : x ∈ uZero I K)
     (hy : y ∈ uZero I K) : x * y = y * x :=
   coG_injOn D (mul_mem hx hy) (mul_mem hy hx)
@@ -45,6 +46,7 @@ theorem exists_rho (hIH : I ≤ H) (hHK : H ≤ Subgroup.normalizer (K : Set G))
   choose ρ hρ using h
   exact ⟨ρ, fun r hr z hz => hρ r hr z hz⟩
 
+omit [Finite G] in
 theorem matrix_eq_of_actM_coG (hj : 0 < j) (D : StdData G T L I K m k n j)
     {B B' : Matrix (Fin n) (Fin n) (ZMod 2)}
     (h : ∀ z ∈ uZero I K, actM B (coG D z) = actM B' (coG D z)) : B = B' := by
@@ -66,6 +68,7 @@ section Rho
 
 variable {D : StdData G T L I K m k n j} {ρ : G → Matrix (Fin n) (Fin n) (ZMod 2)}
 
+omit [Finite G] in
 theorem rho_mul_nsbfr (hj : 0 < j) (hρ : IsRho D ρ) {r₁ r₂ : G} (h₁ : r₁ ∈ pCoreOf 2 I)
     (h₂ : r₂ ∈ pCoreOf 2 I) : ρ (r₁ * r₂) = ρ r₁ * ρ r₂ := by
   apply matrix_eq_of_actM_coG hj D
@@ -78,6 +81,7 @@ theorem rho_mul_nsbfr (hj : 0 < j) (hρ : IsRho D ρ) {r₁ r₂ : G} (h₁ : r�
   rw [actM_mul]
   exact hc₁₂.symm
 
+omit [Finite G] in
 theorem rho_eq_one_iff_nsbfr (hj : 0 < j) (hρ : IsRho D ρ) {r : G} (hr : r ∈ pCoreOf 2 I) :
     ρ r = 1 ↔ ∀ z ∈ uZero I K, r * z * r⁻¹ = z := by
   constructor
@@ -93,6 +97,7 @@ theorem rho_eq_one_iff_nsbfr (hj : 0 < j) (hρ : IsRho D ρ) {r : G} (hr : r ∈
     rw [hfix z hz] at hc
     exact hc.symm
 
+omit [Finite G] in
 theorem coG_comm_left (hρ : IsRho D ρ) {u r : G} (hu : u ∈ uZero I K) (hr : r ∈ pCoreOf 2 I) :
     u * r * u⁻¹ * r⁻¹ ∈ uZero I K ∧
       coG D (u * r * u⁻¹ * r⁻¹) = actM (ρ r + 1) (coG D u) := by
@@ -103,6 +108,7 @@ theorem coG_comm_left (hρ : IsRho D ρ) {u r : G} (hu : u ∈ uZero I K) (hr : 
   refine ⟨Subgroup.mul_mem _ hu hz, ?_⟩
   rw [coG_mul D hu hz, hc, coG_inv D hu, actM_add_left, actM_one, add_comm]
 
+omit [Finite G] in
 theorem coG_comm_right (hρ : IsRho D ρ) {v r : G} (hv : v ∈ uZero I K) (hr : r ∈ pCoreOf 2 I) :
     r * v * r⁻¹ * v⁻¹ ∈ uZero I K ∧
       coG D (r * v * r⁻¹ * v⁻¹) = actM (ρ r + 1) (coG D v) := by
@@ -116,18 +122,22 @@ end Rho
 noncomputable def zEn (D : StdData G T L I K m k n j) (Y : Fin j → Fin n → ZMod 2) : G :=
   Classical.choose (exists_coG_eq D Y)
 
+omit [Finite G] in
 theorem zEn_mem (D : StdData G T L I K m k n j) (Y : Fin j → Fin n → ZMod 2) :
     zEn D Y ∈ uZero I K :=
   (Classical.choose_spec (exists_coG_eq D Y)).1
 
+omit [Finite G] in
 theorem coG_zEn (D : StdData G T L I K m k n j) (Y : Fin j → Fin n → ZMod 2) :
     coG D (zEn D Y) = Y :=
   (Classical.choose_spec (exists_coG_eq D Y)).2
 
+omit [Finite G] in
 theorem zEn_coG (D : StdData G T L I K m k n j) {z : G} (hz : z ∈ uZero I K) :
     zEn D (coG D z) = z :=
   coG_injOn D (zEn_mem D _) hz (coG_zEn D _)
 
+omit [Finite G] in
 theorem zEn_add (D : StdData G T L I K m k n j) (Y Y' : Fin j → Fin n → ZMod 2) :
     zEn D (Y + Y') = zEn D Y * zEn D Y' := by
   apply coG_injOn D (zEn_mem D _) (Subgroup.mul_mem _ (zEn_mem D Y) (zEn_mem D Y'))

@@ -30,7 +30,7 @@ theorem eq_or_compl_of_zBar_eq {α γ : Finset (Fin 8)} {hα : α.card = 4} {hγ
     rw [Finset.mem_compl]
     by_cases h4 : x ∈ γ <;> by_cases h5 : x ∈ α <;>
       simp only [e1.mpr, e2.mpr, h4, h5, ite_true, ite_false, e1, e2] at h3 ⊢ <;> first
-        | exact absurd h3 (by decide) | simp [h4, h5]
+        | exact absurd h3 (by decide) | simp
 
 theorem eq_compl_of_disjoint {α β : Finset (Fin 8)} (hα : α.card = 4) (hβ : β.card = 4)
     (hd : Disjoint β α) : β = αᶜ := by
@@ -91,13 +91,13 @@ theorem map_cycFin8_ne {α : Finset (Fin 8)} {d b c a : Fin 8} (hdα : d ∈ α)
     rw [h] at h1
     exact (Finset.mem_compl.mp h1) haα
 
-theorem exists_cyc {α : Finset (Fin 8)} (hα : α.card = 4) {a c : Fin 8} (ha : a ∈ α)
-    (hc : c ∈ α) :
+theorem exists_cyc {α : Finset (Fin 8)} (hα : α.card = 4) {a c : Fin 8} (_ha : a ∈ α)
+    (_hc : c ∈ α) :
     ∃ d b₁ c₁ : Fin 8, d ∈ α ∧ d ≠ a ∧ d ≠ c ∧ b₁ ∉ α ∧ c₁ ∉ α ∧ b₁ ≠ c₁ := by
   classical
   obtain ⟨d, hdα, hda, hdc⟩ : ∃ d ∈ α, d ≠ a ∧ d ≠ c := by
     by_contra hne
-    push_neg at hne
+    push Not at hne
     have hsub : α ⊆ {a, c} := fun d hd => by
       by_cases hda : d = a
       · simp [hda]

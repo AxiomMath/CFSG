@@ -14,6 +14,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem le_glaPPrimeCoreOf_of_normal_sub {p : ℕ} {A N : Subgroup G} (hNA : N ≤ A)
     (hn : ∀ a ∈ A, ∀ n ∈ N, a * n * a⁻¹ ∈ N) (hc : Nat.Coprime p (Nat.card N)) :
     N ≤ GLAPPrimeCoreOf p A := by
@@ -27,6 +28,7 @@ theorem le_glaPPrimeCoreOf_of_normal_sub {p : ℕ} {A N : Subgroup G} (hNA : N �
   have h2 := Subgroup.map_mono (f := A.subtype) h1
   rwa [Subgroup.map_subgroupOf_eq_of_le hNA] at h2
 
+omit [Finite G] in
 theorem barX_eq_bot_of_le_glaPPrimeCoreOf {p : ℕ} {X S : Subgroup G} (h : S ≤ GLAPPrimeCoreOf p X) :
     barX p X S = ⊥ := by
   refine (Subgroup.eq_bot_iff_forall _).2 ?_
@@ -37,6 +39,7 @@ theorem barX_eq_bot_of_le_glaPPrimeCoreOf {p : ℕ} {X S : Subgroup G} (h : S �
   subst this
   exact (QuotientGroup.eq_one_iff _).2 hk''
 
+omit [Finite G] in
 theorem le_glaPPrimeCoreOf_of_barX_eq_bot {p : ℕ} {X S : Subgroup G} (hSX : S ≤ X)
     (h : barX p X S = ⊥) : S ≤ GLAPPrimeCoreOf p X := by
   intro s hs
@@ -45,6 +48,7 @@ theorem le_glaPPrimeCoreOf_of_barX_eq_bot {p : ℕ} {X S : Subgroup G} (hSX : S 
   rw [h, Subgroup.mem_bot, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff] at hmem
   exact ⟨⟨s, hSX hs⟩, hmem, rfl⟩
 
+omit [Finite G] in
 theorem barX_mono {p : ℕ} {X A B : Subgroup G} (h : A ≤ B) : barX p X A ≤ barX p X B := by
   rintro z ⟨x, hx, rfl⟩
   exact ⟨x, Subgroup.mem_subgroupOf.2 (h (Subgroup.mem_subgroupOf.1 hx)), rfl⟩
@@ -52,7 +56,7 @@ theorem barX_mono {p : ℕ} {X A B : Subgroup G} (h : A ≤ B) : barX p X A ≤ 
 theorem nontrivial_of_open_isQuasisimple {Q : Type*} [Group Q] (h : CFSG.Open.IsQuasisimple Q) :
     Nontrivial Q := by
   obtain ⟨-, hs⟩ := h
-  haveI := hs.toNontrivial
+  have := hs.toNontrivial
   by_contra hQ
   rw [not_nontrivial_iff_subsingleton] at hQ
   obtain ⟨x, y, hxy⟩ := exists_pair_ne (Q ⧸ Subgroup.center Q)
@@ -60,7 +64,7 @@ theorem nontrivial_of_open_isQuasisimple {Q : Type*} [Group Q] (h : CFSG.Open.Is
   obtain ⟨b, rfl⟩ := QuotientGroup.mk_surjective y
   exact hxy (by rw [Subsingleton.elim a b])
 
-theorem normalizer_of_normalizes_component {p : ℕ} (hp : p.Prime) {X K Y L : Subgroup G} {g : G}
+theorem normalizer_of_normalizes_component {p : ℕ} (_hp : p.Prime) {X K Y L : Subgroup G} {g : G}
     (hK : GLAPComponent p X K) (hgX : g ∈ X) (hYX : Y ≤ X) (hYK : Y ≤ K)
     (hLY : GLAPComponent p Y L) (hgL : g ∈ Subgroup.normalizer (L : Set G)) :
     g ∈ Subgroup.normalizer (K : Set G) := by

@@ -12,7 +12,7 @@ namespace CFSG.LocalAnalysis.UniquenessCase.PartTwo
 
 theorem isCyclic_sylow_of_card {A : Type*} [Group A] [Finite A] {q : ℕ} (hq : q.Prime)
     (h1 : q ∣ Nat.card A) (h2 : ¬ q ^ 2 ∣ Nat.card A) (P : Sylow q A) : IsCyclic ↥P := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   exact isCyclic_of_prime_card (P.card_eq_of_dvd_of_not_sq_dvd h1 h2)
 
 theorem not_dvd_card_ker_of_layer_prod {Y H : Type} [Group Y] [Finite Y] [Group H]
@@ -25,9 +25,9 @@ theorem not_dvd_card_ker_of_layer_prod {Y H : Type} [Group Y] [Finite Y] [Group 
     (h₁' : ¬ q ^ 2 ∣ Nat.card ↥T₁) :
     ¬ q ∣ Nat.card ↥f.ker := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Group.IsPerfect Y := hperf
-  haveI : Group.IsSolvable ↥f.ker := hsolv
+  have : Fact q.Prime := ⟨hq⟩
+  have : Group.IsPerfect Y := hperf
+  have : Group.IsSolvable ↥f.ker := hsolv
   let R : Subgroup Y := CFSG.pCore 2 Y
   let π : Y →* Y ⧸ R := QuotientGroup.mk' R
   have hπ : Function.Surjective π := QuotientGroup.mk'_surjective R
@@ -62,7 +62,7 @@ theorem not_dvd_card_ker_of_layer_prod {Y H : Type} [Group Y] [Finite Y] [Group 
     exact Group.isSolvable_of_surjective (f := π.subgroupMap f.ker)
       (MonoidHom.subgroupMap_surjective π f.ker)
   have hfhat_ker_center : fhat.ker ≤ Subgroup.center (Y ⧸ R) := by
-    haveI : fhat.ker.Normal := MonoidHom.normal_ker fhat
+    have : fhat.ker.Normal := MonoidHom.normal_ker fhat
     exact close16_le_center_of_isSolvable hlayer hfhat_ker_solv
   have hcomm' : ∀ a : ↥T₀, ∀ b : ↥T₁, Commute (T₀.subtype a) (T₁.subtype b) :=
     fun a b => hcomm a a.2 b b.2
@@ -107,13 +107,13 @@ theorem not_dvd_card_ker_of_layer_prod {Y H : Type} [Group Y] [Finite Y] [Group 
   have hφ_ker_center : φ.ker ≤ Subgroup.center (Y ⧸ R) := by
     rw [hφ_ker]
     exact hfhat_ker_center
-  haveI : Finite ↥f.range :=
+  have : Finite ↥f.range :=
     Finite.of_equiv (Y ⧸ f.ker) (QuotientGroup.quotientKerEquivRange f).toEquiv
   have hT₀_le : T₀ ≤ f.range := by rw [hrange]; exact le_sup_left
   have hT₁_le : T₁ ≤ f.range := by rw [hrange]; exact le_sup_right
-  haveI : Finite ↥T₀ := Finite.of_injective (Subgroup.inclusion hT₀_le)
+  have : Finite ↥T₀ := Finite.of_injective (Subgroup.inclusion hT₀_le)
     (Subgroup.inclusion_injective hT₀_le)
-  haveI : Finite ↥T₁ := Finite.of_injective (Subgroup.inclusion hT₁_le)
+  have : Finite ↥T₁ := Finite.of_injective (Subgroup.inclusion hT₁_le)
     (Subgroup.inclusion_injective hT₁_le)
   have hA : ∀ P : Sylow q ↥T₀, IsCyclic P := fun P => isCyclic_sylow_of_card hq h₀ h₀' P
   have hB : ∀ P : Sylow q ↥T₁, IsCyclic P := fun P => isCyclic_sylow_of_card hq h₁ h₁' P

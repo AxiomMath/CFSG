@@ -145,7 +145,7 @@ private theorem card_eq_twenty_seven {n : ℕ} (hn : 2 ≤ n) {K : Type} [Field 
   classical
   obtain ⟨-, -, ⟨Θ, -, -, hΘker, -⟩, hcyc, -, -, -, -⟩ :=
     even_triality_exact_automorphism_normal_form (f := n) (by omega) K hK σ hσ
-  haveI : IsCyclic (K ≃+* K) := hcyc
+  have : IsCyclic (K ≃+* K) := hcyc
   have hcount := card_le_three_mul_card_inf_conj Θ hΘker (B := A) (fun b hb => hA.2 b hb)
   have hle9 := card_inf_conj_range_le_nine hn hK σ hσ hA
   have h27 : 27 ≤ Nat.card A := by simpa using hA27
@@ -196,10 +196,10 @@ private theorem layer_fixed_shape (hP : PGLThreeInvGood)
   rcases hshape with ⟨k, hkF, hkFin, hkcard, ⟨e⟩⟩
     | ⟨hneven, F, hFF, hFFin, hFcard, ⟨e⟩⟩
     | ⟨hnodd, F, hFF, hFFin, hFcard, ⟨e⟩⟩
-  · letI := hkF
-    letI := hkFin
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : CharP k 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hkcard
+  · let := hkF
+    let := hkFin
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : CharP k 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hkcard
     have hkchar : ringChar k = 2 := ringChar.eq k 2
     have hk3 : ringChar k ≠ 3 := by rw [hkchar]; norm_num
     have hk4 : 4 ≤ Nat.card k := by
@@ -214,8 +214,8 @@ private theorem layer_fixed_shape (hP : PGLThreeInvGood)
     have h1 : GLAPLayer 3 (Subgroup.centralizer ({x'} : Set ↥H)) ≠ ⊥ :=
       (glaPLayer_centralizer_ne_bot_iff_of_mulEquiv (p := 3) Nat.prime_three e x').mp hm
     exact (glaPLayer_centralizer_subtype_ne_bot_iff (p := 3) Nat.prime_three x').mp h1
-  · letI := hFF
-    letI := hFFin
+  · let := hFF
+    let := hFFin
     have hx'e3 : (e x') ^ 3 = 1 := by rw [← map_pow, hx'3, map_one]
     have hx'e1 : e x' ≠ 1 := fun h => hx'1 (e.injective (by rw [h, map_one]))
     have ht'e2 : orderOf (e t') = 2 := by
@@ -226,8 +226,8 @@ private theorem layer_fixed_shape (hP : PGLThreeInvGood)
       (glaPLayer_centralizer_ne_bot_iff_of_mulEquiv (p := 3) Nat.prime_three e x').mp
         (hP.1 n hn hneven F hFcard (e x') (e t') hx'e3 hx'e1 ht'e2 hcomm')
     exact (glaPLayer_centralizer_subtype_ne_bot_iff (p := 3) Nat.prime_three x').mp h1
-  · letI := hFF
-    letI := hFFin
+  · let := hFF
+    let := hFFin
     have hx'e3 : (e x') ^ 3 = 1 := by rw [← map_pow, hx'3, map_one]
     have hx'e1 : e x' ≠ 1 := fun h => hx'1 (e.injective (by rw [h, map_one]))
     have ht'e2 : orderOf (e t') = 2 := by
@@ -251,7 +251,7 @@ private theorem isGood_of_outer (hP : PGLThreeInvGood)
   obtain ⟨σ', hσ'B, hσ'out⟩ := hBout
   obtain ⟨-, -, ⟨Θ, -, -, hΘker, -⟩, hcyc, -, -, hcenter, -⟩ :=
     even_triality_exact_automorphism_normal_form (f := n) (by omega) K hK σ hσ
-  haveI : IsCyclic (K ≃+* K) := hcyc
+  have : IsCyclic (K ≃+* K) := hcyc
   have hconj : Function.Injective (MulAut.conj : TriD4C K σ →* MulAut (TriD4C K σ)) :=
     CFSG.mulAutConj_injective_of_center_eq_bot hcenter
   have hBinn3 : 3 ≤ Nat.card ↥(B ⊓ (MulAut.conj : TriD4C K σ →*

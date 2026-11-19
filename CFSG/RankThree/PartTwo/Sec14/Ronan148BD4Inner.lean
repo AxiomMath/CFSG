@@ -68,7 +68,7 @@ theorem exists_innerOn_of_trialityD4 {Γ : Type} [Group Γ] [Finite Γ] {S : Sub
   obtain ⟨-, -, ⟨Θ, -, -, hker, -⟩, hcyc, -⟩ :=
     even_triality_exact_automorphism_normal_form hf K hK σ hσ
   have : Finite (K ≃+* K) := inferInstance
-  haveI : IsCyclic (K ≃+* K) := hcyc
+  have : IsCyclic (K ≃+* K) := hcyc
   set N := Subgroup.normalizer (S : Set Γ) with hNdef
   set ψ : ↥N →* (K ≃+* K) :=
     Θ.comp ((MulAut.congr φ).toMonoidHom.comp S.normalizerMonoidHom) with hψ

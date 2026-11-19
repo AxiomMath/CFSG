@@ -390,7 +390,6 @@ theorem phiR_mem_isometryCore (R : Planes F ≃ₗ[F] (Fin 4 ⊕ Fin 4 → F)) (
     (hR : ∀ u, StatedQuadPlus 4 F (R u) = Q'' u) {g : Planes F ≃ₗ[F] Planes F}
     (hg : ∀ u, Q'' (g u) = Q'' u) : phiR R g ∈ isometryCore (StatedQuadPlus 4 F) := by
   refine Subgroup.subset_closure fun v => ?_
-  change StatedQuadPlus 4 F ((phiR R g : Matrix _ _ F) *ᵥ v) = _
   rw [phiR_mulVec, hR, hg, ← hR, LinearEquiv.apply_symm_apply]
 
 theorem phiR_not_scalar (R : Planes F ≃ₗ[F] (Fin 4 ⊕ Fin 4 → F)) {z : Planes F ≃ₗ[F] Planes F}
@@ -402,7 +401,7 @@ theorem phiR_not_scalar (R : Planes F ≃ₗ[F] (Fin 4 ⊕ Fin 4 → F)) {z : Pl
   have h1 := phiR_mulVec R z (R u)
   rw [← hc] at h1
   simp only [LinearEquiv.symm_apply_apply, Matrix.GeneralLinearGroup.coe_scalar,
-    Matrix.scalar_apply, Matrix.mulVec_diagonal] at h1
+    Matrix.scalar_apply] at h1
   have h2 : R (z u) = (c : F) • R u := by
     rw [← h1]; funext w; simp
   rw [← LinearEquiv.symm_apply_apply R (z u), h2, map_smul, LinearEquiv.symm_apply_apply]
@@ -482,11 +481,11 @@ theorem trFun_trFun {i j : Fin 4} (hij : i ≠ j) (t s : F) (u : Planes F) :
   funext k
   by_cases hki : k = i
   · subst hki
-    simp [trFun, hij, hij.symm]
+    simp [trFun, hij.symm]
     ring
   · by_cases hkj : k = j
     · subst hkj
-      simp [trFun, hij, hij.symm]
+      simp [trFun, hij.symm]
       ring
     · simp [trFun, hki, hkj]
 
@@ -590,22 +589,22 @@ theorem leviZ_pow_three (h3 : (3 : F) = 0) : leviZ (F := F) ^ 3 = 1 := by
 theorem leviZ_commute_leviX : Commute (leviZ (F := F)) leviX := by
   show leviZ * leviX = leviX * leviZ
   refine LinearEquiv.ext fun u => funext fun k => ?_
-  fin_cases k <;> simp [leviX_apply, leviZ_apply, trFun, Prod.ext_iff] <;> ring
+  fin_cases k <;> simp [leviX_apply, leviZ_apply, trFun, Prod.ext_iff]; ring
 
 theorem leviZ_commute_leviY : Commute (leviZ (F := F)) leviY := by
   show leviZ * leviY = leviY * leviZ
   refine LinearEquiv.ext fun u => funext fun k => ?_
-  fin_cases k <;> simp [leviY_apply, leviZ_apply, trFun, Prod.ext_iff] <;> ring
+  fin_cases k <;> simp [leviY_apply, leviZ_apply, trFun, Prod.ext_iff]; ring
 
 theorem negEquiv_one_inv_leviX : negEquiv 1 * leviX (F := F) * (negEquiv 1)⁻¹ = leviX⁻¹ := by
   refine LinearEquiv.ext fun u => funext fun k => ?_
   fin_cases k <;> simp [leviX_apply, leviX_symm_apply, negEquiv_apply, negEquiv_symm_apply,
-    trFun, Prod.ext_iff] <;> ring
+    trFun, Prod.ext_iff]; ring
 
 theorem negEquiv_one_inv_leviY : negEquiv 1 * leviY (F := F) * (negEquiv 1)⁻¹ = leviY⁻¹ := by
   refine LinearEquiv.ext fun u => funext fun k => ?_
   fin_cases k <;> simp [leviY_apply, leviY_symm_apply, negEquiv_apply, negEquiv_symm_apply,
-    trFun, Prod.ext_iff] <;> ring
+    trFun, Prod.ext_iff]; ring
 
 theorem leviZ_not_scalar : ¬ ∃ c : F, ∀ u, leviZ (F := F) u = c • u := by
   rintro ⟨c, hc⟩
@@ -638,7 +637,7 @@ variable {F : Type} [Field F]
 @[expose] def omegaE : Plane F ≃ₗ[F] Plane F where
   toFun p := (-p.2, p.1 - p.2)
   map_add' p q := by ext <;> simp <;> ring
-  map_smul' c p := by ext <;> simp <;> ring
+  map_smul' c p := by ext <;> simp; ring
   invFun p := (p.2 - p.1, -p.1)
   left_inv p := by ext <;> simp
   right_inv p := by ext <;> simp
@@ -654,14 +653,14 @@ theorem Nf_omegaE_symm (p : Plane F) : Nf (omegaE.symm p) = Nf p := by
   simp [Nf, omegaE_symm_apply]; ring
 
 theorem omegaE_pow_three (p : Plane F) : omegaE (omegaE (omegaE p)) = p := by
-  ext <;> simp [omegaE_apply] <;> ring
+  ext <;> simp [omegaE_apply]; ring
 
 theorem omegaE_symm_pow_three (p : Plane F) :
     omegaE.symm (omegaE.symm (omegaE.symm p)) = p := by
-  ext <;> simp [omegaE_symm_apply] <;> ring
+  ext <;> simp [omegaE_symm_apply]; ring
 
 theorem omegaE_sq (p : Plane F) : omegaE (omegaE p) = omegaE.symm p := by
-  ext <;> simp [omegaE_apply, omegaE_symm_apply] <;> ring
+  ext <;> simp [omegaE_apply, omegaE_symm_apply]; ring
 
 @[expose] def blk (A : Fin 4 → (Plane F ≃ₗ[F] Plane F)) : Planes F ≃ₗ[F] Planes F :=
   LinearEquiv.piCongrRight A
@@ -706,7 +705,7 @@ theorem cycY_pow_three : cycY (F := F) ^ 3 = 1 := by
 theorem omegaZ_pow_three : omegaZ (F := F) ^ 3 = 1 := by
   refine LinearEquiv.ext fun u => funext fun k => ?_
   rw [pow_three']
-  fin_cases k <;> simp [omegaZ, blk_apply, omegaE_pow_three, omegaE_symm_pow_three]
+  fin_cases k <;> simp [omegaZ, blk_apply, omegaE_symm_pow_three]
 
 theorem comm_omegaX_cycY : ⁅omegaX (F := F), cycY (F := F)⁆ = omegaZ (F := F) := by
   refine LinearEquiv.ext fun u => funext fun k => ?_
@@ -757,7 +756,7 @@ theorem normQ_add_single (u : Planes F) (i : Fin 4) (p : Plane F) :
     intro k
     by_cases hk : k = i
     · subst hk; simp [Nf]; ring
-    · simp [hk, Pi.single_eq_of_ne hk]
+    · simp [hk]
   rw [Finset.sum_congr rfl fun k _ => h k, Finset.sum_add_distrib]
   simp
 
@@ -830,7 +829,7 @@ theorem finrank_planes : Module.finrank F (Planes F) = Module.finrank F (Fin 4 �
 open Polynomial in
 theorem exists_norm_eq_neg_one [Finite F] (h3 : (3 : F) ≠ 0) :
     ∃ s t : F, s ^ 2 - s * t + t ^ 2 = -1 := by
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   by_cases h2 : (2 : F) = 0
   · exact ⟨1, 0, by linear_combination h2⟩
   · have hodd : Fintype.card F % 2 = 1 := by
@@ -873,7 +872,7 @@ end N1D4Aux
 
 theorem n1D4_holds : N1D4 := by
   intro K _ _ ℓ f hK S hS hSi
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨-, F, instF, instFin, -, ⟨e⟩⟩ := hK
   obtain ⟨H₀, hH₀, a, ha, b, hb, hab⟩ := N1D4Aux.exists_noncomm_threeSubgroup F
   refine not_isMulCommutative_of_noncomm_pSubgroup (H := H₀.comap e.toMonoidHom)

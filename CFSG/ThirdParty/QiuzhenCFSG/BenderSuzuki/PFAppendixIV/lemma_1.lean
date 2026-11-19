@@ -54,7 +54,7 @@ public theorem lemma_1_a
         ∑ chi : S₀, (degree (chi : ClassFunction H)).re ^ 2) :
     IsCoherentTriple puncturedSet (S₀.cons psi hpsi_not_mem) tau := by
   classical
-  letI : Fintype H := Fintype.ofFinite H
+  let : Fintype H := Fintype.ofFinite H
   have hcons : S₀.cons psi hpsi_not_mem = insert psi S₀ :=
     Finset.cons_eq_insert psi S₀ hpsi_not_mem
   rw [hcons] at hisometry htarget ⊢

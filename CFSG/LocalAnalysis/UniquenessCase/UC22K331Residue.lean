@@ -28,7 +28,7 @@ theorem k331_of_residue
       card_J1 := CFSG.GH74.card_of_isSporadic_J1 ⟨MulEquiv.refl _⟩
       witness := CFSG.SectionRank.sporadicThreeRankWitnesses
       monster := fun hN => by
-        haveI : Nontrivial CFSG.Blueprint.NativeSporadic.M := hN
+        have : Nontrivial CFSG.Blueprint.NativeSporadic.M := hN
         exact CFSG.SectionRank.M_nontrivial_elementary_three_rank_four
       chevalley := CFSG.TauCetiBridge.Even.chevalleyBridgesAll
       adjoint := fun τ hτ K _ _ S _ _ ⟨e⟩ => by

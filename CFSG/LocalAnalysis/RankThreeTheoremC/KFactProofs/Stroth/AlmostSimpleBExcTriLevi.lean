@@ -89,14 +89,14 @@ theorem levi_threeGroup_comm (hσ : σ ^ 3 = 1) (a : Fin TwistTag.D4.foldedTag.r
     rw [← hpow]
     exact pow_mem hmM _
   set S'' := S'.comap R with hS''
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (orbitField TwistTag.D4 K σ.toRingHom a) := Subtype.finite
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (orbitField TwistTag.D4 K σ.toRingHom a) := Subtype.finite
   have hS''p : IsPGroup 3 S'' := fun A => by
     obtain ⟨k, hk⟩ := hS'3 (R A) A.2
     refine ⟨k, Subtype.ext (hinj ?_)⟩
     rw [Subgroup.coe_pow, map_pow, hk, Subgroup.coe_one, map_one]
   have hcyc := CFSG.LinearAlgebra.even_SL2_odd_prime_subgroups_cyclic (by norm_num) S'' hS''p
-  letI : CommGroup S'' := IsCyclic.commGroup
+  let : CommGroup S'' := IsCyclic.commGroup
   have hmS' : ∀ e ∈ S, ∀ z ∈ Z, ∀ m ∈ M, e = z * m → m ∈ S' := by
     intro e he z hz m hm hem
     have e1 : m = z⁻¹ * e := by rw [hem]; group

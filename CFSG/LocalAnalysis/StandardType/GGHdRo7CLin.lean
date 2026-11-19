@@ -60,8 +60,8 @@ private theorem hdRo7CLinAux_iota_b0 {G : Type} [Group G] (p : ℕ) (Bs : Subgro
   rw [Pi.basisFun_apply]
   by_cases hi : i = 0
   · subst hi
-    simp [hdRo7CLinAux_single, Pi.mulSingle_apply, Pi.single_eq_same]
-  · simp [hdRo7CLinAux_single, Pi.mulSingle_apply, Pi.single_eq_of_ne, hi]
+    simp [hdRo7CLinAux_single, Pi.single_eq_same]
+  · simp [hdRo7CLinAux_single, Pi.single_eq_of_ne, hi]
 
 private theorem hdRo7CLinAux_coord_apply {p : ℕ} [Fact p.Prime] {n : ℕ}
     (a : (Fin (n + 1) → ZMod p) ≃ₗ[ZMod p] (Fin (n + 1) → ZMod p))
@@ -108,8 +108,8 @@ private theorem hdRo7CLinAux_model {G : Type} [Group G] (p : ℕ) [Fact p.Prime]
       rw [Pi.basisFun_apply]
       by_cases hj : j = i
       · subst hj
-        simp [hdRo7CLinAux_single, Pi.mulSingle_apply, Pi.single_eq_same]
-      · simp [hdRo7CLinAux_single, Pi.mulSingle_apply, Pi.single_eq_of_ne, hj]
+        simp [hdRo7CLinAux_single, Pi.single_eq_same]
+      · simp [hdRo7CLinAux_single, Pi.single_eq_of_ne, hj]
     rw [hbi, ggLin_apply_ofMul]
     funext k
     rw [hdRo7CLinAux_iota_apply]
@@ -172,16 +172,13 @@ theorem c2_linearModel_of_coord {G : Type} [Group G] (p : ℕ) [Fact p.Prime]
     hdRo7CLinAux_iota_b0 p Bs n τ z hz hτ, hdRo7CLinAux_model p Bs X n τ hcoord⟩
 
 theorem c2_lmodel_of_coord : C2LCoordLeaf → GGLabelRigidInput → C2LModelLeaf := by
-  intro hleaf hRig
-  intro G _ _ p B Bs x L D J y K hhyp hpFact hrow
+  intro hleaf hRig G _ _ p B Bs x L D J y K hhyp hpFact hrow
   obtain ⟨n, hx, τ, hp3, hn5, hτx, hcoord⟩ := hleaf hRig G p B Bs x L D J y K hhyp hrow
   obtain ⟨V, hV, hVp, ι, b, hxb, hAL⟩ := c2_linearModel_of_coord p Bs L n x hx τ hτx hcoord
   exact ⟨n, V, hV, hVp, ι, b, hx, hp3, hn5, hxb, hAL⟩
 
 theorem c2_kmodel_of_coord : C2KCoordLeaf → C2KModelLeaf := by
-  intro hleaf
-  intro hRig hBal
-  intro G _ _ p B Bs x L D J y K hhyp hpFact hrow
+  intro hleaf hRig hBal G _ _ p B Bs x L D J y K hhyp hpFact hrow
   obtain ⟨n, hy, hx, τ, hp3, hn5, hτy, hcoord, c, hc⟩ :=
     hleaf hRig hBal G p B Bs x L D J y K hhyp hrow
   refine ⟨n, Fin (n + 1) → ZMod p, inferInstance, inferInstance,

@@ -15,7 +15,7 @@ variable {K : Type*} [Field K]
 theorem coe_zA : ((zA : SL2 K) : Matrix (Fin 2) (Fin 2) K) = !![-2, 1; -3, 1] := by
   rw [zA, Matrix.SpecialLinearGroup.coe_mul]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [uSL, vSL, Matrix.mul_apply, Fin.sum_univ_two] <;> ring
+  fin_cases i <;> fin_cases j <;> simp [uSL, vSL, Matrix.mul_apply, Fin.sum_univ_two]; ring
 
 theorem exists_conj_zA_eq_HSL (ω : Kˣ) (hω : (ω : K) ^ 2 + ω + 1 = 0) (hω1 : (ω : K) ≠ 1) :
     ∃ M : SL2 K, M⁻¹ * zA * M = HSL ω := by
@@ -50,9 +50,6 @@ theorem exists_conj_zA_eq_HSL (ω : Kˣ) (hω : (ω : K) ^ 2 + ω + 1 = 0) (hω1
         | linear_combination (-1 : K) * hω
         | linear_combination (1 : K) * hω
         | linear_combination (-((ω : K) ^ 2 - ω + 1)) * hω
-        | linear_combination ((ω : K) ^ 2 - ω + 1) * hω
-        | linear_combination ((ω : K) - 1) * hω
-        | linear_combination (1 - (ω : K)) * hω
   refine ⟨M, ?_⟩
   calc M⁻¹ * zA * M = M⁻¹ * (zA * M) := mul_assoc _ _ _
     _ = M⁻¹ * (M * HSL ω) := by rw [hcomm]

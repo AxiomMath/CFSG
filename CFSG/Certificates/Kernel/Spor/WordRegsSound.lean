@@ -31,17 +31,17 @@ theorem wordEl_single (c : ℕ) : wordEl ρ [c] = codeEl ρ c := by simp [wordEl
 
 theorem codeEl_odd (g : ℕ) : codeEl ρ (2 * g + 1) = ρ g := by
   unfold codeEl
-  rw [if_pos (by omega)]
+  rw [ite_eq_left (by omega)]
   congr 1
   omega
 
 theorem codeEl_flipC (c : ℕ) : codeEl ρ (flipC c) = (codeEl ρ c)⁻¹ := by
   unfold codeEl flipC
   by_cases h : c % 2 = 1
-  · rw [if_pos h, if_neg (by omega), if_pos h]
+  · rw [ite_eq_left h, ite_eq_right (by omega), ite_eq_left h]
     congr 2
     omega
-  · rw [if_neg h, if_pos (by omega), if_neg h, inv_inv]
+  · rw [ite_eq_right h, ite_eq_left (by omega), ite_eq_right h, inv_inv]
     congr 1
     omega
 
@@ -63,12 +63,12 @@ theorem tieW_sound {RW : List (List ℕ)} (hρ : RootsEq ρ RW) {w : List ℕ} {
 
 theorem sgnC_pos {K : List ℕ} {l : ℤ} (hl : 0 < l) : sgnC K l = K.getD (l.natAbs - 1) 0 := by
   unfold sgnC
-  rw [if_pos hl]
+  rw [ite_eq_left hl]
 
 theorem sgnC_neg {K : List ℕ} {l : ℤ} (hl : ¬ 0 < l) :
     sgnC K l = flipC (K.getD (l.natAbs - 1) 0) := by
   unfold sgnC
-  rw [if_neg hl]
+  rw [ite_eq_right hl]
 
 theorem wordEl_sgnC {f : ℕ → G} {K : List ℕ} (w : List ℤ)
     (hw : ∀ l ∈ w, codeEl ρ (K.getD (l.natAbs - 1) 0) = f (l.natAbs - 1)) :
@@ -82,12 +82,12 @@ theorem wordEl_sgnC {f : ℕ → G} {K : List ℕ} (w : List ℤ)
     have hl := hw l List.mem_cons_self
     congr 1
     by_cases hp : 0 < l
-    · rw [sgnC_pos hp, if_pos hp, hl]
-    · rw [sgnC_neg hp, if_neg hp, codeEl_flipC, hl]
+    · rw [sgnC_pos hp, ite_eq_left hp, hl]
+    · rw [sgnC_neg hp, ite_eq_right hp, codeEl_flipC, hl]
 
 theorem codeEl_even (g : ℕ) : codeEl ρ (2 * g) = (ρ g)⁻¹ := by
   unfold codeEl
-  rw [if_neg (by omega)]
+  rw [ite_eq_right (by omega)]
   congr 2
   omega
 

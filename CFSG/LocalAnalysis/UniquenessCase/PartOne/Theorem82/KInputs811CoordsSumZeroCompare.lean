@@ -81,6 +81,7 @@ theorem exists_conj_eq_of_conj (h₀ : IsSumZeroCoords A₀ c₀) (h : IsSumZero
   rw [hn' v]
   simp [MulAut.conj_apply, mul_assoc]
 
+omit [Finite Y] in
 theorem exists_conj_eq_point (h : IsSumZeroCoords A c) {x : Y} (hx : x ∈ A) (hx1 : x ≠ 1) :
     ∃ (g : Y) (a : Fin 4 → ZMod 3) (ε : ZMod 3), ε ≠ 0 ∧
       (a = ![1, 1, -1, -1] ∨ a = ![1, -1, 0, 0] ∨ a = ![1, 1, 1, 0]) ∧
@@ -110,6 +111,7 @@ theorem exists_conj_eq_point (h : IsSumZeroCoords A c) {x : Y} (hx : x ∈ A) (h
   · exact ⟨n⁻¹, ![1, -1, 0, 0], ε, hε, Or.inr (Or.inl rfl), key _ hs⟩
   · exact ⟨n⁻¹, ![1, 1, 1, 0], ε, hε, Or.inr (Or.inr rfl), key _ hs⟩
 
+omit [Finite Y] in
 theorem forall_centralizer_of_points (h : IsSumZeroCoords A c) {P : Subgroup Y → Prop}
     (hP : ∀ (g : Y) (H : Subgroup Y), P H → P (H.map (MulAut.conj g).toMonoidHom))
     (h₁ : P (Subgroup.centralizer ({c (Multiplicative.ofAdd ![1, 1, -1, -1])} : Set Y)))
@@ -155,7 +157,7 @@ theorem exists_conj_eq_of_model {H Y : Type} [Group H] [Finite H] [Group Y] [Fin
     ∃ (g : H ⧸ N) (ε : ZMod 3), ε ≠ 0 ∧ ∀ v, e (QuotientGroup.mk' Z (c v)) =
       g * QuotientGroup.mk' N (c₀ (Multiplicative.ofAdd fun i => ε * Multiplicative.toAdd v i)) *
         g⁻¹ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hc' := (h.map_quotient Z hZ).map_mulEquiv e
   have hc₀' := h₀.map_quotient N hN
   obtain ⟨g, hg⟩ := UniqueElemSylow.exists_conj_eq hU hc₀'.isElemAbelian

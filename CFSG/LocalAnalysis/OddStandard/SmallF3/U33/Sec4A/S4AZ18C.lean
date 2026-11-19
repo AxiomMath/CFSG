@@ -49,17 +49,17 @@ theorem z18_grow {V K D : Subgroup G} (hV : IsPGroup 2 V) (hKD : K < D) (hDV : D
     rw [hNdef]
     exact le_inf hKD.le Subgroup.le_normalizer
   have hKH : K ≤ H := hKN.trans hNH
-  haveI hK'n : (K.subgroupOf H).Normal := ⟨fun k hk g => by
+  have hK'n : (K.subgroupOf H).Normal := ⟨fun k hk g => by
     rw [Subgroup.mem_subgroupOf] at hk ⊢
     exact (Subgroup.mem_normalizer_iff.mp (hHK g.2) k).mp hk⟩
-  haveI hN'n : (N.subgroupOf H).Normal := ⟨fun n hn g => by
+  have hN'n : (N.subgroupOf H).Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     exact (Subgroup.mem_normalizer_iff.mp (hHN g.2) n).mp hn⟩
-  haveI : Fact (IsPGroup 2 (↥H ⧸ K.subgroupOf H)) :=
+  have : Fact (IsPGroup 2 (↥H ⧸ K.subgroupOf H)) :=
     ⟨(hV.to_le hHV).to_quotient (K.subgroupOf H)⟩
   set Nb : Subgroup (↥H ⧸ K.subgroupOf H) :=
     (N.subgroupOf H).map (QuotientGroup.mk' (K.subgroupOf H)) with hNb
-  haveI hNbn : Nb.Normal := by
+  have hNbn : Nb.Normal := by
     rw [hNb]
     exact Subgroup.Normal.map hN'n _ (QuotientGroup.mk'_surjective _)
   have hmk0 : (QuotientGroup.mk (⟨n₀, hNH hn₀N'⟩ : ↥H) : ↥H ⧸ K.subgroupOf H) ∈ Nb := by
@@ -69,7 +69,7 @@ theorem z18_grow {V K D : Subgroup G} (hV : IsPGroup 2 V) (hKD : K < D) (hDV : D
     intro h1
     rw [QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf] at h1
     exact hn₀K h1
-  haveI : Nontrivial Nb := ⟨⟨⟨_, hmk0⟩, 1, fun h => hmk0ne (congrArg Subtype.val h)⟩⟩
+  have : Nontrivial Nb := ⟨⟨⟨_, hmk0⟩, 1, fun h => hmk0ne (congrArg Subtype.val h)⟩⟩
   obtain ⟨x, hx1, hxc⟩ := CFSG.exists_nontrivial_center_mem_normal Nb (p := 2)
   obtain ⟨y, hyN, hyx⟩ : ∃ y : ↥H, y ∈ N.subgroupOf H ∧
       QuotientGroup.mk' (K.subgroupOf H) y = (x : ↥H ⧸ K.subgroupOf H) :=

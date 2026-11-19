@@ -22,6 +22,7 @@ variable [Module (ZMod 2) (Additive (CFSG.Quasithin.IntMod (Tim79a.xOf V H) hW))
 
 namespace RootHyp
 
+omit [Finite G] in
 private theorem isL2OrSz_of_sl2 {F : Type} [Field F] [Fintype F] [CharP F 2] {l : ℕ}
     (ψ : HBar V H ≃* SL(2, F)) (hl : Fintype.card F = 2 ^ (2 * l)) : IsL2OrSz V H := by
   have hl1 : 1 ≤ l := by
@@ -45,7 +46,7 @@ theorem inf_centralizer_inf_xOf_eq_inf_kOf
     Pc M V ⊓ Subgroup.centralizer ((Pc M V ⊓ Tim79a.xOf V H : Subgroup G) : Set G) =
       Pc M V ⊓ kOf V H := by
   classical
-  letI : Algebra (ZMod 2) F := ZMod.algebra F 2
+  let : Algebra (ZMod 2) F := ZMod.algebra F 2
   obtain ⟨hA2₀, hAcard₀, -⟩ := imgK_map_sl2 h hPH hVH hH hnM ψ
   have hA2 : ∀ a ∈ (imgK V H (Pc M V)).map ψ.toMonoidHom, a * a = 1 := hA2₀
   have hAcard : Nat.card ((imgK V H (Pc M V)).map ψ.toMonoidHom) = Fintype.card F := hAcard₀
@@ -125,7 +126,7 @@ private theorem exists_plane_data
         ∀ a ∈ (imgK V H (Pc M V)).map ψ.toMonoidHom,
           repW hW ψ a w = w ↔ a ∈ C) := by
   classical
-  letI : Algebra (ZMod 2) F := ZMod.algebra F 2
+  let : Algebra (ZMod 2) F := ZMod.algebra F 2
   obtain ⟨hA2₀, hAcard₀, -⟩ := imgK_map_sl2 h hPH hVH hH hnM ψ
   have hA2 : ∀ a ∈ (imgK V H (Pc M V)).map ψ.toMonoidHom, a * a = 1 := hA2₀
   have hAcard' : Nat.card ((imgK V H (Pc M V)).map ψ.toMonoidHom) = 2 ^ (2 * l) := by
@@ -225,6 +226,7 @@ private theorem plane_pointwise_centralizer
     calc p * x * p⁻¹ = (x * p) * p⁻¹ := by rw [hpcomm]
       _ = x := by group
 
+omit [Finite G] in
 private theorem plane_centralizer_const
     (hPH : Pc M V ≤ H) {F : Type} [Field F] (ψ : HBar V H ≃* SL(2, F))
     {L : Subgroup G} {C : Subgroup SL(2, F)} (hVLt : V < L)
@@ -271,6 +273,7 @@ private theorem plane_centralizer_const
     exact Subgroup.mem_inf.mpr ⟨hpP,
       (hxLv x hx hxV p hpP).mp ((hcen_iff p hpP).mpr hpL)⟩
 
+omit [Finite G] in
 private theorem plane_imgK_centralizer
     (hPH : Pc M V ≤ H) {F : Type} [Field F] (ψ : HBar V H ≃* SL(2, F))
     {L : Subgroup G} {C : Subgroup SL(2, F)}
@@ -346,7 +349,7 @@ private theorem plane_relIndex
   rw [inf_eq_left.mpr (inf_le_left :
       Pc M V ⊓ Subgroup.centralizer (L : Set G) ≤ Pc M V), hP0card, hPcard] at hrelmul
   have hPKpos : 0 < Nat.card ↥(Pc M V ⊓ kOf V H : Subgroup G) := by
-    haveI : Nonempty ↥(Pc M V ⊓ kOf V H : Subgroup G) :=
+    have : Nonempty ↥(Pc M V ⊓ kOf V H : Subgroup G) :=
       ⟨⟨1, (Pc M V ⊓ kOf V H).one_mem⟩⟩
     exact Nat.card_pos
   exact Nat.eq_of_mul_eq_mul_right
@@ -374,6 +377,7 @@ private theorem exists_plane_subgroup
   exact ⟨L, hL_le_W, hLleP, hVLt, hLcard,
     plane_relIndex h hPH hVH hH hnM ψ hl hL_le_W hCcard himg, hcenL⟩
 
+omit [Finite G] in
 private theorem plane_conj_props
     {P₀ L : Subgroup G} {z : G} {l : ℕ}
     (hLP : L ≤ P₀) (hVL : V < L)
@@ -654,6 +658,7 @@ private theorem Pc_le_inf_kOf_sup_planes
   rw [hp_eq, ← mul_assoc]
   exact Subgroup.mul_mem_sup (Subgroup.mul_mem_sup hk hxL') hyL''
 
+omit [Finite G] in
 private theorem relIndex_inf_inf_le_two_pow
     {l : ℕ} {Z C1 C2 : Subgroup G} (hZP : Z ≤ Pc M V)
     (h1 : C1.relIndex (Pc M V) = 2 ^ l) (h2 : C2.relIndex (Pc M V) = 2 ^ l) :

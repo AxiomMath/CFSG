@@ -25,20 +25,25 @@ open CFSG.Assembly.LowTwoRank (StatedClassicalModel)
 variable {G : Type} [Group G] [Finite G] {b : G} {L B : Subgroup G} {b₁ b₂ b₃ t₀ s₀ : G}
   {M : Subgroup G}
 
+omit [Finite G] in
 theorem A₁_le_M (h526 : FF81Conc5_2_6 b b₁ b₂ b₃ s₀) (hM7 : FF81Conc5_7 b b₁ b₂ b₃ s₀ M) :
     Subgroup.closure ({b, b₁, b₂ * b₃} : Set G) ≤ M := by
   obtain ⟨-, ⟨-, hAH, -⟩, -⟩ := h526
   exact hAH.trans hM7.2.2.2.2.2
 
+omit [Finite G] in
 theorem b_mem_A₁ : b ∈ Subgroup.closure ({b, b₁, b₂ * b₃} : Set G) :=
   Subgroup.subset_closure (by simp)
 
+omit [Finite G] in
 theorem b₁_mem_A₁ : b₁ ∈ Subgroup.closure ({b, b₁, b₂ * b₃} : Set G) :=
   Subgroup.subset_closure (by simp)
 
+omit [Finite G] in
 theorem b₂b₃_mem_A₁ : b₂ * b₃ ∈ Subgroup.closure ({b, b₁, b₂ * b₃} : Set G) :=
   Subgroup.subset_closure (by simp)
 
+omit [Finite G] in
 theorem conj_eq_of_mem_cenS {t x : G} (ht : t ∈ CenS L) (hx : x ∈ L) : t * x * t⁻¹ = x := by
   rw [← Subgroup.mem_centralizer_iff.mp ht x hx, mul_inv_cancel_right]
 
@@ -64,10 +69,12 @@ theorem t₀_mem_M (h5 : FF81Sec5 b L B b₁ b₂ b₃ t₀ s₀) (hM7 : FF81Con
     · rw [conj_eq_of_mem_cenS h5.ht₀L (L.mul_mem h5.basis.hb₂ h5.basis.hb₃)]
       exact b₂b₃_mem_A₁
 
+omit [Finite G] in
 theorem s₀_mem_cenS_M (hM7 : FF81Conc5_7 b b₁ b₂ b₃ s₀ M) : s₀ ∈ CenS M :=
   Subgroup.mem_centralizer_iff.mpr fun m hm =>
     (Subgroup.mem_centralizer_iff.mp (hM7.1 hm) s₀ (Subgroup.subset_closure (by simp))).symm
 
+omit [Finite G] in
 theorem M_le_cen_β (hM7 : FF81Conc5_7 b b₁ b₂ b₃ s₀ M) : M ≤ Cen (β' b₂ b₃) := fun m hm =>
   Subgroup.mem_centralizer_singleton_iff.mpr
     (Subgroup.mem_centralizer_iff.mp (hM7.1 hm) (β' b₂ b₃)
@@ -171,7 +178,7 @@ theorem M_mono (h526 : FF81Conc5_2_6 b b₁ b₂ b₃ s₀) (hM7 : FF81Conc5_7 b
     rw [e3]
     simp only [Set.mem_insert_iff, Set.mem_singleton_iff, e2, inv_inv] at this ⊢
     rcases this with h | h | h | h | h | h <;> rw [h] <;>
-      simp only [Set.mem_insert_iff, Set.mem_singleton_iff, inv_inv, true_or, or_true]
+      simp only [inv_inv, true_or, or_true]
 
 theorem closure_β_c_eq :
     Subgroup.closure ({β' b₂ b₃, b₂ * b₃, b * b₁, b⁻¹ * b₁} : Set G) =

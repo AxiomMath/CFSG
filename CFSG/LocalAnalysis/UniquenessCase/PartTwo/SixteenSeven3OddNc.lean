@@ -23,7 +23,7 @@ theorem s16c167_oddNcCore_of_fstarBar (D : Data G) {V₀ V : Subgroup G} (hV : I
     (h : IsElemAbelianOfRank p n ↥(fstarBar D.M V₀ V hV)) : OddNcCore D V₀ V hV := by
   have hpp : p.Prime := (D.sig_prime p hp).1
   have hp2 : p ≠ 2 := (D.sig_prime p hp).2
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   obtain ⟨e⟩ := h
   have hcard : Nat.card ↥(fstarBar D.M V₀ V hV) = p ^ n := by
     rw [Nat.card_congr e.toEquiv]
@@ -141,6 +141,7 @@ theorem s16c167_exists_pSub_lift {M V₀ V : Subgroup G} (hV : IsElemAbelian 2 V
     exact ⟨⟨s, hs⟩, rfl⟩
   exact hnc (isCyclic_of_surjective (φ.comp (S₀ : Subgroup ↥P).subtype) hρ)
 
+omit [Finite G] in
 theorem s16c167_normalizes_fixV {M V W X : Subgroup G} (hV : IsElemAbelian 2 V)
     (hMV : M ≤ normalizer (V : Set G)) (hWM : W ≤ M)
     {Xb : Subgroup (MulAut (Vtil ⊥ V hV))} (hcomm : ⁅Xb, barSub ⊥ V hV W⁆ = ⊥)
@@ -201,8 +202,8 @@ theorem s16c167_fixV_wClos_ne_bot (D : Data G) {V : Subgroup G} (h : Hyp125 D �
   have hP := h.pairFacts
   have hVT : V ≤ D.T := s15_13A_le_T h
   have hT2 : IsPGroup 2 D.T := D.sylowM.isPGroup
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsNilpotent ↥D.T := hT2.isNilpotent
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsNilpotent ↥D.T := hT2.isNilpotent
   have hTn : D.T ≤ normalizer (V : Set G) := D.sylowM.le.trans hP.le_normalizer
   have hnormal : (V.subgroupOf D.T).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hTn
   have hne : V.subgroupOf D.T ≠ ⊥ := by
@@ -227,7 +228,7 @@ theorem s16c167_insp1613U_of_oddNc (D : Data G) {V : Subgroup G} (h : Hyp125 D �
     (hcomm : ⁅oddBar D.M ⊥ V h.isElemAbelian,
       barSub ⊥ V h.isElemAbelian (E3.wClos V D.k D.T)⁆ = ⊥) : Insp1613U D V := by
   obtain ⟨p, hp, Xb, hXb, hXp, hXc⟩ := hnc
-  haveI : Fact p.Prime := ⟨(D.sig_prime p hp).1⟩
+  have : Fact p.Prime := ⟨(D.sig_prime p hp).1⟩
   have hXbM : Xb ≤ Mbar D.M ⊥ V h.isElemAbelian := hXb.trans (relPPrimeCore_le _)
   obtain ⟨X, hXpre, hXp', hXc'⟩ := s16c167_exists_pSub_lift h.isElemAbelian hXbM hXp hXc
   have hP := h.pairFacts

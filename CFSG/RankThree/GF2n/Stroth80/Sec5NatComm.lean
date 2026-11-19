@@ -18,26 +18,31 @@ variable {G : Type} [Group G] {V Z : Subgroup G} {ι : Type} [Fintype ι] [Decid
 @[expose] def secVec (ψ : ↥V ⧸ Z.subgroupOf V ≃* Multiplicative (ι → K)) (v : ↥V) : ι → K :=
   Multiplicative.toAdd (ψ (QuotientGroup.mk v))
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem secVec_mul (ψ : ↥V ⧸ Z.subgroupOf V ≃* Multiplicative (ι → K)) (v w : ↥V) :
     secVec ψ (v * w) = secVec ψ v + secVec ψ w := by
   unfold secVec
   rw [QuotientGroup.mk_mul, map_mul, toAdd_mul]
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem secVec_inv (ψ : ↥V ⧸ Z.subgroupOf V ≃* Multiplicative (ι → K)) (v : ↥V) :
     secVec ψ v⁻¹ = -secVec ψ v := by
   unfold secVec
   rw [QuotientGroup.mk_inv, map_inv, toAdd_inv]
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem secVec_eq_zero_iff (ψ : ↥V ⧸ Z.subgroupOf V ≃* Multiplicative (ι → K)) (v : ↥V) :
     secVec ψ v = 0 ↔ (v : G) ∈ Z := by
   unfold secVec
   rw [toAdd_eq_zero, MulEquiv.map_eq_one_iff, QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf]
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem exists_secVec_eq (ψ : ↥V ⧸ Z.subgroupOf V ≃* Multiplicative (ι → K)) (x : ι → K) :
     ∃ v : ↥V, secVec ψ v = x := by
   obtain ⟨v, hv⟩ := QuotientGroup.mk_surjective (ψ.symm (Multiplicative.ofAdd x))
   exact ⟨v, by unfold secVec; rw [hv, MulEquiv.apply_symm_apply, toAdd_ofAdd]⟩
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem secVec_eq_iff (ψ : ↥V ⧸ Z.subgroupOf V ≃* Multiplicative (ι → K)) (v w : ↥V) :
     secVec ψ v = secVec ψ w ↔ (v : G) * (w : G)⁻¹ ∈ Z := by
   have h : secVec ψ (v * w⁻¹) = secVec ψ v - secVec ψ w := by
@@ -45,6 +50,7 @@ theorem secVec_eq_iff (ψ : ↥V ⧸ Z.subgroupOf V ≃* Multiplicative (ι → 
   rw [← sub_eq_zero, ← h, secVec_eq_zero_iff]
   rfl
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem mem_of_secVec_eq {S : Subgroup G} (hZS : Z ≤ S)
     (ψ : ↥V ⧸ Z.subgroupOf V ≃* Multiplicative (ι → K)) {y w : ↥V} (hw : (w : G) ∈ S)
     (h : secVec ψ w = secVec ψ y) : (y : G) ∈ S := by

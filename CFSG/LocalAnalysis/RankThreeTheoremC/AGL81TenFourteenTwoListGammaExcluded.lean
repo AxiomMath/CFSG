@@ -242,7 +242,7 @@ private theorem card_alt_ten : Nat.card (alternatingGroup (Fin 10)) = 1814400 :=
 theorem kFactTenFourteenTwoA5GammaExcluded_holds :
     KFactTenFourteenTwoA5GammaExcluded := by
   intro p K _ _ T K₁ J hp hp2 hL hZ hC2 hL2 hS3 hrank hΓ hK₁ hJs hJp hJ1 hJirr
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exfalso
   obtain ⟨i, hi, hi10, hRee, hMcL, hU, hJ4, ⟨e⟩⟩ := hL
   have hS3' : ∀ n : ℕ, Nat.card K = n → n ≠ 1814400 → RankOneCent.IsStepThreeIndex p i →
@@ -266,7 +266,7 @@ theorem kFactTenFourteenTwoA5GammaExcluded_holds :
         have hmap : ((T.mapSurjective hes : Sylow 3 _) : Subgroup _).map f.symm.toMonoidHom =
             (T : Subgroup K) := by
           ext x
-          simp [Sylow.coe_mapSurjective, Subgroup.mem_map_equiv]
+          simp [Sylow.coe_mapSurjective]
         rwa [hmap] at h
       refine hS3' 360 ?_ (by norm_num) (Or.inl ⟨rfl, rfl⟩) hTe hTc
       rw [Nat.card_congr e.toEquiv]

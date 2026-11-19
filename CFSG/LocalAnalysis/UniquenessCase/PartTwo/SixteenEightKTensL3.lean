@@ -51,7 +51,7 @@ theorem s16k_false_of_tensor_l3 (h : S16kBase D V₀ V L hV)
   obtain ⟨p, hpσ⟩ := h.exists_sig
   obtain ⟨hpp, hp2⟩ := D.sig_prime p hpσ
   have h3 := h.three_le_pRank hpσ
-  haveI : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
+  have : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
   obtain ⟨E, hEM, -, hEcard⟩ :=
     c23_exists_elemAbelian_card_pow (G := MulAut (Vtil V₀ V hV)) (M := Mbar D.M V₀ V hV)
       (k := 3) hpp (by rw [UC6.groupPRank_eq_pRank]; exact h3)

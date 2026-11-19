@@ -32,7 +32,7 @@ theorem le_center_of_card_two {G : Type*} [Group G] {N : Subgroup G} (hN : Nat.c
 
 theorem noNormalPPrime_three_perm_six : NoNormalPPrime 3 (⊤ : Subgroup (Equiv.Perm (Fin 6))) := by
   intro M _ hMn hMc
-  haveI : M.Normal := ⟨fun x hx g => by simpa using hMn g (Subgroup.mem_top g) x hx⟩
+  have : M.Normal := ⟨fun x hx g => by simpa using hMn g (Subgroup.mem_top g) x hx⟩
   by_contra hne
   have h1 : 1 < Nat.card M := by
     have := Nat.card_pos (α := M)
@@ -80,7 +80,7 @@ theorem noNormalPPrime_three_statedSp (hK : Nat.card K = 2) (s : ℕ) :
   rcases (show s = 0 ∨ s = 1 ∨ s = 2 ∨ 3 ≤ s by omega) with rfl | rfl | rfl | hs
   ·
     intro N _ _ _
-    haveI : Subsingleton (StatedSp 0 K) :=
+    have : Subsingleton (StatedSp 0 K) :=
       ⟨fun a b => Subtype.ext (Units.ext (Matrix.ext fun i => by
         rcases i with i | i <;> exact i.elim0))⟩
     exact Subgroup.eq_bot_of_subsingleton N
@@ -105,7 +105,7 @@ theorem noNormalPPrime_three_statedSp (hK : Nat.card K = 2) (s : ℕ) :
     have hq := CFSG.LieType.Universal.Symplectic.isQuasisimple s K (by omega)
       (Or.inr (Or.inr ⟨hK, hs⟩))
     intro N _ hNn hNc
-    haveI hNnorm : N.Normal := ⟨fun x hx g => by simpa using hNn g (Subgroup.mem_top g) x hx⟩
+    have hNnorm : N.Normal := ⟨fun x hx g => by simpa using hNn g (Subgroup.mem_top g) x hx⟩
     rcases CFSG.LocalCores.quasisimple_normal_subgroups hq hNnorm with htop | hcen
     · exfalso
       have h3 : 3 ∣ Nat.card N := by

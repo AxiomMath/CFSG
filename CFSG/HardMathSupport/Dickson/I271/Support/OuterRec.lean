@@ -47,7 +47,7 @@ theorem recursionData {p : ℕ} (hp : p.Prime) {C J B : Subgroup X} (hJ : GLAPCo
     GLAPPrimeCore p (↥C ⧸ GLAPPrimeCore p ↥C) = ⊥ ∧
       GLAPComponent p ⊤ (barX p C J) ∧ IsSCp p ⊤ (barX p C B) ∧
       barX p C B ≤ Subgroup.normalizer (barX p C J : Set (↥C ⧸ GLAPPrimeCore p ↥C)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcore : GLAPPrimeCore p (↥C ⧸ GLAPPrimeCore p ↥C) = ⊥ := glaPPrimeCore_quotient_eq_bot hp
   refine ⟨hcore, ?_, ?_, barX_le_normalizer hBJ⟩
   · exact glaPComponent_of_isSubnormal' hp hJ.2.2.1.2.1
@@ -110,6 +110,7 @@ theorem card_bar_lt {C : Subgroup X} (hC : C ≠ ⊤) (N : Subgroup ↥C) [N.Nor
   have h3 : Nat.card C ≠ Nat.card X := fun h => hC ((Subgroup.card_eq_iff_eq_top C).1 h)
   omega
 
+omit [Finite X] in
 theorem centralizer_ne_top_of_not_mem {K : Subgroup X} {a : X}
     (ha : a ∉ Subgroup.centralizer (K : Set X)) :
     Subgroup.centralizer ({a} : Set X) ≠ ⊤ := by

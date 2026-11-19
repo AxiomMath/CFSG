@@ -113,13 +113,13 @@ private theorem g5_reidx_single {R N : ℕ} (h : R = N) (j : Fin R) :
   · have h2 : i = Fin.cast h j := by
       have := congrArg (Fin.cast h) h1
       simpa using this
-    rw [if_pos h1, if_pos h2]
+    rw [ite_eq_left h1, ite_eq_left h2]
   · have h2 : i ≠ Fin.cast h j := by
       intro hc
       apply h1
       have := congrArg (Fin.cast h.symm) hc
       simpa using this
-    rw [if_neg h1, if_neg h2]
+    rw [ite_eq_right h1, ite_eq_right h2]
 
 private theorem g5_corootCoord_eq
     {t : StatedLieTag} {p f : ℕ} [NeZero p] (ht : GGExcFive t)

@@ -38,7 +38,7 @@ theorem dNeg_apply_coord (i : Fin m) (v : DVec m) (k : Fin m) :
 
 theorem dSign_mem_dEven {a b : Fin m} (hab : a ≠ b) : dSign m a b ∈ dEven m := by
   have h : dSign m a b = (dPerm m (Equiv.swap a b))⁻¹ * dTau m true a b := by
-    rw [dTau, if_pos rfl, ← mul_assoc, inv_mul_cancel, one_mul]
+    rw [dTau, ite_eq_left rfl, ← mul_assoc, inv_mul_cancel, one_mul]
   rw [h]
   exact (dEven m).mul_mem ((dEven m).inv_mem (dPerm_mem_dEven m _)) (dTau_mem_dEven m true hab)
 
@@ -49,7 +49,7 @@ theorem dEven_fix_zero (hm : 2 ≤ m) (v : DVec m) (hv : ∀ g ∈ dEven m, g v 
     · exact ⟨⟨1, by omega⟩, fun h => by have := congrArg Fin.val h; simp at this; omega⟩
     · exact ⟨⟨0, by omega⟩, fun h => by have := congrArg Fin.val h; simp at this; omega⟩
   have h1 := congrFun (hv (dSign m k b) (dSign_mem_dEven (Ne.symm hb))) k
-  rw [dSign_apply_vec, if_pos (Or.inl rfl)] at h1
+  rw [dSign_apply_vec, ite_eq_left (Or.inl rfl)] at h1
   have h2 : ∀ x : ZMod 3, -x = x → x = 0 := by decide
   exact h2 _ h1
 

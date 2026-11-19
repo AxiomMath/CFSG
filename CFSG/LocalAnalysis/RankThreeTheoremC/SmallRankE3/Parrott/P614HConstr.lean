@@ -15,14 +15,14 @@ variable {G : Type} [Group G] [Finite G] {P : Sylow 3 G} {M H S K : Subgroup G} 
 theorem exists_core33 (hyp : Hyp P M x z H S) (hα : HasPrimeConstraint (G := M) 3) :
     ∃ D E : Subgroup G, M ≤ normalizer (D : Set G) ∧ Nat.Coprime 3 (Nat.card D) ∧
       M ≤ normalizer (E : Set G) ∧ (∀ e ∈ E, ∃ n : ℕ, e ^ 3 ^ n ∈ D) ∧ z ∈ E := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Nb, hNn, hNp, hNc⟩ := hα
-  haveI := hNn
-  haveI hC : (primeComplementCore (G := M) 3).Normal := primeComplementCore_normal 3
+  have := hNn
+  have hC : (primeComplementCore (G := M) 3).Normal := primeComplementCore_normal 3
   obtain ⟨hPM, -⟩ := sylow_le_of_isCoreMaxLocal hyp.setting hyp.situation.mem_sigmaA
     hyp.situation.isCoreMaxLocal
   have hzM : z ∈ M := hPM hyp.central.mem
-  haveI : (Nb.comap (QuotientGroup.mk' (primeComplementCore (G := M) 3))).Normal :=
+  have : (Nb.comap (QuotientGroup.mk' (primeComplementCore (G := M) 3))).Normal :=
     hNn.comap _
   refine ⟨(primeComplementCore (G := M) 3).map M.subtype,
     (Nb.comap (QuotientGroup.mk' (primeComplementCore (G := M) 3))).map M.subtype,
@@ -52,10 +52,12 @@ theorem exists_core33 (hyp : Hyp P M x z H S) (hα : HasPrimeConstraint (G := M)
     congr 1
     exact Subtype.ext hpz
 
+omit [Finite G] in
 theorem mk_mem_normalizer_bar {A : Subgroup G} {k : K} (hk : (k : G) ∈ normalizer (A : Set G)) :
     kbarMk K k ∈ normalizer (bar K A : Set (Kbar K)) :=
   le_normalizer_map (kbarMk K) ⟨k, le_normalizer_comap K.subtype hk, rfl⟩
 
+omit [Finite G] in
 theorem bar_kPar_le_normalizer (hL : LieCase M H S K x z) {A : Subgroup G}
     (hMA : M ≤ normalizer (A : Set G)) :
     bar K (kPar H S K) ≤ normalizer (bar K (A ⊓ kPar H S K) : Set (Kbar K)) := by
@@ -69,6 +71,7 @@ theorem bar_inf_kPar_le (hyp : Hyp P M x z H S) (h618 : Stage618 M H K z) (A : S
   rintro _ ⟨k, hk, rfl⟩
   exact (mk_mem_normalizer_bar_kRad_iff hyp h618 k).2 (mem_inf.mp hk).2
 
+omit [Finite G] in
 theorem card_bar_dvd (A : Subgroup G) : Nat.card (bar K A) ∣ Nat.card A := by
   refine (card_map_dvd _ _).trans ?_
   rw [← card_map_of_injective K.subtype_injective, subgroupOf_map_subtype]
@@ -81,10 +84,10 @@ theorem pLayer_normalizer_bar_kRad_eq_bot (hyp : Hyp P M x z H S) (h618 : Stage6
   have hN := normalizer_bar_kRad hyp h618
   have hDN := bar_inf_kPar_le hyp h618 D
   have hEN := bar_inf_kPar_le hyp h618 E
-  haveI hDn : ((bar K (D ⊓ kPar H S K)).subgroupOf
+  have hDn : ((bar K (D ⊓ kPar H S K)).subgroupOf
       (normalizer (bar K (kRad H S K) : Set (Kbar K)))).Normal :=
     (normal_subgroupOf_iff_le_normalizer hDN).2 (hN ▸ bar_kPar_le_normalizer hL hMD)
-  haveI hEn : ((bar K (E ⊓ kPar H S K)).subgroupOf
+  have hEn : ((bar K (E ⊓ kPar H S K)).subgroupOf
       (normalizer (bar K (kRad H S K) : Set (Kbar K)))).Normal :=
     (normal_subgroupOf_iff_le_normalizer hEN).2 (hN ▸ bar_kPar_le_normalizer hL hME)
   have hzK := z_mem h618

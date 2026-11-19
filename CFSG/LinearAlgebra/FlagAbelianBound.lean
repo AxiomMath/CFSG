@@ -17,10 +17,10 @@ private theorem card_le_pow_of_injective_prod_linearMap
     (hPC : IsCompl P C) (hℓ : Module.finrank K ℓ ≤ 1)
     (f : A → P × (C →ₗ[K] ℓ)) (hf : Function.Injective f) :
     Nat.card A ≤ Nat.card K ^ Module.finrank K H := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fintype H := Fintype.ofEquiv (Fin (Module.finrank K H) → K)
+  have : Fintype K := Fintype.ofFinite K
+  have : Fintype H := Fintype.ofEquiv (Fin (Module.finrank K H) → K)
     (Module.finBasis K H).equivFun.toEquiv.symm
-  haveI : Finite (C →ₗ[K] ℓ) :=
+  have : Finite (C →ₗ[K] ℓ) :=
     Finite.of_injective (fun f : C →ₗ[K] ℓ => (f : C → ℓ))
       (fun f g h => LinearMap.ext (congrFun h))
   calc
@@ -56,7 +56,7 @@ private theorem apply_delta_comm
       (t : W ≃ₗ[K] W) ((s : W ≃ₗ[K] W) w₀) := by
     have h := congrArg (fun e : W ≃ₗ[K] W => e w₀) (hA s s.2 t t.2)
     simpa using h
-  simp only [hNcoe, hδcoe, map_sub, Submodule.coe_sub, hst]
+  simp only [hNcoe, hδcoe, map_sub, hst]
   abel
 
 private theorem eqOn_span_delta_sup
@@ -135,7 +135,7 @@ theorem card_le_of_commute_of_flag {K W : Type*} [Field K] [Finite K] [AddCommGr
     intro htop
     rw [htop, finrank_top] at hH
     omega
-  obtain ⟨w₀, hw₀⟩ := SetLike.exists_not_mem_of_ne_top H hHne rfl
+  obtain ⟨w₀, hw₀⟩ := SetLike.exists_notMem_of_ne_top H hHne rfl
   let δ : A → H := fun t => ⟨(t : W ≃ₗ[K] W) w₀ - w₀, h1 t t.2 w₀⟩
   have hδcoe : ∀ t : A, (δ t : W) = (t : W ≃ₗ[K] W) w₀ - w₀ := fun _ => rfl
   let N : A → H →ₗ[K] H := fun t =>

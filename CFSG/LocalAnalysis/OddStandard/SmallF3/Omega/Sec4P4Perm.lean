@@ -15,7 +15,7 @@ theorem sec4P4_perm_compl_of (hn : 3 ≤ n) (π : N →* Perm (Fin n))
     {σ : alternatingGroup (Fin n) →* N} (hσ : ∀ a, π (σ a) = a) {u : N}
     (hu : Perm.sign (π u) = -1) (hu2 : u ^ 2 = 1) :
     (σ.range ⊔ Subgroup.zpowers u) ⊓ π.ker = ⊥ ∧ (σ.range ⊔ Subgroup.zpowers u) ⊔ π.ker = ⊤ := by
-  haveI hnormal : σ.range.Normal := sec4P4_perm_range_normal hn π hC h2 hσ
+  have hnormal : σ.range.Normal := sec4P4_perm_range_normal hn π hC h2 hσ
   have hrange : ∀ a : alternatingGroup (Fin n), σ a ∈ σ.range :=
     fun a => MonoidHom.mem_range.2 ⟨a, rfl⟩
   have hzpow : ∀ z ∈ Subgroup.zpowers u, z = 1 ∨ z = u := by
@@ -42,7 +42,7 @@ theorem sec4P4_perm_compl_of (hn : 3 ≤ n) (π : N →* Perm (Fin n))
       have hpu : π u = ((a : Perm (Fin n)))⁻¹ := eq_inv_of_mul_eq_one_right hπx
       have hmem : π u ∈ alternatingGroup (Fin n) := by
         rw [hpu]
-        simpa using Subgroup.inv_mem (alternatingGroup (Fin n)) a.2
+        simp
       have hsign : Perm.sign (π u) = 1 := Equiv.Perm.mem_alternatingGroup.mp hmem
       exact absurd (hu.symm.trans hsign) (by decide)
   · rw [Subgroup.eq_top_iff']

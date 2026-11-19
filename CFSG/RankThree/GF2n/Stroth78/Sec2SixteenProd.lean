@@ -26,7 +26,7 @@ theorem L1_le_normalizer_inf_Q_Qa (a : G) :
   have hlQ : l ∈ Subgroup.normalizer (Q z : Set G) :=
     Subgroup.le_normalizer_of_normal_subgroupOf (H := Q z) (K := H z)
       (fStar_le (H z)) hlH
-  haveI : ((QaOf a).subgroupOf (Subgroup.centralizer ({a} : Set G))).Normal :=
+  have : ((QaOf a).subgroupOf (Subgroup.centralizer ({a} : Set G))).Normal :=
     fStar_subgroupOf_normal (Subgroup.centralizer ({a} : Set G))
   have hlQa : l ∈ Subgroup.normalizer (QaOf a : Set G) :=
     Subgroup.le_normalizer_of_normal_subgroupOf (H := QaOf a)
@@ -43,7 +43,7 @@ theorem CQ_le_normalizer_inf_Q_Qa (a : G) :
   have hcQnorm : c ∈ Subgroup.normalizer (Q z : Set G) :=
     Subgroup.le_normalizer_of_normal_subgroupOf (H := Q z) (K := H z)
       (fStar_le (H z)) hcH
-  haveI : ((QaOf a).subgroupOf (Subgroup.centralizer ({a} : Set G))).Normal :=
+  have : ((QaOf a).subgroupOf (Subgroup.centralizer ({a} : Set G))).Normal :=
     fStar_subgroupOf_normal (Subgroup.centralizer ({a} : Set G))
   have hcQanorm : c ∈ Subgroup.normalizer (QaOf a : Set G) :=
     Subgroup.le_normalizer_of_normal_subgroupOf (H := QaOf a)

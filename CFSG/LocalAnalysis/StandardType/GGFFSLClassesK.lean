@@ -64,7 +64,7 @@ theorem semiconj_s_self (hss : ∀ j, s j * s j = 1)
     (hS : ∀ j k, s j * z k * s j = if j = k then z k ^ 2 else z k) (k : Fin 3) :
     s k * z k = z k ^ 2 * s k := by
   have h := hS k k
-  rw [if_pos rfl] at h
+  rw [ite_eq_left rfl] at h
   calc s k * z k = s k * z k * (s k * s k) := by rw [hss, mul_one]
     _ = s k * z k * s k * s k := by simp only [mul_assoc]
     _ = z k ^ 2 * s k := by rw [h]
@@ -73,7 +73,7 @@ theorem commute_s (hss : ∀ j, s j * s j = 1)
     (hS : ∀ j k, s j * z k * s j = if j = k then z k ^ 2 else z k) {j k : Fin 3} (hjk : j ≠ k) :
     Commute (s j) (z k) := by
   have h := hS j k
-  rw [if_neg hjk] at h
+  rw [ite_eq_right hjk] at h
   change s j * z k = z k * s j
   calc s j * z k = s j * z k * (s j * s j) := by rw [hss, mul_one]
     _ = s j * z k * s j * s j := by simp only [mul_assoc]

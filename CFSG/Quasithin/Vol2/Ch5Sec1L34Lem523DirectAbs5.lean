@@ -30,7 +30,7 @@ theorem rk_ge_three_of_irred (hH47 : CFSG.ASVolI.H_4_7) (K : Type) [Field K] [Fi
     intro h k hh hk
     exact (Subgroup.mem_normalizer_iff.mp (hMN hk) h).mp hh
   have hcomp : CFSG.IsComponent (𝒦V.subgroupOf M) := by
-    haveI := hQnorm
+    have := hQnorm
     exact ⟨CFSG.IsQuasisimple.of_mulEquiv (Subgroup.subgroupOfEquivOfLe h𝒦M)
       (isQuasisimple_of_simple_nonab ↥𝒦V hab), Subgroup.Normal.isSubnormal hQnorm⟩
   have hcent : Subgroup.centralizer ((𝒦V.subgroupOf M : Subgroup ↥M) : Set ↥M) = ⊥ := by

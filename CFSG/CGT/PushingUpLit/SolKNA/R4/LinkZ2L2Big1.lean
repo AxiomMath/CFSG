@@ -82,7 +82,7 @@ private theorem exists_swap_of_sylow [Finite G] (P : Sylow 2 G) {t u g : G}
   have hgH : g ^ m ∈ H := (hH _).mpr (Or.inr hsw)
   have hPH : (P : Subgroup G) ≤ H := fun x hx => (hH x).mpr (hP x hx)
   have hPs : IsSylow2In (P : Subgroup G) H :=
-    ⟨hPH, P.isPGroup', fun V _ hV2 hPV => le_antisymm (P.maximal_isPGroup.2 hV2 hPV) hPV⟩
+    ⟨hPH, P.isPGroup, fun V _ hV2 hPV => le_antisymm (P.maximal_isPGroup.2 hV2 hPV) hPV⟩
   obtain ⟨V, hV, hgV⟩ := IsSylow2In.exists_ge h2 (Subgroup.zpowers_le.mpr hgH)
   obtain ⟨h, hhH, hhV⟩ := Sec6Gen.exists_conjSub_eq_of_isSylow2In hV hPs
   have hb : h * g ^ m * h⁻¹ ∈ (P : Subgroup G) := by
@@ -131,7 +131,7 @@ theorem exists_adapted_sylowR (hL : TightLargeHypR r n Y R S t)
       (Subgroup.le_normalizer (H := Subgroup.centralizer ({u} : Set Y)) (hT₀u hx))
     rw [Subgroup.mem_normalizer_iff]
     intro y
-    simp only [SetLike.mem_coe, Subgroup.mem_inf]
+    simp only [Subgroup.mem_inf]
     exact and_congr (h1 y) (h2 y)
   have hMN : tightCore R ⊓ Subgroup.centralizer ({u} : Set Y) ⊔ T₀ ≤ Subgroup.normalizer
       ((tightCore R ⊓ Subgroup.centralizer ({u} : Set Y) : Subgroup Y) : Set Y) :=

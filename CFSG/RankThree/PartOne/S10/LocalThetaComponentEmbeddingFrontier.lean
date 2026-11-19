@@ -78,7 +78,7 @@ theorem eq_top_of_pElements_le {p : ℕ} (hp : p.Prime) (hperf : Group.IsPerfect
     have hUker : U ≤ ψ.ker := (Subgroup.map_eq_bot_iff _).mp h0
     obtain P : Sylow p K := default
     have hPU : (P : Subgroup K) ≤ U := fun y hy => by
-      obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp P.isPGroup' ⟨y, hy⟩
+      obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp P.isPGroup ⟨y, hy⟩
       exact Subgroup.subset_normalClosure ⟨k, by rwa [← Subgroup.orderOf_coe] at hk⟩
     have h1 : p ^ (Nat.card K).factorization p ∣ Nat.card ψ.ker := by
       rw [← P.card_eq_multiplicity]

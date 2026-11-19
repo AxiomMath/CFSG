@@ -28,7 +28,7 @@ theorem companionMat_mulVec_single (p : ℕ) (c : F) (k : Fin p) :
     by_cases h : i = k
     · subst h
       simp [Matrix.mulVec_diagonal]
-    · simp [Matrix.mulVec_diagonal, Pi.single_apply, h]
+    · simp [Matrix.mulVec_diagonal, h]
   rw [companionMat, ← Matrix.mulVec_mulVec, hd, Matrix.mulVec_smul, Matrix.permMatrix_mulVec]
   ext i
   simp only [Pi.smul_apply, Function.comp_apply, Pi.single_apply, Equiv.symm_apply_eq,
@@ -62,9 +62,9 @@ section Normal
 
 variable {F : Type*} [Field F]
 
-theorem val_finRotate_mod' {p : ℕ} (hp : 0 < p) (k : Fin p) :
+theorem val_finRotate_mod' {p : ℕ} (_hp : 0 < p) (k : Fin p) :
     ((finRotate p k : Fin p) : ℕ) = ((k : ℕ) + 1) % p := by
-  haveI : NeZero p := ⟨hp.ne'⟩
+  have : NeZero p := ⟨_hp.ne'⟩
   rw [finRotate_apply, Fin.val_add, Fin.val_one', Nat.add_mod_mod]
 
 theorem heisenberg_normal_form_matrix {p : ℕ} (hp : p.Prime) {ω c : F}
@@ -213,7 +213,7 @@ theorem sgo_exists_pow_isPow {F : Type*} [Field F] [Finite F] {p : ℕ} (hp : p.
     {u : Fˣ} (hu : IsPrimitiveRoot u p) (a b : Fˣ) :
     ∃ i j : ℕ, ¬ (p ∣ i ∧ p ∣ j) ∧ ∃ l : Fˣ, l ^ p = a ^ i * b ^ j := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hpN : p ∣ Nat.card Fˣ := by
     have h1 := orderOf_dvd_natCard u
     rwa [← hu.eq_orderOf] at h1
@@ -361,7 +361,7 @@ theorem sgo_planeGen_pair [Finite F] {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
       rw [one_mul, ← hyx, h]
     have h2 : GeneralLinearGroup.scalar (Fin p) w = 1 := mul_right_cancel h1
     have h3 := congrArg (fun g : GL (Fin p) F => (g : Matrix (Fin p) (Fin p) F) ⟨0, hn⟩ ⟨0, hn⟩) h2
-    simp [coe_scalarGL] at h3
+    simp at h3
     exact hw1 (by simpa using h3)
   have hx1 : conjAut p F x ≠ 1 := by
     intro h
@@ -439,7 +439,7 @@ theorem outdiagHeisenbergPlanes_of_singer
   intro F _ _ p hp5 hp _ E hE _ hpair
   obtain ⟨A, B, hAE, hBE, hAB⟩ := hpair
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hn3 : 3 ≤ p := by omega
   obtain ⟨u, hu⟩ := exists_scalarGL_comm hn3 hE.1 hAE hBE
   have hu1 : u ≠ 1 := by

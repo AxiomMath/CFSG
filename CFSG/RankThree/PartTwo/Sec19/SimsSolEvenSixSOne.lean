@@ -138,9 +138,9 @@ theorem vecPerm_sub_cases {J : Finset (Fin 6)} (hJ : J.card = 4) {u : Perm (Fin 
       intro k
       rw [hval]
       by_cases hk : k ∈ J
-      · rw [if_pos hk]
+      · rw [ite_eq_left hk]
         exact hconst k hk k₀ hk₀
-      · rw [if_neg hk, hF1 k hk]
+      · rw [ite_eq_right hk, hF1 k hk]
         exact (show ∀ a : ZMod 2, a + a = 0 by decide) _
     rcases zmod_two_cases' c with h0 | h1
     · left
@@ -266,10 +266,10 @@ theorem barAct_sub_mem {i j : Fin 6} (hij : i ≠ j) {σ : Perm (Fin 6)}
     · rw [h2, ← barInd_compl ({i, j} : Finset (Fin 6))]
       obtain ⟨a₀, ha₀⟩ : ({i, j}ᶜ : Finset (Fin 6)).Nonempty := Finset.card_pos.1 (by omega)
       refine mk_mem_of_sum_eq_zero A (a₀ := a₀) (fun a ha => hA a ha a₀ ha₀) (fun k hk => ?_) ?_
-      · exact if_neg hk
+      · exact ite_eq_right hk
       · calc ∑ k ∈ ({i, j}ᶜ : Finset (Fin 6)), indVec ({i, j}ᶜ : Finset (Fin 6)) k
             = ∑ k ∈ ({i, j}ᶜ : Finset (Fin 6)), (1 : ZMod 2) :=
-              Finset.sum_congr rfl fun k hk => if_pos hk
+              Finset.sum_congr rfl fun k hk => ite_eq_left hk
           _ = 0 := by
             rw [Finset.sum_const, hJ]
             decide
@@ -327,7 +327,7 @@ theorem eq_one_of_barAct_fix {i j : Fin 6} (hij : i ≠ j) {σ : Perm (Fin 6)}
         funext k
         simp [indVec, Pi.single_apply]
       rw [this]
-      exact (lamJ_single _ _ a).trans (if_neg ha)
+      exact (lamJ_single _ _ a).trans (ite_eq_right ha)
     have h1 := (barAct_barInd_eq_self_iff (I := ({a} : Finset (Fin 6))) (by simp) σ).1
       (hfix _ hl)
     exact Finset.mem_singleton.1 ((mem_setStab.1 h1 a).2 (Finset.mem_singleton_self a))
@@ -350,7 +350,7 @@ theorem eq_one_of_barAct_fix {i j : Fin 6} (hij : i ≠ j) {σ : Perm (Fin 6)}
   simp only [Finset.mem_insert, Finset.mem_singleton, not_or] at hbs
   obtain ⟨hba, hbσ⟩ := hbs
   have hl : lam hij (uvec a b) = 0 := by
-    rw [lam, lamJ_uvec, if_pos ha, if_pos hbJ]
+    rw [lam, lamJ_uvec, ite_eq_left ha, ite_eq_left hbJ]
     decide
   have h1 := hfix _ hl
   rw [barAct_uvec] at h1
@@ -499,7 +499,7 @@ theorem lam_x (S : Setup D x i j) : lam S.hij (Multiplicative.toAdd (D.piQ ⟨x,
   rw [S.hπ, ← H4b.uvec_eq_barInd S.hij, lam, lamJ_uvec]
   have h1 : i ∉ ({i, j}ᶜ : Finset (Fin 6)) := by simp
   have h2 : j ∉ ({i, j}ᶜ : Finset (Fin 6)) := by simp
-  rw [if_neg h1, if_neg h2]
+  rw [ite_eq_right h1, ite_eq_right h2]
   simp
 
 
@@ -540,7 +540,7 @@ theorem lamQ_surjective (S : Setup D x i j) : Function.Surjective S.lamQ := by
     ((Pi.single a (1 : ZMod 2) : Fin 6 → ZMod 2) : permBar 6))
   have h1 : S.lamQ q = Multiplicative.ofAdd (1 : ZMod 2) := by
     show Multiplicative.ofAdd (lam S.hij (Multiplicative.toAdd (D.piQ q))) = _
-    rw [hq, toAdd_ofAdd, lam, lamJ_single, if_pos ha]
+    rw [hq, toAdd_ofAdd, lam, lamJ_single, ite_eq_left ha]
   rcases zmod_two_cases' (Multiplicative.toAdd w) with h0 | h0
   · refine ⟨1, ?_⟩
     rw [map_one]
@@ -599,14 +599,14 @@ theorem comm_mem_zpowers (S : Setup D x i j) {q : G} (hq : q ∈ S.Hsub) {t : G}
 theorem cons_P (S : Setup D x i j) {k : G} (hk : k ∈ CGOf x)
     (hkc : ∀ p ∈ CFSG.Open.pCoreOf 2 (CGOf x), p * k = k * p) :
     k ∈ CFSG.Open.pCoreOf 2 (CGOf x) :=
-  H4b.twoConstrained_P C S.hR S.hx S.x_ne_one
+  H4b.twoConstrained_P C S.hx S.x_ne_one
     (Subgroup.mem_inf.2 ⟨hk, Subgroup.mem_centralizer_iff.2 hkc⟩)
 
 theorem stab_mem_P (S : Setup D x i j) {a : G} (haK : a ∈ CGOf x)
     (ha : ∀ p ∈ CFSG.Open.pCoreOf 2 (CGOf x), a * p * a⁻¹ * p⁻¹ ∈ Subgroup.zpowers x) :
     a ∈ CFSG.Open.pCoreOf 2 (CGOf x) :=
-  H2.stabSub_le_pCoreOf (fun k hk => mem_centralizer_zpowers_iff.1 hk)
-    (exists_two_pow_of_mem_pCoreOf M S.hx) (fun k hk hkc => S.cons_P hk hkc) ⟨haK, ha⟩
+  H2.stabSub_le_pCoreOf (fun _k hk => mem_centralizer_zpowers_iff.1 hk)
+    (exists_two_pow_of_mem_pCoreOf M S.hx) (fun _k hk hkc => S.cons_P hk hkc) ⟨haK, ha⟩
 
 theorem Hsub_le_P (S : Setup D x i j)
     (h : CFSG.Open.pCoreOf 2 (CGOf x) ⊔ CFSG.Open.pCoreOf 2 M = TOf M x) :
@@ -687,7 +687,7 @@ theorem card_P (S : Setup D x i j) (hK : ¬ CGOf x ≤ M)
   rw [h1]
   norm_num
 
-theorem centerP_le_Q (S : Setup D x i j) (hK : ¬ CGOf x ≤ M)
+theorem centerP_le_Q (S : Setup D x i j) (_hK : ¬ CGOf x ≤ M)
     (h : CFSG.Open.pCoreOf 2 (CGOf x) ⊔ CFSG.Open.pCoreOf 2 M = TOf M x) :
     H4b.centerP x ≤ CFSG.Open.pCoreOf 2 M := by
   intro z hz
@@ -767,7 +767,7 @@ theorem le_zpowers_of_invariant (S : Setup D x i j) (hK : ¬ CGOf x ≤ M) {Q₂
       have hσj : σ j = j := hσfix j (by simp)
       have hmC : (m : G) ∈ CGOf x := by
         have : (m : G) ∈ CMOf M x := by
-          rw [D.CMOf_eq_thetaPre S.hR S.hsurj S.hx S.hij S.hπ, C.mem_thetaPre]
+          rw [D.CMOf_eq_thetaPre S.hR S.hx S.hij S.hπ, C.mem_thetaPre]
           exact ⟨m.2, by
             rw [show (⟨(m : G), m.2⟩ : ↥M) = m from rfl, hm]
             exact mem_setStab_pair_of_fix hσi hσj⟩
@@ -808,10 +808,10 @@ theorem le_zpowers_of_invariant (S : Setup D x i j) (hK : ¬ CGOf x ≤ M) {Q₂
     have := hQ₂K k⁻¹ ((CGOf x).inv_mem hk) _ hu
     simpa [mul_assoc] using this
   · exfalso
-    rw [if_pos haJ, if_neg hbJ] at hlam
+    rw [ite_eq_left haJ, ite_eq_right hbJ] at hlam
     exact absurd hlam (by decide)
   · exfalso
-    rw [if_neg haJ, if_pos hbJ] at hlam
+    rw [ite_eq_right haJ, ite_eq_left hbJ] at hlam
     exact absurd hlam (by decide)
   · have ha : a ∈ ({i, j} : Finset (Fin 6)) := by
       by_contra h'
@@ -860,6 +860,7 @@ section Extraspecial
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem eq_one_or_eq_of_mem_zpowers {x c : G} (hx2 : x * x = 1) (hc : c ∈ Subgroup.zpowers x) :
     c = 1 ∨ c = x := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 hc
@@ -873,8 +874,8 @@ theorem isExtraspecial_of_zpowers {P : Subgroup G} (hP2 : IsPGroup 2 ↥P) {x : 
     (hx1 : x ≠ 1) (hx2 : x * x = 1) (hxZ : ∀ p ∈ P, p * x = x * p)
     (hZ : ∀ z ∈ P, (∀ p ∈ P, p * z = z * p) → z ∈ Subgroup.zpowers x)
     (hC : ⁅P, P⁆ = Subgroup.zpowers x) : IsExtraspecialPGroup 2 ↥P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (IsPGroup 2 ↥P) := ⟨hP2⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (IsPGroup 2 ↥P) := ⟨hP2⟩
   have hxP' : (⟨x, hxP⟩ : ↥P) ∈ Subgroup.center ↥P :=
     Subgroup.mem_center_iff.2 fun g => Subtype.ext (hxZ g g.2)
   have hcenter : (Subgroup.center ↥P).map P.subtype = Subgroup.zpowers x := by

@@ -193,7 +193,7 @@ theorem exists_s6Model [Finite G] (h : HSSetting z V) (hsmemH : s ∈ hsH z)
     have := congrFun hvw0 k
     simp only [Pi.add_apply, Pi.zero_apply] at this
     rcases zmod2_cases (v k) with h1 | h1 <;> rcases zmod2_cases (w k) with h2 | h2 <;>
-      rw [h1, h2] at this ⊢ <;> first | rfl | exact absurd this (by decide)
+      rw [h1, h2] at this ⊢ <;> (exact absurd this (by decide))
   have hΦ0 : Φ 0 = 1 := by
     have := hΦadd 0 0
     rw [add_zero] at this

@@ -37,14 +37,14 @@ theorem uc22ine229_l34_three_comm {M Y N B : Subgroup G} (hYM : Y ≤ M)
     (hN9 : ∀ R : Subgroup G, R ≤ N → IsPGroup 3 R → Nat.card R ≤ 3 ^ 2)
     (hBY : ∀ b ∈ B, ∀ y ∈ Y, b * y * b⁻¹ * y⁻¹ ∈ pCoreOf 2 M) :
     ∀ ρ ∈ N, IsPGroup 3 (zpowers ρ) → ∀ y ∈ Y, ρ * y * ρ⁻¹ * y⁻¹ ∈ pCoreOf 2 Y := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro ρ hρN hρ3 y hy
   obtain ⟨S, hS⟩ := (hB3.comap_subtype (K := N)).exists_le_sylow
   have hBS : B.subgroupOf N = S.toSubgroup := by
     refine Subgroup.eq_of_le_of_card_ge hS ?_
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hBN).toEquiv, hBc]
     have := hN9 (S.toSubgroup.map N.subtype) (Subgroup.map_subtype_le _)
-      (S.isPGroup'.map N.subtype)
+      (S.isPGroup.map N.subtype)
     rwa [Subgroup.card_map_of_injective N.subtype_injective] at this
   obtain ⟨S', hS'⟩ := (hρ3.comap_subtype (K := N)).exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq (↥N) S' S
@@ -73,7 +73,7 @@ theorem uc22ine229_l34_three_comm {M Y N B : Subgroup G} (hYM : Y ≤ M)
 
 theorem uc22ine229_pRank_le_bar (Y : Subgroup G) {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) :
     CFSG.Open.pRank q Y ≤ CFSG.Open.pRank q (⊤ : Subgroup (Bar2 Y)) := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hN : ¬ q ∣ Nat.card (CFSG.pCore 2 ↥Y) := by
     intro hdvd
     obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp (CFSG.pCore_isPGroup (p := 2) (G := ↥Y))

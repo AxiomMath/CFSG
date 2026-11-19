@@ -20,16 +20,16 @@ theorem qtwoDB44_model
   simp only [GGHasLabel, CFSG.StandardType.LargeEvenRawDatum,
     CFSG.Assembly.LargeEvenRecipeSymplectic] at hraw
   obtain ⟨K, hKfield, hKfin, hKcard, ⟨e⟩⟩ := hraw
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
+  let : Field K := hKfield
+  let : Finite K := hKfin
   have hK2 : Nat.card K = 2 := by rw [hKcard]; norm_num
-  haveI : CharP K 2 := CFSG.SectionRank.ClassicalOdd.charP_of_card (by rw [hKcard])
-  haveI : NeZero d := ⟨by omega⟩
+  have : CharP K 2 := CFSG.SectionRank.ClassicalOdd.charP_of_card (by rw [hKcard])
+  have : NeZero d := ⟨by omega⟩
   have hZ : Subgroup.center N = ⊥ :=
     center_eq_bot_of_quot_psp_even (m := d) (f := 1) hperf hKcard le_rfl (by omega)
       (fun h => absurd h (by omega)) e
   refine ⟨hZ, ?_⟩
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   let φ : K ≃+* ZMod 2 :=
     FiniteField.ringEquivOfCardEq (by rw [← Nat.card_eq_fintype_card, hK2, ZMod.card])
   have e1 : N ≃* N ⧸ Subgroup.center N :=

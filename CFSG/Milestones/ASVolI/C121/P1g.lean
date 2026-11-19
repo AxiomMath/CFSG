@@ -25,6 +25,7 @@ theorem twoResidual_YS : twoResidual (Y ⊔ baum T) = Y := by
 
 include D
 
+omit [Finite Ω] in
 theorem T_ne_bot : T ≠ ⊥ := by
   intro hT
   have hQ : pCoreOf 2 X = ⊥ := le_bot_iff.1 (c.QR.trans (c.RT.trans hT.le))
@@ -36,7 +37,7 @@ theorem T_ne_bot : T ≠ ⊥ := by
     refine h ⟨hx, Subgroup.mem_centralizer_iff.2 fun g hg => ?_⟩
     rw [Subgroup.coe_bot, Set.mem_singleton_iff] at hg
     rw [hg, one_mul, mul_one]
-  apply c.not_le_pCore D
+  apply CFSG.ASVolI.burnsideC121_YCtx.not_le_pCore D
   intro y hy
   have : y = 1 := Subgroup.mem_bot.1 (hX (c.hY.le hy))
   rw [this]
@@ -58,7 +59,7 @@ theorem inClassG_YS (h610 : B_6_10) (h123 : I_2_3)
     refine ⟨hSyl, ?_⟩
     have hF₁ : CharTwo (Y ⊔ baum T) := c.charTwo_YS
     have hsolv : Group.IsSolvable ↥(Y ⊔ baum T) :=
-      F1.isSolvable_sup_of_le_normalizer (c.isSolvable_Y D hn1)
+      F1.isSolvable_sup_of_le_normalizer (CFSG.ASVolI.burnsideC121_YCtx.isSolvable_Y D hn1)
         (F1.isSolvable_of_isPGroup_two c.S_pGroup) c.S_le_normalizer
     have hsyl : IsSylowTwoOf (baum T ⊓ Y) Y :=
       A4.isSylowTwoOf_inf_normal hSyl le_sup_left c.YS_le_normalizer
@@ -66,12 +67,12 @@ theorem inClassG_YS (h610 : B_6_10) (h123 : I_2_3)
     have hSY : Y ⊓ baum T = pCoreOf 2 Y := by
       rw [inf_comm]
       exact CFSG.Quasithin.C124.Z3.eq_of_relIndex_three_of_isPGroup (le_inf hO (pCoreOf_le 2 Y))
-        inf_le_right (c.relIndex_pCore_three D hn1) (c.S_pGroup.to_le inf_le_left)
+        inf_le_right (CFSG.ASVolI.burnsideC121_YCtx.relIndex_pCore_three D hn1) (c.S_pGroup.to_le inf_le_left)
     have hcard : Nat.card ↥(Y ⊔ baum T) = 3 * Nat.card ↥(baum T) := by
       have h1 := C126.A5.card_sup_mul_card_inf_of_le_normalizer c.S_le_normalizer
       rw [hSY] at h1
       have h2 := Subgroup.relIndex_mul_card (pCoreOf 2 Y) Y
-      rw [inf_eq_left.2 (pCoreOf_le 2 Y), c.relIndex_pCore_three D hn1] at h2
+      rw [inf_eq_left.2 (pCoreOf_le 2 Y), CFSG.ASVolI.burnsideC121_YCtx.relIndex_pCore_three D hn1] at h2
       have hpos : 0 < Nat.card ↥(pCoreOf 2 Y) := Nat.card_pos
       apply Nat.eq_of_mul_eq_mul_right hpos
       rw [h1, ← h2]

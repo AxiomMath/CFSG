@@ -82,6 +82,7 @@ private theorem simple_first_eq_conj_middle {ι : Type} (M : CoxeterMatrix ι)
   rw [mul_inv_rev, inv_eq_of_mul_eq_one_right hx, inv_eq_of_mul_eq_one_right hy]
   simpa only [mul_assoc] using hfive.symm
 
+omit [Finite G] in
 theorem isQuasisimple_ggRankOneIn_of_three_coxRefl {Bs L : Subgroup G}
     {ι : Type} {M : CoxeterMatrix ι} (ε : M.Group ≃* ↥(ggAutomizer L Bs))
     (σ : Fin 3 ≃ ι) (h10 : M (σ 1) (σ 0) = 3)

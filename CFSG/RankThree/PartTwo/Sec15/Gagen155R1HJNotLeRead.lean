@@ -70,6 +70,7 @@ theorem hj_case2i_of (h142 : Item142R) {A L K : Subgroup G} {c c' : G}
   rw [Proof1515.pPrimeCoreOf_eq_pCoreOf_two hO] at hfac
   exact ⟨hKJ, hfac, eq_inf_sup_pCoreOf_of_cover_j2 hθO hLJ hK hKJ hfac⟩
 
+omit [Finite G] in
 theorem hj_case2ii_false {L' : Subgroup G}
     (hcard : Nat.card (↥L' ⧸ aschbacherSolvableCore 3 ↥L') = 604800)
     (hJ' : Nonempty (↥L' ⧸ aschbacherSolvableCore 3 ↥L' ≃*
@@ -210,7 +211,7 @@ theorem hj_eq_inf_sup_of_j2Type (h148 : Item148R) (h134 : Item134) (h48 : Sec4.I
     omega
   · exfalso
     obtain ⟨h7, hφ⟩ := hL3
-    letI : Fact (Nat.Prime 7) := h7
+    let : Fact (Nat.Prime 7) := h7
     obtain ⟨φ⟩ := hφ
     have h1 : Nat.card (↥K ⧸ CFSG.pCore 2 ↥K) = 1876896 := by
       rw [Nat.card_congr ((QuotientGroup.quotientMulEquivOfEq hcore).symm.trans φ).toEquiv,

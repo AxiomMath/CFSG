@@ -119,7 +119,7 @@ theorem ncard_transvectionCenterSet (m : ℕ) (F : Type) [Field F] [Finite F]
       have hfd := Module.Dual.finrank_ker_add_one_of_ne_zero (f := L) hL
       rw [Module.finrank_fin_fun] at hfd
       omega
-    haveI : Module.Finite F ↥(LinearMap.ker L) := inferInstance
+    have : Module.Finite F ↥(LinearMap.ker L) := inferInstance
     have hker : Nat.card ↥(LinearMap.ker L) = Nat.card F ^ (m - 1) := by
       rw [Module.natCard_eq_pow_finrank (K := F) (V := ↥(LinearMap.ker L)), hfin]
     have e : H ≃ ↥(LinearMap.ker L) :=

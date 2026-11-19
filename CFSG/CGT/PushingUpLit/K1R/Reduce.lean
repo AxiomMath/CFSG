@@ -123,9 +123,9 @@ theorem stdKernelTwo_of_selector (hsel : InnerKernelSelector fun D _ => Catalog 
   have hSnt : Nontrivial (S : Subgroup (centralizer (A : Set D))) :=
     (Subgroup.nontrivial_iff_ne_bot _).mpr hSne
   have hZnt : Nontrivial (center (S : Subgroup (centralizer (A : Set D)))) :=
-    S.isPGroup'.center_nontrivial
+    S.isPGroup.center_nontrivial
   have hZp : IsPGroup 2 (center (S : Subgroup (centralizer (A : Set D)))) :=
-    S.isPGroup'.to_subgroup _
+    S.isPGroup.to_subgroup _
   have h2Z : 2 ∣ Nat.card (center (S : Subgroup (centralizer (A : Set D)))) := by
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hZp
     rcases Nat.eq_zero_or_pos k with hk0 | hk0
@@ -187,7 +187,7 @@ theorem stdKernelTwo_of_selector (hsel : InnerKernelSelector fun D _ => Catalog 
     have := congrArg (fun w : (S : Subgroup (centralizer (A : Set D))) =>
       ((w : (centralizer (A : Set D))) : D)) hzc
     simpa using this
-  have hQp : IsPGroup 2 Q := S.isPGroup'.map (centralizer (A : Set D)).subtype
+  have hQp : IsPGroup 2 Q := S.isPGroup.map (centralizer (A : Set D)).subtype
   have hQcard : Nat.card Q = Nat.card (S : Subgroup (centralizer (A : Set D))) :=
     Subgroup.card_map_of_injective (centralizer (A : Set D)).subtype_injective
   have hle := hbound Q hQle hQp

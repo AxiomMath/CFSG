@@ -10,6 +10,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem c23ne_pairconj_mem_cTilde {M V₀ V : Subgroup G} {x : G} :
     x ∈ F11.CTilde M V₀ V ↔
       x ∈ M ∧ x ∈ Subgroup.normalizer (V₀ : Set G) ∧ ∀ v ∈ V, x * v * x⁻¹ * v⁻¹ ∈ V₀ := by
@@ -22,6 +23,7 @@ private theorem c23ne_pairconj_mem_cTilde {M V₀ V : Subgroup G} {x : G} :
   · rintro ⟨h1, h2, h3⟩ v hv
     exact ⟨h1, h2, h3 v hv⟩
 
+omit [Finite G] in
 theorem c23ne_cTilde_conj (M Y V : Subgroup G) (g : G) :
     F11.CTilde (conjSubgroup M g) (conjSubgroup Y g) (conjSubgroup V g) =
       conjSubgroup (F11.CTilde M Y V) g := by
@@ -54,6 +56,7 @@ theorem c23ne_cTilde_conj (M Y V : Subgroup G) (g : G) :
       convert h using 1
       group
 
+omit [Finite G] in
 private theorem c23ne_pairconj_commElt_conj (W : Subgroup G) (t g : G) :
     commElt (conjSubgroup W g) t = conjSubgroup (commElt W (g * t * g⁻¹)) g := by
   apply le_antisymm
@@ -75,11 +78,13 @@ private theorem c23ne_pairconj_commElt_conj (W : Subgroup G) (t g : G) :
     · simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, inv_inv]
       group
 
+omit [Finite G] in
 private theorem c23ne_pairconj_mSub_conjSubgroup (A : Subgroup G) (g : G) :
     mSub (conjSubgroup A g) = mSub A := by
   unfold mSub rk
   rw [E3.card_conjSubgroup]
 
+omit [Finite G] in
 private theorem c23ne_pairconj_centralizer_singleton_conj (w g : G) :
     conjSubgroup (Subgroup.centralizer ({g * w * g⁻¹} : Set G)) g =
       Subgroup.centralizer ({w} : Set G) := by
@@ -98,6 +103,7 @@ private theorem c23ne_pairconj_centralizer_singleton_conj (w g : G) :
       _ = g * (w * x) * g⁻¹ := by rw [h]
       _ = (g * w * g⁻¹) * (g * x * g⁻¹) := by group
 
+omit [Finite G] in
 private theorem c23ne_pairconj_mul_comm_conj {t y g : G}
     (h : (g * t * g⁻¹) * (g * y * g⁻¹) = (g * y * g⁻¹) * (g * t * g⁻¹)) :
     t * y = y * t := by
@@ -107,6 +113,7 @@ private theorem c23ne_pairconj_mul_comm_conj {t y g : G}
       _ = g * (y * t) * g⁻¹ := by group
   exact mul_left_cancel (mul_right_cancel h')
 
+omit [Finite G] in
 private theorem c23ne_pairconj_mQuot_conj {M Y V N₁ N₂ : Subgroup G} (g : G)
     (hrank : ∀ E : Subgroup G, E ≤ M → IsElemAbelian 2 E →
       (∀ e ∈ E, e ∈ normalizer (N₁ : Set G)) → (∀ e ∈ E, ∀ y ∈ N₂, e * y = y * e) →
@@ -147,6 +154,7 @@ private theorem c23ne_pairconj_mQuot_conj {M Y V N₁ N₂ : Subgroup G} (g : G)
     exact h
   rwa [hq]
 
+omit [Finite G] in
 theorem c23ne_pair_conj {M V₀ V N₁ N₂ Y : Subgroup G} (g : G) (h : C23NePair M V₀ V N₁ N₂ Y) :
     C23NePair (conjSubgroup M g) (conjSubgroup V₀ g) (conjSubgroup V g) (conjSubgroup N₁ g)
       (conjSubgroup N₂ g) (conjSubgroup Y g) := by

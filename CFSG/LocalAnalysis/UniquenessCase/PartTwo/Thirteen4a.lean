@@ -15,10 +15,10 @@ variable {G : Type} [Group G] [Finite G]
 theorem s13_exists_conj_into_M (D : Data G) {X : Subgroup G} (hXM : X ≤ D.M)
     (hX : X ∉ CFSG.LocalAnalysis.RankThreeUC.uniqueSet D.M) :
     ∃ g : G, g ∉ D.M ∧ X.map (MulAut.conj g).toMonoidHom ≤ D.M := by
-  rw [CFSG.LocalAnalysis.RankThreeUC.uniqueSet, Set.mem_setOf_eq, not_and] at hX
+  rw [CFSG.LocalAnalysis.RankThreeUC.uniqueSet, Set.mem_ofPred_eq, not_and] at hX
   have hq : ¬ (∀ h : G, X ≤ D.M.map (MulAut.conj h).toMonoidHom →
       D.M.map (MulAut.conj h).toMonoidHom = D.M) := hX hXM
-  push_neg at hq
+  push Not at hq
   obtain ⟨h, hXh, hMh⟩ := hq
   refine ⟨h⁻¹, ?_, ?_⟩
   · intro hinv
@@ -35,6 +35,7 @@ theorem s13_exists_conj_into_M (D : Data G) {X : Subgroup G} (hXM : X ≤ D.M)
     rw [hconj]
     exact hm
 
+omit [Finite G] in
 theorem s13_normalizer_map_conj_le {X M : Subgroup G} (g : G)
     (h : Subgroup.normalizer (X : Set G) ≤ M) :
     Subgroup.normalizer ((X.map (MulAut.conj g).toMonoidHom : Subgroup G) : Set G) ≤
@@ -42,6 +43,7 @@ theorem s13_normalizer_map_conj_le {X M : Subgroup G} (g : G)
   rw [← Subgroup.map_equiv_normalizer_eq X (MulAut.conj g)]
   exact Subgroup.map_mono h
 
+omit [Finite G] in
 theorem s13_not_dvd_card_cent {M Y : Subgroup G} {q : ℕ} (hse : IsStronglyPEmbedded q M)
     {g : G} (hg : g ∉ M)
     (hN : Subgroup.normalizer (Y : Set G) ≤ M.map (MulAut.conj g).toMonoidHom) :
@@ -53,10 +55,11 @@ theorem s13_not_dvd_card_cent {M Y : Subgroup G} {q : ℕ} (hse : IsStronglyPEmb
   have hdvd := Subgroup.card_dvd_of_le hle
   exact hse.2.2 g hg (hq.trans hdvd)
 
+omit [Finite G] in
 theorem s13_dvd_card_cent_self {M Y : Subgroup G} {r : ℕ} (hr : r.Prime) (hYM : Y ≤ M)
     (hY : Nat.card Y = r) : r ∣ Nat.card ↥(M ⊓ Subgroup.centralizer (Y : Set G)) := by
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : IsCyclic ↥Y := isCyclic_of_prime_card (α := ↥Y) hY
+  have : Fact r.Prime := ⟨hr⟩
+  have : IsCyclic ↥Y := isCyclic_of_prime_card (α := ↥Y) hY
   have hcent : Y ≤ Subgroup.centralizer (Y : Set G) := by
     rw [Subgroup.le_centralizer_iff_isMulCommutative]
     infer_instance
@@ -64,10 +67,12 @@ theorem s13_dvd_card_cent_self {M Y : Subgroup G} {r : ℕ} (hr : r.Prime) (hYM 
   have hdvd := Subgroup.card_dvd_of_le hle
   rwa [hY] at hdvd
 
+omit [Finite G] in
 theorem s13_card_map_conj (X : Subgroup G) (g : G) :
     Nat.card ↥(X.map (MulAut.conj g).toMonoidHom) = Nat.card X := by
   exact Subgroup.card_map_of_injective (f := (MulAut.conj g).toMonoidHom) (MulAut.conj g).injective
 
+omit [Finite G] in
 theorem s13_barImage_le_sup_centralizer {M Y K : Subgroup G} (hKM : K ≤ M)
     (h : Y ≤ K ⊔ cMStar M K) :
     barImage M Y ≤ barImage M K ⊔ Subgroup.centralizer (barImage M K : Set (Bar2 M)) := by

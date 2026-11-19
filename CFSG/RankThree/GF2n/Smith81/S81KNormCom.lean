@@ -131,19 +131,19 @@ theorem eq_self_of_mono (σ : Fin e7Data.d → Fin e7Data.d)
     intro b hb
     apply Finset.card_le_card_of_injOn σ
     · intro c hc
-      simp only [Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_setOf_eq] at hc ⊢
+      simp only [Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_ofPred_eq] at hc ⊢
       exact hlt b c hc
     · intro c hc c' hc' h
-      simp only [Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_setOf_eq] at hc hc'
+      simp only [Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_ofPred_eq] at hc hc'
       exact hinj c c' (lt_idx0 b c hc).2 (lt_idx0 b c' hc').2 h
   have hdown : ∀ b ∈ idx0, cntDown b ≤ cntDown (σ b) := by
     intro b hb
     apply Finset.card_le_card_of_injOn σ
     · intro c hc
-      simp only [Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_setOf_eq] at hc ⊢
+      simp only [Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_ofPred_eq] at hc ⊢
       exact hlt c b hc
     · intro c hc c' hc' h
-      simp only [Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_setOf_eq] at hc hc'
+      simp only [Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_ofPred_eq] at hc hc'
       exact hinj c c' (lt_idx0 c b hc).1 (lt_idx0 c' b hc').1 h
   have hup' := (Finset.sum_eq_sum_iff_of_le hup).1 (hsum cntUp).symm
   have hdown' := (Finset.sum_eq_sum_iff_of_le hdown).1 (hsum cntDown).symm

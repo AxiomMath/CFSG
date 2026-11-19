@@ -53,7 +53,7 @@ private theorem card_le_orthPlus (F : Subgroup (TauCeti.QuadraticMap.orthogonalG
       Nat.card F' = Nat.card F :=
     ⟨_, (hF.map (TauCeti.QuadraticMap.orthogonalGroup qPlus).subtype).map e.toMonoidHom, by
       rw [card_map_of_injective e.injective, card_map_of_injective (subtype_injective _)]⟩
-  haveI := hF'.1
+  have := hF'.1
   have h := CFSG.LocalAnalysis.GLTheoremA.CatB.Rank3.card_le_three_pow_of_injective' (E := ↥F')
     (fun a b => mul_comm' a b)
     (fun x => Subtype.ext (by simpa using hF'.2 (x : GL (Fin 8) (ZMod 2)) x.2))

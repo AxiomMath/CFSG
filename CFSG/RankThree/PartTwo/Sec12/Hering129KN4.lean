@@ -187,7 +187,7 @@ theorem mem_zpowers_of_commute {τ : K} (hτ : τ ^ 3 = 1) (hτ1 : τ ≠ 1) {y�
       x 2 • ((d ^ m : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) := by
     rw [hy, Units.val_pow_eq_pow_val, hdv, Matrix.diagonal_pow]
     ext i k
-    fin_cases i <;> fin_cases k <;> simp [Matrix.diagonal_apply, hm0, hm1]
+    fin_cases i <;> fin_cases k <;> simp [hm0, hm1]
   rw [Sec4.mk_eq_of_coe_eq_smul hym, map_pow]
   exact Subgroup.pow_mem _ (Subgroup.mem_zpowers _) m
 
@@ -203,9 +203,9 @@ theorem transitive_of_inverted {K : Type} [Field K] {p f : ℕ} {π : Bool}
     ∀ v ∈ V, v ≠ 1 → ∀ w ∈ V, w ≠ 1 →
       ∃ n ∈ projImage (Sec4.slPi π 3 (p ^ f) K) ⊓
         Subgroup.normalizer (V : Set (ProjGenLinGroup (Fin 3) K)), n * v * n⁻¹ = w := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite K := hK.finite
-  haveI : Finite (ProjGenLinGroup (Fin 3) K) :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite K := hK.finite
+  have : Finite (ProjGenLinGroup (Fin 3) K) :=
     Finite.of_surjective (ProjGenLinGroup.mk : GL (Fin 3) K →* _) ProjGenLinGroup.mk_surjective
   have hcomm : ∀ a ∈ V, ∀ b ∈ V, a * b = b * a := fun a ha b hb =>
     congrArg Subtype.val (hV.1.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)

@@ -41,7 +41,7 @@ private theorem CFSG.section9_c95_scn_isPGroup
     IsPGroup p A := by
   rcases hA with ⟨P, hAP, _hA0scn⟩
   let A0 : Subgroup P := A.subgroupOf (P : Subgroup G)
-  have hA0p : IsPGroup p A0 := P.isPGroup'.to_subgroup A0
+  have hA0p : IsPGroup p A0 := P.isPGroup.to_subgroup A0
   let eA : A0 ≃* A := Subgroup.subgroupOfEquivOfLe (H := A) (K := (P : Subgroup G)) hAP
   exact hA0p.of_equiv eA
 
@@ -86,7 +86,7 @@ private theorem CFSG.section9_c95_scn_generatorRank_at_least_three
     section9_c95_scn_prime_odd (G := G) (p := p) (A := A) ⟨P, hAP, hA0scn⟩
   have hA0gen : 3 ≤ generatorRank A0 :=
     scnSubgroup_generatorRank_at_least_three
-      (p := p) hpodd (R := ↥(P : Subgroup G)) P.isPGroup' (by simpa [A0] using hA0scn)
+      (p := p) hpodd (R := ↥(P : Subgroup G)) P.isPGroup (by simpa [A0] using hA0scn)
   let eA : A0 ≃* A := Subgroup.subgroupOfEquivOfLe (H := A) (K := (P : Subgroup G)) hAP
   have hgen_eq : generatorRank A0 = generatorRank A := by
     rw [generatorRank_eq_group_rank, generatorRank_eq_group_rank]
@@ -103,7 +103,7 @@ private theorem CFSG.section9_c95_scn_isMulCommutative
     section9_c95_scn_prime_odd (G := G) (p := p) (A := A) ⟨P, hAP, hA0scn⟩
   have hA0comm : IsMulCommutative A0 :=
     (scnSubgroup_normal_commutative
-      (p := p) (R := ↥(P : Subgroup G)) P.isPGroup'
+      (p := p) (R := ↥(P : Subgroup G)) P.isPGroup
       (by simpa [A0] using hA0scn)).2
   let eA : A0 ≃* A := Subgroup.subgroupOfEquivOfLe (H := A) (K := (P : Subgroup G)) hAP
   let : IsMulCommutative A0 := hA0comm
@@ -354,7 +354,7 @@ private theorem CFSG.section9_c95_pSubgroup_le_pCore_of_nilpotent
   obtain ⟨S, hB_le_S⟩ := IsPGroup.exists_le_sylow (G := R) (p := p) hBp
   have hS_normal : (S : Subgroup R).Normal :=
     Group.IsNilpotent.sylow_normal (p := p) inferInstance S
-  exact hB_le_S.trans (le_sSup ⟨hS_normal, S.isPGroup'⟩)
+  exact hB_le_S.trans (le_sSup ⟨hS_normal, S.isPGroup⟩)
 
 omit [IsMinCE G] in
 private theorem CFSG.section9_c95_pCore_le_pPrimeCore_of_ne
@@ -549,7 +549,7 @@ private theorem CFSG.section9_c95_scn_sylow_normalizer_le_high_fitting_rank
     have hPπsingle :
         IsPiSubgroup (G := G) ({⟨p, Fact.out⟩} : Set Nat.Primes)
           (P : Subgroup G) :=
-      section8_isPiSubgroup_singleton_of_isPGroup P.isPGroup'
+      section8_isPiSubgroup_singleton_of_isPGroup P.isPGroup
     simpa [hAπ] using hPπsingle
   have hcentP_le_M : Subgroup.centralizer ((P : Subgroup G) : Set G) ≤ M := by
     exact
@@ -590,7 +590,7 @@ private theorem CFSG.section9_c95_normalizer_le_of_global_sylow_star_seed
   have hS_fam : S ∈ section7HFamily (⊤ : Subgroup G) R ({q} : Set Nat.Primes) := by
     refine ⟨le_top, ?_, hR_norm_S⟩
     rw [← hS_eq]
-    exact section8_isPiSubgroup_singleton_of_isPGroup Sg.isPGroup'
+    exact section8_isPiSubgroup_singleton_of_isPGroup Sg.isPGroup
   obtain ⟨Q, hQ, hS_le_Q⟩ :=
     section8_exists_mem_section7HStarFamily_of_mem_family hS_fam
   have hQ_eq_S : Q = S := by
@@ -659,7 +659,7 @@ private theorem CFSG.section9_c95_scn_sylow_normalizer_le_of_global_sylow_seed
     have hPπsingle :
         IsPiSubgroup (G := G) ({⟨p, Fact.out⟩} : Set Nat.Primes)
           (P : Subgroup G) :=
-      section8_isPiSubgroup_singleton_of_isPGroup P.isPGroup'
+      section8_isPiSubgroup_singleton_of_isPGroup P.isPGroup
     simpa [hAπ] using hPπsingle
   have hcentP_le_M : Subgroup.centralizer ((P : Subgroup G) : Set G) ≤ M := by
     exact
@@ -894,7 +894,7 @@ private theorem CFSG.section9_c95_low_rank_singleton_of_pPrime_fitting_centraliz
     let : CoreF.Normal := hCoreF_normal
     have hsup_p : IsPGroup p (((S : Subgroup M) ⊔ CoreF : Subgroup M)) :=
       IsPGroup.to_sup_of_normal_right
-        (p := p) (H := (S : Subgroup M)) (K := CoreF) S.isPGroup' hCoreF_p
+        (p := p) (H := (S : Subgroup M)) (K := CoreF) S.isPGroup hCoreF_p
     have hsup_eq : ((S : Subgroup M) ⊔ CoreF : Subgroup M) = (S : Subgroup M) :=
       S.maximal_isPGroup.eq_of_ge hsup_p le_sup_left
     exact sup_eq_left.mp hsup_eq
@@ -1151,7 +1151,7 @@ private theorem CFSG.section9_c95_exists_normal_sylow_ne_p_of_low_fitting_rank
     have hAM_le_S : AM ≤ (S : Subgroup M) := by
       let : (S : Subgroup M).Normal := hSnormal
       have hS_p : IsPGroup p (S : Subgroup M) := by
-        simpa [hprime_eq] using S.isPGroup'
+        simpa [hprime_eq] using S.isPGroup
       have hsup_p : IsPGroup p (((S : Subgroup M) ⊔ AM : Subgroup M)) :=
         IsPGroup.to_sup_of_normal_left
           (p := p) (H := (S : Subgroup M)) (K := AM) hS_p hAMp
@@ -1163,7 +1163,7 @@ private theorem CFSG.section9_c95_exists_normal_sylow_ne_p_of_low_fitting_rank
     have hS_le_F : (S : Subgroup M) ≤ fittingSubgroup M := by
       let : (S : Subgroup M).Normal := hSnormal
       have hSnil : Group.IsNilpotent (S : Subgroup M) :=
-        IsPGroup.isNilpotent S.isPGroup'
+        IsPGroup.isNilpotent S.isPGroup
       exact le_sSup ⟨(inferInstance : (S : Subgroup M).Normal), hSnil⟩
     have hAM_le_F : AM ≤ fittingSubgroup M := hAM_le_S.trans hS_le_F
     have hpRank_ge :
@@ -2067,7 +2067,7 @@ private theorem CFSG.section9_c95_pPrime_fitting_le_centralizer_sylow_commutator
       rw [← hK_sub_card]
       exact Subgroup.card_subgroup_dvd_card (K.subgroupOf D)
     exact Nat.Coprime.of_dvd_right hK_dvd_D hDcop
-  have hP₀p : IsPGroup p P₀ := IsPGroup.to_le P.isPGroup' hP₀_le_P
+  have hP₀p : IsPGroup p P₀ := IsPGroup.to_le P.isPGroup hP₀_le_P
   have hKrank : groupRank K ≤ 2 := by
     simpa [K, D, D_M, F] using
       section9_c95_inf_pPrime_fitting_maximal_groupRank_le_two
@@ -2202,7 +2202,7 @@ public theorem CFSG.lemma_9_5
     · have hPtop : (P : Subgroup G) = ⊤ := by
         exact top_unique (by simpa [htopP₀] using hP₀_le_P)
       have hpgroup : IsPGroup p G := by
-        exact P.isPGroup'.of_equiv
+        exact P.isPGroup.of_equiv
           ((MulEquiv.subgroupCongr hPtop).trans Subgroup.topEquiv)
       have : Group.IsNilpotent G := IsPGroup.isNilpotent hpgroup
       exact IsMinCE.not_solvable (G := G) (inferInstance : Group.IsSolvable G)

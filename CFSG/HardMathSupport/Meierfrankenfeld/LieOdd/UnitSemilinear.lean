@@ -17,6 +17,7 @@ variable (σ : K ≃+* K) (A : Matrix ι ι K)
 
 @[expose] def tau (w : ι → K) : ι → K := A *ᵥ (fun i => σ (w i))
 
+omit [DecidableEq ι] in
 theorem tau_add (x y : ι → K) : tau σ A (x + y) = tau σ A x + tau σ A y := by
   unfold tau
   rw [← Matrix.mulVec_add]
@@ -24,12 +25,14 @@ theorem tau_add (x y : ι → K) : tau σ A (x + y) = tau σ A x + tau σ A y :=
   funext i
   simp
 
+omit [DecidableEq ι] in
 theorem tau_smul (c : K) (x : ι → K) : tau σ A (c • x) = σ c • tau σ A x := by
   simp only [tau]
   have : (fun i => σ ((c • x) i)) = σ c • (fun i => σ (x i)) := by
     funext i; simp
   rw [this, Matrix.mulVec_smul]
 
+omit [DecidableEq ι] in
 theorem tau_sub (x y : ι → K) : tau σ A (x - y) = tau σ A x - tau σ A y := by
   unfold tau
   rw [← Matrix.mulVec_sub]
@@ -37,11 +40,13 @@ theorem tau_sub (x y : ι → K) : tau σ A (x - y) = tau σ A x - tau σ A y :=
   funext i
   simp
 
+omit [DecidableEq ι] in
 theorem tau_zero : tau σ A (0 : ι → K) = 0 := by
   unfold tau
   simp
   exact Matrix.mulVec_zero A
 
+omit [DecidableEq ι] in
 theorem hf_map (hσb : ∀ c, σ (h.bar c) = h.bar (σ c)) (hGσ : G.map σ = G) (x y : ι → K) :
     hf h G (fun i => σ (x i)) (fun i => σ (y i)) = σ (hf h G x y) := by
   have hG' : ∀ a b, σ (G a b) = G a b := fun a b => by
@@ -58,11 +63,13 @@ theorem tau_hf (hσb : ∀ c, σ (h.bar c) = h.bar (σ c)) (hGσ : G.map σ = G)
       hf h G (fun i => σ (x i)) (fun i => σ (y i)) := hiso _ _
   rw [h1, hf_map h G σ hσb hGσ]
 
+omit [DecidableEq ι] in
 theorem mulVec_map_sigma (M : Matrix ι ι K) (w : ι → K) :
     (M.map σ) *ᵥ (fun i => σ (w i)) = fun i => σ ((M *ᵥ w) i) := by
   funext i
   simp [Matrix.mulVec, dotProduct, map_sum, map_mul]
 
+omit [DecidableEq ι] in
 theorem tau_tau (hσ2 : ∀ c, σ (σ c) = c) (B : Matrix ι ι K) (w : ι → K) :
     tau σ A (tau σ B w) = (A * B.map σ) *ᵥ w := by
   unfold tau
@@ -119,7 +126,7 @@ theorem eM_eigen_eq (v u : ι → K) (lam mu c' c'' : K) (hl : h.bar lam * mu = 
     linear_combination this
   refine Matrix.ext_iff_mulVec.2 fun w => ?_
   rw [eM_mulVec, eM_mulVec]
-  simp only [hf_smul_left, hf_smul_right, hf_neg_left, hf_neg_right, smul_neg, neg_smul]
+  simp only [hf_smul_left, hf_neg_left, smul_neg, neg_smul]
   have e1 : (h.bar lam * hf h G v w) • mu • u = (-hf h G v w) • u := by
     rw [smul_smul]; congr 1; linear_combination (hf h G v w) * hl
   have e2 : (h.bar mu * hf h G u w) • lam • v = (-hf h G u w) • v := by
@@ -147,6 +154,7 @@ variable (σ : K ≃+* K) (hσb : ∀ c, σ (h.bar c) = h.bar (σ c)) (hσ2 : �
   (hG : (G.map h.bar)ᵀ = G)
 
 include hG in
+omit [DecidableEq ι] in
 theorem bar_cc (u : ι → K) : h.bar (cc h G u) = cc h G u := by
   rw [cc, map_neg, map_mul, hf_self_bar h G hG, map_inv₀, map_ofNat]
 

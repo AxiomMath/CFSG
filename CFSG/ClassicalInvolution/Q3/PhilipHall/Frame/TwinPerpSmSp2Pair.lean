@@ -104,7 +104,7 @@ theorem isPGroup_quaternion {Q : Subgroup G} (ψ : ↥Q ≃* QuaternionGroup 2) 
 theorem eq_of_mul_self_of_isCyclic {C : Type*} [Group C] [Finite C] [IsCyclic C] {x y : C}
     (hx : x * x = 1) (hy : y * y = 1) (hx1 : x ≠ 1) (hy1 : y ≠ 1) : x = y := by
   classical
-  haveI := Fintype.ofFinite C
+  have := Fintype.ofFinite C
   by_contra hxy
   have h2 := IsCyclic.card_pow_eq_one_le (α := C) (n := 2) (by norm_num)
   have hsub : ({1, x, y} : Finset C) ⊆ Finset.univ.filter (fun a : C => a ^ 2 = 1) := by
@@ -143,7 +143,7 @@ theorem false_of_commuting_q8 {F : Subgroup G} [F.Normal]
   let π : G →* G ⧸ F := QuotientGroup.mk' F
   have hker : ∀ x : G, π x = 1 ↔ x ∈ F := fun x => QuotientGroup.eq_one_iff x
   set Pb : Subgroup (G ⧸ F) := P.map π with hPb
-  haveI : IsCyclic ↥Pb := hcyc Pb (hP2.map π)
+  have : IsCyclic ↥Pb := hcyc Pb (hP2.map π)
   have hπP : ∀ x ∈ P, π x ∈ Pb := fun x hx => Subgroup.mem_map_of_mem π hx
   have hpc : ∀ x ∈ P, ∀ y ∈ P, π x * π y = π y * π x := by
     intro x hx y hy
@@ -228,7 +228,7 @@ theorem sixteen_dvd_card_sup_q8 {Q Q' : Subgroup G} (ψ : ↥Q ≃* QuaternionGr
     (ψ' : ↥Q' ≃* QuaternionGroup 2) (hcomm : ∀ x ∈ Q, ∀ y ∈ Q', x * y = y * x) {t : G}
     (htQ' : t ∈ Q') (ht1 : t ≠ 1) (ht2 : t * t = 1) :
     IsPGroup 2 ↥(Q ⊔ Q') ∧ 16 ∣ Nat.card ↥(Q ⊔ Q') := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hP2 : IsPGroup 2 ↥(Q ⊔ Q') :=
     isPGroup_sup_of_commute (isPGroup_quaternion ψ) (isPGroup_quaternion ψ') hcomm
   refine ⟨hP2, ?_⟩

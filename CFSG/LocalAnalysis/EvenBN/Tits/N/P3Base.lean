@@ -61,7 +61,7 @@ theorem Q_le_M (h49 : d.Thm49Statement) (hd : d.Hyp) : d.s56Q ≤ d.M :=
 theorem Xg_le_M (hd : d.Hyp) : Xg d ≤ d.M := hd.s56_X_le_M
 
 theorem V_le_Cv (h10 : Node10 d z₀) : d.s56V ≤ Cv d :=
-  fun v hv => mem_centralizer_iff.2 fun w hw => h10.comm_V hw hv
+  fun _v hv => mem_centralizer_iff.2 fun _w hw => h10.comm_V hw hv
 
 theorem star_V (h10 : Node10 d z₀) {v : G} (hv : v ∈ d.s56V) : star d v = 1 :=
   (actFun_eq_one_iff d.s56V (le_normalizer hv)).2 (V_le_Cv h10 hv)
@@ -170,7 +170,7 @@ theorem mem_normalizer_sup {A B : Subgroup G} {g : G} (hA : g ∈ normalizer (A 
 theorem pCoreOf_CMt (h49 : d.Thm49Statement) (hd : d.Hyp) (hz : d.S56Z0 z₀) :
     pCoreOf 2 (CMt d) = d.s56Q0 ⊓ CMt d := by
   have hQ0N : d.M ≤ normalizer (d.s56Q0 : Set G) := Data.s56_M_le_normalizer_Q0 d
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   apply le_antisymm
   ·
     set O := pCoreOf 2 (CMt d) with hO
@@ -319,12 +319,12 @@ theorem IsV1.pow_four (hd : d.Hyp) (hz : d.S56Z0 z₀) {y₁ : G} (hy : IsV1 d z
   obtain ⟨-, hyz, hyC, hρ⟩ := hy
   have hv1 : Model.parrottV 1 ^ 4 = 1 := by
     have := Model.orderOf_parrottV (i := 1) le_rfl (by norm_num)
-    rw [if_pos (by decide)] at this
+    rw [ite_eq_left (by decide)] at this
     rw [← this]
     exact pow_orderOf_eq_one _
   have hv5 : Model.parrottV 5 ^ 4 = 1 := by
     have := Model.orderOf_parrottV (i := 5) (by norm_num) (by norm_num)
-    rw [if_pos (by decide)] at this
+    rw [ite_eq_left (by decide)] at this
     rw [← this]
     exact pow_orderOf_eq_one _
   have hcomm : Model.parrottV 1 * Model.parrottV 5 = Model.parrottV 5 * Model.parrottV 1 :=

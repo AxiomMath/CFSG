@@ -21,7 +21,7 @@ theorem card_eq_three
   classical
   let Q := sylowImage X P s S
   let F := sylowFixedPoints X P s S
-  have hQ : IsPGroup 3 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup 3 Q := S.isPGroup.map (fixingSubgroup P s).subtype
   have hQcard : Nat.card Q = Nat.card S := Nat.card_congr
     ((S : Subgroup (fixingSubgroup P s)).equivMapOfInjective
       (fixingSubgroup P s).subtype Subtype.val_injective).toEquiv.symm

@@ -10,6 +10,7 @@ open CFSG.Open
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem normal_subgroupOf_of_le_center {N X : Subgroup G} (hN : N ≤ Subgroup.center G) :
     (N.subgroupOf X).Normal :=
   ⟨fun n hn g => by
@@ -23,6 +24,7 @@ theorem normal_subgroupOf_of_le_center {N X : Subgroup G} (hN : N ≤ Subgroup.c
     rw [h2]
     exact hn'⟩
 
+omit [Finite G] in
 theorem conj_mem_of_normal_subgroupOf {N X : Subgroup G} (hNX : N ≤ X)
     (hN : (N.subgroupOf X).Normal) : ∀ x ∈ X, ∀ n ∈ N, x * n * x⁻¹ ∈ N := by
   intro x hx n hn
@@ -50,7 +52,7 @@ theorem commute_core_pcore (X : Subgroup G) :
   have hd1 : orderOf (n * t * n⁻¹ * t⁻¹) ∣ Nat.card (rankThreePrimeCore 2 X) := by
     have := Subgroup.orderOf_dvd_natCard (rankThreePrimeCore 2 X) h2
     exact this
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hpg : ∀ g : ↥(pCoreOf 2 X), ∃ k : ℕ, orderOf g = 2 ^ k :=
     IsPGroup.iff_orderOf.mp (pCoreOf_isPGroup 2 X)
   obtain ⟨k, hk⟩ := hpg ⟨n * t * n⁻¹ * t⁻¹, h1⟩
@@ -68,7 +70,7 @@ theorem commute_core_pcore (X : Subgroup G) :
 
 theorem center_le_core (X : Subgroup G) {c : G} (hc : c ∈ Subgroup.center G) (hcX : c ∈ X) :
     c ∈ rankThreePrimeCore 2 X ⊔ pCoreOf 2 X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hc0 : orderOf c ≠ 0 := (orderOf_pos c).ne'
   obtain ⟨a, m, hm, hgam⟩ := Nat.exists_eq_two_pow_mul_odd hc0
   have hcop : Nat.Coprime (2 ^ a) m := Nat.Coprime.pow_left a (Nat.coprime_two_left.mpr hm)

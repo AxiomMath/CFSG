@@ -48,7 +48,7 @@ private theorem l02qj14_isElemAbelian_range {G : Type} [Group G] {Bs : Subgroup 
     {p : ℕ} (hE : IsElemAbelian p Bs) {L : Subgroup G}
     (hN : Bs ≤ Subgroup.normalizer (L : Set G)) :
     IsElemAbelian p (ggGamma L hN).range := by
-  haveI : IsMulCommutative ↥Bs := hE.1
+  have : IsMulCommutative ↥Bs := hE.1
   exact isElemAbelian_range
     (fun a b : ↥Bs => mul_comm' a b)
     (fun a : ↥Bs => Subtype.ext (by simpa using hE.2 a a.2))
@@ -60,7 +60,7 @@ private theorem l02qj14_le_normalizer_J {G : Type} [Group G] [Finite G] {p : ℕ
     Bs ≤ Subgroup.normalizer (J : Set G) :=
   GGDichotomy.le_normalizer_stdSub
     (fun a ha b hb => by
-      haveI : IsMulCommutative ↥Bs := hcfg.2.1.2.1.1
+      have : IsMulCommutative ↥Bs := hcfg.2.1.2.1.1
       have h := mul_comm' (⟨a, ha⟩ : ↥Bs) (⟨b, hb⟩ : ↥Bs)
       simpa using congrArg Subtype.val h)
     hcfg.2.1.1 hcfg.2.2.1 hN

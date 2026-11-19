@@ -218,7 +218,7 @@ open CFSG.Open CFSG.AGLEmbedding Subgroup CFSG.ComponentClassification.OuterAuto
 theorem card_le_pow_of_pRank_le {G : Type*} [Group G] [Finite G] {p a : ℕ} (hp : p.Prime)
     (hG : CFSG.Open.pRank p (⊤ : Subgroup G) ≤ a) {B : Subgroup G} (hB : IsElemAbelian p B) :
     Nat.card B ≤ p ^ a := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpg : IsPGroup p B := fun x => ⟨1, Subtype.ext (by simpa using hB.2 x x.2)⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 hpg
   have hkB : k ≤ CFSG.Open.pRank p (⊤ : Subgroup G) :=
@@ -229,11 +229,11 @@ theorem card_le_pow_of_pRank_le {G : Type*} [Group G] [Finite G] {p a : ℕ} (hp
 theorem pRank_le_one_of_sylow_isCyclic {E : Type} [Group E] [Finite E] {p : ℕ} (hp : p.Prime)
     (hcyc : ∀ R : Sylow p E, IsCyclic (R : Subgroup E)) :
     CFSG.Open.pRank p (⊤ : Subgroup E) ≤ 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine CFSG.SectionRank.pRank_le hp.one_lt fun B _ hB => ?_
   have hpg : IsPGroup p B := fun x => ⟨1, Subtype.ext (by simpa using hB.2 x x.2)⟩
   obtain ⟨R, hBR⟩ := hpg.exists_le_sylow
-  haveI := hcyc R
+  have := hcyc R
   have hexp : Monoid.exponent (B.subgroupOf (R : Subgroup E)) ∣ p := by
     refine Monoid.exponent_dvd_of_forall_pow_eq_one fun g => ?_
     refine Subtype.ext (Subtype.ext ?_)
@@ -276,7 +276,7 @@ theorem center_eq_bot_of_simple_of_not_prime {K : Type} [Group K] [Finite K] [Is
     have hcomm : ∀ a b : K, a * b = b * a := fun a b => by
       have hb : b ∈ Subgroup.center K := h ▸ Subgroup.mem_top b
       exact Subgroup.mem_center_iff.mp hb a
-    haveI : IsMulCommutative K := ⟨⟨fun a b => hcomm a b⟩⟩
+    have : IsMulCommutative K := ⟨⟨fun a b => hcomm a b⟩⟩
     exact hK ((Group.is_simple_iff_prime_card (α := K)).mp inferInstance)
 
 theorem autRankTwoAt_of_hasNoncommPair {K H : Type} [Group K] [Finite K] [Group H]
@@ -284,7 +284,7 @@ theorem autRankTwoAt_of_hasNoncommPair {K H : Type} [Group K] [Finite K] [Group 
     (h4 : ¬ p ^ 4 ∣ Nat.card K) (hN : CFSG.RankThree.PartOne.StrongP.HasNoncommPair p H)
     (h0 : CFSG.Open.pRank p (⊤ : Subgroup (Outer K)) = 0) {B : Subgroup (MulAut K)}
     (hB : IsElemAbelian p B) : Nat.card B ≤ p ^ 2 := by
-  haveI : IsSimpleGroup K := e.isSimpleGroup
+  have : IsSimpleGroup K := e.isSimpleGroup
   have hZ : Subgroup.center K = ⊥ := center_eq_bot_of_simple_of_not_prime hK
   have hN' : CFSG.RankThree.PartOne.StrongP.HasNoncommPair p K :=
     hN.map e.symm.toMonoidHom e.symm.injective
@@ -301,9 +301,9 @@ theorem autRankTwoAt_alt (h : 5 ≤ 2 * 5) : AutRankTwoAt 5 (.alternating (2 * 5
     rw [Nat.card_congr e'.toEquiv, Nat.card_eq_fintype_card, card_alternatingGroup,
       Fintype.card_fin]
     norm_num [Nat.factorial]
-  haveI : IsSimpleGroup (alternatingGroup (Fin (2 * 5))) :=
+  have : IsSimpleGroup (alternatingGroup (Fin (2 * 5))) :=
     alternatingGroup.isSimpleGroup (by simp)
-  haveI : IsSimpleGroup K := e'.isSimpleGroup
+  have : IsSimpleGroup K := e'.isSimpleGroup
   have hZ : Subgroup.center K = ⊥ :=
     center_eq_bot_of_simple_of_not_prime
       (not_prime_of_two_dvd (by rw [hcard]; norm_num) (by rw [hcard]; norm_num))
@@ -325,7 +325,7 @@ theorem autRankTwoAt_mcl :
   obtain ⟨e⟩ := hK
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.McL.nonempty_mulEquiv
   obtain ⟨eK⟩ : Nonempty (K ≃* Blueprint.NativeSporadic.Carrier .McL) := ⟨e.trans b.symm⟩
-  haveI : IsSimpleGroup (Blueprint.NativeSporadic.Carrier .McL) :=
+  have : IsSimpleGroup (Blueprint.NativeSporadic.Carrier .McL) :=
     CFSG.Sporadic.McL.isSimpleGroup_McL
   have hcard : Nat.card K = 898128000 :=
     (Nat.card_congr eK.toEquiv).trans CFSG.Sporadic.McL.card_McL
@@ -347,7 +347,7 @@ theorem autRankTwoAt_jFour :
   obtain ⟨e⟩ := hK
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.J4.nonempty_mulEquiv
   obtain ⟨eK⟩ : Nonempty (K ≃* Blueprint.NativeSporadic.Carrier .J4) := ⟨e.trans b.symm⟩
-  haveI : IsSimpleGroup (Blueprint.NativeSporadic.Carrier .J4) :=
+  have : IsSimpleGroup (Blueprint.NativeSporadic.Carrier .J4) :=
     CFSG.Sporadic.J4Schreier.FAM_J4_certified_simplicity.2.1
   have hcard : Nat.card K = 86775571046077562880 :=
     (Nat.card_congr eK.toEquiv).trans CFSG.Sporadic.J4.card_J4
@@ -373,8 +373,8 @@ theorem autRankTwoAt_tits
   obtain ⟨eK⟩ := hK
   have hR := CFSG.HardMathSupport.Timmesfeld.DefChar.lot_reeTitsModel_tits_of_index hv eK
   obtain ⟨eT⟩ := CFSG.Sporadic.Schreier.Tits.titsModelEquiv K 2 1 hR
-  haveI : IsSimpleGroup K := by
-    haveI := CFSG.Sporadic.Schreier.Tits.titsD_simple
+  have : IsSimpleGroup K := by
+    have := CFSG.Sporadic.Schreier.Tits.titsD_simple
     exact eT.isSimpleGroup
   have hcard : Nat.card K = 17971200 :=
     (Nat.card_congr eT.toEquiv).trans CFSG.Sporadic.Schreier.Tits.card_titsD
@@ -409,11 +409,11 @@ theorem autRankTwoAt_suzuki
   subst ha2
   obtain ⟨hsimple, hnonab, -⟩ :=
     isSimpleGroup_and_not_isSolvable_of_equiv_suzukiGroup (by norm_num) hF eF
-  haveI : IsSimpleGroup K := hsimple
+  have : IsSimpleGroup K := hsimple
   have hZ : Subgroup.center K = ⊥ := GL83.I713.center_eq_bot_of_simple hnonab
   have eKS : K ≃* CFSG.BenderSuzuki.MatrixGroups.SuzukiMatrixGroup 2 :=
     eK.trans (CFSG.BenderSuzuki.Catalog.groupEquivSuzukiMatrixGroup hv)
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hK1 : CFSG.Open.pRank 5 (⊤ : Subgroup K) ≤ 1 :=
     pRank_le_one_of_sylow_isCyclic Nat.prime_five fun R =>
       CFSG.BenderSuzuki.lemma114_suzuki_oddSylow_isCyclic_of_equiv eKS 5 (by norm_num) R

@@ -27,7 +27,7 @@ variable (K) in
 theorem mem_innDiag_iff {δ : MulAut (adjointGroup .E6 K)} :
     δ ∈ innDiag K ↔ ∃ (g : adjointGroup .E6 K) (a : Fin Tag.E6.rank → Kˣ),
       δ = MulAut.conj g * rootDiagAutHom .E6 K a := by
-  haveI : (MulAut.conj : adjointGroup .E6 K →* MulAut (adjointGroup .E6 K)).range.Normal :=
+  have : (MulAut.conj : adjointGroup .E6 K →* MulAut (adjointGroup .E6 K)).range.Normal :=
     RootCentExc.normal_range_mulAutConj
   change δ ∈ (MulAut.conj : adjointGroup .E6 K →* MulAut (adjointGroup .E6 K)).range ⊔
     (rootDiagAutHom .E6 K).range ↔ _
@@ -137,6 +137,7 @@ section Propagation
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 private theorem of_conj {τ : Tag} {P : adjointGroup τ K → Prop}
     (hP : ∀ g z : adjointGroup τ K, P z → P (g * z * g⁻¹))
     {z g : adjointGroup τ K} (h : P (g * z * g⁻¹)) : P z := by
@@ -146,6 +147,7 @@ private theorem of_conj {τ : Tag} {P : adjointGroup τ K → Prop}
 
 section Adj
 
+omit [Finite K] [CharP K 2] in
 private theorem iff_of_adj {τ : Tag} {P : adjointGroup τ K → Prop}
     (hP : ∀ g z : adjointGroup τ K, P z → P (g * z * g⁻¹))
     (h2 : (2 : K) = 0) (F : RootOperatorFamily τ) {j k : Fin τ.rank}

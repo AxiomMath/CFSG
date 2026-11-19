@@ -46,6 +46,7 @@ structure PGLConfig (Y K : Subgroup (LGL 2 W)) (U₁ U₂ : Submodule (ZMod 2) W
 
 variable {Y K : Subgroup (LGL 2 W)} {U₁ U₂ : Submodule (ZMod 2) W}
 
+omit [Finite W] in
 theorem mem_centralizerOn_span_singleton {c : W} {y : LGL 2 W} :
     y ∈ centralizerOn Y (Submodule.span (ZMod 2) {c}) ↔ y ∈ Y ∧ y c = c := by
   constructor
@@ -56,6 +57,7 @@ theorem mem_centralizerOn_span_singleton {c : W} {y : LGL 2 W} :
     obtain ⟨a, rfl⟩ := Submodule.mem_span_singleton.1 hu
     rw [map_smul, h]
 
+omit [Finite W] in
 theorem PGLConfig.card_K (h : PGLConfig Y K U₁ U₂) : Nat.card K = 168 := by
   obtain ⟨e, -, -⟩ := h.coord
   rw [Nat.card_congr e.toEquiv, Matrix.card_GL_field, ZMod.card]
@@ -123,8 +125,7 @@ theorem PGLConfig.exists_coords (h : PGLConfig Y K U₁ U₂) :
         have hMN : M * (((e k)⁻¹ : GL (Fin 3) (ZMod 2)) :
             Matrix (Fin 3) (Fin 3) (ZMod 2)) = 1 := by
           rw [hMdef]
-          simpa using congrArg (fun u : GL (Fin 3) (ZMod 2) =>
-            (u : Matrix (Fin 3) (Fin 3) (ZMod 2))) (mul_inv_cancel (e k))
+          simp
         have h1 : Matrix.vecMul (φ₂ v') M = Matrix.vecMul (φ₂ v) M :=
           hrel.trans hfix.symm
         have h2 := congrArg (fun w => Matrix.vecMul w
@@ -251,6 +252,7 @@ theorem PGLConfig.not_mem_normalizer_stab (h : PGLConfig Y K U₁ U₂) {c : W}
       (h₁ k ⟨y c, hycU₁⟩).mp hmove
     exact hM2 (by simpa [hkM] using hmat)
 
+omit [Finite W] in
 private theorem pgl_mem_fixSub_zpowers {x : LGL 2 W} {u : W} (hxu : x u = u) :
     u ∈ fixSub (Subgroup.zpowers x) := by
   intro z hz
@@ -273,7 +275,7 @@ theorem PGLConfig.exists_vector (h : PGLConfig Y K U₁ U₂) {A : Subgroup (LGL
     ∃ (B : Subgroup (LGL 2 W)) (c : W), B ≤ A ∧ mOf A B = 1 ∧ c ≠ 0 ∧ (c ∈ U₁ ∨ c ∈ U₂) ∧
       c ∈ CFSG.Quasithin.G11.commSpace A (fixSub B) := by
   classical
-  haveI : Fintype ↥A := Fintype.ofFinite _
+  have : Fintype ↥A := Fintype.ofFinite _
   obtain ⟨e, φ₁, φ₂, h₁, h₂⟩ := h.exists_coords
   obtain ⟨_e, _φ, hnat⟩ := h.coord
   have hcardA : Fintype.card ↥A = 4 := by
@@ -290,7 +292,7 @@ theorem PGLConfig.exists_vector (h : PGLConfig Y K U₁ U₂) {A : Subgroup (LGL
   have ha1' : (a : LGL 2 W) ≠ 1 := fun h => ha1 (Subtype.ext h)
   have hb1' : (b : LGL 2 W) ≠ 1 := fun h => hb1 (Subtype.ext h)
   have hcommA : a * b = b * a := by
-    haveI : IsMulCommutative ↥A := hAe.1
+    have : IsMulCommutative ↥A := hAe.1
     exact mul_comm' a b
   have hcomm : (a : LGL 2 W) * (b : LGL 2 W) = (b : LGL 2 W) * (a : LGL 2 W) :=
     congrArg Subtype.val hcommA
@@ -358,9 +360,9 @@ theorem exists_mem_normalizer_not_mem {X : Type*} [Group X] [Finite X] {Y K P : 
     (hcardP : Nat.card P = 3) :
     ∃ n ∈ Y, n ∈ Subgroup.normalizer (P : Set X) ∧ n ∉ K := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hidx' : (K.subgroupOf Y).index = 2 := hidx
-  haveI : (K.subgroupOf Y).Normal := Subgroup.normal_of_index_eq_two hidx'
+  have : (K.subgroupOf Y).Normal := Subgroup.normal_of_index_eq_two hidx'
   have hcardY : Nat.card ↥Y = 336 := by
     have hc : Nat.card (K.subgroupOf Y) = 168 := by
       rw [← hcardK]
@@ -448,7 +450,7 @@ theorem sup_inf_normalizer_eq_of_outer {X : Type*} [Group X] [Finite X] {Y K S P
       exact Subgroup.eq_of_le_of_card_ge hTK (by rw [hcardK, hcardT])
   rcases hmax (X' ⊓ K) (le_inf le_sup_left hSK) inf_le_right with hcase | hcase
   · exfalso
-    haveI : (K.subgroupOf Y).Normal :=
+    have : (K.subgroupOf Y).Normal :=
       Subgroup.normal_of_index_eq_two (show (K.subgroupOf Y).index = 2 from hidx)
     let f : ↥X' →* ↥Y ⧸ (K.subgroupOf Y) :=
       (QuotientGroup.mk' (K.subgroupOf Y)).comp (Subgroup.inclusion hX'le)
@@ -486,7 +488,7 @@ theorem sup_inf_normalizer_eq_of_outer {X : Type*} [Group X] [Finite X] {Y K S P
     have hidxS : (S.subgroupOf X').index = 2 := by
       rw [← hf_ker, Subgroup.index_ker]
       exact hrange_card
-    haveI : (S.subgroupOf X').Normal := Subgroup.normal_of_index_eq_two hidxS
+    have : (S.subgroupOf X').Normal := Subgroup.normal_of_index_eq_two hidxS
     have hle : X' ≤ Subgroup.normalizer (S : Set X) :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer le_sup_left).1 inferInstance
     exact hout n hny hnK (hle hnX')
@@ -528,8 +530,8 @@ theorem card_le_four_of_isPGL2 {X : Type} [Group X] {Y A : Subgroup X}
     Nat.card A ≤ 4 := by
   classical
   obtain ⟨F, hfield, hfinite, hFcard, ⟨e⟩⟩ := hY
-  letI : Field F := hfield
-  letI : Finite F := hfinite
+  let : Field F := hfield
+  let : Finite F := hfinite
   have hcenter : StatedScalars (Fin 2) F = Subgroup.center (GL (Fin 2) F) :=
     CFSG.Open.StatedAPI.statedScalars_eq_center (Fin 2) F
   let ε : GL (Fin 2) F ⧸ StatedScalars (Fin 2) F ≃* CFSG.GorensteinWalter.PGL2 F :=
@@ -544,7 +546,7 @@ theorem card_le_four_of_isPGL2 {X : Type} [Group X] {Y A : Subgroup X}
   have hB2 : CFSG.Quasithin.IsElemAb2 B := by
     refine ⟨?_, ?_⟩
     · rintro _ ⟨a, ha, rfl⟩ _ ⟨b, hb, rfl⟩
-      haveI : IsMulCommutative ↥A := hAe.1
+      have : IsMulCommutative ↥A := hAe.1
       have hcommA : (⟨a.1, ha⟩ : ↥A) * ⟨b.1, hb⟩ = ⟨b.1, hb⟩ * ⟨a.1, ha⟩ :=
         mul_comm' _ _
       rw [← map_mul, ← map_mul, show a * b = b * a from

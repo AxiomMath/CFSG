@@ -63,7 +63,7 @@ theorem nonempty_projSp_of_lieModel {S : Type} [Group S] {n p f : ℕ} [Fact p.P
 
 theorem isCatalogGroup_quot {L : Type} [Group L] (hK : CFSG.Open.IsKGroup L)
     (hq : CFSG.IsQuasisimple L) : CFSG.Open.IsCatalogGroup (L ⧸ Subgroup.center L) := by
-  haveI := hq.2.1
+  have := hq.2.1
   refine
     CFSG.HardMathSupport.Solomon.LocalBalance.Lemma512Ns.isCatalogGroup_of_isKGroup_of_surjective
       hK ⊤ hq.2.2 ((QuotientGroup.mk' (Subgroup.center L)).comp (⊤ : Subgroup L).subtype) ?_

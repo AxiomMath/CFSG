@@ -49,7 +49,7 @@ theorem plane_mem_cases {P : Submodule (ZMod 2) W} (hP : Module.finrank (ZMod 2)
     · exact hp
     · exact hv
   have hrange : Set.range ![p, v] = {p, v} := by
-    ext x; simp [Fin.exists_fin_two]; tauto
+    ext x; simp; tauto
   have hfr : Module.finrank (ZMod 2) (Submodule.span (ZMod 2) {p, v}) = 2 := by
     have := finrank_span_eq_card hli
     rw [hrange] at this
@@ -91,7 +91,7 @@ theorem matrix_two_order_three (A M : Matrix (Fin 2) (Fin 2) (ZMod 2)) (hA : A ^
 theorem endo_two_order_three {V : Type*} [AddCommGroup V] [Module (ZMod 2) V]
     (h2 : Module.finrank (ZMod 2) V = 2) {T M : V →ₗ[ZMod 2] V}
     (hT : T ^ 2 + T + 1 = 0) (hM : M ^ 3 = 1) : M = 1 ∨ M = T ∨ M = T ^ 2 := by
-  haveI : Module.Finite (ZMod 2) V := Module.finite_of_finrank_pos (by rw [h2]; norm_num)
+  have : Module.Finite (ZMod 2) V := Module.finite_of_finrank_pos (by rw [h2]; norm_num)
   let b := Module.finBasisOfFinrankEq (ZMod 2) V h2
   let ψ := LinearMap.toMatrixAlgEquiv b
   have hA : (ψ T) ^ 2 + ψ T + 1 = 0 := by

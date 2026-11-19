@@ -71,12 +71,12 @@ theorem rep_initTblOf
     simpa [initTblOf, initG] using rep_j3u
   by_cases h3 : r = 3
   · subst h3
-    simp only [initTblOf, initG, if_true, if_false, show (3 : ℕ) ≠ 0 by norm_num,
+    simp only [initTblOf, initG, ite_true, ite_false, show (3 : ℕ) ≠ 0 by norm_num,
       show (3 : ℕ) ≠ 1 by norm_num, show (3 : ℕ) ≠ 2 by norm_num, j3tD]
     exact rep_arrTbl (rep_of_validA (j3tDGens_valid 0 (by simp [j3tDGens])))
   by_cases h4 : r = 4
   · subst h4
-    simp only [initTblOf, initG, if_true, if_false, show (4 : ℕ) ≠ 0 by norm_num,
+    simp only [initTblOf, initG, ite_true, ite_false, show (4 : ℕ) ≠ 0 by norm_num,
       show (4 : ℕ) ≠ 1 by norm_num, show (4 : ℕ) ≠ 2 by norm_num, show (4 : ℕ) ≠ 3 by norm_num,
       j3tD]
     exact rep_arrTbl (rep_of_validA (j3tDGens_valid 1 (by simp [j3tDGens])))
@@ -86,37 +86,37 @@ theorem rep_initTblOf
       have h := j3t_derived_check.2.2.2.2
       simp only [detOK, Bool.and_eq_true] at h
       exact h.1.1.1
-    simp only [initTblOf, initG, if_true, if_false, show (5 : ℕ) ≠ 0 by norm_num,
+    simp only [initTblOf, initG, ite_true, ite_false, show (5 : ℕ) ≠ 0 by norm_num,
       show (5 : ℕ) ≠ 1 by norm_num, show (5 : ℕ) ≠ 2 by norm_num, show (5 : ℕ) ≠ 3 by norm_num,
       show (5 : ℕ) ≠ 4 by norm_num, j3tGPerm]
     exact rep_arrTbl (rep_of_validA hG)
   by_cases h6 : r = 6
   · subst h6
-    simp only [initTblOf, initG, if_true, if_false, show (6 : ℕ) ≠ 0 by norm_num,
+    simp only [initTblOf, initG, ite_true, ite_false, show (6 : ℕ) ≠ 0 by norm_num,
       show (6 : ℕ) ≠ 1 by norm_num, show (6 : ℕ) ≠ 2 by norm_num, show (6 : ℕ) ≠ 3 by norm_num,
       show (6 : ℕ) ≠ 4 by norm_num, show (6 : ℕ) ≠ 5 by norm_num]
     exact (ctuc_j3_involution_centralizer_data.1 9 (by norm_num))
   by_cases h12 : r < 12
   · have hr7 : 7 ≤ r := by omega
-    simp only [initTblOf, initG, h0, h1, h2, h3, h4, h5, h6, if_false, h12, if_true]
+    simp only [initTblOf, initG, h0, h1, h2, h3, h4, h5, h6, ite_false, h12, ite_true]
     exact (ctuc_j3_involution_centralizer_data.1 (r + 3) (by omega))
   by_cases h16 : r < 16
-  · simp only [initTblOf, initG, h0, h1, h2, h3, h4, h5, h6, if_false, h12, h16, if_true]
+  · simp only [initTblOf, initG, h0, h1, h2, h3, h4, h5, h6, ite_false, h12, h16, ite_true]
     have hk : r - 12 < j3tCAGens.size := by simp [j3tCAGens]; omega
     exact rep_arrTbl (rep_of_validA (enumOK_gens_valid (centOKP_enum j3t_cases_check.1) hk))
   by_cases h17 : r = 16
   · subst h17
-    simp only [initTblOf, initG, h0, h1, h2, h3, h4, h5, h6, if_false, h12, h16, if_true]
+    simp only [initTblOf, initG, h0, h1, h2, h3, h4, h5, h6, ite_false, h12, h16, ite_true]
     exact rep_arrTbl (rep_of_validA (j3tReps_spec (c := 0) (by norm_num)).1)
   by_cases h18 : r = 17
   · subst h18
-    simp only [initTblOf, initG, h0, h1, h2, h3, h4, h5, h6, if_false, h12, h16, h17, if_true]
+    simp only [initTblOf, initG, h0, h1, h2, h3, h4, h5, h6, ite_false, h12, h16, h17, ite_true]
     exact rep_arrTbl (rep_evalWA_j3tD j3tWu)
   by_cases h19 : r = 18
   · subst h19
-    simp only [initTblOf, initG, h0, h1, h2, h3, h4, h5, h6, if_false, h12, h16, h17, h18, if_true]
+    simp only [initTblOf, initG, h0, h1, h2, h3, h4, h5, h6, ite_false, h12, h16, h17, h18, ite_true]
     exact rep_arrTbl (rep_evalWA_j3tD j3tWv)
-  · simp only [initTblOf, initG, h0, h1, h2, h3, h4, h5, h6, if_false, h12, h16, h17, h18, h19]
+  · simp only [initTblOf, initG, h0, h1, h2, h3, h4, h5, h6, ite_false, h12, h16, h17, h18, h19]
     exact Rep.idT (by norm_num)
 
 end CFSG.RankThree.PartTwo.Sec8.Hering611.J3T

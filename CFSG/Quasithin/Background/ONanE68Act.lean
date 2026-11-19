@@ -120,7 +120,7 @@ theorem mem_omega_of_conj_base (h : E6.E68BaseHyp L A R) (hZ : Subgroup.center �
       have h1 : g * x * g⁻¹ = x := by rw [hgP x hx]; group
       rw [h1]
       exact hx
-    have hsup := IsPGroup.to_sup_of_normal_right' hz2 (sylowInB h).isPGroup' hzN
+    have hsup := IsPGroup.to_sup_of_normal_right' hz2 (sylowInB h).isPGroup hzN
     have heq := (Maximal.eq_of_le (sylowInB h).maximal_isPGroup hsup le_sup_right).symm
     have hmem : g ∈ Subgroup.zpowers g ⊔ P := Subgroup.mem_sup_left (Subgroup.mem_zpowers g)
     rw [heq] at hmem

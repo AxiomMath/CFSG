@@ -2,7 +2,7 @@ module
 
 public import CFSG.LocalAnalysis.EvenBN.Tits.N.P4Aut
 public import Mathlib.Algebra.Order.Ring.Star
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 
 public section
 
@@ -61,7 +61,7 @@ theorem fpf_quot [Finite Λ] (hcomm : ∀ a b : Λ, a * b = b * a) {x : MulAut �
   classical
   let F : Subgroup Λ :=
     { carrier := {l | l ∈ M ∧ x l * l⁻¹ ∈ N}
-      one_mem' := ⟨M.one_mem, by simpa using N.one_mem⟩
+      one_mem' := ⟨M.one_mem, by simp⟩
       mul_mem' := by
         rintro a b ⟨haM, ha⟩ ⟨hbM, hb⟩
         refine ⟨M.mul_mem haM hbM, ?_⟩

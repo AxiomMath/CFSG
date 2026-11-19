@@ -43,7 +43,7 @@ theorem Ctx23L.isSolvable_inf_normalizer_sylow {D : Data G} {Ch : Choice2011 G}
 theorem Ctx23L.isSolvable_inf_M {D : Data G} {Ch : Choice2011 G} (c : Ctx23L D Ch)
     (h2010 : S20_10 D) (h207 : S20_7 D) (h1930 : H1930 D) (hRB : KRankOneBorel) :
     Group.IsSolvable ↥(c.L0 ⊓ D.M) := by
-  haveI : Group.IsSolvable
+  have : Group.IsSolvable
       ↥(c.L0 ⊓ Subgroup.normalizer ((D.T ⊓ c.L0 : Subgroup G) : Set G)) :=
     isSolvable_inf_normalizer_sylow c h207 h1930
   have hle : c.L0 ⊓ D.M ≤

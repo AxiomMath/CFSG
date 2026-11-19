@@ -105,7 +105,7 @@ theorem UJ_decomp {J : Set (Fin Tag.E6.rank → ℤ)} (hJ : IsIdealE6 J) (hfin :
     {α : Fin Tag.E6.rank → ℤ} (hα : α ∈ J) {g : C6 F} (hg : g ∈ UJ F J) :
     ∃ (c : F) (n : C6 F), n ∈ UJ F (J \ {α}) ∧ g = pinnedElt Tag.E6 α c * n := by
   classical
-  have hfin' : (J \ {α}).Finite := hfin.subset Set.diff_subset
+  have hfin' : (J \ {α}).Finite := hfin.subset Set.sdiff_subset
   obtain ⟨m, β, hβinj, hβrange⟩ : ∃ (m : ℕ) (β : Fin m → Fin Tag.E6.rank → ℤ),
       Function.Injective β ∧ Set.range β = J \ {α} := by
     obtain ⟨β, h1, h2⟩ := exists_rootEnum hfin'
@@ -115,7 +115,7 @@ theorem UJ_decomp {J : Set (Fin Tag.E6.rank → ℤ)} (hJ : IsIdealE6 J) (hfin :
   have hγinj : Function.Injective γ := Fin.cons_injective_iff.mpr ⟨hαβ, hβinj⟩
   have hγrange : Set.range γ = J := by
     rw [Fin.range_cons, hβrange]
-    exact Set.insert_diff_singleton.trans (Set.insert_eq_of_mem hα)
+    exact Set.insert_sdiff_singleton.trans (Set.insert_eq_of_mem hα)
   have hbij := bijOn_prod_pinnedX (τ := Tag.E6) F (fun x hx => hJ.1 hx) (isIdealE6_closed hJ) γ
     hγinj hγrange
   obtain ⟨c, -, hc⟩ := hbij.surjOn (show (g : ModGL Tag.E6 F) ∈ rootSpan Tag.E6 F J from hg)
@@ -130,7 +130,7 @@ theorem eq_zero_of_pinnedElt_mem {J : Set (Fin Tag.E6.rank → ℤ)} (hJ : IsIde
     (hfin : J.Finite) {α : Fin Tag.E6.rank → ℤ} (hα : α ∈ J) (hJ' : IsIdealE6 (J \ {α})) {c : F}
     (h : pinnedElt Tag.E6 α c ∈ UJ F (J \ {α})) : c = 0 := by
   classical
-  have hfin' : (J \ {α}).Finite := hfin.subset Set.diff_subset
+  have hfin' : (J \ {α}).Finite := hfin.subset Set.sdiff_subset
   obtain ⟨m, β, hβinj, hβrange⟩ : ∃ (m : ℕ) (β : Fin m → Fin Tag.E6.rank → ℤ),
       Function.Injective β ∧ Set.range β = J \ {α} := by
     obtain ⟨β, h1, h2⟩ := exists_rootEnum hfin'
@@ -203,12 +203,12 @@ theorem ulang_ideal {δ : F ≃+* F} (hδ2 : δ * δ = 1) (hδ1 : δ ≠ 1) :
       group
     · obtain ⟨α, hα, hmin⟩ := Set.exists_min_image J height hfin (Set.nonempty_iff_ne_empty.mpr hJe)
       have hJ' : IsIdealE6 (J \ {α}) := isIdealE6_erase_min hJ hmin
-      have hfin' : (J \ {α}).Finite := hfin.subset Set.diff_subset
-      have hlt : (J \ {α}).ncard < n := hn ▸ Set.ncard_diff_singleton_lt_of_mem hα hfin
+      have hfin' : (J \ {α}).Finite := hfin.subset Set.sdiff_subset
+      have hlt : (J \ {α}).ncard < n := hn ▸ Set.ncard_sdiff_singleton_lt_of_mem hα hfin
       have hα2 : ∀ x : C6 F, fieldAutE6 F δ (fieldAutE6 F δ x) = x := fun x => by
         have := fieldAutE6_sq hδ2
         simpa using congrArg (fun φ : MulAut (C6 F) => φ x) this
-      have hle : UJ F (J \ {α}) ≤ UJ F J := UJ_mono Set.diff_subset
+      have hle : UJ F (J \ {α}) ≤ UJ F J := UJ_mono Set.sdiff_subset
       have hbase : ∀ m ∈ UJ F (J \ {α}), m * fieldAutE6 F δ m = 1 →
           ∃ w ∈ UJ F (J \ {α}), m = w * (fieldAutE6 F δ w)⁻¹ :=
         fun m hm hmc => ih _ hlt (J \ {α}) rfl hfin' hJ' m hm hmc
@@ -223,7 +223,7 @@ theorem ulang_ideal {δ : F ≃+* F} (hδ2 : δ * δ = 1) (hδ1 : δ ≠ 1) :
         have hYU : pinnedElt Tag.E6 α (δ c) ∈ UJ F J := pinnedElt_mem_UJ hα _
         have hconj : (pinnedElt Tag.E6 α (δ c))⁻¹ * n * pinnedElt Tag.E6 α (δ c) ∈
             UJ F (J \ {α}) := by
-          have := UJ_conj_mem hJ hJ' Set.diff_subset ((UJ F J).inv_mem hYU) hn
+          have := UJ_conj_mem hJ hJ' Set.sdiff_subset ((UJ F J).inv_mem hYU) hn
           simpa using this
         have h1 : (pinnedElt Tag.E6 α c * pinnedElt Tag.E6 α (δ c)) *
             (((pinnedElt Tag.E6 α (δ c))⁻¹ * n * pinnedElt Tag.E6 α (δ c)) *
@@ -255,7 +255,7 @@ theorem ulang_ideal {δ : F ≃+* F} (hδ2 : δ * δ = 1) (hδ1 : δ ≠ 1) :
         have hVU : pinnedElt Tag.E6 α (δ (c * ω)) ∈ UJ F J := pinnedElt_mem_UJ hα _
         have hconj2 : (pinnedElt Tag.E6 α (δ (c * ω)))⁻¹ * n *
             pinnedElt Tag.E6 α (δ (c * ω)) ∈ UJ F (J \ {α}) := by
-          have := UJ_conj_mem hJ hJ' Set.diff_subset ((UJ F J).inv_mem hVU) hn
+          have := UJ_conj_mem hJ hJ' Set.sdiff_subset ((UJ F J).inv_mem hVU) hn
           simpa using this
         have hWXV : (pinnedElt Tag.E6 α (c * ω))⁻¹ * pinnedElt Tag.E6 α c *
             pinnedElt Tag.E6 α (δ (c * ω)) = 1 := by

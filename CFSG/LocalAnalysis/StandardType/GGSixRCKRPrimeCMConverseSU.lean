@@ -39,7 +39,7 @@ private lemma rckConverseSU_map_primeFormUnitary_eq_GUFull {m g : ℕ} {F E : Ty
       simpa only [Units.val_one, Matrix.mul_one] using hA'
     rw [ClassicalBlocks.GUFull]
     refine Subgroup.subset_closure ?_
-    rw [Set.mem_setOf_eq]
+    rw [Set.mem_ofPred_eq]
     simp only [MulEquiv.coe_toMonoidHom]
     rw [CFSG.Adapters.RankTwoModelTransports.glCongr_coe,
       CFSG.Adapters.RankTwoModelTransports.hermitian_map_ringEquiv,
@@ -212,7 +212,7 @@ theorem exists_rckModelConverse_SU {m g : ℕ} (hm : 4 ≤ m) {E : Type} [Field 
       RCKModelConverse ((CFSG.Open.StatedSU m (2 ^ (g + 1)) E).subgroupOf
         (ClassicalBlocks.GUFull m (2 ^ (g + 1)) E)) .PSU m (g + 1) κ := by
   let F := GaloisField 2 (2 * (g + 1))
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let hF : Nat.card F = (2 ^ (g + 1)) ^ 2 :=
     card_galoisField_two_mul 2 (g + 1) (by omega)
   let h : UnitaryFieldData 2 (g + 1) F :=

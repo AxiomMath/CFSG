@@ -34,7 +34,7 @@ theorem psu_core {ℓ f : ℕ} {K : Type} [Field K] [Finite K] (h : UnitaryField
   have hnc := not_commute_primeFormP_one (fixSubfield_unitaryFieldData h hp hp2 hσ) hn hq₀
   obtain ⟨x₀, hx₀⟩ :=
     exists_orderOf_prime_primeFormP (fixSubfield_unitaryFieldData h hp hp2 hσ) hn hp hpq₀
-  haveI := hS
+  have := hS
   refine ⟨range_subfieldPSU_le h n (fixSubfield_unitaryFieldData h hp hp2 hσ)
     (fixSubfield_unitaryFieldData_bar h hp hp2 hσ),
     isSimpleGroup_of_mulEquiv (MonoidHom.ofInjective hinj), ?_, ?_,
@@ -58,13 +58,13 @@ theorem psu_LUGood {ℓ f : ℕ} {K : Type} [Field K] [Finite K] (h : UnitaryFie
       MulAut (primeFormP h ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K))).range = ⊥) :
     LUGood p D := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq : ¬(n = 3 ∧ ℓ ^ f = 2) := fun h' => hn3 h'.1
-  haveI := h.finite
+  have := h.finite
   have hC : IsPrimeFormGram (1 : GL (Fin n) K) := isPrimeFormGram_one
   have hnot : ¬ D ≤ primeFormD h ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) := by
     intro hle
-    haveI := isCyclic_unitaryD_quotient h hn hq
+    have := isCyclic_unitaryD_quotient h hn hq
     obtain ⟨x, hx, hx1⟩ := exists_ne_one_inf_of_cyclic
       (primeFormD h ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K))
       (inner (primeFormP h ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K))) hp D hle hD hc
@@ -73,7 +73,7 @@ theorem psu_LUGood {ℓ f : ℕ} {K : Type} [Field K] [Finite K] (h : UnitaryFie
         Matrix (Fin n) (Fin n) K))).range := hx
     rw [hinn, Subgroup.mem_bot] at hx'
     exact hx1 hx'
-  obtain ⟨x, hxD, hxL⟩ := SetLike.not_le_iff_exists.1 hnot
+  obtain ⟨x, hxD, hxL⟩ := IsConcreteLE.not_le_iff_exists.1 hnot
   obtain ⟨-, -, -, -, -, -, -, hFker, -⟩ :=
     unitary_prime_form_full_semilinear_realization h hC hn hq
   have hx1 : x ≠ 1 := fun h1 => hxL (by rw [h1]; exact one_mem _)
@@ -128,7 +128,7 @@ theorem kd26bcLinUni_holds : CFSG.LocalAnalysis.GLTheoremA.KD26bcLinUni := by
       ⟨hadm, F, inferInstance, hU.finite, by rw [hU.card, ← pow_mul, mul_comm], ⟨e0⟩⟩
     obtain ⟨K, _, h, -, hn3', ⟨e⟩⟩ :=
       CFSG.HardMathSupport.Timmesfeld.Tables.T1b.exists_mulEquiv_primeFormP hm
-    haveI : Finite K := h.finite
+    have : Finite K := h.finite
     have hD' : IsElemAbelian p (D.map (MulAut.congr e).toMonoidHom) :=
       CFSG.SectionRank.isElemAbelian_map hD _
     have hc' : Nat.card (D.map (MulAut.congr e).toMonoidHom) = p ^ 2 := by

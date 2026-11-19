@@ -252,7 +252,7 @@ theorem sylow_facts [Finite G] (hZo : Odd (Nat.card Z)) (P : Sylow 2 G) :
   have hQ : (Q : Subgroup L) = (P : Subgroup G).map (proj Z e) := Sylow.coe_ofCard _ _
   have hab : IsMulCommutative (Q : Subgroup L) := (hL.elementary_sylow Q).toIsMulCommutative
   have h8 : Nat.card (Q : Subgroup L) = 8 := hL.card_sylow Q
-  have hPZ := CentralLift.inf_eq_bot_of_isPGroup hZo P.isPGroup'
+  have hPZ := CentralLift.inf_eq_bot_of_isPGroup hZo P.isPGroup
   refine ⟨⟨⟨fun a b => ?_⟩⟩, ?_⟩
   · apply Subtype.ext
     apply CentralLift.eq_of_inf_eq_bot (proj Z e) (ker_proj Z e) hPZ
@@ -359,7 +359,7 @@ theorem E_eq (hR2 : hL.R2) (fr : Frame (hyp hL Z e hq hR1 hZc hZo hM J hJ hJ2)) 
         hcomm'.orderOf_mul_dvd_mul_orderOf
       rw [mul_inv_cancel_right, orderOf_inv] at hdvd
       exact Odd.of_dvd_nat (hxo.mul hzo) hdvd
-    have hs1 : s = 1 := eq_one_of_odd_of_isPGroup fr.S.isPGroup' hs hso
+    have hs1 : s = 1 := eq_one_of_odd_of_isPGroup fr.S.isPGroup hs hso
     rw [hs1, one_mul]
     exact hz
   · intro z hz
@@ -524,7 +524,7 @@ theorem lemma_8_2_of
     rintro x (rfl | rfl)
     · exact fr.J_mem
     · exact fr.T_le_S hT
-  have hV2 : IsPGroup 2 (fr.V T₂) := fr.S.isPGroup'.to_le hVS
+  have hV2 : IsPGroup 2 (fr.V T₂) := fr.S.isPGroup.to_le hVS
   have hgen : ∀ Aα : Subgroup G, Aα ≤ fr.A T₂ → Aα ≠ ⊥ → ∃ a ∈ AL, a ≠ 1 ∧
       Aα.map (proj Z e) = Subgroup.zpowers a := by
     intro Aα hle hne

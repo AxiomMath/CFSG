@@ -60,7 +60,7 @@ theorem centralizer_le_of_two_dvd_card_pPrimeCoreIn (hS : Setting G) (hD1 : Theo
     exact this hcard.symm
   have hNT : normalizer (T : Set G) ≤ M :=
     normalizer_le_of_isSylowOf_two_of_le hD1 hp hM (inf_le_left.trans hPM)
-      (P.isPGroup'.to_le inf_le_left) h3 hYM (inf_le_right.trans hCY) hYcop hT hTne
+      (P.isPGroup.to_le inf_le_left) h3 hYM (inf_le_right.trans hCY) hYcop hT hTne
   exact (le_sup_normalizer_of_isSylowOf hCY hT).trans (sup_le hYM hNT)
 
 theorem odd_card_pPrimeCoreIn_of_not_le (hS : Setting G) (hD1 : TheoremD1 G) {p : ℕ}

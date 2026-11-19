@@ -76,22 +76,22 @@ private theorem eq_sum_of_mem_planeSpan {a b : Fin 6} (hab : a ≠ b) {v : V12}
   rcases i with i | i
   · by_cases hia : i = a
     · subst i
-      simp [vecE, vecF, Pi.single_apply, Ne.symm hab]
+      simp [vecE, vecF, Ne.symm hab]
     · by_cases hib : i = b
       · subst i
-        simp [vecE, vecF, Pi.single_apply, hia]
+        simp [vecE, vecF, hia]
       · have hi : i ∉ ({a, b} : Finset (Fin 6)) := by simp [hia, hib]
         have hz := (mem_planeSpan.mp hv i hi).1
-        simp [vecE, vecF, Pi.single_apply, hia, hib, hz]
+        simp [vecE, vecF, hia, hib, hz]
   · by_cases hia : i = a
     · subst i
-      simp [vecE, vecF, Pi.single_apply, Ne.symm hab]
+      simp [vecE, vecF, Ne.symm hab]
     · by_cases hib : i = b
       · subst i
-        simp [vecE, vecF, Pi.single_apply, hia]
+        simp [vecE, vecF, hia]
       · have hi : i ∉ ({a, b} : Finset (Fin 6)) := by simp [hia, hib]
         have hz := (mem_planeSpan.mp hv i hi).2
-        simp [vecE, vecF, Pi.single_apply, hia, hib, hz]
+        simp [vecE, vecF, hia, hib, hz]
 
 theorem subCommSpace_rootL_empty {a b : Fin 6} (hab : a ≠ b) :
     subCommSpace (rootL ({a, b} : Finset (Fin 6)) ∅) = planeSpan {a, b} := by
@@ -101,25 +101,25 @@ theorem subCommSpace_rootL_empty {a b : Fin 6} (hab : a ≠ b) :
     rw [mem_planeSpan]
     intro i hi
     have hia : i ≠ a := fun h => hi (by simp [h])
-    simp [vecE, Pi.single_apply, hia]
+    simp [vecE, hia]
   have hfbP : vecF b ∈ P := by
     change vecF b ∈ planeSpan ({a, b} : Finset (Fin 6))
     rw [mem_planeSpan]
     intro i hi
     have hib : i ≠ b := fun h => hi (by simp [h])
-    simp [vecF, Pi.single_apply, hib]
+    simp [vecF, hib]
   have hebP : vecE b ∈ P := by
     change vecE b ∈ planeSpan ({a, b} : Finset (Fin 6))
     rw [mem_planeSpan]
     intro i hi
     have hib : i ≠ b := fun h => hi (by simp [h])
-    simp [vecE, Pi.single_apply, hib]
+    simp [vecE, hib]
   have hfaP : vecF a ∈ P := by
     change vecF a ∈ planeSpan ({a, b} : Finset (Fin 6))
     rw [mem_planeSpan]
     intro i hi
     have hia : i ≠ a := fun h => hi (by simp [h])
-    simp [vecF, Pi.single_apply, hia]
+    simp [vecF, hia]
   have hxfix : ∀ v : V12, lin (genGL hab ∅) v - v ∈ P := by
     intro v
     rw [lin_genGL_empty_apply hab]
@@ -268,14 +268,14 @@ theorem rootL_apply_mem_empty {a b : Fin 6} (hab : a ≠ b) {S : Finset (Fin 6)}
     rw [mem_planeSpan]
     intro j hj
     have hji : j ≠ i := fun h => hj (by simpa [h] using hi)
-    simp [vecE, Pi.single_apply, hji]
+    simp [vecE, hji]
   have memF : ∀ i ∈ S, vecF i ∈ P := by
     intro i hi
     change vecF i ∈ planeSpan S
     rw [mem_planeSpan]
     intro j hj
     have hji : j ≠ i := fun h => hj (by simpa [h] using hi)
-    simp [vecF, Pi.single_apply, hji]
+    simp [vecF, hji]
   have hea : vecE a ∈ P := memE a haS
   have hfb : vecF b ∈ P := memF b hbS
   have heb : vecE b ∈ P := memE b hbS
@@ -291,36 +291,28 @@ theorem rootL_apply_mem_empty {a b : Fin 6} (hab : a ≠ b) {S : Finset (Fin 6)}
       mul_mem' := by
         intro z w hz hw
         refine ⟨fun v hv => ?_, fun v hv => ?_⟩
-        · change (z * w) v ∈ P
-          rw [LinearEquiv.mul_apply]
+        · rw [LinearEquiv.mul_apply]
           exact hz.1 (w v) (hw.1 v hv)
-        · change (z * w)⁻¹ v ∈ P
-          rw [mul_inv_rev, LinearEquiv.mul_apply]
+        · rw [mul_inv_rev, LinearEquiv.mul_apply]
           exact hw.2 (z⁻¹ v) (hz.2 v hv)
       inv_mem' := by
         intro z hz
         refine ⟨fun v hv => ?_, fun v hv => ?_⟩
-        · change z⁻¹ v ∈ P
-          exact hz.2 v hv
-        · change (z⁻¹)⁻¹ v ∈ P
-          rw [inv_inv]
+        · exact hz.2 v hv
+        · rw [inv_inv]
           exact hz.1 v hv }
   have hxP : lin (genGL hab ∅) ∈ H := by
     refine ⟨fun v hv => ?_, fun v hv => ?_⟩
-    · change lin (genGL hab ∅) v ∈ P
-      rw [lin_genGL_empty_apply hab]
+    · rw [lin_genGL_empty_apply hab]
       exact P.add_mem (P.add_mem hv (P.smul_mem _ hea)) (P.smul_mem _ hfb)
     · rw [hxinv]
-      change lin (genGL hab ∅) v ∈ P
       rw [lin_genGL_empty_apply hab]
       exact P.add_mem (P.add_mem hv (P.smul_mem _ hea)) (P.smul_mem _ hfb)
   have hyP : lin (genGL hab.symm ∅) ∈ H := by
     refine ⟨fun v hv => ?_, fun v hv => ?_⟩
-    · change lin (genGL hab.symm ∅) v ∈ P
-      rw [lin_genGL_empty_apply (a := b) (b := a) hab.symm]
+    · rw [lin_genGL_empty_apply (a := b) (b := a) hab.symm]
       exact P.add_mem (P.add_mem hv (P.smul_mem _ heb)) (P.smul_mem _ hfa)
     · rw [hyinv]
-      change lin (genGL hab.symm ∅) v ∈ P
       rw [lin_genGL_empty_apply (a := b) (b := a) hab.symm]
       exact P.add_mem (P.add_mem hv (P.smul_mem _ heb)) (P.smul_mem _ hfa)
   have hsub : rootL ({a, b} : Finset (Fin 6)) ∅ ≤ H := by

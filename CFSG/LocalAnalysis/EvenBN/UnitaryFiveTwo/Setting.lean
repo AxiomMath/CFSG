@@ -217,7 +217,7 @@ theorem kernel (h : d.Hyp) :
       (P : Subgroup (centralizer (d.L : Set G))).map (centralizer (d.L : Set G)).subtype := hR
   rw [hR']
   refine ⟨isCyclic_of_surjective _ (MonoidHom.subgroupMap_surjective _ _),
-    P.isPGroup'.map _, ?_, hRn⟩
+    P.isPGroup.map _, ?_, hRn⟩
   rintro _ ⟨y, hy, rfl⟩ hy2
   rw [Subgroup.subtype_apply, orderOf_coe] at hy2
   exact congrArg Subtype.val (huniq y hy hy2)

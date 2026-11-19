@@ -34,7 +34,7 @@ theorem frattiniChief_mem_normalizer {G : Type} [Group G] (Q : Subgroup G) {g : 
 
 theorem frattiniChief_comm_mem {G : Type} [Group G] [Finite G] (Q : Subgroup G) (hQ : IsPGroup 2 Q)
     {q e : G} (hq : q ∈ Q) (he : e ∈ Q) : ⁅q, e⁆ ∈ dsFrattini Q := by
-  haveI : Fact (IsPGroup 2 ↥Q) := ⟨hQ⟩
+  have : Fact (IsPGroup 2 ↥Q) := ⟨hQ⟩
   have hc := CFSG.commutator_le_frattini_of_isPGroup (p := 2) (R := ↥Q)
   have hmem : (⁅(⟨q, hq⟩ : ↥Q), ⟨e, he⟩⁆ : ↥Q) ∈ frattini ↥Q :=
     hc (Subgroup.commutator_mem_commutator (Subgroup.mem_top _) (Subgroup.mem_top _))
@@ -43,7 +43,7 @@ theorem frattiniChief_comm_mem {G : Type} [Group G] [Finite G] (Q : Subgroup G) 
 
 theorem frattiniChief_sq_mem {G : Type} [Group G] [Finite G] (Q : Subgroup G) (hQ : IsPGroup 2 Q)
     {e : G} (he : e ∈ Q) : e ^ 2 ∈ dsFrattini Q := by
-  haveI : Fact (IsPGroup 2 ↥Q) := ⟨hQ⟩
+  have : Fact (IsPGroup 2 ↥Q) := ⟨hQ⟩
   have h := CFSG.pth_power_mem_frattini_of_isPGroup (p := 2) (R := ↥Q) ⟨e, he⟩
   refine Subgroup.mem_map.2 ⟨_, h, ?_⟩
   simp
@@ -64,7 +64,7 @@ theorem leafFrattiniChief [DSLeaf LeafFaithfulA5] [DSLeaf LeafRankBounds] [DSLea
     (CFSG.GH74.QTGen4.DSGen4.rank_bounds (G := G)).1 _ hQ
   have hnt : ∃ l ∈ L, ∃ e ∈ pCoreOf 2 P, ⁅l, e⁆ ∉ dsFrattini (pCoreOf 2 P) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hLQ : L ≤ pCoreOf 2 P := fun l hl =>
       CFSG.GH74.QTGen4.DSGen4.frattini_faithful h.charTwo l (h.le hl) (fun q hq => hcon l hl q hq)
     have hL2 : IsPGroup 2 L := hQ.to_le hLQ
@@ -73,7 +73,7 @@ theorem leafFrattiniChief [DSLeaf LeafFaithfulA5] [DSLeaf LeafRankBounds] [DSLea
         ⟨inferInstance, hL2.to_subgroup ⊤⟩)
     have hsub : Subsingleton (oTwoQuot ↥L) :=
       QuotientGroup.subsingleton_iff.2 (eq_top_iff.2 htop)
-    haveI := hsub
+    have := hsub
     have h1 : Nat.card (oTwoQuot ↥L) = 1 := Nat.card_of_subsingleton 1
     have h60 := h.quot.card (by norm_num : 1 ≤ 2)
     rw [h1] at h60

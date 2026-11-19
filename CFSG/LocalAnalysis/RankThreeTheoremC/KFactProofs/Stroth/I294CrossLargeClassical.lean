@@ -20,7 +20,7 @@ theorem I294Large.exists_sylow_not_comm_of_mulEquiv {r : ℕ} (hr : r.Prime) {L 
     [Finite L] [Group M] [Finite M] (e : L ≃* M)
     (hS : ∃ S : Sylow r L, ¬ IsMulCommutative (S : Subgroup L)) :
     ∃ S : Sylow r M, ¬ IsMulCommutative (S : Subgroup M) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   by_contra hcon
   push Not at hcon
   obtain ⟨S, hS'⟩ := hS

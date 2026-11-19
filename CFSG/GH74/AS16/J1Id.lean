@@ -155,7 +155,7 @@ theorem isSporadic_J1_of_involution_centralizer [Finite G] (hG : IsSimpleGroup G
     intro t ht
     exact mem_centralizer_singleton_iff.mpr (hzc t ht)
   have hab : IsMulCommutative (T : Subgroup G) :=
-    isMulCommutative_of_decomp hz2 hFz hzT T.isPGroup'
+    isMulCommutative_of_decomp hz2 hFz hzT T.isPGroup
       (fun x hx hk => sq_eq_one_of_two_element e hx hk) hTC
   have hJ : Walter.J1.JankoHyp G :=
     { isSimpleGroup := hG

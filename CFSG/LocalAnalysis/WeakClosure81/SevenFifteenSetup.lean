@@ -12,6 +12,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem mem_of_mul_self_mem_of_odd_relIndex {A B : Subgroup G} [(A.subgroupOf B).Normal]
     (hodd : Odd (A.relIndex B)) {x : G} (hx : x ∈ B) (hx2 : x * x ∈ A) : x ∈ A := by
   let a : ↥B ⧸ A.subgroupOf B := QuotientGroup.mk ⟨x, hx⟩
@@ -30,6 +31,7 @@ private theorem mem_of_mul_self_mem_of_odd_relIndex {A B : Subgroup G} [(A.subgr
     (QuotientGroup.eq_one_iff (N := A.subgroupOf B) (⟨x, hx⟩ : ↥B)).mp ha1
   exact Subgroup.mem_subgroupOf.mp hmem
 
+omit [Finite G] in
 private theorem relIndex_eq_two_of_forall {A B : Subgroup G}
     (hex : ∃ x ∈ B, x ∉ A)
     (h : ∀ x ∈ B, ∀ y ∈ B, x ∉ A → y ∉ A → x⁻¹ * y ∈ A) :
@@ -55,7 +57,7 @@ omit [Finite G] in
 theorem inv_mul_mem_of_relIndex_eq_two {A B : Subgroup G} (hindex : A.relIndex B = 2)
     {x y : G} (hx : x ∈ B) (hy : y ∈ B) (hxA : x ∉ A) (hyA : y ∉ A) : x⁻¹ * y ∈ A := by
   have h2 : (A.subgroupOf B).index = 2 := hindex
-  haveI hN : (A.subgroupOf B).Normal := Subgroup.normal_of_index_eq_two h2
+  have hN : (A.subgroupOf B).Normal := Subgroup.normal_of_index_eq_two h2
   obtain ⟨a, ha⟩ := Subgroup.index_eq_two_iff.mp h2
   have hxa : (⟨x, hx⟩ : ↥B) * a ∈ A.subgroupOf B := by
     rcases ha ⟨x, hx⟩ with h | h
@@ -84,7 +86,8 @@ theorem inv_mul_mem_of_relIndex_eq_two {A B : Subgroup G} (hindex : A.relIndex B
   have h4 : x⁻¹ * y = x⁻¹ * (y * x⁻¹) * x := by group
   rwa [h4]
 
-theorem le_zpowers_sup_of_relIndex_eq_two {A V : Subgroup G} (hAV : A ≤ V)
+omit [Finite G] in
+theorem le_zpowers_sup_of_relIndex_eq_two {A V : Subgroup G} (_hAV : A ≤ V)
     (hindex : A.relIndex V = 2) {v : G} (hv : v ∈ V) (hvA : v ∉ A) :
     V ≤ Subgroup.zpowers v ⊔ A := by
   intro w hw
@@ -95,6 +98,7 @@ theorem le_zpowers_sup_of_relIndex_eq_two {A V : Subgroup G} (hAV : A ≤ V)
     rw [← hvw]
     exact Subgroup.mul_mem_sup (Subgroup.mem_zpowers v) h
 
+omit [Finite G] in
 theorem le_iSub_sup_commutator {V H E Q : Subgroup G}
     (hV : IsElemAbelian 2 V) (hEH : E ≤ H) (hEnorm : (E.subgroupOf H).Normal)
     (hOmH : ∀ W ∈ omegaSet V H E, W ≤ H)
@@ -131,9 +135,9 @@ theorem le_iSub_sup_commutator {V H E Q : Subgroup G}
       by
         rw [mul_comm]
         exact (Subgroup.relIndex_mul_relIndex (H := iSub V H E) (K := T) (L := Q) hIT hTQ).symm⟩
-  haveI hTN : (T.subgroupOf Q).Normal :=
+  have hTN : (T.subgroupOf Q).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hTQ).mpr hQTN
-  haveI hIN : ((iSub V H E).subgroupOf Q).Normal :=
+  have hIN : ((iSub V H E).subgroupOf Q).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hIQ).mpr (hQH.trans hHI)
   have hUle : ∀ U ∈ omegaSet V H E, U ≤ T ⊔ V := by
     intro U hU u hu
@@ -217,6 +221,7 @@ theorem relIndex_inf_iSub_eq_two {V H E Q : Subgroup G}
     exact hQI (hgen.trans (sup_le le_rfl hcomm'))
   omega
 
+omit [Finite G] in
 theorem relIndex_inf_iSub_eq_two_of_mem_omegaSet {V H E Q U : Subgroup G}
     (hV : IsElemAbelian 2 V) (hEH : E ≤ H) (hEnorm : (E.subgroupOf H).Normal)
     (hOmH : ∀ W ∈ omegaSet V H E, W ≤ H)
@@ -235,7 +240,7 @@ theorem relIndex_inf_iSub_eq_two_of_mem_omegaSet {V H E Q U : Subgroup G}
   have hKQ : kSub V H E ≤ Subgroup.normalizer (Q : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hQK).mp hQnorm
   have hVQ : V ≤ Subgroup.normalizer (Q : Set G) := hVK.trans hKQ
-  haveI hIN : ((iSub V H E).subgroupOf Q).Normal :=
+  have hIN : ((iSub V H E).subgroupOf Q).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hIQ).mpr (hQH.trans hHI)
   have hUQ : U ⊓ Q = U ⊓ iSub V H E := by
     refine le_antisymm ?_ (inf_le_inf le_rfl hIQ)

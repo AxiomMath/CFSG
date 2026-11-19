@@ -84,7 +84,7 @@ theorem isStronglyEmbedded_of_two_classes [Finite G] {R : Subgroup G} (hRG : R �
         calc (x : G) * (g * r) = g * (g⁻¹ * x * g) * r := by group
           _ = g * (r * x * r⁻¹) * r := by rw [e]
           _ = g * r * x := by group
-      first | exact e2 | exact e2.symm
+      exact e2.symm
     have := R.mul_mem (hcx hc) (R.inv_mem hr)
     exact hg (by simpa using this)
 

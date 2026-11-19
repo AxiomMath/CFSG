@@ -18,7 +18,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem row1528 (hK55 : K55) (hKSML3 : KSML3) (hKOut : KOut) (hO : O812six) (hP : P812)
     (hO991 : O991) (hO1218 : O1218) (hO98 : O98) {M T : Subgroup G} {T₁ T₂ : Subgroup ↥M}
-    (ctx : S15Ctx2 G M T T₁ T₂) (hLifts : RowLifts G M T T₁ T₂) (h20 : Row1520 G M T T₁ T₂)
+    (ctx : S15Ctx2 G M T T₁ T₂) (_hLifts : RowLifts G M T T₁ T₂) (h20 : Row1520 G M T T₁ T₂)
     (h25 : Row1525 G M T T₁ T₂) (h27 : Row1527 G M T T₁ T₂) :
     Row1528 G M T T₁ T₂ := by
   exact row1528_gen hK55 hKSML3 hKOut (O812sixAt.of_ctx2 hO ctx) (P812At.of_ctx2 hP ctx)

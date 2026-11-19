@@ -21,7 +21,7 @@ theorem charP_of_algebra_zmod : CharP F p :=
 
 theorem coe_bot_subfield_eq_range_algebraMap :
     ((⊥ : Subfield F) : Set F) = Set.range (algebraMap (ZMod p) F) := by
-  rw [Subfield.bot_eq_of_zMod_algebra p]; rfl
+  rw [Subfield.bot_eq_of_zmod_algebra p]; rfl
 
 theorem isRoot_map_pow_char {f : (ZMod p)[X]} {b : F}
     (h : (f.map (algebraMap (ZMod p) F)).IsRoot b) :

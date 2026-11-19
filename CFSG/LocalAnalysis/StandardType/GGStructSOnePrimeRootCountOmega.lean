@@ -25,7 +25,7 @@ theorem card_orthDerived_of_type {K W : Type} [Field K] [Finite K] [CharP K 2] [
     (Nat.card ↥(orthDerived R) : ℤ) =
       (Nat.card K : ℤ) ^ (m * (m + 1)) * ((Nat.card K : ℤ) ^ (m + 1) - ε) *
         ∏ i ∈ Finset.Icc 1 m, (((Nat.card K : ℤ) ^ 2) ^ i - 1) := by
-  haveI : Nontrivial W := Module.nontrivial_of_finrank_pos (R := K) (by omega)
+  have : Nontrivial W := Module.nontrivial_of_finrank_pos (R := K) (by omega)
   have heq : orthDerived R = omegaGroup R hR :=
     le_antisymm (CFSG.RankThree.PartOne.FieldFix.orthDerived_le_omegaGroup hR) hΩ
   have hle : orthDerived R ≤ TauCeti.QuadraticMap.orthogonalGroup R :=
@@ -46,14 +46,14 @@ theorem card_orthDerived_of_type {K W : Type} [Field K] [Finite K] [CharP K 2] [
 
 private theorem odd_card_pow_sub_one {K : Type} [Field K] [Finite K] [CharP K 2] {n : ℕ}
     (hn : 1 ≤ n) : Odd (Nat.card K ^ n - 1) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, -, hcard⟩ := FiniteField.card K 2
   rw [Nat.card_eq_fintype_card, hcard]
   exact CFSG.Timmesfeld.ClassicalOrders.odd_two_pow_pow_sub_one f.pos hn
 
 private theorem odd_card_pow_add_one {K : Type} [Field K] [Finite K] [CharP K 2] {n : ℕ}
     (hn : 1 ≤ n) : Odd (Nat.card K ^ n + 1) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, -, hcard⟩ := FiniteField.card K 2
   rw [Nat.card_eq_fintype_card, hcard]
   exact CFSG.Timmesfeld.ClassicalOrders.odd_two_pow_pow_add_one f.pos hn
@@ -141,7 +141,7 @@ theorem omFix_isChevTwoLayeredBy_of_quasisimple {K V : Type} [Field K] [Finite K
     (hZ : Subgroup.center ↥(orthDerived (Q.restrict (wSub P₁ P₂))) = ⊥) :
     IsChevTwoLayeredBy ↥(omFix Q P₁ P₂)
       [Nat.card ↥(orthDerived (Q.restrict (wSub P₁ P₂)))] := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hL := isChevTwoLayered_orthDerived_of_isQuasisimple _
     (nondegenerate_restrict_wSub hQ h₁₂) hQq
   have hOpen : CFSG.Open.IsQuasisimple ↥(orthDerived (Q.restrict (wSub P₁ P₂))) :=
@@ -160,9 +160,9 @@ theorem omFix_isChevTwoLayeredBy_of_totallySingular_plus {K V : Type} [Field K] 
     {m : ℕ} (hdim : finrank K (wSub P₁ P₂) = 2 * (m + 1))
     (hplus : CFSG.GroupTheory.WeirSylow.IsPlusType (Q.restrict (wSub P₁ P₂))) :
     IsChevTwoLayeredBy ↥(omFix Q P₁ P₂) [CFSG.Open.ordD (m + 1) (Nat.card K)] := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hR := nondegenerate_restrict_wSub hQ h₁₂
-  haveI : Nontrivial ↥(wSub P₁ P₂) := Module.nontrivial_of_finrank_pos (R := K) (by omega)
+  have : Nontrivial ↥(wSub P₁ P₂) := Module.nontrivial_of_finrank_pos (R := K) (by omega)
   have hΩ := CFSG.RankThree.PartOne.FieldFix.omegaGroup_le_orthDerived hR hT
   have hcard := card_orthDerived_eq_ordD _ hR hdim hΩ hplus
   simpa [hcard] using omFix_isChevTwoLayeredBy_of_quasisimple h₁₂ hQ hEΩ hOE hΩ
@@ -178,9 +178,9 @@ theorem omFix_isChevTwoLayeredBy_of_totallySingular_minus {K V : Type} [Field K]
     {m : ℕ} (hdim : finrank K (wSub P₁ P₂) = 2 * (m + 1))
     (hminus : ¬ CFSG.GroupTheory.WeirSylow.IsPlusType (Q.restrict (wSub P₁ P₂))) :
     IsChevTwoLayeredBy ↥(omFix Q P₁ P₂) [CFSG.Open.ordTwistedD (m + 1) (Nat.card K)] := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hR := nondegenerate_restrict_wSub hQ h₁₂
-  haveI : Nontrivial ↥(wSub P₁ P₂) := Module.nontrivial_of_finrank_pos (R := K) (by omega)
+  have : Nontrivial ↥(wSub P₁ P₂) := Module.nontrivial_of_finrank_pos (R := K) (by omega)
   have hΩ := CFSG.RankThree.PartOne.FieldFix.omegaGroup_le_orthDerived hR hT
   have hcard := card_orthDerived_eq_ordTwistedD _ hR hdim hΩ hminus
   simpa [hcard] using omFix_isChevTwoLayeredBy_of_quasisimple h₁₂ hQ hEΩ hOE hΩ
@@ -195,9 +195,9 @@ theorem omFix_isChevTwoLayeredBy_of_four {K V : Type} [Field K] [Finite K] [Char
     (hts : ∀ U : Submodule K (wSub P₁ P₂), finrank K U = 2 → ∃ u ∈ U,
       (Q.restrict (wSub P₁ P₂)) u ≠ 0) :
     IsChevTwoLayeredBy ↥(omFix Q P₁ P₂) [CFSG.Open.ordTwistedD 2 (Nat.card K)] := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hR := nondegenerate_restrict_wSub hQ h₁₂
-  haveI : Nontrivial ↥(wSub P₁ P₂) := Module.nontrivial_of_finrank_pos (R := K) (by omega)
+  have : Nontrivial ↥(wSub P₁ P₂) := Module.nontrivial_of_finrank_pos (R := K) (by omega)
   have hΩ := omegaGroup_le_orthDerived_of_four hR hdim hts
   obtain ⟨hQq, hZ, -⟩ := isQuasisimple_orthDerived_of_four hR hdim hts
   have hcard := card_orthDerived_eq_ordTwistedD _ hR (m := 1) (by omega) hΩ
@@ -212,9 +212,9 @@ theorem omFix_isChevTwoLayeredBy_of_six {K V : Type} [Field K] [Finite K] [CharP
     (hts : ∀ U : Submodule K (wSub P₁ P₂), finrank K U = 3 → ∃ u ∈ U,
       (Q.restrict (wSub P₁ P₂)) u ≠ 0) :
     IsChevTwoLayeredBy ↥(omFix Q P₁ P₂) [CFSG.Open.ordTwistedD 3 (Nat.card K)] := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hR := nondegenerate_restrict_wSub hQ h₁₂
-  haveI : Nontrivial ↥(wSub P₁ P₂) := Module.nontrivial_of_finrank_pos (R := K) (by omega)
+  have : Nontrivial ↥(wSub P₁ P₂) := Module.nontrivial_of_finrank_pos (R := K) (by omega)
   have hΩ := omegaGroup_le_orthDerived_of_six hR hdim hts
   obtain ⟨hQq, hZ⟩ := isQuasisimple_orthDerived_of_six hR hdim hts
   have hcard := card_orthDerived_eq_ordTwistedD _ hR (m := 2) (by omega) hΩ
@@ -288,17 +288,17 @@ theorem isPlusType_restrict_wSub_of_hypFrame {K V : Type} [Field K] [AddCommGrou
 
 theorem ggInvolCentTypedBy_frame {K V : Type} [Field K] [Fintype K] [CharP K 2] [AddCommGroup V]
     [Module K V] [FiniteDimensional K V] {Q : QuadraticForm K V} {P₁ P₂ : HypPair Q}
-    (hQ : (polarBilin Q).Nondegenerate) (hEΩ : elementaryGroup Q ≤ omegaGroup Q hQ)
-    (hOE : orthDerived Q ≤ elementaryGroup Q) (h₁₂ : P₁.Orth P₂) {oW : List ℕ}
+    (hQ : (polarBilin Q).Nondegenerate) (_hEΩ : elementaryGroup Q ≤ omegaGroup Q hQ)
+    (_hOE : orthDerived Q ≤ elementaryGroup Q) (h₁₂ : P₁.Orth P₂) {oW : List ℕ}
     (hW : IsChevTwoLayeredBy ↥(omFix Q P₁ P₂) oW)
     {U : Type} [Group U] {σ : U →* (V ≃ₗ[K] V)} (hσ : Function.Injective σ)
     (hσE : σ.range = elementaryGroup Q) {x : U} (hx : σ x = eichler Q P₁.e P₂.e)
     {G : Type} [Group G] [Finite G] (ψ : U →* G) (hψ : Function.Injective ψ) (u : U) :
     GGInvolCentTypedBy ψ.range (ψ (u * x * u⁻¹))
       (CFSG.Open.ordA 1 (Fintype.card K) :: oW) := by
-  haveI : Finite K := Finite.of_fintype K
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Finite (V ≃ₗ[K] V) :=
+  have : Finite K := Finite.of_fintype K
+  have : Finite V := Module.finite_of_finite K
+  have : Finite (V ≃ₗ[K] V) :=
     Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
       fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
   have hE : ∀ a b : V, eichler Q a b ∈ elementaryGroup Q := eichler_mem_elementaryGroup Q
@@ -373,12 +373,12 @@ theorem omFix_isChevTwoLayeredBy_of_splitFour {K V : Type} [Field K] [Fintype K]
       ∀ x ∈ S, (Q.restrict (wSub P₁ P₂)) x = 0) :
     IsChevTwoLayeredBy ↥(omFix Q P₁ P₂)
       [CFSG.Open.ordA 1 (Fintype.card K), CFSG.Open.ordA 1 (Fintype.card K)] := by
-  haveI : Finite K := Finite.of_fintype K
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Finite (V ≃ₗ[K] V) :=
+  have : Finite K := Finite.of_fintype K
+  have : Finite V := Module.finite_of_finite K
+  have : Finite (V ≃ₗ[K] V) :=
     Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
       fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
-  haveI : Fintype ↥(TauCeti.QuadraticMap.orthogonalGroup (Q.restrict (wSub P₁ P₂))) :=
+  have : Fintype ↥(TauCeti.QuadraticMap.orthogonalGroup (Q.restrict (wSub P₁ P₂))) :=
     Fintype.ofFinite _
   have hE : ∀ a b : V, eichler Q a b ∈ elementaryGroup Q := eichler_mem_elementaryGroup Q
   have hR := nondegenerate_restrict_wSub hQ h₁₂
@@ -410,7 +410,7 @@ theorem omFix_isChevTwoLayeredBy_of_splitFour {K V : Type} [Field K] [Fintype K]
           map_mul' := fun a b => Subtype.ext (map_mul (resW Q P₁ P₂) a b) }
       have hρ : Function.Injective ρ := fun a b hab =>
         resW_injective h₁₂ (congrArg Subtype.val hab)
-      haveI := hOsolv
+      have := hOsolv
       exact Group.isSolvable_of_isSolvable_injective hρ
     exact isChevTwoLayeredBy_of_isSolvable hOm _
   ·
@@ -563,7 +563,7 @@ section Tags
 theorem ggRootInvolCountTag_POmegaPlus : GGRootInvolCountTag .POmegaPlus := by
   intro X _ _ n f ψ hadm _ hker _ r hr
   obtain ⟨-, hf1, hn4⟩ := hadm
-  haveI : Fintype (GaloisField 2 f) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 f) := Fintype.ofFinite _
   have hn : 3 ≤ n := by omega
   revert ψ
   rw [ggU_POmegaPlus_eq hn]
@@ -658,7 +658,7 @@ theorem ggRootInvolCountTag_POmegaPlus : GGRootInvolCountTag .POmegaPlus := by
 theorem ggRootInvolCountTag_POmegaMinus : GGRootInvolCountTag .POmegaMinus := by
   intro X _ _ n f ψ hadm _ hker _ r hr
   obtain ⟨-, hf1, hn⟩ := hadm
-  haveI : Fintype (GaloisField 2 f) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 f) := Fintype.ofFinite _
   have hirr := CFSG.LieType.Universal.minusCoeffs_irr 2 f
   have hinj : Function.Injective ψ := by
     rw [← MonoidHom.ker_eq_bot_iff, eq_bot_iff]

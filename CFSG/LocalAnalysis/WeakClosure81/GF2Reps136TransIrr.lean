@@ -16,9 +16,10 @@ open scoped commutatorElement Pointwise Matrix
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 private theorem w1369_forall_mem_of_map_eq {M : Subgroup W} {g : MulAut W}
-    (h : M.map g.toMonoidHom = M) : ∀ m ∈ M, g m ∈ M :=
-  fun m hm => h ▸ Subgroup.mem_map_of_mem g.toMonoidHom hm
+    (h : M.map g.toMonoidHom = M) : ∀ _m ∈ M, g _m ∈ M :=
+  fun _m hm => h ▸ Subgroup.mem_map_of_mem g.toMonoidHom hm
 
 private theorem w1369_im_map_secAut {U C : Subgroup W} {g : MulAut W}
     (hU : ∀ u ∈ U, g u ∈ U) (hC : ∀ z ∈ C, g z ∈ C) (M : Subgroup W) :

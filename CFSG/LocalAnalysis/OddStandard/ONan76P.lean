@@ -94,25 +94,25 @@ theorem s_mem_P : s ∈ hF.P := subset_closure (by simp)
 theorem t_mem_P : t ∈ hF.P := subset_closure (by simp)
 
 theorem vec_neg_e1 (hn : 1 ≤ n) : vec v₁ v₂ v₃ (-((1, 0, 0) : Vec n)) = v₁⁻¹ := by
-  rw [hF.vec_neg, hF.vec_e1 hn]
+  rw [hF.vec_neg, CFSG.OddStandard.ONan76.AlperinFrame.vec_e1 hn]
 
 theorem vec_neg_e2 (hn : 1 ≤ n) : vec v₁ v₂ v₃ (-((0, 1, 0) : Vec n)) = v₂⁻¹ := by
-  rw [hF.vec_neg, hF.vec_e2 hn]
+  rw [hF.vec_neg, CFSG.OddStandard.ONan76.AlperinFrame.vec_e2 hn]
 
 theorem vec_neg_e3 (hn : 1 ≤ n) : vec v₁ v₂ v₃ (-((0, 0, 1) : Vec n)) = v₃⁻¹ := by
-  rw [hF.vec_neg, hF.vec_e3 hn]
+  rw [hF.vec_neg, CFSG.OddStandard.ONan76.AlperinFrame.vec_e3 hn]
 
 theorem exists_nf_zpow (hn : 1 ≤ n) {x : G} (hx : x ∈ hF.P) :
     ∃ (p : Vec n) (i : ℤ) (e : ℕ), x = vec v₁ v₂ v₃ p * s ^ i * t ^ e := by
   induction hx using closure_induction_left with
-  | one => exact ⟨0, 0, 0, by rw [hF.vec_zero, zpow_zero, pow_zero, mul_one, mul_one]⟩
+  | one => exact ⟨0, 0, 0, by rw [CFSG.OddStandard.ONan76.AlperinFrame.vec_zero, zpow_zero, pow_zero, mul_one, mul_one]⟩
   | mul_left y hy z _ ih =>
     obtain ⟨p, i, e, rfl⟩ := ih
     simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hy
     rcases hy with h | h | h | h | h <;> rw [h]
-    · exact ⟨(1, 0, 0) + p, i, e, by rw [hF.vec_add, hF.vec_e1 hn]; group⟩
-    · exact ⟨(0, 1, 0) + p, i, e, by rw [hF.vec_add, hF.vec_e2 hn]; group⟩
-    · exact ⟨(0, 0, 1) + p, i, e, by rw [hF.vec_add, hF.vec_e3 hn]; group⟩
+    · exact ⟨(1, 0, 0) + p, i, e, by rw [hF.vec_add, CFSG.OddStandard.ONan76.AlperinFrame.vec_e1 hn]; group⟩
+    · exact ⟨(0, 1, 0) + p, i, e, by rw [hF.vec_add, CFSG.OddStandard.ONan76.AlperinFrame.vec_e2 hn]; group⟩
+    · exact ⟨(0, 0, 1) + p, i, e, by rw [hF.vec_add, CFSG.OddStandard.ONan76.AlperinFrame.vec_e3 hn]; group⟩
     · refine ⟨actS' p, 1 + i, e, ?_⟩
       rw [zpow_one_add]
       simp only [← mul_assoc]
@@ -239,7 +239,8 @@ theorem comm_nf_vec_iff (hn : 1 ≤ n) (q p : Vec n) (i e : ℕ) :
               (vec v₁ v₂ v₃ q * s ^ i * t ^ e)) := by rw [h]
       _ = vec v₁ v₂ v₃ p * (vec v₁ v₂ v₃ q * s ^ i * t ^ e) := by group
 
-theorem nf_trivial_of_comm (hn : 2 ≤ n) (q : Vec n) {i e : ℕ} (hi : i < 4) (he : e < 2)
+omit [Group G] hF in
+theorem nf_trivial_of_comm (hn : 2 ≤ n) (_q : Vec n) {i e : ℕ} (hi : i < 4) (he : e < 2)
     (h1 : act i e ((2 ^ (n - 1), 0, 0) : Vec n) = (2 ^ (n - 1), 0, 0))
     (h2 : act i e ((0, 2 ^ (n - 1), 0) : Vec n) = (0, 2 ^ (n - 1), 0)) : i = 0 ∧ e = 0 := by
   have hn1 : 1 ≤ n := by omega
@@ -250,7 +251,7 @@ theorem nf_trivial_of_comm (hn : 2 ≤ n) (q : Vec n) {i e : ℕ} (hi : i < 4) (
   interval_cases i <;> interval_cases e
   · exact ⟨rfl, rfl⟩
   all_goals
-    simp only [act_00, act_10, act_20, act_30, act_01, act_11, act_21, act_31, actS, actT,
+    simp only [act_10, act_20, act_30, act_01, act_11, act_21, act_31, actS, actT,
       Prod.mk.injEq, neg_zero, add_zero, zero_add, sub_zero, hneg, hsub, sub_self, hε, hε',
       false_and, and_false] at h1 h2
 
@@ -261,7 +262,7 @@ theorem mem_V_of_comm (hn : 2 ≤ n) {x : G} (hx : x ∈ hF.P)
       vec v₁ v₂ v₃ ((0, 2 ^ (n - 1), 0) : Vec n) * x) : x ∈ hF.V := by
   have hn1 : 1 ≤ n := by omega
   obtain ⟨p, i, hi, e, he, rfl⟩ := hF.exists_nf hn1 hx
-  obtain ⟨rfl, rfl⟩ := hF.nf_trivial_of_comm hn p hi he ((hF.comm_nf_vec_iff hn1 _ _ _ _).1 h1)
+  obtain ⟨rfl, rfl⟩ := AlperinFrame.nf_trivial_of_comm hn p hi he ((hF.comm_nf_vec_iff hn1 _ _ _ _).1 h1)
     ((hF.comm_nf_vec_iff hn1 _ _ _ _).1 h2)
   rw [pow_zero, pow_zero, mul_one, mul_one]
   exact hF.vec_mem_V p
@@ -271,7 +272,7 @@ theorem nf_mem_V_iff (hn : 2 ≤ n) (q : Vec n) {i e : ℕ} (hi : i < 4) (he : e
   have hn1 : 1 ≤ n := by omega
   constructor
   · intro hx
-    refine hF.nf_trivial_of_comm hn q hi he ((hF.comm_nf_vec_iff hn1 q _ i e).1 ?_)
+    refine AlperinFrame.nf_trivial_of_comm hn q hi he ((hF.comm_nf_vec_iff hn1 q _ i e).1 ?_)
       ((hF.comm_nf_vec_iff hn1 q _ i e).1 ?_) <;>
       exact hF.V_comm hn1 hx (hF.vec_mem_V _)
   · rintro ⟨rfl, rfl⟩

@@ -152,6 +152,7 @@ theorem mem_centralizer_of_actTil_eq_one (c : Ctx23L D Ch) (hV : IsElemAbelian 2
   exact (calc g * v = (g * v * g⁻¹) * g := by group
     _ = v * g := by rw [h3]).symm
 
+omit [Finite G] in
 private theorem mem_centralizer_singleton_of_conj_eq {g v : G} (h : g * v * g⁻¹ = v) :
     g ∈ Subgroup.centralizer ({v} : Set G) := by
   rw [Subgroup.mem_centralizer_iff]
@@ -292,7 +293,7 @@ theorem sylowStar_le_parabolic_barSub (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.
     intro r hr
     exact Subgroup.mem_map.mpr ⟨r, hr, rfl⟩
   have hRp : IsPGroup 2 R := by
-    simpa [R] using (c.sylowStar hV).isPGroup'
+    simpa [R] using (c.sylowStar hV).isPGroup
   refine IsParabolicTwo.le_of_le_normalizer hpar hRp ?_
   intro r hr
   rw [Subgroup.mem_normalizer_iff]
@@ -490,10 +491,10 @@ theorem card_U0 (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V)
       apply (TwelveShort.mkTilEquiv c.V hV).injective
       simpa [TwelveShort.mkTilEquiv_apply] using hxy)]
     exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hU0V).toEquiv
-  letI : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
+  let : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
     MulDistribMulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (c.W hV) := MulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (Set (c.W hV)) := Set.mulActionSet
+  let : MulAction ↥(c.H hV) (c.W hV) := MulAction.compHom (c.W hV) (c.H hV).subtype
+  let : MulAction ↥(c.H hV) (Set (c.W hV)) := Set.mulActionSet
   have htab := kTab23a_holds (c.W hV) (c.H hV) k hnat (c.commutator_H_eq hV) (c.sylowStar hV)
   have hfix : (fixedPointSubgroup ↥(c.sylowStar hV) (c.W hV) : Subgroup (c.W hV)) =
       fixV (c.sylowStarImage hV) := by

@@ -72,7 +72,7 @@ theorem l33_theta0 {Q : Type} [Group Q] [Finite Q] {L : Subgroup Q}
     ∃ θ : Q →* MulAut L33P, Function.Injective θ ∧ (∀ q : Q, q ∈ L ↔ θ q ∈ inner L33P) ∧
       inner L33P ≤ θ.range := by
   have hLsub : CFSG.ComponentClassification.GeneralizedFitting.subgroup Q = L := hF
-  haveI hLn : L.Normal := hLsub ▸ CFSG.ComponentClassification.GeneralizedFitting.normal Q
+  have hLn : L.Normal := hLsub ▸ CFSG.ComponentClassification.GeneralizedFitting.normal Q
   have hc : Subgroup.centralizer (L : Set Q) ≤ L :=
     hLsub ▸ CFSG.ComponentClassification.GeneralizedFitting.centralizer_le Q
   obtain ⟨ePSL⟩ := CFSG.GH74.KGroups.PSLN.psl_equiv_of_lieModel (F := ZMod 3) 3 3 1
@@ -84,11 +84,11 @@ theorem l33_theta0 {Q : Type} [Group Q] [Finite Q] {L : Subgroup Q}
   exact ⟨θ, hθ, hinner, hrange⟩
 
 theorem l33_exists_inner {Q : Type} [Group Q] {L A : Subgroup Q} (θ : Q →* MulAut L33P)
-    (hθ : Function.Injective θ) (hL : ∀ q : Q, q ∈ L ↔ θ q ∈ inner L33P)
+    (_hθ : Function.Injective θ) (hL : ∀ q : Q, q ∈ L ↔ θ q ∈ inner L33P)
     (hA : Nat.card A = 4) (hAe : IsElemAbelian 2 A) : ∃ z ∈ A, z ≠ 1 ∧ z ∈ L := by
   classical
-  haveI hfinA : Finite ↥A := Nat.finite_of_card_ne_zero (by rw [hA]; norm_num)
-  letI : Fintype ↥A := Fintype.ofFinite ↥A
+  have hfinA : Finite ↥A := Nat.finite_of_card_ne_zero (by rw [hA]; norm_num)
+  let : Fintype ↥A := Fintype.ofFinite ↥A
   have hcardA : Fintype.card ↥A = 4 := by
     rw [← Nat.card_eq_fintype_card, hA]
   have h1lt : 1 < Fintype.card ↥A := by rw [hcardA]; norm_num

@@ -23,23 +23,23 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 private theorem s16h_sl8_isPerfect_of_isSLn_two {X : Type} [Group X] [Finite X] {m : ℕ}
     (hm : 2 ≤ m) (h : IsSLn X 2 m) : Group.IsPerfect X := by
   obtain ⟨K, hKf, hKfin, hKcard, ⟨e⟩⟩ := h
-  letI := hKf
-  letI := hKfin
-  letI : Fintype K := Fintype.ofFinite K
+  let := hKf
+  let := hKfin
+  let : Fintype K := Fintype.ofFinite K
   have hK4 : 4 ≤ Nat.card K := by
     rw [hKcard]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ m := Nat.pow_le_pow_right (by norm_num) hm
-  haveI : Group.IsPerfect ↥(StatedSL 2 K) :=
+  have : Group.IsPerfect ↥(StatedSL 2 K) :=
     CFSG.Open.StatedAPI.isPerfect_statedSL_two_of_four_le_card hK4
   exact Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
 
 private theorem s16h_sl8_isSimpleGroup_of_isSLn_two {X : Type} [Group X] [Finite X] {m : ℕ}
     (hm : 2 ≤ m) (h : IsSLn X 2 m) : IsSimpleGroup X := by
   obtain ⟨K, hKf, hKfin, hKcard, ⟨e⟩⟩ := h
-  letI := hKf
-  letI := hKfin
-  letI : Fintype K := Fintype.ofFinite K
+  let := hKf
+  let := hKfin
+  let : Fintype K := Fintype.ofFinite K
   have hK4 : 4 ≤ Nat.card K := by
     rw [hKcard]
     calc 4 = 2 ^ 2 := by norm_num
@@ -51,21 +51,21 @@ private theorem s16h_sl8_isSimpleGroup_of_isSLn_two {X : Type} [Group X] [Finite
     exact Nat.dvd_iff_mod_eq_zero.mp (dvd_pow_self 2 (by omega))
   have hchar : ringChar K = 2 :=
     (FiniteField.even_card_iff_char_two (F := K)).mpr hKeven
-  haveI : CharP K 2 := hchar ▸ ringChar.charP K
+  have : CharP K 2 := hchar ▸ ringChar.charP K
   have hbot : (StatedScalars (Fin 2) K).subgroupOf (StatedSL 2 K) = ⊥ :=
     CFSG.Open.StatedAPI.statedScalars_subgroupOf_statedSL_two_eq_bot
   let q : StatedProj (StatedSL 2 K) ≃* ↥(StatedSL 2 K) :=
     (QuotientGroup.quotientMulEquivOfEq hbot).trans QuotientGroup.quotientBot
-  haveI : IsSimpleGroup (StatedProj (StatedSL 2 K)) :=
+  have : IsSimpleGroup (StatedProj (StatedSL 2 K)) :=
     CFSG.Open.StatedAPI.isSimpleGroup_statedProj_statedSL K (d := 2) (by norm_num)
       (Or.inr hK2) (Or.inr hK3)
-  haveI : IsSimpleGroup ↥(StatedSL 2 K) := q.symm.isSimpleGroup
+  have : IsSimpleGroup ↥(StatedSL 2 K) := q.symm.isSimpleGroup
   exact e.isSimpleGroup
 
 theorem s16h_sl8_center_eq_bot_of_isSLn_two {X : Type} [Group X] [Finite X] {m : ℕ}
     (hm : 2 ≤ m) (h : IsSLn X 2 m) : Subgroup.center X = ⊥ := by
-  haveI : IsSimpleGroup X := s16h_sl8_isSimpleGroup_of_isSLn_two hm h
-  haveI : Group.IsPerfect X := s16h_sl8_isPerfect_of_isSLn_two hm h
+  have : IsSimpleGroup X := s16h_sl8_isSimpleGroup_of_isSLn_two hm h
+  have : Group.IsPerfect X := s16h_sl8_isPerfect_of_isSLn_two hm h
   rcases Subgroup.Normal.eq_bot_or_eq_top (Subgroup.center X) with hbot | htop
   · exact hbot
   · exfalso
@@ -73,13 +73,13 @@ theorem s16h_sl8_center_eq_bot_of_isSLn_two {X : Type} [Group X] [Finite X] {m :
       intro a b
       have ha : a ∈ Subgroup.center X := htop ▸ Subgroup.mem_top a
       exact (Subgroup.mem_center_iff.mp ha b).symm
-    haveI : IsMulCommutative X := ⟨⟨hcomm⟩⟩
+    have : IsMulCommutative X := ⟨⟨hcomm⟩⟩
     exact (Group.IsPerfect.not_isMulCommutative X) inferInstance
 
 theorem s16h_sl8_closure_elemAbelian {A : Type*} [Group A] {k : Set A} {p : ℕ}
     (hpair : k.Pairwise Commute) (hexp : ∀ x ∈ k, x ^ p = 1) :
     IsElemAbelian p (Subgroup.closure k) := by
-  haveI : IsMulCommutative ↥(Subgroup.closure k) := Subgroup.isMulCommutative_closure hpair
+  have : IsMulCommutative ↥(Subgroup.closure k) := Subgroup.isMulCommutative_closure hpair
   refine ⟨inferInstance, ?_⟩
   have hcomm : ∀ x ∈ Subgroup.closure k, ∀ y ∈ Subgroup.closure k, x * y = y * x :=
     fun x hx y hy =>

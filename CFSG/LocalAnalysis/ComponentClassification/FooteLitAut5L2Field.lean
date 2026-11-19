@@ -118,7 +118,7 @@ theorem field_inner_l2 {p f : ℕ}
   have hx'r : x'.right = x.right := by rw [hx']; simp [incl_apply]
   have hT₀ : IsPGroup 2 ((stdT F).map (incl F)) := by
     rw [← coe_stdSylow hodd hsq hq4]
-    exact (stdSylow F hodd hsq hq4).isPGroup'.map _
+    exact (stdSylow F hodd hsq hq4).isPGroup.map _
   have hx'p : IsPGroup 2 (zpowers x') :=
     IsPGroup.of_card (n := 1) (by
       rw [Nat.card_zpowers, pow_one]

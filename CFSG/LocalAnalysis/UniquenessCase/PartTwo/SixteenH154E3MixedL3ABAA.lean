@@ -28,8 +28,8 @@ theorem s16h_e3_l3_sumOfNat_fix_le [Finite W] (hW2 : ∀ w : W, w ^ 2 = 1)
     rk ↥(commSub ⊤ L ⊓ fixV L) ≤ k := by
   obtain ⟨hsl, hsum⟩ := hL3
   obtain ⟨K, hKf, -, hKcard, ⟨e⟩⟩ := hsl
-  letI := hKf
-  haveI : Group.IsPerfect ↥(StatedSL 3 K) :=
+  let := hKf
+  have : Group.IsPerfect ↥(StatedSL 3 K) :=
     CFSG.Open.StatedAPI.isPerfect_statedSL_of_three_le (by norm_num) K
   have hperf : Group.IsPerfect ↥L :=
     Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
@@ -44,8 +44,8 @@ theorem s16h_e3_l3_sumOfNat_fix_le [Finite W] (hW2 : ∀ w : W, w ^ 2 = 1)
       (N := fun H U Z => BinaryNaturalSL H U Z 3 1) (k := k) (c := 1)
       (fun I hI => by
         obtain ⟨K', hK'f, hK'fin, hK'card, hreal⟩ := hI
-        letI := hK'f
-        letI := hK'fin
+        let := hK'f
+        let := hK'fin
         exact ⟨FFModel.nat (StatedSL 3 K'), s16fh_cover_sl_three (by simpa using hK'card),
           hreal, s16fh_commSub_sup_nat (by norm_num) hreal⟩) hsum
   exact s16h_e3_l3_rk_le_of_card_le (by simpa using hcard)

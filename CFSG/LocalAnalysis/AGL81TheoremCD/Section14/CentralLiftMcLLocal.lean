@@ -86,7 +86,7 @@ private theorem card_normalizer_mclFiveSylow :
 
 private theorem card_normalizer_sylow_five_mclP (T : Sylow 5 mclP_D) :
     Nat.card ↥(Subgroup.normalizer ((T : Subgroup mclP_D) : Set mclP_D)) = 3000 := by
-  letI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  let : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq mclP_D mclFiveSylow T
   have hcoe : (T : Subgroup mclP_D) =
       (mclFiveSylow : Subgroup mclP_D).map (MulAut.conj g).toMonoidHom := by
@@ -104,7 +104,7 @@ private theorem card_normalizer_sylow_five_mclP275 (T : Sylow 5 mcl275P) :
 private theorem card_normalizer_sylow_five_mcl_of_iso {L : Type} [Group L] [Finite L]
     (e : L ≃* mcl275P) (S : Sylow 5 L) :
     Nat.card ↥(Subgroup.normalizer ((S : Subgroup L) : Set L)) = 3000 := by
-  letI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  let : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   let hS' : Sylow 5 mcl275P := Sylow.mapSurjective (f := e.toMonoidHom) e.surjective S
   have hcoe : (hS' : Subgroup mcl275P) = (S : Subgroup L).map e.toMonoidHom := by
     show ((Sylow.mapSurjective (f := e.toMonoidHom) e.surjective S : Sylow 5 mcl275P) :

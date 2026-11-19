@@ -45,7 +45,7 @@ theorem exists_log_omega_ne (hp : p.Prime) {c : K} (hc : c ∈ Subgroup.center K
     (hc1 : c ≠ 1) :
     ∃ f : K → ZMod p, (∀ z w, z ∈ Subgroup.center K → z ^ p = 1 → w ∈ Subgroup.center K →
       w ^ p = 1 → f (z * w) = f z + f w) ∧ f c ≠ 0 := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   obtain ⟨χ, hχ, hχc⟩ := exists_additive_ne_zero (C := ((powMonoidHom p).ker :
     Subgroup (Subgroup.center K))) (p := p)
     (fun x => Subtype.ext (by rw [Subgroup.coe_pow, Subgroup.coe_one]; exact x.2))
@@ -161,7 +161,7 @@ theorem actsBy_pow {X : Type} [Group X] {p : ℕ} [Fact p.Prime] (D : ModuleSpec
 
 theorem actsBy_unique {X : Type} [Group X] {p : ℕ} [Fact p.Prime] (D : ModuleSpec X p) {g : X}
     {A B : Matrix (Fin D.n) (Fin D.n) (ZMod p)} (hA : ActsBy D g A) (hB : ActsBy D g B) : A = B := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   ext k i
   have h := (conj_elt D hA (Pi.single i 1)).symm.trans (conj_elt D hB (Pi.single i 1))
   have := congrFun (D.elt_injective h) k
@@ -195,9 +195,9 @@ theorem hasTwoLocalWitness_of_spec {Y : Type} [Group Y] [Finite Y]
     {A : Matrix (Fin D.n) (Fin D.n) (ZMod 3)} (hw : ActsBy D w A) (hA2 : A * A = 1) (hA1 : A ≠ 1)
     {r : ℕ} (v : Fin r → Fin D.n → ZMod 3) (hv : ∀ i, A.mulVec (v i) = v i)
     (hind : ∀ a : Fin r → ZMod 3, ∑ i, a i • v i = 0 → a = 0) : HasTwoLocalWitness Y r := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : NeZero 3 := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : NeZero 3 := ⟨by norm_num⟩
   set π := QuotientGroup.mk' (Subgroup.center Y) with hπdef
   have hπ : Function.Surjective π := QuotientGroup.mk'_surjective _
   have hker : π.ker = Subgroup.center Y := QuotientGroup.ker_mk' _
@@ -342,7 +342,7 @@ theorem hasTwoLocalWitness_of_modCheckV {M V : Type} [Inhabited M] {O : Ops M V}
     (hA1 : (actMatN 3 m.basis.length (m.acts.get j)) ^ k ≠ 1)
     (hv : ∀ i, ((actMatN 3 m.basis.length (m.acts.get j)) ^ k).mulVec (v i) = v i)
     (hind : ∀ a : Fin r → ZMod 3, ∑ i, a i • v i = 0 → a = 0) : HasTwoLocalWitness Y r := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   unfold modCheckV at h
   simp only [Bool.and_eq_true, decide_eq_true_eq] at h
   obtain ⟨⟨⟨⟨⟨⟨⟨hC, hw⟩, -⟩, -⟩, -⟩, -⟩, -⟩, halt⟩ := h

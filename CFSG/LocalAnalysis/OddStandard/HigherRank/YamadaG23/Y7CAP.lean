@@ -15,7 +15,7 @@ variable {Γ M : Type} [Group Γ] [Finite Γ] [Group M] [Finite M] {ρ : Γ →*
 theorem y7c_P_le_N (c : K7Abs ρ t J Q P M6 M7) : P ≤ Subgroup.normalClosure (J : Set Γ) := by
   let N : Subgroup Γ := Subgroup.normalClosure (J : Set Γ)
   change P ≤ N
-  haveI : N.Normal := Subgroup.normalClosure_normal
+  have : N.Normal := Subgroup.normalClosure_normal
   have hJN : J ≤ N := fun x hx => Subgroup.subset_normalClosure hx
   have hcomm (K : Subgroup Γ) : ⁅J, K⁆ ≤ N := by
     rw [Subgroup.commutator_le]
@@ -44,7 +44,7 @@ theorem y7c_inv_fixed_nontriv {R : Subgroup Γ} (hR : IsPGroup 2 ↥R) (hR1 : R 
     show t * (t * (x : Γ) * t⁻¹) * t⁻¹ = (x : Γ)
     calc t * (t * (x : Γ) * t⁻¹) * t⁻¹ = (t * t) * (x : Γ) * (t * t)⁻¹ := by group
       _ = (x : Γ) := by rw [ht2]; group
-  haveI : Fintype ↥R := Fintype.ofFinite _
+  have : Fintype ↥R := Fintype.ofFinite _
   have hmod : Fintype.card ↥R ≡ Fintype.card (Function.fixedPoints f) [MOD 2] :=
     Equiv.Perm.card_fixedPoints_modEq (f := f) (p := 2) (n := 1) (by simpa using hf2)
   have hdvdR : 2 ∣ Fintype.card ↥R := by
@@ -58,7 +58,7 @@ theorem y7c_inv_fixed_nontriv {R : Subgroup Γ} (hR : IsPGroup 2 ↥R) (hR1 : R 
   have h1fix : (1 : ↥R) ∈ Function.fixedPoints f := by
     rw [Function.mem_fixedPoints_iff]
     apply Subtype.ext
-    simp [f]
+    simp
   have h1lt : 1 < Fintype.card (Function.fixedPoints f) := by
     have h2le : 2 ≤ Fintype.card (Function.fixedPoints f) :=
       Nat.le_of_dvd (Fintype.card_pos_iff.mpr ⟨⟨1, h1fix⟩⟩) hdvdFp
@@ -78,7 +78,7 @@ theorem y7c_P_inf_center (c : K7Abs ρ t J Q P M6 M7) {z : Γ} (hzP : z ∈ P)
     (hzc : ∀ n ∈ Subgroup.normalClosure (J : Set Γ), z * n = n * z) : z = 1 := by
   let N : Subgroup Γ := Subgroup.normalClosure (J : Set Γ)
   let R : Subgroup Γ := (P ⊓ N) ⊓ Subgroup.centralizer (N : Set Γ)
-  haveI : N.Normal := Subgroup.normalClosure_normal
+  have : N.Normal := Subgroup.normalClosure_normal
   have hzR : z ∈ R := by
     have hz'' : z ∈ (P ⊓ N) ⊓ Subgroup.centralizer (N : Set Γ) := by
       refine ⟨Subgroup.mem_inf.mpr ⟨hzP, hzN⟩, ?_⟩

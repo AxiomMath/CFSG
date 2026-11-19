@@ -14,7 +14,7 @@ section NSolv
 variable {G : Type} [Group G] [Finite G]
 
 theorem s828N_solv (hmod : StmtFSUModule) {T L I H : Subgroup G} {h : G} {k : ℕ}
-    (hyp : Hyp7_0_2 G T L I) [hc : IsMulCommutative ↥(fsuV T I)] (hH : IsHStar T (fsuM T L) H)
+    (hyp : Hyp7_0_2 G T L I) [_hc : IsMulCommutative ↥(fsuV T I)] (hH : IsHStar T (fsuM T L) H)
     (hC : Concl822 T L I H h k) (hL0 : fsuL0 T L = L)
     (hTL : T ≤ Subgroup.normalizer (L : Set G))
     (hD5 : Nonempty (E2.StarQuot (fsuM T L ⊓ ch82I (fsuV T I) h) (ch82I (fsuV T I) h) ≃*
@@ -38,7 +38,7 @@ theorem s828N_solv (hmod : StmtFSUModule) {T L I H : Subgroup G} {h : G} {k : �
     rwa [hP] at this
   have hMP : MinParabolic H T (H ⊓ fsuM T L) := ⟨hTsyl, hnN, hUM⟩
   obtain ⟨p, hpp, hp2, hO2p2, hJbar, -, -⟩ := hMP.subgroupOf.solvable_structure hsolv
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have hquot : ∀ y : ↥H ⧸ CFSG.Open.pCore 2 ↥H, ∃ j : ℕ,
       y ^ 2 ^ j ∈ CFSG.Open.pCore p (↥H ⧸ CFSG.Open.pCore 2 ↥H) := by
     intro y

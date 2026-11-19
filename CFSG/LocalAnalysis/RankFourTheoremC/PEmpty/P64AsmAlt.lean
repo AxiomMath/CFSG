@@ -36,7 +36,7 @@ end P64Asm
 
 theorem kdI278Alt_holds : KDI278Alt := by
   intro p hp hp5 Z _ _ K hKn hK hcen hrk Q
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   obtain ⟨n, hn5, ⟨e⟩⟩ := hK
   let e' : ↥K ≃* alternatingGroup (Fin n) := e
@@ -55,7 +55,7 @@ theorem kdI278Alt_holds : KDI278Alt := by
         Subgroup.card_map_of_injective e'.symm.injective, hEc]
     have := SU1.le_pRank hp.one_lt (le_top : _ ≤ (⊤ : Subgroup Z)) hE'el hE'c
     omega
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp Q.isPGroup'
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp Q.isPGroup
   have hdvd : p ^ k ∣ Nat.card (MulAut (alternatingGroup (Fin n))) := by
     rw [← hk]
     exact (Subgroup.card_subgroup_dvd_card (Q : Subgroup Z)).trans
@@ -65,7 +65,7 @@ theorem kdI278Alt_holds : KDI278Alt := by
     · subst h6
       have hle :=
         CFSG.ComponentClassification.CatalogueSchreierAlternating.DegreeSix.automorphism_card_le
-      haveI : Finite (MulAut (alternatingGroup (Fin 6))) := inferInstance
+      have : Finite (MulAut (alternatingGroup (Fin 6))) := inferInstance
       have hpos : 0 < Nat.card (MulAut (alternatingGroup (Fin 6))) := Nat.card_pos
       have h360 : 360 ∣ Nat.card (MulAut (alternatingGroup (Fin 6))) := by
         have h3 : Nat.card K = 360 := by

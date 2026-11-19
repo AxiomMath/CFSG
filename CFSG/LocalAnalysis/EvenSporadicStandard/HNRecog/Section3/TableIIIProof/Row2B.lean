@@ -70,13 +70,13 @@ theorem tableIII_card_stab_2B (hI : TwoHSInterface) [Finite G] {a z a' c : G}
     ⟨Nat.card ↥(Gxyz a' z c ⊓ Qz z), by rw [hcard, mul_comm]⟩
   have hno3 : ¬ 3 ∣ Nat.card ↥(Gxyz a' z c) := by
     intro h3
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' (G := ↥(Gxyz a' z c)) 3 h3
     exact tableIII_orderOf_ne_three_2B hI h hF2 hX ha'Q ha' hc g.2
       (by rw [Subgroup.orderOf_coe, hg])
   have hno5 : ¬ 5 ∣ Nat.card ↥(Gxyz a' z c) := by
     intro h5
-    haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' (G := ↥(Gxyz a' z c)) 5 h5
     exact tableIII_orderOf_ne_five_2B hI h hSGz ha'Q ha' hc g.2
       (by rw [Subgroup.orderOf_coe, hg])

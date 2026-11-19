@@ -1,7 +1,7 @@
 module
 
 public import Mathlib.Algebra.Group.Defs
-public import Mathlib.Data.Finite.Defs
+public import Mathlib.Basic.Finite.Defs
 
 public import CFSG.ThirdParty.QiuzhenCFSG.GorensteinWalter.Section2.Basic
 public import CFSG.ThirdParty.QiuzhenCFSG.GorensteinWalter.Section3.CyclicTwoCoreSetup
@@ -35,10 +35,10 @@ public theorem firstCase_U_eq_FU_sup_B
   have hUodd : Nat.Coprime 2 (Nat.card bg.U) :=
     BenderGlauberman.U_coprime_two bg
   have hcop : Nat.Coprime (Nat.card (bg.S : Subgroup G)) (Nat.card bg.U) := by
-    obtain ⟨n, hn⟩ := bg.S.isPGroup'.exists_card_eq
+    obtain ⟨n, hn⟩ := bg.S.isPGroup.exists_card_eq
     rw [hn]
     exact hUodd.pow_left n
-  have hsolv : IsSolvable bg.U :=
+  have hsolv : Group.IsSolvable bg.U :=
     odd_order_theorem bg.U (Nat.coprime_two_left.mp hUodd)
   have hdecomp :
       fixedPointSubgroup (bg.S : Subgroup G) bg.U ⊔

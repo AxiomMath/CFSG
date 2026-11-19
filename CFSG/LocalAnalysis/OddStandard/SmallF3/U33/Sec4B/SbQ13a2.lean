@@ -12,6 +12,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau om : G}
 
+omit [Finite G] in
 private theorem q13a_closure_ttau_le_X (t tau x₁ x₂ : G) :
     closure ({t, tau} : Set G) ≤ ctxX t tau x₁ x₂ := by
   rw [ctxX]

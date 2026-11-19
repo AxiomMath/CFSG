@@ -13,7 +13,7 @@ open scoped commutatorElement
 variable {C : Type} [Group C] {Q : Subgroup C} [Q.Normal]
 
 private theorem natCard_A5WrTwo : Nat.card A5WrTwo = 7200 := by
-  haveI : Finite (Multiplicative (ZMod 2)) := inferInstance
+  have : Finite (Multiplicative (ZMod 2)) := inferInstance
   rw [RegularWreathProduct.card]
   have h5 : Nat.card (alternatingGroup (Fin 5)) = 60 := by
     rw [nat_card_alternatingGroup, Nat.card_fin]
@@ -26,7 +26,7 @@ private theorem natCard_A5WrTwo : Nat.card A5WrTwo = 7200 := by
 theorem AschbacherHyp.commutator_commutator_eq_top [Finite C] (hC : AschbacherHyp C Q) :
     commutator ↥(commutator C) = ⊤ := by
   have hE : IsExtraspecialPGroup 2 Q := hC.plus.isExtraspecialPGroup
-  haveI : Finite Q := hC.plus.finite
+  have : Finite Q := hC.plus.finite
   have hQL : Q ≤ commutator C := hC.le_commutator
   have hcenter_le_commQ : centerOf Q ≤ ⁅Q, Q⁆ := by
     intro z hz

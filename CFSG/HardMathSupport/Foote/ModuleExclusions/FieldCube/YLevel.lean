@@ -146,7 +146,7 @@ theorem closure_hyperplane_quot_of_model {K E : Subgroup Y} [K.Normal] {M : Type
           rw [Subgroup.relIndex]
           congr 1
           ext b
-          simp [Subgroup.mem_subgroupOf, Subgroup.mem_map]
+          simp
         rw [h1, hH₀, Subgroup.index_comap]
         have : ρE.range = E.map (modelAct K e) := by
           rw [hρE, MonoidHom.range_comp, Subgroup.range_subtype]

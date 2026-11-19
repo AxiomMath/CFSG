@@ -106,7 +106,7 @@ theorem cfInner_self_nu_eq_one :
   exact cfInner_self_of_mem_Irr hζIrr
 
 include hodd hW hW2K hW1K hω hD hKA hVA hPS hPstar hν hτ hζIrr in
-theorem cfInner_nu_apply_eq_zero {χ : classFun ↥W} (hχ : (χ : ↥W → ℂ) ∈ Irr ↥W) :
+theorem cfInner_nu_apply_eq_zero {χ : classFun ↥W} (_hχ : (χ : ↥W → ℂ) ∈ Irr ↥W) :
     cfInner (ν ⟨ζ, Submodule.subset_span hζP⟩ : G → ℂ) (ω χ : G → ℂ) = 0 := by
   refine cfInner_apply_eq_zero_of_forall_prodCharEta hW (fun i j => ?_) χ
   exact isOrthogonal_iff.1 (CoherentCore.isOrthogonal_nu_prodCharEta hodd hW hW2K hW1K hω hD hVA

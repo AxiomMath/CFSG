@@ -17,7 +17,7 @@ theorem not_connected_of_imprimitive {F : Type} [Field F] [Finite F] [CharP F 2]
     (G₀ : Subgroup (V ≃ₗ[F] V)) (hSp : G₀ ≤ spGroup B) (hirr : IsIrredOnV G₀)
     (hD : (transvSet G₀).Nonempty) (himp : IsImprimitiveOnV G₀) :
     ¬ (advGraph G₀).Connected := by
-  haveI : FiniteDimensional F V := Module.finite_of_finrank_pos (by rw [hdim]; norm_num)
+  have : FiniteDimensional F V := Module.finite_of_finrank_pos (by rw [hdim]; norm_num)
   obtain ⟨r, W, hr, hne, hind, htop, hmap⟩ := himp
   rcases summands_two_or_four hdim hr hirr hne hind htop hmap with ⟨rfl, h2⟩ | ⟨rfl, h1⟩
   · exact not_connected_of_two_summands B halt hnd hdim G₀ hSp hirr hD hne hind htop hmap h2

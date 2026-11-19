@@ -24,7 +24,7 @@ theorem closure_gens_le_commutator (K : Type*) [Field K] :
     Subgroup.closure (gens K) ≤ ⁅orthSix K, orthSix K⁆ := by
   rw [Subgroup.closure_le]
   intro g hg
-  simp only [gens, Set.mem_union, Set.mem_setOf_eq, Set.mem_insert_iff,
+  simp only [gens, Set.mem_union, Set.mem_ofPred_eq, Set.mem_insert_iff,
     Set.mem_singleton_iff] at hg
   rcases hg with ⟨r, s, hrs, rfl⟩ | rfl | rfl
   · exact negCoordGL_pair_mem_commutator hrs

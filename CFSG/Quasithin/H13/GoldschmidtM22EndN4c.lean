@@ -43,13 +43,14 @@ theorem V0_le_D : V ⊓ CHU T L V ≤ D := by
   exact inf_le_inf_right _ le_sup_left
 
 include hk h hZ in
+omit [Finite G] h in
 theorem V1_eq : conjSubgroup V g ⊓ CHU T L V = conjSubgroup (V ⊓ CHU T L V) g := by
   rw [CFSG.QuasithinUnique.C5.conjSubgroup_inf,
-    conjSubgroup_eq_iff_mem_normalizer.mpr (HH_le_normalizer_CHU h hZ hk.g_mem)]
+    conjSubgroup_eq_iff_mem_normalizer.mpr (HH_le_normalizer_CHU hZ hk.g_mem)]
 
 include hk h hZ in
 theorem card_V1 (h6211 : Stmt6_2_11) : Nat.card ↥(conjSubgroup V g ⊓ CHU T L V) = 8 := by
-  rw [hk.V1_eq h hZ, CFSG.QuasithinUnique.C5.card_conjSubgroup, card_V0 h h6211]
+  rw [hk.V1_eq hZ, CFSG.QuasithinUnique.C5.card_conjSubgroup, card_V0 h h6211]
 
 omit [Finite G] in
 include hk in

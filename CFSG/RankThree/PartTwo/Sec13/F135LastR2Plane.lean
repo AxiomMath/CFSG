@@ -97,7 +97,7 @@ theorem r2a_exists_y1 {G : Type*} [Group G] {p : ℕ} (hp : p.Prime)
 theorem r2a_exists_y2 {G : Type*} [Group G] [Finite G] {p : ℕ} (hp : p.Prime)
     {Dp P Φ : Subgroup G} (hΦc : ∀ x ∈ Φ, ∀ d ∈ Dp, x * d = d * x) (hPD : P ≤ Dp)
     (hPexp : ∀ y ∈ P, y ^ p = 1) (hPmap : p ^ 2 ≤ Φ.relIndex (P ⊔ Φ))
-    {y₁ : G} (hy₁P : y₁ ∈ P) (hy₁Φ : y₁ ∉ Φ) :
+    {y₁ : G} (hy₁P : y₁ ∈ P) (_hy₁Φ : y₁ ∉ Φ) :
     ∃ y₂ ∈ P, y₂ ∉ Subgroup.zpowers y₁ ⊔ Φ := by
   by_contra hcon
   push Not at hcon
@@ -119,7 +119,7 @@ theorem r2a_exists_y2 {G : Type*} [Group G] [Finite G] {p : ℕ} (hp : p.Prime)
   have hQ : Nat.card (P ⊔ Φ : Subgroup G) ≤ Nat.card (Subgroup.zpowers y₁ ⊔ Φ : Subgroup G) :=
     Subgroup.card_le_of_le hPK
   have hc0 : 0 < Nat.card Φ := by
-    haveI : Nonempty Φ := ⟨⟨1, Φ.one_mem⟩⟩
+    have : Nonempty Φ := ⟨⟨1, Φ.one_mem⟩⟩
     exact Nat.card_pos
   have h1 : p ^ 2 * Nat.card Φ ≤ p * Nat.card Φ :=
     calc p ^ 2 * Nat.card Φ ≤ Φ.relIndex (P ⊔ Φ) * Nat.card Φ := Nat.mul_le_mul_right _ hPmap
@@ -135,7 +135,7 @@ theorem r2a_elem_sup {G : Type*} [Group G] [Finite G] {p : ℕ} (hp : p.Prime) {
     (hind : ∀ i j : ℤ, a ^ i * b ^ j = 1 → (p : ℤ) ∣ i ∧ (p : ℤ) ∣ j) :
     CFSG.Open.IsElemAbelian p (Subgroup.zpowers a ⊔ Subgroup.zpowers b) ∧
       Nat.card (Subgroup.zpowers a ⊔ Subgroup.zpowers b : Subgroup G) = p ^ 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hao : orderOf a = p := orderOf_eq_prime ha ha1
   have hbo : orderOf b = p := orderOf_eq_prime hb hb1
   have hc : ∀ h ∈ Subgroup.zpowers a, ∀ k ∈ Subgroup.zpowers b, h * k = k * h :=
@@ -213,7 +213,7 @@ theorem exists_E_two {G : Type*} [Group G] [Finite G] {p : ℕ} (hp : p.Prime)
       (P ⊔ (frattini ↥Dp).map Dp.subtype)) :
     ∃ A : Subgroup G, A ≤ P ∧ CFSG.Open.IsElemAbelian p A ∧ Nat.card A = p ^ 2 ∧
       Nat.card (A ⊓ (frattini ↥Dp).map Dp.subtype : Subgroup G) ≤ p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set Φ : Subgroup G := (frattini ↥Dp).map Dp.subtype with hΦdef
   have hPexp : ∀ y ∈ P, y ^ p = 1 := fun y hy => hexp y (hPD hy)
   have hcomm_mem : ∀ a ∈ P, ∀ b ∈ P, ⁅a, b⁆ ∈ Φ := fun a ha b hb =>

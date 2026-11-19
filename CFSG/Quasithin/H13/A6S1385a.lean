@@ -318,7 +318,7 @@ theorem exists_conj_mem_of_mul_self {G : Type*} [Group G] [Finite G] {X T₀ : S
     hP.of_equiv (Subgroup.subgroupOfEquivOfLe hPX).symm
   obtain ⟨Q, hQ⟩ := hP'.exists_le_sylow
   have hS : IsSylowTwoOf ((Q : Subgroup X).map X.subtype) X := by
-    refine ⟨Subgroup.map_subtype_le _, Q.isPGroup'.map X.subtype, ?_⟩
+    refine ⟨Subgroup.map_subtype_le _, Q.isPGroup.map X.subtype, ?_⟩
     change ¬ 2 ∣ (Subgroup.comap X.subtype ((Q : Subgroup X).map X.subtype)).index
     rw [Subgroup.comap_map_eq_self_of_injective X.subtype_injective]
     exact Sylow.not_dvd_index Q

@@ -15,6 +15,7 @@ section Core
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] in
 theorem comm_of_mk_comm {a b : GL (Fin 3) K} (ha : a * a = 1)
     (h : ProjGenLinGroup.mk a * ProjGenLinGroup.mk b =
       ProjGenLinGroup.mk b * ProjGenLinGroup.mk a) :
@@ -231,8 +232,7 @@ theorem core_D {X' : Type} [Group X'] (ι : X' →* ProjGenLinGroup (Fin 3) K)
         _ = uniGL 1 0 0 := by group
     have e11 := congrArg (fun g : GL (Fin 3) K => (g : Matrix (Fin 3) (Fin 3) K) 1 1) h2
     have e02 := congrArg (fun g : GL (Fin 3) K => (g : Matrix (Fin 3) (Fin 3) K) 0 2) h2
-    simp [uniGL, uniM, Matrix.mul_apply, Fin.sum_univ_three,
-      Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, Matrix.diagonal_apply] at e11 e02
+    simp [uniGL, uniM, Matrix.mul_apply, Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, Matrix.diagonal_apply] at e11 e02
     apply he₀
     rw [e11] at e02
     simpa using e02
@@ -266,8 +266,8 @@ theorem l3_exists_moved {K : Type} [Field K] [Finite K] {n : ℕ} (hK : Sec4.PiF
     ∃ x ∈ inSubgroup (CFSG.pCore 2) (Subgroup.centralizer (Ubar : Set X')),
       ProjGenLinGroup.mk y * (e x : ProjGenLinGroup (Fin 3) K) * (ProjGenLinGroup.mk y)⁻¹ ≠
         (e x : ProjGenLinGroup (Fin 3) K) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := by
     have : Fintype K := Fintype.ofFinite K
     exact charP_of_card_eq_prime_pow (f := n) (by rw [← Nat.card_eq_fintype_card, hK.card]; rfl)
   obtain ⟨e₀, he3, he1, z, hz, g, hg, hD⟩ := hy
@@ -283,7 +283,7 @@ theorem l3_exists_moved {K : Type} [Field K] [Finite K] {n : ℕ} (hK : Sec4.PiF
         e.toMonoidHom)
   have hιx : ∀ x, ι x = G⁻¹ * (e x : ProjGenLinGroup (Fin 3) K) * G := by
     intro x
-    simp [ι, MulAut.conj_apply]
+    simp [ι]
   have hι : Function.Injective ι := (MulAut.conj G⁻¹).injective.comp
     (Subgroup.subtype_injective _ |>.comp e.injective)
   have hrange : ∀ s : GL (Fin 3) K, (s : Matrix (Fin 3) (Fin 3) K).det = 1 →

@@ -16,7 +16,7 @@ open scoped commutatorElement
 theorem centTA_of_setting {G : Type} [Group G] [Finite G] {L : Subgroup G} (hS : HRSetting G L)
     (s : Setting3 G L) (hA : LFactsA s) (h31 : s.Fact31)
     (hOut : (innerAut (L ⧸ center L)).index = 2) : centIn s.T s.fr.A = zt s := by
-  haveI : Group.IsPerfect ↥L := isPerfect_of_hrSetting hS
+  have : Group.IsPerfect ↥L := isPerfect_of_hrSetting hS
   apply le_antisymm
   ·
     intro x hx

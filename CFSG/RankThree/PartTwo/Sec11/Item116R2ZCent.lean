@@ -18,7 +18,7 @@ theorem map_mk_centralizer_eq {X : Type} [Group X] [Finite X] (N : Subgroup X) [
     (hN : ¬ 3 ∣ Nat.card N) {d : X} (hd3 : d ^ 3 = 1) :
     (Subgroup.centralizer ({d} : Set X)).map (QuotientGroup.mk' N) =
       Subgroup.centralizer ({(QuotientGroup.mk d : X ⧸ N)} : Set (X ⧸ N)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hA : IsPGroup 3 (Subgroup.zpowers d) := by
     apply IsPGroup.of_card_dvd_pow (n := 1)
     rw [Nat.card_zpowers, pow_one]
@@ -33,7 +33,7 @@ theorem mem_sylow_centralizer_of_pow_three {X : Type} [Group X] [Finite X] {d : 
     (P : Subgroup X) (hPle : P ≤ Subgroup.centralizer ({d} : Set X))
     (hPcard : Nat.card P = 3 ^ (Nat.card (Subgroup.centralizer ({d} : Set X))).factorization 3) :
     d ∈ P := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hdC0 : d ∈ Subgroup.centralizer ({d} : Set X) :=
     Subgroup.mem_centralizer_singleton_iff.mpr rfl
   set C : Subgroup X := Subgroup.centralizer ({d} : Set X) with hCdef
@@ -42,7 +42,7 @@ theorem mem_sylow_centralizer_of_pow_three {X : Type} [Group X] [Finite X] {d : 
   have hcomm : ∀ g : C, g * dC = dC * g := by
     intro g
     exact Subtype.ext (Subgroup.mem_centralizer_singleton_iff.mp g.2)
-  haveI hnorm : (Subgroup.zpowers dC).Normal := by
+  have hnorm : (Subgroup.zpowers dC).Normal := by
     apply Subgroup.normal_of_le_center
     rw [Subgroup.zpowers_le, Subgroup.mem_center_iff]
     exact hcomm
@@ -65,7 +65,7 @@ theorem exists_sylow_of_invariant_subgroup_three {X : Type} [Group X] [Finite X]
     (hφ3 : φ ^ 3 = 1) (C : Subgroup X) (hC : ∀ x ∈ C, φ x ∈ C) :
     ∃ P : Subgroup X, P ≤ C ∧ Nat.card P = 3 ^ (Nat.card C).factorization 3 ∧
       ∀ x ∈ P, φ x ∈ P := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3 : ∀ y : X, φ (φ (φ y)) = y := by
     intro y
     have h := congrArg (fun f : MulAut X => f y) hφ3
@@ -143,7 +143,7 @@ theorem card_map_mk_mul_card_inf_of_normal {X : Type} [Group X] [Finite X] (N : 
 
 theorem card_map_mk_sylow {X : Type} [Group X] [Finite X] (N : Subgroup X) [N.Normal]
     (hN : ¬ 3 ∣ Nat.card N) {d : X} (hd3 : d ^ 3 = 1) (P : Subgroup X)
-    (hPle : P ≤ Subgroup.centralizer ({d} : Set X))
+    (_hPle : P ≤ Subgroup.centralizer ({d} : Set X))
     (hPcard : Nat.card P = 3 ^ (Nat.card (Subgroup.centralizer ({d} : Set X))).factorization 3) :
     Nat.card (P.map (QuotientGroup.mk' N)) =
         3 ^ (Nat.card (Subgroup.centralizer ({(QuotientGroup.mk d : X ⧸ N)} : Set (X ⧸ N)))).factorization 3 ∧

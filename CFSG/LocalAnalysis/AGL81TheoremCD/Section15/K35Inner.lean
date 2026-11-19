@@ -41,7 +41,7 @@ theorem K35Good.of_mulEquiv {M N : Type*} [Group M] [Group N] (e : M ≃* N) (h 
 
 theorem exists_pair_of_card_nine {G : Type*} [Group G] {A : Subgroup G} (hA : IsElemAbelian 3 A)
     (hA9 : Nat.card A = 9) : ∃ α ∈ A, α ≠ 1 ∧ ∃ β ∈ A, β ∉ zpowers α := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rcases A.bot_or_exists_ne_one with hbot | ⟨α, hαA, hα1⟩
   · rw [hbot, Subgroup.card_bot] at hA9
     omega
@@ -50,20 +50,20 @@ theorem exists_pair_of_card_nine {G : Type*} [Group G] {A : Subgroup G} (hA : Is
   push Not at hcon
   have hc : Nat.card (zpowers α) = 3 := by
     rw [Nat.card_zpowers, orderOf_eq_prime (hA.2 α hαA) hα1]
-  haveI : Finite (zpowers α) := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
+  have : Finite (zpowers α) := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
   have := Subgroup.card_le_of_le (show A ≤ zpowers α from hcon)
   omega
 
 theorem mul_zpow_ne_one {G : Type*} [Group G] {α β : G} (hα3 : α ^ 3 = 1) (hβ3 : β ^ 3 = 1)
     (hα1 : α ≠ 1) (hβ : β ∉ zpowers α) (m : ℤ) : α * β ^ m ≠ 1 ∧ β * α ^ m ≠ 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine ⟨fun h => ?_, fun h => hβ (mem_zpowers_iff.2
     ⟨-m, by rw [zpow_neg, eq_inv_of_mul_eq_one_left h]⟩)⟩
   have hβ1 : β ≠ 1 := fun h1 => hβ (h1 ▸ one_mem _)
   have hαβ : zpowers α ≤ zpowers β :=
     zpowers_le.2 (mem_zpowers_iff.2 ⟨-m, by rw [zpow_neg, eq_inv_of_mul_eq_one_left h]⟩)
   have hcβ : Nat.card (zpowers β) = 3 := by rw [Nat.card_zpowers, orderOf_eq_prime hβ3 hβ1]
-  haveI : Finite (zpowers β) := Nat.finite_of_card_ne_zero (by rw [hcβ]; norm_num)
+  have : Finite (zpowers β) := Nat.finite_of_card_ne_zero (by rw [hcβ]; norm_num)
   have heq := Subgroup.eq_of_le_of_card_ge hαβ
     (by rw [hcβ, Nat.card_zpowers, orderOf_eq_prime hα3 hα1])
   exact hβ (heq ▸ mem_zpowers β)
@@ -74,7 +74,7 @@ theorem k35Good_of_outPChain {M : Type*} [Group M] (h : OutPChain 3 M) : K35Good
   have hα3 := hA.2 α hαA
   have hβ3 := hA.2 β hβA
   have hαβ : α * β = β * α := by
-    haveI := hA.1
+    have := hA.1
     exact congrArg Subtype.val (mul_comm' (⟨α, hαA⟩ : A) ⟨β, hβA⟩)
   have hinn : ∀ γ : MulAut M, γ ^ 3 = 1 → γ ^ (3 ^ 1) ∈ Inn M := fun γ hγ => by
     rw [pow_one, hγ]
@@ -136,7 +136,7 @@ theorem mem_sup_centralizer_of_inner (K : Subgroup X) [Group.IsPerfect K] {g : X
 
 theorem centralizer_le_gamma {E : Subgroup X} (hE : IsElemAbelian 3 E) {e : X} (he : e ∈ E)
     (he1 : e ≠ 1) : centralizer {e} ≤ rankThreeGamma 1 3 E := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hZ : IsElemAbelian 3 (zpowers e) := ⟨inferInstance, fun x hx => by
     obtain ⟨k, rfl⟩ := mem_zpowers_iff.1 hx
     rw [← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast, hE.2 e he, one_zpow]⟩
@@ -182,7 +182,7 @@ theorem exists_inner_of_k35Good (K E : Subgroup X) [K.Normal] [Group.IsPerfect K
     (centerQuotientHom K).comp (K.normalizerMonoidHom.comp (inclusion fun x _ => hN x))
   by_cases hinj : Function.Injective φ
   · have hEtop : IsElemAbelian 3 (⊤ : Subgroup E) := by
-      haveI := hE.1
+      have := hE.1
       exact ⟨⟨⟨fun a b => Subtype.ext (mul_comm' (a : E) (b : E))⟩⟩,
         fun x _ => Subtype.ext (by simpa using hE.2 x x.2)⟩
     have hA : IsElemAbelian 3 φ.range := by

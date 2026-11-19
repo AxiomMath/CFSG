@@ -78,7 +78,7 @@ theorem exists_spForm_eq_zero_forall_ne_smul (hk : 2 ≤ k) {u : Fin k ⊕ Fin k
     have := Submodule.finrank_mono hle
     rw [finrank_span_singleton hu] at this
     omega
-  obtain ⟨w, hwk, hws⟩ := SetLike.not_le_iff_exists.mp hnle
+  obtain ⟨w, hwk, hws⟩ := IsConcreteLE.not_le_iff_exists.mp hnle
   refine ⟨w, by simpa [hfx] using LinearMap.mem_ker.mp hwk, fun a hwa => hws ?_⟩
   rw [hwa]
   exact Submodule.smul_mem _ a (Submodule.mem_span_singleton_self u)
@@ -89,7 +89,7 @@ theorem spEnd_spTransvection_mul_mul_apply {a b e : Fin k ⊕ Fin k → F}
     spEnd (spTransvection a c * spTransvection b c * spTransvection e c) x =
       x + (c * spForm k F x a) • a + (c * spForm k F x b) • b + (c * spForm k F x e) • e := by
   simp only [spEnd_mul, Module.End.mul_apply, spEnd_spTransvection, map_add, map_smul,
-    LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul, hba, hea, heb, mul_zero, add_zero,
+    hba, hea, heb, mul_zero, add_zero,
     zero_smul]
 
 theorem spTransvection_eq_mul_mul [CharP F 2] {u w : Fin k ⊕ Fin k → F}
@@ -128,7 +128,7 @@ theorem exists_ne_zero_ne_one_of_four_le [Finite F] (h4 : 4 ≤ Nat.card F) :
   classical
   by_contra hcon
   push Not at hcon
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   have hsub : (Finset.univ : Finset F) ⊆ {0, 1} := fun l _ => by
     by_cases hl : l = 0
     · simp [hl]
@@ -145,7 +145,7 @@ theorem isRootTriple_of_isSymplecticTransvection {X : Type} [Group X] {E : Set X
   classical
   obtain ⟨k, hmk, F, _, _, hF, e, hrank⟩ := h
   have hk : 2 ≤ k := by omega
-  haveI : CharP F 2 := CFSG.ABGLocalTools.SL2Facts.charP_of_card_eq_prime_pow Nat.prime_two hF
+  have : CharP F 2 := CFSG.ABGLocalTools.SL2Facts.charP_of_card_eq_prime_pow Nat.prime_two hF
   set ψ : X →* StatedSp k F := e.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center X))
     with hψdef
   have hψinj : Function.Injective ψ := by
@@ -235,8 +235,8 @@ theorem commutator_eq_top_and_ker_eq_bot_of_isSymplecticTransvection {X : Type} 
   classical
   obtain ⟨k, hmk, F, _, _, hF, e, -⟩ := h
   have hk : 2 ≤ k := by omega
-  haveI : CharP F 2 := CFSG.ABGLocalTools.SL2Facts.charP_of_card_eq_prime_pow Nat.prime_two hF
-  letI : Algebra (ZMod 2) F := ZMod.algebra F 2
+  have : CharP F 2 := CFSG.ABGLocalTools.SL2Facts.charP_of_card_eq_prime_pow Nat.prime_two hF
+  let : Algebra (ZMod 2) F := ZMod.algebra F 2
   let ψ : X ≃* StatedSp k F :=
     (QuotientGroup.quotientBot.symm.trans (QuotientGroup.quotientMulEquivOfEq hZ.symm)).trans e
   let φF : F ≃+* GaloisField 2 f := (GaloisField.algEquivGaloisField 2 f hF).toRingEquiv
@@ -247,16 +247,16 @@ theorem commutator_eq_top_and_ker_eq_bot_of_isSymplecticTransvection {X : Type} 
       (MulEquiv.subgroupCongr (CFSG.Adapters.RankTwoModelTransports.glCongr_statedSp φF k))
   refine ⟨?_, fun Γ _ φ hφ hcen hcomm => ?_⟩
   · have h4 : ∃ t : Finset F, t.card = 4 := by
-      haveI := Fintype.ofFinite F
+      have := Fintype.ofFinite F
       have : 4 ≤ (Finset.univ : Finset F).card := by
         rw [Finset.card_univ, ← Nat.card_eq_fintype_card, hF]
         calc 4 = 2 ^ 2 := by norm_num
           _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hf
       obtain ⟨t, -, ht⟩ := Finset.exists_subset_card_eq this
       exact ⟨t, ht⟩
-    haveI : Group.IsPerfect (StatedSp k F) :=
+    have : Group.IsPerfect (StatedSp k F) :=
       CFSG.ClassicalGroups.Symplectic.isPerfect_statedSp k F (Or.inl h4)
-    haveI : Group.IsPerfect X :=
+    have : Group.IsPerfect X :=
       Group.IsPerfect.ofSurjective (f := ψ.symm.toMonoidHom) ψ.symm.surjective
     exact Group.IsPerfect.commutator_eq_top
   · have hker : ((ψ.trans χ).toMonoidHom.comp φ).ker = φ.ker := by

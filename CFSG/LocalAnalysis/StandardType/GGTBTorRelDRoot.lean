@@ -78,12 +78,12 @@ def invBlockCoord (x : Fin m → μ) : Fin m → μ :=
 theorem invBlockCoord_apply_of_lt (x : Fin m → μ) (i : Fin m) (hi : i.val + 1 < m) :
     invBlockCoord x i = x i * (x ⟨i.val + 1, hi⟩)⁻¹ := by
   simp only [invBlockCoord]
-  exact dif_pos hi
+  exact dite_eq_left hi
 
 theorem invBlockCoord_apply_of_not_lt (x : Fin m → μ) (i : Fin m) (hi : ¬ i.val + 1 < m) :
     invBlockCoord x i = x i := by
   simp only [invBlockCoord]
-  exact dif_neg hi
+  exact dite_eq_right hi
 
 theorem invBlockCoord_blockCoord (a : Fin m → μ) :
     invBlockCoord (blockCoord a) = a := by
@@ -266,7 +266,7 @@ theorem blockOfRoot_reflect_of_lt (a : Fin m → μ) (k : Fin m) (hk : k.val + 1
             omega
           have hBik : CartanMatrix.B m i k = 0 := by
             simp only [CartanMatrix.B, Matrix.of_apply]
-            rw [if_neg hik, if_neg hip, if_neg hkprev]
+            rw [ite_eq_right hik, ite_eq_right hip, ite_eq_right hkprev]
           by_cases hilast : i.val + 1 = m
           · rw [blockOfRoot_symm_apply_last x i hilast]
             have hxi : x i = X i := by
@@ -369,7 +369,7 @@ theorem blockOfRoot_reflect_last (a : Fin m → μ) (k : Fin m) (hk : k.val + 1 
           omega
         have hBik : CartanMatrix.B m i k = 0 := by
           simp only [CartanMatrix.B, Matrix.of_apply]
-          rw [if_neg hik, if_neg hip, if_neg hkprev]
+          rw [ite_eq_right hik, ite_eq_right hip, ite_eq_right hkprev]
         have hi_lt : i.val + 1 < m := by
           have := i.isLt
           have := k.isLt

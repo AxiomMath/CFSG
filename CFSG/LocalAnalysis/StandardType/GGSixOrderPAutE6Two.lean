@@ -16,8 +16,8 @@ theorem exists_conj_of_e6_two_of_pow_eq_one
     (hM : LieModel (G ⧸ Subgroup.center G) .E6 0 2 1)
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hp3 : p ≠ 3)
     {α : MulAut G} (hαp : α ^ p = 1) : ∃ g : G, α = MulAut.conj g := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsPerfect G := ⟨hperf⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsPerfect G := ⟨hperf⟩
   obtain ⟨π, hπ, hπker⟩ := LieOddCover.exists_ggU_central_cover_of_lieModel
     (by simp [S2MathFi1035Pos.GGPosTag] : S2MathFi1035Pos.GGPosTag .E6) hM.admissible hM
   have hπZ : Subgroup.center (ggU .E6 0 1).K ≤ π.ker := by

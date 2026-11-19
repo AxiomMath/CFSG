@@ -58,7 +58,7 @@ theorem b3SporPair_pariah :
           simp only [reduceCtorEq, false_or, or_false, or_self] at h
         exact b3SporPair_ONan_seven hbr hOut
       · rcases hname with rfl | rfl | rfl | rfl | rfl | rfl <;>
-          simp only [reduceCtorEq, false_or, or_false, or_self] at h
+          simp only [reduceCtorEq, or_false, or_self] at h
         exact b3SporPair_J4_eleven hbr hOut
       · rcases hname with h' | h' | h' | h' | h' | h' <;> rw [h'] at h <;> cases h
   · refine b3SporPair_of_card_exact hp hp2 hOut fun S _ _ he => ?_

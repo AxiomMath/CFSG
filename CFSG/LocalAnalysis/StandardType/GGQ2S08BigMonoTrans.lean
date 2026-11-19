@@ -26,7 +26,7 @@ private lemma ggQ2s08mt_perm_unique {V : Type} [AddCommGroup V] [Module (ZMod 3)
     (b : Module.Basis (Fin N) (ZMod 3) V) {g : V ≃ₗ[ZMod 3] V}
     {σ σ' : Equiv.Perm (Fin N)} {ε ε' : Fin N → ZMod 3}
     (hε : ∀ i, ε i ≠ 0) (h : ∀ i, g (b i) = ε i • b (σ i))
-    (hε' : ∀ i, ε' i ≠ 0) (h' : ∀ i, g (b i) = ε' i • b (σ' i)) : σ = σ' := by
+    (_hε' : ∀ i, ε' i ≠ 0) (h' : ∀ i, g (b i) = ε' i • b (σ' i)) : σ = σ' := by
   apply Equiv.ext
   intro i
   exact ggQ2s08mt_eq_of_smul_basis_eq b (hε i) (by rw [← h i, h' i])
@@ -97,8 +97,8 @@ theorem ggQ2s08_big_mono_trans {V : Type} [AddCommGroup V] [Module (ZMod 3) V] {
     rw [← map_mul, hww, map_one]
   have hKbot : K = ⊥ := by
     by_contra hK
-    haveI hKnt : Nontrivial K := (Subgroup.nontrivial_iff_ne_bot K).mpr hK
-    haveI hKn : K.Normal := hKnormal
+    have hKnt : Nontrivial K := (Subgroup.nontrivial_iff_ne_bot K).mpr hK
+    have hKn : K.Normal := hKnormal
     have hAle : alternatingGroup (Fin N) ≤ K :=
       Equiv.Perm.alternatingGroup_le_of_normal (α := Fin N) (by simpa using hN) (ntN := hKnt)
     obtain ⟨a, b, c, hab, hac, hbc⟩ : ∃ a b c : Fin N, a ≠ b ∧ a ≠ c ∧ b ≠ c := by

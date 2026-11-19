@@ -80,7 +80,7 @@ theorem P_cent_R_le {f : G} (hfP : f ∈ (S : Subgroup G) ⊓ MGrp Ω W)
   have hW2 := Thompson.isPGroup_of_mem_WSet C.hd.hW
   have two_elt : ∀ {x : G}, x ∈ (S : Subgroup G) → x ∈ W ⊔ OCW W → x ∈ W := fun hx hxs =>
     Thompson.mem_of_isPGroup_of_mem_sup_OCW hW2
-      (S.isPGroup'.to_le (Subgroup.zpowers_le.mpr hx)) hxs
+      (S.isPGroup.to_le (Subgroup.zpowers_le.mpr hx)) hxs
   have hrS : C.D.F.ρ.r ∈ (S : Subgroup G) := C.hd.hR.2.2 C.r_mem_R
   have htS : C.D.F.ρ'.r ∈ (S : Subgroup G) := C.hd.hR'.2.2 C.t_mem_R'
   have hx₁inv : C.D.x₁⁻¹ ≠ C.D.x₁ := by
@@ -191,7 +191,7 @@ theorem P_cent_R'_le {f : G} (hfP : f ∈ (S : Subgroup G) ⊓ MGrp Ω W)
   have hW2 := Thompson.isPGroup_of_mem_WSet C.hd.hW
   have two_elt : ∀ {x : G}, x ∈ (S : Subgroup G) → x ∈ W ⊔ OCW W → x ∈ W := fun hx hxs =>
     Thompson.mem_of_isPGroup_of_mem_sup_OCW hW2
-      (S.isPGroup'.to_le (Subgroup.zpowers_le.mpr hx)) hxs
+      (S.isPGroup.to_le (Subgroup.zpowers_le.mpr hx)) hxs
   have hrS : C.D.F.ρ.r ∈ (S : Subgroup G) := C.hd.hR.2.2 C.r_mem_R
   have htS : C.D.F.ρ'.r ∈ (S : Subgroup G) := C.hd.hR'.2.2 C.t_mem_R'
   have hx₂inv : C.D.x₂⁻¹ ≠ C.D.x₂ := by
@@ -304,8 +304,7 @@ theorem conj_R_mem_P {g : G} (hRS : ∀ y ∈ R, g⁻¹ * y * g ∈ (S : Subgrou
         _ = z * 1 := (mul_one z).symm
     exact mul_left_cancel h1
   by_cases hy1 : y = 1
-  · rw [hy1]; simpa using (⟨(S : Subgroup G).one_mem, (MGrp Ω W).one_mem⟩ :
-      (1 : G) ∈ (S : Subgroup G) ⊓ MGrp Ω W)
+  · rw [hy1]; simp
   by_cases hyz : y = z
   · have hgP := C.conj_mem_P_of_R C.x₁_mem_R hx1 hx1z (hRS _ C.x₁_mem_R)
     have hsq : g⁻¹ * y * g = (g⁻¹ * C.D.x₁ * g) ^ 2 := by
@@ -315,7 +314,7 @@ theorem conj_R_mem_P {g : G} (hRS : ∀ y ∈ R, g⁻¹ * y * g ∈ (S : Subgrou
   · exact C.conj_mem_P_of_R hy hy1 hyz (hRS y hy)
 
 include C in
-theorem not_mem_P_conj {e : G} (heS : e ∈ (S : Subgroup G))
+theorem not_mem_P_conj {e : G} (_heS : e ∈ (S : Subgroup G))
     (heR : ∀ y ∈ R, e * y = y * e) (he2 : e * e = 1) (he1 : e ≠ 1)
     (hne : ∀ g : G, g * z * g⁻¹ ≠ e) {g : G}
     (hg : ∀ y ∈ (S : Subgroup G) ⊓ Subgroup.centralizer ({e} : Set G),

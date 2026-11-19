@@ -29,6 +29,7 @@ private lemma qtwoDB22_dPerm_inv (m : ℕ) (σ : Equiv.Perm (Fin m)) :
   symm
   exact inv_eq_of_mul_eq_one_right (by rw [← dPerm_mul, mul_inv_cancel, dPerm_one])
 
+omit [Finite G] in
 private lemma qtwoDB22_oTwoPrime_mono {H K : Subgroup G} (h : H ≤ K) :
     ggOTwoPrime H ≤ ggOTwoPrime K :=
   Subgroup.closure_mono fun _ hy => ⟨h hy.1, hy.2⟩
@@ -173,7 +174,7 @@ theorem qtwoDB22_X_le_ggG0_of (hcfg : GGQTwoDCfg p B Bs x L D J 𝒦 M e) {J₁ 
     (hJ₁L : J₁ ≤ L) (hgJ : g ∈ L ⊔ ⨆ K ∈ 𝒦, K) :
     J₁ ⊔ J₁.map (MulAut.conj g).toMonoidHom ≤ ggG0 p B x L D J := by
   have hNbr : GGNbrSet p B x D J 𝒦 := hcfg.1.2.2.2.1
-  have hjoin : L ⊔ ⨆ K ∈ 𝒦, K ≤ ggG0 p B x L D J := ggJoin_le_ggG0 (Bs := Bs) hNbr
+  have hjoin : L ⊔ ⨆ K ∈ 𝒦, K ≤ ggG0 p B x L D J := ggJoin_le_ggG0 (_Bs := Bs) hNbr
   have hJ1 : J₁ ≤ ggG0 p B x L D J := hJ₁L.trans (le_ggG0_left p B x L D J)
   have hJ2 : J₁.map (MulAut.conj g).toMonoidHom ≤ ggG0 p B x L D J := by
     rintro z ⟨y, hy, rfl⟩

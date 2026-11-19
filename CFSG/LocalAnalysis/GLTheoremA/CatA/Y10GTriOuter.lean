@@ -65,7 +65,7 @@ theorem tri_innDiagKind_of_recipe {S : Type} [Group S] {n : ℕ} (hperf : commut
     InnDiagKind S ⟨.D, 4, n⟩ α := by
   refine ⟨hperf, ⟨.D, 4, n⟩, hlam, ?_⟩
   dsimp only [CFSG.Assembly.LargeEvenRawDatum]
-  rw [if_neg (by norm_num)]
+  rw [ite_eq_right (by norm_num)]
   exact ⟨K, inferInstance, inferInstance, hK, hs, hna, θ, rfl, u, hu, hind⟩
 
 theorem tri_fieldKind_of_recipe {S : Type} [Group S] {n : ℕ} (hperf : commutator S = ⊤)
@@ -83,7 +83,7 @@ theorem tri_fieldKind_of_recipe {S : Type} [Group S] {n : ℕ} (hperf : commutat
     FieldKind S ⟨.D, 4, n⟩ α := by
   refine ⟨hperf, ⟨.D, 4, n⟩, hlam, ?_⟩
   dsimp only [CFSG.Assembly.LargeEvenRawDatum]
-  rw [if_neg (by norm_num)]
+  rw [ite_eq_right (by norm_num)]
   exact ⟨K, inferInstance, inferInstance, hK, hs, hna, θ, rfl, ⟨i, hi, f, hf, hind⟩, hout⟩
 
 theorem tri_field_mem {K : Type} [Field K] [Finite K] (σ : K ≃+* K) :
@@ -107,7 +107,7 @@ theorem triOuterD4_of_rig (hRig : GGLabelRigidInput) : TriOuterD4 := by
   obtain ⟨-, -, -, hEq⟩ := hQ0
   subst hEq
   dsimp only [CFSG.Assembly.LargeEvenRawDatum] at hraw
-  rw [if_neg (by norm_num)] at hraw
+  rw [ite_eq_right (by norm_num)] at hraw
   obtain ⟨K, hKF, hKfin, hK, hsR, hnaR, θ, -⟩ := hraw
   have hn : 1 ≤ nK := hlam'.1
   have hcanK : canonLabel (⟨.D, 4, nK⟩ : GLALabel) = ⟨.D, 4, nK⟩ := by

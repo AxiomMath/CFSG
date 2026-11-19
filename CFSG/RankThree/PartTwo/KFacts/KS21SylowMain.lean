@@ -81,7 +81,7 @@ theorem exists_sylow_eq_of_autThree {G : Type} [Group G] [Finite G] {I N A : Sub
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set P' := (P : Subgroup I).map I.subtype with hP'def
   have hP'I : P' ≤ I := Subgroup.map_subtype_le _
-  have hP'p : IsPGroup 3 P' := P.isPGroup'.map I.subtype
+  have hP'p : IsPGroup 3 P' := P.isPGroup.map I.subtype
   have hinP : ∀ i : I, (i : G) ∈ P' → i ∈ (P : Subgroup I) := by
     intro i hi
     obtain ⟨j, hj, hji⟩ := hi
@@ -218,10 +218,10 @@ theorem exists_sylow_eq_of_autThree {G : Type} [Group G] [Finite G] {I N A : Sub
       intro q hq
       have : (⟨q, hq⟩ : (Q : Subgroup N)) ∈ H := by rw [htop]; exact Subgroup.mem_top _
       exact this
-    have hnil : Group.IsNilpotent (Q : Subgroup N) := Q.isPGroup'.isNilpotent
+    have hnil : Group.IsNilpotent (Q : Subgroup N) := Q.isPGroup.isNilpotent
     obtain ⟨z, hz, hzH⟩ :=
       IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent H hHtop)
-    obtain ⟨k, hk⟩ := Q.isPGroup' z
+    obtain ⟨k, hk⟩ := Q.isPGroup z
     have hzk : (((z : N) : G)) ^ 3 ^ k = 1 := by
       have := congrArg (fun w : (Q : Subgroup N) => ((w : N) : G)) hk
       simpa using this

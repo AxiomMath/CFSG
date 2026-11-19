@@ -158,7 +158,7 @@ private theorem torus_le_genEi
     exact Subgroup.map_subtype_le _
   have hPr : IsPGroup r P := by
     rw [hP]
-    exact (default : Sylow r ↥U).isPGroup'.map U.subtype
+    exact (default : Sylow r ↥U).isPGroup.map U.subtype
   have hQne : ((default : Sylow r ↥U) : Subgroup ↥U) ≠ ⊥ :=
     (default : Sylow r ↥U).ne_bot_of_dvd_card (Nat.dvd_of_mem_primeFactors hr)
   have hPne : P ≠ ⊥ := by

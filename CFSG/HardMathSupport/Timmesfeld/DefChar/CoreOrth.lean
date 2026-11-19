@@ -16,10 +16,10 @@ variable {K V : Type*} [Field K] [AddCommGroup V] [Module K V] (Q : QuadraticFor
 @[expose] def eich (a b : V) : V →ₗ[K] V where
   toFun x := x + polar Q x a • b - (polar Q x b + Q b * polar Q x a) • a
   map_add' x y := by
-    simp only [polar_add_left, add_smul, smul_sub]
+    simp only [polar_add_left, add_smul]
     module
   map_smul' c x := by
-    simp only [polar_smul_left, smul_eq_mul, RingHom.id_apply, smul_add, smul_sub, mul_add]
+    simp only [polar_smul_left, smul_eq_mul, RingHom.id_apply, smul_add, smul_sub]
     module
 
 theorem eich_apply (a b x : V) :
@@ -48,7 +48,7 @@ theorem map_eich (a b : V) (ha : Q a = 0) (hab : polar Q a b = 0) (x : V) :
   have hba : polar Q b a = 0 := by rw [polar_comm]; exact hab
   have e1 : x + s • b - t • a = (x + s • b) + (-t) • a := by rw [neg_smul, sub_eq_add_neg]
   rw [e1, Qadd, Qadd, Qsmul, Qsmul, ha]
-  simp only [polar_add_left, polar_smul_left, polar_smul_right, polar_comm Q b x, polar_comm Q a x, hab, hba,
+  simp only [polar_add_left, polar_smul_left, polar_smul_right, hba,
     smul_eq_mul]
   have hs : polar Q x a = s := rfl
   rw [hs]
@@ -61,8 +61,7 @@ theorem eich_comp (a b b' : V) (ha : Q a = 0) (hab : polar Q a b = 0) (hab' : po
   have hba : polar Q b a = 0 := by rw [polar_comm]; exact hab
   have hba' : polar Q b' a = 0 := by rw [polar_comm]; exact hab'
   have haa := polar_aa a ha
-  simp only [eich_apply, polar_add_left, polar_add_right, polar_sub_left, polar_sub_right, polar_smul_left, polar_smul_right,
-    hab, hab', hba, hba', haa, smul_eq_mul, Qadd]
+  simp only [eich_apply, polar_add_left, polar_add_right, polar_sub_left, polar_smul_left, hab, hba', haa, smul_eq_mul, Qadd]
   rw [polar_comm Q b b']
   module
 
@@ -421,6 +420,7 @@ theorem cay_zOf (h2 : (2 : K) ≠ 0) (hp : Odd p) (hG : G ^ p = 1) :
   have : (cay Z p 1 - G) * (1 - Z) = 0 := by rw [sub_mul, h4, h3]; simp
   exact sub_eq_zero.1 (hu.mul_left_eq_zero.1 this)
 
+omit [Fact (Nat.Prime p)] [CharP (Module.End K V) p] in
 theorem zOf_ne_zero (h2 : (2 : K) ≠ 0) (hp : Odd p) (hG : G ^ p = 1) (hG1 : G ≠ 1) :
     zOf p G ≠ 0 := by
   intro h
@@ -526,6 +526,7 @@ theorem exists_dual_vec (hnd : (polarBilin Q).Nondegenerate) {a b : V}
   · rw [polar_smul_left, hy, hfa]; simp
   · rw [polar_smul_left, hy, smul_eq_mul, inv_mul_cancel₀ hf]
 
+omit [FiniteDimensional K V] in
 theorem exists_polar_ne (hnd : (polarBilin Q).Nondegenerate) {a : V} (ha : a ≠ 0) :
     ∃ x, polar Q x a ≠ 0 := by
   by_contra! h
@@ -538,6 +539,7 @@ theorem exists_polar_ne (hnd : (polarBilin Q).Nondegenerate) {a : V} (ha : a ≠
 section Eig
 variable {A : Module.End K V} {μ : K}
 
+omit [FiniteDimensional K V] in
 theorem eigen_of_comm_P (hnd : (polarBilin Q).Nondegenerate) (hμ : μ ≠ 0)
     (hsim : ∀ x y, polar Q (A x) (A y) = μ * polar Q x y) {a : V} (ha : a ≠ 0) {c : K} (hc : c ≠ 0)
     (hP : ∀ x, (c * polar Q x a) • A a = (c * polar Q (A x) a) • a) :
@@ -566,7 +568,8 @@ theorem eigen_of_comm_P (hnd : (polarBilin Q).Nondegenerate) (hμ : μ ≠ 0)
   intro hl0
   exact hμ (by rw [hμl, hl0]; ring)
 
-theorem polar_A_left (hμ : μ ≠ 0) (hsim : ∀ x y, polar Q (A x) (A y) = μ * polar Q x y) {a : V}
+omit [FiniteDimensional K V] in
+theorem polar_A_left (_hμ : μ ≠ 0) (hsim : ∀ x y, polar Q (A x) (A y) = μ * polar Q x y) {a : V}
     {l : K} (hl : l ≠ 0) (hAa : A a = l • a) (x : V) : polar Q (A x) a = l⁻¹ * μ * polar Q x a := by
   have := hsim x a
   rw [hAa, polar_smul_right, smul_eq_mul] at this
@@ -718,7 +721,7 @@ theorem mem_range_of_orth (hnd : (polarBilin Q).Nondegenerate) {Z : Module.End K
   rw [← hy, polar_comm]
   exact hb y hZy
 
-theorem exists_partners (W : Submodule K V) (hW : 3 ≤ Module.finrank K W) {a : V} (haW : a ∈ W)
+theorem exists_partners (W : Submodule K V) (hW : 3 ≤ Module.finrank K W) {a : V} (_haW : a ∈ W)
     (ha : a ≠ 0) :
     ∃ c₁ ∈ W, ∃ c₂ ∈ W, c₁ ∉ Submodule.span K {a} ∧ c₂ ∉ Submodule.span K {a, c₁} := by
   have h1 : ∃ c₁ ∈ W, c₁ ∉ Submodule.span K {a} := by
@@ -744,6 +747,7 @@ theorem exists_partners (W : Submodule K V) (hW : 3 ≤ Module.finrank K W) {a :
   obtain ⟨c₂, hc₂, hc₂'⟩ := h2
   exact ⟨c₁, hc₁, c₂, hc₂, hc₁', hc₂'⟩
 
+omit [FiniteDimensional K V] in
 theorem exists_common_eigen {A : Module.End K V} (W : Submodule K V)
     (h : ∀ a ∈ W, a ≠ 0 → ∃ l : K, A a = l • a) {a₀ : V} (ha₀ : a₀ ∈ W) (hne : a₀ ≠ 0) :
     ∃ l : K, ∀ a ∈ W, A a = l • a := by
@@ -775,6 +779,7 @@ theorem exists_common_eigen {A : Module.End K V} (W : Submodule K V)
     have h7 : l₀ - l₂ = 0 := (smul_eq_zero.1 h6).resolve_right hne
     rw [hl₁, ← h5, ← sub_eq_zero.1 h7]
 
+omit [FiniteDimensional K V] in
 theorem eigen_ne_zero (hnd : (polarBilin Q).Nondegenerate) {A : Module.End K V} {μ : K}
     (hμ : μ ≠ 0) (hsim : ∀ x y, polar Q (A x) (A y) = μ * polar Q x y) {a : V} (ha : a ≠ 0)
     {l : K} (hAa : A a = l • a) : l ≠ 0 := by
@@ -898,7 +903,7 @@ variable {σ : K →+* K} {Φ : V →+ V}
 
 @[expose] def CommWith (Φ : V →+ V) (f : Module.End K V) : Prop := ∀ v, Φ (f v) = f (Φ v)
 
-theorem CommWith.one : CommWith Φ (1 : Module.End K V) := fun v => rfl
+theorem CommWith.one : CommWith Φ (1 : Module.End K V) := fun _v => rfl
 
 theorem CommWith.add {f g : Module.End K V} (hf : CommWith Φ f) (hg : CommWith Φ g) :
     CommWith Φ (f + g) := fun v => by
@@ -1365,6 +1370,7 @@ variable {K : Type} [Field K] {d : ℕ} [NeZero d] {Q : QuadraticForm K (Fin d �
 instance charP_end_pi : CharP (Module.End K (Fin d → K)) p :=
   charP_of_injective_algebraMap (algebraMap K (Module.End K (Fin d → K))).injective p
 
+omit [NeZero d] in
 theorem polar_toE_of_mem {A : GL (Fin d) K} (hA : A ∈ matrixIsometries Q) (x y : Fin d → K) :
     polar Q (toE A x) (toE A y) = polar Q x y := by
   have h := (mem_matrixIsometries_iff' Q A).1 hA
@@ -1372,6 +1378,7 @@ theorem polar_toE_of_mem {A : GL (Fin d) K} (hA : A ∈ matrixIsometries Q) (x y
   have h2 : polar Q x y = Q (x + y) - Q x - Q y := rfl
   rw [h1, h2, ← map_add, h, h, h]
 
+omit [NeZero d] in
 theorem exists_eich_mem (hp2 : p ≠ 2)
     (hab : ∃ m : ℕ, Nat.card (Abelianization (matrixIsometries Q)) = 2 ^ m) {a b : Fin d → K}
     (ha : Q a = 0) (hab' : polar Q a b = 0) : ∃ f : matrixDerived Q, toE f.val = eich Q a b := by
@@ -1436,6 +1443,7 @@ variable (Q) in
   {q | ∃ (f : matrixDerived Q) (t : K), toE f.val = cay (zEnd p s0 c) p t ∧
     q = matrixProjectiveProjection Q f}
 
+omit [NeZero d] in
 theorem gEnd_iso (s0 : matrixDerived Q) {c : K} (hcc : c * c = 1) (x y : Fin d → K) :
     polar Q (gEnd s0 c x) (gEnd s0 c y) = polar Q x y := by
   have := polar_toE_of_mem (matrixDerived_le_isometries Q s0.2) x y
@@ -1449,6 +1457,7 @@ theorem gEnd_nilpotent (s0 : matrixDerived Q) {c : K} (hG : gEnd s0 c ^ p = 1) :
 theorem zEnd_pow (s0 : matrixDerived Q) {c : K} (hG : gEnd s0 c ^ p = 1) :
     zEnd p s0 c ^ p = 0 := zOf_pow hG
 
+omit [Fact (Nat.Prime p)] [CharP K p] [NeZero d] in
 theorem zEnd_skew (s0 : matrixDerived Q) {c : K} (h2 : (2 : K) ≠ 0) (hp : Odd p)
     (hG : gEnd s0 c ^ p = 1) (hcc : c * c = 1) : IsSkew (Q := Q) (zEnd p s0 c) :=
   isSkew_zOf h2 hp hG (gEnd_iso s0 hcc)
@@ -1462,11 +1471,13 @@ theorem comm_g_of_comm_z (s0 : matrixDerived Q) {c : K} (h2 : (2 : K) ≠ 0) (hp
   have := cay_comm (n := p) hf (1 : K)
   rwa [cay_zEnd_one s0 h2 hp hG] at this
 
+omit [NeZero d] [Fact (Nat.Prime p)] [CharP K p] in
 theorem comm_z_of_comm_g (s0 : matrixDerived Q) {c : K} {f : Module.End K (Fin d → K)}
     (hf : f * gEnd s0 c = gEnd s0 c * f) : f * zEnd p s0 c = zEnd p s0 c * f :=
   commute_zOf hf
 
-theorem comm_g_cay (s0 : matrixDerived Q) {c : K} (t : K) (hG : gEnd s0 c ^ p = 1) :
+omit [NeZero d] [Fact (Nat.Prime p)] [CharP K p] in
+theorem comm_g_cay (s0 : matrixDerived Q) {c : K} (t : K) (_hG : gEnd s0 c ^ p = 1) :
     cay (zEnd p s0 c) p t * gEnd s0 c = gEnd s0 c * cay (zEnd p s0 c) p t := by
   have h : gEnd s0 c * zEnd p s0 c = zEnd p s0 c * gEnd s0 c :=
     commute_zOf (p := p) (G := gEnd s0 c) (s := gEnd s0 c) rfl
@@ -1596,7 +1607,7 @@ theorem genSet_conj (hcc : c * c = 1) (hG : gEnd s0 c ^ p = 1) {s q : matrixProj
   rw [e]
   exact InFlag.conj hf h2 (toE_mul_inv t.val) (toE_inv_mul t.val)
 
-theorem genSet_pow (h2 : (2 : K) ≠ 0) (hp : Odd p) (hcc : c * c = 1) (hG : gEnd s0 c ^ p = 1)
+theorem genSet_pow (_h2 : (2 : K) ≠ 0) (_hp : Odd p) (_hcc : c * c = 1) (hG : gEnd s0 c ^ p = 1)
     {q q' : matrixProjectiveDerived Q} (hq : q ∈ genSet Q p s0 c) (hq' : q' ∈ genSet Q p s0 c) :
     ∃ k : ℕ, (q' * q⁻¹) ^ p ^ k = 1 := by
   obtain ⟨f, hf, rfl⟩ := hq
@@ -1616,7 +1627,7 @@ theorem genSet_pow (h2 : (2 : K) ≠ 0) (hp : Odd p) (hcc : c * c = 1) (hG : gEn
   refine ⟨e, ?_⟩
   have h1 : X ^ p ^ e = 1 := pow_prime_pow_eq_one hm he
   rw [← map_inv, ← map_mul, ← map_pow]
-  have h2 : (f' * f⁻¹) ^ p ^ e = 1 := by
+  have _h2 : (f' * f⁻¹) ^ p ^ e = 1 := by
     apply Subtype.ext
     apply toE_injective
     have : (((f' * f⁻¹) ^ p ^ e : matrixDerived Q) : GL (Fin d) K) =
@@ -1624,7 +1635,7 @@ theorem genSet_pow (h2 : (2 : K) ≠ 0) (hp : Odd p) (hcc : c * c = 1) (hG : gEn
     have e1 : toE ((f' * f⁻¹ : matrixDerived Q) : GL (Fin d) K) = X := toE_mul _ _
     have e2 : toE ((1 : matrixDerived Q) : GL (Fin d) K) = 1 := toE_one
     rw [this, toE_pow, e1, e2]; exact h1
-  rw [h2, map_one]
+  rw [_h2, map_one]
 
 end ModelGrp3
 
@@ -1711,6 +1722,7 @@ open CFSG.ComponentClassification.CatalogueBOrthogonalSemilinear
 variable {K : Type} [Field K] {d : ℕ} [NeZero d] {Q : QuadraticForm K (Fin d → K)} {p : ℕ}
   [Fact p.Prime] [CharP K p]
 
+omit [CharP K p] in
 theorem add_smul_one_pow_end {V : Type*} [AddCommGroup V] [Module K V]
     [CharP (Module.End K V) p] {B : Module.End K V} {m : ℕ} (hB : B ^ m = 0) (c : K) :
     ∃ e : ℕ, (c • (1 : Module.End K V) + B) ^ p ^ e = (c ^ p ^ e) • (1 : Module.End K V) := by
@@ -1719,12 +1731,14 @@ theorem add_smul_one_pow_end {V : Type*} [AddCommGroup V] [Module K V]
   rw [add_pow_char_pow_of_commute (R := Module.End K V) p e
     ((Commute.one_left _).smul_left c), pow_eq_zero_of_le he hB, add_zero, smul_pow, one_pow]
 
+omit [Fact (Nat.Prime p)] in
 theorem eich_pow_eq_one {V : Type*} [AddCommGroup V] [Module K V] {Q : QuadraticForm K V}
     {a b : V} (ha : Q a = 0) (hab : polar Q a b = 0) : eich Q a b ^ p = 1 := by
   refine LinearMap.ext fun x => ?_
   rw [eich_pow_apply ha hab p x, CharP.cast_eq_zero, zero_smul, eich_zero_right]
   rfl
 
+omit [NeZero d] in
 theorem pow_conj_eq_one {gp : similarityPairs Q} (hσ : gp.val.right = 1) (k : ℕ) (u : Kˣ)
     (hk : gp.val.left ^ k = GeneralLinearGroup.scalar (Fin d) u) :
     matrixProjectiveConjugation Q gp ^ k = 1 := by
@@ -2338,7 +2352,7 @@ theorem innerCoreFree_PSp_two {T : Type} [Group T] [Finite T] (hS : IsSimpleGrou
     rw [← orderOf_injective (MulAut.conj : T →* MulAut T) (conj_injective_of_center_eq_bot hZ) g]
     exact hxo
   have hord0 : orderOf (e g) = ℓ := by rw [MulEquiv.orderOf_eq e g]; exact hord
-  haveI : NeZero 2 := ⟨by norm_num⟩
+  have : NeZero 2 := ⟨by norm_num⟩
   obtain ⟨sg, N, hsg, hN, hN0, hg0⟩ := sp_exists_nilpotent_of_orderOf_eq (r := 2) hℓ2 (e g) hord0
   have hs := sp_hs sg hsg
   have hgen := (CFSG.RankThree.PartOne.AUTSL.SpTwo.automorphism_generation_two h2K).2

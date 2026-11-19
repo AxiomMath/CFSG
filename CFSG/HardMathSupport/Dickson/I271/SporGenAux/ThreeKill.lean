@@ -19,7 +19,7 @@ variable {p : ℕ} {S : Type*} [Group S] [Finite S]
 theorem autRankLe2_of_noCube (hp : p.Prime) (h : NoElemAbelianCubeAut p S) : AutRankLe2 p S := by
   intro E hE
   have : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (MulAut S) :=
+  have : Finite (MulAut S) :=
     Finite.of_injective (fun σ : MulAut S => (σ : S → S)) DFunLike.coe_injective
   obtain ⟨j, hj⟩ := i271_exists_card_eq hp hE
   by_contra hlt

@@ -22,16 +22,16 @@ theorem le_linearAutGroup_of_nl {n p : ℕ} (hn : 3 ≤ n) (hp : p.Prime) (hp2 :
     (hnl : ∀ α ∈ X, α ≠ 1 → GLAPLayer p (fixSubgroup α) = ⊥) :
     X ≤ linearAutGroup n F := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro x hxX
   by_contra hxL
   have hx1 : x ≠ 1 := fun h1 => hxL (by rw [h1]; exact one_mem _)
   have hxp : x ^ p = 1 := hX.2 x hxX
   have hxS := CFSG.HardMathSupport.Timmesfeld.Tables.T1b.mem_semilinearAutGroup_of_pow_eq_one
     hn hp hp2 hxp
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   obtain ⟨ℓ, hchar, f, hℓ, hcard⟩ := FiniteField.card' F
-  haveI : CharP F ℓ := hchar
+  have : CharP F ℓ := hchar
   have hF : Nat.card F = ℓ ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card, hcard]
   obtain ⟨hpf, σ, -, ⟨β, -, hxβ⟩, hkcard⟩ :=
     CFSG.HardMathSupport.Lang.UnitaryAutomorphisms.higher_linear_prime_semilinear_field_descent'
@@ -50,8 +50,8 @@ theorem le_primeFormD_of_nl_of_ne {ℓ f n p : ℕ} {F : Type} [Field F]
     (hX : IsElemAbelian p X) (hnl : ∀ α ∈ X, α ≠ 1 → GLAPLayer p (fixSubgroup α) = ⊥) :
     X ≤ primeFormD hF ((1 : GL (Fin n) F) : Matrix (Fin n) (Fin n) F) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := hF.finite
+  have : Fact p.Prime := ⟨hp⟩
+  have := hF.finite
   intro x hxX
   by_contra hxD
   have hx1 : x ≠ 1 := fun h1 => hxD (by rw [h1]; exact one_mem _)

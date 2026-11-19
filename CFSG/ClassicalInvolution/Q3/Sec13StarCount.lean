@@ -10,6 +10,7 @@ open CFSG.ClassicalInvolution.Generic
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem comm_uniqueInvolution {J : Subgroup G} {t : G} (ht : IsUniqueInvolution J t)
     {g : G} (hg : g ∈ J) : g * t = t * g :=
   mul_inv_eq_iff_eq_mul.1 (ht.conj_eq (conjSub_eq_self_of_mem hg))
@@ -78,6 +79,7 @@ private theorem eq_one_or_eq_of_central {J : Subgroup G} {t : G} (ht : IsUniqueI
       _ = v * u * c := (mul_assoc _ _ _).symm
   exact mul_right_cancel this
 
+omit [Finite G] in
 private theorem exists_mul_of_mem_sup {L M : Subgroup G}
     (hLM : ∀ x ∈ L, ∀ y ∈ M, x * y = y * x) {a : G} (ha : a ∈ L ⊔ M) :
     ∃ x ∈ L, ∃ m ∈ M, a = x * m := by
@@ -198,6 +200,7 @@ theorem exists_comm_orderOf_four {J : Subgroup G} {t : G} (ht : IsUniqueInvoluti
       _ = x * y * (t * t) := by group
       _ = x * y := by rw [ht.sq, mul_one]
 
+omit [Finite G] in
 theorem exists_inner_of_mem_sup {L M : Subgroup G} (hLM : ∀ x ∈ L, ∀ y ∈ M, x * y = y * x)
     {a : G} (ha : a ∈ L ⊔ M) : ∃ x ∈ L, ∀ y ∈ L, a * y * a⁻¹ = x * y * x⁻¹ := by
   obtain ⟨x, hx, m, hm, rfl⟩ := exists_mul_of_mem_sup hLM ha
@@ -206,6 +209,7 @@ theorem exists_inner_of_mem_sup {L M : Subgroup G} (hLM : ∀ x ∈ L, ∀ y ∈
     _ = x * (y * m) * m⁻¹ * x⁻¹ := by rw [hLM y hy m hm]
     _ = x * y * x⁻¹ := by group
 
+omit [Finite G] in
 theorem card_le_ncard_of_free {A J : Subgroup G} {𝓢 : Set (Subgroup G)} (h𝓢 : 𝓢.Finite)
     (hJA : ∀ a ∈ A, conjSub a J ∈ 𝓢) (hfree : ∀ a ∈ A, conjSub a J = J → a = 1) :
     Nat.card A ≤ 𝓢.ncard := by
@@ -227,7 +231,7 @@ theorem ncard_le_sylow_eq {p : ℕ} [Fact p.Prime] {Ω : Set (Subgroup G)}
       {L | L ∈ Ω ∧ L ≤ ((g • S : Sylow p G) : Subgroup G)} := by
     rw [hS]
     ext L
-    simp only [Set.mem_image, Set.mem_setOf_eq]
+    simp only [Set.mem_image, Set.mem_ofPred_eq]
     constructor
     · rintro ⟨K, ⟨hK, hKS⟩, rfl⟩
       exact ⟨hΩ g K hK, conjSub_mono hKS⟩

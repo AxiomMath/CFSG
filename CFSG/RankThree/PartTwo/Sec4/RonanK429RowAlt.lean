@@ -13,7 +13,7 @@ open CFSG.ComponentClassification.OuterAutomorphisms (Outer)
 
 theorem not_dvd_card_alternatingGroup_le_eight {n : ℕ} (hn5 : 5 ≤ n) (hn : n ≤ 8) :
     ¬ 27 ∣ Nat.card (alternatingGroup (Fin n)) := by
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
   rw [Nat.card_eq_fintype_card, card_alternatingGroup, Fintype.card_fin]
   interval_cases n <;> norm_num [Nat.factorial]
 

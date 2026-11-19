@@ -142,7 +142,7 @@ theorem i113g_lift_bound {X Z : Type*} [Group X] [Finite X] [Group Z] [Finite Z]
   have hSp : IsPGroup 3 S := fun g => ⟨1, by rw [pow_one]; exact Subtype.ext (hS.2 g.1 g.2)⟩
   obtain ⟨P, hPS⟩ := exists_sylow_normalized (r := 2) hSW hSp hW3
   set P' : Subgroup Z := (P : Subgroup W).map W.subtype with hP'
-  have hP'2 : IsPGroup 2 P' := (P.isPGroup').map _
+  have hP'2 : IsPGroup 2 P' := (P.isPGroup).map _
   have hPne : P' ≠ ⊥ := by
     intro hbot
     have h1 : Nat.card P' = 1 := by rw [hbot]; exact Subgroup.card_bot

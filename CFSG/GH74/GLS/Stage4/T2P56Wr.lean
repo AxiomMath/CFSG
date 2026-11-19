@@ -420,12 +420,12 @@ theorem hasWreathedSylow_of_data {T : Subgroup Y} {z u a w h : Y}
       ⟨w, hwR⟩ htQ hnontriv
   have hchar' : (T.subgroupOf R₀).Characteristic := (hchar hk2).2.2
   have hP2 : ∀ g ∈ (P : Subgroup Y), TwoElt g := fun g hg => by
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨g, hg⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨g, hg⟩
     exact ⟨k, by simpa using congrArg Subtype.val hk⟩
   have hEq : R₀ = (P : Subgroup Y) := by
     by_contra hne
     have hnc : NormalizerCondition ↥(P : Subgroup Y) :=
-      @Group.normalizerCondition_of_isNilpotent _ _ P.isPGroup'.isNilpotent
+      @Group.normalizerCondition_of_isNilpotent _ _ P.isPGroup.isNilpotent
     have hlt : R₀.subgroupOf (P : Subgroup Y) < ⊤ := by
       rw [lt_top_iff_ne_top, Ne, Subgroup.subgroupOf_eq_top]
       exact fun h => hne (le_antisymm hRP h)

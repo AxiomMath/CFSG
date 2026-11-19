@@ -24,6 +24,7 @@ variable {Q L : Subgroup G} {F : Type} [Field F] [Fintype F] [CharP F 2]
   {α : ↥L →* ↥(StatedSL 3 F)} {β : ↥Q →* Multiplicative (Fin 2 → Fin 3 → F)}
   {βU : ↥(centerOf Q) →* Multiplicative (Fin 3 → F)}
 
+omit [Finite G] in
 theorem burnsideC135_commute_iff_coords
     (hD : burnsideC135_DSG Q L (burnsideC135_Wc β 1) (burnsideC135_Wc β 0)
       (slNat α) βU (burnsideC135_βc β 1) (burnsideC135_βc β 0))
@@ -73,6 +74,7 @@ theorem burnsideC135_commute_iff_coords
 
 end CoordCommute
 
+omit [Finite G] in
 theorem burnsideC135_card_le_of_hom {F : Type} [Field F] [Fintype F] {K K' : Subgroup G}
     (hK'K : K' ≤ K) (f : ↥K → Fin 3 → F) (hf : ∀ x y, f (x * y) = f x + f y)
     (hker : ∀ x, f x = 0 ↔ (x : G) ∈ K') (S : Set (Fin 3 → F)) (hS : ∀ x, f x ∈ S) :
@@ -114,7 +116,7 @@ theorem burnsideC135_card_line {F : Type} [Field F] [Fintype F] (x : Fin 3 → F
   classical
   have h : {v : Fin 3 → F | ∃ c : F, v = c • x} = Set.range (fun c : F => c • x) := by
     ext v
-    simp only [Set.mem_setOf_eq, Set.mem_range, eq_comm]
+    simp only [Set.mem_ofPred_eq, Set.mem_range, eq_comm]
   rw [h, ← Nat.card_eq_fintype_card]
   exact Nat.card_le_card_of_surjective _ Set.rangeFactorization_surjective
 

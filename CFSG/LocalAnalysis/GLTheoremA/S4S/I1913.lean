@@ -24,7 +24,7 @@ private theorem gla_i1913_primeCoreOf_map {G G' : Type*} [Group G] [Group G'] (p
 
 theorem i1913At_of (h : KD1913) : I1913At := by
   intro K _ _ hK hcat H hH x hxH hx
-  haveI : Group.IsPerfect K := Group.isPerfect_def.2 hK.1
+  have : Group.IsPerfect K := Group.isPerfect_def.2 hK.1
   have hinj : Function.Injective
       (CFSG.ComponentClassification.PerfectAutomorphisms.centerQuotientHom K) :=
     CFSG.ComponentClassification.PerfectAutomorphisms.centerQuotientHom_injective K

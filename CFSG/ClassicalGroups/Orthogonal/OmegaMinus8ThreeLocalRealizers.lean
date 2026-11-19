@@ -55,7 +55,7 @@ theorem flipPlane_mem_orthogonalGroup :
 theorem flipPlane_mul_rotLE :
     flipPlane K * rotLE K = (rotLE K)⁻¹ * flipPlane K := by
   refine LinearEquiv.ext fun p => ?_
-  refine Prod.ext ?_ ?_ <;> simp [flipPlane_apply, rotLE] <;> ring
+  refine Prod.ext ?_ ?_ <;> simp [flipPlane_apply, rotLE]
 
 private theorem flipPlane_mul_rotLE_pow (n : ℕ) :
     flipPlane K * rotLE K ^ n = (rotLE K)⁻¹ ^ n * flipPlane K := by
@@ -109,7 +109,7 @@ theorem signLE_mem_modelO (b c : K) (ε : Fin 3 → ZMod 3) : signLE K ε ∈ mo
     refine Finset.sum_congr rfl fun i _ => ?_
     by_cases h : ε i = 1
     · simp [h]
-    · simp only [if_neg h]
+    · simp only [ite_eq_right h]
       exact CFSG.ClassicalGroups.Orthogonal.map_of_mem flipPlane_mem_orthogonalGroup (x.1 i)
   rw [hsum]
   rfl
@@ -125,7 +125,7 @@ theorem signLE_mul_cmEquiv_mul_inv (ε : Fin 3 → ZMod 3) (hε : ∀ i, ε i �
       · simp [h]
       · have hε2 : ε i = 2 := zmod_eq_two_of_ne_zero_ne_one (hε i) h
         have hmul : ε i * v i = -(v i) := by rw [hε2]; exact zmod_two_mul_eq_neg (v i)
-        simp only [if_neg h]
+        simp only [ite_eq_right h]
         rw [← LinearEquiv.mul_apply, flipPlane_mul_rotPow, LinearEquiv.mul_apply, hmul]
     · simp [LinearEquiv.mul_apply, signLE_apply, cmEquiv_apply]
   rw [key, mul_assoc, mul_inv_cancel, mul_one]

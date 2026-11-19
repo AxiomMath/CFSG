@@ -50,7 +50,7 @@ theorem center_eq_bot_or_three_dvd {Y : Type} [Group Y] [Finite Y]
     rw [hcore] at hle
     exact le_bot_iff.1 hle
 
-theorem lieNoHatSix_of_lieComp (h : LieComp) : LieNoHatSix := by
+theorem lieNoHatSix_of_lieComp (h : LieCompAll) : LieNoHatSix := by
   intro Y _ _ hq _ hcore ⟨idx, ⟨e⟩⟩ x hxo J₁ hJ₁ hSix
   have hx3 : x ^ 3 = 1 := hxo ▸ pow_orderOf_eq_one x
   obtain ⟨hperf, hZ3, ⟨a6⟩⟩ := hSix
@@ -58,7 +58,7 @@ theorem lieNoHatSix_of_lieComp (h : LieComp) : LieNoHatSix := by
   rcases center_eq_bot_or_three_dvd hcore with hZ | hZ
   · let eY : Y ≃* Y ⧸ Subgroup.center Y :=
       QuotientGroup.quotientBot.symm.trans (QuotientGroup.quotientMulEquivOfEq hZ.symm)
-    haveI : IsSimpleGroup (Y ⧸ Subgroup.center Y) := hq.2
+    have : IsSimpleGroup (Y ⧸ Subgroup.center Y) := hq.2
     have hs : IsSimpleGroup Y := (MulEquiv.isSimpleGroup_congr eY).2 inferInstance
     have hna' : ∃ a b : Y, a * b ≠ b * a := by
       obtain ⟨a, b, hab⟩ := hna
@@ -72,7 +72,7 @@ theorem lieNoHatSix_of_lieComp (h : LieComp) : LieNoHatSix := by
     obtain ⟨f⟩ := nonempty_centralQuotient_mulEquiv hperf ψ hψ hψk
     exact hM ⟨f.symm.trans a6⟩ Y hq ⟨MulEquiv.refl _⟩ hZ
 
-theorem lieDownChev_of_lieComp (h : LieComp) (hb : LieOrderBridge)
+theorem lieDownChev_of_lieComp (h : LieCompAll) (hb : LieOrderBridge)
     (hOG : UniquenessMaximal.InputONGroup) : LieDownChev := by
   intro Y _ _ hq hK hcore idx he x hxo J₁ hJ₁ hty
   exfalso

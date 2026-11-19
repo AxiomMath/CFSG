@@ -77,6 +77,7 @@ theorem factorization_card_adjointGroup_g2
   rw [CFSG.Timmesfeld.ExceptionalOrders.card_adjointGroup_G2,
     factorization_ordG2 (Nat.card_pos) hq2 h3]
 
+omit [Finite K] in
 private lemma exists_g2ShortSL2_order_three :
     ∃ z ∈ g2ShortSL2 K, orderOf z = 3 ∧ z ^ 3 = 1 ∧ z ≠ 1 := by
   obtain ⟨eS⟩ := nonempty_mulEquiv_g2ShortSL2 (K := K)
@@ -113,7 +114,7 @@ private lemma exists_sylow_three_mem_center_of_order_three
         (⟨z, hzQ⟩ : ↥(Q : Subgroup (adjointGroup .G2 K))) ∈
           Subgroup.center ↥(Q : Subgroup (adjointGroup .G2 K)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hq2 : 2 ≤ Nat.card K := by omega
   obtain ⟨-, hSL⟩ := g2_centralizer_threeA hK3 hK4 hzS hz3 hz1
   set C : Subgroup (adjointGroup .G2 K) :=
@@ -128,7 +129,7 @@ private lemma exists_sylow_three_mem_center_of_order_three
       apply Subtype.ext
       exact Subgroup.mem_centralizer_singleton_iff.mp c.2
     exact hcz.zpow_right k
-  haveI : (Subgroup.zpowers (⟨z, hzC⟩ : ↥C)).Normal :=
+  have : (Subgroup.zpowers (⟨z, hzC⟩ : ↥C)).Normal :=
     Subgroup.normal_of_le_center hzpowers_le_center
   have h3z : IsPGroup 3 ↥(Subgroup.zpowers (⟨z, hzC⟩ : ↥C)) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers]; simpa using hzord)
@@ -165,7 +166,7 @@ theorem exists_short_three_sylow_center
         (⟨z, hzQ⟩ : ↥(Q : Subgroup (adjointGroup .G2 K))) ∈
           Subgroup.center ↥(Q : Subgroup (adjointGroup .G2 K)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨z, hzS, hzord, hz3, hz1⟩ := exists_g2ShortSL2_order_three (K := K)
   obtain ⟨Q, hzQ, hSL, hzmem⟩ :=
     exists_sylow_three_mem_center_of_order_three hK3 hK4 hnd3 hzS hz3 hz1 hzord
@@ -181,6 +182,7 @@ private lemma zpowers_eq_center_of_card_center_three {G : Type} [Group G] [Finit
   · rw [Nat.card_zpowers, ← Subgroup.orderOf_coe, hzord]
     exact hZ3.le
 
+omit [Finite K] in
 private lemma exists_conj_inv_mem_zpowers_center
     {Q0 Q : Sylow 3 (adjointGroup .G2 K)} {z : adjointGroup .G2 K}
     (hzQ0 : z ∈ (Q0 : Subgroup (adjointGroup .G2 K)))
@@ -229,6 +231,7 @@ private lemma exists_conj_inv_mem_zpowers_center
       _ = (g⁻¹ * (w : adjointGroup .G2 K) * g) * (y : adjointGroup .G2 K) := by group
   exact ⟨hwback_mem, by rw [hZ0]; exact hwback_center⟩
 
+omit [Finite K] in
 private lemma eq_conj_or_conj_inv_of_mem_zpowers [Finite (adjointGroup .G2 K)]
     {Q0 : Subgroup (adjointGroup .G2 K)} {z : adjointGroup .G2 K} (hzQ0 : z ∈ Q0)
     (hzord : orderOf z = 3) {w : adjointGroup .G2 K} (hw3 : orderOf w = 3)
@@ -308,7 +311,7 @@ theorem isSLThreePiAt_centralizer_center_sylow
     IsSLThreePiAt ↥(Subgroup.centralizer
       ({(w : adjointGroup .G2 K)} : Set (adjointGroup .G2 K))) (Nat.card K) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨z, Q0, hzQ0, hzord, hzS, hSL, hzmem⟩ :=
     exists_short_three_sylow_center (K := K) hK3 hK4 hnd3
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq (adjointGroup .G2 K) Q0 Q
@@ -337,7 +340,7 @@ private lemma ringChar_eq_of_card_eq_prime_pow
     {K : Type} [Field K] [Finite K] {r f : ℕ} (hr : r.Prime) (hr3 : r ≠ 3)
     (hq4 : 4 ≤ r ^ f) (hKcard : Nat.card K = r ^ f) :
     ringChar K = r ∧ ringChar K ≠ 3 ∧ ¬ 3 ∣ Nat.card K ∧ 4 ≤ Nat.card K := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, hrcprime, hcardchar⟩ := FiniteField.card K (ringChar K)
   have hpow : (ringChar K) ^ (n : ℕ) = r ^ f := by
     rw [← hcardchar, ← Nat.card_eq_fintype_card, ← hKcard]
@@ -422,12 +425,12 @@ theorem k12SL_holds :
     K12SL := by
   classical
   intro Y _ _ r f hr hr3 hq4 hmodel S w hw hw3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨K, hKfield, hKfinite, hKcard, ⟨e⟩⟩ :=
     CFSG.LieType.Chevalley.nonempty_mulEquiv_adjointGroup (τ := .G2) hmodel.2
-  letI := hKfield
-  letI := hKfinite
-  haveI : Fintype K := Fintype.ofFinite K
+  let := hKfield
+  let := hKfinite
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨hrc, hK3, hnd3K, hq4K⟩ :=
     ringChar_eq_of_card_eq_prime_pow hr hr3 hq4 hKcard
   have hf2 : r = 2 → 2 ≤ f := by

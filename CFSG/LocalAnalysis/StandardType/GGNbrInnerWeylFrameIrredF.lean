@@ -14,14 +14,14 @@ theorem ggSCWeylIrred_of_sylowTorus_frameF {G₀ : Type} [Group G₀] {p N : ℕ
     {R : Type} [Group R] [Finite R] (hT : SylowTorus R p N) (ρ : Fin N → G₀ →* R)
     (hρ : ∀ i, Function.Injective (ρ i))
     (hc : ∀ i j, i ≠ j → ∀ A B, Commute (ρ i A) (ρ j B))
-    (f : Fin N → Fin N) (hf : ∀ i, f i ≠ i)
+    (f : Fin N → Fin N) (_hf : ∀ i, f i ≠ i)
     (hmove : ∀ i : Fin N, ∃ (g : R) (t : ZMod p), t ≠ 0 ∧
       g * ρ i s * g⁻¹ = ρ (f i) (s ^ t.val))
     (hconn : ∀ S : Finset (Fin N), S.Nonempty → (∀ i, i ∈ S ↔ f i ∈ S) → S = Finset.univ)
     (r : ℕ) : GGSCWeylIrred p r R := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨e, m, he_inj, he_single, hm_conj⟩ :=
     exists_frameTorus_of_commutingFrames hp u s n hs hn hZ ρ hρ hc
   let E : Subgroup R := e.range

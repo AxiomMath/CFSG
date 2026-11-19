@@ -119,6 +119,7 @@ variable {Y : Type} [Group Y] [Finite Y]
   one_smul C := cjComp_one C
   mul_smul g h C := cjComp_mul g h C
 
+omit [Finite Y] in
 theorem mem_normalizer_of_cjComp_eq {g : Y} {C : ComponentIndex Y} (h : cjComp g C = C) :
     g ∈ normalizer (C.1 : Set Y) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -127,6 +128,7 @@ theorem mem_normalizer_of_cjComp_eq {g : Y} {C : ComponentIndex Y} (h : cjComp g
   rw [h1, mem_cjComp_iff]
   simp [mul_assoc]
 
+omit [Finite Y] in
 theorem cjComp_eq_of_mem_normalizer {g : Y} {C : ComponentIndex Y}
     (hg : g ∈ normalizer (C.1 : Set Y)) : cjComp g C = C := by
   apply Subtype.ext
@@ -151,18 +153,21 @@ theorem cjComp_eq_of_mem_normalizer {g : Y} {C : ComponentIndex Y}
 
 variable {P : Subgroup Y}
 
+omit [Finite Y] in
 theorem compKer_le : compKer P ≤ P := fun _ hg => hg.1
 
+omit [Finite Y] in
 theorem conj_mem_compKer {g q : Y} (hg : g ∈ P) (hq : q ∈ compKer P) :
     g * q * g⁻¹ ∈ compKer P := by
   refine ⟨P.mul_mem (P.mul_mem hg hq.1) (P.inv_mem hg), fun C => ?_⟩
   rw [cjComp_mul, cjComp_mul, hq.2, ← cjComp_mul, mul_inv_cancel, cjComp_one]
 
+omit [Finite Y] in
 theorem mem_normalizer_of_mem_compKer {q : Y} (hq : q ∈ compKer P) (C : ComponentIndex Y) :
     q ∈ normalizer (C.1 : Set Y) :=
   mem_normalizer_of_cjComp_eq (hq.2 C)
 
-theorem layer_inf_le_compKer : P ⊓ layer Y ≤ compKer P := fun g hg =>
+theorem layer_inf_le_compKer : P ⊓ layer Y ≤ compKer P := fun _g hg =>
   ⟨hg.1, fun C => cjComp_eq_of_mem_normalizer (layer_le_normalizer C.2 hg.2)⟩
 
 end Action

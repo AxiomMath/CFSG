@@ -77,15 +77,15 @@ private theorem w183_perfSocleMod_of_component182 (hOK : OInf H = kerMV V H)
     show ((kerMV V H).subgroupOf H) = CFSG.solvableRadical ↥H
     rw [← hOK, OInf]
     exact Subgroup.comap_map_eq_self_of_injective H.subtype_injective _
-  haveI hK₀n : K₀.Normal := by
+  have hK₀n : K₀.Normal := by
     rw [hK₀eq]
     infer_instance
   let Q := ↥H ⧸ K₀
   let μ : ↥H →* Q := QuotientGroup.mk' K₀
-  haveI hK₀solv : Group.IsSolvable K₀ := by
+  have hK₀solv : Group.IsSolvable K₀ := by
     rw [hK₀eq]
     exact CFSG.SignalizerFunctorTheorem.Nonsolvable.isSolvable_solvableRadical
-  haveI hRsolv : Group.IsSolvable (CFSG.solvableRadical Q) :=
+  have hRsolv : Group.IsSolvable (CFSG.solvableRadical Q) :=
     CFSG.SignalizerFunctorTheorem.Nonsolvable.isSolvable_solvableRadical
   have hsol : CFSG.solvableRadical Q = ⊥ := by
     have hcomap : Group.IsSolvable ((CFSG.solvableRadical Q).comap μ) :=
@@ -114,7 +114,7 @@ private theorem w183_perfSocleMod_of_component182 (hOK : OInf H = kerMV V H)
         _ = Subgroup.centralizer (CFSG.generalizedFitting Q : Set Q) := by rw [hgenbot]
         _ ≤ CFSG.generalizedFitting Q := CFSG.centralizer_generalizedFitting_le Q
         _ = ⊥ := hgenbot
-    haveI : Subsingleton Q := by
+    have : Subsingleton Q := by
       refine ⟨fun a b => ?_⟩
       have ha : a ∈ (⊥ : Subgroup Q) := hcent (Subgroup.mem_top a)
       have hb : b ∈ (⊥ : Subgroup Q) := hcent (Subgroup.mem_top b)
@@ -123,7 +123,7 @@ private theorem w183_perfSocleMod_of_component182 (hOK : OInf H = kerMV V H)
     have hKtop : K₀ = ⊤ :=
       QuotientGroup.subgroup_eq_top_of_subsingleton K₀ inferInstance
     obtain ⟨X, instX, φ, hφs, hφk, hX⟩ := hL.2.2.2.2
-    haveI : Finite X := Finite.of_surjective φ hφs
+    have : Finite X := Finite.of_surjective φ hφs
     have hnt := CFSG.LocalCores.isQuasisimple_nontrivial hX
     have hsub : Subsingleton X := by
       refine ⟨fun a b => ?_⟩
@@ -145,7 +145,7 @@ private theorem w183_perfSocleMod_of_component182 (hOK : OInf H = kerMV V H)
   have hμK : K₀.map μ = ⊥ := by
     rw [Subgroup.map_eq_bot_iff, show μ.ker = K₀ from QuotientGroup.ker_mk' K₀]
   refine ⟨K₀, F₀, ?_, rfl, fun j => Subgroup.mem_subgroupOf⟩
-  haveI hchar : (CFSG.layer Q).Characteristic := CFSG.LocalCores.layer_characteristic
+  have hchar : (CFSG.layer Q).Characteristic := CFSG.LocalCores.layer_characteristic
   refine
     { normal_left := hK₀n
       normal_right := Subgroup.Normal.comap inferInstance μ

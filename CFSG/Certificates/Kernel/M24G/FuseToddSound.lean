@@ -37,8 +37,8 @@ theorem xorStepM_eq (L : List Nat) (g : Nat) :
         orMask (if L.contains g then L else L ++ L.map (· ^^^ g))) := by
   unfold xorStepM
   by_cases hc : L.contains g
-  · simp only [testBit_orMask, hc, if_true]
-  · simp only [testBit_orMask, hc, Bool.false_eq_true, if_false, orMask_append]
+  · simp only [testBit_orMask, hc, ite_true]
+  · simp only [testBit_orMask, hc, Bool.false_eq_true, ite_false, orMask_append]
 
 theorem foldl_xorStepM : ∀ (gs L : List Nat), gs.foldl xorStepM (L, orMask L) =
     (gs.foldl (fun L g => if L.contains g then L else L ++ L.map (· ^^^ g)) L,

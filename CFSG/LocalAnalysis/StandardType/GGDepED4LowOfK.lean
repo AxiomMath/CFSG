@@ -140,7 +140,7 @@ private theorem l05nLK_ker_le_one {V : Type} [AddCommGroup V] [Module (ZMod 3) V
     (hpair : ∀ i j, α i (h j) = (((CartanMatrix.E 6) i j : ℤ) : ZMod 3))
     {v w : V} (hv : ∀ i, α i v = 0) (hw : ∀ i, α i w = 0) (hw0 : w ≠ 0) :
     ∃ c : ZMod 3, v = c • w := by
-  haveI : FiniteDimensional (ZMod 3) V :=
+  have : FiniteDimensional (ZMod 3) V :=
     FiniteDimensional.of_finrank_pos (by rw [hdim]; norm_num)
   let T : V →ₗ[ZMod 3] (Fin 6 → ZMod 3) :=
     { toFun := fun v => fun i => α i v
@@ -321,7 +321,7 @@ private theorem l05nLK_frame_K_dim {G : Type} [Group G] [Finite G]
   · intro hli
     exact hdep ((linearIndependent_equiv (R := ZMod 3) e).mp hli)
 
-theorem ggDepED4LowCfg_of_alignedK (hFix : GGTBFixInput) (hFixK : GGTBFixNbrInput)
+theorem ggDepED4LowCfg_of_alignedK (hFix : GGTBFixInput) (_hFixK : GGTBFixNbrInput)
     {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime] {B Bs : Subgroup G} {x : G}
     {L D J : Subgroup G} {y : G} {K : Subgroup G} (hH : GGResHyp p B Bs x L D J y K)
     (hyK : y ∉ K) {k : ℕ} (hp3 : p = 3) (hCard : Nat.card ↥Bs = 3 ^ 6)
@@ -334,9 +334,9 @@ theorem ggDepED4LowCfg_of_alignedK (hFix : GGTBFixInput) (hFixK : GGTBFixNbrInpu
   obtain ⟨Λ, hΛf, hΛd, b₁, b₂, Λa, hΛaf, hΛad, ML, CL, MK, CK, V, hVadd, hVmod,
     ι, φ, h, α, e, hb1, hb2, hcardΛa, hML, hMLweyl, hCLcartan, hMKweyl, hCKcartan,
     hk2, hform, hrefl, hpairL, hpairK, hAL, hAK, hAJ⟩ := hA
-  letI : AddCommGroup V := hVadd
-  letI : Module (ZMod 3) V := hVmod
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  let : AddCommGroup V := hVadd
+  let : Module (ZMod 3) V := hVmod
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
   have hp2 : (3 : ℕ) ≠ 2 := by norm_num
   have hx : x ∈ Bs := hH.1.tableB_facts.2.2.1
   have hy : y ∈ Bs := hH.1.2.1.1 hH.2.2.2.2.1.1.2.1
@@ -359,7 +359,7 @@ theorem ggDepED4LowCfg_of_alignedK (hFix : GGTBFixInput) (hFixK : GGTBFixNbrInpu
   have hsup : ggAutomizer K Bs ⊔ ggAutomizer L Bs = Subgroup.closure (Set.range φ) :=
     l05nLKE_sup_eq φ hAL hAK
   have hfinrank : Module.finrank (ZMod 3) V = 6 := by
-    haveI : Module.Finite (ZMod 3) V := Module.Finite.of_finite
+    have : Module.Finite (ZMod 3) V := Module.Finite.of_finite
     have hVcard : Nat.card V = 3 ^ Module.finrank (ZMod 3) V := by
       have h := Module.natCard_eq_pow_finrank (K := ZMod 3) (V := V)
       rwa [Nat.card_zmod] at h

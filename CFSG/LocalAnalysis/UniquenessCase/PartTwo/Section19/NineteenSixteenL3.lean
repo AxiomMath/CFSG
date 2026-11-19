@@ -116,7 +116,7 @@ private theorem isNontrivialParabolic_alt_six_of_sfour
   have hTsubcard : Nat.card Tsub = 8 := by
     change Nat.card (Subgroup.map P.subtype (T0 : Subgroup ↥P)) = 8
     rw [Subgroup.card_map_of_injective P.subtype_injective, hT0card]
-  have hTsubP : IsPGroup 2 Tsub := (T0.isPGroup').map P.subtype
+  have hTsubP : IsPGroup 2 Tsub := (T0.isPGroup).map P.subtype
   have hTsuble : Tsub ≤ P := by
     change Subgroup.map P.subtype (T0 : Subgroup ↥P) ≤ P
     exact Subgroup.map_subtype_le _

@@ -94,7 +94,7 @@ theorem uElt_mem_subfieldSp {F₀ : Subfield k} {a b c d : k} (ha : a ∈ F₀) 
   intro i j
   rw [glMat_uElt]
   fin_cases i <;> fin_cases j <;> simp [uMat] <;>
-    first | exact F₀.zero_mem | exact F₀.one_mem | assumption |
+    first | assumption |
       exact F₀.add_mem hb (F₀.mul_mem ha hd)
 
 theorem subAntiSp_uElt (F₀ : Subfield k) (a b c d : ↥F₀) :

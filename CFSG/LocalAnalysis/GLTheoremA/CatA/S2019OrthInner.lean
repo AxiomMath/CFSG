@@ -33,7 +33,7 @@ private theorem not_isQuasisimple_bot' {G : Type*} [Group G] :
     ¬ CFSG.IsQuasisimple ↥(⊥ : Subgroup G) := by
   rintro ⟨-, -, a, b, hab⟩
   apply hab
-  haveI : Subsingleton (↥(⊥ : Subgroup G) ⧸ Subgroup.center ↥(⊥ : Subgroup G)) :=
+  have : Subsingleton (↥(⊥ : Subgroup G) ⧸ Subgroup.center ↥(⊥ : Subgroup G)) :=
     Quotient.instSubsingletonQuotient _
   exact Subsingleton.elim _ _
 
@@ -42,7 +42,7 @@ theorem cubicPair_specialBlock (hx : OddOrderIsometry Q p x) (hp2 : Odd p) {h : 
     (hq : CFSG.IsQuasisimple ↥(specialBlock Q x h)) {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f)
     (hK : Nat.card K = ℓ ^ f) (h2 : (2 : K) ≠ 0) {l : K} (hl : l ≠ 0) (hl2 : l ^ 2 ≠ 1) :
     CubicPair (specialBlock Q x h) := by
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   have hm : 2 ≤ primaryMultiplicity x.toLinearMap h := by
     by_contra hlt
     have hpos := hx.primaryMultiplicity_pos hh
@@ -75,6 +75,7 @@ private theorem not_dvd_orderOf_of_isPGroup_two'' {G : Type*} [Group G] {q : ℕ
     simpa using this
   exact hq2 ((Nat.prime_dvd_prime_iff_eq hq Nat.prime_two).1 (hq.dvd_of_dvd_pow (hdvd.trans h1)))
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem exists_sq_eq_one_of_mem_scalarKernel
     (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) [Nontrivial V] {z : ↥(orthDerived Q)}
     (hz : z ∈ (scalars K V).subgroupOf (orthDerived Q)) :
@@ -102,7 +103,7 @@ theorem commutator_eq_bot_of_cubicPair {q : ℕ} [hq : Fact q.Prime] [CharP K q]
   obtain ⟨U, rfl⟩ : ∃ U : ↥(orthDerived Q), (U : V ≃ₗ[K] V) = u := ⟨⟨u, hAΩ hu⟩, rfl⟩
   obtain ⟨U', rfl⟩ : ∃ U' : ↥(orthDerived Q), (U' : V ≃ₗ[K] V) = u' := ⟨⟨u', hAΩ hu'⟩, rfl⟩
   have hq2 : q ≠ 2 := by omega
-  haveI : Nontrivial V := ⟨⟨_, _, hne1⟩⟩
+  have : Nontrivial V := ⟨⟨_, _, hne1⟩⟩
   let π : ↥(orthDerived Q) →* ProjOrthDerived Q :=
     QuotientGroup.mk' ((scalars K V).subgroupOf (orthDerived Q))
   let ρ : ↥(orthDerived Q) →* LinearMap.GeneralLinearGroup K V :=
@@ -277,7 +278,7 @@ theorem exists_lift_component_cases {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
       (fun hlist => by
         rw [← fixedLayerImage_of_listed hlist]
         exact le_sup_right)
-    haveI := hS₀sol
+    have := hS₀sol
     exact perfect_le_of_le_sup_solvable hENN hS₀N hENn hcomm hPN (Subgroup.isPerfect_iff.1 ⟨hP⟩)
   let Fm : ι₁ ⊕ Fin n → Subgroup (ProjOrthDerived Q) := Sum.elim S C
   have hFm : ∀ i, CFSG.Open.IsComponentOf (Fm i) N := by
@@ -312,7 +313,7 @@ private theorem exists_ne_zero_sq_ne_one' (hK : 4 ≤ Nat.card K) : ∃ l : K, l
   classical
   by_contra h
   push Not at h
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hsub : (Finset.univ : Finset K) ⊆ {0, 1, -1} := by
     intro l _
     by_cases hl : l = 0
@@ -330,8 +331,8 @@ theorem s2019FixCentralizes_conj_projOrth {q f : ℕ} (hq : q.Prime) (hq5 : 5 �
     (hp2 : p ≠ 2) (hpq : p ≠ q) (b : ProjOrthDerived Q) (hb : b ^ p = 1) :
     S2019FixCentralizes p (MulAut.conj b) := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : CharP K q := hring ▸ ringChar.charP K
+  have : Fact q.Prime := ⟨hq⟩
+  have : CharP K q := hring ▸ ringChar.charP K
   have hq2 : q ≠ 2 := by omega
   have h2 : (2 : K) ≠ 0 := by
     intro h
@@ -350,8 +351,8 @@ theorem s2019FixCentralizes_conj_projOrth {q f : ℕ} (hq : q.Prime) (hq5 : 5 �
       _ ≤ q ^ f := Nat.le_self_pow (by omega) q
   obtain ⟨l, hl, hl2⟩ := exists_ne_zero_sq_ne_one' hK4
   have hpℓ : p ≠ ringChar K := by rw [hring]; exact hpq
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun g : V ≃ₗ[K] V => (g : V → V))
+  have : Finite V := Module.finite_of_finite K
+  have : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun g : V ≃ₗ[K] V => (g : V → V))
     fun g₁ g₂ h => LinearEquiv.ext (congrFun h)
   intro L hL T₀ hT₀ hLT
   have hperf : ⁅L, L⁆ = L := CFSG.LocalAnalysis.GLTheoremB.glaPComponent_perfect hL
@@ -374,9 +375,9 @@ theorem s2019FixCentralizes_conj_projOrth {q f : ℕ} (hq : q.Prime) (hq5 : 5 �
 theorem s2019OrthInner_five : S2019OrthInner (5 ≤ ·) := by
   intro p q hp hp2 hq hq2 hqp hq5 t ht G _ n f hG a ha
   obtain ⟨K, _, _, V, _, _, _, Q, hQ, hT, hcard, hring, ⟨e⟩⟩ := exists_projOrth_model_card ht hG
-  haveI : Finite G := by
-    haveI : Finite V := Module.finite_of_finite K
-    haveI : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun g : V ≃ₗ[K] V => (g : V → V))
+  have : Finite G := by
+    have : Finite V := Module.finite_of_finite K
+    have : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun g : V ≃ₗ[K] V => (g : V → V))
       fun g₁ g₂ h => LinearEquiv.ext (congrFun h)
     exact Finite.of_equiv _ e.toEquiv.symm
   refine s2019FixCentralizes_of_congr hp e (MulAut.conj a) ?_

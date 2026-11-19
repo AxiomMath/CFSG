@@ -77,7 +77,7 @@ theorem nineThree_core_calc {Γ : Type*} [Group Γ] (N : Subgroup Γ) [N.Normal]
     have hpx : (π x) ^ p = 1 := by
       rw [← map_pow]
       exact (QuotientGroup.eq_one_iff _).mpr hxp
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     rw [orderOf_eq_prime hpx hx1]
     exact hp.odd_of_ne_two hp2
   have hodd2 : Nat.Coprime (orderOf (π x)) 2 := Nat.coprime_two_right.2 hodd
@@ -111,7 +111,7 @@ theorem nineThree_core_calc {Γ : Type*} [Group Γ] (N : Subgroup Γ) [N.Normal]
     have e1 : π (b * (b * (x * b * x⁻¹) * b * (b * (x * b * x⁻¹) * b * (x * b' * x⁻¹)) ^ s)) =
         π x ^ 2 * ((π x ^ 4)⁻¹) ^ s := by
       rw [map_mul, map_mul, map_pow, hπt]
-      simp only [map_mul, map_inv, ha'] at hf' ⊢
+      simp only [map_mul, map_inv] at hf' ⊢
       rw [← mul_assoc, hf']
     have e2 : π x ^ 2 * ((π x ^ 4)⁻¹) ^ s = 1 := by
       have h4s : 4 * s = 2 + 2 * m := by omega
@@ -119,6 +119,7 @@ theorem nineThree_core_calc {Γ : Type*} [Group Γ] (N : Subgroup Γ) [N.Normal]
       rw [inv_pow, ← pow_mul, h4s, pow_add, h2m, mul_one, mul_inv_cancel]
     exact (QuotientGroup.eq_one_iff _).mp (e1.trans e2)
 
+omit [Finite G] in
 private theorem nineThree_inv_mul_mem_of_relIndex_two {L K' : Subgroup G}
     (hrel : L.relIndex K' = 2) {a b : G} (ha : a ∈ K') (hb : b ∈ K') (haL : a ∉ L)
     (hbL : b ∉ L) : a⁻¹ * b ∈ L := by
@@ -128,6 +129,7 @@ private theorem nineThree_inv_mul_mem_of_relIndex_two {L K' : Subgroup G}
       exact iff_of_false haL hbL)
   exact Subgroup.mem_subgroupOf.1 key
 
+omit [Finite G] in
 theorem nineThree_pCoreOf_subgroupOf_normal (K : Subgroup G) :
     ((pCoreOf 2 K).subgroupOf K).Normal := by
   rw [Subgroup.normal_subgroupOf_iff (CFSG.LieType.BorelTits.pCoreOf_le 2 K)]
@@ -203,7 +205,7 @@ theorem nineD_transitive (h : Nine3Core V T A K S X p) (hx : x ∈ X) (hx1 : x �
     {B B' : Subgroup G} (hB : B ∈ nineOmegaIn V K S) (hB' : B' ∈ nineOmegaIn V K S) :
     ∃ d ∈ nineD K A x, B' = conjSubgroup B d := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2p := h.hyp.base.toTwoPTwo
   have hxK : x ∈ K := h2p.sylowP.le hx
   have hEK : nineE V K ≤ K :=
@@ -236,7 +238,7 @@ theorem nineD_transitive (h : Nine3Core V T A K S X p) (hx : x ∈ X) (hx1 : x �
     rwa [hbi] at this
   have hinv : b * x * b⁻¹ * x ∈ pCoreOf 2 K :=
     nine_two_inv h.hyp7 h.rk_gt h.hyp hB hbB hbR hx
-  haveI hN : ((pCoreOf 2 K).subgroupOf K).Normal := nineThree_pCoreOf_subgroupOf_normal K
+  have hN : ((pCoreOf 2 K).subgroupOf K).Normal := nineThree_pCoreOf_subgroupOf_normal K
   let bΓ : ↥K := ⟨b, hbK⟩
   let b'Γ : ↥K := ⟨b', hb'K⟩
   let xΓ : ↥K := ⟨x, hxK⟩

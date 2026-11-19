@@ -17,6 +17,7 @@ namespace ZJData
 
 variable (h : ZJData Q Y V V' B ρ t τ l y z v₁ v₂) include h
 
+omit [Finite H] in
 private theorem mmul_rho_comm {a : ℕ} (ha : a ∈ ZJFin.Clist) :
     ZJFin.mmul a (zjMat y z v₁ v₂ ρ) = ZJFin.mmul (zjMat y z v₁ v₂ ρ) a := by
   have hc := ZJFin.Clist_comm a ha
@@ -24,6 +25,7 @@ private theorem mmul_rho_comm {a : ℕ} (ha : a ∈ ZJFin.Clist) :
   · rw [hR]; exact hc.1
   · rw [hR]; exact hc.2
 
+omit [Finite H] in
 private theorem commutator_mem_E {u v : H}
     (huv : zjMat y z v₁ v₂ (u * v) = zjMat y z v₁ v₂ (v * u)) :
     u * v * u⁻¹ * v⁻¹ ∈ centralizer (Y : Set H) := by
@@ -38,6 +40,7 @@ private theorem commutator_mem_E {u v : H}
   rw [hgoal] at h2
   simpa using (centralizer (Y : Set H)).inv_mem h2
 
+omit [Finite H] in
 private theorem sq_mem_E {g : H}
     (hg : ZJFin.mmul (zjMat y z v₁ v₂ g) (zjMat y z v₁ v₂ g) = ZJFin.one) :
     g * g ∈ centralizer (Y : Set H) := by
@@ -47,6 +50,7 @@ private theorem sq_mem_E {g : H}
   have h2 := (h.mat_eq_iff 1 (g * g)).mp h1
   simpa using h2
 
+omit [Finite H] in
 private theorem pow_four_mem_E {g : H}
     (hg : ZJFin.mmul (ZJFin.mmul (zjMat y z v₁ v₂ g) (zjMat y z v₁ v₂ g))
       (ZJFin.mmul (zjMat y z v₁ v₂ g) (zjMat y z v₁ v₂ g)) = ZJFin.one) :

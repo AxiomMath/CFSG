@@ -52,7 +52,7 @@ theorem hasNormalPComplement_of_comm_mem_frattini {S L : Subgroup A} (hS : IsPGr
     CFSG.HasNormalPComplement p ↥L := by
   have hp : p.Prime := Fact.out
   set N : Subgroup ↥L := (Subgroup.centralizer (S : Set A)).subgroupOf L with hN
-  haveI hNn : N.Normal := by
+  have hNn : N.Normal := by
     refine ⟨fun n hn g => ?_⟩
     rw [hN, Subgroup.mem_subgroupOf] at hn ⊢
     have hg : (g : A) ∈ Subgroup.normalizer (S : Set A) := hLN g.2

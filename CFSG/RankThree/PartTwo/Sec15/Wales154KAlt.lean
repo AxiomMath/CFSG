@@ -88,7 +88,7 @@ private theorem card_centralizer_of_orderOf_eq_five {x : Perm (Fin 7)} (hx : ord
     (by rw [hx, Fintype.card_fin]; norm_num)
   have hsupp : x.support.card = 5 := by rw [← hcyc.orderOf, hx]
   rw [nat_card_centralizer, hcyc.cycleType, hsupp]
-  simp [Fintype.card_fin, Nat.factorial]
+  simp [Fintype.card_fin]
 
 private theorem eq_one_of_mem_normalizer_of_card_eq_five {S : Subgroup (Perm (Fin 7))}
     (hS : Nat.card S = 5) {t : Perm (Fin 7)} (ht : t ∈ normalizer (S : Set (Perm (Fin 7))))
@@ -159,7 +159,7 @@ private theorem false_of_le_normalizer {K E : Subgroup (Perm (Fin 7))} (h5 : 5 �
       exact Subgroup.smul_mem_pointwise_smul s _ _ hs
     exact ⟨(g : N) • s, h1, rfl⟩
   have hScard : Nat.card (S : Subgroup K) = 5 := by
-    obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp S.isPGroup'
+    obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp S.isPGroup
     have h1 : 5 ∣ Nat.card (S : Subgroup K) := S.dvd_card_of_dvd_card h5
     have h7 : Nat.card (Perm (Fin 7)) = 5040 := by rw [Nat.card_perm, Nat.card_fin]; rfl
     have h2 : Nat.card (S : Subgroup K) ∣ 5040 := h7 ▸

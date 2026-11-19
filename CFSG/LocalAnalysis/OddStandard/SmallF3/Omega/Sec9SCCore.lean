@@ -13,6 +13,7 @@ open Subgroup CFSG.Blueprint
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private lemma sec9c_key {B M K : Subgroup G} {T : Set G} (hB : IsElemAb2 B 4)
     (hTM : ∀ x ∈ T, ∀ m ∈ M, x * m * x⁻¹ ∈ M)
     (hTK : ∀ x ∈ T, x ∈ K)
@@ -75,6 +76,7 @@ private lemma sec9c_key {B M K : Subgroup G} {T : Set G} (hB : IsElemAb2 B 4)
     exact hxne hconj
   exact ⟨c, hcK, hfc⟩
 
+omit [Finite G] in
 theorem sec9c_core {B M K : Subgroup G} {T : Set G} (hB : IsElemAb2 B 4) (hBM : B ≤ M)
     (hTB : ∀ x ∈ T, x ∈ normalizer (B : Set G))
     (hTM : ∀ x ∈ T, ∀ m ∈ M, x * m * x⁻¹ ∈ M) (hTK : ∀ x ∈ T, x ∈ K)

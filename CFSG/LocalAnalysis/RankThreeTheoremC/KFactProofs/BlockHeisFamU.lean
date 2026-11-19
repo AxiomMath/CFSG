@@ -20,9 +20,9 @@ theorem famU_noHeisAut
     (hp5 : 5 ≤ p) (hgcd : ¬ p ∣ Nat.gcd n (2 ^ f + 1))
     (hlt : n / orderOf (-((2 ^ f : ℕ) : ZMod p)) < p)
     (hZ : ¬ p ∣ Nat.card (Subgroup.center L)) : NoHeisAut p (L ⧸ Subgroup.center L) := by
-  haveI := hperf
-  haveI := hsimp
-  haveI : Fact p.Prime := ⟨hp⟩
+  have := hperf
+  have := hsimp
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   have hmodel : LieModel (L ⧸ Subgroup.center L) .PSU n 2 f :=
     Or.inl ⟨by simp [classicalTags], hm⟩

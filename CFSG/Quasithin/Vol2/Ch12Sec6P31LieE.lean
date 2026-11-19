@@ -32,7 +32,7 @@ private theorem psl34e_dvd_card_of_sup_eq_top {G : Type*} [Group G] [Finite G]
 private theorem psl34e_exists_commute_of_normalizer {G : Type*} [Group G] [Finite G]
     {Q : Subgroup G} (hQ : Nat.card Q = 3) {y : G} (hy : y ∈ Subgroup.normalizer (Q : Set G))
     (hodd : Odd (orderOf y)) : ∃ x ∈ Q, orderOf x = 3 ∧ y * x = x * y := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨x0, hx0⟩ := exists_prime_orderOf_dvd_card' (G := ↥Q) 3 (by rw [hQ])
   obtain ⟨x, hxQ, hxord⟩ : ∃ x ∈ Q, orderOf x = 3 :=
     ⟨x0, x0.2, by rw [Subgroup.orderOf_coe, hx0]⟩
@@ -91,8 +91,8 @@ private theorem psl34e_orderOf_dvd_nine {K : Type} [Group K] [Finite K] {k : Typ
     (e : K ≃* CFSG.LocalAnalysis.ComponentInitial.LinearFlag.projectiveSL 3 k)
     (hk : Nat.card k = 4) {x y : K} (hx : orderOf x = 3) (hxy : Commute x y) :
     orderOf y ∣ 9 := by
-  haveI : Finite k := CFSG.LocalAnalysis.ComponentInitial.LinearFieldFour.finite_of_card_eq_four hk
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite k := CFSG.LocalAnalysis.ComponentInitial.LinearFieldFour.finite_of_card_eq_four hk
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : ∀ g : K, orderOf (e g) = orderOf g := fun g =>
     orderOf_injective e.toMonoidHom e.injective g
   have hx₁ : orderOf (e x) = 3 := by rw [hord, hx]
@@ -129,9 +129,9 @@ private theorem psl34e_no_odd_prime_dvd {K : Type} [Group K] [Finite K] {k : Typ
     (hW23 : ∀ p : ℕ, p.Prime → p ∣ Nat.card W → p = 2 ∨ p = 3)
     (h3 : 3 ∣ Nat.card W) (h9 : ¬ 9 ∣ Nat.card N) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hp3 : p ≠ 3) (hpN : p ∣ Nat.card N) : False := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite k := CFSG.LocalAnalysis.ComponentInitial.LinearFieldFour.finite_of_card_eq_four hk
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite k := CFSG.LocalAnalysis.ComponentInitial.LinearFieldFour.finite_of_card_eq_four hk
   have hMcard : Nat.card (W.subgroupOf N) = Nat.card W :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hWN).toEquiv
   have hpM : ¬ p ∣ Nat.card (W.subgroupOf N) := by
@@ -143,7 +143,7 @@ private theorem psl34e_no_odd_prime_dvd {K : Type} [Group K] [Finite K] {k : Typ
   have h3M : 3 ∣ Nat.card (W.subgroupOf N) := by rw [hMcard]; exact h3
   have hMN : Nat.card (W.subgroupOf N) ∣ Nat.card N := Subgroup.card_subgroup_dvd_card _
   have h9M : ¬ 9 ∣ Nat.card (W.subgroupOf N) := fun h => h9 (h.trans hMN)
-  haveI : Finite (Sylow 3 (W.subgroupOf N)) := psl34e_finite_sylow 3 _
+  have : Finite (Sylow 3 (W.subgroupOf N)) := psl34e_finite_sylow 3 _
   obtain ⟨Q⟩ : Nonempty (Sylow 3 (W.subgroupOf N)) := inferInstance
   have hfac : (Nat.card (W.subgroupOf N)).factorization 3 = 1 := by
     have hM0 : Nat.card (W.subgroupOf N) ≠ 0 := Nat.card_pos.ne'
@@ -202,7 +202,7 @@ theorem psl34_overgroup
   obtain ⟨k, hkf, hkfin, hk, ⟨e⟩⟩ :=
     CFSG.LocalAnalysis.ComponentInitial.LinearCover.exists_mulEquiv_projectiveSL_of_lieModel hLie
   have hk4 : Nat.card k = 4 := hk.trans (by norm_num)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTi : ¬ 2 ∣ T.index := by
     have h : ¬ 2 ∣ T.relIndex ⊤ := hT.2.2
     rwa [Subgroup.relIndex_top_right] at h

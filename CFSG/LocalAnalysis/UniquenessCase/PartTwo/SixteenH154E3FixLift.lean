@@ -25,7 +25,7 @@ theorem s16h_e3_uniqueMax_of_fixed (D : Data G) (S : s16h_Std D) {V₀ V L : Sub
     ∀ w ∈ wSub V₀ V h.hyp151.isElemAbelian L ⊔ v1Sub D.M V₀ V h.hyp151.isElemAbelian L,
       w ≠ 1 → UniqueMax D.M (D.M ⊓ centralizer ({w} : Set G)) := by
   have hV := h.hyp151.isElemAbelian
-  haveI : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
+  have : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
   have hpp := D.sig_prime q hq
   have hMs : D.M ≤ stabTil V₀ V :=
     le_stabTil h.hyp151.hyp125.pairFacts.le_normalizer
@@ -94,7 +94,6 @@ theorem s16h_e3_bar_rank_ge (D : Data G) {V₀ V : Subgroup G} (h : Hyp125 D V�
     have hgC : g ∈ F11.CTilde D.M V₀ V := by
       rw [mem_cTilde_iff hV h.pairFacts.le_normalizer]
       refine ⟨hEM hgE, hEs hgE, ?_⟩
-      change actTil V₀ V hV ⟨g, hEs hgE⟩ = 1
       rw [show (⟨g, hEs hgE⟩ : ↥(stabTil V₀ V)) = ⟨g, hgs⟩ from Subtype.ext rfl, hbot]
     have h3 : g ∈ E ⊓ F11.CTilde D.M V₀ V := ⟨hgE, hgC⟩
     rw [hdisj, Subgroup.mem_bot] at h3
@@ -111,8 +110,8 @@ theorem s16h_e3_bar_card_le (D : Data G) {V₀ V : Subgroup G} (h : Hyp125 D V�
     (hm : CFSG.Open.pRank q D.M ≤ m) :
     ∀ Eb : Subgroup (MulAut (Vtil V₀ V h.isElemAbelian)),
       Eb ≤ Mbar D.M V₀ V h.isElemAbelian → IsElemAbelian q Eb → Nat.card ↥Eb ≤ q ^ m := by
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Finite (MulAut (Vtil V₀ V h.isElemAbelian)) := MulEquiv.finite_left
+  have : Fact q.Prime := ⟨hq⟩
+  have : Finite (MulAut (Vtil V₀ V h.isElemAbelian)) := MulEquiv.finite_left
   have hV := h.isElemAbelian
   have hMs : D.M ≤ stabTil V₀ V :=
     le_stabTil h.pairFacts.le_normalizer h.pairFacts.le_normalizer₀
@@ -120,7 +119,7 @@ theorem s16h_e3_bar_card_le (D : Data G) {V₀ V : Subgroup G} (h : Hyp125 D V�
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card (p := q)).1 hEbab.isPGroup
   have hk_le : k ≤ CFSG.Open.pRank q D.M := by
     let φ : ↥D.M →* MulAut (Vtil V₀ V hV) := barHom V₀ V hV hMs
-    haveI : φ.ker.Normal := MonoidHom.normal_ker φ
+    have : φ.ker.Normal := MonoidHom.normal_ker φ
     have hCtildeM : F11.CTilde D.M V₀ V ≤ D.M := by
       rw [cTilde_eq_preBarSub_bot hV h.pairFacts.le_normalizer]
       exact inf_le_left

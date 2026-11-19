@@ -66,27 +66,28 @@ theorem exists_isSylowOf_le_normalizer {p : ℕ} [Fact p.Prime] {K B : Subgroup 
   have hKY : K ≤ Y := le_sup_left
   have hBY : B ≤ Y := le_sup_right
   have hYK : Y ≤ Subgroup.normalizer (K : Set X) := sup_le Subgroup.le_normalizer hBK
-  haveI : (K.subgroupOf Y).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hKY).mpr hYK
+  have : (K.subgroupOf Y).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hKY).mpr hYK
   obtain ⟨S, hBS⟩ := (hB.comap_subtype (K := Y)).exists_le_sylow
   set S' := (S : Subgroup Y).map Y.subtype with hS'
   have hBS' : B ≤ S' := fun b hb => ⟨⟨b, hBY hb⟩, hBS (Subgroup.mem_subgroupOf.mpr hb), rfl⟩
   refine ⟨S' ⊓ K, ?_, fun b hb => Subgroup.inf_normalizer_le_normalizer_inf
     ⟨Subgroup.le_normalizer (hBS' hb), hBK hb⟩⟩
   rw [CFSG.ABGLocalTools.isSylowOf_iff]
-  refine ⟨inf_le_right, (S.isPGroup'.map Y.subtype).to_le inf_le_left, ?_⟩
+  refine ⟨inf_le_right, (S.isPGroup.map Y.subtype).to_le inf_le_left, ?_⟩
   have hSS : S'.subgroupOf Y = S := Subgroup.comap_map_eq_self_of_injective Y.subtype_injective _
   rw [Subgroup.inf_relIndex_right, ← Subgroup.relIndex_subgroupOf hKY, hSS]
   exact fun hdvd => S.not_dvd_index
     (hdvd.trans (CFSG.QuasiDihedralFusion.relIndex_dvd_index_of_normal_right _ _))
 
+omit [Finite X] in
 theorem le_pCoreOf_of_isSolvable {K N : Subgroup X} (hNK : N ≤ K)
     (hKN : K ≤ Subgroup.normalizer (N : Set X)) (hsol : Group.IsSolvable N)
     (hKp : ⁅K, K⁆ = K) [IsSimpleGroup (K ⧸ CFSG.pCore 2 K)] :
     N ≤ CFSG.Open.pCoreOf 2 K := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set π := QuotientGroup.mk' (CFSG.pCore 2 K) with hπ
-  haveI : (N.subgroupOf K).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hNK).mpr hKN
-  haveI : Group.IsSolvable (N.subgroupOf K) :=
+  have : (N.subgroupOf K).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hNK).mpr hKN
+  have : Group.IsSolvable (N.subgroupOf K) :=
     Group.isSolvable_of_isSolvable_injective (f := (Subgroup.subgroupOfEquivOfLe hNK).toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hNK).injective
   rcases ((inferInstance : (N.subgroupOf K).Normal).map π
@@ -98,12 +99,12 @@ theorem le_pCoreOf_of_isSolvable {K N : Subgroup X} (hNK : N ≤ K)
       mem_pCore_iff_mem_pCoreOf] at h1
     exact h1
   · exfalso
-    haveI : Group.IsPerfect K := Subgroup.isPerfect_iff.mpr hKp
-    haveI : Group.IsPerfect (K ⧸ CFSG.pCore 2 K) :=
+    have : Group.IsPerfect K := Subgroup.isPerfect_iff.mpr hKp
+    have : Group.IsPerfect (K ⧸ CFSG.pCore 2 K) :=
       Group.IsPerfect.ofSurjective (f := π) (QuotientGroup.mk'_surjective _)
     have hsurj : Function.Surjective (π.comp (N.subgroupOf K).subtype) := by
       rw [← MonoidHom.range_eq_top, MonoidHom.range_comp, Subgroup.range_subtype, htop]
-    haveI : Group.IsSolvable (K ⧸ CFSG.pCore 2 K) := Group.isSolvable_of_surjective hsurj
+    have : Group.IsSolvable (K ⧸ CFSG.pCore 2 K) := Group.isSolvable_of_surjective hsurj
     exact Group.IsPerfect.not_isSolvable (K ⧸ CFSG.pCore 2 K) inferInstance
 
 theorem false_of_isSylowOf {K Q Z : Subgroup X} (hKp : Group.IsPerfect K)
@@ -112,13 +113,13 @@ theorem false_of_isSylowOf {K Q Z : Subgroup X} (hKp : Group.IsPerfect K)
     (hQZ : ∀ x ∈ Q, x ^ 3 = 1 → x ∈ Z) : False := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P, rfl⟩ := hQ
-  haveI : Fact (IsPGroup 3 (P : Subgroup K)) := ⟨P.isPGroup'⟩
+  have : Fact (IsPGroup 3 (P : Subgroup K)) := ⟨P.isPGroup⟩
   have hmem : ∀ x : (P : Subgroup K), ((x : K) : X) ∈ (P : Subgroup K).map K.subtype :=
     fun x => ⟨x, x.2, rfl⟩
   have hcyc : IsCyclic (P : Subgroup K) := by
     by_contra hnc
     obtain ⟨S, -, hcard, hel⟩ := CFSG.lemma_4_5_a (p := 3) (by norm_num) hnc
-    haveI := hel
+    have := hel
     let f : (P : Subgroup K) →* X := K.subtype.comp (P : Subgroup K).subtype
     have hf : Function.Injective f := K.subtype_injective.comp (Subgroup.subtype_injective _)
     have hle : S.map f ≤ Z := by
@@ -128,8 +129,8 @@ theorem false_of_isSylowOf {K Q Z : Subgroup X} (hKp : Group.IsPerfect K)
     have hc := Subgroup.card_le_of_le hle
     rw [Subgroup.card_map_of_injective hf, hcard, hZ3] at hc
     norm_num at hc
-  haveI := hcyc
-  haveI := hKp
+  have := hcyc
+  have := hKp
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 3 (P.dvd_card_of_dvd_card h3)
   have hx3 : x ^ 3 = 1 := by
     have h := pow_orderOf_eq_one x
@@ -232,20 +233,20 @@ theorem mem_zpowers_of_mem_inf (h1812 : Item181_2) (h184 : Item184_1) (h182 : It
   set Lc := lc H c with hLcdef
   have hbLc : b ∈ Lc := hBlc hb
   obtain ⟨e⟩ := SylowFusion.nonempty_quotient_lc h184 hH
-  haveI := Item18ResProof.isSimpleGroup_projSL_three_four
-  haveI : Nontrivial (Lc ⧸ CFSG.pCore 2 Lc) := e.toEquiv.nontrivial
-  haveI : IsSimpleGroup (Lc ⧸ CFSG.pCore 2 Lc) :=
+  have := Item18ResProof.isSimpleGroup_projSL_three_four
+  have : Nontrivial (Lc ⧸ CFSG.pCore 2 Lc) := e.toEquiv.nontrivial
+  have : IsSimpleGroup (Lc ⧸ CFSG.pCore 2 Lc) :=
     IsSimpleGroup.isSimpleGroup_of_surjective e.symm.toMonoidHom e.symm.surjective
   set θ := (aschbacherSolvableCore 3 (Subgroup.centralizer ({c} : Set G))).map
     (Subgroup.centralizer ({c} : Set G)).subtype with hθ
   have hθO : θ ⊓ Lc ≤ CFSG.Open.pCoreOf 2 Lc := by
     have hΘ := solvable_prime_complement_core_characterization
       (H := Subgroup.centralizer ({c} : Set G)) Nat.prime_three
-    haveI : (aschbacherSolvableCore 3 (Subgroup.centralizer ({c} : Set G))).Characteristic :=
+    have : (aschbacherSolvableCore 3 (Subgroup.centralizer ({c} : Set G))).Characteristic :=
       hΘ.2.1
-    haveI : Group.IsSolvable (aschbacherSolvableCore 3 (Subgroup.centralizer ({c} : Set G))) :=
+    have : Group.IsSolvable (aschbacherSolvableCore 3 (Subgroup.centralizer ({c} : Set G))) :=
       hΘ.1
-    haveI : Group.IsSolvable θ := Group.isSolvable_of_surjective (f := (Subgroup.equivMapOfInjective
+    have : Group.IsSolvable θ := Group.isSolvable_of_surjective (f := (Subgroup.equivMapOfInjective
       _ _ (Subgroup.centralizer ({c} : Set G)).subtype_injective).toMonoidHom) (MulEquiv.surjective _)
     refine le_pCoreOf_of_isSolvable inf_le_right ?_
       (Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion inf_le_left)
@@ -340,7 +341,7 @@ theorem eq_lc_of_mem_thetaComponentsAt (h1812 : Item181_2) (h184 : Item184_1)
   have hΘ := solvable_prime_complement_core_characterization (H := C) Nat.prime_three
   have hQΘ : Q ⊓ aschbacherSolvableCore 3 C = ⊥ := by
     obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hQ.isPGroup
-    refine Subgroup.inf_eq_bot_of_coprime ?_
+    refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
     rw [hn]
     exact Nat.Coprime.pow_left n ((Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mpr hΘ.2.2.1)
   have hcomm : ∀ b ∈ B', ∀ x ∈ Q, b * x = x * b := by

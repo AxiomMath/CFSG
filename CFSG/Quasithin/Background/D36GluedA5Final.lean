@@ -80,7 +80,7 @@ theorem false_of_psl2_four (hL : IsPSL 2 2 2 ↥L₀) : False := by
   have hrkU : rk ↥U = rk ↥(U ⊓ U') + (rk ↥U - rk ↥(U ⊓ U')) := by
     have : rk ↥(U ⊓ U') ≤ rk ↥U := rk_mono inf_le_left
     omega
-  letI : MulDistribMulAction ↥L₀ (Sec U (U ⊓ fixV L₀)) := MulDistribMulAction.compHom _ actL
+  let : MulDistribMulAction ↥L₀ (Sec U (U ⊓ fixV L₀)) := MulDistribMulAction.compHom _ actL
   have hsmul : ∀ (γ : ↥L₀) (x : Sec U (U ⊓ fixV L₀)), γ • x = actL γ x := fun _ _ => rfl
   have hfix : ∀ x : Sec U (U ⊓ fixV L₀), (∀ γ : ↥L₀, γ • x = x) → x = 1 := fun x hx =>
     sec_fixed S.perfect S.stab hZst x fun γ => by rw [← hsmul]; exact hx γ

@@ -53,7 +53,7 @@ end OrdPInnerExc
 theorem ggOrdPToralF4RestHard_holds :
     GGOrdPToralF4RestHard := by
   intro f hf _
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)
   refine OrdPToralLang.ggOrdPToralMax_adjointGroup_of_lang (GaloisField 2 f) Nat.prime_three
     (by norm_num) (CFSG.HardMathSupport.Timmesfeld.CrossChar.monomialToralAt_three_of_block

@@ -55,7 +55,7 @@ private theorem false_of_z_mem [Finite G] {z : G} {P : Subgroup G}
     (hpure : ∀ f ∈ F, f ≠ 1 → ∃ (c : ℕ) (g : G), g * z ^ c * g⁻¹ = f)
     (hW : IsElemAbelian 2 W) (hWc : Nat.card W = 2 ^ 4) (hFW : F ≤ centralizer (W : Set G)) :
     False := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hFC : F ≤ centralizer ({z} : Set G) := fun f hf => by
     have := hF.1
     exact mem_centralizer_singleton_iff.2
@@ -102,7 +102,7 @@ private theorem false_of_card_eq [Finite G] {z s : G} (hz5 : orderOf z = 5)
     {F W : Subgroup G} (hF : IsElemAbelian 5 F) (hFc : Nat.card F = 5 ^ 2)
     (hW : IsElemAbelian 2 W) (hWc : Nat.card W = 2 ^ 4) (hFW : F ≤ centralizer (W : Set G)) :
     False := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hord : ∀ f ∈ F, f ≠ 1 → orderOf f = 5 := fun f hf hf1 =>
     orderOf_eq_prime (hF.2 f hf) hf1
   by_cases hAs : ∃ f ∈ F, f ≠ 1 ∧ ∃ c : ℕ, ¬ 5 ∣ c ∧ ∃ g : G, g * s ^ c * g⁻¹ = f
@@ -143,7 +143,7 @@ theorem false_of_five_two_four_B
     (h : BabyFiveBPureFact) (F W : Subgroup NativeSporadic.B)
     (hF : IsElemAbelian 5 F) (hFc : Nat.card F = 5 ^ 2) (hW : IsElemAbelian 2 W)
     (hWc : 2 ^ 4 ≤ Nat.card W) (hFW : F ≤ centralizer (W : Set NativeSporadic.B)) : False := by
-  haveI : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
+  have : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
   obtain ⟨W', hW'⟩ :=
     Sylow.exists_subgroup_card_pow_prime_of_le_card Nat.prime_two hW.isPGroup hWc
   have hW0W : W'.map W.subtype ≤ W := map_subtype_le W'

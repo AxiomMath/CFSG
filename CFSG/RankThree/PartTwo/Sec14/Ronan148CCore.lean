@@ -22,7 +22,7 @@ theorem img148_le_pPrimeCoreOf_centralizer (hAY : A ≤ Subgroup.normalizer (Y :
     (hQR : Q ≤ pPrimeCoreOf 3 (Y ⊓ Subgroup.centralizer ({b} : Set G))) :
     img148 A Y Q ≤ pPrimeCoreOf 3
       (Subgroup.centralizer ({alpha148 A Y b hb} : Set (↥(Y ⊔ A) ⧸ ker148 A Y))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set R : Subgroup G := pPrimeCoreOf 3 (Y ⊓ Subgroup.centralizer ({b} : Set G)) with hR
   have hRle : R ≤ Y ⊓ Subgroup.centralizer ({b} : Set G) := Sec14.pPrimeCoreOf_le 3 _
   have hRM : R ≤ Y ⊔ A := hRle.trans (inf_le_left.trans le_sup_left)
@@ -87,7 +87,7 @@ section Certs
 theorem core148Layer_of_rowsS
     (R : K148RowsS) : Ronan148M.Core148Layer := by
   intro G _ _ A c L h Y hY hs hYB B hB Q hQ hQY hQb
-  letI := ker148_normal hY.2
+  let := ker148_normal hY.2
   have hA : Late.IsE27 A := h.isE27
   have hA3 : ∀ a ∈ A, a ^ 3 = 1 := hA.1.2
   have hAc : IsMulCommutative A := hA.1.1

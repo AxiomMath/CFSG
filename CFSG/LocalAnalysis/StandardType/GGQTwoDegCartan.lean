@@ -38,7 +38,7 @@ private theorem qTwoDegB_permCongr_swap {α β : Type*} [DecidableEq α] [Decida
     simp
   · by_cases h2 : x = f b
     · subst h2
-      simp [h]
+      simp
     · have hx : f.symm x ≠ a := fun hh =>
         h ((f.apply_symm_apply x).symm.trans (congrArg f hh))
       have hx2 : f.symm x ≠ b := fun hh =>
@@ -120,6 +120,7 @@ theorem qTwoDeg_cartan_of_pres
   simpa [hd] using hCart Nat.prime_three (by norm_num)
     hcfg.1.1.2.1.2.1 ρ hρinj hρrefl hρnotr
 
+omit [Finite G] in
 theorem qTwoDeg_cartan_bound_le {Bs L : Subgroup G} {x : G} {k : QTwoRowKind} {m d c : ℕ}
     (hrow : QTwoRowData k m d c Bs L x) {N : ℕ}
     (hCartan : 3 ^ (N - 1 - (if 3 ∣ N then 1 else 0)) ≤ Nat.card Bs) :

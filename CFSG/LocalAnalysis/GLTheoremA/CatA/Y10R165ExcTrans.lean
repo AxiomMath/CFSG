@@ -27,12 +27,12 @@ theorem i165On_of_cover_sc {P : GLALabel → ℕ → Prop}
   have hm4K : 4 ≤ evenRank K := le_trans hm4 hm1
   obtain ⟨H, hHgrp, hHfin, π, hπ, hker, hpk, hconcl⟩ :=
     hcov K lab p q hK hP hp hp2 hq hq2 hqp hns he hm4K
-  letI := hHgrp
-  letI := hHfin
+  let := hHgrp
+  let := hHfin
   obtain ⟨R, -, hRe, hRmap, -⟩ :=
     CFSG.HardMathSupport.Curtis.NaturalModuleCensus.AltIb.exists_elemAbelian_lift hp hpk
       (Subgroup.map_comap_eq_self_of_surjective hπ A) hAe
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hquot : CFSG.Open.pRank p (⊤ : Subgroup (H ⧸ π.ker)) =
       CFSG.Open.pRank p (⊤ : Subgroup H) :=
     CFSG.SectionRank.pRank_quotient_eq π.ker hpk

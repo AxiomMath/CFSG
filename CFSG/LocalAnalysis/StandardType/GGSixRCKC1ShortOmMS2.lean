@@ -69,7 +69,7 @@ theorem rckSOmM2_pCore_perp [CharP K 2] [Finite K] [FiniteDimensional K V]
     {t : G} (ht : t ∈ pCoreOf 2 (Subgroup.centralizer ({x} : Set G))) :
     ∀ y, polar Q y e = 0 → polar Q y w = 0 → ∃ c : K, ρ t y - y = c • e := by
   classical
-  haveI : Finite V := Module.finite_of_finite K
+  have : Finite V := Module.finite_of_finite K
   have hwe : polar Q w e = 0 := by rw [polar_comm]; exact hew
   have hww : polar Q w w = 0 := polar_self_eq_zero Q w
   have hee : polar Q e e = 0 := polar_self_eq_zero Q e
@@ -168,7 +168,7 @@ theorem rckSOmM2_pCore_perp [CharP K 2] [Finite K] [FiniteDimensional K V]
     · exact Or.inl (le_antisymm hXL hLX)
     right
     refine le_antisymm hXP ?_
-    obtain ⟨y, hyX, hyL⟩ := SetLike.not_le_iff_exists.mp hXL
+    obtain ⟨y, hyX, hyL⟩ := IsConcreteLE.not_le_iff_exists.mp hXL
     obtain ⟨hye, hyw⟩ := (hPmem y).mp (hXP hyX)
     have hyL' : y ∉ Submodule.span K {e, w₁} := by rw [← hLdef]; exact hyL
     have hSX : ∀ y' ∈ X, ∀ u, polar Q u e = 0 → polar Q u w = 0 → Q u = 0 →

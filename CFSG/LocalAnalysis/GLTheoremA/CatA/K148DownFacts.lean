@@ -25,7 +25,7 @@ open CFSG.LieType.Chevalley (fieldActor)
 
 @[expose] def K148TwoG2Fact : Prop :=
   ∀ (K : Type) [Field K] [Finite K] (σ : K ≃+* K), Nat.card K = (2 ^ 1) ^ 3 → (∀ c, σ c = c ^ 2 ^ 1) →
-    ∀ (H : Type) [Group H] (e : H ≃* ↥(CFSG.RankThree.PartTwo.Sec4.autFix (fieldActor (t := TwistTag.D4) σ σ)))
+    ∀ (H : Type) [Group H] (_e : H ≃* ↥(CFSG.RankThree.PartTwo.Sec4.autFix (fieldActor (t := TwistTag.D4) σ σ)))
       (S : Subgroup H), S.IsSubnormal → ∀ (Q : Type) [Group Q] (φ : ↥S →* Q), Function.Surjective φ →
       CFSG.Open.IsQuasisimple Q →
       catalogIs Q (onLie fun | .twistedA 2 q => q.card = 3 | _ => False)

@@ -15,7 +15,7 @@ theorem s16c167_le_mParam (X : Subgroup (MulAut W)) {n : ℕ}
     (hodd : n ≤ rk W) : n ≤ E3.mParam X := by
   unfold E3.mParam
   split_ifs with he
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have h2 : 2 ∣ Nat.card X := even_iff_two_dvd.mp he
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := X) 2 h2
     have hmem : rkIdx (fixV (Subgroup.zpowers (x : MulAut W))) ∈
@@ -169,6 +169,7 @@ theorem s16c167_le_mParam_of_blocks (hW : ∀ w : W, w ^ 2 = 1) (X : Subgroup (M
     · exact le_trans hn₂ (s16c167_rk_le_rkIdx_of_inf_map_eq_bot t h₂)
   · exact le_trans hn₁ (s16c167_rk_le_rkIdx_of_inf_map_eq_bot t h₁)
 
+omit [Finite W] in
 theorem s16c167_perm_of_orbit {X : Subgroup (MulAut W)} {I₀ I₁ I₂ : Subgroup W}
     (hne : I₁ ≠ I₂) (hdisj : I₁ ⊓ I₂ = ⊥)
     (horb : {J | ∃ φ ∈ X, J = I₀.map φ.toMonoidHom} = {I₁, I₂}) :

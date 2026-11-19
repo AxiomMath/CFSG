@@ -131,7 +131,7 @@ theorem odd_card_inf_commSpaceFixer (S : Setting z E F) (R : Subgroup (Hbar z)) 
 theorem commute_inf_commSpaceFixer (S : Setting z E F) {a : G} {w : ℕ} (h : Sec3Hyp S a w)
     {R : Subgroup (Hbar z)} (hR : Odd (Nat.card R))
     (hLR : Lbar S a ≤ Subgroup.normalizer (R : Set (Hbar z)))
-    (r : Hbar z) {r' : Hbar z} (hr : r ∈ Rbar S a) (hr' : r' ∈ Rbar S a)
+    (r : Hbar z) {r' : Hbar z} (_hr : r ∈ Rbar S a) (hr' : r' ∈ Rbar S a)
     {y : Hbar z} (hy : y ∈ R ⊓ commSpaceFixer S r) : y * r' = r' * y :=
   (commute_of_mem_Rbar_of_odd S h hR hLR hr' hy.1).symm
 
@@ -195,7 +195,7 @@ theorem inf_commSpaceFixer_eq_bot (S : Setting z E F) {a : G} {w : ℕ} (h : Sec
     (CFSG.GroupTheory.oddOrderClosure_eq_self_of_odd_card _
       (odd_card_inf_commSpaceFixer S R r hR))
     (fun P hPY hP2 _ => by
-      letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       exact Disjoint.eq_bot_of_le
         (TauCeti.disjoint_of_not_dvd_natCard_of_isPGroup
           (odd_card_inf_commSpaceFixer S R r hR).not_two_dvd_nat hP2).symm hPY)
@@ -208,7 +208,7 @@ theorem inf_commSpaceFixer_eq_bot (S : Setting z E F) {a : G} {w : ℕ} (h : Sec
 theorem eq_of_apply_aVec_eq_of_inf_commSpaceFixer_eq_bot (S : Setting z E F) {a : G} {w : ℕ}
     (h : Sec3Hyp S a w) {R : Subgroup (Hbar z)} (hR : Odd (Nat.card R))
     (hLR : Lbar S a ≤ Subgroup.normalizer (R : Set (Hbar z)))
-    {r : Hbar z} (hr : r ∈ Rbar S a) (hr1 : r ≠ 1)
+    {r : Hbar z} (hr : r ∈ Rbar S a) (_hr1 : r ≠ 1)
     (hYbot : R ⊓ commSpaceFixer S r = ⊥) {y y' : R}
     (hval : rhoLin S (y : Hbar z) (aVec S h.mem_Q) =
       rhoLin S (y' : Hbar z) (aVec S h.mem_Q)) : y = y' := by
@@ -282,20 +282,20 @@ theorem card_le_three_of_odd (S : Setting z E F) {a : G} {w : ℕ} (h : Sec3Hyp 
         (isA2Hbar_of_mem_Rbar S h.mem_Q h.isConj h.not_mem_ZQ h.mem_Qa
           h.centerIn_Qa_not_le_Q r hrR hr1)).2.2.2.1
   have hcardW : Nat.card W = 4 := by
-    haveI : Finite (Additive (QbarOf S)) := inferInstance
-    haveI : Finite W :=
+    have : Finite (Additive (QbarOf S)) := inferInstance
+    have : Finite W :=
       Finite.of_injective (fun v : W => (v : Additive (QbarOf S))) Subtype.coe_injective
-    haveI : Module.Finite (ZMod 2) W := Module.Finite.of_finite
+    have : Module.Finite (ZMod 2) W := Module.Finite.of_finite
     rw [Module.natCard_eq_pow_finrank (K := ZMod 2) (V := W), hW2, Nat.card_zmod]
     norm_num
   have hcard : Nat.card {v : W // v ≠ 0} = 3 := by
-    haveI : Finite (Additive (QbarOf S)) := inferInstance
-    haveI : Finite W :=
+    have : Finite (Additive (QbarOf S)) := inferInstance
+    have : Finite W :=
       Finite.of_injective (fun v : W => (v : Additive (QbarOf S))) Subtype.coe_injective
-    haveI : Fintype W := Fintype.ofFinite W
+    have : Fintype W := Fintype.ofFinite W
     rw [Nat.card_eq_fintype_card]
     have h' : Fintype.card {v : W // v ≠ 0} = Fintype.card W - 1 := by
-      simpa using (Set.card_ne_eq (0 : W))
+      simp
     rw [h']
     have hW4 : Fintype.card W = 4 := by
       rw [← Nat.card_eq_fintype_card]

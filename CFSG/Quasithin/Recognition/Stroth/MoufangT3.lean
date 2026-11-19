@@ -26,6 +26,7 @@ noncomputable abbrev reflTwoL (t : ZMod (2 * n) → V) (ht : IsPolygonApartment 
   ((reflTwoN (D := D) (Γ := Γ) (n := n) t ht hn hP hT hM : ↥(moufangN D Γ n t)) :
     ↥(littleGroup D Γ n))
 
+omit [FaithfulSMul D V] in
 theorem moufangCartan_conj_mem {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t)
     (hn : 3 ≤ n) (hP : IsGeneralizedPolygon Γ n) (hT : IsThick Γ)
     {h k : ↥(littleGroup D Γ n)} (hh : h ∈ moufangCartan D Γ n t)
@@ -55,6 +56,7 @@ theorem reflTwoL_sq_mem_cartan {t : ZMod (2 * n) → V} (ht : IsPolygonApartment
   rw [moufangCartan]
   simpa [reflTwoL] using Subgroup.mem_subgroupOf.mp h
 
+omit [FaithfulSMul D V] in
 theorem mem_moufangCartan_of_fix_apartment {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t)
     (hn : 3 ≤ n) (hP : IsGeneralizedPolygon Γ n) (hT : IsThick Γ)
     {m : ↥(littleGroup D Γ n)} (hfix : ∀ k : ℤ, (m : D) • apt t k = apt t k) :
@@ -113,7 +115,7 @@ theorem action_one_moufang_inv {t : ZMod (2 * n) → V} (ht : IsPolygonApartment
       CFSG.GH74.BNPair.conjBy (reflOneL (D := D) (Γ := Γ) (n := n) t ht hn hP hT hM)⁻¹
           (rootL (D := D) (Γ := Γ) (n := n) t (-i)) =
         rootL (D := D) (Γ := Γ) (n := n) t (-((n : ℤ) + 2 - i)) := by
-  haveI : (cartan (moufangB D Γ n t) (moufangN D Γ n t)).Normal :=
+  have : (cartan (moufangB D Γ n t) (moufangN D Γ n t)).Normal :=
     moufangCartan_normal (t := t) ht hn hP hT
   have hR := isRootGroupSystem_moufang (t := t) ht hn hP hT hM
   have hinv : ∀ i, IsRoot n i → ∀ h ∈ moufangCartan D Γ n t,
@@ -147,7 +149,7 @@ theorem action_two_moufang_inv {t : ZMod (2 * n) → V} (ht : IsPolygonApartment
       CFSG.GH74.BNPair.conjBy (reflTwoL (D := D) (Γ := Γ) (n := n) t ht hn hP hT hM)⁻¹
           (rootL (D := D) (Γ := Γ) (n := n) t (-i)) =
         rootL (D := D) (Γ := Γ) (n := n) t (-((n : ℤ) - i)) := by
-  haveI : (cartan (moufangB D Γ n t) (moufangN D Γ n t)).Normal :=
+  have : (cartan (moufangB D Γ n t) (moufangN D Γ n t)).Normal :=
     moufangCartan_normal (t := t) ht hn hP hT
   have hR := isRootGroupSystem_moufang (t := t) ht hn hP hT hM
   have hinv : ∀ i, IsRoot n i → ∀ h ∈ moufangCartan D Γ n t,
@@ -206,10 +208,10 @@ theorem rank_one_moufang {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n 
   let vL : ↥(littleGroup D Γ n) := ⟨v, hvL⟩
   let wL : ↥(littleGroup D Γ n) := ⟨w, hwL⟩
   have hvroot : vL ∈ rootL (D := D) (Γ := Γ) (n := n) t (-1) := by
-    rw [rootL, Subgroup.mem_subgroupOf, rootD, if_neg (by omega)]
+    rw [rootL, Subgroup.mem_subgroupOf, rootD, ite_eq_right (by omega)]
     simpa [vL, show (n : ℤ) - (-1) = 1 + (n : ℤ) by ring] using hv
   have hwroot : wL ∈ rootL (D := D) (Γ := Γ) (n := n) t (-1) := by
-    rw [rootL, Subgroup.mem_subgroupOf, rootD, if_neg (by omega)]
+    rw [rootL, Subgroup.mem_subgroupOf, rootD, ite_eq_right (by omega)]
     simpa [wL, show (n : ℤ) - (-1) = 1 + (n : ℤ) by ring] using hw
   let mL : ↥(littleGroup D Γ n) := vL * z * wL
   have hmL : (mL : D) = v * (z : D) * w := by
@@ -297,7 +299,7 @@ theorem rank_two_moufang {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n 
     simpa [z, mul_assoc] using this
   have hzD : (z : D) ∈ aptRoot D Γ n t (n : ℤ) := by
     have h := Subgroup.mem_subgroupOf.mp hzroot
-    simpa only [rootD, if_pos (by omega : (0 : ℤ) < (n : ℤ))] using h
+    simpa only [rootD, ite_eq_left (by omega : (0 : ℤ) < (n : ℤ))] using h
   have hz1D : (z : D) ≠ 1 := fun h => hz1 (Subtype.ext h)
   obtain ⟨v, hv, w, hw, hactm, -⟩ :=
     exists_reflection_apt (t := t) ht hn hP hT hM (i := (n : ℤ)) (u := (z : D)) hzD hz1D
@@ -308,10 +310,10 @@ theorem rank_two_moufang {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n 
   let vL : ↥(littleGroup D Γ n) := ⟨v, hvL⟩
   let wL : ↥(littleGroup D Γ n) := ⟨w, hwL⟩
   have hvroot : vL ∈ rootL (D := D) (Γ := Γ) (n := n) t (-(n : ℤ)) := by
-    rw [rootL, Subgroup.mem_subgroupOf, rootD, if_neg (by omega)]
+    rw [rootL, Subgroup.mem_subgroupOf, rootD, ite_eq_right (by omega)]
     simpa [vL, show (n : ℤ) - (-(n : ℤ)) = (n : ℤ) + (n : ℤ) by ring] using hv
   have hwroot : wL ∈ rootL (D := D) (Γ := Γ) (n := n) t (-(n : ℤ)) := by
-    rw [rootL, Subgroup.mem_subgroupOf, rootD, if_neg (by omega)]
+    rw [rootL, Subgroup.mem_subgroupOf, rootD, ite_eq_right (by omega)]
     simpa [wL, show (n : ℤ) - (-(n : ℤ)) = (n : ℤ) + (n : ℤ) by ring] using hw
   let mL : ↥(littleGroup D Γ n) := vL * z * wL
   have hmL : (mL : D) = v * (z : D) * w := by
@@ -395,9 +397,9 @@ theorem moufangN_eq_closure {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ
       {reflOneL (D := D) (Γ := Γ) (n := n) t ht hn hP hT hM,
        reflTwoL (D := D) (Γ := Γ) (n := n) t ht hn hP hT hM}) =
       moufangN D Γ n t := by
-  haveI hcart : (cartan (moufangB D Γ n t) (moufangN D Γ n t)).Normal :=
+  have hcart : (cartan (moufangB D Γ n t) (moufangN D Γ n t)).Normal :=
     moufangCartan_normal (t := t) ht hn hP hT
-  haveI hH : ((moufangCartan D Γ n t).subgroupOf (moufangN D Γ n t)).Normal := by
+  have hH : ((moufangCartan D Γ n t).subgroupOf (moufangN D Γ n t)).Normal := by
     simpa [cartan, moufangCartan] using hcart
   have h₁ : reflOneL (D := D) (Γ := Γ) (n := n) t ht hn hP hT hM ∈ moufangN D Γ n t :=
     (reflOneN (D := D) (Γ := Γ) (n := n) t ht hn hP hT hM).2
@@ -444,7 +446,7 @@ theorem moufangN_eq_closure {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ
   exact closure_union_pair_eq_of_quotient_closure_eq_top
     (H := moufangCartan D Γ n t) (N := moufangN D Γ n t) hHN h₁ h₂ hgen
 
-noncomputable def moufangCore {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t)
+theorem moufangCore {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t)
     (hn : 3 ≤ n) (hP : IsGeneralizedPolygon Γ n) (hT : IsThick Γ)
     (hM : MoufangCondition D Γ n) :
     RGD2Core n (moufangCartan D Γ n t)
@@ -452,7 +454,7 @@ noncomputable def moufangCore {t : ZMod (2 * n) → V} (ht : IsPolygonApartment 
       (reflTwoL (D := D) (Γ := Γ) (n := n) t ht hn hP hT hM)
       (rootU (D := D) (Γ := Γ) (n := n) t)
       (rootL (D := D) (Γ := Γ) (n := n) t) := by
-  haveI : (cartan (moufangB D Γ n t) (moufangN D Γ n t)).Normal :=
+  have : (cartan (moufangB D Γ n t) (moufangN D Γ n t)).Normal :=
     moufangCartan_normal (t := t) ht hn hP hT
   exact
     { three_le := hn
@@ -611,7 +613,7 @@ theorem isTitsSystem_moufang {t : ZMod (2 * n) → V} (ht : IsPolygonApartment �
     IsTitsSystem (moufangB D Γ n t) (moufangN D Γ n t)
       {titsW1 (D := D) (Γ := Γ) (n := n) t ht hn hP hT hM,
        titsW2 (D := D) (Γ := Γ) (n := n) t ht hn hP hT hM} := by
-  letI : (cartan (moufangB D Γ n t) (moufangN D Γ n t)).Normal :=
+  let : (cartan (moufangB D Γ n t) (moufangN D Γ n t)).Normal :=
     moufangCartan_normal (t := t) ht hn hP hT
   have hgen := moufangB_sup_moufangN_eq_top (t := t) ht hn hP hT hM
   have hord : ∀ i : Fin 2,

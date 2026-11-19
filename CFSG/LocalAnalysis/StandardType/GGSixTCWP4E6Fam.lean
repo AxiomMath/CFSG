@@ -66,13 +66,13 @@ theorem family_vectors
       (∀ u γ, IsRoot .E6 γ → (rootChar (a u) γ = 1 ↔ (p : ℤ) ∣ ∑ j, γ j * v u j)) ∧
       (∀ u γ, IsRoot .E6 γ →
         (p : ℤ) ∣ (∑ j, (S.ρ γ) j * v u j) - (S.D.q : ℤ) * ∑ j, γ j * v u j) := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hcast : ((p : ℕ) : Lf) ≠ 0 := by
     intro h
     exact hp2 ((Nat.prime_dvd_prime_iff_eq Nat.prime_two hp).1
       ((CharP.cast_eq_zero_iff Lf 2 p).1 h)).symm
-  haveI : NeZero ((p : ℕ) : Lf) := ⟨hcast⟩
-  obtain ⟨ε, hε⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot Lf p
+  have : NeZero ((p : ℕ) : Lf) := ⟨hcast⟩
+  obtain ⟨ε, hε⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot Lf p
   have hu0 : IsUnit ε := hε.isUnit hp.ne_zero
   obtain ⟨ζ, hζε⟩ : ∃ ζ : Lfˣ, (ζ : Lf) = ε := ⟨hu0.unit, hu0.unit_spec⟩
   have hζ : IsPrimitiveRoot ζ p := by

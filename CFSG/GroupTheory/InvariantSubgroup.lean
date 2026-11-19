@@ -25,7 +25,7 @@ theorem map_conjSubgroup {G K : Type*} [Group G] [Group K] (f : G →* K) (A : S
 theorem isPGroup_closure_of_le_nilpotent {Y : Type} [Group Y] [Finite Y] {A : Subgroup Y}
     [Group.IsNilpotent A] {S : Set Y} (hSA : S ⊆ A) (hS : ∀ s ∈ S, s * s = 1) :
     IsPGroup 2 (Subgroup.closure S) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set S' : Set A := {a | (a : Y) ∈ S} with hS'
   have h1 : IsPGroup 2 (Subgroup.closure S') :=
     CFSG.GroupTheory.isPGroup_closure_of_isNilpotent (p := 2) (S := S') fun s hs => by
@@ -50,7 +50,7 @@ theorem isPGroup_sup_iff_map_center {Y : Type} [Group Y] [Finite Y] {A : Subgrou
       IsPGroup 2 ↥(A.map (QuotientGroup.mk' (Subgroup.center Y)) ⊔
         conjSubgroup (QuotientGroup.mk' (Subgroup.center Y) y)
           (A.map (QuotientGroup.mk' (Subgroup.center Y)))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set π := QuotientGroup.mk' (Subgroup.center Y) with hπ
   have hmap : (A ⊔ conjSubgroup y A).map π =
       A.map π ⊔ conjSubgroup (π y) (A.map π) := by

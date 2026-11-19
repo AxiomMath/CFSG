@@ -43,10 +43,10 @@ theorem isChevTwoLayered_C3Levi {f : ℕ} (hK : Nat.card K = 2 ^ f) :
     simp [TauCeti.PrimePower.card_def]
   obtain ⟨-, K', _, _, hK', ⟨e⟩⟩ :=
     CFSG.GH74.Generic.stated_of_lieModel_PSp (F4Pilot.lieModel_C3Levi hK)
-  haveI : Finite ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.B 3 q, hv⟩) :=
+  have : Finite ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.B 3 q, hv⟩) :=
     CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField ⟨.B 3 q, hv⟩
-  haveI : Fintype K' := Fintype.ofFinite K'
-  haveI : Fintype ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.B 3 q, hv⟩) :=
+  have : Fintype K' := Fintype.ofFinite K'
+  have : Fintype ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.B 3 q, hv⟩) :=
     Fintype.ofFinite _
   have hFcard : Fintype.card ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.B 3 q, hv⟩) =
       Fintype.card K' := by
@@ -87,7 +87,7 @@ theorem isChevTwoLayered_a5Levi {f : ℕ} (hK : Nat.card K = 2 ^ f) :
   obtain ⟨K', _, _, hK', ⟨e⟩⟩ :=
     CFSG.LocalAnalysis.ComponentInitial.LinearCover.exists_mulEquiv_projectiveSL_of_lieModel
       (E6Pilot.lieModel_a5Levi hK)
-  haveI : Fintype K' := Fintype.ofFinite K'
+  have : Fintype K' := Fintype.ofFinite K'
   have eCat := CFSG.HardMathSupport.Curtis.Coordinator.SeitzOuter.catEquivProjectiveSL
     (m := 5) (k := K') (ℓ := 2) (e := f) Nat.prime_two (by omega) hK' hv
   have hchev : IsChevSimple 2 ↥(E6Pilot.a5Levi K) :=
@@ -130,7 +130,7 @@ theorem isChevTwoLayered_e7Levi {f : ℕ} (hK : Nat.card K = 2 ^ f) :
   have hv : (TauCeti.LieTypeIndex.E7 q).Valid := by
     rw [TauCeti.LieTypeIndex.valid_iff, TauCeti.LieTypeIndex.inStandardRange_iff,
       TauCeti.LieTypeIndex.isDuplicateRepresentative_iff]
-    simp [TauCeti.PrimePower.card_def]
+    simp
   obtain ⟨b⟩ := (CFSG.TauCetiBridge.Even.chevalleyBridgesAll).e7 q hv K (by rw [hK, hqcard])
   have hchev : IsChevSimple 2 ↥(E8Pilot.e7Levi K) :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieComp.isChevSimple_of_lie ⟨.E7 q, hv⟩
@@ -469,7 +469,7 @@ section TagF4
 
 theorem ggRootInvolModelTypedTag_F4 : GGRootInvolModelTypedTag .F4 := by
   intro X _ _ n f ψ hadm hrank hker hC r hr
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hf : 1 ≤ f := hadm.2.1
   have hK : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)
   have hψ := AutSt.ker_eq_center hker hC
@@ -498,7 +498,7 @@ section TagE6
 
 theorem ggRootInvolModelTypedTag_E6 : GGRootInvolModelTypedTag .E6 := by
   intro X _ _ n f ψ hadm hrank hker hC r hr
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hf : 1 ≤ f := hadm.2.1
   have hK : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)
   have hψ := AutSt.ker_eq_center hker hC
@@ -531,7 +531,7 @@ section TagE7
 
 theorem ggRootInvolModelTypedTag_E7 : GGRootInvolModelTypedTag .E7 := by
   intro X _ _ n f ψ hadm hrank hker hC r hr
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hf : 1 ≤ f := hadm.2.1
   have hK : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)
   have hψ := AutSt.ker_eq_center hker hC
@@ -564,7 +564,7 @@ section TagE8
 
 theorem ggRootInvolModelTypedTag_E8 : GGRootInvolModelTypedTag .E8 := by
   intro X _ _ n f ψ hadm hrank hker hC r hr
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hf : 1 ≤ f := hadm.2.1
   have hK : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)
   have hψ := AutSt.ker_eq_center hker hC

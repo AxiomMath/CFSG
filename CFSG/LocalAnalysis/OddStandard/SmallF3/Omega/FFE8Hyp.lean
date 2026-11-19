@@ -101,7 +101,7 @@ theorem ffE8Hyp_exists_ab (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3)
         (QuadraticMap.two_nsmul_associated (S := ZMod 3)
           (QuadraticMap.weightedSumSquares (ZMod 3) (fun i => (w i : ZMod 3))))
         (Pi.single 0 (1 : ZMod 3))) (Pi.single 1 (1 : ZMod 3))
-      simp only [LinearMap.smul_apply, Pi.smul_apply, nsmul_eq_mul] at h
+      simp only [LinearMap.smul_apply, nsmul_eq_mul] at h
       have hcast : (↑(2 : ℕ) : ZMod 3) = 2 := by norm_num
       rw [hcast] at h
       simpa only [smul_eq_mul] using h

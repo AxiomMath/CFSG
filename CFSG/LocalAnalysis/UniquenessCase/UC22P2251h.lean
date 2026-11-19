@@ -74,7 +74,7 @@ theorem exists_isChev {M K : Subgroup G} (hK : K ∈ calC M) (hbs : BadShape22 (
     rcases hbs with h | h
     · refine ⟨5, Nat.prime_five, by norm_num, ?_⟩
       obtain ⟨eA⟩ := BadShape22.nonempty_mulEquiv_alt_five_of_isL2Ev_two h
-      haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+      have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
       have hK5 : Nat.card (GaloisField 5 1) = 5 ^ 1 := GaloisField.card 5 1 one_ne_zero
       obtain ⟨e5⟩ := CFSG.ClassicalModels.nonempty_statedLinearModel_equiv_alternating_five (GaloisField 5 1)
         (Or.inr (by rw [hK5, pow_one]))
@@ -85,6 +85,7 @@ theorem exists_isChev {M K : Subgroup G} (hK : K ∈ calC M) (hbs : BadShape22 (
   obtain ⟨p, hp, hp2, hm⟩ := key
   exact ⟨p, hp, hp2, .PSL, 2, 1, hm.admissible, CFSG.Blueprint.LieModel.of_mulEquiv e.symm hm⟩
 
+omit [Finite G] in
 theorem conj_mem_opp {X : Subgroup G} {w : G} (hw : w ∈ normalizer (X : Set G)) (p : ℕ) {x : G}
     (hx : x ∈ Opp p X) : w * x * w⁻¹ ∈ Opp p X := by
   have h1 : X.map (MulAut.conj w).toMonoidHom = X := mem_normalizer_iff_map_conj_eq.mp hw
@@ -96,14 +97,15 @@ theorem conj_mem_opp {X : Subgroup G} {w : G} (hw : w ∈ normalizer (X : Set G)
   rw [← h2] at h3
   exact h3
 
+omit [Finite G] in
 theorem mem_pCoreOf_iff {K : Subgroup G} (x : ↥K) : (x : G) ∈ pCoreOf 2 K ↔ x ∈ CFSG.pCore 2 ↥K :=
   mem_map_iff_mem K.subtype_injective
 
 theorem exists_mem_inf_centralizer {A K : Subgroup G} {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) (hA : IsPGroup r A)
     (hAK : A ≤ normalizer (K : Set G)) (hc : ⁅A, K⁆ ≤ pCoreOf 2 K) {b : G} (hb : b ∈ K) :
     ∃ y ∈ K ⊓ centralizer (A : Set G), b⁻¹ * y ∈ pCoreOf 2 K := by
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact r.Prime := ⟨hr⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hF : ¬ r ∣ Nat.card (pCoreOf 2 K) := by
     intro hd
     obtain ⟨k, hk⟩ := (uc22main1_isPGroup_pCoreOf K).exists_card_eq
@@ -133,6 +135,7 @@ theorem exists_mem_inf_centralizer {A K : Subgroup G} {r : ℕ} (hr : r.Prime) (
 @[expose] def barMap {Y K : Subgroup G} (hYK : Y ≤ K) : ↥Y →* Bar2 K :=
   (QuotientGroup.mk' (CFSG.pCore 2 ↥K)).comp (inclusion hYK)
 
+omit [Finite G] in
 theorem barMap_surjective {Y K : Subgroup G} (hYK : Y ≤ K)
     (hcov : ∀ b ∈ K, ∃ y ∈ Y, b⁻¹ * y ∈ pCoreOf 2 K) : Function.Surjective (barMap hYK) := by
   intro z
@@ -147,8 +150,8 @@ theorem barMap_surjective {Y K : Subgroup G} (hYK : Y ≤ K)
 
 theorem nonempty_bar2_equiv {Y K : Subgroup G} (hYK : Y ≤ K) (hcov : ∀ b ∈ K, ∃ y ∈ Y, b⁻¹ * y ∈ pCoreOf 2 K)
     (hK : LayerShape22 (Bar2 K)) : Nonempty (Bar2 Y ≃* Bar2 K) := by
-  haveI := hK.isSimpleGroup
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hK.isSimpleGroup
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsurj := barMap_surjective hYK hcov
   have hker : (barMap hYK).ker = (CFSG.pCore 2 ↥K).comap (inclusion hYK) := by
     rw [barMap, ← MonoidHom.comap_ker, QuotientGroup.ker_mk']
@@ -175,8 +178,8 @@ theorem nonempty_bar2_equiv {Y K : Subgroup G} (hYK : Y ≤ K) (hcov : ∀ b ∈
 
 theorem eq_opp_sup {Y K : Subgroup G} (hYK : Y ≤ K) (hcov : ∀ b ∈ K, ∃ y ∈ Y, b⁻¹ * y ∈ pCoreOf 2 K)
     (hK : LayerShape22 (Bar2 K)) : K = Opp 3 Y ⊔ pCoreOf 2 K := by
-  haveI := hK.isSimpleGroup
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := hK.isSimpleGroup
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hXY : Opp 3 Y ≤ Y := by
     unfold Opp CFSG.RankThree.PartOne.pElementSubgroup
     exact (closure_le Y).2 fun x hx => hx.1
@@ -231,7 +234,7 @@ theorem uc22p2251h_exists_A (D : Data G) (Ch : Choice2011 G) (hH : H1930 D) (c :
   let c' : Ctx21 D Ch := { c with B := c.B0, hB := c.hB0, hle := le_rfl }
   have h3 : ¬ 3 ∣ Nat.card c.B0 := by
     intro h3
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥c.B0) 3 h3
     have hcard : Nat.card (zpowers (x : G)) = 3 := by rw [Nat.card_zpowers, orderOf_coe, hx]
     have hAB : zpowers (x : G) ≤ c.B0 := zpowers_le.2 x.2
@@ -258,14 +261,14 @@ theorem uc22p2251h_exists_A (D : Data G) (Ch : Choice2011 G) (hH : H1930 D) (c :
     have h' : r ∈ etaSet c.n := ⟨hr, hrn⟩
     rw [← c.hpi] at h'
     exact h'.2
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥c.B0) r hrB
   have hxo : orderOf (x : G) = r := by rw [orderOf_coe, hx]
   have hAB : zpowers (x : G) ≤ c.B0 := zpowers_le.2 x.2
   have hAcard : Nat.card (zpowers (x : G)) = r := by rw [Nat.card_zpowers, hxo]
   refine ⟨zpowers (x : G), hAB, hAcard ▸ hr, hAcard ▸ hr7, s21_2 D Ch hH c' _ hAB, ?_, ?_⟩
   · intro htop
-    haveI := D.standing.simple
+    have := D.standing.simple
     rcases (normalizer_eq_top_iff.1 htop).eq_bot_or_eq_top with h | h
     · rw [h, card_bot] at hAcard
       exact hr.one_lt.ne hAcard
@@ -283,7 +286,7 @@ theorem uc22p2251h_cover {M A K : Subgroup G} (hKM : K ≤ M) (hKn : (K.subgroup
       K = (K ⊓ centralizer (A : Set G)) ⊔ pCoreOf 2 K ∧
       Nonempty (Bar2 (K ⊓ centralizer (A : Set G)) ≃* Bar2 K) ∧
       K = Opp 3 (K ⊓ centralizer (A : Set G)) ⊔ pCoreOf 2 K := by
-  haveI : Fact (Nat.card A).Prime := ⟨hA⟩
+  have : Fact (Nat.card A).Prime := ⟨hA⟩
   have hAK : A ≤ normalizer (K : Set G) := hAM.trans ((normal_subgroupOf_iff_le_normalizer hKM).1 hKn)
   have hcov : ∀ b ∈ K, ∃ y ∈ K ⊓ centralizer (A : Set G), b⁻¹ * y ∈ pCoreOf 2 K := fun b hb =>
     exists_mem_inf_centralizer hA hA2 (IsPGroup.of_card (n := 1) (pow_one _).symm) hAK hc hb

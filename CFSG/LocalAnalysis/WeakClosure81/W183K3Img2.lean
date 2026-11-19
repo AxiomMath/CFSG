@@ -42,7 +42,7 @@ theorem br3_twoComp (x : Ctx188 D V₀ V H i j) (M : ModDataE H (eOmegaZ H D.T))
   classical
   have hQkeep := hQ
   obtain ⟨X, hXgrp, φ, hφs, hφk, hXsimple, hXnab⟩ := hQkeep
-  letI : Group X := hXgrp
+  let : Group X := hXgrp
   have hKL : kerMV V H ≤ L := hLc.2.1
   have hLH : L ≤ H := hLc.2.2.1
   have hDT : D.T ≤ H := x.hyp.hyp171.2.1
@@ -448,7 +448,7 @@ theorem br3_twoComp (x : Ctx188 D V₀ V H i j) (M : ModDataE H (eOmegaZ H D.T))
         exact Z.inv_mem hmem
       have hFΛle : ⁅F', M.img L ⊔ M.img L₂⁆ ≤ Z := by
         refine Subgroup.commutator_le.mpr fun f hf x hx => ?_
-        haveI : ((M.img L₂).subgroupOf (M.img L ⊔ M.img L₂)).Normal :=
+        have : ((M.img L₂).subgroupOf (M.img L ⊔ M.img L₂)).Normal :=
           (Subgroup.normal_subgroupOf_iff_le_normalizer le_sup_right).mpr hΛnormL₂
         have hxsub : (⟨x, hx⟩ : ↥(M.img L ⊔ M.img L₂)) ∈
             (M.img L).subgroupOf (M.img L ⊔ M.img L₂) ⊔
@@ -524,7 +524,7 @@ theorem br3_twoComp (x : Ctx188 D V₀ V H i j) (M : ModDataE H (eOmegaZ H D.T))
       rw [hKt] at h1
       simpa [MulAut.conj_apply, mul_assoc] using h1
   obtain ⟨X₂, hX₂grp, φ₂, hφ₂s, hφ₂k, hX₂simple, hX₂nab⟩ := hQ₂
-  letI : Group X₂ := hX₂grp
+  let : Group X₂ := hX₂grp
   obtain ⟨θ₂, hθ₂s, hθ₂k⟩ :=
     w183K3Img2_quot_of_shape M hL₂H hL₂c.2.1 hρker hKk' φ₂ hφ₂s hφ₂k
   have hquasi₂ := w183K3Img2_quasi_of_quot (A := M.img L₂) (Z' := Z) hZleL₂ hZcL₂
@@ -754,7 +754,7 @@ theorem br3_twoComp (x : Ctx188 D V₀ V H i j) (M : ModDataE H (eOmegaZ H D.T))
       have hmemZ : y ∈ Z := Subgroup.mem_map.mpr ⟨⟨y, hy⟩, hy', rfl⟩
       exact hΛle (hZleΛ hmemZ)
     · intro y hy
-      haveI := hΛn
+      have := hΛn
       have hyX : (⟨y, hy⟩ : ↥(M.img H)) ∈
           ((M.img L ⊔ M.img L₂).subgroupOf (M.img H)) ⊔
             ((M.img D.T).subgroupOf (M.img H)) := by
@@ -766,7 +766,7 @@ theorem br3_twoComp (x : Ctx188 D V₀ V H i j) (M : ModDataE H (eOmegaZ H D.T))
   · exact hZjoin
   · intro P hP hQ'
     obtain ⟨X', hX'grp, φ', hφ's, hφ'k, hPX'⟩ := hQ'
-    letI : Group X' := hX'grp
+    let : Group X' := hX'grp
     obtain ⟨θ', hθ's, hθ'k⟩ :=
       w183K3Img2_quot_of_shape M hLH hKL hρker hKk' φ' hφ's hφ'k
     exact hP X' (↥L₁ ⧸ Subgroup.center ↥L₁)

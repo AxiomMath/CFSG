@@ -41,8 +41,8 @@ theorem w16l_one_shape' {L : Type} [Group L] [Finite L] {W : Type} [AddCommGroup
   rcases hmain with h1 | ⟨h3, x, hx, y, hy, hxy⟩
   · exact Or.inl h1
   · refine Or.inr ⟨?_, h3⟩
-    haveI : Fact p.Prime := ⟨hp⟩
-    haveI : Fact (IsPGroup p ↥(fusionOddCore L)) := ⟨IsPGroup.of_card h3⟩
+    have : Fact p.Prime := ⟨hp⟩
+    have : Fact (IsPGroup p ↥(fusionOddCore L)) := ⟨IsPGroup.of_card h3⟩
     have hpow : ∀ g : ↥(fusionOddCore L), g ^ p = 1 :=
       fun g => Subtype.ext (by simpa using hexpE g.1 g.2)
     have hexpK : Monoid.exponent ↥(fusionOddCore L) = p := by

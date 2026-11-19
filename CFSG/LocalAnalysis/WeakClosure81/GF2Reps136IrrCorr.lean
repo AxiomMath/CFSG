@@ -13,6 +13,7 @@ open scoped commutatorElement Pointwise Matrix
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 private theorem w1369_commSub_map_conj (U : Subgroup W) (X : Subgroup (MulAut W))
     (g : MulAut W) :
     commSub (U.map g.toMonoidHom) (X.map (MulAut.conj g).toMonoidHom) =
@@ -27,13 +28,14 @@ private theorem w1369_commSub_map_conj (U : Subgroup W) (X : Subgroup (MulAut W)
     obtain ⟨w₀, hw₀, rfl⟩ := hw
     refine ⟨x₀ w₀ * w₀⁻¹, ⟨x₀, hx₀, w₀, hw₀, rfl⟩, ?_⟩
     simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, MulAut.mul_apply,
-      MulAut.apply_inv_self, MulAut.inv_apply_self, map_mul, map_inv]
+      MulAut.inv_apply_self, map_mul, map_inv]
   · rintro ⟨s, hs, rfl⟩
     obtain ⟨x₀, hx₀, w₀, hw₀, rfl⟩ := hs
     refine ⟨MulAut.conj g x₀, ⟨x₀, hx₀, rfl⟩, g w₀, ⟨w₀, hw₀, rfl⟩, ?_⟩
     simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, MulAut.mul_apply,
-      MulAut.apply_inv_self, MulAut.inv_apply_self, map_mul, map_inv]
+      MulAut.inv_apply_self, map_mul, map_inv]
 
+omit [Finite W] in
 private theorem w1369_commSub_sup (A B : Subgroup W) (X : Subgroup (MulAut W)) :
     commSub (A ⊔ B) X = commSub A X ⊔ commSub B X := by
   apply le_antisymm
@@ -53,6 +55,7 @@ private theorem w1369_commSub_sup (A B : Subgroup W) (X : Subgroup (MulAut W)) :
       (Subgroup.subset_closure ⟨x, hx, b, hb, rfl⟩)
   · exact sup_le (commSub_mono le_sup_left le_rfl) (commSub_mono le_sup_right le_rfl)
 
+omit [Finite W] in
 private theorem w1369_stableUnder_commSub {L : Subgroup (MulAut W)} {M : Subgroup W}
     (hM : StableUnder L M) : StableUnder L (commSub M L) := by
   intro l hl u hu
@@ -69,6 +72,7 @@ private theorem w1369_stableUnder_commSub {L : Subgroup (MulAut W)} {M : Subgrou
   have : l u ∈ (commSub M L).map l.toMonoidHom := Subgroup.mem_map.mpr ⟨u, hu, rfl⟩
   rwa [← h] at this
 
+omit [Finite W] in
 private theorem w1369_stableUnder_sup {X : Subgroup (MulAut W)} {A B : Subgroup W}
     (hA : StableUnder X A) (hB : StableUnder X B) : StableUnder X (A ⊔ B) := by
   intro x hx u hu
@@ -76,12 +80,14 @@ private theorem w1369_stableUnder_sup {X : Subgroup (MulAut W)} {A B : Subgroup 
   rw [map_mul]
   exact Subgroup.mul_mem_sup (hA x hx a ha) (hB x hx b hb)
 
+omit [Finite W] in
 private theorem w1369_stableUnder_inf {X : Subgroup (MulAut W)} {A B : Subgroup W}
     (hA : StableUnder X A) (hB : StableUnder X B) : StableUnder X (A ⊓ B) := by
   intro x hx u hu
   obtain ⟨huA, huB⟩ := Subgroup.mem_inf.mp hu
   exact Subgroup.mem_inf.mpr ⟨hA x hx u huA, hB x hx u huB⟩
 
+omit [Finite W] in
 private theorem w1369_stableUnder_fixV (L : Subgroup (MulAut W)) : StableUnder L (fixV L) := by
   intro x hx u hu
   rw [mem_fixV] at hu ⊢
@@ -90,6 +96,7 @@ private theorem w1369_stableUnder_fixV (L : Subgroup (MulAut W)) : StableUnder L
     _ = u := hu (z * x) (L.mul_mem hz hx)
     _ = x u := (hu x hx).symm
 
+omit [Finite W] in
 private theorem w1369_inf_lt_iff_lt_sup {a b : Subgroup W} : a ⊓ b < b ↔ a < a ⊔ b := by
   constructor
   · intro h
@@ -99,6 +106,7 @@ private theorem w1369_inf_lt_iff_lt_sup {a b : Subgroup W} : a ⊓ b < b ↔ a <
     refine lt_of_le_of_ne inf_le_right fun hEq => ?_
     exact (ne_of_lt h) (sup_eq_left.mpr (inf_eq_right.mp hEq)).symm
 
+omit [Finite W] in
 private theorem w1369_map_mul_inv (U : Subgroup W) (g : MulAut W) :
     (U.map g.toMonoidHom).map (g⁻¹).toMonoidHom = U := by
   rw [Subgroup.map_map]
@@ -107,6 +115,7 @@ private theorem w1369_map_mul_inv (U : Subgroup W) (g : MulAut W) :
     simp
   rw [hcomp, Subgroup.map_id]
 
+omit [Finite W] in
 private theorem w1369_map_inv_mul (U : Subgroup W) (g : MulAut W) :
     (U.map (g⁻¹).toMonoidHom).map g.toMonoidHom = U := by
   rw [Subgroup.map_map]
@@ -115,6 +124,7 @@ private theorem w1369_map_inv_mul (U : Subgroup W) (g : MulAut W) :
     simp
   rw [hcomp, Subgroup.map_id]
 
+omit [Finite W] in
 private theorem w1369_isIrrOn_map_conj_iff (X : Subgroup (MulAut W)) (I N : Subgroup W)
     (g : MulAut W) :
     IsIrrOn (X.map (MulAut.conj g).toMonoidHom) (I.map g.toMonoidHom) (N.map g.toMonoidHom) ↔
@@ -170,7 +180,7 @@ private theorem w1369_isIrrOn_map_conj_iff (X : Subgroup (MulAut W)) (I N : Subg
         have hx' : g * x * g⁻¹ ∈ X.map (MulAut.conj g).toMonoidHom := ⟨x, hx, rfl⟩
         have hmem := hJ'stab _ hx' _ hu'
         exact Subgroup.mem_map.mpr ⟨(g * x * g⁻¹) u', hmem,
-          by simp [MulAut.conj_apply, MulAut.mul_apply]⟩
+          by simp [MulAut.mul_apply]⟩
       have hNJ : N ≤ J'.map (g⁻¹).toMonoidHom := by
         have h := Subgroup.map_mono (f := (g⁻¹).toMonoidHom) hNJ'
         rwa [w1369_map_mul_inv] at h
@@ -185,10 +195,11 @@ private theorem w1369_isIrrOn_map_conj_iff (X : Subgroup (MulAut W)) (I N : Subg
         have h' := congrArg (Subgroup.map g.toMonoidHom) h
         rwa [w1369_map_inv_mul] at h'
 
+omit [Finite W] in
 private theorem w1369_mem_perfect_chain (R : Subgroup (MulAut W)) (hR : ⁅R, R⁆ = R)
     (Y₀ Y₁ Y : Subgroup W) (h1 : commSub Y₁ R ≤ Y₀) (h2 : commSub Y R ≤ Y₁)
     {r : MulAut W} (hr : r ∈ R) {y : W} (hy : y ∈ Y) : r y * y⁻¹ ∈ Y₀ := by
-  haveI : Group.IsPerfect ↥R := Subgroup.isPerfect_iff.mpr hR
+  have : Group.IsPerfect ↥R := Subgroup.isPerfect_iff.mpr hR
   let θ : ↥R →* W ⧸ Y₀ :=
     { toFun := fun s => QuotientGroup.mk ((s : MulAut W) y * y⁻¹)
       map_one' := by simp
@@ -221,6 +232,7 @@ private theorem w1369_mem_perfect_chain (R : Subgroup (MulAut W)) (hR : ⁅R, R�
     exact hθ
   exact (QuotientGroup.eq_one_iff (r y * y⁻¹)).mp h1'
 
+omit [Finite W] in
 private theorem w1369_perfect_chain (R : Subgroup (MulAut W)) (hR : ⁅R, R⁆ = R)
     (Y₀ Y₁ Y : Subgroup W) (h1 : commSub Y₁ R ≤ Y₀) (h2 : commSub Y R ≤ Y₁) :
     commSub Y R ≤ Y₀ := by
@@ -228,6 +240,7 @@ private theorem w1369_perfect_chain (R : Subgroup (MulAut W)) (hR : ⁅R, R⁆ =
   rintro _ ⟨r, hr, y, hy, rfl⟩
   exact w1369_mem_perfect_chain R hR Y₀ Y₁ Y h1 h2 hr hy
 
+omit [Finite W] in
 theorem irr_stab {L : Subgroup (MulAut W)} {g : MulAut W}
     (hg : g ∈ Subgroup.normalizer (L : Set (MulAut W))) :
     (Wd L).map g.toMonoidHom = Wd L ∧ (Cd L).map g.toMonoidHom = Cd L ∧
@@ -251,7 +264,8 @@ theorem irr_stab {L : Subgroup (MulAut W)} {g : MulAut W}
     rw [hLmap, Subgroup.map_inf _ _ _ g.injective, ← fixV_map_conj_eq L g, hLmap] at h
     exact h
 
-theorem irr_to_sect (hw2 : ∀ w : W, w ^ 2 = 1) (L : Subgroup (MulAut W)) {I : Subgroup W}
+omit [Finite W] in
+theorem irr_to_sect (_hw2 : ∀ w : W, w ^ 2 = 1) (L : Subgroup (MulAut W)) {I : Subgroup W}
     (hI : I ∈ irrSet L) :
     I ≤ Wd L ∧ Cd L ≤ I ⊔ Cd L ∧ I ⊔ Cd L ≤ Wd L ∧ IsIrrOn L (I ⊔ Cd L) (Cd L) ∧
       commSub (I ⊔ Cd L) L = I := by
@@ -299,7 +313,8 @@ theorem irr_to_sect (hw2 : ∀ w : W, w ^ 2 = 1) (L : Subgroup (MulAut W)) {I : 
     rw [hCd_bot, sup_bot_eq] at h1
     exact h1.trans hIcomm
 
-theorem sect_to_irr (hw2 : ∀ w : W, w ^ 2 = 1) {L : Subgroup (MulAut W)} (hLp : ⁅L, L⁆ = L)
+omit [Finite W] in
+theorem sect_to_irr (_hw2 : ∀ w : W, w ^ 2 = 1) {L : Subgroup (MulAut W)} (hLp : ⁅L, L⁆ = L)
     {M : Subgroup W} (hCM : Cd L ≤ M) (hMW : M ≤ Wd L) (hM : IsIrrOn L M (Cd L)) :
     commSub M L ∈ irrSet L ∧ commSub M L ⊔ Cd L = M := by
   obtain ⟨hCdM, hMstab, hCdstab, hirr⟩ := hM

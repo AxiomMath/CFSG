@@ -289,7 +289,7 @@ private theorem ncard_kernelRoots_kg87bTv
       ↑((rootFinset Tag.E6).filter fun α => rootChar
         (CFSG.HardMathSupport.Timmesfeld.CrossChar.SmallQ3.torV ω ![0, 1, 0, 2, 0, 0]) α = 1) := by
     ext α
-    rw [Finset.coe_filter, Set.mem_setOf_eq, Set.mem_setOf_eq, mem_rootFinset]
+    rw [Finset.coe_filter, Set.mem_ofPred_eq, Set.mem_ofPred_eq, mem_rootFinset]
   rw [hset, Set.ncard_coe_finset]
   refine (CFSG.HardMathSupport.Solomon.Coordinator.ChevQ.E6Three.card_filter_rootChar_torV hω3 hω1
     _).trans ?_

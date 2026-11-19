@@ -118,7 +118,7 @@ theorem glU3_conj (d : Fin 3 → Kˣ) (t : K) :
   show _ * mU3 t * _ = mU3 _
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [mU3, Matrix.mul_apply, Matrix.diagonal_apply, mul_comm, mul_left_comm] <;>
+    simp [mU3, Matrix.mul_apply, Matrix.diagonal_apply, mul_comm, mul_left_comm];
       (left; ring)
 
 theorem wGeTwoSL3Even [Finite K] [CharP K 2] (h3 : 3 ∣ Nat.card K - 1) :

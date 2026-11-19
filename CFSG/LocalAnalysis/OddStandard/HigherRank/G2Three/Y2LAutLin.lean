@@ -77,7 +77,7 @@ theorem y2l_closure_T01_pGL :
   · exact h3
 
 theorem y2l_psiAut_range (h168 : Nat.card (MulAut M) = 168) : (y2l_psiAut eM).range = ⊤ := by
-  haveI : Finite (MulAut M) := Nat.finite_of_card_ne_zero (by rw [h168]; norm_num)
+  have : Finite (MulAut M) := Nat.finite_of_card_ne_zero (by rw [h168]; norm_num)
   apply Subgroup.eq_top_of_card_eq
   rw [h168, ← y2l_card_GL]
   exact (Nat.card_congr (MonoidHom.ofInjective (y2l_psiAut_injective eM)).toEquiv).symm

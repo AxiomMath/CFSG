@@ -34,6 +34,7 @@ theorem deltaZero_le_residual_sup_pPrimeCore (h : Sec17Std G A c L Y₀)
   calc K = oPrimeResidualOf 3 K := hK.2
     _ ≤ oPrimeResidualOf 3 X := oPrimeResidualOf_mono 3 hKX
 
+omit [Finite G] in
 theorem isEmpty_alt7_of_isL3TwoPow (hL3 : IsL3TwoPow L) :
     IsEmpty (↥L ⧸ aschbacherSolvableCore 3 ↥L ≃* alternatingGroup (Fin 7)) := by
   obtain ⟨n, hn, hIso⟩ := hL3
@@ -55,6 +56,7 @@ private theorem pCoreOf_two_oPrimeResidualOf_le_pPrimeCore (X : Subgroup G) :
   exact le_pPrimeCoreOf ((CFSG.LieType.BorelTits.pCoreOf_le 2 _).trans
     (oPrimeResidualOf_le_self 3 X)) hXV hcop
 
+omit [Finite G] in
 private theorem commutatorElement_mul_mem_pCoreOf {P L : Subgroup G} {c l p : G}
     (hLP : L ≤ Subgroup.normalizer (P : Set G))
     (hcP : c ∈ Subgroup.normalizer (P : Set G))
@@ -103,7 +105,7 @@ theorem commutatorElement_mem_pPrimeCore (h : Sec17Std G A c L Y₀)
     (Subgroup.normal_subgroupOf_iff_le_normalizer hPle).mpr hPN
   have hJP : ((oPrimeResidualOf 3 X ⊓ P).subgroupOf
       (oPrimeResidualOf 3 X)).Normal := by
-    haveI : (P.subgroupOf Y₀).Normal := hPnorm
+    have : (P.subgroupOf Y₀).Normal := hPnorm
     have h := Subgroup.inf_subgroupOf_inf_normal_of_left (A' := P) (A := Y₀)
       (B := oPrimeResidualOf 3 X)
     rwa [inf_comm P (oPrimeResidualOf 3 X), inf_eq_right.mpr hJY] at h
@@ -167,7 +169,7 @@ theorem pCoreOf_two_deltaZero_ne_bot (h : Sec17Std G A c L Y₀)
     generalizedFitting_deltaZero_eq h h149' hX
   have hDne : D ≠ ⊥ := fun h0 =>
     deltaZero_not_le_normalizer h hbot' hX hXM (by rw [← hD, h0]; exact bot_le)
-  haveI : Nontrivial ↥D := (Subgroup.nontrivial_iff_ne_bot D).mpr hDne
+  have : Nontrivial ↥D := (Subgroup.nontrivial_iff_ne_bot D).mpr hDne
   have hPdone : CFSG.pCore 2 ↥D ≠ ⊥ :=
     Sec15.Push153.pCore_ne_bot_of_nontrivial (X := ↥D) hFD
   intro h0

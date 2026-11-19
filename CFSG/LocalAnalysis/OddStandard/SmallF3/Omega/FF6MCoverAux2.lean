@@ -43,7 +43,7 @@ private theorem ff6m_twoRes_aux2 (hρ : OddCentralCover ρ) :
 
 theorem ff6m_cover_xTwoCore [Finite A] (hρ : OddCentralCover ρ) (h : XTwoCore B) :
     XTwoCore A := by
-  haveI : Finite B := Finite.of_surjective ρ hρ.surjective
+  have : Finite B := Finite.of_surjective ρ hρ.surjective
   let T : Subgroup A := twoRes (⊤ : Subgroup A)
   let TB : Subgroup B := twoRes (⊤ : Subgroup B)
   have hmapT : T.map ρ = TB := ff6m_twoRes_aux2 hρ
@@ -53,9 +53,9 @@ theorem ff6m_cover_xTwoCore [Finite A] (hρ : OddCentralCover ρ) (h : XTwoCore 
       map_mul' := fun x y => Subtype.ext (map_mul ρ (x : A) (y : A)) }
   let P : Subgroup ↥T := (CFSG.pCore 2 ↥TB).comap ψ
   have hPnormal : P.Normal := (CFSG.pCore_normal (p := 2) (G := ↥TB)).comap ψ
-  haveI := hPnormal
+  have := hPnormal
   have hPnil : Group.IsNilpotent ↥P := by
-    haveI : Group.IsNilpotent ↥(CFSG.pCore 2 ↥TB) :=
+    have : Group.IsNilpotent ↥(CFSG.pCore 2 ↥TB) :=
       (CFSG.pCore_isPGroup (p := 2) (G := ↥TB)).isNilpotent
     let ψ' : ↥P →* ↥(CFSG.pCore 2 ↥TB) :=
       (ψ.comp P.subtype).codRestrict _ (fun x => x.2)

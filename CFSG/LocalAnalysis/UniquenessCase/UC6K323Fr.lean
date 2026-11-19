@@ -121,8 +121,8 @@ theorem pow_pred_eq_one {g : GL (Fin 3) (ZMod p)} {n : ℕ} (hn : 0 < n) (hpn : 
   have hN3 : ∀ w : Fin 3 → ZMod p, N *ᵥ (N *ᵥ (N *ᵥ w)) = 0 := by
     intro w
     obtain ⟨s, t, r, rfl⟩ := hcoord w
-    simp only [Matrix.mulVec_add, Matrix.mulVec_smul, hNz, hNv, hNu, hN2v, hN2u, smul_zero,
-      zero_add, add_zero]
+    simp only [Matrix.mulVec_add, Matrix.mulVec_smul, hNz, hNv, hNu, smul_zero,
+      zero_add]
   have hMk : ∀ (k : ℕ) (w : Fin 3 → ZMod p), (M ^ k) *ᵥ w =
       w + (k : ZMod p) • (N *ᵥ w) + ((k.choose 2 : ℕ) : ZMod p) • (N *ᵥ (N *ᵥ w)) := by
     intro k

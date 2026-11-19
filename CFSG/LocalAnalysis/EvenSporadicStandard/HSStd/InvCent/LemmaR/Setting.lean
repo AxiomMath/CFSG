@@ -35,7 +35,7 @@ theorem setting_of_RHyp (hR : RHyp B B₀) (hO : fusionOddCore G = ⊥) {t : G}
     exact embA_mem_cent ζ a
   · intro d hd b hb
     exact conj_mem_map_embA ζ hR.normal hd hb
-  · haveI := hR.simple
+  · have := hR.simple
     exact (Subgroup.equivMapOfInjective B₀ (embA ζ) (embA_injective ζ)).symm.isSimpleGroup
   · obtain ⟨a, ha, b, hb, hab⟩ := hR.nonab
     refine ⟨embA ζ a, ⟨a, ha, rfl⟩, embA ζ b, ⟨b, hb, rfl⟩, ?_⟩

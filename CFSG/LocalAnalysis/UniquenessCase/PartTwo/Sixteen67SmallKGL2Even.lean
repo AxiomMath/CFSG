@@ -30,7 +30,7 @@ theorem s1667_kg_psl2_even_comm_two {J : Type} [Group J] [Finite J] {f : ℕ} (h
     (hJ : CFSG.Quasithin.IsPSL 2 2 f J) :
     ∀ P : Subgroup J, IsPGroup 2 P → ∀ a ∈ P, ∀ b ∈ P, a * b = b * a := by
   obtain ⟨e⟩ := CFSG.Quasithin.exists_mulEquiv_psl2_galoisField hf hJ
-  haveI : Finite (CFSG.GorensteinWalter.PSL2 (GaloisField 2 f)) := Finite.of_equiv J e.toEquiv
+  have : Finite (CFSG.GorensteinWalter.PSL2 (GaloisField 2 f)) := Finite.of_equiv J e.toEquiv
   intro P hP a ha b hb
   obtain ⟨U, hU⟩ := (hP.map e.toMonoidHom).exists_le_sylow
   have hcomm := (CFSG.Walter.psl2_even_sylow_two hf U).1
@@ -43,20 +43,20 @@ theorem s1667_kg_psl2_even_comm_two {J : Type} [Group J] [Finite J] {f : ℕ} (h
 theorem k67BPrimeOneAt_psl2_even {Q : Type} [Group Q] [Finite Q] (J : Subgroup Q) (hJ : J.Normal)
     (hC : centralizer (J : Set Q) = ⊥) {f : ℕ}
     (h : LieModel ↥J .PSL 2 2 f) : K67BPrimeOneAt Q J := by
-  haveI := hJ
+  have := hJ
   intro x hxJ hx3 A hA hAx hAn h4
   exfalso
   obtain ⟨hf2, hPSL⟩ := s1667_kg_l2even_params h
   obtain ⟨-, -, -, -, F, hF, hFin, hcard, ⟨e⟩⟩ :=
     CFSG.ComponentClassification.AutL2Facts.lieModel_psl2_data h
-  haveI : CharP F 2 := CFSG.Quasithin.Z4c2.charP_two_of_card_eq_two_pow (by simpa using hcard)
+  have : CharP F 2 := CFSG.Quasithin.Z4c2.charP_two_of_card_eq_two_pow (by simpa using hcard)
   let φ : Q →* MulAut ↥J := MulAut.conjNormal
   have hinj : Function.Injective φ := s1667_kg_conjNormal_injective J hC
   let E : Subgroup (MulAut ↥J) := A.map φ
   have hA2 : CFSG.Quasithin.IsElemAb2 A :=
     ⟨fun a ha b hb => comm_of_isElemAbelian hA ha hb, hA.2⟩
   have hE : CFSG.Quasithin.IsElemAb2 E := hA2.map φ
-  haveI : Finite ↥E := Finite.of_equiv ↥A (Subgroup.equivMapOfInjective A φ hinj).toEquiv
+  have : Finite ↥E := Finite.of_equiv ↥A (Subgroup.equivMapOfInjective A φ hinj).toEquiv
   have hcardE : Nat.card E = Nat.card A := Subgroup.card_map_of_injective hinj
   have hrk : 2 ≤ CFSG.Quasithin.rk E := by
     by_contra hlt
@@ -87,10 +87,10 @@ theorem k67BPrimeOneAt_psl2_even {Q : Type} [Group Q] [Finite Q] (J : Subgroup Q
   rw [hxord] at hdvd
   omega
 
-theorem k67CaseIIIAt_psl2_even {Q : Type} [Group Q] [Finite Q] (J : Subgroup Q) (hJ : J.Normal)
-    (hC : centralizer (J : Set Q) = ⊥) {f : ℕ}
+theorem k67CaseIIIAt_psl2_even {Q : Type} [Group Q] [Finite Q] (J : Subgroup Q) (_hJ : J.Normal)
+    (_hC : centralizer (J : Set Q) = ⊥) {f : ℕ}
     (h : LieModel ↥J .PSL 2 2 f) : K67CaseIIIAt Q J := by
-  haveI := hJ
+  have := _hJ
   intro x hxJ hx3 E hE hE4 hEJ hEx W hW hW1 hWx hWE hN
   obtain ⟨hf2, hPSL⟩ := s1667_kg_l2even_params h
   let x' : ↥J := ⟨x, hxJ⟩

@@ -16,7 +16,7 @@ theorem uc22ine229k_exists_conj_nine {M Y : Subgroup G} (hY : Y ∈ calC M) {n :
     (hX : IsSU3 (Bar2 Y) n) (h3 : 3 ∣ 2 ^ n + 1) (hnorm : ¬ M ≤ normalizer (Y : Set G)) :
     ∃ B₀ : Subgroup G, B₀ ≤ M ∧ IsElemAbelian 3 B₀ ∧ Nat.card B₀ = 3 ^ 2 ∧
       ∀ b ∈ B₀, ∀ y ∈ Y, b * y * b⁻¹ * y⁻¹ ∈ pCoreOf 2 M := by
-  obtain ⟨m, hmM, hmN⟩ := SetLike.not_le_iff_exists.1 hnorm
+  obtain ⟨m, hmM, hmN⟩ := IsConcreteLE.not_le_iff_exists.1 hnorm
   let π : ↥Y →* Bar2 Y := QuotientGroup.mk' (CFSG.pCore 2 ↥Y)
   obtain ⟨E₀, hE₀, hE₀c⟩ := uc22ine229u3e9_exists_elemAbelian_sq
     ((QuotientGroup.mk' (center (Bar2 Y))).comp π)
@@ -35,6 +35,7 @@ theorem uc22ine229k_exists_conj_nine {M Y : Subgroup G} (hY : Y ∈ calC M) {n :
     fun b hb y hy => uc22ine229_commutator_mem_of_ne hY' hY hne (Subgroup.map_mono hEY hb) hy⟩
   rw [Subgroup.card_map_of_injective f.injective, hEc]
 
+omit [Finite G] in
 private theorem conj_mem_pCoreOf {M : Subgroup G} {x o : G} (hx : x ∈ M)
     (ho : o ∈ pCoreOf 2 M) : x * o * x⁻¹ ∈ pCoreOf 2 M :=
   (Subgroup.mem_normalizer_iff.1
@@ -57,6 +58,7 @@ private def centO2 (M Y : Subgroup G) : Subgroup G where
     rw [h1]
     exact conj_mem_pCoreOf (M.inv_mem haM) (inv_mem (ha y hy))
 
+omit [Finite G] in
 private theorem mem_normalizer_of_map_eq {Y : Subgroup G} {a b : G}
     (h : Y.map (MulAut.conj a).toMonoidHom = Y.map (MulAut.conj b).toMonoidHom) :
     b⁻¹ * a ∈ normalizer (Y : Set G) := by
@@ -77,7 +79,7 @@ theorem uc22ine229k_exists_three_conj {M Y : Subgroup G} (hY : Y ∈ calC M)
       ∀ b ∈ B₀, ∀ y ∈ Y, b * y * b⁻¹ * y⁻¹ ∈ pCoreOf 2 M := by
   classical
   have hp3 : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp3⟩
+  have : Fact (Nat.Prime 3) := ⟨hp3⟩
   have h3Y' : 3 ∣ Nat.card ↥Y :=
     h3Y.trans (Subgroup.card_dvd_of_surjective (f := QuotientGroup.mk' (CFSG.pCore 2 ↥Y))
       (QuotientGroup.mk'_surjective _))

@@ -86,7 +86,7 @@ theorem commB : ((tabsOf crGenW).all fun g => commT 100 rBT g) = true := by
   rw [rBT, wT, commW (ppw' wB)]
   exact kCommP.2
 
-theorem any_rec {X : Nat} (hX : PP 100 7 X) {i : Nat} (hi : i < RH.CS.length)
+theorem any_rec {X : Nat} (hX : PP 100 7 X) {i : Nat} (_hi : i < RH.CS.length)
     (hE : ∀ k < lget RH.CS i, lget RH.OFF i + k < RH.N) :
     (Array.ofFn (n := lget RH.CS i) fun k => tabP 100 7 (RH.E (lget RH.OFF i + k.val))).toList.any
         (tblEq 100 (tabP 100 7 X)) =

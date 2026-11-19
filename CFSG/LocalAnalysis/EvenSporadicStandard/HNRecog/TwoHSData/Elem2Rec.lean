@@ -17,15 +17,15 @@ theorem nonempty_mulEquiv_elem2 {G : Type*} [Group G] (n : ℕ) (hsq : ∀ g : G
     calc g * h = (g * h)⁻¹ := eq_inv_of_mul_eq_one_left (hsq (g * h))
       _ = h⁻¹ * g⁻¹ := mul_inv_rev g h
       _ = h * g := by rw [hinv h, hinv g]
-  letI : CommGroup G := { ‹Group G› with mul_comm := hcomm }
-  haveI : Finite G :=
+  let : CommGroup G := { ‹Group G› with mul_comm := hcomm }
+  have : Finite G :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; exact pow_ne_zero n (by norm_num))
   have hsmul : ∀ x : Additive G, (2 : ℕ) • x = 0 := by
     intro x
     apply Additive.toMul.injective
     simp [pow_two, hsq x.toMul]
-  letI : Module (ZMod 2) (Additive G) := AddCommGroup.zmodModule (n := 2) hsmul
-  haveI : Fintype (Additive G) := Fintype.ofFinite (Additive G)
+  let : Module (ZMod 2) (Additive G) := AddCommGroup.zmodModule (n := 2) hsmul
+  have : Fintype (Additive G) := Fintype.ofFinite (Additive G)
   have hcard' : Fintype.card (Additive G) = 2 ^ n := by
     rw [← Nat.card_eq_fintype_card, Nat.card_congr Additive.toMul]
     exact hcard

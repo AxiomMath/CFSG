@@ -52,7 +52,7 @@ theorem signalizerAutAt_suzuki
   have hC : ∀ T : Sylow 5 K, ∀ t ∈ (T : Subgroup K), t ≠ 1 → ∀ g : K, g * t = t * g →
       g ∈ (T : Subgroup K) := fun T =>
     CFSG.AGLEmbedding.KFactProofs.Sz32Local.centralizer_le_of_equiv ε T
-  haveI : Finite (MulAut K) :=
+  have : Finite (MulAut K) :=
     Finite.of_injective (fun f : MulAut K => (f : K → K)) DFunLike.coe_injective
   have hcinj : Function.Injective (MulAut.conj : K →* MulAut K) :=
     SzSignalizer.conj_injective hSz hsimple
@@ -85,7 +85,7 @@ theorem signalizerAutAt_suzuki
   have hz1 : z ≠ 1 := by
     rintro rfl
     exact hb1 (by rw [← hz, map_one])
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hzord : orderOf z = 5 := orderOf_eq_prime hz5 hz1
   set Y' : Subgroup K := Y.comap (MulAut.conj : K →* MulAut K) with hY'
   have hmapY : Y'.map (MulAut.conj : K →* MulAut K) = Y := Subgroup.map_comap_eq_self hYK

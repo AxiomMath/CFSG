@@ -16,12 +16,12 @@ open CFSG CFSG.Blueprint CFSG.RankThree.Native CFSG.Monster.B.Co2 CFSG.Monster.B
 theorem exists_commute_notMem_zpowers_of_card_27 {G : Type} [Group G] [Finite G]
     (hG : Nat.card G = 27) {u : G} (hu3 : u ^ 3 = 1) (hu1 : u ≠ 1) :
     ∃ t : G, t * u = u * t ∧ t ∉ Subgroup.zpowers u := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf u = 3 := orderOf_eq_prime hu3 hu1
   have hcardU : Nat.card (Subgroup.zpowers u) = 3 := by rw [Nat.card_zpowers, hord]
   have hout : ∃ t : G, t ∉ Subgroup.zpowers u := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have htop : Subgroup.zpowers u = ⊤ := by
       ext x
       simp [hcon x]
@@ -29,16 +29,16 @@ theorem exists_commute_notMem_zpowers_of_card_27 {G : Type} [Group G] [Finite G]
       rw [htop, Subgroup.card_top]
     rw [hcardU, hG] at hc
     norm_num at hc
-  haveI : Nontrivial G := Finite.one_lt_card_iff_nontrivial.1 (by rw [hG]; norm_num)
+  have : Nontrivial G := Finite.one_lt_card_iff_nontrivial.1 (by rw [hG]; norm_num)
   have hp : IsPGroup 3 G := IsPGroup.iff_card.2 ⟨3, by rw [hG]; norm_num⟩
   obtain ⟨z0, hz0c, hz01⟩ : ∃ z0 ∈ Subgroup.center G, z0 ≠ 1 := by
-    haveI := IsPGroup.center_nontrivial hp
+    have := IsPGroup.center_nontrivial hp
     obtain ⟨⟨z, hz⟩, hne⟩ := exists_ne (1 : Subgroup.center G)
     exact ⟨z, hz, fun h => hne (Subtype.ext h)⟩
   by_cases hcase : ∃ z ∈ Subgroup.center G, z ∉ Subgroup.zpowers u
   · obtain ⟨z, hzc, hzn⟩ := hcase
     exact ⟨z, (Subgroup.mem_center_iff.mp hzc u).symm, hzn⟩
-  · push_neg at hcase
+  · push Not at hcase
     have hz0u : z0 ∈ Subgroup.zpowers u := hcase z0 hz0c
     have hz0ord : orderOf z0 = 3 := by
       have hd : orderOf z0 ∣ 3 := by
@@ -89,7 +89,7 @@ theorem ruK432_ruXp_ne_one :
 theorem ruK432_witness :
     ∃ w : ↥ruP, (w * ruXp * w⁻¹) * ruXp = ruXp * (w * ruXp * w⁻¹) ∧
       w * ruXp * w⁻¹ ≠ ruXp ∧ w * ruXp * w⁻¹ ≠ ruXp⁻¹ ∧ w * ruXp * w⁻¹ ≠ 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hQ : Nat.card (ruSylowSub.subgroupOf ruP) = 27 := by
     have e := Nat.card_congr (Subgroup.subgroupOfEquivOfLe ruSylowSub_le).toEquiv
     rw [e, card_ruSylowSub]
@@ -193,7 +193,7 @@ theorem ruK432_listRow_ruP :
 
 theorem row_carrier_ru :
     RowOf (NativeSporadic.Carrier .Ru) := by
-  haveI : Finite (NativeSporadic.Carrier .Ru) := Finite.of_equiv _ ruEquivP.symm.toEquiv
+  have : Finite (NativeSporadic.Carrier .Ru) := Finite.of_equiv _ ruEquivP.symm.toEquiv
   intro S _ _ _ _ ⟨e⟩
   refine GoodRow.of_mulEquiv e.symm ⟨?_, ?_⟩
   · exact ListRow.of_mulEquiv ruEquivP.symm ruK432_listRow_ruP

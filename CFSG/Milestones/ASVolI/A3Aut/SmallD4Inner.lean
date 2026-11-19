@@ -14,19 +14,19 @@ theorem burnsideAut_d42_conj_inner
     {G : Type} [Group G] [Finite G] (hSQT3 : CFSG.Open.pRank 3 (⊤ : Subgroup G) ≤ 2)
     (L : Subgroup G) [L.Normal] (hL : CFSG.Quasithin.Is3D4 2 1 ↥L) (x : G) :
     ∃ l : ↥L, MulAut.conjNormal x = MulAut.conj l := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hf, K, _, _, σ, hK, hσ, ⟨e⟩⟩ :=
     CFSG.QuasithinUnique.Setup.X6.exists_mulEquiv_triality_model hL
   obtain ⟨σ', hσ', hσ'ord, -⟩ :=
     finite_graph_field_parameter_fields TwistTag.D4 Nat.prime_two hf K hK
   have hσσ' : σ' = σ := RingEquiv.ext fun c => by rw [hσ', hσ]
   rw [hσσ'] at hσ'ord
-  haveI : CharP K 2 := burnsideA26_charP_two (n := 3 * 1) (by rw [hK, ← pow_mul, mul_comm])
+  have : CharP K 2 := burnsideA26_charP_two (n := 3 * 1) (by rw [hK, ← pow_mul, mul_comm])
   have hK2 : ringChar K = 2 := ringChar.eq K 2
   obtain ⟨-, hNF, ⟨Θ, hΘ, -, hΘker, -⟩, hcyc, hcardAut, -, hZC, -⟩ :=
     even_triality_exact_automorphism_normal_form hf K hK σ hσ
-  haveI : Finite (K ≃+* K) := Nat.finite_of_card_ne_zero (by rw [hcardAut]; omega)
-  haveI : IsCyclic (K ≃+* K) := hcyc
+  have : Finite (K ≃+* K) := Nat.finite_of_card_ne_zero (by rw [hcardAut]; omega)
+  have : IsCyclic (K ≃+* K) := hcyc
   have hσ3 : σ ^ 3 = 1 := by
     have h1 := pow_orderOf_eq_one σ
     rwa [hσ'ord] at h1
@@ -43,9 +43,9 @@ theorem burnsideAut_d42_conj_inner
     refine ⟨g, ?_⟩
     rw [hΘ m g δ hgδ]
     exact hgδ
-  haveI : CharP (fixSubfield σ) 2 := (CharP.charP_iff_prime_eq_zero Nat.prime_two).2
+  have : CharP (fixSubfield σ) 2 := (CharP.charP_iff_prime_eq_zero Nat.prime_two).2
     (by exact_mod_cast two_eq_zero_fixSubfield σ hK2)
-  haveI : Finite (fixSubfield σ) := Subtype.finite
+  have : Finite (fixSubfield σ) := Subtype.finite
   obtain ⟨y₁, y₂, hy₁3, hy₂3, hy₁₂, hy₁1, hy₂⟩ := burnsideA26_g2_E9 (k := fixSubfield σ)
   set ι := trialityG2Incl σ hK2 with hιdef
   have hι : Function.Injective ι := trialityG2Incl_injective σ hK2
@@ -136,8 +136,8 @@ theorem burnsideAut_d42_conj_inner
 theorem burnsideAut_d42_mem
     {G : Type} [Group G] {L T B : Subgroup G} (h : CFSG.Quasithin.A315Hyp L T B)
     (hL : CFSG.Quasithin.Is3D4 2 1 ↥L) (g : G) : g ∈ L := by
-  haveI : Finite G := h.sqtk.finite
-  haveI := burnsideA315x_normal h
+  have : Finite G := h.sqtk.finite
+  have := burnsideA315x_normal h
   have hSQT3 : CFSG.Open.pRank 3 (⊤ : Subgroup G) ≤ 2 :=
     h.sqtk.sqt 3 Nat.prime_three (by norm_num)
   obtain ⟨l, hl⟩ := burnsideAut_d42_conj_inner hSQT3 L hL g

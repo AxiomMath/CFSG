@@ -33,7 +33,7 @@ theorem KConf.conclK_of_rankFour
         (∀ e ∈ E, n ^ 7 * e * (n ^ 7)⁻¹ = e) → ∀ e ∈ E, n * e * n⁻¹ = e) :
     ConclK K L V MK := by
   have hc := h.kConfig
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hc.elemAbelian.isPGroup
   have hV16 := hle V hc.elemAbelian
   have h8 := hc.eight_le_card

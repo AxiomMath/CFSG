@@ -52,7 +52,7 @@ theorem f4EightCompModel (hCore : F4LocalOneAux.F4EightOPrimeCore)
   have hq8 : S.D.q = 8 := by rw [hq, hcardK]; norm_num
   have hpL : ((3 : ℕ) : AlgebraicClosure (GaloisField 2 3)) ≠ 0 :=
     LieSemisimple.natCast_ne_zero_algebraicClosure Nat.prime_three hpK
-  haveI : CharP (AlgebraicClosure (GaloisField 2 3)) 2 := inferInstance
+  have : CharP (AlgebraicClosure (GaloisField 2 3)) 2 := inferInstance
   obtain ⟨hgood, hcnt⟩ := f4_classes_good S hT hap h1 hq8 hpL hTame
   have hC : GLAPPrimeCoreOf 3 (fixSubgroup (MulAut.conj s)) = ⊥ := by
     rw [fixSubgroup_conj_eq]
@@ -138,7 +138,7 @@ theorem f4EightClass_of_core_iso (hCore : F4LocalOneAux.F4EightOPrimeCore)
     rw [hZ, Subgroup.mem_bot] at hmem
     exact hmem
   have hs3 : orderOf s = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     refine orderOf_eq_prime ?_ ?_
     · rw [hsdef, ← map_pow, hkk3, map_one]
     · intro h

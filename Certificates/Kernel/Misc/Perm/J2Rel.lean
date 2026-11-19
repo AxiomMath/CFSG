@@ -31,7 +31,7 @@ theorem R.comp (ha : R a p) (hb : R b q) : R (compA 315 a b) (cm p q) :=
   ⟨by rw [ha.1, hb.1, comp_unpack hw ha.2 hb.2]; rfl, permB_pcomp hw ha.2 hb.2⟩
 
 theorem R.inv (ha : R a p) : R (invCand 315 a) (iv p) :=
-  ⟨by rw [ha.1, inv_unpack hw ha.2]; rfl, permB_pinvS hw ha.2⟩
+  ⟨by rw [ha.1, inv_unpack ha.2]; rfl, permB_pinvS hw ha.2⟩
 
 theorem R.conj (ha : R a p) (hb : R b q) : R (conjA 315 a b) (cm p (cm q (iv p))) :=
   ha.comp (hb.comp ha.inv)

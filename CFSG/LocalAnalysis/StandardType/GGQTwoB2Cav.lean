@@ -67,7 +67,7 @@ variable {K : Type} [Group K] [Finite K]
 
 theorem centralizer_sylow_eq (hK : IsAltTwoP 3 K) (P : Sylow 3 K) :
     Subgroup.centralizer ((P : Subgroup K) : Set K) = (P : Subgroup K) := by
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hPcard : Nat.card (P : Subgroup K) = 9 := by
     simpa using sylowSq_of_isAltTwoP Nat.prime_three (by norm_num) hK P
   have hcomm : IsMulCommutative (P : Subgroup K) :=
@@ -111,7 +111,7 @@ theorem exists_sylow_eq_of_selfCentralizing (hK : IsAltTwoP 3 K)
     {E : Subgroup K} (hE : CFSG.Assembly.IsElemAbelian 3 E)
     (hSC : ∀ k ∈ Subgroup.centralizer (E : Set K), k ^ 3 = 1 → k ∈ E) :
     ∃ P : Sylow 3 K, (P : Subgroup K) = E := by
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P, hEP⟩ := hE.isPGroup.exists_le_sylow
   refine ⟨P, le_antisymm ?_ hEP⟩
   intro k hk
@@ -122,6 +122,7 @@ theorem exists_sylow_eq_of_selfCentralizing (hK : IsAltTwoP 3 K)
 
 variable {G : Type} [Group G] [Finite G] {B Bs J : Subgroup G}
 
+omit [Finite G] in
 theorem inner_action_of_isAltTwoP (hJ : IsAltTwoP 3 J)
     (hBs : CFSG.Assembly.IsElemAbelian 3 Bs)
     (hN : Bs ≤ Subgroup.normalizer (J : Set G)) :

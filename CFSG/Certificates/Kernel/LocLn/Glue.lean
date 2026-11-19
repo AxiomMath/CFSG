@@ -108,18 +108,18 @@ theorem locCheck_of {K : Kit} (hK : kitOK K = true) {n : ℕ} (hn : K.n = n)
       rw [flag_dec hK hn (hc i hi), h8] at fi
       rw [flag_dec hK hn (hc j hj), h2] at fj
       have p8 : Nat.beq (F i % 2) 1 = true := by
-        rw [← fi, if_pos rfl]
+        rw [← fi, ite_eq_left rfl]
         by_cases hc : isO2 n (dec n (T i)) = true
-        · rw [if_pos hc]
+        · rw [ite_eq_left hc]
           rfl
-        · rw [if_neg hc]
+        · rw [ite_eq_right hc]
           rfl
       have p2 : Nat.beq (F j / 2) 1 = true := by
-        rw [← fj, if_pos rfl]
+        rw [← fj, ite_eq_left rfl]
         by_cases hc : isO8 n (dec n (T j)) = true
-        · rw [if_pos hc]
+        · rw [ite_eq_left hc]
           rfl
-        · rw [if_neg hc]
+        · rw [ite_eq_right hc]
           rfl
       obtain ⟨a, ha, rfl⟩ := mem_filter_map ho8 hi p8
       obtain ⟨b, hb, rfl⟩ := mem_filter_map ho2 hj p2
@@ -128,7 +128,7 @@ theorem locCheck_of {K : Kit} (hK : kitOK K = true) {n : ℕ} (hn : K.n = n)
       rw [CFSG.KC.Pack.strictB_eq] at hrow
       have e := CFSG.KC.Pack.allBlk_spec hrow b hb
       rw [Nat.add_eq, Nat.zero_add, CFSG.KC.Pack.strictB_eq, CFSG.KS.U43Pk.bIf_eq,
-        ← comm_dec hK hn (hc _ hi) (hc _ hj), hcm, if_pos rfl] at e
+        ← comm_dec hK hn (hc _ hi) (hc _ hj), hcm, ite_eq_left rfl] at e
       obtain ⟨e1, e2, e3⟩ := covN_spec e
       set c := CV (Nat.add (Nat.mul n2 a) b)
       have hsi : (c - 1) % N < N := Nat.mod_lt _ (by omega)
@@ -161,7 +161,7 @@ theorem locCheck_of {K : Kit} (hK : kitOK K = true) {n : ℕ} (hn : K.n = n)
     obtain ⟨i, hi, rfl⟩ := List.getElem_of_mem hr
     rw [Array.length_toList] at hi
     have := (hrep i (hrs ▸ hi)).1
-    rwa [getElem!_pos d.reps i hi, Array.getElem_toList] at *
+    rw [getElem!_pos d.reps i hi, Array.getElem_toList] at *; assumption
   rw [hgs]
   simp only [g1, g2, g3, g4, hcov, Bool.and_self]
 

@@ -22,9 +22,9 @@ theorem kA5PairIrr_holds : KA5PairIrr := by
   obtain ⟨hXI, hfaith, hD, hE, hsup, hcommAut, hHas⟩ :=
     exists_matModel_of_pair_irr hW hX hcomm ha₁ ha₂ hI h₁ h₂
   obtain ⟨F, hF, hFin, hChar, d, r, β, ρ, σ, -, hr, hM⟩ := hHas
-  letI : Field F := hF
-  letI : Finite F := hFin
-  letI : CharP F 2 := hChar
+  let : Field F := hF
+  let : Finite F := hFin
+  let : CharP F 2 := hChar
   have hVI : ∀ v : ↥I, v ^ 2 = 1 := fun v => Subtype.ext (by
     have h := hW (v : W)
     simpa using h)
@@ -63,8 +63,8 @@ theorem kA5PairIrr_holds : KA5PairIrr := by
         rw [hsup]
         exact hOmega
       obtain ⟨K, hK, hKfin, hKcard, hreal⟩ := hOmega'
-      letI : Field K := hK
-      letI : Finite K := hKfin
+      let : Field K := hK
+      let : Finite K := hKfin
       have hTensor : NatTensor X I ⊥ 2 2 :=
         ⟨K, inferInstance, inferInstance, hKcard,
           Thm14_5.realizes_of_autSub hXI hfaith hreal⟩

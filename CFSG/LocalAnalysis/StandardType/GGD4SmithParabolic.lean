@@ -268,7 +268,7 @@ theorem X8_bLinv_mem_of_pos {K : Type} [Field K] [CharP K 2]
     have hj : j ≠ 1 := fun h' => hij h'.symm
     have hs : s = true := by
       cases s with
-      | false => simp [lv, Pi.single_apply, hj, CFSG.LieType.Universal.Spin.boolSign] at hsign
+      | false => simp [lv, hj, CFSG.LieType.Universal.Spin.boolSign] at hsign
       | true => rfl
     subst hs
     exact Or.inl (mem_rootGroupGL_of_X8_lv_one_true hij t c)
@@ -276,7 +276,7 @@ theorem X8_bLinv_mem_of_pos {K : Type} [Field K] [CharP K 2]
     · subst hj
       have ht : t = true := by
         cases t with
-        | false => simp [lv, Pi.single_apply, hi, CFSG.LieType.Universal.Spin.boolSign] at hsign
+        | false => simp [lv, hi, CFSG.LieType.Universal.Spin.boolSign] at hsign
         | true => rfl
       subst ht
       exact Or.inl (mem_rootGroupGL_of_X8_lv_right_true hi s c)
@@ -300,7 +300,7 @@ theorem X8_bLinv_mem_of_neg {K : Type} [Field K] [CharP K 2]
     have hj : j ≠ 1 := fun h' => hij h'.symm
     have hs : s = false := by
       cases s with
-      | true => simp [lv, Pi.single_apply, hj, CFSG.LieType.Universal.Spin.boolSign] at hsign
+      | true => simp [lv, hj, CFSG.LieType.Universal.Spin.boolSign] at hsign
       | false => rfl
     subst hs
     exact Or.inl (mem_rootGroupGL_of_X8_lv_one_false hij t c)
@@ -308,7 +308,7 @@ theorem X8_bLinv_mem_of_neg {K : Type} [Field K] [CharP K 2]
     · subst hj
       have ht : t = false := by
         cases t with
-        | true => simp [lv, Pi.single_apply, hi, CFSG.LieType.Universal.Spin.boolSign] at hsign
+        | true => simp [lv, hi, CFSG.LieType.Universal.Spin.boolSign] at hsign
         | false => rfl
       subst ht
       exact Or.inl (mem_rootGroupGL_of_X8_lv_right_false hi s c)
@@ -487,8 +487,8 @@ theorem eq_bot_or_fixed_le_of_rootGroupGL
   let P : Subgroup (adjointGroup .D4 K) := (Pe ⊓ Pf).comap Φ.toMonoidHom
   let D : CurtisDatum (adjointGroup .D4 K) (coxeterSystem .D4) 2 :=
     chevDatum .D4 K 2 exists_weyl_neg_D4
-  haveI : Finite (adjointGroup .D4 K) := Subtype.finite
-  haveI : Finite (WeylGroup .D4) := inferInstance
+  have : Finite (adjointGroup .D4 K) := Subtype.finite
+  have : Finite (WeylGroup .D4) := inferInstance
   have hsplit : SplitOver K D.H :=
     splitOver_torus (τ := .D4) (K := K) (p := 2) (hw := exists_weyl_neg_D4) K
   have hρ' : IsSimpleRep (ρ.comp Φ.toMonoidHom) :=

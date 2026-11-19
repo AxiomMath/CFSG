@@ -14,7 +14,7 @@ theorem ggLieParabolicCharInputOn_notOpen :
     GGLieParabolicCharInputOn fun d => ¬ GGLieParabolicOpenIndex d := by
   intro K _ _ d hd ⟨e⟩ h2 S X hS hSi hNX hX
   obtain ⟨F, _, _, _, D, ⟨b⟩⟩ := exists_rootWeightDatum_of_not_open d hd h2
-  haveI : Fact d.1.characteristic.Prime := ⟨TauCeti.LieTypeIndex.characteristic_prime d.1⟩
+  have : Fact d.1.characteristic.Prime := ⟨TauCeti.LieTypeIndex.characteristic_prime d.1⟩
   set φ : K ≃* ↥D.group := e.trans b
   have hinj : Function.Injective φ.toMonoidHom := φ.injective
   have hS' : IsPGroup d.1.characteristic (S.map φ.toMonoidHom) := hS.map _

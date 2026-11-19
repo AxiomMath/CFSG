@@ -10,6 +10,7 @@ open CFSG CFSG.RankThree.PartTwo.Sec21
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem zpow_eq_of_dvd {x : G} (hx : x ^ 3 = 1) {i j : ℤ} (h : (3 : ℤ) ∣ i - j) :
     x ^ i = x ^ j := by
   obtain ⟨m, hm⟩ := h
@@ -21,14 +22,17 @@ namespace BGen
 variable {b b₁ b₂ : G} {B : Subgroup G} (hB : BGen b b₁ b₂ B)
 include hB
 
+omit [Finite G] in
 theorem crd_mem (p : ℤ × ℤ × ℤ) : crd b b₁ b₂ p ∈ B :=
   B.mul_mem (B.mul_mem (B.zpow_mem hB.bmem.1 _) (B.zpow_mem hB.bmem.2.1 _))
     (B.zpow_mem hB.bmem.2.2 _)
 
+omit [Finite G] in
 theorem exists_crd (x : ↥B) : ∃ p : ℤ × ℤ × ℤ, (x : G) = crd b b₁ b₂ p := by
   obtain ⟨i, j, k, h⟩ := hB.mem x x.2
   exact ⟨(i, j, k), h⟩
 
+omit [Finite G] in
 theorem crd_eq_of_dvd {p q : ℤ × ℤ × ℤ}
     (h : (3 : ℤ) ∣ p.1 - q.1 ∧ (3 : ℤ) ∣ p.2.1 - q.2.1 ∧ (3 : ℤ) ∣ p.2.2 - q.2.2) :
     crd b b₁ b₂ p = crd b b₁ b₂ q := by
@@ -49,6 +53,7 @@ noncomputable def psiFun (x : ↥B) : Multiplicative (ZMod 3) :=
     ((((Classical.choose (hB.exists_crd x)).2.1 + (Classical.choose (hB.exists_crd x)).2.2 :
       ℤ)) : ZMod 3)
 
+omit [Finite G] in
 theorem psiFun_eq (x : ↥B) {q : ℤ × ℤ × ℤ} (hq : (x : G) = crd b b₁ b₂ q) :
     psiFun hB x = Multiplicative.ofAdd (((q.2.1 + q.2.2 : ℤ)) : ZMod 3) := by
   have hc := Classical.choose_spec (hB.exists_crd x)
@@ -79,27 +84,33 @@ noncomputable def psi : ↥B →* Multiplicative (ZMod 3) where
     push_cast
     ring
 
+omit [Finite G] in
 theorem psi_apply (x : ↥B) {q : ℤ × ℤ × ℤ} (hq : (x : G) = crd b b₁ b₂ q) :
     psi hB x = Multiplicative.ofAdd (((q.2.1 + q.2.2 : ℤ)) : ZMod 3) := psiFun_eq hB x hq
 
+omit [Finite G] in
 theorem psi_b : psi hB ⟨b, hB.bmem.1⟩ = 1 := by
   rw [psi_apply hB _ (q := (1, 0, 0)) (by simp [crd])]
   simp
 
+omit [Finite G] in
 theorem psi_gamma : psi hB ⟨b₁ ^ 2 * b₂, B.mul_mem (B.pow_mem hB.bmem.2.1 2) hB.bmem.2.2⟩ = 1 := by
   rw [psi_apply hB _ (q := (0, 2, 1)) (by simp [crd])]
   decide
 
+omit [Finite G] in
 theorem psi_beta : psi hB ⟨b₁ * b₂, B.mul_mem hB.bmem.2.1 hB.bmem.2.2⟩ ≠ 1 := by
   rw [psi_apply hB _ (q := (0, 1, 1)) (by simp [crd])]
   decide
 
+omit [Finite G] in
 theorem psi_surjective : Function.Surjective (psi hB) := by
   intro t
   refine ⟨⟨crd b b₁ b₂ (0, (Multiplicative.toAdd t).val, 0), hB.crd_mem _⟩, ?_⟩
   rw [psi_apply hB _ (q := (0, (Multiplicative.toAdd t).val, 0)) rfl]
   simp
 
+omit [Finite G] in
 theorem closure_eq_ker :
     Subgroup.closure {b, b₁ ^ 2 * b₂} = (psi hB).ker.map B.subtype := by
   apply le_antisymm
@@ -130,6 +141,7 @@ theorem closure_eq_ker :
     rw [Subgroup.coe_subtype, hp, hq, ← hrw]
     exact hmem
 
+omit [Finite G] in
 theorem card_closure (hcard : Nat.card B = 3 ^ 3) :
     Nat.card (Subgroup.closure {b, b₁ ^ 2 * b₂}) = 9 := by
   rw [closure_eq_ker hB, Subgroup.card_map_of_injective B.subtype_injective]
@@ -144,9 +156,11 @@ end Psi
 
 section Sec4
 
+omit [Finite G] in
 private theorem conj_inv_eq {n x y : G} (h : n * x * n⁻¹ = y) : n⁻¹ * y * n = x := by
   rw [← h]; group
 
+omit [Finite G] in
 private theorem conj_mul3 (n : G) (u v w : G) (i j k : ℤ) :
     n * (u ^ i * v ^ j * w ^ k) * n⁻¹ = (n * u * n⁻¹) ^ i * (n * v * n⁻¹) ^ j *
       (n * w * n⁻¹) ^ k := by

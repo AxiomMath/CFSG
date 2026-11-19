@@ -41,6 +41,7 @@ private theorem exists_mem_ne_neg {N : ℕ} {σ : ZMod N} {C : Finset (Fin 4 →
     rw [hzero a h, hzero b hb']
   · exact ⟨a, ha, h⟩
 
+omit [Finite K] in
 private theorem n_apply_eq {α : Fin 4 → ℤ} (hform : IsRootForm D ρ E j) (hα : IsD4Root α)
     {x : X} (hBx : E (-α) x = 0) (hAAx : E α (E α x) = 0) :
     ρ (D.n α) x = (x + E (-α) (E α x)) + E α (E (-α) (E α x)) := by
@@ -50,7 +51,7 @@ private theorem n_apply_eq {α : Fin 4 → ℤ} (hform : IsRootForm D ρ E j) (h
     rw [D4Datum.n, map_mul, map_mul, h1, h2]
   rw [h3]
   simp only [Module.End.mul_apply, LinearMap.add_apply, Module.End.one_apply, map_add,
-    map_zero, hBx, hAAx, zero_add, add_zero]
+    hBx, hAAx, add_zero]
   rw [show x + E α x + (E α x + (E (-α) (E α x) + E α (E (-α) (E α x)))) =
       x + E (-α) (E α x) + E α (E (-α) (E α x)) + (E α x + E α x) from by abel,
     add_self_eq_zero K (E α x), add_zero]
@@ -101,7 +102,7 @@ theorem IsRootForm.weyl (hform : IsRootForm D ρ E j)
   rw [hzero, add_self_eq_zero K x]
 
 private theorem exists_mem_ne_neg_ne_four {N : ℕ} {σ : ZMod N} {C : Finset (Fin 4 → ZMod N)}
-    (hC : IsSmallClass N σ C) {a m : Fin 4 → ZMod N} (ha : a ∈ C) (hm : m ∈ C) :
+    (hC : IsSmallClass N σ C) {a m : Fin 4 → ZMod N} (_ha : a ∈ C) (_hm : m ∈ C) :
     ∃ m₃ ∈ C, m₃ ≠ a ∧ m₃ ≠ -a ∧ m₃ ≠ m ∧ m₃ ≠ -m := by
   have h4 : ({a, -a, m, -m} : Finset (Fin 4 → ZMod N)).card ≤ 4 := by
     have h1 := Finset.card_insert_le a ({-a, m, -m} : Finset (Fin 4 → ZMod N))
@@ -116,6 +117,7 @@ private theorem exists_mem_ne_neg_ne_four {N : ℕ} {σ : ZMod N} {C : Finset (F
   simp only [Finset.mem_insert, Finset.mem_singleton, not_or] at hnot
   exact ⟨m₃, hm₃, hnot.1, hnot.2.1, hnot.2.2.1, hnot.2.2.2⟩
 
+omit [Finite K] in
 theorem IsRootForm.triangle (hform : IsRootForm D ρ E j) (hμ : ∃ μ : K, μ ≠ 0 ∧ μ ≠ 1)
     (hCw : ∀ a, a ∈ C ↔ D.wtSpace ρ a ≠ ⊥) (hC : IsSmallClass (Nat.card Kˣ) σ C)
     (hE : ∀ α, IsD4Root α → ∀ a : Fin 4 → ZMod (Nat.card Kˣ),
@@ -134,6 +136,7 @@ theorem IsRootForm.triangle (hform : IsRootForm D ρ E j) (hμ : ∃ μ : K, μ 
   rw [IsRootForm.add_eq hform hμ hγ hβ hd]
   simp only [LinearMap.add_apply, Module.End.mul_apply, hβx, map_zero, zero_add]
 
+omit [Finite K] in
 private theorem path_indep_ne (hform : IsRootForm D ρ E j) (hμ : ∃ μ : K, μ ≠ 0 ∧ μ ≠ 1)
     (hCw : ∀ a, a ∈ C ↔ D.wtSpace ρ a ≠ ⊥) (hC : IsSmallClass (Nat.card Kˣ) σ C)
     (hE : ∀ α, IsD4Root α → ∀ a : Fin 4 → ZMod (Nat.card Kˣ),
@@ -173,6 +176,7 @@ private theorem path_indep_ne (hform : IsRootForm D ρ E j) (hμ : ∃ μ : K, �
     exact add_left_cancel h)
   rw [← hδ'eq, ← hbdeq, hEq2, hEq1]
 
+omit [Finite K] in
 theorem IsRootForm.path_indep (hform : IsRootForm D ρ E j) (hμ : ∃ μ : K, μ ≠ 0 ∧ μ ≠ 1)
     (hCw : ∀ a, a ∈ C ↔ D.wtSpace ρ a ≠ ⊥) (hC : IsSmallClass (Nat.card Kˣ) σ C)
     (hE : ∀ α, IsD4Root α → ∀ a : Fin 4 → ZMod (Nat.card Kˣ),
@@ -217,12 +221,14 @@ private noncomputable def stepRoot (σ : ZMod (Nat.card Kˣ))
     (a a' : Fin 4 → ZMod (Nat.card Kˣ)) : Fin 4 → ℤ :=
   if h : ∃ γ, IsD4Root γ ∧ a' = a + σ • castW (Nat.card Kˣ) γ then h.choose else 0
 
+omit [Finite K] [CharP K 2] in
 private theorem stepRoot_spec {a a' : Fin 4 → ZMod (Nat.card Kˣ)}
     (h : ∃ γ, IsD4Root γ ∧ a' = a + σ • castW (Nat.card Kˣ) γ) :
     IsD4Root (stepRoot σ a a') ∧ a' = a + σ • castW (Nat.card Kˣ) (stepRoot σ a a') := by
-  simp only [stepRoot, dif_pos h]
+  simp only [stepRoot, dite_eq_left h]
   exact h.choose_spec
 
+omit [Finite K] [CharP K 2] in
 private theorem stepRoot_eq (hC : IsSmallClass (Nat.card Kˣ) σ C)
     {a a' : Fin 4 → ZMod (Nat.card Kˣ)}
     {γ : Fin 4 → ℤ} (hγ : IsD4Root γ) (h : a' = a + σ • castW (Nat.card Kˣ) γ) :
@@ -233,6 +239,7 @@ private theorem stepRoot_eq (hC : IsSmallClass (Nat.card Kˣ) σ C)
       a + σ • castW (Nat.card Kˣ) γ := by rw [← hspec, h]
   exact add_left_cancel hh
 
+omit [Finite K] [CharP K 2] in
 private theorem stepRoot_spec_of_mem (hC : IsSmallClass (Nat.card Kˣ) σ C)
     {a a' : Fin 4 → ZMod (Nat.card Kˣ)} (ha : a ∈ C) (ha' : a' ∈ C) (hne : a' ≠ a)
     (hne' : a' ≠ -a) :
@@ -249,20 +256,24 @@ private noncomputable def T (σ : ZMod (Nat.card Kˣ)) (E : (Fin 4 → ℤ) → 
     else if a = -a₀ then E (stepRoot σ m (-a₀)) (E (stepRoot σ a₀ m) v)
     else E (stepRoot σ a₀ a) v
 
+omit [Finite K] [CharP K 2] in
 private theorem T_self (σ : ZMod (Nat.card Kˣ)) (E : (Fin 4 → ℤ) → Module.End K X)
     (a₀ m : Fin 4 → ZMod (Nat.card Kˣ)) (v : X) : T σ E a₀ m v a₀ = v := by
   simp [T]
 
+omit [Finite K] [CharP K 2] in
 private theorem T_neg (σ : ZMod (Nat.card Kˣ)) (E : (Fin 4 → ℤ) → Module.End K X)
     (a₀ m : Fin 4 → ZMod (Nat.card Kˣ)) (v : X) (h : a₀ ≠ -a₀) :
     T σ E a₀ m v (-a₀) = E (stepRoot σ m (-a₀)) (E (stepRoot σ a₀ m) v) := by
   simp [T, Ne.symm h]
 
+omit [Finite K] [CharP K 2] in
 private theorem T_other (σ : ZMod (Nat.card Kˣ)) (E : (Fin 4 → ℤ) → Module.End K X)
     (a₀ m a : Fin 4 → ZMod (Nat.card Kˣ)) (v : X) (h1 : a ≠ a₀) (h2 : a ≠ -a₀) :
     T σ E a₀ m v a = E (stepRoot σ a₀ a) v := by
   simp [T, h1, h2]
 
+omit [Finite K] [CharP K 2] in
 private theorem T_of_root (hC : IsSmallClass (Nat.card Kˣ) σ C)
     {a₀ m a : Fin 4 → ZMod (Nat.card Kˣ)} {v : X}
     {γ : Fin 4 → ℤ} (hγ : IsD4Root γ) (ha : a ≠ a₀) (hna : a ≠ -a₀)
@@ -270,6 +281,7 @@ private theorem T_of_root (hC : IsSmallClass (Nat.card Kˣ) σ C)
     T σ E a₀ m v a = E γ v := by
   rw [T_other σ E a₀ m a v ha hna, stepRoot_eq hC hγ h]
 
+omit [Finite K] [CharP K 2] in
 private theorem T_weight (hC : IsSmallClass (Nat.card Kˣ) σ C)
     (hE : ∀ α, IsD4Root α → ∀ a : Fin 4 → ZMod (Nat.card Kˣ),
       ∀ x ∈ D.wtSpace ρ a, E α x ∈ D.wtSpace ρ (a + σ • castW (Nat.card Kˣ) α))
@@ -330,12 +342,13 @@ private theorem T_ne_zero (hform : IsRootForm D ρ E j)
       rw [hzero, map_zero] at hw
       exact hv0 hw.symm
 
+omit [Finite K] [CharP K 2] in
 private theorem T_root_one (hCw : ∀ a, a ∈ C ↔ D.wtSpace ρ a ≠ ⊥)
     (hC : IsSmallClass (Nat.card Kˣ) σ C)
     (hE : ∀ α, IsD4Root α → ∀ a : Fin 4 → ZMod (Nat.card Kˣ),
       ∀ x ∈ D.wtSpace ρ a, E α x ∈ D.wtSpace ρ (a + σ • castW (Nat.card Kˣ) α))
-    {a₀ m : Fin 4 → ZMod (Nat.card Kˣ)} (ha₀ : a₀ ∈ C) (hna : a₀ ≠ -a₀) (hm : m ∈ C)
-    (hm_a : m ≠ a₀) (hm_na : m ≠ -a₀) {v : X} (hv : v ∈ D.wtSpace ρ a₀)
+    {a₀ m : Fin 4 → ZMod (Nat.card Kˣ)} (ha₀ : a₀ ∈ C) (_hna : a₀ ≠ -a₀) (_hm : m ∈ C)
+    (_hm_a : m ≠ a₀) (_hm_na : m ≠ -a₀) {v : X} (hv : v ∈ D.wtSpace ρ a₀)
     {β : Fin 4 → ℤ} (hβ : IsD4Root β) :
     E β v = 0 ∨ ∃ a ∈ C, E β v = T σ E a₀ m v a := by
   by_cases hmem : a₀ + σ • castW (Nat.card Kˣ) β ∈ C
@@ -499,7 +512,7 @@ private theorem T_root_apply_mem (hform : IsRootForm D ρ E j) (hμ : ∃ μ : K
     hE β hβ a (T σ E a₀ m v a) hTa
   have hdisj := T_root_apply_disj hform hμ hCw hC hE ha₀ hna hm hm_a hm_na hv ha hβ
   by_cases hmem : a + σ • castW (Nat.card Kˣ) β ∈ C
-  · rw [if_pos hmem]
+  · rw [ite_eq_left hmem]
     rcases hdisj with h0 | ⟨a', ha', hTa'⟩
     · have hne : E β (T σ E a₀ m v a) ≠ 0 := by
         intro h
@@ -518,7 +531,7 @@ private theorem T_root_apply_mem (hform : IsRootForm D ρ E j) (hμ : ∃ μ : K
         by_contra hne
         exact hTa'0 (eq_zero_of_mem_wtSpace_of_mem_wtSpace D ρ hne hTa'wt hwt')
       rw [hTa', heq]
-  · rw [if_neg hmem]
+  · rw [ite_eq_right hmem]
     exact eq_zero_of_mem_wtSpace_of_not_mem (D := D) (ρ := ρ) (C := C) hCw hmem hwt
 
 private theorem span_T_eq_top (hform : IsRootForm D ρ E j) (hμ : ∃ μ : K, μ ≠ 0 ∧ μ ≠ 1)
@@ -541,9 +554,9 @@ private theorem span_T_eq_top (hform : IsRootForm D ρ E j) (hμ : ∃ μ : K, �
       show E α (T σ E a₀ m v a) ∈ M
       rw [T_root_apply_mem hform hμ hCw hC hE ha₀ hna hm hm_a hm_na hv hv0 ha hα]
       by_cases h : a + σ • castW (Nat.card Kˣ) α ∈ C
-      · rw [if_pos h]
+      · rw [ite_eq_left h]
         exact hgen _ h
-      · rw [if_neg h]
+      · rw [ite_eq_right h]
         exact Submodule.zero_mem _
     exact hle hx
   have hM : ∀ g : G, ∀ x ∈ M, ρ g x ∈ M := by
@@ -594,14 +607,16 @@ theorem exists_normalForm [FiniteDimensional K X] (hK : 4 ≤ Nat.card K)
   · exact fun a ha β hβ =>
       T_root_apply_mem hform hμ hCw hC hE ha₀ hna hm hm_a hm_na hv hv0 ha hβ
 
+omit [Finite K] [CharP K 2] in
 private theorem one_le_finrank_wtSpace [FiniteDimensional K X]
     (hCw : ∀ a, a ∈ C ↔ D.wtSpace ρ a ≠ ⊥)
     {a : Fin 4 → ZMod (Nat.card Kˣ)} (ha : a ∈ C) :
     1 ≤ Module.finrank K (D.wtSpace ρ a) := by
-  haveI : Nontrivial (D.wtSpace ρ a) :=
+  have : Nontrivial (D.wtSpace ρ a) :=
     (Submodule.nontrivial_iff_ne_bot (p := D.wtSpace ρ a)).mpr ((hCw a).mp ha)
   exact Module.finrank_pos
 
+omit [Finite K] [CharP K 2] in
 private theorem finrank_le_eight [FiniteDimensional K X] (hC : IsSmallClass (Nat.card Kˣ) σ C)
     {T : (Fin 4 → ZMod (Nat.card Kˣ)) → X}
     (hTtop : Submodule.span K (T '' (C : Set (Fin 4 → ZMod (Nat.card Kˣ)))) = ⊤) :
@@ -615,7 +630,7 @@ private theorem finrank_le_eight [FiniteDimensional K X] (hC : IsSmallClass (Nat
     _ = 8 := hC.card_eq
 
 private theorem finrank_eq_sum_wtSpace [FiniteDimensional K X]
-    (hCw : ∀ a, a ∈ C ↔ D.wtSpace ρ a ≠ ⊥) (hC : IsSmallClass (Nat.card Kˣ) σ C) :
+    (hCw : ∀ a, a ∈ C ↔ D.wtSpace ρ a ≠ ⊥) (_hC : IsSmallClass (Nat.card Kˣ) σ C) :
     Module.finrank K X = ∑ a ∈ C, Module.finrank K (D.wtSpace ρ a) := by
   have hf0 : ∀ a ∉ C, Module.finrank K (D.wtSpace ρ a) = 0 := by
     intro a ha
@@ -672,6 +687,7 @@ private theorem finrank_eq_eight [FiniteDimensional K X] (hK : 4 ≤ Nat.card K)
   have hfin8 : Module.finrank K X = 8 := le_antisymm hle hge
   exact ⟨hfin8, finrank_wtSpace_eq_one hCw hC hfin8⟩
 
+omit [Finite K] [CharP K 2] in
 private theorem range_eq_span_pair {T : (Fin 4 → ZMod (Nat.card Kˣ)) → X}
     (hTtop : Submodule.span K (T '' (C : Set (Fin 4 → ZMod (Nat.card Kˣ)))) = ⊤)
     (hTexact : ∀ a ∈ C, ∀ β, IsD4Root β →
@@ -685,20 +701,20 @@ private theorem range_eq_span_pair {T : (Fin 4 → ZMod (Nat.card Kˣ)) → X}
   have hb₁ : a₁ + σ • castW (Nat.card Kˣ) α ∈ C := (hiff a₁ ha₁).mpr (Or.inl rfl)
   have hb₂ : a₂ + σ • castW (Nat.card Kˣ) α ∈ C := (hiff a₂ ha₂).mpr (Or.inr rfl)
   have hu : E α (T a₁) = T (a₁ + σ • castW (Nat.card Kˣ) α) := by
-    rw [hTexact a₁ ha₁ α hα, if_pos hb₁]
+    rw [hTexact a₁ ha₁ α hα, ite_eq_left hb₁]
   have hv : E α (T a₂) = T (a₂ + σ • castW (Nat.card Kˣ) α) := by
-    rw [hTexact a₂ ha₂ α hα, if_pos hb₂]
+    rw [hTexact a₂ ha₂ α hα, ite_eq_left hb₂]
   refine le_antisymm ?_ ?_
   · rw [LinearMap.range_eq_map, ← hTtop, Submodule.map_span]
     refine Submodule.span_le.mpr ?_
     rintro _ ⟨_, ⟨a, ha, rfl⟩, rfl⟩
     rw [hTexact a ha α hα]
     by_cases h : a + σ • castW (Nat.card Kˣ) α ∈ C
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       rcases (hiff a ha).mp h with rfl | rfl
       · exact Submodule.subset_span (by simp)
       · exact Submodule.subset_span (by simp)
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       exact Submodule.zero_mem _
   · refine Submodule.span_le.mpr ?_
     rintro _ (rfl | rfl)

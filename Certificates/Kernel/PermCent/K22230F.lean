@@ -70,15 +70,15 @@ noncomputable def genX (k : ℕ) : X₀ := if k = 0 then xElt else yElt
 
 theorem genX_image : genX '' {k | k < 2} = {xElt, yElt} := by
   ext z
-  simp only [Set.mem_image, Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
+  simp only [Set.mem_image, Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
   constructor
   · rintro ⟨k, hk, rfl⟩
     interval_cases k
-    · exact Or.inl (if_pos rfl)
-    · exact Or.inr (if_neg (by norm_num))
+    · exact Or.inl (ite_eq_left rfl)
+    · exact Or.inr (ite_eq_right (by norm_num))
   · rintro (rfl | rfl)
-    · exact ⟨0, by norm_num, if_pos rfl⟩
-    · exact ⟨1, by norm_num, if_neg (by norm_num)⟩
+    · exact ⟨0, by norm_num, ite_eq_left rfl⟩
+    · exact ⟨1, by norm_num, ite_eq_right (by norm_num)⟩
 
 theorem closure_genX : closure (genX '' {k | k < 2}) = ⊤ := by
   rw [genX_image]
@@ -88,9 +88,9 @@ theorem prep_genX {G : ℕ → ℕ} (h0 : matOK codeA (G 0) = true) (h1 : matOK 
     ∀ k < 2, PRep 341 9 (G k) (psi (genX k)) := by
   intro k hk
   interval_cases k
-  · rw [genX, if_pos rfl]
+  · rw [genX, ite_eq_left rfl]
     exact prep_of_matOK psi_xElt h0
-  · rw [genX, if_neg (by norm_num)]
+  · rw [genX, ite_eq_right (by norm_num)]
     exact prep_of_matOK psi_yElt h1
 
 theorem baseL_lt : ∀ p ∈ baseL, p < 341 := by decide

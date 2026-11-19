@@ -37,7 +37,7 @@ theorem exists_frame_iso_of_weyl {G : Type} [Group G] [Finite G] {p m : ℕ} (hp
     (hA : GGWeylOfType p (CoxeterMatrix.B (m + 1)) A) :
     ∃ Φ : (Fin (m + 1) → Multiplicative (ZMod p)) ≃* ↥Bs,
       ∀ h ∈ spSignedGroup (m + 1) p, ∃ ψ ∈ A, ∀ a, ψ (Φ a) = Φ (h a) := by
-  haveI : Finite Bs := Subtype.finite
+  have : Finite Bs := Subtype.finite
   have hA' : GGWeylOfType p (coxeterMatrix (isFiniteType_cartanC (m + 1))) A := by
     rw [coxeterMatrix_cartanC_eq_B]
     exact hA

@@ -286,8 +286,8 @@ theorem fixedSubgroup_le_closure_pow_of_conj {K : Type*} [Group K] {r : ℕ} {α
 
 theorem closure_pow_two_eq_top_of_simple {F : Type*} [Group F] [Finite F] [IsSimpleGroup F]
     (hna : ∃ a b : F, a * b ≠ b * a) : Subgroup.closure {x : F | x ^ 2 = 1} = ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := Inputs2323b.normal_closure_pow_eq_one F 2
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := Inputs2323b.normal_closure_pow_eq_one F 2
   have h2 : 2 ∣ Nat.card F := by
     have hev : Even (Nat.card F) := by
       by_contra h
@@ -657,7 +657,7 @@ theorem le_closure_uniCentSetIn_of_map_conj {G : Type*} [Group G] {N A : Subgrou
         _ = c⁻¹ * ((c * x * c⁻¹) * g) * c := by rw [hgx]
         _ = x * (c⁻¹ * g * c) := by group
     · simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, inv_inv]
-      rw [show c⁻¹ * g * c = (MulAut.conj c⁻¹) g by simp [MulAut.conj_apply], ← map_pow, hn, map_one]
+      rw [show c⁻¹ * g * c = (MulAut.conj c⁻¹) g by simp, ← map_pow, hn, map_one]
   intro g hg
   have hmem := hle (h (mul_mem (mul_mem hc hg) (inv_mem hc)))
   rw [Subgroup.mem_comap, MulEquiv.coe_toMonoidHom, MulAut.conj_apply] at hmem
@@ -841,7 +841,7 @@ theorem fixedSubgroup_reeGammaFieldAut_le_closure {a : ℕ} {K : Type} [Field K]
     fixedSubgroup (F4.reeGammaFieldAut K a β) ≤
       Subgroup.closure {x | F4.reeGammaFieldAut K a β x = x ∧ ∃ n : ℕ, x ^ (2 ^ n) = 1} := by
   obtain ⟨b, hbp, hbcard, hchar, ⟨eC⟩⟩ := CFSG.RankThree.PartOne.Sec66T.reeF4_fixed_data_odd hK hp hp2 hβ
-  haveI := hchar
+  have := hchar
   have : Finite (ModGL F4.tag K) := finite_modGL
   have : Finite (ModGL F4.tag (fixSubfield β)) := finite_modGL
   have hfs : fixedSubgroup (F4.reeGammaFieldAut K a β) =
@@ -961,7 +961,7 @@ theorem conjAut_eq_one_iff_isScal (hn : 3 ≤ n) (A : GL (Fin n) F) :
       have hu := A.isUnit
       rw [show (A : Matrix (Fin n) (Fin n) F) = 0 by rw [hc, zero_smul]] at hu
       have : Nontrivial (Matrix (Fin n) (Fin n) F) := by
-        haveI : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
+        have : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
         infer_instance
       exact not_isUnit_zero hu
     refine ⟨Units.mk0 c hc0, Units.ext ?_⟩
@@ -969,6 +969,7 @@ theorem conjAut_eq_one_iff_isScal (hn : 3 ≤ n) (A : GL (Fin n) F) :
     ext i j
     simp [Matrix.scalar_apply, Matrix.one_apply, Matrix.diagonal_apply]
 
+omit [Finite F] in
 theorem IsScal.exists_ne_zero (hn : 0 < n) {g : GL (Fin n) F} (hg : IsScal g) :
     ∃ c : F, c ≠ 0 ∧ (g : Matrix (Fin n) (Fin n) F) = c • 1 := by
   obtain ⟨c, hc⟩ := hg
@@ -987,6 +988,7 @@ section HeisInvolution
 variable {F : Type} [Field F] [Finite F] {n : ℕ}
 
 open Polynomial Module in
+omit [Finite F] in
 theorem eq_one_of_commute_heis [CharP F 2] {p : ℕ} (hp : p.Prime) (hn : n = p)
     (hζ : ∃ ζ : F, IsPrimitiveRoot ζ p) {a b t : GL (Fin n) F} (hbp : IsScal (b ^ p))
     (hab : IsScal ⁅a, b⁆) (hnc : a * b ≠ b * a) (htb : t * b = b * t) (ht2 : t ^ 2 = 1) :
@@ -1166,7 +1168,7 @@ theorem eq_one_of_commute_heis [CharP F 2] {p : ℕ} (hp : p.Prime) (hn : n = p)
     set N : Matrix (Fin n) (Fin n) F := T - 1 with hN
     let Cs : Submodule F (Fin n → F) := LinearMap.ker (Matrix.toLin' N)
     have hmemC : ∀ w, w ∈ Cs ↔ T.mulVec w = w := fun w => by
-      simp [Cs, LinearMap.mem_ker, Matrix.toLin'_apply, hN, Matrix.sub_mulVec, sub_eq_zero]
+      simp [Cs, LinearMap.mem_ker, Matrix.toLin'_apply, hN, sub_eq_zero]
     have hBC : ∀ w ∈ Cs, Matrix.toLin' B w ∈ Cs := by
       intro w hw
       rw [hmemC] at hw ⊢
@@ -1201,7 +1203,7 @@ theorem eq_one_of_commute_heis [CharP F 2] {p : ℕ} (hp : p.Prime) (hn : n = p)
       refine LinearMap.ext fun x => Subtype.ext ?_
       obtain ⟨w, hw⟩ := x
       simp only [LinearMap.sub_apply, Module.algebraMap_end_apply, LinearMap.zero_apply,
-        Submodule.coe_sub, Submodule.coe_smul, Submodule.coe_zero, LinearMap.restrict_coe_apply]
+        Submodule.coe_sub, Submodule.coe_smul, Submodule.coe_zero, _root_.LinearMap.coe_restrict_apply]
       rw [← Matrix.toLin'_pow, hBp, Matrix.toLin'_apply, Matrix.smul_mulVec, Matrix.one_mulVec,
         sub_self]
     have hmin : (X ^ p - C β : F[X]) = minpoly F bC :=
@@ -1228,6 +1230,7 @@ section InnDiag
 
 variable {F : Type} [Field F] [Finite F] {n : ℕ}
 
+omit [Finite F] in
 theorem pow_card_sub_one_of_mem_scalars {z : Matrix.SpecialLinearGroup (Fin n) F}
     (hz : z ∈ scalars n F) : z ^ (Nat.card F - 1) = 1 := by
   obtain ⟨c, -, hc⟩ := mem_scalars.1 hz
@@ -1302,7 +1305,7 @@ theorem uniPlaneGen_psl_nonCpf [CharP F 2] {f : ℕ} (hf : 1 ≤ f)
     (hK : Nat.card F = 2 ^ f) (hn : 3 ≤ n) {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) (hpn : p ∣ n)
     (hpq : p ∣ Nat.card F - 1) {E : Subgroup (MulAut (projectiveSL n F))}
     (hE : CFSG.Open.IsElemAbelian p E) (hc : Nat.card E = p ^ 2)
-    (hns : ∃ e ∈ E, e ≠ 1 ∧ ¬ IsSolvable ↥(CFSG.RankThree.PartOne.CTP.fixedSubgroup e)) :
+    (hns : ∃ e ∈ E, e ≠ 1 ∧ ¬ Group.IsSolvable ↥(CFSG.RankThree.PartOne.CTP.fixedSubgroup e)) :
     CFSG.LocalAnalysis.GLTheoremB.MovingAround.Inputs2311c.UniPlaneGen 2 E := by
   classical
   have : Fact p.Prime := ⟨hp⟩
@@ -1343,7 +1346,7 @@ theorem uniPlaneGen_psl_nonCpf [CharP F 2] {f : ℕ} (hf : 1 ≤ f)
   have h2 : 2 ∣ Nat.card ↥(CFSG.RankThree.PartOne.CTP.fixedSubgroup (conjAut n F b)) := by
     by_contra hodd
     exact hsolv (CFSG.FeitThompson.isSolvable_of_odd_natCard _ (Nat.odd_iff.2 (Nat.two_dvd_ne_zero.1 hodd)))
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨s, hs⟩ := exists_prime_orderOf_dvd_card' 2 h2
   have hs1 : (s : projectiveSL n F) ≠ 1 := by
     intro h
@@ -1366,8 +1369,8 @@ section LinearNonCpfCat
 open CFSG.LocalAnalysis.ComponentInitial.LinearFlag
 
 theorem isSolvable_fixedSubgroup_of_congr {G H : Type*} [Group G] [Group H] (e : G ≃* H)
-    (ε : MulAut G) (h : IsSolvable ↥(CFSG.RankThree.PartOne.CTP.fixedSubgroup (MulAut.congr e ε))) :
-    IsSolvable ↥(CFSG.RankThree.PartOne.CTP.fixedSubgroup ε) := by
+    (ε : MulAut G) (h : Group.IsSolvable ↥(CFSG.RankThree.PartOne.CTP.fixedSubgroup (MulAut.congr e ε))) :
+    Group.IsSolvable ↥(CFSG.RankThree.PartOne.CTP.fixedSubgroup ε) := by
   let ψ : CFSG.RankThree.PartOne.CTP.fixedSubgroup ε →* CFSG.RankThree.PartOne.CTP.fixedSubgroup (MulAut.congr e ε) :=
     { toFun := fun x => ⟨e (x : G), by
         rw [CFSG.RankThree.PartOne.CTP.mem_fixedSubgroup]
@@ -1381,7 +1384,7 @@ theorem isSolvable_fixedSubgroup_of_congr {G H : Type*} [Group G] [Group H] (e :
 theorem uniSeitzPlanes_linear_nonCpf :
     UniSeitzPlanes fun d p E => IsLinearIndex d.1 ∧ d.1.characteristic = 2 ∧ 5 ≤ p ∧
       ¬ CentralPrimeFree p d.1 ∧
-        ∃ e ∈ E, e ≠ 1 ∧ ¬ IsSolvable ↥(CFSG.RankThree.PartOne.CTP.fixedSubgroup e) := by
+        ∃ e ∈ E, e ≠ 1 ∧ ¬ Group.IsSolvable ↥(CFSG.RankThree.PartOne.CTP.fixedSubgroup e) := by
   rintro ⟨d, hv⟩ p hp hp2 hpd _ E hE hc ⟨⟨m, q, hd⟩, hch, hp5, hncpf, hns⟩
   subst hd
   have hq2 : q.p = 2 := by simpa using hch
@@ -1400,7 +1403,7 @@ theorem uniSeitzPlanes_linear_nonCpf :
   have hE'el : IsElemAbelian p (E.map (MulAut.congr e).toMonoidHom) := isElemAbelian_map_congr e hE
   have hE'c : Nat.card (E.map (MulAut.congr e).toMonoidHom) = p ^ 2 := (card_map_congr e E).trans hc
   have hns' : ∃ ε ∈ E.map (MulAut.congr e).toMonoidHom, ε ≠ 1 ∧
-      ¬ IsSolvable ↥(CFSG.RankThree.PartOne.CTP.fixedSubgroup ε) := by
+      ¬ Group.IsSolvable ↥(CFSG.RankThree.PartOne.CTP.fixedSubgroup ε) := by
     obtain ⟨ε, hεE, hε1, hεs⟩ := hns
     refine ⟨MulAut.congr e ε, ⟨ε, hεE, rfl⟩, fun h => hε1 ?_, fun hs => hεs ?_⟩
     · exact (MulAut.congr e).injective (h.trans (map_one _).symm)
@@ -1412,10 +1415,11 @@ theorem uniSeitzPlanes_linear_nonCpf :
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem isSolvable_inf_centralizer_of_fixed {Q : Type*} [Group Q] {K : Subgroup X}
     (θ : (↥K ⧸ Subgroup.center ↥K) ≃* Q) {b : X} (hb : b ∈ Subgroup.normalizer (K : Set X))
-    (h : IsSolvable ↥(CFSG.RankThree.PartOne.CTP.fixedSubgroup ((MulAut.congr θ) (Inputs2323b.centerQuotAct K ⟨b, hb⟩)))) :
-    IsSolvable ↥(K ⊓ Subgroup.centralizer ({b} : Set X)) := by
+    (h : Group.IsSolvable ↥(CFSG.RankThree.PartOne.CTP.fixedSubgroup ((MulAut.congr θ) (Inputs2323b.centerQuotAct K ⟨b, hb⟩)))) :
+    Group.IsSolvable ↥(K ⊓ Subgroup.centralizer ({b} : Set X)) := by
   set ε := (MulAut.congr θ) (Inputs2323b.centerQuotAct K ⟨b, hb⟩) with hε
   have hK1 : ∀ k : ↥(K ⊓ Subgroup.centralizer ({b} : Set X)), (k : X) ∈ K := fun k =>
     (Subgroup.mem_inf.1 k.2).1
@@ -1452,7 +1456,7 @@ theorem isSolvable_inf_centralizer_of_fixed {Q : Type*} [Group Q] {K : Subgroup 
     apply Subtype.ext
     apply Subtype.ext
     exact (congrArg Subtype.val h3).symm
-  exact Group.isSolvable_of_ker_le_range (hG' := isSolvable_of_comm hker) (hG'' := h)
+  exact Group.isSolvable_of_ker_le_range (hG' := _root_.Group.isSolvable_of_comm hker) (hG'' := h)
     φ.ker.subtype φ (by rw [Subgroup.range_subtype])
 
 theorem input23_11TwoOn_of_uniSeitzPlanes_ns
@@ -1460,7 +1464,7 @@ theorem input23_11TwoOn_of_uniSeitzPlanes_ns
     (hU : UniSeitzPlanes S) {R : ℕ → TauCeti.LieTypeIndex → Prop}
     (hRS : ∀ (d : TauCeti.ValidLieTypeIndex) (p : ℕ), p.Prime → 5 ≤ p → R p d.1 →
       d.1.characteristic = 2 → ∀ E : Subgroup (MulAut (Cat d)), IsElemAbelian p E →
-        Nat.card E = p ^ 2 → (∃ e ∈ E, e ≠ 1 ∧ ¬ IsSolvable ↥(CFSG.RankThree.PartOne.CTP.fixedSubgroup e)) → S d p E) :
+        Nat.card E = p ^ 2 → (∃ e ∈ E, e ≠ 1 ∧ ¬ Group.IsSolvable ↥(CFSG.RankThree.PartOne.CTP.fixedSubgroup e)) → S d p E) :
     Inputs2323b.Input23_11TwoOn R := by
   intro p hp hp5 X _ _ K B hK d hR hchar he hBel hBc hBN hfaith hexc hns
   obtain ⟨θ⟩ := he
@@ -1476,7 +1480,7 @@ theorem input23_11TwoOn_of_uniSeitzPlanes_ns
   have hpd : p ≠ d.1.characteristic := by rw [hchar]; exact hp2
   have hnsE : ∃ e ∈ (B.subgroupOf (Subgroup.normalizer (K : Set X))).map
       ((MulAut.congr θ).toMonoidHom.comp (Inputs2323b.centerQuotAct K)), e ≠ 1 ∧
-        ¬ IsSolvable ↥(CFSG.RankThree.PartOne.CTP.fixedSubgroup e) := by
+        ¬ Group.IsSolvable ↥(CFSG.RankThree.PartOne.CTP.fixedSubgroup e) := by
     obtain ⟨b, hbB, hb1, hbs⟩ := hns
     have hbN : b ∈ Subgroup.normalizer (K : Set X) := hBN hbB
     refine ⟨(MulAut.congr θ) (Inputs2323b.centerQuotAct K ⟨b, hbN⟩),
@@ -1531,13 +1535,13 @@ section Assembly
 
 
 theorem uni23_11TwoCpfRest_of_rest2
-    (hTor : ∀ {ℓ f n p : ℕ} {K : Type} [Field K] (h : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData ℓ f K),
+    (hTor : ∀ {ℓ f n p : ℕ} {K : Type} [Field K] (_h : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData ℓ f K),
       p.Prime → p ∣ ℓ ^ f + 1 → ℓ ^ f ≠ 2 →
       ∀ (E : Subgroup (CFSG.ClassicalGroups.UnitaryFlag.unitarySU ℓ f K (n + 1))),
         (∀ x ∈ E, ∀ y ∈ E, x * y = y * x) → (∀ x ∈ E, x ^ p = 1) → Nat.card E = p ^ 2 →
         Subgroup.closure {g : CFSG.ClassicalGroups.UnitaryFlag.unitarySU ℓ f K (n + 1) |
           ∃ x ∈ E, x ≠ 1 ∧ g * x = x * g ∧ g ^ ringChar K = 1} = ⊤)
-    (hNS : ∀ {ℓ f p n : ℕ} {K : Type} [Field K] (hU : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData ℓ f K),
+    (hNS : ∀ {ℓ f p n : ℕ} {K : Type} [Field K] (_hU : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData ℓ f K),
       p.Prime → 5 ≤ p → p ≠ ℓ → ¬ p ∣ ℓ ^ f + 1 → ¬ p ∣ ℓ ^ f - 1 → 3 ≤ n →
       ∀ (E : Subgroup (CFSG.ClassicalGroups.UnitaryFlag.unitarySU ℓ f K n)),
         (∀ x ∈ E, ∀ y ∈ E, x * y = y * x) → (∀ x ∈ E, x ^ p = 1) → Nat.card E = p ^ 2 →
@@ -1550,13 +1554,13 @@ theorem uni23_11TwoCpfRest_of_rest2
     (hE6Out : UniSeitzPlanes fun d p E => ¬ InnerPlane d p E ∧ IsE6Index d.1 ∧ 5 ≤ p)
     (hTwE6Out : UniSeitzPlanes fun d p E => ¬ InnerPlane d p E ∧ 5 ≤ p ∧ IsTwistedE6Index d.1)
     (hD4Out : UniSeitzPlanes fun d p E => ¬ InnerPlane d p E ∧ 5 ≤ p ∧ IsTrialityIndex d.1)
-    (h : Input23_11TwoRest2) : Inputs2323b.Uni23_11TwoCpfRest := by
+    (_h : Input23_11TwoRest2) : Inputs2323b.Uni23_11TwoCpfRest := by
   have hSp := UniSeitzPlanes.of_cover (S := fun d p E => 5 ≤ p ∧ IsSymplecticIndex d.1)
     (fun d p _ _ E ⟨hp5, hsp⟩ => by
       by_cases hin : InnerPlane d p E
       · exact Or.inl ⟨hin, hp5, hsp⟩
       · exact Or.inr ⟨hin, hsp⟩) uniSeitzPlanes_symplectic_inner_five hSpOut
-  have hU := UniSeitzPlanes.of_cover (S := fun d p E => d.1.characteristic = 2 ∧ 5 ≤ p ∧
+  have _hU := UniSeitzPlanes.of_cover (S := fun d p E => d.1.characteristic = 2 ∧ 5 ≤ p ∧
       IsUnitaryIndex' d.1 ∧ CentralPrimeFree p d.1)
     (fun d p _ _ E ⟨hc, hp5, hu, hcpf⟩ => by
       by_cases hin : InnerPlane d p E
@@ -1576,11 +1580,11 @@ theorem uni23_11TwoCpfRest_of_rest2
       · exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl ⟨hout, hp5, hD4⟩)))))
       · exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inl ⟨hout, hp5, hTw⟩))))
       · exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr ⟨hout, hp5, hR4⟩))))))
-    hOrthOut (UniSeitzPlanes.of_cover (fun _ _ _ _ _ h => h) uniSeitzPlanes_G2_outer_even
-      (UniSeitzPlanes.of_cover (fun _ _ _ _ _ h => h) hF4E78Out
-        (UniSeitzPlanes.of_cover (fun _ _ _ _ _ h => h) hE6Out
-          (UniSeitzPlanes.of_cover (fun _ _ _ _ _ h => h) hTwE6Out
-            (UniSeitzPlanes.of_cover (fun _ _ _ _ _ h => h) hD4Out uniSeitzPlanes_reeF4_outer)))))
+    hOrthOut (UniSeitzPlanes.of_cover (fun _ _ _ _ _ _h => _h) uniSeitzPlanes_G2_outer_even
+      (UniSeitzPlanes.of_cover (fun _ _ _ _ _ _h => _h) hF4E78Out
+        (UniSeitzPlanes.of_cover (fun _ _ _ _ _ _h => _h) hE6Out
+          (UniSeitzPlanes.of_cover (fun _ _ _ _ _ _h => _h) hTwE6Out
+            (UniSeitzPlanes.of_cover (fun _ _ _ _ _ _h => _h) hD4Out uniSeitzPlanes_reeF4_outer)))))
   have hPar := UniSeitzPlanes.of_cover (S := fun d p E => InnerPlane d p E ∧
       (IsChevalleyExcIndex d.1 ∨ IsReeF4Index d.1) ∧ NormalizesRSubgroup d E)
     (fun d p _ _ E ⟨hin, hfam, hR⟩ => by
@@ -1588,10 +1592,10 @@ theorem uni23_11TwoCpfRest_of_rest2
       · exact Or.inl ⟨hin, hx, hR⟩
       · exact Or.inr ⟨hin, hx, hR⟩) uniSeitzPlanes_excParabolic uniSeitzPlanes_reeF4_parabolic
   refine UniSeitzPlanes.of_cover (fun d p hp hp2 E hE => ?_)
-    (UniSeitzPlanes.of_cover (fun _ _ _ _ _ h => h) hSp
-      (UniSeitzPlanes.of_cover (fun _ _ _ _ _ h => h) hU
-        (UniSeitzPlanes.of_cover (fun _ _ _ _ _ h => h) hOut
-          (UniSeitzPlanes.of_cover (fun _ _ _ _ _ h => h) hPar orthSq_uniSeitzPlanes_orthogonal)))) h.1
+    (UniSeitzPlanes.of_cover (fun _ _ _ _ _ _h => _h) hSp
+      (UniSeitzPlanes.of_cover (fun _ _ _ _ _ _h => _h) _hU
+        (UniSeitzPlanes.of_cover (fun _ _ _ _ _ _h => _h) hOut
+          (UniSeitzPlanes.of_cover (fun _ _ _ _ _ _h => _h) hPar orthSq_uniSeitzPlanes_orthogonal)))) _h.1
   obtain ⟨hc, hp5, hcpf, hlin, hsz, hti, hexc⟩ := hE
   obtain ⟨d, hv⟩ := d
   have hrange := (TauCeti.LieTypeIndex.inStandardRange_iff _).1 ((TauCeti.LieTypeIndex.valid_iff _).1 hv).1
@@ -1649,13 +1653,13 @@ theorem uni23_11TwoCpfRest_of_rest2
   | tits => exact absurd rfl hti
 
 theorem input23_11TwoRest_of_rest2
-    (hTor : ∀ {ℓ f n p : ℕ} {K : Type} [Field K] (h : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData ℓ f K),
+    (hTor : ∀ {ℓ f n p : ℕ} {K : Type} [Field K] (_h : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData ℓ f K),
       p.Prime → p ∣ ℓ ^ f + 1 → ℓ ^ f ≠ 2 →
       ∀ (E : Subgroup (CFSG.ClassicalGroups.UnitaryFlag.unitarySU ℓ f K (n + 1))),
         (∀ x ∈ E, ∀ y ∈ E, x * y = y * x) → (∀ x ∈ E, x ^ p = 1) → Nat.card E = p ^ 2 →
         Subgroup.closure {g : CFSG.ClassicalGroups.UnitaryFlag.unitarySU ℓ f K (n + 1) |
           ∃ x ∈ E, x ≠ 1 ∧ g * x = x * g ∧ g ^ ringChar K = 1} = ⊤)
-    (hNS : ∀ {ℓ f p n : ℕ} {K : Type} [Field K] (hU : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData ℓ f K),
+    (hNS : ∀ {ℓ f p n : ℕ} {K : Type} [Field K] (_hU : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData ℓ f K),
       p.Prime → 5 ≤ p → p ≠ ℓ → ¬ p ∣ ℓ ^ f + 1 → ¬ p ∣ ℓ ^ f - 1 → 3 ≤ n →
       ∀ (E : Subgroup (CFSG.ClassicalGroups.UnitaryFlag.unitarySU ℓ f K n)),
         (∀ x ∈ E, ∀ y ∈ E, x * y = y * x) → (∀ x ∈ E, x ^ p = 1) → Nat.card E = p ^ 2 →
@@ -1668,10 +1672,10 @@ theorem input23_11TwoRest_of_rest2
     (hE6Out : UniSeitzPlanes fun d p E => ¬ InnerPlane d p E ∧ IsE6Index d.1 ∧ 5 ≤ p)
     (hTwE6Out : UniSeitzPlanes fun d p E => ¬ InnerPlane d p E ∧ 5 ≤ p ∧ IsTwistedE6Index d.1)
     (hD4Out : UniSeitzPlanes fun d p E => ¬ InnerPlane d p E ∧ 5 ≤ p ∧ IsTrialityIndex d.1)
-    (h : Input23_11TwoRest2) : Inputs2323b.Input23_11TwoRest :=
+    (_h : Input23_11TwoRest2) : Inputs2323b.Input23_11TwoRest :=
   Inputs2323b.input23_11TwoRest_of_uni
-    (uni23_11TwoCpfRest_of_rest2 hTor hNS hSpOut hOrthOut hF4E78Out hE6Out hTwE6Out hD4Out h)
-    (input23_11TwoNonCpf_of_unitary h.2)
+    (uni23_11TwoCpfRest_of_rest2 hTor hNS hSpOut hOrthOut hF4E78Out hE6Out hTwE6Out hD4Out _h)
+    (input23_11TwoNonCpf_of_unitary _h.2)
 
 end Assembly
 

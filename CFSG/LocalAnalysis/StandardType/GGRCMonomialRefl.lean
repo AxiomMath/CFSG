@@ -8,7 +8,7 @@ public section
 
 namespace CFSG.StandardType
 
-theorem ggRC_monomial_refl_shape {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {V : Type}
+theorem ggRC_monomial_refl_shape {p : ℕ} [Fact p.Prime] (_hp2 : p ≠ 2) {V : Type}
     [AddCommGroup V] [Module (ZMod p) V] {n : ℕ} (b : Module.Basis (Fin n) (ZMod p) V)
     (r : V ≃ₗ[ZMod p] V) (hr : GGLinRefl r) (σ : Equiv.Perm (Fin n)) (c : Fin n → ZMod p)
     (hc : ∀ i, c i ≠ 0) (hrb : ∀ i, r (b i) = c i • b (σ i)) :
@@ -40,12 +40,12 @@ theorem ggRC_monomial_refl_shape {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {V : T
     by_cases hii : σ (σ i) = i
     · exact hii
     · have h := hcoeff_key i
-      rw [if_neg hii] at h
+      rw [ite_eq_right hii] at h
       exact absurd h zero_ne_one
   have hcσ : ∀ i, c i * c (σ i) = 1 := by
     intro i
     have h := hcoeff_key i
-    rw [if_pos (hσ2 i)] at h
+    rw [ite_eq_left (hσ2 i)] at h
     exact h
   have hfin : Module.finrank (ZMod p) T.range = 1 := hr.2
   have hspan : T.range = Submodule.span (ZMod p) (Set.range u) := by

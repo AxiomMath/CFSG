@@ -181,7 +181,7 @@ theorem fi22_eq_stabilizer_of_le
     have h := le_of_isPGroup_of_not_dvd_index (p := 5)
       (P := (Q : Subgroup ↥fi22P).subgroupOf
         (MulAction.stabilizer (↥fi22P) (ptSet 3510 fi22OmegaU0)))
-      (Q.isPGroup'.of_equiv (subgroupOfEquivOfLe hQM).symm)
+      (Q.isPGroup.of_equiv (subgroupOfEquivOfLe hQM).symm)
       (by rw [fi22_index_D_M]; decide)
     intro q hq
     exact mem_subgroupOf.1 (h (mem_subgroupOf.2 (show q ∈ (Q : Subgroup _) from hq) :

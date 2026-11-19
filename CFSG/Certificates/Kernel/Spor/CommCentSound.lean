@@ -102,7 +102,7 @@ theorem choose_of_baseOK (hL : ∀ z < nL, PRep n w (L z) (ℓ z)) {x : Equiv.Pe
   replace hall : ∀ y < n, fixAll w (mask w) L ss y = true → allowed b ex sw pr y = true :=
     fun y hy hf => by
       have := hall y hy
-      rwa [bIf_eqC, if_pos hf] at this
+      rwa [bIf_eqC, ite_eq_left hf] at this
   refine ⟨hb, fun f hf => ?_⟩
   change bAnd(f b, bIf(Nat.beq pr b, allL (fun s : ℕ × List ℕ => f s.1) sw, f pr)) = true at hf
   rw [bAnd_eq, Bool.and_eq_true, bIf_eqC] at hf
@@ -127,10 +127,10 @@ theorem choose_of_baseOK (hL : ∀ z < nL, PRep n w (L z) (ℓ z)) {x : Equiv.Pe
     apply hmove'
     apply x.injective
     rw [comm_apply (hx e.2 hz), hfix']
-  · rw [if_pos (by rw [Nat.beq_eq]; exact hpr), allL_iff] at hf
+  · rw [ite_eq_left (by rw [Nat.beq_eq]; exact hpr), allL_iff] at hf
     rw [← ht1]
     exact hf.2 t ht
-  · rw [if_neg (by rw [Nat.beq_eq]; exact hne)] at hf
+  · rw [ite_eq_right (by rw [Nat.beq_eq]; exact hne)] at hf
     rw [h1]
     exact hf.2
 
@@ -152,16 +152,16 @@ theorem root_spec (hL : ∀ z < nL, PRep n w (L z) (ℓ z)) {B : List BaseRec} {
       have hr := hR p p.2
       rw [strictB_eq, bIf_eqC] at hq hr
       by_cases hqp : Nat.beq (pg w (mask w) PF p) p = true
-      · rw [if_pos hqp, anyL_iff] at hq
-        rw [if_pos hqp] at hr
+      · rw [ite_eq_left hqp, anyL_iff] at hq
+        rw [ite_eq_left hqp] at hr
         obtain ⟨r, hrB, hr1⟩ := hq
         have e : r.1 = p := Nat.eq_of_beq_eq_true hr1
         have hp' : (⟨r.1, e ▸ p.2⟩ : Fin n) = p := Fin.ext e
         refine ⟨r, hrB, e ▸ p.2, (Nat.eq_of_beq_eq_true hr).trans e.symm, fun X _ => ?_⟩
         rw [hp']
-      · rw [if_neg hqp, bAnd_eq, Bool.and_eq_true, strictB_eq, bAnd_eq, bAnd_eq,
+      · rw [ite_eq_right hqp, bAnd_eq, Bool.and_eq_true, strictB_eq, bAnd_eq, bAnd_eq,
           Bool.and_eq_true, Bool.and_eq_true, Nat.blt_eq, Nat.blt_eq, Nat.blt_eq] at hq
-        rw [if_neg hqp] at hr
+        rw [ite_eq_right hqp] at hr
         obtain ⟨hqn, hz, hd, hl⟩ := hq
         replace hl := Nat.eq_of_beq_eq_true hl
         set q : Fin n := ⟨pg w (mask w) PF p, hqn⟩
@@ -208,9 +208,9 @@ theorem card_filter_exists {α β : Type} [Fintype α] [DecidableEq α] (f : α 
     rw [e, Finset.card_union_of_disjoint]
     · congr 1
       by_cases hq : Q r
-      · rw [if_pos hq]
+      · rw [ite_eq_left hq]
         exact congrArg Finset.card (Finset.filter_congr fun a _ => and_iff_left hq)
-      · rw [if_neg hq, Finset.card_eq_zero, Finset.filter_eq_empty_iff]
+      · rw [ite_eq_right hq, Finset.card_eq_zero, Finset.filter_eq_empty_iff]
         exact fun a _ h => hq h.2
     · rw [Finset.disjoint_filter]
       rintro a - ⟨h1, -⟩ ⟨s, hs, h2, -⟩
@@ -269,8 +269,8 @@ theorem enumOK_sound {m t RF : ℕ} {Ts : List ℕ} (y : ℕ → ℕ) :
       split_ifs <;> simp [Nat.add_assoc]
     · simp only [List.map_cons, List.sum_cons]
       split_ifs <;> simp [Nat.add_assoc]
-    · simp only [List.all_cons, Nat.beq_eq, Bool.and_assoc]
-    · simp only [List.all_cons, Nat.beq_eq, Bool.and_assoc]
+    · simp only [List.all_cons, Bool.and_assoc]
+    · simp only [List.all_cons, Bool.and_assoc]
 
 theorem eq_one_or_of_centFixOK (hL : ∀ z < nL, PRep n w (L z) (ℓ z)) {x : Equiv.Perm (Fin n)}
     (hx : ∀ z < nL, Commute x (ℓ z)) {tI : ℕ} (hτ : ∀ z < nL, Commute (ℓ tI) (ℓ z))
@@ -290,7 +290,7 @@ theorem eq_one_or_of_centFixOK (hL : ∀ z < nL, PRep n w (L z) (ℓ z)) {x : Eq
   have hτL : PRep n w (L tI) τ := hL tI htI
   have hy : ∀ z < nL, Commute (x * τ) (ℓ z) := fun z hz => (hx z hz).mul_left (hτ z hz)
   let yv : ℕ → ℕ := fun b => if hb : b < n then (x ⟨b, hb⟩ : ℕ) else b
-  have hyv : ∀ r ∈ B, ∀ hb : r.1 < n, yv r.1 = x ⟨r.1, hb⟩ := fun r _ hb => dif_pos hb
+  have hyv : ∀ r ∈ B, ∀ hb : r.1 < n, yv r.1 = x ⟨r.1, hb⟩ := fun r _ hb => dite_eq_left hb
   have hch : ∀ r ∈ B, ∀ f : ℕ → Bool, chooseL r f = true → f (yv r.1) = true := by
     intro r hr f hf
     obtain ⟨hb, hc⟩ := choose_of_baseOK hL hx (hBase r hr)
@@ -318,12 +318,12 @@ theorem eq_one_or_of_centFixOK (hL : ∀ z < nL, PRep n w (L z) (ℓ z)) {x : Eq
   · left
     refine fixAll x hx fun r hr hb => (hQA r hr hb).2 ?_
     exact Nat.eq_of_beq_eq_true (List.all_eq_true.1 hA r hr)
-  rw [if_neg hA] at hE'
+  rw [ite_eq_right hA] at hE'
   by_cases hB : B.all (fun r => Nat.beq (pg w (mask w) (L tI) (yv r.1)) r.1) = true
   · right
     refine hxτ (fixAll _ hy fun r hr hb => (hQB r hr hb).2 ?_)
     exact Nat.eq_of_beq_eq_true (List.all_eq_true.1 hB r hr)
-  rw [if_neg hB] at hE'
+  rw [ite_eq_right hB] at hE'
   by_cases h1 : x = 1
   · exact Or.inl h1
   by_cases h2 : x * τ = 1

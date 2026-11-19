@@ -20,9 +20,9 @@ theorem exists_small_involution (hL : IsU4Group n L) (hA : IsElemAbelian2 A)
     ∃ t ∈ L, t ≠ 1 ∧ t * t = 1 ∧ disp t ≤ 2 * disp σ := by
   classical
   have hS : ∀ s : S, s * s = 1 := Fact.out
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨K, _, h, ⟨η⟩⟩ := exists_equiv_gramSU hL
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   have hC := sup_inf_centralizer_eq_bot hS hL hA hAN hirr
   set x : Subgroup.normalizer (L : Set (MulAut S)) := ⟨σ, hAN hσA⟩ with hx
   have hσ2 : σ * σ = 1 := by simpa [sq] using hA.2 σ hσA

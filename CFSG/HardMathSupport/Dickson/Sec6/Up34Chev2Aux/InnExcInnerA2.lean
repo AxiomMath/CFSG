@@ -26,7 +26,7 @@ set_option linter.unusedSectionVars false
 theorem exists_cube_root_unit {K : Type} [Field K] [Finite K] (h : Nat.card K = 4) :
     ∃ ω : Kˣ, ω ^ 3 = 1 ∧ ω ≠ 1 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcard : Fintype.card Kˣ = 3 := by
     rw [Fintype.card_units, ← Nat.card_eq_fintype_card, h]
   have hnt : Nontrivial Kˣ := Fintype.one_lt_card_iff_nontrivial.1 (by rw [hcard]; norm_num)
@@ -76,10 +76,10 @@ theorem inner_a2_central (hT : rootDiagUnit τ a ∈ S.D.torus) (hap : ∀ j, a 
       (∀ g ∈ rationalComponent S.ρ S.Γ (rootCharHom a) i, g * w = w * g) ∧
       w ^ 3 = 1 ∧ w ≠ 1 := by
   classical
-  haveI := D.hKfin
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := finite_rationalComponent S a i
-  haveI : NeZero D.s := ⟨D.hs0.ne'⟩
+  have := D.hKfin
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := finite_rationalComponent S a i
+  have : NeZero D.s := ⟨D.hs0.ne'⟩
   obtain ⟨γ₁, γ₂, hP, hΨeq, hglueAll⟩ := hRDg L a hap i h6
   have ha1 : ∃ j, a j ≠ 1 := by
     by_contra hcon

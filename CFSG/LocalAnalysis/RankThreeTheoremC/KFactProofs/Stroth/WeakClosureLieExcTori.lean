@@ -31,13 +31,13 @@ theorem exists_unit_orderOf_card_add_one_alg (K L : Type) [Field K] [Finite K] [
     [Algebra K L] [IsAlgClosed L] :
     ∃ ζ : Lˣ, orderOf ζ = Nat.card K + 1 ∧ ζ ^ (Nat.card K + 1) = 1 := by
   have hK0 : ((Nat.card K : ℕ) : L) = 0 := by
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     rw [← map_natCast (algebraMap K L), Nat.card_eq_fintype_card, FiniteField.cast_card_eq_zero K,
       map_zero]
-  haveI : NeZero (((Nat.card K + 1 : ℕ)) : L) := ⟨by
+  have : NeZero (((Nat.card K + 1 : ℕ)) : L) := ⟨by
     rw [Nat.cast_add, hK0, zero_add, Nat.cast_one]
     exact one_ne_zero⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L (Nat.card K + 1)
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L (Nat.card K + 1)
   set ζu : Lˣ := (hζ.isUnit (by omega)).unit with hζu
   have hζu' : IsPrimitiveRoot ζu (Nat.card K + 1) :=
     IsPrimitiveRoot.coe_units_iff.1 (by simpa [hζu] using hζ)

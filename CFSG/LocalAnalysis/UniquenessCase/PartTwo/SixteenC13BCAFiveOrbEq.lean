@@ -15,12 +15,12 @@ theorem s16c13bcA_orbit_eq_of_odd {W : Type} [CommGroup W] [Finite W] {H : Subgr
     (o₁ : Odd (Nat.card (MulAction.orbit ↥H w₁)))
     (o₂ : Odd (Nat.card (MulAction.orbit ↥H w₂))) : w₂ ∈ MulAction.orbit ↥H w₁ := by
   obtain ⟨-, K, hKf, hKfin, hKcard, hR⟩ := hnat
-  letI := hKf
-  letI := hKfin
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let := hKf
+  let := hKfin
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard4 : Nat.card K = 4 := by rw [hKcard]; norm_num
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2)
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2)
     (by rw [← Nat.card_eq_fintype_card, hKcard])
   obtain ⟨φ, hφ0, hφ⟩ := s16c13bcA_nat_orbit_transfer
     (Γ := StatedOmega (StatedQuadPlus (4 / 2) K)) hR

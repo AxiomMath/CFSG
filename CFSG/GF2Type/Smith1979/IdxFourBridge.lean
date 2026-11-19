@@ -81,7 +81,7 @@ theorem layer_data {E : Type} [Group E] {θ : E} (hθ3 : θ ^ 3 = 1) (hθ1 : θ 
       MulEquiv.map_eq_one_iff, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff]
   · have hX := CFSG.Open.StatedAPI.card_of_statedClassicalModel_psu_four_three hmodel
     have hZ : Nat.card (center E) = 3 := by
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       rw [hcen, Nat.card_zpowers, orderOf_eq_prime hθ3 hθ1]
     rw [Subgroup.card_eq_card_quotient_mul_card_subgroup (center E), hX, hZ]
 

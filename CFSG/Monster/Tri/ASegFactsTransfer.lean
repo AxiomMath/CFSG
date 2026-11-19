@@ -32,7 +32,7 @@ theorem exists_conj_mem_of_not_four_dvd_index {I : Subgroup J} (hidx : ¬ 4 ∣ 
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S⟩ : Nonempty (Sylow 2 I) := inferInstance
   set P₀ : Subgroup J := (S : Subgroup I).map I.subtype with hP₀
-  have hP₀p : IsPGroup 2 P₀ := S.isPGroup'.map I.subtype
+  have hP₀p : IsPGroup 2 P₀ := S.isPGroup.map I.subtype
   obtain ⟨T, hPT⟩ := hP₀p.exists_le_sylow
   have hP₀I : P₀ ≤ I := Subgroup.map_subtype_le _
   have hrel : P₀.relIndex (T : Subgroup J) = 1 ∨
@@ -42,7 +42,7 @@ theorem exists_conj_mem_of_not_four_dvd_index {I : Subgroup J} (hidx : ¬ 4 ∣ 
     have h2 : P₀.index = (S : Subgroup I).index * I.index := Subgroup.index_map_subtype _
     have hT : ¬ 2 ∣ (T : Subgroup J).index := Sylow.not_dvd_index T
     have hS : ¬ 2 ∣ (S : Subgroup I).index := Sylow.not_dvd_index S
-    obtain ⟨n, hn⟩ := (T.isPGroup').index (P₀.subgroupOf (T : Subgroup J))
+    obtain ⟨n, hn⟩ := (T.isPGroup).index (P₀.subgroupOf (T : Subgroup J))
     have hn' : P₀.relIndex (T : Subgroup J) = 2 ^ n := hn
     by_cases hn2 : 2 ≤ n
     · exfalso
@@ -91,7 +91,7 @@ theorem exists_conj_mem_of_not_four_dvd_index {I : Subgroup J} (hidx : ¬ 4 ∣ 
         rw [← ht2]
         simpa using orderOf_injective (MulAut.conj g).toMonoidHom (MulAut.conj g).injective t
       obtain ⟨N, hN, hNidx⟩ := CFSG.ThompsonIndexTwo.exists_normal_index_two_of_thompson
-        T.isPGroup' (Sylow.not_dvd_index T) hPT h2 htT (by simpa using hex 1)
+        T.isPGroup (Sylow.not_dvd_index T) hPT h2 htT (by simpa using hex 1)
         (fun y hyT hyU => by
           rw [hord]
           have hy1 : y ≠ 1 := fun e => hyU (e ▸ P₀.one_mem)

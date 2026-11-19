@@ -17,9 +17,11 @@ theorem zmod2_cases (a : ZMod 2) : a = 0 ∨ a = 1 := by
 theorem add_self_zmod2 (a : ZMod 2) : a + a = 0 := by
   rcases zmod2_cases a with rfl | rfl <;> decide
 
+omit [Finite V] in
 theorem vadd_self (v : V) : v + v = 0 := by
   rw [← two_smul (ZMod 2), show (2 : ZMod 2) = 0 from rfl, zero_smul]
 
+omit [Finite V] in
 theorem symm_of_alt {B : LinearMap.BilinForm (ZMod 2) V} (halt : ∀ v, B v v = 0) (v w : V) :
     B v w = B w v := by
   have h := halt (v + w)
@@ -40,19 +42,20 @@ theorem symm_of_alt {B : LinearMap.BilinForm (ZMod 2) V} (halt : ∀ v, B v v = 
           smul_add] }
     (fun x => by
       have hwu : B w u = 0 := by rw [symm_of_alt halt]; exact huw
-      simp only [LinearMap.coe_mk, AddHom.coe_mk, map_add, map_smul, LinearMap.add_apply,
-        LinearMap.smul_apply, smul_eq_mul, halt, huw, hwu, mul_zero, add_zero, zero_smul]
+      simp only [LinearMap.coe_mk, AddHom.coe_mk, map_add, map_smul, halt, huw, hwu, add_zero, zero_smul]
       have key : ∀ a b : V, x + a + b + a + b = x := fun a b => by
         rw [show x + a + b + a + b = x + (a + a) + (b + b) by abel, vadd_self, vadd_self,
           add_zero, add_zero]
       exact key _ _)
 
+omit [Finite V] in
 theorem sieg_apply (B : LinearMap.BilinForm (ZMod 2) V) (halt : ∀ v, B v v = 0) (u w : V)
     (huw : B u w = 0) (x : V) : sieg B halt u w huw x = x + B x u • w + B x w • u := rfl
 
 
 theorem two_eq_zero_zmod2 : (2 : ZMod 2) = 0 := rfl
 
+omit [Finite V] in
 theorem sieg_mem_orth {B : LinearMap.BilinForm (ZMod 2) V} (halt : ∀ v, B v v = 0)
     {q : V → ZMod 2} (hqB : ∀ v w, q (v + w) = q v + q w + B v w)
     (hqs : ∀ (c : ZMod 2) v, q (c • v) = c * c * q v) {u w : V} (huw : B u w = 0)
@@ -61,11 +64,12 @@ theorem sieg_mem_orth {B : LinearMap.BilinForm (ZMod 2) V} (halt : ∀ v, B v v 
   have hwu : B w u = 0 := by rw [symm_of_alt halt]; exact huw
   show q (sieg B halt u w huw x) = q x
   rw [sieg_apply, hqB, hqB, hqs, hqs, hu, hw]
-  simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul, huw, hwu,
-    halt, mul_zero, add_zero]
+  simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul, hwu,
+    mul_zero, add_zero]
   linear_combination (B x u * B x w) * two_eq_zero_zmod2
 
 
+omit [Finite V] in
 theorem exists_dual {B : LinearMap.BilinForm (ZMod 2) V} (hnd : ∀ v, (∀ w, B v w = 0) → v = 0)
     {p r : V} (hp : p ≠ 0) (hpr : p + r ≠ 0) : ∃ y, B p y = 1 ∧ B r y = 0 := by
   obtain ⟨y, hy⟩ : ∃ y, B p y ≠ 0 := by
@@ -178,7 +182,7 @@ theorem g112ConclA2_concl5 (B : LinearMap.BilinForm (ZMod 2) V)
     rw [hρ2v, hρ1v, map_add, hρ2v, hρ2w,
       show v₁ + (w + v₁) = w by rw [add_comm w, ← add_assoc, vadd_self, zero_add], hρ1w]
   have hγ : g * g ∈ Γ := by
-    haveI : Finite (V ≃ₗ[ZMod 2] V) :=
+    have : Finite (V ≃ₗ[ZMod 2] V) :=
       Finite.of_injective (fun e : V ≃ₗ[ZMod 2] V => (e : V → V))
         (fun a b h => LinearEquiv.ext (congrFun h))
     set H := Γ.subgroupOf (orthogonalSubgroupOf q) with hH'

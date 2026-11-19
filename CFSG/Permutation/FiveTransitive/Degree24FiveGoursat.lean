@@ -25,7 +25,7 @@ private theorem alternatingGroup_le_of_sylow_five_card_five
     (hScard : Nat.card S = 5) :
     alternatingGroup X ≤ P := by
   classical
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   let H : Subgroup P := fixingSubgroup P s
   let R : Subgroup P :=
     (S : Subgroup H).map H.subtype
@@ -36,7 +36,7 @@ private theorem alternatingGroup_le_of_sylow_five_card_five
   let F := MulAction.fixedPoints SN X
   let ρ : N →* Equiv.Perm F :=
     MulAction.toPermHom N F
-  letI : IsCyclic S :=
+  let : IsCyclic S :=
     isCyclic_of_prime_card hScard
   obtain ⟨u, huRaw⟩ :=
     IsCyclic.exists_ofOrder_eq_natCard (α := S)
@@ -181,7 +181,7 @@ private theorem alternatingGroup_le_of_sylow_five_card_five
       hAltNested.trans hNestedLe
     have hAltCard :
         Nat.card (alternatingGroup F) = 181440 := by
-      letI : Nontrivial F :=
+      let : Nontrivial F :=
         Fintype.one_lt_card_iff_nontrivial.mp (by
           rw [hFtype]
           norm_num)
@@ -245,7 +245,7 @@ private theorem alternatingGroup_le_of_sylow_five_card_five
     have hAltCard :
         Nat.card (alternatingGroup F) =
           43589145600 := by
-      letI : Nontrivial F :=
+      let : Nontrivial F :=
         Fintype.one_lt_card_iff_nontrivial.mp (by
           rw [hFtype]
           norm_num)
@@ -313,7 +313,7 @@ theorem five_point_stabilizer_card_ne_remaining_five_cases
       Nat.card (fixingSubgroup P s) = 30720) :
     False := by
   classical
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   let H : Subgroup P := fixingSubgroup P s
   let S : Sylow 5 H := Sylow.nonempty.some
   have hScard : Nat.card S = 5 := by

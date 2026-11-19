@@ -17,6 +17,7 @@ open CFSG.QuasithinUnique.Setup.Campbell
 variable {G : Type*} [Group G] [Finite G] {k : Type*} [Field k] [Finite k] {S : Sylow 2 G}
   {ρ : G →* Matrix.SpecialLinearGroup (Fin 2) k} {ψ : Ecore G →* Multiplicative (Fin 2 → k)}
 
+omit [Finite G] in
 private theorem cj_le_coreJ_Six3a [Finite G] {Y : Subgroup G}
     (hY : Y ≤ CFSG.Quasithin.thompsonJ (CFSG.pCore 2 G)) (w : G) :
     cj Y w ≤ CFSG.Quasithin.thompsonJ (CFSG.pCore 2 G) := by
@@ -405,9 +406,9 @@ private theorem commute_conj_Va_Six3a (h : IsSeed S ρ (Ecore G) ψ)
     {g x y : G} (hg : g ∈ Hone S)
     (hyVa : y ∈ cj (aimg (CFSG.Quasithin.thompsonJ (S : Subgroup G)) α (Vmod G)) g)
     (hyZa : y ∉ aimg (CFSG.Quasithin.thompsonJ (S : Subgroup G)) α (Zfix S))
-    (hy2 : y ^ 2 = 1) (hyW : y ∈ WJ S α)
+    (_hy2 : y ^ 2 = 1) (hyW : y ∈ WJ S α)
     {u : G}
-    (hxU : x ∈ aimg (CFSG.Quasithin.thompsonJ (S : Subgroup G)) α.symm
+    (_hxU : x ∈ aimg (CFSG.Quasithin.thompsonJ (S : Subgroup G)) α.symm
       (cj (aimg (CFSG.Quasithin.thompsonJ (S : Subgroup G)) α (Vmod G)) u)) (hx2 : x * x = 1)
     (hdih : y * (x⁻¹ * y * x) = (x⁻¹ * y * x) * y) :
     ∀ w ∈ cj (aimg (CFSG.Quasithin.thompsonJ (S : Subgroup G)) α (Vmod G)) (g * x),

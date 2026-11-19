@@ -21,7 +21,7 @@ theorem char2L3U3_twoD (hF : L3U3Facts) {τ : Tag}
     (hτ : τ = .F4 ∨ τ = .E6 ∨ τ = .E7 ∨ τ = .E8) : Char2L3U3 τ .twoD := by
   intro L _ _ _ p₀ S a hT hap h1 i hk _ hL
   exfalso
-  haveI := ssTw_finite_rationalComponent S i
+  have := ssTw_finite_rationalComponent S i
   obtain ⟨hnin, h4, hcard⟩ := twoD_kind_unpack hk
   have hTp : rootDiagUnit τ a ^ 3 = 1 := rootDiagUnit_pow_eq_one_of_forall hap
   by_cases h5 : 5 ≤ compRank (componentRoots (rootCharHom a) i)
@@ -36,7 +36,7 @@ theorem char2L3U3_exc (hF : L3U3Facts) {τ : Tag}
     (hτ : τ = .F4 ∨ τ = .E6 ∨ τ = .E7 ∨ τ = .E8) : Char2L3U3 τ .exc := by
   intro L _ _ _ p₀ S a hT hap h1 i hk _ hL
   exfalso
-  haveI := ssTw_finite_rationalComponent S i
+  have := ssTw_finite_rationalComponent S i
   obtain ⟨hnin, h⟩ := exc_kind hk
   have hTp : rootDiagUnit τ a ^ 3 = 1 := rootDiagUnit_pow_eq_one_of_forall hap
   rcases h with ⟨h6, h72⟩ | ⟨h4, h24, -⟩

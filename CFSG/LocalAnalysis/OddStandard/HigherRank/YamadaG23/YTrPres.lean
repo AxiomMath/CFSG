@@ -42,6 +42,7 @@ private lemma toGroup_map_eq {Γ₁ Γ₂ : Type} [Group Γ₁] [Group Γ₂]
 
 variable {Γ₁ Γ₂ : Type} [Group Γ₁] [Group Γ₂] [Finite Γ₁] [Finite Γ₂] {f : Γ₁ →* Γ₂}
 
+omit [Finite Γ₁] [Finite Γ₂] in
 theorem p11_map_iff (hf : Function.Injective f) (gf : GFrame Γ₁) :
     (gf.map f).P11 ↔ gf.P11 := by
   constructor

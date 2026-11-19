@@ -14,6 +14,7 @@ section FourB
 
 variable {G : Type} [Group G] {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 
+omit [Finite V] in
 private theorem b12_TwelveFourB_mem_fixSub_zpowers {ρ : G →* LGL 2 V} {a : G} {v : V} :
     v ∈ fixSub ((zpowers a).map ρ) ↔ ρ a v = v := by
   constructor
@@ -24,6 +25,7 @@ private theorem b12_TwelveFourB_mem_fixSub_zpowers {ρ : G →* LGL 2 V} {a : G}
     have hmem : a ∈ (MulAction.stabilizer (LGL 2 V) v).comap ρ := hv
     exact Subgroup.zpowers_le.mpr hmem hy
 
+omit [Finite V] in
 theorem fixSub_eq_of_conj_decomposition {ρ : G →* LGL 2 V} {S A D : Subgroup G} {b : G}
     (hAS : A ≤ S) (hD : D ≤ A.map (MulAut.conj b).toMonoidHom) (hD1 : D ≠ ⊥)
     (hSAC : ∀ s ∈ S, ∃ a ∈ A, ∃ c ∈ A.map (MulAut.conj b).toMonoidHom, s = a * c)
@@ -74,6 +76,7 @@ theorem fixSub_eq_of_conj_decomposition {ρ : G →* LGL 2 V} {S A D : Subgroup 
       rw [this, h5, h6, h7]
     exact h8
 
+omit [Finite V] in
 theorem fixSub_zpowers_le_of_trans {ρ : G →* LGL 2 V} {S A : Subgroup G}
     (hCA : ∀ a ∈ A, a ≠ 1 → fixSub (A.map ρ) = fixSub ((zpowers a).map ρ))
     (hW : fixSub (S.map ρ) = fixSub (A.map ρ))
@@ -112,6 +115,7 @@ theorem fixSub_zpowers_le_of_trans {ρ : G →* LGL 2 V} {S A : Subgroup G}
   rw [h10, h9, map_inv]
   exact apply_inv_apply' _ _
 
+omit [Finite V] in
 theorem repQuad_of_fixSub_zpowers_le {ρ : G →* LGL 2 V} {S : Subgroup G}
     (hSsq : ∀ s ∈ S, s * s = 1)
     (h : ∀ s ∈ S, s ≠ 1 → fixSub ((zpowers s).map ρ) ≤ fixSub (S.map ρ)) : RepQuad ρ S := by

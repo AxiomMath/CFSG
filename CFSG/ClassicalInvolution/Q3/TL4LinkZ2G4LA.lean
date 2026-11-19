@@ -143,9 +143,9 @@ theorem exists_iota31_of_fix [Finite F] (hF : Nat.card F = 3) (g : SL(4, F))
       have h1 := e i j
       rw [hc, one_mul] at h1
       rcases hij with ⟨hi, hj⟩ | ⟨hi, hj⟩
-      · rw [if_pos hi, if_neg hj] at h1
+      · rw [ite_eq_left hi, ite_eq_right hj] at h1
         exact zero_of_eq_neg h2 (by linear_combination h1)
-      · rw [if_neg hi, if_pos hj] at h1
+      · rw [ite_eq_right hi, ite_eq_left hj] at h1
         exact zero_of_eq_neg h2 (by linear_combination h1)
     have z03 := z 0 3 (Or.inr ⟨by decide, rfl⟩)
     have z13 := z 1 3 (Or.inr ⟨by decide, rfl⟩)
@@ -199,11 +199,11 @@ theorem exists_iota31_of_fix [Finite F] (hF : Nat.card F = 3) (g : SL(4, F))
     have z : ∀ i j : Fin 4, i ≠ 3 → j ≠ 3 → M i j = 0 := by
       intro i j hi hj
       have h1 := e i j
-      rw [hc, if_neg hi, if_neg hj] at h1
+      rw [hc, ite_eq_right hi, ite_eq_right hj] at h1
       exact zero_of_eq_neg h2 (by linear_combination h1)
     have z33 : M 3 3 = 0 := by
       have h1 := e 3 3
-      rw [hc, if_pos rfl] at h1
+      rw [hc, ite_eq_left rfl] at h1
       exact zero_of_eq_neg h2 (by linear_combination h1)
     have := det_zero_of_blocks z z33
     rw [hdet] at this

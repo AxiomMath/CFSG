@@ -87,7 +87,7 @@ theorem factorization_centralizer : (Nat.card (centralizer (I.E : Set X))).facto
   obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow 2 C))
   have hle : I.E.subgroupOf C ≤ (P : Subgroup C) := hEp.le_sylow_of_normal P
   have hPX : (P : Subgroup C).map C.subtype = I.E := by
-    refine I.eq_E_of_le_centralizer (P.isPGroup'.map _) ?_ (map_subtype_le _)
+    refine I.eq_E_of_le_centralizer (P.isPGroup.map _) ?_ (map_subtype_le _)
     intro e he
     exact ⟨⟨e, I.E_le_centralizer he⟩, hle he, rfl⟩
   have hcard : Nat.card P = 16 := by
@@ -127,7 +127,7 @@ theorem exists_S₁ (H : Hyp S R) : ∃ S₁ : Subgroup X, IsPGroup 2 S₁ ∧
     rw [hS₁, card_map_of_injective (subtype_injective _), Sylow.card_eq_multiplicity,
       I.factorization_normalizer H]
     rfl
-  have hp : IsPGroup 2 S₁ := Q.isPGroup'.map _
+  have hp : IsPGroup 2 S₁ := Q.isPGroup.map _
   have hTS : R ≤ S₁ := fun g hg => ⟨⟨g, hT₁N hg⟩, hQ hg, rfl⟩
   refine ⟨S₁, hp, hS₁N, fun Q' hQ' hle hQ'N => ?_, hTS, hcard, ?_⟩
   · refine (Subgroup.eq_of_le_of_card_ge hle ?_).symm

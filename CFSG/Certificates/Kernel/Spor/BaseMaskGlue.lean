@@ -79,7 +79,7 @@ theorem penumSl_spec {n w m nw k cnt lo len : Nat} {conj : Bool}
   have e : Nat.add lo (i - lo) = i := by
     change lo + (i - lo) = i
     omega
-  rw [e, if_pos (Nat.blt_eq.mpr hi)] at h'
+  rw [e, ite_eq_left (Nat.blt_eq.mpr hi)] at h'
   exact h'
 
 end CFSG.KS.BaseMask

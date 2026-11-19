@@ -229,7 +229,7 @@ section Suzuki
 theorem crossSylowAbelianAt_suzuki {m : ℕ} (hv : (TauCeti.LieTypeIndex.suzuki m).Valid) :
     CrossSylowAbelianAt ⟨.suzuki m, hv⟩ := by
   intro p hp hp5 hdp L _ _ hs ⟨e⟩ P
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, a, ha, K, _, _, hf, hcard, ⟨e'⟩⟩ :=
     CFSG.HardMathSupport.Cooperstein.Coordinator.suzukiModel_of_lie hv e
   have hcard' : Nat.card K = 2 ^ (2 * a + 1) := by rw [hcard, hf]

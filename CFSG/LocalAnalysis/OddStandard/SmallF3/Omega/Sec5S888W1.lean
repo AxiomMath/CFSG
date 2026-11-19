@@ -111,7 +111,7 @@ theorem exists_delta_of_quad [Finite G] (hq : Sec5B517Quad K z)
   have hzcenter : (⟨z, hz⟩ : Hc) ∈ Subgroup.center Hc := by
     change zCent z ∈ Subgroup.center Hc
     exact zCent_mem_center z
-  haveI : (Subgroup.zpowers (⟨z, hz⟩ : Hc)).Normal :=
+  have : (Subgroup.zpowers (⟨z, hz⟩ : Hc)).Normal :=
     Subgroup.normal_of_le_center (Subgroup.zpowers_le_of_mem hzcenter)
   let α : Hc →* Hc ⧸ Subgroup.zpowers (⟨z, hz⟩ : Hc) := QuotientGroup.mk' _
   have hS : PlaneSetup (⟨z, hz⟩ : Hc) (fun i => (K i).subgroupOf Hc) α :=

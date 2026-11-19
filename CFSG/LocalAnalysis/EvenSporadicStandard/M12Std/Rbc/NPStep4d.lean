@@ -15,6 +15,7 @@ section Normalized
 
 variable {G : Type} [Group G] [Finite G] {X : Subgroup G} {u x : G} {h s : G}
 
+omit [Finite G] in
 theorem centralizer_zpowers_eq (g : G) :
     centralizer ((zpowers g : Subgroup G) : Set G) = centralizer ({g} : Set G) := by
   rw [Subgroup.zpowers_eq_closure, Subgroup.centralizer_closure]

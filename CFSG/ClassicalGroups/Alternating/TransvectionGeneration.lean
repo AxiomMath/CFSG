@@ -24,7 +24,7 @@ theorem symplecticTransvection_comm (hB : B.IsAlt) {a b : V} (hab : B a b = 0) (
   have hba : B b a = 0 := by rw [← hB.neg_eq a b, hab, neg_zero]
   refine gl_ext'' fun x => ?_
   simp only [Units.val_mul, Module.End.mul_apply, symplecticTransvection_apply, map_add,
-    map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul, hab, hba, mul_zero,
+    map_smul, hab, hba, mul_zero,
     zero_smul, add_zero]
   module
 
@@ -38,7 +38,7 @@ theorem siegel_smul_eq_mul (h2 : (2 : K) = 0) (hB : B.IsAlt) {e w : V} (hew : B 
   refine gl_ext'' fun x => ?_
   rw [siegel_apply hB hcw]
   simp only [Units.val_mul, Module.End.mul_apply, symplecticTransvection_apply, map_add,
-    map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul, hew, hwe,
+    map_smul, smul_eq_mul, hwe,
     hB.self_eq_zero, mul_zero, zero_smul, add_zero]
   linear_combination (norm := module) (-(c * B x w)) • h2w
 
@@ -248,6 +248,7 @@ theorem le_of_generation_step (hq : 2 < Nat.card K) (hB : B.IsAlt) (hBn : B.Nond
   exact sup_le hD (Subgroup.zpowers_le.mpr hsf)
 
 
+omit [Finite K] [CharP K 2] in
 theorem exists_eq_smul_of_apply_eq_zero (hB : B.IsAlt)
     (hBn : B.Nondegenerate) (hdim : finrank K V = 2) {z w : V} (hz : z ≠ 0) (hzw : B z w = 0) :
     ∃ t : K, w = t • z := by
@@ -268,7 +269,7 @@ theorem exists_card_le_three_closure_eq
         bilinIsometryGroup B := by
   classical
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
-  haveI : Nontrivial V := Module.finrank_pos_iff.mp (show 0 < finrank K V by omega)
+  have : Nontrivial V := Module.finrank_pos_iff.mp (show 0 < finrank K V by omega)
   obtain ⟨e, he⟩ := exists_ne (0 : V)
   obtain ⟨⟨f, hef⟩, -⟩ := alternating_hyperbolic_splitting hB hBn he
   have hf0 : f ≠ 0 := by
@@ -484,7 +485,7 @@ private theorem exists_card_le_closure_eq_aux {K : Type u} [Field K] [Finite K] 
   obtain ⟨sW, hsW0, hsWc, hsWgen⟩ := ih (m - 2) (by omega) W (B.restrict W)
     (isAlt_restrict hB W) hWnd hWm
   have hHW : ∀ x ∈ span K {e, f}, ∀ y ∈ W, B x y = 0 := fun x hx y hy => hy x hx
-  haveI : Nontrivial W := Module.finrank_pos_iff.mp (show 0 < finrank K W by omega)
+  have : Nontrivial W := Module.finrank_pos_iff.mp (show 0 < finrank K W by omega)
   obtain ⟨w₀, hw₀ne⟩ := exists_ne (0 : W)
   have hw₀ : (w₀ : V) ∈ W := w₀.2
   have hw₀0 : (w₀ : V) ≠ 0 := fun h => hw₀ne (Subtype.ext h)

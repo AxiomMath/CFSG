@@ -103,7 +103,7 @@ private theorem map_kern {X L : Subgroup (MulAut W)} {Z : Subgroup W} (F : Cfg4S
     image_sdiff_singleton hg]
 
 private theorem kern_inf_centSub {X L : Subgroup (MulAut W)} {Z : Subgroup W}
-    (F : Cfg4Setting X L Z) {Y : Subgroup W} (hY : Y ∈ conjSubs X Z) :
+    (F : Cfg4Setting X L Z) {Y : Subgroup W} (_hY : Y ∈ conjSubs X Z) :
     kern L X Z Y ⊓ centSub Y = ⊥ := by
   rw [eq_bot_iff]
   intro x hx

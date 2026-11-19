@@ -20,6 +20,7 @@ section Helpers
 
 variable {G : Type} [Group G] [Finite G] {z : G}
 
+omit [Finite G] in
 private theorem exists_sylow_centralizer_ge (h : Tim79a.ParrottHyp z) (j : J z) :
     ∃ K : Subgroup ↥(H z),
       (Subgroup.centralizer ({j} : Set (J z))).map (Subgroup.inclusion (J_le_H (z := z))) ≤ K ∧
@@ -47,6 +48,7 @@ private theorem exists_sylow_centralizer_ge (h : Tim79a.ParrottHyp z) (j : J z) 
 variable [hN : ((J z).subgroupOf (H z)).Normal]
 variable (D : QuotientData (z := z) hN)
 
+omit [Finite G] in
 private theorem no_conj_z_eq_of_mem_uvtJ_of_mem_vJ
     (hv : ∀ x : G, cosetJ (z := z) (vH D) x → orderOf x = 2 → ∀ g : G, g * z * g⁻¹ ≠ x) :
     ∀ x : G, cosetJ (z := z) (uH D * vH D * tH D) x → orderOf x = 2 →
@@ -182,7 +184,7 @@ private theorem no_conj_z_eq_of_mem_vJ_of_fusion (h : Tim79a.ParrottHyp z)
              _ = 1 := by rw [ha.2.2, hb.2.2, one_mul]
        inv_mem' := fun {a} ha => by
          have hinv : a⁻¹ = a := inv_eq_of_mul_eq_one_right ha.2.2
-         simp only [Set.mem_setOf_eq, hinv]
+         simp only [Set.mem_ofPred_eq, hinv]
          exact ha }, fun _ => Iff.rfl⟩
   have hKX : K ≤ X := fun k hk => ((hKmem k).mp hk).1
   have hK : IsElemAbelian 2 K := by

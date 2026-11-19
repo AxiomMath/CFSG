@@ -266,7 +266,7 @@ theorem le_oPrimeResidual_of_perfect {Kb : Subgroup X} (hP : Group.IsPerfect ↥
   obtain ⟨S⟩ : Nonempty (Sylow 2 ↥Kb) := inferInstance
   have hSM : (S : Subgroup ↥Kb) ≤ M := by
     intro y hy
-    obtain ⟨k, hk⟩ := S.isPGroup' ⟨y, hy⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨y, hy⟩
     refine Subgroup.subset_closure ⟨k, ?_⟩
     have := congrArg (fun z : ↥S => ((z : ↥Kb) : X)) hk
     simpa using this

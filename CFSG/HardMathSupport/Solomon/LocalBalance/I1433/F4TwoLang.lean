@@ -35,7 +35,7 @@ theorem baseChangeGL_mem_adjointGroup_of_mem' {τ : Tag} {K₁ K₂ : Type} [Fie
       exact xUnit_mem_adjointGroup _ _
     · rw [show y = yUnit τ K₁ i c from Units.ext h, baseChangeGL_yUnit]
       exact yUnit_mem_adjointGroup _ _
-  | one => simpa using one_mem _
+  | one => simp
   | mul x y _ _ hx hy => simpa using mul_mem hx hy
   | inv x _ hx => simpa using inv_mem hx
 
@@ -77,7 +77,7 @@ theorem exists_langSetup_of_toral_datum_of_prime_eq {τ : Tag} {L : Type} [Field
     have : u = D.g0 * (D.g0⁻¹ * u * D.g0) * D.g0⁻¹ := by group
     rw [this, h]
     group
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hqpow : IsPrimePow D.q ∧ ((D.q : ℕ) : L) = 0 := by
     rw [hDq]
     exact ⟨hℓ.isPrimePow.pow (by omega), (CharP.cast_eq_zero_iff L ℓ _).2
@@ -119,15 +119,15 @@ theorem exists_langSetup_of_inner_untw_of_prime_eq_frobenius_iota {τ : Tag}
       Function.Injective ι ∧ ι.range = S.Γ ∧ ι x = rootDiagUnit τ a ∧
       ∀ c, ι (MulAut.conj x c) = rootDiagUnit τ a * ι c * (rootDiagUnit τ a)⁻¹ := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, hℓ, hf⟩ := FiniteField.card K (ringChar K)
-  haveI : Fact (ringChar K).Prime := ⟨hℓ⟩
-  haveI : CharP K (ringChar K) := ringChar.charP K
+  have : Fact (ringChar K).Prime := ⟨hℓ⟩
+  have : CharP K (ringChar K) := ringChar.charP K
   set ℓ := ringChar K with hℓdef
   have hqK : Nat.card K = ℓ ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hf
   have hf1 : 1 ≤ (f : ℕ) := f.pos
   set L := AlgebraicClosure K with hLdef
-  haveI : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective _
+  have : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective _
   set ι₁ : K →+* L := algebraMap K L with hι₁
   have hFr : ∀ c : L, iterateFrobenius L ℓ (f : ℕ) c = c ^ Nat.card K := fun c => by
     rw [hqK]

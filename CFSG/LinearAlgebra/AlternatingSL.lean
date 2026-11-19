@@ -128,7 +128,7 @@ theorem exists_ne_zero_dotProduct_eq_zero (β : Fin 3 → K) :
   by_cases h0 : β 0 = 0
   · exact ⟨Pi.single 0 1, fun h => by simpa using congrFun h 0, by simp [h0]⟩
   · refine ⟨![β 1, -β 0, 0], fun h => h0 (by simpa using congrFun h 1), ?_⟩
-    simp [dotProduct, Fin.sum_univ_three] <;> ring
+    simp [dotProduct, Fin.sum_univ_three]; ring
 
 theorem one_add_vecMulVec_mul_crossMatrix (β l a : Fin 3 → K) :
     (1 + vecMulVec β l) * crossMatrix a * (1 + vecMulVec β l)ᵀ =

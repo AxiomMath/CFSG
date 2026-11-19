@@ -29,6 +29,7 @@ private lemma x1x2_tau_sq (h : Ctx t L S x₁ x₂ lam rho tau) (h44 : tau ^ 2 =
     _ = (x₁ * x₂)⁻¹ * 1 * (x₁ * x₂) := by rw [hconj, hτ2]
     _ = 1 := by group
 
+omit [Finite G] in
 private lemma mem_zpowers_eq_one_or_eq {z g : G} (hz : z * z = 1) (hg : g ∈ zpowers z) :
     g = 1 ∨ g = z := by
   let H : Subgroup G :=

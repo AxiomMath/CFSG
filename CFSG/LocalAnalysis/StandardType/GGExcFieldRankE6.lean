@@ -155,7 +155,7 @@ private theorem rankLE_E6_two_three {K : Type} [Field K] [Finite K] [CharP K 2]
     {E : Subgroup (adjointGroup .E6 K)} (hE : IsElemAbelian 3 E)
     (he : orderOf ((Nat.card K : ℕ) : ZMod 3) = 2) :
     Nat.card E ≤ 3 ^ 4 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hq : 1 ≤ Nat.card K := Nat.card_pos
   have hq0 : ((Nat.card K : ℕ) : ZMod 3) ≠ 0 := by
     intro h
@@ -218,10 +218,10 @@ theorem rankLE_E6 {K : Type} [Field K] [Finite K] [CharP K 2] {p e : ℕ}
     (hp : p.Prime) (hp2 : p ≠ 2)
     (he : orderOf ((Nat.card K : ℕ) : ZMod p) = e) :
     GGElemAbelianRankLE (adjointGroup .E6 K) p (degCount .E6 e) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq : 1 ≤ Nat.card K := Nat.card_pos
   have hpdiv : ¬ p ∣ Nat.card K := by
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     intro h
     obtain ⟨f, -, hfcard⟩ := FiniteField.card (K := K) 2
     have hK : Nat.card K = 2 ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card, hfcard]
@@ -385,16 +385,15 @@ theorem rankLE_E6 {K : Type} [Field K] [Finite K] [CharP K 2] {p e : ℕ}
         have hS := sylowTorus_E6_twelve K hp he
         calc Nat.card E ≤ p ^ 1 := hS.rank_le hp hE
           _ = p ^ degCount .E6 12 := by rw [hdeg]
-  done
 
 theorem exists_E6 {K : Type} [Field K] [Finite K] [CharP K 2] {p e : ℕ}
     (hp : p.Prime) (hp2 : p ≠ 2)
     (he : orderOf ((Nat.card K : ℕ) : ZMod p) = e) :
     GGExcElemAbelianExists (adjointGroup .E6 K) p (degCount .E6 e - 1) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq : 1 ≤ Nat.card K := Nat.card_pos
   have hpdiv : ¬ p ∣ Nat.card K := by
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     intro h
     obtain ⟨f, -, hfcard⟩ := FiniteField.card (K := K) 2
     have hK : Nat.card K = 2 ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card, hfcard]
@@ -515,6 +514,5 @@ theorem exists_E6 {K : Type} [Field K] [Finite K] [CharP K 2] {p e : ℕ}
         have hdeg : degCount .E6 12 - 1 = 0 := by decide
         rw [hdeg]
         simp
-  done
 
 end CFSG.StandardType

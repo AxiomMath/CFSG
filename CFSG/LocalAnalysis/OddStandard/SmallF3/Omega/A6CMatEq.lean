@@ -257,10 +257,10 @@ theorem a6c_keysNodup_sound {L : Array Mat} (h : keysNodup L = true) {i j : ℕ}
   have hj' : j < (L.toList.map keyM).length := by simpa using hj
   have hgeti : L[i]! = L.toList[i] := by
     rw [getElem!_pos L i hi]
-    simpa using (Array.getElem_toList (xs := L) (i := i) (by simpa using hi)).symm
+    simp
   have hgetj : L[j]! = L.toList[j] := by
     rw [getElem!_pos L j hj]
-    simpa using (Array.getElem_toList (xs := L) (i := j) (by simpa using hj)).symm
+    simp
   have hmap : (L.toList.map keyM)[i] = (L.toList.map keyM)[j] := by
     rw [List.getElem_map, List.getElem_map, ← hgeti, ← hgetj]
     exact hEq

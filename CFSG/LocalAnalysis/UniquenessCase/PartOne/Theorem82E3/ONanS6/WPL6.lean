@@ -91,12 +91,12 @@ theorem suzuki_borel_bridge (hSzB : Sz.SzBorel) (hSzO : Sz.SzOutOdd)
   rcases (hSzB hSz R hR2 hRne) with ⟨T, hNT, hsol⟩
   have hCNT : fixedSubgroup σ ≤ Subgroup.normalizer ((T : Subgroup S) : Set S) :=
     hCNR.trans hNT
-  haveI : Group.IsSolvable ↥(Subgroup.normalizer ((T : Subgroup S) : Set S)) := hsol
-  haveI : Group.IsSolvable ↥(fixedSubgroup σ) :=
+  have : Group.IsSolvable ↥(Subgroup.normalizer ((T : Subgroup S) : Set S)) := hsol
+  have : Group.IsSolvable ↥(fixedSubgroup σ) :=
     Group.isSolvable_of_isSolvable_injective
       (f := Subgroup.inclusion hCNT) (Subgroup.inclusion_injective hCNT)
-  haveI : Group.IsPerfect ↥(fixedSubgroup σ) := hperf
-  haveI : Nontrivial ↥(fixedSubgroup σ) := (Subgroup.nontrivial_iff_ne_bot _).mpr hne
+  have : Group.IsPerfect ↥(fixedSubgroup σ) := hperf
+  have : Nontrivial ↥(fixedSubgroup σ) := (Subgroup.nontrivial_iff_ne_bot _).mpr hne
   exact Group.IsPerfect.not_isSolvable ↥(fixedSubgroup σ) inferInstance
 
 end
@@ -199,7 +199,7 @@ theorem fixedSubgroup_centerQuotient_le_map {J : Type} [Group J] [Finite J]
 
 theorem fixedSubgroup_normalizes_action_image
     {X : Type} [Group X] [Finite X] {J W : Subgroup X}
-    (hWN : W ≤ Subgroup.normalizer (J : Set X))
+    (_hWN : W ≤ Subgroup.normalizer (J : Set X))
     {z : X} (hzN : z ∈ Subgroup.normalizer (J : Set X))
     (hα3 : Subgroup.normalizerMonoidHom J ⟨z, hzN⟩ ^ 3 = 1)
     (h3Z : ¬ 3 ∣ Nat.card (Subgroup.center J))
@@ -279,7 +279,7 @@ theorem suzuki_component_centralizer_of_action
     intro hbot
     rw [hbot, Subgroup.card_bot] at h2fix
     omega
-  haveI : Group.IsPerfect ↥J := hJ.1.1
+  have : Group.IsPerfect ↥J := hJ.1.1
   have hcenterS : Subgroup.center (J ⧸ Subgroup.center J) = ⊥ :=
     Group.IsPerfect.center_quotient_center_eq_bot ↥J
   let WN : Subgroup N := W.subgroupOf N
@@ -332,7 +332,7 @@ open CFSG.LocalAnalysis.UniquenessCase.UC22 (Data IsSpor)
 open CFSG.LocalAnalysis.UniquenessCase.UCK (ThreeCover)
 variable {G : Type} [Group G] [Finite G] {D : Data G}
 
-@[expose] def SuzukiComponentBridgeData (c : Ctx82E3 D) (P : Subgroup G) (e : G)
+@[expose] def SuzukiComponentBridgeData (_c : Ctx82E3 D) (_P : Subgroup G) (e : G)
     (J : Subgroup (componentsQuot e)) : Prop :=
   ∃ f : ℕ, 3 < f ∧
   ∃ _hSz : CFSG.Blueprint.SuzukiModel (J ⧸ Subgroup.center J) 2 f,

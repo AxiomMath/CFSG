@@ -215,8 +215,7 @@ theorem xE_pair_mem_fixE6 (K : Type) [Field K] (j : Fin Tag.F4.rank) {i₁ i₂ 
       yE Tag.E6 K i₁ c * yE Tag.E6 K i₂ c ∈ fixE6 K := by
   have hx := f4OrbitXUnit_mem (K := K) j c
   have hy := f4OrbitYUnit_mem (K := K) j c
-  simp only [f4OrbitXUnit, f4OrbitYUnit, hj, List.map_cons, List.map_nil, List.prod_cons,
-    List.prod_nil, mul_one] at hx hy
+  simp only [f4OrbitXUnit, f4OrbitYUnit, hj] at hx hy
   exact ⟨Subgroup.mem_subgroupOf.mpr hx, Subgroup.mem_subgroupOf.mpr hy⟩
 
 theorem xE_fixed_mem_fixE6 (K : Type) [Field K] (j : Fin Tag.F4.rank) {i : Fin Tag.E6.rank}
@@ -229,7 +228,7 @@ theorem eq_top_of_fixE6_anti (K : Type) [Field K] [Finite K] (hK : 4 ≤ Nat.car
     (H : Subgroup (adjointGroup .E6 K)) (hF : fixE6 K ≤ H) (hA : ∀ u : Kˣ, e6AntiA K u ∈ H)
     (hB : ∀ u : Kˣ, e6AntiB K u ∈ H) : H = ⊤ := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨u, hu⟩ := CFSG.LieType.Chevalley.exists_unit_sq_ne_one (F := K)
     ⟨Finset.univ, by rw [Finset.card_univ, ← Nat.card_eq_fintype_card]; exact hK⟩
   have hne : ((u⁻¹ : Kˣ) : K) ≠ (u : K) := by

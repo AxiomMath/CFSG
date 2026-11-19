@@ -31,7 +31,7 @@ theorem exists_peel_of_not_abelian [Finite K] (hK : Nat.card K = 4) [FiniteDimen
       Nat.card Q = 9 * Nat.card Q' ∧
       Nat.card (Subgroup.center Q') = Nat.card (Subgroup.center Q) := by
   classical
-  haveI : Finite (V ≃ₗ[K] V) := finite_linearEquiv
+  have : Finite (V ≃ₗ[K] V) := finite_linearEquiv
   have hZ : ScalarLike (scalars K V) := scalarLike_scalars (V := V) hK
   obtain ⟨g, hg, h, hh, hg3, hgh⟩ := exists_pow_three_eq_one_noncomm hZ hQ hnab
   obtain ⟨ω, hω3, hω1, hconj⟩ := exists_omega hK (hQ.1 g hg h hh) hgh

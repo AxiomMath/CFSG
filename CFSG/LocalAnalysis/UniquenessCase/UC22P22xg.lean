@@ -21,6 +21,7 @@ namespace P22x
 
 section Group
 
+omit [Finite G] in
 theorem commutator_le_of_normalizer {U A B : Subgroup G} (hA : A ≤ U)
     (hB : B ≤ normalizer (U : Set G)) : ⁅A, B⁆ ≤ U := by
   rw [Subgroup.commutator_le]
@@ -62,7 +63,7 @@ theorem mbarImage_preN (D : Data G) {Y : Subgroup (MBar D.M D.U)}
 theorem jOf_M_le_of_normalized (D : Data G) {R : Subgroup G} (hTR : jOf D.T ≤ R)
     (hR : ∀ n ∈ proofN D, ∀ r ∈ R, n * r * n⁻¹ ∈ R) : proofN D ≤ R := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hNM : proofN D ≤ D.M := uc22p22e_jOf_le_self D.M
   have hMN := uc22p22t_M_le_normalizer_jOf D
   have hTN : CFSG.ABGLocalTools.IsSylowOf 2 (D.T ⊓ proofN D) (proofN D) :=
@@ -209,7 +210,7 @@ end P22x
 
 open P22x
 
-theorem uc22p22xg_proofEiHat_ne_bot (D : Data G) (Ch : Choice2011 G) (h2 : S22_3_2 D Ch)
+theorem uc22p22xg_proofEiHat_ne_bot (D : Data G) (Ch : Choice2011 G) (_h2 : S22_3_2 D Ch)
     (h3 : S22_3_3 D Ch) (h51 : S22_5_1 D Ch) (hH : H1930 D) (c : Ctx22c D Ch) (m : ℕ)
     (Nb : Fin m → Subgroup (MBar D.M D.U)) (hNb : NbarSplit D Nb) (i : Fin m) :
     proofEiHat D (preN D (Nb i)) ≠ ⊥ ∧ proofEiHat D (preN D (Nb i)) ≤ D.U := by
@@ -226,7 +227,7 @@ theorem uc22p22xg_proofEiHat_ne_bot (D : Data G) (Ch : Choice2011 G) (h2 : S22_3
   rw [← hb, Submodule.mem_bot] at hmem
   exact hne (sub_eq_zero.1 hmem)
 
-theorem uc22p22xg_preN_le_centralizer (D : Data G) (Ch : Choice2011 G) (h2 : S22_3_2 D Ch)
+theorem uc22p22xg_preN_le_centralizer (D : Data G) (Ch : Choice2011 G) (_h2 : S22_3_2 D Ch)
     (h3 : S22_3_3 D Ch) (h51 : S22_5_1 D Ch) (hH : H1930 D) (c : Ctx22c D Ch) (m : ℕ)
     (Nb : Fin m → Subgroup (MBar D.M D.U)) (hNb : NbarSplit D Nb) {i k : Fin m} (hik : k ≠ i) :
     preN D (Nb k) ≤ centralizer (proofEiHat D (preN D (Nb i)) : Set G) := by

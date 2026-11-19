@@ -292,7 +292,7 @@ theorem controlsSylowIntersections_gomiD_union [Finite G] :
       · rw [Subgroup.map_equiv_normalizer_eq, ← c.C₂_map_conj hS.isPGroup g]
   · intro X hX
     rcases hX with hX | hX
-    · rw [c.selection.family_top, Set.mem_setOf_eq] at hX
+    · rw [c.selection.family_top, Set.mem_ofPred_eq] at hX
       obtain ⟨P, hP, F, hF, rfl⟩ := hX
       exact two_not_dvd_relIndex_top hP
         (Subgroup.le_normalizer.trans (c.selection.normalizer_le P hP.isPGroup F hF))
@@ -396,7 +396,7 @@ private theorem pairAt_spec (P : Subgroup G → Subgroup G → Subgroup G → Pr
       P R (pairAt P hex R).1 (pairAt P hex R).2 := by
   classical
   unfold pairAt
-  rw [dif_pos (show IsPGroup 2 R ∧ baum R = R ∧ R ≠ ⊥ from ⟨hR, hb, hne⟩)]
+  rw [dite_eq_left (show IsPGroup 2 R ∧ baum R = R ∧ R ≠ ⊥ from ⟨hR, hb, hne⟩)]
   exact Classical.choose_spec (Classical.choose_spec (hex R hR hb hne))
 
 private noncomputable def chosenPair (P : Subgroup G → Subgroup G → Subgroup G → Prop)

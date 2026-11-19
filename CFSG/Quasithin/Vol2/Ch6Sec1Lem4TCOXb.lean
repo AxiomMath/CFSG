@@ -31,14 +31,17 @@ section Basic
 variable (hLV : L ≤ Subgroup.normalizer (V : Set G)) (ψ : ↥(autOn L V) ≃* SL(2, F))
   (hXL : X ≤ L)
 
+omit [Finite G] [Finite F] [CharP F 2] in
 theorem phiX_apply (x : ↥X) : phiX hLV ψ hXL x = coordHom hLV ψ ⟨(x : G), hXL x.2⟩ := rfl
 
+omit [Finite G] [Finite F] [CharP F 2] in
 theorem mem_Xb_iff (y : SL(2, F)) :
     y ∈ Xb hLV ψ hXL ↔ ∃ x : ↥X, phiX hLV ψ hXL x = y := by
   unfold Xb
   rw [Subgroup.mem_map]
   exact ⟨fun ⟨x, _, hx⟩ => ⟨x, hx⟩, fun ⟨x, hx⟩ => ⟨x, Subgroup.mem_top x, hx⟩⟩
 
+omit [Finite G] [Finite F] [CharP F 2] in
 theorem mem_Ub_iff (y : SL(2, F)) :
     y ∈ Ub T hLV ψ hXL ↔ ∃ x : ↥X, (x : G) ∈ T ∧ phiX hLV ψ hXL x = y := by
   unfold Ub
@@ -49,16 +52,19 @@ theorem mem_Ub_iff (y : SL(2, F)) :
   · rintro ⟨x, hxT, rfl⟩
     exact ⟨x, Subgroup.mem_subgroupOf.mpr ⟨x.2, hxT⟩, rfl⟩
 
+omit [Finite G] [Finite F] [CharP F 2] in
 theorem Ub_le_Xb : Ub T hLV ψ hXL ≤ Xb hLV ψ hXL := by
   unfold Ub Xb
   exact Subgroup.map_mono le_top
 
+omit [Finite F] [CharP F 2] [Finite G] in
 theorem ker_phiX_le (hC : (L ⊔ T) ⊓ Subgroup.centralizer (V : Set G) ≤ T)
     (hψ : ∀ x : ↥(autOn L V), (x : MulAut V) ∈ autOn (T ⊓ L) V ↔ ∃ b : F, ψ x = unipSL b)
     (x : ↥X) (hx : phiX hLV ψ hXL x = 1) : (x : G) ∈ T := by
   have h := coordHom_ker_mem hLV ψ hψ hC ⟨(x : G), hXL x.2⟩ hx
   exact h.1
 
+omit [Finite F] [CharP F 2] [Finite G] in
 theorem Ub_unip (hC : (L ⊔ T) ⊓ Subgroup.centralizer (V : Set G) ≤ T)
     (hψ : ∀ x : ↥(autOn L V), (x : MulAut V) ∈ autOn (T ⊓ L) V ↔ ∃ b : F, ψ x = unipSL b)
     {y : SL(2, F)} (hy : y ∈ Ub T hLV ψ hXL) : ∃ b : F, y = unipSL b := by
@@ -66,6 +72,7 @@ theorem Ub_unip (hC : (L ⊔ T) ⊓ Subgroup.centralizer (V : Set G) ≤ T)
   have hmem := coordHom_mem_U0 hLV ψ hψ hC ⟨(x : G), hXL x.2⟩ hxT
   exact (mem_U0_iff _).mp hmem
 
+omit [Finite G] [Finite F] [CharP F 2] in
 theorem Ub_conj (hXn : ((X ⊓ T).subgroupOf X).Normal) {y : SL(2, F)} (hy : y ∈ Xb hLV ψ hXL)
     {u : SL(2, F)} (hu : u ∈ Ub T hLV ψ hXL) : y * u * y⁻¹ ∈ Ub T hLV ψ hXL := by
   obtain ⟨x, rfl⟩ := (mem_Xb_iff hLV ψ hXL y).mp hy
@@ -81,6 +88,7 @@ theorem Ub_conj (hXn : ((X ⊓ T).subgroupOf X).Normal) {y : SL(2, F)} (hy : y �
   unfold Ub
   exact Subgroup.mem_map_of_mem _ hn
 
+omit [Finite F] [CharP F 2] [Finite G] in
 theorem Ub_relIndex (hX5 : (X ⊓ T).relIndex X = 5)
     (hC : (L ⊔ T) ⊓ Subgroup.centralizer (V : Set G) ≤ T)
     (hψ : ∀ x : ↥(autOn L V), (x : MulAut V) ∈ autOn (T ⊓ L) V ↔ ∃ b : F, ψ x = unipSL b) :
@@ -95,6 +103,7 @@ theorem Ub_relIndex (hX5 : (X ⊓ T).relIndex X = 5)
   rw [key, Subgroup.relIndex_top_right]
   exact hX5
 
+omit [Finite F] [CharP F 2] [Finite G] in
 theorem card_Xb (hX5 : (X ⊓ T).relIndex X = 5)
     (hC : (L ⊔ T) ⊓ Subgroup.centralizer (V : Set G) ≤ T)
     (hψ : ∀ x : ↥(autOn L V), (x : MulAut V) ∈ autOn (T ⊓ L) V ↔ ∃ b : F, ψ x = unipSL b) :
@@ -109,6 +118,7 @@ theorem card_Xb (hX5 : (X ⊓ T).relIndex X = 5)
   omega
 
 
+omit [Finite G] [Finite F] [CharP F 2] in
 theorem conj_T_mem_Xb (hTX : T ≤ Subgroup.normalizer (X : Set G)) (ℓ : ↥L) (hℓ : (ℓ : G) ∈ T)
     {y : SL(2, F)} (hy : y ∈ Xb hLV ψ hXL) :
     coordHom hLV ψ ℓ * y * (coordHom hLV ψ ℓ)⁻¹ ∈ Xb hLV ψ hXL := by
@@ -125,6 +135,7 @@ theorem conj_T_mem_Xb (hTX : T ≤ Subgroup.normalizer (X : Set G)) (ℓ : ↥L)
   rw [e, e2, mem_Xb_iff]
   exact ⟨⟨(ℓ : G) * (x : G) * (ℓ : G)⁻¹, hn⟩, rfl⟩
 
+omit [Finite F] [CharP F 2] [Finite G] in
 theorem Xb_le_borel (hne : Ub T hLV ψ hXL ≠ ⊥)
     (hC : (L ⊔ T) ⊓ Subgroup.centralizer (V : Set G) ≤ T)
     (hψ : ∀ x : ↥(autOn L V), (x : MulAut V) ∈ autOn (T ⊓ L) V ↔ ∃ b : F, ψ x = unipSL b)
@@ -140,6 +151,7 @@ theorem Xb_le_borel (hne : Ub T hLV ψ hXL ≠ ⊥)
   exact lower_eq_zero_of_normalizes (Ub T hLV ψ hXL) (fun x hx => Ub_unip hLV ψ hXL hC hψ hx)
     (fun x hx => Ub_conj hLV ψ hXL hXn hy hx) hb0 hu
 
+omit [Finite G] in
 theorem Ub_ne_bot (hF : Nat.card F = 16)
     (hC : (L ⊔ T) ⊓ Subgroup.centralizer (V : Set G) ≤ T)
     (hψ : ∀ x : ↥(autOn L V), (x : MulAut V) ∈ autOn (T ⊓ L) V ↔ ∃ b : F, ψ x = unipSL b)
@@ -174,6 +186,7 @@ theorem Ub_ne_bot (hF : Nat.card F = 16)
   exact not_normalized_order_five hF hord hnorm
 
 
+omit [Finite F] [CharP F 2] in
 theorem upper_pow {s : SL(2, F)} (hs : (s : Matrix (Fin 2) (Fin 2) F) 1 0 = 0) (n : ℕ) :
     ((s ^ n : SL(2, F)) : Matrix (Fin 2) (Fin 2) F) 1 0 = 0 ∧
       ((s ^ n : SL(2, F)) : Matrix (Fin 2) (Fin 2) F) 0 0 = (s : Matrix (Fin 2) (Fin 2) F) 0 0 ^ n := by
@@ -184,6 +197,7 @@ theorem upper_pow {s : SL(2, F)} (hs : (s : Matrix (Fin 2) (Fin 2) F) 1 0 = 0) (
     rw [pow_succ]
     exact ⟨upper_mul_lower h1 hs, by rw [upper_mul_zero_zero h1 hs, h2, pow_succ]⟩
 
+omit [Finite F] [CharP F 2] in
 theorem eq_unipSL_of_upper {s : SL(2, F)} (hs : (s : Matrix (Fin 2) (Fin 2) F) 1 0 = 0)
     (h1 : (s : Matrix (Fin 2) (Fin 2) F) 0 0 = 1) :
     s = unipSL ((s : Matrix (Fin 2) (Fin 2) F) 0 1) := by
@@ -196,6 +210,7 @@ theorem eq_unipSL_of_upper {s : SL(2, F)} (hs : (s : Matrix (Fin 2) (Fin 2) F) 1
   rw [coe_unipSL]
   fin_cases i <;> fin_cases j <;> simp [hs, h1, hs11]
 
+omit [Finite G] [Finite F] [CharP F 2] in
 theorem mem_Ub_of_unip (hC : (L ⊔ T) ⊓ Subgroup.centralizer (V : Set G) ≤ T)
     (hψ : ∀ x : ↥(autOn L V), (x : MulAut V) ∈ autOn (T ⊓ L) V ↔ ∃ b : F, ψ x = unipSL b)
     {y : SL(2, F)} (hy : y ∈ Xb hLV ψ hXL) {b : F} (hb : y = unipSL b) :
@@ -205,6 +220,7 @@ theorem mem_Ub_of_unip (hC : (L ⊔ T) ⊓ Subgroup.centralizer (V : Set G) ≤ 
     (coordHom_mem_U0_iff hLV ψ hψ hC ⟨(x : G), hXL x.2⟩).mp ⟨b, hb⟩
   exact (mem_Ub_iff hLV ψ hXL _).mpr ⟨x, hT, rfl⟩
 
+omit [Finite G] in
 theorem exists_zeta (hF : Nat.card F = 16)
     (hC : (L ⊔ T) ⊓ Subgroup.centralizer (V : Set G) ≤ T)
     (hψ : ∀ x : ↥(autOn L V), (x : MulAut V) ∈ autOn (T ⊓ L) V ↔ ∃ b : F, ψ x = unipSL b)
@@ -222,7 +238,7 @@ theorem exists_zeta (hF : Nat.card F = 16)
     have h1 : Nat.card (Xb hLV ψ hXL) = Nat.card (Ub T hLV ψ hXL) := by rw [heq]
     have hpos : 0 < Nat.card (Ub T hLV ψ hXL) := Nat.card_pos
     omega
-  haveI hN : ((Ub T hLV ψ hXL).subgroupOf (Xb hLV ψ hXL)).Normal :=
+  have hN : ((Ub T hLV ψ hXL).subgroupOf (Xb hLV ψ hXL)).Normal :=
     ⟨fun n hn g => by
       rw [Subgroup.mem_subgroupOf] at hn ⊢
       simpa using Ub_conj hLV ψ hXL hXn g.2 hn⟩
@@ -248,6 +264,7 @@ theorem exists_zeta (hF : Nat.card F = 16)
     exact mem_Ub_of_unip hLV ψ hXL hC hψ hsX hu
   exact ⟨s, hsX, hζ5, hζ1⟩
 
+omit [Finite G] in
 theorem unip_mem_Ub (hF : Nat.card F = 16)
     (hC : (L ⊔ T) ⊓ Subgroup.centralizer (V : Set G) ≤ T)
     (hψ : ∀ x : ↥(autOn L V), (x : MulAut V) ∈ autOn (T ⊓ L) V ↔ ∃ b : F, ψ x = unipSL b)
@@ -310,6 +327,7 @@ theorem unip_mem_Ub (hF : Nat.card F = 16)
     exact AddSubgroup.mem_top b
   exact hbW
 
+omit [Finite G] [Finite F] [CharP F 2] in
 theorem conj_borel_mem_Xb (hU : ∀ b : F, unipSL b ∈ Xb hLV ψ hXL)
     (hsup : ∀ y ∈ Xb hLV ψ hXL, (y : Matrix (Fin 2) (Fin 2) F) 1 0 = 0)
     {g : SL(2, F)} (hg : (g : Matrix (Fin 2) (Fin 2) F) 1 0 = 0)
@@ -331,8 +349,7 @@ theorem conj_borel_mem_Xb (hU : ∀ b : F, unipSL b ∈ Xb hLV ψ hXL)
     rw [upper_mul_zero_zero hA10 hyinv10, hA00, coe_inv_sl]
     have hd := det_sl y
     rw [hy10, mul_zero, sub_zero] at hd
-    simp only [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.empty_val', Matrix.cons_val_fin_one, Matrix.head_cons, Matrix.head_fin_const]
+    simp only [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.empty_val', Matrix.cons_val_fin_one]
     linear_combination hd
   have hzeq := eq_unipSL_of_upper hz10 hz00
   have hzX : g * y * g⁻¹ * y⁻¹ ∈ Xb hLV ψ hXL := by
@@ -342,6 +359,7 @@ theorem conj_borel_mem_Xb (hU : ∀ b : F, unipSL b ∈ Xb hLV ψ hXL)
   rw [hfin]
   exact (Xb hLV ψ hXL).mul_mem hzX hy
 
+omit [Finite F] [CharP F 2] in
 theorem X_le_normalizer_TL (hC : (L ⊔ T) ⊓ Subgroup.centralizer (V : Set G) ≤ T)
     (hψ : ∀ x : ↥(autOn L V), (x : MulAut V) ∈ autOn (T ⊓ L) V ↔ ∃ b : F, ψ x = unipSL b)
     (hsup : ∀ y ∈ Xb hLV ψ hXL, (y : Matrix (Fin 2) (Fin 2) F) 1 0 = 0) :

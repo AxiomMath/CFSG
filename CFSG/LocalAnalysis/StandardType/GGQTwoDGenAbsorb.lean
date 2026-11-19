@@ -100,6 +100,7 @@ theorem ggAutomizerJoin_le_ggAutomizer_of_rankOne_le {L Bs P : Subgroup G}
   rw [← hφ]
   exact hw
 
+omit [Finite G] in
 theorem qtwoNode_le_iSup {Bs : Subgroup G} {m : ℕ} (r : Fin m → MulAut ↥Bs) (hm : 2 ≤ m)
     (i : Fin m) : qtwoNode Bs r i ≤ ⨆ (i : Fin m) (j : Fin m) (_ : i < j), qtwoW Bs r i j := by
   have hle : ∀ {i j : Fin m}, i ≠ j → qtwoNode Bs r i ≤ qtwoW Bs r i j := by

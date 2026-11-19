@@ -11,6 +11,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {t g g0 : G} {P U S F M U0 P0 : Subgroup G}
 
+omit [Finite G] in
 private lemma mem_zpowers_eq_one_or_self {a x : G} (ha : a ^ 2 = 1) (hx : x ∈ zpowers a) :
     x = 1 ∨ x = a := by
   obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.mp hx
@@ -26,7 +27,7 @@ private lemma isElemAbelian_map_iff {Γ₁ Γ₂ : Type} [Group Γ₁] [Group Γ
     IsElemAbelian p (E.map f) ↔ IsElemAbelian p E := by
   constructor
   · intro h
-    haveI : IsMulCommutative (E.map f) := h.1
+    have : IsMulCommutative (E.map f) := h.1
     refine ⟨IsMulCommutative.of_setLike_mul_comm ?_, ?_⟩
     · intro a ha b hb
       apply hf
@@ -36,11 +37,12 @@ private lemma isElemAbelian_map_iff {Γ₁ Γ₂ : Type} [Group Γ₁] [Group Γ
       apply hf
       simpa using h.2 (f x) (show f x ∈ E.map f from ⟨x, hx, rfl⟩)
   · intro h
-    haveI : IsMulCommutative E := h.1
+    have : IsMulCommutative E := h.1
     refine ⟨inferInstance, ?_⟩
     rintro y ⟨x, hx, rfl⟩
     simpa using congrArg f (h.2 x hx)
 
+omit [Finite G] in
 private lemma transport_rank' {X Y : Subgroup G} (e : ↥X ≃* ↥Y) {E : Subgroup G} (hE : E ≤ X) :
     ∃ E' : Subgroup G, E' ≤ Y ∧ Nat.card E' = Nat.card E ∧
       (IsElemAbelian 2 E' ↔ IsElemAbelian 2 E) ∧
@@ -73,18 +75,22 @@ private lemma transport_rank' {X Y : Subgroup G} (e : ↥X ≃* ↥Y) {E : Subgr
     rw [← hzy, ← hwz]
     rfl
 
+omit [Finite G] in
 theorem y7n_c1_wr (h : NtTwo t g P U S F M) (h1 : NtOne t g U S U0 P0 g0) : Wr7 t P0 U0 :=
   ⟨h.wr.t_sq, h1.direct⟩
 
+omit [Finite G] in
 theorem y7n_c1_U_le (h1 : NtOne t g U S U0 P0 g0) : U ≤ U0 := by
   rw [h1.U0_eq]
   exact le_sup_left
 
+omit [Finite G] in
 theorem y7n_c1_P_le (h : NtTwo t g P U S F M) (h1 : NtOne t g U S U0 P0 g0) : P ≤ P0 := by
   rw [← h.wr.direct.1, ← h1.direct.1]
   exact sup_le_sup (y7n_c1_U_le h1) (Subgroup.map_mono (y7n_c1_U_le h1))
 
-theorem y7n_c1_conj_g (h : NtTwo t g P U S F M) (h1 : NtOne t g U S U0 P0 g0) :
+omit [Finite G] in
+theorem y7n_c1_conj_g (_h : NtTwo t g P U S F M) (h1 : NtOne t g U S U0 P0 g0) :
     ∀ u ∈ U0, g * u * g⁻¹ = g0 * u * g0⁻¹ := by
   intro u hu
   have hg0U0 : g0 ∈ U0 := by
@@ -99,6 +105,7 @@ theorem y7n_c1_conj_g (h : NtTwo t g P U S F M) (h1 : NtOne t g U S U0 P0 g0) :
       = g0 * ((t * g0 * t⁻¹) * u * (t * g0 * t⁻¹)⁻¹) * g0⁻¹ := by group
     _ = g0 * u * g0⁻¹ := by rw [← hcomm]; group
 
+omit [Finite G] in
 theorem y7n_c1_J1 (h : NtTwo t g P U S F M) (h1 : NtOne t g U S U0 P0 g0) :
     centEl U g ⊔ zpowers g0 ≤ U0 ∧ IsElemAbelian 2 (centEl U g ⊔ zpowers g0) ∧
       Nat.card ↥(centEl U g ⊔ zpowers g0) = 16 := by

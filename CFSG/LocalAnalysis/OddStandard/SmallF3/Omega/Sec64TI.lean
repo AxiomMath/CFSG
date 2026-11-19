@@ -38,7 +38,7 @@ private lemma centralizer_of_normalizer_of_cyclic_two [Finite G] {U : Subgroup G
 private lemma mem_zpowers_involution_of_cyclic_two [Finite G] {U : Subgroup G} {y a : G}
     (hU2 : IsPGroup 2 U) (hU : IsCyclic ↥U) (hy2 : orderOf y = 2) (hyU : y ∈ U)
     (haU : a ∈ U) (ha1 : a ≠ 1) : y ∈ Subgroup.zpowers a := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2 : IsPGroup 2 (Subgroup.zpowers a) := hU2.to_le (Subgroup.zpowers_le.mpr haU)
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp h2
   rw [Nat.card_zpowers] at hk
@@ -73,7 +73,7 @@ private lemma mem_zpowers_involution_of_cyclic_two [Finite G] {U : Subgroup G} {
 
 private lemma exists_sq_ne_one_of_cyclic_card_ge_four [Finite G] {U : Subgroup G}
     (hU : IsCyclic ↥U) (hcard : 4 ≤ Nat.card ↥U) : ∃ g ∈ U, g ^ 2 ≠ 1 := by
-  haveI : IsCyclic ↥U := hU
+  have : IsCyclic ↥U := hU
   obtain ⟨g, hg⟩ := IsCyclic.exists_ofOrder_eq_natCard (α := ↥U)
   refine ⟨(g : G), g.2, ?_⟩
   intro h2
@@ -167,7 +167,7 @@ theorem sec64_ti_index [Finite G] (hout : Asc82Outside) {T H : Subgroup G} {x y 
   classical
   let R : Subgroup G := T ⊓ centralizer ({y} : Set G)
   let U : Subgroup G := R ⊓ H
-  obtain ⟨s, hsT, hsy⟩ := SetLike.not_le_iff_exists.mp hTR
+  obtain ⟨s, hsT, hsy⟩ := IsConcreteLE.not_le_iff_exists.mp hTR
   have hti := sec64_ti_conj hout c hcard hsT hsy
   let V : Subgroup G := CFSG.conjugate U s
   have hUV : U ⊓ V = ⊥ := hti.1
@@ -211,7 +211,7 @@ theorem sec64_ti_index [Finite G] (hout : Asc82Outside) {T H : Subgroup G} {x y 
   have hle : Nat.card ↥U * Nat.card ↥U ≤ Nat.card ↥U * H.relIndex R := by
     simpa [hcardV] using hcard_le
   have hpos : 0 < Nat.card ↥U := by
-    haveI : Nonempty ↥U := ⟨1⟩
+    have : Nonempty ↥U := ⟨1⟩
     exact Nat.card_pos
   change Nat.card ↥U ≤ H.relIndex R
   exact Nat.le_of_mul_le_mul_left hle hpos
@@ -224,7 +224,7 @@ theorem sec64_ti_not_e4 [Finite G] (hout : Asc82Outside) {T H : Subgroup G} {x y
   classical
   let R : Subgroup G := T ⊓ centralizer ({y} : Set G)
   let U : Subgroup G := R ⊓ H
-  obtain ⟨s, hsT, hsy⟩ := SetLike.not_le_iff_exists.mp hTR
+  obtain ⟨s, hsT, hsy⟩ := IsConcreteLE.not_le_iff_exists.mp hTR
   have hti := sec64_ti_conj hout c hcard hsT hsy
   let V : Subgroup G := CFSG.conjugate U s
   have hUV : U ⊓ V = ⊥ := hti.1
@@ -233,7 +233,7 @@ theorem sec64_ti_not_e4 [Finite G] (hout : Asc82Outside) {T H : Subgroup G} {x y
   have h2 : Nat.card (Multiplicative (ZMod 2)) = 2 :=
     (Nat.card_congr Multiplicative.toAdd).trans (Nat.card_zmod 2)
   have hF : Nat.card (Multiplicative (ZMod 2) × Multiplicative (ZMod 2)) = 4 := by
-    simp [Nat.card_prod, h2]
+    simp
   obtain ⟨φ, hφsurj, hφker⟩ := hQ
   have hrel4 : H.relIndex R = 4 := by
     rw [← Subgroup.inf_relIndex_left (H := R) (K := H)]

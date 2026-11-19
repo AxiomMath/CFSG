@@ -40,7 +40,7 @@ theorem indBetween_apply_one [Finite G] (X Y : Subgroup G) (f : ↥X → ℂ) :
   rw [show extendZero f (1 : G) = f 1 from extendZero_coe f 1]
   rfl
 
-theorem indBetween_eq_indClassFun_coe [Finite G] {X Y : Subgroup G} (hXY : X ≤ Y) [Fintype ↥Y]
+theorem indBetween_eq_indClassFun_coe [Finite G] {X Y : Subgroup G} (_hXY : X ≤ Y) [Fintype ↥Y]
     (f : ↥X → ℂ) :
     indBetween X Y f
       = indClassFun (X.subgroupOf Y) (fun z => f ⟨((z : ↥Y) : G), mem_subgroupOf.1 z.2⟩) := by
@@ -107,6 +107,7 @@ theorem le_normalizer_fittingOf (M : Subgroup G) :
   (normal_subgroupOf_iff_le_normalizer (fittingOf_le M)).1 (by
     rw [subgroupOf_fittingOf M]; infer_instance)
 
+omit [Finite G] in
 theorem mem_inertiaGroup_subgroupOf_iff' {X Y : Subgroup G} (hXY : X ≤ Y)
     [(X.subgroupOf Y).Normal] {Λ : ↥X →* ℂˣ} {y : ↥Y} :
     (y ∈ inertiaGroup (X.subgroupOf Y)
@@ -137,6 +138,7 @@ theorem mem_inertiaGroup_subgroupOf_iff' {X Y : Subgroup G} (hXY : X ≤ Y)
     push_cast
     simp
 
+omit [Finite G] in
 theorem mem_charInertia_comp_inclusion {F A : Subgroup G} (hAF : A ≤ F) (Ψ : ↥F →* ℂˣ)
     {m : G} (hmA : m ∈ normalizer (A : Set G)) (hm : m ∈ charInertia F Ψ) :
     m ∈ charInertia A (Ψ.comp (Subgroup.inclusion hAF)) := by
@@ -145,6 +147,7 @@ theorem mem_charInertia_comp_inclusion {F A : Subgroup G} (hAF : A ≤ F) (Ψ : 
   obtain ⟨-, h⟩ := mem_charInertia.1 hm
   exact h ⟨m⁻¹ * (n : G) * m, hAF hn⟩ ⟨(n : G), hAF n.2⟩ rfl
 
+omit [Finite G] in
 theorem eq_one_of_mem_charInertia_of_fixedPointFree {C W : Subgroup G} [IsMulCommutative ↥C]
     [Finite ↥C] (hWC : W ≤ normalizer (C : Set G))
     (hfpf : ∀ w ∈ W, w ≠ 1 → centralizerIn C (zpowers w) = ⊥)
@@ -173,6 +176,7 @@ theorem eq_one_of_mem_charInertia_of_fixedPointFree {C W : Subgroup G} [IsMulCom
   obtain ⟨-, h⟩ := mem_charInertia.1 hmem
   exact (h c (FreeCore.conjAut C hwC c) (by rw [hcoe]; group)).symm
 
+omit [Finite G] in
 theorem le_normalizer_of_isMulCommutative {A K : Subgroup G} [IsMulCommutative ↥A] (hKA : K ≤ A) :
     A ≤ normalizer (K : Set G) :=
   ((le_centralizer_iff_isMulCommutative.2 ‹IsMulCommutative ↥A›).trans
@@ -322,6 +326,7 @@ theorem not_kerContains_of_restrict_ne_one {M F H X : Subgroup G} (hFX : F ≤ X
   rw [h1, h2] at hval
   simpa using hval
 
+omit [Finite G] in
 theorem exists_monoidHom_restrict_eq {X A B : Subgroup G} (h : IsInternalDirectProduct X A B)
     (μ : ↥A →* ℂˣ) (ν : ↥B →* ℂˣ) :
     ∃ Ψ : ↥X →* ℂˣ, Ψ.comp (Subgroup.inclusion h.left_le) = μ ∧

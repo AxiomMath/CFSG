@@ -35,7 +35,7 @@ theorem minNormal_isElemAbelian {M N : Subgroup X} {p : ℕ} (hp : p.Prime) (hNp
     (hmin : ∀ L : Subgroup X, L ≠ ⊥ → L ≤ N → M ≤ normalizer (L : Set X) → L = N) :
     (∀ a ∈ N, a ^ p = 1) ∧ ∀ a ∈ N, ∀ b ∈ N, a * b = b * a := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hNn : (N.subgroupOf M).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNM).mpr hMN
   have hN'1 : N.subgroupOf M ≠ ⊥ := by
@@ -69,11 +69,11 @@ theorem minNormal_isElemAbelian {M N : Subgroup X} {p : ℕ} (hp : p.Prime) (hNp
     hNp.of_equiv (Subgroup.subgroupOfEquivOfLe hNM).symm
   have hEA : IsElementaryAbelian p (N.subgroupOf M) :=
     CFSG.isElementaryAbelian_of_minimalNormal hNn hNp' hN'1 hmin'
-  haveI : IsElementaryAbelian p (N.subgroupOf M) := hEA
+  have : IsElementaryAbelian p (N.subgroupOf M) := hEA
   have hEA' : IsElementaryAbelian p N := by
     have h := CFSG.IsElementaryAbelian.map_subtype (p := p) (K := M) (H := N.subgroupOf M)
     rwa [Subgroup.map_subgroupOf_eq_of_le hNM] at h
-  haveI : IsElementaryAbelian p N := hEA'
+  have : IsElementaryAbelian p N := hEA'
   constructor
   · intro a ha
     exact CFSG.elemPow_eq_one_of_isElementaryAbelian a ha
@@ -106,7 +106,7 @@ private theorem exists_prime_ge_five_dvd_card_of_not_isSolvable' {Y : Type*} [Gr
     rw [Nat.support_factorization] at hr
     have := hpf r (Nat.prime_of_mem_primeFactors hr) (Nat.dvd_of_mem_primeFactors hr)
     simpa using this
-  letI := Fintype.ofFinite Y
+  let := Fintype.ofFinite Y
   exact CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow Nat.prime_two
     Nat.prime_three (by norm_num) (by rw [← Nat.card_eq_fintype_card, hcard])
 
@@ -203,10 +203,10 @@ theorem minNormal_isPGroup_or_simple (hX : LocalFacts X) {M N : Subgroup X} {t :
     (∃ p : ℕ, p.Prime ∧ IsPGroup p N) ∨
       (IsSimpleGroup N ∧ (∃ a b : N, a * b ≠ b * a) ∧ t ∈ N) := by
   classical
-  haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
   obtain ⟨r, T, hr, hsupT, hTsimple, hTconj, hcardN⟩ :=
     exists_simple_factors hN1 hNM hMN hmin
-  haveI : NeZero r := ⟨hr.ne'⟩
+  have : NeZero r := ⟨hr.ne'⟩
   have hcard_conj : ∀ (H : Subgroup X) (g : X), Nat.card (CFSG.conjugate H g) = Nat.card H := by
     intro H g
     rw [CFSG.conjugate]
@@ -228,9 +228,9 @@ theorem minNormal_isPGroup_or_simple (hX : LocalFacts X) {M N : Subgroup X} {t :
       have := Subgroup.card_dvd_of_le (le_top : M ≤ ⊤)
       rwa [Subgroup.card_top] at this)))
   by_cases hcomm : ∀ a b : ↥(T 0), a * b = b * a
-  · haveI : IsMulCommutative ↥(T 0) := IsMulCommutative.of_comm hcomm
+  · have : IsMulCommutative ↥(T 0) := IsMulCommutative.of_comm hcomm
     have hp : (Nat.card (T 0)).Prime := Group.is_simple_iff_prime_card.mp (hTsimple 0)
-    haveI : Fact (Nat.card (T 0)).Prime := ⟨hp⟩
+    have : Fact (Nat.card (T 0)).Prime := ⟨hp⟩
     exact Or.inl ⟨Nat.card (T 0), hp, IsPGroup.iff_card.mpr ⟨r, hNpow⟩⟩
   · push Not at hcomm
     have hnsol : ¬ Group.IsSolvable ↥(T 0) := by
@@ -244,10 +244,10 @@ theorem minNormal_isPGroup_or_simple (hX : LocalFacts X) {M N : Subgroup X} {t :
       have hq11 : q ≠ 11 := by
         intro hq11
         exact h11N (hq11 ▸ hqN)
-      haveI : Fact q.Prime := ⟨hq⟩
+      have : Fact q.Prime := ⟨hq⟩
       let P : Sylow q ↥N := Classical.choice (Sylow.nonempty (p := q) (G := ↥N))
       let R : Subgroup X := (P : Subgroup ↥N).map N.subtype
-      have hRq : IsPGroup q R := P.isPGroup'.map N.subtype
+      have hRq : IsPGroup q R := P.isPGroup.map N.subtype
       have hRN : R ≤ N := Subgroup.map_subtype_le _
       have hRcard : Nat.card R = q ^ (Nat.card N).factorization q := by
         rw [Subgroup.card_map_of_injective N.subtype_injective]
@@ -281,7 +281,7 @@ theorem minNormal_isPGroup_or_simple (hX : LocalFacts X) {M N : Subgroup X} {t :
         intro h2
         exact h11sqN ((pow_dvd_pow 11 h2).trans h11rN)
       omega
-    haveI : Subsingleton (Fin r) := by
+    have : Subsingleton (Fin r) := by
       rw [hr1]
       infer_instance
     have hsup1 : (⨆ i, T i) = T 0 := by

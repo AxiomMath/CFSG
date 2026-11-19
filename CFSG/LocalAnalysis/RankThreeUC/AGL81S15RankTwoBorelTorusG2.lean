@@ -23,7 +23,7 @@ theorem hasBorelTorus_cayleyGroup
     (hU : CFSG.QuasithinUnique.IsSylowTwoOf U ⊤) :
     HasBorelTorus ↥(CFSG.Quasithin.Explicit.cayleyGroup F) q U := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   obtain ⟨m, -, hFc⟩ := FiniteField.card F 2
   set f : ℕ := (m : ℕ)
   have hK : Nat.card F = 2 ^ f := by rw [Nat.card_eq_fintype_card, hFc]
@@ -52,9 +52,9 @@ theorem hasBorelTorus_cayleyGroup
   have hinj : Function.Injective ψ := (MonoidHom.ker_eq_bot_iff ψ).mp hkerbot
   let φ : ↥(adjointGroup Tag.G2 F) ≃* ↥(cayleyGroup F) :=
     MulEquiv.ofBijective ψ ⟨hinj, hsurj⟩
-  haveI : Finite (ModGL Tag.G2 F) := finite_modGL
-  haveI : Finite ↥(adjointGroup Tag.G2 F) := Subtype.finite
-  haveI : Finite ↥(cayleyGroup F) := Finite.of_surjective ψ hsurj
+  have : Finite (ModGL Tag.G2 F) := finite_modGL
+  have : Finite ↥(adjointGroup Tag.G2 F) := Subtype.finite
+  have : Finite ↥(cayleyGroup F) := Finite.of_surjective ψ hsurj
   exact HasBorelTorus.of_mulEquiv φ hD.sylow ⟨E, hBT⟩ hU
 
 end CFSG.LocalAnalysis.RankThreeUC.S15

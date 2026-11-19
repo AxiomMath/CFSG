@@ -44,6 +44,7 @@ theorem nine3_pair_exists_enum (hc : Nine3Choice V T A K S X p g x)
     { B0 := hB0, B1 := hB1, inj := hBinj, mem := hBmem, Ω := hBΩ, surj := hsurj,
       conj := hBσ, σ0 := hσ0, σ1 := hσ1, bb_mem := hbbmem, bb0 := hbb0 }⟩
 
+omit [Finite G] in
 theorem nine3_pair_phi_mem (hI : Nine3IFacts V K S) {n : ℕ} {B : Fin (n + 1) → Subgroup G}
     {σ : Equiv.Perm (Fin (n + 1))} {bb : Fin (n + 1) → G}
     (he : Nine3PairEnum V K S A g n B σ bb) {i : G} (hi : i ∈ nineI V K) (k : Fin (n + 1)) :
@@ -51,13 +52,14 @@ theorem nine3_pair_phi_mem (hI : Nine3IFacts V K S) {n : ℕ} {B : Fin (n + 1) �
   by_cases hk : k = 0
   · subst hk
     rw [he.bb0, commutatorElement_one_right]
-    simp only [nine3_pair_P, if_pos rfl]
+    simp only [nine3_pair_P]
     exact (nineV1 V K g).one_mem
   · have hmem : ⁅i, bb k⁆ ∈ ⁅nineI V K, B k⁆ :=
       Subgroup.commutator_mem_commutator hi (he.bb_mem k hk).1
     rw [hI.comm (B k) (he.Ω k hk)] at hmem
-    simpa only [nine3_pair_P, if_neg hk] using hmem
+    simpa only [nine3_pair_P, ite_eq_right hk] using hmem
 
+omit [Finite G] in
 theorem nine3_pair_phi_mul (hI : Nine3IFacts V K S) {i i' b : G} (hi : i ∈ nineI V K)
     (hi' : i' ∈ nineI V K) (hb : b ∈ K) : ⁅i * i', b⁆ = ⁅i, b⁆ * ⁅i', b⁆ := by
   have hconjI : conjSubgroup (nineI V K) b = nineI V K := Nine3Core.conjSubgroup_nineI hb
@@ -94,7 +96,7 @@ theorem nine3_pair_psi_mem (hc : Nine3Choice V T A K S X p g x) (hI : Nine3IFact
     have h10 : (1 : Fin (n + 1)) ≠ 0 := by
       intro h
       exact hc.core.ne (by rw [← he.B1, congrArg B h, he.B0])
-    simp only [nine3_pair_P, if_neg h10]
+    simp only [nine3_pair_P, ite_eq_right h10]
     exact ⟨(B 1).one_mem, (pCoreOf 2 K).one_mem⟩
   · have hk_ne : σ.symm l ≠ 0 := by
       intro h
@@ -123,7 +125,7 @@ theorem nine3_pair_psi_mem (hc : Nine3Choice V T A K S X p g x) (hI : Nine3IFact
     rw [E3.conjSubgroup_inf, hBg] at hmem
     by_cases hl0 : l = 0
     · subst hl0
-      simp only [nine3_pair_P, if_pos rfl]
+      simp only [nine3_pair_P]
       rw [he.B0] at hmem
       exact hmem
     · have hBlA : B l ≠ A := by
@@ -131,9 +133,10 @@ theorem nine3_pair_psi_mem (hc : Nine3Choice V T A K S X p g x) (hI : Nine3IFact
         exact hl1 (he.inj (h.trans he.B1.symm))
       have hPin : B l ⊓ pCoreOf 2 K = B l ⊓ conjSubgroup (pCoreOf 2 K) g :=
         hc.inf_pCoreOf_eq_inf_conj hI (he.Ω l hl0) hBlA
-      simp only [nine3_pair_P, if_neg hl0]
+      simp only [nine3_pair_P, ite_eq_right hl0]
       rwa [← hPin] at hmem
 
+omit [Finite G] in
 theorem nine3_pair_psi_mul (hI : Nine3IFacts V K S) {b j j' : G} (hb : b ∈ K)
     (hj : j ∈ conjSubgroup (nineI V K) g) (hj' : j' ∈ conjSubgroup (nineI V K) g) :
     ⁅g⁻¹ * b * g, j * j'⁆ = ⁅g⁻¹ * b * g, j⁆ * ⁅g⁻¹ * b * g, j'⁆ := by
@@ -168,8 +171,9 @@ theorem nine3_pair_beta_mem (hc : Nine3Choice V T A K S X p g x)
   exact hc.nineW0_le_nineW
     (hc.nineI_inf_conj_le_nineW0 hI (hc.commutator_nineI_conj_le hc' hI h1))
 
+omit [Finite G] in
 theorem nine3_pair_final {b j : G} (hbK : b ∈ K)
-    (hjK : j ∈ K) (hb : ∀ h ∈ nineH V K, ⁅b, h⁆ ∈ nineI V K)
+    (_hjK : j ∈ K) (hb : ∀ h ∈ nineH V K, ⁅b, h⁆ ∈ nineI V K)
     (hbj : ∀ h ∈ nineH V K, ⁅b⁻¹ * j, h⁆ ∈ nineI V K) :
     ∀ h ∈ nineH V K, ⁅h, j⁆ ∈ nineI V K := by
   intro h hh

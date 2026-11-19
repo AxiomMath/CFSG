@@ -54,7 +54,7 @@ theorem ggSixTCLiftPOmegaMinus_holds
       obtain ⟨u', hu'j, hu'b⟩ := hs u
       have heq : u' = a * u * a⁻¹ := by
         apply hj
-        simpa only [hu'j, map_mul, map_inv]
+        simp only [hu'j, map_mul, map_inv]
       rw [hu'b, heq]
     · intro h u
       exact ⟨a * u * a⁻¹, by simp [map_mul, map_inv], h u⟩
@@ -136,7 +136,7 @@ theorem ggSixTCLiftPOmegaMinus_holds
         have heq : a = f ⟨d, hd⟩ := hlift_unique hsl' (hf_lift ⟨d, hd⟩)
         refine ⟨⟨d, hd⟩, ?_⟩
         change j (f ⟨d, hd⟩) = s
-        simpa only [← heq, ha]
+        simp only [← heq, ha]
     rw [hset]
     exact hJ'comp
 

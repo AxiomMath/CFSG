@@ -19,7 +19,7 @@ theorem ncard_conj_orbit_mul_card {G : Type*} [Group G] (K : Subgroup G) (g : G)
   have horb : MulAction.orbit (K.map (MulAut.conj (G := G))) g =
       {y | ∃ k ∈ K, y = k * g * k⁻¹} := by
     ext y
-    simp only [MulAction.mem_orbit_iff, Set.mem_setOf_eq]
+    simp only [MulAction.mem_orbit_iff, Set.mem_ofPred_eq]
     constructor
     · rintro ⟨⟨a, ha⟩, rfl⟩
       obtain ⟨k, hk, rfl⟩ := Subgroup.mem_map.1 ha
@@ -39,7 +39,7 @@ theorem ncard_conj_orbit_R (x : R) :
   have h : {y : Equiv.Perm (Fin 42) | ∃ k ∈ R, y = k * (x : Equiv.Perm (Fin 42)) * k⁻¹} =
       Subtype.val '' (ConjClasses.mk x).carrier := by
     ext y
-    simp only [Set.mem_setOf_eq, Set.mem_image, ConjClasses.mem_carrier_iff_mk_eq,
+    simp only [Set.mem_ofPred_eq, Set.mem_image, ConjClasses.mem_carrier_iff_mk_eq,
       ConjClasses.mk_eq_mk_iff_isConj, isConj_iff]
     constructor
     · rintro ⟨k, hk, rfl⟩
@@ -254,8 +254,8 @@ theorem coord_comm {c y' : WrE} (hce : c.e = false) (hye : y'.e = false) (h : c 
 end RLev
 
 theorem solvable_centralizer_pair
-    {a' y' : WrE} (hA : IsA a') (hU : IsUU y') (ha : a' ∈ wrR) (hy : y' ∈ wrR)
-    (hc : a' * y' = y' * a') :
+    {a' y' : WrE} (hA : IsA a') (hU : IsUU y') (_ha : a' ∈ wrR) (_hy : y' ∈ wrR)
+    (_hc : a' * y' = y' * a') :
     Group.IsSolvable ↥(centralizer ({a'} : Set WrE) ⊓ centralizer ({y'} : Set WrE) ⊓ wrR) := by
   obtain ⟨hye, -, hya, hyb⟩ := hU
   set H : Subgroup WrE := centralizer ({a'} : Set WrE) ⊓ centralizer ({y'} : Set WrE) ⊓ wrR
@@ -269,9 +269,9 @@ theorem solvable_centralizer_pair
       (Subgroup.mem_centralizer_singleton_iff.1 hcH.1.2)
     exact ⟨⟨Subgroup.mem_centralizer_singleton_iff.2 h1, hcH.2.1⟩,
       ⟨Subgroup.mem_centralizer_singleton_iff.2 h2, hcH.2.2⟩⟩
-  haveI : Group.IsSolvable ↥(centralizer ({y'.a} : Set (Equiv.Perm (Fin 42))) ⊓ R) :=
+  have : Group.IsSolvable ↥(centralizer ({y'.a} : Set (Equiv.Perm (Fin 42))) ⊓ R) :=
     solvable_cent_uni hya
-  haveI : Group.IsSolvable ↥(centralizer ({y'.b} : Set (Equiv.Perm (Fin 42))) ⊓ R) :=
+  have : Group.IsSolvable ↥(centralizer ({y'.b} : Set (Equiv.Perm (Fin 42))) ⊓ R) :=
     solvable_cent_uni hyb
   let fa : H →* ↥(centralizer ({y'.a} : Set (Equiv.Perm (Fin 42))) ⊓ R) :=
     { toFun := fun c => ⟨c.1.a, (hdata c.1 c.2).1⟩

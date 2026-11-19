@@ -21,8 +21,8 @@ theorem s16h_e3_cyclic_two_resid
     (D : Data G) (S : s16h_Std D) (hr3 : CFSG.Open.evenRank G = 3) (hσ : D.sig = D.sig1)
     {V₀ V L : Subgroup G} (h : Setting16 D V₀ V L)
     (hc : Conc4_136 D V₀ V h.hyp151.isElemAbelian L)
-    (hs : 1 < s15 D.M V₀ V h.hyp151.isElemAbelian L)
-    (hnot : ¬ Concl164 D V₀ V h.hyp151.isElemAbelian L)
+    (_hs : 1 < s15 D.M V₀ V h.hyp151.isElemAbelian L)
+    (_hnot : ¬ Concl164 D V₀ V h.hyp151.isElemAbelian L)
     (hδ : s15 D.M V₀ V h.hyp151.isElemAbelian L = 2 →
       delta15 D.M V₀ V h.hyp151.isElemAbelian L <
         gamma15 D.M V₀ V h.hyp151.isElemAbelian L - 1)
@@ -66,9 +66,9 @@ theorem s16h_e3_cyclic_three_resid
     (D : Data G) (S : s16h_Std D) (hr3 : CFSG.Open.evenRank G = 3) (hσ : D.sig = D.sig1)
     {V₀ V L : Subgroup G} (h : Setting16 D V₀ V L)
     (hc : Conc4_136 D V₀ V h.hyp151.isElemAbelian L)
-    (hs : 1 < s15 D.M V₀ V h.hyp151.isElemAbelian L)
-    (hnot : ¬ Concl164 D V₀ V h.hyp151.isElemAbelian L)
-    (hδ : s15 D.M V₀ V h.hyp151.isElemAbelian L = 2 →
+    (_hs : 1 < s15 D.M V₀ V h.hyp151.isElemAbelian L)
+    (_hnot : ¬ Concl164 D V₀ V h.hyp151.isElemAbelian L)
+    (_hδ : s15 D.M V₀ V h.hyp151.isElemAbelian L = 2 →
       delta15 D.M V₀ V h.hyp151.isElemAbelian L <
         gamma15 D.M V₀ V h.hyp151.isElemAbelian L - 1)
     {p : ℕ} (hp : p.Prime) (hLp : IsCyclicOrd ↥(lBar V₀ V h.hyp151.isElemAbelian L) p)

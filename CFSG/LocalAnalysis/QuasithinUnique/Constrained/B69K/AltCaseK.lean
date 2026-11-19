@@ -76,7 +76,7 @@ theorem false_of_alt_sevenK (hAlt : E2P.E22AltFam) {X T M A L : Subgroup (MulAut
   obtain ⟨ℓ, hℓs, -⟩ := exists_surj_autSec hLW hLZ
   have hs : IsSimpleGroup ↥(alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
   have hQs : IsSimpleGroup ↥(wtL L W) := (MulEquiv.isSimpleGroup_congr e).mpr hs
-  haveI : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hL.2.2.2
+  have : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hL.2.2.2
   obtain ⟨e'⟩ := B69.equiv_of_central_quotients hL.2.2 (QuotientGroup.mk' (Subgroup.center ↥L))
     (QuotientGroup.mk'_surjective _) ℓ hℓs
   exact not_alt_seven hAlt hH ⟨e'.trans e⟩
@@ -153,7 +153,7 @@ theorem noA7K (hAlt : E2P.E22AltFam) {V : Type} [CommGroup V]
   let e : ↥(autSec L W (W ⊓ fixV L)) ≃* ↥(alternatingGroup (Fin 7)) :=
     (MulEquiv.ofBijective π ⟨hinj, hπs⟩).symm
   have hQs : IsSimpleGroup ↥(autSec L W (W ⊓ fixV L)) := (MulEquiv.isSimpleGroup_congr e).mpr hs
-  haveI : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hL.2.2.2
+  have : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hL.2.2.2
   obtain ⟨e'⟩ := B69.equiv_of_central_quotients hL.2.2 (QuotientGroup.mk' (Subgroup.center ↥L))
     (QuotientGroup.mk'_surjective _) ℓ hℓs
   exact not_alt_seven hAlt hH ⟨e'.trans e⟩

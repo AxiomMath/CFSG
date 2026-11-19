@@ -76,7 +76,7 @@ theorem step827Xi_of (hmod : StmtFSUModule) (h711n : Stmt7_1_1_normal) (h825 : S
   intro G _ _ T L I hyp h731 h821 hc hrow H h k hH hh hC hr K hK hLUK hKq X hXi hXK hXC hXM
     hNKX hXK' H' h' k' hH' hH'XT hh' hC'
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hC5 := h825 G T L I hyp h731 h821 hc hrow H h k hH hh hC
   obtain ⟨hV, hL0, hTL, hLN, -, hAN, hAL, hAp, hAe, hTU, -, hU1, hLUT⟩ :=
     setup_828 hmod h711n hyp hrow hC hC5
@@ -123,7 +123,7 @@ theorem step827Xi_of (hmod : StmtFSUModule) (h711n : Stmt7_1_1_normal) (h825 : S
   obtain ⟨v, hvV, hvX₁⟩ :=
     exists_mem_comm_not_le_pCoreOf hT hXi hTH' hH'XT hVT hTV hVH'
   obtain ⟨p, hp, hp2, hpX, -, -⟩ := hXi.exists_prime_sup_eq
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨P, hP, -⟩ := exists_isSylowIn_ge p (bot_le : (⊥ : Subgroup G) ≤ X) IsPGroup.of_bot
   set X₁ : Subgroup G := oTwoUpper H' ⊔ pCoreOf 2 X with hX₁def
   set O : Subgroup G := pCoreOf 2 X with hOdef

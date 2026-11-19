@@ -471,12 +471,12 @@ theorem bfs_step_spec (nrm : Ω → Ω) (hnrm : ∀ x, nrm x = x) (enc : Ω → 
   have hzTr : gens.getD j 1 • x ∈ Tr := hcl _ hgen x (hTr x hx)
   simp only [hnrm]
   by_cases hc : st.seen.contains (enc (gens.getD j 1 • x)) = true
-  · rw [if_pos hc]
+  · rw [ite_eq_left hc]
     obtain ⟨y, hy, hyz⟩ := (hseen _).1 hc
     have hyeq : y = gens.getD j 1 • x := hinj hyz
     rw [hyeq] at hy
     exact ⟨id hI, ⟨[], by simp⟩, hy⟩
-  · rw [if_neg hc]
+  · rw [ite_eq_right hc]
     refine ⟨oinv_push enc x₀ Tr st (gens.getD j 1 • x) (st.par.push i) (st.lab.push j)
       (id hI) hzTr hc, ⟨[gens.getD j 1 • x], by simp⟩, ?_⟩
     change gens.getD j 1 • x ∈ (st.O.push (gens.getD j 1 • x)).toList
@@ -545,11 +545,11 @@ private theorem loop_succ_lt (nrm : Ω → Ω) (enc : Ω → ℕ) (gens : List �
         else ⟨st.O.push (nrm (gens.getD j 1 • x)), st.par.push i, st.lab.push j,
           st.seen.insert (enc (nrm (gens.getD j 1 • x)))⟩) st) := by
   subst hx
-  rw [bfsLoop, dif_pos hi]
+  rw [bfsLoop, dite_eq_left hi]
 
 private theorem loop_succ_not_lt (nrm : Ω → Ω) (enc : Ω → ℕ) (gens : List Γ) (f i : ℕ)
     (st : BfsState Ω ℕ) (hi : ¬ i < st.O.size) : bfsLoop nrm enc gens (f + 1) i st = st := by
-  rw [bfsLoop, dif_neg hi]
+  rw [bfsLoop, dite_eq_right hi]
 
 private theorem loopInv_next (gens : List Γ) (enc : Ω → ℕ) (x₀ : Ω) (Tr : List Ω) (i : ℕ)
     (st st1 : BfsState Ω ℕ) (hi : i < st.O.size)

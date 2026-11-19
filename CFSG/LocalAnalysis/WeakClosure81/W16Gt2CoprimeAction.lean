@@ -17,10 +17,10 @@ theorem iSup_fixSub_zpowers_eq_top {W : Type} [AddCommGroup W] [Module (ZMod 2) 
     (hab : ∀ a ∈ O, ∀ b ∈ O, a * b = b * a) (hnc : ¬ IsCyclic ↥O) :
     (⨆ (a : LGL 2 W) (_ : a ∈ O ∧ a ≠ 1), fixSub (Subgroup.zpowers a)) = ⊤ := by
   classical
-  letI : CommGroup ↥O :=
+  let : CommGroup ↥O :=
     { (inferInstance : Group ↥O) with
       mul_comm := fun a b => Subtype.ext (hab a a.2 b b.2) }
-  letI : Fact (IsPGroup p ↥O) := ⟨hO⟩
+  let : Fact (IsPGroup p ↥O) := ⟨hO⟩
   let ψ : ↥O →* MulAut (Multiplicative W) :=
     { toFun := fun a => AddEquiv.toMultiplicative (a : W ≃ₗ[ZMod 2] W).toAddEquiv
       map_one' := by
@@ -29,14 +29,14 @@ theorem iSup_fixSub_zpowers_eq_top {W : Type} [AddCommGroup W] [Module (ZMod 2) 
       map_mul' := by
         intro a b
         ext w
-        simp [LinearEquiv.mul_apply] }
-  letI : MulDistribMulAction ↥O (Multiplicative W) :=
+        simp }
+  let : MulDistribMulAction ↥O (Multiplicative W) :=
     MulDistribMulAction.compHom (Multiplicative W) ψ
   have hp2 : Nat.Coprime p 2 :=
     ((Fact.out : p.Prime).coprime_iff_not_dvd).2 fun h =>
       hp (le_antisymm (Nat.le_of_dvd (by norm_num) h) (Fact.out : p.Prime).two_le)
   have hcard : Nat.card (Multiplicative W) = 2 ^ Module.finrank (ZMod 2) W := by
-    haveI : Fintype W := Fintype.ofFinite W
+    have : Fintype W := Fintype.ofFinite W
     have h1 : Nat.card (Multiplicative W) = Fintype.card W := by
       rw [Nat.card_eq_fintype_card, Fintype.card_multiplicative]
     rw [h1, Module.card_eq_pow_finrank (K := ZMod 2) (V := W), ZMod.card]
@@ -105,7 +105,7 @@ theorem eq_one_of_noncyclic_inverted {W : Type} [AddCommGroup W] [Module (ZMod 2
       have h := congrArg (fun x : W => a x) h1
       simpa using h
     have haX : a (t v - v) = t v - v := by
-      simpa [h2, hva] using LinearMap.map_sub (a : W →ₗ[ZMod 2] W) (t v) v
+      simp [h2, hva]
     have hzero : t v - v = 0 := hfix a haO ha1 (t v - v) (hX v) haX
     rw [LinearMap.mem_ker]
     simpa using hzero

@@ -30,7 +30,7 @@ private lemma map_mem_inf_borel {K : Type} [Field K] [Finite K] [CharP K 2]
     (ht : t ∈ Hinf (omegaPlusQAlpha K) ⊓ omegaPlusQZero K) :
     omegaPlusEmb K t ∈ Hinf (plusFlagStab K 3 ({2, 3} : Finset ℕ)) ⊓
       plusFlagStab K 3 ({1} : Finset ℕ) := by
-  haveI : Finite (PlusLin K) :=
+  have : Finite (PlusLin K) :=
     Finite.of_injective
       (fun g : PlusLin K => (g : (Fin 3 ⊕ Fin 3 → K) → (Fin 3 ⊕ Fin 3 → K)))
       DFunLike.coe_injective
@@ -144,9 +144,9 @@ theorem kTab23cNineAt_omegaPlusSix {W : Type} [CommGroup W] [Finite W]
     (H : Subgroup (MulAut W)) {n : ℕ} (h : NatOmegaPlus H ⊤ ⊥ 6 n) :
     KTab23cNineAt W H := by
   obtain ⟨-, K, hKf, hKfin, hKcard, hreal⟩ := h
-  letI : Field K := hKf
-  letI : Finite K := hKfin
-  haveI : Fintype K := Fintype.ofFinite K
+  let : Field K := hKf
+  let : Finite K := hKfin
+  have : Fintype K := Fintype.ofFinite K
   have hn1 : 1 ≤ n := by
     by_contra hn
     have hn0 : n = 0 := by omega
@@ -155,7 +155,7 @@ theorem kTab23cNineAt_omegaPlusSix {W : Type} [CommGroup W] [Finite W]
       rw [Nat.card_eq_fintype_card]
       exact Fintype.one_lt_card
     omega
-  haveI : CharP K 2 := uc22p22d_charP_two hn1 hKcard
+  have : CharP K 2 := uc22p22d_charP_two hn1 hKcard
   exact kTab23cNineAt_of_realizes_omegaPlusSix H hreal
 
 end CFSG.LocalAnalysis.UniquenessCase.UC22.KTab23cNine

@@ -32,7 +32,7 @@ theorem sec11_cover_T {T C Q W : Subgroup G} {a x : G}
     simpa only [inv_inv] using hWn (a * x)⁻¹ (T.inv_mem haxT) w hw
   have hw0 : (a * x)⁻¹ * (x * a) ∈ W := by
     have h : (a * x)⁻¹ * (x * a) = (a * x * a⁻¹ * x⁻¹)⁻¹ := by
-      simp only [mul_inv_rev, inv_inv, ha_inv, hx_inv]
+      simp only [mul_inv_rev, ha_inv, hx_inv]
       group
     rw [h]
     exact W.inv_mem hax

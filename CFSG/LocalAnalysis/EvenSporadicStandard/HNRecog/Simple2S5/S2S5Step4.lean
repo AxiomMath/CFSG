@@ -22,8 +22,8 @@ private lemma natCard_subgroupOf_inf {G : Type*} [Group G] (Y O : Subgroup G) :
 theorem exists_mul_of_card {G : Type*} [Group G] [Finite G] {C Y O : Subgroup G} (hYC : Y ≤ C)
     (hOC : O ≤ C) (hcard : Nat.card ↥C * Nat.card ↥(Y ⊓ O) ≤ Nat.card ↥Y * Nat.card ↥O) :
     ∀ c ∈ C, ∃ y ∈ Y, ∃ o ∈ O, c = y * o := by
-  haveI : Nonempty ↥(Y ⊓ O) := ⟨1⟩
-  haveI : Finite ↥(Y ⊓ O) := Finite.of_injective Subtype.val Subtype.val_injective
+  have : Nonempty ↥(Y ⊓ O) := ⟨1⟩
+  have : Finite ↥(Y ⊓ O) := Finite.of_injective Subtype.val Subtype.val_injective
   have hmul := Subgroup.card_mul_eq_card_subgroup_mul_card_quotient (s := O) (t := (Y : Set G))
   have himg : ((Y : Set G).image (QuotientGroup.mk : G → G ⧸ O)) =
       MulAction.orbit ↥Y (((1 : G) : G ⧸ O)) := by

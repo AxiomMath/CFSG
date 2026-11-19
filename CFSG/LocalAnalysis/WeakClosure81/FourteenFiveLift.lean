@@ -18,6 +18,7 @@ namespace FourteenFive
 
 variable {n : ℕ} {M V₀ V : Subgroup G} {g : G} [((KOf M V g).subgroupOf (LOf V g)).Normal]
 
+omit [((KOf M V g).subgroupOf (LOf V g)).Normal] [Finite G] in
 private theorem isPGroup_subgroupOf_LOf (h : Hyp65 n M V₀ V g) :
     IsPGroup 2 ↥((KOf M V g).subgroupOf (LOf V g)) := by
   intro k
@@ -36,7 +37,7 @@ private theorem isPGroup_subgroupOf_LOf (h : Hyp65 n M V₀ V g) :
 
 private theorem card_imgK_eq_two_pow_mQuot (h : Hyp65 n M V₀ V g) :
     Nat.card (imgK M V g V) = 2 ^ E3.mQuot V (conjSubgroup M g) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 (imgK_isElemAbelian M V g h.elemAbelian).isPGroup
   have hcard : Nat.card (imgK M V g V) = (conjSubgroup M g).relIndex V := h.card_imgK
   have hrel : (conjSubgroup M g).relIndex V = 2 ^ k := by rw [← hcard, hk]

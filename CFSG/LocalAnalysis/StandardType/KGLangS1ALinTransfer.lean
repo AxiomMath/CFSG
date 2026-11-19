@@ -59,7 +59,7 @@ private theorem kgLangS1ALinTransferAux_conj_std
   obtain ⟨hcc, hff, hfc, hδδ, hδc, hδf, -, -, -⟩ :=
     LinearFlag.standard_automorphism_transport (K := K) (n := d)
   rcases (by omega : ε = 0 ∨ ε = 1) with rfl | rfl
-  · simp only [pow_zero, mul_one, if_pos rfl]
+  · simp only [pow_zero, mul_one]
     calc (LinearFlag.conjAut d K A * LinearFlag.fieldAut d K σ) * LinearFlag.conjAut d K X *
           (LinearFlag.conjAut d K A * LinearFlag.fieldAut d K σ)⁻¹
         = LinearFlag.conjAut d K A *
@@ -71,7 +71,7 @@ private theorem kgLangS1ALinTransferAux_conj_std
       _ = LinearFlag.conjAut d K
             (A * Matrix.GeneralLinearGroup.map (σ : K →+* K) X * A⁻¹) :=
             kgLangS1ALinTransferAux_conjAut_mul_inv_eq A _
-  · simp only [pow_one, if_neg (by norm_num : (1 : ℕ) ≠ 0)]
+  · simp only [pow_one, ite_eq_right (by norm_num : (1 : ℕ) ≠ 0)]
     have hδinv : (LinearFlag.dualAut d K)⁻¹ = LinearFlag.dualAut d K :=
       inv_eq_of_mul_eq_one_right hδδ
     have hinv : (LinearFlag.conjAut d K A * LinearFlag.fieldAut d K σ *
@@ -182,9 +182,9 @@ private theorem kgLangS1ALinTransferAux_star_comm
       else Matrix.GeneralLinearGroup.inverseTranspose
         (Matrix.GeneralLinearGroup.map (σ : K →+* K) X)) := by
   rcases (by omega : ε = 0 ∨ ε = 1) with rfl | rfl
-  · simp only [if_true]
+  · simp only [ite_true]
     rw [← map_mul, ← map_mul, h]
-  · simp only [if_neg (by norm_num : (1 : ℕ) ≠ 0)]
+  · simp only [ite_eq_right (by norm_num : (1 : ℕ) ≠ 0)]
     rw [← map_mul, ← map_mul, ← map_mul, ← map_mul, h]
 
 private theorem kgLangS1ALinTransferAux_conj_comm
@@ -202,8 +202,8 @@ theorem kgLangS1A_commute_transfer {d : ℕ} {F₀ E : Type} [Field F₀] [Finit
     (hgh : g * h = h * g) : M * N = N * M := by
   classical
   have hd0 : 0 < d := by omega
-  letI := Fintype.ofFinite F₀
-  letI := Fintype.ofFinite E
+  let := Fintype.ofFinite F₀
+  let := Fintype.ofFinite E
   have hcard' : Fintype.card F₀ = Fintype.card E := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card]
     exact hcard.symm

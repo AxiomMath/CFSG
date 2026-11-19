@@ -23,7 +23,7 @@ theorem sec5op4_rho_commutator
     (hKT : ∀ k ∈ K, ∀ a ∈ T, k * a * k⁻¹ = a) {q : G} (hq : q ∈ ⁅K, K⁆)
     (hqH : q ∈ centralizer ({z} : Set G)) :
     sec5op_rho z T π ⟨q, hqH⟩ = 1 := by
-  haveI : Finite X := Finite.of_surjective π hπ
+  have : Finite X := Finite.of_surjective π hπ
   have hD : ∀ d ∈ (K.subgroupOf (centralizer ({z} : Set G))).map π,
       ∀ a ∈ sec5op_Tb z T π, d * a * d⁻¹ = a := by
     intro d hd a ha

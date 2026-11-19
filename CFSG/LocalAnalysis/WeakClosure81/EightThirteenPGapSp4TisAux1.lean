@@ -54,7 +54,7 @@ lemma wcgapst_permMatrix_conj (σ : Equiv.Perm ι) (N : Matrix ι ι F) :
       N.submatrix σ.symm σ.symm := by
   rw [wcgapst_permMatrix_mul_left, wcgapst_mul_permMatrix_right, Matrix.submatrix_submatrix]
   ext i j
-  simp [Function.comp_apply]
+  simp
 
 @[expose] def wcgapst_wC : Equiv.Perm (Fin 2 ⊕ Fin 2) where
   toFun := fun i => match i with
@@ -106,8 +106,7 @@ lemma wcgapst_coe_nC [CharP F 2] :
   rw [coe_dotW, wcgapst_coe_permGL]
   ext i j
   simp only [signedPerm_apply, Equiv.Perm.permMatrix, PEquiv.toMatrix_apply,
-    Equiv.toPEquiv_apply, Option.mem_def, Option.some.injEq, dotSign, Sum.elim_inl,
-    Sum.elim_inr]
+    Equiv.toPEquiv_apply, Option.mem_def, Option.some.injEq, dotSign]
   rcases i with a | a <;> rcases j with b | b <;> fin_cases a <;> fin_cases b <;>
     simp [wcgapst_wC, CharTwo.neg_eq]
 
@@ -119,8 +118,7 @@ lemma wcgapst_coe_nAB [CharP F 2] :
   rw [coe_dotW, wcgapst_coe_permGL]
   ext i j
   simp only [signedPerm_apply, Equiv.Perm.permMatrix, PEquiv.toMatrix_apply,
-    Equiv.toPEquiv_apply, Option.mem_def, Option.some.injEq, dotSign, Sum.elim_inl,
-    Sum.elim_inr]
+    Equiv.toPEquiv_apply, Option.mem_def, Option.some.injEq, dotSign]
   rcases i with a | a <;> rcases j with b | b <;> fin_cases a <;> fin_cases b <;>
     simp [wcgapst_wAB, CharTwo.neg_eq]
 

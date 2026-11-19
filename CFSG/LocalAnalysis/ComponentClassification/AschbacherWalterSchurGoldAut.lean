@@ -39,7 +39,7 @@ theorem exists_sylow_sup (hP : IsSylowOf 2 P X) (hE2 : IsPGroup 2 E)
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q, hQ⟩ := hP
   have hPX : P ≤ X := by rw [← hQ]; exact Subgroup.map_subtype_le _
-  have hP2 : IsPGroup 2 P := by rw [← hQ]; exact Q.isPGroup'.map _
+  have hP2 : IsPGroup 2 P := by rw [← hQ]; exact Q.isPGroup.map _
   set H := X ⊔ E with hHdef
   have hT2 : IsPGroup 2 (P ⊔ E : Subgroup Y) :=
     hP2.to_sup_of_normal_left' hE2 (hEC.trans (Subgroup.centralizer_le_normalizer _))
@@ -53,7 +53,7 @@ theorem exists_sylow_sup (hP : IsSylowOf 2 P X) (hE2 : IsPGroup 2 E)
       exact s.2
     obtain ⟨x, hx, e, he, hxe⟩ := Set.mem_mul.mp hsH
     set R := (S : Subgroup H).map H.subtype ⊓ X with hRdef
-    have hR2 : IsPGroup 2 R := (S.isPGroup'.map H.subtype).to_le inf_le_left
+    have hR2 : IsPGroup 2 R := (S.isPGroup.map H.subtype).to_le inf_le_left
     have hTS : P ⊔ E ≤ (S : Subgroup H).map H.subtype := by
       intro t ht
       exact ⟨⟨t, hTH ht⟩, hS (Subgroup.mem_subgroupOf.mpr ht), rfl⟩

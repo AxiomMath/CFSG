@@ -135,7 +135,7 @@ theorem twoPrimeBorelDatum_reeGamma
   isPGroup := by
     obtain ⟨P, hP⟩ := exists_sylow_reeFixedPosUnipotent (K := K) (a := a)
     rw [← hP]
-    exact P.isPGroup'
+    exact P.isPGroup
   two_prime D hUD hD := by
     obtain ⟨b, c, hbc⟩ := hD
     have hle := Quasithin.SteinbergBT.large_Ree_two_prime_positive_subgroup_overgroups_are_Borel

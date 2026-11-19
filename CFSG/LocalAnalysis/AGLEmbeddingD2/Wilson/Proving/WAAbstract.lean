@@ -11,7 +11,7 @@ open Subgroup
 theorem wa_abstract {G H : Type*} [Group G] [Group H] [Finite G]
     (M : Subgroup G) (ρ : M →* H) (Kg Qg C : Subgroup G) (K3 Q8 : Set G)
     (hKg : ∀ g (hg : g ∈ M), g ∈ Kg ↔ ρ ⟨g, hg⟩ = 1) (hKgM : Kg ≤ M) (hQK : Qg ≤ Kg)
-    (hidx : Qg.relIndex Kg = 3) (hCM : C ≤ M)
+    (hidx : Qg.relIndex Kg = 3) (_hCM : C ≤ M)
     (hQ8 : Q8 ⊆ ↑(C ⊓ Qg)) (hQ8c : Q8.ncard = 8) (hK3 : K3 ⊆ ↑(C ⊓ Kg)) (hK3c : K3.ncard = 24)
     (r : Fin 7 → G) (hwit : ∀ p ∈ Qg, p ∉ Q8 → ∃ i, ∃ w ∈ C, ∃ q ∈ Q8, w * p * w⁻¹ = r i * q)
     (m : G) (hmM : m ∈ M)

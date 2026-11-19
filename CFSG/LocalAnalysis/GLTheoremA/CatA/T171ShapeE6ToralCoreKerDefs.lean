@@ -158,9 +158,9 @@ structure E6ToralLangData
 @[expose] def E6ToralLangSetup :
     Prop :=
   ∀ (n : ℕ) (K : Type) [Field K] [Finite K] [CharP (AlgebraicClosure K) 2]
-    (hn : 1 ≤ n) (hK : Nat.card K = 2 ^ n), 3 ∣ 2 ^ n - 1 →
-    ∀ (wd wb : ↥(TableBExc.E6Three.hatGroup Tag.E6 K)) (hwd3 : wd ^ 3 = 1)
-      (hwd1 : wd ≠ 1) (hwb3 : wb ^ 3 = 1) (w : WeylGroup Tag.E6)
+    (_hn : 1 ≤ n) (_hK : Nat.card K = 2 ^ n), 3 ∣ 2 ^ n - 1 →
+    ∀ (wd wb : ↥(TableBExc.E6Three.hatGroup Tag.E6 K)) (_hwd3 : wd ^ 3 = 1)
+      (_hwd1 : wd ≠ 1) (_hwb3 : wb ^ 3 = 1) (w : WeylGroup Tag.E6)
       (g0 : ModGL Tag.E6 (AlgebraicClosure K)),
       g0 ∈ adjointGroup Tag.E6 (AlgebraicClosure K) →
       entrywiseFrobGL Tag.E6 (AlgebraicClosure K) 2 n g0 =
@@ -179,9 +179,9 @@ structure E6ToralLangData
 @[expose] def E6ToralKernelExit :
     Prop :=
   ∀ (n : ℕ) (K : Type) [Field K] [Finite K] [CharP (AlgebraicClosure K) 2]
-    (hn : 1 ≤ n) (hK : Nat.card K = 2 ^ n), 3 ∣ 2 ^ n - 1 →
-    ∀ (wd wb : ↥(TableBExc.E6Three.hatGroup Tag.E6 K)) (hwd3 : wd ^ 3 = 1)
-      (hwd1 : wd ≠ 1) (hwb3 : wb ^ 3 = 1) (w : WeylGroup Tag.E6)
+    (_hn : 1 ≤ n) (_hK : Nat.card K = 2 ^ n), 3 ∣ 2 ^ n - 1 →
+    ∀ (wd wb : ↥(TableBExc.E6Three.hatGroup Tag.E6 K)) (_hwd3 : wd ^ 3 = 1)
+      (_hwd1 : wd ≠ 1) (_hwb3 : wb ^ 3 = 1) (w : WeylGroup Tag.E6)
       (g0 : ModGL Tag.E6 (AlgebraicClosure K)),
       g0 ∈ adjointGroup Tag.E6 (AlgebraicClosure K) →
       entrywiseFrobGL Tag.E6 (AlgebraicClosure K) 2 n g0 =
@@ -192,7 +192,7 @@ structure E6ToralLangData
             (entrywiseFrobGL Tag.E6 (AlgebraicClosure K) 2 n)).map
             (MulAut.conj g0).toMonoidHom) →
       ∀ (Kc : Subgroup (TableBExc.RecipeGroup Tag.E6 K))
-        (hKc : CFSG.Assembly.IsComponentOf Kc (fixedSubgroup (e6RecipeConj wd)))
+        (_hKc : CFSG.Assembly.IsComponentOf Kc (fixedSubgroup (e6RecipeConj wd)))
         (hnorm : ∀ x ∈ Kc, e6RecipeConj wb x ∈ Kc)
         (D : E6ToralLangData n K wd wb Kc hnorm),
         centerQuotientHom ↥(rationalComponent D.S.ρ D.S.Γ (rootCharHom D.a) D.i)
@@ -209,9 +209,9 @@ structure E6ToralLangData
 @[expose] def E6ToralLangSetupH360 :
     Prop :=
   ∀ (n : ℕ) (K : Type) [Field K] [Finite K] [CharP (AlgebraicClosure K) 2]
-    (hn : 1 ≤ n) (hK : Nat.card K = 2 ^ n), 3 ∣ 2 ^ n - 1 →
-    ∀ (wd wb : ↥(TableBExc.E6Three.hatGroup Tag.E6 K)) (hwd3 : wd ^ 3 = 1)
-      (hwd1 : wd ≠ 1) (hwb3 : wb ^ 3 = 1) (w : WeylGroup Tag.E6)
+    (_hn : 1 ≤ n) (_hK : Nat.card K = 2 ^ n), 3 ∣ 2 ^ n - 1 →
+    ∀ (wd wb : ↥(TableBExc.E6Three.hatGroup Tag.E6 K)) (_hwd3 : wd ^ 3 = 1)
+      (_hwd1 : wd ≠ 1) (_hwb3 : wb ^ 3 = 1) (w : WeylGroup Tag.E6)
       (g0 : ModGL Tag.E6 (AlgebraicClosure K)),
       g0 ∈ adjointGroup Tag.E6 (AlgebraicClosure K) →
       entrywiseFrobGL Tag.E6 (AlgebraicClosure K) 2 n g0 =
@@ -232,8 +232,8 @@ structure E6ToralLangData
     (hK : Nat.card K = (2 ^ n) ^ 2), 3 ∣ 2 ^ n + 1 →
     ∀ (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ 2 ^ n)
       (ε : ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom) ≃* TwE6Delta.RecipeR K n)
-      (wd wb : ↥(RecipeExcLang.twInndiagGroup K σ)) (hwd3 : wd ^ 3 = 1)
-      (hwd1 : wd ≠ 1) (hwb3 : wb ^ 3 = 1)
+      (wd wb : ↥(RecipeExcLang.twInndiagGroup K σ)) (_hwd3 : wd ^ 3 = 1)
+      (_hwd1 : wd ≠ 1) (_hwb3 : wb ^ 3 = 1)
       (Fr : AlgebraicClosure K →+* AlgebraicClosure K) (hFr : ∀ c, Fr c = c ^ 2 ^ n)
       (g : ModGL Tag.E6 (AlgebraicClosure K)), g ∈ adjointGroup Tag.E6 (AlgebraicClosure K) →
       g⁻¹ * CFSG.RankThree.Classical2.twistE6 (AlgebraicClosure K) Fr g =
@@ -286,8 +286,8 @@ structure TwE6ToralLangData
     (hK : Nat.card K = (2 ^ n) ^ 2), 3 ∣ 2 ^ n + 1 →
     ∀ (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ 2 ^ n)
       (ε : ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom) ≃* TwE6Delta.RecipeR K n)
-      (wd wb : ↥(RecipeExcLang.twInndiagGroup K σ)) (hwd3 : wd ^ 3 = 1)
-      (hwd1 : wd ≠ 1) (hwb3 : wb ^ 3 = 1)
+      (wd wb : ↥(RecipeExcLang.twInndiagGroup K σ)) (_hwd3 : wd ^ 3 = 1)
+      (_hwd1 : wd ≠ 1) (_hwb3 : wb ^ 3 = 1)
       (Fr : AlgebraicClosure K →+* AlgebraicClosure K) (hFr : ∀ c, Fr c = c ^ 2 ^ n)
       (g : ModGL Tag.E6 (AlgebraicClosure K)), g ∈ adjointGroup Tag.E6 (AlgebraicClosure K) →
       g⁻¹ * CFSG.RankThree.Classical2.twistE6 (AlgebraicClosure K) Fr g =
@@ -310,8 +310,8 @@ structure TwE6ToralLangData
     (hK : Nat.card K = (2 ^ n) ^ 2), 3 ∣ 2 ^ n + 1 →
     ∀ (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ 2 ^ n)
       (ε : ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom) ≃* TwE6Delta.RecipeR K n)
-      (wd wb : ↥(RecipeExcLang.twInndiagGroup K σ)) (hwd3 : wd ^ 3 = 1)
-      (hwd1 : wd ≠ 1) (hwb3 : wb ^ 3 = 1)
+      (wd wb : ↥(RecipeExcLang.twInndiagGroup K σ)) (_hwd3 : wd ^ 3 = 1)
+      (_hwd1 : wd ≠ 1) (_hwb3 : wb ^ 3 = 1)
       (Fr : AlgebraicClosure K →+* AlgebraicClosure K) (hFr : ∀ c, Fr c = c ^ 2 ^ n)
       (g : ModGL Tag.E6 (AlgebraicClosure K)), g ∈ adjointGroup Tag.E6 (AlgebraicClosure K) →
       g⁻¹ * CFSG.RankThree.Classical2.twistE6 (AlgebraicClosure K) Fr g =
@@ -322,7 +322,7 @@ structure TwE6ToralLangData
               ModGL Tag.E6 (AlgebraicClosure K)) * g ∈
           torusGroup Tag.E6 (AlgebraicClosure K)) →
       ∀ (Kc : Subgroup (TwE6Delta.RecipeR K n))
-        (hKc : CFSG.Assembly.IsComponentOf Kc
+        (_hKc : CFSG.Assembly.IsComponentOf Kc
           (fixedSubgroup (TwE6Transport.recipeConj σ ε wd)))
         (hnorm : ∀ x ∈ Kc, TwE6Transport.recipeConj σ ε wb x ∈ Kc)
         (D : TwE6ToralLangData n K σ hσ ε wd wb Kc hnorm),

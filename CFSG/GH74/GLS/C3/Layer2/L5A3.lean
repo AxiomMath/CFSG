@@ -150,6 +150,7 @@ omit [Finite G] in
 theorem card_cj (g : G) (H : Subgroup G) : Nat.card (cj g H) = Nat.card H :=
   Subgroup.card_map_of_injective (MulAut.conj g).injective
 
+omit [Finite G] in
 theorem mem_cj_self {g : G} {H : Subgroup G} {z : G} (hz : z ∈ H) : g * z * g⁻¹ ∈ cj g H :=
   mem_cj.2 ⟨z, hz, rfl⟩
 
@@ -498,7 +499,7 @@ theorem T_sylow_NQ (h : IsAConfig 5 x K T Q S a) (c : Coord5 h) :
     rintro _ ⟨z, -, rfl⟩
     exact z.2
   have hUp : IsPGroup 2 ↥U :=
-    (Q'.isPGroup').of_equiv (Subgroup.equivMapOfInjective _ H.subtype H.subtype_injective)
+    (Q'.isPGroup).of_equiv (Subgroup.equivMapOfInjective _ H.subtype H.subtype_injective)
   have hUQ : ∀ u ∈ U, ∀ z, z ∈ Q ↔ u * z * u⁻¹ ∈ Q := fun u hu z =>
     mem_normalizer_iff.1 (hUH hu).2 z
   have hfix := U_fixes_x h hTU hUQ hUp
@@ -551,6 +552,7 @@ theorem a_not_NQ
 @[expose] def FamQ (R Q : Subgroup G) : Set (Subgroup G) :=
   {V | ∃ g ∈ normalizer (R : Set G), V = cj g Q}
 
+omit [Finite G] in
 theorem cj_mul (g g' : G) (H : Subgroup G) : cj (g * g') H = cj g (cj g' H) := by
   ext y
   simp only [mem_cj]
@@ -560,13 +562,16 @@ theorem cj_mul (g g' : G) (H : Subgroup G) : cj (g * g') H = cj g (cj g' H) := b
   · rintro ⟨_, ⟨z, hz, rfl⟩, rfl⟩
     exact ⟨z, hz, by group⟩
 
+omit [Finite G] in
 theorem cj_one (H : Subgroup G) : cj 1 H = H := by
   ext y
   simp [mem_cj]
 
+omit [Finite G] in
 theorem cj_inv_cj (g : G) (H : Subgroup G) : cj g⁻¹ (cj g H) = H := by
   rw [← cj_mul, inv_mul_cancel, cj_one]
 
+omit [Finite G] in
 theorem cj_inj {g : G} {H H' : Subgroup G} (h : cj g H = cj g H') : H = H' := by
   have := congrArg (cj g⁻¹) h
   rwa [cj_inv_cj, cj_inv_cj] at this
@@ -581,6 +586,7 @@ theorem mem_normalizer_of_cj_le {g : G} {H : Subgroup G} (hle : cj g H ≤ H) :
   rw [← hz'z]
   exact hz
 
+omit [Finite G] in
 theorem cj_eq_of_normalizes {g : G} {H : Subgroup G} (hg : g ∈ normalizer (H : Set G)) :
     cj g H = H := by
   ext y
@@ -593,17 +599,20 @@ theorem cj_eq_of_normalizes {g : G} {H : Subgroup G} (hg : g ∈ normalizer (H :
     have h1 := (mem_normalizer_iff.1 (inv_mem hg) y).1 hy
     simpa using h1
 
+omit [Finite G] in
 theorem fam_le_R {R Q V : Subgroup G} (hQR : Q ≤ R) (hV : V ∈ FamQ R Q) : V ≤ R := by
   obtain ⟨g, hg, rfl⟩ := hV
   intro y hy
   obtain ⟨z, hz, rfl⟩ := mem_cj.1 hy
   exact (mem_normalizer_iff.1 hg z).1 (hQR hz)
 
+omit [Finite G] in
 theorem fam_cj {R Q V : Subgroup G} {w : G} (hw : w ∈ normalizer (R : Set G))
     (hV : V ∈ FamQ R Q) : cj w V ∈ FamQ R Q := by
   obtain ⟨g, hg, rfl⟩ := hV
   exact ⟨w * g, mul_mem hw hg, (cj_mul w g Q).symm⟩
 
+omit [Finite G] in
 theorem Q_mem_fam {R Q : Subgroup G} : Q ∈ FamQ R Q := ⟨1, one_mem _, (cj_one Q).symm⟩
 
 theorem fam_TI
@@ -673,6 +682,7 @@ theorem cj_w_P (h : IsAConfig 5 x K T Q S a) (c : Coord5 h) :
   have hz' : z ∈ c.lift Pm := (SetLike.ext_iff.1 (Coord5.P_eq_lift (c := c)) z).1 hz
   exact (SetLike.ext_iff.1 (Coord5.P_eq_lift (c := c)) _).2 (Coord5.wG_norm_P hz')
 
+omit [Finite G] in
 theorem card_fam {R Q V : Subgroup G} (hV : V ∈ FamQ R Q) : Nat.card V = Nat.card Q := by
   obtain ⟨g, -, rfl⟩ := hV
   exact card_cj g Q

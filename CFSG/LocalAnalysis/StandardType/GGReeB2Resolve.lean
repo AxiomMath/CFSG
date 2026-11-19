@@ -16,7 +16,7 @@ public section
 
 namespace CFSG.StandardType.ReeB2Fixed
 
-private lemma two_pow_e_eq_one (e : ℕ) (he : Odd e) (h3 : 3 ≤ e) :
+private lemma two_pow_e_eq_one (e : ℕ) (_he : Odd e) (_h3 : 3 ≤ e) :
     (2 : ZMod (2 ^ e - 1)) ^ e = 1 := by
   have hpos : 0 < 2 ^ e := pow_pos (by norm_num) e
   have hsplit : (2 : ℕ) ^ e = (2 ^ e - 1) + 1 :=
@@ -34,7 +34,7 @@ private lemma two_pow_succσ (e : ℕ) (he : Odd e) (h3 : 3 ≤ e) (p : Fin e) :
   rw [hv, (pow_eq_pow_mod (p + (e + 1) / 2) h2e).symm, pow_add]
   rfl
 
-private lemma succσ_injective (e : ℕ) (he : Odd e) (h3 : 3 ≤ e) :
+private lemma succσ_injective (e : ℕ) (_he : Odd e) (_h3 : 3 ≤ e) :
     Function.Injective (succσ e) := by
   intro p q hpq
   apply Fin.ext
@@ -46,7 +46,7 @@ private lemma succσ_injective (e : ℕ) (he : Odd e) (h3 : 3 ≤ e) :
     Nat.ModEq.add_right_cancel' ((e + 1) / 2) hmod
   exact Nat.ModEq.eq_of_lt_of_lt hmeq p.isLt q.isLt
 
-private lemma units_add_eq_mul_r (e : ℕ) (he : Odd e) (h3 : 3 ≤ e)
+private lemma units_add_eq_mul_r (e : ℕ) (he : Odd e) (_h3 : 3 ≤ e)
     (c : ZMod (2 ^ e - 1)) (hc : c ∈ units e) :
     ∃ u ∈ units e, ∃ u' ∈ units e, u + u' = c * r e := by
   simp only [units, Finset.mem_insert, Finset.mem_singleton] at hc
@@ -84,7 +84,7 @@ private lemma units_pair (e : ℕ) (he : Odd e) (h3 : 3 ≤ e)
 theorem lam_resolve_subset (e : ℕ) (he : Odd e) (h3 : 3 ≤ e) (A B : Finset (Fin e))
     (hI : IndepSigma e A) : Lam e (resolve e A B) ⊆ Lam e A + Lam e B := by
   classical
-  haveI : NeZero e := ⟨by omega⟩
+  have : NeZero e := ⟨by omega⟩
   intro x hx
   rcases hx with ⟨c, hc, hxeq⟩
   rw [hxeq]
@@ -106,18 +106,18 @@ theorem lam_resolve_subset (e : ℕ) (he : Odd e) (h3 : 3 ≤ e) (A B : Finset (
     intro j
     dsimp only [uu]
     by_cases h : j ∈ A ∧ j ∈ B ∧ succσ e j ∉ B
-    · rw [dif_pos h]
+    · rw [dite_eq_left h]
       have hspec := Classical.choose_spec (units_pair e he h3 (c (succσ e j))
         (hc (succσ e j) (hmemF j h.1 h.2.1 h.2.2)))
       exact ⟨hspec.1, hspec.2.1⟩
-    · rw [dif_neg h]
+    · rw [dite_eq_right h]
       simp [units]
   have huu_add : ∀ j (hA : j ∈ A) (hB : j ∈ B) (hσ : succσ e j ∉ B),
       (uu j).1 + (uu j).2 = c (succσ e j) * r e := by
     intro j hA hB hσ
     have h : j ∈ A ∧ j ∈ B ∧ succσ e j ∉ B := ⟨hA, hB, hσ⟩
     dsimp only [uu]
-    rw [dif_pos h]
+    rw [dite_eq_left h]
     exact (Classical.choose_spec (units_pair e he h3 (c (succσ e j))
       (hc (succσ e j) (hmemF j hA hB hσ)))).2.2
   let cA : Fin e → ZMod (2 ^ e - 1) := fun j =>
@@ -127,22 +127,22 @@ theorem lam_resolve_subset (e : ℕ) (he : Odd e) (h3 : 3 ≤ e) (A B : Finset (
   have hcA : ∀ j ∈ A, cA j ∈ units e := by
     intro j hA
     dsimp only [cA]
-    rw [if_pos hA]
+    rw [ite_eq_left hA]
     by_cases hB : j ∈ B
-    · rw [if_pos hB]
+    · rw [ite_eq_left hB]
       exact (huu_units j).1
-    · rw [if_neg hB]
+    · rw [ite_eq_right hB]
       exact hc j (by
         rw [hresolve]
         exact Finset.mem_union.mpr (Or.inl (Finset.mem_symmDiff.mpr (Or.inl ⟨hA, hB⟩))))
   have hcB : ∀ j ∈ B, cB j ∈ units e := by
     intro j hB
     dsimp only [cB]
-    rw [if_pos hB]
+    rw [ite_eq_left hB]
     by_cases hA : j ∈ A
-    · rw [if_pos hA]
+    · rw [ite_eq_left hA]
       exact (huu_units j).2
-    · rw [if_neg hA]
+    · rw [ite_eq_right hA]
       exact hc j (by
         rw [hresolve]
         exact Finset.mem_union.mpr (Or.inl (Finset.mem_symmDiff.mpr (Or.inr ⟨hB, hA⟩))))
@@ -176,7 +176,7 @@ theorem lam_resolve_subset (e : ℕ) (he : Odd e) (h3 : 3 ≤ e) (A B : Finset (
     obtain ⟨hA, hBn⟩ := Finset.mem_sdiff.mp hj
     have hcAval : cA j = c j := by
       dsimp only [cA]
-      rw [if_pos hA, if_neg hBn]
+      rw [ite_eq_left hA, ite_eq_right hBn]
     rw [hcAval]
   have hSB : (∑ j ∈ B \ A, cB j * 2 ^ (j : ℕ)) =
       ∑ j ∈ B \ A, c j * 2 ^ (j : ℕ) := by
@@ -185,7 +185,7 @@ theorem lam_resolve_subset (e : ℕ) (he : Odd e) (h3 : 3 ≤ e) (A B : Finset (
     obtain ⟨hB, hAn⟩ := Finset.mem_sdiff.mp hj
     have hcBval : cB j = c j := by
       dsimp only [cB]
-      rw [if_pos hB, if_neg hAn]
+      rw [ite_eq_left hB, ite_eq_right hAn]
     rw [hcBval]
   have hdisjSA : Disjoint (A \ B) (B \ A) := by
     rw [Finset.disjoint_left]
@@ -221,11 +221,11 @@ theorem lam_resolve_subset (e : ℕ) (he : Odd e) (h3 : 3 ≤ e) (A B : Finset (
         exact hjσ hσ
       have huu : uu j = (1, -1) := by
         dsimp only [uu]
-        rw [dif_neg hcond]
+        rw [dite_eq_right hcond]
       have hcAval : cA j = 1 := by
-        dsimp only [cA]; rw [if_pos hA, if_pos hB, huu]
+        dsimp only [cA]; rw [ite_eq_left hA, ite_eq_left hB, huu]
       have hcBval : cB j = -1 := by
-        dsimp only [cB]; rw [if_pos hB, if_pos hA, huu]
+        dsimp only [cB]; rw [ite_eq_left hB, ite_eq_left hA, huu]
       rw [hcAval, hcBval]
       simp
     rw [hnot, add_zero]
@@ -237,9 +237,9 @@ theorem lam_resolve_subset (e : ℕ) (he : Odd e) (h3 : 3 ≤ e) (A B : Finset (
     obtain ⟨hjAB, hjσ⟩ := hj
     obtain ⟨hA, hB⟩ := Finset.mem_inter.mp hjAB
     have hcAval : cA j = (uu j).1 := by
-      dsimp only [cA]; rw [if_pos hA, if_pos hB]
+      dsimp only [cA]; rw [ite_eq_left hA, ite_eq_left hB]
     have hcBval : cB j = (uu j).2 := by
-      dsimp only [cB]; rw [if_pos hB, if_pos hA]
+      dsimp only [cB]; rw [ite_eq_left hB, ite_eq_left hA]
     rw [hcAval, hcBval, huu_add j hA hB hjσ]
     rw [two_pow_succσ e he h3 j]
     ring

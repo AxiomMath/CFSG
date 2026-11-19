@@ -113,20 +113,20 @@ end KnownTwOmega
 theorem exists_not_commute_projOmegaPlus_two {k : Type} [Field k] [Finite k]
     (hk : Nat.card k = 2) {m : ℕ} (hm : 4 ≤ m) :
     ∃ a b : LargeEvenProj (LargeEvenOmega (LargeEvenQPlus k m)), a * b ≠ b * a := by
-  haveI : CharP k 2 := charP_two_of_card (m := 1) (by rw [hk]; norm_num)
-  haveI hS : IsSimpleGroup (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus k m))) :=
+  have : CharP k 2 := charP_two_of_card (m := 1) (by rw [hk]; norm_num)
+  have hS : IsSimpleGroup (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus k m))) :=
     CFSG.ClassicalGroups.Orthogonal.isSimpleGroup_statedProj_statedOmega_quadPlus (by omega)
-  haveI : Finite (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus k m))) :=
+  have : Finite (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus k m))) :=
     Finite.of_surjective _ (QuotientGroup.mk'_surjective _)
   obtain ⟨-, E, -, -, -, -, hE⟩ := OrthRestTail.torus_plus (K := k) hk hm
   by_contra hcon
   push Not at hcon
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3E : 3 ∣ Nat.card E := by
     rw [hE]
     exact dvd_pow_self 3 (by omega)
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' (G := E) 3 h3E
-  haveI hN : (Subgroup.zpowers (g : OrthRest.RPlus k m)).Normal :=
+  have hN : (Subgroup.zpowers (g : OrthRest.RPlus k m)).Normal :=
     ⟨fun n hn x => by rwa [hcon x n, mul_inv_cancel_right]⟩
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.zpowers (g : OrthRest.RPlus k m)) with
     h | h
@@ -194,7 +194,7 @@ theorem exists_fixGeom_all (hm : 4 ≤ m) {n p : ℕ} (hn : 1 ≤ n) (hp : p.Pri
     rw [mem_range_subfieldInj_iff k hp hp2 hσ hσk hm3 hσf r, mem_ggFixSub]
   let e : LargeEvenProj (LargeEvenOmega (LargeEvenQPlus k m)) ≃* ↥(ggFixSub f) :=
     (MonoidHom.ofInjective (subfieldInj_injective k hm1)).trans (MulEquiv.subgroupCongr hrange)
-  haveI := hS₀
+  have := hS₀
   exact ⟨k, inferInstance, inferInstance, hcard, hS₀, hna₀,
     ggFixGeom_of_inn hna₀ hZ (fun _ h => h) (fun _ h => h) e⟩
 

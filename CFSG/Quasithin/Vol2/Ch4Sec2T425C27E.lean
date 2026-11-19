@@ -56,11 +56,11 @@ theorem two_le_pRank_of_isPSU_three_three {X : Type} [Group X] [Finite X] (h : I
   have h9 : 3 ^ 2 ∣ Nat.card (P : Subgroup (StatedSU 3 3 K)) :=
     P.pow_dvd_card_of_pow_dvd_card (by rw [card_statedSU hK9]; norm_num)
   refine A3Facts.two_le_pRank_of_not_isCyclic (by norm_num)
-    (P := (P : Subgroup (StatedSU 3 3 K))) P.isPGroup' fun hcyc => ?_
+    (P := (P : Subgroup (StatedSU 3 3 K))) P.isPGroup fun hcyc => ?_
   obtain ⟨g, hg⟩ := hcyc.exists_generator
   have hord := orderOf_eq_card_of_forall_mem_zpowers hg
   have hg3 : g ^ 3 = 1 := by
-    obtain ⟨k, hk⟩ := P.isPGroup' g
+    obtain ⟨k, hk⟩ := P.isPGroup g
     have h1 : (((g : StatedSU 3 3 K) : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) ^ (3 ^ k) = 1 := by
       have := congrArg (fun x : ↥(P : Subgroup (StatedSU 3 3 K)) =>
         (((x : StatedSU 3 3 K) : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K)) hk

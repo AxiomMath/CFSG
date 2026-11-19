@@ -53,7 +53,7 @@ private theorem exists_three_elt_centralizer_le {n : ℕ} (hn6 : 6 ≤ n) (hn8 :
   have hcent : Nat.card ↥(centralizer ({s} : Set (Equiv.Perm (Fin n)))) =
       Nat.factorial (n - 6) * 9 * 2 := by
     rw [Equiv.Perm.nat_card_centralizer, hcyc]
-    simp [Fintype.card_fin, Nat.factorial]
+    simp [Fintype.card_fin]
   let x : alternatingGroup (Fin n) := ⟨s, Equiv.Perm.mem_alternatingGroup.mpr hsign⟩
   have hxord : orderOf x = 3 := by
     rw [← Subgroup.orderOf_coe x]
@@ -82,7 +82,7 @@ private theorem exists_three_elt_centralizer_le {n : ℕ} (hn6 : 6 ≤ n) (hn8 :
 theorem false_of_alternating {L : Type*} [Group L] [Finite L] {n : ℕ}
     (e : L ≃* alternatingGroup (Fin n)) (hn : 5 ≤ n) (h3 : (Nat.card L).factorization 3 = 2)
     (hC : CentHyp L) : False := by
-  haveI : Nontrivial (Fin n) :=
+  have : Nontrivial (Fin n) :=
     ⟨⟨⟨0, by omega⟩, ⟨1, by omega⟩, by simp [Fin.ext_iff]⟩⟩
   have hcard : Nat.card L = Nat.factorial n / 2 := by
     rw [Nat.card_congr e.toEquiv, nat_card_alternatingGroup, Nat.card_fin]
@@ -99,7 +99,7 @@ theorem false_of_alternating {L : Type*} [Group L] [Finite L] {n : ℕ}
     have hA : CentHyp (alternatingGroup (Fin n)) := CentHyp.of_mulEquiv e.symm hC
     obtain ⟨x, hxord, hxcard⟩ := exists_three_elt_centralizer_le hn6 h8
     rcases hA.card_centralizer hxord with hc | hc <;> omega
-  · push_neg at h8
+  · push Not at h8
     have hn9 : 9 ≤ n := by omega
     have h9dvd : Nat.factorial 9 ∣ Nat.factorial n := Nat.factorial_dvd_factorial hn9
     have h54 : 54 ∣ Nat.factorial n := dvd_trans (by norm_num : 54 ∣ Nat.factorial 9) h9dvd

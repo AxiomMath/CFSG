@@ -20,11 +20,11 @@ abbrev Proj : Type := (Fin m → Fˣ) ⧸ scalars F m
 @[expose] def detOne : Subgroup (Fin m → Fˣ) where
   carrier := {t | ∏ i, t i = 1}
   mul_mem' {a b} ha hb := by
-    simp only [Set.mem_setOf_eq, Pi.mul_apply, Finset.prod_mul_distrib] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq, Pi.mul_apply, Finset.prod_mul_distrib] at ha hb ⊢
     rw [ha, hb, one_mul]
   one_mem' := by simp
   inv_mem' {a} ha := by
-    simp only [Set.mem_setOf_eq, Pi.inv_apply, Finset.prod_inv_distrib] at ha ⊢
+    simp only [Set.mem_ofPred_eq, Pi.inv_apply, Finset.prod_inv_distrib] at ha ⊢
     rw [ha, inv_one]
 
 @[expose] def inner : Subgroup (Proj F m) := (detOne F m).map (QuotientGroup.mk' (scalars F m))

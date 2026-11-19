@@ -34,11 +34,11 @@ open Subgroup CFSG.Blueprint CFSG.Blueprint.NativeSporadic CFSG.EvenSporadicStan
           (LieModel ↥P .G2 0 2 2 ∧ IsSporadic ↥N' .Co1)
 
 theorem catalog_or_top {Y : Type} [Group Y] [Finite Y] {N' : Subgroup Y} (hN : FStarSimple N')
-    (hidx : N'.index ≤ 2) (hkp : CFSG.Assembly.KProper CFSG.Blueprint.Catalog Y)
+    (_hidx : N'.index ≤ 2) (hkp : CFSG.Assembly.KProper CFSG.Blueprint.Catalog Y)
     (hcat : ¬ CFSG.Blueprint.Catalog ↥N') : N' = ⊤ := by
   by_contra hne
   apply hcat
-  haveI := hN.isSimpleGroup
+  have := hN.isSimpleGroup
   exact catalog_of_kProper_of_surjective hkp N' hne ↥N' hN.nonabelian (MonoidHom.id _)
     Function.surjective_id
 

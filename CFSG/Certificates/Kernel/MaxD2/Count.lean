@@ -33,9 +33,9 @@ structure HypsC (D : Data) (K : Pk) : Prop where
     wordEqK K.n K.w (mask K.w) (pidn K.n K.w) K.Gp K.GIp K.kG (D.repW[i]!) (K.REP (i + 1)) = true
   hRi : ∀ i < K.nr, permOK K.n K.w (mask K.w) (K.n * K.w) (K.REP i) (K.REPI i) = true
   hPts : PtsOK K.n K.np D.fpPts K.PT
-  hS : ∀ s < K.cnt, sortK K.w K.np K.kw K.cnt K.PT K.NT K.FS K.KS s = true
+  hS : ∀ s < K.cnt, sortK K.w K.np K.kw K.cnt K.PT K.NT K.FS K.KSt s = true
   hTest : ∀ i, 0 < i → i < K.nr →
-    repK K.n K.w K.np K.kw K.cnt K.PT K.NT K.FS K.KS K.REP K.REPI K.RB K.H i = true
+    repK K.n K.w K.np K.kw K.cnt K.PT K.NT K.FS K.KSt K.REP K.REPI K.RB K.H i = true
   hCnt : ∀ i, 0 < i → i < K.nr → posCnt K.cnt K.H i = K.CN i
 
 structure HypsB (D : Data) (K : Pk) : Prop extends HypsC D K where
@@ -45,7 +45,7 @@ structure HypsB (D : Data) (K : Pk) : Prop extends HypsC D K where
   hM : K.n ≤ 64 * K.hi
   hMK : ∀ i < K.nr, K.MK i = mkeyK K.n K.w K.hi K.cw K.nl K.L (K.REP i)
   hMd : ∀ i < K.nr, ∀ j < K.nr, i < j → K.MK i ≠ K.MK j ∨
-    pairK K.n K.w K.np K.kw K.cnt K.PT K.NT K.FS K.KS K.REP K.REPI K.RB2 K.H2 (K.PQ i j) i j =
+    pairK K.n K.w K.np K.kw K.cnt K.PT K.NT K.FS K.KSt K.REP K.REPI K.RB2 K.H2 (K.PQ i j) i j =
       true
 
 section
@@ -198,7 +198,7 @@ theorem c_conjCount_eq (H : HypsC D K) {i : Nat} (hi : i < K.nr) :
   rw [c_repi_get H hi, c_rep_get H hi, c_nT_size H, H.hDn]
   by_cases h0 : i = 0
   · subst h0
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     refine (countBelow_eq (g := fun _ => true) fun k hk => ?_).trans (countBelow_true K.cnt)
     have hqid := c_repi0 H hi
     have e : comp K.n (comp K.n (unpack K.n K.w (K.REPI 0)) (nEnum D).tabs[k]!)
@@ -209,7 +209,7 @@ theorem c_conjCount_eq (H : HypsC D K) {i : Nat} (hi : i < K.nr) :
         get_u (canon_lt (c_nt_canon H hk) hx), hqid _ (canon_lt (c_nt_canon H hk) hx)]
     rw [e, c_memN_iff H (c_nt_canon H hk)]
     exact ⟨k, hk, rfl⟩
-  · rw [if_neg h0, ← H.hCnt i (Nat.pos_of_ne_zero h0) hi]
+  · rw [ite_eq_right h0, ← H.hCnt i (Nat.pos_of_ne_zero h0) hi]
     unfold posCnt
     rw [PK.foldN_eq, foldr_count]
     refine countBelow_eq fun k hk => ?_
@@ -230,7 +230,7 @@ theorem c_checkTI_of (H : HypsC D K) (hp : ∀ i, 0 < i → i < K.nr → K.CN i 
   unfold Certificates.MaxD2TI.checkTI
   refine allBelow_iff'.2 fun i hi => ?_
   have hi1 : i + 1 < K.nr := by rw [H.hRn]; omega
-  rw [c_conjCount_eq H hi1, if_neg (Nat.succ_ne_zero i)]
+  rw [c_conjCount_eq H hi1, ite_eq_right (Nat.succ_ne_zero i)]
   simpa using hp (i + 1) (Nat.succ_pos i) hi1
 
 theorem c_dcSum_of (H : HypsB D K) :
@@ -300,10 +300,10 @@ theorem c_gens1 (H : HypsC D K) {r : Nat} (hr : r < K.nr) :
   rw [getElem!_pos _ l (by simp [hs]; omega), PK.nIf_eq]
   by_cases h : l < K.kN
   · rw [Array.getElem_append_left (by rw [hs]; exact h),
-      ← getElem!_pos (nGens D) l (by rw [hs]; exact h), c_ng_get H h, if_pos (Nat.blt_eq.mpr h)]
+      ← getElem!_pos (nGens D) l (by rw [hs]; exact h), c_ng_get H h, ite_eq_left (Nat.blt_eq.mpr h)]
   · have hl' : l = K.kN := by omega
     subst hl'
-    rw [if_neg (by simp [Nat.blt_eq]), Array.getElem_append_right (by rw [hs])]
+    rw [ite_eq_right (by simp [Nat.blt_eq]), Array.getElem_append_right (by rw [hs])]
     simp [hs, c_rep_get H hr]
 
 theorem c_gens2 (H : HypsC D K) (h2 : 2 < K.nr) :
@@ -327,7 +327,7 @@ theorem c_gens2 (H : HypsC D K) (h2 : 2 < K.nr) :
     subst hl'
     rw [Array.getElem_append_right (by rw [hs1])]
     simp only [PK.nIf_eq, Nat.blt_eq, Nat.beq_eq]
-    rw [if_neg (by omega), if_neg (by omega), ← c_rep_get H (i := 2) h2]
+    rw [ite_eq_right (by omega), ite_eq_right (by omega), ← c_rep_get H (i := 2) h2]
     simp only [hs1, Nat.sub_self, List.getElem_toArray, List.getElem_cons_zero]
 
 theorem c_gensI1 {r : Nat} (hr : r < (repT D).size) :
@@ -375,10 +375,10 @@ theorem c_checkOver_of {pairW : List (List Int)} (H : HypsO D K pairW) :
         (K.sg (i + 2) l) (K.sgi (i + 2) l)) = true := PK.allN_iff.2 fun l hl => by
       unfold Pk.sg Pk.sgi
       by_cases h : l < K.kN
-      · rw [PK.nIf_eq, PK.nIf_eq, if_pos (Nat.blt_eq.mpr h), if_pos (Nat.blt_eq.mpr h)]
+      · rw [PK.nIf_eq, PK.nIf_eq, ite_eq_left (Nat.blt_eq.mpr h), ite_eq_left (Nat.blt_eq.mpr h)]
         exact H.hNI l h
-      · rw [PK.nIf_eq, PK.nIf_eq, if_neg (by simp [Nat.blt_eq]; omega),
-          if_neg (by simp [Nat.blt_eq]; omega)]
+      · rw [PK.nIf_eq, PK.nIf_eq, ite_eq_right (by simp [Nat.blt_eq]; omega),
+          ite_eq_right (by simp [Nat.blt_eq]; omega)]
         exact H.hRi _ hr
     exact c_word_eq HC hj (c_gens1 HC hr) hperm (hw j hj)
   · unfold Certificates.OverD2Perm.pairOK Certificates.OverD2Perm.genOK
@@ -438,7 +438,7 @@ theorem c_closedOK_of (H : HypsB D K) {i c : Nat} {X : Nat → Nat} (h0 : 0 < i)
   unfold Certificates.OverD2Perm.closedOK
   dsimp only
   have hcnt := c_conjCount_eq HC hi
-  rw [if_neg (by omega), hc] at hcnt
+  rw [ite_eq_right (by omega), hc] at hcnt
   rw [fpOK_of (c_fp_inj HC), c_invsRep HC, hcnt, c_rep_get HC hi, c_repi_get HC hi]
   have hnot : memFp D.fpPts (indexOf ((nEnum D).tabs.map (fpTab D.fpPts)))
       ((nEnum D).tabs.map (fpTab D.fpPts)) (nEnum D).tabs (unpack K.n K.w (K.REP i)) = false := by
@@ -446,8 +446,7 @@ theorem c_closedOK_of (H : HypsB D K) {i c : Nat} {X : Nat → Nat} (h0 : 0 < i)
     intro hm
     exact c_rep_notin H h0 hi ((c_memN_iff HC hr.1).1 hm)
   rw [hnot]
-  simp only [decide_eq_true_eq, beq_self_eq_true, Bool.not_false, Bool.and_true, Bool.true_and,
-    Bool.and_eq_true]
+  simp only [decide_eq_true_eq, beq_self_eq_true, Bool.not_false, Bool.and_true, Bool.and_eq_true]
   refine ⟨⟨h0, by rw [H.hRn] at hi; omega⟩, allBelow_iff'.2 fun k hk => ?_⟩
   rw [c_nT_size HC] at hk
   have ha := c_nt_canon HC hk

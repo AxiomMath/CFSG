@@ -56,7 +56,7 @@ theorem exists_conj_F0 (hK : Nat.card K = 3 ^ (2 * 1 + 1))
     (hnot : ¬ E ≤ CFSG.ComponentClassification.OuterAutomorphisms.inner (ReeTag.G2.reeGamma K 1)) :
     ∃ δ : MulAut (ReeTag.G2.reeGamma K 1),
       (frobeniusΓ ^ 2 : MulAut (ReeTag.G2.reeGamma K 1)) ∈ E.map (MulAut.conj δ).toMonoidHom := by
-  obtain ⟨b, hbE, hbI⟩ := SetLike.not_le_iff_exists.1 hnot
+  obtain ⟨b, hbE, hbI⟩ := IsConcreteLE.not_le_iff_exists.1 hnot
   obtain ⟨g, k, hk⟩ := exists_eq_conj_mul_frobeniusΓ_pow (by norm_num) hK b
   have hF3 : (frobeniusΓ : MulAut (ReeTag.G2.reeGamma K 1)) ^ 3 = 1 := by
     simpa using frobeniusΓ_pow hK
@@ -122,9 +122,9 @@ theorem smallF2_gamma (hK : Nat.card K = 3 ^ (2 * 1 + 1))
     (hE0 : Nat.card ↥(E ⊓ CFSG.ComponentClassification.OuterAutomorphisms.inner
       (ReeTag.G2.reeGamma K 1)) = 3 ^ 2) :
     SmallF2 (ReeTag.G2.reeGamma K 1) E := by
-  haveI : Finite (ModGL ReeTag.G2.tag K) := finite_modGL
-  haveI : Finite (ReeTag.G2.reeGamma K 1) := Subtype.finite
-  haveI : Finite (MulAut (ReeTag.G2.reeGamma K 1)) := MulEquiv.finite_left
+  have : Finite (ModGL ReeTag.G2.tag K) := finite_modGL
+  have : Finite (ReeTag.G2.reeGamma K 1) := Subtype.finite
+  have : Finite (MulAut (ReeTag.G2.reeGamma K 1)) := MulEquiv.finite_left
   intro W hW hWi hcent
   by_contra hWne
   obtain ⟨x, hx, hx1⟩ := exists_ne_one_centralInvol hW hWne

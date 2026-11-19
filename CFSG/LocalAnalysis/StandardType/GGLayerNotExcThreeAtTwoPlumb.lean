@@ -240,7 +240,7 @@ theorem notExcThree_of_isComponentOf_top {τ : Tag}
   classical
   have hperf : Group.IsPerfect ↥(adjointGroup τ K) :=
     ⟨single_edge_perfect τ K (by rcases hτ with h | h | h | h <;> simp [h])⟩
-  haveI := (ExcCopy.isSimpleGroup_adjointGroup_of_perfect τ K hperf).1
+  have := (ExcCopy.isSimpleGroup_adjointGroup_of_perfect τ K hperf).1
   have hJnt : Nontrivial ↥J := by
     have h2 : Nontrivial (↥J ⧸ Subgroup.center ↥J) := hJ.2.2.2.toNontrivial
     have hs : Function.Surjective (QuotientGroup.mk : ↥J → ↥J ⧸ Subgroup.center ↥J) :=

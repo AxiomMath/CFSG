@@ -31,7 +31,7 @@ theorem not_isCharTwoType_of_twistedE6Model_odd {p f : ℕ} (hp : p.Prime) (hf :
     ¬ CFSG.Open.IsCharTwoType H := by
   obtain ⟨K, _, _, hK, σ₀, hσ₀, ⟨φ⟩⟩ := h
   intro hchar
-  haveI := finite_modGL (τ := TwistTag.E6.tag) (K := K)
+  have := finite_modGL (τ := TwistTag.E6.tag) (K := K)
   obtain ⟨σ, hσ, -, -, -⟩ := finite_graph_field_parameter_fields TwistTag.E6 hp hf K hK
   have hσeq : σ₀ = σ.toRingHom := RingHom.ext fun c => (hσ₀ c).trans (hσ c).symm
   subst hσeq
@@ -50,7 +50,7 @@ theorem not_isCharTwoType_of_twistedE6Model_odd {p f : ℕ} (hp : p.Prime) (hf :
   let e : H ≃* ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom) := φ.trans ψ
   have hC : CFSG.Open.IsCharTwoType ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom) :=
     CFSG.RankThree.PartTwo.Census.isCharTwoType_of_mulEquiv e hchar
-  haveI : Finite ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom) := inferInstance
+  have : Finite ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom) := inferInstance
   exact CFSG.RankThreeEvenClassification.Helpers.charTwoType_no_involution_component hC
     (hasInvolutionComponent_graphFixedRootGroup_E6_odd hp hf hodd K hK σ hσ)
 

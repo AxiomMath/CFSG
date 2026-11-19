@@ -182,7 +182,7 @@ theorem s16h_e3_z3f5_semilinear_inverts {f₀ : GL (Fin 3) F}
         ((Matrix.GeneralLinearGroup.toLin f₀ : Module.End F (Fin 3 → F)) ^ m) := by
       have := congrArg (fun u : (Module.End F (Fin 3 → F))ˣ =>
         (u : Module.End F (Fin 3 → F))) (map_pow Matrix.GeneralLinearGroup.toLin f₀ m)
-      simpa using this
+      simp
     rw [← h1, h2, h3]
   have hτe : ∀ v, coordinateSemilinearMap τ
         (s16h_e3_z3f5_e (Matrix.GeneralLinearGroup.toLin f₀ : Module.End F (Fin 3 → F)) v) =

@@ -17,13 +17,14 @@ variable {G : Type} [Group G] [Finite G]
 
 section Bridge
 
+omit [Finite G] in
 theorem s16c7_le_stabTil_bot {M V : Subgroup G} (hMV : M ≤ normalizer (V : Set G)) :
     M ≤ stabTil ⊥ V := by
   refine le_stabTil hMV ?_
   intro m _
   rw [Subgroup.mem_normalizer_iff]
   intro h
-  simp only [SetLike.mem_coe, Subgroup.mem_bot]
+  simp only [Subgroup.mem_bot]
   constructor
   · rintro rfl
     simp
@@ -37,7 +38,7 @@ theorem s16c7_exists_mbar_equiv (D : Data G) {V : Subgroup G} (hV : IsElemAbelia
       (mbarImage D.M V X).map e.toMonoidHom =
         (barSub ⊥ V hV X).subgroupOf (Mbar D.M ⊥ V hV) := by
   have hMs : D.M ≤ stabTil ⊥ V := s16c7_le_stabTil_bot hMV
-  haveI : ((F11.CTilde D.M ⊥ V).subgroupOf D.M).Normal := cTilde_bot_normal D.M V hMV
+  have : ((F11.CTilde D.M ⊥ V).subgroupOf D.M).Normal := cTilde_bot_normal D.M V hMV
   obtain ⟨e₂, he₂⟩ := s15_Three_barImage_equiv (D := D) (V₀ := ⊥) (V := V) hV hMs
   refine ⟨(mbarEquiv D.M V).trans e₂, fun X hX => ?_⟩
   have h1 : ((mbarEquiv D.M V).trans e₂).toMonoidHom =
@@ -74,12 +75,14 @@ theorem s16c7_isComponentOf_map {Γ : Type*} [Group Γ] {B : Subgroup Γ} {Q : T
         (Subgroup.subgroupOfEquivOfLe hHB)
     exact CFSG.Open.IsQuasisimple.of_mulEquiv ι hq
 
+omit [Finite G] in
 theorem s16c7_barSub_sup (V₀ V : Subgroup G) (hV : IsElemAbelian 2 V) {X₁ X₂ : Subgroup G}
     (h₁ : X₁ ≤ stabTil V₀ V) (h₂ : X₂ ≤ stabTil V₀ V) :
     barSub V₀ V hV (X₁ ⊔ X₂) = barSub V₀ V hV X₁ ⊔ barSub V₀ V hV X₂ := by
   unfold barSub
   rw [Subgroup.subgroupOf_sup h₁ h₂, Subgroup.map_sup]
 
+omit [Finite G] in
 theorem s16c7_barSub_map_conj (V₀ V : Subgroup G) (hV : IsElemAbelian 2 V) {m : G}
     (hm : m ∈ stabTil V₀ V) (X : Subgroup G) :
     barSub V₀ V hV (X.map (MulAut.conj m).toMonoidHom) =
@@ -112,7 +115,7 @@ theorem s16c7_lift_factors (D : Data G) (h119 : R119W D) {V : Subgroup G}
   have hMs : D.M ≤ stabTil ⊥ V := s16c7_le_stabTil_bot hMV
   obtain ⟨e, he⟩ := s16c7_exists_mbar_equiv D hV hMV
   obtain ⟨H₁, H₂, hH₁A, hH₂A, hsup, hinf, hL₁, hL₂, hn₁, hn₂, hperm⟩ := s16c7_components hX φ
-  haveI : Finite X := s16c7_finite_of_psi φ
+  have : Finite X := s16c7_finite_of_psi φ
   have hAsub : CFSG.Open.IsSubnormal A (Mbar D.M ⊥ V hV) :=
     CFSG.Open.IsSubnormal.step hAM
       ((Subgroup.normal_subgroupOf_iff_le_normalizer hAM).2 hMA) (CFSG.Open.IsSubnormal.refl _)

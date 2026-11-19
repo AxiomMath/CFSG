@@ -26,8 +26,8 @@ theorem map_eq_map_pCore_of_le_ker_pPrimeCore {C : Type*} [Group C] [Finite C] {
         rw [Subgroup.map_sup, (Subgroup.map_eq_bot_iff _).mpr hf, sup_bot_eq]
 
 theorem map_top_le_normalizer_of_normal_isPGroup_two {G K : Type*} [Group G] [Group K]
-    (R : Subgroup K) [R.Normal] (hR2 : IsPGroup 2 R) (hR0 : R ≠ ⊥)
-    (ι : K →* G) (hι : Function.Injective ι) :
+    (R : Subgroup K) [R.Normal] (_hR2 : IsPGroup 2 R) (_hR0 : R ≠ ⊥)
+    (ι : K →* G) (_hι : Function.Injective ι) :
     (⊤ : Subgroup K).map ι ≤ Subgroup.normalizer ((R.map ι : Subgroup G) : Set G) := by
   rintro _ ⟨k, -, rfl⟩
   rw [Subgroup.mem_normalizer_iff]
@@ -103,7 +103,7 @@ theorem isPGroup_map_quotient_pPrimeCore {K : Type*} [Group K] [Finite K] {r : �
   have hN'n : N'.Normal := by
     dsimp only [N', N]
     infer_instance
-  haveI : N'.Normal := hN'n
+  have : N'.Normal := hN'n
   let f := (QuotientGroup.mk' N').comp C.subtype
   have hf : CFSG.pPrimeCore r C ≤ f.ker := by
     intro x hx
@@ -127,7 +127,7 @@ private theorem exists_central_cover_of_nilpotent_kernel {K : Type u} {S : Type 
         CFSG.pRank r Y = CFSG.pRank r K := by
   classical
   let N' : Subgroup K := (CFSG.pPrimeCore r C).map C.subtype
-  haveI hN'n : N'.Normal := by
+  have hN'n : N'.Normal := by
     dsimp only [N']
     infer_instance
   have hN'r : ¬ r ∣ Nat.card N' := by
@@ -186,12 +186,12 @@ theorem exists_central_cover_of_twoLocalPrimeRank_le {G : Type u} [Group G] [Fin
       ∃ φ : Y →* S, Function.Surjective φ ∧ φ.ker ≤ Subgroup.center Y ∧
         CFSG.Open.twoLocalPrimeRank r Y ≤ m := by
   classical
-  haveI := hSs
+  have := hSs
   obtain ⟨hSq, hSZ⟩ := LocalCores.isQuasisimple_of_isSimpleGroup hSnab
   obtain ⟨K, πK, C, hKperf, hπKs, hCn, hC, hCnil, -⟩ :=
     exists_minimal_cover (layer_eq_top_of_isQuasisimple hSq) H π hπ
-  haveI : Group.IsPerfect K := hKperf
-  haveI : C.Normal := hCn
+  have : Group.IsPerfect K := hKperf
+  have : C.Normal := hCn
   have hCker : πK.ker = C := by rw [hC, hSZ, MonoidHom.comap_bot]
   have hKG : CFSG.Open.twoLocalPrimeRank r K ≤ m := by
     refine (show CFSG.Open.twoLocalPrimeRank r K ≤ CFSG.Open.twoLocalPrimeRank r H from
@@ -217,11 +217,11 @@ theorem exists_central_cover_of_even_center_of_twoLocalPrimeRank_le {G : Type u}
       (φ : Y →* M ⧸ center M), Function.Surjective φ ∧ φ.ker ≤ center Y ∧
         CFSG.Open.pRank r (⊤ : Subgroup Y) ≤ m := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨K, πK, C, hKperf, hπKs, hCn, hC, hCnil, hCsyl⟩ :=
     exists_minimal_cover (layer_eq_top_of_isQuasisimple hM) H π hπ
-  haveI : Group.IsPerfect K := hKperf
-  haveI : C.Normal := hCn
+  have : Group.IsPerfect K := hKperf
+  have : C.Normal := hCn
   have hCZ : Function.Surjective ((πK.comp C.subtype).codRestrict (center M)
       (fun x => hC ▸ x.2)) := by
     intro z
@@ -232,8 +232,8 @@ theorem exists_central_cover_of_even_center_of_twoLocalPrimeRank_le {G : Type u}
     (even_iff_two_dvd.mp hZ).trans (Subgroup.card_dvd_of_surjective hCZ)
   set T : Sylow 2 C := default with hT
   set R : Subgroup K := (T : Subgroup C).map C.subtype with hR
-  haveI hRn : R.Normal := hCsyl 2 T
-  have hRp : IsPGroup 2 R := T.isPGroup'.map _
+  have hRn : R.Normal := hCsyl 2 T
+  have hRp : IsPGroup 2 R := T.isPGroup.map _
   have hRne : R ≠ ⊥ := by
     rw [hR, Ne, Subgroup.map_eq_bot_iff_of_injective _ C.subtype_injective]
     exact T.ne_bot_of_dvd_card h2C

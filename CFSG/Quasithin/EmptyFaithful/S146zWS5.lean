@@ -120,7 +120,7 @@ theorem exists_elemAbelian_sq_of_surjective_SL3 {J : Type*} [Group J] [Finite J]
     have hcyc3 : IsCyclic ↥(Es.subgroupOf (Ps : Subgroup (StatedSL 3 K))) := inferInstance
     exact hEsnc (isCyclic_of_surjective (Subgroup.subgroupOfEquivOfLe hEsPs).toMonoidHom
       (Subgroup.subgroupOfEquivOfLe hEsPs).surjective)
-  have : Fact (IsPGroup p (P : Subgroup J)) := ⟨P.isPGroup'⟩
+  have : Fact (IsPGroup p (P : Subgroup J)) := ⟨P.isPGroup⟩
   obtain ⟨E, -, hEcard, hEel⟩ := CFSG.lemma_4_5_a hp2 hPnc
   refine ⟨p, hp, hp2, E.map (P : Subgroup J).subtype, ⟨⟨⟨?_⟩⟩, ?_⟩, ?_⟩
   · rintro ⟨_, a, ha, rfl⟩ ⟨_, b, hb, rfl⟩

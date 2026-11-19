@@ -244,6 +244,7 @@ variable (hct : IsCTGroupDatum (coxeterMatrix D.isFiniteType).toCoxeterSystem
   (hsq : ∀ i, n i * n i = 1)
 
 include hext hw₀ hsq in
+omit hw₀ hsq in
 theorem exists_seam [CharP Fld 2] (L : SLPath M m) {J : Set (Fin D.rank)} (hJ : Set.range L.e = J)
     {a : K ⧸ borel D H} {g : K} {v : W} {I : Set (Fin D.rank)} {t₀ l₀ : K} (hIJ : I ⊆ J)
     (hR : residue (cs) (stdδ hct) J a = residue (cs) (stdδ hct) J ((g : K) : K ⧸ borel D H))

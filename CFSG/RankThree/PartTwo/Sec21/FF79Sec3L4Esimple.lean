@@ -16,7 +16,7 @@ variable {H : Type} [Group H] [Finite H]
 
 theorem e34_comm_of_pGroup (hS : ∃ S : Subgroup H, IsSylowOf 3 S ⊤ ∧ IsMulCommutative S)
     {P : Subgroup H} (hP : IsPGroup 3 P) : ∀ x ∈ P, ∀ y ∈ P, x * y = y * x := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨S, hSyl, hSc⟩ := hS
   obtain ⟨k, -, hk⟩ := L41.exists_conj_le_sylowOf_p (p := 3) hSyl (le_top : P ≤ ⊤) hP
   intro x hx y hy
@@ -41,7 +41,7 @@ theorem e34_pGroup_zpowers {G : Type*} [Group G] {p : ℕ} {x : G} {k : ℕ} (h 
 theorem e34_comp_center_trivial (hO : pPrimeCore 3 H = ⊥)
     (hS : ∃ S : Subgroup H, IsSylowOf 3 S ⊤ ∧ IsMulCommutative S) {C : Subgroup H}
     (hC : IsComponent C) {z : H} (hz : z ∈ C) (hcen : ∀ w ∈ C, w * z = z * w) : z = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hzl : z ∈ layer H := LocalCores.component_le_layer hC hz
   have hzc := WholeGroup.mem_centralizer_layer_of_mem_component hC hz hcen
   have hzm : z ∈ ((Subgroup.center (layer H)).map (layer H).subtype) :=
@@ -54,10 +54,10 @@ theorem e34_comp_center_trivial (hO : pPrimeCore 3 H = ⊥)
   obtain ⟨Q, hQ⟩ := (e34_pGroup_zpowers hz'k).exists_le_sylow
   have hcomm : IsMulCommutative (Q : Subgroup ↥C) := by
     refine ⟨⟨fun a b => ?_⟩⟩
-    have hP : IsPGroup 3 ((Q : Subgroup ↥C).map C.subtype) := Q.isPGroup'.map _
+    have hP : IsPGroup 3 ((Q : Subgroup ↥C).map C.subtype) := Q.isPGroup.map _
     have := e34_comm_of_pGroup hS hP (a : H) ⟨a, a.2, rfl⟩ (b : H) ⟨b, b.2, rfl⟩
     exact Subtype.ext (Subtype.ext this)
-  haveI : Group.IsPerfect ↥C := hC.1.1
+  have : Group.IsPerfect ↥C := hC.1.1
   have hmeet := Quasithin.SBd19F.sylow_inf_center_eq_bot Q
   have hz'c : z' ∈ Subgroup.center ↥C := Subgroup.mem_center_iff.mpr fun w =>
     Subtype.ext (hcen w w.2)

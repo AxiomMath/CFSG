@@ -13,15 +13,18 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 private theorem comm_mul_left_mul_inv (q x u : G) :
     ⁅q * x, u⁆ * ⁅x, u⁆⁻¹ = ⁅q, x * u * x⁻¹⁆ := by
   simp only [commutatorElement_def]
   group
 
+omit [Finite G] in
 private theorem comm_mul_right (x a b : G) : ⁅x, a * b⁆ = ⁅x, a⁆ * (a * ⁅x, b⁆ * a⁻¹) := by
   simp only [commutatorElement_def]
   group
 
+omit [Finite G] in
 private theorem conj_comm_eq (s x y : G) :
     ⁅s, ⁅x, y⁆⁆ = ⁅⁅s, x⁆ * x, ⁅s, y⁆ * y⁆ * ⁅x, y⁆⁻¹ := by
   simp only [commutatorElement_def]

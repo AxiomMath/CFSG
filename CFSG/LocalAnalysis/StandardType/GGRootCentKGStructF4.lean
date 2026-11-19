@@ -59,7 +59,7 @@ theorem kgPieces_zT {K : Type} [Field K] [Finite K] [CharP K 2] {f : ℕ} (hf : 
     have hN'2 : IsPGroup 2 N' :=
       hN2.comap_of_injective (F4Pilot.C3Levi K).subtype (F4Pilot.C3Levi K).subtype_injective
     have hbot : N' = ⊥ := by
-      haveI := hN'
+      have := hN'
       exact OmegaPilot.normal_isPGroup_eq_bot_of_isQuasisimple F4Pilot.isQuasisimple_C3Levi
         F4Pilot.center_C3Levi_eq_bot N' hN' hN'2
     exact RCSTOm.eq_bot_of_subgroupOf_eq_bot hN hbot
@@ -84,7 +84,7 @@ end KGF4
 
 theorem ggRootCentKGStructTag_F4 : GGRootCentKGStructTag .F4 := by
   intro G _ _ p n f ψ _ _ hadm hrank hker hcomm hLie hC _ _ r hr _ E hEN hEC _ hEinn
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hf : 1 ≤ f := hadm.2.1
   have hK : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)
   have hinj : Function.Injective ψ := by

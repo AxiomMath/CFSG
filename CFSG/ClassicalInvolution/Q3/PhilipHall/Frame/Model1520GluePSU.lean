@@ -28,13 +28,13 @@ theorem sl2_unitri_cube {F : Type} [Field F] (h3 : (3 : F) = 0) (c : F) :
       Matrix.SpecialLinearGroup.coe_one]
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [Sp.coe_sl2Upper, Matrix.mul_apply, Fin.sum_univ_two] <;> linear_combination c * h3
+      simp [Sp.coe_sl2Upper, Matrix.mul_apply, Fin.sum_univ_two]; linear_combination c * h3
   · apply Subtype.ext
     rw [pow_three, Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_mul,
       Matrix.SpecialLinearGroup.coe_one]
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [Sp.coe_sl2Lower, Matrix.mul_apply, Fin.sum_univ_two] <;> linear_combination c * h3
+      simp [Sp.coe_sl2Lower, Matrix.mul_apply, Fin.sum_univ_two]; linear_combination c * h3
 
 theorem su2_mem_closure_cube (hK : Nat.card K = (p ^ f) ^ 2) (h3 : p ^ f = 3) (A : Su K p f 2) :
     A ∈ Subgroup.closure {B : Su K p f 2 | B ^ 3 = 1} := by

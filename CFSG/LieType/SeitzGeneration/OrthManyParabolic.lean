@@ -189,7 +189,7 @@ theorem orthMasterParabolic_of_stable
 end Parabolic
 
 theorem orthMasterParabolic : OrthMasterParabolic :=
-  orthMasterParabolic_of_stable fun _ _ _ _ _ _ _ Q hQ hT _ hp hp2 hpl E hcomm hexp hcard _ hW0 hW
+  orthMasterParabolic_of_stable fun _ _ _ _ _ _ _ _Q hQ hT _ hp hp2 hpl E hcomm hexp hcard _ hW0 hW
     hstab => closure_eq_top_of_singular_stable hQ hT hp hp2 hpl E hcomm hexp hcard hW0 hW hstab
 
 end CFSG.LieType.SeitzGeneration

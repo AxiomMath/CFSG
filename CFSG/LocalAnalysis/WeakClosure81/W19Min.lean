@@ -20,7 +20,7 @@ variable {D : Data G} {V₀ : Subgroup G} {p : ℕ} {X : Subgroup G}
 theorem card_eq_of_isSylowIn (h : Hyp193 D V₀ p X) {L S : Subgroup G} (hTL : D.T ≤ L)
     (hLH : L ≤ X ⊔ D.T) (hS : IsSylowIn p S L) :
     Nat.card ↥L = Nat.card ↥S * Nat.card ↥D.T := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   obtain ⟨a, ha⟩ := (IsPGroup.iff_card).1 h.isPGroup
   obtain ⟨b, hb⟩ := (IsPGroup.iff_card).1 D.sylowM.isPGroup
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 hS.isPGroup
@@ -100,9 +100,9 @@ theorem exists_minCex193 {D : Data G} {V₀ V : Subgroup G} {p : ℕ}
     by_cases hcyc : ∀ L : Subgroup G, D.T ≤ L → L < X ⊔ D.T →
         ∀ P : Subgroup G, P ≤ L → IsPGroup p P → IsCyclic P
     · exact ⟨X, ⟨hset, hV₀, hmbar, hgamma, h, hfail, hcyc⟩⟩
-    · push_neg at hcyc
+    · push Not at hcyc
       obtain ⟨L, hTL, hLlt, P, hPL, hPp, hPnc⟩ := hcyc
-      haveI : Fact p.Prime := ⟨h.prime⟩
+      have : Fact p.Prime := ⟨h.prime⟩
       obtain ⟨S, hS, hPS⟩ := exists_isSylowIn_ge p hPL hPp
       have hSnc : ¬ IsCyclic S := fun hc => hPnc (isCyclic_of_le' hc hPS)
       have hSh : Hyp193 D V₀ p S :=

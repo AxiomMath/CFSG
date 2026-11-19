@@ -17,8 +17,8 @@ theorem LieModel.card_outer_psu {n p f : ℕ} (h : LieModel X .PSU n p f) (hn : 
     Nat.card (Outer X) = 2 * f * Nat.gcd n (p ^ f + 1) := by
   obtain ⟨⟨hp, hf, -, -⟩, K, hfield, hfinite, hK, ⟨e⟩⟩ :=
     h.statedClassicalModel_of_ne_zero (by omega)
-  letI : Field K := hfield
-  letI : Finite K := hfinite
+  let : Field K := hfield
+  let : Finite K := hfinite
   have hU : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData p f K :=
     ⟨hp, hf, by rw [hK, ← pow_mul, mul_comm]⟩
   have hout :=

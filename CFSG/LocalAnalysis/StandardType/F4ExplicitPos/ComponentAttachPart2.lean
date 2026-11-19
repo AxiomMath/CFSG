@@ -202,9 +202,10 @@ theorem isComponentOf_map_commutator_inf
     exact inf_le_inf (Subgroup.commutator_le_self M) le_rfl
   exact isComponentOf_of_le hJmap (le_inf hJGamma hJC) hH'
 
+omit [Finite K] [Finite X] in
 theorem subgroupOf_isComponentOf
     (ψ : adjointGroup Tag.F4 K →* X) (G0 : Subgroup X) (_hG0 : ψ.range = G0)
-    (hker : ψ.ker ≤ Subgroup.center (adjointGroup Tag.F4 K))
+    (_hker : ψ.ker ≤ Subgroup.center (adjointGroup Tag.F4 K))
     (_hcenter : Subgroup.center (adjointGroup Tag.F4 K) = ⊥)
     {J Q : Subgroup X} (hJ : CFSG.Assembly.IsComponentOf J Q)
     (hJG : J ≤ G0) (hQG : Q ≤ G0) :
@@ -212,9 +213,10 @@ theorem subgroupOf_isComponentOf
   apply (isComponentOf_map_iff (f := G0.subtype) Subtype.coe_injective).1
   simpa [Subgroup.map_subgroupOf_eq_of_le hJG, Subgroup.map_subgroupOf_eq_of_le hQG] using hJ
 
+omit [Finite K] [Finite X] in
 theorem subgroupOf_commutator_eq
     (ψ : adjointGroup Tag.F4 K →* X) (G0 : Subgroup X) (_hG0 : ψ.range = G0)
-    (hker : ψ.ker ≤ Subgroup.center (adjointGroup Tag.F4 K))
+    (_hker : ψ.ker ≤ Subgroup.center (adjointGroup Tag.F4 K))
     (_hcenter : Subgroup.center (adjointGroup Tag.F4 K) = ⊥)
     {J : Subgroup X} (hJG : J ≤ G0) (hperf : J = ⁅J, J⁆) :
     J.subgroupOf G0 = ⁅J.subgroupOf G0, J.subgroupOf G0⁆ := by
@@ -223,6 +225,7 @@ theorem subgroupOf_commutator_eq
     Subgroup.map_subgroupOf_eq_of_le hJG]
   exact hperf
 
+omit [Finite X] in
 theorem commutator_eq_of_isComponentOf
     {J Q : Subgroup X} (hJ : CFSG.Assembly.IsComponentOf J Q) :
     J = ⁅J, J⁆ := by

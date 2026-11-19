@@ -14,7 +14,7 @@ section Sylow
 theorem burnsideF45_pCoreOf_eq_of_isLieParabolics {E : Type} [Group E] [Finite E] {p : ℕ}
     (hp : p.Prime) {H B P₁ P₂ : Subgroup E} (h : IsLieParabolics p H B P₁ P₂) :
     ∃ S : Subgroup E, IsSylowOf p S H ∧ pCoreOf p B = S := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨⟨S, ⟨hSH, hSp, hSidx⟩, hB⟩, -⟩ := h
   refine ⟨S, ⟨hSH, hSp, hSidx⟩, ?_⟩
   have hSB : S ≤ B := by
@@ -40,7 +40,7 @@ theorem burnsideF45_pCoreOf_eq_of_isLieParabolics {E : Type} [Group E] [Finite E
   let TS : Sylow p ↥B := hTp.toSylow hTidx
   have hcore : CFSG.pCore p ↥B = T := by
     apply le_antisymm
-    · haveI : (CFSG.pCore p ↥B).Normal := CFSG.pCore_normal
+    · have : (CFSG.pCore p ↥B).Normal := CFSG.pCore_normal
       have := IsPGroup.le_sylow_of_normal (CFSG.pCore_isPGroup (p := p) (G := ↥B)) TS
       simpa [TS] using this
     · exact le_sSup ⟨hTn, hTp⟩
@@ -51,7 +51,7 @@ theorem burnsideF45_pCoreOf_eq_of_isLieParabolics {E : Type} [Group E] [Finite E
 theorem burnsideF45_sylow
     {κ : GLKind} {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
     (hyp : HypF_4_4 κ p f Gp M₁ M₂) : IsSylowOf p (pCoreOf p (Gp ⊓ (M₁ ⊓ M₂))) Gp := by
-  haveI := hyp.finite
+  have := hyp.finite
   have hp := burnsideF4a_prime_of_isGenLie hyp.model
   obtain ⟨h1, h2, h3⟩ := hyp.toHypF_4_4g.chart_matches
   have hlp := (ChF.nativeChartCompatibility κ p f E Gp hyp.toHypF_4_4g.chart).1
@@ -164,8 +164,8 @@ theorem burnsideF45_q_G2d {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgr
     ⟨-, exponent, K', fK', finK', charK', scope, ⟨hk, -⟩ | ⟨hk, -⟩⟩
   · exact absurd hk (by cases c' <;> decide)
   · exact absurd hk (by decide)
-  · letI := fK
-    haveI := finK
+  · let := fK
+    have := finK
     obtain ⟨s1, s2⟩ := burnsideF45_g2_small_relIndex K card
     rw [h1, h2, h3]
     unfold G2Native.smallImage
@@ -197,9 +197,9 @@ theorem burnsideF45_q_Tits {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subg
   · exact absurd hk (by decide)
   · exact absurd hk (by decide)
   · subst he
-    letI := fK
-    haveI := finK
-    haveI := charK
+    let := fK
+    have := finK
+    have := charK
     obtain ⟨-, i1, i2, -⟩ := burnsideF4h_titsParentAssembly K scope
     have i1' : (derivedImage (reeGroup K 0) (reeBorel K 0)).relIndex
         (derivedImage (reeGroup K 0) (reeParabolic K 0 1)) = 5 := i1

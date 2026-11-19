@@ -50,9 +50,9 @@ theorem packM_combo6 (row : ℕ) (C : ℕ → Array ℕ) : ∀ k,
           msumK k row fun d => packM 6 (C d)) := rfl
     rw [combo6, e, F2W.bit_eq, nIf_eq_ite]
     by_cases h : row.testBit k = true
-    · rw [if_pos h, if_pos h, packM_bxor_proved, packM_combo6 row C k]
+    · rw [ite_eq_left h, ite_eq_left h, packM_bxor_proved, packM_combo6 row C k]
       exact Nat.xor_comm _ _
-    · rw [if_neg h, if_neg h, packM_combo6 row C k]
+    · rw [ite_eq_right h, ite_eq_right h, packM_combo6 row C k]
 
 theorem packM_diag6 (B : Array ℕ) : packM 6 (diag6 B) = Nat.land (packM 6 B) idK6 := by
   rw [← packM_id6]
@@ -102,20 +102,20 @@ theorem gamBlock_eq {ε : Eps} {G : List ℕ} (hG : GenBind ε G) (v : ℕ) {k :
     packM 6 (gamBlock ε (unpackN 6 v) k) = gamBlockK G v k := by
   by_cases h6 : k < 6
   · have hb : Nat.blt k 6 = true := Nat.blt_eq ▸ h6
-    rw [gamBlock, if_pos h6, gamBlockK, hb, packM_bxor_proved, packM_btr_proved,
+    rw [gamBlock, ite_eq_left h6, gamBlockK, hb, packM_bxor_proved, packM_btr_proved,
       packM_unpackN_proved]
     all_goals rfl
   have hb6 : Nat.blt k 6 = false := Bool.eq_false_iff.2 fun h => h6 (Nat.blt_eq ▸ h)
   by_cases h12 : k < 12
   · have hb : Nat.blt k 12 = true := Nat.blt_eq ▸ h12
-    rw [gamBlock, if_neg h6, if_pos h12, gamBlockK, hb6, hb, packM_diag6, packM_unpackN_proved]
+    rw [gamBlock, ite_eq_right h6, ite_eq_left h12, gamBlockK, hb6, hb, packM_diag6, packM_unpackN_proved]
     all_goals rfl
   have hb12 : Nat.blt k 12 = false := Bool.eq_false_iff.2 fun h => h12 (Nat.blt_eq ▸ h)
   have ha : (k - 12) / 6 < 6 := by omega
   have hr : (k - 12) % 6 < 6 := Nat.mod_lt _ (by decide)
   obtain ⟨hP, hR⟩ := hG _ ha
   have hrow := (hR _ hr).1
-  rw [gamBlock, if_neg h6, if_neg h12, gamBlockK, hb6, hb12]
+  rw [gamBlock, ite_eq_right h6, ite_eq_right h12, gamBlockK, hb6, hb12]
   simp only [packM_bxor_proved, packM_combo6, packM_bmul_proved, packM_btr_proved, packM_outer6,
     packM_unpackN_proved, getD_unpackN_proved v 6 ha, hP, hrow]
   all_goals rfl
@@ -124,7 +124,6 @@ theorem gamFb_eq {ε : Eps} {G : List ℕ} (hG : GenBind ε G) (v : ℕ) : gamFb
   rw [gamFb, packN_eq_proved]
   refine orN_congr fun k hk => ?_
   rw [gamBlock_eq hG v hk]
-  all_goals rfl
 
 theorem modBlock_eq {ε : Eps} {G : List ℕ} (hG : GenBind ε G) (v : ℕ) {k : ℕ} (hk : k < 36) :
     packM 6 (modBlock ε (unpackN 6 v) k) =
@@ -171,7 +170,6 @@ theorem extFb_eq {ε : Eps} {G : List ℕ} (hG : GenBind ε G)
     urPairK_eq_proved (I := id6) (Z := zero6) (gen := genRows ε) (C := unpackN 6 v)
       (fun s hs => ((hG s (hw s hs)).1).symm) hC packM_id6F packM_zero6]
   rw [shiftRight_lor_shiftLeft (packM_lt_proved 6 _)]
-  all_goals rfl
 
 end CFSG.KC.O8Coh
 

@@ -25,8 +25,8 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
   {VA : Subgroup (LGL 2 V) → Submodule (ZMod 2) V} {i : ℕ}
 
 private theorem w183_diag_finite_lgl : Finite (LGL 2 V) :=
-  Finite.of_injective (fun e : LGL 2 V => fun v : V => e v)
-    (fun e f h => LinearEquiv.ext (congrFun h))
+  Finite.of_injective (fun _e : LGL 2 V => fun v : V => _e v)
+    (fun _e _f h => LinearEquiv.ext (congrFun h))
 
 private theorem w183_diag_center_eq_bot_of_simple {X : Type*} [Group X] (hs : IsSimpleGroup X)
     (hnab : ∃ a b : X, a * b ≠ b * a) : Subgroup.center X = ⊥ := by
@@ -43,7 +43,7 @@ private theorem w183_conj_conj {G : Type*} [Group G] (α : MulAut G) (g : G) :
   simp [MulAut.mul_apply, MulAut.conj_apply]
 
 private theorem w183_mem_centralizer_of_conj_eq {W : Type*} [Group W] {L : Subgroup W}
-    {g h : W} (hg : g ∈ Subgroup.normalizer (L : Set W))
+    {g h : W} (_hg : g ∈ Subgroup.normalizer (L : Set W))
     (hh : h ∈ Subgroup.normalizer (L : Set W))
     (hgh : ∀ l ∈ L, g * l * g⁻¹ = h * l * h⁻¹) :
     g * h⁻¹ ∈ Subgroup.centralizer (L : Set W) := by
@@ -89,7 +89,7 @@ private theorem w183_conj_injective_of_center_bot {X : Type*} [Group X]
   exact mul_left_cancel (hmem.trans (inv_mul_cancel y).symm)
 
 private theorem w183_mem_centralizer_of_factor {W : Type*} [Group W] {L K : Subgroup W}
-    {d p q : W} (hd : d ∈ Subgroup.normalizer (L : Set W)) (hp : p ∈ L) (hq : q ∈ K)
+    {d p q : W} (hd : d ∈ Subgroup.normalizer (L : Set W)) (_hp : p ∈ L) (hq : q ∈ K)
     (hcomm : ∀ k ∈ K, ∀ l ∈ L, k * l = l * k)
     (hpconj : ∀ m ∈ L, p⁻¹ * m * p = d⁻¹ * m * d) :
     d * (p * q)⁻¹ ∈ Subgroup.centralizer (L : Set W) := by
@@ -145,7 +145,7 @@ theorem br1_false_of_diagonal (hfin : FinG3) (h : Assumption131 Y Γ VA i)
     (hC₁ : A ⊓ Subgroup.centralizer (L₁ : Set (LGL 2 V)) = ⊥)
     (hC₂ : A ⊓ Subgroup.centralizer (L₂ : Set (LGL 2 V)) = ⊥) : False := by
   classical
-  haveI : Finite (LGL 2 V) := w183_diag_finite_lgl
+  have : Finite (LGL 2 V) := w183_diag_finite_lgl
   have hnab₁' : ∃ a b : ↥L₁, a * b ≠ b * a := by
     obtain ⟨a, ha, b, hb, hab⟩ := hnab₁
     exact ⟨⟨a, ha⟩, ⟨b, hb⟩, fun h => hab (congrArg Subtype.val h)⟩
@@ -156,10 +156,10 @@ theorem br1_false_of_diagonal (hfin : FinG3) (h : Assumption131 Y Γ VA i)
   have hZ₂ : Subgroup.center ↥L₂ = ⊥ := w183_diag_center_eq_bot_of_simple inferInstance hnab₂'
   have hconjinj₁ := w183_conj_injective_of_center_bot hZ₁
   have hconjinj₂ := w183_conj_injective_of_center_bot hZ₂
-  haveI : Finite (MulAut ↥L₁) :=
+  have : Finite (MulAut ↥L₁) :=
     Finite.of_injective (fun f : MulAut ↥L₁ => (f : ↥L₁ → ↥L₁))
       (fun f g hfg => MulEquiv.ext (congrFun hfg))
-  haveI : Finite (MulAut ↥L₂) :=
+  have : Finite (MulAut ↥L₂) :=
     Finite.of_injective (fun f : MulAut ↥L₂ => (f : ↥L₂ → ↥L₂))
       (fun f g hfg => MulEquiv.ext (congrFun hfg))
   let c₁ : ↥A →* MulAut ↥L₁ :=

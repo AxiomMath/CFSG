@@ -174,7 +174,7 @@ theorem isPGroup_range_of_finrank_eq_two {K V : Type*} [Field K] [Finite K] {p :
   obtain ⟨P, hPnorm, -⟩ := exists_normal_abelian_sylow_of_odd (k := K) hp (G := G) hGodd
   have hGp : IsPGroup p G := by
     have := hPnorm
-    refine isPGroup_of_normal_sylow_of_closure_eq_top hp P.isPGroup' P.not_dvd_index
+    refine isPGroup_of_normal_sylow_of_closure_eq_top hp P.isPGroup P.not_dvd_index
       (S := Subtype.val ⁻¹' ({φ x, φ y} : Set (GL (Fin 2) K)))
       Subgroup.closure_closure_coe_preimage ?_
     intro z hz

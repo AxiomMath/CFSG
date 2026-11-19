@@ -13,11 +13,11 @@ open scoped commutatorElement
 
 theorem commutator_le_of_index_prime {M : Type} [Group M] {N : Subgroup M} [N.Normal] {p : ℕ}
     (hp : p.Prime) (h : N.index = p) : commutator M ≤ N := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcard : Nat.card (M ⧸ N) = p := by
     rw [← Subgroup.index_eq_card]
     exact h
-  haveI : IsCyclic (M ⧸ N) := isCyclic_of_prime_card hcard
+  have : IsCyclic (M ⧸ N) := isCyclic_of_prime_card hcard
   rw [commutator_def, Subgroup.commutator_le]
   intro x _ y _
   have h1 : (QuotientGroup.mk ⁅x, y⁆ : M ⧸ N) = 1 := by
@@ -32,7 +32,7 @@ theorem no_normal_index_p_of_strong {G : Type} [Group G] [Finite G] (hperf : com
     (hM : CFSG.RankThree.PartOne.IsStronglyPEmbedded p M) (N : Subgroup ↥M) [N.Normal] :
     N.index ≠ p := by
   intro hidx
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcomm : commutator ↥M ≤ N := commutator_le_of_index_prime hp hidx
   have hNM : N.map M.subtype ≤ M := Subgroup.map_subtype_le N
   have hMM : ⁅M, M⁆ ≤ N.map M.subtype := by
@@ -50,7 +50,7 @@ theorem no_normal_index_p_of_ctx_gen {G : Type} [Group G] [Finite G] {M T : Subg
     {T₁ T₂ : Subgroup ↥M}
     (ctx : CFSG.LocalAnalysis.AGL81TheoremCD.Section15.S15CtxGen G M T T₁ T₂) {p : ℕ}
     (hp : p ∈ sigmaM G M) (N : Subgroup ↥M) [N.Normal] : N.index ≠ p := by
-  haveI := ctx.cstar.simple
+  have := ctx.cstar.simple
   exact no_normal_index_p_of_strong (commutator_eq_top_of_standing ctx.cstar.nonab)
     (sigmaA_prime p hp.1) (ctx.strong p hp) N
 

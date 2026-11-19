@@ -36,7 +36,7 @@ theorem seg27_mem_altFix {F : Set (Fin 8)} {g : Equiv.Perm (Fin 8)} :
 
 theorem seg27_card_altFix (F : Finset (Fin 8)) (hF : F.card ≤ 6) :
     Nat.card (seg27AltFix (F : Set (Fin 8))) = (8 - F.card).factorial / 2 := by
-  haveI hmt8 : MulAction.IsMultiplyPretransitive (alternatingGroup (Fin 8)) (Fin 8)
+  have hmt8 : MulAction.IsMultiplyPretransitive (alternatingGroup (Fin 8)) (Fin 8)
       (Nat.card (Fin 8) - 2) :=
     alternatingGroup.isMultiplyPretransitive (Fin 8)
   have h8 : Nat.card (Fin 8) = 8 := Nat.card_fin 8
@@ -246,7 +246,7 @@ theorem seg27_exists_inv_altFix_inf (p₂ q₂ p₃ q₃ : Fin 8) :
     have hdiv : 4 * k / 2 = 2 * k := by omega
     rw [hdiv]
     exact dvd_mul_right 2 k
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 2 h2dvd
   have hcoe1 : ({p₂, q₂} : Set (Fin 8)) ⊆ (F : Set (Fin 8)) := by
     intro w hw

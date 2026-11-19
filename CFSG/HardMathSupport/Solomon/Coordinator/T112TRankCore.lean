@@ -12,7 +12,7 @@ open Matrix
 
 variable {F : Type} [Field F]
 
-theorem trace_eq_zero_of_nonscalar (h3 : (3 : F) ≠ 0) {M : Matrix (Fin 3) (Fin 3) F}
+theorem trace_eq_zero_of_nonscalar (_h3 : (3 : F) ≠ 0) {M : Matrix (Fin 3) (Fin 3) F}
     (hM3 : M * M * M = 1) (hdet : M.det = 1) (hns : ∀ c : F, M ≠ c • 1) : M.trace = 0 := by
   by_contra htr
   have hCH := Matrix.aeval_self_charpoly M
@@ -78,6 +78,6 @@ theorem false_of_nine_commuting {v : Fin 9 → Matrix (Fin 3) (Fin 3) F}
   have := commute_of_mem_span (Set.range v) (by
     rintro _ ⟨i, rfl⟩ _ ⟨j, rfl⟩; exact hc i j) (hmem (Matrix.single 0 1 1)) (hmem (Matrix.single 1 0 1))
   have h00 := congrFun (congrFun this 0) 0
-  simp [Matrix.mul_apply, Matrix.single_apply, Fin.sum_univ_three] at h00
+  simp [Matrix.mul_apply, Matrix.single_apply] at h00
 
 end CFSG.HardMathSupport.Solomon.Coordinator

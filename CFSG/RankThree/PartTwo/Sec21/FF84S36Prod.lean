@@ -8,6 +8,7 @@ namespace CFSG.RankThree.PartTwo.Sec21.FF84.S3
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem S36_comm_of_pow {x g a : G} {k : ℤ} (hg3 : g ^ 3 = 1) (hgne : g ≠ 1)
     (hk : k % 3 = 1 ∨ k % 3 = 2) (ha : a = g ^ k) (hx : Commute x a) : Commute x g := by
   have hkk : (k * k) % 3 = 1 := by
@@ -93,7 +94,7 @@ theorem S36_piece {b t b₁ b₂ : G} {L B : Subgroup G} (d : F6Data b L B b₁ 
 theorem F6_product {b t b₁ b₂ : G} {L B : Subgroup G} (d : F6Data b L B b₁ b₂ t)
     (h31 : FF84_3_1) (h33 : FF84_3_3) :
     (Op 2 (Cen t) : Set G) = setMul (Op 2 (Cen t) ⊓ Cen b₁) (Op 2 (Cen t) ⊓ Cen b₂) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hb1L : b₁ ∈ L := (Subgroup.mem_inf.1 d.sec.hb₁).2
   have hb2L : b₂ ∈ L := (Subgroup.mem_inf.1 d.sec.hb₂).2
   have htc' : ∀ x ∈ L, t * x = x * t := fun x hx =>
@@ -131,7 +132,7 @@ theorem F6_product {b t b₁ b₂ : G} {L B : Subgroup G} (d : F6Data b L B b₁
     have := nine_le_card_sup d.sec
     norm_num
     exact this
-  haveI := elemAb_sup d.sec
+  have := elemAb_sup d.sec
   have hgen :=
     CFSG.HardMathSupport.RichardWeiss.RecognitionPresentation.StrongThree.le_iSup_centralizer_of_coprime
       (p := 3) (A := Subgroup.zpowers b₁ ⊔ Subgroup.zpowers b₂) (U := Op 2 (Cen t)) hcard

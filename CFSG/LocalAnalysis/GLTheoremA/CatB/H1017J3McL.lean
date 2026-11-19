@@ -18,7 +18,7 @@ theorem glaTwoLocalRank_le_of_not_dvd {X : Type} [Group X] [Finite X] {p : ℕ} 
     (hp2 : p ≠ 2) (k : ℕ)
     (h : ∀ t : X, orderOf t = 2 → ¬ p ^ k ∣ Nat.card (Subgroup.centralizer ({t} : Set X))) :
     GLATwoLocalRank p X ≤ k := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine glaTwoLocalRank_le_of_card_le hp fun R E hR hR2 hEN hE =>
     card_le_of_involution_data_pk hp hp2 k (fun t ht F hF hFe => ?_)
       (fun t ht F hF _ hcard => absurd (hcard ▸ Subgroup.card_dvd_of_le hF) (h t ht)) R E hR hR2
@@ -30,7 +30,7 @@ theorem glaTwoLocalRank_le_of_not_dvd {X : Type} [Group X] [Finite X] {p : ℕ} 
   push Not at hlt
   exact h t ht ((Nat.pow_dvd_pow p hlt.le).trans (hm ▸ Subgroup.card_dvd_of_le hF))
 
-theorem twoRankLe_of_model {s : TauCeti.SporadicName} {p k : ℕ} (hp : p.Prime) {X : Type}
+theorem twoRankLe_of_model {s : TauCeti.SporadicName} {p k : ℕ} (_hp : p.Prime) {X : Type}
     [Group X] (hX : Nonempty (X ≃* (TauCeti.CFSGIndex.sporadic s).Group))
     (h : ∀ (K : Type) [Group K] [Finite K], Nonempty (K ≃* X) → GLATwoLocalRank p K ≤ k) :
     TwoRankLe p s k := by
@@ -143,7 +143,7 @@ theorem involution_data_of_doubleCover {p n k : ℕ} (hp : p.Prime) (hp2 : p ≠
   refine ⟨fun F hFC hF => ?_, fun F hFC hF hFk u hu hufF hut => ?_⟩
   · obtain ⟨hE, hc⟩ := hdata F hFC hF
     rw [← hc]
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     refine (CFSG.LocalAnalysis.GLTheoremB.MovingAround.AltInputs.card_le_pow_div hE).trans ?_
     rw [Fintype.card_fin]
     exact Nat.pow_le_pow_right hp.pos hnk
@@ -158,7 +158,7 @@ theorem involution_data_of_doubleCover {p n k : ℕ} (hp : p.Prime) (hp2 : p ≠
       intro h1
       have huZ : (⟨u, huC⟩ : ↥C) ∈ Subgroup.center ↥C := hker h1
       classical
-      haveI : Fintype ↥(Subgroup.center ↥C) := Fintype.ofFinite _
+      have : Fintype ↥(Subgroup.center ↥C) := Fintype.ofFinite _
       have ht1 : t ≠ 1 := fun h => by rw [h, orderOf_one] at ht; norm_num at ht
       have hu1 : u ≠ 1 := fun h => by rw [h, orderOf_one] at hu; norm_num at hu
       let zt : ↥(Subgroup.center ↥C) := ⟨_, htZ⟩

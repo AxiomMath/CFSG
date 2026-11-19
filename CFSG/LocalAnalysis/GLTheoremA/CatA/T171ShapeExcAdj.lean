@@ -27,7 +27,7 @@ theorem excAdjCompInnAut_of (hK : ExcKernelCompAction)
     (hE : E6CentralizerConnOddExcKernels) : ExcAdjCompInnAut := by
   intro τ hτ K _ _ _ p hp hp2 hG2 hE6 x w hx1 hxp hwp hxw Kc hKc h360 hw
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, -, hn⟩ := FiniteField.card K 2
   have hqK : Nat.card K = 2 ^ (n : ℕ) := by rw [Nat.card_eq_fintype_card, hn]
   have hpK : ¬ p ∣ Nat.card K := by
@@ -134,7 +134,7 @@ theorem excAdjCompInnAut_of (hK : ExcKernelCompAction)
     have hcomp : (MulAut.conj y).toMonoidHom.comp ι =
         ι.comp (MulAut.conj w).toMonoidHom := by
       ext c
-      simp [MonoidHom.comp_apply, MulAut.conj_apply, hφy, hydef]
+      simp [MonoidHom.comp_apply, MulAut.conj_apply, hydef]
     have hwK : Kc.map (MulAut.conj w).toMonoidHom = Kc := hw
     rw [← hKR, Subgroup.map_map, hcomp, ← Subgroup.map_map, hwK]
   have hmain : centerQuotientHom ↥R (subgroupStabRestrict R ⟨MulAut.conj y, hyR⟩) ∈

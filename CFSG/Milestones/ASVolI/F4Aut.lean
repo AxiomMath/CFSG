@@ -104,7 +104,7 @@ theorem burnsideF45_normalizer_inf_eq {G : Type} [Group G] [Finite G] {R P B : S
     (hR : R.index = 2) (hRs : IsSimpleGroup ↥R) (hPtop : P ≠ ⊤)
     (hPmax : ∀ X : Subgroup G, P < X → X = ⊤) (hBP : B < P) (hB : B ≠ ⊥) (hPR : ¬ P ≤ R) :
     Subgroup.normalizer ((R ⊓ P : Subgroup G) : Set G) = P := by
-  haveI hRN : R.Normal := Subgroup.normal_of_index_eq_two hR
+  have hRN : R.Normal := Subgroup.normal_of_index_eq_two hR
   have hle : P ≤ Subgroup.normalizer ((R ⊓ P : Subgroup G) : Set G) := by
     intro g hg
     rw [Subgroup.mem_normalizer_iff]
@@ -129,8 +129,8 @@ theorem burnsideF45_normalizer_inf_eq {G : Type} [Group G] [Finite G] {R P B : S
       have hg : (g : G) ∈ Subgroup.normalizer ((R ⊓ P : Subgroup G) : Set G) := by
         rw [htop]; exact Subgroup.mem_top _
       exact (Subgroup.mem_normalizer_iff.1 hg n).1 hn
-    haveI := hRs
-    haveI := hnorm
+    have := hRs
+    have := hnorm
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((R ⊓ P).subgroupOf R) with h | h
     ·
       have hbot : R ⊓ P = ⊥ := by
@@ -158,7 +158,7 @@ theorem burnsideF45_normalizer_inf_eq {G : Type} [Group G] [Finite G] {R P B : S
       have hlt : R < P := lt_of_le_of_ne hRP (fun h' => hPR (h' ▸ le_rfl))
       have hRmax : ∀ X : Subgroup G, R < X → X = ⊤ := by
         intro X hX
-        obtain ⟨x, hxX, hxR⟩ := SetLike.exists_of_lt hX
+        obtain ⟨x, hxX, hxR⟩ := _root_.IsConcreteLE.exists_of_lt hX
         rw [eq_top_iff]
         intro g _
         by_cases hg : g ∈ R
@@ -196,11 +196,11 @@ theorem burnsideF45_ext_equiv {S Gs E : Type} [Group S] [Group Gs] [Group E] [Fi
       (∀ s : S, φ (marking s) = ι s) ∧
       ∀ g : E, g ∈ Subgroup.normalizer ((Gp ⊓ M₁ : Subgroup E) : Set E) → g ∈ M₁ := by
   classical
-  haveI hRN : ι.range.Normal := Subgroup.normal_of_index_eq_two hιidx
-  haveI : Finite S := Finite.of_injective ι hιinj
-  haveI : Finite (MulAut S) := Finite.of_injective (fun α : MulAut S => (α : S → S))
+  have hRN : ι.range.Normal := Subgroup.normal_of_index_eq_two hιidx
+  have : Finite S := Finite.of_injective ι hιinj
+  have : Finite (MulAut S) := Finite.of_injective (fun α : MulAut S => (α : S → S))
     fun _ _ h => MulEquiv.ext fun x => congrFun h x
-  haveI := hsimple
+  have := hsimple
   have hcinj := burnsideF45_conjOn_injective ι hιinj hιidx hS hGs
   let c : Gs ≃* MulAut S := MulEquiv.ofBijective _ (hcinj.bijective_of_nat_card_le hcard)
   have hc : ∀ (g : Gs) (x : S), ι (c g x) = g * ι x * g⁻¹ := fun g x =>
@@ -276,7 +276,7 @@ theorem burnsideF45_ext_equiv {S Gs E : Type} [Group S] [Group Gs] [Group E] [Fi
   have hSB : Syl ≤ B₀ := by rw [hBeq]; exact le_inf hSyl.1 Subgroup.le_normalizer
   have hB0 : B₀ ≠ ⊥ := fun h => burnsideF45_sylow_ne_bot hιidx hSyl
     (eq_bot_iff.2 (h ▸ hSB))
-  haveI : IsSimpleGroup ↥ι.range := (MonoidHom.ofInjective hιinj).symm.isSimpleGroup
+  have : IsSimpleGroup ↥ι.range := (MonoidHom.ofInjective hιinj).symm.isSimpleGroup
   have hnorm : ∀ {P : Subgroup Gs}, (B₀ ≤ P ∧ P ≤ ⊤ ∧ P ≠ ⊤ ∧
       ∀ R : Subgroup Gs, P < R → R ≤ ⊤ → R = ⊤) → P ≠ B₀ →
       Subgroup.normalizer ((ι.range ⊓ P : Subgroup Gs) : Set Gs) = P := by
@@ -464,8 +464,8 @@ theorem burnsideF45_F43_G2d {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Sub
   obtain ⟨hp, hf, -⟩ := hyp.model
   subst hp hf
   obtain ⟨K, fK, finK, hK, marking, -, -⟩ := burnsideF4gG2Two_chart_G2d hyp
-  letI := fK
-  haveI := finK
+  let := fK
+  have := finK
   refine ⟨Nat.prime_two, le_rfl, K, fK, finK, by rw [hK, pow_one], ⟨?_⟩⟩
   exact (MulAut.congr marking.symm).trans
     (MulEquiv.ofBijective _ (burnsideF45_g2_conj_bijective hK)).symm
@@ -481,11 +481,11 @@ theorem burnsideF45_F43_ext_G2d {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ :
     (hyp : HypF_4_4g .G2d p f Gp M₁ M₂) (hGp : Gp ≠ ⊤) : HypF_4_4 .G2 2 1 ⊤ M₁ M₂ := by
   obtain ⟨hp, hf, -⟩ := hyp.model
   subst hp hf
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   obtain ⟨K, fK, finK, hK, marking, hM1, hM2⟩ := burnsideF4gG2Two_chart_G2d hyp
-  letI := fK
-  haveI := finK
+  let := fK
+  have := finK
   have hfull := burnsideF4h_g2_full K 2 1 Nat.prime_two le_rfl (by rw [hK, pow_one])
   have hmem : ∀ (L : Subgroup (G2Native.Parent K)) (M : Subgroup E),
       M.subgroupOf Gp = G2Native.smallImage K marking L →
@@ -497,7 +497,7 @@ theorem burnsideF45_F43_ext_G2d {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ :
     rw [h0, hML]
     unfold G2Native.smallImage
     rw [Subgroup.mem_map_equiv, MulEquiv.symm_apply_apply]
-  haveI := CFSG.Quasithin.isSimpleGroup_u33Pres
+  have := CFSG.Quasithin.isSimpleGroup_u33Pres
   have hsimple : IsSimpleGroup (G2Native.SmallModel K) := (burnsideF4h_g2_psi K hK).symm.isSimpleGroup
   have hcard : Nat.card (MulAut (G2Native.SmallModel K)) ≤ Nat.card (G2Native.FullModel K) := by
     rw [burnsideF45_card_of_index_two _ (burnsideF4h_g2_incl_injective hK)
@@ -560,10 +560,10 @@ theorem burnsideF45_F43_Tits {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Su
   obtain ⟨hp, hf, -⟩ := hyp.model
   subst hp hf
   obtain ⟨K, fK, finK, charK, hscope, marking, -, -⟩ := burnsideF4gF4Two_chart_tits hyp
-  letI := fK
-  haveI := finK
-  haveI := charK
-  haveI : CharP K CFSG.LieType.Ree.ReeTag.F4.prime := inferInstanceAs (CharP K 2)
+  let := fK
+  have := finK
+  have := charK
+  have : CharP K CFSG.LieType.Ree.ReeTag.F4.prime := inferInstanceAs (CharP K 2)
   have hK' : Nat.card K = 2 ^ (2 * 0 + 1) := hscope
   have hK : Nat.card K = 2 := by simpa using hK'
   obtain ⟨-, -, -, ι, hιinj, hιidx, -⟩ := burnsideF4h_titsParentAssembly K hscope
@@ -589,13 +589,13 @@ theorem burnsideF45_F43_ext_Tits {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ 
     (hyp : HypF_4_4g .Tits p f Gp M₁ M₂) (hGp : Gp ≠ ⊤) : HypF_4_4 .F4tw 2 1 ⊤ M₁ M₂ := by
   obtain ⟨hp, hf, -⟩ := hyp.model
   subst hp hf
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   obtain ⟨K, fK, finK, charK, hscope, marking, hM1, hM2⟩ := burnsideF4gF4Two_chart_tits hyp
-  letI := fK
-  haveI := finK
-  haveI := charK
-  haveI : CharP K CFSG.LieType.Ree.ReeTag.F4.prime := inferInstanceAs (CharP K 2)
+  let := fK
+  have := finK
+  have := charK
+  have : CharP K CFSG.LieType.Ree.ReeTag.F4.prime := inferInstanceAs (CharP K 2)
   have hK' : Nat.card K = 2 ^ (2 * 0 + 1) := hscope
   have hK : Nat.card K = 2 := by simpa using hK'
   obtain ⟨-, -, -, ι, hιinj, hιidx, -, hB, hP1, hP2, -, -, hBi, -, -⟩ :=
@@ -610,7 +610,7 @@ theorem burnsideF45_F43_ext_Tits {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ 
   have hZsmall : Subgroup.center (DerivedCentralQuotient (reeGroup K 0)) = ⊥ :=
     burnsideF45_center_quotient_eq_bot hZ
   obtain ⟨eC, -⟩ := burnsideF4h_tits_exists_derivedEquiv (reeGroup K 0) _ rfl hZ
-  haveI : IsSimpleGroup ↥titsD := titsD_simple
+  have : IsSimpleGroup ↥titsD := titsD_simple
   have hsimple : IsSimpleGroup (DerivedCentralQuotient (reeGroup K 0)) := (eC.trans Θ).isSimpleGroup
   have hcard : Nat.card (MulAut (DerivedCentralQuotient (reeGroup K 0))) ≤
       Nat.card (↥(reeGroup K 0) ⧸ Subgroup.center ↥(reeGroup K 0)) := by

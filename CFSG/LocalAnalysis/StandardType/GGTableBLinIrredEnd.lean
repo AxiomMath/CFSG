@@ -12,7 +12,7 @@ open CFSG.ComponentClassification CFSG.Assembly TypeA TypeANbrDvd CFSG.StandardT
 variable {d p : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2] {L' : Type} [Group L']
   {φ' : SpecialLinearGroup (Fin d) K →* L'}
 
-theorem heart_end_pow (hp : p.Prime) (hp2 : p ≠ 2) (hpK : p ∣ Nat.card K - 1) (hd : 5 ≤ d)
+theorem heart_end_pow (hp : p.Prime) (_hp2 : p ≠ 2) (hpK : p ∣ Nat.card K - 1) (hd : 5 ≤ d)
     (hφ's : Function.Surjective φ') (hφker : ∀ g, φ' g = 1 → g ∈ scalars d K)
     {A : Subgroup (MulAut L')} (hA : IsElemAbelian p A) (hsc : GGTorusSelfCent p A)
     (hdiag : ∀ a ∈ A, ∃ t : Fin d → K, ActsDiag φ' a t) (f : MulAut L' → MulAut L')
@@ -124,19 +124,19 @@ theorem heart_end_pow (hp : p.Prime) (hp2 : p ≠ 2) (hpK : p ∣ Nat.card K - 1
       funext k
       by_cases hki : k = i₀
       · rw [hki, ggPairVec_apply]
-        simp only [if_true, h01, if_false, mul_one]
+        simp only [ite_true, h01, ite_false, mul_one]
         rw [hc]
         field_simp [hw.ne_zero k₂]
       · by_cases hkj : k = j₀
         · rw [hkj, ggPairVec_apply]
-          simp only [if_true, h01.symm, if_false, one_mul, inv_pow]
+          simp only [ite_true, h01.symm, ite_false, one_mul, inv_pow]
           rw [hc]
           have e1 := hw.ne_zero k₂
           have e2 := hw.ne_zero i₀
           field_simp
           linear_combination hw_sq
         · rw [ggPairVec_apply]
-          simp only [hki, hkj, if_false, mul_one, one_pow, one_mul]
+          simp only [hki, hkj, ite_false, mul_one, one_pow, one_mul]
           exact (hw_out k hki hkj).symm
     rw [e] at h2
     exact hw.unique hφ's h2

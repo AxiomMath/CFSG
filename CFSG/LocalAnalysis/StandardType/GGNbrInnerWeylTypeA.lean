@@ -53,12 +53,12 @@ theorem permSL_mul (σ τ : Equiv.Perm (Fin d)) :
   map_one' := by rw [inv_one, permSL_one, map_one, map_one]
   map_mul' σ τ := by rw [_root_.mul_inv_rev, permSL_mul, map_mul, map_mul]
 
-theorem commutator_swap_apply {i j k : Fin d} (hij : i ≠ j) (hik : i ≠ k) (hjk : j ≠ k) :
+theorem commutator_swap_apply {i j k : Fin d} (_hij : i ≠ j) (hik : i ≠ k) (hjk : j ≠ k) :
     ((Equiv.swap i k * Equiv.swap i j)⁻¹ * (Equiv.swap i j * Equiv.swap i k)) i = j ∧
       ∀ m, m ≠ i → m ≠ j → m ≠ k →
         ((Equiv.swap i k * Equiv.swap i j)⁻¹ * (Equiv.swap i j * Equiv.swap i k)) m = m := by
   refine ⟨?_, fun m hmi hmj hmk => ?_⟩
-  · simp [Equiv.Perm.mul_apply, Equiv.swap_apply_of_ne_of_ne, hij, hik, hjk, hij.symm, hik.symm,
+  · simp [Equiv.Perm.mul_apply, Equiv.swap_apply_of_ne_of_ne, hik.symm,
       hjk.symm]
   · simp [Equiv.Perm.mul_apply, Equiv.swap_apply_of_ne_of_ne, hmi, hmj, hmk]
 
@@ -201,7 +201,7 @@ theorem largeEvenLabelAll_torusLift_noLine_typeADvd {p : ℕ} {lab : LargeEvenLa
 section Main
 
 theorem ggNbrInnerWeylOn_innerTypeA : GGNbrInnerWeylOn GGNbrWeylInnerTypeALabel :=
-  ggNbrInnerWeylOn_of_labels fun p lab hp hp2 hlab ⟨hpow, h⟩ =>
+  ggNbrInnerWeylOn_of_labels fun _p _lab hp hp2 hlab ⟨hpow, h⟩ =>
     largeEvenLabelAll_weylInnerKLevel_of_noLine
       (largeEvenLabelAll_pow_mem_powMem hp hp2 hlab hpow)
       (largeEvenLabelAll_torusLift_noLine_typeADvd hp h)

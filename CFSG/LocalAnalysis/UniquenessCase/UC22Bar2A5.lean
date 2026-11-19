@@ -29,7 +29,7 @@ theorem not_isSolvable_of_isAlt_five {K : Subgroup S} (hA5 : IsAlt (Bar2 K) 5) :
     ¬ Group.IsSolvable K := by
   obtain ⟨e⟩ : Nonempty (Bar2 K ≃* alternatingGroup (Fin 5)) := hA5
   intro hK
-  haveI : Group.IsPerfect (alternatingGroup (Fin 5)) :=
+  have : Group.IsPerfect (alternatingGroup (Fin 5)) :=
     ⟨commutator_alternatingGroup_eq_top (by simp)⟩
   have h1 : Group.IsSolvable (Bar2 K) :=
     Group.isSolvable_of_surjective (QuotientGroup.mk'_surjective (CFSG.pCore 2 ↥K))
@@ -41,9 +41,9 @@ theorem exists_perfect_core_of_isAlt_five [Finite S] {K : Subgroup S} (hA5 : IsA
       normalizer (K : Set S) ≤ normalizer (P : Set S) ∧ IsAlt (Bar2 P) 5 ∧
       ∀ D : Subgroup S, D ≤ K → Odd (Nat.card D) → D ≤ P := by
   obtain ⟨e⟩ : Nonempty (Bar2 K ≃* alternatingGroup (Fin 5)) := hA5
-  haveI : Group.IsPerfect (alternatingGroup (Fin 5)) :=
+  have : Group.IsPerfect (alternatingGroup (Fin 5)) :=
     ⟨commutator_alternatingGroup_eq_top (by simp)⟩
-  haveI : Group.IsPerfect (Bar2 K) :=
+  have : Group.IsPerfect (Bar2 K) :=
     Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
   have hres : CFSG.perfectResidual (Bar2 K) = ⊤ := by
     simp [CFSG.perfectResidual]
@@ -85,7 +85,7 @@ theorem exists_perfect_core_of_isAlt_five [Finite S] {K : Subgroup S} (hA5 : IsA
       (QuotientGroup.quotientBot.trans e))⟩
   ·
     intro D hDK hD d hd
-    haveI : (CFSG.perfectResidual K).Characteristic :=
+    have : (CFSG.perfectResidual K).Characteristic :=
       CFSG.RankThreeCoreUniqueness.Helpers.perfectResidual_characteristic (G := K)
     have hmapO :
         (CFSG.pCore 2 K).map (QuotientGroup.mk' (CFSG.perfectResidual K)) = ⊤ := by
@@ -114,7 +114,7 @@ theorem exists_perfect_core_of_isAlt_five [Finite S] {K : Subgroup S} (hA5 : IsA
 theorem sixteen_le_card_of_isAlt_five [Finite S] {Q K : Subgroup S} (hQ : IsPGroup 2 Q)
     (hKQ : K ≤ normalizer (Q : Set S)) (hA5 : IsAlt (Bar2 K) 5)
     (hC : K ⊓ centralizer (Q : Set S) ≤ pCoreOf 2 K) : 16 ≤ Nat.card Q := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨k, hk⟩ := exists_prime_orderOf_dvd_card' (G := K) 5
     ((show (5 : ℕ) ∣ 60 by norm_num).trans (sixty_dvd_card_of_isAlt_five hA5))
   have hk5 : (k : S) ^ 5 = 1 := by

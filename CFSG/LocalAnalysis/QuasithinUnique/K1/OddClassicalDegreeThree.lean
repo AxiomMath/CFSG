@@ -427,7 +427,7 @@ theorem statedSU3_data (p q : ℕ) [hp : Fact p.Prime] (hq : q = p) (hodd : p �
     ext i j
     fin_cases i <;> fin_cases j <;>
       simp [Matrix.mul_apply, Fin.sum_univ_three, Matrix.map_apply, hpodd.neg_pow, h0]
-    all_goals first | ring1 | linear_combination 2 * hs' + hhalf | linear_combination 2 * ht' + hhalf
+    all_goals first | linear_combination 2 * hs' + hhalf | linear_combination 2 * ht' + hhalf
   have hg₂d : (!![s, 0, t; -s, 0, t; 0, 1, 0] : Matrix (Fin 3) (Fin 3) K).det = 1 := by
     simp [Matrix.det_fin_three]
     linear_combination (-1) * hts

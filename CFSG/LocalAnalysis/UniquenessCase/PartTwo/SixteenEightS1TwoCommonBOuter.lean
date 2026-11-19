@@ -54,11 +54,13 @@ private lemma s16e_twoO_sup_of_card {Γ : Type} [Group Γ] [Finite Γ] {X K N : 
   rw [← this]
   exact Subgroup.mul_mem_sup k.2 n.2
 
+omit [Finite W] in
 private lemma s16e_twoO_map_mul (x y : MulAut W) (I : Subgroup W) :
     I.map (x * y).toMonoidHom = (I.map y.toMonoidHom).map x.toMonoidHom := by
   rw [Subgroup.map_map]
   rfl
 
+omit [Finite W] in
 private lemma s16e_twoO_mem_stabSub {U : Subgroup W} {g : MulAut W}
     (hg : U.map g.toMonoidHom = U) : g ∈ stabSub U := by
   rw [mem_stabSub]
@@ -93,6 +95,7 @@ private lemma s16e_twoO_exists_stab (F : Cfg2Setting X H J₀ J₁)
   rw [s16e_twoO_map_mul]
   exact hkI.symm
 
+omit [Finite W] in
 private lemma s16e_twoO_autSub_le_normalizer (F : Cfg2Setting X H J₀ J₁) :
     autSub X J₀ ≤ Subgroup.normalizer (autSub H J₀ : Set (MulAut ↥J₀)) := by
   have hnorm : ∀ y ∈ X, ∀ h ∈ H, y * h * y⁻¹ ∈ H := fun y hy h hh => by
@@ -199,7 +202,7 @@ theorem s16e_two_sup_H_of_inner {Γ : Type*} [Group Γ] {X H : Subgroup Γ} (hHX
     rw [mul_inv_cancel_left, sup_comm] at h
     exact h
 
-theorem s16e_two_direct_of_sup_H {Γ : Type*} [Group Γ] {X H : Subgroup Γ} (hHX : H ≤ X)
+theorem s16e_two_direct_of_sup_H {Γ : Type*} [Group Γ] {X H : Subgroup Γ} (_hHX : H ≤ X)
     (hsimple : IsSimpleGroup ↥H) (hperf : ⁅H, H⁆ = H)
     (hsup : (X ⊓ Subgroup.centralizer (H : Set Γ)) ⊔ H = X) :
     IsInternalDirect (X ⊓ Subgroup.centralizer (H : Set Γ)) H X := by
@@ -217,7 +220,7 @@ theorem s16e_two_direct_of_sup_H {Γ : Type*} [Group Γ] {X H : Subgroup Γ} (hH
       rw [Subgroup.mem_center_iff]
       intro g
       exact Subtype.ext (Subgroup.mem_centralizer_iff.1 hxc g g.2)
-    haveI := hsimple
+    have := hsimple
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center ↥H) with h | h
     · rw [h, Subgroup.mem_bot] at hz
       rw [Subgroup.mem_bot]
@@ -270,6 +273,7 @@ theorem s16e_two_sup_H_of_autFromGroup (F : Cfg2Setting X H J₀ J₁) (hHX : H 
     exact Subgroup.mul_mem_sup ((s16e_two_cent X H).mul_mem ((s16e_two_cent X H).inv_mem hk) hcK)
       hl
 
+omit [Finite W] in
 theorem s16e_two_inner_of_aut (F : Cfg2Setting X H J₀ J₁)
     (hinn : ∀ φ : MulAut ↥H, ∃ h₀ : ↥H, ∀ h : ↥H, φ h = h₀ * h * h₀⁻¹) :
     ∀ y ∈ X, ∃ h₀ ∈ H, ∀ h ∈ H, y * h * y⁻¹ = h₀ * h * h₀⁻¹ := by
@@ -281,7 +285,7 @@ theorem s16e_two_inner_of_aut (F : Cfg2Setting X H J₀ J₁)
   have h1 := congrArg (fun z : ↥H => (z : MulAut W)) (hh₀ ⟨h, hh⟩)
   exact h1
 
-theorem s16e_two_card_le_of_normalizer (F : Cfg2Setting X H J₀ J₁) (hHX : H ≤ X)
+theorem s16e_two_card_le_of_normalizer (F : Cfg2Setting X H J₀ J₁) (_hHX : H ≤ X)
     (hE₀ : Z391.EndUnitsTrivial H J₀) (hE₁ : Z391.EndUnitsTrivial H J₁)
     (h3 : 3 ∣ Nat.card ↥(s16e_two_cent X H)) :
     Nat.card ↥X ≤ Nat.card ↥(s16e_two_cent X H) *
@@ -336,7 +340,7 @@ theorem s16e_two_card_le_of_normalizer (F : Cfg2Setting X H J₀ J₁) (hHX : H 
     Subgroup.card_le_of_le (s16e_twoO_autSub_le_normalizer F)
   exact h1.trans (Nat.mul_le_mul_left _ h2)
 
-theorem s16e_two_equiv_normalizer_of_outer (F : Cfg2Setting X H J₀ J₁) (hHX : H ≤ X)
+theorem s16e_two_equiv_normalizer_of_outer (F : Cfg2Setting X H J₀ J₁) (_hHX : H ≤ X)
     (hE₀ : Z391.EndUnitsTrivial H J₀) (hE₁ : Z391.EndUnitsTrivial H J₁)
     (hlt : H < s16e_two_fixIrr X H)
     (hN : Nat.card ↥(normalizer (autSub H J₀ : Set (MulAut ↥J₀))) ≤ 2 * Nat.card ↥H) :

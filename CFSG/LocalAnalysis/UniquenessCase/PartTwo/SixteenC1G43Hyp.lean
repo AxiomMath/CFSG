@@ -14,23 +14,27 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem s16c1G43_conjSubgroup_conj_inv_mul (A : Subgroup G) (h c : G) :
     conjSubgroup (conjSubgroup A c) (c⁻¹ * h * c) = conjSubgroup (conjSubgroup A h) c := by
   rw [conjSubgroup_conjSubgroup, conjSubgroup_conjSubgroup]
   congr 1
   group
 
+omit [Finite G] in
 private theorem s16c1G43_BOf_conj (M V : Subgroup G) (h c : G) :
     BOf (conjSubgroup M c) (conjSubgroup V c) (c⁻¹ * h * c) =
       conjSubgroup (BOf M V h) c := by
   unfold BOf
   rw [s16c1G43_conjSubgroup_conj_inv_mul, conjSubgroup_inf]
 
+omit [Finite G] in
 private theorem s16c1G43_centralizer_BOf_conj (M V : Subgroup G) (h c : G) :
     centralizer ((BOf (conjSubgroup M c) (conjSubgroup V c) (c⁻¹ * h * c) : Subgroup G) :
       Set G) = conjSubgroup (centralizer ((BOf M V h : Subgroup G) : Set G)) c := by
   rw [s16c1G43_BOf_conj, E3.conjSubgroup_centralizer]
 
+omit [Finite G] in
 private theorem s16c1G43_primHalf_conj_mp {M V : Subgroup G} {h : G} (c : G)
     (hh : PrimHalf M V h) :
     PrimHalf (conjSubgroup M c) (conjSubgroup V c) (c⁻¹ * h * c) := by
@@ -52,6 +56,7 @@ private theorem s16c1G43_primHalf_conj_mp {M V : Subgroup G} {h : G} (c : G)
     rw [s16c1G43_conjSubgroup_conj_inv_mul]
     exact mem_conjSubgroup_iff.2 hres
 
+omit [Finite G] in
 theorem s16c1G43_primHalf_conj {M V : Subgroup G} {h : G} (c : G) :
     PrimHalf M V h ↔ PrimHalf (conjSubgroup M c) (conjSubgroup V c) (c⁻¹ * h * c) := by
   refine ⟨s16c1G43_primHalf_conj_mp c, fun hh => ?_⟩
@@ -60,6 +65,7 @@ theorem s16c1G43_primHalf_conj {M V : Subgroup G} {h : G} (c : G) :
   rw [show (c⁻¹)⁻¹ * (c⁻¹ * h * c) * c⁻¹ = h by group] at hconj
   simpa only [E3.conjSubgroup_conj_inv] using hconj
 
+omit [Finite G] in
 theorem s16c1G43_mQuot_le {M V : Subgroup G} {g : G} (hV64 : Nat.card ↥V = 64)
     (hG : PrimGeom M V g) :
     E3.mQuot V (conjSubgroup M g) ≤ 1 ∧ E3.mQuot (conjSubgroup V g) M ≤ 1 := by
@@ -83,6 +89,7 @@ theorem s16c1G43_mQuot_le {M V : Subgroup G} {g : G} (hV64 : Nat.card ↥V = 64)
     rw [hrel2]
     exact le_of_eq padicValNat_self
 
+omit [Finite G] in
 theorem s16c1G43_hyp612Sym {M V : Subgroup G} {g : G} (hV : IsElemAbelian 2 V)
     (hM : normalizer (V : Set G) = M) (hV64 : Nat.card ↥V = 64)
     (hlt : (1 : ℕ∞) < rStarMV M V) (hnotVg : ¬ conjSubgroup V g ≤ M)
@@ -99,6 +106,7 @@ theorem s16c1G43_hyp612Sym {M V : Subgroup G} {g : G} (hV : IsElemAbelian 2 V)
   exact ⟨hV, hM, by simpa using hlt, hin, hG.half.1, hG.half.2, h2'.1,
     fun a ha haV w hw hc => h2'.2 a ha haV w hw (by rwa [inf_comm] at hc)⟩
 
+omit [Finite G] in
 theorem s16c1G43_mQuot_inv {M V : Subgroup G} {g : G} (hU : (UOf M V g).relIndex V = 2) :
     E3.mQuot (conjSubgroup V g⁻¹) (conjSubgroup V g⁻¹ ⊓ M) = 1 := by
   have h := E3.mQuot_conjSubgroup (conjSubgroup V g⁻¹) (conjSubgroup V g⁻¹ ⊓ M) g
@@ -109,6 +117,7 @@ theorem s16c1G43_mQuot_inv {M V : Subgroup G} {g : G} (hU : (UOf M V g).relIndex
   rw [hU']
   exact padicValNat_self
 
+omit [Finite G] in
 theorem s16c1G43_not_le_inv {M V : Subgroup G} {g : G} (h : ¬ conjSubgroup V g ≤ M) :
     ¬ V ≤ conjSubgroup M g⁻¹ := by
   intro hV

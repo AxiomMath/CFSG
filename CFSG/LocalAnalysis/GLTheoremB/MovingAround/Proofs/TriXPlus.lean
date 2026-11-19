@@ -175,9 +175,9 @@ theorem five_le_pow {ℓ f : ℕ} (hℓ : ℓ.Prime) (hℓ2 : ℓ ≠ 2) (hℓ3 
 
 theorem exists_outer_fixed
     {K : Type} [Field K] [Finite K] (σ : K ≃+* K) (E : Subgroup (MulAut (C0 σ)))
-    (x : C0 σ) (hE : CFSG.IsElementaryAbelian 3 E) (hcard : Nat.card E = 3 ^ 2)
-    (hout : ¬ E ≤ innerAut (C0 σ)) (hnG : ¬ TriOddHasGLine σ E) (hx3 : x ^ 3 = 1)
-    (hx1 : x ≠ 1) (hcx : MulAut.conj x ∈ E) :
+    (x : C0 σ) (hE : CFSG.IsElementaryAbelian 3 E) (_hcard : Nat.card E = 3 ^ 2)
+    (hout : ¬ E ≤ innerAut (C0 σ)) (hnG : ¬ TriOddHasGLine σ E) (_hx3 : x ^ 3 = 1)
+    (_hx1 : x ≠ 1) (hcx : MulAut.conj x ∈ E) :
     ∃ β ∈ E, β ∉ innerAut (C0 σ) ∧ β ^ 3 = 1 ∧ β ≠ 1 ∧ ¬ TriOddIsGLine σ β
       ∧ β x = x := by
   classical
@@ -265,7 +265,7 @@ theorem exists_normalizer_short
     (hσ3 : ∀ c, σ.toRingHom (σ.toRingHom (σ.toRingHom c)) = c)
     (s : (fixedField σ.toRingHom)ˣ) (hs3 : s ^ 3 = 1) (hs1 : s ≠ 1) (t : Kˣ)
     (ht : t = Units.map (fixedField σ.toRingHom).subtype.toMonoidHom s)
-    (hnorm : (t : K) * σ.toRingHom t * σ.toRingHom (σ.toRingHom t) = 1)
+    (_hnorm : (t : K) * σ.toRingHom t * σ.toRingHom (σ.toRingHom t) = 1)
     (E : Subgroup (MulAut (C0 σ))) (x : C0 σ) (bet : MulAut (C0 σ)) (hbetE : bet ∈ E)
     (hbet3 : bet ^ 3 = 1) (hbetout : bet ∉ innerAut (C0 σ))
     (hbetG : ¬ TriOddIsGLine σ bet) (hbetx : bet x = x) (hx3 : x ^ 3 = 1) (hx1 : x ≠ 1)
@@ -320,21 +320,21 @@ theorem exists_normalizer_short
     σ hσ3 H' hLle u' hu'H hu'N ⟨s, fun h => hs1 (Units.ext h)⟩
 
 theorem chart_hΦ
-    (ℓ f : ℕ) (hℓ : ℓ.Prime) (hℓ2 : ℓ ≠ 2) (hf : 1 ≤ f) (hq : (ℓ ^ f) % 3 = 1)
+    (ℓ f : ℕ) (hℓ : ℓ.Prime) (hℓ2 : ℓ ≠ 2) (hf : 1 ≤ f) (_hq : (ℓ ^ f) % 3 = 1)
     {K : Type} [Field K] [Finite K] (hK : Nat.card K = (ℓ ^ f) ^ 3)
     (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ (ℓ ^ f))
     (hσ3 : ∀ c, σ.toRingHom (σ.toRingHom (σ.toRingHom c)) = c)
-    (E : Subgroup (MulAut (C0 σ))) (x : C0 σ) (hE : CFSG.IsElementaryAbelian 3 E)
-    (hcard : Nat.card E = 3 ^ 2) (hx3 : x ^ 3 = 1) (hx1 : x ≠ 1)
-    (hcx : MulAut.conj x ∈ E)
+    (E : Subgroup (MulAut (C0 σ))) (x : C0 σ) (_hE : CFSG.IsElementaryAbelian 3 E)
+    (_hcard : Nat.card E = 3 ^ 2) (_hx3 : x ^ 3 = 1) (_hx1 : x ≠ 1)
+    (_hcx : MulAut.conj x ∈ E)
     (s : (fixedField σ.toRingHom)ˣ) (hs3 : s ^ 3 = 1) (hs1 : s ≠ 1)
     (t : Kˣ) (ht : t = Units.map (fixedField σ.toRingHom).subtype.toMonoidHom s)
-    (hnorm : (t : K) * σ.toRingHom t * σ.toRingHom (σ.toRingHom t) = 1)
+    (_hnorm : (t : K) * σ.toRingHom t * σ.toRingHom (σ.toRingHom t) = 1)
     (g : C0 σ)
     (ε₀ : twistedGroup σ.toRingHom ≃* C0 σ)
-    (heps : ε₀ = triOddEqRoot σ (triOdd_ringChar_ne_two hℓ hℓ2 hf hK)
+    (_heps : ε₀ = triOddEqRoot σ (triOdd_ringChar_ne_two hℓ hℓ2 hf hK)
       (triOdd_two_le_pow hℓ hf) hK hσ)
-    (hgz : g * x * g⁻¹ = ε₀ (slShort σ.toRingHom hσ3 (HSL t)))
+    (_hgz : g * x * g⁻¹ = ε₀ (slShort σ.toRingHom hσ3 (HSL t)))
     (φ : twistedGroup σ.toRingHom ≃* C0 σ)
     (hφ_apply : ∀ w, φ w = g⁻¹ * ε₀ w * g)
     (hφv : φ (slShort σ.toRingHom hσ3 (HSL t)) = x)
@@ -405,12 +405,12 @@ theorem chart_hΦ
   exact ⟨k, hΦH, hkφ, hΦv⟩
 
 theorem chart_tau
-    (ℓ f : ℕ) (hℓ : ℓ.Prime) (hℓ2 : ℓ ≠ 2) (hf : 1 ≤ f) (hq : (ℓ ^ f) % 3 = 1)
+    (ℓ f : ℕ) (hℓ : ℓ.Prime) (hℓ2 : ℓ ≠ 2) (hf : 1 ≤ f) (_hq : (ℓ ^ f) % 3 = 1)
     {K : Type} [Field K] [Finite K] (hK : Nat.card K = (ℓ ^ f) ^ 3)
     (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ (ℓ ^ f))
     (hσ3 : ∀ c, σ.toRingHom (σ.toRingHom (σ.toRingHom c)) = c)
     (s : (fixedField σ.toRingHom)ˣ)
-    (t : Kˣ) (ht : t = Units.map (fixedField σ.toRingHom).subtype.toMonoidHom s)
+    (t : Kˣ) (_ht : t = Units.map (fixedField σ.toRingHom).subtype.toMonoidHom s)
     (k : C0 σ) (ε₀ : twistedGroup σ.toRingHom ≃* C0 σ)
     (heps : ε₀ = triOddEqRoot σ (triOdd_ringChar_ne_two hℓ hℓ2 hf hK)
       (triOdd_two_le_pow hℓ hf) hK hσ) :
@@ -431,7 +431,7 @@ theorem chart_tau
   have hτ'k : ∀ w, τ' (k⁻¹ * ε₀ w * k) = k⁻¹ * tauAut σ (ε₀ w) * k := by
     intro w
     have hk1 : k * (k⁻¹ * ε₀ w * k) * k⁻¹ = ε₀ w := by group
-    simp only [τ', MulAut.mul_apply, MulAut.conj_apply, inv_inv]
+    simp only [τ', MulAut.mul_apply, MulAut.conj_apply]
     rw [hk1]
     change (MulAut.conj k).symm (tauAut σ (ε₀ w)) = k⁻¹ * tauAut σ (ε₀ w) * k
     rw [MulAut.conj_symm_apply]
@@ -458,19 +458,19 @@ theorem chart_tau
       σ hσ3 hK2 hq2 hK hσ M]
   have hτ'G : TriOddIsGLine σ τ' := by
     refine ⟨MulAut.conj k, Or.inl ?_⟩
-    simp only [τ', MulAut.mul_apply]
+    simp only [τ']
     group
   exact ⟨τ', rfl, hτ'Φ, hτ'_sl, hτ'G⟩
 
 theorem beta_facts
-    (ℓ f : ℕ) (hℓ : ℓ.Prime) (hℓ2 : ℓ ≠ 2) (hf : 1 ≤ f) (hq : (ℓ ^ f) % 3 = 1)
+    (ℓ f : ℕ) (hℓ : ℓ.Prime) (hℓ2 : ℓ ≠ 2) (hf : 1 ≤ f) (_hq : (ℓ ^ f) % 3 = 1)
     {K : Type} [Field K] [Finite K] (hK : Nat.card K = (ℓ ^ f) ^ 3)
     (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ (ℓ ^ f))
     (hσ3 : ∀ c, σ.toRingHom (σ.toRingHom (σ.toRingHom c)) = c)
     (E : Subgroup (MulAut (C0 σ))) (hE : CFSG.IsElementaryAbelian 3 E)
     (bet : MulAut (C0 σ)) (hbetE : bet ∈ E) (x : C0 σ) (hbetx : bet x = x)
     (s : (fixedField σ.toRingHom)ˣ)
-    (t : Kˣ) (ht : t = Units.map (fixedField σ.toRingHom).subtype.toMonoidHom s)
+    (t : Kˣ) (_ht : t = Units.map (fixedField σ.toRingHom).subtype.toMonoidHom s)
     (ht3 : t ^ 3 = 1) (ht1 : t ≠ 1)
     (hnorm : (t : K) * σ.toRingHom t * σ.toRingHom (σ.toRingHom t) = 1)
     (φ : twistedGroup σ.toRingHom ≃* C0 σ)
@@ -714,7 +714,7 @@ theorem closing_fixed
     calc MulAut.conj x * τ' = (τ' * MulAut.conj x * τ'⁻¹) * τ' := by rw [← h1]
       _ = τ' * MulAut.conj x := by group
   have hbet1 : bet ≠ 1 := fun h => hbetout (h ▸ Subgroup.one_mem _)
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hcx3 : MulAut.conj x ^ 3 = 1 := by rw [← map_pow, hx3, map_one]
   have hbet_cx : bet ≠ MulAut.conj x := fun h =>
     hbetout (h ▸ (⟨x, rfl⟩ : MulAut.conj x ∈ innerAut (C0 σ)))
@@ -835,7 +835,7 @@ theorem centralizer_y0
 
 theorem exists_cube_torus
     {K : Type} [Field K] [Finite K] (σ : K ≃+* K) {ℓ f : ℕ} (hℓ : ℓ.Prime)
-    (hℓ2 : ℓ ≠ 2) (hf : 1 ≤ f) (hq : (ℓ ^ f) % 3 = 1)
+    (_hℓ2 : ℓ ≠ 2) (hf : 1 ≤ f) (hq : (ℓ ^ f) % 3 = 1)
     (hK : Nat.card K = (ℓ ^ f) ^ 3) (hσ : ∀ c, σ c = c ^ (ℓ ^ f)) :
     ∃ (s : (fixedField σ.toRingHom)ˣ) (t : Kˣ),
       s ^ 3 = 1 ∧ s ≠ 1 ∧
@@ -884,7 +884,7 @@ theorem uniPlaneClosure_eq_top_of_fixedSub
     (hncent : ∀ γ : MulAut (C0 σ), TriOddIsGLine σ γ → ¬ ∀ α ∈ E, α * γ = γ * α)
     (hx3 : x ^ 3 = 1) (hx1 : x ≠ 1) (hcx : MulAut.conj x ∈ E)
     (hX : TriOddIsClassX σ x)
-    (hbp : ∀ ψ : MulAut (C0 σ), ¬ ∀ φ ∈ E.map (MulAut.congr ψ).toMonoidHom,
+    (_hbp : ∀ ψ : MulAut (C0 σ), ¬ ∀ φ ∈ E.map (MulAut.congr ψ).toMonoidHom,
       ((graphFixedPosUnipotent TwistTag.D4 K σ.toRingHom).subgroupOf
           (graphFixedRootGroup TwistTag.D4 K σ.toRingHom)).map φ.toMonoidHom =
         (graphFixedPosUnipotent TwistTag.D4 K σ.toRingHom).subgroupOf
@@ -929,7 +929,7 @@ theorem uniPlaneClosure_eq_top_of_fixedSub
   set H : Subgroup (C0 σ) := uniPlaneClosure ℓ E with hHdef
   set H' : Subgroup (twistedGroup σ.toRingHom) := H.comap φ.toMonoidHom with hH'
   have hK3 : Nat.card K = ℓ ^ (3 * f) := by rw [hK, ← pow_mul, mul_comm]
-  haveI : CharP K ℓ :=
+  have : CharP K ℓ :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hℓ (by omega) hK3
   have hLle : longSub 6 (hexGroup (twistedX σ.toRingHom)) ≤ H' := by
     rw [hH', hHdef]
@@ -949,7 +949,7 @@ theorem uniPlaneClosure_eq_top_of_fixedSub
       hnorm φ hφv H hHdef
   obtain ⟨Θ, hker, hcyc⟩ := exists_normal_form_data σ hℓ hℓ2 hf hK hσ
   have hcycComm : ∀ a b : K ≃+* K, a * b = b * a := by
-    letI : CommGroup (K ≃+* K) := hcyc.commGroup
+    let : CommGroup (K ≃+* K) := hcyc.commGroup
     intro a b
     exact mul_comm a b
   obtain ⟨y, hy'⟩ := exists_conj_of_ker Θ hcycComm hker bet τ'

@@ -76,8 +76,8 @@ theorem inf_centralizer_V_le_pCoreOf_L (D : Data G) (Ch : Choice2011 G)
     hK0normal.map (QuotientGroup.mk' (CFSG.pCore 2 ↥c.L))
       (QuotientGroup.mk'_surjective _)
   obtain ⟨-, hL2, -⟩ := h23 h1930 c
-  haveI : (barImage c.L K0).Normal := hYnormal
-  haveI : IsSimpleGroup (Bar2 c.L) := CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hL2
+  have : (barImage c.L K0).Normal := hYnormal
+  have : IsSimpleGroup (Bar2 c.L) := CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hL2
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (barImage c.L K0) with hbot | htop
   · exact le_pCoreOf_of_barImage_eq_bot hK0L hbot
   · exfalso
@@ -115,7 +115,7 @@ theorem inf_centralizer_V_le_pCoreOf_L (D : Data G) (Ch : Choice2011 G)
           CFSG.Open.pCoreOf 2 c.L :=
         ⟨_, hmem, rfl⟩
       have hl_eq : l = (k : G) * (((k : ↥c.L)⁻¹ * ⟨l, hl⟩ : ↥c.L) : G) := by
-        simp [mul_assoc]
+        simp
       rw [hl_eq]
       exact (K0 ⊔ CFSG.Open.pCoreOf 2 c.L).mul_mem
         (Subgroup.mem_sup_left hkK0) (Subgroup.mem_sup_right hmemG)
@@ -141,7 +141,7 @@ theorem isPGroup_sup_inf_centralizer_V (D : Data G) (Ch : Choice2011 G)
   have hLnormalS : (c.L.subgroupOf S).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer (le_sup_left : c.L ≤ S)).2 hLTnorm
   let N : Subgroup ↥S := c.L.subgroupOf S
-  haveI hNnormal : N.Normal := hLnormalS
+  have hNnormal : N.Normal := hLnormalS
   let π : ↥S →* (↥S ⧸ N) := QuotientGroup.mk' N
   have hsup : N ⊔ (D.T.subgroupOf S) = ⊤ := by
     have h := Subgroup.subgroupOf_sup (A := c.L) (A' := D.T) (B := c.L ⊔ D.T)

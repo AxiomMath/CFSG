@@ -20,6 +20,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem n924x_isPerfect_iSup {ι : Sort*} (A : ι → Subgroup G)
     (hA : ∀ i, Group.IsPerfect (A i)) : Group.IsPerfect (⨆ i, A i : Subgroup G) := by
   rw [Subgroup.isPerfect_iff]

@@ -10,9 +10,11 @@ open CFSG.CGT.Timmesfeld75 CFSG.Open
 
 variable {G : Type} [Group G] [Finite G] {z : G}
 
+omit [Finite G] in
 theorem Frame4.Γ_nonempty (F : Frame4 G z) (i : Fin 6) : (F.Γ i).Nonempty :=
   Set.nonempty_of_ncard_ne_zero (by rw [F.Γ_card i]; fin_cases i <;> simp)
 
+omit [Finite G] in
 theorem Frame4.dichΓ (F : Frame4 G z) (i : Fin 6) : F.Γ i ⊆ F.Gz ∨ Disjoint (F.Γ i) F.Gz := by
   by_cases h : ∃ a, a ∈ F.Γ i ∧ a ∈ F.Gz
   · left
@@ -25,12 +27,14 @@ theorem Frame4.dichΓ (F : Frame4 G z) (i : Fin 6) : F.Γ i ⊆ F.Gz ∨ Disjoin
     intro a ha haS
     exact h ⟨a, ha, haS⟩
 
+omit [Finite G] in
 theorem Frame4.Γ0_sub (F : Frame4 G z) : F.Γ 0 ⊆ F.Gz := by
   intro s hs
   rw [F.Γ0] at hs
   rw [Set.mem_singleton_iff.1 hs]
   exact ⟨F.z_mem_B, F.z_ne_one, 1, by simp⟩
 
+omit [Finite G] in
 theorem Frame4.Γ1_sub (F : Frame4 G z) (hU1 : ∀ u ∈ F.U, u ≠ 1 → InZG z u) : F.Γ 1 ⊆ F.Gz := by
   intro s hs
   rw [F.Γ1] at hs
@@ -38,6 +42,7 @@ theorem Frame4.Γ1_sub (F : Frame4 G z) (hU1 : ∀ u ∈ F.U, u ≠ 1 → InZG z
   simp only [Set.mem_insert_iff, Set.mem_singleton_iff, not_or] at h2
   exact ⟨(Subgroup.mem_inf.1 h1).1, h2.1, hU1 _ (Subgroup.mem_inf.1 h1).2 h2.1⟩
 
+omit [Finite G] in
 theorem Frame4.Γ2_sub (F : Frame4 G z) (hU2 : ∀ u ∈ F.U2, u ≠ 1 → InZG z u) : F.Γ 2 ⊆ F.Gz := by
   intro s hs
   rw [F.Γ2] at hs
@@ -71,8 +76,8 @@ theorem Frame4.sum_Gz (F : Frame4 G z) (hU1 : ∀ u ∈ F.U, u ≠ 1 → InZG z 
     rw [F.Γ_union]
     exact ⟨ha.1, ha.2.1⟩
   have hsum := ncard_eq_sum_of_dich F.Γ F.Γ_disj F.Gz hS F.dichΓ F.Γ_nonempty
-  rw [Fin.sum_univ_six, if_pos F.Γ0_sub, if_pos (F.Γ1_sub hU1), if_pos (F.Γ2_sub hU2),
-    if_neg F.not_Γ3_sub] at hsum
+  rw [Fin.sum_univ_six, ite_eq_left F.Γ0_sub, ite_eq_left (F.Γ1_sub hU1), ite_eq_left (F.Γ2_sub hU2),
+    ite_eq_right F.not_Γ3_sub] at hsum
   have c0 : (F.Γ 0).ncard = 1 := by simpa using F.Γ_card 0
   have c1 : (F.Γ 1).ncard = 2 := by simpa using F.Γ_card 1
   have c2 : (F.Γ 2).ncard = 2 := by simpa using F.Γ_card 2
@@ -88,7 +93,7 @@ theorem hcong16_13 : ∀ c : ℕ, c ∣ 16 → Nat.ModEq 13 16 c → c = 16 := b
 
 theorem Frame4.false_of_card_Gz_5 (F : Frame4 G z) (h5 : F.Gz.ncard = 5)
     (h4 : ¬ F.Γ 4 ⊆ F.Gz) (h5' : ¬ F.Γ 5 ⊆ F.Gz) : False := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hcard := F.card_normalizer_J
   rw [h5] at hcard
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card'

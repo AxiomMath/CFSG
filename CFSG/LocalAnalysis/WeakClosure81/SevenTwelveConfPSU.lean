@@ -12,7 +12,7 @@ open CFSG.LocalAnalysis.WeakClosure81.SevenK
 theorem statedSU_mul_self_of_rank_one {F : Type} [Field F] [Finite F] {n : ℕ}
     (hF : Nat.card F = (2 ^ n) ^ 2) {m : ℕ} (g : ↥(StatedSU m (2 ^ n) F))
     (hg : Matrix.rank (((g : GL (Fin m) F) : Matrix (Fin m) (Fin m) F) - 1) = 1) : g * g = 1 := by
-  haveI : CharP F 2 := charP_of_card_sq (p := 2) (f := n) hF
+  have : CharP F 2 := charP_of_card_sq (p := 2) (f := n) hF
   let e : ↥(SUid (unitaryInvolution F 2 n) m) ≃* ↥(StatedSU m (2 ^ n) F) :=
     MulEquiv.subgroupCongr (SUid_eq_statedSU hF m)
   have h := suConf_mul_self_of_rank_one hF (e.symm g) hg
@@ -24,7 +24,7 @@ theorem exists_sevenTwelveConfig_statedSU {F : Type} [Field F] [Finite F] {n : �
     (hg : Matrix.rank (((g : GL (Fin m) F) : Matrix (Fin m) (Fin m) F) - 1) = 1) :
     ∃ (g₂ g₃ y : ↥(StatedSU m (2 ^ n) F)) (W T : Subgroup ↥(StatedSU m (2 ^ n) F)),
       SevenTwelveConfig (Subgroup.zpowers g) g₂ g₃ y W T := by
-  haveI : CharP F 2 := charP_of_card_sq (p := 2) (f := n) hF
+  have : CharP F 2 := charP_of_card_sq (p := 2) (f := n) hF
   let e : ↥(SUid (unitaryInvolution F 2 n) m) ≃* ↥(StatedSU m (2 ^ n) F) :=
     MulEquiv.subgroupCongr (SUid_eq_statedSU hF m)
   obtain ⟨g₂, g₃, y, W, T, h⟩ := exists_sevenTwelveConfig_suid hF hn (e.symm g) hg
@@ -84,7 +84,7 @@ theorem exists_sevenTwelveConfig_statedProj {F : Type} [Field F] [Finite F] {n m
     ∃ (g₂ g₃ y : StatedProj (StatedSU m (2 ^ n) F))
       (W T : Subgroup (StatedProj (StatedSU m (2 ^ n) F))),
       SevenTwelveConfig (Subgroup.zpowers x) g₂ g₃ y W T := by
-  haveI : CharP F 2 := charP_of_card_sq (p := 2) (f := n) hF
+  have : CharP F 2 := charP_of_card_sq (p := 2) (f := n) hF
   obtain ⟨g, rfl, hg⟩ := hx
   obtain ⟨g₂, g₃, y, W, T, h⟩ := exists_sevenTwelveConfig_statedSU hF hn g hg
   obtain ⟨hcen, hinv⟩ := statedSU_ker_central_noinv (F := F) (m := m) (q := 2 ^ n)

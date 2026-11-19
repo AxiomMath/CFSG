@@ -21,6 +21,7 @@ open CFSG.LocalAnalysis.UniquenessCase.UC22.F13
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem s13_le_of_mem_calC {M L : Subgroup G} (hL : L ∈ calC M) : L ≤ M :=
   CFSG.Quasithin.A3.subnormal_le hL.1
 
@@ -32,11 +33,13 @@ theorem s13_exists_calC_of_component (M : Subgroup G) {C : Subgroup (Bar2 M)}
     (hC : CFSG.IsComponent C) : ∃ L ∈ calC M, barImage M L = C :=
   uc22p21c_exists_calC_of_component M hC
 
+omit [Finite G] in
 theorem s13_bar_equiv {M L : Subgroup G} (hL : L ∈ calC M) :
     Nonempty (Bar2 L ≃* ↥(barImage M L)) := by
   obtain ⟨e, -⟩ := uc22p22l_barImage_equiv hL
   exact ⟨e⟩
 
+omit [Finite G] in
 theorem s13_barImage_normal {M L : Subgroup G} (hL : (L.subgroupOf M).Normal) :
     (barImage M L).Normal :=
   hL.map (QuotientGroup.mk' (CFSG.pCore 2 ↥M)) (QuotientGroup.mk'_surjective _)
@@ -53,6 +56,7 @@ theorem s13_isKGroup_bar_M (D : Data G) : CFSG.IsKGroup (Bar2 D.M) := by
     D.standing.kProper.isKGroup D.M (uc22br4_M_ne_top D)
   exact uc22br4_isKGroup_catalog_of_open (hM.quotient (CFSG.pCore 2 ↥D.M))
 
+omit [Finite G] in
 theorem s13_pCore_bar_eq_bot (L : Subgroup G) : CFSG.pCore 2 (Bar2 L) = ⊥ :=
   CFSG.RankThree.PartTwo.Sec11.pCore_quotient_pCore ↥L 2
 
@@ -61,20 +65,21 @@ theorem s13_pRank_bar_le_one {L : Subgroup G} (hL : Thin13 L) {r : ℕ} (hr : r.
   rw [CFSG.SectionRank.pRank_eq_open_pRank_top r (Bar2 L), s13_pRank_bar_top hr hr2 L]
   exact hL r hr hr2
 
+omit [Finite G] in
 theorem s13_nonabelian_bar {M L : Subgroup G} (hL : L ∈ calC M) :
     ∃ x y : Bar2 L, x * y ≠ y * x := by
   by_contra h
-  push_neg at h
+  push Not at h
   have htop : Subgroup.center (Bar2 L) = ⊤ := by
     rw [eq_top_iff]
     intro x _
     rw [Subgroup.mem_center_iff]
     intro y
     exact h y x
-  haveI : Subsingleton (Bar2 L ⧸ Subgroup.center (Bar2 L)) := by
+  have : Subsingleton (Bar2 L ⧸ Subgroup.center (Bar2 L)) := by
     rw [htop]
     exact QuotientGroup.subsingleton_quotient_top
-  haveI : Nontrivial (Bar2 L ⧸ Subgroup.center (Bar2 L)) := hL.2.2.2.toNontrivial
+  have : Nontrivial (Bar2 L ⧸ Subgroup.center (Bar2 L)) := hL.2.2.2.toNontrivial
   obtain ⟨a, b, hab⟩ := (inferInstance : Nontrivial (Bar2 L ⧸ Subgroup.center (Bar2 L)))
   exact hab (Subsingleton.elim a b)
 
@@ -84,7 +89,7 @@ theorem s13_list_bar (hThin : ThinList13) (D : Data G) {L : Subgroup G} (hL : L 
       ((∃ a : ℕ, IsL2 (Bar2 L) a) ∨ (∃ p : ℕ, p.Prime ∧ p ≠ 2 ∧ IsL2Odd (Bar2 L) p) ∨
         (∃ a : ℕ, IsSz (Bar2 L) a) ∨ IsJ1 (Bar2 L)) :=
   hThin (Bar2 L) (s13_isKGroup_bar D (s13_le_of_mem_calC hL)) hL.2.2
-    (s13_pCore_bar_eq_bot L) (fun r hr hr2 => s13_pRank_bar_le_one hthin hr hr2)
+    (s13_pCore_bar_eq_bot L) (fun _r hr hr2 => s13_pRank_bar_le_one hthin hr hr2)
 
 theorem s13_isSimple_bar (hThin : ThinList13) (D : Data G) (hS : Setting13 D) {L : Subgroup G}
     (hL : L ∈ calC D.M) : IsSimpleGroup (Bar2 L) := by
@@ -96,7 +101,7 @@ theorem s13_Bridge13_isCyclic_of_pRank_le_one {Γ : Type} [Group Γ] [Finite Γ]
     (hp : p.Prime) (hp2 : p ≠ 2) (hΓ : IsPGroup p Γ) (h : CFSG.pRank p Γ ≤ 1) :
     IsCyclic Γ := by
   by_contra hnc
-  haveI : Fact (Nat.Prime p) := ⟨hp⟩
+  have : Fact (Nat.Prime p) := ⟨hp⟩
   have : Fact (IsPGroup p Γ) := ⟨hΓ⟩
   obtain ⟨S, -, hScard, hSel⟩ := CFSG.lemma_4_5_a hp2 hnc
   have hE : CFSG.Open.IsElemAbelian p S :=
@@ -116,9 +121,9 @@ theorem s13_outAbelian_bar (hThin : ThinList13)
     have hnonab : ∃ x y : Bar2 L, x * y ≠ y * x := s13_nonabelian_bar hL
     have hsyl : ∀ P : Sylow 3 (Bar2 L), IsCyclic ↥(P : Subgroup (Bar2 L)) := by
       intro P
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       refine s13_Bridge13_isCyclic_of_pRank_le_one Nat.prime_three (by norm_num)
-        P.isPGroup' ?_
+        P.isPGroup ?_
       calc CFSG.pRank 3 ↥(P : Subgroup (Bar2 L))
           = CFSG.Open.pRank 3 (⊤ : Subgroup ↥(P : Subgroup (Bar2 L))) :=
             CFSG.SectionRank.pRank_eq_open_pRank_top 3 _
@@ -142,8 +147,8 @@ theorem s13_outAbelian_bar (hThin : ThinList13)
       obtain ⟨j, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hkne
       rw [hk, pow_succ, mul_comm]
       exact even_two_mul _
-    haveI : N.Normal := hNn
-    haveI : IsCyclic (MulAut (Bar2 L) ⧸ N) := hcyc
+    have : N.Normal := hNn
+    have : IsCyclic (MulAut (Bar2 L) ⧸ N) := hcyc
     have hNle : N ≤ (MulAut.conj : Bar2 L →* MulAut (Bar2 L)).range := hev heven
     have hNeq : N = (MulAut.conj : Bar2 L →* MulAut (Bar2 L)).range :=
       le_antisymm hNle hInn
@@ -181,7 +186,7 @@ theorem s13_outAbelian_barImage (hThin : ThinList13)
 
 theorem s13_isSimple_barImage (hThin : ThinList13) (D : Data G) (hS : Setting13 D)
     {L : Subgroup G} (hL : L ∈ calC D.M) : IsSimpleGroup ↥(barImage D.M L) := by
-  haveI := s13_isSimple_bar hThin D hS hL
+  have := s13_isSimple_bar hThin D hS hL
   obtain ⟨e⟩ := s13_bar_equiv hL
   exact MulEquiv.isSimpleGroup e.symm
 

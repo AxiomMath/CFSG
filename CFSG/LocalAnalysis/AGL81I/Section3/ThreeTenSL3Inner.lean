@@ -23,9 +23,9 @@ theorem exists_conj_of_threeTenHyp {H : Type} [Group H] [Finite H]
     {δ : H} (hδ : δ ∈ D) :
     ∃ t : ↥I, ∀ x : ↥I, δ * (x : H) * δ⁻¹ = (t : H) * (x : H) * (t : H)⁻¹ := by
   obtain ⟨hp, -, hd, hd2, -, hI, hD, -, -, -, -, -⟩ := hhyp
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact d.Prime := ⟨hd⟩
-  haveI hInormal : I.Normal := normal_of_oPPrimeHull_eq hI
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact d.Prime := ⟨hd⟩
+  have hInormal : I.Normal := normal_of_oPPrimeHull_eq hI
   let Θ : H →* MulAut ↥I := MulAut.conjNormal
   let ψ : ↥D →* MulAut (projectiveSL 3 (ZMod p)) :=
     (descendAut 3 (ZMod p)).comp ((MulAut.congr e).toMonoidHom.comp (Θ.comp D.subtype))
@@ -50,11 +50,11 @@ theorem exists_conj_of_threeTenHyp {H : Type} [Group H] [Finite H]
     let f : ↥D →* Outer (projectiveSL 3 (ZMod p)) :=
       (QuotientGroup.mk' (CFSG.ComponentClassification.OuterAutomorphisms.inner
         (projectiveSL 3 (ZMod p)))).comp ψ
-    haveI hAutFin : Finite (MulAut (projectiveSL 3 (ZMod p))) :=
+    have hAutFin : Finite (MulAut (projectiveSL 3 (ZMod p))) :=
       Finite.of_injective
         (fun φ => (φ : projectiveSL 3 (ZMod p) → projectiveSL 3 (ZMod p)))
         (fun a b h => MulEquiv.ext (congrFun h))
-    haveI hOutFin : Finite (Outer (projectiveSL 3 (ZMod p))) :=
+    have hOutFin : Finite (Outer (projectiveSL 3 (ZMod p))) :=
       Finite.of_surjective (QuotientGroup.mk' (CFSG.ComponentClassification.OuterAutomorphisms.inner
         (projectiveSL 3 (ZMod p))))
         (QuotientGroup.mk'_surjective _)

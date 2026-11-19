@@ -193,7 +193,7 @@ private theorem cShift_mul_bShift_ne {p m : ℕ} [NeZero p] (hp : p.Prime) :
     (fun π : Equiv.Perm (Ω p p m) => π (Sum.inl ((0 : Fin p), (0 : ZMod p)))) h
   simp only [Equiv.Perm.mul_apply] at h1
   rw [hL, hR] at h1
-  haveI : Fact (1 < p) := ⟨hp.one_lt⟩
+  have : Fact (1 < p) := ⟨hp.one_lt⟩
   exact zero_ne_one (Prod.mk.inj (Sum.inl_injective h1)).2
 
 private theorem exists_noncomm_pGroup_block {p m : ℕ} [NeZero p] (hp : p.Prime) (hodd : Odd p) :
@@ -236,7 +236,7 @@ private theorem exists_noncomm_pGroup_of_equiv {α β : Type} [Fintype α] [Deci
 private theorem exists_noncomm_pGroup {p n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hn : p ^ 2 ≤ n) :
     ∃ a b : ↥(alternatingGroup (Fin n)), ∃ H : Subgroup ↥(alternatingGroup (Fin n)),
       IsPGroup p H ∧ a ∈ H ∧ b ∈ H ∧ a * b ≠ b * a := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hcard : Fintype.card (Ω p p (n - p ^ 2)) = n := by
     simp only [Ω, Fintype.card_sum, Fintype.card_prod, Fintype.card_fin, ZMod.card]
     rw [← sq]
@@ -247,9 +247,9 @@ private theorem exists_noncomm_pGroup {p n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
 theorem not_isMulCommutative_sylow_alternatingGroup {p n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hn : p ^ 2 ≤ n) (P : Sylow p (alternatingGroup (Fin n))) :
     ¬ IsMulCommutative (P : Subgroup (alternatingGroup (Fin n))) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨a, b, H, hH, ha, hb, hab⟩ := exists_noncomm_pGroup hp hp2 hn
   exact CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.InnerAction.not_isMulCommutative_of_noncomm_pSubgroup
-    hH ha hb hab P.isPGroup' P.not_dvd_index
+    hH ha hb hab P.isPGroup P.not_dvd_index
 
 end CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.AltBlocks

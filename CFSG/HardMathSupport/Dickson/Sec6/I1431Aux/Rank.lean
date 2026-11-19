@@ -31,7 +31,7 @@ theorem rank_le_twoLocal_of_normalizes_pre {X K : Subgroup G} (hKX : K ≤ X)
     rintro _ ⟨x, -, rfl⟩
     exact x.2
   have hU2 : IsPGroup 2 ↥U :=
-    (S₂.isPGroup').of_equiv ((S₂ : Subgroup ↥P).equivMapOfInjective P.subtype P.subtype_injective)
+    (S₂.isPGroup).of_equiv ((S₂ : Subgroup ↥P).equivMapOfInjective P.subtype P.subtype_injective)
   have hU1 : U ≠ ⊥ := by
     intro hUb
     have h2 : 2 ∣ Nat.card P := c25_two_dvd_card_pre hU₀2 hU₀

@@ -36,7 +36,7 @@ end Fix
 
 section Points
 
-@[expose] noncomputable def ptR (i : ℕ) : Row := toRow (toVecD 112 (nth 0 PTS i))
+noncomputable def ptR (i : ℕ) : Row := toRow (toVecD 112 (nth 0 PTS i))
 
 theorem len_PTS : PTS.length = 737 := Nat.eq_of_beq_eq_true len_ok
 
@@ -75,9 +75,9 @@ end W77
 
 section Tree
 
-@[expose] noncomputable def cg (g : ℕ) : J := gw (nth [] CGW g)
+noncomputable def cg (g : ℕ) : J := gw (nth [] CGW g)
 
-@[expose] def ptRoot (i : ℕ) : ℕ := if i < 77 then 0 else 77
+def ptRoot (i : ℕ) : ℕ := if i < 77 then 0 else 77
 
 end Tree
 
@@ -85,7 +85,7 @@ section All
 
 open scoped Classical
 
-@[expose] noncomputable def ptSet : Finset Row := (Finset.range 737).image ptR
+noncomputable def ptSet : Finset Row := (Finset.range 737).image ptR
 
 theorem card_ptSet : ptSet.card = 737 := by
   rw [ptSet, Finset.card_image_of_injOn, Finset.card_range]

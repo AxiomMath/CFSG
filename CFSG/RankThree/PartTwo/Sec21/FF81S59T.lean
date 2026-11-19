@@ -27,10 +27,12 @@ theorem exists_mul_of_mem_sup {A B : Subgroup G} (hcen : A ≤ CenS B) {u : G} (
   obtain ⟨a, ha, c, hc, rfl⟩ := hu'
   exact ⟨a, ha, c, hc, rfl⟩
 
+omit [Finite G] in
 theorem le_cenS_of_le {A B : Subgroup G} (h : A ≤ CenS B) : B ≤ CenS A := fun b hb =>
-  Subgroup.mem_centralizer_iff.mpr fun a ha =>
+  Subgroup.mem_centralizer_iff.mpr fun _a ha =>
     (Subgroup.mem_centralizer_iff.mp (h ha) b hb).symm
 
+omit [Finite G] in
 theorem card_Z₁ (hext : IsExtraspecialPGroup 2 ↥T₁) : Nat.card ↥(T₁ ⊓ CenS T₁) = 2 := by
   have := hext.2.2.2
   rw [center_eq] at this
@@ -48,18 +50,21 @@ theorem sq_mem_Z₁ (hext : IsExtraspecialPGroup 2 ↥T₁) {c : G} (hc : c ∈ 
   have := mem_center_iff'.mp (ext_sq_mem_center hext ⟨c, hc⟩)
   simpa using this
 
+omit [Finite G] in
 theorem comm_mem_Z₁ (hext : IsExtraspecialPGroup 2 ↥T₁) {c c' : G} (hc : c ∈ T₁)
     (hc' : c' ∈ T₁) : c * c' * c⁻¹ * c'⁻¹ ∈ T₁ ⊓ CenS T₁ := by
   have := mem_center_iff'.mp (ext_commutator_mem_center hext.2.1 (⟨c, hc⟩ : ↥T₁) ⟨c', hc'⟩)
   simpa [commutatorElement_def] using this
 
+omit [Finite G] in
 theorem comm_elemAb {p k : ℕ} {B : Subgroup G} (hB : IsElemAb p k B) :
     ∀ a ∈ B, ∀ b ∈ B, a * b = b * a := fun a ha b hb =>
   congrArg Subtype.val (hB.1.toIsMulCommutative.is_comm.comm (⟨a, ha⟩ : B) ⟨b, hb⟩)
 
+omit [Finite G] in
 theorem pow_elemAb {p k : ℕ} {B : Subgroup G} (hB : IsElemAb p k B) :
     ∀ a ∈ B, a ^ p = 1 := by
-  haveI := hB.1
+  have := hB.1
   exact fun a ha => elemPow_eq_one_of_isElementaryAbelian (A := B) a ha
 
 end Prod
@@ -71,11 +76,14 @@ variable (hT0 : IsElemAb 2 6 T₀) (hT1 : IsExtraspecialPlus 4 T₁) (hinf : T�
   (hcen : T₀ ≤ CenS T₁)
 include hT0 hT1 hinf hcen
 
+omit hT1 hinf hcen [Finite G] in
 theorem comm_T₀ : ∀ a ∈ T₀, ∀ a' ∈ T₀, a * a' = a' * a := comm_elemAb hT0
 
+omit hT1 hinf hcen [Finite G] in
 theorem sq_T₀ : ∀ a ∈ T₀, a ^ 2 = 1 := pow_elemAb hT0
 
-theorem comm_T₁T₀ : ∀ c ∈ T₁, ∀ a ∈ T₀, c * a = a * c := fun c hc a ha =>
+omit [Finite G] hT0 hT1 hinf in
+theorem comm_T₁T₀ : ∀ c ∈ T₁, ∀ _a ∈ T₀, c * _a = _a * c := fun c hc _a ha =>
   Subgroup.mem_centralizer_iff.mp (hcen ha) c hc
 
 theorem card_sup : Nat.card ↥(T₀ ⊔ T₁) = 2 ^ 15 := by
@@ -90,6 +98,7 @@ theorem card_sup : Nat.card ↥(T₀ ⊔ T₁) = 2 ^ 15 := by
   rw [h]
   norm_num
 
+omit hT1 hinf in
 theorem center_sup : (T₀ ⊔ T₁) ⊓ CenS (T₀ ⊔ T₁) = T₀ ⊔ (T₁ ⊓ CenS T₁) := by
   have hZ1 : T₁ ⊓ CenS T₁ ≤ T₁ := inf_le_left
   have hcen' : T₀ ≤ CenS (T₁ ⊓ CenS T₁) := fun a ha =>
@@ -102,7 +111,7 @@ theorem center_sup : (T₀ ⊔ T₁) ⊓ CenS (T₀ ⊔ T₁) = T₀ ⊔ (T₁ �
       refine ⟨hc, Subgroup.mem_centralizer_iff.mpr fun d hd => ?_⟩
       have h1 := Subgroup.mem_centralizer_iff.mp hxc d
         (Subgroup.mem_sup_right hd)
-      have h2 : d * a = a * d := comm_T₁T₀ hT0 hT1 hinf hcen d hd a ha
+      have h2 : d * a = a * d := comm_T₁T₀ hcen d hd a ha
       calc d * c = a⁻¹ * (a * d * c) := by group
         _ = a⁻¹ * (d * a * c) := by rw [h2]
         _ = a⁻¹ * (d * (a * c)) := by group
@@ -116,9 +125,9 @@ theorem center_sup : (T₀ ⊔ T₁) ⊓ CenS (T₀ ⊔ T₁) = T₀ ⊔ (T₁ �
     refine ⟨hxT, Subgroup.mem_centralizer_iff.mpr fun t ht => ?_⟩
     obtain ⟨a', ha', c', hc', rfl⟩ := exists_mul_of_mem_sup hcen ht
     have h1 : c' * z = z * c' := (Subgroup.mem_centralizer_iff.mp hz.2 c' hc')
-    have h2 : c' * a = a * c' := comm_T₁T₀ hT0 hT1 hinf hcen c' hc' a ha
-    have h3 : z * a' = a' * z := comm_T₁T₀ hT0 hT1 hinf hcen z hz.1 a' ha'
-    have h4 : a' * a = a * a' := comm_T₀ hT0 hT1 hinf hcen a' ha' a ha
+    have h2 : c' * a = a * c' := comm_T₁T₀ hcen c' hc' a ha
+    have h3 : z * a' = a' * z := comm_T₁T₀ hcen z hz.1 a' ha'
+    have h4 : a' * a = a * a' := comm_T₀ hT0 a' ha' a ha
     calc a' * c' * (a * z) = a' * (c' * a) * z := by group
       _ = a' * (a * c') * z := by rw [h2]
       _ = (a' * a) * (c' * z) := by group
@@ -128,15 +137,16 @@ theorem center_sup : (T₀ ⊔ T₁) ⊓ CenS (T₀ ⊔ T₁) = T₀ ⊔ (T₁ �
       _ = a * (z * a') * c' := by rw [h3]
       _ = a * z * (a' * c') := by group
 
+omit hT1 hinf [Finite G] in
 theorem sq_prod {a c : G} (ha : a ∈ T₀) (hc : c ∈ T₁) : (a * c) ^ 2 = c ^ 2 := by
-  have h1 : c * a = a * c := comm_T₁T₀ hT0 hT1 hinf hcen c hc a ha
+  have h1 : c * a = a * c := comm_T₁T₀ hcen c hc a ha
   calc (a * c) ^ 2 = a * (c * a) * c := by simp only [pow_two]; group
     _ = a * (a * c) * c := by rw [h1]
     _ = a ^ 2 * c ^ 2 := by simp only [pow_two]; group
-    _ = c ^ 2 := by rw [sq_T₀ hT0 hT1 hinf hcen a ha, one_mul]
+    _ = c ^ 2 := by rw [sq_T₀ hT0 a ha, one_mul]
 
 theorem card_center : Nat.card ↥((T₀ ⊔ T₁) ⊓ CenS (T₀ ⊔ T₁)) = 2 ^ 7 := by
-  rw [center_sup hT0 hT1 hinf hcen]
+  rw [center_sup hT0 hcen]
   have hZ1 : Nat.card ↥(T₁ ⊓ CenS T₁) = 2 := card_Z₁ hT1.1
   have hZ1le : T₁ ⊓ CenS T₁ ≤ T₁ := inf_le_left
   have hle : T₀ ≤ Subgroup.normalizer ((T₁ ⊓ CenS T₁ : Subgroup G) : Set G) := fun a ha =>
@@ -153,37 +163,41 @@ theorem card_center : Nat.card ↥((T₀ ⊔ T₁) ⊓ CenS (T₀ ⊔ T₁)) = 2
   rw [h]
   norm_num
 
+omit hinf in
 theorem sq_center : ∀ z ∈ (T₀ ⊔ T₁) ⊓ CenS (T₀ ⊔ T₁), z ^ 2 = 1 := by
   intro z hz
-  rw [center_sup hT0 hT1 hinf hcen] at hz
+  rw [center_sup hT0 hcen] at hz
   have hcen' : T₀ ≤ CenS (T₁ ⊓ CenS T₁) := fun a ha =>
     Subgroup.centralizer_le (inf_le_left : T₁ ⊓ CenS T₁ ≤ T₁) (hcen ha)
   obtain ⟨a, ha, w, hw, rfl⟩ := exists_mul_of_mem_sup hcen' hz
-  have h1 : w * a = a * w := comm_T₁T₀ hT0 hT1 hinf hcen w hw.1 a ha
+  have h1 : w * a = a * w := comm_T₁T₀ hcen w hw.1 a ha
   calc (a * w) ^ 2 = a * (w * a) * w := by simp only [pow_two]; group
     _ = a * (a * w) * w := by rw [h1]
     _ = a ^ 2 * w ^ 2 := by simp only [pow_two]; group
-    _ = 1 := by rw [sq_T₀ hT0 hT1 hinf hcen a ha, sq_Z₁ hT1.1 hw, one_mul]
+    _ = 1 := by rw [sq_T₀ hT0 a ha, sq_Z₁ hT1.1 hw, one_mul]
 
+omit hT1 hinf in
 theorem Z₁_le_center : T₁ ⊓ CenS T₁ ≤ (T₀ ⊔ T₁) ⊓ CenS (T₀ ⊔ T₁) := by
-  rw [center_sup hT0 hT1 hinf hcen]
+  rw [center_sup hT0 hcen]
   exact le_sup_right
 
+omit hinf in
 theorem sq_mem_center : ∀ u ∈ T₀ ⊔ T₁, u ^ 2 ∈ (T₀ ⊔ T₁) ⊓ CenS (T₀ ⊔ T₁) := by
   intro u hu
   obtain ⟨a, ha, c, hc, rfl⟩ := exists_mul_of_mem_sup hcen hu
-  rw [sq_prod hT0 hT1 hinf hcen ha hc]
-  exact Z₁_le_center hT0 hT1 hinf hcen (sq_mem_Z₁ hT1.1 hc)
+  rw [sq_prod hT0 hcen ha hc]
+  exact Z₁_le_center hT0 hcen (sq_mem_Z₁ hT1.1 hc)
 
+omit hinf in
 theorem comm_mem_center : ∀ u ∈ T₀ ⊔ T₁, ∀ v ∈ T₀ ⊔ T₁,
     u * v * u⁻¹ * v⁻¹ ∈ (T₀ ⊔ T₁) ⊓ CenS (T₀ ⊔ T₁) := by
   intro u hu v hv
   have hZ : ∀ a ∈ T₀, ∀ t ∈ T₀ ⊔ T₁, a * t = t * a := by
     intro a ha t ht
     obtain ⟨a', ha', c', hc', rfl⟩ := exists_mul_of_mem_sup hcen ht
-    have h2 : c' * a = a * c' := comm_T₁T₀ hT0 hT1 hinf hcen c' hc' a ha
+    have h2 : c' * a = a * c' := comm_T₁T₀ hcen c' hc' a ha
     calc a * (a' * c') = (a * a') * c' := by group
-      _ = (a' * a) * c' := by rw [comm_T₀ hT0 hT1 hinf hcen a ha a' ha']
+      _ = (a' * a) * c' := by rw [comm_T₀ hT0 a ha a' ha']
       _ = a' * (a * c') := by group
       _ = a' * (c' * a) := by rw [h2]
       _ = a' * c' * a := by group
@@ -200,14 +214,14 @@ theorem comm_mem_center : ∀ u ∈ T₀ ⊔ T₁, ∀ v ∈ T₀ ⊔ T₁,
   have e2 : c * (a' * c') * c⁻¹ * (a' * c')⁻¹ =
       (c * a' * c⁻¹) * (c * c' * c⁻¹ * c'⁻¹) * a'⁻¹ := by group
   have h2 : c * a' * c⁻¹ = a' := by
-    rw [(comm_T₁T₀ hT0 hT1 hinf hcen c hc a' ha'), mul_inv_cancel_right]
+    rw [(comm_T₁T₀ hcen c hc a' ha'), mul_inv_cancel_right]
   have hk : c * c' * c⁻¹ * c'⁻¹ ∈ T₀ ⊔ T₁ :=
     Subgroup.mul_mem _ (Subgroup.mul_mem _ (Subgroup.mul_mem _ hcT hc'T)
       (Subgroup.inv_mem _ hcT)) (Subgroup.inv_mem _ hc'T)
   have h3 : a' * (c * c' * c⁻¹ * c'⁻¹) * a'⁻¹ = c * c' * c⁻¹ * c'⁻¹ := by
     rw [hZ a' ha' _ hk, mul_inv_cancel_right]
   rw [e1, h1, e2, h2, h3]
-  exact Z₁_le_center hT0 hT1 hinf hcen (comm_mem_Z₁ hT1.1 hc hc')
+  exact Z₁_le_center hT0 hcen (comm_mem_Z₁ hT1.1 hc hc')
 
 
 theorem card_sq_T : Nat.card {u : G // u ∈ T₀ ⊔ T₁ ∧ u ^ 2 = 1} = 17408 := by
@@ -232,7 +246,7 @@ theorem card_sq_T : Nat.card {u : G // u ∈ T₀ ⊔ T₁ ∧ u ^ 2 = 1} = 1740
   let f : T₀ × {c : G // c ∈ T₁ ∧ c ^ 2 = 1} → {u : G // u ∈ T₀ ⊔ T₁ ∧ u ^ 2 = 1} := fun p =>
     ⟨(p.1 : G) * (p.2 : G), Subgroup.mul_mem _ (Subgroup.mem_sup_left p.1.2)
       (Subgroup.mem_sup_right p.2.2.1), by
-        rw [sq_prod hT0 hT1 hinf hcen p.1.2 p.2.2.1]
+        rw [sq_prod hT0 hcen p.1.2 p.2.2.1]
         exact p.2.2.2⟩
   have hf : Function.Bijective f := by
     constructor
@@ -260,7 +274,7 @@ theorem card_sq_T : Nat.card {u : G // u ∈ T₀ ⊔ T₁ ∧ u ^ 2 = 1} = 1740
     · rintro ⟨u, hu, hu2⟩
       obtain ⟨a, ha, c, hc, rfl⟩ := exists_mul_of_mem_sup hcen hu
       refine ⟨(⟨a, ha⟩, ⟨c, hc, ?_⟩), rfl⟩
-      rw [← sq_prod hT0 hT1 hinf hcen ha hc]
+      rw [← sq_prod hT0 hcen ha hc]
       exact hu2
   rw [← Nat.card_eq_of_bijective f hf, Nat.card_prod, hN1, hT0.2]
   norm_num

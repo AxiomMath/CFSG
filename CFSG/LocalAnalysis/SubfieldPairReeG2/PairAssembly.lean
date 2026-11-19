@@ -12,7 +12,7 @@ theorem exists_conj_involution_sylow {Γ : Type*} [Group Γ] [Finite Γ] (H : Su
     (S : Sylow 2 Γ) (hSH : (S : Subgroup Γ) ≤ H) {u : Γ} (huH : u ∈ H) (hu2 : orderOf u = 2) :
     ∃ h ∈ H, ∃ s ∈ (S : Subgroup Γ), h * s * h⁻¹ = u := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let SH : Sylow 2 H := S.subtype hSH
   let u' : H := ⟨u, huH⟩
   have hu'2 : orderOf u' = 2 := by rw [← hu2]; exact Subgroup.orderOf_mk u huH

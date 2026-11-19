@@ -35,7 +35,7 @@ theorem SubpairWitnessAt.of_mulEquiv {X Y : Type} [Group X] [Group Y] (e : X ≃
     (Subgroup.equivMapOfInjective _ _ e.injective).trans (MulEquiv.subgroupCongr hmap)
   rcases h with hg | ⟨R, hRnorm, hRsolv, ⟨e5⟩⟩
   · refine ⟨e.symm g, Or.inl ⟨?_, ?_⟩⟩
-    · haveI : Group.IsSolvable
+    · have : Group.IsSolvable
           ↥(T.map e.toMonoidHom ⊔ conjSubgroup g (T.map e.toMonoidHom)) := hg.1
       exact Group.isSolvable_of_surjective (f := eT.symm.toMonoidHom) eT.symm.surjective
     · intro hp
@@ -48,7 +48,7 @@ theorem SubpairWitnessAt.of_mulEquiv {X Y : Type} [Group X] [Group Y] (e : X ≃
     let eR : ↥R' ≃* ↥R :=
       (Subgroup.equivMapOfInjective R' eT.toMonoidHom eT.injective).trans
         (MulEquiv.subgroupCongr hR'map)
-    haveI : Group.IsSolvable ↥R' :=
+    have : Group.IsSolvable ↥R' :=
       Group.isSolvable_of_surjective (f := eR.symm.toMonoidHom) eR.symm.surjective
     let qe : (↥(T ⊔ conjSubgroup (e.symm g) T) ⧸ R') ≃*
         (↥(T.map e.toMonoidHom ⊔ conjSubgroup g (T.map e.toMonoidHom)) ⧸ R) :=

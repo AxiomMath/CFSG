@@ -25,7 +25,7 @@ theorem internal_sylow_excludes_three_fixed {group : Type*} [Group group] [Finit
     ¬ 3 ≤ Nat.card (MulAction.fixedPoints image (Component group)) := by
   classical
   intro three_fixed
-  have image_prime : IsPGroup prime image := image_eq ▸ ambient.isPGroup'.map normalizer.subtype
+  have image_prime : IsPGroup prime image := image_eq ▸ ambient.isPGroup.map normalizer.subtype
   have image_three : CFSG.OrderReductions.PointMaximal.PointThreePointPrime prime point image :=
     ⟨⟨image_prime, three_fixed⟩, image_point⟩
   obtain ⟨maximal_group, image_le, maximal⟩ := Finite.exists_le_maximal image_three
@@ -89,7 +89,7 @@ theorem double_transitive_of_normalizer_sylow {group : Type*} [Group group] [Fin
     have no_two := CFSG.OrderReductions.PointMaximal.no_fixed_two_of_regular prime odd_prime even_point_rule
       first second other_distinct regular
     let image := (sylow : Subgroup (pairSubgroup point other)).map (pairSubgroup point other).subtype
-    have image_prime : IsPGroup prime image := sylow.isPGroup'.map _
+    have image_prime : IsPGroup prime image := sylow.isPGroup.map _
     have image_pair : image ≤ pairSubgroup point other := Subgroup.map_subtype_le _
     have first_fixed : point ∈ MulAction.fixedPoints image (Component group) :=
       MulAction.mem_fixedPoints.mpr fun element => (image_pair element.property).1

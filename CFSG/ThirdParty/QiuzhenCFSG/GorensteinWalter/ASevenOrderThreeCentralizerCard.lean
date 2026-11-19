@@ -46,7 +46,7 @@ public theorem aSeven_order_three_centralizer_card_eq_thirty_six_of_kleinFour
         (by simpa [C, A] using hCA)).2.1
     rw [show up.cycleType = {3} by simpa [up] using hu3] at hfixed
     norm_num at hfixed
-  obtain ⟨c, hcC, hcA⟩ := SetLike.not_le_iff_exists.mp hCnotA
+  obtain ⟨c, hcC, hcA⟩ := IsConcreteLE.not_le_iff_exists.mp hCnotA
   have hAindex : A.index = 2 := alternatingGroup.index_eq_two
   have hrel : D.relIndex C = 2 := by
     rw [Subgroup.relIndex_eq_two_iff]

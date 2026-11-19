@@ -63,7 +63,7 @@ public theorem CFSG.lemma_4_9 {R : Type u} [Group R] [Finite R] {p : ℕ} [Fact 
       · have hUcard_p : Nat.card U = p := by simpa [hk1] using hUcard_pow
         let q : G →* G ⧸ U := QuotientGroup.mk' U
         have hQp : IsPGroup p (G ⧸ U) := (Fact.out : IsPGroup p G).to_quotient U
-        letI : Fact (IsPGroup p (G ⧸ U)) := ⟨hQp⟩
+        let : Fact (IsPGroup p (G ⧸ U)) := ⟨hQp⟩
         have hB_exists :
             ∃ B : Subgroup (G ⧸ U),
               B ≤ ΩU ∧
@@ -73,7 +73,7 @@ public theorem CFSG.lemma_4_9 {R : Type u} [Group R] [Finite R] {p : ℕ} [Fact 
           · obtain ⟨E, hEnorm, hEcard, hEelem⟩ :=
               exists_normal_elementaryAbelian_subgroup_order_p_sq_of_two_lt_groupRank
                 (R := G ⧸ U) (p := p) hpodd hQp hqrank
-            letI : E.Normal := hEnorm
+            let : E.Normal := hEnorm
             have hE_le_Ω : E ≤ ΩU := by
               intro e he
               change e ∈ Subgroup.closure {x : G ⧸ U | x ^ (p ^ 1) = 1}
@@ -117,7 +117,7 @@ public theorem CFSG.lemma_4_9 {R : Type u} [Group R] [Finite R] {p : ℕ} [Fact 
                 _ = p ^ 2 := hEcard
             have hEsub_normal : Esub.Normal := by
               exact Subgroup.Normal.subgroupOf (G := G ⧸ U) (hH := hEnorm) B
-            letI : Esub.Normal := hEsub_normal
+            let : Esub.Normal := hEsub_normal
             let yB : B := ⟨y, Subgroup.mem_sup_right (Subgroup.mem_zpowers y)⟩
             have hyB_pow : yB ^ p = 1 := by
               apply Subtype.ext
@@ -198,7 +198,7 @@ public theorem CFSG.lemma_4_9 {R : Type u} [Group R] [Finite R] {p : ℕ} [Fact 
           · have hqrank_le : groupRank (G ⧸ U) ≤ 2 := le_of_not_gt hqrank
             have hΩU_exp : Monoid.exponent ↥ΩU = p := by
               rcases proposition_4_8_b (R := G ⧸ U) (p := p) hpgt hqrank_le with h1 | hp
-              · haveI : Subsingleton ΩU := (Monoid.exp_eq_one_iff (G := ΩU)).mp h1
+              · have : Subsingleton ΩU := (Monoid.exp_eq_one_iff (G := ΩU)).mp h1
                 have hΩU_eq_bot : ΩU = ⊥ := by
                   rw [Subgroup.eq_bot_iff_forall]
                   intro z hz
@@ -212,13 +212,13 @@ public theorem CFSG.lemma_4_9 {R : Type u} [Group R] [Finite R] {p : ℕ} [Fact 
               · exact hp
             have hΩU_rank : groupRank ΩU ≤ 2 :=
               (groupRank_le_of_subgroup (R := G ⧸ U) (S := ΩU)).trans hqrank_le
-            letI : Fact (IsPGroup p ΩU) := ⟨hQp.to_subgroup ΩU⟩
+            let : Fact (IsPGroup p ΩU) := ⟨hQp.to_subgroup ΩU⟩
             have hΩU_card_le : Nat.card ΩU ≤ p ^ 3 :=
               proposition_4_8_a (R := ΩU) (p := p) hΩU_rank hΩU_exp
             have hΩUp : IsPGroup p ΩU := hQp.to_subgroup ΩU
             have hΩU_char : ΩU.Characteristic := by
               simpa [ΩU] using omega₁_characteristic (G := G ⧸ U) (p := p)
-            letI : ΩU.Normal := by infer_instance
+            let : ΩU.Normal := by infer_instance
             obtain ⟨m, hm⟩ := hΩUp.exists_card_eq
             have hm_ge_three : 3 ≤ m := by
               rw [hm] at hgood
@@ -228,7 +228,7 @@ public theorem CFSG.lemma_4_9 {R : Type u} [Group R] [Finite R] {p : ℕ} [Fact 
               omega
             obtain ⟨B, hBnorm, hB_le, hBcard⟩ :=
               lemma_1_22 (G := G ⧸ U) p ΩU inferInstance m hm 3 hm_ge_three
-            letI : B.Normal := hBnorm
+            let : B.Normal := hBnorm
             have hΩB_top : omega₁ (G := B) (p := p) = ⊤ := by
               apply omega₁_eq_top_of_forall_pow_eq_one
               intro x
@@ -254,7 +254,7 @@ public theorem CFSG.lemma_4_9 {R : Type u} [Group R] [Finite R] {p : ℕ} [Fact 
         let Usub : Subgroup H := U.subgroupOf H
         have hUsub_normal : Usub.Normal := by
           exact Subgroup.Normal.subgroupOf (G := G) (hH := hUnorm) H
-        letI : Usub.Normal := hUsub_normal
+        let : Usub.Normal := hUsub_normal
         by_cases hH_top : H = ⊤
         · have hB_top : B = ⊤ := by
             calc
@@ -294,7 +294,7 @@ public theorem CFSG.lemma_4_9 {R : Type u} [Group R] [Finite R] {p : ℕ} [Fact 
                   Monoid.exponent (G ⧸ U) = Monoid.exponent ↥ΩU :=
                     (Monoid.exponent_eq_of_mulEquiv eΩ).symm
                   _ = 1 := h1
-              haveI : Subsingleton (G ⧸ U) := (Monoid.exp_eq_one_iff (G := G ⧸ U)).mp hQ_exp_one
+              have : Subsingleton (G ⧸ U) := (Monoid.exp_eq_one_iff (G := G ⧸ U)).mp hQ_exp_one
               exact (False.elim <| (not_nontrivial_iff_subsingleton.mpr ‹Subsingleton (G ⧸ U)›) hQ_nontriv)
             · calc
                 Monoid.exponent (G ⧸ U) = Monoid.exponent ↥ΩU :=
@@ -346,12 +346,12 @@ public theorem CFSG.lemma_4_9 {R : Type u} [Group R] [Finite R] {p : ℕ} [Fact 
           have hΩGp : IsPGroup p ΩG := (Fact.out : IsPGroup p G).to_subgroup ΩG
           have hΩG_char : ΩG.Characteristic := by
             simpa [ΩG] using omega₁_characteristic (G := G) (p := p)
-          letI : ΩG.Normal := by infer_instance
+          let : ΩG.Normal := by infer_instance
           have hΩG_comm : IsMulCommutative ΩG := by
             exact IsPGroup.isMulCommutative_of_card_eq_prime_sq
               (p := p) (G := ΩG) hΩG_card
           have hΩG_pow : ∀ x : ΩG, x ^ p = 1 := by
-            letI : IsMulCommutative ΩG := hΩG_comm
+            let : IsMulCommutative ΩG := hΩG_comm
             intro x
             apply Subtype.ext
             refine
@@ -423,7 +423,7 @@ public theorem CFSG.lemma_4_9 {R : Type u} [Group R] [Finite R] {p : ℕ} [Fact 
         · have hH_lt : H < ⊤ := lt_of_le_of_ne le_top hH_top
           have hH_card_lt : Nat.card H < n := by
             simpa [hcardG] using natCard_lt_of_subgroup_lt (H := H) (K := (⊤ : Subgroup G)) hH_lt
-          letI : Fact (IsPGroup p H) := ⟨(Fact.out : IsPGroup p G).to_subgroup H⟩
+          let : Fact (IsPGroup p H) := ⟨(Fact.out : IsPGroup p G).to_subgroup H⟩
           have hind :
               Nat.card (omega₁ (G := H ⧸ Usub) (p := p)) ≤ p ^ 2 :=
             ih (Nat.card H) hH_card_lt H rfl hH_card_le Usub hUsub_normal
@@ -468,8 +468,8 @@ public theorem CFSG.lemma_4_9 {R : Type u} [Group R] [Finite R] {p : ℕ} [Fact 
         let q : G →* G ⧸ Z := QuotientGroup.mk' Z
         let Ubar : Subgroup (G ⧸ Z) := U.map q
         have hUbar_normal : Ubar.Normal := by infer_instance
-        letI : Ubar.Normal := hUbar_normal
-        letI : Fact (IsPGroup p (G ⧸ Z)) := ⟨(Fact.out : IsPGroup p G).to_quotient Z⟩
+        let : Ubar.Normal := hUbar_normal
+        let : Fact (IsPGroup p (G ⧸ Z)) := ⟨(Fact.out : IsPGroup p G).to_quotient Z⟩
         have hZ_ne_bot : Z ≠ ⊥ := by
           intro hZbot
           have hcard_one : Nat.card Z = 1 := (Subgroup.eq_bot_iff_card (H := Z)).1 hZbot

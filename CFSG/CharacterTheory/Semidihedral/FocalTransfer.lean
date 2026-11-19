@@ -87,7 +87,7 @@ theorem conjugatePairFocal_eq_derived_subgroupOf :
 
 theorem focalQuotient_pow_index_bijective :
     Bijective fun q : S ⧸ conjugatePairFocal (S : Subgroup G) => q ^ S.index :=
-  ((S.isPGroup'.to_quotient (conjugatePairFocal (S : Subgroup G))).powEquiv'
+  ((S.isPGroup.to_quotient (conjugatePairFocal (S : Subgroup G))).powEquiv'
     S.not_dvd_index).bijective
 
 private theorem transfer_properties_of_eq_focal (F : Subgroup S) [F.Normal]
@@ -219,7 +219,7 @@ theorem exists_index_two_of_focal_ne (hF : (S : Subgroup G).focalSubgroup ≠ S)
   have : Nontrivial (S ⧸ conjugatePairFocal (S : Subgroup G)) :=
     QuotientGroup.nontrivial_iff.mpr hproper
   obtain ⟨M, hnormal, hindex⟩ := exists_index_prime_of_nontrivial_abelian_pgroup
-    (S.isPGroup'.to_quotient (conjugatePairFocal (S : Subgroup G)))
+    (S.isPGroup.to_quotient (conjugatePairFocal (S : Subgroup G)))
   let : M.Normal := hnormal
   refine ⟨M.comap (focalTransfer (S : Subgroup G)), inferInstance, ?_⟩
   exact (M.index_comap_of_surjective (focalTransfer_surjective S)).trans hindex

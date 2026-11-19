@@ -40,7 +40,7 @@ theorem sec9m_card_autIn_dvd [Finite G] {X B : Subgroup G} (hX : X ≤ normalize
     B.normalizerMonoidHom).trans ?_
   rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hX).toEquiv]
 
-theorem sec9m_autIn_conj {X Y B : Subgroup G} (hXY : X ≤ Y) (hYB : Y ≤ normalizer (B : Set G))
+theorem sec9m_autIn_conj {X Y B : Subgroup G} (_hXY : X ≤ Y) (_hYB : Y ≤ normalizer (B : Set G))
     (hX : ∀ y ∈ Y, ∀ x ∈ X, y * x * y⁻¹ ∈ X) :
     ∀ h ∈ autIn Y B, ∀ r ∈ autIn X B, h * r * h⁻¹ ∈ autIn X B := by
   intro h hh r hr

@@ -46,16 +46,16 @@ theorem component_splits {X : Type} [Group X] [Finite X] [Group.IsPerfect X]
     have hmem : g * n * g⁻¹ ∈ L.map (MulAut.conj g).toMonoidHom :=
       ⟨n, hn, by simp [MulAut.conj_apply]⟩
     rwa [hLmap g] at hmem
-  haveI : L.Normal := hLnorm
-  haveI hPerfectL : Group.IsPerfect ↥L := hL.1.1
-  haveI hSimpleQuot : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hL.1.2.1
+  have : L.Normal := hLnorm
+  have hPerfectL : Group.IsPerfect ↥L := hL.1.1
+  have hSimpleQuot : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hL.1.2.1
   have hCatalog : CFSG.Blueprint.Catalog (↥L ⧸ Subgroup.center ↥L) :=
     CFSG.SectionRank.catalog_of_isKGroupCat_of_surjective hK L
       (QuotientGroup.mk' (Subgroup.center ↥L)) (QuotientGroup.mk'_surjective _)
-  haveI hOuterQuot : Group.IsSolvable
+  have hOuterQuot : Group.IsSolvable
       (CFSG.ComponentClassification.OuterAutomorphisms.Outer (↥L ⧸ Subgroup.center ↥L)) :=
     hS (↥L ⧸ Subgroup.center ↥L) hL.1.2.2 hCatalog
-  haveI : Group.IsSolvable (CFSG.ComponentClassification.OuterAutomorphisms.Outer ↥L) :=
+  have : Group.IsSolvable (CFSG.ComponentClassification.OuterAutomorphisms.Outer ↥L) :=
     CFSG.ComponentClassification.OuterAutomorphisms.solvable_of_centerQuotient ↥L
   have hsup : L ⊔ Subgroup.centralizer (L : Set X) = ⊤ := by
     rw [eq_top_iff]

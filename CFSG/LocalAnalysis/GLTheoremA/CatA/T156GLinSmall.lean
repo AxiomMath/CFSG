@@ -13,7 +13,7 @@ open CFSG.StandardType CFSG.StandardType.LinearFieldFix
 
 theorem card_gl_two {k : Type} [Field k] [Finite k] (hk : Nat.card k = 2) :
     Nat.card (GL (Fin 2) k) = 6 := by
-  haveI := Fintype.ofFinite k
+  have := Fintype.ofFinite k
   have hk' : Fintype.card k = 2 := by rw [← Nat.card_eq_fintype_card, hk]
   rw [Matrix.card_GL_field, hk', Fin.prod_univ_two]
   norm_num
@@ -26,7 +26,7 @@ theorem fixAlt_l2 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hK : Nat.card K = 2 
     FixAlt p (LargeEvenMatConjImage (LargeEvenProjMk (LargeEvenSLGroup (Fin 2) K)) Set.univ) f := by
   classical
   refine Or.inr fun E hE hEx => ?_
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp3 : 3 ≤ p := by
     have h2 := hp.two_le
     omega
@@ -96,7 +96,7 @@ theorem fixAlt_l2 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hK : Nat.card K = 2 
     change (φ : MulAut _) (LargeEvenProjMk (LargeEvenSLGroup (Fin 2) K) x) =
       (ψ : MulAut _) (LargeEvenProjMk (LargeEvenSLGroup (Fin 2) K) x)
     rw [h1, h2]
-  haveI : Finite E := Finite.of_injective g hinj
+  have : Finite E := Finite.of_injective g hinj
   have hle : Nat.card E ≤ 6 := by
     rw [← card_gl_two hk]
     exact Nat.card_le_card_of_injective g hinj

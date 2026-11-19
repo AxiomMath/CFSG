@@ -414,7 +414,7 @@ theorem foldl_seenStep (l : List (Nat × Nat)) : ∀ s : Nat,
           simp
     · have hstep : seenStep (some s) p = none := by
         simp only [seenStep, Option.bind_some]
-        rw [if_neg hc]
+        rw [ite_eq_right hc]
       rw [hstep, foldl_seenStep_none] at hs
       simp at hs
 

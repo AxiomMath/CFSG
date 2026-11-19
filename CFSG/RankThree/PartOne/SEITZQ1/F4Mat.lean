@@ -39,7 +39,6 @@ theorem f4Ev_mul (hω : ω ^ 2 + ω + 1 = 0) (x y : Fin 4) :
   have h2 : (2 : R) = 0 := CharTwo.two_eq_zero
   fin_cases x <;> fin_cases y <;> simp [f4Mul, f4Ev] <;>
     first
-    | ring1
     | linear_combination hω
     | linear_combination (-1 : R) * hω
     | linear_combination hω - (ω + 1) * h2

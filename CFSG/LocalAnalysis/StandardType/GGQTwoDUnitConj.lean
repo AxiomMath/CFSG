@@ -17,6 +17,7 @@ variable {G : Type} [Group G] [Finite G] {Bs : Subgroup G} {x : G} {L : Subgroup
   [Finite F0] [CharP F0 2] {ψ : Su F0 2 1 m →* G} {ε : Equiv.Perm (Fin m) ≃* ↥(ggAutomizer L Bs)}
   {βL : Additive ↥Bs ≃+ DVec m} {ω : F0ˣ}
 
+omit [Finite F0] [CharP F0 2] in
 private lemma qtwoDB10_perm_mulVec (σ : Equiv.Perm (Fin m)) (i : Fin m) :
     ((TauCeti.permutationGL (k := F0) σ : GL (Fin m) F0) : Matrix (Fin m) (Fin m) F0) *ᵥ
         Pi.single i 1 = Pi.single (σ i) 1 := by
@@ -24,13 +25,15 @@ private lemma qtwoDB10_perm_mulVec (σ : Equiv.Perm (Fin m)) (i : Fin m) :
   ext j
   simp only [Function.comp_apply, Pi.single_apply]
   by_cases h : σ⁻¹ j = i
-  · rw [if_pos h, if_pos ((Equiv.symm_apply_eq σ).mp h)]
-  · rw [if_neg h, if_neg (fun hh => h ((Equiv.symm_apply_eq σ).mpr hh))]
+  · rw [ite_eq_left h, ite_eq_left ((Equiv.symm_apply_eq σ).mp h)]
+  · rw [ite_eq_right h, ite_eq_right (fun hh => h ((Equiv.symm_apply_eq σ).mpr hh))]
 
+omit [Finite F0] [CharP F0 2] in
 private lemma qtwoDB10_diag_inv (c : Fin m → F0ˣ) :
     (qTwoChartTwoThree_diag c)⁻¹ = qTwoChartTwoThree_diag (fun i => (c i)⁻¹) :=
   Units.ext rfl
 
+omit [Finite F0] [CharP F0 2] in
 private lemma qtwoDB10_diag_mulVec (c : Fin m → F0ˣ) (i : Fin m) :
     ((qTwoChartTwoThree_diag c : GL (Fin m) F0) : Matrix (Fin m) (Fin m) F0) *ᵥ
         Pi.single i 1 = (c i : F0) • Pi.single i 1 := by
@@ -58,18 +61,20 @@ private theorem qtwoDB10_perm_mem (σ : Equiv.Perm (Fin m)) :
         simp [Equiv.Perm.permMatrix, PEquiv.toMatrix_apply]
       rw [Matrix.map_apply, hP]
       by_cases h : σ⁻¹ a = b
-      · rw [if_pos h, unitaryInvolution_apply]
+      · rw [ite_eq_left h, unitaryInvolution_apply]
         simp
-      · rw [if_neg h, unitaryInvolution_apply]
+      · rw [ite_eq_right h, unitaryInvolution_apply]
         simp
     rw [TauCeti.permutationGL_coe, hmap, Matrix.transpose_permMatrix, inv_inv,
       ← Matrix.permMatrix_mul, inv_mul_cancel, Matrix.permMatrix_one]
 
+omit [Finite F0] [CharP F0 2] in
 private lemma qtwoDB10_perm_inv_self (σ : Equiv.Perm (Fin m)) (hσ : σ * σ = 1) :
     (TauCeti.permutationGL (k := F0) σ)⁻¹ = TauCeti.permutationGL (k := F0) σ := by
   refine inv_eq_of_mul_eq_one_right ?_
   rw [← map_mul (TauCeti.permutationGL (k := F0)) σ σ, hσ, map_one]
 
+omit [Finite F0] [CharP F0 2] in
 private lemma qtwoDB10_conj_diag_mulVec (c : Fin m → F0ˣ) (σ : Equiv.Perm (Fin m))
     (hσ : σ * σ = 1) (i : Fin m) :
     (((qTwoChartTwoThree_diag c * TauCeti.permutationGL (k := F0) σ *
@@ -87,6 +92,7 @@ private lemma qtwoDB10_conj_diag_mulVec (c : Fin m → F0ˣ) (σ : Equiv.Perm (F
   rw [Matrix.mulVec_smul, qtwoDB10_diag_mulVec, smul_smul, ← Units.val_mul]
   rfl
 
+omit [Finite G] in
 theorem ggQTwoDUnit_conj (hcoords : QTwoUnitCoords Bs x L 𝒦 M e e' ψ ε βL ω) {a b : Fin m}
     (hab : a ≠ b) :
     ∃ α ∈ ggAutomizerJoin L Bs 𝒦,
@@ -96,7 +102,7 @@ theorem ggQTwoDUnit_conj (hcoords : QTwoUnitCoords Bs x L 𝒦 M e e' ψ ε βL 
   have hmem : dSign m a b ∈ dEven m := by
     have hd : dSign m a b = (dPerm m (Equiv.swap a b))⁻¹ * dTau m true a b := by
       rw [dTau]
-      simp only [if_true]
+      simp only [ite_true]
       group
     rw [hd]
     exact (dEven m).mul_mem ((dEven m).inv_mem (dPerm_mem_dEven m (Equiv.swap a b)))
@@ -104,6 +110,7 @@ theorem ggQTwoDUnit_conj (hcoords : QTwoUnitCoords Bs x L 𝒦 M e e' ψ ε βL 
   obtain ⟨α, hα, hαact⟩ := hcoords.join_onto (dSign m a b) hmem
   exact ⟨α, hα, hαact, exists_lift_of_mem_ggAutomizerJoin hα⟩
 
+omit [Finite G] in
 theorem ggQTwoDUnit_shape_coords (hcoords : QTwoUnitCoords Bs x L 𝒦 M e e' ψ ε βL ω)
     (hψ : ψ.ker ≤ Subgroup.center (Su F0 2 1 m)) (hm : 3 ≤ m) {a b : Fin m} (s : ↥Bs) :
     (∀ c : Fin m → F0ˣ, qTwoChartTwoThree_induces ψ (s : G) c → c a = c b) ↔
@@ -135,7 +142,7 @@ theorem ggQTwoDUnit_shape_coords (hcoords : QTwoUnitCoords Bs x L 𝒦 M e e' ψ
     have hσ2 : σ * σ = 1 := by
       rw [hσdef]
       refine Equiv.ext fun z => ?_
-      simpa using Equiv.swap_apply_self a b z
+      simp
     let P : GL (Fin m) F0 := TauCeti.permutationGL (k := F0) σ
     have hPmem : P ∈ SUid (unitaryInvolution F0 2 1) m := qtwoDB10_perm_mem σ
     let uP : Su F0 2 1 m := ⟨P, hPmem⟩
@@ -187,7 +194,7 @@ theorem ggQTwoDUnit_shape_coords (hcoords : QTwoUnitCoords Bs x L 𝒦 M e e' ψ
     have hτ2 : τ * τ = 1 := by
       rw [hτdef]
       refine Equiv.ext fun z => ?_
-      simpa using Equiv.swap_apply_self b k z
+      simp
     let Q : GL (Fin m) F0 := TauCeti.permutationGL (k := F0) τ
     have hQmem : Q ∈ SUid (unitaryInvolution F0 2 1) m := qtwoDB10_perm_mem τ
     let uQ : Su F0 2 1 m := ⟨Q, hQmem⟩

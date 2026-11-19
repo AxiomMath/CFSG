@@ -27,7 +27,7 @@ private theorem closure_card_succ_of_relIndex_le_two {G : Type*} [Group G] [Fini
   by_cases hAP_eq : A = P
   · exact ⟨s, by omega, by rw [hs, hAP_eq]⟩
   · have hpos : 0 < A.relIndex P := by
-      haveI : A.IsFiniteRelIndex P :=
+      have : A.IsFiniteRelIndex P :=
         Subgroup.isFiniteRelIndex_iff_finiteIndex.2 (by infer_instance)
       exact Nat.pos_of_ne_zero Subgroup.relIndex_ne_zero
     have hidx2 : A.relIndex P = 2 := by
@@ -135,8 +135,8 @@ private theorem false_of_sectionalTwoRankLE_three {X : Type} [Group X] [Finite X
     change 2 ^ 3 < Nat.card ↥(Q : Subgroup (Bar2 K))
     rw [hQcard]
     exact Nat.pow_lt_pow_right (by norm_num) (by omega)
-  haveI : IsMulCommutative ↥Q := CFSG.BenderSuzuki.isMulCommutative_of_forall_sq_one hA
-  letI : CommGroup ↥Q := IsMulCommutative.instCommGroup
+  have : IsMulCommutative ↥Q := CFSG.BenderSuzuki.isMulCommutative_of_forall_sq_one hA
+  let : CommGroup ↥Q := IsMulCommutative.instCommGroup
   exact CFSG.LocalAnalysis.WeakClosure81.not_sectionalTwoRankLE_of_injective_of_sq_eq_one
     hA hcard (Q : Subgroup (Bar2 K)).subtype (Q : Subgroup (Bar2 K)).subtype_injective hBar
 

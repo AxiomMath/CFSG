@@ -106,8 +106,8 @@ end Hering129KN1
 
 theorem exists_inverted_lift {N0 : Type} [Group N0] [Finite N0] (T : Subgroup N0) [T.Normal]
     (hT : ¬ 3 ∣ Nat.card T) {U : Subgroup (N0 ⧸ T)} {x c t : N0} (hx3 : x ^ 3 = 1)
-    (hc3 : c ^ 3 = 1) (hc1 : c ≠ 1) (hxc : x * c = c * x) (htx : t * x = x * t)
-    (htc : t * c * t⁻¹ = c⁻¹) (ht2 : IsPGroup 2 (Subgroup.zpowers t)) {Yn : Subgroup N0}
+    (hc3 : c ^ 3 = 1) (_hc1 : c ≠ 1) (hxc : x * c = c * x) (htx : t * x = x * t)
+    (htc : t * c * t⁻¹ = c⁻¹) (_ht2 : IsPGroup 2 (Subgroup.zpowers t)) {Yn : Subgroup N0}
     (htY : t ∈ Yn)
     (hYn : ∀ m : N0, m * x = x * m → m * c = c * m → ∀ y ∈ Yn, m * y * m⁻¹ ∈ Yn)
     (hloc : EndLocalX U (QuotientGroup.mk' T x) (QuotientGroup.mk' T t)
@@ -117,7 +117,7 @@ theorem exists_inverted_lift {N0 : Type} [Group N0] [Finite N0] (T : Subgroup N0
       (∀ v ∈ V, v * x = x * v) ∧ t' ∈ Yn ∧ IsPGroup 2 (Subgroup.zpowers t') ∧
       t' * x = x * t' ∧ t' * c * t'⁻¹ = c⁻¹ ∧ (∀ v ∈ V, t' * v * t'⁻¹ = v⁻¹) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨S, hcS, Q, _, _, ρ, τ, hSU, hSx, hSc, hSt, hρ, hker, hρτ, hE9, hEcomm, hE3, hEinv,
     -⟩ := hloc
   set π : N0 →* N0 ⧸ T := QuotientGroup.mk' T
@@ -226,7 +226,7 @@ theorem exists_inverted_lift {N0 : Type} [Group N0] [Finite N0] (T : Subgroup N0
     rw [h2]
     exact N₁.mul_mem h1 h1
   obtain ⟨ψ, hψ⟩ : ∃ ψ : N0 → Q, ∀ g (h : π g ∈ S), ψ g = ρ ⟨π g, h⟩ :=
-    ⟨fun g => if h : π g ∈ S then ρ ⟨π g, h⟩ else 1, fun g h => dif_pos h⟩
+    ⟨fun g => if h : π g ∈ S then ρ ⟨π g, h⟩ else 1, fun g h => dite_eq_left h⟩
   have hψmul : ∀ a b, π a ∈ S → π b ∈ S → ψ (a * b) = ψ a * ψ b := by
     intro a b ha hb
     rw [hψ _ (by rw [map_mul]; exact S.mul_mem ha hb), hψ a ha, hψ b hb, ← map_mul ρ]
@@ -304,7 +304,7 @@ theorem exists_inverted_lift {N0 : Type} [Group N0] [Finite N0] (T : Subgroup N0
   have hcV : c ∈ V := ⟨c₁, hcP₀, rfl⟩
   have hVp : ∀ v ∈ V, ∃ k : ℕ, v ^ 3 ^ k = 1 := by
     rintro _ ⟨w, hw, rfl⟩
-    obtain ⟨k, hk⟩ := P₀.isPGroup' ⟨w, hw⟩
+    obtain ⟨k, hk⟩ := P₀.isPGroup ⟨w, hw⟩
     refine ⟨k, ?_⟩
     have := congrArg (fun z : ↥(P₀ : Subgroup N₁) => ((z : N₁) : N0)) hk
     simpa using this

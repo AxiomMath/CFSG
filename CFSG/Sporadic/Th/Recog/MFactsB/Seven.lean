@@ -84,7 +84,7 @@ private theorem orderOf_gP : orderOf (wprod dPD w4) = 4 := by
   have hfin : (wprod dP w4) ^ 4 = 1 := by
     have hbeq := ((hrep.comp hrep).comp (hrep.comp hrep)).beq_iff TabRep.idTab |>.1 h4
     rw [show (wprod dP w4) ^ 4 = ((wprod dP w4) * (wprod dP w4)) *
-      ((wprod dP w4) * (wprod dP w4)) by simp [pow_succ, pow_two, mul_assoc]]
+      ((wprod dP w4) * (wprod dP w4)) by simp [pow_succ, mul_assoc]]
     exact hbeq
   have hordP : orderOf (wprod dP w4) = 4 := by
     have := orderOf_eq_prime_pow (p := 2) (n := 1) (x := wprod dP w4) (by simpa using hnot)
@@ -100,7 +100,7 @@ private theorem orderOf_gP : orderOf (wprod dPD w4) = 4 := by
 
 private theorem wprod_w4 : wprod dPD w4 = dPD 1 * (dPD 2 * (dPD 1 * dPD 2)) := by
   rw [w4, wprod_cons, wprod_cons, wprod_cons, wprod_cons, wprod_nil]
-  simp only [Bool.true_eq_false, ↓reduceIte, mul_one]
+  simp only [↓reduceIte, mul_one]
 
 private theorem cM_mul_e₀_eq : cM * e₀ = incDP (wprod dPD w4) := by
   rw [wprod_w4, map_mul, map_mul, map_mul, ← cM_eq_incDP_one, ← dM_eq_incDP_two, e₀_eq]

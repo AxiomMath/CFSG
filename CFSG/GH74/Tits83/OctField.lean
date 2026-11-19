@@ -42,14 +42,14 @@ theorem OctField.finite [Finite G] {U : ℤ → Subgroup G} (c : OctField U) : F
 
 theorem OctField.one_lt_card [Finite G] {U : ℤ → Subgroup G} (c : OctField U) :
     1 < Nat.card c.K := by
-  haveI := c.finite
+  have := c.finite
   exact (Finite.one_lt_card_iff_nontrivial).2 inferInstance
 
 theorem OctField.exists_odd [Finite G] {U : ℤ → Subgroup G} (c : OctField U) :
     ∃ f : ℕ, Odd f ∧ Nat.card c.K = 2 ^ f := by
-  haveI := c.finite
-  haveI := c.charP
-  haveI := Fintype.ofFinite c.K
+  have := c.finite
+  have := c.charP
+  have := Fintype.ofFinite c.K
   by_cases h2 : 2 < Nat.card c.K
   · obtain ⟨a, -, ha, -⟩ :=
       CFSG.Quasithin.Ch3E213M.G41.CTwo.exists_eq_pow_of_comp_eq_sq c.σ c.σ_sq h2

@@ -19,11 +19,11 @@ variable {G : Type} [Group G] [Finite G] {M V₀ V U S H : Subgroup G}
   ((D.img S ⊓ hatK D V).subgroupOf (hatK D V)).map
     (QuotientGroup.mk' (CFSG.pCore 2 ↥(hatK D V)))
 
-theorem IsMinFam16.hatP_sylow (h1 : W16One G) (h5 : W16Five G) (hS : Std15 G)
-    (h : Cex16 M V₀ V U S) (hH : IsMinFam16 M U S H) (hV : ¬ V ≤ pCoreOf 2 H)
+theorem IsMinFam16.hatP_sylow (h1 : W16One G) (_h5 : W16Five G) (hS : Std15 G)
+    (h : Cex16 M V₀ V U S) (hH : IsMinFam16 M U S H) (_hV : ¬ V ≤ pCoreOf 2 H)
     (D : ModDataE H (iSub16 V H)) :
     IsPGroup 2 (hatP D V S) ∧ ¬ 2 ∣ (hatP D V S).index ∧ hatS D V ≤ hatP D V S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   classical
   have hVH : V ≤ H := h.V_le_S.trans hH.1.1
   have hSH : IsSylowIn 2 S H := h.isSylowIn_of_fam h1 hS hH.1
@@ -48,7 +48,7 @@ theorem IsMinFam16.hatP_sylow (h1 : W16One G) (h5 : W16Five G) (hS : Std15 G)
     rfl
   refine ⟨?_, ?_, ?_⟩
   · rw [← hP₀coe]
-    exact P₀.isPGroup'
+    exact P₀.isPGroup
   · rw [← hP₀coe]
     exact Sylow.not_dvd_index P₀
   · change ((D.img V).subgroupOf (hatK D V)).map

@@ -32,6 +32,7 @@ section Pi
 variable {ι : Type} [Fintype ι] [DecidableEq ι] {C : ι → Type} [∀ i, Group (C i)]
   [∀ i, Finite (C i)] {f : ℕ}
 
+omit [DecidableEq ι] [∀ (i : ι), Finite (C i)] in
 theorem isPGroup_of_map_eval (U : Subgroup (∀ i, C i))
     (hU : ∀ i, IsPGroup f (U.map (Pi.evalMonoidHom C i))) : IsPGroup f U := by
   intro x
@@ -49,6 +50,7 @@ theorem isPGroup_of_map_eval (U : Subgroup (∀ i, C i))
 
 variable [Fact f.Prime]
 
+omit [Fact (Nat.Prime f)] [∀ (i : ι), Finite (C i)] in
 theorem exists_pi_sylow (F : Subgroup (∀ i, C i)) (hFp : IsPGroup f F)
     (hFmax : ∀ Q : Subgroup (∀ i, C i), IsPGroup f Q → F ≤ Q → Q = F) :
     (∀ i, IsPGroup f (F.map (Pi.evalMonoidHom C i))) ∧
@@ -97,6 +99,7 @@ theorem exists_pi_sylow (F : Subgroup (∀ i, C i)) (hFp : IsPGroup f F)
     exact ⟨_, hmem, by simp⟩
   · exact hFQ
 
+omit [Fact f.Prime] [∀ (i : ι), Finite (C i)] in
 theorem pi_zhat_central (F : Subgroup (∀ i, C i)) (hFp : IsPGroup f F)
     (hFmax : ∀ Q : Subgroup (∀ i, C i), IsPGroup f Q → F ≤ Q → Q = F) {z : ∀ i, C i}
     (hz : z ∈ zhat f F) (i : ι) :
@@ -133,7 +136,7 @@ theorem pow_le_card_zhat (F : Subgroup (∀ i, C i)) (hFp : IsPGroup f F)
     have hnt : Nontrivial (S : Subgroup (C i)) := by
       rw [← Finite.one_lt_card_iff_nontrivial, hcard]
       exact Nat.one_lt_pow hpos.ne' (Fact.out : f.Prime).one_lt
-    obtain ⟨w, -, hwZ, hwf, hw1⟩ := exists_ne_one_mem_inf_center (p := f) S.isPGroup'
+    obtain ⟨w, -, hwZ, hwf, hw1⟩ := exists_ne_one_mem_inf_center (p := f) S.isPGroup
       (⊤ : Subgroup (S : Subgroup (C i))) top_ne_bot
     refine ⟨(w : C i), w.2, fun s hs => ?_, ?_, ?_⟩
     · have := Subgroup.mem_center_iff.mp hwZ ⟨s, hs⟩

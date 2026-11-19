@@ -21,7 +21,7 @@ variable {Q : Type} [Group Q] [Finite Q] {L T P₀ P₁ : Subgroup Q} {n : ℕ}
 
 private theorem relIndex_inf_eq_two (h : Setting L T P₀ P₁ n w) (hodd : Odd n) {a : Q}
     (haT : a ∈ T) (haL : a ∉ L) : (T ⊓ L).relIndex T = 2 := by
-  haveI : L.Normal := h.normal
+  have : L.Normal := h.normal
   have hnorm : T ≤ Subgroup.normalizer (L : Set Q) := by
     rw [Subgroup.normalizer_eq_top]
     exact le_top
@@ -40,7 +40,7 @@ private theorem relIndex_inf_eq_two (h : Setting L T P₀ P₁ n w) (hodd : Odd 
   have hle : L.relIndex T ≤ 2 := hleT.trans (h.index_odd hodd)
   omega
 
-private theorem mul_mem_inf_of_not_mem (h : Setting L T P₀ P₁ n w) {U : Subgroup Q}
+private theorem mul_mem_inf_of_not_mem (_h : Setting L T P₀ P₁ n w) {U : Subgroup Q}
     (hU : U = T ⊓ L) (hrel : U.relIndex T = 2) {t a : Q} (htT : t ∈ T) (haT : a ∈ T)
     (htL : t ∉ L) (haL : a ∉ L) (ha2 : a * a = 1) : t * a ∈ U := by
   subst hU
@@ -81,6 +81,7 @@ private theorem pCoreOf_perfectCore_map_conj {P P' : Subgroup Q} {x : Q}
       (pCoreOf 2 (perfectCore P)).map (MulAut.conj x).toMonoidHom := by
   rw [← hx, ← CFSG.Quasithin.map_perfectCore, CFSG.LieType.BorelTits.pCoreOf_map_mulEquiv]
 
+omit [Finite Q] in
 private theorem le_of_le_map_conj {R R' B : Subgroup Q} {x : Q} (hB : B ≤ R)
     (hcx : ∀ b ∈ B, x * b = b * x) (hR : R' = R.map (MulAut.conj x).toMonoidHom) :
     B ≤ R' := by
@@ -204,7 +205,7 @@ private theorem isSylowTwoOf_centralizer_conj {S T' : Subgroup Q} {a g : Q}
   exact hmain
 
 private theorem exists_conj_sylow_data (h : Setting L T P₀ P₁ n w) {Ω : Set (Subgroup Q)}
-    (hΩ : IsOmegaColl Ω) {A : Subgroup Q} (hAΩ : A ∈ Ω) (hAT : A ≤ T)
+    (hΩ : IsOmegaColl Ω) {A : Subgroup Q} (hAΩ : A ∈ Ω) (_hAT : A ≤ T)
     {a : Q} (haA : a ∈ A) (haL : a ∉ L) (ha2 : a * a = 1) :
     ∃ (g : Q) (A' K : Subgroup Q) (a' : Q),
       A' = conjSubgroup A g ∧ A' ∈ Ω ∧ A' ≤ T ∧ IsElemAbelian 2 A' ∧
@@ -251,7 +252,7 @@ private theorem le_rad_inf_of_swap (h : Setting L T P₀ P₁ n w) {B : Subgroup
 
 private theorem B_facts (h : Setting L T P₀ P₁ n w) {A' K B : Subgroup Q} {a' : Q}
     (hB : B = A' ⊓ L) (hcard : 2 ^ n < Nat.card ↥A') (hA'T : A' ≤ T)
-    (hA'el : IsElemAbelian 2 A') (ha'A' : a' ∈ A') (ha'T : a' ∈ T) (ha'L : a' ∉ L)
+    (hA'el : IsElemAbelian 2 A') (ha'A' : a' ∈ A') (ha'T : a' ∈ T) (_ha'L : a' ∉ L)
     (hK : K = Subgroup.centralizer ({a'} : Set Q))
     (hsw' : P₀.map (MulAut.conj a').toMonoidHom = P₁) :
     B ≤ T ⊓ L ∧ IsElemAbelian 2 B ∧ B ≤ L ⊓ K ∧ A' ≤ K ∧
@@ -290,7 +291,7 @@ private theorem B_facts (h : Setting L T P₀ P₁ n w) {A' K B : Subgroup Q} {a
     exact absurd hcard (not_lt.mpr hlt.le)
   exact ⟨hBTL, hBelem, hBJ, hAK, hA'B, hBinf, hBcard, hBne⟩
 
-private theorem pCoreOf_inf_eq_bot (h : Setting L T P₀ P₁ n w) {K J : Subgroup Q}
+private theorem pCoreOf_inf_eq_bot (_h : Setting L T P₀ P₁ n w) {K J : Subgroup Q}
     (hJ : J = L ⊓ K) (hsJ : IsSimpleGroup ↥J) (hnabJ : ∃ x y : ↥J, x * y ≠ y * x) :
     pCoreOf 2 K ⊓ L = ⊥ := by
   have hNK : pCoreOf 2 K ≤ K := CFSG.LieType.BorelTits.pCoreOf_le 2 K
@@ -300,11 +301,11 @@ private theorem pCoreOf_inf_eq_bot (h : Setting L T P₀ P₁ n w) {K J : Subgro
   have hnorm : J ≤ Subgroup.normalizer (((pCoreOf 2 K) ⊓ J : Subgroup Q) : Set Q) :=
     (le_inf hJN Subgroup.le_normalizer).trans Subgroup.inf_normalizer_le_normalizer_inf
   have hNJ : (pCoreOf 2 K) ⊓ J ≤ J := inf_le_right
-  haveI : (((pCoreOf 2 K) ⊓ J).subgroupOf J).Normal :=
+  have : (((pCoreOf 2 K) ⊓ J).subgroupOf J).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNJ).mpr hnorm
-  rcases hsJ.eq_bot_or_eq_top_of_normal (((pCoreOf 2 K) ⊓ J).subgroupOf J) with h | h
+  rcases hsJ.eq_bot_or_eq_top_of_normal (((pCoreOf 2 K) ⊓ J).subgroupOf J) with _h | _h
   · have hbot : (pCoreOf 2 K) ⊓ J = ⊥ := by
-      rw [← Subgroup.map_subgroupOf_eq_of_le hNJ, h, Subgroup.map_bot]
+      rw [← Subgroup.map_subgroupOf_eq_of_le hNJ, _h, Subgroup.map_bot]
     calc (pCoreOf 2 K) ⊓ L = (pCoreOf 2 K) ⊓ (L ⊓ K) := by
           refine le_antisymm (fun x hx => ⟨hx.1, hx.2, hNK hx.1⟩)
             (fun x hx => ⟨hx.1, hx.2.1⟩)
@@ -313,7 +314,7 @@ private theorem pCoreOf_inf_eq_bot (h : Setting L T P₀ P₁ n w) {K J : Subgro
   · exfalso
     have hJleN : J ≤ pCoreOf 2 K := by
       intro x hx
-      have h1 : (⟨x, hx⟩ : ↥J) ∈ (((pCoreOf 2 K) ⊓ J).subgroupOf J) := h ▸ Subgroup.mem_top _
+      have h1 : (⟨x, hx⟩ : ↥J) ∈ (((pCoreOf 2 K) ⊓ J).subgroupOf J) := _h ▸ Subgroup.mem_top _
       exact (Subgroup.mem_subgroupOf.mp h1).1
     exact CFSG.Quasithin.H13.NQRigid.not_isPGroup_two_of_simple hnabJ
       ((CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 K).to_le hJleN)
@@ -371,7 +372,7 @@ private theorem isSimpleGroup_modO2_of_simple {J : Subgroup Q} (hsJ : IsSimpleGr
   have hpJ : pCoreOf 2 J = ⊥ := CFSG.Quasithin.H13.pCoreOf_eq_bot_of_simple hsJ hnp
   have hpJ' : CFSG.pCore 2 ↥J = ⊥ :=
     (Subgroup.map_eq_bot_iff_of_injective (CFSG.pCore 2 ↥J) J.subtype_injective).mp hpJ
-  haveI : IsSimpleGroup ↥J := hsJ
+  have : IsSimpleGroup ↥J := hsJ
   have e : (↥J ⧸ CFSG.pCore 2 ↥J) ≃* ↥J :=
     (QuotientGroup.quotientMulEquivOfEq hpJ').trans QuotientGroup.quotientBot
   exact e.isSimpleGroup
@@ -412,7 +413,7 @@ private theorem mQuot_le_of_card_inf {A' N B : Subgroup Q} {n : ℕ}
   rw [CFSG.Quasithin.E3.relIndex_eq_two_pow hA2 N] at h3
   exact (Nat.pow_le_pow_iff_right (by norm_num : 1 < 2)).mp h3
 
-private theorem not_le_normalizer_inf (h : Setting L T P₀ P₁ n w) {K J B U : Subgroup Q}
+private theorem not_le_normalizer_inf (_h : Setting L T P₀ P₁ n w) {K J B U : Subgroup Q}
     (hJ : J = L ⊓ K) (hU : U = T ⊓ L) (hBJ : B ≤ J) (hBU : B ≤ U) (hBne : B ≠ ⊥)
     (hU2 : IsPGroup 2 ↥(T ⊓ L)) (hsJ : IsSimpleGroup ↥J)
     (hnabJ : ∃ x y : ↥J, x * y ≠ y * x) :
@@ -422,7 +423,7 @@ private theorem not_le_normalizer_inf (h : Setting L T P₀ P₁ n w) {K J B U :
   have hJnorm : J ≤ Subgroup.normalizer ((T ⊓ L : Subgroup Q) : Set Q) :=
     hJ.le.trans (inf_le_right.trans hKU)
   have hJU : J ⊓ (T ⊓ L) ≤ J := inf_le_left
-  haveI : ((J ⊓ (T ⊓ L)).subgroupOf J).Normal :=
+  have : ((J ⊓ (T ⊓ L)).subgroupOf J).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hJU).mpr
       ((le_inf Subgroup.le_normalizer hJnorm).trans Subgroup.inf_normalizer_le_normalizer_inf)
   rcases hsJ.eq_bot_or_eq_top_of_normal ((J ⊓ (T ⊓ L)).subgroupOf J) with hbot | htop
@@ -437,6 +438,7 @@ private theorem not_le_normalizer_inf (h : Setting L T P₀ P₁ n w) {K J B U :
     exact CFSG.Quasithin.H13.NQRigid.not_isPGroup_two_of_simple hnabJ
       ((hU2.to_le hJUle) : IsPGroup 2 ↥J)
 
+omit [Finite Q] in
 private theorem exists_commutator_not_mem_pCore {B J : Subgroup Q} (hBJ : B ≤ J)
     (hsJ : IsSimpleGroup ↥J) (hnabJ : ∃ x y : ↥J, x * y ≠ y * x) (hBne : B ≠ ⊥)
     (hpJ : pCoreOf 2 J = ⊥) :
@@ -474,7 +476,7 @@ private theorem eCaseII_centralizer (h : Setting L T P₀ P₁ n w) (hodd : Odd 
   have su := h.suzuki hodd a' ha'T ha'L ha'2
   have hsJ : IsSimpleGroup ↥(L ⊓ K) := hJeq.symm ▸ su.1
   have hnabJ : ∃ x y : ↥(L ⊓ K), x * y ≠ y * x := hJeq.symm ▸ su.2
-  haveI : L.Normal := h.normal
+  have : L.Normal := h.normal
   have hKL : K ≤ Subgroup.normalizer (L : Set Q) := by
     rw [Subgroup.normalizer_eq_top]
     exact le_top
@@ -484,7 +486,7 @@ private theorem eCaseII_centralizer (h : Setting L T P₀ P₁ n w) (hodd : Odd 
     (Subgroup.normal_subgroupOf_iff_le_normalizer inf_le_right).mpr hnormK
   have hJne : L ⊓ K ≠ ⊥ := by
     intro hbot
-    haveI : Subsingleton ↥(L ⊓ K) := by rw [hbot]; infer_instance
+    have : Subsingleton ↥(L ⊓ K) := by rw [hbot]; infer_instance
     obtain ⟨x, y, hxy⟩ := hnabJ
     have hxy' : x = y := Subsingleton.elim x y
     exact hxy (by rw [hxy'])
@@ -507,7 +509,7 @@ private theorem eCaseII_centralizer (h : Setting L T P₀ P₁ n w) (hodd : Odd 
 private theorem centralizer_k_data (h : Setting L T P₀ P₁ n w) (hodd : Odd n)
     {A' K B : Subgroup Q} {a' : Q} (hK : K = Subgroup.centralizer ({a'} : Set Q))
     (hsJ : IsSimpleGroup ↥(L ⊓ K)) (hnabJ : ∃ x y : ↥(L ⊓ K), x * y ≠ y * x)
-    (hA'el : IsElemAbelian 2 A') (ha'A' : a' ∈ A') (ha'T : a' ∈ T) (ha'L : a' ∉ L)
+    (hA'el : IsElemAbelian 2 A') (ha'A' : a' ∈ A') (_ha'T : a' ∈ T) (ha'L : a' ∉ L)
     (ha'2 : a' * a' = 1)
     (hcard : 2 ^ n < Nat.card ↥A') (hA'B : Nat.card ↥A' ≤ 2 * Nat.card ↥B)
     (hBcard : Nat.card ↥B ≤ 2 ^ n) :

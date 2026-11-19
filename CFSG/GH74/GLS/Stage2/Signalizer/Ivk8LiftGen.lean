@@ -123,7 +123,7 @@ theorem exists_lift_pElement {X Y : Type} [Group X] [Finite X] [Group Y] (φ : X
     rw [hP]; exact Subgroup.mem_zpowers y
   obtain ⟨x, hx, hxy⟩ := hyP
   obtain ⟨x', hx', rfl⟩ := hx
-  obtain ⟨k, hk⟩ := P.isPGroup' ⟨x', hx'⟩
+  obtain ⟨k, hk⟩ := P.isPGroup ⟨x', hx'⟩
   have h1 : x' ^ p ^ k = 1 := congrArg Subtype.val hk
   refine ⟨(x' : X), hxy, k, ?_⟩
   have h2 := congrArg Subtype.val h1

@@ -45,7 +45,7 @@ theorem order96_global_orderThree_extremal_data
             2160 := by
   classical
   dsimp
-  letI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   let H : Subgroup P := fixingSubgroup P s
   have hP5 :
       MulAction.IsMultiplyPretransitive P X 5 := by
@@ -115,7 +115,7 @@ theorem order96_global_orderThree_extremal_data
     degree24_order_three_support_incidence
       X P hcard hP5 s hs 18 hSupport
   rw [hAllCard] at hcount
-  letI : Nontrivial S :=
+  let : Nontrivial S :=
     Finite.one_lt_card_iff_nontrivial.mp (by
       rw [hScard]
       norm_num)

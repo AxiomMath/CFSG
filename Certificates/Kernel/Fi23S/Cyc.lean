@@ -85,13 +85,13 @@ theorem loop (h : Nat → Nat) (q : Nat) : ∀ n l x, 0 < l →
       simp [cBody, hl0]
       rfl
     · have ih := loop h q n (l + 1) (h x) (by omega)
-      simp only [cBody, hx, if_false, beq_iff_eq, pure_bind]
+      simp only [cBody, hx, ite_false, beq_iff_eq, pure_bind]
       exact ih
 
 theorem cycLen_eq (P R : Table) (q : Nat) :
     cycLen P R q = cyK (fun y => ap P (ap R y)) q 119 1 (ap P (ap R q)) := by
   have hl := loop (fun y => ap P (ap R y)) q 119 1 (ap P (ap R q)) (by norm_num)
-  simp only [cBody, Nat.reduceAdd] at hl
+  simp only [Nat.reduceAdd] at hl
   unfold cycLen
   simp only [Id.run_bind, Std.Legacy.Range.forIn_eq_forIn_range', Std.Legacy.Range.size,
     Nat.reduceSub, Nat.reduceAdd, Nat.reduceDiv]
@@ -99,12 +99,12 @@ theorem cycLen_eq (P R : Table) (q : Nat) :
   · rename_i r heq
     try simp only [Id.run] at heq
     rw [hl] at heq
-    split_ifs at heq with h0 <;>
-      first | exact (Option.some.inj heq).symm | exact absurd heq (by simp)
+    split_ifs at heq with h0;
+      first | exact (Option.some.inj heq).symm
   · rename_i heq
     try simp only [Id.run] at heq
     rw [hl] at heq
-    split_ifs at heq with h0 <;> first | exact h0.symm | exact absurd heq (by simp)
+    split_ifs at heq with h0; first | exact h0.symm
 
 theorem cyK_spec (h : Nat → Nat) (q : Nat) : ∀ f l x c, cyK h q f l x = c → c ≠ 0 →
     l ≤ c ∧ Nat.repeat h (c - l) x = q
@@ -165,13 +165,13 @@ theorem loop2 (c : Nat → Nat) : ∀ (qs : List Nat) (L : Nat), (∀ q ∈ qs, 
     have hq : c q % 2 = 1 := h q List.mem_cons_self
     have hne : ¬ ((c q % 2 == 0) = true) := by rw [hq]; decide
     rw [List.forIn_cons]
-    simp only [oBody, hne, if_false, pure_bind, List.foldl_cons]
+    simp only [oBody, hne, List.foldl_cons]
     exact loop2 c qs _ fun q' hq' => h q' (List.mem_cons_of_mem q hq')
 
-theorem foldl_odd (c : Nat → Nat) : ∀ (qs : List Nat) (L : Nat), L % 2 = 1 →
-    (∀ q ∈ qs, c q % 2 = 1) → (qs.foldl (fun L q => L.lcm (c q)) L) % 2 = 1
+theorem foldl_odd (c : Nat → Nat) : ∀ (qs : List Nat) (_L : Nat), _L % 2 = 1 →
+    (∀ q ∈ qs, c q % 2 = 1) → (qs.foldl (fun _L q => _L.lcm (c q)) _L) % 2 = 1
   | [], _, hL, _ => hL
-  | q :: qs, L, hL, h => foldl_odd c qs _ (odd_lcm hL (h q List.mem_cons_self))
+  | q :: qs, _L, hL, h => foldl_odd c qs _ (odd_lcm hL (h q List.mem_cons_self))
       fun q' hq' => h q' (List.mem_cons_of_mem q hq')
 
 theorem foldl_dvd (c : Nat → Nat) : ∀ (qs : List Nat) (L : Nat),
@@ -205,7 +205,6 @@ theorem oddOK_of (P R : Table)
     exact hq q (by simp at hq'; omega)
   have hord : oddOrd P R = chainQ.toList.foldl (fun L q => L.lcm (cycLen P R q)) 1 := by
     have e := loop2 (cycLen P R) chainQ.toList 1 hall
-    try simp only [oBody] at e
     unfold oddOrd
     simp only [Id.run_bind]
     rw [← Array.forIn_toList, e]

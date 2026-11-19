@@ -68,7 +68,7 @@ theorem d_scMap_of_central {X R : Type} [Group X] [Finite X] [Group R] {p : ℕ}
   intro g hg hgp
   obtain ⟨g₀, rfl⟩ := hψ g
   have hg₀p : g₀ ^ p ∈ ψ.ker := by
-    simpa [MonoidHom.mem_ker, map_pow, hgp]
+    simp [MonoidHom.mem_ker, map_pow, hgp]
   have hcopher : Nat.Coprime (Nat.card ↥ψ.ker) p :=
     ((Nat.Prime.coprime_iff_not_dvd hp).mpr hcop).symm
   have hbij : Function.Bijective (fun w : ↥ψ.ker => w ^ p) :=

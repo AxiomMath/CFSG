@@ -48,9 +48,9 @@ theorem exists_three_elt {p : Fin 5} {ι : Fin 4 ↪ Fin 5} (hι : ∀ y, y ∈ 
     rw [range_emb]
     simp [miss]
   have hz1 : ∀ y, y ≠ p → z.vec y = 1 := fun y hy => by
-    rw [hz, zOf_vec_apply, if_pos ((hmem y).mpr hy)]
+    rw [hz, zOf_vec_apply, ite_eq_left ((hmem y).mpr hy)]
   have hz0 : z.vec p = 0 := by
-    rw [hz, zOf_vec_apply, if_neg (fun h => (hmem p).mp h rfl)]
+    rw [hz, zOf_vec_apply, ite_eq_right (fun h => (hmem p).mp h rfl)]
   have hzp : z.perm = 1 := zOf_perm _
   rw [hzbar]
   refine ⟨ofPerm σ, ofPerm_threeCycle_mem h23 h3p, ?_, ?_, ?_, ?_⟩

@@ -29,7 +29,7 @@ variable {V : Type} [CommGroup V] [Finite V] {H X : Subgroup (MulAut V)}
 
 theorem mb2_row2_data
     (hXN : X ≤ Subgroup.normalizer (H : Set (MulAut V))) (hXe : IsElemAbelian2 X)
-    (h : MathieuCode22 H ⊤ ⊥) (hX : rk ↥X = 5) (hfX : rkIdx (fixV X) = 6) :
+    (h : MathieuCode22 H ⊤ ⊥) (hX : rk ↥X = 5) (_hfX : rkIdx (fixV X) = 6) :
     ∃ e : V ≃* W10, H.map (congrHom e) = imgC mog22 ∧
       s828BPrime (imgC mog22) (X.map (congrHom e)) = maskSub 10 mb2B9 ∧
       perfectCore (imgC mog22 ⊓ stabSub (fixV (X.map (congrHom e)))) = imgC hbQ ∧

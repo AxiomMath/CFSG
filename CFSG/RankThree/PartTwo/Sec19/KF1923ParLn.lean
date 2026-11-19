@@ -54,7 +54,7 @@ theorem kfParLn_noSquare {X : Type} [Group X] [Finite X] {n : ℕ} (hn3 : 3 ≤ 
       obtain ⟨-, T, hT⟩ := hprop
       exact ⟨T, le_trans Subgroup.le_normalizer hT⟩
     · exact absurd hne hA
-  haveI : Finite (S2 n) := Finite.of_equiv X e.toEquiv
+  have : Finite (S2 n) := Finite.of_equiv X e.toEquiv
   obtain ⟨U, hU⟩ := CFSG.LocalAnalysis.ComponentInitial.LinearFlag.exists_sylow_unitriangular
     (K := ZMod 2) 2 (by omega : 1 ≤ n)
   let Tg : Sylow 2 (S2 n) := Sylow.mapSurjective (f := e.toMonoidHom) e.surjective T
@@ -68,7 +68,7 @@ theorem kfParLn_noSquare {X : Type} [Group X] [Finite X] {n : ℕ} (hn3 : 3 ≤ 
     rw [Sylow.coe_subgroup_smul, Subgroup.mem_pointwise_smul_iff_inv_smul_mem] at hu'
     have h0 : (MulAut.conj c)⁻¹ • u = c⁻¹ * u * c := by
       rw [MulAut.smul_def]
-      simp [MulAut.conj_inv_apply]
+      simp
     rw [h0] at hu'
     have hu'' : c⁻¹ * u * c ∈ Subgroup.map e.toMonoidHom (T : Subgroup X) := hu'
     obtain ⟨t₀, ht₀, hte⟩ := Subgroup.mem_map.1 hu''
@@ -96,7 +96,7 @@ theorem kfParLn_noSquare {X : Type} [Group X] [Finite X] {n : ℕ} (hn3 : 3 ≤ 
     obtain ⟨p, hp, hpd⟩ := Subgroup.mem_map.1 (hDP hd)
     exact ⟨⟨p, hp⟩, hpd⟩
   have hRsolv : Group.IsSolvable ↥Rb := by
-    haveI : Group.IsSolvable ↥(Sec4.oTwoP 3 ↥Y) := Sec4.isSolvable_oTwoP 3
+    have : Group.IsSolvable ↥(Sec4.oTwoP 3 ↥Y) := Sec4.isSolvable_oTwoP 3
     exact Group.isSolvable_of_surjective
       (f := Y.subtype.subgroupMap (Sec4.oTwoP 3 ↥Y)) (MonoidHom.subgroupMap_surjective _ _)
   have hnormY : (Sec4.oTwoP 3 ↥Y).Normal := by
@@ -112,7 +112,7 @@ theorem kfParLn_noSquare {X : Type} [Group X] [Finite X] {n : ℕ} (hn3 : 3 ≤ 
       refine Subgroup.mem_comap.2 (Subgroup.mem_map.2 ⟨_, hcj, ?_⟩)
       simp [hwr']
     ·
-      haveI := hRsolv
+      have := hRsolv
       let φ : ↥R →* ↥Rb := (ψ.comp R.subtype).codRestrict Rb (fun r => r.2)
       have hφ : Function.Injective φ := fun a b hab =>
         Subtype.ext (hψ (congrArg Subtype.val hab))

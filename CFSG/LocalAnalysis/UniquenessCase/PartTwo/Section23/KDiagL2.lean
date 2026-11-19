@@ -21,8 +21,8 @@ theorem kDiag_transport {X Y : Type} [Group X] [Group Y] [Finite X]
     ∀ P : Subgroup X, IsParabolicTwo X P →
       (S : Subgroup X) ≤ Subgroup.normalizer (P : Set X) →
       ∀ x ∈ P, θ x ∈ P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite Y := Finite.of_surjective e e.surjective
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite Y := Finite.of_surjective e e.surjective
   intro θ hodd S hSθ P hP hSP x hx
   let θ' : MulAut Y := MulAut.congr e θ
   have horder : orderOf θ' = orderOf θ :=
@@ -66,7 +66,7 @@ theorem kDiag_psl2 (K : Type) [Field K] [Finite K] [CharP K 2] {n : ℕ}
     ∀ P : Subgroup (PSL2 K), IsParabolicTwo (PSL2 K) P →
       (S : Subgroup (PSL2 K)) ≤ Subgroup.normalizer (P : Set (PSL2 K)) →
       ∀ x ∈ P, θ x ∈ P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro θ _hodd S hSθ P hP hSP x hx
   obtain ⟨S₀, hS₀P⟩ := hP
   have hPpar : IsParabolicTwo (PSL2 K) P := ⟨S₀, hS₀P⟩
@@ -102,7 +102,7 @@ theorem kDiag_psl2 (K : Type) [Field K] [Finite K] [CharP K 2] {n : ℕ}
     exact Subgroup.mem_top _
   ·
     have hSP' : (S : Subgroup (PSL2 K)) ≤ P :=
-      IsParabolicTwo.le_of_le_normalizer hPpar S.isPGroup' hSP
+      IsParabolicTwo.le_of_le_normalizer hPpar S.isPGroup hSP
     have hS₀P' : (S₀ : Subgroup (PSL2 K)) ≤ P :=
       Subgroup.le_normalizer.trans hS₀P
     have hnorm : (S₀.subgroupOf P).Normal := by
@@ -113,7 +113,7 @@ theorem kDiag_psl2 (K : Type) [Field K] [Finite K] [CharP K 2] {n : ℕ}
     let T₂ : Sylow 2 P := S.subtype hSP'
     have hnormT₁ : (T₁ : Subgroup P).Normal := hnorm
     have hT₂T₁ : T₂ = T₁ := by
-      haveI : (T₁ : Subgroup P).Normal := hnormT₁
+      have : (T₁ : Subgroup P).Normal := hnormT₁
       obtain ⟨p, hp⟩ := MulAction.exists_smul_eq P T₁ T₂
       rw [← hp, Sylow.smul_eq_of_normal]
     have hSS₀ : S = S₀ := Sylow.subtype_injective hT₂T₁
@@ -146,16 +146,16 @@ theorem kDiag_of_isL2 {n : ℕ} {X : Type} [Group X] [Finite X] (hX : IsL2 X n) 
     CFSG.Blueprint.LieModel.statedClassicalModel hX' ht
   rw [CFSG.Open.StatedClassicalModel] at hmodel
   obtain ⟨hadm, K, hfield, hfinite, hcard, ⟨e₀⟩⟩ := hmodel
-  letI : Field K := hfield
-  letI : Finite K := hfinite
-  letI : Fintype K := Fintype.ofFinite K
+  let : Field K := hfield
+  let : Finite K := hfinite
+  let : Fintype K := Fintype.ofFinite K
   rw [CFSG.Open.StatedLieAdmissible] at hadm
   have hn1 : 1 ≤ n := hadm.2.1
   have hEven : Fintype.card K % 2 = 0 := by
     rw [Fintype.card_eq_nat_card, hcard]
     exact Nat.mod_eq_zero_of_dvd (dvd_pow_self 2 (by omega))
   have hchar : ringChar K = 2 := FiniteField.even_card_iff_char_two.mpr hEven
-  haveI : CharP K 2 := ringChar.of_eq hchar
+  have : CharP K 2 := ringChar.of_eq hchar
   exact kDiag_transport
     (e₀.trans (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 2 K).symm)
     (kDiag_psl2 K hcard)

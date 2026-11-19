@@ -149,7 +149,7 @@ theorem exists_lam_of_bezout (Fs : List (List ℕ)) (S : List (ℕ × ℕ)) (T :
       (fun r => fbit Fs[r]! κ) (fun r => bvec 11 ((T[r]!)[i]!))]
     rw [list_range_toFinset]
     refine Finset.sum_congr rfl fun r _ => ?_
-    simp only [Function.comp_apply, ite_one_smul]
+    simp only [ite_one_smul]
   have hXsum : (∑ κ ∈ Finset.range 77, dz d κ • bvec 11 (X κ)) = 0 := by
     simp_rw [hXbvec]
     simp_rw [Finset.smul_sum]
@@ -179,7 +179,7 @@ theorem exists_lam_of_bezout (Fs : List (List ℕ)) (S : List (ℕ × ℕ)) (T :
       (fun κ => (d (κ / 11)).testBit (κ % 11)) (fun κ => bvec 11 (lamApply (S[κ]!) i))]
     rw [list_range_toFinset]
     refine Finset.sum_congr rfl fun κ _ => ?_
-    simp only [Function.comp_apply, dz, ite_one_smul]
+    simp only [dz, ite_one_smul]
   have h1 : bvec 11 (d i) = ∑ κ ∈ Finset.range 77, dz d κ • bvec 11 (unitMask κ i) :=
     (bvec_unit_sum d i hi).symm
   have h2 : (∑ κ ∈ Finset.range 77, dz d κ • bvec 11 (lamApply (S[κ]!) i)) =

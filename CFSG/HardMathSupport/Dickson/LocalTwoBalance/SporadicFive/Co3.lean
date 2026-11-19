@@ -48,7 +48,6 @@ theorem sporadicTwoBalanceFive_Co3 :
     change g ∈ (Q : Subgroup ↥co3P) ↔ _
     rw [hQ, Subgroup.mem_subgroupOf]
   have hQc : Nat.card Q = 5 ^ 3 := by
-    change Nat.card (Q : Subgroup ↥co3P) = _
     rw [hQ, Nat.card_congr (Subgroup.subgroupOfEquivOfLe co3FiveQ_le_P).toEquiv, card_co3FiveQ]
     norm_num
   have hz25P : co3FiveLine 25 ∈ co3P := co3FiveQ_le_P (co3FiveLine_mem_Q 25)

@@ -14,6 +14,7 @@ open Subgroup
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma fk3_ffSim_apply (g : OGroup Q) :
     ffSim Q g = QuotientGroup.mk (orthToSim Q g) := by
   rw [ffSim, MonoidHom.comp_apply, QuotientGroup.mk'_apply]

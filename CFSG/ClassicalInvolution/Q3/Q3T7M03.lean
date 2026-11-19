@@ -421,7 +421,7 @@ theorem endgame_one (hΩ : HypOmega Ω) {H : Subgroup G} {t : G}
         exact ht.sq)
     (fun hM E hN => by
       obtain ⟨e⟩ := hΩ.nonempty_equiv_sl2 hM
-      haveI := hN
+      have := hN
       rcases Q3T7M.normal_cases3 e E with h | h | ⟨u₀, hu₀E, hu₀4⟩
       · exact Or.inl (by rw [h]; exact bot_le)
       · exact Or.inl h.le

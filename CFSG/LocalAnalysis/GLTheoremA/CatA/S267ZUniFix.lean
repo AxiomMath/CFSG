@@ -190,7 +190,7 @@ theorem JU_inf_fixSubgroup_eq :
     obtain ⟨c, hc⟩ := exists_scalar_of_projU_eq hfix
     have hg' := mem_blockU_iff.1 hg
     have h00 := congrFun (congrFun hc 0) 0
-    rw [mul_diagonal, primeFormFieldSU_apply, hg' 0 0 (Or.inl (by simp [mem_blk])), if_pos rfl,
+    rw [mul_diagonal, primeFormFieldSU_apply, hg' 0 0 (Or.inl (by simp)), ite_eq_left rfl,
       map_one, one_mul] at h00
     refine ⟨g, mem_blockZ_of_fixed hbar hg fun i j => ?_, rfl⟩
     have hij := congrFun (congrFun hc i) j
@@ -226,7 +226,7 @@ theorem glaPLayer_JU_inf_fixSubgroup_ne_bot
       fin_cases i <;> fin_cases j <;> simp [swapMat]
   have hdvd : p ∣ Nat.card (↥(blockZ h hbar) ⧸ Subgroup.center ↥(blockZ h hbar)) :=
     CFSG.LocalAnalysis.GLTheoremA.H81.LinA3.dvd_card_quotient_center_of_not_commute hp hx hy
-      (diagU_blk_pow hp hp2 hζ hζn) (diagU_blk_mul_swapBlk_ne hp hp2 hζ hζn)
+      (diagU_blk_pow hp hζ hζn) (diagU_blk_mul_swapBlk_ne hp hp2 hζ hζn)
   have hdvd' : p ∣ Nat.card (↥L ⧸ Subgroup.center ↥L) := by
     rw [← CFSG.LocalAnalysis.GLTheoremA.H81.LinA3.natCard_quotient_center_congr hLe]
     exact hdvd

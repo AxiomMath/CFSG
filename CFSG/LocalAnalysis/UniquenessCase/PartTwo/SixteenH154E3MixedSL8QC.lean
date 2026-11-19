@@ -53,7 +53,7 @@ theorem s16h_sl28_seven_zz_normalizer
   obtain ⟨E, hEM, hE7, hEnc, hEn⟩ :=
     s16h_sl28_seven_of_C_TZ_eq_normalizer D S hσ hJP h hs2 ht ht2 ht1 htr hW hcomp hthin hZ
       hbad hrow hZ4 h7 hxM hxn _ hT hcase
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   obtain ⟨P, hPN, hP7, hPnc⟩ :=
     s16h_e3_normalizer_lift D hV hMs (imgTil ⊥ V hV (v1Sub D.M ⊥ V hV L)) (p := 7) hEM hE7 hEnc hEn
   rw [s16h_e3_preTil_imgTil_eq hV (s15_Infra_v1Sub_le h125 hV)] at hPN

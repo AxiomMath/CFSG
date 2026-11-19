@@ -15,8 +15,8 @@ variable {G : Type*} [Group G] {B : Type*} [Group B] {t : G} {B₀ : Subgroup B}
 theorem even_natCard_of_isPerfect [Finite G] {X : Subgroup G} (hX : ⁅X, X⁆ = X) (hX1 : X ≠ ⊥) :
     Even (Nat.card X) := by
   by_contra h
-  haveI : Nontrivial X := (Subgroup.nontrivial_iff_ne_bot X).2 hX1
-  haveI : Group.IsPerfect X := Subgroup.isPerfect_iff.2 hX
+  have : Nontrivial X := (Subgroup.nontrivial_iff_ne_bot X).2 hX1
+  have : Group.IsPerfect X := Subgroup.isPerfect_iff.2 hX
   exact Group.IsPerfect.not_isSolvable X
     (CFSG.Milestones.odd_order_solvable (G := X) (Nat.not_even_iff_odd.mp h))
 

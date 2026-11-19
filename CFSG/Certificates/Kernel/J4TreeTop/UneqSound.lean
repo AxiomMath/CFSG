@@ -79,9 +79,9 @@ theorem pk_getD_of {Gs : List J} {G GI : List ℕ} (hG : List.Forall₂ PK Gs G)
       (if Nat.blt j G.length then G.getD j 0 else GI.getD (j - G.length) 0) := by
   have hl : Gs.length = G.length := forall₂_length hG
   by_cases hjn : j < G.length
-  · rw [if_pos (by omega), if_pos (Nat.blt_eq.mpr hjn)]
+  · rw [ite_eq_left (by omega), ite_eq_left (Nat.blt_eq.mpr hjn)]
     exact forall₂_getD hG j (by omega)
-  · rw [if_neg (by omega), if_neg (by rw [Nat.blt_eq]; exact hjn), hl]
+  · rw [ite_eq_right (by omega), ite_eq_right (by rw [Nat.blt_eq]; exact hjn), hl]
     exact forall₂_getD hGI _ (by omega)
 
 theorem pk_wordG {Gs : List J} {G GI : List ℕ} (hG : List.Forall₂ PK Gs G)

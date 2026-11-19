@@ -86,7 +86,7 @@ theorem irred_main (K : Type) [Field K] [Finite K] (hK : 2 ≤ Nat.card K)
     have h1 := Zsp_sigma T hWH _ hmem
     have h3 : (fun ν => D.Fr ((Pi.single μ (1 : D.L) : V8 → D.L) ν)) = Pi.single μ 1 := by
       funext ν
-      by_cases h : ν = μ <;> simp [Pi.single_apply, h]
+      by_cases h : ν = μ <;> simp [h]
     rw [h3, hN] at h1
     have h2 := Submodule.smul_mem (Zsp T W) ε h1
     have h4 : ε • (Pi.single (wE8 • μ) ε : V8 → D.L) = Pi.single (wp μ) 1 := by
@@ -95,7 +95,7 @@ theorem irred_main (K : Type) [Field K] [Finite K] (hK : 2 ≤ Nat.card K)
       by_cases h : ν = wp μ
       · subst h
         simp [hε]
-      · simp [Pi.single_apply, h]
+      · simp [h]
     rwa [h4] at h2
   have hcore := core ha (Nat.card K) hK (card_cast_zero (D := D)) (Zsp T W) hZsupp hZne Sa Sb Sc
     Sd εe εf hεe hεf hA hB hC hD' hE hF hσ

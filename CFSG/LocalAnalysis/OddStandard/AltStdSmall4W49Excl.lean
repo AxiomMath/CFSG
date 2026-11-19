@@ -56,7 +56,7 @@ theorem BlockScalar.eq {M N : GL (Fin 6) (ZMod 2)} {P : ZMod 2 × ZMod 2 × ZMod
 
 theorem gN_mul_self : gN * gN = 1 := by
   have h := blockScalar_gN.mul blockScalar_gN
-  simp only [mul_zero, mul_one, zero_mul, add_zero, zero_add] at h
+  simp only [mul_zero, mul_one, add_zero, zero_add] at h
   exact h.eq blockScalar_one
 
 @[expose] def S3sub : Subgroup (GL (Fin 6) (ZMod 2)) := closure {z₀, gN}
@@ -118,7 +118,7 @@ theorem S3sub_le_normalizer : S3sub ≤ normalizer (dg.range : Set (GL (Fin 6) (
       exact hx
 
 theorem card_GL3' : Nat.card (GL (Fin 3) (ZMod 2)) = 168 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [Matrix.card_GL_field (𝔽 := ZMod 2) 3, ZMod.card, Fin.prod_univ_three]
   norm_num
 
@@ -205,7 +205,7 @@ theorem coe_dg_A52 : (dg A52 : Matrix (Fin 6) (Fin 6) (ZMod 2)) = dgA52Lit :=
 theorem orderOf_eq_five {x : GL (Fin 6) (ZMod 2)}
     (h5 : (x : Matrix (Fin 6) (Fin 6) (ZMod 2)) ^ 5 = 1)
     (h1 : (x : Matrix (Fin 6) (Fin 6) (ZMod 2)) ≠ 1) : orderOf x = 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   refine orderOf_eq_prime (Units.ext ?_) fun h => h1 ?_
   · rw [Units.val_pow_eq_pow_val, h5, Units.val_one]
   · rw [h, Units.val_one]

@@ -157,7 +157,7 @@ private theorem r1n_exists_sylow_comap_inl (P : Sylow r (N ⋊[φ] Q)) :
     infer_instance
   have hPsyl : IsSylowOf r (P : Subgroup (N ⋊[φ] Q)) ⊤ := by
     rw [isSylowOf_iff, Subgroup.relIndex_top_right]
-    exact ⟨le_top, P.isPGroup', P.not_dvd_index⟩
+    exact ⟨le_top, P.isPGroup, P.not_dvd_index⟩
   have hPW := hPsyl.inf_of_le_normalizer le_top (Subgroup.normalizer_eq_top_iff.mpr hW').ge
   have hcardW : Nat.card W' = Nat.card N := by
     change Nat.card (SemidirectProduct.inl : N →* N ⋊[φ] Q).range = _
@@ -1183,7 +1183,7 @@ theorem frontier_R1NFacts
       apply ActualFourGroupCentralizer.prime_not_dvd_torusSize p f hp hf
       exact hd.trans (Nat.div_dvd_of_dvd
         ⟨_, MatrixTorus.torusSize_two_mul_half (hpodd.pow (n := f))⟩)
-    have hQpW := r1n_pgroup_inf_inl hWp Qp.isPGroup'
+    have hQpW := r1n_pgroup_inf_inl hWp Qp.isPGroup
     obtain ⟨k, Qr, hQr⟩ := r1n_semidirect_sylow_conj Qp hQpW
     set c₀ := ι k with hc₀
     have hXdesc : ∀ y ∈ Xbar, ∃ a ∈ (Qr : Subgroup A),

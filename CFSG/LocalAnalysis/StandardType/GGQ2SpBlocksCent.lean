@@ -39,12 +39,12 @@ theorem mem_levi_of_col {m : ℕ} {S : Finset (Fin m)} {g : ↥(StatedSp m K)}
   ext x y
   rw [planeIdem, Matrix.mul_diagonal, Matrix.diagonal_apply]
   by_cases hy : Sum.elim id id y ∈ Sᶜ
-  · rw [if_pos hy, mul_one, h x y (Finset.mem_compl.mp hy), Matrix.one_apply]
+  · rw [ite_eq_left hy, mul_one, h x y (Finset.mem_compl.mp hy), Matrix.one_apply]
     by_cases hxy : x = y
     · subst hxy
       simp [hy]
     · simp [hxy]
-  · rw [if_neg hy, mul_zero]
+  · rw [ite_eq_right hy, mul_zero]
     by_cases hxy : x = y
     · subst hxy
       simp [hy]
@@ -258,17 +258,17 @@ theorem commute_tau_of_mem_levi {ζ : Multiplicative (ZMod 3) →* SpecialLinear
     congr 1
     funext j
     by_cases hj : j ∈ S
-    · rw [if_pos hj, hu j hj, ofAdd_zero, map_one, Matrix.SpecialLinearGroup.coe_one,
+    · rw [ite_eq_left hj, hu j hj, ofAdd_zero, map_one, Matrix.SpecialLinearGroup.coe_one,
         Matrix.mul_one]
-    · rw [if_neg hj, Matrix.mul_zero]
+    · rw [ite_eq_right hj, Matrix.mul_zero]
   have hPT : P * T = P := by
     rw [hT, hP, coe_tau, planeIdem_eq_planeMat, WitSpNs.planeMat_mul]
     congr 1
     funext j
     by_cases hj : j ∈ S
-    · rw [if_pos hj, hu j hj, ofAdd_zero, map_one, Matrix.SpecialLinearGroup.coe_one,
+    · rw [ite_eq_left hj, hu j hj, ofAdd_zero, map_one, Matrix.SpecialLinearGroup.coe_one,
         Matrix.mul_one]
-    · rw [if_neg hj, Matrix.zero_mul]
+    · rw [ite_eq_right hj, Matrix.zero_mul]
   have hTQ : T * (1 - P) = (1 - P) * T := by
     rw [mul_sub, sub_mul, Matrix.mul_one, Matrix.one_mul, hTP, hPT]
   have hAT : A * T = A * P + (1 - P) * T := by
@@ -301,7 +301,7 @@ theorem exists_mem_ycode_not_commute [Finite K] [CharP K 2] (hK : Nat.card K = 2
     ((x : GL (Fin m ⊕ Fin m) K) : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) K)) hcomm
   simp only [coe_mul_statedSp, coe_tau, coe_lam_eq_planeMat, WitSpNs.planeMat_mul] at hmat
   have hi' := congrFun (WitSpNs.planeMat_injective hmat) i
-  simp only [if_neg hij, if_true, Matrix.one_mul] at hi'
+  simp only [ite_eq_right hij, ite_true, Matrix.one_mul] at hi'
   have hcomm' : w * ζ (Multiplicative.ofAdd (u i)) * w⁻¹ = ζ (Multiplicative.ofAdd (u i)) := by
     have hc : ζ (Multiplicative.ofAdd (u i)) * w⁻¹ = w⁻¹ * ζ (Multiplicative.ofAdd (u i)) :=
       Subtype.ext (by

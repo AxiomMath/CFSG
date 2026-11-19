@@ -26,7 +26,7 @@ theorem burnsideB610_eq_top_of_perfect {P : Type*} [Group P] [Finite P]
     exact hk
   have hnil : Group.IsNilpotent (P ⧸ N) := h2.isNilpotent
   have hsolv : Group.IsSolvable (P ⧸ N) := inferInstance
-  haveI := hperf
+  have := hperf
   by_contra hne
   have hnt : Nontrivial (P ⧸ N) := by
     obtain ⟨x, hx⟩ : ∃ x : P, x ∉ N := by

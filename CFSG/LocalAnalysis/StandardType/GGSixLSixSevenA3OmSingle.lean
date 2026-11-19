@@ -23,8 +23,8 @@ theorem exists_fin_ne_of_four_le {r : ℕ} (hr : 4 ≤ r) (a : Fin r) : ∃ m : 
   refine ⟨⟨if a.val = 0 then 1 else 0, by split_ifs <;> omega⟩, fun h => ?_⟩
   have hv : (if a.val = 0 then 1 else 0) = a.val := congrArg Fin.val h
   by_cases h0 : a.val = 0
-  · rw [if_pos h0] at hv; omega
-  · rw [if_neg h0] at hv; omega
+  · rw [ite_eq_left h0] at hv; omega
+  · rw [ite_eq_right h0] at hv; omega
 
 theorem GGOmA3Hyp.exists_full_support_of_single (H : GGOmA3Hyp F E J) {a : Fin r}
     (hY : ∀ m : Fin r, F.ι (ofAdd (Pi.single m 1)) ∈ Subgroup.centralizer (J : Set (V ≃ₗ[K] V)) →
@@ -35,7 +35,7 @@ theorem GGOmA3Hyp.exists_full_support_of_single (H : GGOmA3Hyp F E J) {a : Fin r
       F.U a ≤ othersSpace (F.ι (ofAdd t)).toLinearMap h := by
   classical
   have hp : p.Prime := Fact.out
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨t, htE, ht0, hta⟩ := exists_ne_zero_apply_eq_zero F H.le_A H.card_E a
   obtain ⟨h, hh, hJB, hpiece⟩ :=
     exists_factor_of_mem H.nondeg H.tsub H.ne_two F H.le_orthDerived H.max H.le_A
@@ -68,6 +68,7 @@ theorem GGOmA3Hyp.exists_full_support_of_single (H : GGOmA3Hyp F E J) {a : Fin r
     · exact h1
   exact ⟨t, h, htE, hta, hfull, hh, hne_X, hJB, hUa⟩
 
+omit [CharP K 2] in
 theorem GGOmA3Hyp.exists_decomp_of_single (H : GGOmA3Hyp F E J) {a : Fin r}
     (ha : F.ι (ofAdd (Pi.single a 1)) ∈ E) {t : Fin r → ZMod p} (ht : F.ι (ofAdd t) ∈ E)
     (hta : t a = 0) (hfull : ∀ m, m ≠ a → t m ≠ 0) {s : Fin r → ZMod p}
@@ -75,12 +76,12 @@ theorem GGOmA3Hyp.exists_decomp_of_single (H : GGOmA3Hyp F E J) {a : Fin r}
     ∃ c₁ c₂ : ZMod p, s = c₁ • (Pi.single a 1 : Fin r → ZMod p) + c₂ • t := by
   classical
   have hp : p.Prime := Fact.out
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have : Finite (V ≃ₗ[K] V) := by
     have : Finite V := Module.finite_of_finite K
     exact Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
       fun _ _ he => LinearEquiv.ext (congrFun he)
-  haveI : Finite E := inferInstance
+  have : Finite E := inferInstance
   obtain ⟨m₀, hm₀⟩ := exists_fin_ne_of_four_le H.four_le a
   set c₂ : ZMod p := s m₀ / t m₀ with hc₂
   have hs'E : F.ι (ofAdd (s - c₂ • t)) ∈ E := by
@@ -121,7 +122,7 @@ theorem GGOmA3Hyp.isComponentOf_single (H : GGOmA3Hyp F E J) {a : Fin r}
       Subgroup.centralizer ({F.ι (ofAdd t)} : Set (V ≃ₗ[K] V))) := by
   classical
   have hp : p.Prime := Fact.out
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hx : OddOrderIsometry Q p (F.ι (ofAdd t)) :=
     F.oddOrderIsometry H.nondeg H.ne_two hp H.le_orthDerived (ofAdd t)
   refine isComponentOf_centralizer_of_le_block (b := F.ι (ofAdd t)) hx hh ht H.isComponent hJB ?_

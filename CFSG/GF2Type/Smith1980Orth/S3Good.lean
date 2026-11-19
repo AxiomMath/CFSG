@@ -57,7 +57,7 @@ theorem nonempty_rebase (D : S2Data S) : Nonempty (Rebase D) := by
 
 structure GoodTransport (D : S2Data S) : Prop where
   phi_f : ∀ T : D.Rebase, T.Phi (D.coord (T.P.f, 0)) = D.t
-  isUInv : ∀ (T : D.Rebase) {y : G} (hyQ : y ∈ S.QG) (hy : y ∈ T.H) {u v : Vt S D.g D.t},
+  isUInv : ∀ (T : D.Rebase) {y : G} (_hyQ : y ∈ S.QG) (hy : y ∈ T.H) {u v : Vt S D.g D.t},
     S.cl y = D.coord (u, v) → polar D.QV u T.P.e = 0 → HypPerp.projZ T.P v ≠ 0 →
       D.QV v = 0 → D.IsUInv (T.Psi ⟨y, hy⟩)
 

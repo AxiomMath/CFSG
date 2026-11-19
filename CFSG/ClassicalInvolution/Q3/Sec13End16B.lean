@@ -47,6 +47,7 @@ private theorem e16b_le_centralizer (c : Sit16 Ω K K' W z u e g) {L : Subgroup 
     (hL : L ≤ Subgroup.normalizer (W : Set G)) : L ≤ Subgroup.centralizer ({e} : Set G) :=
   fun _ hx => Subgroup.mem_centralizer_singleton_iff.mpr (e16b_comm_normalizer c (hL hx))
 
+omit [Finite G] in
 private theorem e16b_twin_of_commutes (h : EndHyp Ω) (h9 : Perp9 Ω) (s : TwinSit Ω K K' z)
     {M L : Subgroup G} (hM : M ∈ Ω) (hMz : IsUniqueInvolution M z) (hL : L ∈ Ω)
     (hc : Commutes M L) : L ∈ twinSet Ω K := by
@@ -151,6 +152,7 @@ private theorem e16b6_le_centralizer (c : Sit16 Ω K K' W z u e g) {L : Subgroup
     (hL : L ≤ Subgroup.normalizer (W : Set G)) : L ≤ Subgroup.centralizer ({e} : Set G) :=
   fun _ hx => Subgroup.mem_centralizer_singleton_iff.mpr (e16b6_comm_normalizer c (hL hx))
 
+omit [Finite G] in
 private theorem e16b6_mem_sup {K K' : Subgroup G} (hc : Commutes K K') {x : G}
     (hx : x ∈ K ⊔ K') : ∃ k ∈ K, ∃ k' ∈ K', x = k * k' := by
   let P : Subgroup G :=
@@ -209,7 +211,7 @@ private theorem e16b6_e_mem (c : Sit16 Ω K K' W z u e g)
   have h2 : u * (u * e) ∈ pSpan (centMembers Ω e) := Subgroup.mul_mem _ hu hte
   rwa [← h1] at h2
 
-private theorem e16b6_false_of_odd (c : Sit16 Ω K K' W z u e g) (h : EndHyp Ω) (h9 : Perp9 Ω)
+private theorem e16b6_false_of_odd (c : Sit16 Ω K K' W z u e g) (h : EndHyp Ω) (_h9 : Perp9 Ω)
     {n : ℕ} (hn : 5 ≤ n) (hodd : Odd n)
     (φ : ↥(pSpan (centMembers Ω e)) →* AE.AEQ n)
     (hker : φ.ker ≤ Subgroup.center ↥(pSpan (centMembers Ω e)))
@@ -324,7 +326,7 @@ private theorem e16b6_false_of_odd (c : Sit16 Ω K K' W z u e g) (h : EndHyp Ω)
       exact hi'
     have hv : (x * y).vec i = 0 := (hsupp i hiα).1
     have hv1 : (x * y).vec i = 1 := by
-      rw [hae, AE.zOf_vec_apply, if_pos]
+      rw [hae, AE.zOf_vec_apply, ite_eq_left]
       rw [AE.range_emb]
       exact hi
     rw [hv1] at hv
@@ -457,13 +459,15 @@ private theorem e16b6_range (n : ℕ) :
   exact Equiv.Perm.mem_alternatingGroup.mpr ((AE.mem_aeSub).mp ha).2
 
 
+omit [Finite G] in
 private theorem e16b6_ne_of_inv {A B : Subgroup G} {a b : G} (hA : IsUniqueInvolution A a)
     (hB : IsUniqueInvolution B b) (hab : a ≠ b) : A ≠ B := by
   rintro rfl
   exact hab (hA.eq hB)
 
+omit [Finite G] in
 private theorem e16b6_central (x : G) (hx : x ∈ pSpan (centMembers Ω e)) : x * e = e * x :=
-  Subgroup.mem_centralizer_singleton_iff.mp ((pSpan_le (fun L hL => hL.2) : pSpan (centMembers Ω e) ≤
+  Subgroup.mem_centralizer_singleton_iff.mp ((pSpan_le (fun _L hL => hL.2) : pSpan (centMembers Ω e) ≤
       Subgroup.centralizer ({e} : Set G)) hx)
 
 
@@ -674,7 +678,7 @@ private theorem e16b6_perm_one_of_normal (N : Subgroup ↥(AE.aeSub 6)) [N.Norma
     · exact AE.mem_aeSub.mpr ⟨by simp [AE.Wr.wsum, AE.Wr.ofPerm],
         Equiv.Perm.mem_alternatingGroup.mp hσ⟩
     · exact Subtype.ext rfl
-  haveI : (N.map pm).Normal := Subgroup.Normal.map inferInstance pm hsurj
+  have : (N.map pm).Normal := Subgroup.Normal.map inferInstance pm hsurj
   have hP : IsPGroup 2 ↥(N.map pm) := hN.map pm
   have hsimp : IsSimpleGroup ↥(alternatingGroup (Fin 6)) :=
     alternatingGroup.isSimpleGroup (by simp)
@@ -686,6 +690,7 @@ private theorem e16b6_perm_one_of_normal (N : Subgroup ↥(AE.aeSub 6)) [N.Norma
   · exact absurd (htop ▸ hP) e16b6_not_pgroup_A6
 
 
+omit [Finite G] in
 private theorem e16b6_psi_e (I : AEIdent (centMembers Ω e) 6)
     (ψ : ↥(pSpan (centMembers Ω e)) ≃* ↥(AE.aeSub 6))
     (hψ : ∀ x, AE.mkQ 6 (ψ x : AE.Wr 6) = I.φ x) (he : e ∈ pSpan (centMembers Ω e))
@@ -703,6 +708,7 @@ private theorem e16b6_psi_e (I : AEIdent (centMembers Ω e) 6)
 
 private def e16b6_tau (j : Fin 5) : Fin 6 := if j.succ = 1 then 2 else 1
 
+omit [Finite G] in
 private theorem e16b6_D_iff (h : EndHyp Ω) (I : AEIdent (centMembers Ω e) 6)
     (ψ : ↥(pSpan (centMembers Ω e)) ≃* ↥(AE.aeSub 6))
     (hlab6 : ∀ L ∈ centMembers Ω e, ∀ (α : Finset (Fin 6)) (hα : α.card = 4) (b : Bool),
@@ -714,9 +720,9 @@ private theorem e16b6_D_iff (h : EndHyp Ω) (I : AEIdent (centMembers Ω e) 6)
   have hZN : (zGroup Ω).Normal := zGroup_normal_of_conjInvariant h.thmD.hyp.conjInvariant
   have hz2 : IsPGroup 2 ↥(zGroup Ω) := CFSG.pCore_isPGroup.to_le h.zGroup_le_pCore
   have hN2 : IsPGroup 2 ↥((zGroup Ω).subgroupOf (pSpan (centMembers Ω e))) := hz2.comap_subtype
-  haveI : ((zGroup Ω).subgroupOf (pSpan (centMembers Ω e))).Normal :=
+  have : ((zGroup Ω).subgroupOf (pSpan (centMembers Ω e))).Normal :=
     Subgroup.Normal.subgroupOf hZN _
-  haveI hH0N : (((zGroup Ω).subgroupOf (pSpan (centMembers Ω e))).map ψ.toMonoidHom).Normal :=
+  have hH0N : (((zGroup Ω).subgroupOf (pSpan (centMembers Ω e))).map ψ.toMonoidHom).Normal :=
     Subgroup.Normal.map inferInstance _ ψ.surjective
   have hH0 : IsPGroup 2 ↥(((zGroup Ω).subgroupOf (pSpan (centMembers Ω e))).map
       ψ.toMonoidHom) := hN2.map ψ.toMonoidHom
@@ -761,8 +767,8 @@ private theorem e16b6_D_iff (h : EndHyp Ω) (I : AEIdent (centMembers Ω e) 6)
       have hr := AE.range_emb α hα
       rw [AE.zOf_vec_apply]
       by_cases hi : i ∈ α
-      · rw [if_pos hi, if_pos (by rw [hr]; exact hi)]
-      · rw [if_neg hi, if_neg (by rw [hr]; exact hi)]
+      · rw [ite_eq_left hi, ite_eq_left (by rw [hr]; exact hi)]
+      · rw [ite_eq_right hi, ite_eq_right (by rw [hr]; exact hi)]
     have hcard1 : ∀ j : Fin 5, (Finset.univ \ {j.succ, e16b6_tau j} : Finset (Fin 6)).card = 4 := by
       decide
     have hcard2 : ∀ j : Fin 5, (Finset.univ \ {0, e16b6_tau j} : Finset (Fin 6)).card = 4 := by
@@ -817,6 +823,7 @@ private theorem e16b6_D_iff (h : EndHyp Ω) (I : AEIdent (centMembers Ω e) 6)
     exact Subgroup.mem_subgroupOf.mp hy
 
 
+omit [Finite G] in
 private theorem e16b6_phi_e {n : ℕ} (φ : ↥(pSpan (centMembers Ω e)) →* AE.AEQ n)
     (hcen : ∀ m ∈ φ.range, (∀ m' ∈ φ.range, m * m' = m' * m) → m = 1)
     (he : e ∈ pSpan (centMembers Ω e)) : φ ⟨e, he⟩ = 1 := by

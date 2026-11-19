@@ -19,7 +19,7 @@ private theorem eq_zero_or_one_of_card_two [Finite K] (hK : Nat.card K = 2) (x :
   by_cases h : x = 0
   · exact Or.inl h
   · exact Or.inr (by
-      haveI : Subsingleton Kˣ := (Nat.card_eq_one_iff_unique.mp (by rw [Nat.card_units, hK])).1
+      have : Subsingleton Kˣ := (Nat.card_eq_one_iff_unique.mp (by rw [Nat.card_units, hK])).1
       have h' := congrArg Units.val (Subsingleton.elim (Units.mk0 x h) 1)
       simpa using h')
 
@@ -252,6 +252,6 @@ theorem card_centralizer_range_c₀_six [Finite K] (hK : Nat.card K = 2) :
   have hcard : Nat.card (c₀ K hn6).range = Nat.card (Multiplicative (Fin 3 → ZMod 3)) :=
     Nat.card_range_of_injective (c₀_injective hn6)
   rw [hcard, Nat.card_eq_fintype_card]
-  simp [Fintype.card_fun, ZMod.card, Fintype.card_fin]
+  simp [ZMod.card, Fintype.card_fin]
 
 end CFSG.ClassicalGroups.SLnThreeLocal

@@ -307,7 +307,7 @@ theorem prop_4_3_ab : S_prop_4_3_ab := by
       have : w = w * t' * t'⁻¹ := by group
       rw [this]
       exact (fr.S : Subgroup G).mul_mem (hVS hxV) ((fr.S : Subgroup G).inv_mem (hτS' ht'))
-    have hw1 : w = 1 := eq_one_of_odd_of_isPGroup fr.S.isPGroup' hwS
+    have hw1 : w = 1 := eq_one_of_odd_of_isPGroup fr.S.isPGroup hwS
       (Odd.of_dvd_nat hAEodd (Subgroup.orderOf_dvd_natCard _ hw))
     rw [hw1, one_mul] at hxV ⊢
     have : t' ∈ fr.V T₂ ⊓ Subgroup.zpowers τ := ⟨hxV, ht'⟩

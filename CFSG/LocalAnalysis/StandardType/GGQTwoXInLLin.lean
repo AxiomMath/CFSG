@@ -134,7 +134,7 @@ theorem finrank_le_card_add_one (M : GGQTwoModel p Bs x y D L J K) :
         ≤ Module.rank (ZMod p) ({k // k ≠ M.a} → ZMod p) := Submodule.rank_le _
       _ = (Fintype.card {k // k ≠ M.a} : Cardinal) :=
           rank_eq_card_basis (Pi.basisFun (ZMod p) {k // k ≠ M.a})
-  haveI : FiniteDimensional (ZMod p) (Submodule.span (ZMod p) {M.xV}) :=
+  have : FiniteDimensional (ZMod p) (Submodule.span (ZMod p) {M.xV}) :=
     FiniteDimensional.span_singleton (ZMod p) M.xV
   have hspanfin : Module.finrank (ZMod p) (Submodule.span (ZMod p) {M.xV}) ≤ 1 := by
     by_cases h0 : M.xV = 0
@@ -398,7 +398,7 @@ theorem ggQTwoXInLDatum_of_span (h : ∀ (G : Type) [Group G] [Finite G] (p : �
     : Subgroup G), GGNbr p B x D J y K → ∀ M : GGQTwoModel p Bs x y D L J K, M.xV ∈ Submodule.span
     (ZMod p) (Set.range fun i : {k // k ≠ M.a} => M.coroot i)) : GGQTwoXInLDatum := by
   intro G _ _ p B Bs x L D J hS hxL hpFact y K hnb M
-  haveI : Fact p.Prime := hpFact
+  have : Fact p.Prime := hpFact
   have hp2 : p ≠ 2 := hS.1.1.1.2.2.2.2.2.1.2.1
   have hx1 : x ≠ 1 := hS.1.1.1.2.2.2.2.2.2.1.2.2.1
   have hspan := h G p B Bs x L D J hS hxL y K hnb M

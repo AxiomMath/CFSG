@@ -46,6 +46,7 @@ private theorem centerQuotientEquivTo_apply {H : Type*} [Group H]
   rw [QuotientGroup.kerLift_mk]
   rfl
 
+omit [Finite G] in
 private theorem exists_centerQuotientEquiv_comp_eq (hK : Nat.card K = 4)
     {Bs L : Subgroup G}
     (φ : L ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))

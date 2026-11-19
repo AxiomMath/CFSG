@@ -27,7 +27,7 @@ theorem s21_14K2T_of_r885_r891 (hGA : GriessAllModelsStatement) {D : Data G}
   have hns : ¬ IsStronglyPEmbedded 3 D.M := fun h => by
     have h1 : D.k = 1 := by
       show CFSG.LocalAnalysis.RankThreeUC.kParam D.M = 1
-      rw [CFSG.LocalAnalysis.RankThreeUC.kParam, if_pos h]
+      rw [CFSG.LocalAnalysis.RankThreeUC.kParam, ite_eq_left h]
     omega
   have h5 : 5 ∉ D.sig := fun h5 => by
     have h5f : 5 ∣ 2 ^ f₀ - 1 :=

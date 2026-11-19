@@ -33,7 +33,7 @@ theorem eq_top_of_irrational_rootElt_D4 {K : Type} [Field K] [Finite K] (k : Sub
   let S : Subring K :=
     { carrier := {u | ∀ γ : Fin Tag.D4.rank → ℤ, IsRoot Tag.D4 γ →
         xPar (rootOperatorFamily Tag.D4) γ u ∈ H}
-      zero_mem' := fun γ _ => by simpa [xPar_zero] using H.one_mem
+      zero_mem' := fun γ _ => by simp [xPar_zero]
       one_mem' := fun γ hγ => hrat γ hγ 1 k.one_mem
       add_mem' := fun {a b} ha hb γ hγ => by
         rw [xPar_add]

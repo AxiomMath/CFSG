@@ -45,7 +45,7 @@ theorem szM_mul_self {a : ℕ} {h2 : (2 : K) = 0} (v : K) : szM a v * szM a v = 
 theorem szM_mul [CharP K 2] (a : ℕ) (v w : K) : szM a v * szM a w = szM a (v + w) := by
   have hf : (v + w) ^ 2 ^ (a + 1) = v ^ 2 ^ (a + 1) + w ^ 2 ^ (a + 1) := add_pow_char_pow v w 2 (a + 1)
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [szM, Matrix.mul_apply, Fin.sum_univ_four, hf] <;> ring
+  fin_cases i <;> fin_cases j <;> simp [szM, Matrix.mul_apply, Fin.sum_univ_four, hf]
 
 theorem szW_mul_self : (szW : Matrix (Fin 4) (Fin 4) K) * szW = 1 := by
   ext i j
@@ -84,7 +84,7 @@ theorem szQuot_pRank {K : Type} [Field K] [Finite K] {a n : ℕ} (hn : 1 ≤ n) 
     [Finite (LargeEvenCenterQuot (LargeEvenSzGroup a K))] :
     n ≤ CFSG.Open.pRank 2 (⊤ : Subgroup (LargeEvenCenterQuot (LargeEvenSzGroup a K))) := by
   have h2 : (2 : K) = 0 := CFSG.LocalAnalysis.GLTheoremA.I107G.two_eq_zero_of_card hn hK
-  haveI : CharP K 2 := (CharP.charP_iff_prime_eq_zero Nat.prime_two).2 (by exact_mod_cast h2)
+  have : CharP K 2 := (CharP.charP_iff_prime_eq_zero Nat.prime_two).2 (by exact_mod_cast h2)
   have hA : ∀ x : K, x + x = 0 := fun x => by rw [← two_mul, h2, zero_mul]
   let f : Multiplicative K →* LargeEvenSzGroup a K :=
     MonoidHom.mk' (fun x => szSub a h2 (Multiplicative.toAdd x))
@@ -135,7 +135,7 @@ theorem twoRankLow_twB2_holds (S : Type) [Group S] [Finite S] (lab : GLALabel) (
     obtain ⟨m, rfl⟩ := hodd
     omega
   rw [ha] at hK
-  haveI : Finite (LargeEvenCenterQuot (LargeEvenSzGroup ((n - 1) / 2) K)) :=
+  have : Finite (LargeEvenCenterQuot (LargeEvenSzGroup ((n - 1) / 2) K)) :=
     Finite.of_equiv _ θ.toEquiv
   rw [CFSG.LocalAnalysis.GLTheoremA.I107L.pRank_eq_of_quotient θ hna]
   exact szQuot_pRank hn1 hK

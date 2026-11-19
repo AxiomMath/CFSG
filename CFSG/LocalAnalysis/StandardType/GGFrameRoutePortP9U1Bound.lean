@@ -15,8 +15,8 @@ variable {K : Type*} [Field K]
 
 private theorem p9uBound_finite_linearEquiv {V : Type u} [AddCommGroup V] [Module K V]
     [Finite K] [FiniteDimensional K V] : Finite (V ≃ₗ[K] V) := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fintype V := Module.fintypeOfFintype (Module.finBasis K V)
+  have : Fintype K := Fintype.ofFinite K
+  have : Fintype V := Module.fintypeOfFintype (Module.finBasis K V)
   exact Finite.of_injective (fun e : V ≃ₗ[K] V => e.toEquiv)
     (fun _ _ h => LinearEquiv.toEquiv_injective h)
 
@@ -30,7 +30,7 @@ theorem three_pow_dvd_finrank_and_card_center_le [Finite K] (hK : Nat.card K = 4
   | zero =>
       intro V _ _ _ Q hQ hcard
       simp only [Nat.mul_zero, pow_zero, one_mul] at hcard
-      haveI : Finite (V ≃ₗ[K] V) := p9uBound_finite_linearEquiv
+      have : Finite (V ≃ₗ[K] V) := p9uBound_finite_linearEquiv
       have hcenter : Subgroup.center Q = ⊤ :=
         Subgroup.eq_top_of_card_eq (Subgroup.center Q) hcard.symm
       have hab : ∀ x ∈ Q, ∀ y ∈ Q, x * y = y * x := by
@@ -44,7 +44,7 @@ theorem three_pow_dvd_finrank_and_card_center_le [Finite K] (hK : Nat.card K = 4
         exact card_le_three_pow_finrank_of_abelian_good hK hQ hab
   | succ s ih =>
       intro V _ _ _ Q hQ hcard
-      haveI : Finite (V ≃ₗ[K] V) := p9uBound_finite_linearEquiv
+      have : Finite (V ≃ₗ[K] V) := p9uBound_finite_linearEquiv
       have hnab : ¬ ∀ x ∈ Q, ∀ y ∈ Q, x * y = y * x := by
         intro hab
         have hcenter : Subgroup.center Q = ⊤ := by

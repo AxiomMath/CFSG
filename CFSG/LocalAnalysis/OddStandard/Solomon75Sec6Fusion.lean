@@ -64,6 +64,7 @@ private theorem card_sup_mul_card_inf_of_normal {G : Type*} [Group G] (A B : Sub
   rw [← h1, ← h2]
   ring
 
+omit [Finite X] in
 theorem card_sup_mul_card_inf {A B : Subgroup X} (hB : B ≤ normalizer (A : Set X)) :
     Nat.card ↥(A ⊔ B) * Nat.card ↥(A ⊓ B) = Nat.card A * Nat.card B := by
   set N := normalizer (A : Set X)
@@ -136,7 +137,7 @@ theorem exists_conj_mem_of_sup_odd {R O : Subgroup X} (hRO : R ≤ normalizer (O
     · exact hidxPR h
     · exact hidxRY h
   have hPp : IsPGroup 2 ↥(P.subgroupOf Y) := by
-    have h1 : IsPGroup 2 ↥P := P₀.isPGroup'.map R.subtype
+    have h1 : IsPGroup 2 ↥P := P₀.isPGroup.map R.subtype
     exact h1.of_equiv (Subgroup.subgroupOfEquivOfLe (hPR.trans hRY)).symm
   obtain ⟨g, hg⟩ := exists_conj_mem_of_index hPp hidxPY
     (e := (⟨y, hy⟩ : ↥Y)) (Subtype.ext (by simpa using hy2))
@@ -150,6 +151,7 @@ section Solvable
 
 variable [Finite X]
 
+omit [Finite X] in
 theorem exists_mul_of_mem_sup {H K : Subgroup X} (hH : H ≤ normalizer (K : Set X)) {x : X}
     (hx : x ∈ H ⊔ K) : ∃ y ∈ H, ∃ z ∈ K, y * z = x := by
   have h : x ∈ ((H ⊔ K : Subgroup X) : Set X) := hx
@@ -157,6 +159,7 @@ theorem exists_mul_of_mem_sup {H K : Subgroup X} (hH : H ≤ normalizer (K : Set
   obtain ⟨y, hy, z, hz, rfl⟩ := h
   exact ⟨y, hy, z, hz, rfl⟩
 
+omit [Finite X] in
 theorem isSolvable_sup_of_le_normalizer {T D : Subgroup X}
     (hD : D ≤ normalizer (T : Set X)) (hT : Group.IsSolvable T)
     (hD' : Group.IsSolvable D) : Group.IsSolvable ↥(D ⊔ T) := by
@@ -175,6 +178,7 @@ theorem isSolvable_sup_of_le_normalizer {T D : Subgroup X}
     exact Group.isSolvable_of_surjective (f := e₂.toMonoidHom) e₂.surjective
   exact Group.isSolvable_of_ker_le_range _ _ hker
 
+omit [Finite X] in
 theorem isSolvable_of_le {A B : Subgroup X} (hAB : A ≤ B) (hB : Group.IsSolvable ↥B) :
     Group.IsSolvable ↥A :=
   Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hAB)
@@ -309,6 +313,7 @@ theorem sSup_le_normalizer {H M : Subgroup X} {S : Set (Subgroup X)} (hM : IsPCo
     exact Subgroup.le_normalizer
   exact (le_QOf_of_ne hM (hS J hJ) hne).trans fun q hq => (mem_QOf_iff.1 hq).1
 
+omit [Finite X] in
 theorem conj_mem_QOf {A : Subgroup X} {c q : X} (hc : c ∈ normalizer (A : Set X))
     (hq : q ∈ QOf A) : c * q * c⁻¹ ∈ QOf A := by
   have hcO := mem_normalizer_oddCoreOf_of_mem_normalizer hc
@@ -326,6 +331,7 @@ theorem conj_mem_QOf {A : Subgroup X} {c q : X} (hc : c ∈ normalizer (A : Set 
   rw [e]
   exact h2
 
+omit [Finite X] in
 theorem mem_normalizer_QOf {A : Subgroup X} {c : X} (hc : c ∈ normalizer (A : Set X)) :
     c ∈ normalizer (QOf A : Set X) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -334,6 +340,7 @@ theorem mem_normalizer_QOf {A : Subgroup X} {c : X} (hc : c ∈ normalizer (A : 
   have := conj_mem_QOf (Subgroup.inv_mem _ hc) h
   rwa [show c⁻¹ * (c * q * c⁻¹) * c⁻¹⁻¹ = q by group] at this
 
+omit [Finite X] in
 theorem ne_of_sec5Comp_of_sec6MComp (hcf : McLLyCenterFree) {n : ℕ} {H A M : Subgroup X}
     (hA : Sec5Comp X n H A) (hM : Sec6MComp X n H M) : A ≠ M := by
   rintro rfl
@@ -348,9 +355,11 @@ section NonSolvable
 
 variable [Finite X]
 
+omit [Finite X] in
 theorem oTwoPrimeOf_le (K : Subgroup X) : oTwoPrimeOf K ≤ K :=
   (Subgroup.closure_le K).2 fun _ hx => hx.1
 
+omit [Finite X] in
 theorem oddCoreOf_le_QOf (F : Subgroup X) : oddCoreOf F ≤ QOf F := by
   intro o ho
   have hoF : o ∈ F := oddCoreOf_le F ho
@@ -360,6 +369,7 @@ theorem oddCoreOf_le_QOf (F : Subgroup X) : oddCoreOf F ≤ QOf F := by
   rw [commutatorElement_def]
   exact (oddCoreOf F).mul_mem h1 ((oddCoreOf F).inv_mem ho)
 
+omit [Finite X] in
 theorem zStar_le_oddCoreOf_of_center {F : Subgroup X}
     (hZ : center (↥F ⧸ pPrimeCore 2 ↥F) = ⊥) : zStar F ≤ oddCoreOf F := by
   rintro z ⟨hzF, -, -, hz⟩
@@ -524,6 +534,7 @@ private theorem normal_le_center_or_eq_top {K : Type*} [Group K] (hq : IsQuasisi
     rw [Group.isPerfect_def.mp hperf] at hle
     exact top_le_iff.mp hle
 
+omit [Finite X] in
 theorem mem_zStar_of_mk_mem_center {A : Subgroup X} {a : X} (ha : a ∈ A)
     (h : ((⟨a, ha⟩ : ↥A) : ↥A ⧸ pPrimeCore 2 ↥A) ∈ center (↥A ⧸ pPrimeCore 2 ↥A)) :
     a ∈ zStar A := by
@@ -557,9 +568,9 @@ theorem card_quot_center_le_relIndex {J K : Subgroup X} (hJ : IsTwoGenQuasi ↥J
     Nat.card ((↥J ⧸ pPrimeCore 2 ↥J) ⧸ center (↥J ⧸ pPrimeCore 2 ↥J)) ≤ K.relIndex J := by
   have hfact : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set K' := K.subgroupOf J with hK'
-  haveI hK'n : K'.Normal := (normal_subgroupOf_iff_le_normalizer hKJ).2 hn
+  have hK'n : K'.Normal := (normal_subgroupOf_iff_le_normalizer hKJ).2 hn
   set π := QuotientGroup.mk' (pPrimeCore 2 ↥J) with hπ
-  haveI : (K'.map π).Normal := Subgroup.Normal.map hK'n π (QuotientGroup.mk'_surjective _)
+  have : (K'.map π).Normal := Subgroup.Normal.map hK'n π (QuotientGroup.mk'_surjective _)
   rcases normal_le_center_or_eq_top hJ.2 (K'.map π) with hc | ht
   · have hle : K' ≤ (center (↥J ⧸ pPrimeCore 2 ↥J)).comap π := Subgroup.map_le_iff_le_comap.1 hc
     have h1 : ((center (↥J ⧸ pPrimeCore 2 ↥J)).comap π).index ∣ K'.index :=
@@ -590,6 +601,7 @@ theorem card_quot_center_le_relIndex {J K : Subgroup X} (hJ : IsTwoGenQuasi ↥J
     intro x hx
     exact hres (Subgroup.mem_top (⟨x, hx⟩ : ↥J))
 
+omit [Finite X] in
 theorem mem_QOf_of_commutator_mem_zStar {A : Subgroup X} (hA : IsTwoGenQuasi ↥A) {x : X}
     (hxA : x ∈ normalizer (A : Set X)) (h : ∀ a ∈ A, ⁅a, x⁆ ∈ zStar A) : x ∈ QOf A := by
   set Q := ↥A ⧸ pPrimeCore 2 ↥A
@@ -664,6 +676,7 @@ theorem mem_QOf_of_commutator_mem_zStar {A : Subgroup X} (hA : IsTwoGenQuasi ↥
   rw [QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff] at h2
   exact ⟨_, h2, rfl⟩
 
+omit [Finite X] in
 theorem card_alt_le_of_sec6KComp
     (hcf : McLLyCenterFree) {n : ℕ} {H J : Subgroup X} (hJ : Sec6KComp X n H J) :
     Nat.card (alternatingGroup (Fin n)) ≤
@@ -712,7 +725,7 @@ theorem mem_QOf_of_mem_sec6K
   have hAG : A ≤ G₀ := le_sup_left
   have hG₀Q : G₀ ≤ normalizer (Q : Set X) :=
     sup_le (fun c hc => mem_normalizer_QOf (Subgroup.le_normalizer hc)) Subgroup.le_normalizer
-  haveI hQn : (Q.subgroupOf G₀).Normal := (normal_subgroupOf_iff_le_normalizer hQG).2 hG₀Q
+  have hQn : (Q.subgroupOf G₀).Normal := (normal_subgroupOf_iff_le_normalizer hQG).2 hG₀Q
   set π₀ := QuotientGroup.mk' (Q.subgroupOf G₀) with hπ₀
   have hxG : x ∈ G₀ := hKG hxKN
   set C₀ := (centralizer ({π₀ ⟨x, hxG⟩} : Set (↥G₀ ⧸ Q.subgroupOf G₀))).comap π₀ with hC₀def
@@ -989,6 +1002,7 @@ theorem sec6Fusion_ns (hcf : McLLyCenterFree) (hS : Sec6Setting X n t) (hK : Sec
   ∀ x ∈ N, ∀ g y : X, y ∈ Sec6R X n N → orderOf y = 2 → x = g * y * g⁻¹ →
     Sec6K X n (cen x) ≤ N
 
+omit [Finite X] in
 theorem mem_sec6K_cen_conj {y : X} (hy : y ∈ Sec6K X n (cen y)) (g : X) :
     g * y * g⁻¹ ∈ Sec6K X n (cen (g * y * g⁻¹)) := by
   have h1 := Sec6K_map n (MulAut.conj g) (cen y)
@@ -1034,9 +1048,9 @@ end Fields
 
 theorem sec6Thm64Fusion_of_ctrl
     {X : Type} [Group X] [Finite X] {n : ℕ} {t : X}
-    (hS : Sec6Setting X n t) (hK : Sec6Lemma51 X n) (h61 : Sec6L61 X n t)
-    (hC : Sec6CtrlAt X n t) (N : Subgroup X) (hN : N ≠ ⊤) (hCt : cen t ≤ N)
-    (hII : Sec6CtrlNAt X n t N)
+    (hS : Sec6Setting X n t) (hK : Sec6Lemma51 X n) (_h61 : Sec6L61 X n t)
+    (_hC : Sec6CtrlAt X n t) (N : Subgroup X) (hN : N ≠ ⊤) (hCt : cen t ≤ N)
+    (_hII : Sec6CtrlNAt X n t N)
     (hI : ∀ x ∈ Sec6R X n N, orderOf x = 2 → cen x ≤ N)
     (hM : Sec6FusMemK X n N) :
     Sec6Fusion X N (Sec6Y X n N) where

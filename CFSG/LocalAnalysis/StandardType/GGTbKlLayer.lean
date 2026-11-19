@@ -22,7 +22,7 @@ theorem largeEvenLayer_centralizer_eq_of_commSpace_two
     [FiniteDimensional K V] {Q : QuadraticForm K V}
     (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) (hV : 8 ≤ finrank K V) {p : ℕ}
     (hp : p.Prime) (hp2 : p ≠ 2) (hK1 : ∀ c : K, c ^ p = 1 → c = 1)
-    {t : orthDerived Q} (ht1 : t ≠ 1) (htp : t ^ p = 1)
+    {t : orthDerived Q} (_ht1 : t ≠ 1) (htp : t ^ p = 1)
     (ht2 : finrank K (CFSG.RankThree.PartOne.LIT.commSpace (t : V ≃ₗ[K] V)) = 2) :
     LargeEvenLayer (Subgroup.centralizer ({t} : Set (orthDerived Q))) =
       (supportedFixedDerived Q (t : V ≃ₗ[K] V)).subgroupOf (orthDerived Q) := by
@@ -158,7 +158,7 @@ private lemma tbkls12_tor_sub_eq (u : Fin 3 → ZMod 3) (i : Fin 3)
     by_cases hji : j = i
     · subst hji; simp
     · have h0 : u j = 0 := huj j hji
-      simp [h0, rotPow_zero, Pi.single_apply, hji]
+      simp [h0, rotPow_zero, hji]
   · simp
 
 private lemma tbkls12_tor_planeVec (u : Fin 3 → ZMod 3) (i : Fin 3) (q : ZMod 2 × ZMod 2) :

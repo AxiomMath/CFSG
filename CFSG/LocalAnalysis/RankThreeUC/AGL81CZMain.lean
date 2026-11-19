@@ -46,7 +46,7 @@ private theorem normal_of_map_conj_eq {X : Type*} [Group X] {J : Subgroup X}
 
 theorem DEmbConfig.false {X : Type} [Group X] [Finite X] {Y W : Subgroup X} {d : ℕ}
     (hcfg : DEmbConfig X Y d W) (hcomp : ZComponentData X Y) (hk : ZKFacts) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hd : d.Prime := hcfg.prime
   have hd5 : 5 ≤ d := hcfg.five_le
   have hd3 : d ≠ 3 := by omega

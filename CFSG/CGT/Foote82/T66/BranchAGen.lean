@@ -17,6 +17,7 @@ section Components
 
 variable {Γ : Type*} [Group Γ] [Finite Γ]
 
+omit [Finite Γ] in
 theorem isComponent_subgroupOf {Q H : Subgroup Γ} (hQ : IsComponentOf Q H) :
     CFSG.IsComponent (Q.subgroupOf H) :=
   (CFSG.LocalAnalysis.ComponentInitial.isComponentOf_iff_isComponent_subgroupOf hQ.1).1
@@ -43,6 +44,7 @@ theorem le_or_commute_of_normal {Q U H : Subgroup Γ} (hQ : IsComponentOf Q H) (
     rwa [Subgroup.map_commutator, Subgroup.map_subgroupOf_eq_of_le hQ.1,
       Subgroup.map_subgroupOf_eq_of_le hUH, Subgroup.map_bot] at this
 
+omit [Finite Γ] in
 theorem map_conj_self {H : Subgroup Γ} {g : Γ} (hg : g ∈ H) :
     H.map (MulAut.conj g).toMonoidHom = H := by
   ext x
@@ -55,6 +57,7 @@ theorem map_conj_self {H : Subgroup Γ} {g : Γ} (hg : g ∈ H) :
   · intro hx
     exact H.mul_mem (H.mul_mem (H.inv_mem hg) hx) hg
 
+omit [Finite Γ] in
 theorem isComponentOf_conj {Q H : Subgroup Γ} (hQ : IsComponentOf Q H) {g : Γ} (hg : g ∈ H) :
     IsComponentOf (Q.map (MulAut.conj g).toMonoidHom) H := by
   refine ⟨?_, ?_, ?_⟩
@@ -73,6 +76,7 @@ theorem sSup_le_normalizer {Q H : Subgroup Γ} (hQ : IsComponentOf Q H) :
   · exact (Subgroup.commutator_eq_bot_iff_le_centralizer.1 hc).trans
       (Subgroup.centralizer_le_normalizer _)
 
+omit [Finite Γ] in
 theorem not_isSolvable_of_isQuasisimple {Q : Subgroup Γ} (hQ : CFSG.Open.IsQuasisimple ↥Q) :
     ¬ Group.IsSolvable ↥Q := by
   have hQ' : CFSG.IsQuasisimple ↥Q :=
@@ -91,14 +95,17 @@ variable {G L : Subgroup (GLV V)} {z : GLV V}
 abbrev classClosure (G : Subgroup (GLV V)) (z : GLV V) : Subgroup (GLV V) :=
   Subgroup.closure {x | ∃ g ∈ G, x = g * z * g⁻¹}
 
+omit [Finite V] in
 theorem classClosure_le (hz : z ∈ G) : classClosure G z ≤ G := by
   refine (Subgroup.closure_le _).2 ?_
   rintro _ ⟨g, hg, rfl⟩
   exact G.mul_mem (G.mul_mem hg hz) (G.inv_mem hg)
 
-theorem mem_classClosure (hz : z ∈ G) : z ∈ classClosure G z :=
+omit [Finite V] in
+theorem mem_classClosure (_hz : z ∈ G) : z ∈ classClosure G z :=
   Subgroup.subset_closure ⟨1, G.one_mem, by group⟩
 
+omit [Finite V] in
 theorem conj_mem_classClosure {g x : GLV V} (hg : g ∈ G) (hx : x ∈ classClosure G z) :
     g * x * g⁻¹ ∈ classClosure G z := by
   have hle : classClosure G z ≤ (classClosure G z).comap (MulAut.conj g).toMonoidHom := by
@@ -108,6 +115,7 @@ theorem conj_mem_classClosure {g x : GLV V} (hg : g ∈ G) (hx : x ∈ classClos
     exact Subgroup.subset_closure ⟨g * k, G.mul_mem hg hk, by group⟩
   exact hle hx
 
+omit [Finite V] in
 theorem commutator_mem_classClosure (hz : z ∈ G) {g : GLV V} (hg : g ∈ G) :
     g * z * g⁻¹ * z⁻¹ ∈ classClosure G z :=
   Subgroup.mul_mem _ (Subgroup.subset_closure ⟨g, hg, rfl⟩)
@@ -274,6 +282,7 @@ theorem eq_classClosure (h : StdForm G L z) : G = classClosure G z := by
   rw [layerIn_eq_sSup]
   exact sSup_le fun J hJ => isComponentOf_le_classClosure h hJ
 
+omit [Finite V] in
 theorem commutator_eq_layerIn (h : StdForm G L z) : ⁅G, G⁆ = layerIn G := by
   apply le_antisymm
   ·

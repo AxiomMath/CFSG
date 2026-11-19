@@ -54,7 +54,7 @@ private theorem otm_aniso {K : Type} [Field K] [CharP K 2] [Finite K] (hK : Nat.
 private theorem otm_planeMat_apply_of_ne {K : Type} [Field K] {n : ℕ}
     (N : Fin n → Matrix (Fin 2) (Fin 2) K) {a b : Fin n ⊕ Fin n}
     (h : WitSpNs.plane a ≠ WitSpNs.plane b) : WitSpNs.planeMat N a b = 0 := by
-  rw [WitSpNs.planeMat_apply, if_neg h]
+  rw [WitSpNs.planeMat_apply, ite_eq_right h]
 
 private theorem otm_planeMat_mulVec_inl {K : Type} [Field K] {n : ℕ}
     (N : Fin n → Matrix (Fin 2) (Fin 2) K) (v : (Fin n ⊕ Fin n) → K) (j : Fin n) :
@@ -129,10 +129,10 @@ private theorem otm_planeQ_planeMat {K : Type} [Field K] [Finite K] [CharP K 2]
   refine Finset.sum_congr rfl fun i _ => ?_
   rw [h0 i, h1 i]
   by_cases hi : i = i₀
-  · rw [hi, if_pos rfl]
+  · rw [hi, ite_eq_left rfl]
     split_ifs
     exact otm_aniso hK _ _ _ _ _ _ hdet
-  · rw [if_neg hi]
+  · rw [ite_eq_right hi]
     simp
 
 private theorem otm_lam_mem_orthGroup {K : Type} [Field K] [Finite K] [CharP K 2]

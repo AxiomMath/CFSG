@@ -31,11 +31,13 @@ variable (K) in
     ↥(fixSubgroup (d4Graph K 1)) ≃* ↥(adjointGroup Tag.G2 K) :=
   (fixSubgroupEquivTwisted K).trans (d4FixedG2Equiv K h2)
 
+omit [Finite K] in
 theorem coe_fixSubgroupEquivG2Two (h2 : (2 : K) = 0) (y : ↥(fixSubgroup (d4Graph K 1))) :
     ((fixSubgroupEquivG2Two K h2 y : adjointGroup Tag.G2 K) : ModGL Tag.G2 K) =
       d4FixedToG2 K ⟨y.1.1, mem_fixSubgroup_d4Graph_one_iff.1 y.2⟩ :=
   rfl
 
+omit [Finite K] in
 theorem fixSubgroupEquivG2Two_sl2Two (h2 : (2 : K) = 0) (A : SL2 K) :
     ((fixSubgroupEquivG2Two K h2 (sl2TwoFix A) : adjointGroup Tag.G2 K) : ModGL Tag.G2 K) =
       simpleRootSL2 Tag.G2 K ⟨0, by decide⟩ A := by
@@ -57,6 +59,7 @@ theorem fixSubgroupEquivG2Two_sl2Two (h2 : (2 : K) = 0) (A : SL2 K) :
         (yUnit_two_eq_g2OrbitYUnit c))
   exact DFunLike.congr_fun hρ A
 
+omit [Finite K] in
 theorem fixSubgroupEquivG2Two_sl2Short (h2 : (2 : K) = 0) (A : SL2 K) :
     ((fixSubgroupEquivG2Two K h2 (sl2ShortFix A) : adjointGroup Tag.G2 K) : ModGL Tag.G2 K) =
       simpleRootSL2 Tag.G2 K ⟨1, by decide⟩ A := by

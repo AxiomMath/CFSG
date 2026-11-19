@@ -79,7 +79,7 @@ private theorem lift_involution_in_sylow_of_quotient
     exact Odd.of_dvd_nat hZodd (Subgroup.orderOf_dvd_natCard Z hs2Z)
   let sP : P := ⟨s, hsP⟩
   have hordP : ∃ k : ℕ, orderOf sP = 2 ^ k :=
-    (IsPGroup.iff_orderOf.mp P.isPGroup') sP
+    (IsPGroup.iff_orderOf.mp P.isPGroup) sP
   rcases hordP with ⟨k, hk⟩
   have hs2pow : orderOf (s ^ 2) ∣ 2 ^ k := by
     have hordSE : orderOf (s : E) = orderOf sP :=

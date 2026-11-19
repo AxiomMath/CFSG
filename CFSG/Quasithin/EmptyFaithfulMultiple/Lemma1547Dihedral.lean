@@ -231,7 +231,7 @@ theorem centralizer_eq_of_dihedral (hEven : quasithinEvenCharacteristic G) (S : 
   have hTC : (S : Subgroup G) ≤ Subgroup.centralizer ({z} : Set G) := fun t ht =>
     Subgroup.mem_centralizer_singleton_iff.mpr (hzcen t ht)
   have hTN : (S : Subgroup G) ≤ N := hTC.trans hCN
-  have hPp : IsPGroup 2 P := S.isPGroup'.to_le (Subgroup.zpowers_le.mpr hzS)
+  have hPp : IsPGroup 2 P := S.isPGroup.to_le (Subgroup.zpowers_le.mpr hzS)
   have hP1 : P ≠ ⊥ := fun hb => hz1 ((Subgroup.zpowers_eq_bot).mp hb)
   have hF : N ⊓ Subgroup.centralizer (pCoreOf 2 N : Set G) ≤ pCoreOf 2 N :=
     hEven N ⟨P, hP1, hPp, rfl⟩ ⟨S, hTN⟩

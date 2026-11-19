@@ -100,7 +100,7 @@ theorem foldr_bits (q : Nat) : ∀ n, (List.range n).foldr
         simp [hq]
       · have : n = j ↔ False := ⟨fun e => hj e.symm, False.elim⟩
         by_cases hj' : j < n
-        · simp [hj', hj, show j < n + 1 by omega, this]
+        · simp [hj', show j < n + 1 by omega, this]
         · simp [hj', show ¬ j < n + 1 by omega, this]
     · have hq : q.testBit n = false := by
         rw [tb]
@@ -145,8 +145,7 @@ theorem bit_xor (i a b : Nat) : (a ^^^ b) >>> i % 2 = ((a >>> i) % 2) ^^^ ((b >>
   apply Nat.eq_of_testBit_eq
   intro j
   rw [Nat.testBit_xor]
-  simp only [Nat.testBit_mod_two_pow, Nat.shiftRight_eq_div_pow, Nat.testBit_div_two_pow,
-    Nat.testBit_xor]
+  simp only [Nat.shiftRight_eq_div_pow]
   have h2 : ∀ z : Nat, z % 2 = z % 2 ^ 1 := fun z => by norm_num
   rw [h2, h2, h2, Nat.testBit_mod_two_pow, Nat.testBit_mod_two_pow, Nat.testBit_mod_two_pow]
   simp only [Nat.testBit_div_two_pow, Nat.testBit_xor]
@@ -169,13 +168,13 @@ theorem selX_hM (p q i : Nat) (hq : q < 4096) :
   funext b acc
   congr 1
   by_cases h : (q >>> b) % 2 = 1
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     by_cases h' : hermC p (2 ^ b) >>> i % 2 = 1
-    · rw [if_pos h', h, h']
-    · rw [if_neg h']
+    · rw [ite_eq_left h', h, h']
+    · rw [ite_eq_right h']
       omega
   · have h0 : (q >>> b) % 2 = 0 := by omega
-    rw [if_neg h, hermC_zero, Nat.zero_shiftRight, h0]
+    rw [ite_eq_right h, hermC_zero, Nat.zero_shiftRight, h0]
     split_ifs <;> rfl
 
 set_option exponentiation.threshold 512 in
@@ -301,7 +300,7 @@ theorem chkPF_sound {P : List Nat} {C : List (List Nat)} (h : chkPF P C = true) 
     rw [fld_ONE]
     split_ifs <;> omega
   have hO1 : ∀ s < 13860, fld s (pkW 400 (List.replicate 693 1) * l20) = 1 := fun s hs => by
-    rw [fld_ONE, if_pos hs]
+    rw [fld_ONE, ite_eq_left hs]
   have hQb : ∀ x ∈ C.map (pkW 20), x < 2 ^ 400 := fun x hx => by
     obtain ⟨c, hcm, rfl⟩ := List.mem_map.mp hx
     obtain ⟨hcl, hcb⟩ := hmemC c hcm
@@ -324,7 +323,7 @@ theorem chkPF_sound {P : List Nat} {C : List (List Nat)} (h : chkPF P C = true) 
       List.getD_eq_getElem _ _ (by simp; omega), List.getElem_map,
       ← List.getD_eq_getElem _ [] (by omega), Nat.mul_comm,
       fld_mul_spread (getD_lt_of hCb (by positivity) i) _
-        (fun t => by rw [fld_l20]; split_ifs <;> omega), fld_l20, if_pos hm, Nat.one_mul,
+        (fun t => by rw [fld_l20]; split_ifs <;> omega), fld_l20, ite_eq_left hm, Nat.one_mul,
       List.getD_eq_getElem _ _ (by omega)]
   intro k hk l hl
   rw [hPl] at hk hl
@@ -421,11 +420,11 @@ theorem chkPF_sound {P : List Nat} {C : List (List Nat)} (h : chkPF P C = true) 
   generalize pkW 400 (List.replicate 693 1) = REP at hD hX hY hL hB hOl e1 e2
   refine ⟨fun h0 m hm => ?_, fun h0 m hm => ?_⟩
   · have e := congrArg (fld (20 * l + m)) e1
-    rw [fld_and, fld_xor, fld_zero, hOl m hm, if_pos h0, Nat.and_two_pow_sub_one_eq_mod,
+    rw [fld_and, fld_xor, fld_zero, hOl m hm, ite_eq_left h0, Nat.and_two_pow_sub_one_eq_mod,
       Nat.mod_eq_of_lt (Nat.xor_lt_two_pow (fld_lt _ _) (fld_lt _ _)), hX m hm, hY m hm] at e
     exact hxeq e
   · have e := congrArg (fld (20 * l + m)) e2
-    rw [fld_and, fld_xor, fld_xor, fld_zero, hOl m hm, if_neg h0, hD m hm, Nat.xor_zero,
+    rw [fld_and, fld_xor, fld_xor, fld_zero, hOl m hm, ite_eq_right h0, hD m hm, Nat.xor_zero,
       Nat.and_two_pow_sub_one_eq_mod,
       Nat.mod_eq_of_lt (Nat.xor_lt_two_pow (fld_lt _ _) (fld_lt _ _)), hL m hm, hY m hm,
       hB m hm, hX m hm] at e

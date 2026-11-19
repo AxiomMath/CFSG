@@ -90,7 +90,7 @@ theorem rawMarking_of_mem_twistedE6Inndiag {S : Type} [Group S]
               Module.End K (RootModule TwistTag.E6.tag K)) =
               LargeEvenDiagMap (LargeEvenCartanE 6) K b := he b
           rw [hT' (compatDiagAutHom TwistTag.E6 K σ.toRingHom u (T'.symm h)), hDcoe]
-          simp only [Units.val_mul, Units.val_inv_eq_inv_val, map_mul, map_inv]
+          simp only [Units.val_mul, map_mul]
           have hroot_inv : e ((((rootDiagUnit TwistTag.E6.tag b)⁻¹ : ModGL TwistTag.E6.tag K)) :
               Module.End K (RootModule TwistTag.E6.tag K)) =
               LargeEvenDiagMap (LargeEvenCartanE 6) K b⁻¹ := he b⁻¹

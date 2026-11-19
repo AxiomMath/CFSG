@@ -100,6 +100,7 @@ section Kernel
 variable {L : Subgroup (GLV V)} (hperf : ⁅L, L⁆ = L) (hcen : kT L ≤ Subgroup.center ↥L)
 include hperf hcen
 
+omit hperf in
 theorem kT_comm {z : ↥L} (hz : z ∈ kT L) (l : ↥L) (v : V) :
     (z : GLV V) ((l : GLV V) v) = (l : GLV V) ((z : GLV V) v) := by
   have h := Subgroup.mem_center_iff.1 (hcen hz) l
@@ -112,7 +113,7 @@ theorem kT_fix {z : ↥L} (hz : z ∈ kT L) : ∀ u ∈ commSpace L ⊤, (z : GL
     refine commSpace_le_iff.2 fun l hl u hu => ?_
     rw [LinearMap.mem_eqLocus]
     have e2 : l ((z : GLV V) u - u) = (z : GLV V) u - u := hz u hu l hl
-    have e1 := kT_comm hperf hcen hz ⟨l, hl⟩ u
+    have e1 := kT_comm hcen hz ⟨l, hl⟩ u
     show (z : GLV V) (l u - u) = l u - u
     rw [map_sub, e1]
     rw [map_sub] at e2
@@ -126,7 +127,7 @@ theorem kT_sub_mem {z : ↥L} (hz : z ∈ kT L) (v : V) : (z : GLV V) v - v ∈ 
   intro l hl
   have hlv : (z : GLV V) (l v - v) = l v - v :=
     kT_fix hperf hcen hz _ (sub_mem_commSpace hl Submodule.mem_top)
-  have hc := kT_comm hperf hcen hz ⟨l, hl⟩ v
+  have hc := kT_comm hcen hz ⟨l, hl⟩ v
   show l ((z : GLV V) v - v) = (z : GLV V) v - v
   rw [map_sub, ← hc]
   rw [map_sub] at hlv

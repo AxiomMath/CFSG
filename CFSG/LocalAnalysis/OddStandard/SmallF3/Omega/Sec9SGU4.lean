@@ -68,7 +68,7 @@ theorem sec9u_lift_E16 [Finite G] {L : Subgroup G} (hL : IsOm6M L) {hQ : Q.Nonde
     by_contra hodd
     rw [Nat.not_odd_iff_even] at hodd
     have hodd' : 2 ∣ Nat.card Z := hodd.two_dvd
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨c, hc⟩ := exists_prime_orderOf_dvd_card' (G := ↥Z) 2 hodd'
     have hcZ : (c : ↥L) ∈ Z := c.2
     have hord : orderOf (((c : ↥Z) : ↥L) : G) = 2 := by

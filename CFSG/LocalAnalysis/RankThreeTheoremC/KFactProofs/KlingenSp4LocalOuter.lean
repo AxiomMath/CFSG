@@ -68,7 +68,7 @@ theorem isSolvable_of_card_dvd_two {G : Type} [Group G] [Finite G] (h : Nat.card
     infer_instance
   · have : Fact (Nat.card G).Prime := ⟨h2 ▸ Nat.prime_two⟩
     have : IsCyclic G := isCyclic_of_prime_card h2
-    letI : CommGroup G := IsCyclic.commGroup
+    let : CommGroup G := IsCyclic.commGroup
     exact Group.isSolvable_of_comm fun a b => mul_comm a b
 
 theorem le_of_isPGroup_of_not_dvd_card_quotient {p : ℕ} [Fact p.Prime] {Y : Type} [Group Y]

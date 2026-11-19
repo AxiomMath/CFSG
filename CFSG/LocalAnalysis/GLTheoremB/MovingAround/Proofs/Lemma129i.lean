@@ -26,7 +26,7 @@ theorem A_eq_sup_of_not_mem (h : Cex127 G m p B M E A N D) (hs : Setup2 M A N p 
     {a : G} (haA : a ∈ A) (haK : a ∉ Subgroup.normalizer (K : Set G)) :
     A = F ⊔ Subgroup.zpowers a ∧ F ⊓ Subgroup.zpowers a = ⊥ := by
   have hp := prime_of h
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hFA := hs.F_le_A
   have hFne : F ≠ A := by
     intro hFA'
@@ -40,7 +40,7 @@ theorem A_eq_sup_of_not_mem (h : Cex127 G m p B M E A N D) (hs : Setup2 M A N p 
   have hord : orderOf a = p := orderOf_eq_prime hap ha1
   have hFa : F ⊓ Subgroup.zpowers a = ⊥ := by
     have hcardz : Nat.card (Subgroup.zpowers a) = p := by rw [Nat.card_zpowers, hord]
-    haveI : Fact (Nat.card (Subgroup.zpowers a)).Prime := ⟨hcardz ▸ hp⟩
+    have : Fact (Nat.card (Subgroup.zpowers a)).Prime := ⟨hcardz ▸ hp⟩
     rcases Subgroup.eq_bot_or_eq_top_of_prime_card
       ((F ⊓ Subgroup.zpowers a).subgroupOf (Subgroup.zpowers a)) with h1 | h1
     · ext x
@@ -93,7 +93,7 @@ theorem kstar_le_normalizer {Y : Type} [Group Y] {p : ℕ} {K : Subgroup Y} {a :
   by_cases hi : (i : ℕ) = 0
   · have : Lemma129W.kconj a K i = K := by
       ext x
-      simp [Lemma129W.kconj, hi, MulAut.conj_apply]
+      simp [Lemma129W.kconj, hi]
     rw [this]
     exact Subgroup.le_normalizer
   · have hne : i ≠ ⟨0, hp⟩ := fun h0 => hi (by simp [h0])
@@ -101,7 +101,7 @@ theorem kstar_le_normalizer {Y : Type} [Group Y] {p : ℕ} {K : Subgroup Y} {a :
     rw [Subgroup.mem_normalizer_iff]
     intro y
     have hK0 : ∀ z ∈ K, z ∈ Lemma129W.kconj a K ((⟨0, hp⟩ : Fin p) : ℕ) := fun z hz =>
-      Subgroup.mem_map.2 ⟨z, hz, by simp [MulAut.conj_apply]⟩
+      Subgroup.mem_map.2 ⟨z, hz, by simp⟩
     have hc : ∀ z ∈ K, x * z = z * x := fun z hz => hcomm i ⟨0, hp⟩ hne x hx z (hK0 z hz)
     constructor
     · intro hy
@@ -118,7 +118,7 @@ theorem kstar_le_normalizer {Y : Type} [Group Y] {p : ℕ} {K : Subgroup Y} {a :
       rw [this]
       exact hy
 
-theorem S_comm_M (h : Cex127 G m p B M E A N D) (hs : Setup2 M A N p S F K) :
+theorem S_comm_M (_h : Cex127 G m p B M E A N D) (hs : Setup2 M A N p S F K) :
     ∀ s ∈ barX p N S, ∀ μ ∈ barX p N M, s * μ * s⁻¹ * μ⁻¹ ∈ barX p N (pCoreOf 2 M) := by
   rintro _ ⟨σ, hσ, rfl⟩ _ ⟨μ, hμ, rfl⟩
   have hσS : (σ : G) ∈ S := (Subgroup.mem_subgroupOf).1 hσ
@@ -138,7 +138,7 @@ theorem alt_norm (h23 : Input23_5) (h : Cex127 G m p B M E A N D) (hs : Setup2 M
     (D' : AltData p N K F) : A ≤ Subgroup.normalizer (K : Set G) := by
   by_contra hAK
   have hp := prime_of h
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 := ne_two_of h
   have hp3 : 3 ≤ p := by have := hp.two_le; omega
   have hAN := A_le_N h

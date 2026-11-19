@@ -13,28 +13,34 @@ open scoped MatrixGroups
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {n : ℕ}
 
+omit [Finite K] [CharP K 2] in
 private theorem tm_coe_mul (A B : SL(3, K)) :
     ((A * B : SL(3, K)) : Matrix (Fin 3) (Fin 3) K) =
       (A : Matrix (Fin 3) (Fin 3) K) * (B : Matrix (Fin 3) (Fin 3) K) :=
   Matrix.SpecialLinearGroup.coe_mul A B
 
+omit [Finite K] [CharP K 2] in
 private theorem tm_coe_one : ((1 : SL(3, K)) : Matrix (Fin 3) (Fin 3) K) = 1 :=
   Matrix.SpecialLinearGroup.coe_one
 
+omit [Finite K] [CharP K 2] in
 private theorem tm_transvection_coe (c : K) :
     ((SpecialLinearGroup.transvection (by decide : (0 : Fin 3) ≠ 2) c : SL(3, K)) :
         Matrix (Fin 3) (Fin 3) K) = 1 + c • Matrix.single (0 : Fin 3) 2 1 := by
   rw [SpecialLinearGroup.transvection_coe, Matrix.smul_single, smul_eq_mul, mul_one]
 
+omit [Finite K] [CharP K 2] in
 private theorem tm_conj_affine {A B E : Matrix (Fin 3) (Fin 3) K} (hAB : A * B = 1) (c : K) :
     A * (1 + c • E) * B = 1 + c • (A * E * B) := by
   rw [Matrix.mul_add, Matrix.mul_one, Matrix.mul_smul, Matrix.add_mul, Matrix.smul_mul, hAB]
 
+omit [Finite K] [CharP K 2] in
 private theorem tm_conj_inv_affine {A B E : Matrix (Fin 3) (Fin 3) K} (hBA : B * A = 1) :
     B * (A * E * B) * A = E := by
   rw [show B * (A * E * B) * A = B * A * E * (B * A) by simp only [Matrix.mul_assoc], hBA,
     Matrix.one_mul, Matrix.mul_one]
 
+omit [Finite K] [CharP K 2] in
 private theorem tm_sub_one_eq (rh W : SL(3, K))
     (hW : W * rh * W⁻¹ = SpecialLinearGroup.transvection (by decide : (0 : Fin 3) ≠ 2) 1) :
     (rh : Matrix (Fin 3) (Fin 3) K) - 1 =
@@ -53,6 +59,7 @@ private theorem tm_sub_one_eq (rh W : SL(3, K))
       tm_conj_affine hAB]
   rw [hm, one_smul, add_sub_cancel_left]
 
+omit [Finite K] in
 private theorem tm_sub_one_sq (rh : SL(3, K)) (hrr : rh * rh = 1) :
     ((rh : Matrix (Fin 3) (Fin 3) K) - 1) * ((rh : Matrix (Fin 3) (Fin 3) K) - 1) = 0 := by
   have hsq : (rh : Matrix (Fin 3) (Fin 3) K) * (rh : Matrix (Fin 3) (Fin 3) K) = 1 := by
@@ -67,6 +74,7 @@ private theorem tm_sub_one_sq (rh : SL(3, K)) (hrr : rh * rh = 1) :
   rw [e1, hsq, h2 (rh : Matrix (Fin 3) (Fin 3) K), sub_zero]
   exact h2 1
 
+omit [Finite K] [CharP K 2] in
 private theorem tm_sub_one_ne_zero {rh : SL(3, K)} (hne : rh ≠ 1) :
     (rh : Matrix (Fin 3) (Fin 3) K) - 1 ≠ 0 := by
   intro h
@@ -87,7 +95,7 @@ private theorem tm_bar_sub_one (rh : SL(3, K))
 private theorem tm_bar_affine (N : Matrix (Fin 3) (Fin 3) K) (hN : ∀ i j, bar n (N i j) = N i j)
     (c : K) (i j : Fin 3) :
     bar n ((1 + c • N) i j) = (1 + bar n c • N) i j := by
-  by_cases h : i = j <;> simp [Matrix.add_apply, Matrix.smul_apply, Matrix.one_apply, h, hN]
+  by_cases h : i = j <;> simp [Matrix.add_apply, Matrix.smul_apply, h, hN]
 
 private theorem tm_map_coe (g : SL(3, K)) (N : Matrix (Fin 3) (Fin 3) K)
     (hN : ∀ i j, bar n (N i j) = N i j) (c : K)
@@ -95,8 +103,7 @@ private theorem tm_map_coe (g : SL(3, K)) (N : Matrix (Fin 3) (Fin 3) K)
     ((Matrix.SpecialLinearGroup.map (bar n).toRingHom g : SL(3, K)) :
         Matrix (Fin 3) (Fin 3) K) = 1 + bar n c • N := by
   ext i j
-  simp only [Matrix.SpecialLinearGroup.map_apply_coe, RingHom.mapMatrix_apply, Matrix.map_apply,
-    RingEquiv.coe_toRingHom]
+  simp only [Matrix.SpecialLinearGroup.map_apply_coe, RingHom.mapMatrix_apply, Matrix.map_apply]
   rw [hg]
   exact tm_bar_affine N hN c i j
 
@@ -105,8 +112,7 @@ private theorem tm_map_self (g : SL(3, K))
     Matrix.SpecialLinearGroup.map (bar n).toRingHom g = g := by
   apply Subtype.ext
   ext i j
-  simp only [Matrix.SpecialLinearGroup.map_apply_coe, RingHom.mapMatrix_apply, Matrix.map_apply,
-    RingEquiv.coe_toRingHom]
+  simp only [Matrix.SpecialLinearGroup.map_apply_coe, RingHom.mapMatrix_apply, Matrix.map_apply]
   exact hg i j
 
 private theorem tm_rho_conj_sig (hK : Nat.card K = (2 ^ n) ^ 2) (g : SL(3, K)) :
@@ -240,7 +246,7 @@ private theorem tm_centSub_set_eq (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2)
       ((W⁻¹ : SL(3, K)) : Matrix (Fin 3) (Fin 3) K) * (W : Matrix (Fin 3) (Fin 3) K) = 1 := by
     rw [← tm_coe_mul, inv_mul_cancel, tm_coe_one]
   ext x
-  simp only [SetLike.mem_coe, Subgroup.mem_inf, Set.mem_setOf_eq, mem_centSub]
+  simp only [SetLike.mem_coe, Subgroup.mem_inf, Set.mem_ofPred_eq, mem_centSub]
   constructor
   · rintro ⟨hxM, hxC⟩
     have hx' : rho hK W * x * (rho hK W)⁻¹ ∈ norm hK :=
@@ -316,7 +322,7 @@ theorem part2 (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2)
   obtain ⟨rh, hrhoeq, hbar, hrr, hne⟩ := tm_exists_lift hn hK hr hord
   subst hrhoeq
   obtain ⟨W, hW⟩ := exists_conj_eq_transvection hrr hne
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hord' : orderOf rh = 2 := orderOf_eq_prime (by rw [pow_two]; exact hrr) hne
   exact ⟨tm_rk_eq hn hK hW, rh, rfl, hord', tm_centSub_set_eq hn hK hLM hMN rh W hbar hrr hne hW⟩
 

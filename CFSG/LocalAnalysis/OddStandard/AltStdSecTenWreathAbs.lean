@@ -31,7 +31,7 @@ private theorem mul_mem_iff_of_relIndex_eq_two {G : Type*} [Group G] {C B : Subg
     (a := (⟨b, hb⟩ : ↥C)) (b := (⟨a, ha⟩ : ↥C))
   simpa only [Subgroup.mem_subgroupOf, Subgroup.coe_mul] using h
 
-theorem relIndex_inf_eq_two {G : Type*} [Group G] {C T B : Subgroup G} (hTC : T ≤ C) (hBC : B ≤ C)
+theorem relIndex_inf_eq_two {G : Type*} [Group G] {C T B : Subgroup G} (hTC : T ≤ C) (_hBC : B ≤ C)
     (hB : B.relIndex C = 2) (hT : ¬ T ≤ B) : (T ⊓ B).relIndex T = 2 := by
   have hBT : B.relIndex T = 2 := by
     obtain ⟨a, haT, haB⟩ := Set.not_subset.1 hT

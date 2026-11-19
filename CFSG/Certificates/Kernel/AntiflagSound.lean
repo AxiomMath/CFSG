@@ -70,7 +70,7 @@ theorem dec_tvN (n : ℕ) (i j : Fin n) (c : ℕ) : dec n (tvN n i j c) = tv i j
       simp [bz]
     · have h' : ¬ n + (j : ℕ) = n + k := fun e => h (Fin.ext (by omega))
       have h'' : ¬ (j : ℕ) = k := fun e => h (Fin.ext e.symm)
-      simp [h, h', h'', bz]
+      simp [h, h'', bz]
 
 @[expose] def Rel (n : ℕ) (f : Pt n → Pt n) (g : ℕ → ℕ) : Prop := ∀ c, dec n (g c) = f (dec n c)
 
@@ -131,7 +131,7 @@ theorem dec_runCode {n : ℕ} {A : List (Pt n → Pt n)} {B : List (ℕ → ℕ)
   | succ f ih =>
     rw [runCode_succ, decodeW_succ]
     cases hw : (w == 0)
-    · simp only [cond_false]
+    · simp only [Bool.cond_false]
       rw [f2_getD h, ih]
       rfl
     · rfl
@@ -153,7 +153,7 @@ theorem sum_dotAux (n c m : ℕ) :
   | zero => rfl
   | succ m ih =>
     rw [Fin.sum_univ_castSucc]
-    simp only [Fin.coe_castSucc, Fin.val_last, ih]
+    simp only [Fin.val_castSucc, Fin.val_last, ih]
     change _ = bz (xor (dotAux n c m) (c.testBit m && c.testBit (n + m)))
     rw [bz_xor, bz_and]
 
@@ -180,7 +180,7 @@ theorem exists_bits (v : ℕ → ZMod 2) :
         simp [this, hv k hk]
       · rw [hk, Nat.testBit_lt_two_pow ha]
         have h2 : ∀ z : ZMod 2, z = 0 ∨ z = 1 := by decide
-        rcases h2 (v m) with h | h <;> simp [h, bz] <;> decide
+        rcases h2 (v m) with h | h <;> simp [h, bz]; decide
 
 theorem exists_vec (n : ℕ) (v : Fin n → ZMod 2) : ∃ a < 2 ^ n, decV n a = v := by
   obtain ⟨a, ha, hv⟩ := exists_bits (fun k => if h : k < n then v ⟨k, h⟩ else 0) n

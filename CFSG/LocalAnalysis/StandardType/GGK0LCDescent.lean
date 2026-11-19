@@ -67,7 +67,7 @@ theorem ncard_inv_mul
       rw [h']
       exact hbneg
   rw [himage, Set.ncard_image_of_injective _ hinj]
-  exact Set.ncard_diff_singleton_add_one ha₀mem (inv_finite hT K hz)
+  exact Set.ncard_sdiff_singleton_add_one ha₀mem (inv_finite hT K hz)
 
 theorem stab_le_refl_of_free
     {τ : Tag} (hT : KacBox τ) (K : KacPt τ)

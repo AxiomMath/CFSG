@@ -76,7 +76,7 @@ theorem exists_isModelPhi [IsSimpleGroup G] (I : Inputs10) (hw : S.width = 16)
     LinearMap.ext_on_range span_wtV fun i => by
       rw [LinearMap.comp_apply, hL', hL, LinearMap.id_apply]
   obtain ⟨φ, hφL⟩ : ∃ φ : S.Qt ≃ₗ[ZMod 2] (Fin 32 → ZMod 2), ∀ u, φ u = L u :=
-    ⟨LinearEquiv.ofLinear L L' h2 h1, fun u => rfl⟩
+    ⟨LinearEquiv.ofLinearMap L L' h2 h1, fun u => rfl⟩
   have hφ : ∀ i : Fin 75735, φ (xcl S ψ g i.val) = wtV i.val := fun i => (hφL _).trans (hL i)
   refine ⟨φ, fun m => ?_⟩
   apply LinearEquiv.toLinearMap_injective

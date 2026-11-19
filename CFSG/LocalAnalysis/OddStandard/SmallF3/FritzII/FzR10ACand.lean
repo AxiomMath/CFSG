@@ -146,7 +146,7 @@ theorem fzr_a_candS (S : FzR10ASet t tau lam rho Z E W Q R T P a b) {Mt Ms : Mat
         nth_rewrite 1 [heq]
         exact inv_mul_cancel _
       exact S.str.E_invol _ he (by simpa [pow_two] using he2)
-    haveI : Finite Z := Nat.finite_of_card_ne_zero (by rw [S.str.card_Z]; norm_num)
+    have : Finite Z := Nat.finite_of_card_ne_zero (by rw [S.str.card_Z]; norm_num)
     have hcard : Nat.card E ≤ Nat.card Z := Subgroup.card_le_of_le hEZ
     rw [S.str.card_E, S.str.card_Z] at hcard
     omega
@@ -168,7 +168,7 @@ theorem fzr_a_candS (S : FzR10ASet t tau lam rho Z E W Q R T P a b) {Mt Ms : Mat
     rw [List.all_eq_true]
     intro p hp
     have hp_lt : p < 64 := List.mem_range.mp hp
-    apply List.contains_iff.mpr
+    apply _root_.List.contains_iff_mem.mpr
     rw [fixP, List.mem_filter]
     refine ⟨List.mem_range.mpr (fzr_a_subP_lt _ _), ?_⟩
     exact beq_iff_eq.mpr ((fzr_a_fix_iff_E S hct (fzr_a_subP_lt _ _)).mpr

@@ -242,7 +242,7 @@ theorem false_of_m24_outer148
     intro x hx
     rw [Subgroup.mem_normalizer_iff]
     intro h
-    simp only [hCja, SetLike.mem_coe, Subgroup.mem_inf, Subgroup.mem_centralizer_singleton_iff]
+    simp only [hCja, Subgroup.mem_inf, Subgroup.mem_centralizer_singleton_iff]
     exact and_congr (Subgroup.mem_normalizer_iff.mp (hAJ hx) h)
       (Iff.symm (CFSG.AGLEmbeddingD2.Wilson.MaximalityAmbient.Step148M24.conj_mul_comm_iff
         (hcomm x hx a haA)))

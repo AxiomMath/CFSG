@@ -36,7 +36,7 @@ private theorem permGL_unitary {n q : ℕ} {F : Type} [Field F] (hq : q ≠ 0)
   ext i k
   simp only [Matrix.mul_apply, Matrix.transpose_apply, Matrix.map_apply, coe_permGL, ite_pow,
     one_pow, zero_pow hq, ite_mul, one_mul, zero_mul, Matrix.one_apply, Finset.sum_ite_eq',
-    Finset.mem_univ, if_true, EmbeddingLike.apply_eq_iff_eq]
+    Finset.mem_univ, ite_true, EmbeddingLike.apply_eq_iff_eq]
 
 private theorem sign_eq_one_of_pow_eq_one {n p : ℕ} (hp : Odd p) {σ : Equiv.Perm (Fin n)}
     (h : σ ^ p = 1) : Equiv.Perm.sign σ = 1 := by
@@ -142,7 +142,7 @@ private theorem entry_of_comm {n : ℕ} {F : Type} [Field F] (σ : Equiv.Perm (F
       permGL n F σ * dglHom n δ) (j : Fin n) : δ (σ j) * c = δ j := by
   have h1 := congrArg (fun g : GL (Fin n) F => (g : Matrix (Fin n) (Fin n) F) (σ j) j) h
   simp only [Units.val_mul, Matrix.GeneralLinearGroup.coe_scalar, coe_dglHom, Matrix.scalar_apply,
-    Matrix.mul_diagonal, Matrix.diagonal_mul, coe_permGL, if_true] at h1
+    Matrix.mul_diagonal, Matrix.diagonal_mul, coe_permGL, ite_true] at h1
   exact Units.ext (by simpa using h1)
 
 end Matrices
@@ -178,7 +178,7 @@ private theorem exists_noncomm_psu {K : Type} [Group K] {n q p a : ℕ} {F : Typ
     {z : Fˣ} (hz1 : z ≠ 1) (hza : z ^ p ^ a = 1) (hzq : z ^ (q + 1) = 1)
     (hz3 : n = 3 → z ^ 3 ≠ 1) (e : K ≃* StatedProj (StatedSU n q F)) :
     ∃ (R : Subgroup K) (x y : K), IsPGroup p R ∧ x ∈ R ∧ y ∈ R ∧ x * y ≠ y * x := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpodd : Odd p := hp.eq_two_or_odd'.resolve_left hp2
   obtain ⟨σ, hσ⟩ := exists_prime_orderOf_dvd_card' (G := Equiv.Perm (Fin n)) p (by
     rw [Nat.card_eq_fintype_card, Fintype.card_perm, Fintype.card_fin]
@@ -260,7 +260,7 @@ private theorem exists_noncomm_psu {K : Type} [Group K] {n q p a : ℕ} {F : Typ
 
 theorem n1PSU_holds : N1PSU := by
   intro K _ _ n ℓ f hmodel p hp hp2 hpn hpq hspec S hS hSidx
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨⟨hℓ, -, hn3, -⟩, F, instF, instFin, hF, ⟨e⟩⟩ := hmodel
   have hq0 : ℓ ^ f ≠ 0 := (pow_pos hℓ.pos f).ne'
   have hpn' : p ≤ n := Nat.le_of_dvd (by omega) hpn

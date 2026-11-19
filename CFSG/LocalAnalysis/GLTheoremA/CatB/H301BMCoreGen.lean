@@ -51,7 +51,7 @@ theorem extraspecial_of_overgroup {G : Type*} [Group G] [Finite G] {p k : ℕ} [
       (inf_le_right.trans (normalizer_le_centralizer_center hTe hZT')))
   have hR1T : R1 ≤ R1 ⊓ R := by
     refine Subgroup.subgroupOf_eq_top.1 (Classical.byContradiction fun hne => ?_)
-    haveI := hR1.isNilpotent
+    have := hR1.isNilpotent
     have hlt := Group.normalizerCondition_of_isNilpotent _ (lt_top_iff_ne_top.2 hne)
     rw [← Subgroup.subgroupOf_normalizer_eq (inf_le_left : R1 ⊓ R ≤ R1)] at hlt
     exact hlt.not_ge fun n hn => Subgroup.mem_subgroupOf.2

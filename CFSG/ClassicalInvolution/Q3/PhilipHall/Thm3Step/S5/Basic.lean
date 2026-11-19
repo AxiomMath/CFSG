@@ -160,7 +160,7 @@ theorem S5Hyp.eq_of_map_le_RSet (h : S5Hyp Φ K Q) [Q.Normal] {T T' : Subgroup G
 
 theorem S5Hyp.eq_of_le_sup_RSet (h : S5Hyp Φ K Q) {T T' : Subgroup G} (hT : T ∈ RSet Φ)
     (hT' : T' ∈ RSet Φ) (hle : T ≤ T' ⊔ Q) : T = T' := by
-  haveI := h.normal
+  have := h.normal
   refine h.eq_of_map_le_RSet hT hT' ?_
   rw [Subgroup.map_le_map_iff, QuotientGroup.ker_mk']
   exact hle

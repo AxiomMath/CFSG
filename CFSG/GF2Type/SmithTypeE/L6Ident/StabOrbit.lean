@@ -84,7 +84,7 @@ theorem mem_of_stabCls_eq (hO : ∀ g : Fin 1953, tvImg g 0 = 0 → ∀ a ∈ O,
 
 theorem stabCls_zero : stabCls 0 = 0 := by
   unfold stabCls
-  exact if_pos rfl
+  exact ite_eq_left rfl
 
 theorem card_stabCls {c : ℕ} (hc : c < 7) :
     (Finset.univ.filter fun a : Fin 1953 => stabCls a = c).card = stabSizes[c]! := by
@@ -146,7 +146,7 @@ theorem orbit_cases {O : Finset (Fin 1953)}
       (if decide (B 3) then 420 else 0) + (if decide (B 4) then 480 else 0) +
       (if decide (B 5) then 480 else 0) + (if decide (B 6) then 512 else 0) := by
     rw [hcard]
-    simp only [Finset.sum_range_succ, Finset.sum_range_zero, zero_add, if_pos hB0,
+    simp only [Finset.sum_range_succ, Finset.sum_range_zero, zero_add, ite_eq_left hB0,
       decide_eq_true_eq]
     rfl
   rcases stabSizes_dvd (decide (B 1)) (decide (B 2)) (decide (B 3)) (decide (B 4))
@@ -322,7 +322,7 @@ theorem eq_T6_of_stabilizer_le {K : Subgroup (Equiv.Perm (Fin 1953))} (hK : K �
   let f := (MulAut.conj c⁻¹).toMonoidHom
   have hf : Function.Injective f := (MulAut.conj c⁻¹).injective
   let K' := K.map f
-  haveI : IsSimpleGroup K' := (Subgroup.equivMapOfInjective K f hf).symm.isSimpleGroup
+  have : IsSimpleGroup K' := (Subgroup.equivMapOfInjective K f hf).symm.isSimpleGroup
   have hmemT : ∀ {g : Equiv.Perm (Fin 1953)} (d : Equiv.Perm (Fin 1953)), d ∈ T6 → g ∈ T6 →
       d * g * d⁻¹ ∈ T6 := fun d hd hg => T6.mul_mem (T6.mul_mem hd hg) (T6.inv_mem hd)
   have hK' : K' ≤ T6 := by
@@ -333,7 +333,7 @@ theorem eq_T6_of_stabilizer_le {K : Subgroup (Equiv.Perm (Fin 1953))} (hK : K �
     refine ⟨c * g * c⁻¹, hstab _ (hmemT c hc hg) ?_, ?_⟩
     · rw [← hck]
       simp [hg0]
-    · simp [f, MulAut.conj_apply, mul_assoc]
+    · simp [f, mul_assoc]
   have hT := eq_T6_of_stabilizer_zero_le hK' hstab'
   refine le_antisymm hK fun g hg => ?_
   have : c⁻¹ * g * c⁻¹⁻¹ ∈ K' := by

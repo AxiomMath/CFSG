@@ -133,7 +133,7 @@ theorem card_U2_sp [Finite F] :
 open CFSG.ClassicalGroups.UnitaryFlag CFSG.LocalAnalysis.ComponentInitial CFSG.LinearGroups
   CFSG.LieType.Universal.Unitary CFSG.LieType.BorelTits in
 theorem card_U2_uni [Finite F] {p f : ℕ} [Fact p.Prime] [CharP F p]
-    (hF : Nat.card F = (p ^ f) ^ 2) (hp2 : p ≠ 2) :
+    (hF : Nat.card F = (p ^ f) ^ 2) (_hp2 : p ≠ 2) :
     Nat.card ↥(ModelData.uni hF).U2 = Nat.card ↥(ModelData.uni hF).H2 * (p ^ f + 1) := by
   have hf : 1 ≤ f := by
     rcases Nat.eq_zero_or_pos f with rfl | hf

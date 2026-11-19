@@ -25,7 +25,7 @@ theorem sylow_perfect_facts [Nontrivial Q] [Group.IsPerfect Q] (S : Sylow 2 Q) :
       (S : Subgroup Q)
     exact isCyclic_of_surjective _ hsurj
   refine ⟨?_, hncyc⟩
-  obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp S.isPGroup'
+  obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp S.isPGroup
   by_contra hlt
   have hn2 : n ≤ 1 := by
     by_contra hn2

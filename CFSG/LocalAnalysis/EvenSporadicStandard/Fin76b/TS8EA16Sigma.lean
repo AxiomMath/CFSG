@@ -31,11 +31,11 @@ variable {n : ℕ} {A B U : Array ℕ} {ws : List (List ℕ)} {E M : Array (Arra
 
 theorem card_le_sigma (h : TabOK n A B U ws E M I gens par gen)
     (hch : hasChainIx M 5 [0] (invsIx M) = false) {K : Subgroup (Equiv.Perm (Fin n))}
-    (hK : K ≤ sigmaT h) (hsq : ∀ b ∈ K, b * b = 1) : Nat.card ↥K ≤ 16 :=
+    (hK : K ≤ sigmaT h) (hsq : ∀ _b ∈ K, _b * _b = 1) : Nat.card ↥K ≤ 16 :=
   chain_bound (EpT n E) M (EpT_zero h)
-    (fun a ha b hb => ⟨mulIx_lt h ha hb, EpT_mul h ha hb⟩)
-    (fun a ha b hb hab => EpT_inj h ha hb hab) hch
-    (fun b hb => hK hb) hsq
+    (fun _a ha _b hb => ⟨mulIx_lt h ha hb, EpT_mul h ha hb⟩)
+    (fun _a ha _b hb hab => EpT_inj h ha hb hab) hch
+    (fun _b hb => hK hb) hsq
 
 end Generic
 
@@ -43,7 +43,7 @@ theorem elAb16_of_sylow {G : Type} [Group G] [Finite G] {m : ℕ} (hG : Nat.card
     (hm : ¬ 2 ∣ m) (S0 : Subgroup G) (hS0card : Nat.card S0 = 256)
     (hq : ∀ K : Subgroup G, K ≤ S0 → (∀ b ∈ K, b * b = 1) → Nat.card ↥K ≤ 16)
     (A : Subgroup G) (hA : ∀ a ∈ A, a * a = 1) : Nat.card ↥A ≤ 16 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS0p : IsPGroup 2 S0 := IsPGroup.of_card (n := 8) (by rw [hS0card]; norm_num)
   obtain ⟨Q, hQ⟩ := IsPGroup.exists_le_sylow (ea16_isPGroup_two hA)
   have hPmax : ∀ R : Subgroup G, IsPGroup 2 R → R ≤ ⊤ → S0 ≤ R → R ≤ S0 :=
@@ -51,9 +51,9 @@ theorem elAb16_of_sylow {G : Type} [Group G] [Finite G] {m : ℕ} (hG : Nat.card
   have hQmax : ∀ R : Subgroup G, IsPGroup 2 R → R ≤ ⊤ → (Q : Subgroup G) ≤ R →
       R ≤ (Q : Subgroup G) :=
     fun R hR _ hle => (Q.maximal_isPGroup.eq_of_le hR hle).ge
-  obtain ⟨g, -, hg⟩ := sylow_conj le_top le_top hS0p Q.isPGroup' hPmax hQmax
+  obtain ⟨g, -, hg⟩ := sylow_conj le_top le_top hS0p Q.isPGroup hPmax hQmax
   have hconj : ∀ x : G, (MulAut.conj g⁻¹).toMonoidHom x = g⁻¹ * x * g := fun x => by
-    simp [MulAut.conj_apply]
+    simp
   have hB : A.map (MulAut.conj g⁻¹).toMonoidHom ≤ S0 := by
     rintro _ ⟨x, hx, rfl⟩
     rw [hconj]

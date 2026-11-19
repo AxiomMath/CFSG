@@ -199,7 +199,7 @@ theorem prChk_sound (hS : SepB n w BP nb H) {N NC CC : Nat} {DPk T : Nat → Nat
         rw [hc] at hk
         exact absurd hk (by decide)
       · right
-        simp only [sB_eq, bA_eq, Bool.and_eq_true, Nat.blt_eq] at hk
+        simp only [Bool.and_eq_true, Nat.blt_eq] at hk
         obtain ⟨⟨hk7, hcN, hpN⟩, h1, h2⟩ := hk
         obtain ⟨hc, hCm⟩ := hC _ hcN
         obtain ⟨hp, hPm⟩ := hT _ hpN

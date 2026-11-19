@@ -80,14 +80,14 @@ theorem l05nEA_card_MJ {p : ℕ} [Fact p.Prime] {G : Type} [Group G] [Finite G]
   classical
   have hFT : TauCeti.IsFiniteType C :=
     isFiniteType_of_ggIsWeylMatrixFixed (hWM : GGIsWeylMatrixFixed ML) hC
-  haveI : Finite ML.Group := by
+  have : Finite ML.Group := by
     have h : Finite (CFSG.LieType.RootSystem.coxeterMatrix hFT).Group :=
       CFSG.LieType.RootSystem.finite_group hFT
     rwa [coxeterMatrix_eq_of_ggIntCartan hFT hC] at h
   let Js : Set Λ := {j | j ≠ b₁ ∧ j ≠ b₂}
   let MJ : CoxeterMatrix {j : Λ // j ≠ b₁ ∧ j ≠ b₂} := CFSG.Monster.B.Geometry.parMatrix ML Js
   have hJM : ∀ j j', MJ.M j j' = ML.M j.1 j'.1 := fun _ _ => rfl
-  haveI : Finite MJ.Group :=
+  have : Finite MJ.Group :=
     Finite.of_injective (CFSG.Monster.B.Geometry.parToGroup ML.toCoxeterSystem Js)
       (CFSG.Monster.B.Geometry.parToGroup_injective ML.toCoxeterSystem Js)
   let hMJ : MJ.Group →* MulAut ↥Bs :=
@@ -121,7 +121,7 @@ theorem l05nEA_card_MJ {p : ℕ} [Fact p.Prime] {G : Type} [Group G] [Finite G]
 theorem l05nEA_reflClosed_of_datum {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {G : Type}
     [Group G] [Finite G] {Bs L : Subgroup G} {Λ₁ : Type} [Fintype Λ₁] [DecidableEq Λ₁]
     {M₁ : CoxeterMatrix Λ₁} (e₁ : Fin 6 ≃ Λ₁) (hM₁ : M₁ = CoxeterMatrix.E₆.reindex e₁)
-    (hWM₁ : GGIsWeylMatrix M₁) {C₁ : Matrix Λ₁ Λ₁ ℤ} (hC₁ : GGIntCartan M₁ C₁)
+    (_hWM₁ : GGIsWeylMatrix M₁) {C₁ : Matrix Λ₁ Λ₁ ℤ} (hC₁ : GGIntCartan M₁ C₁)
     {V : Type} [AddCommGroup V] [Module (ZMod p) V] [Finite V] (ι : Additive ↥Bs ≃+ V)
     (φ₁ : Λ₁ → MulAut ↥Bs) (h₁ : Λ₁ → V) (α₁ : Λ₁ → Module.Dual (ZMod p) V)
     (hlin₁ : ∀ i w, ggLin (p := p) ι (φ₁ i) w = w - α₁ i w • h₁ i)
@@ -228,9 +228,9 @@ theorem ggDepED4_align_one {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Pri
     hM₁, hWM₁, hC₁, hlin₁, hrefl₁, hpair₁, f₁ex, hclos₁, -⟩ := hXL
   obtain ⟨f₁, hf₁⟩ := f₁ex
   obtain ⟨fL, hfL⟩ := fLex
-  letI := i1; letI := i2; letI := i1a; letI := i2a; letI := i3; letI := i4
-  letI := iΛ₁f; letI := iΛ₁d; letI := iV₁add; letI := iV₁mod
-  haveI : Finite V₁ := Finite.of_injective ι₁.toEquiv.symm ι₁.toEquiv.symm.injective
+  let := i1; let := i2; let := i1a; let := i2a; let := i3; let := i4
+  let := iΛ₁f; let := iΛ₁d; let := iV₁add; let := iV₁mod
+  have : Finite V₁ := Finite.of_injective ι₁.toEquiv.symm ι₁.toEquiv.symm.injective
   have hRC₁ : GGReflClosed (fun i => ggLin (p := p) ι₁ (φ₁ i)) :=
     l05nEA_reflClosed_of_datum hp2 e₁ hM₁ hWM₁ hC₁ (ι := ι₁) φ₁ h₁ α₁ hlin₁ hpair₁ hclos₁ f₁ hf₁
   have hconj : ∀ k : Λ, ∃ (w : ↥(ggAutomizer L Bs)) (i : Λ₁),
@@ -262,11 +262,11 @@ theorem ggDepED4_align_two_core {G : Type} [Group G] [Finite G] {p : ℕ} [Fact 
     hMK0, hWMK0, hCK0, hlinK0, hreflK0, hpairK0, fK0ex, hclosK0⟩ := hXK
   obtain ⟨fK0, hfK0⟩ := fK0ex
   obtain ⟨fK, hfK⟩ := fKex
-  letI := i1; letI := i2; letI := i1a; letI := i2a; letI := i3; letI := i4
-  letI := iΛ₁f; letI := iΛ₁d; letI := iV₁add; letI := iV₁mod
-  letI := iΛKf; letI := iΛKd; letI := iVKadd; letI := iVKmod
-  haveI : Finite V₁ := Finite.of_injective ι₁.toEquiv.symm ι₁.toEquiv.symm.injective
-  haveI : Finite VK := Finite.of_injective ιK.toEquiv.symm ιK.toEquiv.symm.injective
+  let := i1; let := i2; let := i1a; let := i2a; let := i3; let := i4
+  let := iΛ₁f; let := iΛ₁d; let := iV₁add; let := iV₁mod
+  let := iΛKf; let := iΛKd; let := iVKadd; let := iVKmod
+  have : Finite V₁ := Finite.of_injective ι₁.toEquiv.symm ι₁.toEquiv.symm.injective
+  have : Finite VK := Finite.of_injective ιK.toEquiv.symm ιK.toEquiv.symm.injective
   have hRC₁ : GGReflClosed (fun i => ggLin (p := p) ι₁ (φ₁ i)) :=
     l05nEA_reflClosed_of_datum hp2 e₁ hM₁ hWM₁ hC₁ (ι := ι₁) φ₁ h₁ α₁ hlin₁ hpair₁ hclos₁ f₁ hf₁
   have hconj : ∀ k : Λ, ∃ (w : ↥(ggAutomizer L Bs)) (i : Λ₁),

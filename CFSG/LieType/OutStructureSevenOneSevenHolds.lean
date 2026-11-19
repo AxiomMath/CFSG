@@ -24,8 +24,8 @@ theorem isPSLType_two_galoisField_of_lieModel {Y : Type} [Group Y]
   have hm : CFSG.Open.StatedClassicalModel Y .PSL 2 3 3 :=
     h.statedClassicalModel (by decide)
   obtain ⟨-, K, hK, hKfin, hcard, ⟨e⟩⟩ := hm
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fintype (GaloisField 3 3) := Fintype.ofFinite _
+  have : Fintype K := Fintype.ofFinite K
+  have : Fintype (GaloisField 3 3) := Fintype.ofFinite _
   have hcard' : Nat.card K = Nat.card (GaloisField 3 3) := by
     rw [hcard, GaloisField.card 3 3 (by norm_num)]
   have hcard'' : Fintype.card K = Fintype.card (GaloisField 3 3) := by
@@ -39,7 +39,7 @@ theorem pSingular_not_mem_inner_of_outer {Y : Type} [Group Y] [Finite Y]
     (hφI : φ ∉ I) (hφ3I : φ ^ 3 ∈ I) :
     Group.pSingular 3 φ ∉ I := by
   intro hyI
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set y : MulAut Y := Group.pSingular 3 φ with hy
   set r : MulAut Y := Group.pRegular 3 φ with hr
   have hdecomp : r * y = φ := Group.pDecomp' 3 (isOfFinOrder_of_finite φ)
@@ -73,7 +73,7 @@ theorem not_three_dvd_card_centralizer_of_pRank_three {X : Type} [Group X] [Fini
     (h3Z : ¬ 3 ∣ Nat.card (Subgroup.center ↥L)) :
     ¬ 3 ∣ Nat.card (Subgroup.centralizer (L : Set X)) := by
   intro hdvd
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card'
     (G := ↥(Subgroup.centralizer (L : Set X))) 3 hdvd
   let c : X := (z : X)
@@ -92,11 +92,10 @@ theorem not_three_dvd_card_centralizer_of_pRank_three {X : Type} [Group X] [Fini
       exact Subgroup.mem_centralizer_iff.mp hcC (l : X) l.2
     have hc_eq : orderOf c = 3 := (Subgroup.orderOf_coe z).trans hz
     have h1 : orderOf (⟨c, hcL⟩ : ↥L) = orderOf c := by
-      simpa using (Subgroup.orderOf_coe (⟨c, hcL⟩ : ↥L))
+      simp
     have h2 : orderOf (⟨(⟨c, hcL⟩ : ↥L), hcZ⟩ : ↥(Subgroup.center ↥L)) =
         orderOf (⟨c, hcL⟩ : ↥L) := by
-      simpa using (Subgroup.orderOf_coe
-        (⟨(⟨c, hcL⟩ : ↥L), hcZ⟩ : ↥(Subgroup.center ↥L)))
+      simp
     have hord : orderOf (⟨(⟨c, hcL⟩ : ↥L), hcZ⟩ : ↥(Subgroup.center ↥L)) = 3 :=
       h2.trans (h1.trans hc_eq)
     have h3dvd : 3 ∣ Nat.card (Subgroup.center ↥L) := by
@@ -132,8 +131,8 @@ theorem lieModel_psl2_27_of_outer_three {X : Type} [Group X] [Finite X]
     CFSG.Blueprint.LieModel (↥L ⧸ Subgroup.center ↥L) .PSL 2 3 3 := by
   classical
   by_contra hnot227
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Group.IsPerfect ↥L := hL.1.1
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Group.IsPerfect ↥L := hL.1.1
   let Y := ↥L ⧸ Subgroup.center ↥L
   let ρ : X →* MulAut Y := CFSG.LocalAnalysis.RankThreeUC.AGL81C.centerQuotientAction L
   let φ : MulAut Y := ρ x
@@ -146,7 +145,7 @@ theorem lieModel_psl2_27_of_outer_three {X : Type} [Group X] [Finite X]
     rw [hqc.2.2, Subgroup.eq_bot_iff_forall]
     rintro y ⟨z, hz, rfl⟩
     exact (QuotientGroup.eq_one_iff z).mpr hz
-  haveI : IsSimpleGroup Y := hL.1.2.1
+  have : IsSimpleGroup Y := hL.1.2.1
   have hYcat : CFSG.Open.IsCatalogGroup Y :=
     CFSG.Open.IsKGroup.isCatalogGroup_of_surjective hK L hL.1.2.2
       (QuotientGroup.mk' (Subgroup.center ↥L)) (QuotientGroup.mk'_surjective _)
@@ -218,7 +217,7 @@ theorem lieModel_psl2_27_of_outer_three {X : Type} [Group X] [Finite X]
     have h := CFSG.SectionRank.pRank_top_eq_of_mulEquiv (p := 3) (by norm_num) eB
     rw [h3Ytop] at h
     exact h.symm
-  haveI : Lb.Normal := by
+  have : Lb.Normal := by
     rw [Subgroup.normal_subgroupOf_iff_le_normalizer hI_le_B]
     have htop : Subgroup.normalizer (I : Set (MulAut Y)) = ⊤ :=
       Subgroup.normalizer_eq_top_iff.mpr inferInstance
@@ -295,10 +294,10 @@ theorem sevenOneSeven_of_K2_cover_ON
       ¬ 3 ∣ Nat.card (Outer S)) :
     CFSG.LocalAnalysis.RankThreeUC.AGL81C.SevenOneSeven := by
   intro X _ _ hK L hL hLn h3L h3X
-  haveI := hLn
+  have := hLn
   by_cases hdiv : 3 ∣ (L ⊔ Subgroup.centralizer (L : Set X)).index
   · right
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     let U : Subgroup X := L ⊔ Subgroup.centralizer (L : Set X)
     have hUidx : U.index = Nat.card (X ⧸ U) := Subgroup.index_eq_card (H := U)
     have h3q : 3 ∣ Nat.card (X ⧸ U) := by rw [← hUidx]; exact hdiv
@@ -322,7 +321,7 @@ theorem sevenOneSeven_of_K2_cover_ON
     ·
       have hqO : CFSG.Open.IsQuasisimple ↥L :=
         ⟨Group.isPerfect_def.mp hL.1.1, hL.1.2.1⟩
-      haveI : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hL.1.2.1
+      have : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hL.1.2.1
       have hcat : CFSG.Open.IsCatalogGroup (↥L ⧸ Subgroup.center ↥L) :=
         CFSG.Open.IsKGroup.isCatalogGroup_of_surjective hK L hL.1.2.2
           (QuotientGroup.mk' (Subgroup.center ↥L)) (QuotientGroup.mk'_surjective _)

@@ -25,7 +25,7 @@ open CFSG.Open CFSG.Yardstones.Md0ec50421ce4
 theorem listedMultiplierBoundAt_sporadic (hSp : SporadicMultiplierTable) (p : ℕ)
     (s : TauCeti.SporadicName) : ListedMultiplierBoundAt p (.sporadic s) := by
   intro hi Q _ _ hQ π hπ hker hZ hne
-  haveI hnt : Nontrivial (Subgroup.center Q) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
+  have hnt : Nontrivial (Subgroup.center Q) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
   have hd := hSp s Q hQ π hπ hker
   have hp : p = 3 ∨ p = 5 ∨ p = 7 ∨ p = 11 ∨ p = 13 := by
     cases s <;> simp [k2, k2Spor, k3] at hi <;> omega

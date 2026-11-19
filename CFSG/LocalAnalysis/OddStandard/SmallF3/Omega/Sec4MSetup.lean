@@ -36,9 +36,10 @@ open Subgroup CFSG.Blueprint
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {z : G} {A B : Subgroup G}
   {φ : (Fin 7 → ZMod 2) → G} {u : G}
 
+omit [Finite G] in
 theorem conj_iff_mem_conjClassIn_top {x : G} :
     (∃ h : G, x = h⁻¹ * t * h) ↔ x ∈ conjClassIn ⊤ t := by
-  simp only [conjClassIn, Set.mem_setOf_eq]
+  simp only [conjClassIn, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨h, rfl⟩
     exact ⟨h⁻¹, Subgroup.mem_top _, by rw [inv_inv]⟩

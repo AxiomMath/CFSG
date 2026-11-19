@@ -9,7 +9,7 @@ namespace CFSG.LocalAnalysis.UniquenessCase.PartTwo.S17.SzFive
 open Subgroup
 
 theorem mem_of_commute_of_isStronglyPEmbedded {G : Type*} [Group G] [Finite G] {p : ℕ}
-    (hp : p.Prime) {M : Subgroup G} (hM : CFSG.RankThree.PartOne.IsStronglyPEmbedded p M)
+    (_hp : p.Prime) {M : Subgroup G} (hM : CFSG.RankThree.PartOne.IsStronglyPEmbedded p M)
     {x : G} (hx : x ∈ M) (hxp : orderOf x = p) {g : G} (hg : Commute g x) : g ∈ M := by
   by_contra hgM
   apply hM.2.2 g hgM
@@ -35,7 +35,7 @@ theorem exists_mulAut_of_not_le {X : Type} [Group X] [Finite X] (L B ML : Subgro
     ∃ θ : MulAut L, orderOf θ = 5 ∧ θ ∉ (MulAut.conj : L →* MulAut L).range ∧
       ∀ y : L, θ y = y → y ∈ ML.subgroupOf L := by
   have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  obtain ⟨b, hbB, hbL⟩ := SetLike.not_le_iff_exists.mp hBL
+  obtain ⟨b, hbB, hbL⟩ := IsConcreteLE.not_le_iff_exists.mp hBL
   have hb1 : b ≠ 1 := fun h => hbL (h ▸ L.one_mem)
   have hb5 : b ^ 5 = 1 := by
     have h := pow_card_eq_one' (G := B) (x := ⟨b, hbB⟩)

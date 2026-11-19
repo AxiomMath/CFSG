@@ -20,12 +20,12 @@ theorem s168e3_seven_exists_inPStar {D : Data G} {V₀ V L : Subgroup G} {hV : I
     ∃ Y : Subgroup G, InPStar D V₀ Y := by
   have hH : Hyp125 D V₀ V := c.setting.hyp16.hyp125
   have hMs : D.M ≤ stabTil V₀ V := c.m_le_stabTil
-  haveI : ((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal := s15_Three_cTilde_normal hV hMs
+  have : ((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal := s15_Three_cTilde_normal hV hMs
   have hH11 : F11.Hyp11 D V₀ V := Hyp125.hyp11 c.std.h127 hH
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨P, hP⟩ := CFSG.ABGLocalTools.exists_isSylowOf 7 (F11.O2p 7 D.M)
   obtain ⟨Xbar, hXn, hXe, hXc, hXd, hXL⟩ := s168e3_seven_exists_xbar c hs hr hE
-  haveI := hXn
+  have := hXn
   have hXM : D.M ≤ normalizer ((F11.barPreimage11 D.M V₀ V Xbar : Subgroup G) : Set G) :=
     fun g hg => uc22p22u_mem_normalizer_barPreimage11 hg
   refine ⟨F11.Omega1p 7 (P ⊓ ⁅D.M, D.M⁆ ⊓ F11.barPreimage11 D.M V₀ V Xbar), ?_⟩

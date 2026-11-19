@@ -27,7 +27,7 @@ theorem exists_torusData (h : Hyp65 n M V₀ V g) [((KOf M V g).subgroupOf (LOf 
     ∃ T : Subgroup (↥(LOf V g) ⧸ (KOf M V g).subgroupOf (LOf V g)),
       TorusData (imgK M V g V)
         (QuotientGroup.mk' ((KOf M V g).subgroupOf (LOf V g)) ⟨l, hlL⟩) T := by
-  haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
+  have : Fact (Nat.Prime 2) := Nat.fact_prime_two
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.1
     (imgK_isElemAbelian M V g h.elemAbelian).isPGroup
   have hm : E3.mQuot V (conjSubgroup M g) = k := by
@@ -86,7 +86,7 @@ theorem exists_torus (h : Hyp65 n M V₀ V g) (h2 : 2 ≤ E3.mQuot V (conjSubgro
     ∃ Y : Subgroup G, Y ≤ LOf V g ⊓ M ∧
       Nat.card Y = 2 ^ E3.mQuot V (conjSubgroup M g) - 1 ∧
       ∀ y ∈ Y, y ≠ 1 → ∀ v ∈ V, y * v * y⁻¹ = v → v ∈ NOf M V g := by
-  haveI := h.K_normal
+  have := h.K_normal
   obtain ⟨l, hlL, hlV⟩ := h.exists_conj
   obtain ⟨T, hT⟩ := exists_torusData h h2 hlL hlV
   exact exists_torus_of_torusData h h.genHyp hlL hlV hT

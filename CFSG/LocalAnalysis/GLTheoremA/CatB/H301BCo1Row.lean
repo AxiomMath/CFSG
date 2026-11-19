@@ -17,10 +17,10 @@ section Centre
 
 theorem co1_central_eq_one (t : NativeSporadic.Co1) (ht : ∀ u : NativeSporadic.Co1, u * t = t * u) :
     t = 1 := by
-  haveI : IsSimpleGroup NativeSporadic.Co1 := CFSG.Sporadic.Co1.isSimpleGroup_Co1
+  have : IsSimpleGroup NativeSporadic.Co1 := CFSG.Sporadic.Co1.isSimpleGroup_Co1
   have hnc : ¬ IsMulCommutative NativeSporadic.Co1 := by
     intro hcomm
-    haveI : IsMulCommutative NativeSporadic.Co1 := hcomm
+    have : IsMulCommutative NativeSporadic.Co1 := hcomm
     have hp : (Nat.card NativeSporadic.Co1).Prime :=
       (Group.is_simple_iff_prime_card).mp inferInstance
     rw [CFSG.Sporadic.Co1.card_Co1] at hp
@@ -49,7 +49,7 @@ theorem rowCo1_holds (hU : UCo1) : I301BRow .co1 := by
   have hAutS : ∀ α : MulAut S, ∃ g : S, α = MulAut.conj g :=
     @CFSG.Sporadic.Co2Schreier.forall_inner_of_mulEquiv S NativeSporadic.Co1 _ inferInstance eS hAut
   obtain ⟨Φ⟩ := @nonempty_mulAut_equiv_of_inner S NativeSporadic.Co1 _ inferInstance eS hZ hAutS
-  haveI : Finite (MulAut S) := Finite.of_equiv _ Φ.symm.toEquiv
+  have : Finite (MulAut S) := Finite.of_equiv _ Φ.symm.toEquiv
   have hR0c' : Nat.card R0 = 2 ^ 7 := hR0c
   have hBe' : IsElemAbelian 3 B := hBe
   have hBc' : Nat.card B = 3 ^ 4 := hBc

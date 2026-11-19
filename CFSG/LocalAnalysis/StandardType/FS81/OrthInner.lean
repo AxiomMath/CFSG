@@ -79,7 +79,7 @@ theorem exists_inner_of_centralizes (hQ : (QuadraticMap.polarBilin Q).Nondegener
   let α₀ : MulAut ↥K := K.normalizerMonoidHom ⟨c, hcK⟩
   have hα₀_val : ∀ x : ↥K, ((α₀ x : ↥K) : G) = c * (x : G) * c⁻¹ := by
     intro x
-    simpa [α₀] using Subgroup.normalizerMonoidHom_apply_apply_coe K ⟨c, hcK⟩ x
+    simp [α₀]
   let α : MulAut ↥Ω := e.symm.trans (α₀.trans e)
   have hα_apply : ∀ x : ↥K, α (e x) = e (α₀ x) := by
     intro x
@@ -128,6 +128,6 @@ theorem exists_inner_of_centralizes (hQ : (QuadraticMap.polarBilin Q).Nondegener
       ((α (e x) : ↥Ω) : V ≃ₗ[ZMod 2] V)
     exact (hhα (e x)).symm
   rw [← hv, ← hEqK]
-  simp [Subgroup.coe_mul, Subgroup.coe_inv, x]
+  simp [Subgroup.coe_mul, x]
 
 end CFSG.StandardType.FrameRoute.FS81

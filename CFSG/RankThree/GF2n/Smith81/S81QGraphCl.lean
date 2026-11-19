@@ -62,7 +62,7 @@ theorem cliffMap_mem_spinGroup (f : Q →qᵢ Q) {x : CliffordAlgebra Q} (hx : x
 @[expose] def spinMapOfIso (f : Q →qᵢ Q) : spinGroup Q →* spinGroup Q where
   toFun x := ⟨CliffordAlgebra.map f x, cliffMap_mem_spinGroup f x.2⟩
   map_one' := Subtype.ext (map_one _)
-  map_mul' x y := Subtype.ext (map_mul _ _ _)
+  map_mul' _x _y := Subtype.ext (map_mul _ _ _)
 
 @[simp] theorem coe_spinMapOfIso (f : Q →qᵢ Q) (x : spinGroup Q) :
     ((spinMapOfIso f x : spinGroup Q) : CliffordAlgebra Q) = CliffordAlgebra.map f x := rfl

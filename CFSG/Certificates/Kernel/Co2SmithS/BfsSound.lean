@@ -284,7 +284,7 @@ theorem gbfs_of {key : α → Nat} {step : Nat → α → α} {T : Nat → α} {
           (Id.run (forIn (List.range' 0 ngen) (b.1, b.2.1, b.2.2.1, b.2.2.2.1)
             (ib key step (T j) j))).2.2.2, j + 1), ?_, hm1.symm, ?_⟩
         · unfold ob
-          rw [if_pos hsz, hx, hi]
+          rw [ite_eq_left hsz, hx, hi]
         · rw [hm1, hrow]
           exact hI
       · have hm : min j N = N := Nat.min_eq_right hj
@@ -294,7 +294,7 @@ theorem gbfs_of {key : α → Nat} {step : Nat → α → α} {T : Nat → α} {
         have hsz : ¬ b.2.2.2.2 < b.2.1.size := by rw [hi, J.idx.size]; omega
         refine ⟨b, ?_, ?_⟩
         · unfold ob
-          rw [if_neg hsz]
+          rw [ite_eq_right hsz]
         · rw [hm1, C.last]
           exact ⟨hi, J⟩
     · obtain ⟨hi, J⟩ := hb

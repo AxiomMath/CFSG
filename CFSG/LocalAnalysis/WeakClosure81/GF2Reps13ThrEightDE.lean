@@ -117,7 +117,7 @@ private theorem w16g_eight_inverted_element (h : Cfg133 A t 3) {z : MulAut W}
 
 private theorem w16g_eight_transvection {z : MulAut W} {N : Subgroup (MulAut W)}
     {k : MulAut W} (hD : Data8 A t z N) (hkN : k ∈ N)
-    (hkz : k ∉ Subgroup.zpowers z) (hk3 : orderOf k = 3) (hkc : k * z = z * k)
+    (_hkz : k ∉ Subgroup.zpowers z) (_hk3 : orderOf k = 3) (hkc : k * z = z * k)
     (hNeq : N = Subgroup.zpowers z ⊔ Subgroup.zpowers k) :
     ∃ a ∈ ⁅pCoreOf 3 A, Subgroup.zpowers t⁆, a * k * a⁻¹ = k * z := by
   classical
@@ -178,7 +178,7 @@ private theorem w16g_eight_transvection {z : MulAut W} {N : Subgroup (MulAut W)}
     have hPinst : CFSG.IsExtraspecial 3 ↥P := by
       rw [hPdef]
       exact hD.hP.1
-    haveI : IsMulCommutative ↥P := hP_elem.1
+    have : IsMulCommutative ↥P := hP_elem.1
     have hcenter_card : Nat.card (Subgroup.center ↥P) = 3 :=
       hPinst.center_order_p
     have hcenter_top : Subgroup.center ↥P = ⊤ := Subgroup.center_eq_top
@@ -198,16 +198,15 @@ private theorem w16g_eight_transvection {z : MulAut W} {N : Subgroup (MulAut W)}
   have hPinst : CFSG.IsExtraspecial 3 ↥P := by
     rw [hPdef]
     exact hD.hP.1
-  haveI : IsElementaryAbelian 3 (↥P ⧸ Subgroup.center ↥P) :=
+  have : IsElementaryAbelian 3 (↥P ⧸ Subgroup.center ↥P) :=
     CFSG.IsExtraspecial.quotient_elementary_abelian 3 ↥P
-  haveI : IsMulCommutative (↥P ⧸ Subgroup.center ↥P) :=
+  have : IsMulCommutative (↥P ⧸ Subgroup.center ↥P) :=
     IsMulCommutative.of_comm fun a b => IsMulCommutative.is_comm.comm a b
   have hcomm_le_center : _root_.commutator ↥P ≤ Subgroup.center ↥P :=
     Subgroup.Normal.quotient_commutative_iff_commutator_le.mp
       (inferInstance : IsMulCommutative (↥P ⧸ Subgroup.center ↥P))
   have hc_center : (⟨c, hcP⟩ : ↥P) ∈ Subgroup.center ↥P := by
     apply hcomm_le_center
-    change (⟨c, hcP⟩ : ↥P) ∈ _root_.commutator ↥P
     have hc_eq : (⟨c, hcP⟩ : ↥P) =
         ⁅(⟨a₀, ha₀P⟩ : ↥P), (⟨k, hkP⟩ : ↥P)⁆ := by
       apply Subtype.ext

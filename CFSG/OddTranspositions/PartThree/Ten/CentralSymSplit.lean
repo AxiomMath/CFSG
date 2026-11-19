@@ -418,7 +418,7 @@ def triples : Fin 5 → Perm (Fin 6) :=
 
 def tripleSys (i : ℕ) : Perm (Fin 6) := if h : i < 5 then triples ⟨i, h⟩ else 1
 
-theorem tripleSys_of_lt {i : ℕ} (h : i < 5) : tripleSys i = triples ⟨i, h⟩ := dif_pos h
+theorem tripleSys_of_lt {i : ℕ} (h : i < 5) : tripleSys i = triples ⟨i, h⟩ := dite_eq_left h
 
 theorem triples_sq : ∀ i, triples i * triples i = 1 := by decide +kernel
 
@@ -550,7 +550,7 @@ theorem ker_eq_bot_of_isSwap {X : Type*} [Group X] {m : ℕ} (hm : 2 ≤ m)
     omega
   · have := adjSwap_injOn (by omega) (by omega) h
     omega
-  · rw [hcls, Set.mem_setOf_eq, adjSwap_of_lt hi, hπd₀]
+  · rw [hcls, Set.mem_ofPred_eq, adjSwap_of_lt hi, hπd₀]
     exact isConj_swap hxy (by simp [Fin.ext_iff])
 
 open Equiv Equiv.Perm CFSG.Permutation.SymmetricCoxeter CentralSymSplit in
@@ -575,7 +575,7 @@ theorem ker_eq_bot_of_isOddTranspClass {X : Type*} [Group X] [Finite X] {n : ℕ
       exact triples_ne_zero_one h
     · rw [tripleSys_of_lt (by norm_num), tripleSys_of_lt (by norm_num)] at h
       exact triples_ne_zero_two h
-    · rw [hcls, Set.mem_setOf_eq, tripleSys_of_lt hi]
+    · rw [hcls, Set.mem_ofPred_eq, tripleSys_of_lt hi]
       exact isConj_iff_cycleType_eq.2 ((htr _ hmem).trans (cycleType_triples ⟨i, hi⟩).symm)
 
 open CentralSymSplit in

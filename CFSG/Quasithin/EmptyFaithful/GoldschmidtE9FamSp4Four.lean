@@ -146,7 +146,7 @@ theorem noFiveIndex_statedProj_sp (hr : 1 ≤ r) (hK3 : ∀ x : K, x ≠ 0 → x
   obtain ⟨P, hP⟩ := exists_sylow_projUnipotent (K := K) 2 hr
   have hS : IsSylowTwoOf (projUnipotent r K) ⊤ := by
     rw [isSylowTwoOf_top_iff, ← hP]
-    exact ⟨P.isPGroup', P.not_dvd_index⟩
+    exact ⟨P.isPGroup, P.not_dvd_index⟩
   refine noFiveIndex_of_dichotomy (B := projBorel r K) hS ?_ ?_ ?_
   · rintro _ ⟨b, hb, rfl⟩ _ ⟨s, hs, rfl⟩
     refine ⟨b * s * b⁻¹, ?_, by simp⟩

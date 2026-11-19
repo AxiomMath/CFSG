@@ -49,6 +49,7 @@ private theorem card_le_of_isPGroup_two {S K : Subgroup G} (hSK : S ≤ K) (hS :
   exact Nat.le_of_dvd (by positivity)
     ((Nat.Coprime.pow_left n (Nat.coprime_two_left.mpr hm)).dvd_of_dvd_mul_right hdvd)
 
+omit [Finite G] in
 private theorem map_ker_inf_centralizer_eq_CJ {Q : Type*} [Group Q] (φ : ↥(H z) →* Q)
     (hker : φ.ker = (J z).subgroupOf (H z)) (x : ↥(H z)) :
     (φ.ker ⊓ Subgroup.centralizer ({x} : Set ↥(H z))).map (H z).subtype = CJ z (x : G) := by

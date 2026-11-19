@@ -16,6 +16,7 @@ open CFSG.LocalAnalysis.RankThreeTheoremC
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem normalizerMonoidHom_eq_one_iff {H : Subgroup G} {g : G}
     (hg : g ∈ normalizer (H : Set G)) :
     Subgroup.normalizerMonoidHom H ⟨g, hg⟩ = 1 ↔ g ∈ centralizer (H : Set G) := by
@@ -34,6 +35,7 @@ theorem normalizerMonoidHom_eq_one_iff {H : Subgroup G} {g : G}
     show g * (r : G) * g⁻¹ = ((1 : MulAut H) r : G)
     rw [MulAut.one_apply, hc', mul_assoc, mul_inv_cancel, mul_one]
 
+omit [Finite G] in
 theorem mem_normalizer_commutator' {H K : Subgroup G} {y : G}
     (hH : y ∈ normalizer (H : Set G)) (hK : y ∈ normalizer (K : Set G)) :
     y ∈ normalizer ((⁅H, K⁆ : Subgroup G) : Set G) := by
@@ -66,10 +68,11 @@ theorem mem_normalizer_commutator' {H K : Subgroup G} {y : G}
     rw [e] at h3
     exact h3
 
+omit [Finite G] in
 theorem centralizes_of_normalizes_zpowers {g x : G} (hx : orderOf x = 5) {k : ℕ}
     (hg : g ^ 5 ^ k = 1) (hn : ∀ y ∈ zpowers x, g * y * g⁻¹ ∈ zpowers x) :
     g * x * g⁻¹ = x := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨j, hj⟩ := mem_zpowers_iff.mp (hn x (mem_zpowers x))
   have hpow : ∀ n : ℕ, g ^ n * x * (g ^ n)⁻¹ = x ^ (j ^ n) := by
     intro n
@@ -119,7 +122,7 @@ theorem px_eq_plane {P : Sylow 5 G} {M : Subgroup G} {x z : G} {T : Subgroup G}
     (hK : KFactAutQ8D8Five) :
     (P : Subgroup G) ⊓ centralizer ({x} : Set G) = zpowers x ⊔ zpowers z := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hB : CFSG.LocalAnalysis.RankThreeTheoremC.SmallRankPlane 5 (P : Subgroup G) x z :=
     plane_of_central hS hx hz
   have hBcard : Nat.card ↥(zpowers x ⊔ zpowers z) = 5 ^ 2 := hB.card_eq
@@ -133,7 +136,7 @@ theorem px_eq_plane {P : Sylow 5 G} {M : Subgroup G} {x z : G} {T : Subgroup G}
   have hcard5 : Nat.card (zpowers x) = 5 := by
     rw [Nat.card_zpowers, orderOf_eq_prime hx5 hx1]
   set Px : Subgroup G := (P : Subgroup G) ⊓ centralizer ({x} : Set G) with hPxdef
-  have hPxpg : IsPGroup 5 Px := P.isPGroup'.to_le inf_le_left
+  have hPxpg : IsPGroup 5 Px := P.isPGroup.to_le inf_le_left
   have hxPx : x ∈ Px := ⟨hxP, mem_centralizer_singleton_iff.mpr rfl⟩
   have hzPx : z ∈ Px := ⟨hzP, mem_centralizer_singleton_iff.mpr hxz.symm⟩
   set B : Subgroup G := zpowers x ⊔ zpowers z with hBdef
@@ -245,7 +248,7 @@ theorem px_eq_plane {P : Sylow 5 G} {M : Subgroup G} {x z : G} {T : Subgroup G}
     rw [← hRz, hRzbot]
   have hxK0 : x ∈ K0G := ⟨hxPx, hxR⟩
   have hzK0 : zpowers x ≤ K0G := zpowers_le.mpr hxK0
-  haveI : Fact (IsPGroup 5 Px) := ⟨hPxpg⟩
+  have : Fact (IsPGroup 5 Px) := ⟨hPxpg⟩
   have hcyc : IsCyclic K0G := by
     refine CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.L6Delta.isCyclic_of_pow_eq_one_mem
       (by norm_num) hK0pg ((zpowers x).subgroupOf K0G) ?_ ?_

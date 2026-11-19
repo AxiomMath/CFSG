@@ -54,7 +54,7 @@ theorem rowF_at (h : LHChecks D) {f : Nat} (hf : f < 3510) :
   have e : Nat.add (Nat.mul (nat_lit 440) (f / 440)) (f % 440) = f := by
     change 440 * (f / 440) + f % 440 = f
     omega
-  rw [strictB_eq, e, bIf_eq, if_pos (by rw [Nat.blt_eq]; exact hf)] at this
+  rw [strictB_eq, e, bIf_eq, ite_eq_left (by rw [Nat.blt_eq]; exact hf)] at this
   exact this
 
 theorem rowF_spec (h : LHChecks D) {f : Nat} (hf : f < 3510) :
@@ -67,9 +67,9 @@ theorem rowF_spec (h : LHChecks D) {f : Nat} (hf : f < 3510) :
   unfold rowF at hr
   rw [strictB_eq, bIf_eq, memB_eq] at hr
   refine ⟨fun hb => ?_, fun hb => ?_⟩
-  · rw [if_pos hb] at hr
+  · rw [ite_eq_left hb] at hr
     exact Nat.eq_of_beq_eq_true hr
-  · rw [if_neg (by rw [hb]; simp), strictB_eq] at hr
+  · rw [ite_eq_right (by rw [hb]; simp), strictB_eq] at hr
     simp only [bAnd_eq, Bool.and_eq_true, Nat.blt_eq, notB_eq, Bool.not_eq_true', Nat.beq_eq,
       strictB_eq] at hr
     obtain ⟨h1, h2, h3, h4⟩ := hr
@@ -87,12 +87,12 @@ theorem rowF_spec (h : LHChecks D) {f : Nat} (hf : f < 3510) :
           (ent (D.R f) (ent D.lb0 j)) = true then
           (if ent (D.R f) (ent D.lb0 j) = ent D.lb0 j then 1 else 0) else 1000)
         (fun _ _ => Nat.zero_le _) (Finset.mem_range.2 hj)
-      rw [if_neg hc, h4] at this
+      rw [ite_eq_right hc, h4] at this
       omega
     refine ⟨h1, h2', h3, hmem, ?_⟩
     rw [← h4]
     refine Finset.sum_congr rfl fun j hj => ?_
-    rw [if_pos (hmem j (Finset.mem_range.1 hj))]
+    rw [ite_eq_left (hmem j (Finset.mem_range.1 hj))]
 
 theorem rowR_get {f : Nat} (hf : f < 3510) : (rowRD D)[f]! = fd (D.P f) 0 16383 := by
   unfold rowRD
@@ -103,10 +103,10 @@ theorem rowInv_get {m : Nat} (hm : m < 14080) : (rowInvD D)[m]! = fd (D.QA m) 77
   rw [getElem!_pos _ m (by rw [Array.size_ofFn]; exact hm), Array.getElem_ofFn]
 
 theorem row_img (hO : OrbOK) (h : LHChecks D) {f : Nat} (hf : f < 3510)
-    (hb : (bs D.lb0).testBit f = false) (y : Nat) :
-    (sb (D.QA (fd (D.P f) 0 16383))).testBit y = true ↔ ∃ j < 351, ent (D.R f) (ent D.lb0 j) = y :=
-  set_img_eq h.setA ((rowF_spec h hf).2 hb).1 (fun x hx y hy e => row_inj hO h hf hx hy e)
-    (lb0_facts h).1 (lb0_facts h).2 ((rowF_spec h hf).2 hb).2.2.2.1 y
+    (hb : (bs D.lb0).testBit f = false) (_y : Nat) :
+    (sb (D.QA (fd (D.P f) 0 16383))).testBit _y = true ↔ ∃ j < 351, ent (D.R f) (ent D.lb0 j) = _y :=
+  set_img_eq h.setA ((rowF_spec h hf).2 hb).1 (fun _x hx _y hy e => row_inj hO h hf hx hy e)
+    (lb0_facts h).1 (lb0_facts h).2 ((rowF_spec h hf).2 hb).2.2.2.1 _y
 
 theorem row_imgBits (hO : OrbOK) (h : LHChecks D) {f : Nat} (hf : f < 3510)
     (hb : (bs D.lb0).testBit f = false) :
@@ -129,10 +129,10 @@ theorem rowR_eq (hO : OrbOK) (h : LHChecks D) :
   funext f
   rw [B0_at h f.2]
   cases hb : (bs D.lb0).testBit f.val
-  · rw [if_neg (by simp)]
+  · rw [ite_eq_right (by simp)]
     obtain ⟨h1, -⟩ := (rowF_spec h f.2).2 hb
     exact find_orbDec_of (fun i hi j hj e => sb_inj h.walkA hi hj e) h1 (row_imgBits hO h f.2 hb)
-  · rw [if_pos rfl]
+  · rw [ite_eq_left rfl]
     exact ((rowF_spec h f.2).1 hb).symm
 
 theorem c_row (hO : OrbOK) (h : LHChecks D) :
@@ -167,7 +167,7 @@ theorem c_row (hO : OrbOK) (h : LHChecks D) :
     by_cases e : fd (D.QA m) 7780 4095 = 3510
     · rw [e]
       rfl
-    · rw [if_neg (by rw [beq_false e]; simp)] at hk
+    · rw [ite_eq_right (by rw [beq_false e]; simp)] at hk
       simp only [bAnd_eq, Bool.and_eq_true, Nat.blt_eq, notB_eq, Bool.not_eq_true', memB_eq,
         Nat.beq_eq] at hk
       obtain ⟨h1, h2, h3⟩ := hk
@@ -201,22 +201,22 @@ theorem set_fold {N v0 : Nat} {Dp : Nat → Nat} {c : Nat → Bool} : ∀ n,
     generalize (List.range n).foldl (fun r f => if c f = true then r.set! (Dp f) f else r)
       (Array.replicate N v0) = r0 at hs h1 h2
     by_cases hc : c n = true
-    · rw [if_pos hc]
+    · rw [ite_eq_left hc]
       have hn := hD n (by omega) hc
       refine ⟨by rw [size_set!, hs], fun f hf hcf => ?_, fun m hm hne => ?_⟩
       · rw [get!_set! _ (by rw [hs]; exact hn) (by rw [hs]; exact hD f hf hcf)]
         by_cases e : Dp n = Dp f
-        · rw [if_pos e, hinj n (by omega) f hf hc hcf e]
-        · rw [if_neg e]
+        · rw [ite_eq_left e, hinj n (by omega) f hf hc hcf e]
+        · rw [ite_eq_right e]
           have hfn : f < n := by
             rcases Nat.lt_or_ge f n with h' | h'
             · exact h'
             · exact absurd (by rw [show f = n by omega]) e
           exact h1 f hfn hcf
       · rw [get!_set! _ (by rw [hs]; exact hn) (by rw [hs]; exact hm),
-          if_neg (hne n (by omega) hc)]
+          ite_eq_right (hne n (by omega) hc)]
         exact h2 m hm fun f hf hcf => hne f (by omega) hcf
-    · rw [if_neg hc]
+    · rw [ite_eq_right hc]
       refine ⟨hs, fun f hf hcf => ?_, fun m hm hne => h2 m hm fun f hf hcf => hne f (by omega) hcf⟩
       have hfn : f < n := by
         rcases Nat.lt_or_ge f n with h' | h'
@@ -227,7 +227,7 @@ theorem set_fold {N v0 : Nat} {Dp : Nat → Nat} {c : Nat → Bool} : ∀ n,
 private theorem run_bind_forIn {β : Type} (n : Nat) (b : β) (f : Nat → β → Id (ForInStep β)) :
     Id.run (forIn [:n] b f >>= fun s => pure s) = forIn [:n] b f := rfl
 
-theorem rowInv_eq (hO : OrbOK) (h : LHChecks D) :
+theorem rowInv_eq (_hO : OrbOK) (h : LHChecks D) :
     mkRowInv (bitsOf (lhData ())[0]!) (rowRD D) = rowInvD D := by
   let c : Nat → Bool := fun f => !bitAt (bitsOf (lhData ())[0]!) f && decide ((rowRD D)[f]! < 14080)
   have hc : ∀ f < 3510, c f = true ↔ (bs D.lb0).testBit f = false := by
@@ -265,11 +265,11 @@ theorem rowInv_eq (hO : OrbOK) (h : LHChecks D) :
     · rename_i hc
       change r.set! (rowRD D)[q]! q = (List.range (q + 1)).foldl
         (fun r f => if c f = true then r.set! (rowRD D)[f]! f else r) (Array.replicate 14080 3510)
-      rw [List.range_succ, List.foldl_append, List.foldl_cons, List.foldl_nil, ← hI, if_pos hc]
+      rw [List.range_succ, List.foldl_append, List.foldl_cons, List.foldl_nil, ← hI, ite_eq_left hc]
     · rename_i hc
       change r = (List.range (q + 1)).foldl
         (fun r f => if c f = true then r.set! (rowRD D)[f]! f else r) (Array.replicate 14080 3510)
-      rw [List.range_succ, List.foldl_append, List.foldl_cons, List.foldl_nil, ← hI, if_neg hc]
+      rw [List.range_succ, List.foldl_append, List.foldl_cons, List.foldl_nil, ← hI, ite_eq_right hc]
   rw [hr, heq]
   refine ext_get! hs (by simp [rowInvD]) fun m hm => ?_
   rw [rowInv_get hm]
@@ -286,7 +286,7 @@ theorem rowInv_eq (hO : OrbOK) (h : LHChecks D) :
     have hk := allN_iff.1 h.rowInv m hm
     rw [strictB_eq, bIf_eq] at hk
     by_contra hne
-    rw [if_neg (by rw [beq_false (Ne.symm hne)]; simp)] at hk
+    rw [ite_eq_right (by rw [beq_false (Ne.symm hne)]; simp)] at hk
     simp only [bAnd_eq, Bool.and_eq_true, Nat.blt_eq, notB_eq, Bool.not_eq_true', memB_eq,
       Nat.beq_eq] at hk
     obtain ⟨k1, k2, k3⟩ := hk
@@ -312,7 +312,7 @@ theorem farK_spec (h : LHChecks D) :
   · have := allN_iff.1 h4 l hl
     rwa [memB_eq] at this
   · have := allN_iff.1 h8 m hm
-    rw [bIf_eq, if_pos hfm, Nat.blt_eq] at this
+    rw [bIf_eq, ite_eq_left hfm, Nat.blt_eq] at this
     exact this
 
 theorem isFar_eq {m : Nat} (hm : m < 14080) : isFar (rowInvD D) m = farB D.QA m := by
@@ -320,7 +320,7 @@ theorem isFar_eq {m : Nat} (hm : m < 14080) : isFar (rowInvD D) m = farB D.QA m 
   rw [rowInv_get hm, bAnd_eq, notB_eq]
   rfl
 
-theorem v0_eq (hO : OrbOK) (h : LHChecks D) :
+theorem v0_eq (_hO : OrbOK) (h : LHChecks D) :
     ((List.range 14080).find? fun m => isFar (rowInvD D) m).getD 0 = fd D.mt 0 16383 := by
   obtain ⟨h1, h2, h3, -⟩ := farK_spec h
   have e : List.range 14080 = List.range (fd D.mt 0 16383) ++
@@ -347,7 +347,7 @@ theorem closDec_ap {C : Nat → Nat} {k : Nat} (hk : k < 3510) :
     rw [getElem!_pos _ k (by rw [Array.size_ofFn]; exact hk), Array.getElem_ofFn]
     change (if fd (C k) o w = 4096 then none32 else UInt32.ofNat (fd (C k) o w)).toNat = _
     have := fd_le (C k) o w
-    rw [if_neg (by omega), UInt32.toNat_ofNat', Nat.mod_eq_of_lt (by omega)]
+    rw [ite_eq_right (by omega), UInt32.toNat_ofNat', Nat.mod_eq_of_lt (by omega)]
   have h1 : (closDec C).pts = tabDec 3510 4096 fun k => fd (C k) 0 4095 := by simp only [closDec]
   have h2 : (closDec C).par = tabDec 3510 4096 fun k => fd (C k) 12 4095 := by simp only [closDec]
   have h3 : (closDec C).lab = tabDec 3510 4096 fun k => fd (C k) 24 7 := by simp only [closDec]
@@ -389,11 +389,11 @@ theorem recon_im (hO : OrbOK) (h : LHChecks D) :
     induction j with
     | zero =>
       intro _
-      refine ⟨by simp [im0, size_set!], fun k hk => ?_⟩
+      refine ⟨by simp [im0], fun k hk => ?_⟩
       have : k = 0 := by omega
       subst this
       simp only [im0, List.range'_zero, List.foldl_nil]
-      rw [get!_set! _ (by simp) (by simp), if_pos rfl, uImg_get 0 (by decide), hu0]
+      rw [get!_set! _ (by simp) (by simp), ite_eq_left rfl, uImg_get 0 (by decide), hu0]
     | succ j ih =>
       intro hj
       obtain ⟨hs, hv⟩ := ih (by omega)
@@ -407,7 +407,7 @@ theorem recon_im (hO : OrbOK) (h : LHChecks D) :
       rw [get!_set! _ (by rw [hs]; omega) (by rw [hs]; omega)]
       by_cases e : 1 + j = k
       · subst e
-        rw [if_pos rfl, cpar, clab, hv _ (by omega), getElem!_map' _ _ (by change _ < 6; exact hl),
+        rw [ite_eq_left rfl, cpar, clab, hv _ (by omega), getElem!_map' _ _ (by change _ < 6; exact hl),
           uImg_get _ hl]
         have hb : uiK (fd (D.C (1 + j)) 24 7) < 3510 := by
           rw [← uImg_get _ hl]
@@ -417,7 +417,7 @@ theorem recon_im (hO : OrbOK) (h : LHChecks D) :
         have hx : ent D.u (fd (D.C (fd (D.C (1 + j)) 12 4095)) 0 4095) < 3510 :=
           (hu _ (hpts _ (by omega))).1
         rw [← tauAll_get hb, ((tauAll_TR hO h _ hb).2 _ hx).1, hstep (1 + j) (by omega) (by omega)]
-      · rw [if_neg e, hv k (by omega)]
+      · rw [ite_eq_right e, hv k (by omega)]
   have := hgen 3509 (by decide)
   exact ⟨this.1, fun k hk => this.2 k (by omega)⟩
 
@@ -554,7 +554,7 @@ theorem phiW_spec (hO : OrbOK) (h : LHChecks D) : ∀ f g, g < 3510 → dep D.op
     rw [phiW_succ]
     by_cases hg0 : g = 0
     · subst hg0
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       refine ⟨by rw [fa]; exact pa_lt h.setA hm, fun y => ?_⟩
       rw [fa, sb_pa h.setA hm, row_zero h]
       constructor
@@ -563,13 +563,13 @@ theorem phiW_spec (hO : OrbOK) (h : LHChecks D) : ∀ f g, g < 3510 → dep D.op
       · rintro ⟨x, hx, rfl⟩
         obtain ⟨j, hj, rfl⟩ := (sb_mem h.setA hm x).1 hx
         exact ⟨j, hj, rfl⟩
-    · rw [if_neg hg0]
+    · rw [ite_eq_right hg0]
       have hd' : dep D.op f (ent D.op g) = true := by
         simp only [dep, Bool.or_eq_true, beq_iff_eq, hg0, false_or] at hd
         exact hd
       obtain ⟨hp, hrow⟩ := row_succ h hg (by omega)
       by_cases hl : ent D.ol g = 1
-      · rw [if_pos hl]
+      · rw [ite_eq_left hl]
         have hm1 : e14 D.qa m < 14080 := by rw [fa]; exact pa_lt h.setA hm
         obtain ⟨i1, i2⟩ := ih (ent D.op g) (by omega) hd' _ hm1
         obtain ⟨ga, -⟩ := flat_spec h i1
@@ -582,7 +582,7 @@ theorem phiW_spec (hO : OrbOK) (h : LHChecks D) : ∀ f g, g < 3510 → dep D.op
           rw [fa, sb_pa h.setA hm] at hx1
           obtain ⟨j0, hj0, rfl⟩ := hx1
           refine ⟨ent (D.QA m) j0, (sb_mem h.setA hm _).2 ⟨j0, hj0, rfl⟩, ?_⟩
-          rw [hrow _ (mem_lt h.setA hm hj0), if_pos hl, e1]
+          rw [hrow _ (mem_lt h.setA hm hj0), ite_eq_left hl, e1]
         · rintro ⟨x, hx, rfl⟩
           have hx' := sbA_lt hx
           have hm1x : (sb (D.QA (e14 D.qa m))).testBit (ent D.al x) = true := by
@@ -592,8 +592,8 @@ theorem phiW_spec (hO : OrbOK) (h : LHChecks D) : ∀ f g, g < 3510 → dep D.op
           have h2 := (i2 _).2 ⟨_, hm1x, rfl⟩
           obtain ⟨j, hj, e⟩ := (sb_mem h.setA i1 _).1 h2
           refine ⟨j, hj, ?_⟩
-          rw [hrow x hx', if_pos hl, e]
-      · rw [if_neg hl]
+          rw [hrow x hx', ite_eq_left hl, e]
+      · rw [ite_eq_right hl]
         obtain ⟨ia, ib⟩ := ih (ent D.op g) (by omega) hd' _ fbi
         obtain ⟨-, gb, -⟩ := flat_spec h ia
         obtain ⟨-, fb1, -⟩ := flat_spec h fbi
@@ -621,12 +621,12 @@ theorem phiW_spec (hO : OrbOK) (h : LHChecks D) : ∀ f g, g < 3510 → dep D.op
           obtain ⟨x1, hx1, e1⟩ := (ib _).1 hx2
           obtain ⟨z, hz, rfl⟩ := (hbi x1).1 hx1
           refine ⟨z, hz, ?_⟩
-          rw [hrow z (sbA_lt hz), if_neg hl, e1]
+          rw [hrow z (sbA_lt hz), ite_eq_right hl, e1]
         · rintro ⟨x, hx, rfl⟩
           have h2 := (ib _).2 ⟨ent D.bi x, (hbi _).2 ⟨x, hx, rfl⟩, rfl⟩
           obtain ⟨j, hj, e⟩ := (sb_mem h.setA ia _).1 h2
           refine ⟨j, hj, ?_⟩
-          rw [hrow x (sbA_lt hx), if_neg hl, e]
+          rw [hrow x (sbA_lt hx), ite_eq_right hl, e]
 
 theorem phi_facts (hO : OrbOK) (h : LHChecks D) {l m : Nat} (hl : l < 7) (hm : m < 14080) :
     e14 (D.ph l) m < 14080 ∧ imgBits (tauAll orbL)[xiK l]! (bitsOfNat (sb (D.QA m))) =
@@ -662,7 +662,7 @@ theorem phiDec_get {ph : Nat → Nat} {l m : Nat} (hl : l < 7) (hm : m < 14080) 
     rw [getElem!_pos _ m (by simpa using hm), Array.getElem_ofFn]
     change (if e14 (ph l) m = 16384 then none32 else UInt32.ofNat (e14 (ph l) m)) = _
     have := e14_lt (ph l) m
-    rw [if_neg (by omega)]
+    rw [ite_eq_right (by omega)]
   refine ⟨by rw [e1]; simp [tabDec], e2, ?_⟩
   unfold ap
   rw [e2, UInt32.toNat_ofNat', Nat.mod_eq_of_lt (by have := e14_lt (ph l) m; omega)]

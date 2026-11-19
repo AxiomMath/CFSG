@@ -146,8 +146,8 @@ theorem eq_top_of_uTransLe_pair (hF : Nat.card F = (2 ^ f) ^ 2) {m : ℕ} (hm : 
     (hS : ∀ ν : F, ∃ z ∈ L, z ∈ uRad (unitaryInvolution F 2 f) a ∧
       radVec (unitaryInvolution F 2 f) a d z = ν • w₀) : L = ⊤ :=
   eq_top_of_uTransLe_pair_of (unitaryInvolution_involutive hF)
-    (fun c hc => exists_add_unitaryInvolution_eq hF hc)
-    (fun c hc => exists_sigma_mul_self_eq hF hc)
+    (fun _c hc => exists_add_unitaryInvolution_eq hF hc)
+    (fun _c hc => exists_sigma_mul_self_eq hF hc)
     (fun _ h => eq_top_of_forall_isUTransGroup_le hF hm h) hm haa hdd had hw₀ hw₀0 hw₀w₀ ha hd
     hP hS
 

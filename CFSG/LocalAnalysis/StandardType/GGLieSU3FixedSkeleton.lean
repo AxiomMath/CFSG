@@ -30,7 +30,7 @@ theorem ggLieSU3Fixed_of_lift {X : Type} [Group X] [Finite X] (hX : commutator X
           ∃ t ∈ Jh, (∀ x ∈ E, t * x = x * t) ∧ ∃ u ∈ Jh, t * u ≠ u * t) :
     ¬ GGAutsFixedInCenter A J := by
   intro hfixed
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let E : Set G := {s | ∃ a ∈ A, ∀ x : X, ψ (a x) = s * ψ x * s⁻¹}
   have hEcomm : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x := by
     intro s hs t ht

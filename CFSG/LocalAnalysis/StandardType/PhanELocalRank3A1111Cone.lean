@@ -11,6 +11,7 @@ open CFSG.Monster.B.Geometry Module
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 private lemma plh_inf_sup_span_singleton_eq_bot {V : Type*} [AddCommGroup V] [Module K V]
     {M T : Submodule K V} {v : V} (hMT : M ⊓ T = ⊥) (hv : v ∉ M ⊔ T) :
     (M ⊔ K ∙ v) ⊓ T = ⊥ := by
@@ -34,12 +35,14 @@ private lemma plh_inf_sup_span_singleton_eq_bot {V : Type*} [AddCommGroup V] [Mo
     rw [hv_eq]
     exact Submodule.smul_mem _ _ hmem
 
+omit [Finite K] in
 private lemma plh_inf_Vsub2_le_inf_Vsub3 (p : Submodule K (Fin 4 → K)) :
     p ⊓ Vsub 4 2 ≤ p ⊓ Vsub 4 3 := by
   intro v hv
   rw [Submodule.mem_inf] at hv ⊢
   exact ⟨hv.1, Vsub_mono (K := K) (n := 4) (by norm_num : (2 : ℕ) ≤ 3) hv.2⟩
 
+omit [Finite K] in
 private lemma plh_inf_Vsub1_le_inf_Vsub2 (p : Submodule K (Fin 4 → K)) :
     p ⊓ Vsub 4 1 ≤ p ⊓ Vsub 4 2 := by
   intro v hv
@@ -65,9 +68,10 @@ private lemma plh_card_insert_seven {α : Type*} [DecidableEq α] (a b c d e f g
   have h7 : ({g} : Finset α).card ≤ 1 := by simp
   omega
 
+omit [Finite K] in
 private lemma plh_triple (x y t : Submodule K (Fin 4 → K))
     (hx1 : finrank K x = 1) (hy1 : finrank K y = 1) (ht1 : finrank K t = 1)
-    (hxy : x ≠ y) (hxt : x ≠ t) (hyt : y ≠ t)
+    (_hxy : x ≠ y) (hxt : x ≠ t) (hyt : y ≠ t)
     (hxV3 : x ⊓ Vsub 4 3 = ⊥) (hyV3 : y ⊓ Vsub 4 3 = ⊥) (htV3 : t ⊓ Vsub 4 3 = ⊥)
     (hxyV2 : (x ⊔ y) ⊓ Vsub 4 2 = ⊥)
     (hxtV2 : (x ⊔ t) ⊓ Vsub 4 2 = ⊥) (hytV2 : (y ⊔ t) ⊓ Vsub 4 2 = ⊥)

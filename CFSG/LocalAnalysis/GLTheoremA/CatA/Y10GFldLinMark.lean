@@ -102,7 +102,7 @@ theorem fieldKind_linear_data {S : Type} [Group S] [Finite S] {labK : GLALabel} 
       by simp [canonLabel, ht], by simp [canonLabel, ht], A, σ, u, e, hαu, hgraph, hσ⟩
   ·
     unfold LargeEvenRawDatum at hraw
-    simp only [ht, hr, if_true] at hraw
+    simp only [ht, hr, ite_true] at hraw
     unfold LargeEvenRecipeLinear at hraw
     obtain ⟨K, hK, hKf, hcard, hQ'⟩ := hraw
     obtain ⟨-, -, θ, -, hB, hC⟩ := hQ'
@@ -112,7 +112,7 @@ theorem fieldKind_linear_data {S : Type} [Group S] [Finite S] {labK : GLALabel} 
       by simp [canonLabel, ht, hr], by simp [canonLabel, ht, hr], A, σ, u, e, hαu, hgraph, hσ⟩
   ·
     unfold LargeEvenRawDatum at hraw
-    simp only [ht, hr, if_true] at hraw
+    simp only [ht, hr, ite_true] at hraw
     unfold LargeEvenRecipeLinear at hraw
     obtain ⟨K, hK, hKf, hcard, hQ'⟩ := hraw
     obtain ⟨-, -, θ, -, hB, hC⟩ := hQ'

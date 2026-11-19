@@ -106,7 +106,7 @@ theorem sylow_le_of_centralizer_eq_bot {W : Type} [Group W] [Finite W] (S : Sylo
     exact Subgroup.mem_subgroupOf.mp this
   set F := CFSG.fixedPointSubgroup A Sg with hF
   have h2F : 2 ∣ Nat.card F := by
-    rcases (S.isPGroup'.to_subgroup F).card_eq_or_dvd with h | h
+    rcases (S.isPGroup.to_subgroup F).card_eq_or_dvd with h | h
     · exact absurd (Subgroup.card_eq_one.mp h) hfix
     · exact h
   obtain ⟨u, hu⟩ := exists_prime_orderOf_dvd_card' (G := F) 2 h2F

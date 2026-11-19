@@ -85,7 +85,7 @@ theorem le_centralizer_sylowCenter [IsSimpleGroup X] {T : Sylow 2 X} {D : Subgro
     have h2 : r * z * r⁻¹ * z⁻¹ ∈ (T : Subgroup X) :=
       (T : Subgroup X).mul_mem ((Subgroup.mem_normalizer_iff.mp hrN z).mp hzT)
         ((T : Subgroup X).inv_mem hzT)
-    have h3 := eq_one_of_mem_pGroup_two hp hp2 hR T.isPGroup' h1 h2
+    have h3 := eq_one_of_mem_pGroup_two hp hp2 hR T.isPGroup h1 h2
     calc z * r = (r * z * r⁻¹ * z⁻¹)⁻¹ * r * z := by group
       _ = r * z := by rw [h3, inv_one, one_mul]
 

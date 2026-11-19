@@ -47,13 +47,13 @@ theorem data_g2n
       simp only [S10.isG2n, onLie] at hi
       obtain ⟨hp, hn⟩ := hi
       obtain ⟨hfin, hsimp⟩ := CFSG.Assembly.lie_finite_simple ⟨.G2 q, hv⟩
-      haveI : Finite (TauCeti.CFSGIndex.lie ⟨.G2 q, hv⟩).Group := hfin
-      haveI : IsSimpleGroup (TauCeti.CFSGIndex.lie ⟨.G2 q, hv⟩).Group := hsimp
-      haveI : Finite T := Finite.of_equiv _ e.symm.toEquiv
-      haveI : IsSimpleGroup T := e.isSimpleGroup
-      haveI : Group.IsPerfect (TauCeti.CFSGIndex.lie ⟨.G2 q, hv⟩).Group :=
+      have : Finite (TauCeti.CFSGIndex.lie ⟨.G2 q, hv⟩).Group := hfin
+      have : IsSimpleGroup (TauCeti.CFSGIndex.lie ⟨.G2 q, hv⟩).Group := hsimp
+      have : Finite T := Finite.of_equiv _ e.symm.toEquiv
+      have : IsSimpleGroup T := e.isSimpleGroup
+      have : Group.IsPerfect (TauCeti.CFSGIndex.lie ⟨.G2 q, hv⟩).Group :=
         CFSG.RankThree.PartTwo.Sec11.SetUp1118Proof.isPerfect_lie_G2 q hv
-      haveI : Nontrivial (TauCeti.CFSGIndex.lie ⟨.G2 q, hv⟩).Group := IsSimpleGroup.toNontrivial
+      have : Nontrivial (TauCeti.CFSGIndex.lie ⟨.G2 q, hv⟩).Group := IsSimpleGroup.toNontrivial
       have hns : ¬ Group.IsSolvable T := by
         intro hs
         exact Group.IsPerfect.not_isSolvable _
@@ -114,9 +114,9 @@ theorem order_g2Class {ℓ f : ℕ} (hℓ : ℓ.Prime) (hℓ2 : ℓ ≠ 2) (hf :
       (fieldActor (t := TwistTag.D4) σ σ)) T) :
     StatedLieAdmissible .G2 0 ℓ f ∧
       Nat.card T * lieOrderDivisor .G2 0 (ℓ ^ f) = lieOrderNumerator .G2 0 (ℓ ^ f) := by
-  haveI := CFSG.HardMathSupport.Dickson.DefCharOuter.TrialityChar3.isSimpleGroup_fixSubgroup_fieldActor_D4
+  have := CFSG.HardMathSupport.Dickson.DefCharOuter.TrialityChar3.isSimpleGroup_fixSubgroup_fieldActor_D4
     ℓ f hℓ hℓ2 K hK σ hσ
-  haveI : Nontrivial T := IsSimpleGroup.toNontrivial
+  have : Nontrivial T := IsSimpleGroup.toNontrivial
   have hcard := h.card_eq_of_isSimpleGroup
   have h2 := CFSG.HardMathSupport.Lang.Triality.card_fixed_fieldActor_D4_of_frobenius hℓ hf hK σ hσ
   refine ⟨⟨hℓ, hf, rfl, three_le_pow_of_odd hℓ hℓ2 hf⟩, ?_⟩
@@ -144,14 +144,14 @@ theorem order_pglClass {ℓ f : ℕ} (hℓ : ℓ.Prime) (hℓ2 : ℓ ≠ 2) (h�
   have hSP : CFSG.PGLModel.projImage (CFSG.RankThree.PartTwo.Sec4.slPi π 3 (p ^ f') F) ≤ P :=
     Subgroup.map_mono (CFSG.RankThree.PartTwo.Sec4.slPi_le_glPi hπ)
   have h1 : SubnQuot ↥P T := h.of_mulEquiv e
-  haveI : Group.IsSolvable (↥P ⧸ commutator ↥P) := isSolvable_quot_commutator
+  have : Group.IsSolvable (↥P ⧸ commutator ↥P) := isSolvable_quot_commutator
   have h3 : SubnQuot ↥(commutator ↥P) T := h1.normal hT (commutator ↥P)
   have h4 : SubnQuot ↥(CFSG.PGLModel.projImage (CFSG.RankThree.PartTwo.Sec4.slPi π 3 (p ^ f') F)) T :=
     h3.of_mulEquiv ((MulEquiv.subgroupCongr
       (CFSG.RankThree.PartTwo.Sec13.commutator_projImage_glPi hF h2)).trans
         (Subgroup.subgroupOfEquivOfLe hSP))
-  haveI := CFSG.RankThree.PartTwo.Sec4.RonanK429Lie.isSimpleGroup_projImage_slPi hF (Or.inr h2)
-  haveI : Nontrivial T := IsSimpleGroup.toNontrivial
+  have := CFSG.RankThree.PartTwo.Sec4.RonanK429Lie.isSimpleGroup_projImage_slPi hF (Or.inr h2)
+  have : Nontrivial T := IsSimpleGroup.toNontrivial
   have hcard := h4.card_eq_of_isSimpleGroup
   have h6 := CFSG.RankThree.PartTwo.Sec13.card_projImage_slPi_mul_three hF hmod
   rw [← hcard, hpf] at h6
@@ -169,7 +169,7 @@ theorem order_pglClass {ℓ f : ℕ} (hℓ : ℓ.Prime) (hℓ2 : ℓ ≠ 2) (h�
     have hN : lieOrderNumerator .PSU 3 q = q ^ 3 * ((q ^ 2 - 1) * (q ^ 3 + 1)) := by
       show q ^ (3 * (3 - 1) / 2) * ∏ i ∈ Finset.Icc 2 3, (if Even i then q ^ i - 1 else q ^ i + 1) = _
       rw [show Finset.Icc 2 3 = {2, 3} by decide, Finset.prod_pair (by decide),
-        if_pos (by decide : Even 2), if_neg (by decide : ¬ Even 3)]
+        ite_eq_left (by decide : Even 2), ite_eq_right (by decide : ¬ Even 3)]
     rw [hD, hN, h6]
     simp only [Bool.cond_false]
     ring
@@ -196,7 +196,7 @@ theorem order_g2TopCentralizer {K : Type} [Field K] [Finite K] [CharP K 3] {y : 
       ({CFSG.HardMathSupport.Dickson.Sec6.I923.R2Aux.g2Top K y} : Set ↥(adjointGroup .G2 K))) T) :
     4 ≤ Nat.card K ∧ 2 * Nat.card T = Nat.card K * (Nat.card K ^ 2 - 1) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set D : Subgroup (adjointGroup .G2 K) :=
     Subgroup.centralizer {CFSG.HardMathSupport.Dickson.Sec6.I923.R2Aux.g2Top K y} with hDdef
   set Q' : Subgroup (adjointGroup .G2 K) :=
@@ -229,12 +229,12 @@ theorem order_g2TopCentralizer {K : Type} [Field K] [Finite K] [CharP K 3] {y : 
     (CFSG.HardMathSupport.Dickson.Sec6.I923.R2Aux.g2Q_isPGroup (K := K) 3).comap_of_injective
       (adjointGroup .G2 K).subtype (adjointGroup .G2 K).subtype_injective
   set N0 : Subgroup ↥D := Q'.subgroupOf D with hN0
-  haveI hN0n : N0.Normal := ⟨fun n hn g => by
+  have hN0n : N0.Normal := ⟨fun n hn g => by
     rw [hN0, Subgroup.mem_subgroupOf] at hn ⊢
     exact hQn g g.2 n hn⟩
-  haveI hN0p : IsPGroup 3 ↥N0 := hQp.comap_of_injective D.subtype D.subtype_injective
-  haveI : Group.IsNilpotent ↥N0 := IsPGroup.isNilpotent hN0p
-  haveI : Group.IsSolvable ↥N0 := inferInstance
+  have hN0p : IsPGroup 3 ↥N0 := hQp.comap_of_injective D.subtype D.subtype_injective
+  have : Group.IsNilpotent ↥N0 := IsPGroup.isNilpotent hN0p
+  have : Group.IsSolvable ↥N0 := inferInstance
   set L'' : Subgroup (adjointGroup .G2 K) :=
     (CFSG.ComponentClassification.UnbalancedCatalog.g2RankOne K
       CFSG.ComponentClassification.UnbalancedCatalog.g2ir).subgroupOf (adjointGroup .G2 K) with hL''
@@ -274,18 +274,18 @@ theorem order_g2TopCentralizer {K : Type} [Field K] [Finite K] [CharP K 3] {y : 
   have h4 : 4 ≤ Nat.card K := by
     by_contra hlt
     have hdvd : (3 : ℕ) ∣ Nat.card K := by
-      haveI : Fintype K := Fintype.ofFinite K
+      have : Fintype K := Fintype.ofFinite K
       rw [Nat.card_eq_fintype_card]
       obtain ⟨n, -, hn⟩ := FiniteField.card K 3
       rw [hn]
       exact dvd_pow_self 3 (PNat.ne_zero n)
     have h3K : 3 ≤ Nat.card K := Nat.le_of_dvd Nat.card_pos hdvd
     have hK3 : Nat.card K = 3 := by omega
-    haveI := CFSG.GH74.GLS.IVK.GHInv.isSolvable_sl2_of_card_three hK3
+    have := CFSG.GH74.GLS.IVK.GHInv.isSolvable_sl2_of_card_three hK3
     exact not_subnQuot_of_isSolvable hT h3
   refine ⟨h4, ?_⟩
   obtain ⟨-, hsimp, -⟩ := CFSG.GH74.GLS.IVK.GHInv.isQuasisimple_sl2 (K := K) h4
-  haveI := hsimp
+  have := hsimp
   have hcard := h3.card_eq_centerQuot hT
   have hchar : ringChar K ≠ 2 := by rw [ringChar.eq K 3]; norm_num
   rw [hcard]
@@ -301,7 +301,7 @@ theorem order_classB {f : ℕ} (hf : 1 ≤ f) {K : Type} [Field K] [Finite K] [C
     (hK : Nat.card K = (3 ^ f) ^ 3) (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ (3 ^ f)) {c : K}
     (hc : σ c = c) (hc0 : c ≠ 0) {T : Type} [Group T] [IsSimpleGroup T] (hT : ¬ Group.IsSolvable T)
     (h : SubnQuot ↥(CFSG.HardMathSupport.Solomon.Coordinator.fixSubgroup
-      (MulAut.conj (CFSG.HardMathSupport.Dickson.DefCharOuter.TrialityChar3.longElt hf hK σ hσ
+      (MulAut.conj (CFSG.HardMathSupport.Dickson.DefCharOuter.TrialityChar3.longElt σ
         (Or.inr (Or.inr rfl)) c hc) * fieldActor (t := TwistTag.D4) σ σ)) T) :
     StatedLieAdmissible .PSL 2 3 f ∧
       Nat.card T * lieOrderDivisor .PSL 2 (3 ^ f) = lieOrderNumerator .PSL 2 (3 ^ f) := by
@@ -358,7 +358,7 @@ theorem exists_lieOrder_of_subnQuot {ℓ f : ℕ} (hℓ : ℓ.Prime) (hℓ2 : �
       Nat.card T * lieOrderDivisor t' n' (ℓ ^ f) = lieOrderNumerator t' n' (ℓ ^ f) := by
   by_cases hℓ3 : ℓ = 3
   · subst hℓ3
-    haveI := CFSG.HardMathSupport.Dickson.DefCharOuter.Export.exc_charP_three_of_card K hK
+    have := CFSG.HardMathSupport.Dickson.DefCharOuter.Export.exc_charP_three_of_card K hK
     refine CFSG.HardMathSupport.Dickson.DefCharOuter.Export.three_of_classes_gen hf hK σ hσ
       (fun γ => SubnQuot ↥(CFSG.HardMathSupport.Solomon.Coordinator.fixSubgroup γ) T →
         ∃ (t' : StatedLieTag) (n' : ℕ), IsFixedLieShape 3 t' n' ∧ StatedLieAdmissible t' n' 3 f ∧
@@ -430,7 +430,7 @@ theorem not_subnQuot_fixSub_of_charTwo {q : TauCeti.PrimePower}
 theorem td4OddNoG2Layer_holds : CFSG.LocalAnalysis.GLTheoremA.CatB.KMultA1.TD4OddNoG2Layer := by
   intro S _ hS β hβ3 hβout J hJ n T _ hT φ hφ
   obtain ⟨-, hTsimp, hTns, hadm, hM⟩ := data_g2n hT
-  haveI := hTsimp
+  have := hTsimp
   have hJle : J ≤ CFSG.LocalAnalysis.GLTheoremA.FP.fixSub β := hJ.le
   have h0 : SubnQuot ↥(CFSG.LocalAnalysis.GLTheoremA.FP.fixSub β) T :=
     ⟨J.subgroupOf (CFSG.LocalAnalysis.GLTheoremA.FP.fixSub β), hJ.subgroupOf,

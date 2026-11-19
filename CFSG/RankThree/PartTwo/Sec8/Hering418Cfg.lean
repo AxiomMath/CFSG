@@ -68,7 +68,6 @@ theorem alpha_ne_one : c.alpha ≠ 1 := by
   refine rho_pow_mul_ne c.hKL c.hKb c.ha3 c.haL c.hbL c.haK c.hout (i := 1) (j := 0)
     (by norm_num) (k := 1) K.one_mem ?_
   rw [pow_one, pow_zero, mul_one]
-  change rho L ⟨a, c.haL⟩ = rho L ⟨1, L.le_normalizer (c.hKL K.one_mem)⟩
   rw [show (⟨1, L.le_normalizer (c.hKL K.one_mem)⟩ : Subgroup.normalizer (L : Set G)) = 1 from
     rfl, map_one]
   exact h

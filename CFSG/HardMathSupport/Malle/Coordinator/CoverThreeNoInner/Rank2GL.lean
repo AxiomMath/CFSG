@@ -138,7 +138,7 @@ theorem normal_form {y w : GL (Fin 3) F} {ω b : Fˣ}
     rw [Module.End.mem_eigenspace_iff]
     simpa [Matrix.toLin'_apply] using hYvec i
   let B : Matrix (Fin 3) (Fin 3) F := Matrix.of fun i j => vec j i
-  have hB : IsUnit B := Matrix.linearIndependent_cols_iff_isUnit.mp hind
+  have hB : IsUnit B := Matrix.linearIndependent_col_iff_isUnit.mp hind
   have hYB : Y * B = B * Matrix.diagonal ![1, (ω : F), (ω : F) ^ 2] := by
     ext i j
     have h1 : (Y * B) i j = (Y.mulVec (vec j)) i := by

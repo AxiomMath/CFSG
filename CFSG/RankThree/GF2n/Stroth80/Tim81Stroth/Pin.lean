@@ -81,6 +81,7 @@ theorem Pc_inf_eq_pCore_of_normal (h : Hyp M V) {X : Subgroup G} (hXn : X.Normal
     rw [Pc_eq_pCore_cenOf h]
     exact le_inf hR_le_O2C hR_le_X
 
+omit [Finite G] in
 theorem isQuasisimple_range (hf : 1 ≤ f)
     (Φ : Unitary.SU (unitaryInvolution (GaloisField 2 (2 * f)) 2 f) m →* G)
     (hm : 4 ≤ m) (hker : Φ.ker = Subgroup.center _) :
@@ -100,7 +101,7 @@ theorem isQuasisimple_range (hf : 1 ≤ f)
     (QuotientGroup.quotientKerEquivOfSurjective Φ.rangeRestrict
         Φ.rangeRestrict_surjective).symm.trans
       (QuotientGroup.quotientMulEquivOfEq hker')
-  haveI : IsSimpleGroup (S ⧸ Subgroup.center S) := hquasi.2.1
+  have : IsSimpleGroup (S ⧸ Subgroup.center S) := hquasi.2.1
   have hQ : IsQuasisimple (S ⧸ Subgroup.center S) :=
     (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup hquasi.2.2).1
   exact hQ.of_mulEquiv e
@@ -126,7 +127,7 @@ theorem eq_generalizedFitting (h : Hyp M V) (hcard : Nat.card V = 2 ^ f) (hf : 2
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hf
   have hSimpleF := h.isSimpleGroup_generalizedFitting h4
-  haveI : IsSimpleGroup ↥(generalizedFitting G) := hSimpleF.1
+  have : IsSimpleGroup ↥(generalizedFitting G) := hSimpleF.1
   have hVleX : V ≤ X := fun v hv => Subgroup.subset_normalClosure hv
   have hXne : X ≠ ⊥ := by
     intro hbot
@@ -136,7 +137,7 @@ theorem eq_generalizedFitting (h : Hyp M V) (hcard : Nat.card V = 2 ^ f) (hf : 2
       Subgroup.normalizer_eq_top_iff.mpr hXn]
     exact le_top
   have hXtop : X.subgroupOf (generalizedFitting G) = ⊤ := by
-    haveI : (X.subgroupOf (generalizedFitting G)).Normal := hXnormal_in
+    have : (X.subgroupOf (generalizedFitting G)).Normal := hXnormal_in
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
       (X.subgroupOf (generalizedFitting G)) with htop | htop
     · exfalso

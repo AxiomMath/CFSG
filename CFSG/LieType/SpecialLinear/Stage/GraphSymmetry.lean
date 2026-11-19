@@ -43,8 +43,7 @@ theorem stage_actor_intertwine
     change a ⊗ₜ[E] actorLin δ hδE d x = a ⊗ₜ[E] δ d x
     rw [actorLin_apply]
   · intro g v
-    induction v using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction v using TensorProduct.inductionOn with
     | tmul a x =>
         simp only [T, extendScalars_apply, LinearMap.baseChange_tmul,
           LinearEquiv.baseChange_tmul, LinearEquiv.coe_ofInvolutive]

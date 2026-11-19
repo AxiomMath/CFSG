@@ -35,27 +35,27 @@ theorem lettersP : ∀ w ∈ extRels .plus, ∀ s ∈ w, s < 6 := by decide
 theorem lettersM : ∀ w ∈ extRels .minus, ∀ s ∈ w, s < 6 := by decide
 
 theorem endSpans_plus : endSpans .plus :=
-  spans_of (c := 36) (k := 1) (fun l _ => cobFb6_eq genP _) endP_B endP_len.2.1 endP_len.2.2 rfl
+  spans_of (c := 36) (k := 1) (fun _l _ => cobFb6_eq genP _) endP_B endP_len.2.1 endP_len.2.2 rfl
     endP_len.1 endP_seg
 
 theorem endSpans_minus : endSpans .minus :=
-  spans_of (c := 36) (k := 1) (fun l _ => cobFb6_eq genM _) endM_B endM_len.2.1 endM_len.2.2 rfl
+  spans_of (c := 36) (k := 1) (fun _l _ => cobFb6_eq genM _) endM_B endM_len.2.1 endM_len.2.2 rfl
     endM_len.1 endM_seg
 
 theorem modSpans_plus : modSpans .plus :=
-  spans_of (c := 36) (k := 7) (fun l _ => modFb_eq genP _) modP_B modP_len.2.1 modP_len.2.2 rfl
+  spans_of (c := 36) (k := 7) (fun _l _ => modFb_eq genP _) modP_B modP_len.2.1 modP_len.2.2 rfl
     modP_len.1 modP_seg
 
 theorem modSpans_minus : modSpans .minus :=
-  spans_of (c := 36) (k := 7) (fun l _ => modFb_eq genM _) modM_B modM_len.2.1 modM_len.2.2 rfl
+  spans_of (c := 36) (k := 7) (fun _l _ => modFb_eq genM _) modM_B modM_len.2.1 modM_len.2.2 rfl
     modM_len.1 modM_seg
 
 theorem gamSpans_plus : gamSpans .plus :=
-  spans_of (c := 36) (k := 7) (fun l _ => gamFb_eq genP _) gamP_B gamP_len.2.1 gamP_len.2.2 rfl
+  spans_of (c := 36) (k := 7) (fun _l _ => gamFb_eq genP _) gamP_B gamP_len.2.1 gamP_len.2.2 rfl
     gamP_len.1 gamP_seg
 
 theorem gamSpans_minus : gamSpans .minus :=
-  spans_of (c := 36) (k := 7) (fun l _ => gamFb_eq genM _) gamM_B gamM_len.2.1 gamM_len.2.2 rfl
+  spans_of (c := 36) (k := 7) (fun _l _ => gamFb_eq genM _) gamM_B gamM_len.2.1 gamM_len.2.2 rfl
     gamM_len.1 gamM_seg
 
 theorem cobB_eq {ε : Eps} {G : List ℕ} (hG : GenBind ε G) :

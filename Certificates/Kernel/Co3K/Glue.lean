@@ -267,12 +267,11 @@ theorem w_eq (k : Nat) (hk : k < 72) : co3KW[k]! = unpack 276 9 (lane WT k) := b
   rw [(wt_spec k hk).1]
   unfold co3KW
   rw [getElem!_pos _ k (by simp; omega), Array.getElem_ofFn]
-  beta_reduce
   unfold wK
   rw [Raw.Orb.nIf_eq]
   by_cases h64 : k < 64
   · have hb : Nat.blt k 64 = true := Nat.blt_eq.mpr h64
-    rw [if_pos h64, if_pos hb]
+    rw [ite_eq_left h64, ite_eq_left hb]
     have e7 : Nat.land k 7 = k % 8 := Nat.and_two_pow_sub_one_eq_mod k 3
     have e3 : Nat.shiftRight k 3 = k / 8 := Nat.shiftRight_eq_div_pow k 3
     rw [e7, e3]
@@ -288,9 +287,9 @@ theorem w_eq (k : Nat) (hk : k < 72) : co3KW[k]! = unpack 276 9 (lane WT k) := b
       cases e : Nat.blt k 64
       · rfl
       · exact absurd (Nat.blt_eq.mp e) h64
-    rw [if_neg h64, hb]
+    rw [ite_eq_right h64, hb]
     have hk' : k - 64 < 8 := by omega
-    rw [if_neg Bool.false_ne_true, gens_eq _ hk', pow_eq (cS _ hk')]
+    rw [ite_eq_right Bool.false_ne_true, gens_eq _ hk', pow_eq (cS _ hk')]
     rfl
 
 theorem k5Check : co3KK5Check co3KD co3KW co3ZArr = true := by

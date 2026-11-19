@@ -73,18 +73,18 @@ lemma ggNSLiePI2_linearEquivOfMulAut_injective (hp : p.Prime) [IsMulCommutative 
   exact Additive.ofMul.injective (by simpa using hv)
 
 lemma ggNSLiePI2_transvection_of_same_line (hp : p.Prime) (hp2 : p ≠ 2)
-    (hel : IsElemAbelian p Bs) [Finite Bs] [IsMulCommutative ↥Bs]
+    (_hel : IsElemAbelian p Bs) [Finite Bs] [IsMulCommutative ↥Bs]
     [Module (ZMod p) (Additive ↥Bs)]
-    (t t' : MulAut ↥Bs) (ht : GGIsReflection p t) (ht' : GGIsReflection p t')
+    (t t' : MulAut ↥Bs) (_ht : GGIsReflection p t) (_ht' : GGIsReflection p t')
     {x x' : Additive ↥Bs} {g g' : Module.Dual (ZMod p) (Additive ↥Bs)}
     (hgx : g x = 2) (hgx' : g' x' = 2)
     (htn : ∀ v, ggNSLiePI2_linearEquivOfMulAut hp t v = v - g v • x)
     (htn' : ∀ v, ggNSLiePI2_linearEquivOfMulAut hp t' v = v - g' v • x')
     (hline : x ∈ Submodule.span (ZMod p) {x'}) :
     t * t' = 1 ∨ GGIsTransvection p (t * t') := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype ↥Bs := Fintype.ofFinite _
-  haveI : Fintype (Additive ↥Bs) := Fintype.ofFinite _
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype ↥Bs := Fintype.ofFinite _
+  have : Fintype (Additive ↥Bs) := Fintype.ofFinite _
   have h2 : (2 : ZMod p) ≠ 0 := by
     intro h
     have h' : ((2 : ℕ) : ZMod p) = 0 := by simpa using h
@@ -135,7 +135,7 @@ lemma ggNSLiePI2_transvection_of_same_line (hp : p.Prime) (hp2 : p ≠ 2)
   · right
     have hUeq : U = ggNSLiePI2_linearEquivOfMulAut hp (t * t') := by
       rw [show U = T * T' from rfl, ← ggNSLiePI2_linearEquivOfMulAut_mul]
-    haveI : Nontrivial (Additive ↥Bs) := ⟨x, 0, hx0⟩
+    have : Nontrivial (Additive ↥Bs) := ⟨x, 0, hx0⟩
     have hU1' : (U.toLinearMap - 1 : Additive ↥Bs →ₗ[ZMod p] Additive ↥Bs) ≠ 0 := by
       intro h0
       apply hU1
@@ -168,8 +168,8 @@ lemma ggNSLiePI2_transvection_of_same_line (hp : p.Prime) (hp2 : p ≠ 2)
       rw [hrange, finrank_span_singleton hx0] at hrk
       omega
     have hcardker : Nat.card ↥(LinearMap.ker (U.toLinearMap - 1)) * p = Nat.card (Additive ↥Bs) := by
-      haveI : Fintype ↥(LinearMap.ker (U.toLinearMap - 1)) := Fintype.ofFinite _
-      haveI : Fintype (ZMod p) := ZMod.fintype p
+      have : Fintype ↥(LinearMap.ker (U.toLinearMap - 1)) := Fintype.ofFinite _
+      have : Fintype (ZMod p) := ZMod.fintype p
       have hker : Nat.card ↥(LinearMap.ker (U.toLinearMap - 1)) =
           p ^ Module.finrank (ZMod p) ↥(LinearMap.ker (U.toLinearMap - 1)) := by
         rw [Nat.card_eq_fintype_card, Module.card_eq_pow_finrank (K := ZMod p)
@@ -209,8 +209,6 @@ lemma ggNSLiePI2_transvection_of_same_line (hp : p.Prime) (hp2 : p ≠ 2)
           Additive.ofMul ((t * t') b) - Additive.ofMul b
         first
           | (rw [ofMul_mul, ofMul_inv]; abel)
-          | (show -Additive.ofMul b + Additive.ofMul ((t * t') b) =
-              Additive.ofMul ((t * t') b) - Additive.ofMul b; abel)
       have hgoal : ggNSLiePI2_linearEquivOfMulAut hp (t * t')
           (Additive.ofMul (b⁻¹ * (t * t') b)) = Additive.ofMul (b⁻¹ * (t * t') b) := by
         rw [harg]

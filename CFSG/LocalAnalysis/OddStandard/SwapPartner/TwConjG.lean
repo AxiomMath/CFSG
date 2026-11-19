@@ -28,7 +28,7 @@ theorem exists_conj_z_mul_a (hC : CentData z ι) (hx : IsConj z (ι τ₀))
   have hneτ : Equiv.Perm.sign τ₀ ≠ 1 := by rw [hsignτ]; decide
   have hιdτ : ιd τ₀ = ι τ₀ * (z * ι (swap 0 1)) := by
     have h := hN2 hp τ₀ (by decide) (by decide)
-    rwa [if_neg hneτ] at h
+    rwa [ite_eq_right hneτ] at h
   have hd_comm : ι (swap 0 1) * ι τ₀ = ι τ₀ * ι (swap 0 1) := by
     rw [← map_mul, ← map_mul]
     congr 1
@@ -75,7 +75,7 @@ theorem exists_conj_z_mul_a (hC : CentData z ι) (hx : IsConj z (ι τ₀))
   have hιd_swap23 : ιd (swap 2 3 : Perm (Fin 10)) =
       ι (swap 2 3 : Perm (Fin 10)) * (z * ι (swap 0 1)) := by
     have h := hN2 hp (swap 2 3 : Perm (Fin 10)) (by decide) (by decide)
-    rwa [if_neg hne23] at h
+    rwa [ite_eq_right hne23] at h
   have hfinal : ι (swap 2 3) * (z * ι (swap 0 1)) = z * ι (swap 0 1 * swap 2 3) := by
     rw [map_mul]
     calc ι (swap 2 3) * (z * ι (swap 0 1))

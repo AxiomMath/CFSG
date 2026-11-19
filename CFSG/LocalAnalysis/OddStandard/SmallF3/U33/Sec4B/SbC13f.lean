@@ -11,6 +11,7 @@ open Subgroup
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G}
   {x₁ x₂ lam rho tau om : G}
 
+omit [Finite G] in
 private lemma mem_zpowers_eq_one_or_eq {z x : G} (hz : z * z = 1) (hx : x ∈ zpowers z) :
     x = 1 ∨ x = z := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hx
@@ -114,7 +115,7 @@ theorem c13_E32_cent_Y (hc : Ctx13C t L S x₁ x₂ lam rho tau om) {u : G} (hu2
       · exact h
       · exact absurd (h ▸ hx.1) htau_notY
     have horder : orderOf tau = 2 := by
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       exact orderOf_eq_prime (by rw [pow_two]; exact htau2) htau1
     have hcard_zp : Nat.card ↥(zpowers tau) = 2 := by rw [Nat.card_zpowers, horder]
     refine ⟨ctxYq t tau x₁ x₂ rho ⊔ zpowers tau,
@@ -146,7 +147,7 @@ theorem c13_E32_cent_Y (hc : Ctx13C t L S x₁ x₂ lam rho tau om) {u : G} (hu2
       · exact h
       · exact absurd (h ▸ hx.1) hu
     have horder : orderOf u = 2 := by
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       exact orderOf_eq_prime (by rw [pow_two]; exact hu2) hu1
     have hcard_zp : Nat.card ↥(zpowers u) = 2 := by rw [Nat.card_zpowers, horder]
     refine ⟨ctxYq t tau x₁ x₂ rho ⊔ zpowers u,

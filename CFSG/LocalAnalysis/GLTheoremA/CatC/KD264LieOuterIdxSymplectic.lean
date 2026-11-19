@@ -56,7 +56,7 @@ private theorem idxCoreAt_fieldAut_C {r p : ℕ} {K : Type} [Field K] [Finite K]
     rw [TauCeti.LieTypeIndex.valid_iff, TauCeti.LieTypeIndex.inStandardRange_iff,
       TauCeti.LieTypeIndex.isDuplicateRepresentative_iff]
     exact ⟨⟨hr, hqodd⟩, by simp⟩
-  haveI : Finite ↥(CFSG.ComponentClassification.UnbalancedCatalog.descentField σ) := Subtype.finite
+  have : Finite ↥(CFSG.ComponentClassification.UnbalancedCatalog.descentField σ) := Subtype.finite
   let eH : StatedProj (StatedSp r
       ↥(CFSG.ComponentClassification.UnbalancedCatalog.descentField σ)) ≃*
       ↥(subfieldFixedGroup K r σ) := MonoidHom.ofInjective hinj
@@ -92,7 +92,7 @@ private theorem idxCoreAt_of_subfield_simple {p : ℕ} {d : TauCeti.LieTypeIndex
     (hrel : subRelC p d i) :
     IdxCoreAt p d (fieldAut r K σ) := by
   obtain ⟨eIso⟩ := hiso
-  haveI := hHs
+  have := hHs
   have hHq : CFSG.IsQuasisimple ↥(subfieldFixedGroup K r σ) :=
     isQuasisimple_of_simple_nonabelian fun h => by
       obtain ⟨a, b, hab⟩ := hHnc
@@ -118,12 +118,12 @@ private theorem idxCoreAt_fieldAut_B_two_two {p : ℕ} {K : Type} [Field K] [Fin
     alternatingGroup.isSimpleGroup (by norm_num)
   have hA6nc : ¬ ∀ a b : ↥(alternatingGroup (Fin 6)), a * b = b * a := by
     intro hcomm
-    haveI : IsMulCommutative ↥(alternatingGroup (Fin 6)) := ⟨⟨hcomm⟩⟩
+    have : IsMulCommutative ↥(alternatingGroup (Fin 6)) := ⟨⟨hcomm⟩⟩
     have hp' := (Group.is_simple_iff_prime_card).1 hA6s
     rw [nat_card_alternatingGroup, Nat.card_fin] at hp'
     norm_num at hp'
-  haveI : IsSimpleGroup ↥(alternatingGroup (Fin 6)) := hA6s
-  haveI : IsSimpleGroup ↥⁅subfieldFixedGroup K 2 σ, subfieldFixedGroup K 2 σ⁆ :=
+  have : IsSimpleGroup ↥(alternatingGroup (Fin 6)) := hA6s
+  have : IsSimpleGroup ↥⁅subfieldFixedGroup K 2 σ, subfieldFixedGroup K 2 σ⁆ :=
     eT6.isSimpleGroup
   have hTnc : ¬ ∀ a b : ↥⁅subfieldFixedGroup K 2 σ, subfieldFixedGroup K 2 σ⁆,
       a * b = b * a := by
@@ -150,7 +150,7 @@ private theorem idxCoreAt_fieldAut_B_two_two {p : ℕ} {K : Type} [Field K] [Fin
       ↥⁅subfieldFixedGroup K 2 σ, subfieldFixedGroup K 2 σ⁆) with h | h
     · exact h
     · exfalso
-      push_neg at hTnc
+      push Not at hTnc
       obtain ⟨a, b, hab⟩ := hTnc
       exact hab (Subgroup.mem_center_iff.mp (h ▸ Subgroup.mem_top b) a)
   let hn6 : 5 ≤ 6 := by norm_num
@@ -187,7 +187,7 @@ private theorem idxCoreAt_fieldAut_B_two_three {p : ℕ} {K : Type} [Field K] [F
     (hk3 : Nat.card ↥(CFSG.ComponentClassification.UnbalancedCatalog.descentField σ) = 3)
     (hqcard : q.card = 3 ^ p) :
     IdxCoreAt p (.B 2 q) (fieldAut 2 K σ) := by
-  haveI : Finite ↥(CFSG.ComponentClassification.UnbalancedCatalog.descentField σ) :=
+  have : Finite ↥(CFSG.ComponentClassification.UnbalancedCatalog.descentField σ) :=
     Subtype.finite
   let eH : StatedProj (StatedSp 2
       ↥(CFSG.ComponentClassification.UnbalancedCatalog.descentField σ)) ≃*
@@ -233,7 +233,7 @@ private theorem idxCoreAt_fieldAut_B_two_generic {p : ℕ} {K : Type} [Field K] 
       exact hk2 (hq₀card.symm.trans h2)
     · rintro ⟨-, h3⟩
       exact hk3 (hq₀card.symm.trans h3)
-  haveI : Finite ↥(CFSG.ComponentClassification.UnbalancedCatalog.descentField σ) :=
+  have : Finite ↥(CFSG.ComponentClassification.UnbalancedCatalog.descentField σ) :=
     Subtype.finite
   let eH : StatedProj (StatedSp 2
       ↥(CFSG.ComponentClassification.UnbalancedCatalog.descentField σ)) ≃*
@@ -276,7 +276,7 @@ private theorem idxCoreAt_fieldAut_B_three {r p : ℕ} {K : Type} [Field K] [Fin
       TauCeti.LieTypeIndex.isDuplicateRepresentative_iff]
     exact ⟨⟨by omega, by rintro ⟨h, -⟩; omega⟩, by rintro ⟨h, -⟩; omega⟩
   have hq₀2 : q₀.p = 2 := hq2
-  haveI : Finite ↥(CFSG.ComponentClassification.UnbalancedCatalog.descentField σ) :=
+  have : Finite ↥(CFSG.ComponentClassification.UnbalancedCatalog.descentField σ) :=
     Subtype.finite
   let eH : StatedProj (StatedSp r
       ↥(CFSG.ComponentClassification.UnbalancedCatalog.descentField σ)) ≃*
@@ -381,7 +381,7 @@ theorem outerIdxAt_C {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
   obtain ⟨-, K, hfield, hfinite, hK, ⟨eK⟩⟩ := hSC
   let _ := hfield
   let _ := hfinite
-  haveI : Finite (StatedProj (StatedSp r K)) := Finite.of_equiv S eK.toEquiv
+  have : Finite (StatedProj (StatedSp r K)) := Finite.of_equiv S eK.toEquiv
   have hpdvdK : p ∣ Nat.card (StatedProj (StatedSp r K)) := by
     rw [← Nat.card_congr eK.toEquiv]
     exact hpdvd
@@ -438,10 +438,10 @@ theorem outerIdxAt_B_PSp {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
   · subst hr2
     let d : TauCeti.ValidLieTypeIndex := ⟨TauCeti.LieTypeIndex.B 2 q, hv⟩
     let K := ↥d.fixedField
-    haveI : Finite K := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d
+    have : Finite K := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d
     let eT := CFSG.QuasithinUnique.SQTK.typeB2GroupEquivStatedProj q hv
     let eN := e.trans eT
-    haveI : Finite (StatedProj (StatedSp 2 K)) := Finite.of_equiv S eN.toEquiv
+    have : Finite (StatedProj (StatedSp 2 K)) := Finite.of_equiv S eN.toEquiv
     have hK' : Nat.card K = q.card := hKcard d rfl
     have hpdvdN : p ∣ Nat.card (StatedProj (StatedSp 2 K)) := by
       rw [← Nat.card_congr eN.toEquiv]
@@ -458,11 +458,11 @@ theorem outerIdxAt_B_PSp {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
       · exact h
     let d : TauCeti.ValidLieTypeIndex := ⟨TauCeti.LieTypeIndex.B r q, hv⟩
     let K := ↥d.fixedField
-    haveI : Finite K := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d
+    have : Finite K := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d
     let eT := CFSG.RankThree.PartTwo.Census.Carrier.SpinB.typeBGroupEquivStatedProj r q hv
       hq2 hr3
     let eN := e.trans eT
-    haveI : Finite (StatedProj (StatedSp r K)) := Finite.of_equiv S eN.toEquiv
+    have : Finite (StatedProj (StatedSp r K)) := Finite.of_equiv S eN.toEquiv
     have hK' : Nat.card K = q.card := hKcard d rfl
     have hpdvdN : p ∣ Nat.card (StatedProj (StatedSp r K)) := by
       rw [← Nat.card_congr eN.toEquiv]

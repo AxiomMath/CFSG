@@ -156,7 +156,7 @@ public theorem secondCase_linear_S0_centralizes_U
       d.E_component.1 (hS0leE ha)⟩
   have hS0p : IsPGroup 2 (c.S0 : Subgroup G) := by
     have hpS0S : IsPGroup 2 (c.S0.subgroupOf (c.S : Subgroup G)) :=
-      c.S.isPGroup'.to_subgroup (c.S0.subgroupOf (c.S : Subgroup G))
+      c.S.isPGroup.to_subgroup (c.S0.subgroupOf (c.S : Subgroup G))
     exact hpS0S.of_equiv (Subgroup.subgroupOfEquivOfLe c.S0_le_S)
   have hFne : od.F ≠ ⊥ := by
     intro hFbot

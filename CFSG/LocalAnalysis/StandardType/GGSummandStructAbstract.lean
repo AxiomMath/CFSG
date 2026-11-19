@@ -18,7 +18,7 @@ open scoped commutatorElement
 
 theorem exists_derivedSeries_succ_eq' (G : Type*) [Group G] [Finite G] :
     ∃ n, derivedSeries G (n + 1) = derivedSeries G n := by
-  haveI : Finite (Subgroup G) :=
+  have : Finite (Subgroup G) :=
     Finite.of_injective (fun H : Subgroup G => (H : Set G))
       (SetLike.coe_injective : Function.Injective (fun H : Subgroup G => (H : Set G)))
   obtain ⟨k, hk⟩ := WellFoundedLT.antitone_chain_condition (derivedSeries_antitone (G := G))

@@ -53,8 +53,8 @@ theorem hasTwoWitness_reeGamma {a : ℕ} {K : Type} [Field K] [Finite K]
     [CharP K ReeTag.F4.prime] (ha : 1 ≤ a) (hK : Nat.card K = 2 ^ (2 * a + 1))
     (k : ReeTag.F4.reeGamma K a) (hk3 : k ^ 3 = 1) (hk1 : k ≠ 1) : HasTwoWitness k := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (ModGL ReeTag.F4.tag K) := finite_modGL (τ := ReeTag.F4.tag)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (ModGL ReeTag.F4.tag K) := finite_modGL (τ := ReeTag.F4.tag)
   have hCΓ : centralizerT K a ≤ ReeTag.F4.reeGamma K a :=
     (reeGamma_inf_centralizer_tOne_eq hK).symm.le.trans inf_le_left
   obtain ⟨-, -, -, -, -, hN, -, hC, -⟩ := large_Ree_tOne_centralizer ha hK

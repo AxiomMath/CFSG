@@ -190,7 +190,7 @@ theorem map_map_symm_mulEquiv {A S : Type*} [Group A] [Group S] (Φ : A ≃* S) 
 theorem nonempty_pSimple_equiv_of_simple_three {X : Type} [Group X] [Finite X] {J : Subgroup X}
     (hJ : IsSimpleGroup ↥J) (hna : ∃ x y : ↥J, x * y ≠ y * x) (h3 : 3 ∣ Nat.card J) :
     Nonempty (PSimple 3 J ≃* ↥J) := by
-  haveI := hJ
+  have := hJ
   have hcop := GL83.PiGen.coprime_card_glaPPrimeCore Nat.prime_three ↥J
   have hN : GLAPPrimeCore 3 ↥J = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (GLAPPrimeCore 3 ↥J) with h0 | h0
@@ -200,7 +200,7 @@ theorem nonempty_pSimple_equiv_of_simple_three {X : Type} [Group X] [Finite X] {
       exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).1 hcop h3
   let e₁ : PQuot 3 J ≃* ↥J :=
     (QuotientGroup.quotientMulEquivOfEq hN).trans QuotientGroup.quotientBot
-  haveI : IsSimpleGroup (PQuot 3 J) := e₁.isSimpleGroup
+  have : IsSimpleGroup (PQuot 3 J) := e₁.isSimpleGroup
   have hZ : Subgroup.center (PQuot 3 J) = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center (PQuot 3 J)) with h0 | h0
     · exact h0
@@ -243,7 +243,7 @@ theorem eq_HSL_of_comm_HSL {ζ : Kˣ} (hζ : ζ ^ 2 ≠ 1) {M : SL2 K} (h : M * 
     exact (mul_eq_zero.1 key).resolve_right hne
   have h10' : (M : Matrix (Fin 2) (Fin 2) K) 1 0 = 0 := by
     have key : (M : Matrix (Fin 2) (Fin 2) K) 1 0 * ((ζ : K) - (ζ : K)⁻¹) = 0 := by
-      first | linear_combination h10 | linear_combination -h10
+      first | linear_combination h10
     exact (mul_eq_zero.1 key).resolve_right hne
   have hdet := det_SL2 M
   rw [h01', zero_mul, sub_zero] at hdet
@@ -281,7 +281,7 @@ theorem g2_adjoint_equiv {S : Type} [Group S] {n : ℕ} (h : catalogIs S (S10.is
     cases d with
     | G2 q =>
       obtain ⟨hq2, hqn⟩ : q.p = 2 ∧ q.exponent = n := hi
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       have hn0 : n ≠ 0 := by rw [← hqn]; exact q.exponent_pos.ne'
       have hcard : q.card = 2 ^ n := by rw [TauCeti.PrimePower.card_def, hq2, hqn]
       have hK : Nat.card (GaloisField 2 n) = q.card := by rw [GaloisField.card 2 n hn0, hcard]
@@ -306,8 +306,8 @@ variable {K : Type} [Field K]
 theorem three_not_dvd_card_torusGroup_of [Finite K] (hK3 : ¬ 3 ∣ Nat.card K - 1) (τ : Tag) :
     ¬ 3 ∣ Nat.card (torusGroup τ K) := by
   intro h3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (ModGL τ K) := inferInstance
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (ModGL τ K) := inferInstance
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥(torusGroup τ K)) 3 h3
   have hcomm := (triangular_borel_structure.{0, 0} τ K).1
   have hexp : ∀ h ∈ torusGroup τ K, h ^ (Nat.card K - 1) = 1 := by
@@ -336,7 +336,7 @@ theorem card_le_three_of_le_parabolic_of_not_dvd [Finite K] [CharP K 2] (hK3 : �
     {τ : Tag} (i : Fin τ.rank) {E : Subgroup (ModGL τ K)} (hE : E ≤ parabolicSubgroup τ K {i})
     (hcomm : ∀ a b : E, a * b = b * a) (h3 : ∀ x : E, x ^ 3 = 1) : Nat.card E ≤ 3 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set P := parabolicSubgroup τ K {i} with hP
   have hPcard := HDesc.card_parabolicSubgroup_singleton (τ := τ) (K := K) i
   have h3H := three_not_dvd_card_torusGroup_of hK3 τ
@@ -373,15 +373,15 @@ theorem card_le_three_of_le_parabolic_of_not_dvd [Finite K] [CharP K 2] (hK3 : �
     · exact yUnit_mem_parabolicSubgroup i c
   let ρP : SL2 K →* ↥P := ρ.codRestrict P hρP
   have hρPinj : Function.Injective ρP := fun a b h => hinj (congrArg Subtype.val h)
-  haveI : Finite (SL2 K) := inferInstance
-  haveI : Finite (ModGL τ K) := inferInstance
-  haveI : Finite ↥P := inferInstance
+  have : Finite (SL2 K) := inferInstance
+  have : Finite (ModGL τ K) := inferInstance
+  have : Finite ↥P := inferInstance
   obtain ⟨R⟩ : Nonempty (Sylow 3 (SL2 K)) := inferInstance
   set R₁ : Subgroup ↥P := (R : Subgroup (SL2 K)).map ρP with hR₁
   have hR₁card : Nat.card R₁ = 3 ^ (Nat.card K + 1).factorization 3 := by
     rw [hR₁, Subgroup.card_map_of_injective hρPinj, Sylow.card_eq_multiplicity R]
     exact congrArg _ hvSL
-  have hR₁p : IsPGroup 3 R₁ := R.isPGroup'.map ρP
+  have hR₁p : IsPGroup 3 R₁ := R.isPGroup.map ρP
   have hR₁idx : ¬ 3 ∣ R₁.index := by
     intro hdvd
     have hmul := Subgroup.card_mul_index R₁
@@ -460,7 +460,7 @@ theorem card_le_three_of_normalizes [Finite K] [CharP K 2] (hK3 : ¬ 3 ∣ Nat.c
     {E T : Subgroup ↥(adjointGroup .G2 K)} (hE : IsElemAbelian 3 E) (hT2 : IsPGroup 2 T) (hT : T ≠ ⊥)
     (hEN : E ≤ Subgroup.normalizer (T : Set ↥(adjointGroup .G2 K))) : Nat.card E ≤ 3 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨g, J, hJ, hk⟩ := exists_conj_le_parabolic_G2 K hT hT2
   obtain ⟨k0, hk0⟩ : ∃ k0, k0 ∉ J := by
     by_contra h
@@ -730,7 +730,7 @@ theorem le_normalizer_rootSubgroup {E' : Subgroup ↥(adjointGroup .G2 K)}
   obtain ⟨b, hb⟩ := hE' z hz
   rw [Subgroup.mem_normalizer_iff]
   intro t
-  simp only [SetLike.mem_coe, Subgroup.mem_comap, Subgroup.coe_subtype, Subgroup.coe_mul,
+  simp only [Subgroup.mem_comap, Subgroup.coe_subtype, Subgroup.coe_mul,
     Subgroup.coe_inv, hb]
   constructor
   · exact rootDiagUnit_conj_mem_rootSubgroup b
@@ -863,7 +863,7 @@ section Main
 theorem t266G2Odd_holds : ∀ n, T266G2Odd n := by
   intro n S _ _ D T hS hodd hD hD9 hT2 hT hDN
   obtain ⟨-, ⟨e⟩⟩ := g2_adjoint_equiv hS
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hn0 : n ≠ 0 := by rintro rfl; exact absurd hodd (by decide)
   have hK : Nat.card (GaloisField 2 n) = 2 ^ n := GaloisField.card 2 n hn0
   have hK3 : ¬ 3 ∣ Nat.card (GaloisField 2 n) - 1 := by
@@ -898,7 +898,7 @@ theorem t266G2Layer_holds : ∀ n, T266G2Layer n := by
     rw [hK]
     exact three_dvd_two_pow_sub_one hEven
   obtain ⟨ζ, Φ, hζ, -, ⟨z₀, hz₀E, hz₀⟩, ⟨z₁, hz₁E, hz₁⟩⟩ := exists_torus_frame h31 e hD hD9
-  haveI hsol := isSolvable_centralizer_of_torus3 hζ hz₀E hz₁E hz₀ hz₁
+  have hsol := isSolvable_centralizer_of_torus3 hζ hz₀E hz₁E hz₀ hz₁
   have hmem : ∀ s ∈ Subgroup.centralizer (D : Set S),
       Φ.symm s ∈ Subgroup.centralizer ((D.map Φ.symm.toMonoidHom : Subgroup _) : Set _) := by
     intro s hs
@@ -914,7 +914,7 @@ theorem t266G2Layer_holds : ∀ n, T266G2Layer n := by
     intro a b h
     have h1 := congrArg Subtype.val h
     exact Subtype.ext (Φ.symm.injective h1)
-  haveI : Group.IsSolvable ↥(Subgroup.centralizer (D : Set S)) :=
+  have : Group.IsSolvable ↥(Subgroup.centralizer (D : Set S)) :=
     Group.isSolvable_of_isSolvable_injective hf
   exact CFSG.HardMathSupport.Solomon.Coordinator.B2FamAlt.glaPLayer_eq_bot_of_isSolvable Nat.prime_three
 
@@ -934,15 +934,15 @@ theorem t266G2Key_holds : ∀ n, T266G2Key n := by
   obtain ⟨ζ, Φ, hζ, hall, ⟨z₀, hz₀E, hz₀⟩, ⟨z₁, hz₁E, hz₁⟩⟩ := exists_torus_frame h31 e hD hD9
   have hDE := map_map_symm_mulEquiv Φ D
   obtain ⟨eJ⟩ := nonempty_sl2_equiv_g2ShortSL2 (K := GaloisField 2 n)
-  haveI : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 n)) :=
+  have : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 n)) :=
     Matrix.ProjectiveSpecialLinearGroup.rank_two_simple hK4
-  haveI : IsSimpleGroup (SL2 (GaloisField 2 n)) :=
+  have : IsSimpleGroup (SL2 (GaloisField 2 n)) :=
     (CFSG.Timmesfeld.RankOne.psl2EquivSL2 (GaloisField 2 n)).symm.isSimpleGroup
-  haveI hJs : IsSimpleGroup ↥(g2ShortSL2 (GaloisField 2 n)) := eJ.symm.isSimpleGroup
+  have hJs : IsSimpleGroup ↥(g2ShortSL2 (GaloisField 2 n)) := eJ.symm.isSimpleGroup
   have hnc : uSL (1 : GaloisField 2 n) * vSL 1 ≠ vSL 1 * uSL 1 := by
     intro h
     have h1 := congrArg (fun A : SL2 (GaloisField 2 n) => (A : Matrix (Fin 2) (Fin 2) (GaloisField 2 n)) 0 0) h
-    simp [coe_uSL, coe_vSL, Matrix.mul_apply, Fin.sum_univ_two, CharTwo.add_self_eq_zero] at h1
+    simp [coe_uSL, coe_vSL, CharTwo.add_self_eq_zero] at h1
   have hJnc : ∃ x y : ↥(g2ShortSL2 (GaloisField 2 n)), x * y ≠ y * x :=
     ⟨eJ (uSL 1), eJ (vSL 1), fun h => hnc (eJ.injective (by rw [map_mul, map_mul]; exact h))⟩
   have hJ3 : 3 ∣ Nat.card ↥(g2ShortSL2 (GaloisField 2 n)) := by
@@ -965,7 +965,7 @@ theorem t266G2Key_holds : ∀ n, T266G2Key n := by
   set JS : Subgroup S := (g2ShortSL2 (GaloisField 2 n)).map Φ.toMonoidHom with hJSdef
   let eJS : ↥(g2ShortSL2 (GaloisField 2 n)) ≃* ↥JS :=
     Subgroup.equivMapOfInjective _ Φ.toMonoidHom Φ.injective
-  haveI hJSs : IsSimpleGroup ↥JS := eJS.symm.isSimpleGroup
+  have hJSs : IsSimpleGroup ↥JS := eJS.symm.isSimpleGroup
   have hJSnc : ∃ x y : ↥JS, x * y ≠ y * x := by
     obtain ⟨x, y, hxy⟩ := hJnc
     exact ⟨eJS x, eJS y, fun h => hxy (eJS.injective (by rw [map_mul, map_mul]; exact h))⟩
@@ -1000,7 +1000,7 @@ theorem t266G2Key_holds : ∀ n, T266G2Key n := by
     rw [hζ] at this
     norm_num at this
   · intro h0
-    haveI : Nontrivial ↥JS := IsSimpleGroup.toNontrivial
+    have : Nontrivial ↥JS := IsSimpleGroup.toNontrivial
     exact (Subgroup.nontrivial_iff_ne_bot JS).1 inferInstance h0
   · rw [← hCS]
     exact Subgroup.map_mono hT₀C

@@ -69,7 +69,7 @@ theorem transvection_congr {F : Type*} [Field F] {p : ℕ} {a b a' b' : Fin p} (
 theorem exists_ne_ne {p : ℕ} (hp3 : 3 ≤ p) (i j : Fin p) :
     ∃ k : Fin p, k ≠ i ∧ k ≠ j := by
   by_contra h
-  push_neg at h
+  push Not at h
   have hsub : (Finset.univ : Finset (Fin p)) ⊆ {i, j} := by
     intro k _
     by_cases hk : k = i
@@ -90,7 +90,7 @@ theorem det_diagT {F : Type*} [Field F] {p : ℕ} {i k : Fin p} (hik : i ≠ k) 
     simp [rootDiagT, h1, h2]
   rw [Matrix.det_diagonal, Finset.prod_eq_mul i k hik h0
     (fun h => absurd (Finset.mem_univ _) h) (fun h => absurd (Finset.mem_univ _) h)]
-  simp [rootDiagT, hik, Ne.symm hik, ha]
+  simp [rootDiagT, Ne.symm hik, ha]
 
 @[expose] def diagAt {F : Type*} [Field F] {p : ℕ} {i k : Fin p} (hik : i ≠ k) (a : F)
     (ha : a ≠ 0) : Matrix.SpecialLinearGroup (Fin p) F :=
@@ -274,7 +274,7 @@ theorem eq_top_of_torus_shift_root {F : Type*} [Field F] {p : ℕ} [Fact p.Prime
       (g : Matrix (Fin p) (Fin p) F) = heisShiftMat F p → g ∈ K)
     {i j : Fin p} (hij : i ≠ j) {c : F} (hc : c ≠ 0)
     (hx : Matrix.SpecialLinearGroup.transvection hij c ∈ K) : K = ⊤ := by
-  haveI : NeZero p := ⟨by omega⟩
+  have : NeZero p := ⟨by omega⟩
   have hp : p.Prime := Fact.out
   have hodd : Odd p := Nat.odd_iff.mpr (hp.eq_two_or_odd.resolve_left (by omega))
   obtain ⟨S, hS'⟩ : ∃ S : Matrix.SpecialLinearGroup (Fin p) F,

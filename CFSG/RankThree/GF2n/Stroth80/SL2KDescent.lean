@@ -3,7 +3,7 @@ module
 public import CFSG.LocalAnalysis.QuasithinUnique.Constrained.Setup.SL2ModulesDescent
 public import CFSG.LocalAnalysis.QuasithinUnique.Constrained.Setup.SL2ModulesBaseChange
 public import TauCeti.FieldTheory.Finite.FrobeniusFixed
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 
 public section
 
@@ -95,7 +95,7 @@ theorem descent_core_gen {k₀ : Type*} [Field k₀] {n : ℕ} (hn : 1 ≤ n) {F
        Nonempty ((matRepE b ιD).Equiv (frobTensor F E J))) ∧
       J.image (fun i => (i + d) % n) = J ∧
       Module.finrank (EndRing ρ) W = 2 ^ J.card := by
-  letI := ιF.toAlgebra
+  let := ιF.toAlgebra
   exact descent_core_alg hn hF ρ hnt hDcard b ιD
 
 section Density
@@ -146,12 +146,13 @@ variable {k₀ : Type*} [Field k₀] [Fintype k₀] {F : Type*} [Field F] [Finty
   {W : Type*} [AddCommGroup W] [Module k₀ W] [Finite W] {ρ : Representation k₀ SL(2, F) W}
   [Fact ρ.IsIrreducible]
 
+omit [Fintype F] [CharP F 2] in
 theorem exists_eq_algebraMap_of_equiv {m : ℕ} (b : Module.Basis (Fin m) (EndRing ρ) W)
     (κ : k₀ →+* F) {E : Type*} [Field E] [CharP E 2] [Algebra F E] (ιD : EndRing ρ →+* E)
     {J : Finset ℕ} (Φ : (matRepE b ιD).Equiv (frobTensor F E J)) (c : EndRing ρ) :
     ∃ f : F, ιD c = algebraMap F E f := by
   classical
-  letI : Algebra k₀ E := ((algebraMap F E).comp κ).toAlgebra
+  let : Algebra k₀ E := ((algebraMap F E).comp κ).toAlgebra
   let P : Matrix (Fin m) (Fin m) (EndRing ρ) → Prop := fun Y =>
     ∃ Z : Matrix (J → Fin 2) (J → Fin 2) F, ∀ x : Fin m → E,
       Φ ((Y.map ιD).mulVec x) = (Z.map (algebraMap F E)).mulVec (Φ x)
@@ -213,6 +214,7 @@ theorem exists_eq_algebraMap_of_equiv {m : ℕ} (b : Module.Basis (Fin m) (EndRi
   simpa [Matrix.mulVec, dotProduct, Matrix.map_apply, Pi.single_apply] using h7
 
 
+omit [Fintype F] [CharP F 2] in
 theorem exists_ringHom_endRing {m : ℕ} (b : Module.Basis (Fin m) (EndRing ρ) W)
     (κ : k₀ →+* F) {E : Type*} [Field E] [CharP E 2] [Algebra F E] (ιD : EndRing ρ →+* E)
     {J : Finset ℕ} (Φ : (matRepE b ιD).Equiv (frobTensor F E J)) :
@@ -285,8 +287,8 @@ theorem kDescent [CharP k₀ 2] {k n : ℕ} (hk : Fintype.card k₀ = 2 ^ k) (hn
       simp at this
     · exact h0
   refine ⟨f, J, hf1, hDk, ?_, hJne, hJn, hshift, ?_⟩
-  · letI := ν.toAlgebra
-    haveI : Module.Finite (EndRing ρ) F := Module.Finite.of_finite
+  · let := ν.toAlgebra
+    have : Module.Finite (EndRing ρ) F := Module.Finite.of_finite
     have h1 := Module.natCard_eq_pow_finrank (K := EndRing ρ) (V := F)
     rw [Nat.card_eq_fintype_card, hF, hDk, ← pow_mul] at h1
     exact ⟨Module.finrank (EndRing ρ) F, (Nat.pow_right_injective le_rfl h1)⟩
@@ -300,12 +302,13 @@ theorem kDescent [CharP k₀ 2] {k n : ℕ} (hk : Fintype.card k₀ = 2 ^ k) (hn
 
 theorem dvd_of_ringHom {D F' : Type*} [Field D] [Field F'] [Finite D] [Fintype F']
     (ν : D →+* F') {m n : ℕ} (hD : Nat.card D = 2 ^ m) (hF : Fintype.card F' = 2 ^ n) : m ∣ n := by
-  letI := ν.toAlgebra
-  haveI : Module.Finite D F' := Module.Finite.of_finite
+  let := ν.toAlgebra
+  have : Module.Finite D F' := Module.Finite.of_finite
   have h1 := Module.natCard_eq_pow_finrank (K := D) (V := F')
   rw [Nat.card_eq_fintype_card, hF, hD, ← pow_mul] at h1
   exact ⟨Module.finrank D F', Nat.pow_right_injective le_rfl h1⟩
 
+omit [Fintype k₀] [Fintype F] [CharP F 2] in
 theorem coords_injective {m : ℕ} (b : Module.Basis (Fin m) (EndRing ρ) W) {E : Type*} [Field E]
     (ι : EndRing ρ →+* E) :
     Function.Injective fun (w : W) (i : Fin m) => ι (b.repr w i) := by
@@ -313,6 +316,7 @@ theorem coords_injective {m : ℕ} (b : Module.Basis (Fin m) (EndRing ρ) W) {E 
   apply b.repr.injective
   exact Finsupp.ext fun i => ι.injective (congrFun h i)
 
+omit [Fintype k₀] [Fintype F] [CharP F 2] in
 theorem coords_rep {m : ℕ} (b : Module.Basis (Fin m) (EndRing ρ) W) {E : Type*} [Field E]
     (ι : EndRing ρ →+* E) (g : SL(2, F)) (w : W) :
     (fun i => ι (b.repr (ρ g w) i)) =
@@ -325,6 +329,7 @@ theorem coords_rep {m : ℕ} (b : Module.Basis (Fin m) (EndRing ρ) W) {E : Type
   rw [← h2]
   exact ι.map_mulVec (matRep b g) (⇑(b.repr w)) i
 
+omit [Fintype F] [CharP F 2] in
 theorem finrank_eq_mul_finrank {k f : ℕ} (hk : Fintype.card k₀ = 2 ^ k) (hk1 : 1 ≤ k)
     (hDk : Nat.card (EndRing ρ) = 2 ^ (k * f)) :
     Module.finrank k₀ W = f * Module.finrank (EndRing ρ) W := by
@@ -337,6 +342,7 @@ theorem finrank_eq_mul_finrank {k f : ℕ} (hk : Fintype.card k₀ = 2 ^ k) (hk1
     ring
   exact (Nat.eq_of_mul_eq_mul_left hk1 h4).symm
 
+omit [Fintype k₀] [Fintype F] [CharP F 2] in
 theorem card_fixRoot_coord {m : ℕ} (b : Module.Basis (Fin m) (EndRing ρ) W) :
     Nat.card {w : W // ∀ t : F, ρ (uElt t) w = w} =
       Nat.card {x : Fin m → EndRing ρ // ∀ t : F, (matRep b (uElt t) - 1).mulVec x = 0} := by
@@ -349,6 +355,7 @@ theorem card_fixRoot_coord {m : ℕ} (b : Module.Basis (Fin m) (EndRing ρ) W) :
     rfl
   rw [LinearEquiv.coe_toEquiv, h2, LinearEquiv.map_eq_zero_iff, sub_eq_zero]
 
+omit [Fintype k₀] [CharP F 2] in
 theorem card_fixRoot_ext {n : ℕ} (hF : Fintype.card F = 2 ^ n) {m : ℕ}
     (b : Module.Basis (Fin m) (EndRing ρ) W) {E : Type*} [Field E] [CharP E 2] [Algebra F E]
     (ιD : EndRing ρ →+* E) {J : Finset ℕ} (hJn : ∀ i ∈ J, i < n)
@@ -394,8 +401,8 @@ theorem card_fixRoot_gen [CharP k₀ 2] {k n : ℕ} (hk : Fintype.card k₀ = 2 
   obtain ⟨E, _, _, _, _, ιD, J, -, hJn, ⟨Φ⟩, -, -⟩ := hb b
   have hbc := natCard_common_ker_map ιD fun t : F => matRep b (uElt t) - 1
   rw [card_fixRoot_ext hF b ιD hJn Φ] at hbc
-  letI := ιD.toAlgebra
-  haveI : Module.Finite (EndRing ρ) E := Module.Finite.of_finite
+  let := ιD.toAlgebra
+  have : Module.Finite (EndRing ρ) E := Module.Finite.of_finite
   have hE : Nat.card E = Nat.card (EndRing ρ) ^ Module.finrank (EndRing ρ) E :=
     Module.natCard_eq_pow_finrank
   have hr : Module.finrank (EndRing ρ) E ≠ 0 := Module.finrank_pos.ne'

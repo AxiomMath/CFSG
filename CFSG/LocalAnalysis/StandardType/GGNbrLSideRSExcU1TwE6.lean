@@ -33,9 +33,9 @@ theorem ggNbrLSideRSExc_u1_twE6 :
   obtain ⟨w, hw⟩ := (hε φ).2 hφI
   obtain ⟨w', hw'⟩ := (hε ψ).2 hψI
   set L := AlgebraicClosure K with hL
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, ← pow_mul])
-  haveI : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, ← pow_mul])
+  have : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
   set u : ModGL TwistTag.E6.tag L :=
     baseChangeGL (algebraMap K L) (w : ModGL TwistTag.E6.tag K) with hu
   set u' : ModGL TwistTag.E6.tag L :=

@@ -94,7 +94,7 @@ theorem Ctx17_42.u5_exceptional_of_prime {D : Data G} {V₀ V L X : Subgroup G} 
   have hrank4 : 4 ≤ CFSG.Open.pRank s (⊤ : Subgroup (Bar2 L)) := by
     rw [hrankEq]
     exact h4rk
-  haveI : Fact s.Prime := ⟨hs⟩
+  have : Fact s.Prime := ⟨hs⟩
   have hO2 : ¬ s ∣ Nat.card (CFSG.pCore 2 ↥L) := by
     obtain ⟨k, hk⟩ := (CFSG.pCore_isPGroup (G := ↥L) (p := 2)).exists_card_eq
     rw [hk]

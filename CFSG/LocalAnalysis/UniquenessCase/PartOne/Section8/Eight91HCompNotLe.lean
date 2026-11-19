@@ -32,7 +32,7 @@ private theorem k891hcompnotle_X_perfect {G : Type} [Group G] [Finite G]
     (L : Subgroup G) (Z : Subgroup G) (n : ℕ) (hn : 2 ≤ n) :
     Group.IsPerfect ↥(R891X L Z n) := by
   unfold R891X
-  rw [if_neg (by omega : n ≠ 1)]
+  rw [ite_eq_right (by omega : n ≠ 1)]
   exact k891hcompnotle_isPerfect_derInf8 (L ⊓ Subgroup.centralizer (Z : Set G))
 
 private theorem k891hcompnotle_X_le_H {G : Type} [Group G] [Finite G]

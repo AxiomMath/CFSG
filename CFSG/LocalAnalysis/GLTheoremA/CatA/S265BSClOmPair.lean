@@ -34,8 +34,8 @@ private theorem specialBlock_le_orthDerived_ten (hF : Nat.card F = 2) (hV : finr
     (hQ : (polarBilin Q).Nondegenerate) {a : V ≃ₗ[F] V} (haQ : ∀ v, Q (a v) = Q v)
     (ha3 : a ^ 3 = 1) (hfix : finrank F ↥(fixedSpace a) = 2) :
     specialBlock Q a (cyc3 F) ≤ orthDerived Q := by
-  haveI := charP_two hF
-  haveI : Fact (Irreducible (cyc3 F)) := ⟨irreducible_cyc3 hF⟩
+  have := charP_two hF
+  have : Fact (Irreducible (cyc3 F)) := ⟨irreducible_cyc3 hF⟩
   have hx : OddOrderIsometry Q 3 a := ⟨TauCeti.QuadraticMap.mem_orthogonalGroup_iff.2 haQ, ha3,
     cast_three_ne_zero_of_card_two hF, fun v hv => hQ.1 v hv⟩
   have hc := Submodule.finrank_add_eq_of_isCompl (isCompl_fixedSpace_cyc3 hF hx)
@@ -54,9 +54,9 @@ theorem exists_layer_pair_orthDerived (hF : Nat.card F = 2) (hV : finrank F V = 
       GLAPLayer 3 (Subgroup.centralizer ({d} : Set ↥(orthDerived Q)) ⊓
         Subgroup.centralizer ({e} : Set ↥(orthDerived Q))) ≠ ⊥ := by
   classical
-  haveI := charP_two hF
-  haveI : Finite V := Module.finite_of_finite F
-  haveI : Finite (V ≃ₗ[F] V) := Finite.of_injective (fun g : V ≃ₗ[F] V => (g : V → V))
+  have := charP_two hF
+  have : Finite V := Module.finite_of_finite F
+  have : Finite (V ≃ₗ[F] V) := Finite.of_injective (fun g : V ≃ₗ[F] V => (g : V → V))
     fun g g' h => LinearEquiv.ext (congrFun h)
   let ι : ↥(orthDerived Q) →* (V ≃ₗ[F] V) := (orthDerived Q).subtype
   have hι : Function.Injective ι := (orthDerived Q).subtype_injective

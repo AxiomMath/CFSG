@@ -28,7 +28,7 @@ variable {X : Type} [Group X] [Finite X]
     rw [e]
     refine (K ⊓ Subgroup.centralizer (K : Set X)).mul_mem ?_ hf₁
     exact ⟨(Subgroup.mem_normalizer_iff.1 hf₁N _).1 hf₂.1, i224_conj_mem_centralizer hf₁N hf₂.2⟩
-  one_mem' := ⟨Subgroup.one_mem _, by simpa using Subgroup.one_mem (K ⊓ Subgroup.centralizer (K : Set X))⟩
+  one_mem' := ⟨Subgroup.one_mem _, by simp⟩
   inv_mem' := by
     rintro f ⟨hfN, hf⟩
     refine ⟨(Subgroup.normalizer (K : Set X)).inv_mem hfN, ?_⟩
@@ -43,6 +43,7 @@ variable {X : Type} [Group X] [Finite X]
     · have := i224_conj_mem_centralizer ((Subgroup.normalizer (K : Set X)).inv_mem hfN) hinv.2
       simpa using this
 
+omit [Finite X] in
 theorem mem_i224Tw_of_fixer {K F : Subgroup X} {x : X} (hx : x ∈ K) (hF : F ≤ twFixer K x) :
     x ∈ i224Tw K F := ⟨hx, fun _ hf => (hF hf).2⟩
 

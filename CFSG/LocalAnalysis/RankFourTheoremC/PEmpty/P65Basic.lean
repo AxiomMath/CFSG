@@ -90,10 +90,11 @@ theorem p65_exists_f_counterexample {p : ℕ} {M B F : Subgroup G}
     have hk : 0 < (Nat.card ↥K).factorization f :=
       hf.factorization_pos_of_dvd Nat.card_pos.ne' hfK
     exact (Nat.one_lt_pow hk.ne' hf.one_lt).ne' h1
-  refine ⟨f, hf, hf2, hfp, (S : Subgroup ↥K).map K.subtype, S.isPGroup'.map K.subtype,
+  refine ⟨f, hf, hf2, hfp, (S : Subgroup ↥K).map K.subtype, S.isPGroup.map K.subtype,
     (Subgroup.map_subtype_le _).trans hKF, ?_, hBK.trans hN, fun hle => hKnot (hN.trans hle)⟩
   rwa [Ne, Subgroup.map_eq_bot_iff_of_injective _ K.subtype_injective]
 
+omit [Finite G] in
 theorem p65_fusionIsSylowIn_conj {f : ℕ} {S O : Subgroup G}
     (hS : fusionIsSylowIn f S O) {h : G} (hh : h ∈ normalizer (O : Set G)) :
     fusionIsSylowIn f (S.map (MulAut.conj h).toMonoidHom) O := by
@@ -114,6 +115,7 @@ theorem p65_fusionIsSylowIn_conj {f : ℕ} {S O : Subgroup G}
       exact ⟨x, hx, by simp⟩
     exact ⟨h⁻¹ * x * h, hx', by simp [MulAut.conj_apply, mul_assoc]⟩
 
+omit [Finite G] in
 theorem p65_mem_normalizer_of_map_eq {S : Subgroup G} {c h : G}
     (hTc : S.map (MulAut.conj h).toMonoidHom = S.map (MulAut.conj c).toMonoidHom) :
     c⁻¹ * h ∈ normalizer (S : Set G) := by
@@ -164,7 +166,7 @@ theorem p65_normalizer_le_of_enlarged {M B F E : Subgroup G} {p f : ℕ} (hp : p
     (hBE : B ≤ normalizer (E : Set G))
     (hEO : E ≤ rankThreePrimeCore p (normalizer (F : Set G))) :
     normalizer (F : Set G) ≤ M := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, hHO, hOp⟩ :=
     CFSG.LocalAnalysis.RankThreeUC.rankThreePrimeCore_spec p (normalizer (F : Set G))
   have hOp' : ¬ p ∣ Nat.card (rankThreePrimeCore p (normalizer (F : Set G))) :=
@@ -183,7 +185,7 @@ theorem p65_primeCore_le_of_rank_three {p : ℕ} {P : Sylow p G} {M : Subgroup G
     (hrank : 3 ≤ Open.pRank p H) (hBQ : zpowers x ⊔ zpowers z ≤ Q) :
     rankThreePrimeCore p H ≤ M := by
   have hprime := hS.prime
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   obtain ⟨-, hHO, hOp⟩ := CFSG.LocalAnalysis.RankThreeUC.rankThreePrimeCore_spec p H
   have hpl := plane_of_central hS hx hz
   have hBP : zpowers x ⊔ zpowers z ≤ (P : Subgroup G) := hpl.isIsolatedPlane.1
@@ -212,7 +214,7 @@ theorem p65_primeCore_le_of_rank_three {p : ℕ} {P : Sylow p G} {M : Subgroup G
 
 theorem p65_d1Local_of_le {p : ℕ} {P : Sylow p G} {M : Subgroup G} (hS : Situation G p P M)
     {f : ℕ} (hf : f.Prime) (hf2 : f ≠ 2) (h4 : 4 ≤ Open.pRank f M) {Fh : Subgroup G}
-    (hFhM : Fh ≤ M) (hFh : IsPGroup f Fh) (h3 : 3 ≤ Open.pRank f Fh) (F₀ : Sylow f G)
+    (hFhM : Fh ≤ M) (_hFh : IsPGroup f Fh) (h3 : 3 ≤ Open.pRank f Fh) (F₀ : Sylow f G)
     (hle : Fh ≤ (F₀ : Subgroup G)) :
     CFSG.AGLEmbedding.D1Local f F₀ M ∧ GLBCore f 2 (F₀ : Subgroup G) ≤ M := by
   have hM2 : IsTwoLocal M := hS.loc.maxLocal.1

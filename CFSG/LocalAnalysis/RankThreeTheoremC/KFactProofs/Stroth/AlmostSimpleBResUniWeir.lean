@@ -18,9 +18,9 @@ theorem two_mul_orderOf_le_of_elemAbelian_unitary {ℓ f n : ℕ} {K : Type} [Fi
     {E : Subgroup (primeFormP hU (idCn n K))} (hE : IsElemAbelian p E) (hEc : Nat.card E = p ^ 2) :
     2 * orderOf (-((ℓ ^ f : ℕ) : ZMod p)) ≤ n := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite K := hU.finite
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite K := hU.finite
+  have : Fintype K := Fintype.ofFinite K
   have hconj := CFSG.RankThree.PartOne.KCUnitaryRegular.conj_injective_primeFormP hU
     (isPrimeFormGram_one' (n := n)) hn hq
   set V : Subgroup (MulAut (primeFormP hU (idCn n K))) :=
@@ -37,7 +37,7 @@ theorem two_mul_orderOf_le_of_elemAbelian_unitary {ℓ f n : ℕ} {K : Type} [Fi
     rw [← ha, ← hb, ← map_mul, ← map_mul]
     congr 1
     exact congrArg Subtype.val (hE.1.is_comm.comm (⟨y₁, hy₁⟩ : E) ⟨y₂, hy₂⟩)
-  haveI hVe : CFSG.IsElementaryAbelian p ↥V :=
+  have hVe : CFSG.IsElementaryAbelian p ↥V :=
     { toIsMulCommutative := ⟨⟨fun a b => hcomm a b⟩⟩
       exponent_dvd_p := Monoid.exponent_dvd_of_forall_pow_eq_one fun a => by
         obtain ⟨y, hy, ha⟩ := Subgroup.mem_map.1 a.2
@@ -80,7 +80,7 @@ theorem two_mul_orderOf_le_of_elemAbelian_unitary {ℓ f n : ℕ} {K : Type} [Fi
   have hW'cyc : IsCyclic ↥W' := isCyclic_of_injective (Subgroup.inclusion hP)
     (Subgroup.inclusion_injective hP)
   have hWcyc : IsCyclic ↥W := (MulEquiv.isCyclic e').mpr hW'cyc
-  haveI := hWe
+  have := hWe
   exact CFSG.IsElementaryAbelian.not_isCyclic_of_card_eq_prime_sq hWc hWcyc
 
 end CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.AlmostSimple

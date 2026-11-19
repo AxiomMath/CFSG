@@ -33,10 +33,12 @@ theorem sup_le_normalizer_left {J₁ J₂ : Subgroup Q} (hJ : ⁅J₁, J₂⁆ =
     rw [e]
     exact hx
 
+omit [Finite Q] in
 theorem card_map_conj (J : Subgroup Q) (d : Q) :
     Nat.card (J.map (MulAut.conj d).toMonoidHom) = Nat.card J :=
   Subgroup.card_map_of_injective (MulAut.conj d).injective
 
+omit [Finite Q] in
 theorem card_inf_centralizer (J : Subgroup Q) :
     Nat.card ↥(J ⊓ Subgroup.centralizer (J : Set Q)) = Nat.card (Subgroup.center ↥J) := by
   have h : J ⊓ Subgroup.centralizer (J : Set Q) = (Subgroup.center ↥J).map J.subtype := by

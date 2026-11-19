@@ -86,6 +86,7 @@ private theorem f112ll_d4q_exists_centralizing_coset {L1 L2 S Hh : Subgroup H}
     rwa [heq] at hinv
   exact exists_mul_mem_centralizer_of_odd (Q := Qβ) (J := Hh ⊓ Lβ) hQ hodd hJQ hcQ hcomm
 
+omit [Finite H] in
 private theorem f112ll_d4q_odd_card_hall {Hh : Subgroup H} {f : ℕ} (hf : 2 ≤ f)
     (hHcard : Nat.card Hh = (2 ^ (3 * f) - 1) * (2 ^ f - 1)) :
     Odd (Nat.card ↥Hh) := by
@@ -95,9 +96,10 @@ private theorem f112ll_d4q_odd_card_hall {Hh : Subgroup H} {f : ℕ} (hf : 2 ≤
     (Nat.Even.sub_odd Nat.one_le_two_pow
       ((show Even 2 by norm_num).pow_of_ne_zero (by omega : f ≠ 0)) odd_one)
 
+omit [Finite H] in
 private theorem f112ll_d4q_hall_inf_trivOTwoQuot {L1 L2 S Hh : Subgroup H} {m n : ℕ}
-    (hF : F112HypW L1 L2 S) (hm : 2 ≤ m) (hn : 2 ≤ n) (h1 : IsL2Quot m (oTwoQuot ↥L1))
-    (h2 : IsL2Quot n (oTwoQuot ↥L2)) (hleft : TransferLeftData L1 L2 S)
+    (_hF : F112HypW L1 L2 S) (_hm : 2 ≤ m) (_hn : 2 ≤ n) (_h1 : IsL2Quot m (oTwoQuot ↥L1))
+    (_h2 : IsL2Quot n (oTwoQuot ↥L2)) (hleft : TransferLeftData L1 L2 S)
     (hoddH : Odd (Nat.card ↥Hh)) :
     Hh ⊓ oTwoPrime (f112saP2' L1 L2 S) ⊓
       trivOTwoQuot (oTwoPrime (f112saP1' L1 L2 S)) = ⊥ := by
@@ -107,6 +109,7 @@ private theorem f112ll_d4q_hall_inf_trivOTwoQuot {L1 L2 S Hh : Subgroup H} {m n 
   exact hleft.eq_one_of_mem_trivOTwoQuot k hkLβ
     (Odd.of_dvd_nat hoddH (Subgroup.orderOf_dvd_natCard Hh hkHh)) hktriv
 
+omit [Finite H] in
 private theorem f112ll_d4q_relIndex_hall {L1 L2 S Hh : Subgroup H} {m n f : ℕ}
     (hF : F112HypW L1 L2 S) (hm : 2 ≤ m) (hn : 2 ≤ n) (h1 : IsL2Quot m (oTwoQuot ↥L1))
     (h2 : IsL2Quot n (oTwoQuot ↥L2)) (hleft : TransferLeftData L1 L2 S) (hf : 2 ≤ f)

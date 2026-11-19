@@ -45,7 +45,7 @@ private theorem succσ_injective (e : ℕ) : Function.Injective (succσ e) := by
 
 private theorem S_digits (e : ℕ) (he : 0 < e) (x : ZMod (2 ^ e - 1)) :
     S e (digits e x) = x := by
-  haveI : NeZero (2 ^ e - 1) := ⟨by
+  have : NeZero (2 ^ e - 1) := ⟨by
     have h1 : 1 < 2 ^ e := by
       calc
         1 < 2 ^ 1 := by norm_num
@@ -92,9 +92,9 @@ private theorem S_digits (e : ℕ) (he : 0 < e) (x : ZMod (2 ^ e - 1)) :
     apply Finset.sum_congr rfl
     intro j _
     by_cases hp : x.val.testBit j
-    · rw [if_pos hp, if_pos hp]
+    · rw [ite_eq_left hp, ite_eq_left hp]
       norm_cast
-    · rw [if_neg hp, if_neg hp]
+    · rw [ite_eq_right hp, ite_eq_right hp]
       simp
   rw [hcast, hT]
   exact ZMod.natCast_zmod_val x
@@ -117,7 +117,7 @@ private theorem neg_term_true (e : ℕ) (he : Odd e) (p : Fin e) :
     -(term e true p) = (2 ^ ((e - 1) / 2) - 1) * 2 ^ (succσ e p : ℕ) := by
   have h : (2 : ZMod (2 ^ e - 1)) ^ ((e - 1) / 2) * 2 ^ ((e + 1) / 2) = 1 := by
     rw [mul_comm, r_mul_theta e he]
-  simp only [term, if_true, R, two_pow_succσ e p]
+  simp only [term, ite_true, R, two_pow_succσ e p]
   calc
     -(2 ^ (p : ℕ) * (2 ^ ((e + 1) / 2) - 1))
         = 2 ^ (p : ℕ) - 2 ^ (p : ℕ) * 2 ^ ((e + 1) / 2) := by ring
@@ -130,12 +130,12 @@ private theorem neg_term_true (e : ℕ) (he : Odd e) (p : Fin e) :
 
 private theorem neg_term_false (e : ℕ) (p : Fin e) :
     -(term e false p) = (-1) * 2 ^ (p : ℕ) := by
-  simp only [term, Bool.false_eq_true, if_false]
+  simp only [term, Bool.false_eq_true, ite_false]
   ring
 
 private theorem neg_term_false_not_mem (e : ℕ) (he : Odd e) (p : Fin e) :
     -(term e false p) = (-(2 ^ ((e - 1) / 2))) * 2 ^ (succσ e p : ℕ) := by
-  simp only [term, Bool.false_eq_true, if_false]
+  simp only [term, Bool.false_eq_true, ite_false]
   rw [two_pow_eq_succσ_mul e he p]
   ring
 
@@ -155,13 +155,13 @@ private theorem neg_sum_mem_delta (e : ℕ) (he : Odd e) (A' : Finset (Fin e))
     have hs := hSlots p hp
     dsimp only [slot]
     by_cases ht : t p = true
-    · rw [if_pos ht] at hs ⊢
+    · rw [ite_eq_left ht] at hs ⊢
       exact hs
-    · rw [if_neg ht] at hs ⊢
+    · rw [ite_eq_right ht] at hs ⊢
       by_cases hpu : p ∈ U
-      · rw [if_pos hpu]
+      · rw [ite_eq_left hpu]
         exact hpu
-      · rw [if_neg hpu]
+      · rw [ite_eq_right hpu]
         exact hs.resolve_left hpu
   have hslot_inj : Set.InjOn slot A' := by
     intro p hp p' hp' heq
@@ -170,19 +170,19 @@ private theorem neg_sum_mem_delta (e : ℕ) (he : Odd e) (A' : Finset (Fin e))
     · have hsp : slot p = p ∨ slot p = succσ e p := by
         dsimp only [slot]
         by_cases ht : t p = true
-        · rw [if_pos ht]; exact Or.inr rfl
-        · rw [if_neg ht]
+        · rw [ite_eq_left ht]; exact Or.inr rfl
+        · rw [ite_eq_right ht]
           by_cases hpu : p ∈ U
-          · rw [if_pos hpu]; exact Or.inl rfl
-          · rw [if_neg hpu]; exact Or.inr rfl
+          · rw [ite_eq_left hpu]; exact Or.inl rfl
+          · rw [ite_eq_right hpu]; exact Or.inr rfl
       have hsp' : slot p' = p' ∨ slot p' = succσ e p' := by
         dsimp only [slot]
         by_cases ht : t p' = true
-        · rw [if_pos ht]; exact Or.inr rfl
-        · rw [if_neg ht]
+        · rw [ite_eq_left ht]; exact Or.inr rfl
+        · rw [ite_eq_right ht]
           by_cases hpu : p' ∈ U
-          · rw [if_pos hpu]; exact Or.inl rfl
-          · rw [if_neg hpu]; exact Or.inr rfl
+          · rw [ite_eq_left hpu]; exact Or.inl rfl
+          · rw [ite_eq_right hpu]; exact Or.inr rfl
       rcases hsp with h | h <;> rcases hsp' with h' | h' <;> rw [h, h'] at heq
       · exact absurd heq hpp'
       · exact absurd (heq ▸ hp) (hI p' hp')
@@ -192,7 +192,7 @@ private theorem neg_sum_mem_delta (e : ℕ) (he : Odd e) (A' : Finset (Fin e))
     intro p hp
     have hex : ∃ q ∈ A', slot q = slot p := ⟨p, hp, rfl⟩
     dsimp only [d]
-    rw [dif_pos hex]
+    rw [dite_eq_left hex]
     have hq := Classical.choose_spec hex
     have hchoose : Classical.choose hex = p := hslot_inj hq.1 hp hq.2
     rw [hchoose]
@@ -202,13 +202,13 @@ private theorem neg_sum_mem_delta (e : ℕ) (he : Odd e) (A' : Finset (Fin e))
     intro p _
     dsimp only [dd]
     by_cases ht : t p = true
-    · rw [if_pos ht]
+    · rw [ite_eq_left ht]
       simp
-    · rw [if_neg ht]
+    · rw [ite_eq_right ht]
       by_cases hpu : p ∈ U
-      · rw [if_pos hpu]
+      · rw [ite_eq_left hpu]
         simp
-      · rw [if_neg hpu]
+      · rw [ite_eq_right hpu]
         simp
   have hd_mem : ∀ j ∈ U, d j ∈
       ({0, -1, 2 ^ ((e - 1) / 2) - 1, -2 ^ ((e - 1) / 2)} :
@@ -216,23 +216,23 @@ private theorem neg_sum_mem_delta (e : ℕ) (he : Odd e) (A' : Finset (Fin e))
     intro j _
     by_cases hex : ∃ p ∈ A', slot p = j
     · dsimp only [d]
-      rw [dif_pos hex]
+      rw [dite_eq_left hex]
       exact hdd_mem (Classical.choose hex) (Classical.choose_spec hex).1
     · dsimp only [d]
-      rw [dif_neg hex]
+      rw [dite_eq_right hex]
       simp
   have hterm : ∀ p ∈ A', -(term e (t p) p) = dd p * 2 ^ (slot p : ℕ) := by
     intro p _
     dsimp only [slot, dd]
     by_cases ht : t p = true
-    · rw [if_pos ht, if_pos ht, ht]
+    · rw [ite_eq_left ht, ite_eq_left ht, ht]
       exact neg_term_true e he p
     · have htf : t p = false := Bool.eq_false_of_not_eq_true ht
-      rw [if_neg ht, if_neg ht, htf]
+      rw [ite_eq_right ht, ite_eq_right ht, htf]
       by_cases hpu : p ∈ U
-      · simp only [if_pos hpu]
+      · simp only [ite_eq_left hpu]
         rw [neg_term_false]
-      · simp only [if_neg hpu]
+      · simp only [ite_eq_right hpu]
         exact neg_term_false_not_mem e he p
   have hsum : -(∑ p ∈ A', term e (t p) p) = ∑ j ∈ U, d j * 2 ^ (j : ℕ) := by
     rw [← Finset.sum_neg_distrib]
@@ -250,7 +250,7 @@ private theorem neg_sum_mem_delta (e : ℕ) (he : Odd e) (A' : Finset (Fin e))
         · intro j _ hjnot
           have hdj : d j = 0 := by
             dsimp only [d]
-            rw [dif_neg]
+            rw [dite_eq_right]
             rintro ⟨p, hp, hps⟩
             exact hjnot (Finset.mem_image.mpr ⟨p, hp, hps⟩)
           rw [hdj, zero_mul]
@@ -276,23 +276,23 @@ theorem condC_of_IM (e : ℕ) (he : Odd e) (h3 : 3 ≤ e) (h : IM e) : CondC e :
     · intro p _
       dsimp only
       by_cases ht : t p = true
-      · rw [if_pos ht]
+      · rw [ite_eq_left ht]
         simp [units]
-      · rw [if_neg ht]
+      · rw [ite_eq_right ht]
         simp [units]
     · rw [hs, ← Finset.sum_neg_distrib]
       apply Finset.sum_congr rfl
       intro p _
       dsimp only
       by_cases ht : t p = true
-      · rw [if_pos ht, ht]
+      · rw [ite_eq_left ht, ht]
         rw [term]
-        simp only [if_true]
+        simp only [ite_true]
         ring
       · have htf : t p = false := Bool.eq_false_of_not_eq_true ht
-        rw [if_neg ht, htf]
+        rw [ite_eq_right ht, htf]
         rw [term]
-        simp only [Bool.false_eq_true, if_false]
+        simp only [Bool.false_eq_true, ite_false]
         ring
   refine ⟨-s, hLam_sub hkappaA', ?_⟩
   set U : Finset (Fin e) := digits e (S e B + s) with hU

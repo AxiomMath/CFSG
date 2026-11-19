@@ -160,8 +160,8 @@ theorem exists_toralCoords
     (h5 : 3 ^ 5 ≤ Nat.card (ggGamma X D.hEN).range) :
     letI := D.fieldK
     ∃ κ : ↥Bs →* Multiplicative (Fin 6 → ZMod 3), TwE6ToralCoords D.lab.n D.hEN D.ψ κ := by
-  letI := D.fieldK
-  letI := D.finiteK
+  let := D.fieldK
+  let := D.finiteK
   exact exists_twE6ToralCoords D.hEN D.commH D.hn D.h3 D.hK D.σ D.hσ D.ψ D.hψ D.hker D.hact hBs
     hSC h5
 

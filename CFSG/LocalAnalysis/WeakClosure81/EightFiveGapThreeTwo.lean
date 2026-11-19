@@ -30,6 +30,7 @@ theorem lemmaRHyp_of_dispatchHyp {V H T U : Subgroup G} (hD : DispatchHyp V H T 
       surjective := hs
       ker_iff := hk }
 
+omit [Finite G] in
 theorem exists_mem_V_map_ne_one {V H T U : Subgroup G} (hD : DispatchHyp V H T U) {X : Type}
     [Group X] (e : X ≃* alternatingGroup (Fin 6)) {φ : ↥(kGenIn V H) →* X}
     (hs : Function.Surjective φ) (hk : ∀ k : ↥(kGenIn V H), φ k = 1 ↔ (k : G) ∈ eCentSet V H T) :
@@ -49,7 +50,7 @@ theorem exists_mem_V_map_ne_one {V H T U : Subgroup G} (hD : DispatchHyp V H T U
     conjClosure_le fun g hg z hz => h83.conj_mem_centralizer_eSub hg (hVC hz)
   have hkC : ∀ k : ↥(kGenIn V H), φ k = 1 := fun k =>
     (hk k).2 (by simpa [eCentSet] using hconj (kGenIn_le_conjClosure V H k.2))
-  haveI : Nontrivial (alternatingGroup (Fin 6)) :=
+  have : Nontrivial (alternatingGroup (Fin 6)) :=
     alternatingGroup.nontrivial_of_three_le_card (α := Fin 6) (by simp)
   obtain ⟨y, hy⟩ := exists_ne (1 : alternatingGroup (Fin 6))
   have hx1 : e.symm y ≠ 1 := by

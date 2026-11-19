@@ -31,8 +31,8 @@ private theorem fzfus_dict_q8Hom_mem {K : Subgroup G} {p q : G} (hpq : IsQ8Pair 
   | xa i => change q * p ^ i.val ∈ K; exact K.mul_mem hq (K.pow_mem hp _)
 
 theorem fzfus_dict {t x₁ x₂ lam : G} {T₂ : Subgroup G} {a₁₂ a₂₂ a₃₂ : G}
-    (hs : FzSpShape t x₁ x₂ lam T₂ a₁₂ a₂₂ a₃₂) (ht : t ^ 2 = 1) (h1 : t * x₁ = x₁ * t)
-    (h2 : t * x₂ = x₂ * t) (h12 : x₁ * x₂ = x₂ * x₁) :
+    (hs : FzSpShape t x₁ x₂ lam T₂ a₁₂ a₂₂ a₃₂) (ht : t ^ 2 = 1) (_h1 : t * x₁ = x₁ * t)
+    (h2 : t * x₂ = x₂ * t) (_h12 : x₁ * x₂ = x₂ * x₁) :
     ∃ π : Model →* G, FzfDict t x₁ x₂ lam T₂ a₁₂ a₂₂ a₃₂ π := by
   obtain ⟨π, hπ1, hπ2, hπ3, hπlam, hrange, hiff⟩ := fzl_model_hom hs
   have ht2 : t * t = 1 := by rw [← pow_two]; exact ht

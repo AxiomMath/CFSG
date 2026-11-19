@@ -28,7 +28,7 @@ theorem pPrimeCore_eq_bot_of_normal_quotient_simple
       rw [htop, Subgroup.card_top]
       exact hdvd
     exact (hp.coprime_iff_not_dvd.1 hKcop) hpK
-  haveI : (K.map q).Normal := hKn
+  have : (K.map q).Normal := hKn
   rcases hsimple.eq_bot_or_eq_top_of_normal (K.map q) with hbot | htop
   ·
     have hKN : K ≤ N := by

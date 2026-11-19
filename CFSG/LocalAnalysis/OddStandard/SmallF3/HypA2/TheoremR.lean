@@ -17,7 +17,7 @@ theorem false_of_endData (hAlt : CFSG.OddStandard.AltStdCyclicBalancedFalse)
     (hL2 : CFSG.Yardstones.M0362f3a873a3.OddLieThm187bResidualL2Ree) (hI : Phase1Inputs)
     (hA7 : TwoA7RankOne) (hP : Phase2Inputs) (hL : Leaves2) {G : Type} [Group G] [Finite G]
     {x : G} {Y : Subgroup G} (hY : EndData G x Y) : False := by
-  haveI := hY.setting.simple
+  have := hY.setting.simple
   obtain ⟨S⟩ : Nonempty (Sylow 2 ↥(Subgroup.centralizer (Y : Set G))) := inferInstance
   rcases sylow_rank_cases (Subgroup.centralizer (Y : Set G)) S with h2 | hcyc | ⟨r, hr, e⟩
   · exact false_of_rank_two hP.rankTwo hY h2

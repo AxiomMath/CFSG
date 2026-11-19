@@ -45,14 +45,14 @@ theorem seitzEvenCentre_D4 {K : Type} [Group K] [Finite K]
   obtain ⟨hQ, -, hM⟩ := quasisimple_markedModel_of_isLabel hK
   have hM' : CFSG.Blueprint.LieModel (K ⧸ Subgroup.center K) .POmegaPlus 4 2 1 := hM
   obtain ⟨hadm, F, hfield, hfinite, hcard, ⟨e⟩⟩ := hM'.statedClassicalModel (by decide)
-  letI : Field F := hfield
-  letI : Finite F := hfinite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype F := Fintype.ofFinite F
+  let : Field F := hfield
+  let : Finite F := hfinite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype F := Fintype.ofFinite F
   have hcard2 : Nat.card F = 2 := by rw [hcard]; norm_num
   have hcard' : Fintype.card F = 2 ^ 1 := by
     rw [← Nat.card_eq_fintype_card]; exact hcard2
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow hcard'
+  have : CharP F 2 := charP_of_card_eq_prime_pow hcard'
   have hv : ∃ v : Fin 4 ⊕ Fin 4 → F, quadPlus 4 F v ≠ 0 := by
     let i0 : Fin 4 := ⟨0, by omega⟩
     let v : Fin 4 ⊕ Fin 4 → F :=
@@ -64,8 +64,8 @@ theorem seitzEvenCentre_D4 {K : Type} [Group K] [Finite K]
     have hterm : ∀ i : Fin 4, v (Sum.inl i) * v (Sum.inr i) = if i = i0 then 1 else 0 := by
       intro i
       by_cases hi : i = i0
-      · subst hi; rw [hv1, hv2, if_pos rfl, one_mul]
-      · rw [if_neg hi]
+      · subst hi; rw [hv1, hv2, ite_eq_left rfl, one_mul]
+      · rw [ite_eq_right hi]
         have h1 : v (Sum.inl i) = 0 := by simp [v, hi]
         rw [h1, zero_mul]
     simp only [hterm]
@@ -98,8 +98,8 @@ private def f4FourOrthogonalRoots : Fin 4 → Fin CFSG.Blueprint.Chevalley.Tag.F
 
 theorem three_le_twoLocalPrimeRank_adjointGroup_F4 (F : Type) [Field F] [Finite F]
     (hF : Nat.card F = 2) : 3 ≤ CFSG.Open.twoLocalPrimeRank 3 (adjointGroup Tag.F4 F) := by
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Finite (adjointGroup Tag.F4 F) :=
+  have : Fintype F := Fintype.ofFinite F
+  have : Finite (adjointGroup Tag.F4 F) :=
     CFSG.LieType.Chevalley.generated_group_finite Tag.F4 F
   have h2 : ringChar F = 2 :=
     (FiniteField.even_card_iff_char_two (F := F)).2 (by rw [← Nat.card_eq_fintype_card, hF])
@@ -116,10 +116,10 @@ theorem seitzEvenCentre_F4 {K : Type} [Group K] [Finite K]
   obtain ⟨-, F, hFld, hFin, hFcard, ⟨φ⟩⟩ :=
     hM'.chevalleyExceptionalModel
       (by decide : StatedLieTag.F4 ∈ CFSG.Blueprint.chevalleyExceptionalTags)
-  letI : Field F := hFld
-  letI : Finite F := hFin
+  let : Field F := hFld
+  let : Finite F := hFin
   have htwo : Nat.card F = 2 := by rw [hFcard]; norm_num
-  haveI : Finite (adjointGroup Tag.F4 F) :=
+  have : Finite (adjointGroup Tag.F4 F) :=
     CFSG.LieType.Chevalley.generated_group_finite Tag.F4 F
   let θ : K ⧸ Subgroup.center K ≃* adjointGroup Tag.F4 F :=
     φ.trans (CFSG.HardMathSupport.Meierfrankenfeld.LieOdd.adjointQuotientEquiv .F4 F)

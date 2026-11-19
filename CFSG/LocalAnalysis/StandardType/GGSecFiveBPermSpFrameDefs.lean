@@ -401,7 +401,7 @@ theorem ggSecFiveBHgen_long {p n r : ℕ} [Fact p.Prime]
     have h1 : eta ⟨e * (t ^ n₀)⁻¹, hmem⟩ = eta ⟨e, he⟩ * ((eta ⟨t, htB⟩) ^ n₀)⁻¹ :=
       ggSecFiveBEta_subtype_mul_inv_pow he htB n₀
     rw [h1, Pi.mul_apply, Pi.inv_apply, Pi.pow_apply, hηt j]
-    simp only [if_true]
+    simp only [ite_true]
     refine Multiplicative.toAdd.injective ?_
     rw [ggSecFiveBToAdd_mul, toAdd_inv, ggSecFiveBToAdd_pow]
     rw [show n₀ • (1 : ZMod p) = (n₀ : ZMod p) from by rw [nsmul_eq_mul, mul_one],

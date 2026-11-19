@@ -39,7 +39,7 @@ theorem kgLangS1E_fixedLift_split
       ((baseChangeGL (algebraMap k L)).comp
         ((adjointGroup .E6 k).subtype.comp ε.toMonoidHom)) Θ := by
   intro K _ _ θ hK α g r x hx hg hc
-  haveI : Group.IsPerfect ↥(CFSG.LieType.Steinberg.Minuscule.e6Data_valid.minGroup k) :=
+  have : Group.IsPerfect ↥(CFSG.LieType.Steinberg.Minuscule.e6Data_valid.minGroup k) :=
     CFSG.LieType.CurtisTits.isPerfect_e6 k
   obtain ⟨κ, αU, hκ, hκε, hκα⟩ := kgLangS1EFixedLift_splitCover k hk R ε K θ hK α
   exact kgLangS1EFixedLift_assembly k L R ((adjointGroup .E6 k).subtype.comp ε.toMonoidHom) F₀ Θ
@@ -62,8 +62,8 @@ theorem kgLangS1E_fixedLift_twisted
       ((baseChangeGL (τ := .E6) (algebraMap k L)).comp
         ((graphFixedRootGroup TwistTag.E6 k σ.toRingHom).subtype.comp ε.toMonoidHom)) Θ := by
   intro K _ _ θ hK α g r x hx hg hc
-  haveI : CharP k 2 := RingHom.charP (algebraMap k L) (algebraMap k L).injective 2
-  haveI := kgLangS1EFixedLift_twisted_isPerfect k hq hk σ hσ
+  have : CharP k 2 := RingHom.charP (algebraMap k L) (algebraMap k L).injective 2
+  have := kgLangS1EFixedLift_twisted_isPerfect k hq hk σ hσ
   obtain ⟨κ, αU, hκ, hκε, hκα⟩ := kgLangS1EFixedLift_twistedCover k hq hk σ hσ R ε K θ hK α
   exact kgLangS1EFixedLift_assembly k L R
     ((graphFixedRootGroup TwistTag.E6 k σ.toRingHom).subtype.comp ε.toMonoidHom) F₀ Θ hconjΘ K θ

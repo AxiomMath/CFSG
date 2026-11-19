@@ -63,7 +63,7 @@ theorem tw6SixLayer_data {K L : Type} [Field K] [Finite K] [Field L]
     (∀ a ∈ tw6SixLayer (L := L) (Fr := Fr) tw6SixFrameWeyl 0,
       ∀ b ∈ tw6SixLayer (L := L) (Fr := Fr) tw6SixFrameWeyl 1, a * b = b * a) := by
   classical
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
   have hvS := tw6_torusRootKernel_smul_stable (Fr := Fr) hFr hx
   obtain ⟨h0, h1⟩ := tw6SixLayerRoots_smul hvS hW
   have hw0 : ((tw6SixFrameWeyl • ·) '' tw6SixLayerRoots tw6SixFrameWeyl 0) =
@@ -96,7 +96,7 @@ theorem tw6SixLayer_data {K L : Type} [Field K] [Finite K] [Field L]
     tw6_A2_layer_gen₂ (K := K) (Ω := L) (Fr := Fr) (ℓ := 2) (f := n)
       (S := tw6SixLayerRoots tw6SixFrameWeyl 1) (w := tw6SixFrameWeyl) hn hK hq3 hFr
       hSroots1 h1 hw1
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard0 := CFSG.StandardType.TwE6Nonsplit.tw6_A2_layer_card (K := K) (Ω := L)
     (Fr := Fr) (ℓ := 2) (f := n) hn hK hFr hSroots0 h0 hw0
   have hcard1 := CFSG.StandardType.TwE6Nonsplit.tw6_A2_layer_card (K := K) (Ω := L)
@@ -146,8 +146,8 @@ theorem tw6SixLayer_torus {K L : Type} [Field K] [Finite K] [Field L]
       T ≤ tw6SixLayer (L := L) (Fr := Fr) tw6SixFrameWeyl i ∧
         IsElemAbelian q T ∧ Nat.card T = q ^ 2 := by
   classical
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hf : 1 ≤ n := by omega
   have hqd' : q ∣ Nat.card K + 1 := by rw [hK]; exact hqd
   have hSroots0 : ∀ α ∈ tw6SixLayerRoots tw6SixFrameWeyl 0, IsRoot Tag.E6 α := by

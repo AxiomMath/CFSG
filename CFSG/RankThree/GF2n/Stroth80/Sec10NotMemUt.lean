@@ -52,6 +52,7 @@ private theorem alphaCommHom_surjective (hc : Ctx M Q Z B) (hs : Sit M Q Z X x)
   refine ⟨⟨h, hQ1⟩, Subtype.ext ?_⟩
   exact R.eq_of_γ_eq (comm_mem_Z hs.hyp hhQ hαQ) z'.2 hγ
 
+omit [Finite G] in
 private theorem mem_Ut_of_eq_sub_one (hs : Sit M Q Z X x)
     {K : Type} [Field K] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ} (A : XAct M₀ x)
     {α : G} (hαQ : α ∈ Q) {f : M₀.E}

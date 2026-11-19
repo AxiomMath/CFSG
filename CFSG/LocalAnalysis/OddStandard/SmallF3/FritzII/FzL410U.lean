@@ -12,21 +12,21 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem fz410_exists_u {T : Subgroup G} (hT : IsPGroup 2 T) (hns : ¬ FzSylow T) :
     ∃ u ∈ normalizer (T : Set G), u ∉ T ∧ IsPGroup 2 ↥(T ⊔ zpowers u) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S, hTS⟩ := hT.exists_le_sylow
-  have hSp : IsPGroup 2 (S : Subgroup G) := S.isPGroup'
+  have hSp : IsPGroup 2 (S : Subgroup G) := S.isPGroup
   have hlt : T < (S : Subgroup G) := by
     refine lt_of_le_of_ne hTS (fun h => hns ⟨hT, ?_⟩)
     rw [h]
     exact S.not_dvd_index
-  haveI : Group.IsNilpotent ↥(S : Subgroup G) := hSp.isNilpotent
+  have : Group.IsNilpotent ↥(S : Subgroup G) := hSp.isNilpotent
   have hlt' : T.subgroupOf (S : Subgroup G) < ⊤ := by
     rw [lt_top_iff_ne_top]
     intro h
     rw [Subgroup.subgroupOf_eq_top] at h
     exact not_le_of_gt hlt h
   have hgrow := Group.normalizerCondition_of_isNilpotent (G := ↥(S : Subgroup G)) _ hlt'
-  obtain ⟨x, hxN, hxT⟩ := SetLike.exists_of_lt hgrow
+  obtain ⟨x, hxN, hxT⟩ := _root_.IsConcreteLE.exists_of_lt hgrow
   have hxN' : (x : G) ∈ normalizer (T : Set G) := by
     have := hxN
     rw [← Subgroup.subgroupOf_normalizer_eq hlt.le] at this
@@ -42,10 +42,10 @@ variable {t : G} {L S T : Subgroup G}
 
 include D
 
-theorem u_notin_N2 {u : G} (hu : u ∈ normalizer (T : Set G)) (huT : u ∉ T)
+theorem u_notin_N2 {u : G} (_hu : u ∈ normalizer (T : Set G)) (huT : u ∉ T)
     (hp : IsPGroup 2 ↥(T ⊔ zpowers u)) : u ∉ fzN2 t x₁ x₂ := by
   intro huN
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTV : T ≤ T ⊔ zpowers u := le_sup_left
   have hVN : T ⊔ zpowers u ≤ fzN2 t x₁ x₂ :=
     sup_le D.isT2.le_N2 (Subgroup.zpowers_le.2 huN)

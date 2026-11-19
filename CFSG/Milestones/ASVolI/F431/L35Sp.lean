@@ -22,8 +22,8 @@ variable {κ : GLKind} {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E
 
 theorem burnsideF4m_false_of_oPPrime_le (hyp : HypF_4_4 κ 2 f Gp M₁ M₂)
     (hLM : oPPrime 2 (Gp ⊓ M₁) ≤ Gp ⊓ M₂) : False := by
-  haveI := hyp.finite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hyp.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hSyl, hB⟩ := burnsideF4j_sylow_data hyp
   have hP := burnsideF4j_parabolics ChF.nativeChartCompatibility hyp
   have hgen := burnsideF4j_parabolics_gen hP
@@ -97,7 +97,7 @@ theorem burnsideF4m_Z1_inf_Z2 (hyp : HypF_4_31 .Sp4 f Gp M₁ M₂ β ε z) {w :
 theorem burnsideF4m_conj_mem_Zj (hyp : HypF_4_4 κ 2 f Gp M₁ M₂) {h : E} (hh : h ∈ M₁ ⊓ M₂) :
     (∀ x, x ∈ ctr (oPPrime 2 (Gp ⊓ M₁)) → h * x * h⁻¹ ∈ ctr (oPPrime 2 (Gp ⊓ M₁))) ∧
     (∀ x, x ∈ ctr (oPPrime 2 (Gp ⊓ M₂)) → h * x * h⁻¹ ∈ ctr (oPPrime 2 (Gp ⊓ M₂))) := by
-  haveI := hyp.normal
+  have := hyp.normal
   refine ⟨fun x hx => ?_, fun x hx => ?_⟩
   · have hN := burnsideF4j_mem_normalizer_ctr (burnsideF4d_Z1_normalizer_oPPrime
       (burnsideF4j_le_normalizer_inf hyp.normal M₁ hh.1))
@@ -116,7 +116,7 @@ theorem burnsideF4m_sp4_conj_of_type (hyp : HypF_4_4 .Sp4 2 f Gp M₁ M₂)
     (hy2 : y * y = 1) (h1 : x ∈ ctr (oPPrime 2 (Gp ⊓ M₁)) ↔ y ∈ ctr (oPPrime 2 (Gp ⊓ M₁)))
     (h2 : x ∈ ctr (oPPrime 2 (Gp ⊓ M₂)) ↔ y ∈ ctr (oPPrime 2 (Gp ⊓ M₂))) :
     ∃ g ∈ Gp, g * x * g⁻¹ = y := by
-  haveI := hyp.finite
+  have := hyp.finite
   by_cases hx₁ : x ∈ ctr (oPPrime 2 (Gp ⊓ M₁))
   · obtain ⟨m, hm, hmx⟩ := burnsideF4j_Z1_conj hyp (by decide) (by decide) hx₁ hx1 (h1.mp hx₁) hy1
     exact ⟨m, hm.1, hmx⟩
@@ -220,7 +220,7 @@ theorem burnsideF4m_mem_of_commute_sylow {G : Type} [Group G] [Finite G] {S H : 
 theorem burnsideF4m_mem_ctr_S (hyp : HypF_4_4 κ 2 f Gp M₁ M₂) {X : Subgroup E}
     (hX : M₁ ⊓ M₂ ≤ X) {x : E} (hx : x ∈ ctr (oPPrime 2 (Gp ⊓ X))) (hx2 : x * x = 1) :
     x ∈ ctr (pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂))) := by
-  haveI := hyp.finite
+  have := hyp.finite
   obtain ⟨hSyl, -⟩ := burnsideF4j_sylow_data hyp
   have hSB : pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) ≤ Gp ⊓ X :=
     (CFSG.LieType.BorelTits.pCoreOf_le 2 _).trans (inf_le_inf_left Gp hX)
@@ -237,9 +237,9 @@ theorem burnsideF4m_mem_ctr_S (hyp : HypF_4_4 κ 2 f Gp M₁ M₂) {X : Subgroup
 theorem burnsideF4m_Z2_sq (hyp : HypF_4_4 .Sp4 2 f Gp M₁ M₂) {w : E}
     (hw : w ∈ ctr (oPPrime 2 (Gp ⊓ M₂))) : w * w = 1 := by
   obtain ⟨K, fK, finK, chK, θ, hθ, -, -, h2⟩ := burnsideF4m_sp4_model hyp
-  letI := fK
-  haveI := finK
-  haveI := chK
+  let := fK
+  have := finK
+  have := chK
   rw [h2, burnsideF4d_oPPrime_map θ hθ, burnsideF4jb_ctr_map θ hθ,
     burnsideF4jb_ctr_oPPrime_Q2_one] at hw
   obtain ⟨y, hy, rfl⟩ := hw
@@ -279,8 +279,8 @@ theorem burnsideF4m_F_4_35_Sp4_core (hyp : HypF_4_31 .Sp4 f Gp M₁ M₂ β ε z
     (hj : (j : E) ∈ pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂))) (hi1 : i ≠ 1) (hj1 : j ≠ 1) (hi2 : i * i = 1)
     (hj2 : j * j = 1) :
     ((∃ g ∈ Gp, g * (i : E) * g⁻¹ = (j : E)) ↔ IsConj (bM β ε i) (bM β ε j)) := by
-  haveI := hyp.finite_M
-  haveI := hyp.amalgam.finite
+  have := hyp.finite_M
+  have := hyp.amalgam.finite
   refine ⟨burnsideF4j_F_4_35_forward hyp i j hi hj, fun h => ?_⟩
   have hb1 : Function.Injective (burnsideF4d_bOne β ε) := burnsideF4j_bOne_injective hyp
   have hSM : pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) ≤ M₁ ⊓ M₂ :=
@@ -380,7 +380,7 @@ theorem burnsideF4m_sp4_NT_K {K' : Type} [Group K'] [Finite K']
     ∀ n ∈ Subgroup.normalizer
       ((subImg (burnsideF4d_bOne β ε) (pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂))) : Subgroup M) : Set M),
       n ∈ MiOne β ε ∧ n ∈ MiTwo β ε := by
-  haveI := hyp.finite_M
+  have := hyp.finite_M
   have hS := burnsideF4m_spGSetup hyp hZ1 hZ2 hQ1 hQ2 hQ12 θ h1 h2
   have hN1 : M₁.map θ.toMonoidHom = N1 := burnsideF4m_map_eq_of_iff θ h1
   have hN2 : M₂.map θ.toMonoidHom = N2 := burnsideF4m_map_eq_of_iff θ h2
@@ -400,9 +400,9 @@ theorem burnsideF4m_sp4_T_data_lie (hcore : burnsideF4m_LieCoreSp)
     ∀ n ∈ Subgroup.normalizer
       ((subImg (burnsideF4d_bOne β ε) (pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂))) : Subgroup M) : Set M),
       n ∈ MiOne β ε ∧ n ∈ MiTwo β ε := by
-  haveI := hyp.finite_M
-  haveI := hyp.amalgam.finite
-  haveI := hyp.amalgam.normal
+  have := hyp.finite_M
+  have := hyp.amalgam.finite
+  have := hyp.amalgam.normal
   have hodd := burnsideF4m_odd_index_Sp4_of hcore hyp hf
   refine ⟨?_, ?_⟩
   · obtain ⟨T, hT⟩ := burnsideF4j_exists_sylow (MiOne β ε ⊓ MiTwo β ε)
@@ -417,7 +417,7 @@ theorem burnsideF4m_sp4_T_data_lie (hcore : burnsideF4m_LieCoreSp)
     rw [← h1m, ← h2m] at hTD
     have hmodel := burnsideF4g_lieModel_Sp4 hf hyp.amalgam.model
     obtain ⟨θ, h1, h2⟩ := burnsideF4m_exists_theta hyp.amalgam hTD
-    haveI : Finite ↥(burnsideF4d_lieExtE hyp.amalgam.toHypF_4_4g hTD).K :=
+    have : Finite ↥(burnsideF4d_lieExtE hyp.amalgam.toHypF_4_4g hTD).K :=
       Finite.of_equiv E θ.toEquiv
     obtain ⟨T, I, L⟩ := f431SpLieProp f ↥Gp hmodel
       (burnsideF4d_lieExtE hyp.amalgam.toHypF_4_4g hTD).toLieAmalgamExt
@@ -432,8 +432,8 @@ theorem burnsideF4m_sp4_T_data_two (hfacts : burnsideF4m_Sp2Facts) (htop : burns
       n ∈ MiOne β ε ∧ n ∈ MiTwo β ε := by
   have hGp := htop E Gp M₁ M₂ hyp.amalgam
   subst hGp
-  haveI := hyp.finite_M
-  haveI := hyp.amalgam.finite
+  have := hyp.finite_M
+  have := hyp.amalgam.finite
   simp only [top_inf_eq]
   obtain ⟨hsh, -, -, -⟩ := hfacts E M₁ M₂ hyp.amalgam
   have hb1 : Function.Injective (burnsideF4d_bOne β ε) := burnsideF4j_bOne_injective hyp

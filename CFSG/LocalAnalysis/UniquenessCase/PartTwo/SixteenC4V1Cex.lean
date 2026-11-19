@@ -167,7 +167,7 @@ theorem s16c4v1_cex_D_subspace (S : s16c4v1_Sit D V L hV) (hstd : s16c4v1_Std D)
   let D : Subgroup G := ⁅V, conjSubgroup V g⁆
   have hDV : D ≤ V := (s16c4v1_cex_comm_le hVn hg.1 hg'.1).trans inf_le_left
   have hspanω : ∀ c : S.F.K, c = 0 ∨ c = 1 ∨ c = ω ∨ c = ω ^ 2 := by
-    haveI : Fintype S.F.K := Fintype.ofFinite S.F.K
+    have : Fintype S.F.K := Fintype.ofFinite S.F.K
     intro c
     have hc : c ∈ ({0, 1, ω, ω ^ 2} : Finset S.F.K) := by
       rw [← TauCeti.univ_eq_zero_one_root_sq (F := S.F.K) S.F.card_K
@@ -242,7 +242,7 @@ theorem s16c4v1_cex_D_subspace (S : s16c4v1_Sit D V L hV) (hstd : s16c4v1_Std D)
           s16c4v1_vec_mul S (hDV d₁.2) (V.inv_mem (hDV d₂.2))
       _ = s16c4v1_vec S (d₂ : G) + s16c4v1_vec S (d₂ : G) := by rw [hvec, hv2]
       _ = 0 := by
-          haveI : CharP S.F.K 2 :=
+          have : CharP S.F.K 2 :=
             CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero S.F.two_eq_zero
           exact CharTwo.add_self_eq_zero _
   have hf_surj : Function.Surjective f := by

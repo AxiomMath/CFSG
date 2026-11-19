@@ -53,7 +53,7 @@ theorem exists_conj_centralizer_of_extremal {x t' s : G} {T D₁ : Subgroup G}
     mem_centralizer_iff.2 (fun h hh => by rw [Set.mem_singleton_iff.1 hh]; exact ht'c y hy)
   have hTt : IsSylowOf 2 T (centralizer ({t'} : Set G)) := isSylowOf_centralizer_of_isConj hT hxt hTc
   obtain ⟨Ts, hTs⟩ := hT.isPGroup.exists_le_sylow
-  have hS : IsPGroup 2 (Ts : Subgroup G) := Ts.isPGroup'
+  have hS : IsPGroup 2 (Ts : Subgroup G) := Ts.isPGroup
   have hTS : T ≤ (Ts : Subgroup G) ⊓ centralizer ({t'} : Set G) := le_inf hTs hTc
   have hP2 : IsPGroup 2 ↥((Ts : Subgroup G) ⊓ centralizer ({t'} : Set G)) := hS.to_inf_left
   have hPT : (Ts : Subgroup G) ⊓ centralizer ({t'} : Set G) = T :=

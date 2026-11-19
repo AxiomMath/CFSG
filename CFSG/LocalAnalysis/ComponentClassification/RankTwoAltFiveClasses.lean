@@ -143,7 +143,7 @@ theorem exists_conj_mem_P (hGold : Asc76X.GoldschmidtTheoremA) (hGs : IsSimpleGr
   by_contra hno
   push Not at hno
   refine not_normal_index_two hGs h.two_lt_card ?_
-  refine CFSG.ThompsonIndexTwo.exists_normal_index_two_of_thompson S.isPGroup'
+  refine CFSG.ThompsonIndexTwo.exists_normal_index_two_of_thompson S.isPGroup
     S.not_dvd_index hPS hrel huS huP (fun w _ hwP => ?_) hno
   have hw1 : w ≠ 1 := fun he => hwP (he ▸ one_mem P)
   have hpos := orderOf_pos w

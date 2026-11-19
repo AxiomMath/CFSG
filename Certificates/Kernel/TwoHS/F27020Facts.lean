@@ -70,9 +70,9 @@ theorem prod_foldG {n w : Nat} {E : Fin 4 → Nat} {Et : Fin 4 → Table}
   | l :: L, a, ha => by
     rw [List.foldl_cons, List.foldl_cons]
     cases hb : m.testBit l.val
-    · rw [if_neg Bool.false_ne_true, cond_false]
+    · rw [ite_eq_right Bool.false_ne_true, Bool.cond_false]
       exact prod_foldG hE m L a ha
-    · rw [if_pos rfl, cond_true, (hE l).1, compT_unpack ha (hE l).2]
+    · rw [ite_eq_left rfl, _root_.Bool.cond_true, (hE l).1, compT_unpack ha (hE l).2]
       exact prod_foldG hE m L _ (CFSG.KC.BfsPin.canonK_pcomp ha (hE l).2)
 
 theorem prod_eq {E : Fin 4 → Nat} {Et : Fin 4 → Table}

@@ -24,29 +24,29 @@ theorem two_ne_zero_of_charP_odd {K : Type} [Field K] {q : ℕ} [Fact q.Prime] [
 theorem radRigidInner_classical_odd {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {S : Type} [Group S]
     {t : StatedLieTag} {n f : ℕ} (ht : t ∈ classicalTags) (h : StatedClassicalModel S t n q f) :
     RadRigidInner q S := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨hadm, hmodel⟩ := h
   simp only [classicalTags, Finset.mem_insert, Finset.mem_singleton] at ht
   rcases ht with rfl | rfl | rfl | rfl | rfl | rfl
   ·
     obtain ⟨-, -, hn2, -, -⟩ := hadm
     obtain ⟨K, _, hfin, hcard, ⟨e⟩⟩ := hmodel
-    haveI : CharP K q := charP_of_natCard_eq hcard
+    have : CharP K q := charP_of_natCard_eq hcard
     exact (radRigidInner_PSL n (F := K) (q := q)).of_mulEquiv e.symm
   ·
     obtain ⟨-, -, hn3, -⟩ := hadm
     obtain ⟨K, _, hfin, hcard, ⟨e⟩⟩ := hmodel
-    haveI : CharP K q := charP_of_natCard_eq (p := q) (f := f * 2) (by rw [hcard, pow_mul])
+    have : CharP K q := charP_of_natCard_eq (p := q) (f := f * 2) (by rw [hcard, pow_mul])
     exact (radRigidInner_PSU (F := K) (q := q) (f := f) hcard n hn3).of_mulEquiv e.symm
   ·
     obtain ⟨-, -, hn2, -⟩ := hadm
     obtain ⟨K, _, hfin, hcard, ⟨e⟩⟩ := hmodel
-    haveI : CharP K q := charP_of_natCard_eq hcard
+    have : CharP K q := charP_of_natCard_eq hcard
     exact (radRigidInner_PSp n (F := K) (q := q) hn2).of_mulEquiv e.symm
   ·
     obtain ⟨-, -, hn3, -⟩ := hadm
     obtain ⟨K, _, hfin, hcard, ⟨e⟩⟩ := hmodel
-    haveI : CharP K q := charP_of_natCard_eq hcard
+    have : CharP K q := charP_of_natCard_eq hcard
     have hι : 6 ≤ Fintype.card (Fin n ⊕ Fin n ⊕ Unit) := by
       simp only [Fintype.card_sum, Fintype.card_fin, Fintype.card_unit]
       omega
@@ -55,7 +55,7 @@ theorem radRigidInner_classical_odd {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {S 
   ·
     obtain ⟨-, -, hn4⟩ := hadm
     obtain ⟨K, _, hfin, hcard, ⟨e⟩⟩ := hmodel
-    haveI : CharP K q := charP_of_natCard_eq hcard
+    have : CharP K q := charP_of_natCard_eq hcard
     have hι : 6 ≤ Fintype.card (Fin n ⊕ Fin n) := by
       simp only [Fintype.card_sum, Fintype.card_fin]
       omega
@@ -63,7 +63,7 @@ theorem radRigidInner_classical_odd {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {S 
   ·
     obtain ⟨-, -, hn4⟩ := hadm
     obtain ⟨K, _, hfin, hcard, b, c, hirr, ⟨e⟩⟩ := hmodel
-    haveI : CharP K q := charP_of_natCard_eq hcard
+    have : CharP K q := charP_of_natCard_eq hcard
     have hι : 6 ≤ Fintype.card (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2) := by
       simp only [Fintype.card_sum, Fintype.card_fin]
       omega
@@ -78,7 +78,7 @@ section Assembly
 
 theorem oddFamiliesInner {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) (h28 : q = 3 → Psl28Inner) :
     OddFamiliesFor q (fun S _ => RadRigidInner q S) := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   exact
     { classical := fun S _ _ _ _ t n f ht h _ => radRigidInner_classical_odd hq hq2 ht h
       exceptional := fun S _ _ hs hna t f ht h _ =>

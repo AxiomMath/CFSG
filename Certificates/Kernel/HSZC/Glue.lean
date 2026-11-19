@@ -139,7 +139,7 @@ theorem zcw_hsV :
     rw [inv_eq_of_mul_eq_one_left hg22]
     exact hg2
   have hNH := Nat.eq_of_beq_eq_true nH_eq
-  obtain ⟨s, hs, hsimp, hncomm, hsH⟩ := hList_simple (n := 100) (w := 7) (iw := 0) (T := HT)
+  obtain ⟨s, hs, hsimp, hncomm, hsH⟩ := hList_simple (n := 100) (w := 7) (_iw := 0) (T := HT)
     (sh := 0) (lm := 0) (rb := 0) (rm := RH) (nw := 700) (nH := NH) (idn := IDN) (h1 := zP 1)
     (h2 := H2) (nR := 5) (REP := rep) (o1 := 7) (o2 := 2)
     (NC1 := fun i => List.getD NC1 i []) (NC2 := fun i => List.getD NC2 i [])

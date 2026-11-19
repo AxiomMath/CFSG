@@ -25,7 +25,7 @@ theorem fz410_card_Om {E P Q : Subgroup G} (hEP : E ≤ P) (hPQ : P ≤ Q)
     rw [Subgroup.mem_subgroupOf, Subgroup.coe_mul, Subgroup.coe_mul, Subgroup.coe_inv,
       heq]
     exact E.mul_mem hc hnE
-  haveI : (E.subgroupOf Q).Normal := hNnormal
+  have : (E.subgroupOf Q).Normal := hNnormal
   have hcardN : Nat.card (E.subgroupOf Q) = 16 := by
     have h := Nat.card_congr (Subgroup.subgroupOfEquivOfLe (le_trans hEP hPQ)).toEquiv
     exact h.trans hE

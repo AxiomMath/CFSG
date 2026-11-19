@@ -206,8 +206,7 @@ private theorem q2nPE_blockSL3_tv02_zero (c : Fld) :
     Matrix.SpecialLinearGroup.transvection_coe]
   ext a b
   fin_cases a <;> fin_cases b <;>
-    simp [blockMat_apply, Matrix.transvection, Matrix.add_apply, Matrix.one_apply,
-      Matrix.single_apply]
+    simp [blockMat_apply, Matrix.add_apply]
 
 private theorem q2nPE_blockSL3_tv02_one (c : Fld) :
     blockSL3 Fld 3 (1 : Fin 3) (by decide) (tv 0 2 c) =
@@ -219,8 +218,7 @@ private theorem q2nPE_blockSL3_tv02_one (c : Fld) :
     Matrix.SpecialLinearGroup.transvection_coe]
   ext a b
   fin_cases a <;> fin_cases b <;>
-    simp [blockMat_apply, Matrix.transvection, Matrix.add_apply, Matrix.one_apply,
-      Matrix.single_apply]
+    simp [blockMat_apply, Matrix.add_apply]
 
 private theorem q2nPE_blockSL3_tv20_zero (c : Fld) :
     blockSL3 Fld 3 (0 : Fin 3) (by decide) (tv 2 0 c) =
@@ -232,8 +230,7 @@ private theorem q2nPE_blockSL3_tv20_zero (c : Fld) :
     Matrix.SpecialLinearGroup.transvection_coe]
   ext a b
   fin_cases a <;> fin_cases b <;>
-    simp [blockMat_apply, Matrix.transvection, Matrix.add_apply, Matrix.one_apply,
-      Matrix.single_apply]
+    simp [blockMat_apply, Matrix.add_apply]
 
 private theorem q2nPE_blockSL3_tv20_one (c : Fld) :
     blockSL3 Fld 3 (1 : Fin 3) (by decide) (tv 2 0 c) =
@@ -245,8 +242,7 @@ private theorem q2nPE_blockSL3_tv20_one (c : Fld) :
     Matrix.SpecialLinearGroup.transvection_coe]
   ext a b
   fin_cases a <;> fin_cases b <;>
-    simp [blockMat_apply, Matrix.transvection, Matrix.add_apply, Matrix.one_apply,
-      Matrix.single_apply]
+    simp [blockMat_apply, Matrix.add_apply]
 
 theorem exists_leviA3 [CharP Fld 2] (e : Fin 3 → Fin D.rank)
     (hcart : ∀ k l : Fin 3, D.cartan (e k) (e l) =
@@ -374,7 +370,7 @@ theorem exists_leviA3 [CharP Fld 2] (e : Fin 3 → Fin D.rank)
   · change ψ (CFSG.LieType.Steinberg.CentralExt.SLClosed.tv Fld (0 : Fin 4) 1 c) =
       M.x (a3Root e (0 : Fin 4) (1 : Fin 4)) c
     rw [q2nPE_tv_01 c, hψι0 (tv 0 1 c), blk_zero_tv01, (h₀ c).1]
-    simp [a3Root, Fin.sum_univ_three]
+    simp [a3Root]
   · change ψ (CFSG.LieType.Steinberg.CentralExt.SLClosed.tv Fld (0 : Fin 4) 2 c) =
       M.x (a3Root e (0 : Fin 4) (2 : Fin 4)) c
     rw [h02 c]
@@ -386,7 +382,7 @@ theorem exists_leviA3 [CharP Fld 2] (e : Fin 3 → Fin D.rank)
   · change ψ (CFSG.LieType.Steinberg.CentralExt.SLClosed.tv Fld (1 : Fin 4) 0 c) =
       M.x (a3Root e (1 : Fin 4) (0 : Fin 4)) c
     rw [q2nPE_tv_10 c, hψι0 (tv 1 0 c), blk_zero_tv10, (h₀ c).2.1]
-    simp [a3Root, Fin.sum_univ_three]
+    simp [a3Root]
   · exact absurd rfl hpq
   · change ψ (CFSG.LieType.Steinberg.CentralExt.SLClosed.tv Fld (1 : Fin 4) 2 c) =
       M.x (a3Root e (1 : Fin 4) (2 : Fin 4)) c

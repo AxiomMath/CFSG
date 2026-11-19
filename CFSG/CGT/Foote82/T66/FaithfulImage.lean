@@ -65,7 +65,7 @@ theorem exists_surjective_range_ker {L : Subgroup (GLV V)} (hq : CFSG.Open.IsQua
   have hcomp : ∀ ℓ : ↥L, α' ((tildeRep L).rangeRestrict ℓ) = α ℓ := fun _ =>
     MonoidHom.liftOfRightInverse_comp_apply _ _ _ _ _
   have hne : α.ker ≠ ⊤ := by
-    haveI := alternatingGroup.nontrivial_of_three_le_card (α := Fin n) (by simp; omega)
+    have := alternatingGroup.nontrivial_of_three_le_card (α := Fin n) (by simp; omega)
     obtain ⟨g, hg⟩ := exists_ne (1 : alternatingGroup (Fin n))
     obtain ⟨ℓ, rfl⟩ := hα g
     intro htop
@@ -101,7 +101,7 @@ theorem range_isIrr {L : Subgroup (GLV V)} (hirr : HasIrrTildeV L) :
   obtain ⟨hlt, hmin⟩ : IrrSec L (fixedSpace L ⊓ commSpace L ⊤) (commSpace L ⊤) := hirr
   set q := (fixedSpace L).comap (commSpace L ⊤).subtype
   have hnt : Nontrivial (TildeV L) := by
-    obtain ⟨w, hwU, hwC⟩ := SetLike.exists_of_lt hlt
+    obtain ⟨w, hwU, hwC⟩ := _root_.IsConcreteLE.exists_of_lt hlt
     refine ⟨⟨Submodule.Quotient.mk (⟨w, hwU⟩ : ↥(commSpace L ⊤)), 0, fun h => hwC ?_⟩⟩
     exact ⟨(Submodule.Quotient.mk_eq_zero q).1 h, hwU⟩
   refine ⟨invariant_top _, bot_lt_top, fun J hJ _ _ => ?_⟩
@@ -156,7 +156,7 @@ theorem faithfulTildeV_of_a7Four [Finite V] (hG21 : H1AltSevenFour) {L : Subgrou
     (hq : CFSG.Open.IsQuasisimple ↥L) (hirr : HasIrrTildeV L) (hA : IsA7FourModule L) :
     FaithfulTildeV L := by
   obtain ⟨⟨α, hα⟩, hdim⟩ := hA
-  haveI := finite_tildeV L
+  have := finite_tildeV L
   exact faithfulTildeV_of_h1_range hq hirr
     (hG21 (TildeV L) hdim _ (exists_surjective_range hq hirr (by norm_num) hα))
 
@@ -164,7 +164,7 @@ theorem faithfulTildeV_of_a6Z3 [Finite V] (hG21 : H1ThreeAltSix) {L : Subgroup (
     (hq : CFSG.Open.IsQuasisimple ↥L) (hirr : HasIrrTildeV L) (hA : IsA6Z3Module L) :
     FaithfulTildeV L := by
   obtain ⟨⟨α, hα⟩, hdim⟩ := hA
-  haveI := finite_tildeV L
+  have := finite_tildeV L
   exact faithfulTildeV_of_h1_range hq hirr
     (hG21 (TildeV L) hdim _ (range_perfect hq) (range_isIrr hirr)
       (exists_surjective_range_ker hq hirr (by norm_num) hα))

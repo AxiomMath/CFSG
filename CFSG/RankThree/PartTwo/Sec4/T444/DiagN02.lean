@@ -14,10 +14,10 @@ theorem ys03N02_sylow_invariant {G : Type} [Group G] [Finite G] {A J : Subgroup 
     ∃ T : Subgroup G, T ≤ J ∧ IsPGroup 3 T ∧ A ≤ Subgroup.normalizer (T : Set G) ∧
       (∀ E : Subgroup G, E ≤ J → IsPGroup 3 E →
         ∃ j ∈ J, E.map (MulAut.conj j).toMonoidHom ≤ T) ∧ 3 ∣ Nat.card T := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hJmem : ∀ (a : ↥A) (x : ↥J), (a : G) * (x : G) * (a : G)⁻¹ ∈ J := fun a x =>
     (Subgroup.mem_normalizer_iff.mp (hAJ a.2) (x : G)).1 x.2
-  letI : MulDistribMulAction ↥A ↥J :=
+  let : MulDistribMulAction ↥A ↥J :=
     { smul := fun a x => ⟨(a : G) * (x : G) * (a : G)⁻¹, hJmem a x⟩
       one_smul := fun x => Subtype.ext (show (1 : G) * (x : G) * (1 : G)⁻¹ = (x : G) by group)
       mul_smul := fun a b x => Subtype.ext
@@ -27,7 +27,7 @@ theorem ys03N02_sylow_invariant {G : Type} [Group G] [Finite G] {A J : Subgroup 
         (show (a : G) * ((x : G) * (y : G)) * (a : G)⁻¹ =
           ((a : G) * (x : G) * (a : G)⁻¹) * ((a : G) * (y : G) * (a : G)⁻¹) by group)
       smul_one := fun a => Subtype.ext (show (a : G) * (1 : G) * (a : G)⁻¹ = (1 : G) by group) }
-  haveI : Finite (Sylow 3 J) :=
+  have : Finite (Sylow 3 J) :=
     Finite.of_injective (fun P : Sylow 3 J => (P : Set J)) SetLike.coe_injective
   obtain ⟨P₀, hP₀⟩ :=
     hA.nonempty_fixed_point_of_prime_not_dvd_card (Sylow 3 J) (not_dvd_card_sylow 3 J)
@@ -42,7 +42,7 @@ theorem ys03N02_sylow_invariant {G : Type} [Group G] [Finite G] {A J : Subgroup 
     have hmem := Subgroup.smul_mem_pointwise_smul y (⟨b, hb⟩ : ↥A) _ hy
     rw [hS] at hmem
     exact Subgroup.mem_map_of_mem J.subtype hmem
-  refine ⟨P₀.toSubgroup.map J.subtype, ?_, P₀.isPGroup'.map J.subtype, ?_, ?_, ?_⟩
+  refine ⟨P₀.toSubgroup.map J.subtype, ?_, P₀.isPGroup.map J.subtype, ?_, ?_, ?_⟩
   · rintro _ ⟨y, _, rfl⟩
     exact y.2
   · intro a ha
@@ -77,13 +77,13 @@ theorem ys03N02_central_three {G : Type} [Group G] [Finite G] {A T : Subgroup G}
     (hT : IsPGroup 3 T) (hA : IsPGroup 3 A) (hAT : A ≤ Subgroup.normalizer (T : Set G))
     (h3T : 3 ∣ Nat.card T) :
     ∃ w : G, w ∈ T ∧ w ≠ 1 ∧ w ^ 3 = 1 ∧ (∀ t ∈ T, Commute w t) ∧ (∀ a ∈ A, Commute w a) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hnorm : T ⊔ A ≤ Subgroup.normalizer (T : Set G) :=
     sup_le (fun t ht => Subgroup.le_normalizer ht) hAT
   have hp : IsPGroup 3 (T ⊔ A : Subgroup G) := IsPGroup.to_sup_of_normal_left' hT hA hAT
   have hmem : ∀ (h : ↥(T ⊔ A)) (t : ↥T), (h : G) * (t : G) * (h : G)⁻¹ ∈ T := fun h t =>
     (Subgroup.mem_normalizer_iff.mp (hnorm h.2) (t : G)).1 t.2
-  letI : MulAction ↥(T ⊔ A) ↥T :=
+  let : MulAction ↥(T ⊔ A) ↥T :=
     { smul := fun h t => ⟨(h : G) * (t : G) * (h : G)⁻¹, hmem h t⟩
       one_smul := fun t => Subtype.ext (show (1 : G) * (t : G) * (1 : G)⁻¹ = (t : G) by group)
       mul_smul := fun h₁ h₂ t => Subtype.ext

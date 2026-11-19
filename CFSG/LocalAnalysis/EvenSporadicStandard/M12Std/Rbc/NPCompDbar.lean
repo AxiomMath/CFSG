@@ -25,6 +25,7 @@ theorem sup_centralizer_eq_top (e : ↥A ≃* alternatingGroup (Fin 5))
   rw [hk]
   exact mul_mem (mem_sup_left a.2) (mem_sup_right hmem)
 
+omit [A.Normal] in
 theorem exists_mul_of_sup_centralizer_eq_top [Finite K]
     (hsup : A ⊔ centralizer (A : Set K) = ⊤) (y : K) :
     ∃ a ∈ A, ∃ t ∈ centralizer (A : Set K), y = a * t := by

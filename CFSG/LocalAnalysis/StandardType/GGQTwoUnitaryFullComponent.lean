@@ -31,8 +31,8 @@ theorem four_dvd_image_of_full_unitary {G : Type} [Group G] [Finite G]
   classical
   obtain ⟨K, hfield, hfinite, h, hK, θ, hN', Q, hQ, hfr, hex⟩ :=
     exists_frame_of_marking_twA_full hS rfl hq2 htag hmark hidx
-  letI := hfield
-  letI := hfinite
+  let := hfield
+  let := hfinite
   have hNeq : hN' = hN := Subsingleton.elim _ _
   subst hN'
   let R := LargeEvenProj (LargeEvenSUGroup (Fin (lab.rank + 1)) K (2 ^ 1))
@@ -41,7 +41,7 @@ theorem four_dvd_image_of_full_unitary {G : Type} [Group G] [Finite G]
   let Kq : Subgroup R := (J.subgroupOf L).map (ggQuotHom θ)
   let E : Subgroup (MulAut R) := (ggBeta L θ hN).range
   have hL : commutator L = ⊤ := hS.2.1.1
-  haveI : Group.IsPerfect L := ⟨hL⟩
+  have : Group.IsPerfect L := ⟨hL⟩
   have hZq : Subgroup.center (L ⧸ Subgroup.center L) = ⊥ :=
     Group.IsPerfect.center_quotient_center_eq_bot L
   have hZR : Subgroup.center R = ⊥ := by
@@ -54,7 +54,7 @@ theorem four_dvd_image_of_full_unitary {G : Type} [Group G] [Finite G]
         simpa only [map_mul, MulEquiv.apply_symm_apply] using hr (θ q)
       have hpre1 : θ.symm r = 1 := by simpa [hZq] using hpre
       have hr1 : r = 1 := by simpa using congrArg θ hpre1
-      simpa [hr1]
+      simp [hr1]
     · exact bot_le
   have hc : Function.Injective c := CFSG.mulAutConj_injective_of_center_eq_bot hZR
   have hconj : ∀ (β : MulAut R) (r : R), c (β r) = β * c r * β⁻¹ := by

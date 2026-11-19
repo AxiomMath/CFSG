@@ -77,7 +77,7 @@ theorem sz32_sylow :
   intro S
   obtain ⟨-, hiso⟩ := hK
   obtain ⟨hv, ⟨eK⟩⟩ := hiso
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have eKS := eK.trans (CFSG.BenderSuzuki.Catalog.groupEquivSuzukiMatrixGroup hv)
   have hKcard : Nat.card K = 32537600 := by
     rw [Nat.card_congr eKS.toEquiv,
@@ -108,7 +108,7 @@ theorem sz32_signalizerOn :
   intro K _ _ hK
   have hK0 := hK
   obtain ⟨-, hiso⟩ := hK
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hSz := CFSG.RankThree.PartOne.K159.SzAbs.szSylow_of_isoLie hiso
   have hmodel := CFSG.RankThree.PartOne.CTP.suzukiModel_of_isoLie 2 hiso
   obtain ⟨-, a, ha, F, _, _, hfa, hF, ⟨eF⟩⟩ := hmodel
@@ -124,7 +124,7 @@ theorem sz32_signalizerOn :
   have hC : ∀ T : Sylow 5 K, ∀ t ∈ (T : Subgroup K), t ≠ 1 → ∀ g : K, g * t = t * g →
       g ∈ (T : Subgroup K) := fun T =>
     CFSG.AGLEmbedding.KFactProofs.Sz32Local.centralizer_le_of_equiv ε T
-  haveI : Finite (MulAut K) :=
+  have : Finite (MulAut K) :=
     Finite.of_injective (fun f : MulAut K => (f : K → K)) DFunLike.coe_injective
   have hcinj : Function.Injective (MulAut.conj : K →* MulAut K) :=
     CFSG.LocalAnalysis.RankFourTheoremC.SzSignalizer.conj_injective hSz hsimple

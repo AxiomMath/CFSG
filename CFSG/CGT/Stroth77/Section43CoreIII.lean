@@ -65,19 +65,19 @@ theorem iii_c_npow (n : ℕ) : (dD.c : G) ^ n = dD.ofTorus (Torus.ofInt _ ![(n :
   rw [c_eq, ← ofTorus_nsmul]
   congr 1
   funext i
-  fin_cases i <;> simp [gen, Pi.single_apply]
+  fin_cases i <;> simp [gen]
 
 theorem iii_a_npow (n : ℕ) : (dD.a : G) ^ n = dD.ofTorus (Torus.ofInt _ ![0, (n : ℤ), 0]) := by
   rw [a_eq, ← ofTorus_nsmul]
   congr 1
   funext i
-  fin_cases i <;> simp [gen, Pi.single_apply]
+  fin_cases i <;> simp [gen]
 
 theorem iii_b_npow (n : ℕ) : (dD.b : G) ^ n = dD.ofTorus (Torus.ofInt _ ![0, 0, (n : ℤ)]) := by
   rw [b_eq, ← ofTorus_nsmul]
   congr 1
   funext i
-  fin_cases i <;> simp [gen, Pi.single_apply]
+  fin_cases i <;> simp [gen]
 
 theorem iii_c_ofInt : (dD.c : G) = dD.ofTorus (Torus.ofInt _ ![1, 0, 0]) := by
   simpa using dD.iii_c_npow 1
@@ -180,8 +180,7 @@ theorem iii_eq_of_nf {A B : G}
 theorem t100_iii_hr2 : (dD.c : G) * dD.a * dD.uv * ((dD.c : G) * dD.a * dD.uv) = 1 := by
   apply dD.iii_eq_of_nf
   rw [dD.iii_c_ofInt, dD.iii_a_ofInt]
-  simp only [mul_assoc, iii_ofInt_mul, iii_uv_mul_ofInt, iii_t_mul_ofInt, iii_u_mul_ofInt,
-    uv_mul_uv, t_mul_t, u_mul_u, t_mul_uv, u_mul_uv, u_mul_t, one_mul]
+  simp only [mul_assoc, iii_ofInt_mul, iii_uv_mul_ofInt, uv_mul_uv, one_mul]
   refine dD.iii_ofInt_mul_eq _ ?_ ?_ ?_ <;> simp
 
 theorem t100_iii_hrue (heuv : e⁻¹ * dD.uv * e = (dD.c : G) ^ 2 * dD.a * dD.b * dD.uv)
@@ -194,8 +193,8 @@ theorem t100_iii_hrue (heuv : e⁻¹ * dD.uv * e = (dD.c : G) ^ 2 * dD.a * dD.b 
   have r4 := dD.iii_e_mul_u he hue
   apply dD.iii_eq_of_nf
   rw [dD.iii_c_ofInt, dD.iii_a_ofInt]
-  simp only [mul_assoc, iii_ofInt_mul, iii_uv_mul_ofInt, iii_t_mul_ofInt, iii_u_mul_ofInt,
-    uv_mul_uv, t_mul_t, u_mul_u, t_mul_uv, u_mul_uv, u_mul_t, one_mul, r1, r2, r4]
+  simp only [mul_assoc, iii_ofInt_mul, iii_u_mul_ofInt,
+    u_mul_uv, r1, r2]
   refine dD.iii_ofInt_mul_eq _ ?_ ?_ ?_ <;> simp
 
 theorem t100_iii_hrta (heuv : e⁻¹ * dD.uv * e = (dD.c : G) ^ 2 * dD.a * dD.b * dD.uv)
@@ -211,7 +210,7 @@ theorem t100_iii_hrta (heuv : e⁻¹ * dD.uv * e = (dD.c : G) ^ 2 * dD.a * dD.b 
   apply dD.iii_eq_of_nf
   rw [mul_inv_rev, dD.t_inv, dD.iii_c_ofInt, dD.iii_a_ofInt, dD.iii_ofInt_inv]
   simp only [mul_assoc, iii_ofInt_mul, iii_uv_mul_ofInt, iii_t_mul_ofInt, iii_u_mul_ofInt,
-    uv_mul_uv, t_mul_t, u_mul_u, t_mul_uv, u_mul_uv, u_mul_t, one_mul, r1, r2, r3, r4]
+    uv_mul_uv, t_mul_t, t_mul_uv, u_mul_t, r1, r3]
   refine dD.iii_ofInt_mul_eq _ ?_ ?_ ?_ <;> simp
 
 end StrothWeakTypeData
@@ -268,9 +267,9 @@ theorem t100_iii_hC11 (hm : 2 ≤ m) (hue : e⁻¹ * dD.u * e = dD.u)
   apply dD.iii_eq_of_nf
   cases l <;>
   · simp only [d8_fff, d8_fft, dD.iii_c_npow, dD.iii_ofInt_inv]
-    simp only [mul_assoc, iii_ofInt_mul, iii_uv_mul_ofInt, iii_t_mul_ofInt, iii_u_mul_ofInt,
-      uv_mul_uv, t_mul_t, u_mul_u, t_mul_uv, u_mul_uv, u_mul_t, one_mul, r1, r4]
-    refine dD.iii_ofInt_mul_eq _ ?_ ?_ ?_ <;> simp <;> exact ⟨1, by ring⟩
+    simp only [mul_assoc, iii_ofInt_mul, iii_u_mul_ofInt,
+      one_mul, r1]
+    refine dD.iii_ofInt_mul_eq _ ?_ ?_ ?_ <;> simp; exact ⟨1, by ring⟩
 
 end StrothWeakTypeData
 
@@ -490,8 +489,7 @@ theorem iii_cls_u (hm : 2 ≤ m) {x : Fin 3 → ℤ}
   obtain ⟨n, rfl⟩ : ∃ n, m = n + 2 := ⟨m - 2, by omega⟩
   s_nf at h
   obtain ⟨h0, h1, -⟩ := dD.iii_dvd_of_eq_one h
-  simp only [Pi.add_apply, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
-    Matrix.head_cons, Matrix.tail_cons] at h0 h1
+  simp only [Pi.add_apply, Matrix.cons_val_zero, Matrix.cons_val_one] at h0 h1
   obtain ⟨s, hs⟩ : (2 : ℤ) ^ (n + 1) ∣ x 0 := by
     have : x 0 + x 0 = 2 * x 0 := by ring
     rw [this, show (2 : ℤ) ^ (n + 2) = 2 * 2 ^ (n + 1) by ring] at h0
@@ -607,7 +605,7 @@ theorem iii_cls_e (heuv : e⁻¹ * dD.uv * e = (dD.c : G) ^ 2 * dD.a * dD.b * dD
   simp only [h0, h1, h2, Matrix.cons_val_zero]
   · refine ⟨fun _ => ⟨dD.ofTorus (Torus.ofInt _ ![p0, p1, p2]), hD _, ?_⟩,
       fun hod => absurd ⟨p0, by ring⟩ hod⟩
-    (try rw [dD.iii_c_ofInt]); apply dD.iii_eq_of_nf; iii_nf
+    apply dD.iii_eq_of_nf; iii_nf
     nf_coord <;> ring_nf <;> exact dvd_zero _
   · refine ⟨fun _ => ⟨dD.ofTorus (Torus.ofInt _ ![p0, p1, p2]) * (dD.uv * dD.t),
       mul_mem (hD _) (mul_mem hUV hT), ?_⟩, fun hod => absurd ⟨p0, by ring⟩ hod⟩
@@ -673,14 +671,12 @@ theorem iii_cls_ue (heuv : e⁻¹ * dD.uv * e = (dD.c : G) ^ 2 * dD.a * dD.b * d
   · refine ⟨fun _ => isConj_of_conj (dD.ofTorus (Torus.ofInt _ ![p0, x 1, 0])) ?_,
       fun hod => absurd ⟨p0, by ring⟩ hod⟩
     apply dD.iii_eq_of_nf; iii_nf; nf_coord <;> ring_nf <;>
-      first | exact dvd_zero _ | exact ⟨w, by linear_combination hw⟩ |
-        exact ⟨-w, by linear_combination -hw⟩
+      first | exact dvd_zero _ | exact ⟨w, by linear_combination hw⟩
   · refine ⟨fun hev => absurd hev (Int.not_even_iff_odd.mpr ⟨p0, by ring⟩), fun _ =>
       isConj_of_conj (dD.ofTorus (Torus.ofInt _ ![p0, x 1, 0])) ?_⟩
     rw [dD.iii_c_ofInt]
     apply dD.iii_eq_of_nf; iii_nf; nf_coord <;> ring_nf <;>
-      first | exact dvd_zero _ | exact ⟨w, by linear_combination hw⟩ |
-        exact ⟨-w, by linear_combination -hw⟩
+      first | exact dvd_zero _ | exact ⟨w, by linear_combination hw⟩
 
 theorem iii_t_conj_uvue (heuv : e⁻¹ * dD.uv * e = (dD.c : G) ^ 2 * dD.a * dD.b * dD.uv)
     (het : e⁻¹ * dD.t * e = (dD.a : G)⁻¹ * dD.t) (hue : e⁻¹ * dD.u * e = dD.u)
@@ -857,8 +853,7 @@ theorem iii_classify (hm : 2 ≤ m) (heuv : e⁻¹ * dD.uv * e = (dD.c : G) ^ 2 
   subst hy
   cases i <;> cases j <;> cases l <;> cases k <;>
     simp only [d8_fff, d8_tff, d8_ftf, d8_fft, d8_ttf, d8_tft, d8_ftt, d8_ttt, Stroth42Core.bpow,
-      if_true, if_false, Bool.false_eq_true, ↓reduceIte, mul_one, forall_const, true_implies,
-      false_implies, true_and, and_true, reduceCtorEq, IsEmpty.forall_iff, Bool.true_eq_false]
+      Bool.false_eq_true, ↓reduceIte, mul_one, forall_const, true_and, and_true, IsEmpty.forall_iff, Bool.true_eq_false]
       at h2 h1 ⊢
   · have hev := dD.iii_D_even hm h2
     exact ⟨fun _ => by
@@ -1161,7 +1156,7 @@ theorem t100_iii_hC2 (hm : 2 ≤ m) (heuv : e⁻¹ * dD.uv * e = (dD.c : G) ^ 2 
   rw [hx] at h2 h1 hz ⊢
   cases i <;> cases j <;> cases l <;> cases k <;>
     simp only [d8_fff, d8_tff, d8_ftf, d8_fft, d8_ttf, d8_tft, d8_ftt, d8_ttt, Stroth42Core.bpow,
-      if_true, if_false, Bool.false_eq_true, ↓reduceIte, mul_one] at h2 h1 hz ⊢
+      Bool.false_eq_true, ↓reduceIte, mul_one] at h2 h1 hz ⊢
   · obtain ⟨q, hq, hq'⟩ := dD.iii_hC2_D hm1 (dD.ofTorus_mem _) h2 h1 hz
     exact ⟨q, Subgroup.mem_sup_left (Subgroup.mem_sup_right hq), hq'⟩
   · refine ⟨dD.ofTorus (Torus.ofInt _ ![0, 2 ^ (n + 1), 2 ^ (n + 1)]), hD _, ?_⟩
@@ -1501,7 +1496,7 @@ theorem t100_iii_hF (hm : 2 ≤ m) :
             (if b = true then dD.ofTorus (om100 m ![0, 0, 1]) else 1) = 1 →
               a = false ∧ b = false := by
           intro a b h'
-          cases a <;> cases b <;> simp only [if_true, Bool.false_eq_true, ↓reduceIte, mul_one,
+          cases a <;> cases b <;> simp only [Bool.false_eq_true, ↓reduceIte, mul_one,
             one_mul, and_self, and_true, true_and, reduceCtorEq] at h' ⊢
           · rw [← dD.ofTorus_zero, ← om100_zero] at h'
             exact absurd ((om100_eq_iff hm1 _ _).mp (dD.ofTorus_inj h') 2) (by decide)
@@ -1510,7 +1505,7 @@ theorem t100_iii_hF (hm : 2 ≤ m) :
           · rw [← dD.ofTorus_add, iii_om100_add, ← dD.ofTorus_zero, ← om100_zero] at h'
             exact absurd ((om100_eq_iff hm1 _ _).mp (dD.ofTorus_inj h') 1) (by decide)
         first | exact (key a b h).1 | exact (key a b h).2
-    · simp only [Stroth42Core.bpow, if_true] at h
+    · simp only [Stroth42Core.bpow, ite_true] at h
       have ht : dD.t = (Stroth42Core.bpow ((dD.a : G) ^ 2 ^ m) a *
           Stroth42Core.bpow ((dD.b : G) ^ 2 ^ m) b)⁻¹ := by
         rw [eq_comm, inv_eq_iff_mul_eq_one]
@@ -1554,13 +1549,13 @@ theorem t100_iii_hM (hm : 2 ≤ m) (hue : e⁻¹ * dD.u * e = dD.u)
   refine ⟨?_, ?_⟩
   · rw [dD.iii_c_npow]
     apply dD.iii_eq_of_nf
-    simp only [mul_assoc, dD.iii_ofInt_mul, dD.iii_ofInt_mul', dD.iii_u_mul_ofInt,
-      dD.iii_u_mul_ofInt', dD.u_mul_u, dD.u_sq, one_mul, mul_one, r1, r1', r4, r4']
+    simp only [mul_assoc, dD.iii_ofInt_mul, dD.iii_u_mul_ofInt,
+      dD.u_mul_u, mul_one, r1, r4']
     nf_coord <;> (try push_cast) <;> ring_nf <;> dvd_const
   · rw [Stroth42Core.pow_two_pow_eq_mul_self _ (by omega), Nat.add_sub_cancel, iii_hM_sq n dD,
       dD.iii_ofInt_npow, Ne, ofTorus_eq_one_iff, t100_ofInt_eq_zero_iff]
     rintro ⟨-, h1, -⟩
-    simp only [Pi.smul_apply, smul_eq_mul, Matrix.cons_val_one, Matrix.head_cons] at h1
+    simp only [Pi.smul_apply, smul_eq_mul, Matrix.cons_val_one] at h1
     push_cast at h1
     rw [show (2 : ℤ) ^ (n + 2 + 1) = 2 ^ (n + 2) * 2 by ring,
       mul_dvd_mul_iff_left (pow_ne_zero _ two_ne_zero)] at h1

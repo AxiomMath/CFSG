@@ -34,7 +34,7 @@ theorem s16c6_derInf_fixes {F : Type} [Field F] [Finite F] {ι : Type} [Fintype 
   have hcc1 : cc 1 = 1 := by
     have e : cc (1 : Q) • v = (1 : F) • v := by
       rw [← hcc 1]
-      rw [show (((1 : Q) : GL ι F) : Matrix ι ι F) = 1 from by simp [Subgroup.coe_one],
+      rw [show (((1 : Q) : GL ι F) : Matrix ι ι F) = 1 from by simp,
         Matrix.one_mulVec, one_smul]
     exact smul_left_injective F hv e
   let χ : Q →* F := { toFun := cc, map_one' := hcc1, map_mul' := hccmul }
@@ -44,7 +44,7 @@ theorem s16c6_derInf_fixes {F : Type} [Field F] [Finite F] {ι : Type} [Fintype 
   have hfixQ : ∀ g : Q, (g : GL ι F) ∈ F07.DerInf Q → cc g = 1 := by
     intro g hg
     let χD : ↥(F07.DerInf Q) →* F := χ.comp (Subgroup.inclusion hDerQ)
-    haveI : Group.IsPerfect ↥(F07.DerInf Q) :=
+    have : Group.IsPerfect ↥(F07.DerInf Q) :=
       CFSG.RankThreeCoreUniqueness.Helpers.finite_perfectResidualOf_isPerfect Q
     have hsub : Subsingleton χD.toHomUnits.range := by
       have : Group.IsPerfect χD.toHomUnits.range := Group.IsPerfect.range χD.toHomUnits

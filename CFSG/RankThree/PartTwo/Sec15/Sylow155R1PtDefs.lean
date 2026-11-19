@@ -65,7 +65,7 @@ open CFSG CFSG.RankThree CFSG.RankThree.PartTwo CFSG.RankThree.PartTwo.Sec13
     Subgroup.normalizer (A : Set G) ≤ Subgroup.normalizer (Subgroup.zpowers c : Set G) →
       Step155HostE0WRes1 A c L
 
-@[expose] def Res1J2Pt (G : Type) [Group G] [Finite G] (A : Subgroup G) (c : G)
+@[expose] def Res1J2Pt (G : Type) [Group G] [Finite G] (A : Subgroup G) (_c : G)
     (L : Subgroup G) : Prop :=
   (omegaA A).ncard < 3 ∧
     Nonempty (↥L ⧸ aschbacherSolvableCore 3 ↥L ≃* CFSG.Blueprint.NativeSporadic.J2)

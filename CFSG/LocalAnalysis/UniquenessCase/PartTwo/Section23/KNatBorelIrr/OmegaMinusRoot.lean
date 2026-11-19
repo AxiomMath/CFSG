@@ -32,7 +32,7 @@ theorem tailDiag_hypVec_inl (t : Fin r → Kˣ) (h : A ≃ₗ[K] A) (i : Fin r) 
   · by_cases hji : j = i
     · rw [hji]; simp
     · simp [hji, Sum.inl.injEq]
-  · simp [Sum.inl_ne_inr]
+  · simp
 
 theorem tailDiag_rootTorusUnits_hypVec [NeZero r] (c : Kˣ) (h : A ≃ₗ[K] A) :
     tailDiag r (rootTorusUnits r c) h (hypVec K A (Sum.inl (0 : Fin r))) =

@@ -19,6 +19,7 @@ section Quot
 
 variable {Y : Type} [Group Y] [Finite Y]
 
+omit [Finite Y] in
 theorem card_map_mk_of_inf_eq_bot (N : Subgroup Y) [N.Normal] {P : Subgroup Y} (h : P ⊓ N = ⊥) :
     Nat.card (P.map (QuotientGroup.mk' N)) = Nat.card P := by
   have hinj : Function.Injective ((QuotientGroup.mk' N).comp P.subtype) := by
@@ -33,12 +34,13 @@ theorem card_map_mk_of_inf_eq_bot (N : Subgroup Y) [N.Normal] {P : Subgroup Y} (
     rw [MonoidHom.range_comp, Subgroup.range_subtype]
   rw [← hrange, Nat.card_congr (MonoidHom.ofInjective hinj).toEquiv.symm]
 
+omit [Finite Y] in
 theorem e9_map_mk (N : Subgroup Y) [N.Normal] (hN : ¬ 3 ∣ Nat.card N) {P : Subgroup Y}
     (hP : CFSG.Assembly.IsElemAbelian 3 P) (hP9 : Nat.card P = 9) :
     CFSG.Assembly.IsElemAbelian 3 (P.map (QuotientGroup.mk' N)) ∧
       Nat.card (P.map (QuotientGroup.mk' N)) = 9 := by
   refine ⟨isElemAbelian_map _ hP, ?_⟩
-  rw [card_map_mk_of_inf_eq_bot N (Subgroup.inf_eq_bot_of_coprime ?_), hP9]
+  rw [card_map_mk_of_inf_eq_bot N ((Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))), hP9]
   rw [hP9, show (9 : ℕ) = 3 ^ 2 by norm_num]
   exact Nat.Coprime.pow_left 2 ((Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mpr hN)
 
@@ -373,9 +375,9 @@ theorem e9Move_projSU54 : E9Move (projSU 5 2 2) :=
   (e9Move_quotient ZU (by rw [card_ZU]; norm_num) e9Move_U).of_mulEquiv projEquiv
 
 theorem rankTwo_projSU54 : RankTwoData (projSU 5 2 2) := by
-  haveI : Finite (projSU 5 2 2) := Nat.finite_of_card_ne_zero (by rw [card_projSU]; norm_num)
+  have : Finite (projSU 5 2 2) := Nat.finite_of_card_ne_zero (by rw [card_projSU]; norm_num)
   refine ⟨cubeInner_of_not_three_dvd_card_outer outU54_holds, fun E hE => ?_, ?_⟩
-  · haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  · have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hp : IsPGroup 3 E := fun g => ⟨1, by rw [pow_one]; exact Subtype.ext (hE.2 _ g.2)⟩
     obtain ⟨k, hk⟩ := hp.exists_card_eq
     have hd : 3 ^ k ∣ Nat.card (projSU 5 2 2) := hk ▸ Subgroup.card_subgroup_dvd_card E
@@ -410,7 +412,7 @@ section Row
 
 theorem rowOf427_su54
     : RowOf427 (projSU 5 2 2) := by
-  haveI : Finite (projSU 5 2 2) := Nat.finite_of_card_ne_zero (by rw [card_projSU]; norm_num)
+  have : Finite (projSU 5 2 2) := Nat.finite_of_card_ne_zero (by rw [card_projSU]; norm_num)
   refine rowOf427_of_e9Move ?_ rankTwo_projSU54
     (fun S _ _ ⟨e⟩ => e9Move_projSU54.of_mulEquiv e) (by rw [card_projSU]; norm_num)
   intro L _ _ hSL hL hZ3 ⟨e'⟩

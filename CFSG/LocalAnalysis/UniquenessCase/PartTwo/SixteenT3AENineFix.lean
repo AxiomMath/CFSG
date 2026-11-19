@@ -20,7 +20,7 @@ theorem s16t_natSum3_exists_fixing_subgroup {W : Type} [CommGroup W] [Finite W]
     (hAJ : ∀ a ∈ A, J.map a.toMonoidHom = J) :
     ∃ B : Subgroup (MulAut W), B ≤ A ∧ E3.mQuot A B ≤ 2 ∧ J ≤ fixV B := by
   classical
-  haveI : Finite (MulAut W) := MulEquiv.finite_left
+  have : Finite (MulAut W) := MulEquiv.finite_left
   let f : ↥A →* MulAut W := A.subtype
   have hA2 : IsPGroup 2 ↥A := E3.isPGroup_of_isElemAbelian2 hA
   have hf2 : ∀ a : ↥A, (f a) ^ 2 = 1 := fun a => hA.2 (a : MulAut W) a.2

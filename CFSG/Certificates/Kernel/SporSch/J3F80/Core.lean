@@ -53,6 +53,7 @@ private theorem unpack_get {n w P r : Nat} (hr : r < n) : (unpack n w P)[r]! = p
   unfold unpack
   rw [getElem!_pos _ r (by simpa using hr), Array.getElem_ofFn]
 
+set_option exponentiation.threshold 3240 in
 theorem forms_sound' (hK : Consts c rm one pad t0 t1 t2 t3 t4 t5 t6) {bytes : ByteArray}
     {S : Array (Array Nat)} {L1 L2 : List Nat} {F : Nat → Nat} {S0 S1 : Nat}
     (hF : ∀ r < 6156, hexAt bytes (810 * r) 810 = F r)

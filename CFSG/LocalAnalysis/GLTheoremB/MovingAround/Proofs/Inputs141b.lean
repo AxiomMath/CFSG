@@ -163,7 +163,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem pRank_le_four_of_cex {m : ℕ} {B M E A : Subgroup G} {a : G} (h : Cex121 G m 3 B M E A a)
     (hEA : Nat.card (E ⊓ A : Subgroup G) = 9) : CFSG.Open.pRank 3 A ≤ 4 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hAel : IsElemAbelian 3 A := h.pair.1.2.1.1.1.2.1
   have hk : CFSG.Open.pRank 3 (E ⊓ A) = 2 :=
     Lemma124.pRank_eq_two_of_card_nine (Lemma124.isElemAbelian_of_le inf_le_right hAel) hEA
@@ -293,8 +293,8 @@ theorem vxClaim_of_coreCyc (hSch' : CFSG.ComponentClassification.CatalogueRelati
     (hcore : Input14_1CoreCyc) : Lemma1245.VxClaim := by
   have h141 : Input14_1InnerCyc := input14_1InnerCyc_of_coreCyc hSch' hI1417 hcore
   intro G _ _ m B M E A a h K hK hK3 _hKM hA0 _hAN hcov x hx hx1 V hVT hVD
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp3 : Nat.Prime 3 := Nat.prime_three
   have hAel : IsElemAbelian 3 A := h.pair.1.2.1.1.1.2.1
   have hA3 : IsPGroup 3 ↥A := Lemma124.isPGroup_three_of_isElemAbelian hAel

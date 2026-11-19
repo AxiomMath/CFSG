@@ -32,7 +32,7 @@ theorem sl_le_abs (hW : Module.finrank F3 W = 2) (B : Subgroup (W ≃ₗ[F3] W))
     (htrans : ∀ w w' : W, w ≠ 0 → w' ≠ 0 → ∃ b ∈ B, b w = w')
     (h3 : ∃ b ∈ B, b ≠ 1 ∧ b ^ 3 = 1) :
     ∀ g : W ≃ₗ[F3] W, LinearMap.det (g : W →ₗ[F3] W) = 1 → g ∈ B := by
-  haveI : Module.Finite F3 W := Module.finite_of_finrank_pos (by omega)
+  have : Module.Finite F3 W := Module.finite_of_finrank_pos (by omega)
   let b : Basis (Fin 2) F3 W := Module.finBasisOfFinrankEq F3 W hW
   let Θ := eqvGL b
   let Bm : Subgroup (GL (Fin 2) F3) := B.map Θ.toMonoidHom
@@ -75,7 +75,7 @@ theorem eq_top_abs' (hW : Module.finrank F3 W = 2) (B : Subgroup (W ≃ₗ[F3] W
     (hconj : ∀ g ∈ B, ∀ ν ∈ S, (g : W →ₗ[F3] W) ∘ₗ ν ∘ₗ (g.symm : W →ₗ[F3] W) ∈ S)
     (h1 : (LinearMap.id : W →ₗ[F3] W) ∈ S) (ν : W →ₗ[F3] W)
     (hν : ∀ c : F3, ν ≠ c • (LinearMap.id : W →ₗ[F3] W)) (hνS : ν ∈ S) : S = ⊤ := by
-  haveI : Module.Finite F3 W := Module.finite_of_finrank_pos (by omega)
+  have : Module.Finite F3 W := Module.finite_of_finrank_pos (by omega)
   let b : Basis (Fin 2) F3 W := Module.finBasisOfFinrankEq F3 W hW
   let Θ := eqvGL b
   let toM := LinearMap.toMatrixAlgEquiv b
@@ -161,7 +161,7 @@ theorem uMap_zero (ε : V →ₗ[F3] V) (v : V) : uMap ε 0 v = v := by
 
 @[expose] def uEquiv (ε : V →ₗ[F3] V) (hε : ∀ v, ε (ε v) = 0)
     (ν : LinearMap.range ε →ₗ[F3] LinearMap.range ε) : V ≃ₗ[F3] V :=
-  LinearEquiv.ofLinear (uMap ε ν) (uMap ε (-ν))
+  LinearEquiv.ofLinearMap (uMap ε ν) (uMap ε (-ν))
     (LinearMap.ext fun v => by
       rw [LinearMap.comp_apply, uMap_mul ε hε, add_neg_cancel, uMap_zero]; rfl)
     (LinearMap.ext fun v => by
@@ -226,7 +226,7 @@ theorem uHom_injective (ε : V →ₗ[F3] V) (hε : ∀ v, ε (ε v) = 0) :
 
 @[expose] def hresEquiv (ε : V →ₗ[F3] V) (h : V ≃ₗ[F3] V) (hc : ∀ v, h (ε v) = ε (h v)) :
     LinearMap.range ε ≃ₗ[F3] LinearMap.range ε :=
-  LinearEquiv.ofLinear (hres ε h hc) (hres ε h.symm (symm_comm ε h hc))
+  LinearEquiv.ofLinearMap (hres ε h hc) (hres ε h.symm (symm_comm ε h hc))
     (LinearMap.ext fun w => Subtype.ext (by
       simp only [LinearMap.comp_apply, hres_apply, LinearMap.id_apply]
       exact h.apply_symm_apply _))
@@ -313,7 +313,7 @@ theorem finrank_range_eq_two (ε : V →ₗ[F3] V) (hW : Nat.card (LinearMap.ran
 
 theorem na_core' (ε : V →ₗ[F3] V) (hε : ∀ v, ε (ε v) = 0)
     (hW : Nat.card (LinearMap.range ε) = 9)
-    (hkerW : ∀ v, ε v = 0 → v ∈ LinearMap.range ε)
+    (_hkerW : ∀ v, ε v = 0 → v ∈ LinearMap.range ε)
     (H : Subgroup (V ≃ₗ[F3] V))
     (hcomm : ∀ h ∈ H, ∀ v, h (ε v) = ε (h v))
     (u₁ : V ≃ₗ[F3] V) (hu₁ : ∀ v, u₁ v = v + ε v) (hu₁H : u₁ ∈ H)

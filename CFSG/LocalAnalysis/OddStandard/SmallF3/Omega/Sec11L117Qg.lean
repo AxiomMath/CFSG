@@ -20,7 +20,7 @@ private theorem sec11_comm_of_mem_zpowers {z q u : G} (hqz : q * z = z * q)
   carrier := {q | q ∈ Q ∧ q * z = z * q ∧ g * q * g⁻¹ * q⁻¹ ∈ zpowers z}
   one_mem' := by
     refine ⟨Q.one_mem, by simp, ?_⟩
-    simpa using (zpowers z).one_mem
+    simp
   mul_mem' := by
     rintro q q' ⟨hq, hqz, hw⟩ ⟨hq', hqz', hw'⟩
     refine ⟨Q.mul_mem hq hq', ?_, ?_⟩
@@ -63,7 +63,7 @@ theorem sec11_z_mem_Qg {z g : G} {Q : Subgroup G} (hzQ : z ∈ Q) (hgz : g * z =
     z ∈ sec11Qg z g Q := by
   refine ⟨hzQ, rfl, ?_⟩
   rw [hgz]
-  simpa using (zpowers z).one_mem
+  simp
 
 theorem sec11_mem_Qg_of_mul {z g : G} {C Q : Subgroup G}
     (hg : ∀ c ∈ C, g * c * g⁻¹ * c⁻¹ ∈ zpowers z) (hn : ∀ q ∈ Q, g * q * g⁻¹ ∈ Q)
@@ -255,7 +255,7 @@ theorem sec11_card_Qg_base [Finite G] {z g : G} {Q1 Q2 : Subgroup G} (hz2 : z * 
 
 theorem sec11_card_Qg_pair [Finite G] {z g1 g2 : G} {Q1 Q2 : Subgroup G} (hz2 : z * z = 1)
     (hz1 : z ≠ 1) (hcomm : ∀ p ∈ Q1, ∀ q ∈ Q2, p * q = q * p) (hinf : Q1 ⊓ Q2 = zpowers z)
-    (hQ1 : Nat.card Q1 = 8) (hQ2 : Nat.card Q2 = 8) (hzc1 : ∀ q ∈ Q1, q * z = z * q)
+    (hQ1 : Nat.card Q1 = 8) (_hQ2 : Nat.card Q2 = 8) (hzc1 : ∀ q ∈ Q1, q * z = z * q)
     (hzc2 : ∀ q ∈ Q2, q * z = z * q) (hg1z : g1 * z = z * g1) (hg2z : g2 * z = z * g2)
     (hs2 : ∀ q ∈ Q2, g1 * q * g1⁻¹ ∈ Q1)
     (hn1 : ∀ q ∈ Q1, g2 * q * g2⁻¹ ∈ Q1) (hn2 : ∀ q ∈ Q2, g2 * q * g2⁻¹ ∈ Q2)

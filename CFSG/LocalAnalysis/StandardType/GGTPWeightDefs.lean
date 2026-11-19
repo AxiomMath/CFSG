@@ -14,12 +14,12 @@ namespace CFSG.StandardType
   carrier := {x | ∏ i, x i = 1}
   mul_mem' := by
     intro a b ha hb
-    simp only [Set.mem_setOf_eq, Pi.mul_apply] at *
+    simp only [Set.mem_ofPred_eq, Pi.mul_apply] at *
     rw [Finset.prod_mul_distrib, ha, hb, one_mul]
   one_mem' := by simp
   inv_mem' := by
     intro a ha
-    simp only [Set.mem_setOf_eq, Pi.inv_apply] at *
+    simp only [Set.mem_ofPred_eq, Pi.inv_apply] at *
     rw [Finset.prod_inv_distrib, ha, inv_one]
 
 @[expose] def GGTPTorusConst : Subgroup (Fin 6 → Multiplicative (ZMod 3)) where

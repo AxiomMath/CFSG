@@ -21,13 +21,13 @@ private theorem q8_matrix_decomp (h3 : (3 : K) = 0) (M : Matrix (Fin 2) (Fin 2) 
         (!![0, 1; -1, 0] * !![1, 1; 1, -1] : Matrix (Fin 2) (Fin 2) K) := by
   ext i j
   fin_cases i <;> fin_cases j
-  · simp [Matrix.mul_apply, Fin.sum_univ_two]
+  · simp
     linear_combination (-M 0 0) * h3
-  · simp [Matrix.mul_apply, Fin.sum_univ_two]
+  · simp
     linear_combination (-M 0 1) * h3
-  · simp [Matrix.mul_apply, Fin.sum_univ_two]
+  · simp
     linear_combination (-M 1 0) * h3
-  · simp [Matrix.mul_apply, Fin.sum_univ_two]
+  · simp
     linear_combination (-M 1 1) * h3
 
 private abbrev CommRQ8 (F : Frame Q) (T : V ≃ₗ[K] V) (N : Matrix (Fin 2) (Fin 2) K) : Prop :=

@@ -21,12 +21,12 @@ theorem pocket_of_hyp (hGold : GoldStmt) (hN11a : S_N11a) (hN11b : S_N11b) (hN11
     apply orderOf_eq_prime
     · simpa [pow_two] using hP.quad.z_sq
     · exact hP.quad.z_ne
-  haveI hznorm : (zpowers z).Normal :=
+  have hznorm : (zpowers z).Normal :=
     Subgroup.normal_of_le_center (Subgroup.zpowers_le_of_mem hz)
   let α : H →* H ⧸ zpowers z := QuotientGroup.mk' (zpowers z)
   have hαsurj : Function.Surjective α := QuotientGroup.mk'_surjective _
   have hS : PlaneSetup z K α := ⟨hP.quad, hαsurj, QuotientGroup.ker_mk' _⟩
-  haveI : Finite (H ⧸ zpowers z) := Finite.of_surjective α hαsurj
+  have : Finite (H ⧸ zpowers z) := Finite.of_surjective α hαsurj
   obtain ⟨T', hT'⟩ := hP.sylow
   let S : Sylow 2 (H ⧸ zpowers z) := T'.mapSurjective hS.surj
   have hST : (S : Subgroup (H ⧸ zpowers z)) = T.map α := by
@@ -36,15 +36,15 @@ theorem pocket_of_hyp (hGold : GoldStmt) (hN11a : S_N11a) (hN11b : S_N11b) (hN11
       (xdata_of_hyp hS hP S hST) (A := fun i => (K i).map α)
       (fun i => map_K_le_normalizer hS i) (fun i => map_K_subnormal hS hP i) with
     ⟨Nn, hNn, hoddNn, hsubNn⟩ | hB
-  · haveI : Nn.Normal := hNn
+  · have : Nn.Normal := hNn
     obtain ⟨P, hzP, hPsub, hSL⟩ :=
       caseA_pocket hz hz2 α hS.surj hS.ker (K := K 0) (hP.quad.iso 0) (hP.quad.z_mem 0)
         hoddNn (hsubNn 0)
     exact ⟨P, 3, 1, Fact.mk Nat.prime_three, hzP, hPsub, by norm_num,
       Or.inl (by norm_num), hSL⟩
   · obtain ⟨Ob, hOb, B, i, p, n, hpFact, hoddOb, hOB, hBsub, hWB, hpOdd, hn, h5, h8, ⟨e⟩⟩ := hB
-    haveI : Ob.Normal := hOb
-    haveI : Fact p.Prime := hpFact
+    have : Ob.Normal := hOb
+    have : Fact p.Prime := hpFact
     have hp2 : p ≠ 2 := by
       rintro rfl
       obtain ⟨k, hk⟩ := hpOdd

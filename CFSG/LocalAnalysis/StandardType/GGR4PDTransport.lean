@@ -44,7 +44,7 @@ theorem ggR4_pd_transport (hPD : GGProjDegreeF4) {G : Type} [Group G] {M₀ Hb L
   let e : ↥Hb ≃* ↥A :=
     (Subgroup.subgroupOfEquivOfLe hHb).symm.trans
       ((MonoidHom.ofInjective hinjH₀).trans
-        (MulEquiv.subgroupCongr (MonoidHom.restrict_range H₀ Φ)))
+        (MulEquiv.subgroupCongr (MonoidHom.domRestrict_range H₀ Φ)))
   have e_coe : ∀ b : ↥Hb, (e b : Q) = Φ ⟨(b : G), hHb b.2⟩ := by
     intro b
     have hz : (((Subgroup.subgroupOfEquivOfLe hHb).symm b : ↥H₀) : ↥M₀) =

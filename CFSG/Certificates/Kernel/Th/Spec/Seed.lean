@@ -139,11 +139,11 @@ private theorem testBit_rowBitsTh (f : ℕ → Bool) (j : ℕ) : ∀ m,
     by_cases e : j = m
     · subst e
       by_cases hf : f j
-      · simp [hf, Nat.one_shiftLeft, Nat.testBit_two_pow]
+      · simp [hf, Nat.one_shiftLeft]
       · simp [hf]
     · have e' : j < m + 1 ↔ j < m := by omega
       by_cases hf : f m
-      · simp [hf, e', Nat.one_shiftLeft, Nat.testBit_two_pow, e, eq_comm]
+      · simp [hf, e', Nat.one_shiftLeft, e, eq_comm]
       · simp [hf, e']
 
 private theorem gE_past {E : List ℕ} {i j : ℕ} (h : E.length ≤ i * 248 + j) :
@@ -419,7 +419,7 @@ private theorem testBit_packRowsTh (p : ℕ) : ∀ (l : List V4) (r : ℕ),
     rw [packRowsTh, Nat.testBit_or, testBit_shl_row (v4Nat_lt v) r p,
       testBit_packRowsTh p l (r + 1)]
     by_cases h1 : p / 256 < r
-    · simp [h1, show ¬ p / 256 = r by omega, show ¬ r ≤ p / 256 by omega,
+    · simp [show ¬ p / 256 = r by omega, show ¬ r ≤ p / 256 by omega,
         show ¬ r + 1 ≤ p / 256 by omega]
     · by_cases h2 : p / 256 = r
       · simp [h2]

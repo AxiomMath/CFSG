@@ -10,6 +10,7 @@ namespace CFSG.LocalAnalysis.UniquenessCase.PartTwo
 open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem s16h_sl28_mkTil_bot_injective {V : Subgroup G} (hV : IsElemAbelian 2 V) :
     Function.Injective (mkTil (⊥ : Subgroup G) V hV) := by
   rw [← MonoidHom.ker_eq_bot_iff]
@@ -23,6 +24,7 @@ private theorem s16h_sl28_mkTil_bot_injective {V : Subgroup G} (hV : IsElemAbeli
   · rintro rfl
     exact map_one _
 
+omit [Finite G] in
 private theorem s16h_sl28_card_preTil_bot {V : Subgroup G} (hV : IsElemAbelian 2 V)
     (S : Subgroup (Vtil ⊥ V hV)) :
     Nat.card ↥(preTil ⊥ V hV S) = Nat.card ↥S := by

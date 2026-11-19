@@ -25,9 +25,7 @@ private lemma szWtInt_apply (a : ℕ) (i : Fin 4) :
       | 3 => -((1 + 2 ^ a : ℕ) : ℤ) := by
   fin_cases i <;>
     simp only [szWtInt, int_pow_two_eq_natCast, Matrix.cons_val_zero',
-      Matrix.cons_val_succ', Matrix.cons_val_zero, Matrix.cons_val_succ,
-      Matrix.cons_val_one, Matrix.cons_val_two, Matrix.cons_val_three, Matrix.cons_val_four,
-      Matrix.head_cons, Matrix.tail_cons]
+      Matrix.cons_val_succ']
   all_goals push_cast
   all_goals ring
 
@@ -85,9 +83,7 @@ theorem intCast_szWtInt_sub {a c : ℕ} (i j : Fin 4) :
     ((szWtInt a i - 2 ^ c * szWtInt a j : ℤ) : ZMod (2 ^ (2 * a + 1) - 1)) =
       posWt a c i j := by
   fin_cases i <;> fin_cases j <;>
-    simp [szWtInt, szWt, posWt, ← Int.natCast_pow]
-  all_goals push_cast
-  all_goals ring
+    simp [szWtInt, szWt, posWt]
 
 private lemma mul_apply_of_level_eq {K : Type*} [CommRing K]
     {U M : Matrix (Fin 4) (Fin 4) K}
@@ -529,9 +525,8 @@ private lemma exists_diag_of_formula {a c : ℕ}
     ext i j
     rw [Matrix.mul_diagonal, Matrix.diagonal_mul]
     fin_cases i <;> fin_cases j <;>
-      simp [wMat, Matrix.cons_val_zero, Matrix.cons_val_succ, Matrix.cons_val_one,
-        Matrix.cons_val_two, Matrix.cons_val_three, Matrix.cons_val_four,
-        Matrix.head_cons, Matrix.tail_cons]
+      simp [wMat, Matrix.cons_val_zero, Matrix.cons_val_one,
+        Matrix.cons_val_two, Matrix.cons_val_three, Matrix.head_cons, Matrix.tail_cons]
   · have hx₀ : rootMat a 1 0 = szX₀ := by
       rw [rootMat_one_zero]
       rfl
@@ -540,9 +535,8 @@ private lemma exists_diag_of_formula {a c : ℕ}
     ext i j
     rw [Matrix.add_apply, Matrix.mul_diagonal, Matrix.diagonal_mul]
     fin_cases i <;> fin_cases j <;>
-      simp [d, szXFormula, szX₀, Matrix.cons_val_zero, Matrix.cons_val_succ,
-        Matrix.cons_val_one, Matrix.cons_val_two, Matrix.cons_val_three,
-        Matrix.cons_val_four, Matrix.head_cons, Matrix.tail_cons,
+      simp [d, szXFormula, szX₀, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two, Matrix.cons_val_three,
+        Matrix.head_cons, Matrix.tail_cons,
         hp1, hp2, hp3, hp4, hp6, hp7]
 
 theorem IsTwistedCocycle.exists_diag_of_two_le (ha : 2 ≤ a)

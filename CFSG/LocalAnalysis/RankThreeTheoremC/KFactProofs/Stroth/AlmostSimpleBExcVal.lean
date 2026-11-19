@@ -28,7 +28,7 @@ theorem vp_pow_sub_one (hp : p.Prime) (hp2 : p ≠ 2) (hpq : ¬ p ∣ q) (hq : 2
     (he : orderOf (q : ZMod p) = e) {d : ℕ} (hd : d ≠ 0) (hside : e ∣ d → ¬ p ∣ d / e) :
     (q ^ d - 1).factorization p = if e ∣ d then (q ^ e - 1).factorization p else 0 := by
   by_cases hed : e ∣ d
-  · rw [if_pos hed]
+  · rw [ite_eq_left hed]
     obtain ⟨k, rfl⟩ := hed
     have hk : k ≠ 0 := fun h => hd (by rw [h, mul_zero])
     have he0 : e ≠ 0 := fun h => hd (by rw [h, zero_mul])
@@ -36,7 +36,7 @@ theorem vp_pow_sub_one (hp : p.Prime) (hp2 : p ≠ 2) (hpq : ¬ p ∣ q) (hq : 2
     have h1 := hside ⟨k, rfl⟩
     rw [Nat.mul_div_cancel_left _ (Nat.pos_of_ne_zero he0)] at h1
     rw [Nat.factorization_eq_zero_of_not_dvd h1, add_zero]
-  · rw [if_neg hed, vp_pow_sub_one_of_not_dvd (by omega) he hed]
+  · rw [ite_eq_right hed, vp_pow_sub_one_of_not_dvd (by omega) he hed]
 
 theorem geomSum_mul_sub_one (n s q : ℕ) (hq : 1 ≤ q) :
     geomSum n s q * (q ^ s - 1) = q ^ (s * n) - 1 := by
@@ -67,15 +67,15 @@ theorem factorization_geomSum (hp : p.Prime) (hp2 : p ≠ 2) (hpq : ¬ p ∣ q) 
     vp_pow_sub_one hp hp2 hpq hq he hs.ne' h2] at hmul
   by_cases hsn : e ∣ s * n
   · by_cases hes : e ∣ s
-    · simp only [hsn, hes, if_true] at hmul
-      simp only [hsn, hes, not_true_eq_false, and_false, if_false]
+    · simp only [hsn, hes, ite_true] at hmul
+      simp only [hsn, hes, not_true_eq_false, and_false, ite_false]
       omega
-    · simp only [hsn, hes, if_true, if_false] at hmul
-      simp only [hsn, hes, not_false_eq_true, and_self, if_true]
+    · simp only [hsn, hes, ite_true, ite_false] at hmul
+      simp only [hsn, hes, not_false_eq_true, and_self, ite_true]
       omega
   · have hes : ¬ e ∣ s := fun h => hsn (h.mul_right n)
-    simp only [hsn, hes, if_false] at hmul
-    simp only [hsn, false_and, if_false]
+    simp only [hsn, hes, ite_false] at hmul
+    simp only [hsn, false_and, ite_false]
     omega
 
 @[expose] def GoodFactors (p e : ℕ) (fs : List (ℕ × ℕ)) : Prop :=
@@ -152,9 +152,9 @@ theorem factorization_prod_geomSum (hp : p.Prime) (hp2 : p ≠ 2) (hpq : ¬ p �
       factorization_geomSum hp hp2 hpq hq he hn hs h1 h2]
     unfold cntFactors
     by_cases hc : e ∣ f.2 * f.1 ∧ ¬ e ∣ f.2
-    · rw [if_pos hc, List.filter_cons_of_pos (by simpa using hc), List.length_cons]
+    · rw [ite_eq_left hc, List.filter_cons_of_pos (by simpa using hc), List.length_cons]
       ring
-    · rw [if_neg hc, List.filter_cons_of_neg (by simpa using hc), zero_add]
+    · rw [ite_eq_right hc, List.filter_cons_of_neg (by simpa using hc), zero_add]
 
 theorem factorization_prod_lt_of_cnt_lt (hp : p.Prime) (hp2 : p ≠ 2) (hpq : ¬ p ∣ q)
     (hq : 2 ≤ q) (he : orderOf (q : ZMod p) = e) {fsJ fsI : List (ℕ × ℕ)}

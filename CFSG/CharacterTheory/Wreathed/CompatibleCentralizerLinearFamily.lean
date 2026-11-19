@@ -623,7 +623,7 @@ theorem family_local_blocks_weighted (basis : FiniteIrreducibleCharacterBasis G)
       rw [← hg, conjugation_subgroup_card, Sylow.card_eq_multiplicity]
     subst hg
     have hdecomposition := normalizer_decomposition_conj (S : Subgroup G) hNS g
-    have hSp : IsPGroup p (S : Subgroup G) := S.isPGroup'
+    have hSp : IsPGroup p (S : Subgroup G) := S.isPGroup
     let ν := productLinearCharacter _ (ψ ((S : Subgroup G).map (MulAut.conj g).toMonoidHom))
       (hψ.1 _ hQp hQ1) _ hdecomposition
     obtain ⟨δ, hδ⟩ := exists_linear_label normalizerBasis ν
@@ -877,7 +877,7 @@ theorem compatible_family_unique_local_blocks [Fintype G]
       (c : Subgroup.centralizer ((S : Subgroup G) : Set G)), q ∈ (S : Subgroup G) →
         (x : G) = q * c → (normalizerBasis.representation lambdaLabel).character x = ψ S c)
     (B : basis.index)
-    (hB : brauerNormalizerCharacterResidueHom ideal p (S : Subgroup G) S.isPGroup'
+    (hB : brauerNormalizerCharacterResidueHom ideal p (S : Subgroup G) S.isPGroup
       (Subgroup.normalizer ((S : Subgroup G) : Set G)) (Subgroup.centralizer_le_normalizer _) le_rfl
         normalizerBasis lambdaLabel = centralCharacterResidueHom basis ideal B) :
     coefficientBlockDefect basis ideal p B S ∧
@@ -930,7 +930,7 @@ theorem compatible_family_unique_local_blocks [Fintype G]
           ∃ χ ∈ coefficientBlock centralizerBasis (localizedComplexIntegerRing ideal) principal,
             ∀ c, (centralizerBasis.representation θ').character c =
               (ψ Q c : ℂ) * (centralizerBasis.representation χ).character c) := by
-  have hSp : IsPGroup p (S : Subgroup G) := S.isPGroup'
+  have hSp : IsPGroup p (S : Subgroup G) := S.isPGroup
   have hψS1 := hψ.1 (S : Subgroup G) hSp hS1
   let ν := productLinearCharacter (S : Subgroup G) (ψ S) hψS1 _ hNS
   have hlabel : ∀ x, (normalizerBasis.representation lambdaLabel).character x = ν x := by

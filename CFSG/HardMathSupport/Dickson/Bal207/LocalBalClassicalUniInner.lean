@@ -31,7 +31,7 @@ theorem noNormalPPrime_three_gramSU_two_eight (hE : UnitaryFieldData 2 f K)
     (hf : 2 ^ f = 2 ∨ 2 ^ f = 8) (m : ℕ) :
     NoNormalPPrime 3 (gramSU hE (idGram K m)) := by
   classical
-  haveI := hE.finite
+  have := hE.finite
   have hG : ((idGram K m).map hE.bar)ᵀ = idGram K m := by
     simp [idGram, Matrix.map_one _ (map_zero hE.bar) (map_one hE.bar)]
   have hHs : (gramForm hE (idGram K m)).IsSymm := gramForm_isSymm hE hG
@@ -264,7 +264,7 @@ theorem noNormalPPrime_three_centralizer_gramSU (hE : UnitaryFieldData 2 f K)
   intro y hy
   rw [Subgroup.mem_bot]
   have hq : 2 ≤ 2 ^ f := by rcases hf with hf | hf <;> omega
-  have hpq : 3 ∣ 2 ^ f + 1 := by rcases hf with hf | hf <;> rw [hf] <;> norm_num
+  have hpq : 3 ∣ 2 ^ f + 1 := by rcases hf with hf | hf <;> rw [hf]; norm_num
   have hpℓ : (3 : ℕ) ≠ 2 := by norm_num
   have hNx : ∀ z ∈ N, z * x = x * z := fun z hz =>
     Subgroup.mem_centralizer_singleton_iff.1 (hNC hz)

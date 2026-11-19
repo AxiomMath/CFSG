@@ -227,6 +227,7 @@ theorem bar_det_mul {M : Matrix (Fin 3) (Fin 3) F} (hM : (M.map h.bar)ᵀ * M = 
 
 variable [Finite F] {σ : F ≃+* F} {ω : Fˣ} {D X : unitaryIsom3 h}
 
+omit [Finite F] in
 theorem exists_unit_ratio {κ u : F} (hκ0 : κ ≠ 0) (hκ3 : κ ^ 3 = u) (hσu : σ u = u)
     (hκ : h.bar κ * κ = 1) :
     ∃ c : Fˣ, c ^ 3 = 1 ∧ h.bar (c : F) * c = 1 ∧ (c : F) = σ κ / κ := by

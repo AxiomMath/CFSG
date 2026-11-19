@@ -33,7 +33,7 @@ theorem Ctx411.liftG_spec {g : OmG} (hg : g ∈ Eτ) :
     exact ⟨n.1, n.2, hn, rfl⟩
   have hL : liftG ψ (t : G) g = Classical.choose hex := by
     unfold liftG
-    exact dif_pos hex
+    exact dite_eq_left hex
   obtain ⟨hy', hR, hψ⟩ := Classical.choose_spec hex
   have hR' : liftG ψ (t : G) g ∈ Rstar S (t : G) := by rw [hL]; exact hR
   refine ⟨hR', ?_⟩
@@ -50,7 +50,7 @@ theorem Ctx411.Fc_zero {y₁ y₂ : G} (h₁ : y₁ ∈ Rstar S (t : G)) (h₂ :
     intro g₁ hg₁ g₂ hg₂
     obtain ⟨k₁, -⟩ := C.liftG_spec hg₁
     obtain ⟨k₂, -⟩ := C.liftG_spec hg₂
-    exact prW_mem _ (C.vec_perp (C.comm_mem_S k₁ k₂) (C.comm_mem_T k₁ k₂))
+    exact prW_mem _ (C.vec_perp (C.comm_mem_S k₁ k₂) (CFSG.RankThree.PartTwo.Sec21.FF84.S4.Ctx411.comm_mem_T k₁ k₂))
   have hA1 : ∀ g₁ ∈ Eτ, ∀ g₁' ∈ Eτ, ∀ g₂ ∈ Eτ, F (g₁ * g₁') g₂ = F g₁ g₂ + F g₁' g₂ := by
     intro g₁ hg₁ g₁' hg₁' g₂ hg₂
     have hg12 : g₁ * g₁' ∈ Eτ := mul_mem hg₁ hg₁'
@@ -81,7 +81,7 @@ theorem Ctx411.Fc_zero {y₁ y₂ : G} (h₁ : y₁ ∈ Rstar S (t : G)) (h₂ :
       rw [this, map_mul, hk, hk₂, hk₂']
     show Fc e _ (liftG ψ (t : G) (g₂ * g₂')) = Fc e _ _ + Fc e _ _
     rw [C.Fc_congr_right k hk22 k₁ hψ, C.Fc_mul_right k₁ k₂ k₂']
-  have hA3 : ∀ g ∈ Eτ, F g g = 0 := fun g _ => C.Fc_self _
+  have hA3 : ∀ g ∈ Eτ, F g g = 0 := fun g _ => CFSG.RankThree.PartTwo.Sec21.FF84.S4.Ctx411.Fc_self _
   have hA4 : ∀ h ∈ P2, ∀ g₁ ∈ Eτ, ∀ g₂ ∈ Eτ, F (h * g₁ * h⁻¹) (h * g₂ * h⁻¹) = h • F g₁ g₂ := by
     intro h hh g₁ hg₁ g₂ hg₂
     obtain ⟨⟨m, hm⟩, hmφ⟩ := phiM_surj C.H C.hes C.het ⟨h, hh⟩
@@ -98,8 +98,8 @@ theorem Ctx411.Fc_zero {y₁ y₂ : G} (h₁ : y₁ ∈ Rstar S (t : G)) (h₂ :
     obtain ⟨z₂, hz₂⟩ := C.liftG_spec hc2
     obtain ⟨k₁, hk₁⟩ := C.liftG_spec hg₁
     obtain ⟨k₂, hk₂⟩ := C.liftG_spec hg₂
-    have hq₁ : m * liftG ψ (t : G) g₁ * m⁻¹ ∈ Rstar S (t : G) := C.Rs_conj hmN hmt k₁
-    have hq₂ : m * liftG ψ (t : G) g₂ * m⁻¹ ∈ Rstar S (t : G) := C.Rs_conj hmN hmt k₂
+    have hq₁ : m * liftG ψ (t : G) g₁ * m⁻¹ ∈ Rstar S (t : G) := CFSG.RankThree.PartTwo.Sec21.FF84.S4.Ctx411.Rs_conj hmN hmt k₁
+    have hq₂ : m * liftG ψ (t : G) g₂ * m⁻¹ ∈ Rstar S (t : G) := CFSG.RankThree.PartTwo.Sec21.FF84.S4.Ctx411.Rs_conj hmN hmt k₂
     have hψ1 : ψ ⟨liftG ψ (t : G) (h * g₁ * h⁻¹), C.Rs_le_nor_S z₁⟩ =
         ψ ⟨m * liftG ψ (t : G) g₁ * m⁻¹, C.Rs_le_nor_S hq₁⟩ := by
       have : (⟨m * liftG ψ (t : G) g₁ * m⁻¹, C.Rs_le_nor_S hq₁⟩ : ↥(Nor S)) =
@@ -137,7 +137,7 @@ theorem Ctx411.center_le {z : G} (hz : z ∈ Rstar S (t : G))
     have : z ∈ CenS (S ⊓ Op 2 (Cen (t : G))) := by
       rw [Subgroup.mem_centralizer_iff]
       intro r hr
-      exact (hc r (C.R_le_Rstar hr)).symm
+      exact (hc r (CFSG.RankThree.PartTwo.Sec21.FF84.S4.Ctx411.R_le_Rstar hr)).symm
     rwa [C.CR] at this
   have hzT : z ∈ Op 2 (Cen (t : G)) := (Subgroup.mem_inf.1 hz).1
   have hv : polarMinus (vecOf e z) tau0 = 0 := C.vec_perp hzS hzT
@@ -152,8 +152,11 @@ theorem Ctx411.center_le {z : G} (hz : z ∈ Rstar S (t : G))
   exact eq_one_or_of_vec (e := e) C.het hzS (eich_fixed C.hE hv hf)
 
 theorem Ctx411.t_mem_Rstar : (t : G) ∈ Rstar S (t : G) :=
-  C.R_le_Rstar (Subgroup.mem_inf.2 ⟨t.2, t_mem_T e C.ht1⟩)
+  CFSG.RankThree.PartTwo.Sec21.FF84.S4.Ctx411.R_le_Rstar (Subgroup.mem_inf.2 ⟨t.2, t_mem_T e C.ht1⟩)
 
+omit [Finite G] C in
+include e in
+variable (e) in
 theorem Ctx411.tt : (t : G) * t = 1 := congrArg Subtype.val (sq_S e t)
 
 theorem Ctx411.sq_mem {x : G} (hx : x ∈ Rstar S (t : G)) : x * x = 1 ∨ x * x = (t : G) := by
@@ -176,7 +179,7 @@ theorem Ctx411.sq_mem {x : G} (hx : x ∈ Rstar S (t : G)) : x * x = 1 ∨ x * x
   · have h2 : x * y = (t : G) * (y * x) := by
       calc x * y = (x * y * x⁻¹ * y⁻¹) * (y * x) := by group
         _ = (t : G) * (y * x) := by rw [h]
-    have ht := C.tt
+    have ht := CFSG.RankThree.PartTwo.Sec21.FF84.S4.Ctx411.tt e (t := t)
     calc x * x * y = x * (x * y) := by group
       _ = x * ((t : G) * (y * x)) := by rw [h2]
       _ = ((t : G) * x) * (y * x) := by
@@ -236,7 +239,7 @@ theorem Ctx411.Rstar_extraspecial : IsExtraspecialPlus 4 (Rstar S (t : G)) := by
     omega
   have hP : IsPGroup 2 ↥(Rstar S (t : G)) := (S3.Op_isPGroup 2 _).to_le inf_le_left
   refine ⟨CFSG.LargeExtraspecial.S9.isExtraspecialPGroup_of_center hP hZ hZc hcomm hsq hcent hnab,
-    ?_, S ⊓ Op 2 (Cen (t : G)), C.R_le_Rs, isEA_of_le C.hSE inf_le_left, ?_⟩
+    ?_, S ⊓ Op 2 (Cen (t : G)), CFSG.RankThree.PartTwo.Sec21.FF84.S4.Ctx411.R_le_Rs, isEA_of_le C.hSE inf_le_left, ?_⟩
   · rw [C.card_Rs]
     norm_num
   · rw [C.card_R]

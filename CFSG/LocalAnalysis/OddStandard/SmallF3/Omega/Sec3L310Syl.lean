@@ -14,7 +14,7 @@ variable {G : Type} [Group G]
 
 private theorem odd_card_oddCore' (X : Type*) [Group X] [Finite X] :
     Odd (Nat.card (CFSG.oddCore X)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [CFSG.oddCore_eq_piCore, ← CFSG.pPrimeCore_eq_piCore 2 (G := X)]
   exact Nat.coprime_two_left.mp (CFSG.pPrimeCore_coprime_card (p := 2) (G := X))
 
@@ -58,7 +58,7 @@ theorem eq_of_commuting_involutions_of_cyclic_sylow {H : Type} [Group H] [Finite
   have hPcyc : IsCyclic ↥(P : Subgroup H) := hcyc P
   have hAle : A ≤ (P : Subgroup H) := le_sup_left.trans hP
   have hBle : B ≤ (P : Subgroup H) := le_sup_right.trans hP
-  haveI : IsCyclic ↥(P : Subgroup H) := hPcyc
+  have : IsCyclic ↥(P : Subgroup H) := hPcyc
   have hcardA' : Nat.card (A.subgroupOf (P : Subgroup H)) = 2 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hAle).toEquiv, hAcard]
   have hcardB' : Nat.card (B.subgroupOf (P : Subgroup H)) = 2 := by
@@ -102,7 +102,7 @@ theorem not_injective_quaternion_of_cyclic_sylow {H : Type} [Group H] [Finite H]
     hQ2.of_surjective f.rangeRestrict f.rangeRestrict_surjective
   obtain ⟨P, hP⟩ := hrange.exists_le_sylow
   have hPcyc : IsCyclic ↥(P : Subgroup H) := hcyc P
-  letI : IsCyclic ↥(P : Subgroup H) := hPcyc
+  let : IsCyclic ↥(P : Subgroup H) := hPcyc
   have hcomm : ∀ x y : QuaternionGroup 2, f (x * y) = f (y * x) := by
     intro x y
     have hxP : f x ∈ (P : Subgroup H) := hP (MonoidHom.mem_range.mpr ⟨x, rfl⟩)
@@ -131,7 +131,7 @@ theorem center_le_oddCore_of_pOmegaPlus [Finite G] {Y : Subgroup G}
     by_contra hne
     have htop : Subgroup.center (↥Y ⧸ N) = ⊤ :=
       (hsimple.eq_bot_or_eq_top_of_normal (Subgroup.center (↥Y ⧸ N))).resolve_left hne
-    haveI : IsMulCommutative (↥Y ⧸ N) := Subgroup.center_eq_top_iff.mp htop
+    have : IsMulCommutative (↥Y ⧸ N) := Subgroup.center_eq_top_iff.mp htop
     have hprime : Nat.Prime (Nat.card (↥Y ⧸ N)) := Group.is_simple_iff_prime_card.mp hsimple
     rw [hcard] at hprime
     exact (not_prime_of_two_dvd (by norm_num) (by norm_num)) hprime

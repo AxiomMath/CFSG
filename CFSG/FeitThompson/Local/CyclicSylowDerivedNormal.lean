@@ -98,7 +98,7 @@ theorem centralizer_eq_top_of_inf_center_ne_bot (P : Sylow p X) [IsCyclic ((P : 
       rw [hconj, Subgroup.mem_center_iff.1 hyZ (a : X)]
       group
     have h1 : φ = 1 :=
-      eq_one_of_exists_ne_one_fixed (p := q) (q := p) hqp Q.isPGroup'
+      eq_one_of_exists_ne_one_fixed (p := q) (q := p) hqp Q.isPGroup
         (IsPGroup.of_card P.card_eq_multiplicity) φ hfix
     intro a ha
     rw [Subgroup.mem_centralizer_iff]

@@ -69,7 +69,7 @@ theorem frameImage_le_fixedRoot (S : Set (Fin τ.rank → ℤ)) : D.frameImage S
   obtain ⟨x, hx, rfl⟩ := (D.mem_frameImage).1 hy
   exact D.conj_mem_fixedRoot hx
 
-theorem frameImage_injective (S : Set (Fin τ.rank → ℤ)) :
+theorem frameImage_injective (_S : Set (Fin τ.rank → ℤ)) :
     Function.Injective ((MulAut.conj D.g⁻¹).toMonoidHom.comp (baseChangeGL (algebraMap K D.L))) :=
   (MulAut.conj D.g⁻¹).injective.comp (baseChangeGL_injective _)
 

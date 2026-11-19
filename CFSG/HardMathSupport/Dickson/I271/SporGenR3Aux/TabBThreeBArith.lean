@@ -172,8 +172,8 @@ theorem seven_dvd_psu {n q X : ℕ} (hn : 6 ≤ n)
       omega
     refine Dvd.dvd.trans ?_ (Finset.prod_dvd_prod_of_subset _ _
       (fun i => if Even i then q ^ i - 1 else q ^ i + 1) hsub)
-    rw [Finset.prod_pair (by norm_num), if_pos (show Even 2 by decide),
-      if_neg (show ¬ Even 3 by decide)]
+    rw [Finset.prod_pair (by norm_num), ite_eq_left (show Even 2 by decide),
+      ite_eq_right (show ¬ Even 3 by decide)]
     have h2 : q + 1 ∣ q ^ 2 - 1 := by
       have := Nat.mul_self_sub_mul_self_eq q 1
       rw [mul_one, ← pow_two] at this
@@ -187,7 +187,7 @@ theorem seven_dvd_psu {n q X : ℕ} (hn : 6 ≤ n)
     · refine Dvd.dvd.mul_left (h.trans ?_) _
       have := Finset.dvd_prod_of_mem (fun i => if Even i then q ^ i - 1 else q ^ i + 1)
         (Finset.mem_Icc.2 ⟨(by norm_num : 2 ≤ 6), hn⟩)
-      rwa [if_pos (show Even 6 by decide)] at this
+      rwa [ite_eq_left (show Even 6 by decide)] at this
 
 theorem psl_three_two :
     ∀ f ∈ Finset.Icc 1 13, 3 ∣ 2 ^ f - 1 → Dead .PSL 3 (2 ^ f) := by decide +kernel

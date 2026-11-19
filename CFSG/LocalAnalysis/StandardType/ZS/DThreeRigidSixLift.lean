@@ -18,7 +18,7 @@ theorem diagF3_apply_single_castSucc (n : ℕ) (x : Fin (n + 1) → ZMod 3) (j :
     diagF3 (n + 1) 2 x (Pi.single j.castSucc 1) = x j.castSucc := by
   rw [diagF3_apply, Finset.sum_eq_single j.castSucc]
   · rw [Pi.single_eq_same, mul_one, diagF3Entry,
-      if_neg (by rw [Fin.val_castSucc]; omega), one_mul]
+      ite_eq_right (by rw [Fin.val_castSucc]; omega), one_mul]
   · intro k _ hk
     rw [Pi.single_eq_of_ne hk, mul_zero]
   · intro h
@@ -30,8 +30,8 @@ theorem diagF3_single_castSucc (n : ℕ) (i j : Fin n) :
   rw [diagF3_apply_single_castSucc]
   by_cases hij : i = j
   · subst hij
-    rw [Pi.single_eq_same, if_pos rfl]
-  · rw [Pi.single_eq_of_ne (fun h => hij (Fin.castSucc_injective n h.symm)), if_neg hij]
+    rw [Pi.single_eq_same, ite_eq_left rfl]
+  · rw [Pi.single_eq_of_ne (fun h => hij (Fin.castSucc_injective n h.symm)), ite_eq_right hij]
 
 private theorem zzh_sum_castSucc_single {n : ℕ} (w : Fin (n + 1) → ZMod 3)
     (hwl : w (Fin.last n) = 0) :
@@ -65,7 +65,7 @@ private theorem zzh_prod_apply_ofFn {n : ℕ} {B : LinearMap.BilinForm (ZMod 3) 
     have hsum : B (∑ i : Fin n, B x (u i.succ) • u i.succ) (u 0) = 0 := by
       rw [LinearMap.BilinForm.sum_left]
       refine Finset.sum_eq_zero fun i _ => ?_
-      rw [LinearMap.BilinForm.smul_left, hu i.succ 0, if_neg (Fin.succ_ne_zero i),
+      rw [LinearMap.BilinForm.smul_left, hu i.succ 0, ite_eq_right (Fin.succ_ne_zero i),
         mul_zero]
     rw [LinearMap.BilinForm.add_left, hsum, add_zero, Fin.sum_univ_succ]
     abel
@@ -134,10 +134,10 @@ private theorem zzh_act_prod_rho {n : ℕ} {w : Fin (n + 1) → ZMod 3}
       F3.refl (diagF3 (n + 1) 2) (Pi.single i.castSucc 1)).prod) w = -w := by
   have hunit : ∀ i : Fin n, diagF3 (n + 1) 2 (Pi.single i.castSucc 1)
       (Pi.single i.castSucc 1) = 1 := fun i => by
-    rw [diagF3_single_castSucc, if_pos rfl]
+    rw [diagF3_single_castSucc, ite_eq_left rfl]
   have horth : ∀ i j : Fin n, i ≠ j →
       diagF3 (n + 1) 2 (Pi.single i.castSucc 1) (Pi.single j.castSucc 1) = 0 :=
-    fun i j hij => by rw [diagF3_single_castSucc, if_neg hij]
+    fun i j hij => by rw [diagF3_single_castSucc, ite_eq_right hij]
   rw [act_prod_ofFn_refl (n := n) (v := fun i : Fin n => Pi.single i.castSucc 1)
     hunit horth]
   have hsum : (∑ i : Fin n,
@@ -277,9 +277,9 @@ private theorem zzh_c_actions {n : ℕ} {z : ↥A} {B : LinearMap.BilinForm (ZMo
     intro i
     rw [LinearMap.BilinForm.sub_left, LinearMap.BilinForm.sum_left,
       Finset.sum_eq_single i]
-    · rw [LinearMap.BilinForm.smul_left, hu i i, if_pos rfl, mul_one, sub_self]
+    · rw [LinearMap.BilinForm.smul_left, hu i i, ite_eq_left rfl, mul_one, sub_self]
     · intro j _ hji
-      rw [LinearMap.BilinForm.smul_left, hu j i, if_neg hji, mul_zero]
+      rw [LinearMap.BilinForm.smul_left, hu j i, ite_eq_right hji, mul_zero]
     · intro hh
       exact absurd (Finset.mem_univ i) hh
   have hz_c : (z : U ≃ₗ[ZMod 3] U) (a - ∑ i : Fin n, B a (u i) • u i) =
@@ -292,9 +292,9 @@ private theorem zzh_c_actions {n : ℕ} {z : ↥A} {B : LinearMap.BilinForm (ZMo
     rw [hzcoe, zzh_prod_apply_ofFn (B := B) (u := u) hu (fun i => htu i) (u j)]
     have hsum : (∑ i : Fin n, B (u j) (u i) • u i) = u j := by
       rw [Finset.sum_eq_single j]
-      · rw [hu j j, if_pos rfl, one_smul]
+      · rw [hu j j, ite_eq_left rfl, one_smul]
       · intro i _ hij
-        rw [hu j i, if_neg (fun h : j = i => hij h.symm), zero_smul]
+        rw [hu j i, ite_eq_right (fun h : j = i => hij h.symm), zero_smul]
       · intro hh
         exact absurd (Finset.mem_univ j) hh
     rw [hsum]
@@ -420,14 +420,14 @@ private theorem zzh_case_one_contra {n : ℕ}
   have happ : (s : U ≃ₗ[ZMod 3] U) (u i) = (t i : U ≃ₗ[ZMod 3] U) (u i) := by
     rw [hst_eq]
   rw [hsa (u i), hBui_a i, zero_smul, add_zero, htu i (u i), hu i i,
-    if_pos rfl, one_smul] at happ
+    ite_eq_left rfl, one_smul] at happ
   have hui0 : u i = 0 := by
     have h' : u i + u i = u i := happ.symm
     have h'' : u i + u i = u i + 0 := by simpa using h'
     exact add_left_cancel h''
   have hui_ne : u i ≠ 0 := by
     intro h0
-    have h1 : B (u i) (u i) = 1 := by rw [hu i i, if_pos rfl]
+    have h1 : B (u i) (u i) = 1 := by rw [hu i i, ite_eq_left rfl]
     rw [h0] at h1
     simp at h1
   exact hui_ne hui0
@@ -444,7 +444,7 @@ private theorem zzh_case_one_false {n : ℕ} (hn3 : 3 ≤ n)
   have hm4 : 4 ≤ n + 1 := by omega
   have hunit : ∀ i : Fin n, diagF3 (n + 1) 2 (Pi.single i.castSucc 1)
       (Pi.single i.castSucc 1) = 1 := fun i => by
-    rw [diagF3_single_castSucc, if_pos rfl]
+    rw [diagF3_single_castSucc, ite_eq_left rfl]
   have hcases : ∀ i : Fin n, diagF3 (n + 1) 2 w (Pi.single i.castSucc 1) = 0 := by
     intro i
     have hc := (reflBar_commute_iff hf hm4 hw (hunit i)).1 (hR3comm i)

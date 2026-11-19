@@ -50,19 +50,19 @@ private theorem s16t3_quadPlus_ne_zero {K : Type} [Field K] (m : ℕ) (hm : 1 �
   rw [quadPlus_apply, Finset.sum_eq_single (⟨0, hm⟩ : Fin m)]
   · simp
   · intro i _ hi
-    simp [Pi.single_apply, hi]
+    simp [hi]
   · simp
 
 private theorem s16t3_quadMinus_ne_zero {K : Type} [Field K] (m : ℕ) (b c : K) :
     ∃ v : Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2 → K, quadMinus m K b c v ≠ 0 := by
   refine ⟨fun i => if i = Sum.inr (Sum.inr 0) then 1 else 0, ?_⟩
   rw [coe_quadMinus]
-  simp [StatedQuadMinus, CFSG.MatrixModel.minusQuadCore]
+  simp [StatedQuadMinus]
 
 theorem s16t3_card_ne_of_isOmegaPlus {n : ℕ} (h : IsOmegaPlus X n 1) : Nat.card X ≠ 360 := by
   intro hN
   obtain ⟨-, K, _, _, hK, ⟨e⟩⟩ := h
-  haveI : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
+  have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
   have hK2 : Nat.card K = 2 := by rw [hK]; norm_num
   have hX : Nat.card X =
       Nat.card (StatedProj (StatedOmega (StatedQuadPlus (n / 2) K))) :=
@@ -90,7 +90,7 @@ theorem s16t3_card_ne_of_isOmegaPlus {n : ℕ} (h : IsOmegaPlus X n 1) : Nat.car
           have h := (CFSG.Timmesfeld.ClassicalOrders.card_quadPlus (K := K) 1).2
           rw [hK2] at h
           rw [h]
-          first | decide | norm_num [Finset.prod_Icc_succ_top]
+          first | decide
         omega
     omega
   · rcases eq_or_lt_of_le hm with h3 | h4
@@ -119,7 +119,7 @@ theorem s16t3_card_ne_of_isOmegaPlus {n : ℕ} (h : IsOmegaPlus X n 1) : Nat.car
 theorem s16t3_card_ne_of_isOmegaMinus {n : ℕ} (h : IsOmegaMinus X n 1) : Nat.card X ≠ 360 := by
   intro hN
   obtain ⟨-, K, _, _, b, c, hK, hirr, ⟨e⟩⟩ := h
-  haveI : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
+  have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
   have hK2 : Nat.card K = 2 := by rw [hK]; norm_num
   have hX : Nat.card X =
       Nat.card (StatedProj (StatedOmega (StatedQuadMinus (n / 2) K b c))) :=

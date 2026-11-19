@@ -56,9 +56,9 @@ theorem lm_eq (c : ℕ) : lm c = if c % 2 = 1 then Mr (c / 2) else Mi (c / 2) :=
   unfold lm Mr Mi
   rw [CertificateChecks.KernelWP.letC_div]
   by_cases h : c % 2 = 1
-  · simp only [h, decide_true, if_true]
+  · simp only [h, decide_true, ite_true]
     rfl
-  · simp only [h, decide_false, if_false]
+  · simp only [h, decide_false, ite_false]
     change OM (RB (Nat.add (Nat.succ 47) (c / 2))) = _
     rfl
 
@@ -109,7 +109,7 @@ theorem word_root {k g : ℕ} (hk : k < 45) (hg : g < 47) {u : List ℕ} (hu : W
     (u.map lm).prod = Mr g := by
   have h := word_one hk
   rw [hu, List.map_append, List.prod_append, List.map_singleton, List.prod_singleton,
-    lm_eq, if_neg (by omega : ¬ 2 * g % 2 = 1), Nat.mul_div_cancel_left g (by norm_num)] at h
+    lm_eq, ite_eq_right (by omega : ¬ 2 * g % 2 = 1), Nat.mul_div_cancel_left g (by norm_num)] at h
   have h2 : Mi g * Mr g = 1 := mul_comm_of_one (pair g hg)
   calc (u.map lm).prod = (u.map lm).prod * (Mi g * Mr g) := by rw [h2, mul_one]
     _ = Mr g := by rw [← mul_assoc, h, one_mul]
@@ -184,7 +184,6 @@ theorem mat_wG : ∀ j < 15, mat Dt (wG j) = Mr j := by
       rw [slpG_eq, mat_wordG, List.map_map]
       congr 1
       refine List.map_congr_left fun z hz => ?_
-      beta_reduce
       change _ = lm (slpCode z)
       rw [lm_eq]
       have hai := mat_inv_of (x := a Dt) (g := 0) (by norm_num) mat_a
@@ -195,25 +194,25 @@ theorem mat_wG : ∀ j < 15, mat Dt (wG j) = Mr j := by
       · simp [genG, slpCode, mat_b]
       · simp [genG, slpCode, hbi]
       · have hz2 : ¬ z.natAbs ≤ 2 := by omega
-        rw [if_neg hz2, if_pos h4]
+        rw [ite_eq_right hz2, ite_eq_left h4]
         have hk : slpCode z / 2 = z.natAbs - 3 := by
           unfold slpCode
-          rw [if_neg hz2]
+          rw [ite_eq_right hz2]
           split_ifs <;> omega
         rw [hk]
         have hg' := ih (z.natAbs - 3) h4 (by omega)
         by_cases hp : 0 < z
         · have hc : slpCode z % 2 = 1 := by
             unfold slpCode
-            rw [if_neg hz2, if_pos hp]
+            rw [ite_eq_right hz2, ite_eq_left hp]
             omega
-          rw [if_pos hp, if_pos hc]
+          rw [ite_eq_left hp, ite_eq_left hc]
           exact hg'
         · have hc : ¬ slpCode z % 2 = 1 := by
             unfold slpCode
-            rw [if_neg hz2, if_neg hp]
+            rw [ite_eq_right hz2, ite_eq_right hp]
             omega
-          rw [if_neg hp, if_neg hc]
+          rw [ite_eq_right hp, ite_eq_right hc]
           exact mat_inv_of (by omega) hg'
 
 @[expose] noncomputable def pw (a : ℕ) : List ℕ := WDL (13 + a)
@@ -247,9 +246,9 @@ theorem lm_inv {c : ℕ} (hc : c < 94) :
     lm c * lm (if c % 2 = 1 then c - 1 else c + 1) = 1 := by
   rw [lm_eq, lm_eq]
   by_cases h : c % 2 = 1
-  · rw [if_pos h, if_pos h, if_neg (by omega), show (c - 1) / 2 = c / 2 by omega]
+  · rw [ite_eq_left h, ite_eq_left h, ite_eq_right (by omega), show (c - 1) / 2 = c / 2 by omega]
     exact pair _ (by omega)
-  · rw [if_neg h, if_neg h, if_pos (by omega), show (c + 1) / 2 = c / 2 by omega]
+  · rw [ite_eq_right h, ite_eq_right h, ite_eq_left (by omega), show (c + 1) / 2 = c / 2 by omega]
     exact mul_comm_of_one (pair _ (by omega))
 
 theorem prod_invC {u : List ℕ} (hu : ∀ c ∈ u, c < 4) : (u.map lm).prod * ((invC u).map lm).prod = 1 := by
@@ -291,7 +290,7 @@ theorem mat_partner {a : ℕ} (ha : a < 32) :
           rw [h1, mul_one]
       _ = _ := by rw [← mul_assoc, h2, one_mul]
   have ht' : lm (ptc a) = mat Dt (wG (12 + pIdx a)) := by
-    rw [hidx.2, lm_eq, if_pos (by omega), show (2 * (12 + pIdx a) + 1) / 2 = 12 + pIdx a by omega,
+    rw [hidx.2, lm_eq, ite_eq_left (by omega), show (2 * (12 + pIdx a) + 1) / 2 = 12 + pIdx a by omega,
       mat_wG _ (by omega)]
   change OM (RB (Nat.add 16 a)) = _
   have e : Nat.add 16 a = 15 + a + 1 := by change 16 + a = 15 + a + 1; omega

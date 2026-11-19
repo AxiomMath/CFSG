@@ -16,7 +16,7 @@ theorem sigmaFun_eq (x : Fin 22) : sigmaFun x = sigmaPerm x := by
   fin_cases x <;> rfl
 
 theorem sign_sigmaPerm : sign sigmaPerm = -1 := by
-  simp [sigmaPerm, sign_swap]
+  simp [sigmaPerm]
 
 theorem m22Count_sigma :
     m22Count (fun g => ∀ x, g x = sigmaFun x) = 0 := by

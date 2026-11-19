@@ -35,7 +35,7 @@ theorem spTwo_small_case (G : Type) [Group G] [Finite G] (A : Subgroup G) (f : �
           NativeSporadic.IsSporadic (Subgroup.normalClosure (A : Set G)) .M12 ∨
           NativeSporadic.IsSporadic (Subgroup.normalClosure (A : Set G)) .J2)) := by
   by_cases hN : A.Normal
-  · haveI : A.Normal := hN
+  · have : A.Normal := hN
     exact Or.inl (Subgroup.normalClosure_eq_self A)
   · by_cases hf2 : f = 2
     · subst hf2

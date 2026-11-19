@@ -33,8 +33,7 @@ private lemma heartLift_even (v : Fin 6 → ZMod 2) : IsEvenVec (heartLift v) :=
 
 private lemma heartLift_coord (v : Fin 6 → ZMod 2) : heartCoord (heartLift v) = v := by
   funext i
-  simp only [heartCoord, heartLift, castLE_castSucc_castSucc, Fin.snoc_castSucc, Fin.snoc_last,
-    Pi.add_apply, Pi.zero_apply]
+  simp only [heartCoord, heartLift, castLE_castSucc_castSucc, Fin.snoc_castSucc]
   exact add_zero (v i)
 
 theorem sec5b_heartCoord_add (v w : Fin 8 → ZMod 2) :
@@ -101,7 +100,7 @@ theorem sec5b_heartCoord_extPerm (σ : Equiv.Perm (Fin 6)) (w : Fin 8 → ZMod 2
   have h2 : (extPerm σ).symm 7 = 7 := by
     rw [Equiv.symm_apply_eq]
     exact ((sec5b_extPerm_apply_six σ).2).symm
-  simp only [heartCoord, permVec, Function.comp_apply, Pi.add_apply]
+  simp only [heartCoord, permVec, Function.comp_apply]
   rw [h1, h2]
 
 theorem sec5b_heartCoord_pair_six_seven :
@@ -114,7 +113,7 @@ private lemma permVec_single (σ : Equiv.Perm (Fin 8)) (i : Fin 8) :
   simp only [permVec, Function.comp_apply, Pi.single_apply]
   by_cases h : j = σ i
   · have h' : σ.symm j = i := by rw [Equiv.symm_apply_eq]; exact h
-    simp [h, h']
+    simp [h]
   · have h' : σ.symm j ≠ i := fun hh => h ((Equiv.symm_apply_eq σ).mp hh)
     simp [h, h']
 

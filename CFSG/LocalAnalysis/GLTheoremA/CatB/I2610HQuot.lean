@@ -25,10 +25,10 @@ theorem exists_quot_component {Γ : Type} [Group Γ] [Finite Γ] {K W : Subgroup
         Nonempty (PSimple 3 J ≃* PSimple 3 I) := by
   classical
   have hperf : Group.IsPerfect ↥K := Group.isPerfect_def.2 hK.1
-  haveI : Finite (↥K ⧸ Subgroup.center ↥K) :=
+  have : Finite (↥K ⧸ Subgroup.center ↥K) :=
     Finite.of_surjective (QuotientGroup.mk' (Subgroup.center ↥K))
       (QuotientGroup.mk'_surjective _)
-  haveI : Finite T := Finite.of_surjective eK.toMonoidHom eK.surjective
+  have : Finite T := Finite.of_surjective eK.toMonoidHom eK.surjective
   set ρ : ↥W →* MulAut T := kd264Rho hWN eK with hρ
   set A : Subgroup (MulAut T) := ρ.range with hA
   have hAtop : IsElemAbelian 3 (⊤ : Subgroup ↥W) := by

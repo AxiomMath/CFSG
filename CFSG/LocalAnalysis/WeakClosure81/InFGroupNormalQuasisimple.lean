@@ -24,14 +24,14 @@ private theorem isQuasisimple_map_solvableRadical {G : Type} [Group G] [Finite G
         (QuotientGroup.mk' (CFSG.solvableRadical ↥K))) ∧
       ((J.subgroupOf K).map (QuotientGroup.mk' (CFSG.solvableRadical ↥K))).Normal := by
   have hJ'qs : CFSG.IsQuasisimple ↥(J.subgroupOf K) := isQuasisimple_subgroupOf hJK hJq
-  haveI hJ'n : (J.subgroupOf K).Normal := hJn
-  haveI : Group.IsPerfect ↥(J.subgroupOf K) := hJ'qs.1
-  haveI : Nontrivial ↥(J.subgroupOf K) := CFSG.LocalCores.isQuasisimple_nontrivial hJ'qs
+  have hJ'n : (J.subgroupOf K).Normal := hJn
+  have : Group.IsPerfect ↥(J.subgroupOf K) := hJ'qs.1
+  have : Nontrivial ↥(J.subgroupOf K) := CFSG.LocalCores.isQuasisimple_nontrivial hJ'qs
   have hnotR : ¬ J.subgroupOf K ≤ CFSG.solvableRadical ↥K := by
     intro hle
-    haveI : Group.IsSolvable ↥(CFSG.solvableRadical ↥K) :=
+    have : Group.IsSolvable ↥(CFSG.solvableRadical ↥K) :=
       CFSG.Quasithin.A3.solvableRadical_isSolvable
-    haveI : Group.IsSolvable ↥(J.subgroupOf K) :=
+    have : Group.IsSolvable ↥(J.subgroupOf K) :=
       Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hle)
         (Subgroup.inclusion_injective hle)
     exact Group.IsPerfect.not_isSolvable ↥(J.subgroupOf K) inferInstance
@@ -44,7 +44,7 @@ theorem isSolvable_quotient_map_solvableRadical {G : Type} [Group G] [Finite G]
     [hLn : ((J.subgroupOf K).map (QuotientGroup.mk' (CFSG.solvableRadical ↥K))).Normal] :
     Group.IsSolvable ((↥K ⧸ CFSG.solvableRadical ↥K) ⧸
       (J.subgroupOf K).map (QuotientGroup.mk' (CFSG.solvableRadical ↥K))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2' : ∀ x : ↥K, ∃ k : ℕ, x ^ 2 ^ k ∈ J.subgroupOf K := by
     intro x
     obtain ⟨k, hk⟩ := h2 x.1 x.2
@@ -65,20 +65,20 @@ theorem isSolvable_quotient_map_solvableRadical {G : Type} [Group G] [Finite G]
       QuotientGroup.eq_one_iff, ← QuotientGroup.mk_pow (CFSG.solvableRadical ↥K) x (2 ^ k),
       ← QuotientGroup.mk'_apply (CFSG.solvableRadical ↥K) (x ^ 2 ^ k)]
     exact hxL
-  haveI := h2g.isNilpotent
+  have := h2g.isNilpotent
   exact IsNilpotent.to_isSolvable
 
 private theorem le_twoResidual_of_forall_pow_mem {Q : Type} [Group Q] [Finite Q]
     {J' : Subgroup Q} (hJq : Group.IsPerfect ↥J')
-    (h2 : ∀ x : Q, ∃ k : ℕ, x ^ 2 ^ k ∈ J') :
+    (_h2 : ∀ x : Q, ∃ k : ℕ, x ^ 2 ^ k ∈ J') :
     J' ≤ twoResidual (⊤ : Subgroup Q) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro j hj
   rw [mem_twoResidual_iff]
   intro N _ hnorm hN2
-  haveI hNn : N.Normal := Subgroup.normalizer_eq_top_iff.mp (top_le_iff.mp hnorm)
-  haveI : Group.IsPerfect ↥J' := hJq
-  haveI : Group.IsPerfect ↥(J'.map (QuotientGroup.mk' N)) :=
+  have hNn : N.Normal := Subgroup.normalizer_eq_top_iff.mp (top_le_iff.mp hnorm)
+  have : Group.IsPerfect ↥J' := hJq
+  have : Group.IsPerfect ↥(J'.map (QuotientGroup.mk' N)) :=
     Group.IsPerfect.map (QuotientGroup.mk' N)
   have h2g : IsPGroup 2 ↥(J'.map (QuotientGroup.mk' N)) := by
     rw [isPGroup_iff_pow_pow_eq_one]
@@ -91,10 +91,10 @@ private theorem le_twoResidual_of_forall_pow_mem {Q : Type} [Group Q] [Finite Q]
     exact hk
   have hbot : J'.map (QuotientGroup.mk' N) = ⊥ := by
     by_contra hne
-    haveI : Nontrivial ↥(J'.map (QuotientGroup.mk' N)) :=
+    have : Nontrivial ↥(J'.map (QuotientGroup.mk' N)) :=
       (Subgroup.nontrivial_iff_ne_bot _).mpr hne
-    haveI : Group.IsSolvable ↥(J'.map (QuotientGroup.mk' N)) := by
-      haveI := h2g.isNilpotent
+    have : Group.IsSolvable ↥(J'.map (QuotientGroup.mk' N)) := by
+      have := h2g.isNilpotent
       exact IsNilpotent.to_isSolvable
     exact Group.IsPerfect.not_isSolvable ↥(J'.map (QuotientGroup.mk' N)) inferInstance
   have hmem : J' ≤ (QuotientGroup.mk' N).ker := (Subgroup.map_eq_bot_iff J').mp hbot
@@ -105,8 +105,8 @@ private theorem perfectCore_le_of_forall_pow_mem {Q : Type} [Group Q] [Finite Q]
     {J' : Subgroup Q} (hJn : J'.Normal)
     (h2 : ∀ x : Q, ∃ k : ℕ, x ^ 2 ^ k ∈ J') :
     perfectCore (⊤ : Subgroup Q) ≤ J' := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hJ'n : J'.Normal := hJn
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hJ'n : J'.Normal := hJn
   have hsolv : Group.IsSolvable (Q ⧸ J') := by
     have h2g : IsPGroup 2 (Q ⧸ J') := by
       rw [isPGroup_iff_pow_pow_eq_one]
@@ -116,9 +116,9 @@ private theorem perfectCore_le_of_forall_pow_mem {Q : Type} [Group Q] [Finite Q]
       refine ⟨k, ?_⟩
       rw [← QuotientGroup.mk_pow J' x (2 ^ k), QuotientGroup.eq_one_iff]
       exact hk
-    haveI := h2g.isNilpotent
+    have := h2g.isNilpotent
     exact IsNilpotent.to_isSolvable
-  haveI : Group.IsSolvable (Q ⧸ J') := hsolv
+  have : Group.IsSolvable (Q ⧸ J') := hsolv
   have hm : (perfectCore (⊤ : Subgroup Q)).map (QuotientGroup.mk' J') = ⊥ := by
     rw [map_perfectCore, Subgroup.map_top,
       MonoidHom.range_eq_top_of_surjective _ (QuotientGroup.mk'_surjective J'),

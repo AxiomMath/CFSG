@@ -33,6 +33,7 @@ private def y7nNormCommutator (D A : Subgroup G) : Subgroup G where
       simp only [commutatorElement_def]; group
     rwa [hid]
 
+omit [Finite G] in
 theorem y7n_conj_eq_of_unique {Q J : Subgroup G} (hJ : IsElemAbelian 2 J) (hJQ : J ≤ Q)
     (hmax : ∀ E : Subgroup G, E ≤ Q → IsElemAbelian 2 E →
       Nat.card E ≤ Nat.card J ∧ (Nat.card E = Nat.card J → E = J))
@@ -43,10 +44,12 @@ theorem y7n_conj_eq_of_unique {Q J : Subgroup G} (hJ : IsElemAbelian 2 J) (hJQ :
     Subgroup.card_map_of_injective (MulAut.conj n).injective
   exact (hmax (conjSub n J) h1 h2).2 hcard
 
+omit [Finite G] in
 theorem y7n_conjSub_commutator (n : G) (H K : Subgroup G) :
     conjSub n ⁅H, K⁆ = ⁅conjSub n H, conjSub n K⁆ :=
   Subgroup.map_commutator H K (MulAut.conj n).toMonoidHom
 
+omit [Finite G] in
 theorem y7n_commutator_sup_le {D X₁ X₂ A : Subgroup G}
     (hN : X₁ ⊔ X₂ ≤ normalizer (D : Set G)) (h₁ : ⁅X₁, A⁆ ≤ D) (h₂ : ⁅X₂, A⁆ ≤ D) :
     ⁅X₁ ⊔ X₂, A⁆ ≤ D := by
@@ -56,6 +59,7 @@ theorem y7n_commutator_sup_le {D X₁ X₂ A : Subgroup G}
     ⟨hN (Subgroup.mem_sup_right hz), fun a ha => (Subgroup.commutator_le.mp h₂) z hz a ha⟩
   exact Subgroup.commutator_le.mpr fun x hx a ha => (sup_le hX₁ hX₂ hx).2 a ha
 
+omit [Finite G] in
 theorem y7n_commutator_zpowers_le {D A : Subgroup G} {b : G}
     (hb : b ∈ normalizer (D : Set G)) (h : ∀ a ∈ A, ⁅b, a⁆ ∈ D) : ⁅zpowers b, A⁆ ≤ D := by
   have hbT : b ∈ y7nNormCommutator D A := ⟨hb, h⟩

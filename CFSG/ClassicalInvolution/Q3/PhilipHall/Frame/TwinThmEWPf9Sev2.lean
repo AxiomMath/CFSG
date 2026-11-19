@@ -62,7 +62,7 @@ theorem MinCexQ8.centralizer_le_H' (h4 : E18_4CQ8) (c : MinCexQ8 Ω K S R W H)
   obtain ⟨w, hw1, hw2, rfl⟩ := hAcyc
   rw [centralizer_zpowers_eq_singleton] at hRA hX ⊢
   have hRS := c.stand.hR.2.2
-  exact h4 G Ω K S R W H c K' hK' hne R' hR' hR'K' (S.isPGroup'.to_le (sup_le hRS hR'S)) w hw1 hw2
+  exact h4 G Ω K S R W H c K' hK' hne R' hR' hR'K' (S.isPGroup.to_le (sup_le hRS hR'S)) w hw1 hw2
     hRA hX
 end
 
@@ -137,12 +137,12 @@ theorem MinCexQ8.exists_config_sylow (c : MinCexQ8 Ω K S R W H)
       IsSylow2In ((S' : Subgroup G) ⊓ X) X := by
   have hΩ : HypOmegaGen Ω := c.stand.hyp
   obtain ⟨hRR, hRK, hRS⟩ := c.stand.hR
-  have hRR' : IsPGroup 2 ↥(R ⊔ R') := S.isPGroup'.to_le (sup_le hRS hR'S)
+  have hRR' : IsPGroup 2 ↥(R ⊔ R') := S.isPGroup.to_le (sup_le hRS hR'S)
   obtain ⟨P, hP, hRRP⟩ := IsSylow2In.exists_ge hRR' hRX
   obtain ⟨S', hPS'⟩ := IsPGroup.exists_le_sylow hP.2.1
   have hSyl : IsSylow2In ((S' : Subgroup G) ⊓ X) X := by
     have hle : P ≤ (S' : Subgroup G) ⊓ X := le_inf hPS' hP.1
-    have hp2 : IsPGroup 2 ↥((S' : Subgroup G) ⊓ X) := S'.isPGroup'.to_le inf_le_left
+    have hp2 : IsPGroup 2 ↥((S' : Subgroup G) ⊓ X) := S'.isPGroup.to_le inf_le_left
     have heq := hP.eq_of_le hp2 inf_le_right hle
     rw [heq]
     exact hP
@@ -177,7 +177,7 @@ theorem MinCexQ8.exists_config_sylow_centralizer (c : MinCexQ8 Ω K S R W H) {z 
     (X := Subgroup.centralizer ({z} : Set G)) (sup_le (hRK.trans hKC) (hR'K'.trans hK'C))
   exact ⟨S', W', c', hSyl⟩
 
-theorem MinCexQ8.rename (h : E18_6Q8) (c : MinCexQ8 Ω K S R W H)
+theorem MinCexQ8.rename (_h : E18_6Q8) (c : MinCexQ8 Ω K S R W H)
     {K' R' K'' R'' : Subgroup G} (hK' : K' ∈ twinSet Ω K) (hR' : R' ∈ RSet Ω) (hR'K' : R' ≤ K')
     (hR'S : R' ≤ (S : Subgroup G)) (hK'' : K'' ∈ twinSet Ω K) (hne : K'' ≠ K')
     (hR'' : R'' ∈ RSet Ω) (hR''K'' : R'' ≤ K'') (hR''S : R'' ≤ (S : Subgroup G)) :
@@ -221,7 +221,7 @@ open CFSG.ClassicalInvolution.Asc77
 open CFSG.Open CFSG.ClassicalInvolution.Generic
 variable {G : Type} [Group G] [Finite G] {Ω : Set (Subgroup G)}
 
-theorem commutes_inf_S (h : E18_6Q8) (hΩ : HypOmegaGen Ω)
+theorem commutes_inf_S (_h : E18_6Q8) (hΩ : HypOmegaGen Ω)
     {S : Sylow 2 G} {M₁ M₂ R₁ R₂ : Subgroup G} (hM₁ : M₁ ∈ Ω) (hM₂ : M₂ ∈ Ω) (hne : M₁ ≠ M₂)
     (hR₁ : R₁ ∈ RSet Ω) (hR₁M : R₁ ≤ M₁) (hR₁S : R₁ ≤ (S : Subgroup G)) (hR₂ : R₂ ∈ RSet Ω)
     (hR₂M : R₂ ≤ M₂) (hR₂S : R₂ ≤ (S : Subgroup G)) :

@@ -22,7 +22,7 @@ theorem uc22s219r_two_le_pRank_centralizer {M L : Subgroup G} (hLM : L ≤ M) {n
     (hBN : B ≤ normalizer (L : Set G)) (hBel : IsElemAbelian p B) (hBcard : Nat.card B = p ^ 3)
     {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {E : Subgroup G} (hEL : E ≤ L) (hE : IsPGroup q E) :
     2 ≤ CFSG.Open.pRank p (M ⊓ centralizer (E : Set G)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let φ : ↥B →* MulAut (Bar2 L) := (UC6S846.rhoL L).comp (Subgroup.inclusion hBN)
   have hpow : ∀ b : ↥B, φ b ^ p = 1 := by
     intro b
@@ -100,7 +100,7 @@ theorem uc22s219r_gamma_three (D : Data G) (hSg : UC6S846.SigmaStd D) (hCen : UC
     by_cases hy1 : y = 1
     · rw [hy1]
       exact one_mem _
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     exact uc22ine229_normalizes_of_pRank_le_three hL (hBM hy) hp hp5
       (orderOf_eq_prime (hBel.2 y hy) hy1) (by norm_num) (by norm_num) hXL hXc hZ7 h7r
   have hpn : ¬ p ∣ 2 * 3 := fun h => by

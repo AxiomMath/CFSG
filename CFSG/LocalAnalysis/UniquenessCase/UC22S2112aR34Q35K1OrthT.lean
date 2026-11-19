@@ -89,7 +89,7 @@ private theorem uc22s2112r34q35_coef_singleton_invariant {M : Type} [DecidableEq
       apply hl
       have h' : π l = π p := by rw [h, hπ]
       exact π.injective h'
-    rw [if_neg hne, if_neg hl]
+    rw [ite_eq_right hne, ite_eq_right hl]
 
 private theorem uc22s2112r34q35_diagGL_mem_isometry {M K : Type} [Fintype M]
     [DecidableEq M] [Field K] (c : M → K) (Q : (M → K) → K)

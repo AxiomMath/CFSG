@@ -141,7 +141,7 @@ theorem injective_of_central_three [Finite K] (hKd : UnitaryFieldData 2 n K)
     apply hz1
     have : s₀ = 1 := Subtype.ext (by rw [hc₀, map_one]; rfl)
     rw [this, map_one]
-  haveI : IsCyclic (⊤ : Subgroup Kˣ) := (Subgroup.topEquiv (G := Kˣ)).isCyclic.mpr inferInstance
+  have : IsCyclic (⊤ : Subgroup Kˣ) := (Subgroup.topEquiv (G := Kˣ)).isCyclic.mpr inferInstance
   have hmem : c₀ ∈ Subgroup.zpowers c₁ :=
     mem_zpowers_of_isCyclic_of_pow_three (S := (⊤ : Subgroup Kˣ)) inferInstance trivial trivial
       hc₁3 hc₁1 hc₀3

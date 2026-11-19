@@ -55,7 +55,7 @@ theorem exists_heldGU_scalar_mul {d m : ℕ} {K : Type} [Field K] [Finite K]
     {M : GL (Fin d) K} (hM : M ∈ LargeEvenGUSet (Fin d) K (2 ^ m)) :
     ∃ c : Kˣ, Matrix.GeneralLinearGroup.scalar (Fin d) c * M ∈ Held.heldGU d K τ hτ := by
   have hF := unitaryFieldData_of_card hm hK
-  haveI : CharP K 2 := hF.charP
+  have : CharP K 2 := hF.charP
   obtain ⟨μ, hμ0, hμq, hμ⟩ := hM
   obtain ⟨c, hc0, hcQ⟩ := l02qu2_exists_pow_eq_inv_of_fixed hμ0 hμq
   refine ⟨Units.mk0 c hc0, ?_⟩

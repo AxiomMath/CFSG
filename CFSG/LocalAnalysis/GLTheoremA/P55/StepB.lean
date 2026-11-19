@@ -59,7 +59,7 @@ theorem exists_codim_twoRank (h336 : I336UsedAt) {p : ℕ} (hp : p.Prime) (hp2 :
     rcases hcase with hne | ⟨E, hEB, hE9, hcomm, U, hU, hUe, hU8⟩
     · exfalso
       obtain ⟨e⟩ := hne
-      haveI := hQ8 rfl
+      have := hQ8 rfl
       exact IsEmpty.false e
     · refine ⟨E, 2, hEB, by norm_num, ?_, hcomm, U, hU, hUe, ?_⟩
       · norm_num [← hE9]

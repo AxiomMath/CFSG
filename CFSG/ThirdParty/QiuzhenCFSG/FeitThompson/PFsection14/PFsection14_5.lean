@@ -47,7 +47,7 @@ public theorem section14_semidirectProduct_of_frobenius_complement
   · exact disjoint_iff.mp hdisj
   · intro c hc
     let cL : L := ⟨c, hc⟩
-    haveI : (H.subgroupOf L).Normal := hHnorm
+    have : (H.subgroupOf L).Normal := hHnorm
     have hsupL : H.subgroupOf L ⊔ E.subgroupOf L = ⊤ := by
       rw [← Subgroup.subgroupOf_sup hHL hEL]
       exact Subgroup.subgroupOf_eq_top.mpr (le_of_eq hsup)
@@ -69,7 +69,7 @@ public theorem section14_semidirect_right_le_normalizer_of_characteristic
     refine subgroup_le_normalizer_of_conj_mem H E ?_
     intro k h hh
     exact hsemi.right_normalizes_left k k.property h hh
-  haveI : (U.subgroupOf H).Characteristic := hUchar
+  have : (U.subgroupOf H).Characteristic := hUchar
   have hnorm_map :
       Subgroup.normalizer (H : Set G) ≤
         Subgroup.normalizer (((U.subgroupOf H).map H.subtype : Subgroup G) : Set G) := by

@@ -14,6 +14,7 @@ open Subgroup CFSG.Blueprint
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {z : G} {K₁ K₂ : Subgroup G}
 
+omit [Finite G] in
 private theorem sec5op_twoCoreIn_map (φ : G ≃* G) (H H' : Subgroup G)
     (h : H.map φ.toMonoidHom = H') :
     twoCoreIn H' = (twoCoreIn H).map φ.toMonoidHom := by
@@ -57,6 +58,6 @@ theorem sec5op_conj_Q_le (hy : Sec5B59Hyp) (hU : Asc82FactPocketsUniq6) (h : Sec
       twoCoreIn K₁ ⊔ twoCoreIn K₂ := by
     rw [Subgroup.map_sup]
     exact sup_le (hmap K₁ hk.pocket₁) (hmap K₂ hk.pocket₂)
-  exact hsup (Subgroup.mem_map.mpr ⟨x, hx, by simp [MulAut.conj_apply]⟩)
+  exact hsup (Subgroup.mem_map.mpr ⟨x, hx, by simp⟩)
 
 end CFSG.OddStandard.SmallF3.Omega

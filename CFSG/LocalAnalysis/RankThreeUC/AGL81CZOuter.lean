@@ -87,7 +87,7 @@ theorem eq_top_of_isPGroup_quotient {X : Type*} [Group X] [Finite X] {d : ℕ} (
     (hno : ∀ N : Subgroup X, N.Normal → N.index ≠ d) {N : Subgroup X} [N.Normal]
     (hq : IsPGroup d (X ⧸ N)) : N = ⊤ := by
   by_contra hN
-  haveI : Fact d.Prime := ⟨hd⟩
+  have : Fact d.Prime := ⟨hd⟩
   obtain ⟨m, hm⟩ := IsPGroup.iff_card.mp hq
   have hm0 : m ≠ 0 := by
     rintro rfl
@@ -137,15 +137,15 @@ theorem not_normal_of_not_mem_centralizer (hk : KFactNormalComplement) {X : Type
     (hJ : CFSG.IsComponent J) (hJd : ¬ d ∣ Nat.card J) {u : X} (hdu : ∃ n : ℕ, u ^ d ^ n = 1)
     (huJ : u ∈ normalizer (J : Set X)) (hu : u ∉ centralizer (J : Set X)) : ¬ J.Normal := by
   intro hJn
-  haveI : J.Normal := hJn
+  have : J.Normal := hJn
   unfold KFactNormalComplement at hk
   obtain ⟨N, hNn, _, hrel, hq⟩ := hk X hX J hJ hJn d hd hd2 hJd
-  haveI : N.Normal := hNn
+  have : N.Normal := hNn
   have hNtop : N = ⊤ := eq_top_of_isPGroup_quotient hd hno hq
   have hrel' : ¬ d ∣ (J ⊔ Subgroup.centralizer (J : Set X)).index := by
     rw [← Subgroup.relIndex_top_right (J ⊔ Subgroup.centralizer (J : Set X)), ← hNtop]
     exact hrel
-  haveI : (J ⊔ Subgroup.centralizer (J : Set X)).Normal :=
+  have : (J ⊔ Subgroup.centralizer (J : Set X)).Normal :=
     Subgroup.sup_normal J (Subgroup.centralizer (J : Set X))
   exact not_mem_sup_centralizer_of_not_dvd hd hJd hdu huJ hu
     (mem_of_not_dvd_index hd hrel' hdu)

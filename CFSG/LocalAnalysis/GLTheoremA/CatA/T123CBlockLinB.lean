@@ -62,6 +62,7 @@ theorem projLine_act_apply (e : ↥E0) (L : Subgroup ↥E0) (v : Fin n → K) :
     projLine ρ₀ L (act ρ₀ e v) = act ρ₀ e (projLine ρ₀ L v) := by
   rw [← Module.End.mul_apply, ← (commute_act_projLine E0 e L).eq, Module.End.mul_apply]
 
+omit [IsMulCommutative ↥E0] in
 theorem commute_projLine_of_commute {r : Module.End K (Fin n → K)}
     (hr : ∀ e : ↥E0, Commute r (act ρ₀ e)) (L : Subgroup ↥E0) : Commute r (projLine ρ₀ L) := by
   have hs : ∀ M : Subgroup ↥E0, Commute r (sumOp ρ₀ M) := fun M => by
@@ -76,10 +77,12 @@ theorem commute_projLine_of_commute {r : Module.End K (Fin n → K)}
 @[expose] noncomputable def auxEnd (c d : ↥E0) (L : Subgroup ↥E0) : Module.End K (Fin n → K) :=
   act ρ₀ c * projLine ρ₀ L + act ρ₀ d * (1 - projLine ρ₀ L)
 
+omit [IsMulCommutative ↥E0] in
 theorem auxEnd_apply (c d : ↥E0) (L : Subgroup ↥E0) (v : Fin n → K) :
     auxEnd E0 c d L v = act ρ₀ c (projLine ρ₀ L v) + act ρ₀ d (v - projLine ρ₀ L v) := by
   simp [auxEnd, Module.End.mul_apply]
 
+omit [IsMulCommutative E0] in
 theorem commute_auxEnd_of_commute {r : Module.End K (Fin n → K)}
     (hr : ∀ e : ↥E0, Commute r (act ρ₀ e)) (c d : ↥E0) (L : Subgroup ↥E0) :
     Commute r (auxEnd E0 c d L) := by
@@ -93,15 +96,18 @@ theorem commute_act_auxEnd (e c d : ↥E0) (L : Subgroup ↥E0) :
 variable {E0} (hP : IsPlane p E0) (hpK : (p : K) ≠ 0)
 include hP hpK
 
+omit [IsMulCommutative ↥E0] in
 theorem projLine_projLine {L : Subgroup ↥E0} (hL : L ∈ lines p E0) (v : Fin n → K) :
     projLine ρ₀ L (projLine ρ₀ L v) = projLine ρ₀ L v := by
   simpa using LinearMap.congr_fun (projLine_mul_self ρ₀ hP hpK (mem_lines.mp hL)) v
 
+omit [IsMulCommutative E0] in
 theorem projLine_apply_of_mem_range {L : Subgroup ↥E0} (hL : L ∈ lines p E0) {y : Fin n → K}
     (hy : y ∈ LinearMap.range (projLine ρ₀ L)) : projLine ρ₀ L y = y := by
   obtain ⟨z, rfl⟩ := hy
   exact projLine_projLine hP hpK hL z
 
+omit [IsMulCommutative E0] in
 theorem eq_zero_of_mem_range_projLine {L : Subgroup ↥E0} (hL : L ∈ lines p E0) {e : ↥E0}
     (heL : e ∉ L) {y : Fin n → K} (hy : y ∈ LinearMap.range (projLine ρ₀ L))
     (hey : act ρ₀ e y = y) : y = 0 := by
@@ -114,6 +120,7 @@ theorem eq_zero_of_mem_range_projLine {L : Subgroup ↥E0} (hL : L ∈ lines p E
     hfix
   rwa [projLine_apply_of_mem_range hP hpK hL hy] at h0
 
+omit [IsMulCommutative E0] in
 theorem auxEnd_apply_of_mem_range {L : Subgroup ↥E0} (hL : L ∈ lines p E0) (c d : ↥E0)
     {y : Fin n → K} (hy : y ∈ LinearMap.range (projLine ρ₀ L)) :
     auxEnd E0 c d L y = act ρ₀ c y := by
@@ -174,6 +181,7 @@ theorem primaryComponent_auxEnd_X_sub_one {L : Subgroup ↥E0} (hL : L ∈ lines
     rw [auxEnd_apply, h0, map_zero, zero_add, sub_zero]
     exact avgOp_apply_mem_fixedSpace ρ₀ ⊤ u d (Subgroup.mem_top d)
 
+omit [IsMulCommutative E0] in
 theorem eq_zero_of_mem_range_of_auxEnd_apply {L : Subgroup ↥E0} (hL : L ∈ lines p E0)
     {c : ↥E0} (hcL : c ∉ L) (d : ↥E0) {y : Fin n → K} (hy : y ∈ LinearMap.range (projLine ρ₀ L))
     (hwy : auxEnd E0 c d L y = y) : y = 0 := by
@@ -181,7 +189,7 @@ theorem eq_zero_of_mem_range_of_auxEnd_apply {L : Subgroup ↥E0} (hL : L ∈ li
   exact eq_zero_of_mem_range_projLine hP hpK hL hcL hy hwy
 
 theorem mem_range_projLine_of_mem_primaryComponent {L : Subgroup ↥E0} (hL : L ∈ lines p E0)
-    {c : ↥E0} (hcL : c ∉ L) {h : K[X]} (hh : h ∈ primaryFactors (auxEnd E0 c 1 L))
+    {c : ↥E0} (_hcL : c ∉ L) {h : K[X]} (hh : h ∈ primaryFactors (auxEnd E0 c 1 L))
     (hX : h ≠ X - C 1) {v : Fin n → K} (hv : v ∈ primaryComponent (auxEnd E0 c 1 L) h) :
     v ∈ LinearMap.range (projLine ρ₀ L) := by
   have hcomm : Commute (projLine ρ₀ L) (auxEnd E0 c 1 L) :=
@@ -236,6 +244,7 @@ theorem exists_act_eq_auxEnd_pow {L : Subgroup ↥E0} (hL : L ∈ lines p E0) {c
     add_zero, act_mul, Module.End.mul_apply]
   exact fix_range_projLine E0 hl _ (stable_range_projLine E0 (c ^ j) L y hy)
 
+omit [IsMulCommutative ↥E0] in
 theorem exists_active_not_mem {b : ↥E0} (hb : b ≠ 1) :
     ∃ L ∈ lines p E0, projLine ρ₀ L ≠ 0 ∧ b ∉ L := by
   by_contra hcon
@@ -287,7 +296,7 @@ theorem exists_goodBlock_of_perfect [Finite K] {R : Subgroup (GL (Fin n) K)} [Gr
     · rw [hu0, map_zero]
     rw [← primaryComponent_auxEnd_X_sub_one hP hpK hL₀ hcL₀ hdL₀ hd1] at hu
     have hX := mem_primaryFactors_of_ne_zero (irreducible_X_sub_C 1) (monic_X_sub_C 1) hu0 hu
-    haveI := isSolvable_of_not_goodBlock (hn0 hX)
+    have := isSolvable_of_not_goodBlock (hn0 hX)
     exact apply_eq_of_perfect_of_isSolvable (squarefree_minpoly_auxEnd hP hpK hL₀ c d)
       ⟨X - C 1, hX⟩ (toLin'_glOfPow _ (auxEnd_pow_eq_one hP hpK hL₀ c d) hp0)
       (hRw c d L₀ _ (toLin'_glOfPow _ _ _)) hg hu
@@ -315,7 +324,7 @@ theorem exists_goodBlock_of_perfect [Finite K] {R : Subgroup (GL (Fin n) K)} [Gr
         simp only [map_sub, aeval_X, map_one, LinearMap.sub_apply, Module.End.one_apply] at this
         exact sub_eq_zero.mp this
       rw [eq_zero_of_mem_range_of_auxEnd_apply hP hpK hL (hcL L hL) 1 h2 h3, map_zero]
-    · haveI := isSolvable_of_not_goodBlock (hnL L hL h hh hX)
+    · have := isSolvable_of_not_goodBlock (hnL L hL h hh hX)
       exact apply_eq_of_perfect_of_isSolvable hsq ⟨h, hh⟩
         (toLin'_glOfPow _ (auxEnd_pow_eq_one hP hpK hL (cL L) 1) hp0)
         (hRw (cL L) 1 L _ (toLin'_glOfPow _ _ _)) hg h1
@@ -346,7 +355,7 @@ theorem exists_pow_not_mem_center_of_goodBlock {p : ℕ} (hp : p.Prime) (hp2 : p
   by_cases haX : (a : K[X]) = X - C 1
   · have : Module.Finite K (Efac x a) := (AdjoinRoot.powerBasis hirr.ne_zero).finite
     have : Finite (Efac x a) := Module.finite_of_finite K
-    letI : Fintype (Efac x a) := Fintype.ofFinite _
+    let : Fintype (Efac x a) := Fintype.ofFinite _
     have hc : Fintype.card (Efac x a) = Nat.card K := by
       rw [← Nat.card_eq_fintype_card]
       change Nat.card (AdjoinRoot (a : K[X])) = Nat.card K
@@ -360,7 +369,7 @@ theorem exists_pow_not_mem_center_of_goodBlock {p : ℕ} (hp : p.Prime) (hp2 : p
       intro h1
       apply haX
       have h0 : AdjoinRoot.mk (a : K[X]) (X - C 1) = 0 := by
-        simp only [map_sub, AdjoinRoot.mk_X, AdjoinRoot.mk_C, map_one]
+        simp only [map_sub, AdjoinRoot.mk_X, map_one]
         rw [← hζ, h1, sub_self]
       exact eq_of_monic_of_associated (monic_of_mem_primaryFactors a.2) (monic_X_sub_C 1)
         (hirr.associated_of_dvd (irreducible_X_sub_C 1) (AdjoinRoot.mk_eq_zero.mp h0))

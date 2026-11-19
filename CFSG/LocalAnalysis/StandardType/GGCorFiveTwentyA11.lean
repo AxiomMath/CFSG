@@ -9,7 +9,7 @@ public section
 
 namespace CFSG.StandardType
 
-@[expose] def GGSecFiveA11ConfigWide {G : Type} [Group G] [Finite G] (p : ℕ) (B Bs : Subgroup G)
+@[expose] def GGSecFiveA11ConfigWide {G : Type} [Group G] [Finite G] (p : ℕ) (B _Bs : Subgroup G)
     (x : G) (L D J : Subgroup G) : Prop :=
   p = 7 ∧ Open.StatedClassicalModel (L ⧸ Subgroup.center L) .PSL 4 2 3 ∧
     ∃ (y : G) (K : Subgroup G), GGNbr p B x D J y K ∧
@@ -87,7 +87,7 @@ theorem ggCorFiveTwentyA11CfgInput_of_rootGen (hL : GGLBalanceInput) (hP : GGStd
     (hTB : GGCorFiveTwentyA11CfgTBInput) (hLg : GGCorFiveTwentyA11CfgRootGenLInput)
     (hKg : GGCorFiveTwentyA11CfgRootGenNbrInput) : GGCorFiveTwentyA11CfgInput := by
   intro G _ _ p B Bs x L D J hHyp hq hA
-  haveI : Fact p.Prime := ⟨hHyp.1.1.2.2.2.2.2.1.1⟩
+  have : Fact p.Prime := ⟨hHyp.1.1.2.2.2.2.2.1.1⟩
   obtain ⟨T⟩ := hTB G p B Bs x L D J hHyp hq hA
   exact ggCorFiveTwentyNormalizer_of_tb_rootGen hL hP hHyp T (hLg G p B Bs x L D J hHyp hq hA)
     (hKg G p B Bs x L D J hHyp hq hA)

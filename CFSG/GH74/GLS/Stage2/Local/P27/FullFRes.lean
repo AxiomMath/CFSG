@@ -139,7 +139,7 @@ theorem le_oPrimeResidualOf_of_perfect {X P : Subgroup G} (hPX : P ≤ X) (hP : 
   obtain ⟨S⟩ : Nonempty (Sylow 2 ↥(P.subgroupOf X)) := inferInstance
   have hSM : (S : Subgroup ↥(P.subgroupOf X)) ≤ M := by
     intro x hx
-    obtain ⟨k, hk⟩ := S.isPGroup' ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨x, hx⟩
     refine Subgroup.subset_closure ⟨k, ?_⟩
     have := congrArg (fun z : ↥S => (((z : ↥(P.subgroupOf X)) : ↥X))) hk
     simpa using this

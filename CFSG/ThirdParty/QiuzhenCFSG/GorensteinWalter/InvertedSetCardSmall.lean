@@ -27,7 +27,7 @@ namespace CFSG.GorensteinWalter
 universe u
 
 private theorem inverted_pow_mem
-    {G : Type u} [Group G] (H : Subgroup G) {y : G} (hy : IsInvolution y)
+    {G : Type u} [Group G] (H : Subgroup G) {y : G} (_hy : IsInvolution y)
     {x : G} (hx : x ∈ invertedElements H y) (n : ℕ) :
     x ^ n ∈ invertedElements H y := by
   refine ⟨H.pow_mem hx.1 n, ?_⟩
@@ -38,7 +38,7 @@ private theorem inverted_pow_mem
     _ = (x ^ n)⁻¹ := by exact inv_pow (a := x) (n := n)
 
 private theorem inverted_mul_of_commute
-    {G : Type u} [Group G] (H : Subgroup G) {y a b : G} (hy : IsInvolution y)
+    {G : Type u} [Group G] (H : Subgroup G) {y a b : G} (_hy : IsInvolution y)
     (ha : a ∈ invertedElements H y) (hb : b ∈ invertedElements H y)
     (hab : a * b = b * a) :
     a * b ∈ invertedElements H y := by
@@ -69,7 +69,7 @@ private lemma set_ncard_two_of_mem {G : Type u} [Group G] {S : Set G}
     refine ⟨x, hxy.symm, ?_⟩
     ext z
     rw [hS]
-    simp <;> tauto
+    simp; tauto
 
 /-- A three-element set containing `a` is `{a, b, c}` for distinct
 `b, c ≠ a`. -/
@@ -88,12 +88,12 @@ private lemma set_ncard_three_of_mem {G : Type u} [Group G] {S : Set G}
     refine ⟨x, z, hxy.symm, hyz, hxz, ?_⟩
     ext w
     rw [hS]
-    simp <;> tauto
+    simp; tauto
   · subst z
     refine ⟨x, y, hxz.symm, hyz.symm, hxy, ?_⟩
     ext w
     rw [hS]
-    simp <;> tauto
+    simp; tauto
 
 /-- Four pairwise-distinct elements form a set of cardinality four. -/
 private lemma ncard_four_of_pairwise {G : Type u} [Group G]
@@ -469,7 +469,7 @@ public theorem inverted_card_three_orderOf_eq_three
         exact hx
       rcases (by simpa using hmem) with h | h | h
       · exact Or.inl h
-      · exact Or.inr (Or.inr (by simpa [u, h] using htc.symm))
+      · exact Or.inr (Or.inr (by simp [u, h]))
       · exact Or.inr (Or.inl (by simpa [htc] using h))
     exact order_eq_three_of_card_three H hy htI htne huS hu_ne_1 hu_ne_t
       (by intro x hx; exact hcases x hx) hS
@@ -612,8 +612,7 @@ public theorem inverted_card_three_no_commuting_fiber_pair
                 simp]
         _ = 3 := hord
     · contradiction
-  intro i j hi hj hij
-  intro hcomm
+  intro i j hi hj hij hcomm
   have hEq : i * j⁻¹ = j * i⁻¹ := by
     have hyy : y⁻¹ = y := inv_eq_of_mul_eq_one_right
       (by simpa [pow_two] using hy.2)

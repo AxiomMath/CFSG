@@ -21,8 +21,8 @@ variable {K : Type} [Field K] [Finite K]
 theorem card_scalars_statedSU_dvd {f n : ℕ} (hK : Nat.card K = (2 ^ f) ^ 2) (hn : 1 ≤ n) :
     Nat.card ((StatedScalars (Fin n) K).subgroupOf (StatedSU n (2 ^ f) K)) ∣ n ∧
       Nat.card ((StatedScalars (Fin n) K).subgroupOf (StatedSU n (2 ^ f) K)) ∣ 2 ^ f + 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := CFSG.SectionRank.ClassicalOdd.charP_of_card (f := f * 2) (by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := CFSG.SectionRank.ClassicalOdd.charP_of_card (f := f * 2) (by
     rw [hK, pow_mul])
   refine ⟨CFSG.SectionRank.OddCover.card_scalars_dvd hn _ fun x c hc => ?_,
     CFSG.SectionRank.OddCover.card_scalars_dvd hn _ fun x c hc => ?_⟩
@@ -51,10 +51,10 @@ theorem psu_odd_false
   have hf1 : 1 ≤ f := hm.1.2.1
   have hmodel := hm
   obtain ⟨⟨-, -, hn3, -⟩, K, _, _, hK, ⟨e⟩⟩ := hm
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := CFSG.SectionRank.ClassicalOdd.charP_of_card (f := f * 2) (by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := CFSG.SectionRank.ClassicalOdd.charP_of_card (f := f * 2) (by
     rw [hK, pow_mul])
-  haveI : Group.IsPerfect Y := hR.quasisimple.1
+  have : Group.IsPerfect Y := hR.quasisimple.1
   have hodd := odd_card_center_of_pCore_eq_bot hR.pCore_two
   obtain ⟨k, hk⟩ := hae
   by_cases hspecial : a = 4 ∧ (f = 1 ∨ f = 3)
@@ -66,8 +66,7 @@ theorem psu_odd_false
         CFSG.Blueprint.Multiplier.exceptional .PSU (4 + 1) 2 f) = 1 := by
       rcases hf13 with rfl | rfl <;>
         simp [CFSG.Blueprint.Multiplier.generic, CFSG.Blueprint.Multiplier.exceptional,
-          CFSG.Blueprint.Multiplier.genericOrders, CFSG.Blueprint.Multiplier.exceptionalOrders,
-          Nat.card_prod]
+          CFSG.Blueprint.Multiplier.genericOrders, CFSG.Blueprint.Multiplier.exceptionalOrders]
     have hZdvd := card_center_dvd_of_row hR.quasisimple (Y := Y)
       (MulEquiv.refl (Y ⧸ Subgroup.center Y)) ⟨ε⟩ hcard
     have hZ : Subgroup.center Y = ⊥ :=
@@ -78,7 +77,7 @@ theorem psu_odd_false
         (StatedSU (4 + 1) (2 ^ f) K)) := fun h => by
       have : 3 ∣ 5 := h.trans hDn
       omega
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have htor := (CFSG.SectionRank.OddCover.scalar_quotient_diagonal_torus_rank Nat.prime_two
       (by omega : 2 ≤ 4 + 1) (by norm_num : (3 : ℕ) ≠ 2) (Or.inr ⟨hK, rfl, h3⟩)
       ((StatedScalars (Fin (4 + 1)) K).subgroupOf (StatedSU (4 + 1) (2 ^ f) K)) le_rfl).2 hrk
@@ -88,7 +87,7 @@ theorem psu_odd_false
     obtain ⟨β, hβ⟩ := su_block_lift hK (by omega : 2 ≤ a) ⟨k, hk⟩ (le_refl 1) hodd e
     have hbl : ∀ r : ℕ, r.Prime → r ≠ 2 → r ∣ 2 ^ f + 1 →
         a - 1 ≤ CFSG.Open.pRank r (⊤ : Subgroup (StatedSU a (2 ^ f) K)) := fun r hr hr2 hrd => by
-      haveI : Fact r.Prime := ⟨hr⟩
+      have : Fact r.Prime := ⟨hr⟩
       exact pRank_statedSU_torus hK (by omega) hr2 hrd
     have hTB : TooBig (StatedSU a (2 ^ f) K) → False := fun h =>
       hR.false_of_tooBig (h.of_injective β hβ)
@@ -104,10 +103,10 @@ theorem survPSU_holds :
   have hf1 : 1 ≤ f := hm.1.2.1
   have hmodel := hm
   obtain ⟨⟨-, -, hn3, -⟩, K, _, _, hK, ⟨e⟩⟩ := hm
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := CFSG.SectionRank.ClassicalOdd.charP_of_card (f := f * 2) (by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := CFSG.SectionRank.ClassicalOdd.charP_of_card (f := f * 2) (by
     rw [hK, pow_mul])
-  haveI : Group.IsPerfect Y := hR.quasisimple.1
+  have : Group.IsPerfect Y := hR.quasisimple.1
   have hodd := odd_card_center_of_pCore_eq_bot hR.pCore_two
   by_contra hcon
   rcases Nat.even_or_odd n with hev | hod
@@ -125,7 +124,7 @@ theorem survPSU_holds :
         (¬ r ∣ Nat.card φ.ker →
           n - 1 ≤ CFSG.Open.pRank r (⊤ : Subgroup (StatedSU n (2 ^ f) K ⧸ φ.ker))) := by
       intro r hr hr2 hrd
-      haveI : Fact r.Prime := ⟨hr⟩
+      have : Fact r.Prime := ⟨hr⟩
       exact CFSG.SectionRank.OddCover.scalar_quotient_diagonal_torus_rank Nat.prime_two
         (by omega) hr2 (Or.inr ⟨hK, rfl, hrd⟩) φ.ker hker
     obtain ⟨m, hm2⟩ := hev

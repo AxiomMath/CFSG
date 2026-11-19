@@ -15,13 +15,16 @@ variable {G : Type} [Group G] [Finite G] {z : G}
 @[expose] noncomputable def imV (z : G) (A : Subgroup G) : Subgroup (V z) :=
   (A.subgroupOf (J z)).map (pi z)
 
+omit [Finite G] in
 theorem mem_imV {A : Subgroup G} {v : V z} :
     v ∈ imV z A ↔ ∃ a : J z, (a : G) ∈ A ∧ pi z a = v := by
   simp only [imV, Subgroup.mem_map, Subgroup.mem_subgroupOf]
 
+omit [Finite G] in
 theorem pi_mem_imV {A : Subgroup G} {a : J z} (ha : (a : G) ∈ A) : pi z a ∈ imV z A :=
   mem_imV.mpr ⟨a, ha, rfl⟩
 
+omit [Finite G] in
 theorem conjVA_pi (g : H z) (a : J z) :
     conjVA z g (pi z a) =
       pi z ⟨(g : G) * a * (g : G)⁻¹, by

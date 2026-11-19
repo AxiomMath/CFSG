@@ -59,7 +59,7 @@ private theorem eq_two_nine_of_order (q m : ℕ) (hq : 2 ≤ q) (hm : 2 ≤ m)
       have h3 : 3 ≤ q := by omega
       have : 3 ^ 6 ≤ q ^ 6 := Nat.pow_le_pow_left h3 6
       omega
-    interval_cases q <;> simp_all
+    interval_cases q; simp_all
 
 theorem slAltSixFacts_holds : SLAltSixFacts := by
   intro E _ _ m hm ⟨e⟩
@@ -164,8 +164,8 @@ private theorem nonempty_psl4_alt8_of_card_two {E : Type} [Field E] [Finite E]
 
 private theorem ringChar_eq_of_card {E : Type} [Field E] [Fintype E] {a b : ℕ} (ha : a.Prime)
     (h : Fintype.card E = a ^ b) : ringChar E = a := by
-  haveI : Fact a.Prime := ⟨ha⟩
-  haveI : CharP E a := charP_of_card_eq_prime_pow h
+  have : Fact a.Prime := ⟨ha⟩
+  have : CharP E a := charP_of_card_eq_prime_pow h
   exact ringChar.eq E a
 
 private theorem isChevSimple_of_valid {E : Type} [Field E] [Fintype E] (r : ℕ)
@@ -174,7 +174,7 @@ private theorem isChevSimple_of_valid {E : Type} [Field E] [Fintype E] (r : ℕ)
     IsChevSimple (ringChar E) (Matrix.SpecialLinearGroup (Fin (r + 1)) E ⧸
       Subgroup.center (Matrix.SpecialLinearGroup (Fin (r + 1)) E)) := by
   let q : PrimePower := ⟨ringChar E, n, hp, hn⟩
-  haveI : Fact (ringChar E).Prime := ⟨hp⟩
+  have : Fact (ringChar E).Prime := ⟨hp⟩
   have hK : Nat.card E = ringChar E ^ n := by rw [Nat.card_eq_fintype_card]; exact hcard
   let eF := finiteFieldEquivGaloisField E (ringChar E) n hn hK
   let eP := projectiveSpecialLinearFieldEquiv eF (Fin (r + 1))
@@ -231,7 +231,7 @@ private theorem isChevSimple_sl {E : Type} [Field E] [Fintype E] (m : ℕ) (hm :
         ringChar_eq_of_card Nat.prime_two (b := 1) (by rw [hc2]; norm_num)
       obtain ⟨e⟩ :=
         nonempty_psl3_psl2_seven_of_card_two (E := E) (by rw [Nat.card_eq_fintype_card, hc2])
-      haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+      have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
       let q7 : PrimePower := ⟨7, 1, Nat.prime_seven, one_pos⟩
       have hv7 : (LieTypeIndex.A 1 q7).Valid := by
         rw [LieTypeIndex.valid_iff, LieTypeIndex.inStandardRange_iff,
@@ -239,7 +239,7 @@ private theorem isChevSimple_sl {E : Type} [Field E] [Fintype E] (m : ℕ) (hm :
         simp only [PrimePower.card_def, q7]
         omega
       let eF7 : ZMod 7 ≃+* GaloisField 7 1 :=
-        finiteFieldEquivGaloisField (ZMod 7) 7 1 one_pos (by simp [Nat.card_zmod])
+        finiteFieldEquivGaloisField (ZMod 7) 7 1 one_pos (by simp)
       let eC7 := linearCatalogCandidateEquivPSL 1 q7 hv7
       exact Or.inr ⟨.lie ⟨LieTypeIndex.A 1 q7, hv7⟩,
         Or.inl ⟨by simp [q7, PrimePower.card_def], hch⟩,

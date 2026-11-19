@@ -379,7 +379,7 @@ theorem even_sl2_nonsplit_cyclic_sylow {k : Type*} [Field k] [Fintype k] {e : �
   obtain ⟨Q₀⟩ := (inferInstance : Nonempty (Sylow p T))
   have hQcard : Nat.card ((Q₀ : Subgroup T).map T.subtype) = p ^ (2 ^ e + 1).factorization p := by
     rw [Subgroup.card_map_of_injective T.subtype_injective, Q₀.card_eq_multiplicity, hTcard]
-  obtain ⟨P', hP'⟩ := (Q₀.isPGroup'.map T.subtype).exists_le_sylow
+  obtain ⟨P', hP'⟩ := (Q₀.isPGroup.map T.subtype).exists_le_sylow
   have hQP' : (Q₀ : Subgroup T).map T.subtype = P' := Subgroup.eq_of_le_of_card_ge hP'
     (by rw [P'.card_eq_multiplicity, hfac, hQcard])
   have hP'T : (P' : Subgroup (Matrix.SpecialLinearGroup (Fin 2) k)) ≤ T := by

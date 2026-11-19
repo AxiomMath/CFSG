@@ -128,11 +128,11 @@ private theorem thmc_isSimple_of_isoLThreePi {Q : Type} [Group Q] {m : ℕ} (hm 
     calc 8 = 2 ^ 3 := by norm_num
       _ ≤ 2 ^ m := Nat.pow_le_pow_right (by norm_num) hm
   rcases hiso with ⟨-, ⟨φ⟩⟩ | ⟨-, ⟨φ⟩⟩
-  · haveI : IsSimpleGroup (CFSG.PGLModel.projSL 3 (GaloisField 2 m)) :=
+  · have : IsSimpleGroup (CFSG.PGLModel.projSL 3 (GaloisField 2 m)) :=
       CFSG.PGLModel.isSimpleGroup_projSL_of_two_le (GaloisField 2 m) (by norm_num)
         (Or.inl (by norm_num)) (Or.inl (by norm_num))
     exact φ.isSimpleGroup
-  · haveI : IsSimpleGroup (CFSG.PGLModel.projSU 3 2 m) :=
+  · have : IsSimpleGroup (CFSG.PGLModel.projSU 3 2 m) :=
       CFSG.PGLModel.isSimpleGroup_projSU_of_admissible
         (show CFSG.Open.StatedLieAdmissible .PSU 3 2 m from by
           show Nat.Prime 2 ∧ 1 ≤ m ∧ 3 ≤ 3 ∧ (3, 2 ^ m) ≠ (3, 2)
@@ -142,6 +142,7 @@ private theorem thmc_isSimple_of_isoLThreePi {Q : Type} [Group Q] {m : ℕ} (hm 
             omega⟩)
     exact φ.isSimpleGroup
 
+omit [Finite G] in
 private theorem thmc_comm_zpowers_le {A Y : Subgroup G} {LB : Subgroup G → Subgroup G} {c' : G}
     (hA : ∀ x ∈ A, ∀ y ∈ A, x * y = y * x) (hcA : c' ∈ A)
     (hYA : A ≤ Subgroup.normalizer (Y : Set G))
@@ -212,7 +213,7 @@ private theorem thmc_core
   have hZ : Subgroup.map (QuotientGroup.mk' (CFSG.pCore 2 ↥Y)) (CFSG.pPrimeCore 3 ↥Y) ≤
       Subgroup.center (↥Y ⧸ CFSG.pCore 2 ↥Y) := hmap.le.trans hZle
   have hVN : CFSG.pCore 2 ↥Y ≤ CFSG.pPrimeCore 3 ↥Y := Sec15.pCore_two_le_pPrimeCore_three
-  haveI := L7p hY0
+  have := L7p hY0
   rcases Sec15.Proof1515.cases148_of_mem_scriptY4 (h148 G A c L hR) hAab hY4 hYΔ with
     ⟨c', hc', hdec, -, -, -⟩ | ⟨c', L', hc', -, -, hS3⟩ |
       ⟨⟨φ10⟩, ⟨c', L', hc', -, -⟩, -⟩ |
@@ -230,13 +231,13 @@ private theorem thmc_core
       have hM := thmc_twoMult_of_quot hVN hZ hK.1 eT
       exact lemma8_of_comm hA h146' h142' hAY hc' hN (L9 hY0 hM (hAY hcA) hP3)
     · obtain ⟨φ7⟩ := hN7
-      haveI : IsSimpleGroup ↥(alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
+      have : IsSimpleGroup ↥(alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
       obtain ⟨eA⟩ := thmc_quot_center_nonempty hQq φ7
       have hM := thmc_twoMult_of_quot hVN hZ hK.2.1 eA
       exact lemma8_of_comm hA h146' h142' hAY hc' hN (L9 hY0 hM (hAY hcA) hP3)
     · obtain ⟨hf7K, hNL⟩ := hE7
       obtain ⟨φL⟩ := hNL
-      haveI : IsSimpleGroup (CFSG.PGLModel.projSL 3 (GaloisField 7 1)) :=
+      have : IsSimpleGroup (CFSG.PGLModel.projSL 3 (GaloisField 7 1)) :=
         CFSG.PGLModel.isSimpleGroup_projSL_of_two_le (GaloisField 7 1) (by norm_num)
           (Or.inl (by norm_num)) (Or.inl (by norm_num))
       obtain ⟨hf7K', hL7K⟩ := hK.2.2.1
@@ -248,7 +249,7 @@ private theorem thmc_core
     have hcard : Nat.card (Subgroup.zpowers c') = 3 := (zpowers_mem_omegaA_iff.mp hc').2.1
     have hP3 : IsPGroup 3 ↥(Subgroup.zpowers c') :=
       IsPGroup.of_card (n := 1) (by rw [hcard]; norm_num)
-    haveI : IsSimpleGroup ↥(alternatingGroup (Fin 10)) := alternatingGroup.isSimpleGroup (by simp)
+    have : IsSimpleGroup ↥(alternatingGroup (Fin 10)) := alternatingGroup.isSimpleGroup (by simp)
     obtain ⟨eA⟩ := thmc_quot_center_nonempty hQq φ10
     have hM := thmc_twoMult_of_quot hVN hZ hK.2.2.2.1 eA
     exact lemma8_of_comm hA h146' h142' hAY hc' hN (L9 hY0 hM (hAY hcA) hP3)

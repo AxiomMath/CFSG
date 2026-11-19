@@ -101,7 +101,7 @@ private theorem langSeven2_exists_primitiveRoot_seven {L : Type} [Field L] [IsAl
     intro h
     have hdvd : (2 : ℕ) ∣ 7 := (CharP.cast_eq_zero_iff L 2 7).mp h
     omega
-  haveI : NeZero (7 : L) := ⟨h7ne⟩
+  have : NeZero (7 : L) := ⟨h7ne⟩
   obtain ⟨ζ, hζ⟩ := IsAlgClosed.exists_root (Polynomial.cyclotomic 7 L)
     (by rw [Polynomial.degree_cyclotomic]; norm_num)
   have hζp : IsPrimitiveRoot ζ 7 := (Polynomial.isRoot_cyclotomic_iff).mp hζ
@@ -113,7 +113,7 @@ private theorem langSeven2_exists_primitiveRoot_seven {L : Type} [Field L] [IsAl
 
 private theorem langSeven2_core
     (hK : LangRatCompKillsP)
-    {τ : Tag} {K : Type} [Field K] [Finite K] (hKcard : Nat.card K = 2)
+    {τ : Tag} {K : Type} [Field K] [Finite K] (_hKcard : Nat.card K = 2)
     {a : ↥(adjointGroup τ K)} (ha7 : a ^ 7 = 1) (ha1 : a ≠ 1)
     {X : Subgroup ↥(adjointGroup τ K)}
     (hX : CFSG.Open.IsComponentOf X (Subgroup.centralizer {a}))
@@ -122,7 +122,7 @@ private theorem langSeven2_core
     (hsyl : ∃ S₀ : Sylow 7 S.Γ, (S₀ : Subgroup S.Γ) ≤ S.D.torus.subgroupOf S.Γ)
     (e : ↥(adjointGroup τ K) ≃* S.Γ)
     {M : Matrix (Fin τ.rank) (Fin τ.rank) ℤ} {Fr : L →+* L}
-    (hFr : ∀ c, Fr c = c ^ 2)
+    (_hFr : ∀ c, Fr c = c ^ 2)
     (hTor : S.D.torus = (fixedCharTuples M Fr).map (rootDiagUnitHom τ L))
     (hFC : ∀ (γ : Fin τ.rank → ℤ), IsRoot τ γ →
       ∃ b' : Fin τ.rank → Lˣ, b' ∈ fixedCharTuples M Fr ∧ (∀ j, b' j ^ 7 = 1) ∧
@@ -130,7 +130,7 @@ private theorem langSeven2_core
     (hτ : τ = .E7 ∨ τ = .E8) :
     7 ∣ Nat.card X := by
   by_contra hnd
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨e', hea, _⟩ := CFSG.StandardType.LangPair.pair_of_sylowSetup S e hsyl ha7 ha7 rfl
   let ι : ↥(adjointGroup τ K) →* ModGL τ L := S.Γ.subtype.comp e'.toMonoidHom
   have hι : Function.Injective ι := (Subgroup.subtype_injective _).comp e'.injective
@@ -182,13 +182,13 @@ theorem ggExcSevenTwoInput_E7_of_kills
     exact orderOf_eq_prime (p := 3) (by decide) (by decide)
   obtain ⟨L, hL, hLalg, S, hq, halg, hsyl, ⟨e⟩, Fr, hFr, hTor⟩ :=
     langSeven_torus_E7 K hp (le_refl 7) hpK he
-  letI : Field L := hL
-  letI : IsAlgClosed L := hLalg
+  let : Field L := hL
+  let : IsAlgClosed L := hLalg
   have h2 : (2 : L) = 0 := by
     have hq0 := S.hqpow.2
     rw [hq, hKcard] at hq0
     simpa using hq0
-  haveI : CharP L 2 := (CharP.charP_iff_prime_eq_zero Nat.prime_two).mpr h2
+  have : CharP L 2 := (CharP.charP_iff_prime_eq_zero Nat.prime_two).mpr h2
   have hFr2 : ∀ c, Fr c = c ^ 2 := by
     intro c
     rw [hFr c, hq, hKcard]
@@ -208,13 +208,13 @@ theorem ggExcSevenTwoInput_E8_of_kills
     exact orderOf_eq_prime (p := 3) (by decide) (by decide)
   obtain ⟨L, hL, hLalg, S, hq, halg, hsyl, ⟨e⟩, Fr, hFr, hTor⟩ :=
     langSeven_torus_E8 K hp (le_refl 7) hpK he
-  letI : Field L := hL
-  letI : IsAlgClosed L := hLalg
+  let : Field L := hL
+  let : IsAlgClosed L := hLalg
   have h2 : (2 : L) = 0 := by
     have hq0 := S.hqpow.2
     rw [hq, hKcard] at hq0
     simpa using hq0
-  haveI : CharP L 2 := (CharP.charP_iff_prime_eq_zero Nat.prime_two).mpr h2
+  have : CharP L 2 := (CharP.charP_iff_prime_eq_zero Nat.prime_two).mpr h2
   have hFr2 : ∀ c, Fr c = c ^ 2 := by
     intro c
     rw [hFr c, hq, hKcard]

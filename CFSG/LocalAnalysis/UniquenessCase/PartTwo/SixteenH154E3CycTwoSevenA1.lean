@@ -17,14 +17,14 @@ private theorem s16h_e3_CycTwoSevenA1_le_of_normal_of_relIndex
     (hnorm : (P.subgroupOf H).Normal) (hrank : IsElemAbelianOfRank 7 2 ↥P)
     (hrel : ¬ 7 ∣ P.relIndex H) :
     ∀ Q : Subgroup A, Q ≤ H → IsPGroup 7 ↥Q → Q ≤ P := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hPp : IsPGroup 7 ↥P := by
     obtain ⟨e⟩ := hrank
     exact (ZModModule.isPGroup_multiplicative (n := 7) (G := Fin 2 → ZMod 7)).of_equiv e.symm
   have hP' : IsPGroup 7 (P.subgroupOf H) := hPp.comap_subtype
   have hrel' : ¬ 7 ∣ (P.subgroupOf H).index := hrel
   let S7 : Sylow 7 ↥H := hP'.toSylow hrel'
-  haveI : (S7 : Subgroup ↥H).Normal := hnorm
+  have : (S7 : Subgroup ↥H).Normal := hnorm
   intro Q hQH hQ
   obtain ⟨R, hR⟩ := (hQ.comap_subtype (K := H)).exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq ↥H S7 R
@@ -72,8 +72,8 @@ theorem s16h_e3_CycTwoSevenA1_structure
     rw [← hLbdef] at h1
     rw [h1, hp7]
   have hoddLb : Odd (Nat.card ↥Lb) := by rw [hLbcard]; exact hodd7
-  haveI : IsCyclic ↥Lb := hLp.1
-  letI : CommGroup ↥Lb := IsCyclic.commGroup
+  have : IsCyclic ↥Lb := hLp.1
+  let : CommGroup ↥Lb := IsCyclic.commGroup
   have hLstab : Lb ≤ stabSub W := by
     intro g hg
     rw [mem_stabSub]

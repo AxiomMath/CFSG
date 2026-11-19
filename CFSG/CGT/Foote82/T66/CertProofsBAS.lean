@@ -14,9 +14,9 @@ open CFSG.Open CFSG.Quasithin.G11
 
 theorem basA6NoSix_holds : BASA6NoSix := by
   intro V _ _ _ L ⟨e⟩ hirr hdim
-  haveI := L13Aux.finite_tildeV L
+  have := L13Aux.finite_tildeV L
   have hY := L13Aux.range_isIrr hirr
-  haveI : Nontrivial (TildeV L) := by
+  have : Nontrivial (TildeV L) := by
     by_contra h
     rw [not_nontrivial_iff_subsingleton] at h
     exact hY.2.1.ne (Subsingleton.elim _ _)

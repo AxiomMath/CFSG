@@ -16,7 +16,7 @@ private theorem c23ne_subgroup_eq_top_of_singles
   obtain ⟨x, rfl⟩ := Multiplicative.ofAdd.surjective y
   have hx : (∑ i : Fin 3, Pi.single i (x i)) = x := by
     funext j
-    simpa using Finset.sum_pi_single j x
+    simp
   rw [← hx]
   change (∏ i : Fin 3, Multiplicative.ofAdd (Pi.single i (x i))) ∈ S
   refine Subgroup.prod_mem S (t := Finset.univ) (fun i _ => ?_)
@@ -140,10 +140,10 @@ theorem c23ne_cross_centralizes {A : Type*} [CommGroup A] {K : Subgroup (MulAut 
           ((a : MulAut A) p * p⁻¹) * ((b : MulAut A) p * p⁻¹)
         rw [h1]
         ac_rfl }
-  haveI : Group.IsPerfect ↥K := Subgroup.isPerfect_iff.2 hK
+  have : Group.IsPerfect ↥K := Subgroup.isPerfect_iff.2 hK
   have htriv : φ ⟨k, hk⟩ = 1 := by
-    haveI : IsMulCommutative φ.range := inferInstance
-    haveI : Group.IsPerfect φ.range := Group.IsPerfect.range φ
+    have : IsMulCommutative φ.range := inferInstance
+    have : Group.IsPerfect φ.range := Group.IsPerfect.range φ
     exact congrArg Subtype.val
       (Subsingleton.elim (⟨φ ⟨k, hk⟩, ⟨k, hk⟩, rfl⟩ : φ.range) 1)
   exact mul_inv_eq_one.1 htriv

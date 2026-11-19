@@ -133,7 +133,7 @@ theorem coreLike_of_core {n : ℕ} {Y : Type} [Group Y] [Finite Y] {R : Subgroup
     {S : Sylow 2 R} {t : Y} (h : TwinPerp.CoreData n Y R S t) : Asc77.CoreLike Y where
   oddCore_eq_bot := h.oddFree
   center_eq_bot := by
-    haveI := h.simple
+    have := h.simple
     have hC := CFSG.ClassicalInvolution.centralizer_genFittingFStar_eq_bot h.nonab
     refine le_antisymm (fun z hz => ?_) bot_le
     rw [← hC, Subgroup.mem_centralizer_iff]

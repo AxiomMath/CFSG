@@ -235,6 +235,7 @@ section Max
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isElemAbelian_sup_of_commute {A S : Subgroup G} (hA : CFSG.Assembly.IsElemAbelian 3 A)
     (hS : CFSG.Assembly.IsElemAbelian 3 S) (hAS : ∀ a ∈ A, ∀ s ∈ S, a * s = s * a) :
     CFSG.Assembly.IsElemAbelian 3 (A ⊔ S) := CFSG.Open.IsElemAbelian.sup_of_commute hA hS hAS

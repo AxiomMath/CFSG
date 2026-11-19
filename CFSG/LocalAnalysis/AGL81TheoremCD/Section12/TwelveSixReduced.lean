@@ -276,7 +276,7 @@ private theorem not_isPSolvable_barM_centralizer {M A W : Subgroup G} {d : ℕ}
     (hAX : barM M A ≤ barM M (Subgroup.centralizer (W : Set G) ⊓ M)) :
     ¬ CFSG.HallHigman.IsPSolvable d
       ↥(barM M (Subgroup.centralizer (W : Set G) ⊓ M)) := by
-  haveI : Fact d.Prime := ⟨hd⟩
+  have : Fact d.Prime := ⟨hd⟩
   have hdvdAbar := dvd_card_barM_of_isTwoPrimeComponent hd hd2 hAcomp hdvdA
   have hnotAbar : ¬ CFSG.HallHigman.IsPSolvable d ↥(barM M A) :=
     CFSG.LocalAnalysis.RankThreeTheoremC.RankOneCent.not_isPSolvable_of_isQuasisimple
@@ -296,7 +296,7 @@ theorem centralizer_inputs_of_mem_weakBlockSet {M H L W : Subgroup G} {d : ℕ} 
     2 ≤ CFSG.Open.pRank d (Subgroup.centralizer (W : Set G) ⊓ M) ∧
       ¬ CFSG.HallHigman.IsPSolvable d ↥(Subgroup.centralizer (W : Set G) ⊓ M) := by
   classical
-  haveI : Fact d.Prime := ⟨hd⟩
+  have : Fact d.Prime := ⟨hd⟩
   obtain ⟨A, B, hA, hB, hAne, hBne, hAB⟩ := exists_distinct_weakBlocks hcard hL
   have hWM : W ≤ M := hWL.trans hL.le
   have hbar := barM_centralizer_inf_eq hWM hW

@@ -13,9 +13,9 @@ open CFSG CFSG.RankThree CFSG.RankThree.LocalRank CFSG.RankThree.PartTwo
 private theorem comm_of_isPGroup_of_cyclic_sylow {H : Type} [Group H] [Finite H]
     (hS : ∀ P : Sylow 3 H, IsCyclic ↥(P : Subgroup H)) {R : Subgroup H} (hR : IsPGroup 3 R)
     {r s : H} (hr : r ∈ R) (hs : s ∈ R) : r * s = s * r := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P, hRP⟩ := hR.exists_le_sylow
-  haveI := hS P
+  have := hS P
   exact congrArg Subtype.val
     ((inferInstance : IsMulCommutative ↥(P : Subgroup H)).is_comm.comm ⟨r, hRP hr⟩ ⟨s, hRP hs⟩)
 
@@ -23,7 +23,7 @@ private theorem mem_zpowers_of_cyclic_sylow {H : Type} [Group H] [Finite H]
     (hS : ∀ P : Sylow 3 H, IsCyclic ↥(P : Subgroup H)) {u v : H} (hu3 : u ^ 3 = 1)
     (hu1 : u ≠ 1) (hv3 : v ^ 3 = 1) (hv1 : v ≠ 1) (huv : Commute u v) :
     u ∈ Subgroup.zpowers v := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hou : orderOf u = 3 := orderOf_eq_prime hu3 hu1
   have hov : orderOf v = 3 := orderOf_eq_prime hv3 hv1
   have hzu : IsPGroup 3 (Subgroup.zpowers u) :=
@@ -39,7 +39,7 @@ private theorem mem_zpowers_of_cyclic_sylow {H : Type} [Group H] [Finite H]
     obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hh
     exact huv.symm.zpow_left k
   obtain ⟨P, hP⟩ := (IsPGroup.to_sup_of_normal_right' hzu hzv hle).exists_le_sylow
-  haveI := hS P
+  have := hS P
   have hmu : u ∈ (P : Subgroup H) := hP (Subgroup.mem_sup_left (Subgroup.mem_zpowers u))
   have hmv : v ∈ (P : Subgroup H) := hP (Subgroup.mem_sup_right (Subgroup.mem_zpowers v))
   have hu' : orderOf (⟨u, hmu⟩ : (P : Subgroup H)) = 3 := by
@@ -58,7 +58,7 @@ private theorem mem_zpowers_of_cyclic_sylow {H : Type} [Group H] [Finite H]
 
 theorem ffStandardJL5_of_cyc (hcyc : FFCentCyclic) : FFStandardJL5 := by
   intro G _ _ A a X hpt h5 hXq hN
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hAab := hpt.mem_S.1.1
   have ha3 : a ^ 3 = 1 := hAab.2 a hpt.mem
   have ha1 : a ≠ 1 := hpt.ne_one
@@ -132,7 +132,7 @@ theorem ffStandardJL5_of_cyc (hcyc : FFCentCyclic) : FFStandardJL5 := by
     let φ : ↥K →* ↥D := (Cc.subtype.comp K.subtype).codRestrict D (fun k => hKD k.1 k.2)
     have hφ : Function.Injective φ := fun u v huv =>
       Subtype.ext (Subtype.ext (congrArg (fun z : ↥D => (z : G)) huv))
-    have hR : IsPGroup 3 ((P : Subgroup ↥K).map φ) := P.isPGroup'.map φ
+    have hR : IsPGroup 3 ((P : Subgroup ↥K).map φ) := P.isPGroup.map φ
     intro y hy z hz
     apply hφ
     rw [map_mul, map_mul]

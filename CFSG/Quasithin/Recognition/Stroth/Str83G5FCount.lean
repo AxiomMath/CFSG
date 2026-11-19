@@ -23,7 +23,7 @@ private theorem d1_claim_aux (hF : Hyp111 L1 L2 S)
       ∀ δ ∈ D1, δ ≠ 1 → R ⊓ Subgroup.centralizer ({δ} : Set G) =
         R ⊓ Subgroup.centralizer (D1 : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hD1L1 : D1 ≤ L1 := hD1.trans (F1.borelOf_le L1 S)
   have hD1H : D1 ≤ L1 ⊔ S := hD1L1.trans le_sup_left
   have hQ1S : Q1 L1 L2 S ≤ S :=
@@ -73,7 +73,7 @@ private theorem d1_claim_aux (hF : Hyp111 L1 L2 S)
         have hD1NL : D1 ≤ Subgroup.normalizer (L : Set G) :=
           hD1H.trans (D14.le_normalizer_of_isNormalIn hLnorm)
         have hsolvR : Group.IsSolvable ↥R := by
-          haveI : Group.IsNilpotent ↥R := hR2.isNilpotent
+          have : Group.IsNilpotent ↥R := hR2.isNilpotent
           infer_instance
         rcases chief_dichotomy hF hB ha hSz hQ hstep with hcen | ⟨hrel, hfp⟩
         ·

@@ -47,7 +47,7 @@ theorem odd_card_theta [Finite G] (h224 : Item224) {A E U L : Subgroup G} {c : G
     hTG3 ((h.trans (Sylow.card_dvd_index P₀)).trans (Subgroup.index_dvd_card _))
   obtain ⟨P, hP⟩ := hA3.nonempty_fixed_point_of_prime_not_dvd_card (Sylow 2 TG) hcardSyl
   set P' : Subgroup G := (P : Subgroup TG).map TG.subtype with hP'def
-  have hP'2 : IsPGroup 2 P' := P.isPGroup'.map TG.subtype
+  have hP'2 : IsPGroup 2 P' := P.isPGroup.map TG.subtype
   have hAP' : A ≤ Subgroup.normalizer (P' : Set G) := by
     refine le_normalizer_of_forall_mul_mem fun e he p hp => ?_
     obtain ⟨p, hp, rfl⟩ := hp

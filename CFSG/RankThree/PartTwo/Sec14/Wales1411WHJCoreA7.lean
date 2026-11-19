@@ -28,6 +28,7 @@ private theorem mem_alternatingGroup_of_pow_three {σ : Perm (Fin 7)} (hσ : σ 
   · rw [h1] at h
     exact absurd h (by decide)
 
+omit [Finite M] in
 theorem mem_range_conj (φ : ↥Xbar ≃* alternatingGroup (Fin 7)) {α : MulAut ↥Xbar}
     (hα : α ^ 3 = 1) : α ∈ (MulAut.conj : ↥Xbar →* MulAut ↥Xbar).range := by
   set σ := psiEquiv φ α with hσ
@@ -50,7 +51,7 @@ open Wales1411W Wales1411W.HJA7 in
 theorem ks1411HJCoreA7 : KS1411HJCoreA7 := by
   intro M _ _ Ybar Abar Xbar Rbar abar hset hX S T hS hT hST _
   obtain ⟨φ⟩ := hX
-  haveI := HJInner.normal_X hset
+  have := HJInner.normal_X hset
   have hcen := conj_injective_of_A7 φ
   have hinner : ∀ α : MulAut ↥Xbar, α ^ 3 = 1 →
       α ∈ (MulAut.conj : ↥Xbar →* MulAut ↥Xbar).range := fun α hα => mem_range_conj φ hα
@@ -103,7 +104,7 @@ theorem ks1411HJCoreA7 : KS1411HJCoreA7 := by
       norm_num at h
       exact h.symm
     exact orderOf_eq_one_iff.mp (hcop.eq_one_of_dvd (orderOf_dvd_of_pow_eq_one hα9))
-  have hYX := HJInner.Y_eq_X hset hcen hinner hcent
+  have hYX := HJInner.Y_eq_X hset hcent
   set c : MulAut (alternatingGroup (Fin 7)) := MulAut.conjNormal (H := alternatingGroup (Fin 7)) g
   have hmap : E.map (φ.trans c).toMonoidHom = Res5TypesA7.P7 := by
     apply Subgroup.map_injective (alternatingGroup (Fin 7)).subtype_injective

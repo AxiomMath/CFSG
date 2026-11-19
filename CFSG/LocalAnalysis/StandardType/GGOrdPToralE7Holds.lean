@@ -47,7 +47,7 @@ open CFSG.HardMathSupport.Dickson.LocalTwoBalance.Cross.W2
 theorem ggOrdPToralE7RestHard_holds :
     GGOrdPToralE7RestHard := by
   intro f p hf hp hp2 hp7 hpq _
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)
   have htor : ∀ a : Fin Tag.E7.rank → (AlgebraicClosure (GaloisField 2 f))ˣ,
       rootDiagUnit .E7 a ∈ adjointGroup .E7 (AlgebraicClosure (GaloisField 2 f)) := fun a =>
@@ -70,7 +70,7 @@ theorem ggOrdPToralE7RestHard_holds :
   have hmax : ∀ A : Subgroup (adjointGroup .E7 (GaloisField 2 f)), IsElemAbelian p A →
       Nat.card A ≤ p ^ Tag.E7.rank := by
     intro A hA
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     rcases hpq' with h1 | h1
     · have he : orderOf ((Nat.card (GaloisField 2 f) : ℕ) : ZMod p) = 1 := by
         have h0 : ((Nat.card (GaloisField 2 f) - 1 : ℕ) : ZMod p) = 0 :=

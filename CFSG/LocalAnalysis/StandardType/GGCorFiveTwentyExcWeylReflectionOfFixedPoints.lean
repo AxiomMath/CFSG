@@ -37,7 +37,7 @@ theorem exists_rootReflection_of_natCard_fix_torusMulAut [Fact p.Prime] (hp2 : p
     (hfix : Nat.card {f : Multiplicative (Fin τ.rank → ZMod p) //
       ExcWeylOuter.torusMulAut τ p w f = f} = p ^ (τ.rank - 1)) :
     ∃ β : Fin τ.rank → ℤ, IsRoot τ β ∧ w = rootReflection β := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   have hcard : Fintype.card (Fin τ.rank) = (τ.rank - 1) + 1 := by
     rw [Fintype.card_fin]
     omega

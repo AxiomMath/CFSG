@@ -58,7 +58,7 @@ theorem rowOf425_of_char3 {X : Type} [Group X] (idx : ValidLieTypeIndex) (h3 : l
 
 
 theorem kT2_nine_SL3_nine : RowOf425 (projSL 3 (GaloisField 3 2)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hv : (LieTypeIndex.A 2 ⟨3, 2, Fact.out, by norm_num⟩).Valid :=
     valid_A (by norm_num) (fun h => absurd h (by norm_num)) fun _ => by
       simp only [TauCeti.PrimePower.card_def]
@@ -67,7 +67,7 @@ theorem kT2_nine_SL3_nine : RowOf425 (projSL 3 (GaloisField 3 2)) := by
     ⟨(Census.typeAGroupEquivProjSL 2 ⟨3, 2, Fact.out, by norm_num⟩ hv).symm⟩
 
 theorem kT2_nine_SU3_nine : RowOf425 (projSU 3 3 2) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hv : (LieTypeIndex.twistedA 2 ⟨3, 2, Fact.out, by norm_num⟩).Valid :=
     valid_twistedA le_rfl fun _ => by
       simp only [TauCeti.PrimePower.card_def]
@@ -76,7 +76,7 @@ theorem kT2_nine_SU3_nine : RowOf425 (projSU 3 3 2) := by
     ⟨(Census.typeTwistedAGroupEquivProjSU 2 ⟨3, 2, Fact.out, by norm_num⟩ hv).symm⟩
 
 theorem kT2_nine_SL4 : RowOf425 (projSL 4 (GaloisField 3 1)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hv : (LieTypeIndex.A 3 ⟨3, 1, Fact.out, Nat.one_pos⟩).Valid :=
     valid_A (by norm_num) (fun h => absurd h (by norm_num)) fun _ => by
       simp only [TauCeti.PrimePower.card_def]

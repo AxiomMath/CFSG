@@ -22,8 +22,8 @@ theorem map_pPrimeCore_three_le_center {K : Type} [Group K] [Finite K]
     (CFSG.pPrimeCore 3 K).map (QuotientGroup.mk' (CFSG.pCore 2 K)) ≤
       Subgroup.center (K ⧸ CFSG.pCore 2 K) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let Y : Type := K ⧸ CFSG.pCore 2 K
   let q : K →* Y := QuotientGroup.mk' (CFSG.pCore 2 K)
   let N : Subgroup Y := (CFSG.pPrimeCore 3 K).map q
@@ -57,7 +57,7 @@ theorem center_noTwo_of_pCore_two_eq_bot {Y : Type} [Group Y] [Finite Y]
     (hY : CFSG.pCore 2 Y = ⊥) :
     ∀ z ∈ Subgroup.center Y, ∀ k : ℕ, z ^ 2 ^ k = 1 → z = 1 := by
   intro z hz k hzk
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsub : Subgroup.zpowers z ≤ CFSG.pCore 2 Y := by
     refine le_sSup ⟨Subgroup.normal_of_le_center (Subgroup.zpowers_le.mpr hz), ?_⟩
     have hdvd : orderOf z ∣ 2 ^ k := orderOf_dvd_iff_pow_eq_one.mpr hzk
@@ -73,8 +73,8 @@ theorem pCore_two_eq_pPrimeCore_three
       CFSG.PGLModel.projSL 3 (GaloisField 2 2))) :
     CFSG.pCore 2 K = CFSG.pPrimeCore 3 K := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let Y : Type := K ⧸ CFSG.pCore 2 K
   let q : K →* Y := QuotientGroup.mk' (CFSG.pCore 2 K)
   let N : Subgroup Y := (CFSG.pPrimeCore 3 K).map q
@@ -169,8 +169,8 @@ theorem pCore_two_eq_pPrimeCore_three_of_a11 {K : Type} [Group K] [Finite K]
     (hA : Nonempty ((K ⧸ CFSG.pPrimeCore 3 K) ≃* alternatingGroup (Fin 11))) :
     CFSG.pCore 2 K = CFSG.pPrimeCore 3 K := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let Y : Type := K ⧸ CFSG.pCore 2 K
   let q : K →* Y := QuotientGroup.mk' (CFSG.pCore 2 K)
   let N : Subgroup Y := (CFSG.pPrimeCore 3 K).map q

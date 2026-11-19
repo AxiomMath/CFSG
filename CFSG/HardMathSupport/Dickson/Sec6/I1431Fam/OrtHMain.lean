@@ -106,7 +106,7 @@ theorem s1431_false_orth {K : Type} [Field K] [Finite K] {V : Type} [AddCommGrou
     rcases (Nat.dvd_prime Nat.prime_three).1 h2 with h | h
     · exact orderOf_eq_one_iff.mp h
     · omega
-  haveI := hsimple
+  have := hsimple
   have hZ : Subgroup.center (ProjOrthDerived Q) = ⊥ := t6orth_center_eq_bot_of_simple hnonab
   exact t6orth_s1431_false_of_lift_blocks_sn π (QuotientGroup.mk'_surjective _) hker hZ3
     (t6psph_conj_injective_of_center hZ) c hA

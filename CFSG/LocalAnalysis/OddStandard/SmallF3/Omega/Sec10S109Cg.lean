@@ -22,7 +22,7 @@ theorem sec10C_cs [Finite G] (hW : Asc82Step109W) (hKL : Asc82StepKL) (h3 : Asc8
     have e : S ⊔ zpowers z = S := sup_eq_left.mpr (Subgroup.zpowers_le.mpr hctx.mem_S)
     rwa [e] at hs
   by_contra hne
-  push_neg at hne
+  push Not at hne
   obtain ⟨hne1, hne2⟩ := hne
   obtain ⟨ht2, hz2, -, -, -, htz⟩ := sec10D_basic hb hctx'
   obtain ⟨s, hsdef⟩ : ∃ s, s = k⁻¹ * t * k := ⟨_, rfl⟩

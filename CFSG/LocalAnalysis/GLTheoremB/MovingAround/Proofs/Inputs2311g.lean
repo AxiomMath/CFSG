@@ -91,7 +91,7 @@ theorem g2UniStdPair_closure_eq_top {K : Type} [Field K] [Finite K] (h3 : 3 ∣ 
           _ = x⁻¹ * rootSL2 .G2 K gC B * x * (x⁻¹ * g * x) := by group
     · apply Subtype.ext
       show (x⁻¹ * g * x) ^ (ringChar K ^ n) = 1
-      rw [show x⁻¹ * g * x = (MulAut.conj x⁻¹) g by simp [MulAut.conj_apply], ← map_pow, hn, map_one]
+      rw [show x⁻¹ * g * x = (MulAut.conj x⁻¹) g by simp, ← map_pow, hn, map_one]
     · simp only [hφ, MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulAut.conj_apply,
         Subgroup.coe_subtype]
       group
@@ -151,8 +151,8 @@ theorem g2ThreeUniNative_plus {K : Type} [Field K] [Finite K] (h3 : 3 ∣ Nat.ca
     (hcard : Nat.card E₀ = 3 ^ 2) :
     Subgroup.closure {k | ∃ x ∈ E₀, x ≠ 1 ∧ Commute k x ∧ ∃ n : ℕ, k ^ (ringChar K ^ n) = 1} = ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := finite_adjointGroup_G2 K
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := finite_adjointGroup_G2 K
   have h3K : ¬ 3 ∣ Nat.card K := fun h => by omega
   have hE : IsElemAbelian 3 E₀ := ⟨IsPGroup.isMulCommutative_of_card_eq_prime_sq hcard, hexp⟩
   obtain ⟨P, hFP, z, hzF, hz1, hzp, hzc⟩ :=
@@ -179,7 +179,7 @@ theorem g2ThreeUniNative_plus {K : Type} [Field K] [Finite K] (h3 : 3 ∣ Nat.ca
   have hpow : ∀ (k : adjointGroup .G2 K) (n : ℕ), k ^ (ringChar K ^ n) = 1 →
       (x⁻¹ * k * x) ^ (ringChar K ^ n) = 1 := by
     intro k n hn
-    rw [show x⁻¹ * k * x = (MulAut.conj x⁻¹) k by simp [MulAut.conj_apply], ← map_pow, hn, map_one]
+    rw [show x⁻¹ * k * x = (MulAut.conj x⁻¹) k by simp, ← map_pow, hn, map_one]
   have hle : Subgroup.closure {k : adjointGroup .G2 K | (Commute k (zStd K) ∨ Commute k (eStd K)) ∧
       ∃ n : ℕ, k ^ (ringChar K ^ n) = 1} ≤ (Subgroup.closure S).map (MulAut.conj x).toMonoidHom := by
     rw [Subgroup.closure_le]
@@ -210,11 +210,11 @@ theorem g2ThreeNormalizesR_minus {K : Type} [Field K] [Finite K] (h3 : 3 ∣ Nat
     ∃ R : Subgroup (adjointGroup .G2 K), R ≠ ⊥ ∧ IsPGroup (ringChar K) R ∧
       ∀ g ∈ E₀, R.map (MulAut.conj g).toMonoidHom = R := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, hr, -⟩ := FiniteField.card K (ringChar K)
-  haveI : Fact (ringChar K).Prime := ⟨hr⟩
-  haveI : CharP K (ringChar K) := ringChar.charP K
+  have : Fact (ringChar K).Prime := ⟨hr⟩
+  have : CharP K (ringChar K) := ringChar.charP K
   obtain ⟨ω, hω1, hω3⟩ : ∃ ω : K, ω ≠ 1 ∧ ω ^ 3 = 1 := by
     have h3' : 3 ∣ Nat.card Kˣ := by
       rw [Nat.card_units]
@@ -236,7 +236,7 @@ theorem g2ThreeNormalizesR_minus {K : Type} [Field K] [Finite K] (h3 : 3 ∣ Nat
   obtain ⟨y, hy⟩ := CFSG.GH74.GLS.Stage2.Bender.Thm1.exists_conj_le_range_of_three_dvd_sub_one h3 ι hι E₀ hEp
   have hcomm₀ : ∀ a ∈ E₀, ∀ b ∈ E₀, a * b = b * a := by
     intro a ha b hb
-    have := IsPGroup.commutative_of_card_eq_prime_sq hcard ⟨a, ha⟩ ⟨b, hb⟩
+    have := (IsPGroup.isMulCommutative_of_card_eq_prime_sq hcard).is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩
     exact congrArg Subtype.val this
   set Et := (E₀.map (MulAut.conj y).toMonoidHom).comap ι with hEt
   have hmemEt : ∀ t, t ∈ Et ↔ ι t ∈ E₀.map (MulAut.conj y).toMonoidHom := fun t => Iff.rfl
@@ -342,10 +342,10 @@ theorem g2UniQPlus_closure_eq_top (X : Type) [Field X] [Finite X] (hX : Odd (Nat
     (hE₁c : Nat.card E₁ = p ^ 2) :
     Subgroup.closure {k | ∃ x ∈ E₁, x ≠ 1 ∧ Commute k x ∧ ∃ n : ℕ, k ^ (ringChar X ^ n) = 1} = ⊤ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have : Fintype X := Fintype.ofFinite X
   obtain ⟨nX, hrX, hXcard⟩ := FiniteField.card X (ringChar X)
-  haveI : Fact (ringChar X).Prime := ⟨hrX⟩
+  have : Fact (ringChar X).Prime := ⟨hrX⟩
   have hrdvd : ringChar X ∣ Nat.card X := by
     rw [Nat.card_eq_fintype_card, hXcard]
     exact dvd_pow_self _ nX.ne_zero
@@ -628,7 +628,7 @@ theorem uniClosure_twistedGroup_qplus {K : Type} [Field K] [Finite K] (σ : K �
   have htop₀ : Subgroup.closure T = ⊤ := by
     rw [eq_top_iff, ← hJA]
     exact sup_le hJle hAle
-  haveI : Finite (CFSG.Blueprint.Chevalley.ModGL TwistTag.D4.tag K) := finite_modGL
+  have : Finite (CFSG.Blueprint.Chevalley.ModGL TwistTag.D4.tag K) := finite_modGL
   have hE₀p' : IsPGroup p E₀ := IsPGroup.of_card (n := 2) hE₀c
   obtain ⟨S, hS⟩ := hE₀p'.exists_le_sylow
   obtain ⟨g, hg⟩ := plane_conj S (T := (S : Subgroup (twistedGroup σ.toRingHom))) le_rfl
@@ -682,15 +682,15 @@ theorem normalizesRSubgroup_trialityD4_of_dvd_sub_one (q : TauCeti.PrimePower)
     (hpq : p ∣ q.card - 1) {E : Subgroup (MulAut (CFSG.LieType.SeitzGeneration.Cat ⟨.trialityD4 q, hv⟩))}
     (hEp : IsPGroup p E) (hin : InnerPlane ⟨.trialityD4 q, hv⟩ p E) :
     NormalizesRSubgroup ⟨.trialityD4 q, hv⟩ E := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   obtain ⟨K, _, _, σ, hK, hσ, -, ⟨e⟩⟩ :=
     CFSG.HardMathSupport.Timmesfeld.CrossChar.exists_catEquiv_trialityD4 q hv
   have hK3 : Nat.card K = q.p ^ (q.exponent * 3) := by rw [hK, pow_mul]
-  haveI : CharP K q.p :=
+  have : CharP K q.p :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic q.prime_p (by
       have := q.exponent_pos; omega) hK3
-  haveI : Finite (CFSG.Blueprint.Chevalley.ModGL TwistTag.D4.tag K) := finite_modGL
+  have : Finite (CFSG.Blueprint.Chevalley.ModGL TwistTag.D4.tag K) := finite_modGL
   have hZ : Subgroup.center ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) = ⊥ :=
     center_graphFixedRootGroup_eq_bot σ.surjective
   have hinj := conj_injective_of_mulEquiv e
@@ -725,8 +725,8 @@ theorem uniSeitzPlanes_triality_inner_five :
         ¬ (p ∣ q.card ^ 2 + q.card + 1 ∨ p ∣ q.card ^ 2 - q.card + 1) := by
   rintro ⟨d, hv⟩ p hp hp2 hpd _ E hE hc ⟨hin, hp5, hch, hn, q, hq, h36⟩
   obtain rfl : d = .trialityD4 q := hq
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hpq : p ≠ q.p := fun h => hpd (h.trans (TauCeti.LieTypeIndex.characteristic_trialityD4 q).symm)
   have hq2 : q.p ≠ 2 := by
     intro h2
@@ -738,7 +738,7 @@ theorem uniSeitzPlanes_triality_inner_five :
   obtain ⟨K, _, _, σ, hK, hσ, -, ⟨e⟩⟩ :=
     CFSG.HardMathSupport.Timmesfeld.CrossChar.exists_catEquiv_trialityD4 q hv
   have hK3 : Nat.card K = q.p ^ (q.exponent * 3) := by rw [hK, pow_mul]
-  haveI : CharP K q.p :=
+  have : CharP K q.p :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic q.prime_p (by
       have := q.exponent_pos; omega) hK3
   have hring : ringChar K = q.p := ringChar.eq K q.p

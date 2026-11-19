@@ -258,7 +258,7 @@ theorem exists_of_WIn_eq (hΩ : HypOmegaGen Ω) (h2 : ∀ J ∈ Ω, IsPGroup 2 J
   have hWS : W' ≤ (S : Subgroup X) := by
     rw [hW'eq]
     exact iSup₂_le fun U hU => (hη.1 hU).2
-  have hW2 : IsPGroup 2 ↥(W'.map X.subtype) := (S.isPGroup'.to_le hWS).map _
+  have hW2 : IsPGroup 2 ↥(W'.map X.subtype) := (S.isPGroup.to_le hWS).map _
   have hWX : W'.map X.subtype ≤ X := Subgroup.map_subtype_le _
   have hnorm : ∀ x ∈ X, ∀ q ∈ W'.map X.subtype, x * q * x⁻¹ ∈ W'.map X.subtype := by
     rintro x hx _ ⟨q, hq, rfl⟩

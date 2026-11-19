@@ -32,7 +32,7 @@ theorem spW_eq : ∀ cs : List Char, spW cs = (cs.splitOn ',').map (·.map lette
         (List.rec (motive := fun _ => List (List Int)) [[letterOf a]]
           (fun w ws _ => (letterOf a :: w) :: ws) (spW cs))
         ([] :: spW cs) (a == ',') := rfl
-    rw [e, spW_eq cs, List.splitOn_cons_eq_if_modifyHead]
+    rw [e, spW_eq cs, List.splitOn_cons_eq_ite_modifyHead]
     cases h : (a == ',')
     · simp only [Bool.false_eq_true, ↓reduceIte]
       obtain ⟨w, ws, hw⟩ : ∃ w ws, cs.splitOn ',' = w :: ws := by
@@ -103,17 +103,17 @@ theorem gens_TR (z : Int) : TR 1540 (genTables OJ z) (GJ z) := by
   unfold genTables
   rw [size_OJ]
   by_cases h1 : z = 1
-  · rw [if_pos h1]
+  · rw [ite_eq_left h1]
     exact size_alpha
-  rw [if_neg h1]
+  rw [ite_eq_right h1]
   by_cases h2 : z = -1
-  · rw [if_pos h2]
+  · rw [ite_eq_left h2]
     exact CFSG.KS.Tbl.invT_size _ _
-  rw [if_neg h2]
+  rw [ite_eq_right h2]
   by_cases h3 : z = 2
-  · rw [if_pos h3]
+  · rw [ite_eq_left h3]
     exact size_beta
-  rw [if_neg h3]
+  rw [ite_eq_right h3]
   exact CFSG.KS.Tbl.invT_size _ _
 
 theorem word_TR (w : List Int) : TR 1540 (wordT 1540 (genTables OJ) w) (wp w) :=
@@ -438,7 +438,7 @@ theorem sy_norm : normCheck 1540 (genTables OJ 2) (compT 1540 (genTables OJ 2) (
     (NWL.toArray.map fun w => wordT 1540 (genTables OJ) (invWord w)) = true := by
   obtain ⟨-, hl2, -⟩ := lens
   unfold normCheck
-  simp only [Bool.and_eq_true, Bool.or_eq_true]
+  simp only [Bool.and_eq_true]
   refine ⟨allIn_eq_true.2 fun i _ hi => ?_, allIn_eq_true.2 fun i _ hi => ?_⟩
   · have hT := compT_TR (sy_hV i hi) (compT_TR be_TR (sy_hVi i hi))
     rcases norm_pt hi with h | h

@@ -34,7 +34,7 @@ theorem s22_5_1R3K2_of_rStar (D : Data G) (Ch : Choice2011 G) (hx : DataExt D)
   intro hH c m Nb hNb i hk hσ
   by_contra hbad
   have hnsp : ¬ CFSG.RankThree.PartOne.IsStronglyPEmbedded 3 D.M := fun hsp =>
-    hk (by unfold Data.k CFSG.LocalAnalysis.RankThreeUC.kParam; rw [if_pos hsp])
+    hk (by unfold Data.k CFSG.LocalAnalysis.RankThreeUC.kParam; rw [ite_eq_left hsp])
   have hS3 := uc22p2251p_isL2Ev_one D Ch hx h61 h33 h119 h17 h211 h2112 hn3 hSg h847 h920 h923
     h8107 hnsp hH c hNb hbad hσ
   have hbad' : IsL2Ev ↥(Nb i) 2 ∨ IsL3 ↥(Nb i) 1 ∨ IsS5 ↥(Nb i) := by

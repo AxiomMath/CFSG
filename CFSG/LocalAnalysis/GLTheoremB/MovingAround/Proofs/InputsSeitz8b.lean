@@ -18,7 +18,7 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2]
 theorem card_linearEquiv_plane_u62 (hK : Nat.card K = 4) {W : Type} [AddCommGroup W] [Module K W]
     [FiniteDimensional K W] (hW : Module.finrank K W = 2) : Nat.card (W ≃ₗ[K] W) = 180 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have e : W ≃ₗ[K] (Fin 2 → K) := LinearEquiv.ofFinrankEq W (Fin 2 → K) (by simp [hW])
   have h1 : Nat.card (W ≃ₗ[K] W) = Nat.card ((Fin 2 → K) ≃ₗ[K] (Fin 2 → K)) :=
     Nat.card_congr
@@ -38,7 +38,7 @@ theorem commute_of_pow_three_u62 (hK : Nat.card K = 4) {P : Subgroup (GL (Fin 6)
       g * g' = GeneralLinearGroup.scalar (Fin 6) c * (g' * g))
     {x y : GL (Fin 6) K} (hx : x ∈ P) (hy : y ∈ P) (hy3 : y ^ 3 = 1) : x * y = y * x := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   by_contra hxy
   set sc : Kˣ →* GL (Fin 6) K := GeneralLinearGroup.scalar (Fin 6) with hsc
   have hsinj : Function.Injective sc :=
@@ -256,13 +256,13 @@ theorem commute_of_pow_three_u62 (hK : Nat.card K = 4) {P : Subgroup (GL (Fin 6)
     { toFun := fun g => (Matrix.toLin' ((g : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K)).restrict (hmaps g)
       map_one' := by
         refine LinearMap.ext fun v => Subtype.ext ?_
-        rw [LinearMap.restrict_coe_apply, OneMemClass.coe_one, OneMemClass.coe_one, Units.val_one,
+        rw [_root_.LinearMap.coe_restrict_apply, OneMemClass.coe_one, OneMemClass.coe_one, Units.val_one,
           Matrix.toLin'_one]
         rfl
       map_mul' := fun g g' => by
         refine LinearMap.ext fun v => Subtype.ext ?_
-        rw [LinearMap.restrict_coe_apply, Module.End.mul_apply, LinearMap.restrict_coe_apply,
-          LinearMap.restrict_coe_apply, Subgroup.coe_mul, Subgroup.coe_mul, Units.val_mul,
+        rw [_root_.LinearMap.coe_restrict_apply, Module.End.mul_apply, _root_.LinearMap.coe_restrict_apply,
+          LinearMap.coe_restrict_apply, Subgroup.coe_mul, Subgroup.coe_mul, Units.val_mul,
           Matrix.toLin'_mul]
         rfl }
   have hfaith : ∀ g : ↥φ.ker, Rh g = 1 → g = 1 := by
@@ -271,7 +271,7 @@ theorem commute_of_pow_three_u62 (hK : Nat.card K = 4) {P : Subgroup (GL (Fin 6)
     have hfix : ∀ v ∈ E 1, G *ᵥ v = v := by
       intro v hv
       have := congrArg (fun f : Module.End K (E 1) => ((f ⟨v, hv⟩ : E 1) : Fin 6 → K)) hg
-      simp only [Rh, MonoidHom.coe_mk, OneHom.coe_mk, LinearMap.restrict_coe_apply, Module.End.one_apply,
+      simp only [Rh, MonoidHom.coe_mk, OneHom.coe_mk, _root_.LinearMap.coe_restrict_apply, Module.End.one_apply,
         Matrix.toLin'_apply] at this
       exact this
     have hGXv : ∀ w, G *ᵥ (X *ᵥ w) = X *ᵥ (G *ᵥ w) := fun w => by
@@ -364,7 +364,7 @@ theorem commute_of_cube_u62 (hK : Nat.card K = 4) {P : Subgroup (GL (Fin 6) K)}
     rw [Subgroup.mem_center_iff]
     intro z
     exact Subtype.ext (commute_of_pow_three_u62 hK hP3 hcard hcomm z.2 g.2 hg3)
-  exact congrArg Subtype.val (commutative_of_cyclic_center_quotient ψ hker ⟨x, hx⟩ ⟨y, hy⟩)
+  exact congrArg Subtype.val ((MonoidHom.isMulCommutative_of_isCyclic_of_ker_le_center ψ hker).is_comm.comm ⟨x, hx⟩ ⟨y, hy⟩)
 
 end HeisSix
 
@@ -384,9 +384,9 @@ theorem exists_star_three_u62 (h : UnitaryFieldData p f K) (hp : p = 2) (hf : f 
         IsPGroup 2 ↥U ∧ ∀ φ ∈ E, ∀ u ∈ U, φ u ∈ U := by
   subst hp hf hn
   classical
-  haveI : CharP K 2 := h.charP
-  haveI : Finite K := h.finite
-  haveI : Finite (GL (Fin 6) K) := inferInstance
+  have : CharP K 2 := h.charP
+  have : Finite K := h.finite
+  have : Finite (GL (Fin 6) K) := inferInstance
   have hK4 : Nat.card K = 4 := h.card.trans (by norm_num)
   have hn3 : 3 ≤ 6 := by norm_num
   have hq : ¬(6 = 3 ∧ 2 ^ 1 = 2) := by omega
@@ -400,7 +400,7 @@ theorem exists_star_three_u62 (h : UnitaryFieldData p f K) (hp : p = 2) (hf : f 
     set θ := primeFormFieldFactor h isPrimeFormGram_one hn3 hq β
     have hcard : Nat.card (RingAut K) = 2 :=
       (card_ringAut_and_isCyclic Nat.prime_two K (h.card.trans (by norm_num))).1
-    haveI : Finite (RingAut K) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+    have : Finite (RingAut K) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
     have h2 : θ ^ 2 = 1 := by
       have := pow_card_eq_one' (G := RingAut K) (x := θ)
       rwa [hcard] at this
@@ -445,7 +445,7 @@ theorem exists_star_three_u62 (h : UnitaryFieldData p f K) (hp : p = 2) (hf : f 
           (B : GL (Fin 6) K)⁻¹) * (B * A) := by group
       _ = GeneralLinearGroup.scalar (Fin 6) z * (B * A) := by rw [hz']
   have hP3 : ∃ k : ℕ, Nat.card P = 3 ^ k := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hpg : IsPGroup 3 P := by
       intro g
       obtain ⟨z, hz⟩ := hcube g g.2
@@ -586,7 +586,7 @@ theorem exists_star_three_unitarySixTwo {q : TauCeti.PrimePower}
     exact hU'0 ((Subgroup.map_eq_bot_iff_of_injective U' (f := e.symm.toMonoidHom) e.symm.injective).1 hb)
   · rintro _ ⟨φ', hφ', rfl⟩ _ ⟨u', hu', rfl⟩
     refine ⟨φ' u', hU' φ' hφ' u' hu', ?_⟩
-    simp [hcg, MulAut.congr_apply]
+    simp [hcg]
 
 end StarSix
 
@@ -603,7 +603,7 @@ theorem le_glbCore_of_unitarySixTwo {X : Type} [Group X] [Finite X] (hcore : GLA
     K ≤ GLBCore 3 2 B := by
   classical
   have hp : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   obtain ⟨q, hqp, hqe, hdq⟩ := hd
   obtain ⟨d0, hv⟩ := d
   simp only at hdq
@@ -644,12 +644,12 @@ theorem five_le_pRank_of_psuSixEight {L : Type} [Field L] [Finite L] (hL : Nat.c
     {G : Type} [Group G] [Finite G] (jG : StatedProj (StatedSU 6 (2 ^ 3) L) →* G)
     (hjG : Function.Injective jG) : 5 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup G) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hU : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 3 L :=
     ⟨Nat.prime_two, by norm_num, by rw [hL]; norm_num⟩
-  haveI : CharP L 2 := hU.charP
-  haveI : Finite Lˣ := Finite.of_injective (fun u : Lˣ => (u : L)) (fun a b h => Units.ext h)
+  have : CharP L 2 := hU.charP
+  have : Finite Lˣ := Finite.of_injective (fun u : Lˣ => (u : L)) (fun a b h => Units.ext h)
   let H := StatedSU 6 (2 ^ 3) L
   let C : Subgroup ↥H := (StatedScalars (Fin 6) L).subgroupOf H
   have hsinj : Function.Injective (Matrix.GeneralLinearGroup.scalar (Fin 6) : Lˣ →* GL (Fin 6) L) :=

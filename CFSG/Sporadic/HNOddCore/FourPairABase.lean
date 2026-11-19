@@ -66,7 +66,7 @@ theorem range_eq_closure {G M ι : Type*} [Group G] [Group M] (f : G →* M) {g 
 abbrev C4 :
     Subgroup RH := Subgroup.centralizer {jR t4J}
 
-@[expose] def gC
+def gC
     (s : ℕ) : RH := if s < 10 then jR (g4 s) else cR
 
 theorem cR_mem_C4 :
@@ -111,7 +111,7 @@ theorem card_Cv_le :
   rw [hθ, card_centralizer_sig4] at h
   exact h
 
-@[expose] def t4C :
+def t4C :
     C4 := ⟨jR t4J, Subgroup.mem_centralizer_singleton_iff.2 rfl⟩
 
 theorem t4J_sq :

@@ -75,6 +75,7 @@ private theorem conjSubgroup_Z_le_V_of_mem_L {k : G} (hk : k ∈ c.L) :
   conjSubgroup_Z_le_V' c ((le_sup_left : c.L ≤ c.L ⊔ D.T).trans
     (Ctx23L.sup_le_N D Ch c.toCtx23L) hk)
 
+omit [Finite G] in
 private theorem eq_one_of_mkTil_eq_one {V : Subgroup G} (hV : IsElemAbelian 2 V) (v : ↥V)
     (h : mkTil (⊥ : Subgroup G) V hV (IntMod.mk hV v) = 1) : (v : G) = 1 := by
   have h1 : (1 : Vtil (⊥ : Subgroup G) V hV) = mkTil (⊥ : Subgroup G) V hV 1 :=
@@ -95,8 +96,8 @@ theorem exists_mem_conjSubgroup_L_of_sl3 (h4 : S23_4 D Ch) (h1930 : H1930 D)
   have hZleV : D.Z ≤ c.V := uc22p22v_le_conjClosure c.N D.Z
   obtain ⟨z, hz1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp (Z_ne_bot_of_sl3 c h4 h1930 hm)
   obtain ⟨K, hfield, hfinite, hKcard, hreal⟩ := hnat
-  letI : Field K := hfield
-  letI : Finite K := hfinite
+  let : Field K := hfield
+  let : Finite K := hfinite
   obtain ⟨π, hπ⟩ := hreal
   let qu : c.toCtx23L.W hV :=
     mkTil (⊥ : Subgroup G) c.V hV (IntMod.mk hV ⟨(z : G), hZleV z.2⟩)
@@ -127,8 +128,8 @@ theorem card_V_eq_card_Z_pow_three_of_sl3 (h4 : S23_4 D Ch) (h1930 : H1930 D)
     (hnat : CFSG.Quasithin.BinaryNaturalSL (c.H hV) ⊤ ⊥ 3 (CFSG.Open.pRank 2 D.Z)) :
     Nat.card c.V = Nat.card D.Z ^ 3 := by
   obtain ⟨K, hfield, hfinite, hKcard, hreal⟩ := hnat
-  letI : Field K := hfield
-  letI : Finite K := hfinite
+  let : Field K := hfield
+  let : Finite K := hfinite
   have h1 : Nat.card (c.toCtx23L.W hV) = Nat.card K ^ 3 :=
     CFSG.Quasithin.S153EB6.card_of_realizes_nat 3 (c.H hV) hreal
   have h2 : Nat.card (c.toCtx23L.W hV) = Nat.card c.V := by
@@ -170,15 +171,15 @@ private theorem geom14_spec (h4 : S23_4 D Ch) (h1930 : H1930 D) (hV : IsElemAbel
           (closure (⋃ p ∈ c.Pstar hV,
             p • (((c.Ztil hV : Subgroup (c.toCtx23L.W hV)) :
               Set (c.toCtx23L.W hV))))).map (y : MulAut (c.toCtx23L.W hV)).toMonoidHom := by
-  letI : MulDistribMulAction ↥(c.H hV) (c.toCtx23L.W hV) :=
+  let : MulDistribMulAction ↥(c.H hV) (c.toCtx23L.W hV) :=
     MulDistribMulAction.compHom (c.toCtx23L.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (c.toCtx23L.W hV) :=
+  let : MulAction ↥(c.H hV) (c.toCtx23L.W hV) :=
     MulAction.compHom (c.toCtx23L.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (Set (c.toCtx23L.W hV)) := Set.mulActionSet
-  letI : MulDistribMulAction ↥(c.sylowStar hV) (c.toCtx23L.W hV) :=
+  let : MulAction ↥(c.H hV) (Set (c.toCtx23L.W hV)) := Set.mulActionSet
+  let : MulDistribMulAction ↥(c.sylowStar hV) (c.toCtx23L.W hV) :=
     MulDistribMulAction.compHom (c.toCtx23L.W hV)
       ((c.H hV).subtype.comp (c.sylowStar hV : Subgroup ↥(c.H hV)).subtype)
-  letI : MulAction ↥(c.sylowStar hV) (c.toCtx23L.W hV) :=
+  let : MulAction ↥(c.sylowStar hV) (c.toCtx23L.W hV) :=
     MulAction.compHom (c.toCtx23L.W hV)
       ((c.H hV).subtype.comp (c.sylowStar hV : Subgroup ↥(c.H hV)).subtype)
   have hℓ : fixedPointSubgroup ↥(c.sylowStar hV) (c.toCtx23L.W hV) = c.Ztil hV :=
@@ -220,7 +221,7 @@ private theorem C0_le_normalizer_X (hV : IsElemAbelian 2 c.V)
   rw [heq]
   exact c.X.mul_mem hcommX hx
 
-private theorem T_le_normalizer_X_of_sl3 (h4 : S23_4 D Ch) (h1930 : H1930 D)
+private theorem T_le_normalizer_X_of_sl3 (_h4 : S23_4 D Ch) (_h1930 : H1930 D)
     (hV : IsElemAbelian 2 c.V) (hm : 3 ≤ CFSG.Open.pRank 2 D.Z)
     (hnat : CFSG.Quasithin.BinaryNaturalSL (c.H hV) ⊤ ⊥ 3 (CFSG.Open.pRank 2 D.Z))
     (hker : (c.phiL hV).ker = CFSG.pCore 2 ↥c.L) :
@@ -385,6 +386,7 @@ private theorem imgTil_map_conj {D : Data G} {Ch : Choice2011 G} (c : Ctx23L D C
       exact Subgroup.mem_map_of_mem (MulAut.conj (x : G)).toMonoidHom ha'
     · exact (Ctx23L.phiL_apply_mkTil c hV x a').symm
 
+omit [Finite G] in
 private theorem le_of_imgTil_le (V : Subgroup G) (hV : IsElemAbelian 2 V) {U U' : Subgroup G}
     (hU : U ≤ V) (h : imgTil (⊥ : Subgroup G) V hV U ≤ imgTil (⊥ : Subgroup G) V hV U') :
     U ≤ U' := by
@@ -551,7 +553,7 @@ private theorem sylowStar_le_imagePstar (c : Ctx23L D Ch) (hV : IsElemAbelian 2 
 
 private theorem Pstar_P_ne_top (h4 : S23_4 D Ch) (h1930 : H1930 D) (hV : IsElemAbelian 2 c.V)
     (hm : 3 ≤ CFSG.Open.pRank 2 D.Z)
-    (hSLH : IsSLn ↥(c.H hV) 3 (CFSG.Open.pRank 2 D.Z))
+    (_hSLH : IsSLn ↥(c.H hV) 3 (CFSG.Open.pRank 2 D.Z))
     (hnat : CFSG.Quasithin.BinaryNaturalSL (c.H hV) ⊤ ⊥ 3 (CFSG.Open.pRank 2 D.Z))
     (hker : (c.phiL hV).ker = CFSG.pCore 2 ↥c.L)
     {P : Subgroup G} (hP : MinTInvParabolic D.T D.M c.L P) :

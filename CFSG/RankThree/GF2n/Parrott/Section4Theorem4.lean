@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {z : G}
 
+omit [Finite G] in
 theorem exists_z1_mul (h : Tim79a.ParrottHyp z) {z₁ : G} (hz₁ : z₁ ∈ centerIn (J z))
     (hz₁z : z₁ ∉ Subgroup.zpowers z) (hz₁2 : orderOf z₁ = 2) :
     z * z₁ ∈ centerIn (J z) ∧ z * z₁ ∉ Subgroup.zpowers z ∧ orderOf (z * z₁) = 2 := by

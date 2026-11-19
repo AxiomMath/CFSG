@@ -27,7 +27,7 @@ theorem campbell_seed (D : Data G) {X H₀ : Subgroup G}
     (hZ : ¬ H₀ ≤ centralizer (omegaOneCenterIn (proofS D) : Set G)) :
     (∀ g ∈ normalizer (proofS D : Set G), ∀ e ∈ omegaZJ22 (pCoreOf 2 H₀), g * e * g⁻¹ ∈ pCoreOf 2 X) ∨
       InClassX ↥(oResidualTwo ↥H₀) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set S : Subgroup G := proofS D with hSdef
   have hS2 : IsPGroup 2 ↥S := D.sylowM.isPGroup.to_le inf_le_left
   have hSJ := centralizer_elemThompsonCenterTorsion_proofS D

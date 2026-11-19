@@ -39,10 +39,10 @@ theorem smith24E4Uniform_of_inputs (hG1 : E4G1Statement)
     rw [hf0, pow_zero] at hf
     have := hctx.hyp.q4
     omega
-  haveI : CharP K 2 := Smith81.charP_two_of_card_eq hf1 (hKcard.trans hf)
+  have : CharP K 2 := Smith81.charP_two_of_card_eq hf1 (hKcard.trans hf)
   obtain ⟨K', _, _, _, hK'card, θ₁, hθ₁s, hθ₁k⟩ := hG1 G M Q Z B IH hc h4
-  haveI := Fintype.ofFinite K
-  haveI := Fintype.ofFinite K'
+  have := Fintype.ofFinite K
+  have := Fintype.ofFinite K'
   have hKK' : Fintype.card K' = Fintype.card K := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hK'card, hKcard]
   let τ : K' ≃+* K := FiniteField.ringEquivOfCardEq hKK'

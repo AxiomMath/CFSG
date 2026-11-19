@@ -16,7 +16,7 @@ open CFSG.Open
 theorem rankOK_of_primePowOK {M : Type*} [Group M] [Finite M] {p : ℕ} {C : Subgroup M}
     (h : PrimePowOK p (Nat.card C)) : RankOK p C := by
   intro q hq hqp V hV hVel hVne
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨s, hs⟩ := IsPGroup.iff_card.1 hVel.isPGroup
   have hs0 : 0 < s := by
     rcases Nat.eq_zero_or_pos s with h0 | h0
@@ -95,7 +95,7 @@ theorem rankOK_of_two_witness {M : Type*} [Group M] [Finite M] {p : ℕ} {C : Su
       q = 2 ∧ ¬ 2 ^ (k + 1) ∣ n)
     (hw : ∃ c ∈ C, orderOf c = 4) : RankOK p C := by
   intro q hq hqp V hVC hVel hVne hmod
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨s, hs⟩ := IsPGroup.iff_card.1 hVel.isPGroup
   have hs0 : 0 < s := by
     rcases Nat.eq_zero_or_pos s with h0 | h0

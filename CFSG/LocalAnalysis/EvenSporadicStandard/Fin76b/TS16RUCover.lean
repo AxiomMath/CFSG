@@ -78,10 +78,11 @@ theorem cover_by_classes {α : Type*} (X : Set G)
   obtain ⟨c, hc⟩ := MulAction.mem_orbit_iff.1 hx
   exact ⟨j, ConjAct.ofConjAct c, by rw [← hc, ConjAct.smul_def]⟩
 
+omit [Finite G] in
 theorem card_orbit_subgroup_mul (H : Subgroup G) (r : G) :
     Nat.card {x : G // ∃ h ∈ H, x = h * r * h⁻¹} * Nat.card ↥(H ⊓ centralizer ({r} : Set G)) =
       Nat.card ↥H := by
-  letI : MulAction ↥H G := MulAction.compHom G ((MulAut.conj : G →* MulAut G).comp H.subtype)
+  let : MulAction ↥H G := MulAction.compHom G ((MulAut.conj : G →* MulAut G).comp H.subtype)
   have hsmul : ∀ (h : ↥H) (x : G), h • x = (h : G) * x * (h : G)⁻¹ := fun h x => rfl
   have h1 := Subgroup.card_mul_index (MulAction.stabilizer (↥H) r)
   rw [MulAction.index_stabilizer, ← Nat.card_coe_set_eq] at h1

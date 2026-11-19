@@ -25,15 +25,15 @@ private theorem lup10j_card_Bs {G : Type} [Group G] {p : ℕ} [Fact p.Prime] {Bs
   have h3 : Fintype.card M.ι = Module.finrank (ZMod p) M.V := hbas.2
   have h2 : Module.finrank (ZMod p) M.V = 5 := by
     rw [← h3, Fintype.card_congr e.symm, Fintype.card_fin]
-  haveI : Module.Finite (ZMod p) M.V := Module.finite_of_finrank_pos (by rw [h2]; norm_num)
+  have : Module.Finite (ZMod p) M.V := Module.finite_of_finrank_pos (by rw [h2]; norm_num)
   rw [h1, Module.natCard_eq_pow_finrank (K := ZMod p), Nat.card_zmod, h2]
 
 private theorem lup10j_lieModel_of_hasLabel_twA3 {R : Type} [Group R]
     (hR : GGHasLabel ⟨.twA, 3, 1⟩ R) : Blueprint.LieModel R .PSU 4 2 1 := by
   unfold GGHasLabel CFSG.StandardType.LargeEvenRawDatum at hR
   obtain ⟨K, hKfield, hKfinite, hKcard, ⟨e⟩⟩ := hR
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
+  let : Field K := hKfield
+  let : Finite K := hKfinite
   have hK' : Nat.card K = (2 ^ 1) ^ 2 := by simpa using hKcard
   refine Blueprint.LieModel.of_mulEquiv e.symm (Or.inl ⟨by decide, ?_⟩)
   exact statedClassicalModel_unitary 4 1 hK'
@@ -44,8 +44,8 @@ private theorem lup10j_catalogIs_of_hasLabel_twA3 {R : Type} [Group R]
     CFSG.Yardstones.Md0ec50421ce4.catalogIs R CFSG.LocalAnalysis.GLTheoremA.S9.isU4two := by
   unfold GGHasLabel CFSG.StandardType.LargeEvenRawDatum at hR
   obtain ⟨K, hKfield, hKfinite, hKcard, ⟨e⟩⟩ := hR
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
+  let : Field K := hKfield
+  let : Finite K := hKfinite
   have hK4 : Nat.card K = 4 := by simpa using hKcard
   exact CFSG.LocalAnalysis.GLTheoremA.CatB.catalogIs_u4two_of_statedProj hK4 e
 
@@ -107,7 +107,7 @@ theorem lup10d_labelCore_of_labelJ
       Nat.prime_three hqOpen h3J
   have hcenter : Subgroup.center (↥J ⧸ LargeEvenPPrimeCore 3 ↥J) =
       (Subgroup.center ↥J).map (QuotientGroup.mk' (LargeEvenPPrimeCore 3 ↥J)) := by
-    haveI : Group.IsPerfect ↥J := ⟨hJq.1⟩
+    have : Group.IsPerfect ↥J := ⟨hJq.1⟩
     exact CFSG.LocalAnalysis.GLTheoremA.S172A.center_quotient_eq_map hOZ
   have hdvd : Nat.card (Subgroup.center (↥J ⧸ LargeEvenPPrimeCore 3 ↥J)) ∣
       Nat.card (Subgroup.center ↥J) := by

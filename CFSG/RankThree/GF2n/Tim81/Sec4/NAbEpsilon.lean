@@ -158,6 +158,7 @@ private theorem exists_singer_partner
     rw [hL, hR, ha, hzpow, map_pow, hz0]
     exact hk
 
+omit [Finite G] in
 private theorem le_normalizer_iInf_conjSubgroup :
     H ≤ Subgroup.normalizer
       ((⨅ g : ↥H, conjSubgroup (g : G) (Pc M V) : Subgroup G) : Set G) := by
@@ -189,6 +190,7 @@ private theorem le_normalizer_iInf_conjSubgroup :
     rw [← hconj]
     simpa using conj_mem_conjSubgroup h⁻¹ h1
 
+omit [Finite G] in
 private theorem mul_comm_of_piK_eq_mul_of_common_fixed
     {W₀ : Subgroup G} (hW₀ : W₀ ≤ Tim79a.xOf V H)
     {x y z w : G} (hxH : x ∈ H) (hyH : y ∈ H) (hzH : z ∈ H)
@@ -900,7 +902,6 @@ private theorem closure_commutator_P0_eq
       c = ⁅w, x⁆} = V ⊓ W₀ := by
     rw [show {c : G | ∃ w ∈ Pc M V ⊓ conjSubgroup h₀ (Pc M V) ⊓ W₀,
       c = ⁅w, x⁆} = {c : G | ∃ w ∈ P0, c = ⁅w, x⁆} from by rw [hP0], hset, ← hA]
-    change Subgroup.closure (A : Set G) = A
     refine le_antisymm ?_ Subgroup.subset_closure
     rw [Subgroup.closure_le]
   exact ⟨hclosure, hjX_eq⟩
@@ -953,7 +954,7 @@ private theorem commutator_conj_mem_closure
     have hcomm := Subgroup.mem_centralizer_iff.mp hc ⁅c⁻¹ * w * c, a⁆ hinnerV
     rw [← hcomm]
     group
-  exact ⟨c⁻¹ * w * c, hwcP, by simpa [hconj, hfix]⟩
+  exact ⟨c⁻¹ * w * c, hwcP, by simp [hconj, hfix]⟩
 
 theorem closure_commutator_Pc_eq_inf_V_W0
     (hW : Assembly.IsElemAbelian 2 (Tim79a.xOf V H))
@@ -1231,7 +1232,7 @@ private theorem card_range_commutatorElementHom_eq_card_inf
       have hinv : (⟨⁅(a : G), p⁆, hxA p hp⟩ : ↥V)⁻¹ ∈ χ.range :=
         χ.range.inv_mem hmem
       refine Subgroup.mem_map.mpr ⟨(⟨⁅(a : G), p⁆, hxA p hp⟩ : ↥V)⁻¹, hinv, ?_⟩
-      simpa [Subgroup.coe_inv] using (commutatorElement_inv (a : G) p).symm
+      simp
     · rintro ⟨v, hv, hvz⟩
       have hinv : v⁻¹ ∈ χ.range := χ.range.inv_mem hv
       obtain ⟨q, hq⟩ := hinv
@@ -1260,6 +1261,7 @@ private theorem card_range_commutatorElementHom_eq_card_inf
       _ = Nat.card A := by rw [h1]
   simpa [hA] using hrange
 
+omit [Finite G] in
 private theorem card_range_mul_card_centralizer_eq
     {a : G} (hZA : V ≤ Subgroup.centralizer (Pc M V : Set G))
     (hxA : ∀ p ∈ Pc M V, ⁅(a : G), p⁆ ∈ V) :
@@ -1444,7 +1446,7 @@ theorem exists_orth_of_kOf_nonabelian
       _ = 2 ^ (4 * ((n : ℕ) - 1)) := by rw [← pow_mul]; ring_nf
       _ < 2 ^ (4 * (n : ℕ)) := Nat.pow_lt_pow_right (by norm_num) (by omega)
   set ρ : Representation (ZMod 2) SL(2, F) (subW hW W₀) := subRepW hW ψ hW₀ hN
-  haveI : Fact ρ.IsIrreducible := ⟨isIrreducible_subRepW hW ψ hW₀ hN hW₀ne hmin⟩
+  have : Fact ρ.IsIrreducible := ⟨isIrreducible_subRepW hW ψ hW₀ hN hW₀ne hmin⟩
   have hnt := exists_apply_subRepW_ne_one h hPH hH hnM ψ hW₀ hN hW₀ne
   obtain ⟨hA2, hAcard, -⟩ := imgK_map_sl2 h hPH hVH hH hnM ψ
   have hAcard' : Nat.card ((imgK V H (Pc M V)).map ψ.toMonoidHom) = 2 ^ (n : ℕ) := by

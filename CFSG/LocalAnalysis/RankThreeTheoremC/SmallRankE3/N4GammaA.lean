@@ -22,7 +22,7 @@ theorem n4_pSolvable_centralizer_of_gammaCent (hγc : N3.GammaCentP) (hβ : NoTw
     (hz : SmallRankCentral P z) {b : G} (hbB : b ∈ zpowers x ⊔ zpowers z) (hbZ : b ∉ zpowers z) :
     CFSG.HallHigman.IsPSolvable p ↥(M ⊓ centralizer ({b} : Set G)) := by
   have hprime : p.Prime := sigmaA_prime p hsit.mem_sigmaA
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   obtain ⟨hPM, hxM, hzM, hpl⟩ := n4_plane63E3 hS hsit hp5 hx hz
   have hne : M ≠ ⊤ := fun h => hx.not_centralizer_le (h ▸ le_top)
   have hpl' := SmallRankPlane.of_situation hS hsit hx hz

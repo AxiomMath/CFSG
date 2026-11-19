@@ -63,6 +63,7 @@ section CubeRoot
 
 variable {F : Type} [Field F] [Finite F] {p f : ℕ} [Fact p.Prime] [CharP F p]
 
+omit [Finite F] in
 theorem three_ne_zero_of_pow_mod_one (hf : 1 ≤ f) (hq : p ^ f % 3 = 1) : (3 : F) ≠ 0 := by
   intro h
   have h' : ((3 : ℕ) : F) = 0 := by simpa using h
@@ -74,7 +75,7 @@ theorem three_ne_zero_of_pow_mod_one (hf : 1 ≤ f) (hq : p ^ f % 3 = 1) : (3 : 
 
 theorem exists_cube_root {Q : ℕ} (hF : Nat.card F = Q ^ 2) (hQ : Q % 3 = 1) :
     ∃ ω : F, ω ^ 2 + ω + 1 = 0 ∧ ω ^ Q = ω := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hdvd : 3 ∣ Nat.card Fˣ := by
     rw [Nat.card_units, hF]
     have h1 : 3 ∣ Q - 1 := by omega

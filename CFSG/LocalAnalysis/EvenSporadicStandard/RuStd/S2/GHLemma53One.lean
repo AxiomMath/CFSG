@@ -15,6 +15,7 @@ section Reduction
 
 variable {X : Type} [Group X] [Finite X] {t : X}
 
+omit [Finite X] in
 theorem eq_one_of_forall_commute_of_centralizer_equiv_prod_M10
     (ht : orderOf t = 2) (htc : t ∉ center X)
     (e : ↥(centralizer ({t} : Set X)) ≃* (Multiplicative (ZMod 2) × M10)) {x : X}
@@ -56,6 +57,7 @@ private theorem fusionZStar_eq_bot_of_forall_commute {Y : Type} [Group Y]
     QuotientGroup.eq, hO, mem_bot, inv_mul_eq_one] at h2
   exact h2
 
+omit [Finite X] in
 theorem fusionZStar_eq_bot_of_centralizer_equiv_prod_M10
     (hO : CFSG.oddCore X = ⊥) (ht : orderOf t = 2) (htc : t ∉ center X)
     (e : ↥(centralizer ({t} : Set X)) ≃* (Multiplicative (ZMod 2) × M10)) :
@@ -65,6 +67,7 @@ theorem fusionZStar_eq_bot_of_centralizer_equiv_prod_M10
   · intro y hy
     exact eq_one_of_forall_commute_of_centralizer_equiv_prod_M10 ht htc e hy
 
+omit [Finite X] in
 theorem solomonM10Hyp_of_centralizer_equiv_prod_M10
     (ht : orderOf t = 2)
     (e : ↥(centralizer ({t} : Set X)) ≃* (Multiplicative (ZMod 2) × M10)) :
@@ -120,7 +123,7 @@ theorem ghLemma53_1_of_solomonM10
   have hconcl := hSol X hK t ht hZ hOC hHyp
   rcases hconcl.2 with hN' | hU
   · obtain ⟨N, hN, ⟨eN⟩, hCN⟩ := hN'
-    haveI := hN
+    have := hN
     exact Or.inr (nonempty_fStar_equiv_prod_of_normal N eN hCN)
   · obtain ⟨eU⟩ := hU
     exact Or.inl (nonempty_fStar_equiv_U43_of_mulEquiv_U43Ext eU)

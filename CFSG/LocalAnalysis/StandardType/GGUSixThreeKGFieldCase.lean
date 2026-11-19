@@ -121,8 +121,7 @@ theorem perLineOn_of_fieldTriple [Finite K] (hKd : UnitaryFieldData 2 n K)
     have h1 : φ w * (a (φ w))⁻¹ = φ (w * (LineU.conjN (X ^ i * Y ^ j * Z ^ k) hM w)⁻¹) := by
       rw [hact w, ← map_inv, ← map_mul]
     constructor
-    · change (n₀ * (a n₀)⁻¹) ^ 3 = 1
-      rw [show n₀ = φ w from rfl, h1]
+    · rw [show n₀ = φ w from rfl, h1]
       exact hpow
     · intro a' ha'
       obtain ⟨i', j', k', hM', hi', hj', hk', hx'⟩ := monoData a' ha'
@@ -230,8 +229,6 @@ theorem perLineOn_of_fieldTriple [Finite K] (hKd : UnitaryFieldData 2 n K)
             ((w : ↥(unitarySU 2 n K 6))⁻¹ * s * w) * w⁻¹) := by
       intro s
       rw [MulAut.conj_apply]
-      change n₀ * φ (LineU.conjN (X ^ i * Y ^ j * Z ^ k) hM
-          ((w : ↥(unitarySU 2 n K 6))⁻¹ * s * w)) * n₀⁻¹ = _
       rw [show n₀ = φ w from rfl, ← map_inv, ← map_mul, ← map_mul]
     have hstep4 : ∀ s : ↥(unitarySU 2 n K 6),
         w * LineU.conjN (X ^ i * Y ^ j * Z ^ k) hM

@@ -35,7 +35,7 @@ theorem ascListTable_of_rows
       CFSG.RankThree.GF2n.Tim79a.NoSqE1 D) :
     AscListTable := by
   intro G _ _ D hS hrad _ h2 hsq hE1 hL
-  have hZ : Subgroup.center G = ⊥ := hrad _ inferInstance (isSolvable_of_comm fun a b =>
+  have hZ : Subgroup.center G = ⊥ := hrad _ inferInstance (_root_.Group.isSolvable_of_comm fun a b =>
     Subtype.ext ((Subgroup.mem_center_iff.mp a.2 b).symm))
   have hB : CFSG.BenderSuzuki.IsBenderGroup G → False := fun hB =>
     hsq (bender_meetsSq hB hS.isClass hS.oddT.1)

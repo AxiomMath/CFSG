@@ -42,8 +42,8 @@ theorem d4t2_rElem_mem_layer {L : Type} [Field L] [IsAlgClosed L] {p₀ : ℕ}
       (S.Γ ⊓ Subgroup.centralizer {rootDiagUnit .E6 a})} := by
   classical
   obtain ⟨hch, -⟩ := S.exists_charP_isAlgebraic_zmod hAlg hl hf hq
-  haveI := hch
-  haveI : Fact l.Prime := ⟨hl⟩
+  have := hch
+  have : Fact l.Prime := ⟨hl⟩
   have hd1 : rootDiagUnit .E6 a ≠ 1 := d4t2_rootDiagUnit_ne_one hall
   obtain ⟨i, v, hker, hv, hρ⟩ := d4t2tm_class S h3 hT hap hall
   obtain ⟨U, hUdef⟩ : ∃ U : Subgroup (ModGL Tag.E6 L),

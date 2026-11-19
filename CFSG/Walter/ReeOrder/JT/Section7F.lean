@@ -223,7 +223,7 @@ theorem lemma_7_5
     rw [hW'def, hP'def]
     refine (Subgroup.map_mono ?_).trans (map_normalizer_le (E.map Y.subtype))
     exact (Subgroup.map_mono (Subgroup.map_subtype_le W₀)).trans (map_normalizer_le E)
-  have hP'3 : IsPGroup 3 P' := ((P.isPGroup'.map _).map _).map _
+  have hP'3 : IsPGroup 3 P' := ((P.isPGroup.map _).map _).map _
   have hP'card : Nat.card P' = Nat.card (P : Subgroup N₀) := by
     rw [hP'def, Subgroup.card_map_of_injective K.subtype_injective,
       Subgroup.card_map_of_injective Y.subtype_injective, hEdef,

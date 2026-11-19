@@ -78,7 +78,7 @@ theorem mono_eJ_mulVec_xvec (J : Finset (Fin 6)) (i : Fin 6) :
 theorem mono_eJd_symmDiff (J K : Finset (Fin 6)) (i : Fin 6) :
     eJd (symmDiff J K) i = eJd J i * eJd K i := by
   simp only [mono_eJd_apply]
-  by_cases h1 : i ∈ J <;> by_cases h2 : i ∈ K <;> simp [Finset.mem_symmDiff, h1, h2] <;> decide
+  by_cases h1 : i ∈ J <;> by_cases h2 : i ∈ K <;> simp [Finset.mem_symmDiff, h1, h2]
 
 theorem mono_eJ_mul (J K : Finset (Fin 6)) : eJ J * eJ K = eJ (symmDiff J K) := by
   apply Units.ext
@@ -108,8 +108,8 @@ theorem mono_eJ_injective : Function.Injective eJ := by
   simp only [mono_eJd_apply] at h2
   by_cases hJ : i ∈ J <;> by_cases hK : i ∈ K
   · exact iff_of_true hJ hK
-  · simp only [hJ, hK, if_true, if_false] at h2; exact absurd h2 (by decide)
-  · simp only [hJ, hK, if_true, if_false] at h2; exact absurd h2 (by decide)
+  · simp only [hJ, hK, ite_true, ite_false] at h2; exact absurd h2 (by decide)
+  · simp only [hJ, hK, ite_true, ite_false] at h2; exact absurd h2 (by decide)
   · exact iff_of_false hJ hK
 
 @[expose] def monoReflX (a : Fin 6) : ReflVec := ⟨xvec a, qV_xvec_ne_zero a⟩
@@ -124,7 +124,7 @@ theorem mono_reflOf_reflX (a : Fin 6) : reflOf (monoReflX a) = eJ {a} := by
   funext k
   by_cases hk : k = a
   · subst hk; simp [mono_eJd_apply]
-  · simp [mono_eJd_apply, hk, Function.update_apply]
+  · simp [mono_eJd_apply, hk]
 
 theorem mono_exists_list (J : Finset (Fin 6)) :
     ∃ l : List ReflVec, (l.map reflOf).prod = eJ J ∧ l.length = J.card ∧
@@ -145,7 +145,7 @@ theorem mono_exists_list (J : Finset (Fin 6)) :
     · rw [List.countP_cons, hcnt]
       have hq : qV (monoReflX a).1 = -1 ↔ a = 5 := by
         rw [show (monoReflX a).1 = xvec a from rfl, mono_qV_xvec]
-        by_cases h : a = 5 <;> simp [h] <;> decide
+        by_cases h : a = 5 <;> simp [h]; decide
       by_cases h5 : a = 5
       · subst h5; simp [monoReflX, mono_qV_xvec, ha]
       · simp [hq, h5, Finset.mem_insert, Ne.symm h5]
@@ -327,8 +327,8 @@ theorem mono_eq_eJ_of_diag {g : GL6} (hg : g ∈ OVq)
   rw [mono_eJd_apply]
   simp only [Finset.mem_filter, Finset.mem_univ, true_and]
   rcases hc1 i with h | h
-  · rw [if_neg (by rw [h]; decide), h]
-  · rw [if_pos h, h]
+  · rw [ite_eq_right (by rw [h]; decide), h]
+  · rw [ite_eq_left h, h]
 
 theorem Q2Dot_le_M2Dot : Q2Dot ≤ M2Dot := by
   intro g hg
@@ -373,14 +373,14 @@ theorem mono_M2Dot_structure {g : GL6} (hg : g ∈ M2Dot) :
   have h5 : τ 5 = 5 := by
     by_contra hne
     have := hq 5
-    rw [mono_qV_xvec, mono_qV_xvec, if_neg hne, if_pos rfl] at this
+    rw [mono_qV_xvec, mono_qV_xvec, ite_eq_right hne, ite_eq_left rfl] at this
     exact absurd this (by decide)
   have hinj : Function.Injective τ := by
     intro i i' hii
     by_contra hne
     have h1 := bil_mulVec_of_mem_OVq hOV (xvec i) (xvec i')
     rw [hτ i, hτ i', ← hii, bil_smul_left, bil_smul_right, mono_bil_xvec, mono_bil_xvec,
-      if_pos rfl, if_neg hne] at h1
+      ite_eq_left rfl, ite_eq_right hne] at h1
     have h2 : c i * (c i' * (2 * qV (xvec (τ i)))) ≠ 0 := by
       refine mul_ne_zero (hc i) (mul_ne_zero (hc i') (mul_ne_zero (by decide) ?_))
       rw [mono_qV_xvec]
@@ -522,7 +522,7 @@ theorem mono_fin_cases (i : Fin 6) : i = 5 ∨ ∃ a : Fin 5, i = Fin.castSucc a
 
 theorem mono_qV_sub_xvec {a b : Fin 6} (hab : a ≠ b) (ha : a ≠ 5) (hb : b ≠ 5) :
     qV (xvec a - xvec b) = -1 := by
-  rw [qV_sub, mono_bil_xvec, mono_qV_xvec, mono_qV_xvec, if_neg hab, if_neg ha, if_neg hb]
+  rw [qV_sub, mono_bil_xvec, mono_qV_xvec, mono_qV_xvec, ite_eq_right hab, ite_eq_right ha, ite_eq_right hb]
   decide
 
 theorem mono_bil_xvec_right (x : V6) {j : Fin 6} (hj : j ≠ 5) : bil x (xvec j) = 2 * x j := by
@@ -544,19 +544,19 @@ theorem mono_swapRefl_mulVec {a b : Fin 6} (hab : a ≠ b) (ha : a ≠ 5) (hb : 
   simp only [Pi.sub_apply, Pi.smul_apply, smul_eq_mul, mono_xvec_apply]
   by_cases hka : k = a
   · subst hka
-    rw [Equiv.swap_apply_left, if_pos rfl, if_neg hab]
+    rw [Equiv.swap_apply_left, ite_eq_left rfl, ite_eq_right hab]
     generalize x k = u
     generalize x b = v
     revert u v
     decide
   · by_cases hkb : k = b
     · subst hkb
-      rw [Equiv.swap_apply_right, if_neg hka, if_pos rfl]
+      rw [Equiv.swap_apply_right, ite_eq_right hka, ite_eq_left rfl]
       generalize x k = u
       generalize x a = v
       revert u v
       decide
-    · rw [Equiv.swap_apply_of_ne_of_ne hka hkb, if_neg hka, if_neg hkb]
+    · rw [Equiv.swap_apply_of_ne_of_ne hka hkb, ite_eq_right hka, ite_eq_right hkb]
       simp
 
 theorem mono_swapRefl_mulVec_xvec {a b : Fin 6} (hab : a ≠ b) (ha : a ≠ 5) (hb : b ≠ 5)
@@ -600,8 +600,8 @@ theorem mono_s5Hom_swap_mem_MDot {a b : Fin 5} (hab : a ≠ b) :
   rw [← key, prod_refl_mem_MDot_iff]
   refine ⟨by simp, ?_⟩
   have hq1 := mono_qV_sub_xvec hab' (mono_castSucc_ne_five a) (mono_castSucc_ne_five b)
-  have hq2 : qV (xvec 5) = -1 := by rw [mono_qV_xvec, if_pos rfl]
-  simp [List.countP_cons, hq1, monoReflX, hq2]
+  have hq2 : qV (xvec 5) = -1 := by rw [mono_qV_xvec, ite_eq_left rfl]
+  simp [hq1, monoReflX, hq2]
 
 theorem mono_s5Hom_mem_MDot (σ : Equiv.Perm (Fin 5)) : s5Hom σ ∈ MDot := by
   induction σ using Equiv.Perm.swap_induction_on with
@@ -843,7 +843,7 @@ theorem mono_comm_iff {g : GL6} {τ : Fin 6 → Fin 6} {c : Fin 6 → ZMod 3} (h
     have h1 := congrArg (fun m : GL6 => (m : Matrix (Fin 6) (Fin 6) (ZMod 3)) *ᵥ xvec i) h
     simp only [key, key'] at h1
     have h2 := congrFun h1 (τ i)
-    rw [Pi.smul_apply, Pi.smul_apply, mono_xvec_apply, if_pos rfl, smul_eq_mul, smul_eq_mul,
+    rw [Pi.smul_apply, Pi.smul_apply, mono_xvec_apply, ite_eq_left rfl, smul_eq_mul, smul_eq_mul,
       mul_one, mul_one, mul_comm (eJd _ i)] at h2
     exact mul_left_cancel₀ (hc i) h2
   · intro h
@@ -1041,10 +1041,10 @@ theorem mono_SDot'_le : monoQA monoKlein4 ≤ SDot := by
   exact CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2 (mono_QA_mono mono_Klein4_le_S4)
     mono_S4_le_normalizer mono_isPGroup_SDot'
 
-theorem mono_mem_of_normal_odd_index {G : Type*} [Group G] {N R : Subgroup G} (hRN : R ≤ N)
+theorem mono_mem_of_normal_odd_index {G : Type*} [Group G] {N R : Subgroup G} (_hRN : R ≤ N)
     (hnorm : ∀ n ∈ N, ∀ r ∈ R, n * r * n⁻¹ ∈ R) (hodd : ¬ 2 ∣ R.relIndex N) {x : G}
     (hx : x ∈ N) (hx2 : x * x = 1) : x ∈ R := by
-  haveI : (R.subgroupOf N).Normal := ⟨fun r hr n => by
+  have : (R.subgroupOf N).Normal := ⟨fun r hr n => by
     rw [Subgroup.mem_subgroupOf] at hr ⊢
     simpa using hnorm n n.2 r hr⟩
   set q : ↥N ⧸ R.subgroupOf N := QuotientGroup.mk ⟨x, hx⟩ with hq

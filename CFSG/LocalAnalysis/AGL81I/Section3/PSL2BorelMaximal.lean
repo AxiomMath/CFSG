@@ -68,7 +68,7 @@ theorem stabilizer_borel (F : Type) [Field F] :
 theorem borel_overgroup_eq_borel_or_top {F : Type} [Field F] [Finite F]
     {Y : Subgroup (PSL(2, F))} (h : CFSG.PSL2Table.borel F ≤ Y) :
     Y = CFSG.PSL2Table.borel F ∨ Y = ⊤ := by
-  haveI : Nontrivial (ℙ F (Fin 2 → F)) := nontrivial_borelPoint F
+  have : Nontrivial (ℙ F (Fin 2 → F)) := nontrivial_borelPoint F
   have hcoat : IsCoatom (CFSG.PSL2Table.borel F) := by
     rw [← stabilizer_borel]
     exact MulAction.IsPreprimitive.isCoatom_stabilizer_of_isPreprimitive
@@ -78,7 +78,7 @@ theorem borel_overgroup_eq_borel_or_top {F : Type} [Field F] [Finite F]
 theorem borelSL_overgroup_eq_borelSL_or_top {F : Type} [Field F] [Finite F]
     {Y : Subgroup (SL(2, F))} (h : CFSG.PSL2Table.borelSL F ≤ Y) :
     Y = CFSG.PSL2Table.borelSL F ∨ Y = ⊤ := by
-  haveI : Nontrivial (ℙ F (Fin 2 → F)) := nontrivial_borelPoint F
+  have : Nontrivial (ℙ F (Fin 2 → F)) := nontrivial_borelPoint F
   have hcoat : IsCoatom (CFSG.PSL2Table.borelSL F) := by
     rw [← stabilizer_borelSL]
     exact MulAction.IsPreprimitive.isCoatom_stabilizer_of_isPreprimitive

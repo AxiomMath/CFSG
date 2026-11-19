@@ -62,7 +62,7 @@ theorem commute_of_isPGroup_perm {α : Type*} [Finite α] {p : ℕ} [hpF : Fact 
     rcases Nat.lt_or_ge m 1 with h0 | h1
     · have hm0 : m = 0 := by omega
       rw [hm0, pow_zero] at hm
-      haveI : Subsingleton ρ.range := (Nat.card_eq_one_iff_unique.mp hm).1
+      have : Subsingleton ρ.range := (Nat.card_eq_one_iff_unique.mp hm).1
       exact isCyclic_of_subsingleton
     · have hm1' : m = 1 := by omega
       rw [hm1', pow_one] at hm
@@ -73,7 +73,7 @@ theorem commute_of_isPGroup_perm {α : Type*} [Finite α] {p : ℕ} [hpF : Fact 
     exact congrArg Subtype.val this
   have h := congrArg (fun σ : Equiv.Perm O => (σ ⟨a, MulAction.mem_orbit_self a⟩ : α)) hcomm
   simp only [ρ, MulAction.toPermHom_apply, Equiv.Perm.coe_mul, Function.comp_apply,
-    MulAction.toPerm_apply, MulAction.orbit.coe_smul, Subgroup.mk_smul, Equiv.Perm.smul_def] at h
+    MulAction.toPerm_apply] at h
   exact h
 
 theorem exists_ne_comm_of_card_center {Y : Type*} [Group Y] {p : ℕ} (hp : p.Prime)

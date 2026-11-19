@@ -275,7 +275,6 @@ private theorem fiveB_gen_closure_card_central {G : Type} [Group G] [Finite G]
   refine Subgroup.mem_centralizer_singleton_iff.2 ?_
   first
   | exact hc
-  | exact hc.symm
 
 end FiveBHelpers
 

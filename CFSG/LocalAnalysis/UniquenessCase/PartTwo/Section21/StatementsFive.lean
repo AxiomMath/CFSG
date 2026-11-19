@@ -39,7 +39,7 @@ theorem r72Shape_of_r72 {D : Data G} (h72 : F07.R72 D) {p : ℕ} {H : Subgroup G
   ∀ p : ℕ, p.Prime → p ≠ 2 → ∀ (X : Type) [Group X] [Finite X],
     CFSG.pPrimeCore p X = ⊥ → ∀ L : Subgroup X, L.Normal → genFittingFStar X ≤ L →
       R72Shape p ↥L → ∀ N : Subgroup X, IsStronglyPEmbedded p N →
-        IsSolvable ↥N ∨
+        Group.IsSolvable ↥N ∨
           (p = 5 ∧ IsAlt ↥L 10 ∧
             ∀ Y : Subgroup X, Y ≤ N → ⁅Y, Y⁆ = Y → ∀ (S : Type) [Group S],
               IsSimpleGroup S → ∀ f : ↥Y →* S, Function.Surjective f → IsAlt S 5)

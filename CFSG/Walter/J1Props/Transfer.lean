@@ -27,7 +27,7 @@ theorem eq_one_of_mem_sylow_of_commute_normalizer {G : Type*} [Group G] [Finite 
     MonoidHom.transfer_eq_pow (MonoidHom.id S) z key
   have hrange : φ.range = ⊥ := by
     by_contra hne
-    have hR : IsPGroup p φ.range := S.isPGroup'.to_subgroup φ.range
+    have hR : IsPGroup p φ.range := S.isPGroup.to_subgroup φ.range
     obtain ⟨n, hn⟩ := hR.exists_card_eq
     have hn0 : n ≠ 0 := by
       rintro rfl

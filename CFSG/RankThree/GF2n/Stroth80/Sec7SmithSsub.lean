@@ -16,6 +16,8 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   [(Q.subgroupOf M).Normal] {n : ℕ} {K : Type} [Field K] [Finite K] {γ : G → K}
   {M₀ : Tim79.QuadModel Q Z K γ} {ρ : Mbar M Q →* Multiplicative (AddAut M₀.E)} {b₀ : M₀.E}
 
+omit [(Q.subgroupOf M).Normal] in
+omit [Finite G] in
 theorem sec7_conjMod_conj (hc : Ctx M Q Z B) {t f m : G} (hfc : ConjMod M Q t f) (hm : m ∈ M) :
     ConjMod M Q t (m * f * m⁻¹) := by
   obtain ⟨hfM, g₀, hg₀, hq⟩ := hfc
@@ -38,7 +40,7 @@ variable (hc : Ctx M Q Z B) (hS : IsTensorSetup hc n M₀ ρ b₀) {t : G}
 
 include hc hS
 
-theorem sec7Ssub_le_perp (hVQ : Vt M (LB M Q B) B Z t ≤ Q)
+theorem sec7Ssub_le_perp (_hVQ : Vt M (LB M Q B) B Z t ≤ Q)
     (hfW : ∀ f ∈ LB M Q B, ConjMod M Q t f → ∀ a ∈ Ut Q Z f,
       ∀ b ∈ Vt M (LB M Q B) B Z t, b * a = a * b) :
     sec7Ssub M B M₀ t ≤ M₀.B.orthogonal (hc.VtSub hS.model t) := by

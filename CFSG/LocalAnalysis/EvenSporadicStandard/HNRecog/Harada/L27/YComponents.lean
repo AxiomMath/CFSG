@@ -22,7 +22,7 @@ theorem component_isSimpleGroup {Y : Type*} [Group Y] [Finite Y]
 theorem component_equiv_a5 {Y : Type} [Group Y] [Finite Y] (hfree : SolvableRadical.Free Y)
     {C : Subgroup Y} (hC : IsComponentOf C ⊤) (hcard : Nat.card C = 60) :
     Nonempty (C ≃* alternatingGroup (Fin 5)) := by
-  haveI : IsSimpleGroup C := component_isSimpleGroup hfree hC
+  have : IsSimpleGroup C := component_isSimpleGroup hfree hC
   exact CFSG.LargeExtraspecial.S12Tri.nonempty_mulEquiv_alternatingGroup_five_of_card_sixty hcard
 
 theorem component_commute_of_ne {Y : Type*} [Group Y] [Finite Y] {A B : Subgroup Y}

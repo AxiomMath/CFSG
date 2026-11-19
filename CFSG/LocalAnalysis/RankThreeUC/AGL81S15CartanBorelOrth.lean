@@ -23,17 +23,17 @@ theorem exists_piSubgroup_three_le_pRank_in_borel_orth
     (e : L ⧸ Subgroup.center L ≃* (TauCeti.CFSGIndex.lie
         (⟨TauCeti.LieTypeIndex.D m Q, hv⟩ : TauCeti.ValidLieTypeIndex)).Group)
     {q : ℕ} (hq : q.Prime) (hq2 : q != 2) (hdvd : q ∣ Q.card - 1) (hQcard : 4 ≤ Q.card)
-    {U : Subgroup L} (hU2 : IsPGroup 2 U)
+    {U : Subgroup L} (_hU2 : IsPGroup 2 U)
     (hUmax : CFSG.QuasithinUnique.IsSylowTwoOf U ⊤) :
     ∃ H : Subgroup L, H ≤ Subgroup.normalizer (U : Set L) ∧
       IsPiSubgroup {p : Nat.Primes | (p : Nat) != 2} H ∧
       3 ≤ CFSG.Open.pRank q H := by
   classical
-  haveI : Fact Q.p.Prime := ⟨Q.prime_p⟩
+  have : Fact Q.p.Prime := ⟨Q.prime_p⟩
   let d : TauCeti.ValidLieTypeIndex := ⟨TauCeti.LieTypeIndex.D m Q, hv⟩
   let F := ↥(TauCeti.ValidLieTypeIndex.fixedField d)
-  haveI : Finite F := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Finite F := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d
+  have : Fintype F := Fintype.ofFinite F
   let D := (TauCeti.CFSGIndex.lie d).Group
   let E := StatedProj (StatedOmega (StatedQuadPlus m F))
   have hQcardpow : Q.card = 2 ^ Q.exponent := by
@@ -48,8 +48,8 @@ theorem exists_piSubgroup_three_le_pRank_in_borel_orth
     change Nat.card ↥d.fixedField = 2 ^ Q.exponent
     rw [TauCeti.ValidLieTypeIndex.card_fixedField,
       TauCeti.ValidLieTypeIndex.fieldOrder_eq_characteristic_pow, hdchar, hdfexp]
-  haveI : Fact (2 : ℕ).Prime := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 :=
+  have : Fact (2 : ℕ).Prime := ⟨Nat.prime_two⟩
+  have : CharP F 2 :=
     charP_of_card_eq_prime_pow (p := 2) (f := Q.exponent)
       (by simpa [Nat.card_eq_fintype_card] using hFcardpow)
   have hf : 2 ≤ Q.exponent := by
@@ -57,7 +57,7 @@ theorem exists_piSubgroup_three_le_pRank_in_borel_orth
       rw [← hQcardpow]
       omega
     exact (Nat.pow_le_pow_iff_right (by norm_num : 1 < 2)).mp h4
-  haveI : NeZero m := ⟨by omega⟩
+  have : NeZero m := ⟨by omega⟩
   have hm3 : 3 ≤ m := by omega
   have eD : D ≃* E :=
     CFSG.RankThree.PartTwo.Census.Carrier.SpinD.typeDGroupEquivStatedProj_of_valid m Q hv

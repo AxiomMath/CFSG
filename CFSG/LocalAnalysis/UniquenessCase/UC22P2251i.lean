@@ -191,8 +191,8 @@ theorem uc22p2251i_exists_mem (D : Data G) (Ch : Choice2011 G) (h3 : S22_3_3 D C
   have hOK : pCoreOf 2 K ≤ pCoreOf 2 D.M := uc22p22r_pCoreOf_le_of_isSubnormal hK.1
   obtain ⟨Umod, _, _, _, e, ρ, hcm⟩ := uc22br4_exists_conjModule D.M D.U hV (P22x.uc22p22xf_hel D)
   obtain ⟨-, hsh⟩ := h3 hH c m Nb hNb Umod e ρ hcm
-  haveI : Fact (Nat.card A).Prime := ⟨hA⟩
-  haveI : IsCyclic A := isCyclic_of_prime_card rfl
+  have : Fact (Nat.card A).Prime := ⟨hA⟩
+  have : IsCyclic A := isCyclic_of_prime_card rfl
   obtain ⟨a, ha⟩ := IsCyclic.exists_generator (α := ↥A)
   obtain ⟨am, hamv⟩ : ∃ am : ↥D.M, (am : G) = a := ⟨⟨a, hAM a.2⟩, rfl⟩
   obtain ⟨ab, hab⟩ : ∃ ab : MBar D.M D.U, QuotientGroup.mk' (kerAct D.M D.U).normalCore am = ab := ⟨_, rfl⟩

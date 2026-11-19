@@ -70,6 +70,7 @@ private theorem eq_of_mod_eq_of_bounds {x y n : ℕ} (hx1 : 1 ≤ x) (hxn : x �
     omega
   · omega
 
+omit [Fintype K] [CharP K 2] in
 private theorem exists_max_above {f : ℕ} (E : Finset (Fin f) → V →ₗ[K] V) (v : V)
     (B : Finset (Fin f)) (hB : E B v ≠ 0) :
     ∃ C, B ⊆ C ∧ E C v ≠ 0 ∧ ∀ D', C ⊂ D' → E D' v = 0 := by
@@ -87,29 +88,30 @@ private theorem exists_max_above {f : ℕ} (E : Finset (Fin f) → V →ₗ[K] V
   have h2 := Finset.card_lt_card hD'
   omega
 
+omit [CharP K 2] in
 theorem Exp.down (X : D.Exp f) {B C : Finset (Fin f)} (hBC : B ⊆ C) (hC : X.E C (D.s v₀) ≠ 0) :
     X.E B (D.s v₀) ≠ 0 := by
   intro hB
   apply hC
   have hsplit : X.E C = X.E (C \ B) * X.E B := by
-    rw [X.hprod (C \ B) B, if_pos Finset.sdiff_disjoint, Finset.sdiff_union_of_subset hBC]
+    rw [X.hprod (C \ B) B, ite_eq_left Finset.sdiff_disjoint, Finset.sdiff_union_of_subset hBC]
   rw [hsplit, Module.End.mul_apply, hB, map_zero]
 
 theorem Exp.maximal_fix [FiniteDimensional K V] (X : D.Exp f) (h : D.Setup v₀ k)
-    {B : Finset (Fin f)} (hB : X.E B (D.s v₀) ≠ 0)
+    {B : Finset (Fin f)} (_hB : X.E B (D.s v₀) ≠ 0)
     (hmax : ∀ C, B ⊂ C → X.E C (D.s v₀) = 0) : X.E B (D.s v₀) ∈ D.fix := by
   have hzS : X.E B (D.s v₀) ∈ D.S v₀ := D.E_apply_mem_S X.hspan B
   have hCz : ∀ C : Finset (Fin f), C ≠ ∅ → X.E C (X.E B (D.s v₀)) = 0 := by
     intro C hCne
     rw [← Module.End.mul_apply, X.hprod C B]
     by_cases hdisj : Disjoint C B
-    · rw [if_pos hdisj]
+    · rw [ite_eq_left hdisj]
       have hlt : B ⊂ C ∪ B := by
         obtain ⟨x, hx⟩ := Finset.nonempty_iff_ne_empty.2 hCne
         exact (Finset.ssubset_iff_of_subset Finset.subset_union_right).2
           ⟨x, Finset.mem_union_left B hx, Finset.disjoint_left.1 hdisj hx⟩
       exact hmax (C ∪ B) hlt
-    · rw [if_neg hdisj, LinearMap.zero_apply]
+    · rw [ite_eq_right hdisj, LinearMap.zero_apply]
   have hE0' : X.E ∅ (X.E B (D.s v₀)) = X.E B (D.s v₀) := by
     rw [X.hE0, Module.End.one_apply]
   have hX : ∀ t : K, D.X t (X.E B (D.s v₀)) = X.E B (D.s v₀) := by
@@ -126,6 +128,7 @@ theorem Exp.maximal_fix [FiniteDimensional K V] (X : D.Exp f) (h : D.Setup v₀ 
     exact h1
   exact D.mem_fix_of_X_fixed h.fix1 h.mem h.ne0 hzS hX
 
+omit [CharP K 2] in
 theorem Exp.maximal_mod [FiniteDimensional K V] (X : D.Exp f) (h : D.Setup v₀ k)
     {B : Finset (Fin f)} (hB : X.E B (D.s v₀) ≠ 0) (hz : X.E B (D.s v₀) ∈ D.fix) :
     bitSum B % (Fintype.card K - 1) = k % (Fintype.card K - 1) := by
@@ -183,7 +186,7 @@ theorem Exp.maximal_mod [FiniteDimensional K V] (X : D.Exp f) (h : D.Setup v₀ 
 theorem Exp.exists_nonempty [FiniteDimensional K V] (X : D.Exp f) (h : D.Setup v₀ k) :
     ∃ B : Finset (Fin f), B.Nonempty ∧ X.E B (D.s v₀) ≠ 0 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hX : ∀ t : K, D.X t (D.s v₀) = D.s v₀ := by
     intro t
     have h1 : (D.X t : V →ₗ[K] V) (D.s v₀) =
@@ -201,11 +204,11 @@ theorem Exp.exists_nonempty [FiniteDimensional K V] (X : D.Exp f) (h : D.Setup v
     rwa [X.hE0, Module.End.one_apply] at h0
   exact h.sv (D.mem_fix_of_X_fixed h.fix1 h.mem h.ne0 hzS hX)
 
-theorem Exp.monomial_structure [FiniteDimensional K V] (hf2 : 2 ≤ f) (X : D.Exp f) (h : D.Setup v₀ k) :
+theorem Exp.monomial_structure [FiniteDimensional K V] (_hf2 : 2 ≤ f) (X : D.Exp f) (h : D.Setup v₀ k) :
     ∃ B' : Finset (Fin f), B'.Nonempty ∧ (∀ B, X.E B (D.s v₀) ≠ 0 ↔ B ⊆ B') ∧
       X.E B' (D.s v₀) ∈ D.fix ∧ X.E B' (D.s v₀) ≠ 0 ∧
       bitSum B' % (Fintype.card K - 1) = k % (Fintype.card K - 1) := by
-  clear hf2
+  clear _hf2
   obtain ⟨B0, hB0ne, hB0⟩ := X.exists_nonempty h
   obtain ⟨B', hB0B', hB'ne, hB'max⟩ := exists_max_above X.E (D.s v₀) B0 hB0
   have hB'nonempty : B'.Nonempty := hB0ne.mono hB0B'

@@ -82,9 +82,9 @@ theorem ggTorsion_psp_components {m n : ℕ} (hm : 1 ≤ m) (hn : 1 ≤ n)
         CFSG.Open.StatedClassicalModel (↥J ⧸ Subgroup.center ↥J) t n' 2 f) ∨
       Nat.card (↥J ⧸ Subgroup.center ↥J) = 360 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := by
     refine charP_of_card_eq_prime_pow (p := 2) (f := n) ?_
     rwa [← Nat.card_eq_fintype_card]
   have h2 : (2 : K) = 0 := by exact_mod_cast CharP.cast_eq_zero K 2
@@ -108,7 +108,7 @@ theorem ggTorsion_psp_components {m n : ℕ} (hm : 1 ≤ m) (hn : 1 ≤ n)
       (fun h => h.elim) (fun h => h.elim) (fun h => h.elim)
       hp hp2 Nat.prime_two hn hK hm hp2 (fun h => h.elim) x hxp
   obtain ⟨X, inst, hXfin, ⟨hXL, -⟩, hfac, f, hf, hker⟩ := hcomp J hJo
-  letI := inst
+  let := inst
   obtain ⟨e⟩ :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieComp.nonempty_centralQuotient_mulEquiv
       hXL.perfect f hf hker
@@ -117,8 +117,8 @@ theorem ggTorsion_psp_components {m n : ℕ} (hm : 1 ≤ m) (hn : 1 ≤ n)
   rcases hfac with hSL | hSU | hSp | hA6
   ·
     obtain ⟨a, j, E, hEf, hEfin, ha, hj, -, hEc, h4, ⟨eX⟩⟩ := hSL
-    letI := hEf
-    letI := hEfin
+    let := hEf
+    let := hEfin
     have hnj : 1 ≤ n * j := Nat.mul_pos hn hj
     have hcard : Nat.card E = 2 ^ (n * j) := by
       rw [Nat.card_eq_fintype_card, hEc, hK, ← pow_mul]
@@ -140,8 +140,8 @@ theorem ggTorsion_psp_components {m n : ℕ} (hm : 1 ≤ m) (hn : 1 ≤ n)
         ⟨eY.trans eZ⟩⟩⟩
   ·
     obtain ⟨a, j, q', E, hEf, hEfin, ha, hj, -, hq', hEc, hne, ⟨eX⟩⟩ := hSU
-    letI := hEf
-    letI := hEfin
+    let := hEf
+    let := hEfin
     obtain rfl : q' = 2 ^ (n * j) := by rw [hq', hK, ← pow_mul]
     have hE : Nat.card E = (2 ^ (n * j)) ^ 2 := by
       rw [Nat.card_eq_fintype_card, hEc]

@@ -53,11 +53,11 @@ theorem uc22s217rj_mem_uniqueSet (D : Data G) (hSg : UC6S846.SigmaStd D) (h8107 
     (h7 : CFSG.Open.pRank 7 D.M ≤ 2) {A : Subgroup G} (hAL : A ≤ L) (hA : Nat.card A = 7) :
     A ∈ uniqueSet D.M := by
   classical
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hns := UC6S846.not_solvable_of_mem_calC hL
   obtain ⟨p, hp⟩ := hSg.nonempty
   obtain ⟨hpp, hp2⟩ := D.sig_prime p hp
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have hp7 : p ≠ 7 := fun h => h7σ (h ▸ hp)
   obtain ⟨K, hK, hKL⟩ := Set.exists_ne_of_one_lt_ncard (by rw [hc2]; norm_num) L
   have hKC := uc22p2214_calC_of_mem_conjSetOf hL hK
@@ -76,7 +76,7 @@ theorem uc22s217rj_mem_uniqueSet (D : Data G) (hSg : UC6S846.SigmaStd D) (h8107 
       uc22p2214_mem_normalizer_of_odd hcK (hA₀M (hA₁A₀ ha)) (hodd a (hA₁A₀ ha))
   have hA₂A₀ : A₂ ≤ A₀ := hA₂A₁.trans hA₁A₀
   have hZ : center (Bar2 L) = ⊥ := by
-    haveI := (kJ1_holds _ hJ1).2.1
+    have := (kJ1_holds _ hJ1).2.1
     exact uc22p21k_center_eq_bot hL.2.2
   have hW : ∀ X ∈ calC D.M, IsJ1 (Bar2 X) →
       CFSG.Open.pRank 7 (barImage D.M X) ≤ 1 ∧ 7 ∣ Nat.card (barImage D.M X) := by

@@ -42,14 +42,14 @@ theorem fiveQ_add_single_smul (k : ℕ) (ε : Bool) {i j : Fin (k + 1)} (hij : i
         (if l = j then c ^ 2 * fiveWeight k ε j else 0) := by
     intro l
     by_cases hli : l = i
-    · rw [hli, if_pos rfl, if_neg hij]
-      simp [Pi.single_apply, hij, smul_eq_mul]
+    · rw [hli, ite_eq_left rfl, ite_eq_right hij]
+      simp [hij, smul_eq_mul]
     · by_cases hlj : l = j
-      · rw [hlj, if_neg (Ne.symm hij), if_pos rfl]
-        simp [Pi.single_apply, Ne.symm hij, smul_eq_mul]
+      · rw [hlj, ite_eq_right (Ne.symm hij), ite_eq_left rfl]
+        simp [Ne.symm hij, smul_eq_mul]
         ring
-      · rw [if_neg hli, if_neg hlj]
-        simp [Pi.single_apply, hli, hlj, smul_eq_mul]
+      · rw [ite_eq_right hli, ite_eq_right hlj]
+        simp [hli, hlj, smul_eq_mul]
   rw [Finset.sum_congr rfl (fun l _ => hpoint l), Finset.sum_add_distrib,
     Finset.sum_ite_eq', Finset.sum_ite_eq']
   simp
@@ -61,13 +61,13 @@ theorem fiveForm_single_single (k : ℕ) (ε : Bool) (i j : Fin (k + 1)) :
   · rw [Pi.single_eq_same, one_mul]
     by_cases hij : i = j
     · subst hij
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       simp only [fiveFormVec, fiveWeight, Pi.single_eq_same, mul_one]
-    · rw [if_neg hij]
+    · rw [ite_eq_right hij]
       simp only [fiveFormVec, Pi.single_apply]
       split_ifs <;> ring
   · intro l _ hl
-    simp [Pi.single_apply, hl]
+    simp [hl]
   · intro hi
     exact absurd (Finset.mem_univ i) hi
 
@@ -84,19 +84,18 @@ theorem fiveForm_sq_sub (k : ℕ) (ε : Bool) {i j : Fin (k + 1)} (hij : i ≠ j
   have h : Pi.single i 1 - Pi.single j 1 =
       Pi.single i 1 + (-1 : ZMod 5) • Pi.single j 1 := by
     funext l
-    simp only [Pi.sub_apply, Pi.add_apply, Pi.smul_apply, smul_eq_mul, sub_eq_add_neg,
-      mul_neg_one]
+    simp only [Pi.sub_apply, Pi.add_apply, Pi.smul_apply, smul_eq_mul, sub_eq_add_neg]
     ring_nf
   rw [h, ← fiveQ_apply, fiveQ_add_single_smul k ε hij (-1)]
   ring_nf
 
 theorem fiveForm_single_self_eq_fiveWeight (k : ℕ) (ε : Bool) (i : Fin (k + 1)) :
     fiveForm k ε (Pi.single i 1) (Pi.single i 1) = fiveWeight k ε i := by
-  rw [fiveForm_single_single, if_pos rfl]
+  rw [fiveForm_single_single, ite_eq_left rfl]
 
 theorem fiveWeight_zero (k : ℕ) (ε : Bool) (hk : 0 < k) :
     fiveWeight k ε (0 : Fin (k + 1)) = 1 := by
-  rw [fiveWeight, if_neg]
+  rw [fiveWeight, ite_eq_right]
   intro h
   have := congrArg Fin.val h
   simp at this

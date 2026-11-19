@@ -53,7 +53,7 @@ theorem sp_cons (n o x : ℕ) (L : List ℕ) :
   rw [← Submodule.span_union]
   congr 1
   ext v
-  simp only [List.mem_cons, Set.mem_setOf_eq, Set.mem_union, Set.mem_singleton_iff]
+  simp only [List.mem_cons, Set.mem_ofPred_eq, Set.mem_union, Set.mem_singleton_iff]
   constructor
   · rintro ⟨y, rfl | hy, rfl⟩
     · exact Or.inl rfl
@@ -95,9 +95,9 @@ theorem add_self' {n : ℕ} (v : Fin n → ZMod 2) : v + v = 0 := by
 
 @[expose] def SlotOK (o t s : ℕ) : Prop := s = 0 ∨ (s.testBit (t + o) = true ∧ Low (t + o) s)
 
-@[expose] def Ech (o : ℕ) : List ℕ → ℕ → Prop
+@[expose] def _root_.CFSG.KC.Misc.GLM.Ech (o : ℕ) : List ℕ → ℕ → Prop
   | [], _ => True
-  | s :: S, t => SlotOK o t s ∧ Ech o S (t - 1)
+  | s :: S, t => SlotOK o t s ∧ CFSG.KC.Misc.GLM.Ech o S (t - 1)
 
 @[expose] def Red (o r : ℕ) : List ℕ → ℕ → Prop
   | [], _ => True
@@ -149,10 +149,10 @@ theorem cntNZ_cons (s : ℕ) (L : List ℕ) :
   by_cases h : s = 0
   · subst h
     rfl
-  · rw [beq_false_of_ne' h, if_neg h]
+  · rw [beq_false_of_ne' h, ite_eq_right h]
     rfl
 
-theorem ech_below {o t : ℕ} : ∀ (S : List ℕ) (u : ℕ), u < t → Ech o S u →
+theorem ech_below {o t : ℕ} : ∀ (S : List ℕ) (u : ℕ), u < t → CFSG.KC.Misc.GLM.Ech o S u →
     ∀ y ∈ S, ∀ v, t + o ≤ v → y.testBit v = false
   | [], _, _, _, y, hy => by simp at hy
   | s :: S, u, hu, hE, y, hy => by
@@ -164,9 +164,9 @@ theorem ech_below {o t : ℕ} : ∀ (S : List ℕ) (u : ℕ), u < t → Ech o S 
       · exact hl v (by omega)
     · exact ech_below S (u - 1) (by omega) hS y hy
 
-theorem insK_spec (n o : ℕ) : ∀ (S : List ℕ) (t r : ℕ), S.length = t + 1 → Ech o S t →
+theorem insK_spec (n o : ℕ) : ∀ (S : List ℕ) (t r : ℕ), S.length = t + 1 → CFSG.KC.Misc.GLM.Ech o S t →
     Low (t + o) r →
-    (insK o S t r).length = S.length ∧ Ech o (insK o S t r) t ∧
+    (insK o S t r).length = S.length ∧ CFSG.KC.Misc.GLM.Ech o (insK o S t r) t ∧
       sp n o (insK o S t r) = sp n o S ⊔ Submodule.span (ZMod 2) {bvo n o r} ∧
       ∀ Q : ℕ → Prop, XC Q → (∀ s ∈ S, Q s) → Q r → ∀ s ∈ insK o S t r, Q s
   | [], _, _, h, _, _ => by simp at h
@@ -176,7 +176,7 @@ theorem insK_spec (n o : ℕ) : ∀ (S : List ℕ) (t r : ℕ), S.length = t + 1
     rw [insK_cons]
     cases hb : r.testBit (t + o)
     ·
-      change (s :: insK o rest (t - 1) r).length = _ ∧ Ech o (s :: insK o rest (t - 1) r) t ∧
+      change (s :: insK o rest (t - 1) r).length = _ ∧ CFSG.KC.Misc.GLM.Ech o (s :: insK o rest (t - 1) r) t ∧
         sp n o (s :: insK o rest (t - 1) r) = _ ∧
         ∀ Q : ℕ → Prop, XC Q → _ → _ → ∀ x ∈ s :: insK o rest (t - 1) r, Q x
       rcases Nat.eq_zero_or_pos t with h0 | ht
@@ -195,7 +195,7 @@ theorem insK_spec (n o : ℕ) : ∀ (S : List ℕ) (t r : ℕ), S.length = t + 1
           · exact h4 Q hQ (fun y hy => hS y (List.mem_cons_of_mem _ hy)) hQr x hx
     · by_cases hs0 : s = 0
       · subst hs0
-        change (r :: rest).length = _ ∧ Ech o (r :: rest) t ∧ sp n o (r :: rest) = _ ∧
+        change (r :: rest).length = _ ∧ CFSG.KC.Misc.GLM.Ech o (r :: rest) t ∧ sp n o (r :: rest) = _ ∧
           ∀ Q : ℕ → Prop, XC Q → _ → _ → ∀ x ∈ r :: rest, Q x
         refine ⟨rfl, ⟨Or.inr ⟨hb, hr⟩, hrest⟩, ?_, fun Q _ hS hQr x hx => ?_⟩
         · rw [sp_cons, sp_cons, span_zero_bvo (bvo_zero n o), bot_sup_eq, sup_comm]
@@ -204,7 +204,7 @@ theorem insK_spec (n o : ℕ) : ∀ (S : List ℕ) (t r : ℕ), S.length = t + 1
           · exact hS x (List.mem_cons_of_mem _ hx)
       · rw [beq_false_of_ne' hs0]
         change (s :: insK o rest (t - 1) (Nat.xor r s)).length = _ ∧
-          Ech o (s :: insK o rest (t - 1) (Nat.xor r s)) t ∧
+          CFSG.KC.Misc.GLM.Ech o (s :: insK o rest (t - 1) (Nat.xor r s)) t ∧
           sp n o (s :: insK o rest (t - 1) (Nat.xor r s)) = _ ∧
           ∀ Q : ℕ → Prop, XC Q → _ → _ → ∀ x ∈ s :: insK o rest (t - 1) (Nat.xor r s), Q x
         obtain ⟨hst, hsl⟩ := hs.resolve_left hs0
@@ -233,7 +233,7 @@ theorem insK_spec (n o : ℕ) : ∀ (S : List ℕ) (t r : ℕ), S.length = t + 1
             · exact hS x (List.mem_cons_self ..)
             · exact h4 Q hQ hS' (hQ _ _ hQr (hS s (List.mem_cons_self ..))) x hx
 
-theorem redK_spec (n w o : ℕ) : ∀ (S : List ℕ) (t r : ℕ), S.length = t + 1 → Ech o S t →
+theorem redK_spec (n w o : ℕ) : ∀ (S : List ℕ) (t r : ℕ), S.length = t + 1 → CFSG.KC.Misc.GLM.Ech o S t →
     (∀ v, t + o < v → (redK o S t r).testBit v = r.testBit v) ∧ Red o (redK o S t r) S t ∧
       bvo n w (redK o S t r) + bvo n w r ∈ sp n w S ∧
       ∀ Q : ℕ → Prop, XC Q → (∀ s ∈ S, Q s) → Q r → Q (redK o S t r)
@@ -325,7 +325,7 @@ theorem insK_place (o : ℕ) : ∀ (S : List ℕ) (t r : ℕ), S.length = t + 1 
         rintro rfl
         rw [Nat.zero_testBit] at hb
         exact absurd hb (by decide)
-      rw [cntNZ_cons, cntNZ_cons, if_neg hr0, if_pos rfl]
+      rw [cntNZ_cons, cntNZ_cons, ite_eq_right hr0, ite_eq_left rfl]
 
 theorem finrank_span_sup {n : ℕ} (X : Submodule (ZMod 2) (Fin n → ZMod 2)) {v : Fin n → ZMod 2}
     (hv : v ∉ X) :
@@ -350,7 +350,7 @@ theorem finrank_span_sup {n : ℕ} (X : Submodule (ZMod 2) (Fin n → ZMod 2)) {
     exact finrank_bot _ _
   omega
 
-theorem finrank_ech (n o : ℕ) : ∀ (S : List ℕ) (t : ℕ), t < n → S.length = t + 1 → Ech o S t →
+theorem finrank_ech (n o : ℕ) : ∀ (S : List ℕ) (t : ℕ), t < n → S.length = t + 1 → CFSG.KC.Misc.GLM.Ech o S t →
     finrank (ZMod 2) (sp n o S) = cntNZ S
   | [], _, _, h, _ => by simp at h
   | s :: rest, t, htn, hl, hE => by
@@ -365,8 +365,8 @@ theorem finrank_ech (n o : ℕ) : ∀ (S : List ℕ) (t : ℕ), t < n → S.leng
     rw [sp_cons, cntNZ_cons, ← hrk]
     by_cases hs0 : s = 0
     · subst hs0
-      rw [span_zero_bvo (bvo_zero n o), bot_sup_eq, if_pos rfl, Nat.add_zero]
-    · rw [if_neg hs0]
+      rw [span_zero_bvo (bvo_zero n o), bot_sup_eq, ite_eq_left rfl, Nat.add_zero]
+    · rw [ite_eq_right hs0]
       obtain ⟨hst, -⟩ := hs.resolve_left hs0
       refine finrank_span_sup _ fun hmem => ?_
       have hvan : ∀ w ∈ sp n o rest, w ⟨t, htn⟩ = 0 := by
@@ -402,7 +402,7 @@ theorem rowK_low (c i : ℕ) : Low (4 + 0) (rowK c i) := by
   have h3 : (2 : ℕ) ^ 5 = 32 := by norm_num
   omega
 
-theorem rkGo_spec (c : ℕ) : ∀ k, (rkGo c k).length = 5 ∧ Ech 0 (rkGo c k) 4 ∧
+theorem rkGo_spec (c : ℕ) : ∀ k, (rkGo c k).length = 5 ∧ CFSG.KC.Misc.GLM.Ech 0 (rkGo c k) 4 ∧
     sp 5 0 (rkGo c k) = Submodule.span (ZMod 2) {v | ∃ i < k, bvo 5 0 (rowK c i) = v}
   | 0 => by
     refine ⟨rfl, ⟨Or.inl rfl, Or.inl rfl, Or.inl rfl, Or.inl rfl, Or.inl rfl, trivial⟩, ?_⟩
@@ -412,13 +412,13 @@ theorem rkGo_spec (c : ℕ) : ∀ k, (rkGo c k).length = 5 ∧ Ech 0 (rkGo c k) 
   | k + 1 => by
     obtain ⟨h1, h2, h3⟩ := rkGo_spec c k
     obtain ⟨g1, g2, g3, -⟩ := insK_spec 5 0 (rkGo c k) 4 (rowK c k) h1 h2 (rowK_low c k)
-    change (insK 0 (rkGo c k) 4 (rowK c k)).length = 5 ∧ Ech 0 (insK 0 (rkGo c k) 4 (rowK c k)) 4 ∧
+    change (insK 0 (rkGo c k) 4 (rowK c k)).length = 5 ∧ CFSG.KC.Misc.GLM.Ech 0 (insK 0 (rkGo c k) 4 (rowK c k)) 4 ∧
       sp 5 0 (insK 0 (rkGo c k) 4 (rowK c k)) = _
     refine ⟨g1.trans h1, g2, ?_⟩
     rw [g3, h3, ← Submodule.span_union]
     congr 1
     ext v
-    simp only [Set.mem_union, Set.mem_setOf_eq, Set.mem_singleton_iff]
+    simp only [Set.mem_union, Set.mem_ofPred_eq, Set.mem_singleton_iff]
     constructor
     · rintro (⟨i, hi, rfl⟩ | rfl)
       · exact ⟨i, by omega, rfl⟩

@@ -15,6 +15,7 @@ open scoped commutatorElement
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem eq_one_of_torusLocal {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {R : Subgroup X}
     (hRp : IsPGroup p R) (hT : CFSG.AGLEmbeddingD2.TorusLocal p R) {x : X} (hxR : x ∈ R)
     (hx : ∀ n ∈ normalizer (R : Set X), x * n = n * x) : x = 1 := by
@@ -40,7 +41,7 @@ theorem eq_one_of_d2HeisLocalAt {i : TauCeti.CFSGIndex} {Pp : ℕ → Prop}
     (hxP : x ∈ (P : Subgroup X))
     (hx : ∀ n ∈ normalizer ((P : Subgroup X) : Set X), x * n = n * x) : x = 1 := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, -, -, hC, hZ, hcomm, hexp, -, t, htN, m, lam, e, hm, hlam, -, hpow, -, -⟩ :=
     H X K hK hKC he p hpp P
   let Z : Subgroup X := (P : Subgroup X) ⊓ centralizer ((P : Subgroup X) : Set X)
@@ -181,7 +182,7 @@ theorem eq_one_of_d2TransLocalAt {i : TauCeti.CFSGIndex} {Pp : ℕ → Prop}
     (P : Sylow p X) {x : X} (hxP : x ∈ (P : Subgroup X))
     (hx : ∀ n ∈ normalizer ((P : Subgroup X) : Set X), x * n = n * x) : x = 1 := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨E, -, hEea, hEcard⟩ := CFSG.SectionRank.exists_pRank hp.one_lt (⊤ : Subgroup X)
   have hEcard' : Nat.card ↥E = p ^ CFSG.Open.pRank p (⊤ : Subgroup X) := by simpa using hEcard
   have hE2 : p ^ 2 ≤ Nat.card ↥E := by
@@ -241,7 +242,7 @@ theorem eq_one_of_d2TransLocalAt {i : TauCeti.CFSGIndex} {Pp : ℕ → Prop}
     exact mul_inv_cancel x
   have hcop : Nat.Coprime p 2 := (Nat.coprime_two_left.mpr (hp.odd_of_ne_two hp2)).symm
   have hc : (orderOf x).Coprime 2 := by
-    simpa only [Subgroup.orderOf_mk] using P.isPGroup'.orderOf_coprime hcop (⟨x, hxP⟩ : P)
+    simpa only [Subgroup.orderOf_mk] using P.isPGroup.orderOf_coprime hcop (⟨x, hxP⟩ : P)
   exact orderOf_eq_one_iff.mp (Nat.Coprime.eq_one_of_dvd hc (orderOf_dvd_of_pow_eq_one hx2))
 
 end CFSG.LocalAnalysis.UniquenessCase.PartOne.Section8.KIZ

@@ -75,19 +75,19 @@ theorem sCard : Nat.card J3Groups.S = 128 := by
 
 theorem σAB0 : σAB 0 = J3Groups.pa := by
   unfold σAB
-  rw [if_pos rfl]
+  rw [ite_eq_left rfl]
 
 theorem σAB1 : σAB 1 = J3Groups.pa⁻¹ := by
   unfold σAB
-  rw [if_neg (by decide), if_pos rfl]
+  rw [ite_eq_right (by decide), ite_eq_left rfl]
 
 theorem σAB2 : σAB 2 = J3Groups.pb := by
   unfold σAB
-  rw [if_neg (by decide), if_neg (by decide), if_pos rfl]
+  rw [ite_eq_right (by decide), ite_eq_right (by decide), ite_eq_left rfl]
 
 theorem σAB3 : σAB 3 = J3Groups.pb⁻¹ := by
   unfold σAB
-  rw [if_neg (by decide), if_neg (by decide), if_neg (by decide)]
+  rw [ite_eq_right (by decide), ite_eq_right (by decide), ite_eq_right (by decide)]
 
 theorem abr0 (x : Nat) : ABr 0 x = r32 TA x := by
   unfold ABr

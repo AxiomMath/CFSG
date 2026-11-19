@@ -138,7 +138,7 @@ theorem GGResHyp.exists_unitaryModel_K_of_marking_not_six_three
         ¬ (lab.rank + 1 = 6 ∧ p = 3)) p Bs K)
     (hN : Bs ≤ Subgroup.normalizer (K : Set G)) :
     ∃ (F : Type) (_ : Field F) (_ : Finite F) (n d : ℕ)
-      (θ : ↥K ⧸ Subgroup.center ↥K ≃* LargeEvenProj (unitarySU 2 n F d))
+      (_θ : ↥K ⧸ Subgroup.center ↥K ≃* LargeEvenProj (unitarySU 2 n F d))
       (ψ : ↥(unitarySU 2 n F d) →* ↥K),
       UnitTB.Model ψ ∧
         ∀ a ∈ (ggGamma K hN).range, ∃ t : Fin d → F, ActsDiagU ψ a t := by
@@ -156,16 +156,16 @@ theorem GGResHyp.exists_unitaryModel_K_of_marking_not_six_three
   subst tag
   dsimp only [LargeEvenRawDatumLegacy] at hraw
   obtain ⟨F, hField, hFinite, hFK, hQ⟩ := hraw
-  letI : Field F := hField
-  letI : Finite F := hFinite
-  obtain ⟨-, -, θ, hP⟩ := hQ
+  let : Field F := hField
+  let : Finite F := hFinite
+  obtain ⟨-, -, _θ, hP⟩ := hQ
   obtain ⟨⟨-, -, -, -⟩, hN', hact⟩ := hP
   have hn : 1 ≤ n := hΛ.1
   have hd : 5 ≤ rank + 1 := by omega
   have h63 : ¬ (rank + 1 = 6 ∧ p = 3) := hnot
   obtain ⟨ψ, hM, hdiag⟩ :=
-    hH.exists_unitaryModel_K_of_marking_data hFK hn hd hpq h63 θ hN hact
-  exact ⟨F, hField, hFinite, n, rank + 1, θ, ψ, hM, hdiag⟩
+    hH.exists_unitaryModel_K_of_marking_data hFK hn hd hpq h63 _θ hN hact
+  exact ⟨F, hField, hFinite, n, rank + 1, _θ, ψ, hM, hdiag⟩
 
 end CFSG.StandardType
 
@@ -298,8 +298,8 @@ theorem GGResHyp.exists_unitaryModel_K_qTwo_of_marking_rank
   subst rank
   dsimp only [LargeEvenRawDatumLegacy] at hraw
   obtain ⟨F, hField, hFinite, hFK, hQ⟩ := hraw
-  letI : Field F := hField
-  letI : Finite F := hFinite
+  let : Field F := hField
+  let : Finite F := hFinite
   obtain ⟨-, -, θ, hP⟩ := hQ
   obtain ⟨⟨-, -, -, -⟩, hN, hact⟩ := hP
   have hd : 5 ≤ r + 1 := by omega
@@ -339,7 +339,7 @@ theorem GGResHyp.u63_marking_of_cell
 theorem GGResHyp.unitary_six_two_K_marking_data
     {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {x : G}
     {L D J : Subgroup G} {y : G} {K : Subgroup G}
-    (hH : GGResHyp 3 B Bs x L D J y K)
+    (_hH : GGResHyp 3 B Bs x L D J y K)
     (hcell : GGInnerDiagOnLabel
       (fun _ lab => lab.tag = .twA ∧ lab.rank = 5 ∧ lab.n = 1) 3 Bs K) :
     ∃ (F : Type) (_ : Field F) (_ : Finite F),
@@ -364,8 +364,8 @@ theorem GGResHyp.unitary_six_two_K_marking_data
   subst n
   dsimp only [LargeEvenRawDatum] at hraw
   obtain ⟨F, hField, hFinite, hFK, hQ⟩ := hraw
-  letI : Field F := hField
-  letI : Finite F := hFinite
+  let : Field F := hField
+  let : Finite F := hFinite
   obtain ⟨-, -, θ, hP⟩ := hQ
   obtain ⟨-, hN, hact⟩ := hP
   have hF4 : Nat.card F = 4 := by simpa using hFK
@@ -447,7 +447,7 @@ theorem GGResHyp.beta_image_of_unitary_six_two_K_original
     {B Bs : Subgroup G} {x : G} {L D J : Subgroup G} {y : G} {K : Subgroup G}
     (hH : GGResHyp p B Bs x L D J y K)
     (hN : Bs ≤ Subgroup.normalizer (K : Set G)) (hp3 : p = 3)
-    (hU63 : GGInnerDiagOnLabel GGNbrInner937U63Label p Bs K)
+    (_hU63 : GGInnerDiagOnLabel GGNbrInner937U63Label p Bs K)
     {R : Type} [Group R] (I : Set (MulAut R))
     (θ : ↥K ⧸ Subgroup.center ↥K ≃* R)
     (hI : ∀ b ∈ Bs, ∃ φ ∈ I, LargeEvenInduces θ
@@ -489,8 +489,8 @@ theorem GGResHyp.exists_unitaryModel_K_six_two_of_cell_B_lt_Bs
         ∃ t : Fin 6 → F, LineU.ActsDiagU ψ a t := by
   obtain ⟨F, hField, hFinite, hF4, θ, hN, hact⟩ :=
     GGResHyp.unitary_six_two_K_marking_data hH hcell
-  letI : Field F := hField
-  letI : Finite F := hFinite
+  let : Field F := hField
+  let : Finite F := hFinite
   have hcell' : GGInnerDiagOnLabel
       (fun p lab => lab.tag = .twA ∧ lab.rank = 5 ∧ lab.n = 1 ∧ p = 3) 3 Bs K :=
     GGInnerDiagOnLabel.mono_label (fun lab h => ⟨h.1, h.2.1, h.2.2, rfl⟩) hcell
@@ -516,8 +516,8 @@ theorem GGResHyp.not_exactThree_K_of_six_two_cell_B_lt_Bs
   rintro h3
   obtain ⟨F, hField, hFinite, ψ, hF4, hM, hdiag⟩ :=
     GGResHyp.exists_unitaryModel_K_six_two_of_cell_B_lt_Bs hH hlt hcell
-  letI : Field F := hField
-  letI : Finite F := hFinite
+  let : Field F := hField
+  let : Finite F := hFinite
   have hLB : GGLBalanceInput := ggGammaSuppliers_proved.1
   obtain ⟨hp3, hdiv, hd9, δ, hδ, hδdiag⟩ :=
     hH.unitary_exactThree_J_model_qTwo_of_K hLB hM
@@ -528,10 +528,10 @@ theorem GGResHyp.not_exactThree_K_of_six_two_cell_B_lt_Bs
   have hJq : CFSG.Assembly.IsQuasisimple ↥J := hJcomp.2.2
   have hJqNat : CFSG.IsQuasisimple ↥J :=
     (CFSG.ComponentClassification.AssemblyBPredicates.isQuasisimple_iff_native ↥J).mp hJq
-  haveI hsolSU : Group.IsSolvable ↥(unitarySU 2 1 F (6 - 3)) :=
+  have hsolSU : Group.IsSolvable ↥(unitarySU 2 1 F (6 - 3)) :=
     SmallU.isSolvable_unitarySU_small hδ.field (by norm_num) (by norm_num)
   have hsolJ : Group.IsSolvable ↥J :=
-    solvable_of_surjective (f := δ) hδ.surj
+    Group.isSolvable_of_surjective (f := δ) hδ.surj
   exact not_isSolvable_of_isQuasisimple hJqNat hsolJ
 
 
@@ -547,8 +547,8 @@ theorem GGResHyp.unitary_six_two_K_fix_mem_centralizer_noOdd
   open CFSG.StandardType.Line63.H5 CFSG.StandardType.SCFourCover in
   obtain ⟨F, hField, hFinite, hF4, θ, hN, hact⟩ :=
     GGResHyp.unitary_six_two_K_marking_data hH hcell
-  letI : Field F := hField
-  letI : Finite F := hFinite
+  let : Field F := hField
+  let : Finite F := hFinite
   have hcell' : GGInnerDiagOnLabel
       (fun p lab => lab.tag = .twA ∧ lab.rank = 5 ∧ lab.n = 1 ∧ p = 3) 3 Bs K :=
     GGInnerDiagOnLabel.mono_label (fun lab h => ⟨h.1, h.2.1, h.2.2, rfl⟩) hcell
@@ -562,7 +562,7 @@ theorem GGResHyp.unitary_six_two_K_fix_mem_centralizer_noOdd
     hH.1.2.1.2.2.2
   have hCharF : CharP F 2 :=
     charP_two_of_card (by simpa using hF4 : Nat.card F = 2 ^ 2)
-  letI : CharP F 2 := hCharF
+  let : CharP F 2 := hCharF
   obtain ⟨hNbar, φQ, hMQ, hdiagQ⟩ :=
     exists_diagonal_cover_of_unitary_six_two_red hF4 hKperf θ hN hBs hact hγ
   let NX : Subgroup G := Subgroup.normalizer (K : Set G)
@@ -665,9 +665,9 @@ theorem GGResHyp.unitary_six_two_K_fix_mem_centralizer_noOdd
     by_contra hlt
     have hm1 : 1 ≤ m := by omega
     have hmle : m ≤ 2 := by omega
-    haveI : Group.IsSolvable ↥(unitarySU 2 1 F m) :=
+    have : Group.IsSolvable ↥(unitarySU 2 1 F m) :=
       WitSU.isSolvable_unitarySU_two_one hMQ.field hm1 (by omega)
-    haveI : Group.IsSolvable ↥Jbar := Group.isSolvable_of_surjective hMJ.surj
+    have : Group.IsSolvable ↥Jbar := Group.isSolvable_of_surjective hMJ.surj
     have hJbarqNat : CFSG.IsQuasisimple ↥Jbar :=
       (CFSG.ComponentClassification.AssemblyBPredicates.isQuasisimple_iff_native ↥Jbar).mp hJbarq
     exact not_isSolvable_of_isQuasisimple hJbarqNat inferInstance
@@ -696,7 +696,7 @@ theorem GGResHyp.unitary_six_two_K_fix_mem_centralizer_noOdd
   have hcenbar : (bbar : RedGrp K) ∈
       Subgroup.centralizer (Jbar : Set (RedGrp K)) :=
     ggUnitaryModel_fix_mem_centralizer hNJbar hBsbar hSCbar hMJ hm3 hdiagJ bbar hfixbar
-  letI : Group.IsPerfect ↥J := Group.isPerfect_def.mpr hJperf
+  let : Group.IsPerfect ↥J := Group.isPerfect_def.mpr hJperf
   let bJ : ↥(Subgroup.normalizer (J : Set G)) := ⟨(b : G), hNJ b.2⟩
   let α : MulAut ↥J := J.normalizerMonoidHom bJ
   have hαcoe : ∀ jj : ↥J, ((α jj : ↥J) : G) =
@@ -809,7 +809,7 @@ theorem GGResHyp.exists_unitaryModel_K_of_label_qGeFour
         p ∣ 2 ^ lab.n + 1) p Bs K)
     (hN : Bs ≤ Subgroup.normalizer (K : Set G)) :
     ∃ (F : Type) (_ : Field F) (_ : Finite F) (n d : ℕ)
-      (θ : ↥K ⧸ Subgroup.center ↥K ≃* LargeEvenProj (unitarySU 2 n F d))
+      (_θ : ↥K ⧸ Subgroup.center ↥K ≃* LargeEvenProj (unitarySU 2 n F d))
       (ψ : ↥(unitarySU 2 n F d) →* ↥K),
       2 ≤ n ∧ 5 ≤ d ∧ p ∣ 2 ^ n + 1 ∧ UnitTB.Model ψ ∧
         ∀ a ∈ (ggGamma K hN).range, ∃ t : Fin d → F, ActsDiagU ψ a t := by
@@ -828,15 +828,15 @@ theorem GGResHyp.exists_unitaryModel_K_of_label_qGeFour
   subst tag
   dsimp only [LargeEvenRawDatumLegacy] at hraw
   obtain ⟨F, hField, hFinite, hFK, hQ⟩ := hraw
-  letI : Field F := hField
-  letI : Finite F := hFinite
-  obtain ⟨hSimple, hNonAb, θ, hP⟩ := hQ
+  let : Field F := hField
+  let : Finite F := hFinite
+  obtain ⟨hSimple, hNonAb, _θ, hP⟩ := hQ
   obtain ⟨hlabel, hN', hact⟩ := hP
   have hd : 5 ≤ rank + 1 := by omega
   by_cases h63 : ¬ (rank + 1 = 6 ∧ p = 3)
   · obtain ⟨ψ, hM, hdiag⟩ :=
-      GGResHyp.exists_unitaryModel_K_of_marking_data hH hFK (by omega : 1 ≤ n) hd hpq h63 θ hN hact
-    exact ⟨F, hField, hFinite, n, rank + 1, θ, ψ, hn2, hd, hpq, hM, hdiag⟩
+      GGResHyp.exists_unitaryModel_K_of_marking_data hH hFK (by omega : 1 ≤ n) hd hpq h63 _θ hN hact
+    exact ⟨F, hField, hFinite, n, rank + 1, _θ, ψ, hn2, hd, hpq, hM, hdiag⟩
   · push Not at h63
     obtain ⟨hr6, hp3⟩ := h63
     have hrank5 : rank = 5 := by omega
@@ -845,15 +845,15 @@ theorem GGResHyp.exists_unitaryModel_K_of_label_qGeFour
       refine ⟨hperf, ⟨.twA, 5, n⟩, hΛ, ?_⟩
       dsimp only [CFSG.Assembly.LargeEvenRawDatumLegacy]
       refine ⟨F, hField, hFinite, hFK, ?_⟩
-      exact ⟨hSimple, hNonAb, θ, ⟨⟨⟨rfl, by norm_num, hpq, by rw [hp3]; norm_num⟩, by norm_num, hp3⟩, hN', hact⟩⟩
+      exact ⟨hSimple, hNonAb, _θ, ⟨⟨⟨rfl, by norm_num, hpq, by rw [hp3]; norm_num⟩, by norm_num, hp3⟩, hN', hact⟩⟩
     have hγ : 3 ^ 4 ≤ Nat.card (ggGamma K hN).range :=
       GGResHyp.gamma_four_of_unitary_six_two_K_original hH hN hp3 hU63
     have hH3 : GGResHyp 3 B Bs x L D J y K := by simpa [hp3] using hH
     obtain ⟨ψ, hM, hdiag⟩ :=
       GGResHyp.exists_unitaryModel_K_six_three_qGeFour_of_gamma hH3
         (by simpa using hFK : Nat.card F = (2 ^ n) ^ 2) hn2
-        (by simpa [hp3] using hpq) θ hN hact hγ
-    exact ⟨F, hField, hFinite, n, 6, θ, ψ, hn2, by norm_num, hpq, hM, hdiag⟩
+        (by simpa [hp3] using hpq) _θ hN hact hγ
+    exact ⟨F, hField, hFinite, n, 6, _θ, ψ, hn2, by norm_num, hpq, hM, hdiag⟩
 
 theorem GGResHyp.not_exactThree_K_of_iOne_qGeFour
     (hLB : GGLBalanceInput)
@@ -901,7 +901,7 @@ theorem GGResHyp.not_exactThree_K_of_B_eq_Bs_qGeFour
   have hLB : GGLBalanceInput := ggGammaSuppliers_proved.1
   obtain ⟨r, hd_eq, hpd, hXD, hcardBs, hcardJ, hBlt, hAut⟩ :=
     hH.unitary_exactThree_typeA_card_J_of_K hLB hM hpq hd hdiag h3
-  have hBlt' : Bs < Bs := by simpa [hEq] using hBlt
+  have hBlt' : Bs < Bs := by simp [hEq] at hBlt
   exact lt_irrefl Bs hBlt'
 
 theorem GGResHyp.not_exactThree_K_of_spPlus_L_qGeFour
@@ -950,7 +950,7 @@ theorem GGResHyp.not_exactThree_K_of_original_L_marking_qGeFour
     (hU : GGInnerDiagOnLabel
       (fun p lab => lab.tag = .twA ∧ 4 ≤ lab.rank ∧ 2 ≤ lab.n ∧
         p ∣ 2 ^ lab.n + 1) p Bs K)
-    (hN : Bs ≤ Subgroup.normalizer (K : Set G)) :
+    (_hN : Bs ≤ Subgroup.normalizer (K : Set G)) :
     ¬ GGResLeviDatumExact3 p Bs K J L ggSelAny ggTypAny := by
   have hBs : B = Bs := by
     rcases hL with ⟨r, f, hpq, hmarkA⟩ | hmarkE6
@@ -1142,7 +1142,7 @@ theorem GGResHyp.exists_unitaryModel_K_of_label_qGeFour_literal_of_selector
         p ∣ 2 ^ lab.n + 1) p Bs K)
     (hN : Bs ≤ Subgroup.normalizer (K : Set G)) :
     ∃ (F : Type) (_ : Field F) (_ : Finite F) (n rank d : ℕ)
-      (θ : ↥K ⧸ Subgroup.center ↥K ≃* LargeEvenProj (unitarySU 2 n F d))
+      (_θ : ↥K ⧸ Subgroup.center ↥K ≃* LargeEvenProj (unitarySU 2 n F d))
       (ψ : ↥(unitarySU 2 n F d) →* ↥K),
       4 ≤ rank ∧ 2 ≤ n ∧ 5 ≤ d ∧ d = rank + 1 ∧ Nat.card F = (2 ^ n) ^ 2 ∧
         p ∣ 2 ^ n + 1 ∧ UnitTB.Model ψ ∧
@@ -1164,15 +1164,15 @@ theorem GGResHyp.exists_unitaryModel_K_of_label_qGeFour_literal_of_selector
   subst tag
   dsimp only [LargeEvenRawDatumLegacy] at hraw
   obtain ⟨F, hField, hFinite, hFK, hQ⟩ := hraw
-  letI : Field F := hField
-  letI : Finite F := hFinite
-  obtain ⟨hSimple, hNonAb, θ, hP⟩ := hQ
+  let : Field F := hField
+  let : Finite F := hFinite
+  obtain ⟨hSimple, hNonAb, _θ, hP⟩ := hQ
   obtain ⟨hlabel, hN', hact⟩ := hP
   have hd : 5 ≤ rank + 1 := by omega
   by_cases h63 : ¬ (rank + 1 = 6 ∧ p = 3)
   · obtain ⟨ψ, hM, hdiag⟩ :=
-      GGResHyp.exists_unitaryModel_K_of_marking_data hH hFK (by omega : 1 ≤ n) hd hpq h63 θ hN hact
-    exact ⟨F, hField, hFinite, n, rank, rank + 1, θ, ψ,
+      GGResHyp.exists_unitaryModel_K_of_marking_data hH hFK (by omega : 1 ≤ n) hd hpq h63 _θ hN hact
+    exact ⟨F, hField, hFinite, n, rank, rank + 1, _θ, ψ,
       hr4, hn2, hd, rfl, hFK, hpq, hM, hdiag, hS⟩
   · push Not at h63
     obtain ⟨hr6, hp3⟩ := h63
@@ -1182,15 +1182,15 @@ theorem GGResHyp.exists_unitaryModel_K_of_label_qGeFour_literal_of_selector
       refine ⟨hperf, ⟨.twA, 5, n⟩, hΛ, ?_⟩
       dsimp only [CFSG.Assembly.LargeEvenRawDatumLegacy]
       refine ⟨F, hField, hFinite, hFK, ?_⟩
-      exact ⟨hSimple, hNonAb, θ, ⟨⟨⟨rfl, by norm_num, hpq, by rw [hp3]; norm_num⟩, by norm_num, hp3⟩, hN', hact⟩⟩
+      exact ⟨hSimple, hNonAb, _θ, ⟨⟨⟨rfl, by norm_num, hpq, by rw [hp3]; norm_num⟩, by norm_num, hp3⟩, hN', hact⟩⟩
     have hγ : 3 ^ 4 ≤ Nat.card (ggGamma K hN).range :=
       GGResHyp.gamma_four_of_unitary_six_two_K_original hH hN hp3 hU63
     have hH3 : GGResHyp 3 B Bs x L D J y K := by simpa [hp3] using hH
     obtain ⟨ψ, hM, hdiag⟩ :=
       GGResHyp.exists_unitaryModel_K_six_three_qGeFour_of_gamma hH3
         (by simpa using hFK : Nat.card F = (2 ^ n) ^ 2) hn2
-        (by simpa [hp3] using hpq) θ hN hact hγ
-    exact ⟨F, hField, hFinite, n, 5, 6, θ, ψ,
+        (by simpa [hp3] using hpq) _θ hN hact hγ
+    exact ⟨F, hField, hFinite, n, 5, 6, _θ, ψ,
       by norm_num, hn2, by norm_num, by norm_num, hFK, hpq, hM, hdiag, hS⟩
 
 theorem GGResHyp.exists_unitaryModel_K_of_label_qGeFour_literal
@@ -1202,16 +1202,16 @@ theorem GGResHyp.exists_unitaryModel_K_of_label_qGeFour_literal
         p ∣ 2 ^ lab.n + 1) p Bs K)
     (hN : Bs ≤ Subgroup.normalizer (K : Set G)) :
     ∃ (F : Type) (_ : Field F) (_ : Finite F) (n rank d : ℕ)
-      (θ : ↥K ⧸ Subgroup.center ↥K ≃* LargeEvenProj (unitarySU 2 n F d))
+      (_θ : ↥K ⧸ Subgroup.center ↥K ≃* LargeEvenProj (unitarySU 2 n F d))
       (ψ : ↥(unitarySU 2 n F d) →* ↥K),
       4 ≤ rank ∧ 2 ≤ n ∧ 5 ≤ d ∧ d = rank + 1 ∧ Nat.card F = (2 ^ n) ^ 2 ∧
         p ∣ 2 ^ n + 1 ∧ UnitTB.Model ψ ∧
           ∀ a ∈ (ggGamma K hN).range, ∃ t : Fin d → F, ActsDiagU ψ a t := by
-  obtain ⟨F, hField, hFinite, n, rank, d, θ, ψ,
+  obtain ⟨F, hField, hFinite, n, rank, d, _θ, ψ,
     hr4, hn2, hd, hd_eq, hFK, hpq, hM, hdiag, -⟩ :=
     hH.exists_unitaryModel_K_of_label_qGeFour_literal_of_selector
       (S := fun _ _ => True) (by simpa using hU) hN
-  exact ⟨F, hField, hFinite, n, rank, d, θ, ψ,
+  exact ⟨F, hField, hFinite, n, rank, d, _θ, ψ,
     hr4, hn2, hd, hd_eq, hFK, hpq, hM, hdiag⟩
 
 theorem GGResHyp.rankFiveK3_original_facts
@@ -1223,7 +1223,7 @@ theorem GGResHyp.rankFiveK3_original_facts
         p ∣ 2 ^ lab.n + 1) p Bs K)
     (h3 : GGResLeviDatumExact3 p Bs K J L ggSelAny ggTypAny) :
     ∃ (F : Type) (_ : Field F) (_ : Finite F) (n : ℕ)
-      (θK : ↥K ⧸ Subgroup.center ↥K ≃* LargeEvenProj (unitarySU 2 n F 6))
+      (_θK : ↥K ⧸ Subgroup.center ↥K ≃* LargeEvenProj (unitarySU 2 n F 6))
       (ψK : ↥(unitarySU 2 n F 6) →* ↥K)
       (δ : ↥(unitarySU 2 n F 3) →* ↥J),
       Nat.card F = (2 ^ n) ^ 2 ∧
@@ -1246,7 +1246,7 @@ theorem GGResHyp.rankFiveK3_original_facts
     GGInnerDiagOnLabel.mono_label (fun lab h => by
       obtain ⟨htag, hr5, hn2, hpq⟩ := h
       exact ⟨hr5, htag, by omega, hn2, hpq⟩) hU
-  obtain ⟨F, hField, hFinite, n, rank, d, θK, ψK,
+  obtain ⟨F, hField, hFinite, n, rank, d, _θK, ψK,
     -, hn2, -, hd_eq, hFK, hpq, hM, hdiag, hRank5⟩ :=
     hH.exists_unitaryModel_K_of_label_qGeFour_literal_of_selector
       (S := fun _ lab => lab.rank = 5) hU5 hN
@@ -1268,7 +1268,7 @@ theorem GGResHyp.rankFiveK3_original_facts
     hH.unitary_exactThree_J_model_three_of_K hLB hM hpq hdiag h3
   have hr : r = 5 := by omega
   have hBs : Nat.card Bs = 3 ^ 5 := by
-    simpa [hcardBs, hr, hp3]
+    simp [hcardBs, hr, hp3]
   have hJ : Nat.card ↥(Bs ⊓ Subgroup.centralizer (J : Set G)) = 3 ^ 3 := by
     rw [hcardJ]
     rw [hp3]
@@ -1284,7 +1284,7 @@ theorem GGResHyp.rankFiveK3_original_facts
     subst hn2'
     obtain ⟨k, hk⟩ := hnodd
     omega
-  exact ⟨F, hField, hFinite, n, θK, ψK, δ, hFK, hM, hdiag, hδM, hδdiag,
+  exact ⟨F, hField, hFinite, n, _θK, ψK, δ, hFK, hM, hdiag, hδM, hδdiag,
     hp3, hnodd, hn3, hpq, hBs, hJ, hAJ6, hBlt⟩
 
 theorem GGResHyp.rankFiveK3_line
@@ -1336,8 +1336,8 @@ theorem GGResHyp.not_exactThree_K_of_unitary_rank_four_qGeFour
   subst rank
   dsimp only [LargeEvenRawDatumLegacy] at hraw
   obtain ⟨F, hField, hFinite, hFK, hQ⟩ := hraw
-  letI : Field F := hField
-  letI : Finite F := hFinite
+  let : Field F := hField
+  let : Finite F := hFinite
   obtain ⟨hSimple, hNonAb, θ, hP⟩ := hQ
   obtain ⟨hlabel, hN', hact⟩ := hP
   have hn1 : 1 ≤ n := by omega

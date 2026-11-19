@@ -14,7 +14,7 @@ variable {E : Type} [Group E] {Gp : Subgroup E} {K : Type} [Field K]
 
 theorem mem_sylow_of_central {G : Type*} [Group G] {x : G} (hx : x * x = 1)
     (hc : ∀ g : G, g * x = x * g) (Q : Sylow 2 G) : x ∈ Q := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hP : IsPGroup 2 (Subgroup.zpowers x) := by
     rw [isPGroup_iff_pow_pow_eq_one]
     rintro ⟨g, hg⟩
@@ -40,10 +40,10 @@ theorem mem_sylow_of_central {G : Type*} [Group G] {x : G} (hx : x * x = 1)
   have h2 : Subgroup.zpowers x ≤ (Q : Subgroup G) := inf_eq_left.mp h1.symm
   exact h2 (Subgroup.mem_zpowers x)
 
-theorem central_mem_sylowOf {E : Type} [Group E] {C S : Subgroup E} (hSC : S ≤ C)
+theorem central_mem_sylowOf {E : Type} [Group E] {C S : Subgroup E} (_hSC : S ≤ C)
     (hSp : IsPGroup 2 S) (hidx : ¬ 2 ∣ S.relIndex C) {x : E} (hxC : x ∈ C) (hx : x * x = 1)
     (hcent : ∀ c ∈ C, c * x = x * c) : x ∈ S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hP : IsPGroup 2 (S.subgroupOf C) := hSp.comap_subtype
   let Q : Sylow 2 ↥C := hP.toSylow hidx
   have := mem_sylow_of_central (G := ↥C) (x := ⟨x, hxC⟩)

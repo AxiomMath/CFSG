@@ -28,6 +28,7 @@ noncomputable def barSubBar2Hom {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) {
     exact Subtype.ext h1
   exact QuotientGroup.lift (CFSG.pCore 2 ↥L) φ hker
 
+omit [Finite G] in
 theorem barSubBar2Hom_surjective {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) {L : Subgroup G}
     (hLS : L ≤ stabTil V₀ V) (h2 : barSub V₀ V hV (pCoreOf 2 L) = ⊥) :
     Function.Surjective (barSubBar2Hom hV hLS h2) := by

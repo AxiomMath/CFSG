@@ -177,7 +177,7 @@ theorem conj_mul_sub (ρ : Representation k G V) (n p : G) :
 theorem conj_apply_sub (ρ : Representation k G V) (n p : G) (v : V) :
     ρ n ((ρ p - 1) v) = (ρ (n * p * n⁻¹) - 1) (ρ n v) := by
   have h := congrArg (fun f : Module.End k V => f v) (conj_mul_sub ρ n p)
-  simpa [Module.End.mul_apply] using h
+  simp [Module.End.mul_apply]
 
 theorem map_sub_image_conj (ρ : Representation k G V) (c x : G) (U : Submodule k V) :
     (U.map (ρ x - 1)).map (ρ c) = (U.map (ρ c)).map (ρ (c * x * c⁻¹) - 1) := by
@@ -186,12 +186,12 @@ theorem map_sub_image_conj (ρ : Representation k G V) (c x : G) (U : Submodule 
   · rintro ⟨_, ⟨v, hv, rfl⟩, rfl⟩
     refine ⟨ρ c v, Submodule.mem_map_of_mem hv, ?_⟩
     have h := congrArg (fun f : Module.End k V => f v) (conj_mul_sub ρ c x)
-    simpa [Module.End.mul_apply] using h
+    simp [Module.End.mul_apply]
   · rintro ⟨v, hv, rfl⟩
     obtain ⟨u, hu, rfl⟩ := hv
     refine ⟨(ρ x - 1) u, ⟨u, hu, rfl⟩, ?_⟩
     have h := congrArg (fun f : Module.End k V => f u) (conj_mul_sub ρ c x)
-    simpa [Module.End.mul_apply] using h.symm
+    simp [Module.End.mul_apply]
 
 end Operators
 
@@ -223,7 +223,7 @@ theorem commSub_map_conj (ρ : Representation (ZMod 2) G V) (n : G) (P : Subgrou
             (ρ p - 1) (ρ (n⁻¹) v) := by
           have h := congrArg (fun f : Module.End (ZMod 2) V => f v)
             (conj_mul_sub ρ n⁻¹ (n * p * n⁻¹))
-          simpa [Module.End.mul_apply, mul_assoc] using h
+          simp [Module.End.mul_apply, mul_assoc]
         rw [h1]
         exact range_le_commSub hp ⟨ρ (n⁻¹) v, rfl⟩
       · simp
@@ -240,7 +240,7 @@ theorem commSub_map_conj (ρ : Representation (ZMod 2) G V) (n : G) (P : Subgrou
       have e : ρ n ((ρ p - 1) v) = (ρ (n * p * n⁻¹) - 1) (ρ n v) := by
         have h := congrArg (fun f : Module.End (ZMod 2) V => f v)
           (conj_mul_sub ρ n p)
-        simpa [Module.End.mul_apply] using h
+        simp [Module.End.mul_apply]
       rw [e]
       exact range_le_commSub (Subgroup.mem_map_of_mem _ hp) ⟨ρ n v, rfl⟩
     · simp

@@ -17,10 +17,12 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_conj_smul {g x : G} {Y : Subgroup G} : x ∈ MulAut.conj g • Y ↔ g⁻¹ * x * g ∈ Y := by
   rw [Subgroup.mem_pointwise_smul_iff_inv_smul_mem, ← map_inv, MulAut.smul_def, MulAut.conj_apply,
     inv_inv]
 
+omit [Finite G] in
 theorem card_conj_smul (g : G) (Y : Subgroup G) : Nat.card ↥(MulAut.conj g • Y) = Nat.card Y :=
   (Nat.card_congr (Subgroup.equivSMul (MulAut.conj g) Y).toEquiv).symm
 
@@ -184,6 +186,7 @@ theorem psiY_K {g : ↥(normalizer (Zinf (h := h) g₁ s₀ : Set G) ⊓ normali
   (D.psiY_eq_one_iff hOut hTw hg₁ hs₀ hHat g).mpr fun _ =>
     conj_smul_eq_of_le (fun _ hy => D.conj_mem_Ysub_of_K hOut hTw hg₁ hs₀ hHat hg hy) rfl
 
+omit hHat in
 theorem mem_RE_of {g : G}
     (hg : g ∈ normalizer (Zinf (h := h) g₁ s₀ : Set G) ⊓ normalizer (D.E : Set G))
     (hgS : g ∈ centralizer (Zinf (h := h) g₁ s₀ : Set G))
@@ -242,7 +245,7 @@ theorem of_mem_RE {g : G} (hg : g ∈ D.Bgrp g₁ s₀ ⊔ D.E) :
     intro x
     simp only [H₀, mem_inf, mem_iInf, mem_comap, MulAction.mem_stabilizer_iff]
   have hB : D.Bgrp g₁ s₀ ≤ H₀ := fun b hb => (hmem b).mpr
-    ⟨D.Bgrp_le_centralizer hOut hTw hg₁ hs₀ hb, fun _ => conj_smul_eq_of_le (fun _ hy =>
+    ⟨D.Bgrp_le_centralizer hb, fun _ => conj_smul_eq_of_le (fun _ hy =>
       D.conj_mem_Ysub_of_K hOut hTw hg₁ hs₀ hHat (D.Bgrp_le_Kgrp hOut hTw hg₁ hs₀ hb) hy) rfl⟩
   have hE : D.E ≤ H₀ := by
     intro e he
@@ -256,7 +259,7 @@ theorem mem_RE_iff {g : G}
     (hg : g ∈ normalizer (Zinf (h := h) g₁ s₀ : Set G) ⊓ normalizer (D.E : Set G)) :
     (g ∈ centralizer (Zinf (h := h) g₁ s₀ : Set G) ∧
       ∀ i, MulAut.conj g • D.Ysub i = D.Ysub i) ↔ g ∈ D.Bgrp g₁ s₀ ⊔ D.E :=
-  ⟨fun h1 => D.mem_RE_of hOut hTw hg₁ hs₀ hHat hg h1.1 h1.2,
+  ⟨fun h1 => D.mem_RE_of hOut hTw hg₁ hs₀ hg h1.1 h1.2,
     D.of_mem_RE hOut hTw hg₁ hs₀ hHat⟩
 
 theorem psiY_surjective (σ : Equiv.Perm (Fin 3)) :
@@ -269,7 +272,7 @@ theorem psiY_surjective (σ : Equiv.Perm (Fin 3)) :
       (D.mem_normalizer_E_iff hOut hTw (pre_le_M _ hg.2)).mpr hg.2
   let f := (D.psiY hOut hTw hg₁ hs₀ hHat).comp (Subgroup.inclusion hle)
   have hRE : D.Bgrp g₁ s₀ ⊔ D.E ≤ centralizer (Zinf (h := h) g₁ s₀ : Set G) ⊓ D.G13 :=
-    sup_le (le_inf (D.Bgrp_le_centralizer hOut hTw hg₁ hs₀) D.Bgrp_le_G13)
+    sup_le (le_inf (D.Bgrp_le_centralizer) D.Bgrp_le_G13)
       (le_inf (D.E_le_S hOut hTw hg₁ hs₀) (D.E_le_G13 hOut hTw))
   have hker : f.ker = (D.Bgrp g₁ s₀ ⊔ D.E).subgroupOf
       (centralizer (Zinf (h := h) g₁ s₀ : Set G) ⊓ D.G13) := by

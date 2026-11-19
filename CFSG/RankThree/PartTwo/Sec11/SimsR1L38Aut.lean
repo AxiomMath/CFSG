@@ -18,10 +18,10 @@ theorem pCore_two_eq_bot_of_quasisimple {C : Type*} [Group C] [Finite C]
     (hc : Subgroup.center C = ⊥) (hq : CFSG.IsQuasisimple C) (h3 : 3 ∣ Nat.card C) :
     CFSG.pCore 2 C = ⊥ := by
   have hsimple : IsSimpleGroup C := by
-    haveI := hq.2.1
+    have := hq.2.1
     exact ((QuotientGroup.quotientMulEquivOfEq hc).trans
       QuotientGroup.quotientBot).symm.isSimpleGroup
-  haveI := hsimple
+  have := hsimple
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (CFSG.pCore 2 C) with h | h
   · exact h
   · exfalso
@@ -88,7 +88,7 @@ end L38Aut
 
 theorem l38AutFacts_holds : SimsR1L38AutFacts := by
   intro X _ _ hX
-  haveI : Fact (Nat.card (GaloisField 2 3) = 8) :=
+  have : Fact (Nat.card (GaloisField 2 3) = 8) :=
     ⟨by rw [GaloisField.card 2 3 (by norm_num)]; norm_num⟩
   obtain ⟨e⟩ : Nonempty (X ≃* projSL 3 (GaloisField 2 3)) := by
     rcases hX with ⟨h, -⟩ | ⟨-, he⟩

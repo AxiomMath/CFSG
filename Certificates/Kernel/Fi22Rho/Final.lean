@@ -48,7 +48,7 @@ theorem appK_eq (l : Nat × Bool) (y : Nat) : appK l y = F l y := by
       rw [Bool.eq_false_iff]
       intro h
       exact hi (Nat.eq_of_beq_eq_true h)
-    rw [e, if_neg hi]
+    rw [e, ite_eq_right hi]
     cases b
     · rfl
     · exact (reg_lk (by norm_num) y).symm

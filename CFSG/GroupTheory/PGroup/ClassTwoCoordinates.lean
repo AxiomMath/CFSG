@@ -61,8 +61,8 @@ theorem quadMapOfCoeffs_mulVec_coeffs {n d : ℕ} (A : Matrix (Fin d) (Fin d) (Z
     rw [Matrix.mulVec_sum]
     refine Finset.sum_congr rfl fun j _ => ?_
     by_cases hij : i < j
-    · rw [if_pos hij, if_pos hij, Matrix.mulVec_smul (R := ZMod 2) A (v i * v j) (cm i j)]
-    · rw [if_neg hij, if_neg hij, Matrix.mulVec_zero]
+    · rw [ite_eq_left hij, ite_eq_left hij, Matrix.mulVec_smul (R := ZMod 2) A (v i * v j) (cm i j)]
+    · rw [ite_eq_right hij, ite_eq_right hij, Matrix.mulVec_zero]
   rw [quadMapOfCoeffs, quadMapOfCoeffs, Matrix.mulVec_add, Matrix.mulVec_sum,
     Matrix.mulVec_sum]
   congr 1
@@ -143,7 +143,7 @@ theorem eElt_ofAdd_cols {n : ℕ} (B : Matrix (Fin n) (Fin n) (ZMod 2))
   apply Multiplicative.toAdd.injective
   rw [toAdd_eElt]
   funext j
-  simp only [toAdd_ofAdd, Finset.sum_apply, Pi.smul_apply, smul_eq_mul, Matrix.mulVec,
+  simp only [toAdd_ofAdd, Finset.sum_apply, Pi.smul_apply, Matrix.mulVec,
     dotProduct]
   refine Finset.sum_congr rfl fun i _ => ?_
   rw [nsmul_eq_mul, ZMod.natCast_zmod_val]
@@ -197,7 +197,7 @@ theorem eElt_add_mul_inv_mem {n : ℕ} {Z : Subgroup G} {f : Fin n → G}
   have hZ'normal : Z'.Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer
       (hFZ.trans (Subgroup.centralizer_le_normalizer _))
-  haveI : Z'.Normal := hZ'normal
+  have : Z'.Normal := hZ'normal
   let Q := ↥F ⧸ Z'
   let p : ↥F →* Q := QuotientGroup.mk' Z'
   let z : Fin n → Q := fun i => p ⟨f i, hfF i⟩
@@ -483,12 +483,12 @@ private theorem quadMapOfCoeffs_castSucc {n d : ℕ} (sq : Fin (n + 1) → Fin d
               (if i < j then (v i.castSucc * v j.castSucc) • cm i.castSucc j.castSucc else 0)) +
           (v i.castSucc * v (Fin.last n)) • cm i.castSucc (Fin.last n) := by
     intro i
-    rw [Fin.sum_univ_castSucc, if_pos (Fin.castSucc_lt_last i)]
+    rw [Fin.sum_univ_castSucc, ite_eq_left (Fin.castSucc_lt_last i)]
     rfl
   have hlast : (∑ j : Fin (n + 1),
       (if Fin.last n < j then (v (Fin.last n) * v j) • cm (Fin.last n) j else 0)) = 0 := by
     refine Finset.sum_eq_zero fun j _ => ?_
-    rw [if_neg (not_lt.mpr (Fin.le_last j))]
+    rw [ite_eq_right (not_lt.mpr (Fin.le_last j))]
   have hB : (∑ i : Fin (n + 1), ∑ j : Fin (n + 1), (if i < j then (v i * v j) • cm i j else 0))
       = (∑ i : Fin n, ∑ j : Fin n,
             (if i < j then (v i.castSucc * v j.castSucc) • cm i.castSucc j.castSucc else 0)) +
@@ -500,7 +500,7 @@ private theorem quadMapOfCoeffs_castSucc {n d : ℕ} (sq : Fin (n + 1) → Fin d
 
 private theorem commutator_eElt_list {n d : ℕ} {z : Fin d → G}
     (hz2 : ∀ t, z t * z t = 1) (hzz : ∀ t s, Commute (z t) (z s)) {f : Fin n → G}
-    (hzf : ∀ t i, z t * f i = f i * z t) {x : G} (hxz : ∀ t, x * z t = z t * x)
+    (hzf : ∀ t i, z t * f i = f i * z t) {x : G} (_hxz : ∀ t, x * z t = z t * x)
     (u : Fin n → Fin d → ZMod 2) (hu : ∀ i : Fin n, ⁅x, f i⁆ = eElt z (u i)) :
     ∀ (l : List (Fin n)) (v : Fin n → ZMod 2),
       ⁅x, (l.map (fun i => f i ^ (v i).val)).prod⁆ =
@@ -562,7 +562,7 @@ theorem eElt_sq {n d : ℕ} {f : Fin n → G} {z : Fin d → G}
     rw [eElt_castSucc f v, quadMapOfCoeffs_castSucc sq cm v]
     rcases (by decide : ∀ e : ZMod 2, e = 0 ∨ e = 1) (v (Fin.last n)) with h0 | h1
     · rw [h0, ZMod.val_zero, pow_zero, mul_one, zero_smul]
-      simp only [mul_zero, zero_smul, Finset.sum_const_zero, add_zero, zero_add]
+      simp only [mul_zero, zero_smul, Finset.sum_const_zero, add_zero]
       exact ih (f := fun i : Fin n => f i.castSucc)
         (sq := fun i : Fin n => sq i.castSucc)
         (cm := fun i j : Fin n => cm i.castSucc j.castSucc)

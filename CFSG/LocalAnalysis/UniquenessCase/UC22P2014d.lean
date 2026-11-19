@@ -83,7 +83,7 @@ theorem uc22p2014d_mem_of_inv_mul_mem (D : Data G) {p : ℕ} (hp : p.Prime)
     (hxL : x ∈ normalizer (L : Set G)) (hxM : x ∈ D.M) (hxp : IsPGroup p (zpowers x))
     (hx1 : x ≠ 1) (w : Bar2 L)
     (h : w⁻¹ * UC6S846.rhoL L ⟨x, hxL⟩ w ∈ barImage L (D.M ⊓ L)) : w ∈ barImage L (D.M ⊓ L) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨l, rfl⟩ := QuotientGroup.mk_surjective w
   rw [uc22p2014d_mem_barImage_iff D hL]
   rw [UC6S846.rhoL_mk, ← QuotientGroup.mk_inv, ← QuotientGroup.mk_mul,

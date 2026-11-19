@@ -201,7 +201,7 @@ theorem wc813fl2_fourGroupInnerOn_L2 : FourGroupInnerOn ShapeL2 := by
       rw [haA2, map_one] at h1
       rw [hσdef]
       exact h1.symm
-    haveI : Fintype ↥A := Fintype.ofFinite ↥A
+    have : Fintype ↥A := Fintype.ofFinite ↥A
     have hcardA : Fintype.card ↥A = 4 := by
       rw [← Nat.card_eq_fintype_card]
       exact hA4
@@ -225,8 +225,8 @@ theorem wc813fl2_fourGroupInnerOn_L2 : FourGroupInnerOn ShapeL2 := by
     have hβsign : Perm.sign (ζ βA) = -1 := by
       rw [hβdef]
       by_cases h : Perm.sign (ζ b.1) = -1
-      · simp only [h, if_true]
-      · simp only [h, if_false]
+      · simp only [h, ite_true]
+      · simp only [h, ite_false]
         have hb1s : Perm.sign (ζ b.1) = 1 := by
           rcases Int.units_eq_one_or (Perm.sign (ζ b.1)) with h' | h'
           · exact h'
@@ -243,12 +243,12 @@ theorem wc813fl2_fourGroupInnerOn_L2 : FourGroupInnerOn ShapeL2 := by
     have hβ_ne_aA : βA ≠ aA := by
       rw [hβdef]
       by_cases h : Perm.sign (ζ b.1) = -1
-      · simp only [h, if_true]
+      · simp only [h, ite_true]
         exact hbA_ne_aA
-      · simp only [h, if_false]
+      · simp only [h, ite_false]
         intro heq
         have h2 := congrArg (fun x : ↥A => aA⁻¹ * x) heq
-        simp only [mul_one, ← mul_assoc, inv_mul_cancel, one_mul] at h2
+        simp only [← mul_assoc, inv_mul_cancel, one_mul] at h2
         exact hbA_ne_one h2
     have hτne : ζ βA ≠ σ := by
       intro h

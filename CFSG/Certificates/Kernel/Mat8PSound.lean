@@ -37,7 +37,7 @@ theorem and_lanes_succ (Z K : ℕ) :
     congr 2
     omega
 
-theorem and_one_mul_testBit (Z c b : ℕ) (hc : c < 2 ^ 8) :
+theorem and_one_mul_testBit (Z c b : ℕ) (_hc : c < 2 ^ 8) :
     ((Z &&& 1) * c).testBit b = (Z.testBit 0 && c.testBit b) := by
   rw [Nat.and_one_is_mod]
   rcases Nat.mod_two_eq_zero_or_one Z with h | h
@@ -58,10 +58,10 @@ theorem lanes_mul_testBit : ∀ (n Z c : ℕ), c < 2 ^ 8 → ∀ j b, b < 8 →
         _ < 2 ^ 8 := by omega
     rw [Nat.add_comm ((Z &&& 1) * c), Nat.testBit_two_pow_mul_add _ h1]
     rcases j with _ | j
-    · simp only [Nat.mul_zero, Nat.zero_add, hb, if_true, and_one_mul_testBit Z c b hc]
+    · simp only [Nat.mul_zero, Nat.zero_add, hb, ite_true, and_one_mul_testBit Z c b hc]
       simp
     · have hj : ¬ (8 * (j + 1) + b < 8) := by omega
-      rw [if_neg hj, show 8 * (j + 1) + b - 8 = 8 * j + b by omega,
+      rw [ite_eq_right hj, show 8 * (j + 1) + b - 8 = 8 * j + b by omega,
         lanes_mul_testBit n (Z >>> 8) c hc j b hb, Nat.testBit_shiftRight]
       rw [show 8 + 8 * j = 8 * (j + 1) by omega]
       simp
@@ -456,9 +456,9 @@ theorem stepRelP (gens : List (List ℕ)) (hg : gens.all validB = true) (wx : Li
     rfl
   rw [hy, h1 _ hlt]
   by_cases hc : memP b1 (mulP ((gens.map code64R).getD i oneP) x) = true
-  · rw [if_pos hc, if_pos hc]
+  · rw [ite_eq_left hc, ite_eq_left hc]
     exact ⟨h2, h3, h4, h5, h6, h1⟩
-  · rw [if_neg hc, if_neg hc]
+  · rw [ite_eq_right hc, ite_eq_right hc]
     refine ⟨?_, ?_, ?_, ?_, ?_, ?_⟩
     · simp only [List.map_cons, h2, hev, hy]
     · simp only [List.map_cons, h3]

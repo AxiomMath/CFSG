@@ -59,6 +59,7 @@ private lemma le_sup_centralizer_of_le_normalizer (hSch : CFSG.LocalAnalysis.Ran
   rw [hkc]
   exact Subgroup.mul_mem _ (Subgroup.mem_sup_left hyY) (Subgroup.mem_sup_right hcC)
 
+omit [Finite G] in
 private lemma mem_zpowers_of_mul_eq_of_orderOf_eq_prime {p : ℕ} [Fact p.Prime] {y c w : G}
     (hcomm : Commute y c) (hword : orderOf w = p) (hmul : w = y * c)
     (hc : ¬ p ∣ orderOf c) : w ∈ Subgroup.zpowers y := by
@@ -78,9 +79,10 @@ private lemma mem_zpowers_of_mul_eq_of_orderOf_eq_prime {p : ℕ} [Fact p.Prime]
     rw [hwe] at h1
     exact h1.symm
   have hmem : y ^ e ∈ Subgroup.zpowers y := by
-    simpa using Subgroup.zpow_mem (Subgroup.zpowers y) (Subgroup.mem_zpowers y) (e : ℤ)
+    simp
   rwa [← hweq]
 
+omit [Finite G] in
 private lemma mem_of_commute_of_isStronglyPEmbedded {p : ℕ} [Fact p.Prime] {M : Subgroup G}
     (hM : IsStronglyPEmbedded p M) {w c : G} (hwM : w ∈ M) (hword : orderOf w = p)
     (hcw : Commute w c) : c ∈ M := by
@@ -96,6 +98,7 @@ private lemma mem_of_commute_of_isStronglyPEmbedded {p : ℕ} [Fact p.Prime] {M 
   subst hz
   exact hcw
 
+omit [Finite G] in
 private lemma not_dvd_orderOf_of_isStronglyPEmbedded {p : ℕ} {M Y : Subgroup G}
     (hM : IsStronglyPEmbedded p M) (hYM : ¬ Y ≤ M) {c : G} (hcM : c ∈ M)
     (hcY : c ∈ centralizer (Y : Set G)) : ¬ p ∣ orderOf c := by
@@ -106,6 +109,7 @@ private lemma not_dvd_orderOf_of_isStronglyPEmbedded {p : ℕ} {M Y : Subgroup G
   have h := CFSG.LocalAnalysis.UniquenessCase.UC22.uc22p2014a_not_dvd_card_of_le hM hYM hzpM hYN
   rwa [Nat.card_zpowers] at h
 
+omit [Finite G] in
 private lemma not_mem_pCore_two_of_orderOf_eq_odd_prime {K : Subgroup G} {p : ℕ} [Fact p.Prime]
     (hp2 : p ≠ 2) {w : ↥K} (hword : orderOf w = p) : w ∉ CFSG.pCore 2 ↥K := by
   intro hmem
@@ -121,6 +125,7 @@ private lemma not_mem_pCore_two_of_orderOf_eq_odd_prime {K : Subgroup G} {p : �
   rw [hw1, orderOf_one] at hword
   exact (Fact.out : p.Prime).ne_one hword.symm
 
+omit [Finite G] in
 private lemma normal_subgroupOf_inf_of_le_normalizer {Y K : Subgroup G}
     (hKY : K ≤ normalizer (Y : Set G)) : ((Y ⊓ K).subgroupOf K).Normal := by
   refine Subgroup.normal_subgroupOf_of_le_normalizer (N := Y ⊓ K) (H := K) ?_
@@ -142,14 +147,14 @@ private lemma eq_top_of_normal_of_not_le_pCore {K : Subgroup G} (hK : ⁅K, K⁆
     (hKs : IsSimpleGroup (Bar2 K)) {Q : Subgroup ↥K} (hQ : Q.Normal)
     (hQn : ¬ Q ≤ CFSG.pCore 2 ↥K) : Q = ⊤ := by
   classical
-  haveI : Q.Normal := hQ
+  have : Q.Normal := hQ
   let π₀ : ↥K →* Bar2 K := QuotientGroup.mk' (CFSG.pCore 2 ↥K)
   have hQmapNe : Q.map π₀ ≠ ⊥ := by
     intro hbot
     rw [Subgroup.map_eq_bot_iff, QuotientGroup.ker_mk'] at hbot
     exact hQn hbot
   have hQmapTop : Q.map π₀ = ⊤ := by
-    haveI : (Q.map π₀).Normal := hQ.map π₀ (QuotientGroup.mk'_surjective _)
+    have : (Q.map π₀).Normal := hQ.map π₀ (QuotientGroup.mk'_surjective _)
     exact (IsSimpleGroup.eq_bot_or_eq_top_of_normal (Q.map π₀)).resolve_left hQmapNe
   have hsup : Q ⊔ CFSG.pCore 2 ↥K = ⊤ := by
     have h := Subgroup.comap_map_eq π₀ Q
@@ -171,12 +176,12 @@ private lemma eq_top_of_normal_of_not_le_pCore {K : Subgroup G} (hK : ⁅K, K⁆
     have h := (CFSG.pCore_isPGroup (p := 2) (G := ↥K)).map ρ
     rw [hPmapTop] at h
     exact h.of_equiv Subgroup.topEquiv
-  haveI : Group.IsPerfect ↥K := Subgroup.isPerfect_iff.mpr hK
+  have : Group.IsPerfect ↥K := Subgroup.isPerfect_iff.mpr hK
   exact CFSG.ComponentClassification.LiteratureLocal.eq_top_of_isPGroup_quotient_of_perfect Q hquot2
 
 private lemma mem_of_orderOf_eq_prime (hSch : CFSG.LocalAnalysis.RankThreeUC.S15.KSch)
     {X K Y M : Subgroup G} (hXk : CFSG.Open.IsKGroup ↥X) (hY : CFSG.Open.IsComponentOf Y X)
-    (hKX : K ≤ X) (hK : ⁅K, K⁆ = K) {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2)
+    (hKX : K ≤ X) (hK : ⁅K, K⁆ = K) {p : ℕ} [Fact p.Prime] (_hp2 : p ≠ 2)
     (hM : IsStronglyPEmbedded p M) (hKM : K ≤ M) (hYM : ¬ Y ≤ M)
     (hKY : K ≤ normalizer (Y : Set G)) {w : G} (hwK : w ∈ K)
     (hword : orderOf w = p) : w ∈ Y := by

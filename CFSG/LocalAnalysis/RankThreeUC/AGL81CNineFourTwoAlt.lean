@@ -13,6 +13,7 @@ open CFSG.RankThree.PartOne (IsStronglyPEmbedded)
 
 variable {X : Type} [Group X] [Finite X] {p : ℕ} [Fact p.Prime]
 
+omit [Finite X] in
 theorem normalizer_map_le {A : Type*} [Group A] {N K : Subgroup X}
     (e : ↥K ≃* A) {U : Subgroup ↥K}
     (hU : Subgroup.normalizer (U.map K.subtype : Set X) ≤ N) :
@@ -39,6 +40,7 @@ theorem normalizer_map_le {A : Type*} [Group A] {N K : Subgroup X}
   rw [hgg]
   exact Subgroup.mem_map_of_mem (e : ↥K →* A) hgB
 
+omit [Finite X] [Fact (Nat.Prime p)] in
 theorem map_subtype_comap_transport {A : Type*} [Group A] {N K : Subgroup X} (e : ↥K ≃* A)
     {R : Subgroup A} (hR : R ≤ ((N ⊓ K).subgroupOf K).map (e : ↥K →* A)) :
     (R.comap (e : ↥K →* A)).map K.subtype ≤ N ⊓ K ∧

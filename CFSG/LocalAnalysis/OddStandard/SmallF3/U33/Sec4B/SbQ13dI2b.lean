@@ -107,7 +107,7 @@ theorem q13d_I_card_P1_cent_f_le (h : Q13Om t L S x₁ x₂ lam rho tau om)
       Nat.card ↥(A ⊓ C) * Nat.card ↥(zpowers tau) := card_sup_eq_mul hnorm hbot
   have hA4 : Nat.card ↥(A ⊓ C) = 4 := q13a_card_CA_tlam h
   have hz2 : Nat.card ↥(zpowers tau) = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     rw [Nat.card_zpowers]
     exact orderOf_eq_prime (by simpa [pow_two] using q13a_tau_mul_self h) (q13b_tau_ne_one h)
   calc Nat.card ↥(P1 ⊓ C) ≤ Nat.card ↥((A ⊓ C) ⊔ zpowers tau) :=
@@ -282,7 +282,7 @@ theorem q13d_I_card_invol_fP1_le (h : Q13Om t L S x₁ x₂ lam rho tau om)
     card_sup_eq_mul hnorm hbot
   have hDle : Nat.card ↥D ≤ 4 := q13d_card_CA_lam_le h
   have hz2 : Nat.card ↥(zpowers tau) = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     rw [Nat.card_zpowers]
     exact orderOf_eq_prime (by simpa [pow_two] using q13a_tau_mul_self h) (q13b_tau_ne_one h)
   calc ({x : G | x ∈ (t * lam) • (P1 : Set G) ∧ x * x = 1}).ncard

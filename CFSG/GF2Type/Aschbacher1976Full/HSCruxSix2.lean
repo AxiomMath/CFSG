@@ -144,8 +144,8 @@ theorem subN_insN {D : Set (Perm (Fin 6))} {acc : List ℕ} {t : ℕ} (h : SubN 
     (ht : ∃ x ∈ D, enc x = t) : SubN D (insN acc t) := by
   unfold insN
   by_cases hm : t ∈ acc
-  · rw [if_pos hm]; exact h
-  · rw [if_neg hm]
+  · rw [ite_eq_left hm]; exact h
+  · rw [ite_eq_right hm]
     intro s hs
     rcases List.mem_append.1 hs with hs | hs
     · exact h s hs

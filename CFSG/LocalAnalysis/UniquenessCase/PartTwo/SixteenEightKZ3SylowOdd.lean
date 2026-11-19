@@ -42,7 +42,7 @@ private theorem s16k_z3odd_scal_eq_zpowers :
   rw [s16kScal, Subgroup.zpowers_eq_closure]
   congr 1
   ext u
-  simp only [Set.mem_setOf_eq, Set.mem_singleton_iff]
+  simp only [Set.mem_ofPred_eq, Set.mem_singleton_iff]
   constructor
   · intro h
     exact Units.ext (h.trans s16k_z3odd_omega_val.symm)

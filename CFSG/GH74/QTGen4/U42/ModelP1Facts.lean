@@ -11,7 +11,7 @@ open CFSG.Assembly CFSG.Quasithin.H13.F431.U42 U42F431
 
 theorem not_Vsub_le_pCoreOf_P1 :
     ¬ Vsub ≤ pCoreOf 2 P1 := by
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro hVR
   let g : Y := ⟨wordP [1, 0, 2, 0, 1], wordP_mem _⟩
   have hg : g ∈ P1 := by
@@ -73,7 +73,7 @@ theorem not_Vsub_le_pCoreOf_P1 :
 theorem card_pCoreOf_P1 :
     Nat.card ↥(pCoreOf 2 P1) = 32 := by
   classical
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let B : Subgroup P1 := B0.subgroupOf P1
   have hBi : B.index = 3 := relIndex_B0_P1
   have hKi : B.normalCore.index ≤ 6 := by
@@ -106,7 +106,7 @@ theorem card_pCoreOf_P1 :
     have h := Subgroup.relIndex_mul_card (H := T) (K := B0)
     rw [inf_eq_left.mpr T_le_B0, card_T, card_B0] at h
     omega
-  letI : (T.subgroupOf B0).Normal :=
+  let : (T.subgroupOf B0).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer T_le_B0).2 B0_le_normalizer_T
   have hRi : T.relIndex K ≤ 3 := by
     have h := Subgroup.relIndex_dvd_index_of_normal

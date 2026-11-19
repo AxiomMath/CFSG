@@ -92,7 +92,7 @@ theorem exists_normal_two_part_le {B : Type*} [Group B] [Finite B] (N : Subgroup
   obtain ⟨T⟩ : Nonempty (Sylow 2 N) := inferInstance
   have hT : IsCyclic T := by
     have h1 : IsCyclic ↥((T : Subgroup N).map N.subtype) :=
-      hcyc _ (Subgroup.map_subtype_le _) (T.isPGroup'.map N.subtype)
+      hcyc _ (Subgroup.map_subtype_le _) (T.isPGroup.map N.subtype)
     exact (MulEquiv.isCyclic
       (Subgroup.equivMapOfInjective _ N.subtype N.subtype_injective)).mpr h1
   obtain ⟨-, hTO, -, ⟨-, hOodd, -, -⟩, hOchar⟩ := CFSG.cyclic_sylow_normal_odd_complement T hT

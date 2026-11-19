@@ -40,7 +40,7 @@ theorem eq_top_of_genCheck (hg : genCheck () = true) {d : PlaneDatum} (hd : d �
   have hCt : ∀ t < m, Cs[t]! = aArr (gens.getD t []) := fun t ht => by
     have ht' : t < gens.length := ht
     rw [hget t ht']
-    simp [hCs, getElem!_pos, ht', List.getElem?_eq_getElem ht']
+    simp [hCs, getElem!_pos, ht']
   have hgsF : ∀ t < m, gsA t ∈ F := by
     intro t ht
     have hw := hmem t ht

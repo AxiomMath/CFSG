@@ -54,8 +54,8 @@ public theorem CFSG.actsTrivially_of_prime_order_mem_fixedPointSubgroup_of_isCom
       intro hcard_one
       exact hC_ne_bot ((Subgroup.card_eq_one (H := C)).1 hcard_one)
     rcases Nat.exists_prime_and_dvd hcard_ne_one with ⟨p, hp_prime, hp_dvd⟩
-    letI : Fact p.Prime := ⟨hp_prime⟩
-    letI : Fintype C := Fintype.ofFinite C
+    let : Fact p.Prime := ⟨hp_prime⟩
+    let : Fintype C := Fintype.ofFinite C
     have hp_dvd' : p ∣ Fintype.card C := by
       simpa [Nat.card_eq_fintype_card] using hp_dvd
     obtain ⟨x, hx_order⟩ := _root_.exists_prime_orderOf_dvd_card (G := C) p hp_dvd'

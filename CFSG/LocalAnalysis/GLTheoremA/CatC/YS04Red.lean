@@ -22,12 +22,12 @@ open CFSG.ComponentClassification.PerfectAutomorphisms (centerQuotientHom center
 theorem kd26f_of_simple (h : KD26fSimple) : KD26f := by
   intro K _ _ hK p hp hp2 hhyp D hD
   have hperf : Group.IsPerfect K := Group.isPerfect_def.2 hK.1.1
-  haveI : IsSimpleGroup (K ⧸ Subgroup.center K) := hK.1.2
+  have : IsSimpleGroup (K ⧸ Subgroup.center K) := hK.1.2
   have hna := CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian K hK.1
   set φ : MulAut K →* MulAut (K ⧸ Subgroup.center K) := centerQuotientHom K with hφdef
   have hφ : Function.Injective φ := centerQuotientHom_injective K
   have hD' : IsElemAbelian p (D.map φ) := by
-    haveI : IsMulCommutative ↥D := hD.1
+    have : IsMulCommutative ↥D := hD.1
     refine ⟨⟨⟨fun a b => ?_⟩⟩, fun z hz => ?_⟩
     · obtain ⟨x, hx, hxa⟩ := Subgroup.mem_map.1 a.2
       obtain ⟨y, hy, hyb⟩ := Subgroup.mem_map.1 b.2
@@ -64,12 +64,12 @@ theorem kd26f_of_simple (h : KD26fSimple) : KD26f := by
 theorem kd26bc_of_simple (h : KD26bcSimple) : KD26bc := by
   intro K _ _ hK p hp hp2 _ hU8 D hD hDcard hDinn
   have hperf : Group.IsPerfect K := Group.isPerfect_def.2 hK.1.1
-  haveI : IsSimpleGroup (K ⧸ Subgroup.center K) := hK.1.2
+  have : IsSimpleGroup (K ⧸ Subgroup.center K) := hK.1.2
   have hna := CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian K hK.1
   set φ : MulAut K →* MulAut (K ⧸ Subgroup.center K) := centerQuotientHom K with hφdef
   have hφ : Function.Injective φ := centerQuotientHom_injective K
   have hD' : IsElemAbelian p (D.map φ) := by
-    haveI : IsMulCommutative ↥D := hD.1
+    have : IsMulCommutative ↥D := hD.1
     refine ⟨⟨⟨fun a b => ?_⟩⟩, fun z hz => ?_⟩
     · obtain ⟨x, hx, hxa⟩ := Subgroup.mem_map.1 a.2
       obtain ⟨y, hy, hyb⟩ := Subgroup.mem_map.1 b.2

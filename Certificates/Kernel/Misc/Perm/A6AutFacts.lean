@@ -97,7 +97,7 @@ theorem involAutA6Cases_kernel : CFSG.CGT.Foote82.InvolAutA6Cases := by
     apply hg
     have hS : Set.EqOn θ.toMonoidHom (MonoidHom.id _) {g | g ∈ [a6x, a6y]} := by
       intro z hz
-      simp only [Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false] at hz
+      simp only [Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false] at hz
       rcases hz with rfl | rfl
       · exact hx
       · exact hy

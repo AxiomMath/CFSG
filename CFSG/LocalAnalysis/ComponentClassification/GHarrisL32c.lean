@@ -40,7 +40,7 @@ theorem isSylowOf_z : IsSylowOf 2 ((D.S : Subgroup G) ⊓ centralizer ({D.z} : S
 theorem not_conj_x_z :
     ¬ ∃ g : G, g⁻¹ * D.x * g = D.z := by
   rintro ⟨g, hg⟩
-  obtain ⟨g₁, hg₁, hX⟩ := exists_conj_extremal D.S.isPGroup' D.isSylowOf_z
+  obtain ⟨g₁, hg₁, hX⟩ := exists_conj_extremal D.S.isPGroup D.isSylowOf_z
     (show g⁻¹⁻¹ * D.z * g⁻¹ = D.x by rw [← hg]; group)
   have hXS : ∀ c ∈ D.X, g₁⁻¹ * c * g₁ ∈ (D.S : Subgroup G) := fun c hc => (mem_inf.mp (hX c hc)).1
   set w := g₁⁻¹ * D.z * g₁ with hw

@@ -463,11 +463,11 @@ theorem thLocalChecks_sound
     · exact hA
     · exact hB
     · have e : cd4 2 = cd1 0 := by
-        simp only [cd4, cd1, OfNat.ofNat_ne_zero, OfNat.ofNat_ne_one, if_false, if_true]
+        simp only [cd4, cd1, OfNat.ofNat_ne_zero, OfNat.ofNat_ne_one, ite_false, ite_true]
       rw [e]
       exact hgs1 0 (by norm_num)
     · have e : cd4 3 = cd1 1 := by
-        simp only [cd4, cd1, OfNat.ofNat_ne_zero, OfNat.ofNat_ne_one, one_ne_zero, if_false]
+        simp only [cd4, cd1, OfNat.ofNat_ne_zero, OfNat.ofNat_ne_one, one_ne_zero, ite_false]
         rfl
       rw [e]
       exact hgs1 1 (by norm_num)

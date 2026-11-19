@@ -32,13 +32,13 @@ theorem natCard_orthogonalGroup_rotForm [Finite K] (h3 : (3 : K) ≠ 0) :
       · exact Or.inl ⟨by simp [h], htype.mpr h⟩
       · exact Or.inr ⟨by simp [h], fun hp => h (htype.mp hp)⟩)
   rw [Finset.Icc_eq_empty_of_lt (by norm_num : (0 : ℕ) < 1), Finset.prod_empty] at hcard
-  simp only [Nat.zero_mul, Nat.zero_add, pow_zero, pow_one, mul_one, one_mul] at hcard
+  simp only [Nat.zero_add, pow_zero, pow_one, mul_one] at hcard
   have hq : 2 ≤ Nat.card K := Finite.one_lt_card
   rw [minusPi]
   split_ifs with h
-  · rw [if_pos h] at hcard
+  · rw [ite_eq_left h] at hcard
     omega
-  · rw [if_neg h] at hcard
+  · rw [ite_eq_right h] at hcard
     omega
 
 theorem natCard_orthogonalGroup_wForm [Finite K] (h3 : (3 : K) ≠ 0)
@@ -53,26 +53,26 @@ theorem natCard_orthogonalGroup_wForm [Finite K] (h3 : (3 : K) ≠ 0)
       · exact Or.inr ⟨by simp [h], fun hp => (htype.mp hp) h⟩
       · exact Or.inl ⟨by simp [h], htype.mpr h⟩)
   rw [Finset.Icc_eq_empty_of_lt (by norm_num : (0 : ℕ) < 1), Finset.prod_empty] at hcard
-  simp only [Nat.zero_mul, Nat.zero_add, pow_zero, pow_one, mul_one, one_mul] at hcard
+  simp only [Nat.zero_add, pow_zero, pow_one, mul_one] at hcard
   have hq : 2 ≤ Nat.card K := Finite.one_lt_card
   rw [plusPi]
   split_ifs with h
-  · rw [if_pos h] at hcard
+  · rw [ite_eq_left h] at hcard
     omega
-  · rw [if_neg h] at hcard
+  · rw [ite_eq_right h] at hcard
     omega
 
 theorem exists_orderOf_eq_mem_orthogonalGroup_rotForm [Finite K] (h3 : (3 : K) ≠ 0) {p : ℕ}
     (hp : p.Prime) (hpd : p ∣ minusPi (Nat.card K)) :
     ∃ g ∈ TauCeti.QuadraticMap.orthogonalGroup (rotForm K), orderOf g = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq : 2 ≤ Nat.card K := Finite.one_lt_card
   have hcard : Nat.card (TauCeti.QuadraticMap.orthogonalGroup (rotForm K)) =
       2 * minusPi (Nat.card K) := natCard_orthogonalGroup_rotForm h3
   have hne : Nat.card (TauCeti.QuadraticMap.orthogonalGroup (rotForm K)) ≠ 0 := by
     rw [hcard]
     exact Nat.mul_ne_zero (by norm_num) (minusPi_ne_zero hq)
-  haveI : Finite ↥(TauCeti.QuadraticMap.orthogonalGroup (rotForm K)) :=
+  have : Finite ↥(TauCeti.QuadraticMap.orthogonalGroup (rotForm K)) :=
     Nat.finite_of_card_ne_zero hne
   have hdvd : p ∣ Nat.card ↥(TauCeti.QuadraticMap.orthogonalGroup (rotForm K)) := by
     rw [hcard]
@@ -85,14 +85,14 @@ theorem exists_orderOf_eq_mem_orthogonalGroup_wForm [Finite K] (h3 : (3 : K) ≠
     (hbc : ∀ s : K, s ^ 2 + b * s + c ≠ 0) {p : ℕ} (hp : p.Prime)
     (hpd : p ∣ plusPi (Nat.card K)) :
     ∃ g ∈ TauCeti.QuadraticMap.orthogonalGroup (wForm b c), orderOf g = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq : 2 ≤ Nat.card K := Finite.one_lt_card
   have hcard : Nat.card (TauCeti.QuadraticMap.orthogonalGroup (wForm b c)) =
       2 * plusPi (Nat.card K) := natCard_orthogonalGroup_wForm h3 hbc
   have hne : Nat.card (TauCeti.QuadraticMap.orthogonalGroup (wForm b c)) ≠ 0 := by
     rw [hcard]
     exact Nat.mul_ne_zero (by norm_num) (plusPi_ne_zero hq)
-  haveI : Finite ↥(TauCeti.QuadraticMap.orthogonalGroup (wForm b c)) :=
+  have : Finite ↥(TauCeti.QuadraticMap.orthogonalGroup (wForm b c)) :=
     Nat.finite_of_card_ne_zero hne
   have hdvd : p ∣ Nat.card ↥(TauCeti.QuadraticMap.orthogonalGroup (wForm b c)) := by
     rw [hcard]
@@ -102,7 +102,7 @@ theorem exists_orderOf_eq_mem_orthogonalGroup_wForm [Finite K] (h3 : (3 : K) ≠
   exact ⟨(x : (K × K) ≃ₗ[K] (K × K)), x.2, by rw [Subgroup.orderOf_coe, hx]⟩
 
 theorem rotLE_sq_add (p : K × K) : rotLE K (rotLE K p) + rotLE K p + p = 0 := by
-  refine Prod.ext ?_ ?_ <;> simp [rotLE] <;> ring
+  refine Prod.ext ?_ ?_ <;> simp [rotLE]; ring
 
 theorem rotLE_mem_orthogonalGroup :
     rotLE K ∈ TauCeti.QuadraticMap.orthogonalGroup (rotForm K) :=
@@ -129,7 +129,7 @@ theorem eq_rotLE_or_eq_inv_of_isometry (h3 : (3 : K) ≠ 0) {σ : (K × K) ≃�
   have R2 := hrel (0, 1)
   rw [ha, hxy] at R1
   rw [hb, hxy] at R2
-  simp only [Prod.mk_add_mk, Prod.mk_eq_zero, mul_one, mul_zero, add_zero, zero_add] at R1 R2
+  simp only [Prod.mk_add_mk, Prod.mk_eq_zero, add_zero] at R1 R2
   obtain ⟨R1a, R3⟩ := R1
   obtain ⟨R2a, R4⟩ := R2
   have hS : ∀ p : K × K, rotForm K (σ p + p) = rotForm K p := fun p => by
@@ -141,8 +141,8 @@ theorem eq_rotLE_or_eq_inv_of_isometry (h3 : (3 : K) ≠ 0) {σ : (K × K) ≃�
   have S2 := hS (0, 1)
   rw [ha, Prod.mk_add_mk, rotForm_apply, rotForm_apply] at S1
   rw [hb, Prod.mk_add_mk, rotForm_apply, rotForm_apply] at S2
-  simp only [add_zero, zero_add] at S1 S2
-  simp only [one_pow, zero_pow two_ne_zero, mul_zero, mul_one, sub_zero, zero_sub, add_zero,
+  simp only [add_zero] at S1 S2
+  simp only [one_pow, zero_pow two_ne_zero, mul_zero, mul_one, sub_zero, add_zero,
     zero_add] at E1 E2 S1 S2
   have hc : c = 2 * a + 1 := by linear_combination E1 - S1
   have hb' : b = 2 * d + 1 := by linear_combination E2 - S2
@@ -170,7 +170,7 @@ theorem eq_rotLE_or_eq_inv_of_isometry (h3 : (3 : K) ≠ 0) {σ : (K × K) ≃�
     rw [hxy]
     have ha0 : a = 0 := h0
     subst ha0
-    refine Prod.ext ?_ ?_ <;> simp [rotLE, hd, hb, hc] <;> ring
+    refine Prod.ext ?_ ?_ <;> simp [rotLE, hd, hb, hc]; ring
   · right
     refine LinearEquiv.ext fun ⟨x, y⟩ => ?_
     rw [hxy]

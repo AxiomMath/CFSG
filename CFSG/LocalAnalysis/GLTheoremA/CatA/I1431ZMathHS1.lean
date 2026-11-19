@@ -16,8 +16,8 @@ open CFSG.LocalAnalysis.GLTheoremB.MovingAround.Inputs2711c
 theorem row_fi22 (hOut : CFSG.HardMathSupport.Timmesfeld.Coordinator.SporadicOuterLeTwo)
     (hbr : CFSG.HardMathSupport.Timmesfeld.Tables.Census.SporadicBridges) : I1431SporRow .Fi22 := by
   have hc : Nat.card (NativeSporadic.Carrier .Fi22) = 64561751654400 := CFSG.Sporadic.Fi22.card_Fi22
-  haveI : Finite (NativeSporadic.Carrier .Fi22) := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
-  haveI : IsSimpleGroup (NativeSporadic.Carrier .Fi22) := CFSG.Sporadic.Fi22.isSimpleGroup_Fi22
+  have : Finite (NativeSporadic.Carrier .Fi22) := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
+  have : IsSimpleGroup (NativeSporadic.Carrier .Fi22) := CFSG.Sporadic.Fi22.isSimpleGroup_Fi22
   refine row_of_centShapeRk (s := .Fi22) hOut (hbr .Fi22).some
     (CFSG.LocalAnalysis.GLTheoremA.S8.HNRows.exists_noncomm_of_simple (by rw [hc]; norm_num))
     fi22CentShapeRk_native ?_
@@ -29,8 +29,8 @@ theorem row_fi22 (hOut : CFSG.HardMathSupport.Timmesfeld.Coordinator.SporadicOut
 theorem row_ly (hOut : CFSG.HardMathSupport.Timmesfeld.Coordinator.SporadicOuterLeTwo)
     (hbr : CFSG.HardMathSupport.Timmesfeld.Tables.Census.SporadicBridges) : I1431SporRow .Ly := by
   have hc : Nat.card (NativeSporadic.Carrier .Ly) = 51765179004000000 := CFSG.Sporadic.Ly.card_Ly'
-  haveI : Finite (NativeSporadic.Carrier .Ly) := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
-  haveI : IsSimpleGroup (NativeSporadic.Carrier .Ly) := CFSG.Sporadic.Ly.isSimpleGroup_Ly
+  have : Finite (NativeSporadic.Carrier .Ly) := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
+  have : IsSimpleGroup (NativeSporadic.Carrier .Ly) := CFSG.Sporadic.Ly.isSimpleGroup_Ly
   refine row_of_centShapeRk (s := .Ly) hOut (hbr .Ly).some
     (CFSG.LocalAnalysis.GLTheoremA.S8.HNRows.exists_noncomm_of_simple (by rw [hc]; norm_num))
     lyShape_three ?_
@@ -43,8 +43,8 @@ theorem row_th (hOut : CFSG.HardMathSupport.Timmesfeld.Coordinator.SporadicOuter
     (hbr : CFSG.HardMathSupport.Timmesfeld.Tables.Census.SporadicBridges) : I1431SporRow .Th := by
   have hc : Nat.card (NativeSporadic.Carrier .Th) = 90745943887872000 :=
     CFSG.RankThree.PartOne.CTP.card_Th
-  haveI : Finite (NativeSporadic.Carrier .Th) := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
-  haveI : IsSimpleGroup (NativeSporadic.Carrier .Th) :=
+  have : Finite (NativeSporadic.Carrier .Th) := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
+  have : IsSimpleGroup (NativeSporadic.Carrier .Th) :=
     CFSG.Sporadic.Th.Kernel.isSimpleGroup_Th
       CFSG.Sporadic.Th.th_kernel_facts
   refine row_of_centShapeRk (s := .Th) hOut (hbr .Th).some
@@ -59,8 +59,8 @@ theorem row_fi23 (hOut : CFSG.HardMathSupport.Timmesfeld.Coordinator.SporadicOut
     (hbr : CFSG.HardMathSupport.Timmesfeld.Tables.Census.SporadicBridges) : I1431SporRow .Fi23 := by
   have hc : Nat.card (NativeSporadic.Carrier .Fi23) = 4089470473293004800 :=
     CFSG.Sporadic.Fi23.card_Fi23
-  haveI : Finite (NativeSporadic.Carrier .Fi23) := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
-  haveI : IsSimpleGroup (NativeSporadic.Carrier .Fi23) := CFSG.Sporadic.Fi23.isSimpleGroup_Fi23
+  have : Finite (NativeSporadic.Carrier .Fi23) := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
+  have : IsSimpleGroup (NativeSporadic.Carrier .Fi23) := CFSG.Sporadic.Fi23.isSimpleGroup_Fi23
   refine row_of_centShapeRk (s := .Fi23) hOut (hbr .Fi23).some
     (CFSG.LocalAnalysis.GLTheoremA.S8.HNRows.exists_noncomm_of_simple (by rw [hc]; norm_num))
     fi23CentShapeRk_native ?_

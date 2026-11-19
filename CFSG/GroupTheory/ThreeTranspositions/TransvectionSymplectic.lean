@@ -622,7 +622,7 @@ lemma exists_transvection_data
   have h := hc d hd (Additive.toMul u)
   have hu : Additive.ofMul (Additive.toMul u) = u := Additive.ofMul.apply_symm_apply u
   have hCd : (fun d => if hd : d ∈ D then Additive.ofMul (c d hd) else 0) d =
-      Additive.ofMul (c d hd) := by simp only [dif_pos hd]
+      Additive.ofMul (c d hd) := by simp only [dite_eq_left hd]
   rw [hCd]
   change Additive.ofMul ((ρ d) (Additive.toMul u)) = u ∨
     Additive.ofMul ((ρ d) (Additive.toMul u)) = u + Additive.ofMul (c d hd)

@@ -63,7 +63,7 @@ theorem sylow_lift {p : ℕ} [Fact p.Prime] {M Z N₀ : Subgroup G} (hN₀M : N�
   have hndvd : ¬ p ∣ N'.index := fun h => hZp (hcardZ ▸ h.trans hidx)
   let T : Sylow p N' := default
   set P : Subgroup M := (T : Subgroup N').map N'.subtype with hP
-  have hPp : IsPGroup p P := T.isPGroup'.map _
+  have hPp : IsPGroup p P := T.isPGroup.map _
   have hPcard : Nat.card P = Nat.card T :=
     Subgroup.card_map_of_injective N'.subtype_injective
   obtain ⟨S, hPS⟩ := hPp.exists_le_sylow
@@ -86,7 +86,7 @@ theorem sylow_lift {p : ℕ} [Fact p.Prime] {M Z N₀ : Subgroup G} (hN₀M : N�
   obtain ⟨s, hs, hsx⟩ := hxQ
   rw [hP, Subgroup.mem_map] at hs
   obtain ⟨t, ht, rfl⟩ := hs
-  obtain ⟨k, hk⟩ := T.isPGroup' ⟨t, ht⟩
+  obtain ⟨k, hk⟩ := T.isPGroup ⟨t, ht⟩
   obtain ⟨n', hn', z', hz', hgz⟩ := hdecomp (g⁻¹ : M).1 (g⁻¹ : M).2
   have hx_eq : x = g.1 * t.1.1 * g.1⁻¹ := by
     have := congrArg Subtype.val hsx

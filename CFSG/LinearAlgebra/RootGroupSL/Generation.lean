@@ -18,7 +18,7 @@ variable (k X) in
   toFun v := (v.1, v.2.1, v.2.2 + t * v.1)
   invFun v := (v.1, v.2.1, v.2.2 - t * v.1)
   map_add' u v := by
-    ext <;> simp only [Prod.fst_add, Prod.snd_add, mul_add] <;> abel
+    ext <;> simp only [Prod.fst_add, Prod.snd_add, mul_add]; abel
   map_smul' c v := by
     ext <;> simp [smul_add, Algebra.mul_smul_comm]
   left_inv v := by
@@ -29,7 +29,7 @@ variable (k X) in
 private def swapE : DSpace E X ≃ₗ[k] DSpace E X where
   toFun v := (v.2.2, v.2.1, v.1)
   invFun v := (v.2.2, v.2.1, v.1)
-  map_add' u v := by ext <;> simp only [Prod.fst_add, Prod.snd_add] <;> abel
+  map_add' u v := by ext <;> simp only [Prod.fst_add, Prod.snd_add]
   map_smul' c v := by ext <;> simp
   left_inv v := by ext <;> simp
   right_inv v := by ext <;> simp
@@ -41,7 +41,7 @@ variable (k X) in
     let sw : DSpace E X ≃ₗ[k] DSpace E X :=
       { toFun := fun v => (v.2.2, v.2.1, v.1)
         invFun := fun v => (v.2.2, v.2.1, v.1)
-        map_add' := by intro u v; ext <;> simp only [Prod.fst_add, Prod.snd_add] <;> abel
+        map_add' := by intro u v; ext <;> simp only [Prod.fst_add, Prod.snd_add]
         map_smul' := by intro c v; ext <;> simp
         left_inv := by intro v; ext <;> simp
         right_inv := by intro v; ext <;> simp }
@@ -71,14 +71,16 @@ private noncomputable def slIso (k E X : Type) [Field k] [Field E] [Algebra k E]
       SpecialLinearGroup k (DSpace E X) :=
   Matrix.SpecialLinearGroup.toLin_equiv (stdBasis k E X)
 
+omit [Module.Finite k E] in
 private lemma char2_add1 [CharP k 2] (a b : E) : (a + b) + (b + (a + b)) = b := by
-  haveI : CharP E 2 := charP_of_injective_algebraMap (algebraMap k E).injective 2
+  have : CharP E 2 := charP_of_injective_algebraMap (algebraMap k E).injective 2
   rw [show (a + b) + (b + (a + b)) = ((a + b) + b) + (a + b) by abel]
   rw [CharTwo.add_cancel_right a b]
   exact CharTwo.add_cancel_left a b
 
+omit [Module.Finite k E] in
 private lemma char2_add2 [CharP k 2] (a b : E) : b + (a + b) = a := by
-  haveI : CharP E 2 := charP_of_injective_algebraMap (algebraMap k E).injective 2
+  have : CharP E 2 := charP_of_injective_algebraMap (algebraMap k E).injective 2
   rw [show b + (a + b) = b + (b + a) by abel]
   exact CharTwo.add_cancel_left b a
 
@@ -110,7 +112,7 @@ private lemma toLin_transvection_apply {ι : Type*} [Fintype ι] [DecidableEq ι
   congr 1
   rw [Finset.sum_eq_single i]
   · simp [smul_smul]
-  · intro j' _ hj'; simp [Pi.single_apply, hj']
+  · intro j' _ hj'; simp [hj']
   · intro hi; exact absurd (Finset.mem_univ i) hi
 
 private lemma transvection_inl_inr_inl (a : Fin (Module.finrank k E))
@@ -127,6 +129,7 @@ private noncomputable def lowElt (φ : X →ₗ[k] E) (χ : E →ₗ[k] X) (ψ :
     DSpace E X ≃ₗ[k] DSpace E X :=
   swapE * unipElt φ χ ψ * swapE⁻¹
 
+omit [Module.Finite k E] [Module.Finite k X] in
 private lemma lowElt_apply (φ : X →ₗ[k] E) (χ : E →ₗ[k] X) (ψ : E →ₗ[k] E)
     (v : DSpace E X) :
     lowElt φ χ ψ v = (v.1, v.2.1 + χ v.1, v.2.2 + φ v.2.1 + ψ v.1) :=
@@ -257,6 +260,7 @@ private lemma commutator_mem_of_mem {G : Type*} [Group G] {H : Subgroup G} {a b 
 end GenerationAux
 
 variable [Finite k] [Finite E] [Module.Finite k X] [CharP k 2] in
+omit [Finite k] in
 theorem QK_sup_J0SL_eq_top (hdX : Module.finrank k E ≤ Module.finrank k X) :
     QK k E X ⊔ J0SL k E X = ⊤ := by
   classical
@@ -351,7 +355,7 @@ theorem QK_sup_J0SL_eq_top (hdX : Module.finrank k E ≤ Module.finrank k X) :
         (Subgroup.mem_sup_left
           (slTransvection_mem_QK hkj (1 : k) _ _ _
             (transvection_inr_inl_inr_inr x₀ b'' (1 : k))))
-  haveI : Nontrivial (Fin (Module.finrank k E) ⊕
+  have : Nontrivial (Fin (Module.finrank k E) ⊕
       (Fin (Module.finrank k X) ⊕ Fin (Module.finrank k E))) :=
     ⟨Sum.inl ⟨0, hd⟩, Sum.inr (Sum.inl ⟨0, hr⟩), by simp⟩
   have hmap : S.map e.symm.toMonoidHom = ⊤ := by

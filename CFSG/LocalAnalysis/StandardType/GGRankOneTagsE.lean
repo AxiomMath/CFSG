@@ -59,16 +59,16 @@ private theorem rankOneModel_e8 (k : Type) [Field k] :
 
 end Adjoint
 
-theorem ggRankOneModel_E6 {n f : ℕ} (hadm : StatedLieAdmissible .E6 n 2 f)
-    (hrank : 3 ≤ bnRank .E6 n) : GGRankOneModel (ggU .E6 n f).D (GaloisField 2 f) := by
+theorem ggRankOneModel_E6 {n f : ℕ} (_hadm : StatedLieAdmissible .E6 n 2 f)
+    (_hrank : 3 ≤ bnRank .E6 n) : GGRankOneModel (ggU .E6 n f).D (GaloisField 2 f) := by
   exact rankOneModel_e6 (GaloisField 2 f)
 
-theorem ggRankOneModel_E7 {n f : ℕ} (hadm : StatedLieAdmissible .E7 n 2 f)
-    (hrank : 3 ≤ bnRank .E7 n) : GGRankOneModel (ggU .E7 n f).D (GaloisField 2 f) := by
+theorem ggRankOneModel_E7 {n f : ℕ} (_hadm : StatedLieAdmissible .E7 n 2 f)
+    (_hrank : 3 ≤ bnRank .E7 n) : GGRankOneModel (ggU .E7 n f).D (GaloisField 2 f) := by
   exact rankOneModel_e7 (GaloisField 2 f)
 
-theorem ggRankOneModel_E8 {n f : ℕ} (hadm : StatedLieAdmissible .E8 n 2 f)
-    (hrank : 3 ≤ bnRank .E8 n) : GGRankOneModel (ggU .E8 n f).D (GaloisField 2 f) := by
+theorem ggRankOneModel_E8 {n f : ℕ} (_hadm : StatedLieAdmissible .E8 n 2 f)
+    (_hrank : 3 ≤ bnRank .E8 n) : GGRankOneModel (ggU .E8 n f).D (GaloisField 2 f) := by
   exact rankOneModel_e8 (GaloisField 2 f)
 
 end Tag

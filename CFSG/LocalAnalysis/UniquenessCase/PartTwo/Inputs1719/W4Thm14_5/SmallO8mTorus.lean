@@ -343,7 +343,7 @@ theorem exists_longTorus_mul_inv_mem_centralizer (a : Kˣ) :
         (a : K)⁻¹ • starCoord x := by
       rw [← Algebra.smul_def]
       ext k
-      fin_cases k <;> simp [starCoord] <;> ring
+      fin_cases k <;> simp [starCoord]; ring
     rw [hcoord]
     simp [longCoroot, Units.val_inv_eq_inv_val]
 

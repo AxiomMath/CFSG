@@ -12,8 +12,8 @@ namespace CFSG.LocalAnalysis.UniquenessCase.UC22.NoTransv
 theorem eq_bot_of_pow_four {S : Type*} [Group S] [Finite S] [IsSimpleGroup S]
     (hS : ∃ a b : S, a * b ≠ b * a) {N : Subgroup S} (hN : N.Normal) (h4 : ∀ x ∈ N, x ^ 4 = 1) :
     N = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : N.Normal := hN
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : N.Normal := hN
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal N with hNbot | hNtop
   · exact hNbot
   · exfalso

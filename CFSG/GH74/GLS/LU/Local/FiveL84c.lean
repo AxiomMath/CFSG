@@ -14,6 +14,7 @@ section L84c
 variable {G : Type} [Group G] [Finite G] {p f : ℕ} {z : G} {S : Sylow 2 G} {K₁ K₂ H : Subgroup G}
   {t u w₁ v : G} {X₁ Y : Subgroup G}
 
+omit [Finite G] in
 theorem mem_UU_cases {z u x : G} (hz : z * z = 1) (hu : u * u = 1) (hzu : z * u = u * z)
     (hx : x ∈ UU z u) : x = 1 ∨ x = z ∨ x = u ∨ x = z * u := by
   obtain ⟨a, ha, b, hb, rfl⟩ := (mem_sup_of_commute (A := zpowers z) (B := zpowers u)

@@ -32,8 +32,8 @@ theorem map_conj_eq_of_le (h82 : F08.R82 D) (hSg : UC6S846.SigmaStd D) (h614 : U
 theorem isCyclic_of_isPGroup_mulAut_bar2 (S : SliceCore D L D₃ Y H)
     {R : Subgroup (MulAut (Bar2 L))} (hR : IsPGroup 3 ↥R) : IsCyclic ↥R := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := finite_mulAut (Bar2 L)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := finite_mulAut (Bar2 L)
   have hZ : Subgroup.center (Bar2 L) = ⊥ :=
     haveI := S.facts_L.simple
     uc22p21k_center_eq_bot S.L_mem.2.2
@@ -62,7 +62,7 @@ theorem isCyclic_of_isPGroup_mulAut_bar2 (S : SliceCore D L D₃ Y H)
     rcases (Nat.dvd_prime Nat.prime_two).1 hdvd with hindex | hindex
     · rw [Subgroup.index_eq_one.1 hindex]
       exact le_top
-    haveI : e.range.Normal := Subgroup.normal_of_index_eq_two hindex
+    have : e.range.Normal := Subgroup.normal_of_index_eq_two hindex
     have hq2 : Nat.card (MulAut (Bar2 L) ⧸ e.range) = 2 := by
       rw [← Subgroup.index_eq_card]
       exact hindex
@@ -89,7 +89,6 @@ theorem isCyclic_of_isPGroup_mulAut_bar2 (S : SliceCore D L D₃ Y H)
     rw [Subgroup.map_comap_eq]
     first
       | exact inf_eq_right.2 hle
-      | exact inf_eq_left.2 hle
   have hcyc' := ((R.comap e).equivMapOfInjective e hinj).isCyclic.1 hcyc
   rwa [hmap] at hcyc'
 

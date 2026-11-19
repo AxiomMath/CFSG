@@ -35,7 +35,7 @@ theorem exists_card_eq_mul_two_pow_two_mul (B : P → P → ZMod 2)
     rename_i x y
     rw [← QuotientGroup.mk_mul, ← QuotientGroup.mk_mul, QuotientGroup.eq]
     exact hcomm x y
-  haveI : CFSG.IsElementaryAbelian 2 (P ⧸ S) :=
+  have : CFSG.IsElementaryAbelian 2 (P ⧸ S) :=
     { is_comm := ⟨hMcomm⟩
       exponent_dvd_p := Monoid.exponent_dvd_iff_forall_pow_eq_one.mpr (fun q => by
         induction q using QuotientGroup.induction_on
@@ -118,7 +118,7 @@ theorem exists_card_eq_mul_two_pow_two_mul (B : P → P → ZMod 2)
     rw [hβ] at h ⊢
     rw [hBq_symm]
     exact h)⟩
-  haveI : Module.Finite (ZMod 2) (Additive (P ⧸ S)) := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) (Additive (P ⧸ S)) := Module.Finite.of_finite
   obtain ⟨m, hm⟩ := LinearMap.BilinForm.IsAlt.even_finrank hβalt hβnd
   refine ⟨m, ?_⟩
   have h1 : Nat.card (Additive (P ⧸ S)) = 2 ^ Module.finrank (ZMod 2) (Additive (P ⧸ S)) := by
@@ -139,25 +139,30 @@ variable {G : Type} [Group G] [Finite G] {z : G} {n : ℕ}
 open Classical in
 noncomputable def cmBit (x y : G) : ZMod 2 := if x * y = y * x then 0 else 1
 
+omit [Finite G] in
 theorem cmBit_comm (x y : G) : cmBit x y = cmBit y x := by
   by_cases h : x * y = y * x
-  · rw [cmBit, cmBit, if_pos h, if_pos h.symm]
+  · rw [cmBit, cmBit, ite_eq_left h, ite_eq_left h.symm]
   · have h' : ¬ y * x = x * y := fun h'' => h h''.symm
-    rw [cmBit, cmBit, if_neg h, if_neg h']
+    rw [cmBit, cmBit, ite_eq_right h, ite_eq_right h']
 
+omit [Finite G] in
 theorem cmBit_eq_zero_iff (x y : G) : cmBit x y = 0 ↔ x * y = y * x := by
   by_cases h : x * y = y * x
-  · rw [cmBit, if_pos h]
+  · rw [cmBit, ite_eq_left h]
     exact iff_of_true rfl h
-  · rw [cmBit, if_neg h]
+  · rw [cmBit, ite_eq_right h]
     exact iff_of_false (by decide) h
 
+omit [Finite G] in
 theorem cmBit_eq_zero_of_comm {x y : G} (h : ⁅x, y⁆ = 1) : cmBit x y = 0 :=
   (cmBit_eq_zero_iff x y).2 (commutatorElement_eq_one_iff_mul_comm.1 h)
 
+omit [Finite G] in
 theorem cmBit_eq_one_of_comm_ne {x y : G} (h : ⁅x, y⁆ ≠ 1) : cmBit x y = 1 := by
-  rw [cmBit, if_neg (fun h' => h (commutatorElement_eq_one_iff_mul_comm.2 h'))]
+  rw [cmBit, ite_eq_right (fun h' => h (commutatorElement_eq_one_iff_mul_comm.2 h'))]
 
+omit [Finite G] in
 theorem cmBit_mul_right (hC : Config z n) {x y y' : G} (hx : x ∈ coreAt z) (hy : y ∈ coreAt z)
     (hy' : y' ∈ coreAt z) : cmBit x (y * y') = cmBit x y + cmBit x y' := by
   have key := hC.commutator_mul hx hy hy'
@@ -177,10 +182,12 @@ theorem cmBit_mul_right (hC : Config z n) {x y y' : G} (hx : x ∈ coreAt z) (hy
       cmBit_eq_one_of_comm_ne (by rw [h2]; exact hz1)]
     decide
 
+omit [Finite G] in
 theorem cmBit_mul_left (hC : Config z n) {x x' y : G} (hx : x ∈ coreAt z) (hx' : x' ∈ coreAt z)
     (hy : y ∈ coreAt z) : cmBit (x * x') y = cmBit x y + cmBit x' y := by
   rw [cmBit_comm, cmBit_mul_right hC hy hx hx', cmBit_comm y x, cmBit_comm y x']
 
+omit [Finite G] in
 private theorem conj_mul_self_eq_one' (hC : Config z n) (g : G) :
     (g⁻¹ * z * g) * (g⁻¹ * z * g) = 1 := by
   have hz2 : z * z = 1 := by
@@ -189,6 +196,7 @@ private theorem conj_mul_self_eq_one' (hC : Config z n) (g : G) :
   calc (g⁻¹ * z * g) * (g⁻¹ * z * g) = g⁻¹ * (z * z) * g := by group
     _ = 1 := by rw [hz2]; group
 
+omit [Finite G] in
 theorem cmBit_psi_mul (hC : Config z n) {g : G} (hH : g⁻¹ * z * g ∈ centralizer ({z} : Set G))
     {x y y' : G} (hx : x ∈ coreAt z) (hy : y ∈ coreAt z) (hy' : y' ∈ coreAt z) :
     cmBit x (psi (g⁻¹ * z * g) (y * y')) =
@@ -205,6 +213,7 @@ theorem cmBit_psi_mul (hC : Config z n) {g : G} (hH : g⁻¹ * z * g ∈ central
   · rw [h, cmBit_mul_right hC hx hψy (mul_mem hψy' hC.mem_core),
       cmBit_mul_right hC hx hψy' hC.mem_core, hxz, add_zero]
 
+omit [Finite G] in
 theorem commute_psi_self_aux {z₁ x : G} (hz₁ : z₁ * z₁ = 1) (hxx : x * x * z₁ = z₁ * (x * x))
     (hcomm : psi z₁ x * z₁ = z₁ * psi z₁ x) : x * psi z₁ x = psi z₁ x * x := by
   have h1 : z₁ * (x * z₁ * x⁻¹) * z₁ = x * z₁ * x⁻¹ := by
@@ -226,6 +235,7 @@ theorem commute_psi_self_aux {z₁ x : G} (hz₁ : z₁ * z₁ = 1) (hxx : x * x
       _ = psi z₁ x := rfl
   exact mul_inv_eq_iff_eq_mul.mp hconj
 
+omit [Finite G] in
 theorem cmBit_psi_self (hC : Config z n) {g : G} (hH : g⁻¹ * z * g ∈ centralizer ({z} : Set G))
     (hall : ∀ q ∈ coreAt z,
       psi (g⁻¹ * z * g) q ∈ coreAt z ⊓ centralizer ({g⁻¹ * z * g} : Set G))
@@ -302,6 +312,7 @@ theorem mem_sup_of_cmBit_psi (hC : Config z n) {g : G}
   obtain ⟨y, hy, rfl⟩ := CaseB.exists_psi_eq hC hH hK hall hr
   exact (cmBit_eq_zero_iff _ _).1 (h y hy)
 
+omit [Finite G] in
 theorem normal_subgroupOf_sup_center (hC : Config z n) {g : G} :
     ((coreAt z ⊓ centralizer ({g⁻¹ * z * g} : Set G) ⊔ centerAt z).subgroupOf
       (coreAt z)).Normal := by
@@ -325,7 +336,7 @@ theorem CaseB.even_of_forall_mem (hC : Config z n) {g : G}
     (hK : g⁻¹ * z * g ∉ centralizer (centerAt z : Set G))
     (hall : ∀ q ∈ coreAt z, psi (g⁻¹ * z * g) q ∈ coreAt z ⊓ centralizer ({g⁻¹ * z * g} : Set G)) :
     Even n := by
-  haveI := normal_subgroupOf_sup_center (hC := hC) (g := g)
+  have := normal_subgroupOf_sup_center (hC := hC) (g := g)
   have hTQ : (coreAt z ⊓ centralizer ({g⁻¹ * z * g} : Set G)) ⊔ centerAt z ≤ coreAt z :=
     sup_le inf_le_left hC.center_le_core
   obtain ⟨m, hm⟩ := exists_card_eq_mul_two_pow_two_mul

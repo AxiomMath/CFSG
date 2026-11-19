@@ -18,7 +18,7 @@ variable {K : Type} [Field K] [Finite K] {d : ℕ}
 @[expose] noncomputable def glEquivSL (hK : Nat.card K = 2) :
     GL (Fin d) K ≃* SpecialLinearGroup (Fin d) K :=
   MulEquiv.ofBijective (TwoThree.toSLHom hK)
-    ⟨fun A B h => Units.ext (congrArg Subtype.val h),
+    ⟨fun _A _B h => Units.ext (congrArg Subtype.val h),
       fun s => ⟨SpecialLinearGroup.toGL s, Subtype.ext rfl⟩⟩
 
 theorem wtGL_mulAut (hK : Nat.card K = 2) (hd : 3 ≤ d) (φ : MulAut (GL (Fin d) K))
@@ -119,7 +119,7 @@ theorem exists_torusData_with_rank_bound {E : Subgroup (GL (Fin d) K)} (hE : IsE
   have hp3 : ((3 : ℕ) : K) ≠ 0 :=
     TableBSymp.natCast_ne_zero_of_charTwo Nat.prime_three (by norm_num)
   obtain ⟨g, hg, hgd⟩ := LineL2.exists_irreducible_factor_cyclotomic_three K
-  haveI : Fact (Irreducible g) := ⟨hg⟩
+  have : Fact (Irreducible g) := ⟨hg⟩
   have hnsplit : ¬ 3 ∣ Nat.card K - 1 := by rw [hK]; decide
   have hC : (rootMat g).det = 1 := det_rootMat Nat.prime_three hnsplit hp3 hgd
   have hCp : rootMat g ^ 3 = 1 := rootMat_pow_eq_one Nat.prime_three hp3 hgd
@@ -237,13 +237,13 @@ theorem exists_torusData_with_rank_bound {E : Subgroup (GL (Fin d) K)} (hE : IsE
     obtain ⟨L, hL, hLt⟩ := hlift 1 (fun j => if j = i then frob else AlgEquiv.refl)
       (fun _ => rfl) (fun j x => by
         by_cases hj : j = i
-        · simp only [hj, if_true, Equiv.Perm.coe_one, id_eq]
+        · simp only [hj, ite_true, Equiv.Perm.coe_one, id_eq]
           exact hfrob2 x
         · simp [hj])
     refine ⟨L, hL, fun t => hLt t _ (fun j => ?_)⟩
     by_cases hj : j = i
     · subst hj
-      simp only [if_true, Equiv.Perm.coe_one, id_eq, hfrob, signV_self]
+      simp only [ite_true, Equiv.Perm.coe_one, id_eq, hfrob, signV_self]
       exact root_pow_neg hζ (t j)
     · simp [hj, signV_of_ne hj]
   have hsw : ∀ i j : Fin s, ∃ L : GL (Fin d) K, L * L = 1 ∧ ∀ t : Fin s → ZMod 3,

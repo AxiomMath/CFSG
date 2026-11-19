@@ -27,7 +27,7 @@ theorem SubV_mono {b c : Fin e7Data.d} (h : ltB b c = true) : SubV K c ≤ SubV 
     g (Finsupp.single b 1) - Finsupp.single b 1 ∈ SubV K b
 
 theorem TriV.map_sub {g : Module.End K (V K)} (hg : TriV g) {b : Fin e7Data.d}
-    (hb : pr b theta = 0) {w : V K} (hw : w ∈ SubV K b) : g w - w ∈ SubV K b := by
+    (_hb : pr b theta = 0) {w : V K} (hw : w ∈ SubV K b) : g w - w ∈ SubV K b := by
   have hw' : w ∈ Submodule.span K ((fun i => Finsupp.single i (1 : K)) ''
       {c : Fin e7Data.d | ltB b c = true}) := by
     rw [← Finsupp.supported_eq_span_single]
@@ -96,10 +96,10 @@ theorem triV_xu {β : Fin (Tag.rank .E7) → ℤ} (hβ : IsRoot .E7 β)
   intro b hb
   rw [e7Data_valid.xu_apply, rootOp_single hβ, add_sub_cancel_left]
   by_cases h : pr b β = -1
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     refine Submodule.smul_mem _ _ ?_
     exact Finsupp.single_mem_supported K (1 : K) (lt_shift hβ hz hpos hb h)
-  · rw [if_neg h, smul_zero]
+  · rw [ite_eq_right h, smul_zero]
     exact Submodule.zero_mem _
 
 theorem UL_le_TriG : UL K ≤ TriG K := by
@@ -144,6 +144,7 @@ theorem tri_of_mem_UW {x : W K ≃ₗ[K] W K} (hx : x ∈ UW K) (b d : Idx0)
   ∀ b : Idx0, ∃ d : K, d ≠ 0 ∧
     m (Finsupp.single b (1 : K) : W K) = d • (Finsupp.single (σ b) (1 : K) : W K)
 
+omit [CharP K 2] in
 theorem IsMonW.injective {m : W K ≃ₗ[K] W K} {σ : Idx0 → Idx0} (hm : IsMonW m σ) :
     Function.Injective σ := by
   choose d hd0 hmd using hm
@@ -155,7 +156,7 @@ theorem IsMonW.injective {m : W K ≃ₗ[K] W K} {σ : Idx0 → Idx0} (hm : IsMo
       sub_self]
   have h2 := m.injective (h1.trans (map_zero m).symm)
   have h3 := congrArg (fun w : W K => w b) h2
-  simp [Finsupp.single_apply, hne, Ne.symm hne] at h3
+  simp [hne] at h3
   exact hd0 c h3
 
 theorem eq_self_of_normalizes {m : W K ≃ₗ[K] W K} {σ : Idx0 → Idx0} (hm : IsMonW m σ)
@@ -179,7 +180,7 @@ theorem eq_self_of_normalizes {m : W K ≃ₗ[K] W K} {σ : Idx0 → Idx0} (hm :
       rw [hx, map_add, emb_single, emb_single]
       show ((e7Data_valid.xu K (rootK k) 1 : (Module.End K (V K))ˣ) : Module.End K (V K))
         (Finsupp.single (b : Fin e7Data.d) 1) = _
-      rw [e7Data_valid.xu_apply, rootOp_single hβ, if_pos hpr, one_smul, shift_eq hwt]
+      rw [e7Data_valid.xu_apply, rootOp_single hβ, ite_eq_left hpr, one_smul, shift_eq hwt]
     have hy := hn x hxU
     have hmi : m.symm (Finsupp.single (σ b) (1 : K) : W K) =
         (d b)⁻¹ • (Finsupp.single b (1 : K) : W K) := by
@@ -200,7 +201,7 @@ theorem eq_self_of_normalizes {m : W K ≃ₗ[K] W K} {σ : Idx0 → Idx0} (hm :
     fun x => if h : x ∈ idx0 then ((σ ⟨x, h⟩ : Idx0) : Fin e7Data.d) else x
   have hσ'val : ∀ x : Idx0, σ' (x : Fin e7Data.d) = (σ x : Fin e7Data.d) := by
     intro x
-    simp only [σ', dif_pos x.2]
+    simp only [σ', dite_eq_left x.2]
   have key := eq_self_of_mono σ'
     (fun x hx => by
       have hx' : x ∈ idx0 := mem_idx0.2 hx
@@ -228,6 +229,7 @@ theorem eq_self_of_normalizes {m : W K ≃ₗ[K] W K} {σ : Idx0 → Idx0} (hm :
       exact hedge ⟨x, hx'⟩ ⟨y, hy'⟩ ((relTab_spec x y hx).1 hxy))
   exact Subtype.ext ((hσ'val b).symm.trans (key b (mem_idx0.1 b.2)))
 
+omit [CharP K 2] in
 theorem weight_torMon {t₁ t₂ n : Gp K} {σ : Fin e7Data.d → Fin e7Data.d}
     {ρ : (Fin (Tag.rank .E7) → ℤ) → (Fin (Tag.rank .E7) → ℤ)} (ht₁ : t₁ ∈ Tor K)
     (ht₂ : t₂ ∈ Tor K) (hn : IsMon n σ ρ) (a : Fin e7Data.d) :
@@ -330,6 +332,7 @@ theorem normalizer_mul {g : W K ≃ₗ[K] W K} (hg : g ∈ EAut0 K)
   rw [hgm]
   group
 
+omit [CharP K 2] in
 theorem nt_mem_LamG (i : Fin (Tag.rank .E7)) (hi : 1 ≤ i.val) (t : Kˣ) :
     e7Data_valid.nt K i t ∈ LamG K := by
   have hsP : (Pi.single i 1 : Fin (Tag.rank .E7) → ℤ) ∈ Perp := single_mem_Perp i hi
@@ -341,10 +344,12 @@ theorem nt_mem_LamG (i : Fin (Tag.rank .E7)) (hi : 1 ≤ i.val) (t : Kˣ) :
   rw [Subgroup.coe_mul, Subgroup.coe_mul]
   exact mul_mem (mul_mem (xu_mem_Lam hsP _) (xu_mem_Lam hsN _)) (xu_mem_Lam hsP _)
 
+omit [CharP K 2] in
 theorem hm_mem_LamG (i : Fin (Tag.rank .E7)) (hi : 1 ≤ i.val) (t : Kˣ) :
     e7Data_valid.hm K i t ∈ LamG K :=
   mul_mem (nt_mem_LamG i hi t) (inv_mem (nt_mem_LamG i hi 1))
 
+omit [CharP K 2] in
 theorem conj_mem_UW {t : Gp K} (ht : t ∈ Tor K) {h x : W K ≃ₗ[K] W K} (hh : IndW t h)
     (hx : x ∈ UW K) : h * x * h⁻¹ ∈ UW K := by
   obtain ⟨u, hu, hxu⟩ := hx
@@ -439,7 +444,7 @@ theorem finite_W (K : Type) [Field K] [Finite K] : Finite (W K) :=
 
 omit [CharP K 2] in
 theorem finite_WAut (K : Type) [Field K] [Finite K] : Finite (W K ≃ₗ[K] W K) := by
-  haveI := finite_W K
+  have := finite_W K
   exact Finite.of_injective (fun f : W K ≃ₗ[K] W K => (f : W K → W K)) DFunLike.coe_injective
 
 attribute [local instance] finite_W finite_WAut
@@ -460,6 +465,7 @@ theorem one_add_pow_two_pow {M : Type} [AddCommGroup M] [Module K M] (N : Module
   | succ j ih =>
     rw [pow_succ, pow_mul, ih, hsq, ← pow_mul, ← pow_succ]
 
+omit [CharP K 2] in
 theorem pow32_eq_zero_of_tri (N : Module.End K (W K))
     (hN : ∀ b : Idx0, N (Finsupp.single b (1 : K) : W K) ∈
       Finsupp.supported K K {d : Idx0 | ltB b d = true}) : N ^ 32 = 0 := by
@@ -562,7 +568,7 @@ theorem diag_coord {h : W K ≃ₗ[K] W K} {s : Idx0 → K}
 
 theorem monomial_of_normalizes [Finite K] (hK : 3 ≤ Nat.card K) {T : W K ≃ₗ[K] W K}
     (hT : ∀ h ∈ HdW K, T * h * T⁻¹ ∈ HdW K) : ∃ σ : Idx0 → Idx0, IsMonW T σ := by
-  haveI := finite_WAut K
+  have := finite_WAut K
   have hT' := conj_inv_mem_of_finite hT
   have key : ∀ b : Idx0, ∃ c : Idx0, ∃ d : K, d ≠ 0 ∧
       T (Finsupp.single b (1 : K) : W K) = d • (Finsupp.single c (1 : K) : W K) := by
@@ -614,10 +620,11 @@ theorem monomial_of_normalizes [Finite K] (hK : 3 ≤ Nat.card K) {T : W K ≃�
   choose c d hd0 hcd using key
   exact ⟨c, fun b => ⟨d b, hd0 b, hcd b⟩⟩
 
+omit [CharP K 2] in
 theorem pow_card_sub_one_of_diag [Finite K] {h : W K ≃ₗ[K] W K} (hh : h ∈ DiagW K) :
     h ^ (Nat.card K - 1) = 1 := by
   classical
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   choose s hs using hh
   have hs0 : ∀ e, s e ≠ 0 := by
     intro e he
@@ -648,7 +655,7 @@ theorem pow_card_sub_one_of_diag [Finite K] {h : W K ≃ₗ[K] W K} (hh : h ∈ 
     rfl
 
 theorem odd_card_sub_one [Finite K] : Odd (Nat.card K - 1) := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have h2 : 2 ∣ Fintype.card K :=
     (CharP.cast_eq_zero_iff K 2 _).mp (FiniteField.cast_card_eq_zero K)
   have hpos : 0 < Fintype.card K := Fintype.card_pos

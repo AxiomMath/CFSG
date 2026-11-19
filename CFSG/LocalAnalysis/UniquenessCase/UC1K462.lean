@@ -57,8 +57,8 @@ theorem k46semireg_of_inputs (hK42 : K42) (h462 : K462) (hI2L2 : Insp2L2)
       omega
     exact hZ p G hperf V ρ hρ hsemi hcard
   · exfalso
-    haveI := hirr
-    haveI : Nontrivial V := IsSimpleModule.nontrivial (MonoidAlgebra (ZMod p) G) ρ.asModule
+    have := hirr
+    have : Nontrivial V := IsSimpleModule.nontrivial (MonoidAlgebra (ZMod p) G) ρ.asModule
     obtain ⟨hpp, hf1, -, hne22, -⟩ := hmodel.admissible
     have hn1 : n ≠ 1 := by
       intro h; apply hne22; rw [h]; norm_num

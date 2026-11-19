@@ -15,10 +15,10 @@ theorem exists_characteristic {p : ℕ} {P T B : Subgroup G} {e : ℕ}
     (h : ExtraspecialBinaryActionCounterexample G p P T B e ρ) {r : ℕ} (hr : r ∈ piOf B) :
     ∃ A : Subgroup G, A ≤ B ∧ Nat.card A = r ∧
       ∀ φ : B ≃* B, (A.subgroupOf B).map φ.toMonoidHom = A.subgroupOf B := by
-  haveI : IsCyclic B := actor_isCyclic h
-  simp only [piOf, Set.mem_setOf_eq] at hr
+  have : IsCyclic B := actor_isCyclic h
+  simp only [piOf, Set.mem_ofPred_eq] at hr
   obtain ⟨hrp, hrd⟩ := hr
-  haveI : Fact r.Prime := ⟨hrp⟩
+  have : Fact r.Prime := ⟨hrp⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' r hrd
   refine ⟨(Subgroup.zpowers x).map B.subtype, ?_, ?_, ?_⟩
   · rintro _ ⟨y, -, rfl⟩; exact y.2

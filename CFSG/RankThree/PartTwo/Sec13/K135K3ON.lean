@@ -20,8 +20,8 @@ theorem k3_ON
   have hsimp := CFSG.Sporadic.ON.fam_on_simplicity
   have hcard : Nat.card NativeSporadic.ON = 460815505920 := CFSG.Sporadic.ON.card_ON
   have hnp : ¬ Nat.Prime 460815505920 := by norm_num
-  haveI : IsSimpleGroup NativeSporadic.ON := hsimp.2.2
-  haveI : Finite NativeSporadic.ON := hsimp.1
+  have : IsSimpleGroup NativeSporadic.ON := hsimp.2.2
+  have : Finite NativeSporadic.ON := hsimp.1
   have hcen : Subgroup.center S = ⊥ := by
     refine center_eq_bot_of_simple_card (X := NativeSporadic.ON) e ?_
     intro hp
@@ -38,7 +38,7 @@ theorem k3_ON
   intro P hP hcard α hα hcomm
   refine k3_of_data hcen hodd (inner_of_not_dvd_outer (by norm_num) h7) ?_ P hP hcard α hα hcomm
   intro Q hQ hQcard l hl3 hcommQ
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hdvd : 7 ∣ Nat.card Q := by
     rcases hQ.card_eq_or_dvd with h | h
     · exfalso

@@ -58,7 +58,7 @@ theorem outTwoGen_of_mulEquiv {X Y : Type*} [Group X] [Group Y] (e : X ≃* Y) (
 theorem outTwoGen_of_card_dvd {X : Type} [Group X] [Finite X] {m : ℕ} (hm : Odd m)
     (h : Nat.card (Outer X) ∣ 4 * m) : OutTwoGen X := by
   intro V hV
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hW2 : IsPGroup 2 ↥(V.map (QuotientGroup.mk' (inner X))) :=
     hV.map (QuotientGroup.mk' (inner X))
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card).mp hW2

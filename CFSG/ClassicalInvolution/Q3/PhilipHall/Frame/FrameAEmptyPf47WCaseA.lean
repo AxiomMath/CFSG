@@ -284,7 +284,7 @@ theorem exists_inner_inv (cfg : WCfg K z J zJ H S) {T₀ : Subgroup T} (hT2 : Is
     (h4 : 4 ≤ Nat.card T₀) (hTN : T₀ ≤ Subgroup.normalizer (firstFactor K : Set T)) :
     ∃ u ∈ T₀, u ≠ 1 ∧ u * u = 1 ∧ ∃ huN : u ∈ Subgroup.normalizer (firstFactor K : Set T),
       s26Act (firstFactor K) ⟨u, huN⟩ ∈ inner (SecQuot (firstFactor K)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set I : T → Prop := fun u => ∃ huN : u ∈ Subgroup.normalizer (firstFactor K : Set T),
     s26Act (firstFactor K) ⟨u, huN⟩ ∈ inner (SecQuot (firstFactor K)) with hI
   have hρ : ∀ a b : T, ∀ (ha : a ∈ Subgroup.normalizer (firstFactor K : Set T))
@@ -451,7 +451,7 @@ theorem star (cfg : WCfg K z J zJ H S) (g : T)
     (heven : Even (Nat.card (rightConjugate (wQ K) g ⊓
       Subgroup.normalizer (wQ K : Set T) : Subgroup T))) :
     CFSG.ComponentClassification.Asc76.SylowNormalizes (rightConjugate (wQ K) g) (wQ K) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨syl⟩ : Nonempty (Sylow 2 ↥(rightConjugate (wQ K) g)) := inferInstance
   have hSle : (syl : Subgroup ↥(rightConjugate (wQ K) g)).map (rightConjugate (wQ K) g).subtype ≤
       rightConjugate (wQ K) g :=

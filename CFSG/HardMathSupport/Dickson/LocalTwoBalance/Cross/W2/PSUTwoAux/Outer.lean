@@ -425,6 +425,7 @@ section Basis
 
 variable [DecidableEq K]
 
+omit [DecidableEq K] in
 theorem det_eq_prod_of_eigenbasis {xm : Matrix (Fin n) (Fin n) K} {b : Fin n → Fin n → K}
     (hb : IsOrthonormalFamily h b) {cc : Fin n → K} (hbe : ∀ i, xm *ᵥ b i = cc i • b i) :
     xm.det = ∏ i, cc i := by
@@ -443,15 +444,18 @@ theorem det_eq_prod_of_eigenbasis {xm : Matrix (Fin n) (Fin n) K} {b : Fin n →
       = (∏ i, cc i) * ((frameMat b * frameAdj h b).det) := by rw [Matrix.det_mul]; ring
     _ = ∏ i, cc i := by rw [hAB, Matrix.det_one, mul_one]
 
+omit [DecidableEq K] in
 theorem span_range_orthonormal_basis {b : Fin n → Fin n → K} (hb : IsOrthonormalFamily h b) :
     Submodule.span K (Set.range b) = ⊤ :=
   span_eq_of_orthonormal hb (fun i => Submodule.mem_top) (by rw [finrank_top, Module.finrank_fin_fun])
 
+omit [DecidableEq K] in
 theorem frameMat_mulVec_eq_sum (u : Fin m → Fin n → K) (a : Fin m → K) :
     frameMat u *ᵥ a = ∑ i, a i • u i := by
   funext k
   simp [Matrix.mulVec, dotProduct, frameMat, mul_comm]
 
+omit [DecidableEq K] in
 theorem frameAdj_mulVec_apply (u : Fin m → Fin n → K) (v : Fin n → K) (i : Fin m) :
     (frameAdj h u *ᵥ v) i = idForm h n (u i) v := by
   rw [idForm_eq_dotProduct]

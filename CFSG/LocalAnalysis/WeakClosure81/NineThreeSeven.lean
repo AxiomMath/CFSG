@@ -11,24 +11,29 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {V T A K S X : Subgroup G} {p : ℕ}
 
+omit [Finite G] in
 theorem nineThree_conj_mono {B C : Subgroup G} (h : B ≤ C) (g : G) :
     conjSubgroup B g ≤ conjSubgroup C g :=
   fun _ hx => mem_conjSubgroup_iff.2 (h (mem_conjSubgroup_iff.1 hx))
 
+omit [Finite G] in
 theorem nineThree_conj_inv (B : Subgroup G) (g : G) :
     conjSubgroup (conjSubgroup B g) g⁻¹ = B := by
   rw [CFSG.Quasithin.conjSubgroup_conjSubgroup, mul_inv_cancel,
     CFSG.Quasithin.conjSubgroup_one]
 
+omit [Finite G] in
 theorem nineThree_conj_inv' (B : Subgroup G) (g : G) :
     conjSubgroup (conjSubgroup B g⁻¹) g = B := by
   rw [CFSG.Quasithin.conjSubgroup_conjSubgroup, inv_mul_cancel,
     CFSG.Quasithin.conjSubgroup_one]
 
+omit [Finite G] in
 theorem nineThree_conj_injective {B C : Subgroup G} {g : G}
     (e : conjSubgroup B g = conjSubgroup C g) : B = C := by
   rw [← nineThree_conj_inv B g, e, nineThree_conj_inv]
 
+omit [Finite G] in
 theorem nineThree_conj_le_iff {P B : Subgroup G} {n : G} (hn : n ∈ normalizer (P : Set G)) :
     conjSubgroup B n ≤ P ↔ B ≤ P := by
   have hP : conjSubgroup P n = P := conjSubgroup_eq_iff_mem_normalizer.2 hn
@@ -46,14 +51,14 @@ theorem nineThree_le_of_normalizer {P Q : Subgroup G} (hQ : IsPGroup 2 Q) (hPQ :
     (h : ∀ n ∈ Q, n ∈ normalizer (P : Set G) → n ∈ P) : Q ≤ P := by
   by_contra hne
   have hlt : P < Q := lt_of_le_of_ne hPQ (fun e => hne e.symm.le)
-  haveI : Group.IsNilpotent ↥Q := hQ.isNilpotent
+  have : Group.IsNilpotent ↥Q := hQ.isNilpotent
   have hlt' : P.subgroupOf Q < ⊤ := by
     rw [lt_top_iff_ne_top]
     intro htop
     rw [Subgroup.subgroupOf_eq_top] at htop
     exact not_le_of_gt hlt htop
   have hgrow := Group.normalizerCondition_of_isNilpotent (G := ↥Q) _ hlt'
-  obtain ⟨x, hxN, hxQ⟩ := SetLike.exists_of_lt hgrow
+  obtain ⟨x, hxN, hxQ⟩ := _root_.IsConcreteLE.exists_of_lt hgrow
   have hxN' : (x : G) ∈ Subgroup.normalizer (P : Set G) := by
     have := hxN
     rw [← Subgroup.subgroupOf_normalizer_eq hlt.le] at this
@@ -73,6 +78,7 @@ theorem nineThree_le_of_isSylowIn {Q P K : Subgroup G} (hQ : IsSylowIn 2 Q K) (h
     rw [h2, h0, pow_zero]
   exact hQ.not_dvd_relIndex (h4.trans h1)
 
+omit [Finite G] in
 theorem nineThree_isSylowIn_of_le {P K K' : Subgroup G} (hP : IsSylowIn 2 P K)
     (hPK' : P ≤ K') (hK'K : K' ≤ K) : IsSylowIn 2 P K' := by
   refine ⟨hPK', hP.isPGroup, fun h => hP.not_dvd_relIndex ?_⟩
@@ -100,7 +106,7 @@ theorem nineThree_mem_stab_of_mapsTo {g : G}
 
 namespace Nine3Core
 
-theorem S_le_nineDeltaStab (h : Nine3Core V T A K S X p) : S ≤ nineDeltaStab V S := by
+theorem S_le_nineDeltaStab (_h : Nine3Core V T A K S X p) : S ≤ nineDeltaStab V S := by
   intro s hs B
   have hsn : s ∈ normalizer (S : Set G) := Subgroup.le_normalizer hs
   constructor
@@ -132,7 +138,7 @@ end Nine3Core
 theorem nine_three_seven (h : Nine3Core V T A K S X p) :
     ¬ nineDeltaStab V S ≤ normalizer (V : Set G) := by
   intro hN
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set P : Subgroup G := T ⊓ centralizer (A : Set G) with hPdef
   have hPS : P ≤ S := nine_three_four_centralizer h
   have hPT : P ≤ T := inf_le_left
@@ -201,7 +207,7 @@ namespace Nine3Core
 theorem exists_conj_of_mem_nineDelta (h : Nine3Core V T A K S X p) {B B' : Subgroup G}
     (hB : B ∈ nineDelta V S) (hB' : B' ∈ nineDelta V S) (hBV : B ≠ V) (hB'V : B' ≠ V) :
     ∃ s ∈ S, conjSubgroup B s = B' := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h1 : B ∈ nineOmegaIn V K S := (h.mem_nineDelta_iff.1 hB).resolve_left hBV
   have h2 : B' ∈ nineOmegaIn V K S := (h.mem_nineDelta_iff.1 hB').resolve_left hB'V
   obtain ⟨r, hr, hrB⟩ := nine_two_two_R h.hyp7 h.rk_gt h.hyp h1 h2
@@ -211,7 +217,7 @@ theorem exists_mem_nineDeltaStab_conj_eq (h : Nine3Core V T A K S X p) {B : Subg
     (hB : B ∈ nineDelta V S) : ∃ n ∈ nineDeltaStab V S, conjSubgroup V n = B := by
   by_cases hBV : B = V
   · exact ⟨1, Subgroup.one_mem _, by rw [hBV, CFSG.Quasithin.conjSubgroup_one]⟩
-  obtain ⟨n₀, hn₀, hn₀M⟩ := SetLike.not_le_iff_exists.1 (nine_three_seven h)
+  obtain ⟨n₀, hn₀, hn₀M⟩ := IsConcreteLE.not_le_iff_exists.1 (nine_three_seven h)
   have hV1 : conjSubgroup V n₀ ∈ nineDelta V S :=
     (mem_nineDeltaStab.1 hn₀ V).1 h.V_mem_nineDelta
   have hV2 : conjSubgroup V n₀ ≠ V := fun e =>

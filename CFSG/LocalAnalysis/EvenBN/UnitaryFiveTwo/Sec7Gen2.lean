@@ -17,6 +17,7 @@ variable {G : Type} [Group G] [Finite G] {d : Data G} {A : Subgroup G}
 
 namespace Data.Hyp
 
+omit [Finite G] in
 theorem map_conj_eq_of_le_centralizer (htA : A ≤ centralizer ({d.t} : Set G)) :
     A.map (MulAut.conj d.t).toMonoidHom = A := by
   ext x
@@ -30,6 +31,7 @@ theorem map_conj_eq_of_le_centralizer (htA : A ≤ centralizer ({d.t} : Set G)) 
     have := mem_centralizer_singleton_iff.1 (htA hx)
     simp [MulAut.conj_apply, ← this]
 
+omit [Finite G] in
 theorem t_not_mem_centralizer_sup (hU : d.UnitaryProductData A) :
     d.t ∉ centralizer ((A ⊔ A.map (MulAut.conj d.t).toMonoidHom : Subgroup G) : Set G) := by
   intro htD
@@ -131,14 +133,14 @@ theorem perfect_le_sup (h : d.Hyp) (hU : d.UnitaryProductData A) (M : Subgroup G
     CFSG.Fischer.Classification.Recognition.isQuasisimple_map_mulEquiv (MulAut.conj d.t) hq
   have h₁₂ : A.map (MulAut.conj d.t).toMonoidHom ≤ centralizer (A : Set G) :=
     Subgroup.commutator_eq_bot_iff_le_centralizer.1 (by rw [commutator_comm]; exact hU.comm)
-  haveI : Group.IsPerfect ↥A := ⟨hq.1⟩
-  haveI := isSolvable_outer_SU52
-  haveI hOutL : Group.IsSolvable (Outer ↥d.L) :=
+  have : Group.IsPerfect ↥A := ⟨hq.1⟩
+  have := isSolvable_outer_SU52
+  have hOutL : Group.IsSolvable (Outer ↥d.L) :=
     CFSG.ComponentClassification.OuterAutomorphisms.solvable_of_equiv d.η.symm
   obtain ⟨e⟩ := h.quotient_equiv hU
-  haveI hOutQ : Group.IsSolvable (Outer (↥A ⧸ center ↥A)) :=
+  have hOutQ : Group.IsSolvable (Outer (↥A ⧸ center ↥A)) :=
     CFSG.ComponentClassification.OuterAutomorphisms.solvable_of_equiv e.symm
-  haveI hOutA : Group.IsSolvable (Outer ↥A) :=
+  have hOutA : Group.IsSolvable (Outer ↥A) :=
     CFSG.ComponentClassification.OuterAutomorphisms.solvable_of_centerQuotient ↥A
   have hOutB : Group.IsSolvable (Outer ↥(A.map (MulAut.conj d.t).toMonoidHom)) :=
     CFSG.ComponentClassification.OuterAutomorphisms.solvable_of_equiv

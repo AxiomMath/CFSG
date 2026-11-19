@@ -58,7 +58,7 @@ theorem card_le_sq_card_centralizer {A : Subgroup G} (hA : CFSG.Open.IsElemAbeli
     Nat.card A ≤ Nat.card ↥(A ⊓ centralizer ({t} : Set G)) ^ 2 := by
   classical
   by_cases hAfin : Finite A
-  · haveI : Finite A := hAfin
+  · have : Finite A := hAfin
     let ψ : ↥A →* ↥A := psi A t hA.1 htA
     have hmul := Subgroup.card_ker_mul_card_range ψ
     have hker : ψ.ker ≤ (A ⊓ centralizer ({t} : Set G)).subgroupOf A := by
@@ -97,7 +97,7 @@ theorem card_le_sq_card_centralizer {A : Subgroup G} (hA : CFSG.Open.IsElemAbeli
       _ ≤ Nat.card ↥(A ⊓ centralizer ({t} : Set G))
             * Nat.card ↥(A ⊓ centralizer ({t} : Set G)) := Nat.mul_le_mul h1 h2
       _ = Nat.card ↥(A ⊓ centralizer ({t} : Set G)) ^ 2 := (pow_two _).symm
-  · haveI : Infinite A := not_finite_iff_infinite.mp hAfin
+  · have : Infinite A := not_finite_iff_infinite.mp hAfin
     rw [Nat.card_eq_zero_of_infinite]
     exact Nat.zero_le _
 

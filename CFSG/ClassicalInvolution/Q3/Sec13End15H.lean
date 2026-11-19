@@ -19,12 +19,15 @@ namespace EndHyp
 
 variable {Ω : Set (Subgroup G)} {K K' : Subgroup G} {z : G}
 
+omit [Finite G] in
 private theorem e15h1_zi {K : Subgroup G} {z i j : G} (hQ : Q8Data K z i j) : z * i = i * z := by
   rw [← hQ.sq_i, mul_assoc]
 
+omit [Finite G] in
 private theorem e15h1_zj {K : Subgroup G} {z i j : G} (hQ : Q8Data K z i j) : z * j = j * z := by
   rw [← hQ.sq_j, mul_assoc]
 
+omit [Finite G] in
 private theorem e15h1_ij_sq {K : Subgroup G} {z i j : G} (hQ : Q8Data K z i j) :
     (i * j) * (i * j) = z := by
   have hiz : i * z = z * i := (e15h1_zi hQ).symm
@@ -36,16 +39,19 @@ private theorem e15h1_ij_sq {K : Subgroup G} {z i j : G} (hQ : Q8Data K z i j) :
     _ = z * z * z := by rw [hQ.sq_i, hQ.sq_j]
     _ = z := by rw [hQ.inv.sq, one_mul]
 
+omit [Finite G] in
 private theorem e15h1_inv_i {K : Subgroup G} {z i j : G} (hQ : Q8Data K z i j) :
     i⁻¹ = z * i := by
   apply inv_eq_of_mul_eq_one_right
   rw [← mul_assoc, ← e15h1_zi hQ, mul_assoc, hQ.sq_i, hQ.inv.sq]
 
+omit [Finite G] in
 private theorem e15h1_inv_j {K : Subgroup G} {z i j : G} (hQ : Q8Data K z i j) :
     j⁻¹ = z * j := by
   apply inv_eq_of_mul_eq_one_right
   rw [← mul_assoc, ← e15h1_zj hQ, mul_assoc, hQ.sq_j, hQ.inv.sq]
 
+omit [Finite G] in
 private theorem e15h1_zij {K : Subgroup G} {z i j : G} (hQ : Q8Data K z i j) :
     z * (i * j) = (i * j) * z := by
   calc z * (i * j) = (z * i) * j := by group
@@ -54,11 +60,13 @@ private theorem e15h1_zij {K : Subgroup G} {z i j : G} (hQ : Q8Data K z i j) :
     _ = i * (j * z) := by rw [e15h1_zj hQ]
     _ = (i * j) * z := by group
 
+omit [Finite G] in
 private theorem e15h1_inv_ij {K : Subgroup G} {z i j : G} (hQ : Q8Data K z i j) :
     (i * j)⁻¹ = z * (i * j) := by
   apply inv_eq_of_mul_eq_one_right
   rw [e15h1_zij hQ, ← mul_assoc, e15h1_ij_sq hQ, hQ.inv.sq]
 
+omit [Finite G] in
 private theorem e15h1_sq_one {K : Subgroup G} {z i j : G} (hQ : Q8Data K z i j) {c b : G}
     (hc : c = i ∨ c = z * i) (hb : b = i ∨ b = z * i) : (c * b) * (c * b) = 1 := by
   have h1 : i * (z * i) = 1 := by rw [← e15h1_inv_i hQ, mul_inv_cancel]
@@ -82,6 +90,7 @@ private theorem e15h1_sq_one {K : Subgroup G} {z i j : G} (hQ : Q8Data K z i j) 
   · rw [h, one_mul]
   · rw [h, hQ.inv.sq]
 
+omit [Finite G] in
 private theorem e15h1_conj_sq {K : Subgroup G} {z i j g u : G} (hQ : Q8Data K z i j)
     (hgN : g ∈ Subgroup.normalizer (K : Set G))
     (hu : g * u * g⁻¹ = u ∨ g * u * g⁻¹ = z * u) : g * (g * u * g⁻¹) * g⁻¹ = u := by
@@ -94,6 +103,7 @@ private theorem e15h1_conj_sq {K : Subgroup G} {z i j g u : G} (hQ : Q8Data K z 
       _ = z * (z * u) := by rw [hgz, h1]
       _ = u := by rw [← mul_assoc, hQ.inv.sq, one_mul]
 
+omit [Finite G] in
 private theorem e15h1_commute_sq {K : Subgroup G} {z i j g u : G} (hQ : Q8Data K z i j)
     (hgN : g ∈ Subgroup.normalizer (K : Set G))
     (hu : g * u * g⁻¹ = u ∨ g * u * g⁻¹ = z * u) : Commute (g * g) u := by
@@ -101,6 +111,7 @@ private theorem e15h1_commute_sq {K : Subgroup G} {z i j g u : G} (hQ : Q8Data K
   calc (g * g) * u = (g * (g * u * g⁻¹) * g⁻¹) * (g * g) := by group
     _ = u * (g * g) := by rw [e15h1_conj_sq hQ hgN hu]
 
+omit [Finite G] in
 private theorem e15h1_comm_of_gens {K : Subgroup G} {z i j w : G} (hQ : Q8Data K z i j)
     (hwi : Commute w i) (hwj : Commute w j) (hwz : Commute w z) : ∀ k ∈ K, Commute w k := by
   intro k hk
@@ -114,6 +125,7 @@ private theorem e15h1_comm_of_gens {K : Subgroup G} {z i j w : G} (hQ : Q8Data K
   · exact hwi.mul_right hwj
   · exact hwz.mul_right (hwi.mul_right hwj)
 
+omit [Finite G] in
 private theorem e15h1_sq_comm {K : Subgroup G} {z i j g : G} (hQ : Q8Data K z i j)
     (hgN : g ∈ Subgroup.normalizer (K : Set G))
     (hgi : g * i * g⁻¹ = i ∨ g * i * g⁻¹ = z * i) (hgj : g * j * g⁻¹ = j ∨ g * j * g⁻¹ = z * j) :
@@ -123,6 +135,7 @@ private theorem e15h1_sq_comm {K : Subgroup G} {z i j g : G} (hQ : Q8Data K z i 
   · exact e15h1_commute_sq hQ hgN hgj
   · exact e15h1_commute_sq hQ hgN (Or.inl (conj_eq_self_of_normalizer hQ.inv hgN))
 
+omit [Finite G] in
 private theorem e15h1_comm_of_sq {y g : G} {m : ℕ} (hm : Odd m) (hym : y ^ m = 1)
     (h : Commute (y * y) g) : Commute y g := by
   obtain ⟨k, rfl⟩ := hm
@@ -133,6 +146,7 @@ private theorem e15h1_comm_of_sq {y g : G} {m : ℕ} (hm : Odd m) (hym : y ^ m =
   exact h2
 
 
+omit [Finite G] in
 private theorem e15h1_swap {K : Subgroup G} {z i j : G} (hQ : Q8Data K z i j) : Q8Data K z j i where
   inv := hQ.inv
   mem_i := hQ.mem_j
@@ -154,9 +168,11 @@ private theorem e15h1_swap {K : Subgroup G} {z i j : G} (hQ : Q8Data K z i j) : 
     · right; right; right; right; right; right; left
       rw [h, hQ.comm]
 
+omit [Finite G] in
 private theorem e15h1_sq_pow {y : G} {m : ℕ} (hym : y ^ m = 1) : (y * y) ^ m = 1 := by
   rw [← sq, ← pow_mul, mul_comm, pow_mul, hym, one_pow]
 
+omit [Finite G] in
 private theorem e15h1_yyi_fix {K : Subgroup G} {z i j y : G} (hQ : Q8Data K z i j)
     (hyN : y ∈ Subgroup.normalizer (K : Set G)) (hyi : y * i * y⁻¹ = i ∨ y * i * y⁻¹ = z * i) :
     (y * y) * i * (y * y)⁻¹ = i ∨ (y * y) * i * (y * y)⁻¹ = z * i := by
@@ -164,6 +180,7 @@ private theorem e15h1_yyi_fix {K : Subgroup G} {z i j y : G} (hQ : Q8Data K z i 
   rw [e]
   exact Or.inl (e15h1_conj_sq hQ hyN hyi)
 
+omit [Finite G] in
 private theorem e15h1_yyj {K : Subgroup G} {z i j y : G} (hQ : Q8Data K z i j)
     (hyz : y * z * y⁻¹ = z) (hyi : y * i * y⁻¹ = i ∨ y * i * y⁻¹ = z * i)
     (hb : y * j * y⁻¹ = i * j ∨ y * j * y⁻¹ = z * (i * j)) :
@@ -188,6 +205,7 @@ private theorem e15h1_yyj {K : Subgroup G} {z i j y : G} (hQ : Q8Data K z i j)
       _ = (y * i * y⁻¹) * ((z * z) * (i * j)) := by group
       _ = (y * i * y⁻¹) * (i * j) := by rw [hQ.inv.sq, one_mul]
 
+omit [Finite G] in
 private theorem e15h1_yyj_fix {K : Subgroup G} {z i j y : G} (hQ : Q8Data K z i j)
     (hyz : y * z * y⁻¹ = z) (hyi : y * i * y⁻¹ = i ∨ y * i * y⁻¹ = z * i)
     (hb : y * j * y⁻¹ = i * j ∨ y * j * y⁻¹ = z * (i * j)) :
@@ -204,6 +222,7 @@ private theorem e15h1_yyj_fix {K : Subgroup G} {z i j y : G} (hQ : Q8Data K z i 
       _ = z * z * j := by rw [hQ.sq_i]
       _ = j := by rw [hQ.inv.sq, one_mul]
 
+omit [Finite G] in
 private theorem e15h1_centralize {K : Subgroup G} {z i j y : G} (hQ : Q8Data K z i j)
     (hyN : y ∈ Subgroup.normalizer (K : Set G)) {m : ℕ} (hm : Odd m) (hym : y ^ m = 1)
     (hyi : y * i * y⁻¹ = i ∨ y * i * y⁻¹ = z * i) : ∀ k ∈ K, Commute y k := by
@@ -499,6 +518,7 @@ namespace SixPointData
 
 variable {D : Subgroup G} {σ : G →* Equiv.Perm (Fin 6)} {β : Multiplicative (Fin 6 → ZMod 2) →* G}
 
+omit [Finite G] in
 theorem exists_duad (hsp : SixPointData D σ β) {x : G} (hx : x ∈ D) (hx1 : x ≠ 1) :
     ∃ a b : Fin 6, a ≠ b ∧ x = β (Multiplicative.ofAdd (Sp4.duadVec a b)) := by
   obtain ⟨f, hf, rfl⟩ := (hsp.mem_iff _).mp hx
@@ -536,13 +556,16 @@ private def e15h1_conj {D : Subgroup G} (hD : D.Normal) (g : G) : D ≃* D where
   right_inv d := Subtype.ext (by simp [mul_assoc])
   map_mul' d d' := Subtype.ext (by simp [mul_assoc])
 
+omit [Finite G] in
 private theorem e15h1_conj_val {D : Subgroup G} (hD : D.Normal) (g : G) (d : D) :
     (e15h1_conj hD g d).1 = g * d.1 * g⁻¹ := rfl
 
+omit [Finite G] in
 private theorem e15h1_conj_mul {D : Subgroup G} (hD : D.Normal) (g g' : G) (d : D) :
     e15h1_conj hD (g * g') d = e15h1_conj hD g (e15h1_conj hD g' d) :=
   Subtype.ext (by simp only [e15h1_conj_val, mul_assoc, mul_inv_rev])
 
+omit [Finite G] in
 private theorem e15h1_conj_one {D : Subgroup G} (hD : D.Normal) (d : D) :
     e15h1_conj hD 1 d = d :=
   Subtype.ext (by simp [e15h1_conj_val])
@@ -557,8 +580,8 @@ theorem exists_sixPoint (h : EndHyp Ω) (h9 : Perp9 Ω) (s : TwinSit Ω K K' z)
       (bf : zGroup Ω → zGroup Ω → ZMod 2), IsEndForm Ω bf ∧ SixPointData (zGroup Ω) σ β ∧
       ∀ (x y : zGroup Ω) (f g : Multiplicative (Fin 6 → ZMod 2)), ∑ i, f.toAdd i = 0 →
         ∑ i, g.toAdd i = 0 → x.1 = β f → y.1 = β g → bf x y = Sp4.dot f.toAdd g.toAdd := by
-  haveI : Fact (EndHyp Ω) := ⟨h⟩
-  haveI : Fact (Perp9 Ω) := ⟨h9⟩
+  have : Fact (EndHyp Ω) := ⟨h⟩
+  have : Fact (Perp9 Ω) := ⟨h9⟩
   obtain ⟨hcard, hpt, -⟩ := h.natCard_zGroup_eq_sixteen_local h9 s h13 hE
   obtain ⟨bf, hbf⟩ := h.exists_endForm h9 s h13
   obtain ⟨θ0, hθ0⟩ := Sp4.exists_symplectic_iso hbf.sympForm hcard
@@ -801,7 +824,7 @@ theorem exists_mulEquiv_quotient_pCore_six_of_local (h : EndHyp Ω) (h9 : Perp9 
     Nonempty (G ⧸ pCore 2 G ≃* alternatingGroup (Fin 6)) := by
   obtain ⟨φ, hsurj, hker⟩ := h.exists_hom_alternating_six h9 s h13 hE
   have hc := h.centralizer_zGroup_eq_pCore h9 s h13
-  haveI : (pCore 2 G).Normal := CFSG.pCore_normal
+  have : (pCore 2 G).Normal := CFSG.pCore_normal
   exact ⟨(QuotientGroup.quotientMulEquivOfEq (hker.trans hc).symm).trans
     (QuotientGroup.quotientKerEquivOfSurjective φ hsurj)⟩
 
@@ -938,6 +961,7 @@ private theorem e15h2_eq_zpowers {U : Subgroup G} {u : G} (hu : u ∈ U) (hu4 : 
   refine (Subgroup.eq_of_le_of_card_ge (Subgroup.zpowers_le.mpr hu) ?_).symm
   rw [Nat.card_zpowers, hu4, hU4]
 
+omit [Finite G] in
 private theorem e15h2_coset {K U : Subgroup G} (hUK : U ≤ K) (hK8 : Nat.card ↥K = 8)
     (hU4 : Nat.card ↥U = 4) {w x : G} (hw : w ∈ K) (hwU : w ∉ U) (hx : x ∈ K) (hxU : x ∉ U) :
     w⁻¹ * x ∈ U := by
@@ -963,6 +987,7 @@ private theorem e15h2_coset {K U : Subgroup G} (hUK : U ≤ K) (hK8 : Nat.card �
   rw [e] at hm
   exact Subgroup.mem_subgroupOf.mp hm
 
+omit [Finite G] in
 private theorem e15h2_zpow_mem_sq_iff {u : G} (hu4 : orderOf u = 4) (t : ℤ) :
     u ^ t ∈ Subgroup.zpowers (u ^ 2) ↔ Even t := by
   have e : ∀ s : ℤ, (u ^ 2) ^ s = u ^ (2 * s) := fun s => by
@@ -984,6 +1009,7 @@ private theorem e15h2_zpow_mem_sq_iff {u : G} (hu4 : orderOf u = 4) (t : ℤ) :
     congr 1
     ring
 
+omit [Finite G] in
 private theorem e15h2_odd_of_conj {u w : G} (hu4 : orderOf u = 4) {e : ℤ}
     (he : w * u * w⁻¹ = u ^ e) : Odd e := by
   rcases Int.even_or_odd e with hE | hO
@@ -1004,10 +1030,12 @@ private theorem e15h2_odd_of_conj {u w : G} (hu4 : orderOf u = 4) {e : ℤ}
     norm_num at h4
   · exact hO
 
+omit [Finite G] in
 private theorem e15h2_sq_zpow (x : G) (s : ℤ) : (x ^ 2) ^ s = x ^ (2 * s) := by
   rw [← zpow_natCast, ← zpow_mul]
   norm_num
 
+omit [Finite G] in
 private theorem e15h2_sq_eq {K : Subgroup G} {z u : G} (hz : IsUniqueInvolution K z)
     (huK : u ∈ K) (hu4 : orderOf u = 4) : u ^ 2 = z := by
   have hmem : u ^ 2 ∈ K := K.pow_mem huK 2
@@ -1024,6 +1052,7 @@ private theorem e15h2_sq_eq {K : Subgroup G} {z u : G} (hz : IsUniqueInvolution 
     norm_num at h3
   exact (hz.unique (u ^ 2) hmem hsq).resolve_left hne
 
+omit [Finite G] in
 private theorem e15h2_sup_mem {K J U V : Subgroup G} (hUK : U ≤ K) (hVJ : V ≤ J)
     (hbot : K ⊓ J = ⊥) (hcomm : ∀ a ∈ U, ∀ b ∈ V, a * b = b * a) {x : G} (hx : x ∈ U ⊔ V)
     (hxK : x ∈ K) : x ∈ U := by
@@ -1037,7 +1066,7 @@ private theorem e15h2_sup_mem {K J U V : Subgroup G} (hUK : U ≤ K) (hVJ : V �
 
 private theorem e15h2_sylow_card8 {Γ : Type} [Group Γ] [Finite Γ] (hΓ : Nat.card Γ = 360)
     (P : Sylow 2 Γ) : Nat.card P = 8 := by
-  obtain ⟨n, hn⟩ := (IsPGroup.iff_card).mp P.isPGroup'
+  obtain ⟨n, hn⟩ := (IsPGroup.iff_card).mp P.isPGroup
   have hmul : Nat.card P * (P : Subgroup Γ).index = 360 := by
     rw [← hΓ]
     exact Subgroup.card_mul_index _

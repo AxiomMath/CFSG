@@ -70,9 +70,9 @@ theorem monomialToralAt_exc_of_ne_E8
         (CFSG.RankThree.PartOne.KE.not_dvd_card_weylGroup_E hp h7 (Or.inr (Or.inl rfl)))
 
 theorem monomialToralAt_exc (h65 : MonomialToralAt Tag.E6 5) (h75 : MonomialToralAt Tag.E7 5)
-    {τ : Tag} (hτ : τ = .G2 ∨ τ = .F4 ∨ τ = .D4 ∨ τ = .E6 ∨ τ = .E7 ∨ τ = .E8) {p : ℕ}
+    {τ : Tag} (_hτ : τ = .G2 ∨ τ = .F4 ∨ τ = .D4 ∨ τ = .E6 ∨ τ = .E7 ∨ τ = .E8) {p : ℕ}
     (hp : p.Prime) (hp2 : p ≠ 2) : MonomialToralAt τ p := by
-  clear hτ
+  clear _hτ
   by_cases hE8 : τ = .E8
   · subst τ
     have hp' : p = 3 ∨ p = 5 ∨ p = 7 ∨ 7 < p := by

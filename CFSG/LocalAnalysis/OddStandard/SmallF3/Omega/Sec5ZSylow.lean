@@ -15,6 +15,7 @@ open Subgroup CFSG.Blueprint
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem sec5z_isSylow2Of_trans {S S' K H : Subgroup G} (hS : IsSylow2Of S H) (hSK : S ≤ K)
     (hKH : K ≤ H) (hS' : IsSylow2Of S' K) : IsSylow2Of S' H := by
   refine ⟨hS'.1.trans hKH, hS'.2.1, fun hd => ?_⟩
@@ -31,7 +32,7 @@ variable {t z : G} {L S : Subgroup G}
 theorem sec5z_exists_sylow_ctx (h : Sec5Ctx G t L S z) {A : Subgroup G} (hA2 : IsPGroup 2 A)
     (hAt : A ≤ centralizer ({t} : Set G)) (hAz : A ≤ centralizer ({z} : Set G)) :
     ∃ S' : Subgroup G, A ≤ S' ∧ Asc82Notation t L S' z := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set K : Subgroup G := centralizer ({t} : Set G) ⊓ centralizer ({z} : Set G) with hK
   have hSK : S ≤ K := fun s hs =>
     ⟨h.sylow.1 hs, Subgroup.mem_centralizer_singleton_iff.mpr (h.central s hs)⟩

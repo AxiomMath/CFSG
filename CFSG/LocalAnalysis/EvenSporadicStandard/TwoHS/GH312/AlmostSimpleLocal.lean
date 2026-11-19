@@ -31,9 +31,9 @@ theorem AlmostSimpleLocal.sixty_dvd {T : Type*} [Group T] {u : T} (h : AlmostSim
 theorem AlmostSimpleLocal.exists_perfect {T : Type*} [Group T] {u : T} (h : AlmostSimpleLocal T u) :
     ∃ K : Subgroup T, K ≤ centralizer ({u} : Set T) ∧ ⁅K, K⁆ = K ∧ Nat.card ↥K = 60 := by
   obtain ⟨K, hK, ⟨φ⟩⟩ := h.exists_alt
-  haveI : Group.IsPerfect (alternatingGroup (Fin 5)) :=
+  have : Group.IsPerfect (alternatingGroup (Fin 5)) :=
     ⟨commutator_alternatingGroup_eq_top (by simp)⟩
-  haveI : Group.IsPerfect ↥K :=
+  have : Group.IsPerfect ↥K :=
     Group.IsPerfect.ofSurjective (f := φ.symm.toMonoidHom) φ.symm.surjective
   refine ⟨K, hK, Subgroup.isPerfect_iff.1 inferInstance, ?_⟩
   rw [Nat.card_congr φ.toEquiv, nat_card_alternatingGroup, Nat.card_fin]
@@ -101,7 +101,7 @@ theorem AlmostSimpleLocal.of_altCentralizer_le {X : Type*} [Group X] [Finite X] 
     (e : ↥(centralizer ({u} : Set X)) ≃* DihedralGroup 4 × Equiv.Perm (Fin 5))
     {T : Subgroup X} (huT : u ∈ T) (hK : altCentralizer e ≤ T) :
     AlmostSimpleLocal ↥T ⟨u, huT⟩ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard := card_centralizer_subtype_eq_card_inf huT
   have hC960 : Nat.card ↥(centralizer ({u} : Set X)) = 960 := by
     rw [Nat.card_congr e.toEquiv, Nat.card_prod, DihedralGroup.nat_card, Nat.card_perm,

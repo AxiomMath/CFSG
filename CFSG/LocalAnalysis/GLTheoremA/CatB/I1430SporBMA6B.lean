@@ -23,7 +23,7 @@ theorem false_of_isA6_B {s : NativeSporadic.B} (hs : orderOf s = 3)
     {J : Subgroup NativeSporadic.B}
     (hJ : GLAPComponent 3 (Subgroup.centralizer ({s} : Set NativeSporadic.B)) J)
     (hT : catalogIs (PSimple 3 J) S8.isA6) : False := by
-  haveI : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
+  have : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
   have hG : Nat.card NativeSporadic.B = 4154781481226426191177580544000000 := by
     rw [card_nativeB, monsterBabyOrder_eq_numeral]
   have hO3 : OPrimeCoreTrivialAt 3 NativeSporadic.B := BThreeFi23.oPrimeCoreTrivialAt_B_three

@@ -24,11 +24,11 @@ theorem inf_eq_bot_of_not_le_of_card_prime {G : Type*} [Group G] [Finite G] {p :
 
 theorem isElemAbelian_of_card_prime {G : Type*} [Group G] {p : ℕ} (hp : p.Prime)
     {Z : Subgroup G} (hZ : Nat.card Z = p) : IsElemAbelian p Z := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsCyclic Z := isCyclic_of_prime_card hZ
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsCyclic Z := isCyclic_of_prime_card hZ
   refine ⟨inferInstance, fun x hx => ?_⟩
   have h1 : (⟨x, hx⟩ : Z) ^ Nat.card Z = 1 := by
-    haveI : Finite Z := Nat.finite_of_card_ne_zero (by rw [hZ]; exact hp.ne_zero)
+    have : Finite Z := Nat.finite_of_card_ne_zero (by rw [hZ]; exact hp.ne_zero)
     exact pow_card_eq_one'
   rw [hZ] at h1
   simpa using congrArg Subtype.val h1
@@ -65,7 +65,7 @@ theorem card_A : Nat.card ↥m.A = m.r ^ 3 := by
 
 theorem isElemAbelian_A : IsElemAbelian m.r m.A :=
   IsElemAbelian.sup_of_commute (isElemAbelian_of_card_prime m.hr m.card_Z) m.d.E_el
-    (fun z hz e he => m.Z_comm_E hz he)
+    (fun _z hz _e he => m.Z_comm_E hz he)
 
 theorem card_A_inf_L (h620 : m.C620) : Nat.card ↥(m.A ⊓ m.L) = m.r ^ 2 := by
   have hZL : m.Z ⊓ m.L = ⊥ :=

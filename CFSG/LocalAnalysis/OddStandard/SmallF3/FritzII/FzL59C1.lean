@@ -17,7 +17,7 @@ theorem fzl59c_conj_closure {S : Set G} {F : Subgroup G} {g : G}
   intro y hy
   induction hy using Subgroup.closure_induction with
   | mem x hx => exact h x hx
-  | one => simpa using F.one_mem
+  | one => simp
   | mul x y _ _ hx hy =>
     have e : g * (x * y) * g⁻¹ = (g * x * g⁻¹) * (g * y * g⁻¹) := by group
     rw [e]
@@ -58,7 +58,7 @@ theorem fzl59c_mem_normalizer_of_sq {M : Subgroup G} {g : G} (h1 : ∀ m ∈ M, 
 
 def fzl59c_modCent (M : Subgroup G) (X : Set G) : Subgroup G where
   carrier := {g | g ∈ normalizer M ∧ ∀ x ∈ X, g * x * g⁻¹ * x⁻¹ ∈ M}
-  one_mem' := ⟨one_mem _, fun x _ => by simpa using M.one_mem⟩
+  one_mem' := ⟨one_mem _, fun x _ => by simp⟩
   mul_mem' := by
     rintro g g' ⟨hg, hgx⟩ ⟨hg', hgx'⟩
     refine ⟨mul_mem hg hg', fun x hx => ?_⟩
@@ -146,7 +146,7 @@ theorem fzl59c_card_sup_zpowers [Finite G] {H : Subgroup G} {a : G}
 theorem fzl59c_card_orbit_mul [Finite G] (H : Subgroup G) (x : G) :
     Nat.card {y : G | ∃ g ∈ H, g * x * g⁻¹ = y} *
       Nat.card ↥(H ⊓ centralizer ({x} : Set G)) = Nat.card ↥H := by
-  letI : MulAction ↥H G :=
+  let : MulAction ↥H G :=
     { smul := fun g y => (g : G) * y * (g : G)⁻¹
       one_smul := fun y => by
         show ((1 : ↥H) : G) * y * ((1 : ↥H) : G)⁻¹ = y
@@ -163,7 +163,7 @@ theorem fzl59c_card_orbit_mul [Finite G] (H : Subgroup G) (x : G) :
     rw [mul_inv_eq_iff_eq_mul]
   have hset : {y : G | ∃ g ∈ H, g * x * g⁻¹ = y} = MulAction.orbit ↥H x := by
     ext y
-    simp only [Set.mem_setOf_eq, MulAction.mem_orbit_iff]
+    simp only [Set.mem_ofPred_eq, MulAction.mem_orbit_iff]
     constructor
     · rintro ⟨g, hg, rfl⟩
       exact ⟨⟨g, hg⟩, rfl⟩

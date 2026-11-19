@@ -21,6 +21,7 @@ section Dictionary
 
 variable {M V : Subgroup G} {Vmod : Type} [AddCommGroup Vmod] [Module (ZMod 2) Vmod]
 
+omit [Finite G] in
 theorem uc22p22w_fix_iff (hV : M ≤ normalizer (V : Set G)) (e : ↥V ≃* Multiplicative Vmod)
     (ρ : Representation (ZMod 2) (MBar M V) Vmod) (hc : ConjModule M V e ρ) (m : ↥M) (x : Vmod) :
     ρ (QuotientGroup.mk m) x = x ↔
@@ -42,6 +43,7 @@ theorem uc22p22w_fix_iff (hV : M ≤ normalizer (V : Set G)) (e : ↥V ≃* Mult
         e.symm (Multiplicative.ofAdd x) := Subtype.ext h
     exact Multiplicative.ofAdd.injective (e.symm.injective h3)
 
+omit [Finite G] in
 theorem uc22p22w_card_fixSub (hV : M ≤ normalizer (V : Set G)) (e : ↥V ≃* Multiplicative Vmod)
     (ρ : Representation (ZMod 2) (MBar M V) Vmod) (hc : ConjModule M V e ρ) {B : Subgroup G}
     (hBM : B ≤ M) :
@@ -66,11 +68,13 @@ theorem uc22p22w_card_fixSub (hV : M ≤ normalizer (V : Set G)) (e : ↥V ≃* 
   · apply Subtype.ext
     simp
 
+omit [Finite G] in
 theorem uc22p22w_card_subgroupOf (H K : Subgroup G) :
     Nat.card ↥(H.subgroupOf K) = Nat.card ↥(K ⊓ H) := by
   rw [inf_comm, ← Subgroup.subgroupOf_map_subtype H K]
   exact (Subgroup.card_subtype K _).symm
 
+omit [Finite G] in
 theorem uc22p22w_card_mul (hV : M ≤ normalizer (V : Set G)) {B : Subgroup G} (hBM : B ≤ M) :
     Nat.card ↥(mbarImage M V B) * Nat.card ↥(B ⊓ centralizer (V : Set G)) = Nat.card ↥B := by
   have h1 := uc22br4_card_mbarImage M V B hV hBM
@@ -176,7 +180,7 @@ theorem uc22p22w_image_calP (D : Data G) {Umod : Type} [AddCommGroup Umod] [Modu
     (ρ : Representation (ZMod 2) (MBar D.M D.U) Umod) (hρ : ConjModule D.M D.U e ρ) {A' : Subgroup G}
     (hA' : CFSG.Quasithin.IsMaxElemAbelian D.M A') :
     mbarImage D.M D.U A' = ⊥ ∨ mbarImage D.M D.U A' ∈ calP ρ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hA'M, hA'el, hA'max⟩ := hA'
   obtain ⟨k, hk, hkA⟩ := CFSG.LocalAnalysis.UniquenessCase.UC6.exists_conj_le_of_isSylowOf D.sylowM
     hA'M (uc22p22e_isPGroup_of_elem hA'el)
@@ -255,6 +259,7 @@ section Restrict
 variable {H : Type} [Group H] [Finite H] {W : Type} [AddCommGroup W] [Module (ZMod 2) W]
   [Finite W]
 
+omit [Finite H] [Finite W] in
 theorem uc22p22w_fixSub_restrict (ρ : Representation (ZMod 2) H W) (N : Subgroup H)
     (B : Subgroup ↥N) : fixSub (ρ.comp N.subtype) B = fixSub ρ (B.map N.subtype) := by
   ext w
@@ -264,6 +269,7 @@ theorem uc22p22w_fixSub_restrict (ρ : Representation (ZMod 2) H W) (N : Subgrou
   · intro hw b hb
     exact hw _ ⟨b, hb, rfl⟩
 
+omit [Finite H] [Finite W] in
 theorem uc22p22w_calP_subgroupOf (ρ : Representation (ZMod 2) H W) (N : Subgroup H)
     {X : Subgroup H} (hX : X ∈ calP ρ) (hXN : X ≤ N) :
     X.subgroupOf N ∈ calP (ρ.comp N.subtype) := by

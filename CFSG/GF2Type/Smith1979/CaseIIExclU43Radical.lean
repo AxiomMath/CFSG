@@ -158,7 +158,7 @@ theorem beta_eq_one {S : Subgroup X} (hS2 : ∀ s ∈ S, s * s = 1) (hS8 : Nat.c
   classical
   by_contra hne
   have hfinS : Finite S := Nat.finite_of_card_ne_zero (by rw [hS8]; norm_num)
-  haveI : Fintype S := Fintype.ofFinite S
+  have : Fintype S := Fintype.ofFinite S
   have hcardS : Fintype.card S = 8 := by rw [← Nat.card_eq_fintype_card, hS8]
   have hdec : ∀ p q : G, (p = 1 ∨ p = D.neg) → (q = 1 ∨ q = D.neg) →
       (p = 1 ↔ q = 1) → p = q := by

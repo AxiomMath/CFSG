@@ -356,7 +356,7 @@ theorem Hyp146N.pRank_barInf_le_one (h : Hyp146N N T A r) {p : ℕ} (hp : p.Prim
       (UC22.conjClosure N A).subtype ≤ N :=
     (Subgroup.map_subtype_le _).trans h.conjClosure_le
   have hPmap : IsPGroup p ((P : Subgroup ↥(UC22.conjClosure N A)).map
-      (UC22.conjClosure N A).subtype) := P.isPGroup'.map _
+      (UC22.conjClosure N A).subtype) := P.isPGroup.map _
   have hPrank : CFSG.Open.pRank p ((P : Subgroup ↥(UC22.conjClosure N A)).map
       (UC22.conjClosure N A).subtype) ≤ 1 :=
     (CFSG.SectionRank.pRank_mono hp.one_lt hPle).trans hpN

@@ -14,8 +14,8 @@ variable {F : Type} [Field F] [Finite F] {V : Type} [AddCommGroup V] [Module F V
 theorem split3_of_graph (Φ : ReflForm F V) (TS : Submodule F V → Prop)
     (W Cc W' M : Submodule F V) (hW : Φ.IsTotallyIsotropic W) (hC : IsCompl (Φ.perp W) Cc)
     (hsymm : ∀ u v, Φ.β v u = Φ.σ (Φ.β u v)) (s : V →ₗ[F] V) (hsW : ∀ v, s v ∈ W)
-    (hs0 : ∀ v ∈ Φ.perp W, s v = 0) (hW' : ∀ v, v ∈ W' ↔ ∃ c ∈ Cc, c + s c = v)
-    (hti : ∀ c ∈ Cc, ∀ c' ∈ Cc, Φ.β (c + s c) (c' + s c') = 0)
+    (_hs0 : ∀ v ∈ Φ.perp W, s v = 0) (hW' : ∀ v, v ∈ W' ↔ ∃ c ∈ Cc, c + s c = v)
+    (_hti : ∀ c ∈ Cc, ∀ c' ∈ Cc, Φ.β (c + s c) (c' + s c') = 0)
     (hM : M = Φ.perp W ⊓ Φ.perp W') (hTW : TS W) (hTW' : TS W') : Split3 Φ TS W M W' := by
   have hWle : W ≤ Φ.perp W := hW
   have hW'perp : ∀ x ∈ W', x ∈ Φ.perp W → x = 0 := by

@@ -141,8 +141,8 @@ public theorem equation_10_forces_ringAut_one
   classical
   by_cases hmu_one : mu = 1
   · exact hmu_one
-  letI : Fintype F := Fintype.ofFinite F
-  haveI : Finite (F ≃+* F) :=
+  let : Fintype F := Fintype.ofFinite F
+  have : Finite (F ≃+* F) :=
     Finite.of_injective (fun e : F ≃+* F => (e : F → F)) (by
       intro e₁ e₂ h
       apply RingEquiv.ext
@@ -160,9 +160,9 @@ public theorem equation_10_forces_ringAut_one
       orderOf mu ≤ Nat.card (F ≃+* F) := by
     exact Nat.le_of_dvd (Nat.card_pos (α := F ≃+* F))
       (orderOf_dvd_natCard mu)
-  letI : Module (ZMod 2) F :=
+  let : Module (ZMod 2) F :=
     { (ZMod.castHom dvd_rfl F : ZMod 2 →+* _).toModule with }
-  letI : Algebra (ZMod 2) F := ZMod.algebraOfModule 2 F
+  let : Algebra (ZMod 2) F := ZMod.algebraOfModule 2 F
   let toAlg : (F ≃+* F) → (F ≃ₐ[ZMod 2] F) := fun e =>
     AlgEquiv.ofRingEquiv (R := ZMod 2) (A₁ := F) (A₂ := F) (f := e) (by
       intro x
@@ -658,7 +658,7 @@ private theorem subring_closure_eq_top_of_quadratic_generator
       algebraMap_mem' := hF }
   have hprime : Nat.Prime (Module.finrank F E) :=
     hfinrank.symm ▸ Nat.prime_two
-  letI : IsSimpleOrder (Subalgebra F E) :=
+  let : IsSimpleOrder (Subalgebra F E) :=
     Subalgebra.isSimpleOrder_of_finrank_prime F E hprime
   have hA_ne_bot : A ≠ ⊥ := by
     intro hA
@@ -836,7 +836,7 @@ private theorem quotient_mulEquiv_multiplicative_of_additive_coordinate
           bar (q : G) := by
   classical
   let Q0Q : Subgroup Q := Q0.subgroupOf Q
-  letI : Q0Q.Normal := hQ0Q_normal
+  let : Q0Q.Normal := hQ0Q_normal
   let barHom : Q →* Multiplicative E :=
     { toFun := fun q => Multiplicative.ofAdd (bar (q : G))
       map_one' := by
@@ -985,12 +985,12 @@ public theorem case_v_ne_w
             _ = q⁻¹ * (q * (q * z * q⁻¹)) := by rw [hcomm]
             _ = q * z * q⁻¹ := by group
         rwa [hz_eq]
-    letI : Q0Q.Normal := hQ0Q_normal
+    let : Q0Q.Normal := hQ0Q_normal
     have hD_normalizes_Q : D ≤ Subgroup.normalizer Q :=
       hA1.D_le_H.trans
         ((Subgroup.normal_subgroupOf_iff_le_normalizer hA1.Q_le_H).1
           hA1.Q_normal_in_H)
-    letI : MulDistribMulAction D Q :=
+    let : MulDistribMulAction D Q :=
       Subgroup.conjMulDistribMulActionOfLeNormalizer
         (G := G) D Q hD_normalizes_Q
     have hD_smul_coe : ∀ (a : D) (q : Q),
@@ -1011,9 +1011,9 @@ public theorem case_v_ne_w
       · intro haq
         have hinv : a⁻¹ • (a • q) ∈ Q0Q := hforward a⁻¹ (a • q) haq
         simpa using hinv
-    letI : MulAction.QuotientAction D Q0Q :=
+    let : MulAction.QuotientAction D Q0Q :=
       quotientAction_of_isInvariant (A := D) (G := Q) Q0Q hQ0Q_invariant_D
-    letI : MulDistribMulAction D (Q ⧸ Q0Q) :=
+    let : MulDistribMulAction D (Q ⧸ Q0Q) :=
       quotientMulDistribMulAction (A := D) (G := Q) Q0Q hQ0Q_invariant_D
     let xQ : Q := ⟨x, hxQ⟩
     let xbar : Q ⧸ Q0Q := QuotientGroup.mk' Q0Q xQ
@@ -1049,7 +1049,7 @@ public theorem case_v_ne_w
     let p := (Nat.card A).minFac
     have hp_prime : Nat.Prime p :=
       Nat.minFac_prime (A.one_lt_card_iff_ne_bot.mpr hA_ne).ne'
-    letI : Fact (Nat.Prime p) := ⟨hp_prime⟩
+    let : Fact (Nat.Prime p) := ⟨hp_prime⟩
     obtain ⟨a, ha_order⟩ :=
       exists_prime_orderOf_dvd_card' (G := A) p
         (Nat.minFac_dvd (Nat.card A))
@@ -1065,16 +1065,16 @@ public theorem case_v_ne_w
         _ = orderOf a := Subgroup.orderOf_coe a
         _ = p := ha_order
     let pToD : P →* D := Subgroup.inclusion hP_le_D
-    letI : MulDistribMulAction P Q :=
+    let : MulDistribMulAction P Q :=
       MulDistribMulAction.compHom Q pToD
     have hQ0Q_invariant_P : IsInvariant P Q Q0Q := by
       refine ⟨?_⟩
       intro y q
       simpa [MulAction.compHom_smul_def] using
         (IsInvariant.invariant (A := D) (G := Q) (H := Q0Q) (pToD y) q)
-    letI : MulAction.QuotientAction P Q0Q :=
+    let : MulAction.QuotientAction P Q0Q :=
       quotientAction_of_isInvariant (A := P) (G := Q) Q0Q hQ0Q_invariant_P
-    letI : MulDistribMulAction P (Q ⧸ Q0Q) :=
+    let : MulDistribMulAction P (Q ⧸ Q0Q) :=
       quotientMulDistribMulAction (A := P) (G := Q) Q0Q hQ0Q_invariant_P
     have hP_to_stabilizer : ∀ y : P, pToD y ∈ A_D := by
       intro y
@@ -1090,8 +1090,8 @@ public theorem case_v_ne_w
         simpa [A_D, MulAction.mem_stabilizer_iff] using hy_stab
       change y • xbar = xbar at hy_fix
       exact hy_fix
-    letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    letI : Group.IsNilpotent Q := hQ_two.isNilpotent
+    let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    let : Group.IsNilpotent Q := hQ_two.isNilpotent
     have hQ_solvable : Group.IsSolvable Q := by infer_instance
     have hp_dvd_D : p ∣ Nat.card D := by
       rw [← hP_card]
@@ -1254,7 +1254,7 @@ public theorem case_v_ne_w
     · rcases hpsl with
         ⟨_k, _hk, _hell, _hmodel, _hst, hCX_elementary, _hCX_card⟩
       let CX : Subgroup G := Subgroup.centralizer (X : Set G) ⊓ Q
-      letI : IsElementaryAbelian 2 CX := hCX_elementary
+      let : IsElementaryAbelian 2 CX := hCX_elementary
       have hqX_sq : qX ^ 2 = 1 :=
         elemPow_eq_one_of_isElementaryAbelian qX
           (show qX ∈ CX from ⟨hqX_centralizer, hqX_mem_Q⟩)
@@ -1319,7 +1319,7 @@ public theorem case_v_ne_w
       have hprop3 := PFchapter1section2.proposition_3
         H D Q K V W Q0 S Q1 t hsection3.section2
       rcases hprop3.2 with ⟨hWV, _hVmodW_cyclic⟩
-      letI : (W.subgroupOf V).Normal := hWV
+      let : (W.subgroupOf V).Normal := hWV
       have hX_normalizes_W : X ≤ Subgroup.normalizer (W : Set G) :=
         hX_le_V.trans
           (Subgroup.le_normalizer_of_normal_subgroupOf
@@ -1361,7 +1361,7 @@ public theorem case_v_ne_w
           simpa [hzeta_one] using hzeta1_eq
         rw [hzeta1_eq_X]
         exact hzetaX_X
-      letI : IsCyclic X := isCyclic_of_prime_card hX_card_prime
+      let : IsCyclic X := isCyclic_of_prime_card hX_card_prime
       have hzeta1_centralizes_X : zeta1 ∈
           Subgroup.centralizer (X : Set G) := hF_le_L hzeta1_F
       have hzeta_centralizes_X : zeta ∈
@@ -1565,10 +1565,10 @@ public theorem case_v_ne_w
           modelIso, hfinrank, hcardF3, hthetaOdd, hsigmaF, hsigmaFrob,
           hK1, hW1ne, hW1norm, hW1inv, hphiThetaOne, hphiThetaNe,
           hcoordMul, hrho, hrho1, hmodelS, hmodelKW, hmapK, hmapW, hs⟩
-      letI : Field E3 := hE3Field
-      letI : Finite E3 := hE3Finite
-      letI : CharP E3 2 := hE3Char
-      letI : Group S1 := hS1Group
+      let : Field E3 := hE3Field
+      let : Finite E3 := hE3Finite
+      let : CharP E3 2 := hE3Char
+      let : Group S1 := hS1Group
       have hphi_zero_left : ∀ x : E3, phi0 0 x = 0 := by
         intro x
         by_cases htheta : theta = 1
@@ -2066,7 +2066,7 @@ public theorem case_v_ne_w
         exact hzeta_ne (hK_inter_W zeta hzeta_K hzeta_W)
       have hmem_F3_of_frobenius_fixed (y : E3)
           (hy : y ^ Nat.card F3 = y) : y ∈ F3 := by
-        letI : Fintype F3 := Fintype.ofFinite F3
+        let : Fintype F3 := Fintype.ofFinite F3
         let fr : E3 ≃ₐ[F3] E3 :=
           FiniteField.frobeniusAlgEquivOfAlgebraic F3 E3
         have hyfr : fr y = y := by
@@ -2114,7 +2114,7 @@ public theorem case_v_ne_w
         apply eq_inv_of_mul_eq_one_left
         simpa [pow_succ] using hzeta_coord_norm
       have hc_mem_F3 : z + z⁻¹ ∈ F3 := by
-        letI : Fintype F3 := Fintype.ofFinite F3
+        let : Fintype F3 := Fintype.ofFinite F3
         let fr : E3 ≃ₐ[F3] E3 :=
           FiniteField.frobeniusAlgEquivOfAlgebraic F3 E3
         have hfr_z : fr z = z⁻¹ := by
@@ -2171,10 +2171,10 @@ public theorem case_v_ne_w
         exact Subgroup.subgroupOf_sup hsection3.section2.K_le_D hW_le_D
       have hKW_D_normal : KW_D.Normal := by
         rw [hKW_D_eq]
-        letI : (K.subgroupOf D).Normal := hK_normal_D
-        letI : (W.subgroupOf D).Normal := hW_normal_D
+        let : (K.subgroupOf D).Normal := hK_normal_D
+        let : (W.subgroupOf D).Normal := hW_normal_D
         exact Subgroup.sup_normal (K.subgroupOf D) (W.subgroupOf D)
-      letI : KW_D.Normal := hKW_D_normal
+      let : KW_D.Normal := hKW_D_normal
       let kwDToKW : KW_D ≃* (K ⊔ W : Subgroup G) :=
         Subgroup.subgroupOfEquivOfLe hKW_le_D
       let scalar : KW_D →* E3ˣ :=

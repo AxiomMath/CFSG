@@ -61,7 +61,7 @@ theorem IsPStar.exists_mul_centralizer {X : Type} [Group X] [Finite X] {Y N Q : 
   have hT''N : T'' ≤ N := by
     rintro _ ⟨_, ⟨s, _, rfl⟩, rfl⟩
     exact s.2
-  have hT''2 : IsPGroup 2 T'' := (S.isPGroup'.map N'.subtype).map Y.subtype
+  have hT''2 : IsPGroup 2 T'' := (S.isPGroup.map N'.subtype).map Y.subtype
   have hQT'' : Q ≤ T'' := by
     intro q hq
     have hq' : (⟨⟨q, hQY hq⟩, hQN hq⟩ : ↥N') ∈ Q' := hq

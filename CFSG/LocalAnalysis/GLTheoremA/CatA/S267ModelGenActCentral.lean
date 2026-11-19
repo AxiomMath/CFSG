@@ -25,7 +25,7 @@ theorem glaPComponent_derivedPreimage {G X : Type*} [Group G] [Finite G] [Group 
     {M J : Subgroup X} (hgM : g.range ≤ M) (hJ : GLAPComponent p M J) (hJg : J ≤ g.range) :
     GLAPComponent p A ((derivedPreimage g J).map A.subtype) ∧ (derivedPreimage g J).map g = J := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set f : ↥A →* ↥g.range := g.rangeRestrict with hfdef
   have hf : Function.Surjective f := g.rangeRestrict_surjective
   have hfker : f.ker ≤ Subgroup.center ↥A := by
@@ -62,7 +62,7 @@ theorem glaPComponent_derivedPreimage_of_le {G X : Type*} [Group G] [Finite G] [
     (hJA : (derivedPreimage π J).map S.subtype ≤ A) :
     GLAPComponent p A ((derivedPreimage π J).map S.subtype) := by
   classical
-  haveI : Group.IsPerfect J := Subgroup.isPerfect_iff.2 (glaPComponent_perfect hJ)
+  have : Group.IsPerfect J := Subgroup.isPerfect_iff.2 (glaPComponent_perfect hJ)
   have hmap : (derivedPreimage π J).map π = J := derivedPreimage_map π hπ J
   set g : ↥A →* X := π.comp (Subgroup.inclusion hAS)
   have hg : g.ker ≤ Subgroup.center ↥A := by
@@ -91,7 +91,7 @@ theorem glaPComponent_derivedPreimage_of_le {G X : Type*} [Group G] [Finite G] [
     exact ⟨⟨s, hJA ⟨s, hs, rfl⟩⟩, hsJ, rfl⟩
   have hperf : ⁅(derivedPreimage π J).map S.subtype, (derivedPreimage π J).map S.subtype⁆ =
       (derivedPreimage π J).map S.subtype := by
-    haveI := derivedPreimage_perfect π hπ hπZ J
+    have := derivedPreimage_perfect π hπ hπZ J
     rw [← Subgroup.map_commutator, Subgroup.commutator_eq_self]
   have heq : (derivedPreimage π J).map S.subtype = (derivedPreimage g J).map A.subtype := by
     rw [derivedPreimage_eq_commutator g J, Subgroup.map_commutator]
@@ -108,7 +108,7 @@ end Central
 section PullBack
 
 theorem concA_of_actData_central {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {Ω : Type} [Group Ω]
-    [Finite Ω] {S B : Subgroup Ω} (hS : S.Normal) (hperf : ⁅S, S⁆ = S)
+    [Finite Ω] {S B : Subgroup Ω} (hS : S.Normal) (_hperf : ⁅S, S⁆ = S)
     (hcore : GLAPPrimeCore p ↥S = ⊥) (hB : IsElemAbelian p B)
     (hBC : Nat.card ↥(B ⊓ centModSubgroup p S) = p) {X : Type} [Group X] [Finite X]
     (π : ↥S →* X) (hπ : Function.Surjective π) (hπZ : π.ker ≤ Subgroup.center ↥S)
@@ -117,8 +117,8 @@ theorem concA_of_actData_central {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {Ω : 
       π ⟨(x : Ω) * g * (x : Ω)⁻¹, hS.conj_mem _ g.2 _⟩ = α x (π g))
     (hW : ActData p B α) : S267ConcA p S B := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := hS
+  have : Fact p.Prime := ⟨hp⟩
+  have := hS
   obtain ⟨D, E, J, t, hDB, hEB, hDE, hDc, hDBc, hEc, hJ, hJB, hJD, hJE, ht1, ht2, htJ, htD⟩ := hW
   have hconj : ∀ (x : Ω) (hx : x ∈ B) (s : ↥S),
       π (MulAut.conjNormal x s) = α ⟨x, hx⟩ (π s) := by
@@ -157,7 +157,7 @@ theorem concA_of_actData_central {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {Ω : 
       exact CFSG.HardMathSupport.Timmesfeld.OrthogonalGeneration.commutatorElement_mul_central
         (hz a ha) (hz b hb)
     exact hcomm f _ key
-  haveI : Group.IsPerfect J := Subgroup.isPerfect_iff.2 (glaPComponent_perfect hJ)
+  have : Group.IsPerfect J := Subgroup.isPerfect_iff.2 (glaPComponent_perfect hJ)
   have hJSmap : (derivedPreimage π J).map π = J := derivedPreimage_map π hπ J
   set Jt : Subgroup Ω := (derivedPreimage π J).map S.subtype with hJtdef
   have hJtS : Jt ≤ S := Subgroup.map_subtype_le _

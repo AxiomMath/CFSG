@@ -16,7 +16,7 @@ variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
 theorem y7a_mem_AV_of_comm (c : Ctx7 G L) (hH : F33Hyp c.s c.e) (hF : c.toCtx5.Facts5)
     {m : G} (hm : m ∈ M6 c.e) (hmt : ⁅m, c.s.t⁆ ∈ V1 c.e) : m ∈ AV1 c.e := by
-  haveI : (c.s.fr.Z.subgroupOf c.s.fr.A).Normal := y7a_Z_normal_A c hH
+  have : (c.s.fr.Z.subgroupOf c.s.fr.A).Normal := y7a_Z_normal_A c hH
   obtain ⟨ψ, lab, P, hP⟩ := y7a_reg_data c hH hF
   obtain ⟨f, hchar, -, -, hker⟩ := y7a_mod_hom c hH hF hP
   have hfx : f ⟨m, hm⟩ = 1 := by

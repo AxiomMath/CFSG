@@ -45,7 +45,7 @@ theorem kg115F4Input_holds :
   obtain ⟨P₀, hP₀⟩ := (large_Ree_Sylow_opposition F4 a K w₀ hw₀).1
   have hS₀ : IsPGroup 2 ((F4.reeFixedPosUnipotent K a).subgroupOf (F4.reeGamma K a)) := by
     rw [← hP₀]
-    exact P₀.isPGroup'
+    exact P₀.isPGroup
   have hS₀i : ¬ 2 ∣ ((F4.reeFixedPosUnipotent K a).subgroupOf (F4.reeGamma K a)).index := by
     rw [← hP₀]
     exact P₀.not_dvd_index

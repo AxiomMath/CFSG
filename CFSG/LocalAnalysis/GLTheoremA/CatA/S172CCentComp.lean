@@ -36,8 +36,8 @@ private theorem comp_cases_orthDerived_gen_aux2 {p : ℕ} {x : ↥(orthDerived Q
         G = supportedFixedDerived Q (x : V ≃ₗ[F] V)) ∧
       I = ((G.subgroupOf (orthDerived Q)).map (piOrth Q)) := by
   classical
-  haveI : Finite V := Module.finite_of_finite F
-  haveI : Finite (V ≃ₗ[F] V) := Finite.of_injective (fun e : V ≃ₗ[F] V => (e : V → V))
+  have : Finite V := Module.finite_of_finite F
+  have : Finite (V ≃ₗ[F] V) := Finite.of_injective (fun e : V ≃ₗ[F] V => (e : V → V))
     fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
   obtain ⟨n, Fam, hFq, hFsup, hFn0, hFix⟩ :=
     CFSG.HardMathSupport.Dickson.Bal207.OrthFix.exists_fixedFactors' hx
@@ -116,11 +116,11 @@ theorem comp_cases_orthDerived_of_prime (hQ : (QuadraticMap.polarBilin Q).Nondeg
   have hV : Nontrivial V := by
     by_contra hV
     rw [not_nontrivial_iff_subsingleton] at hV
-    haveI := hV
+    have := hV
     have h1 : x = 1 := Subtype.ext (LinearEquiv.ext fun v => Subsingleton.elim _ _)
     rw [h1, orderOf_one] at hx
     exact hp.ne_one hx.symm
-  haveI := hV
+  have := hV
   have hinj : Function.Injective (piOrth Q) := piOrth_injective hQ
   have hpl : p ≠ ringChar F := by rw [ringChar.eq F 2]; exact hp2
   have hxo : OddOrderIsometry Q p (x : V ≃ₗ[F] V) :=
@@ -154,12 +154,14 @@ theorem comp_cases_orthDerived_gen (hQ : (QuadraticMap.polarBilin Q).Nondegenera
         L = G.subgroupOf (orthDerived Q) :=
   comp_cases_orthDerived_of_prime hQ hp hp2 hx hL
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem apply_eq_of_mem_specialBlock {x g : V ≃ₗ[F] V} {h k : F[X]}
     (hk : k ∈ primaryFactors x.toLinearMap) (hkh : k ≠ h) (hkh' : k ≠ reciprocalPolynomial h)
     (hg : g ∈ specialBlock Q x h) {v : V} (hv : v ∈ primaryComponent x.toLinearMap k) : g v = v := by
   have hg' := (mem_supportedBlock.1 (specialBlock_le_supportedBlock h hg)).2
   exact hg' v (Submodule.mem_iSup_of_mem k (Submodule.mem_iSup_of_mem ⟨hk, hkh, hkh'⟩ hv))
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem apply_eq_of_mem_supportedFixedDerived {x g : V ≃ₗ[F] V} {k : F[X]}
     (hk : k ∈ primaryFactors x.toLinearMap) (hk1 : k ≠ X - 1) (hg : g ∈ supportedFixedDerived Q x) {v : V}
     (hv : v ∈ primaryComponent x.toLinearMap k) : g v = v := by
@@ -168,6 +170,7 @@ theorem apply_eq_of_mem_supportedFixedDerived {x g : V ≃ₗ[F] V} {k : F[X]}
   rw [reciprocalPolynomial_X_sub_one]
   exact hk1
 
+omit [Finite F] [CharP F 2] in
 theorem commute_of_apply_eq {U : Submodule F V}
     (hU : (QuadraticMap.polarBilin (Q.comp U.subtype)).Nondegenerate) {g e : V ≃ₗ[F] V}
     (hg : g ∈ TauCeti.QuadraticMap.orthogonalGroup Q) (hgU : ∀ x ∈ U, g x = x)
@@ -190,6 +193,7 @@ theorem commute_of_apply_eq {U : Submodule F V}
   simp only [LinearEquiv.mul_apply, map_add, hgU u hu, heP w hw, hgU _ (heU u hu),
     heP _ (hgp w hw)]
 
+omit [Finite F] [CharP F 2] in
 private theorem eq_one_of_commute_orthDerived_aux1 {W : Type} [AddCommGroup W] [Module F W]
     [FiniteDimensional F W] {R : QuadraticForm F W}
     (hQ : (QuadraticMap.polarBilin R).Nondegenerate) (hd : 3 ≤ Module.finrank F W)

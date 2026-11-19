@@ -57,7 +57,7 @@ theorem noL34Layer_conj_adjointE6_two (hI : Char2Hrat Tag.E6 .inner)
       rw [Subgroup.mem_center_iff]
       intro g
       have := DFunLike.congr_fun h1 g
-      simp only [MulAut.conj_apply, MulAut.one_apply, inv_one, mul_one, one_mul] at this
+      simp only [MulAut.conj_apply, inv_one, mul_one, one_mul] at this
       calc g * y ^ 3 = y ^ 3 * g * (y ^ 3)⁻¹ * y ^ 3 := by rw [this]
         _ = y ^ 3 * g := by group
     rwa [hZ, Subgroup.mem_bot] at h2

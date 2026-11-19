@@ -31,12 +31,12 @@ theorem uc22s217v_false_of_ncard_two (D : Data G) (hSg : UC6S846.SigmaStd D)
     (hJ1 : IsJ1 (Bar2 L)) {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) (hrJ : r ∣ 175560)
     (hnsp : ¬ IsStronglyPEmbedded r D.M) : False := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hns := UC6S846.not_solvable_of_mem_calC hL
   have hrσ : r ∉ D.sig := fun h => hnsp (UC6S846.sp_of_mem_sig hSg hns h)
   obtain ⟨p, hp⟩ := hSg.nonempty
   obtain ⟨hpp, hp2⟩ := D.sig_prime p hp
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have hpr : p ≠ r := fun h => hrσ (h ▸ hp)
   obtain ⟨K, hK, hKL⟩ := Set.exists_ne_of_one_lt_ncard (by rw [hc2]; norm_num) L
   have hKC := uc22p2214_calC_of_mem_conjSetOf hL hK
@@ -55,7 +55,7 @@ theorem uc22s217v_false_of_ncard_two (D : Data G) (hSg : UC6S846.SigmaStd D)
   have hA₂A₀ : A₂ ≤ A₀ := hA₂A₁.trans hA₁A₀
   have hA₂M : A₂ ≤ D.M := hA₂A₀.trans hA₀M
   have hZ : center (Bar2 L) = ⊥ := by
-    haveI := (kJ1_holds _ hJ1).2.1
+    have := (kJ1_holds _ hJ1).2.1
     exact uc22p21k_center_eq_bot hL.2.2
   have hW : ∀ X ∈ calC D.M, IsJ1 (Bar2 X) →
       CFSG.Open.pRank r (barImage D.M X) ≤ 1 ∧ r ∣ Nat.card (barImage D.M X) := by

@@ -86,8 +86,8 @@ theorem i2020FixCentAt_congr [Finite X] [Finite Y] (e : X ≃* Y) (β : MulAut X
     MonoidHom.ext fun x => by simp
   have hβ : MulAut.congr e.symm (MulAut.congr e β) = β := by
     ext x
-    simp [MulAut.congr_apply, MulAut.congr_symm_apply, MulEquiv.trans_apply,
-      MulEquiv.symm_apply_apply, MulEquiv.apply_symm_apply]
+    simp [MulAut.congr_apply, MulEquiv.trans_apply,
+      MulEquiv.symm_apply_apply]
   rw [Subgroup.map_map, hcompX, Subgroup.map_id, hβ] at h'
   exact h'
 
@@ -190,6 +190,7 @@ section ChevTransfer
 
 variable {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.Prime)
 
+omit [Finite G] in
 theorem ker_chevQuotHom_eq_glaPPrimeCore {K : Subgroup G}
     (hZ : Subgroup.center (PQuot p K) = ⊥) :
     (chevQuotHom p K).ker = GLAPPrimeCore p ↥K := by
@@ -199,7 +200,7 @@ theorem ker_chevQuotHom_eq_glaPPrimeCore {K : Subgroup G}
 theorem not_dvd_card_ker_chevQuotHom (hp : p.Prime) {K : Subgroup G}
     (hZ : Subgroup.center (PQuot p K) = ⊥) :
     ¬ p ∣ Nat.card (chevQuotHom p K).ker := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [ker_chevQuotHom_eq_glaPPrimeCore hZ]
   exact (Nat.Prime.coprime_iff_not_dvd hp).1 CFSG.pPrimeCore_coprime_card
 
@@ -236,6 +237,7 @@ theorem chevQuotHom_eq_one_iff_centMod (hp : p.Prime) {X K : Subgroup G}
       exact conj_injective hp hK (by rw [h, map_one])
   rw [hconj, ← act_of_mem_K hg, act_of_mem hN, chevAut_eq_one_iff hp hK hN]
 
+omit [Finite G] in
 theorem chevQuotHom_normalizerMonoidHom {K : Subgroup G} {s : G}
     (hs : s ∈ Subgroup.normalizer (K : Set G)) (k : ↥K) :
     chevQuotHom p K (K.normalizerMonoidHom ⟨s, hs⟩ k) = act p K s (chevQuotHom p K k) := by
@@ -262,7 +264,7 @@ theorem act_fixes_chevQuotHom_of_commutator (hp : p.Prime) {X K T S : Subgroup G
       ⟨t, hTK ht⟩ * (K.normalizerMonoidHom ⟨s, hSK hs⟩ ⟨t, hTK ht⟩)⁻¹ := by
     apply Subtype.ext
     rw [Subgroup.coe_mul, Subgroup.coe_inv, hnorm_eq]
-    simp only [Subgroup.coe_mul, Subgroup.coe_inv, commutatorElement_def]
+    simp only [commutatorElement_def]
     group
   have hA : chevQuotHom p K (K.normalizerMonoidHom ⟨s, hSK hs⟩ ⟨t, hTK ht⟩) =
       act p K s (chevQuotHom p K ⟨t, hTK ht⟩) :=
@@ -309,6 +311,7 @@ theorem fusionIsSylowIn_chevTransfer {K J T : Subgroup G}
   rw [hS, hmapT, hmapJ] at hres
   exact hres
 
+omit [Finite G] in
 theorem mem_map_subgroupOf_chevAut {K S : Subgroup G}
     (hSK : S ≤ Subgroup.normalizer (K : Set G)) {t : MulAut (PSimple p K)} :
     t ∈ (S.subgroupOf (Subgroup.normalizer (K : Set G))).map (chevAut p K) ↔
@@ -367,6 +370,7 @@ theorem map_subgroupOf_chevAut_eq_zpowers_act (hp : p.Prime) {X K D : Subgroup G
     refine (mem_map_subgroupOf_chevAut hDN).2 ⟨y ^ k, Subgroup.zpow_mem _ hyD k, ?_⟩
     exact hpow k
 
+omit [Finite G] in
 private theorem actImage_normalized {p : ℕ} {K S D : Subgroup G} {y : G}
     (hyN : y ∈ Subgroup.normalizer (K : Set G)) (hyD : y ∈ D)
     (hSD : D ≤ Subgroup.normalizer (S : Set G))
@@ -482,7 +486,7 @@ theorem commutator_le_centMod_of_i2020FixCentAt (hp : p.Prime)
       have hnorm_eq : (K.normalizerMonoidHom ⟨s, hsN⟩ ⟨j, hjK⟩ : ↥K) =
           ⟨s * j * s⁻¹, hsjs⟩ := Subtype.ext rfl
       rw [Subgroup.coe_mul, Subgroup.coe_inv, hnorm_eq]
-      simp only [Subgroup.coe_mul, Subgroup.coe_inv, commutatorElement_def]
+      simp only [commutatorElement_def]
     rw [hsplit, map_mul, map_inv, chevQuotHom_normalizerMonoidHom hsN ⟨j, hjK⟩, hfixj,
       mul_inv_cancel]
   exact centMod_iff.1 ((chevQuotHom_eq_one_iff_centMod hp hK hcommK).1 h1)

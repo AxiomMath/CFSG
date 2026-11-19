@@ -25,7 +25,7 @@ theorem I294Cfg.le_of_linear_three {Y : Type} [Group Y] [Finite Y] {L : Subgroup
     D ≤ L := by
   have hn0 : 0 < n := by
     rcases Nat.eq_zero_or_pos n with rfl | hn0
-    · haveI : Subsingleton (StatedProj (StatedSL 0 K)) := inferInstance
+    · have : Subsingleton (StatedProj (StatedSL 0 K)) := inferInstance
       exact (od_false_of_zero_dim h.nonab e).elim
     · exact hn0
   by_cases hn3 : n = 3
@@ -57,12 +57,12 @@ theorem I294Cfg.le_of_unitary_three {Y : Type} [Group Y] [Finite Y] {L : Subgrou
     (e : ↥L ≃* StatedProj (StatedSU n q K)) : D ≤ L := by
   have hn0 : 0 < n := by
     rcases Nat.eq_zero_or_pos n with rfl | hn0
-    · haveI : Subsingleton (StatedProj (StatedSU 0 q K)) := inferInstance
+    · have : Subsingleton (StatedProj (StatedSU 0 q K)) := inferInstance
       exact (od_false_of_zero_dim h.nonab e).elim
     · exact hn0
   obtain ⟨r, m, hr, hchar, -, hKr⟩ := CFSG.LocalAnalysis.RankFourTheoremC.exists_char_pow_card K
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI := hchar
+  have : Fact r.Prime := ⟨hr⟩
+  have := hchar
   obtain ⟨f, -, hqf⟩ : ∃ f ≤ m, q = r ^ f := by
     refine (Nat.dvd_prime_pow hr).1 ?_
     rw [← hKr, hKq]
@@ -82,7 +82,7 @@ theorem I294Cfg.le_of_unitary_three {Y : Type} [Group Y] [Finite Y] {L : Subgrou
   · subst hn3
     by_cases hq2 : r ^ f = 2
     · exfalso
-      haveI := h.simple
+      have := h.simple
       exact uniThree_two_false hKq hf hq2 h.nonab e
     · have hq : 2 < r ^ f := by
         have hq1 : 1 < r ^ f := Nat.one_lt_pow (by omega) hr.one_lt

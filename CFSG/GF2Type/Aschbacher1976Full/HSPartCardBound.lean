@@ -30,7 +30,7 @@ theorem center_Fz_eq (hD : Width.Z4Data z w Z A) (hz : orderOf z = 2) :
 theorem center_Fz_card (hD : Width.Z4Data z w Z A) (hz : orderOf z = 2) :
     IsCyclic ↥(center ↥(Fz z)) ∧ Nat.card ↥(center ↥(Fz z)) = 4 := by
   have hZF : Z ≤ Fz z := hD.sup_eq ▸ le_sup_left
-  haveI := hD.cyc
+  have := hD.cyc
   have e := Subgroup.subgroupOfEquivOfLe hZF
   rw [center_Fz_eq hD hz]
   exact ⟨isCyclic_of_surjective e.symm.toMonoidHom e.symm.surjective,
@@ -38,7 +38,7 @@ theorem center_Fz_card (hD : Width.Z4Data z w Z A) (hz : orderOf z = 2) :
 
 theorem card_elemAbelian_le (hD : Width.Z4Data z w Z A) (hz : orderOf z = 2) {U : Subgroup G}
     (hUF : U ≤ Fz z) (hU : CFSG.Open.IsElemAbelian 2 U) : Nat.card U ≤ 2 ^ (w + 1) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hF : Width.CData z (Fz z) :=
     { zF := hD.sup_eq ▸ Subgroup.mem_sup_left hD.mem_z
       zc := fun f hf => Width.Z_comm_F hD hD.mem_z hf

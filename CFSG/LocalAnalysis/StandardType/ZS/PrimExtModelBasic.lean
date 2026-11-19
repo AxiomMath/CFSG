@@ -47,7 +47,7 @@ theorem apply_basis_of_toMatrix_eq_diagonal {n : ℕ} (f : Module.Basis (Fin n) 
   rw [h1, h, Matrix.diagonal_apply, map_smul, Module.Basis.repr_self]
   by_cases hj : j = i
   · subst hj; simp
-  · rw [if_neg hj, Finsupp.smul_apply, Finsupp.single_eq_of_ne hj, smul_zero]
+  · rw [ite_eq_right hj, Finsupp.smul_apply, Finsupp.single_eq_of_ne hj, smul_zero]
 
 theorem ker_sub_one_of_toMatrix_eq_diagSignMat (hp : p ≠ 2) {n : ℕ}
     (f : Module.Basis (Fin n) (ZMod p) U) {t : U ≃ₗ[ZMod p] U} {i : Fin n}
@@ -64,7 +64,7 @@ theorem ker_sub_one_of_toMatrix_eq_diagSignMat (hp : p ≠ 2) {n : ℕ}
       Module.Basis.coord_apply, Module.Basis.repr_self]
     by_cases hj : j = i
     · subst hj
-      rw [if_pos rfl, Finsupp.single_eq_same, one_smul, two_smul, neg_smul, one_smul]
+      rw [ite_eq_left rfl, Finsupp.single_eq_same, one_smul, two_smul, neg_smul, one_smul]
       abel
     · simp [hj]
   ext v
@@ -476,9 +476,9 @@ theorem movedSpace_of_toMatrix_eq_diagonal (hp : p ≠ 2) {n : ℕ}
     rw [LinearMap.sub_apply, Module.End.one_apply,
       show (↑z : U →ₗ[ZMod p] U) (f j) = z (f j) from rfl, happ]
     by_cases hj : j ∈ I
-    · rw [if_pos hj, if_pos hj, neg_smul, one_smul, neg_smul, two_smul]
+    · rw [ite_eq_left hj, ite_eq_left hj, neg_smul, one_smul, neg_smul, two_smul]
       abel
-    · rw [if_neg hj, if_neg hj, one_smul, sub_self, zero_smul]
+    · rw [ite_eq_right hj, ite_eq_right hj, one_smul, sub_self, zero_smul]
   apply le_antisymm
   · rintro w ⟨v, rfl⟩
     have hsum : ((z : U →ₗ[ZMod p] U) - 1) v =
@@ -496,16 +496,16 @@ theorem movedSpace_of_toMatrix_eq_diagonal (hp : p ≠ 2) {n : ℕ}
     intro j _
     rw [hzj j]
     by_cases hj : j ∈ I
-    · rw [if_pos hj]
+    · rw [ite_eq_left hj]
       exact Submodule.smul_mem _ _ (Submodule.smul_mem _ _
         (Submodule.subset_span (Set.mem_image_of_mem f (Finset.mem_coe.mpr hj))))
-    · rw [if_neg hj, zero_smul, smul_zero]
+    · rw [ite_eq_right hj, zero_smul, smul_zero]
       exact Submodule.zero_mem _
   · rw [Submodule.span_le]
     rintro w ⟨j, hj, rfl⟩
     rw [Finset.mem_coe] at hj
     refine ⟨(-(2 : ZMod p)⁻¹) • f j, ?_⟩
-    rw [map_smul, hzj j, if_pos hj, smul_smul]
+    rw [map_smul, hzj j, ite_eq_left hj, smul_smul]
     rw [show (-(2 : ZMod p)⁻¹) * (-2) = 1 by
       rw [neg_mul, mul_neg, neg_neg, inv_mul_cancel₀ h2]]
     rw [one_smul]

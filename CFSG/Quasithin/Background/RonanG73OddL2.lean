@@ -179,7 +179,7 @@ theorem clause1_psl2 {L Γ A : Subgroup (GLV V)} {m : ℕ} (h : G93Hyp Γ A L L 
     IsPSL 2 2 2 ↥L ∨ IsPSL 3 2 1 ↥L ∨
       Nonempty (↥L ≃* ↥⁅StatedSp 2 (ZMod 2), StatedSp 2 (ZMod 2)⁆) ∨
       IsHat ↥L ↥(alternatingGroup (Fin 6)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hperf : Group.IsPerfect ↥L := ⟨h.L_comp.2.2.1⟩
   have hodd := odd_card_center_of_irr' h.H_irr
   have hm' := hm

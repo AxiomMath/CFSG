@@ -41,7 +41,7 @@ structure CrossCharTags : Prop where
 
 theorem wcLieCross_of_tags (h : CrossCharTags) : WCLieCross := by
   intro t K _ _ _ _ n ℓ f hadm hmodel p hp hp2 hpℓ
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_cases hk : CrossCharKnown t n ℓ f p
   · exact wcOn_of_crossCharKnown hmodel hp hp2 hpℓ hk
   · cases t with

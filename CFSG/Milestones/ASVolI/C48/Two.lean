@@ -88,7 +88,7 @@ theorem burnsideC48_card_line {W V : Subgroup G} {F : Type} [Field F] [Fintype F
       show Multiplicative.toAdd (β ⟨(u : G), hVW huV⟩) = y
       rw [show (⟨(u : G), hVW huV⟩ : ↥W) = u from rfl, hu]
       rfl
-  haveI : Fintype ↥ℓ := Fintype.ofFinite _
+  have : Fintype ↥ℓ := Fintype.ofFinite _
   rw [Nat.card_congr (Equiv.ofBijective e he), Nat.card_eq_fintype_card,
     Module.card_eq_pow_finrank (K := F) (V := ↥ℓ), hℓ]
 
@@ -306,7 +306,7 @@ theorem burnsideC48_prod_equiv {V V₁ V₂ : Subgroup G} (hV : V = V₁ ⊔ V�
 
 theorem burnsideC48_decomp_unique {V₁ V₂ : Subgroup G} (hdisj : V₁ ⊓ V₂ = ⊥)
     {a a' b b' : G} (ha : a ∈ V₁) (ha' : a' ∈ V₁) (hb : b ∈ V₂) (hb' : b' ∈ V₂)
-    (hc : b * b'⁻¹ = b'⁻¹ * b) (h : a * b = a' * b') : a = a' ∧ b = b' := by
+    (_hc : b * b'⁻¹ = b'⁻¹ * b) (h : a * b = a' * b') : a = a' ∧ b = b' := by
   have h1 : a'⁻¹ * a = b' * b⁻¹ := by
     calc a'⁻¹ * a = a'⁻¹ * (a * b) * b⁻¹ := by group
       _ = a'⁻¹ * (a' * b') * b⁻¹ := by rw [h]

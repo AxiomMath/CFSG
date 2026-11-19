@@ -18,7 +18,7 @@ theorem step4_normalizer {Γ : Type} [Group Γ] [Finite Γ] {KΓ : Subgroup Γ} 
     (hpz : CFSG.Open.pRank 3 (Subgroup.centralizer ({z} : Set Γ)) ≤ 2) :
     ∀ g : Γ, g ∈ Subgroup.normalizer (KΓ : Set Γ) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hsnK : KΓ.IsSubnormal := CFSG.Quasithin.A3.subnormal_top_iff.mp hK0.2.1
   obtain ⟨A₁, hA₁el, hA₁c⟩ := exists_e9_of_quotient (Subgroup.center ↥KΓ) E0 hE0 hE0c
   have hA₁'el : IsElemAbelian 3 (A₁.map KΓ.subtype) := isElemAbelian_map_aux hA₁el KΓ.subtype

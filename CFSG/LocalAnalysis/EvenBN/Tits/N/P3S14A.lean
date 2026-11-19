@@ -69,7 +69,7 @@ theorem sixFive_D (hd : d.Hyp) (h10 : Node10 d z₀) {g s : G} (hg : g * d.t * g
     calc d.t = g⁻¹ * (g * d.t * g⁻¹) * g := by group
       _ = 1 := by rw [hg]; group
   have hz2 : Nat.card (zpowers s) = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     rw [Nat.card_zpowers, orderOf_eq_prime (by rw [pow_two]; exact hs2) hs1]
   have hbot : C ⊓ zpowers s = ⊥ := by
     refine eq_bot_iff.2 fun a ha => ?_

@@ -9,7 +9,7 @@ namespace CFSG.RankThree.GF2n.Stroth80
 open Matrix CFSG.CGT.Timmesfeld75
 
 theorem exists_vecMulVec_of_forall_vecMul_eq_zero {K : Type*} [Field K] {m : ℕ}
-    {c : Fin m → K} (hc : c ≠ 0) (N : Matrix (Fin m) (Fin m) K)
+    {c : Fin m → K} (_hc : c ≠ 0) (N : Matrix (Fin m) (Fin m) K)
     (h : ∀ a : Fin m → K, a ⬝ᵥ c = 0 → a ᵥ* N = 0) :
     ∃ b : Fin m → K, N = Matrix.vecMulVec c b := by
   have hcol : ∀ j : Fin m, (fun i => N i j) ∈ Submodule.span K {c} := by
@@ -73,7 +73,7 @@ theorem exists_ne_zero_dotProduct_eq_zero_of_two_le (hm : 2 ≤ m) {c : Fin m �
     simp [Fin.ext_iff] at this
   refine ⟨Pi.single i (c j) - Pi.single j (c i), fun h => ?_, ?_⟩
   · have := congrFun h i
-    simp [Pi.single_apply, hij] at this
+    simp [hij] at this
     exact hj' this
   · rw [sub_dotProduct, single_dotProduct, single_dotProduct]
     ring

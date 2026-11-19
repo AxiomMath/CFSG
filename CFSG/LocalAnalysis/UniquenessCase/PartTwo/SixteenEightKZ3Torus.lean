@@ -43,21 +43,20 @@ private noncomputable def s16k_d (i : Fin 3) : S16kGL6 where
     ((s16k_d i : S16kGL6) : Matrix (Fin 6) (Fin 6) (ZMod 2)) = s16kBlockMat i := rfl
 
 private lemma s16k_d_cubed (i : Fin 3) : (s16k_d i) ^ 3 = 1 := by
-  ext r c <;> fin_cases i <;> fin_cases r <;> fin_cases c <;>
-    simp only [s16k_d, Matrix.mul_apply, s16kBlockMat, Matrix.of_apply, Matrix.one_apply,
-      Units.val_pow_eq_pow_val] <;>
+  ext r c; fin_cases i <;> fin_cases r <;> fin_cases c <;>
+    simp only [s16k_d, s16kBlockMat, Units.val_pow_eq_pow_val] <;>
     decide
 
 private lemma s16k_d_ne_one (i : Fin 3) : s16k_d i ≠ 1 := by
   fin_cases i <;> decide
 
 private lemma s16k_d_comm (i j : Fin 3) : Commute (s16k_d i) (s16k_d j) := by
-  ext r c <;> fin_cases i <;> fin_cases j <;> fin_cases r <;> fin_cases c <;>
-    simp only [s16k_d, Matrix.mul_apply, s16kBlockMat, Matrix.of_apply] <;>
+  ext r c; fin_cases i <;> fin_cases j <;> fin_cases r <;> fin_cases c <;>
+    simp only [s16k_d, s16kBlockMat] <;>
     decide
 
 private lemma s16k_orderOf_d (i : Fin 3) : orderOf (s16k_d i) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   exact orderOf_eq_prime (s16k_d_cubed i) (s16k_d_ne_one i)
 
 private lemma s16k_coord_eq_zpowers (i : Fin 3) :
@@ -94,7 +93,7 @@ private lemma s16k_diag_gen_eq :
     {g : S16kGL6 | ∃ i : Fin 3, (g : Matrix (Fin 6) (Fin 6) (ZMod 2)) = s16kBlockMat i}
       = ({s16k_d 0, s16k_d 1, s16k_d 2} : Set S16kGL6) := by
   ext g
-  simp only [Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
+  simp only [Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
   constructor
   · rintro ⟨i, hi⟩
     fin_cases i
@@ -355,7 +354,7 @@ private lemma s16kToBlock_ofBlock (i : Fin 3) (w : Fin 2 → ZMod 2) :
     s16kToBlock i (Multiplicative.ofAdd (s16kOfBlock i w)) = w := by
   funext a
   simp only [s16kToBlock, toAdd_ofAdd, s16kOfBlock]
-  rw [if_pos (s16k_pair_div i a)]
+  rw [ite_eq_left (s16k_pair_div i a)]
   congr 1
   apply Fin.ext
   exact s16k_pair_mod i a
@@ -364,9 +363,9 @@ private lemma s16kOfBlock_toBlock (i : Fin 3) {v : Multiplicative (Fin 6 → ZMo
     (hv : v ∈ s16kLine i) : s16kOfBlock i (s16kToBlock i v) = Multiplicative.toAdd v := by
   funext k
   by_cases hk : k.val / 2 = i.val
-  · simp only [s16kOfBlock, hk, if_true, s16kToBlock]
+  · simp only [s16kOfBlock, hk, ite_true, s16kToBlock]
     rw [s16k_pair_mod_self i k hk]
-  · simp only [s16kOfBlock, hk, if_false]
+  · simp only [s16kOfBlock, hk, ite_false]
     exact (hv k hk).symm
 
 private noncomputable def s16kLineEquiv (i : Fin 3) :
@@ -380,7 +379,7 @@ private noncomputable def s16kLineEquiv (i : Fin 3) :
     exact s16kOfBlock_toBlock i v.2
   right_inv w := s16kToBlock_ofBlock i w
 
-private def s16k_comm (i : Fin 3) (d : S16kGL6) (v : Multiplicative (Fin 6 → ZMod 2)) :
+private def s16k_comm (_i : Fin 3) (d : S16kGL6) (v : Multiplicative (Fin 6 → ZMod 2)) :
     Multiplicative (Fin 6 → ZMod 2) :=
   Multiplicative.ofAdd ((((d : S16kGL6) : Matrix (Fin 6) (Fin 6) (ZMod 2)).mulVec
     (Multiplicative.toAdd v)) - Multiplicative.toAdd v)
@@ -539,7 +538,7 @@ theorem s16k_line_eq_closure_comm (i : Fin 3) :
     · exact Subgroup.mul_mem (H := Subgroup.closure _) heven hodd
   · rw [Subgroup.closure_le]
     rintro u ⟨d, hd, v, rfl⟩ k hk
-    simp only [s16k_comm, toAdd_ofAdd, Pi.sub_apply, sub_eq_zero]
+    simp only [toAdd_ofAdd, Pi.sub_apply, sub_eq_zero]
     exact s16k_coord_row_apply i hd hk (Multiplicative.toAdd v)
 
 theorem s16k_coord_trivial_on_line {i j : Fin 3} (hij : i ≠ j) {d : S16kGL6}
@@ -643,7 +642,7 @@ private lemma s16k_basis_mem_line (j : Fin 3) (a : Fin 2) :
     s16k_basis (s16k_pair j a) ∈ s16kLine j := by
   intro k hk
   simp only [s16k_basis, toAdd_ofAdd, Pi.single_apply]
-  rw [if_neg]
+  rw [ite_eq_right]
   intro hkk
   exact hk (by rw [hkk]; exact s16k_pair_div j a)
 

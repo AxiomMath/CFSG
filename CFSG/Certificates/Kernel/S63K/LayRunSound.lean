@@ -92,12 +92,12 @@ theorem layRowK_mono (x : ℕ) :
     intro c hne
     rw [layRowK_cons] at hne ⊢
     split at hne
-    · rw [if_pos ‹_›]
+    · rw [ite_eq_left ‹_›]
       split at hne
-      · rw [if_pos ‹_›]; exact ih _ hne
-      · rw [if_neg ‹_›]
+      · rw [ite_eq_left ‹_›]; exact ih _ hne
+      · rw [ite_eq_right ‹_›]
         split at hne
-        · rw [if_pos ‹_›]; exact Nat.le_of_succ_le (ih _ hne)
+        · rw [ite_eq_left ‹_›]; exact Nat.le_of_succ_le (ih _ hne)
         · exact absurd rfl hne
     · exact absurd rfl hne
 
@@ -123,12 +123,12 @@ theorem layRunK_mono (nb : ℕ → List ℕ) :
     intro h c hne
     rw [layRunK_succ] at hne ⊢
     split at hne
-    · rw [if_pos ‹_›]
+    · rw [ite_eq_left ‹_›]
       split at hne
       · exact absurd rfl hne
-      · rw [if_neg ‹_›]
+      · rw [ite_eq_right ‹_›]
         exact Nat.le_trans (layRowK_mono _ _ c ‹_›) (ih _ _ hne)
-    · rw [if_neg ‹_›]
+    · rw [ite_eq_right ‹_›]
 
 theorem inv_pushL {c : ℕ} {s : LSt} (hC : LCons Q QI Lay Par) (hs : LInv Q QI Lay Par c s)
     {x y : ℕ} (hy : y < 3276) (hw : QI y = c) (hpar : Par y = x) (hlay : Lay y = Lay x + 1)
@@ -136,7 +136,7 @@ theorem inv_pushL {c : ℕ} {s : LSt} (hC : LCons Q QI Lay Par) (hs : LInv Q QI 
     LInv Q QI Lay Par (c + 1) (s.1.set! y (s.1[x]! + 1), s.2.1.set! y x, s.2.2.push y) := by
   obtain ⟨hqsz, hq, hlsz, hlay', hpsz, hpar'⟩ := hs
   have hyc : Q c = y := by rw [← hw]; exact (hC.qi y hy).2.1
-  have hlx : s.1[x]! = Lay x := by rw [hlay' x hx, if_pos hxc]
+  have hlx : s.1[x]! = Lay x := by rw [hlay' x hx, ite_eq_left hxc]
   have huniq : ∀ y' < 3276, QI y' = c → y' = y := fun y' hy' e => by
     rw [← (hC.qi y' hy').2.1, e, hyc]
   refine ⟨by simp [hqsz], fun i hi => ?_, by simp [hlsz], fun y' hy' => ?_, by simp [hpsz],
@@ -150,21 +150,21 @@ theorem inv_pushL {c : ℕ} {s : LSt} (hC : LCons Q QI Lay Par) (hs : LInv Q QI 
   · rw [get_set _ _ (by rw [hlsz]; exact hy'), hlx]
     by_cases e : y' = y
     · subst e
-      rw [if_pos rfl, hw, if_pos (Nat.lt_succ_self c), hlay]
-    · rw [if_neg e, hlay' y' hy']
+      rw [ite_eq_left rfl, hw, ite_eq_left (Nat.lt_succ_self c), hlay]
+    · rw [ite_eq_right e, hlay' y' hy']
       by_cases h3 : QI y' < c
-      · rw [if_pos h3, if_pos (by omega)]
+      · rw [ite_eq_left h3, ite_eq_left (by omega)]
       · have h4 : QI y' ≠ c := fun h5 => e (huniq y' hy' h5)
-        rw [if_neg h3, if_neg (by omega)]
+        rw [ite_eq_right h3, ite_eq_right (by omega)]
   · rw [get_set _ _ (by rw [hpsz]; exact hy')]
     by_cases e : y' = y
     · subst e
-      rw [if_pos rfl, hw, if_pos (Nat.lt_succ_self c), hpar]
-    · rw [if_neg e, hpar' y' hy']
+      rw [ite_eq_left rfl, hw, ite_eq_left (Nat.lt_succ_self c), hpar]
+    · rw [ite_eq_right e, hpar' y' hy']
       by_cases h3 : QI y' < c
-      · rw [if_pos h3, if_pos (by omega)]
+      · rw [ite_eq_left h3, ite_eq_left (by omega)]
       · have h4 : QI y' ≠ c := fun h5 => e (huniq y' hy' h5)
-        rw [if_neg h3, if_neg (by omega)]
+        rw [ite_eq_right h3, ite_eq_right (by omega)]
 
 theorem layRow_replay (hC : LCons Q QI Lay Par) {x : ℕ} (hx : x < 3276) :
     ∀ ys c (s : LSt), QI x < c → LInv Q QI Lay Par c s →
@@ -178,30 +178,30 @@ theorem layRow_replay (hC : LCons Q QI Lay Par) {x : ℕ} (hx : x < 3276) :
     rw [List.foldl_cons]
     rw [layRowK_cons] at hne ⊢
     by_cases hy : y < 3276
-    · rw [if_pos hy] at hne ⊢
+    · rw [ite_eq_left hy] at hne ⊢
       have hlayy := hs.lay y hy
       unfold lY
       by_cases hw : QI y < c
-      · rw [if_pos hw] at hne ⊢
-        rw [if_pos hw] at hlayy
+      · rw [ite_eq_left hw] at hne ⊢
+        rw [ite_eq_left hw] at hlayy
         have hcond : (decide (y < 3276) && s.1[y]! == 255) = false := by
           rw [hlayy]
           have := (hC.qi y hy).2.2
           simp [show Lay y ≠ 255 by omega]
         rw [hcond]
         exact ih c s hxc hs hne
-      · rw [if_neg hw] at hne ⊢ hlayy
+      · rw [ite_eq_right hw] at hne ⊢ hlayy
         by_cases hn : QI y = c ∧ Par y = x ∧ Lay y = Lay x + 1
-        · rw [if_pos hn] at hne ⊢
+        · rw [ite_eq_left hn] at hne ⊢
           obtain ⟨hwc, hpc, hlc⟩ := hn
           have hcond : (decide (y < 3276) && s.1[y]! == 255) = true := by
             rw [hlayy]
             simp [hy]
-          rw [if_pos hcond]
+          rw [ite_eq_left hcond]
           exact ih (c + 1) _ (by omega) (inv_pushL hC hs hy hwc hpc hlc hx hxc) hne
-        · rw [if_neg hn] at hne
+        · rw [ite_eq_right hn] at hne
           exact absurd rfl hne
-    · rw [if_neg hy] at hne
+    · rw [ite_eq_right hy] at hne
       exact absurd rfl hne
 
 theorem fold_idleL (pts ptL : Array ℕ) :
@@ -211,7 +211,7 @@ theorem fold_idleL (pts ptL : Array ℕ) :
     rw [List.range'_succ, List.foldl_cons]
     have e : lH pts ptL s h = s := by
       unfold lH
-      rw [if_neg (by omega)]
+      rw [ite_eq_right (by omega)]
     rw [e]
     exact fold_idleL pts ptL m (h + 1) s (by omega)
 
@@ -233,11 +233,11 @@ theorem layRun_replay {pts ptL : Array ℕ} {nb : ℕ → List ℕ} (hC : LCons 
       (by omega)
     rw [layRunK_succ] at hr hmono
     by_cases hc : h < c
-    · rw [if_pos hc] at hr hmono
+    · rw [ite_eq_left hc] at hr hmono
       by_cases h0 : layRowK 3276 QI Lay Par (Q h) (nb (Q h)) c = 0
-      · rw [if_pos h0] at hr
+      · rw [ite_eq_left h0] at hr
         omega
-      · rw [if_neg h0] at hr hmono
+      · rw [ite_eq_right h0] at hr hmono
         have hle : layRowK 3276 QI Lay Par (Q h) (nb (Q h)) c ≤ 3276 := by
           have := layRunK_mono (Q := Q) (QI := QI) (Lay := Lay) (Par := Par) nb fuel (h + 1)
             (layRowK 3276 QI Lay Par (Q h) (nb (Q h)) c) (by rw [hr]; omega)
@@ -248,12 +248,12 @@ theorem layRun_replay {pts ptL : Array ℕ} {nb : ℕ → List ℕ} (hC : LCons 
         have hQh := hC.q h (by omega)
         have e : lH pts ptL s h = (nb (Q h)).foldl (lY (Q h)) s := by
           unfold lH
-          rw [if_pos (by rw [hs.qsz]; exact hc), hs.q h hc, hnb _ hQh.1]
+          rw [ite_eq_left (by rw [hs.qsz]; exact hc), hs.q h hc, hnb _ hQh.1]
         rw [e]
         have hs' := layRow_replay hC hQh.1 (nb (Q h)) c s (by rw [hQh.2]; exact hc) hs h0
         exact ih (h + 1) _ _ m' (by omega) hle
           (Nat.le_trans (Nat.succ_le_of_lt hc) (layRowK_mono _ _ c h0)) hs' hr
-    · rw [if_neg hc] at hr
+    · rw [ite_eq_right hc] at hr
       subst hr
       rw [fold_idleL pts ptL m h s (by rw [hs.qsz]; omega)]
       exact hs
@@ -270,13 +270,13 @@ theorem lInv_init {b : ℕ} (hb : Q 0 = b) (hC : LCons Q QI Lay Par) :
   · rw [get_set _ _ (by simpa using hy)]
     by_cases e : y = b
     · subst e
-      rw [if_pos rfl, hb0.2, if_pos Nat.one_pos, ← hb, hC.l0]
-    · rw [if_neg e, getElem!_pos _ y (by simpa using hy), Array.getElem_replicate]
-      rw [if_neg (fun h1 => e (huniq y hy h1))]
+      rw [ite_eq_left rfl, hb0.2, ite_eq_left Nat.one_pos, ← hb, hC.l0]
+    · rw [ite_eq_right e, getElem!_pos _ y (by simpa using hy), Array.getElem_replicate]
+      rw [ite_eq_right (fun h1 => e (huniq y hy h1))]
   · rw [getElem!_pos _ y (by simpa using hy), Array.getElem_replicate]
     by_cases h1 : QI y < 1
-    · rw [if_pos h1, huniq y hy h1, ← hb, hC.p0]
-    · rw [if_neg h1]
+    · rw [ite_eq_left h1, huniq y hy h1, ← hb, hC.p0]
+    · rw [ite_eq_right h1]
 
 theorem lay_final (hC : LCons Q QI Lay Par) {F : LSt} (hs : LInv Q QI Lay Par 3276 F) :
     ((fun s : LSt => (s.1, s.2.1)) F).1.size = 3276 ∧
@@ -285,8 +285,8 @@ theorem lay_final (hC : LCons Q QI Lay Par) {F : LSt} (hs : LInv Q QI Lay Par 32
       ∀ y < 3276, ((fun s : LSt => (s.1, s.2.1)) F).2[y]! = Par y := by
   dsimp only
   refine ⟨hs.lsz, fun y hy => ?_, hs.psz, fun y hy => ?_⟩
-  · rw [hs.lay y hy, if_pos (hC.qi y hy).1]
-  · rw [hs.par y hy, if_pos (hC.qi y hy).1]
+  · rw [hs.lay y hy, ite_eq_left (hC.qi y hy).1]
+  · rw [hs.par y hy, ite_eq_left (hC.qi y hy).1]
 
 theorem hexLayBFS_of_K {pts ptL : Array ℕ} {nb : ℕ → List ℕ} {b : ℕ} (hb : Q 0 = b)
     (hC : LCons Q QI Lay Par) (hnb : ∀ x < 3276, hexNbr pts ptL x = nb x)

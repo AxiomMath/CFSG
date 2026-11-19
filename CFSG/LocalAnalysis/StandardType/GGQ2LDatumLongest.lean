@@ -17,16 +17,16 @@ private theorem ggQ2LD_single_cast {p : ℕ} {N : Type} [DecidableEq N] (k i : N
       (Pi.single k (1 : ZMod p) : N → ZMod p) i := by
   rw [Pi.single_apply, Pi.single_apply]
   by_cases h : i = k
-  · rw [if_pos h, if_pos h]; exact Int.cast_one
-  · rw [if_neg h, if_neg h]; exact Int.cast_zero
+  · rw [ite_eq_left h, ite_eq_left h]; exact Int.cast_one
+  · rw [ite_eq_right h, ite_eq_right h]; exact Int.cast_zero
 
 private theorem ggQ2LD_single_smul_sum {p : ℕ} {V : Type} [AddCommGroup V] [Module (ZMod p) V]
     {N : Type} [Fintype N] [DecidableEq N] (k : N) (v : N → V) :
     ∑ i, ((Pi.single k (1 : ZMod p) : N → ZMod p) i) • v i = v k := by
   refine (Fintype.sum_eq_single k ?_).trans ?_
   · intro i hi
-    rw [Pi.single_apply, if_neg hi, zero_smul]
-  · rw [Pi.single_apply, if_pos rfl, one_smul]
+    rw [Pi.single_apply, ite_eq_right hi, zero_smul]
+  · rw [Pi.single_apply, ite_eq_left rfl, one_smul]
 
 private theorem ggQ2LD_neg_single_smul_sum {p : ℕ} {V : Type} [AddCommGroup V]
     [Module (ZMod p) V] {N : Type} [Fintype N] [DecidableEq N] (k : N) (v : N → V) :
@@ -128,8 +128,8 @@ theorem ggSWord_reindex {N N' : Type} [Fintype N] [DecidableEq N] [Fintype N'] [
             (Pi.single j (1 : ℤ) : N → ℤ) (e.symm x) := by
           rw [Pi.single_apply, Pi.single_apply]
           by_cases h : x = e j
-          · rw [if_pos h, if_pos (e.symm_apply_eq.mpr h)]
-          · rw [if_neg h, if_neg (fun h' => h (e.symm_apply_eq.mp h'))]
+          · rw [ite_eq_left h, ite_eq_left (e.symm_apply_eq.mpr h)]
+          · rw [ite_eq_right h, ite_eq_right (fun h' => h (e.symm_apply_eq.mp h'))]
         simp only [ggSRefl, Pi.sub_apply, Pi.smul_apply, smul_eq_mul, Function.comp_apply]
         rw [hsum, hsingle]
       rw [List.map_cons]

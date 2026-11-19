@@ -12,8 +12,8 @@ open CFSG.Open CFSG.LocalAnalysis.GLTheoremA.KD264LieA4
 
 theorem exists_isPrimitiveRoot_three_of_dvd (K : Type) [Field K] [Finite K]
     (h : 3 ∣ Nat.card K - 1) : ∃ ζ : K, IsPrimitiveRoot ζ 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fintype Kˣ := Fintype.ofFinite _
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fintype Kˣ := Fintype.ofFinite _
   have hdvd : 3 ∣ Nat.card Kˣ := by
     rw [Nat.card_units]
     exact h
@@ -42,7 +42,7 @@ theorem KD264Y1KerA4_holds : KD264Y1KerA4 := by
   intro d _hfin _hns _hk2 _hk3 hP E hE hc
   obtain ⟨d1, hd1⟩ := d
   obtain ⟨q, rfl, h3⟩ := hP
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hcard : Nat.card (GaloisField q.p q.exponent) = q.card := by
     rw [CFSG.Models.card_galoisField q, TauCeti.PrimePower.card_def q]
   obtain ⟨ζ, hζ⟩ := exists_isPrimitiveRoot_three_of_dvd (GaloisField q.p q.exponent)

@@ -10,10 +10,10 @@ open Finset
 
 theorem exists_even_perm_of_emb {m : ℕ} (hm : m ≤ 6) (x y : Fin m ↪ Fin 8) :
     ∃ g : Equiv.Perm (Fin 8), Equiv.Perm.sign g = 1 ∧ ∀ i, g (x i) = y i := by
-  haveI h6 : MulAction.IsMultiplyPretransitive (alternatingGroup (Fin 8)) (Fin 8) 6 := by
+  have h6 : MulAction.IsMultiplyPretransitive (alternatingGroup (Fin 8)) (Fin 8) 6 := by
     have := alternatingGroup.isMultiplyPretransitive (Fin 8)
     simpa using this
-  haveI : MulAction.IsMultiplyPretransitive (alternatingGroup (Fin 8)) (Fin 8) m :=
+  have : MulAction.IsMultiplyPretransitive (alternatingGroup (Fin 8)) (Fin 8) m :=
     MulAction.isMultiplyPretransitive_of_le hm (by simp)
   obtain ⟨g, hg⟩ := MulAction.isMultiplyPretransitive_iff.mp this x y
   refine ⟨g, g.2, fun i => ?_⟩

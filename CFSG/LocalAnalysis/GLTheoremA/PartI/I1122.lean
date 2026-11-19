@@ -15,6 +15,7 @@ open CFSG.Open CFSG.Yardstones.Md0ec50421ce4 CFSG.LocalAnalysis.GLTheoremB
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem closureIn_eq_bClosure (K B : Subgroup G) : closureIn K B = bClosure B K := by
   refine le_antisymm (iSup₂_le fun a ha => ?_) (iSup₂_le fun b hb => ?_)
   · have h : K.map (MulAut.conj a).toMonoidHom = GLBConj a⁻¹ K := by

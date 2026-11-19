@@ -136,6 +136,7 @@ section Transport
 
 variable {W : Type} [Group W] [Finite W]
 
+omit [Finite W] in
 theorem isSylowTwoOf_top_map_center {L S₀ : Subgroup W} (hS : IsSylowTwoOf S₀ L) :
     IsSylowTwoOf ((S₀.subgroupOf L).map (QuotientGroup.mk' (Subgroup.center ↥L))) ⊤ := by
   have hP : IsPGroup 2 (S₀.subgroupOf L) := hS.2.1.comap_subtype
@@ -245,6 +246,7 @@ theorem pElementSubgroup_le_map_pElementSubgroup_comap {L : Subgroup W}
     rw [h0]; exact hxP
   · rw [hfe]; exact hxt
 
+omit [Finite W] in
 theorem map_pElementSubgroup_le {L : Subgroup W} (P : Subgroup ↥L) :
     (pElementSubgroup 2 P).map L.subtype ≤ pElementSubgroup 2 (P.map L.subtype) := by
   unfold pElementSubgroup

@@ -22,8 +22,8 @@ private theorem plh_finrank_eq_of_carrier_eq {F V : Type} [Field F] [Finite F]
     (hFc : Nat.card F = Nat.card (ZMod 2)) {W : Submodule F V}
     {W₂ : Submodule (ZMod 2) V} (h : (W : Set V) = (W₂ : Set V)) :
     Module.finrank F W = Module.finrank (ZMod 2) W₂ := by
-  haveI : Module.Finite F ↥W := Module.Finite.of_finite
-  haveI : Module.Finite (ZMod 2) ↥W₂ := Module.Finite.of_finite
+  have : Module.Finite F ↥W := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) ↥W₂ := Module.Finite.of_finite
   have h1 : Nat.card ↥W = Nat.card F ^ Module.finrank F W := Module.natCard_eq_pow_finrank
   have h2 : Nat.card ↥W₂ = Nat.card (ZMod 2) ^ Module.finrank (ZMod 2) W₂ :=
     Module.natCard_eq_pow_finrank
@@ -83,7 +83,7 @@ theorem qtwoDB43_quad (hRig : GGLabelRigidInput) {G : Type} [Group G] [Finite G]
       (CFSG.GroupTheory.WeirSylow.IsPlusType Q ↔ lab = ⟨.D, m, 1⟩) ∧
       Subgroup.center ↥(orthDerived Q) = ⊥ ∧
       ∀ (s : ↥Bs) (n : ↥N), σ (ggGamma N hBsN s n) = β s * σ n * (β s)⁻¹ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have htag' : lab.tag = .D ∨ lab.tag = .twD := by
     rcases htag with h | h
     · left; rw [h]
@@ -99,14 +99,14 @@ theorem qtwoDB43_quad (hRig : GGLabelRigidInput) {G : Type} [Group G] [Finite G]
       hFcard, hchar, hU, hdim, hplus, hEQ, hconj⟩ :=
     CFSG.StandardType.OrthKExactTwo.exists_quadratic_image_of_orthogonal_marking
       hRig (by norm_num : (3 : ℕ) ≠ 2) hmark hBs hSC hΛ hlab htag' hrank
-  letI : Field F := hField
-  letI : Finite F := hFinite
-  letI : CharP F 2 := hChar
-  letI : AddCommGroup V := hAdd
-  letI : Module F V := hMod
-  letI : FiniteDimensional F V := hFinDim
-  letI : Nontrivial V := hNontriv
-  haveI : Group.IsPerfect ↥N := Group.isPerfect_def.mpr hmark.1
+  let : Field F := hField
+  let : Finite F := hFinite
+  let : CharP F 2 := hChar
+  let : AddCommGroup V := hAdd
+  let : Module F V := hMod
+  let : FiniteDimensional F V := hFinDim
+  let : Nontrivial V := hNontriv
+  have : Group.IsPerfect ↥N := Group.isPerfect_def.mpr hmark.1
   have hrow : (lab.tag = .D ∧ 5 ≤ lab.rank) ∨ (lab.tag = .twD ∧ 4 ≤ lab.rank) := by
     rcases htag with h | h
     · rw [h]
@@ -119,17 +119,17 @@ theorem qtwoDB43_quad (hRig : GGLabelRigidInput) {G : Type} [Group G] [Finite G]
     MulEquiv.ofBijective (QuotientGroup.mk' (Subgroup.center ↥N))
       ⟨(MonoidHom.ker_eq_bot_iff _).mp (by rw [QuotientGroup.ker_mk', hcenter]),
         QuotientGroup.mk'_surjective (Subgroup.center ↥N)⟩
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Finite V := Module.finite_of_finite F
+  have : Fintype F := Fintype.ofFinite F
+  have : Finite V := Module.finite_of_finite F
   have hF : Nat.card F = 2 := by
     rw [hFcard, hn]
     norm_num
   let e : ZMod 2 ≃+* F :=
     ZMod.ringEquivOfPrime F Nat.prime_two (by rwa [← Nat.card_eq_fintype_card])
   let modInst : Module (ZMod 2) V := Module.compHom V (e : ZMod 2 →+* F)
-  letI : Module (ZMod 2) V := modInst
+  let : Module (ZMod 2) V := modInst
   have hsmul : ∀ (c : ZMod 2) (v : V), c • v = e c • v := fun _ _ => rfl
-  haveI : Module.Finite (ZMod 2) V := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) V := Module.Finite.of_finite
   have hFc2 : Nat.card F = Nat.card (ZMod 2) := by rw [hF, Nat.card_zmod]
   have hdim2 : Module.finrank (ZMod 2) V = 2 * m := by
     have h1 : Nat.card V = Nat.card F ^ Module.finrank F V := Module.natCard_eq_pow_finrank

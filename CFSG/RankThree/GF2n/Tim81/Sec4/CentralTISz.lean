@@ -40,7 +40,7 @@ private theorem isPGroup_two_of_sz_quotient
   have hZ2le : Z2 ≤ Z := Subgroup.map_subtype_le _
   have hZ2normal : Z2.Normal := Subgroup.normal_of_le_center (hZ2le.trans hZ)
   let K := Y ⧸ Z2
-  haveI : Group.IsPerfect Y := ⟨hperf⟩
+  have : Group.IsPerfect Y := ⟨hperf⟩
   have hperfK : commutator K = ⊤ := Group.isPerfect_def.mp inferInstance
   have hcenterK : Subgroup.center K = Z.map (QuotientGroup.mk' Z2) := by
     rw [hcenterY]
@@ -64,15 +64,16 @@ private theorem isPGroup_two_of_sz_quotient
     simpa [QuotientGroup.ker_mk'] using h
   have hZeq : Z = Z2 := le_antisymm hZle hZ2le
   rw [hZeq]
-  exact P.isPGroup'.map Z.subtype
+  exact P.isPGroup.map Z.subtype
 
 
+omit [Z.Normal] in
 private theorem exists_index_two_subgroup
     (hZ : Z ≤ Subgroup.center Y) (hZ2 : IsPGroup 2 Z) (hZne : Z ≠ ⊥) :
     ∃ (M : Subgroup ↥Z) (Z0 : Subgroup Y) (z : ↥Z),
       Z0 = M.map Z.subtype ∧ M.index = 2 ∧ Z0 ≤ Z ∧ Z0.Normal ∧ z ∉ M := by
   classical
-  haveI : Nontrivial ↥Z := (Subgroup.nontrivial_iff_ne_bot Z).2 hZne
+  have : Nontrivial ↥Z := (Subgroup.nontrivial_iff_ne_bot Z).2 hZne
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 hZ2
   have hk1 : 1 ≤ k := by
     rcases Nat.eq_zero_or_pos k with h | h
@@ -87,7 +88,7 @@ private theorem exists_index_two_subgroup
   let Z0 : Subgroup Y := M.map Z.subtype
   have hZ0le : Z0 ≤ Z := Subgroup.map_subtype_le _
   have hZ0normal : Z0.Normal := Subgroup.normal_of_le_center (hZ0le.trans hZ)
-  haveI : Z0.Normal := hZ0normal
+  have : Z0.Normal := hZ0normal
   let E := Y ⧸ Z0
   have hMneTop : M ≠ ⊤ := by
     intro htop
@@ -99,6 +100,7 @@ private theorem exists_index_two_subgroup
     exact hMneTop ((Subgroup.eq_top_iff' M).mpr h)
   exact ⟨M, Z0, z, rfl, hMindex, hZ0le, hZ0normal, hzM⟩
 
+omit [Z.Normal] in
 private theorem exists_involution_with_center_and_zpowers
     (hZ : Z ≤ Subgroup.center Y) (hperf : commutator Y = ⊤)
     {M : Subgroup ↥Z} {Z0 : Subgroup Y} [Z0.Normal] {z : ↥Z}
@@ -132,7 +134,7 @@ private theorem exists_involution_with_center_and_zpowers
     intro y
     obtain ⟨y0, rfl⟩ := QuotientGroup.mk'_surjective Z0 y
     rw [← map_mul, ← map_mul, Subgroup.mem_center_iff.mp (hZ z.2) y0]
-  haveI : Group.IsPerfect Y := ⟨hperf⟩
+  have : Group.IsPerfect Y := ⟨hperf⟩
   have hperfE : commutator E = ⊤ := Group.isPerfect_def.mp inferInstance
   have hxcomm : x ∈ commutator E := by
     rw [hperfE]
@@ -152,6 +154,7 @@ private theorem exists_involution_with_center_and_zpowers
     rw [Nat.card_zpowers, hxorder, hZmap_card]
   exact ⟨x, rfl, hx2, hx1, hxorder, hxcenter, hxcomm, hZmap_card, hzpowers_eq⟩
 
+omit [Finite Y] in
 private theorem exists_quotient_map_with_kernel
     {Z0 : Subgroup Y} [Z0.Normal] (hZ0le : Z0 ≤ Z) {x : Y ⧸ Z0}
     (hzpowers : Subgroup.zpowers x = Z.map (QuotientGroup.mk' Z0)) :
@@ -238,6 +241,7 @@ private theorem exists_narrow_element_and_conjugate
   obtain ⟨c, hc⟩ := exists_conjSubgroup_szZ_of_involution hF hxG2 hxG1
   exact ⟨zE, c, hzE2', hzEx', hzEconj, hπz2, hπz1, hxG2, hxG1, hc⟩
 
+omit [Finite Y] in
 private theorem exists_conjugate_with_weak_closure
     (hT : CFSG.Assembly.IsElemAbelian 2 T) (hTZ : T ⊓ Z = ⊥)
     (hwc : WeaklyClosedIn T (Subgroup.normalizer (T : Set Y)))
@@ -302,6 +306,7 @@ private theorem exists_conjugate_with_weak_closure
     rw [hgY, e.apply_symm_apply]
   exact ⟨gY, T', rfl, hT'Z, hT'el, hnormalizer_conj, hwc', hge⟩
 
+omit [Finite Y] in
 private theorem map_conj_and_mem_of_conjugate
     {a : ℕ} {F : Type} [Field F] [Fintype F] [CharP F 2]
     {Z0 : Subgroup Y} [Z0.Normal] {zE : Y ⧸ Z0}
@@ -332,6 +337,7 @@ private theorem map_conj_and_mem_of_conjugate
     exact hc
   exact ⟨hmapT'bar, hmemTbar⟩
 
+omit [Finite Y] in
 private theorem exists_decomposition_in_TE
     (hZ : Z ≤ Subgroup.center Y)
     {Z0 : Subgroup Y} [Z0.Normal] {x zE : Y ⧸ Z0} (hxorder : orderOf x = 2)
@@ -376,6 +382,7 @@ private theorem exists_decomposition_in_TE
     rw [← map_mul, ← map_mul, Subgroup.mem_center_iff.mp (hZ hz') y0]
   exact ⟨TE, tE, cE, rfl, hTE_sq, htTE, rfl, hdecomp, hcE_ker, hcE_cases, hZmap_center⟩
 
+omit [Finite Y] in
 private theorem exists_nontrivial_conjugate_in_TE
     {Z0 : Subgroup Y} [Z0.Normal] {x zE : Y ⧸ Z0}
     {TE : Subgroup (Y ⧸ Z0)} {tE cE : Y ⧸ Z0}
@@ -438,6 +445,7 @@ private theorem exists_nontrivial_conjugate_in_TE
     exact hπz1 (by rw [← hπw]; exact hone)
   exact ⟨w, hwTE, hwConj, hw1⟩
 
+omit [Finite Y] in
 private theorem inf_map_and_map_ne_one
     {Z0 : Subgroup Y} [Z0.Normal] {x : Y ⧸ Z0}
     {T' : Subgroup Y} {TE : Subgroup (Y ⧸ Z0)} {w : Y ⧸ Z0}
@@ -467,7 +475,7 @@ private theorem inf_map_and_map_ne_one
     have htbot : t0 ∈ T' ⊓ Z := ⟨ht0, htZ⟩
     rw [hT'Z, Subgroup.mem_bot] at htbot
     have hu1 : u = 1 := by rw [← ht0eq, htbot, map_one]
-    simpa [hu1]
+    simp [hu1]
   have hπw1 : πE w ≠ 1 := by
     intro h
     have hwker : w ∈ πE.ker := h
@@ -478,6 +486,7 @@ private theorem inf_map_and_map_ne_one
     exact hw1 hmem
   exact ⟨hTE_inf, hπw1⟩
 
+omit [Finite Y] in
 private theorem normalizer_image_of_conj
     {a : ℕ} {F : Type} [Field F] [Fintype F] [CharP F 2]
     (hF : Fintype.card F = 2 ^ (2 * a + 1))
@@ -528,6 +537,7 @@ private theorem normalizer_image_of_conj
     exact (Subgroup.mem_map_iff_mem e.injective).1 hmem
   exact hN
 
+omit [Finite Y] in
 private theorem false_of_weak_closure_and_conj
     {Z0 : Subgroup Y} [Z0.Normal]
     {T' : Subgroup Y} {x : Y ⧸ Z0} (hx1 : x ≠ 1)
@@ -590,7 +600,7 @@ private theorem false_of_isPGroup_two
     rw [Nat.card_eq_fintype_card]; exact hF
   obtain ⟨M, Z0, z, hZ0, hMindex, hZ0le, hZ0normal, hzM⟩ :=
     exists_index_two_subgroup hZ hZ2 hZne
-  haveI : Z0.Normal := hZ0normal
+  have : Z0.Normal := hZ0normal
   obtain ⟨x, hx, hx2, hx1, hxorder, hxcenter, hxcomm, hZmap_card, hzpowers_eq⟩ :=
     exists_involution_with_center_and_zpowers hZ hperf hZ0 hMindex hzM
   obtain ⟨πE, hπE_mk, hπEsurj, hkerπE, hxker⟩ :=
@@ -622,6 +632,7 @@ private theorem false_of_isPGroup_two
     exact Subgroup.mem_zpowers x
   exact false_of_weak_closure_and_conj hx1 hwc' hZ hTE hTE_inf hwTE hxZ πE hπE_mk hN hkE
 
+omit [Finite Y] in
 private theorem sz_TZ
     {a : ℕ} {F : Type} [Field F] [Fintype F] [CharP F 2]
     (hT : CFSG.Assembly.IsElemAbelian 2 T)
@@ -632,9 +643,9 @@ private theorem sz_TZ
 
   have hK : Nat.card F = 2 ^ (2 * a + 1) := by
     rw [Nat.card_eq_fintype_card]; exact hF
-  haveI hperfG : Group.IsPerfect (CFSG.Blueprint.suzukiGroup a F) :=
+  have hperfG : Group.IsPerfect (CFSG.Blueprint.suzukiGroup a F) :=
     (CFSG.LieType.Ree.suzuki_perfect ha hK).2
-  haveI hntG : Nontrivial (CFSG.Blueprint.suzukiGroup a F) :=
+  have hntG : Nontrivial (CFSG.Blueprint.suzukiGroup a F) :=
     (CFSG.LieType.Ree.suzuki_simple ha hK).2.1
   have hqG : ¬ IsMulCommutative (CFSG.Blueprint.suzukiGroup a F) :=
     Group.IsPerfect.not_isMulCommutative _
@@ -670,9 +681,9 @@ private theorem sz_Tbar_data
       Tbar = T.map (QuotientGroup.mk' Z) := by
   have hK : Nat.card F = 2 ^ (2 * a + 1) := by
     rw [Nat.card_eq_fintype_card]; exact hF
-  haveI hntG : Nontrivial (CFSG.Blueprint.suzukiGroup a F) :=
+  have hntG : Nontrivial (CFSG.Blueprint.suzukiGroup a F) :=
     (CFSG.LieType.Ree.suzuki_simple (by omega) hK).2.1
-  haveI : Nontrivial (Y ⧸ Z) := Finite.one_lt_card_iff_nontrivial.1 (by
+  have : Nontrivial (Y ⧸ Z) := Finite.one_lt_card_iff_nontrivial.1 (by
     rw [Nat.card_congr e.toEquiv]
     exact Finite.one_lt_card)
   have hTne : T ≠ ⊥ := by
@@ -680,13 +691,13 @@ private theorem sz_Tbar_data
     have htopbot : (⊤ : Subgroup Y) = ⊥ := by
       rw [← hgen, hbot]
       simp
-    haveI : Subsingleton Y := by
+    have : Subsingleton Y := by
       refine ⟨fun a b => ?_⟩
       have ha : a ∈ (⊥ : Subgroup Y) := by rw [← htopbot]; trivial
       have hb : b ∈ (⊥ : Subgroup Y) := by rw [← htopbot]; trivial
       rw [Subgroup.mem_bot] at ha hb
       rw [ha, hb]
-    haveI : Subsingleton (Y ⧸ Z) := inferInstance
+    have : Subsingleton (Y ⧸ Z) := inferInstance
     exact (not_subsingleton (Y ⧸ Z)) inferInstance
   let π : Y →* Y ⧸ Z := QuotientGroup.mk' Z
   let Tbar : Subgroup (Y ⧸ Z) := T.map π
@@ -741,7 +752,7 @@ private theorem sz_perfect_of_torus
     have hge : 2 ^ 3 ≤ 2 ^ (2 * a + 1) :=
       Nat.pow_le_pow_right (by norm_num) (by nlinarith [ha])
     omega
-  haveI : Nontrivial D := Finite.one_lt_card_iff_nontrivial.1 hDcard_gt
+  have : Nontrivial D := Finite.one_lt_card_iff_nontrivial.1 hDcard_gt
   obtain ⟨dD, hdD1⟩ := exists_ne (1 : D)
   let d : CFSG.Blueprint.suzukiGroup a F := dD
   have hdD : d ∈ D := dD.2
@@ -775,6 +786,7 @@ private theorem sz_perfect_of_torus
   exact hperfY
 
 
+omit [Finite Y] in
 private theorem sz_center
     (hZ : Z ≤ Subgroup.center Y) {a : ℕ} (ha : 1 ≤ a) {F : Type}
     [Field F] [Fintype F] [CharP F 2]

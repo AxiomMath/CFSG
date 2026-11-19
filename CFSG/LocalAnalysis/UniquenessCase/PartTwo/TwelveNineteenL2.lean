@@ -21,7 +21,7 @@ theorem exists_torus_of_lieModel {K : Type} [Group K] [Finite K] {p n : ℕ} (hp
     (hp2 : p ≠ 2) (hL : LieModel K .PSL 2 p n) {W : Subgroup K} (hW : IsSylowOf p W ⊤) :
     ∃ D : Subgroup K, D ≤ normalizer (W : Set K) ∧ 2 * Nat.card D + 1 = Nat.card W ∧
       ∀ d ∈ D, d ≠ 1 → ∀ w ∈ W, d * w = w * d → w = 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨F, hFf, hFfin, e, hF, hFq⟩ :=
     CFSG.GH74.GLS.EvenSelP.exists_l2Field_of_lieModel' hp hp2 hL
   obtain ⟨-, hSp, hSnd⟩ := isSylowOf_iff.1 hW
@@ -30,7 +30,7 @@ theorem exists_torus_of_lieModel {K : Type} [Group K] [Finite K] {p n : ℕ} (hp
   have h2 : (2 : F) ≠ 0 := CFSG.GH74.GLS.IVK.L2Borel.two_ne_zero_of_odd_card hF.1
   obtain ⟨c, hc⟩ := CFSG.GH74.GLS.IVK.L2Borel.exists_psiEquiv_eq e hp hFq W'
   have hWcard : Nat.card W = Nat.card F := by
-    haveI := Fintype.ofFinite F
+    have := Fintype.ofFinite F
     rw [← hWW', hc, Subgroup.card_map_of_injective
       (CFSG.GH74.GLS.IVK.L2Borel.psiEquiv e c).injective, CFSG.PSL2Table.card_unipotent h2,
       Nat.card_eq_fintype_card]
@@ -51,7 +51,7 @@ theorem exists_torus {p n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {L P₁ : Subgro
     (hL : LieModel L .PSL 2 p n) (hP₁ : IsSylowOf p P₁ L) :
     ∃ D : Subgroup G, D ≤ L ∧ D ≤ normalizer (P₁ : Set G) ∧ 2 * Nat.card D + 1 = Nat.card P₁ ∧
       ∀ d ∈ D, d ≠ 1 → ∀ w ∈ P₁, d * w = w * d → w = 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hle : P₁ ≤ L := hP₁.le
   have hS' : IsSylowOf p (P₁.subgroupOf L) ⊤ := by
     have := (isSylowOf_map_subtype_iff (p := p) L (A := P₁.subgroupOf L) (B := ⊤)).1
@@ -120,7 +120,7 @@ theorem not_le_P1 (D : Data G) (hstd : Sigma23Std D) (h613 : UC6.R6_13 D) {p : �
   set L : Subgroup G := UC6.inftyOf (centralizer (P₀ : Set G)) with hLdef
   intro hle
   have hP₀L : P₀ ≤ L := hle.trans inf_le_right
-  haveI := CFSG.GH74.GLS.EvenSelP.isSimpleGroup_of_lieModel' hpP hp2 hLm
+  have := CFSG.GH74.GLS.EvenSelP.isSimpleGroup_of_lieModel' hpP hp2 hLm
   have hLK : L ≤ centralizer (P₀ : Set G) := Subgroup.map_subtype_le _
   have hnorm : (P₀.subgroupOf L).Normal := by
     refine ⟨fun a ha l => ?_⟩

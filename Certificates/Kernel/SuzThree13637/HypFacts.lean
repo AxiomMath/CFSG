@@ -291,7 +291,7 @@ theorem vec_act5 (M : List ℕ) (k : ℕ) : vec (act5 M k) =
     digit3 k 0 • vec (nthN M 0) + (digit3 k 1 • vec (nthN M 1) + (digit3 k 2 • vec (nthN M 2) +
       (digit3 k 3 • vec (nthN M 3) + digit3 k 4 • vec (nthN M 4)))) := by
   funext t
-  simp only [Pi.add_apply, Pi.smul_apply, nsmul_eq_mul, Pi.mul_apply, Pi.natCast_apply, vec]
+  simp only [Pi.add_apply, nsmul_eq_mul, Pi.mul_apply, Pi.natCast_apply, vec]
   rw [act5_digit]
   have e : actC M k t = (digit3 k 0 * digit3 (nthN M 0) t + (digit3 k 1 * digit3 (nthN M 1) t +
       (digit3 k 2 * digit3 (nthN M 2) t + (digit3 k 3 * digit3 (nthN M 3) t +
@@ -306,7 +306,7 @@ theorem vec_dbl5 (x : ℕ) : vec (dbl5 x) = 2 • vec x := by
       3 * (2 * digit3 x 3 % 3 + 3 * (2 * digit3 x 4 % 3)))) := rfl
   obtain ⟨h0, h1, h2, h3, h4⟩ := digit3_five (hc 0) (hc 1) (hc 2) (hc 3) (hc 4)
   funext t
-  simp only [Pi.smul_apply, nsmul_eq_mul, Pi.mul_apply, Pi.ofNat_apply, Pi.natCast_apply, vec]
+  simp only [Pi.smul_apply, nsmul_eq_mul, vec]
   rw [e]
   fin_cases t <;> simp only [h0, h1, h2, h3, h4] <;> rw [ZMod.natCast_mod] <;> push_cast <;> rfl
 

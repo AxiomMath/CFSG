@@ -13,7 +13,7 @@ open CFSG.AGLEmbedding Subgroup
 
 theorem card_eq_two_pow_of_charP_two {K : Type} [Field K] [Finite K] [CharP K 2] :
     ∃ n : ℕ, n ≠ 0 ∧ Nat.card K = 2 ^ n := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, -, hn⟩ := FiniteField.card K 2
   exact ⟨n, n.2.ne', by rw [Nat.card_eq_fintype_card, hn]⟩
 
@@ -61,7 +61,7 @@ theorem range_toGL_cases {K : Type} [Field K] [Finite K] [CharP K 2] (m : ℕ) :
         Odd (Nat.card (center ↥(Matrix.SpecialLinearGroup.toGL :
           Matrix.SpecialLinearGroup (Fin m) K →* GL (Fin m) K).range))) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   set S : Subgroup (GL (Fin m) K) :=
     (Matrix.SpecialLinearGroup.toGL :
       Matrix.SpecialLinearGroup (Fin m) K →* GL (Fin m) K).range
@@ -69,9 +69,9 @@ theorem range_toGL_cases {K : Type} [Field K] [Finite K] [CharP K 2] (m : ℕ) :
     CFSG.AGLEmbedding.LeviBlock.slEquivToGLRange (K := K) m
   rcases Nat.lt_or_ge m 2 with hm | hm
   · refine Or.inl ?_
-    haveI : Subsingleton (Matrix.SpecialLinearGroup (Fin m) K) :=
+    have : Subsingleton (Matrix.SpecialLinearGroup (Fin m) K) :=
       CFSG.AGLEmbedding.LeviBlock.subsingleton_specialLinear_of_lt_two (K := K) hm
-    haveI : Subsingleton ↥S := Equiv.subsingleton e.symm.toEquiv
+    have : Subsingleton ↥S := Equiv.subsingleton e.symm.toEquiv
     exact Subgroup.eq_bot_of_subsingleton S
   · by_cases h2 : Nat.card K = 2 ∧ m = 2
     · obtain ⟨hK, rfl⟩ := h2

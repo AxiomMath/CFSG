@@ -93,10 +93,12 @@ def linePull (e : W ≃* Multiplicative (ι → K)) (v : ι → K) : Subgroup W 
     rintro w ⟨s, h⟩
     exact ⟨-s, by rw [map_inv, toAdd_inv, h, neg_smul]⟩
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem mem_linePull {e : W ≃* Multiplicative (ι → K)} {v : ι → K} {w : W} :
     w ∈ linePull e v ↔ ∃ s : K, Multiplicative.toAdd (e w) = s • v :=
   Iff.rfl
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem card_linePull (e : W ≃* Multiplicative (ι → K)) {v : ι → K} (hv : v ≠ 0) :
     Nat.card ↥(linePull e v) = Nat.card K := by
   classical

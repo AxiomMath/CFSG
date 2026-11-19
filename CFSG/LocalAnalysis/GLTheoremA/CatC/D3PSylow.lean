@@ -14,7 +14,7 @@ theorem exists_stable_sylow_fixing_pair {G : Type*} [Group G] [Finite G] (α β 
     ∃ S : Sylow 3 G, A ≤ (S : Subgroup G) ∧ (S : Subgroup G).map α.toMonoidHom = S ∧
       (S : Subgroup G).map β.toMonoidHom = S := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hAp : IsPGroup 3 A := fun g => ⟨1, Subtype.ext (by
     rw [pow_one, Subgroup.coe_pow, OneMemClass.coe_one]
     exact hA.2 g g.2)⟩

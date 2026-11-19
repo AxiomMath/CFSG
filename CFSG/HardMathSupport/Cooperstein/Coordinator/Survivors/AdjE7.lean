@@ -15,7 +15,7 @@ open CFSG.Quasithin.SmithCurtis CFSG.Quasithin.SmithCurtis.Chev CFSG.Blueprint.C
 
 @[expose] def e7Theta0 : Fin Tag.E7.rank → ℤ := ![2, 2, 3, 4, 3, 2, 1]
 
-@[expose] abbrev e7node10 : Fin Tag.E7.rank := ⟨0, by decide⟩
+abbrev e7node10 : Fin Tag.E7.rank := ⟨0, by decide⟩
 
 @[expose] def e7ThetaWords : List (List (Fin Tag.E7.rank)) :=
   ([[2, 3, 4, 5, 6, 1, 3, 4, 5, 2, 3, 4, 1, 3, 2, 0], [3, 4, 5, 6, 2, 3, 4, 5, 0, 2, 3, 4, 1, 3, 2, 0],
@@ -235,7 +235,7 @@ theorem coord_e7Z_inr {z : RootModule .E7 K} (hz : z ∈ e7Z K) (α : {v : Fin T
   rw [Finsupp.smul_apply, Finsupp.coe_finsetSum, Finset.sum_apply]
   have hh : ∀ j, (hVec .E7 K j : RootModule .E7 K) (Sum.inr α) = 0 := fun j => by
     unfold hVec
-    simp [Finsupp.single_apply]
+    simp
   simp [hh]
 
 theorem adj132Y_ne_zero : (adj132Y : RootModule .E7 K ⧸ e7Z K) ≠ 0 := by
@@ -260,7 +260,7 @@ theorem coord_inl_of_mem_Z {z : RootModule .E7 K} (hz : z ∈ e7Z K) :
   refine ⟨κ, fun k => ?_⟩
   rw [Finsupp.smul_apply, coord_e7Hc_inl, smul_eq_mul]
 
-@[expose] abbrev e7i1 : Fin Tag.E7.rank := ⟨1, by decide⟩
+abbrev e7i1 : Fin Tag.E7.rank := ⟨1, by decide⟩
 
 theorem e7_c0_i1 : e7c0 e7i1 = 1 := by decide +kernel
 
@@ -278,7 +278,7 @@ theorem fixU_le_line132 {x : RootModule .E7 K ⧸ e7Z K}
     obtain ⟨κ, hκ⟩ := coord_inl_of_mem_Z hz
     obtain ⟨k0, hk0, hc0⟩ := exists_k0 i
     have h1 := hκ k0
-    rw [Dop_inl adjHyp_E7 i v k0, if_neg hk0, hc0] at h1
+    rw [Dop_inl adjHyp_E7 i v k0, ite_eq_right hk0, hc0] at h1
     have hκ0 : κ = 0 := by simpa using h1.symm
     ext b
     rcases b with k | α
@@ -337,7 +337,7 @@ variable (K) in
 theorem adjChi132_dC (s : Fin Tag.E7.rank) (t : Kˣ) :
     adjChi132 K (dC .E7 K s t) = ((t ^ (if s = e7node10 then (1 : ℤ) else 0) : Kˣ) : K) := by
   unfold adjChi132
-  rw [adjRep_dC_theta adjTop_E7 s t, coordR_smul, coordR_rootVec adjTop_E7.root, if_pos rfl,
+  rw [adjRep_dC_theta adjTop_E7 s t, coordR_smul, coordR_rootVec adjTop_E7.root, ite_eq_left rfl,
     mul_one]
 
 theorem adj132_H (h : ↥(adjointGroup .E7 K)) (hh : h ∈ (e7Datum (K := K)).H) :
@@ -386,7 +386,7 @@ theorem adj132_isChevType :
     obtain ⟨h1, h2⟩ := h
     have h1' : ∀ u : Kˣ, (u : K) = 1 := fun u => by
       have := h1 u
-      rwa [adjChi132_dC, if_pos rfl, zpow_one] at this
+      rwa [adjChi132_dC, ite_eq_left rfl, zpow_one] at this
     have h3 : (e7Datum (K := K)).heckeT (adj132 K) e7node10 adj132Y =
         (∑ c : K, c) • adj132Y := by
       rw [adj132_heckeT, adj_heckeSum_node adjTop_E7]
@@ -395,7 +395,7 @@ theorem adj132_isChevType :
     rw [sum_eq_one_of_units_eq_one h1', one_smul] at h4
     exact adj132Y_ne_zero h4
   · refine ⟨fun _ => ⟨fun u => ?_, ?_⟩, fun _ => Finset.mem_erase.2 ⟨hs, Finset.mem_univ _⟩⟩
-    · rw [adjChi132_dC, if_neg hs, zpow_zero]
+    · rw [adjChi132_dC, ite_eq_right hs, zpow_zero]
       rfl
     · have h5 : (e7Datum (K := K)).heckeT (adj132 K) s adj132Y = 0 := by
         rw [adj132_heckeT, adj_heckeSum_of_ne adjTop_E7 hs]

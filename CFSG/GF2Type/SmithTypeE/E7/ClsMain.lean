@@ -18,7 +18,7 @@ open scoped Matrix
 theorem vv_Tmat {v : Fin 6 → ZMod 2} : vv (Tmat v) = v := by
   funext i
   rw [vv, Tmat_apply]
-  simp only [if_true]
+  simp only [ite_true]
   exact (by decide : ∀ a b : ZMod 2, a + b + a = b) _ _
 
 theorem vec_dichotomy {S : Set ((Fin 6 → ZMod 2) × (Fin 6 → ZMod 2))}
@@ -28,7 +28,7 @@ theorem vec_dichotomy {S : Set ((Fin 6 → ZMod 2) × (Fin 6 → ZMod 2))}
   by_cases hall : ∀ p ∈ S, p.2 = 0
   · exact Or.inl hall
   · right
-    push_neg at hall
+    push Not at hall
     obtain ⟨p₁, hp₁, hne⟩ := hall
     have hp₁e : p₁.2 = p₁.1 := (h1 p₁ hp₁).resolve_left hne
     intro p hp
@@ -277,7 +277,7 @@ theorem classification_normalized (Xs Ps : Subgroup ↥Stab0)
     exact Subgroup.eq_of_le_of_card_ge hle (by
       rw [card_K0, Subgroup.card_map_of_injective Subtype.val_injective, hcard])
   right
-  push_neg at h1
+  push Not at h1
   let 𝒜 : Subgroup GL6 := (alphaS.comp Xs.subtype).range
   have hmem𝒜 : ∀ A : GL6, A ∈ 𝒜 ↔ ∃ x ∈ Xs, alphaS x = A := by
     intro A
@@ -337,7 +337,7 @@ theorem card_range_alphaS (Ps : Subgroup ↥Stab0) (hK0 : K0 ≤ Ps.map Stab0.su
 
 theorem exists_conj_eq_UTsub (S : Subgroup GL6) (hS : Nat.card ↥S = 2 ^ 15) :
     ∃ g : GL6, S.map (MulAut.conj g).toMonoidHom = UTsub := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨g, hg⟩ := exists_conj_isUT S (IsPGroup.of_card hS)
   refine ⟨g, Subgroup.eq_of_le_of_card_ge ?_ ?_⟩
   · rintro _ ⟨h, hh, rfl⟩
@@ -429,7 +429,7 @@ theorem exists_normalization (P : Subgroup TD6) (hP : IsPGroup 2 P)
     exact hsA
 
 theorem card_sylow_TD6 (P : Sylow 2 TD6) : Nat.card ↥(P : Subgroup TD6) = 2 ^ 30 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hord : CFSG.Open.ordD 6 2 = 2 ^ 30 * 46591793325 := by decide +kernel
   have hfac : (2 ^ 30 * 46591793325 : ℕ).factorization 2 = 30 := by
     rw [Nat.factorization_mul (by norm_num) (by norm_num)]
@@ -446,8 +446,8 @@ theorem elemAb_sylow_classification (X : Subgroup TD6) (hX : CFSG.IsElementaryAb
     ∃ c : TD6, X.map (MulAut.conj c).toMonoidHom = K0 ∨
       X.map (MulAut.conj c).toMonoidHom = UFix Wp ∨
       X.map (MulAut.conj c).toMonoidHom = UFix Cc := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := hX
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hX
   obtain ⟨c, hcS, hK0c, hUTc, hUTallc⟩ := exists_normalization (P : Subgroup TD6) P.isPGroup
     (fun Q hPQ hQ => le_antisymm (P.maximal_isPGroup.2 hQ hPQ) hPQ) (card_sylow_TD6 P)
   refine ⟨c, ?_⟩
@@ -459,7 +459,7 @@ theorem elemAb_sylow_classification (X : Subgroup TD6) (hX : CFSG.IsElementaryAb
   have hX₂P₂ : X₂ ≤ P₂ := by
     rw [hX₂, hP₂]
     exact Subgroup.map_mono hXP
-  haveI : CFSG.IsElementaryAbelian 2 X₂ := by
+  have : CFSG.IsElementaryAbelian 2 X₂ := by
     rw [hX₂]
     exact CFSG.IsElementaryAbelian.map _
   have hcard₂ : Nat.card ↥X₂ = 2 ^ 15 := by

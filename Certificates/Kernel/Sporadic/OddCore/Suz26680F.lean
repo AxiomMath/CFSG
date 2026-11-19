@@ -211,7 +211,7 @@ theorem fixC : suzFixOK = true := by
   rw [fix_z, fix_t, Nat.eq_of_beq_eq_true kFix]
   rfl
 
-theorem hL : ∀ x ∈ SuzD.fixL0, x < 1782 := fun x hx => List.mem_range.1 (List.mem_filter.1 hx).1
+theorem hL : ∀ x ∈ SuzD.fixL0, x < 1782 := fun _x hx => List.mem_range.1 (List.mem_filter.1 hx).1
 
 theorem res_eq {a : Array Nat} {P : Nat} (ha : a = unpack 1782 11 P) (hc : Cn P) :
     restrictArr (fixList 0) a = unpack 42 6 (res P) := by

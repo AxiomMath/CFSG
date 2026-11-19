@@ -27,7 +27,7 @@ open CFSG.Assembly.RankThreeEven (projSL)
 variable {G : Type} [Group G] [Finite G]
 
 private theorem card_galoisField_two_two : Nat.card (GaloisField 2 2) = 4 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [GaloisField.card 2 2 (by norm_num)]
   norm_num
 
@@ -47,6 +47,7 @@ private theorem kfacts_data {X : Type*} [Group X]
   intro E hE α hα3 hfix
   exact Sec18.SylowFive.exists_mem_conj_eq_of_fixes hk χ hE hfix (m := 1) (by simpa using hα3)
 
+omit [Finite G] in
 private theorem map_conj_inv_le_of_le_normalizer {A P : Subgroup G} {x : G}
     (hxP : x ∈ Subgroup.normalizer (P : Set G)) (hAP : A ≤ P) :
     A.map (MulAut.conj x⁻¹).toMonoidHom ≤ P := by
@@ -55,6 +56,7 @@ private theorem map_conj_inv_le_of_le_normalizer {A P : Subgroup G} {x : G}
   rw [← hP]
   exact Subgroup.map_mono hAP
 
+omit [Finite G] in
 private theorem le_map_conj_inv_of_le_normalizer {A B : Subgroup G} {x : G}
     (hxB : x ∈ Subgroup.normalizer (B : Set G)) (hBA : B ≤ A) :
     B ≤ A.map (MulAut.conj x⁻¹).toMonoidHom := by
@@ -63,9 +65,11 @@ private theorem le_map_conj_inv_of_le_normalizer {A B : Subgroup G} {x : G}
   rw [← hB]
   exact Subgroup.map_mono hBA
 
+omit [Finite G] in
 private theorem conj_toMonoidHom_apply (x y : G) :
     (MulAut.conj x).toMonoidHom y = x * y * x⁻¹ := rfl
 
+omit [Finite G] in
 private theorem map_conj_inv_map_conj (A : Subgroup G) (x : G) :
     (A.map (MulAut.conj x⁻¹).toMonoidHom).map (MulAut.conj x).toMonoidHom = A := by
   ext z
@@ -81,6 +85,7 @@ private theorem map_conj_inv_map_conj (A : Subgroup G) (x : G) :
     rw [conj_toMonoidHom_apply, conj_toMonoidHom_apply]
     group
 
+omit [Finite G] in
 private theorem commute_of_mem_map_conj_inv {A : Subgroup G} (hA : IsMulCommutative A)
     {x u v : G} (hu : u ∈ A.map (MulAut.conj x⁻¹).toMonoidHom)
     (hv : v ∈ A.map (MulAut.conj x⁻¹).toMonoidHom) : u * v = v * u := by
@@ -317,7 +322,7 @@ private theorem singer_finish {A A' L : Subgroup G} {c b x e : G}
       (y₀ : G) * q * (y₀ : G)⁻¹ * q⁻¹ ∈
         inSubgroup (aschbacherSolvableCore 3) L :=
     mem_theta_of_fixes heN y₀.2 hfix
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hQ : IsPGroup 3 (Subgroup.zpowers e) := by
     have hdvd : orderOf e ∣ 3 := orderOf_dvd_of_pow_eq_one he3
     rcases (Nat.dvd_prime Nat.prime_three).mp hdvd with h | h

@@ -32,7 +32,7 @@ theorem trace_low5 : Matrix.trace (low5 : Matrix (Fin 3) (Fin 3) F4) = f4Omega ^
   change Matrix.trace (!![1, 0, 0; 0, 0, 1; 0, 1, f4Omega] : Matrix (Fin 3) (Fin 3) F4) =
     f4Omega ^ 2
   rw [Matrix.trace_fin_three]
-  simp [CharTwo.neg_eq]
+  simp
   rw [f4Omega_sq']
   try ring
 
@@ -40,9 +40,8 @@ theorem trace_up5 : Matrix.trace (up5 : Matrix (Fin 3) (Fin 3) F4) = f4Omega ^ 2
   change Matrix.trace (!![0, 1, 0; 1, f4Omega, 0; 0, 0, 1] : Matrix (Fin 3) (Fin 3) F4) =
     f4Omega ^ 2
   rw [Matrix.trace_fin_three]
-  simp [CharTwo.neg_eq]
+  simp
   rw [f4Omega_sq']
-  try ring
 
 theorem trace_low5_inv :
     Matrix.trace ((low5⁻¹ : SpecialLinearGroup (Fin 3) F4) : Matrix (Fin 3) (Fin 3) F4) =
@@ -68,7 +67,6 @@ theorem trace_up5_inv :
   rw [Matrix.trace_fin_three]
   simp [CharTwo.neg_eq]
   rw [f4Omega_sq']
-  try ring
 
 private theorem slLowerBlockMat_zero_zero {n : ℕ} {F : Type} [Field F]
     (A : Matrix (Fin n) (Fin n) F) : slLowerBlockMat n F A 0 0 = 1 := by
@@ -222,8 +220,8 @@ theorem levi_agree_s5 :
     fin_cases r <;> fin_cases s <;>
       simp [slUpperBlockMat_apply_eq, J4, up5, f4Eps_omega, resMat_apply_fin (n := 3),
         finProdFinEquiv_symm_apply (m := 3) (n := 2), Fin.divNat, Fin.modNat,
-        castPred6_0, castPred6_1, castPred6_2, castPred6_3, castPred6_4,
-        castPred5_0, castPred5_1, castPred5_2, castPred5_3]
+        castPred6_2, castPred6_3, castPred6_4,
+        castPred5_2, castPred5_3]
 
 end CFSG.StandardType.GGHalf
 

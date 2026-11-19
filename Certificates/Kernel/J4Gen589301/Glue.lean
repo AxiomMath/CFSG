@@ -32,17 +32,17 @@ theorem inp3 {M₀ M₁ M₂ : Nat} {f : ℕ → J} (h₀ : VjRep M₀ (f 0)) (h
 
 theorem m4gen_ge {k : ℕ} (hk : 2 ≤ k) : m4gen k = 1 := by
   unfold m4gen
-  rw [if_neg (by omega), if_neg (by omega)]
+  rw [ite_eq_right (by omega), ite_eq_right (by omega)]
 
 theorem baseJ_ge {k : ℕ} (hk : 2 ≤ k) : baseJ k = 1 := by
   unfold baseJ
-  rw [if_neg (by omega), if_neg (by omega)]
+  rw [ite_eq_right (by omega), ite_eq_right (by omega)]
 
 theorem hW : ∀ k, VjRep (getN one [W1, W2] k) (m4gen k) := fun k => (vjg_w k).1
 
 theorem hA : VjRep A a := by
   have h := vjg_base 0
-  have e : baseJ 0 = a := if_pos rfl
+  have e : baseJ 0 = a := ite_eq_left rfl
   rw [e] at h
   exact h
 
@@ -50,7 +50,7 @@ theorem hB : VjRep B b := by
   have h := vjg_base 1
   have e : baseJ 1 = b := by
     unfold baseJ
-    rw [if_neg (by omega), if_pos rfl]
+    rw [ite_eq_right (by omega), ite_eq_left rfl]
   rw [e] at h
   exact h
 
@@ -62,14 +62,14 @@ theorem hZ : VjRep CFSG.KD.J4Gen.Z z1Elt := by
 theorem hC : VjRep CFSG.KD.J4Gen.C cElt := by
   have hin : ∀ k, VjRep (getN one [A, B, CFSG.KD.J4Gen.Z] k) (inpC k) := by
     refine inp3 ?_ ?_ ?_ ?_
-    · rw [inpC, if_neg (by omega)]
+    · rw [inpC, ite_eq_right (by omega)]
       exact vjg_base 0
-    · rw [inpC, if_neg (by omega)]
+    · rw [inpC, ite_eq_right (by omega)]
       exact vjg_base 1
-    · rw [inpC, if_pos rfl]
+    · rw [inpC, ite_eq_left rfl]
       exact hZ
     · intro k hk
-      rw [inpC, if_neg (by omega), baseJ_ge (by omega)]
+      rw [inpC, ite_eq_right (by omega), baseJ_ge (by omega)]
   have h := runK_out hK hin ch589301C
   rw [← slpC_eq, ← cElt_def] at h
   exact h
@@ -77,14 +77,14 @@ theorem hC : VjRep CFSG.KD.J4Gen.C cElt := by
 theorem hAPBP : VjRep CFSG.KD.J4Gen.AP apElt ∧ VjRep CFSG.KD.J4Gen.BP bpElt := by
   have hin : ∀ k, VjRep (getN one [W1, W2, CFSG.KD.J4Gen.C] k) (inpAB k) := by
     refine inp3 ?_ ?_ ?_ ?_
-    · rw [inpAB, if_neg (by omega)]
+    · rw [inpAB, ite_eq_right (by omega)]
       exact hW 0
-    · rw [inpAB, if_neg (by omega)]
+    · rw [inpAB, ite_eq_right (by omega)]
       exact hW 1
-    · rw [inpAB, if_pos rfl]
+    · rw [inpAB, ite_eq_left rfl]
       exact hC
     · intro k hk
-      rw [inpAB, if_neg (by omega), m4gen_ge (by omega)]
+      rw [inpAB, ite_eq_right (by omega), m4gen_ge (by omega)]
   have h := runK_out2 hK hin ch589301AB
   rw [← slpAB_eq, ← apElt_def, ← bpElt_def] at h
   exact h

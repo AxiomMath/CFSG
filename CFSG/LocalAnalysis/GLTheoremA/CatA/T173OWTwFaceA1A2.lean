@@ -239,7 +239,7 @@ private theorem disjoint_0_5 :
       ({(5 : Fin TwistTag.E6.tag.rank)} : Set _) := by
   rw [Set.disjoint_left]
   intro i hi hj
-  simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hi hj
+  simp only [Set.mem_singleton_iff] at hi hj
   rcases hi with rfl
   exact absurd hj (by decide)
 
@@ -258,7 +258,7 @@ private theorem cartan_0_135 :
         TwistTag.E6.tag.cartan i j = 0 := by
   intro i hi j hj
   simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hi hj
-  rcases hi with rfl <;> rcases hj with rfl | rfl | rfl <;> decide
+  rcases hi with rfl; rcases hj with rfl | rfl | rfl <;> decide
 
 private theorem cartan_13_0 :
     ∀ i ∈ ({(1 : Fin TwistTag.E6.tag.rank), (3 : Fin TwistTag.E6.tag.rank)} : Set _),
@@ -281,8 +281,8 @@ private theorem cartan_0_5 :
       ∀ j ∈ ({(5 : Fin TwistTag.E6.tag.rank)} : Set _),
         TwistTag.E6.tag.cartan i j = 0 := by
   intro i hi j hj
-  simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hi hj
-  rcases hi with rfl <;> rcases hj with rfl <;> decide
+  simp only [Set.mem_singleton_iff] at hi hj
+  rcases hi with rfl; rcases hj with rfl; decide
 
 private theorem card_le_three_mul_card_inf_centralizer_sl3_A1A2 {F : Type} [Field F] [Finite F]
     {n : ℕ} (hF : Nat.card F = (2 ^ n) ^ 2) (σ : F ≃+* F) (hσ : ∀ c, σ c = c ^ 2 ^ n)
@@ -385,7 +385,7 @@ theorem card_le_pow_three_of_le_levi_sup_diag_A1A2 {F : Type} [Field F] [Finite 
       twistedE6DiagGL F σ)
     (hEel : IsElemAbelian 3 E) : Nat.card E ≤ 3 ^ 3 := by
   have hn : 1 ≤ n := one_le_of_card_sq hF
-  haveI : CharP F 2 := CFSG.SeitzReduction.TwistedE6Pilot.charP_two_of_card hn hF
+  have : CharP F 2 := CFSG.SeitzReduction.TwistedE6Pilot.charP_two_of_card hn hF
   have hrc : ringChar F ≠ 3 := by
     have hrc2 : ringChar F = 2 :=
       CharP.ringChar_of_prime_eq_zero Nat.prime_two (CharP.cast_eq_zero F 2)

@@ -96,7 +96,7 @@ theorem exists_fourFive_model_of_sylowImage_card_one_hundred_twenty_five
   classical
   let H : Subgroup P := fixingSubgroup P s
   let Y := SubMulAction.ofFixingSubgroup P s
-  letI : Fintype Y := Fintype.ofFinite Y
+  let : Fintype Y := Fintype.ofFinite Y
   let τ : S →* Equiv.Perm Y :=
     (MulAction.toPermHom H Y).comp
       (S : Subgroup H).subtype

@@ -26,12 +26,12 @@ theorem det_eq_sq_of_pow_three_eq_smul {c : K} (hc : ∀ d : K, d ^ 3 ≠ c)
     M.det = c ^ 2 := by
   classical
   set a : K[X] := X ^ 3 - C c with ha
-  haveI : Fact (Irreducible a) := ⟨irreducible_X_pow_three_sub_C_of_not_cube hc⟩
+  have : Fact (Irreducible a) := ⟨irreducible_X_pow_three_sub_C_of_not_cube hc⟩
   set x : Module.End K (Fin 6 → K) := Matrix.toLin' M with hx
   have hax : aeval x a = 0 := by
     rw [ha, map_sub, map_pow, aeval_X, aeval_C, hx, ← Matrix.toLin'_pow, hM]
     ext v i
-    simp [Matrix.toLin'_apply, Module.algebraMap_end_apply, Matrix.smul_mulVec]
+    simp [Module.algebraMap_end_apply]
   have htop : primaryComponent x a = ⊤ := by
     rw [eq_top_iff]
     intro v _

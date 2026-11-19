@@ -57,7 +57,7 @@ theorem cent_U (hP : Sec8T84FactP) (hS4 : Sec8T84FactS4)
         (CFSG.ClassicalInvolution.Balance.conj_mem_oddCoreIn (S.Y_le (S.U_le_Y hu))
           ((oddCoreIn (normalizer (E : Set G))).inv_mem haN))
     exact mul_inv_eq_iff_eq_mul.mp ((hkey u hu).mpr h1)
-  · haveI hNn : ((oddCoreIn (normalizer (E : Set G))).subgroupOf Y).Normal := S.ydata.O_norm
+  · have hNn : ((oddCoreIn (normalizer (E : Set G))).subgroupOf Y).Normal := S.ydata.O_norm
     let π : ↥Y →* ↥Y ⧸ (oddCoreIn (normalizer (E : Set G))).subgroupOf Y := QuotientGroup.mk' _
     have hker : ∀ x : ↥Y, π x = 1 ↔ (x : G) ∈ oddCoreIn (normalizer (E : Set G)) :=
       fun x => QuotientGroup.eq_one_iff x

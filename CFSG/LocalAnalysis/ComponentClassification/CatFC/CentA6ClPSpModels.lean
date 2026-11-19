@@ -54,6 +54,7 @@ section Sp
 
 variable {k : Type} [Field k] [Finite k]
 
+omit [Finite k] in
 theorem commutator_statedSp_eq_top {m : ℕ} (hm : 1 ≤ m)
     (h : 4 ≤ Nat.card k ∨ (Nat.card k = 3 ∧ 2 ≤ m)) : commutator (StatedSp m k) = ⊤ := by
   have hq := LieType.Universal.Symplectic.isQuasisimple m k hm (by

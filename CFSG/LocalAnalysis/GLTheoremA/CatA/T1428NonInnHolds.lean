@@ -68,7 +68,7 @@ theorem t1428NonInn_of_d4 {K : Subgroup Ω} {y : Ω} (hK : GLAPComponent 3 ⊤ K
   have hm := CFSG.Models.lieModel_D 4 q hv e
   obtain ⟨⟨-, hf, -⟩, F, _, _, hF, ⟨eG⟩⟩ := hm.statedClassicalModel (by decide)
   rw [hq2] at hF
-  haveI : CharP F 2 :=
+  have : CharP F 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two hf hF
   obtain ⟨eC⟩ := CFSG.HardMathSupport.Lang.Coordinator.D4Bridge.nonempty_statedProj_equiv_adjointGroup F
   let e₂ : PSimple 3 K ≃* ↥(adjointGroup Tag.D4 F) := eG.trans eC

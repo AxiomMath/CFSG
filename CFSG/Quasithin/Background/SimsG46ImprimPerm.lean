@@ -33,7 +33,7 @@ theorem map_sumPerm (hmap : ∀ g ∈ G₀, ∀ i, ∃ j, (W i).map (g : V →�
     (W i).map (g : V →ₗ[F] V) = W (sumPerm W g i) := by
   have h := hmap g hg i
   unfold sumPerm
-  rw [dif_pos h]
+  rw [dite_eq_left h]
   exact h.choose_spec
 
 theorem apply_mem_sumPerm (hmap : ∀ g ∈ G₀, ∀ i, ∃ j, (W i).map (g : V →ₗ[F] V) = W j)
@@ -108,7 +108,7 @@ theorem disjoint_sup_sup_of_ne (hind : iSupIndep W) {p q p' q' : Fin r} (h1 : p 
   simpa [Finset.sup_insert, Finset.sup_singleton] using h
 
 theorem exists_sumPerm_eq (hirr : IsIrredOnV G₀) (hne : ∀ i, W i ≠ ⊥) (hind : iSupIndep W)
-    (htop : (⨆ i, W i) = ⊤) (hmap : ∀ g ∈ G₀, ∀ i, ∃ j, (W i).map (g : V →ₗ[F] V) = W j)
+    (_htop : (⨆ i, W i) = ⊤) (hmap : ∀ g ∈ G₀, ∀ i, ∃ j, (W i).map (g : V →ₗ[F] V) = W j)
     (i j : Fin r) : ∃ g ∈ G₀, sumPerm W g i = j := by
   by_contra hcon
   push Not at hcon
@@ -178,7 +178,7 @@ theorem summands_two_or_four [FiniteDimensional F V] (hdim : Module.finrank F V 
 end Summands
 
 theorem not_connected_of_two_blocks {G₀ : Subgroup (V ≃ₗ[F] V)} {U₀ U₁ : Submodule F V}
-    (hdisj : Disjoint U₀ U₁) (htop : U₀ ⊔ U₁ = ⊤) (hD : (transvSet G₀).Nonempty)
+    (_hdisj : Disjoint U₀ U₁) (htop : U₀ ⊔ U₁ = ⊤) (hD : (transvSet G₀).Nonempty)
     (hpres : ∀ d ∈ transvSet G₀, (∀ x ∈ U₀, d x ∈ U₀) ∧ ∀ x ∈ U₁, d x ∈ U₁)
     (hcent : ∀ d ∈ transvSet G₀, (∀ x ∈ U₀, d x = x) ∨ ∀ x ∈ U₁, d x = x)
     {g : V ≃ₗ[F] V} (hg : g ∈ G₀) (hg₀ : ∀ x ∈ U₀, g x ∈ U₁) (hg₁ : ∀ x ∈ U₁, g x ∈ U₀) :

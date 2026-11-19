@@ -102,7 +102,7 @@ private theorem rckK1Ias_center_bot_triD4
 
 private theorem rckK1Ias_le_of_isPGroup_le_sup {K : Type*} [Group K] [Finite K]
     {H Z P : Subgroup K} [Z.Normal]
-    (hH2 : IsPGroup 2 H) (hZcent : Z ≤ Subgroup.center K) (hZodd : Odd (Nat.card Z))
+    (_hH2 : IsPGroup 2 H) (hZcent : Z ≤ Subgroup.center K) (hZodd : Odd (Nat.card Z))
     (hdisj : H ⊓ Z = ⊥) (hP2 : IsPGroup 2 P) (hP : P ≤ H ⊔ Z) : P ≤ H := by
   classical
   let M : Subgroup K := H ⊔ Z
@@ -134,7 +134,7 @@ private theorem rckK1Ias_le_of_isPGroup_le_sup {K : Type*} [Group K] [Finite K]
   have hindex : (H.subgroupOf M).index = Nat.card Z := by
     rw [Subgroup.index_eq_card_div, hsubcard, hMcard]
     exact Nat.mul_div_right (Nat.card Z) (Nat.card_pos (α := H))
-  haveI : (H.subgroupOf M).Normal := hHnorm
+  have : (H.subgroupOf M).Normal := hHnorm
   intro p hp
   let q : M →* M ⧸ (H.subgroupOf M) := QuotientGroup.mk' (H.subgroupOf M)
   have hP'2 : IsPGroup 2 (P.subgroupOf M) := hP2.comap_subtype
@@ -202,8 +202,6 @@ private theorem rckK1Ias_rootFieldExact_map {K X : Type*} [Group K] [Group X] [F
     obtain ⟨h, hh⟩ := hRF.1 l hl
     refine ⟨ψ h, ?_⟩
     intro t
-    change ψ h * (ε' (Multiplicative.ofAdd t) : X) * (ψ h)⁻¹ =
-      (ε' (Multiplicative.ofAdd (l * t)) : X)
     rw [hε' t, hε' (l * t), ← map_mul, ← map_inv, ← map_mul, hh]
   · intro n hn
     obtain ⟨k, rfl⟩ := hψsurj n
@@ -235,8 +233,6 @@ private theorem rckK1Ias_rootFieldExact_map {K X : Type*} [Group K] [Group X] [F
     obtain ⟨l, hl, hh⟩ := hRF.2 k hk
     refine ⟨l, hl, ?_⟩
     intro t
-    change ψ k * (ε' (Multiplicative.ofAdd t) : X) * (ψ k)⁻¹ =
-      (ε' (Multiplicative.ofAdd (l * t)) : X)
     rw [hε' t, hε' (l * t), ← map_mul, ← map_inv, ← map_mul, hh]
 
 theorem rckRowK1_I_of
@@ -248,14 +244,14 @@ theorem rckRowK1_I_of
     ⟨F, hFfield, hFfinite, σ, g, φ, hTri, hg2, hφsurj, hφker⟩
   ·
     have hZ2 : Subgroup.center ((ggU t n f).K ⧸ Subgroup.center (ggU t n f).K) = ⊥ := by
-      haveI : Group.IsPerfect (ggU t n f).K := ⟨rckK1I_ggU_perfect ht hadm⟩
+      have : Group.IsPerfect (ggU t n f).K := ⟨rckK1I_ggU_perfect ht hadm⟩
       exact Group.IsPerfect.center_quotient_center_eq_bot _
     let ψ : (ggU t n f).K →* Jb ⧸ Subgroup.center Jb :=
       (QuotientGroup.mk' (Subgroup.center Jb)).comp φ
     have hψsurj : Function.Surjective ψ := (QuotientGroup.mk'_surjective _).comp hφsurj
     have hψker : ψ.ker ≤ Subgroup.center (ggU t n f).K :=
       rckK1Ias_ker_comp_mk_le_center φ hφker hZ2
-    haveI hfin : Finite (ggU t n f).K :=
+    have hfin : Finite (ggU t n f).K :=
       CFSG.StandardType.LieKnownR2.OddCenter.finite_ggU ht hadm
     have hZodd : Odd (Nat.card ψ.ker) :=
       (CFSG.StandardType.LieKnownR2.OddCenter.odd_card_center_ggU
@@ -266,9 +262,9 @@ theorem rckRowK1_I_of
     have hcardH : Nat.card ((ggU t n f).D.rootGroup β) = 2 ^ f := by
       rw [← Nat.card_congr ε.toEquiv, Nat.card_congr Multiplicative.toAdd, hcardFq]
     have hH2 : IsPGroup 2 ((ggU t n f).D.rootGroup β) := IsPGroup.of_card hcardH
-    haveI : Fintype Fq := Fintype.ofFinite Fq
-    haveI : CharP Fq 2 := by
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fintype Fq := Fintype.ofFinite Fq
+    have : CharP Fq 2 := by
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       exact charP_of_card_eq_prime_pow (p := 2) (f := f) (by
         rw [← Nat.card_eq_fintype_card]; exact hcardFq)
     have hdisj : (ggU t n f).D.rootGroup β ⊓ ψ.ker = ⊥ := by
@@ -308,7 +304,7 @@ theorem rckRowK1_I_of
           simpa only [x₀, Subgroup.coe_one] using hmem
         have h2 : (1 : Fq) = 0 := by
           have := congrArg Multiplicative.toAdd h1
-          simpa using this
+          simp at this
         exact one_ne_zero h2
       exact rckK1I_lemmaA hIRG hXsimple ⟨ht, hadm⟩ ψ hψsurj hψker hβ hlong hx0 hx01 α (by
         rwa [hε' 1] at hα)
@@ -345,8 +341,8 @@ theorem rckRowK1_I_of
     exact ⟨((ggU t n f).D.rootGroup β).map φ,
       ((ggU t n f).D.rootGroup (-β)).map φ, hpos, by rwa [hmap] at hVbR⟩
   ·
-    haveI : Fintype F := Fintype.ofFinite F
-    haveI hfin : Finite (triD4Universal F σ).K := by
+    have : Fintype F := Fintype.ofFinite F
+    have hfin : Finite (triD4Universal F σ).K := by
       change Finite (CFSG.LieType.Steinberg.TwistedD4.twistedGroup σ)
       infer_instance
     have hZcenter : Subgroup.center (triD4Universal F σ).K = ⊥ :=
@@ -370,9 +366,9 @@ theorem rckRowK1_I_of
     have hcardH : Nat.card ((triD4Universal F σ).D.rootGroup β) = 2 ^ g := by
       rw [← Nat.card_congr ε.toEquiv, Nat.card_congr Multiplicative.toAdd, hcardFq]
     have hH2 : IsPGroup 2 ((triD4Universal F σ).D.rootGroup β) := IsPGroup.of_card hcardH
-    haveI : Fintype Fq := Fintype.ofFinite Fq
-    haveI : CharP Fq 2 := by
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fintype Fq := Fintype.ofFinite Fq
+    have : CharP Fq 2 := by
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       exact charP_of_card_eq_prime_pow (p := 2) (f := g) (by
         rw [← Nat.card_eq_fintype_card]; exact hcardFq)
     have hdisj : (triD4Universal F σ).D.rootGroup β ⊓ ψ.ker = ⊥ := by
@@ -413,7 +409,7 @@ theorem rckRowK1_I_of
           simpa only [x₀, Subgroup.coe_one] using hmem
         have h2 : (1 : Fq) = 0 := by
           have := congrArg Multiplicative.toAdd h1
-          simpa using this
+          simp at this
         exact one_ne_zero h2
       exact rckK1I_lemmaA_triD4 hIRG hXsimple hTri ψ hψsurj hψker hβ hlong hx0 hx01 α (by
         rwa [hε' 1] at hα)

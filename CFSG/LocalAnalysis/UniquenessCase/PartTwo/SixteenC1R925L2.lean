@@ -19,9 +19,9 @@ open CFSG.BenderSuzuki.MatrixGroups (PSL2MatrixGroup)
 theorem two_le_pRank_psl2_three_pow {K : Type} [Group K] [Finite K] {f : ℕ}
     (hK : LieModel K .PSL 2 3 f) : 2 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup K) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hadm, F, hFld, hFin, hFcard, ⟨eK⟩⟩ := hK.statedClassicalModel (by decide)
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hf1 : 1 ≤ f := hadm.2.1
   have hf2 : 2 ≤ f := by
     have hne : 3 ^ f ≠ 3 := fun h => hadm.2.2.2.2 (by rw [h])
@@ -59,9 +59,9 @@ private theorem r925_psl2_torus_align
     {F : Type} [Field F] [Finite F] {p f : ℕ} [Fact p.Prime]
     (hFcard : Nat.card F = p ^ f) (P : Sylow p (PSL2MatrixGroup F))
     {U S U0 S0 : Subgroup (PSL2MatrixGroup F)}
-    (hUcyclic : IsCyclic U)
+    (_hUcyclic : IsCyclic U)
     (hUcard : Nat.card U = (Nat.card F - 1) / Nat.gcd (Nat.card F - 1) 2)
-    (hScyclic : IsCyclic S)
+    (_hScyclic : IsCyclic S)
     (hScard : Nat.card S = (Nat.card F + 1) / Nat.gcd (Nat.card F - 1) 2)
     (hpartition : ∀ x : PSL2MatrixGroup F, x ≠ 1 →
       ∃! T : Subgroup (PSL2MatrixGroup F), x ∈ T ∧
@@ -170,7 +170,7 @@ private theorem r925_reflection_transport {G : Type*} [Group G]
         2 * Nat.card (T.map e.toMonoidHom) ∧
       ∀ R : Subgroup G, R ≤ T.map e.toMonoidHom → R ≠ ⊥ →
         Subgroup.normalizer (R : Set G) = T.map e.toMonoidHom ⊔ Subgroup.zpowers (e w) := by
-  haveI : IsCyclic T := hcyc
+  have : IsCyclic T := hcyc
   refine ⟨isCyclic_of_surjective _ (e.toMonoidHom.subgroupMap_surjective T), ?_, ?_⟩
   · have hmap : (T.map e.toMonoidHom ⊔ Subgroup.zpowers (e w) : Subgroup G) =
         (T ⊔ Subgroup.zpowers w).map e.toMonoidHom := by
@@ -219,9 +219,9 @@ theorem r925_psl2_normalizer_three {F : Type} [Field F] [Finite F]
       (Nat.card T * Nat.gcd (p ^ f - 1) 2 = p ^ f - 1 ∨
         Nat.card T * Nat.gcd (p ^ f - 1) 2 = p ^ f + 1) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hDcyc : IsCyclic D := isCyclic_of_prime_card (p := 3) hD
-  haveI : IsCyclic D := hDcyc
+  have : IsCyclic D := hDcyc
   obtain ⟨gD, hgD⟩ := IsCyclic.exists_generator (α := D)
   let x : PSL2MatrixGroup F := gD
   have hxorder : orderOf x = 3 := by
@@ -279,7 +279,7 @@ theorem r925_psl2_normalizer_three {F : Type} [Field F] [Finite F]
       rw [hxD]; exact Subgroup.zpowers_le.mpr hxT
     refine ⟨U0.map ((MulAut.conj gU).symm.trans (MulAut.conj g)).toMonoidHom, hTcyc, hDle,
       ?_, ?_, Or.inl ?_⟩
-    · haveI : IsCyclic (U0.map ((MulAut.conj gU).symm.trans (MulAut.conj g)).toMonoidHom) :=
+    · have : IsCyclic (U0.map ((MulAut.conj gU).symm.trans (MulAut.conj g)).toMonoidHom) :=
         hTcyc
       have hcent : U0.map ((MulAut.conj gU).symm.trans (MulAut.conj g)).toMonoidHom ≤
           Subgroup.centralizer (D : Set (PSL2MatrixGroup F)) := by
@@ -312,7 +312,7 @@ theorem r925_psl2_normalizer_three {F : Type} [Field F] [Finite F]
       rw [hxD]; exact Subgroup.zpowers_le.mpr hxT
     refine ⟨S0.map ((MulAut.conj gS).symm.trans (MulAut.conj g)).toMonoidHom, hTcyc, hDle,
       ?_, ?_, Or.inr ?_⟩
-    · haveI : IsCyclic (S0.map ((MulAut.conj gS).symm.trans (MulAut.conj g)).toMonoidHom) :=
+    · have : IsCyclic (S0.map ((MulAut.conj gS).symm.trans (MulAut.conj g)).toMonoidHom) :=
         hTcyc
       have hcent : S0.map ((MulAut.conj gS).symm.trans (MulAut.conj g)).toMonoidHom ≤
           Subgroup.centralizer (D : Set (PSL2MatrixGroup F)) := by
@@ -340,7 +340,7 @@ private theorem r925A5c_pow_three : r925A5c ^ 3 = 1 := by decide +kernel
 private theorem r925A5c_ne_one : r925A5c ≠ 1 := by decide +kernel
 
 private theorem r925A5c_orderOf : orderOf r925A5c = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact orderOf_eq_prime r925A5c_pow_three r925A5c_ne_one
 
 private theorem r925A5c_card : Nat.card (Subgroup.zpowers r925A5c) = 3 := by
@@ -457,10 +457,10 @@ theorem oddIdxProp_psl2 {K : Type} [Group K] [Finite K] {p f : ℕ}
     (hp : p ≠ 3) (hK : LieModel K .PSL 2 p f) : OddIdxProp K := by
   classical
   intro N Y D hNtop hNodd hDcard hDY hYN hnormD hYperf _hNcat
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hadm, F, hFld, hFin, hFcard, ⟨eK⟩⟩ := hK.statedClassicalModel (by decide)
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fact (Nat.Prime p) := ⟨hadm.1⟩
+  have : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime p) := ⟨hadm.1⟩
   have hf1 : 1 ≤ f := hadm.2.1
   let φ : K ≃* PSL2MatrixGroup F := eK.trans (CFSG.GH74.GLS.IVK.L2.equivPSL F)
   set N₁ : Subgroup (PSL2MatrixGroup F) := N.map φ.toMonoidHom
@@ -494,13 +494,13 @@ theorem oddIdxProp_psl2 {K : Type} [Group K] [Finite K] {p f : ℕ}
     have hbot : D' = ⊥ := le_bot_iff.mp (h ▸ hD'Y)
     rw [hbot, Subgroup.card_bot] at hD'card
     omega
-  haveI : Nontrivial ↥Y₁ := (Subgroup.nontrivial_iff_ne_bot Y₁).mpr hY₁ne
-  haveI : Group.IsPerfect ↥Y₁ := Group.isPerfect_def.mpr hY₁perf.1
+  have : Nontrivial ↥Y₁ := (Subgroup.nontrivial_iff_ne_bot Y₁).mpr hY₁ne
+  have : Group.IsPerfect ↥Y₁ := Group.isPerfect_def.mpr hY₁perf.1
   have hY₁nsolv : ¬ Group.IsSolvable ↥Y₁ := Group.IsPerfect.not_isSolvable ↥Y₁
   have hN₁nsolv : ¬ Group.IsSolvable ↥N₁ := by
     intro hsol
-    haveI : Group.IsSolvable ↥N₁ := hsol
-    haveI : Group.IsSolvable ↥(Y₁.subgroupOf N₁) := inferInstance
+    have : Group.IsSolvable ↥N₁ := hsol
+    have : Group.IsSolvable ↥(Y₁.subgroupOf N₁) := inferInstance
     exact hY₁nsolv (Group.isSolvable_of_surjective
       (f := (Subgroup.subgroupOfEquivOfLe hY₁N₁).toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hY₁N₁).surjective)

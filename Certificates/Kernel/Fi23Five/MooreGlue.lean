@@ -196,10 +196,10 @@ theorem moore_ok : fi23FiveMooreOK (orbitData ()) = true := by
     unfold CFSG.Sporadic.SchreierLemmas.mooreOfChain mooreWord
     by_cases hj : j = 1
     · subst hj
-      simp only [beq_self_eq_true, if_true, List.map_cons, List.map_nil, List.prod_cons,
+      simp only [beq_self_eq_true, ite_true, List.map_cons, List.map_nil, List.prod_cons,
         List.prod_nil, mul_one]
     · have hb : (j == 1) = false := beq_false_of_ne hj
-      simp only [hb, hj, Bool.false_eq_true, if_false, List.map_cons, List.map_nil,
+      simp only [hb, hj, Bool.false_eq_true, ite_false, List.map_cons, List.map_nil,
         List.prod_cons, List.prod_nil, mul_one]
   have hfixO : fixList (eTab orb) = lE := by rw [horb]; exact fix_e_lit
   have hsE : ∀ i < 6, s i * E = E * s i := fun i hi =>
@@ -215,7 +215,7 @@ theorem moore_ok : fi23FiveMooreOK (orbitData ()) = true := by
   have hm1 : m 1 ≠ 1 := by
     rw [hmj 1]
     unfold CFSG.Sporadic.SchreierLemmas.mooreOfChain
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     exact hm1'
   have rel : ∀ {T : Table} {g : CFSG.Sporadic.Fi23.J}, CFSG.Sporadic.Th.Rep 31671 T g → g = 1 →
       eqTab T (idT 31671) = true := fun hT hg =>

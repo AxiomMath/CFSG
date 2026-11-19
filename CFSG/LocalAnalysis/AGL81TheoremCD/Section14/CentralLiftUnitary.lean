@@ -135,7 +135,7 @@ private theorem exists_unitarySU_mulEquiv
     {Q : TauCeti.PrimePower} (hd : d.1 = .twistedA 2 Q) (hQq : Q.p = q) (h3 : 3 ∣ Q.card + 1)
     (e : ↥K ⧸ Subgroup.center ↥K ≃* (TauCeti.CFSGIndex.lie d).Group)
     (hZ : Nat.card (Subgroup.center ↥K) = 3) :
-    ∃ (F : Type) (_ : Field F) (hU : UnitaryFieldData q d.1.fieldExponent F),
+    ∃ (F : Type) (_ : Field F) (_hU : UnitaryFieldData q d.1.fieldExponent F),
       2 < q ^ d.1.fieldExponent ∧ 3 ∣ q ^ d.1.fieldExponent + 1 ∧
         Nonempty (unitarySU q d.1.fieldExponent F 3 ≃* ↥K) := by
   have hfe : d.1.fieldExponent = Q.exponent := by
@@ -150,15 +150,15 @@ private theorem exists_unitarySU_mulEquiv
   have hq3 : 2 < q ^ d.1.fieldExponent := by rw [hQcard]; omega
   have hdU : IsUnitaryIndex q d := ⟨Q, hQq, hd⟩
   obtain ⟨-, F, _, _, hFcard, ⟨e'⟩⟩ := UnitaryModel.statedClassicalModel hdU ⟨e⟩
-  have hU : UnitaryFieldData q d.1.fieldExponent F :=
+  have _hU : UnitaryFieldData q d.1.fieldExponent F :=
     ⟨hq, by rw [hfe]; exact Q.exponent_pos, by rw [hFcard, ← pow_mul, mul_comm]⟩
   have hcenne : Subgroup.center ↥K ≠ ⊥ := by
     intro hbot
     rw [hbot, Subgroup.card_bot] at hZ
     omega
-  refine ⟨F, inferInstance, hU, hq3, by rw [hQcard]; exact h3, ?_⟩
-  exact CFSG.LocalAnalysis.RankThreeTheoremC.SL3LiftUnitary.exists_mulEquiv_unitarySU_three hU hq3
-    (Group.isPerfect_def.mp hK.1) (e'.trans (unitaryPSUEquiv hU (by norm_num)).symm) hcenne
+  refine ⟨F, inferInstance, _hU, hq3, by rw [hQcard]; exact h3, ?_⟩
+  exact CFSG.LocalAnalysis.RankThreeTheoremC.SL3LiftUnitary.exists_mulEquiv_unitarySU_three _hU hq3
+    (Group.isPerfect_def.mp hK.1) (e'.trans (unitaryPSUEquiv _hU (by norm_num)).symm) hcenne
 
 section Certificates
 
@@ -176,7 +176,7 @@ theorem not_le_of_unitary {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2)
     ¬ ((K ⊓ Subgroup.centralizer ({b} : Set X)).subgroupOf K).map
         (QuotientGroup.mk' (Subgroup.center ↥K)) ≤ H := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   intro hle
   obtain ⟨S, hSH⟩ := hS
   have hdU : IsUnitaryIndex q d := ⟨Q, hQq, hd⟩

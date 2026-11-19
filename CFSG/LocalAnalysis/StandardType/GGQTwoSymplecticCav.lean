@@ -29,20 +29,19 @@ theorem exists_symplectic_marking
     (hmark : GGInnerDiagOnLabel (fun _ lab2 => lab2 = lab) p Bs L) :
     ∃ (K : Type) (_ : Field K) (_ : Finite K),
       Nat.card K = 2 ∧
-        ∃ (θ : L ⧸ Subgroup.center L ≃*
+        ∃ (_θ : L ⧸ Subgroup.center L ≃*
             CFSG.Open.StatedProj (CFSG.Open.StatedSp lab.rank K)), True := by
   obtain ⟨hL, lab', hlab', hraw⟩ := hmark
-  obtain ⟨R, hGroup, I, F, _hs, _hna, θ, hP⟩ := largeEvenRawDatum_exists hraw
+  obtain ⟨R, hGroup, I, F, _hs, _hna, _θ, hP⟩ := largeEvenRawDatum_exists hraw
   have hlab : lab' = lab := hP.1
   subst lab'
   rcases htag with hB | hC
   · try rw [LargeEvenRawDatumLegacy] at hraw
-    try rw [LargeEvenRawDatum] at hraw
     rw [hB] at hraw
     dsimp at hraw
     obtain ⟨K, hField, hFinite, hcard, hQ⟩ := hraw
-    letI : Field K := hField
-    letI : Finite K := hFinite
+    let : Field K := hField
+    let : Finite K := hFinite
     obtain ⟨_, _, θ', _⟩ := hQ
     have hn : lab.n = 1 := by
       have h1 : 1 ≤ lab.n := hlab'.1
@@ -51,12 +50,11 @@ theorem exists_symplectic_marking
     refine ⟨K, hField, hFinite, ?_, θ', trivial⟩
     simpa [hn] using hcard
   · try rw [LargeEvenRawDatumLegacy] at hraw
-    try rw [LargeEvenRawDatum] at hraw
     rw [hC] at hraw
     dsimp at hraw
     obtain ⟨K, hField, hFinite, hcard, hQ⟩ := hraw
-    letI : Field K := hField
-    letI : Finite K := hFinite
+    let : Field K := hField
+    let : Finite K := hFinite
     obtain ⟨_, _, θ', _⟩ := hQ
     have hn : lab.n = 1 := by
       have h1 : 1 ≤ lab.n := hlab'.1
@@ -109,8 +107,8 @@ theorem exists_symplectic_planeFrame
   obtain ⟨K, hField, hFinite, hK, θ, -⟩ := exists_symplectic_marking hq2 htag hmark
   have hr : 3 ≤ lab.rank :=
     CFSG.StandardType.QTwoCav.three_le_exponent_of_beta_index hS Nat.prime_three θ hN hidx
-  letI : Field K := hField
-  letI : Finite K := hFinite
+  let : Field K := hField
+  let : Finite K := hFinite
   let R := CFSG.Open.StatedProj (CFSG.Open.StatedSp lab.rank K)
   let eProj := symplecticProjEquivOfCardTwo hK lab.rank
   have hZ : Subgroup.center R = ⊥ :=
@@ -157,7 +155,7 @@ theorem exists_symplectic_planeFrame
   have hcardE : Nat.card E = 3 ^ lab.rank := by
     rw [Subgroup.card_map_of_injective eProj.injective, hcardEproj]
   have hchar : CharP K 2 := charP_two_of_card (K := K) (m := 1) (by simpa using hK)
-  letI : CharP K 2 := hchar
+  let : CharP K 2 := hchar
   obtain ⟨A₀, M, k, hdet, hM, hk⟩ :=
     CFSG.LocalAnalysis.GLTheoremA.S265.SG.exists_planeFrame_three (by omega) E hEcE hE3E
   have hrel : ∀ y ∈ (ggBeta L θ hN).range,
@@ -207,8 +205,8 @@ theorem exists_symplectic_fullTorus
           (ggBeta L θ hN).range := by
   obtain ⟨K, hField, hFinite, hK, θ, E, A₀, M, k, hcardE, hdet, hM, hk, hrel, hE3, hmapE⟩ :=
     exists_symplectic_planeFrame hS hq2 htag hmark hidx hN
-  letI : Field K := hField
-  letI : Finite K := hFinite
+  let : Field K := hField
+  let : Finite K := hFinite
   have hker : ∀ g : ↥E, (∀ j, k j g = 1) → g = 1 := by
     intro g hg
     have hmat : CFSG.LieType.Universal.Symplectic.SpExtras.mat lab.rank K
@@ -292,8 +290,8 @@ theorem exists_symplectic_beta_d_component
           (ggBeta L θ hN).range := by
   obtain ⟨K, hField, hFinite, hK, θ, E, A₀, M, k, hcardE, hdet, hM, hk, hE3, hrel,
     hker, hsurj, hmapE⟩ := exists_symplectic_fullTorus hS hq2 htag hmark hidx hN
-  letI : Field K := hField
-  letI : Finite K := hFinite
+  let : Field K := hField
+  let : Finite K := hFinite
   obtain ⟨d, hd1, hdgen, hdiInf⟩ :=
     QTwoCav.exists_beta_d_generator (p := 3) Nat.prime_three hS hN (θ := θ)
   have hJ : CFSG.Assembly.IsComponentOf J (L ⊓ Subgroup.centralizer (D : Set G)) :=

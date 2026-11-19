@@ -58,7 +58,7 @@ theorem refl_mem {Ω : Set (Subgroup Y)} (hΩ : HypOmegaGen Ω) {W : Subgroup Y}
             _ = (r * b * r⁻¹ * b⁻¹) * (r * a * r⁻¹ * a⁻¹) := by group
         rw [e]
         exact (Rm ⊓ W).mul_mem hb ha
-      one_mem' := ⟨W.one_mem, by simpa using (Rm ⊓ W).one_mem⟩
+      one_mem' := ⟨W.one_mem, by simp⟩
       inv_mem' := by
         rintro a ⟨haW, ha⟩
         refine ⟨W.inv_mem haW, ?_⟩

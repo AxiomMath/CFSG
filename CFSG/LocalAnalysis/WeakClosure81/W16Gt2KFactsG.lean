@@ -104,7 +104,7 @@ private theorem card_le_two_of_isElemAbelian_autA6
     (hEN : E ⊓ CFSG.QuasithinUnique.A6Models.psl29.subgroupOf
       CFSG.QuasithinUnique.A6Models.autA6 = ⊥) : Nat.card E ≤ 2 := by
   set N : Subgroup ↥A6Models.autA6 := A6Models.psl29.subgroupOf A6Models.autA6 with hN
-  haveI hNn : N.Normal := ⟨fun n hn g => by
+  have hNn : N.Normal := ⟨fun n hn g => by
     rw [hN, Subgroup.mem_subgroupOf] at hn ⊢
     simpa using psl29_normal (g : P10) g.2 (n : P10) hn⟩
   have hcardN : Nat.card N = 360 := by

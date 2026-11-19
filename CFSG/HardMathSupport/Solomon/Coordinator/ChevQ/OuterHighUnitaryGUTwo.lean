@@ -119,6 +119,7 @@ local notation "σ₀" => unitaryInvolution K ℓ f
 
 variable (h : UnitaryFieldData ℓ f K)
 
+omit [Fact (Nat.Prime ℓ)] [CharP K ℓ] [Finite K] in
 theorem smul_orthoEmb_pair_gu {s : primeFormUnitary h (idGram K n)} {e₁ e₂ : Fin n → K}
     {l₁ l₂ : K} (h₁ : s • e₁ = l₁ • e₁) (h₂ : s • e₂ = l₂ • e₂) (c : Fin 2 → K) :
     s • orthoEmb ![e₁, e₂] c = orthoEmb ![e₁, e₂] ![l₁ * c 0, l₂ * c 1] := by
@@ -126,6 +127,7 @@ theorem smul_orthoEmb_pair_gu {s : primeFormUnitary h (idGram K n)} {e₁ e₂ :
     smul_smul, smul_smul]
   simp [mul_comm]
 
+omit [Finite K] [Fact (Nat.Prime ℓ)] [CharP K ℓ] in
 theorem inv_smul_of_eigen_gu {s : primeFormUnitary h (idGram K n)} {e : Fin n → K} {l : K}
     (hl : l ≠ 0) (h₁ : s • e = l • e) : s⁻¹ • e = l⁻¹ • e := by
   rw [inv_smul_eq_iff, smul_comm, h₁, smul_smul, inv_mul_cancel₀ hl, one_smul]
@@ -154,7 +156,7 @@ theorem allCenters_plane_gu (hp : p.Prime) (hp2 : p ≠ 2)
   have hσ : IsUnitaryInvolution σ₀ := Nonsplit.isUnitaryInvolution h
   have hσi := hσ.invol
   have hσb : ∀ c, σ₀ c = h.bar c := Nonsplit.unitaryInvolution_eq_bar h
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   set Bm : Matrix (Fin n) (Fin n) K := ((B : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) with hBm
   have he₁0 : e₁ ≠ 0 := by
     rintro rfl
@@ -342,7 +344,7 @@ theorem hyperGen_of_nonab_two_gu (hp : p.Prime) (hp2 : p ≠ 2)
   have hσi := hσ.invol
   have hσb : ∀ c, σ₀ c = h.bar c := Nonsplit.unitaryInvolution_eq_bar h
   have hpK : (p : K) ≠ 0 := heis_natCast_ne_zero hζ hp.two_le
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hq4 : 4 ≤ ℓ ^ f :=
     four_le_of_dvd_succ hp hp2 (pow_ne_zero _ (Fact.out : ℓ.Prime).ne_zero) hpq hq2
   have hrs : ∀ c : K, ((r : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) ≠ c • 1 :=
@@ -466,16 +468,16 @@ theorem hyperGen_of_nonab_two_gu (hp : p.Prime) (hp2 : p ≠ 2)
     · by_cases hll : l = l'
       · subst hll
         simp [he_def, ha]
-      · rw [if_neg (by simpa using hll)]
+      · rw [ite_eq_right (by simpa using hll)]
         exact hJorth (l, c₁) (l', c₁) (fun h0 => hll (congrArg Prod.fst h0)) _ (haJ l) _ (haJ l')
-    · rw [if_neg (by simp)]
+    · rw [ite_eq_right (by simp)]
       exact hJorth (l, c₁) (l', c₂) (fun h0 => hc12 (congrArg Prod.snd h0)) _ (haJ l) _ (hbJ l')
-    · rw [if_neg (by simp)]
+    · rw [ite_eq_right (by simp)]
       exact hJorth (l, c₂) (l', c₁) (fun h0 => hc21 (congrArg Prod.snd h0)) _ (hbJ l) _ (haJ l')
     · by_cases hll : l = l'
       · subst hll
         simp [he_def, hb]
-      · rw [if_neg (by simpa using hll)]
+      · rw [ite_eq_right (by simpa using hll)]
         exact hJorth (l, c₂) (l', c₂) (fun h0 => hll (congrArg Prod.fst h0)) _ (hbJ l) _ (hbJ l')
   have hcz : ((c₁ : ℕ) : ZMod p) - ((c₂ : ℕ) : ZMod p) ≠ 0 := by
     intro h0
@@ -578,6 +580,7 @@ local notation "σ₀" => unitaryInvolution K ℓ f
 
 variable (h : UnitaryFieldData ℓ f K)
 
+omit [Fact ℓ.Prime] [CharP K ℓ] [Finite K] in
 theorem mulVec_X_eig_gu [NeZero p] {X B : primeFormUnitary h (idGram K n)} {ζ : K}
     (hζ : IsPrimitiveRoot ζ p)
     (hBX : ((B : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) *
@@ -593,6 +596,7 @@ theorem mulVec_X_eig_gu [NeZero p] {X B : primeFormUnitary h (idGram K n)} {ζ :
   congr 1
   ring
 
+omit [Fact ℓ.Prime] [CharP K ℓ] [Finite K] in
 theorem mulVec_Xinv_eig_gu [NeZero p] {X B : primeFormUnitary h (idGram K n)} {ζ : K}
     (hζ : IsPrimitiveRoot ζ p) (hp : 2 ≤ p)
     (hBX : ((B : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) *
@@ -623,6 +627,7 @@ theorem mulVec_Xinv_eig_gu [NeZero p] {X B : primeFormUnitary h (idGram K n)} {�
   rw [h4]
   field_simp
 
+omit [Finite K] [Fact ℓ.Prime] [CharP K ℓ] in
 theorem indep_three_gu {r : primeFormUnitary h (idGram K n)} (hp : p.Prime) (hp3 : 3 ≤ p) {α : K}
     (hrp : ((r : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) ^ p = α • 1)
     (hα : ¬ ∃ c : K, c ^ p = α) {w : Fin n → K} (hw : w ≠ 0) (x y z : K)
@@ -654,7 +659,7 @@ theorem indep_three_gu {r : primeFormUnitary h (idGram K n)} (hp : p.Prime) (hp3
   have hci : ∀ i : Fin 3, c i = 0 := by
     intro i
     have := congrArg (fun r : Polynomial K => r.coeff (i : ℕ)) hq
-    simpa [Polynomial.finset_sum_coeff, Polynomial.coeff_C_mul_X_pow, Fin.val_inj] using this
+    simpa [Polynomial.finsetSum_coeff, Polynomial.coeff_C_mul_X_pow, Fin.val_inj] using this
   exact ⟨hci 0, hci 1, hci 2⟩
 
 end Shift
@@ -1393,7 +1398,7 @@ theorem hyperGen_of_nonab_pow_gu (hp : p.Prime) (hp2 : p ≠ 2)
     (hα : ¬ ∃ c : K, c ^ p = α) : H = ⊤ := by
   classical
   have hfp : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hσ : IsUnitaryInvolution σ₀ := Nonsplit.isUnitaryInvolution h
   have hσb : ∀ c, σ₀ c = h.bar c := Nonsplit.unitaryInvolution_eq_bar h
   have hp3 : 3 ≤ p := by have := hp.two_le; omega
@@ -1713,6 +1718,7 @@ theorem toPnSU_surjective (n : ℕ) : Function.Surjective (toPnSU h n) := by
   exact ⟨⟨g.1, le_of_eq ((suid_unitaryInvolution_eq h n).trans
     (unitarySU_eq_gramSU h n)).symm g.2⟩, rfl⟩
 
+omit [Finite K] [Fact (Nat.Prime ℓ)] [CharP K ℓ] in
 theorem primeFormConjHom_eq_one_of_scalar {A : primeFormUnitary h (idGram K n)} {c : K}
     (hA : ((A : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) = c • 1) :
     primeFormConjHom h (idGram K n) A = 1 := by
@@ -1732,9 +1738,9 @@ theorem hyperLift_seitzHyperGamma (hp : p.Prime)
     (hcard : Nat.card E = p ^ 3) :
     HyperLift h (primeFormConjHom h (idGram K n)) E ((seitzHyperGamma p E).comap (toPnSU h n)) := by
   classical
-  haveI : Finite (primeFormP h (idGram K n)) :=
+  have : Finite (primeFormP h (idGram K n)) :=
     Finite.of_surjective (toPnSU h n) (toPnSU_surjective h n)
-  haveI : Finite (MulAut (primeFormP h (idGram K n))) := MulEquiv.finite_left
+  have : Finite (MulAut (primeFormP h (idGram K n))) := MulEquiv.finite_left
   intro g a b haE hbE ha1 hb hga hgb
   set κ := primeFormConjHom h (idGram K n) with hκ
   have hfix : ∀ A : primeFormUnitary h (idGram K n),
@@ -1790,12 +1796,12 @@ theorem seitzHyperGamma_eq_top_of_le_primeFormD (h : UnitaryFieldData ℓ f K) (
     (hcard : Nat.card E = p ^ 3) (hD : E ≤ primeFormD h (idGram K n)) :
     seitzHyperGamma p E = ⊤ := by
   classical
-  haveI : Finite K := h.finite
-  haveI : Fact ℓ.Prime := ⟨h.prime⟩
-  haveI : CharP K ℓ := h.charP
-  haveI : Finite (primeFormP h (idGram K n)) :=
+  have : Finite K := h.finite
+  have : Fact ℓ.Prime := ⟨h.prime⟩
+  have : CharP K ℓ := h.charP
+  have : Finite (primeFormP h (idGram K n)) :=
     Finite.of_surjective (toPnSU h n) (toPnSU_surjective h n)
-  haveI : Finite (MulAut (primeFormP h (idGram K n))) := MulEquiv.finite_left
+  have : Finite (MulAut (primeFormP h (idGram K n))) := MulEquiv.finite_left
   have hq4 : 4 ≤ ℓ ^ f :=
     four_le_of_dvd_succ hp hp2 (pow_ne_zero _ h.prime.ne_zero) hpq hq2
   have hker : ∀ g ∈ (primeFormConjHom h (idGram K n)).ker, ∃ c : K,

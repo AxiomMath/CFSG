@@ -33,7 +33,7 @@ theorem s16jp_cover_twistTensor
         fun ρ hρ => by
           have := tO hK' (by omega) hρ
           omega
-  haveI : Subsingleton ↥Z := Finite.card_le_one_iff_subsingleton.mp hcard
+  have : Subsingleton ↥Z := Finite.card_le_one_iff_subsingleton.mp hcard
   exact Z.eq_bot_of_subsingleton
 
 theorem s16jp_row_O4
@@ -46,20 +46,20 @@ theorem s16jp_row_O4
     s16jp_natOmegaMinus_binaryOrthogonalFour hm hNat
   obtain ⟨-, K, hKf, hKfin, b, c, hKcard, hirr, hReal⟩ := hNat
   rw [show 4 / 2 = 2 by norm_num] at hReal
-  letI : Field K := hKf
-  letI : Finite K := hKfin
-  letI : CharP K 2 :=
+  let : Field K := hKf
+  let : Finite K := hKfin
+  let : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two (by omega) hKcard
   obtain ⟨π, hπ⟩ := hReal
-  letI : Group.IsPerfect
+  let : Group.IsPerfect
       (FFModel.nat (StatedOmega (StatedQuadMinus 2 K b c))).Gam :=
     CFSG.RankThree.GF2n.Smith81.Smith23E1.kfs_perfect_minus hirr
   have hperf : Group.IsPerfect ↥L := Group.IsPerfect.ofSurjective (f := π) hπ.1
   obtain ⟨F, hFf, hFfin, hFch, hFcard, hR⟩ := hBO4
-  letI : Field F := hFf
-  letI : Finite F := hFfin
-  letI : CharP F 2 := hFch
+  let : Field F := hFf
+  let : Finite F := hFfin
+  let : CharP F 2 := hFch
   have hU : ∀ l ∈ L, ∀ u ∈ commSub ⊤ L, l u ∈ commSub ⊤ L :=
     s16jp_commSub_stable (Y := ⊤) fun l _ y _ => Subgroup.mem_top (l y)
   have hc : commSub (commSub ⊤ L) L = commSub ⊤ L :=

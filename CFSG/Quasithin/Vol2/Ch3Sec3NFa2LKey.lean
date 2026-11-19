@@ -291,7 +291,7 @@ theorem key_of_rep
       have hw : w ∈ S := by rw [h]; trivial
       obtain ⟨a₀, ha₀, b₀, hb₀, hab⟩ := Submodule.mem_sup.mp hw
       exact ⟨a₀, b₀, nfa2_mem_fix.mp ha₀, nfa2_mem_fix.mp hb₀, hab.symm⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let abar : ↥K ⧸ CFSG.pCore 2 ↥K := ((⟨a, hd.aK⟩ : ↥K) : ↥K ⧸ CFSG.pCore 2 ↥K)
   have hab1 : abar ≠ 1 := by
     intro h1

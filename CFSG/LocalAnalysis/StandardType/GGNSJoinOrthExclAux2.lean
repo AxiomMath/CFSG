@@ -20,7 +20,7 @@ open TauCeti
 attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
 def nsOrth_reflSet {G : Type} [Group G] [Finite G] (B Bs : Subgroup G) (x : G)
-    (L D J : Subgroup G) (𝒦 : Finset (Subgroup G)) : Set (MulAut ↥Bs) :=
+    (L D J : Subgroup G) (_𝒦 : Finset (Subgroup G)) : Set (MulAut ↥Bs) :=
   {a | a ∈ ggAInf 3 B Bs x L D J ∧ GGIsReflection 3 a ∧ GGRealized 3 Bs a}
 
 def nsOrth_reflClosure {G : Type} [Group G] [Finite G] (B Bs : Subgroup G) (x : G)
@@ -89,7 +89,7 @@ theorem nsOrth_autK_le_closure {T : ∀ {ι : Type}, CoxeterMatrix ι → Prop}
   exact Subgroup.subset_closure ⟨nsOrth_le_ainf_nbr hnbr haK, haRe, haReal⟩
 
 theorem nsOrth_ainf_generated
-    {T : ∀ {ι : Type}, CoxeterMatrix ι → Prop} (hL : GGLBalanceInput) (hP : GGStdSubPrimeInput)
+    {T : ∀ {ι : Type}, CoxeterMatrix ι → Prop} (_hL : GGLBalanceInput) (_hP : GGStdSubPrimeInput)
     (hBase : NSBaseFrameInputOf T) (hRootGenL : NSRootGenLInputOf T) (hRQ : NSRealNbrInputOf T)
     (hNbrQ4 : NSNbrQFourInputOf T) (hPumpNbr : NSPumpNbrInputOf T)
     {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {x : G} {L D J : Subgroup G}
@@ -106,7 +106,7 @@ theorem nsOrth_both_classes
     (hNbrQ4 : NSNbrQFourInputOf T) (hPumpNbr : NSPumpNbrInputOf T)
     {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {x : G} {L D J : Subgroup G}
     {𝒦 : Finset (Subgroup G)} (hcfg : NSRegularCfgOf T 3 B Bs x L D J 𝒦)
-    (hC : ∀ b : ↥Bs, (∀ φ ∈ ggAInf 3 B Bs x L D J, φ b = b) → b = 1)
+    (_hC : ∀ b : ↥Bs, (∀ φ ∈ ggAInf 3 B Bs x L D J, φ b = b) → b = 1)
     {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [Finite V] (Q : QuadraticForm (ZMod 3) V)
     (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) (ι : Additive ↥Bs ≃+ V)
     (hdim : Module.finrank (ZMod 3) V = 4 ∨ Module.finrank (ZMod 3) V = 5)
@@ -117,11 +117,11 @@ theorem nsOrth_both_classes
         GGIsReflection 3 a ∧ GGIsReflection 3 b ∧ GGRealized 3 Bs a ∧ GGRealized 3 Bs b ∧
         OrthReflOfNorm Q c (ggLin (p := 3) ι a) ∧
         OrthReflOfNorm Q (-c) (ggLin (p := 3) ι b) := by
-  haveI : FiniteDimensional (ZMod 3) V := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 3) V := Module.Finite.of_finite
   have hd2 : 2 ≤ Module.finrank (ZMod 3) V := by rcases hdim with h | h <;> omega
   obtain ⟨ιL, instL, ML, hML, hWeylL, -, hrank⟩ := hBase G 3 B Bs x L D J 𝒦 hcfg
-  letI := instL
-  haveI : Nonempty ιL := Fintype.card_pos_iff.mp (by omega)
+  let := instL
+  have : Nonempty ιL := Fintype.card_pos_iff.mp (by omega)
   let i₀ : ιL := Classical.arbitrary ιL
   obtain ⟨eL, heL⟩ := hWeylL
   let a₀ : MulAut ↥Bs := ((eL (ML.simple i₀) : ↥(ggAutomizer L Bs)) : MulAut ↥Bs)
@@ -189,7 +189,7 @@ theorem nsOrth_conj_to_fix
     (hwQ : Q w = c) (hc : c ≠ 0) :
     ∃ a' : MulAut ↥Bs, a' ∈ ggAInf 3 B Bs x L D J ∧ GGIsReflection 3 a' ∧
       GGRealized 3 Bs a' ∧ x ∈ ggFixG Bs a' ∧ OrthReflOfNorm Q c (ggLin (p := 3) ι a') := by
-  letI : Invertible (Q w) := invertibleOfNonzero (by rw [hwQ]; exact hc)
+  let : Invertible (Q w) := invertibleOfNonzero (by rw [hwQ]; exact hc)
   let s : V ≃ₗ[ZMod 3] V :=
     (QuadraticMap.reflectionOrthogonal Q w : QuadraticMap.orthogonalGroup Q)
   have hsON : OrthReflOfNorm Q c s := ⟨w, inferInstance, hwQ, rfl⟩
@@ -236,7 +236,7 @@ theorem nsOrth_fixed_refl_classes
         x ∈ ggFixG Bs a ∧ x ∈ ggFixG Bs b ∧
         OrthReflOfNorm Q c (ggLin (p := 3) ι a) ∧
         OrthReflOfNorm Q (-c) (ggLin (p := 3) ι b) := by
-  haveI : FiniteDimensional (ZMod 3) V := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 3) V := Module.Finite.of_finite
   have hxBs : x ∈ Bs := hcfg.1.1.1.tableB_facts.2.2.1
   have hd2 : 2 ≤ Module.finrank (ZMod 3) V := by rcases hdim with h | h <;> omega
   obtain ⟨c, hc, a, b, haA, hbA, haRe, hbRe, haReal, hbReal, haON, hbON⟩ :=

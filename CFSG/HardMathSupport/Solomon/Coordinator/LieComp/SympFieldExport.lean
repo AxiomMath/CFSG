@@ -45,7 +45,7 @@ private theorem eq_bot_or_top_of_isSubnormal_simple {S : Type*} [Group S] [IsSim
       have hN : H.Normal := by
         rw [Subgroup.normal_subgroupOf_iff hle] at hnormal
         exact ⟨fun x hx g => hnormal x g hx (Subgroup.mem_top g)⟩
-      haveI := hN
+      have := hN
       exact IsSimpleGroup.eq_bot_or_eq_top_of_normal H
 
 private theorem eq_of_isComponentOf_of_simple {S : Type*} [Group S] {C N K : Subgroup S}
@@ -65,7 +65,7 @@ private theorem eq_of_isComponentOf_of_simple {S : Type*} [Group S] {C N K : Sub
       (by rw [Subgroup.range_subtype]) hsubN
     change IsSubnormal (K.subgroupOf N) (N.subgroupOf N) at this
     rwa [Subgroup.subgroupOf_self] at this
-  haveI := hN
+  have := hN
   rcases eq_bot_or_top_of_isSubnormal_simple hsubN' with h | h
   · exfalso
     have hK1 : K = ⊥ := by
@@ -91,7 +91,7 @@ private theorem eq_map_commutator_of_isComponentOf {S : Type*} [Group S] {C K : 
       E.toMonoidHom.range_eq_top_of_surjective E.surjective]
   let e₁ : ↥D ≃* ↥(commutator H) :=
     (D.equivMapOfInjective E.toMonoidHom E.injective).trans (MulEquiv.subgroupCongr hmap)
-  haveI : IsSimpleGroup ↥D := e₁.isSimpleGroup
+  have : IsSimpleGroup ↥D := e₁.isSimpleGroup
   have hN : IsSimpleGroup ↥(D.map C.subtype) :=
     (D.equivMapOfInjective C.subtype C.subtype_injective).symm.isSimpleGroup
   refine eq_of_isComponentOf_of_simple ?_ hN ?_ hK
@@ -175,7 +175,7 @@ private theorem ker_subfieldProj_le_center {r : ℕ} [NeZero r] {K : Type} [Fiel
 
 private theorem ringChar_eq_two_of_card_descentField {K : Type} [Field K] [Finite K]
     {σ : K ≃+* K} (hk2 : Nat.card ↥(descentField σ) = 2) : ringChar K = 2 := by
-  haveI : Fintype ↥(descentField σ) := Fintype.ofFinite _
+  have : Fintype ↥(descentField σ) := Fintype.ofFinite _
   have hk2' : Fintype.card ↥(descentField σ) = 2 := by
     rw [← Nat.card_eq_fintype_card]
     exact hk2
@@ -201,15 +201,15 @@ theorem sp_fieldAut_comp_generic (hSp : SpFactorFacts) {p : ℕ} (hp : Odd p) {r
         IsComponentOf K' (fixSubgroup (SymplecticHigher.fieldAut r K σ)) →
         ∃ f : ↥(StatedSp r (descentField σ)) →* ↥K', Function.Surjective f ∧
           f.ker ≤ Subgroup.center ↥(StatedSp r (descentField σ)) := by
-  haveI : NeZero r := ⟨by omega⟩
-  haveI : Fintype ↥(descentField σ) := Fintype.ofFinite _
+  have : NeZero r := ⟨by omega⟩
+  have : Fintype ↥(descentField σ) := Fintype.ofFinite _
   obtain ⟨e⟩ := nonempty_fixSubgroup_equiv (r := r) hp hσ
   have hCr := fixSubgroup_fieldAut_eq_range (r := r) hp hσ
   refine ⟨?_, fun K' hK' => ?_⟩
   · have := hSp (descentField σ) r hr (prod_ne_two_two hex)
     rwa [Algebra.ringChar_eq (descentField σ) K] at this
   · obtain ⟨hs, -⟩ := simple_perfect_statedProj (k := descentField σ) hr hex
-    haveI : IsSimpleGroup ↥(fixSubgroup (SymplecticHigher.fieldAut r K σ)) := e.isSimpleGroup
+    have : IsSimpleGroup ↥(fixSubgroup (SymplecticHigher.fieldAut r K σ)) := e.isSimpleGroup
     have hKC : K' = fixSubgroup (SymplecticHigher.fieldAut r K σ) :=
       eq_of_isComponentOf_of_simple le_rfl inferInstance
         (Subgroup.commutator_le.2 fun g₁ h₁ g₂ h₂ => Subgroup.mul_mem _
@@ -226,7 +226,7 @@ theorem sp_fieldAut_comp_two (hSp42 : SpFourTwoFacts) {p : ℕ} (hp : Odd p) {K 
         IsComponentOf K' (fixSubgroup (SymplecticHigher.fieldAut 2 K σ)) →
         ∃ f : ↥(commutator ↥(StatedSp 2 (descentField σ))) →* ↥K', Function.Surjective f ∧
           f.ker ≤ Subgroup.center ↥(commutator ↥(StatedSp 2 (descentField σ))) := by
-  haveI : Fintype ↥(descentField σ) := Fintype.ofFinite _
+  have : Fintype ↥(descentField σ) := Fintype.ofFinite _
   obtain ⟨e⟩ := nonempty_fixSubgroup_equiv (r := 2) hp hσ
   have hCr := fixSubgroup_fieldAut_eq_range (r := 2) hp hσ
   refine ⟨?_, fun K' hK' => ?_⟩
@@ -265,7 +265,7 @@ theorem lieCompExport_fieldAut_sp
   have hσ3 : σ ^ 3 = 1 := by rw [← hσ]; exact pow_orderOf_eq_one σ
   have hodd : Odd 3 := by decide
   have hlayer := LieSemisimple.perfectInLayer_fieldAut_sp hr Nat.prime_three (by norm_num) σ hσ3
-  haveI : Fintype ↥(descentField σ) := Fintype.ofFinite _
+  have : Fintype ↥(descentField σ) := Fintype.ofFinite _
   by_cases hex : r = 2 ∧ Nat.card ↥(descentField σ) = 2
   ·
     obtain ⟨rfl, hk2⟩ := hex
@@ -273,7 +273,7 @@ theorem lieCompExport_fieldAut_sp
     refine ⟨hlayer, fun K' hK' => ?_, fun _ => ?_⟩
     · obtain ⟨f, hf, hfk⟩ := hcover K' hK'
       exact ⟨_, inferInstance, inferInstance, hLF, f, hf, hfk⟩
-    · haveI : CharP K 2 := ringChar_eq_two_of_card_descentField hk2 ▸ ringChar.charP K
+    · have : CharP K 2 := ringChar_eq_two_of_card_descentField hk2 ▸ ringChar.charP K
       have hK8 : Nat.card K = 8 := by
         rw [← card_descentField_pow σ, hσ, hk2]
         norm_num

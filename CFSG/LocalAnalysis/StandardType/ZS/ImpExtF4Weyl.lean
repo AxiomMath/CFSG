@@ -148,13 +148,13 @@ private lemma halfU_sign {ε : Fin 4 → ZMod p} (hε : ∀ i, ε i = 1 ∨ ε i
   intro i
   by_cases hi : i = 3
   · subst hi
-    simp only [halfU, Function.update_apply, if_true]
+    simp only [halfU, Function.update_apply, ite_true]
     rcases hε 3 with h | h <;> rw [h] <;> norm_num
-  · simp only [halfU, Function.update_apply, if_neg hi]
+  · simp only [halfU, Function.update_apply, ite_eq_right hi]
     exact hε i
 
 private lemma halfU_three (ε : Fin 4 → ZMod p) : halfU (p := p) ε 3 = -ε 3 := by
-  simp only [halfU, Function.update_apply, if_true]
+  simp only [halfU, Function.update_apply, ite_true]
 
 private lemma eps_sq {ε : Fin 4 → ZMod p} (hε : ∀ i, ε i = 1 ∨ ε i = -1) : ε 3 * ε 3 = 1 := by
   rcases hε 3 with h | h <;> rw [h] <;> norm_num
@@ -180,9 +180,9 @@ private lemma halfU_sum {ε v : Fin 4 → ZMod p} (hεv : ∑ i, ε i * v i = 0)
   have hεv4 : ε 0 * v 0 + ε 1 * v 1 + ε 2 * v 2 + ε 3 * v 3 = 0 := by
     simpa only [Fin.sum_univ_four] using hεv
   simp only [halfU, Function.update_apply, Fin.sum_univ_four]
-  simp only [if_neg (by decide : ¬((0 : Fin 4) = 3)),
-    if_neg (by decide : ¬((1 : Fin 4) = 3)),
-    if_neg (by decide : ¬((2 : Fin 4) = 3)), if_true]
+  simp only [ite_eq_right (by decide : ¬((0 : Fin 4) = 3)),
+    ite_eq_right (by decide : ¬((1 : Fin 4) = 3)),
+    ite_eq_right (by decide : ¬((2 : Fin 4) = 3)), ite_true]
   linear_combination hεv4
 
 private lemma halfU_root (hp : p ≠ 2) {ε v : Fin 4 → ZMod p}
@@ -295,9 +295,9 @@ private lemma eq_zero_of_sum_eq_zero_of_eq_zero_or (hp5 : 5 ≤ p) {c : ZMod p} 
   have hy' : ∀ i, y i = c * (if y i = c then (1 : ZMod p) else 0) := by
     intro i
     rcases hy i with hi | hi
-    · rw [hi, if_neg (fun h0 : (0 : ZMod p) = c => hc h0.symm)]
+    · rw [hi, ite_eq_right (fun h0 : (0 : ZMod p) = c => hc h0.symm)]
       ring
-    · rw [hi, if_pos rfl]
+    · rw [hi, ite_eq_left rfl]
       ring
   have hsum : ∑ i, y i = c * ((Finset.univ.filter (fun i => y i = c)).card : ZMod p) := by
     calc ∑ i, y i = ∑ i, c * (if y i = c then (1 : ZMod p) else 0) :=
@@ -397,8 +397,8 @@ private lemma sum_update_mul (ε u : Fin 4 → ZMod p) (i : Fin 4) :
     congr 1
     · apply Finset.sum_congr rfl
       intro l hl
-      rw [Function.update_apply, if_neg (Finset.mem_erase.mp hl).1]
-    · rw [Function.update_apply, if_pos rfl]
+      rw [Function.update_apply, ite_eq_right (Finset.mem_erase.mp hl).1]
+    · rw [Function.update_apply, ite_eq_left rfl]
   have hsplit : ∑ l ∈ Finset.univ.erase i, ε l * u l + ε i * u i = ∑ l, ε l * u l :=
     Finset.sum_erase_add Finset.univ (fun l => ε l * u l) (Finset.mem_univ i)
   rw [hupdate, ← hsplit]
@@ -538,11 +538,11 @@ private lemma row_sum_zero {v w : Fin 4 → ZMod p} (hp5 : 5 ≤ p)
     intro l
     rw [Function.update_apply]
     by_cases hl : l = i
-    · rw [if_pos hl]
+    · rw [ite_eq_left hl]
       rcases hε i with hi | hi
       · rw [hi]; exact Or.inr rfl
       · rw [hi]; exact Or.inl (neg_neg 1)
-    · rw [if_neg hl]
+    · rw [ite_eq_right hl]
       exact hε l
   have h1 := hall ε hε
   have h2 := hall (Function.update ε i (-ε i)) hupd
@@ -570,8 +570,8 @@ private lemma s_ij_zero {v w : Fin 4 → ZMod p} (hp5 : 5 ≤ p)
     intro l
     rw [Function.update_apply]
     by_cases hl : l = i
-    · rw [if_pos hl]; norm_num
-    · rw [if_neg hl]; exact Or.inl rfl
+    · rw [ite_eq_left hl]; norm_num
+    · rw [ite_eq_right hl]; exact Or.inl rfl
   have h1 := hrow j (fun _ : Fin 4 => (1 : ZMod p)) hε1
   have h2 := hrow j (Function.update (fun _ : Fin 4 => (1 : ZMod p)) i (-1)) hε2
   have hdiff : (∑ l ∈ Finset.univ.erase j, (fun _ : Fin 4 => (1 : ZMod p)) l
@@ -582,10 +582,10 @@ private lemma s_ij_zero {v w : Fin 4 → ZMod p} (hp5 : 5 ≤ p)
       = 2 * (1 : ZMod p) * (v j * w i + v i * w j) := by
     rw [← Finset.sum_sub_distrib]
     rw [Finset.sum_eq_single i]
-    · simp only [Function.update_apply, if_true]
+    · simp only [Function.update_apply, ite_true]
       ring
     · intro l _ hl
-      rw [Function.update_apply, if_neg hl]
+      rw [Function.update_apply, ite_eq_right hl]
       ring
     · intro hi
       exact absurd (Finset.mem_erase.mpr ⟨hij, Finset.mem_univ i⟩) hi

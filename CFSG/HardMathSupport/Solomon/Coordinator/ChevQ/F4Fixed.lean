@@ -165,7 +165,7 @@ theorem congr_eq_conj_imp {K C : Type} [Group K] [Group C] (e : K ≃* C) (α : 
   refine MulEquiv.ext fun k => ?_
   apply e.injective
   have hk := congrArg (fun φ : MulAut C => φ (e k)) h
-  simp only [MulAut.congr_apply, MulAut.conj_apply, MulEquiv.symm_apply_apply] at hk
+  simp only [MulAut.congr_apply, MulAut.conj_apply] at hk
   rw [MulAut.conj_apply, map_mul, map_mul]
   simp only [MulEquiv.apply_symm_apply, map_inv]
   rw [← hk]
@@ -215,7 +215,7 @@ theorem f4Fixed_holds : Bal209F4Aux.F4Fixed := by
     intro h
     apply hβconj 1
     rw [h, map_one]
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hβout : CFSG.RankThree.PartOne.CTP.IsOuterOfOrder 3
       (MulAut.congr eK (F4FixedAux.conjOnNormal K a hNorm)) :=
     ⟨orderOf_eq_prime hβ3 hβne, hβconj⟩

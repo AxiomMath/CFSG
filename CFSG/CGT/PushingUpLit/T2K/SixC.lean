@@ -109,7 +109,7 @@ theorem exists_g_of_ne_bot (hGold : Goldschmidt1974) (hs : Sec6 G L M T n) (hD :
   have hAab : IsMulCommutative ↥A :=
     ⟨⟨fun a b => Subtype.ext (Subtype.ext (isElemAbelian_comm' hQ
       (show ((a : ↥H) : G) ∈ QOf L M from a.2) (show ((b : ↥H) : G) ∈ QOf L M from b.2)))⟩⟩
-  have hS' : IsPGroup 2 ↥((S : Subgroup ↥H).map H.subtype) := S.isPGroup'.map H.subtype
+  have hS' : IsPGroup 2 ↥((S : Subgroup ↥H).map H.subtype) := S.isPGroup.map H.subtype
   have hQS' : QOf L M ≤ (S : Subgroup ↥H).map H.subtype := fun q hq =>
     ⟨⟨q, hQH hq⟩, hAS (show (⟨q, hQH hq⟩ : ↥H) ∈ A from hq), rfl⟩
   have hSM : (S : Subgroup ↥H).map H.subtype ≤ M := two_le_M hs hS' hQS'

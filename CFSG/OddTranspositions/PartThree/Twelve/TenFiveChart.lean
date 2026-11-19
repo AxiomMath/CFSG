@@ -15,6 +15,7 @@ open CFSG.OddTranspositions.PartFour.TableE1Five
 
 variable {G : Type} [Group G] [Finite G] {D : Set G}
 
+omit [Finite G] in
 theorem exists_fiveChart_of_mulEquiv (hC : HypothesisC D) (hα : hC.alpha = {hC.d}) {k : ℕ}
     {ε π : Bool} (θ : Halpha D hC.alpha ≃* fiveReflectionGroup k ε π)
     (hθ : ∀ x, x ∈ DstarH hC ↔ (θ x : GL (Fin (k + 1)) (ZMod 5)) ∈ fiveReflections k ε π) :
@@ -38,7 +39,7 @@ theorem exists_fiveChart_of_mulEquiv (hC : HypothesisC D) (hα : hC.alpha = {hC.
     have h := Classical.choose_spec (FiveChartModel.mem_fiveReflections_iff.mp
       ((hθ ⟨y, mem_Halpha_of_mem_commSet hC hα hy⟩).mp
         (mem_DstarH_of_mem_commSet hC hα hy)))
-    simpa only [vec, dif_pos hy] using h
+    simpa only [vec, dite_eq_left hy] using h
   have heq_vec : ∀ z ∈ commSet D hC.d, ∀ z' ∈ commSet D hC.d,
       vec z' = vec z ∨ vec z' = -vec z → z' = z := by
     intro z hz z' hz' h

@@ -58,7 +58,7 @@ theorem le_normalizer_of_perfect_cover {G : Type*} [Group G] [Finite G] {X C Y :
     rw [← Subgroup.subgroupOf_sup hYX hCX, hcov, Subgroup.subgroupOf_self]
   have hsup2 : Y'.subgroupOf X ⊔ C.subgroupOf X = ⊤ := by
     rw [← Subgroup.subgroupOf_sup hYX' hCX, hY'C, Subgroup.subgroupOf_self]
-  haveI hYperf : Group.IsPerfect ↥Y := Subgroup.isPerfect_iff.mpr hperf
+  have hYperf : Group.IsPerfect ↥Y := Subgroup.isPerfect_iff.mpr hperf
   have hY0perf : Group.IsPerfect ↥(Y.subgroupOf X) :=
     Group.IsPerfect.ofSurjective (f := (Subgroup.subgroupOfEquivOfLe hYX).symm.toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hYX).symm.surjective
@@ -71,15 +71,15 @@ theorem le_normalizer_of_perfect_cover {G : Type*} [Group G] [Finite G] {X C Y :
     Subgroup.comap_inf Y C X.subtype
   have hsol0 : Group.IsSolvable ↥(Y.subgroupOf X ⊓ C.subgroupOf X) := by
     rw [← hinf]
-    haveI : Group.IsSolvable ↥(Y ⊓ C) := hsol
+    have : Group.IsSolvable ↥(Y ⊓ C) := hsol
     exact Group.isSolvable_of_isSolvable_injective
       (f := (Subgroup.subgroupOfEquivOfLe (inf_le_left.trans hYX)).toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe (inf_le_left.trans hYX)).injective
-  haveI hY0n : (Y.subgroupOf X).Normal :=
+  have hY0n : (Y.subgroupOf X).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hYX).mpr hYn
-  haveI hC0n : (C.subgroupOf X).Normal :=
+  have hC0n : (C.subgroupOf X).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hCX).mpr hCn
-  haveI hY'0n : (Y'.subgroupOf X).Normal :=
+  have hY'0n : (Y'.subgroupOf X).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hYX').mpr hnorm'
   have hsup : Y.subgroupOf X ⊔ C.subgroupOf X = Y'.subgroupOf X ⊔ C.subgroupOf X :=
     hsup1.trans hsup2.symm
@@ -104,7 +104,7 @@ theorem exists_sylow_lift_commuting {M H : Type*} [Group M] [Finite M] [Group H]
     {T : Subgroup H} (hTL : T ≤ Lst.map π) (hT : IsElemAbelian q T)
     (hTa : ∀ t ∈ T, π a * t = t * π a) :
     ∃ D : Subgroup M, D ≤ Lst ∧ D ⊓ π.ker = ⊥ ∧ D.map π = T ∧ ∀ d ∈ D, a * d = d * a := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hLmapFin : Finite ↥(Lst.map π) :=
     Finite.of_surjective (fun x : ↥Lst => (⟨π x, ⟨x, x.2, rfl⟩⟩ : ↥(Lst.map π)))
       (by
@@ -113,7 +113,7 @@ theorem exists_sylow_lift_commuting {M H : Type*} [Group M] [Finite M] [Group H]
         exact ⟨⟨l, hl⟩, Subtype.ext hlπ⟩)
   have hTfin : Finite ↥T :=
     Finite.of_injective (Subgroup.inclusion hTL) (Subgroup.inclusion_injective hTL)
-  haveI := hTfin
+  have := hTfin
   set LT : Subgroup M := Lst ⊓ T.comap π with hLT
   have hLTmap : LT.map π = T := by
     apply le_antisymm
@@ -308,7 +308,7 @@ theorem exists_isElemAbelian_card_eq_of_lift {M H : Type*} [Group M] [Finite M] 
     (hLC : ¬ q ∣ Nat.card ↥(Lst ⊓ π.ker)) (a : M) {E : Subgroup H} (hE : IsElemAbelian q E)
     (haE : π a ∈ E) (hEle : E ≤ Lst.map π ⊔ Subgroup.zpowers (π a)) :
     ∃ F : Subgroup M, IsElemAbelian q F ∧ Nat.card F = Nat.card E := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hπaq : (π a) ^ q = 1 := hE.2 (π a) haE
   have hπaq1 : (π a) ^ (q ^ 1) = 1 := by simpa using hπaq
   obtain ⟨b, _hbzp, hbq, hbπ⟩ := exists_ppart_of_lift π hq hπaq1
@@ -395,7 +395,7 @@ theorem exists_isElemAbelian_card_eq_of_lift {M H : Type*} [Group M] [Finite M] 
         have h2 : q = 1 := by rw [h1] at horda₂; simpa using horda₂.symm
         exact hq.ne_one h2
       · have hmem : π a ∈ Subgroup.zpowers (π a₂) := by
-          haveI : Finite ↥(Subgroup.zpowers (π a)) :=
+          have : Finite ↥(Subgroup.zpowers (π a)) :=
             Nat.finite_of_card_ne_zero (by rw [Nat.card_zpowers, hordπa]; exact hq.ne_zero)
           have hEqZ : Subgroup.zpowers (π a₂) = Subgroup.zpowers (π a) := by
             apply Subgroup.eq_of_le_of_card_ge
@@ -416,7 +416,7 @@ theorem exists_isElemAbelian_card_eq_of_lift {M H : Type*} [Group M] [Finite M] 
       rw [Subgroup.disjoint_def]
       intro x hx₁ hx₂
       by_contra hx1
-      haveI : Finite ↥(Subgroup.zpowers a₂) :=
+      have : Finite ↥(Subgroup.zpowers a₂) :=
         Nat.finite_of_card_ne_zero (by rw [Nat.card_zpowers, horda₂]; exact hq.ne_zero)
       have hmem : (⟨a₂, Subgroup.mem_zpowers a₂⟩ : ↥(Subgroup.zpowers a₂)) ∈
           Subgroup.zpowers (⟨x, hx₁⟩ : ↥(Subgroup.zpowers a₂)) := by
@@ -538,12 +538,12 @@ private lemma map_mem_normalizer_map {M H : Type*} [Group M] [Group H] (π : M �
 private lemma inf_map_zpowers_eq_bot_of_notMem {M H : Type*} [Group M] [Group H] (π : M →* H)
     {Lst : Subgroup M} {q : ℕ} (hq : q.Prime) {a : M} (hnot : π a ∉ Lst.map π)
     (hord : orderOf (π a) = q) : Lst.map π ⊓ Subgroup.zpowers (π a) = ⊥ := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   rw [Subgroup.eq_bot_iff_forall]
   intro x hx
   by_contra hx1
   have hcard : Nat.card ↥(Subgroup.zpowers (π a)) = q := by rw [Nat.card_zpowers, hord]
-  haveI : Finite ↥(Subgroup.zpowers (π a)) :=
+  have : Finite ↥(Subgroup.zpowers (π a)) :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; exact hq.ne_zero)
   have hxg : (⟨x, hx.2⟩ : ↥(Subgroup.zpowers (π a))) ≠ 1 := by
     intro h; exact hx1 (Subtype.ext_iff.mp h)
@@ -561,7 +561,7 @@ theorem exists_isElemAbelian_map_eq_of_lift {M H : Type*} [Group M] [Finite M] [
     {E : Subgroup H} (hE : IsElemAbelian q E) (haE : π a ∈ E)
     (hEle : E ≤ Lst.map π ⊔ Subgroup.zpowers (π a)) :
     ∃ F : Subgroup M, IsElemAbelian q F ∧ a ∈ F ∧ F ⊓ π.ker = ⊥ ∧ F.map π = E := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   set T : Subgroup H := E ⊓ Lst.map π with hTdef
   have hTE_mem : ∀ {x : H}, x ∈ T → x ∈ E := by
     intro x hx; rw [hTdef] at hx; exact hx.1

@@ -77,8 +77,8 @@ theorem eq_of_isSubnormal_symThree [Finite V] (hV : CFSG.pCore 2 V = ⊥) {X W Z
     (hX : IsSubnormal X ⊤) (hW : IsSubnormal W ⊤) (eX : ↥X ≃* Equiv.Perm (Fin 3))
     (eW : ↥W ≃* Equiv.Perm (Fin 3)) (hZX : Z ≤ X) (hZW : Z ≤ W) (hZ : Nat.card Z = 3) :
     X = W := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨z₀, hz₀⟩ := exists_prime_orderOf_dvd_card' 3 (by rw [hZ] : 3 ∣ Nat.card Z)
   set z : V := (z₀ : V) with hzdef
   have hzo : orderOf z = 3 := by rw [hzdef, orderOf_coe, hz₀]
@@ -236,7 +236,7 @@ theorem mem_pCore_of_symThree [Finite V] {I Y : Subgroup V}
     (hY : I ≤ normalizer (Y : Set V))
     (h3 : ∀ y ∈ I, y ∈ Y → ∀ k : ℕ, y ^ 3 ^ k = 1 → y = 1) :
     ∀ w : ↥I, (w : V) ∈ Y → w ∈ CFSG.pCore 2 ↥I := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set π := QuotientGroup.mk' (CFSG.pCore 2 ↥I) with hπ
   have key : ∀ w : ↥I, (w : V) ∈ Y → (e (π w)) ^ 3 = 1 → e (π w) = 1 := by
     intro w hwY hw3

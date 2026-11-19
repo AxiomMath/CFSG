@@ -174,6 +174,7 @@ theorem eichler_sub_of_polar_eq_zero {K : Type} [Field K] [CharP K 2] {ι : Type
   rw [sub_eq_add_neg, sub_eq_add_neg, add_comm, ← add_assoc, neg_add_cancel, zero_add,
     OrthogonalInvolutions.neg_vec_eq K]
 
+omit [Finite G] in
 theorem eichler_pair_sub {C : OrthCtx M Q Z B} {x : G} {g : Matrix (Fin 2) (Fin 2) C.K}
     {o : (C.ι → C.K) ≃ₗ[C.K] (C.ι → C.K)} (hI : InvAct C x g o) {e w a b : C.ι → C.K}
     (heP : e ∈ OrthogonalInvolutions.commSpace o) (hqe : C.qU e = 0) (hew : polar C.qU e w = 0)
@@ -203,7 +204,7 @@ theorem eichler_comm_o {K : Type} [Field K] {ι : Type} [Fintype ι] {qU : Quadr
 theorem eichler_shift (hc : SmithOrthCfg M Q Z B) (C : OrthCtx M Q Z B) (hs : Sit M Q Z X x)
     {o : (C.ι → C.K) ≃ₗ[C.K] (C.ι → C.K)} (hI : InvAct C x 1 o) {e w : C.ι → C.K}
     (heP : e ∈ OrthogonalInvolutions.commSpace o) (hqe : C.qU e = 0)
-    (hew : polar C.qU e w = 0) (hw : o w = w) {s : G} (hsM : s ∈ M)
+    (hew : polar C.qU e w = 0) (_hw : o w = w) {s : G} (hsM : s ∈ M)
     (hsact : ActsAsTensor Q Z C.M₀ C.φ s 1 (CFSG.ClassicalGroups.Orthogonal.eichler C.qU e w))
     {y : G} (hy : y ∈ Q) (hxy : ⁅x, y⁆ ∈ Z) : ⁅x, s * y * s⁻¹⁆ = ⁅x, y⁆ := by
   have H := hc.ctx.hyp

@@ -74,7 +74,7 @@ theorem tc_odd (q : OddInv β) {R : Subgroup (Perm β)}
       have hsolv : Group.IsSolvable ↥(altOn (cls R x0)) := altOn_solvable (by omega)
       have hsolvE : Group.IsSolvable ↥E :=
         Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hx0E)
-      haveI : Nontrivial ↥E := (Subgroup.nontrivial_iff_ne_bot E).2 hne
+      have : Nontrivial ↥E := (Subgroup.nontrivial_iff_ne_bot E).2 hne
       have hlt' := Group.IsSolvable.commutator_lt_top_of_nontrivial ↥E
       rw [hcT] at hlt'
       exact lt_irrefl _ hlt'

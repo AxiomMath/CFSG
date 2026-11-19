@@ -21,6 +21,7 @@ theorem fixG_iff {img : ℕ → ℕ → ℕ} {p : ℕ} {R : List (ℕ × List �
     rw [CFSG.KS.PK.bAnd_eq, Bool.and_eq_true, ih, allL_iff]
     simp [Nat.beq_eq]
 
+omit [Group G] in
 theorem chainG_of {img : ℕ → ℕ → ℕ} {ok : ℕ → Bool} {act : G → ℕ → ℕ} {E : ℕ → G}
     (hW : ∀ v, ok v = true → ∀ x < 31671, img v x = act (E v) x) :
     ∀ Ls : List (ℕ × List ℕ), chainG img ok Ls = true →

@@ -17,7 +17,7 @@ section CertificateInstances
 
 
 theorem rankThreeWitness_zFive_pow (c : ℕ) : RankThreeWitness 5 (zFive ^ c) := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hR := bFiveRel
   have hP : Nat.card (FiveLocal.P xFive qFive) =
       5 ^ (Nat.card CFSG.Blueprint.NativeSporadic.B).factorization 5 := by
@@ -65,7 +65,7 @@ theorem sporadicClassWitnessNative_B_five :
       Nonempty (S ≃* CFSG.Blueprint.NativeSporadic.Carrier .B) →
       ∀ x : S, orderOf x = 5 → RankThreeWitness 5 x := by
   intro S _ _ ⟨e⟩ x hx
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨f, -⟩ : ∃ f : S ≃* CFSG.Blueprint.NativeSporadic.B, f = e := ⟨e, rfl⟩
   have hfx : orderOf (f x) = 5 := by rw [MulEquiv.orderOf_eq]; exact hx
   obtain ⟨t, ht, hty⟩ := bFiveTwoBCover_holds (f x) hfx

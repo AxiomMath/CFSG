@@ -106,8 +106,8 @@ theorem ggNbrTablePNbrInputOnL_typeA_of_leaves
     E6TwoSeven.ggE6TwoSevenComp_holds
     (ggTablePKnownRK_typeA (ggNonExcRK_holds GGRegimeTypeA)
       (ggClGenRK_of_regime
-        (R := fun p n labJ labX => GGRegimeTypeA p n labJ labX ∧ p.Prime ∧ p ≠ 2)
-        fun p n labJ labX h lab hiso => ggTypeA_regime_not_rankOne h.2.1 h.2.2 h.1 lab hiso)
+        (R := fun _p _n _labJ _labX => GGRegimeTypeA _p _n _labJ _labX ∧ _p.Prime ∧ _p ≠ 2)
+        fun _p _n _labJ _labX h lab hiso => ggTypeA_regime_not_rankOne h.2.1 h.2.2 h.1 lab hiso)
       ggTypeAClRARK_holds ggTablePKnownR_a8Seven
       (ggExcGenRK_holds (ggK0ExcBS_of_B3 hB3) GGRegimeTypeA) (ggTypeAExcRERK_holds hB3)
       (ggTablePKnownR_e6TwoSevenOut E6TwoSeven.ggE6TwoSevenComp_holds))

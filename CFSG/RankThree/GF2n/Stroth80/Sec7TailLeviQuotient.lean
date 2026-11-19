@@ -30,7 +30,7 @@ theorem commutator_quotient_le_map_of_factor [(Q.subgroupOf P).Normal] (hQP : Q 
     rw [hp', map_mul, map_mul, hq1, one_mul]
   set L₀ := (L.subgroupOf P).map π with hL₀def
   set C₀ := (H.subgroupOf P).map π with hC₀def
-  haveI hL₀n : L₀.Normal := ⟨fun x hx y => by
+  have hL₀n : L₀.Normal := ⟨fun x hx y => by
     obtain ⟨⟨l', hl'P⟩, hl', rfl⟩ := hx
     obtain ⟨p, rfl⟩ := QuotientGroup.mk'_surjective (Q.subgroupOf P) y
     obtain ⟨h, hh, l, hl, hp⟩ := hπ p
@@ -53,7 +53,7 @@ theorem commutator_quotient_le_map_of_factor [(Q.subgroupOf P).Normal] (hQP : Q 
     rw [hp]
     exact mul_mem (Subgroup.mem_sup_right ⟨⟨h, hHP hh⟩, hh, rfl⟩)
       (Subgroup.mem_sup_left ⟨⟨l, hLP hl⟩, hl, rfl⟩)
-  haveI hC₀ : IsMulCommutative ↥C₀ := IsMulCommutative.of_comm fun a b => by
+  have hC₀ : IsMulCommutative ↥C₀ := IsMulCommutative.of_comm fun a b => by
     obtain ⟨_, ⟨a', ha', rfl⟩⟩ := a
     obtain ⟨_, ⟨b', hb', rfl⟩⟩ := b
     apply Subtype.ext

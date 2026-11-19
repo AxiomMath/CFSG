@@ -15,7 +15,7 @@ open CFSG
 private theorem qtwoDB7_b1_isComponent_of_isPComponent {X : Type} [Group X] [Finite X]
     (hX : CFSG.pPrimeCore 3 X = ⊥) {A : Subgroup X} (hA : CFSG.IsPComponent 3 A) :
     CFSG.IsComponent A := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hsub, -, hq⟩ :=
     (CFSG.ComponentClassification.CatalogueBPrimeJoin.pComponent_iff_subnormal_generated_quasisimple
       3 A).1 hA
@@ -37,7 +37,7 @@ theorem qtwoDB7_single_or_diag {Y : Type} [Group Y] [Finite Y]
         A ≠ A.map (MulAut.conj (τ ^ 2)).toMonoidHom ∧
         A.map (MulAut.conj τ).toMonoidHom ≠ A.map (MulAut.conj (τ ^ 2)).toMonoidHom ∧
         Jb ≤ A ⊔ A.map (MulAut.conj τ).toMonoidHom ⊔ A.map (MulAut.conj (τ ^ 2)).toMonoidHom := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_cases hτ1 : τ = 1
   · have hcent : Subgroup.centralizer ({τ} : Set Y) = ⊤ := by
       rw [hτ1]

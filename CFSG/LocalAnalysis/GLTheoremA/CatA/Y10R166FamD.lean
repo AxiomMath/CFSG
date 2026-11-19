@@ -20,6 +20,7 @@ open CFSG.ComponentClassification.CatalogueBOrthogonalPointData (coordinateQuadP
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2]
 
+omit [CharP F 2] in
 theorem evenRank_coordinatePlus (m n : ℕ) (hF : Nat.card F = 2 ^ n) (hm : 4 ≤ m)
     (hn : 2 ≤ n) :
     evenRank (matrixProjectiveDerived (coordinateQuadPlus m F)) = m := by
@@ -201,9 +202,9 @@ theorem i166On_famDFive_of_transport
   obtain ⟨F, hfield, hfinite, hchar, hF, ⟨e⟩⟩ :=
     exists_mulEquiv_matrixProjectiveDerived_of_isLabel (K := K) (m := lab.rank) (n := lab.n)
       (by omega) hn hlab hZ
-  letI : Field F := hfield
-  letI : Finite F := hfinite
-  letI : CharP F 2 := hchar
+  let : Field F := hfield
+  let : Finite F := hfinite
+  let : CharP F 2 := hchar
   have hF4 : 4 ≤ Nat.card F := by
     rw [hF]
     calc 4 = 2 ^ 2 := by norm_num
@@ -218,7 +219,7 @@ theorem i166On_famDFive_of_transport
     intro h
     subst h
     exact (Nat.not_even_iff_odd.mpr hoddF) (even_iff_two_dvd.mpr hqdvd)
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hqdvd' : q ∣ Nat.card Fˣ := by rwa [Nat.card_units]
   obtain ⟨ζ, hζ⟩ := exists_prime_orderOf_dvd_card' (G := Fˣ) q hqdvd'
   exact htr e (exists_concl166S_pairTorus (F := F) (p := p) (m := lab.rank) (n := lab.n)

@@ -18,6 +18,7 @@ variable {E : Type*} [Group E] [Finite E] [h : Fact (CFSG.IsExtraspecialPGroup 2
 
 variable (ζ : Subgroup.center E ≃* Multiplicative (ZMod 2))
 
+omit [Finite E] in
 theorem commVal_mul_left (a b c : E) :
     commVal ζ (a * b) c = commVal ζ a c + commVal ζ b c := by
   unfold commVal
@@ -32,6 +33,7 @@ theorem commVal_mul_left (a b c : E) :
   rw [commutatorElement_mul_left_eq_conj_mul, e]
   exact Subgroup.mem_center_iff.1 hz' ⁅b, c⁆
 
+omit [Finite E] in
 theorem commVal_mul_right (a b c : E) :
     commVal ζ a (b * c) = commVal ζ a b + commVal ζ a c := by
   unfold commVal
@@ -44,6 +46,7 @@ theorem commVal_mul_right (a b c : E) :
   rw [commutatorElement_mul_right_eq_mul_conj, mul_assoc ⁅a, b⁆ b, this]
   simp [mul_assoc]
 
+omit [Finite E] in
 theorem commVal_center_left {z : E} (hz : z ∈ Subgroup.center E) (b : E) :
     commVal ζ z b = 0 := by
   unfold commVal
@@ -53,6 +56,7 @@ theorem commVal_center_left {z : E} (hz : z ∈ Subgroup.center E) (b : E) :
     rw [← Subgroup.mem_center_iff.1 hz b]; simp
   rw [this]; simp
 
+omit [Finite E] in
 theorem commVal_center_right (a : E) {z : E} (hz : z ∈ Subgroup.center E) :
     commVal ζ a z = 0 := by
   unfold commVal
@@ -62,12 +66,14 @@ theorem commVal_center_right (a : E) {z : E} (hz : z ∈ Subgroup.center E) :
     simpa using this
   rw [this]; simp
 
+omit [Finite E] in
 theorem commVal_congr_left {a a' : E} (ha : a⁻¹ * a' ∈ Subgroup.center E) (b : E) :
     commVal ζ a b = commVal ζ a' b := by
   have := commVal_mul_left ζ a (a⁻¹ * a') b
   rw [mul_inv_cancel_left, commVal_center_left ζ ha] at this
   simpa using this.symm
 
+omit [Finite E] in
 theorem commVal_congr_right (a : E) {b b' : E} (hb : b⁻¹ * b' ∈ Subgroup.center E) :
     commVal ζ a b = commVal ζ a b' := by
   have := commVal_mul_right ζ a b (b⁻¹ * b')
@@ -83,6 +89,7 @@ theorem commVal_congr_right (a : E) {b b' : E} (hb : b⁻¹ * b' ∈ Subgroup.ce
       rw [QuotientGroup.leftRel_apply] at ha hb
       rw [commVal_congr_left ζ ha, commVal_congr_right ζ a' hb])
 
+omit [Finite E] in
 theorem pair_add_left (x x' y : QSpace E) : pair ζ (x + x') y = pair ζ x y + pair ζ x' y := by
   induction x using Additive.rec with | _ a => ?_
   induction x' using Additive.rec with | _ a' => ?_
@@ -92,6 +99,7 @@ theorem pair_add_left (x x' y : QSpace E) : pair ζ (x + x') y = pair ζ x y + p
   induction b using QuotientGroup.induction_on with | _ b => ?_
   exact commVal_mul_left ζ a a' b
 
+omit [Finite E] in
 theorem pair_add_right (x y y' : QSpace E) : pair ζ x (y + y') = pair ζ x y + pair ζ x y' := by
   induction x using Additive.rec with | _ a => ?_
   induction y using Additive.rec with | _ b => ?_

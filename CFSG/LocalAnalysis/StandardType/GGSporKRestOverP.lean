@@ -72,7 +72,7 @@ theorem ggSporKRest_coverOrUnmarked_of_fstar_isPGroup {K : Type} [Group K] [Fini
   have hle : C.map φ.toMonoidHom ≤ CFSG.generalizedFitting ↥Y := by
     rw [CFSG.generalizedFitting.eq_sup]
     exact (CFSG.LocalCores.component_le_layer hC').trans le_sup_right
-  haveI : Group.IsNilpotent ↥(C.map φ.toMonoidHom) := (hF.to_le hle).isNilpotent
+  have : Group.IsNilpotent ↥(C.map φ.toMonoidHom) := (hF.to_le hle).isNilpotent
   exact CFSG.Quasithin.E1.not_isSolvable_of_isComponent hC' inferInstance
 
 @[expose] def SporKRestAsch86J4Eleven : Prop :=

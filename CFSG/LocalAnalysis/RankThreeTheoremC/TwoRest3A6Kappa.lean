@@ -153,7 +153,7 @@ theorem d1CaseTwoRest3A6Residual_of_inputsK (hk : D1CaseTwoKFacts3 G)
     fun a ha ha1 =>
       hG2 a (hFBE ha).1 ha1 (hF.2 a ha) ⟨E, hER, hE, by rw [hEcard]; norm_num, (hFBE ha).2⟩
   have hBM : B ≤ M := hBR.trans hRM
-  have hBQ : IsAGLQ 3 M B := ⟨hBM, P.isPGroup'.to_le (hBR.trans hRP),
+  have hBQ : IsAGLQ 3 M B := ⟨hBM, P.isPGroup.to_le (hBR.trans hRP),
     Or.inr ⟨F, hFBE.trans inf_le_left, hF, hFcard, hΓ⟩⟩
   have hR3 : Open.pRank 3 R ≤ 3 :=
     (CFSG.SectionRank.pRank_mono (by norm_num) hRP).trans hd.cfg.pRank_eq_three.le

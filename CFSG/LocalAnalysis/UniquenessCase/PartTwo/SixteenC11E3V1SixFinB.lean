@@ -38,7 +38,7 @@ private theorem s1611e3_sixDiag_or_bot_invariant {K : Subgroup (SixE6 × SixE6)}
 
 private theorem s1611e3_fixMod_mul {K : Subgroup (SixE6 × SixE6)}
     (hKinv : ∀ g ∈ sixGhat, ∀ u ∈ K, (g : MulAut (SixE6 × SixE6)) u ∈ K)
-    {a b : MulAut (SixE6 × SixE6)} (ha : a ∈ sixGhat) (hb : b ∈ sixGhat)
+    {a b : MulAut (SixE6 × SixE6)} (ha : a ∈ sixGhat) (_hb : b ∈ sixGhat)
     {u : SixE6 × SixE6} (hua : a u * u⁻¹ ∈ K) (hub : b u * u⁻¹ ∈ K) :
     (a * b) u * u⁻¹ ∈ K := by
   have hkey : (a * b) u * u⁻¹ = a (b u * u⁻¹) * (a u * u⁻¹) := by

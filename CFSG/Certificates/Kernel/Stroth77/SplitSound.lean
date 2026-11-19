@@ -88,7 +88,7 @@ theorem enc_mul (a b : Msp) : enc (a * b) = mulK (enc a) (enc b) := by
   obtain ⟨⟨a0, a1, a2, a3, a4⟩, ⟨p0, p1, p2, p3, p4, p5⟩, ⟨q0, q1, q2, q3, q4, q5⟩⟩ :=
     enc_fields a
   obtain ⟨-, ⟨r0, r1, r2, r3, r4, r5⟩, -⟩ := enc_fields b
-  simp only [mulK, mulR, mulV, a0, a1, a2, a3, a4, p0, p1, p2, p3, p4, p5, q0, q1, q2, q3, q4,
+  simp only [mulK, mulR, mulV, a0, a1, a2, a3, a4, q0, q1, q2, q3, q4,
     q5, r0, r1, r2, r3, r4, r5, vb_enc, im_enc, iv_enc]
   simp only [enc, Msp.vec_mul, Msp.perm_mul, mul_inv_rev, Perm.mul_apply, nrm_apply,
     Pi.add_apply, pact_apply, a.vec_five, zero_add, zval_add]
@@ -96,7 +96,7 @@ theorem enc_mul (a b : Msp) : enc (a * b) = mulK (enc a) (enc b) := by
 theorem enc_inv (a : Msp) : enc a⁻¹ = invK (enc a) := by
   obtain ⟨⟨a0, a1, a2, a3, a4⟩, ⟨p0, p1, p2, p3, p4, p5⟩, ⟨q0, q1, q2, q3, q4, q5⟩⟩ :=
     enc_fields a
-  simp only [invK, invR, a0, a1, a2, a3, a4, p0, p1, p2, p3, p4, p5, q0, q1, q2, q3, q4,
+  simp only [invK, invR, p0, p1, p2, p3, p4, p5, q0, q1, q2, q3, q4,
     q5, vb_enc]
   simp only [enc, Msp.vec_inv, Msp.perm_inv, inv_inv, nrm_apply, pact_apply, zval_add]
 

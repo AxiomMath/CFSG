@@ -48,21 +48,21 @@ theorem updD_spec {D : Nat → Bool} {j x : Nat} (h : updD D j x = true) : x = j
   · exact Or.inr h
 
 noncomputable def rlS (run : Nat → St → St) (CH PR : Nat → Nat) (S0 : Nat → St) (w x : Nat) : St :=
-  if h : w ≤ x ∧ f20 (CH (PR x)) (nat_lit 3) < x then
+  if _h : w ≤ x ∧ f20 (CH (PR x)) (nat_lit 3) < x then
     run (CH (PR x)) (rlS run CH PR S0 w (f20 (CH (PR x)) (nat_lit 3)))
   else S0 x
 termination_by x
-decreasing_by exact h.2
+decreasing_by exact _h.2
 
 theorem rlS_lt {run : Nat → St → St} {CH PR : Nat → Nat} {S0 : Nat → St} {w x : Nat} (h : x < w) :
     rlS run CH PR S0 w x = S0 x := by
   have hn : ¬(w ≤ x ∧ f20 (CH (PR x)) (nat_lit 3) < x) := fun h' => absurd h'.1 (by omega)
-  rw [rlS, dif_neg hn]
+  rw [rlS, dite_eq_right hn]
 
 theorem rlS_prod {run : Nat → St → St} {CH PR : Nat → Nat} {S0 : Nat → St} {w x : Nat}
     (h1 : w ≤ x) (h2 : f20 (CH (PR x)) (nat_lit 3) < x) :
     rlS run CH PR S0 w x = run (CH (PR x)) (rlS run CH PR S0 w (f20 (CH (PR x)) (nat_lit 3))) := by
-  rw [rlS, dif_pos ⟨h1, h2⟩]
+  rw [rlS, dite_eq_left ⟨h1, h2⟩]
 
 theorem rpl_cons (run : Nat → St → St) (chk : (Nat → St) → Nat → Bool) (CH PR : Nat → Nat)
     (w k : Nat) (G : List Nat) (T : Nat → St) (D : Nat → Bool) :

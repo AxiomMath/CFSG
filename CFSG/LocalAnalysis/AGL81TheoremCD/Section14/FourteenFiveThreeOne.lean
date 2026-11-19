@@ -40,7 +40,7 @@ theorem exists_setting1417 {p : ℕ} (hp : p ∈ sigmaSet G M) {d : G} (hd : d �
     (hrank : 2 ≤ CFSG.Open.pRank p (M ⊓ Subgroup.centralizer ({d} : Set G))) :
     ∃ Q' F' : Subgroup G,
       O1217.Setting1417 G M Q' (Subgroup.centralizer ({d} : Set G)) F' p := by
-  haveI : IsSimpleGroup G := c.choice.cstar.simple
+  have : IsSimpleGroup G := c.choice.cstar.simple
   have hdne : d ≠ 1 := by
     intro h1
     rw [h1, orderOf_one] at hd3
@@ -105,7 +105,7 @@ private lemma image_inf_centralizer_singleton (c : Ctx G M H E Q) {d : G}
   rw [hsub, c.map_φ_inf_centralizer_singleton hd.1 hd3]
 
 private lemma image_relPPrimeCore_le_stab (c : Ctx G M H E Q) {p : ℕ} {d : G}
-    (hd : d ∈ kSub 3 M H ⊓ M) {Q' F' : Subgroup G}
+    (_hd : d ∈ kSub 3 M H ⊓ M) {Q' F' : Subgroup G}
     (s : O1217.Setting1417 G M Q' (cent d) F' p) :
     ((KCO M H p d).subgroupOf (kSub 3 M H)).map c.φ ≤ a11TwoSetStab 9 10 := by
   intro x hx
@@ -161,7 +161,7 @@ private lemma exists_perfect_meets_image_bot (c : Ctx G M H E Q) {p : ℕ} {d : 
       (centralizer_le_normalizer_image_relPPrimeCore c hd hd3 s)⟩
 
 private lemma exists_map_derivedSeries_le_image_relPPrimeCore (c : Ctx G M H E Q) {p : ℕ}
-    {d : G} (hd : d ∈ kSub 3 M H ⊓ M) {Q' F' : Subgroup G}
+    {d : G} (_hd : d ∈ kSub 3 M H ⊓ M) {Q' F' : Subgroup G}
     (s : O1217.Setting1417 G M Q' (cent d) F' p)
     (hNsolv : Group.IsSolvable ↥(starImg p (cent d) (cent d ⊓ M))) :
     ∃ n : ℕ,
@@ -185,12 +185,12 @@ private lemma exists_map_derivedSeries_le_image_relPPrimeCore (c : Ctx G M H E Q
       (G := ↥Cg) p)).comp (Subgroup.inclusion hTCg)).range ≤ _
     rw [MonoidHom.range_comp, Subgroup.inclusion_range]
     exact Subgroup.map_mono (Subgroup.comap_mono (le_inf hTCg hTM))
-  haveI : Group.IsSolvable ↥(starImg p Cg (Cg ⊓ M)) := hNsolv
+  have : Group.IsSolvable ↥(starImg p Cg (Cg ⊓ M)) := hNsolv
   have hβsolv : Group.IsSolvable ↥β.range :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hβrange)
       (Subgroup.inclusion_injective hβrange)
   have hqsolv : Group.IsSolvable (↥T ⧸ β.ker) := by
-    haveI : Group.IsSolvable ↥β.range := hβsolv
+    have : Group.IsSolvable ↥β.range := hβsolv
     exact Group.isSolvable_of_surjective
       (f := (QuotientGroup.quotientKerEquivRange β).symm.toMonoidHom)
       (QuotientGroup.quotientKerEquivRange β).symm.surjective

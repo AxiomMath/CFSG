@@ -45,7 +45,7 @@ theorem quotient_center_nonabelian {G : Type*} [Group G] (hq : CFSG.Open.IsQuasi
     ∃ a b : G ⧸ Subgroup.center G, a * b ≠ b * a := by
   by_contra hcon
   push Not at hcon
-  haveI : IsSimpleGroup (G ⧸ Subgroup.center G) := hq.2
+  have : IsSimpleGroup (G ⧸ Subgroup.center G) := hq.2
   have hmap := Subgroup.map_commutator (⊤ : Subgroup G) ⊤ (QuotientGroup.mk' (Subgroup.center G))
   have hcomm : (⁅(⊤ : Subgroup G), ⊤⁆ : Subgroup G) = ⊤ := hq.1
   rw [hcomm, Subgroup.map_top, QuotientGroup.range_mk'] at hmap
@@ -67,11 +67,11 @@ theorem isCatalogGroup_quotient_center {X : Type} [Group X] (hK : CFSG.Open.IsKG
   have hle : L' ≤ L := Subgroup.map_subtype_le _
   have heq : L'.subgroupOf L = Subgroup.center ↥L :=
     Subgroup.comap_map_eq_self_of_injective L.subtype_injective _
-  haveI : (L'.subgroupOf L).Normal := heq ▸ inferInstance
+  have : (L'.subgroupOf L).Normal := heq ▸ inferInstance
   let e : (↥L ⧸ L'.subgroupOf L) ≃* (↥L ⧸ Subgroup.center ↥L) :=
     QuotientGroup.quotientMulEquivOfEq heq
-  haveI : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hq.2
-  haveI : IsSimpleGroup (↥L ⧸ L'.subgroupOf L) := e.isSimpleGroup
+  have : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hq.2
+  have : IsSimpleGroup (↥L ⧸ L'.subgroupOf L) := e.isSimpleGroup
   have hnab : ∃ a b : ↥L ⧸ L'.subgroupOf L, a * b ≠ b * a :=
     CFSG.KCore.nonabelian_of_mulEquiv e (quotient_center_nonabelian hq)
   obtain ⟨i, ⟨φ⟩⟩ := hK' L L' hle inferInstance hnab

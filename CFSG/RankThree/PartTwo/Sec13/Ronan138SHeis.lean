@@ -146,8 +146,8 @@ theorem mem_sup_of_commute_type3 {π : Bool} {p f : ℕ} {K : Type} [Field K]
       Subgroup.zpowers (ProjGenLinGroup.mk y) ⊔ Subgroup.zpowers (ProjGenLinGroup.mk b) := by
   obtain ⟨τ, hτ, hτ1⟩ := exists_tau hK hq
   have h3 : (3 : K) ≠ 0 := hK.three_ne_zero hq
-  haveI : Finite K := hK.finite
-  haveI : Finite (GL (Fin 3) K ⧸ StatedScalars (Fin 3) K) :=
+  have : Finite K := hK.finite
+  have : Finite (GL (Fin 3) K ⧸ StatedScalars (Fin 3) K) :=
     Finite.of_surjective _ QuotientGroup.mk_surjective
   obtain ⟨-, hy3Z, hirr⟩ : y ∉ zPi π 3 (p ^ f) K ∧ y ^ 3 ∈ zPi π 3 (p ^ f) K ∧
       ∀ W : Submodule K (Fin 3 → K),

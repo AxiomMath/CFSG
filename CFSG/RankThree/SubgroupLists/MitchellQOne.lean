@@ -29,7 +29,7 @@ theorem cliffB_eq_one_of_mul_self (h2 : (2 : K) ≠ 0) {Z : Matrix V₄ V₄ K} 
 
 theorem cliffB_sq_eq_one_of_commute (h2 : (2 : K) ≠ 0) {d e f : Matrix V₄ V₄ K}
     (hd : d ∈ (cliffSpace : Submodule K _)) (he : e ∈ (cliffSpace : Submodule K _))
-    (hf : f ∈ (cliffSpace : Submodule K _)) (hdd : d * d = 1) (hee : e * e = 1) (hff : f * f = 1)
+    (hf : f ∈ (cliffSpace : Submodule K _)) (hdd : d * d = 1) (_hee : e * e = 1) (hff : f * f = 1)
     (hind : ∀ a b c : K, a • d + b • e + c • f = 0 → a = 0 ∧ b = 0 ∧ c = 0)
     (hcomm : d * e * (d * f) = d * f * (d * e)) :
     cliffB d f * cliffB d f = 1 := by
@@ -146,7 +146,7 @@ theorem commute_of_rotations_orth [Finite K] {p : ℕ} [Fact p.Prime] [CharP K p
   apply mapGL_injective φ
   rw [map_mul, map_mul, hres]
 
-theorem lin_indep_of_not_mem_span (h2 : (2 : K) ≠ 0) {d e f : Matrix V₄ V₄ K}
+theorem lin_indep_of_not_mem_span (_h2 : (2 : K) ≠ 0) {d e f : Matrix V₄ V₄ K}
     (hdd : cliffB d d = 1) (hee : cliffB e e = 1) (hβ : cliffB d e * cliffB d e ≠ 1)
     (hfP : ∀ a b : K, f ≠ a • d + b • e) :
     ∀ a b c : K, a • d + b • e + c • f = 0 → a = 0 ∧ b = 0 ∧ c = 0 := by
@@ -234,10 +234,10 @@ theorem exists_pow_eq_of_three [Finite K] {p : ℕ} [Fact p.Prime] [CharP K p] (
     · constructor
       · intro h
         have hm := congrArg (fun z : GL V₄ K => (z : Matrix V₄ V₄ K)) h
-        simp only [Units.val_pow_eq_pow_val, pow_two, Units.val_mul, Units.val_one] at hm
+        simp only [pow_two, Units.val_mul, Units.val_one] at hm
         rw [hysq] at hm
         have hsc : (2 * γ) • ((d : Matrix V₄ V₄ K) * f) = (2 : K) • (1 : Matrix V₄ V₄ K) := by
-          rw [two_smul]; rw [sub_eq_iff_eq_add] at hm; rw [hm]; try abel
+          rw [two_smul]; rw [sub_eq_iff_eq_add] at hm; rw [hm]
         have hγ0 : (2 * γ) ≠ 0 := mul_ne_zero h2 hγ
         have hdf : (d : Matrix V₄ V₄ K) * f = (2 * γ)⁻¹ • (2 : K) • (1 : Matrix V₄ V₄ K) := by
           rw [← hsc, smul_smul, inv_mul_cancel₀ hγ0, one_smul]
@@ -249,7 +249,7 @@ theorem exists_pow_eq_of_three [Finite K] {p : ℕ} [Fact p.Prime] [CharP K p] (
                 add_zero]
       · intro h
         have hm := congrArg (fun z : GL V₄ K => (z : Matrix V₄ V₄ K)) h
-        simp only [Units.val_pow_eq_pow_val, pow_two, Units.val_mul, Units.val_neg,
+        simp only [pow_two, Units.val_mul, Units.val_neg,
           Units.val_one] at hm
         rw [hysq] at hm
         have hz : (2 * γ) • ((d : Matrix V₄ V₄ K) * f) = 0 := by
@@ -286,6 +286,7 @@ section Quasisimple
 
 variable [Finite K] {p : ℕ} [Fact p.Prime] [CharP K p] {G : Subgroup (GL V₄ K)}
 
+omit [Finite K] in
 theorem closure_ncImage_eq_top (hq : CFSG.IsQuasisimple G)
     (hZ : ∀ z ∈ Subgroup.center G, (z : GL V₄ K) = 1 ∨ (z : GL V₄ K) = -1)
     (hneg : (-1 : GL V₄ K) ∈ G) {t : G} (ht : IsNCInv (t : GL V₄ K)) :
@@ -318,6 +319,7 @@ theorem closure_ncImage_eq_top (hq : CFSG.IsQuasisimple G)
     exact Subgroup.subset_normalClosure rfl
   · exact h
 
+omit [Finite K] in
 theorem closure_conj_neg_eq_top (hq : CFSG.IsQuasisimple G)
     (hZ : ∀ z ∈ Subgroup.center G, (z : GL V₄ K) = 1 ∨ (z : GL V₄ K) = -1)
     (hneg : (-1 : GL V₄ K) ∈ G) {t : G} (ht : IsNCInv (t : GL V₄ K)) :
@@ -342,6 +344,7 @@ theorem closure_conj_neg_eq_top (hq : CFSG.IsQuasisimple G)
     rw [show x = ⟨-1, hneg⟩ * s from Subtype.ext (by simp [h])]
     exact S.mul_mem hm hs
 
+omit [Finite K] in
 theorem exists_conj_not_mem_span (hp2 : p ≠ 2) (hGS : G ≤ StatedSp 2 K)
     (hq : CFSG.IsQuasisimple G)
     (hZ : ∀ z ∈ Subgroup.center G, (z : GL V₄ K) = 1 ∨ (z : GL V₄ K) = -1)
@@ -530,11 +533,11 @@ theorem exists_conj_not_mem_span (hp2 : p ≠ 2) (hGS : G ≤ StatedSp 2 K)
     { carrier := {x | ((x : GL V₄ K) : Matrix V₄ V₄ K) * q = q *
         ((x : GL V₄ K) : Matrix V₄ V₄ K)}
       mul_mem' := fun {a b} ha hb => by
-        simp only [Set.mem_setOf_eq, Subgroup.coe_mul, Units.val_mul] at ha hb ⊢
+        simp only [Set.mem_ofPred_eq, Subgroup.coe_mul, Units.val_mul] at ha hb ⊢
         rw [Matrix.mul_assoc, hb, ← Matrix.mul_assoc, ha, Matrix.mul_assoc]
       one_mem' := by simp
       inv_mem' := fun {a} ha => by
-        simp only [Set.mem_setOf_eq] at ha ⊢
+        simp only [Set.mem_ofPred_eq] at ha ⊢
         have haa : (((a⁻¹ : G) : GL V₄ K) : Matrix V₄ V₄ K) *
             ((a : GL V₄ K) : Matrix V₄ V₄ K) = 1 := by
           rw [← Units.val_mul, ← Subgroup.coe_mul, inv_mul_cancel]; rfl

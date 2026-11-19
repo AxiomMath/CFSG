@@ -15,9 +15,9 @@ variable {V : Type*} [Group V] {X : Type*} [Group X] {ρ : X →* MulAut V} {Q :
 
 theorem XHyp.commutator_le_layer [Finite X] (h : XHyp ρ Q V₁ V₂ z Q₁ t₁) (hE : layer X ≠ ⊥) :
     ⁅Q, Q⁆ ≤ layer X := by
-  haveI : (layer X).Characteristic := CFSG.LocalCores.layer_characteristic
+  have : (layer X).Characteristic := CFSG.LocalCores.layer_characteristic
   have hEnorm : (layer X).Normal := Subgroup.normal_of_characteristic (layer X)
-  haveI : Group.IsPerfect ↥(layer X) := CFSG.LocalCores.layer_isPerfect
+  have : Group.IsPerfect ↥(layer X) := CFSG.LocalCores.layer_isPerfect
   set E := layer X with hEdef
   set J : Subgroup X := E ⊓ Subgroup.centralizer ({z} : Set X) with hJdef
   have hJle : J ≤ Subgroup.centralizer ({z} : Set X) := inf_le_right
@@ -62,7 +62,7 @@ theorem XHyp.commutator_le_layer [Finite X] (h : XHyp ρ Q V₁ V₂ z Q₁ t₁
         refine ⟨⟨zE, hzS⟩, ⟨1, S.one_mem⟩, ?_⟩
         intro h1
         exact hzE_ne (congrArg Subtype.val h1)
-      have hcenter : Nontrivial (center ↥S) := S.isPGroup'.center_nontrivial
+      have hcenter : Nontrivial (center ↥S) := S.isPGroup.center_nontrivial
       obtain ⟨w, hw⟩ := exists_ne (1 : center ↥S)
       have hwS : ((w : ↥S)) ≠ 1 := fun h1 => hw (Subtype.ext (by simpa using h1))
       have hwz : ((w : ↥S) : ↥E) ∈ Subgroup.centralizer ({zE} : Set ↥E) := by
@@ -93,16 +93,16 @@ theorem XHyp.commutator_le_layer [Finite X] (h : XHyp ρ Q V₁ V₂ z Q₁ t₁
         change Nat.card ↥(S : Subgroup ↥E) = 2
         rw [le_antisymm hSle hzpS, hzEcard]
       have hScyc : IsCyclic ↥S := by
-        haveI : Fact (Nat.card ↥S).Prime := ⟨by rw [hScard]; exact Nat.prime_two⟩
+        have : Fact (Nat.card ↥S).Prime := ⟨by rw [hScard]; exact Nat.prime_two⟩
         exact isCyclic_of_prime_card (p := Nat.card ↥S) rfl
       obtain ⟨N, hNnorm, hNS⟩ := exists_normal_isComplement'_of_isCyclic_sylow_two S hScyc
-      haveI : N.Normal := hNnorm
+      have : N.Normal := hNnorm
       have hquot : Nat.card (↥E ⧸ N) = 2 := by
         rw [← Subgroup.index_eq_card, hNS.symm.index_eq_card]
         exact hScard
       have hcommle : commutator ↥E ≤ N :=
         Subgroup.Normal.quotient_commutative_iff_commutator_le.mp (by
-          haveI : Fact (Nat.card (↥E ⧸ N)).Prime := ⟨by rw [hquot]; exact Nat.prime_two⟩
+          have : Fact (Nat.card (↥E ⧸ N)).Prime := ⟨by rw [hquot]; exact Nat.prime_two⟩
           exact (isCyclic_of_prime_card (p := Nat.card (↥E ⧸ N)) rfl).isMulCommutative)
       have hNtop : N = ⊤ := by
         refine le_antisymm le_top ?_
@@ -149,7 +149,7 @@ theorem XHyp.commutator_le_layer [Finite X] (h : XHyp ρ Q V₁ V₂ z Q₁ t₁
           rw [← map_mul, h.mul_self, map_one]
         show MulAut.conjNormal z (MulAut.conjNormal z e) = e
         rw [← MulAut.mul_apply, hzz, MulAut.one_apply]
-      haveI : IsMulCommutative ↥E :=
+      have : IsMulCommutative ↥E :=
         IsMulCommutative.of_comm fun a b => (hσfree.commute_all_of_involutive hσinv a b).eq
       exact hE ((Subgroup.eq_bot_iff_forall (layer X)).mpr fun x hx => by
         have h1 : (⟨x, hx⟩ : ↥E) = 1 := Subsingleton.elim _ _
@@ -158,8 +158,8 @@ theorem XHyp.commutator_le_layer [Finite X] (h : XHyp ρ Q V₁ V₂ z Q₁ t₁
 
 theorem XHyp.odd_card_center_layer [Finite X] (h : XHyp ρ Q V₁ V₂ z Q₁ t₁)
     (hX : zpowers z ⊔ Q ≠ ⊤) : Odd (Nat.card (center (layer X))) := by
-  haveI : Finite V := Nat.finite_of_card_ne_zero (by rw [h.card_V]; norm_num)
-  haveI : (layer X).Characteristic := CFSG.LocalCores.layer_characteristic
+  have : Finite V := Nat.finite_of_card_ne_zero (by rw [h.card_V]; norm_num)
+  have : (layer X).Characteristic := CFSG.LocalCores.layer_characteristic
   have hEnorm : (layer X).Normal := Subgroup.normal_of_characteristic (layer X)
   let S : Subgroup X :=
     { carrier := {c : X | c ∈ layer X ∧

@@ -100,7 +100,7 @@ private theorem g2GenOut_M_pow (a : Array ℕ) (n : ℕ) : M a ^ n = M (mpowArr 
 
 theorem g23_phi_genGood_of_check (hchk : g2GenCheck = true) : IsGenGood phi := by
   change IsGenGood phiG
-  haveI : CharP (ZMod 3) ReeTag.G2.prime := ZMod.charP 3
+  have : CharP (ZMod 3) ReeTag.G2.prime := ZMod.charP 3
   have h := hchk
   simp only [g2GenCheck, Bool.and_eq_true, and_assoc] at h
   obtain ⟨-, -, -, -, -, h6, h7, h8, h9, h10⟩ := h

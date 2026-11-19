@@ -31,7 +31,7 @@ theorem lowerBlock2_mul_of_presA {n m : ℕ} (h : n = m + 2)
   have hA : ∀ c : Fin m, g₁ ⟨m + a.val, by omega⟩ (Fin.castAdd 2 c) *
       g₂ (Fin.castAdd 2 c) ⟨m + b.val, by omega⟩ = 0 := by
     intro c
-    have hz := h₁ (Fin.castAdd 2 c) ⟨m + a.val, by omega⟩ (by simpa using c.isLt)
+    have hz := h₁ (Fin.castAdd 2 c) ⟨m + a.val, by omega⟩ (by simp)
       (Nat.le_add_right _ _)
     rw [hz, zero_mul]
   rw [Finset.sum_eq_zero (fun c _ => hA c), zero_add]
@@ -67,7 +67,7 @@ theorem exists_gl_lower_transvection {n m : ℕ} (h : n = m + 2) :
       intro e
       have := congrArg Fin.val e
       omega
-    rw [Pi.single_apply, if_neg hne, Pi.single_zero, add_zero]
+    rw [Pi.single_apply, ite_eq_right hne, Pi.single_zero, add_zero]
   have hTT : Matrix.transvection i j (1 : ZMod 2) * Matrix.transvection i j (1 : ZMod 2) = 1 := by
     rw [Matrix.transvection_mul_transvection_same i j hij,
       show (1 : ZMod 2) + 1 = 0 by decide, Matrix.transvection_zero]

@@ -56,7 +56,7 @@ theorem selfNormalizing_alt_six_ch615 : ∀ S₀ : Subgroup ↥(alternatingGroup
   obtain ⟨P, hP⟩ := CFSG.LieType.SteinbergBR.SmallAlt.exists_selfNormalizing_six
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hPs : IsSylowTwoOf (P : Subgroup ↥(alternatingGroup (Fin 6))) ⊤ :=
-    ⟨le_top, P.isPGroup', fun h2 => by
+    ⟨le_top, P.isPGroup, fun h2 => by
       change 2 ∣ (P : Subgroup ↥(alternatingGroup (Fin 6))).relIndex ⊤ at h2
       rw [Subgroup.relIndex_top_right] at h2
       exact P.not_dvd_index h2⟩

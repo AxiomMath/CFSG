@@ -188,7 +188,7 @@ theorem oddCoreCheckC_of_reps (QA QP : RawSchreierDatum n) (hA : ValidSchreier Q
   intro τ hτ
   cases hb : (powOneC τ 2 && !decide (τ = 1))
   · rfl
-  · rw [cond_true]
+  · rw [_root_.Bool.cond_true]
     obtain ⟨r, hr, g, hgP, rfl⟩ := hcl τ (List.mem_filter.2 ⟨hτ, hb⟩)
     exact oddCoreAtC_conj QA QP hA hP ((mem_elemsC QA hA g).2 (hle ((mem_elemsC QP hP g).1 hgP)))
       hgP m r (hR r hr)

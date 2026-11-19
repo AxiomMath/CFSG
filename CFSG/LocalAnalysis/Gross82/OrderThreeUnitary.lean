@@ -113,7 +113,7 @@ private theorem card_fixedSubgroup_dvd_PSU_field {K : Type} [Group K] [Finite K]
     (hcard : Nat.card (fixedSubgroup α) = Nat.card (fixedSubgroup β))
     (hσ1 : primeFormFieldFactor h (isPrimeFormGram_one (n := n)) hn hne' β ≠ 1) :
     3 ∣ f ∧ Nat.card (fixedSubgroup α) ∣ lieOrderNumerator .PSL n ((ℓ ^ (f / 3)) ^ 2) := by
-  haveI := h.finite
+  have := h.finite
   set σ := primeFormFieldFactor h (isPrimeFormGram_one (n := n)) hn hne' β with hσdef
   have hσne : σ ≠ 1 := by rw [hσdef]; exact hσ1
   have hσp : σ ^ 3 = 1 := by rw [hσdef, ← map_pow, hβp, map_one]
@@ -175,12 +175,12 @@ theorem grossThreeInnerOrderThree_PSU (hLie : LieOrderFormulasInput) {K : Type} 
     (h3 : 3 ∣ lieOrderDivisor .PSU n (ℓ ^ f)) : GrossThreeInnerOrderThree K := by
   intro α hα3 P hfix
   by_contra hαin
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcl : StatedClassicalModel K .PSU n ℓ f := hmodel.statedClassicalModel (by decide)
   obtain ⟨⟨hℓ, hf, hn, hne⟩, F, hF, hFin, hFcard, ⟨e⟩⟩ := hcl
   have hne' : ¬(n = 3 ∧ ℓ ^ f = 2) := fun ⟨h1, h2⟩ => hne (by rw [h1, h2])
   have h : UnitaryFieldData ℓ f F := ⟨hℓ, hf, by rw [hFcard, ← pow_mul, mul_comm]⟩
-  haveI := h.finite
+  have := h.finite
   have h3' : 3 ∣ Nat.gcd n (ℓ ^ f + 1) := h3
   have h3n : 3 ∣ n := h3'.trans (Nat.gcd_dvd_left n (ℓ ^ f + 1))
   have h3q : 3 ∣ ℓ ^ f + 1 := h3'.trans (Nat.gcd_dvd_right n (ℓ ^ f + 1))

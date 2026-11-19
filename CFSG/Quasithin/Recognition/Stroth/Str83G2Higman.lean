@@ -40,13 +40,13 @@ theorem commutator_le_of_two_natural_chiefSteps
   have hRUN : RU ≤ NU := by
     intro x hx
     exact Subgroup.mem_subgroupOf.mpr (hRUle (Subgroup.mem_subgroupOf.mp hx))
-  haveI hRU_normal : RU.Normal :=
+  have hRU_normal : RU.Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (hUH.trans hHR)
-  haveI hNU_normal : NU.Normal :=
+  have hNU_normal : NU.Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (hUH.trans hHN)
   let Q : Type := ↥U ⧸ RU
   let M : Subgroup Q := NU.map (QuotientGroup.mk' RU)
-  haveI hM_normal : M.Normal := QuotientGroup.map_normal RU NU
+  have hM_normal : M.Normal := QuotientGroup.map_normal RU NU
   let eQ : Q ⧸ M ≃* ↥U ⧸ NU :=
     QuotientGroup.quotientQuotientEquivQuotient RU NU hRUN
   have hUN : U ≤ Subgroup.normalizer (N : Set G) := hUH.trans hHN
@@ -58,7 +58,7 @@ theorem commutator_le_of_two_natural_chiefSteps
       (QuotientGroup.quotientKerEquivOfSurjective (Ch3z.chiefIota hUN)
         (Ch3z.chiefIota_surjective hUN))
   have hNR : N ≤ Subgroup.normalizer (R : Set G) := (hNUle.trans hUH).trans hHR
-  haveI hRsubN_normal : (R.subgroupOf N).Normal :=
+  have hRsubN_normal : (R.subgroupOf N).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hNR
   have hkerN : (Ch3z.chiefIota hNR).ker = R.subgroupOf N := by
     ext n
@@ -111,11 +111,11 @@ theorem commutator_le_of_two_natural_chiefSteps
   let eM : ↥M ≃* Ch3z.chiefMod R N :=
     ((QuotientGroup.quotientMulEquivOfEq hkerpsi.symm).trans
       (QuotientGroup.quotientKerEquivOfSurjective psi hpsi_surj)).symm.trans eN
-  letI : CommGroup (Ch3z.chiefMod R N) := l2ChiefSectionCommGroup hE_R
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod R N)) := l2ChiefSectionModule hE_R
+  let : CommGroup (Ch3z.chiefMod R N) := l2ChiefSectionCommGroup hE_R
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod R N)) := l2ChiefSectionModule hE_R
   obtain ⟨eB, hB⟩ := hnat_R
-  letI : CommGroup (Ch3z.chiefMod N U) := l2ChiefSectionCommGroup hE_U
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod N U)) := l2ChiefSectionModule hE_U
+  let : CommGroup (Ch3z.chiefMod N U) := l2ChiefSectionCommGroup hE_U
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod N U)) := l2ChiefSectionModule hE_U
   obtain ⟨eA, hA⟩ := hnat_U
   let phiA : Additive (Q ⧸ M) ≃+ (Fin 2 → GaloisField 2 m) :=
     ((eQ.trans eU).toAdditive).trans eA
@@ -123,16 +123,16 @@ theorem commutator_le_of_two_natural_chiefSteps
     (eM.toAdditive).trans eB
   let actU : MulDistribMulAction ↥H ↥U :=
     Subgroup.conjMulDistribMulActionOfLeNormalizer H U hHU
-  letI : MulDistribMulAction ↥H ↥U := actU
+  let : MulDistribMulAction ↥H ↥U := actU
   have hRinv : CFSG.IsInvariant ↥H ↥U RU := by
     refine CFSG.SolvableHall.isInvariant_of_forall_smul_mem ?_
     intro h r hr
     rw [Subgroup.mem_subgroupOf] at hr ⊢
     change (h : G) * (r : G) * (h : G)⁻¹ ∈ R
     exact (Subgroup.mem_normalizer_iff.mp (hHR h.2) (r : G)).mp hr
-  letI : MulDistribMulAction ↥H Q :=
+  let : MulDistribMulAction ↥H Q :=
     CFSG.quotientMulDistribMulAction (A := ↥H) (G := ↥U) RU hRinv
-  letI : MulAction.QuotientAction ↥H RU :=
+  let : MulAction.QuotientAction ↥H RU :=
     CFSG.quotientAction_of_isInvariant (A := ↥H) RU hRinv
   let act : ↥H →* MulAut Q := MulDistribMulAction.toMulAut ↥H Q
   have hactM : ∀ γ, ∀ n ∈ M, act γ n ∈ M := by
@@ -203,7 +203,7 @@ theorem commutator_le_of_two_natural_chiefSteps
       congr 1
     rw [← hρ]
     exact hA _ _
-  letI : MulDistribMulAction ↥H ↥N :=
+  let : MulDistribMulAction ↥H ↥N :=
     Subgroup.conjMulDistribMulActionOfLeNormalizer H N hHN
   have heψ_mk : ∀ n : ↥N,
       ((QuotientGroup.quotientMulEquivOfEq hkerpsi.symm).trans

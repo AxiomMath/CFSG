@@ -13,17 +13,17 @@ theorem s16h_nontrivial_of_isQuasisimple {X : Type} [Group X]
     (hX : CFSG.Open.IsQuasisimple X) : Nontrivial X := by
   by_contra h
   rw [not_nontrivial_iff_subsingleton] at h
-  haveI : Subsingleton X := h
-  haveI : Subsingleton (X ⧸ Subgroup.center X) := inferInstance
+  have : Subsingleton X := h
+  have : Subsingleton (X ⧸ Subgroup.center X) := inferInstance
   obtain ⟨a, b, hab⟩ := hX.2.exists_pair_ne
   exact hab (Subsingleton.elim a b)
 
 theorem s16h_not_isMulCommutative_of_isQuasisimple {X : Type} [Group X]
     (hX : CFSG.Open.IsQuasisimple X) : ¬ IsMulCommutative X := by
   intro h
-  haveI := h
+  have := h
   have hc : Subgroup.center X = ⊤ := Subgroup.center_eq_top
-  haveI : Subsingleton (X ⧸ Subgroup.center X) := by
+  have : Subsingleton (X ⧸ Subgroup.center X) := by
     rw [hc]
     exact QuotientGroup.subsingleton_quotient_top
   obtain ⟨a, b, hab⟩ := hX.2.exists_pair_ne
@@ -140,8 +140,8 @@ theorem s16h_three_mul_dvd_pow_sub_one {q g : ℕ} (hq : 1 ≤ q) (hg : g ∣ q 
 theorem s16h_subsingleton_statedSL_of_le_one {K : Type} [Field K] {n : ℕ} (hn : n ≤ 1) :
     Subsingleton ↥(StatedSL n K) := by
   rcases Nat.le_one_iff_eq_zero_or_eq_one.1 hn with rfl | rfl
-  · haveI : Subsingleton (Matrix (Fin 0) (Fin 0) K) := inferInstance
-    haveI : Subsingleton (GL (Fin 0) K) :=
+  · have : Subsingleton (Matrix (Fin 0) (Fin 0) K) := inferInstance
+    have : Subsingleton (GL (Fin 0) K) :=
       Subsingleton.units_of_isUnit fun a _ => Subsingleton.elim a 1
     infer_instance
   · have hle : StatedSL 1 K ≤ ⊥ := by
@@ -160,7 +160,7 @@ theorem s16h_subsingleton_statedSL_of_le_one {K : Type} [Field K] {n : ℕ} (hn 
 
 theorem s16h_subsingleton_statedSU_of_le_one {K : Type} [Field K] {n q : ℕ} (hn : n ≤ 1) :
     Subsingleton ↥(StatedSU n q K) := by
-  haveI : Subsingleton ↥(StatedSL n K) := s16h_subsingleton_statedSL_of_le_one hn
+  have : Subsingleton ↥(StatedSL n K) := s16h_subsingleton_statedSL_of_le_one hn
   refine Subsingleton.intro fun a b => ?_
   have ha : (a : GL (Fin n) K) ∈ StatedSL n K := CFSG.Open.StatedAPI.statedSU_le_statedSL n q K a.2
   have hb : (b : GL (Fin n) K) ∈ StatedSL n K := CFSG.Open.StatedAPI.statedSU_le_statedSL n q K b.2
@@ -172,10 +172,10 @@ theorem s16h_subsingleton_statedSU_of_le_one {K : Type} [Field K] {n q : ℕ} (h
 
 theorem s16h_card_statedSp_zero (K : Type) [Field K] :
     Nat.card ↥(StatedSp 0 K) = 1 := by
-  haveI : Subsingleton (Matrix (Fin 0 ⊕ Fin 0) (Fin 0 ⊕ Fin 0) K) := inferInstance
-  haveI : Subsingleton (GL (Fin 0 ⊕ Fin 0) K) :=
+  have : Subsingleton (Matrix (Fin 0 ⊕ Fin 0) (Fin 0 ⊕ Fin 0) K) := inferInstance
+  have : Subsingleton (GL (Fin 0 ⊕ Fin 0) K) :=
     Subsingleton.units_of_isUnit fun a _ => Subsingleton.elim a 1
-  haveI : Subsingleton ↥(StatedSp 0 K) := inferInstance
+  have : Subsingleton ↥(StatedSp 0 K) := inferInstance
   exact Nat.card_of_subsingleton 1
 
 end CFSG.LocalAnalysis.UniquenessCase.PartTwo

@@ -28,7 +28,7 @@ theorem card_cases_of_orbits {P X : Type*} [Group P] [MulAction P X] :
         exact hinv p y hy
       have h1 : ((Y.filter (· ∈ orbit P y) : Finset X) : Set X) = orbit P y := by
         ext z
-        simp only [Finset.coe_filter, Set.mem_setOf_eq]
+        simp only [Finset.coe_filter, Set.mem_ofPred_eq]
         exact ⟨fun h => h.2, fun h => ⟨hOY h, h⟩⟩
       have hcard1 : (Y.filter (· ∈ orbit P y)).card = (orbit P y).ncard := by
         rw [← Set.ncard_coe_finset, h1]
@@ -103,13 +103,15 @@ variable {i : ℕ} (hi : i = 0 ∨ i = 1)
   {M : Subgroup (V12 ≃ₗ[ZMod 2] V12)} (H : Step6Hyp i M)
 include hi H
 
+omit H in
 theorem p2_le_n2 : SigmaP.p2 i ≤ ResPair.n2 i := by
   rw [← SigmaP.commutator_n2 hi]
   refine Subgroup.commutator_le.2 fun a ha b hb => ?_
   rw [commutatorElement_def]
   exact mul_mem (mul_mem (mul_mem ha hb) (inv_mem ha)) (inv_mem hb)
 
-theorem p2_le_gammaU : SigmaP.p2 i ≤ gammaU := (p2_le_n2 hi H).trans (n2_le_gammaU hi)
+omit H in
+theorem p2_le_gammaU : SigmaP.p2 i ≤ gammaU := (p2_le_n2 hi).trans (n2_le_gammaU hi)
 
 theorem mem_gammaU_of_conj {g : V12 ≃ₗ[ZMod 2] V12} (hg : g ∈ M)
     (hτ : g⁻¹ * thetaU * g ∈ gammaU) : g ∈ gammaU := by
@@ -166,7 +168,7 @@ theorem ncard_s45 : ({v | ∃ y ∈ SigmaP.s45 i, vecOf y = v} : Set V12).ncard 
     simp
   have hinj : Set.InjOn vecOf ((SigmaP.s45 i).toFinset : Set ℕ) := by
     intro a ha b hb hab
-    simp only [List.coe_toFinset, Set.mem_setOf_eq] at ha hb
+    simp only [List.coe_toFinset, Set.mem_ofPred_eq] at ha hb
     exact vecOf_inj (SigmaP.orbit_lt hi a ha) (SigmaP.orbit_lt hi b hb) hab
   rw [hset, hinj.ncard_image, Set.ncard_coe_finset,
     List.toFinset_card_of_nodup (s45_nodup hi H), s45_length hi H]
@@ -197,7 +199,7 @@ theorem ncard_sing :
   have hset : ({v : V12 | v ≠ 0 ∧ q0 v = 0} : Set V12) =
       vecOf '' ((singCodes ()).toFinset : Set ℕ) := by
     ext v
-    simp only [Set.mem_setOf_eq, Set.mem_image, List.coe_toFinset, hmem]
+    simp only [Set.mem_ofPred_eq, Set.mem_image, List.coe_toFinset, hmem]
     constructor
     · rintro ⟨hv0, hq⟩
       refine ⟨codeOf v, ⟨codeOf_lt v, fun h0 => hv0 ?_, ?_⟩, vecOf_codeOf v⟩
@@ -214,7 +216,7 @@ theorem ncard_sing :
       rfl
   have hinj : Set.InjOn vecOf ((singCodes ()).toFinset : Set ℕ) := by
     intro a ha b hb hab
-    simp only [List.coe_toFinset, Set.mem_setOf_eq, hmem] at ha hb
+    simp only [List.coe_toFinset, Set.mem_ofPred_eq, hmem] at ha hb
     exact vecOf_inj ha.1 hb.1 hab
   rw [hset, hinj.ncard_image, Set.ncard_coe_finset, List.toFinset_card_of_nodup hnd, h]
 
@@ -295,15 +297,15 @@ theorem index_cases : (gammaU.subgroupOf M).index = 1 ∨ (gammaU.subgroupOf M).
   classical
   set K := gammaU.subgroupOf M with hK
   let X := ↥M ⧸ K
-  haveI : Fintype X := Fintype.ofFinite X
-  have hPM : SigmaP.p2 i ≤ M := (p2_le_n2 hi H).trans H.n2_le
+  have : Fintype X := Fintype.ofFinite X
+  have hPM : SigmaP.p2 i ≤ M := (p2_le_n2 hi).trans H.n2_le
   let ι : ↥(SigmaP.p2 i) →* ↥M := Subgroup.inclusion hPM
-  letI : MulAction ↥(SigmaP.p2 i) X := MulAction.compHom X ι
+  let : MulAction ↥(SigmaP.p2 i) X := MulAction.compHom X ι
   have hsmul : ∀ (p : ↥(SigmaP.p2 i)) (g : ↥M), p • (g : X) = ((ι p * g : ↥M) : X) := fun _ _ => rfl
   set x₀ : X := ((1 : ↥M) : X)
   have hfix0 : ∀ p : ↥(SigmaP.p2 i), p • x₀ = x₀ := fun p => by
     rw [hsmul, mul_one, QuotientGroup.eq, mul_one, inv_mem_iff, mem_subgroupOf]
-    exact p2_le_gammaU hi H p.2
+    exact p2_le_gammaU hi p.2
   set θ' : ↥(SigmaP.p2 i) := ⟨thetaU, SigmaP.thetaU_mem_p2 hi⟩
   have hθfix : ∀ x : X, θ' • x = x → x = x₀ := by
     intro x hx
@@ -358,7 +360,7 @@ theorem le_gammaU : M ≤ gammaU := by
   have hprime : ∀ p, K.index = p → p = 19 ∨ p = 37 → False := by
     intro p hp hp'
     have hpr : p.Prime := by rcases hp' with rfl | rfl <;> decide
-    haveI : Fact p.Prime := ⟨hpr⟩
+    have : Fact p.Prime := ⟨hpr⟩
     obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' p (hp ▸ hdvd)
     have hg' : orderOf (g : V12 ≃ₗ[ZMod 2] V12) = p := by
       rw [← hg]
@@ -386,7 +388,7 @@ theorem le_gammaU : M ≤ gammaU := by
         rw [H.isom _ m.2, q0_vecOf]
         rfl
     have hTcard : T.ncard = 9 := by
-      rw [hT, Set.ncard_diff hΩsub (Set.toFinite _), ncard_sing, hΩ, card_orbit_a0 hi H, h]
+      rw [hT, Set.ncard_sdiff hΩsub (Set.toFinite _), ncard_sing, hΩ, card_orbit_a0 hi H, h]
     have hTinv : ∀ m ∈ M, ∀ t ∈ T, m t ∈ T := by
       intro m hm t ⟨⟨ht0, htq⟩, htΩ⟩
       refine ⟨⟨fun h0 => ht0 (m.injective (h0.trans (map_zero m).symm)), by rw [H.isom m hm, htq]⟩,

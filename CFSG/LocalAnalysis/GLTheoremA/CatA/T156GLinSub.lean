@@ -18,7 +18,7 @@ theorem range_subfieldHom' (hd : 2 ≤ d) {m : ℕ} (hm : 1 ≤ m) (hK : Nat.car
     {f : MulAut (LargeEvenProj (LargeEvenSLGroup (Fin d) K))} (hf : Induced σ f) :
     (subfieldHom σ).range = ggFixDer f := by
   classical
-  haveI : Nonempty (Fin d) := ⟨⟨0, by omega⟩⟩
+  have : Nonempty (Fin d) := ⟨⟨0, by omega⟩⟩
   let H : Subgroup (GL (Fin d) K) := LargeEvenSLGroup (Fin d) K
   let π : H →* LargeEvenProj H := LargeEvenProjMk H
   let ρ : MulAut H := matAct H (slMapStable d K) σ
@@ -59,7 +59,7 @@ theorem range_subfieldHom' (hd : 2 ≤ d) {m : ℕ} (hm : 1 ≤ m) (hK : Nat.car
   have hmem : ∀ x : H, f (QuotientGroup.mk x) = QuotientGroup.mk (ρ x) := hf
   obtain ⟨hDT, hcomm, -⟩ := FR.subfield_core ((LargeEvenScalars (Fin d) K).subgroupOf H)
     hZc hZodd ρ f hmem
-  haveI hperf : Group.IsPerfect ↥(LargeEvenSLGroup (Fin d) (fixF σ)) :=
+  have hperf : Group.IsPerfect ↥(LargeEvenSLGroup (Fin d) (fixF σ)) :=
     Subgroup.isPerfect_iff.2 (commutator_slGroup' (F := fixF σ) hd hk)
   have hDperf : Group.IsPerfect ↥D := by
     have h1 : Group.IsPerfect ↥((subfieldHom (d := d) σ).range) :=
@@ -70,7 +70,7 @@ theorem range_subfieldHom' (hd : 2 ≤ d) {m : ℕ} (hm : 1 ≤ m) (hK : Nat.car
   unfold ggFixDer
   rw [hT]
   refine le_antisymm ?_ hcomm
-  · haveI := hDperf
+  · have := hDperf
     rw [← Subgroup.commutator_eq_self (H := D)]
     exact Subgroup.commutator_mono hDT hDT
 

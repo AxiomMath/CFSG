@@ -180,7 +180,7 @@ private theorem holderSev_getP {Z : Nat} {L : List Nat} (h : holderSevRp Z L) (i
   · rw [show (i * 20 + j) / 20 = i by omega, show (i * 20 + j) % 20 = j by omega]
     by_cases hi : i < L.length
     · simp [hi, hj]
-    · simp [hi, hj, holderSev_getD_of_ge (Nat.le_of_not_lt hi)]
+    · simp [hi, hj]
   · rw [decide_eq_false hj, Bool.and_false]
     exact (Nat.testBit_lt_two_pow (holderSev_lt_pow hL (by omega))).symm
 
@@ -226,7 +226,7 @@ private theorem holderSev_mask {Z : Nat} {L : List Nat} (h : holderSevRp Z L) (n
   by_cases hk : k / 20 < n
   · have h1 : k < n * 20 := by omega
     have e : (L.take n).getD (k / 20) 0 = L.getD (k / 20) 0 := by
-      rw [List.getD_eq_getElem?_getD, List.getElem?_take, if_pos hk, ← List.getD_eq_getElem?_getD]
+      rw [List.getD_eq_getElem?_getD, List.getElem?_take, ite_eq_left hk, ← List.getD_eq_getElem?_getD]
     rw [e]
     simp [hk, h1]
   · have h1 : ¬ k < n * 20 := by omega
@@ -450,7 +450,7 @@ private theorem holderSev_strip (hV : VN NW NT) : ∀ (ts : List (List Nat)) (i 
     have hS : stripL NW NT (t :: ts) i c = stripL NW NT ts (i + 1) (c.map (cP NW NT (invC t))) := by
       show (if (∀ l ∈ t, 4 * i ≤ l ∧ l < 26) ∧ cP NW NT t (cb.getD i 0) = c.getD i 0 then
         stripL NW NT ts (i + 1) (c.map (cP NW NT (invC t))) else none) = _
-      rw [if_pos ⟨hlev, hpt⟩]
+      rw [ite_eq_left ⟨hlev, hpt⟩]
     have hpi : ptC NW NT (invC t) = cP NW NT (invC t) := funext (ptC_eq NW NT _)
     have hM : holderSevRp (mapP (ptC NW NT (invC t)) 6 C) (c.map (cP NW NT (invC t))) := by
       have := holderSev_mapP h (f := ptC NW NT (invC t))

@@ -24,7 +24,7 @@ theorem eq_one_of_conj_eq_smul_tvSL {n : ℕ} (hn : 2 ≤ n) (X : GL (Fin n) K)
         Matrix (Fin n) (Fin n) K)) :
     c = 1 := by
   classical
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr hn
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr hn
   set T : Matrix (Fin n) (Fin n) K :=
     ((tvSL a f hf : SpecialLinearGroup (Fin n) K) :
       Matrix (Fin n) (Fin n) K) with hTdef
@@ -131,7 +131,7 @@ theorem exists_tvCenterSL_of_conjAut_fixes_tvCenter {n : ℕ} (hn : 3 ≤ n)
       conjAut n K X = conjAut n K (Matrix.SpecialLinearGroup.toGL S.1) := by
   classical
   have hn2 : 2 ≤ n := by omega
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr hn2
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr hn2
   have hcomm : ∀ (f : Fin n → K) (hf : f ⬝ᵥ a = 0),
       ((X : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) * vecMulVec a f =
         vecMulVec a f * ((X : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) := by
@@ -180,10 +180,6 @@ theorem exists_tvCenterSL_of_conjAut_fixes_tvCenter {n : ℕ} (hn : 3 ≤ n)
   have hXGL : X = GeneralLinearGroup.scalar (Fin n) (Units.mk0 ν hν) *
       (Matrix.SpecialLinearGroup.toGL S.1) := by
     apply Units.ext
-    change ((X : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) =
-      (((GeneralLinearGroup.scalar (Fin n) (Units.mk0 ν hν) *
-        (Matrix.SpecialLinearGroup.toGL S.1) :
-          GL (Fin n) K)) : Matrix (Fin n) (Fin n) K)
     rw [GeneralLinearGroup.coe_mul, GeneralLinearGroup.coe_scalar]
     rw [hXeq']
     rw [Units.val_mk0, Matrix.scalar_apply, ← smul_one_eq_diagonal, Matrix.smul_mul,
@@ -193,7 +189,7 @@ theorem exists_tvCenterSL_of_conjAut_fixes_tvCenter {n : ℕ} (hn : 3 ≤ n)
 theorem card_elemAbelian_two_aut_projSU_fixes_tvCenter [Finite K] {n : ℕ} (hn : 3 ≤ n)
     {a : Fin n → K} (ha : a ≠ 0)
     (A : Subgroup (MulAut (projectiveSL n K)))
-    (hA : IsElemAbelian 2 A)
+    (_hA : IsElemAbelian 2 A)
     (hfix : ∀ α ∈ A, ∀ (f : Fin n → K) (hf : f ⬝ᵥ a = 0),
       α (CFSG.LocalAnalysis.ComponentInitial.LinearFlag.proj n K
           (CFSG.CGT.Timmesfeld75.tvSL a f hf)) =
@@ -228,7 +224,7 @@ theorem card_elemAbelian_two_aut_projSU_fixes_tvCenter [Finite K] {n : ℕ} (hn 
       _ = conjAut n K (Matrix.SpecialLinearGroup.toGL (Sfun β).1) := by rw [hαβ]
       _ = conjAut n K (X β) := (hSspec β).symm
       _ = (β : MulAut (projectiveSL n K)) := (hXα β).symm
-  haveI : Finite (tvCenterSL (m := n) (K := K) a) := Subtype.finite
+  have : Finite (tvCenterSL (m := n) (K := K) a) := Subtype.finite
   calc Nat.card A ≤ Nat.card (tvCenterSL (m := n) (K := K) a) :=
         Nat.card_le_card_of_injective Sfun hinj
     _ = Nat.card K ^ (n - 1) := card_tvCenterSL ha

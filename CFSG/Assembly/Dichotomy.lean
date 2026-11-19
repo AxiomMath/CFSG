@@ -11,7 +11,7 @@ namespace CFSG.Assembly
 namespace Dichotomy
 
 theorem involutionGraph_disconnected_iff_stronglyEmbedded (G : Type) [Group G] [Finite G]
-    (heven : Even (Nat.card G)) :
+    (_heven : Even (Nat.card G)) :
     ¬ (involutionGraph G).Preconnected ↔ ∃ M : Subgroup G, dichotomyStronglyEmbedded M := by
   constructor
   · intro hdisc
@@ -24,14 +24,14 @@ theorem involutionGraph_disconnected_iff_stronglyEmbedded (G : Type) [Group G] [
         one_mem' := by simp
         mul_mem' := by
           intro a b ha hb
-          simp only [Set.mem_setOf_eq] at *
+          simp only [Set.mem_ofPred_eq] at *
           have : (fun t => (a * b)⁻¹ * t * (a * b)) =
               (fun t => b⁻¹ * t * b) ∘ (fun t => a⁻¹ * t * a) := by
             funext t; simp [mul_assoc]
           rw [this, Set.image_comp, ha, hb]
         inv_mem' := by
           intro g hg
-          simp only [Set.mem_setOf_eq] at *
+          simp only [Set.mem_ofPred_eq] at *
           conv_lhs => rw [← hg]
           rw [Set.image_image]
           simp [mul_assoc] }

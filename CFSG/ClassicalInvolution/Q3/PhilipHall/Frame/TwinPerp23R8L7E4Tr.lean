@@ -28,11 +28,11 @@ theorem twin_le_normalizer (F : Q8Pre G Φ) {K K' : Subgroup G} (hK : K ∈ Φ) 
 theorem isSolvable_of_ker_pow_two {A B : Type} [Group A] [Finite A] [Group B] (ρ : A →* B)
     (h2 : ∀ x ∈ ρ.ker, ∃ k : ℕ, x ^ (2 ^ k) = 1) (hB : Group.IsSolvable B) :
     Group.IsSolvable A := by
-  haveI := hB
+  have := hB
   have hK : IsPGroup 2 ↥ρ.ker := fun x => by
     obtain ⟨k, hk⟩ := h2 x x.2
     exact ⟨k, Subtype.ext (by simpa using hk)⟩
-  haveI : Group.IsNilpotent ↥ρ.ker := IsPGroup.isNilpotent hK
+  have : Group.IsNilpotent ↥ρ.ker := IsPGroup.isNilpotent hK
   exact Group.isSolvable_of_ker_le_range ρ.ker.subtype ρ (by simp)
 
 theorem map_le_centralizer_singleton {H : Type} [Group H] (ψ : G →* H) {L : Subgroup G} {a : G}
@@ -44,7 +44,7 @@ theorem map_le_centralizer_singleton {H : Type} [Group H] (ψ : G →* H) {L : S
 
 theorem Ea_quotFamily {N : Subgroup G} [N.Normal] (c : CentQuotGen Φ N) (a : G) :
     Ea (quotFamily Φ N) (QuotientGroup.mk' N a) = (Ea Φ a).map (QuotientGroup.mk' N) :=
-  LemL.Ea_map (QuotientGroup.mk' N) Φ a fun L hL hLc => LemL.centralizes_of_map c hL hLc
+  LemL.Ea_map (QuotientGroup.mk' N) Φ a fun _L hL hLc => LemL.centralizes_of_map c hL hLc
 
 theorem not_isSolvable_Ea_quotFamily {N : Subgroup G} [N.Normal] (c : CentQuotGen Φ N)
     (hN2 : IsPGroup 2 ↥N) {a : G} (ha : ¬ Group.IsSolvable ↥(Ea Φ a)) :

@@ -60,15 +60,15 @@ theorem eq_or_eq [Finite K] (hE : GoodE E) {M : Subgroup K} (hEM : E ≤ M)
   let N : Subgroup K := normalizer (E : Set K)
   let E' : Subgroup N := E.subgroupOf N
   let M' : Subgroup N := M.subgroupOf N
-  haveI : E'.Normal := Subgroup.normal_in_normalizer
+  have : E'.Normal := Subgroup.normal_in_normalizer
   have hE'le : E' ≤ M' := fun x hx => (Subgroup.mem_subgroupOf).mpr (hEM hx)
   have hM'normal : M'.Normal :=
     (Subgroup.normal_subgroupOf_iff hMN).mpr fun m g hm hg => hM g hg m hm
-  haveI : (M'.map (QuotientGroup.mk' E')).Normal :=
+  have : (M'.map (QuotientGroup.mk' E')).Normal :=
     hM'normal.map _ (QuotientGroup.mk'_surjective E')
   obtain ⟨e⟩ := hE.iso
-  haveI : IsSimpleGroup (GL (Fin 3) (ZMod 2)) := CFSG.GH74.M12.Thm1.isSimpleGroup_GL3_two
-  haveI : IsSimpleGroup (N ⧸ E') := e.isSimpleGroup
+  have : IsSimpleGroup (GL (Fin 3) (ZMod 2)) := CFSG.GH74.M12.Thm1.isSimpleGroup_GL3_two
+  have : IsSimpleGroup (N ⧸ E') := e.isSimpleGroup
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (M'.map (QuotientGroup.mk' E')) with
     hbot | htop
   · left
@@ -106,7 +106,7 @@ theorem eq_of_isPGroup [Finite K] (hE : GoodE E) {M : Subgroup K} (hEM : E ≤ M
   · exact h
   · exfalso
     have hN2 : IsPGroup 2 (normalizer (E : Set K)) := h ▸ hM2
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card (p := 2)).mp hN2
     have h3 : 3 ∣ Nat.card (normalizer (E : Set K)) := by
       rw [hE.card_normalizer]
@@ -121,10 +121,10 @@ theorem exists_commutator_not_mem [Finite K] (hE : GoodE E) :
   push Not at h
   let N : Subgroup K := normalizer (E : Set K)
   let E' : Subgroup N := E.subgroupOf N
-  haveI : E'.Normal := Subgroup.normal_in_normalizer
+  have : E'.Normal := Subgroup.normal_in_normalizer
   obtain ⟨e⟩ := hE.iso
-  haveI : IsSimpleGroup (GL (Fin 3) (ZMod 2)) := CFSG.GH74.M12.Thm1.isSimpleGroup_GL3_two
-  haveI : IsSimpleGroup (N ⧸ E') := e.isSimpleGroup
+  have : IsSimpleGroup (GL (Fin 3) (ZMod 2)) := CFSG.GH74.M12.Thm1.isSimpleGroup_GL3_two
+  have : IsSimpleGroup (N ⧸ E') := e.isSimpleGroup
   have hcomm' : ∀ a b : N, a * b * a⁻¹ * b⁻¹ ∈ E' := fun a b =>
     (Subgroup.mem_subgroupOf).mpr (h a a.2 b b.2)
   have hcomm : ∀ q1 q2 : N ⧸ E', q1 * q2 = q2 * q1 := by
@@ -140,7 +140,7 @@ theorem exists_commutator_not_mem [Finite K] (hE : GoodE E) :
         (QuotientGroup.mk' E' n2 * QuotientGroup.mk' E' n1)⁻¹ = 1 := by
       simpa only [mul_inv_rev, mul_assoc] using h2
     exact mul_inv_eq_one.mp h3
-  haveI : IsMulCommutative (N ⧸ E') := IsMulCommutative.of_comm hcomm
+  have : IsMulCommutative (N ⧸ E') := IsMulCommutative.of_comm hcomm
   have hprime : (Nat.card (N ⧸ E')).Prime :=
     (Group.is_simple_iff_prime_card (α := N ⧸ E')).mp inferInstance
   have h168 : Nat.card (N ⧸ E') = 168 := by

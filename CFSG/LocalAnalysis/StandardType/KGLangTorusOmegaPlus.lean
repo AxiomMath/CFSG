@@ -37,7 +37,7 @@ private theorem kgLangCOmPAux_adjoin_toSubmodule_eq_span {ι 𝕂 : Type*} [Fint
       one_mem' := ⟨1, P.one_mem, by simp⟩
       mul_mem' := by
         rintro _ _ ⟨g, hg, rfl⟩ ⟨h, hh, rfl⟩
-        exact ⟨g * h, P.mul_mem hg hh, by simp [Matrix.GeneralLinearGroup.coe_mul]⟩ }
+        exact ⟨g * h, P.mul_mem hg hh, by simp⟩ }
   have hS : Submonoid.closure
       ((fun g : GL ι 𝕂 => (g : Matrix ι ι 𝕂)) '' (P : Set (GL ι 𝕂))) = S :=
     Submonoid.closure_eq S
@@ -132,40 +132,40 @@ private theorem kgLangCOmPAux_polar_preserved {𝕂 : Type} [Field 𝕂] [CharP 
 private theorem kgLangCOmPAux_exists_noncomm_omegaPlus {𝕂 : Type} [Field 𝕂] {m : ℕ}
     (hm3 : 3 ≤ m) :
     ∃ a b : LargeEvenProj (LargeEvenOmega (LargeEvenQPlus 𝕂 m)), a * b ≠ b * a := by
-  haveI : Group.IsPerfect (LargeEvenOmega (LargeEvenQPlus 𝕂 m)) :=
+  have : Group.IsPerfect (LargeEvenOmega (LargeEvenQPlus 𝕂 m)) :=
     Group.isPerfect_def.mpr (LayerCyc.commutator_largeEvenOmegaPlus (K := 𝕂) hm3)
-  haveI : Group.IsPerfect (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus 𝕂 m))) :=
+  have : Group.IsPerfect (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus 𝕂 m))) :=
     Group.IsPerfect.ofSurjective
       (f := LargeEvenProjMk (LargeEvenOmega (LargeEvenQPlus 𝕂 m)))
       (QuotientGroup.mk'_surjective _)
-  haveI : IsSimpleGroup (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus 𝕂 m))) :=
+  have : IsSimpleGroup (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus 𝕂 m))) :=
     CFSG.ClassicalGroups.Orthogonal.isSimpleGroup_statedProj_statedOmega_quadPlus (K := 𝕂) hm3
-  haveI : Nontrivial (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus 𝕂 m))) :=
+  have : Nontrivial (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus 𝕂 m))) :=
     (inferInstance : IsSimpleGroup _).toNontrivial
   by_contra h
   push Not at h
-  haveI : IsMulCommutative (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus 𝕂 m))) :=
+  have : IsMulCommutative (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus 𝕂 m))) :=
     IsMulCommutative.of_comm h
   exact Group.IsPerfect.not_isMulCommutative
     (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus 𝕂 m))) inferInstance
 
 private theorem kgLangCOmPAux_center_eq_bot {𝕂 : Type} [Field 𝕂] {m : ℕ} (hm3 : 3 ≤ m) :
     Subgroup.center (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus 𝕂 m))) = ⊥ := by
-  haveI : IsSimpleGroup (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus 𝕂 m))) :=
+  have : IsSimpleGroup (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus 𝕂 m))) :=
     CFSG.ClassicalGroups.Orthogonal.isSimpleGroup_statedProj_statedOmega_quadPlus (K := 𝕂) hm3
-  haveI : Group.IsPerfect (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus 𝕂 m))) := by
-    haveI : Group.IsPerfect (LargeEvenOmega (LargeEvenQPlus 𝕂 m)) :=
+  have : Group.IsPerfect (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus 𝕂 m))) := by
+    have : Group.IsPerfect (LargeEvenOmega (LargeEvenQPlus 𝕂 m)) :=
       Group.isPerfect_def.mpr (LayerCyc.commutator_largeEvenOmegaPlus (K := 𝕂) hm3)
     exact Group.IsPerfect.ofSurjective
       (f := LargeEvenProjMk (LargeEvenOmega (LargeEvenQPlus 𝕂 m)))
       (QuotientGroup.mk'_surjective _)
-  haveI : Nontrivial (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus 𝕂 m))) :=
+  have : Nontrivial (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus 𝕂 m))) :=
     (inferInstance : IsSimpleGroup _).toNontrivial
   rcases Subgroup.Normal.eq_bot_or_eq_top
     (Subgroup.center (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus 𝕂 m)))) with h | h
   · exact h
   · exfalso
-    haveI : IsMulCommutative (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus 𝕂 m))) :=
+    have : IsMulCommutative (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus 𝕂 m))) :=
       IsMulCommutative.of_comm (fun a b =>
         Subgroup.mem_center_iff.mp (h ▸ Subgroup.mem_top b) a)
     exact Group.IsPerfect.not_isMulCommutative
@@ -418,7 +418,7 @@ private theorem kgLangCOmPAux_adjoin_comm_reduced {ι : Type} [Fintype ι] [Deci
     ∀ x ∈ Algebra.adjoin 𝕂 ((fun g : GL ι 𝕂 => (g : Matrix ι ι 𝕂)) '' (P : Set _)),
       IsNilpotent x → x = 0 := by
   rcases isEmpty_or_nonempty ι with hι | hι
-  · haveI := hι
+  · have := hι
     exact ⟨fun x _ y _ => Subsingleton.elim _ _, fun x _ _ => Subsingleton.elim _ _⟩
   · set s : Set (Matrix ι ι 𝕂) :=
       (fun g : GL ι 𝕂 => (g : Matrix ι ι 𝕂)) '' (P : Set _) with hs
@@ -431,21 +431,21 @@ private theorem kgLangCOmPAux_adjoin_comm_reduced {ι : Type} [Fintype ι] [Deci
       rw [commute_iff_eq, ← Matrix.GeneralLinearGroup.coe_mul, ← Matrix.GeneralLinearGroup.coe_mul,
         hab g hg h hh]
     have hcomm : ∀ x ∈ S, ∀ y ∈ S, x * y = y * x := by
-      haveI : IsMulCommutative S := Algebra.isMulCommutative_adjoin 𝕂 hs_pair
+      have : IsMulCommutative S := Algebra.isMulCommutative_adjoin 𝕂 hs_pair
       intro x hx y hy
       have hcommS : ∀ a b : S, a * b = b * a :=
         isMulCommutative_iff.mp (inferInstance : IsMulCommutative S)
       simpa using congrArg Subtype.val (hcommS ⟨x, hx⟩ ⟨y, hy⟩)
     refine ⟨hcomm, ?_⟩
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Algebra (ZMod 2) 𝕂 := ZMod.algebra 𝕂 2
-    letI : Fintype 𝕂 := Fintype.ofFinite 𝕂
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Algebra (ZMod 2) 𝕂 := ZMod.algebra 𝕂 2
+    let : Fintype 𝕂 := Fintype.ofFinite 𝕂
     let f := Module.finrank (ZMod 2) 𝕂
     let m := Nat.card P
     let k := f * Nat.totient m
     have hcard : 2 ^ f = Nat.card 𝕂 := FiniteField.pow_finrank_eq_natCard 2 𝕂
     have hm_pos : 0 < m := by
-      haveI : Nonempty P := ⟨⟨1, one_mem P⟩⟩
+      have : Nonempty P := ⟨⟨1, one_mem P⟩⟩
       change 0 < Nat.card P
       exact Nat.card_pos
     have hf_pos : 0 < f := by
@@ -542,10 +542,10 @@ theorem kgLangC_torusInput_omegaPlus {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {m
     (hfp : orderOf f = p) :
     KGLangTorusInput p J (MulAut.conj f).toMonoidHom := by
   classical
-  haveI : CharP 𝕂 2 := LayerCC.charP_two_of_natCard h𝕂
+  have : CharP 𝕂 2 := LayerCC.charP_two_of_natCard h𝕂
   have hm1 : 1 ≤ m := by omega
   have hm3 : 3 ≤ m := by omega
-  haveI : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
+  have : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
   let c : LargeEvenOmega (LargeEvenQPlus 𝕂 m) →*
       MulAut (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus 𝕂 m))) := kgLangCOmPAux_cHom 𝕂 m
   have hc_range : c.range =
@@ -617,7 +617,7 @@ theorem kgLangC_torusInput_omegaPlus {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {m
     apply hc_inj
     rw [map_mul, map_mul]
     have hcomm : c a * c b = c b * c a := by
-      letI : IsMulCommutative E := hE.1
+      let : IsMulCommutative E := hE.1
       exact congrArg Subtype.val (mul_comm' (⟨c a, ha⟩ : E) (⟨c b, hb⟩ : E))
     exact hcomm
   have hcardPhat : Nat.card Phat = Nat.card E := by
@@ -680,7 +680,6 @@ theorem kgLangC_torusInput_omegaPlus {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {m
       obtain ⟨g₀, hg₀, rfl⟩ := hg
       exact Algebra.subset_adjoin (hβP g₀ hg₀)
     · intro r
-      change β (algebraMap 𝕂 (Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) 𝕂) r) ∈ _
       rw [show algebraMap 𝕂 (Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) 𝕂) r =
           Matrix.scalar (Fin m ⊕ Fin m) r from rfl, hβsc]
       exact Subalgebra.algebraMap_mem _ (σ r)
@@ -713,8 +712,6 @@ theorem kgLangC_torusInput_omegaPlus {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {m
         ⟨((A⁻¹ : LargeEvenOmega (LargeEvenQPlus 𝕂 m)) : GL (Fin m ⊕ Fin m) 𝕂),
           Subgroup.mem_map.mpr ⟨A⁻¹, Phat.inv_mem hA, rfl⟩, rfl⟩
     · intro r
-      change kgLangCOmPAux_tau m 𝕂
-        (algebraMap 𝕂 (Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) 𝕂) r) ∈ _
       rw [show algebraMap 𝕂 (Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) 𝕂) r =
           Matrix.scalar (Fin m ⊕ Fin m) r from rfl, kgLangCOmPAux_tau_scalar]
       exact Subalgebra.algebraMap_mem _ r
@@ -787,7 +784,7 @@ theorem kgLangC_torusInput_omegaPlus {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {m
     rw [← Nat.not_even_iff_odd]
     intro heven
     have hdvd : 2 ∣ Nat.card Ugl := even_iff_two_dvd.mp heven
-    letI : Fintype Ugl := Fintype.ofFinite Ugl
+    let : Fintype Ugl := Fintype.ofFinite Ugl
     rw [Nat.card_eq_fintype_card] at hdvd
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card 2 hdvd
     have hx2U : (x : Ugl) ^ 2 = 1 := by rw [← hx]; exact pow_orderOf_eq_one x
@@ -864,7 +861,7 @@ theorem kgLangC_torusInput_omegaPlus {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {m
         · simpa [Pi.single_apply] using h
         · intro j _ hji
           have hne : e i ≠ e j := fun hc => hji (he hc.symm)
-          simp [Pi.single_apply, hne]
+          simp [hne]
         · intro hi
           exact absurd (Finset.mem_univ i) hi
       refine ⟨Submodule.span 𝕂 (Set.range (fun i : Fin 3 =>
@@ -875,7 +872,7 @@ theorem kgLangC_torusInput_omegaPlus {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {m
           refine Submodule.span_induction ?_ ?_ ?_ ?_ hy
           · intro z hz
             obtain ⟨j, rfl⟩ := hz
-            exact fun i => by simp [Pi.single_apply]
+            exact fun i => by simp
           · intro i; simp
           · intro a b _ _ ha hb i
             simp [Pi.add_apply, ha i, hb i]
@@ -1019,12 +1016,12 @@ theorem kgLangC_torusInput_omegaPlus {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {m
     exact Subgroup.mem_map.mpr ⟨u, huU, rfl⟩
 
 theorem kgLangTorusDatumCont_omegaPlus {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {m n : ℕ} (hm : 4 ≤ m)
-    (hpn : p ∣ n) (𝕂 : Type) [Field 𝕂] [Finite 𝕂] (h𝕂 : Nat.card 𝕂 = 2 ^ n)
+    (_hpn : p ∣ n) (𝕂 : Type) [Field 𝕂] [Finite 𝕂] (h𝕂 : Nat.card 𝕂 = 2 ^ n)
     (hcyc : GGRawFieldCycW p (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus 𝕂 m)))
       (LargeEvenInnSet _)
       (LargeEvenMatFieldImage (LargeEvenProjMk (LargeEvenOmega (LargeEvenQPlus 𝕂 m)))))
     (hZ : ∀ [Finite (HopfCover (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus 𝕂 m))))]
-      (θ : HopfCover (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus 𝕂 m))) ⧸
+      (_θ : HopfCover (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus 𝕂 m))) ⧸
         Subgroup.center (HopfCover (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus 𝕂 m)))) ≃*
           LargeEvenProj (LargeEvenOmega (LargeEvenQPlus 𝕂 m))),
       commutator (HopfCover (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus 𝕂 m)))) = ⊤ →
@@ -1032,7 +1029,7 @@ theorem kgLangTorusDatumCont_omegaPlus {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) 
         (Nat.card (Subgroup.center (HopfCover (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus 𝕂 m)))))) p) :
     KGLangTorusDatumCont p (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus 𝕂 m))) (LargeEvenInnSet _)
       (LargeEvenMatFieldImage (LargeEvenProjMk (LargeEvenOmega (LargeEvenQPlus 𝕂 m)))) := by
-  haveI : CharP 𝕂 2 := LayerCC.charP_two_of_natCard h𝕂
+  have : CharP 𝕂 2 := LayerCC.charP_two_of_natCard h𝕂
   have hm3 : 3 ≤ m := by omega
   have hs : IsSimpleGroup (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus 𝕂 m))) :=
     CFSG.ClassicalGroups.Orthogonal.isSimpleGroup_statedProj_statedOmega_quadPlus (K := 𝕂) hm3

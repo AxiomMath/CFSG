@@ -19,7 +19,7 @@ private theorem hasEnoughRootsOfUnity_of_dvd_card_sub_one {F : Type} [Field F] [
   have hNpos : 0 < N := by
     have h1 : 1 < Nat.card F := Finite.one_lt_card
     omega
-  haveI : NeZero N := ⟨by omega⟩
+  have : NeZero N := ⟨by omega⟩
   have htop : rootsOfUnity N F = ⊤ := by
     ext x
     simp only [mem_rootsOfUnity, Subgroup.mem_top, iff_true]
@@ -27,7 +27,7 @@ private theorem hasEnoughRootsOfUnity_of_dvd_card_sub_one {F : Type} [Field F] [
     exact pow_card_eq_one'
   have hNcard : N ≤ Nat.card (rootsOfUnity N F) := by
     rw [htop, Subgroup.card_top, hNu]
-  haveI : HasEnoughRootsOfUnity F N := HasEnoughRootsOfUnity.of_card_le hNcard
+  have : HasEnoughRootsOfUnity F N := HasEnoughRootsOfUnity.of_card_le hNcard
   exact HasEnoughRootsOfUnity.of_dvd F hn
 
 private noncomputable def linDiagHom (p d : ℕ) (F : Type) [Field F] :
@@ -59,7 +59,7 @@ private def linProdHom (p d : ℕ) (F : Type) [Field F] :
 private theorem card_ker_linProdHom {p d : ℕ} {F : Type} [Field F] [Finite F]
     (hp : p.Prime) (hd : 1 ≤ d) (hμ : Nat.card (rootsOfUnity p F) = p) :
     Nat.card (linProdHom p d F).ker = p ^ (d - 1) := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hsurj : Function.Surjective (linProdHom p d F) := by
     intro ζ
     let i0 : Fin d := ⟨0, by omega⟩
@@ -68,7 +68,7 @@ private theorem card_ker_linProdHom {p d : ℕ} {F : Type} [Field F] [Finite F]
     rw [Finset.prod_eq_single i0]
     · simp
     · intro b _ hb
-      exact if_neg hb
+      exact ite_eq_right hb
     · intro h
       exact absurd (Finset.mem_univ i0) h
   have hrange : (linProdHom p d F).range = ⊤ :=
@@ -128,20 +128,20 @@ private theorem diagonal_conj_transvection {d : ℕ} {F : Type} [Field F]
     by_cases hip : i = p
     · subst hip
       simp [Matrix.single_apply]
-    · simp [Matrix.single_apply, hip]
+    · simp [hip]
   have h2 : Matrix.single i j (a i * x) * Matrix.diagonal b =
       Matrix.single i j (a i * x * b j) := by
     ext p q
     by_cases hjq : j = q
     · subst hjq
       simp [Matrix.single_apply]
-    · simp [Matrix.single_apply, hjq]
+    · simp [hjq]
   have h3 : Matrix.diagonal (fun k => a k * b k) = (1 : Matrix (Fin d) (Fin d) F) := by
     ext p q
     by_cases h : p = q
     · subst h
       simp [hab p]
-    · simp [Matrix.diagonal_apply, Matrix.one_apply, h]
+    · simp [h]
   calc Matrix.diagonal a * Matrix.transvection i j x * Matrix.diagonal b
       = Matrix.diagonal a * (1 + Matrix.single i j x) * Matrix.diagonal b := rfl
     _ = (Matrix.diagonal a + Matrix.diagonal a * Matrix.single i j x) * Matrix.diagonal b := by
@@ -199,7 +199,7 @@ private theorem linDiagHom_conj_transv_mat (p d : ℕ) (F : Type) [Field F]
   have hab : ∀ k, ((v k : Fˣ) : F) * (((v k : Fˣ)⁻¹ : Fˣ) : F) = 1 := by
     intro k
     have h := congrArg (fun u : Fˣ => (u : F)) (mul_inv_cancel (v k : Fˣ))
-    simpa using h
+    simp
   have hmain := diagonal_conj_transvection
     (a := fun k => ((v k : Fˣ) : F)) (b := fun k => (((v k : Fˣ)⁻¹ : Fˣ) : F)) hab i j 1
   simpa using hmain
@@ -263,16 +263,15 @@ private theorem linDiag_sl_scalar_of_central {p d : ℕ} {F : Type} [Field F] (h
       rw [← hζ, Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply]
     have hii : ((x1 : GL (Fin d) F) : Matrix (Fin d) (Fin d) F) i i = 1 := by
       rw [hx1mat]
-      simp [Matrix.transvection, Matrix.single_apply, hij, Ne.symm hij]
+      simp [Matrix.transvection, Ne.symm hij]
     have hζ1 : ζ = 1 := by
       have h1 := congrArg (fun m : Matrix (Fin d) (Fin d) F => m i i) hmul
-      simp [hζm, Matrix.mul_diagonal, hii, hTval, Matrix.transvection, Matrix.single_apply,
-        hij, Ne.symm hij] at h1
+      simp [hζm, Matrix.mul_diagonal, hii, hTval, Matrix.transvection, Ne.symm hij] at h1
       exact h1
     have hcoeff : ((v i : Fˣ) : F) * (((v j : Fˣ) : F))⁻¹ = 1 := by
       have h1 := congrArg (fun m : Matrix (Fin d) (Fin d) F => m i j) hmul
-      simp [hζm, Matrix.mul_diagonal, hx1mat, hζ1, hTval, Matrix.transvection,
-        Matrix.single_apply, hij] at h1
+      simp [hζm, hx1mat, hζ1, hTval, Matrix.transvection,
+        hij] at h1
       exact h1
     have hcoeff' : ((v i : Fˣ) : F) = ((v j : Fˣ) : F) :=
       (mul_inv_eq_one₀ (v j : Fˣ).ne_zero).mp hcoeff
@@ -355,8 +354,7 @@ private noncomputable def linRootHom (d : ℕ) (F : Type) [Field F] (i j : Fin d
   map_one' := Subtype.ext (by
     apply Matrix.GeneralLinearGroup.ext
     intro p q
-    simp [Matrix.GeneralLinearGroup.val_mkOfDetNeZero, Matrix.transvection, Matrix.single_apply,
-      Matrix.one_apply, toAdd_one])
+    simp [Matrix.GeneralLinearGroup.val_mkOfDetNeZero, Matrix.transvection, Matrix.one_apply, toAdd_one])
   map_mul' c c' := by
     apply Subtype.ext
     apply Units.ext
@@ -378,7 +376,7 @@ private theorem linRootHom_injective (d : ℕ) (F : Type) [Field F] (i j : Fin d
     (((g : GL (Fin d) F)) : Matrix (Fin d) (Fin d) F)) h
   rw [linRootHom_val, linRootHom_val] at h2
   have h3 := congrArg (fun m : Matrix (Fin d) (Fin d) F => m i j) h2
-  simp [Matrix.transvection, Matrix.single_apply, hij] at h3
+  simp [Matrix.transvection, hij] at h3
   exact Multiplicative.ofAdd.injective (by simpa using h3)
 
 private theorem card_linRootHom_range (d : ℕ) (F : Type) [Field F] [Finite F]
@@ -410,7 +408,7 @@ private theorem conj_linRootHom (p d : ℕ) (F : Type) [Field F]
   have hab : ∀ k, ((v k : Fˣ) : F) * (((v k : Fˣ)⁻¹ : Fˣ) : F) = 1 := by
     intro k
     have h := congrArg (fun u : Fˣ => (u : F)) (mul_inv_cancel (v k : Fˣ))
-    simpa using h
+    simp
   have hmain := diagonal_conj_transvection
     (a := fun k => ((v k : Fˣ) : F)) (b := fun k => (((v k : Fˣ)⁻¹ : Fˣ) : F)) hab i j
     (Multiplicative.toAdd c)
@@ -429,7 +427,7 @@ private theorem linDiagHomSL_mem_normalizer_root (p d : ℕ) (F : Type) [Field F
     (i j : Fin d) (hij : i ≠ j) (v : ↥(linProdHom p d F).ker) :
     linDiagHomSL p d F v ∈ Subgroup.normalizer
       ((linRootHom d F i j hij).range : Set ↥(LargeEvenSLGroup (Fin d) F)) := by
-  haveI : Finite ↥(linRootHom d F i j hij).range := Subtype.finite
+  have : Finite ↥(linRootHom d F i j hij).range := Subtype.finite
   refine Subgroup.mem_normalizer_iff_map_conj_eq.mpr ?_
   refine Subgroup.eq_of_le_of_card_ge ?_ ?_
   · rw [Subgroup.map_le_iff_le_comap]
@@ -446,7 +444,7 @@ private theorem linDiagHomSL_mem_normalizer_root (p d : ℕ) (F : Type) [Field F
 
 theorem lin_rank_bmax {p n d : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S B N D K : Subgroup Ω}
     {x : Ω} (hcfg : Cfg173 p S B N D K x) {F : Type} [Field F] [Finite F]
-    (hF : Nat.card F = 2 ^ n) (hn : 1 ≤ n) (hd : 3 ≤ d) (hpd : p ∣ d) (hpF : p ∣ 2 ^ n - 1)
+    (hF : Nat.card F = 2 ^ n) (_hn : 1 ≤ n) (hd : 3 ≤ d) (hpd : p ∣ d) (hpF : p ∣ 2 ^ n - 1)
     (θ : ↥S ⧸ Subgroup.center ↥S ≃* LargeEvenProj (LargeEvenSLGroup (Fin d) F))
     (ψ : ↥(LargeEvenSLGroup (Fin d) F) →* ↥S) (hψ : GLifts θ ψ) :
     p ^ (d - 1) ≤ Nat.card B := by
@@ -455,10 +453,10 @@ theorem lin_rank_bmax {p n d : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S B N D 
   have hpdvd : p ∣ d := hpd
   have hd1 : 1 ≤ d := by omega
   have hd2 : 2 ≤ d := by omega
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hμ : Nat.card (rootsOfUnity p F) = p := by
     have hdvd : p ∣ Nat.card F - 1 := by rw [hF]; exact hpF
-    haveI : HasEnoughRootsOfUnity F p := hasEnoughRootsOfUnity_of_dvd_card_sub_one hdvd
+    have : HasEnoughRootsOfUnity F p := hasEnoughRootsOfUnity_of_dvd_card_sub_one hdvd
     exact HasEnoughRootsOfUnity.natCard_rootsOfUnity F p
   let SL := LargeEvenSLGroup (Fin d) F
   let D := (linProdHom p d F).ker
@@ -518,7 +516,7 @@ theorem lin_rank_bmax {p n d : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S B N D 
       (hcfg.cent x hcfg.mem).mpr (Subgroup.mem_zpowers_iff.mpr ⟨1, by simp⟩)
     intro s hs
     exact (Subgroup.mem_centralizer_iff.mp hxcent s hs).symm
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hxcard : Nat.card (Subgroup.zpowers x) = p := by
     rw [Nat.card_zpowers, orderOf_eq_prime (hcfg.elem.2 x hcfg.mem) hcfg.ne_one]
   have hx_el : IsElemAbelian p (Subgroup.zpowers x) := by
@@ -575,12 +573,11 @@ theorem lin_rank_bmax {p n d : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S B N D 
     obtain ⟨c, hc⟩ := MonoidHom.mem_range.1 hsc
     have hoff : ((Matrix.GeneralLinearGroup.scalar (Fin d) c : GL (Fin d) F) :
         Matrix (Fin d) (Fin d) F) i0 j0 = 0 := by
-      simp [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, Matrix.diagonal_apply,
-        hij0]
+      simp [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, hij0]
     have hon : (((linRootHom d F i0 j0 hij0 (Multiplicative.ofAdd (1 : F)) : ↥SL) :
         GL (Fin d) F) : Matrix (Fin d) (Fin d) F) i0 j0 = 1 := by
       rw [linRootHom_val]
-      simp [Matrix.transvection, Matrix.single_apply, hij0]
+      simp [Matrix.transvection, hij0]
     have h1' := congrArg (fun u : GL (Fin d) F => (u : Matrix (Fin d) (Fin d) F) i0 j0) hc
     rw [hoff, hon] at h1'
     exact zero_ne_one h1'

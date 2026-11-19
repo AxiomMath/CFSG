@@ -51,7 +51,7 @@ theorem ne_one_of_distinct {m N : ℕ} {A : ℕ → ℕ} {σ : Fin m → Equiv.P
     signedProd (fun g => (σ g)⁻¹) u ≠ 1 := by
   have hr : ([[], u.reverse] : List (List (Fin m × Bool))).map Act.revCodes = rels := by
     rw [← hrels]
-    simp [Act.revCodes, codes, List.map_reverse]
+    simp [Act.revCodes, List.map_reverse]
   have hd := Act.distinctOK_sound hσ [[], u.reverse] hr h 0 1 (by simp) (by simp)
   intro h1
   have e := signedProd_reverse_inv (fun g => (σ g)⁻¹) u

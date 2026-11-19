@@ -18,7 +18,7 @@ open CFSG.ComponentClassification.OuterAutomorphisms (innAutDerived)
 
 private theorem exists_card_eq_two_pow {K : Type} [Field K] [Finite K] (hK2 : ringChar K = 2) :
     ∃ f : ℕ, 1 ≤ f ∧ Nat.card K = 2 ^ f := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, -, hcard⟩ := FiniteField.card K (ringChar K)
   exact ⟨f, f.pos, by rw [Nat.card_eq_fintype_card, hcard, hK2]⟩
 
@@ -175,8 +175,8 @@ private theorem exists_markedInnDiag_top {τ : Tag}
   have hLM : LieModel (↥(⊤ : Subgroup ↥(adjointGroup τ K)) ⧸
       Subgroup.center ↥(⊤ : Subgroup ↥(adjointGroup τ K))) t 0 2 f :=
     LieModel.of_mulEquiv eT.symm (Or.inr (Or.inl ⟨rfl, ht, hmod⟩))
-  haveI := hs
-  haveI : Group.IsPerfect ↥(adjointGroup τ K) :=
+  have := hs
+  have : Group.IsPerfect ↥(adjointGroup τ K) :=
     TauCeti.IsSimpleGroup.isPerfect_of_not_isMulCommutative fun h => by
       obtain ⟨a, b, hab⟩ := hnc
       exact hab (h.is_comm.comm a b)
@@ -260,7 +260,7 @@ private theorem eq_one_of_mem_innAutDerived {X : Type} [Group X] [Finite X] {t :
     (hα : α ∈ innAutDerived X) (hαp : α ^ p = 1) : α = 1 := by
   have hp2 : p ≠ 2 := by omega
   have hp3 : p ≠ 3 := by omega
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hrk := pRank_le_one_of_not_dvd hpX
   let heq : X ⧸ Subgroup.center X ≃* X :=
     (QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot
@@ -284,7 +284,7 @@ private theorem eq_one_of_mem_innAutDerived {X : Type} [Group X] [Finite X] {t :
           hp hp2 hp3 hβ hβp
       refine ⟨e''.symm g, MulEquiv.ext fun x => ?_⟩
       have h1 := congrArg (fun φ : MulAut _ => φ (e'' x)) hg
-      simp only [MulAut.congr_apply, MulAut.conj_apply, MulEquiv.symm_apply_apply] at h1
+      simp only [MulAut.congr_apply, MulAut.conj_apply] at h1
       apply e''.injective
       simpa [MulAut.conj_apply, map_mul, map_inv] using h1.symm
   obtain ⟨j, rfl⟩ := hinn
@@ -308,7 +308,7 @@ private theorem eq_one_of_mem_innAutDerived {X : Type} [Group X] [Finite X] {t :
 theorem adjCompTriv_of (hA : CFSG.LocalAnalysis.GLTheoremA.T171Sh.ExcAdjCompInnAut) :
     AdjCompTriv := by
   intro τ hτ K _ _ hK2 hK4 p hp hp2 hpq r hrp hr1 w hw hwp J hJ hJp
-  haveI : CharP K 2 := ringChar.of_eq hK2
+  have : CharP K 2 := ringChar.of_eq hK2
   obtain ⟨hpK, hp5⟩ := not_dvd_card_and_five_le_of_not_dvd_sq_sub_one hK2 hp hp2 hpq
   have hp3 : p ≠ 3 := by omega
   obtain ⟨t, n, m, hm, hLM⟩ := component_lieModel hτ hK2 hK4 hp hp2 hrp hr1 hJ
@@ -333,7 +333,7 @@ theorem adjCompTriv_of (hA : CFSG.LocalAnalysis.GLTheoremA.T171Sh.ExcAdjCompInnA
       ⟨t, n, m, hLM.admissible, hLM⟩
   have hα := hA hτ K p hp hp2 (fun _ => hK4) (fun _ h3 => absurd h3 hp3) r w hr1 hrp hwp hcomm J
     hJA h360 hstab
-  haveI : Group.IsPerfect ↥J := ⟨hJ.2.2.1⟩
+  have : Group.IsPerfect ↥J := ⟨hJ.2.2.1⟩
   refine mem_centralizer_of_restrict_eq_one hstab ?_
   have hZJ : Subgroup.center (↥J ⧸ Subgroup.center ↥J) = ⊥ :=
     CFSG.LocalAnalysis.GLTheoremA.Y10F.center_centerQuot_eq_bot hJ.2.2

@@ -32,7 +32,7 @@ theorem single_lowIdx_mem_lowSpan (a : Fin (m / 2)) :
     (Pi.single (lowIdx a) 1 : Fin m → F) ∈ lowSpan F m := by
   rw [mem_lowSpan]
   intro j hj
-  rw [Pi.single_apply, if_neg]
+  rw [Pi.single_apply, ite_eq_right]
   intro h
   have := congrArg Fin.val h
   simp only [lowIdx, Fin.val_mk] at this
@@ -48,7 +48,7 @@ theorem eq_sum_of_mem_lowSpan {x : Fin m → F} (hx : x ∈ lowSpan F m) :
       (f := fun a : Fin (m / 2) => (x (lowIdx a) • Pi.single (lowIdx a) 1 : Fin m → F) j)
       ⟨j.val, hj⟩ ?_ ?_).trans ?_
     · intro b _ hb
-      rw [Pi.smul_apply, Pi.single_apply, if_neg, smul_zero]
+      rw [Pi.smul_apply, Pi.single_apply, ite_eq_right, smul_zero]
       intro h
       have hval : b.val = j.val := by
         have := congrArg Fin.val h
@@ -58,12 +58,12 @@ theorem eq_sum_of_mem_lowSpan {x : Fin m → F} (hx : x ∈ lowSpan F m) :
     · intro h
       exact absurd (Finset.mem_univ _) h
     · rw [Pi.smul_apply, Pi.single_apply,
-        if_pos (show j = lowIdx (⟨j.val, hj⟩ : Fin (m / 2)) from Fin.ext rfl)]
+        ite_eq_left (show j = lowIdx (⟨j.val, hj⟩ : Fin (m / 2)) from Fin.ext rfl)]
       rw [smul_eq_mul, mul_one,
         show lowIdx (⟨j.val, hj⟩ : Fin (m / 2)) = j from Fin.ext rfl]
   · rw [mem_lowSpan.1 hx j (by omega)]
     refine Finset.sum_eq_zero fun a _ => ?_
-    rw [Pi.smul_apply, Pi.single_apply, if_neg, smul_zero]
+    rw [Pi.smul_apply, Pi.single_apply, ite_eq_right, smul_zero]
     intro h
     have := congrArg Fin.val h
     simp only [lowIdx, Fin.val_mk] at this

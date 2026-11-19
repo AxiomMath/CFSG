@@ -32,7 +32,7 @@ theorem center_map_normal {G : Type*} [Group G] {L : Subgroup G} (hK : L.Normal)
 theorem coprime_two_card_of_normal_comm {G : Type*} [Group G] [Finite G]
     (hO2 : pCoreOf 2 (⊤ : Subgroup G) = ⊥) {Z : Subgroup G} [Z.Normal]
     (hc : ∀ a ∈ Z, ∀ b ∈ Z, a * b = b * a) : Nat.Coprime (Nat.card Z) 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [Nat.coprime_comm, Nat.Prime.coprime_iff_not_dvd Nat.prime_two]
   intro hdvd
   let W : Subgroup G :=
@@ -48,7 +48,7 @@ theorem coprime_two_card_of_normal_comm {G : Type*} [Group G] [Finite G]
       inv_mem' := by
         rintro a ⟨ha, n, hn⟩
         exact ⟨Z.inv_mem ha, n, by rw [inv_pow, hn, inv_one]⟩ }
-  haveI hWn : W.Normal := ⟨fun x hx g => by
+  have hWn : W.Normal := ⟨fun x hx g => by
     obtain ⟨hxZ, n, hn⟩ := hx
     exact ⟨‹Z.Normal›.conj_mem x hxZ g, n, by rw [conj_pow, hn]; simp⟩⟩
   have hWp : IsPGroup 2 W := fun x => by
@@ -79,7 +79,7 @@ theorem e43_M22_three (V : Type) [CommGroup V] [Finite V] (ρ : G →* MulAut V)
     (h : IsSporadic .M22 (↥L ⧸ Subgroup.center ↥L))
     (hZ3 : Nat.card (Subgroup.center ↥L) = 3) : aParam ρ.range ≤ 3 := by
   classical
-  haveI hK : L.Normal := normal_of_generalizedFitting hLF
+  have hK : L.Normal := normal_of_generalizedFitting hLF
   have hLT : L ⊔ T = ⊤ := sup_eq_top_of_index_le_two hT (index_le_two_of_M22 hLF hLq h)
   set Z : Subgroup G := (Subgroup.center ↥L).map L.subtype with hZdef
   have hZL : Z ≤ L := Subgroup.map_subtype_le _
@@ -89,7 +89,7 @@ theorem e43_M22_three (V : Type) [CommGroup V] [Finite V] (ρ : G →* MulAut V)
     intro z hz l hl
     obtain ⟨w, hw, rfl⟩ := Subgroup.mem_map.mp hz
     exact (congrArg Subtype.val (Subgroup.mem_center_iff.mp hw ⟨l, hl⟩)).symm
-  haveI hZn : Z.Normal := center_map_normal hK
+  have hZn : Z.Normal := center_map_normal hK
   let π : G →* G ⧸ Z := QuotientGroup.mk' Z
   have hπ : Function.Surjective π := QuotientGroup.mk'_surjective Z
   have hkerπ : π.ker = Z := QuotientGroup.ker_mk' Z
@@ -149,7 +149,7 @@ theorem e43_M22_three (V : Type) [CommGroup V] [Finite V] (ρ : G →* MulAut V)
       simpa using hwx
     have := h9L ⟨x, hx⟩ h1
     simpa using congrArg Subtype.val this
-  haveI : Group.IsPerfect ↥L := hLq.1
+  have : Group.IsPerfect ↥L := hLq.1
   have hperf : L ≤ ⁅L, L⁆ := (Subgroup.commutator_eq_self (H := L)).ge
   have hGF : GoodFamily T 3 :=
     goodFamily_of_lift3 π hπ hkerπ hZcard hT hLT hZL hZc hperf h9 hA5 hAL hPL hAn hPn hTP hP3
@@ -163,14 +163,14 @@ theorem e43_M22_all (V : Type) [CommGroup V] [Finite V] (ρ : G →* MulAut V)
     (hLF : L = CFSG.generalizedFitting G) (hLq : CFSG.IsQuasisimple ↥L)
     (h : IsSporadic .M22 (↥L ⧸ Subgroup.center ↥L)) : aParam ρ.range ≤ 3 := by
   classical
-  haveI hK : L.Normal := normal_of_generalizedFitting hLF
+  have hK : L.Normal := normal_of_generalizedFitting hLF
   have h' := h
   obtain ⟨e⟩ := h'
   have e' : (↥L ⧸ Subgroup.center ↥L) ≃* ↥CFSG.Blueprint.NativeSporadic.M22 := e
   obtain ⟨-, hdvd⟩ :=
     CFSG.Sporadic.Recognition.M22Multiplier.center_cyclic_dvd_twelve_of_certificate
       (Group.isPerfect_def.2 hLq.1.commutator_eq_top) e'
-  haveI hZn : ((Subgroup.center ↥L).map L.subtype).Normal := center_map_normal hK
+  have hZn : ((Subgroup.center ↥L).map L.subtype).Normal := center_map_normal hK
   have hodd : Nat.Coprime (Nat.card ((Subgroup.center ↥L).map L.subtype)) 2 := by
     refine coprime_two_card_of_normal_comm hO2 ?_
     intro a ha b hb

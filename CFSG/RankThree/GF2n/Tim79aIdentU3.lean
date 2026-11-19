@@ -41,6 +41,7 @@ namespace MinCex
 
 variable {M V Q P H : Subgroup G} [Finite G]
 
+omit [Finite G] in
 theorem isPGroup_barOf_P (hc : MinCex M V Q P H) : IsPGroup 2 (barOf V H P) := by
   intro y
   obtain ⟨p, hp, hpy⟩ := mem_barOf_iff.mp y.2
@@ -55,18 +56,18 @@ theorem isPGroup_barOf_P (hc : MinCex M V Q P H) : IsPGroup 2 (barOf V H P) := b
   simp only [Subgroup.coe_pow, OneMemClass.coe_one]
   rw [← hpy, ← map_pow, h2, map_one]
 
-theorem centralizes_of_tildeAut_eq_one (hc : MinCex M V Q P H) (hd : Sec23Data V H)
+theorem centralizes_of_tildeAut_eq_one (_hc : MinCex M V Q P H) (hd : Sec23Data V H)
     {c : Hbar V H} (hcx : ∀ x : Xbar V H,
       projZ V H (haveI := normal_barOf_xOf V H; MulAut.conjNormal c x) = projZ V H x) :
     ∀ x : Xbar V H, c * (x : Hbar V H) * c⁻¹ = (x : Hbar V H) := by
-  haveI := normal_barOf_xOf V H
+  have := normal_barOf_xOf V H
   have hD : ∀ d ∈ Dy V H, (MulAut.conjNormal c d : Xbar V H) = d := by
     intro d hdD
     set d' : Xbar V H := MulAut.conjNormal c d with hd'
     have hd'D : d' ∈ Dy V H := by
       show (d' : Hbar V H) ∈ dbarOf V H
       rw [hd', MulAut.conjNormal_apply]
-      exact hc.conj_mem_dbarOf hdD
+      exact CFSG.RankThree.GF2n.Tim79a.MinCex.conj_mem_dbarOf hdD
     have hz : d⁻¹ * d' ∈ Subgroup.center (Xbar V H) := by
       have h1 : projZ V H (d⁻¹ * d') = 1 := by
         rw [map_mul, map_inv, hd', hcx d]
@@ -102,7 +103,7 @@ theorem normalizer_le_of_Rtilde_le (hc : MinCex M V Q P H) (hd : Sec23Data V H)
       ∃ s ∈ (S : Subgroup (XbarZ V H)), φ = MulAut.conj s) :
     ∀ n ∈ Subgroup.normalizer ((S : Subgroup (XbarZ V H)) : Set (XbarZ V H)),
       n ∈ Subgroup.normalizer (VZ V H : Set (XbarZ V H)) := by
-  haveI := normal_barOf_xOf V H
+  have := normal_barOf_xOf V H
   have hVH : V ≤ H := hc.V_le_H
   obtain ⟨Sb, hRSb, hSmap⟩ := hc.exists_sylow_over hd hBG hVS
   have hSN : ∀ s ∈ (S : Subgroup (XbarZ V H)),
@@ -314,7 +315,7 @@ theorem normalizer_le_of_not_Rtilde_le (hc : MinCex M V Q P H) (hd : Sec23Data V
     mem_normalizer_VZ_of_le_sylowCenter hVS hs
   have hRS : Rtilde V H P ≤ (S : Subgroup (XbarZ V H)) :=
     hc.le_sylow_of_isPGroup hd hBG hVS hc.isPGroup_Rtilde hc.VZ_le_Rtilde
-  obtain ⟨r, hrR, hrZ⟩ := SetLike.not_le_iff_exists.mp hnR
+  obtain ⟨r, hrR, hrZ⟩ := IsConcreteLE.not_le_iff_exists.mp hnR
   have hZR : sylowCenter (S : Subgroup (XbarZ V H)) ≤ Rtilde V H P := by
     intro z hz
     obtain ⟨s, hsS, hsz⟩ := hcomm r (hRS hrR) hrZ z hz
@@ -448,7 +449,7 @@ theorem tim79aIdentU3Statement_of_certs :
       exact Subgroup.one_mem _
     obtain ⟨m, hm, hzm⟩ := exists_normalizer_conj_mem hBG S hE1 hES hz hz1
     rwa [mem_normalizer_iff_conjSubgroup_eq.mp (hN m hm)] at hzm
-  have hcard : Nat.card (VZ V H) = Nat.card (barOf V H V) := hc.card_Vtilde hd
+  have hcard : Nat.card (VZ V H) = Nat.card (barOf V H V) := CFSG.RankThree.GF2n.Tim79a.MinCex.card_Vtilde hd
   right
   right
   refine ⟨n, hn, ?_, ⟨e⟩, S, ?_⟩

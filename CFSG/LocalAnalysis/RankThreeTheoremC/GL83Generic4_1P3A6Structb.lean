@@ -84,7 +84,7 @@ theorem a6s_sylow_centralizer_cyclic {Y : Type} [Group Y] [Finite Y] {S : Sylow 
   have hDc : ∀ c ∈ D, ∀ l ∈ Lb, l * c = c * l := fun c hc l hl =>
     mem_centralizer_iff.mp (by rwa [hD] at hc) l hl
   have hSY : IsSylowOf 3 (S : Subgroup Y) ⊤ := (isSylowOf_iff).mpr
-    ⟨le_top, S.isPGroup', by rw [Subgroup.relIndex_top_right]; exact S.not_dvd_index⟩
+    ⟨le_top, S.isPGroup, by rw [Subgroup.relIndex_top_right]; exact S.not_dvd_index⟩
   have hSL : IsSylowOf 3 ((S : Subgroup Y) ⊓ Lb) Lb :=
     hSY.inf_of_le_normalizer le_top (normalizer_eq_top Lb).ge
   have hSD : IsSylowOf 3 ((S : Subgroup Y) ⊓ D) D :=
@@ -101,7 +101,7 @@ theorem a6s_sylow_centralizer_cyclic {Y : Type} [Group Y] [Finite Y] {S : Sylow 
   have hSDc : IsCyclic ↥((S : Subgroup Y) ⊓ D) := by
     by_contra hnc
     have h2 := two_le_pRank_of_not_isCyclic Nat.prime_three (by norm_num)
-      S.isPGroup'.to_inf_left hnc
+      S.isPGroup.to_inf_left hnc
     obtain ⟨E, hEle, hE, hEc⟩ :=
       CFSG.PreuniquenessRankFour.Helpers.pRank_attained 3 Nat.prime_three ((S : Subgroup Y) ⊓ D)
     have hsum := add_le_pRank_of_commute (P := (S : Subgroup Y)) hE₁ hE hE₁c hEc

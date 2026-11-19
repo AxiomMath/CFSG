@@ -26,8 +26,8 @@ private theorem card_sup_mul_card_inf {G : Type*} [Group G] (H N : Subgroup G)
       have := h b⁻¹ (inv_mem hb) _ hn
       simpa [mul_assoc] using this
   have h1 : N.relIndex (H ⊔ N) = N.relIndex H := by
-    letI := Subgroup.normal_subgroupOf_of_le_normalizer hLE
-    letI := Subgroup.normal_subgroupOf_sup_of_le_normalizer hLE
+    let := Subgroup.normal_subgroupOf_of_le_normalizer hLE
+    let := Subgroup.normal_subgroupOf_sup_of_le_normalizer hLE
     unfold Subgroup.relIndex Subgroup.index
     exact Nat.card_congr (QuotientGroup.quotientInfEquivProdNormalizerQuotient H N hLE).toEquiv.symm
   have e1 := Subgroup.relIndex_mul_card (H := N) (K := H ⊔ N)
@@ -119,7 +119,7 @@ theorem false_of_spans_two (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
   let U1 : Subgroup H := rootGroup H Γ p L1 z1
 
 
-  haveI hEfin : Fintype ↥E :=
+  have hEfin : Fintype ↥E :=
     Fintype.ofInjective (fun e : ↥E => fun x : V => (e : H) • x)
       (by
         intro e f hef
@@ -164,7 +164,7 @@ theorem false_of_spans_two (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
     have h := card_rootGroup hP hT hM qD hqnb
     rw [hq1, hq2, hq3] at h
     have hd : Γ.degree (qD 4) = t + 1 := by
-      rw [hq4, hdeg z1, if_pos hcz1]
+      rw [hq4, hdeg z1, ite_eq_left hcz1]
     have hd' : Γ.degree (qD 4) - 1 = t := by rw [hd]; omega
     rw [hd'] at h
     exact h
@@ -303,10 +303,10 @@ theorem false_of_spans_two (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
       (by rw [hq1, SimpleGraph.dist_comm]; exact hz01_4) hθz0
     exact Subgroup.mem_bot.mpr heq
 
-  haveI hS0sFin : Fintype ↥S0s :=
+  have hS0sFin : Fintype ↥S0s :=
     Fintype.ofInjective (fun g : ↥S0s => (⟨(g : H), (Subgroup.mem_inf.mp g.2).1⟩ : ↥E))
       (by intro a b hab; apply Subtype.ext; exact congrArg (fun z : ↥E => (z : H)) hab)
-  haveI hS1sFin : Fintype ↥S1s :=
+  have hS1sFin : Fintype ↥S1s :=
     Fintype.ofInjective (fun g : ↥S1s => (⟨(g : H), (Subgroup.mem_inf.mp g.2).1⟩ : ↥E))
       (by intro a b hab; apply Subtype.ext; exact congrArg (fun z : ↥E => (z : H)) hab)
   have hS0s_le_E : S0s ≤ E := fun x hx => (Subgroup.mem_inf.mp hx).1
@@ -690,7 +690,7 @@ theorem false_of_spans_two (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
     intro x hx
     rcases hx with ⟨a, ha, b, hb, rfl⟩
     exact (S0 ⊔ S1).mul_mem (Subgroup.mem_sup_right ha) (Subgroup.mem_sup_left hb)
-  haveI hSup01Fin : Fintype ↥(S0 ⊔ S1) :=
+  have hSup01Fin : Fintype ↥(S0 ⊔ S1) :=
     Fintype.ofInjective
       (fun g : ↥(S0 ⊔ S1) => (⟨(g : H), (sup_le hS0_le_E hS1_le_E) g.2⟩ : ↥E))
       (by intro a b hab; apply Subtype.ext; exact congrArg (fun z : ↥E => (z : H)) hab)

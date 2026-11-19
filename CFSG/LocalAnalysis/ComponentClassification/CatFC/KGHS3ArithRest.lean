@@ -11,7 +11,7 @@ open CFSG.Open
 theorem rest_three_dvd_sq_sub_one {q : ℕ} (hq3 : ¬ 3 ∣ q) : 3 ∣ q ^ 2 - 1 := by
   have hr : q % 3 = 1 ∨ q % 3 = 2 := by omega
   have h2 : q ^ 2 % 3 = 1 := by
-    rcases hr with h | h <;> rw [Nat.pow_mod, h] <;> norm_num
+    rcases hr with h | h <;> rw [Nat.pow_mod, h]
   omega
 
 theorem rest_sub_one_dvd_pow (q i : ℕ) : q - 1 ∣ q ^ i - 1 := by
@@ -29,7 +29,7 @@ theorem rest_nine_dvd_six {q : ℕ} (hq3 : ¬ 3 ∣ q) : 9 ∣ q ^ 6 - 1 := by
   have hr : q % 9 = 1 ∨ q % 9 = 2 ∨ q % 9 = 4 ∨ q % 9 = 5 ∨ q % 9 = 7 ∨ q % 9 = 8 := by
     omega
   have h6 : q ^ 6 % 9 = 1 := by
-    rcases hr with h | h | h | h | h | h <;> rw [Nat.pow_mod, h] <;> norm_num
+    rcases hr with h | h | h | h | h | h <;> rw [Nat.pow_mod, h]
   omega
 
 theorem rest_three_pow_five_dvd_four {a b c d : ℕ} (ha : 3 ∣ a) (hb : 3 ∣ b) (hc : 9 ∣ c)
@@ -239,13 +239,13 @@ theorem three_pow_five_dvd_ordE8 {q : ℕ} (hq3 : ¬ 3 ∣ q) : 3 ^ 5 ∣ ordE8 
 theorem rest_ordTwistedF4_not_seven {q : ℕ} (hq : q % 7 = 2 ∨ q % 7 = 4) :
     ¬ 7 ∣ ordTwistedF4 q := by
   have h3 : q ^ 3 % 7 = 1 := by
-    rcases hq with h | h <;> rw [Nat.pow_mod, h] <;> norm_num
+    rcases hq with h | h <;> rw [Nat.pow_mod, h]
   have h6 : q ^ 6 % 7 = 1 := by
-    rcases hq with h | h <;> rw [Nat.pow_mod, h] <;> norm_num
+    rcases hq with h | h <;> rw [Nat.pow_mod, h]
   have h12 : q ^ 12 % 7 = 1 := by
-    rcases hq with h | h <;> rw [Nat.pow_mod, h] <;> norm_num
+    rcases hq with h | h <;> rw [Nat.pow_mod, h]
   have h4 : q ^ 4 % 7 = q % 7 := by
-    rcases hq with h | h <;> rw [Nat.pow_mod, h] <;> norm_num
+    rcases hq with h | h <;> rw [Nat.pow_mod, h]
   have hp : Nat.Prime 7 := by norm_num
   unfold ordTwistedF4
   intro h

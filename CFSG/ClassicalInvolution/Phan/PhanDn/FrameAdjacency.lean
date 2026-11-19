@@ -88,7 +88,7 @@ variable {m : ℕ}
 
 theorem elt_last (c : FlipFrame σ (m + 1)) : c.elt (Fin.last m) = c.sub (m + 1) := by
   unfold FlipFrame.elt
-  rw [if_pos rfl]
+  rw [ite_eq_left rfl]
 
 theorem elt_of_add_one_eq (c : FlipFrame σ (m + 1)) (i : Fin (m + 1))
     (h : (i : ℕ) + 1 = m) : c.elt i = c.alt := by
@@ -98,7 +98,7 @@ theorem elt_of_add_one_eq (c : FlipFrame σ (m + 1)) (i : Fin (m + 1))
     simp only [Fin.val_last] at h
     omega
   unfold FlipFrame.elt
-  rw [if_neg hi, if_pos h]
+  rw [ite_eq_right hi, ite_eq_left h]
 
 theorem elt_of_add_one_lt (c : FlipFrame σ (m + 1)) (i : Fin (m + 1))
     (h : (i : ℕ) + 1 < m) : c.elt i = c.sub ((i : ℕ) + 1) := by
@@ -108,7 +108,7 @@ theorem elt_of_add_one_lt (c : FlipFrame σ (m + 1)) (i : Fin (m + 1))
     simp only [Fin.val_last] at h
     omega
   unfold FlipFrame.elt
-  rw [if_neg hi, if_neg (by omega)]
+  rw [ite_eq_right hi, ite_eq_right (by omega)]
 
 theorem alt_eq (c : FlipFrame σ (m + 1)) (hm : 1 ≤ m) :
     c.alt = c.sub (m - 1) ⊔

@@ -82,18 +82,18 @@ theorem rootElt_mem_unitN {γ : D4Vec} {k : ℕ} (hγ : IsRoot Tag.D4 γ ∧ hei
 theorem rootElt_rA_mem (o : D4Idx) (c : K) : rootElt (rA o) c ∈ unitN Tag.D4 K 0 :=
   rootElt_mem_unitN ⟨(isPos_rA o).1, by rw [height_rA]; rfl⟩ c
 
-theorem pc_rootElt_rA [Finite K] (a o : D4Idx) (c : K) :
+theorem pc_rootElt_rA (a o : D4Idx) (c : K) :
     pc (rA a) ((rootElt (rA o) c : ↥(adjointGroup Tag.D4 K)) : ModGL Tag.D4 K) =
       if o = a then c else 0 :=
   pc_rA_pinnedX a o c
 
 theorem f_two_eq_one [CharP K 3] {α : MulAut ↥(adjointGroup Tag.D4 K)}
-    (la : LayerAct Tag.D4 α (1 : K ≃+* K)) {p : Equiv.Perm D4Idx} (hp2 : p 2 = 2)
+    (la : LayerAct Tag.D4 α (1 : K ≃+* K)) {p : Equiv.Perm D4Idx} (_hp2 : p 2 = 2)
     (h3 : α ^ 3 = 1) {f : K}
     (hf : ∀ x : ↥(adjointGroup Tag.D4 K), x ∈ unitN Tag.D4 K 0 →
       pc (rA 2) ((α x : ↥(adjointGroup Tag.D4 K)) : ModGL Tag.D4 K) =
         f * pc (rA 2) (x : ModGL Tag.D4 K)) : f = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set x : ↥(adjointGroup Tag.D4 K) := rootElt (rA 2) 1 with hx
   have hx0 : x ∈ unitN Tag.D4 K 0 := rootElt_rA_mem 2 1
   have hx1 : α x ∈ unitN Tag.D4 K 0 := la.stable 0 x hx0
@@ -102,7 +102,7 @@ theorem f_two_eq_one [CharP K 3] {α : MulAut ↥(adjointGroup Tag.D4 K)}
     have := congrArg (fun φ : MulAut ↥(adjointGroup Tag.D4 K) => φ x) h3
     simpa [pow_succ] using this
   have hpc : pc (rA 2) (x : ModGL Tag.D4 K) = 1 := by
-    rw [hx, pc_rootElt_rA, if_pos rfl]
+    rw [hx, pc_rootElt_rA, ite_eq_left rfl]
   have h : pc (rA 2) (x : ModGL Tag.D4 K) = f * (f * (f * pc (rA 2) (x : ModGL Tag.D4 K))) := by
     conv_lhs => rw [← e]
     rw [hf _ hx2, hf _ hx1, hf _ hx0]
@@ -172,11 +172,11 @@ theorem rel_R2 {α : MulAut ↥(adjointGroup Tag.D4 K)} (la : LayerAct Tag.D4 α
       (rB_pos (by simp : (0 : D4Idx) ∈ ({0, 1, 3} : Finset D4Idx)))
       (by rw [(isPos_rB 0 (by simp)).2]; norm_num) (d4Pairs_11_gen 0 (Or.inl rfl)) hne0
     have a1 : pc (rA 0) ((α x : ↥(adjointGroup Tag.D4 K)) : ModGL Tag.D4 K) = f₀ := by
-      rw [h0 x hx0, hx, coe_rootElt, pc_rA_pinnedX, if_pos rfl, mul_one]
+      rw [h0 x hx0, hx, coe_rootElt, pc_rA_pinnedX, ite_eq_left rfl, mul_one]
     have a2 : pc (rA 2) ((α y : ↥(adjointGroup Tag.D4 K)) : ModGL Tag.D4 K) = f₂ := by
-      rw [h2 y hy0, hy, coe_rootElt, pc_rA_pinnedX, if_pos rfl, mul_one]
+      rw [h2 y hy0, hy, coe_rootElt, pc_rA_pinnedX, ite_eq_left rfl, mul_one]
     have a3 : pc (rA 2) ((α x : ↥(adjointGroup Tag.D4 K)) : ModGL Tag.D4 K) = 0 := by
-      rw [h2 x hx0, hx, coe_rootElt, pc_rA_pinnedX, if_neg ho'2, mul_zero]
+      rw [h2 x hx0, hx, coe_rootElt, pc_rA_pinnedX, ite_eq_right ho'2, mul_zero]
     rw [pc_of_pos (rB_pos (by simp : (0 : D4Idx) ∈ ({0, 1, 3} : Finset D4Idx))), hαz, coe_comm,
       e]
     simp only [a1, a2, a3]

@@ -44,8 +44,8 @@ private theorem tev_eq_zero_of_smul {n : ℕ} {a b : Fin n ⊕ Fin n → GaloisF
 
 private theorem tev_ne_smul {n : ℕ} {a b : Fin n ⊕ Fin n → GaloisField 2 1}
     (hab : spForm a b = 1) {y : Fin n ⊕ Fin n → GaloisField 2 1}
-    (hby : spForm b y = 0) (hy0 : y ≠ 0) : ∀ c : GaloisField 2 1, y ≠ c • a :=
-  fun c hc => hy0 (tev_eq_zero_of_smul hab hby hc)
+    (hby : spForm b y = 0) (hy0 : y ≠ 0) : ∀ _c : GaloisField 2 1, y ≠ _c • a :=
+  fun _c hc => hy0 (tev_eq_zero_of_smul hab hby hc)
 
 private theorem tev_dual {n : ℕ} {a b : Fin n ⊕ Fin n → GaloisField 2 1}
     (hab : spForm a b = 1) {y : Fin n ⊕ Fin n → GaloisField 2 1}

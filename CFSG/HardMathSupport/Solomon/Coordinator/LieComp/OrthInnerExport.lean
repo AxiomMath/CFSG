@@ -105,8 +105,8 @@ private theorem nontrivial_of_isQuasisimple' {K : Type*} [Group K] (h : CFSG.IsQ
 
 private theorem false_of_isQuasisimple_of_isSolvable' {K : Type*} [Group K]
     (h : CFSG.IsQuasisimple K) (hs : Group.IsSolvable K) : False := by
-  haveI := nontrivial_of_isQuasisimple' h
-  haveI : Group.IsPerfect K := h.1
+  have := nontrivial_of_isQuasisimple' h
+  have : Group.IsPerfect K := h.1
   exact Group.IsPerfect.not_isSolvable K hs
 
 private theorem isSolvable_sl_two_of_card_lt_four' {E : Type} [Field E] [Finite E]
@@ -127,8 +127,8 @@ private theorem orthCompData_specialBlock_paired (hSL : SLFactorFacts) {p : ℕ}
     (hh : h ∈ primaryFactors x.toLinearMap) (hne1 : h ≠ X - 1)
     (hne : h ≠ reciprocalPolynomial h) (hq : CFSG.IsQuasisimple ↥(specialBlock Q x h)) :
     OrthCompData (OrthFactorDataCard (ringChar K) (Nat.card K)) ↥(specialBlock Q x h) := by
-  letI : Fact (Irreducible h) := ⟨hirr⟩
-  letI : Fintype (AdjoinRoot h) := Fintype.ofFinite _
+  let : Fact (Irreducible h) := ⟨hirr⟩
+  let : Fintype (AdjoinRoot h) := Fintype.ofFinite _
   have hm : 2 ≤ primaryMultiplicity x.toLinearMap h := by
     by_contra hlt
     have hpos := hx.primaryMultiplicity_pos hh
@@ -169,7 +169,7 @@ private theorem orthCompData_specialBlock_selfDual (hSL : SLFactorFacts) (hSU : 
     (hirr : Irreducible h) (hh : h ∈ primaryFactors x.toLinearMap) (hne1 : h ≠ X - 1)
     (hself : h = reciprocalPolynomial h) (hq : CFSG.IsQuasisimple ↥(specialBlock Q x h)) :
     OrthCompData (OrthFactorDataCard (ringChar K) (Nat.card K)) ↥(specialBlock Q x h) := by
-  letI : Fact (Irreducible h) := ⟨hirr⟩
+  let : Fact (Irreducible h) := ⟨hirr⟩
   classical
   have hp2' : Odd p := hp.odd_of_ne_two hp2
   have hirr := irreducible_of_mem_primaryFactors hh
@@ -208,10 +208,10 @@ private theorem orthCompData_specialBlock_selfDual (hSL : SLFactorFacts) (hSU : 
   let e₁ : ↥(specialBlock Q x h) ≃* ↥(sesqSpecialUnitaryGroup B) :=
     (MonoidHom.ofInjective (hx.specialBlockGL_injective hh)).trans
       (MulEquiv.subgroupCongr hrange)
-  haveI := hU.finite
-  haveI : Fact ℓ.Prime := ⟨hU.prime⟩
-  haveI := hU.charP
-  letI : Fintype (AdjoinRoot h) := Fintype.ofFinite _
+  have := hU.finite
+  have : Fact ℓ.Prime := ⟨hU.prime⟩
+  have := hU.charP
+  let : Fintype (AdjoinRoot h) := Fintype.ofFinite _
   have hE : Nat.card (AdjoinRoot h) = (ℓ ^ (f * d)) ^ 2 := by
     rw [hU.card, ← pow_mul, mul_comm]
   have hK : Fintype.card (AdjoinRoot h) = (ℓ ^ (f * d)) ^ 2 := by
@@ -235,13 +235,13 @@ private theorem orthCompData_specialBlock_selfDual (hSL : SLFactorFacts) (hSU : 
       exact this
     obtain ⟨φ⟩ := CFSG.RankThree.Classical.nonempty_sesqSpecialUnitaryGroup_mulEquiv_SL2 hU hBsymm
       hBl hm2
-    letI : Fintype ↥hU.fixedField := Fintype.ofFinite _
+    let : Fintype ↥hU.fixedField := Fintype.ofFinite _
     have hcardF : Fintype.card ↥hU.fixedField = ℓ ^ (f * d) := by
       rw [Fintype.card_eq_nat_card, hU.card_fixedField]
     have h4 : 4 ≤ Fintype.card ↥hU.fixedField := by
       by_contra hlt
       refine false_of_isQuasisimple_of_isSolvable' hq ?_
-      haveI := isSolvable_sl_two_of_card_lt_four' (E := ↥hU.fixedField)
+      have := isSolvable_sl_two_of_card_lt_four' (E := ↥hU.fixedField)
         (by rw [Nat.card_eq_fintype_card]; omega)
       exact Group.isSolvable_of_isSolvable_injective (f := (e₁.trans φ).toMonoidHom)
         (e₁.trans φ).injective
@@ -265,7 +265,7 @@ private theorem orthCompData_specialBlock_selfDual (hSL : SLFactorFacts) (hSU : 
     by_cases hexc : primaryMultiplicity x.toLinearMap h = 3 ∧ ℓ ^ (f * d) = 2
     · exfalso
       refine false_of_isQuasisimple_of_isSolvable' hq ?_
-      haveI : Group.IsSolvable ↥(sesqSpecialUnitaryGroup B) := by
+      have : Group.IsSolvable ↥(sesqSpecialUnitaryGroup B) := by
         refine isSolvable_of_card_primeFactors_le_two ?_
         have hcard := (CFSG.LinearGroups.unitary_full_group_order hU hBsymm hBl
           (n := primaryMultiplicity x.toLinearMap h) rfl (by omega)).2.1
@@ -319,7 +319,7 @@ private theorem orthCompData_fixedFactor_of {p : ℕ} {K : Type} [Field K] [Fini
     (hFn : (F.subgroupOf (supportedFixedDerived Q x)).Normal) :
     OrthCompData P ↥F := by
   have hQW := hx.polarBilin_fixed_nondegenerate
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   let e := supportedFixedDerivedEquiv hx
   let A : Subgroup ↥(supportedFixedDerived Q x) := F.subgroupOf (supportedFixedDerived Q x)
   let L : Subgroup ↥(orthDerived (Q.comp (fixedSpace x).subtype)) := A.map e.toMonoidHom
@@ -343,7 +343,7 @@ private theorem orthCompData_fixedFactor (hOm : OmegaFactorFacts)
   orthCompData_fixedFactor_of (P := LieFactorProperty (ringChar K))
     (hprov := fun L hLn hLq => by
       have hQW := hx.polarBilin_fixed_nondegenerate
-      letI : Fintype K := Fintype.ofFinite K
+      let : Fintype K := Fintype.ofFinite K
       obtain ⟨X, _, _, hX, f, hf, hfk⟩ :=
         hOm (K := K) (V := fixedSpace x) (Q := Q.comp (fixedSpace x).subtype) hQW L hLn hLq
       refine ⟨X, inferInstance, inferInstance, ⟨hX, fun _ _ hOm6 hℓ3 => ?_⟩, f, hf, hfk⟩
@@ -365,7 +365,7 @@ private theorem orthCompData_fixedFactor_card (hOmF : OmegaFactorField)
   orthCompData_fixedFactor_of (P := OrthFactorDataCard (ringChar K) (Nat.card K))
     (hprov := fun L hLn hLq => by
       have hQW := hx.polarBilin_fixed_nondegenerate
-      letI : Fintype K := Fintype.ofFinite K
+      let : Fintype K := Fintype.ofFinite K
       obtain ⟨X, _, _, hX, hfac, f, hf, hfk⟩ :=
         hOmF (K := K) (V := fixedSpace x) (Q := Q.comp (fixedSpace x).subtype) hQW L hLn hLq
       refine ⟨X, inferInstance, inferInstance, ⟨hfac, ⟨hX, fun _ _ hOm6 hℓ3 => ?_⟩⟩, f, hf, hfk⟩
@@ -517,7 +517,7 @@ private theorem orthCompData_component_of {p : ℕ} {K : Type} [Field K] [Finite
       (fun hlist => by
         rw [← fixedLayerImage_of_listed hlist]
         exact le_sup_right)
-    haveI := hS₀sol
+    have := hS₀sol
     exact perfect_le_of_le_sup_solvable hENN hS₀N hENn hcomm hPN (Subgroup.isPerfect_iff.1 ⟨hP⟩)
   let Fm : ι₁ ⊕ Fin n → Subgroup (ProjOrthDerived Q) := Sum.elim S C
   have hFm : ∀ i, CFSG.Open.IsComponentOf (Fm i) N := by
@@ -532,7 +532,7 @@ private theorem orthCompData_component_of {p : ℕ} {K : Type} [Field K] [Finite
     (fun P hPN hP => hiSup ▸ hperf P hPN hP) hJ
   rcases i with ⟨⟨h, hh⟩, hne, hq⟩ | i
   · have hh' : h ∈ primaryFactors xe.toLinearMap := hRep.1 hh
-    haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh'⟩
+    have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh'⟩
     refine OrthCompData.map_projective (P := P) hperfP (hspecΩ ⟨⟨h, hh⟩, hne, hq⟩) ?_
     by_cases hself' : h = reciprocalPolynomial h
     · exact hself hx h (Fact.out) hh' hne hself' hq
@@ -548,7 +548,7 @@ private theorem orthCompData_specialBlock_paired_old (hSL : SLFactorFacts) {p : 
     (hne : h ≠ reciprocalPolynomial h) (hq : CFSG.IsQuasisimple ↥(specialBlock Q x h)) :
     OrthCompData (LieFactorProperty (ringChar K)) ↥(specialBlock Q x h) :=
   (orthCompData_specialBlock_paired hSL hp hp2 hx h hirr hh hne1 hne hq).mono
-    (fun X _ h => ⟨h.2.1, h.2.2⟩)
+    (fun _X _ h => ⟨h.2.1, h.2.2⟩)
 
 private theorem orthCompData_specialBlock_selfDual_old (hSL : SLFactorFacts) (hSU : SUFactorFacts)
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {K : Type} [Field K] [Finite K] {V : Type}
@@ -558,7 +558,7 @@ private theorem orthCompData_specialBlock_selfDual_old (hSL : SLFactorFacts) (hS
     (hself : h = reciprocalPolynomial h) (hq : CFSG.IsQuasisimple ↥(specialBlock Q x h)) :
     OrthCompData (LieFactorProperty (ringChar K)) ↥(specialBlock Q x h) :=
   (orthCompData_specialBlock_selfDual hSL hSU hp hp2 hx h hirr hh hne1 hself hq).mono
-    (fun X _ h => ⟨h.2.1, h.2.2⟩)
+    (fun _X _ h => ⟨h.2.1, h.2.2⟩)
 
 private theorem orthCompData_component (hSL : SLFactorFacts) (hSU : SUFactorFacts)
     (hOm : OmegaFactorFacts) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {K : Type} [Field K]
@@ -569,7 +569,7 @@ private theorem orthCompData_component (hSL : SLFactorFacts) (hSU : SUFactorFact
     (hJ : CFSG.Open.IsComponentOf J (Subgroup.centralizer ({a} : Set (ProjOrthDerived Q)))) : OrthCompData (LieFactorProperty (ringChar K)) (↥J) :=
   
   orthCompData_component_of (P := LieFactorProperty (ringChar K)) (hp := hp) (hp2 := hp2)
-    (hQ := hQ) (hT := hT) (hpℓ := hpℓ) (hperfP := fun X _ h => h.1.perfect)
+    (hQ := hQ) (hT := hT) (hpℓ := hpℓ) (hperfP := fun _X _ h => h.1.perfect)
     (hpaired := fun hx h hirr hh hne1 hne hq =>
       orthCompData_specialBlock_paired_old hSL hp hp2 hx h hirr hh hne1 hne hq)
     (hself := fun hx h hirr hh hne1 hself hq =>
@@ -587,7 +587,7 @@ private theorem orthCompData_component_card (hSL : SLFactorFacts) (hSU : SUFacto
     OrthCompData (OrthFactorDataCard (ringChar K) (Nat.card K)) ↥J :=
   orthCompData_component_of (P := OrthFactorDataCard (ringChar K) (Nat.card K)) (hp := hp)
     (hp2 := hp2) (hQ := hQ) (hT := hT) (hpℓ := hpℓ)
-    (hperfP := fun X _ h => h.2.1.perfect)
+    (hperfP := fun _X _ h => h.2.1.perfect)
     (hpaired := fun hx h hirr hh hne1 hne hq =>
       orthCompData_specialBlock_paired hSL hp hp2 hx h hirr hh hne1 hne hq)
     (hself := fun hx h hirr hh hne1 hself hq =>

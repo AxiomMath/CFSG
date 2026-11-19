@@ -83,6 +83,7 @@ section Test
 
 variable {ρ : K → K} {T : (ι → K) → (ι → K)} {U : Submodule K (ι → K)}
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem eq_of_commute_one_add (hTadd : ∀ v w, T (v + w) = T v + T w)
     (hTsmul : ∀ (c : K) v, T (c • v) = ρ c • T v) (hTinj : Function.Injective T)
     (hTU : ∀ u ∈ U, T u ∈ U) (N : U →ₗ[K] U) {x₀ : U} (hx₀ : N x₀ ≠ 0) {c : K}
@@ -109,6 +110,7 @@ theorem eq_of_commute_one_add (hTadd : ∀ v w, T (v + w) = T v + T w)
     exact hx₀ (Subtype.ext (hTinj (h.trans hT0.symm)))
   exact sub_eq_zero.1 ((smul_eq_zero.1 h3).resolve_right hne)
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem eq_of_commute_one_add_sq (hTadd : ∀ v w, T (v + w) = T v + T w)
     (hTsmul : ∀ (c : K) v, T (c • v) = ρ c • T v) (hTinj : Function.Injective T)
     (hTU : ∀ u ∈ U, T u ∈ U) (h2 : (2 : K) ≠ 0) (N₁ N₂ : U →ₗ[K] U) {x₀ : U}
@@ -257,6 +259,7 @@ theorem transvection_mem_isomU_toBilin' {J : Matrix ι ι K} (hJ : ∀ x, Matrix
   rw [← hwx, hww]
   ring
 
+omit [DecidableEq ι] in
 theorem transvection_mem_isomU_unitForm {σ : K →+* K} (hσσ : ∀ c, σ (σ c) = c)
     {U : Submodule K (ι → K)} (w : U) (hww : unitForm σ (w : ι → K) (w : ι → K) = 0) {c : K}
     (hc : σ c + c = 0)
@@ -294,7 +297,7 @@ theorem not_forall_semiConj_pow_zero [Finite K] {σ₀ : K →+* K} {U W : Submo
   let i₁ : Fin (finrank K U) := ⟨1, by omega⟩
   have hi : i₀ ≠ i₁ := Fin.ne_of_val_ne zero_ne_one
   have hfv : b.coord i₁ (b i₀) = 0 := by
-    rw [Basis.coord_apply, Basis.repr_self, Finsupp.single_apply, if_neg hi]
+    rw [Basis.coord_apply, Basis.repr_self, Finsupp.single_apply, ite_eq_right hi]
   have hfc : ∀ c : K, (c • b.coord i₁) (b i₀) = 0 := fun c => by
     rw [LinearMap.smul_apply, hfv, smul_zero]
   have hmem : ∀ c : K, LinearEquiv.transvection (hfc c) ∈
@@ -328,7 +331,7 @@ theorem not_forall_semiConj_pow_toBilin' [Finite K] (hodd : Odd (Nat.card K))
   intro H
   have heq := commutator_eq_of_perfect (Subgroup.commutator_le_self _) le_rfl
     (isQuasisimple_isomU_toBilin' hodd hJ hnd hdim hexc).1
-  haveI : Nontrivial U := Module.nontrivial_of_finrank_pos (R := K) (by omega)
+  have : Nontrivial U := Module.nontrivial_of_finrank_pos (R := K) (by omega)
   obtain ⟨w, hw0⟩ := exists_ne (0 : U)
   obtain ⟨x₀, hx₀⟩ : ∃ x : U, resBilin J U x w ≠ 0 := by
     by_contra hcon
@@ -364,8 +367,8 @@ theorem not_forall_semiConj_pow_unitForm {r f : ℕ}
     ¬ ∀ j ∈ blkI (unitForm hK.bar) U W, y * (ModelGen.semiConj A σ ^ k) j * y⁻¹ = j := by
   intro H
   have heq := commutator_isomU_unitForm hK hr hnd hdim
-  haveI : Fact r.Prime := ⟨hK.prime⟩
-  haveI : Finite K := hK.finite
+  have : Fact r.Prime := ⟨hK.prime⟩
+  have : Finite K := hK.finite
   have hE : Nat.card K = (r ^ f) ^ 2 := by rw [hK.card, ← pow_mul, mul_comm]
   let τ := CatalogueBUnitaryTwo.unitaryFieldConjugation r f hE
   have hτ : ∀ c, τ.toRingHom c = hK.bar c := fun c => by
@@ -389,9 +392,9 @@ theorem not_forall_semiConj_pow_unitForm {r f : ℕ}
   have hb01 := hb' i₀ i₁
   have hb10 := hb' i₁ i₀
   have hb11 := hb' i₁ i₁
-  rw [if_pos rfl] at hb00 hb11
-  rw [if_neg hi] at hb01
-  rw [if_neg (Ne.symm hi)] at hb10
+  rw [ite_eq_left rfl] at hb00 hb11
+  rw [ite_eq_right hi] at hb01
+  rw [ite_eq_right (Ne.symm hi)] at hb10
   have hww : unitForm hK.bar (w : ι → K) (w : ι → K) = 0 := by
     simp only [w, Submodule.coe_add, Submodule.coe_smul, map_add, map_smul, map_smulₛₗ,
       LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul]
@@ -457,7 +460,7 @@ theorem not_forall_semiConj_pow_polarBilin [Finite K] (hodd : Odd (Nat.card K))
       (polarBilin_comp_nondegenerate Q hnd) hdim
   have hperp := CFSG.ClassicalGroups.Orthogonal.HypPair.finrank_perp_add_two P
   have hpos : 0 < finrank K P.perp := by omega
-  haveI : Nontrivial P.perp := Module.nontrivial_of_finrank_pos (R := K) hpos
+  have : Nontrivial P.perp := Module.nontrivial_of_finrank_pos (R := K) hpos
   obtain ⟨⟨w, hw⟩, hw0⟩ := exists_ne (0 : P.perp)
   have hw0' : w ≠ 0 := fun h => hw0 (Subtype.ext h)
   have hew := (CFSG.ClassicalGroups.Orthogonal.HypPair.mem_perp.1 hw).1

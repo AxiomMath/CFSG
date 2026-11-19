@@ -10,7 +10,7 @@ public import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
 public import Mathlib.Combinatorics.Colex
 public import Mathlib.Combinatorics.Enumerative.DyckWord
 public import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.Data.NNRat.Floor
 public import Mathlib.Data.Nat.Choose.Multinomial
 public import Mathlib.Geometry.Euclidean.Volume.Basic
@@ -50,7 +50,7 @@ theorem geom_two_pow (x t : ℕ) (hx : 1 ≤ x) : (x - 1) * (∑ j ∈ Finset.ra
   | succ t ih =>
     rw [Finset.sum_range_succ, mul_add, add_right_comm, ih, pow_succ]
     obtain ⟨y, rfl⟩ : ∃ y, x = y + 1 := ⟨x - 1, by omega⟩
-    simp [Nat.add_sub_cancel]
+    simp
     ring
 
 theorem sum_two_pow_le (J : Finset ℕ) {n : ℕ} (hJ : ∀ i ∈ J, i < n) :

@@ -33,7 +33,7 @@ theorem exists_containing
     (toPermHom (Normalizer Q) (Fixed (X := X) Q)) (Inside Q) A
     (FixedNormalizerCyclicPreimageSylow.inside_le_kernel Q)
     (FixedNormalizerCyclicPreimageSylow.kernel_pgroup_le_inside Q S hS)
-    (hQB.trans hBA) A.isPGroup'
+    (hQB.trans hBA) A.isPGroup
   exact ⟨A, hBA, hk, hkr⟩
 
 private theorem image_card
@@ -50,7 +50,7 @@ private theorem image_card
   have hperm : Nat.card (Equiv.Perm (Fixed (X := X) Q)) =
       Nat.factorial (Nat.card (Fixed (X := X) Q)) := by
     classical
-    haveI : Fintype (Fixed (X := X) Q) := Fintype.ofFinite _
+    have : Fintype (Fixed (X := X) Q) := Fintype.ofFinite _
     simp only [Nat.card_eq_fintype_card, Fintype.card_perm]
   rw [W.card_eq_multiplicity, hperm, hseven]
   change 2 ^ (5040).factorization 2 = 16

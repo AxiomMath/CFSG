@@ -93,7 +93,7 @@ theorem not_hasNormalPComplement_Nbar : ¬ CFSG.HasNormalPComplement 2 S.Nbar :=
     simp
   have hM3 : IsPGroup 3 S.Mg := IsPGroup.of_card (n := 4) (by rw [S.card_Mg_eq_81]; norm_num)
   obtain ⟨P3, hP3⟩ := hM3.exists_le_sylow
-  have hP3eq : (P3 : Subgroup G) = S.Mg := hmax _ P3.isPGroup' hP3
+  have hP3eq : (P3 : Subgroup G) = S.Mg := hmax _ P3.isPGroup hP3
   have hset : (P3 : Set G) = (S.Mg : Set G) := Set.ext fun x => SetLike.ext_iff.mp hP3eq x
   have hcomm : IsMulCommutative (P3 : Subgroup G) := ⟨⟨fun a b => Subtype.ext (by
     have ha : (a : G) ∈ S.Mg := hP3eq ▸ a.2

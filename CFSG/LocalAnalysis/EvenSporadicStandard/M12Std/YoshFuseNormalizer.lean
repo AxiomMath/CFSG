@@ -137,7 +137,7 @@ theorem exists_conj_le_sylow (K S Q : Subgroup G) (hSK : S ≤ K)
   obtain ⟨PS, hPS⟩ : ∃ P : Sylow 2 K, (P : Subgroup K) = S.subgroupOf K :=
     ⟨Sylow.ofCard (S.subgroupOf K) hcard, Sylow.coe_ofCard _ _⟩
   obtain ⟨PQ, hPQ⟩ := (hQ.comap_subtype (K := K)).exists_le_sylow
-  haveI : Finite (Sylow 2 K) := Sylow.finite_of_finiteIndex PS
+  have : Finite (Sylow 2 K) := Sylow.finite_of_finiteIndex PS
   obtain ⟨k, hk⟩ := MulAction.exists_smul_eq K PS PQ
   refine ⟨k, k.2, fun y hy => ?_⟩
   have h1 : (⟨y, hQK hy⟩ : K) ∈ (PQ : Subgroup K) := hPQ hy
@@ -166,9 +166,9 @@ theorem fuse_into_normalizer {G : Type*} [Group G] [Finite G]
       (∀ y ∈ D, y * y = 1 ∨ y * y = c) → (∀ y ∈ D, ∀ z ∈ D, ⁅y, z⁆ = 1 ∨ ⁅y, z⁆ = c) → D = E)
     (heE : e ∈ E) (hec : e * c = c * e)
     (hRdef : R = E ⊓ Subgroup.centralizer ({e} : Set G))
-    (hRT : R ≤ T) (hTe : ∀ y ∈ T, y * e = e * y)
+    (_hRT : R ≤ T) (hTe : ∀ y ∈ T, y * e = e * y)
     (hTSyl : Nat.card T = 2 ^ (Nat.card (Subgroup.centralizer ({e} : Set G))).factorization 2)
-    (hTR : Nat.card T = 2 * Nat.card R)
+    (_hTR : Nat.card T = 2 * Nat.card R)
     (hZT : ∀ y ∈ T, (∀ z ∈ T, y * z = z * y) → y = 1 ∨ y = e ∨ y = c ∨ y = e * c)
     (hZR : ∀ y ∈ R, (∀ z ∈ R, y * z = z * y) → y = 1 ∨ y = e ∨ y = c ∨ y = e * c)
     (hRuniq : ∀ D : Subgroup G, D ≤ T → Nat.card D = Nat.card R →

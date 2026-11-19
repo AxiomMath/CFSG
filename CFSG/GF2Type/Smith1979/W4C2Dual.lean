@@ -250,7 +250,7 @@ theorem q_eq_zero_of_induces {X : Subgroup S.O} {W : Submodule (ZMod 2) S.Qt}
 
 end Dual
 
-open Dual
+open _root_.CFSG.GF2Type.Smith1979.W4C2.Dual _root_.Module.Dual
 
 theorem exists_pair_of_residual_w4 (hSL : S12SL4ModuleInput) {g : G} {t : S.O}
     (hw : S.width = 4) (hR : S.S12GammaLResidual g t) :
@@ -267,8 +267,8 @@ theorem exists_pair_of_residual_w4 (hSL : S12SL4ModuleInput) {g : G} {t : S.O}
   have φ4 : S.Xbar12 g ≃* Matrix.SpecialLinearGroup (Fin 4) (ZMod 2) := by
     rw [hw] at φ
     exact φ
-  haveI : IsSimpleGroup (S.Xbar12 g) := by
-    haveI := A2Mod.isSimpleGroup_sl_zmodTwo (k := S.width) (by omega)
+  have : IsSimpleGroup (S.Xbar12 g) := by
+    have := A2Mod.isSimpleGroup_sl_zmodTwo (k := S.width) (by omega)
     exact φ.isSimpleGroup
   set H := (S.Xbar12 g).map S.O.subtype
   have ψ : H ≃* Matrix.SpecialLinearGroup (Fin 4) (ZMod 2) :=

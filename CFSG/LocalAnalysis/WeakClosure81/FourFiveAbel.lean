@@ -18,7 +18,7 @@ theorem fourFive_abelian_subset {Q : Type} [Group Q] [Finite Q] {j : ℕ} (hj : 
       (Subgroup.normalizer (E1.weakClosure T Ω : Set Q) : Set Q) := by
   have hRsolv : Group.IsSolvable R :=
     Group.isSolvable_of_comm fun a b => hab.is_comm.comm a b
-  haveI : CFSG.IsMinimalNormal R := ⟨fun K _ hKR => hmin K inferInstance hKR⟩
+  have : CFSG.IsMinimalNormal R := ⟨fun K _ hKR => hmin K inferInstance hKR⟩
   obtain ⟨r, hr, hEA⟩ := CFSG.minimalNormal_solvable_exists_isElementaryAbelian R
   have hRp : IsPGroup r R := CFSG.IsElementaryAbelian.isPGroup r R
   have hRn : R.Normal := inferInstance
@@ -31,7 +31,7 @@ theorem fourFive_abelian_subset {Q : Type} [Group Q] [Finite Q] {j : ℕ} (hj : 
     · have hR2 : IsPGroup 2 R := hr2 ▸ hRp
       have hRT : R ≤ T := hT.le_of_normal le_top inferInstance hR2
       exact ⟨1, (E1.eGen 1 ⊤ T Ω).one_mem, ρ, hTN (hRT hρ), one_mul ρ⟩
-    · haveI : Fact r.Prime := ⟨hr⟩
+    · have : Fact r.Prime := ⟨hr⟩
       have hRodd : Nat.Coprime 2 (Nat.card R) := by
         obtain ⟨k, hk⟩ := hRp.exists_card_eq
         rw [hk]

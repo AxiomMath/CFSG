@@ -62,7 +62,7 @@ private lemma card_eq_sum_ind {n : ℕ} (p : Fin n → Prop) [DecidablePred p] :
 lemma wt_add_eq {n : ℕ} (x y : Coords n) :
     wt (x + y) = (sA x y).card + (sB x y).card + (sC x y).card := by
   rw [wt_eq_sum_ind]
-  simp only [sA, sB, sC, sD]
+  simp only [sA, sB, sC]
   rw [card_eq_sum_ind (fun i => x i ≠ 0 ∧ y i = 0),
     card_eq_sum_ind (fun i => x i = 0 ∧ y i ≠ 0),
     card_eq_sum_ind (fun i => x i = y i ∧ x i ≠ 0)]
@@ -73,7 +73,7 @@ lemma wt_add_eq {n : ℕ} (x y : Coords n) :
 lemma wt_sub_eq {n : ℕ} (x y : Coords n) :
     wt (x - y) = (sA x y).card + (sB x y).card + (sD x y).card := by
   rw [wt_eq_sum_ind]
-  simp only [sA, sB, sC, sD]
+  simp only [sA, sB, sD]
   rw [card_eq_sum_ind (fun i => x i ≠ 0 ∧ y i = 0),
     card_eq_sum_ind (fun i => x i = 0 ∧ y i ≠ 0),
     card_eq_sum_ind (fun i => x i = -y i ∧ x i ≠ 0)]
@@ -84,7 +84,7 @@ lemma wt_sub_eq {n : ℕ} (x y : Coords n) :
 lemma wt_left_eq {n : ℕ} (x y : Coords n) :
     wt x = (sA x y).card + (sC x y).card + (sD x y).card := by
   rw [wt_eq_sum_ind]
-  simp only [sA, sB, sC, sD]
+  simp only [sA, sC, sD]
   rw [card_eq_sum_ind (fun i => x i ≠ 0 ∧ y i = 0),
     card_eq_sum_ind (fun i => x i = y i ∧ x i ≠ 0),
     card_eq_sum_ind (fun i => x i = -y i ∧ x i ≠ 0)]
@@ -95,7 +95,7 @@ lemma wt_left_eq {n : ℕ} (x y : Coords n) :
 lemma wt_right_eq {n : ℕ} (x y : Coords n) :
     wt y = (sB x y).card + (sC x y).card + (sD x y).card := by
   rw [wt_eq_sum_ind]
-  simp only [sA, sB, sC, sD]
+  simp only [sB, sC, sD]
   rw [card_eq_sum_ind (fun i => x i = 0 ∧ y i ≠ 0),
     card_eq_sum_ind (fun i => x i = y i ∧ x i ≠ 0),
     card_eq_sum_ind (fun i => x i = -y i ∧ x i ≠ 0)]
@@ -167,7 +167,7 @@ lemma mulVec_cons_zero {n : ℕ} (M : Matrix (Fin (n + 1)) (Fin (n + 1)) (ZMod 3
   | zero =>
     simp [Matrix.mulVec, dotProduct, Fin.sum_univ_succ, Fin.cons_zero, Fin.cons_succ, hA]
   | succ k =>
-    simp [Matrix.mulVec, dotProduct, Fin.sum_univ_succ, Fin.cons_zero, Fin.cons_succ, hA]
+    simp [Matrix.mulVec, dotProduct, Fin.sum_univ_succ, Fin.cons_zero, Fin.cons_succ]
 
 lemma wt_cons_zero {n : ℕ} (v : Fin n → ZMod 3) :
     wt (Fin.cons 0 v) = wt v := by

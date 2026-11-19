@@ -59,7 +59,7 @@ private theorem os_mem_of_reach {F : Nat → Nat → Nat} {lv : List Nat} {r : N
 
 theorem run_perm_of_closed {n : Nat} {F : Nat → Nat → Nat} {lv : List Nat} {r : Nat}
     {O : List Nat} (hF : ∀ l ∈ lv, ∀ x < n, F l x < n) (hr : r < n) (hO : O.Nodup)
-    (hOn : ∀ p ∈ O, p < n) (h0 : O.head? = some r)
+    (_hOn : ∀ p ∈ O, p < n) (h0 : O.head? = some r)
     (hreach : ∀ i < O.length, 0 < i → ∃ a < i, ∃ l ∈ lv, F l (O.getD a 0) = O.getD i 0)
     (hcl : ∀ p ∈ O, ∀ l ∈ lv, F l p ∈ O) :
     (BS.run F lv n r).pts.Perm O := by

@@ -59,7 +59,7 @@ private theorem exists_standardFiveCode_linearEquiv_of_card_eq_one_hundred_twent
           (e v).1 i = 0 ↔
             standardFiveCodeVector v i = 0 := by
   classical
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hWpow :=
     Module.natCard_eq_pow_finrank
       (K := ZMod 5) (V := W)
@@ -288,7 +288,7 @@ theorem five_submodule_weight_preserving_order_ne_five
       _ = fiveWeight (e v) := hweight (e v)
       _ = fiveWeight (standardFiveCodeVector v) := he v
   intro haOrder
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have haPow : a ^ 5 = 1 := by
     simpa only [haOrder] using pow_orderOf_eq_one a
   have hgPow : g ^ 5 = 1 := by

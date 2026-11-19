@@ -42,10 +42,10 @@ private theorem smuElt_spIncl_mulVec_perm (π : Equiv.Perm (Fin m)) (v : Fin m �
   rw [Matrix.mulVec_apply_eq_sum]
   refine (Finset.sum_eq_single (Sum.map π.symm π.symm r) ?_ ?_).trans ?_
   · intro s _ hs
-    rw [spIncl_apply, if_neg (fun h => hs (by rw [h]; cases s <;> simp)), zero_mul]
+    rw [spIncl_apply, ite_eq_right (fun h => hs (by rw [h]; cases s <;> simp)), zero_mul]
   · intro h
     exact absurd (Finset.mem_univ _) h
-  · rw [spIncl_apply, if_pos (by cases r <;> simp), one_mul]
+  · rw [spIncl_apply, ite_eq_left (by cases r <;> simp), one_mul]
 
 private theorem smuElt_planeMat_mulVec_eq_of_one_off {S : Finset (Fin m)}
     {M : Fin m → Matrix (Fin 2) (Fin 2) K} (hM : ∀ x ∉ S, M x = 1)
@@ -58,19 +58,19 @@ private theorem smuElt_planeMat_mulVec_eq_of_one_off {S : Finset (Fin m)}
     refine Finset.sum_eq_zero fun s _ => ?_
     rw [WitSpNs.planeMat_apply]
     by_cases hps : WitSpNs.plane r = WitSpNs.plane s
-    · rw [if_pos hps, hv s (hps ▸ hr), mul_zero]
-    · rw [if_neg hps, zero_mul]
+    · rw [ite_eq_left hps, hv s (hps ▸ hr), mul_zero]
+    · rw [ite_eq_right hps, zero_mul]
   · refine (Finset.sum_eq_single r ?_ ?_).trans ?_
     · intro s _ hsr
       rw [WitSpNs.planeMat_apply]
       by_cases hps : WitSpNs.plane r = WitSpNs.plane s
-      · rw [if_pos hps, hM (WitSpNs.plane s) (by rwa [← hps]), Matrix.one_apply,
-          if_neg (fun hside => hsr (WitSpNs.eq_of_plane_side hps hside).symm), zero_mul]
-      · rw [if_neg hps, zero_mul]
+      · rw [ite_eq_left hps, hM (WitSpNs.plane s) (by rwa [← hps]), Matrix.one_apply,
+          ite_eq_right (fun hside => hsr (WitSpNs.eq_of_plane_side hps hside).symm), zero_mul]
+      · rw [ite_eq_right hps, zero_mul]
     · intro h
       exact absurd (Finset.mem_univ _) h
-    · rw [WitSpNs.planeMat_apply, if_pos rfl, hM (WitSpNs.plane r) hr, Matrix.one_apply,
-        if_pos rfl, one_mul]
+    · rw [WitSpNs.planeMat_apply, ite_eq_left rfl, hM (WitSpNs.plane r) hr, Matrix.one_apply,
+        ite_eq_left rfl, one_mul]
 
 private theorem smuElt_permSp_conj_lam (π : Equiv.Perm (Fin m)) (i : Fin m)
     (A : SpecialLinearGroup (Fin 2) K) :
@@ -111,7 +111,7 @@ theorem mat_lam_eq_planeMat (i : Fin m) (A : SpecialLinearGroup (Fin 2) K) :
   rw [WitSpNs.planeMat_apply]
   rcases a with j | j <;> rcases b with k | k <;>
     by_cases hji : j = i <;> by_cases hki : k = i <;> by_cases hjk : j = k <;>
-    simp_all [pairMat, Function.update_apply, Matrix.one_apply, WitSpNs.plane, WitSpNs.side]
+    simp_all [pairMat, Matrix.one_apply, WitSpNs.plane, WitSpNs.side]
 
 theorem permSp_conj_spPlaneTorus {ζ : Multiplicative (ZMod p) →* SpecialLinearGroup (Fin 2) K}
     (π : Equiv.Perm (Fin m)) (f : Fin m → Multiplicative (ZMod p)) :
@@ -337,7 +337,7 @@ theorem smuPlaneSwapW_conj_twisted {ζ : Multiplicative (ZMod p) →* SpecialLin
     _ = spPlaneTorus m ζ ((diagAut s hs * permAut (Equiv.swap a b) *
           (diagAut s hs)⁻¹ : MulAut (Fin m → Multiplicative (ZMod p))) f) := by
           rw [← smuElt_twisted_eq_update hs hab hsab f]
-          simp [Function.update_self, Function.update_of_ne, hab, Ne.symm hab]
+          simp [Function.update_of_ne, hab]
 
 end CFSG.StandardType.SympMinus
 

@@ -35,7 +35,7 @@ private theorem linAsm_noTorsion {F : Type} [Field F] [Finite F] {n : ℕ} (hn :
   intro z hz hz3
   rw [ker_proj] at hz
   obtain ⟨c, hcn, hzc⟩ := mem_scalars.1 hz
-  haveI : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
+  have : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
   have hc3 : c ^ 3 = 1 := Units.ext (by
     rw [Units.val_pow_eq_pow_val, Units.val_one, ← Matrix.scalar_inj (n := Fin n), map_pow, ← hzc,
       ← Matrix.SpecialLinearGroup.coe_pow, hz3, Matrix.SpecialLinearGroup.coe_one, map_one])
@@ -97,7 +97,7 @@ theorem SG.exists_fix_of_linCore {G : Type} [Group G] {n : ℕ} (hn : 3 ≤ n) {
   obtain ⟨A', Y', hs, ⟨u, w, huw⟩, h3A, -, hdY, hYi, hYA⟩ := hcore Bt (fun y hy => hBe.2 y hy)
     (fun y hy z hz => by simpa using congrArg Subtype.val (mul_comm' (⟨y, hy⟩ : Bt) ⟨z, hz⟩))
     (by rw [hBc, ← Subgroup.card_map_of_injective hgi, Subgroup.map_comap_eq_self hXg]) d hdB
-  haveI := hs
+  have := hs
   obtain ⟨ψ, hψ⟩ : ∃ ψ : A' →* G, ψ = (Θ.symm.toMonoidHom.comp (proj n F)).comp A'.subtype :=
     ⟨_, rfl⟩
   have hψA : ∀ z : A', ψ z = Θ.symm (proj n F z) := fun z => by rw [hψ]; rfl
@@ -129,8 +129,8 @@ theorem qsF3ResLin_holds : QSF3ResLin := by
   obtain ⟨n, F, _, _, Θ, hF, hnA, hnD, hΘ⟩ := SG.linModel_of_innLabel h hlab
     (hcase.elim (fun h' => .inl h'.1) fun h' => h'.elim (fun h' => .inl h'.1) fun h' =>
       .inr ⟨h'.1, h'.2.2⟩)
-  haveI : CharP F 2 := by
-    haveI : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := by
+    have : Fintype F := Fintype.ofFinite F
     exact charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hF])
   have hc := h.cfg
   obtain ⟨hDB, -⟩ := hc.std
@@ -168,7 +168,7 @@ theorem qsF3ResLin_holds : QSF3ResLin := by
     perfectInLayer_of_congr Θ _ (perfectInLayer_projectiveSL hn3 Nat.prime_three (by norm_num)
       (by rw [Nat.cast_ofNat, show (3 : F) = 2 + 1 by norm_num, h2, zero_add]; exact one_ne_zero)
       _ (by rw [← map_pow, hd3, map_one]))
-  haveI := hA
+  have := hA
   exact SG.false_of_simple_fix_relIndex h hcat hB (hSN d)
     (SG.glaLayer_fixSubgroup_chevAut h hdD hdx (hSN d)) hpl hAd hnc h3A hY hYA
 

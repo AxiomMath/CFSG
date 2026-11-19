@@ -21,7 +21,7 @@ theorem isLocallyOneBalancedAbs_of_pair {name : TauCeti.SporadicName} {p : ℕ}
     (hnab : ∃ a b : S, a * b ≠ b * a)
     (he : Nonempty (S ≃* (TauCeti.CFSGIndex.sporadic name).Group)) :
     IsLocallyOneBalancedAbs p S := by
-  haveI := hS
+  have := hS
   have hcen : Subgroup.center S = ⊥ := center_eq_bot_of_isSimpleGroup hnab
   have hOutS : Nat.card (Outer S) ≤ 2 := hOut S hS hnab name he
   obtain ⟨h1, h2⟩ := hP

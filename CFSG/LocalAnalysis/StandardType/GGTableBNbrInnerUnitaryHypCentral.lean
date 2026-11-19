@@ -75,15 +75,15 @@ variable {n d : ℕ} {F : Type} [Field F] [Finite F]
 
 theorem center_statedProj_statedSU_eq_bot (hF : Nat.card F = (2 ^ n) ^ 2) (hd : 4 ≤ d) :
     Subgroup.center (StatedProj (StatedSU d (2 ^ n) F)) = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := n) hF
-  haveI hsimple : IsSimpleGroup (StatedProj (StatedSU d (2 ^ n) F)) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := n) hF
+  have hsimple : IsSimpleGroup (StatedProj (StatedSU d (2 ^ n) F)) :=
     CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU F 2 n hF d (by omega)
       (fun h => by
         have h1 := congrArg Prod.fst h
         simp only at h1
         omega)
-  haveI : Group.IsPerfect (StatedSU d (2 ^ n) F) :=
+  have : Group.IsPerfect (StatedSU d (2 ^ n) F) :=
     CFSG.LieType.Steinberg.CentralExt.SUClosed.isPerfect_statedSU hF hd
   have hperf : Group.IsPerfect (StatedProj (StatedSU d (2 ^ n) F)) :=
     Group.IsPerfect.ofSurjective (QuotientGroup.mk'_surjective
@@ -104,6 +104,7 @@ theorem center_statedProj_statedSU_eq_bot (hF : Nat.card F = (2 ^ n) ^ 2) (hd : 
       exact Subgroup.mem_top x
     exact hx (Subgroup.mem_bot.mp (hbot hx'))
 
+omit [Finite F] in
 theorem scalars_le_center_statedSU :
     (StatedScalars (Fin d) F).subgroupOf (StatedSU d (2 ^ n) F) ≤
       Subgroup.center (StatedSU d (2 ^ n) F) := fun z hz => by
@@ -125,6 +126,7 @@ theorem center_statedSU_le_scalars (hF : Nat.card F = (2 ^ n) ^ 2) (hd : 4 ≤ d
   rw [center_statedProj_statedSU_eq_bot hF hd, Subgroup.mem_bot] at hzc
   exact (QuotientGroup.eq_one_iff z).mp hzc
 
+omit [Finite F] in
 theorem card_scalars_statedSU_dvd (hF : Nat.card F = (2 ^ n) ^ 2) (hd : 1 ≤ d) :
     Nat.card ((StatedScalars (Fin d) F).subgroupOf (StatedSU d (2 ^ n) F)) ∣ 2 ^ n + 1 := by
   rw [(CFSG.LinearGroups.unitary_scalar_kernel Nat.prime_two hF hd).2.2]
@@ -145,8 +147,8 @@ theorem ggCenterPrime_psu_even
     (hF : Nat.card F = (2 ^ n) ^ 2) {p : ℕ}
     (hd : Even d) (hd4 : 4 ≤ d) (hq : 4 ≤ 2 ^ n) (hpq : ¬ p ∣ 2 ^ n + 1) :
     GGCenterPrime p (StatedProj (StatedSU d (2 ^ n) F)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := n) hF
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := n) hF
   intro L' _ _ ψ hψ hker hperf hpZ
   obtain ⟨φ, hφs, hφ⟩ := exists_cover_of_sections
     (QuotientGroup.mk' ((StatedScalars (Fin d) F).subgroupOf (StatedSU d (2 ^ n) F)))

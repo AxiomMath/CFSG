@@ -28,7 +28,7 @@ theorem mem_perp_pieces (F : SevOm.Frame Q p E r) (v : V) :
   change v ∈ (⨆ j, F.U j).orthogonalBilin (polarBilin Q) ↔
     ∀ j, ∀ u ∈ F.U j, polar Q u v = 0
   rw [Submodule.orthogonalBilin_iSup, Submodule.mem_iInf]
-  simpa only [Submodule.mem_orthogonalBilin, polarBilin_apply_apply]
+  simp only [Submodule.mem_orthogonalBilin, polarBilin_apply_apply]
 
 omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
 theorem mem_perp_pieces_iff_fixed (hp : p.Prime) (F : SevOm.Frame Q p E r) (v : V) :

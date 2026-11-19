@@ -85,7 +85,6 @@ public theorem firstCase_klein_intersection_oddCore_relIndex_three
       (N.subgroupOf D).index := by
     simpa [Subgroup.relIndex] using hrel
   rw [hindex', hOindex] at hrel'
-  norm_num at hrel'
   have hthree : (N.subgroupOf O).index = 3 := by omega
   simpa [D, N, O, Subgroup.relIndex] using hthree
 

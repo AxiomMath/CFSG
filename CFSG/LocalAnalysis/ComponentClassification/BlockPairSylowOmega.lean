@@ -50,8 +50,8 @@ theorem pair {G : Type*} [Group G] [Finite G]
   have hsecondMutual : secondTwo ≤ secondMutual := by
     rintro member ⟨lift, hlift, rfl⟩
     exact lift.property
-  have hfirstTwo : IsPGroup 2 firstTwo := firstSylow.isPGroup'.map firstMutual.subtype
-  have hsecondTwo : IsPGroup 2 secondTwo := secondSylow.isPGroup'.map secondMutual.subtype
+  have hfirstTwo : IsPGroup 2 firstTwo := firstSylow.isPGroup.map firstMutual.subtype
+  have hsecondTwo : IsPGroup 2 secondTwo := secondSylow.isPGroup.map secondMutual.subtype
   have hfirstNe : firstTwo ≠ ⊥ := by
     intro hbot
     have hcardOne : Nat.card firstTwo = 1 := firstTwo.eq_bot_iff_card.mp hbot

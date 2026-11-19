@@ -96,7 +96,8 @@ def conj (g₀ : GL (Fin 6) K) : SLAct K V where
     rw [show g₀ * (g * h) * g₀⁻¹ = g₀ * g * g₀⁻¹ * (g₀ * h * g₀⁻¹) by group,
       A.act_mul _ _ (cbA_det_conj g₀ g hg) (cbA_det_conj g₀ h hh)]
 
-theorem Fix_conj {g₀ : GL (Fin 6) K} (hg₀ : (g₀ : Matrix (Fin 6) (Fin 6) K).det = 1)
+omit [CharP K 2] in
+theorem Fix_conj {g₀ : GL (Fin 6) K} (_hg₀ : (g₀ : Matrix (Fin 6) (Fin 6) K).det = 1)
     (W : Submodule K (Fin 6 → K)) :
     (A.conj g₀).Fix W = A.Fix (W.map (Matrix.mulVecLin (g₀ : Matrix (Fin 6) (Fin 6) K))) := by
   ext v
@@ -169,6 +170,7 @@ theorem act_tr_vI_move {ξ : Kˣ →* Kˣ} {v₀ : V} (S : Setup A v₀ ξ) {g :
 noncomputable def Phi (v₀ : V) : Cube K →ₗ[K] V :=
   (cubeBasis K).constr K (fun I => A.vI v₀ I.1)
 
+omit [CharP K 2] in
 theorem Phi_cubeBasis (v₀ : V) (I : Set.powersetCard (Fin 6) 3) :
     A.Phi v₀ (cubeBasis K I) = A.vI v₀ I.1 := by
   unfold Phi
@@ -186,7 +188,7 @@ theorem Phi_rho_adj {ξ : Kˣ →* Kˣ} {v₀ : V} (S : Setup A v₀ ξ) {g : K 
     rw [rho_transvGL_cubeBasis hadj hne c I]
     by_cases h : b ∈ I.1 ∧ a ∉ I.1
     · have hI : I.1.card = 3 := I.2
-      rw [dif_pos h]
+      rw [dite_eq_left h]
       simp only [map_add, map_smul, Phi_cubeBasis]
       rw [A.act_tr_vI_move S R hne (g.symm c) hI h.1 h.2, RingEquiv.apply_symm_apply]
       rfl
@@ -194,7 +196,7 @@ theorem Phi_rho_adj {ξ : Kˣ →* Kˣ} {v₀ : V} (S : Setup A v₀ ξ) {g : K 
       have hfix : b ∈ I.1 → a ∈ I.1 := fun hb => by
         by_contra ha
         exact h ⟨hb, ha⟩
-      rw [dif_neg h]
+      rw [dite_eq_right h]
       simp only [Phi_cubeBasis]
       rw [A.act_tr_vI_fix S hne (g.symm c) hI hfix]
   exact LinearMap.congr_fun key x
@@ -251,8 +253,8 @@ theorem Phi_injective {ξ : Kˣ →* Kˣ} {v₀ : V} (S : Setup A v₀ ξ) :
   have hC : finrank K (Cube K) = 20 := by
     rw [Module.finrank_eq_nat_card_basis (cubeBasis K)]
     exact card_J3
-  haveI : FiniteDimensional K V := Module.finite_of_finrank_pos (by rw [S.hV]; norm_num)
-  haveI : FiniteDimensional K (Cube K) := Module.finite_of_finrank_pos (by rw [hC]; norm_num)
+  have : FiniteDimensional K V := Module.finite_of_finrank_pos (by rw [S.hV]; norm_num)
+  have : FiniteDimensional K (Cube K) := Module.finite_of_finrank_pos (by rw [hC]; norm_num)
   exact (LinearMap.injective_iff_surjective_of_finrank_eq_finrank (hC.trans S.hV.symm)).2
     (cbC_surj A S)
 

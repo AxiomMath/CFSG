@@ -60,7 +60,7 @@ theorem WbOf_eq_span (C : Ctx D W) : WbOf C = Submodule.span D.L (WbGen C) := by
   rw [Submodule.map_span]
   congr 1
   ext v
-  simp only [Set.mem_image, SetLike.mem_coe, WbGen, Set.mem_setOf_eq]
+  simp only [Set.mem_image, SetLike.mem_coe, WbGen, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨u, ⟨w, hw, rfl⟩, rfl⟩
     exact ⟨w, hw, rfl⟩
@@ -114,7 +114,7 @@ theorem coord_sRoots_zero (hK : 3 ≤ Nat.card K) (hodd : ringChar K ≠ 2) (D :
     (hqc : ∀ r ∈ Rθ (D.frame TwClass.f4Six.S₁ ⊔ D.frame TwClass.f4Six.S₂), r * q = q * r) :
     heisCoord Tag.F4 D.L (D.g⁻¹ * baseChangeGL (algebraMap K D.L) q * D.g) alpha1 = 0 ∧
     heisCoord Tag.F4 D.L (D.g⁻¹ * baseChangeGL (algebraMap K D.L) q * D.g) root1342 = 0 := by
-  haveI : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
   obtain ⟨N, hN⟩ := pair_comm_s1
   obtain ⟨e, A, he, hA, hfix⟩ := exists_sigmaFixed_pair D isRoot_alpha1 isRoot_root1342
     (isRoot_highRoot Tag.F4) wF_alpha1 wF_root1342 wF_theta N (fun a b => hN D.L a b) hK hodd
@@ -236,7 +236,7 @@ theorem stab_single_root (C : Ctx D W) (hK : 3 ≤ Nat.card K)
         actFun a1 a2 γ t (heisCoord Tag.F4 D.L q))
     {γ : Fin Tag.F4.rank → ℤ} (hγ : γ ∈ f4ShortList) (hwγ : wF • γ = γ) :
     ∀ t : D.L, ∀ v ∈ WbOf C, actFun a1 a2 γ t v ∈ WbOf C := by
-  haveI : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
   obtain ⟨hγr, -⟩ := f4ShortList_deg0 γ hγ
   obtain ⟨T, hT, hfix⟩ := exists_sigmaFixed_single D (mem_rootFinset.1 hγr) hwγ hK
   refine algebraize_single (WbOf C) γ T hT (fun t ht v hv => ?_)
@@ -264,7 +264,7 @@ theorem stab_pair (C : Ctx D W) (hK : 3 ≤ Nat.card K) (hodd : ringChar K ≠ 2
     (hstabγ : ∀ t : D.L, ∀ v ∈ WbOf C, actFun a1 a2 γ t v ∈ WbOf C) :
     (∀ t : D.L, ∀ v ∈ WbOf C, actFun a1 a2 δ₁ t v ∈ WbOf C) ∧
       (∀ t : D.L, ∀ v ∈ WbOf C, actFun a1 a2 δ₂ t v ∈ WbOf C) := by
-  haveI : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
   obtain ⟨hδ₁r, -⟩ := f4ShortList_deg0 δ₁ hδ₁
   obtain ⟨hδ₂r, -⟩ := f4ShortList_deg0 δ₂ hδ₂
   obtain ⟨hγr, -⟩ := f4ShortList_deg0 γ hγ

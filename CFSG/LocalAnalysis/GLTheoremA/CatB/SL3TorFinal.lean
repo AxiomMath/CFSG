@@ -20,7 +20,7 @@ theorem mem_core_of_mem_coreOf {G : Type} [Group G] {K : Subgroup G} {p : ℕ} (
   rwa [this] at hy
 
 theorem normalizer_map_mem {H G : Type} [Group H] [Group G] (f : H →* G)
-    (hf : Function.Injective f) {T : Subgroup H} {w : H}
+    (_hf : Function.Injective f) {T : Subgroup H} {w : H}
     (hw : w ∈ Subgroup.normalizer (T : Set H)) :
     f w ∈ Subgroup.normalizer ((T.map f : Subgroup G) : Set G) := by
   rw [Subgroup.mem_normalizer_iff]

@@ -20,7 +20,7 @@ theorem levTwoS2d_mem_Phi_iff {p : ℕ} [Fact p.Prime] (n : ℕ) (hn : 4 ≤ n) 
     {β : Fin n → ℤ} (hβ : toStdD n β = Pi.single a s + Pi.single b t) :
     β ∈ Φ ↔ (s : ZMod p) * levTwoS2d_d n hn c a + (t : ZMod p) * levTwoS2d_d n hn c b = 0 := by
   rw [levTwoS2d_Phi_eq_lambda n hn p hp2 c hΦ]
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   constructor
   · rintro ⟨-, hlam⟩
     rwa [levTwoS2d_lam_eps n hn hp2 c hβ] at hlam

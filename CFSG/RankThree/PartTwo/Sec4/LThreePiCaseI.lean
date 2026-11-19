@@ -321,7 +321,7 @@ theorem mem_centralizer_of_scalar {e : L ≃* slPi π 3 (p ^ f) K} {b : G} (hbL 
 
 theorem linearIndependent_cols_of_GL (g : GL (Fin 3) K) :
     LinearIndependent K (fun i : Fin 3 => fun r : Fin 3 => (g : Matrix (Fin 3) (Fin 3) K) r i) := by
-  have := (Matrix.linearIndependent_cols_iff_isUnit (A := (g : Matrix (Fin 3) (Fin 3) K))).mpr
+  have := (Matrix.linearIndependent_col_iff_isUnit (A := (g : Matrix (Fin 3) (Fin 3) K))).mpr
     g.isUnit
   convert this using 1
   funext i r

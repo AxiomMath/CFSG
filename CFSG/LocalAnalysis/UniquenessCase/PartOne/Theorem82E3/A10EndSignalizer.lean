@@ -37,7 +37,7 @@ private lemma centralizer_eq_of_card_eq_81_of_card_center_eq_three {Y : Type} [G
     (hcard : Nat.card Y = 81) (hcenter : Nat.card (Subgroup.center Y) = 3)
     (hAcard : Nat.card A = 27) : Subgroup.centralizer (A : Set Y) = A := by
   classical
-  haveI : IsMulCommutative ↥A := hAcomm
+  have : IsMulCommutative ↥A := hAcomm
   let C : Subgroup Y := Subgroup.centralizer (A : Set Y)
   have hAC : A ≤ C := Subgroup.le_centralizer A
   have hAindex : A.index = 3 := by
@@ -70,7 +70,7 @@ private lemma card_center_eq_of_isSylowOf {X : Type} [Group X] [Finite X] {P Q :
     Nat.card Q = Nat.card P ∧
       Nat.card (Subgroup.center Q) = Nat.card (Subgroup.center P) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, -, hconj⟩ := hP.exists_mem_conj hQ
   let f : X ≃* X := MulAut.conj k⁻¹
   have hmap : Subgroup.map (f : X →* X) Q = P := by
@@ -120,19 +120,19 @@ theorem mem_of_mem_centralizer_of_hyp327 {X : Type} [Group X] [Finite X] {P A : 
     (hX : Hyp327 X P A) {x : X} (hx : x ∈ Subgroup.centralizer (A : Set X))
     (h3 : orderOf x = 3) : x ∈ A := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hAsup := isPGroup_sup_zpowers_of_mem_centralizer hX.elem.isPGroup hx h3
   obtain ⟨Q, hQle⟩ := hAsup.exists_le_sylow
   have hAQ : A ≤ (Q : Subgroup X) := fun a ha => hQle (Subgroup.mem_sup_left ha)
   have hxQ : x ∈ (Q : Subgroup X) :=
     hQle (Subgroup.mem_sup_right (Subgroup.mem_zpowers x))
   have hQsyl : CFSG.ABGLocalTools.IsSylowOf 3 (Q : Subgroup X) ⊤ := by
-    refine CFSG.ABGLocalTools.isSylowOf_iff.mpr ⟨le_top, Q.isPGroup', ?_⟩
+    refine CFSG.ABGLocalTools.isSylowOf_iff.mpr ⟨le_top, Q.isPGroup, ?_⟩
     rw [Subgroup.relIndex_top_right]
     exact Q.not_dvd_index
   rcases hX.shape with hAP | hne
   · have hAsyl : CFSG.ABGLocalTools.IsSylowOf 3 A ⊤ := hAP.symm ▸ hX.sylow
-    have hQeq : (Q : Subgroup X) = A := hAsyl.eq_of_le hAQ le_top Q.isPGroup'
+    have hQeq : (Q : Subgroup X) = A := hAsyl.eq_of_le hAQ le_top Q.isPGroup
     exact hQeq ▸ hxQ
   · obtain ⟨eP⟩ := hne
     obtain ⟨hcardP, hcenterP⟩ := card_and_center_card_of_mulEquiv_ZWr_one eP
@@ -167,7 +167,7 @@ theorem eq_bot_of_hyp327_of_layer_eq_bot {X : Type} [Group X] [Finite X] {P A : 
     (hE : CFSG.layer X = ⊥) {W : Subgroup X} (hW : A ≤ Subgroup.normalizer (W : Set X))
     (hcop : Nat.Coprime (Nat.card W) 3) : W = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcon : CFSG.ABGLocalTools.IsPConstrained 3 X := by
     have hchar : CFSG.IsCharacteristicP 3 X :=
       CFSG.isCharacteristicP_of_pPrimeCore_eq_bot_of_layer_eq_bot X 3 h3' hE

@@ -456,7 +456,7 @@ theorem exists_zero_gl {N : ℕ} {f : ℕ → ℕ}
   by_contra hne
   have hne' : ∀ i < N, f i ≠ 0 := fun i hi h0 => hne ⟨i, hi, h0⟩
   have : ∑ i ∈ Finset.range N, (if f i = 0 then 0 else 1) = N := by
-    rw [Finset.sum_congr rfl fun i hi => if_neg (hne' i (Finset.mem_range.1 hi))]
+    rw [Finset.sum_congr rfl fun i hi => ite_eq_right (hne' i (Finset.mem_range.1 hi))]
     simp
   omega
 
@@ -608,7 +608,7 @@ theorem bK_sound (h : bK BL BIL BP BIP BT = true) :
         · rfl
         · exact absurd (beq_gl.1 hq) hd0
       rw [hb] at hrest
-      simp only [andB_gl, Bool.and_eq_true, blt_gl, beq_gl] at hrest
+      simp only [Bool.and_eq_true, blt_gl, beq_gl] at hrest
       obtain ⟨h1, h2, h3⟩ := hrest
       rw [CFSG.KC.GL62.LS.cmulK_eq] at h3
       exact Or.inr ⟨hd0, h1, h2, h3⟩
@@ -704,7 +704,7 @@ theorem goodK_sound (h : goodK BP BIP GD = true) (hb : bK BL BIL BP BIP BT = tru
   rw [hrep.1, hrep.2]
   generalize GD[p] = e at he
   obtain ⟨r, O⟩ := e
-  simp only [andB_gl, Bool.and_eq_true, blt_gl, letB_gl, beq_gl, T36_eq, lenN_gl, allL_gl,
+  simp only [blt_gl, T36_eq, lenN_gl, allL_gl,
     List.all_eq_true] at he
   obtain ⟨hr, hrr, hs0, hinc, hlenO, hmem⟩ := he
   rw [conjL_gl hl1 hlt hl2 hlt2 hr] at hs0 hlenO hmem
@@ -867,7 +867,7 @@ theorem hbK_sound (hbb : hbK BP GD HB = true) (hb : bK BL BIL BP BIP BT = true) 
   unfold hbK at hbb
   rw [allK_gl, List.all_eq_true] at hbb
   have h1 := hbb _ he
-  simp only [andB_gl, Bool.and_eq_true, blt_gl, letB_gl, memN_gl, orb_gl, orb2_gl, rep_gl] at h1
+  simp only [andB_gl, Bool.and_eq_true, blt_gl, letB_gl, memN_gl, orb2_gl, rep_gl] at h1
   obtain ⟨ha, hb', hx, hw⟩ := h1
   refine ⟨ha, hb', hx, ?_⟩
   have := badW_gl (lt64 hlt) hw
@@ -1011,7 +1011,7 @@ theorem famOK_gl (I s : ℕ) : famOK I s = true ↔ (I, s) ∈ famSizesK := by
     exact hx
   · intro h
     refine ⟨(I, s), h, ?_⟩
-    simp [andB_gl, beq_gl]
+    simp [andB_gl]
 
 theorem lowbit_one (t : ℕ) : ∀ i j, (t &&& (t ^^^ (t - 1))).testBit i = true →
     (t &&& (t ^^^ (t - 1))).testBit j = true → i = j := by
@@ -1257,14 +1257,14 @@ theorem famK_sound (h : famK BP GD F = true) (hb : bK BL BIL BP BIP BT = true) :
   unfold famK at h
   rw [allK_gl, List.all_eq_true] at h
   have h1 := h _ hf
-  simp only [andB_gl, Bool.and_eq_true, blt_gl, bitK_gl, memN_gl, orb_gl, orb2_gl, beq_gl, allK_gl,
+  simp only [andB_gl, Bool.and_eq_true, blt_gl, bitK_gl, memN_gl, orb2_gl, beq_gl, allK_gl,
     List.all_eq_true] at h1
   obtain ⟨hq, hm, hg, hmask, hents⟩ := h1
   refine ⟨hq, hm, hg, fun p hp => ?_⟩
   rw [hmask, bitsK_gl, fstK_gl, List.mem_map] at hp
   obtain ⟨⟨p', w⟩, hpw, rfl⟩ := hp
   have h2 := hents _ hpw
-  simp only [andB_gl, Bool.and_eq_true, blt_gl, letB_gl, beq_gl] at h2
+  simp only [letB_gl, beq_gl] at h2
   obtain ⟨hp, hw, he⟩ := h2
   rw [CFSG.KC.GL62.LS.cmulK_eq, CFSG.KC.GL62.LS.cmulK_eq, wordK_gl (lt64 hlt), rep_gl] at he
   exact ⟨hp, w, lettersK_gl hw, he⟩

@@ -33,13 +33,13 @@ theorem mem_inner_of_pgl_of_elemAbelian (hK : PiField π p f K) (hq : ModThree �
       (projImage (slPi π 3 (p ^ f) K)) := by
   classical
   have := hK.finite
-  haveI : Finite (ProjGenLinGroup (Fin 3) K) :=
+  have : Finite (ProjGenLinGroup (Fin 3) K) :=
     Finite.of_surjective (ProjGenLinGroup.mk : GL (Fin 3) K →* _) (QuotientGroup.mk'_surjective _)
-  haveI : Finite (MulAut (projImage (slPi π 3 (p ^ f) K))) :=
+  have : Finite (MulAut (projImage (slPi π 3 (p ^ f) K))) :=
     Finite.of_injective (fun α : MulAut (projImage (slPi π 3 (p ^ f) K)) =>
       (α : projImage (slPi π 3 (p ^ f) K) → projImage (slPi π 3 (p ^ f) K)))
       fun _ _ h => MulEquiv.ext (congrFun h)
-  haveI := Sec13.isPerfect_projImage_slPi hK hq2
+  have := Sec13.isPerfect_projImage_slPi hK hq2
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hπ : π = false → UnitaryFieldData p f K := fun h => by subst h; exact hK.unitary
   obtain ⟨τ, hτ, hτ1⟩ := exists_tau hK hq
@@ -135,7 +135,7 @@ theorem not_mem_inner_of_type_three (hK : PiField π p f K) (hq : ModThree π (p
       (a m : ProjGenLinGroup (Fin 3) K) = pmk y * m * (pmk y)⁻¹) :
     a ∉ CFSG.ComponentClassification.OuterAutomorphisms.inner
       (projImage (slPi π 3 (p ^ f) K)) := by
-  haveI := Sec13.isPerfect_projImage_slPi hK hq2
+  have := Sec13.isPerfect_projImage_slPi hK hq2
   rintro ⟨m₀, rfl⟩
   obtain ⟨⟨l, hl⟩, rfl⟩ := projOf_surjective _ m₀
   apply not_inner_of_type3 hK hq hy h3

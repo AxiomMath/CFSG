@@ -115,7 +115,7 @@ theorem pinOrb {c : ℕ} (hc : c < 3) : PinO 42 6 gTabs (unpack 42 6 (L34R.T (KR
     (ON c) 12 (L34R.T (KR c)) L34R.G GI (OT c) (OE c) (OS c) (OSI c) :=
   ⟨bindR.1, bindR.2, rfl, kOrb hc, le_refl _⟩
 
-theorem size_ON {c : ℕ} (hc : c < 3) : (pts 42 6 (ON c) (OT c)).toList.length = ON c := by
+theorem size_ON {c : ℕ} (_hc : c < 3) : (pts 42 6 (ON c) (OT c)).toList.length = ON c := by
   rw [Array.length_toList, size_pts]
 
 @[expose] def X3 (c : ℕ) : Set (Equiv.Perm (Fin 42)) :=

@@ -32,9 +32,9 @@ section Main
 
 
 theorem thmEQ8_of_open (hD : D2Supply) : ThmEQ8 := by
-  haveI : PrintedQuotOdd := printedQuotOdd_proved
-  haveI : PrintedHull := printedHull_proved
-  haveI : PrintedQuotCent := printedQuotCent_proved
+  have : PrintedQuotOdd := printedQuotOdd_proved
+  have : PrintedHull := printedHull_proved
+  have : PrintedQuotCent := printedQuotCent_proved
   exact thmEQ8_of_inputs15 t4Supply_of_twoClass hD
     { orbit4 := e187Orbit4Q8_proved,
       reduce := e189ReduceQ8'_of_model t4Supply_of_twoClass TwinDisc.ExitE4.e4ModelDStar_of_certs,

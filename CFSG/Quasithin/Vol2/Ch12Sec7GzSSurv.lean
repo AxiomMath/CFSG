@@ -17,13 +17,14 @@ theorem two_elem_list (l : List Nat) (hnd : l.Nodup) (hlen : l.length = 2) {a b 
     (ha : a ∈ l) (hb : b ∈ l) (hab : a ≠ b) : ∀ p ∈ l, p = a ∨ p = b := by
   rcases List.length_eq_two.1 hlen with ⟨x, y, rfl⟩
   intro p hp
-  simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false] at ha hb hp
+  simp only [List.mem_cons, List.not_mem_nil, or_false] at ha hb hp
   rcases ha with rfl | rfl <;> rcases hb with rfl | rfl <;> rcases hp with rfl | rfl <;> simp_all
 
 section Extra
 
 variable {G : Type} [Group G] [Finite G] {H K Q : Subgroup G} {T : KTab} {κ : G → Nat}
 
+omit [Finite G] in
 theorem surv_phi (S : KSetting H K Q T κ) {z : G} (hzK : z ∈ K) {zN : Nat} (hκz : κ z = zN)
     {N : List Nat} (hQN : ∀ n, (∃ q ∈ Q, κ q = n) ↔ n ∈ N) (hpl : plOK T (phiList T N) = true)
     (hPl2 : (phiList T N).length = 2) (hzPl : zN ∈ phiList T N) (hzne : zN ≠ oneN T) :
@@ -318,6 +319,7 @@ theorem vlCheck_spec {T : KTab} {N : List Nat} {tab : HashMap Nat Nat} {S : Node
   · exact h
   · exact absurd ha2 (by simpa using h)
 
+omit [Finite G] in
 theorem exists_sub (S : KSetting H K Q T κ) {N : List Nat} (hNnd : N.Nodup)
     (hQN : ∀ n, (∃ q ∈ Q, κ q = n) ↔ n ∈ N) {d : Nat} (D : FrData H Q (Phi' Q) d)
     {tab : HashMap Nat Nat} (hD : ∀ x, D.wc x = tab.getD (κ x) 0) {N1 : List Nat} (h0 : 0 ∈ N1)
@@ -379,6 +381,7 @@ theorem exists_sub (S : KSetting H K Q T κ) {N : List Nat} (hNnd : N.Nodup)
       have e : h⁻¹ * (h * x * h⁻¹) * h⁻¹⁻¹ = x := by group
       rwa [e] at this
 
+omit [Finite G] in
 theorem wc_conj_eq_apply (D : FrData H Q (Phi' Q) 6) {φ : Nat → Nat}
     (hR : D.rho.range ≤ Sig 6 φ) {h : G} (hh : h ∈ H) {x : G} (hx : x ∈ Q) :
     D.wc (h * x * h⁻¹) = applyCols (unpackC 6 (pk (D.rho ⟨h, hh⟩))) (D.wc x) := by
@@ -388,6 +391,7 @@ theorem wc_conj_eq_apply (D : FrData H Q (Phi' Q) 6) {φ : Nat → Nat}
   rw [← h2]
   exact h1.symm
 
+omit [Finite G] in
 theorem exists_AB (S : KSetting H K Q T κ) {N : List Nat} (hNnd : N.Nodup)
     (hQN : ∀ n, (∃ q ∈ Q, κ q = n) ↔ n ∈ N) {D : FrData H Q (Phi' Q) 6}
     {tab : HashMap Nat Nat} (hD : ∀ x, D.wc x = tab.getD (κ x) 0) {z : G} (hzΦ : z ∈ Phi' Q)
@@ -497,6 +501,7 @@ theorem mem_shortGens {cap : Nat} {gens : List Nat} : ∀ g ∈ shortGens cap ge
         · rw [List.mem_singleton.1 hx]; exact h2 y List.mem_cons_self
   exact key gens [] (by simp) (fun x hx => hx)
 
+omit [Finite G] in
 theorem survGensK_mem (S : KSetting H K Q T κ) {N Pl : List Nat} {tab : HashMap Nat Nat}
     (hQN : ∀ n, (∃ q ∈ Q, κ q = n) ↔ n ∈ N) (D : FrData H Q (Phi' Q) 6)
     (hD : ∀ x, D.wc x = tab.getD (κ x) 0) (hkg : kgensOK T = true)

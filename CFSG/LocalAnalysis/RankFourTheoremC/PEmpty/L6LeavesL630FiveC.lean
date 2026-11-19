@@ -13,6 +13,7 @@ open CFSG.Open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_sup_of_le_normalizer' {H K : Subgroup G} (hK : K ≤ normalizer (H : Set G)) {x : G} :
     x ∈ H ⊔ K ↔ ∃ h ∈ H, ∃ k ∈ K, h * k = x := by
   constructor
@@ -34,9 +35,10 @@ theorem mem_sup_of_le_normalizer' {H K : Subgroup G} (hK : K ≤ normalizer (H :
   · rintro ⟨h, hh, k, hk, rfl⟩
     exact mul_mem_sup hh hk
 
+omit [Finite G] in
 theorem zpow_eq_one_of_mem_of_not_mem {z : G} {C : Subgroup G} (hz5 : z ^ 5 = 1) (hz1 : z ≠ 1)
     (hzC : z ∉ C) {k : ℤ} (hk : z ^ k ∈ C) : z ^ k = 1 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hord : orderOf z = 5 := orderOf_eq_prime hz5 hz1
   have hmod : ∀ n : ℤ, z ^ (n % 5) = z ^ n := by
     intro n
@@ -62,7 +64,7 @@ theorem card_le_five_of_centralizer {P : Subgroup G} {x z : G}
     (hxF : ∀ Q : Subgroup G, IsPGroup 5 Q → x ∉ (frattini ↥Q).map Q.subtype)
     {D : Subgroup G} (hDC : D ≤ C) (hD : IsPGroup 5 D) : Nat.card D ≤ 5 := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hx1 : x ≠ 1 := by
     intro h
     have h2 : Nat.card ↥(zpowers x ⊔ zpowers z) = 5 ^ 2 := hB.card_eq
@@ -91,7 +93,7 @@ theorem card_le_five_of_centralizer {P : Subgroup G} {x z : G}
   have hzL : z ∈ L := mem_sup_right (mem_zpowers z)
   have hxL : x ∈ L := mem_sup_left hxC
   have hL_le : zpowers z ≤ normalizer (C : Set G) := zpowers_le.mpr hzN
-  haveI hCL : (C.subgroupOf L).Normal :=
+  have hCL : (C.subgroupOf L).Normal :=
     (normal_subgroupOf_iff_le_normalizer le_sup_left).mpr (sup_le le_normalizer hL_le)
   have hBL : B ≤ L := sup_le (zpowers_le.mpr hxL) (zpowers_le.mpr hzL)
   have hidx : (C.subgroupOf L).index = 5 := by
@@ -148,7 +150,7 @@ theorem card_le_five_of_centralizer {P : Subgroup G} {x z : G}
   have hT₁card : Nat.card T₁ = Nat.card (T : Subgroup L) :=
     Subgroup.card_map_of_injective L.subtype_injective
   have hT₁p : IsPGroup 5 T₁ := by
-    obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp T.isPGroup'
+    obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp T.isPGroup
     exact IsPGroup.iff_card.mpr ⟨n, by rw [hT₁card, hn]⟩
   have hBT₁ : B ≤ T₁ := by
     intro b hb
@@ -188,8 +190,8 @@ theorem card_le_five_of_centralizer {P : Subgroup G} {x z : G}
     exact Subgroup.mem_subgroupOf.mp hwCl
   have hΦbot : frattini T₁ = ⊥ := by
     by_contra hne
-    haveI : Fact (IsPGroup 5 T₁) := ⟨hT₁p⟩
-    haveI : Group.IsNilpotent T₁ := hT₁p.isNilpotent
+    have : Fact (IsPGroup 5 T₁) := ⟨hT₁p⟩
+    have : Group.IsNilpotent T₁ := hT₁p.isNilpotent
     obtain ⟨v, hv⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp
       (Group.IsNilpotent.inf_center_ne_bot_of_normal hne)
     have hv1 : (v : T₁) ≠ 1 := fun h => hv (Subtype.ext (by simpa using h))
@@ -254,8 +256,8 @@ theorem card_le_five_of_centralizer {P : Subgroup G} {x z : G}
     apply hxF T₁ hT₁p
     refine Subgroup.mem_map.mpr ⟨u ^ j, (frattini T₁).zpow_mem hu_frat j, ?_⟩
     simpa [hudef] using hj
-  haveI : Fact (IsPGroup 5 T₁) := ⟨hT₁p⟩
-  haveI hEA : IsElementaryAbelian 5 T₁ := CFSG.frattini_eq_bot_iff_isElementaryAbelian.mp hΦbot
+  have : Fact (IsPGroup 5 T₁) := ⟨hT₁p⟩
+  have hEA : IsElementaryAbelian 5 T₁ := CFSG.frattini_eq_bot_iff_isElementaryAbelian.mp hΦbot
   have hT₁B : T₁ ≤ B := by
     intro t ht
     have ht5 : t ^ 5 = 1 := by

@@ -30,7 +30,7 @@ theorem exists_fixed_coset_of_two_dvd_relIndex {C W : Subgroup Γ} {t : Γ} (ht2
     rw [hf, hf]
     calc t * (t * (g : Γ) * t⁻¹) * t⁻¹ = (t * t) * g * (t * t)⁻¹ := by group
       _ = g := by rw [ht2]; group
-  haveI : Fintype (C ⧸ W.subgroupOf C) := Fintype.ofFinite _
+  have : Fintype (C ⧸ W.subgroupOf C) := Fintype.ofFinite _
   have h2' : 2 ∣ Fintype.card (C ⧸ W.subgroupOf C) := by
     rw [Fintype.card_eq_nat_card]; exact h2
   have hσ : (hF.toPerm F) ^ 2 ^ 1 = 1 := by

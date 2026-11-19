@@ -42,7 +42,7 @@ theorem uc22s213_list_of_calC (h33 : UCK.K33)
   by_cases hZ : 3 ∣ Nat.card (center (Bar2 L))
   · exact Or.inl hZ
   obtain ⟨hsimp, hnab⟩ := uc22p20c_barInf_simple (uc22p20e_cComp_of_calC hL)
-  haveI := hsimp
+  have := hsimp
   have hrank := uc22s213_pRank_three_barInf hL.2.2 hZ
   obtain ⟨e0⟩ := uc22p21k_barInf_equiv_of_calC hL
   have hLtop : L ≠ ⊤ :=
@@ -59,11 +59,11 @@ theorem uc22s213_list_of_calC (h33 : UCK.K33)
       rwa [Subgroup.card_top] at h
     obtain ⟨n, hn⟩ := CFSG.RankThree.PartTwo.KFacts.KS14.suzukiModel_of_inCatalog_of_not_three_dvd
       (BarInf L) hnab ⟨i, hi⟩ h3'
-    haveI : Group.IsPerfect (Bar2 L) := Group.isPerfect_def.mpr hL.2.2.1
+    have : Group.IsPerfect (Bar2 L) := Group.isPerfect_def.mpr hL.2.2.1
     have h2 : IsPGroup 2 (center (Bar2 L)) :=
       CFSG.Quasithin.isPGroup_two_of_isSz (center (Bar2 L)) le_rfl
         (CFSG.CGT.Timmesfeld75.suzukiModel_of_mulEquiv e0 hn)
-    haveI := CFSG.GH74.Generic.eq_bot_of_isPGroup_two_of_odd h2 (uc22p20p_odd_center_bar2 ↥L)
+    have := CFSG.GH74.Generic.eq_bot_of_isPGroup_two_of_odd h2 (uc22p20p_odd_center_bar2 ↥L)
     obtain ⟨e1⟩ := uc22p21k_barInf_equiv_of_center_bot hL.2.2 (Subgroup.eq_bot_of_subsingleton _)
     exact hthin (PartTwo.S17.thin8_of_isSz (CFSG.Blueprint.LieModel.of_mulEquiv e1
       (CFSG.CGT.Timmesfeld75.lieModel_twistedB2_iff.mpr hn)))

@@ -31,7 +31,7 @@ theorem normalizer_le_of_stronglyEmbedded {T : Sylow 2 G}
     · exact hTB (hUT ((Subgroup.mem_normalizer_iff.mp hg u).mp hu))
     · simp [mul_assoc]
   have hne : Nontrivial U := (Subgroup.nontrivial_iff_ne_bot U).mpr hU
-  have hU2 : IsPGroup 2 U := T.isPGroup'.to_le hUT
+  have hU2 : IsPGroup 2 U := T.isPGroup.to_le hUT
   obtain ⟨n, hn, hcard⟩ := hU2.nontrivial_iff_card.mp hne
   have hdvd : 2 ∣ Nat.card (B ⊓ B.map (MulAut.conj g⁻¹).toMonoidHom : Subgroup G) :=
     (dvd_pow_self 2 hn.ne').trans (hcard ▸ Subgroup.card_dvd_of_le hUle)
@@ -74,7 +74,7 @@ theorem twoLocalsSolvable_of_fusionBenderBorel {q k : ℕ} (hB : fusionBenderBor
   obtain ⟨T, hQT⟩ := hQ2.exists_le_sylow
   obtain ⟨hSE, ⟨D, hDc, -, -, hTD⟩, -⟩ := hB T
   have hNB := normalizer_le_of_stronglyEmbedded hSE hQ hQT
-  have hsolv := isSolvable_normalizer_of_cyclic T.isPGroup' hDc hTD
+  have hsolv := isSolvable_normalizer_of_cyclic T.isPGroup hDc hTD
   exact Group.isSolvable_of_isSolvable_injective
     (Subgroup.inclusion_injective (hHQ.trans hNB))
 

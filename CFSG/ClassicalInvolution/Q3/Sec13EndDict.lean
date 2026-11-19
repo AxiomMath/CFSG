@@ -14,9 +14,11 @@ open CFSG.ClassicalInvolution.Q3.TC.Thin
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem dict_q8Omega {Ω : Set (Subgroup G)} (h : EndHyp Ω) : Q8Omega Ω :=
-  ⟨h.thmD.hyp, h.thmD.two, fun J hJ => h.card_eq_eight hJ, h.thmD.aEmpty⟩
+  ⟨h.thmD.hyp, h.thmD.two, fun _J hJ => h.card_eq_eight hJ, h.thmD.aEmpty⟩
 
+omit [Finite G] in
 private theorem dict_twinSet_conj_image {Ω : Set (Subgroup G)} (hΩ : ConjInvariant Ω) (g : G)
     (L : Subgroup G) : twinSet Ω (conjSub g L) = conjSub g '' twinSet Ω L := by
   refine Set.Subset.antisymm ?_ ?_

@@ -29,9 +29,9 @@ theorem thFive_reach : ∀ w : Fin 2 → ZMod 5, w ≠ 0 → ∃ s : ZMod 5, s �
 
 theorem thFive_oneClassE :
     OneClassE 5 NativeSporadic.Th := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨x, y, g₁, g₂, hx, hy, hne, hzx, hzy, h₁x, h₁y, h₂x, h₂y⟩ := thFive_witness
-  haveI : Finite NativeSporadic.Th :=
+  have : Finite NativeSporadic.Th :=
     Nat.finite_of_card_ne_zero (by rw [CFSG.RankThree.OddKernel.card_Th_eq]; norm_num)
   have hsyl : ¬ 5 ^ 4 ∣ Nat.card NativeSporadic.Th := by
     rw [CFSG.RankThree.OddKernel.card_Th_eq]

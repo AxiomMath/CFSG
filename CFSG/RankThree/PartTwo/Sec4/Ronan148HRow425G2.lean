@@ -80,7 +80,7 @@ theorem map_le_centralizer_isSubnormal [Finite X] (e : X ≃* Y) {z : X} {J : Su
   have heq : (J.subgroupOf C).map (eC : C →* Subgroup.centralizer ({e z} : Set Y)) =
       (J.map (e : X →* Y)).subgroupOf (Subgroup.centralizer ({e z} : Set Y)) := by
     ext ⟨y, hy⟩
-    simp only [Subgroup.mem_map, Subgroup.mem_subgroupOf, MonoidHom.coe_coe]
+    simp only [Subgroup.mem_map, Subgroup.mem_subgroupOf, _root_.MonoidHom.coe_ofClass]
     constructor
     · rintro ⟨x, hxJ, hxy⟩
       refine ⟨x, hxJ, ?_⟩
@@ -128,7 +128,7 @@ theorem isSLThreePiAt_of_threeA_odd [Finite F] {n : ℕ} (hF : Nat.card F = 2 ^ 
     (hJq : CFSG.IsQuasisimple J)
     (hJs : (J.subgroupOf (Subgroup.centralizer ({z} : Set (adjointGroup .G2 F)))).IsSubnormal) :
     IsSLThreePiAt J (2 ^ n) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : Fintype F := Fintype.ofFinite F
   have : CharP F 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hF])
   obtain ⟨L, _, _, _, -, hdeg, -⟩ := exists_quadratic_ext' F
@@ -268,7 +268,7 @@ theorem isSLThreePiAt_g2 [Finite F] {n : ℕ} (hF : Nat.card F = 2 ^ n) (hn : 2 
     (hJq : CFSG.IsQuasisimple J)
     (hJs : (J.subgroupOf (Subgroup.centralizer ({z} : Set (adjointGroup .G2 F)))).IsSubnormal)
     (hzJ : z ∈ J) : IsSLThreePiAt J (2 ^ n) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : Fintype F := Fintype.ofFinite F
   have : CharP F 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hF])
   have hchar : ringChar F ≠ 3 := by
@@ -317,7 +317,7 @@ theorem noThreeCover_adjointQuotient_g2 {F : Type} [Field F] [Finite F] {n : ℕ
       norm_num
     have hM := (CFSG.LieType.Steinberg.CentralExt.GriessExceptional.g2_four_card_griessHopfMultiplier
       hF4).2
-    haveI : Finite (CFSG.Open.griessHopfMultiplier (AdjointQuotient .G2 F)) :=
+    have : Finite (CFSG.Open.griessHopfMultiplier (AdjointQuotient .G2 F)) :=
       Nat.finite_of_card_ne_zero (by rw [hM]; norm_num)
     exact Ronan148L.noThreeCover_of_hopf (MulEquiv.refl _) (by rw [hM]; norm_num)
   · have h5 : 5 ≤ Nat.card F := by
@@ -325,7 +325,7 @@ theorem noThreeCover_adjointQuotient_g2 {F : Type} [Field F] [Finite F] {n : ℕ
       calc 5 ≤ 2 ^ 3 := by norm_num
         _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) h
     have hM := (CFSG.LieType.Steinberg.CentralExt.AdjointClosed.g2_hopfMultiplier h5).2
-    haveI : Finite (CFSG.Open.griessHopfMultiplier (AdjointQuotient .G2 F)) :=
+    have : Finite (CFSG.Open.griessHopfMultiplier (AdjointQuotient .G2 F)) :=
       Finite.of_subsingleton
     have h1 : Nat.card (CFSG.Open.griessHopfMultiplier (AdjointQuotient .G2 F)) = 1 :=
       Nat.card_eq_one_iff_unique.mpr ⟨hM, ⟨1⟩⟩

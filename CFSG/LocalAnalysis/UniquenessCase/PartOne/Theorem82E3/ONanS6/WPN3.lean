@@ -25,7 +25,7 @@ theorem two_le_pRank_seven_L'
     (hON : ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) :
     2 ≤ CFSG.Open.pRank 7 c.L := by
   classical
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨-, hcenter, ⟨e⟩⟩ := hON
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.ON.nonempty_mulEquiv
   have hbar : 2 ≤ CFSG.Open.pRank 7 (⊤ : Subgroup c.Lbar) := by
@@ -53,7 +53,7 @@ theorem Lzero_le_normalizer_alpha (c : Ctx82E3 D) {P E₀ : Subgroup G}
   exact inf_le_left.trans (hΓN U hU hUc)
 
 theorem normalizer_le_map_comap_center {H : Type*} [Group H] (Z : Subgroup H) [Z.Normal]
-    (hZc : Z ≤ Subgroup.center H) (V : Subgroup (H ⧸ Z)) :
+    (_hZc : Z ≤ Subgroup.center H) (V : Subgroup (H ⧸ Z)) :
     Subgroup.normalizer (V : Set (H ⧸ Z)) ≤
       (Subgroup.normalizer ((V.comap (QuotientGroup.mk' Z)) : Set H)).map
         (QuotientGroup.mk' Z) := by
@@ -72,12 +72,12 @@ theorem normalizer_le_map_comap_center {H : Type*} [Group H] (Z : Subgroup H) [Z
 
 theorem exists_E27_of_onan
     (c : Ctx82E3 D)
-    (hON : ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (h7 : D.sig = {7})
+    (hON : ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (_h7 : D.sig = {7})
     {P : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
-    (hNZ : Subgroup.normalizer ((zSub P c.L : Subgroup G) : Set G) ≤ D.M) :
+    (_hNZ : Subgroup.normalizer ((zSub P c.L : Subgroup G) : Set G) ≤ D.M) :
     ∃ E : Subgroup G, E ≤ P ⊓ c.L ∧ CFSG.Open.IsElemAbelian 3 E ∧ Nat.card E = 27 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hON' : ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar := hON
   obtain ⟨hq, hcenter, hspor⟩ := hON
   have hspor' : IsSpor (c.Lbar ⧸ Subgroup.center c.Lbar) .ONan := hspor
@@ -155,7 +155,7 @@ theorem exists_E27_of_onan
     norm_num at h243
   have hnotle : ¬ (⊤ : Subgroup ↥SB) ≤ Subgroup.center ↥SB :=
     fun h => hcenter_ne_top (le_antisymm le_top h)
-  obtain ⟨a, -, haZ⟩ := SetLike.not_le_iff_exists.mp hnotle
+  obtain ⟨a, -, haZ⟩ := IsConcreteLE.not_le_iff_exists.mp hnotle
   have hexpS' : ∀ x : ↥SB, x ^ 3 = 1 := by
     intro x
     apply Subtype.ext
@@ -185,7 +185,7 @@ theorem L_le_sup_Lzero_pCore
     (hNZ : Subgroup.normalizer ((zSub P c.L : Subgroup G) : Set G) ≤ D.M) :
     c.L ≤ Lzero c P ⊔ (CFSG.Open.pCore 2 ↥c.L).map c.L.subtype := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hON' : ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar := hON
   obtain ⟨hq, hcenter, hspor⟩ := hON
   have hspor' : IsSpor (c.Lbar ⧸ Subgroup.center c.Lbar) .ONan := hspor
@@ -222,7 +222,7 @@ theorem L_le_sup_Lzero_pCore
     rw [show S'B = (S' : Subgroup (c.Lbar ⧸ Z)) from rfl, Sylow.coe_mapSurjective]
   have hS'syl : CFSG.ABGLocalTools.IsSylowOf 3 S'B ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    exact ⟨le_top, S'.isPGroup', by simpa using S'.not_dvd_index⟩
+    exact ⟨le_top, S'.isPGroup, by simpa using S'.not_dvd_index⟩
   have hgen : (⨆ (V : Subgroup (c.Lbar ⧸ Z)) (_ : V ≤ S'B) (_ : ¬ IsCyclic V),
       Subgroup.normalizer (V : Set (c.Lbar ⧸ Z))) = ⊤ :=
     hK5 (c.Lbar ⧸ Z) hspor S' hS'syl
@@ -281,8 +281,8 @@ theorem L_le_sup_Lzero_pCore
       (CFSG.SectionRank.isElemAbelian_map hELea π) πZ
   have hV0nc : ¬ IsCyclic V0 := by
     intro hcyc
-    letI := hcyc
-    haveI : Fintype ↥V0 := Fintype.ofFinite _
+    let := hcyc
+    have : Fintype ↥V0 := Fintype.ofFinite _
     have hexp : ∀ x : ↥V0, x ^ 3 = 1 := by
       intro x
       apply Subtype.ext
@@ -387,7 +387,6 @@ theorem L_le_sup_Lzero_pCore
       have hψrange : ψ.range = V := by
         rw [MonoidHom.range_comp, MonoidHom.range_comp, Subgroup.range_subtype,
           hULmap]
-        change (UH.map πZ) = V
         exact Subgroup.map_comap_eq_self_of_surjective (QuotientGroup.mk'_surjective Z) V
       let ψ' : ↥UL →* ↥V := ψ.codRestrict V (fun y => by
         rw [← hψrange]
@@ -475,7 +474,7 @@ theorem pCore_le_Lzero
     (hNZ : Subgroup.normalizer ((zSub P c.L : Subgroup G) : Set G) ≤ D.M) :
     (CFSG.Open.pCore 2 ↥c.L).map c.L.subtype ≤ Lzero c P := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let N : Subgroup ↥c.L := CFSG.Open.pCore 2 ↥c.L
   obtain ⟨E, hEA, hEea, hEcard⟩ := exists_E27_of_onan c hON h7 hP hNZ
   have hEsub : E ≤ c.L := hEA.trans inf_le_right
@@ -484,11 +483,11 @@ theorem pCore_le_Lzero
   have hELcard : Nat.card EL = 27 := by
     rw [← hEcard]
     exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hEsub).toEquiv
-  haveI : IsElementaryAbelian 3 ↥EL :=
+  have : IsElementaryAbelian 3 ↥EL :=
     { is_comm := hELea.1.is_comm
       exponent_dvd_p := Monoid.exponent_dvd_of_forall_pow_eq_one fun x =>
         Subtype.ext (hELea.2 x x.2) }
-  haveI : Nontrivial ↥EL :=
+  have : Nontrivial ↥EL :=
     Finite.one_lt_card_iff_nontrivial.mp (by rw [hELcard]; norm_num)
   have hN3 : ¬ 3 ∣ Nat.card ↥N :=
     CFSG.GroupTheory.not_dvd_card_of_isPGroup (p := 2) (q := 3)
@@ -522,8 +521,8 @@ theorem pCore_le_Lzero
     hELea.mono (Subgroup.map_subtype_le B)
   have hBnc : ¬ IsCyclic (B.map EL.subtype) := by
     intro hcyc
-    letI := hcyc
-    haveI : Fintype ↥(B.map EL.subtype) := Fintype.ofFinite _
+    let := hcyc
+    have : Fintype ↥(B.map EL.subtype) := Fintype.ofFinite _
     have hexp : ∀ x : ↥(B.map EL.subtype), x ^ 3 = 1 := by
       intro x
       apply Subtype.ext
@@ -563,7 +562,7 @@ theorem pCore_le_Lzero
     rw [Subgroup.conjMulDistribMulActionOfLeNormalizer_smul_coe (A := EL) (K := N)] at hsm
     have hcommG : (y2 : G) * (b : G) = (b : G) * (y2 : G) := by
       have h := congrArg (fun x : ↥c.L => (x : G)) hsm
-      simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_subtype] at h
+      simp only [Subgroup.coe_mul, Subgroup.coe_inv] at h
       calc (y2 : G) * (b : G) = ((y2 : G) * (b : G) * (y2 : G)⁻¹) * (y2 : G) := by group
         _ = (b : G) * (y2 : G) := by rw [h]
     exact hcommG
@@ -577,7 +576,7 @@ theorem L_le_normalizer_alpha'
     (hON : ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (h7 : D.sig = {7})
     {P : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
     (hNZ : Subgroup.normalizer ((zSub P c.L : Subgroup G) : Set G) ≤ D.M)
-    {E₀ : Subgroup G} (hE₀P : E₀ ≤ P)
+    {E₀ : Subgroup G} (_hE₀P : E₀ ≤ P)
     (hΓN : ∀ U : Subgroup G, U ≤ P ⊓ c.L → ¬ IsCyclic U →
       Subgroup.normalizer (U : Set G) ≤ Subgroup.normalizer (thetaAlpha 3 E₀ : Set G)) :
     c.L ≤ Subgroup.normalizer (thetaAlpha 3 E₀ : Set G) := by
@@ -608,7 +607,7 @@ theorem normalizer_alpha_le_M'
     (hNZ : Subgroup.normalizer ((zSub P c.L : Subgroup G) : Set G) ≤ D.M)
     {E₀ : Subgroup G} (hE₀P : E₀ ≤ P) (hαne : thetaAlpha 3 E₀ ≠ ⊥)
     (hαsolv : Group.IsSolvable ↥(thetaAlpha 3 E₀))
-    (hα3 : Nat.Coprime 3 (Nat.card ↥(thetaAlpha 3 E₀)))
+    (_hα3 : Nat.Coprime 3 (Nat.card ↥(thetaAlpha 3 E₀)))
     (hΓN : ∀ U : Subgroup G, U ≤ P → ¬ IsCyclic U →
       Subgroup.normalizer (U : Set G) ≤ Subgroup.normalizer (thetaAlpha 3 E₀ : Set G)) :
     Subgroup.normalizer (thetaAlpha 3 E₀ : Set G) ≤ D.M := by

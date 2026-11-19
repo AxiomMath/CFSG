@@ -66,7 +66,7 @@ theorem lieModel_of_slCover
     (hgsurj : Function.Surjective g) (hgker : g.ker ≤ Subgroup.center SL(ν, K)) :
     LieModel (↥X ⧸ Subgroup.center ↥X) .PSL ν 2 f := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcard : Fintype.card K = 2 ^ f := by
     rw [← Nat.card_eq_fintype_card]; exact hK
   have h4 : ν = 2 → 4 ≤ Fintype.card K := fun h => by
@@ -110,8 +110,8 @@ theorem lieModel_of_suCover
     (hgker : g.ker ≤ Subgroup.center ↥(StatedSU ν (2 ^ f) K)) :
     LieModel (↥X ⧸ Subgroup.center ↥X) .PSU ν 2 f := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard : Fintype.card K = (2 ^ f) ^ 2 := by
     rw [← Nat.card_eq_fintype_card]; exact hK
   have hperf : commutator ↥(StatedSU ν (2 ^ f) K) = ⊤ :=

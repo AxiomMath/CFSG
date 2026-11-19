@@ -22,7 +22,7 @@ theorem exists_conj_of_card_three {G : Type} [Group G] [Finite G] {K D E : Subgr
       rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hDK).toEquiv]; exact hD
     have hEc : Nat.card (E.subgroupOf K) = p := by
       rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hEK).toEquiv]; exact hE
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hDp : IsPGroup p (D.subgroupOf K) := IsPGroup.of_card (n := 1) (by rw [hDc]; simp)
     have hEp : IsPGroup p (E.subgroupOf K) := IsPGroup.of_card (n := 1) (by rw [hEc]; simp)
     obtain ⟨P, hDP⟩ := hDp.exists_le_sylow

@@ -33,7 +33,7 @@ theorem dimension_lower_bound {F : Type*} [Field F] (hF : (2 : F) ≠ 0)
   let r : E ⧸ Subgroup.center E → E := Quotient.out
   have hr : ∀ q, (QuotientGroup.mk (r q) : E ⧸ Subgroup.center E) = q := fun q => Quotient.out_eq' q
   have hli := ExtraspecialTwoOperatorIndependent.linearIndependent hF hE σ z hz hz1 hzScalar r hr
-  haveI : Fintype (E ⧸ Subgroup.center E) := Fintype.ofFinite _
+  have : Fintype (E ⧸ Subgroup.center E) := Fintype.ofFinite _
   have hfin : Module.finrank F (W →ₗ[F] W) = Module.finrank F W * Module.finrank F W := by
     have h := (LinearMap.toMatrix (Module.finBasis F W) (Module.finBasis F W)).finrank_eq
     rw [h, Module.finrank_matrix, Module.finrank_self, mul_one, Fintype.card_fin]

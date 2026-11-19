@@ -26,6 +26,7 @@ namespace StdDatum
 
 variable {q : ℕ} [Fact q.Prime] {C : Type*} [Group C] [Finite C] {ι : Type*}
 
+omit [Fact (Nat.Prime q)] [Finite C] in
 theorem centralizer_le_of_isRadical (D : StdDatum q C ι) {R : Subgroup C} (hR : IsRadical q R) :
     ∀ x : C, (∀ r ∈ R, x * r = r * x) → x ∈ R := by
   obtain ⟨g, J, hJ, hRJ⟩ := D.std_position R hR

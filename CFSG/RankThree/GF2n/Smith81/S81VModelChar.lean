@@ -20,37 +20,45 @@ theorem transvection_mul_self (i j : Fin 3) (hij : i ≠ j) (c : F) :
   rw [Matrix.transvection_mul_transvection_same i j hij c c, CharTwo.add_self_eq_zero c,
     Matrix.transvection_zero]
 
+omit [CharP F 2] in
 private theorem transvection_det_ne (i j : Fin 3) (hij : i ≠ j) (c : F) :
     (Matrix.transvection i j c).det ≠ 0 := by
   rw [Matrix.det_transvection_of_ne i j hij c]
   exact one_ne_zero
 
+omit [CharP F 2] in
 private theorem transvection_det_fixed (i j : Fin 3) (hij : i ≠ j) (c : F) :
     σ (Matrix.transvection i j c).det = (Matrix.transvection i j c).det := by
   rw [Matrix.det_transvection_of_ne i j hij c, map_one]
 
+omit [CharP F 2] in
 private theorem dmat_det_ne {c : F} (hc : c ≠ 0) : (dmat c).det ≠ 0 := by
   rw [dmat_det]
   exact hc
 
+omit [CharP F 2] in
 private theorem dmat_det_fixed {c : F} (hc : σ c = c) : σ (dmat c).det = (dmat c).det := by
   rw [dmat_det]
   exact hc
 
+omit [CharP F 2] in
 private theorem split_mul_dmat (A : Matrix (Fin 3) (Fin 3) F) (hA : A.det ≠ 0) :
     A * dmat (A.det⁻¹) * dmat A.det = A := by
   rw [Matrix.mul_assoc, dmat_mul, inv_mul_cancel₀ hA, dmat_one, Matrix.mul_one]
 
+omit [CharP F 2] in
 private theorem det_mul_dmat_inv (A : Matrix (Fin 3) (Fin 3) F) (hA : A.det ≠ 0) :
     (A * dmat (A.det⁻¹)).det = 1 := by
   rw [Matrix.det_mul, dmat_det, mul_inv_cancel₀ hA]
 
+omit [CharP F 2] in
 private theorem sl_det_ne (M : Matrix.SpecialLinearGroup (Fin 3) F) :
     (M : Matrix (Fin 3) (Fin 3) F).det ≠ 0 := by
   have h : (M : Matrix (Fin 3) (Fin 3) F).det = 1 := M.2
   rw [h]
   exact one_ne_zero
 
+omit [CharP F 2] in
 private theorem sl_det_fixed (M : Matrix.SpecialLinearGroup (Fin 3) F) :
     σ (M : Matrix (Fin 3) (Fin 3) F).det = (M : Matrix (Fin 3) (Fin 3) F).det := by
   have h : (M : Matrix (Fin 3) (Fin 3) F).det = 1 := M.2
@@ -76,6 +84,7 @@ include hσ hf
       rw [map_zero, RingEquiv.apply_symm_apply] at h2
       exact congrArg Subtype.val h2)
 
+omit [CharP F 2] in
 private theorem levi_eq5 (M N : Matrix (Fin 3) (Fin 3) F) (h : M = N) (hM : M.det ≠ 0)
     (hMσ : σ M.det = M.det) (hN : N.det ≠ 0) (hNσ : σ N.det = N.det) :
     levi hσ hf M hM hMσ = levi hσ hf N hN hNσ := by
@@ -166,7 +175,7 @@ theorem levi_char [Fintype K] [CharP K 2] (χ : ↥(Pstab σ (Wa a)) →* Kˣ)
   have hAσ : σ (blkA hσ hf (g : SUid σ 6)).det = (blkA hσ hf (g : SUid σ 6)).det :=
     blkA_det_fixed hσ hf g.2
   obtain ⟨H, hH⟩ := Pstab_decomp hσ hf e₀ (g : SUid σ 6) g.2
-  have hHmem : uK hσ hf H ∈ Pstab σ (Wa a) := PtStab_le_Pstab hσ hf (uK_mem_PtStab hσ hf H)
+  have hHmem : uK hσ hf H ∈ Pstab σ (Wa a) := PtStab_le_Pstab (uK_mem_PtStab hσ hf H)
   have hLmem : levi hσ hf (blkA hσ hf (g : SUid σ 6)) hA0 hAσ ∈ Pstab σ (Wa a) :=
     levi_mem_Pstab hσ hf _ hA0 hAσ
   have hfac : g = (⟨uK hσ hf H, hHmem⟩ : ↥(Pstab σ (Wa a))) *

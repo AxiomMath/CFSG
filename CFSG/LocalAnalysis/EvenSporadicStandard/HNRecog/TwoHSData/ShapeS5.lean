@@ -22,7 +22,7 @@ theorem isShapeTwoTwoSixS5_of_hom {G : Type*} [Group G] (X V N : Subgroup G)
     have h := Subgroup.card_ker_mul_card_range φ
     rw [hX, hrange] at h
     omega
-  haveI : Finite ↥φ.ker :=
+  have : Finite ↥φ.ker :=
     Nat.finite_of_card_ne_zero (by rw [hcardK]; norm_num)
   have hNK : N.subgroupOf X ≤ φ.ker := by
     intro n hn
@@ -35,7 +35,7 @@ theorem isShapeTwoTwoSixS5_of_hom {G : Type*} [Group G] (X V N : Subgroup G)
     Subgroup.eq_of_le_of_card_ge hNK (by rw [hcardK, hcardN'])
   have hN'Normal : (N.subgroupOf X).Normal := by
     rw [hN'eqK]; infer_instance
-  haveI := hN'Normal
+  have := hN'Normal
   have hVcenX : V.subgroupOf X ≤ Subgroup.center ↥X := by
     intro v hv
     rw [Subgroup.mem_center_iff]
@@ -43,7 +43,7 @@ theorem isShapeTwoTwoSixS5_of_hom {G : Type*} [Group G] (X V N : Subgroup G)
     exact Subtype.ext
       (hVcen (v : G) (Subgroup.mem_subgroupOf.mp hv) (y : G) y.2)
   have hV'Normal : (V.subgroupOf X).Normal := Subgroup.normal_of_le_center hVcenX
-  haveI := hV'Normal
+  have := hV'Normal
   have hV'N' : V.subgroupOf X ≤ N.subgroupOf X := Subgroup.subgroupOf_mono X hVN
   have hV'iso : Nonempty (↥(V.subgroupOf X) ≃* Elem2 2) :=
     ⟨(Subgroup.subgroupOfEquivOfLe hVX).trans hV.some⟩
@@ -53,7 +53,7 @@ theorem isShapeTwoTwoSixS5_of_hom {G : Type*} [Group G] (X V N : Subgroup G)
     norm_num
   have hcardV'N' : Nat.card ↥((V.subgroupOf X).subgroupOf (N.subgroupOf X)) = 4 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hV'N').toEquiv, hcardV']
-  haveI : ((V.subgroupOf X).subgroupOf (N.subgroupOf X)).Normal := inferInstance
+  have : ((V.subgroupOf X).subgroupOf (N.subgroupOf X)).Normal := inferInstance
   have hcardQ :
       Nat.card (↥(N.subgroupOf X) ⧸ (V.subgroupOf X).subgroupOf (N.subgroupOf X)) = 64 := by
     have h := Subgroup.card_eq_card_quotient_mul_card_subgroup
@@ -76,7 +76,7 @@ theorem isShapeTwoTwoSixS5_of_hom {G : Type*} [Group G] (X V N : Subgroup G)
   have hcardPerm : Nat.card (Equiv.Perm (Fin 5)) = 120 := by
     rw [Nat.card_perm, Nat.card_fin]
     norm_num
-  haveI : Finite ↥φ.range :=
+  have : Finite ↥φ.range :=
     Nat.finite_of_card_ne_zero (by rw [hrange]; norm_num)
   have hrange_top : φ.range = ⊤ := by
     refine Subgroup.eq_top_of_card_eq (G := Equiv.Perm (Fin 5)) (H := φ.range) ?_

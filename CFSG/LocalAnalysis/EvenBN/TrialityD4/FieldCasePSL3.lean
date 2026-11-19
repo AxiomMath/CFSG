@@ -65,8 +65,8 @@ private theorem matrix_conj_unipU_center_D4 {F : Type} [Field F] (M N : Matrix (
   have e11 := congrFun (congrFun hMN 1) 1
   have e12 := congrFun (congrFun hMN 1) 2
   have e22 := congrFun (congrFun hMN 2) 2
-  simp [Matrix.mul_apply, Fin.sum_univ_three, m10, m20, m21, n10, n20, n21] at e00 e01 e02
-  simp [Matrix.mul_apply, Fin.sum_univ_three, m10, m20, m21, n10, n20, n21] at e11 e12 e22
+  simp [Matrix.mul_apply, Fin.sum_univ_three, n10, n20, n21] at e00 e01 e02
+  simp [Matrix.mul_apply, Fin.sum_univ_three, m10, m20, m21, n21] at e11 e12 e22
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [Matrix.mul_apply, Fin.sum_univ_three, m10, m20, m21, n10, n20, n21]
@@ -194,7 +194,7 @@ private theorem exists_mulEquiv_map_sylow_eq_projUnitriangular_D4 {K : Type} [Gr
   ext y
   rw [Subgroup.mem_map_equiv]
   have e : (ψ.trans (MulAut.conj x⁻¹)).symm y = ψ.symm (x * y * x⁻¹) := by
-    simp [MulAut.conj_symm_apply]
+    simp
   rw [e, ← Subgroup.mem_map_equiv (f := ψ)]
   change x * y * x⁻¹ ∈ (S' : Subgroup (projectiveSL 3 F)) ↔ _
   rw [key]
@@ -213,7 +213,7 @@ theorem pslThreeSylowCenterAction :
   intro K _ _ m hK T
   have hm : 1 ≤ m := (CFSG.Blueprint.LieModel.admissible hK).2.1
   obtain ⟨F, hFf, hFfin, hF, ⟨ψ⟩⟩ := LinearCover.exists_mulEquiv_projectiveSL_of_lieModel hK
-  haveI : CharP F 2 := finite_field_prime_power_characteristic Nat.prime_two hm hF
+  have : CharP F 2 := finite_field_prime_power_characteristic Nat.prime_two hm hF
   obtain ⟨θ, hθ⟩ := exists_mulEquiv_map_sylow_eq_projUnitriangular_D4 ψ T
   have hθZ : ∀ z : K, θ z ∈ projUnitriangular 3 F ⊓
       centralizer ((projUnitriangular 3 F : Subgroup (projectiveSL 3 F)) : Set (projectiveSL 3 F)) ↔

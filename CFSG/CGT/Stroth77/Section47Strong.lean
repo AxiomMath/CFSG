@@ -69,6 +69,7 @@ abbrev H47C_S (F : StrothFrame G) {D : Subgroup G} {m : ℕ}
             (g⁻¹ * ((dD.c : G) ^ 2 ^ (m - 2)) * g) * s →
           k⁻¹ * s * k ∈ (F.S : Subgroup G)
 
+omit [Finite G] in
 theorem H47_c₂_sq {D : Subgroup G} {m : ℕ} (dD : StrothWeakTypeData D (.t200 m))
     (hm : 2 ≤ m) :
     ((dD.c : G) ^ 2 ^ (m - 2)) * ((dD.c : G) ^ 2 ^ (m - 2)) =
@@ -78,7 +79,7 @@ theorem H47_c₂_sq {D : Subgroup G} {m : ℕ} (dD : StrothWeakTypeData D (.t200
 theorem H47_c₂_mem_C_S {F : StrothFrame G} {D : Subgroup G} {m : ℕ}
     {dD : StrothWeakTypeData D (.t200 m)} (h : F.IsD D dD) :
     (dD.c : G) ^ 2 ^ (m - 2) ∈ H47C_S F dD := by
-  haveI := dD.isMulCommutative
+  have := dD.isMulCommutative
   refine Subgroup.mem_inf.mpr ⟨h.le_S (D.pow_mem dD.c.2 _), ?_⟩
   exact Subgroup.mem_centralizer_singleton_iff.mpr
     (setLike_mul_comm (D.pow_mem dD.c.2 _) (D.pow_mem dD.c.2 _))

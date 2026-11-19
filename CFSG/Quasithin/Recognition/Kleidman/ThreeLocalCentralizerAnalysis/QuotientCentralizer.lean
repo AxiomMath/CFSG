@@ -9,6 +9,7 @@ namespace CFSG.Quasithin.Kleidman.ThreeLocal
 
 variable {K : Type} [Group K] [Finite K] (N : Subgroup K) [N.Normal]
 
+omit [Finite K] in
 theorem centralizer_quotient_eq (hN : N ≤ Subgroup.center K)
     (hodd : ∀ n ∈ N, Odd (orderOf n)) {t : K} (ht : t * t = 1) :
     Subgroup.centralizer ({(t : K ⧸ N)} : Set (K ⧸ N)) =

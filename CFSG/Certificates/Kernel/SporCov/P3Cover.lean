@@ -57,7 +57,7 @@ theorem cover_of_p3_center [Finite G] {p e₁ e₂ : ℕ} (hp : p.Prime)
     (h : p3OK E L p g₁ g₂ z e₁ e₂ = true)
     (hgen : ∀ y, IsConj (ev z) y → SporKRestGenerating p y) : SporKRestCover p G := by
   obtain ⟨-, -, oz, hne, -⟩ := hM.p3OK_facts h
-  exact (hM.p3Rel h).sporKRest_cover hp hval (hM.ne_one hc oz hne) (Or.inl hgen)
+  exact (hM.p3Rel h).sporKRest_cover hp hval (CFSG.KD.SporCov.Model.ne_one hc oz hne) (Or.inl hgen)
 
 theorem cover_of_p3_lines [Finite G] {p e₁ e₂ : ℕ} (hp : p.Prime)
     (hval : (Nat.card G).factorization p = 3)
@@ -67,7 +67,7 @@ theorem cover_of_p3_lines [Finite G] {p e₁ e₂ : ℕ} (hp : p.Prime)
     (h₂ : ∀ y, IsConj (ev g₂) y → SporKRestGenerating p y)
     (ht : ∀ i < p, ∀ y, IsConj (ev (t i)) y → SporKRestGenerating p y) : SporKRestCover p G := by
   obtain ⟨o₁, o₂, oz, hne, -⟩ := hM.p3OK_facts h
-  refine (hM.p3Rel h).sporKRest_cover hp hval (hM.ne_one hc oz hne) (Or.inr ⟨h₂, ?_⟩)
+  refine (hM.p3Rel h).sporKRest_cover hp hval (CFSG.KD.SporCov.Model.ne_one hc oz hne) (Or.inr ⟨h₂, ?_⟩)
   intro i hi y hy
   rw [← (hM.lineOK_eq o₁ o₂ (hl i hi)).2] at hy
   exact ht i hi y hy

@@ -55,9 +55,9 @@ theorem s5_good {T H A V : Subgroup G} (hT : IsSylowIn 2 T ⊤) (hTH : T ≤ H) 
   have hMA : (Y ⊓ A) ⊔ V ≤ A := sup_le inf_le_right hVA
   have hMnorm : (((Y ⊓ A) ⊔ V).subgroupOf A).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hMA).mpr (hAH.trans hMn)
-  haveI := hMnorm
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
-  haveI hmapn : ((((Y ⊓ A) ⊔ V).subgroupOf A).map φ).Normal := hMnorm.map φ hφs
+  have := hMnorm
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
+  have hmapn : ((((Y ⊓ A) ⊔ V).subgroupOf A).map φ).Normal := hMnorm.map φ hφs
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
     ((((Y ⊓ A) ⊔ V).subgroupOf A).map φ) with hbot | htop
   ·
@@ -72,7 +72,7 @@ theorem s5_good {T H A V : Subgroup G} (hT : IsSylowIn 2 T ⊤) (hTH : T ≤ H) 
       (Subgroup.mem_subgroupOf.mp (h1 (Subgroup.mem_subgroupOf.mpr
         (Subgroup.mem_sup_left hx : x ∈ (Y ⊓ A) ⊔ V) : (⟨x, hx.2⟩ : ↥A) ∈ _)))
     obtain ⟨k, hk⟩ := relIndex_two_power hT.isPGroup hAn hAH hHA
-    haveI : (A.subgroupOf H).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hAn
+    have : (A.subgroupOf H).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hAn
     have hpow : ∀ y ∈ H, y ^ (2 ^ k) ∈ A := by
       intro y hy
       have h2 := (A.subgroupOf H).pow_index_mem (⟨y, hy⟩ : ↥H)
@@ -118,11 +118,11 @@ theorem s5_pRank {T H A V : Subgroup G} (hT : IsSylowIn 2 T ⊤) (hAH : A ≤ H)
     (hφk : φ.ker = V.subgroupOf A) (hHA : A ⊔ T = H) :
     CFSG.Open.pRank 2 (⊤ : Subgroup (↥H ⧸ CFSG.pCore 2 ↥H)) ≤ 2 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   set R' : Subgroup ↥H := CFSG.pCore 2 ↥H with hR'
   set A' : Subgroup ↥H := A.subgroupOf H with hA'
-  haveI hA'n : A'.Normal := Subgroup.normal_subgroupOf_of_le_normalizer hAn
+  have hA'n : A'.Normal := Subgroup.normal_subgroupOf_of_le_normalizer hAn
   let q : ↥H →* ↥H ⧸ R' := QuotientGroup.mk' R'
   let ι : ↥A' ≃* ↥A := Subgroup.subgroupOfEquivOfLe hAH
   let θ : ↥A' →* alternatingGroup (Fin 5) := φ.comp ι.toMonoidHom
@@ -142,7 +142,7 @@ theorem s5_pRank {T H A V : Subgroup G} (hT : IsSylowIn 2 T ⊤) (hAH : A ≤ H)
     have : r = a := Subtype.ext hra
     rwa [← this]
   set W : Subgroup ↥A' := R'.subgroupOf A' with hW
-  haveI hWn : W.Normal := (CFSG.pCore_normal (p := 2) (G := ↥H)).comap A'.subtype
+  have hWn : W.Normal := (CFSG.pCore_normal (p := 2) (G := ↥H)).comap A'.subtype
   have hW2 : IsPGroup 2 W := by
     intro w
     obtain ⟨n, hn⟩ := (CFSG.pCore_isPGroup (p := 2) (G := ↥H)) ⟨((w : ↥A') : ↥H), w.2⟩
@@ -180,7 +180,7 @@ theorem s5_pRank {T H A V : Subgroup G} (hT : IsSylowIn 2 T ⊤) (hAH : A ≤ H)
       show q (a : ↥H) = 1
       exact (QuotientGroup.eq_one_iff _).mpr (hVR' _ h1)
   let N : Subgroup (↥H ⧸ R') := qA.range
-  haveI hNn : N.Normal := by
+  have hNn : N.Normal := by
     have hrange : qA.range = A'.map q := by
       show (q.comp A'.subtype).range = A'.map q
       rw [MonoidHom.range_comp, Subgroup.range_subtype]

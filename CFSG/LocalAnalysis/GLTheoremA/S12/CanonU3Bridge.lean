@@ -56,7 +56,7 @@ theorem card_center_dvd_of_map_centerQuot {Γ : Type} [Group Γ] [Finite Γ] {L 
     apply Subtype.ext
     have h := Subgroup.mem_center_iff.1 hxZ (y : ↥L)
     simpa using h
-  haveI : Group.IsPerfect ↥K := ⟨hK.1⟩
+  have : Group.IsPerfect ↥K := ⟨hK.1⟩
   have hperf' : Group.IsPerfect ↥K' :=
     Group.IsPerfect.ofSurjective (f := (Subgroup.subgroupOfEquivOfLe hKL).symm.toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hKL).symm.surjective

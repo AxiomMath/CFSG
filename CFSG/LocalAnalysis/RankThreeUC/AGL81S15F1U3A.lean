@@ -103,6 +103,7 @@ section Torus
 variable (hF : Nat.card F = (p ^ f) ^ 2)
 
 include hF in
+omit [Fact (Nat.Prime p)] [CharP F p] in
 theorem tSU_regular_of_orderOf (hq4 : (p ^ f) % 4 = 1) {μ : Fˣ} {i : ℕ} (hμ : orderOf μ = 2 ^ i)
     (hi : 3 ≤ i) :
     (μ : F) ≠ ((μ ^ (p ^ f - 1) : Fˣ) : F) ∧ (μ : F) ≠ (((μ ^ (p ^ f)) ⁻¹ : Fˣ) : F) ∧
@@ -188,6 +189,7 @@ theorem mem_zpowers_of_pow_three_eq_one {μ : Fˣ} (hμ : μ ^ 3 = 1) : μ ∈ S
   norm_num [Nat.totient_prime Nat.prime_three] at h3le
 
 include hω hq3 in
+omit hq3 in
 theorem mem_normA0_of_forall_conj_mem_range {n : SU (unitaryInvolution F p f) 3}
     (h : ∀ g ∈ (tSU hF).range, n * g * n⁻¹ ∈ (tSU hF).range) : n ∈ normA0 hF ω := by
   have ha₀ : tSU hF ω ∈ (tSU hF).range := ⟨ω, rfl⟩
@@ -238,7 +240,7 @@ theorem normalizer_le_normA0 (hF : Nat.card F = (p ^ f) ^ 2) {ω : Fˣ} (hω : o
   obtain ⟨b1, b2, b3⟩ := tSU_regular_of_orderOf hF hq4 hμ'o hi
   have hcx := centralizer_tSU_of_regular hF a1 a2 a3
   have hcy := centralizer_tSU_of_regular hF b1 b2 b3
-  refine mem_normA0_of_forall_conj_mem_range hF hω hq3 fun g hg => ?_
+  refine mem_normA0_of_forall_conj_mem_range hF hω fun g hg => ?_
   have hg' : g ∈ Subgroup.centralizer ({tSU hF μ} : Set (SU (unitaryInvolution F p f) 3)) :=
     hcx ▸ hg
   rw [← hcy, Subgroup.mem_centralizer_iff]
@@ -263,6 +265,7 @@ end Key
 
 section Existence
 
+omit [Fact (Nat.Prime p)] [CharP F p] in
 theorem two_le_prime_pow_of_card' (hF : Nat.card F = (p ^ f) ^ 2) : 2 ≤ p ^ f := by
   have h1 : 1 < Nat.card F := Finite.one_lt_card
   rw [hF] at h1
@@ -271,6 +274,7 @@ theorem two_le_prime_pow_of_card' (hF : Nat.card F = (p ^ f) ^ 2) : 2 ≤ p ^ f 
   have h3 : (p ^ f) ^ 2 ≤ 1 ^ 2 := Nat.pow_le_pow_left h2 2
   omega
 
+omit [Fact p.Prime] [CharP F p] in
 theorem exists_unit_orderOf_padic (hF : Nat.card F = (p ^ f) ^ 2) :
     ∃ μ : Fˣ, orderOf μ = 2 ^ padicValNat 2 ((p ^ f) ^ 2 - 1) := by
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := Fˣ)

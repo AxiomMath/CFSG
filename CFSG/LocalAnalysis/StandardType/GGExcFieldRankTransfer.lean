@@ -26,12 +26,12 @@ open CFSG.Open (IsElemAbelian)
   ∃ E : Subgroup G, IsElemAbelian p E ∧ p ^ m ≤ Nat.card E
 
 theorem orderOf_card_fixSubfield_eq {K : Type} [Field K] [Finite K] [CharP K 2] {p : ℕ}
-    (hp : p.Prime) (hp2 : p ≠ 2) (σ : K ≃+* K) (hσ1 : σ ≠ 1) (hσp : σ ^ p = 1) :
+    (hp : p.Prime) (_hp2 : p ≠ 2) (σ : K ≃+* K) (hσ1 : σ ≠ 1) (hσp : σ ^ p = 1) :
     orderOf ((Nat.card (fixSubfield σ) : ℕ) : ZMod p) =
       orderOf ((Nat.card K : ℕ) : ZMod p) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (fixSubfield σ) :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (fixSubfield σ) :=
     Finite.of_injective (Subtype.val : fixSubfield σ → K) Subtype.val_injective
   let _ : Algebra (ZMod 2) K := ZMod.algebra K 2
   have hcardK : Nat.card K = 2 ^ Module.finrank (ZMod 2) K := by
@@ -65,8 +65,8 @@ theorem entrywise_fixedFieldInclusion
 
 theorem exists_elemAbelian_fixSubfield
     {τ : Tag} {K : Type} [Field K]
-    [Finite K] {p m : ℕ} (hp : p.Prime) (hm : 1 ≤ m) (σ : K ≃+* K) (hσ1 : σ ≠ 1)
-    (hσp : σ ^ p = 1) {B : Subgroup (adjointGroup τ K)} (hB : IsElemAbelian p B)
+    [Finite K] {p m : ℕ} (_hp : p.Prime) (hm : 1 ≤ m) (σ : K ≃+* K) (_hσ1 : σ ≠ 1)
+    (_hσp : σ ^ p = 1) {B : Subgroup (adjointGroup τ K)} (_hB : IsElemAbelian p B)
     (hBcard : Nat.card B ≤ p ^ m)
     (hE : GGExcElemAbelianExists (adjointGroup τ (fixSubfield σ)) p (m - 1)) :
     ∃ E : Subgroup (adjointGroup τ K), IsElemAbelian p E ∧

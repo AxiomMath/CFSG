@@ -13,6 +13,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem C116_map_conj_map_conj (K : Subgroup G) (g h : G) :
     (K.map (MulAut.conj g).toMonoidHom).map (MulAut.conj h).toMonoidHom =
       K.map (MulAut.conj (h * g)).toMonoidHom := by
@@ -21,6 +22,7 @@ theorem C116_map_conj_map_conj (K : Subgroup G) (g h : G) :
   ext x
   simp [MulAut.conj_apply, mul_assoc]
 
+omit [Finite G] in
 theorem C116_autI_map_conj {V : Subgroup G} (hV : IsElemAbelian 2 V) (K : Subgroup G) {g : G}
     (hg : g ∈ Subgroup.normalizer (V : Set G)) :
     autI hV (K.map (MulAut.conj g).toMonoidHom) =
@@ -54,6 +56,7 @@ theorem C116_autI_map_conj {V : Subgroup G} (hV : IsElemAbelian 2 V) (K : Subgro
     show convI hV ⟨g * (k : G) * g⁻¹, hgk⟩ = convI hV ⟨g, hg⟩ * convI hV k * (convI hV ⟨g, hg⟩)⁻¹
     rw [e3, map_mul, map_mul, map_inv]
 
+omit [Finite G] in
 theorem C116_autI_comm {V : Subgroup G} (hV : IsElemAbelian 2 V) {L L' : Subgroup G}
     (hc : ⁅L, L'⁆ ≤ Subgroup.centralizer (V : Set G)) :
     ∀ a ∈ autI hV L, ∀ b ∈ autI hV L', a * b = b * a := by
@@ -69,6 +72,7 @@ theorem C116_autI_comm {V : Subgroup G} (hV : IsElemAbelian 2 V) {L L' : Subgrou
   rw [map_commutatorElement] at h1
   exact commutatorElement_eq_one_iff_mul_comm.1 h1
 
+omit [Finite G] in
 theorem C116_autI_sup_map_conj_le {V : Subgroup G} (hV : IsElemAbelian 2 V) {H L : Subgroup G}
     {t : G} (htH : t ∈ H)
     (hdich : ∀ x ∈ H, L.map (MulAut.conj x).toMonoidHom = L ∨
@@ -104,7 +108,7 @@ theorem pairHyp_autI {H T V L : Subgroup G} {t : G} (hVred : IsTwoReducedIn H V)
   have hker : (convHom hVe L hLN).ker = φ.ker := by
     rw [ker_convHom, hφk]
     ext x
-    simp [Subgroup.mem_subgroupOf, Subgroup.mem_inf, x.2]
+    simp [Subgroup.mem_subgroupOf]
   let e : ↥(autI hVe L) ≃* Q :=
     ((MulEquiv.subgroupCongr (range_convHom hVe L hLN).symm).trans
       (QuotientGroup.quotientKerEquivRange (convHom hVe L hLN)).symm).trans

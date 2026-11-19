@@ -92,14 +92,14 @@ theorem strong_of_centShapeRk {name : TauCeti.SporadicName} {p : ℕ}
     (hZ : Subgroup.center ↥K = ⊥) : IsStronglyBalancedIn p B K := by
   have hq : CFSG.Open.IsQuasisimple ↥K := hC.quasi
   obtain ⟨e⟩ := hS
-  haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hq.2
+  have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hq.2
   have hloc : IsLocallyOneBalancedAbs p (↥K ⧸ Subgroup.center ↥K) :=
     isLocallyOneBalancedAbs_of_pair hOut hBr hC.prime hC.odd hP _ hq.2
       (exists_noncomm_of_isQuasisimple hq) ⟨e⟩
   let eK : ↥K ≃* NativeSporadic.Carrier name :=
     ((QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot).symm.trans
       (e.trans (hBr name).some.symm)
-  haveI : Finite (NativeSporadic.Carrier name) := Finite.of_equiv ↥K eK.toEquiv
+  have : Finite (NativeSporadic.Carrier name) := Finite.of_equiv ↥K eK.toEquiv
   have hshape : CentShapeRk p Good Rk ↥K := CentShapeRk.of_equiv hC.prime hGood hRk eK.symm hD
   refine strong_of_dichotomy_rk hGood hRk hOut hC hN ⟨e⟩ hloc hIH ?_
   intro a k hk haB hc haC
@@ -144,12 +144,12 @@ theorem sporStrong_of_centShape_cover {name : TauCeti.SporadicName} {p : ℕ}
   intro X _ _ K B hC hN hS
   have hq : CFSG.Open.IsQuasisimple ↥K := hC.quasi
   obtain ⟨e⟩ := hS
-  haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hq.2
+  have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hq.2
   have hloc : IsLocallyOneBalancedAbs p (↥K ⧸ Subgroup.center ↥K) :=
     isLocallyOneBalancedAbs_of_pair hOut hBr hC.prime hC.odd hP _ hq.2
       (exists_noncomm_of_isQuasisimple hq) ⟨e⟩
   let eS : (↥K ⧸ Subgroup.center ↥K) ≃* NativeSporadic.Carrier name := e.trans (hBr name).some.symm
-  haveI : Finite (NativeSporadic.Carrier name) := Finite.of_equiv _ eS.toEquiv
+  have : Finite (NativeSporadic.Carrier name) := Finite.of_equiv _ eS.toEquiv
   have hOall : OPrimeCoreTrivialAt p (↥K ⧸ Subgroup.center ↥K) := hP.1 _ ⟨eS⟩
   have hshape : CentShape p Good (↥K ⧸ Subgroup.center ↥K) :=
     CentShape.of_equiv hC.prime hGood eS.symm hD

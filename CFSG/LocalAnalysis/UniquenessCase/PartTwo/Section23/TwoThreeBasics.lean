@@ -93,7 +93,7 @@ private theorem N_eq_normalizer_X (h208 : S20_8 D) (h1930 : H1930 D) :
   rw [c.hN] at h
   exact Set.singleton_eq_singleton_iff.mp h
 
-private theorem isSubnormal_L_X (h208 : S20_8 D) (h1930 : H1930 D) :
+private theorem isSubnormal_L_X (_h208 : S20_8 D) (_h1930 : H1930 D) :
     CFSG.Open.IsSubnormal c.L (X c) := by
   have hLmem : c.L ∈ calLOf D.T D.M (Subgroup.normalizer (c.L : Set G)) :=
     ⟨c.hL.1, CFSG.Quasithin.A3.subnormal_of_normal Subgroup.le_normalizer
@@ -121,7 +121,7 @@ theorem N_facts (h208 : S20_8 D) (h1930 : H1930 D) :
   have hmax : rankThreeIsMaxTwoLocal c.N := by
     have hmem : c.N ∈ calMOf (c.L ⊔ D.T) := by rw [c.hN]; simp
     exact hmem.1
-  haveI : IsSimpleGroup G := D.standing.simple
+  have : IsSimpleGroup G := D.standing.simple
   exact ⟨T_le_N c, L_le_N c, hsub,
     CFSG.PreuniquenessRankFour.Helpers.twoLocal_ne_top D.standing.nonab hmax.1,
     D.standing.charTwo c.N (isTwoLocal_N c)⟩

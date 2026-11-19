@@ -38,9 +38,9 @@ theorem exists_subfield_card {ℓ n : ℕ} [Fact ℓ.Prime] (hn : n ≠ 0) {K : 
     refine ⟨fun x => ?_⟩
     have hx : IsIntegral K x :=
       (Algebra.IsAlgebraic.isAlgebraic (R := K) x).isIntegral
-    haveI : FiniteDimensional K (IntermediateField.adjoin K {x}) := IntermediateField.adjoin.finiteDimensional hx
-    haveI : Finite (IntermediateField.adjoin K {x}) := Module.finite_of_finite K
-    haveI : Fintype (IntermediateField.adjoin K {x}) := Fintype.ofFinite _
+    have : FiniteDimensional K (IntermediateField.adjoin K {x}) := IntermediateField.adjoin.finiteDimensional hx
+    have : Finite (IntermediateField.adjoin K {x}) := Module.finite_of_finite K
+    have : Fintype (IntermediateField.adjoin K {x}) := Fintype.ofFinite _
     have hpow : x ^ Fintype.card (IntermediateField.adjoin K {x}) = x := by
       have h := FiniteField.pow_card (⟨x, IntermediateField.mem_adjoin_simple_self K x⟩ : (IntermediateField.adjoin K {x}))
       exact congrArg Subtype.val h
@@ -54,7 +54,7 @@ theorem exists_plane_of_sylowShape {X : Type*} [Group X] [Finite X] {p e : ℕ} 
     (he : 1 ≤ e) (h : SylowShape p 2 e X) :
     ∃ F : Subgroup X, IsElemAbelian p F ∧ Nat.card F = p ^ 2 := by
   obtain ⟨S⟩ : Nonempty (Sylow p X) := inferInstance
-  obtain ⟨φ⟩ := h S S.isPGroup' S.not_dvd_index
+  obtain ⟨φ⟩ := h S S.isPGroup S.not_dvd_index
   obtain ⟨E, hES, hEp, hEc⟩ :=
     CFSG.HardMathSupport.Seitz.TrialityOdd.Inner.exists_plane_of_sylowShape_gen he
       (S : Subgroup X) φ
@@ -87,7 +87,7 @@ theorem d4_layer_facts {ℓ f : ℕ} [hℓ : Fact ℓ.Prime] (hf : 1 ≤ f) {K :
   obtain ⟨K₃, _, _, _, _, hK₃⟩ :=
     exists_subfield_card (ℓ := ℓ) (n := f * 3) (by omega) (K := K) (Ω := Ω)
   have hK3 : Nat.card K₃ = (ℓ ^ f) ^ 3 := by rw [hK₃, pow_mul]
-  haveI hchar : CharP K₃ ℓ := ⟨fun x => by
+  have hchar : CharP K₃ ℓ := ⟨fun x => by
     rw [← (algebraMap K₃ Ω).injective.eq_iff, map_natCast, map_zero]
     exact CharP.cast_eq_zero_iff Ω ℓ x⟩
   let σ : K₃ →+* K₃ := iterateFrobenius K₃ ℓ f
@@ -114,7 +114,7 @@ theorem d4_layer_facts {ℓ f : ℕ} [hℓ : Fact ℓ.Prime] (hf : 1 ≤ f) {K :
   have hiso : IsoLie Y (.trialityD4 ⟨ℓ, f, hℓp, hf⟩) := ⟨hv, ⟨φ.trans c⟩⟩
   have hsimple : IsSimpleGroup Y := by
     obtain ⟨-, hsimp⟩ := finite_isSimpleGroup_cat_trialityD4 (q := ⟨ℓ, f, hℓp, hf⟩) hv
-    haveI := hsimp
+    have := hsimp
     exact (φ.trans c).isSimpleGroup
   have hplane : ∃ F : Subgroup Y, IsElemAbelian p F ∧ Nat.card F = p ^ 2 := by
     have hshape := sylowShape_D4_36 hf K₃ hK3 σe hσe (ε := -1) (Or.inr rfl) hp.out
@@ -131,7 +131,7 @@ theorem d4_layer_facts {ℓ f : ℕ} [hℓ : Fact ℓ.Prime] (hf : 1 ≤ f) {K :
     · intro _
       exact ⟨inferInstance, hsimple⟩
   · intro z hz
-    haveI := hsimple
+    have := hsimple
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center Y) with h | h
     · have hzc : z ∈ Subgroup.center Y := Subgroup.mem_center_iff.2 fun g => hz g
       rw [h] at hzc

@@ -78,7 +78,7 @@ theorem rankBound_u33_three {S : Type} [Group S] [Finite S] (h : catalogIs S fU3
   have hm := statedClassicalModel_of_fU33 h
   obtain ⟨e1⟩ := CFSG.Timmesfeld.nonempty_mulEquiv_PSU3_of_lieModel
     (Or.inl ⟨by decide, hm⟩ : CFSG.Blueprint.LieModel S .PSU 3 3 1)
-  haveI : Fintype (ZMod 2) := ZMod.fintype 2
+  have : Fintype (ZMod 2) := ZMod.fintype 2
   obtain ⟨e2⟩ := CFSG.Quasithin.g2_derived_mulEquiv_PSU3 (ZMod 2) (by simp)
   let φ : S ≃* ↥⁅adjointGroup Tag.G2 (ZMod 2), adjointGroup Tag.G2 (ZMod 2)⁆ := e1.trans e2.symm
   have hle : ⁅adjointGroup Tag.G2 (ZMod 2), adjointGroup Tag.G2 (ZMod 2)⁆ ≤
@@ -107,7 +107,7 @@ theorem kDescFam_u33 (p : ℕ) : KDescFam p fU33 := by
   have hm := statedClassicalModel_of_fU33 hc
   have hS : Nat.card (↥K ⧸ Subgroup.center ↥K) = 6048 :=
     CFSG.Open.StatedAPI.card_of_statedClassicalModel_psu_three_three hm
-  haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := h.qs.2
+  have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := h.qs.2
   have hZ : Subgroup.center (↥K ⧸ Subgroup.center ↥K) = ⊥ :=
     center_eq_bot_of_simple_nonprime hS (by norm_num)
   have hinj : Function.Injective (MulAut.conj : (↥K ⧸ Subgroup.center ↥K) →* MulAut (↥K ⧸ Subgroup.center ↥K)) :=

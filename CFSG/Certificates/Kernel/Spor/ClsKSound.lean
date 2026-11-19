@@ -17,7 +17,7 @@ variable {n w idn N b : Nat} {T : Nat → Nat} {ks reps tg : List Nat}
 theorem itP_spec {P : Nat} {g : Equiv.Perm (Fin n)} (hP : PRep n w P g) (k : Nat) (x : Fin n) :
     itP w (mask w) P k x = ((g ^ k) x : Nat) := by
   induction k with
-  | zero => rw [pow_zero, Equiv.Perm.one_apply] <;> rfl
+  | zero => rw [pow_zero, Equiv.Perm.one_apply]; rfl
   | succ k ih =>
     change pg w (mask w) P (itP w (mask w) P k x) = _
     rw [ih, hP, pow_succ', Equiv.Perm.mul_apply]
@@ -81,8 +81,7 @@ theorem ptK_facts {m i t : Nat} (h : ptK w m idn N T ks reps i t = true) :
         (T (nthN reps (Nat.mod (Nat.sub t (nat_lit 1)) (nat_lit 4)))) (T i) ks = true) := by
   unfold ptK at h
   simp only [CFSG.KS.Raw.Orb.strictB_eq, clsK_bRec_true, Bool.eq_false_iff, Nat.beq_eq,
-    Nat.blt_eq, ne_eq, Bool.false_eq_true, and_false, false_and, or_false, false_or,
-    and_true, true_and] at h
+    Nat.blt_eq, ne_eq, Bool.false_eq_true, and_false, or_false, and_true] at h
   refine ⟨fun he => by tauto, fun ht he => by tauto, fun ht => by tauto⟩
 
 theorem tagsK_spec {m : Nat} : ∀ {tg : List Nat} {i : Nat},
@@ -121,7 +120,7 @@ theorem cntK_spec (c : Nat) : ∀ tg : List Nat, ∃ S : Finset ℕ, S.card = cn
     · refine ⟨insert 0 (S.map ⟨Nat.succ, Nat.succ_injective⟩), ?_, fun i hi => ?_⟩
       · rw [Finset.card_insert_of_notMem h0, Finset.card_map, hS, e]
         simp only [CFSG.KS.Raw.Orb.nIf_eq]
-        rw [if_neg (by rw [Nat.beq_eq]; exact ht.1), if_pos (by rw [Nat.beq_eq]; exact ht.2)]
+        rw [ite_eq_right (by rw [Nat.beq_eq]; exact ht.1), ite_eq_left (by rw [Nat.beq_eq]; exact ht.2)]
       · rcases Finset.mem_insert.1 hi with rfl | hi
         · exact ⟨by simp, ht.1, ht.2⟩
         · exact hS1 i hi
@@ -129,9 +128,9 @@ theorem cntK_spec (c : Nat) : ∀ tg : List Nat, ∃ S : Finset ℕ, S.card = cn
       rw [Finset.card_map, hS, e]
       simp only [CFSG.KS.Raw.Orb.nIf_eq]
       by_cases t0 : t = 0
-      · rw [if_pos (by rw [Nat.beq_eq]; exact t0)]
-      · rw [if_neg (by rw [Nat.beq_eq]; exact t0),
-          if_neg (by rw [Nat.beq_eq]; exact fun h => ht ⟨t0, h⟩)]
+      · rw [ite_eq_left (by rw [Nat.beq_eq]; exact t0)]
+      · rw [ite_eq_right (by rw [Nat.beq_eq]; exact t0),
+          ite_eq_right (by rw [Nat.beq_eq]; exact fun h => ht ⟨t0, h⟩)]
 
 theorem clsK_spec (hX : ∀ i < N, PRep n w (T i) (X i)) (hmem : ∀ i < N, X i ∈ G)
     (hall : ∀ g ∈ G, ∃ i < N, X i = g) (hidn : PRep n w idn 1) (hks : ∀ p ∈ ks, p < n)

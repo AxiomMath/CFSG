@@ -219,7 +219,7 @@ private theorem end_cube_zero_of_structure {Q : QuadraticForm K V} {W : Submodul
   apply LinearMap.ext
   intro v
   have h3 : (N ^ 3) v = N (N (N v)) := by
-    simp only [pow_succ, pow_one, pow_zero, Module.End.mul_apply, Module.End.one_apply]
+    simp only [pow_succ, pow_zero, Module.End.mul_apply, Module.End.one_apply]
   rw [h3]
   exact hNW0 _ (hNW _ (hNperp v))
 
@@ -266,7 +266,7 @@ private theorem end_cube_zero_of_structure_end {Q : QuadraticForm K V} {W : Subm
   apply LinearMap.ext
   intro v
   have h3 : (N ^ 3) v = N (N (N v)) := by
-    simp only [pow_succ, pow_one, pow_zero, Module.End.mul_apply, Module.End.one_apply]
+    simp only [pow_succ, pow_zero, Module.End.mul_apply, Module.End.one_apply]
   rw [h3]
   exact hNW0 _ (hNW _ (hNperp v))
 
@@ -302,7 +302,7 @@ private theorem three_le_finrank_perp [FiniteDimensional K V] {Q : QuadraticForm
   have hleV : Module.finrank K W ≤ Module.finrank K V := Submodule.finrank_le W
   omega
 
-private noncomputable def eichlerRad (Q : QuadraticForm K V) (W : Submodule K V) (w y : V) :
+private noncomputable def eichlerRad (Q : QuadraticForm K V) (_W : Submodule K V) (w y : V) :
     elementaryGroup Q :=
   ⟨eichler Q w y, eichler_mem_elementaryGroup Q w y⟩
 

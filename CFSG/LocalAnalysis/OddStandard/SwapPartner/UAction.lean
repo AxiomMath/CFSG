@@ -47,7 +47,7 @@ theorem false_of_alternating_action {X : Type*} [Group X] [Finite X]
     (hX : 2 ^ k ∣ Nat.card X) (hk : padicValNat 2 n.factorial + b < k) : False := by
   let C : Subgroup X := centralizer (D : Set X)
   have hneC : Nat.card C ≠ 0 := by
-    haveI : Nonempty C := ⟨1⟩
+    have : Nonempty C := ⟨1⟩
     exact (Nat.card_pos (α := C)).ne'
   have hdvdC : 2 ^ padicValNat 2 (Nat.card C) ∣ Nat.card C :=
     (padicValNat_dvd_iff_le (p := 2) (a := Nat.card C)

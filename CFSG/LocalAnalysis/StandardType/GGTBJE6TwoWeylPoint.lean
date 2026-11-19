@@ -57,7 +57,7 @@ theorem e6Two_weylPoint {K : Type} [Field K] [Finite K] [CharP K 2] (hK : Nat.ca
         rationalComponent S.ρ S.Γ
           (rootCharHom (TableBExc.E6Three.zetaVec ζ hζ (ExcFrames.twE6ThreeFrame t))) i) := by
   classical
-  haveI hchar : CharP (AlgebraicClosure K) 2 :=
+  have hchar : CharP (AlgebraicClosure K) 2 :=
     (Algebra.charP_iff (K := K) (L := AlgebraicClosure K) 2).symm.mpr inferInstance
   have hq2 : S.D.q = 2 := hq.trans hK
   have hTa : rootDiagUnit Tag.E6 (fa ζ hζ t) ∈ S.D.torus := by
@@ -142,7 +142,7 @@ theorem e6Two_weylPoint {K : Type} [Field K] [Finite K] [CharP K 2] (hK : Nat.ca
             ∑ k ∈ Finset.Icc p l, (![γ, δ, γ'] : Fin 3 → Fin Tag.E6.rank → ℤ) k ∈
               componentRoots (rootCharHom (fa ζ hζ t)) i := by
           intro p l hpl
-          fin_cases p <;> fin_cases l <;> simp at hpl <;> simp [Finset.sum_Icc_succ_top]
+          fin_cases p <;> fin_cases l <;> simp at hpl <;> simp
           · exact hγΨ
           · rw [show Finset.Icc (0 : Fin 3) 1 = {0, 1} from by decide,
               Finset.sum_pair (by decide)]
@@ -260,11 +260,11 @@ theorem e6Two_twE6SplitWeyl_mem_rationalComponent
   obtain ⟨h1, h2⟩ := e6Two_weylPoint hK S hq hρ hζo hT t ht i hns hδ
   by_cases hfix : permLattice TwistTag.E6.perm δ = δ
   · have h3 : twE6SplitWeyl (AlgebraicClosure K) δ = rootSL2 .E6 (AlgebraicClosure K) δ WSL :=
-      if_pos hfix
+      ite_eq_left hfix
     rw [h3]
     exact h1 hfix
   · have h3 : twE6SplitWeyl (AlgebraicClosure K) δ = rootSL2 .E6 (AlgebraicClosure K) δ WSL *
-        rootSL2 .E6 (AlgebraicClosure K) (permLattice TwistTag.E6.perm δ) WSL := if_neg hfix
+        rootSL2 .E6 (AlgebraicClosure K) (permLattice TwistTag.E6.perm δ) WSL := ite_eq_right hfix
     rw [h3]
     exact h2 hfix
 

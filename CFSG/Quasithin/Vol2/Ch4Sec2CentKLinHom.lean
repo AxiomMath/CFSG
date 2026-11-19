@@ -28,7 +28,7 @@ private theorem exists_sl3_col_zero_hom {v : Fin 3 → F} (hv : v 0 ≠ 0) :
   · rw [Matrix.det_fin_three]
     simp [hv]
   · funext i
-    fin_cases i <;> simp [Matrix.mulVec, dotProduct, Fin.sum_univ_three, Pi.single_apply]
+    fin_cases i <;> simp [Matrix.mulVec, dotProduct, Pi.single_apply]
 
 private theorem exists_sl3_coord_zero_ne_hom {v : Fin 3 → F} (hv : v ≠ 0) :
     ∃ t : Matrix.SpecialLinearGroup (Fin 3) F, ((t : Matrix (Fin 3) (Fin 3) F) *ᵥ v) 0 ≠ 0 := by
@@ -80,7 +80,7 @@ private theorem col_zero_hom {A : Matrix (Fin 3) (Fin 3) F}
   have hc0 := congrFun h 0
   have hc1 := congrFun h 1
   have hc2 := congrFun h 2
-  simp [Matrix.mulVec, dotProduct, Fin.sum_univ_three, Pi.single_apply] at hc0 hc1 hc2
+  simp [Matrix.mulVec, dotProduct, Pi.single_apply] at hc0 hc1 hc2
   exact ⟨hc0, hc1, hc2⟩
 
 private theorem mul_self_eq_one_of_lowerBlock_hom {A : Matrix (Fin 3) (Fin 3) F}
@@ -108,7 +108,7 @@ private theorem exists_sl3_lowerBlock_hom (X : Matrix.SpecialLinearGroup (Fin 2)
     simp
     linear_combination hX
   · funext i
-    fin_cases i <;> simp [Matrix.mulVec, dotProduct, Fin.sum_univ_three, Pi.single_apply]
+    fin_cases i <;> simp [Matrix.mulVec, dotProduct, Pi.single_apply]
   · ext i j
     fin_cases i <;> fin_cases j <;> simp [lowerBlock_hom]
 

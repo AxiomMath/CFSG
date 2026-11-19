@@ -44,6 +44,7 @@ section Exclusion
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem centralizer_subgroupOf_eq_of_mul {L : Subgroup G} {a₁ a₂ : G} (ha₁L : a₁ ∈ L)
     (ha₂C : a₂ ∈ Subgroup.centralizer (L : Set G)) :
     (Subgroup.centralizer ({a₁ * a₂} : Set G)).subgroupOf L =
@@ -245,8 +246,8 @@ theorem row427_of_e9MoveBad
       obtain ⟨a, ha⟩ := exists_card_eq_sixty_mul hT
       rw [ha]
       exact Dvd.intro _ rfl
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨t₀, ht₀⟩ := exists_prime_orderOf_dvd_card' (G := ↥K') 2 (dvd_trans (by norm_num) h60)
     obtain ⟨f₀, hf₀⟩ := exists_prime_orderOf_dvd_card' (G := ↥K') 3 (dvd_trans (by norm_num) h60)
     have hcK : ∀ k ∈ K', k * d = d * k := fun k hk =>

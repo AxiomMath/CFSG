@@ -39,8 +39,8 @@ theorem i269s_E9_of_pairs {T : Type} [Group T] [Finite T]
     E9Solv T := by
   intro E hE hcard
   classical
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
-  haveI : Nontrivial E := Finite.one_lt_card_iff_nontrivial.1 (by rw [hcard]; norm_num)
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Nontrivial E := Finite.one_lt_card_iff_nontrivial.1 (by rw [hcard]; norm_num)
   obtain ⟨α₁, hα₁1⟩ := exists_ne (1 : E)
   have hα3 : (α₁.1 : MulAut T) ^ 3 = 1 := hE.2 α₁.1 α₁.2
   have hα1 : (α₁.1 : MulAut T) ≠ 1 := fun h => hα₁1 (Subtype.ext h)
@@ -77,7 +77,7 @@ theorem i269s_E9_of_pairs {T : Type} [Group T] [Finite T]
     apply hα₂
     rw [ht₂, ← hk, map_zpow, ← ht₁]
     exact Subgroup.zpow_mem _ (Subgroup.mem_zpowers _) k
-  haveI := hpair t₁ t₂ ht₁3 ht₁1 ht₂3 hcomm hzp
+  have := hpair t₁ t₂ ht₁3 ht₁1 ht₂3 hcomm hzp
   have hsub : i269Fix E ≤ Subgroup.centralizer ({t₁} : Set T) ⊓
       Subgroup.centralizer ({t₂} : Set T) := by
     intro g hg
@@ -100,7 +100,7 @@ theorem i269s_E9_of_pairs {T : Type} [Group T] [Finite T]
 
 theorem i269s_isSolvable_map {G T : Type} [Group G] [Group T] (e : G ≃* T) (C : Subgroup G)
     (h : Group.IsSolvable ↥C) : Group.IsSolvable ↥(C.map e.toMonoidHom) := by
-  haveI := h
+  have := h
   exact isSolvable_of_mulEquiv' (Subgroup.equivMapOfInjective C e.toMonoidHom e.injective).symm
 
 theorem i269s_centralizer_map {G T : Type} [Group G] [Group T] (e : G ≃* T) (x y : G) :
@@ -146,9 +146,9 @@ noncomputable def i269sSpProj : StatedSp 3 (ZMod 2) ≃* StatedProj (StatedSp 3 
 
 theorem i269s_E9_proj_sp62 : E9Solv (StatedProj (StatedSp 3 (ZMod 2))) := by
   have hK2 : Nat.card (ZMod 2) = 2 := by rw [Nat.card_eq_fintype_card, ZMod.card]
-  haveI := CFSG.Sporadic.Co2Smith.isSimpleGroup_sp62
-  haveI : IsSimpleGroup (StatedProj (StatedSp 3 (ZMod 2))) := i269sSpProj.symm.isSimpleGroup
-  haveI : Finite (StatedProj (StatedSp 3 (ZMod 2))) := Finite.of_equiv _ i269sSpProj.toEquiv
+  have := CFSG.Sporadic.Co2Smith.isSimpleGroup_sp62
+  have : IsSimpleGroup (StatedProj (StatedSp 3 (ZMod 2))) := i269sSpProj.symm.isSimpleGroup
+  have : Finite (StatedProj (StatedSp 3 (ZMod 2))) := Finite.of_equiv _ i269sSpProj.toEquiv
   have hcard : Nat.card (StatedProj (StatedSp 3 (ZMod 2))) = 1451520 := by
     rw [← Nat.card_congr i269sSpProj.toEquiv, CFSG.Sporadic.Co2Smith.natCard_sp62]
   have hnc : ∃ a b : StatedProj (StatedSp 3 (ZMod 2)), a * b ≠ b * a :=

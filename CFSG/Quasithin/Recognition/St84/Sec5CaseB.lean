@@ -106,7 +106,7 @@ private theorem card_D_eq (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) (hZ : Y.Zt 0 =
   have hZ1le : Y.Z 1 ≤ A := by rw [hEq]; exact le_sup_right
   have hDle : D ≤ A := inf_le_left
   have habel : IsMulCommutative ↥A := (isElemAbelian_Q_zero_inf_Q_two Y H hZ).1
-  haveI : IsMulCommutative ↥A := habel
+  have : IsMulCommutative ↥A := habel
   have hZ1normD : Y.Z 1 ≤ Subgroup.normalizer (D : Set G) :=
     hZ1le.trans (Subgroup.le_normalizer_of_normal_subgroupOf hDle)
   have hdisj : Disjoint D (Y.Z 1) := disjoint_iff.mpr hinf
@@ -192,8 +192,8 @@ private theorem card_cubicCore (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀)
   have hdisj : Disjoint (cubicCore Y) Y.K := by
     rw [disjoint_iff, inf_comm]
     exact inf_eq_bot_of_odd_of_isPGroup (A := Y.K) (B := cubicCore Y) Y.odd_card_K hU2
-  haveI hfinK : Finite ↥Y.K := finite_of_le_stabilizer Y.hyp (H := Y.K) (Y.K_le_Gi 0)
-  haveI := finite_cubicCore Y
+  have hfinK : Finite ↥Y.K := finite_of_le_stabilizer Y.hyp (H := Y.K) (Y.K_le_Gi 0)
+  have := finite_cubicCore Y
   have hcardUK := CFSG.GorensteinWalter.card_sup_eq_mul_of_disjoint_of_le_normalizer
     (cubicCore Y) Y.K hKU hdisj
   have hsup' : Y.K ⊔ cubicCore Y = Y.arcStab (-2) 4 := hsup
@@ -296,9 +296,9 @@ private theorem cubicCore_orbit (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀)
 
 private theorem exists_ne_one_ne (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀)
     (hUcard : Nat.card (cubicCore Y) = 2 ^ n₀) {x : G}
-    (hx : x ∈ cubicCore Y) (hx1 : x ≠ 1) :
+    (_hx : x ∈ cubicCore Y) (_hx1 : x ≠ 1) :
     ∃ w ∈ cubicCore Y, w ≠ 1 ∧ w ≠ x := by
-  haveI := finite_cubicCore Y
+  have := finite_cubicCore Y
   have h3 : 3 ≤ Nat.card (cubicCore Y) := by
     rw [hUcard]
     have := four_le_two_pow_n₀ Y H
@@ -340,19 +340,19 @@ private theorem A_eq_U_sup_Z1 (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) (hZ : Y.Zt
     exact le_sup_right
   have hinf : cubicCore Y ⊓ Y.Z 1 = ⊥ := cubicCore_inf_Z1 Y H hZ hr h7
   have habel : IsMulCommutative ↥(Y.Q 0 ⊓ Y.Q 2) := (isElemAbelian_Q_zero_inf_Q_two Y H hZ).1
-  haveI : IsMulCommutative ↥(Y.Q 0 ⊓ Y.Q 2) := habel
+  have : IsMulCommutative ↥(Y.Q 0 ⊓ Y.Q 2) := habel
   have hZ1normU : Y.Z 1 ≤ Subgroup.normalizer (cubicCore Y : Set G) :=
     hZ1leA.trans (Subgroup.le_normalizer_of_normal_subgroupOf hUleA)
   have hdisj : Disjoint (cubicCore Y) (Y.Z 1) := disjoint_iff.mpr hinf
-  haveI := finite_cubicCore Y
-  haveI hfinZ : Finite ↥(Y.Z 1) :=
+  have := finite_cubicCore Y
+  have hfinZ : Finite ↥(Y.Z 1) :=
     finite_of_le_stabilizer Y.hyp (H := Y.Z 1) (Y.Z_le_Gi 1)
   have hcard := CFSG.GorensteinWalter.card_sup_eq_mul_of_disjoint_of_le_normalizer
     (cubicCore Y) (Y.Z 1) hZ1normU hdisj
   have hcardA : Nat.card ↥(cubicCore Y ⊔ Y.Z 1) = 4 * 2 ^ n₀ := by
     rw [hcard, hUcard, card_Z1_eq Y H hZ]
     ring
-  haveI hfinA : Finite ↥(Y.Q 0 ⊓ Y.Q 2) :=
+  have hfinA : Finite ↥(Y.Q 0 ⊓ Y.Q 2) :=
     finite_of_le_stabilizer Y.hyp (H := Y.Q 0 ⊓ Y.Q 2)
       (inf_le_left.trans (Y.Q_le_Gi 0))
   exact (Subgroup.eq_of_le_of_card_ge (sup_le hUleA hZ1leA) (by
@@ -423,7 +423,7 @@ private theorem D_le_cubicCore (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) (hZ : Y.Z
   intro x hxD
   have hxA : x ∈ A := hDleA hxD
   rw [hAsupU] at hxA
-  haveI : IsMulCommutative ↥A := (isElemAbelian_Q_zero_inf_Q_two Y H hZ).1
+  have : IsMulCommutative ↥A := (isElemAbelian_Q_zero_inf_Q_two Y H hZ).1
   have hcommA : ∀ a ∈ U, ∀ b ∈ Y.Z 1, a * b = b * a := by
     intro a ha b hb
     exact congrArg Subtype.val (mul_comm' (⟨a, hUleA ha⟩ : ↥A)
@@ -494,7 +494,7 @@ private theorem D_eq_cubicCore (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) (hZ : Y.Z
     (hr : Y.IsMaxRegLen 6) (h7 : s = 7) {d : G} (hd : d ∈ Y.L 1) (hdJ : d ∈ Y.J 1)
     (hd3 : orderOf d = 3) :
     Y.Q 0 ⊓ Y.Q 2 ⊓ Subgroup.centralizer ({d} : Set G) = cubicCore Y := by
-  haveI := finite_cubicCore Y
+  have := finite_cubicCore Y
   exact Subgroup.eq_of_le_of_card_ge (D_le_cubicCore Y H hZ hr h7 hd hdJ hd3)
     (by rw [card_cubicCore Y H hr h7, card_D_eq Y H hZ h7 hd hd3])
 
@@ -524,9 +524,9 @@ private theorem Z1_irreducible (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) (hZ : Y.Z
   · exact Or.inr htop
   exfalso
   have hcardZ : Nat.card (Y.Z 1) = 4 := card_Z1_eq Y H hZ
-  haveI hfinZ : Finite ↥(Y.Z 1) :=
+  have hfinZ : Finite ↥(Y.Z 1) :=
     finite_of_le_stabilizer Y.hyp (H := Y.Z 1) (Y.Z_le_Gi 1)
-  haveI hfinW : Finite ↥W :=
+  have hfinW : Finite ↥W :=
     Finite.of_injective (Subgroup.inclusion hW) (Subgroup.inclusion_injective hW)
   have hdvdW : Nat.card ↥W ∣ 4 := by
     rw [← hcardZ]
@@ -542,7 +542,7 @@ private theorem Z1_irreducible (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) (hZ : Y.Z
   obtain ⟨w, hw1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hne
   have hcardW : Nat.card ↥W = 2 := by
     have hgt : 1 < Nat.card ↥W := by
-      haveI : Nontrivial ↥W := W.nontrivial_iff_ne_bot.mpr hne
+      have : Nontrivial ↥W := W.nontrivial_iff_ne_bot.mpr hne
       exact Finite.one_lt_card
     have hcases : Nat.card ↥W = 2 ∨ Nat.card ↥W = 3 := by omega
     rcases hcases with h2 | h3
@@ -598,7 +598,7 @@ private theorem comm_A_Q_one_eq_Z1 (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀)
       have hxcen : x ∈ centerOf (Y.Q 1) := Subgroup.mem_inf.mpr ⟨hxQ, hxC⟩
       rw [← hcenA]
       exact ⟨hxcen, hx⟩
-    haveI : Finite ↥(Y.Z 1) :=
+    have : Finite ↥(Y.Z 1) :=
       finite_of_le_stabilizer Y.hyp (H := Y.Z 1) (Y.Z_le_Gi 1)
     have hAZ : Nat.card ↥(Y.Q 0 ⊓ Y.Q 2) ≤ Nat.card ↥(Y.Z 1) :=
       Nat.card_le_card_of_injective (Subgroup.inclusion hAleZ)
@@ -621,7 +621,7 @@ private theorem comm_D_Q_one_eq_Z1 (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀)
   have hZ1leA : Y.Z 1 ≤ A := by rw [hAsup]; exact le_sup_right
   have hAZ := comm_A_Q_one_eq_Z1 Y H hZ h7
   have habel : IsMulCommutative ↥A := (isElemAbelian_Q_zero_inf_Q_two Y H hZ).1
-  haveI : IsMulCommutative ↥A := habel
+  have : IsMulCommutative ↥A := habel
   have hcommA : ∀ x ∈ D, ∀ z ∈ Y.Z 1, x * z = z * x := by
     intro x hx z hz
     exact congrArg Subtype.val (mul_comm' (⟨x, hDleA hx⟩ : ↥A) (⟨z, hZ1leA hz⟩ : ↥A))
@@ -829,17 +829,17 @@ private theorem commutator_le_of_isL2Quot_finite (Y : Setup Γ G) (H : Y.Sec5Hyp
   let Hgrp := ↥(Y.L 0)
   let N' : Subgroup Hgrp := N.subgroupOf (Y.L 0)
   let W' : Subgroup Hgrp := W.subgroupOf (Y.L 0)
-  haveI hTop : Group.IsPerfect ↥(⊤ : Subgroup Hgrp) := by
-    haveI : Group.IsPerfect Hgrp :=
+  have hTop : Group.IsPerfect ↥(⊤ : Subgroup Hgrp) := by
+    have : Group.IsPerfect Hgrp :=
       Subgroup.isPerfect_iff.mpr (L_zero_perfect Y H hZ hr h7 hd hdJ hd3)
     exact Group.IsPerfect.top_iff.mpr inferInstance
   have hquot' : IsL2Quot n₀ (oTwoQuot ↥(⊤ : Subgroup Hgrp)) :=
     isL2Quot_oTwoQuot_top (L := Y.L 0) (isL2Quot_L_zero Y H)
   have hLN' : (⊤ : Subgroup Hgrp) ≤ Subgroup.normalizer (N' : Set Hgrp) := by
-    haveI : N'.Normal := Subgroup.normal_subgroupOf_of_le_normalizer hLN
+    have : N'.Normal := Subgroup.normal_subgroupOf_of_le_normalizer hLN
     exact Subgroup.le_normalizer_of_normal
   have hLW' : (⊤ : Subgroup Hgrp) ≤ Subgroup.normalizer (W' : Set Hgrp) := by
-    haveI : W'.Normal := Subgroup.normal_subgroupOf_of_le_normalizer hLW
+    have : W'.Normal := Subgroup.normal_subgroupOf_of_le_normalizer hLW
     exact Subgroup.le_normalizer_of_normal
   have hWN' : W' ≤ N' := by
     intro x hx
@@ -855,9 +855,9 @@ private theorem commutator_le_of_isL2Quot_finite (Y : Setup Γ G) (H : Y.Sec5Hyp
   have hcard' : Nat.card N' = 2 ^ f * Nat.card W' := by
     rw [hcardN', hcardW']
     exact hcard
-  haveI hfinH : Finite Hgrp :=
+  have hfinH : Finite Hgrp :=
     finite_of_le_stabilizer Y.hyp (H := Y.L 0) (Y.L_le_Gi 0)
-  haveI := hWn'
+  have := hWn'
   have hle' := CFSG.Quasithin.H13.Sec526.commutator_le_of_isL2Quot
     (G := Hgrp) (L := ⊤) (N := N') (W := W') (n := n₀) (f := f)
     H.two_le hfm hTop hquot' hLN' hLW' hWN' hcard'
@@ -920,7 +920,7 @@ private theorem irred_Q (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) (hZ : Y.Zt 0 = �
   have hntW := not_commutator_le_Z_zero Y H hZ hperf hZW hWQ hne
   have hW2 : IsPGroup 2 W :=
     (pCoreOf_isPGroup' (Y.Gi 0)).to_le hWQ
-  haveI hfinW : Finite ↥W := by
+  have hfinW : Finite ↥W := by
     have hWleGi : W ≤ Y.Gi 0 := hWQ.trans (Y.Q_le_Gi 0)
     exact finite_of_le_stabilizer Y.hyp (H := W) hWleGi
   obtain ⟨f, hf⟩ : ∃ f, (Y.Z 0).relIndex W = 2 ^ f :=
@@ -939,7 +939,7 @@ private theorem irred_Q (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) (hZ : Y.Zt 0 = �
     exact hntW hle
   by_contra hWne
   have hQ2 : IsPGroup 2 (Y.Q 0) := pCoreOf_isPGroup' (Y.Gi 0)
-  haveI hfinQ2 : Finite ↥(Y.Q 0) :=
+  have hfinQ2 : Finite ↥(Y.Q 0) :=
     finite_of_le_stabilizer Y.hyp (H := Y.Q 0) (Y.Q_le_Gi 0)
   obtain ⟨e, he⟩ : ∃ e, W.relIndex (Y.Q 0) = 2 ^ e :=
     hQ2.index (W.subgroupOf (Y.Q 0))
@@ -1085,17 +1085,17 @@ private theorem n_eq_three_of_fields (Y : Setup Γ G) (h2 : 2 ≤ n₀)
   have hL' : (⊤ : Subgroup Lgrp) ≤
       Subgroup.normalizer (V' : Set Lgrp) ⊓ Subgroup.normalizer (Z' : Set Lgrp) := by
     refine le_inf ?_ ?_
-    · haveI : V'.Normal :=
+    · have : V'.Normal :=
         Subgroup.normal_subgroupOf_of_le_normalizer (L_zero_le_normalizer_Q_zero Y)
       exact Subgroup.le_normalizer_of_normal
-    · haveI : Z'.Normal := Subgroup.normal_subgroupOf_of_le_normalizer hZ0norm
+    · have : Z'.Normal := Subgroup.normal_subgroupOf_of_le_normalizer hZ0norm
       exact Subgroup.le_normalizer_of_normal
   have hirr' := irred_subgroupOf (L := Y.L 0) (V := Y.Q 0) (Z := Y.Z 0) hZL hQL hirr
   have hnt' := nontriv_subgroupOf (L := Y.L 0) (V := Y.Q 0) (Z := Y.Z 0) hQL hnt
   have hcard' : Z'.relIndex V' = 2 ^ (2 * n₀ + 2) := by
     rw [Subgroup.relIndex_subgroupOf (H := Y.Z 0) (K := Y.Q 0) (L := Y.L 0) hQL]
     exact hcard
-  haveI : Finite Lgrp := finite_of_le_stabilizer Y.hyp (H := Y.L 0) (Y.L_le_Gi 0)
+  have : Finite Lgrp := finite_of_le_stabilizer Y.hyp (H := Y.L 0) (Y.L_le_Gi 0)
   exact CFSG.Quasithin.St84.eq_three_of_irreducible_of_relIndex h2 hquot' hVZ hsec' hL'
     hirr' hnt' hcard'
 

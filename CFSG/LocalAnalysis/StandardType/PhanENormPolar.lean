@@ -236,8 +236,8 @@ theorem exists_coord_perp [Finite K] (hσ : σ ^ 2 = 1) (hne : σ ≠ 1) {n : �
       (U.orthogonalBilin h).orthogonalBilin h = U) :
     ∃ e : (Fin n → K) ≃ₗ[K] (Fin n → K), ∀ (U : Submodule K (Fin n → K)) (v : Fin n → K),
       v ∈ U.orthogonalBilin h ↔ ∀ u ∈ U, CFSG.ClassicalGroups.Unitary.herm σ (e u) (e v) = 0 := by
-  haveI : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
-  haveI : Nontrivial (Fin n → K) := Function.nontrivial
+  have : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
+  have : Nontrivial (Fin n → K) := Function.nontrivial
   have hrefl : h.IsRefl := isRefl_of_perp_perp σ hperp
   obtain ⟨e, l, hl0, he⟩ := exists_coord_herm σ hσ hne hnd hrefl
   have hfin : Module.finrank K (Fin n → K) = n := Module.finrank_fin_fun K

@@ -30,10 +30,10 @@ private theorem lead_rot_single_inl (i : Fin n) :
   rcases k with j | j <;> by_cases h : j = i
   · subst j; simp [rot_apply_inl]
   · rw [rot_apply_of_ne i _ (by simpa [planeOf] using h)]
-    simp [Pi.single_apply, h]
+    simp [h]
   · subst j; simp [rot_apply_inr]
   · rw [rot_apply_of_ne i _ (by simpa [planeOf] using h)]
-    simp [Pi.single_apply, h]
+    simp [h]
 
 private theorem lead_rot_single_inr (i : Fin n) :
     rot n i (Pi.single (Sum.inr i) (1 : ZMod 2)) =
@@ -42,10 +42,10 @@ private theorem lead_rot_single_inr (i : Fin n) :
   rcases k with j | j <;> by_cases h : j = i
   · subst j; simp [rot_apply_inl]
   · rw [rot_apply_of_ne i _ (by simpa [planeOf] using h)]
-    simp [Pi.single_apply, h]
+    simp [h]
   · subst j; simp [rot_apply_inr]
   · rw [rot_apply_of_ne i _ (by simpa [planeOf] using h)]
-    simp [Pi.single_apply, h]
+    simp [h]
 
 private theorem toral_lead_off_plane {g : V n ≃ₗ[ZMod 2] V n} {i : Fin n}
     (hc : Commute g (rot n i)) {k : Fin n ⊕ Fin n} (hk : planeOf k ≠ i) :
@@ -95,42 +95,40 @@ private theorem toral_lead_exists_pow_rot {g : V n ≃ₗ[ZMod 2] V n} {i : Fin 
     · refine ⟨0, by omega, ?_⟩
       funext k
       rcases k with j | j <;> by_cases h : j = i
-      · subst j; simp [H.1, pow_two, LinearEquiv.mul_apply, rot_apply_inl, rot_apply_inr]
+      · subst j; simp [H.1]
       · have hgk := (toral_lead_off_plane hc (k := Sum.inl j) (by simpa [planeOf] using h)).1
-        simp only [pow_two, LinearEquiv.mul_apply, pow_zero, pow_one]
-        repeat rw [rot_apply_of_ne i _ (k := Sum.inl j) (by simpa [planeOf] using h)]
-        simp [hgk, Pi.single_apply, h]
-      · subst j; simp [H.2, pow_two, LinearEquiv.mul_apply, rot_apply_inl, rot_apply_inr]
+        simp only [pow_zero]
+        simp [hgk, h]
+      · subst j; simp [H.2]
       · have hgk := (toral_lead_off_plane hc (k := Sum.inr j) (by simpa [planeOf] using h)).1
-        simp only [pow_two, LinearEquiv.mul_apply, pow_zero, pow_one]
-        repeat rw [rot_apply_of_ne i _ (k := Sum.inr j) (by simpa [planeOf] using h)]
-        simp [hgk, Pi.single_apply, h]
+        simp only [pow_zero]
+        simp [hgk]
     · refine ⟨1, by omega, ?_⟩
       funext k
       rcases k with j | j <;> by_cases h : j = i
-      · subst j; simp [H.1, pow_two, LinearEquiv.mul_apply, rot_apply_inl, rot_apply_inr]
+      · subst j; simp [H.1, rot_apply_inl]
       · have hgk := (toral_lead_off_plane hc (k := Sum.inl j) (by simpa [planeOf] using h)).1
-        simp only [pow_two, LinearEquiv.mul_apply, pow_zero, pow_one]
+        simp only [pow_one]
         repeat rw [rot_apply_of_ne i _ (k := Sum.inl j) (by simpa [planeOf] using h)]
-        simp [hgk, Pi.single_apply, h]
-      · subst j; simp [H.2, pow_two, LinearEquiv.mul_apply, rot_apply_inl, rot_apply_inr]
+        simp [hgk, h]
+      · subst j; simp [H.2, rot_apply_inr]
       · have hgk := (toral_lead_off_plane hc (k := Sum.inr j) (by simpa [planeOf] using h)).1
-        simp only [pow_two, LinearEquiv.mul_apply, pow_zero, pow_one]
+        simp only [pow_one]
         repeat rw [rot_apply_of_ne i _ (k := Sum.inr j) (by simpa [planeOf] using h)]
-        simp [hgk, Pi.single_apply, h]
+        simp [hgk]
     · refine ⟨2, by omega, ?_⟩
       funext k
       rcases k with j | j <;> by_cases h : j = i
       · subst j; simp [H.1, pow_two, LinearEquiv.mul_apply, rot_apply_inl, rot_apply_inr]
       · have hgk := (toral_lead_off_plane hc (k := Sum.inl j) (by simpa [planeOf] using h)).1
-        simp only [pow_two, LinearEquiv.mul_apply, pow_zero, pow_one]
+        simp only [pow_two, LinearEquiv.mul_apply]
         repeat rw [rot_apply_of_ne i _ (k := Sum.inl j) (by simpa [planeOf] using h)]
-        simp [hgk, Pi.single_apply, h]
+        simp [hgk, h]
       · subst j; simp [H.2, pow_two, LinearEquiv.mul_apply, rot_apply_inl, rot_apply_inr]
       · have hgk := (toral_lead_off_plane hc (k := Sum.inr j) (by simpa [planeOf] using h)).1
-        simp only [pow_two, LinearEquiv.mul_apply, pow_zero, pow_one]
+        simp only [pow_two, LinearEquiv.mul_apply]
         repeat rw [rot_apply_of_ne i _ (k := Sum.inr j) (by simpa [planeOf] using h)]
-        simp [hgk, Pi.single_apply, h]
+        simp [hgk]
   obtain ⟨m, hm, he⟩ := hex
   refine ⟨m, hm, he, ?_⟩
   have h1 := congrArg (fun a : V n ≃ₗ[ZMod 2] V n =>
@@ -148,7 +146,7 @@ private theorem lead_single_mem_complement {S : Finset (Fin n)} {k : Fin n ⊕ F
   by_cases h : l = k
   · subst l
     exact (hl (Finset.mem_compl.mpr hk)).elim
-  · simp [Pi.single_apply, h]
+  · simp [h]
 
 theorem mem_torus_of_fix_compl_of_commute {S : Finset (Fin n)} {g : V n ≃ₗ[ZMod 2] V n}
     (hg : ∀ v ∈ planeSpan n Sᶜ, g v = v) (hc : ∀ i ∈ S, Commute g (rot n i)) :
@@ -213,13 +211,13 @@ private lemma crefl_inl_apply_single_inl (i : Fin n) :
     crefl n (Sum.inl i) (Pi.single (Sum.inl i) (1 : ZMod 2)) =
       Pi.single (Sum.inl i) (1 : ZMod 2) := by
   rw [crefl_inl_apply]
-  simp [Pi.single_apply, Sum.inr_ne_inl]
+  simp [Sum.inr_ne_inl]
 
 private lemma crefl_inl_apply_single_inr (i : Fin n) :
     crefl n (Sum.inl i) (Pi.single (Sum.inr i) (1 : ZMod 2)) =
       Pi.single (Sum.inr i) (1 : ZMod 2) + Pi.single (Sum.inl i) (1 : ZMod 2) := by
   rw [crefl_inl_apply]
-  simp [Pi.single_apply, Sum.inr_ne_inl]
+  simp
 
 private lemma crefl_inl_apply_of_eq_zero {i : Fin n} {v : V n}
     (hv : v (Sum.inr i) = 0) : crefl n (Sum.inl i) v = v := by
@@ -285,7 +283,7 @@ private lemma crefl_mul_apply_single_inl {i j : Fin n} :
   have hfix : crefl n (Sum.inl j) (Pi.single (Sum.inl i) (1 : ZMod 2)) =
       Pi.single (Sum.inl i) (1 : ZMod 2) := by
     apply crefl_inl_apply_of_eq_zero
-    simp [Pi.single_apply]
+    simp
   rw [hfix, crefl_inl_apply_single_inl]
 
 private lemma crefl_mul_apply_single_inr {i j : Fin n} (hij : i ≠ j) :
@@ -298,7 +296,7 @@ private lemma crefl_mul_apply_single_inr {i j : Fin n} (hij : i ≠ j) :
     apply crefl_inl_apply_of_eq_zero
     have hne : (Sum.inr i : Fin n ⊕ Fin n) ≠ (Sum.inr j : Fin n ⊕ Fin n) :=
       fun h => hij (Sum.inr.inj h)
-    simp [Pi.single_apply, hne]
+    simp [hne]
   rw [hfix, crefl_inl_apply_single_inr]
 
 private theorem fix_single_inl_inr_of_mem_torus_of_commute
@@ -344,14 +342,14 @@ private theorem fix_single_inl_inr_of_mem_torus_of_commute
         rw [pow_one, lead_rot_single_inl]
       rw [h1, crefl_mul_apply_single_inr hij] at hmain
       have hcoord := congrFun hmain (Sum.inl i)
-      simp [Pi.single_apply, Sum.inr_ne_inl] at hcoord
+      simp at hcoord
     · exfalso
       have h2 : (rot n i ^ 2) (Pi.single (Sum.inl i) (1 : ZMod 2)) =
           Pi.single (Sum.inl i) 1 + Pi.single (Sum.inr i) 1 :=
         rot_sq_apply_single_inl i
       rw [h2, hsum] at hmain
       have hcoord := congrFun hmain (Sum.inl i)
-      simp [Pi.single_apply] at hcoord
+      simp at hcoord
   refine ⟨?_, ?_⟩
   · rw [hm0, pow_zero] at hm_inl
     simpa using hm_inl

@@ -94,8 +94,8 @@ theorem four_le_card_fixV {V : Type*} [CommGroup V] [Finite V] (hV : ∀ v : V, 
     have hv := congrArg Subtype.val hij
     have hx1'' : (1 : V) ≠ x := fun h => hx1' h.symm
     fin_cases i <;> fin_cases j <;> simp [f] at hv ⊢ <;> first
-      | exact hx1 hv | exact hx1 hv.symm | exact hx1'' hv | exact hx1' hv
-      | exact hx1' hv.symm | exact hτx1 hv | exact hτx1 hv.symm
+      | exact hx1 hv.symm | exact hx1'' hv
+      | exact hτx1 hv.symm
       | exact hprod1 hv | exact hprod1 hv.symm | exact hτx hv | exact hτx hv.symm
   have h4 := Nat.card_le_card_of_injective f hf
   rwa [Nat.card_eq_fintype_card (α := Fin 4), Fintype.card_fin] at h4

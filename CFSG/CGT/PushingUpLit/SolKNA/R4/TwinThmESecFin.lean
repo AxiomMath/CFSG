@@ -46,7 +46,7 @@ theorem MinCex.e18_5 {G : Type} [Group G] [Finite G] {Ω : Set (Subgroup G)} {K 
   have hR'Y : R' ≤ Y := hR'K'.trans hK'Y
   have hSY : IsSylow2In ((S : Subgroup G) ⊓ Y) Y := by
     refine isSylow2In_inf_of_le_normalizer ?_ le_top ?_
-    · exact ⟨le_top, S.isPGroup', fun V' _ hV'2 hSV' => (S.maximal_isPGroup.eq_of_ge hV'2 hSV')⟩
+    · exact ⟨le_top, S.isPGroup, fun V' _ hV'2 hSV' => (S.maximal_isPGroup.eq_of_ge hV'2 hSV')⟩
     · intro x _
       exact mem_normalizer_iff_conjSub_eq.mpr (AscQuot.conjSub_eq_of_normal _ x)
   have hRsyl : IsSylow2In R K := Sec6Gen.isSylow2In_of_mem_RSet_of_le hΩ hK hRR hRK
@@ -87,10 +87,10 @@ theorem MinCex.e18_5 {G : Type} [Group G] [Finite G] {Ω : Set (Subgroup G)} {K 
   exact e18_2 G Ω K S R W H c u (hRK huR) hu4 g (hYH (hle (conj_mem_conjSub (hRK huR))))
 
 theorem e18_5 : E18_5 r :=
-  fun G _ _ Ω K S R W H c => c.e18_5 c.stand.ih.t4
+  fun _G _ _ _Ω _K _S _R _W _H c => c.e18_5 c.stand.ih.t4
 
 theorem e18_4C : E18_4C r :=
-  fun G _ _ Ω K S R W H c K' hK' hne R' hR' hR'K' h2 w hw1 hw2 hRw hw =>
+  fun _G _ _ _Ω _K _S _R _W _H c _K' hK' hne _R' hR' hR'K' h2 _w hw1 hw2 hRw hw =>
     c.e18_4C c.stand.ih.t4 hK' hne hR' hR'K' h2 hw1 hw2 hRw hw
 
 

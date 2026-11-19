@@ -14,16 +14,16 @@ theorem burnsideAut_a315_tits :
     ∀ (G : Type) [Group G] (L T B : Subgroup G), CFSG.Quasithin.A315Hyp L T B →
       CFSG.Quasithin.IsTits ↥L → CFSG.Quasithin.A315Case7 L T B := by
   intro G _ L T B h hL
-  haveI : Finite G := h.sqtk.finite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite G := h.sqtk.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hOut : ∀ α : MulAut ↥L, Odd (orderOf α) → ∃ l : ↥L, α = MulAut.conj l := by
     intro α hα
     obtain ⟨l, hl⟩ := burnsideA26_tits hL α hα
     exact ⟨l, hl.symm⟩
   obtain ⟨hBL, hc⟩ := burnsideA315x_config_of_hyp h hOut
   obtain ⟨e⟩ := titsModelEquiv ↥L 2 1 hL
-  haveI := h.simple
-  haveI : IsSimpleGroup ↥titsD := e.symm.isSimpleGroup
+  have := h.simple
+  have : IsSimpleGroup ↥titsD := e.symm.isSimpleGroup
   have hnab : ∃ a b : ↥titsD, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := h.nonabelian
     refine ⟨e a, e b, fun h' => hab (e.injective ?_)⟩

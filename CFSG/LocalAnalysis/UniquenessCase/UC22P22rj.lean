@@ -20,7 +20,7 @@ section Image
 
 theorem uc22p22r_pCoreOf_le_of_isSubnormal {K L : Subgroup G} (h : CFSG.Open.IsSubnormal K L) :
     CFSG.Open.pCoreOf 2 K ≤ CFSG.Open.pCoreOf 2 L := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   induction h with
   | refl A => exact le_rfl
   | @step A M B hAM hn _ ih =>
@@ -32,7 +32,7 @@ theorem uc22p22r_pCoreOf_le_of_isSubnormal {K L : Subgroup G} (h : CFSG.Open.IsS
 
 theorem uc22p22r_ker_inclusion_pCore {K L : Subgroup G} (h : CFSG.Open.IsSubnormal K L) :
     ((QuotientGroup.mk' (CFSG.pCore 2 ↥L)).comp (Subgroup.inclusion h.le)).ker = CFSG.pCore 2 ↥K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hker : ((QuotientGroup.mk' (CFSG.pCore 2 ↥L)).comp (Subgroup.inclusion h.le)).ker =
       (CFSG.pCore 2 ↥L).comap (Subgroup.inclusion h.le) := by
     rw [← MonoidHom.comap_ker, QuotientGroup.ker_mk']
@@ -111,8 +111,8 @@ theorem uc22p22r_component_le_or_le [Finite X] {A₁ A₂ K' : Subgroup X} [A₁
     rw [Subgroup.mem_center_iff]
     intro g
     exact ((Subgroup.mem_centralizer_iff.1 (htop (Subgroup.mem_top g))) k hk).symm
-  haveI : Group.IsPerfect ↥K' := ⟨hK'.2.2.1⟩
-  haveI : Nontrivial ↥K' := CFSG.ComponentClassification.Quasisimple.nontrivial hK'.2.2
+  have : Group.IsPerfect ↥K' := ⟨hK'.2.2.1⟩
+  have : Nontrivial ↥K' := CFSG.ComponentClassification.Quasisimple.nontrivial hK'.2.2
   exact (Subgroup.nontrivial_iff_ne_bot K').1 inferInstance
     (CFSG.ComponentClassification.Quasisimple.perfect_le_center_eq_bot K' hcen)
 
@@ -158,15 +158,15 @@ theorem uc22p22r_lieModel_quot_center_congr {P W : Type} [Group P] [Group W] (e 
 
 theorem uc22p22r_ne_bot_of_equiv {X P : Type} [Group X] [Group P] {K' : Subgroup X} (e : P ≃* ↥K')
     (hP : CFSG.Open.IsQuasisimple P) : K' ≠ ⊥ := by
-  haveI : Nontrivial P := CFSG.ComponentClassification.Quasisimple.nontrivial hP
-  haveI : Nontrivial ↥K' := e.symm.toEquiv.nontrivial
+  have : Nontrivial P := CFSG.ComponentClassification.Quasisimple.nontrivial hP
+  have : Nontrivial ↥K' := e.symm.toEquiv.nontrivial
   exact (Subgroup.nontrivial_iff_ne_bot K').1 inferInstance
 
 theorem uc22p22r_lieModel_of_quasisimple {X P : Type} [Group X] [Group P] {K' : Subgroup X} (e : P ≃* ↥K')
     (hP : CFSG.Open.IsQuasisimple P) (hsub : CFSG.Open.IsSubnormal K' ⊤) (hX : CFSG.Open.IsQuasisimple X)
     {t : CFSG.Assembly.LowTwoRank.StatedLieTag} {m n : ℕ} (h : LieModel (X ⧸ Subgroup.center X) t m 2 n) :
     LieModel (P ⧸ Subgroup.center P) t m 2 n := by
-  haveI : Group.IsPerfect ↥K' := ⟨(CFSG.Open.IsQuasisimple.of_mulEquiv e.symm hP).1⟩
+  have : Group.IsPerfect ↥K' := ⟨(CFSG.Open.IsQuasisimple.of_mulEquiv e.symm hP).1⟩
   have htop : K' = ⊤ :=
     (CFSG.ComponentClassification.Quasisimple.perfect_subnormal_eq_bot_or_eq_top hX K' hsub).resolve_left
       (uc22p22r_ne_bot_of_equiv e hP)
@@ -178,8 +178,8 @@ theorem uc22p22r_lieModel_of_suCentralSquare {X P : Type} [Group X] [Finite X] [
   obtain ⟨K₁, K₂, hsup, hcomm, hK₁, hK₂, -⟩ := h
   have hK' : CFSG.Open.IsComponentOf K' ⊤ :=
     ⟨le_top, hsub, CFSG.Open.IsQuasisimple.of_mulEquiv e.symm hP⟩
-  haveI : K₁.Normal := uc22p22r_normal_of_commuting hsup hcomm
-  haveI : K₂.Normal :=
+  have : K₁.Normal := uc22p22r_normal_of_commuting hsup hcomm
+  have : K₂.Normal :=
     uc22p22r_normal_of_commuting (by rwa [sup_comm]) fun a ha b hb => (hcomm b hb a ha).symm
   have hc₁ : CFSG.Open.IsComponentOf K₁ ⊤ :=
     ⟨le_top, CFSG.Open.IsSubnormal.of_mathlib (Subgroup.Normal.isSubnormal ‹_›), hK₁.1⟩
@@ -202,8 +202,8 @@ theorem uc22p22r_lieModel_quot_center {P X : Type} [Group P] [Group X] (e : P �
     (ht : t = .PSL ∨ t = .PSU ∨ t = .PSp ∨ t = .POmegaMinus ∨ t = .twistedB2 ∨ t = .G2 ∨
       t = .trialityD4 ∨ t = .twistedF4)
     (h : LieModel X t m 2 n) : LieModel (P ⧸ Subgroup.center P) t m 2 n := by
-  haveI : IsSimpleGroup X := uc22p22r_lieModel_isSimple ht h
-  haveI : IsSimpleGroup P := e.isSimpleGroup
+  have : IsSimpleGroup X := uc22p22r_lieModel_isSimple ht h
+  have : IsSimpleGroup P := e.isSimpleGroup
   have hc : Subgroup.center P = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center P) with h0 | h0
     · exact h0
@@ -223,7 +223,7 @@ theorem uc22p22r_lieModel_of_subnormal {X P : Type} [Group X] [Group P] {K' : Su
     (ht : t = .PSL ∨ t = .PSU ∨ t = .PSp ∨ t = .POmegaMinus ∨ t = .twistedB2 ∨ t = .G2 ∨
       t = .trialityD4 ∨ t = .twistedF4)
     (h : LieModel X t m 2 n) : LieModel (P ⧸ Subgroup.center P) t m 2 n := by
-  haveI : IsSimpleGroup X := uc22p22r_lieModel_isSimple ht h
+  have : IsSimpleGroup X := uc22p22r_lieModel_isSimple ht h
   have htop : K' = ⊤ :=
     (CFSG.Open.IsSubnormal.eq_bot_or_top hsub).resolve_left (uc22p22r_ne_bot_of_equiv e hP)
   exact uc22p22r_lieModel_quot_center (e.trans ((MulEquiv.subgroupCongr htop).trans Subgroup.topEquiv)) hP ht h

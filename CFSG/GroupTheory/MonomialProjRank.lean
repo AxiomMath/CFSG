@@ -60,7 +60,7 @@ private theorem pmb_card_proj_bound {r m : ℕ} [Fact r.Prime] (hr2 : r ≠ 2) (
   have hr1 : r ≠ 1 := hp.ne_one
   have hr3 : 3 ≤ r := by have := hp.two_le; omega
   let x₀ : Fin m := ⟨0, hm⟩
-  haveI : FaithfulSMul B (Fin m) :=
+  have : FaithfulSMul B (Fin m) :=
     ⟨fun {g h} hgh => Subtype.ext (Equiv.ext hgh)⟩
   have hG : IsPGroup r B := fun g => ⟨1, by
     rw [pow_one]
@@ -95,14 +95,14 @@ private theorem pmb_card_proj_bound {r m : ℕ} [Fact r.Prime] (hr2 : r ≠ 2) (
           intro u
           apply Subtype.ext
           funext x
-          simp [cst, cstA, addA, subA, normU]
+          simp [cst, cstA, addA, normU]
         right_inv := by
           intro p
           apply Prod.ext
-          · simp [cst, cstA, addA, normU, p.2.2.1]
+          · simp [cst, cstA, addA, p.2.2.1]
           · apply Subtype.ext
             funext x
-            simp [cst, cstA, addA, subA, normU, p.2.2.1] }
+            simp [cst, cstA, addA, normU, p.2.2.1] }
     calc Nat.card A = Nat.card (ZMod r × U) := Nat.card_congr e
       _ = r * Nat.card U := by rw [Nat.card_prod, Nat.card_zmod]
   let n : MulAction.orbitRel.Quotient B (Fin m) → ℕ :=
@@ -115,7 +115,7 @@ private theorem pmb_card_proj_bound {r m : ℕ} [Fact r.Prime] (hr2 : r ≠ 2) (
     CFSG.LocalAnalysis.RankThreeUC.S15.ACore.pmb_card_le_prod_card_orbit
       (G := B) (X := Fin m) (hc := fun g h => Subtype.ext (hBc g g.2 h h.2))
   have ht : 0 < t := by
-    haveI : Nonempty (MulAction.orbitRel.Quotient B (Fin m)) := ⟨Quotient.mk'' x₀⟩
+    have : Nonempty (MulAction.orbitRel.Quotient B (Fin m)) := ⟨Quotient.mk'' x₀⟩
     exact Nat.card_pos
   have hpow_t : r ^ t = r * r ^ (t - 1) := by
     conv_lhs => rw [show t = (t - 1) + 1 by omega]
@@ -212,8 +212,7 @@ theorem card_le_pow_sub_one_mul_card_inf_scalars_mon
   let T' : Subgroup (Mon C m) := T.map P.subtype
   have hT'eq : T' = P ⊓ monPerm.ker := by
     ext y
-    simp only [T', T, Subgroup.mem_map, MonoidHom.mem_ker, MonoidHom.comp_apply,
-      Subgroup.coe_subtype, Subgroup.mem_inf]
+    simp only [T', T, Subgroup.mem_map, MonoidHom.mem_ker, Subgroup.coe_subtype, Subgroup.mem_inf]
     constructor
     · rintro ⟨x, hx, rfl⟩
       exact ⟨x.2, hx⟩
@@ -301,7 +300,7 @@ theorem card_le_pow_sub_one_mul_card_inf_scalars_mon
     intro y i
     change (y.1.left i / y.1.left i0) ^ r = 1
     rw [div_pow, hpowD y i, hpowD y i0]
-    simp [div_eq_mul_inv]
+    simp
   let U : Set (Fin m → ZMod r) :=
     {u | u i0 = 0 ∧ ∀ b ∈ B, ∃ c : ZMod r, ∀ i, u (b⁻¹ i) - u i = c}
   have hU : Nat.card B * Nat.card U ≤ r ^ (m - 1) :=
@@ -353,7 +352,7 @@ theorem card_le_pow_sub_one_mul_card_inf_scalars_mon
         simp only [Pi.mul_apply, Pi.inv_apply, Function.comp_apply]
         rw [← div_eq_mul_inv, div_pow, hpowD x (pr.symm (pr.symm i0)),
           hpowD x (pr.symm i0)]
-        simp [div_eq_mul_inv]
+        simp
       refine ⟨torsionLog hCr ⟨z, hzmem⟩, fun i => ?_⟩
       have hb_eq : b⁻¹ i = pr.symm i := by rw [← hpx]; rfl
       have hzrel : ξ x (pr.symm i) = z * ξ x i := by
@@ -365,7 +364,6 @@ theorem card_le_pow_sub_one_mul_card_inf_scalars_mon
         generalize ha : xl (pr.symm i) = a
         generalize hb : xl i = bb
         generalize hc : xl i0 = cc
-        change a / cc = (a * bb⁻¹) * (bb / cc)
         have key : ∀ x y z : C, x * y⁻¹ * (y * z⁻¹) = x * z⁻¹ := by
           intro x y z
           group
@@ -477,14 +475,14 @@ private theorem mem_scalars_of_monEmb_mem_center
       coe_monEmb_apply] at h
     simp only [Matrix.diagonal_apply_eq] at h
     by_contra hne
-    rw [if_neg hne] at h
+    rw [ite_eq_right hne] at h
     exact u.ne_zero h
   have hent_eq : ∀ i, e (y.left i) = u := by
     intro i
     have h := congrFun (congrFun (congrArg (fun A : GL (Fin m) F =>
       (A : Matrix (Fin m) (Fin m) F)) hu) i) i
     rw [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply,
-      coe_monEmb_apply, if_pos (hent i)] at h
+      coe_monEmb_apply, ite_eq_left (hent i)] at h
     exact Units.ext (by simpa only [Matrix.diagonal_apply_eq] using h.symm)
   have hright : y.right = 1 := by
     have h : y.right⁻¹ = 1 := Equiv.ext hent
@@ -509,7 +507,7 @@ theorem card_le_pow_sub_one_mul_card_inf_scalars_GL
   classical
   rcases Nat.eq_zero_or_pos m with hm | hm
   · subst hm
-    haveI : Subsingleton (GL (Fin 0) F) := by
+    have : Subsingleton (GL (Fin 0) F) := by
       rw [← not_nontrivial_iff_subsingleton]
       rintro ⟨A, B, hAB⟩
       apply hAB
@@ -521,8 +519,8 @@ theorem card_le_pow_sub_one_mul_card_inf_scalars_GL
       rw [hRbot, bot_inf_eq]
     rw [hRbot, Subgroup.card_bot]
     simp
-  · haveI : Fact r.Prime := ⟨hr⟩
-    haveI : Fintype F := Fintype.ofFinite F
+  · have : Fact r.Prime := ⟨hr⟩
+    have : Fintype F := Fintype.ofFinite F
     have hcardF : r ∣ Fintype.card F - 1 := by rwa [Nat.card_eq_fintype_card] at hrF
     obtain ⟨g, hg⟩ := exists_conj_monomial_GL (F := F) (r := r) (m := m) hr2 hcardF hm R hR
     let e : unitsPPart F r →* Fˣ := (unitsPPart F r).subtype
@@ -540,7 +538,7 @@ theorem card_le_pow_sub_one_mul_card_inf_scalars_GL
       rw [← Subgroup.card_map_of_injective (K := P) (monEmb_injective (F := F) he m), hPmap]
     have hHR : Nat.card H = Nat.card R :=
       Subgroup.card_map_of_injective (MulAut.conj g).injective
-    haveI : Nontrivial (unitsPPart F r) := by
+    have : Nontrivial (unitsPPart F r) := by
       apply Finite.one_lt_card_iff_nontrivial.mp
       rw [card_unitsPPart F r]
       have hF2 : 1 < Fintype.card F := Fintype.one_lt_card

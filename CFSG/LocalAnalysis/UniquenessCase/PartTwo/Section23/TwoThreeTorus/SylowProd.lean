@@ -11,6 +11,7 @@ open CFSG.Quasithin Subgroup
 
 variable {Q : Type} [Group Q] [Finite Q]
 
+omit [Finite Q] in
 private lemma card_sup_mul_card_inf_of_comm_Tor5 {H K : Subgroup Q}
     (hcomm : ∀ h ∈ H, ∀ k ∈ K, h * k = k * h) :
     Nat.card ↥(H ⊔ K) * Nat.card ↥(H ⊓ K) = Nat.card ↥H * Nat.card ↥K := by
@@ -57,6 +58,7 @@ private lemma card_sup_mul_card_inf_of_comm_Tor5 {H K : Subgroup Q}
   rw [hker, hrange, Nat.card_prod] at hcard
   exact (mul_comm _ _).trans hcard
 
+omit [Finite Q] in
 private lemma sup_le_normalizer_left_Tor5 {X X' : Subgroup Q}
     (hcomm : ∀ x ∈ X, ∀ y ∈ X', x * y = y * x) :
     X ⊔ X' ≤ normalizer (X : Set Q) := by

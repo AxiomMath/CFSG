@@ -561,7 +561,7 @@ theorem le_normalizer_A (h : F.IsD D dD) {T : Subgroup G} (hT : IsPGroup 2 T)
     exact Subgroup.mem_subgroupOf.mp hmem
   have : Group.IsNilpotent T := hT.isNilpotent
   obtain ⟨g, hgN, hgH⟩ :=
-    SetLike.exists_of_lt (Group.normalizerCondition_of_isNilpotent H hHlt)
+    _root_.IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent H hHlt)
   set X : Subgroup G := F.A.map (MulAut.conj ((g : G)⁻¹)).toMonoidHom with hX
   have hmemX : ∀ x : G, x ∈ X ↔ (g : G) * x * (g : G)⁻¹ ∈ F.A := by
     intro x

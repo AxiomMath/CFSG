@@ -84,7 +84,7 @@ theorem four_le_card_inf_centralizer (hw : A7Witness K)
     exact cov.map_apply_eq_of_mem_evenCentralizer ᾱ hy'.2
   have hfixcard := cov.card_le_two_mul_card_fixedIn ᾱ HE hHE_fix
   set T : Subgroup ↥K := (R ⊓ Subgroup.centralizer ({a} : Set G)).subgroupOf K with hT
-  have hS2 : IsPGroup 2 ↥(R.subgroupOf K) := Q.isPGroup'
+  have hS2 : IsPGroup 2 ↥(R.subgroupOf K) := Q.isPGroup
   have hinj := Uniform.injective_mk_oddCore_of_isPGroup K hS2
   have hfixle : fixedIn ᾱ HE ≤ T.map (QuotientGroup.mk' N) := by
     rintro x ⟨hxHE, hxα⟩

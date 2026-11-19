@@ -34,7 +34,7 @@ theorem GGNbrLangAxisOuterOn.mono_of_lambda {S S' : ℕ → LargeEvenLabel → P
   rintro R _ I F ⟨hs, hna, θ, hPθ, hQ'⟩
   exact ⟨hs, hna, θ, hPθ, fun hS' => hQ' (hS p lab hp hp2 hlab hS')⟩
 
-theorem ggNbrLangS1Label_of_open {p : ℕ} {lab : LargeEvenLabel} (hp : p.Prime) (hp2 : p ≠ 2)
+theorem ggNbrLangS1Label_of_open {p : ℕ} {lab : LargeEvenLabel} (_hp : p.Prime) (hp2 : p ≠ 2)
     (hlab : LargeEvenInLambda2 lab) (h : GGNbrLangRest12NonRegOpenLabel p lab)
     (hT : ¬ GGNbrLangT3Label p lab) : GGNbrLangS1Label p lab := by
   obtain ⟨⟨⟨hR12, hnReg⟩, hnRank⟩, hSix⟩ := h

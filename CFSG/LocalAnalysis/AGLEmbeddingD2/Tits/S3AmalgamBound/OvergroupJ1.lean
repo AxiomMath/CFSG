@@ -15,10 +15,10 @@ open CFSG.Sporadic.J1 CFSG.AGLEmbeddingD2.Tits.S3AmalgamBound.OvergroupTransfer
 
 
 theorem N_isSolvable : Group.IsSolvable N := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hHN : H ≤ N := Subgroup.le_normalizer
   let H' : Subgroup N := H.subgroupOf N
-  haveI : H'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hHN).2 le_rfl
+  have : H'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hHN).2 le_rfl
   have hH'card : Nat.card H' = 3 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hHN).toEquiv, H, Nat.card_zpowers, orderOf_b]
   have hq : Nat.card (N ⧸ H') = 20 := by
@@ -45,7 +45,7 @@ theorem eqTop_normalizer (W : Subgroup J) (hNW : N ≤ W) (hW : ¬ CFSG.HallHigm
 
 theorem overgroupEqTop_J : OvergroupEqTop J := by
   intro hcyc A W hA hNW hW
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hHcard : Nat.card H = 3 := by rw [H, Nat.card_zpowers, orderOf_b]
   obtain ⟨g, hg⟩ := OvergroupConj.exists_conj_eq_of_card_three hcyc hHcard hA
   exact eqTop_of_map_eq (MulAut.conj g) hg hNW hW fun W' hN' hW' => eqTop_normalizer W' hN' hW'

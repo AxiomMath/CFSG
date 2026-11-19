@@ -41,11 +41,11 @@ theorem a7_eNine_le_normalizer_vOne :
   intro x hx
   rw [Subgroup.mem_normalizer_iff]
   intro h
-  simp only [SetLike.mem_coe, Subgroup.mem_subgroupOf, Subgroup.coe_mul, Subgroup.coe_inv]
+  simp only [Subgroup.mem_subgroupOf, Subgroup.coe_mul, Subgroup.coe_inv]
   exact (a7_conj_mem_vOne_iff (Subgroup.mem_subgroupOf.1 hx)).symm
 
 theorem a7_card : Nat.card (alternatingGroup (Fin 7)) = 2520 := by
-  rw [nat_card_alternatingGroup, Nat.card_eq_fintype_card, Fintype.card_fin] <;>
+  rw [nat_card_alternatingGroup, Nat.card_eq_fintype_card, Fintype.card_fin];
     norm_num [Nat.factorial]
 
 theorem a7_card_mulAut :
@@ -74,10 +74,10 @@ theorem norm2_alt7 : Norm2 (alternatingGroup (Fin 7)) := by
     alternatingGroup.center_eq_bot h4
   have hAut : Nat.card (MulAut (alternatingGroup (Fin 7))) ≤
       2 * Nat.card (alternatingGroup (Fin 7)) := by
-    rw [a7_card_mulAut, a7_card] <;> norm_num
+    rw [a7_card_mulAut, a7_card]
   have hcard : Nat.card (KFacts.KP2.eNine.subgroupOf (alternatingGroup (Fin 7))) =
       3 ^ (Nat.card (alternatingGroup (Fin 7))).factorization 3 := by
-    rw [a7_factorization_three, a7_card_eNine] <;> norm_num
+    rw [a7_factorization_three, a7_card_eNine]; norm_num
   have hleA : KFacts.KP2.vOne ≤ alternatingGroup (Fin 7) := a7_vOne_le_alternatingGroup
   have hcardV : Nat.card (KFacts.KP2.vOne.subgroupOf (alternatingGroup (Fin 7))) = 4 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hleA).toEquiv, KFacts.KP2.card_vOne]

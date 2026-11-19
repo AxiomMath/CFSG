@@ -275,7 +275,7 @@ private theorem primeOrder_perm_fixedPoints_orbit_formula
         (orderOf σ - 1) * Nat.card (Function.fixedPoints σ) =
       Nat.card (MulAction.orbitRel.Quotient (Subgroup.zpowers σ) X) *
         orderOf σ := by
-  letI : Fact (orderOf σ).Prime := ⟨hprime⟩
+  let : Fact (orderOf σ).Prime := ⟨hprime⟩
   have h := primeCard_fixedPoints_orbit_formula
     (G := Subgroup.zpowers σ) (X := X) (p := orderOf σ)
     (Fintype.card_zpowers (x := σ))

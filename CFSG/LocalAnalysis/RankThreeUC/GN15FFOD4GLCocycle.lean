@@ -273,7 +273,7 @@ private lemma transvection_cocycle_apply_self (h2 : ∀ a : K, a = 0 ∨ a = 1)
     simpa only [AddMonoidHom.zero_apply, AddMonoidHom.add_apply] using
       congrArg (fun g : (Fin 4 → K) →+ Z => g (Pi.single j (1 : K))) h
   rw [glDualAct_transvection_single h2 hij] at hval
-  simp only [if_true] at hval
+  simp only [ite_true] at hval
   have h2j : c (TauCeti.transvectionUnit hij (1 : K)) (Pi.single j (1 : K)) +
       c (TauCeti.transvectionUnit hij (1 : K)) (Pi.single j (1 : K)) = 0 :=
     map_add_self_eq_zero h2 _ _
@@ -313,7 +313,7 @@ private lemma transvection_cocycle_apply_ne (h2 : ∀ a : K, a = 0 ∨ a = 1)
   rw [glDualAct_transvection_single h2 hij (c u) l,
     glDualAct_transvection_single h2 (Ne.symm hlk)
       (c (TauCeti.transvectionUnit hij (1 : K))) l] at h
-  simp only [hlj, if_false, add_zero, if_true] at h
+  simp only [hlj, ite_false, add_zero, ite_true] at h
   have h' : c (TauCeti.transvectionUnit hij (1 : K)) (Pi.single l (1 : K)) +
         c u (Pi.single l (1 : K)) +
         c (TauCeti.transvectionUnit hij (1 : K)) (Pi.single k (1 : K)) =
@@ -378,14 +378,14 @@ private lemma transvection_cocycle_apply_e_j_eq (h2 : ∀ a : K, a = 0 ∨ a = 1
           (c (TauCeti.transvectionUnit hjk (1 : K))) (Pi.single k (1 : K)) =
       c (TauCeti.transvectionUnit hjk (1 : K)) (Pi.single k (1 : K)) := by
     rw [glDualAct_transvection_single h2 hij (c (TauCeti.transvectionUnit hjk (1 : K))) k,
-      if_neg hjk.symm, add_zero, hc_ij_k, zero_add]
+      ite_eq_right hjk.symm, add_zero, hc_ij_k, zero_add]
   have hM : c (TauCeti.transvectionUnit hjk (1 : K)) (Pi.single k (1 : K)) +
         glDualAct (TauCeti.transvectionUnit hjk (1 : K))
           (c (TauCeti.transvectionUnit hij (1 : K))) (Pi.single k (1 : K)) =
       c (TauCeti.transvectionUnit hjk (1 : K)) (Pi.single k (1 : K)) +
         c (TauCeti.transvectionUnit hij (1 : K)) (Pi.single j (1 : K)) := by
     rw [glDualAct_transvection_single h2 hjk (c (TauCeti.transvectionUnit hij (1 : K))) k,
-      if_pos rfl, hc_ij_k, zero_add]
+      ite_eq_left rfl, hc_ij_k, zero_add]
   have hN : glDualAct (TauCeti.transvectionUnit hjk (1 : K) *
         TauCeti.transvectionUnit hij (1 : K)) (c (TauCeti.transvectionUnit hik (1 : K)))
         (Pi.single k (1 : K)) =
@@ -394,10 +394,10 @@ private lemma transvection_cocycle_apply_e_j_eq (h2 : ∀ a : K, a = 0 ∨ a = 1
       glDualAct_transvection_single h2 hjk
         (glDualAct (TauCeti.transvectionUnit hij (1 : K))
           (c (TauCeti.transvectionUnit hik (1 : K)))) k,
-      if_pos rfl,
+      ite_eq_left rfl,
       glDualAct_transvection_single h2 hij (c (TauCeti.transvectionUnit hik (1 : K))) k,
       glDualAct_transvection_single h2 hij (c (TauCeti.transvectionUnit hik (1 : K))) j,
-      if_neg hjk.symm, hc_ik_j, hc_ik_i, if_pos rfl, add_zero, zero_add, add_zero]
+      ite_eq_right hjk.symm, hc_ik_j, hc_ik_i, ite_eq_left rfl, add_zero, zero_add, add_zero]
   rw [hL, hM, hN] at h
   have hbij : c (TauCeti.transvectionUnit hij (1 : K)) (Pi.single j (1 : K)) +
       c (TauCeti.transvectionUnit hij (1 : K)) (Pi.single j (1 : K)) = 0 :=
@@ -501,8 +501,8 @@ private lemma transvection_cocycle_eq_coboundary (h2 : ∀ a : K, a = 0 ∨ a = 
   rw [hRHS]
   by_cases hk : k = j
   · subst hk
-    rw [if_pos rfl, transvection_cocycle_apply_eq_beta h2 hc hij]
-  · rw [if_neg hk]
+    rw [ite_eq_left rfl, transvection_cocycle_apply_eq_beta h2 hc hij]
+  · rw [ite_eq_right hk]
     by_cases hki : k = i
     · subst hki
       exact transvection_cocycle_apply_self h2 hc hij

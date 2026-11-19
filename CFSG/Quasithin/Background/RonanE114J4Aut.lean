@@ -15,6 +15,7 @@ section Aut
 
 variable {S : Type} [Group S] [Finite S]
 
+omit [Finite S] in
 theorem center_eq_bot_of_simple_nonabelian [IsSimpleGroup S] (hnc : ∃ x y : S, x * y ≠ y * x) :
     Subgroup.center S = ⊥ := by
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center S) with h | h
@@ -26,6 +27,7 @@ theorem center_eq_bot_of_simple_nonabelian [IsSimpleGroup S] (hnc : ∃ x y : S,
       exact Subgroup.mem_top x
     exact hxy (Subgroup.mem_center_iff.mp hx y).symm
 
+omit [Finite S] in
 theorem conj_injective_of_center_eq_bot (hZ : Subgroup.center S = ⊥) :
     Function.Injective (MulAut.conj : S →* MulAut S) := by
   rw [injective_iff_map_eq_one]
@@ -43,6 +45,7 @@ theorem conj_injective_of_center_eq_bot (hZ : Subgroup.center S = ⊥) :
 noncomputable def innerEquiv (hZ : Subgroup.center S = ⊥) : S ≃* ↥(inner S) :=
   MonoidHom.ofInjective (conj_injective_of_center_eq_bot hZ)
 
+omit [Finite S] in
 theorem centralizer_inner_eq_bot (hZ : Subgroup.center S = ⊥) :
     Subgroup.centralizer ((inner S : Subgroup (MulAut S)) : Set (MulAut S)) = ⊥ := by
   rw [eq_bot_iff]

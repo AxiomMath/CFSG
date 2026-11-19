@@ -76,7 +76,7 @@ theorem card_le_four_of_card_le_eight {H : Type*} [Group H] [Finite H] (Z : Subg
     (U : Subgroup (H ⧸ Z)) (hU : IsPGroup 2 U)
     (hUA : U ≤ centralizer ((A.map (QuotientGroup.mk' Z) : Subgroup (H ⧸ Z)) : Set (H ⧸ Z))) :
     Nat.card U ≤ 4 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hB : U ≤ (QuotientGroup.mk' Z).range := by
     rw [QuotientGroup.range_mk']; exact le_top
   have hcard : Nat.card (U.comap (QuotientGroup.mk' Z)) = Nat.card U * 2 := by

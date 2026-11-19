@@ -18,6 +18,7 @@ open scoped commutatorElement
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem s16h_not_isCyclic_of_isElemAbelian_sq {q : ℕ} (hq : q.Prime) {E : Subgroup X}
     (hE : IsElemAbelian q E) (hcard : q ^ 2 ≤ Nat.card E) : ¬ IsCyclic E := by
   intro hcyc
@@ -37,7 +38,7 @@ theorem s16h_join_elemAbelian_of_prime {A B : Subgroup X} {q : ℕ} (hq : q.Prim
     (hcomm : ⁅A, B⁆ = ⊥) (hqA : q ∣ Nat.card ↥A) :
     ∃ E : Subgroup X, E ≤ A ⊔ B ∧ IsElemAbelian q E ∧ Nat.card E = q ^ 2 := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hqB : q ∣ Nat.card ↥B := by rw [← hcard]; exact hqA
   obtain ⟨a, ha⟩ := exists_prime_orderOf_dvd_card' (G := ↥A) q hqA
   obtain ⟨b, hb⟩ := exists_prime_orderOf_dvd_card' (G := ↥B) q hqB
@@ -76,9 +77,9 @@ theorem s16h_join_elemAbelian_of_prime {A B : Subgroup X} {q : ℕ} (hq : q.Prim
           rw [show (a * x * a⁻¹) * a⁻¹ * a = a * x * a⁻¹ from by group]
           exact hx.2
         rwa [show a⁻¹ * (a * x * a⁻¹) * a = x from by group] at hmem
-  haveI : ((A ⊓ B).subgroupOf A).Normal :=
+  have : ((A ⊓ B).subgroupOf A).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hnorm
-  haveI : IsSimpleGroup ↥A := hA
+  have : IsSimpleGroup ↥A := hA
   have hdisj : A ⊓ B = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((A ⊓ B).subgroupOf A) with h | h
     · refine le_bot_iff.mp fun x hx => ?_

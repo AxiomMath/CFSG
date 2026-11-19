@@ -61,12 +61,12 @@ theorem rankThreeCent_of_tailEquiv {p : ℕ} [hp : Fact p.Prime] {K : Type} [Fie
 theorem rankThreeCent_pomegaOdd {p n f : ℕ} [hp : Fact p.Prime] (hn : 3 ≤ n) {G : Type}
     [Group G] [Finite G] (h : StatedClassicalModel G .POmegaOdd n p f) : RankThreeCent p G := by
   obtain ⟨⟨-, hf, -, hp2⟩, K, hKf, hKfin, hK, ⟨θ⟩⟩ := h
-  letI := hKf
-  letI := hKfin
-  haveI : CharP K p := charP_of_card_eq_prime_pow hf hK
+  let := hKf
+  let := hKfin
+  have : CharP K p := charP_of_card_eq_prime_pow hf hK
   have hK2 : ringChar K ≠ 2 := by rw [ringChar.eq K p]; exact hp2
   have h2 : (2 : K) ≠ 0 := Ring.two_ne_zero hK2
-  haveI : Nonempty (Fin n ⊕ Fin n ⊕ Unit) := ⟨Sum.inr (Sum.inr ())⟩
+  have : Nonempty (Fin n ⊕ Fin n ⊕ Unit) := ⟨Sum.inr (Sum.inr ())⟩
   exact rankThreeCent_of_tailEquiv (p := p) hn anisotropic_oddTailForm
     (nondegenerate_oddTailForm h2) (Or.inl finrank_unit_fun)
     (tailOmegaEquiv (oddTailIsometry n K) (coe_quadOdd n K)
@@ -76,10 +76,10 @@ theorem rankThreeCent_pomegaMinus {p n f : ℕ} [hp : Fact p.Prime] (hn : 4 ≤ 
     [Group G] [Finite G] (h : StatedClassicalModel G .POmegaMinus n p f) :
     RankThreeCent p G := by
   obtain ⟨⟨-, hf, -⟩, K, hKf, hKfin, hK, b, c, hirr, ⟨θ⟩⟩ := h
-  letI := hKf
-  letI := hKfin
-  haveI : CharP K p := charP_of_card_eq_prime_pow hf hK
-  haveI : Nonempty (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
+  let := hKf
+  let := hKfin
+  have : CharP K p := charP_of_card_eq_prime_pow hf hK
+  have : Nonempty (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
   exact rankThreeCent_of_tailEquiv (p := p) (r := n - 1) (by omega)
     (anisotropic_minusTailForm hirr) (nondegenerate_minusTailForm hirr)
     (Or.inr finrank_fin_two_fun)
@@ -87,11 +87,11 @@ theorem rankThreeCent_pomegaMinus {p n f : ℕ} [hp : Fact p.Prime] (hn : 4 ≤ 
       (commutator_orthogonalGroup_quadMinus hn hirr)) θ
 
 theorem inOmegaOdd : InOmegaOdd := fun p n f hp _ hn G _ _ hm => by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact rankThreeCent_pomegaOdd hn hm
 
 theorem inOmegaMinus : InOmegaMinus := fun p n f hp _ hn G _ _ hm => by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact rankThreeCent_pomegaMinus hn hm
 
 end CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.KD291DC

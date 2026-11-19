@@ -130,7 +130,7 @@ end Base
 theorem perfectInLayer_G2_outer
     (q : TauCeti.PrimePower)
     (hv : (TauCeti.LieTypeIndex.G2 q).Valid)
-    {S : Type} [Group S] [Finite S] [IsSimpleGroup S] (hnc : ∃ a b : S, a * b ≠ b * a)
+    {S : Type} [Group S] [Finite S] [IsSimpleGroup S] (_hnc : ∃ a b : S, a * b ≠ b * a)
     (e : S ≃* TauCeti.ValidLieTypeIndex.Group ⟨.G2 q, hv⟩)
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hpc : p = q.p)
     {β : MulAut S} (hβ : β ^ p = 1) (hout : ∀ a : S, MulAut.conj a ≠ β) :
@@ -144,7 +144,7 @@ theorem perfectInLayer_G2_outer
 theorem perfectInLayer_F4_outer
     (q : TauCeti.PrimePower)
     (hv : (TauCeti.LieTypeIndex.F4 q).Valid)
-    {S : Type} [Group S] [Finite S] [IsSimpleGroup S] (hnc : ∃ a b : S, a * b ≠ b * a)
+    {S : Type} [Group S] [Finite S] [IsSimpleGroup S] (_hnc : ∃ a b : S, a * b ≠ b * a)
     (e : S ≃* TauCeti.ValidLieTypeIndex.Group ⟨.F4 q, hv⟩)
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hpc : p = q.p)
     {β : MulAut S} (hβ : β ^ p = 1) (hout : ∀ a : S, MulAut.conj a ≠ β) :
@@ -158,7 +158,7 @@ theorem perfectInLayer_F4_outer
 theorem perfectInLayer_E6_outer
     (q : TauCeti.PrimePower)
     (hv : (TauCeti.LieTypeIndex.E6 q).Valid)
-    {S : Type} [Group S] [Finite S] [IsSimpleGroup S] (hnc : ∃ a b : S, a * b ≠ b * a)
+    {S : Type} [Group S] [Finite S] [IsSimpleGroup S] (_hnc : ∃ a b : S, a * b ≠ b * a)
     (e : S ≃* TauCeti.ValidLieTypeIndex.Group ⟨.E6 q, hv⟩)
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hpc : p = q.p)
     {β : MulAut S} (hβ : β ^ p = 1) (hout : ∀ a : S, MulAut.conj a ≠ β) :
@@ -172,7 +172,7 @@ theorem perfectInLayer_E6_outer
 theorem perfectInLayer_E7_outer
     (q : TauCeti.PrimePower)
     (hv : (TauCeti.LieTypeIndex.E7 q).Valid)
-    {S : Type} [Group S] [Finite S] [IsSimpleGroup S] (hnc : ∃ a b : S, a * b ≠ b * a)
+    {S : Type} [Group S] [Finite S] [IsSimpleGroup S] (_hnc : ∃ a b : S, a * b ≠ b * a)
     (e : S ≃* TauCeti.ValidLieTypeIndex.Group ⟨.E7 q, hv⟩)
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hpc : p = q.p)
     {β : MulAut S} (hβ : β ^ p = 1) (hout : ∀ a : S, MulAut.conj a ≠ β) :
@@ -187,7 +187,7 @@ theorem perfectInLayer_E7_outer
 theorem perfectInLayer_E8_outer
     (q : TauCeti.PrimePower)
     (hv : (TauCeti.LieTypeIndex.E8 q).Valid)
-    {S : Type} [Group S] [Finite S] [IsSimpleGroup S] (hnc : ∃ a b : S, a * b ≠ b * a)
+    {S : Type} [Group S] [Finite S] [IsSimpleGroup S] (_hnc : ∃ a b : S, a * b ≠ b * a)
     (e : S ≃* TauCeti.ValidLieTypeIndex.Group ⟨.E8 q, hv⟩)
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hpc : p = q.p)
     {β : MulAut S} (hβ : β ^ p = 1) (hout : ∀ a : S, MulAut.conj a ≠ β) :

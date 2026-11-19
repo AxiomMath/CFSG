@@ -50,7 +50,7 @@ theorem P23ZData.isPGroup (hZ : P23ZData t u e Z) : IsPGroup 2 Z := by
   intro a
   refine ⟨1, ?_⟩
   ext
-  simp only [pow_one, Subgroup.coe_pow, Subgroup.coe_one, pow_two]
+  simp only [pow_one, Subgroup.coe_one, pow_two]
   exact hZ.sq a a.2
 
 theorem conjSub_eq_of_mem_normalizer {m : Y} {H : Subgroup Y}
@@ -263,7 +263,7 @@ theorem P23ZData.card_ge_32 (hZ : P23ZData t u e Z) (ht1 : t ≠ 1)
   have hdisj : ∀ f ∈ O, t * f ∉ O := by
     intro f hf htf
     have hfin : O.Finite := Set.toFinite O
-    haveI : Fintype ↥O := hfin.fintype
+    have : Fintype ↥O := hfin.fintype
     let σ : Function.End ↥O := fun x => ⟨t * x, htO f hf htf x x.2⟩
     have ht2 : t * t = 1 := by
       have := hZ.sq t hZ.ht

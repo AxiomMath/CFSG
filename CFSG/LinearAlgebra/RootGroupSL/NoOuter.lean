@@ -62,7 +62,7 @@ theorem exists_conj_of_linear_form {V : Type} [AddCommGroup V] [Module k V] [Mod
   classical
   by_cases hn : Module.finrank k V ≤ 1
   ·
-    haveI : Subsingleton (SpecialLinearGroup k V) := by
+    have : Subsingleton (SpecialLinearGroup k V) := by
       rcases Nat.eq_zero_or_pos (Module.finrank k V) with h0 | hpos
       · have hsub : Subsingleton V := Module.finrank_zero_iff.mp h0
         exact ⟨fun a b => Subtype.ext (Subsingleton.elim _ _)⟩
@@ -175,7 +175,7 @@ theorem exists_conj_of_two_element_mem_Y
     (h2 : ∃ m : ℕ, α ^ (2 ^ m) = 1) :
     ∃ g : SpecialLinearGroup k (DSpace E X), α = MulAut.conj g := by
   classical
-  haveI : Module.Finite k E := Module.Finite.of_finite
+  have : Module.Finite k E := Module.Finite.of_finite
   have hEpos : 0 < Module.finrank k E := by
     rw [Module.finrank_pos_iff_exists_ne_zero]
     exact ⟨1, one_ne_zero⟩

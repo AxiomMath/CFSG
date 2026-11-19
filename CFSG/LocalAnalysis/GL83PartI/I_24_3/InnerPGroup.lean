@@ -17,9 +17,9 @@ theorem card_center_le_of_not_isMulCommutative {T : Type*} [Group T] [Finite T] 
   have hk2 : 2 ≤ k := by
     by_contra hlt
     apply hnc
-    haveI : IsCyclic (T ⧸ Subgroup.center T) := by
+    have : IsCyclic (T ⧸ Subgroup.center T) := by
       interval_cases k
-      · haveI : Subsingleton (T ⧸ Subgroup.center T) :=
+      · have : Subsingleton (T ⧸ Subgroup.center T) :=
           (Nat.card_eq_one_iff_unique.mp (by simpa using hk)).1
         exact isCyclic_of_subsingleton
       · exact isCyclic_of_prime_card (by simpa using hk)
@@ -40,11 +40,11 @@ theorem card_center_le_of_not_isMulCommutative {T : Type*} [Group T] [Finite T] 
 theorem exists_isElemAbelian_card_sq_of_not_isCyclic {X : Type*} [Group X] [Finite X] {p : ℕ}
     [Fact p.Prime] (hp2 : p ≠ 2) {A : Subgroup X} (hA : IsPGroup p A) (hncyc : ¬ IsCyclic A) :
     ∃ D ≤ A, IsElemAbelian p D ∧ Nat.card D = p ^ 2 := by
-  haveI : Fact (IsPGroup p A) := ⟨hA⟩
+  have : Fact (IsPGroup p A) := ⟨hA⟩
   obtain ⟨S, -, hScard, hSel⟩ := CFSG.lemma_4_5_a hp2 hncyc
-  haveI := hSel
+  have := hSel
   refine ⟨S.map A.subtype, Subgroup.map_subtype_le S, ?_, ?_⟩
-  · haveI : CFSG.IsElementaryAbelian p (S.map A.subtype) := CFSG.IsElementaryAbelian.map_subtype
+  · have : CFSG.IsElementaryAbelian p (S.map A.subtype) := CFSG.IsElementaryAbelian.map_subtype
     exact isElemAbelian_of_isElementaryAbelian
   · rw [Subgroup.card_map_of_injective A.subtype_injective, hScard]
 

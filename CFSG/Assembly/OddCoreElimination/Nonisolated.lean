@@ -66,9 +66,9 @@ private theorem exists_conj_inf_centralizer_le (S : Sylow 2 G) (v : G) :
           Subgroup.centralizer ({(MulAut.conj g⁻¹).toMonoidHom v} : Set G)) := by
   set C := Subgroup.centralizer ({v} : Set G)
   have hP : IsPGroup 2 (((S : Subgroup G) ⊓ C).subgroupOf C) :=
-    (S.isPGroup'.to_le inf_le_left).of_equiv (Subgroup.subgroupOfEquivOfLe inf_le_right).symm
+    (S.isPGroup.to_le inf_le_left).of_equiv (Subgroup.subgroupOfEquivOfLe inf_le_right).symm
   obtain ⟨T, hPT⟩ := hP.exists_le_sylow
-  obtain ⟨g, hg⟩ := exists_map_conj_le_sylow S (T.isPGroup'.map C.subtype)
+  obtain ⟨g, hg⟩ := exists_map_conj_le_sylow S (T.isPGroup.map C.subtype)
   have hPT₁ : (S : Subgroup G) ⊓ C ≤ (T : Subgroup C).map C.subtype := fun x hx =>
     ⟨⟨x, hx.2⟩, hPT (show (⟨x, hx.2⟩ : C) ∈ ((S : Subgroup G) ⊓ C).subgroupOf C from hx), rfl⟩
   refine ⟨g, (Subgroup.map_mono hPT₁).trans hg, ?_⟩
@@ -117,7 +117,7 @@ private theorem three_le_pRank_centralizer_of_mem {S A : Subgroup G} (hS : IsPGr
 
 theorem nonisolatedConjugate : NonisolatedConjugateStatement := by
   intro G _ _ hperf hrank S V hVS hV hV4 h2
-  have hS : IsPGroup 2 (S : Subgroup G) := S.isPGroup'
+  have hS : IsPGroup 2 (S : Subgroup G) := S.isPGroup
   have hS3 : 3 ≤ pRank 2 (S : Subgroup G) := (pRank_sylow_eq_twoRank S).symm ▸ hrank
   obtain ⟨A, hAS, hSA, hA, hA4⟩ := exists_normal_four_of_three_le_pRank hS hS3
   obtain ⟨hidx, hVS₀, z, hz2, hzeq, -, hvstr⟩ :=

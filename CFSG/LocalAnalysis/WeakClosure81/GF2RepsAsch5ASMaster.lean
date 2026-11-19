@@ -25,7 +25,7 @@ theorem inFSqAS_of_cfShape {Q : Type} [Group Q] [Finite Q] {H T M : Subgroup Q} 
 theorem inFSqAS_of_isSolvable {Q : Type} [Group Q] [Finite Q] {H T M : Subgroup Q}
     (hT : IsSylowIn 2 T H) (hU : calNIn H T = {M}) (hH : Group.IsSolvable ↥H) :
     InFSqAS 1 H := by
-  haveI := hH
+  have := hH
   exact inFSqAS_of_cfShape le_rfl hT hU (P := fun _ _ => False) (cfShape_of_isSolvable _)
     (fun _ _ _ _ _ hP => hP.elim)
 

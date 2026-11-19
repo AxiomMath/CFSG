@@ -44,7 +44,7 @@ theorem exists_langConjugator
           twistedTorusOf
             (frameProd (AlgebraicClosure K) corootFrame (nSL (1 : (AlgebraicClosure K)ˣ)) :
               ModGL .E6 (AlgebraicClosure K)) (Units.map (entrywiseHom Fr)) := by
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   let nF : ModGL .E6 (AlgebraicClosure K) :=
     frameProd (AlgebraicClosure K) corootFrame (nSL (1 : (AlgebraicClosure K)ˣ))
@@ -84,13 +84,13 @@ theorem exists_langConjugator
   obtain ⟨P, hPpg, hPcard, hPT⟩ :=
     exists_sylow_conj_le_torus (K := K) (p := p) hp hp2 Fr hFr g₀ hg₀
   have hL15 := padicValNat_card_adjointGroup (K := K) (p := p) hp hp5 hpq
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcardSyl : Nat.card P = p ^ (Nat.card (adjointGroup .E6 K)).factorization p := by
     rw [Nat.factorization_def _ hp, hL15, hPcard]
   let P₀ : Sylow p (adjointGroup .E6 K) := Sylow.ofCard P hcardSyl
   have hP₀ : (P₀ : Subgroup (adjointGroup .E6 K)) = P := Sylow.coe_ofCard P hcardSyl
   obtain ⟨Q, hEQ⟩ := IsPGroup.exists_le_sylow hE.isPGroup
-  haveI : MulAction.IsPretransitive (adjointGroup .E6 K) (Sylow p (adjointGroup .E6 K)) :=
+  have : MulAction.IsPretransitive (adjointGroup .E6 K) (Sylow p (adjointGroup .E6 K)) :=
     Sylow.isPretransitive_of_finite
   obtain ⟨y, hy⟩ :=
     MulAction.exists_smul_eq (adjointGroup .E6 K) P₀ Q
@@ -134,7 +134,7 @@ theorem exists_langConjugator
           baseChangeGL (algebraMap K (AlgebraicClosure K)) (y : ModGL .E6 K) := by
       rw [show ((y⁻¹ * x * y : adjointGroup .E6 K) : ModGL .E6 K) =
           (y : ModGL .E6 K)⁻¹ * (x : ModGL .E6 K) * (y : ModGL .E6 K) by
-        simp [Subgroup.coe_mul, Subgroup.coe_inv]]
+        simp [Subgroup.coe_mul]]
       rw [map_mul, map_mul, map_inv]
     have hconj : g0'⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K))
           (x : ModGL .E6 K) * g0' =
@@ -195,16 +195,16 @@ theorem exists_excFrame_of_selfCentralizing
     (hE : IsElemAbelian p E)
     (hsc : ∀ g : adjointGroup .E6 K, (∀ e ∈ E, g * e = e * g) → g ^ p = 1 → g ∈ E) :
     ∃ F : ExcFrame .E6 K p E, ExcIsLongest .E6 F.w := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, _, hcardK⟩ := FiniteField.card K 2
   have hcard : Nat.card K = 2 ^ (n : ℕ) := by
     rw [Nat.card_eq_fintype_card, hcardK]
   let Fr : AlgebraicClosure K →+* AlgebraicClosure K :=
     iterateFrobenius (AlgebraicClosure K) 2 (n : ℕ)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
-  haveI : ExpChar (AlgebraicClosure K) 2 := expChar_prime (AlgebraicClosure K) 2
+  have : ExpChar (AlgebraicClosure K) 2 := expChar_prime (AlgebraicClosure K) 2
   have hFr : ∀ c, Fr c = c ^ Nat.card K := by
     intro c
     rw [hcard]

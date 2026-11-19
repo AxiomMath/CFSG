@@ -305,7 +305,7 @@ theorem sylow_le_of_normal_of_odd_index {G : Type*} [Group G] [Finite G] (L : Su
     [L.Normal] (hL : Odd L.index) (P : Sylow 2 G) : (P : Subgroup G) ≤ L := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro x hx
-  obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp P.isPGroup') ⟨x, hx⟩
+  obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp P.isPGroup) ⟨x, hx⟩
   rw [Subgroup.orderOf_mk] at hk
   have h1 : orderOf (QuotientGroup.mk' L x) ∣ 2 ^ k := hk ▸ orderOf_map_dvd (QuotientGroup.mk' L) x
   have h2 : orderOf (QuotientGroup.mk' L x) ∣ L.index :=

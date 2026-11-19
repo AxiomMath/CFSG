@@ -30,29 +30,29 @@ private theorem w16l_le_center_of_two_quotient
     (htwo : ∀ r ∈ R, ∃ k : ℕ, r ^ 2 ^ k ∈ N) :
     R ≤ Subgroup.center L := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : R.Normal := hR
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : R.Normal := hR
   have hN' : N.subgroupOf R ≤ Subgroup.center ↥R := by
     intro x hx
     rw [Subgroup.mem_center_iff]
     intro y
     exact Subtype.ext ((Subgroup.mem_center_iff.mp (hN ((Subgroup.mem_subgroupOf).mp hx))) y)
-  haveI : (N.subgroupOf R).Normal := Subgroup.normal_of_le_center hN'
+  have : (N.subgroupOf R).Normal := Subgroup.normal_of_le_center hN'
   have hp : IsPGroup 2 (↥R ⧸ N.subgroupOf R) := fun q => by
     obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective q
     obtain ⟨k, hk⟩ := htwo x.1 x.2
     exact ⟨k, by
       rw [← QuotientGroup.mk_pow, QuotientGroup.eq_one_iff]
       exact hk⟩
-  haveI : Group.IsNilpotent (↥R ⧸ N.subgroupOf R) := hp.isNilpotent
-  haveI : Group.IsNilpotent ↥R := Subgroup.isNilpotent_of_ker_le_center
+  have : Group.IsNilpotent (↥R ⧸ N.subgroupOf R) := hp.isNilpotent
+  have : Group.IsNilpotent ↥R := Subgroup.isNilpotent_of_ker_le_center
     (QuotientGroup.mk' (N.subgroupOf R)) (by rw [QuotientGroup.ker_mk']; exact hN')
   let P : Sylow 2 ↥R := default
-  haveI hPchar : (P : Subgroup ↥R).Characteristic :=
+  have hPchar : (P : Subgroup ↥R).Characteristic :=
     Sylow.characteristic_of_normal P (inferInstance : (P : Subgroup ↥R).Normal)
   have hP'normal : ((P : Subgroup ↥R).map R.subtype).Normal :=
     ConjAct.normal_of_characteristic_of_normal
-  have hP'2 : IsPGroup 2 ((P : Subgroup ↥R).map R.subtype) := P.isPGroup'.map R.subtype
+  have hP'2 : IsPGroup 2 ((P : Subgroup ↥R).map R.subtype) := P.isPGroup.map R.subtype
   have hP'le : ((P : Subgroup ↥R).map R.subtype) ≤ CFSG.pCore 2 L :=
     le_sSup ⟨hP'normal, hP'2⟩
   have hsup : (P : Subgroup ↥R) ⊔ N.subgroupOf R = ⊤ :=
@@ -67,7 +67,7 @@ theorem w16l_central_layers {L : Type*} [Group L] [Finite L]
     (hO2 : CFSG.pCore 2 L ≤ Subgroup.center L)
     {N R₁ R₂ : Subgroup L} (hN : N ≤ Subgroup.center L) (hR₁ : R₁.Normal) (hNR₁ : N ≤ R₁)
     (hR₁two : ∀ r ∈ R₁, ∃ k : ℕ, r ^ 2 ^ k ∈ N)
-    (hR₁R₂ : R₁ ≤ R₂)
+    (_hR₁R₂ : R₁ ≤ R₂)
     (hR₂odd : ∀ r ∈ R₂, ∃ m : ℕ, Odd m ∧ r ^ m ∈ R₁)
     (hR₂comm : ∀ r ∈ R₂, ∀ l : L, ⁅r, l⁆ ∈ R₁) :
     R₂ ≤ Subgroup.center L := by

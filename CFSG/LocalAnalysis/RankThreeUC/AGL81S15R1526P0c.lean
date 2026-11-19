@@ -27,7 +27,7 @@ theorem exists_isElemAbelian_normalizer_le {Y : Type} [Group Y] [Finite Y] {B : 
     (hB3 : IsPGroup 3 B) (hB : B ≠ ⊥) :
     ∃ F : Subgroup Y, F ≤ B ∧ F ≠ ⊥ ∧ IsElemAbelian 3 F ∧
       Subgroup.normalizer (B : Set Y) ≤ Subgroup.normalizer (F : Set Y) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let F : Subgroup Y :=
     { carrier := {x | x ∈ B ∧ (∀ b ∈ B, x * b = b * x) ∧ x ^ 3 = 1}
       mul_mem' := by
@@ -53,8 +53,8 @@ theorem exists_isElemAbelian_normalizer_le {Y : Type} [Group Y] [Finite Y] {B : 
   have hFea : IsElemAbelian 3 F :=
     ⟨⟨⟨fun a b => Subtype.ext (a.2.2.1 b.1 (hFB b.2))⟩⟩, fun x hx => hx.2.2⟩
   have hF0 : F ≠ ⊥ := by
-    haveI : Nontrivial ↥B := (Subgroup.nontrivial_iff_ne_bot B).2 hB
-    haveI : Nontrivial ↥(Subgroup.center ↥B) := hB3.center_nontrivial
+    have : Nontrivial ↥B := (Subgroup.nontrivial_iff_ne_bot B).2 hB
+    have : Nontrivial ↥(Subgroup.center ↥B) := hB3.center_nontrivial
     have hcp : IsPGroup 3 ↥(Subgroup.center ↥B) := hB3.to_subgroup _
     have hdvd : 3 ∣ Nat.card ↥(Subgroup.center ↥B) := by
       rcases hcp.card_eq_or_dvd with h | h
@@ -102,11 +102,11 @@ variable {X : Type} [Group X] [Finite X] {G : Type} [Group G] [Finite G]
 
 theorem isSolvable_mulAut_of_card_three {Y : Type} [Group Y] {A : Subgroup Y} (h : Nat.card A = 3) :
     Group.IsSolvable (MulAut ↥A) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite A := Nat.finite_of_card_ne_zero (by rw [h]; norm_num)
-  haveI : IsCyclic A := isCyclic_of_prime_card (p := 3) h
-  haveI : Group.IsSolvable (ZMod (Nat.card ↥A))ˣ := inferInstance
-  exact solvable_of_solvable_injective (f := (IsCyclic.mulAutMulEquiv A).toMonoidHom)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite A := Nat.finite_of_card_ne_zero (by rw [h]; norm_num)
+  have : IsCyclic A := isCyclic_of_prime_card (p := 3) h
+  have : Group.IsSolvable (ZMod (Nat.card ↥A))ˣ := inferInstance
+  exact Group.isSolvable_of_isSolvable_injective (f := (IsCyclic.mulAutMulEquiv A).toMonoidHom)
     (IsCyclic.mulAutMulEquiv A).injective
 
 end Row28Three
@@ -117,15 +117,15 @@ variable {X : Type} [Group X] [Finite X] {G : Type} [Group G] [Finite G]
 
 theorem cMHat_normal {L : Subgroup X} (hL : L.Normal) : (cMHat L).Normal := by
   unfold cMHat cMBar
-  haveI : (barO2 L).Normal :=
+  have : (barO2 L).Normal :=
     hL.map (QuotientGroup.mk' (CFSG.pCore 2 X)) (QuotientGroup.mk'_surjective _)
-  haveI : (Subgroup.centralizer ((barO2 L : Subgroup (X ⧸ CFSG.pCore 2 X)) :
+  have : (Subgroup.centralizer ((barO2 L : Subgroup (X ⧸ CFSG.pCore 2 X)) :
       Set (X ⧸ CFSG.pCore 2 X))).Normal := inferInstance
   exact Subgroup.Normal.comap inferInstance _
 
 theorem pRank_three_eq_one_of_cyclic_sylow {I Q : Subgroup X} (hQ : CFSG.ABGLocalTools.IsSylowOf 3 Q I)
     (hc : IsCyclic ↥Q) (h1 : 1 ≤ CFSG.Open.pRank 3 I) : CFSG.Open.pRank 3 I = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine le_antisymm ?_ h1
   refine CFSG.SectionRank.pRank_le (by norm_num) ?_
   intro E hEI hE
@@ -145,7 +145,7 @@ theorem pRank_three_eq_one_of_cyclic_sylow {I Q : Subgroup X} (hQ : CFSG.ABGLoca
     have := congrArg Subtype.val hab
     apply Subtype.ext
     simpa [f, MulAut.conj_apply, mul_assoc] using this
-  haveI : IsCyclic E := isCyclic_of_injective f hf
+  have : IsCyclic E := isCyclic_of_injective f hf
   have hpow : ∀ x : E, x ^ 3 = 1 := fun x => Subtype.ext (by simpa using hE.2 x x.2)
   have hexp : Monoid.exponent E ∣ 3 := Monoid.exponent_dvd_of_forall_pow_eq_one hpow
   have hdvd : Nat.card E ∣ 3 := by rw [← IsCyclic.exponent_eq_card]; exact hexp
@@ -157,6 +157,7 @@ section Row28NonG
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem normalizer_le_of_centralizer_le {M S : Subgroup G}
     (hstrong : CFSG.RankThree.PartOne.IsStronglyPEmbedded 7 M)
     (hC : Subgroup.centralizer (S : Set G) ≤ M)
@@ -184,7 +185,7 @@ theorem mem_uniqueSet_of_D {M : Subgroup G} (hM : rankThreeIsMaxTwoLocal M) {P D
     (hP : CFSG.ABGLocalTools.IsSylowOf 3 P M) (hDP : D ≤ P) (hDZ : ∀ d ∈ D, ∀ y ∈ P, d * y = y * d)
     (hAD : A ≤ D) (hNA : Subgroup.normalizer (A : Set G) ≤ M) (hDU : D ∈ uniqueSet M) :
     A ∈ uniqueSet M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hAM : A ≤ M := hAD.trans hDU.1
   refine ⟨hAM, fun g hAg => ?_⟩
   set B : Subgroup G := A.map (MulAut.conj g⁻¹).toMonoidHom with hBdef
@@ -209,7 +210,7 @@ theorem mem_uniqueSet_of_D {M : Subgroup G} (hM : rankThreeIsMaxTwoLocal M) {P D
     have hmem : h * d * h⁻¹ ∈ Subgroup.centralizer (A : Set G) := by
       rw [Subgroup.mem_centralizer_iff]
       intro a ha
-      have hb : g⁻¹ * a * g ∈ B := ⟨a, ha, by simp [MulAut.conj_apply]⟩
+      have hb : g⁻¹ * a * g ∈ B := ⟨a, ha, by simp⟩
       have h1 := hDZ d hd _ (hkB _ hb)
       calc a * (h * d * h⁻¹) = h * ((h⁻¹ * a * h) * d) * h⁻¹ := by group
         _ = h * (d * (h⁻¹ * a * h)) * h⁻¹ := by
@@ -219,7 +220,7 @@ theorem mem_uniqueSet_of_D {M : Subgroup G} (hM : rankThreeIsMaxTwoLocal M) {P D
     exact hNA ((Subgroup.centralizer_le_normalizer (A : Set G)) hmem)
   have hDle : D ≤ M.map (MulAut.conj h⁻¹).toMonoidHom := by
     intro d hd
-    exact ⟨h * d * h⁻¹, hcomm d hd, by simp [MulAut.conj_apply]; group⟩
+    exact ⟨h * d * h⁻¹, hcomm d hd, by simp; group⟩
   have hMh := hDU.2 h⁻¹ hDle
   have hhM : h ∈ M := by
     have : h⁻¹ ∈ Subgroup.normalizer (M : Set G) := mem_normalizer_iff_map_conj_eq.2 hMh
@@ -231,6 +232,7 @@ theorem mem_uniqueSet_of_D {M : Subgroup G} (hM : rankThreeIsMaxTwoLocal M) {P D
     exact M.mul_mem hhM (M.inv_mem hkM)
   exact mem_normalizer_iff_map_conj_eq.1 (Subgroup.le_normalizer hgM)
 
+omit [Finite G] in
 theorem pCoreOf_centralizer_ne_bot {M : Subgroup G} {d : ↥M} {u : ↥M}
     (hu : u ∈ CFSG.pCore 2 ↥M) (hu1 : u ≠ 1) (hdu : (d : ↥M) * u = u * d) :
     CFSG.Open.pCoreOf 2 (Subgroup.centralizer ({(d : G)} : Set G) ⊓ M) ≠ ⊥ := by
@@ -262,6 +264,7 @@ section Row28NonAssembly
 
 variable {X : Type} [Group X] [Finite X] {G : Type} [Group G] [Finite G]
 
+omit [Finite X] in
 theorem isCyclic_conjSub_iff (i : X) (Q : Subgroup X) : IsCyclic ↥(conjSub i Q) ↔ IsCyclic ↥Q := by
   have e : ↥Q ≃* ↥(conjSub i Q) :=
     Q.equivMapOfInjective (MulAut.conj i).toMonoidHom (MulAut.conj i).injective
@@ -280,7 +283,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem isSylowOf_map_subtype_top {M : Subgroup G} {P : Subgroup ↥M}
     (h : CFSG.ABGLocalTools.IsSylowOf 3 P ⊤) : CFSG.ABGLocalTools.IsSylowOf 3 (P.map M.subtype) M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have htop : (⊤ : Subgroup ↥M).map M.subtype = M := by
     ext x
     constructor
@@ -291,6 +294,7 @@ theorem isSylowOf_map_subtype_top {M : Subgroup G} {P : Subgroup ↥M}
   have h1 := (CFSG.ABGLocalTools.isSylowOf_map_subtype_iff (p := 3) M (A := P) (B := ⊤)).mpr h
   rwa [htop] at h1
 
+omit [Finite G] in
 theorem isElemAbelian_map_subtype {M : Subgroup G} {D : Subgroup ↥M} {p : ℕ}
     (h : IsElemAbelian p D) : IsElemAbelian p (D.map M.subtype) := by
   refine ⟨⟨⟨fun a b => ?_⟩⟩, fun x hx => ?_⟩
@@ -336,9 +340,10 @@ theorem orderOf_eq_three_of_card_three {Y : Type} [Group Y] {A B : Subgroup Y} (
       rw [eq_inv_of_mul_eq_one_right h]
       exact A.inv_mem ha
     exact hb1 (hAB1 b ⟨hbA, hb⟩)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact orderOf_eq_prime hpow hne
 
+omit [Finite G] in
 theorem dvd_card_inf_centralizer {M : Subgroup G} {x d : ↥M} (hx : orderOf x = 7)
     (hxd : x * d = d * x) : 7 ∣ Nat.card ↥(M ⊓ Subgroup.centralizer ({(d : G)} : Set G)) := by
   have hle : Subgroup.zpowers (x : G) ≤ M ⊓ Subgroup.centralizer ({(d : G)} : Set G) := by

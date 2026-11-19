@@ -25,7 +25,7 @@ theorem exists_sylow_map_iff [Finite G] {p : ℕ} [Fact p.Prime] {X Y : Subgroup
       Y ≤ X ∧ IsPGroup p Y ∧ ¬ p ∣ Y.relIndex X := by
   constructor
   · rintro ⟨R, rfl⟩
-    refine ⟨map_subtype_le _, R.isPGroup'.map _, ?_⟩
+    refine ⟨map_subtype_le _, R.isPGroup.map _, ?_⟩
     rw [relIndex, subgroupOf, comap_map_eq_self_of_injective X.subtype_injective]
     exact R.not_dvd_index
   · rintro ⟨hYX, hY, hidx⟩

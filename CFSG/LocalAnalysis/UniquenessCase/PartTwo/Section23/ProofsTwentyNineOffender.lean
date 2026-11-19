@@ -28,7 +28,7 @@ theorem le_thompsonJ_of_max {X A : Subgroup G} (hAX : A ≤ X)
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hAX).toEquiv, hAcard,
       pRank_eq_pRank_group]
   have hAelX : CFSG.IsElementaryAbelian 2 (A.subgroupOf X) := by
-    haveI : CFSG.IsElementaryAbelian 2 A := hAel.isElementaryAbelian
+    have : CFSG.IsElementaryAbelian 2 A := hAel.isElementaryAbelian
     exact CFSG.IsElementaryAbelian.subgroupOf (p := 2) hAX
   have hle : A.subgroupOf X ≤ CFSG.elemThompson ↥X 2 :=
     CFSG.Quasithin.BlueprintB2.le_elemThompson ⟨hAelX, hcardX⟩
@@ -101,7 +101,7 @@ private theorem exists_pCoreOf_sup_decomp (D : Data G) (Ch : Choice2011 G)
     exact uc22main1_pCoreOf_le _ hr
   have hnormS : S ≤ Subgroup.normalizer (c.L : Set G) :=
     sup_le (Subgroup.le_normalizer (H := c.L)) (inf_le_left.trans c.hL.1.1)
-  haveI : (c.L.subgroupOf S).Normal :=
+  have : (c.L.subgroupOf S).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer (le_sup_left : c.L ≤ S)).2 hnormS
   have hsup : c.L.subgroupOf S ⊔
       (D.T ⊓ Subgroup.centralizer (c.V : Set G)).subgroupOf S = ⊤ := by

@@ -29,7 +29,7 @@ theorem exists_conj_kleinRegular7_le {V : Type} [CommGroup V] [Finite V]
   let W : Subgroup V := commV K
   have hW16 : Nat.card ↥W = 16 := h16
   let κ : ↥(alternatingGroup (Fin 7)) ≃* ↥K := MonoidHom.ofInjective hρ
-  haveI hKsimple : IsSimpleGroup ↥K := κ.symm.isSimpleGroup
+  have hKsimple : IsSimpleGroup ↥K := κ.symm.isSimpleGroup
   have hKnonab : ∃ a b : ↥K, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hA7nonab
     exact ⟨κ a, κ b, fun h => hab (by simpa using congrArg κ.symm h)⟩
@@ -41,7 +41,7 @@ theorem exists_conj_kleinRegular7_le {V : Type} [CommGroup V] [Finite V]
   have hφ : Function.Injective φ := hr.comp hρr
   let L' : Subgroup (MulAut ↥W) := φ.range
   let π : ↥(alternatingGroup (Fin 7)) ≃* ↥L' := MonoidHom.ofInjective hφ
-  haveI hL'simple : IsSimpleGroup ↥L' := π.symm.isSimpleGroup
+  have hL'simple : IsSimpleGroup ↥L' := π.symm.isSimpleGroup
   have hL'nonab : ∃ a b : ↥L', a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hA7nonab
     exact ⟨π a, π b, fun h => hab (by simpa using congrArg π.symm h)⟩
@@ -111,7 +111,7 @@ theorem exists_conj_kleinRegular7_le {V : Type} [CommGroup V] [Finite V]
     rw [← hmapcard, hfix]
   have hA'card : Nat.card ↥A' = Nat.card ↥A := Subgroup.card_map_of_injective hφ
   have hCpos : 0 < Nat.card ↥(fixV (A.map ρ)) := by
-    haveI : Nonempty ↥(fixV (A.map ρ)) := ⟨⟨1, (fixV (A.map ρ)).one_mem⟩⟩
+    have : Nonempty ↥(fixV (A.map ρ)) := ⟨⟨1, (fixV (A.map ρ)).one_mem⟩⟩
     exact Nat.card_pos
   have hWle : Nat.card ↥W ≤ Nat.card ↥A' * Nat.card ↥(fixV A') := by
     refine Nat.le_of_mul_le_mul_right ?_ hCpos

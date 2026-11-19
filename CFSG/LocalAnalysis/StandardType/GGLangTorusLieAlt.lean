@@ -81,7 +81,7 @@ theorem langComp_lieModel_alternative
       rootSpan τ L (famOrbit S.ρ a' i') := by
     have hforb : famOrbit S.ρ a' i' = rationalRoots S.ρ (rootCharHom a) i := by
       ext γ
-      simp only [famOrbit, rationalRoots, Set.mem_setOf_eq]
+      simp only [famOrbit, rationalRoots, Set.mem_ofPred_eq]
       rw [hi']
     rw [hforb]
     exact (Subgroup.commutator_le_self _).trans inf_le_left
@@ -98,7 +98,7 @@ theorem langComp_lieModel_alternative
     rw [← hnf]
     exact hlabn
   obtain ⟨-, hc, -, R, instR, hR, ⟨θ⟩⟩ := hlab'
-  letI : Group R := instR
+  let : Group R := instR
   have hR2 : CFSG.Blueprint.LieModel R (markTag lab) (markRank lab) 2 (markDeg lab) := by
     unfold MarkedModel at hR
     rwa [hc] at hR
@@ -132,7 +132,7 @@ theorem langComp_lieModel_alternative
       have hr' : compRank (componentRoots (rootCharHom a) i) = 4 := by rw [hi']; exact hr
       have hN' : (componentRoots (rootCharHom a) i).ncard = 24 := by rw [hi']; exact hN
       have hspec := outer_componentOrbitLength_spec S hT i
-      haveI : NeZero (componentOrbitLength S.ρ (componentRoots (rootCharHom a) i)) :=
+      have : NeZero (componentOrbitLength S.ρ (componentRoots (rootCharHom a) i)) :=
         ⟨Nat.pos_iff_ne_zero.mp hspec.1⟩
       have hZ := CFSG.LocalAnalysis.GLTheoremA.T171Sh.center_eq_bot_of_compRank_four_ncard_24
         (L := L) i hr' hN'

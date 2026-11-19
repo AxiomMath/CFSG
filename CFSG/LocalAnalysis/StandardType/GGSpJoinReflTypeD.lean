@@ -20,9 +20,9 @@ private theorem td_ggCoxeterMatrixD_eq (r : ℕ) :
   simp only [coxeterMatrix, TauCeti.coxeterMatrixOfCartanMatrix_apply]
   by_cases hij : i = j
   · subst hij
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     simp [cartanD, TauCeti.coxeterOrder_four]
-  · rw [if_neg hij]
+  · rw [ite_eq_right hij]
     have hsymm : cartanD r j i = cartanD r i j := by
       rw [cartanD_eq]
       exact (CartanMatrix.D_isSymm r).apply i j

@@ -137,7 +137,7 @@ theorem a6_exists_inverts (S : Sylow 3 (alternatingGroup (Fin 6))) :
   have hEp : IsPGroup 3 a6E := IsPGroup.of_card (n := 2) (by rw [card_a6E]; norm_num)
   obtain ⟨S₀, hES₀⟩ := hEp.exists_le_sylow
   have hS₀ : (S₀ : Subgroup (alternatingGroup (Fin 6))) = a6E := by
-    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp S₀.isPGroup'
+    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp S₀.isPGroup
     have hdvd : Nat.card (S₀ : Subgroup (alternatingGroup (Fin 6))) ∣ 360 :=
       KFacts.KS14.card_alternatingGroup_six ▸ Subgroup.card_subgroup_dvd_card _
     have hk2 : k ≤ 2 := by
@@ -193,7 +193,7 @@ theorem j2_exists_inverts_mod_center (h415 : Sec4.Item4_15) {X : Type} [Group X]
   set N := (Subgroup.zpowers z).subgroupOf C with hNdef
   set H : Subgroup (alternatingGroup (Fin 6)) :=
     (((P : Subgroup X).subgroupOf C).map (QuotientGroup.mk' N)).map φ.toMonoidHom with hH
-  have hHp : IsPGroup 3 H := ((P.isPGroup'.comap_subtype).map _).map _
+  have hHp : IsPGroup 3 H := ((P.isPGroup.comap_subtype).map _).map _
   obtain ⟨S, hHS⟩ := hHp.exists_le_sylow
   obtain ⟨τ, hτ⟩ := a6_exists_inverts S
   obtain ⟨t', ht'⟩ := QuotientGroup.mk'_surjective N (φ.symm τ)
@@ -239,7 +239,7 @@ theorem exists_inverts_mod_zpowers (h415 : Sec4.Item4_15) {L : Subgroup G}
   have hd'T : d' ∈ (T₀ : Subgroup ↥L) := (hmemT hdT).2
   set π := QuotientGroup.mk' (aschbacherSolvableCore 3 ↥L) with hπ
   have hinj : Set.InjOn π ((T₀ : Subgroup ↥L) : Set ↥L) :=
-    injOn_mk_of_isPGroup Nat.prime_three T₀.isPGroup'
+    injOn_mk_of_isPGroup Nat.prime_three T₀.isPGroup
   set Tb : Sylow 3 (↥L ⧸ aschbacherSolvableCore 3 ↥L) :=
     T₀.mapSurjective (QuotientGroup.mk'_surjective _) with hTbdef
   have hTb : (Tb : Subgroup (↥L ⧸ aschbacherSolvableCore 3 ↥L)) = (T₀ : Subgroup ↥L).map π :=
@@ -260,7 +260,7 @@ theorem exists_inverts_mod_zpowers (h415 : Sec4.Item4_15) {L : Subgroup G}
   have hdZ : π d' ∈ (Tb : Subgroup (↥L ⧸ aschbacherSolvableCore 3 ↥L)) ⊓
       Subgroup.centralizer ((Tb : Subgroup (↥L ⧸ aschbacherSolvableCore 3 ↥L)) :
         Set (↥L ⧸ aschbacherSolvableCore 3 ↥L)) := hZb ▸ Subgroup.mem_zpowers _
-  rw [hTb, normalizer_map_mk_eq T₀.isPGroup'] at htbN
+  rw [hTb, normalizer_map_mk_eq T₀.isPGroup] at htbN
   obtain ⟨t, htN, rfl⟩ := htbN
   refine ⟨(t : G), t.2, ?_, fun x hx => ?_⟩
   ·

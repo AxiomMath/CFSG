@@ -45,6 +45,7 @@ section Decomp
 
 variable {V : Type*} [AddCommGroup V] [Module K V] [FiniteDimensional K V]
 
+omit [FiniteDimensional K V] in
 private lemma ker_aeval_X_sub_C (f : Module.End K V) (a : K) :
     (aeval f (X - C a)).ker = f.eigenspace a := by
   simp only [Module.End.eigenspace, Module.End.genEigenspace_one, map_sub, aeval_X, aeval_C,
@@ -54,6 +55,7 @@ private lemma coprime_sub_C {a b : K} (h : a ≠ b) :
     IsCoprime (X - C a : K[X]) (X - C b) :=
   Polynomial.isCoprime_X_sub_C_of_isUnit_sub (IsUnit.mk0 _ (sub_ne_zero.mpr h))
 
+omit [FiniteDimensional K V] in
 private lemma eigenspace_sup_eq_top (f : Module.End K V) (hf : f ^ 3 = 1)
     {ζ : K} (hζ : IsPrimitiveRoot ζ 3) :
     f.eigenspace 1 ⊔ f.eigenspace ζ ⊔ f.eigenspace (ζ ^ 2) = ⊤ := by
@@ -120,6 +122,7 @@ private lemma finrank_eigenspace_sum (f : Module.End K V) (hf : f ^ 3 = 1)
   rw [hbot, htop'] at h2
   omega
 
+omit [FiniteDimensional K V] in
 private lemma genEigenspace_one_iSup_eq_top (h : Module.End K V) (hh : h ^ 3 = 1)
     {ζ : K} (hζ : IsPrimitiveRoot ζ 3) :
     (⨆ μ : K, (h.genEigenspace μ) (1 : ℕ∞)) = ⊤ := by
@@ -131,7 +134,7 @@ private lemma genEigenspace_one_iSup_eq_top (h : Module.End K V) (hh : h ^ 3 = 1
   simpa only [Module.End.eigenspace] using heig
 
 private lemma exists_smul_on_invariant_eigenspace (f h M : Module.End K V)
-    [FiniteDimensional K V] (hf : f ^ 3 = 1) (hh : h ^ 3 = 1) (hfh : h * f = f * h)
+    (_hf : f ^ 3 = 1) (hh : h ^ 3 = 1) (hfh : h * f = f * h)
     {l : K} (hM : M ^ 3 = algebraMap K (Module.End K V) l) (hl : ∀ c : K, c ^ 3 ≠ l)
     (hMf : M * f = f * M) (hMh : M * h = h * M)
     {ζ : K} (hζ : IsPrimitiveRoot ζ 3) {c : K}
@@ -153,7 +156,7 @@ private lemma exists_smul_on_invariant_eigenspace (f h M : Module.End K V)
     Submodule.eq_iSup_inf_genEigenspace (1 : ℕ∞) hE hgen
   have hex : ∃ μ : K, f.eigenspace c ⊓ (h.genEigenspace μ) 1 ≠ ⊥ := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hEbot
     rw [hEq]
     exact iSup_eq_bot.mpr hcon

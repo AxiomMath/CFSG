@@ -159,7 +159,7 @@ theorem gS0_get : ∀ j < (gS0 ()).size, (gS0 ())[j]! = code (s0Gen j) := by
   intro j hj
   rw [size_gS0] at hj
   have h12 : j < 12 := by omega
-  rw [s0Gen, dif_pos h12, code_yamakiSp]
+  rw [s0Gen, dite_eq_left h12, code_yamakiSp]
   simp only [gS0]
   rw [getElem!_ofFn_nat _ hj]
 
@@ -167,12 +167,12 @@ theorem S0_eq_closure : S0 = Subgroup.closure (s0Gen '' Set.Iio (gS0 ()).size) :
   rw [size_gS0, S0]
   congr 1
   ext g
-  simp only [Set.mem_image, Set.mem_setOf_eq, Set.mem_Iio]
+  simp only [Set.mem_image, Set.mem_ofPred_eq, Set.mem_Iio]
   constructor
   · rintro ⟨i, hi, rfl⟩
-    exact ⟨i.val, by omega, by rw [s0Gen, dif_pos i.2]⟩
+    exact ⟨i.val, by omega, by rw [s0Gen, dite_eq_left i.2]⟩
   · rintro ⟨j, hj, rfl⟩
-    exact ⟨⟨j, by omega⟩, show j ≤ 8 by omega, by rw [s0Gen, dif_pos (show j < 12 by omega)]⟩
+    exact ⟨⟨j, by omega⟩, show j ≤ 8 by omega, by rw [s0Gen, dite_eq_left (show j < 12 by omega)]⟩
 
 private theorem code_alpha : code alpha = (genA ())[5]! := code_yamakiSp 5
 

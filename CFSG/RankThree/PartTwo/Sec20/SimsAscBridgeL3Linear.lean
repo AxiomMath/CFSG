@@ -108,6 +108,7 @@ variable (F) in
     rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.toLin'_mul]
     rfl
 
+omit [CharP F 2] in
 theorem rho3_injective : Function.Injective (rho3 F) := by
   intro g h hgh
   exact Subtype.ext (Matrix.toLin'.injective hgh)
@@ -167,6 +168,7 @@ theorem fixedSpace_ne_bot {D : Subgroup SL(3, F)} (hD : IsPGroup 2 D) : fixedSpa
   rw [hbot, Submodule.mem_bot] at hvW
   exact hv0 hvW
 
+omit [Finite F] [CharP F 2] in
 theorem fixedSpace_ne_top {D : Subgroup SL(3, F)} (hD : D ≠ ⊥) : fixedSpace D ≠ ⊤ := by
   intro htop
   apply hD
@@ -178,6 +180,7 @@ theorem fixedSpace_ne_top {D : Subgroup SL(3, F)} (hD : D ≠ ⊥) : fixedSpace 
   have hv : v ∈ fixedSpace D := htop ▸ Submodule.mem_top
   rw [hv d hd, map_one, Module.End.one_apply]
 
+omit [CharP F 2] [Finite F] in
 theorem mapsTo_fixedSpace {D : Subgroup SL(3, F)} {s : SL(3, F)}
     (hs : s ∈ Subgroup.normalizer (D : Set SL(3, F))) :
     ∀ w ∈ fixedSpace D, rho3 F s w ∈ fixedSpace D := by

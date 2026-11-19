@@ -27,7 +27,7 @@ theorem omqRankFromWeights_of_conj (h : ∀ {F V E G : Type} [Field F] [AddCommG
     { toFun := fun e => ⟨t⁻¹ * (e : G) * t, hnorm e e.2⟩
       map_one' := Subtype.ext (by simp)
       map_mul' := fun a b => Subtype.ext (by
-        simp only [Subgroup.coe_mul, Subtype.coe_mk]
+        simp only [Subgroup.coe_mul]
         group) }
   have hθ : ∀ e : ↥H, t⁻¹ * H.subtype e * t = H.subtype (θ e) := fun e => rfl
   have hne : ∀ (l : Fin d) (e : ↥H), η l (e : G) ≠ 0 := by

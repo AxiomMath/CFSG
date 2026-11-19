@@ -61,7 +61,7 @@ theorem le_psuConj_range_and_card_le_nine {p f : ℕ} {F : Type} [Field F]
     (hA : IsElemAbelian 3 A)
     (hlay : LayerTrivialOn (CFSG.ClassicalGroups.UnitaryFlag.unitaryPSU h 3) A) :
     A ≤ (CFSG.RankThree.PartTwo.KFacts.psuConj h).range ∧ Nat.card A ≤ 9 := by
-  haveI : Finite F := h.finite
+  have : Finite F := h.finite
   have hmem : ∀ α ∈ A, α ∈ (CFSG.RankThree.PartTwo.KFacts.psuConj h).range := by
     intro α hα
     by_contra hD
@@ -98,6 +98,7 @@ open CFSG.ComponentClassification.CatalogueBHigherLinearAction
 
 variable {F : Type} [Field F] [Finite F]
 
+omit [Finite F] in
 theorem zPi_true_eq_center (n q : ℕ) :
     zPi true n q F = Subgroup.center (GL (Fin n) F) := by
   have hgl : glPi true n q F = ⊤ := rfl
@@ -136,6 +137,7 @@ theorem eq_one_of_eq_scalar_diagE {e c : Fˣ}
     simpa [coe_diagE, Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply] using this.symm
   exact Units.ext (h1.trans h2.symm)
 
+omit [Finite F] in
 theorem diagE_notMem_zPi_true {q : ℕ} {e : Fˣ} (he1 : e ≠ 1) : diagE e ∉ zPi true 3 q F := by
   rw [zPi_true_eq_center, Matrix.GeneralLinearGroup.center_eq_range_scalar, MonoidHom.mem_range]
   rintro ⟨c, hc⟩
@@ -233,13 +235,13 @@ theorem fourGroup_push
     (hJsq : ∀ j ∈ J, j ^ 2 = 1)
     (A : Subgroup (MulAut P))
     (hind : ∀ α ∈ A, ∃ n : N, (∀ j ∈ J, act n j ∈ J) ∧ (∀ j ∈ J, act n⁻¹ j ∈ J) ∧ projN n = α)
-    (n₀ : N) (hn₀A : projN n₀ ∈ A) (hn₀J : ∀ j ∈ J, act n₀ j ∈ J)
+    (n₀ : N) (hn₀A : projN n₀ ∈ A) (_hn₀J : ∀ j ∈ J, act n₀ j ∈ J)
     (hsurj : ∀ j ∈ J, ∃ j' ∈ J, π j = π (act n₀ j' * j'⁻¹)) :
     ∃ T : Subgroup P, IsElemAbelian 2 T ∧ Nat.card ↥T = 4 ∧
       (∀ α ∈ A, Subgroup.map α.toMonoidHom T = T) ∧
       ∃ α ∈ A, ∀ t ∈ T, ∃ s ∈ T, t = α s * s⁻¹ := by
   classical
-  haveI : Finite ↥J := Nat.finite_of_card_ne_zero (by rw [hJcard]; norm_num)
+  have : Finite ↥J := Nat.finite_of_card_ne_zero (by rw [hJcard]; norm_num)
   have hle_gen : ∀ (β : MulAut P) (n : N), (∀ j ∈ J, act n j ∈ J) → projN n = β →
       Subgroup.map β.toMonoidHom (Subgroup.map π J) ≤ Subgroup.map π J := by
     intro β n hn hβ

@@ -62,6 +62,7 @@ theorem not_V_le_conj_M (hI : NamedInputs15 G) (hS : Std15 G)
   have h1 := E3.conjSubgroup_mono_left g⁻¹ hle
   rwa [conjSubgroup_conjSubgroup, mul_inv_cancel, conjSubgroup_one] at h1
 
+omit [Finite G] in
 theorem U_le_inf_conj (h : Cex15 M V₀ V U S) {g : G} (hg : g ∈ centralizer (U : Set G)) :
     U ≤ V ⊓ conjSubgroup M g ∧ U ≤ conjSubgroup V g ⊓ M := by
   have hfix : ∀ x ∈ U, g * x * g⁻¹ = x := by

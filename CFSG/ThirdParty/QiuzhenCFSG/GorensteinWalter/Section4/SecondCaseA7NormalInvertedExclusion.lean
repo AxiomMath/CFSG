@@ -134,7 +134,7 @@ public theorem secondCase_a7_inverted_subgroup_not_normal_Hhat
     · rw [Subgroup.card_map_of_injective (MulAut.conj (od.s : G)).injective]
   have hsNJoin : (od.s : G) ∈
       Subgroup.normalizer ((I ⊔ Ke : Subgroup G) : Set G) :=
-    Subgroup.normalizer_inf_normalizer_le_normalizer_sup I Ke ⟨hsNI, hsNKe⟩
+    Subgroup.inf_normalizer_le_normalizer_sup I Ke ⟨hsNI, hsNKe⟩
   have hsJoin : ∀ x : G, x ∈ I ⊔ Ke →
       (od.s : G) * x * (od.s : G)⁻¹ ∈ I ⊔ Ke := by
     intro x hx

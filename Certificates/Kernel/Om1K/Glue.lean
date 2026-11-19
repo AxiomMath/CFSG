@@ -253,7 +253,7 @@ theorem G_eq (ws : List (List Nat)) :
   unfold Om1Facts.G
   congr 1
   ext x
-  simp only [permsA, wsA, Set.mem_image, Set.mem_setOf_eq, List.size_toArray, List.length_map]
+  simp only [permsA, wsA, Set.mem_image, Set.mem_ofPred_eq, List.size_toArray, List.length_map]
   constructor
   · rintro ⟨w, hw, rfl⟩
     obtain ⟨k, hk, rfl⟩ := List.getElem_of_mem hw

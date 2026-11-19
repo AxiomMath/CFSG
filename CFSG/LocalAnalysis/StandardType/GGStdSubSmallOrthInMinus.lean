@@ -62,18 +62,18 @@ theorem minus_two_class {p : ℕ} (hp : p.Prime) {Ω A D : Subgroup (GL (LargeEv
         rcases h with h | h
         · exact Or.inr (by rw [h])
         · exact Or.inl (by rw [h, inv_inv])
-      simp only [hF, if_pos h, if_pos h']
+      simp only [hF, ite_eq_left h, ite_eq_left h']
     · have h' : ¬ (t⁻¹ = ν ∨ t⁻¹ = ν⁻¹) := by
         rintro (h' | h')
         · exact h (Or.inr (by rw [← h', inv_inv]))
         · exact h (Or.inl (by rw [← inv_inv t, h', inv_inv]))
-      simp only [hF, if_neg h, if_neg h', inv_one]
+      simp only [hF, ite_eq_right h, ite_eq_right h', inv_one]
   have hF1 : F 1 = 1 := by simp only [hF]; split_ifs <;> rfl
   have hFp : ∀ t : Kˣ, t ^ p = 1 → F t ^ p = 1 := by
     intro t ht
     by_cases h : t = ν ∨ t = ν⁻¹
-    · simp only [hF, if_pos h, ht]
-    · simp only [hF, if_neg h, one_pow]
+    · simp only [hF, ite_eq_left h, ht]
+    · simp only [hF, ite_eq_right h, one_pow]
   set w : Fin m → Kˣ := fun k => F (α k) with hw
   have hwp : ∀ k, w k ^ p = 1 := fun k => hFp _ (hα k)
   have hxA : dgHomM K m w ∈ A := hT.2 w hwp
@@ -93,7 +93,7 @@ theorem minus_two_class {p : ℕ} (hp : p.Prime) {Ω A D : Subgroup (GL (LargeEv
   have hFν : F ν = ν := by simp [hF]
   have hFj : F (α j) = 1 := by
     have : ¬ (α j = ν ∨ α j = ν⁻¹) := fun h => h.elim hj1 hj2
-    simp only [hF, if_neg this]
+    simp only [hF, ite_eq_right this]
   have hwi : w i = ν := hFν
   have hwj : w j = 1 := hFj
   have h1 : ν ^ s = ν := by rw [← hs i, hwi]
@@ -407,8 +407,8 @@ theorem minus_card_two [Finite K] {p : ℕ} (hp : p.Prime) {m : ℕ} (hm : 3 ≤
     (hνo : orderOf ν = p) {A : Subgroup (GL (LargeEvenMinusIdx m) K)} (hT : IsFullTorusM p A) :
     p ^ 2 ≤ Nat.card ↥(A ⊓ (leviSLM K m).range) := by
   classical
-  haveI := Fact.mk hp
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have := Fact.mk hp
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hνp : ν ^ p = 1 := hνo ▸ pow_orderOf_eq_one ν
   set z : Multiplicative (ZMod p) →* Kˣ := zmodPowHom hνp with hz
   have hzinj : Function.Injective z :=
@@ -431,10 +431,10 @@ theorem minus_card_two [Finite K] {p : ℕ} (hp : p.Prime) {m : ℕ} (hm : 3 ≤
     simp only [u, Pi.mul_apply, Units.val_mul, Finset.prod_mul_distrib, prod_tauPair, mul_one]
   have hu0 : ∀ f, u f i0 = z (f 0) := by
     intro f
-    simp [u, tauPair, Pi.mulSingle_apply, hi0, hi1, hi2, Fin.ext_iff]
+    simp [u, tauPair, hi0, hi1, hi2, Fin.ext_iff]
   have hu1 : ∀ f, u f i1 = (z (f 0))⁻¹ * z (f 1) := by
     intro f
-    simp [u, tauPair, Pi.mulSingle_apply, hi0, hi1, hi2, Fin.ext_iff]
+    simp [u, tauPair, hi0, hi1, hi2, Fin.ext_iff]
   have hginj : Function.Injective fun f => dgHomM K m (u f) := by
     intro f f' h
     have huf : u f = u f' := dgHomM_injective h
@@ -455,7 +455,7 @@ theorem minus_beta_eq [Finite K] [CharP K 2] {p : ℕ} (hp : p.Prime) (hp2 : p �
     (hE : EndData p (LargeEvenOmega (LargeEvenQMinus m b c)) A D (dgHomM K m (fun _ => ν))) :
     D = (leviSLM K m).range := by
   classical
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hν1 : ν ≠ 1 := by
     rintro rfl
     rw [orderOf_one] at hνo
@@ -542,7 +542,7 @@ theorem minus_beta_three [Finite K] [CharP K 2] {p : ℕ} (hp : p.Prime) (hp2 : 
     (hE : EndData p (LargeEvenOmega (LargeEvenQMinus m b c)) A D (dgHomM K m (fun _ => ν))) :
     NormConcl p A D := by
   classical
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hνp : ν ^ p = 1 := hνo ▸ pow_orderOf_eq_one ν
   have hν2 : ν * ν ≠ 1 := by
     intro h
@@ -603,7 +603,7 @@ theorem minus_beta_three [Finite K] [CharP K 2] {p : ℕ} (hp : p.Prime) (hp2 : 
     have h3 := Multiplicative.ofAdd.injective h2
     apply hν2
     have h4 : ((tauPair i0 i1 ν i0 : Kˣ) : K) * 1 * (((tauPair i0 i1 ν i1)⁻¹ : Kˣ) : K) = 1 := h3
-    simp [tauPair, Pi.mulSingle_apply, hi0, hi1, Fin.ext_iff] at h4
+    simp [tauPair, hi0, hi1, Fin.ext_iff] at h4
     exact Units.ext (by simpa using h4)
 
 theorem minus_alpha_three [Finite K] [CharP K 2] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {k : ℕ}
@@ -613,8 +613,8 @@ theorem minus_alpha_three [Finite K] [CharP K 2] {p : ℕ} (hp : p.Prime) (hp2 :
     (hE : EndData p (LargeEvenOmega (LargeEvenQMinus (k + 1) b c)) A D
       (dgHomM K (k + 1) (Pi.mulSingle (Fin.last k) ζ))) : NormConcl p A D := by
   classical
-  haveI := Fact.mk hp
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have := Fact.mk hp
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hζp : ζ ^ p = 1 := hζo ▸ pow_orderOf_eq_one ζ
   have hζ1 : ζ ≠ 1 := by
     rintro rfl
@@ -811,7 +811,7 @@ theorem minus_toral_norm [Finite K] [CharP K 2] {p : ℕ} (hp : p.Prime) (hp2 : 
     (hE : EndData p (LargeEvenOmega (LargeEvenQMinus m b c)) A D a) (hT : IsFullTorusM p A) :
     NormConcl p A D := by
   classical
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   obtain ⟨α, hα, rfl⟩ := hT.1 a hE.a_mem
   rcases minus_dichotomy hp hT hα hE with ⟨i₀, hi₀, hrest⟩ | hall
   ·
@@ -852,21 +852,21 @@ theorem minus_toral_norm [Finite K] [CharP K 2] {p : ℕ} (hp : p.Prime) (hp2 : 
       (conj_dgHomM_swapOn F)
       (fun u hu k => by
         by_cases h : F k
-        · simp only [if_pos h, inv_pow, hu k, inv_one]
-        · simp only [if_neg h, hu k])
+        · simp only [ite_eq_left h, inv_pow, hu k, inv_one]
+        · simp only [ite_eq_right h, hu k])
       (fun u' hu' => ⟨fun k => if F k then (u' k)⁻¹ else u' k, fun k => by
         by_cases h : F k
-        · simp only [if_pos h, inv_pow, hu' k, inv_one]
-        · simp only [if_neg h, hu' k], ?_⟩) ?_
+        · simp only [ite_eq_left h, inv_pow, hu' k, inv_one]
+        · simp only [ite_eq_right h, hu' k], ?_⟩) ?_
     · funext k
       by_cases h : F k <;> simp [h]
     · intro A' D' hE' hT'
       have e : (fun k => if F k then (α k)⁻¹ else α k) = fun _ => ν := by
         funext k
         by_cases h : F k
-        · simp only [if_pos h]
+        · simp only [ite_eq_left h]
           rw [show α k = ν⁻¹ from h, inv_inv]
-        · simp only [if_neg h]
+        · simp only [ite_eq_right h]
           exact (hcls k).resolve_right h
       rw [conj_dgHomM_swapOn, e] at hE'
       exact minus_beta_three hp hp2 hm hord hT' hE'
@@ -877,7 +877,7 @@ theorem minus_norm_big [Finite K] [CharP K 2] {p : ℕ} (hp : p.Prime) (hp2 : p 
     {a : GL (LargeEvenMinusIdx m) K}
     (hE : EndData p (LargeEvenOmega (LargeEvenQMinus m b c)) A D a) (hr : p ^ m ≤ Nat.card A) :
     NormConcl p A D := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   obtain ⟨ζ, hζo, -, -, -⟩ := exists_zeta (K := K) hp hp2 hpK
   obtain ⟨g, hgO, χ, hχ, hsurj⟩ := exists_orth_conj_minus hp2 hζo hirr
     (hE.A_le.trans (omega_le_orth _)) hE.A_elem hr
@@ -913,7 +913,7 @@ theorem minusSplitInput_holds : MinusSplitInput := by
       rw [hK, h0, pow_zero] at this
       omega
     · exact h0
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two hn hK
   have hp2 : p ≠ 2 := ne_two_of_dvd_two_pow_sub_one' hn hpn
   have hpK : p ∣ Nat.card K - 1 := by rw [hK]; exact hpn

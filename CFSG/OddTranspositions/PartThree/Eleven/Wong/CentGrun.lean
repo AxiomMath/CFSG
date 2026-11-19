@@ -18,6 +18,7 @@ open CFSG.BenderSuzuki.PFchapter1section1
 
 variable {G : Type} [Group G] [Finite G] (D : SplitData G)
 
+omit [Finite G] in
 theorem A_le_commutator_map {K0 : Subgroup D.X} (hidx : K0.index = 2) :
     D.A ≤ (commutator K0).map (D.X.subtype.comp K0.subtype) := by
   have hA_le_X : D.A ≤ D.X := by
@@ -46,7 +47,7 @@ theorem A_le_commutator_map {K0 : Subgroup D.X} (hidx : K0.index = 2) :
     _ = (commutator K0).map (D.X.subtype.comp K0.subtype) := by
         rw [← Subgroup.map_commutator, ← Subgroup.map_subtype_commutator, Subgroup.map_map]
 
-theorem exists_sylow_map_eq_M {K0 : Subgroup D.X} (hK0 : K0.Normal) (hidx : K0.index = 2)
+theorem exists_sylow_map_eq_M {K0 : Subgroup D.X} (_hK0 : K0.Normal) (hidx : K0.index = 2)
     (hK0T : K0.map D.X.subtype ⊓ D.T = D.M) :
     ∃ M1 : Sylow 2 K0, (M1 : Subgroup K0).map (D.X.subtype.comp K0.subtype) = D.M := by
   let f : K0 →* G := D.X.subtype.comp K0.subtype

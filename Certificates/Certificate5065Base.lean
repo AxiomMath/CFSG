@@ -42,7 +42,7 @@ private theorem sh0_mul : mulClosedChkP Sh0L = true := by
   · have h := L5S.sh0L_length
     rwa [L5S.sh0L_eq, List.length_map] at h
   · intro a ha b hb
-    obtain ⟨h1, h2⟩ := L5S.mF_spec L5S.sh0Chk_true L5S.sh0C_codes ha hb
+    obtain ⟨h1, h2⟩ := L5S.mF_spec L5S.sh0Chk_true ha hb
     refine ⟨h1, PkCV.ev_injective ?_⟩
     rw [PkCV.ev_mul, ← L5S.sh0L_getD, ← L5S.sh0L_getD, ← L5S.sh0L_getD]
     exact h2

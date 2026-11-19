@@ -56,7 +56,7 @@ theorem pocketHyp_of_G (hq : Sec5B517Quad K z) {T : Subgroup G}
   have hQH : Sec5B517Q8 hq ≤ Hc := hQT.trans (hTN.1.trans hNz)
   have hQ8 : Sec5B517Q8 (quad_subgroupOf hq hK hz) = (Sec5B517Q8 hq).subgroupOf Hc :=
     q8_subgroupOf hq hK hz
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hPg : IsPGroup 2 ↥(T.subgroupOf Hc) :=
     hTH.2.1.of_equiv (Subgroup.subgroupOfEquivOfLe hTH.1).symm
   have hnd : ¬ 2 ∣ (T.subgroupOf Hc).index := by
@@ -109,6 +109,7 @@ theorem pocketHyp_of_G (hq : Sec5B517Quad K z) {T : Subgroup G}
     rw [hQ8, Subgroup.mem_subgroupOf]
     exact hsQ
 
+omit [Finite G] in
 theorem zCent_mem_center (z : G) :
     zCent z ∈ center ↥(centralizer ({z} : Set G)) := by
   rw [Subgroup.mem_center_iff]

@@ -36,7 +36,7 @@ theorem burnsideF4r_A35Rest4 : burnsideF4m_A35Rest4 := by
 
 theorem burnsideF4r_A42Rest'''_of4 (hrest : burnsideF4r_A42Rest4) : burnsideF4m_A42Rest''' := by
   intro κ f E _ Gp M₁ M₂ Y _ β M _ ε z hyp hL43 hodd hκ
-  haveI := hyp.amalgam.finite
+  have := hyp.amalgam.finite
   rcases hκ with ⟨rfl, hf⟩ | ⟨rfl, hf⟩ | ⟨rfl, hf⟩ | ⟨rfl, hf⟩
   · have hf1 : 1 ≤ f := hyp.amalgam.model.2.1
     obtain rfl : f = 1 := by omega

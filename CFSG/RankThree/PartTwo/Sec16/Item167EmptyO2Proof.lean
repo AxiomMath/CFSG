@@ -1451,7 +1451,7 @@ private theorem ks167D4_ambient {Γ : Type} [Group Γ] [Finite Γ] (hD4 : KFacts
     (hmodel : CFSG.Blueprint.ChevalleyExceptionalModel ↥J .trialityD4 2 n)
     {x : Γ} (hx : x ∈ Subgroup.normalizer (J : Set Γ)) (hx3 : x ^ 3 = 1)
     (hout : Sec4.InducesOuterTheta x J)
-    {L : Subgroup Γ} (hLJ : L ≤ J)
+    {L : Subgroup Γ} (_hLJ : L ≤ J)
     (hLfix : L ≤ J ⊓ Subgroup.centralizer ({x} : Set Γ))
     (hLiso : Sec4.IsoLThreePi ↥(L.subgroupOf J) 2 n)
     (hLsub : (L.subgroupOf (J ⊓ Subgroup.centralizer ({x} : Set Γ))).IsSubnormal)
@@ -1499,7 +1499,7 @@ section Certificates
 variable {A : Subgroup G} {c : G} {L : Subgroup G} {Y : Subgroup G}
 
 private lemma setup_exists
-    (C : Ctx G A c L Y) : ∃ D : Setup G A c L Y, True := by
+    (C : Ctx G A c L Y) : ∃ _D : Setup G A c L Y, True := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set Z' := pPrimeCoreOf 2 Y ⊓ Subgroup.centralizer (L : Set G) with hZ'def
@@ -1508,7 +1508,7 @@ private lemma setup_exists
   have hZ'Y : Z' ≤ Y := inf_le_left.trans (pPrimeCoreOf_le 2 Y)
   have hNne : N ≠ ⊤ := by
     intro htop
-    haveI hZ'normal : Z'.Normal := (Subgroup.normalizer_eq_top_iff).mp htop
+    have hZ'normal : Z'.Normal := (Subgroup.normalizer_eq_top_iff).mp htop
     rcases C.h.isSimpleGroup.eq_bot_or_eq_top_of_normal Z' with hbot | htop'
     · exact C.hne hbot
     · exact hYne (top_le_iff.mp (htop' ▸ hZ'Y))
@@ -1531,46 +1531,46 @@ private lemma setup_exists
     hYJ, hJN, hJtop, Sec14.ker148_normal hNmem.2⟩, trivial⟩
 
 private lemma core_exists
-    (D : Setup G A c L Y) : ∃ D : Core G A c L Y, True := by
-  have hctx : Ctx169 G A c L := ⟨D.h, D.h0⟩
-  obtain ⟨-, hsol, hXne, hhyp⟩ := D.hH
-  obtain ⟨n, hn2, hiso, hprod⟩ := hhyp D.h0
+    (_D : Setup G A c L Y) : ∃ _D : Core G A c L Y, True := by
+  have hctx : Ctx169 G A c L := ⟨_D.h, _D.h0⟩
+  obtain ⟨-, hsol, hXne, hhyp⟩ := _D.hH
+  obtain ⟨n, hn2, hiso, hprod⟩ := hhyp _D.h0
   have hz3 : IsZ3LThreeTwo A c L n := ⟨by omega, hiso, hprod⟩
   have hn1 : 1 ≤ n := by omega
-  have hn3 : ¬ 3 ∣ n := Proof1617.not_three_dvd_of_isZ3 hctx D.h138 hz3
+  have hn3 : ¬ 3 ∣ n := Proof1617.not_three_dvd_of_isZ3 hctx _D.h138 hz3
   have hn4 : 4 ≤ n := by omega
   have h34 := Proof166Res3.isEmpty_l34_of_two_lt hiso hn2
-  have hsimple := Proof1619.simple_of_steps hctx (D.h1612 G A c L hctx) h34 hprod
+  have hsimple := Proof1619.simple_of_steps hctx (_D.h1612 G A c L hctx) h34 hprod
   have hLs : IsSimpleGroup ↥L := hsimple.1
   have hT0 : ∀ T ∈ invariantPiSubgroups (Subgroup.centralizer (L : Set G)) A (piOf 2),
       T = ⊥ := hsimple.2
   have hXL : Sec4.IsoLThreePi ↥L 2 n := Proof1617.isoLThreePi_of_isSimpleGroup hLs hn1 hiso
   obtain ⟨-, h9, -⟩ := Proof1617.facts_of_isZ3 hctx hz3
   have hCN := Proof1617.centralizer_le_normalizer_L hctx hz3
-  have hcA : c ∈ A := D.h.mem_A
-  have hA3 : ∀ a ∈ A, a ^ 3 = 1 := D.h.toSec14Std.isE27.1.2
+  have hcA : c ∈ A := _D.h.mem_A
+  have hA3 : ∀ a ∈ A, a ^ 3 = 1 := _D.h.toSec14Std.isE27.1.2
   have hLc : L ≤ Subgroup.centralizer ({c} : Set G) :=
-    Sec14.le_centralizer_of_mem_thetaComponentsAt D.h.mem_lA.1
+    Sec14.le_centralizer_of_mem_thetaComponentsAt _D.h.mem_lA.1
   have h3L : 3 ∣ Nat.card L := Proof1617.three_dvd_card_L hz3
-  have h3J : 3 ∣ Nat.card D.J := h3L.trans (Subgroup.card_dvd_of_le D.hLJ)
-  have hY3' : ¬ 3 ∣ Nat.card Y := not_three_dvd_of_oPrimeResidualOf_eq_bot D.hY.prop.2
+  have h3J : 3 ∣ Nat.card _D.J := h3L.trans (Subgroup.card_dvd_of_le _D.hLJ)
+  have hY3' : ¬ 3 ∣ Nat.card Y := not_three_dvd_of_oPrimeResidualOf_eq_bot _D.hY.prop.2
   have hLθbot : aschbacherSolvableCore 3 ↥L = ⊥ :=
     Proof1617.theta_eq_bot_of_isSimpleGroup hLs hn1 hiso
-  exact ⟨⟨D, n, hn1, hn2, hn3, hn4, hz3, hiso, hprod, hLs, hT0, hXL, h9, hCN, hcA,
+  exact ⟨⟨_D, n, hn1, hn2, hn3, hn4, hz3, hiso, hprod, hLs, hT0, hXL, h9, hCN, hcA,
     hA3, hLc, h3L, h3J, hY3', hLθbot⟩, trivial⟩
 
 private lemma coreXR_exists
-    (D : Core G A c L Y) : ∃ D : CoreXR G A c L Y, True := by
+    (_D : Core G A c L Y) : ∃ _D : CoreXR G A c L Y, True := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set X := deltaZero A (lB A) Y with hXdef
   set R := CFSG.Open.pCoreOf 2 X with hRdef
-  obtain ⟨-, hsol, hXne, -⟩ := D.hH
-  haveI hXnt : Nontrivial ↥X := (Subgroup.nontrivial_iff_ne_bot X).mpr hXne
+  obtain ⟨-, hsol, hXne, -⟩ := _D.hH
+  have hXnt : Nontrivial ↥X := (Subgroup.nontrivial_iff_ne_bot X).mpr hXne
   have hXY : X ≤ Y := deltaZero_le Y
-  have hXJ : X ≤ Subgroup.normalizer (D.J : Set G) := hXY.trans D.hYJ
-  have hX3' : ¬ 3 ∣ Nat.card X := fun h3 => D.hY3' (h3.trans (Subgroup.card_dvd_of_le hXY))
+  have hXJ : X ≤ Subgroup.normalizer (_D.J : Set G) := hXY.trans _D.hYJ
+  have hX3' : ¬ 3 ∣ Nat.card X := fun h3 => _D.hY3' (h3.trans (Subgroup.card_dvd_of_le hXY))
   have hXF : generalizedFitting ↥X = CFSG.pCore 2 ↥X :=
-    rank3II_16_7_1 D.h.isSimpleGroup D.h.nonabelian D.h.charTwoType D.h149 D.hY
+    rank3II_16_7_1 _D.h.isSimpleGroup _D.h.nonabelian _D.h.charTwoType _D.h149 _D.hY
   have hRne : R ≠ ⊥ := CFSG.RankThree.PartTwo.Sec15.pCoreOf_ne_bot_of_pCore_ne_bot
     (CFSG.RankThree.PartTwo.Sec15.Push153.pCore_ne_bot_of_nontrivial (X := ↥X) hXF)
   have hXR : R ≤ X := CFSG.LieType.BorelTits.pCoreOf_le 2 X
@@ -1585,15 +1585,15 @@ private lemma coreXR_exists
       ((R ⊓ Subgroup.centralizer (L : Set G) : Subgroup G) : Set G) := by
     have hACL : A ≤ Subgroup.normalizer (Subgroup.centralizer (L : Set G) : Set G) := by
       have hAL : A ≤ Subgroup.normalizer (L : Set G) := fun a ha =>
-        D.hCN (Subgroup.mem_centralizer_singleton_iff.mpr
-          (congrArg Subtype.val (D.h.isElemAbelian.1.1.comm ⟨a, ha⟩ ⟨c, D.hcA⟩)))
+        _D.hCN (Subgroup.mem_centralizer_singleton_iff.mpr
+          (congrArg Subtype.val (_D.h.isElemAbelian.1.1.comm ⟨a, ha⟩ ⟨c, _D.hcA⟩)))
       exact hAL.trans (CFSG.BenderSuzuki.normalizer_le_normalizer_centralizer L)
     exact (le_inf hAR hACL).trans Subgroup.inf_normalizer_le_normalizer_inf
   have hRCL : R ⊓ Subgroup.centralizer (L : Set G) = ⊥ := by
-    refine D.hT0 _ ⟨inf_le_right, ?_, hARCL⟩
+    refine _D.hT0 _ ⟨inf_le_right, ?_, hARCL⟩
     exact (IsPiSubgroup.of_le inf_le_left
       ((isPiSubgroup_piOf_iff Nat.prime_two _).mpr hRp))
-  exact ⟨⟨D, X, hXdef, R, hRdef, hXY, hXJ, hX3', hXF, hRne, hXR, hXNR, hAR, hRp, hR3',
+  exact ⟨⟨_D, X, hXdef, R, hRdef, hXY, hXJ, hX3', hXF, hRne, hXR, hXNR, hAR, hRp, hR3',
     hRCL⟩, trivial⟩
 
 namespace Proof167Empty
@@ -1601,8 +1601,8 @@ namespace Proof167Empty
 private lemma L_alpha_iso_pi
     (D : CoreXR G A c L Y) :
     letI := D.kerN; Sec4.IsoLThreePi ↥(img148 A D.N L) 2 D.n := by
-  letI := D.kerN
-  haveI : IsSimpleGroup ↥L := D.hLs
+  let := D.kerN
+  have : IsSimpleGroup ↥L := D.hLs
   have hLsQ : IsSimpleGroup (↥L ⧸ aschbacherSolvableCore 3 ↥L) :=
     ((QuotientGroup.quotientMulEquivOfEq D.hLθbot).trans
       QuotientGroup.quotientBot).isSimpleGroup
@@ -1629,7 +1629,7 @@ private lemma E9_facts
       img148 A D.N (A ⊓ L) ≤ img148 A D.N L ∧
       CFSG.Assembly.IsElemAbelian 3 (img148 A D.N (A ⊓ L)) ∧
       Nat.card (img148 A D.N (A ⊓ L)) = 9 := by
-  letI := D.kerN
+  let := D.kerN
   have hEαA : img148 A D.N (A ⊓ L) ≤ img148 A D.N A := img148_mono inf_le_left
   have hEαL : img148 A D.N (A ⊓ L) ≤ img148 A D.N L := img148_mono inf_le_right
   have hEαE27 : CFSG.Assembly.IsElemAbelian 3 (img148 A D.N (A ⊓ L)) :=
@@ -1646,14 +1646,14 @@ private lemma R_alpha_kernel
         QuotientGroup.mk' (Sec14.ker148 A D.N) ⟨r, hrM⟩ ∈
           Subgroup.centralizer (img148 A D.N D.J :
             Set (↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N)) → r = 1 := by
-  letI := D.kerN
+  let := D.kerN
   intro r hrR hrM hxC
   set K := pPrimeCoreOf 3 D.N with hKdef
   have hK3' : ¬ 3 ∣ Nat.card K := by
     rw [hKdef, CFSG.GH74.GLS.pPrimeCoreOf, Subgroup.card_subtype]
     exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mp
       (CFSG.pPrimeCore_coprime_card (p := 3) (G := ↥D.N))
-  haveI hKn : (K.subgroupOf D.N).Normal :=
+  have hKn : (K.subgroupOf D.N).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer (pPrimeCoreOf_le 3 D.N)).mpr
       (le_normalizer_pPrimeCoreOf 3 D.N)
   have hJK : D.J ≤ Subgroup.normalizer (K : Set G) :=
@@ -1697,7 +1697,7 @@ private lemma R_alpha_inf
     letI := D.kerN;
       img148 A D.N D.R ⊓ Subgroup.centralizer (img148 A D.N D.J :
         Set (↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N)) = ⊥ := by
-  letI := D.kerN
+  let := D.kerN
   refine le_bot_iff.mp fun x hx => ?_
   obtain ⟨r, hrM, hrR, rfl⟩ := mem_img148_iff.mp hx.1
   have hsub : (⟨r, hrM⟩ : ↥(D.N ⊔ A)) = 1 :=
@@ -1707,7 +1707,7 @@ private lemma R_alpha_inf
 private lemma R_alpha_ne_bot
     (D : CoreXR G A c L Y) (hJq : IsQuasisimple ↥D.J) :
     letI := D.kerN; img148 A D.N D.R ≠ ⊥ := by
-  letI := D.kerN
+  let := D.kerN
   intro hbot
   obtain ⟨r, hr1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp D.hRne
   have hxbot : QuotientGroup.mk' (Sec14.ker148 A D.N)
@@ -1732,7 +1732,7 @@ private lemma X_alpha_le_sup_of_iso
       img148 A D.N D.X ≤ img148 A D.N D.J ⊔
         Subgroup.centralizer (img148 A D.N D.J :
           Set (↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N)) := by
-  letI := D.kerN
+  let := D.kerN
   refine Proof167Empty.le_sup_centralizer_of_le_commutator_of_isoLThreePi
     (X := img148 A D.N D.J) (R := img148 A D.N D.X) (T := img148 A D.N A) (m := f)
     (by omega) hJiso (img148_le_normalizer D.hXJ) (img148_le_normalizer D.hAJ) ?_ ?_
@@ -1753,7 +1753,7 @@ private lemma X_alpha_le_sup_of_triality
       img148 A D.N D.X ≤ img148 A D.N D.J ⊔
         Subgroup.centralizer (img148 A D.N D.J :
           Set (↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N)) := by
-  letI := D.kerN
+  let := D.kerN
   have hcomm : img148 A D.N D.X = ⁅img148 A D.N D.X, img148 A D.N A⁆ := by
     have h1 : img148 A D.N D.X = img148 A D.N ⁅D.X, A⁆ := by
       rw [D.hXdef]
@@ -1778,7 +1778,7 @@ private lemma projection_data
           Set (↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N))) ⊓ img148 A D.N D.J ∧
         IsPGroup 2 T₀ ∧ T₀ ≠ ⊥ ∧ T₀ ≤ img148 A D.N D.J ∧
           img148 A D.N A ≤ Subgroup.normalizer (T₀ : Set _) := by
-  letI := D.kerN
+  let := D.kerN
   have hRαC := R_alpha_inf D hJq
   have hRαne := R_alpha_ne_bot D hJq
   set T₀ : Subgroup (↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N) :=
@@ -1813,7 +1813,7 @@ private lemma J_alpha_center_of_iso
     (D : CoreXR G A c L Y) {f : ℕ} (hf : 2 ≤ f)
     (hJiso : letI := D.kerN; Sec4.IsoLThreePi ↥(img148 A D.N D.J) 2 f) :
     letI := D.kerN; Subgroup.center ↥(img148 A D.N D.J) = ⊥ := by
-  letI := D.kerN
+  let := D.kerN
   rcases hJiso with ⟨h1, ⟨e⟩⟩ | ⟨h2, ⟨e⟩⟩
   · rw [← CFSG.ComponentClassification.OuterAutomorphisms.center_map_equiv e.symm,
       (Sec13.isPerfect_center_projSL 2 f (by omega) h1).2, Subgroup.map_bot]
@@ -1828,7 +1828,7 @@ private lemma inf_centralizer_eq_bot_of_center
     letI := D.kerN;
       img148 A D.N D.J ⊓ Subgroup.centralizer (img148 A D.N D.J :
         Set (↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N)) = ⊥ := by
-  letI := D.kerN
+  let := D.kerN
   refine le_bot_iff.mp fun x hx => ?_
   have hx' : (⟨x, hx.1⟩ : ↥(img148 A D.N D.J)) ∈
       Subgroup.center ↥(img148 A D.N D.J) := by
@@ -1845,7 +1845,7 @@ private lemma alternative_two_impossible
     (hLαiso : letI := D.kerN; Sec4.IsoLThreePi ↥(img148 A D.N L) 2 D.n)
     (h7 : letI := D.kerN;
       Nonempty (↥(img148 A D.N L) ≃* ↥(alternatingGroup (Fin 7)))) : False := by
-  letI := D.kerN
+  let := D.kerN
   have hfn : f = D.n := Proof167Empty.eq_of_isoLThreePi_two hf1 D.hn1 hLiso hLαiso
   have hf4 : 4 ≤ f := by rw [hfn]; exact D.hn4
   obtain ⟨e7⟩ := h7
@@ -1872,7 +1872,7 @@ private lemma ksl3_false
     (hJαinf : letI := D.kerN;
       img148 A D.N D.J ⊓ Subgroup.centralizer (img148 A D.N D.J :
         Set (↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N)) = ⊥) : False := by
-  letI := D.kerN
+  let := D.kerN
   have hn2' : 2 ≤ D.n := le_trans (by norm_num : 2 ≤ 4) D.hn4
   have hLαiso : Sec4.IsoLThreePi ↥(img148 A D.N L) 2 D.n := L_alpha_iso_pi D
   have hXαle := X_alpha_le_sup_of_iso D hf hJiso
@@ -1913,7 +1913,7 @@ private lemma J_alpha_center_of_triality
     (hmodel : letI := D.kerN;
       CFSG.Blueprint.ChevalleyExceptionalModel ↥(img148 A D.N D.J) .trialityD4 2 f) :
     letI := D.kerN; Subgroup.center ↥(img148 A D.N D.J) = ⊥ := by
-  letI := D.kerN
+  let := D.kerN
   have hJαsimple : IsSimpleGroup ↥(img148 A D.N D.J) :=
     (CFSG.LieType.Simplicity.fam_3d4_simplicity ↥(img148 A D.N D.J) 2 f hmodel).2
   have hcard := CFSG.Timmesfeld.ExceptionalOrders.card_of_twistedChevalleyModel_D4_two
@@ -1945,7 +1945,7 @@ private lemma J_alpha_center_of_triality
   have hnonab : ∃ a b : ↥(img148 A D.N D.J), a * b ≠ b * a := by
     by_contra h
     push Not at h
-    haveI : IsMulCommutative ↥(img148 A D.N D.J) := ⟨⟨fun a b => h a b⟩⟩
+    have : IsMulCommutative ↥(img148 A D.N D.J) := ⟨⟨fun a b => h a b⟩⟩
     have hprime : (Nat.card ↥(img148 A D.N D.J)).Prime :=
       Group.is_simple_iff_prime_card.mp hJαsimple
     have h3eq : Nat.card ↥(img148 A D.N D.J) = 3 :=
@@ -1967,7 +1967,7 @@ private lemma triality_fixed
         ((img148 A D.N L).subgroupOf (img148 A D.N D.J ⊓
           Subgroup.centralizer ({cα} :
             Set (↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N)))).IsSubnormal := by
-  letI := D.kerN
+  let := D.kerN
   have hc3 : c ^ 3 = 1 := D.h.toSec14Std.isE27.1.2 c D.hcA
   set cα := alpha148 A D.N c D.hcA with hcαdef
   have hCJ : img148 A D.N D.J ⊓ Subgroup.centralizer {cα} =
@@ -2008,13 +2008,13 @@ private lemma triality_aut
         cα ∈ Subgroup.normalizer (img148 A D.N D.J :
           Set (↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N)) →
         cα ^ 3 = 1 ∧ Sec4.InducesOuterTheta cα (img148 A D.N D.J) := by
-  letI := D.kerN
+  let := D.kerN
   intro cα hcαdef hcαN
   have hc3 : c ^ 3 = 1 := D.h.toSec14Std.isE27.1.2 c D.hcA
   have hcα3 : cα ^ 3 = 1 := by
     rw [hcαdef, ← alpha148_pow D.hcA 3]
     rw [alpha148_eq_mk', mk'_ker148_eq_one_iff]
-    simpa [hc3] using (pPrimeCoreOf 3 D.N).one_mem
+    simp [hc3]
   have hout : Sec4.InducesOuterTheta cα (img148 A D.N D.J) := by
     rw [hcαdef]
     exact KFacts.InducesStdKind.inducesOuterTheta (img148 A D.N D.J) hgf (by decide)
@@ -2024,19 +2024,19 @@ private lemma conj_mem_centralizer
     (D : CoreXR G A c L Y) :
     letI := D.kerN;
       ∀ (cα : ↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N)
-        (hcαN : cα ∈ Subgroup.normalizer (img148 A D.N D.J :
+        (_hcαN : cα ∈ Subgroup.normalizer (img148 A D.N D.J :
           Set (↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N)))
         (cc : ↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N),
         cc ∈ Subgroup.centralizer (img148 A D.N D.J :
           Set (↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N)) →
         cα * cc * cα⁻¹ ∈ Subgroup.centralizer (img148 A D.N D.J :
           Set (↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N)) := by
-  letI := D.kerN
-  intro cα hcαN cc hcc
+  let := D.kerN
+  intro cα _hcαN cc hcc
   rw [Subgroup.mem_centralizer_iff]
   intro j hj
   have hj' : cα⁻¹ * j * cα ∈ img148 A D.N D.J := by
-    simpa using (Subgroup.mem_normalizer_iff.mp (inv_mem hcαN) j).mp hj
+    simpa using (Subgroup.mem_normalizer_iff.mp (inv_mem _hcαN) j).mp hj
   have hcom := (Subgroup.mem_centralizer_iff.mp hcc) (cα⁻¹ * j * cα) hj'
   calc j * (cα * cc * cα⁻¹)
       = cα * ((cα⁻¹ * j * cα) * cc) * cα⁻¹ := by group
@@ -2047,7 +2047,7 @@ private lemma triality_mem
     (D : CoreXR G A c L Y) :
     letI := D.kerN;
       ∀ (cα : ↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N)
-        (hcαA : cα ∈ img148 A D.N A)
+        (_hcαA : cα ∈ img148 A D.N A)
         (hcαN : cα ∈ Subgroup.normalizer (img148 A D.N D.J :
           Set (↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N)))
         (x : ↥(img148 A D.N D.J)),
@@ -2058,7 +2058,7 @@ private lemma triality_mem
           ((img148 A D.N D.R ⊔ Subgroup.centralizer (img148 A D.N D.J :
             Set (↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N))) ⊓ img148 A D.N D.J).subgroupOf
             (img148 A D.N D.J) := by
-  letI := D.kerN
+  let := D.kerN
   intro cα hcαA hcαN x hxT
   have hxsup : (x : ↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N) ∈
       img148 A D.N D.R ⊔ Subgroup.centralizer (img148 A D.N D.J) :=
@@ -2108,7 +2108,7 @@ private lemma triality_invariant
     (D : CoreXR G A c L Y) :
     letI := D.kerN;
       ∀ (cα : ↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N)
-        (hcαA : cα ∈ img148 A D.N A)
+        (_hcαA : cα ∈ img148 A D.N A)
         (hcαN : cα ∈ Subgroup.normalizer (img148 A D.N D.J :
           Set (↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N))),
         (((img148 A D.N D.R ⊔ Subgroup.centralizer (img148 A D.N D.J :
@@ -2118,7 +2118,7 @@ private lemma triality_invariant
         (((img148 A D.N D.R ⊔ Subgroup.centralizer (img148 A D.N D.J :
             Set (↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N))) ⊓ img148 A D.N D.J).subgroupOf
             (img148 A D.N D.J)) := by
-  letI := D.kerN
+  let := D.kerN
   intro cα hcαA hcαN
   set T₀ : Subgroup (↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N) :=
     (img148 A D.N D.R ⊔ Subgroup.centralizer (img148 A D.N D.J :
@@ -2148,10 +2148,10 @@ private lemma J_quasisimple_of_iso
     (hO2 : CFSG.pCore 2 ↥D.J = ⊥)
     (hJiso : letI := D.kerN; Sec4.IsoLThreePi ↥(img148 A D.N D.J) 2 f) :
     IsQuasisimple ↥D.J := by
-  letI := D.kerN
+  let := D.kerN
   have hJαsimple : IsSimpleGroup ↥(img148 A D.N D.J) :=
     Proof1424Steps.isSimpleGroup_of_isoLThreePi_two hf hJiso
-  haveI := hJαsimple
+  have := hJαsimple
   have hJθq : IsSimpleGroup (↥D.J ⧸ aschbacherSolvableCore 3 ↥D.J) := by
     obtain ⟨e⟩ := Desc143X.nonempty_quotTheta_equiv_img148 (A := A) (Y := D.N) D.hJ D.h3J
     exact e.isSimpleGroup
@@ -2175,10 +2175,10 @@ private lemma J_quasisimple_of_triality
     (hmodel : letI := D.kerN;
       CFSG.Blueprint.ChevalleyExceptionalModel ↥(img148 A D.N D.J) .trialityD4 2 f) :
     IsQuasisimple ↥D.J := by
-  letI := D.kerN
+  let := D.kerN
   have hJαsimple : IsSimpleGroup ↥(img148 A D.N D.J) :=
     (CFSG.LieType.Simplicity.fam_3d4_simplicity ↥(img148 A D.N D.J) 2 f hmodel).2
-  haveI := hJαsimple
+  have := hJαsimple
   have hJθq : IsSimpleGroup (↥D.J ⧸ aschbacherSolvableCore 3 ↥D.J) := by
     obtain ⟨e⟩ := Desc143X.nonempty_quotTheta_equiv_img148 (A := A) (Y := D.N) D.hJ D.h3J
     exact e.isSimpleGroup
@@ -2204,7 +2204,7 @@ private lemma triality_false
     (hgf : letI := D.kerN;
       KFacts.InducesStdKind (img148 A D.N D.J) (alpha148 A D.N c D.hcA) .graphField)
     (hJq : IsQuasisimple ↥D.J) : False := by
-  letI := D.kerN
+  let := D.kerN
   have hf1 : 1 ≤ f := by omega
   have hJαcenter := J_alpha_center_of_triality D hf1 hmodel
   have hJαinf := inf_centralizer_eq_bot_of_center D hJαcenter
@@ -2240,7 +2240,7 @@ private lemma triality_false
 private lemma false_of_pCore_eq_bot
     (D : CoreXR G A c L Y)
     (hO2 : CFSG.pCore 2 ↥D.J = ⊥) : False := by
-  letI := D.kerN
+  let := D.kerN
   have hn2' : 2 ≤ D.n := le_trans (by norm_num : 2 ≤ 4) D.hn4
   have hLαiso : Sec4.IsoLThreePi ↥(img148 A D.N L) 2 D.n := L_alpha_iso_pi D
   have hcases := Proof167Core.lift429_cases_of (A := A) (c := c) (L := L)

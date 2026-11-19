@@ -62,6 +62,7 @@ theorem qtwoDB17_three_dvd_J (hm : 5 ≤ m) (hbase : QTwoUnitBase p B Bs x L ψ 
     Subgroup.card_dvd_of_le (Subgroup.map_mono hmono)
   exact hdvd216.trans hdvdJ
 
+omit [Finite G] in
 theorem qtwoDB17_map_conj_le (H J₀ : Subgroup G) {n : G} (hn : n ∈ H) :
     (⨆ (a : G) (_ : a ∈ H), J₀.map (MulAut.conj a⁻¹).toMonoidHom).map
       (MulAut.conj n).toMonoidHom ≤
@@ -78,6 +79,7 @@ theorem qtwoDB17_map_conj_le (H J₀ : Subgroup G) {n : G} (hn : n ∈ H) :
     MulAut.conj_apply, mul_inv_rev, inv_inv]
   group
 
+omit [Finite G] in
 theorem qtwoDB17_normalizer_iSup_conj (H J₀ : Subgroup G) :
     H ≤ Subgroup.normalizer
       ((⨆ (a : G) (_ : a ∈ H), J₀.map (MulAut.conj a⁻¹).toMonoidHom : Subgroup G) : Set G) := by
@@ -102,7 +104,7 @@ theorem qtwoDB17_layer_closure
     (hcoords : QTwoUnitCoords Bs x L 𝒦 M e e' ψ ε βL ω) (hdel : QTwoUnitDel Bs βL a b c α g b')
     (hb'B : (b' : G) ∈ B) {N : Subgroup G}
     (hN : LargeEvenPComponent 3 (Subgroup.centralizer ({(b' : G)} : Set G)) N)
-    (hJ₁ : qtwoDelJ ψ c ≤ N) (hJ₂ : (qtwoDelJ ψ c).map (MulAut.conj g).toMonoidHom ≤ N) :
+    (hJ₁ : qtwoDelJ ψ c ≤ N) (_hJ₂ : (qtwoDelJ ψ c).map (MulAut.conj g).toMonoidHom ≤ N) :
     N ≤ ⨆ (a : G) (_ : a ∈ LargeEvenPLayer 3
         (Subgroup.centralizer ({(b' : G)} : Set G))),
       (qtwoDelJ ψ c).map (MulAut.conj a⁻¹).toMonoidHom := by
@@ -170,14 +172,14 @@ theorem qtwoDB17_layer_closure
     by_contra hNK'
     have hlt : K < N := lt_of_le_of_ne hKN (fun h => hNK' h.ge)
     exact hN'.2.2.2 K hlt hKsub (by
-      haveI : (MK.subgroupOf MN).Normal := hMKnormal
+      have : (MK.subgroupOf MN).Normal := hMKnormal
       rcases CFSG.ComponentClassification.Quasisimple.normal_le_center_or_eq_top hMq
         (MK.subgroupOf MN) with hcenter | htop
       · exfalso
         have hJcomp := ggQTwoDUnit_J_comp hcfg (by omega) hbase hcoords hdel.hca hdel.hcb hdel.sign
           hdel.conj hdel.coord hb'B
         have hJY : J₁ ≤ Y := hJcomp.1.1.trans inf_le_left
-        haveI : Group.IsPerfect ↥J₁ := ⟨hJcomp.1.2.2.1⟩
+        have : Group.IsPerfect ↥J₁ := ⟨hJcomp.1.2.2.1⟩
         have hJperf : ⁅J₁, J₁⁆ = J₁ := Subgroup.isPerfect_iff.mp inferInstance
         have hJsubY : (J₁.subgroupOf Y) ≤ (K.subgroupOf Y) :=
           Subgroup.comap_mono (f := Y.subtype) hJK
@@ -247,7 +249,7 @@ theorem qtwoDB17_dSign_one_apply (m : ℕ) (a b i : Fin m) :
       mul_one]
   · intro j _ hj
     rw [dSign_apply]
-    simp [dBasis, Pi.basisFun_apply, Pi.single_apply, Ne.symm hj]
+    simp [dBasis, Pi.basisFun_apply, Ne.symm hj]
   · intro hi
     exact absurd (Finset.mem_univ i) hi
 
@@ -334,11 +336,11 @@ theorem qtwoDB17_eq_of_mem_closure (hbase : QTwoUnitBase p B Bs x L ψ ε)
       zero_mem' := rfl
       add_mem' := by
         intro u v hu hv
-        simp only [Set.mem_setOf_eq] at hu hv ⊢
+        simp only [Set.mem_ofPred_eq] at hu hv ⊢
         rw [Pi.add_apply, Pi.add_apply, hu, hv]
       smul_mem' := by
         intro r v hv
-        simp only [Set.mem_setOf_eq] at hv ⊢
+        simp only [Set.mem_ofPred_eq] at hv ⊢
         rw [Pi.smul_apply, Pi.smul_apply, hv] }
   let T : Subgroup ↥Bs :=
     { carrier := {t : ↥Bs | βL (Additive.ofMul t) ∈ P}

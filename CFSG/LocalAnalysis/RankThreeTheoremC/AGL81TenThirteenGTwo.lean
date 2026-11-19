@@ -27,7 +27,7 @@ theorem kFactG28AutCard_holds :
   obtain ⟨F, _, _, hFchar, hF⟩ :=
     CFSG.HardMathSupport.Timmesfeld.Tables.Census.exists_field_card q.p q.exponent
       q.prime_p q.exponent_pos
-  haveI : CharP F 2 := by rw [← hqp]; exact hFchar
+  have : CharP F 2 := by rw [← hqp]; exact hFchar
   have hF8 : Nat.card F = 8 := by rw [hF, hqp, hqe]; norm_num
   obtain ⟨b⟩ := CFSG.TauCetiBridge.Even.chevalleyBridgesAll.g2 q hv F
     (by rw [hF, TauCeti.PrimePower.card_def])
@@ -48,11 +48,12 @@ theorem kFactG28AutCard_holds :
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem relIndex_d1PlusCore_dvd_card_mulAut {p : ℕ} {H : Subgroup G}
     {K : Subgroup (H ⧸ primeComplementCore (G := H) p)} (hK : K.Normal) :
     (d1PlusCore p H K).relIndex H ∣ Nat.card (MulAut K) := by
   classical
-  haveI := hK
+  have := hK
   let π : H →* (H ⧸ primeComplementCore (G := H) p) :=
     QuotientGroup.mk' (primeComplementCore (G := H) p)
   let φ : H →* MulAut K := (MulAut.conjNormal (H := K)).comp π

@@ -29,8 +29,8 @@ theorem qTwoFrontRank_innerDiagOnLab_six {B Bs L D J : Subgroup G} {x : G}
   let R := LargeEvenProj (LargeEvenSUGroup (Fin 6) F0 (2 ^ 1))
   have hK : Nat.card F0 = (2 ^ 1) ^ 2 := by rw [hcard]; norm_num
   have hsimple : IsSimpleGroup R := by
-    letI : Group R' := instR'
-    haveI : IsSimpleGroup R' := hsimple'
+    let : Group R' := instR'
+    have : IsSimpleGroup R' := hsimple'
     exact MulEquiv.isSimpleGroup (e.symm.trans θ')
   have hna : ∃ a b : R, a * b ≠ b * a := by
     obtain ⟨a', b', hab'⟩ := hna'

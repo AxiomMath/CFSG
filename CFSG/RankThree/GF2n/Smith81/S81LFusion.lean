@@ -25,6 +25,7 @@ section Lemma4A2
 
 variable [Finite G] {M Q Z : Subgroup G}
 
+omit [Finite G] in
 private theorem exists_mul_of_mem_sup {A K : Subgroup G}
     (hc : ∀ a ∈ A, ∀ k ∈ K, a * k = k * a) {x : G} (hx : x ∈ A ⊔ K) :
     ∃ a ∈ A, ∃ k ∈ K, a * k = x := by
@@ -180,6 +181,7 @@ section FusionCore
 
 variable [Finite G] {M Q Z B : Subgroup G} {z v : G}
 
+omit [Finite G] in
 private theorem conj_mem_BlockOf_of_le_Qv (Hs : StrothHyp M Q Z) {c : G} (hc : c ∈ Cv v)
     (hcQ : conjSubgroup c Z ≤ Qv Q v) : conjSubgroup c Z ∈ BlockOf (Cv v) Z v := by
   refine Relation.EqvGen.rel _ _ ⟨ZConjBy.self _, ⟨c, hc, rfl⟩, ?_⟩

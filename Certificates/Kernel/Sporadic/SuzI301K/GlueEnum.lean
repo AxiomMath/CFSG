@@ -94,7 +94,6 @@ theorem enum_facts :
     (gens_lin mT_lt) ?_ hpos h0 hp0 hl0 (fun a _ => key_lt _) hinj ?_ horder ?_ (Nat.le_refl _)
   · intro j hj w i hi
     rw [hsz] at hj
-    beta_reduce
     rw [hgt j hj, col_mulT_tabW _ _ hi]
     exact ev_congr (fun i' hi' => gw_facts.2 j hj i' hi') _
   · intro i hi hc

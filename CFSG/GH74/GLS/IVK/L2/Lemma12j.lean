@@ -48,7 +48,7 @@ theorem ivk_1_2j : IVK_1_2j := by
       rw [hr, mul_one] at hdr
       exact hxPt (hdr ▸ hd)
     have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    have hR2 : IsPGroup 2 ↥N.R := N.T.isPGroup'.to_le (inf_le_left : N.R ≤ _)
+    have hR2 : IsPGroup 2 ↥N.R := N.T.isPGroup.to_le (inf_le_left : N.R ≤ _)
     obtain ⟨m, hm⟩ := (IsPGroup.iff_card).mp hR2
     have hm0 : m ≠ 0 := by
       rintro rfl

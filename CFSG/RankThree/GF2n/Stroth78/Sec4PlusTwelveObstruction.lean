@@ -15,6 +15,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {z : G} {E F : Subgroup G}
 
+omit [Finite G] in
 theorem comm_of_commutator_eq_one {x a : G} (h : x * a * x⁻¹ * a⁻¹ = 1) : x * a = a * x := by
   have h1 : x * a * x⁻¹ = a := by
     calc x * a * x⁻¹ = (x * a * x⁻¹ * a⁻¹) * a := by group

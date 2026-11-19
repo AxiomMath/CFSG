@@ -19,7 +19,7 @@ variable {K : Type} [Field K] [Finite K] {n : ℕ}
 theorem linear_pElement_inner (hn : 3 ≤ n) {p : ℕ} (hp : p.Prime) (hpK : ¬ p ∣ Nat.card K - 1)
     {w : MulAut (projectiveSL n K)} (hw : w ∈ linearAutGroup n K) {k : ℕ} (hk : w ^ (p ^ k) = 1) :
     w ∈ inner (projectiveSL n K) := by
-  haveI : (inner (projectiveSL n K)).Normal := inner_normal _
+  have : (inner (projectiveSL n K)).Normal := inner_normal _
   have hIDle : inner (projectiveSL n K) ≤ linearAutGroup n K :=
     (CFSG.LocalAnalysis.ComponentInitial.LinearFlag.standard_outer_quotients
       (n := n) (K := K)).1
@@ -37,7 +37,7 @@ theorem linear_pElements_inner_of_two_indep (hn : 3 ≤ n) {p : ℕ} (hp : p.Pri
     (ψ : X →* MulAut (projectiveSL n K)) (hψ : Function.Injective ψ) (L : Subgroup X)
     (hL : ∀ y : projectiveSL n K, ∃ l ∈ L, ψ l = MulAut.conj y)
     {x : X} (hx : ∃ k : ℕ, x ^ (p ^ k) = 1) : ψ x ∈ inner (projectiveSL n K) := by
-  haveI hDn : (linearAutGroup n K).Normal := linearAutGroup_normal_of_three_le hn
+  have hDn : (linearAutGroup n K).Normal := linearAutGroup_normal_of_three_le hn
   obtain ⟨x₁, x₂, hc, h1, h2, hi, hfix⟩ := hTwo
   refine pElements_inner_of_two_indep (fieldAut n K) (linearAutGroup n K) hp
     (CFSG.LocalAnalysis.ComponentInitial.LinearFlag.standard_outer_quotients

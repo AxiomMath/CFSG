@@ -164,7 +164,7 @@ theorem census_counts {mul : ℕ → ℕ → ℕ} {Q U : List ℕ} {N T : ℕ} (
       kCount, kInv, List.filter_filter]
     congr 2
     funext c
-    first | rfl | exact Bool.and_comm _ _
+    exact Bool.and_comm _ _
   · rw [cenLane_eq, Nat.add_assoc, Nat.add_comm 1, div_pow_succ, cenPreds, lane_succ hL,
       Nat.mul_add, pow_add, ← Nat.div_div_eq_div_mul,
       show 20 * Q.length = 20 * (Q.map fun q c => (mul c c == 0 && c != 0) && (mul c q == mul q c)).length
@@ -203,7 +203,7 @@ theorem sumBelow_list {m hi : ℕ} (f : ℕ → ℕ) (hm : m ≤ 64 * hi) :
     simp
   rw [h2, Nat.add_zero]
   congr 1
-  exact List.map_congr_left fun i hi => by rw [if_pos (List.mem_range.1 hi)]
+  exact List.map_congr_left fun i hi => by rw [ite_eq_left (List.mem_range.1 hi)]
 
 theorem sum_blocks (f : ℕ → ℕ) (n : ℕ) : ∀ k, ((List.range (n * k)).map f).sum =
     ((List.range k).map fun s => ((List.range n).map fun i => f (n * s + i)).sum).sum

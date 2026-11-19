@@ -62,7 +62,7 @@ theorem cf81E6P211U4 : CF81E6P211U4 := by
     obtain ⟨T⟩ : Nonempty (Sylow 2 ↥F) := inferInstance
     have hT := T.card_eq_multiplicity
     rw [Nat.factorization_def _ Nat.prime_two, hFcard, v2_ordTwistedA_three hq'odd hq'3 h8] at hT
-    have hb2 := hbound ((T : Subgroup ↥F).map F.subtype) (map_subtype_le _) (T.isPGroup'.map _)
+    have hb2 := hbound ((T : Subgroup ↥F).map F.subtype) (map_subtype_le _) (T.isPGroup.map _)
     rw [Subgroup.card_map_of_injective F.subtype_injective, hT, hD, ← pow_mul 2 m 2,
       ← pow_succ'] at hb2
     have := (pow_le_pow_iff_right₀ (by norm_num : 1 < 2)).mp hb2

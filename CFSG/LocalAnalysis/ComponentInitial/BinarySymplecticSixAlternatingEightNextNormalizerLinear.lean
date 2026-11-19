@@ -160,7 +160,7 @@ theorem card_le_four_of_mul_self (U : Subgroup (GL (Fin 3) (ZMod 2)))
     interval_cases n <;> simp_all
   obtain ⟨P, hP⟩ := hU2.exists_le_sylow
   have hPU : (P : Subgroup (GL (Fin 3) (ZMod 2))) = U :=
-    (Subgroup.eq_of_le_of_card_ge hP (by rw [hcard]; exact hp P P.isPGroup')).symm
+    (Subgroup.eq_of_le_of_card_ge hP (by rw [hcard]; exact hp P P.isPGroup)).symm
   set w := glOfDet unipotentFour unipotentFour_det with hw
   have hw2 : w * w ≠ 1 := fun h => unipotentFour_sq (by
     have h1 := congrArg (fun x : GL (Fin 3) (ZMod 2) => (x : Matrix (Fin 3) (Fin 3) (ZMod 2))) h

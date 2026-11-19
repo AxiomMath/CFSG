@@ -302,7 +302,7 @@ private lemma exists_ne_of_card_gt_two {α : Type*} [Fintype α]
     ∃ x, x ≠ a ∧ x ≠ b := by
   classical
   by_contra hx
-  push_neg at hx
+  push Not at hx
   have hsubset : (Finset.univ : Finset α) ⊆ ({a, b} : Finset α) := by
     intro x hxuniv
     simp
@@ -641,7 +641,7 @@ private lemma d8_exists_involution_not_mem_card_four
     intro i j hij
     have hij' := congrArg Subtype.val hij
     fin_cases i <;> fin_cases j <;> simp only [f] at hij' ⊢
-    all_goals first | exact Fin.ext (by omega) | (exfalso; revert hij'; decide)
+    all_goals (exfalso; revert hij'; decide)
   have h5 : 5 ≤ Nat.card A := by
     simpa using Nat.card_le_card_of_injective f hf
   omega
@@ -649,7 +649,7 @@ private lemma d8_exists_involution_not_mem_card_four
 private lemma sylow2_equiv_dihedral4
     {G : Type u} [Group G] [Finite G]
     (hmin : IsMinimalCounterexample G)
-    (c : CentralizerSetup G) (hfirst : FirstCase c) (d : FirstCaseCountData c)
+    (c : CentralizerSetup G) (hfirst : FirstCase c) (_d : FirstCaseCountData c)
     (S2 : Sylow 2 G) :
     Nonempty ((S2 : Subgroup G) ≃* DihedralGroup 4) := by
   classical
@@ -672,7 +672,6 @@ private lemma sylow2_equiv_dihedral4
   obtain ⟨eS⟩ := c.dihedralEquiv
   have eS' : c.S ≃* DihedralGroup 4 := by
     rw [hm2] at eS
-    norm_num at eS
     exact eS
   exact ⟨(Sylow.equiv S2 c.S).trans eS'⟩
 
@@ -1038,7 +1037,7 @@ private lemma sylow2_mem_normalizer_conjugate
     (T2 : Sylow 2 (↥(Subgroup.normalizer (P : Set G))))
     (S2 : Sylow 2 G) (r : G)
     (hrS2 : r ∈ (S2 : Subgroup G))
-    (hrTg : r ∉ ((T2 : Subgroup (↥(Subgroup.normalizer (P : Set G)))).map
+    (_hrTg : r ∉ ((T2 : Subgroup (↥(Subgroup.normalizer (P : Set G)))).map
       (Subgroup.normalizer (P : Set G)).subtype))
     (hTgS2 : ((T2 : Subgroup (↥(Subgroup.normalizer (P : Set G)))).map
       (Subgroup.normalizer (P : Set G)).subtype) ≤ (S2 : Subgroup G)) :
@@ -1556,7 +1555,7 @@ private lemma sylow2_reflection_sq_mem
     (T2 : Sylow 2 (↥(Subgroup.normalizer (P : Set G))))
     (S2 : Sylow 2 G) (r : G)
     (hrS2 : r ∈ (S2 : Subgroup G))
-    (hrTg : r ∉ ((T2 : Subgroup (↥(Subgroup.normalizer (P : Set G)))).map
+    (_hrTg : r ∉ ((T2 : Subgroup (↥(Subgroup.normalizer (P : Set G)))).map
       (Subgroup.normalizer (P : Set G)).subtype))
     (hTgS2 : ((T2 : Subgroup (↥(Subgroup.normalizer (P : Set G)))).map
       (Subgroup.normalizer (P : Set G)).subtype) ≤ (S2 : Subgroup G)) :
@@ -1734,7 +1733,7 @@ private lemma sylow3_inter_normalizer_inter_eq_inter
     {G : Type u} [Group G] [Finite G]
     (P Q : Sylow 3 G)
     (hP9 : Nat.card (P : Subgroup G) = 9)
-    (hQcard : Nat.card ↥(Subgroup.normalizer (Q : Set G)) = 36) :
+    (_hQcard : Nat.card ↥(Subgroup.normalizer (Q : Set G)) = 36) :
     (P : Subgroup G) ⊓ Subgroup.normalizer (Q : Set G) = (P : Subgroup G) ⊓ (Q : Subgroup G) := by
   classical
   apply le_antisymm
@@ -1742,7 +1741,7 @@ private lemma sylow3_inter_normalizer_inter_eq_inter
     constructor
     · exact hx.1
     · by_cases hx1 : x = 1
-      · simpa [hx1] using hx.1
+      · simp [hx1]
       · let NQ : Subgroup G := Subgroup.normalizer (Q : Set G)
         have hQleNQ : (Q : Subgroup G) ≤ NQ := Subgroup.le_normalizer (H := (Q : Subgroup G))
         have hzle : Subgroup.zpowers x ≤ NQ := Subgroup.zpowers_le.mpr hx.2
@@ -1778,7 +1777,7 @@ private lemma sylow3_inter_normalizer_inter_eq_inter
               exact Sylow.coe_subtype Q hQleNQ
             rw [hsub]
             exact (Subgroup.normal_subgroupOf_iff_le_normalizer hQleNQ).mpr (by
-              simpa [NQ])
+              simp [NQ])
           let : (Q' : Subgroup (↥NQ)).Normal := hQ'normal
           have hgfix : g • Q' = Q' := Sylow.smul_eq_of_normal
           calc
@@ -2031,7 +2030,7 @@ public theorem firstCase_normalizer_sylow3_sylow2_inter_hhat_card_two
     interval_cases m
     · norm_num at hm
     · norm_num at hm
-      have hbad : 4 ∣ 18 := by simpa [hm.symm] using hintercard
+      have hbad : 4 ∣ 18 := by simp [hm.symm] at hintercard
       norm_num at hbad
     · omega
     · omega
@@ -2262,7 +2261,7 @@ public theorem firstCase_t2_inter_hhat_inverts_P
   let W : Subgroup G := if hU1eq' : U1 = c.U then U2 else U1
   have hUeq : U = c.U := by
     by_cases h : U1 = c.U
-    · simpa [U, h]
+    · simp [U, h]
     · rcases hU1eq with h1 | h2
       · exact False.elim (h h1)
       · simpa [U, h]
@@ -2359,7 +2358,6 @@ public theorem firstCase_t2_inter_hhat_inverts_P
       rw [← theorem26_normalizer_U_eq_Hhat hmin c hO2 (lemma_2_2 hmin c).2]
       change a ∈ Subgroup.normalizer (c.U : Set G)
       rw [Subgroup.mem_normalizer_iff_map_conj_eq]
-      change c.U.map (MulAut.conj a) = c.U
       simpa [conjugateSubgroup] using hEq
     have hV : conjugateSubgroup U a = U ∨ conjugateSubgroup U a = W := by
       rcases honly (conjugateSubgroup U a) hconj hle with h | h
@@ -2582,8 +2580,7 @@ public theorem firstCase_centralizer_U_card
     · norm_num at hm
       right
       exact hm.symm
-    · norm_num at hm
-      left
+    · left
       omega
   rcases hC36or72 with hC36 | hC72
   · exact hC36
@@ -3074,7 +3071,7 @@ private lemma sylow2_join_inter_hhat_ne_four
   let : Fintype (↥K) := Fintype.ofFinite _
   have : IsKleinFour (↥K) := hKlein
   have hKcard' : Fintype.card (↥K) = 4 := by
-    simpa [Nat.card_eq_fintype_card] using hK4
+    simp
   have hKgt : 2 < Fintype.card (↥K) := by rw [hKcard']; norm_num
   let tK : ↥K := ⟨t', ht'K⟩
   have h1netK : (1 : ↥K) ≠ tK := by
@@ -3328,7 +3325,6 @@ private lemma sylow2_join_inter_hhat_ne_four
       intro hWU
       have hrNU : r ∈ Subgroup.normalizer (c.U : Set G) := by
         rw [Subgroup.mem_normalizer_iff_map_conj_eq]
-        change c.U.map (MulAut.conj r) = c.U
         simpa [W, conjugateSubgroup] using hWU
       have hrHhat : r ∈ c.Hhat := by
         rw [← hNormU]
@@ -3459,7 +3455,7 @@ private lemma sylow2_join_inter_hhat_ne_four
       intro hS2le
       let Q : Subgroup (↥NP) := (S2 : Subgroup G).subgroupOf NP
       have hQp : IsPGroup 2 Q := by
-        exact S2.isPGroup'.of_equiv (Subgroup.subgroupOfEquivOfLe hS2le).symm
+        exact S2.isPGroup.of_equiv (Subgroup.subgroupOfEquivOfLe hS2le).symm
       have hT2leQ : (T2 : Subgroup (↥NP)) ≤ Q := by
         intro y hy
         rw [Subgroup.mem_subgroupOf]
@@ -3830,7 +3826,7 @@ private lemma sylow2_exists_t2_swap_U_W
     (T2 : Sylow 2 (↥(Subgroup.normalizer (P : Set G))))
     (U W : Subgroup G)
     (hUeq : U = c.U)
-    (hUle : U ≤ (P : Subgroup G)) (hWle : W ≤ (P : Subgroup G))
+    (hUle : U ≤ (P : Subgroup G)) (_hWle : W ≤ (P : Subgroup G))
     (hUconj : ∃ g : G, U = conjugateSubgroup c.U g)
     (honly : ∀ V : Subgroup G, (∃ g : G, V = conjugateSubgroup c.U g) →
       V ≤ (P : Subgroup G) → V = U ∨ V = W) :
@@ -3915,7 +3911,6 @@ private lemma sylow2_exists_t2_swap_U_W
       rw [← hNormU]
       change a ∈ Subgroup.normalizer (c.U : Set G)
       rw [Subgroup.mem_normalizer_iff_map_conj_eq]
-      change c.U.map (MulAut.conj a) = c.U
       simpa [conjugateSubgroup] using hEq
     rcases honly (conjugateSubgroup U a) hUconj_a hUa_le with h1 | h2
     · exact False.elim (hUa_ne_U h1)
@@ -3945,7 +3940,7 @@ private lemma sylow2_reflection_not_swap_U
     (hUle : U ≤ (P : Subgroup G)) (hWle : W ≤ (P : Subgroup G))
     (hUneW : U ≠ W)
     (hUconj : ∃ g : G, U = conjugateSubgroup c.U g)
-    (hWconj : ∃ g : G, W = conjugateSubgroup c.U g)
+    (_hWconj : ∃ g : G, W = conjugateSubgroup c.U g)
     (honly : ∀ V : Subgroup G, (∃ g : G, V = conjugateSubgroup c.U g) →
       V ≤ (P : Subgroup G) → V = U ∨ V = W) :
     ¬ (conjugateSubgroup U r = W) := by
@@ -3995,7 +3990,6 @@ private lemma sylow2_reflection_not_swap_U
     have hraHhat : r * a ∈ (c.Hhat : Set G) := by
       have hN : r * a ∈ Subgroup.normalizer (c.U : Set G) := by
         rw [Subgroup.mem_normalizer_iff_map_conj_eq]
-        change c.U.map (MulAut.conj (r * a)) = c.U
         have hra' : conjugateSubgroup c.U (r * a) = c.U := by
           rwa [hUeq] at hra
         simpa [conjugateSubgroup] using hra'
@@ -4107,10 +4101,10 @@ private lemma sylow2_reflection_not_fix_W
       (Subgroup.normalizer (P : Set G)).subtype) ≤ (S2 : Subgroup G))
     (U W : Subgroup G)
     (hUeq : U = c.U)
-    (hUle : U ≤ (P : Subgroup G)) (hWle : W ≤ (P : Subgroup G))
+    (hUle : U ≤ (P : Subgroup G)) (_hWle : W ≤ (P : Subgroup G))
     (hUneW : U ≠ W)
     (hUconj : ∃ g : G, U = conjugateSubgroup c.U g)
-    (hWconj : ∃ g : G, W = conjugateSubgroup c.U g)
+    (_hWconj : ∃ g : G, W = conjugateSubgroup c.U g)
     (honly : ∀ V : Subgroup G, (∃ g : G, V = conjugateSubgroup c.U g) →
       V ≤ (P : Subgroup G) → V = U ∨ V = W) :
     ¬ (conjugateSubgroup W r = W) := by
@@ -4198,7 +4192,6 @@ private lemma sylow2_reflection_not_fix_W
       rw [← hNormU]
       · change a ∈ Subgroup.normalizer (c.U : Set G)
         rw [Subgroup.mem_normalizer_iff_map_conj_eq]
-        change c.U.map (MulAut.conj a) = c.U
         simpa [conjugateSubgroup] using hEq
     rcases honly (conjugateSubgroup U a) hUconj_a hUa_le with h1 | h2
     · exact False.elim (hUa_ne_U h1)
@@ -4226,7 +4219,6 @@ private lemma sylow2_reflection_not_fix_W
   have haraHhat : a⁻¹ * r * a ∈ (c.Hhat : Set G) := by
     have hN : a⁻¹ * r * a ∈ Subgroup.normalizer (c.U : Set G) := by
       rw [Subgroup.mem_normalizer_iff_map_conj_eq]
-      change c.U.map (MulAut.conj (a⁻¹ * r * a)) = c.U
       have haraU' : conjugateSubgroup c.U (a⁻¹ * r * a) = c.U := by
         rwa [hUeq] at haraU
       simpa [conjugateSubgroup] using haraU'
@@ -4363,11 +4355,11 @@ private lemma sylow2_centralizer_U_eq_one
 private lemma sylow2_stabilizer_U_eq_inter_hhat
     {G : Type u} [Group G] [Finite G]
     (hmin : IsMinimalCounterexample G)
-    (c : CentralizerSetup G) (hfirst : FirstCase c) (d : FirstCaseCountData c)
-    (P : Sylow 3 G) (hPU : c.U ≤ (P : Subgroup G))
+    (c : CentralizerSetup G) (hfirst : FirstCase c) (_d : FirstCaseCountData c)
+    (P : Sylow 3 G) (_hPU : c.U ≤ (P : Subgroup G))
     (T2 : Sylow 2 (↥(Subgroup.normalizer (P : Set G))))
     (S2 : Sylow 2 G)
-    (hTgS2 : ((T2 : Subgroup (↥(Subgroup.normalizer (P : Set G)))).map
+    (_hTgS2 : ((T2 : Subgroup (↥(Subgroup.normalizer (P : Set G)))).map
       (Subgroup.normalizer (P : Set G)).subtype) ≤ (S2 : Subgroup G)) :
     MulAction.stabilizer (↥(S2 : Subgroup G)) (UConjugates.base c) =
       ((S2 : Subgroup G) ⊓ c.Hhat).subgroupOf (S2 : Subgroup G) := by
@@ -4523,7 +4515,6 @@ private lemma sylow2_orbit_U_eq_four_lines
       rw [← hNormU]
       change r ∈ Subgroup.normalizer (c.U : Set G)
       rw [Subgroup.mem_normalizer_iff_map_conj_eq]
-      change c.U.map (MulAut.conj r) = c.U
       have hEq' : conjugateSubgroup c.U r = c.U := by
         rw [hUeq] at hEq
         exact hEq.symm
@@ -4563,7 +4554,6 @@ private lemma sylow2_orbit_U_eq_four_lines
         rw [UConjugates.smul_def]
         change conjugateSubgroup (↑(UConjugates.base c)) a = H
         rw [UConjugates.base_val]
-        change conjugateSubgroup c.U a = H
         have haU' : conjugateSubgroup c.U a = W := by
           rwa [hUeq] at haU
         exact haU'.trans hH.symm
@@ -4576,7 +4566,6 @@ private lemma sylow2_orbit_U_eq_four_lines
         rw [UConjugates.smul_def]
         change conjugateSubgroup (↑(UConjugates.base c)) r = H
         rw [UConjugates.base_val]
-        change conjugateSubgroup c.U r = H
         rw [← hUeq]
         exact hH.symm
     · let V : UConjugates c :=
@@ -4591,7 +4580,6 @@ private lemma sylow2_orbit_U_eq_four_lines
         rw [UConjugates.smul_def]
         change conjugateSubgroup (↑(UConjugates.base c)) (r * a) = H
         rw [UConjugates.base_val]
-        change conjugateSubgroup c.U (r * a) = H
         rw [← hUeq, ← conjugateSubgroup_mul U r a, haU, ← hH]
 
 
@@ -4812,7 +4800,7 @@ private lemma join_h_ne_top_of_nondisjoint
     {G : Type u} [Group G] [Finite G]
     (hmin : IsMinimalCounterexample G)
     (c : CentralizerSetup G) (hfirst : FirstCase c) (d : FirstCaseCountData c)
-    (P : Sylow 3 G) (hPU : c.U ≤ (P : Subgroup G))
+    (P : Sylow 3 G) (_hPU : c.U ≤ (P : Subgroup G))
     (T2 : Sylow 2 (↥(Subgroup.normalizer (P : Set G))))
     (S2 : Sylow 2 G) (H : Subgroup G) (r : G)
     (hTgS2 : ((T2 : Subgroup (↥(Subgroup.normalizer (P : Set G)))).map
@@ -4914,7 +4902,6 @@ private lemma join_h_ne_top_of_nondisjoint
       rwa [hsimp] at hz'
   have hrZ : r ∈ Subgroup.normalizer (Z : Set G) := by
     rw [Subgroup.mem_normalizer_iff_map_conj_eq]
-    change Z.map (MulAut.conj r) = Z
     have hinj : Function.Injective (MulAut.conj r).toMonoidHom := (MulAut.conj r).injective
     have hmapP : (P : Subgroup G).map (MulAut.conj r) = (Q : Subgroup G) := by
       simpa [conjugateSubgroup] using hQ.symm
@@ -5045,7 +5032,6 @@ private lemma join_h_ne_top_of_nondisjoint
         Nat.card ↥(⊤ : Subgroup G) = Nat.card G := by
           exact Nat.card_congr (Subgroup.topEquiv (G := G)).toEquiv
         _ = 2520 := by
-          norm_num at hG ⊢
           exact hG
     omega
 
@@ -5054,12 +5040,12 @@ private lemma join_h_ne_top_of_nondisjoint
 be all of `Ĥ`, whose order is `72`. -/
 private lemma join_h_ne_top_of_inter_hhat_18
     {G : Type u} [Group G] [Finite G]
-    (hmin : IsMinimalCounterexample G)
-    (c : CentralizerSetup G) (hfirst : FirstCase c) (d : FirstCaseCountData c)
-    (P : Sylow 3 G) (hPU : c.U ≤ (P : Subgroup G))
+    (_hmin : IsMinimalCounterexample G)
+    (c : CentralizerSetup G) (_hfirst : FirstCase c) (d : FirstCaseCountData c)
+    (P : Sylow 3 G) (_hPU : c.U ≤ (P : Subgroup G))
     (T2 : Sylow 2 (↥(Subgroup.normalizer (P : Set G))))
     (S2 : Sylow 2 G) (H : Subgroup G)
-    (hTgS2 : ((T2 : Subgroup (↥(Subgroup.normalizer (P : Set G)))).map
+    (_hTgS2 : ((T2 : Subgroup (↥(Subgroup.normalizer (P : Set G)))).map
       (Subgroup.normalizer (P : Set G)).subtype) ≤ (S2 : Subgroup G))
     (_hH : H = (P : Subgroup G) ⊔ (S2 : Subgroup G))
     (hcard : Nat.card ↥(H ⊓ c.Hhat) = 18) :
@@ -5096,7 +5082,7 @@ private lemma join_h_ne_top_of_disjoint
     {G : Type u} [Group G] [Finite G]
     (hmin : IsMinimalCounterexample G)
     (c : CentralizerSetup G) (hfirst : FirstCase c) (d : FirstCaseCountData c)
-    (P : Sylow 3 G) (hPU : c.U ≤ (P : Subgroup G))
+    (P : Sylow 3 G) (_hPU : c.U ≤ (P : Subgroup G))
     (T2 : Sylow 2 (↥(Subgroup.normalizer (P : Set G))))
     (S2 : Sylow 2 G) (H : Subgroup G) (r : G)
     (hTgS2 : ((T2 : Subgroup (↥(Subgroup.normalizer (P : Set G)))).map
@@ -5473,7 +5459,7 @@ private lemma sylow3_normalizer_inter_card_dvd_four_of_disjoint
     have hnotbot : ¬ (X ⊓ (R : Subgroup G)) = ⊥ := hne
     have hex : ∃ y : G, y ∈ X ⊓ (R : Subgroup G) ∧ y ≠ 1 := by
       rw [Subgroup.eq_bot_iff_forall] at hnotbot
-      push_neg at hnotbot
+      push Not at hnotbot
       exact hnotbot
     rcases hex with ⟨y, hy, hyne⟩
     have hyX : y ∈ X := (Subgroup.mem_inf.mp hy).1
@@ -5733,7 +5719,7 @@ private lemma join_h_ne_top_of_disjointness
     rw [hO_eq_insert]
     exact hins.symm
   have hO_ncard : O.ncard = Nat.card O := by
-    simpa using (Nat.card_coe_set_eq O).symm
+    simp
   have hdisjR : ∀ R : Sylow 3 G, R ∈ O' → (P : Subgroup G) ⊓ (R : Subgroup G) = ⊥ := by
     intro R hR
     rcases hR with ⟨hRO, hRneP⟩
@@ -5840,7 +5826,7 @@ private lemma join_h_ne_top_of_disjointness
     exact hfib9 (Quotient.out q)
   have h9O' : 9 ∣ O'.ncard := by
     have hΩ : Nat.card Ω = O'.ncard := by
-      simpa [Ω] using (Nat.card_coe_set_eq O')
+      simp [Ω]
     rwa [hΩ] at h9Ω
   have hO'card_mem : O'.ncard ∈ ({1, 9, 13, 69} : Finset ℕ) := by
     have hO_mem' : O.ncard ∈ ({2, 10, 14, 70} : Finset ℕ) := by

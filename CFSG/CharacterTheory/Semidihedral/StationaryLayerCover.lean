@@ -111,7 +111,7 @@ theorem centralized_or_inverted_of_layer_cover
     PD0 hV2 hVND (Nat.coprime_two_left.mpr hNDodd) (hPD0.1.trans le_sup_right) hPD0.2.1 hVPD0
   obtain ⟨Q0s, hQ0s⟩ := (isSylowIn_iff_exists_sylow ell Q0 ND).mp hQ0
   have hPaNa : Pa ≤ Na := Subgroup.map_mono (Subgroup.map_subtype_le _)
-  have hPaell : IsPGroup ell Pa := (P.isPGroup'.map _).map _
+  have hPaell : IsPGroup ell Pa := (P.isPGroup.map _).map _
   obtain ⟨c, hc, hPaQ⟩ := invariant_pgroup_le_fixed_conjugate_sylow hell V ND Pa hV2 hVND
     hNDodd Q0s (by rw [hQ0s]; exact hVQ0) (hPaNa.trans le_sup_left) hPaell hVP
   rw [hQ0s] at hPaQ

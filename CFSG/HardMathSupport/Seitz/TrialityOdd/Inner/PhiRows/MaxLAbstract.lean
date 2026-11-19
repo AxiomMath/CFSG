@@ -222,7 +222,7 @@ theorem exists_conj_to_four {k : ℤ} (hk : IsRoot 6 k) (hk2 : k % 2 = 0) :
   obtain ⟨hl, hu, hne⟩ := hk'
   have h1 : ∀ {m : X} {f : ℤ → ℤ}, ActsPos 6 root m f → ∀ {q : ℤ}, Rt 6 q = k → Rt 6 (f q) = 4 →
       ∀ y ∈ root k, m * y * m⁻¹ ∈ root 4 := fun hm q hq hq' y hy => actsPos_root hm hq hq' hy
-  interval_cases k <;> first | omega | skip
+  interval_cases k <;> try omega
   ·
     refine ⟨w₁ * w₅, mul_mem hw₁ hw₅, h1 (ActsPos.mul a₁ a₅) (q := 11) (by decide) (by decide)⟩
   ·

@@ -68,7 +68,7 @@ private def trivAct (C S : Subgroup G) : Subgroup G where
   one_mem' := by
     refine ⟨Subgroup.one_mem _, Subgroup.one_mem _, ?_⟩
     intro s _
-    simpa using C.one_mem
+    simp
   mul_mem' := by
     intro a b ha hb
     obtain ⟨haS, haC, ha⟩ := ha
@@ -97,6 +97,7 @@ private def trivAct (C S : Subgroup G) : Subgroup G where
       rwa [show (s * a⁻¹ * s⁻¹ * a)⁻¹ = a⁻¹ * s * a * s⁻¹ by group] at h3
     simpa using h2
 
+omit [Finite G] in
 private theorem mem_trivAct_of_act {C S : Subgroup G} {φ : Coord n}
     {β : G → GaloisField 2 n} {r : G} (h : IsChiEmb c.ζ c.d₁ c.d₂ C S φ β)
     (hrS : r ∈ Subgroup.normalizer (S : Set G)) (hrC : r ∈ Subgroup.normalizer (C : Set G))
@@ -115,9 +116,11 @@ private theorem mem_trivAct_of_act {C S : Subgroup G} {φ : Coord n}
   exact (h.eq_zero_iff _ (S.mul_mem ((Subgroup.mem_normalizer_iff.mp hrS s).mp hs)
     (S.inv_mem hs))).mp hzero
 
+omit [Finite G] in
 private theorem trivAct_apply {C S : Subgroup G} {r : G} (h : r ∈ trivAct C S) :
     ∀ s ∈ S, r * s * r⁻¹ * s⁻¹ ∈ C := fun s hs => h.2.2 s hs
 
+omit [Finite G] in
 private theorem zeta_pow_val_eq_one_iff (hn : n ≠ 0) {x : ZMod (2 ^ n - 1)} :
     c.ζ ^ x.val = 1 ↔ x = 0 := by
   have hN : 2 ^ n - 1 ≠ 0 := by
@@ -128,7 +131,7 @@ private theorem zeta_pow_val_eq_one_iff (hn : n ≠ 0) {x : ZMod (2 ^ n - 1)} :
     have hdvd : 2 ^ n - 1 ∣ x.val := by
       have h := orderOf_dvd_iff_pow_eq_one.mpr hx
       rwa [c.orderOf_ζ] at h
-    haveI : NeZero (2 ^ n - 1) := ⟨hN⟩
+    have : NeZero (2 ^ n - 1) := ⟨hN⟩
     have hlt : x.val < 2 ^ n - 1 := ZMod.val_lt x
     exact ZMod.val_eq_zero x |>.mp (Nat.eq_zero_of_dvd_of_lt hdvd hlt)
   · rintro rfl
@@ -204,6 +207,7 @@ private theorem factor_dichotomy {R C S : Subgroup G} {φ : Coord n}
       le_antisymm hle (inf_le_inf_right _ hCS)
     rw [heq, Subgroup.relIndex_self]
 
+omit [Finite G] in
 private theorem relIndex_eq_two_pow_sum {R : Subgroup G} {P : Coord n → Prop} [DecidablePred P]
     {C D : Subgroup G} {l : List (Subgroup G)} {μ : Multiset (Coord n)}
     (hD : D ≤ c.Q₁) (hl : IsYSeries c.H C l D)
@@ -256,23 +260,23 @@ private theorem relIndex_eq_two_pow_sum {R : Subgroup G} {P : Coord n → Prop} 
       _ = 2 ^ (((μ₁.filter P).map (fun φ => (cls φ).card)).sum +
             (if P φ then (cls φ).card else 0)) := by
           by_cases hP : P φ
-          · rw [if_pos hP, if_pos hP, pow_add]
-          · rw [if_neg hP, if_neg hP, mul_one, add_zero]
+          · rw [ite_eq_left hP, ite_eq_left hP, pow_add]
+          · rw [ite_eq_right hP, ite_eq_right hP, mul_one, add_zero]
       _ = 2 ^ ((μ.filter P).map (fun φ => (cls φ).card)).sum := by
           rw [hμ₁]
           have e : ((φ ::ₘ μ₁).filter P).map (fun φ => (cls φ).card) =
               (if P φ then {(cls φ).card} else 0) +
                 (μ₁.filter P).map (fun φ => (cls φ).card) := by
             by_cases hP : P φ
-            · rw [Multiset.filter_cons_of_pos _ hP, if_pos hP, Multiset.map_cons,
+            · rw [Multiset.filter_cons_of_pos _ hP, ite_eq_left hP, Multiset.map_cons,
                 Multiset.singleton_add]
-            · rw [Multiset.filter_cons_of_neg _ hP, if_neg hP, Multiset.zero_add]
+            · rw [Multiset.filter_cons_of_neg _ hP, ite_eq_right hP, Multiset.zero_add]
           rw [e, Multiset.sum_add]
           by_cases hP : P φ
-          · rw [if_pos hP, if_pos hP, Multiset.sum_singleton]
+          · rw [ite_eq_left hP, ite_eq_left hP, Multiset.sum_singleton]
             congr 1
             exact Nat.add_comm _ _
-          · rw [if_neg hP, if_neg hP, Multiset.sum_zero, Nat.zero_add, Nat.add_zero]
+          · rw [ite_eq_right hP, ite_eq_right hP, Multiset.sum_zero, Nat.zero_add, Nat.add_zero]
 
 private theorem eq_two_pow_of_mul {X S T U : ℕ} (h1 : X * 2 ^ T = 2 ^ S) (h2 : S = T + U) :
     X = 2 ^ U := by
@@ -295,7 +299,7 @@ private theorem card_Q₁_eq_two_pow_sum {l : List (Subgroup G)} {μ : Multiset 
           (S ⊓ centralizer ((⊥ : Subgroup G) : Set G)) =
         if (fun _ : Coord n => True) φ then 2 ^ (cls φ).card else 1 := by
     rintro C' S φ hY hC' ⟨β, hβ⟩
-    rw [if_pos trivial, htop, inf_top_eq, inf_top_eq]
+    rw [ite_eq_left trivial, htop, inf_top_eq, inf_top_eq]
     exact IsChiEmb.relIndex_eq hβ hn c.orderOf_ζ (by rwa [← c.H_eq])
   have h := relIndex_eq_two_pow_sum (c := c) (R := ⊥) (P := fun _ : Coord n => True)
     (C := ⊥) (D := c.Q₁) (l := l) (μ := μ) (le_refl _) hl hμ hfacBot
@@ -326,10 +330,10 @@ theorem four_dvd_card_filter_ne_zero {l : List (Subgroup G)} {μ : Multiset (Coo
     have hdich := factor_dichotomy (c := c) (R := zpowers c.d₁) hY h2C hR hRodd hβ
     have hd1H : c.d₁ ∈ c.H := c.d₁_mem_H
     by_cases h1 : φ.1 = 0
-    · rw [if_pos h1]
+    · rw [ite_eq_left h1]
       refine hdich.1 (Subgroup.zpowers_le.mpr ?_)
       exact mem_trivAct_of_act c hβ (hY.2.2.2.1 hd1H) (hY.2.2.1 hd1H) hβ.conj₁ (by simp [h1])
-    · rw [if_neg h1]
+    · rw [ite_eq_right h1]
       exact hdich.2 c.d₁ (Subgroup.mem_zpowers _) φ.1.val hβ.conj₁
         fun hc => h1 ((zeta_pow_val_eq_one_iff c hn).mp hc)
   have hAll := card_Q₁_eq_two_pow_sum c hl hμ
@@ -418,10 +422,10 @@ theorem four_dvd_card_filter_psi {l : List (Subgroup G)} {μ : Multiset (Coord n
   have hN : 2 ^ n - 1 ≠ 0 := by
     have := Nat.one_lt_two_pow hn
     omega
-  haveI : Fact (1 < 2 ^ n - 1) := ⟨by
+  have : Fact (1 < 2 ^ n - 1) := ⟨by
     have h : 2 ^ 2 ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) (by have := c.three_le; omega)
     omega⟩
-  haveI : NeZero (2 ^ n - 1) := ⟨hN⟩
+  have : NeZero (2 ^ n - 1) := ⟨hN⟩
   have hgH : c.d₁ ^ (-c.m₀).val * c.d₂ ∈ c.H := by
     rw [c.H_eq]
     exact Subgroup.mul_mem_sup
@@ -446,13 +450,13 @@ theorem four_dvd_card_filter_psi {l : List (Subgroup G)} {μ : Multiset (Coord n
     have hC1 : c.d₁ ∈ Subgroup.normalizer (C' : Set G) := hY.2.2.1 c.d₁_mem_H
     have hC2 : c.d₂ ∈ Subgroup.normalizer (C' : Set G) := hY.2.2.1 c.d₂_mem_H
     by_cases h0 : φ = 0
-    · rw [if_pos h0]
+    · rw [ite_eq_left h0]
       refine hdich.1 ?_
       rw [c.H_eq]
       refine sup_le (Subgroup.zpowers_le.mpr ?_) (Subgroup.zpowers_le.mpr ?_)
       · exact mem_trivAct_of_act c hβ hS1 hC1 hβ.conj₁ (by rw [h0]; simp)
       · exact mem_trivAct_of_act c hβ hS2 hC2 hβ.conj₂ (by rw [h0]; simp)
-    · rw [if_neg h0]
+    · rw [ite_eq_right h0]
       by_cases h1 : φ.1 = 0
       · have h2 : φ.2 ≠ 0 := by
           intro h
@@ -490,13 +494,13 @@ theorem four_dvd_card_filter_psi {l : List (Subgroup G)} {μ : Multiset (Coord n
       rw [hval, pow_one]
       exact Subgroup.mul_mem _ ((Subgroup.normalizer (C' : Set G)).pow_mem hC1 _) hC2
     by_cases hp : φ.2 = c.m₀ * φ.1
-    · rw [if_pos hp]
+    · rw [ite_eq_left hp]
       refine hdich.1 (Subgroup.zpowers_le.mpr ?_)
       rw [← hg]
       refine mem_trivAct_of_act c hβ hNS hNC (fun s hs => (hsc s hs).2) ?_
       have hzero : -c.m₀ * φ.1 + 1 * φ.2 = 0 := by rw [hp]; ring
       rw [hzero, ZMod.val_zero, pow_zero]
-    · rw [if_neg hp]
+    · rw [ite_eq_right hp]
       have hne : -c.m₀ * φ.1 + 1 * φ.2 ≠ 0 := by
         intro h
         apply hp

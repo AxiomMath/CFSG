@@ -137,10 +137,10 @@ theorem psl_four_mod_sixteen (hadm : StatedLieAdmissible .PSL 4 p f) (hp2 : p �
   have hodd := Nat.odd_iff.mp hq
   rcases (show p ^ f % 4 = 1 ∨ p ^ f % 4 = 3 by omega) with h4 | h4
   · obtain ⟨hu, hw⟩ := padicValNat_of_mod_four_eq_one hq1 h4
-    rw [if_pos h4, hw] at h
+    rw [ite_eq_left h4, hw] at h
     omega
   · obtain ⟨hu, -⟩ := padicValNat_of_mod_four_eq_three h4
-    rw [if_neg (by omega), hu] at h
+    rw [ite_eq_right (by omega), hu] at h
     have hw3 : padicValNat 2 (p ^ f + 1) = 3 := by omega
     have h0 : p ^ f + 1 ≠ 0 := Nat.succ_ne_zero _
     have h8 : 2 ^ 3 ∣ p ^ f + 1 := (padicValNat_dvd_iff_le h0).mpr hw3.ge
@@ -160,7 +160,7 @@ theorem psu_four_mod_sixteen (hadm : StatedLieAdmissible .PSU 4 p f) (hp2 : p �
   have hodd := Nat.odd_iff.mp hq
   rcases (show p ^ f % 4 = 1 ∨ p ^ f % 4 = 3 by omega) with h4 | h4
   · obtain ⟨hu, hw⟩ := padicValNat_of_mod_four_eq_one hq1 h4
-    rw [if_neg (by omega), hw] at h
+    rw [ite_eq_right (by omega), hw] at h
     have hu3 : padicValNat 2 (p ^ f - 1) = 3 := by omega
     have h0 : p ^ f - 1 ≠ 0 := by omega
     have h8 : 2 ^ 3 ∣ p ^ f - 1 := (padicValNat_dvd_iff_le h0).mpr hu3.ge
@@ -170,7 +170,7 @@ theorem psu_four_mod_sixteen (hadm : StatedLieAdmissible .PSU 4 p f) (hp2 : p �
     norm_num at h8 h16
     omega
   · obtain ⟨hu, hw⟩ := padicValNat_of_mod_four_eq_three h4
-    rw [if_pos h4, hu] at h
+    rw [ite_eq_left h4, hu] at h
     omega
 
 theorem psl_four_of_two_part (hadm : StatedLieAdmissible .PSL 4 p f) (hp2 : p ≠ 2)

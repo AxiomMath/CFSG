@@ -15,14 +15,14 @@ namespace OmegaModel
 variable {W : Type} [CommGroup W] (S : OmegaModel W)
 
 theorem finite_mulAut_carrier (S : OmegaModel W) : Finite (MulAut W) := by
-  haveI : Finite W := Nat.finite_of_card_ne_zero (by
+  have : Finite W := Nat.finite_of_card_ne_zero (by
     rw [S.card_eq]
     exact pow_ne_zero 4 Nat.card_pos.ne')
   exact Finite.of_injective (fun g : MulAut W => (g : W → W)) DFunLike.coe_injective
 
 theorem not_two_pow_eight_dvd_card (hK : Nat.card S.K = 8) {B : Subgroup (MulAut W)}
     (hBN : B ≤ omegaNorm S) : ¬ 2 ^ 8 ∣ Nat.card B := by
-  haveI := S.finite_mulAut_carrier
+  have := S.finite_mulAut_carrier
   intro h
   have h1 : Nat.card B ∣ Nat.card ↥(omegaNorm S) := Subgroup.card_dvd_of_le hBN
   have h2 : Nat.card ↥(omegaNorm S) ∣ 2 ^ 7 * 3 ^ 5 * 7 ^ 3 := card_omegaNorm_dvd S hK
@@ -33,8 +33,8 @@ theorem not_two_pow_eight_dvd_card (hK : Nat.card S.K = 8) {B : Subgroup (MulAut
 theorem isSylowOf_two_t0Sub (hK : Nat.card S.K = 8) {B : Subgroup (MulAut W)}
     (hΩB : S.omega ≤ B) (hBN : B ≤ omegaNorm S) (ht : tAut S ∈ B) :
     IsSylowOf 2 (t0Sub S) B := by
-  haveI := S.finite_mulAut_carrier
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := S.finite_mulAut_carrier
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hT0 : t0Sub S ≤ B :=
     sup_le ((u0Sub_le_omega0 S).trans ((omega0_le_omega S).trans hΩB))
       (Subgroup.zpowers_le.mpr ht)
@@ -53,7 +53,7 @@ theorem isSylowOf_two_t0Sub (hK : Nat.card S.K = 8) {B : Subgroup (MulAut W)}
 theorem inf_isoSub_eq_omega (hK : Nat.card S.K = 8) (hΩ : Nat.card S.omega = 254016)
     {B : Subgroup (MulAut W)} (hΩB : S.omega ≤ B) (ht : tAut S ∉ B) :
     B ⊓ isoSub S = S.omega := by
-  haveI := S.finite_mulAut_carrier
+  have := S.finite_mulAut_carrier
   refine le_antisymm ?_ (le_inf hΩB (omega_le_isoSub S))
   intro x hx
   by_contra hxω
@@ -101,9 +101,9 @@ theorem inf_isoSub_eq_omega (hK : Nat.card S.K = 8) (hΩ : Nat.card S.omega = 25
 theorem isSylowOf_two_u0Sub (hK : Nat.card S.K = 8) (hΩ : Nat.card S.omega = 254016)
     {B : Subgroup (MulAut W)} (hΩB : S.omega ≤ B) (hBN : B ≤ omegaNorm S) (ht : tAut S ∉ B) :
     IsSylowOf 2 (u0Sub S) B := by
-  haveI := S.finite_mulAut_carrier
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite ↥B := Finite.of_injective (Subtype.val) Subtype.coe_injective
+  have := S.finite_mulAut_carrier
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite ↥B := Finite.of_injective (Subtype.val) Subtype.coe_injective
   have hUB : u0Sub S ≤ B :=
     (u0Sub_le_omega0 S).trans ((omega0_le_omega S).trans hΩB)
   rw [isSylowOf_iff]

@@ -94,12 +94,12 @@ open CFSG.GH74.BNPair CFSG.Quasithin.H13.F431.BN
 theorem burnsideF45_facts45L_G2 {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
     (hyp : HypF_4_4 .G2 p f Gp M₁ M₂) (hp : p.Prime) (hm : 3 ≤ GLKind.G2.m) :
     (burnsideF45_setting hyp hp hm).Facts45L := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨K, fK, finK, hcard, marking, -, -⟩ := burnsideF45_chart_G2 hyp.toHypF_4_4g
-  letI := fK
-  haveI := finK
+  let := fK
+  have := finK
   have hf : 1 ≤ f := hyp.model.2.1
-  haveI : CharP K p :=
+  have : CharP K p :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hp hf hcard
   have hU := burnsideF4h_g2_sys_U_sylow (K := K) p
   exact burnsideF45_facts45L_of_system hyp hp hm (burnsideF45_parabolics hyp.toHypF_4_4g) marking
@@ -119,10 +119,10 @@ theorem burnsideF45_facts45L_F4tw {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂
   subst hp2
   obtain ⟨a, K, fK, finK, charK, hscope, -, marking, -, -⟩ :=
     burnsideF4g_chart_F4tw hyp.toHypF_4_4g
-  letI := fK
-  haveI := finK
-  haveI := charK
-  haveI : CharP K CFSG.LieType.Ree.ReeTag.F4.prime := inferInstanceAs (CharP K 2)
+  let := fK
+  have := finK
+  have := charK
+  have : CharP K CFSG.LieType.Ree.ReeTag.F4.prime := inferInstanceAs (CharP K 2)
   have hK : Nat.card K = 2 ^ (2 * a + 1) := hscope
   obtain ⟨Φ, -⟩ := burnsideF4h_ree_exists_iso hK
   have hU2 := CFSG.Quasithin.H13.F431.TwoF4.isSylowTwoOf_Ug hK

@@ -20,7 +20,7 @@ private lemma lk0xpa0_eq_sum_single {n : ℕ} (v : Fin n → ℤ) :
   rw [Finset.sum_apply, Finset.sum_eq_single k]
   · simp
   · intro b _ hb
-    simp [Pi.single_eq_of_ne, hb]
+    simp [hb]
   · intro hk
     exact absurd (Finset.mem_univ k) hk
 

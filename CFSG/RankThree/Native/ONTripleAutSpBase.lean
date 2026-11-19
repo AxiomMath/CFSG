@@ -15,12 +15,12 @@ namespace CFSG.RankThree.Native.ONTriple
 
 open Equiv
 
-@[expose] def matNM (k : ℕ) : M4 := Matrix.of (matN k)
+def matNM (k : ℕ) : M4 := Matrix.of (matN k)
 
-@[expose] def decA (a : Array ℕ) : M4 :=
+def decA (a : Array ℕ) : M4 :=
   Matrix.of fun i j => ((a[4 * i.val + j.val]! : ℕ) : ZMod 3)
 
-@[expose] def ValidA (a : Array ℕ) : Prop := a.size = 16 ∧ ∀ k < 16, a[k]! < 3
+def ValidA (a : Array ℕ) : Prop := a.size = 16 ∧ ∀ k < 16, a[k]! < 3
 
 theorem encA_getElem! (T : M4) {k : ℕ} (hk : k < 16) :
     (encA T)[k]! = (T ⟨k / 4, by omega⟩ ⟨k % 4, Nat.mod_lt _ (by norm_num)⟩).val := by
@@ -134,7 +134,7 @@ theorem foldl_amul (w : List ℕ) (a : Array ℕ) :
     · rw [hk, decA_M0A]
     · rw [matNM_of_ne hk, decA_M1A]
 
-@[expose] def vcode (v : Fin 4 → ZMod 3) : ℕ :=
+def vcode (v : Fin 4 → ZMod 3) : ℕ :=
   (v 0).val + 3 * (v 1).val + 9 * (v 2).val + 27 * (v 3).val
 
 theorem vcode_lt (v : Fin 4 → ZMod 3) : vcode v < 81 := by
@@ -171,7 +171,7 @@ theorem tpTab_getElem! {a b : ℕ} (ha : a < 81) (hb : b < 81) :
   simp only
   rw [show (a * 81 + b) / 81 = a by omega, show (a * 81 + b) % 81 = b by omega]
 
-@[expose] def symInvM (T : M4) : M4 := decA OmA * T.transpose * decA OmInvA
+def symInvM (T : M4) : M4 := decA OmA * T.transpose * decA OmInvA
 
 theorem decA_symInvA (T : M4) : decA (symInvA (encA T)) = symInvM T := by
   rw [symInvA, decA_amul, decA_amul, decA_atr, decA_encA, symInvM]

@@ -71,14 +71,14 @@ private theorem txe_pow240_le_ordE8 {q : ℕ} (hq : 2 ≤ q) : q ^ 240 ≤ CFSG.
   have hmain : q ^ 120 * q ^ 29 * q ^ 23 * q ^ 19 * q ^ 17 * q ^ 13 * q ^ 11 * q ^ 7 * q ^ 1 ≤
       q ^ 120 * (q ^ 30 - 1) * (q ^ 24 - 1) * (q ^ 20 - 1) * (q ^ 18 - 1) *
         (q ^ 14 - 1) * (q ^ 12 - 1) * (q ^ 8 - 1) * (q ^ 2 - 1) := by
-    gcongr <;> (first | exact h30 | exact h24 | exact h20 | exact h18 | exact h14 | exact h12 | exact h8 | exact h2 | exact Nat.sub_le _ _)
+    gcongr
   calc q ^ 240 = q ^ 120 * q ^ 29 * q ^ 23 * q ^ 19 * q ^ 17 * q ^ 13 * q ^ 11 * q ^ 7 * q ^ 1 := by
         ring
     _ ≤ _ := hmain
 
 private theorem txe_ordE8_mono {q Q : ℕ} (h : q ≤ Q) : CFSG.Open.ordE8 q ≤ CFSG.Open.ordE8 Q := by
   rw [CFSG.Open.ordE8, CFSG.Open.ordE8]
-  gcongr <;> exact Nat.sub_le_sub_right (Nat.pow_le_pow_left h _) 1
+  gcongr
 
 private theorem txe_ordE6_le_pow78 {q : ℕ} : CFSG.Open.ordE6 q ≤ q ^ 78 := by
   rw [CFSG.Open.ordE6]
@@ -100,7 +100,7 @@ private theorem txe_ordTwistedE6_le_pow80 {q : ℕ} (hq : 2 ≤ q) :
       ≤ q ^ 36 * (q ^ 12 - 1) * (q ^ 9 + 1) * (q ^ 8 - 1) * (q ^ 6 - 1) * (q ^ 5 + 1) *
           (q ^ 2 - 1) := Nat.div_le_self _ _
     _ ≤ q ^ 36 * q ^ 12 * q ^ 10 * q ^ 8 * q ^ 6 * q ^ 6 * q ^ 2 := by
-        gcongr <;> (first | exact h9 | exact h5 | exact Nat.sub_le _ _)
+        gcongr <;> (first | exact Nat.sub_le _ _)
     _ = q ^ 80 := by ring
 
 private theorem txe_ordE7_le_pow133 {q : ℕ} : CFSG.Open.ordE7 q ≤ q ^ 133 := by
@@ -290,7 +290,7 @@ theorem ggTorsionKnownOver_excE8Sr
       rw [hcardA, hcardT]
       exact txe_evenLieOrder_exc_le hlabA hPA hnAle
     obtain ⟨H, hHne, hJdvdH⟩ := ggTorsion_dvd_proper hX θA hδ1 hcomp.1
-    haveI : Finite RA := Finite.of_equiv (X ⧸ Subgroup.center X) θA.toEquiv
+    have : Finite RA := Finite.of_equiv (X ⧸ Subgroup.center X) θA.toEquiv
     have hHleR : Nat.card ↥H ≤ Nat.card RA :=
       Nat.card_le_card_of_injective H.subtype H.subtype_injective
     have hHneR : Nat.card ↥H ≠ Nat.card RA := by

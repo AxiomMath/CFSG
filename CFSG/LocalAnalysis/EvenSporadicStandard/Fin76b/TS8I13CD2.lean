@@ -205,7 +205,7 @@ theorem isSylow {π : MulAut ↥E →* Equiv.Perm (Fin 5)} (hπ : EPi E π)
   intro P hP hRP
   by_contra hne
   have hlt : Rs < P := lt_of_le_of_ne hRP (Ne.symm hne)
-  haveI : Group.IsNilpotent P := hP.isNilpotent
+  have : Group.IsNilpotent P := hP.isNilpotent
   have hRsP : Rs.subgroupOf P ≠ ⊤ := by
     intro htop
     apply hne

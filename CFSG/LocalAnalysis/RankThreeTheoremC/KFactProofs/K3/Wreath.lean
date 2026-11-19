@@ -49,10 +49,10 @@ open CFSG.ABGLocalTools (IsSylowOf)
 theorem W3_center_le_of_normal {N : Subgroup W3} (hN : N.Normal) (hN1 : N ≠ ⊥) :
     center W3 ≤ N := by
   have hcard : Nat.card W3 = 81 := CFSG.RankThree.PartTwo.Sec11.card_wreath
-  haveI : Finite W3 := Nat.finite_of_card_ne_zero (by omega)
-  haveI : Nontrivial W3 := Finite.one_lt_card_iff_nontrivial.mp (by omega)
+  have : Finite W3 := Nat.finite_of_card_ne_zero (by omega)
+  have : Nontrivial W3 := Finite.one_lt_card_iff_nontrivial.mp (by omega)
   have hp : IsPGroup 3 W3 := IsPGroup.of_card (n := 4) (hcard.trans (by norm_num))
-  haveI : Group.IsNilpotent W3 := hp.isNilpotent
+  have : Group.IsNilpotent W3 := hp.isNilpotent
   have hZle : Nat.card (center W3) ≤ 3 := CFSG.RankThree.PartTwo.Sec11.card_center_wreath_le
   have hZgt : 1 < Nat.card (center W3) :=
     (Subgroup.one_lt_card_iff_ne_bot _).mpr hp.bot_lt_center.ne'
@@ -115,7 +115,7 @@ theorem wc_card_center : Nat.card (Subgroup.center W3) = 3 := by
   have h3 : CFSG.RankThree.PartTwo.Sec11.wreathZ ^ 3 = 1 :=
     CFSG.RankThree.PartTwo.Sec11.pow_three_eq_one_of_right_eq_one
       CFSG.RankThree.PartTwo.Sec11.wreathZ_right
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf CFSG.RankThree.PartTwo.Sec11.wreathZ = 3 :=
     _root_.orderOf_eq_prime h3 CFSG.RankThree.PartTwo.Sec11.wreathZ_ne_one
   rw [hz, Nat.card_zpowers]
@@ -182,8 +182,8 @@ theorem wc_commutator_le_base :
   exact CFSG.RankThree.PartTwo.KFacts.mem_wreathBase.mpr
     (CFSG.RankThree.PartTwo.KFacts.mem_ker_wreathAb.mp hy).1
 
-theorem wc_le_base {N M : Subgroup W3} (hN : N.Normal) (hM : M.Normal)
-    (hNc : ¬ N ≤ center W3) (hMc : ¬ M ≤ center W3)
+theorem wc_le_base {N M : Subgroup W3} (_hN : N.Normal) (hM : M.Normal)
+    (_hNc : ¬ N ≤ center W3) (hMc : ¬ M ≤ center W3)
     (hc : ∀ a ∈ N, ∀ b ∈ M, a * b = b * a) :
     N ≤ CFSG.RankThree.PartTwo.KFacts.wreathBase := by
   intro g hgN

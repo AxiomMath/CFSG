@@ -147,8 +147,8 @@ private theorem ggSmallD2_card_ne {p N : ℕ} [Fact p.Prime] {V : Type} [AddComm
     (hαa : αa ha = 2) (hw : αa x ≠ 0) :
     Nat.card ↥(Subgroup.closure (Set.range r ∪ {ra})) ≠ Nat.factorial N := by
   classical
-  haveI : Finite V := Module.finite_of_finite (ZMod p)
-  haveI : Finite (V ≃ₗ[ZMod p] V) :=
+  have : Finite V := Module.finite_of_finite (ZMod p)
+  have : Finite (V ≃ₗ[ZMod p] V) :=
     Finite.of_injective (fun e : V ≃ₗ[ZMod p] V => (e : V → V)) DFunLike.coe_injective
   obtain ⟨ρ, -, hρA, hρx, hρfaith⟩ := ggDepAOdd_perm_embed hp2 hN F r hr
   let A := Subgroup.closure (Set.range r ∪ {ra})

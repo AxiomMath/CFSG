@@ -86,7 +86,7 @@ theorem sylow_sd16 : ∀ T : Sylow 2 K,
     hrel.2.2.2
   intro T
   obtain ⟨eT⟩ := sylow_equiv_of_model QP.originalSubgroup e QS.originalSubgroup QS_le card_S
-    (card_K e) (by decide) (T : Subgroup K) T.isPGroup' T.not_dvd_index
+    (card_K e) (by decide) (T : Subgroup K) T.isPGroup T.not_dvd_index
   exact ⟨eT.trans eS⟩
 
 theorem smallTable

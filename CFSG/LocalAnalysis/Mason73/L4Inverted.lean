@@ -150,7 +150,7 @@ theorem el_s01_pow_two_pow_of_conj_eq_inv (hn : 3 ≤ n) {d e : Fin 4 → ZMod (
     have h4 : 4 * (d 0 + d 1) = 0 := by
       linear_combination h02 + 2 * hsum - (two_mul_hh (n := n) (by omega))
     refine el_pow_two_pow_eq_one_of_isConst (by omega) hd hπ (isConst_of_eq_four 0 ?_ ?_ ?_ ?_) <;>
-      simp only [pv_s01, Matrix.cons_val]
+      simp only
     · exact hh_mul_eq_zero_of_four_mul hn h4
     · rw [add_comm (d 1)]
       exact hh_mul_eq_zero_of_four_mul hn h4
@@ -163,7 +163,7 @@ theorem el_s01_pow_two_pow_of_conj_eq_inv (hn : 3 ≤ n) {d e : Fin 4 → ZMod (
     have h4 : 4 * (d 0 + d 1) = 0 := by
       linear_combination h02 + 2 * hsum - (two_mul_hh (n := n) (by omega))
     refine el_pow_two_pow_eq_one_of_isConst (by omega) hd hπ (isConst_of_eq_four 0 ?_ ?_ ?_ ?_) <;>
-      simp only [pv_s01, Matrix.cons_val]
+      simp only
     · exact hh_mul_eq_zero_of_four_mul hn h4
     · rw [add_comm (d 1)]
       exact hh_mul_eq_zero_of_four_mul hn h4
@@ -201,7 +201,7 @@ theorem el_s23_pow_two_pow_of_conj_eq_inv (hn : 3 ≤ n) {d e : Fin 4 → ZMod (
     have h4 : 4 * (d 2 + d 3) = 0 := by
       linear_combination -h02 + 2 * hsum - (two_mul_hh (n := n) (by omega))
     refine el_pow_two_pow_eq_one_of_isConst (by omega) hd hπ (isConst_of_eq_four 0 ?_ ?_ ?_ ?_) <;>
-      simp only [pv_s23, Matrix.cons_val]
+      simp only
     · exact hh_mul_two_mul (by omega) _
     · exact hh_mul_two_mul (by omega) _
     · exact hh_mul_eq_zero_of_four_mul hn h4
@@ -234,7 +234,7 @@ theorem el_s23_pow_two_pow_of_conj_eq_inv (hn : 3 ≤ n) {d e : Fin 4 → ZMod (
     have h4 : 4 * (d 2 + d 3) = 0 := by
       linear_combination -h02 + 2 * hsum - (two_mul_hh (n := n) (by omega))
     refine el_pow_two_pow_eq_one_of_isConst (by omega) hd hπ (isConst_of_eq_four 0 ?_ ?_ ?_ ?_) <;>
-      simp only [pv_s23, Matrix.cons_val]
+      simp only
     · exact hh_mul_two_mul (by omega) _
     · exact hh_mul_two_mul (by omega) _
     · exact hh_mul_eq_zero_of_four_mul hn h4

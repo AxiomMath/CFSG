@@ -22,7 +22,7 @@ private theorem irreducible_dvd_lcmPowTwoSubOne {p : Polynomial (ZMod 2)} (hp : 
     p ∣ X ^ lcmPowTwoSubOne d - 1 := by
   have hp0 : p ≠ 0 := hp.ne_zero
   have he : 1 ≤ p.natDegree := hp.natDegree_pos
-  haveI : Fact (Irreducible p) := ⟨hp⟩
+  have : Fact (Irreducible p) := ⟨hp⟩
   have hroot : AdjoinRoot.root p ^ N = 1 := by
     have h := AdjoinRoot.mk_eq_zero.mpr hpN
     rwa [map_sub, map_pow, AdjoinRoot.mk_X, map_one, sub_eq_zero] at h
@@ -30,12 +30,12 @@ private theorem irreducible_dvd_lcmPowTwoSubOne {p : Polynomial (ZMod 2)} (hp : 
     intro h0
     rw [h0, zero_pow hN0] at hroot
     exact zero_ne_one hroot
-  haveI : Module.Finite (ZMod 2) (AdjoinRoot p) := (AdjoinRoot.powerBasis hp0).finite
-  haveI : Finite (AdjoinRoot p) := Module.finite_of_finite (ZMod 2)
+  have : Module.Finite (ZMod 2) (AdjoinRoot p) := (AdjoinRoot.powerBasis hp0).finite
+  have : Finite (AdjoinRoot p) := Module.finite_of_finite (ZMod 2)
   have hcard : Nat.card (AdjoinRoot p) = 2 ^ p.natDegree := by
     rw [Module.natCard_eq_pow_finrank (K := ZMod 2), Nat.card_zmod,
       (AdjoinRoot.powerBasis hp0).finrank, AdjoinRoot.powerBasis_dim hp0]
-  letI : Fintype (AdjoinRoot p) := Fintype.ofFinite _
+  let : Fintype (AdjoinRoot p) := Fintype.ofFinite _
   have hpow : AdjoinRoot.root p ^ (2 ^ p.natDegree - 1) = 1 := by
     have h := FiniteField.pow_card_sub_one_eq_one (AdjoinRoot.root p) hne
     rwa [← Nat.card_eq_fintype_card, hcard] at h

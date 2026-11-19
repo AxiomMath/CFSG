@@ -169,7 +169,7 @@ theorem chevGroup_map_eq (f : K ≃+* L) :
 
 theorem chevH_true_map_eq (f : K ≃+* L) :
     (LargeEvenChevH A K true).map (chevCongr A f).toMonoidHom = LargeEvenChevH A L true := by
-  simp only [LargeEvenChevH, if_true]
+  simp only [LargeEvenChevH, ite_true]
   rw [Subgroup.map_commutator, chevGroup_map_eq]
 
 end Groups

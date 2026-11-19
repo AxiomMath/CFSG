@@ -44,7 +44,7 @@ theorem s16h_sl4_bf_inf_eq_bot {X L L' T : Subgroup (MulAut W)}
     (F : s16h_SL4TwoFrame X L L' T) (hL : IsAlt ↥L 5) (hLL' : L ≠ L') :
     L ⊓ L' = ⊥ := by
   obtain ⟨e⟩ := hL
-  haveI : IsSimpleGroup ↥L := e.isSimpleGroup
+  have : IsSimpleGroup ↥L := e.isSimpleGroup
   have hcardLL' : Nat.card ↥L' = Nat.card ↥L := by
     obtain ⟨t, -, htL⟩ := F.swap
     rw [← htL, Subgroup.card_map_of_injective (MulAut.conj t).injective]

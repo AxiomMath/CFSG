@@ -19,7 +19,7 @@ theorem card_eq_of_pow_two_mul_three {G : Type*} [Group G] [Finite G] (a b : ℕ
     intro p hp
     rw [Nat.support_factorization, Nat.mem_primeFactors] at hp
     obtain ⟨hpp, hpd, -⟩ := hp
-    haveI := Fact.mk hpp
+    have := Fact.mk hpp
     obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' p hpd
     have hdvd : p ∣ 2 ^ a * 3 ^ b := by
       rw [← hg]
@@ -35,7 +35,7 @@ theorem card_eq_of_pow_two_mul_three {G : Type*} [Group G] [Finite G] (a b : ℕ
 
 theorem isSolvable_of_pow_two_mul_three {G : Type*} [Group G] [Finite G] (a b : ℕ)
     (hG : ∀ g : G, g ^ (2 ^ a * 3 ^ b) = 1) : Group.IsSolvable G := by
-  haveI := Fintype.ofFinite G
+  have := Fintype.ofFinite G
   exact CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow Nat.prime_two
     Nat.prime_three (by norm_num)
     (by rw [Fintype.card_eq_nat_card]; exact card_eq_of_pow_two_mul_three a b hG)

@@ -58,7 +58,7 @@ theorem exists_asHyp_of_component {Γ : Type} [Group Γ] [Finite Γ] {S N : Subg
   have e : ↥Ls ≃* ↥((innAut Ls).range.subgroupOf (autOn ⊤ Ls)) :=
     (MonoidHom.ofInjective hinj).trans
       (Subgroup.subgroupOfEquivOfLe (E2P.range_innAut_le Ls)).symm
-  haveI : Finite (MulAut ↥Ls) := inferInstanceAs (Finite (↥Ls ≃* ↥Ls))
+  have : Finite (MulAut ↥Ls) := inferInstanceAs (Finite (↥Ls ≃* ↥Ls))
   refine ⟨↥(autOn ⊤ Ls), inferInstance, inferInstance, _, _, _, hK, ?_⟩
   let π : ↥L →* ↥((innAut Ls).range.subgroupOf (autOn ⊤ Ls)) :=
     e.toMonoidHom.comp (e2.symm.toMonoidHom.comp (φ.subgroupMap L))

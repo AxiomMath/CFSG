@@ -44,6 +44,7 @@ private theorem card_conj_orbit {H P : Type*} [Group H] [Group P] (σ : H →* P
       _ = σ a * ((σ a)⁻¹ * σ b * F) * (σ b)⁻¹ := by rw [h]
       _ = σ b * F * (σ b)⁻¹ := by group
 
+omit [Finite G] in
 theorem card_eq_ncard_conjIn_mul (H : Subgroup G) (s : G) :
     Nat.card H = (conjIn H s).ncard * Nat.card (H ⊓ centralizer ({s} : Set G) : Subgroup G) := by
   have hrange : conjIn H s = Set.range (fun c : H => (c : G) * s * (c : G)⁻¹) := by
@@ -66,6 +67,7 @@ theorem card_eq_ncard_conjIn_mul (H : Subgroup G) (s : G) :
     h1, ← h2, ← h3]
   exact mul_comm _ _
 
+omit [Finite G] in
 theorem ncard_smul_subgroup (V : Subgroup G) (s : G) :
     (s • (V : Set G)).ncard = Nat.card V := by
   rw [Set.ncard_smul_set, ← Nat.card_coe_set_eq]

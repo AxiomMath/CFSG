@@ -20,10 +20,11 @@ section Setup
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {V : Type} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {Q : QuadraticForm K V} {xe : V ≃ₗ[K] V}
 
+omit [Finite K] [CharP K 2] in
 private theorem primaryFactor_cases (hx : OddOrderIsometry Q 3 xe)
     (hΦ : Irreducible (X ^ 2 + X + 1 : K[X])) {k : K[X]}
     (hk : k ∈ primaryFactors xe.toLinearMap) : k = X - 1 ∨ k = X ^ 2 + X + 1 := by
-  haveI : Fact (Irreducible k) := ⟨irreducible_of_mem_primaryFactors hk⟩
+  have : Fact (Irreducible k) := ⟨irreducible_of_mem_primaryFactors hk⟩
   have hkmon : k.Monic := monic_of_mem_primaryFactors hk
   have hdvd : k ∣ (X ^ 3 - 1 : K[X]) := hx.dvd_X_pow_sub_one hk
   have hfac : (X ^ 3 - 1 : K[X]) = (X - 1) * (X ^ 2 + X + 1) := by ring
@@ -56,8 +57,8 @@ theorem orth_three_L2 {K : Type} [Field K] [Finite K] [CharP K 2] {V : Type} [Ad
     (hL3 : catalogIs (↥J₃ ⧸ Subgroup.center ↥J₃) (S10.isL2n r)) :
     finrank K V = 8 ∧ IsPlusType Q ∧ Nat.card K = 2 ^ r := by
   classical
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
+  have : Finite V := Module.finite_of_finite K
+  have : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
     fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
   have hp3 : 3 ≠ ringChar K := by rw [ringChar.eq K 2]; norm_num
   obtain ⟨x, Rep, hxa, hxp, hx, hRep, hNeq, hcases⟩ :=
@@ -93,7 +94,7 @@ theorem orth_three_L2 {K : Type} [Field K] [Finite K] [CharP K 2] {V : Type} [Ad
       finrank K V = 8 ∧ IsPlusType Q ∧ Nat.card K = 2 ^ r := by
     intro Jf Jg hf hg hfY hgY hfg hlist ⟨hΦmem, hm2, hcardK⟩
     have hΦirr : Irreducible (X ^ 2 + X + 1 : K[X]) := irreducible_of_mem_primaryFactors hΦmem
-    haveI : Fact (Irreducible (X ^ 2 + X + 1 : K[X])) := ⟨hΦirr⟩
+    have : Fact (Irreducible (X ^ 2 + X + 1 : K[X])) := ⟨hΦirr⟩
     have hΦdeg : (X ^ 2 + X + 1 : K[X]).natDegree = 2 := by compute_degree!
     obtain ⟨hW4, S, hS2, hSs⟩ := split_of_two_components_in_fixedLayer hx hlist.1
       (hNeq ▸ hf) (hNeq ▸ hg) hfY hgY hfg

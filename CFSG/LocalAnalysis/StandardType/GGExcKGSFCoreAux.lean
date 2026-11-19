@@ -32,7 +32,7 @@ theorem isElemAbelian_of_le {E X : Subgroup A} (hE : IsElemAbelian p E) (hXE : X
 theorem isElemAbelian_map_conj {E : Subgroup A} (hE : IsElemAbelian p E) (g : A) :
     IsElemAbelian p (E.map (MulAut.conj g).toMonoidHom) := by
   refine ⟨?_, fun x hx => ?_⟩
-  · haveI := hE.1
+  · have := hE.1
     infer_instance
   · obtain ⟨y, hy, rfl⟩ := Subgroup.mem_map.mp hx
     rw [← map_pow, hE.2 y hy, map_one]
@@ -48,7 +48,7 @@ theorem exists_two_subgroups [Finite A] [Fact p.Prime] {E₀ : Subgroup A}
     ∃ X Y : Subgroup A, X ≤ E₀ ∧ Y ≤ E₀ ∧ Nat.card X = p ^ s ∧ Nat.card Y = p ^ s ∧ X ≠ Y := by
   have hp : p.Prime := Fact.out
   have hp2 : 2 ≤ p := hp.two_le
-  haveI hcomm : IsMulCommutative E₀ := hE₀.1
+  have hcomm : IsMulCommutative E₀ := hE₀.1
   have hE0p : IsPGroup p E₀ := isElemAbelian_isPGroup hE₀
   have hle : p ^ s ≤ Nat.card E₀ := by
     rw [hr]
@@ -74,7 +74,7 @@ theorem exists_two_subgroups [Finite A] [Fact p.Prime] {E₀ : Subgroup A}
     apply Subtype.ext
     simpa using hE₀.2 (x : A) x.2
   have horder : orderOf x = p := orderOf_eq_prime hxp hx1
-  haveI : Fact (Nat.card (Subgroup.zpowers x)).Prime :=
+  have : Fact (Nat.card (Subgroup.zpowers x)).Prime :=
     ⟨by rw [Nat.card_zpowers, horder]; exact hp⟩
   have hbot : X' ⊓ Subgroup.zpowers x = ⊥ := by
     rcases (X'.subgroupOf (Subgroup.zpowers x)).eq_bot_or_eq_top_of_prime_card with h | h
@@ -130,15 +130,15 @@ theorem exists_conj_le_sylow_of_normal [Finite A] [Fact p.Prime] {Inn N : Subgro
     [Inn.Normal] (hN : Inn ≤ N) (P : Sylow p N) {Q : Subgroup A} (hQ : Q ≤ Inn)
     (hQp : IsPGroup p Q) :
     ∃ g ∈ Inn, Q.map (MulAut.conj g).toMonoidHom ≤ (P : Subgroup N).map N.subtype := by
-  haveI hFinN : Finite N := inferInstance
-  haveI hFinInn : Finite Inn := inferInstance
-  haveI hSylN : Finite (Sylow p N) := Sylow.finite_of_finiteIndex P
+  have hFinN : Finite N := inferInstance
+  have hFinInn : Finite Inn := inferInstance
+  have hSylN : Finite (Sylow p N) := Sylow.finite_of_finiteIndex P
   let Qsub : Subgroup Inn := Q.subgroupOf Inn
   have hQsubp : IsPGroup p Qsub := hQp.comap_subtype (K := Inn)
   obtain ⟨R, hQR⟩ := hQsubp.exists_le_sylow
-  haveI hSylInn : Finite (Sylow p Inn) := Sylow.finite_of_finiteIndex R
+  have hSylInn : Finite (Sylow p Inn) := Sylow.finite_of_finiteIndex R
   let RA : Subgroup A := (R : Subgroup Inn).map Inn.subtype
-  have hRAp : IsPGroup p RA := R.isPGroup'.map Inn.subtype
+  have hRAp : IsPGroup p RA := R.isPGroup.map Inn.subtype
   have hRAN : RA ≤ N := (Subgroup.map_subtype_le R).trans hN
   let RAN : Subgroup N := RA.subgroupOf N
   have hRANp : IsPGroup p RAN := hRAp.comap_subtype (K := N)

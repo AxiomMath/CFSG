@@ -17,12 +17,12 @@ open CFSG.RankThree.PartOne.KCUnitaryModel (idGram)
 open CFSG.HardMathSupport.Solomon.Coordinator (fixSubgroup mem_fixSubgroup)
 
 theorem isSimple_S6 : IsSimpleGroup S6 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU F4 2 1 hF4card 6
     (by norm_num) (by norm_num)
 
 theorem downLe_S6_of (hk : kLevel 3 S6 ≤ 2) : DownLe 3 2 S6 := by
-  haveI := isSimple_S6
+  have := isSimple_S6
   intro β hβ I hI
   obtain ⟨B, hB, ⟨c, hBc⟩, hβB⟩ := exists_unitary_of_pow_three β hβ
   by_cases hsc : ∃ c : F4ˣ, B = Matrix.GeneralLinearGroup.scalar (Fin 6) c
@@ -41,7 +41,7 @@ theorem downLe_S6_of (hk : kLevel 3 S6 ≤ 2) : DownLe 3 2 S6 := by
     rcases CFSG.Open.IsSubnormal.eq_bot_or_top hI.2.1 with h | h
     · exact absurd h (glaPComponent_ne_bot' hI)
     · subst h
-      haveI : IsSimpleGroup ↥(⊤ : Subgroup S6) := Subgroup.topEquiv.isSimpleGroup
+      have : IsSimpleGroup ↥(⊤ : Subgroup S6) := Subgroup.topEquiv.isSimpleGroup
       obtain ⟨e⟩ := nonempty_pSimple_equiv_of_simple hI
       rw [kLevel_congr 3 e, kLevel_congr 3 Subgroup.topEquiv]
       exact hk
@@ -60,7 +60,7 @@ theorem bridge_u6two_stated {S : Type} [Group S] {q : TauCeti.PrimePower}
   have hm := lieModel_twistedA' 5 q hv e
   rw [h1, h2] at hm
   obtain ⟨-, K, _, _, hK, ⟨e'⟩⟩ := hm.statedClassicalModel (by decide)
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hc : Fintype.card K = Fintype.card F4 := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hK, hF4card]
   exact ⟨e'.trans (CFSG.Open.StatedSUFieldChange.statedProjSUEquiv

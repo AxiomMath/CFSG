@@ -272,7 +272,7 @@ private theorem l10lH5_langFamTame_suN_F4
       ((S.ρ : (Fin Tag.F4.rank → ℤ) → _)^[s]) := by
     intro h
     unfold twistKindM at hk
-    rw [if_pos h] at hk
+    rw [ite_eq_left h] at hk
     exact absurd hk (by decide)
   have hmaps : ∀ x y, x ≠ y →
       (S.ρ : (Fin Tag.F4.rank → ℤ) → _)^[s] (σ x y) ∈ frameRoots σ := by

@@ -84,7 +84,7 @@ theorem jGroup_no_odd_subgroup {L : Type} [Group L] [Finite L] (hJ1 : J1Prop L)
     exact Nat.dvd_of_mul_dvd_mul_left (by norm_num) hY'
   obtain ⟨Q⟩ : Nonempty (Sylow 7 Y) := inferInstance
   have hQ7 : Nat.card (Q : Subgroup Y) = 7 := by
-    obtain ⟨j, hj⟩ := IsPGroup.iff_card.mp Q.isPGroup'
+    obtain ⟨j, hj⟩ := IsPGroup.iff_card.mp Q.isPGroup
     have hdvdj : 7 ^ j ∣ 1463 * 15 := hj ▸ (Subgroup.card_subgroup_dvd_card _).trans hY'
     have hj1 : j ≤ 1 := by
       by_contra hj2

@@ -353,7 +353,7 @@ theorem finite_prime_coprime_fixed_planes_generate
       rw [Sylow.pointwise_smul_def] at hsubgroupFixed
       rwa [hsubgroupFixed] at hmembership
     let sylowAction := invariantActionHom action (sylowGroup : Subgroup Value) hinvariant
-    let : Group.IsNilpotent (sylowGroup : Subgroup Value) := sylowGroup.isPGroup'.isNilpotent
+    let : Group.IsNilpotent (sylowGroup : Subgroup Value) := sylowGroup.isPGroup.isNilpotent
     have hfull : overgroup.subgroupOf (sylowGroup : Subgroup Value) = ⊤ := by
       apply finite_prime_coprime_solvable_fixed_planes_generate prime hprime sylowAction
         (overgroup.subgroupOf (sylowGroup : Subgroup Value))

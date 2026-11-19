@@ -57,7 +57,7 @@ section ConjPow
 
 
 theorem conj_root_pow_eq_one {K : Type} [Field K] {ℓ : ℕ} [CharP K ℓ] {σ : K →+* K}
-    (hσ : ∀ c, σ (σ (σ c)) = c) {m : twistedGroup σ} {k k' : ℤ}
+    (_hσ : ∀ c, σ (σ (σ c)) = c) {m : twistedGroup σ} {k k' : ℤ}
     (hc : conjBy m (hexGroup (twistedX σ) k) = hexGroup (twistedX σ) k')
     (hk : ∀ y ∈ hexGroup (twistedX σ) k, y ^ ℓ = 1) :
     ∀ y ∈ hexGroup (twistedX σ) k', y ^ ℓ = 1 := by
@@ -71,7 +71,7 @@ theorem conj_root_pow_eq_one {K : Type} [Field K] {ℓ : ℕ} [CharP K ℓ] {σ 
     exact ⟨y, hy, by change m⁻¹⁻¹ * y * (m⁻¹⁻¹)⁻¹ = m * y * m⁻¹; rw [inv_inv]⟩
   have hp := hk _ hmem
   have e : (m * y * m⁻¹) ^ ℓ = m * y ^ ℓ * m⁻¹ := by
-    simpa [MulAut.conj_apply] using map_pow (MulAut.conj m) y ℓ
+    simp
   have h1 : m * y ^ ℓ * m⁻¹ = 1 := by rw [← e, hp]
   calc y ^ ℓ = m⁻¹ * (m * y ^ ℓ * m⁻¹) * m := by group
     _ = 1 := by rw [h1]; group
@@ -323,7 +323,7 @@ section QOnly
 
 
 theorem fixedSub_conj_transfer {K : Type} [Field K] [Finite K] (σ : K ≃+* K)
-    (hσ3 : ∀ c, σ.toRingHom (σ.toRingHom (σ.toRingHom c)) = c)
+    (_hσ3 : ∀ c, σ.toRingHom (σ.toRingHom (σ.toRingHom c)) = c)
     {m : twistedGroup σ.toRingHom} (hm : m ∈ FixedSub σ) {k k' : ℤ}
     (hc : conjBy m (hexGroup (twistedX σ.toRingHom) k') = hexGroup (twistedX σ.toRingHom) k)
     (hk : hexGroup (twistedX σ.toRingHom) k ≤ FixedSub σ) :

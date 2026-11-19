@@ -75,7 +75,7 @@ theorem fixedOrbit_empty {n : ℕ} (hn : 2 ≤ n) :
       (fun _ : Fin n => (0 : ℤ)) := by
     funext x
     rfl
-  rw [if_pos h]
+  rw [ite_eq_left h]
   exact Finset.card_singleton _
 
 theorem movedOrbit_add_fixedOrbit {n : ℕ} (hn : 2 ≤ n) (S : Finset (Fin n)) :

@@ -32,7 +32,7 @@ theorem false_of_cfg5 (hK26 : KFactTwoSix) (hK437 : KFactFourCubeSeven) (hMult :
   classical
   have hcrit : Crit135 L p C := c5.crit
   have hp : p.Prime := hcrit.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp7 : 7 ≤ p := c5.p_ge_seven
   have hD : Sec13Data G A c L := c5.data
   set Y := c5.Y with hY
@@ -84,7 +84,7 @@ theorem false_of_cfg5 (hK26 : KFactTwoSix) (hK437 : KFactFourCubeSeven) (hMult :
     rw [Subgroup.mem_normalizer_iff]
     intro x
     exact mem_pCoreOf_conj p X hgX (x : G)
-  haveI := c5.R_normal
+  have := c5.R_normal
   have hR : Nat.Coprime (Nat.card c5.R) (2 * p) :=
     Nat.Coprime.mul_right (Nat.coprime_two_right.2 c5.R_odd) c5.R_coprime.symm
   have hJ : CFSG.IsQuasisimple c5.J := c5.J_comp.1

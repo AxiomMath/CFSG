@@ -20,7 +20,7 @@ open CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley CFSG.LieType.Steinberg
 open scoped commutatorElement
 
 theorem j4e_exists_cubeRoot
-    {L : Type} [Field L] [IsAlgClosed L] (h2 : (2 : L) = 0) :
+    {L : Type} [Field L] [IsAlgClosed L] (_h2 : (2 : L) = 0) :
     ∃ ω : L, ω ^ 2 + ω + 1 = 0 := by
   have hp : (Polynomial.X ^ 2 + Polynomial.X + 1 : L[X]).degree ≠ 0 := by
     have hdeg : (Polynomial.X ^ 2 + Polynomial.X + 1 : L[X]).degree = 2 := by
@@ -88,7 +88,7 @@ theorem j4e_step_rootSL2_HSL_swap
     (S : LangSetup τ L p₀) (hq : S.D.q = 2) {γ : Fin τ.rank → ℤ} (hγ : IsRoot τ γ)
     (t : Lˣ) :
     S.D.step (rootSL2 τ L γ (HSL t)) = rootSL2 τ L (S.ρ γ) (HSL (t ^ 2)) := by
-  haveI : CharP L 2 := charP_two_of_langSetup_q_eq_two_pow (f := 1) S (by rw [hq]; norm_num)
+  have : CharP L 2 := charP_two_of_langSetup_q_eq_two_pow (f := 1) S (by rw [hq]; norm_num)
   have hstep : ∀ {δ : Fin τ.rank → ℤ}, IsRoot τ δ → ∀ c : L,
       S.D.step (pinnedX τ L δ c) = pinnedX τ L (S.ρ δ) (c ^ 2) :=
     fun hδ c => j4e_step_pinnedX_of_q_two S hq hδ c
@@ -188,7 +188,7 @@ theorem j4e_pair_detects
     (hργ : S.ρ γ = β) (hρβ : S.ρ β = γ) (horth : iform γ β = 0) :
     rootChar b γ = 1 ∧ rootChar b β = 1 := by
   classical
-  haveI : CharP L 2 := charP_two_of_langSetup_q_eq_two_pow (f := 1) S (by rw [hq]; norm_num)
+  have : CharP L 2 := charP_two_of_langSetup_q_eq_two_pow (f := 1) S (by rw [hq]; norm_num)
   have h2L : (2 : L) = 0 := CharP.cast_eq_zero L 2
   have hγr : IsRoot τ γ := hγcomp.1.1
   have hβr : IsRoot τ β := hβcomp.1.1

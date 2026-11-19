@@ -305,10 +305,10 @@ private theorem term_eq (e : ℕ) (he : Odd e) [NeZero e] (t : Bool) (k : Fin e)
   unfold term
   cases t with
   | false =>
-      simp only [Bool.false_eq_true, if_false]
+      simp only [Bool.false_eq_true, ite_false]
       exact (r_pow_eq e he k).symm
   | true =>
-      simp only [if_true]
+      simp only [ite_true]
       rw [show R e = r e - 1 from rfl, ← r_pow_eq e he k, r_pow_succ e he k]
       ring
 
@@ -317,12 +317,12 @@ private theorem S_eq_sum_idx (e : ℕ) (he : Odd e) [NeZero e] (B : Finset (Fin 
   rw [S, sum_pos_eq_sum_idx e he B (fun j => 2 ^ (j : ℕ))]
   refine Finset.sum_congr rfl fun k _ => ?_
   by_cases hk : sig e k ∈ B
-  · rw [if_pos hk]
+  · rw [ite_eq_left hk]
     have hla : la e B k = true := by simp [la, hk]
     rw [hla]
     simp only [Bool.toNat_true, Nat.cast_one, one_mul]
     exact (r_pow_eq e he k).symm
-  · rw [if_neg hk]
+  · rw [ite_eq_right hk]
     have hla : la e B k = false := by simp [la, hk]
     rw [hla]
     simp
@@ -347,11 +347,11 @@ private theorem sum_term_eq (e : ℕ) (he : Odd e) [NeZero e] (A B : Finset (Fin
     refine Finset.sum_congr rfl fun k _ => ?_
     by_cases hk : sig e k ∈ A
     · have hla : la e A k = true := by simp [la, hk]
-      rw [if_pos hk, if_pos hla]
+      rw [ite_eq_left hk, ite_eq_left hla]
       have hsym : σe.symm (sig e k) = k := σe.symm_apply_apply k
       rw [hsym]
     · have hla : la e A k = false := by simp [la, hk]
-      rw [if_neg hk, if_neg (by simp [hla])]
+      rw [ite_eq_right hk, ite_eq_right (by simp [hla])]
   have hterm : ∀ k : Fin e,
       (if la e A k = true then term e ((x (k + 1)).2.2) (sig e k) else 0) =
       ((own (la e A k) ((x (k + 1)).2.2) : ℤ) : ZMod (2 ^ e - 1)) * r e ^ (k : ℕ) +
@@ -359,10 +359,10 @@ private theorem sum_term_eq (e : ℕ) (he : Odd e) [NeZero e] (A B : Finset (Fin
     intro k
     rw [term_eq e he ((x (k + 1)).2.2) k]
     cases hla : la e A k <;> cases hb : (x (k + 1)).2.2
-    · simp [hla, hb, own]
+    · simp [own]
     · exact absurd (hpend k hb) (by rw [hla]; exact Bool.false_ne_true)
-    · simp [hla, hb, own]
-    · simp [hla, hb, own]
+    · simp [own]
+    · simp [own]
       ring
   have hshift : ∑ k : Fin e, ((((x (k + 1)).2.2).toNat : ℤ) : ZMod (2 ^ e - 1)) *
         r e ^ ((k + 1 : Fin e) : ℕ) =
@@ -421,7 +421,7 @@ private theorem run_slots (e : ℕ) (he : Odd e) [NeZero e] (A B : Finset (Fin e
   have hind := la_indep e he A hI k hk
   have hxk := hx k
   by_cases h1 : (x (k + 1)).2.2 = true
-  · rw [if_pos h1]
+  · rw [ite_eq_left h1]
     have h1' : (stepB (la e A k) (la e B k) (la e B (k + 1)) (x k)).2.2 = true := by
       rw [← hxk]
       exact h1
@@ -429,7 +429,7 @@ private theorem run_slots (e : ℕ) (he : Odd e) [NeZero e] (A B : Finset (Fin e
       (x k).1 (x k).2.1 (x k).2.2 hk hval h1'
     rw [hind, hxk]
     exact hres
-  · rw [if_neg h1]
+  · rw [ite_eq_right h1]
     have h1' : (x (k + 1)).2.2 = false := by
       cases hx2 : (x (k + 1)).2.2
       · rfl
@@ -442,7 +442,7 @@ private theorem run_slots (e : ℕ) (he : Odd e) [NeZero e] (A B : Finset (Fin e
     rw [hind, hxk, hk]
     exact hres
 
-private theorem sum_ne_zero (e : ℕ) (he : Odd e) (A B : Finset (Fin e))
+private theorem sum_ne_zero (e : ℕ) (_he : Odd e) (A B : Finset (Fin e))
     (hAB : Disjoint (Lam e A) (Lam e B)) (t : Fin e → Bool) :
     S e B + ∑ q ∈ A, term e (t q) q ≠ 0 := by
   intro h0
@@ -468,7 +468,7 @@ private theorem sum_ne_zero (e : ℕ) (he : Odd e) (A B : Finset (Fin e))
 theorem exists_slots_of_syncAt (e : ℕ) (he : Odd e) (h3 : 3 ≤ e) (A B : Finset (Fin e))
     (hI : IndepSigma e A) (hAB : Disjoint (Lam e A) (Lam e B)) (p : Fin e) (hp : SyncAt e A B p) :
     ∃ t : Fin e → Bool, Slots e A t (digits e (S e B + ∑ q ∈ A, term e (t q) q)) := by
-  haveI : NeZero e := ⟨by omega⟩
+  have : NeZero e := ⟨by omega⟩
   obtain ⟨x, hx⟩ := exists_run e he h3 A B p hp
   have hval := run_valid e he A B hI x hx
   let σe : Fin e ≃ Fin e := Equiv.ofBijective (sig e) (sig_bijective e he)
@@ -515,11 +515,11 @@ theorem exists_slots_of_syncAt (e : ℕ) (he : Odd e) (h3 : 3 ≤ e) (A B : Fins
   have hslot := run_slots e he A B hI x hx k hk
   rw [htk, hsucc]
   by_cases h1 : (x (k + 1)).2.2 = true
-  · rw [if_pos h1]
-    rw [if_pos h1] at hslot
+  · rw [ite_eq_left h1]
+    rw [ite_eq_left h1] at hslot
     exact (hmem _).2 hslot
-  · rw [if_neg h1]
-    rw [if_neg h1] at hslot
+  · rw [ite_eq_right h1]
+    rw [ite_eq_right h1] at hslot
     rcases hslot with h | h
     · exact Or.inl ((hmem _).2 h)
     · exact Or.inr ((hmem _).2 h)

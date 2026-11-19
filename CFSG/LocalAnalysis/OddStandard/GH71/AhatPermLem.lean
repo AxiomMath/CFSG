@@ -91,11 +91,10 @@ theorem mem_zpowers_t3 {σ : Perm (Fin 11)} (hs : sign σ = 1)
   have h10 := hout 10 (by decide)
   rcases h8 with h8 | h8 | h8 <;> rcases h9 with h9 | h9 | h9 <;>
     rcases h10 with h10 | h10 | h10
-  all_goals first
+  all_goals try first
     | exact absurd (σ.injective (h8.trans h9.symm)) (by decide)
     | exact absurd (σ.injective (h8.trans h10.symm)) (by decide)
     | exact absurd (σ.injective (h9.trans h10.symm)) (by decide)
-    | skip
   · have e : σ = 1 := Equiv.ext fun x => by rw [hform x, h8, h9, h10]; revert x; decide
     rw [e]
     exact one_mem _

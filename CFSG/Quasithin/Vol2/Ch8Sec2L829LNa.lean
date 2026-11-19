@@ -13,7 +13,7 @@ open CFSG.Open CFSG.QuasithinUnique CFSG.Quasithin CFSG.Quasithin.H13
 theorem rankOne_L2_extra {n : ℕ} (hn : 2 ≤ n) {X : Type} [Group X] [Finite X]
     (hX : IsPSL 2 2 n X) {S : Subgroup X} (hS : IsSylowTwoOf S ⊤) :
     centerSub S = S ∧ ∀ x : X, (∀ s ∈ S, x * s = s * x) → x ∈ S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hR : RankOneSyl (⊤ : Subgroup X) S (2 ^ n) :=
     rankOneSyl_top_of_isPSL_two_cs5 hn hX hS
   obtain ⟨P, hPS⟩ := exists_sylow_of_isSylowTwoOf_top_cs5 hS
@@ -161,7 +161,7 @@ theorem rk1_dih [Finite Y] [X.Normal] {E : Subgroup Y} {h : Y} {N : Subgroup Y} 
     (hR : RankOneSyl X S q)
     (hC : ∀ y : Y, (∀ x ∈ X, y * x = x * y) → y = 1)
     (hYX : IsPGroup 2 (Y ⧸ X))
-    (hBsol : Group.IsSolvable ↥(X ⊓ Subgroup.normalizer (S : Set Y)))
+    (_hBsol : Group.IsSolvable ↥(X ⊓ Subgroup.normalizer (S : Set Y)))
     (hSab : centerSub S = S)
     (hCS : ∀ x ∈ X, (∀ s ∈ S, x * s = s * x) → x ∈ S)
     (hE : IsElemAbelian 2 E) (hE1 : E ≠ ⊥)
@@ -215,7 +215,7 @@ theorem rk1_dih [Finite Y] [X.Normal] {E : Subgroup Y} {h : Y} {N : Subgroup Y} 
     exact le_sup_right.trans
       (le_of_isPGroup_of_sylow_le_cs5 hR.sylow hP2 le_sup_left (sup_le hSX inf_le_right))
   have hZE : centerSub S ≤ E := by
-    haveI : Group.IsNilpotent ↥S := hR.isPGroup.isNilpotent
+    have : Group.IsNilpotent ↥S := hR.isPGroup.isNilpotent
     have hnorm : ((E ⊓ X).subgroupOf S).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer hD₀S).mpr hSnormD₀
     have hD₁ne : (E ⊓ X).subgroupOf S ≠ ⊥ := by
@@ -278,7 +278,7 @@ theorem rk1_dih [Finite Y] [X.Normal] {E : Subgroup Y} {h : Y} {N : Subgroup Y} 
       intro x
       obtain ⟨k, hk⟩ := hclaim x.1 (sup_le hcentE hcentEh x.2)
       exact ⟨k, Subtype.ext (by simpa using hk)⟩
-    haveI : (N.subgroupOf (E ⊔ B6.conjSub h E)).Normal := ⟨fun n hn g => by
+    have : (N.subgroupOf (E ⊔ B6.conjSub h E)).Normal := ⟨fun n hn g => by
       rw [Subgroup.mem_subgroupOf] at hn ⊢
       simpa using hNnorm (g : Y) g.2 (n : Y) hn⟩
     exact hnot2 (hI2.to_quotient _)

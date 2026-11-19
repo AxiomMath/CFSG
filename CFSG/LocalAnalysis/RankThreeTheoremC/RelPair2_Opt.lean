@@ -83,7 +83,7 @@ theorem IsRelPairCandidate.pRank_eq_two (hS : Setting G) (hD1 : TheoremD1 G) {p 
     exact le_csSup (pRank_set_bddAbove p hprime.one_lt _)
       ⟨E, le_inf hEH (hEP'.trans hP'M'), hE, hEc⟩
   obtain ⟨m, hm⟩ := pGroup_conjugate_into_sylow_within_overgroup p hprime P' M' hP'M' D
-    (P.isPGroup'.to_le hDP) (hDH.trans hHM')
+    (P.isPGroup.to_le hDP) (hDH.trans hHM')
   set P'' : Sylow p G := ((m : G)⁻¹) • P' with hP''
   have hDP'' : D ≤ (P'' : Subgroup G) := by
     rw [hP'', sylow_coe_smul_eq_map]
@@ -109,7 +109,7 @@ theorem IsRelPairCandidate.pRank_eq_two (hS : Setting G) (hD1 : TheoremD1 G) {p 
     exact card_le_of_le hE'D
   obtain ⟨A, hAP'', hA, hAc⟩ := pRank_attained p (P'' : Subgroup G) (by rw [hP''3]; norm_num)
   rw [hP''3] at hAc
-  obtain ⟨-, z'', hz''D, hz''1, hz''c, -, -⟩ := isolatedPlane_structure hprime P''.isPGroup' hiso
+  obtain ⟨-, z'', hz''D, hz''1, hz''c, -, -⟩ := isolatedPlane_structure hprime P''.isPGroup hiso
     hAP'' ((CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian p A).2 hA) hAc
   obtain ⟨g, hgN, hgz⟩ := hext.exists_mem_normalizer_zpowers_eq hS hD1 hp hPD hDab hCD hzD hz1
     hzc hN₀M hz''D hz''1

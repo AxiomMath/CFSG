@@ -57,8 +57,8 @@ theorem eq_or_card_eq [Finite (MulAut V)]
     rw [Nat.card_congr θ.toEquiv, CFSG.Sporadic.Mathieu.card_M12]
   have hcardM12 : Nat.card ↥CFSG.Blueprint.NativeSporadic.M12 = 95040 :=
     CFSG.Sporadic.Mathieu.card_M12
-  haveI : Finite ↥L := Subtype.finite
-  haveI : Finite (MulAut ↥L) := inferInstance
+  have : Finite ↥L := Subtype.finite
+  have : Finite (MulAut ↥L) := inferInstance
   have hinj : Function.Injective (conjHom hLM) := conjHom_injective hLM hC
   have hcard_le : Nat.card ↥M ≤ Nat.card (MulAut ↥L) :=
     Nat.card_le_card_of_injective (conjHom hLM) hinj
@@ -73,7 +73,7 @@ theorem eq_or_card_eq [Finite (MulAut V)]
       _ = 190080 := by norm_num [hcardM12]
   obtain ⟨k, hk⟩ := Subgroup.card_dvd_of_le hLM.1
   rw [hcardL] at hk
-  haveI : Nonempty ↥M := ⟨1⟩
+  have : Nonempty ↥M := ⟨1⟩
   have hpos : 0 < Nat.card ↥M := Nat.card_pos
   have hkpos : 1 ≤ k := by omega
   have hkub : k ≤ 2 := by omega
@@ -105,8 +105,8 @@ theorem nonempty_mulEquiv_mulAut_of_ne [Finite (MulAut V)]
   have hinj : Function.Injective f := by
     intro a b hab
     exact conjHom_injective hLM hC ((MulAut.congr θ).injective hab)
-  haveI : Finite (MulAut ↥CFSG.Blueprint.NativeSporadic.M12) := by
-    haveI : Finite ↥CFSG.Blueprint.NativeSporadic.M12 :=
+  have : Finite (MulAut ↥CFSG.Blueprint.NativeSporadic.M12) := by
+    have : Finite ↥CFSG.Blueprint.NativeSporadic.M12 :=
       Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Mathieu.card_M12]; norm_num)
     infer_instance
   have hle : Nat.card (MulAut ↥CFSG.Blueprint.NativeSporadic.M12) ≤ Nat.card ↥M := by

@@ -23,7 +23,7 @@ theorem ssexc_twoD_high_pSubgroup {τ : Tag} {L : Type} [Field L] [IsAlgClosed L
     (S : LangSetup τ L p) (hτ : τ = .D4 ∨ τ = .E6 ∨ τ = .E7 ∨ τ = .E8)
     {a : Fin τ.rank → Lˣ} (hT : rootDiagUnit τ a ∈ S.D.torus) (i : KernelComponent (rootCharHom a))
     (hkind : twistKind S.ρ (rootCharHom a) i = .twoD)
-    (h5 : 5 ≤ compRank (componentRoots (rootCharHom a) i)) {l : ℕ} (hl : l.Prime) [CharP L l]
+    (h5 : 5 ≤ compRank (componentRoots (rootCharHom a) i)) {l : ℕ} (_hl : l.Prime) [CharP L l]
     (hl5 : 5 ≤ l) :
     ∃ V : Subgroup ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i), IsPGroup l V ∧
       8 ≤ Nat.card V := by

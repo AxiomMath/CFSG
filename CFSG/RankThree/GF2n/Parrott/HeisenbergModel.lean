@@ -31,13 +31,13 @@ def q (x y : Fin 4 → ZMod 2) : ZMod 2 :=
 def b (x y x' y' : Fin 4 → ZMod 2) : ZMod 2 :=
   q x y' + q x' y
 
-@[expose] def mulE8 (g h : E8) : E8 :=
+def mulE8 (g h : E8) : E8 :=
   ⟨g.x + h.x, g.y + h.y, g.a + h.a + q g.x h.y⟩
 
-@[expose] def oneE8 : E8 :=
+def oneE8 : E8 :=
   ⟨0, 0, 0⟩
 
-@[expose] def invE8 (g : E8) : E8 :=
+def invE8 (g : E8) : E8 :=
   ⟨-g.x, -g.y, -g.a + q g.x g.y⟩
 
 @[simp]
@@ -173,20 +173,20 @@ theorem inv_y (g : E8) : (g⁻¹).y = -g.y := by
 theorem inv_a (g : E8) : (g⁻¹).a = -g.a + q g.x g.y := by
   simp [inv_apply]
 
-@[expose] instance : Group E8 :=
+instance : Group E8 :=
   Group.ofLeftAxioms
     (fun g h k => by
       ext <;>
-        simp [mulE8, q_add_left, q_add_right, Finset.sum_add_distrib, add_mul, mul_add] <;>
+        simp [mulE8, q_add_left, q_add_right] <;>
         ring)
     (fun g => by
       ext <;> simp [mulE8, oneE8])
     (fun g => by
-      ext <;> simp [mulE8, invE8, q_neg_left] <;> (abel_nf; simp [CharTwo.two_nsmul]))
+      ext <;> simp [mulE8, invE8]; (abel_nf; simp))
 
 theorem card_E8 : Nat.card E8 = 2 ^ 9 := by
   rw [Nat.card_congr equivProd]
-  simp [Nat.card_prod, Nat.card_fun, Nat.card_zmod, Nat.card_fin]
+  simp
 
 theorem mem_center_iff {z : E8} :
     z ∈ Subgroup.center E8 ↔ z.x = 0 ∧ z.y = 0 := by
@@ -196,13 +196,13 @@ theorem mem_center_iff {z : E8} :
     have hy : z.y = 0 := by
       funext i
       have h := congrArg E8.a (hz ⟨Pi.single i 1, 0, 0⟩)
-      simp [mulE8, q, sum_single_mul, add_assoc] at h
+      simp [mulE8, q, sum_single_mul] at h
       have h' : z.a + z.y i = z.a + 0 := by simpa using h
       simpa using add_left_cancel h'
     have hx : z.x = 0 := by
       funext i
       have h := congrArg E8.a (hz ⟨0, Pi.single i 1, 0⟩)
-      simp [mulE8, q, sum_mul_single, add_assoc] at h
+      simp [mulE8, q, sum_mul_single] at h
       have h' : z.a + 0 = z.a + z.x i := by simpa using h
       simpa using (add_left_cancel h').symm
     exact ⟨hx, hy⟩
@@ -210,7 +210,7 @@ theorem mem_center_iff {z : E8} :
     ext
     · simp [hx]
     · simp [hy]
-    · simp [q, hx, hy, add_assoc, add_comm, add_left_comm]
+    · simp [q, hx, hy, add_comm]
 
 theorem center_eq : (Subgroup.center E8 : Set E8) = {z | z.x = 0 ∧ z.y = 0} := by
   ext z
@@ -266,15 +266,15 @@ theorem commutatorElement_eq (g h : E8) :
     ⁅g, h⁆ = ⟨0, 0, q g.x h.y - q h.x g.y⟩ := by
   rw [commutatorElement_def]
   ext
-  · simp [q_add_left, q_add_right, q_neg_left, q_neg_right]
+  · simp
     abel_nf
-    simp [CharTwo.two_nsmul]
-  · simp [q_add_left, q_add_right, q_neg_left, q_neg_right]
+    simp
+  · simp
     abel_nf
-    simp [CharTwo.two_nsmul]
-  · simp [q_add_left, q_add_right, q_neg_left, q_neg_right, sub_eq_add_neg]
+    simp
+  · simp [q_add_left]
     abel_nf
-    simp [CharTwo.two_nsmul]
+    simp
 
 theorem commutator_eq_center :
     ⁅(⊤ : Subgroup E8), (⊤ : Subgroup E8)⁆ = Subgroup.center E8 := by
@@ -292,7 +292,7 @@ theorem commutator_eq_center :
         simpa using congrFun hz.1 i
       · rename_i i
         simpa using congrFun hz.2 i
-      · simp [q, sum_single_mul, sum_mul_single, sub_eq_add_neg, add_zero]
+      · simp [q, sum_single_mul, add_zero]
     rw [hz_eq]
     exact Subgroup.commutator_mem_commutator (Subgroup.mem_top _) (Subgroup.mem_top _)
 
@@ -317,14 +317,14 @@ theorem q_mul (g h : E8) :
   simp [b, q_add_left, q_add_right, add_assoc, add_comm, add_left_comm]
 
 theorem b_self (g : E8) : b g.x g.y g.x g.y = 0 := by
-  simpa [b] using CharTwo.add_self_eq_zero (q g.x g.y)
+  simp [b]
 
 theorem isPGroup_E8 : IsPGroup 2 E8 :=
   IsPGroup.of_card (n := 9) card_E8
 
 theorem frattini_eq_center : _root_.frattini E8 = Subgroup.center E8 := by
-  haveI : Fact (IsPGroup 2 E8) := ⟨isPGroup_E8⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (IsPGroup 2 E8) := ⟨isPGroup_E8⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   apply le_antisymm
   · rw [CFSG.frattini_eq_closure_commutator_union_powers (R := E8) (p := 2)]
     rw [Subgroup.closure_le]

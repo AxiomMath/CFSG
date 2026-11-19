@@ -19,7 +19,7 @@ private def consPathPred (v : V) (p : GPath Γ (n - 1)) (h : Γ.Adj v (p 0)) (hn
         have hi' : 0 < i := Nat.pos_of_ne_zero hi0
         omega
       have h2 : i + 1 ≠ 0 := Nat.succ_ne_zero i
-      simp only [hi0, if_false, h2]
+      simp only [hi0, ite_false, h2]
       have e : i + 1 - 1 = (i - 1) + 1 := by omega
       rw [e]
       exact p.adj (i - 1) hi1
@@ -30,16 +30,19 @@ private def consPathPred (v : V) (p : GPath Γ (n - 1)) (h : Γ.Adj v (p 0)) (hn
       subst n
       simp
     · have hn0 : n ≠ 0 := by omega
-      simp only [hi0, if_false, hn0]
+      simp only [hi0, ite_false, hn0]
       rw [p.tail (i - 1) (Nat.sub_le_sub_right hi 1)]
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 @[simp] private theorem consPathPred_zero (v : V) (p : GPath Γ (n - 1)) (h : Γ.Adj v (p 0))
     (hn : 1 ≤ n) : consPathPred v p h hn 0 = v := by simp [consPathPred]
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 @[simp] private theorem consPathPred_succ (v : V) (p : GPath Γ (n - 1)) (h : Γ.Adj v (p 0))
     (hn : 1 ≤ n) (i : ℕ) : consPathPred v p h hn (i + 1) = p i := by
   simp [consPathPred]
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 private theorem consPathPred_noBack (v : V) (p : GPath Γ (n - 1)) (h : Γ.Adj v (p 0)) (hn : 1 ≤ n)
     (hp : p.NoBack) (hv0 : v ≠ consPathPred v p h hn 2) :
     (consPathPred v p h hn).NoBack := by
@@ -50,11 +53,12 @@ private theorem consPathPred_noBack (v : V) (p : GPath Γ (n - 1)) (h : Γ.Adj v
   · have hleft : consPathPred v p h hn i = p (i - 1) := by
       simp [consPathPred, show i ≠ 0 by omega]
     have hright : consPathPred v p h hn (i + 2) = p (i + 1) := by
-      simp [consPathPred, show i + 2 ≠ 0 by omega]
+      simp [consPathPred]
     rw [hleft, hright] at heq
     exact hp (i - 1) (by omega)
       (by simpa [show i - 1 + 2 = i + 1 by omega] using heq)
 
+omit [Fintype V] [DecidableRel Γ.Adj] [FaithfulSMul D V] [GraphAction D Γ] in
 theorem pathRootGroup_rev (p : GPath Γ n) :
     pathRootGroup D Γ p.rev = pathRootGroup D Γ p := by
   ext g
@@ -68,6 +72,7 @@ theorem pathRootGroup_rev (p : GPath Γ n) :
   · intro h i hi1 hi2 w hw
     have hrev : p.rev i = p (n - i) := GPath.rev_apply p (by omega)
     exact h (n - i) (by omega) (by omega) w (by rwa [← hrev])
+omit [Fintype V] [DecidableRel Γ.Adj] [FaithfulSMul D V] in
 theorem conj_mem_pathRootGroup_iff {p : GPath Γ n} (g x : D) :
     g⁻¹ * x * g ∈ pathRootGroup D Γ p ↔ x ∈ pathRootGroup D Γ (g • p) := by
   rw [mem_pathRootGroup, mem_pathRootGroup]
@@ -91,6 +96,7 @@ theorem conj_mem_pathRootGroup_iff {p : GPath Γ n} (g x : D) :
     have hconv : (g⁻¹ * x * g) • w = g⁻¹ • (x • (g • w)) := by
       rw [mul_smul, mul_smul]
     rw [hconv, hfix, inv_smul_smul]
+omit [Fintype V] [DecidableRel Γ.Adj] [FaithfulSMul D V] in
 theorem pathRootGroup_map_conj (p : GPath Γ n) (g : D) :
     (pathRootGroup D Γ p).map (MulAut.conj g).toMonoidHom =
       pathRootGroup D Γ (g • p) := by
@@ -114,6 +120,7 @@ theorem pathRootGroup_le_littleGroup {p : GPath Γ n} (hp : p.NoBack) :
   rw [littleGroup]
   exact (le_iSup (fun _ : p.NoBack => pathRootGroup D Γ p) hp).trans
     (le_iSup (fun q : GPath Γ n => ⨆ (_ : q.NoBack), pathRootGroup D Γ q) p)
+omit [Fintype V] [DecidableRel Γ.Adj] [FaithfulSMul D V] in
 theorem littleGroup_normal : (littleGroup D Γ n).Normal := by
   rw [Subgroup.normal_iff_map_conj_eq]
   intro g
@@ -163,7 +170,7 @@ private theorem exists_path_end_penult (hn : 3 ≤ n)
           have h0 : n - 1 - (n - 1) = 0 := by omega
           show Γ.Adj (if n ≤ n - 1 then w else r (n - 1 - (n - 1)))
             (if n ≤ n - 1 + 1 then w else r (n - 1 - (n - 1 + 1)))
-          rw [if_neg hif0, if_pos hif1, h0, hr0]
+          rw [ite_eq_right hif0, ite_eq_left hif1, h0, hr0]
           exact h.symm
         · have hin : i < n := by omega
           have hi1n : ¬ n ≤ i := by omega
@@ -171,14 +178,14 @@ private theorem exists_path_end_penult (hn : 3 ≤ n)
           have hk : n - 1 - i = (n - 1 - (i + 1)) + 1 := by omega
           show Γ.Adj (if n ≤ i then w else r (n - 1 - i))
             (if n ≤ i + 1 then w else r (n - 1 - (i + 1)))
-          rw [if_neg hi1n, if_neg h2, hk]
+          rw [ite_eq_right hi1n, ite_eq_right h2, hk]
           exact (r.adj (n - 1 - (i + 1)) (by omega)).symm
       tail := by
         intro i hi
         have h1 : n ≤ i := by omega
         show (if n ≤ i then w else r (n - 1 - i)) =
           (if n ≤ n then w else r (n - 1 - n))
-        rw [if_pos h1, if_pos le_rfl] }
+        rw [ite_eq_left h1, ite_eq_left le_rfl] }
   refine ⟨p, ?_, ?_, ?_⟩
   · intro i hi
     have hin : i < n := by omega
@@ -187,22 +194,22 @@ private theorem exists_path_end_penult (hn : 3 ≤ n)
     · have e1 : n - 1 - i = 1 := by omega
       show (if n ≤ i then w else r (n - 1 - i)) ≠
         (if n ≤ i + 2 then w else r (n - 1 - (i + 2)))
-      rw [if_neg hi1n, if_pos (by omega : n ≤ i + 2), e1]
+      rw [ite_eq_right hi1n, ite_eq_left (by omega : n ≤ i + 2), e1]
       exact hr1_ne
     · have h2 : ¬ n ≤ i + 2 := by omega
       have hk : n - 1 - i = (n - 1 - (i + 2)) + 2 := by omega
       show (if n ≤ i then w else r (n - 1 - i)) ≠
         (if n ≤ i + 2 then w else r (n - 1 - (i + 2)))
-      rw [if_neg hi1n, if_neg h2, hk]
+      rw [ite_eq_right hi1n, ite_eq_right h2, hk]
       exact (hrnb (n - 1 - (i + 2)) (by omega)).symm
   · show (if n ≤ n then w else r (n - 1 - n)) = w
-    rw [if_pos le_rfl]
+    rw [ite_eq_left le_rfl]
   · have hlt : ¬ n ≤ n - 1 := by omega
     show (if n ≤ n - 1 then w else r (n - 1 - (n - 1))) = z1
-    rw [if_neg hlt, show n - 1 - (n - 1) = 0 by omega, hr0]
+    rw [ite_eq_right hlt, show n - 1 - (n - 1) = 0 by omega, hr0]
 private theorem littleGroup_inf_stabilizer_transitive (hn : 3 ≤ n)
     (hP : IsGeneralizedPolygon Γ n) (hT : IsThick Γ) (hM : MoufangCondition D Γ n)
-    {w y1 y2 : V} (hy1 : Γ.Adj w y1) (hy2 : Γ.Adj w y2) (hne : y1 ≠ y2) :
+    {w y1 y2 : V} (hy1 : Γ.Adj w y1) (hy2 : Γ.Adj w y2) (_hne : y1 ≠ y2) :
     ∃ g : D, g ∈ littleGroup D Γ n ⊓ MulAction.stabilizer D w ∧ g • y1 = y2 := by
   classical
   have hdeg : 3 ≤ (Γ.neighborFinset w).card := by
@@ -405,15 +412,17 @@ private theorem littleGroup_inf_stabilizer_inj (hn : 3 ≤ n)
     have hg' : g ∈ littleGroup D Γ n ⊓ MulAction.stabilizer D z := by rwa [← h] at hg
     exact MulAction.mem_stabilizer_iff.mp hg'.2
   exact hne (littleGroup_inf_stabilizer_fixes_eq hn hP hT hM hfix)
+omit [Fintype V] [FaithfulSMul D V] in
 private theorem conjSub_stabilizer (g : D) (z : V) :
     conjSub g (MulAction.stabilizer D z) = MulAction.stabilizer D (g • z) := by
   rw [conjSub, MulAction.stabilizer_smul_eq_stabilizer_map_conj]
+omit [Fintype V] [DecidableRel Γ.Adj] [FaithfulSMul D V] in
 private theorem conjSub_littleGroup_inf_stabilizer (g : D) (z : V) :
     conjSub g (littleGroup D Γ n ⊓ MulAction.stabilizer D z) =
       littleGroup D Γ n ⊓ MulAction.stabilizer D (g • z) := by
   rw [conjSub_inf]
   have hL : conjSub g (littleGroup D Γ n) = littleGroup D Γ n := by
-    haveI : (littleGroup D Γ n).Normal := littleGroup_normal
+    have : (littleGroup D Γ n).Normal := littleGroup_normal
     exact Subgroup.Normal.map_conj_eq (H := littleGroup D Γ n) g
   rw [hL, conjSub_stabilizer]
 theorem centralizer_littleGroup_eq_bot (hn : 3 ≤ n)

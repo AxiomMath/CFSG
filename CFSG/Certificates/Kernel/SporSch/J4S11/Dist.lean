@@ -23,14 +23,14 @@ private theorem vmul_lt {X : Array Nat} (hX : WfN X) (v : Nat) : vecMulN 112 X v
   vecMulN_lt (fun j hj => by rw [← getElem!_eq_getD'']; exact hX.2 j hj) v
 
 private theorem app_lt {X : Array Nat} (hX : WfN X) :
-    ∀ (n v : Nat), v < 2 ^ 112 → O.app X n v < 2 ^ 112
-  | 0, v, hv => hv
-  | n + 1, v, _ => app_lt hX n _ (vmul_lt hX v)
+    ∀ (n _v : Nat), _v < 2 ^ 112 → O.app X n _v < 2 ^ 112
+  | 0, _v, hv => hv
+  | n + 1, _v, _ => app_lt hX n _ (vmul_lt hX _v)
 
 private theorem appBase_lt (b : Nat) : ∀ (xs : List (Array Nat)), (∀ x ∈ xs, WfN x) →
-    ∀ (n v : Nat), v < 2 ^ 112 → O.appBase b xs n v < 2 ^ 112
-  | [], _, n, v, hv => hv
-  | X :: xs, hxs, n, v, hv =>
+    ∀ (_n _v : Nat), _v < 2 ^ 112 → O.appBase b xs _n _v < 2 ^ 112
+  | [], _, _n, _v, hv => hv
+  | X :: xs, hxs, _n, _v, hv =>
     appBase_lt b xs (fun x hx => hxs x (List.mem_cons_of_mem _ hx)) _ _
       (app_lt (hxs X List.mem_cons_self) _ _ hv)
 

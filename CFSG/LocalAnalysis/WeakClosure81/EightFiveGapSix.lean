@@ -17,7 +17,7 @@ open Subgroup
 theorem w3Lem85TwoGap6_of_fact (h : Orth6MinusOddTranspFact) : W3Lem85TwoGap6 := by
   intro X _ _ S hS h2 hX hc
   obtain ⟨Y, _, φ, hφ, hk3, -, hY⟩ := hX
-  haveI : Finite Y := Finite.of_surjective φ hφ
+  have : Finite Y := Finite.of_surjective φ hφ
   have hodd : Odd (Nat.card φ.ker) := by rw [hk3]; exact ⟨1, rfl⟩
   obtain ⟨d, hdd, -, hSd, hcl⟩ := barSituation_map_two hS h2 φ hφ hodd
   have hcs := centralInSylow_map φ hφ S hc

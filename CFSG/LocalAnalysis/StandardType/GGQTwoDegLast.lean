@@ -38,8 +38,8 @@ theorem qTwoDeg_not_span_of_last_row
     subst hM
     exact GGWeylOfType.of_reindex ⟨e, hP.2⟩
   obtain ⟨V, hVadd, hVmod, ⟨ιV⟩⟩ := exists_ggLinData (p := 3) hBs
-  letI := hVadd
-  letI := hVmod
+  let := hVadd
+  let := hVmod
   obtain ⟨e₂, h, α, hα, hrefl, hpair⟩ :=
     qTwoDegLastAux_datum hNT hind (r := N - 1) (by omega) hW ιV
   have hlin : LinearIndependent (ZMod 3) h :=

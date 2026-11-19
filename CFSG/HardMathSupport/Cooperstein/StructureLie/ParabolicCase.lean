@@ -39,7 +39,7 @@ variable {Γ : Type} [Group Γ]
 theorem exists_isSylowTwoOf [Finite Γ] (L : Subgroup Γ) : ∃ T : Subgroup Γ, IsSylowTwoOf T L := by
   have : Finite ↥L := Finite.of_injective _ Subtype.val_injective
   obtain ⟨P⟩ := Sylow.nonempty (p := 2) (G := ↥L)
-  refine ⟨(P : Subgroup ↥L).map L.subtype, Subgroup.map_subtype_le _, P.isPGroup'.map _, ?_⟩
+  refine ⟨(P : Subgroup ↥L).map L.subtype, Subgroup.map_subtype_le _, P.isPGroup.map _, ?_⟩
   have e : ((P : Subgroup ↥L).map L.subtype).subgroupOf L = P :=
     Subgroup.comap_map_eq_self_of_injective L.subtype_injective _
   rw [e]

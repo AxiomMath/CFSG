@@ -10,7 +10,7 @@ open CFSG CFSG.Open Subgroup
 
 theorem exists_commutator_of_isPlaneDiagonal_odd {X : Type*} [Group X] [Finite X] {p : ℕ}
     [Fact p.Prime] (hodd : p ≠ 2) {D : Subgroup X} (hD : IsElemAbelian p D)
-    (hcard : Nat.card D = p ^ 2) {z g : X} (hz : z ∈ D) (hz1 : z ≠ 1)
+    (_hcard : Nat.card D = p ^ 2) {z g : X} (hz : z ∈ D) (hz1 : z ≠ 1)
     (hg : IsPlaneDiagonal p D z g) :
     ∀ d ∈ D, ∃ d' ∈ D, d = d'⁻¹ * g * d' * g⁻¹ := by
   obtain ⟨hgN, -, a, b, hab, hord, hga, hgd⟩ := hg

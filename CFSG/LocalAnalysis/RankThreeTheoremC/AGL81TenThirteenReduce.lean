@@ -15,6 +15,7 @@ open CFSG.RankThreeCoreUniqueness.Helpers Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isSubnormal_inf_inf {H M L : Subgroup G} (hLM : IsSubnormal L M) :
     IsSubnormal (H ⊓ L) (H ⊓ M) := by
   have h := hLM.inf H
@@ -24,13 +25,16 @@ section Members
 
 variable {M H L I₀ : Subgroup G}
 
+omit [Finite G] in
 theorem le_inf_of_cZero (hLM : IsSubnormal L M) (hI₀ : I₀ ∈ cZero (H ⊓ L)) : I₀ ≤ H ⊓ M :=
   hI₀.le.trans (inf_le_inf le_rfl hLM.le)
 
+omit [Finite G] in
 theorem isSubnormal_inf_of_cZero (hLM : IsSubnormal L M) (hI₀ : I₀ ∈ cZero (H ⊓ L)) :
     IsSubnormal I₀ (H ⊓ M) :=
   hI₀.subnormal.trans (isSubnormal_inf_inf hLM)
 
+omit [Finite G] in
 theorem isSubnormal_oUpperTwo_inf_of_cZero (hLM : IsSubnormal L M) (hI₀ : I₀ ∈ cZero (H ⊓ L)) :
     IsSubnormal (CFSG.ComponentClassification.AS76b.oUpperTwo I₀) (H ⊓ M) := by
   have hle : CFSG.ComponentClassification.AS76b.oUpperTwo I₀ ≤ I₀ :=
@@ -52,10 +56,12 @@ section Transfer
 
 variable {p : ℕ} {M H I : Subgroup G}
 
+omit [Finite G] in
 theorem map_mk_le_d1X0 (hI : I ≤ H ⊓ M) :
     (I.subgroupOf H).map (QuotientGroup.mk' (primeComplementCore (G := H) p)) ≤ d1X0 p M H :=
   Subgroup.map_mono fun _ hx => hI hx
 
+omit [Finite G] in
 theorem isSubnormal_map_mk_d1X0 (hI : IsSubnormal I (H ⊓ M)) :
     IsSubnormal ((I.subgroupOf H).map (QuotientGroup.mk' (primeComplementCore (G := H) p)))
       (d1X0 p M H) :=
@@ -63,6 +69,7 @@ theorem isSubnormal_map_mk_d1X0 (hI : IsSubnormal I (H ⊓ M)) :
 
 variable {K : Subgroup (H ⧸ primeComplementCore (G := H) p)}
 
+omit [Finite G] in
 theorem map_mk_le_centralizer_iff (hIH : I ≤ H) :
     (I.subgroupOf H).map (QuotientGroup.mk' (primeComplementCore (G := H) p)) ≤
         centralizer (K : Set (H ⧸ primeComplementCore (G := H) p)) ↔
@@ -78,6 +85,7 @@ theorem map_mk_le_centralizer_iff (hIH : I ≤ H) :
     have hwz' : w = x := H.subtype_injective hwz
     rwa [hwz'] at hw
 
+omit [Finite G] in
 theorem comap_centralizer_eq_subgroupOf (hIH : I ≤ H) :
     (centralizer (K : Set (H ⧸ primeComplementCore (G := H) p))).comap
         ((QuotientGroup.mk' (primeComplementCore (G := H) p)).comp (Subgroup.inclusion hIH)) =
@@ -101,7 +109,7 @@ end Transfer
 
 theorem pow_three_mem_d1PlusCore {p : ℕ} {P : Sylow p G} {M H Q : Subgroup G}
     {K : Subgroup (H ⧸ primeComplementCore (G := H) p)} (hd : AGL81CfgData p P M H Q K)
-    {L I₀ : Subgroup G} (hLM : IsSubnormal L M) (hI₀ : I₀ ∈ cZero (H ⊓ L))
+    {L I₀ : Subgroup G} (hLM : IsSubnormal L M) (_hI₀ : I₀ ∈ cZero (H ⊓ L))
     (hO2 : pCoreOf 2 I₀ = pCoreOf 2 (H ⊓ L))
     (hb : IsSymThreeOrSUThreeTwo (↥I₀ ⧸ CFSG.pCore 2 ↥I₀)) :
     ∀ x ∈ CFSG.ComponentClassification.AS76b.oUpperTwo I₀, x ^ 3 ∈ d1PlusCore p H K := by

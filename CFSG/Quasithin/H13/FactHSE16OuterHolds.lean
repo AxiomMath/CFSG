@@ -90,7 +90,7 @@ theorem factHSE16Outer_holds :
     rw [hAC, map_perfectCore]
   rw [hpc] at hsimple hcard
   refine ⟨?_, ?_⟩
-  · haveI := hsimple
+  · have := hsimple
     exact ((perfectCore (autCentralizer α)).equivMapOfInjective ψ.toMonoidHom ψ.injective).isSimpleGroup
   · rw [Subgroup.card_map_of_injective ψ.injective] at hcard
     exact hcard

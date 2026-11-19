@@ -123,13 +123,13 @@ theorem stage_pm6_false (hq : 4 ≤ Fintype.card F)
     intro p
     rw [bdeg]
     by_cases hmem : p.2 ∈ ε p.1
-    · rw [if_pos hmem]
+    · rw [ite_eq_left hmem]
       constructor
       · intro hp
         exact ⟨Fin.ext hp, hmem⟩
       · rintro ⟨hp, -⟩
         exact congrArg Fin.val hp
-    · rw [if_neg hmem]
+    · rw [ite_eq_right hmem]
       exact ⟨fun h => absurd h (by norm_num), fun h => absurd h.2 hmem⟩
   have hd : ∀ p : Fin f × Fin 6, bdeg ε p = 0 ∨ bdeg ε p = 3 := by
     intro p
@@ -137,10 +137,10 @@ theorem stage_pm6_false (hq : 4 ≤ Fintype.card F)
     by_cases hmem : p.2 ∈ ε p.1
     · right
       have h3 : p.2 = 3 := by simpa using hsub3 p.1 hmem
-      rw [if_pos hmem, h3]
+      rw [ite_eq_left hmem, h3]
       norm_num
     · left
-      rw [if_neg hmem]
+      rw [ite_eq_right hmem]
   have hcount : (Finset.univ.filter fun p : Fin f × Fin 6 => bdeg ε p = 3).card = h := by
     simp only [h]
     refine Finset.card_bij (fun p _ => p.1) ?_ ?_ ?_

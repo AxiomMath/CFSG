@@ -263,10 +263,10 @@ theorem exists_isCoherentWith_forall_cfInner_eq_neg_ite
         · exact hη₁
     refine ⟨μ, hμ, hspan, Or.inr ⟨hSeq, hμ0, hμ1⟩, fun d hd η => ?_⟩
     by_cases hη : η = (⟨η₀, hη₀⟩ : S)
-    · rw [hη, if_pos rfl, hμ0, cfInner_neg_right, hd (⟨η₁, hη₁⟩ : S), if_neg hi₁, h1]
+    · rw [hη, ite_eq_left rfl, hμ0, cfInner_neg_right, hd (⟨η₁, hη₁⟩ : S), ite_eq_right hi₁, h1]
       push_cast
       ring
-    · rw [huniq η hη, hμ1, cfInner_neg_right, hd (⟨η₀, hη₀⟩ : S), if_pos rfl, if_neg hi₁, h1]
+    · rw [huniq η hη, hμ1, cfInner_neg_right, hd (⟨η₀, hη₀⟩ : S), ite_eq_left rfl, ite_eq_right hi₁, h1]
       push_cast
       ring
 

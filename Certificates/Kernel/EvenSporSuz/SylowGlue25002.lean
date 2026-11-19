@@ -53,9 +53,9 @@ theorem lanes_letter (G : GenSys) (c : ℕ) :
       else (G.invs.toList.map lanesMt).getD (c / 2) one3) = lanesMt (G.letter c) := by
   rcases Nat.mod_two_eq_zero_or_one c with h | h
   · have hb : Nat.beq (c % 2) 0 = true := by rw [h]; rfl
-    rw [hb, cond_true, lanes_getD, GenSys.letter, if_pos h]
+    rw [hb, _root_.Bool.cond_true, lanes_getD, GenSys.letter, ite_eq_left h]
   · have hb : Nat.beq (c % 2) 0 = false := by rw [h]; rfl
-    rw [hb, cond_false, lanes_getD, GenSys.letter, if_neg (by omega)]
+    rw [hb, Bool.cond_false, lanes_getD, GenSys.letter, ite_eq_right (by omega)]
 
 theorem foldl_hom {α β γ : Type} (F : β → γ → β) (G : α → γ → α) (φ : α → β) (P : α → Prop)
     (hP : ∀ a c, P a → P (G a c)) (h : ∀ a c, P a → F (φ a) c = φ (G a c)) :
@@ -74,7 +74,6 @@ theorem evalL_eq {G : GenSys} (hG : CanonGS G) (w : List ℕ) :
     (fun a c => mulM a (G.letter c)) lanesMt (fun a => canonB a = true)
     (fun a c _ => canonB_mulM a (G.letter c))
     (fun a c ha => by
-      beta_reduce
       rw [lanes_letter, mulF3_lanesMt ha (CFSG.KC.EvenSporSuz.canonB_letter hG c)])
     w oneM canonB_oneM
   rw [lanesMt_oneM] at h
@@ -231,10 +230,10 @@ theorem pkMat3_z : pkMat3 z = -1 := by
   rw [e1, e2]
   by_cases h : i = j
   · subst h
-    simp only [if_true]
+    simp only [ite_true]
     decide
   · have h' : ¬ i.val = j.val := fun e => h (Fin.ext e)
-    simp [h, h'] <;> rfl
+    simp [h, h']
 
 noncomputable abbrev sylS : Subgroup GL12 :=
   Subgroup.closure {u | ∃ k < 4, vm u = ofMt (jMats.getD k oneM)}
@@ -246,7 +245,7 @@ theorem pkMat3_gs {k : ℕ} (hk : k < 4) : pkMat3 (gs.getD k 0) = ofMt (jMats.ge
 theorem vm_letterU_two (k : ℕ) : vm (jGS.letterU jv (2 * k)) = ofMt (jMats.getD k oneM) := by
   have e : 2 * k / 2 = k := Nat.mul_div_cancel_left k (by norm_num)
   have h := GenSys.val_letterU jGS jv (2 * k)
-  rw [GenSys.letter, if_pos (by omega), e] at h
+  rw [GenSys.letter, ite_eq_left (by omega), e] at h
   exact h
 
 theorem gen_unit {k : ℕ} (hk : k < 4) : ∃ u ∈ sylS, vm u = ofMt (jMats.getD k oneM) :=
@@ -330,7 +329,7 @@ theorem ncard_eq (Q : GL12 → Prop) (P : ℕ × ℕ → Bool)
   have himg : vm '' {w | w ∈ sylS ∧ Q w} =
       (fun p : ℕ × ℕ => pkMat3 p.1) '' ((ed.filter P).toFinset : Set (ℕ × ℕ)) := by
     ext M
-    simp only [Set.mem_image, Set.mem_setOf_eq, List.coe_toFinset, List.mem_filter]
+    simp only [Set.mem_image, Set.mem_ofPred_eq, List.coe_toFinset, List.mem_filter]
     constructor
     · rintro ⟨w, ⟨hw, hq⟩, rfl⟩
       obtain ⟨p, hp, hpw⟩ := enum_fwd hw
@@ -341,7 +340,7 @@ theorem ncard_eq (Q : GL12 → Prop) (P : ℕ × ℕ → Bool)
   rw [himg, Set.InjOn.ncard_image, Set.ncard_coe_finset,
     List.toFinset_card_of_nodup ((facts.nodup.of_map _).filter _), List.countP_eq_length_filter]
   intro p hp q hq h
-  simp only [List.coe_toFinset, List.mem_filter, Set.mem_setOf_eq] at hp hq
+  simp only [List.coe_toFinset, List.mem_filter, Set.mem_ofPred_eq] at hp hq
   exact inj_ed hp.1 hq.1 h
 
 theorem card_sylS : Nat.card sylS = 2 ^ 14 := by
@@ -377,7 +376,7 @@ theorem mem_of_sq {cL : ℕ} {c : GL12} (hcv : pkMat3 cL = vm c) (h : 0 < sqN ed
   exact mul_mem hu hu
 
 theorem vm_negOne : vm (-1 : GL12) = -1 := by
-  simp [vm] <;> rfl
+  simp [vm]
 
 theorem pkMat3_z_vm : pkMat3 z = vm (-1 : GL12) := pkMat3_z.trans vm_negOne.symm
 
@@ -492,10 +491,10 @@ theorem tgt_cases {k : ℕ} (hk : k < 14) :
     tgtL x1 x2 (tg.getD k 0) = x1 ∨ tgtL x1 x2 (tg.getD k 0) = x2 := by
   rcases (facts.reps k hk).2.2.1 with ht | ht
   · left
-    rw [ht, tgtL, Nat.beq_refl, cond_true]
+    rw [ht, tgtL, Nat.beq_refl, _root_.Bool.cond_true]
   · right
     have hb : Nat.beq 2 1 = false := rfl
-    rw [ht, tgtL, hb, cond_false]
+    rw [ht, tgtL, hb, Bool.cond_false]
 
 theorem cover {L : Subgroup GL12} (hA : ∀ u : GL12, vm u = ofMt matA → u ∈ L)
     (hB : ∀ u : GL12, vm u = ofMt matB → u ∈ L) {s : GL12} (hs : s ∈ sylS) (hss : s * s = 1)

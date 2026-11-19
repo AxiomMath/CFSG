@@ -85,7 +85,7 @@ theorem unipUnit_val {k : ℕ} (A : Matrix (Fin k) (Fin (d - k)) K) :
     simp only [unipUnit_val, toAdd_mul, blockEmbed_add, Units.val_mul]
     have hxy := blockEmbed_mul k (Multiplicative.toAdd x) (Multiplicative.toAdd y)
     have hyx := blockEmbed_mul k (Multiplicative.toAdd y) (Multiplicative.toAdd x)
-    simp only [add_mul, mul_add, one_mul, mul_one, hxy, hyx, add_zero, zero_add]
+    simp only [add_mul, mul_add, one_mul, mul_one, hxy, add_zero]
     abel
 
 end Unipotent
@@ -120,6 +120,7 @@ theorem unipUnit_det {d k : ℕ} (A : Matrix (Fin k) (Fin (d - k)) K) :
     Multiplicative (Matrix (Fin k) (Fin (d - k)) K) →* LargeEvenProj (LargeEvenSLGroup (Fin d) K) :=
   (QuotientGroup.mk' ((LargeEvenScalars (Fin d) K).subgroupOf (LargeEvenSLGroup (Fin d) K))).comp unipSL
 
+omit [Field K] in
 theorem card_matrix_block (k d : ℕ) :
     Nat.card (Matrix (Fin k) (Fin (d - k)) K) = Nat.card K ^ (k * (d - k)) := by
   show Nat.card (Fin k → Fin (d - k) → K) = _
@@ -147,7 +148,7 @@ theorem unipProj_injective {d k : ℕ} (hk1 : 1 ≤ k) (hkd : k ≤ d) :
   subst hc1
   have hM := congrArg (fun g : Matrix.GeneralLinearGroup (Fin d) K => (g : Matrix (Fin d) (Fin d) K)) hc
   simp only [unipSL, MonoidHom.coe_mk, OneHom.coe_mk, Subtype.coe_mk, unipHom, unipUnit_val,
-    Units.val_one, map_one, Matrix.GeneralLinearGroup.coe_one] at hM
+    Units.val_one, map_one] at hM
   have hB : blockEmbed k (Multiplicative.toAdd x) = blockEmbed k 0 := by
     rw [blockEmbed_zero]
     simpa using hM.symm
@@ -156,9 +157,9 @@ theorem unipProj_injective {d k : ℕ} (hk1 : 1 ≤ k) (hkd : k ≤ d) :
 
 end Quotient
 
-theorem two_eq_zero_of_card {K : Type} [Field K] [Finite K] {n : ℕ} (hn : 1 ≤ n)
+theorem two_eq_zero_of_card {K : Type} [Field K] [Finite K] {n : ℕ} (_hn : 1 ≤ n)
     (hK : Nat.card K = 2 ^ n) : (2 : K) = 0 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨p, hc, m, hp, hcard⟩ := FiniteField.card' K
   rw [← Nat.card_eq_fintype_card, hK] at hcard
   have hdvd : p ∣ 2 ^ n := by
@@ -189,6 +190,7 @@ variable {K : Type} [Field K] [Finite K]
 @[expose] def unipE {d k : ℕ} : Subgroup (LargeEvenProj (LargeEvenSLGroup (Fin d) K)) :=
   (unipProj (K := K) (d := d) (k := k)).range
 
+omit [Finite K] in
 theorem unipE_card {d k : ℕ} (hk1 : 1 ≤ k) (hkd : k ≤ d) :
     Nat.card (unipE (K := K) (d := d) (k := k)) = Nat.card K ^ (k * (d - k)) := by
   rw [← card_matrix_block k d]
@@ -199,6 +201,7 @@ theorem unipE_card {d k : ℕ} (hk1 : 1 ≤ k) (hkd : k ≤ d) :
   rw [e1]
   exact Nat.card_congr Multiplicative.toAdd
 
+omit [Finite K] in
 theorem unipE_isElemAbelian {d k : ℕ} (h2 : (2 : K) = 0) :
     IsElemAbelian 2 (unipE (K := K) (d := d) (k := k)) := by
   have hA : ∀ A : Matrix (Fin k) (Fin (d - k)) K, A + A = 0 := fun A => by
@@ -245,7 +248,7 @@ theorem twoRankLow_tagA_holds (S : Type) [Group S] [Finite S] (lab : GLALabel) (
   dsimp only [GLARawDatum, CFSG.Assembly.LargeEvenRawDatum, CFSG.Assembly.LargeEvenRecipeLinear] at hraw
   obtain ⟨K, hf, hfin, hK, hQ⟩ := hraw
   obtain ⟨hsR, hna, ⟨θ⟩⟩ := hQ
-  haveI := hS
+  have := hS
   have hZ : Subgroup.center S = ⊥ := center_eq_bot_of_quotient_nonab θ hna
   have hn : 1 ≤ n := by
     rcases Nat.eq_zero_or_pos n with h | h

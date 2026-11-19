@@ -85,8 +85,8 @@ private theorem s16h_natHom_surjective (K : Type*) [Field K] [Finite K]
 theorem s16h_binarySL3_autSec_eq_top {L : Subgroup (MulAut V)} {I Z : Subgroup V}
     (h : BinaryNaturalSL L I Z 3 1) : autSec L I Z = ⊤ := by
   obtain ⟨K, hKfield, hKfin, hKcard, hReal⟩ := h
-  letI := hKfield
-  letI := hKfin
+  let := hKfield
+  let := hKfin
   have hK2 : Nat.card K = 2 := by simpa using hKcard
   obtain ⟨π₀, hπ⟩ := hReal
   let π : ↥(StatedSL 3 K) →* ↥L := π₀
@@ -142,10 +142,10 @@ theorem s16h_binarySL3_autSec_eq_top {L : Subgroup (MulAut V)} {I Z : Subgroup V
   let f : MulAut (Multiplicative (Fin 3 → K)) := βe.symm.trans (φ.trans βe)
   have hf : ∀ y, f y = βe (φ (βe.symm y)) := fun _ => rfl
   obtain ⟨A, hA⟩ := s16h_natHom_surjective K hK2 f
-  haveI : Finite Kˣ :=
+  have : Finite Kˣ :=
     Finite.of_injective (fun u : Kˣ => (u : K)) (fun _ _ h => Units.ext h)
   have hunits : Nat.card Kˣ = 1 := by simp [Nat.card_units, hK2]
-  haveI : Subsingleton Kˣ := Finite.card_le_one_iff_subsingleton.mp hunits.le
+  have : Subsingleton Kˣ := Finite.card_le_one_iff_subsingleton.mp hunits.le
   have hAdet : ((A : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K).det = 1 := by
     have h1 : Matrix.GeneralLinearGroup.det A = 1 := Subsingleton.elim _ _
     simpa using congrArg Units.val h1
@@ -170,8 +170,8 @@ theorem s16h_binarySL3_autSec_eq_top {L : Subgroup (MulAut V)} {I Z : Subgroup V
 theorem s16h_binarySL3_faithful {L : Subgroup (MulAut V)} {I Z : Subgroup V}
     (h : BinaryNaturalSL L I Z 3 1) : L ⊓ centSec I Z = ⊥ := by
   obtain ⟨K, hKfield, hKfin, hKcard, hReal⟩ := h
-  letI := hKfield
-  letI := hKfin
+  let := hKfield
+  let := hKfin
   obtain ⟨π₀, hπ⟩ := hReal
   let π : ↥(StatedSL 3 K) →* ↥L := π₀
   let R : SzN15.NatReal L I Z (StatedSL 3 K) π := SzN15.NatReal.of_realizesVia hπ

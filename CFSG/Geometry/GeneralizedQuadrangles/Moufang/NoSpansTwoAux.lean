@@ -13,6 +13,7 @@ open scoped Pointwise
 
 variable {V : Type} {Γ : SimpleGraph V} [Fintype V] [DecidableRel Γ.Adj]
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 public theorem eq_of_mem_line_of_dist_eq_three (hP : IsGeneralizedPolygon Γ 4) {p K z w : V}
     (hK : Γ.dist p K = 3) (hzK : Γ.Adj K z) (hwK : Γ.Adj K w)
     (hzp : Γ.dist p z = 2) (hwp : Γ.dist p w = 2) : z = w := by
@@ -35,6 +36,7 @@ public theorem eq_of_mem_line_of_dist_eq_three (hP : IsGeneralizedPolygon Γ 4) 
   have h1 : Γ.dist p K = 1 := SimpleGraph.dist_eq_one_iff_adj.mpr hadj
   omega
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 public theorem dist_eq_four_of_mem_line_of_ne (hP : IsGeneralizedPolygon Γ 4)
     (c : Γ.Coloring (Fin 2)) {p K z w : V} (hp : c p = 0) (hKc : c K = 1)
     (hK : Γ.dist p K = 3) (hzK : Γ.Adj K z) (hwK : Γ.Adj K w)
@@ -60,7 +62,7 @@ private theorem ncard_neighborSet_diff_singleton {L b : V} (hb : Γ.Adj L b) :
   classical
   rw [show Γ.neighborSet L \ {b} = ↑((Γ.neighborFinset L).erase b) by
     ext x
-    simp [SimpleGraph.mem_neighborFinset, eq_comm, and_comm]]
+    simp [eq_comm, and_comm]]
   rw [Set.ncard_coe_finset, Finset.card_erase_of_mem (by simpa using hb)]
 
 public theorem ncard_points_of_line_erase {c : Γ.Coloring (Fin 2)} {s t : ℕ}
@@ -68,7 +70,7 @@ public theorem ncard_points_of_line_erase {c : Γ.Coloring (Fin 2)} {s t : ℕ}
     {L b : V} (hL : c L = 1) (hb : Γ.Adj L b) :
     (Γ.neighborSet L \ {b}).ncard = s := by
   rw [ncard_neighborSet_diff_singleton hb, card_neighborFinset_eq_degree, hdeg L,
-    if_neg (by rw [hL]; decide)]
+    ite_eq_right (by rw [hL]; decide)]
   omega
 
 public theorem exists_apartment_at_point (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
@@ -94,6 +96,7 @@ section Fixed
 variable {V : Type} {Γ : SimpleGraph V} [Fintype V] [DecidableRel Γ.Adj]
   {H : Type} [Group H] [MulAction H V] [FaithfulSMul H V] [GraphAction H Γ]
 
+omit [Fintype V] [DecidableRel Γ.Adj] [FaithfulSMul H V] [GraphAction H Γ] in
 public theorem noSpansTwo_stabilizer_smul_injective {p y : V} {hy4 : Γ.dist p y = 4}
     {v : ZMod 8 → V}
     {hfree : ∀ (e : ↥(elationGroup H Γ v)) {x : V}, Γ.dist p x = 4 →
@@ -118,6 +121,7 @@ public theorem noSpansTwo_stabilizer_smul_injective {p y : V} {hy4 : Γ.dist p y
       _ = (b : H) := by rw [hHH, mul_one]
   exact Subtype.ext hEq
 
+omit [FaithfulSMul H V] in
 public theorem noSpansTwo_stabilizer_line_data
     (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ) (c : Γ.Coloring (Fin 2))
     {s t : ℕ} (hdeg : ∀ v, Γ.degree v = if c v = 0 then t + 1 else s + 1)
@@ -126,7 +130,7 @@ public theorem noSpansTwo_stabilizer_line_data
     {hfree : ∀ (e : ↥(elationGroup H Γ v)) {x : V}, Γ.dist p x = 4 →
       (e : H) • x = x → e = 1}
     {N zN : V} (hyN : Γ.Adj y N) (hcN : c N = 1)
-    (hdistpN : Γ.dist p N = 3) (hzN : Γ.Adj N zN) (hzNp : Γ.dist p zN = 2) :
+    (_hdistpN : Γ.dist p N = 3) (hzN : Γ.Adj N zN) (hzNp : Γ.dist p zN = 2) :
     (∀ θ : ↥(elationGroup H Γ v ⊓ MulAction.stabilizer H N),
       (θ : H) • y ∈ Γ.neighborSet N \ {zN}) ∧
     Nat.card ↥(elationGroup H Γ v ⊓ MulAction.stabilizer H N) ≤ s := by
@@ -203,7 +207,7 @@ public theorem noSpansTwo_rootGroup_path_data
     have h := card_rootGroup hP hT hM qU hq
     rw [hq1, hq2, hq3] at h
     have hd : Γ.degree (qU 4) = s + 1 := by
-      rw [hq4, hdeg N, if_neg (by rw [hcN]; decide)]
+      rw [hq4, hdeg N, ite_eq_right (by rw [hcN]; decide)]
     have hd' : Γ.degree (qU 4) - 1 = s := by rw [hd]; omega
     rw [hd'] at h
     exact h
@@ -217,7 +221,7 @@ public theorem noSpansTwo_base_data
     (v : ZMod 8 → V) (hv : IsPolygonApartment Γ 4 v) (hv0 : v 0 = p)
     {y : V} {hy4 : Γ.dist p y = 4}
     {L z M : V} (hpL : Γ.Adj p L) (hzL : Γ.Adj L z) (hzp : z ≠ p)
-    (hyz : Γ.dist y z = 2) (hyM : Γ.Adj y M) (hzM : Γ.Adj z M)
+    (_hyz : Γ.dist y z = 2) (hyM : Γ.Adj y M) (hzM : Γ.Adj z M)
     {hfree : ∀ (e : ↥(elationGroup H Γ v)) {x : V}, Γ.dist p x = 4 →
       (e : H) • x = x → e = 1}
     (S : Subgroup H) (hS : S = elationGroup H Γ v ⊓ MulAction.stabilizer H M) :
@@ -262,14 +266,14 @@ public theorem noSpansTwo_base_data
     refine fun u hu => Subgroup.mem_inf.mpr ⟨hUleE hu, ?_⟩
     exact MulAction.mem_stabilizer_iff.mpr
       ((mem_fixingSubgroup_iff H).mp ((mem_rootGroup H).mp hu).2.2 M hzM)
-  haveI hEfin : Fintype ↥(elationGroup H Γ v) :=
+  have hEfin : Fintype ↥(elationGroup H Γ v) :=
     Fintype.ofInjective (fun e : ↥(elationGroup H Γ v) => fun x : V => (e : H) • x)
       (by
         intro e f hef
         apply Subtype.ext
         exact eq_of_smul_eq_smul (m₁ := (e : H)) (m₂ := (f : H))
           (fun x => congrFun hef x))
-  haveI : Fintype ↥(elationGroup H Γ v ⊓ MulAction.stabilizer H M) :=
+  have : Fintype ↥(elationGroup H Γ v ⊓ MulAction.stabilizer H M) :=
     Fintype.ofInjective
       (fun θ : ↥(elationGroup H Γ v ⊓ MulAction.stabilizer H M) =>
         (⟨(θ : H), (Subgroup.mem_inf.mp θ.2).1⟩ : ↥(elationGroup H Γ v)))
@@ -280,14 +284,14 @@ public theorem noSpansTwo_base_data
   have hSle : Nat.card ↥(elationGroup H Γ v ⊓ MulAction.stabilizer H M) ≤ s :=
     (noSpansTwo_stabilizer_line_data (p := p) (hy4 := hy4) (hP := hP) (hT := hT) (c := c)
       (hdeg := hdeg) (hv := hv) (hv0 := hv0) (hfree := hfree) (hyN := hyM)
-      (hcN := hcM) (hdistpN := hdistpM) (hzN := hzM.symm) (hzNp := hzp2)).2
+      (hcN := hcM) (_hdistpN := hdistpM) (hzN := hzM.symm) (hzNp := hzp2)).2
   have hS_eq_U : (elationGroup H Γ v ⊓ MulAction.stabilizer H M) = U :=
     (Subgroup.eq_of_le_of_card_ge hUleS (by rw [hUcard]; exact hSle)).symm
   have hScard : Nat.card ↥(elationGroup H Γ v ⊓ MulAction.stabilizer H M) = s := by
     rw [hS_eq_U, hUcard]
   have hmaps := (noSpansTwo_stabilizer_line_data (p := p) (hy4 := hy4) (hP := hP) (hT := hT)
     (c := c) (hdeg := hdeg) (hv := hv) (hv0 := hv0) (hfree := hfree) (hyN := hyM)
-    (hcN := hcM) (hdistpN := hdistpM) (hzN := hzM.symm) (hzNp := hzp2)).1
+    (hcN := hcM) (_hdistpN := hdistpM) (hzN := hzM.symm) (hzNp := hzp2)).1
   refine ⟨hS_eq_U, hScard, ?_⟩
   refine Set.eq_of_subset_of_ncard_le ?_ ?_ (Set.toFinite _)
   · rintro x ⟨θ, -, rfl⟩
@@ -299,10 +303,11 @@ public theorem noSpansTwo_base_data
       hScard]
 
 
+omit [FaithfulSMul H V] in
 public theorem noSpansTwo_K_data
     (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ) (c : Γ.Coloring (Fin 2))
-    {s t : ℕ} (hdeg : ∀ v, Γ.degree v = if c v = 0 then t + 1 else s + 1)
-    (hM : MoufangCondition H Γ 4) {p : V} (hp : c p = 0)
+    {s t : ℕ} (_hdeg : ∀ v, Γ.degree v = if c v = 0 then t + 1 else s + 1)
+    (_hM : MoufangCondition H Γ 4) {p : V} (hp : c p = 0)
     (v : ZMod 8 → V) (hv : IsPolygonApartment Γ 4 v) (hv0 : v 0 = p)
     {y : V} {hy4 : Γ.dist p y = 4}
     {L z M : V} (hpL : Γ.Adj p L) (hzL : Γ.Adj L z) (hzp : z ≠ p)
@@ -391,16 +396,17 @@ public theorem noSpansTwo_K_data
   exact ⟨hdistpK, hcK, hz'K, hz'L, hz'p, hyK, hdistyK⟩
 
 
+omit [FaithfulSMul H V] [GraphAction H Γ] [Fintype V] [DecidableRel Γ.Adj] in
 public theorem noSpansTwo_w_data
     (hP : IsGeneralizedPolygon Γ 4) (c : Γ.Coloring (Fin 2)) {p : V} (hp : c p = 0)
     {y : V} {hy4 : Γ.dist p y = 4}
     {L z M : V} (hpL : Γ.Adj p L) (hzL : Γ.Adj L z) (hzp : z ≠ p)
-    (hyz : Γ.dist y z = 2) (hyM : Γ.Adj y M) (hzM : Γ.Adj z M)
-    {g : H} (hgz : g • z ≠ z) (K : V) (hK : K = g • M)
+    (hyz : Γ.dist y z = 2) (_hyM : Γ.Adj y M) (hzM : Γ.Adj z M)
+    {g : H} (hgz : g • z ≠ z) (K : V) (_hK : K = g • M)
     (hdistpM : Γ.dist p M = 3) (hdistpK : Γ.dist p K = 3)
     (hcK : c K = 1) (hz'K : Γ.Adj (g • z) K)
     (hz'L : Γ.Adj L (g • z)) (hz'p : Γ.dist p (g • z) = 2)
-    (hyK : ¬ Γ.Adj y K) (hdistyK : Γ.dist y K = 3) :
+    (_hyK : ¬ Γ.Adj y K) (hdistyK : Γ.dist y K = 3) :
     ∃ w Mw : V, Γ.Adj K w ∧ Γ.dist y w = 2 ∧ w ≠ g • z ∧
       Γ.Adj y Mw ∧ Γ.Adj w Mw ∧ (∀ u : V, ¬ (Γ.Adj K u ∧ Γ.Adj M u)) ∧ Mw ≠ M := by
   classical
@@ -490,15 +496,16 @@ public theorem noSpansTwo_w_data
   exact ⟨w, Mw, hwK, hyw, hwne, hyMw, hwMw, hKM_disj, hMw_ne_M⟩
 
 
+omit [FaithfulSMul H V] [GraphAction H Γ] [Fintype V] [DecidableRel Γ.Adj] in
 public theorem noSpansTwo_Lw_data
     (hP : IsGeneralizedPolygon Γ 4) (c : Γ.Coloring (Fin 2)) {p : V} (hp : c p = 0)
     {y : V} {hy4 : Γ.dist p y = 4}
     {L z M : V} (hpL : Γ.Adj p L) (hzL : Γ.Adj L z) (hzp : z ≠ p)
     (hyz : Γ.dist y z = 2) (hyM : Γ.Adj y M) (hzM : Γ.Adj z M)
-    {g : H} {K w Mw : V} (hKM_disj : ∀ u : V, ¬ (Γ.Adj K u ∧ Γ.Adj M u))
-    (hdistpK : Γ.dist p K = 3) (hz'K : Γ.Adj (g • z) K)
-    (hz'L : Γ.Adj L (g • z)) (hdistpM : Γ.dist p M = 3)
-    (hMw_ne_M : Mw ≠ M) (hyMw : Γ.Adj y Mw) (hwMw : Γ.Adj w Mw) :
+    {g : H} {K w Mw : V} (_hKM_disj : ∀ u : V, ¬ (Γ.Adj K u ∧ Γ.Adj M u))
+    (_hdistpK : Γ.dist p K = 3) (_hz'K : Γ.Adj (g • z) K)
+    (_hz'L : Γ.Adj L (g • z)) (hdistpM : Γ.dist p M = 3)
+    (hMw_ne_M : Mw ≠ M) (hyMw : Γ.Adj y Mw) (_hwMw : Γ.Adj w Mw) :
     ∃ zw Lw : V, Γ.Adj Mw zw ∧ Γ.dist p zw = 2 ∧ Γ.Adj p Lw ∧ Γ.Adj zw Lw ∧
       Lw ≠ L ∧ Γ.dist Lw M = 4 ∧ Γ.dist p Mw = 3 ∧ Lw ≠ Mw := by
   classical

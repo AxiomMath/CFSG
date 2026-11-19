@@ -76,7 +76,7 @@ theorem isSubnormal_subgroupOf_map' {A B : Type} [Group A] [Group B] (e : A ≃*
   have heq : (X.subgroupOf C).map (eC : C →* C.map e.toMonoidHom) =
       (X.map e.toMonoidHom).subgroupOf (C.map e.toMonoidHom) := by
     ext ⟨y, hy⟩
-    simp only [Subgroup.mem_map, Subgroup.mem_subgroupOf, MonoidHom.coe_coe]
+    simp only [Subgroup.mem_map, Subgroup.mem_subgroupOf, _root_.MonoidHom.coe_ofClass]
     constructor
     · rintro ⟨x, hxX, hxy⟩
       refine ⟨x, hxX, ?_⟩

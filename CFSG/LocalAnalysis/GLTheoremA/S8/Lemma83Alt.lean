@@ -18,14 +18,17 @@ namespace S8.L83
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem imageMod_mono {p : ℕ} {K I J : Subgroup G} (h : I ≤ J) : imageMod p K I ≤ imageMod p K J := by
   rintro _ ⟨x, hx, rfl⟩
   exact ⟨x, h hx, rfl⟩
 
+omit [Finite G] in
 theorem isPGroup_imageMod {p : ℕ} {K S : Subgroup G} (hS : IsPGroup 2 S) :
     IsPGroup 2 (imageMod p K S) :=
   (hS.comap_of_injective K.subtype K.subtype_injective).map _
 
+omit [Finite G] in
 theorem imageMod_le_normalizer {p : ℕ} {K I S : Subgroup G}
     (hIS : I ≤ Subgroup.normalizer (S : Set G)) :
     imageMod p K I ≤ Subgroup.normalizer (imageMod p K S : Set (PQuot p K)) := by
@@ -37,6 +40,7 @@ theorem imageMod_le_normalizer {p : ℕ} {K I S : Subgroup G}
   rw [Subgroup.mem_subgroupOf, Subgroup.mem_subgroupOf]
   exact (Subgroup.mem_normalizer_iff.1 (hIS (Subgroup.mem_subgroupOf.1 hx))) h
 
+omit [Finite G] in
 theorem barAut_pow_three {K : Subgroup G} {d : G} (hdK : d ∈ Subgroup.normalizer (K : Set G))
     (hd3 : d ^ 3 = 1) : (barAut 3 K ⟨d, hdK⟩) ^ 3 = 1 := by
   rw [← map_pow]
@@ -47,12 +51,13 @@ theorem pquot_imageMod {p : ℕ} (hp : p.Prime) {K J : Subgroup G} (hJK : J ≤ 
     Nonempty (PQuot p (imageMod p K J) ≃* PQuot p J) := by
   have hN : ¬ p ∣ Nat.card (QuotientGroup.mk' (GLAPPrimeCore p ↥K)).ker := by
     rw [QuotientGroup.ker_mk']
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     exact fun h => hp.one_lt.ne' (Nat.eq_one_of_dvd_coprimes CFSG.pPrimeCore_coprime_card dvd_rfl h)
   obtain ⟨f⟩ := nonempty_pQuot_equiv_map hp hN (J.subgroupOf K)
   obtain ⟨g⟩ := nonempty_pQuot_equiv_subgroupOf p hJK
   exact ⟨f.symm.trans g⟩
 
+omit [Finite G] in
 theorem comm_le_core_of_imageMod {p : ℕ} {K I S : Subgroup G} (hIK : I ≤ K) (hSK : S ≤ K)
     (h : imageMod p K I ≤ Subgroup.centralizer (imageMod p K S : Set (PQuot p K))) :
     (⁅S, I⁆ : Subgroup G) ≤ GLAPPrimeCoreOf p K := by
@@ -74,7 +79,7 @@ theorem comm_le_core_of_imageMod {p : ℕ} {K I S : Subgroup G} (hIK : I ≤ K) 
 theorem imageMod_component_fix {K J : Subgroup G} {d : G} (hdK : d ∈ Subgroup.normalizer (K : Set G))
     (hd3 : d ^ 3 = 1) (hJ : GLAPComponent 3 (K ⊓ Subgroup.centralizer ({d} : Set G)) J) :
     GLAPComponent 3 (fixSubgroup (barAut 3 K ⟨d, hdK⟩)) (imageMod 3 K J) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set φ : ↥K →* PQuot 3 K := QuotientGroup.mk' (GLAPPrimeCore 3 ↥K) with hφ
   set C : Subgroup ↥K := (K ⊓ Subgroup.centralizer ({d} : Set G)).subgroupOf K with hC
   have hJC : GLAPComponent 3 C (J.subgroupOf K) :=
@@ -106,7 +111,7 @@ theorem imageMod_component_fix {K J : Subgroup G} {d : G} (hdK : d ∈ Subgroup.
       set M : Subgroup G := Subgroup.normalizer (K : Set G) with hM
       have hNM : N ≤ M := hNK.trans Subgroup.le_normalizer
       have hMN : M ≤ Subgroup.normalizer (N : Set G) := normalizer_le_normalizer_glaPPrimeCoreOf 3 K
-      haveI hN'n : (N.subgroupOf M).Normal :=
+      have hN'n : (N.subgroupOf M).Normal :=
         (Subgroup.normal_subgroupOf_iff_le_normalizer hNM).2 hMN
       set π : ↥M →* ↥M ⧸ N.subgroupOf M := QuotientGroup.mk' (N.subgroupOf M) with hπ
       have hπker : ¬ 3 ∣ Nat.card π.ker := by
@@ -154,12 +159,12 @@ theorem root9_aux {n : ℕ} {β : MulAut ↥(alternatingGroup (Fin n))} (hβ : �
     (hJ9 : IsAltPType 3 J₂ 9) :
     ∃ s : Finset (Fin n), s.card = 9 ∧ J₂ = (alternatingGroup.ofSubtype s).range := by
   classical
-  haveI : Nontrivial ↥J₂ := AltDown.nontrivial_of_glaPComponent Nat.prime_three hJ₂
-  haveI : Group.IsPerfect ↥J₂ := Subgroup.isPerfect_iff.2 (glaPComponent_perfect hJ₂)
+  have : Nontrivial ↥J₂ := AltDown.nontrivial_of_glaPComponent Nat.prime_three hJ₂
+  have : Group.IsPerfect ↥J₂ := Subgroup.isPerfect_iff.2 (glaPComponent_perfect hJ₂)
   have hne : J₂ ≠ ⊥ := (Subgroup.nontrivial_iff_ne_bot J₂).1 inferInstance
   have hcardJ : ∀ (m : ℕ), (↥J₂ ≃* ↥(alternatingGroup (Fin m))) → 5 ≤ m → m = 9 := by
     intro m f hm5
-    haveI : IsSimpleGroup ↥(alternatingGroup (Fin m)) :=
+    have : IsSimpleGroup ↥(alternatingGroup (Fin m)) :=
       alternatingGroup.isSimpleGroup (by simpa using hm5)
     obtain ⟨g⟩ := AltDown.nonempty_pSimple_equiv Nat.prime_three hJ₂
       (alternatingGroup.center_eq_bot (by simp; omega)) f
@@ -171,7 +176,7 @@ theorem root9_aux {n : ℕ} {β : MulAut ↥(alternatingGroup (Fin n))} (hβ : �
         h9 (Subgroup.map_center_eq h9)).trans
         ((QuotientGroup.quotientMulEquivOfEq hZ9).trans QuotientGroup.quotientBot)
     have hc := Nat.card_congr (g.symm.trans g9).toEquiv
-    haveI : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.2 (by omega)
+    have : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.2 (by omega)
     rw [nat_card_alternatingGroup, nat_card_alternatingGroup, Nat.card_fin, Nat.card_fin] at hc
     have hm2 : 2 ∣ m.factorial := Nat.dvd_factorial (by norm_num) (by omega)
     have h92 : 2 ∣ (9 : ℕ).factorial := Nat.dvd_factorial (by norm_num) (by norm_num)
@@ -195,9 +200,9 @@ theorem root9_aux {n : ℕ} {β : MulAut ↥(alternatingGroup (Fin n))} (hβ : �
       ext x
       simp [CFSG.HardMathSupport.Solomon.Coordinator.mem_fixSubgroup]
     rw [htop] at hJ₂
-    haveI : IsSimpleGroup ↥(alternatingGroup (Fin n)) :=
+    have : IsSimpleGroup ↥(alternatingGroup (Fin n)) :=
       alternatingGroup.isSimpleGroup (by simpa using hn5)
-    haveI : IsSimpleGroup ↥(⊤ : Subgroup ↥(alternatingGroup (Fin n))) :=
+    have : IsSimpleGroup ↥(⊤ : Subgroup ↥(alternatingGroup (Fin n))) :=
       Subgroup.topEquiv.isSimpleGroup
     have hJtop : J₂ = ⊤ := AltDown.eq_of_isSubnormal_of_isSimpleGroup hJ₂.2.1 hne
     have hn9 : n = 9 := hcardJ n ((MulEquiv.subgroupCongr hJtop).trans Subgroup.topEquiv) hn5
@@ -211,9 +216,9 @@ theorem root9_aux {n : ℕ} {β : MulAut ↥(alternatingGroup (Fin n))} (hβ : �
     set s : Finset (Fin n) := ((x : Equiv.Perm (Fin n)).support)ᶜ with hs
     obtain ⟨eF⟩ := AltDown.nonempty_range_ofSubtype_equiv s s.card rfl
     have hm5 : 5 ≤ s.card := h24 _ s.card eF hJF
-    haveI : IsSimpleGroup ↥(alternatingGroup (Fin s.card)) :=
+    have : IsSimpleGroup ↥(alternatingGroup (Fin s.card)) :=
       alternatingGroup.isSimpleGroup (by simpa using hm5)
-    haveI : IsSimpleGroup ↥(alternatingGroup.ofSubtype s).range := eF.isSimpleGroup
+    have : IsSimpleGroup ↥(alternatingGroup.ofSubtype s).range := eF.isSimpleGroup
     have hFC : (alternatingGroup.ofSubtype s).range ≤ fixSubgroup (MulAut.conj x) := fun k hk =>
       AltDown.mem_fixSubgroup_conj.2 (Subtype.ext (AltDown.commute_of_mem_range_ofSubtype_compl hk).eq)
     have hJeq := AltDown.eq_of_isSubnormal_of_isSimpleGroup
@@ -303,7 +308,7 @@ theorem alt8_of_le_alt9 {Q : Type} [Group Q] [Finite Q] {J₁ H : Subgroup Q}
     Nonempty (↥H ≃* ↥(alternatingGroup (Fin 8))) := by
   obtain ⟨f⟩ := hJ
   obtain ⟨g⟩ := hH
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hJc : Nat.card J₁ = 181440 := by
     rw [Nat.card_congr f.toEquiv, nat_card_alternatingGroup]
     simp [Nat.factorial]
@@ -336,8 +341,8 @@ theorem not_fixed_of_order_three {n : ℕ} {s : Finset (Fin n)} (hs : s.card = 9
     ∀ t ∈ H, orderOf t = 3 → ∀ j ∈ s, (t : Equiv.Perm (Fin n)) j ≠ j := by
   classical
   obtain ⟨e⟩ := hH
-  haveI : IsSimpleGroup ↥(alternatingGroup (Fin 8)) := alternatingGroup.isSimpleGroup (by simp)
-  haveI : IsSimpleGroup ↥H := e.isSimpleGroup
+  have : IsSimpleGroup ↥(alternatingGroup (Fin 8)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup ↥H := e.isSimpleGroup
   have hHc : Nat.card ↥H = 20160 := by
     rw [Nat.card_congr e.toEquiv, nat_card_alternatingGroup]
     simp [Nat.factorial]
@@ -536,7 +541,7 @@ theorem exists_fixed_of_alt8 {n : ℕ} {s : Finset (Fin n)} (hs : s.card = 9)
   have hz1 : z ≠ 1 := fun h => hc51 (by rw [← e.apply_symm_apply c5, ← hzdef, h, map_one])
   have htz : t * z = z * t := by rw [htdef, hzdef, ← map_mul, ← map_mul, hc35]
   have ht1 : t ≠ 1 := fun h => hc31 (by rw [← e.apply_symm_apply c3, ← htdef, h, map_one])
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hordt : orderOf ((t : ↥(alternatingGroup (Fin n)))) = 3 := by
     rw [Subgroup.orderOf_coe]
     exact orderOf_eq_prime ht3 ht1
@@ -573,7 +578,7 @@ theorem root8_of_le_root9 {Q : Type} [Group Q] [Finite Q] {n : ℕ}
   obtain ⟨i₀, hi₀s, hi₀⟩ := exists_fixed_of_alt8 hs hH's hH'f
   have hsub : movedLettersOf e H ⊆ ((s.erase i₀ : Finset (Fin n)) : Set (Fin n)) := by
     rintro i ⟨x, hx, hxi⟩
-    rw [Finset.coe_erase, Set.mem_diff, Set.mem_singleton_iff]
+    rw [Finset.coe_erase, Set.mem_sdiff, Set.mem_singleton_iff]
     refine ⟨(hmemS i).2 ⟨x, hHJ hx, hxi⟩, ?_⟩
     rintro rfl
     exact hxi (hi₀ _ ⟨x, hx, rfl⟩)

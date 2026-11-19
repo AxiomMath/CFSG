@@ -14,7 +14,7 @@ variable {P Y : Type} [Group P] [Group Y]
 
 theorem exists_hopf_endo_lift [Group.IsPerfect P] (θ : MulAut P) :
     ∃ a : HopfCover P →* HopfCover P, ∀ x, hopfCoverMap P (a x) = θ (hopfCoverMap P x) := by
-  haveI : Group.IsPerfect (HopfCover P) := hopfCover_isPerfect
+  have : Group.IsPerfect (HopfCover P) := hopfCover_isPerfect
   set q : HopfCover P →* P := θ⁻¹.toMonoidHom.comp (hopfCoverMap P) with hqdef
   have hq : Function.Surjective q := θ⁻¹.surjective.comp hopfCoverMap_surjective
   have hker : q.ker ≤ center (HopfCover P) := by
@@ -32,7 +32,7 @@ theorem exists_hopf_endo_lift [Group.IsPerfect P] (θ : MulAut P) :
 
 theorem exists_hopf_aut_lift [Group.IsPerfect P] (θ : MulAut P) :
     ∃ θ' : MulAut (HopfCover P), ∀ x, hopfCoverMap P (θ' x) = θ (hopfCoverMap P x) := by
-  haveI : Group.IsPerfect (HopfCover P) := hopfCover_isPerfect
+  have : Group.IsPerfect (HopfCover P) := hopfCover_isPerfect
   obtain ⟨a, ha⟩ := exists_hopf_endo_lift θ
   obtain ⟨b, hb⟩ := exists_hopf_endo_lift θ⁻¹
   have hker : (hopfCoverMap P).ker ≤ center (HopfCover P) := hopfMultiplier_le_center
@@ -73,8 +73,8 @@ theorem exists_lift_aut_of_cyclic_multiplier [Finite P] [Group.IsPerfect P] [Fin
     (hπ : Function.Surjective π) (hker : π.ker ≤ center Y) (τ : MulAut P) :
     ∃ τY : MulAut Y, ∀ y, π (τY y) = τ (π y) := by
   classical
-  haveI : Finite (HopfCover P) := finite_hopfCover inferInstance
-  haveI : Group.IsPerfect (HopfCover P) := hopfCover_isPerfect
+  have : Finite (HopfCover P) := finite_hopfCover inferInstance
+  have : Group.IsPerfect (HopfCover P) := hopfCover_isPerfect
   obtain ⟨τh, hτh⟩ := exists_hopf_aut_lift τ
   set ψ := hopfLift π hπ hker with hψdef
   have hψsurj : Function.Surjective ψ := hopfLift_surjective π hπ hker
@@ -88,7 +88,7 @@ theorem exists_lift_aut_of_cyclic_multiplier [Finite P] [Group.IsPerfect P] [Fin
     rw [hτh]
     have : hopfCoverMap P x = 1 := hx
     rw [this, map_one]
-  haveI : IsCyclic (hopfMultiplier P) := hM
+  have : IsCyclic (hopfMultiplier P) := hM
   have hτN : ψ.ker.map τh.toMonoidHom = ψ.ker := map_eq_of_cyclic_of_le hNM τh hτM
   have hkerle : ψ.ker ≤ (ψ.comp τh.toMonoidHom).ker := by
     intro x hx

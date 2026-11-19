@@ -25,6 +25,7 @@ private lemma z4i_mul_three_comm {G : Type*} [Group G] {a₁ a₂ a₃ b₁ b₂
     _ = (a₁ * b₁) * (a₂ * b₂) * (a₃ * b₃) := by group
 namespace ZEData
 variable {Q Y V V' B K : Subgroup H} {ρ t τ l : H}
+omit [Finite H] in
 private lemma word_mul (h : ZEData Q Y V V' B K ρ t τ l) (a b c a' b' c' : Fin 2) :
     (t ^ (a : ℕ) * τ ^ (b : ℕ) * l ^ (c : ℕ)) *
       (t ^ (a' : ℕ) * τ ^ (b' : ℕ) * l ^ (c' : ℕ)) =
@@ -37,6 +38,7 @@ private lemma word_mul (h : ZEData Q Y V V' B K ρ t τ l) (a b c a' b' c' : Fin
     (cτl.symm.pow_pow c b')]
   rw [z4i_pow_add_fin t h.t_sq a a', z4i_pow_add_fin τ h.tau_sq b b',
     z4i_pow_add_fin l h.l_sq c c']
+omit [Finite H] in
 private lemma word_sq (h : ZEData Q Y V V' B K ρ t τ l) (a b c : Fin 2) :
     (t ^ (a : ℕ) * τ ^ (b : ℕ) * l ^ (c : ℕ)) *
       (t ^ (a : ℕ) * τ ^ (b : ℕ) * l ^ (c : ℕ)) = 1 := by
@@ -46,10 +48,12 @@ private lemma word_sq (h : ZEData Q Y V V' B K ρ t τ l) (a b c : Fin 2) :
   have hc : (c + c : Fin 2) = 0 := by fin_cases c <;> decide
   rw [ha, hb, hc]
   simp
+omit [Finite H] in
 private lemma word_inv (h : ZEData Q Y V V' B K ρ t τ l) (a b c : Fin 2) :
     (t ^ (a : ℕ) * τ ^ (b : ℕ) * l ^ (c : ℕ))⁻¹ =
       t ^ (a : ℕ) * τ ^ (b : ℕ) * l ^ (c : ℕ) :=
   inv_eq_of_mul_eq_one_right (word_sq h a b c)
+omit [Finite H] in
 private lemma T3_commute (h : ZEData Q Y V V' B K ρ t τ l) :
     ∀ x ∈ z4iT3 t τ l, ∀ y ∈ z4iT3 t τ l, Commute x y := by
   intro x hx y hy
@@ -72,6 +76,7 @@ private lemma T3_commute (h : ZEData Q Y V V' B K ρ t τ l) :
   · intro y z x _ _ _ hxy hxz; exact hxy.mul_right hxz
   · intro x y _ _ hxy; exact hxy.inv_left
   · intro x y _ _ hxy; exact hxy.inv_right
+omit [Finite H] in
 private lemma gen_mem_normalizer (h : ZEData Q Y V V' B K ρ t τ l) {g : H}
     (hg : g ∈ ({t, τ, l} : Set H)) : g ∈ Subgroup.normalizer (K : Set H) := by
   have hg' : g = t ∨ g = τ ∨ g = l := by
@@ -100,12 +105,16 @@ private lemma gen_mem_normalizer (h : ZEData Q Y V V' B K ρ t τ l) {g : H}
 private lemma fin2_add_eq_zero {a a' : Fin 2} (h : a + a' = 0) : a = a' := by
   revert h
   fin_cases a <;> fin_cases a' <;> decide
+omit [Finite H] in
 theorem t_mem_T3 (t τ l : H) : t ∈ z4iT3 t τ l :=
   Subgroup.subset_closure (by simp)
+omit [Finite H] in
 theorem tau_mem_T3 (t τ l : H) : τ ∈ z4iT3 t τ l :=
   Subgroup.subset_closure (by simp)
+omit [Finite H] in
 theorem l_mem_T3 (t τ l : H) : l ∈ z4iT3 t τ l :=
   Subgroup.subset_closure (by simp)
+omit [Finite H] in
 theorem mem_T3_iff (h : ZEData Q Y V V' B K ρ t τ l) {x : H} :
     x ∈ z4iT3 t τ l ↔
       ∃ a b c : Fin 2, x = t ^ (a : ℕ) * τ ^ (b : ℕ) * l ^ (c : ℕ) := by
@@ -139,13 +148,16 @@ theorem mem_T3_iff (h : ZEData Q Y V V' B K ρ t τ l) {x : H} :
         (Subgroup.pow_mem (K := z4iT3 t τ l) ht (a : ℕ))
         (Subgroup.pow_mem (K := z4iT3 t τ l) hτ (b : ℕ)))
       (Subgroup.pow_mem (K := z4iT3 t τ l) hl (c : ℕ))
+omit [Finite H] in
 theorem T3_comm (h : ZEData Q Y V V' B K ρ t τ l) :
     ∀ x ∈ z4iT3 t τ l, ∀ y ∈ z4iT3 t τ l, x * y = y * x :=
   fun x hx y hy => (T3_commute h x hx y hy).eq
+omit [Finite H] in
 theorem T3_sq (h : ZEData Q Y V V' B K ρ t τ l) : ∀ x ∈ z4iT3 t τ l, x * x = 1 := by
   intro x hx
   obtain ⟨a, b, c, rfl⟩ := (mem_T3_iff h).mp hx
   exact word_sq h a b c
+omit [Finite H] in
 theorem T3_cent_t (h : ZEData Q Y V V' B K ρ t τ l) :
     z4iT3 t τ l ≤ centralizer ({t} : Set H) := by
   intro x hx
@@ -154,6 +166,7 @@ theorem T3_cent_t (h : ZEData Q Y V V' B K ρ t τ l) :
   rw [Set.mem_singleton_iff] at hy
   rw [hy]
   exact (T3_commute h x hx t (t_mem_T3 t τ l)).eq.symm
+omit [Finite H] in
 theorem T3_norm_K (h : ZEData Q Y V V' B K ρ t τ l) :
     ∀ s ∈ z4iT3 t τ l, ∀ k ∈ K, s * k * s⁻¹ ∈ K := by
   have hle : z4iT3 t τ l ≤ Subgroup.normalizer (K : Set H) :=
@@ -161,6 +174,7 @@ theorem T3_norm_K (h : ZEData Q Y V V' B K ρ t τ l) :
       (Subgroup.normalizer (K : Set H))).mpr fun g hg => gen_mem_normalizer h hg
   intro s hs k hk
   exact ((Subgroup.mem_set_normalizer_iff (S := (K : Set H))).mp (hle hs) k).mp hk
+omit [Finite H] in
 theorem T3_norm_B (h : ZEData Q Y V V' B K ρ t τ l) :
     ∀ s ∈ z4iT3 t τ l, ∀ b ∈ B, s * b * s⁻¹ ∈ B := by
   intro s hs b hb
@@ -170,6 +184,7 @@ theorem T3_norm_B (h : ZEData Q Y V V' B K ρ t τ l) :
     have h2 : Commute b t := (h.B_cent_t b hb).symm
     exact ((h1.mul_left h2).mul_left h1.inv_left).eq.symm
   exact h.cent_t_Q (s * b * s⁻¹) hsQ hcomm
+omit [Finite H] in
 theorem rho_ne_one (h : ZEData Q Y V V' B K ρ t τ l) : ρ ≠ 1 := by
   intro hρ
   have hQbot : Q = ⊥ := by
@@ -187,6 +202,7 @@ theorem t_not_mem_K (h : ZEData Q Y V V' B K ρ t τ l) : t ∉ K := by
   have hcard := Subgroup.card_le_of_le hYV
   rw [h.card_Y, h.card_V] at hcard
   omega
+omit [Finite H] in
 private lemma rho_ne_one_contra (h : ZEData Q Y V V' B K ρ t τ l) (hρ2K : ρ ^ 2 ∈ K) :
     False := by
   have h256 : (ρ ^ 2) ^ Nat.card K = 1 := by
@@ -207,6 +223,7 @@ private lemma rho_ne_one_contra (h : ZEData Q Y V V' B K ρ t τ l) (hρ2K : ρ 
       _ = ρ ^ 3 := by rw [← (pow_succ' ρ 2)]
       _ = 1 := h.rho_pow_three
   exact h.rho_ne_one hρ1
+omit [Finite H] in
 private lemma rho_sq_mem_of_mem_K (h : ZEData Q Y V V' B K ρ t τ l) {a b : Fin 2}
     (hmem : t ^ (a : ℕ) * τ ^ (b : ℕ) * l ∈ K) : ρ ^ 2 ∈ K := by
   set w : H := t ^ (a : ℕ) * τ ^ (b : ℕ) with hw
@@ -236,9 +253,11 @@ private lemma rho_sq_mem_of_mem_K (h : ZEData Q Y V V' B K ρ t τ l) {a b : Fin
   have hmem2 : ρ * (w * l) * ρ⁻¹ * (w * l)⁻¹ ∈ K :=
     K.mul_mem (h.rho_norm_K (w * l) hsK) (K.inv_mem hsK)
   rwa [hmain] at hmem2
+omit [Finite H] in
 private lemma word_mem_K_of_l (h : ZEData Q Y V V' B K ρ t τ l) {a b : Fin 2}
     (hmem : t ^ (a : ℕ) * τ ^ (b : ℕ) * l ∈ K) : False :=
   rho_ne_one_contra h (rho_sq_mem_of_mem_K h hmem)
+omit [Finite H] in
 private lemma Y_le_V_of_mem_K (h : ZEData Q Y V V' B K ρ t τ l) {b : Fin 2}
     (hmem : t * τ ^ (b : ℕ) ∈ K) : Y ≤ V := by
   intro y hy
@@ -264,6 +283,7 @@ private lemma Y_le_V_contra (h : ZEData Q Y V V' B K ρ t τ l) (hYV : Y ≤ V) 
   have hcard := Subgroup.card_le_of_le hYV
   rw [h.card_Y, h.card_V] at hcard
   omega
+omit [Finite H] in
 private lemma tau_mem_K_contra (h : ZEData Q Y V V' B K ρ t τ l) (hmem : τ ∈ K) : False := by
   have h1 : ρ * τ * ρ⁻¹ * τ⁻¹ = 1 := by rw [h.tau_rho.symm]; group
   exact h.tau_not_mem_Q (h.rho_fpf_KQ τ hmem (by rw [h1]; exact Q.one_mem))

@@ -48,11 +48,11 @@ theorem involution_cases {K K' : Subgroup G} {z : G} (hs : Hyp23Setting p f Ω K
   have hRK : R ≤ K := hR.1
   have hR'K' : R' ≤ K' := hR'.1
   have hc : Commutes R R' := hΩ.commutes_of_twin_of_isPGroup hK hK' hKK'.symm hz hz' hRK hR'K'
-    (S.isPGroup'.to_le (sup_le hRS hR'S))
+    (S.isPGroup.to_le (sup_le hRS hR'S))
   have hsyl : IsSylow2In (R ⊔ R') (K ⊔ K') := T7A.isSylow2In_sup_of_twin hp hΩ hK hK' hKK' hz hz'
     hR hR' hc
   have hle : R ⊔ R' ≤ (S : Subgroup G) ⊓ (K ⊔ K') := le_inf (sup_le hRS hR'S) hsyl.1
-  have hpg : IsPGroup 2 ↥((S : Subgroup G) ⊓ (K ⊔ K')) := S.isPGroup'.to_le inf_le_left
+  have hpg : IsPGroup 2 ↥((S : Subgroup G) ⊓ (K ⊔ K')) := S.isPGroup.to_le inf_le_left
   have heq : (S : Subgroup G) ⊓ (K ⊔ K') = R ⊔ R' := hsyl.2.2 _ inf_le_right hpg hle
   have huRR : u ∈ R ⊔ R' := heq ▸ (⟨huS, huK⟩ : u ∈ (S : Subgroup G) ⊓ (K ⊔ K'))
   rw [← SetLike.mem_coe, Subgroup.coe_mul_of_right_le_normalizer_left R R'
@@ -170,12 +170,12 @@ theorem c24_2_proved : C24_2 p f := by
     hd.hR'.2.2 hz'
   have hbR : b ∈ R := by
     have : K ⊓ (S : Subgroup G) = R :=
-      hRsyl.eq_of_le S.isPGroup'.to_inf_right inf_le_left (le_inf hd.hR.2.1 hd.hR.2.2)
+      hRsyl.eq_of_le S.isPGroup.to_inf_right inf_le_left (le_inf hd.hR.2.1 hd.hR.2.2)
     rw [← this]
     exact ⟨hbKW.1, hd.hWS hbKW.2⟩
   have hb'R' : b' ∈ R' := by
     have : K' ⊓ (S : Subgroup G) = R' :=
-      hR'syl.eq_of_le S.isPGroup'.to_inf_right inf_le_left (le_inf hd.hR'.2.1 hd.hR'.2.2)
+      hR'syl.eq_of_le S.isPGroup.to_inf_right inf_le_left (le_inf hd.hR'.2.1 hd.hR'.2.2)
     rw [← this]
     exact ⟨hb'KW.1, hd.hWS hb'KW.2⟩
   obtain ⟨huK, huW, hu2, hu1, huz⟩ := hd.hu

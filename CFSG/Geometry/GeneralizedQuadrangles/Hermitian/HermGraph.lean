@@ -54,8 +54,8 @@ private lemma finrank_image {K₁ K₂ : Type*} [Field K₁] [Field K₂] [Finty
     (U : Submodule K₁ (Fin 5 → K₁)) :
     Module.finrank K₂ (image φ U) = Module.finrank K₁ U := by
   classical
-  haveI : Fintype U := Fintype.ofFinite U
-  haveI : Fintype (image φ U) := Fintype.ofFinite (image φ U)
+  have : Fintype U := Fintype.ofFinite U
+  have : Fintype (image φ U) := Fintype.ofFinite (image φ U)
   have hU : Fintype.card U = Fintype.card K₁ ^ Module.finrank K₁ U :=
     Module.card_eq_pow_finrank
   have hV : Fintype.card (image φ U) =
@@ -159,7 +159,7 @@ theorem hermGraph_iso {K₁ K₂ : Type*} [Field K₁] [Field K₂] [Fintype K�
     (h₁ : σ₁ ≠ 1) (h₁' : σ₁ * σ₁ = 1) (h₂ : σ₂ ≠ 1) (h₂' : σ₂ * σ₂ = 1) :
     Nonempty (HermGraph K₁ σ₁ ≃g HermGraph K₂ σ₂) := by
   classical
-  haveI : Finite K₂ := Finite.of_fintype K₂
+  have : Finite K₂ := Finite.of_fintype K₂
   let φ : K₁ ≃+* K₂ := FiniteField.ringEquivOfCardEq h
   let τ : K₂ ≃+* K₂ := φ.symm.trans (σ₁.trans φ)
   have hσ₁ : ∀ x, σ₁ (σ₁ x) = x := by
@@ -184,12 +184,12 @@ theorem hermGraph_iso {K₁ K₂ : Type*} [Field K₁] [Field K₂] [Fintype K�
     have := congrArg (fun e : K₂ ≃+* K₂ => e x) h₂'
     simpa using this
   obtain ⟨p, hpchar⟩ := CharP.exists K₂
-  haveI : CharP K₂ p := hpchar
+  have : CharP K₂ p := hpchar
   obtain ⟨n, hpn, hncard⟩ := FiniteField.card K₂ p
-  haveI : Fact p.Prime := ⟨hpn⟩
+  have : Fact p.Prime := ⟨hpn⟩
   let G := GaloisField p (n : ℕ)
-  haveI : Field G := inferInstance
-  haveI : Fintype G := Fintype.ofFinite G
+  have : Field G := inferInstance
+  have : Fintype G := Fintype.ofFinite G
   have hGcard : Fintype.card G = Fintype.card K₂ := by
     rw [Fintype.card_eq_nat_card, Fintype.card_eq_nat_card,
       GaloisField.card (p := p) (n := (n : ℕ)) n.ne_zero, Nat.card_eq_fintype_card]

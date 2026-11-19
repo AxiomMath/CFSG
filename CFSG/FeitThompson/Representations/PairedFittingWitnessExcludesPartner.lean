@@ -129,7 +129,7 @@ theorem indBetween_eq_indClassFun_of_map [Fintype G] (L : Subgroup G) (K : Subgr
   by_cases hz : ((t : ↥L)⁻¹ * y * t) ∈ K
   · have hz' : ((t : ↥L) : G)⁻¹ * ((y : ↥L) : G) * ((t : ↥L) : G) ∈ N := by
       rw [← hcoe]; exact (hmem _).2 hz
-    rw [dif_pos hz]
+    rw [dite_eq_left hz]
     have heq : e ⟨(t : ↥L)⁻¹ * y * t, hz⟩
         = ⟨((t : ↥L) : G)⁻¹ * ((y : ↥L) : G) * ((t : ↥L) : G), hz'⟩ := by
       apply Subtype.ext; rw [he]; exact hcoe
@@ -140,7 +140,7 @@ theorem indBetween_eq_indClassFun_of_map [Fintype G] (L : Subgroup G) (K : Subgr
       intro hcon
       rw [← hcoe] at hcon
       exact hz ((hmem _).1 hcon)
-    rw [dif_neg hz, CFSG.FeitThompson.extendSub_apply_of_notMem N θ hz']
+    rw [dite_eq_right hz, CFSG.FeitThompson.extendSub_apply_of_notMem N θ hz']
 
 theorem indBetween_fittingIn [Fintype G] (M : Subgroup G) (θ : ↥(fittingIn M) → ℂ) :
     indBetween (fittingIn M) M θ = indClassFun (fittingRaw ↥M) (θ ∘ fittingInEquiv M) :=
@@ -199,12 +199,12 @@ theorem mem_of_mem_span_int_of_subset_Irr {H : Type*} [Group H] [Fintype H] {X :
     intro f hf
     induction hf using Submodule.span_induction with
     | mem f hf =>
-      rw [cfInner_eq_ite_of_mem_Irr (hX hf) hξ, if_neg fun h => hnot (by rw [← h]; exact hf)]
+      rw [cfInner_eq_ite_of_mem_Irr (hX hf) hξ, ite_eq_right fun h => hnot (by rw [← h]; exact hf)]
     | zero => exact cfInner_zero_left ξ
     | add f g _ _ hf hg => rw [cfInner_add_left, hf, hg, add_zero]
     | smul n f _ hf => rw [← Int.cast_smul_eq_zsmul ℂ, cfInner_smul_left, hf, mul_zero]
   have h1 := key ξ hspan
-  rw [cfInner_eq_ite_of_mem_Irr hξ hξ, if_pos rfl] at h1
+  rw [cfInner_eq_ite_of_mem_Irr hξ hξ, ite_eq_left rfl] at h1
   exact one_ne_zero h1
 
 theorem exists_mem_Irr_mem_detectInd_fittingIn [Fintype G] {M : Subgroup G}
@@ -323,7 +323,7 @@ private theorem exists_fittingInducedImage_aux
     intro j k hjk
     rw [OrientedCoreFamily.ambRow_def, OrientedCoreFamily.ambRow_def,
       cfInner_primeTIrow_primeTIrow hP hσ',
-      if_neg fun h => hjk (Subtype.ext ((OrientedCoreFamily.irrEquivOfMulEquiv _).injective h))]
+      ite_eq_right fun h => hjk (Subtype.ext ((OrientedCoreFamily.irrEquivOfMulEquiv _).injective h))]
   have hupos : 0 < Nat.card ↥W₁ *
       (CFSG.FeitThompson.Prep03.cent U
         (CFSG.FeitThompson.Prep03.hallCoreIn M : Set G)).relIndex U := by
@@ -413,7 +413,7 @@ private theorem exists_fittingInducedImage_aux
       ⟨k, hk, hξk⟩ | hspan
     · exfalso
       have hn := hnorm ⟨k, hk⟩
-      rw [← hξk, cfInner_eq_ite_of_mem_Irr hξIrr hξIrr, if_pos rfl] at hn
+      rw [← hξk, cfInner_eq_ite_of_mem_Irr hξIrr hξIrr, ite_eq_left rfl] at hn
       have h1lt : 1 < Nat.card ↥W₁ := (Subgroup.one_lt_card_iff_ne_bot W₁).2 hc.ne_bot_W₁
       have : (Nat.card ↥W₁ : ℂ) = 1 := hn.symm
       exact absurd (by exact_mod_cast this : Nat.card ↥W₁ = 1) h1lt.ne'

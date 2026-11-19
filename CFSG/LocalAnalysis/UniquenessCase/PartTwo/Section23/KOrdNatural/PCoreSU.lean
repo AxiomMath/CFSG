@@ -22,7 +22,7 @@ private theorem exists_pow_of_card_eq_sq {K : Type*} [Field K] [Finite K] (p : �
     [Fact p.Prime] [CharP K p] {r : ℕ} (hK : Nat.card K = r ^ 2) :
     ∃ f : ℕ, 1 ≤ f ∧ r = p ^ f := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨e, hpprime, hcard⟩ := FiniteField.card K p
   have hpn : p ^ (e : ℕ) = r ^ 2 := by
     rw [← hcard, ← Nat.card_eq_fintype_card, hK]
@@ -88,8 +88,7 @@ private theorem single_mem_isotropic_span {K : Type*} [Field K] {σ : K ≃+* K}
       simp [hpvec, hqvec, Pi.single_eq_same]
     · by_cases hki : k = i
       · subst hki
-        simp [hpvec, hqvec, Pi.single_eq_same, Pi.single_eq_of_ne hkj,
-          Pi.single_eq_of_ne (Ne.symm hij)]
+        simp [hpvec, hqvec, Pi.single_eq_same, Pi.single_eq_of_ne hkj]
       · simp [hpvec, hqvec, Pi.single_eq_of_ne hkj, Pi.single_eq_of_ne hki]
   have hp_mem : pvec ∈ Submodule.span K {v : Fin d → K | herm σ v v = 0} :=
     Submodule.subset_span hp_iso
@@ -239,7 +238,7 @@ private theorem T_submodule_eq_bot_or_top_two {K : Type*} [Field K] {σ : K ≃+
       exact (map_eq_zero_iff σ σ.injective).mp h1
   have hspan_top : Submodule.span K (Set.range ![u, u']) = ⊤ := by
     refine hli.span_eq_top_of_card_eq_finrank ?_
-    simp [Module.finrank_fin_fun]
+    simp
   have hle : Submodule.span K (Set.range ![u, u']) ≤ W := by
     rw [Submodule.span_le]
     rintro x ⟨i, rfl⟩
@@ -265,8 +264,8 @@ private theorem SUid_submodule_eq_bot_or_top {K : Type*} [Field K] {σ : K ≃+*
 private theorem natRep_SUid_isIrreducible {K : Type*} [Field K] {σ : K ≃+* K}
     (hσ : IsUnitaryInvolution σ) {d : ℕ} (hd : 2 ≤ d) :
     Representation.IsIrreducible (natRep (SUid σ d)) := by
-  haveI : Nonempty (Fin d) := ⟨⟨0, by omega⟩⟩
-  haveI : Nontrivial (Fin d → K) := Function.nontrivial
+  have : Nonempty (Fin d) := ⟨⟨0, by omega⟩⟩
+  have : Nontrivial (Fin d → K) := Function.nontrivial
   refine CFSG.Quasithin.H13.A6.G52.isIrreducible_of_forall_submodule
     (natRep (SUid σ d)) ?_
   intro U hU

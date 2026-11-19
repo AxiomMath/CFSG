@@ -88,16 +88,18 @@ theorem span_pi_X₄_eq_cmComm (hc : Ctx M Q Z B) (hD : GlobalModelData M Q Z γ
   rintro e ⟨x, hx, rfl⟩
   exact pi_mem_cmComm hc hD φ hφπ hX₄ hx
 
+omit [Finite G] [Finite K] in
 theorem card_quotient_X₂_X₁ {m : ℕ} {X₁ X₂ : Subgroup G}
     (nat2 : NaturalRep (ι := Fin m) K (StatedSL m K) (XbarPre M Q Z B) X₂ X₁
       (Q)) :
     Nat.card (↥X₂ ⧸ X₁.subgroupOf X₂) = Nat.card K ^ m := by
   obtain ⟨-, -, -, -, hN, ψ, -⟩ := nat2
-  haveI := hN
+  have := hN
   rw [Nat.card_congr ψ.toEquiv, Nat.card_congr Multiplicative.toAdd, Nat.card_fun,
     Nat.card_fin]
 
-theorem card_X₂ {m : ℕ} {X₁ X₂ : Subgroup G} (hX₁ : X₁ = Z) (hZ₁ : Z ≤ X₁)
+omit [Finite G] [Finite K] in
+theorem card_X₂ {m : ℕ} {X₁ X₂ : Subgroup G} (hX₁ : X₁ = Z) (_hZ₁ : Z ≤ X₁)
     (h₁₂ : X₁ ≤ X₂)
     (nat2 : NaturalRep (ι := Fin m) K (StatedSL m K) (XbarPre M Q Z B) X₂ X₁
       (Q)) :

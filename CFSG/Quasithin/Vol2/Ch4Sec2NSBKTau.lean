@@ -37,6 +37,7 @@ section Coord
 variable {G : Type} [Group G] [Finite G] {T L I K : Subgroup G} {m n j : ℕ}
   {α : ↥K →* GL (Fin n) (ZMod 2)} {β : ↥(uZero I K) →* Multiplicative (Fin j → Fin n → ZMod 2)}
 
+omit [Finite G] in
 theorem centralizes_V_of_fixesA (hbij : Function.Bijective β)
     (hequi : ∀ (x : ↥K) (u v : ↥(uZero I K)), (v : G) = x * u * (x : G)⁻¹ → ∀ i : Fin j,
       Multiplicative.toAdd (β v) i =
@@ -59,6 +60,7 @@ theorem centralizes_V_of_fixesA (hbij : Function.Bijective β)
     exact mulVec_eq_self_of_fixesA hfix (hVc v₀ hv i)
   exact congrArg Subtype.val h
 
+omit [Finite G] in
 theorem presA_of_conj_mem
     (hequi : ∀ (x : ↥K) (u v : ↥(uZero I K)), (v : G) = x * u * (x : G)⁻¹ → ∀ i : Fin j,
       Multiplicative.toAdd (β v) i =
@@ -102,7 +104,7 @@ theorem centralizer_V_le_pCoreOf {G : Type} [Group G] [Finite G] {T M L I H K : 
     have hconj : (u : G) = (a : G) * (u : G) * (a : G)⁻¹ := (hcen u u.2).symm
     have h := hβe a u u hconj ⟨0, hk⟩
     rw [hu] at h
-    simp only [moduleAct, if_neg Bool.false_ne_true, toAdd_ofAdd, Pi.single_eq_same] at h
+    simp only [moduleAct, ite_eq_right Bool.false_ne_true, toAdd_ofAdd, Pi.single_eq_same] at h
     have h' := congrFun h r
     simpa [Matrix.mulVec, dotProduct, Pi.single_apply, Matrix.one_apply] using h'.symm
   have hmem : a ∈ α.ker := MonoidHom.mem_ker.mpr hα1

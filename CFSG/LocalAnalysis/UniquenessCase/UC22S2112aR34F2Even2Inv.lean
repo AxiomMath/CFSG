@@ -182,7 +182,7 @@ theorem uc22s2112r34_exists_inv_centralizer_sl2 {X : Type} [Group X] [Finite X] 
     rcases Nat.eq_zero_or_pos nQ with rfl | hnQpos
     · simp
     · exact (Nat.coprime_pow_right_iff hnQpos (Nat.card R) 2).mpr hR2
-  have hdisj : R ⊓ Q = ⊥ := Subgroup.inf_eq_bot_of_coprime hRQcop
+  have hdisj : R ⊓ Q = ⊥ := (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hRQcop))
   have hHcard : Nat.card H = Nat.card R * Nat.card Q :=
     CFSG.Quasithin.H23P4.card_eq_mul_of_coe_eq_mul (U := H) (H := R) (K := Q) hU hdisj
   have hcenter_le_two : Nat.card (Subgroup.center S) ≤ 2 := by

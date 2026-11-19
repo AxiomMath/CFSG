@@ -17,7 +17,7 @@ open scoped commutatorElement
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
 private theorem exists_sylow_bar_LB_le_normalizer [(Q.subgroupOf M).Normal]
-    (h34 : Stroth34Statement) {hc : Ctx M Q Z B} {n : ℕ} (H : Sec10Hyp hc n)
+    (_h34 : Stroth34Statement) {hc : Ctx M Q Z B} {n : ℕ} (H : Sec10Hyp hc n)
     {X : Subgroup G} (hX : IsClique101 M Q Z B X) (hsat : IsSaturated101 M Q Z B X)
     (hBX : B ≤ X) :
     ∃ S : Sylow 2 (Mbar M Q),
@@ -25,12 +25,12 @@ private theorem exists_sylow_bar_LB_le_normalizer [(Q.subgroupOf M).Normal]
       (S : Subgroup (Mbar M Q)) ≤
         Subgroup.normalizer (bar M Q (LB M Q B) : Set (Mbar M Q)) ∧
       (S : Subgroup (Mbar M Q)) ≤ bar M Q (M ⊓ Subgroup.normalizer (X : Set G)) := by
-  haveI : Finite (Mbar M Q) := inferInstanceAs (Finite (↥M ⧸ Q.subgroupOf M))
+  have : Finite (Mbar M Q) := inferInstanceAs (Finite (↥M ⧸ Q.subgroupOf M))
   have hΛ2 : IsPGroup 2 (bar M Q (LB M Q B)) := hc.isElemAbelian_bar_LB.isPGroup
   obtain ⟨S, hΛS⟩ := IsPGroup.exists_le_sylow hΛ2
   have hSN : (S : Subgroup (Mbar M Q)) ≤
       Subgroup.normalizer (bar M Q (LB M Q B) : Set (Mbar M Q)) :=
-    (hc.swapHyp H.width H.n_gt H.noA2).sylow S S.isPGroup' hΛS
+    (hc.swapHyp H.width H.n_gt H.noA2).sylow S S.isPGroup hΛS
   refine ⟨S, hΛS, hSN, ?_⟩
   intro s hs
   obtain ⟨y, rfl⟩ := QuotientGroup.mk'_surjective (Q.subgroupOf M) s
@@ -52,7 +52,7 @@ theorem IsSaturated101.exists_central_O2 [(Q.subgroupOf M).Normal] (h34 : Stroth
       ∃ t ∈ bar M Q (LB M Q B), t ≠ 1 ∧ t ∈ (S : Subgroup (↥M ⧸ Q.subgroupOf M)) ∧
         (∀ x ∈ (S : Subgroup (↥M ⧸ Q.subgroupOf M)), x * t = t * x) ∧
         t ∈ inSubgroup (pCore 2) (bar M Q (M ⊓ Subgroup.normalizer (X : Set G))) := by
-  haveI : Finite (Mbar M Q) := inferInstanceAs (Finite (↥M ⧸ Q.subgroupOf M))
+  have : Finite (Mbar M Q) := inferInstanceAs (Finite (↥M ⧸ Q.subgroupOf M))
   obtain ⟨S, hΛS, hSN, hSX⟩ := exists_sylow_bar_LB_le_normalizer h34 H hX hsat hBX
   have hΛ2 : IsPGroup 2 (bar M Q (LB M Q B)) := hc.isElemAbelian_bar_LB.isPGroup
   set O : Subgroup (Mbar M Q) :=
@@ -70,6 +70,7 @@ theorem IsSaturated101.exists_central_O2 [(Q.subgroupOf M).Normal] (h34 : Stroth
   obtain ⟨t, htA, ht1, htS, htcc⟩ := endg_exists_sylow_central hA2 hA1 S hSA
   exact ⟨S, hSN, hSX, t, htA.1, ht1, htS, htcc, htA.2⟩
 
+omit [Finite G] in
 private theorem mk_mem_normalizer_pCore_of_mem_normalizer [(Q.subgroupOf M).Normal]
     {X : Subgroup G} (g : ↥M) (hgN : (g : G) ∈ Subgroup.normalizer (X : Set G)) :
     QuotientGroup.mk' (Q.subgroupOf M) g ∈
@@ -81,6 +82,7 @@ private theorem mk_mem_normalizer_pCore_of_mem_normalizer [(Q.subgroupOf M).Norm
   exact (CFSG.RankThree.GroupTheory.SteinbergBY.normalizer_le_normalizer_inSubgroup_pCore 2
     (bar M Q (M ⊓ Subgroup.normalizer (X : Set G)))) (Subgroup.le_normalizer hmN)
 
+omit [Finite G] in
 private theorem conj_mem_pCore_of_mem_normalizer [(Q.subgroupOf M).Normal]
     {X : Subgroup G} (g : ↥M) (hgN : (g : G) ∈ Subgroup.normalizer (X : Set G))
     {t : Mbar M Q}
@@ -89,6 +91,7 @@ private theorem conj_mem_pCore_of_mem_normalizer [(Q.subgroupOf M).Normal]
       inSubgroup (pCore 2) (bar M Q (M ⊓ Subgroup.normalizer (X : Set G))) :=
   (Subgroup.mem_normalizer_iff.mp (mk_mem_normalizer_pCore_of_mem_normalizer g hgN) t).mp htO
 
+omit [Finite G] in
 private theorem conj_centralizes_pCore_of_mem_normalizer [(Q.subgroupOf M).Normal]
     {X : Subgroup G} {S : Sylow 2 (Mbar M Q)}
     (hOS : inSubgroup (pCore 2) (bar M Q (M ⊓ Subgroup.normalizer (X : Set G))) ≤
@@ -129,6 +132,7 @@ private theorem conj_centralizes_pCore_of_mem_normalizer [(Q.subgroupOf M).Norma
     _ = (QuotientGroup.mk' (Q.subgroupOf M) g * t *
           (QuotientGroup.mk' (Q.subgroupOf M) g)⁻¹) * z := by group
 
+omit [Finite G] in
 private theorem commutator_mem_Q_of_mk_eq [(Q.subgroupOf M).Normal]
     {t y : Mbar M Q} {σ : ↥M} {τ : G} (hτM : τ ∈ M)
     (hσmk : QuotientGroup.mk' (Q.subgroupOf M) σ = t)
@@ -198,7 +202,7 @@ private theorem wclSet_subset_pCore_centralizer [(Q.subgroupOf M).Normal]
         Subgroup.centralizer (inSubgroup (pCore 2)
           (bar M Q (M ⊓ Subgroup.normalizer (X : Set G))) : Set (Mbar M Q)) :
         Subgroup (Mbar M Q)) := by
-  haveI : Finite (Mbar M Q) := inferInstanceAs (Finite (↥M ⧸ Q.subgroupOf M))
+  have : Finite (Mbar M Q) := inferInstanceAs (Finite (↥M ⧸ Q.subgroupOf M))
   set O : Subgroup (Mbar M Q) :=
     inSubgroup (pCore 2) (bar M Q (M ⊓ Subgroup.normalizer (X : Set G)))
   have hOS : O ≤ (S : Subgroup (Mbar M Q)) :=

@@ -107,14 +107,14 @@ theorem Q_fixes_neighbors (hN : IsLocL2 Γ G v n N)
       ∀ q : G, q ∈ pCoreOf 2 (MulAction.stabilizer G v) → q • a = a := by
   classical
   let Gv := MulAction.stabilizer G v
-  haveI : Finite N :=
+  have : Finite N :=
     Finite.of_injective
       (fun x : N => (⟨(x : G), hN.le x.2⟩ : Gv))
       (fun a b h => Subtype.ext
         (congrArg (fun z : Gv => (z : G)) h))
   let Δ : SubMulAction N V := hN.neighborAction hadj
   have htrans : MulAction.IsPretransitive N Δ := hN.neighborAction_isPretransitive hadj
-  haveI := htrans
+  have := htrans
   have hQeq : (pCoreOf 2 (MulAction.stabilizer G v)).subgroupOf N = CFSG.pCore 2 ↥N := by
     rw [← pCoreOf_eq (Γ := Γ) (G := G) (v := v) (n := n) (N := N) hN]
     ext x
@@ -129,7 +129,7 @@ theorem Q_fixes_neighbors (hN : IsLocL2 Γ G v n N)
   have hQNnormal : QN.Normal := by
     rw [show QN = CFSG.pCore 2 ↥N from hQeq]
     infer_instance
-  haveI : QN.Normal := hQNnormal
+  have : QN.Normal := hQNnormal
   have hQNp : IsPGroup 2 QN := by
     rw [show QN = CFSG.pCore 2 ↥N from hQeq]
     exact CFSG.pCore_isPGroup (G := ↥N) (p := 2)
@@ -148,9 +148,9 @@ theorem Q_fixes_neighbors (hN : IsLocL2 Γ G v n N)
   have hOnonempty : O.Nonempty := ⟨aΔ, MulAction.mem_orbit_self aΔ⟩
   have hdvdΔ : Set.ncard O ∣ Nat.card Δ :=
     hblock.ncard_dvd_card hOnonempty
-  haveI hΔfinite : Finite (Γ.neighborSet v) :=
+  have hΔfinite : Finite (Γ.neighborSet v) :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; have := Nat.two_pow_pos n; omega)
-  haveI : Finite Δ :=
+  have : Finite Δ :=
     Finite.of_injective (fun x : Δ => (⟨x.1, x.2⟩ : Γ.neighborSet v))
       (fun a b h => Subtype.ext (congrArg Subtype.val h))
   have hΔcard : Nat.card Δ = 2 ^ n + 1 := by
@@ -163,8 +163,8 @@ theorem Q_fixes_neighbors (hN : IsLocL2 Γ G v n N)
   have hdvdOdd : Set.ncard O ∣ 2 ^ n + 1 := by
     rwa [hΔcard] at hdvdΔ
   obtain ⟨k, hk⟩ := hQNp.exists_card_eq
-  haveI : Fintype QN := Fintype.ofFinite _
-  haveI : Fintype (MulAction.orbit QN aΔ) := Fintype.ofFinite _
+  have : Fintype QN := Fintype.ofFinite _
+  have : Fintype (MulAction.orbit QN aΔ) := Fintype.ofFinite _
   have horbit_dvd : Set.ncard O ∣ 2 ^ k := by
     have hmul := MulAction.card_orbit_mul_card_stabilizer_eq_card_group (G := QN) aΔ
     have hcardO : Fintype.card (MulAction.orbit QN aΔ) = Set.ncard O := by
@@ -189,7 +189,7 @@ theorem Q_fixes_neighbors (hN : IsLocL2 Γ G v n N)
         exact (Nat.not_even_iff_odd.mpr (hj ▸ hOddO)) heven
   have hOcard : Set.ncard O = 1 := by
     rw [hj, hj0, pow_zero]
-  haveI : Subsingleton (MulAction.orbit QN aΔ) := by
+  have : Subsingleton (MulAction.orbit QN aΔ) := by
     have h1 : Nat.card (MulAction.orbit QN aΔ) = 1 := by
       rw [Nat.card_coe_set_eq]
       simpa [O] using hOcard
@@ -210,17 +210,17 @@ theorem N_fixes_neighbors_mem_Q (hN : IsLocL2 Γ G v n N)
   classical
   let Gv := MulAction.stabilizer G v
   let L := PSL(2, GaloisField 2 n)
-  haveI : Finite N :=
+  have : Finite N :=
     Finite.of_injective
       (fun x : N => (⟨(x : G), hN.le x.2⟩ : Gv))
       (fun a b h => Subtype.ext
         (congrArg (fun z : Gv => (z : G)) h))
   let Δ : SubMulAction N V := hN.neighborAction hadj
   have htrans : MulAction.IsPretransitive N Δ := hN.neighborAction_isPretransitive hadj
-  haveI := htrans
-  haveI hΔfinite : Finite (Γ.neighborSet v) :=
+  have := htrans
+  have hΔfinite : Finite (Γ.neighborSet v) :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; have := Nat.two_pow_pos n; omega)
-  haveI : Finite Δ :=
+  have : Finite Δ :=
     Finite.of_injective (fun x : Δ => (⟨x.1, x.2⟩ : Γ.neighborSet v))
       (fun a b h => Subtype.ext (congrArg Subtype.val h))
   have hΔcard : Nat.card Δ = 2 ^ n + 1 := by
@@ -303,7 +303,7 @@ theorem N_fixes_neighbors_mem_Q (hN : IsLocL2 Γ G v n N)
     exact hab (by rw [← hg, hga])
   by_cases hn2 : 2 ≤ n
   ·
-    haveI : IsSimpleGroup L := by
+    have : IsSimpleGroup L := by
       refine Matrix.ProjectiveSpecialLinearGroup.rank_two_simple ?_
       rw [GaloisField.card 2 n (by omega)]
       calc 4 = 2 ^ 2 := by norm_num
@@ -414,7 +414,7 @@ theorem N_fixes_neighbors_mem_Q (hN : IsLocL2 Γ G v n N)
     have hxQN : x ∈ QN := hCleQN hxC
     exact Subgroup.mem_subgroupOf.mp hxQN
 
-@[expose] def pointSubgroup (hN : IsLocL2 Γ G v n N) (a : V) : Subgroup N :=
+@[expose] def pointSubgroup (_hN : IsLocL2 Γ G v n N) (a : V) : Subgroup N :=
   (N ⊓ MulAction.stabilizer G a).subgroupOf N
 
 @[expose] noncomputable def pointBorel (hN : IsLocL2 Γ G v n N) (a : V) :
@@ -430,17 +430,17 @@ theorem card_pointBorel (hN : IsLocL2 Γ G v n N)
   classical
   let Gv := MulAction.stabilizer G v
   let L := PSL(2, GaloisField 2 n)
-  haveI : Finite N :=
+  have : Finite N :=
     Finite.of_injective
       (fun x : N => (⟨(x : G), hN.le x.2⟩ : Gv))
       (fun a b h => Subtype.ext
         (congrArg (fun z : Gv => (z : G)) h))
   let Δ : SubMulAction N V := hN.neighborAction hadj
   have htrans : MulAction.IsPretransitive N Δ := hN.neighborAction_isPretransitive hadj
-  haveI := htrans
-  haveI hΔfinite : Finite (Γ.neighborSet v) :=
+  have := htrans
+  have hΔfinite : Finite (Γ.neighborSet v) :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; have := Nat.two_pow_pos n; omega)
-  haveI : Finite Δ :=
+  have : Finite Δ :=
     Finite.of_injective (fun x : Δ => (⟨x.1, x.2⟩ : Γ.neighborSet v))
       (fun a b h => Subtype.ext (congrArg Subtype.val h))
   have hΔcard : Nat.card Δ = 2 ^ n + 1 := by
@@ -532,7 +532,7 @@ theorem pointSylow_spec (hN : IsLocL2 Γ G v n N)
       hN.pointBorel a = Subgroup.normalizer
         (hN.pointSylow hadj hfin hcard hn a :
           Set (PSL(2, GaloisField 2 n))) := by
-  rw [pointSylow, dif_pos ha]
+  rw [pointSylow, dite_eq_left ha]
   exact Classical.choose_spec (hN.exists_pointSylow hadj hfin hcard hn ha)
 
 theorem sylow_eq_of_le_normalizer (hn : 1 ≤ n)
@@ -548,7 +548,7 @@ theorem sylow_eq_of_le_normalizer (hn : 1 ≤ n)
   have hq2 : 2 ≤ 2 ^ n := by
     calc 2 = 2 ^ 1 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn
-  haveI : Nontrivial (V : Subgroup (PSL(2, GaloisField 2 n))) :=
+  have : Nontrivial (V : Subgroup (PSL(2, GaloisField 2 n))) :=
     Finite.one_lt_card_iff_nontrivial.mp (by rw [hVcard]; omega)
   obtain ⟨x, hx1⟩ := exists_ne (1 : (V : Subgroup (PSL(2, GaloisField 2 n))))
   have hxV' : (x : PSL(2, GaloisField 2 n)) ∈
@@ -606,7 +606,6 @@ theorem pointSubgroup_smul (hN : IsLocL2 Γ G v n N)
   have hna : (⟨(n : G) • a, hmem⟩ : Δ) = n • aΔ := rfl
   rw [pointSubgroup_eq_stabilizer hN hadj ha,
     pointSubgroup_eq_stabilizer hN hadj (by
-      change Γ.Adj v ((n : G) • a)
       exact hmem)]
   rw [hna]
   exact MulAction.stabilizer_smul_eq_stabilizer_map_conj n aΔ
@@ -618,7 +617,6 @@ theorem pointBorel_smul (hN : IsLocL2 Γ G v n N)
       (hN.pointBorel a).map (MulAut.conj (hN.phi n)).toMonoidHom := by
   classical
   rw [pointBorel, pointBorel, pointSubgroup_smul hN hadj ha n, Subgroup.map_map]
-  congr 1
   ext x
   simp [MulAut.conj_apply, map_mul, map_inv]
 
@@ -784,7 +782,7 @@ theorem pointSylow_bijective (hN : IsLocL2 Γ G v n N)
           left_inv := by intro x; rfl
           right_inv := by intro x; rfl }]
     exact hcard
-  haveI : Finite Δ :=
+  have : Finite Δ :=
     Nat.finite_of_card_ne_zero (by rw [hΔcard]; have := Nat.two_pow_pos n; omega)
   refine (hN.pointSylow_surjective hadj hfin hcard hn).bijective_of_nat_card_le ?_
   rw [hΔcard, CFSG.Walter.psl2_even_card_sylow (f := n) (by omega)]
@@ -796,10 +794,10 @@ theorem sylow_fixes_unique (hN : IsLocL2 Γ G v n N)
     (S : Sylow 2 N) :
     ∃! a : V, Γ.Adj v a ∧ ∀ x : N, x ∈ (S : Subgroup N) → (x : G) • a = a := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let L := PSL(2, GaloisField 2 n)
   let Δ : SubMulAction N V := hN.neighborAction hadj
-  haveI : Finite N :=
+  have : Finite N :=
     Finite.of_injective
       (fun x : N => (⟨(x : G), hN.le x.2⟩ : MulAction.stabilizer G v))
       (fun a b h => Subtype.ext
@@ -859,10 +857,10 @@ theorem fixes_unique_of_mem_sylow_not_pcore (hN : IsLocL2 Γ G v n N)
     (hxQ : (x : G) ∉ pCoreOf 2 (MulAction.stabilizer G v)) :
     ∃! a : V, Γ.Adj v a ∧ (x : G) • a = a := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let L := PSL(2, GaloisField 2 n)
   let Δ : SubMulAction N V := hN.neighborAction hadj
-  haveI : Finite N :=
+  have : Finite N :=
     Finite.of_injective
       (fun x : N => (⟨(x : G), hN.le x.2⟩ : MulAction.stabilizer G v))
       (fun a b h => Subtype.ext
@@ -951,19 +949,19 @@ theorem pCoreOf_subgroupOf_le_sylow (hN : IsLocL2 Γ G v n N) (S : Sylow 2 N) :
   exact hQNp.le_sylow_of_normal S
 
 private theorem torus_cyclic_of_ne_bot (hN : IsLocL2 Γ G v n N)
-    (hadj : ∀ (g : G) (u w : V), Γ.Adj (g • u) (g • w) ↔ Γ.Adj u w)
+    (_hadj : ∀ (g : G) (u w : V), Γ.Adj (g • u) (g • w) ↔ Γ.Adj u w)
     (hfin : Finite (MulAction.stabilizer G v))
-    (hcard : Nat.card (Γ.neighborSet v) = 2 ^ n + 1) (hn : 1 ≤ n)
+    (_hcard : Nat.card (Γ.neighborSet v) = 2 ^ n + 1) (hn : 1 ≤ n)
     (S : Sylow 2 N) (K : Subgroup N)
     (hKS : K ⊓ (S : Subgroup N) = ⊥)
     (hsup : K ⊔ (S : Subgroup N) =
       Subgroup.normalizer ((S : Subgroup N) : Set N))
-    (hKne : K ≠ ⊥) :
+    (_hKne : K ≠ ⊥) :
     IsCyclic K ∧ Nat.card K = 2 ^ n - 1 := by
   classical
   let L := PSL(2, GaloisField 2 n)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite N :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite N :=
     Finite.of_injective
       (fun x : N => (⟨(x : G), hN.le x.2⟩ : MulAction.stabilizer G v))
       (fun a b h => Subtype.ext
@@ -1045,16 +1043,16 @@ private theorem torus_cyclic_of_ne_bot (hN : IsLocL2 Γ G v n N)
   exact ⟨hKcyc, hKcard⟩
 
 theorem sylow_sup_zpowers_eq (hN : IsLocL2 Γ G v n N)
-    (hadj : ∀ (g : G) (u w : V), Γ.Adj (g • u) (g • w) ↔ Γ.Adj u w)
+    (_hadj : ∀ (g : G) (u w : V), Γ.Adj (g • u) (g • w) ↔ Γ.Adj u w)
     (hfin : Finite (MulAction.stabilizer G v))
-    (hcard : Nat.card (Γ.neighborSet v) = 2 ^ n + 1) (hn : 1 ≤ n)
+    (_hcard : Nat.card (Γ.neighborSet v) = 2 ^ n + 1) (hn : 1 ≤ n)
     (S : Sylow 2 N) {g : N}
     (hg : g ∉ Subgroup.normalizer ((S : Subgroup N) : Set N)) :
     (S : Subgroup N) ⊔ Subgroup.zpowers g = ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let L := PSL(2, GaloisField 2 n)
-  haveI : Finite N :=
+  have : Finite N :=
     Finite.of_injective
       (fun x : N => (⟨(x : G), hN.le x.2⟩ : MulAction.stabilizer G v))
       (fun a b h => Subtype.ext
@@ -1145,8 +1143,8 @@ private theorem torus_transitive_on_sylow_of_ne_bot (hN : IsLocL2 Γ G v n N)
       (pCoreOf 2 (MulAction.stabilizer G v)).subgroupOf N := by
   classical
   let L := PSL(2, GaloisField 2 n)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite N :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite N :=
     Finite.of_injective
       (fun x : N => (⟨(x : G), hN.le x.2⟩ : MulAction.stabilizer G v))
       (fun a b h => Subtype.ext
@@ -1237,8 +1235,8 @@ theorem torus_map_inf (hN : IsLocL2 Γ G v n N) [Finite N]
       ((S.mapSurjective (p := 2) hN.phi_surjective : Sylow 2
         (PSL(2, GaloisField 2 n))) : Subgroup (PSL(2, GaloisField 2 n))) = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite N :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite N :=
     Finite.of_injective
       (fun x : N => (⟨(x : G), hN.le x.2⟩ : MulAction.stabilizer G v))
       (fun a b h => Subtype.ext
@@ -1288,8 +1286,8 @@ theorem torus_map_sup (hN : IsLocL2 Γ G v n N) [Finite N]
           (PSL(2, GaloisField 2 n))) : Subgroup (PSL(2, GaloisField 2 n))) : Set
             (PSL(2, GaloisField 2 n))) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite N :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite N :=
     Finite.of_injective
       (fun x : N => (⟨(x : G), hN.le x.2⟩ : MulAction.stabilizer G v))
       (fun a b h => Subtype.ext
@@ -1341,8 +1339,8 @@ private theorem torus_fixes_two_of_ne_bot (hN : IsLocL2 Γ G v n N)
     (hKne : K ≠ ⊥) {k : K} (hk : k ≠ 1) :
     Set.ncard {a : V | Γ.Adj v a ∧ ((k : N) : G) • a = a} = 2 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite N :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite N :=
     Finite.of_injective
       (fun x : N => (⟨(x : G), hN.le x.2⟩ : MulAction.stabilizer G v))
       (fun a b h => Subtype.ext
@@ -1465,8 +1463,8 @@ theorem torus_centralizer (hN : IsLocL2 Γ G v n N)
     Subgroup.centralizer (K : Set N) ≤
       K ⊔ (pCoreOf 2 (MulAction.stabilizer G v)).subgroupOf N := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite N :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite N :=
     Finite.of_injective
       (fun x : N => (⟨(x : G), hN.le x.2⟩ : MulAction.stabilizer G v))
       (fun a b h => Subtype.ext
@@ -1609,8 +1607,8 @@ theorem torus_transitive_on_sylow (hN : IsLocL2 Γ G v n N)
     ∃ k : K, (k : N) * x * (k : N)⁻¹ * y⁻¹ ∈
       (pCoreOf 2 (MulAction.stabilizer G v)).subgroupOf N := by
   by_cases hKne : K = ⊥
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Finite N :=
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Finite N :=
       Finite.of_injective
         (fun x : N => (⟨(x : G), hN.le x.2⟩ : MulAction.stabilizer G v))
         (fun a b h => Subtype.ext
@@ -1642,7 +1640,7 @@ theorem torus_transitive_on_sylow (hN : IsLocL2 Γ G v n N)
     let f : (S : Subgroup N) →* L := hN.phi.comp (S : Subgroup N).subtype
     let QNS : Subgroup (S : Subgroup N) := MonoidHom.ker f
     have hQNSnormal : QNS.Normal := inferInstance
-    haveI : QNS.Normal := hQNSnormal
+    have : QNS.Normal := hQNSnormal
     have hQNS : QNS = ((pCoreOf 2 (MulAction.stabilizer G v)).subgroupOf N).subgroupOf
         (S : Subgroup N) := by
       ext z
@@ -1742,8 +1740,8 @@ theorem torus_cyclic (hN : IsLocL2 Γ G v n N)
       Subgroup.normalizer ((S : Subgroup N) : Set N)) :
     IsCyclic K ∧ Nat.card K = 2 ^ n - 1 := by
   by_cases hKne : K = ⊥
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Finite N :=
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Finite N :=
       Finite.of_injective
         (fun x : N => (⟨(x : G), hN.le x.2⟩ : MulAction.stabilizer G v))
         (fun a b h => Subtype.ext

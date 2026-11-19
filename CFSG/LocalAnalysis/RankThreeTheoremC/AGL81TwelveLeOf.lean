@@ -21,6 +21,7 @@ section General
 
 variable {A : Type} [Group A] [Finite A]
 
+omit [Finite A] in
 theorem exists_commutator_not_mem_of_not_isSylow {Y P : Subgroup A} (hpar : IsParabolicTwo Y P)
     (hsyl : ¬ CFSG.QuasithinUnique.IsSylowTwoOf (pCoreOf 2 P) Y) :
     ∃ x ∈ P, ∃ y ∈ P, x * y * x⁻¹ * y⁻¹ ∉ pCoreOf 2 P := by
@@ -43,7 +44,7 @@ theorem exists_commutator_not_mem_of_not_isSylow {Y P : Subgroup A} (hpar : IsPa
       _ = φ y * φ x := by rw [h1, one_mul]
   set T' : Subgroup ↥P := T.subgroupOf P with hT'
   have hT'p : IsPGroup 2 T' := hT.2.1.comap_subtype
-  haveI hTn : (T'.map φ).Normal :=
+  have hTn : (T'.map φ).Normal :=
     ⟨fun n hn g => by rw [hcomm g n, mul_inv_cancel_right]; exact hn⟩
   have hNp : IsPGroup 2 ((T'.map φ).comap φ) :=
     (hT'p.map φ).comap_of_ker_isPGroup φ (by rw [QuotientGroup.ker_mk']; exact CFSG.pCore_isPGroup)
@@ -56,6 +57,7 @@ theorem exists_commutator_not_mem_of_not_isSylow {Y P : Subgroup A} (hpar : IsPa
   refine ⟨(Subgroup.map_subtype_le _).trans hPY, CFSG.pCore_isPGroup.map _, fun h2 => hT.2.2 ?_⟩
   exact h2.trans (Subgroup.index_dvd_of_le fun x hx => hTO hx)
 
+omit [Finite A] in
 theorem centralizes_of_wCent_self {Y : Subgroup A} (hqs : CFSG.Open.IsQuasisimple ↥Y)
     (hO : pCoreOf 2 Y = ⊥) {β : A} (hW : TenThreeThree.ParabComm.WCent Y β) :
     ∀ y ∈ Y, β * y = y * β := by
@@ -82,6 +84,7 @@ end General
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem orderOf_mk'_eq_three {M : Subgroup G} {b : G} (hbM : b ∈ M) (hb : orderOf b = 3) :
     orderOf (QuotientGroup.mk' (CFSG.pCore 2 ↥M) ⟨b, hbM⟩) = 3 := by
   have hd : orderOf (QuotientGroup.mk' (CFSG.pCore 2 ↥M) ⟨b, hbM⟩) ∣ 3 :=
@@ -98,6 +101,7 @@ theorem orderOf_mk'_eq_three {M : Subgroup G} {b : G} (hbM : b ∈ M) (hb : orde
     exact absurd (Nat.Prime.dvd_of_dvd_pow Nat.prime_three h3) (by norm_num)
   · exact h3
 
+omit [Finite G] in
 theorem centralizes_barM_of_commutator_mem {M L : Subgroup G} {b : G} (hbM : b ∈ M)
     (h : ∀ l ∈ L, b * l * b⁻¹ * l⁻¹ ∈ pCoreOf 2 M) :
     ∀ y ∈ barM M L, QuotientGroup.mk' (CFSG.pCore 2 ↥M) ⟨b, hbM⟩ * y =

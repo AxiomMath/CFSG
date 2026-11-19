@@ -52,7 +52,7 @@ theorem center_pQuot_eq_bot_of_d4 (hGA : CFSG.Open.GriessAllModelsStatement) {G 
 
 theorem center_pSimple_eq_bot_of_qs {G : Type} [Group G] {J : Subgroup G}
     (hq : CFSG.Open.IsQuasisimple (PQuot 3 J)) : Subgroup.center (PSimple 3 J) = ⊥ := by
-  haveI : IsSimpleGroup (PSimple 3 J) := hq.2
+  have : IsSimpleGroup (PSimple 3 J) := hq.2
   have hnonab := CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian _ hq
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center (PSimple 3 J)) with h | h
   · exact h
@@ -62,7 +62,7 @@ theorem center_pSimple_eq_bot_of_qs {G : Type} [Group G] {J : Subgroup G}
     exact hab ((Subgroup.mem_center_iff.1 ha b).symm)
 
 theorem isElemAbelian_actImage {G : Type} [Group G] {B J : Subgroup G} (hB : IsElemAbelian 3 B)
-    (hBJ : B ≤ Subgroup.normalizer (J : Set G)) : IsElemAbelian 3 (actImage 3 J B) := by
+    (_hBJ : B ≤ Subgroup.normalizer (J : Set G)) : IsElemAbelian 3 (actImage 3 J B) := by
   refine isElemAbelian_of_forall ?_ ?_
   · rintro _ ⟨x, hx, rfl⟩ _ ⟨y, hy, rfl⟩
     rw [← map_mul, ← map_mul]

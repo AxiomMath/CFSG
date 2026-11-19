@@ -20,6 +20,7 @@ theorem centerless_range49_center_eq_bot {Γ : Type} [Group Γ] (h : IsAlt Γ 5)
   rw [alternatingGroup.center_eq_bot (by rw [Nat.card_fin]; norm_num)] at h1
   exact (Subgroup.map_eq_bot_iff_of_injective _ e.injective).mp h1
 
+omit [Finite G] in
 theorem centerless_range49_ker_le_pCore {L : Subgroup G} {K : Type*} [Monoid K]
     (φ : ↥L →* K) (hL : IsAlt (Bar2 L) 5)
     (hker : ∀ g : ↥L, g ∈ CFSG.pCore 2 ↥L → φ g = 1)
@@ -38,7 +39,7 @@ theorem centerless_range49_ker_le_pCore {L : Subgroup G} {K : Type*} [Monoid K]
     rw [← QuotientGroup.ker_mk' (CFSG.pCore 2 ↥L), MonoidHom.mem_ker]
     exact h1
   have hmem : q g ∈ φ.ker.map q := Subgroup.mem_map_of_mem q hg
-  haveI : (φ.ker.map q).Normal :=
+  have : (φ.ker.map q).Normal :=
     (MonoidHom.normal_ker φ).map q (QuotientGroup.mk'_surjective _)
   have htop : φ.ker.map q = ⊤ := normal_eq_top_of_isAlt_five hL hmem hqg_ne
   have htopker : φ.ker = ⊤ := by
@@ -59,6 +60,7 @@ theorem centerless_range49_ker_le_pCore {L : Subgroup G} {K : Type*} [Monoid K]
   have hg0ker : g0 ∈ φ.ker := by rw [htopker]; exact Subgroup.mem_top _
   rwa [MonoidHom.mem_ker] at hg0ker
 
+omit [Finite G] in
 theorem centerless_range49 {L : Subgroup G} {K : Type*} [Monoid K] (φ : ↥L →* K)
     (hL : IsAlt (Bar2 L) 5) (hker : ∀ g : ↥L, g ∈ CFSG.pCore 2 ↥L → φ g = 1)
     (hφ : ∃ g : ↥L, φ g ≠ 1) :
@@ -104,6 +106,7 @@ theorem orderOf_map_eq_five {Γ P : Type*} [Group Γ] [Group P] (φ : Γ →* P)
   · exact absurd (orderOf_eq_one_iff.mp h1) hne
   · exact h5
 
+omit [Finite G] in
 theorem five_dvd_card_of_isAlt {L' : Subgroup G} (hL : IsAlt (Bar2 L') 5) :
     5 ∣ Nat.card ↥L' := by
   have hcard : Nat.card (Bar2 L') = 60 := by
@@ -121,7 +124,7 @@ theorem five_dvd_card_of_isAlt {L' : Subgroup G} (hL : IsAlt (Bar2 L') 5) :
 
 theorem exists_order_five_of_isAlt {L' : Subgroup G} (hL : IsAlt (Bar2 L') 5) :
     ∃ b : ↥L', orderOf b = 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   exact exists_prime_orderOf_dvd_card' 5 (five_dvd_card_of_isAlt hL)
 
 theorem eq_one_of_mem_pCore_pow_five {Γ : Type*} [Group Γ] {x : Γ}
@@ -230,6 +233,7 @@ theorem mulHom_pow_left_injective {M N P : Type*} [Group M] [Group N] [Group P]
   have hx : x * y⁻¹ = 1 := Prod.ext (zmod5_eq_one_of_pow_eq_one hb hn) hy
   exact mul_inv_eq_one.mp hx
 
+omit [Finite G] in
 theorem pow_factor_eq_one_nat {Γ P : Type*} [Group Γ] [Group P]
     {L' : Subgroup G} (φ : ↥L' →* P) (hL : IsAlt (Bar2 L') 5)
     (hφ : ∃ g : ↥L', φ g ≠ 1)
@@ -295,7 +299,7 @@ abbrev TwoFive : Type := Multiplicative (ZMod 5) × Multiplicative (ZMod 5)
 abbrev ThreeFive : Type := Multiplicative (ZMod 5) × TwoFive
 
 theorem twoFive_card : Nat.card TwoFive = 5 ^ 2 := by
-  simp [TwoFive, Nat.card_prod, Nat.card_zmod]
+  simp [TwoFive]
 
 theorem twoFive_pow_five : ∀ b : TwoFive, b ^ 5 = 1 := by
   rintro ⟨m, k⟩
@@ -303,7 +307,7 @@ theorem twoFive_pow_five : ∀ b : TwoFive, b ^ 5 = 1 := by
   rfl
 
 theorem threeFive_card : Nat.card ThreeFive = 5 ^ 3 := by
-  simp [ThreeFive, TwoFive, Nat.card_prod, Nat.card_zmod, pow_succ]
+  simp [ThreeFive, TwoFive, pow_succ]
 
 theorem threeFive_pow_five : ∀ b : ThreeFive, b ^ 5 = 1 := by
   rintro ⟨m, k, l⟩
@@ -412,6 +416,7 @@ variable [hNorm : (M.subgroupOf N).Normal] [hElem : IsElementaryAbelian 2 (N ⧸
     ↥(Lc L x i) →* (Module.End (ZMod 2) (Additive (N ⧸ M.subgroupOf N)))ˣ :=
   (chiefRep (p := 2) c.chief.2.1 c.chief.2.2.1).comp (Subgroup.inclusion (c.Lc_H i))
 
+omit [Finite G] in
 theorem actionUnitsOn_apply (i : ℕ) (g : ↥(Lc L x i)) :
     (actionUnitsOn c i g : Module.End (ZMod 2) (Additive (N ⧸ M.subgroupOf N))) =
       op49 c.chief ⟨(g : G), c.Lc_H i g.2⟩ := rfl
@@ -460,6 +465,7 @@ theorem opA_ne_one (i : ℕ) (hi : i < 3) : c.opA i ≠ 1 := by
 @[expose] def aiL (i : ℕ) : ↥(Lc L x i) :=
   ⟨(c.ai i : G), c.ai_mem i⟩
 
+omit [Finite G] in
 theorem actionUnitsOn_aiL (i : ℕ) :
     actionUnitsOn c i (c.aiL i) = c.opA i := by
   rw [actionUnitsOn_apply]

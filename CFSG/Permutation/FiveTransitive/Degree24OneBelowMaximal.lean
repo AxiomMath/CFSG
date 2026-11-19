@@ -31,7 +31,7 @@ private theorem alternatingGroup_le_of_one_below_maximal_sylow
       ∀ w : Equiv.Perm X, w ∈ A → w.support.card ≤ 7) :
     alternatingGroup X ≤ P := by
   classical
-  letI : Fact (Nat.Prime p) := ⟨hp⟩
+  let : Fact (Nat.Prime p) := ⟨hp⟩
   let inclusion : S →* Equiv.Perm X :=
     P.subtype.comp (S : Subgroup P).subtype
   have hinclusion : Function.Injective inclusion := by
@@ -128,7 +128,7 @@ private theorem alternatingGroup_le_of_one_below_maximal_sylow
     Finite.one_lt_card_iff_nontrivial.mp (by
       have := hp.two_le
       omega)
-  letI : Nontrivial K := hKnontrivial
+  let : Nontrivial K := hKnontrivial
   obtain ⟨w, hw⟩ := exists_ne (1 : K)
   let w₀ : Equiv.Perm X := ((w : K) : Q₀)
   have hw₀R' : w₀ ∈ R' :=

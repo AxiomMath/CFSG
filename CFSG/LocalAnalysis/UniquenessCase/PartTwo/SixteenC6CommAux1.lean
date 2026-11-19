@@ -24,9 +24,10 @@ theorem s16c6_subsingleton_of_isPerfect_of_isPGroup {H : Type} [Group H] [Finite
     {p : ℕ} [Fact p.Prime] (hp : IsPGroup p H) (hperf : Group.IsPerfect H) :
     Subsingleton H := by
   by_contra h
-  haveI : Nontrivial H := not_subsingleton_iff_nontrivial.mp h
+  have : Nontrivial H := not_subsingleton_iff_nontrivial.mp h
   exact Group.IsPerfect.not_isNilpotent H (IsPGroup.isNilpotent hp)
 
+omit [Finite G] in
 theorem s16c6_pow_mul_mem {W : Subgroup G} {y : G}
     (hyW : y ∈ Subgroup.normalizer (W : Set G)) {u : G} (huW : u ∈ W) (k : ℕ) :
     ∃ w ∈ W, (u * y) ^ k = w * y ^ k := by
@@ -39,18 +40,19 @@ theorem s16c6_pow_mul_mem {W : Subgroup G} {y : G}
     · rw [pow_succ', hwk, pow_succ']
       group
 
+omit [Finite G] in
 theorem s16c6_commutatorElement_mem_of_pow3 {A B W X : Subgroup G}
     (hBA : B ≤ A) (hWB : W ≤ B)
     (hWA : A ≤ Subgroup.normalizer (W : Set G))
-    (hXA : X ≤ Subgroup.normalizer (A : Set G))
-    (hXB : X ≤ Subgroup.normalizer (B : Set G))
+    (_hXA : X ≤ Subgroup.normalizer (A : Set G))
+    (_hXB : X ≤ Subgroup.normalizer (B : Set G))
     (hXW : X ≤ Subgroup.normalizer (W : Set G))
     (hAx : ⁅A, X⁆ ≤ B) (hBx : ⁅B, X⁆ ≤ W)
     (hB3 : ¬ 3 ∣ Nat.card B)
     {x : G} (hxX : x ∈ X) {m : ℕ} (hm : orderOf x = 3 ^ m) {a : G} (haA : a ∈ A) :
     ⁅x, a⁆ ∈ W := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set t : G := ⁅a, x⁆ with ht_def
   have htB : t ∈ B := (Subgroup.commutator_le.mp hAx) a haA x hxX
   have htA : t ∈ A := hBA htB
@@ -105,7 +107,7 @@ theorem s16c6_commutatorElement_mem_of_pow3 {A B W X : Subgroup G}
     exact hwW
   have htW : t ∈ W := by
     let WB : Subgroup ↥B := W.subgroupOf B
-    haveI hWBn : WB.Normal :=
+    have hWBn : WB.Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer hWB).mpr (hBA.trans hWA)
     let πB : ↥B →* ↥B ⧸ WB := QuotientGroup.mk' WB
     have htB' : (⟨t, htB⟩ : ↥B) ^ (3 ^ m) ∈ WB := Subgroup.mem_subgroupOf.mpr ht3W
@@ -128,16 +130,16 @@ theorem s16c6_commutatorElement_mem_of_pow3 {A B W X : Subgroup G}
 theorem s16c6_opp3_eq_self {X : Subgroup G} (hperf : ⁅X, X⁆ = X)
     (hsimple : IsSimpleGroup (Bar2 X)) (h3 : 3 ∣ Nat.card (Bar2 X)) :
     Opp 3 X = X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI hXperf : Group.IsPerfect ↥X := Subgroup.isPerfect_iff.mpr hperf
-  haveI h2core : IsPGroup 2 ↥(CFSG.pCore 2 ↥X) := CFSG.pCore_isPGroup
-  haveI hsimple' : IsSimpleGroup (Bar2 X) := hsimple
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hXperf : Group.IsPerfect ↥X := Subgroup.isPerfect_iff.mpr hperf
+  have h2core : IsPGroup 2 ↥(CFSG.pCore 2 ↥X) := CFSG.pCore_isPGroup
+  have hsimple' : IsSimpleGroup (Bar2 X) := hsimple
   let Y : Subgroup G := Opp 3 X
   have hYX : Y ≤ X := CFSG.LocalAnalysis.RankThreeUC.pElementSubgroup_le 3 X
   have hYXn : X ≤ normalizer (Y : Set G) :=
     CFSG.LocalAnalysis.RankThreeUC.le_normalizer_pElementSubgroup 3 X
-  haveI hYn : (Y.subgroupOf X).Normal :=
+  have hYn : (Y.subgroupOf X).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hYX).mpr hYXn
   let π : ↥X →* Bar2 X := QuotientGroup.mk' (CFSG.pCore 2 ↥X)
   have h3X : 3 ∣ Nat.card X :=
@@ -164,15 +166,15 @@ theorem s16c6_opp3_eq_self {X : Subgroup G} (hperf : ⁅X, X⁆ = X)
     rw [hbot, Subgroup.mem_bot] at hmem
     exact hxne hmem
   have hmap_top : (Y.subgroupOf X).map π = ⊤ := by
-    haveI : ((Y.subgroupOf X).map π).Normal := hYn.map π (QuotientGroup.mk'_surjective _)
+    have : ((Y.subgroupOf X).map π).Normal := hYn.map π (QuotientGroup.mk'_surjective _)
     exact (Subgroup.Normal.eq_bot_or_eq_top _).resolve_left hmap_ne
   have htop : (Y.subgroupOf X) ⊔ (CFSG.pCore 2 ↥X) = ⊤ := by
     have h := Subgroup.comap_map_eq π (Y.subgroupOf X)
     rw [hmap_top, Subgroup.comap_top, QuotientGroup.ker_mk'] at h
     exact h.symm
   have hYtop : Y.subgroupOf X = ⊤ := by
-    haveI hsub : Subsingleton (↥X ⧸ Y.subgroupOf X) := by
-      haveI : Group.IsPerfect (↥X ⧸ Y.subgroupOf X) :=
+    have hsub : Subsingleton (↥X ⧸ Y.subgroupOf X) := by
+      have : Group.IsPerfect (↥X ⧸ Y.subgroupOf X) :=
         Group.IsPerfect.instQuotientSubgroup
       have h2group : IsPGroup 2 (↥X ⧸ Y.subgroupOf X) := by
         let f : ↥(CFSG.pCore 2 ↥X) →* (↥X ⧸ Y.subgroupOf X) :=
@@ -201,7 +203,7 @@ theorem s16c6_opp3_eq_self {X : Subgroup G} (hperf : ⁅X, X⁆ = X)
   exact hYXeq
 
 theorem s16c6_le_pCoreOf_of_map_le {X Y : Type} [Group X] [Group Y] {p : ℕ}
-    [Fact p.Prime] (f : X →* Y) (hf : Function.Surjective f) (hker : IsPGroup p f.ker)
+    [Fact p.Prime] (f : X →* Y) (_hf : Function.Surjective f) (hker : IsPGroup p f.ker)
     {B C : Subgroup X} (hCB : C ≤ B)
     (hmap : Subgroup.map f C ≤ CFSG.Open.pCoreOf p (Subgroup.map f B)) :
     C ≤ CFSG.Open.pCoreOf p B := by

@@ -22,7 +22,7 @@ theorem reflGen_iff_eq_closure_ggLinRefl (A : Subgroup (U ≃ₗ[ZMod p] U)) :
   unfold ReflGen
   have hset : {t : U ≃ₗ[ZMod p] U | t ∈ A ∧ IsRefl p t} = {r | r ∈ A ∧ GGLinRefl r} := by
     ext t
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     rw [isRefl_iff_ggLinRefl]
   rw [hset]
 

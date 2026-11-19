@@ -31,6 +31,7 @@ structure CtxYBase {Y : Type} [Group Y] (V L N R K : Subgroup Y) (q : ℕ) : Pro
   Vsq : ∀ a ∈ V, a * a = 1
   Lcomm : ∀ a ∈ L, ∀ b ∈ L, a * b = b * a
 
+omit [Finite G] in
 theorem Ctx.ti_bar {Z0 : Subgroup G} (hQZ0 : Q ≤ Z0)
     (hTI : ∀ g ∈ M, ∀ u ∈ Z0, u ∉ Q → g * u * g⁻¹ ∈ Z0 → g ∈ Subgroup.normalizer (Z0 : Set G)) :
     ∀ g x : Mbar M Q, x ∈ bar M Q Z0 → x ≠ 1 → g * x * g⁻¹ ∈ bar M Q Z0 →

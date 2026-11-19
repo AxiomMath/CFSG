@@ -48,7 +48,7 @@ theorem ExtremalObstruction.le_of_le_centralizer_of_hasPrimeConstraint (hS : Set
   have hPC : (P : Subgroup G) ≤ centralizer ({(w : G)} : Set G) := fun g hg =>
     mem_centralizer_singleton_iff.mpr (mem_centralizer_iff.mp hzc g hg)
   have hKO := CFSG.AGLEmbedding.signalizer_le_glbPrimeCore_of_contains hprime hodd hcon
-    (P.isPGroup'.to_le hDP) hDC
+    (P.isPGroup.to_le hDP) hDC
     (fun y _ hyC hyo => map_subtype_le _ (hext.mem_center_of_mem_centralizer_of_le_normalizer
       hprime hodd hD hPD hyC (by rw [← hyo]; exact pow_orderOf_eq_one y)))
     hKz hK hDK

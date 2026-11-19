@@ -26,7 +26,7 @@ theorem mem_of_sq_eq_one_of_psu3 {M : Type} [Group M] [Finite M]
   have hinj : ∀ a ∈ (P : Subgroup M), ∀ b ∈ (P : Subgroup M), ρ a = ρ b → a = b := by
     intro a ha b hb hab
     rw [hρ, QuotientGroup.mk'_apply, QuotientGroup.mk'_apply, QuotientGroup.eq] at hab
-    have hP : IsPGroup 2 (P : Subgroup M) := P.isPGroup'
+    have hP : IsPGroup 2 (P : Subgroup M) := P.isPGroup
     obtain ⟨k, hk⟩ := hP ⟨a⁻¹ * b, mul_mem (inv_mem ha) hb⟩
     have h1 : orderOf (a⁻¹ * b) ∣ 2 ^ k := by
       apply orderOf_dvd_of_pow_eq_one

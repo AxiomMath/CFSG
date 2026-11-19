@@ -26,7 +26,7 @@ theorem exists_root_zmod (hp1 : p % 3 = 1) : ∃ a : ZMod p, a ^ 2 + a + 1 = 0 :
   have h3 : 3 ∣ Fintype.card (ZMod p)ˣ := by
     rw [hcard]
     omega
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨u, hu⟩ := exists_prime_orderOf_dvd_card 3 h3
   refine ⟨(u : ZMod p), ?_⟩
   have hu3 : (u : ZMod p) ^ 3 = 1 := by
@@ -120,12 +120,12 @@ theorem hessPhi_mem_hessH_unitary {F : Type} [Field F] [CharP F p]
   have hp2 : p ≠ 2 := by omega
   have hp3 : p ≠ 3 := by omega
   have h2 : (2 : F) ≠ 0 := two_ne_zero_of hp2
-  haveI hirr : Fact (Irreducible (hessPoly p)) := ⟨hessPoly_irreducible hp2'⟩
+  have hirr : Fact (Irreducible (hessPoly p)) := ⟨hessPoly_irreducible hp2'⟩
   have hne0 : hessPoly p ≠ 0 := hirr.out.ne_zero
   let pb := AdjoinRoot.powerBasis hne0
-  haveI : Module.Finite (ZMod p) (AdjoinRoot (hessPoly p)) := pb.finite
-  haveI : Finite (AdjoinRoot (hessPoly p)) := Module.finite_of_finite (ZMod p)
-  haveI : CharP (AdjoinRoot (hessPoly p)) p :=
+  have : Module.Finite (ZMod p) (AdjoinRoot (hessPoly p)) := pb.finite
+  have : Finite (AdjoinRoot (hessPoly p)) := Module.finite_of_finite (ZMod p)
+  have : CharP (AdjoinRoot (hessPoly p)) p :=
     charP_of_injective_algebraMap (algebraMap (ZMod p) (AdjoinRoot (hessPoly p))).injective p
   have hk : Nat.card (AdjoinRoot (hessPoly p)) = (p ^ 1) ^ 2 := by
     rw [← FiniteField.pow_finrank_eq_natCard p, pb.finrank, AdjoinRoot.powerBasis_dim,

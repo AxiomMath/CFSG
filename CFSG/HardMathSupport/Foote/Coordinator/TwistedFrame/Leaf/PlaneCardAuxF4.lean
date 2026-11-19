@@ -27,7 +27,7 @@ def UFrame.ofA2 {τ : Tag} {L : Type} [Field L] {ρ : SL(3, L) →* ModGL τ L}
   inj := h.injective
   isRoot := h.isRoot
   gen := fun i j hij t => by
-    simp only [dif_pos hij]
+    simp only [dite_eq_left hij]
     exact (h.transv i j hij).choose_spec t
   range := by rw [h.range, hS]
 
@@ -120,11 +120,11 @@ theorem f4Six_frames (K : Type) [Field K] [Finite K] (hK : 3 ≤ Nat.card K)
       Nat.card ↥(Subgroup.center ↥(TwClass.f4Six.X₁ D)) = Nat.gcd 3 (Nat.card K + 1) := by
   classical
   obtain ⟨ℓ, f, hℓ, hf, hk⟩ := exists_prime_pow_card K
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
-  haveI : CharP D.L ℓ := by
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+  have : CharP D.L ℓ := by
     have : Fintype K := Fintype.ofFinite K
-    haveI : CharP K ℓ := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hk])
+    have : CharP K ℓ := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hk])
     exact (RingHom.charP_iff (algebraMap K D.L) (algebraMap K D.L).injective ℓ).1 inferInstance
   have hne : ((3 : ℕ), ℓ ^ f) ≠ (3, 2) := fun h => by
     have := (Prod.mk.inj h).2

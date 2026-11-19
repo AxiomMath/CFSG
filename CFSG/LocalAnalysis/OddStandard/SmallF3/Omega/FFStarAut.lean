@@ -28,6 +28,7 @@ private theorem ffConjMono (hQ : Q.Nondegenerate) (fr : NFrame Q (Fin 6) 1)
   simp only [Subgroup.coe_mul, Subgroup.coe_inv, coe_omegaToProj]
   rw [← map_mul, ← map_inv, ← map_mul, ffMono_conj_signChange fr σ K J]
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem ff_toProj_signChange_compl (fr : NFrame Q (Fin 6) 1) (J : Finset (Fin 6)) :
     toProj Q (fr.signChange Jᶜ) = toProj Q (fr.signChange J) := by
   rw [show Jᶜ = symmDiff Finset.univ J by ext i; simp [Finset.mem_symmDiff],
@@ -96,7 +97,7 @@ theorem ffPermStar_apply (hQ : Q.Nondegenerate) (fr : NFrame Q (Fin 6) 1)
   rfl
 
 theorem ffPermStar_conj (hQ : Q.Nondegenerate) (fr : NFrame Q (Fin 6) 1)
-    (σ : alternatingGroup (Fin 6)) {J : Finset (Fin 6)} (hJ : Even J.card)
+    (σ : alternatingGroup (Fin 6)) {J : Finset (Fin 6)} (_hJ : Even J.card)
     (h₁ : fr.signChange J ∈ omegaGroup hQ)
     (h₂ : fr.signChange (J.map (σ : Equiv.Perm (Fin 6)).toEmbedding) ∈ omegaGroup hQ) :
     ffPermStar hQ fr σ * omegaToProj hQ ⟨fr.signChange J, h₁⟩ * (ffPermStar hQ fr σ)⁻¹ =
@@ -119,8 +120,8 @@ private theorem ffPermStar_conj_mem (hQ : Q.Nondegenerate) (fr : NFrame Q (Fin 6
     ⟨⟨fr.signChange (J.map (σ : Equiv.Perm (Fin 6)).toEmbedding), hJmapω⟩,
       signChange_mem_ffB0 fr (by rw [Finset.card_map]; exact hJe), rfl⟩
 
-theorem ffPermStar_mem_normalizer (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V = 6)
-    (hsgn : quadSign Q = -1) (fr : NFrame Q (Fin 6) 1) (σ : alternatingGroup (Fin 6)) :
+theorem ffPermStar_mem_normalizer (hQ : Q.Nondegenerate) (_hdim : Module.finrank (ZMod 3) V = 6)
+    (_hsgn : quadSign Q = -1) (fr : NFrame Q (Fin 6) 1) (σ : alternatingGroup (Fin 6)) :
     ffPermStar hQ fr σ ∈
       Subgroup.normalizer ((ffB1 hQ fr : Subgroup ↥(omegaProj hQ)) : Set ↥(omegaProj hQ)) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -326,7 +327,7 @@ theorem ff_star_autIn_eq_range (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZM
       rfl
     have hcc : omegaToProj hQ ⟨fr.signChange K, hKω⟩ * b =
         b * omegaToProj hQ ⟨fr.signChange K, hKω⟩ := by
-      haveI : IsMulCommutative ↥(ffB1 hQ fr) := (ffB1_elemAb2 hQ hdim hsgn fr).1.1
+      have : IsMulCommutative ↥(ffB1 hQ fr) := (ffB1_elemAb2 hQ hdim hsgn fr).1.1
       exact congrArg Subtype.val (mul_comm' (⟨_, hcB⟩ : ↥(ffB1 hQ fr)) b)
     rw [hn_split]
     have hkey : (ffPermStar hQ fr ⟨σ, hσ⟩ * omegaToProj hQ ⟨fr.signChange K, hKω⟩) * b *

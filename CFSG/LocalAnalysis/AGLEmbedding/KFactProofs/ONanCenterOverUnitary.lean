@@ -89,7 +89,7 @@ theorem eq_top_or_card_eq_psu {K' : Type} [Field K'] [Finite K'] (J : HermitianF
         exact x.2
       have hSe := Subgroup.equivMapOfInjective (Q₀ : Subgroup Y') Y'.subtype hinj
       have hSp : IsPGroup p S :=
-        Q₀.isPGroup'.of_surjective hSe.toMonoidHom hSe.surjective
+        Q₀.isPGroup.of_surjective hSe.toMonoidHom hSe.surjective
       have hSc : Nat.card S = Nat.card Q₀ := (Subgroup.card_map_of_injective hinj)
       have := h S hSle hSp
       rwa [hSc, hQ₀, hY'Y, hv, ← hTcard] at this

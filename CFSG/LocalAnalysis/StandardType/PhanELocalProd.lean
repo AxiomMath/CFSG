@@ -44,7 +44,7 @@ private theorem plp_isGallery_liftInl {X : ChamberSystem I C} {Y : ChamberSystem
     intro hγ
     exact ⟨⟨hγ.1, rfl⟩, ih hγ.2⟩
 
-private theorem plp_galleryEnd_liftInl {X : ChamberSystem I C} {Y : ChamberSystem J D}
+private theorem plp_galleryEnd_liftInl {_X : ChamberSystem I C} {_Y : ChamberSystem J D}
     {A : Set C} {B : Set D} {b : D} (hb : b ∈ B) (x : A) (γ : List (I × A)) :
     galleryEnd (⟨(x.1, b), Set.mem_prod.mpr ⟨x.2, hb⟩⟩ : ↥(A ×ˢ B))
         (γ.map fun p => ((Sum.inl p.1 : I ⊕ J),
@@ -68,7 +68,7 @@ private theorem plp_isGallery_liftInr {X : ChamberSystem I C} {Y : ChamberSystem
     intro hγ
     exact ⟨⟨rfl, hγ.1⟩, ih hγ.2⟩
 
-private theorem plp_galleryEnd_liftInr {X : ChamberSystem I C} {Y : ChamberSystem J D}
+private theorem plp_galleryEnd_liftInr {_X : ChamberSystem I C} {_Y : ChamberSystem J D}
     {A : Set C} {B : Set D} {c : C} (hc : c ∈ A) (y : B) (γ : List (J × B)) :
     galleryEnd (⟨(c, y.1), Set.mem_prod.mpr ⟨hc, y.2⟩⟩ : ↥(A ×ˢ B))
         (γ.map fun p => ((Sum.inr p.1 : I ⊕ J),
@@ -95,11 +95,11 @@ theorem connected_prod_restrict {X : ChamberSystem I C} {Y : ChamberSystem J D} 
     η.map fun p => ((Sum.inr p.1 : I ⊕ J),
       (⟨(y.1.1, p.2.1), Set.mem_prod.mpr ⟨hyA, p.2.2⟩⟩ : ↥(A ×ˢ B)))
   have hg : galleryEnd x γ' = ⟨(y.1.1, x.1.2), Set.mem_prod.mpr ⟨hyA, hxB⟩⟩ := by
-    simpa [γ', hendγ] using plp_galleryEnd_liftInl (X := X) (Y := Y) (A := A) (B := B)
+    simpa [γ', hendγ] using plp_galleryEnd_liftInl (_X := X) (_Y := Y) (A := A) (B := B)
       (b := x.1.2) hxB ⟨x.1.1, hxA⟩ γ
   have hη'end : galleryEnd (galleryEnd x γ') η' = y := by
     rw [hg]
-    simpa [η', hendη] using plp_galleryEnd_liftInr (X := X) (Y := Y) (A := A) (B := B)
+    simpa [η', hendη] using plp_galleryEnd_liftInr (_X := X) (_Y := Y) (A := A) (B := B)
       (c := y.1.1) hyA ⟨x.1.2, hxB⟩ η
   refine ⟨γ' ++ η', ?_, ?_⟩
   · rw [isGallery_append]

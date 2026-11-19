@@ -33,7 +33,7 @@ theorem alt_factorization_two_ne (n : ℕ) :
       exact absurd (h2.trans hdvd) (by norm_num)
     · push Not at hn
       have h2 : 2 ^ 14 ∣ Nat.card (alternatingGroup (Fin n)) := by
-        haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
+        have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
         rw [nat_card_alternatingGroup, Nat.card_eq_fintype_card, Fintype.card_fin]
         have h15 : 2 ^ 15 ∣ Nat.factorial n :=
           dvd_trans (by norm_num : 2 ^ 15 ∣ Nat.factorial 16)
@@ -52,7 +52,7 @@ theorem alt_factorization_two_ne (n : ℕ) :
       exact absurd (h2.trans hdvd) (by norm_num)
     · push Not at hn
       have h2 : 2 ^ 14 ∣ Nat.card (alternatingGroup (Fin n)) := by
-        haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
+        have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
         rw [nat_card_alternatingGroup, Nat.card_eq_fintype_card, Fintype.card_fin]
         have h15 : 2 ^ 15 ∣ Nat.factorial n :=
           dvd_trans (by norm_num : 2 ^ 15 ∣ Nat.factorial 16)

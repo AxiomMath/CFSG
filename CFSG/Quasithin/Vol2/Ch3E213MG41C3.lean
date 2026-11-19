@@ -179,7 +179,7 @@ theorem exists_benderType_pair [Finite k]
       have hle : Subgroup.zpowers (rhoP hvw x) ≤
           borel (Q : Subgroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) k)) :=
         Subgroup.zpowers_le.mpr (hJQ hxJ)
-      have hmax := Q.maximal_isPGroup.eq_of_ge (hzp.to_sup_of_normal_right' Q.isPGroup' hle)
+      have hmax := Q.maximal_isPGroup.eq_of_ge (hzp.to_sup_of_normal_right' Q.isPGroup hle)
         le_sup_right
       exact (sup_eq_right.mp hmax) (Subgroup.mem_zpowers _)
     set xv : fixPerp v w := ⟨trv v 1, trv_mem_fixPerp_left v w 1⟩
@@ -191,7 +191,7 @@ theorem exists_benderType_pair [Finite k]
     have hprod : rhoP hvw (xv * xw) ∈ (Q : Subgroup _) := by
       rw [map_mul]
       exact (Q : Subgroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) k)).mul_mem hxv hxw
-    obtain ⟨j, hj⟩ := Q.isPGroup' ⟨_, hprod⟩
+    obtain ⟨j, hj⟩ := Q.isPGroup ⟨_, hprod⟩
     have h2 : rhoP hvw ((xv * xw) ^ 2 ^ j) = rhoP hvw 1 := by
       rw [map_pow, map_one]
       simpa using congrArg Subtype.val hj

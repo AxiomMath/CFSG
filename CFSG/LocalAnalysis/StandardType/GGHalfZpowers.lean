@@ -66,7 +66,7 @@ private theorem zpowers_data :
   have R4y : hElt φ₂ * (x ^ i * vElt φ₁ ^ j) * (hElt φ₂)⁻¹ = x ^ i * vElt φ₁ ^ j := by
     rw [← hy]; exact h.h_y
   have R3w : endT₂ φ₂ * (x ^ a * vElt φ₁ ^ b) * (endT₂ φ₂)⁻¹ = (x ^ a * vElt φ₁ ^ b)⁻¹ := by
-    rw [← hw]; exact h.sk_w
+    rw [← hw]; exact CFSG.StandardType.GGHalfCtx.sk_w
   have R4u : hElt φ₂ * uElt φ₂ * (hElt φ₂)⁻¹ = x ^ a * vElt φ₁ ^ b := by
     rw [← hw]; exact h.h_u
   have R4w : hElt φ₂ * (x ^ a * vElt φ₁ ^ b) * (hElt φ₂)⁻¹ = uElt φ₂ := by
@@ -76,7 +76,7 @@ private theorem zpowers_data :
     (i := i) (j := j) (a := a) (b := b)
     hcomm hexp hNoTr hxB h.vElt_mem h.uElt_mem (fun p' q' r' hpqr => h.independent hpqr)
     h.zSet_le h.bs_le_closure h.s0_mem_normalizer (h.gElt_mem_normalizer hm) h.sk_mem_normalizer
-    (h.hElt_mem_normalizer hm) h.zSet_fix h.s0_x h.s0_u h.s0_v h.g_x h.g_v h.g_u
+    (h.hElt_mem_normalizer hm) h.zSet_fix h.s0_x h.s0_u CFSG.StandardType.GGHalfCtx.s0_v h.g_x h.g_v h.g_u
     R3y h.sk_u R3w R4y R4u R4w hj hD
   have h3a : ¬ (3 : ℤ) ∣ a := by
     intro ha

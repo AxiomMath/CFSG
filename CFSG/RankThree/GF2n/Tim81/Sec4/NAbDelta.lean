@@ -41,6 +41,7 @@ theorem inf_centralizer_eq_bot (h : RootHyp M V) (hPH : Pc M V ≤ H) {h₀ : G}
   rw [RootHyp.conjSubgroup_inf_Pc_eq_bot h hH hnM] at hxbot
   exact hxbot
 
+omit [Finite G] in
 private theorem inf_sup_eq_left_of_le_of_comm {A B C : Subgroup G}
     (hA : A ≤ C) (hcomm : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a)
     (hbot : B ⊓ C = ⊥) :
@@ -175,7 +176,7 @@ private theorem fixedSub_top_subRepW_eq_bot
     {F : Type} [Field F] [Fintype F] [CharP F 2] (ψ : HBar V H ≃* SL(2, F)) :
     fixedSub (subRepW hW ψ hNW hNH) ⊤ = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let ρ : Representation (ZMod 2) SL(2, F) (subW hW N) := subRepW hW ψ hNW hNH
   have hmap := fixedSub_subRepW hW ψ hNW hNH (S := H) le_rfl
   rw [imgK_self] at hmap
@@ -212,7 +213,7 @@ private theorem mem_W0_of_mem_sup_zpowers
     {v : G} (hv : v ∈ V) (hvN : v ∈ N) :
     v ∈ W₀ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set P : Subgroup G := Pc M V with hPdef
   set S : Subgroup SL(2, F) := (imgK V H (Pc M V)).map ψ with hSdef
   have hSodd : Odd S.index := by
@@ -285,7 +286,7 @@ theorem mem_of_mul_mem_W0_of_mem_inf_conj
     (hvd : v * d ∈ W₀) :
     v ∈ W₀ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hvW : v ∈ Tim79a.xOf V H := le_xOf_self V H hv
   have hdW : d ∈ Tim79a.xOf V H := by
     have h1 : v⁻¹ * (v * d) ∈ Tim79a.xOf V H :=
@@ -352,7 +353,7 @@ theorem inf_sup_Pc_W0_eq
       (le_inf (inf_le_left.trans le_sup_right) inf_le_right)
 
 private theorem commute_sup_V_D
-    {hW : Assembly.IsElemAbelian 2 (Tim79a.xOf V H)}
+    {_hW : Assembly.IsElemAbelian 2 (Tim79a.xOf V H)}
     (h : RootHyp M V) (hPH : Pc M V ≤ H)
     (hVH : V ≤ inSubgroup (pCore 2) H) {y : G} (hyH : y ∈ H)
     {D : Subgroup G} (hD : D = Pc M V ⊓ conjSubgroup y (Pc M V)) :
@@ -393,7 +394,7 @@ private theorem commute_sup_V_D
     _ = b * (v * d) := by group
 
 private theorem commute_sup_conj_V_D
-    {hW : Assembly.IsElemAbelian 2 (Tim79a.xOf V H)}
+    {_hW : Assembly.IsElemAbelian 2 (Tim79a.xOf V H)}
     (h : RootHyp M V) (hPH : Pc M V ≤ H)
     (hVH : V ≤ inSubgroup (pCore 2) H) {y : G} (hyH : y ∈ H)
     {D : Subgroup G} (hD : D = Pc M V ⊓ conjSubgroup y (Pc M V)) :
@@ -464,7 +465,7 @@ theorem inf_Pc_W0_eq_sup
     have hK'_le_R : ⁅kOf V H, kOf V H⁆ ≤ V ⊔ D ⊔ conjSubgroup y V :=
       RootHyp.commutator_kOf_le_sup h hPH hHy hnM hKy
     have hpR : p ∈ V ⊔ D ⊔ conjSubgroup y V := hK'_le_R hpK'
-    have hcommVD := commute_sup_V_D (hW := hW) h hPH hVH hyH hD
+    have hcommVD := commute_sup_V_D (_hW := hW) h hPH hVH hyH hD
     have hPR : Pc M V ⊓ (V ⊔ D ⊔ conjSubgroup y V) = V ⊔ D :=
       inf_sup_eq_left_of_le_of_comm (A := V ⊔ D) (B := conjSubgroup y V) (C := Pc M V)
         (sup_le h.toHyp.le_Pc inf_le_left) hcommVD
@@ -480,6 +481,7 @@ theorem inf_Pc_W0_eq_sup
       (le_inf (inf_le_left.trans inf_le_left) inf_le_right)
 
 
+omit [Finite G] in
 private theorem sup_conj_inv_eq_of_eq_sup {y : G} (hyH : y ∈ H)
     (hHy : H = Pc M V ⊔ conjSubgroup y (Pc M V)) :
     H = Pc M V ⊔ conjSubgroup y⁻¹ (Pc M V) := by
@@ -488,6 +490,7 @@ private theorem sup_conj_inv_eq_of_eq_sup {y : G} (hyH : y ∈ H)
     conjSubgroup_sup_eq_sup, conjSubgroup_conjSubgroup, inv_mul_cancel, conjSubgroup_one] at h
   exact h.trans (sup_comm _ _)
 
+omit [Finite G] in
 private theorem KFactorization_inv {y : G} (hyH : y ∈ H)
     (hKy : KFactorization M V H y) : KFactorization M V H y⁻¹ := by
   have h := congrArg (conjSubgroup y⁻¹) hKy
@@ -625,7 +628,7 @@ theorem inf_conj_Pc_W0_eq_sup
     have hK'_le_R : ⁅kOf V H, kOf V H⁆ ≤ V ⊔ D ⊔ conjSubgroup y V :=
       RootHyp.commutator_kOf_le_sup h hPH hHy hnM hKy
     have hpR : p ∈ V ⊔ D ⊔ conjSubgroup y V := hK'_le_R hpK'
-    have hcomm := commute_sup_conj_V_D (hW := hW) h hPH hVH hyH hD
+    have hcomm := commute_sup_conj_V_D (_hW := hW) h hPH hVH hyH hD
     have hR : V ⊔ D ⊔ conjSubgroup y V = (conjSubgroup y V ⊔ D) ⊔ V := by ac_rfl
     have hPR : conjSubgroup y (Pc M V) ⊓ (V ⊔ D ⊔ conjSubgroup y V) =
         conjSubgroup y V ⊔ D := by

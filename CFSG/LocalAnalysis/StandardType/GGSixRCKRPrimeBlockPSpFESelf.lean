@@ -31,14 +31,14 @@ theorem rckRP_flaggedModel_PSp_fieldExtSelf
   obtain ⟨K, hKf, hKa, hKfin, l, W, hWac, hWF, hWK, hTower, hWfd, σ, β, eW, φ,
     hdeg', hK, hσ2, hσ1, hfixF, hβs, hβn, hφinj, hφiso, hφsurj, hact, htrace, horth⟩ :=
     exists_blockAction_selfDual_PSp (F := GaloisField 2 f) hc hSU hS hodd he hadj hdeg
-  letI : Field K := hKf
-  letI : Algebra (GaloisField 2 f) K := hKa
-  letI : Finite K := hKfin
-  letI : AddCommGroup W := hWac
-  letI : Module (GaloisField 2 f) W := hWF
-  letI : Module K W := hWK
-  letI : IsScalarTower (GaloisField 2 f) K W := hTower
-  letI : FiniteDimensional K W := hWfd
+  let : Field K := hKf
+  let : Algebra (GaloisField 2 f) K := hKa
+  let : Finite K := hKfin
+  let : AddCommGroup W := hWac
+  let : Module (GaloisField 2 f) W := hWF
+  let : Module K W := hWK
+  let : IsScalarTower (GaloisField 2 f) K W := hTower
+  let : FiniteDimensional K W := hWfd
   have hl : 2 ≤ l := by omega
   have hq : 2 ≤ l * f := by
     calc 2 = 2 * 1 := by norm_num
@@ -52,7 +52,7 @@ theorem rckRP_flaggedModel_PSp_fieldExtSelf
   intro b hb
   simp only [spForm, Option.mem_def, Option.some.injEq] at hb
   subst b
-  exact ⟨fun m₁ m₂ m => by simpa only [add_dotProduct], horth, htrace, hfixF⟩
+  exact ⟨fun m₁ m₂ m => by simp only [add_dotProduct], horth, htrace, hfixF⟩
 
 theorem rckRP_modelBig_PSp_fieldExtSelf
     (n f : ℕ) (hf : 1 ≤ f) (S : Set (GL (Fin n ⊕ Fin n) (GaloisField 2 f)))
@@ -72,14 +72,14 @@ theorem rckRP_modelBig_PSp_fieldExtSelf
   obtain ⟨K, hKf, hKa, hKfin, l, W, hWac, hWF, hWK, hTower, hWfd, σ, β, eW, φ,
     hdeg', hK, hσ2, hσ1, hfixF, hβs, hβn, hφinj, hφiso, hφsurj, hact, htrace, horth⟩ :=
     exists_blockAction_selfDual_PSp (F := GaloisField 2 f) hc hSU hS hodd he hadj hdeg
-  letI : Field K := hKf
-  letI : Algebra (GaloisField 2 f) K := hKa
-  letI : Finite K := hKfin
-  letI : AddCommGroup W := hWac
-  letI : Module (GaloisField 2 f) W := hWF
-  letI : Module K W := hWK
-  letI : IsScalarTower (GaloisField 2 f) K W := hTower
-  letI : FiniteDimensional K W := hWfd
+  let : Field K := hKf
+  let : Algebra (GaloisField 2 f) K := hKa
+  let : Finite K := hKfin
+  let : AddCommGroup W := hWac
+  let : Module (GaloisField 2 f) W := hWF
+  let : Module K W := hWK
+  let : IsScalarTower (GaloisField 2 f) K W := hTower
+  let : FiniteDimensional K W := hWfd
   have hl : 2 ≤ l := by omega
   have hq : 2 ≤ l * f := by
     calc 2 = 2 * 1 := by norm_num
@@ -94,7 +94,7 @@ theorem rckRP_modelBig_PSp_fieldExtSelf
         intro b hb
         simp only [spForm, Option.mem_def, Option.some.injEq] at hb
         subst b
-        exact ⟨fun m₁ m₂ m => by simpa only [add_dotProduct], horth, htrace, hfixF⟩)
+        exact ⟨fun m₁ m₂ m => by simp only [add_dotProduct], horth, htrace, hfixF⟩)
   refine ⟨t, k, l * f, κ, hnorm, by rcases ht with rfl | rfl <;> simp, hrange, hcent,
     fun γ hγ hlong => ?_⟩
   rw [hcard γ hγ hlong]

@@ -16,14 +16,14 @@ theorem sylow_le_threeFourCore {Y : Type} [Group Y] [Finite Y] {p : ℕ}
     (hE : CFSG.Open.IsElemAbelian p E) (hEc : Nat.card E = p ^ 2) :
     (R : Subgroup Y) ≤ if 3 ≤ CFSG.pRank p (R : Subgroup Y) then
       CFSG.Open.GLBWeakCore p (R : Subgroup Y) else CFSG.Open.GLBCore p 1 E := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   split_ifs with h3
   · rw [CFSG.SectionRank.pRank_coe_eq_openPRank] at h3
     exact CFSG.PreuniquenessRankFour.Helpers.subgroup_le_weakCore_of_rank p hp _ h3
   · rw [CFSG.SectionRank.pRank_coe_eq_openPRank] at h3
     have hpR : p ∣ Nat.card (R : Subgroup Y) :=
       (dvd_pow_self p two_ne_zero).trans (by rw [← hEc]; exact card_dvd_of_le hER)
-    haveI : Group.IsNilpotent (R : Subgroup Y) := R.isPGroup'.isNilpotent
+    have : Group.IsNilpotent (R : Subgroup Y) := R.isPGroup.isNilpotent
     obtain ⟨x, hx⟩ :=
       exists_prime_orderOf_dvd_card' p (Group.IsNilpotent.prime_dvd_card_center hpR)
     set z : Y := ((x : (R : Subgroup Y)) : Y) with hz
@@ -47,8 +47,8 @@ theorem sylow_le_threeFourCore {Y : Type} [Group Y] [Finite Y] {p : ℕ}
 theorem kFactThreeFourOne_of_signalizerThree (h : KFactNineThreeSignalizerThree) :
     KFactThreeFourOne := by
   intro p Y _ _ K Y₀ E J R hp hp2 hp3 hKn hL _ _ _ hER hE hEc hcore _ hJs hJ3
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := hKn
+  have : Fact p.Prime := ⟨hp⟩
+  have := hKn
   have hRY₀ : (R : Subgroup Y) ≤ Y₀ := (sylow_le_threeFourCore hp R hER hE hEc).trans hcore
   set θ : Y →* MulAut K := MulAut.conjNormal with hθ
   have hθker : ∀ y : Y, θ y = 1 ↔ y ∈ centralizer (K : Set Y) := by

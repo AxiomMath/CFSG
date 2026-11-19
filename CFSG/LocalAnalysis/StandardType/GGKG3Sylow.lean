@@ -147,7 +147,7 @@ theorem k3a_sylow
     hE7.of_equiv (Subgroup.subgroupOfEquivOfLe hEΓ).symm
   have heq : S.E.subgroupOf S.Γ = (S₀ : Subgroup S.Γ) :=
     S₀.maximal_isPGroup.eq_of_ge hE7' hS0_le_E
-  haveI hfin : Finite S.Γ := by
+  have hfin : Finite S.Γ := by
     have hΓmodel : S.Γ ≤ S.D.model := kg3_commutator_self_le_self S.D.model
     have h := S.finite
     exact Finite.of_injective (Subgroup.inclusion hΓmodel) (Subgroup.inclusion_injective hΓmodel)
@@ -156,7 +156,7 @@ theorem k3a_sylow
       (Nat.card_congr (Subgroup.subgroupOfEquivOfLe hEΓ).toEquiv).symm
     have h2 : Nat.card (S.E.subgroupOf S.Γ) = Nat.card S₀ := by rw [heq]
     have h3 : Nat.card S₀ = 7 ^ (Nat.card S.Γ).factorization 7 := by
-      haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+      have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
       exact Sylow.card_eq_multiplicity S₀
     exact h1.trans (h2.trans (h3.trans hord))
   exact ⟨hcardE, S₀, heq.symm⟩

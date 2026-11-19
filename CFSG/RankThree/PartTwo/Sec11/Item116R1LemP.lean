@@ -74,8 +74,8 @@ theorem lemPc_card_quot_le {G : Type*} [Group G] [Finite G] {p : ℕ} (hp : 0 < 
 
 theorem lemPc_frattini_eq_bot {Q : Type*} [Group Q] [Finite Q] {p : ℕ} (hp : p.Prime)
     (hc : ∀ a b : Q, a * b = b * a) (hexp : ∀ x : Q, x ^ p = 1) : frattini Q = ⊥ := by
-  letI : CommGroup Q := { ‹Group Q› with mul_comm := hc }
-  haveI : Finite (Subgroup Q) :=
+  let : CommGroup Q := { ‹Group Q› with mul_comm := hc }
+  have : Finite (Subgroup Q) :=
     Finite.of_injective (fun H : Subgroup Q => (H : Set Q)) SetLike.coe_injective
   rw [eq_bot_iff]
   intro v hv
@@ -142,8 +142,8 @@ theorem lemPc_mem_frattini {G : Type*} [Group G] (x : G)
 theorem lemPc_coatom {P : Type} [Group P] [Finite P] {p : ℕ} [Fact p.Prime] (hP : IsPGroup p P)
     (K : Subgroup P) (hK : IsCoatom K) :
     (∀ x : P, x ^ p ∈ K) ∧ (∀ x y : P, x * y * x⁻¹ * y⁻¹ ∈ K) := by
-  haveI : Group.IsNilpotent P := IsPGroup.isNilpotent hP
-  haveI : K.Normal := Group.normalizerCondition_of_isNilpotent.normal_of_coatom K hK
+  have : Group.IsNilpotent P := IsPGroup.isNilpotent hP
+  have : K.Normal := Group.normalizerCondition_of_isNilpotent.normal_of_coatom K hK
   have hidx : K.index = p := (IsPGroup.isCoatom_iff_index_eq_prime hP).mp hK
   have hcard : Nat.card (P ⧸ K) = p := by rw [← Subgroup.index_eq_card, hidx]
   refine ⟨fun x => ?_, fun x y => ?_⟩
@@ -152,9 +152,9 @@ theorem lemPc_coatom {P : Type} [Group P] [Finite P] {p : ℕ} [Fact p.Prime] (h
       rwa [hcard] at h2
     rw [← QuotientGroup.mk_pow, QuotientGroup.eq_one_iff] at h1
     exact h1
-  · haveI : IsCyclic (P ⧸ K) := isCyclic_of_prime_card hcard
+  · have : IsCyclic (P ⧸ K) := isCyclic_of_prime_card hcard
     have hcomm : ∀ a b : P ⧸ K, a * b = b * a := by
-      letI : CommGroup (P ⧸ K) := IsCyclic.commGroup
+      let : CommGroup (P ⧸ K) := IsCyclic.commGroup
       exact mul_comm
     have hxy := hcomm ((x⁻¹ : P) : P ⧸ K) ((y⁻¹ : P) : P ⧸ K)
     rw [← QuotientGroup.mk_mul, ← QuotientGroup.mk_mul, QuotientGroup.eq] at hxy
@@ -165,7 +165,7 @@ theorem lemPc_coatom {P : Type} [Group P] [Finite P] {p : ℕ} [Fact p.Prime] (h
 theorem exists_elemAbelian_of_irreducible (hB : KFacts.BlackburnRankTwo) {p : ℕ} [Fact p.Prime]
     (hp : 5 ≤ p) {P : Type} [Group P] [Finite P] (hP : IsPGroup p P) (M : Subgroup P) [M.Normal]
     (hpow : ∀ x : P, x ^ p ∈ M) (hcomm : ∀ x y : P, x * y * x⁻¹ * y⁻¹ ∈ M)
-    (hidx : M.index = p ^ 3) (h : P ≃* P) (hM : M.map h.toMonoidHom = M)
+    (hidx : M.index = p ^ 3) (h : P ≃* P) (_hM : M.map h.toMonoidHom = M)
     (hirr : ∀ N : Subgroup P, M ≤ N → N.map h.toMonoidHom = N → N = M ∨ N = ⊤) :
     ∃ E : Subgroup P, CFSG.Assembly.IsElemAbelian p E ∧ p ^ 3 ≤ Nat.card E := by
   by_contra hno
@@ -211,7 +211,7 @@ theorem exists_elemAbelian_of_irreducible (hB : KFacts.BlackburnRankTwo) {p : �
     rw [Subgroup.mem_comap, Subgroup.mem_bot] at hx'
     exact (QuotientGroup.eq_one_iff x).mp hx'
   have hMF : M ≤ frattini P := by
-    haveI : (frattini P).Normal := inferInstance
+    have : (frattini P).Normal := inferInstance
     have hrel1 : (frattini P).relIndex M = 1 := by
       have hcount := lemPc_card_quot_le hp0 (frattini P) hF_pow hF_comm hs3gen
       rw [← Subgroup.index_eq_card] at hcount

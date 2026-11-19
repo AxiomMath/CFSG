@@ -24,6 +24,7 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2] {n : ℕ} {L : Type} [Field
 
 variable [NeZero n] [Module.Finite K L]
 
+omit [Finite K] [CharP K 2] [NeZero n] [Module.Finite K L] in
 private theorem zeroSet_add_eq {i₀ : Fin F.s} {c d' : Fin F.s → ZMod 3}
     (hc : ∀ i, c i ≠ 0 ↔ i = i₀) (hd'0 : d' i₀ = 0) :
     F.zeroSet (c + d') = Finset.univ.filter fun i => i ≠ i₀ ∧ d' i = 0 := by
@@ -45,6 +46,7 @@ private theorem zeroSet_add_eq {i₀ : Fin F.s} {c d' : Fin F.s → ZMod 3}
     rw [Pi.add_apply, hci, zero_add]
     exact ⟨fun h => ⟨hi, h⟩, fun h => h.2⟩
 
+omit [Finite K] [CharP K 2] [NeZero n] [Module.Finite K L] in
 private theorem independent_of_single {i₀ : Fin F.s} {c d' : Fin F.s → ZMod 3}
     (hc : ∀ i, c i ≠ 0 ↔ i = i₀) (hd'0 : d' i₀ = 0) (hd' : d' ≠ 0) :
     ∀ α β : ZMod 3, α • c + β • d' = 0 → α = 0 ∧ β = 0 := by

@@ -36,7 +36,7 @@ theorem exists_specialLinear_conj_eq_of_det_ne_zero {K : Type*} [Field K] [Finit
     rw [hsdet]
     exact isUnit_one
   have hMinv : M⁻¹ = μ⁻¹ • (s : Matrix (Fin 2) (Fin 2) K)⁻¹ := by
-    letI : Invertible μ := invertibleOfNonzero hμ0
+    let : Invertible μ := invertibleOfNonzero hμ0
     rw [hMs]
     simpa using Matrix.inv_smul ((s : Matrix (Fin 2) (Fin 2) K)) μ hsunit
   refine ⟨s, μ, hμ0, hMs, fun A => ?_⟩

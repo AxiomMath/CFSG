@@ -125,7 +125,7 @@ theorem Sit.card_Lx_ge {X : Subgroup G} {x : G} (hs : Sit M Q Z X x) {n : ℕ}
   obtain ⟨g, hg, hQB, hN⟩ := hs.QB_eq
   obtain ⟨z, hz, hz1⟩ : ∃ z ∈ Z, z ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hsub : Subsingleton ↥Z :=
       ⟨fun a b => Subtype.ext (by rw [hcon (a : G) a.2, hcon (b : G) b.2])⟩
     have h1 : Nat.card ↥Z = 1 := Nat.card_eq_one_iff_unique.mpr ⟨hsub, ⟨1⟩⟩

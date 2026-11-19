@@ -40,7 +40,7 @@ theorem sec1011_phiA_coe (hs : Sec1011Setup t L S z φ) {v : Fin 5 → ZMod 2} (
     ((sec1011_phiA t S L φ v : ↥(secA t S L)) : G) = φ v := by
   have hmem : φ v ∈ secA t S L := sec1011_B_le_A t S L (sec1011_phi_mem_B hs hv)
   unfold sec1011_phiA
-  rw [dif_pos hmem]
+  rw [dite_eq_left hmem]
 
 theorem sec1011_B_comm (hs : Sec1011Setup t L S z φ) :
     ∀ a ∈ secB S L, ∀ b ∈ secB S L, a * b = b * a := by

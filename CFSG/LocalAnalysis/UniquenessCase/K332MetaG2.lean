@@ -249,7 +249,7 @@ theorem sylowCenterLeOmegaComm_projSU_three_three (X : Type) [Group X] [Finite X
           simpa using this
         exact hxy (by rw [hx1]; simp)
       · have hcard3 : Nat.card P = 3 := by simpa using hn
-        haveI : IsCyclic ↥P := isCyclic_of_prime_card hcard3
+        have : IsCyclic ↥P := isCyclic_of_prime_card hcard3
         exact hncP (inferInstance : IsMulCommutative ↥P)
       · have hcard9 : Nat.card P = 3 ^ 2 := by simpa using hn
         exact hncP (IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3) hcard9)
@@ -296,7 +296,7 @@ theorem sylowCenterLeOmegaComm_projSU_three_three (X : Type) [Group X] [Finite X
   have hZ : Nat.card (Subgroup.center ↥(T : Subgroup X)) = 3 :=
     CFSG.LocalAnalysis.RankThreeTheoremC.Generic49U3.card_center_of_nonabelian_card_p_cube
       hTcard hnc
-  have hcomm := center_le_commutator_of_card_center_eq_prime T.isPGroup' hnc hZ hz
+  have hcomm := center_le_commutator_of_card_center_eq_prime T.isPGroup hnc hZ hz
   simpa [hΩT, commutator_def] using hcomm
 
 section Certified
@@ -391,7 +391,7 @@ theorem K332_sylowOmegaCLC_adjointG2_of_three_dvd_add_one (K : Type) [Field K] [
   obtain ⟨K₂, _, _, _, hK₂⟩ : ∃ (K₂ : Type) (_ : Field K₂) (_ : Finite K₂) (_ : Algebra K K₂),
       Nat.card K₂ = Nat.card K ^ 2 := by
     have hp : (ringChar K).Prime := CharP.char_is_prime K (ringChar K)
-    haveI : Fact (ringChar K).Prime := ⟨hp⟩
+    have : Fact (ringChar K).Prime := ⟨hp⟩
     exact ⟨FiniteField.Extension K (ringChar K) 2, inferInstance, inferInstance, inferInstance,
       FiniteField.natCard_extension K (ringChar K) 2⟩
   have h₂ : 3 ∣ Nat.card K₂ - 1 := by
@@ -408,7 +408,7 @@ theorem K332_sylowOmegaCLC_adjointG2_of_three_dvd_add_one (K : Type) [Field K] [
 
 theorem sylowCenterLeOmegaComm_g2_char3 {X : Type} [Group X] [Finite X] {n : ℕ}
     (h : UntwistedChevalleyModel X .G2 (3 ^ n)) : SylowCenterLeOmegaComm X := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro T
   obtain ⟨F, _, _, hF, ⟨e⟩⟩ := exists_mulEquiv_sylow_G2 Nat.prime_three h T
   have hchar : CharP F 3 := charP_of_natCard_eq_pow Nat.prime_three hF

@@ -97,14 +97,14 @@ theorem incomplete_abelian_hall_product_weak_closure_sylow (fixedActor kernel : 
   obtain ⟨localSylow, coreTarget_localSylow, localSylow_actor⟩ := normalized_pgroup_actor_sylow_containing prime kernelPrime
     datum.prime_prime kernelPrime_prime actor localParent coreTarget actor_prime local_normalized
     ((incomplete_hall_product_parent_coprime datum).of_dvd_right (Subgroup.card_dvd_of_le inf_le_left))
-    coreTarget_local (coreSylow.isPGroup'.map core.subtype) coreSylow_actor
+    coreTarget_local (coreSylow.isPGroup.map core.subtype) coreSylow_actor
   let target := (localSylow : Subgroup localParent).map localParent.subtype
   have intersection_equal : target ⊓ core = coreTarget := embedded_normal_sylow_intersection kernelPrime kernelPrime_prime
     localParent core coreSylow localSylow coreTarget_localSylow
   let enlarged := relativeWeakClosure parent kernel coreTarget
   have weak_enlarged : weak ≤ enlarged := weak_closed.symm.le.trans
     (relative_weak_closure_mono parent kernel weak coreTarget weak_coreSylow)
-  have enlarged_prime : IsPGroup kernelPrime enlarged := (coreSylow.isPGroup'.map core.subtype).to_le
+  have enlarged_prime : IsPGroup kernelPrime enlarged := (coreSylow.isPGroup.map core.subtype).to_le
     (relative_weak_closure_le parent kernel coreTarget)
   have enlarged_actor : actor ≤ Subgroup.normalizer (enlarged : Set GroupType) := relative_weak_closure_normalized
     actor parent kernel coreTarget datum.parent_normalized kernel_normalized coreSylow_actor

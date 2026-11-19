@@ -24,7 +24,7 @@ theorem sec5cb_not_two_invs [Finite G] {P : Subgroup G} (hP : IsCyclic ↥P) {a 
     (ha : a ∈ P) (hb : b ∈ P) (ha1 : a ≠ 1) (hb1 : b ≠ 1) (hab : a ≠ b) (ha2 : a * a = 1)
     (hb2 : b * b = 1) : False := by
   classical
-  haveI : Fintype ↥P := Fintype.ofFinite _
+  have : Fintype ↥P := Fintype.ofFinite _
   have hle := IsCyclic.card_pow_eq_one_le (α := ↥P) (n := 2) (by norm_num)
   refine absurd hle (not_le.mpr (Finset.two_lt_card_iff.mpr
     ⟨1, ⟨a, ha⟩, ⟨b, hb⟩, ?_, ?_, ?_, ?_, ?_, ?_⟩))
@@ -40,7 +40,7 @@ theorem sec5cb_not_mem_centralizer [Finite G] (h52a : Asc82Lemma52a) {r t : G}
     (hrt : r * t = t * r) (hne : r ≠ t) (hrc : r ∈ centralizer (L' : Set G)) :
     t ∉ centralizer (L' : Set G) := by
   intro htc
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let H : Subgroup G := centralizer (L' : Set G)
   have hQH : zpowers t ⊔ zpowers r ≤ H :=
     sup_le (Subgroup.zpowers_le.mpr htc) (Subgroup.zpowers_le.mpr hrc)
@@ -59,7 +59,7 @@ theorem sec5cb_not_mem_centralizer [Finite G] (h52a : Asc82Lemma52a) {r t : G}
   obtain ⟨P, hQP⟩ := hsub.exists_le_sylow
   have h52a' : ∀ P : Sylow 2 ↥H, IsCyclic (P : Subgroup ↥H) := h52a G r L' hS
   have hSyl : IsSylow2Of ((P : Subgroup ↥H).map H.subtype) H := isSylow2Of_map_sylow P
-  haveI : IsCyclic ↥((P : Subgroup ↥H).map H.subtype) := sec5_isCyclic_of_isSylow2Of h52a' hSyl
+  have : IsCyclic ↥((P : Subgroup ↥H).map H.subtype) := sec5_isCyclic_of_isSylow2Of h52a' hSyl
   have hmem : ∀ x ∈ zpowers t ⊔ zpowers r, x ∈ (P : Subgroup ↥H).map H.subtype := fun x hx =>
     Subgroup.mem_map.mpr ⟨⟨x, hQH hx⟩, hQP (Subgroup.mem_subgroupOf.mpr hx), rfl⟩
   have hsq : ∀ x : G, orderOf x = 2 → x * x = 1 := fun x hx => by

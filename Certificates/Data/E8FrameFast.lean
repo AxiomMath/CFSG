@@ -25,7 +25,7 @@ def gensCheckFast (_ : Unit := ()) : Bool :=
 theorem reflectArr_ofFn (i : Fin Tag.E8.rank) (v : Fin Tag.E8.rank → ℤ) :
     reflectArr i (Array.ofFn v) = Array.ofFn (reflect Tag.E8 i v) := by
   have hget : ∀ j : Fin Tag.E8.rank, (Array.ofFn v).getD j.val 0 = v j := fun j => by
-    simp [Array.getElem?_ofFn]
+    simp
   refine Array.ext (by simp [reflectArr]) fun k _ _ => ?_
   simp only [reflectArr, Array.getElem_modify, Array.getElem_ofFn, hget, reflect, Pi.sub_apply,
     Pi.smul_apply, smul_eq_mul, Pi.single_apply, Fin.ext_iff]

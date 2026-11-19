@@ -26,8 +26,8 @@ variable {G : Type} [Group G] [Finite G]
 theorem commute_of_mem_centralizerBar {P Q L : Subgroup G} {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hP : IsPGroup p P) (hQL : Q ≤ L) (hQP : Q ≤ P) {q c : G} (hq : q ∈ Q)
     (hc : c ∈ centralizerBar P L) : q * c = c * q := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcP : c ∈ P := (mem_centralizerBar_iff.mp hc).1
   have hqP : q ∈ P := hQP hq
   have hcommP : ⁅c, q⁆ ∈ P :=
@@ -70,7 +70,7 @@ theorem isCyclic_centralizerBar_of_pRank_le_three {P Q L : Subgroup G} {p : ℕ}
     (hQ2 : 2 ≤ CFSG.Open.pRank p Q) (hP3 : CFSG.Open.pRank p P ≤ 3)
     (hZ : ¬ p ∣ Nat.card (center (Bar2 L))) : IsCyclic (centralizerBar P L) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let C : Subgroup G := centralizerBar P L
   have hQPp : IsPGroup p Q := hP.to_le hQP
   have hQinfC : Q ⊓ C = ⊥ :=
@@ -78,7 +78,7 @@ theorem isCyclic_centralizerBar_of_pRank_le_three {P Q L : Subgroup G} {p : ℕ}
       (P := P) hp hp2 hQL hQPp hZ
   by_contra hnc
   have hCp : IsPGroup p C := hP.to_le (centralizerBar_le P L)
-  haveI : Fact (IsPGroup p ↥C) := ⟨hCp⟩
+  have : Fact (IsPGroup p ↥C) := ⟨hCp⟩
   obtain ⟨S, -, hScard, hSelem⟩ :=
     CFSG.lemma_4_5_a (R := ↥C) (p := p) hp2 hnc
   let F : Subgroup G := S.map C.subtype
@@ -109,7 +109,7 @@ theorem inf_eq_bot_of_isCyclic_of_rankThreeGamma_le {M Q Y : Subgroup G} {p : �
     (hYp : IsPGroup p Y) (hYc : IsCyclic Y) (hΓ : rankThreeGamma 1 p Q ≤ M)
     (hYN : ¬ normalizer (Y : Set G) ≤ M) : Y ⊓ Q = ⊥ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hne
   have hYne : Y ≠ ⊥ := by
     intro hbot
@@ -136,7 +136,7 @@ theorem inf_eq_bot_of_isCyclic_of_rankThreeGamma_le {M Q Y : Subgroup G} {p : �
   let ΩY : Subgroup ↥Y := CFSG.omega₁ (G := ↥Y) (p := p)
   have hΩY_top : ΩY = CFSG.RankThree.PartOne.omegaOne p (⊤ : Subgroup ↥Y) := by
     ext x
-    simp [ΩY, CFSG.omega₁, CFSG.omega, CFSG.RankThree.PartOne.omegaOne]
+    simp [ΩY, CFSG.omega, CFSG.RankThree.PartOne.omegaOne]
   have hmap : ΩY.map Y.subtype = Ω := by
     rw [hΩY_top]
     rw [CFSG.RankThree.PartOne.Sec9B.map_omegaOne Y.subtype_injective p (⊤ : Subgroup ↥Y)]
@@ -164,10 +164,10 @@ theorem inf_eq_bot_of_isCyclic_of_rankThreeGamma_le {M Q Y : Subgroup G} {p : �
   have hΩel : IsElemAbelian p Ω := by
     refine ⟨⟨⟨fun a b => ?_⟩⟩, fun x hx => ?_⟩
     · exact Subtype.ext (by
-        haveI : IsCyclic ↥Ω := isCyclic_of_prime_card hΩcard
-        letI : CommGroup ↥Ω := IsCyclic.commGroup
+        have : IsCyclic ↥Ω := isCyclic_of_prime_card hΩcard
+        let : CommGroup ↥Ω := IsCyclic.commGroup
         exact congrArg Subtype.val (mul_comm (⟨a, a.2⟩ : ↥Ω) ⟨b, b.2⟩))
-    · haveI : IsCyclic ↥Ω := isCyclic_of_prime_card hΩcard
+    · have : IsCyclic ↥Ω := isCyclic_of_prime_card hΩcard
       have h := pow_card_eq_one' (G := ↥Ω) (x := ⟨x, hx⟩)
       rw [hΩcard] at h
       simpa using congrArg Subtype.val h
@@ -182,21 +182,21 @@ theorem inf_eq_bot_of_isCyclic_of_rankThreeGamma_le {M Q Y : Subgroup G} {p : �
 theorem isCyclic_of_maximal_of_eight73Y {D : Data G} (h63 : UC6.R6_3 D) {p : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) {L P Q Y : Subgroup G} (hP : IsPGroup p P) (hQL : Q ≤ L) (hQP : Q ≤ P)
     (hQexp : ∀ x ∈ Q, x ^ p = 1) (hQcard : p ^ 3 ∣ Nat.card Q)
-    (hZ : ¬ p ∣ Nat.card (center (Bar2 L))) (hPQ : P ≤ Q ⊔ centralizerBar P L)
+    (_hZ : ¬ p ∣ Nat.card (center (Bar2 L))) (hPQ : P ≤ Q ⊔ centralizerBar P L)
     (hcyc : IsCyclic (centralizerBar P L)) (hQM : Q ≤ D.M) (hΓ : rankThreeGamma 1 p Q ≤ D.M)
     (hYP : Y ≤ P) (hYN : ¬ normalizer (Y : Set G) ≤ D.M)
     (hmax : ∀ Z : Subgroup G, Y < Z → Z ≤ D.M → IsPGroup p Z →
       normalizer (Z : Set G) ≤ D.M) :
     IsCyclic Y := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let C : Subgroup G := centralizerBar P L
   have hCP : C ≤ P := centralizerBar_le P L
   have hcommQC : ∀ q ∈ Q, ∀ c ∈ C, q * c = c * q :=
     fun q hq c hc => commute_of_mem_centralizerBar hp hp2 hP hQL hQP hq hc
   have hP_eq : P = Q ⊔ C := le_antisymm hPQ (sup_le hQP hCP)
-  haveI : IsCyclic ↥C := hcyc
-  letI : CommGroup ↥C := IsCyclic.commGroup
+  have : IsCyclic ↥C := hcyc
+  let : CommGroup ↥C := IsCyclic.commGroup
   have hCcomm : ∀ c1 ∈ C, ∀ c2 ∈ C, c1 * c2 = c2 * c1 := by
     intro c1 h1 c2 h2
     exact congrArg Subtype.val (mul_comm (⟨c1, h1⟩ : ↥C) ⟨c2, h2⟩)
@@ -243,8 +243,8 @@ theorem isCyclic_of_maximal_of_eight73Y {D : Data G} (h63 : UC6.R6_3 D) {p : ℕ
       hYleCY.trans (Subgroup.centralizer_le (SetLike.coe_subset_coe.mpr hAleY))
     have hAnoncyc : ¬ IsCyclic A := by
       intro hAcyc
-      haveI : IsCyclic ↥A := hAcyc
-      haveI : Fact (IsPGroup p ↥Y) := ⟨hYp⟩
+      have : IsCyclic ↥A := hAcyc
+      have : Fact (IsPGroup p ↥Y) := ⟨hYp⟩
       obtain ⟨S, -, hScard, hSelem⟩ :=
         CFSG.lemma_4_5_a (R := ↥Y) (p := p) hp2 hYcyc
       let E : Subgroup G := S.map Y.subtype
@@ -257,7 +257,7 @@ theorem isCyclic_of_maximal_of_eight73Y {D : Data G} (h63 : UC6.R6_3 D) {p : ℕ
         intro x hx
         exact Subgroup.subset_closure ⟨Subgroup.map_subtype_le S hx, hEel.2 x hx⟩
       have hEcyc : IsCyclic ↥E := Subgroup.isCyclic_of_le hEA
-      haveI : IsElementaryAbelian p ↥E := hEel.isElementaryAbelian
+      have : IsElementaryAbelian p ↥E := hEel.isElementaryAbelian
       exact (CFSG.IsElementaryAbelian.not_isCyclic_of_card_eq_prime_sq (p := p) hEcard) hEcyc
     have hAQne : A ⊓ Q ≠ ⊥ := by
       intro hbot
@@ -324,7 +324,7 @@ theorem isCyclic_of_maximal_of_eight73Y {D : Data G} (h63 : UC6.R6_3 D) {p : ℕ
     obtain ⟨S, hS⟩ := hYsubKp.exists_le_sylow
     let SG : Subgroup G := (S : Subgroup ↥K).map K.subtype
     have hSGK : SG ≤ K := by simpa [SG] using Subgroup.map_subtype_le (S : Subgroup ↥K)
-    have hSGp : IsPGroup p SG := by simpa [SG] using (S.isPGroup').map K.subtype
+    have hSGp : IsPGroup p SG := by simpa [SG] using (S.isPGroup).map K.subtype
     have hYSG : Y ≤ SG := by
       have h1 : (Y.subgroupOf K).map K.subtype ≤ SG := Subgroup.map_mono hS
       rwa [Subgroup.map_subgroupOf_eq_of_le hYleK] at h1
@@ -461,7 +461,7 @@ theorem isCyclic_of_maximal_of_eight73Y {D : Data G} (h63 : UC6.R6_3 D) {p : ℕ
         (Nat.pow_lt_pow_iff_right hp.one_lt).mp (by rwa [hn] at hlt')
       have hn1 : n = 1 := by omega
       have hBcardp : Nat.card B = p := by rw [hn, hn1, pow_one]
-      haveI : Nontrivial ↥Q := (Subgroup.nontrivial_iff_ne_bot Q).mpr hQne
+      have : Nontrivial ↥Q := (Subgroup.nontrivial_iff_ne_bot Q).mpr hQne
       let ZQ : Subgroup G := (Subgroup.center ↥Q).map Q.subtype
       have hZQ_ne : ZQ ≠ ⊥ := by
         intro hZQbot
@@ -483,7 +483,7 @@ theorem isCyclic_of_maximal_of_eight73Y {D : Data G} (h63 : UC6.R6_3 D) {p : ℕ
         rw [← hBcardp]
         exact Subgroup.card_dvd_of_le hZQ_le_B
       have hZQcard_gt : 1 < Nat.card ZQ := by
-        haveI : Nontrivial ZQ := (Subgroup.nontrivial_iff_ne_bot ZQ).mpr hZQ_ne
+        have : Nontrivial ZQ := (Subgroup.nontrivial_iff_ne_bot ZQ).mpr hZQ_ne
         exact Finite.one_lt_card
       have hZQcard : Nat.card ZQ = p := by
         rcases hp.eq_one_or_self_of_dvd (Nat.card ZQ) hZQdvd with h1 | hp'
@@ -516,10 +516,10 @@ theorem isCyclic_of_maximal_of_eight73Y {D : Data G} (h63 : UC6.R6_3 D) {p : ℕ
         exact (Nat.pow_le_pow_iff_right hp.one_lt).mp h
       rw [hn]
       exact pow_dvd_pow p h2n
-    haveI : IsElementaryAbelian p ↥B := hBel.isElementaryAbelian
+    have : IsElementaryAbelian p ↥B := hBel.isElementaryAbelian
     obtain ⟨E, hEB, hEclass, hEcard⟩ :=
       CFSG.RankThree.PartOne.CTP.exists_elementaryAbelian_sq_le (p := p) (A := B) hBdvd
-    haveI : IsElementaryAbelian p ↥E := hEclass
+    have : IsElementaryAbelian p ↥E := hEclass
     have hEel : IsElemAbelian p E := CFSG.Open.isElemAbelian_of_isElementaryAbelian
     have hEBQ : E ≤ Q := hEB.trans hB_le_Q
     have hEM : E ≤ D.M := hEBQ.trans hQM

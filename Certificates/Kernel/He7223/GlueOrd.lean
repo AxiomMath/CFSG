@@ -310,8 +310,8 @@ theorem rhoB_mul (x : Equiv.Perm (Fin 8330)) {y : Equiv.Perm (Fin 8330)}
   ext r i
   obtain ⟨m, hm⟩ := hy i
   simp only [rhoB, Matrix.of_apply, Matrix.mul_apply, Equiv.Perm.mul_apply, hm]
-  rw [Finset.sum_eq_single m (fun k _ hk => by rw [if_neg (fun h => hk (bF_inj h).symm), mul_zero])
-    (fun h => absurd (Finset.mem_univ m) h), if_pos rfl, mul_one]
+  rw [Finset.sum_eq_single m (fun k _ hk => by rw [ite_eq_right (fun h => hk (bF_inj h).symm), mul_zero])
+    (fun h => absurd (Finset.mem_univ m) h), ite_eq_left rfl, mul_one]
 
 theorem rhoB_eq_one_iff (x : Equiv.Perm (Fin 8330)) :
     rhoB x = 1 ↔ ∀ p : Fin 8330, (p : ℕ) ∈ bB → x p = p := by
@@ -321,7 +321,7 @@ theorem rhoB_eq_one_iff (x : Equiv.Perm (Fin 8330)) :
     have e := congrFun (congrFun h m) m
     simp only [rhoB, Matrix.of_apply, Matrix.one_apply_eq] at e
     by_contra hne
-    rw [if_neg hne] at e
+    rw [ite_eq_right hne] at e
     exact absurd e (by decide)
   · intro h
     ext r i
@@ -359,7 +359,6 @@ theorem rhoB_lg {j : ℕ}
   simp only [rhoB, Matrix.of_apply]
   rw [matOfF_apply, ← testBit_colF 6 _ i r r.2, ← bit_eq_testBit]
   have h1 := allN_ct h i i.2
-  unfold permBK at h1
   rw [strictB_eq'] at h1
   have h2 := allN_ct h1 r r.2
   have hev := evW_eq letRep_LU (lettersOK_mono (by rw [gens3_length]; norm_num)
@@ -367,7 +366,6 @@ theorem rhoB_lg {j : ℕ}
   have hiff : elt (lg j) (bF i) = bF r ↔
       evW 8330 14 LU LUI (lg j) (bBL.getD i 0) = bBL.getD r 0 := by
     rw [Fin.ext_iff]
-    change ((elt (lg j) (bF i) : Fin 8330) : ℕ) = _ ↔ _
     have hv : ((elt (lg j) (bF i) : Fin 8330) : ℕ) = evW 8330 14 LU LUI (lg j) (bBL.getD i 0) :=
       hev.symm
     rw [hv]
@@ -379,10 +377,10 @@ theorem rhoB_lg {j : ℕ}
       intro he
       rw [he, Nat.beq_refl] at h2'
       exact absurd h2' (by decide)
-    rw [if_neg (fun he => hne (hiff.mp he))]
+    rw [ite_eq_right (fun he => hne (hiff.mp he))]
     rfl
   · have h2' : Nat.beq (evW 8330 14 LU LUI (lg j) (bBL.getD i 0)) (bBL.getD r 0) = true := h2
-    rw [if_pos (hiff.mpr (Nat.eq_of_beq_eq_true h2'))]
+    rw [ite_eq_left (hiff.mpr (Nat.eq_of_beq_eq_true h2'))]
     rfl
 
 theorem card_lFix :

@@ -71,13 +71,13 @@ private theorem finite_setOf_frobGL_eq : {z : ModGL Tag.E8 D.L | frobGL D z = z}
 private theorem exists_rational_of_frobGL_eq {y : ModGL Tag.E8 D.L}
     (hyC : y ∈ adjointGroup Tag.E8 D.L) (hyF : frobGL D y = y) :
     ∃ l ∈ adjointGroup Tag.E8 K, baseChangeGL (algebraMap K D.L) l = y := by
-  haveI : Algebra.IsAlgebraic K D.L := IsAlgClosure.isAlgebraic
+  have : Algebra.IsAlgebraic K D.L := IsAlgClosure.isAlgebraic
   have hXF : ∀ z ∈ Subgroup.zpowers y, Units.map (entrywiseHom D.Fr) z = z := by
     intro z hz
     obtain ⟨n, rfl⟩ := Subgroup.mem_zpowers_iff.1 hz
     show frobGL D (y ^ n) = y ^ n
     rw [map_zpow, hyF]
-  haveI : Finite (Subgroup.zpowers y) :=
+  have : Finite (Subgroup.zpowers y) :=
     Set.Finite.to_subtype ((finite_setOf_frobGL_eq D).subset fun z hz => hXF z hz)
   have h := (CFSG.RankThree.PartOne.KE.finite_fixed_subgroup_rational 1
     (Or.inr (Or.inr ⟨rfl, rfl⟩)) D.Fr D.hFr (Subgroup.zpowers y)

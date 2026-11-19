@@ -63,7 +63,7 @@ theorem ctuSieg_apply_eq_zero {s : Kˣ} (hs : (s : K) ≠ 1) {x : SU σ (2 * 2 +
       Sum.elim (Sum.elim (fun _ => ι (s : K)) (fun _ => ι ((s⁻¹ : Kˣ) : K))) (fun _ => 1) w' := by
     rcases w with (p | p) | i <;> rcases w' with (p' | p') | i' <;>
       simp only [ctuSiegBlk, Sum.elim_inl, Sum.elim_inr, ne_eq, not_true_eq_false] at hww ⊢ <;>
-      first | exact hww.elim | exact hs3 | exact hs3.symm | exact hs1 | exact hs1.symm |
+      first | exact hs3 | exact hs3.symm | exact hs1 | exact hs1.symm |
         exact hs2 | exact hs2.symm
   have h2 : (Sum.elim (Sum.elim (fun _ => ι (s : K)) (fun _ => ι ((s⁻¹ : Kˣ) : K)))
       (fun _ => 1) w - Sum.elim (Sum.elim (fun _ => ι (s : K))

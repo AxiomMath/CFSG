@@ -16,8 +16,8 @@ open CFSG.Open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
 theorem exists_subfield_twE6 {F : Type} [Field F] [Finite F] {n : ℕ} (hn : 1 ≤ n)
     (hF : Nat.card F = (2 ^ n) ^ 2) :
     ∃ (k : Type) (_ : Field k) (_ : Algebra k F), Nat.card k = 2 ^ n := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := charP_two_of_card hn hF
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := charP_two_of_card hn hF
   exact ⟨CFSG.LieType.Steinberg.fixedSubfield F 2 n, inferInstance, inferInstance,
     CFSG.LieType.Steinberg.card_fixedSubfield (p := 2) (f := n) hF⟩
 
@@ -33,9 +33,9 @@ theorem le_su6Levi_of_isPGroup {f : ℕ} (hf : 1 ≤ f) {k K : Type} [Field k] [
     (hE : E ≤ parabolicLevi TwistTag.E6.tag K setA ⊓ graphFixedRootGroup TwistTag.E6 K σ)
     (hEp : IsPGroup p E) : E ≤ su6Levi σ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; positivity)
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; positivity)
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
   have hK2 : (2 : K) = 0 := two_eq_zero_of_card_sq hf hK
   obtain ⟨-, hsup, -, hcomm, -, -, -⟩ := su6Levi_facts hf hk hK hσ
   have hcent : thetaTorus (algebraMap k K) ≤
@@ -67,7 +67,7 @@ theorem le_su6Levi_of_isQuasisimple {f : ℕ} (hf : 1 ≤ f) {k K : Type} [Field
   have hTcomm : IsMulCommutative ↥T :=
     Subgroup.range_isMulCommutative
       ((thetaTorusHom K).comp (Units.map (algebraMap k K).toMonoidHom))
-  letI : IsMulCommutative ↥T := hTcomm
+  let : IsMulCommutative ↥T := hTcomm
   have hP : ⁅E, E⁆ = E := Subgroup.isPerfect_iff.mp hperf
   have hPle : E ≤ su6Levi σ ⊔ T := by
     intro e he
@@ -86,8 +86,8 @@ theorem exists_pow_eq_one_centralizer_su6Levi {f : ℕ} (hf : 1 ≤ f) {k K : Ty
       y ∈ Subgroup.centralizer (su6Levi σ : Set (ModGL TwistTag.E6.tag K)) ∧ y ^ p = 1 ∧
       y ∉ su6Levi σ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; positivity)
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; positivity)
   obtain ⟨X, hXJ, hXcyc, hXcard⟩ := exists_nonsplit_le_thetaRankOneGroup hf hk hK
   obtain ⟨-, hdisj, hXcent, hXC0⟩ := centralizer_nonsplit_twistedE6 hf hk hK hσ hXJ hXcard hXcyc
   have hdvd : p ∣ Nat.card X := by

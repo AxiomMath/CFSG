@@ -25,7 +25,7 @@ theorem exists_elemAbelianEight_of_central
     ∃ E : Subgroup Y, CFSG.Assembly.IsElemAbelian 2 E ∧ Nat.card E = 8 := by
   classical
   obtain ⟨e⟩ := hYJ
-  haveI : IsSimpleGroup J2 := Sporadic.J2.isSimpleGroup_J2
+  have : IsSimpleGroup J2 := Sporadic.J2.isSimpleGroup_J2
   have hncomm : ¬ IsMulCommutative J2 := by
     intro h
     have hp := IsSimpleGroup.prime_card (α := J2)
@@ -33,12 +33,12 @@ theorem exists_elemAbelianEight_of_central
     exact absurd hp (by norm_num)
   have hperfJ : Group.IsPerfect J2 :=
     CFSG.OrderReductions.Helpers.simple_noncommutative_isPerfect J2 hncomm
-  haveI := hperfJ
+  have := hperfJ
   have hperf : Group.IsPerfect (Y ⧸ S) :=
     Group.IsPerfect.ofSurjective (G := J2) (f := e.symm.toMonoidHom) e.symm.surjective
   obtain ⟨W, hWperf, hWS⟩ := exists_perfect_sup_eq_top S hperf
   set Z : Subgroup ↥W := S.subgroupOf W with hZdef
-  haveI : Z.Normal := inferInstance
+  have : Z.Normal := inferInstance
   have hZc : Z ≤ Subgroup.center ↥W := by
     intro z hz
     rw [Subgroup.mem_center_iff]
@@ -64,7 +64,7 @@ theorem exists_elemAbelianEight_of_central
     ⟨((QuotientGroup.quotientMulEquivOfEq hker.symm).trans
       (QuotientGroup.quotientKerEquivOfSurjective f hf)).trans e⟩
   obtain ⟨E, hE, hE8⟩ := hCover ↥W Z hZc hZp hWperf hiso
-  haveI := hE.1
+  have := hE.1
   refine ⟨E.map W.subtype, ⟨inferInstance, ?_⟩, ?_⟩
   · rintro x ⟨a, ha, rfl⟩
     have := hE.2 a ha
@@ -83,7 +83,7 @@ theorem false_of_elemAbelianEight (hFT : J2NotSectionOfGLFourTwo)
     (E : Subgroup Y) (hE : CFSG.Assembly.IsElemAbelian 2 E) (hE8 : Nat.card E = 8) : False := by
   obtain ⟨hEc, hEexp⟩ := hE
   obtain ⟨e⟩ := hYJ
-  letI : CommGroup ↥E :=
+  let : CommGroup ↥E :=
     { (inferInstance : Group ↥E) with mul_comm := fun a b => hEc.is_comm.comm a b }
   have hE2 : ∀ a : ↥E, a ^ 2 = 1 := fun a => Subtype.ext (by simpa using hEexp (a : Y) a.2)
   have hρ' : Function.Injective (ρ.comp E.subtype) := fun a b hab => Subtype.ext (hρ hab)
@@ -97,7 +97,7 @@ theorem false_of_elemAbelianEight (hFT : J2NotSectionOfGLFourTwo)
     CFSG.GroupTheory.frattini_elementary_quotient hD
   obtain ⟨hpr, -, -⟩ := CFSG.RankThree.PartTwo.class_two_eight_action_inverting_quotient
     (p := q) (A := ↥E) (by omega) hD hexp hcl hE2 hE8 (ρ.comp E.subtype) hρ' hfix
-  haveI := hVelem
+  have := hVelem
   have hk : CFSG.pRank q (D ⧸ frattini D) = d :=
     CFSG.pRank_eq_of_card_eq_pow (p := q) (by omega) hVcard
   rw [hk] at hpr
@@ -145,9 +145,9 @@ theorem false_of_elemAbelianEight (hFT : J2NotSectionOfGLFourTwo)
         (Nat.card_congr e.toEquiv).trans CFSG.RankThree.PartTwo.KFacts.KS14.card_nativeJ2
       rw [hJ, hY1] at hdvd
       norm_num at hdvd
-  letI : CommGroup (D ⧸ frattini D) :=
+  let : CommGroup (D ⧸ frattini D) :=
     { (inferInstance : Group (D ⧸ frattini D)) with mul_comm := fun a b => hVcomm.is_comm.comm a b }
-  haveI hemp := hFT q Fact.out hq5 (D ⧸ frattini D) hVexp hVle Y φ S hS hker
+  have hemp := hFT q Fact.out hq5 (D ⧸ frattini D) hVexp hVle Y φ S hS hker
   exact IsEmpty.false e
 
 theorem pu_conj_inl {D Y : Type} [Group D] [Group Y] (ρ : Y →* MulAut D) (a : Y) (d : D) :
@@ -177,7 +177,7 @@ theorem false_of_order_seven_acts {q : ℕ} [Fact q.Prime] (hq2 : q ≠ 2) {D Y 
       CFSG.pRank q ↥(fixedSubgroupOf (ρ y)) ≤ 2)
     {y : Y} (hy : orderOf y = 7) (hnc : ¬ ∀ s ∈ S, y * s = s * y) : False := by
   have hq : Nat.Prime q := Fact.out
-  haveI : Finite (D ⋊[ρ] Y) :=
+  have : Finite (D ⋊[ρ] Y) :=
     Finite.of_equiv (D × Y) (SemidirectProduct.equivProd (φ := ρ)).symm
   have hi : Function.Injective (SemidirectProduct.inl : D →* D ⋊[ρ] Y) :=
     SemidirectProduct.inl_injective

@@ -83,7 +83,7 @@ theorem innDiagOn_of_psimple_iso {G K : Type} [Group G] [Finite G] [Group K]
     rw [← map_zpow]
     congr 1
     apply Subtype.ext
-    simp [zpow_neg, inv_zpow]
+    simp [zpow_neg]
   have hbk : b ^ k ∈ Subgroup.normalizer (J : Set G) := Subgroup.zpow_mem _ hb k
   have hyK : y ^ k ∈ Subgroup.normalizer (L : Set K) := Subgroup.zpow_mem _ hy k
   have hkeyk : MulAut.congr e (CFSG.LocalAnalysis.GLTheoremA.MI.indAut p J (b ^ k) hbk) =
@@ -171,7 +171,7 @@ theorem componentDescentIndAut_of_conjOn_map
     show ι (fJ j) = z
     rw [hj]
     exact hxz
-  haveI : Finite ↥Kbar := Finite.of_surjective ι' hι'
+  have : Finite ↥Kbar := Finite.of_surjective ι' hι'
   have hJbarQ : CFSG.Open.IsQuasisimple (PQuot p Jbar) :=
     CFSG.LocalAnalysis.GLTheoremA.isQuasisimple_pQuot_of_glaPComponent hp hJbar'
   have hKbarQ : CFSG.Open.IsQuasisimple (PQuot p Kbar) := by
@@ -290,7 +290,7 @@ theorem componentCore_of_toralComponentAction
   classical
   have hdL : d ∈ Subgroup.normalizer (L : Set G) :=
     (CFSG.LocalAnalysis.GLTheoremA.S171.normalizer_of_innerDiagMarking hS.idiag) hS.d_mem
-  haveI : Finite (TwE6Delta.RecipeR K n) := Finite.of_equiv _ θ.toEquiv
+  have : Finite (TwE6Delta.RecipeR K n) := Finite.of_equiv _ θ.toEquiv
   have hcomp : CFSG.Assembly.IsComponentOf J
       (L ⊓ Subgroup.centralizer ({d} : Set G)) :=
     (CFSG.Assembly.isComponentOf_iff_open).2 hS.comp.1
@@ -311,7 +311,7 @@ theorem componentCore_of_toralComponentAction
 theorem twE6W0TorusExit_of_componentCore
   (hcore : TwE6W0ComponentCore) : TwE6W0TorusExit := by
   intro G _ _ L J A d b n K _ _ hn hK h3 hS σ hσ ε θ wd wb hd hb Fr hFr g hg hn0 htorus
-  haveI : Finite (TwE6Delta.RecipeR K n) := Finite.of_equiv _ θ.toEquiv
+  have : Finite (TwE6Delta.RecipeR K n) := Finite.of_equiv _ θ.toEquiv
   have hdiag : InnDiagOn 3
       (Subgroup.zpowers (TwE6Transport.recipeConj σ ε wb))
       (((J.subgroupOf L).map (piCenterQuot θ)).map (MulAut.conj :
@@ -322,8 +322,8 @@ theorem twE6W0TorusExit_of_componentCore
         TwE6Delta.RecipeR K n →* MulAut (TwE6Delta.RecipeR K n))) :
           Set (MulAut (TwE6Delta.RecipeR K n))) :=
     hdiag.1 (Subgroup.mem_zpowers _)
-  haveI hsimpleL : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hS.qs.2
-  haveI hsimpleR : IsSimpleGroup (TwE6Delta.RecipeR K n) :=
+  have hsimpleL : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hS.qs.2
+  have hsimpleR : IsSimpleGroup (TwE6Delta.RecipeR K n) :=
     (MulEquiv.isSimpleGroup_congr θ).mp hsimpleL
   have hnaR : ∃ x y : TwE6Delta.RecipeR K n, x * y ≠ y * x := by
     obtain ⟨a, b', hab⟩ :=

@@ -19,6 +19,7 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {σ : F ≃+* F} {K : Type}
   zero_mem' u _ := map_zero _
   smul_mem' c v hv u hu := by rw [map_smul, hv u hu]
 
+omit [Finite F] [CharP F 2] in
 theorem mem_fixU {A : SUid σ 6 →* (V ≃ₗ[K] V)} {v : V} :
     v ∈ fixU σ A ↔ ∀ u ∈ PtStab σ (W₀ F), A u v = v := Iff.rfl
 
@@ -39,6 +40,7 @@ theorem mem_fixU {A : SUid σ 6 →* (V ≃ₗ[K] V)} {v : V} :
       rw [this]
       exact (fixU σ A).smul_mem c (hw.2 u hu)
 
+omit [Finite F] [CharP F 2] in
 theorem mem_V1U {A : SUid σ 6 →* (V ≃ₗ[K] V)} {β : V →ₗ[K] V →ₗ[K] K} {w : V} :
     w ∈ V1U σ A β ↔ (∀ v ∈ fixU σ A, β v w = 0) ∧ ∀ u ∈ PtStab σ (W₀ F), A u w - w ∈ fixU σ A :=
   Iff.rfl
@@ -50,6 +52,7 @@ theorem mem_V1U {A : SUid σ 6 →* (V ≃ₗ[K] V)} {β : V →ₗ[K] V →ₗ[
   zero_mem' u _ := map_zero _
   smul_mem' c v hv u hu := by rw [map_smul, hv u hu]
 
+omit [Finite F] [CharP F 2] in
 theorem mem_fixAt {A : SUid σ 6 →* (V ≃ₗ[K] V)} {W : Submodule F (Fin 6 → F)} {v : V} :
     v ∈ fixAt σ A W ↔ ∀ u ∈ PtStab σ W, A u v = v := Iff.rfl
 
@@ -70,10 +73,12 @@ theorem mem_fixAt {A : SUid σ 6 →* (V ≃ₗ[K] V)} {W : Submodule F (Fin 6 �
       rw [this]
       exact (fixAt σ A W).smul_mem c (hw.2 u hu)
 
+omit [Finite F] [CharP F 2] in
 theorem mem_V1At {A : SUid σ 6 →* (V ≃ₗ[K] V)} {β : V →ₗ[K] V →ₗ[K] K} {W : Submodule F (Fin 6 → F)}
     {w : V} : w ∈ V1At σ A β W ↔
       (∀ v ∈ fixAt σ A W, β v w = 0) ∧ ∀ u ∈ PtStab σ W, A u w - w ∈ fixAt σ A W := Iff.rfl
 
+omit [Finite F] in
 theorem exists_frame_T0 (hσ : IsUnitaryInvolution σ) : ∃ b : Fin 3 → Fin 6 → F, Frame σ e3uT0Vec b := by
   have hv : exteriorPower.ιMulti F 3 (e3uT0Vec (F := F)) ≠ 0 := by
     rw [← pt0_eq_ιMulti_T0]
@@ -86,6 +91,7 @@ theorem exists_frame_T0 (hσ : IsUnitaryInvolution σ) : ∃ b : Fin 3 → Fin 6
   obtain ⟨b, hab, hbb⟩ := exists_hyperbolic_partners hσ hv hiso
   exact ⟨b, fun i j => hiso i j, fun i j => hbb i j, fun i j => hab i j⟩
 
+omit [Finite F] [CharP F 2] in
 private theorem conj_mem_PtStab_aux {g u : SUid σ 6} (hg : g ∈ Pstab σ (W₀ F))
     (hu : u ∈ PtStab σ (W₀ F)) : g⁻¹ * u * g ∈ PtStab σ (W₀ F) := by
   have hg' : (W₀ F).map (gLin g) = W₀ F := hg
@@ -116,6 +122,7 @@ private def lineStab (A : SUid σ 6 →* (V ≃ₗ[K] V)) (L : Submodule K V) : 
     rw [inv_inv]
     exact hg.1 x hx
 
+omit [Finite F] [CharP F 2] in
 private theorem mem_lineStab {A : SUid σ 6 →* (V ≃ₗ[K] V)} {L : Submodule K V} {g : SUid σ 6} :
     g ∈ lineStab A L ↔ (∀ x ∈ L, A g x ∈ L) ∧ ∀ x ∈ L, A g⁻¹ x ∈ L := Iff.rfl
 
@@ -146,6 +153,7 @@ theorem toRankOne_V1_eq (β : V →ₗ[K] V →ₗ[K] K) :
   · rintro ⟨h1, h2⟩
     exact ⟨h1, fun H => h2 _ (uK_mem_PtStab hσ.invol hf H)⟩
 
+omit hσ hf [Finite F] [CharP F 2] in
 theorem fixU_map_le_of_mem_Pstab {g : SUid σ 6} (hg : g ∈ Pstab σ (W₀ F)) :
     (fixU σ A).map (A g : V →ₗ[K] V) ≤ fixU σ A := by
   rintro _ ⟨v, hv, rfl⟩
@@ -161,6 +169,7 @@ theorem fixU_map_le_of_mem_Pstab {g : SUid σ 6} (hg : g ∈ Pstab σ (W₀ F)) 
   show A u (A g v) = A g v
   rw [h2, hfix]
 
+omit [Finite F] in
 theorem sv_U (hline : finrank K (fixU σ A) = 1)
     (hspan : ⨆ g : SUid σ 6, (fixU σ A).map (A g : V →ₗ[K] V) = ⊤) (hV : 1 < finrank K V)
     {v₀ : V} (hv₀ : v₀ ∈ fixU σ A) (hne : v₀ ≠ 0) : A (sU hσ.invol hf) v₀ ∉ fixU σ A := by
@@ -183,8 +192,8 @@ theorem sv_U (hline : finrank K (fixU σ A) = 1)
   have hPle : Pstab σ (W₀ F) ≤ lineStab A (fixU σ A) := by
     intro g hg
     rw [mem_lineStab]
-    exact ⟨fun x hx => fixU_map_le_of_mem_Pstab hσ hf A hg (Submodule.mem_map_of_mem hx),
-      fun x hx => fixU_map_le_of_mem_Pstab hσ hf A (inv_mem hg) (Submodule.mem_map_of_mem hx)⟩
+    exact ⟨fun x hx => fixU_map_le_of_mem_Pstab A hg (Submodule.mem_map_of_mem hx),
+      fun x hx => fixU_map_le_of_mem_Pstab A (inv_mem hg) (Submodule.mem_map_of_mem hx)⟩
   have hTop : lineStab A (fixU σ A) = ⊤ := closure_eq_top hσ hf _ hPle hsStab
   have hall : ∀ g : SUid σ 6, ∀ x ∈ fixU σ A, A g x ∈ fixU σ A := by
     intro g

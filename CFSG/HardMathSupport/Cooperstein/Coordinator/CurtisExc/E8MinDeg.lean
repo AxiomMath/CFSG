@@ -18,7 +18,7 @@ theorem e8_two_min_degree_of_nontrivial {F : Type} [Field F] [CharP F 2] {V : Ty
     (hnt : ∃ (g : adjointGroup .E8 (ZMod 2)) (v : V), ρ g v ≠ v) :
     248 ≤ Module.finrank F V := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Algebra (ZMod 2) F := (ιF F).toAlgebra
+  let : Algebra (ZMod 2) F := (ιF F).toAlgebra
   obtain ⟨y, χ, J, ht⟩ := exists_isChevType (hw := exists_weyl_neg_E8) (p := 2) hρ
   have hy0 : y ≠ 0 := ht.2.1
   have hχ : ∀ h ∈ e8Datum.H, χ h = 1 := by

@@ -14,10 +14,11 @@ open Subgroup CFSG.Blueprint
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem sec9f_card_stab {N : Subgroup G} {X : Set G} (hX : ConjTwoTransOn N X) {t : G}
     (ht : t ∈ X) (h2 : 2 ≤ X.ncard) :
     Nat.card ↥N = X.ncard * Nat.card ↥(N ⊓ centralizer ({t} : Set G)) := by
-  letI : MulAction ↥N G :=
+  let : MulAction ↥N G :=
     MulAction.compHom G (ConjAct.toConjAct.toMonoidHom.comp N.subtype)
   have hsmul : ∀ (n : ↥N) (x : G), n • x = (n : G) * x * (n : G)⁻¹ :=
     fun n x => ConjAct.toConjAct_smul (N.subtype n) x
@@ -74,6 +75,7 @@ theorem sec9f_count_contra {Γ N : Type} [Group Γ] [Finite Γ] [Group N] [Finit
   have hdvdΓ : Nat.card ρ.range ∣ Nat.card Γ := Subgroup.card_subgroup_dvd_card ρ.range
   exact absurd (hΓ ▸ h5760.trans hdvdΓ) (by norm_num)
 
+omit [Finite G] in
 theorem sec9f_sylow_sup {C K0 E : Subgroup G} (hE : IsSylow2Of E C) (hK : K0 ≤ C)
     (hidx : ∃ k : ℕ, K0.relIndex C = 2 ^ k) : E ⊔ K0 = C := by
   obtain ⟨hEC, -, hEodd⟩ := hE
@@ -95,6 +97,7 @@ theorem sec9f_sylow_sup {C K0 E : Subgroup G} (hE : IsSylow2Of E C) (hK : K0 ≤
         ((Nat.coprime_pow_right_iff hkpos _ 2).2 hodd.coprime_two_right) (dvd_refl _) hdvdK
   exact le_antisymm hDle ((Subgroup.relIndex_eq_one).1 hn1)
 
+omit [Finite G] in
 private lemma mem_sup_of_conj_mem {O A : Subgroup G}
     (hAO : ∀ a ∈ A, ∀ o ∈ O, a * o * a⁻¹ ∈ O) {x : G} (hx : x ∈ O ⊔ A) :
     ∃ o ∈ O, ∃ a ∈ A, o * a = x := by
@@ -113,6 +116,7 @@ private lemma mem_sup_of_conj_mem {O A : Subgroup G}
     have h := hAO z⁻¹ (A.inv_mem hz) y⁻¹ (O.inv_mem hy)
     simpa using h
 
+omit [Finite G] in
 theorem sec9f_inf_eq {E A O : Subgroup G} (hE : IsPGroup 2 E) (hAE : A ≤ E)
     (hO : Odd (Nat.card O)) (hAO : ∀ a ∈ A, ∀ o ∈ O, a * o * a⁻¹ ∈ O) :
     E ⊓ (O ⊔ A) = A := by

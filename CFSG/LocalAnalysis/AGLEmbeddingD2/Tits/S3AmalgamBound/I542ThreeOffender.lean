@@ -26,7 +26,7 @@ theorem thompsonJ_star_le_centralizer
   have hKY : CFSG.Open.IsKGroup Y := isKGroup_gnQuot hGN
   have hO2 : CFSG.pCore 2 Y = ⊥ := pCore_two_gnQuot hGN
   have hV : IsElemAbelian 2 (gnV T) := isElemAbelian_gnV T hGN
-  letI : Module (ZMod 2) (Additive (IntMod (gnV T) hV)) :=
+  let : Module (ZMod 2) (Additive (IntMod (gnV T) hV)) :=
     binModule (fun v : IntMod (gnV T) hV => IntMod.sq_eq_one v)
   have hinj : Function.Injective (gnRep hV) := gnRep_injective hV
   have key : ∀ A : Subgroup X, IsMaxElemAbelian T A →

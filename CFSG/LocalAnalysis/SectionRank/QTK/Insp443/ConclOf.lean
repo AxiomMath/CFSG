@@ -79,6 +79,7 @@ private theorem map_mulAutCongr_trans {V W W' : Type*} [Group V] [Group W] [Grou
     H.map (((MulAut.congr f).toMonoidHom).comp ((MulAut.congr e).toMonoidHom))
   rw [Subgroup.map_map]
 
+omit [Finite G] in
 private theorem autOn_map_subtype_eq {K : Subgroup G} {H : Subgroup ↥K} {VB : Subgroup G}
     (hVB : VB ≤ K) :
     (autOn H (VB.subgroupOf K)).map
@@ -113,8 +114,8 @@ theorem concl443BWith_of_conclKWith (h : Hyp G T M L B Tp VB K) {b b' : Prop} (h
   set Lk := LB.subgroupOf K with hLk
   set Vk := VB.subgroupOf K with hVk
   set Mk := M.subgroupOf K with hMk
-  haveI : IsMulCommutative ↥VB := VB_comm h
-  letI : CommGroup ↥VB := IsMulCommutative.instCommGroup
+  have : IsMulCommutative ↥VB := VB_comm h
+  let : CommGroup ↥VB := IsMulCommutative.instCommGroup
   have hLBmap : Lk.map K.subtype = LB := by
     rw [hLk, Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr h.LB_le]
   have hVBmap : Vk.map K.subtype = VB := by
@@ -129,8 +130,8 @@ theorem concl443BWith_of_conclKWith (h : Hyp G T M L B Tp VB K) {b b' : Prop} (h
     · rcases hcase with ⟨hFF, hnat3, hnat4, h3A6, hPSUfun⟩ | ⟨m, hm, hLie2, hBO⟩ | ⟨hLie3, hFano⟩
       · refine Or.inl ⟨⟨VB_comm h, ?_⟩, ?_, ?_, ?_, ?_⟩
         · obtain ⟨hcommVk, hFFk⟩ := hFF
-          haveI : IsMulCommutative ↥Vk := hcommVk
-          letI : CommGroup ↥Vk := IsMulCommutative.instCommGroup
+          have : IsMulCommutative ↥Vk := hcommVk
+          let : CommGroup ↥Vk := IsMulCommutative.instCommGroup
           have hFFk' : IsFFModule (V := ↥(VB.subgroupOf K))
               (autOn (Subgroup.normalizer (VB.subgroupOf K : Set ↥K))
                 (VB.subgroupOf K)) := hFFk
@@ -165,8 +166,8 @@ theorem concl443BWith_of_conclKWith (h : Hyp G T M L B Tp VB K) {b b' : Prop} (h
             have hnat' := IsNaturalSumUnder.map K.subtype K.subtype_injective hnat
             rwa [hLBmap, hVBmap] at hnat'
           · right
-            haveI : IsMulCommutative ↥Vk := hcommVk
-            letI : CommGroup ↥Vk := IsMulCommutative.instCommGroup
+            have : IsMulCommutative ↥Vk := hcommVk
+            let : CommGroup ↥Vk := IsMulCommutative.instCommGroup
             refine ⟨VB_comm h, ?_⟩
             unfold SLExteriorTwo at hSLk
             have hSLk' : (FFModel.extSq (ZMod 2) 4).Realizes
@@ -228,8 +229,8 @@ theorem concl443BWith_of_conclKWith (h : Hyp G T M L B Tp VB K) {b b' : Prop} (h
         · exact E443.lieModel_of_mulEquiv' ψ.symm hLie2
         · refine ⟨VB_comm h, ?_⟩
           obtain ⟨hcommVk, hBOk⟩ := hBO
-          haveI : IsMulCommutative ↥Vk := hcommVk
-          letI : CommGroup ↥Vk := IsMulCommutative.instCommGroup
+          have : IsMulCommutative ↥Vk := hcommVk
+          let : CommGroup ↥Vk := IsMulCommutative.instCommGroup
           unfold BinaryOrthogonalFour TwistedTensorSL at hBOk
           obtain ⟨K', hK'field, hK'finite, hK'char, hK'card, hReal⟩ := hBOk
           refine ⟨K', hK'field, hK'finite, hK'char, hK'card, ?_⟩
@@ -245,8 +246,8 @@ theorem concl443BWith_of_conclKWith (h : Hyp G T M L B Tp VB K) {b b' : Prop} (h
         · exact E443.lieModel_of_mulEquiv' ψ.symm hLie3
         · refine ⟨VB_comm h, ?_⟩
           obtain ⟨hcommVk, hFanok⟩ := hFano
-          haveI : IsMulCommutative ↥Vk := hcommVk
-          letI : CommGroup ↥Vk := IsMulCommutative.instCommGroup
+          have : IsMulCommutative ↥Vk := hcommVk
+          let : CommGroup ↥Vk := IsMulCommutative.instCommGroup
           unfold FanoCoreModule at hFanok
           have hFanok' : fanoCoreModel.Realizes (autOn Lk (VB.subgroupOf K)) ⊤ ⊥ := hFanok
           have hReal := CFSG.Quasithin.H.LU.realizes_map fanoCoreModel

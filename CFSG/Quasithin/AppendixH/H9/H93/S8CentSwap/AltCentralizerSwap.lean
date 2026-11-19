@@ -10,6 +10,7 @@ open Equiv Equiv.Perm
 
 variable {α : Type*} [Fintype α] [DecidableEq α]
 
+omit [Fintype α] in
 private theorem ne_and_ne_iff_swap_apply_eq {a b : α} (hab : a ≠ b) (x : α) :
     (x ≠ a ∧ x ≠ b) ↔ swap a b x = x := by
   rw [swap_apply_def]
@@ -20,6 +21,7 @@ private theorem ne_and_ne_iff_swap_apply_eq {a b : α} (hab : a ≠ b) (x : α) 
     exact iff_of_false (fun h => h.2 rfl) (fun h => hab h)
   · exact iff_of_true ⟨h₁, h₂⟩ rfl
 
+omit [Fintype α] in
 private theorem preserves_off_of_mem_centralizer {a b : α} (hab : a ≠ b) {g : Perm α}
     (hg : g ∈ Subgroup.centralizer ({swap a b} : Set (Perm α))) (x : α) :
     (g x ≠ a ∧ g x ≠ b) ↔ (x ≠ a ∧ x ≠ b) := by

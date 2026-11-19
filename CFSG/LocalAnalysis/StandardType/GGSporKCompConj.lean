@@ -15,7 +15,7 @@ theorem bmPComponent_of_conj_pow {K : Type} [Group K] [Finite K] {p : ℕ} (hp :
     {t s m : K} (ht : orderOf t = p) {k : ℕ} (hk : k % p ≠ 0) (h : m * s * m⁻¹ = t ^ k)
     (hC : ∃ C : Subgroup K, LargeEvenPComponent p (Subgroup.centralizer ({t} : Set K)) C) :
     ∃ C : Subgroup K, LargeEvenPComponent p (Subgroup.centralizer ({s} : Set K)) C := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨C, hC⟩ := hC
   have hk1 : t ^ k ≠ 1 := by
     intro h1
@@ -29,7 +29,7 @@ theorem bmPComponent_of_conj_pow {K : Type} [Group K] [Finite K] {p : ℕ} (hp :
     (Subgroup.centralizer ({t ^ k} : Set K)) C).mpr hC
   have hs : (MulAut.conj m⁻¹) (t ^ k) = s := by
     rw [← h]
-    simp [MulAut.conj_apply, mul_assoc]
+    simp [mul_assoc]
   rw [CFSG.Fischer.Classification.Recognition.map_centralizer_singleton, hs] at h1
   exact ⟨_, h1⟩
 

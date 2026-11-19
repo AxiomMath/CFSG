@@ -78,7 +78,7 @@ theorem false_of_gen4 (hset : GF2RankFourSetting G z) (S : Setting G) (hSz : S.z
     (hnwc : ¬ ZWeaklyClosedInCore z) (hS4 : CFSG.GH74.SectionalTwoRankLE S.Mbar 4) : False := by
   obtain ⟨E, hEM, hEel, r, hr, hEcard⟩ :=
     exists_elemAbelian_three_of_sectional hset S hSz hw hS4
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hEcard]; positivity)
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hEcard]; positivity)
   have hdvd : 3 ^ 4 ∣ Nat.card E := by
     rw [hEcard]
     exact pow_dvd_pow 3 hr

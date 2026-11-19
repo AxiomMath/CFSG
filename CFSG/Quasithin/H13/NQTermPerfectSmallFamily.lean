@@ -140,7 +140,7 @@ theorem sylow_bijective_coreQuot {X : Type*} [Group X] [Finite X] {p : ℕ} [Fac
     Function.Bijective ((QuotientGroup.mk' (CFSG.pCore 2 X)).comp (P₀ : Subgroup X).subtype) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hdisj : Disjoint (P₀ : Subgroup X) (CFSG.pCore 2 X) :=
-    IsPGroup.disjoint_of_ne p 2 hp2 _ _ P₀.isPGroup' CFSG.pCore_isPGroup
+    IsPGroup.disjoint_of_ne p 2 hp2 _ _ P₀.isPGroup CFSG.pCore_isPGroup
   refine ⟨?_, ?_⟩
   · rw [injective_iff_map_eq_one]
     intro x hx
@@ -346,7 +346,7 @@ theorem false_of_small_centralizer_family {L : Type*} [Group L] [Finite L]
     have htop : P₁ = ⊤ := hX2 P₁ hP2
     apply hA1
     have hdisj : Disjoint P₁ A₀ :=
-      IsPGroup.disjoint_of_ne p 2 hp2 _ _ P₀.isPGroup' hA₀p
+      IsPGroup.disjoint_of_ne p 2 hp2 _ _ P₀.isPGroup hA₀p
     refine eq_bot_iff.mpr fun c hc => ?_
     have h1 : c ∈ P₁ ⊓ A₀ := ⟨htop ▸ Subgroup.mem_top c, hc⟩
     rwa [disjoint_iff.mp hdisj] at h1

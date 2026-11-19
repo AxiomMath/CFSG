@@ -80,7 +80,7 @@ theorem sims_sound (hn : n ≤ 32) (S : List ℕ) : ∀ {prev : List ℕ} {C : L
     by_cases e : σ = 1
     · subst e
       simp
-    · rw [if_neg fun h => e (P.code_inj hn h)]
+    · rw [ite_eq_right fun h => e (P.code_inj hn h)]
       simp [e]
   | prev, lv :: C, hC, h, hR, σ => by
     change CFSG.KC.Ord.andB (P.allL S fun s => P.impB

@@ -13,6 +13,7 @@ open scoped MatrixGroups Matrix commutatorElement
 
 variable {G : Type*} [Group G] [Finite G] {k : Type*} [Field k] [Finite k] [CharP k 2] {m : ℕ}
 
+omit [Finite G] in
 theorem decomp_of_commuting {V X Y K₁ K₂ : Subgroup G}
     (hXV : X ≤ normalizer (V : Set G)) (hYV : Y ≤ normalizer (V : Set G))
     (hcomm : ∀ a ∈ K₁, ∀ b ∈ K₂, a * b = b * a)
@@ -87,6 +88,7 @@ theorem le_normalizer_map_conj {H K : Subgroup G} {t : G} (ht : t ∈ normalizer
   change t * ((t⁻¹ * g * t) * y * (t⁻¹ * g * t)⁻¹) * t⁻¹ = g * (t * y * t⁻¹) * g⁻¹
   group
 
+omit [Finite G] in
 theorem commute_of_normal_of_inf_eq_bot {L K₁ K₂ : Subgroup G} (h₁ : K₁ ≤ L) (h₂ : K₂ ≤ L)
     (hn₁ : L ≤ normalizer (K₁ : Set G)) (hn₂ : L ≤ normalizer (K₂ : Set G))
     (hinf : K₁ ⊓ K₂ = ⊥) : ∀ a ∈ K₁, ∀ b ∈ K₂, a * b = b * a := by
@@ -235,13 +237,13 @@ theorem natural_module_of_decomposition {V X Y RX RY K₁ K₂ : Subgroup G} {t'
   have hel : IsElementaryAbelian 2 V₁ :=
     { toIsMulCommutative := ⟨⟨fun a b => Subtype.ext (hVc a (hV₁V a.2) b (hV₁V b.2))⟩⟩
       exponent_dvd_p := Monoid.exponent_dvd_of_forall_pow_eq_one fun a => Subtype.ext (by
-        simp only [Subgroup.coe_pow, pow_two, Subgroup.coe_one]
+        simp only [pow_two, Subgroup.coe_one]
         exact h.sq _ (hV₁V a.2)) }
   exact Prelim.exists_isNaturalModule hk hm1 φX hel hXN₁ hcard1 hfix h.sylowX hfixc
 
 omit [Finite G] in
 theorem isNaturalSection_of_bar {A X' A' : Subgroup G} {κ : Type*} [Field κ]
-    (hAA' : A ≤ A') (hA'N : A' ≤ normalizer (A : Set G)) (hXN : X' ≤ normalizer (A : Set G))
+    (_hAA' : A ≤ A') (hA'N : A' ≤ normalizer (A : Set G)) (hXN : X' ≤ normalizer (A : Set G))
     (φ : X' ≃* SL(2, κ)) (θb : (Fin 2 → κ) → Bar A)
     (hadd : ∀ v w, θb (v + w) = θb v * θb w) (hinj : Function.Injective θb)
     (hrange : Set.range θb = ((bar A A' : Subgroup (Bar A)) : Set (Bar A)))

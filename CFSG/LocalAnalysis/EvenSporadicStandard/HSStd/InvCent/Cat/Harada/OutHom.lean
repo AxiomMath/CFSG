@@ -50,8 +50,8 @@ theorem commutator_le_of_card_outer_dvd_four [Finite G] {S : Subgroup G} [S.Norm
     commutator G ≤ S := by
   have hd : Nat.card (outerHom S).range ∣ 4 :=
     (Subgroup.card_subgroup_dvd_card _).trans h
-  haveI : Finite (outerHom S).range := inferInstance
-  haveI := isMulCommutative_of_card_dvd_four hd
+  have : Finite (outerHom S).range := inferInstance
+  have := isMulCommutative_of_card_dvd_four hd
   exact derivedSeries_le_of_outer hcent 1 (commutator_eq_bot_of_isMulCommutative)
 
 theorem commutator_commutator_le_of_card_outer_dvd_twelve [Finite G] {S : Subgroup G} [S.Normal]
@@ -59,7 +59,7 @@ theorem commutator_commutator_le_of_card_outer_dvd_twelve [Finite G] {S : Subgro
     ⁅commutator G, commutator G⁆ ≤ S := by
   have hd : Nat.card (outerHom S).range ∣ 12 :=
     (Subgroup.card_subgroup_dvd_card _).trans h
-  haveI : Finite (outerHom S).range := inferInstance
+  have : Finite (outerHom S).range := inferInstance
   exact derivedSeries_le_of_outer hcent 2 (derivedSeries_two_eq_bot_of_card_dvd_twelve hd)
 
 theorem commutator_self_eq {S : Subgroup G} (hperf : Group.IsPerfect ↥S) : ⁅S, S⁆ = S := by

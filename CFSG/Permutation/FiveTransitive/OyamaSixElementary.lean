@@ -13,7 +13,7 @@ namespace FiveTransitive.OyamaSixElementary
 
 open MulAction FixedSetNormalizerPerm
 
-@[expose] abbrev fixedHom
+abbrev fixedHom
     (G X : Type*) [Group G] [MulAction G X] (Q : Subgroup G) :=
   FixedSetNormalizerHom.fixedPermHom G X Q
 
@@ -89,7 +89,7 @@ theorem square_eq_one_and_commute
     have hval := congrArg (fun z : S => ((z : H) : G)) hr1
     apply Subtype.ext
     simpa only [Subgroup.coe_one, hqr] using hval
-  have hQ : IsPGroup 2 Q := S.isPGroup'.map H.subtype
+  have hQ : IsPGroup 2 Q := S.isPGroup.map H.subtype
   obtain ⟨hsq, hcomm⟩ := SixLocalSylowExponentTwo.square_eq_one_and_commute G X hlocal Q hQ hfreeQ
   let e : S ≃* Q := (S : Subgroup H).equivMapOfInjective H.subtype H.subtype_injective
   constructor

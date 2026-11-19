@@ -197,7 +197,7 @@ theorem nonempty_equiv_quat (Q : Sylow 2 ↥(Cen z))
   have hinj : Function.Injective f := by
     intro q q' h
     apply Subtype.ext
-    exact eq_of_toBar_eq Q.isPGroup' q.2.1 q'.2.1 (congrArg Subtype.val h)
+    exact eq_of_toBar_eq Q.isPGroup q.2.1 q'.2.1 (congrArg Subtype.val h)
   have hsurj : Function.Surjective f := by
     rintro ⟨b, hb⟩
     rw [WBar_eq_map_O22Res] at hb
@@ -266,7 +266,7 @@ theorem inf_centralizer_eq {r₁ : ℕ} {L₁ L₂ : Subgroup (CentralizerBar z)
     rcases normal_between hsh hz hNb hzNb hNW with h1 | h2
     · have hb : toBar z s ∈ barOf z (zpowers z) :=
         zpowers_le.2 (zBar_mem_barOf z) (h1 ⟨s, ⟨hsW, hsC⟩, rfl⟩)
-      obtain ⟨k, hk⟩ := Q.isPGroup' ⟨s, hsQ⟩
+      obtain ⟨k, hk⟩ := Q.isPGroup ⟨s, hsQ⟩
       have hs2 : ∃ k : ℕ, (s : G) ^ (2 ^ k) = 1 := ⟨k, congrArg (fun x : ↥(Q : Subgroup ↥(Cen z)) =>
         ((x : ↥(Cen z)) : G)) hk⟩
       obtain ⟨n, hn⟩ := mem_zpowers_iff.1 (mem_zpowers_of_toBar_mem hz s.2 hs2 hb)
@@ -279,7 +279,7 @@ theorem inf_centralizer_eq {r₁ : ℕ} {L₁ L₂ : Subgroup (CentralizerBar z)
         exact mem_map_of_mem _ hs'.2
       obtain ⟨n, hnN, hn⟩ := h2 hs'W
       have hna : n⁻¹ * s' ∈ pPrimeCore 2 ↥(Cen z) := QuotientGroup.eq.1 hn
-      obtain ⟨k, hk⟩ := Q.isPGroup' ⟨s', hs'.1⟩
+      obtain ⟨k, hk⟩ := Q.isPGroup ⟨s', hs'.1⟩
       exact centralizes_of_mul_eq hodd ⟨k, congrArg Subtype.val hk⟩
         (fun x hx => (mem_centralizer_iff.1 hnN.2 x hx).symm) hna
         (mul_inv_cancel_left n s').symm a ha

@@ -176,9 +176,9 @@ theorem finite_inf_centralizer {L : Type} [Field L]
     (B J : Subgroup (ModGL .E6 L)) [Finite B] :
     Finite ↥(B ⊓ Subgroup.centralizer (J : Set (ModGL .E6 L))) :=
   Finite.of_injective
-    (fun x : ↥(B ⊓ Subgroup.centralizer (J : Set (ModGL .E6 L))) =>
-      (⟨x.1, x.2.1⟩ : B))
-    (fun x y h => Subtype.ext (congrArg (fun z : B => (z : ModGL .E6 L)) h))
+    (fun _x : ↥(B ⊓ Subgroup.centralizer (J : Set (ModGL .E6 L))) =>
+      (⟨_x.1, _x.2.1⟩ : B))
+    (fun _x _y h => Subtype.ext (congrArg (fun z : B => (z : ModGL .E6 L)) h))
 
 theorem card_le_mul_card_inf_centralizer
     {L : Type} [Field L] {G' : Type} [Group G']
@@ -212,7 +212,7 @@ theorem card_le_mul_card_inf_centralizer
     exact Nat.card_congr (Subgroup.equivMapOfInjective T f hf).toEquiv
   have hsplit : Nat.card χ.ker * Nat.card χ.range = Nat.card T :=
     Subgroup.card_ker_mul_card_range χ
-  haveI : Finite ↥(B ⊓ Subgroup.centralizer (J : Set (ModGL .E6 L))) :=
+  have : Finite ↥(B ⊓ Subgroup.centralizer (J : Set (ModGL .E6 L))) :=
     finite_inf_centralizer B J
   have hker' : Nat.card χ.ker ≤
       Nat.card ↥(B ⊓ Subgroup.centralizer (J : Set (ModGL .E6 L))) := by

@@ -128,7 +128,7 @@ theorem s16c1G_ker_all {g : V₀ ≃ₗ[ZMod 2] V₀}
     rw [e]
     exact he
   · refine hperp _ ?_
-    rw [Pi.single_apply, if_neg (Ne.symm h1)]
+    rw [Pi.single_apply, ite_eq_right (Ne.symm h1)]
 
 theorem s16c1G_add_perp {g : V₀ ≃ₗ[ZMod 2] V₀} (hg : g ∈ Ω₀ true) (hz : g s16c1G_zS = s16c1G_zS)
     (y : V₀) : (g y + y) 1 = 0 := by
@@ -276,15 +276,15 @@ theorem s16c1G_eich_psi {m : ℕ} (hm : m < 16) (hq : qB true (4 * m) = true) :
 theorem s16c1G_hφS : (LinearMap.proj 0 : V₀ →ₗ[ZMod 2] ZMod 2) s16c1G_zS = 1 := by decide
 
 @[expose] noncomputable def s16c1G_actS : ↥(MulAction.stabilizer (Ω₀ true) s16c1G_zS) →*
-    Equiv.Perm {x : V₀ // s16c1G_P5 x ∧ (LinearMap.proj 0 : V₀ →ₗ[ZMod 2] ZMod 2) x = 0} :=
+    Equiv.Perm {_x : V₀ // s16c1G_P5 _x ∧ (LinearMap.proj 0 : V₀ →ₗ[ZMod 2] ZMod 2) _x = 0} :=
   s16c1G_pairAct (Ω₀ true) s16c1G_zS (LinearMap.proj 0) s16c1G_hφS s16c1G_P5 s16c1G_P5_add
-    (fun g hg hz x hx => s16c1G_P5_map hg hz hx)
+    (fun _g hg hz _x hx => s16c1G_P5_map hg hz hx)
 
-theorem s16c1G_mem_ker_actS (g : ↥(MulAction.stabilizer (Ω₀ true) s16c1G_zS)) :
-    g ∈ s16c1G_actS.ker ↔ ∀ x, s16c1G_P5 x →
-      (g.1.1 : V₀ ≃ₗ[ZMod 2] V₀) x = x ∨ (g.1.1 : V₀ ≃ₗ[ZMod 2] V₀) x = x + s16c1G_zS :=
+theorem s16c1G_mem_ker_actS (_g : ↥(MulAction.stabilizer (Ω₀ true) s16c1G_zS)) :
+    _g ∈ s16c1G_actS.ker ↔ ∀ _x, s16c1G_P5 _x →
+      (_g.1.1 : V₀ ≃ₗ[ZMod 2] V₀) _x = _x ∨ (_g.1.1 : V₀ ≃ₗ[ZMod 2] V₀) _x = _x + s16c1G_zS :=
   s16c1G_mem_ker_pairAct_iff (Ω₀ true) s16c1G_zS (LinearMap.proj 0) s16c1G_hφS s16c1G_P5
-    s16c1G_P5_add (fun g hg hz x hx => s16c1G_P5_map hg hz hx) g
+    s16c1G_P5_add (fun _g hg hz _x hx => s16c1G_P5_map hg hz hx) _g
 
 theorem s16c1G_ker_perp' (g : ↥s16c1G_actS.ker) (x : V₀) (hx : x 1 = 0) :
     (g.1.1 : V₀ ≃ₗ[ZMod 2] V₀) x = x ∨ (g.1.1 : V₀ ≃ₗ[ZMod 2] V₀) x = x + s16c1G_zS :=
@@ -363,10 +363,10 @@ theorem s16c1G_isElemAbelian_ker : IsElemAbelianOfRank 2 4 ↥s16c1G_actS.ker :=
 
 theorem s16c1G_isE16A5_stab_zS : IsE16A5 ↥(MulAction.stabilizer (Ω₀ true) s16c1G_zS) := by
   classical
-  haveI : Finite (V₀ ≃ₗ[ZMod 2] V₀) := finite_linearEquiv
-  haveI : Finite {x : V₀ // s16c1G_P5 x ∧ (LinearMap.proj 0 : V₀ →ₗ[ZMod 2] ZMod 2) x = 0} :=
+  have : Finite (V₀ ≃ₗ[ZMod 2] V₀) := finite_linearEquiv
+  have : Finite {x : V₀ // s16c1G_P5 x ∧ (LinearMap.proj 0 : V₀ →ₗ[ZMod 2] ZMod 2) x = 0} :=
     Subtype.finite
-  letI := Fintype.ofFinite
+  let := Fintype.ofFinite
     {x : V₀ // s16c1G_P5 x ∧ (LinearMap.proj 0 : V₀ →ₗ[ZMod 2] ZMod 2) x = 0}
   refine s16c1G_isE16A5_of_hom (Y := {x : V₀ // s16c1G_P5 x ∧
     (LinearMap.proj 0 : V₀ →ₗ[ZMod 2] ZMod 2) x = 0}) ?_ s16c1G_actS s16c1G_isElemAbelian_ker ?_

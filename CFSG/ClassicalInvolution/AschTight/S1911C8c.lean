@@ -67,7 +67,7 @@ theorem c19_8_of : C19_8Tmp p f := by
         mem_normalizer_oddCoreOf_of_mem_normalizer hcL, fun l hl => ?_⟩
       refine AscL62.centSylow hd.tight.branch.odd hd.tight.branch.five hΩ (K := L) (R := RL)
         (V := Subgroup.zpowers (a * w⁻¹)) hd.memL hRL
-        ((S.isPGroup'.to_le (Subgroup.zpowers_le.mpr hcS))) ?_ ?_ l hl (a * w⁻¹)
+        ((S.isPGroup.to_le (Subgroup.zpowers_le.mpr hcS))) ?_ ?_ l hl (a * w⁻¹)
         (Subgroup.mem_zpowers _)
       · intro y hy
         exact mem_normalizer_iff_conjSub_eq.mp ((Subgroup.zpowers_le.mpr hcL) hy)

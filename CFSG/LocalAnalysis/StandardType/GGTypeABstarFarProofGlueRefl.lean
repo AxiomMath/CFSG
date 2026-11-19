@@ -13,6 +13,7 @@ section LamHom
 variable {G : Type} [Group G] {p : ℕ} {Bs : Subgroup G} {n : ℕ} {F : Type} [Field F] [Finite F]
   {φ₁ φ₂ : SpecialLinearGroup (Fin (n + 1)) F →* G} {x y : G}
 
+omit [Finite F] in
 theorem GGFarCtx.eq_of_vecEq (hC : GGFarCtx p Bs φ₁ φ₂ x y) {b b' : G} (hb : b ∈ Bs)
     (hb' : b' ∈ Bs) {h₁ h₁' h₂ h₂' : Fin (n + 1) → Fˣ} (a₁ : GGActsVec φ₁ b h₁)
     (a₁' : GGActsVec φ₁ b' h₁') (a₂ : GGActsVec φ₂ b h₂) (a₂' : GGActsVec φ₂ b' h₂')
@@ -31,6 +32,7 @@ theorem GGFarCtx.eq_of_vecEq (hC : GGFarCtx p Bs φ₁ φ₂ x y) {b b' : G} (hb
   (Classical.choose (hC.lifts.diag₁ (b : G) b.2)) l *
     ((Classical.choose (hC.lifts.diag₁ (b : G) b.2)) k)⁻¹
 
+omit [Finite F] in
 theorem GGFarCtx.lamFun_eq (hC : GGFarCtx p Bs φ₁ φ₂ x y) (k l : Fin (n + 1)) {b : ↥Bs}
     {h : Fin (n + 1) → Fˣ} (a : GGActsVec φ₁ (b : G) h) : hC.lamFun k l b = h l * (h k)⁻¹ := by
   let c : Fin (n + 1) → Fˣ := Classical.choose (hC.lifts.diag₁ (b : G) b.2)
@@ -58,7 +60,7 @@ theorem GGFarCtx.lamFun_eq (hC : GGFarCtx p Bs φ₁ φ₂ x y) (k l : Fin (n + 
     have hmul := GGActsVec.mul hb hb'
     rw [hC.lamFun_eq k l (b := b * b') hmul, hC.lamFun_eq k l (b := b) hb,
       hC.lamFun_eq k l (b := b') hb']
-    simp only [Pi.mul_apply, Pi.inv_apply, _root_.mul_inv_rev]
+    simp only [Pi.mul_apply, _root_.mul_inv_rev]
     ac_rfl
 
 theorem GGFarCtx.lamHom_apply (hC : GGFarCtx p Bs φ₁ φ₂ x y) (k l : Fin (n + 1)) (b : ↥Bs) :

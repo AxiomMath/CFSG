@@ -118,7 +118,7 @@ theorem twA5JParam_mul (p p' q q' : rootsOfUnity 3 F) :
     twA5JParam (F := F) p q * twA5JParam (F := F) p' q' =
       twA5JParam (F := F) (p * p') (q * q') := by
   apply Subtype.ext
-  ext <;> simp [twA5JParam, mul_inv]
+  ext <;> simp [twA5JParam]
   group
 
 @[expose] noncomputable def twA5JParamHom :
@@ -208,7 +208,7 @@ theorem twA5JParam_lift_mem_block (p q : rootsOfUnity 3 F) :
   simp [twA5Entries]
 
 theorem card_twA5JHom_range : Nat.card (twA5JHom h).range = 9 := by
-  haveI : Finite F := h.finite
+  have : Finite F := h.finite
   have h3 : Nat.card (rootsOfUnity 3 F) = 3 := by
     apply CFSG.LinearGroups.card_rootsOfUnity_of_dvd
     rw [twA5_card_F h]
@@ -237,7 +237,7 @@ theorem twA5Jrange_isElemAbelian :
 
 theorem card_rootsOfUnity_three (h : UnitaryFieldData 2 3 F) :
     Nat.card (rootsOfUnity 3 F) = 3 := by
-  haveI : Finite F := h.finite
+  have : Finite F := h.finite
   apply CFSG.LinearGroups.card_rootsOfUnity_of_dvd
   rw [twA5_card_F h]
   norm_num
@@ -291,7 +291,7 @@ theorem twA5EHom_eq_one_iff {n : rootsOfUnity 9 F} {p q : rootsOfUnity 3 F} :
   · rintro ⟨hp, hq, hn3⟩
     have hparam : twA5EParam (F := F) n p q = twA5ScalarParam (F := F) ⟨n, hn3⟩ := by
       apply Subtype.ext
-      simp only [twA5EParam, twA5ScalarParam, Subtype.coe_mk]
+      simp only [twA5EParam, Subtype.coe_mk]
       refine Prod.ext rfl (Prod.ext ?_ (Prod.ext ?_ ?_))
       · exact hp
       · exact hq
@@ -306,7 +306,7 @@ theorem twA5EHom_eq_one_iff {n : rootsOfUnity 9 F} {p q : rootsOfUnity 3 F} :
 
 theorem card_ker_twA5EHom (h : UnitaryFieldData 2 3 F) :
     Nat.card (twA5EHom h).ker = 3 := by
-  haveI : Finite F := h.finite
+  have : Finite F := h.finite
   apply le_antisymm
   · let g : (twA5EHom h).ker → rootsOfUnity 3 F := fun x =>
       ⟨(x.1.1 : Fˣ), (mem_rootsOfUnity (M := F) 3 _).mpr
@@ -341,7 +341,7 @@ theorem card_ker_twA5EHom (h : UnitaryFieldData 2 3 F) :
 
 theorem card_twA5E (h : UnitaryFieldData 2 3 F) :
     Nat.card (twA5EHom h).range = 27 := by
-  haveI : Finite F := h.finite
+  have : Finite F := h.finite
   have hcard := Subgroup.card_eq_card_quotient_mul_card_subgroup (twA5EHom h).ker
   rw [Nat.card_congr (QuotientGroup.quotientKerEquivRange (twA5EHom h)).toEquiv] at hcard
   have hdom : Nat.card (rootsOfUnity 9 F × (rootsOfUnity 3 F × rootsOfUnity 3 F)) = 81 := by
@@ -394,7 +394,7 @@ theorem twA5Entries_E2 :
       (fun i : Fin 6 => if i ∈ ({0, 1, 2} : Finset (Fin 6)) then (1 : F)
         else ((twA5Omega (F := F) : Fˣ) : F)) := by
   funext i
-  fin_cases i <;> simp [twA5Entries, twA5Omega_inv_mul_self, twA5Omega_inv_mul_inv]
+  fin_cases i <;> simp [twA5Entries, twA5Omega_inv_mul_inv]
 
 theorem twA5Entries_E3 :
     twA5Entries (F := F) (1 : Fˣ) (twA5Omega (F := F) : Fˣ) (1 : Fˣ)
@@ -402,7 +402,7 @@ theorem twA5Entries_E3 :
       (fun i : Fin 6 => if i ∈ ({0, 1, 3} : Finset (Fin 6)) then (1 : F)
         else ((twA5Omega (F := F) : Fˣ) : F)) := by
   funext i
-  fin_cases i <;> simp [twA5Entries, twA5Omega_inv_mul_self, twA5Omega_inv_mul_inv]
+  fin_cases i <;> simp [twA5Entries, twA5Omega_inv_mul_inv]
 
 
 private theorem unitaryBlock_pair_mul_diagSU {d : Fin 6 → F} (hd01 : d 0 = d 1)
@@ -455,7 +455,7 @@ private theorem mem_unitaryBlockDiag_of_proj_centralizer_diagSU
   have hν0 : ν ≠ 0 := by
     have hd5 : h.norm ν = 1 := by
       have h := hd 5
-      rwa [hv 5, if_neg h5] at h
+      rwa [hv 5, ite_eq_right h5] at h
     rintro rfl
     rw [show h.norm (0 : F) = 0 by simp [UnitaryFieldData.norm]] at hd5
     exact zero_ne_one hd5
@@ -477,7 +477,7 @@ private theorem mem_unitaryBlockDiag_of_proj_centralizer_diagSU
     simpa using h
   have h55 := congrFun (congrFun h2 5) 5
   rw [Matrix.diagonal_mul, Matrix.mul_diagonal, Matrix.mul_diagonal] at h55
-  have hν5 : d 5 = ν := by rw [hv 5, if_neg h5]
+  have hν5 : d 5 = ν := by rw [hv 5, ite_eq_right h5]
   rw [hA55, hν5] at h55
   simp only [mul_one, one_mul] at h55
   have hc1 : (c : F) = 1 := by
@@ -528,7 +528,7 @@ private theorem unitaryBlock_pair_le_centralizer_twA5E :
 theorem twA5_e3_range :
     GLAPLayer 3 (blockSU h suFiveIndex ⊓
       Subgroup.centralizer ((twA5EHom h).range : Set (unitaryPSU h 6))) ≠ ⊥ := by
-  haveI : Finite F := h.finite
+  have : Finite F := h.finite
   refine glaPLayer_ne_bot_of_map_unitaryBlockDiag_inf_card_eq_two h
     (q := 3) (by norm_num) (by norm_num) (I := ({0, 1} : Finset (Fin 6)))
     (J₁ := ({0, 1, 2} : Finset (Fin 6))) (J₂ := ({0, 1, 3} : Finset (Fin 6)))

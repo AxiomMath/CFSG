@@ -72,14 +72,14 @@ theorem exists_sylow_RTE {S : Sylow 2 G}
   have hJX : J ≤ X := le_iSup₂ (f := fun N (_ : N ∈ omegaNbr Ω K) => N) J hJ
   have hTX : T ≤ X := hTJ.trans hJX
   have hRT : IsPGroup 2 ↥(R ⊔ T) :=
-    S.isPGroup'.to_le (sup_le hRS hTS)
+    S.isPGroup.to_le (sup_le hRS hTS)
   have hRTle : R ⊔ T ≤ X ⊔ R := sup_le le_sup_right (hTX.trans le_sup_left)
   obtain ⟨V, hV, hRTV⟩ := IsSylow2In.exists_ge hRT hRTle
   have hVX : IsSylow2In (V ⊓ X) X :=
     AscP1Nine3.isSylow2In_inf_of_le_normalizer' hV le_sup_left hYN
   obtain ⟨S₂, hS₂⟩ := hV.2.1.exists_le_sylow
   have heq : (S₂ : Subgroup G) ⊓ X = V ⊓ X :=
-    hVX.2.2 _ inf_le_right S₂.isPGroup'.to_inf_left (inf_le_inf_right X hS₂)
+    hVX.2.2 _ inf_le_right S₂.isPGroup.to_inf_left (inf_le_inf_right X hS₂)
   exact ⟨S₂, le_sup_left.trans (hRTV.trans hS₂), le_sup_right.trans (hRTV.trans hS₂),
     heq ▸ hVX⟩
 

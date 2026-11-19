@@ -65,7 +65,7 @@ theorem eq_bot_of_odd_normal_mulAut_alt6 (K : Subgroup (MulAut (alternatingGroup
     exact (Nat.not_even_iff_odd.2 hK) (even_iff_two_dvd.2 (Nat.dvd_trans (by norm_num) hd))
 
 theorem odd_normal_inf_eq_bot {T : Type} [Group T] [Finite T] (W V B M : Subgroup T) [M.Normal]
-    (hV : IsPGroup 2 V) (hcomm : ∀ v ∈ V, ∀ b ∈ B, v * b = b * v) (hVW : V ≤ W) (hBW : B ≤ W)
+    (hV : IsPGroup 2 V) (hcomm : ∀ v ∈ V, ∀ b ∈ B, v * b = b * v) (_hVW : V ≤ W) (_hBW : B ≤ W)
     (hsup : ∀ w ∈ W, ∃ v ∈ V, ∃ b ∈ B, w = v * b)
     (e : ↥B ≃* MulAut (alternatingGroup (Fin 6))) (hM : Odd (Nat.card M)) : M ⊓ W = ⊥ := by
   have hnorm : (M.subgroupOf B).Normal := inferInstance

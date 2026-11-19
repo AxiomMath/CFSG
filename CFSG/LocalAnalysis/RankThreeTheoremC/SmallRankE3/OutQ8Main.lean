@@ -14,6 +14,7 @@ section
 
 variable {K : Type*} [Group K] [Finite K] {A B Y : Subgroup K} {ζ : K}
 
+omit [Finite K] in
 theorem conj_mem_of_gens {A' : Subgroup K} {i j : K} (x : K) (hi : x * i * x⁻¹ ∈ A')
     (hj : x * j * x⁻¹ ∈ A') : ∀ g ∈ Subgroup.closure {i, j}, x * g * x⁻¹ ∈ A' := by
   intro g hg
@@ -144,7 +145,7 @@ theorem centralizes_of_inv (hA : Q8Like A ζ) (hB : QuatLike B Y ζ) (hBp : IsPG
     (hm : Nat.Coprime m 6) (hxQ : ∀ g ∈ Q, x * g * x⁻¹ ∈ Q)
     (hinv : ∀ g ∈ Q ⊓ B, x * g * x⁻¹ ∈ Q ⊓ B) : ∀ g ∈ Q, x * g * x⁻¹ = g := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hAp : IsPGroup 2 A := IsPGroup.of_card (n := 3) (by rw [hA.card]; norm_num)
   have hS2 : IsPGroup 2 ↥(A ⊔ B) := isPGroup_sup hAp hBp hcomm
   have hQ2 : IsPGroup 2 ↥Q := hS2.to_le hQS

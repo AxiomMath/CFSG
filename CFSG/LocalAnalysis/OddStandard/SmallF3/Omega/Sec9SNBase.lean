@@ -19,6 +19,7 @@ open Subgroup CFSG.Blueprint
 
 variable {G : Type} [Group G] [Finite G] {t t₀ z g : G} {L S B : Subgroup G}
 
+omit [Finite G] in
 private theorem sec9n_priv_mem_zpowers_two {x y : G} (hx2 : x * x = 1) (hy : y ∈ zpowers x) :
     y = 1 ∨ y = x := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hy
@@ -28,6 +29,7 @@ private theorem sec9n_priv_mem_zpowers_two {x y : G} (hx2 : x * x = 1) (hy : y �
   · left; rw [hmod, hk]; simp
   · right; rw [hmod, hk]; simp
 
+omit [Finite G] in
 theorem sec9n_mem_normalizer_of_conjugate_eq {H : Subgroup G} {c : G}
     (h : CFSG.conjugate H c = H) : c ∈ normalizer (H : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -74,6 +76,7 @@ private theorem sec9n_priv_comm_A8_B (hctx : Sec9Ctx G t L S z g B t₀) :
     exact ((show Commute t₀ b from hctx.t0_B b hb).zpow_left l).eq
   rw [mul_assoc, hvb, ← mul_assoc, hub, mul_assoc]
 
+omit [Finite G] in
 private theorem sec9n_priv_centMod_conj_mem {A B : Subgroup G} (hBA : B ≤ A) {x : G}
     (hx : x ∈ centMod A B) {a : G} (ha : a ∈ A) : x * a * x⁻¹ ∈ A := by
   obtain ⟨-, hx'⟩ := hx
@@ -81,6 +84,7 @@ private theorem sec9n_priv_centMod_conj_mem {A B : Subgroup G} (hBA : B ≤ A) {
   rw [show x * a * x⁻¹ = (x * a * x⁻¹ * a⁻¹) * a by group]
   exact A.mul_mem (hBA hcomm) ha
 
+omit [Finite G] in
 theorem sec9n_centMod_le_normalizer {A B : Subgroup G} (hBA : B ≤ A) :
     centMod A B ≤ normalizer (A : Set G) := by
   intro x hx
@@ -93,6 +97,7 @@ theorem sec9n_centMod_le_normalizer {A B : Subgroup G} (hBA : B ≤ A) :
     have h := sec9n_priv_centMod_conj_mem hBA hxinv ha
     rwa [show x⁻¹ * (x * a * x⁻¹) * (x⁻¹)⁻¹ = a by group] at h
 
+omit [Finite G] in
 theorem sec9n_le_centMod {A B : Subgroup G} (hBA : B ≤ A)
     (hcomm : ∀ a ∈ A, ∀ a' ∈ A, a * a' = a' * a) : A ≤ centMod A B := by
   intro a ha
@@ -259,6 +264,7 @@ theorem sec9n_A_mem_normalizer_conj (h36 : Asc82Lemma36) (hB : Asc82Sec8B)
   have htza : a * (t * z) = (t * z) * a := (sec9n_A_elem hctx).comm ha htzA
   exact sec9n_mem_normalizer_conj_of_comm h36 hS (by rw [hctx.tz]; exact htza)
 
+omit [Finite G] in
 theorem sec9n_inf_le_centMod {A B H : Subgroup G} (hBA : B ≤ A) (hBH : B ≤ H)
     (hAH : ∀ a ∈ A, a ∈ H → a ∈ B) (hAN : ∀ a ∈ A, a ∈ normalizer (H : Set G)) :
     H ⊓ normalizer (A : Set G) ≤ centMod A B := by

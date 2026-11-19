@@ -87,7 +87,7 @@ theorem move_normal_form4 [CharP K 2] {a : K} {δ : Fin (Tag.rank .E7) → ℤ} 
       c₀ • (Finsupp.single γ 1 : V K) := by
     rw [hline, map_smul, hN, hnμγ]
   have hfix : act7 (e7Data_valid.xm K δ b) (Finsupp.single γ 1 : V K) = Finsupp.single γ 1 := by
-    rw [act7_xm, rootOp_single (K := K) hδ.1 γ, if_neg hγδ, smul_zero, add_zero]
+    rw [act7_xm, rootOp_single (K := K) hδ.1 γ, ite_eq_right hγδ, smul_zero, add_zero]
   refine ⟨n * u⁻¹, mul_mem hnL (inv_mem hu), ?_, ?_⟩
   · intro a'
     calc n * u⁻¹ * e7Data_valid.xm K theta4 a'

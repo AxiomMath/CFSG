@@ -11,14 +11,14 @@ open Matrix CFSG.RankThree.PartOne.KCRootAxis CFSG.ComponentClassification.Unbal
   CFSG.QuasithinUnique.Setup.X7b
 
 theorem two_dvd_natCard (F : Type) [Field F] [Finite F] [CharP F 2] : 2 ∣ Nat.card F := by
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   obtain ⟨n, -, hn⟩ := FiniteField.card F 2
   rw [Nat.card_eq_fintype_card, hn]
   exact dvd_pow_self 2 n.pos.ne'
 
 theorem pCore_sl2_charTwo (F : Type) [Field F] [Finite F] [CharP F 2] :
     CFSG.pCore 2 (SL₂ F) = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set N := CFSG.pCore 2 (SL₂ F) with hNdef
   have hN : IsPGroup 2 N := CFSG.pCore_isPGroup
   have hNn : N.Normal := CFSG.pCore_normal
@@ -134,7 +134,7 @@ theorem c2_levi_structure [Finite F] {X : Type*} [Group X] (Θ : X ≃* ↥(root
       ∃ ψ : ↥(CFSG.pCore 2 X) ≃* Multiplicative (Fin 3 → F),
         ∀ (g : X) (x y : ↥(CFSG.pCore 2 X)), g * (x : X) * g⁻¹ = (y : X) →
           Multiplicative.toAdd (ψ y) = orthAct (φ g) (Multiplicative.toAdd (ψ x)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set φ : X →* SL₂ F := (c2LeviProj F).comp Θ.toMonoidHom with hφ
   have hφs : Function.Surjective φ := c2LeviProj_surjective.comp Θ.surjective
   have hker : ∀ g : X, g ∈ φ.ker ↔ ((Θ g : ↥(rootC₂ F)) : antiSp F) ∈ radA2 F := fun g => by
@@ -282,11 +282,11 @@ theorem rootC₂_le_of_mem {H : Subgroup (antiSp F)} (h0 : ∀ μ : F, aElt 0 μ
       · convert h1 μ using 2
         ext a b
         fin_cases a <;> fin_cases b <;>
-          simp [slUpper, Matrix.SpecialLinearGroup.transvection_coe, Matrix.single_apply]
+          simp [slUpper, Matrix.SpecialLinearGroup.transvection_coe]
       · convert h2 μ using 2
         ext a b
         fin_cases a <;> fin_cases b <;>
-          simp [slLower, Matrix.SpecialLinearGroup.transvection_coe, Matrix.single_apply]
+          simp [slLower, Matrix.SpecialLinearGroup.transvection_coe]
       · exact absurd rfl hij
     · intro A B hA hB
       rw [← sHom₂_apply, map_mul]

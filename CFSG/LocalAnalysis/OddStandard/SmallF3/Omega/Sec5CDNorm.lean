@@ -82,7 +82,7 @@ theorem sec5c_elemAb2_img (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3)
     omega
   refine ⟨?_, hUcard⟩
   refine ⟨?_, ?_⟩
-  · haveI : IsMulCommutative D := hE.1.1
+  · have : IsMulCommutative D := hE.1.1
     show IsMulCommutative (D.map (omegaToProj hQ))
     infer_instance
   · intro x hx

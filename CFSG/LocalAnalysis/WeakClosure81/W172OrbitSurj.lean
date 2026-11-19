@@ -16,8 +16,9 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem w172_commutator_mul_eq_mul_commutator {V V₀ : Subgroup G}
-    (hV : IsElemAbelian 2 V) (hV₀ : V₀ ≤ V) {u n n' : G} (hn : n ∈ V) (hn' : n' ∈ V)
+    (hV : IsElemAbelian 2 V) (hV₀ : V₀ ≤ V) {u n n' : G} (hn : n ∈ V) (_hn' : n' ∈ V)
     (hnt : ⁅n, u⁆ ∈ V₀) (hn't : ⁅n', u⁆ ∈ V₀) :
     ⁅n * n', u⁆ = ⁅n, u⁆ * ⁅n', u⁆ := by
   rw [commutatorElement_mul_left_eq_conj_mul]
@@ -27,6 +28,7 @@ private theorem w172_commutator_mul_eq_mul_commutator {V V₀ : Subgroup G}
   rw [hcomm]
   exact (hV.comm (hV₀ hnt) (hV₀ hn't)).symm
 
+omit [Finite G] in
 private theorem w172_commutator_mul_right_eq_mul_commutator {V₀ : Subgroup G} {u u' n : G}
     (hcent : ∀ w ∈ V₀, u * w * u⁻¹ = w) (hnt' : ⁅n, u'⁆ ∈ V₀) :
     ⁅n, u * u'⁆ = ⁅n, u⁆ * ⁅n, u'⁆ := by
@@ -146,15 +148,19 @@ private noncomputable instance w172s_instModuleE (V : Subgroup G) (hV : IsElemAb
 private def w172s_ev {V : Subgroup G} {hV : IsElemAbelian 2 V} (x : w172s_E V hV) : G :=
   (Additive.toMul x : IntMod V hV).val
 
+omit [Finite G] in
 private theorem w172s_ev_mem {V : Subgroup G} {hV : IsElemAbelian 2 V} (x : w172s_E V hV) :
     w172s_ev x ∈ V := IntMod.val_mem _
 
+omit [Finite G] in
 private theorem w172s_ev_add {V : Subgroup G} {hV : IsElemAbelian 2 V} (x y : w172s_E V hV) :
     w172s_ev (x + y) = w172s_ev x * w172s_ev y := rfl
 
+omit [Finite G] in
 private theorem w172s_ev_zero {V : Subgroup G} {hV : IsElemAbelian 2 V} :
     w172s_ev (0 : w172s_E V hV) = 1 := rfl
 
+omit [Finite G] in
 private theorem w172s_ev_injective {V : Subgroup G} {hV : IsElemAbelian 2 V} :
     Function.Injective (w172s_ev : w172s_E V hV → G) :=
   fun _ _ h => Additive.toMul.injective (IntMod.val_injective h)
@@ -162,6 +168,7 @@ private theorem w172s_ev_injective {V : Subgroup G} {hV : IsElemAbelian 2 V} :
 private def w172s_ofG {V : Subgroup G} (hV : IsElemAbelian 2 V) (v : G) (hv : v ∈ V) :
     w172s_E V hV := Additive.ofMul (IntMod.mk hV ⟨v, hv⟩)
 
+omit [Finite G] in
 private theorem w172s_ev_ofG {V : Subgroup G} {hV : IsElemAbelian 2 V} {v : G} (hv : v ∈ V) :
     w172s_ev (w172s_ofG hV v hv) = v := rfl
 
@@ -175,6 +182,7 @@ private noncomputable def w172s_cLin {V : Subgroup G} (hV : IsElemAbelian 2 V) (
         simp only [w172s_ev_ofG, w172s_ev_add]
         group)))
 
+omit [Finite G] in
 private theorem w172s_ev_cLin {V : Subgroup G} {hV : IsElemAbelian 2 V} {g : G}
     {hg : g ∈ Subgroup.normalizer (V : Set G)} (x : w172s_E V hV) :
     w172s_ev (w172s_cLin hV g hg x) = g * w172s_ev x * g⁻¹ := rfl
@@ -191,25 +199,28 @@ private noncomputable def w172s_fW {V : Subgroup G} (hV : IsElemAbelian 2 V) (W 
       (if w172s_ev x ∈ W then 0 else 1) + (if w172s_ev y ∈ W then 0 else 1)
     rw [w172s_ev_add]
     by_cases hx : w172s_ev x ∈ W <;> by_cases hy : w172s_ev y ∈ W
-    · rw [if_pos (hxy.2 (iff_of_true hx hy)), if_pos hx, if_pos hy]; decide
-    · rw [if_neg (fun h => hy ((hxy.1 h).1 hx)), if_pos hx, if_neg hy]; decide
-    · rw [if_neg (fun h => hx ((hxy.1 h).2 hy)), if_neg hx, if_pos hy]; decide
-    · rw [if_pos (hxy.2 (iff_of_false hx hy)), if_neg hx, if_neg hy]; decide
+    · rw [ite_eq_left (hxy.2 (iff_of_true hx hy)), ite_eq_left hx, ite_eq_left hy]; decide
+    · rw [ite_eq_right (fun h => hy ((hxy.1 h).1 hx)), ite_eq_left hx, ite_eq_right hy]; decide
+    · rw [ite_eq_right (fun h => hx ((hxy.1 h).2 hy)), ite_eq_right hx, ite_eq_left hy]; decide
+    · rw [ite_eq_left (hxy.2 (iff_of_false hx hy)), ite_eq_right hx, ite_eq_right hy]; decide
   map_smul' c x := by
     rcases (by decide : ∀ c : ZMod 2, c = 0 ∨ c = 1) c with rfl | rfl
     · show (if w172s_ev ((0 : ZMod 2) • x) ∈ W then (0 : ZMod 2) else 1) = 0 * _
-      rw [zero_smul, w172s_ev_zero, if_pos W.one_mem, zero_mul]
+      rw [zero_smul, w172s_ev_zero, ite_eq_left W.one_mem, zero_mul]
     · show (if w172s_ev ((1 : ZMod 2) • x) ∈ W then (0 : ZMod 2) else 1) = 1 * _
       rw [one_smul, one_mul]
 
+omit [Finite G] in
 private theorem w172s_fW_of_mem {V : Subgroup G} {hV : IsElemAbelian 2 V} {W : Subgroup G}
     {hW : W.relIndex V = 2} {x : w172s_E V hV} (h : w172s_ev x ∈ W) :
-    w172s_fW hV W hW x = 0 := if_pos h
+    w172s_fW hV W hW x = 0 := ite_eq_left h
 
+omit [Finite G] in
 private theorem w172s_fW_of_not_mem {V : Subgroup G} {hV : IsElemAbelian 2 V} {W : Subgroup G}
     {hW : W.relIndex V = 2} {x : w172s_E V hV} (h : w172s_ev x ∉ W) :
-    w172s_fW hV W hW x = 1 := if_neg h
+    w172s_fW hV W hW x = 1 := ite_eq_right h
 
+omit [Finite G] in
 private theorem w172_comm_conj_eq (n b g : G) :
     ⁅n, g⁻¹ * b * g⁆ = g⁻¹ * ⁅g * n * g⁻¹, b⁆ * g := by
   simp only [commutatorElement_def]
@@ -258,7 +269,7 @@ private theorem w172_mem_comm_P {D : Data G} {V₀ V : Subgroup G} {x : G}
   exact V₀.inv_mem h1
 
 private theorem w172_centralizes_of_mem_P {D : Data G} {V₀ V : Subgroup G} {x : G}
-    (h : Hyp64 1 D.M V₀ V x) {u : G}
+    (_h : Hyp64 1 D.M V₀ V x) {u : G}
     (hu : u ∈ F11.CTilde D.M V₀ V ⊓ Subgroup.centralizer (V₀ : Set G)) :
     ∀ w ∈ V₀, u * w * u⁻¹ = w := by
   intro w hw
@@ -334,7 +345,7 @@ private theorem w172_comm_mem_V₀ {D : Data G} {V₀ V : Subgroup G} {x : G}
   exact V₀.inv_mem h1
 
 private theorem w172_comm_U_eq_one {D : Data G} {V₀ V : Subgroup G} {x : G}
-    (h : Hyp64 1 D.M V₀ V x) (hV0U : V₀ ≤ UOf D.M V x) {b : G}
+    (h : Hyp64 1 D.M V₀ V x) (_hV0U : V₀ ≤ UOf D.M V x) {b : G}
     (hb : b ∈ conjSubgroup V₀ x) {u : G} (hu : u ∈ UOf D.M V x) : ⁅u, b⁆ = 1 := by
   have hmem : ⁅u, b⁆ ∈ V₀ ⊓ conjSubgroup V x := by
     refine ⟨w172_comm_mem_V₀ h hb hu.1, ?_⟩
@@ -425,8 +436,8 @@ private theorem w172_exists_comm_b_of_mem {D : Data G} {V₀ V : Subgroup G} {x 
     have hU : v₀ ∈ UOf D.M V x := ⟨hv₀, hle hcen⟩
     exact hv₀U hU
   have hsurj : Function.Surjective φb := by
-    haveI : Fintype ↥(conjSubgroup V₀ x) := Fintype.ofFinite _
-    haveI : Fintype ↥V₀ := Fintype.ofFinite _
+    have : Fintype ↥(conjSubgroup V₀ x) := Fintype.ofFinite _
+    have : Fintype ↥V₀ := Fintype.ofFinite _
     have hcard : Fintype.card ↥(conjSubgroup V₀ x) = Fintype.card ↥V₀ := by
       rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card]
       exact E3.card_conjSubgroup V₀ x
@@ -446,6 +457,7 @@ private noncomputable def w172s_toE {V N : Subgroup G} (hV : IsElemAbelian 2 V)
           (Additive.toMul x : IntMod N hN).val *
             (Additive.toMul y : IntMod N hN).val from rfl])))
 
+omit [Finite G] in
 private theorem w172s_ev_toE {V N : Subgroup G} {hV : IsElemAbelian 2 V}
     {hN : IsElemAbelian 2 N} {hNV : N ≤ V} (x : w172s_E N hN) :
     w172s_ev (w172s_toE hV hN hNV x) = (Additive.toMul x : IntMod N hN).val := rfl
@@ -467,6 +479,7 @@ private noncomputable def w172s_phiP {V N V₀ : Subgroup G} (hV : IsElemAbelian
           (hNV (IntMod.val_mem _)) (hP (t : G) t.2 _ (IntMod.val_mem _))
           (hP (t : G) t.2 _ (IntMod.val_mem _)))))
 
+omit [Finite G] in
 private theorem w172s_ev_phiP {V N V₀ : Subgroup G} {hV : IsElemAbelian 2 V}
     {hN : IsElemAbelian 2 N} {hV₀ : IsElemAbelian 2 V₀} {hV₀le : V₀ ≤ V} {hNV : N ≤ V}
     {P : Subgroup G} {hP : ∀ u ∈ P, ∀ n ∈ N, ⁅n, u⁆ ∈ V₀} (t : ↥P) (x : w172s_E N hN) :
@@ -492,6 +505,7 @@ private noncomputable def w172s_fLin {N V₀ : Subgroup G} (hN : IsElemAbelian 2
         rw [harg, map_mul]
         rfl)))
 
+omit [Finite G] in
 private theorem w172s_ev_fLin {N V₀ : Subgroup G} {hN : IsElemAbelian 2 N}
     {hV₀ : IsElemAbelian 2 V₀} (f : ↥N →* ↥V₀) (x : w172s_E N hN) :
     w172s_ev (w172s_fLin hN hV₀ f x) =
@@ -529,7 +543,7 @@ theorem w172_exists_comm_eq {D : Data G} {V₀ V : Subgroup G} (hW : WeakClosure
         have h1 : g * (z * z') * g⁻¹ = (g * z * g⁻¹) * (g * z' * g⁻¹) := by group
         rw [h1]
         exact (UOf D.M V x).mul_mem (hz g hg) (hz' g hg)
-      one_mem' := ⟨V.one_mem, fun g _ => by simpa using (UOf D.M V x).one_mem⟩
+      one_mem' := ⟨V.one_mem, fun g _ => by simp⟩
       inv_mem' := by
         rintro z ⟨hzV, hz⟩
         refine ⟨V.inv_mem hzV, fun g hg => ?_⟩
@@ -744,7 +758,7 @@ theorem w172_exists_comm_eq_R {D : Data G} {V₀ V : Subgroup G} (hW : WeakClosu
     have hm' : m⁻¹ ∈ D.M := D.M.inv_mem hm
     have h := hconj_mem m⁻¹ hm' (m * c * m⁻¹) hc
     rwa [show m⁻¹ * (m * c * m⁻¹) * m⁻¹⁻¹ = c by group] at h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hT : IsSylowIn 2 D.T D.M := CFSG.ABGLocalTools.isSylowOf_iff.mp D.sylowM
   have hTP : IsSylowIn 2 (D.T ⊓ P) P := hT.inf_normal hPleM hPnorm
   set A : Subgroup ↥P := (D.T ⊓ P).subgroupOf P with hAdef

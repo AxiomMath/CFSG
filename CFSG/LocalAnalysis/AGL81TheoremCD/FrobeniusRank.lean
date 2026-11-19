@@ -18,19 +18,19 @@ open CFSG.Open Subgroup
 variable {G : Type} [Group G] [Finite G]
 
 theorem pRank_le_one_of_twoGroup_fixedPointFree {K V : Subgroup G} {q : ℕ}
-    (hK2 : IsPGroup 2 K) (hKne : K ≠ ⊥)
+    (_hK2 : IsPGroup 2 K) (hKne : K ≠ ⊥)
     (hVK : V ≤ Subgroup.normalizer (K : Set G))
     (hfpf : ∀ v ∈ V, v ≠ 1 → ∀ k ∈ K, k * v = v * k → k = 1)
-    (hq : q.Prime) (hq2 : q ≠ 2) :
+    (hq : q.Prime) (_hq2 : q ≠ 2) :
     CFSG.Open.pRank q V ≤ 1 := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hKnt : Nontrivial K := (Subgroup.nontrivial_iff_ne_bot K).mpr hKne
   refine CFSG.SectionRank.pRank_le hq.one_lt (H := V) (k := 1) ?_
   intro E hEV hE
-  haveI : IsMulCommutative ↥E := hE.1
-  letI : CommGroup ↥E := IsMulCommutative.instCommGroup
+  have : IsMulCommutative ↥E := hE.1
+  let : CommGroup ↥E := IsMulCommutative.instCommGroup
   let act := Subgroup.conjMulDistribMulActionOfLeNormalizer E K (hEV.trans hVK)
-  letI : MulDistribMulAction E K := act
+  let : MulDistribMulAction E K := act
   have hfree : ∀ a : E, a ≠ 1 → ∀ x : K, a • x = x → x = 1 := by
     intro a ha x hx
     have hcoe : ((a • x : K) : G) = (a : G) * (x : G) * (a : G)⁻¹ :=
@@ -49,7 +49,7 @@ theorem pRank_le_one_of_twoGroup_fixedPointFree {K V : Subgroup G} {q : ℕ}
     exact Subtype.ext (hfpf (a : G) haV ha1 (x : G) x.2 hxa)
   obtain ⟨-, hEcyc⟩ :=
     CFSG.LocalAnalysis.SteinbergBS.abelian_free_nilpotent_actor_cyclic (A := ↥E) (N := ↥K) hfree
-  haveI : IsCyclic ↥E := hEcyc
+  have : IsCyclic ↥E := hEcyc
   have hcomm : ∀ a b : E, a * b = b * a := fun a b => mul_comm a b
   obtain ⟨x, hx⟩ := isCyclic_iff_exists_zpowers_eq_top.mp (inferInstance : IsCyclic E)
   have hcard : Nat.card E = orderOf x := (orderOf_eq_card_of_zpowers_eq_top hx).symm
@@ -63,6 +63,7 @@ theorem pRank_le_one_of_twoGroup_fixedPointFree {K V : Subgroup G} {q : ℕ}
     exact Nat.le_of_dvd hq.pos hdvd
   simpa [pow_one] using hcardq
 
+omit [Finite G] in
 theorem isComplement'_subgroupOf_of_normal_cover {K V X : Subgroup G}
     (hKX : K ≤ X) (hVX : V ≤ X) (hKnorm : (K.subgroupOf X).Normal)
     (hdisj : K ⊓ V = ⊥) (hcover : ∀ x ∈ X, ∃ k ∈ K, ∃ v ∈ V, x = k * v) :
@@ -94,20 +95,21 @@ theorem isComplement'_subgroupOf_of_normal_cover {K V X : Subgroup G}
 private theorem inf_twoGroup_eq_bot_of_isElemAbelian {E K : Subgroup G} {q : ℕ}
     (hK2 : IsPGroup 2 K) (hE : IsElemAbelian q E) (hq : q.Prime) (hq2 : q ≠ 2) :
     E ⊓ K = ⊥ := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   refine disjoint_iff.mp (Subgroup.disjoint_of_coprime_natCard ?_)
   obtain ⟨a, ha⟩ := (CFSG.Open.IsElemAbelian.isPGroup hE).exists_card_eq
   obtain ⟨b, hb⟩ := hK2.exists_card_eq
   rw [ha, hb]
   exact Nat.Coprime.pow a b ((Nat.coprime_primes hq Nat.prime_two).mpr hq2)
 
+omit [Finite G] in
 private theorem exists_injective_hom_to_complement {K V X E : Subgroup G}
     (hKX : K ≤ X) (hVX : V ≤ X) (hKnorm : (K.subgroupOf X).Normal)
     (hdisj : K ⊓ V = ⊥)
     (hcover : ∀ x ∈ X, ∃ k ∈ K, ∃ v ∈ V, x = k * v)
     (hEX : E ≤ X) (hEinf : E ⊓ K = ⊥) :
     ∃ f : E →* G, Function.Injective f ∧ f.range ≤ V := by
-  haveI : (K.subgroupOf X).Normal := hKnorm
+  have : (K.subgroupOf X).Normal := hKnorm
   have hcomp := isComplement'_subgroupOf_of_normal_cover hKX hVX hKnorm hdisj hcover
   let e : X ⧸ (K.subgroupOf X) ≃* V :=
     (hcomp.QuotientMulEquiv).trans (Subgroup.subgroupOfEquivOfLe hVX)
@@ -152,7 +154,7 @@ theorem pRank_le_one_of_twoGroup_frobeniusProduct {K V W X : Subgroup G} {q : �
     (hfpf : ∀ v ∈ V, v ≠ 1 → ∀ k ∈ K, k * v = v * k → k = 1)
     (hq : q.Prime) (hq2 : q ≠ 2) :
     CFSG.Open.pRank q W ≤ 1 := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hVrank : CFSG.Open.pRank q V ≤ 1 :=
     pRank_le_one_of_twoGroup_fixedPointFree hK2 hKne hVK hfpf hq hq2
   refine CFSG.SectionRank.pRank_le hq.one_lt (H := W) (k := 1) ?_
@@ -161,8 +163,8 @@ theorem pRank_le_one_of_twoGroup_frobeniusProduct {K V W X : Subgroup G} {q : �
   have hEinf : E ⊓ K = ⊥ := inf_twoGroup_eq_bot_of_isElemAbelian hK2 hE hq hq2
   obtain ⟨fG, hfG, hfr⟩ :=
     exists_injective_hom_to_complement hKX hVX hKnorm hdisj hcover hEX hEinf
-  haveI : IsMulCommutative ↥E := hE.1
-  letI : CommGroup ↥E := IsMulCommutative.instCommGroup
+  have : IsMulCommutative ↥E := hE.1
+  let : CommGroup ↥E := IsMulCommutative.instCommGroup
   have hcomm : ∀ a b : E, a * b = b * a := fun a b => mul_comm a b
   have hpow : ∀ a : E, a ^ q = 1 := by
     intro a
@@ -189,7 +191,7 @@ theorem pRank_le_one_of_twoGroup_frobeniusSup {K V W X : Subgroup G} {q : ℕ}
     (hfpf : ∀ v ∈ V, v ≠ 1 → ∀ k ∈ K, k * v = v * k → k = 1)
     (hq : q.Prime) (hq2 : q ≠ 2) :
     CFSG.Open.pRank q W ≤ 1 := by
-  haveI : (K.subgroupOf X).Normal := hKnorm
+  have : (K.subgroupOf X).Normal := hKnorm
   have hcover : ∀ x ∈ X, ∃ k ∈ K, ∃ v ∈ V, x = k * v := by
     have hsupX : (K.subgroupOf X) ⊔ (V.subgroupOf X) = ⊤ := by
       rw [← Subgroup.subgroupOf_sup hKX hVX, hsup, Subgroup.subgroupOf_self]
@@ -205,16 +207,17 @@ theorem pRank_le_one_of_twoGroup_frobeniusSup {K V W X : Subgroup G} {q : ℕ}
   exact pRank_le_one_of_twoGroup_frobeniusProduct hK2 hKne hKX hVX hWX hKnorm hdisj hcover
     hVK hfpf hq hq2
 
+omit [Finite G] in
 private theorem central_of_orderPrime_in_centralizer {p : ℕ}
     {P₀ C L R : Subgroup G} (hp : p.Prime)
     (hC : C = Subgroup.centralizer (P₀ : Set G)) (hP₀card : Nat.card P₀ = p)
     (hLC : L ≤ C) (hR : R = C ⊓ Subgroup.centralizer (L : Set G)) :
     P₀ ≤ R ∧ P₀.subgroupOf R ≤ Subgroup.center R := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hRleC : R ≤ C := by rw [hR]; exact inf_le_left
   have hP₀C : P₀ ≤ C := by
     rw [hC]
-    haveI : IsCyclic ↥P₀ := isCyclic_of_prime_card hP₀card
+    have : IsCyclic ↥P₀ := isCyclic_of_prime_card hP₀card
     exact (Subgroup.le_centralizer_iff_isMulCommutative).mpr inferInstance
   have hP₀centL : P₀ ≤ Subgroup.centralizer (L : Set G) := by
     intro a ha
@@ -250,9 +253,9 @@ private theorem orderPrime_mem_center_of_cyclic_pSylow {p : ℕ}
   obtain ⟨S, hXS⟩ := hXRp.exists_le_sylow
   have hScyc : IsCyclic ↥(S : Subgroup R) := by
     have hmap : IsCyclic ↥((S : Subgroup R).map R.subtype) :=
-      hcyc _ (Subgroup.map_subtype_le _) (S.isPGroup'.map R.subtype)
+      hcyc _ (Subgroup.map_subtype_le _) (S.isPGroup.map R.subtype)
     exact (S.equivMapOfInjective R.subtype R.subtype_injective).isCyclic.mpr hmap
-  haveI : IsCyclic ↥(S : Subgroup R) := hScyc
+  have : IsCyclic ↥(S : Subgroup R) := hScyc
   have hP₀S : P₀.subgroupOf R ≤ (S : Subgroup R) :=
     IsPGroup.le_sylow_of_normal (p := p)
       (IsPGroup.of_card (n := 1) (by
@@ -273,18 +276,20 @@ private theorem orderPrime_mem_center_of_cyclic_pSylow {p : ℕ}
     have hxsub : (⟨x, hxS⟩ : (S : Subgroup R)) ∈
         (P₀.subgroupOf R).subgroupOf (S : Subgroup R) := by
       rw [← heq]
-      simpa [Subgroup.mem_subgroupOf] using hxX
+      simp [Subgroup.mem_subgroupOf]
     simpa [Subgroup.mem_subgroupOf] using hxsub
   exact hP₀center hxP₀
 
+omit [Finite G] in
 private theorem isCyclic_sylow_of_pSubgroups_cyclic {p : ℕ} {R : Subgroup G}
     (hcyc : ∀ S : Subgroup G, S ≤ R → IsPGroup p S → IsCyclic S) :
     ∀ S : Sylow p R, IsCyclic ↥(S : Subgroup R) := by
   intro S
   have hmap : IsCyclic ↥((S : Subgroup R).map R.subtype) :=
-    hcyc _ (Subgroup.map_subtype_le _) (S.isPGroup'.map R.subtype)
+    hcyc _ (Subgroup.map_subtype_le _) (S.isPGroup.map R.subtype)
   exact (S.equivMapOfInjective R.subtype R.subtype_injective).isCyclic.mpr hmap
 
+omit [Finite G] in
 private theorem subgroupOf_centralizer_normal {L C R : Subgroup G}
     (hLC : L ≤ C) (hLnormal : (L.subgroupOf C).Normal)
     (hR : R = C ⊓ Subgroup.centralizer (L : Set G)) :
@@ -305,6 +310,7 @@ private theorem subgroupOf_centralizer_normal {L C R : Subgroup G}
       exact ⟨x.2, hx⟩
   rwa [hEq]
 
+omit [Finite G] in
 private theorem normalComplement_normal_in_centralizer {C R : Subgroup G} {HR : Subgroup R}
     (hRleC : R ≤ C) (hRC : (R.subgroupOf C).Normal)
     (hHRchar : HR.Characteristic) :
@@ -327,6 +333,7 @@ private theorem normalComplement_normal_in_centralizer {C R : Subgroup G} {HR : 
   have hHGleC : HG ≤ C := hHGR.trans hRleC
   exact (Subgroup.normal_subgroupOf_iff_le_normalizer hHGleC).mpr (hnormR.trans hHGnormR)
 
+omit [Finite G] in
 private theorem normalComplement_le_relPPrimeCore {p : ℕ} {C R : Subgroup G}
     {HR : Subgroup R} (hRleC : R ≤ C)
     (hHGnormalC : ((HR.map R.subtype).subgroupOf C).Normal)
@@ -345,16 +352,17 @@ private theorem characteristic_of_normalComplement {p : ℕ} [Fact p.Prime]
   obtain ⟨k, hk⟩ := hHRp.exists_card_eq
   exact ⟨k, by rw [Subgroup.index_eq_card, hk]⟩
 
+omit [Finite G] in
 private theorem qSubgroup_le_normalComplement {p q : ℕ} {R : Subgroup G} {HR : Subgroup R}
     [HR.Normal] (hp : p.Prime) (hq : q.Prime) (hHRp : IsPGroup p (R ⧸ HR)) (hqp : q ≠ p)
     {Q : Subgroup G} (hQR : Q ≤ R) (hQq : IsPGroup q Q) :
     Q ≤ HR.map R.subtype := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact q.Prime := ⟨hq⟩
   let img : Subgroup (R ⧸ HR) := (Q.subgroupOf R).map (QuotientGroup.mk' HR)
   have himgq : IsPGroup q img := (hQq.comap_subtype).map _
   have himgp : IsPGroup p img := hHRp.to_subgroup img
-  haveI : Subsingleton ↥img := IsPGroup.subsingleton_of_ne himgp himgq (Ne.symm hqp)
+  have : Subsingleton ↥img := IsPGroup.subsingleton_of_ne himgp himgq (Ne.symm hqp)
   have himgbot : img = ⊥ := by
     apply Subgroup.eq_bot_iff_forall img |>.mpr
     intro y hy
@@ -379,8 +387,8 @@ theorem qSubgroup_le_relPPrimeCore_of_cyclic_pSubgroups {p q : ℕ}
     (hcyc : ∀ S : Subgroup G, S ≤ R → IsPGroup p S → IsCyclic S)
     {Q : Subgroup G} (hQR : Q ≤ R) (hQq : IsPGroup q Q) :
     Q ≤ CFSG.Open.relPPrimeCore p C := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hRleC : R ≤ C := by rw [hR]; exact inf_le_left
   obtain ⟨hP₀R, hP₀center⟩ :=
     central_of_orderPrime_in_centralizer hp hC hP₀card hLC hR
@@ -389,7 +397,7 @@ theorem qSubgroup_le_relPPrimeCore_of_cyclic_pSubgroups {p q : ℕ}
     CFSG.LocalAnalysis.RankThreeTheoremC.hasNormalPComplement_of_cyclic_sylow_central
       (isCyclic_sylow_of_pSubgroups_cyclic hcyc) hcen
   obtain ⟨HR, hHRnormal, hHRcop, hHRp⟩ := hcomp
-  haveI : HR.Normal := hHRnormal
+  have : HR.Normal := hHRnormal
   have hHRchar : HR.Characteristic :=
     characteristic_of_normalComplement hHRcop hHRp
   have hRC : (R.subgroupOf C).Normal := subgroupOf_centralizer_normal hLC hLnormal hR

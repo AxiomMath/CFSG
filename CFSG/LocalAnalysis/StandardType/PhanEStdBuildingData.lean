@@ -41,7 +41,7 @@ theorem stdIsSphericalFlip (n₀ : K) (hn₀ : ∀ g : K, g⁻¹ * (n₀ * F.φ 
     (hpanel : StdPanel hct F n₀) :
     IsSphericalFlip (coxeterMatrix D.isFiniteType).toCoxeterSystem (stdδ hct) w₀
       (stdFlip F n₀) where
-  invol x := stdFlip_invol F hext hw₀ n₀ hn₀ x
+  invol x := stdFlip_invol F n₀ hn₀ x
   dist x y := stdFlip_δ hct F hext hw₀ n₀ x y
   panel := hpanel
 
@@ -64,7 +64,7 @@ theorem stdIsSphericalFlip_one (hpanel : StdPanel hct F 1) :
   t := stdFlip F (nrep hct w₀)
   flip := stdIsSphericalFlip hct F hext hw₀ (nrep hct w₀)
     (fun g => by
-      rw [nrep_mul_phi_self hct F hext hw₀ hsq]
-      simp [Subgroup.one_mem]) hpanel
+      rw [nrep_mul_phi_self hct F hw₀ hsq]
+      simp) hpanel
 
 end CFSG.ClassicalInvolution.Phan.PhanE

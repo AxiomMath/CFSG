@@ -19,9 +19,9 @@ variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {z r ρ : G}
 theorem sec5p510c_exists_p (h52a : Asc82Lemma52a) (c : Sec5RCtx G t L S z r B A)
     (hne : ¬ S ⊓ centralizer (L : Set G) ≤ zpowers t) :
     ∃ p ∈ S ⊓ centralizer (L : Set G), p * p = t := by
-  rw [SetLike.not_le_iff_exists] at hne
+  rw [IsConcreteLE.not_le_iff_exists] at hne
   obtain ⟨x, hx, hxt⟩ := hne
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp c.sylow.2.1 ⟨x, hx.1⟩
   rw [Subgroup.orderOf_mk] at hk
   have htC : t ∈ centralizer (L : Set G) := sec4_t_mem_centralizer c.toSec3Setting
@@ -139,7 +139,7 @@ theorem sec5p510c_mem_normalizer_A (c : Sec5RCtx G t L S z r B A) {g : G}
     rwa [show g⁻¹ * (g * a * g⁻¹) * g⁻¹⁻¹ = a by group] at this
 
 theorem sec5p510c_no_inv (hy : Sec5B59Hyp) (h : Sec510Ctx G t L S z r ρ B A φ) {x : G}
-    (hx : x ∈ S ⊓ centralizer (L : Set G)) (hx2t : x * x = t)
+    (hx : x ∈ S ⊓ centralizer (L : Set G)) (_hx2t : x * x = t)
     (hd : r * x * r⁻¹ * x⁻¹ = t) : False := by
   have c := h.toSec5RCtx
   have htt := sec5p510c_t_mul_t h

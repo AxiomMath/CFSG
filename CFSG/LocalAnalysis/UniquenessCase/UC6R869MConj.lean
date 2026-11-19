@@ -52,7 +52,7 @@ theorem pRank_mulAut_bar2_le_two (hOut : CFSG.LocalAnalysis.RankThreeTheoremC.KF
     {L : Subgroup G} (hLk : CFSG.Open.IsKGroup L) (hq : CFSG.Open.IsQuasisimple (Bar2 L)) {p : ℕ}
     (hp : p.Prime) (hp2 : p ≠ 2) (h1 : CFSG.Open.pRank p L ≤ 1) :
     CFSG.Open.pRank p (⊤ : Subgroup (MulAut (Bar2 L))) ≤ 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hX1 : CFSG.Open.pRank p (⊤ : Subgroup (Bar2 L)) ≤ 1 := by
     have h3 : ¬ p ∣ Nat.card (CFSG.pCore 2 ↥L) :=
       CFSG.GroupTheory.not_dvd_card_of_isPGroup (p := 2) (q := p)
@@ -61,7 +61,7 @@ theorem pRank_mulAut_bar2_le_two (hOut : CFSG.LocalAnalysis.RankThreeTheoremC.KF
       ← CFSG.SectionRank.pRank_eq_pRank_top_subgroup L]
     exact h1
   obtain ⟨T⟩ : Nonempty (Sylow p (Bar2 L)) := inferInstance
-  haveI : IsCyclic (T : Subgroup (Bar2 L)) :=
+  have : IsCyclic (T : Subgroup (Bar2 L)) :=
     CFSG.AGLEmbedding.isCyclic_sylow_of_pRank_le_one hp hp2 hX1 T
   have hf : Function.Surjective (QuotientGroup.mk' (center (Bar2 L))) :=
     QuotientGroup.mk'_surjective _
@@ -88,7 +88,7 @@ theorem two_le_pRank_centralizer_of_pRank_mulAut {M L : Subgroup G} (hLM : L ≤
     (hBcard : Nat.card B = p ^ 4) {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {E : Subgroup G}
     (hEL : E ≤ L) (hE : IsPGroup q E) :
     2 ≤ CFSG.Open.pRank p (M ⊓ centralizer (E : Set G)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let φ : ↥B →* MulAut (Bar2 L) := (UC6S846.rhoL L).comp (Subgroup.inclusion hBN)
   have hRel : IsElemAbelian p φ.range := by
     rw [MonoidHom.range_eq_map, ← Subgroup.subgroupOf_self B]
@@ -156,7 +156,7 @@ theorem uniqueMax_of_normal {M L : Subgroup G} (hM : uniqueFourIsMaxTwoLocal M)
 theorem not_dvd_card_conjClosure {M K : Subgroup G} (hK : K ∈ calC M)
     (hnot : ¬ M ≤ normalizer (K : Set G)) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (h1 : CFSG.Open.pRank p (conjClosure M K) ≤ 1) : ¬ p ∣ Nat.card (conjClosure M K) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hMM : M ≤ normalizer (M : Set G) := Subgroup.le_normalizer
   have hLM : conjClosure M K ≤ M := (uc22p22u_conjClosure_isProd le_rfl hMM hK).1
   obtain ⟨m, hm, hne⟩ : ∃ m ∈ M, uniqueFourConj m K ≠ K := by
@@ -176,7 +176,7 @@ theorem not_dvd_card_conjClosure {M K : Subgroup G} (hK : K ∈ calC M)
       (hconj m hm) hLM hp hp2 h
     omega
   have hbar : ¬ p ∣ Nat.card (Bar2 K) := by
-    haveI : Group.IsPerfect (Bar2 K) := Group.isPerfect_def.mpr hK.2.2.1
+    have : Group.IsPerfect (Bar2 K) := Group.isPerfect_def.mpr hK.2.2.1
     exact CFSG.RankThree.PerfectCover.perfect_central_quotient_prime_support hp
       (by rwa [← Subgroup.index_eq_card])
   have hKp : ¬ p ∣ Nat.card K := by
@@ -186,7 +186,7 @@ theorem not_dvd_card_conjClosure {M K : Subgroup G} (hK : K ∈ calC M)
     rw [Subgroup.card_eq_card_quotient_mul_card_subgroup (CFSG.pCore 2 ↥K)]
     exact Nat.Prime.not_dvd_mul hp hbar h2
   classical
-  haveI : Fintype ↥M := Fintype.ofFinite _
+  have : Fintype ↥M := Fintype.ofFinite _
   let F : ↥M → Subgroup G := fun g => K.map (MulAut.conj (g : G)).toMonoidHom
   have hFC : ∀ g, F g ∈ calC M := fun g => by
     simpa [F, uniqueFourConj] using uc22p22u_calC_conj hMM hK (M.inv_mem g.2)
@@ -224,11 +224,11 @@ theorem uniqueMax_conjClosure (hS : Standing4 G) (hU : uniqueFourUnique G) (S : 
       ∃ q : ℕ, q.Prime ∧ q ≠ 2 ∧ 1 < CFSG.Open.pRank q (conjClosure S.M K) := by
     by_contra h
     exact hthin fun q hq hq2 => not_lt.1 fun hlt => h ⟨q, hq, hq2, hlt⟩
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨R₀, hR₀⟩ := CFSG.GroupTheory.exists_sylow_le_normalizer_of_isPGroup hp hq
     hBel.isPGroup (hBM.trans hML) hLp
   have hRp : IsPGroup q ((R₀ : Subgroup ↥(conjClosure S.M K)).map (conjClosure S.M K).subtype) :=
-    R₀.isPGroup'.map _
+    R₀.isPGroup.map _
   have hRr : CFSG.Open.pRank q
       ((R₀ : Subgroup ↥(conjClosure S.M K)).map (conjClosure S.M K).subtype) =
         CFSG.Open.pRank q (conjClosure S.M K) :=

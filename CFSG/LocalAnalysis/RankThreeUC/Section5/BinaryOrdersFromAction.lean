@@ -22,9 +22,9 @@ theorem binary_orders {p : ℕ} {P T B : Subgroup G} {e : ℕ}
     ∀ r ∈ piOf B, ∃ k : ℕ, binaryMultiplicativeOrder r = 2 ^ k := by
   intro r hr
   have hp : p.Prime := h.oddPrimeClassTwoAction.setting.prime
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (⁅⁅P, P⁆, P⁆ = ⊥) := ⟨h.oddPrimeClassTwoAction.setting.class_le_two⟩
-  haveI : Fact (Monoid.exponent ↥P = p) := ⟨h.oddPrimeClassTwoAction.setting.exponent⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (⁅⁅P, P⁆, P⁆ = ⊥) := ⟨h.oddPrimeClassTwoAction.setting.class_le_two⟩
+  have : Fact (Monoid.exponent ↥P = p) := ⟨h.oddPrimeClassTwoAction.setting.exponent⟩
   obtain ⟨A, hAB, hAcard, hAnorm, hAne, hA2⟩ :=
     CFSG.LocalAnalysis.RankThreeUC.Section5.PrimeCommutatorNontrivial.exists_prime_subgroup h hr
   have hrp : r.Prime := hr.1
@@ -36,7 +36,7 @@ theorem binary_orders {p : ℕ} {P T B : Subgroup G} {e : ℕ}
   have hp2 : 2 ≠ p := by
     rintro rfl; exact absurd h.oddPrimeClassTwoAction.setting.odd (by decide)
   obtain ⟨hcop, hinj⟩ := CFSG.LocalAnalysis.RankThreeUC.Section5.JointFaithful.faithful h hpi
-  haveI := CFSG.LocalAnalysis.RankThreeUC.Section5.JointFaithful.solvable h
+  have := CFSG.LocalAnalysis.RankThreeUC.Section5.JointFaithful.solvable h
   have hS : CFSG.LocalAnalysis.RankThreeUC.FaithfulPrimeFieldKGroupModule (joint P T B) p (Additive (Quotient.Pbar P))
       (rep p (joint P T B)) :=
     ⟨CFSG.LocalAnalysis.RankThreeUC.Section5.JointFaithful.kGroup h, hp, hinj⟩

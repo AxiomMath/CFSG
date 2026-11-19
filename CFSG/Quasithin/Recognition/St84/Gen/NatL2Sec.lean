@@ -77,7 +77,7 @@ theorem exists_natCoord_of_pushHyp
       rw [GaloisField.card 2 n (by omega)]
       calc 4 = 2 ^ 2 := by norm_num
         _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn
-    haveI : Nontrivial (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 n)) :=
+    have : Nontrivial (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 n)) :=
       (Matrix.ProjectiveSpecialLinearGroup.rank_two_simple hF4).toNontrivial
     exact e.toEquiv.nontrivial
   let e2 : OTwoQuot X ≃* SL(2, GaloisField 2 n) :=
@@ -101,15 +101,15 @@ theorem exists_natCoord_of_pushHyp
   have hfinW : Finite hs.W := by
     have := hs.normal_subgroupOf
     exact (inferInstance : Finite (↥Z ⧸ (zZero X Z).subgroupOf Z))
-  haveI : Finite hs.W := hfinW
-  haveI : Finite (Additive hs.W) := hfinW
+  have : Finite hs.W := hfinW
+  have : Finite (Additive hs.W) := hfinW
   have hWnt : Nontrivial hs.W := by
     obtain ⟨z, hz, hz0⟩ := exists_z_not_mem_zZero h hntQ
     exact ⟨1, hs.proj ⟨z, hz⟩, fun h1 => hz0 ((hs.proj_eq_one_iff ⟨z, hz⟩).mp h1.symm)⟩
-  haveI : Nontrivial (Additive hs.W) := by
+  have : Nontrivial (Additive hs.W) := by
     obtain ⟨a, b, hab⟩ := hWnt
     exact ⟨Additive.ofMul a, Additive.ofMul b, fun h => hab (Additive.ofMul.injective h)⟩
-  letI : Module (ZMod 2) (Additive hs.W) := CFSG.Quasithin.H13.zmod2ModuleOfExp hsq
+  let : Module (ZMod 2) (Additive hs.W) := CFSG.Quasithin.H13.zmod2ModuleOfExp hsq
   have hkerσ : α.ker ≤ hs.conjHom.ker := by
     intro x hx
     rw [MonoidHom.mem_ker]
@@ -193,7 +193,7 @@ theorem exists_natCoord_of_pushHyp
     rw [hbot, Subgroup.mem_bot] at hmem
     exact (hαk ⟨y, hAX hy⟩).mp hmem
   have hAe : CFSG.Open.IsElemAbelian 2 A := hA.2.1
-  haveI hBelem : CFSG.IsElementaryAbelian 2 B :=
+  have hBelem : CFSG.IsElementaryAbelian 2 B :=
     CFSG.IsElementaryAbelian.subgroup_map
       (CFSG.Open.IsElemAbelian.subgroupOf hAe X).isElementaryAbelian α
   let Fix : Subgroup hs.W :=
@@ -249,7 +249,7 @@ theorem exists_natCoord_of_pushHyp
     rw [hfixcard]
     calc Nat.card (Additive hs.W) = Fix.index * Nat.card ↥Fix := Fix.index_mul_card.symm
       _ ≤ Nat.card B * Nat.card ↥Fix := Nat.mul_le_mul_right _ hFixindex
-  haveI : Fintype (GaloisField 2 n) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 n) := Fintype.ofFinite _
   obtain ⟨-, -, φ, hφ⟩ :=
     hmod (n := n) hn (F := GaloisField 2 n) (by
       rw [← Nat.card_eq_fintype_card, GaloisField.card 2 n (by omega)])

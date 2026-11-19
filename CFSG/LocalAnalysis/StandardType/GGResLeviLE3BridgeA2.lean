@@ -145,7 +145,7 @@ theorem l05nBL_attach_unique {Jn Λa : Type} [Fintype Jn] [DecidableEq Jn] [Fint
       rw [← hxy]
       exact y.2
     have hPh_supp : ∀ x ∈ Ph.support, x ∈ sAdd :=
-      fun x hx => hWg_supp x (SimpleGraph.Walk.support_bypass_subset Wg hx)
+      fun x hx => hWg_supp x (SimpleGraph.Walk.support_bypass_subset_support Wg hx)
     have hPh_snd_mem : Ph.snd ∈ sAdd :=
       hPh_supp Ph.snd (by
         simpa only [SimpleGraph.Walk.snd] using SimpleGraph.Walk.getVert_mem_support Ph 1)
@@ -246,7 +246,7 @@ theorem l05nBL_mu {U : Type} [Group U] {Jn Λa : Type} [Fintype Jn] [DecidableEq
     have hPa : P a := ⟨(a, j), Relation.ReflTransGen.refl, hj⟩
     have hmu : mu a = (c (Classical.choose hPa).2)⁻¹ := by
       dsimp only [mu]
-      exact dif_pos hPa
+      exact dite_eq_left hPa
     rw [hmu,
       hP_unique a (Classical.choose hPa) (a, j) (Classical.choose_spec hPa).1
         (Classical.choose_spec hPa).2 Relation.ReflTransGen.refl hj]
@@ -255,9 +255,9 @@ theorem l05nBL_mu {U : Type} [Group U] {Jn Λa : Type} [Fintype Jn] [DecidableEq
     by_cases hpa : P a
     · by_cases hpa' : P a'
       · have hval_a : mu a = (c (Classical.choose hpa).2)⁻¹ := by
-          dsimp only [mu]; exact dif_pos hpa
+          dsimp only [mu]; exact dite_eq_left hpa
         have hval_a' : mu a' = (c (Classical.choose hpa').2)⁻¹ := by
-          dsimp only [mu]; exact dif_pos hpa'
+          dsimp only [mu]; exact dite_eq_left hpa'
         rw [hval_a, hval_a',
           hP_unique a (Classical.choose hpa) (Classical.choose hpa')
             (Classical.choose_spec hpa).1 (Classical.choose_spec hpa).2
@@ -274,8 +274,8 @@ theorem l05nBL_mu {U : Type} [Group U] {Jn Λa : Type} [Fintype Jn] [DecidableEq
           (Relation.ReflTransGen.single hea).trans
             (Classical.choose_spec hpa').1,
           (Classical.choose_spec hpa').2⟩
-      · have hval_a : mu a = 1 := by dsimp only [mu]; exact dif_neg hpa
-        have hval_a' : mu a' = 1 := by dsimp only [mu]; exact dif_neg hpa'
+      · have hval_a : mu a = 1 := by dsimp only [mu]; exact dite_eq_right hpa
+        have hval_a' : mu a' = 1 := by dsimp only [mu]; exact dite_eq_right hpa'
         rw [hval_a, hval_a']
 
 section UnitaryRootTwoSubgroup
@@ -441,7 +441,7 @@ theorem ggHasLabel_of_unitaryModel {G : Type} [Group G] {X : Subgroup G}
     obtain ⟨hqs, hcen⟩ :=
       CFSG.LieType.Universal.Unitary.isQuasisimple_statedSU_of_card
         (F := F) (p := 2) (f := n) hF (by norm_num) hdq
-    haveI : Group.IsPerfect ↥(unitarySU 2 n F 3) := ⟨hqs.1.1⟩
+    have : Group.IsPerfect ↥(unitarySU 2 n F 3) := ⟨hqs.1.1⟩
     have hcenter : Subgroup.center (unitarySU 2 n F 3) = unitaryScalars hM.field 3 := by
       rw [unitaryScalars_eq hM.field (n := 3) (by norm_num)]
       exact hcen

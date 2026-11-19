@@ -15,7 +15,7 @@ variable {G : Type} [Group G]
 theorem inv_mul_tildeAut_projZ [Finite G] {V H : Subgroup G} {p : Hbar V H} {b r : Xbar V H}
     (hr : (r : Hbar V H) = (b : Hbar V H)⁻¹ * p * b * p⁻¹) :
     (projZ V H b)⁻¹ * tildeAut V H p (projZ V H b) = projZ V H r := by
-  haveI := normal_barOf_xOf V H
+  have := normal_barOf_xOf V H
   have h1 : tildeAut V H p (projZ V H b) = projZ V H (MulAut.conjNormal p b) := tildeAut_mk p b
   have h2 : b⁻¹ * (MulAut.conjNormal p b : Xbar V H) = r := by
     apply Subtype.ext
@@ -42,7 +42,7 @@ variable {M V Q P H : Subgroup G} [Finite G]
 
 theorem commutator_mem_V_of_mem_P (hc : MinCex M V Q P H) {a b : G} (ha : a ∈ P) (hb : b ∈ P) :
     ⁅a, b⁆ ∈ V := by
-  haveI : Fact (IsPGroup 2 ↥P) := ⟨hc.isPGroup_P⟩
+  have : Fact (IsPGroup 2 ↥P) := ⟨hc.isPGroup_P⟩
   have hmem : (⁅(⟨a, ha⟩ : P), (⟨b, hb⟩ : P)⁆ : ↥P) ∈ frattini ↥P :=
     CFSG.commutator_le_frattini_of_isPGroup (R := ↥P) (p := 2)
       (Subgroup.commutator_mem_commutator (Subgroup.mem_top _) (Subgroup.mem_top _))
@@ -56,6 +56,7 @@ theorem commutator_mem_barOf_V (hc : MinCex M V Q P H) {a b : Hbar V H}
   have := hc.commutator_mem_V_of_mem_P ha' hb'
   simpa [commutatorElement_def] using this
 
+omit [Finite G] in
 theorem tildeAut_fix_VZ (hc : MinCex M V Q P H) {p : Hbar V H} (hp : p ∈ barOf V H P) :
     ∀ a ∈ VZ V H, tildeAut V H p a = a :=
   hc.tildeAut_fix hp
@@ -89,7 +90,7 @@ theorem centralizes_of_tildeAut_eq_conj (hc : MinCex M V Q P H) (hd : Sec23Data 
     {p : Hbar V H} {y : Xbar V H} (hα : tildeAut V H p = MulAut.conj (projZ V H y)) :
     ∀ z : Xbar V H, ((y : Hbar V H)⁻¹ * p) * (z : Hbar V H) * ((y : Hbar V H)⁻¹ * p)⁻¹ =
       (z : Hbar V H) := by
-  haveI := normal_barOf_xOf V H
+  have := normal_barOf_xOf V H
   apply hc.centralizes_of_tildeAut_eq_one hd
   intro z
   have hy : projZ V H (MulAut.conjNormal p z) = projZ V H y * projZ V H z * (projZ V H y)⁻¹ := by

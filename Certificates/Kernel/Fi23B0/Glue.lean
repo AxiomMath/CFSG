@@ -70,10 +70,10 @@ theorem idx_letter {l : ℕ} (hl : l < 24) {x : ℕ} (hx : x < 31671) :
   rw [← rep_pairG_all l (by omega) x hx, letters_eq]
   exact ((letters_TR.2 l hl).2 x hx).1
 
-theorem wvL_lt : ∀ w : List ℤ, (∀ z ∈ w, z.toNat < 24) → ∀ x < 31671, wvL w x < 31671
-  | [], _, x, hx => hx
-  | z :: w, h, x, hx => LL_lt (h z List.mem_cons_self)
-      (wvL_lt w (fun y hy => h y (List.mem_cons_of_mem z hy)) x hx)
+theorem wvL_lt : ∀ w : List ℤ, (∀ z ∈ w, z.toNat < 24) → ∀ _x < 31671, wvL w _x < 31671
+  | [], _, _x, hx => hx
+  | z :: w, h, _x, hx => LL_lt (h z List.mem_cons_self)
+      (wvL_lt w (fun y hy => h y (List.mem_cons_of_mem z hy)) _x hx)
 
 theorem idx_word : ∀ w : List ℤ, (∀ z ∈ w, z.toNat < 24) → ∀ x < 31671,
     idx 31671 (wordG jG w) x = wvL w x

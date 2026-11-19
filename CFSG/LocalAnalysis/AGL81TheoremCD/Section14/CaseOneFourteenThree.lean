@@ -23,10 +23,10 @@ variable {G : Type} [Group G] [Finite G]
 private theorem two_kComp_sup_data
     {M H E Q J : Subgroup G} {N' : Subgroup G} (h : S14Choice G M H E Q J)
     (hA : TypeA M H) (hpre : PreambleTypes M) (hU : NineNineOneAt M)
-    (hL : PLayerNotLeAt M) (hNK : N' ≤ Subgroup.normalizer (kSub 3 M N' : Set G))
+    (hL : PLayerNotLeAt M) (_hNK : N' ≤ Subgroup.normalizer (kSub 3 M N' : Set G))
     (hQN' : Q ≤ N') (hN'C : HypCGen G M 3 E N') (hJK' : IsKComp M N' J)
     {J' : Subgroup G} (hJ'comp : IsKComp M N' J') (hJ'type : IsSL34Star J' ∨ Is3A6Star J')
-    (hJ'ne : J' ≠ J) (hsupK' : kSub 3 M N' = J ⊔ J')
+    (hJ'ne : J' ≠ J) (_hsupK' : kSub 3 M N' = J ⊔ J')
     (hK'J : kSub 3 M N' ≤ Subgroup.normalizer (J : Set G))
     (hK'J' : kSub 3 M N' ≤ Subgroup.normalizer (J' : Set G))
     (hQJ' : Q ≤ Subgroup.normalizer (J' : Set G))
@@ -278,7 +278,7 @@ private theorem two_kComp_conj
     (hpre : PreambleTypes M) (hU : NineNineOneAt M) (hL : PLayerNotLeAt M)
     (h142 : FourteenTwoCaseOneAt M) (hK : KNormalAt M) (hJS : IsSL34Star J)
     (hQnormM : Subgroup.normalizer (Q : Set G) ≤ M) {N' : Subgroup G}
-    (hN' : rankThreeIsMaxTwoLocal N') (hJN' : J ≤ N') (hQN' : Q ≤ N')
+    (_hN' : rankThreeIsMaxTwoLocal N') (_hJN' : J ≤ N') (hQN' : Q ≤ N')
     (hN'J : ¬ N' ≤ Subgroup.normalizer (J : Set G)) (hN'C : HypCGen G M 3 E N')
     (hN'Q : N' ∈ H2StarFam M Q) (hJK' : IsKComp M N' J)
     {A₁ A₂ : Subgroup G} (hne : A₁ ≠ A₂) (hA₁ : IsKComp M N' A₁)
@@ -334,7 +334,7 @@ private theorem two_kComp_eq_of_conj
     (hNGJ : Subgroup.normalizer (J : Set G) ≤
       Subgroup.normalizer (CFSG.Open.pCoreOf 2 J : Set G))
     (hN₁O : Subgroup.normalizer (CFSG.Open.pCoreOf 2 J : Set G) ≤ N₁)
-    (hN' : rankThreeIsMaxTwoLocal N') (hJN' : J ≤ N') (hQN' : Q ≤ N')
+    (hN' : rankThreeIsMaxTwoLocal N') (_hJN' : J ≤ N') (_hQN' : Q ≤ N')
     (hJK' : IsKComp M N' J) (hK'J : kSub 3 M N' ≤ Subgroup.normalizer (J : Set G))
     (hN'C : HypCGen G M 3 E N') (hJ'comp : IsKComp M N' J') (hJ'ne : J' ≠ J)
     (hsupK' : kSub 3 M N' = J ⊔ J') (hS14' : S14Choice G M N' E Q J') : N' = N₁ := by

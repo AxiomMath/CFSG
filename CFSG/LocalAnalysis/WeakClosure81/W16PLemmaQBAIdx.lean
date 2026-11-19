@@ -20,7 +20,7 @@ variable {M V₀ V C : Subgroup G} {h : G}
 private theorem card_specialLinearGroup_two (F : Type) [Field F] [Finite F] :
     Nat.card (Matrix.SpecialLinearGroup (Fin 2) F) = Nat.card F * (Nat.card F ^ 2 - 1) := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have h := Matrix.card_SL_field (𝔽 := F) 2
   rw [Fin.prod_univ_two] at h
   simp only [Fin.val_zero, Fin.val_one, pow_zero, pow_one] at h
@@ -32,6 +32,7 @@ private theorem card_specialLinearGroup_two (F : Type) [Field F] [Finite F] :
   rw [e1]
   ring
 
+omit [Finite G] in
 private theorem relIndex_mul_card_map_eq_card {K : Type} [Group K]
     (ψ : ↥(V₀ ⊔ conjSubgroup V₀ h) →* K)
     (hψs : Function.Surjective ψ)

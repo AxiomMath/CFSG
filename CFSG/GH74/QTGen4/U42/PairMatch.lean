@@ -21,7 +21,7 @@ theorem pairUEquiv_apply (h : PairCore H B T U) (h' : PairCore H' B' T' U')
     (hU : ∀ b : ↥B, (b : G) ∈ U ↔ ((lam b : ↥B') : G') ∈ U') (u : ↥U) :
     ((pairUEquiv h h' lam hU u : ↥U') : G') =
       ((lam ⟨(u : G), h.T_le_B (h.U_le_T u.2)⟩ : ↥B') : G') := by
-  simp only [pairUEquiv, MulEquiv.trans_apply, restrictEquiv_apply]
+  simp only [pairUEquiv, MulEquiv.trans_apply]
   rfl
 
 theorem pairUEquiv_conj (h : PairCore H B T U) (h' : PairCore H' B' T' U')

@@ -18,9 +18,9 @@ variable {f n : ℕ}
   (SemidirectProduct.inl : (Fin n → PSL2Model f) →* L2Wreath f n).range
 
 theorem psl2Model_nontrivial {f : ℕ} (hf : 2 ≤ f) : Nontrivial (PSL2Model f) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hB : IsBenderGroup (PSL2Model f) := IsBenderGroup.isPSL2 f hf (MulEquiv.refl _)
-  haveI : IsSimpleGroup (PSL2Model f) := IsBenderGroup.isSimpleGroup hB
+  have : IsSimpleGroup (PSL2Model f) := IsBenderGroup.isSimpleGroup hB
   infer_instance
 
 def coordZero (f n : ℕ) [NeZero n] : Subgroup (Fin n → PSL2Model f) :=
@@ -38,7 +38,7 @@ theorem coordZero_normal (f n : ℕ) [NeZero n] : (coordZero f n).Normal := by
   intro j hj
   rw [Pi.mul_apply, Pi.mul_apply, Pi.inv_apply, hx j hj, mul_one, mul_inv_cancel]
 
-theorem coordZero_ne_bot {f n : ℕ} [NeZero n] (hf : 2 ≤ f) : coordZero f n ≠ ⊥ := by
+theorem coordZero_ne_bot {f n : ℕ} [NeZero n] (_hf : 2 ≤ f) : coordZero f n ≠ ⊥ := by
   intro h
   obtain ⟨l, hl⟩ := exists_ne (1 : PSL2Model f)
   let x : Fin n → PSL2Model f := Pi.mulSingle (M := fun _ => PSL2Model f) 0 l
@@ -51,7 +51,7 @@ theorem coordZero_ne_bot {f n : ℕ} [NeZero n] (hf : 2 ≤ f) : coordZero f n �
   rw [hx1] at hx0
   exact hl hx0.symm
 
-theorem coordZero_ne_top {f n : ℕ} [NeZero n] (hf : 2 ≤ f) (hn : 2 ≤ n) :
+theorem coordZero_ne_top {f n : ℕ} [NeZero n] (_hf : 2 ≤ f) (hn : 2 ≤ n) :
     coordZero f n ≠ ⊤ := by
   intro h
   obtain ⟨l, hl⟩ := exists_ne (1 : PSL2Model f)
@@ -72,7 +72,7 @@ theorem coordZero_ne_top {f n : ℕ} [NeZero n] (hf : 2 ≤ f) (hn : 2 ≤ n) :
 
 theorem l2WreathBase_not_isSimpleGroup (hf : 2 ≤ f) (hn : 2 ≤ n) :
     ¬ IsSimpleGroup (l2WreathBase f n) := by
-  haveI : NeZero n := ⟨by omega⟩
+  have : NeZero n := ⟨by omega⟩
   have hinl : Function.Injective (SemidirectProduct.inl : (Fin n → PSL2Model f) →* L2Wreath f n) :=
     SemidirectProduct.inl_injective
   have hmap : (⊤ : Subgroup (Fin n → PSL2Model f)).map

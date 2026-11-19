@@ -63,7 +63,7 @@ theorem wt_vM (j : Fin 3) : wt (vM j) = 2 := by revert j; decide
 
 variable {G : Type} [Group G]
 
-private theorem vec_pair (B : Basis3 G 7) {a b : Fin 7} (hab : a ≠ b) (c : ZMod 3)
+private theorem vec_pair (B : Basis3 G 7) {a b : Fin 7} (_hab : a ≠ b) (c : ZMod 3)
     {v : Coords 7} (hv : v = Pi.single a 1 + Pi.single b c) :
     B.vec v = B.b a * B.b b ^ c.val := by
   rw [hv, Basis3.vec_add, Basis3.vec_single, Basis3.vec_single_eq_pow]

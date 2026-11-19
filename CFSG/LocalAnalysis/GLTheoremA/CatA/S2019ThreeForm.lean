@@ -117,7 +117,7 @@ theorem comm_mul_left {a b c : G} (ha : a ∈ T) (hb : b ∈ T) (hc : c ∈ T) :
   rw [e, hT.comm_central hb hc a, mul_inv_cancel_right]
   exact hT.comm_central ha hc _
 
-theorem comm_mul_right {a b c : G} (ha : a ∈ T) (hb : b ∈ T) (hc : c ∈ T) :
+theorem comm_mul_right {a b c : G} (ha : a ∈ T) (_hb : b ∈ T) (hc : c ∈ T) :
     ⁅a, b * c⁆ = ⁅a, b⁆ * ⁅a, c⁆ := by
   have e : ⁅a, b * c⁆ = ⁅a, b⁆ * (b * ⁅a, c⁆ * b⁻¹) := by
     simp only [commutatorElement_def]
@@ -192,6 +192,7 @@ theorem conj_three' (t : G) : x ^ 2 * (x * t * x⁻¹) * (x ^ 2)⁻¹ = t := by
 theorem nu_mem {t : G} (ht : t ∈ T) : nu x t ∈ T :=
   mul_mem (mul_mem ht (hx.normT _ ht)) (hx.pow_conj_mem_T 2 ht)
 
+omit hx in
 theorem nu_conj_self (t : G) : nu x (x * t * x⁻¹) = x * nu x t * x⁻¹ := nu_conj (y := x) rfl t
 
 theorem conj_nu (hT : FormData T N z) {t : G} (ht : t ∈ T) :
@@ -290,7 +291,7 @@ theorem commutator_eq (hT : FormData T N z) {s : G} (hs : s ∈ T) (hsN : s ∉ 
             (Subgroup.subset_closure (Set.mem_insert_of_mem _ (Set.mem_insert_of_mem _ hnu)))
         · exact Subgroup.subset_closure
             (Set.mem_insert_of_mem _ (Set.mem_insert_of_mem _ (hx.normN _ ha)))
-      | one => simpa using (Subgroup.closure S).one_mem
+      | one => simp
       | mul a b _ _ iha ihb =>
         have e : x * (a * b) * x⁻¹ = (x * a * x⁻¹) * (x * b * x⁻¹) := by group
         rw [e]
@@ -321,10 +322,10 @@ theorem eqv_of_nu (hT : FormData T N z) {s w : G} (hs : s ∈ T) (hw : w ∈ T) 
   have cw1 : x * (x * w * x⁻¹) * x⁻¹ = x ^ 2 * w * (x ^ 2)⁻¹ := by rw [pow_two]; group
   have cw2 : x * (x ^ 2 * w * (x ^ 2)⁻¹) * x⁻¹ = w := hx.conj_three w
   have hnu1 : nu x (x * w * x⁻¹) ∈ N := by
-    rw [hx.nu_conj_self]
+    rw [ActData.nu_conj_self]
     exact hx.normN _ hwnu
   have hnu2 : nu x (x ^ 2 * w * (x ^ 2)⁻¹) ∈ N := by
-    rw [← cw1, hx.nu_conj_self]
+    rw [← cw1, ActData.nu_conj_self]
     exact hx.normN _ hnu1
   have hsq : ∀ v, s * v ∈ N → s⁻¹ * v ∈ N := fun v hv => by
     have := mul_mem (hT.sq _ (inv_mem hs)) hv

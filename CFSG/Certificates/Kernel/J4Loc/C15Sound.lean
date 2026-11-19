@@ -64,6 +64,7 @@ theorem trioZ_ncard : TrioZ.ncard = cntZ TK N := by
     Multiset.filter_coe, Multiset.coe_card]
   simp
 
+omit hI0 hV0 in
 theorem wordImgF_octF {ws : List ℕ} (hws : ∀ l ∈ ws, l < 6) {i : ℕ} (hi : i < N) :
     idxW TR ws i < N ∧
       wordImgF (ws.map fun l => letters.getD l 0) (octF TK i) = octF TK (idxW TR ws i) := by
@@ -81,9 +82,9 @@ theorem c15K_sound {wa wb : List ℕ} (hwa : ∀ l ∈ wa, l < 6) (hwb : ∀ l �
   obtain ⟨h1, h2⟩ := andB_true hc
   obtain ⟨h2, h3⟩ := andB_true h2
   have hA : ∀ i < N, idxW TR wa i < N ∧ A (octF TK i) = octF TK (idxW TR wa i) :=
-    fun i hi => wordImgF_octF h hLR hI0 hV0 hwa hi
+    fun i hi => wordImgF_octF h hLR hwa hi
   have hB : ∀ i < N, idxW TR wb i < N ∧ B (octF TK i) = octF TK (idxW TR wb i) :=
-    fun i hi => wordImgF_octF h hLR hI0 hV0 hwb hi
+    fun i hi => wordImgF_octF h hLR hwb hi
   have hW : ∀ W ∈ TrioZ, ∃ i < N, hasZ TK i = true ∧ W = octF TK i := by
     intro W hW
     rw [trioZ_eq h hLR hI0 hV0] at hW

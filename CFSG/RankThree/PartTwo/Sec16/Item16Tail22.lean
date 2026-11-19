@@ -167,14 +167,14 @@ theorem false_of_noncomm_quot {A L : Subgroup G} {c : G} (h : Ctx169 G A c L)
     rwa [Sylow.coe_mapSurjective] at this
   obtain ⟨x', hx'R, hx'⟩ := hmem x (by simp)
   obtain ⟨y', hy'R, hy'⟩ := hmem y (by simp)
-  have hinj := Sec17.Proof176.injOn_mk_pPrimeCore (K := M) R.isPGroup'
+  have hinj := Sec17.Proof176.injOn_mk_pPrimeCore (K := M) R.isPGroup
   have hx'3 : x' ^ 3 = 1 := hinj (pow_mem hx'R 3) (one_mem _) (by
     rw [map_pow, map_one, hx']
     exact congrArg Subtype.val hx3)
   have hy'3 : y' ^ 3 = 1 := hinj (pow_mem hy'R 3) (one_mem _) (by
     rw [map_pow, map_one, hy']
     exact congrArg Subtype.val hy3)
-  have hRG : IsPGroup 3 ((R : Subgroup ↥M).map M.subtype) := R.isPGroup'.map _
+  have hRG : IsPGroup 3 ((R : Subgroup ↥M).map M.subtype) := R.isPGroup.map _
   have hA : IsPGroup 3 A := IsPGroup.of_card (n := 3) (by rw [h.card_eq]; norm_num)
   have hcomm := commute_of_isPGroup h.isElemAbelian.2 (fun a ha b hb => h.commute ha hb) hA
     h1617 hRG ⟨x', hx'R, rfl⟩ ⟨y', hy'R, rfl⟩
@@ -239,7 +239,7 @@ theorem normalClosureSub_le_normalClosureIn (M : Subgroup G) (c : G) :
 theorem isCyclic_of_open_pRank_le_one {D : Subgroup G} (hD : CFSG.Open.pRank 3 D ≤ 1)
     (P : Sylow 3 ↥D) : IsCyclic ↥(P : Subgroup ↥D) := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  have : Fact (IsPGroup 3 ↥(P : Subgroup ↥D)) := ⟨P.isPGroup'⟩
+  have : Fact (IsPGroup 3 ↥(P : Subgroup ↥D)) := ⟨P.isPGroup⟩
   by_contra hnc
   obtain ⟨E, -, hcard, hel⟩ := CFSG.lemma_4_5_a (p := 3) (by norm_num) hnc
   set E' : Subgroup G := (E.map (P : Subgroup ↥D).subtype).map D.subtype with hE'

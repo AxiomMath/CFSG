@@ -34,7 +34,7 @@ theorem range_embSU_inf_Z6 {d : Fin 6 → F4} {c : F4} (h : ∃ i, d i ≠ c) :
   obtain ⟨i, hi⟩ := h
   have h1 : mM6 z i i = 1 := by
     rw [← hA, mM6_embSU, extMat_apply]
-    rw [dif_neg (show ¬ (d i = c ∧ d i = c) from fun hh => hi hh.1)]
+    rw [dite_eq_right (show ¬ (d i = c ∧ d i = c) from fun hh => hi hh.1)]
     exact Matrix.one_apply_eq i
   have hzmat : mM6 z = ((Matrix.GeneralLinearGroup.scalar (Fin 6) lam : GL (Fin 6) F4) :
       Matrix (Fin 6) (Fin 6) F4) := by
@@ -105,7 +105,7 @@ theorem embSU_mem_CenD_update {d : Fin 6 → F4} {c : F4} {j : Fin 6} (hj : d j 
     have hk : k ≠ j := fun e => hj (e ▸ h.2)
     rw [Function.update_of_ne hi, Function.update_of_ne hk, h.1, h.2]
     ring
-  · rw [mM6_embSU, extMat_apply, dif_neg h]
+  · rw [mM6_embSU, extMat_apply, dite_eq_right h]
     by_cases hik : i = k
     · subst hik
       simp
@@ -141,7 +141,7 @@ private theorem blockImage_isSimple (P : Gu) (d : Fin 6 → F4) (c : F4)
     (hproper : ∃ i, d i ≠ c)
     (hk : Fintype.card (Blk d c) = 4 ∨ Fintype.card (Blk d c) = 5) :
     IsSimpleGroup ↥(blockImage P d c) := by
-  haveI : IsSimpleGroup ↥(StatedSU (Fintype.card (Blk d c)) (2 ^ 1) F4) :=
+  have : IsSimpleGroup ↥(StatedSU (Fintype.card (Blk d c)) (2 ^ 1) F4) :=
     isSimple_statedSU _ hk
   exact (blockEquiv P d c hproper).symm.isSimpleGroup
 
@@ -224,7 +224,7 @@ theorem exclU6_of_su5Mult (hM : SU5Mult) : ExclU6 := by
         by_cases hik : i = k
         · subst hik
           simp [hconst i]
-        · simp [Matrix.diagonal_apply_ne _ hik, Matrix.one_apply_ne hik]
+        · simp [Matrix.diagonal_apply_ne _ hik]
       have hĝ_eq : (ĝ : GL (Fin 6) F4) =
           (P : GL (Fin 6) F4) * D * (P : GL (Fin 6) F4)⁻¹ := by
         rw [show D = ((P⁻¹ * ĝ * P : Gu) : GL (Fin 6) F4) from rfl]
@@ -351,7 +351,7 @@ theorem exclU6_of_su5Mult (hM : SU5Mult) : ExclU6 := by
             exact h.is_comm.comm _ _
         exact not_isMulCommutative_statedSU _ ha hSU
       have hcenter : Subgroup.center ↥I = ⊥ := by
-        haveI := hSimpleU
+        have := hSimpleU
         rw [hIeqU]
         exact TauCeti.IsSimpleGroup.center_eq_bot_of_not_isMulCommutative hncU
       rcases ha with hk4 | hk5

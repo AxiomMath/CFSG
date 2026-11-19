@@ -19,13 +19,13 @@ variable {K : Type} [Field K]
 theorem det_elemMat (u ψ : Fin 3 → K) :
     (elemMat u ψ).det = 1 + ψ ⬝ᵥ u := by
   simp only [elemMat, rankOne, Matrix.det_fin_three, dotProduct, Fin.sum_univ_three]
-  simp [Matrix.one_apply]
+  simp
   ring
 
 theorem rankOne_mul_rankOne (u ψ φ : Fin 3 → K) :
     rankOne u ψ * rankOne u φ = (ψ ⬝ᵥ u) • rankOne u φ := by
   ext i j
-  simp [rankOne, Matrix.mul_apply, Fin.sum_univ_three, dotProduct] <;> ring
+  simp [rankOne, Matrix.mul_apply, Fin.sum_univ_three, dotProduct]; ring
 
 theorem rankOne_add (u ψ φ : Fin 3 → K) :
     rankOne u ψ + rankOne u φ = rankOne u (ψ + φ) := by
@@ -79,7 +79,7 @@ theorem conj_elemMat {A B : Matrix (Fin 3) (Fin 3) K} (hAB : A * B = 1) {u ψ : 
     simp only [Matrix.mulVec, dotProduct, Pi.smul_apply, smul_eq_mul, Fin.sum_univ_three] at h
     exact h
   simp only [elemMat, rankOne, Matrix.add_apply, Matrix.one_apply, Matrix.of_apply,
-    Matrix.mul_apply, Matrix.smul_apply, Matrix.vecMul, dotProduct, Pi.smul_apply, smul_eq_mul,
+    Matrix.mul_apply, Matrix.vecMul, dotProduct, Pi.smul_apply, smul_eq_mul,
     Fin.sum_univ_three]
   linear_combination (ψ 0 * B 0 j + ψ 1 * B 1 j + ψ 2 * B 2 j) * hi
 
@@ -110,7 +110,7 @@ theorem elemUnit_mem_stated (u ψ : Fin 3 → K) (hψ : ψ ⬝ᵥ u = 0) :
   show ((elemUnit u ψ hψ : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K).det = 1
   rw [coe_elemUnit, det_elemMat, hψ, add_zero]
 
-theorem exists_perp_ne_zero {u : Fin 3 → K} (hu : u ≠ 0) :
+theorem exists_perp_ne_zero {u : Fin 3 → K} (_hu : u ≠ 0) :
     ∃ ψ : Fin 3 → K, ψ ⬝ᵥ u = 0 ∧ ψ ≠ 0 := by
   by_cases h01 : u 0 = 0 ∧ u 1 = 0
   · refine ⟨![1, 0, 0], ?_, ?_⟩
@@ -119,7 +119,7 @@ theorem exists_perp_ne_zero {u : Fin 3 → K} (hu : u ≠ 0) :
       have := congrFun h 0
       simp at this
   · refine ⟨![u 1, -u 0, 0], ?_, ?_⟩
-    · simp [dotProduct, Fin.sum_univ_three] <;> ring
+    · simp [dotProduct, Fin.sum_univ_three]; ring
     · intro h
       have h0 : u 1 = 0 := by simpa using congrFun h 0
       have h1 : u 0 = 0 := by simpa using congrFun h 1
@@ -132,11 +132,11 @@ theorem elemMat_ne_one {u ψ : Fin 3 → K} (hu : u ≠ 0) (hψ0 : ψ ≠ 0) :
     simpa [elemMat] using h
   obtain ⟨i, hi⟩ : ∃ i, u i ≠ 0 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hu (funext hc)
   obtain ⟨j, hj⟩ : ∃ j, ψ j ≠ 0 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hψ0 (funext hc)
   have := congrFun (congrFun hR i) j
   simp [rankOne, hi, hj] at this

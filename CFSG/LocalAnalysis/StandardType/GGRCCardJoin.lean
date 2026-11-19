@@ -14,8 +14,8 @@ private def l05nK7b_stabEquiv {G : Type*} [Group G] (S A : Subgroup G) :
     ↥(S.subgroupOf A) ≃ ↥(A ⊓ S) where
   toFun x := ⟨((x : ↥A) : G), (x : ↥A).2, x.2⟩
   invFun x := ⟨⟨(x : G), x.2.1⟩, x.2.2⟩
-  left_inv x := Subtype.ext (Subtype.ext rfl)
-  right_inv x := Subtype.ext rfl
+  left_inv _x := Subtype.ext (Subtype.ext rfl)
+  right_inv _x := Subtype.ext rfl
 
 theorem ggRC_card_join_le (hOrb : GGResCentBoundInput)
     {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime] {B Bs : Subgroup G} {x : G}

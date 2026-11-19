@@ -11,11 +11,11 @@ public section
 namespace CFSG.EvenSporadicStandard.HNRecog.ML1
 
 theorem exists_hom_C2_of_odd_index {G : Type} [Group G] [Finite G] (N : Subgroup G) [N.Normal]
-    (z : G) (hz : z ∈ Subgroup.center G) (hzN : z ∉ N) (T : Subgroup G) (hNT : N ≤ T) (hzT : z ∈ T)
+    (z : G) (hz : z ∈ Subgroup.center G) (hzN : z ∉ N) (T : Subgroup G) (_hNT : N ≤ T) (hzT : z ∈ T)
     (hT : Odd T.index) (hsq : ∀ t ∈ T, t ^ 2 ∈ N) :
     ∃ lam : G →* C2, lam z ≠ 1 ∧ ∀ n ∈ N, lam n = 1 := by
   classical
-  letI : Fintype G := Fintype.ofFinite G
+  let : Fintype G := Fintype.ofFinite G
   let W := T ⧸ N.subgroupOf T
   have hWsq : ∀ w : W, w * w = 1 := by
     intro w
@@ -40,8 +40,8 @@ theorem exists_hom_C2_of_odd_index {G : Type} [Group G] [Finite G] (N : Subgroup
       _ = b * a := by rw [ha, hb]
   have hWcomm : IsMulCommutative W := IsMulCommutative.of_comm hcomm
   let cW : CommGroup W := @IsMulCommutative.instCommGroup W _ hWcomm
-  letI : AddCommGroup (Additive W) := @Additive.addCommGroup W cW
-  letI hmod := AddCommGroup.zmodModule (G := Additive W) (n := 2) fun x => by
+  let : AddCommGroup (Additive W) := @Additive.addCommGroup W cW
+  let hmod := AddCommGroup.zmodModule (G := Additive W) (n := 2) fun x => by
     apply Additive.toMul.injective
     rw [toMul_nsmul, toMul_zero, pow_two]
     exact hWsq x.toMul
@@ -107,7 +107,7 @@ theorem exists_hom_C2_of_odd_index {G : Type} [Group G] [Finite G] (N : Subgroup
     exact hlamz_ne
   · intro n hn
     have hlamn : lam n = MonoidHom.transfer (H := T) lamT n := rfl
-    haveI : Fintype (Quotient (MulAction.orbitRel (Subgroup.zpowers n) (G ⧸ T))) := Fintype.ofFinite _
+    have : Fintype (Quotient (MulAction.orbitRel (Subgroup.zpowers n) (G ⧸ T))) := Fintype.ofFinite _
     rw [hlamn, MonoidHom.transfer_eq_prod_quotient_orbitRel_zpowers_quot (H := T) (ϕ := lamT) n]
     refine Finset.prod_eq_one fun q _ => ?_
     apply hker

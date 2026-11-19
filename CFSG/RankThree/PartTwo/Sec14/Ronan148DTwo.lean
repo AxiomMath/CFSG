@@ -150,7 +150,7 @@ theorem commutator_mem_theta_of_ne_sup {a : G} {Y K₁ K₂ : Subgroup G}
 theorem le_sup_of_ne {A L : Subgroup G} {c a : G} (h : Sec14Std G A c L)
     {K₁ K₂ : Subgroup G} (hK₁ : K₁ ∈ thetaComponentsAt 3 a) (hK₂ : K₂ ∈ thetaComponentsAt 3 a)
     (hne : K₁ ≠ K₂) {D₁ D₂ L₁ L₂ : Subgroup G} {b₁ d₁ b₂ d₂ : G}
-    (hD₁ : IsHyperplane A D₁) (haD₁ : a ∈ D₁) (hc₁ : IsLBConfig A D₁ b₁ d₁ L₁)
+    (hD₁ : IsHyperplane A D₁) (_haD₁ : a ∈ D₁) (hc₁ : IsLBConfig A D₁ b₁ d₁ L₁)
     (hD₁K : lB A D₁ ≤ K₁) (hD₂ : IsHyperplane A D₂) (haD₂ : a ∈ D₂)
     (hc₂ : IsLBConfig A D₂ b₂ d₂ L₂) (hD₂K : lB A D₂ ≤ K₂) : A ≤ K₁ ⊔ K₂ := by
   have hA := h.isE27'

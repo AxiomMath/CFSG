@@ -439,7 +439,7 @@ private theorem le_L₀_of_le_L (hσ : σ.IsValid) {r : ℕ} (hr : r.Prime) (hr2
     exact Dvd.intro _ (Subgroup.relIndex_mul_relIndex _ _ _ le_sup_right hle2)
   rw [h1, h2] at hdvd
   obtain ⟨a, ha⟩ := IsPGroup.iff_card.mp hU
-  obtain ⟨b, hb⟩ := IsPGroup.iff_card.mp σ.S.isPGroup'
+  obtain ⟨b, hb⟩ := IsPGroup.iff_card.mp σ.S.isPGroup
   have hU1 : σ.L₀.relIndex U ∣ r ^ a := ha ▸ Subgroup.relIndex_dvd_card _ _
   have hS1 : σ.L₀.relIndex (σ.S : Subgroup G) ∣ 2 ^ b := hb ▸ Subgroup.relIndex_dvd_card _ _
   have hcop : Nat.Coprime (r ^ a) (2 ^ b) :=

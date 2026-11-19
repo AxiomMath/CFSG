@@ -58,7 +58,7 @@ theorem dihedral_normalizer_sylow_le {m : ℕ} [NeZero m] (P : Sylow 2 (Dihedral
       congr 1
       ring
     rw [h3] at h2
-    obtain ⟨a, ha⟩ := P.isPGroup' ⟨_, h2⟩
+    obtain ⟨a, ha⟩ := P.isPGroup ⟨_, h2⟩
     refine ⟨a + 1, ?_⟩
     have ha' : ((r k ^ 2)⁻¹) ^ 2 ^ a = 1 := by simpa using congrArg Subtype.val ha
     rw [inv_pow, inv_eq_one] at ha'

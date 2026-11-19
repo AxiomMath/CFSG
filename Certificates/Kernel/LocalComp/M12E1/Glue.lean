@@ -47,14 +47,14 @@ theorem k_zOK : zOK m12E1Data = true := by
   unfold zOK
   rw [s_tabs]
   simp only [central, sGens, Array.contains_eq_any_beq, ← Array.any_toList, ← Array.all_toList,
-    Array.toList_ofFn, List.toList_toArray]
+    Array.toList_ofFn]
   decide +kernel
 
 theorem k_xOK : xOK m12E1Data = true := by
   unfold xOK
   rw [s_tabs]
-  simp only [central, sGens, Array.contains_eq_any_beq, ← Array.any_toList, ← Array.all_toList,
-    Array.toList_ofFn, List.toList_toArray]
+  simp only [Array.contains_eq_any_beq, ← Array.any_toList, ← Array.all_toList,
+    Array.toList_ofFn]
   decide +kernel
 
 theorem m12_e1 : check m12E1Data = true := by

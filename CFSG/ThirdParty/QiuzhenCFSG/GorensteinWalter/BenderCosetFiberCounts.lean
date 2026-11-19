@@ -35,7 +35,7 @@ private theorem offDiagFiber_card
     Nat.card (offDiagFiber π ω) =
       Nat.card (fiber π ω) * (Nat.card (fiber π ω) - 1) := by
   classical
-  letI : Fintype (fiber π ω) := Fintype.ofFinite _
+  let : Fintype (fiber π ω) := Fintype.ofFinite _
   rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card]
   let e : offDiagFiber π ω ≃
       Σ x : fiber π ω, {y : fiber π ω // y ≠ x} :=
@@ -67,15 +67,15 @@ public theorem bender_coset_fiber_counts
       1 + singleCosets + 6 ≤ Nat.card Ω ∧
         Nat.card α = 9 + singleCosets + 6 + 6 := by
   classical
-  letI : Fintype Ω := Fintype.ofFinite Ω
-  letI : Fintype α := Fintype.ofFinite α
+  let : Fintype Ω := Fintype.ofFinite Ω
+  let : Fintype α := Fintype.ofFinite α
   let Nonbase := {ω : Ω // ω ≠ ω0}
-  letI : Fintype Nonbase := Fintype.ofFinite Nonbase
+  let : Fintype Nonbase := Fintype.ofFinite Nonbase
   let n : Nonbase → ℕ := fun ω => Nat.card (fiber π (ω : Ω))
   let Single := {ω : Nonbase // n ω = 1}
   let Double := {ω : Nonbase // n ω = 2}
-  letI : Fintype Single := Fintype.ofFinite Single
-  letI : Fintype Double := Fintype.ofFinite Double
+  let : Fintype Single := Fintype.ofFinite Single
+  let : Fintype Double := Fintype.ofFinite Double
   let PairSigma := Σ ω : Nonbase, offDiagFiber π (ω : Ω)
   have hpairsSum :
       (∑ ω : Nonbase, n ω * (n ω - 1)) = 12 := by
@@ -179,7 +179,7 @@ public theorem bender_coset_fiber_counts
       (∑ ω : Ω, Nat.card (fiber π ω)) =
         Nat.card (fiber π ω0) + ∑ ω : Nonbase, n ω := by
     let s : Finset Ω := Finset.univ.erase ω0
-    letI : Fintype {ω : Ω // ω ≠ ω0} := Fintype.ofFinite _
+    let : Fintype {ω : Ω // ω ≠ ω0} := Fintype.ofFinite _
     have hsMem : ∀ ω : Ω, ω ∈ s ↔ ω ≠ ω0 := by
       intro ω
       simp [s]

@@ -179,6 +179,7 @@ variable (hL : ∀ l < 26, ∀ p < 306936,
   idx 306936 (pairG CFSG.Sporadic.Fi24.gs l) p = LN CFSG.KD.Fi24Net.NW l p)
 include hL
 
+omit hL in
 theorem E_eq_LN : E = CFSG.KC.Fi24Base.eqB (LN CFSG.KD.Fi24Net.NW) := by
   unfold E
   congr 1
@@ -186,14 +187,14 @@ theorem E_eq_LN : E = CFSG.KC.Fi24Base.eqB (LN CFSG.KD.Fi24Net.NW) := by
 
 theorem eqw {u v : List ℕ} (hu : ∀ l ∈ u, l < 26) (hv : ∀ l ∈ v, l < 26) (h : E u v = true) :
     wordElt u = wordElt v := by
-  rw [E_eq_LN hL] at h
+  rw [E_eq_LN] at h
   exact eq_of_foldr hL hu hv fun b hb => by
     have := (eqB_iff u v).1 h b hb
     rwa [apF_eq_foldr u hu, apF_eq_foldr v hv] at this
 
 theorem E_of_eq {u v : List ℕ} (hu : ∀ l ∈ u, l < 26) (hv : ∀ l ∈ v, l < 26)
     (h : wordElt u = wordElt v) : E u v = true := by
-  rw [E_eq_LN hL]
+  rw [E_eq_LN]
   refine (eqB_iff u v).2 fun b hb => ?_
   rw [apF_eq_foldr u hu, apF_eq_foldr v hv, ← idx_wordElt hL u hu b (chainBase_lt' b hb),
     ← idx_wordElt hL v hv b (chainBase_lt' b hb), h]

@@ -32,7 +32,7 @@ theorem rckIIpSLFourBridge : RCKIIpSLFourBridge := by
     ext i j
     rw [Matrix.scalar_apply, Matrix.diagonal_apply, Matrix.one_apply]
     by_cases hij : i = j
-    · rw [if_pos hij, if_pos hij]
+    · rw [ite_eq_left hij, ite_eq_left hij]
       have hpow : a ^ (m + 1) = 1 := by simpa using ha
       have hpos : 0 < m + 1 := Nat.lt_of_le_of_lt (Nat.zero_le i.val) i.isLt
       rcases hF2 a with ha0 | ha1
@@ -40,7 +40,7 @@ theorem rckIIpSLFourBridge : RCKIIpSLFourBridge := by
         rw [zero_pow (Nat.pos_iff_ne_zero.mp hpos)] at hpow
         exact absurd hpow zero_ne_one
       · exact ha1
-    · rw [if_neg hij, if_neg hij]
+    · rw [ite_eq_right hij, ite_eq_right hij]
   have hφinj : Function.Injective φ := by
     rw [← MonoidHom.ker_eq_bot_iff]
     exact le_bot_iff.mp (hφker.trans (le_of_eq hcenter))

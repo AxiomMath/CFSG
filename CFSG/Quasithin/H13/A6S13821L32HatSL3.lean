@@ -53,7 +53,7 @@ theorem oTwoUpper_mono {A B : Subgroup SL3.S} (h : A ≤ B) : oTwoUpper A ≤ oT
 theorem exists_odd_ne_one {Y : Subgroup SL3.S} (hO : Y ≤ oTwoUpper Y) (hY : Y ≠ ⊥) :
     ∃ y ∈ Y, y ≠ 1 ∧ Odd (orderOf y) := by
   by_contra h
-  push_neg at h
+  push Not at h
   apply hY
   have hle : oTwoUpper Y ≤ ⊥ := by
     refine (Subgroup.closure_le ⊥).mpr fun x hx => ?_
@@ -153,7 +153,7 @@ theorem fA4_X2 {Y : Subgroup SL3.S} (hYX : Y ≤ X2) (hP : P0 ≤ Subgroup.norma
     exact hg (hYX hgy)
 
 theorem center_S_eq_bot : Subgroup.center SL3.S = ⊥ := by
-  haveI : IsSimpleGroup SL3.S := CFSG.QuasithinUnique.Vol2Native.A312L.Seven.slThree_isSimple
+  have : IsSimpleGroup SL3.S := CFSG.QuasithinUnique.Vol2Native.A312L.Seven.slThree_isSimple
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center SL3.S) with h | h
   · exact h
   · exfalso

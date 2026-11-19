@@ -153,7 +153,7 @@ private lemma ltrv4d2_extract1 {t : LargeEvenLieTag} {r r0 n : ℕ} {c : Ltrv4d2
     (hchk : ltrv4d2_check r0 1 t r = true) : ltrv4d2_good t r c = true := by
   subst hn
   have h := List.all_eq_true.mp hchk c hc
-  rw [if_pos hdesc] at h
+  rw [ite_eq_left hdesc] at h
   exact h
 
 private lemma ltrv4d2_extract2 {t : LargeEvenLieTag} {r r0 n : ℕ} {c : Ltrv4d2Cand}
@@ -163,7 +163,7 @@ private lemma ltrv4d2_extract2 {t : LargeEvenLieTag} {r r0 n : ℕ} {c : Ltrv4d2
   have hdesc2 : (k0LabelOf c.fam c.rank c.twv (c.k * 2)).lab = ⟨t, r, r0 * 2⟩ :=
     (ltrv4d2_label_transfer c.fam c.rank c.twv c.k n r0 hn t r).mp hdesc
   have h := List.all_eq_true.mp hchk c hc
-  rw [if_pos hdesc2] at h
+  rw [ite_eq_left hdesc2] at h
   exact h
 
 private lemma ltrv4d2_good_of_row
@@ -247,7 +247,7 @@ theorem e6RowTableR3_holds : E6RowTableR3 := by
     simp only [ggKacTypeOfLabel, Option.some.injEq, Prod.mk.injEq] at hreq
     have hT : ρ.row.T = .E6 := hreq.1.symm
     have htwb : ρ.row.tw = false := hreq.2.symm
-    have hd : ρ.row.d = 1 := by rw [ρ.row.d_eq, if_pos h3]
+    have hd : ρ.row.d = 1 := by rw [ρ.row.d_eq, ite_eq_left h3]
     have hgood := ltrv4d2_good_of_row (r0 := 3) ρ j hT (Or.inl ⟨htwb, hd⟩) hlabJ hΛn
       ltrv4d2_check_1_A2 ltrv4d2_check_2_A2
     simp only [ltrv4d2_good, Bool.and_eq_true, decide_eq_true_eq] at hgood
@@ -260,7 +260,7 @@ theorem e6RowTableR3_holds : E6RowTableR3 := by
     have hT : ρ.row.T = .E6 := hreq.1.symm
     have htwb : ρ.row.tw = true := hreq.2.symm
     have hnot : ¬ 3 ∣ 2 ^ ln - 1 := ltrv4d2_not_dvd_neg h3
-    have hd : ρ.row.d = 2 := by rw [ρ.row.d_eq, if_neg hnot]
+    have hd : ρ.row.d = 2 := by rw [ρ.row.d_eq, ite_eq_right hnot]
     have hgood := ltrv4d2_good_of_row (r0 := 3) ρ j hT (Or.inr ⟨htwb, hd⟩) hlabJ hΛn
       ltrv4d2_check_1_twA2 ltrv4d2_check_2_twA2
     simp only [ltrv4d2_good, Bool.and_eq_true, decide_eq_true_eq] at hgood
@@ -281,7 +281,7 @@ theorem e6RowTableR16_holds : E6RowTableR16 := by
     simp only [ggKacTypeOfLabel, Option.some.injEq, Prod.mk.injEq] at hreq
     have hT : ρ.row.T = .E6 := hreq.1.symm
     have htwb : ρ.row.tw = false := hreq.2.symm
-    have hd : ρ.row.d = 1 := by rw [ρ.row.d_eq, if_pos h3]
+    have hd : ρ.row.d = 1 := by rw [ρ.row.d_eq, ite_eq_left h3]
     have hgood := ltrv4d2_good_of_row (r0 := 1) ρ j hT (Or.inl ⟨htwb, hd⟩)
       (by rw [one_mul]; exact hlabJ) hΛn
       ltrv4d2_check_1_triD4 ltrv4d2_check_2_triD4
@@ -295,7 +295,7 @@ theorem e6RowTableR16_holds : E6RowTableR16 := by
     have hT : ρ.row.T = .E6 := hreq.1.symm
     have htwb : ρ.row.tw = true := hreq.2.symm
     have hnot : ¬ 3 ∣ 2 ^ ln - 1 := ltrv4d2_not_dvd_neg h3
-    have hd : ρ.row.d = 2 := by rw [ρ.row.d_eq, if_neg hnot]
+    have hd : ρ.row.d = 2 := by rw [ρ.row.d_eq, ite_eq_right hnot]
     have hgood := ltrv4d2_good_of_row (r0 := 1) ρ j hT (Or.inr ⟨htwb, hd⟩)
       (by rw [one_mul]; exact hlabJ) hΛn
       ltrv4d2_check_1_triD4 ltrv4d2_check_2_triD4

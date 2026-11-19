@@ -212,7 +212,7 @@ theorem irred_trZ (U : Subgroup WMod) (hU : U ≤ trZ) (hinv : ∀ l ∈ Cd, ∀
   · exact Or.inl hbot
   refine Or.inr (le_antisymm hU ?_)
   rw [Subgroup.eq_bot_iff_forall] at hbot
-  push_neg at hbot
+  push Not at hbot
   obtain ⟨u, hu, hu1⟩ := hbot
   have hconj : ∀ g h : Matrix (Fin 3) (Fin 3) (ZMod 2), g * h = 1 →
       ∀ X ∈ Subgroup.toAddSubgroup' U, g * X * h ∈ Subgroup.toAddSubgroup' U := by

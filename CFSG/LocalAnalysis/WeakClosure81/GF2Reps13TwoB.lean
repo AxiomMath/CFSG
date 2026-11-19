@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {W : Type} [CommGroup W] [Finite W] {t : MulAut W} {P : Subgroup (MulAut W)}
 
+omit [Finite W] in
 private theorem w16g_le_stabSub_of_stableUnder {X : Subgroup (MulAut W)} {U : Subgroup W}
     (h : StableUnder X U) : X ≤ stabSub U := by
   intro x hx
@@ -24,6 +25,7 @@ private theorem w16g_le_stabSub_of_stableUnder {X : Subgroup (MulAut W)} {U : Su
   · intro hu
     exact h x hx u hu
 
+omit [Finite W] in
 private theorem w16g_commute_of_mem_sup {A B : Subgroup (MulAut W)}
     (hAB : ∀ x ∈ A, ∀ y ∈ B, x * y = y * x)
     (hA : ∀ x ∈ A, ∀ y ∈ A, x * y = y * x)
@@ -54,7 +56,7 @@ private theorem w16g_commute_of_mem_sup {A B : Subgroup (MulAut W)}
     refine ⟨?_, ?_⟩
     · rw [Subgroup.mem_centralizer_iff]; intro y hy; exact hAB y hy b hb
     · rw [Subgroup.mem_centralizer_iff]; intro y hy; exact (hB b hb y hy).symm
-  haveI : IsMulCommutative ↥(A ⊔ B) :=
+  have : IsMulCommutative ↥(A ⊔ B) :=
     Subgroup.le_centralizer_iff_isMulCommutative.mp (sup_le hAcent hBcent)
   intro x hx y hy
   exact congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : ↥(A ⊔ B)) ⟨y, hy⟩)
@@ -62,7 +64,7 @@ private theorem w16g_commute_of_mem_sup {A B : Subgroup (MulAut W)}
 private theorem w16g_isPOnePlusTwo_of_mulEquiv {p : ℕ} {X Y : Type} [Group X] [Group Y]
     (e : X ≃* Y) (h : IsPOnePlusTwo p X) : IsPOnePlusTwo p Y := by
   obtain ⟨hX, hc, hp⟩ := h
-  haveI : CFSG.IsExtraspecial p X := hX
+  have : CFSG.IsExtraspecial p X := hX
   refine ⟨isExtraspecial_of_mulEquiv e.symm, ?_, ?_⟩
   · rw [← Nat.card_congr e.toEquiv]; exact hc
   · intro y
@@ -163,7 +165,7 @@ private theorem w16g_eq_bot_of_isPGroup_of_commutator_eq_self {A : Type*} [Group
   exact hne (le_bot_iff.mp hmem)
 
 private theorem w16g_P_fixes_of_t_fixes {W : Type*} [CommGroup W] {t : MulAut W}
-    {P : Subgroup (MulAut W)} (htP : ∀ x ∈ P, t * x * t⁻¹ ∈ P)
+    {P : Subgroup (MulAut W)} (_htP : ∀ x ∈ P, t * x * t⁻¹ ∈ P)
     (hc : ⁅P, Subgroup.zpowers t⁆ = P) {U : Subgroup W}
     (hPU : ∀ x ∈ P, ∀ u ∈ U, x u ∈ U) (htU : ∀ u ∈ U, t u = u) :
     ∀ x ∈ P, ∀ u ∈ U, x u = u := by
@@ -424,7 +426,7 @@ private theorem w16g_inf_centSub_ne_bot {A : Subgroup W}
         _ ≤ ⁅autSub P A, autSub P A⁆ :=
             Subgroup.commutator_mono_right (Subgroup.zpowers_le.mpr ht'mem)
     have hbot' : autSub P A = ⊥ := by
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       exact w16g_eq_bot_of_isPGroup_of_commutator_eq_self hgrpA hperf
     have hPle : P ≤ centSub A := by
       intro x hx
@@ -472,6 +474,7 @@ private theorem w16g_card_autSub_eq_three (h131 : W4Lem13_1) {A : Subgroup W}
   exact (h131 ↥A hWA t' ht'2 (by omega) 3 (autSub P A) Nat.prime_three hgrpA hP'ne
     ht'norm hcA').2 (Or.inr ⟨mem_stabSub.mpr (fun _ => Iff.rfl), hrk'⟩)
 
+omit [Finite W] in
 private theorem w16g_commutator_sup_zpowers {A B : Subgroup (MulAut W)}
     (hcomm : ∀ x ∈ A, ∀ y ∈ B, x * y = y * x)
     (hA : ∀ x ∈ A, t * x * t⁻¹ ∈ A) (hB : ∀ x ∈ B, t * x * t⁻¹ ∈ B)
@@ -515,7 +518,7 @@ private theorem w16g_commutator_sup_zpowers {A B : Subgroup (MulAut W)}
 private theorem w16g_decomp_aux (h131 : W4Lem13_1) (h : Cfg132 t P) (hmin : MinFaith132 t P)
     {A B : Subgroup W} (hA : StableUnder (P ⊔ Subgroup.zpowers t) A)
     (hB : StableUnder (P ⊔ Subgroup.zpowers t) B)
-    (hd : A ⊓ B = ⊥) (hs : A ⊔ B = ⊤) (hA1 : A ≠ ⊤) (hB1 : B ≠ ⊤)
+    (_hd : A ⊓ B = ⊥) (hs : A ⊔ B = ⊤) (hA1 : A ≠ ⊤) (hB1 : B ≠ ⊤)
     (hrkA : rk ↥(commSub A (Subgroup.zpowers t)) = 1) :
     ∃ P₁ P₂ : Subgroup (MulAut W), P₁ ≤ P ∧ P₂ ≤ P ∧
       (∀ x ∈ P, x ∈ P₁ ↔ ∀ u ∈ A, x u = u) ∧ (∀ x ∈ P, x ∈ P₂ ↔ ∀ u ∈ B, x u = u) ∧
@@ -603,7 +606,7 @@ private theorem w16g_decomp_aux (h131 : W4Lem13_1) (h : Cfg132 t P) (hmin : MinF
       rw [← hcard_sup, mul_comm (Nat.card P₁) 3, ← hPcard]
       exact hle_card
     exact Nat.le_of_mul_le_mul_left h1 Nat.card_pos
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hP₂grp : IsPGroup 3 ↥P₂ := h.hP.to_le hP₂le
   have hP₂ge3 : 3 ≤ Nat.card P₂ := by
     have hdvd : 3 ∣ Nat.card P₂ := by
@@ -697,7 +700,7 @@ private theorem w16g_decomp_aux (h131 : W4Lem13_1) (h : Cfg132 t P) (hmin : MinF
   exact ⟨P₁, P₂, hP₁le, hP₂le, hP₁iff, hP₂iff, hcardP₂, hinf, hsup, hcomm, hn₁, hn₂, hc₁⟩
 
 theorem w16h_decomp_split (h131 : W4Lem13_1) (h : Cfg132 t P) (hmin : MinFaith132 t P)
-    (hnab : ¬ ∀ x ∈ P, ∀ y ∈ P, x * y = y * x) {U U' : Subgroup W}
+    (_hnab : ¬ ∀ x ∈ P, ∀ y ∈ P, x * y = y * x) {U U' : Subgroup W}
     (hU : StableUnder (P ⊔ Subgroup.zpowers t) U) (hU' : StableUnder (P ⊔ Subgroup.zpowers t) U')
     (hd : U ⊓ U' = ⊥) (hs : U ⊔ U' = ⊤) (hU1 : U ≠ ⊤) (hU2 : U' ≠ ⊤) :
     ∃ A B : Subgroup W, ((A = U ∧ B = U') ∨ (A = U' ∧ B = U)) ∧
@@ -829,10 +832,10 @@ theorem w16h_decomp_factor (hIH : W4Lem13_2ShapeLe (Nat.card P - 1)) (h131 : W4L
     (hA : StableUnder (P ⊔ Subgroup.zpowers t) A) (hB : StableUnder (P ⊔ Subgroup.zpowers t) B)
     (hd : A ⊓ B = ⊥) (hs : A ⊔ B = ⊤) (hrkA : rk ↥(commSub A (Subgroup.zpowers t)) = 1)
     {P₁ P₂ : Subgroup (MulAut W)} (hP₁ : P₁ ≤ P) (hP₂ : P₂ ≤ P)
-    (hP₁A : ∀ x ∈ P, x ∈ P₁ ↔ ∀ u ∈ A, x u = u) (hP₂B : ∀ x ∈ P, x ∈ P₂ ↔ ∀ u ∈ B, x u = u)
+    (_hP₁A : ∀ x ∈ P, x ∈ P₁ ↔ ∀ u ∈ A, x u = u) (hP₂B : ∀ x ∈ P, x ∈ P₂ ↔ ∀ u ∈ B, x u = u)
     (hcard : Nat.card P₂ = 3) (hinf : P₁ ⊓ P₂ = ⊥) (hsup : P₁ ⊔ P₂ = P)
     (hcomm : ∀ x ∈ P₁, ∀ y ∈ P₂, x * y = y * x) (hn₁ : ∀ x ∈ P₁, t * x * t⁻¹ ∈ P₁)
-    (hn₂ : ∀ x ∈ P₂, t * x * t⁻¹ ∈ P₂) (hc₁ : ⁅P₁, Subgroup.zpowers t⁆ = P₁)
+    (_hn₂ : ∀ x ∈ P₂, t * x * t⁻¹ ∈ P₂) (hc₁ : ⁅P₁, Subgroup.zpowers t⁆ = P₁)
     (hnab : ¬ ∀ x ∈ P, ∀ y ∈ P, x * y = y * x) :
     IsPOnePlusTwo 3 ↥P₁ ∧ rk ↥(commSub B (Subgroup.zpowers t)) = 2 := by
   classical
@@ -848,10 +851,10 @@ theorem w16h_decomp_factor (hIH : W4Lem13_2ShapeLe (Nat.card P - 1)) (h131 : W4L
   have htB : t ∈ stabSub B := hGB (Subgroup.mem_sup_right (Subgroup.mem_zpowers t))
   have hP₁A' : P₁ ≤ stabSub A := (hP₁.trans le_sup_left).trans hGA
   have hP₁B' : P₁ ≤ stabSub B := (hP₁.trans le_sup_left).trans hGB
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hP₂cyc : IsCyclic ↥P₂ := isCyclic_of_prime_card hcard
-  haveI : IsCyclic ↥P₂ := hP₂cyc
-  haveI : IsMulCommutative ↥P₂ := IsCyclic.isMulCommutative
+  have : IsCyclic ↥P₂ := hP₂cyc
+  have : IsMulCommutative ↥P₂ := IsCyclic.isMulCommutative
   have hP₂abel : ∀ x ∈ P₂, ∀ y ∈ P₂, x * y = y * x := by
     intro x hx y hy
     exact congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : ↥P₂) ⟨y, hy⟩)
@@ -1066,8 +1069,8 @@ theorem w16h_decomp_factor (hIH : W4Lem13_2ShapeLe (Nat.card P - 1)) (h131 : W4L
     exact congrArg (fun z : ↥P₁ => (z : MulAut W)) (e.injective h2)
   have hP'1 : IsPOnePlusTwo 3 ↥(autSub P₁ B) := by
     rcases hconc with ⟨hcyc, _⟩ | ⟨k, _, hE⟩ | hP1 | ⟨hZ, hrk3⟩
-    · haveI : IsCyclic ↥(autSub P₁ B) := hcyc
-      haveI : IsMulCommutative ↥(autSub P₁ B) := IsCyclic.isMulCommutative
+    · have : IsCyclic ↥(autSub P₁ B) := hcyc
+      have : IsMulCommutative ↥(autSub P₁ B) := IsCyclic.isMulCommutative
       exact absurd (by
         intro x hx y hy
         exact congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : ↥(autSub P₁ B)) ⟨y, hy⟩)) hP'nab'
@@ -1180,6 +1183,7 @@ private noncomputable def w16g_prodEquivOfCommute {G : Type*} [Group G] {H K : S
         w16g_mem_sup_of_normalizer (w16g_le_normalizer_of_commute hcomm) hxsup
       exact ⟨(⟨h, hh⟩, ⟨k, hk⟩), Subtype.ext hkx⟩)
 
+omit [Finite W] in
 private theorem w16g_commSub_le_of_act_le {A : Subgroup W} {Q X : Subgroup (MulAut W)}
     (h : ∀ q ∈ Q, ∃ x ∈ X, ∀ u ∈ A, q u = x u) : commSub A Q ≤ commSub A X := by
   rw [commSub, Subgroup.closure_le]
@@ -1188,10 +1192,11 @@ private theorem w16g_commSub_le_of_act_le {A : Subgroup W} {Q X : Subgroup (MulA
   rw [← hqcu]
   exact Subgroup.subset_closure ⟨x, hx, u, hu, by rw [hact u hu]⟩
 
+omit [Finite W] in
 private theorem w16g_exists_act_eq_right {B : Subgroup W} {P₁ P₂ : Subgroup (MulAut W)}
     (hcomm : ∀ x ∈ P₁, ∀ y ∈ P₂, x * y = y * x)
     (hP₂B : ∀ x ∈ P₂, ∀ u ∈ B, x u = u)
-    (hP₁B : ∀ x ∈ P₁, ∀ u ∈ B, x u ∈ B)
+    (_hP₁B : ∀ x ∈ P₁, ∀ u ∈ B, x u ∈ B)
     {q : MulAut W} (hq : q ∈ P₁ ⊔ P₂) :
     ∃ a ∈ P₁, ∀ u ∈ B, q u = a u := by
   obtain ⟨a, ha, b, hb, hqab⟩ :=
@@ -1238,7 +1243,7 @@ private theorem w16g_restrict_rk_six (hMin : W4Lem13_2MinLe 27) (h131 : W4Lem13_
     (hrkB2 : rk ↥(commSub B (Subgroup.zpowers t)) = 2) :
     rk ↥(commSub B P₁) = 6 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hGB : (P ⊔ Subgroup.zpowers t) ≤ stabSub B := w16g_le_stabSub_of_stableUnder hB
   have htB : t ∈ stabSub B := hGB (Subgroup.mem_sup_right (Subgroup.mem_zpowers t))
   have hP₁B' : P₁ ≤ stabSub B := (hP₁.trans le_sup_left).trans hGB
@@ -1382,7 +1387,7 @@ theorem w16h_decomp (hIH : W4Lem13_2ShapeLe (Nat.card P - 1))
     IsZ3TimesPOnePlusTwo ↥P ∧ rk ↥(commSub ⊤ (Subgroup.zpowers t)) = 3 ∧
       ∃! Q : Subgroup (MulAut W), Q ≤ P ∧ IsPOnePlusTwo 3 ↥Q ∧ rk ↥(commSub ⊤ Q) = 6 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨A, B, hAB, hrkA, P₁, P₂, hP₁, hP₂, hP₁A, hP₂B, hcardP₂, hinfP₁P₂, hsupP₁P₂,
     hcomm, hn₁, hn₂, hc₁⟩ :=
     w16h_decomp_split h131 h hmin hnab hU hU' hd hs hU1 hU2
@@ -1477,8 +1482,8 @@ theorem w16h_decomp (hIH : W4Lem13_2ShapeLe (Nat.card P - 1))
   rintro Q ⟨hQle, hQext, hQrk⟩
   have hcardQ : Nat.card ↥Q = 27 := by rw [hQext.2.1]; norm_num
   have hP₂abel : ∀ x ∈ P₂, ∀ y ∈ P₂, x * y = y * x := by
-    haveI : IsCyclic ↥P₂ := isCyclic_of_prime_card hcardP₂
-    haveI : IsMulCommutative ↥P₂ := IsCyclic.isMulCommutative
+    have : IsCyclic ↥P₂ := isCyclic_of_prime_card hcardP₂
+    have : IsMulCommutative ↥P₂ := IsCyclic.isMulCommutative
     intro x hx y hy
     exact congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : ↥P₂) ⟨y, hy⟩)
   have hQnab : ¬ ∀ x ∈ Q, ∀ y ∈ Q, x * y = y * x := by
@@ -1489,10 +1494,10 @@ theorem w16h_decomp (hIH : W4Lem13_2ShapeLe (Nat.card P - 1))
       rw [Subgroup.mem_center_iff]
       intro y
       exact Subtype.ext (hab y.1 y.2 x.1 x.2)
-    haveI : Subsingleton (↥Q ⧸ Subgroup.center ↥Q) :=
+    have : Subsingleton (↥Q ⧸ Subgroup.center ↥Q) :=
       (QuotientGroup.subsingleton_iff (N := Subgroup.center ↥Q)).2 hcenter
-    haveI : CFSG.IsExtraspecial 3 ↥Q := hQext.1
-    haveI := CFSG.IsExtraspecial.quotient_nontrivial 3 ↥Q
+    have : CFSG.IsExtraspecial 3 ↥Q := hQext.1
+    have := CFSG.IsExtraspecial.quotient_nontrivial 3 ↥Q
     obtain ⟨x, y, hxy⟩ := exists_pair_ne (↥Q ⧸ Subgroup.center ↥Q)
     exact hxy (Subsingleton.elim x y)
   have hQinf : Q ⊓ P₂ = ⊥ := by
@@ -1544,7 +1549,7 @@ theorem w16h_decomp (hIH : W4Lem13_2ShapeLe (Nat.card P - 1))
         have h := w16g_card_sup_of_inf_eq_bot hnorm hinf'
         rw [← hQeq, hcardQ, hcardP₂] at h
         omega
-      haveI : IsMulCommutative ↥(Q ⊓ P₁) :=
+      have : IsMulCommutative ↥(Q ⊓ P₁) :=
         IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3) (by rw [hcard_QP₁]; norm_num)
       intro x hx y hy
       exact congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : ↥(Q ⊓ P₁)) ⟨y, hy⟩)

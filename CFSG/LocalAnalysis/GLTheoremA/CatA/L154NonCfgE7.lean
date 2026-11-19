@@ -124,7 +124,7 @@ theorem l154_innerModel_E7 {τ : Tag} (hτ : τ = .D4 ∨ τ = .E6 ∨ τ = .E7 
       LieModel (↥(rootSpan τ K (rootsOfFam β (Set.range l))) ⧸
         Subgroup.center ↥(rootSpan τ K (rootsOfFam β (Set.range l)))) .E7 0 p f := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨U, ρ, hgen, hcomm, hρ, hψ⟩ := weakCT_data hτ β hroot l (edgeE 7) hgram hframe
   have hadm : CFSG.Open.StatedLieAdmissible .E7 0 p f := ⟨hp, hf, rfl⟩
   obtain ⟨-, -, -, hqs, -, hmodel⟩ := weakCT_e7_of_frame p f hadm hK U hgen hcomm hρ hψ
@@ -161,7 +161,7 @@ theorem l154_rationalComponent_e7Model (hτ : τ = .D4 ∨ τ = .E6 ∨ τ = .E7
   set s := componentOrbitLength S.ρ (componentRoots (rootCharHom ta) i) with hsdef
   have hes : 0 < e * s := Nat.mul_pos he hs0
   obtain ⟨σ, hfin, hcard, f, hf1, hker, hf2⟩ := exists_inner_cover S hT i hinner
-  haveI : Finite ↥(fixSubfield σ) := hfin
+  have : Finite ↥(fixSubfield σ) := hfin
   have hcard' : Nat.card ↥(fixSubfield σ) = r ^ (e * s) := by rw [hcard, hq, ← pow_mul]
   have hcomp : componentRootSpan (fixSubfield σ) (rootCharHom ta) i =
       rootSpan τ (fixSubfield σ) (rootsOfFam β (Set.range l)) := by

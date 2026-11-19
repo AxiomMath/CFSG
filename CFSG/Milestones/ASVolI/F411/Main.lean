@@ -49,7 +49,7 @@ theorem burnsideF411_exists_sylow_inf {E : Type} [Group E] [Finite E] {p : ℕ} 
             (Gp ⊓ (M₁ ⊓ M₂)).relIndex Gp := by ring
     exact Nat.eq_of_mul_eq_mul_left (Nat.mul_pos hpos hcpos) e1
   let T₀ : Sylow p ↥(M₁ ⊓ M₂) := default
-  refine ⟨(T₀ : Subgroup ↥(M₁ ⊓ M₂)).map (M₁ ⊓ M₂).subtype, T₀.isPGroup'.map _, ?_,
+  refine ⟨(T₀ : Subgroup ↥(M₁ ⊓ M₂)).map (M₁ ⊓ M₂).subtype, T₀.isPGroup.map _, ?_,
     Subgroup.map_subtype_le _⟩
   rw [Subgroup.index_map_subtype, hidx]
   intro h
@@ -65,8 +65,8 @@ theorem burnsideF411_exists_sylow_inf {E : Type} [Group E] [Finite E] {p : ℕ} 
 theorem burnsideF411_rigidExt_of_inputs
     (h : burnsideF411_LieInputs) : burnsideF4n_F411RigidExt := by
   refine burnsideF411_rigidExt_of_local fun κ p f E _ Gp M₁ M₂ hyp hGp => ?_
-  haveI : Finite E := hyp.finite
-  haveI : Fact p.Prime := ⟨burnsideF4a_prime_of_isGenLie hyp.model⟩
+  have : Finite E := hyp.finite
+  have : Fact p.Prime := ⟨burnsideF4a_prime_of_isGenLie hyp.model⟩
   obtain ⟨hFC, hSw⟩ := h κ p f E Gp M₁ M₂ hyp hGp
   have hκ : κ.IsLie := not_or.mp fun h' => hGp (hyp.canonical h')
   have hBT := burnsideF411_borelTitsIn hyp hκ

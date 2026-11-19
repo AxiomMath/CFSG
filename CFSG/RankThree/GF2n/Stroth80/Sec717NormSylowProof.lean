@@ -44,14 +44,14 @@ theorem MoveFrame.exists_sylow_normSylow [Finite X] (F : MoveFrame B φ V L Nb R
     have h3 : Nat.card T' = Nat.card T :=
       Subgroup.card_map_of_injective (conjSubgroup h Rb).subtype_injective
     refine le_antisymm ?_ ?_
-    · obtain ⟨P, hP⟩ := (T.isPGroup'.map (conjSubgroup h Rb).subtype).exists_le_sylow
+    · obtain ⟨P, hP⟩ := (T.isPGroup.map (conjSubgroup h Rb).subtype).exists_le_sylow
       exact (Subgroup.card_le_of_le hP).trans P.card_eq_multiplicity.le
     · have hS₀h : conjSubgroup h (S₀ : Subgroup X) ≤ conjSubgroup h Rb := fun x hx =>
         CFSG.CGT.Timmesfeld75.mem_conjSubgroup.mpr
           (hS₀ (CFSG.CGT.Timmesfeld75.mem_conjSubgroup.mp hx))
       have hp : IsPGroup 2 ((conjSubgroup h (S₀ : Subgroup X)).subgroupOf (conjSubgroup h Rb)) :=
         (show IsPGroup 2 (conjSubgroup h (S₀ : Subgroup X)) from
-          S₀.isPGroup'.map (MulAut.conj h).toMonoidHom).comap_subtype
+          S₀.isPGroup.map (MulAut.conj h).toMonoidHom).comap_subtype
       obtain ⟨P, hP⟩ := hp.exists_le_sylow
       have h1 : Nat.card ((conjSubgroup h (S₀ : Subgroup X)).subgroupOf (conjSubgroup h Rb)) =
           Nat.card S₀ := by
@@ -66,7 +66,7 @@ theorem MoveFrame.exists_sylow_normSylow [Finite X] (F : MoveFrame B φ V L Nb R
     have hNR : conjSubgroup h Nb ≤ conjSubgroup h Rb := fun x hx =>
       CFSG.CGT.Timmesfeld75.mem_conjSubgroup.mpr
         (F.Nb_le_Rb (CFSG.CGT.Timmesfeld75.mem_conjSubgroup.mp hx))
-    haveI : ((conjSubgroup h Nb).subgroupOf (conjSubgroup h Rb)).Normal := ⟨fun n hn r => by
+    have : ((conjSubgroup h Nb).subgroupOf (conjSubgroup h Rb)).Normal := ⟨fun n hn r => by
       rw [Subgroup.mem_subgroupOf, CFSG.CGT.Timmesfeld75.mem_conjSubgroup] at hn ⊢
       have hr : h⁻¹ * (r : X) * h ∈ Rb := CFSG.CGT.Timmesfeld75.mem_conjSubgroup.mp r.2
       convert F.conj_mem_Nb hr hn using 1
@@ -95,14 +95,14 @@ theorem MoveFrame.exists_sylow_normSylow [Finite X] (F : MoveFrame B φ V L Nb R
     have hVh : conjSubgroup h V ≤ T' := fun x hx => hNb (by
       rw [CFSG.CGT.Timmesfeld75.mem_conjSubgroup] at hx ⊢
       exact F.L_le_Nb (F.V_le_L hx))
-    haveI : Nontrivial ↥T' := by
+    have : Nontrivial ↥T' := by
       obtain ⟨a, ha, ha1⟩ := F.exists_ne_one
       refine ⟨⟨⟨h * a * h⁻¹, hVh (mem_conjSubgroup_iff'.mpr ⟨a, ha, rfl⟩)⟩, 1, fun he => ha1 ?_⟩⟩
       have h2 : h * a * h⁻¹ = 1 := congrArg Subtype.val he
       calc a = h⁻¹ * (h * a * h⁻¹) * h := by group
         _ = 1 := by rw [h2]; group
-    have hpT : IsPGroup 2 ↥T' := T.isPGroup'.map (conjSubgroup h Rb).subtype
-    obtain ⟨w, hw, hw1⟩ := SetLike.exists_of_lt hpT.bot_lt_center
+    have hpT : IsPGroup 2 ↥T' := T.isPGroup.map (conjSubgroup h Rb).subtype
+    obtain ⟨w, hw, hw1⟩ := _root_.IsConcreteLE.exists_of_lt hpT.bot_lt_center
     refine ⟨w, w.2, fun h1 => hw1 (Subgroup.mem_bot.mpr (Subtype.ext h1)), fun s hs => ?_⟩
     exact (congrArg Subtype.val (Subgroup.mem_center_iff.mp hw ⟨s, hs⟩)).symm
   refine ⟨Sylow.ofCard T' hcard, ?_, ?_, ?_⟩

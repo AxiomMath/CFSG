@@ -11,6 +11,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem commutator_commutator_eq (x y : G) :
     ⁅⁅x, y⁆, y⁆ =
       (y ^ 2 * x * (y ^ 2)⁻¹ * x⁻¹) *
@@ -55,13 +56,13 @@ theorem phi_card_le {R O V Y : Subgroup G} (hOR : O ≤ R) (hidx : O.relIndex R 
     have : k * h * k⁻¹ = (k * h * k⁻¹ * h⁻¹) * h := by group
     rw [this]
     exact V.mul_mem hmem hh
-  letI : (V.subgroupOf O).Normal := hV'normal
+  let : (V.subgroupOf O).Normal := hV'normal
   let q : ↥O →* (↥O ⧸ V.subgroupOf O) := QuotientGroup.mk' _
   have hq1 : ∀ y : ↥O, q y = 1 ↔ (y : G) ∈ V := by
     intro y
     change (y : ↥O ⧸ V.subgroupOf O) = 1 ↔ _
     rw [QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf]
-  haveI hQcomm : IsMulCommutative (↥O ⧸ V.subgroupOf O) := by
+  have hQcomm : IsMulCommutative (↥O ⧸ V.subgroupOf O) := by
     rw [Subgroup.Normal.quotient_commutative_iff_commutator_le]
     change ⁅(⊤ : Subgroup ↥O), (⊤ : Subgroup ↥O)⁆ ≤ V.subgroupOf O
     rw [Subgroup.commutator_le]

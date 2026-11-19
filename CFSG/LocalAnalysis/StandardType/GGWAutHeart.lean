@@ -448,7 +448,7 @@ private lemma ggWAutH_repr_monomial {n : ℕ} {V : Type} [AddCommGroup V] [Modul
     rw [map_sum]
     refine Finset.sum_congr rfl fun j _ => ?_
     rw [map_smul, ha j, smul_smul]
-  rw [hx, map_sum, Finsupp.coe_finset_sum]
+  rw [hx, map_sum, _root_.Finsupp.coe_finsetSum]
   simp only [Finset.sum_apply, map_smul, Finsupp.coe_smul, Pi.smul_apply, Basis.repr_self]
   rw [Finset.sum_eq_single i]
   · simp [Finsupp.single_eq_same, mul_comm]
@@ -512,7 +512,7 @@ private theorem ggWAutH_not_imprimitive {V : Type} [AddCommGroup V] [Module (ZMo
       rw [map_sum]
       refine Finset.sum_congr rfl fun i _ => ?_
       rw [Basis.repr_self]
-    rw [h1, Finsupp.coe_finset_sum]
+    rw [h1, _root_.Finsupp.coe_finsetSum]
     simp only [Finset.sum_apply, Finsupp.single_apply]
     rw [Finset.sum_ite_eq']
     simp

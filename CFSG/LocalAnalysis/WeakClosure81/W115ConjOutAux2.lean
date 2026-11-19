@@ -111,7 +111,7 @@ theorem w115_nu_conj_t (g : N0) :
   · refine ⟨h, ?_⟩
     have hg : g = ⟨(h : Equiv.Perm (Fin 22)), w115_H0_le_N0 h.2⟩ * ⟨t, t_mem_N0⟩ := by
       apply Subtype.ext; exact hh
-    simp only [hg, map_mul, map_inv, w115_nu_h, hnu_t2, mul_one]
+    simp only [hg, map_mul, map_inv, w115_nu_h]
     group
 
 theorem w115_nu_conj_u (g : N0) :
@@ -131,7 +131,7 @@ theorem w115_nu_conj_u (g : N0) :
   · refine ⟨h, ?_⟩
     have hg : g = ⟨(h : Equiv.Perm (Fin 22)), w115_H0_le_N0 h.2⟩ * ⟨u, u_mem_N0⟩ := by
       apply Subtype.ext; exact hh
-    simp only [hg, map_mul, map_inv, w115_nu_h, hnu_u2, mul_one]
+    simp only [hg, map_mul, map_inv, w115_nu_h]
     group
 
 private theorem w115_closure_TC4_eq_top :
@@ -302,7 +302,7 @@ theorem w115_nu_injective : Function.Injective w115_nu := by
       rw [Subgroup.mem_centralizer_iff]
       intro y hy
       have h := congrArg (fun φ : MulAut H0 => (φ ⟨y, hy⟩ : Equiv.Perm (Fin 22))) hv
-      simp only [MulAut.one_apply, w115_nu_apply, Subgroup.coe_mul, Subgroup.coe_inv] at h
+      simp only [MulAut.one_apply, w115_nu_apply] at h
       calc y * (v : Equiv.Perm (Fin 22)) =
           ((v : Equiv.Perm (Fin 22)) * y * (v : Equiv.Perm (Fin 22))⁻¹) *
             (v : Equiv.Perm (Fin 22)) := by rw [h]

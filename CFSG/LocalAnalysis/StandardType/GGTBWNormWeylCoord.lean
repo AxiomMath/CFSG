@@ -100,7 +100,7 @@ theorem wNormConcl_of_weyl_coordinates {τ : Tag}
   have hNIW : NormInducesInner W :=
     NormInducesInner.of_mulEquiv (MulAut.congr κ).symm (W' := (ExcWeylOuter.torusMulAut τ p).range)
       (fun x => by rw [hmemW, MulEquiv.apply_symm_apply]) hNI
-  letI : (MulAut.conj : L →* MulAut L).range.Normal := by
+  let : (MulAut.conj : L →* MulAut L).range.Normal := by
     constructor
     rintro a ⟨x, rfl⟩ b
     refine ⟨b x, ?_⟩

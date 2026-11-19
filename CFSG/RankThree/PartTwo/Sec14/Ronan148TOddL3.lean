@@ -148,11 +148,13 @@ variable {K : Type} [Field K] [Finite K] {r f : ℕ} [Fact r.Prime] [CharP K r]
     have h1 : σ (l : K) ≠ 0 := (map_ne_zero σ).mpr h0
     simp [det_diagonal, Fin.prod_univ_three, h0, h1])
 
+omit [Finite K] in
 theorem coe_diagSU (σ : K ≃+* K) (l : Kˣ) :
     ((diagSU σ l : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) =
       diagonal ![(l : K), σ l / l, (σ l)⁻¹] :=
   rfl
 
+omit [Finite K] in
 theorem diagSU_mem_SU (σ : K ≃+* K) (hσ : ∀ x, σ (σ x) = x) (l : Kˣ) : diagSU σ l ∈ SU σ 3 := by
   have h0 : (l : K) ≠ 0 := l.ne_zero
   have h1 : σ (l : K) ≠ 0 := (map_ne_zero σ).mpr h0
@@ -163,9 +165,9 @@ theorem diagSU_mem_SU (σ : K ≃+* K) (hσ : ∀ x, σ (σ x) = x) (l : Kˣ) : 
   · rw [coe_diagSU, SubgroupLists.antidiag_three]
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [conjTr, Matrix.mul_apply, Fin.sum_univ_three, diagonal, hσ, map_div₀, map_inv₀] <;>
-      field_simp
+      simp [conjTr, Matrix.mul_apply, Fin.sum_univ_three, diagonal, hσ, map_div₀, map_inv₀]
 
+omit [Finite K] in
 theorem diagSU_mul_unipGL (σ : K ≃+* K) (l : Kˣ) (c : K) :
     diagSU σ l * SubgroupLists.unipGL σ 0 c =
       SubgroupLists.unipGL σ 0 (σ l * l * c) * diagSU σ l := by
@@ -176,7 +178,7 @@ theorem diagSU_mul_unipGL (σ : K ≃+* K) (l : Kˣ) (c : K) :
     SubgroupLists.coe_unipGL]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [SubgroupLists.unipMat, Matrix.mul_apply, Fin.sum_univ_three, diagonal] <;> field_simp
+    simp [SubgroupLists.unipMat, Matrix.mul_apply, diagonal]; field_simp
 
 theorem exists_unitaryInvolution_ne (hf : 1 ≤ f) (hK : Nat.card K = (r ^ f) ^ 2) :
     ∃ b : K, unitaryInvolution K r f b ≠ b := by

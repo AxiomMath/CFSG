@@ -68,13 +68,13 @@ theorem bk_rot {m : ℕ} {a b c : Fin m} (hab : a ≠ b) (hac : a ≠ c) (hbc : 
   simp only [Equiv.Perm.mul_apply]
   by_cases h1 : x = a
   · rw [h1]
-    simp [Equiv.swap_apply_def, hab, hac, hbc, hab.symm, hac.symm, hbc.symm]
+    simp [Equiv.swap_apply_def, hab, hac, hbc, hab.symm]
   by_cases h2 : x = b
   · rw [h2]
-    simp [Equiv.swap_apply_def, hab, hac, hbc, hab.symm, hac.symm, hbc.symm]
+    simp [Equiv.swap_apply_def, hac.symm, hbc.symm]
   by_cases h3 : x = c
   · rw [h3]
-    simp [Equiv.swap_apply_def, hab, hac, hbc, hab.symm, hac.symm, hbc.symm]
+    simp [Equiv.swap_apply_def, hac.symm, hbc.symm]
   simp [Equiv.swap_apply_def, h1, h2, h3]
 
 theorem bk_identity {m : ℕ} (u v w w' : Fin m) :
@@ -196,8 +196,6 @@ theorem bk_transport2 {m : ℕ} (H : Subgroup (Perm (Fin m))) (S T : Set (Fin m)
       rw [map_mul, Equiv.Perm.sign_swap hp₁q₁, hsgn']
       first
         | rfl
-        | decide
-        | exact Int.units_mul_self _
     refine ⟨swap p₁ q₁ * (swap y' v * swap x u),
       hSsupp _ (Equiv.Perm.mem_alternatingGroup.mpr hσsgn) hfix, ?_, ?_, hfix⟩
     · rw [Equiv.Perm.mul_apply, hτx, swap_apply_of_ne_of_ne (Ne.symm hp₁u) (Ne.symm hq₁u)]

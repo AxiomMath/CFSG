@@ -19,7 +19,7 @@ private theorem exists_quadraticForm_polar_eq (hF : Nat.card F = 2) {f : LinearM
     (halt : f.IsAlt) {d : V ≃ₗ[F] V} (hd3 : d ^ 3 = 1) (hd : fixedByEnd d = ⊥)
     (hdf : ∀ u v, f (d u) (d v) = f u v) :
     ∃ Q : QuadraticForm F V, (∀ v, Q v = f v (d v)) ∧ ∀ x y, polar Q x y = f x y := by
-  haveI := card_two_charP hF
+  have := card_two_charP hF
   have h2 : (2 : F) = 0 := CharP.cast_eq_zero F 2
   have hww : ∀ x : V, x + x = 0 := fun x => by rw [← two_smul F x, h2, zero_smul]
   have hneg : ∀ x : V, -x = x := fun x => neg_eq_of_add_eq_zero_right (hww x)

@@ -35,10 +35,10 @@ theorem stroth37Statement_of_geom (h34 : Stroth34Statement)
     obtain ⟨a, b, hab⟩ := Mn37.exists_mul_ne_mul_SL2 (GaloisField 2 (k * 3))
     refine ⟨e.symm a, e.symm b, fun h => hab ?_⟩
     simpa only [map_mul, MulEquiv.apply_symm_apply] using congrArg e h
-  haveI := hsimple
+  have := hsimple
   have hq : IsQuasisimple ↥(bar M Q (Lgen M (LB M Q B))) :=
     (LocalCores.isQuasisimple_of_isSimpleGroup hnab).1
-  haveI hN0 : (bar M Q (Lgen M (LB M Q B))).Normal := normal_bar_Lgen (LB M Q B)
+  have hN0 : (bar M Q (Lgen M (LB M Q B))).Normal := normal_bar_Lgen (LB M Q B)
   have hcomp : IsComponent (bar M Q (Lgen M (LB M Q B))) := ⟨hq, hN0.isSubnormal⟩
   have hlayer : bar M Q (Lgen M (LB M Q B)) = layer (Mbar M Q) := by
     rw [layer.eq_sSup]

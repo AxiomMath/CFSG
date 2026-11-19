@@ -35,7 +35,7 @@ private theorem kpw_xor_lc (a b c : ℕ) : a ^^^ (b ^^^ c) = b ^^^ (a ^^^ c) := 
   rw [← Nat.xor_assoc, Nat.xor_comm a b, Nat.xor_assoc]
 
 private theorem kpw_V_eq {a0 a1 a2 a3 : ℕ} (h0 : a0 < 16) (h1 : a1 < 16) (h2 : a2 < 16)
-    (h3 : a3 < 16) :
+    (_h3 : a3 < 16) :
     Nat.lor (Nat.shiftLeft a0 (Nat.mul 4 0)) (Nat.lor (Nat.shiftLeft a1 (Nat.mul 4 1))
       (Nat.lor (Nat.shiftLeft a2 (Nat.mul 4 2)) (Nat.lor (Nat.shiftLeft a3 (Nat.mul 4 3)) 0))) =
       a0 + 16 * (a1 + 16 * (a2 + 16 * a3)) := by
@@ -128,7 +128,7 @@ private theorem kpw_G_eq (V u : ℕ) (v : ℕ → ℕ) (j x : ℕ) (hV : (V >>> 
     kpw_G V u j x = if u.testBit j = true then x ^^^ v j else x := by
   unfold kpw_G
   rw [hV, kpw_bitK]
-  cases h : u.testBit j <;> simp [h]
+  cases h : u.testBit j <;> simp
 
 private theorem kpw_linK (V u : ℕ) (v : ℕ → ℕ) (hV : ∀ j < 4, (V >>> (4 * j)) % 16 = v j) :
     Syl.linK V u = kpw_Wf v u 4 := by
@@ -146,7 +146,7 @@ private theorem kpw_linK (V u : ℕ) (v : ℕ → ℕ) (hV : ∀ j < 4, (V >>> (
     w4, w3, w2, w1, kpw_Wf_zero]
   cases h0 : u.testBit 0 <;> cases h1 : u.testBit 1 <;> cases h2 : u.testBit 2 <;>
     cases h3 : u.testBit 3 <;>
-    simp [h0, h1, h2, h3, Nat.xor_assoc, Nat.xor_comm, kpw_xor_lc]
+    simp [Nat.xor_assoc, Nat.xor_comm]
 
 private theorem kpw_conj {B : List (Perm (Fin n))} (h : EFacts B) (σ : Perm (Fin n)) (v : ℕ → ℕ)
     (hv : ∀ j < 4, σ * B.getD j 1 * σ⁻¹ = elt 4 B (v j)) :
@@ -168,8 +168,8 @@ private theorem kpw_conj {B : List (Perm (Fin n))} (h : EFacts B) (σ : Perm (Fi
     have hk' : k < 4 := by omega
     rw [elt_succ, kpw_Wf_succ]
     by_cases hb : u.testBit k = true
-    · rw [if_pos hb, if_pos hb, cm, ihk, hv k hk', elt_mul hs hc]
-    · rw [if_neg hb, if_neg hb, mul_one, ihk]
+    · rw [ite_eq_left hb, ite_eq_left hb, cm, ihk, hv k hk', elt_mul hs hc]
+    · rw [ite_eq_right hb, ite_eq_right hb, mul_one, ihk]
 
 private theorem kpw_Wf_lt (v : ℕ → ℕ) (hv : ∀ j < 4, v j < 16) (u : ℕ) :
     ∀ k, k ≤ 4 → kpw_Wf v u k < 16 := by
@@ -232,13 +232,13 @@ private theorem kpw_main {B : List (Perm (Fin n))} (h : EFacts B) (σ : Perm (Fi
   · have he : kpw_Wf v u 4 = u := (kpw_cm h σ v hv1 hv2 u hu16).1 hc
     have hb : Nat.beq u (kpw_Wf v u 4) = true := by
       rw [he]; exact Nat.beq_refl u
-    rw [if_pos hc, hb] <;> rfl
+    rw [ite_eq_left hc, hb]; rfl
   · have he : ¬ kpw_Wf v u 4 = u := fun e => hc ((kpw_cm h σ v hv1 hv2 u hu16).2 e)
     have hb : Nat.beq u (kpw_Wf v u 4) = false := by
       cases hc' : Nat.beq u (kpw_Wf v u 4)
       · rfl
       · exact absurd (Nat.eq_of_beq_eq_true hc').symm he
-    rw [if_neg hc, hb] <;> rfl
+    rw [ite_eq_right hc, hb]
 
 theorem cmLK_eq (hn : n ≤ 32) {B : List (Perm (Fin n))} (h : EFacts B) (σ : Perm (Fin n))
     (hσ : ∀ e ∈ B, ∃ e' ∈ lst B, σ * e = e' * σ) :

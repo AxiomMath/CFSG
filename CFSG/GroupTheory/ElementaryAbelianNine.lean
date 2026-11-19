@@ -17,6 +17,7 @@ open scoped Pointwise
 
 variable {R : Type*} [CommGroup R] [Finite R]
 
+omit [Finite R] in
 theorem sq_ne_one_of_mem_card_three {N : Subgroup R} (hN : Nat.card ↥N = 3) {x : R}
     (hx : x ∈ N) (hx1 : x ≠ 1) : x ^ 2 ≠ 1 := by
   intro hx2

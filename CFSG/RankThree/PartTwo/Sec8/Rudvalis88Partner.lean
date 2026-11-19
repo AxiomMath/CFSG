@@ -105,9 +105,9 @@ theorem five_dvd_card_residual_of_ree {M : Subgroup G} {a : G} {n : ℕ}
       rw [hN2]
       norm_num
   ·
-    haveI : Group.IsPerfect (ReeTag.F4.reeGamma k' b') :=
+    have : Group.IsPerfect (ReeTag.F4.reeGamma k' b') :=
       ⟨ReeTag.commutator_reeGamma_eq_top (t := ReeTag.F4) hb1 hk'⟩
-    haveI : IsSimpleGroup (ReeTag.F4.reeGamma k' b') :=
+    have : IsSimpleGroup (ReeTag.F4.reeGamma k' b') :=
       CFSG.SignalizerFunctorTheorem.CatalogBridge.isSimpleGroup_reeGamma_F4 hb1 hk'
     have hCperf : Group.IsPerfect (barCentralizer (Subgroup.zpowers a) M) :=
       Group.IsPerfect.ofSurjective (f := φ.symm.toMonoidHom) φ.symm.surjective

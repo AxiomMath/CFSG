@@ -48,7 +48,7 @@ theorem uc22p2213f_false_of_powTwo (D : Data G) (Ch : Choice2011 G) (h8100E : R8
     exact ⟨Nat.prime_three, h3⟩
   obtain ⟨b, hb, hbo⟩ := uc22p22i_exists_elt_of_mem_piSet hmem
   have hAB : zpowers b ≤ c.B0 := zpowers_le.2 hb
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcard : Nat.card (zpowers b) = 3 := by rw [Nat.card_zpowers, hbo]
   have hne : zpowers b ≠ ⊥ := by
     intro h

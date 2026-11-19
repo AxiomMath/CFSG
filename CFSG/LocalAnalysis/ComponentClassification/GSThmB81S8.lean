@@ -278,7 +278,7 @@ theorem isSylowIn_R (h6 : ∃ c : H, c⁻¹ * (h.a * d.sigma) * c = d.z * d.sigm
   have hF2 : IsPGroup 2 h.F32 := h.toHyp52.isPGroup_S.to_le h.F32_le_S
   obtain ⟨T₀, hT₀⟩ := (hF2.comap_subtype (K := C)).exists_le_sylow
   have hT₀card : Nat.card (T₀ : Subgroup ↥C) ≤ Nat.card R := by
-    have hT₁ := T₀.isPGroup'.map C.subtype
+    have hT₁ := T₀.isPGroup.map C.subtype
     have h1 := key ((T₀ : Subgroup ↥C).map C.subtype) hT₁ (fun f hf => ⟨⟨f, hFC hf⟩, hT₀ hf, rfl⟩)
       (map_subtype_le _)
     rwa [Subgroup.card_map_of_injective C.subtype_injective] at h1

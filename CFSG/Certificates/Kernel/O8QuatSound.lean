@@ -183,7 +183,7 @@ theorem datum_isPGroup {H K : Subgroup G} {s : G} (hd : Vtx.AmbientQuatDatum H K
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e⟩ := hd.q8
   refine IsPGroup.of_card (n := 3) ?_
-  rw [Nat.card_congr e.toEquiv, Nat.card_eq_fintype_card, QuaternionGroup.card] <;> decide
+  rw [Nat.card_congr e.toEquiv, Nat.card_eq_fintype_card, QuaternionGroup.card]; decide
 
 theorem le_of_twins [Finite G] {H K S : Subgroup G} {s : G} (hd : Vtx.AmbientQuatDatum H K s)
     (hS : S ≤ H ⊓ Subgroup.centralizer {s}) (hSp : IsPGroup 2 S)
@@ -302,7 +302,7 @@ theorem card_le_of_conj_mem [Finite G] {H N K : Subgroup G} (Ls : List (Subgroup
   have hrep : ∀ h ∈ H, rep (conjSub h K) ∈ H ∧ conjSub (rep (conjSub h K)) K = conjSub h K := by
     intro h hh
     have hex : ∃ h' ∈ H, conjSub h' K = conjSub h K := ⟨h, hh, rfl⟩
-    simp only [rep, dif_pos hex]
+    simp only [rep, dite_eq_left hex]
     exact hex.choose_spec
   have hmem : ∀ h : H, (rep (conjSub h.1 K))⁻¹ * h.1 ∈ N := fun h => by
     obtain ⟨hr, e⟩ := hrep _ h.2
@@ -333,9 +333,9 @@ theorem exists_conj_eq_of_card [Finite G] {H N K : Subgroup G} {m : ℕ} (w : �
   let c : Fin (m + 1) → G := fun i => if (i : ℕ) < m then w i else g
   have hc : ∀ i, c i ∈ H := fun i => by
     by_cases hi : (i : ℕ) < m
-    · simp only [c, if_pos hi]
+    · simp only [c, ite_eq_left hi]
       exact hw _ hi
-    · simp only [c, if_neg hi]
+    · simp only [c, ite_eq_right hi]
       exact hg
   let f : Fin (m + 1) × N → H := fun p => ⟨c p.1 * p.2, H.mul_mem (hc _) (hNH p.2.2)⟩
   have key : ∀ (i : Fin (m + 1)) (n : N), conjSub (c i * n) K = conjSub (c i) K := fun i n => by
@@ -346,11 +346,11 @@ theorem exists_conj_eq_of_card [Finite G] {H N K : Subgroup G} {m : ℕ} (w : �
     have e2 : conjSub (c i) K = conjSub (c j) K := by rw [← key i n, ← key j n', e1]
     have hij : i = j := by
       by_cases hi : (i : ℕ) < m <;> by_cases hj : (j : ℕ) < m
-      · simp only [c, if_pos hi, if_pos hj] at e2
+      · simp only [c, ite_eq_left hi, ite_eq_left hj] at e2
         exact Fin.ext (hinj _ hi _ hj e2)
-      · simp only [c, if_pos hi, if_neg hj] at e2
+      · simp only [c, ite_eq_left hi, ite_eq_right hj] at e2
         exact absurd e2.symm (hne _ hi)
-      · simp only [c, if_neg hi, if_pos hj] at e2
+      · simp only [c, ite_eq_right hi, ite_eq_left hj] at e2
         exact absurd e2 (hne _ hj)
       · exact Fin.ext (by omega)
     subst hij

@@ -15,6 +15,7 @@ namespace Prop1116Design
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem gLBConj_eq_of_zpowers {a : G} {L : Subgroup G} (hL : GLBConj a L = L) {g : G}
     (hg : g ∈ Subgroup.zpowers a) : GLBConj g L = L := by
   have ha : a ∈ Subgroup.normalizer (L : Set G) := by
@@ -29,6 +30,7 @@ theorem gLBConj_eq_of_zpowers {a : G} {L : Subgroup G} (hL : GLBConj a L = L) {g
       exact mem_gLBConj.2 hx
   exact gLBConj_eq_of_mem_normalizer ((Subgroup.zpowers_le.mpr ha) hg)
 
+omit [Finite G] in
 theorem gLBConj_pow_cycle {p : ℕ} [Fact p.Prime] {a : G} {L : ZMod p → Subgroup G}
     (hL : ∀ i, GLBConj a (L i) = L (i + 1)) (k : ℕ) : GLBConj (a ^ k) (L 0) = L (k : ZMod p) := by
   induction k with
@@ -44,7 +46,7 @@ theorem exists_J1_of_input18_3 (hI : Prop115.Input18_3Gen) {m p : ℕ} {B M E A 
       Kx p J0 e = ⨆ g ∈ Subgroup.zpowers a, GLBConj g J1 := by
   have hS : GLStanding G m p := h.standing
   have hp : p.Prime := hS.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hAel : IsElemAbelian p A := sec11_isElemAbelian_A h
   have heA : e ∈ A := (Subgroup.mem_inf.1 he).2
   have hae : a * e = e * a := elemAbelian_comm hAel ha heA

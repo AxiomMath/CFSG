@@ -21,6 +21,7 @@ variable {p f : ℕ} {K : Type} [Field K] [Finite K] (h : UnitaryFieldData p f K
   (((powMonoidHom 2).comp (uc22pwlie_prodHom μ r)).comp (MonoidHom.fst _ _)) *
     ((uc22pwlie_prodHom μ ε).comp (MonoidHom.snd _ _))
 
+omit [Finite K] in
 theorem uc22pwliu_ratio_apply (μ : Subgroup Kˣ) (r ε : ℕ) (x : (Fin r → μ) × (Fin ε → μ)) :
     uc22pwliu_ratio μ r ε x = (∏ i, x.1 i) ^ 2 * ∏ k, x.2 k := rfl
 
@@ -35,10 +36,12 @@ theorem uc22pwliu_ratio_apply (μ : Subgroup Kˣ) (r ε : ℕ) (x : (Fin r → �
 
 variable {h}
 
+omit [Finite K] in
 theorem uc22pwliu_norm_one {μ : Subgroup Kˣ} (hμ : UC22pwliuInv h μ) (a : μ) :
     h.norm (((a : Kˣ)) : K) = 1 := by
   rw [UnitaryFieldData.norm, hμ a, ← Units.val_mul, mul_inv_cancel, Units.val_one]
 
+omit [Finite K] in
 theorem uc22pwliu_torusRatio {μ : Subgroup Kˣ} (hμ : UC22pwliuInv h μ) (x : (Fin r → μ) × (Fin ε → μ)) :
     torusRatio h (uc22pwliu_a μ x) (uc22pwliu_d μ x) =
       (((uc22pwliu_ratio μ r ε x : μ) : Kˣ) : K) := by
@@ -60,6 +63,7 @@ noncomputable def uc22pwliu_elt (hμ : UC22pwliuInv h μ) (x : (uc22pwliu_ratio 
     (fun k => uc22pwliu_norm_one hμ (x.1.2 k))
     (by rw [uc22pwliu_torusRatio hμ, MonoidHom.mem_ker.1 x.2]; simp)).choose
 
+omit [Finite K] in
 theorem uc22pwliu_elt_spec (hμ : UC22pwliuInv h μ) (x : (uc22pwliu_ratio μ r ε).ker) :
     uc22pwliu_elt hμ x ∈ hypTorus h r ε ∧
       ((uc22pwliu_elt hμ x : GL (HypIndex r ε) K) : Matrix (HypIndex r ε) (HypIndex r ε) K) =
@@ -87,16 +91,19 @@ noncomputable def uc22pwliu_hom (hμ : UC22pwliuInv h μ) :
       (uc22pwliu_elt_spec hμ (x * y)).2, Matrix.diagonal_mul_diagonal]
     congr 1
     funext z
-    rcases z with i | k | i <;> simp [torusEntries, uc22pwliu_a, uc22pwliu_d, mul_inv] <;> ring
+    rcases z with i | k | i <;> simp [torusEntries, uc22pwliu_a, uc22pwliu_d]; ring
 
+omit [Finite K] in
 theorem uc22pwliu_hom_mem_borel (hμ : UC22pwliuInv h μ) (x : (uc22pwliu_ratio μ r ε).ker) :
     uc22pwliu_hom hμ x ∈ hypBorel h r ε :=
   hypTorus_le_hypBorel h (uc22pwliu_elt_spec hμ x).1
 
+omit [Finite K] in
 theorem uc22pwliu_ker_pow {ℓ : ℕ} (hexp : ∀ a : μ, a ^ ℓ = 1) (x : (uc22pwliu_ratio μ r ε).ker) :
     x ^ ℓ = 1 :=
-  Subtype.ext (Prod.ext (funext fun i => hexp _) (funext fun k => hexp _))
+  Subtype.ext (Prod.ext (funext fun _i => hexp _) (funext fun _k => hexp _))
 
+omit [Finite K] in
 theorem uc22pwliu_ratio_surjective {ℓ : ℕ} (hodd : Odd ℓ) (hcard : Nat.card μ = ℓ) (hrε : 1 ≤ r + ε) :
     Function.Surjective (uc22pwliu_ratio μ r ε) := by
   intro z
@@ -127,6 +134,7 @@ theorem uc22pwliu_ratio_surjective {ℓ : ℕ} (hodd : Odd ℓ) (hcard : Nat.car
       · simp
     simp [h1]
 
+omit [Finite K] in
 theorem uc22pwliu_card_ker_ratio {ℓ : ℕ} (hℓ : ℓ.Prime) (hodd : Odd ℓ) (hcard : Nat.card μ = ℓ)
     (hrε : 1 ≤ r + ε) : Nat.card (uc22pwliu_ratio μ r ε).ker = ℓ ^ (r + ε - 1) := by
   have h1 := Subgroup.card_ker_mul_card_of_surjective (uc22pwliu_ratio_surjective hodd hcard hrε)
@@ -141,6 +149,7 @@ theorem uc22pwliu_card_ker_ratio {ℓ : ℕ} (hℓ : ℓ.Prime) (hodd : Odd ℓ)
   rw [h3] at h1
   exact Nat.eq_of_mul_eq_mul_right hℓ.pos h1
 
+omit [Finite K] in
 theorem uc22pwliu_params_const (hμ : UC22pwliuInv h μ) (x : (uc22pwliu_ratio μ r ε).ker) (c : Kˣ)
     (hc : (uc22pwliu_hom hμ x : GL (HypIndex r ε) K) = Matrix.GeneralLinearGroup.scalar (HypIndex r ε) c) :
     (∀ i, ((x.1.1 i : μ) : Kˣ) = c) ∧ ∀ k, ((x.1.2 k : μ) : Kˣ) = c := by
@@ -158,6 +167,7 @@ theorem uc22pwliu_params_const (hμ : UC22pwliuInv h μ) (x : (uc22pwliu_ratio �
   exact ⟨fun i => Units.ext (by simpa [torusEntries, uc22pwliu_a] using hdiag (Sum.inl i)),
     fun k => Units.ext (by simpa [torusEntries, uc22pwliu_d] using hdiag (Sum.inr (Sum.inl k)))⟩
 
+omit [Finite K] in
 theorem uc22pwliu_eq_one_of_scalar (hμ : UC22pwliuInv h μ) {ℓ : ℕ} (hℓ : ℓ.Prime)
     (hexp : ∀ a : μ, a ^ ℓ = 1) (hr : 1 ≤ r) (hnd : ¬ ℓ ∣ 2 * r + ε) (x : (uc22pwliu_ratio μ r ε).ker)
     (hx : uc22pwliu_hom hμ x ∈ hypScalars h r ε) : x = 1 := by
@@ -175,6 +185,7 @@ theorem uc22pwliu_eq_one_of_scalar (hμ : UC22pwliuInv h μ) {ℓ : ℕ} (hℓ :
   · exact Subtype.ext (by rw [hai i, hc1]; rfl)
   · exact Subtype.ext (by rw [hdk k, hc1]; rfl)
 
+omit [Finite K] in
 theorem uc22pwliu_eq_one_of_hom_eq_one (hμ : UC22pwliuInv h μ) (x : (uc22pwliu_ratio μ r ε).ker)
     (hx : uc22pwliu_hom hμ x = 1) : x = 1 := by
   obtain ⟨hai, hdk⟩ := uc22pwliu_params_const hμ x 1 (by rw [hx, map_one]; rfl)
@@ -182,13 +193,14 @@ theorem uc22pwliu_eq_one_of_hom_eq_one (hμ : UC22pwliuInv h μ) (x : (uc22pwliu
   · exact Subtype.ext (hai i)
   · exact Subtype.ext (hdk k)
 
+omit [Finite K] in
 theorem uc22pwliu_borelWit_core {f : ℕ} (h : UnitaryFieldData 2 f K) {μ : Subgroup Kˣ}
     (hμ : UC22pwliuInv h μ) {ℓ : ℕ} (hℓ : ℓ.Prime) (hodd : Odd ℓ) (hcard : Nat.card μ = ℓ)
     (hexp : ∀ a : μ, a ^ ℓ = 1) {r ε : ℕ} (hr : 1 ≤ r) (hε : ε ≤ 1) {X : Type} [Group X] [Finite X]
     (α : hypSU h r ε →* X) (hα : Function.Surjective α)
     (hinj : ∀ x : (uc22pwliu_ratio μ r ε).ker, α (uc22pwliu_hom hμ x) = 1 → x = 1) :
     uc22p20oBorelWit X ℓ (r + ε - 1) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hφ : Function.Injective (α.comp (uc22pwliu_hom hμ)) :=
     (injective_iff_map_eq_one _).2 fun x hx => hinj x hx
   have hE : IsElemAbelian ℓ (α.comp (uc22pwliu_hom hμ)).range :=
@@ -238,8 +250,8 @@ theorem uc22pwliu_closed
     {r ε : ℕ} (hε : ε ≤ 1) (hm : 3 ≤ 2 * r + ε) (hf : 2 ≤ f) {E : Type} [Group E] [Finite E]
     (π : E →* hypSU h r ε) (hπ : Function.Surjective π) (hc : π.ker ≤ center E) :
     ∃ s : hypSU h r ε →* E, ∀ g, π (s g) = g := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := h.charP
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := h.charP
   obtain ⟨R, hR⟩ := exists_isHypTransport (r := r) (ε := ε) h
   let Φ : hypSU h r ε ≃* Assembly.LowTwoRank.StatedSU (2 * r + ε) (2 ^ f) K := hypTransport h hR
   have hπ' : Function.Surjective (Φ.toMonoidHom.comp π) := Φ.surjective.comp hπ

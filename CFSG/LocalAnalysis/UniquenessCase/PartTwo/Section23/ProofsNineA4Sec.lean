@@ -102,7 +102,7 @@ theorem map_qX_X1_eq_top (a : S23_9_AdjData D Ch c hV d b hb r)
     (hbr : orderOf b = r) (hr3 : r = 3) :
     (X1 a).map a.qX = ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hA : IsPGroup 3 ↥(Subgroup.zpowers (ctilde a)) := isPGroup_zpowers_ctilde a hbr hr3
   have hcop : ¬ 3 ∣ Nat.card (CFSG.pCore 2 ↥a.X) := not_three_dvd_card_pCore_X a
   have hN : ∀ a' : ↥(Subgroup.zpowers (ctilde a)), ∀ n ∈ CFSG.pCore 2 ↥a.X,
@@ -147,7 +147,7 @@ theorem map_qX_X2_eq_top (a : S23_9_AdjData D Ch c hV d b hb r)
     have hgy : g ⟨(x : G), Subgroup.mem_map_of_mem a.X.subtype hx⟩ = x := Subtype.ext rfl
     rw [show f ⟨(x : G), Subgroup.mem_map_of_mem a.X.subtype hx⟩ =
       a.qX (g ⟨(x : G), Subgroup.mem_map_of_mem a.X.subtype hx⟩) from rfl, hgy, hqx]
-  haveI : Group.IsPerfect (Bar2 a.X) :=
+  have : Group.IsPerfect (Bar2 a.X) :=
     CFSG.GroupTheory.isPerfect_of_isSLn_two a.hm2 a.hXsl
   have hres : (CFSG.perfectResidual ↥Y).map f = ⊤ := by
     have h := CFSG.RankThreeCoreUniqueness.Helpers.finite_perfectResidual_map_eq f hf
@@ -243,7 +243,7 @@ theorem isPGroup_quotient_X1_X2 (a : S23_9_AdjData D Ch c hV d b hb r)
 theorem dRoot_mem_X2 (a : S23_9_AdjData D Ch c hV d b hb r) (hbr : orderOf b = r)
     (hr3 : r = 3) : a.dRoot ∈ X2 a := by
   have hNle : (X2 a).subgroupOf a.X ≤ X1 a := X2_subgroupOf_le_X1 a
-  haveI : (((X2 a).subgroupOf a.X).subgroupOf (X1 a)).Normal := normal_X2_subgroupOf_X1 a
+  have : (((X2 a).subgroupOf a.X).subgroupOf (X1 a)).Normal := normal_X2_subgroupOf_X1 a
   have hpg := isPGroup_quotient_X1_X2 a hbr hr3
   have h3 : orderOf (⟨a.dRoot, a.hdX⟩ : ↥a.X) = 3 := by
     rw [Subgroup.orderOf_mk, a.hdorder, hr3]
@@ -276,11 +276,11 @@ private theorem fixV_inf_fixV_eq_bot_of_barImage (a : S23_9_AdjData D Ch c hV d 
     (hfixb : d.fixV (barImage D.M (Subgroup.zpowers b)) = ⊥) :
     d.fixV (barImage D.M (Subgroup.zpowers (ctilde a))) ⊓
       d.fixV (barImage D.M (Subgroup.zpowers a.dRoot)) = ⊥ := by
-  letI : Fact d.q.Prime := ⟨d.hq⟩
-  letI : d.E.Normal := d.hEnorm
-  letI : IsPGroup d.q ↥d.E := d.hEp
-  letI : IsElementaryAbelian d.q (↥d.E ⧸ frattini ↥d.E) := d.hEel
-  letI : CommGroup (↥d.E ⧸ frattini ↥d.E) := IsMulCommutative.instCommGroup
+  let : Fact d.q.Prime := ⟨d.hq⟩
+  let : d.E.Normal := d.hEnorm
+  let : IsPGroup d.q ↥d.E := d.hEp
+  let : IsElementaryAbelian d.q (↥d.E ⧸ frattini ↥d.E) := d.hEel
+  let : CommGroup (↥d.E ⧸ frattini ↥d.E) := IsMulCommutative.instCommGroup
   rw [Submodule.eq_bot_iff]
   intro v hv
   rw [Submodule.mem_inf] at hv
@@ -303,11 +303,11 @@ theorem fixV_ctilde_inf_fixV_dRoot_eq_bot (a : S23_9_AdjData D Ch c hV d b hb r)
     (hfixb : d.fixV (barImage D.M (Subgroup.zpowers b)) = ⊥) :
     d.fixV (barImage D.M (Subgroup.zpowers (ctilde a))) ⊓
       d.fixV (barImage D.M (Subgroup.zpowers a.dRoot)) = ⊥ := by
-  letI : Fact d.q.Prime := ⟨d.hq⟩
-  letI : d.E.Normal := d.hEnorm
-  letI : IsPGroup d.q ↥d.E := d.hEp
-  letI : IsElementaryAbelian d.q (↥d.E ⧸ frattini ↥d.E) := d.hEel
-  letI : CommGroup (↥d.E ⧸ frattini ↥d.E) := IsMulCommutative.instCommGroup
+  let : Fact d.q.Prime := ⟨d.hq⟩
+  let : d.E.Normal := d.hEnorm
+  let : IsPGroup d.q ↥d.E := d.hEp
+  let : IsElementaryAbelian d.q (↥d.E ⧸ frattini ↥d.E) := d.hEel
+  let : CommGroup (↥d.E ⧸ frattini ↥d.E) := IsMulCommutative.instCommGroup
   have hXM : a.X ≤ D.M :=
     a.hXK.trans ((CFSG.LocalAnalysis.UniquenessCase.UC22.uc22p21c_Hinf_le _).trans inf_le_left)
   have hdM : a.dRoot ∈ D.M := hXM a.hdX
@@ -409,11 +409,11 @@ theorem commute_barImage_zwpowers (a : S23_9_AdjData D Ch c hV d b hb r) {g : G}
 theorem U_invariant (a : S23_9_AdjData D Ch c hV d b hb r) {g : G} (hg : g ∈ X2 a)
     {v : A0V d} (hv : v ∈ U a) :
     d.rep (QuotientGroup.mk' (CFSG.pCore 2 ↥D.M) ⟨g, X2_le_DM a hg⟩) v ∈ U a := by
-  letI : Fact d.q.Prime := ⟨d.hq⟩
-  letI : d.E.Normal := d.hEnorm
-  letI : IsPGroup d.q ↥d.E := d.hEp
-  letI : IsElementaryAbelian d.q (↥d.E ⧸ frattini ↥d.E) := d.hEel
-  letI : CommGroup (↥d.E ⧸ frattini ↥d.E) := IsMulCommutative.instCommGroup
+  let : Fact d.q.Prime := ⟨d.hq⟩
+  let : d.E.Normal := d.hEnorm
+  let : IsPGroup d.q ↥d.E := d.hEp
+  let : IsElementaryAbelian d.q (↥d.E ⧸ frattini ↥d.E) := d.hEel
+  let : CommGroup (↥d.E ⧸ frattini ↥d.E) := IsMulCommutative.instCommGroup
   exact CFSG.GroupTheory.fixV_le_comap_fixV_of_commute (p := d.q) d.rep
     (a.commute_barImage_zwpowers hg) hv
 
@@ -423,11 +423,11 @@ theorem exists_W (a : S23_9_AdjData D Ch c hV d b hb r) (hc : d.fixV
       (∀ g : ↥(X2 a), ∀ w ∈ W, rhoX a g w ∈ W) ∧
       ∀ W' : Submodule (ZMod d.q) (A0V d), W' ≤ W →
         (∀ g : ↥(X2 a), ∀ w ∈ W', rhoX a g w ∈ W') → W' = ⊥ ∨ W' = W := by
-  letI : Fact d.q.Prime := ⟨d.hq⟩
-  letI : d.E.Normal := d.hEnorm
-  letI : IsPGroup d.q ↥d.E := d.hEp
-  letI : IsElementaryAbelian d.q (↥d.E ⧸ frattini ↥d.E) := d.hEel
-  letI : CommGroup (↥d.E ⧸ frattini ↥d.E) := IsMulCommutative.instCommGroup
+  let : Fact d.q.Prime := ⟨d.hq⟩
+  let : d.E.Normal := d.hEnorm
+  let : IsPGroup d.q ↥d.E := d.hEp
+  let : IsElementaryAbelian d.q (↥d.E ⧸ frattini ↥d.E) := d.hEel
+  let : CommGroup (↥d.E ⧸ frattini ↥d.E) := IsMulCommutative.instCommGroup
   have hInv : ∀ g : ↥(X2 a), ∀ v ∈ U a, rhoX a g v ∈ U a := by
     intro g v hv
     exact a.U_invariant g.2 hv
@@ -437,11 +437,11 @@ theorem fixV_dRoot_inf_W_eq_bot (a : S23_9_AdjData D Ch c hV d b hb r)
     (hfixb : d.fixV (barImage D.M (Subgroup.zpowers b)) = ⊥)
     {W : Submodule (ZMod d.q) (A0V d)} (hWU : W ≤ U a) :
     d.fixV (barImage D.M (Subgroup.zpowers a.dRoot)) ⊓ W = ⊥ := by
-  letI : Fact d.q.Prime := ⟨d.hq⟩
-  letI : d.E.Normal := d.hEnorm
-  letI : IsPGroup d.q ↥d.E := d.hEp
-  letI : IsElementaryAbelian d.q (↥d.E ⧸ frattini ↥d.E) := d.hEel
-  letI : CommGroup (↥d.E ⧸ frattini ↥d.E) := IsMulCommutative.instCommGroup
+  let : Fact d.q.Prime := ⟨d.hq⟩
+  let : d.E.Normal := d.hEnorm
+  let : IsPGroup d.q ↥d.E := d.hEp
+  let : IsElementaryAbelian d.q (↥d.E ⧸ frattini ↥d.E) := d.hEel
+  let : CommGroup (↥d.E ⧸ frattini ↥d.E) := IsMulCommutative.instCommGroup
   have h := a.fixV_ctilde_inf_fixV_dRoot_eq_bot hfixb
   have hle : d.fixV (barImage D.M (Subgroup.zpowers a.dRoot)) ⊓ W ≤ ⊥ := by
     calc d.fixV (barImage D.M (Subgroup.zpowers a.dRoot)) ⊓ W ≤
@@ -456,11 +456,11 @@ theorem exists_dRoot_act_ne (a : S23_9_AdjData D Ch c hV d b hb r)
     (hfixb : d.fixV (barImage D.M (Subgroup.zpowers b)) = ⊥)
     {W : Submodule (ZMod d.q) (A0V d)} (hWU : W ≤ U a) (hWne : W ≠ ⊥) :
     ∃ w ∈ W, d.rep (QuotientGroup.mk' (CFSG.pCore 2 ↥D.M) ⟨a.dRoot, a.dRoot_mem_DM⟩) w ≠ w := by
-  letI : Fact d.q.Prime := ⟨d.hq⟩
-  letI : d.E.Normal := d.hEnorm
-  letI : IsPGroup d.q ↥d.E := d.hEp
-  letI : IsElementaryAbelian d.q (↥d.E ⧸ frattini ↥d.E) := d.hEel
-  letI : CommGroup (↥d.E ⧸ frattini ↥d.E) := IsMulCommutative.instCommGroup
+  let : Fact d.q.Prime := ⟨d.hq⟩
+  let : d.E.Normal := d.hEnorm
+  let : IsPGroup d.q ↥d.E := d.hEp
+  let : IsElementaryAbelian d.q (↥d.E ⧸ frattini ↥d.E) := d.hEel
+  let : CommGroup (↥d.E ⧸ frattini ↥d.E) := IsMulCommutative.instCommGroup
   by_contra h
   push Not at h
   have hfix : W ≤ d.fixV (barImage D.M (Subgroup.zpowers a.dRoot)) := by

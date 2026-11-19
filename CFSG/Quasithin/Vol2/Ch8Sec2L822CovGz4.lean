@@ -22,7 +22,7 @@ theorem map_normal_two_le_pCore_cov {X Y : Type} [Group X] [Group Y] (f : X →*
 theorem pCore_eq_bot_of_mulEquiv_cov {A B : Type} [Group A] [Group B] (e : A ≃* B)
     (h : CFSG.pCore 2 A = ⊥) : CFSG.pCore 2 B = ⊥ := by
   have hle : (CFSG.pCore 2 B).map e.symm.toMonoidHom ≤ CFSG.pCore 2 A := by
-    haveI : (CFSG.pCore 2 B).Normal := CFSG.pCore_normal
+    have : (CFSG.pCore 2 B).Normal := CFSG.pCore_normal
     exact map_normal_two_le_pCore_cov e.symm.toMonoidHom e.symm.surjective (CFSG.pCore 2 B)
       (CFSG.pCore_isPGroup (p := 2) (G := B))
   rw [h] at hle
@@ -37,13 +37,13 @@ theorem pCore_eq_bot_of_mulEquiv_cov {A B : Type} [Group A] [Group B] (e : A ≃
 theorem cov_Lbar_ne_Kbar {G : Type} [Group G] [Finite G] {Gz T H M Lz Kz : Subgroup G} {y : G}
     (hT : IsSylowTwoOf T Gz) (hTM : T ≤ M) (hHGz : H ≤ Gz) (hLzG : Lz ≤ Gz)
     (hLzq : IsHat (↥Lz ⧸ CFSG.pCore 2 ↥Lz) (alternatingGroup (Fin 6)))
-    (hLK : Lz ≤ Kz) (hKz : Kz ∈ cComp Gz) (hKn : Gz ≤ Subgroup.normalizer (Kz : Set G))
+    (_hLK : Lz ≤ Kz) (hKz : Kz ∈ cComp Gz) (hKn : Gz ≤ Subgroup.normalizer (Kz : Set G))
     (hyM : y ∈ M) (hyL : y ∈ Lz) (hy3 : y ^ 3 = 1) (hy1 : y ≠ 1)
     (hcomm : ∀ l ∈ Lz, y⁻¹ * l⁻¹ * y * l ∈ pCoreOf 2 Lz)
     (heq : modO2Image Gz Lz = modO2Image Gz Kz) :
     ∀ h ∈ H, h * y * h⁻¹ ∈ M := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set π : ↥Gz →* ↥Gz ⧸ CFSG.pCore 2 ↥Gz := QuotientGroup.mk' (CFSG.pCore 2 ↥Gz) with hπ
   have hKG : Kz ≤ Gz := le_of_mem_cComp hKz
   have hyG : y ∈ Gz := hLzG hyL
@@ -77,12 +77,12 @@ theorem cov_Lbar_ne_Kbar {G : Type} [Group G] [Finite G] {Gz T H M Lz Kz : Subgr
       have h2 : (⟨x, hLzG x.2⟩ : ↥Gz) ∈ CFSG.pCore 2 ↥Gz := (QuotientGroup.eq_one_iff _).mp h1
       exact kzMemPCoreOfMemPCoreOf_kz3 hLzG x ((CFSG.Quasithin.P134.mem_pCoreOf_iff (hLzG x.2)).mpr h2)
     · intro x hx
-      haveI : (CFSG.pCore 2 ↥Lz).Normal := CFSG.pCore_normal
+      have : (CFSG.pCore 2 ↥Lz).Normal := CFSG.pCore_normal
       have h1 := map_normal_two_le_pCore_cov f hf (CFSG.pCore 2 ↥Lz) (CFSG.pCore_isPGroup (p := 2) (G := ↥Lz))
       have h2 : f x ∈ CFSG.pCore 2 ↥Kb := h1 (Subgroup.mem_map_of_mem f hx)
       rw [hO2, Subgroup.mem_bot] at h2
       exact h2
-  haveI hNL : (CFSG.pCore 2 ↥Lz).Normal := CFSG.pCore_normal
+  have hNL : (CFSG.pCore 2 ↥Lz).Normal := CFSG.pCore_normal
   have eKb : (↥Lz ⧸ CFSG.pCore 2 ↥Lz) ≃* ↥Kb :=
     (QuotientGroup.quotientMulEquivOfEq hkerf.symm).trans (QuotientGroup.quotientKerEquivOfSurjective f hf)
   have hZ3 : Nat.card ↥(Subgroup.center ↥Kb) = 3 := by

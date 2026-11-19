@@ -15,7 +15,7 @@ theorem eq_bot_or_eq_of_invariant16 {Q : Type*} [Group Q] [Finite Q] {Ab B : Sub
     {φ : MulAut Q} (hcard : Nat.card Ab = 16) (hφ : φ ^ 5 = 1)
     (hfpf : ∀ a ∈ Ab, φ a = a → a = 1) (hBA : B ≤ Ab) (hφB : ∀ b ∈ B, φ b ∈ B) :
     B = ⊥ ∨ B = Ab := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hmod : Nat.card B ≡ 1 [MOD 5] :=
     card_modEq_one_of_fpf hφ hφB fun c hc h => hfpf c (hBA hc) h
   have hdvd : Nat.card B ∣ 2 ^ 4 := by
@@ -46,8 +46,8 @@ theorem comp_odd_transitive16 {Q : Type} [Group Q] [Finite Q] (hO : goldschmidtO
     (∀ a ∈ Ab, ∀ b ∈ Ab, a ≠ 1 → b ≠ 1 → ∃ n ∈ normalizer (Ab : Set Q), n⁻¹ * a * n = b) ∧
       Odd ((centralizer (Ab : Set Q)).relIndex (normalizer (Ab : Set Q))) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hlay' : goldschmidtLayer Q = ⊤ := by rwa [hR, bot_sup_eq] at hL
   have hinv0 : ∀ t ∈ (Sb : Subgroup Q), t ^ 2 = 1 → t ∈ Ab := by
     intro t ht ht2
@@ -117,8 +117,8 @@ theorem comp_odd_transitive16 {Q : Type} [Group Q] [Finite Q] (hO : goldschmidtO
   let e : ↥(⊤ : Subgroup Q) ⧸ center ↥(⊤ : Subgroup Q) ≃* Q :=
     ((QuotientGroup.quotientMulEquivOfEq hcen).trans QuotientGroup.quotientBot).trans
       Subgroup.topEquiv
-  haveI hsimple : IsSimpleGroup Q := by
-    haveI := hK.2.2.2
+  have hsimple : IsSimpleGroup Q := by
+    have := hK.2.2.2
     exact e.symm.isSimpleGroup
   have hGT : goldschmidtSimpleType Q :=
     Red2.goldschmidtSimpleType_of_mulEquiv e.symm (hgold _ hK)

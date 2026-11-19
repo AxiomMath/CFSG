@@ -26,9 +26,9 @@ section Field
 theorem exists_eq_frobenius_pow [Finite F] [CharP F 2] (φ : F ≃+* F) :
     ∃ k : ℕ, ∀ c : F, φ c = c ^ 2 ^ k := by
   classical
-  letI : Algebra (ZMod 2) F := ZMod.algebra _ _
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : FiniteDimensional (ZMod 2) F := Module.Finite.of_finite
+  let : Algebra (ZMod 2) F := ZMod.algebra _ _
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : FiniteDimensional (ZMod 2) F := Module.Finite.of_finite
   let φa : F ≃ₐ[ZMod 2] F := AlgEquiv.ofRingEquiv (f := φ) (fun x => by
     have := RingHom.ext_zmod ((φ : F →+* F).comp (algebraMap (ZMod 2) F)) (algebraMap (ZMod 2) F)
     exact DFunLike.congr_fun this x)

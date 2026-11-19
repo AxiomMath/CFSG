@@ -56,7 +56,7 @@ theorem sigma0_injective : Function.Injective sigma0 := by
     apply Matrix.ext
     intro i j
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.scalar_apply, Matrix.diagonal_apply, h01, h10, h00]
+      simp [Matrix.scalar_apply, h01, h10, h00]
   have hdet : (a : Matrix (Fin 2) (Fin 2) F4) 0 0 * (a : Matrix (Fin 2) (Fin 2) F4) 0 0 = 1 := by
     have h1 : (Matrix.scalar (Fin 2) ((a : Matrix (Fin 2) (Fin 2) F4) 0 0)).det = 1 := by
       rw [← hA]

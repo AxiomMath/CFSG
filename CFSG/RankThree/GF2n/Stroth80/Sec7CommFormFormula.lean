@@ -10,9 +10,9 @@ open scoped Matrix MatrixGroups commutatorElement
 
 theorem exists_commForm_WV_formula {G : Type} [Group G] {Q Z V W R : Subgroup G}
     (lam : ↥Z →* Multiplicative (ZMod 2))
-    (hZQ : Z ≤ Q) (hZc : ∀ z ∈ Z, ∀ a ∈ Q, Commute z a)
+    (_hZQ : Z ≤ Q) (hZc : ∀ z ∈ Z, ∀ a ∈ Q, Commute z a)
     (hcomm : ∀ a ∈ Q, ∀ b ∈ Q, ⁅a, b⁆ ∈ Z)
-    (hZV : Z ≤ V) (hVW : V ≤ W) (hWQ : W ≤ Q)
+    (_hZV : Z ≤ V) (_hVW : V ≤ W) (hWQ : W ≤ Q)
     (hVW1 : ∀ v ∈ V, ∀ w ∈ W, ⁅v, w⁆ = 1)
     {Y : Type} [AddCommGroup Y] [DistribMulAction ↥R Y] {κ : ↥W →* Multiplicative Y}
     (hκ : IsSecMod R W V Y κ) (hRZ : ∀ r ∈ R, ∀ z ∈ Z, r * z * r⁻¹ = z)
@@ -50,7 +50,7 @@ theorem exists_commForm_WV_formula {G : Type} [Group G] {Q Z V W R : Subgroup G}
   have c2_symm : ∀ a b : ↥W, c2 a b = c2 b a := by
     intro a b
     rw [hc2, hc2]
-    exact (comm2_symm lam hcomm hZc _ _).symm
+    exact (comm2_symm lam hcomm _ _).symm
   have c2L : ∀ a a' b : ↥W, (a : G) * (a' : G)⁻¹ ∈ V → c2 a b = c2 a' b := by
     intro a a' b h
     have hsplit : c2 a b = c2 (a * a'⁻¹ * a') b := by rw [inv_mul_cancel_right]

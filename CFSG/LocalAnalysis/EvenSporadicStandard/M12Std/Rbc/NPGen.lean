@@ -79,7 +79,7 @@ theorem mem_closure_pair_of_commute_involutions {a b g : G} (hab : a * b = b * a
     rcases ihx with rfl | rfl | rfl | rfl <;>
       rcases ihy with rfl | rfl | rfl | rfl <;>
       simp only [one_mul, mul_one, ha, hb, hba, haab, hbab, haba, habb, habab,
-        or_true, true_or, or_false, false_or]
+        or_true, true_or]
   · intro x hx ih
     rcases ih with rfl | rfl | rfl | rfl
     · exact Or.inl inv_one

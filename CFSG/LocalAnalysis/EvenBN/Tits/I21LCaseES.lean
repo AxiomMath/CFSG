@@ -89,7 +89,7 @@ theorem e25_struct (H : HypYW ρ t u x h) (hsh : E25Shape ρ x t) :
     intro c hc
     have hc' : ρ c ∈ centralizer (J : Set (V ≃ₗ[ZMod 2] V)) := hc
     exact ⟨hnorm c, fun v => ⟨D.iff₁ hc' v, D.swap.iff₁ hc' v⟩⟩
-  haveI hCnormal : C.Normal := by
+  have hCnormal : C.Normal := by
     refine ⟨fun c hc g => ?_⟩
     have hc' : ∀ j ∈ J, j * ρ c = ρ c * j := mem_centralizer_iff.mp hc
     show ρ (g * c * g⁻¹) ∈ centralizer (J : Set (V ≃ₗ[ZMod 2] V))

@@ -125,7 +125,7 @@ theorem sylow_five_altTen {K : Type} [Group K] [Finite K] (e : K ≃* alternatin
 
 theorem card_sylow_five_altTen {K : Type} [Group K] [Finite K]
     (e : K ≃* alternatingGroup (Fin 10)) (T : Sylow 5 K) : Nat.card T = 5 ^ 2 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   rw [T.card_eq_multiplicity, Nat.card_congr e.toEquiv]
   exact congrArg (5 ^ ·) A10Perm.factorization_A10
 
@@ -240,6 +240,7 @@ private def centQuot (L : Subgroup G) : Subgroup G where
     exact CFSG.ASVolI.burnsideI22P5_pCoreOf_conj L g⁻¹
       (Subgroup.mem_normalizer_iff.mp (Subgroup.inv_mem _ hg)) ((pCoreOf 2 L).inv_mem (hgL l hl))
 
+omit [Finite G] in
 private theorem conj_mem_centQuot {L : Subgroup G} {g x : G}
     (hg : g ∈ Subgroup.normalizer (L : Set G)) (hx : x ∈ centQuot L) :
     g * x * g⁻¹ ∈ centQuot L := by
@@ -253,6 +254,7 @@ private theorem conj_mem_centQuot {L : Subgroup G} {g x : G}
   exact CFSG.ASVolI.burnsideI22P5_pCoreOf_conj L g (Subgroup.mem_normalizer_iff.mp hg)
     (hxL _ hl')
 
+omit [Finite G] in
 private theorem normalizer_centQuot {L : Subgroup G} {g : G}
     (hg : g ∈ Subgroup.normalizer (L : Set G)) :
     g ∈ Subgroup.normalizer ((centQuot L : Subgroup G) : Set G) :=
@@ -497,11 +499,11 @@ theorem forall_comm_mem_of_irred (hI2 : KFactStepThreeIrred) (hSt : StepThreeGro
     calc x * y = (x * y * x⁻¹ * y⁻¹) * (y * x) := by group
       _ = y * x := by rw [h, one_mul]
   have hΦ : frattini ↥(Q : Subgroup ↥Kc) = ⊥ := by
-    haveI : CFSG.IsElementaryAbelian p ↥(Q : Subgroup ↥Kc) :=
+    have : CFSG.IsElementaryAbelian p ↥(Q : Subgroup ↥Kc) :=
       { is_comm := ⟨fun a b => Subtype.ext ((hQe a a.2).2 b b.2)⟩
         exponent_dvd_p := Monoid.exponent_dvd_of_forall_pow_eq_one fun a =>
           Subtype.ext (by simpa using (hQe a a.2).1) }
-    haveI : Fact (IsPGroup p ↥(Q : Subgroup ↥Kc)) := ⟨Q.isPGroup⟩
+    have : Fact (IsPGroup p ↥(Q : Subgroup ↥Kc)) := ⟨Q.isPGroup⟩
     exact CFSG.frattini_eq_bot_of_isElementaryAbelian (p := p)
   have hirr := irred_of_irred_map θ hker hθs Q (hI2 p ↥K hSt (Q.mapSurjective hθs)).1
   set V : Subgroup ↥Kc := (Q : Subgroup ↥Kc) ⊓ (centQuot L).comap ι with hV
@@ -533,7 +535,7 @@ theorem false_of_le_center (hcc : CFSG.LocalAnalysis.RankFourTheoremC.KFactCente
     (hcat : IsCatalogGroup (↥(barM M L) ⧸ Subgroup.center ↥(barM M L))) (hDL : D ≤ L)
     (hD : IsPGroup p D) (hDc : ∀ u ∈ D, ∀ l ∈ L, u * l * u⁻¹ * l⁻¹ ∈ pCoreOf 2 L)
     (hDe : ∀ u ∈ D, u ^ p = 1) (hDcard : p ^ 2 ≤ Nat.card D) : False := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   set π := QuotientGroup.mk' (CFSG.pCore 2 ↥M) with hπ
   have hpc : pCoreOf 2 L ≤ pCoreOf 2 M := pCoreOf_le_of_normal_subgroupOf 2 L M hLM hLn
@@ -573,7 +575,7 @@ theorem false_of_le_center (hcc : CFSG.LocalAnalysis.RankFourTheoremC.KFactCente
     exact Subtype.ext (eq_one_of_pow_two_pow_eq_one hp hp2 hk' (e := 1)
       (by rw [pow_one]; exact hDe d d.2))
   have hPp : IsPGroup p f.range := hD.of_surjective f.rangeRestrict f.rangeRestrict_surjective
-  haveI hcyc := hcc ↥(barM M L) hq hcat p hp hp5 f.range hPZ hPp
+  have hcyc := hcc ↥(barM M L) hq hcat p hp hp5 f.range hPZ hPp
   have hexp : ∀ x : ↥f.range, x ^ p = 1 := by
     rintro ⟨_, ⟨d, rfl⟩⟩
     apply Subtype.ext
@@ -612,11 +614,11 @@ theorem false_of_altTen
       alternatingGroup (Fin 10))) : False := by
   obtain ⟨B, E, hT⟩ := stepThreeAt_of hS h1014 h10143 hd hKs hKn hL hLn hpJ hWH hzW hzo hzc hyl
     hyo haW hao haout hnc hZL hb hbZ hC
-  haveI := hT.normal
-  haveI := hKn
+  have := hT.normal
+  have := hKn
   obtain ⟨H₁, R₁, hesc⟩ := hd.escape
   have hp : p.Prime := hesc.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by rcases hT.p35 with h | h <;> omega
   set C := Subgroup.centralizer ({b} : Set G) with hCdef
   have hbC : ∀ x : G, b * x = x * b → x ∈ C := fun x hx =>

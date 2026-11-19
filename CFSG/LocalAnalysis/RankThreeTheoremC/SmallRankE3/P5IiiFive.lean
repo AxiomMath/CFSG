@@ -30,18 +30,17 @@ theorem smallRankPoint_isSylowOf {p : ℕ} [Fact p.Prime] {P : Sylow p G} {M : S
     inf_le_right
   have hpg : IsPGroup p ↥(((P : Subgroup G) ⊓ centralizer ({x} : Set G)).subgroupOf
       (centralizer ({x} : Set G))) :=
-    (P.isPGroup'.to_le inf_le_left).of_equiv (subgroupOfEquivOfLe hle).symm
+    (P.isPGroup.to_le inf_le_left).of_equiv (subgroupOfEquivOfLe hle).symm
   refine ⟨hpg.toSylow hx.sylow_centralizer, ?_⟩
   exact Subgroup.map_subgroupOf_eq_of_le hle
 
 theorem stepFiveFPF3_of (hGAP : KFactAutQ8D8Five) : StepFiveFPF3 := by
-  intro G _ _ P M x z T f hL
-  intro g hgN hgp hgC a ha ha1 hfix
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  intro G _ _ P M x z T f hL g hgN hgp hgC a ha ha1 hfix
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hp5' : Nat.Prime 5 := by norm_num
   have hf : f.Prime := hL.prime
   have hf2 : f ≠ 2 := hL.ne_two
-  haveI : Fact f.Prime := ⟨hf⟩
+  have : Fact f.Prime := ⟨hf⟩
   have hFc : Nat.card (smallRankF 5 f x) = f ^ 4 := hL.lemma629.2.2.2.2.1
   have hFM : smallRankF 5 f x ⊓ M = ⊥ := smallRankF_inf_eq_bot hf hf2 hL.lemma628.2.2.2
   have hFne : smallRankF 5 f x ≠ ⊥ := by
@@ -69,7 +68,7 @@ theorem stepFiveFPF3_of (hGAP : KFactAutQ8D8Five) : StepFiveFPF3 := by
   set N : Subgroup G := normalizer (F : Set G) with hNdef
   set C : Subgroup G := centralizer (F : Set G) with hCdef
   set Px : Subgroup G := (P : Subgroup G) ⊓ centralizer ({x} : Set G) with hPxdef
-  have hPxpg : IsPGroup 5 Px := (P.isPGroup').to_le inf_le_left
+  have hPxpg : IsPGroup 5 Px := (P.isPGroup).to_le inf_le_left
   have hxC : x ∈ C := mem_centralizer_iff.mpr
     (fun a ha => mem_centralizer_singleton_iff.mp (smallRankF_le_centralizer (p := 5) hf ha))
   have hzN : z ∈ N := central_mem_normalizer_smallRankF hp5' hf hx hL.central.centralizes

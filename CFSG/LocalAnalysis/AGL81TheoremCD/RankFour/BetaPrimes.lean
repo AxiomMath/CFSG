@@ -15,7 +15,7 @@ theorem le_of_mem_uniqueFourBeta (hU : CFSG.Open.uniqueFourUnique G) {M : Subgro
     (hM : CFSG.Open.uniqueFourIsMaxTwoLocal M) {q : ℕ} (hq : q ∈ CFSG.Open.uniqueFourBeta G)
     {Q : Subgroup G} (hQM : Q ≤ M) (hQ : IsPGroup q Q) (hQ2 : 2 ≤ CFSG.Open.pRank q Q)
     {H : Subgroup G} (hH : CFSG.Open.IsTwoLocal H) (hQH : Q ≤ H) : H ≤ M := by
-  haveI : Fact q.Prime := ⟨hq.1⟩
+  have : Fact q.Prime := ⟨hq.1⟩
   obtain ⟨N, hN, hqN⟩ := exists_maxLocal_mem_sigma hq
   obtain ⟨S, hSN, -⟩ := exists_sylow_le_of_sigma hU hN hqN
   obtain ⟨g, hg⟩ := exists_le_uniqueFourConj_sylow hQ S

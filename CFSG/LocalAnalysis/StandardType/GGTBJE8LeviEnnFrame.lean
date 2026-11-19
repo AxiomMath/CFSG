@@ -36,7 +36,7 @@ theorem e8Enn_frame
       (∀ γ, IsRoot .E8 γ → S.ρ γ = -γ) ∧
       ∃ wt : GGTorusTorWit (Nat.card K + 1) 8 (adjointGroup .E8 K)
           (E.map (MulAut.conj : adjointGroup .E8 K →* MulAut (adjointGroup .E8 K))),
-        (∀ k, wt.n k = n k) ∧ wt.Holds CartanMatrix.E₈ CoxeterMatrix.E₈ := by
+        (∀ k, wt.n k = n k) ∧ wt.Holds (CartanMatrix.E 8) CoxeterMatrix.E₈ := by
   classical
   have hp : p.Prime := Fact.out
   obtain ⟨F, Fr, ζ, hζ, ι₀, n, hFr, hΦ, hw, hζo, hι₀, hrange, hbase, hnb, hact, hnorm⟩ :=
@@ -67,7 +67,7 @@ theorem e8Enn_frame
     have hζ1 : ζ = 1 := congrArg Subtype.val h
     rw [hζ1, orderOf_one] at hζo
     exact hp.ne_one hζo.symm
-  have hC : Tag.E8.cartan = CartanMatrix.E₈ := cartanE_eq 8
+  have hC : Tag.E8.cartan = (CartanMatrix.E 8) := cartanE_eq 8
   have hgg : GGIntCartan CoxeterMatrix.E₈ (Tag.cartan .E8) := by
     rw [show Tag.cartan .E8 = CartanMatrix.E 8 from cartanE_eq 8]
     exact ggIntCartan_E₈
@@ -106,7 +106,7 @@ theorem e8Enn_frame
       hnformula hcent
       (CFSG.LieType.RootSystem.coxeterMatrix
         (CFSG.LieType.Chevalley.isFiniteType_cartan .E8)) ρ hρ hρrange hρsimple
-  have hwh' : w.Holds CartanMatrix.E₈ CoxeterMatrix.E₈ := by
+  have hwh' : w.Holds (CartanMatrix.E 8) CoxeterMatrix.E₈ := by
     rw [hM] at hwh
     simpa only [hC] using hwh
   exact ⟨ζ, hζ, ι₀, n, S, ι, hζo, hι₀, hrange, hact, hnorm, hSq, hι, hιrange,

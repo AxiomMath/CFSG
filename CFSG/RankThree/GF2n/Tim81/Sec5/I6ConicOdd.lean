@@ -105,6 +105,7 @@ private theorem conj_sup_eq_of_swap (h : RootHyp M V) (hS : Sec45Shape M V H h�
     exact mem_normalizer_iff_conjSubgroup_eq.mp
       (Tim79a.H_le_normalizer_xOf V H (hS.Pc_le hpP))
 
+omit [Finite G] in
 private theorem maps_conj_mem (hS : Sec45Shape M V H h₀)
     {𝒮 : Set (Subgroup G)} (hsub : 𝒮 ⊆ Tim79a.omegaOf V H)
     (hcl : ∀ C ∈ Tim79a.omegaOf V H, C ≤ (⨆ A ∈ 𝒮, A) → C ∈ 𝒮)
@@ -172,9 +173,9 @@ theorem odd_ncard_of_closed (h : RootHyp M V) (hS : Sec45Shape M V H h₀)
   obtain ⟨p, hpP, hp₂, hp₃⟩ :=
     exists_swap h hS (hsub hC₂) (hsub hC₃) hV₂ hV₃
   obtain ⟨F, hField, hFintype, hCharP, l, hl, ψ, hw⟩ := hS.shape
-  letI := hField
-  letI := hFintype
-  letI := hCharP
+  let := hField
+  let := hFintype
+  let := hCharP
   have hcardW : Nat.card (Tim79a.xOf V H) = Nat.card V ^ 4 := by
     rw [hw.card_W, hw.card_V, ← pow_mul]
     congr 1

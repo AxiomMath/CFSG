@@ -419,7 +419,7 @@ theorem card_K1 (hM : M ^ 7 = 1) (hN : N ^ 6 = 1) (hNM : N * M = M ^ 3 * N) (hM1
 theorem exists_fix_N2 (hM : M ^ 7 = 1) (hN : N ^ 6 = 1) (hNM : N * M = M ^ 3 * N) (hM1 : M ≠ 1)
     {x₀ : V7} (hx₀ : x₀ ≠ 0) (hMx : M *ᵥ x₀ = x₀) :
     ∃ w₁ : V7, ev M e1v *ᵥ w₁ = w₁ ∧ w₁ ≠ 0 ∧ N ^ 2 *ᵥ w₁ = w₁ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set S := (Kset (ev M e1v)).erase 0 with hS
   have hcard : S.card = 7 := by
     rw [hS, Finset.card_erase_of_mem (by rw [mem_Kset]; exact mulVec_zero _),
@@ -453,7 +453,7 @@ theorem exists_fix_N2 (hM : M ^ 7 = 1) (hN : N ^ 6 = 1) (hNM : N * M = M ^ 3 * N
         rw [show 2 * 1 + 2 * 2 = 6 by rfl, hN, one_mulVec]) }
   have hσ : σ ^ 3 ^ 1 = 1 := by
     ext v
-    simp only [pow_one, pow_succ, pow_zero, one_mul, Equiv.Perm.mul_apply, Equiv.Perm.one_apply]
+    simp only [pow_succ, pow_zero, one_mul, Equiv.Perm.mul_apply, Equiv.Perm.one_apply]
     simp only [σ, Equiv.coe_fn_mk, mulVec_mulVec, ← pow_add]
     rw [show 2 * 1 + (2 * 1 + 2 * 1) = 6 by rfl, hN, one_mulVec]
   have h3 : ¬ 3 ∣ Fintype.card S := by
@@ -571,7 +571,7 @@ theorem normal_form {M N : M7} {x₀ : V7} (hM : M ^ 7 = 1) (hN : N ^ 6 = 1)
   have hNM2 : ∀ v : V7, N *ᵥ (M ^ 2 *ᵥ v) = M ^ 6 *ᵥ (N *ᵥ v) := fun v => by
     rw [mulVec_mulVec, mul_pow_of_twist hNM 2, ← mulVec_mulVec]
   refine ⟨basisMat M x₀ w₁ w₂, ?_, ?_, ?_, ?_⟩
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hker := basisMat_ker hM hx₀ hMx hw₁ hw₁0 hw₂ hw₂0
     refine (Matrix.mulVec_injective_iff_isUnit (K := ZMod 2)).mp fun c c' h => ?_
     have h0 := hker (c - c') (by rw [mulVec_sub, h, sub_self])

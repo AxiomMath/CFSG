@@ -187,9 +187,9 @@ lemma IsOrthonormalIn.classFunInner_classFunProj_left (hE : IsOrthonormalIn E) (
     {e' : G → ℂ} (he' : e' ∈ E) :
     classFunInner (classFunProj E f) e' = classFunInner f e' := by
   rw [classFunProj_apply, classFunInner_sum_left, Finset.sum_eq_single_of_mem e' he']
-  · rw [classFunInner_smul_left, hE e' he' e' he', if_pos rfl, mul_one]
+  · rw [classFunInner_smul_left, hE e' he' e' he', ite_eq_left rfl, mul_one]
   · intro e he hne
-    rw [classFunInner_smul_left, hE e he e' he', if_neg hne, mul_zero]
+    rw [classFunInner_smul_left, hE e he e' he', ite_eq_right hne, mul_zero]
 
 lemma IsOrthonormalIn.classFunInner_sub_classFunProj (hE : IsOrthonormalIn E) (f : G → ℂ) :
     classFunInner (f - classFunProj E f) (classFunProj E f) = 0 :=
@@ -202,9 +202,9 @@ lemma IsOrthonormalIn.classFunProj_eq_self (hE : IsOrthonormalIn E) {f : G → �
   have key : ∀ e' ∈ E, classFunInner (∑ e ∈ E, c e • e) e' = c e' := by
     intro e' he'
     rw [classFunInner_sum_left, Finset.sum_eq_single_of_mem e' he']
-    · rw [classFunInner_smul_left, hE e' he' e' he', if_pos rfl, mul_one]
+    · rw [classFunInner_smul_left, hE e' he' e' he', ite_eq_left rfl, mul_one]
     · intro e he hne
-      rw [classFunInner_smul_left, hE e he e' he', if_neg hne, mul_zero]
+      rw [classFunInner_smul_left, hE e he e' he', ite_eq_right hne, mul_zero]
   exact Finset.sum_congr rfl fun e he => by rw [key e he]
 
 lemma IsOrthonormalIn.classFunInner_self_eq (hE : IsOrthonormalIn E) (f : G → ℂ) :

@@ -193,7 +193,7 @@ theorem isPGroup_projUnitriangular [Finite F] [CharP F 2] :
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hP⟩ := exists_sylow_projUnitriangular (K := F) 2 (n := 3) (by norm_num)
   rw [← hP]
-  exact P.isPGroup'
+  exact P.isPGroup
 
 theorem four_lt_relIndex [Finite F] [CharP F 2] (hq : 4 ≤ Nat.card F) {c : projectiveSL 3 F}
     (hc : c ∈ Subgroup.normalizer ((projUnitriangular 3 F : Subgroup (projectiveSL 3 F)) :

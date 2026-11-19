@@ -102,7 +102,7 @@ theorem d2L34BetaLayerAutImage_of_I542Three (hI : AGL81I542Three)
   set C' : Subgroup ↥M := gnC T' with hC'
   have hLM : L ≤ M := hlay.1
   have hDL : D ≤ L := hlay.2.1
-  haveI hL'n : L'.Normal := hlay.2.2.1
+  have hL'n : L'.Normal := hlay.2.2.1
   have hD'L' : D' ≤ L' := fun x hx => Subgroup.mem_subgroupOf.mpr (hDL (Subgroup.mem_subgroupOf.mp hx))
   set C : Subgroup G := C'.map M.subtype with hC
   have h3C : CFSG.HallHigman.IsPSolvable 3 ↥C := isPSolvable_map_gnC hTM hNZ
@@ -133,7 +133,7 @@ theorem d2L34BetaLayerAutImage_of_I542Three (hI : AGL81I542Three)
   have hty : IsRankTwoLayerType ↥(L'.map (QuotientGroup.mk' D')) := hlay.2.2.2.2.2
   have hsimple : IsSimpleGroup ↥(LE.map (QuotientGroup.mk' E)) := by
     rw [hmapE]
-    haveI := hS
+    have := hS
     exact MulEquiv.isSimpleGroup φ.symm
   have hnc' : ¬ IsMulCommutative ↥(LE.map (QuotientGroup.mk' E)) := by
     rw [hmapE]
@@ -170,8 +170,8 @@ theorem d2L34BetaLayerAutImage_of_I542Three (hI : AGL81I542Three)
     exact hJ
   have hJE : LE ≤ ⁅LE, thompsonJ T'⁆ ⊔ E :=
     sup_le (hJ'.trans (sup_le_sup (Subgroup.commutator_mono le_sup_left le_rfl) hDE)) le_sup_right
-  haveI hEn : E.Normal := inferInstance
-  haveI hLEn : LE.Normal := inferInstance
+  have hEn : E.Normal := inferInstance
+  have hLEn : LE.Normal := inferInstance
   have hAut := hI ↥M T' hGN E LE le_sup_left le_sup_right h3 hsimple hnc' hty' hJE
   rw [hmapE] at hAut
   exact autImageOK_of_quot hlay E hDE hKN hAut

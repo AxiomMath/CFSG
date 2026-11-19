@@ -291,7 +291,7 @@ theorem ggQ2s08core_sym2 {V : Type} [AddCommGroup V] [Module (ZMod 3) V] {ℓ : 
     · rcases (hcompl_set x).mp hx with rfl | rfl
       · rw [Equiv.swap_self]; exact H.one_mem
       · exact h_ijH
-  haveI : MulAction.IsPretransitive H (Fin (ℓ + 3)) :=
+  have : MulAction.IsPretransitive H (Fin (ℓ + 3)) :=
     MulAction.IsPretransitive.of_orbit (x₀ := i) (fun x =>
       ⟨⟨Equiv.swap i x, hswap x⟩, by simp [Equiv.Perm.smul_def]⟩)
   have hTswap : ∀ σ ∈ Tgen, σ.IsSwap := by

@@ -14,11 +14,12 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem uniqueFourConj_zpowers (g w : G) :
     uniqueFourConj g (Subgroup.zpowers w) =
       Subgroup.zpowers ((MulAut.conj g⁻¹) w) := by
   ext y
-  simp only [Subgroup.mem_map, Subgroup.mem_zpowers_iff]
+  simp only [Subgroup.mem_zpowers_iff]
   constructor
   · rintro ⟨x, ⟨k, rfl⟩, rfl⟩
     exact ⟨k, (map_zpow (MulAut.conj g⁻¹) w k).symm⟩
@@ -72,6 +73,7 @@ private theorem sup_eq_of_point_ne {p : ℕ} (hp : p.Prime) {E A Z : Subgroup G}
     rw [hk, hk_eq]
   exact Subgroup.eq_of_le_of_card_ge hle (by rw [hcard, hEcard])
 
+omit [Finite G] in
 private theorem conj_eq_of_mem_centralizer {A R : Subgroup G} (h : R ≤ centralizer (A : Set G))
     {r : G} (hr : r ∈ R) {a : G} (ha : a ∈ A) : r⁻¹ * a * r = a := by
   have hc : a * r = r * a := (Subgroup.mem_centralizer_iff.mp (h hr)) a ha
@@ -79,6 +81,7 @@ private theorem conj_eq_of_mem_centralizer {A R : Subgroup G} (h : R ≤ central
     _ = r⁻¹ * (r * a) := by rw [hc]
     _ = a := by group
 
+omit [Finite G] in
 private theorem le_normalizer_of_commutator_le {E A R : Subgroup G}
     (hRC : ⁅R, E⁆ ≤ A) (hAE : A ≤ E) : R ≤ normalizer (A : Set G) := by
   rw [Subgroup.le_normalizer_iff]
@@ -91,12 +94,12 @@ private theorem le_normalizer_of_commutator_le {E A R : Subgroup G}
 private theorem le_centralizer_of_card_prime {p : ℕ} (hp : p.Prime) {C R : Subgroup G}
     (hC : Nat.card C = p) (hRnorm : R ≤ normalizer (C : Set G)) (hRp : IsPGroup p R) :
     R ≤ centralizer (C : Set G) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let f : ↥R →* ↥(normalizer (C : Set G)) :=
     { toFun := fun r => ⟨r, hRnorm r.2⟩
       map_one' := by ext; rfl
       map_mul' := by intro a b; ext; rfl }
-  letI : MulAction ↥R ↥C := MulAction.compHom ↥C f
+  let : MulAction ↥R ↥C := MulAction.compHom ↥C f
   have hmod := hRp.card_modEq_card_fixedPoints ↥C
   rw [Nat.ModEq, hC] at hmod
   have hdvd : p ∣ Nat.card (MulAction.fixedPoints ↥R ↥C) := by
@@ -133,6 +136,7 @@ private theorem le_centralizer_of_card_prime {p : ℕ} (hp : p.Prime) {C R : Sub
       _ = c * (r : G) := by rw [h2]
   exact h3.symm
 
+omit [Finite G] in
 private theorem exists_mul_ne_of_not_le_centralizer {E R : Subgroup G}
     (h : ¬ R ≤ centralizer (E : Set G)) :
     ∃ r ∈ R, ∃ x ∈ E, r * x * r⁻¹ ≠ x := by
@@ -288,6 +292,7 @@ private theorem trans_of_action {p : ℕ} (hp : p.Prime) {E A R : Subgroup G}
             group
           rw [show (x0 * (a1⁻¹ * a2)) * a1 = x0 * (a1⁻¹ * a2 * a1) by group, hsub]
 
+omit [Finite G] in
 private theorem uniqueFourConj_mul' (a b : G) (Y : Subgroup G) :
     uniqueFourConj (a * b) Y = uniqueFourConj b (uniqueFourConj a Y) := by
   ext x
@@ -301,13 +306,13 @@ private theorem uniqueFourConj_mul' (a b : G) (Y : Subgroup G) :
     rw [this]; exact h
 
 private theorem third_point_exists {p : ℕ} (hp : p.Prime) {E A B : Subgroup G}
-    (hEel : IsElemAbelian p E) (hEcard : Nat.card E = p ^ 2)
+    (hEel : IsElemAbelian p E) (_hEcard : Nat.card E = p ^ 2)
     (hA : Nat.card A = p) (hAE : A ≤ E) (hB : Nat.card B = p) (hBE : B ≤ E)
     (hAB : A ≠ B) :
     ∃ C : Subgroup G, C ≤ E ∧ Nat.card C = p ∧ C ≠ A ∧ C ≠ B := by
   have hABot : A ⊓ B = ⊥ := inf_eq_bot_of_card_prime hp hA hB hAB
-  haveI : Nontrivial ↥A := Finite.one_lt_card_iff_nontrivial.mp (by rw [hA]; exact hp.one_lt)
-  haveI : Nontrivial ↥B := Finite.one_lt_card_iff_nontrivial.mp (by rw [hB]; exact hp.one_lt)
+  have : Nontrivial ↥A := Finite.one_lt_card_iff_nontrivial.mp (by rw [hA]; exact hp.one_lt)
+  have : Nontrivial ↥B := Finite.one_lt_card_iff_nontrivial.mp (by rw [hB]; exact hp.one_lt)
   obtain ⟨a0, ha0ne⟩ := exists_ne (1 : ↥A)
   obtain ⟨b0, hb0ne⟩ := exists_ne (1 : ↥B)
   set u : G := (a0 : G) * (b0 : G) with hu
@@ -421,6 +426,7 @@ private theorem points_map {p : ℕ} (hp : p.Prime) {E A B R Q : Subgroup G}
   · rw [uniqueFourConj_mul', hrA, hA1]
   · rw [uniqueFourConj_mul', hr, uniqueFourConj_conj_inv]
 
+omit [Finite G] in
 private theorem conj_eq_of_point_eq {A V : Subgroup G}
     (hNA : normalizer (A : Set G) ≤ normalizer (V : Set G)) {h1 h2 : G}
     (h : uniqueFourConj h1 A = uniqueFourConj h2 A) :
@@ -441,7 +447,7 @@ private theorem family_pairwise {p : ℕ} (hp : p.Prime) {E A B R Q V : Subgroup
     (hRE : R ≤ normalizer (E : Set G)) (hQE : Q ≤ normalizer (E : Set G))
     (hRnt : ¬ R ≤ centralizer (E : Set G)) (hQnt : ¬ Q ≤ centralizer (E : Set G))
     (hNA : normalizer (A : Set G) ≤ normalizer (V : Set G))
-    {h0 : G} (hh0H : h0 ∈ R ⊔ Q) (hAh0 : uniqueFourConj h0 A = B)
+    {h0 : G} (_hh0H : h0 ∈ R ⊔ Q) (hAh0 : uniqueFourConj h0 A = B)
     (hV_NW : V ≤ normalizer (uniqueFourConj h0 V)) :
     ∀ h1 ∈ R ⊔ Q, ∀ h2 ∈ R ⊔ Q,
       uniqueFourConj h1 V ≤ normalizer (uniqueFourConj h2 V) := by
@@ -469,6 +475,7 @@ private theorem family_pairwise {p : ℕ} (hp : p.Prime) {E A B R Q V : Subgroup
     rw [hS, hT, uniqueFourConj_mul' h0 k V]
     exact hnorm
 
+omit [Finite G] in
 private theorem map_finset_sup (f : G →* G) (F : Finset (Subgroup G)) :
     (F.sup id).map f = F.sup (fun S => S.map f) := by
   classical
@@ -478,6 +485,7 @@ private theorem map_finset_sup (f : G →* G) (F : Finset (Subgroup G)) :
       rw [Finset.sup_insert, Finset.sup_insert, Subgroup.map_sup, ih]
       rfl
 
+omit [Finite G] in
 private theorem isPGroup_finset_sup {p : ℕ} (F : Finset (Subgroup G))
     (hF : ∀ S ∈ F, IsPGroup p S) (hN : ∀ S ∈ F, ∀ T ∈ F, S ≤ normalizer T) :
     IsPGroup p (F.sup id : Subgroup G) := by
@@ -510,7 +518,7 @@ theorem r6_10_part3 (D : Data G) {p : ℕ} (hp : p.Prime) {g : G}
     (hNA : normalizer (A : Set G) ≤ D.M) (hQM : Q ⊓ D.M ≤ centralizer (E : Set G))
     {V : Subgroup G} (hV : InCalV D.M V) (hVg : V ≤ uniqueFourConj g D.M) : False := by
   classical
-  haveI : Fintype ↥(R ⊔ Q) := Fintype.ofFinite _
+  have : Fintype ↥(R ⊔ Q) := Fintype.ofFinite _
   have hVne : V ≠ ⊥ := hV.1
   have hVp : IsPGroup 2 V := hV.2.2.2.isPGroup
   have hMV : D.M ≤ normalizer (V : Set G) := hV.2.2.1

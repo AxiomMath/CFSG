@@ -79,7 +79,7 @@ theorem card_center_dvd_two {Q : Type} [Group Q] [Finite Q] (hQ : CFSG.Open.IsQu
     (e : Q ⧸ Subgroup.center Q ≃* StatedProj (StatedSp 2 K)) :
     Nat.card (Subgroup.center Q) ∣ 2 := by
   classical
-  haveI : Group.IsPerfect Q := ⟨hQ.1⟩
+  have : Group.IsPerfect Q := ⟨hQ.1⟩
   have hadm : CFSG.Open.StatedLieAdmissible CFSG.Open.StatedLieTag.PSp 2 3 3 :=
     ⟨Nat.prime_three, by norm_num, by norm_num, by decide⟩
   have hK3 : Nat.card K = 3 ^ 3 := by rw [hK]; norm_num

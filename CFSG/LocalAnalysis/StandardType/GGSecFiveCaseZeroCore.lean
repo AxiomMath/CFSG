@@ -105,7 +105,7 @@ private lemma ggCZ_image_root {e : Fin m → V} {φ : Fin m → Module.Dual (ZMo
   let f : V →ₗ[ZMod p] ZMod p := φ i - ε • φ j
   have hα : f α = 2 := by
     simp only [f, α, LinearMap.sub_apply, LinearMap.smul_apply, smul_eq_mul, map_sub, map_smul,
-      hd i i, hd i j, hd j i, hd j j, hij, Ne.symm hij, if_false, if_true]
+      hd i i, hd i j, hd j i, hd j j, hij, Ne.symm hij, ite_false, ite_true]
     rcases hε with rfl | rfl <;> norm_num
   let rα : V ≃ₗ[ZMod p] V := Module.reflection hα
   have hrα : rα ∈ ggCZRD e φ := by
@@ -151,7 +151,7 @@ private lemma ggCZ_image_root {e : Fin m → V} {φ : Fin m → Module.Dual (ZMo
     intro h
     have h1 : φ i α = φ i 0 := by rw [h]
     rw [map_zero] at h1
-    simp only [α, map_sub, map_smul, smul_eq_mul, hd i i, hd i j, hij, if_false, if_true,
+    simp only [α, map_sub, map_smul, smul_eq_mul, hd i i, hd i j, hij, ite_false, ite_true,
       mul_zero, sub_zero] at h1
     exact one_ne_zero h1
   have htα_ne : t α ≠ 0 := by
@@ -161,8 +161,8 @@ private lemma ggCZ_image_root {e : Fin m → V} {φ : Fin m → Module.Dual (ZMo
     exact hα_ne this
   refine ⟨p, q, hpq, fun k hkp hkq => ?_⟩
   have h := heq (e k)
-  rw [ggCZForm_e_apply hd k (t α), hd p k, hd q k, if_neg (Ne.symm hkp),
-    if_neg (Ne.symm hkq)] at h
+  rw [ggCZForm_e_apply hd k (t α), hd p k, hd q k, ite_eq_right (Ne.symm hkp),
+    ite_eq_right (Ne.symm hkq)] at h
   simp only [mul_zero, sub_zero, zero_smul] at h
   exact (smul_eq_zero.mp h).resolve_right htα_ne
 
@@ -209,7 +209,7 @@ private lemma ggCZ_coord_ne_zero {e : Fin m → V} {φ : Fin m → Module.Dual (
     (hne : φ i u ≠ ε * φ j u) (hk : φ k u ≠ 0) :
     φ k (t (e i - ε • e j)) ≠ 0 := by
   rw [ggCZ_t_alpha_coord hd hij ε u htu k]
-  rw [if_neg hki, if_neg hkj]
+  rw [ite_eq_right hki, ite_eq_right hkj]
   simp only [mul_zero, zero_sub, sub_zero]
   have hc : 2 * (φ i u - ε * φ j u) / ggCZForm φ u u ≠ 0 := by
     rw [div_eq_mul_inv]
@@ -240,13 +240,13 @@ private lemma ggCZ_poly_or {e : Fin m → V} {φ : Fin m → Module.Dual (ZMod p
   have hck := ggCZ_coord_ne_zero hp2 hd hB htu hij hki hkj hne hk
   by_cases hi : φ i (t (e i - ε • e j)) = 0
   · left
-    rw [ggCZ_t_alpha_coord hd hij ε u htu i, if_pos rfl, if_neg hij] at hi
+    rw [ggCZ_t_alpha_coord hd hij ε u htu i, ite_eq_left rfl, ite_eq_right hij] at hi
     linear_combination ggCZForm φ u u * hi + 2 * (φ i u - ε * φ j u) * φ i u * hQ
   · right
     have hj : φ j (t (e i - ε • e j)) = 0 := by
       by_contra hj
       exact ggCZ_three_coords_contra hpq hz hij hki.symm hkj.symm hi hj hck
-    rw [ggCZ_t_alpha_coord hd hij ε u htu j, if_neg hij.symm, if_pos rfl] at hj
+    rw [ggCZ_t_alpha_coord hd hij ε u htu j, ite_eq_right hij.symm, ite_eq_left rfl] at hj
     linear_combination ggCZForm φ u u * hj + 2 * (φ i u - ε * φ j u) * φ j u * hQ
 
 private lemma ggCZ_pm_of_two_out {e : Fin m → V} {φ : Fin m → Module.Dual (ZMod p) V}
@@ -270,8 +270,8 @@ private lemma ggCZ_pm_of_two_out {e : Fin m → V} {φ : Fin m → Module.Dual (
   have hcl : φ l (t (e i - (1 : ZMod p) • e l)) = 0 := by
     by_contra h
     exact ggCZ_three_coords_contra hpq hz hal.symm hbl.symm hab h hca hcb
-  rw [ggCZ_t_alpha_coord hd hil 1 u htu i, if_pos rfl, if_neg hil] at hci
-  rw [ggCZ_t_alpha_coord hd hil 1 u htu l, if_neg hil.symm, if_pos rfl] at hcl
+  rw [ggCZ_t_alpha_coord hd hil 1 u htu i, ite_eq_left rfl, ite_eq_right hil] at hci
+  rw [ggCZ_t_alpha_coord hd hil 1 u htu l, ite_eq_right hil.symm, ite_eq_left rfl] at hcl
   have hc0 : 2 * (φ i u - 1 * φ l u) / ggCZForm φ u u ≠ 0 :=
     div_ne_zero (mul_ne_zero (zmod_two_ne_zero hp2) (sub_ne_zero.mpr hne)) hB
   have hsum : 2 * (φ i u - 1 * φ l u) / ggCZForm φ u u * (φ i u + φ l u) = 0 := by
@@ -375,7 +375,7 @@ theorem ggCZ_core_classify (hp2 : p ≠ 2) (hm : 3 ≤ m) {e : Fin m → V}
         simpa using h
       have hk_coord : φ k (t (e i - e k)) ≠ 0 := by
         have h := ggCZ_t_alpha_coord hd hik 1 u htu k
-        rw [if_neg hik.symm, if_pos rfl, hk, one_smul] at h
+        rw [ite_eq_right hik.symm, ite_eq_left rfl, hk, one_smul] at h
         rw [h]
         simp
       have hzero' : ∀ l : Fin m, l ≠ p → l ≠ q → φ l (t (e i - e k)) = 0 := by
@@ -434,7 +434,7 @@ theorem ggCZ_core_classify (hp2 : p ≠ 2) (hm : 3 ≤ m) {e : Fin m → V}
         rw [ggCZForm_smul_right, ggCZForm_comm v (e i), ggCZForm_e_apply hd i v]
       have hBu : ggCZForm φ ((φ i u) • e i) ((φ i u) • e i) = (φ i u)^2 := by
         rw [ggCZForm_smul_left, ggCZForm_smul_right, ggCZForm_e_apply hd i (e i), hd i i,
-          if_pos rfl]
+          ite_eq_left rfl]
         ring
       rw [hu_i, hBv, hBu, smul_smul]
       congr 2

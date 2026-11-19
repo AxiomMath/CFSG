@@ -47,19 +47,19 @@ private def negTwo {N : ℕ} (i j : Fin 4) (a : Fin 4 → ZMod N) : Fin 4 → ZM
 theorem castW_single {N : ℕ} (i : Fin 4) (c : ℤ) :
     castW N (Pi.single i c) = Pi.single i (c : ZMod N) := by
   funext k
-  by_cases h : k = i <;> simp [castW, Pi.single_apply, h]
+  by_cases h : k = i <;> simp [castW, h]
 
 theorem dotProduct_castW_single_sub_single {N : ℕ} (a : Fin 4 → ZMod N) {i j : Fin 4}
-    (hij : i ≠ j) :
+    (_hij : i ≠ j) :
     a ⬝ᵥ castW N (Pi.single i (1 : ℤ) - Pi.single j (1 : ℤ)) = a i - a j := by
   rw [castW_sub N, castW_single, castW_single]
-  simp [dotProduct_sub, dotProduct_single_one]
+  simp [dotProduct_sub]
 
 theorem dotProduct_castW_single_add_single {N : ℕ} (a : Fin 4 → ZMod N) {i j : Fin 4}
-    (hij : i ≠ j) :
+    (_hij : i ≠ j) :
     a ⬝ᵥ castW N (Pi.single i (1 : ℤ) + Pi.single j (1 : ℤ)) = a i + a j := by
   rw [castW_add N, castW_single, castW_single]
-  simp [dotProduct_add, dotProduct_single_one]
+  simp [dotProduct_add]
 
 theorem isD4Root_single_sub_single {i j : Fin 4} (hij : i ≠ j) :
     IsD4Root (Pi.single i (1 : ℤ) - Pi.single j (1 : ℤ)) := by
@@ -69,32 +69,32 @@ theorem isD4Root_single_sub_single {i j : Fin 4} (hij : i ≠ j) :
 private theorem swap_apply_left {N : ℕ} (a : Fin 4 → ZMod N) {i j : Fin 4} (hij : i ≠ j) :
     swap i j a i = a j := by
   have hdot := dotProduct_castW_single_sub_single a hij
-  simp [swap, reflW, castW, Pi.sub_apply, Pi.smul_apply, Pi.single_apply, hij, hdot]
+  simp [swap, reflW, castW, Pi.sub_apply, Pi.smul_apply, hij, hdot]
 
 private theorem swap_apply_right {N : ℕ} (a : Fin 4 → ZMod N) {i j : Fin 4} (hij : i ≠ j) :
     swap i j a j = a i := by
   have hdot := dotProduct_castW_single_sub_single a hij
-  simp [swap, reflW, castW, Pi.sub_apply, Pi.smul_apply, Pi.single_apply, hij, hdot]
+  simp [swap, reflW, castW, Pi.sub_apply, Pi.smul_apply, hij, hdot]
 
 private theorem swap_apply_of_ne {N : ℕ} (a : Fin 4 → ZMod N) {i j k : Fin 4} (hij : i ≠ j)
     (hki : k ≠ i) (hkj : k ≠ j) : swap i j a k = a k := by
   have hdot := dotProduct_castW_single_sub_single a hij
-  simp [swap, reflW, castW, Pi.sub_apply, Pi.smul_apply, Pi.single_apply, hij, hki, hkj, hdot]
+  simp [swap, reflW, castW, Pi.sub_apply, Pi.smul_apply, hki, hkj, hdot]
 
 private theorem flip_apply_left {N : ℕ} (a : Fin 4 → ZMod N) {i j : Fin 4} (hij : i ≠ j) :
     flip i j a i = -a j := by
   have hdot := dotProduct_castW_single_add_single a hij
-  simp [flip, reflW, castW, Pi.sub_apply, Pi.smul_apply, Pi.single_apply, hij, hdot]
+  simp [flip, reflW, castW, Pi.sub_apply, Pi.smul_apply, hij, hdot]
 
 private theorem flip_apply_right {N : ℕ} (a : Fin 4 → ZMod N) {i j : Fin 4} (hij : i ≠ j) :
     flip i j a j = -a i := by
   have hdot := dotProduct_castW_single_add_single a hij
-  simp [flip, reflW, castW, Pi.sub_apply, Pi.smul_apply, Pi.single_apply, hij, hdot]
+  simp [flip, reflW, castW, Pi.sub_apply, Pi.smul_apply, hij, hdot]
 
 private theorem flip_apply_of_ne {N : ℕ} (a : Fin 4 → ZMod N) {i j k : Fin 4} (hij : i ≠ j)
     (hki : k ≠ i) (hkj : k ≠ j) : flip i j a k = a k := by
   have hdot := dotProduct_castW_single_add_single a hij
-  simp [flip, reflW, castW, Pi.sub_apply, Pi.smul_apply, Pi.single_apply, hij, hki, hkj, hdot]
+  simp [flip, reflW, castW, Pi.sub_apply, Pi.smul_apply, hki, hkj, hdot]
 
 private theorem swap_apply {N : ℕ} (a : Fin 4 → ZMod N) {i j k : Fin 4} (hij : i ≠ j) :
     swap i j a k = if k = i then a j else if k = j then a i else a k := by
@@ -137,7 +137,7 @@ private theorem negTwo_mem {N : ℕ} {S : Finset (Fin 4 → ZMod N)} (hS : Close
   swap_mem hS hij (flip_mem hS hij ha)
 
 private theorem reflW_root_apply {N : ℕ} (a : Fin 4 → ZMod N) {p q : Fin 4} (hpq : p ≠ q)
-    {s t : ℤ} (hs : s = 1 ∨ s = -1) (ht : t = 1 ∨ t = -1) (k : Fin 4) :
+    {s t : ℤ} (_hs : s = 1 ∨ s = -1) (_ht : t = 1 ∨ t = -1) (k : Fin 4) :
     reflW (Pi.single p s + Pi.single q t) a k =
       a k - (a p * (s : ZMod N) + a q * (t : ZMod N)) *
         (if k = p then (s : ZMod N) else if k = q then (t : ZMod N) else 0) := by
@@ -152,7 +152,7 @@ private theorem reflW_root_apply {N : ℕ} (a : Fin 4 → ZMod N) {p q : Fin 4} 
   by_cases hkp : k = p
   · rw [hkp]; simp [hpq]
   · by_cases hkq : k = q
-    · rw [hkq]; simp [hpq, Ne.symm hpq, hkp]
+    · rw [hkq]; simp [Ne.symm hpq]
     · simp [hkp, hkq]
 
 private theorem reflW_vwt_p {N : ℕ} {p q : Fin 4} (hpq : p ≠ q) {s t : ℤ}
@@ -165,12 +165,12 @@ private theorem reflW_vwt_p {N : ℕ} {p q : Fin 4} (hpq : p ≠ q) {s t : ℤ}
   have hdot : dotProduct (Pi.single p c) (castW N (Pi.single p s + Pi.single q t)) =
       c * (s : ZMod N) := by
     rw [hβ, dotProduct_add, dotProduct_single, dotProduct_single]
-    simp [Pi.single_apply, hpq]
+    simp [hpq]
   funext k
   rw [reflW, hdot, hβ]
   rcases hs with rfl | rfl <;> rcases ht with rfl | rfl <;>
   by_cases hkp : k = p <;> by_cases hkq : k = q <;>
-  simp [hkp, hkq, hpq, Pi.single_apply]
+  simp [hkp, hkq, hpq]
 
 private theorem reflW_vwt_q {N : ℕ} {p q : Fin 4} (hpq : p ≠ q) {s t : ℤ}
     (hs : s = 1 ∨ s = -1) (ht : t = 1 ∨ t = -1) (c : ZMod N) :
@@ -182,22 +182,22 @@ private theorem reflW_vwt_q {N : ℕ} {p q : Fin 4} (hpq : p ≠ q) {s t : ℤ}
   have hdot : dotProduct (Pi.single q c) (castW N (Pi.single p s + Pi.single q t)) =
       c * (t : ZMod N) := by
     rw [hβ, dotProduct_add, dotProduct_single, dotProduct_single]
-    simp [Pi.single_apply, hpq]
+    simp [hpq]
   funext k
   rw [reflW, hdot, hβ]
   rcases hs with rfl | rfl <;> rcases ht with rfl | rfl <;>
   by_cases hkp : k = p <;> by_cases hkq : k = q <;>
-  simp [hkp, hkq, hpq, Pi.single_apply]
+  simp [hkp, hkq, hpq]
 
 private theorem reflW_vwt_other {N : ℕ} {p q l : Fin 4} (hlp : l ≠ p) (hlq : l ≠ q)
-    (hpq : p ≠ q) {s t : ℤ} (hs : s = 1 ∨ s = -1) (ht : t = 1 ∨ t = -1) (c : ZMod N) :
+    (_hpq : p ≠ q) {s t : ℤ} (_hs : s = 1 ∨ s = -1) (_ht : t = 1 ∨ t = -1) (c : ZMod N) :
     reflW (Pi.single p s + Pi.single q t) (Pi.single l c) = Pi.single l c := by
   have hβ : castW N (Pi.single p s + Pi.single q t) =
       Pi.single p (s : ZMod N) + Pi.single q (t : ZMod N) := by
     rw [castW_add N, castW_single, castW_single]
   have hdot : dotProduct (Pi.single l c) (castW N (Pi.single p s + Pi.single q t)) = 0 := by
     rw [hβ, dotProduct_add, dotProduct_single, dotProduct_single]
-    simp [Pi.single_apply, Ne.symm hlp, Ne.symm hlq]
+    simp [Ne.symm hlp, Ne.symm hlq]
   rw [reflW, hdot, zero_smul, sub_zero]
 
 private theorem neg_mul_units_eq {N : ℕ} {b c : ZMod N} (hc : c = b ∨ c = -b)
@@ -257,7 +257,7 @@ theorem diff_card_parity {N : ℕ} (hN : Odd N) {b : ZMod N} (hb : b ≠ 0)
   apply Nat.ModEq.sum
   intro k _
   rcases ha k with h | h <;> rcases ha' k with h' | h' <;>
-  simp_all [Nat.ModEq, hbne, Ne.symm hbne] <;> omega
+  simp_all [Nat.ModEq, Ne.symm hbne]
 
 private theorem negCount_parity_of_flip_two {N : ℕ} (hN : Odd N) {b : ZMod N} (hb : b ≠ 0)
     {a a' : Fin 4 → ZMod N} (ha : IsSWt b a) (ha' : IsSWt b a') {i j : Fin 4}
@@ -406,19 +406,19 @@ private theorem signAt_mem {N : ℕ} {S : Finset (Fin 4 → ZMod N)} (hS : Close
   rw [← negTwo_apply_of_zero a hip hp]
   exact negTwo_mem hS hip ha
 
-theorem isVWt_apply_ne_zero {N : ℕ} {b : ZMod N} (hb : b ≠ 0) {a : Fin 4 → ZMod N}
+theorem isVWt_apply_ne_zero {N : ℕ} {b : ZMod N} (_hb : b ≠ 0) {a : Fin 4 → ZMod N}
     (ha : IsVWt b a) {k l : Fin 4} (hk : a k ≠ 0) (hl : a l ≠ 0) : k = l := by
   rcases ha with ⟨i, rfl | rfl⟩ <;> simp only [Pi.single_apply] at hk hl
   · by_cases hki : k = i
     · by_cases hli : l = i
       · rw [hki, hli]
-      · exfalso; simpa [hli] using hl
-    · exfalso; simpa [hki] using hk
+      · exfalso; simp [hli] at hl
+    · exfalso; simp [hki] at hk
   · by_cases hki : k = i
     · by_cases hli : l = i
       · rw [hki, hli]
-      · exfalso; simpa [hli] using hl
-    · exfalso; simpa [hki] using hk
+      · exfalso; simp [hli] at hl
+    · exfalso; simp [hki] at hk
 
 theorem isVWt_neg_iff {N : ℕ} {b : ZMod N} {a : Fin 4 → ZMod N} :
     IsVWt (-b) a ↔ IsVWt b a := by
@@ -462,20 +462,20 @@ private theorem swap_single_left {N : ℕ} (b : ZMod N) {i j : Fin 4} (hij : i �
   funext k
   rw [swap_apply _ hij]
   by_cases hki : k = i
-  · subst hki; simp [Pi.single_apply, hij, Ne.symm hij]
+  · subst hki; simp [hij, Ne.symm hij]
   · by_cases hkj : k = j
-    · subst hkj; simp [Pi.single_apply, hki, Ne.symm hij]
-    · simp [Pi.single_apply, hki, hkj]
+    · subst hkj; simp [hki]
+    · simp [hki, hkj]
 
 private theorem flip_single_left {N : ℕ} (b : ZMod N) {i j : Fin 4} (hij : i ≠ j) :
     flip i j (Pi.single i b) = Pi.single j (-b) := by
   funext k
   rw [flip_apply _ hij]
   by_cases hki : k = i
-  · subst hki; simp [Pi.single_apply, hij, Ne.symm hij]
+  · subst hki; simp [hij, Ne.symm hij]
   · by_cases hkj : k = j
-    · subst hkj; simp [Pi.single_apply, hki, Ne.symm hij]
-    · simp [Pi.single_apply, hki, hkj]
+    · subst hkj; simp [hki]
+    · simp [hki, hkj]
 
 private def other (i : Fin 4) : Fin 4 := if i = 0 then 1 else 0
 
@@ -485,7 +485,7 @@ private theorem other_ne (i : Fin 4) : other i ≠ i := by
   · simp [other, hi, Ne.symm hi]
 
 private theorem single_mem_of_single {N : ℕ} {S : Finset (Fin 4 → ZMod N)} (hS : Closed S)
-    {c : ZMod N} (hc : c ≠ 0) {i : Fin 4} (hi : Pi.single i c ∈ S) (j : Fin 4) :
+    {c : ZMod N} (_hc : c ≠ 0) {i : Fin 4} (hi : Pi.single i c ∈ S) (j : Fin 4) :
     Pi.single j c ∈ S := by
   by_cases hij : i = j
   · simpa [hij] using hi
@@ -518,7 +518,7 @@ theorem isVWt_mem {N : ℕ} {S : Finset (Fin 4 → ZMod N)} (hS : Closed S) {b :
     · have h := single_mem_of_single hS hnb (by simpa [hi] using haS) j
       rw [hj]; exact h
 
-private theorem swt_eq_neg_of_ne {N : ℕ} {b : ZMod N} (hbne : b ≠ -b)
+private theorem swt_eq_neg_of_ne {N : ℕ} {b : ZMod N} (_hbne : b ≠ -b)
     {a a' : Fin 4 → ZMod N} (ha : IsSWt b a) (ha' : IsSWt b a') {k : Fin 4}
     (h : a k ≠ a' k) : a' k = -a k := by
   rcases ha k with hb | hb <;> rcases ha' k with hb' | hb' <;> simp_all
@@ -646,10 +646,10 @@ private theorem add_smul_single_add_single {N : ℕ} (a : Fin 4 → ZMod N) (k u
       fun l => if l = i then a i + k * u else if l = j then a j + k * v else a l := by
   funext l
   by_cases hli : l = i
-  · subst hli; simp [Pi.add_apply, Pi.smul_apply, Pi.single_apply, hij]
+  · subst hli; simp [Pi.add_apply, Pi.smul_apply, hij]
   · by_cases hlj : l = j
-    · subst hlj; simp [Pi.add_apply, Pi.smul_apply, Pi.single_apply, hli, Ne.symm hij]
-    · simp [Pi.add_apply, Pi.smul_apply, Pi.single_apply, hli, hlj]
+    · subst hlj; simp [Pi.add_apply, Pi.smul_apply, hli]
+    · simp [Pi.add_apply, Pi.smul_apply, hli, hlj]
 
 private theorem add_smul_single_add_single_swap {N : ℕ} (a : Fin 4 → ZMod N)
     (k u v : ZMod N) {i j : Fin 4} (hij : i ≠ j) :
@@ -676,11 +676,11 @@ theorem not_isSmallWt_step_zero {N : ℕ} {α : Fin 4 → ℤ} (hα : IsD4Root �
     rw [hcast]
   have hi : (k • castW N α) i ≠ 0 := by
     rw [hstep, smul_single_add_single_apply k u v hij i]
-    simp only [if_true, hij, if_false]
+    simp only [ite_true, hij, ite_false]
     rcases hu with rfl | rfl <;> simpa using hk
   have hj : (k • castW N α) j ≠ 0 := by
     rw [hstep, smul_single_add_single_apply k u v hij j]
-    simp only [if_true, hij, Ne.symm hij, if_false]
+    simp only [ite_true, Ne.symm hij, ite_false]
     rcases hv with rfl | rfl <;> simpa using hk
   have hcard : ({i, j} : Finset (Fin 4)).card < (Finset.univ : Finset (Fin 4)).card := by
     rw [Finset.card_pair hij, Finset.card_univ, Fintype.card_fin]
@@ -699,8 +699,8 @@ theorem not_isSmallWt_step_zero {N : ℕ} {α : Fin 4 → ℤ} (hα : IsD4Root �
   · obtain ⟨c, hc, hS⟩ := hS
     rcases hS p with h | h <;> rw [hp0] at h <;> exact hc (by simpa using h.symm)
 
-private theorem isVWt_of_step_case_left {N : ℕ} (hN : Odd N) {k : ZMod N} (hk : k ≠ 0)
-    {a a' : Fin 4 → ZMod N} {b : ZMod N} (hb : b ≠ 0) {i j : Fin 4} (hij : i ≠ j)
+private theorem isVWt_of_step_case_left {N : ℕ} (_hN : Odd N) {k : ZMod N} (hk : k ≠ 0)
+    {a a' : Fin 4 → ZMod N} {b : ZMod N} (_hb : b ≠ 0) {i j : Fin 4} (hij : i ≠ j)
     {u v : ZMod N} (hu : u = 1 ∨ u = -1) (hv : v = 1 ∨ v = -1)
     (hstep : a' = a + k • (Pi.single i u + Pi.single j v))
     (hform : a + k • (Pi.single i u + Pi.single j v) =
@@ -720,24 +720,24 @@ private theorem isVWt_of_step_case_left {N : ℕ} (hN : Odd N) {k : ZMod N} (hk 
     · have hmj : m = j := by
         by_contra hne
         rw [hm] at ha'j_ne
-        simp [Pi.single_apply, Ne.symm hne] at ha'j_ne
+        simp [Ne.symm hne] at ha'j_ne
       rw [hmj] at hm
       funext r
       by_cases hrj : r = j
       · subst hrj; rw [hm]; simp
-      · rw [hm]; simp [Pi.single_apply, hrj]
+      · rw [hm]; simp [hrj]
     · have hmj : m = j := by
         by_contra hne
         rw [hm] at ha'j_ne
-        simp [Pi.single_apply, Ne.symm hne] at ha'j_ne
+        simp [Ne.symm hne] at ha'j_ne
       rw [hmj] at hm
       funext r
       by_cases hrj : r = j
       · subst hrj; rw [hm]; simp
-      · rw [hm]; simp [Pi.single_apply, hrj]
-  have ha'i : a' i = 0 := by rw [hsingle]; simp [Pi.single_apply, hij]
+      · rw [hm]; simp [hrj]
+  have ha'i : a' i = 0 := by rw [hsingle]; simp [hij]
   have hcancel : a i + k * u = 0 := by
-    rw [happ i, if_pos rfl] at ha'i; exact ha'i
+    rw [happ i, ite_eq_left rfl] at ha'i; exact ha'i
   have hku : k * u = -a i := eq_neg_of_add_eq_zero_right hcancel
   have hkval : k = b ∨ k = -b := by
     rcases hu with rfl | rfl
@@ -758,8 +758,8 @@ private theorem isVWt_of_step_case_left {N : ℕ} (hN : Odd N) {k : ZMod N} (hk 
   · exact ⟨j, Or.inr (by rw [h])⟩
 
 private theorem not_isSmallWt_of_three_nonzero {N : ℕ} {a : Fin 4 → ZMod N}
-    {l i j : Fin 4} (hli : l ≠ i) (hlj : l ≠ j) (hij : i ≠ j)
-    (hl : a l ≠ 0) (hi : a i ≠ 0) (hj : a j ≠ 0)
+    {l i j : Fin 4} (hli : l ≠ i) (_hlj : l ≠ j) (_hij : i ≠ j)
+    (hl : a l ≠ 0) (hi : a i ≠ 0) (_hj : a j ≠ 0)
     (hzero : ∃ p : Fin 4, p ≠ l ∧ p ≠ i ∧ p ≠ j ∧ a p = 0) : ¬ IsSmallWt a := by
   rintro (h0 | hV | hS)
   · rw [h0] at hl; exact hl rfl
@@ -782,7 +782,7 @@ theorem isVWt_of_step {N : ℕ} (hN : Odd N) {α : Fin 4 → ℤ} (hα : IsD4Roo
   have hal : a l = b ∨ a l = -b := by
     rcases hl with h | h <;> rw [h] <;> simp
   have ha_zero : ∀ p, p ≠ l → a p = 0 := by
-    rcases hl with h | h <;> intro p hp <;> rw [h] <;> simp [Pi.single_apply, hp]
+    rcases hl with h | h <;> intro p hp <;> rw [h] <;> simp [hp]
   have hal_ne : a l ≠ 0 := by rcases hal with h | h <;> simp [h, hb]
   by_cases hli : l = i
   · have hal' : a i = b ∨ a i = -b := by rw [← hli]; exact hal
@@ -808,7 +808,7 @@ theorem isVWt_of_step {N : ℕ} (hN : Odd N) {α : Fin 4 → ℤ} (hα : IsD4Roo
         intro r; rw [hstep, hform]
       have ha'l : a' l ≠ 0 := by rw [happ l]; simp [hli, hlj, hal_ne]
       have ha'i : a' i ≠ 0 := by
-        rw [happ i]; simp [if_pos rfl, hai]
+        rw [happ i]; simp [hai]
         exact mul_unit_ne_zero hk hu
       have ha'j : a' j ≠ 0 := by
         rw [happ j]; simp [Ne.symm hij, haj]
@@ -821,7 +821,7 @@ theorem isVWt_of_step {N : ℕ} (hN : Odd N) {α : Fin 4 → ℤ} (hα : IsD4Roo
       obtain ⟨p, -, hp⟩ := Finset.exists_mem_notMem_of_card_lt_card hcard
       rw [Finset.mem_insert, Finset.mem_insert, Finset.mem_singleton, not_or, not_or] at hp
       obtain ⟨hpl, hpi, hpj⟩ := hp
-      have ha'p : a' p = 0 := by rw [happ p]; simp [hpl, hpi, hpj, ha_zero p hpl]
+      have ha'p : a' p = 0 := by rw [happ p]; simp [hpi, hpj, ha_zero p hpl]
       exfalso
       exact (not_isSmallWt_of_three_nonzero hli hlj hij ha'l ha'i ha'j
         ⟨p, hpl, hpi, hpj, ha'p⟩) h'
@@ -881,7 +881,7 @@ theorem isSWt_of_step {N : ℕ} (hN : Odd N) {α : Fin 4 → ℤ} (hα : IsD4Roo
   have hku : k * u ≠ 0 := mul_unit_ne_zero hk hu
   have hkv : k * v ≠ 0 := mul_unit_ne_zero hk hv
   have hne_i : a' i ≠ a i := by
-    rw [happ i, if_pos rfl]
+    rw [happ i, ite_eq_left rfl]
     intro h
     have : k * u = 0 := by
       have h' := congrArg (fun x => x - a i) h
@@ -889,7 +889,7 @@ theorem isSWt_of_step {N : ℕ} (hN : Odd N) {α : Fin 4 → ℤ} (hα : IsD4Roo
     exact hku this
   have hne_j : a' j ≠ a j := by
     rw [happ j]
-    simp only [Ne.symm hij, if_false, if_true]
+    simp only [Ne.symm hij, ite_false, ite_true]
     intro h
     have : k * v = 0 := by
       have h' := congrArg (fun x => x - a j) h
@@ -915,7 +915,7 @@ private theorem step_eq_case_left {N : ℕ} {k : ZMod N} {a a' : Fin 4 → ZMod 
     by_contra hne
     exact hij (isVWt_apply_ne_zero hb ha' hne ha'j_ne)
   have hcancel : a i + k * u = 0 := by
-    rw [happ i, if_pos rfl] at ha'i; exact ha'i
+    rw [happ i, ite_eq_left rfl] at ha'i; exact ha'i
   have hku : k * u = -a i := eq_neg_of_add_eq_zero_right hcancel
   rcases hu with rfl | rfl
   · simp only [mul_one] at hku
@@ -940,7 +940,7 @@ theorem step_eq_of_isVWt {N : ℕ} {α : Fin 4 → ℤ} (hα : IsD4Root α) {k :
   have hal : a l = b ∨ a l = -b := by
     rcases hl with h | h <;> rw [h] <;> simp
   have ha_zero : ∀ p, p ≠ l → a p = 0 := by
-    rcases hl with h | h <;> intro p hp <;> rw [h] <;> simp [Pi.single_apply, hp]
+    rcases hl with h | h <;> intro p hp <;> rw [h] <;> simp [hp]
   have hal_ne : a l ≠ 0 := by rcases hal with h | h <;> simp [h, hb]
   by_cases hli : l = i
   · have hal' : a i = b ∨ a i = -b := by rw [← hli]; exact hal
@@ -965,7 +965,7 @@ theorem step_eq_of_isVWt {N : ℕ} {α : Fin 4 → ℤ} (hα : IsD4Root α) {k :
         intro r; rw [hstep, hform]
       have ha'l : a' l ≠ 0 := by rw [happ l]; simp [hli, hlj, hal_ne]
       have ha'i : a' i ≠ 0 := by
-        rw [happ i]; simp [if_pos rfl, hai]
+        rw [happ i]; simp [hai]
         exact mul_unit_ne_zero hk hu
       exfalso
       exact hli (isVWt_apply_ne_zero hb ha' ha'l ha'i)
@@ -981,7 +981,7 @@ theorem step_eq_of_isSWt {N : ℕ} {α : Fin 4 → ℤ} (hα : IsD4Root α) {k :
     add_smul_single_add_single a k u v hij
   have happ : ∀ r, a' r = if r = i then a i + k * u else if r = j then a j + k * v else a r := by
     intro r; rw [hstep, hform]
-  have happ_i : a' i = a i + k * u := by rw [happ i, if_pos rfl]
+  have happ_i : a' i = a i + k * u := by rw [happ i, ite_eq_left rfl]
   have hku_ne : k * u ≠ 0 := mul_unit_ne_zero hk hu
   have hku : k * u = -2 * b ∨ k * u = 2 * b := by
     rcases ha i with hai | hai <;> rcases ha' i with hai' | hai' <;>
@@ -1028,9 +1028,9 @@ private theorem permute_swap {N : ℕ} (i j : Fin 4) (hij : i ≠ j) (a : Fin 4 
   funext k
   rw [permute, Function.comp_apply, swap_apply _ hij]
   by_cases hki : k = i
-  · subst hki; simp [hij]
+  · subst hki; simp
   · by_cases hkj : k = j
-    · subst hkj; simp [hij, Ne.symm hij]
+    · subst hkj; simp [Ne.symm hij]
     · simp [hki, hkj, Equiv.swap_apply_def]
 
 private theorem permute_mem {N : ℕ} {S : Finset (Fin 4 → ZMod N)} (hS : Closed S)
@@ -1043,7 +1043,7 @@ private theorem permute_mem {N : ℕ} {S : Finset (Fin 4 → ZMod N)} (hS : Clos
     simpa [motive, permute] using ha
   · intro f x y hxy ih a ha
     have h1 : permute (f * Equiv.swap x y) a = permute (Equiv.swap x y) (permute f a) := by
-      funext k; simp [permute, Equiv.Perm.mul_apply, Function.comp_apply]
+      funext k; simp [permute, Function.comp_apply]
     rw [h1, permute_swap x y hxy]
     exact swap_mem hS hxy (ih a ha)
 
@@ -1111,8 +1111,8 @@ private theorem signVecOn_mem {N : ℕ} {S : Finset (Fin 4 → ZMod N)} (hS : Cl
         · subst hkt
           simp [signVecOn, signAt, hst, ht]
         · by_cases hkT : k ∈ T
-          · simp [signVecOn, signAt, hkt, hkT, hst]
-          · simp [signVecOn, signAt, hkt, hkT, ht, hst]
+          · simp [signVecOn, signAt, hkt, hkT]
+          · simp [signVecOn, signAt, hkt, hkT]
       rw [heq]
       exact signAt_mem hS hzt hz' hmem
     · have hst' : s t = false := by simpa using hst
@@ -1123,7 +1123,7 @@ private theorem signVecOn_mem {N : ℕ} {S : Finset (Fin 4 → ZMod N)} (hS : Cl
           simp [signVecOn, hst', ht]
         · by_cases hkT : k ∈ T
           · simp [signVecOn, hkt, hkT]
-          · simp [signVecOn, hkt, hkT, ht]
+          · simp [signVecOn, hkt, hkT]
       rw [heq]
       exact hmem
 
@@ -1137,8 +1137,8 @@ private theorem signVecOn_ne_zero_iff {N : ℕ} {T : Finset (Fin 4)} {a : Fin 4 
       exact hk
     · intro _
       by_cases hs : s k
-      · rw [if_pos hs]; exact neg_ne_zero (hT k |>.mpr hk)
-      · rw [if_neg hs]; exact hT k |>.mpr hk
+      · rw [ite_eq_left hs]; exact neg_ne_zero (hT k |>.mpr hk)
+      · rw [ite_eq_right hs]; exact hT k |>.mpr hk
   · rw [signVecOn_apply_of_notMem hk, hT k]
 
 private theorem signVecOn_injective_on_support {N : ℕ} (hN : Odd N) {T : Finset (Fin 4)}
@@ -1207,9 +1207,9 @@ private theorem suppTwoBase_mem {N : ℕ} {S : Finset (Fin 4 → ZMod N)} (hS : 
   · change suppTwoBase b 3 ∈ S; rw [hbase3]; exact swap_mem hS (by decide) hbS
   · change suppTwoBase b 4 ∈ S; rw [hbase4]; exact swap_mem hS (by decide) hbS
 
-private theorem suppTwoBase_zero {N : ℕ} {b : Fin 4 → ZMod N} (hb2 : b 2 = 0)
-    (hb3 : b 3 = 0) : ∀ k, suppTwoBase b k (suppTwoZ k) = 0 := by
-  intro k; fin_cases k <;> simp [suppTwoBase, suppTwoZ, hb2, hb3]
+private theorem suppTwoBase_zero {N : ℕ} {b : Fin 4 → ZMod N} (_hb2 : b 2 = 0)
+    (_hb3 : b 3 = 0) : ∀ k, suppTwoBase b k (suppTwoZ k) = 0 := by
+  intro k; fin_cases k <;> simp [suppTwoBase, suppTwoZ]
 
 private theorem suppTwoZ_not_mem : ∀ k, suppTwoZ k ∉ suppTwoT k := by
   intro k; fin_cases k <;> simp [suppTwoT, suppTwoZ]
@@ -1230,8 +1230,8 @@ private theorem suppTwoG_injective {N : ℕ} (hN : Odd N) {b : Fin 4 → ZMod N}
       fin_cases k <;> fin_cases k' <;> first | exact absurd rfl hne | decide
     exact hneT hsupp
   subst hkk
-  have hrr : suppTwoR k ∈ suppTwoT k := by fin_cases k <;> simp [suppTwoT, suppTwoR, suppTwoS]
-  have hss : suppTwoS k ∈ suppTwoT k := by fin_cases k <;> simp [suppTwoT, suppTwoR, suppTwoS]
+  have hrr : suppTwoR k ∈ suppTwoT k := by fin_cases k <;> simp [suppTwoT, suppTwoR]
+  have hss : suppTwoS k ∈ suppTwoT k := by fin_cases k <;> simp [suppTwoT, suppTwoS]
   have hbr : br = br' := by
     have h1 := signVecOn_injective_on_support hN (suppTwoBase_nonzero hu hv k) h hrr
     fin_cases k <;> simpa [suppTwoSignFun, suppTwoR, suppTwoS] using h1
@@ -1298,9 +1298,9 @@ private theorem suppThreeBase_mem {N : ℕ} {S : Finset (Fin 4 → ZMod N)} (hS 
   · change suppThreeBase b 1 ∈ S; rw [hbase1]; exact swap_mem hS (by decide) hbS
   · change suppThreeBase b 2 ∈ S; rw [hbase2]; exact swap_mem hS (by decide) hbS
 
-private theorem suppThreeBase_zero {N : ℕ} {b : Fin 4 → ZMod N} (hb3 : b 3 = 0) :
+private theorem suppThreeBase_zero {N : ℕ} {b : Fin 4 → ZMod N} (_hb3 : b 3 = 0) :
     ∀ k, suppThreeBase b k (suppThreeZ k) = 0 := by
-  intro k; fin_cases k <;> simp [suppThreeBase, suppThreeZ, hb3]
+  intro k; fin_cases k <;> simp [suppThreeBase, suppThreeZ]
 
 private theorem suppThreeZ_not_mem : ∀ k, suppThreeZ k ∉ suppThreeT k := by
   intro k; fin_cases k <;> simp [suppThreeT, suppThreeZ]
@@ -1324,11 +1324,11 @@ private theorem suppThreeG_injective {N : ℕ} (hN : Odd N) {b : Fin 4 → ZMod 
     exact hneT hsupp
   subst hkk
   have hrrm : suppThreeR k ∈ suppThreeT k := by
-    fin_cases k <;> simp [suppThreeT, suppThreeR, suppThreeS, suppThreeT']
+    fin_cases k <;> simp [suppThreeT, suppThreeR]
   have hssm : suppThreeS k ∈ suppThreeT k := by
-    fin_cases k <;> simp [suppThreeT, suppThreeR, suppThreeS, suppThreeT']
+    fin_cases k <;> simp [suppThreeT, suppThreeS]
   have httm : suppThreeT' k ∈ suppThreeT k := by
-    fin_cases k <;> simp [suppThreeT, suppThreeR, suppThreeS, suppThreeT']
+    fin_cases k <;> simp [suppThreeT, suppThreeT']
   have hs0 : s 0 = s' 0 := by
     have h1 := signVecOn_injective_on_support hN (suppThreeBase_nonzero h0 h1 h2 k) h hrrm
     fin_cases k <;> simpa [suppThreeSignFun, suppThreeR, suppThreeS, suppThreeT'] using h1
@@ -1368,7 +1368,7 @@ private theorem evenAct_mem {N : ℕ} {S : Finset (Fin 4 → ZMod N)} (hS : Clos
     evenAct x0 x1 x2 a ∈ S := by
   unfold evenAct
   rcases x0 with _ | _ <;> rcases x1 with _ | _ <;> rcases x2 with _ | _ <;>
-    simp only [Bool.false_eq_true, if_false, if_true, id_eq] <;>
+    simp only [Bool.false_eq_true, ite_false, ite_true, id_eq] <;>
     first
     | exact ha
     | exact negTwo_mem hS (by decide) ha
@@ -1380,7 +1380,7 @@ private theorem evenAct_zero {N : ℕ} (x0 x1 x2 : Bool) (a : Fin 4 → ZMod N) 
     evenAct x0 x1 x2 a 0 = if x0 then -a 0 else a 0 := by
   unfold evenAct
   rcases x0 with _ | _ <;> rcases x1 with _ | _ <;> rcases x2 with _ | _ <;>
-    simp [negTwo_apply_left, negTwo_apply_right, negTwo_apply_of_ne]
+    simp [negTwo_apply_left, negTwo_apply_of_ne]
 
 private theorem evenAct_one {N : ℕ} (x0 x1 x2 : Bool) (a : Fin 4 → ZMod N) :
     evenAct x0 x1 x2 a 1 = if x0 != x1 then -a 1 else a 1 := by
@@ -1392,10 +1392,10 @@ private theorem evenAct_three {N : ℕ} (x0 x1 x2 : Bool) (a : Fin 4 → ZMod N)
     evenAct x0 x1 x2 a 3 = if x2 then -a 3 else a 3 := by
   unfold evenAct
   rcases x0 with _ | _ <;> rcases x1 with _ | _ <;> rcases x2 with _ | _ <;>
-    simp [negTwo_apply_left, negTwo_apply_right, negTwo_apply_of_ne]
+    simp [negTwo_apply_right, negTwo_apply_of_ne]
 
 private theorem evenAct_injective {N : ℕ} (hN : Odd N) {b : Fin 4 → ZMod N}
-    (hb0 : b 0 ≠ 0) (hb1 : b 1 ≠ 0) (hb2 : b 2 ≠ 0) (hb3 : b 3 ≠ 0) :
+    (hb0 : b 0 ≠ 0) (hb1 : b 1 ≠ 0) (_hb2 : b 2 ≠ 0) (hb3 : b 3 ≠ 0) :
     Function.Injective (fun x : Bool × Bool × Bool => evenAct x.1 x.2.1 x.2.2 b) := by
   rintro ⟨x0, x1, x2⟩ ⟨y0, y1, y2⟩ h
   have hz := congrFun h 0
@@ -1436,8 +1436,8 @@ private theorem swap01_nonzero {N : ℕ} {b : Fin 4 → ZMod N}
   · rw [swap_apply_of_ne _ (by decide : (0 : Fin 4) ≠ 1) (by decide : (3 : Fin 4) ≠ 0)
       (by decide : (3 : Fin 4) ≠ 1)]; exact hb3
 
-private theorem evenImage_disjoint {N : ℕ} (hN : Odd N) {b : Fin 4 → ZMod N}
-    (hb0 : b 0 ≠ 0) (hb1 : b 1 ≠ 0) (hb2 : b 2 ≠ 0) (hb3 : b 3 ≠ 0)
+private theorem evenImage_disjoint {N : ℕ} (_hN : Odd N) {b : Fin 4 → ZMod N}
+    (_hb0 : b 0 ≠ 0) (_hb1 : b 1 ≠ 0) (_hb2 : b 2 ≠ 0) (_hb3 : b 3 ≠ 0)
     (hne1 : b 0 ≠ b 1) (hne2 : b 0 ≠ -b 1) :
     Disjoint (evenImage b) (evenImage (swap 0 1 b)) := by
   rw [Finset.disjoint_left]
@@ -1591,7 +1591,7 @@ private theorem vWtOf_injective {N : ℕ} (hN : Odd N) {b : ZMod N} (hb : b ≠ 
     have hij : i = j := by
       by_contra hne
       have := congrFun h i
-      simp [Pi.single_apply, hne] at this
+      simp [hne] at this
       exact hb this
     subst hij; rfl
   ·
@@ -1599,28 +1599,28 @@ private theorem vWtOf_injective {N : ℕ} (hN : Odd N) {b : ZMod N} (hb : b ≠ 
     have hij : i = j := by
       by_contra hne
       have := congrFun h i
-      simp [Pi.single_apply, hne] at this
+      simp [hne] at this
       exact hb this
     subst hij
     have := congrFun h i
-    simp [Pi.single_apply] at this
+    simp at this
     exact (ne_neg_of_ne_zero hN hb) this
   ·
     exfalso
     have hij : i = j := by
       by_contra hne
       have := congrFun h i
-      simp [Pi.single_apply, hne] at this
+      simp [hne] at this
       exact hnb (by simpa using this)
     subst hij
     have := congrFun h i
-    simp [Pi.single_apply] at this
+    simp at this
     exact (ne_neg_of_ne_zero hN hb) this.symm
   ·
     have hij : i = j := by
       by_contra hne
       have := congrFun h i
-      simp [Pi.single_apply, hne] at this
+      simp [hne] at this
       exact hnb (by simpa using this)
     subst hij; rfl
 
@@ -1649,7 +1649,7 @@ private theorem negCount_signVec {N : ℕ} (hN : Odd N) {b : ZMod N} (hb : b ≠
   ext k
   by_cases h : s k = true
   · simp [h]
-  · simp only [h, Bool.false_eq_true, if_false, if_true, true_and, false_and]
+  · simp only [h, Bool.false_eq_true, ite_false]
     simp [ne_neg_of_ne_zero hN hb]
 
 private def swtSign (e : ℕ) (s : Fin 3 → Bool) : Fin 4 → Bool :=
@@ -1747,19 +1747,19 @@ private theorem swtOf_surjective {N : ℕ} (hN : Odd N) {b : ZMod N} (hb : b ≠
   · dsimp [swtOf]
     rw [swtSign_zero]
     by_cases h0 : a 0 = -b
-    · simpa [h0] using swt_val_eq hbne (ha 0)
+    · simp [h0]
     · have hb0 : a 0 = b := by rcases ha 0 with h' | h' <;> tauto
       simpa [h0, hb0] using swt_val_eq hbne (ha 0)
   · dsimp [swtOf]
     rw [swtSign_one]
     by_cases h1 : a 1 = -b
-    · simpa [h1] using swt_val_eq hbne (ha 1)
+    · simp [h1]
     · have hb1 : a 1 = b := by rcases ha 1 with h' | h' <;> tauto
       simpa [h1, hb1] using swt_val_eq hbne (ha 1)
   · dsimp [swtOf]
     rw [swtSign_two]
     by_cases h2 : a 2 = -b
-    · simpa [h2] using swt_val_eq hbne (ha 2)
+    · simp [h2]
     · have hb2 : a 2 = b := by rcases ha 2 with h' | h' <;> tauto
       simpa [h2, hb2] using swt_val_eq hbne (ha 2)
   · dsimp [swtOf]
@@ -1768,7 +1768,7 @@ private theorem swtOf_surjective {N : ℕ} (hN : Odd N) {b : ZMod N} (hb : b ≠
       (decide (a 2 = -b) != (if e % 2 = 1 then true else false))) = true then -b else b) = a 3
     rw [← hxor]
     by_cases h3 : a 3 = -b
-    · simpa [h3] using swt_val_eq hbne (ha 3)
+    · simp [h3]
     · have hb3 : a 3 = b := by rcases ha 3 with h' | h' <;> tauto
       simpa [h3, hb3] using swt_val_eq hbne (ha 3)
 
@@ -1800,7 +1800,7 @@ private theorem isSmallWt_of_supp_zero {N : ℕ} {a : Fin 4 → ZMod N}
   by_contra hne
   have hi : i ∈ supp := (hsupp i).mp hne
   rw [hsupp_empty] at hi
-  simpa using hi
+  simp at hi
 
 private theorem isSmallWt_of_supp_one {N : ℕ} {a : Fin 4 → ZMod N}
     {supp : Finset (Fin 4)} (hsupp : ∀ i, a i ≠ 0 ↔ i ∈ supp)
@@ -1817,7 +1817,7 @@ private theorem isSmallWt_of_supp_one {N : ℕ} {a : Fin 4 → ZMod N}
       have hk_supp : k ∈ supp := (hsupp k).mp hk
       rw [hi] at hk_supp
       simp [hki] at hk_supp
-    simp [Pi.single_apply, hki, hk0]
+    simp [hki, hk0]
 
 private theorem false_of_supp_two {N : ℕ} (hN : Odd N) {S : Finset (Fin 4 → ZMod N)}
     (hS : Closed S) (hcard : S.card ≤ 16) {a : Fin 4 → ZMod N} (ha : a ∈ S)

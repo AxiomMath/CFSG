@@ -37,12 +37,12 @@ theorem aux_beta_tOp_single {S : List Rt} (hS : SOrth S) (a : Fin e7Data.d) :
     beta (tOp K S (Finsupp.single a 1)) (Finsupp.single a 1) = (cntW S a (-(e7Data.wt a)) : K) := by
   unfold beta
   rw [Finset.sum_eq_single (opp a)]
-  · rw [Finsupp.single_apply, if_pos (opp_opp a).symm, mul_one, tOp_single_apply hS.1, wt_opp]
+  · rw [Finsupp.single_apply, ite_eq_left (opp_opp a).symm, mul_one, tOp_single_apply hS.1, wt_opp]
   · intro b _ hb
     have hne : ¬ (a = opp b) := by
       intro h
       exact hb (by rw [h, opp_opp])
-    rw [Finsupp.single_apply, if_neg hne, mul_zero]
+    rw [Finsupp.single_apply, ite_eq_right hne, mul_zero]
   · intro h
     exact absurd (Finset.mem_univ _) h
 
@@ -62,7 +62,7 @@ theorem aux_beta_tOp_sum {S : List Rt} (hS : SOrth S) (v : V K) :
     · simp only [Finsupp.smul_apply, Finsupp.single_eq_same, smul_eq_mul, mul_one]
       ring
     · intro x _ hx
-      simp [Finsupp.single_apply, Ne.symm hx]
+      simp [Ne.symm hx]
     · intro h
       exact absurd (Finset.mem_univ a) h
 

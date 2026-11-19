@@ -16,6 +16,7 @@ namespace Sec13c
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem le_centralizer_of_mem' {p : ℕ} {A : Subgroup G} (hA : IsElemAbelian p A) {a : G}
     (ha : a ∈ A) : A ≤ Subgroup.centralizer ({a} : Set G) :=
   fun _ hb => Subgroup.mem_centralizer_singleton_iff.2 (elemAbelian_comm hA hb ha)

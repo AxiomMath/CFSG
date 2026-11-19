@@ -18,15 +18,18 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem res1_conj_mem_pCoreOf {M : Subgroup G} {m v : G} (hm : m ∈ M)
     (hv : v ∈ CFSG.Open.pCoreOf 2 M) : m * v * m⁻¹ ∈ CFSG.Open.pCoreOf 2 M := by
   obtain ⟨v₀, hv₀, rfl⟩ := hv
   refine ⟨⟨m, hm⟩ * v₀ * ⟨m, hm⟩⁻¹, CFSG.pCore_normal.conj_mem v₀ hv₀ ⟨m, hm⟩, ?_⟩
   simp
 
+omit [Finite G] in
 private theorem res1_isPGroup_pCoreOf (M : Subgroup G) : IsPGroup 2 (CFSG.Open.pCoreOf 2 M) :=
   CFSG.pCore_isPGroup.map M.subtype
 
+omit [Finite G] in
 private theorem le_res1C {A : Subgroup G} (hA : CFSG.Assembly.IsElemAbelian 3 A)
     (L : Subgroup G) : A ≤ Res1C A L := by
   intro a ha
@@ -94,7 +97,7 @@ private theorem lemma56_aux {A M C : Subgroup G} {Y : Subgroup (↥C ⧸ CFSG.pP
       y * QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥C) w) :
     w ∈ CFSG.pPrimeCore 3 ↥C := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set π := QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥C) with hπdef
   set Q₀ : Subgroup ↥C := (CFSG.Open.pCoreOf 2 M ⊓ C).subgroupOf C with hQ₀
   have hQ₀2 : IsPGroup 2 Q₀ := ((res1_isPGroup_pCoreOf M).to_le inf_le_left).comap_subtype
@@ -160,7 +163,7 @@ private theorem lemma65_aux {A M C : Subgroup G}
     ⁅CFSG.Open.pCoreOf 2 M ⊓ C, Subgroup.zpowers g⁆ ≤
       (CFSG.pPrimeCore 3 ↥C).map C.subtype := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set π := QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥C) with hπdef
   have hN : ¬ 3 ∣ Nat.card (CFSG.pPrimeCore 3 ↥C) :=
     (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mp CFSG.pPrimeCore_coprime_card
@@ -258,7 +261,7 @@ theorem false_of_res1AutCent {A : Subgroup G} {c : G}
     False := by
   classical
   obtain ⟨hhyp, -, -, ⟨hYcomp, hcY, -⟩, g, hg, -, hgodd, hgnot⟩ := hY
-  haveI hYn : Yc.Normal := res1_isComponent_normal hS hhyp hYcomp
+  have hYn : Yc.Normal := res1_isComponent_normal hS hhyp hYcomp
   have hAab : CFSG.Assembly.IsElemAbelian 3 A := hS.mem_partTwoF.1
   have hA3 : ∀ x : G, x ^ 3 = 1 → A ≤ Subgroup.centralizer ({x} : Set G) → x ∈ A :=
     fun _ hx3 hAx => mem_of_mem_partTwoF hS.mem_partTwoF hx3 hAx

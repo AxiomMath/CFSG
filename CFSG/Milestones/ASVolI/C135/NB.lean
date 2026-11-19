@@ -26,6 +26,7 @@ variable {Q L W₁ W₂ : Subgroup G} {F : Type} [Field F] [Fintype F] [CharP F 
   {βU : ↥(centerOf Q) →* Multiplicative (Fin 3 → F)}
   {β₁ : ↥W₁ →* Multiplicative (Fin 3 → F)} {β₂ : ↥W₂ →* Multiplicative (Fin 3 → F)}
 
+omit [Fintype F] [CharP F 2] [Finite G] in
 theorem burnsideC135_pairing (hD : burnsideC135_DSG Q L W₁ W₂ α βU β₁ β₂)
     (hcomm : ∀ x ∈ Q, ∀ y ∈ Q, x * y * x⁻¹ * y⁻¹ ∈ centerOf Q) :
     ∃ B : (Fin 3 → F) → (Fin 3 → F) → (Fin 3 → F),
@@ -205,6 +206,7 @@ theorem burnsideC135_pairing (hD : burnsideC135_DSG Q L W₁ W₂ α βU β₁ �
             rw [← hc4]; group
     rw [h1, h2, map_mul, toAdd_mul]
 
+omit [Finite G] in
 theorem burnsideC135_comm_cross (hF : Fintype.card F = 2)
     (hD : burnsideC135_DSG Q L W₁ W₂ α βU β₁ β₂)
     (hcomm : ∀ x ∈ Q, ∀ y ∈ Q, x * y * x⁻¹ * y⁻¹ ∈ centerOf Q)
@@ -276,6 +278,7 @@ section Mix
 
 variable {X L : Subgroup G} {F : Type} [Field F] {α : ↥L →* ↥(StatedSL 3 F)}
 
+omit [Finite G] in
 theorem burnsideC135_exists_mix (hα : IsModO2Surj L α) (hLX : L ≤ X)
     (hXL : X ≤ Subgroup.normalizer (L : Set G))
     {β : ↥(c134Q X L) →* Multiplicative (Fin 2 → Fin 3 → F)} (hβs : Function.Surjective β)

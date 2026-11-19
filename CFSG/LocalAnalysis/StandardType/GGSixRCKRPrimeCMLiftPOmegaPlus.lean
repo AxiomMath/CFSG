@@ -263,7 +263,7 @@ theorem rckLiftToBlock_POmegaPlus {n f : ℕ} (hn : 3 ≤ n) {X : Type} [Group X
     (hJ'G : J' ≤ glBlockCentralizer (Spin.spinMatrix (Spin.quadPlus n (GaloisField 2 f)))
       {Spin.spinMatrix (Spin.quadPlus n (GaloisField 2 f)) s} ε)
     (hperf : ⁅J', J'⁆ = J') {p : ℕ} (hp : Odd p) {b : X} (hbp : b ^ p = 1)
-    (hbN : b ∈ Subgroup.normalizer (ψ.range : Set X))
+    (_hbN : b ∈ Subgroup.normalizer (ψ.range : Set X))
     (hbID : GGPsiInnerDiag (Spin.plusDatum n (GaloisField 2 f) hn) ψ b) (hbe : Commute b e)
     (hbK : b ∈ Subgroup.normalizer ((J'.map ψ : Subgroup X) : Set X)) :
     ∃ s₁ ∈ glBlockCentralizer (Spin.spinMatrix (Spin.quadPlus n (GaloisField 2 f)))
@@ -278,7 +278,7 @@ theorem rckLiftToBlock_POmegaPlus {n f : ℕ} (hn : 3 ≤ n) {X : Type} [Group X
   have hinj : Function.Injective (Spin.spinMatrix (Spin.quadPlus n (GaloisField 2 f))) :=
     (MonoidHom.ker_eq_bot_iff _).mp
       (Spin.ker_spinMatrix_quadPlus_eq_bot (CharP.cast_eq_zero (GaloisField 2 f) 2))
-  haveI : Finite (spinGroup (Spin.quadPlus n (GaloisField 2 f))) :=
+  have : Finite (spinGroup (Spin.quadPlus n (GaloisField 2 f))) :=
     Finite.of_injective _ hinj
   have hZnorm : ψ.ker ≤
       Subgroup.normalizer (J' : Set (spinGroup (Spin.quadPlus n (GaloisField 2 f)))) := by

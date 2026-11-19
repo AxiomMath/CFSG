@@ -29,8 +29,8 @@ variable {F K : Type} [Field F] [Field K] [Finite K] [Algebra F K] [CharP K 2]
 omit [Finite K] [Algebra F K] [CharP K 2] in
 private theorem pmoc_eq_zero_or_one (hF : Nat.card F = 2) (a : F) : a = 0 ∨ a = 1 := by
   classical
-  haveI : Finite F := Nat.finite_of_card_ne_zero (α := F) (by rw [hF]; norm_num)
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Finite F := Nat.finite_of_card_ne_zero (α := F) (by rw [hF]; norm_num)
+  have : Fintype F := Fintype.ofFinite F
   have hcard : Fintype.card F ≤ 2 := by rw [← Nat.card_eq_fintype_card, hF]
   have h : (Finset.univ : Finset F) = {0, 1} := Finset.univ_of_card_le_two hcard
   have ha : a ∈ (Finset.univ : Finset F) := Finset.mem_univ a
@@ -161,7 +161,7 @@ private theorem pmoc_matrix (E : QuadExt F K (unitaryInvolution K 2 1)) (hF : Na
     by_cases hij : i = j
     · subst hij
       simpa [Pi.single_eq_same] using h2
-    · rw [if_neg hij]
+    · rw [ite_eq_right hij]
       rw [Pi.single_eq_of_ne hij] at h2
       simpa using h2
   have hDl_apply : ∀ (l : Fin n) (x : Fin n → K) (i : Fin n),
@@ -171,8 +171,8 @@ private theorem pmoc_matrix (E : QuadExt F K (unitaryInvolution K 2 1)) (hF : Na
     rw [diagHom_apply]
     by_cases hi : i = l
     · subst hi
-      rw [Pi.mulSingle_eq_same, if_pos rfl]
-    · rw [Pi.mulSingle_eq_of_ne hi, if_neg hi]
+      rw [Pi.mulSingle_eq_same, ite_eq_left rfl]
+    · rw [Pi.mulSingle_eq_of_ne hi, ite_eq_right hi]
       rfl
   have hout_comm : ∀ (l : Fin n), out l →
       ∀ x : Fin n → K,
@@ -192,14 +192,14 @@ private theorem pmoc_matrix (E : QuadExt F K (unitaryInvolution K 2 1)) (hF : Na
       rw [hDl_apply]
       by_cases hib : i = b
       · subst hib
-        rw [if_neg hb, one_mul]
+        rw [ite_eq_right hb, one_mul]
       · rw [Pi.single_eq_of_ne hib, mul_zero]
     rw [hfix] at h
     have hL : (g (Pi.single b 1)) l = M l b := by
       rw [← hM_apply, Matrix.mulVec_single_one]
       rfl
     have hcoord := congrFun h l
-    rw [hL, hDl_apply l (g (Pi.single b 1)) l, if_pos rfl, hL] at hcoord
+    rw [hL, hDl_apply l (g (Pi.single b 1)) l, ite_eq_left rfl, hL] at hcoord
     have hzero : (1 - ζ') * M l b = 0 := by
       rw [sub_mul, one_mul]
       exact sub_eq_zero.mpr hcoord
@@ -214,16 +214,16 @@ private theorem pmoc_matrix (E : QuadExt F K (unitaryInvolution K 2 1)) (hF : Na
       rw [hDl_apply, Pi.smul_apply]
       by_cases hil : i = l
       · subst hil
-        rw [if_pos rfl]
+        rw [ite_eq_left rfl]
         rfl
-      · rw [if_neg hil, Pi.single_eq_of_ne hil]
+      · rw [ite_eq_right hil, Pi.single_eq_of_ne hil]
         simp
     rw [hfix, hz (Pi.single l 1)] at h
     have hL : (g (Pi.single l 1)) a = M a l := by
       rw [← hM_apply, Matrix.mulVec_single_one]
       rfl
     have hcoord := congrFun h a
-    rw [Pi.smul_apply, hDl_apply l (g (Pi.single l 1)) a, if_neg ha, one_mul, hL] at hcoord
+    rw [Pi.smul_apply, hDl_apply l (g (Pi.single l 1)) a, ite_eq_right ha, one_mul, hL] at hcoord
     have hzero : (ζ' - 1) * M a l = 0 := by
       rw [sub_mul, one_mul]
       exact sub_eq_zero.mpr hcoord
@@ -273,7 +273,7 @@ private theorem pmoc_matrix (E : QuadExt F K (unitaryInvolution K 2 1)) (hF : Na
   exact ⟨M, hM_apply, hisoM, hdetM, hrow, hcol, hdiag⟩
 
 theorem qtwoOrth_centr_window (E : QuadExt F K (unitaryInvolution K 2 1)) (hF : Nat.card F = 2)
-    (m k d : ℕ) (hd : 2 ≤ d) (h : k + d ≤ m + 1)
+    (m k d : ℕ) (_hd : 2 ≤ d) (h : k + d ≤ m + 1)
     (ζ : normOne (unitaryInvolution K 2 1)) (hζ : ζ ≠ 1)
     (g : (Fin (m + 1) → K) ≃ₗ[F] (Fin (m + 1) → K))
     (hg : g ∈ TauCeti.QuadraticMap.orthogonalGroup (Qn E (m + 1)))
@@ -304,17 +304,17 @@ theorem qtwoOrth_centr_window (E : QuadExt F K (unitaryInvolution K 2 1)) (hF : 
       · have hb_out : b.val < k ∨ k + d ≤ b.val := by omega
         have hab : a ≠ b := fun hab => hb (hab ▸ ha)
         rw [blockMat_apply_of_not_mem_right A a hb, hcol b hb_out a hab, Matrix.one_apply,
-          if_neg hab]
+          ite_eq_right hab]
     · have ha_out : a.val < k ∨ k + d ≤ a.val := by omega
       by_cases hb : k ≤ b.val ∧ b.val < k + d
       · have hab : a ≠ b := fun hab => ha (hab ▸ hb)
         rw [blockMat_apply_of_not_mem_left A ha b, hrow a ha_out b (Ne.symm hab), Matrix.one_apply,
-          if_neg hab]
+          ite_eq_right hab]
       · by_cases hab : a = b
         · subst hab
-          rw [blockMat_apply_of_not_mem_left A ha a, hdiag a ha_out, Matrix.one_apply, if_pos rfl]
+          rw [blockMat_apply_of_not_mem_left A ha a, hdiag a ha_out, Matrix.one_apply, ite_eq_left rfl]
         · rw [blockMat_apply_of_not_mem_left A ha b, hrow a ha_out b (Ne.symm hab),
-            Matrix.one_apply, if_neg hab]
+            Matrix.one_apply, ite_eq_right hab]
   have huniA : conjTr (unitaryInvolution K 2 1) A * A = 1 := by
     refine blockMat_injective h ?_
     rw [blockMat_mul h, ← conjTr_blockMat, ← hMeq, huni, blockMat_one]
@@ -359,9 +359,9 @@ theorem qtwoOrth_centr_coordBlockSU (E : QuadExt F K (unitaryInvolution K 2 1))
     change M i j = if i = j then 1 else 0
     by_cases hij' : i = j
     · subst hij'
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       exact hdiag i (hij.elim id id)
-    · rw [if_neg hij']
+    · rw [ite_eq_right hij']
       rcases hij with hi | hj
       · exact hrow i hi j (Ne.symm hij')
       · exact hcol j hj i hij'

@@ -25,7 +25,7 @@ variable {K Y : Type} [Group K] [Finite K] [Group Y] {D : UniversalRootDatum K}
 
 omit [Finite K] in
 theorem iSup_rankOne_le_normalizer_rankOne
-    (hct : IsCTGroupDatum (coxeterMatrix D.isFiniteType).toCoxeterSystem
+    (_hct : IsCTGroupDatum (coxeterMatrix D.isFiniteType).toCoxeterSystem
       (weylAction D.isFiniteType) D.roots D.rootGroup n H)
     (hext : SteinbergExtras D n H) {J : Set (Fin D.rank)}
     (hJ : J.Pairwise fun u v => ¬ (TauCeti.diagramGraph D.cartan).Adj u v)
@@ -43,7 +43,7 @@ theorem iSup_rankOne_le_normalizer_rankOne
     intro x hx
     rw [Subgroup.mem_centralizer_iff]
     intro y hy
-    exact rankOne_commute hct hext hjk h0 hy hx
+    exact rankOne_commute hext hjk h0 hy hx
 
 theorem isCompositionFactor_iSup_rankOne_of_map_parJ (h : BorelQuotient D n H π e)
     (J : Set (Fin D.rank)) {X : Type} [Group X] (hX : ∃ a b : X, a * b ≠ b * a)
@@ -90,7 +90,7 @@ theorem isCompositionFactor_iSup_rankOne_of_map_parJ (h : BorelQuotient D n H π
       exact hab (CFSG.LocalAnalysis.UniquenessCase.UC22.uc22p20a_abelian_of_compositionFactor
         hQuotSolv hQ a b)
   have hUN : unipRad D J ≤ unipJ D J := by
-    rw [unipJ_eq_sup hct hext J]; exact le_sup_left
+    rw [unipJ_eq_sup hct J]; exact le_sup_left
   have hUnorm : unipJ D J ≤ Subgroup.normalizer (unipRad D J : Set K) :=
     hNP.trans (parJ_le_normalizer_unipRad hct hext J)
   have hUnormal : ((unipRad D J).subgroupOf (unipJ D J)).Normal :=
@@ -111,7 +111,7 @@ theorem isCompositionFactor_iSup_rankOne_of_map_parJ (h : BorelQuotient D n H π
       hUsolv hcfU a b)
   · obtain ⟨ψ, hψ⟩ :=
       hsurj (A := unipRad D J) (B := ⨆ j ∈ J, rankOne D.rootGroup j) (C := unipJ D J)
-        (unipJ_eq_sup hct hext J)
+        (unipJ_eq_sup hct J)
     exact CFSG.Quasithin.H13.L829N.isCompositionFactor_of_surjective ψ hψ hQ
 
 theorem not_hasCompFactor_map_parJ_of_pairwise (h : BorelQuotient D n H π e)

@@ -24,7 +24,7 @@ theorem quadEmb_E01 [CharP K 2] : quadEmb P P' !![0, 1; 0, 0] = P'.e := by
 
 theorem quadEmb_t_row [CharP K 2] (t a₁ a₂ : K) :
     quadEmb P P' !![t * a₁, t * a₂; 0, 0] = t • (a₁ • P.e + a₂ • P'.e) := by
-  simp [quadEmb, smul_add, smul_smul, smul_neg, neg_eq_self_char2 (K := K)]
+  simp [quadEmb, smul_add, smul_smul, neg_eq_self_char2 (K := K)]
 
 theorem theta_zero_u2 [CharP K 2] (h : P.Orth P') (r : V) (t : K) :
     eichler Q r (quadEmb P P' 0) * quadHom h (u2 t) = eichler Q P.e (t • P'.e) := by

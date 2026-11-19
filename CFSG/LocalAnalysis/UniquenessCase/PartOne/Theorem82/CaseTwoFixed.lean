@@ -20,7 +20,7 @@ theorem false_of_le_normalizer_Lf (c : Ctx812 G) {p : ℕ}
     (hinj : Function.Injective d.Lf)
     (hperm : ∀ m ∈ c.S.M, ∀ i, ∃ j, (d.Lf i).map (MulAut.conj m).toMonoidHom = d.Lf j)
     (hPn : ∀ i, P ≤ Subgroup.normalizer (d.Lf i : Set G)) : False := by
-  haveI : Fact p.Prime := ⟨(c.sig_prime p hp).1⟩
+  have : Fact p.Prime := ⟨(c.sig_prime p hp).1⟩
   have hle : ∀ i, CFSG.Open.pRank p (d.Lf i) ≤ 1 :=
     c.pRank_Lf_le_one hp h76 d hdM hdL hP hdS hPn
   obtain ⟨T, hTp, hT1, hTle, hsum⟩ :=

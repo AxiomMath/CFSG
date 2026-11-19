@@ -106,8 +106,8 @@ theorem burnsideF411a_L3_one_norm {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂
         @MulAut.conjNormal E _ Gp hyp.normal x *
           (MulAut.congr e (burnsideF411a_L3zeta K (frobeniusEquiv K p)))⁻¹ := by
   classical
-  haveI : Finite E := hyp.finite
-  haveI hN : Gp.Normal := hyp.normal
+  have : Finite E := hyp.finite
+  have hN : Gp.Normal := hyp.normal
   set ι : projectiveSL 3 K →* E := Gp.subtype.comp e.toMonoidHom with hιdef
   have hι : Function.Injective ι := Gp.subtype_injective.comp e.injective
   set uE : K → K → K → E := fun a b c => ι (burnsideF411a_pu a b c) with huEdef

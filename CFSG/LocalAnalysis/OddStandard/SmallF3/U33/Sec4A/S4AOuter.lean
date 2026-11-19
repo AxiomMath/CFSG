@@ -69,7 +69,7 @@ private theorem conjAut_inv (h : Hyp G t L) (g : ↥(invCent t)) :
 private theorem conjAut_coe (h : Hyp G t L) (l : ↥L) :
     conjAut h ⟨(l : G), L_le_invCent h l.2⟩ = MulAut.conj l := by
   ext x
-  simp only [conjAut_apply, MulAut.conj_apply, Subtype.coe_mk, Subgroup.coe_mul,
+  simp only [conjAut_apply, MulAut.conj_apply, Subgroup.coe_mul,
     Subgroup.coe_inv]
 
 private theorem mem_sup_of_conjAut_eq_conj (h : Hyp G t L) (g : ↥(invCent t)) {k : ↥L}

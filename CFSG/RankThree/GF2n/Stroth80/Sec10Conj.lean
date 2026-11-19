@@ -203,7 +203,7 @@ theorem Ctx.CN_conjG [Finite G] {M Q Z B : Subgroup G}
       {y | g⁻¹ * y * g ∈ CNt M (LB M Q B) B Z t} := by
     ext y
     unfold CNt
-    rw [Set.mem_setOf_eq, Smith81.Rt_conj, Vt_conjG]
+    rw [Set.mem_ofPred_eq, Smith81.Rt_conj, Vt_conjG]
     constructor
     · rintro ⟨hyR, hyV⟩
       refine ⟨mem_conjSubgroup.mp hyR, fun v hv => ?_⟩
@@ -223,7 +223,7 @@ theorem Ctx.CN_conjG [Finite G] {M Q Z B : Subgroup G}
         simp only [commutatorElement_def, MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
         group]
       exact hyV w hw
-  rw [hset, Set.mem_setOf_eq]
+  rw [hset, Set.mem_ofPred_eq]
 
 theorem SLMNat.conjG [Finite G] {M Q Z B : Subgroup G}
     {hc : Ctx M Q Z B} {t : G} {m : ℕ} (h : SLMNat hc t m) (g : G) :

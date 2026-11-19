@@ -33,17 +33,20 @@ variable (hF : Nat.card F = (2 ^ f) ^ 2)
   (σ : Representation (ZMod 2) (SU (unitaryInvolution F 2 f) (m + 2)) W)
 
 include hF in
+omit [Finite W] in
 theorem map_transvComm {v : Fin (m + 2) → F} (hv : uForm (unitaryInvolution F 2 f) v v = 0)
     (g : SU (unitaryInvolution F 2 f) (m + 2)) :
     (transvComm σ v).map (σ g) = transvComm σ (suMat (unitaryInvolution F 2 f) (m + 2) g *ᵥ v) := by
   rw [transvComm, map_commSpan_conjSub, conjSub_transvGroup (unitaryInvolution_involutive hF) hv]
 
 include hF in
+omit [Finite W] in
 theorem transvComm_smul {v : Fin (m + 2) → F} (hv : uForm (unitaryInvolution F 2 f) v v = 0)
     {l : F} (hl : l ≠ 0) : transvComm σ (l • v) = transvComm σ v := by
   rw [transvComm, transvGroup_smul (unitaryInvolution_involutive hF) hv hl]
 
 include hF in
+omit [Finite W] in
 theorem natCard_transvComm (hm : 1 ≤ m) {v w : Fin (m + 2) → F} (hv0 : v ≠ 0)
     (hv : uForm (unitaryInvolution F 2 f) v v = 0) (hw0 : w ≠ 0)
     (hw : uForm (unitaryInvolution F 2 f) w w = 0) :
@@ -73,12 +76,14 @@ theorem top_le_iSup_transvGroup (hm : 2 ≤ m) :
         transvGroup (unitaryInvolution F 2 f) (m + 2) v.1) ⟨v, hv0, hvv⟩
 
 include hF in
+omit [Finite W] in
 theorem commSpan_top_le (hm : 2 ≤ m) :
     commSpan σ ⊤ ≤ ⨆ v : {v : Fin (m + 2) → F // v ≠ 0 ∧ uForm (unitaryInvolution F 2 f) v v = 0},
       transvComm σ v.1 :=
   commSpan_le_iSup_of_le _ (top_le_iSup_transvGroup hF hm)
 
 include hF in
+omit [Finite W] in
 theorem transvComm_ne_bot (hm : 2 ≤ m) (hσ : ∃ x w, σ x w ≠ w) {v : Fin (m + 2) → F}
     (hv0 : v ≠ 0) (hv : uForm (unitaryInvolution F 2 f) v v = 0) : transvComm σ v ≠ ⊥ := by
   intro hbot
@@ -89,7 +94,7 @@ theorem transvComm_ne_bot (hm : 2 ≤ m) (hσ : ∃ x w, σ x w ≠ w) {v : Fin 
     rw [hbot] at h
     rw [Submodule.eq_bot_iff]
     intro y hy
-    haveI : Subsingleton ↥(transvComm σ u.1) := by
+    have : Subsingleton ↥(transvComm σ u.1) := by
       have h1 : Nat.card ↥(transvComm σ u.1) = 1 := by
         rw [← h]
         exact Nat.card_unique
@@ -107,14 +112,15 @@ end Basic
 section Pairs
 
 private theorem conj_mem_self {G : Type*} [Group G] {T : Subgroup G} {x : G} (hx : x ∈ T) :
-    ∀ t ∈ T, x * t * x⁻¹ ∈ T :=
-  fun t ht => T.mul_mem (T.mul_mem hx ht) (T.inv_mem hx)
+    ∀ _t ∈ T, x * _t * x⁻¹ ∈ T :=
+  fun _t ht => T.mul_mem (T.mul_mem hx ht) (T.inv_mem hx)
 
 private theorem conj_mem_of_commuting {G : Type*} [Group G] {X T : Subgroup G}
     (hc : Commuting X T) {x : G} (hx : x ∈ X) : ∀ t ∈ T, x * t * x⁻¹ ∈ T := fun t ht => by
   rw [(hc x hx t ht).eq, mul_inv_cancel_right]
   exact ht
 
+omit [Finite F] [CharP F 2] in
 private theorem eq_one_of_mem_transvGroup_zero {σ' : F ≃+* F} (hσ' : ∀ c, σ' (σ' c) = c)
     {n : ℕ} {x : SU σ' n} (hx : x ∈ transvGroup σ' n 0) : x = 1 := by
   obtain ⟨c, -, hxc⟩ := ((isUTransGroup_transvGroup hσ' (by simp [uForm_eq])).1 x).1 hx

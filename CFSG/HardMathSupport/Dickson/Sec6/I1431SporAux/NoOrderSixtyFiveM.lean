@@ -51,7 +51,7 @@ section Native
 theorem ncard_invComm_xE_le (φ : Gmat ≃* MGriess) : (invComm (gw thirteenX)).ncard ≤ 451 := by
   obtain ⟨⟨hfin, -, -, -⟩, a, z, ha, hz, hnc, hcls, hA, hBz, hgraph⟩ :=
     CFSG.Milestones.cl_lit_monster_existence_griess_conway
-  haveI : Finite MGriess := hfin
+  have : Finite MGriess := hfin
   have ht2 : orderOf (φ tGmat) = 2 := by
     rw [MulEquiv.orderOf_eq]
     exact CFSG.Monster.Tri.orderOf_tGmat
@@ -86,8 +86,8 @@ theorem ncard_invComm_xE_le (φ : Gmat ≃* MGriess) : (invComm (gw thirteenX)).
 theorem cases_of_orderOf_thirteen (φ : Gmat ≃* MGriess)
     (hle : (invComm (gw thirteenX)).ncard ≤ 451) {x : MGriess} (hx : orderOf x = 13) :
     ¬ 5 ∣ Nat.card (centralizer ({x} : Set MGriess)) ∨ ¬ 5 ∣ (invComm x).ncard := by
-  haveI : Finite Gmat := generated_rational_group_finite_simple.2.2
-  haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  have : Finite Gmat := generated_rational_group_finite_simple.2.2
+  have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
   have hs : orderOf (φ.symm x) = 13 := by
     rw [MulEquiv.orderOf_eq]
     exact hx

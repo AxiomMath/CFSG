@@ -39,7 +39,7 @@ theorem centralizerDecomposition_gu {L : Type} [Field L] [Finite L] {n Q : ℕ} 
   choose! a b hab using hcop
   let H : PrimaryHyp τ (s : Matrix (Fin n) (Fin n) L) (orderOf s) F a b :=
     ⟨hτ, hm0, hirr, hmon, hprod, hsm, hs', hab⟩
-  haveI hK : ∀ f : ↥(Fset (s : Matrix (Fin n) (Fin n) L) b F),
+  have hK : ∀ f : ↥(Fset (s : Matrix (Fin n) (Fin n) L) b F),
       Fact (∀ x ∈ Vf (s : Matrix (Fin n) (Fin n) L) b F f.1,
         aeval (s : Matrix (Fin n) (Fin n) L) f.1 *ᵥ x = 0) :=
     fun f => ⟨fun x hx => aeval_factor_mulVec_eq_zero H (mem_Fset.mp f.2).1 hx⟩

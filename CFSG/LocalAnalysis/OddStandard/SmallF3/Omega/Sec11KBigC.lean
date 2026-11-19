@@ -37,8 +37,8 @@ theorem sec11KB_conj_oddCore [Finite G] {X : Subgroup G} {h : G} (hh : h ∈ nor
     {n : G} (hn : n ∈ oddCoreIn X) : h * n * h⁻¹ ∈ oddCoreIn X :=
   conj_mem_oddCoreIn hh hn
 
-theorem sec11KB_frattini [Finite G] {X : Subgroup G} {t w : G} (ht2 : t * t = 1) (htX : t ∈ X)
-    (hw : w ∈ normalizer (X : Set G)) (hwt : w * t * w⁻¹ * t⁻¹ ∈ oddCoreIn X) :
+theorem sec11KB_frattini [Finite G] {X : Subgroup G} {t w : G} (ht2 : t * t = 1) (_htX : t ∈ X)
+    (_hw : w ∈ normalizer (X : Set G)) (hwt : w * t * w⁻¹ * t⁻¹ ∈ oddCoreIn X) :
     ∃ o ∈ oddCoreIn X, o⁻¹ * w ∈ centralizer ({t} : Set G) := by
   set a : G := w * t * w⁻¹ with ha
   have ha2 : a * a = 1 := by
@@ -70,7 +70,7 @@ theorem sec11KB_odd_lift [Finite G] {O : Subgroup G} (hO : Odd (Nat.card O)) {w 
   have key : ∀ k : ℕ, c ^ k * w ^ (-(k : ℤ)) ∈ O := by
     intro k
     induction k with
-    | zero => simpa using O.one_mem
+    | zero => simp
     | succ k ih =>
         have hz : w ^ (-(((k + 1 : ℕ) : ℤ))) = w ^ (-(k : ℤ)) * w⁻¹ := by
           rw [show -(((k + 1 : ℕ) : ℤ)) = -(k : ℤ) + (-1 : ℤ) by push_cast; ring,

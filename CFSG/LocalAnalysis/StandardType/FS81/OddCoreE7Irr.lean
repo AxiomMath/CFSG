@@ -21,7 +21,7 @@ theorem hSix_subset_hSeven : hSix ⊆ hSeven := by
 
 theorem sgnOn_mem_hSix {T : Finset (Fin 8)} (h0 : (0 : Fin 8) ∉ T) (h1 : (1 : Fin 8) ∉ T)
     (heven : Even T.card) : spMat 1 (sgnOn T) ∈ hSix :=
-  ⟨1, sgnOn T, isSign_sgnOn T, ⟨rfl, if_neg h0, rfl, if_neg h1, by
+  ⟨1, sgnOn T, isSign_sgnOn T, ⟨rfl, ite_eq_right h0, rfl, ite_eq_right h1, by
     rw [prod_succ_succ_sgnOn h0 h1, heven.neg_one_pow]⟩, rfl⟩
 
 theorem perm_mem_hSix {π : Equiv.Perm (Fin 8)} (h0 : π 0 = 0) (h1 : π 1 = 1) :
@@ -29,8 +29,8 @@ theorem perm_mem_hSix {π : Equiv.Perm (Fin 8)} (h0 : π 0 = 0) (h1 : π 1 = 1) 
   ⟨π, fun _ => 1, fun _ => Or.inl rfl, ⟨h0, rfl, h1, rfl, by simp⟩, rfl⟩
 
 theorem t1_mem_hSeven : spMat 1 (sgnOn {1}) ∈ hSeven :=
-  ⟨1, sgnOn {1}, isSign_sgnOn _, ⟨rfl, if_neg (by decide), rfl,
-    Finset.prod_eq_one fun i _ => if_neg ((by decide : ∀ i : Fin 6,
+  ⟨1, sgnOn {1}, isSign_sgnOn _, ⟨rfl, ite_eq_right (by decide), rfl,
+    Finset.prod_eq_one fun i _ => ite_eq_right ((by decide : ∀ i : Fin 6,
       i.succ.succ ∉ ({1} : Finset (Fin 8))) i)⟩, rfl⟩
 
 theorem fin8_cases (j : Fin 8) : j = 0 ∨ j = 1 ∨ 2 ≤ j.val := by
@@ -83,9 +83,9 @@ theorem e1_mem_of_hSeven_invariant {U : Submodule (ZMod 3) (Fin 8 → ZMod 3)}
     rw [Pi.sub_apply, mulVec_sgnOn_apply]
     by_cases hx : x = 1
     · subst hx
-      simp only [sgnOn, Finset.mem_singleton, if_true, Pi.single_eq_same]
+      simp only [sgnOn, Finset.mem_singleton, ite_true, Pi.single_eq_same]
       ring
-    · simp only [sgnOn, Finset.mem_singleton, hx, if_false, one_mul, sub_self,
+    · simp only [sgnOn, Finset.mem_singleton, hx, ite_false, one_mul, sub_self,
         Pi.single_eq_of_ne hx]
   rw [heq] at h
   have h2 : 2 * v 1 ≠ 0 := mul_ne_zero (by decide) hv1
@@ -171,7 +171,7 @@ theorem e7_not_H0_invariant {Xg : Subgroup (GL (Fin 8) (ZMod 3))}
         ((y : Matrix (Fin 8) (Fin 8) (ZMod 3)) *ᵥ Pi.single 1 1) 0 = 0 ∧
         ((y : Matrix (Fin 8) (Fin 8) (ZMod 3)) *ᵥ Pi.single 1 1) 1 = 1}
       mul_mem' := fun {y y'} hy hy' => by
-        simp only [Set.mem_setOf_eq] at hy hy' ⊢
+        simp only [Set.mem_ofPred_eq] at hy hy' ⊢
         obtain ⟨hyX, hyv, hy0, hy1⟩ := hy
         obtain ⟨hy'X, hy'v, hy'0, hy'1⟩ := hy'
         have hb : ((y' : Matrix (Fin 8) (Fin 8) (ZMod 3)) *ᵥ Pi.single 1 1 - Pi.single 1 1 :
@@ -191,10 +191,10 @@ theorem e7_not_H0_invariant {Xg : Subgroup (GL (Fin 8) (ZMod 3))}
           simp
         · rw [himg, Pi.add_apply, hy1, hb, add_zero]
       one_mem' := by
-        simp only [Set.mem_setOf_eq]
+        simp only [Set.mem_ofPred_eq]
         exact ⟨Xg.one_mem, fun v _ => by rw [Units.val_one, Matrix.one_mulVec], by simp, by simp⟩
       inv_mem' := fun {y} hy => by
-        simp only [Set.mem_setOf_eq] at hy ⊢
+        simp only [Set.mem_ofPred_eq] at hy ⊢
         obtain ⟨hyX, hyv, hy0, hy1⟩ := hy
         have hb : ((y : Matrix (Fin 8) (Fin 8) (ZMod 3)) *ᵥ Pi.single 1 1 - Pi.single 1 1 :
             Fin 8 → ZMod 3) 1 = 0 := by
@@ -329,11 +329,11 @@ theorem e7_not_H0_invariant {Xg : Subgroup (GL (Fin 8) (ZMod 3))}
     rw [mulVec_sgnOn_apply, Pi.add_apply, Pi.smul_apply, smul_eq_mul]
     by_cases hj : j = 1
     · subst hj
-      simp only [sgnOn, Finset.mem_singleton, if_true, Pi.single_eq_same, mul_one]
+      simp only [sgnOn, Finset.mem_singleton, ite_true, Pi.single_eq_same, mul_one]
       generalize v 1 = t
       revert t
       decide
-    · simp only [sgnOn, Finset.mem_singleton, hj, if_false, one_mul, Pi.single_eq_of_ne hj,
+    · simp only [sgnOn, Finset.mem_singleton, hj, ite_false, one_mul, Pi.single_eq_of_ne hj,
         mul_zero, add_zero]
   have hτapp : ∀ v, ((y₁ * (x * y₁ * x⁻¹) : GL (Fin 8) (ZMod 3)) :
       Matrix (Fin 8) (Fin 8) (ZMod 3)) *ᵥ v = (y₁ : Matrix (Fin 8) (Fin 8) (ZMod 3)) *ᵥ

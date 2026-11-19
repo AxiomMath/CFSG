@@ -176,7 +176,7 @@ theorem actM_mem {V : Submodule (ZMod 2) C} :
     obtain ⟨h', h'V⟩ := actM_mem (fun c hc => hB c (List.mem_cons_of_mem b hc)) (j / 2)
     by_cases hj : j % 2 = 1
     · have hv : bvec 24 (actM (b :: B) j) = bvec 24 b + bvec 24 (actM B (j / 2)) := by
-        rw [actM, if_pos hj, bvec_xor]
+        rw [actM, ite_eq_left hj, bvec_xor]
       have hC : bvec 24 (actM (b :: B) j) ∈ C := by
         rw [hv]
         exact C.add_mem hb h'
@@ -186,7 +186,7 @@ theorem actM_mem {V : Submodule (ZMod 2) C} :
       rw [e]
       exact V.add_mem hbV h'V
     · have hv : actM (b :: B) j = actM B (j / 2) := by
-        rw [actM, if_neg hj, Nat.zero_xor]
+        rw [actM, ite_eq_right hj, Nat.zero_xor]
       have hC : bvec 24 (actM (b :: B) j) ∈ C := by
         rw [hv]
         exact h'

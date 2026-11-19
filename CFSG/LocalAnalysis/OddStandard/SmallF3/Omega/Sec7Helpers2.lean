@@ -77,7 +77,7 @@ theorem xout_le (L : Subgroup G) (s : G) : XOut L s ≤ L ⊓ centralizer ({s} :
 theorem exists_conj_le_of_isSylow2Of [Finite G] {S H K : Subgroup G} (hS : IsSylow2Of S H)
     (hK : IsPGroup 2 K) (hKH : K ≤ H) : ∃ c ∈ H, ∀ k ∈ K, c * k * c⁻¹ ∈ S := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hP⟩ := hS.exists_sylow
   have hK' : IsPGroup 2 (K.subgroupOf H) :=
     hK.of_equiv (Subgroup.subgroupOfEquivOfLe hKH).symm
@@ -113,7 +113,7 @@ private theorem simple_oddCore_of_lieModel_aux [Finite G] {X : Subgroup G}
 theorem ne_bot_of_shape [Finite G] {X : Subgroup G}
     (h : IsOmega5 X ∨ IsL29 X ∨ IsU33 X ∨ IsL3Eps3 X) : X ≠ ⊥ := by
   intro hbot
-  haveI : Subsingleton (X ⧸ oddCore X) := by
+  have : Subsingleton (X ⧸ oddCore X) := by
     rw [hbot]
     refine QuotientGroup.subsingleton_iff.mpr (le_antisymm le_top fun x _ => ?_)
     have hx : x = 1 := Subtype.ext (Subgroup.mem_bot.mp x.2)
@@ -122,18 +122,18 @@ theorem ne_bot_of_shape [Finite G] {X : Subgroup G}
   have hsimple : IsSimpleGroup (X ⧸ oddCore X) := by
     rcases h with h | h | h | (h | h) <;>
       exact simple_oddCore_of_lieModel_aux (by norm_num) h
-  haveI : Nontrivial (X ⧸ oddCore X) := hsimple.toNontrivial
+  have : Nontrivial (X ⧸ oddCore X) := hsimple.toNontrivial
   obtain ⟨a, b, hab⟩ := (inferInstance : Nontrivial (X ⧸ oddCore X)).exists_pair_ne
   exact hab (Subsingleton.elim a b)
 private theorem two_dvd_card_of_isQuasisimple_aux {X : Type*} [Group X] [Finite X]
     (hX : CFSG.IsQuasisimple X) : 2 ∣ Nat.card X := by
-  haveI : IsSimpleGroup (X ⧸ Subgroup.center X) := hX.2.1
+  have : IsSimpleGroup (X ⧸ Subgroup.center X) := hX.2.1
   have heven : Even (Nat.card (X ⧸ Subgroup.center X)) :=
     CFSG.Walter.even_card_of_isSimpleGroup hX.2.2
   exact (even_iff_two_dvd.mp heven).trans (Subgroup.card_quotient_dvd_card (Subgroup.center X))
 theorem exists_involution_of_isComponentIn [Finite G] {X H : Subgroup G} (h : IsComponentIn X H) :
     ∃ u ∈ X, orderOf u = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2 : 2 ∣ Nat.card ↥X := two_dvd_card_of_isQuasisimple_aux h.isQuasisimple
   obtain ⟨u, hu⟩ := exists_prime_orderOf_dvd_card' (G := ↥X) 2 h2
   exact ⟨(u : G), u.2, by rw [Subgroup.orderOf_coe, hu]⟩
@@ -197,10 +197,10 @@ theorem Sec7Ctx.nonabelian [Finite G] {t : G} {L S : Subgroup G} {z : G}
     rw [Subgroup.mem_center_iff]
     intro y
     exact Subtype.ext (h y x)
-  haveI : Subsingleton (↥L ⧸ Subgroup.center ↥L) := by
+  have : Subsingleton (↥L ⧸ Subgroup.center ↥L) := by
     rw [QuotientGroup.subsingleton_iff]
     exact hcenter
-  haveI : Nontrivial (↥L ⧸ Subgroup.center ↥L) := hc.component.isQuasisimple.2.1.toNontrivial
+  have : Nontrivial (↥L ⧸ Subgroup.center ↥L) := hc.component.isQuasisimple.2.1.toNontrivial
   obtain ⟨a, b, hab⟩ :=
     (inferInstance : Nontrivial (↥L ⧸ Subgroup.center ↥L)).exists_pair_ne
   exact hab (Subsingleton.elim a b)
@@ -232,7 +232,7 @@ private theorem exists_conj_commute_ne_aux [Finite G] [IsSimpleGroup G]
 theorem sec7_zstar [Finite G] (hs : IsSimpleGroup G) (hnab : ∃ a b : G, a * b ≠ b * a) {t : G}
     (ht : orderOf t = 2) :
     ∃ g : G, g⁻¹ * t * g ∈ centralizer ({t} : Set G) ∧ g⁻¹ * t * g ≠ t := by
-  haveI := hs
+  have := hs
   obtain ⟨g, hg1, hg2⟩ := exists_conj_commute_ne_aux hnab ht
   refine ⟨g⁻¹, ?_, ?_⟩
   · rw [inv_inv]; exact Subgroup.mem_centralizer_singleton_iff.mpr hg1
@@ -287,7 +287,7 @@ theorem sec7_inner_decomp [Finite G] (h72 : Asc82Lemma72) (hP : Asc82Tab6P) {t :
     · rw [hc_eq] at hslc; rw [hslc, orderOf_one] at hs2; norm_num at hs2
     · exact hst (hslc.trans hc_eq)
   have hl2 : orderOf l = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime (p := 2) (by rwa [pow_two]) hl_ne
   exact ⟨l, hlL, c, hcC, hl2, hct', hslc⟩
 

@@ -25,6 +25,7 @@ noncomputable def exceptionalReflection
   exact Equiv.swap (e 0) (e 1) *
     Equiv.swap (e 2) q * Equiv.swap (e 3) p
 
+omit [Finite G] [Fintype X] in
 theorem exceptionalSixMap_injective
     (e : Fin 4 ↪ X) (a b : G)
     (_haTwo : a ^ 2 = 1)
@@ -96,6 +97,7 @@ theorem exceptionalSixMap_injective
       hpe0, hpe1, hpe2, hpe3, hqe0, hqe1, hqe2, hqe3,
       hqp, he0p, he1p, he2p, he3p, he0q, he1q, he2q, he3q] at hij ⊢
 
+omit [Fintype X] in
 private theorem exceptionalReflection_values
     (e : Fin 4 ↪ X) (p q : X)
     (h6 : Function.Injective (exceptionalSixMap e p q)) :
@@ -132,11 +134,11 @@ private theorem exceptionalReflection_values
   simp only [exceptionalReflection, Equiv.Perm.mul_apply]
   simp [Equiv.swap_apply_def, hpq, hpq.symm,
     hpe0, hpe0.symm, hpe1, hpe1.symm, hpe2, hpe2.symm,
-    hpe3, hpe3.symm, hqe0, hqe0.symm, hqe1, hqe1.symm,
-    hqe2, hqe2.symm, hqe3, hqe3.symm, h01, h01.symm,
-    h02, h02.symm, h03, h03.symm, h12, h12.symm,
+    hqe0, hqe0.symm, hqe1, hqe1.symm,
+    hqe3, hqe3.symm, h02, h02.symm, h03, h03.symm, h12, h12.symm,
     h13, h13.symm, h23, h23.symm]
 
+omit [Finite G] in
 private theorem left_quarterTurn_relations
     (a b u : G) (haTwo : a ^ 2 = 1) (hab : Commute a b)
     (huSq : u ^ 2 = a) (hua : u * a = a * u)
@@ -170,6 +172,7 @@ private theorem left_quarterTurn_relations
           _ = (a * a) * (b * u) := by group
           _ = b * u := by rw [haa, one_mul]
 
+omit [Finite G] [Fintype X] in
 private theorem regular_b_smul
     (a b : G) (haTwo : a ^ 2 = 1) (hbTwo : b ^ 2 = 1)
     (hab : Commute a b) (y : X)
@@ -209,6 +212,7 @@ private theorem regular_b_smul
       _ = a • (a • y) := congrArg (fun z : X ↦ a • z) haby.symm
       _ = y := haa y
 
+omit [Finite G] [Fintype X] in
 private theorem regular_a_smul
     (a b : G) (haTwo : a ^ 2 = 1) (hab : Commute a b)
     (x : X)
@@ -248,6 +252,7 @@ private theorem regular_a_smul
               _ = b := by rw [← pow_two, haTwo, one_mul]
       _ = a • x := h
 
+omit [Fintype X] in
 private theorem exceptionalReflection_apply_of_not_range
     (e : Fin 4 ↪ X) (p q z : X)
     (hz : z ∉ Set.range (exceptionalSixMap e p q)) :
@@ -265,6 +270,7 @@ private theorem exceptionalReflection_apply_of_not_range
   simp [exceptionalReflection, Equiv.Perm.mul_apply,
     Equiv.swap_apply_def, h0, h1, h2, h3, h4, h5]
 
+omit [Fintype X] in
 private theorem exceptionalReflection_involutive
     (e : Fin 4 ↪ X) (p q : X)
     (h6 : Function.Injective (exceptionalSixMap e p q)) :
@@ -298,6 +304,7 @@ private theorem exceptionalReflection_involutive
       exceptionalReflection_apply_of_not_range e p q z hz
     rw [hzfix, hzfix]
 
+omit [Finite G] [Fintype X] in
 theorem exceptionalReflection_mapsTo_and_involutive_six
     (e : Fin 4 ↪ X) (a b : G) (p q : X)
     (hFa : MulAction.fixedBy X a = {e 0, e 1})
@@ -326,6 +333,7 @@ theorem exceptionalReflection_mapsTo_and_involutive_six
   · intro z _
     exact exceptionalReflection_involutive e p q h6 z
 
+omit [Finite G] [Fintype X] in
 theorem exceptionalReflection_mapsTo_and_involutive_seven
     (e : Fin 4 ↪ X) (a b : G) (p q r : X)
     (hFa : MulAction.fixedBy X a = {e 0, e 1, r})
@@ -360,6 +368,7 @@ theorem exceptionalReflection_mapsTo_and_involutive_seven
   · intro z _
     exact exceptionalReflection_involutive e p q h6 z
 
+omit [Finite G] [Fintype X] in
 private theorem not_mem_exceptionalSet_of_regular
     (a b : G) (x : X)
     (hxa : a • x ≠ x) (hxb : b • x ≠ x)
@@ -371,6 +380,7 @@ private theorem not_mem_exceptionalSet_of_regular
   · exact hxb h
   · exact hxc h
 
+omit [Finite G] in
 private theorem fixed_regular_of_ncard_two
     (E : Set X) (a v : G) (x : X)
     (hmove : a • x ≠ x)
@@ -391,6 +401,7 @@ private theorem fixed_regular_of_ncard_two
   rw [← heq] at hzmem
   exact hzmem
 
+omit [Finite G] in
 private theorem fixed_regular_of_ncard_three
     (E : Set X) (a v : G) (x r : X)
     (hxE : x ∉ E) (haxE : a • x ∉ E) (hrE : r ∈ E)
@@ -420,6 +431,7 @@ private theorem fixed_regular_of_ncard_three
   · exact Or.inr hz
   · exact (hzE (hz.symm ▸ hrE)).elim
 
+omit [Finite G] in
 theorem exists_HallReflectionAt_six
     (h4 : MulAction.IsMultiplyPretransitive G X 4)
     (hX : 8 ≤ Fintype.card X)
@@ -581,6 +593,7 @@ theorem exists_HallReflectionAt_six
           hreg.1 hvBY hvABY hvCard
         on_exceptional := hvOn }
 
+omit [Finite G] in
 theorem exists_HallReflectionAt_seven
     (h4 : MulAction.IsMultiplyPretransitive G X 4)
     (hX : 8 ≤ Fintype.card X)

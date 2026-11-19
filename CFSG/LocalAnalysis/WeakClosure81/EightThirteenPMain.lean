@@ -14,6 +14,7 @@ open CFSG.LocalAnalysis.WeakClosure81.SevenK
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem cGrp_normal_subgroupOf (H T : Subgroup G) : ((cGrp H T).subgroupOf H).Normal := by
   rw [Subgroup.normal_subgroupOf_iff (H := cGrp H T) (K := H) inf_le_left]
   intro n h hn hh
@@ -41,8 +42,8 @@ theorem w3Lem813''_holds (h5_11 : Asch5_11AS) (h5_13 : Asch5_13AS)
   obtain ⟨hK, L₀, hL₀⟩ := h.exists_data810 h5_11 h5_13
   obtain ⟨Q, hQgrp, hQfin, φ, hφ⟩ :=
     exists_isBarMap (H := H) (C := cGrp H T) (cGrp_normal_subgroupOf H T)
-  letI : Group Q := hQgrp
-  letI : Finite Q := hQfin
+  let : Group Q := hQgrp
+  let : Finite Q := hQfin
   have hcfg := h.cfg h5_11 h5_13 hK hL₀ hφ
   obtain ⟨Lb, Kb, hc⟩ := hcfg.exists_concl hF0 hF1 hF2 hF3 hF4
   have hCM : cGrp H T ≤ normalizer (V : Set G) :=

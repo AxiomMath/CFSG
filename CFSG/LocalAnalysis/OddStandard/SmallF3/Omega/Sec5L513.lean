@@ -18,6 +18,7 @@ open Subgroup CFSG.Blueprint
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {z r : G}
   {B A K₁ K₂ : Subgroup G} {h : G}
 
+omit [Finite G] in
 private theorem sec5b513_orderOf_conj {x u : G} (hu : u * u = 1) (hu1 : u ≠ 1) :
     orderOf (x⁻¹ * u * x) = 2 := by
   have hu2 : orderOf u = 2 := orderOf_eq_prime (by rw [pow_two]; exact hu) hu1

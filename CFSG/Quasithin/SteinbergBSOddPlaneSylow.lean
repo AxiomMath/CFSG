@@ -158,7 +158,7 @@ theorem nq_perfect_odd_plane_sylow_two_irreducibility
     obtain ⟨cz, hcz⟩ := hPmem z z.2
     have hcz1 : cz = 1 := (hval _ z.2 _ hcz).symm.trans hχz
     rw [hcz1, one_smul] at hcz
-    obtain ⟨m, hm⟩ := P.isPGroup' z
+    obtain ⟨m, hm⟩ := P.isPGroup z
     have hz1 : ((z : J) : GL (Fin 2) (ZMod p)) = 1 :=
       eq_one_of_mulVec_eq_self_of_two_pow (CFSG.SectionRank.Ccomm.two_ne_zero_zmod hp2)
         (hdet _ (z : J).2) hv hcz

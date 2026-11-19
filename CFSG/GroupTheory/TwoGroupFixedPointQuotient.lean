@@ -13,7 +13,7 @@ theorem exists_fixed_coset_of_isPGroup_two {K : Type} [Group K] [Finite K]
     (hTR : T ≤ R) (hlt : T < R) :
     ∃ r : K, r ∈ R ∧ r ∉ T ∧ ∀ a ∈ A, a * r * a⁻¹ * r⁻¹ ∈ T := by
   classical
-  letI : MulAction A R := MulAction.compHom R (Subgroup.inclusion hAR)
+  let : MulAction A R := MulAction.compHom R (Subgroup.inclusion hAR)
   have hsmul_coe : ∀ (a : A) (x : R),
       ((a • x : R) : K) = (a : K) * (x : K) * (a : K)⁻¹ :=
     fun _ _ => rfl
@@ -24,8 +24,8 @@ theorem exists_fixed_coset_of_isPGroup_two {K : Type} [Group K] [Finite K]
       rw [hsmul_coe a r, hsmul_coe a r']
       have hh : (a : K) * ((r : K)⁻¹ * (r' : K)) * (a : K)⁻¹ ∈ T :=
         (Subgroup.mem_normalizer_iff.mp (hAT a.2) ((r : K)⁻¹ * (r' : K))).mp hmem
-      convert hh using 1 <;> group⟩
-  letI : MulAction.QuotientAction A (T.subgroupOf R) := hquotAction
+      convert hh using 1; group⟩
+  let : MulAction.QuotientAction A (T.subgroupOf R) := hquotAction
   have h1 : (QuotientGroup.mk (1 : R) : R ⧸ T.subgroupOf R) ∈
       MulAction.fixedPoints A (R ⧸ T.subgroupOf R) := by
     rw [MulAction.mem_fixedPoints]

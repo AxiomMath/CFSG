@@ -20,7 +20,7 @@ variable {Y : Type} [Group Y]
 
 theorem exists_orderOf_eq_two_pow (P : Sylow 2 Y) {x : Y} (hx : x ∈ (P : Subgroup Y)) :
     ∃ L : ℕ, orderOf x = 2 ^ L := by
-  obtain ⟨L, hL⟩ := IsPGroup.iff_orderOf.mp P.isPGroup' ⟨x, hx⟩
+  obtain ⟨L, hL⟩ := IsPGroup.iff_orderOf.mp P.isPGroup ⟨x, hx⟩
   exact ⟨L, by simpa using hL⟩
 
 theorem two_le_of_orderOf_eq_two_pow {x : Y} {L : ℕ} (hx : orderOf x = 2 ^ L) (hx1 : x ≠ 1)

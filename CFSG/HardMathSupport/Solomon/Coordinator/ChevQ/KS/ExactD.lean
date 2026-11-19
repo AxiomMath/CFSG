@@ -108,7 +108,7 @@ theorem rationalComponent_dModel (hτ : τ = .D4 ∨ τ = .E6 ∨ τ = .E7 ∨ �
   set s := componentOrbitLength S.ρ (componentRoots (rootCharHom ta) i) with hsdef
   have hes : 0 < e * s := Nat.mul_pos he hs0
   obtain ⟨σ, hfin, hcard, f, hf1, hker, hf2⟩ := exists_inner_cover S hT i hinner
-  haveI : Finite ↥(fixSubfield σ) := hfin
+  have : Finite ↥(fixSubfield σ) := hfin
   have hcard' : Nat.card ↥(fixSubfield σ) = r ^ (e * s) := by rw [hcard, hq, ← pow_mul]
   have hcomp : componentRootSpan (fixSubfield σ) (rootCharHom ta) i =
       rootSpan τ (fixSubfield σ) (rootsOfFam β (Set.range l)) := by

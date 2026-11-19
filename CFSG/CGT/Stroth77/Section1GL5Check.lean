@@ -20,9 +20,13 @@ section Rows
 variable {a b c d e : Nat} (ha : a < 32) (hb : b < 32) (hc : c < 32) (hd : d < 32) (he : e < 32)
 include ha hb hc hd he
 
+omit hb hc hd he in
 theorem r0_ofRows : r0 (ofRows a b c d e) = a := by unfold r0 ofRows; omega
+omit hc hd he in
 theorem r1_ofRows : r1 (ofRows a b c d e) = b := by unfold r1 ofRows; omega
+omit hd he in
 theorem r2_ofRows : r2 (ofRows a b c d e) = c := by unfold r2 ofRows; omega
+omit he in
 theorem r3_ofRows : r3 (ofRows a b c d e) = d := by unfold r3 ofRows; omega
 theorem r4_ofRows : r4 (ofRows a b c d e) = e := by unfold r4 ofRows; omega
 theorem ofRows_lt : ofRows a b c d e < N := by unfold ofRows N; omega
@@ -61,13 +65,13 @@ theorem mulC_lt (a b : Nat) : mulC a b < N := by
   exact ofRows_lt (vm_lt _ _) (vm_lt _ _) (vm_lt _ _) (vm_lt _ _) (vm_lt _ _)
 
 theorem r0_mulC (a b : Nat) : r0 (mulC a b) = vm (r0 b) a := by
-  rw [mulC_eq]; exact r0_ofRows (vm_lt _ _) (vm_lt _ _) (vm_lt _ _) (vm_lt _ _) (vm_lt _ _)
+  rw [mulC_eq]; exact r0_ofRows (vm_lt _ _)
 theorem r1_mulC (a b : Nat) : r1 (mulC a b) = vm (r1 b) a := by
-  rw [mulC_eq]; exact r1_ofRows (vm_lt _ _) (vm_lt _ _) (vm_lt _ _) (vm_lt _ _) (vm_lt _ _)
+  rw [mulC_eq]; exact r1_ofRows (vm_lt _ _) (vm_lt _ _)
 theorem r2_mulC (a b : Nat) : r2 (mulC a b) = vm (r2 b) a := by
-  rw [mulC_eq]; exact r2_ofRows (vm_lt _ _) (vm_lt _ _) (vm_lt _ _) (vm_lt _ _) (vm_lt _ _)
+  rw [mulC_eq]; exact r2_ofRows (vm_lt _ _) (vm_lt _ _) (vm_lt _ _)
 theorem r3_mulC (a b : Nat) : r3 (mulC a b) = vm (r3 b) a := by
-  rw [mulC_eq]; exact r3_ofRows (vm_lt _ _) (vm_lt _ _) (vm_lt _ _) (vm_lt _ _) (vm_lt _ _)
+  rw [mulC_eq]; exact r3_ofRows (vm_lt _ _) (vm_lt _ _) (vm_lt _ _) (vm_lt _ _)
 theorem r4_mulC (a b : Nat) : r4 (mulC a b) = vm (r4 b) a := by
   rw [mulC_eq]; exact r4_ofRows (vm_lt _ _) (vm_lt _ _) (vm_lt _ _) (vm_lt _ _) (vm_lt _ _)
 
@@ -220,7 +224,7 @@ private theorem gl3_sound_core (D : Data) (hX : D.X = x0Codes ()) {c : Nat}
     simp only [Bool.and_eq_true, beq_iff_eq, decide_eq_true_eq] at h3
     obtain ⟨⟨hi, hoki⟩, hr⟩ := h3
     have hoki' : okRep (x0Codes ()) D.sc.reps D.certs i = true := by
-      rw [Array.getD_eq_getD_getElem?, Array.getElem?_map, Array.getElem?_range, if_pos hi]
+      rw [Array.getD_eq_getD_getElem?, Array.getElem?_map, Array.getElem?_range, ite_eq_left hi]
         at hoki
       rw [← hX]
       exact hoki

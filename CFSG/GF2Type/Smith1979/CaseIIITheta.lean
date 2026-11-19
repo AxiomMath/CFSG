@@ -41,7 +41,7 @@ theorem exists_theta (I : TimInputs) {g : G} {t : S.O} {X : Hyp10 S g t} {Xb Yb 
   have hθ3 : (θ : S.O) ^ 3 = 1 := ((D.dec.mem_commutator_iff).1 θ.2).2
   have hθ1' : (θ : S.O) ≠ 1 := fun h => hθ1 (Subtype.ext h)
   have hord : orderOf (θ : S.O) = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact orderOf_eq_prime hθ3 hθ1'
   have hz : ⁅Yb, Yb⁆ = zpowers (θ : S.O) := by
     symm

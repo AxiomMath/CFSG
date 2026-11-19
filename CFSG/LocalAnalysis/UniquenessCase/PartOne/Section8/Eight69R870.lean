@@ -55,7 +55,7 @@ theorem r870_of_inputs {G : Type} [Group G] [Finite G] (D : Data G)
   obtain ⟨X₁, X₂, hX₁, hX₂, hsup, hinf, h₁, h₂, hcomm, h3X⟩ :=
     eight70_split (eight70_equiv_alt5_prod hXH hX h5X hXK f hf)
   obtain ⟨Y, hYC, hthin, hYA⟩ := eight70_member hc.hyp hX₁ hX₂ hsup hinf h₁ h₂ hcomm
-  have hns : ¬ IsSolvable ↥D.M := UC6S846.not_solvable_of_mem_calC hYC
+  have hns : ¬ Group.IsSolvable ↥D.M := UC6S846.not_solvable_of_mem_calC hYC
   obtain ⟨p, hpσ⟩ := hSg.nonempty
   have hp3 : p ≠ 3 := by
     rintro rfl

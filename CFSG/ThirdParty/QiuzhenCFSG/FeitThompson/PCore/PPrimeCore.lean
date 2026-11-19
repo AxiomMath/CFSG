@@ -219,7 +219,7 @@ public theorem CFSG.isPGroup_of_nilpotent_normal (N : Subgroup G) (hN_normal : N
   have : N.Normal := hN_normal
   have : (Q : Subgroup N).Characteristic := hQ_char
   have : ((Q : Subgroup N).map N.subtype).Normal := inferInstance
-  have hQ_pgroup : IsPGroup q (Q : Subgroup N) := Q.isPGroup'
+  have hQ_pgroup : IsPGroup q (Q : Subgroup N) := Q.isPGroup
   have hQ_map_pgroup : IsPGroup q ((Q : Subgroup N).map N.subtype) :=
     IsPGroup.map hQ_pgroup N.subtype
   rcases (IsPGroup.iff_card.mp hQ_map_pgroup) with ⟨n, hcard⟩

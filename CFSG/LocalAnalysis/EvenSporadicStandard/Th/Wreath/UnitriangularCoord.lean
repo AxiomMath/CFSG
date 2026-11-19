@@ -11,6 +11,7 @@ open Subgroup Matrix
 
 variable {G : Type} [Group G] [Finite G] {L S A B : Subgroup G} {z : G}
 
+omit [Finite G] in
 private theorem matHom_eq_one_iff_mem_B (W : ThLocalIn L S A B z)
     {c : G → (Fin 4 → ZMod 2)} (hc : IsCoord A c)
     (m : S →* Matrix (Fin 4) (Fin 4) (ZMod 2)) (hm : ∀ s : S, IsRep A c s (m s)) (s : S) :
@@ -97,7 +98,7 @@ theorem ThLocalIn.exists_coord_unitriangular (W : ThLocalIn L S A B z) :
   have hνval : ∀ s : S,
       ((ν s : GL (Fin 4) (ZMod 2)) : Matrix (Fin 4) (Fin 4) (ZMod 2)) = Hmat * m s * hmat := by
     intro s
-    simp [ν, Hmat, hmat, MulAut.conj_apply, MonoidHom.coe_toHomUnits, hμval s]
+    simp [ν, Hmat, hmat, hμval s]
   have hνker : ∀ s : S, ν s = 1 ↔ (s : G) ∈ B := by
     intro s
     have h1 : ν s = 1 ↔ μ s = 1 := by
@@ -142,6 +143,7 @@ theorem ThLocalIn.exists_coord_unitriangular (W : ThLocalIn L S A B z) :
     obtain ⟨s, hs⟩ := MonoidHom.mem_range.1 hg'
     exact ⟨s, s.2, by rw [← hs]; exact hrepν s⟩
 
+omit [Finite G] in
 theorem ThLocalIn.exists_mem_S_isRep_of_unitriangular {c : G → (Fin 4 → ZMod 2)}
     (hsurj : ∀ g ∈ CFSG.Quasithin.FFC.UT 4,
       ∃ s ∈ S, IsRep A c s (g : Matrix (Fin 4) (Fin 4) (ZMod 2)))

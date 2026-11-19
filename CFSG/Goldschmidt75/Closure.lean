@@ -113,7 +113,7 @@ theorem normalizer_le_normalizer_inf [Finite G] (hS : fusionStronglyClosed (S : 
 theorem exists_mem_center [Finite G] [Fact p.Prime] (hSP : S ≤ P)
     (hS : fusionStronglyClosed (S : Set G) P) (hS1 : S ≠ ⊥) :
     ∃ z ∈ S, z ≠ 1 ∧ z ∈ centralizer ((P : Subgroup G) : Set G) := by
-  have : Group.IsNilpotent (P : Subgroup G) := P.isPGroup'.isNilpotent
+  have : Group.IsNilpotent (P : Subgroup G) := P.isPGroup.isNilpotent
   have : (S.subgroupOf P).Normal := normal_subgroupOf_of_stronglyClosed hSP hS
   have hne : S.subgroupOf P ≠ ⊥ := by
     intro h
@@ -193,7 +193,7 @@ theorem exists_conj_fullyNormalized [Finite G] [Fact p.Prime] (hSP : S ≤ P)
       FullyNormalized p P (conjSub y S₀) := by
   set N := normalizer (S₀ : Set G)
   set A := (P : Subgroup G) ⊓ N
-  have hAp : IsPGroup p A := P.isPGroup'.to_le inf_le_left
+  have hAp : IsPGroup p A := P.isPGroup.to_le inf_le_left
   obtain ⟨R, hR⟩ := (hAp.comap_subtype (K := N)).exists_le_sylow
   set RG := (R : Subgroup N).map N.subtype
   obtain ⟨Q, hQ⟩ := (R.isPGroup.map N.subtype).exists_le_sylow
@@ -206,7 +206,7 @@ theorem exists_conj_fullyNormalized [Finite G] [Fact p.Prime] (hSP : S ≤ P)
   unfold FullyNormalized
   rw [normalizer_conjSub, card_conjSub]
   refine le_antisymm ((card_le_of_isPGroup (K := conjSub y N) inf_le_right
-    (P.isPGroup'.to_le inf_le_left)).trans_eq (by rw [card_conjSub])) ?_
+    (P.isPGroup.to_le inf_le_left)).trans_eq (by rw [card_conjSub])) ?_
   have hRN : conjSub y RG ≤ (P : Subgroup G) ⊓ conjSub y N :=
     le_inf hRP (conjSub_mono (Subgroup.map_subtype_le _))
   calc p ^ (Nat.card N).factorization p = Nat.card R := (Sylow.card_eq_multiplicity R).symm

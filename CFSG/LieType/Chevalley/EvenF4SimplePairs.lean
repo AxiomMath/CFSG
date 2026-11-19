@@ -573,7 +573,7 @@ private theorem f4_borel_overgroup_classification :
   refine ⟨fun A hB hA => f4_eq_parabolicSubgroup_of_borelGroup_le hB hA,
     fun A hB hA => ⟨_, f4_eq_parabolicSubgroup_of_borelGroup_le hB hA, fun J hJ => ?_⟩⟩
   ext i
-  simp only [Set.mem_ofPred_eq, hJ, f4_weylElt_mem_parabolicSubgroup_iff, Set.mem_eq_mem]
+  simp only [Set.mem_ofPred_eq, hJ, f4_weylElt_mem_parabolicSubgroup_iff]
 
 private theorem f4_borelGroup_covBy_iff {A : Subgroup (ModGL Tag.F4 K)}
     (hA : A ≤ adjointGroup Tag.F4 K) :

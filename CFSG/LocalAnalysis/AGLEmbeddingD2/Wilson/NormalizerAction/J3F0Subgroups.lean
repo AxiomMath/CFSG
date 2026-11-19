@@ -47,27 +47,33 @@ theorem exists_realize (M : Matrix (Fin 4) (Fin 4) (ZMod 3)) (hM : M ∈ matS) :
 @[expose] noncomputable def phi (v : Fin 4 → ZMod 3) : X :=
   ((h.bEq (Multiplicative.ofAdd v) : Subgroup.closure (Set.range (xB k))) : X)
 
+omit [Finite X] in
 theorem phi_add (v w : Fin 4 → ZMod 3) : h.phi (v + w) = h.phi v * h.phi w := by
   unfold phi
   rw [ofAdd_add, map_mul]
   rfl
 
+omit [Finite X] in
 theorem phi_zero : h.phi 0 = 1 := by
   unfold phi
   rw [ofAdd_zero, map_one]
   rfl
 
+omit [Finite X] in
 theorem phi_single (i : Fin 4) : h.phi (Pi.single i 1) = xB k i := by
   unfold phi
   exact basisEquiv_single h.x_pow h.x_comm h.basisProd_injective i
 
+omit [Finite X] in
 theorem phi_inj {v w : Fin 4 → ZMod 3} (hvw : h.phi v = h.phi w) : v = w := by
   unfold phi at hvw
   have := h.bEq.injective (Subtype.ext hvw)
   exact Multiplicative.ofAdd.injective this
 
+omit [Finite X] in
 theorem phi_mem (v : Fin 4 → ZMod 3) : h.phi v ∈ F0 k := Subtype.mem _
 
+omit [Finite X] in
 theorem exists_phi {x : X} (hx : x ∈ F0 k) : ∃ v, h.phi v = x := by
   obtain ⟨g, hg⟩ := h.bEq.surjective ⟨x, hx⟩
   refine ⟨Multiplicative.toAdd g, ?_⟩
@@ -80,6 +86,7 @@ theorem conj_phi (y : X) (hy : y ∈ Subgroup.closure (Set.range k)) :
   refine ⟨_, hM, fun v => ?_⟩
   exact conj_coord h.bEq ⟨y, hn⟩ v
 
+omit [Finite X] in
 theorem phi_eq_prod (v : Fin 4 → ZMod 3) :
     h.phi v = k 3 ^ (v 0).val * (k 4 ^ (v 1).val * (k 5 ^ (v 2).val * (xB k 3) ^ (v 3).val)) := by
   have e1 := coe_basisEquiv h.x_pow h.x_comm h.basisProd_injective v
@@ -112,24 +119,29 @@ include h
       rw [eq_inv_iff_mul_eq_one, ← h.phi_add, show -v + v = 0 from neg_add_cancel v, h.phi_zero]
     rw [this]; exact inv_mem hv
 
+omit [Finite X] in
 theorem mem_coordSub {S : Subgroup X} {v : Fin 4 → ZMod 3} : v ∈ h.coordSub S ↔ h.phi v ∈ S :=
   Iff.rfl
 
+omit [Finite X] in
 theorem phi_e3 : h.phi ![0, 0, 0, 1] = xB k 3 := by
   have : (![0, 0, 0, 1] : Fin 4 → ZMod 3) = Pi.single 3 1 := by
     ext i; fin_cases i <;> simp
   rw [this, h.phi_single]
 
+omit [Finite X] in
 theorem phi_e1 : h.phi ![0, 1, 0, 0] = xB k 1 := by
   have : (![0, 1, 0, 0] : Fin 4 → ZMod 3) = Pi.single 1 1 := by
     ext i; fin_cases i <;> simp
   rw [this, h.phi_single]
 
+omit [Finite X] in
 theorem phi_e2 : h.phi ![0, 0, 1, 0] = xB k 2 := by
   have : (![0, 0, 1, 0] : Fin 4 → ZMod 3) = Pi.single 2 1 := by
     ext i; fin_cases i <;> simp
   rw [this, h.phi_single]
 
+omit [Finite X] in
 theorem phi_mem_F1 {v : Fin 4 → ZMod 3} (hv0 : v 0 = 0) : h.phi v ∈ F1 k := by
   rw [h.phi_eq_prod, hv0]
   have g1 : k 4 ∈ F1 k := Subgroup.subset_closure (by simp [xB])
@@ -139,6 +151,7 @@ theorem phi_mem_F1 {v : Fin 4 → ZMod 3} (hv0 : v 0 = 0) : h.phi v ∈ F1 k := 
   exact mul_mem (Subgroup.pow_mem _ g1 _) (mul_mem (Subgroup.pow_mem _ g2 _)
     (Subgroup.pow_mem _ g3 _))
 
+omit [Finite X] in
 theorem mem_F1_iff {x : X} : x ∈ F1 k ↔ ∃ v : Fin 4 → ZMod 3, v 0 = 0 ∧ h.phi v = x := by
   constructor
   · intro hx
@@ -165,6 +178,7 @@ theorem mem_F1_iff {x : X} : x ∈ F1 k ↔ ∃ v : Fin 4 → ZMod 3, v 0 = 0 �
   · rintro ⟨v, hv, rfl⟩
     exact h.phi_mem_F1 hv
 
+omit [Finite X] in
 theorem F1_le_F0 : F1 k ≤ F0 k := fun x hx => by
   obtain ⟨v, -, rfl⟩ := (h.mem_F1_iff).1 hx
   exact h.phi_mem v
@@ -196,7 +210,7 @@ theorem card_F1 : Nat.card (F1 k) = 27 := by
   have hcases : ∀ d : ℕ, d ∣ 81 → 27 ≤ d → d ≠ 81 → d = 27 := by
     intro d hd h27 h81
     have hd' : d ≤ 81 := Nat.le_of_dvd (by norm_num) hd
-    interval_cases d <;> simp_all <;> omega
+    interval_cases d <;> simp_all
   exact hcases _ hdvd hge hne
 
 omit [Group X] [Finite X] h in
@@ -217,6 +231,7 @@ theorem conj_F1 (y : X) (hy : y ∈ Subgroup.closure (Set.range k)) (s : X) (hs 
   obtain ⟨h1, h2, h3⟩ := hyp_row M hM
   simp [Matrix.mulVec, dotProduct, Fin.sum_univ_four, hv0, h1, h2, h3]
 
+omit [Finite X] in
 theorem xB3_ne_one : xB k 3 ≠ 1 := by
   rw [← h.phi_e3]
   exact h.basisProd_ne_one (a := ![0, 0, 0, 1]) (by

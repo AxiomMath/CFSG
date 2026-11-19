@@ -29,7 +29,7 @@ theorem comm_of_isPGroup (h1 : W16One G) (h5 : W16Five G) (h15 : W16Fifteen G) (
         conjSubgroup V h ≤ M) ∧
       (⁅U, conjSubgroup V h⁆ ≤ V ⊓ conjSubgroup V₀ h ∧ ⁅U, conjSubgroup V h⁆ ≠ ⊥) ∧
       ¬ conjSubgroup V h ≤ CFSG.LocalAnalysis.UniquenessCase.UC22.F11.CTilde M V₀ V := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hcommV, hcommW, -⟩ := hat_commute_of_isPGroup h1 h5 h15 hS c Mo hh hP
   have hcomm1 : ⁅V, conjSubgroup V₀ h⁆ = ⊥ := by
     rw [Subgroup.commutator_eq_bot_iff_le_centralizer]
@@ -182,10 +182,10 @@ theorem mBar_le_two_mul_mQuot (h1 : W16One G) (h5 : W16Five G) (h15 : W16Fifteen
     (Mo : ModDataE H (conjClosure (U ⊔ V₀) H)) {h : G} (hh : h ∈ H) (hhM : h ∉ M)
     (hP : IsPGroup 2 ↥(Mo.img (V ⊔ conjSubgroup V h))) :
     mBar M V₀ V c.cex.hyp.h6.elemAbelian ≤ 2 * E3.mQuot V (U ⊔ V₀) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hP1, -, hP3⟩ := comm_of_isPGroup h1 h5 h15 hS c Mo hh hhM hP
   obtain ⟨-, -, -, hWleM⟩ := hP1
-  obtain ⟨w, hwW, hwct⟩ := SetLike.not_le_iff_exists.1 hP3
+  obtain ⟨w, hwW, hwct⟩ := IsConcreteLE.not_le_iff_exists.1 hP3
   have hVc : IsElemAbelian 2 V := c.cex.hyp.h6.elemAbelian
   have hMnormV : M ≤ Subgroup.normalizer (V : Set G) :=
     le_of_eq c.cex.hyp.h6.normalizer_eq.symm
@@ -247,7 +247,7 @@ theorem mem_of_conjSubgroup_le_sup (h1 : W16One G) (h5 : W16Five G) (h15 : W16Fi
     (hh : h ∈ H)
     (hle : conjSubgroup V h ≤ P ⊔ (H ⊓ centralizer (conjClosure (U ⊔ V₀) H : Set G))) :
     h ∈ M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Mo⟩ := exists_modDataE (Fam16Q.isElemAbelian c.cex c.mem)
     (le_normalizer_conjClosure (U ⊔ V₀) H)
   obtain ⟨c₀, hc₀CH, hc₀P⟩ :=

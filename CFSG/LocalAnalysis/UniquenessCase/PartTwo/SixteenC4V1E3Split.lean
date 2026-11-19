@@ -12,6 +12,7 @@ open scoped commutatorElement Pointwise
 variable {G : Type} [Group G] [Finite G]
 variable {D : Data G} {V L : Subgroup G} {hV : IsElemAbelian 2 V}
 
+omit [Finite G] in
 theorem s16c4v1e3_comm_sup_le {V A B : Subgroup G} (hA : A ≤ normalizer (V : Set G))
     (hB : B ≤ normalizer (V : Set G)) : ⁅V, A ⊔ B⁆ ≤ ⁅V, A⁆ ⊔ ⁅V, B⁆ := by
   rw [Subgroup.commutator_comm, Subgroup.commutator_le]
@@ -141,6 +142,7 @@ theorem s16c4v1e3_comm_L_le (S : s16c4v1_Sit D V L hV) (h1217 : R1217 D) {A : Su
   rw [hcomm]
   exact Subgroup.commutator_mem_commutator hv haA
 
+omit [Finite G] in
 theorem s16c4v1e3_card_comm_conj {V : Subgroup G} (A : Subgroup G) {l : G}
     (hl : l ∈ normalizer (V : Set G)) :
     Nat.card ↥⁅V, A.map (MulAut.conj l).toMonoidHom⁆ = Nat.card ↥⁅V, A⁆ := by

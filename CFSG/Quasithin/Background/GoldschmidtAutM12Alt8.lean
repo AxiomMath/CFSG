@@ -16,7 +16,7 @@ theorem eq_sylow_of_card_perm_eight {H : Subgroup (Equiv.Perm (Fin 8))} (hH : Is
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hP⟩ := hH.exists_le_sylow
   refine ⟨P, (Subgroup.eq_of_le_of_card_ge hP ?_).symm⟩
-  obtain ⟨m, hm⟩ := P.isPGroup'.exists_card_eq
+  obtain ⟨m, hm⟩ := P.isPGroup.exists_card_eq
   have hdvd : Nat.card (P : Subgroup (Equiv.Perm (Fin 8))) ∣ Nat.card (Equiv.Perm (Fin 8)) :=
     Subgroup.card_subgroup_dvd_card _
   have h8 : Nat.card (Equiv.Perm (Fin 8)) = 2 ^ 7 * 315 := by
@@ -71,11 +71,11 @@ theorem false_of_alt8 (hS : F618RecogSetting D) {T : Type} [Group T] (hT : TProp
       have : ψ (conjQuotHom D (x : D)) = 1 := hx
       exact ψ.injective (by rw [this, map_one])
     have h2 : ∃ j : ℕ, (x : D) ^ 2 ^ j = 1 := by
-      obtain ⟨j, hj⟩ := S.isPGroup' x
+      obtain ⟨j, hj⟩ := S.isPGroup x
       exact ⟨j, by simpa using congrArg Subtype.val hj⟩
     exact Subtype.ext (eq_one_of_conjQuotHom_eq_one hS h2 hx')
   have hrange2 : IsPGroup 2 g.range :=
-    S.isPGroup'.of_surjective g.rangeRestrict g.rangeRestrict_surjective
+    S.isPGroup.of_surjective g.rangeRestrict g.rangeRestrict_surjective
   have hrangec : Nat.card g.range = 2 ^ 7 := by
     rw [← Nat.card_congr (MonoidHom.ofInjective hg).toEquiv, Nat.card_congr eT.toEquiv, hT.card]
   obtain ⟨P, hP⟩ := eq_sylow_of_card_perm_eight hrange2 hrangec

@@ -23,7 +23,7 @@ variable {M V₀ V U S A X T : Subgroup G}
 
 theorem contradiction (hB : Asc80ThmB) (hMult : SchurMultiplierInput)
     (h122 : W3Lem122Two) (h : Cex156 M V₀ V U S A X T) : False := by
-  haveI : Fact (IsElemAbelian 2 (eSub V₀ X T)) := ⟨h.isElemAbelian_eSub⟩
+  have : Fact (IsElemAbelian 2 (eSub V₀ X T)) := ⟨h.isElemAbelian_eSub⟩
   obtain ⟨⟨n, hn⟩, hBorel⟩ := five_nine_borel hB h.min.toPairAt h.isElemAbelian_A
     (h.cex.isKGroup_of_le h.std h.X_le_H) h.two_lt_relIndex
   have hK := h.ker_le_centralizer hMult hn
@@ -35,7 +35,7 @@ theorem contradiction (hB : Asc80ThmB) (hMult : SchurMultiplierInput)
     · exact exists_odd_order_mem_borel_sz (isSz_congr Subgroup.topEquiv.symm hn') hBorel
   obtain ⟨x, rfl⟩ := kerQuotMk_surjective M X q
   have hxM : (x : G) ∈ M := (kerQuotMk_mem_kerQuotImg_iff x).1 hq
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨k, hk, hP, hqk⟩ := exists_pow_isPGroup_orderOf_map_eq (kerQuotMk M X) x.2 hr hqo
   have hodd : Odd (orderOf (kerQuotMk M X ⟨(x : G) ^ k, hk⟩)) := by
     rw [hqk]

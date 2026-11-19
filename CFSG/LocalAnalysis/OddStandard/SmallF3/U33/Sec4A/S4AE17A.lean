@@ -72,7 +72,7 @@ private lemma e17_comm_mul_left {K Y : Subgroup G}
         (hYc ⁅x, z⁆ (e17_comm_mem hKY hx hz) ⁅x', z⁆ hmemK).symm
 
 private lemma e17_comm_mul_right {K Y : Subgroup G}
-    (hYK : Y ≤ K) (hYc : ∀ y ∈ Y, ∀ k ∈ K, y * k = k * y)
+    (_hYK : Y ≤ K) (hYc : ∀ y ∈ Y, ∀ k ∈ K, y * k = k * y)
     (hKY : ∀ x ∈ K, ∀ x' ∈ K, x * x' * x⁻¹ * x'⁻¹ ∈ Y)
     {x z z' : G} (hx : x ∈ K) (hz : z ∈ K) (hz' : z' ∈ K) :
     ⁅x, z * z'⁆ = ⁅x, z⁆ * ⁅x, z'⁆ := by
@@ -86,7 +86,7 @@ private lemma e17_comm_mul_right {K Y : Subgroup G}
     _ = ⁅x, z⁆ * ⁅x, z'⁆ := by rw [hcz]
 
 private lemma e17_comm_pow_left {K Y : Subgroup G}
-    (hYK : Y ≤ K) (hYc : ∀ y ∈ Y, ∀ k ∈ K, y * k = k * y)
+    (_hYK : Y ≤ K) (hYc : ∀ y ∈ Y, ∀ k ∈ K, y * k = k * y)
     (hKY : ∀ x ∈ K, ∀ x' ∈ K, x * x' * x⁻¹ * x'⁻¹ ∈ Y)
     {x z : G} (hx : x ∈ K) (hz : z ∈ K) (n : ℕ) :
     ⁅x ^ n, z⁆ = ⁅x, z⁆ ^ n := by
@@ -94,7 +94,7 @@ private lemma e17_comm_pow_left {K Y : Subgroup G}
   exact (h.commutatorElement_pow_left n).symm
 
 private lemma e17_comm_pow_right {K Y : Subgroup G}
-    (hYK : Y ≤ K) (hYc : ∀ y ∈ Y, ∀ k ∈ K, y * k = k * y)
+    (_hYK : Y ≤ K) (hYc : ∀ y ∈ Y, ∀ k ∈ K, y * k = k * y)
     (hKY : ∀ x ∈ K, ∀ x' ∈ K, x * x' * x⁻¹ * x'⁻¹ ∈ Y)
     {x z : G} (hx : x ∈ K) (hz : z ∈ K) (n : ℕ) :
     ⁅x, z ^ n⁆ = ⁅x, z⁆ ^ n := by

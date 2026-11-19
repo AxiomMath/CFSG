@@ -73,7 +73,7 @@ theorem w135_mParam_le_three (htY : t ∈ Y) (ht2 : orderOf t = 2)
     have h := orderOf_dvd_natCard (⟨t, htY⟩ : ↥Y)
     rwa [Subgroup.orderOf_mk, ht2] at h
   have heven : Even (Nat.card ↥Y) := even_iff_two_dvd.mpr hdvd
-  rw [E3.mParam, if_pos heven]
+  rw [E3.mParam, ite_eq_left heven]
   have h3 : rkIdx (fixV (Subgroup.zpowers t)) ≤ 3 := by
     rwa [CFSG.GroupTheory.mQuot_top_eq_rkIdx] at hm
   exact (Nat.sInf_le (s := {n : ℕ | ∃ s ∈ Y, orderOf s = 2 ∧

@@ -32,7 +32,7 @@ theorem reg_or_frame_U3Eight (h₀ : UnitaryFieldData 2 m k) (h3 : 3 ∣ 2 ^ m +
           ∃ τ : Fin 3 → kˣ, P⁻¹ * B * P = diagHom 3 τ) ∧
         P⁻¹ * B₀ * P = diagHom 3 σ ∧ ¬ Function.Injective σ ∧ σ u ≠ σ v := by
   classical
-  haveI : CharP k 2 := h₀.charP
+  have : CharP k 2 := h₀.charP
   have hconjDiag : ∀ {Q B : GL (Fin 3) k} {τ : Fin 3 → kˣ}, Q⁻¹ * B * Q = diagHom 3 τ →
       ((Q⁻¹ : GL (Fin 3) k) : Matrix (Fin 3) (Fin 3) k) * (B : Matrix (Fin 3) (Fin 3) k) *
         (Q : Matrix (Fin 3) (Fin 3) k) = diagonal fun i => (τ i : k) := by

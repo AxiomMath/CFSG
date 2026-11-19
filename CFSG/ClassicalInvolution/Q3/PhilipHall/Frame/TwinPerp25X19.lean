@@ -310,7 +310,7 @@ theorem twinLiftSec (hyp : Hyp25 Ω K K' W S R R' z t u₁ u₂) {w : G} (hw2 : 
   have hπ : (!piSign 3 1) = true := by decide
   have hi' : ∃ i : Fin D.card, IsOrthTag 6 (!piSign 3 1) (D.tag i) (D.rank i) :=
     ⟨i, by rw [hπ]; exact hi⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hconj₀ : ∀ J ∈ TwinDisc.secFam Ω w, ∀ y : SecQ Ω w, conjSub y J ∈ TwinDisc.secFam Ω w :=
     fun J hJ y => hΩΦ.conjInvariant y J hJ
   have hconj : ∀ J ∈ liftFam (TwinDisc.secFam Ω w), ∀ y : SecQ Ω w,

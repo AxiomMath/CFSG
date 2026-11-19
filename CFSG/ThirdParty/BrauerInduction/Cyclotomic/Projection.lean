@@ -55,11 +55,11 @@ lemma exists_projection_of_primitive {M : Type*} [AddCommGroup M] [Module ℤ M]
     map_smul' := fun c f => rfl
   }
   let I := LinearMap.range eval_v
-  haveI : Submodule.IsPrincipal I := inferInstance
+  have : Submodule.IsPrincipal I := inferInstance
   obtain ⟨d, hd⟩ : ∃ d, Submodule.span ℤ {d} = I :=
     ⟨Submodule.IsPrincipal.generator I, Submodule.IsPrincipal.span_singleton_generator I⟩
   let ι := Module.Free.ChooseBasisIndex ℤ M
-  letI : Fintype ι := Module.Free.ChooseBasisIndex.fintype ℤ M
+  let : Fintype ι := Module.Free.ChooseBasisIndex.fintype ℤ M
   let b := Module.Free.chooseBasis ℤ M
   have h_coord_in : ∀ i, b.coord i v ∈ I := by
     intro i
@@ -151,7 +151,7 @@ lemma nu_zero :
   exact (nu k G).map_zero
 
 lemma nu_one : nu k G 1 = 1 := by
-  haveI : NeZero (Nat.card G) := ⟨One.natCard_ne_zero_of_finite G⟩
+  have : NeZero (Nat.card G) := ⟨One.natCard_ne_zero_of_finite G⟩
   exact Classical.choose_spec (exists_projection)
 
 open Classical in
@@ -172,7 +172,7 @@ lemma nu_ext_one :
     nu_ext k G 1 = 1 := by
   have h1 : (1 : k) ∈ ClassFun.Lambda k G := Subring.one_mem _
   unfold nu_ext
-  rw [dif_pos h1]
+  rw [dite_eq_left h1]
   change ((nu k G) (1 : ClassFun.Lambda k G) : k) = 1
   rw [nu_one, Int.cast_one]
 
@@ -181,7 +181,7 @@ lemma nu_ext_zero :
     nu_ext k G 0 = 0 := by
   have h0 : (0 : k) ∈ ClassFun.Lambda k G := Subring.zero_mem _
   unfold nu_ext
-  rw [dif_pos h0]
+  rw [dite_eq_left h0]
   change ((nu k G) (0 : ClassFun.Lambda k G) : k) = 0
   rw [nu_zero, Int.cast_zero]
 
@@ -192,7 +192,7 @@ lemma nu_ext_add
     nu_ext k G (x + y) = nu_ext k G x + nu_ext k G y := by
   have hxy : x + y ∈ ClassFun.Lambda k G := Subring.add_mem _ hx hy
   unfold nu_ext
-  rw [dif_pos hx, dif_pos hy, dif_pos hxy]
+  rw [dite_eq_left hx, dite_eq_left hy, dite_eq_left hxy]
   have h_add := map_add (nu k G) ⟨x, hx⟩ ⟨y, hy⟩
   change (nu k G ⟨x + y, hxy⟩ : k) = (nu k G ⟨x, hx⟩ : k) + (nu k G ⟨y, hy⟩ : k)
   rw [← Int.cast_add]
@@ -208,7 +208,7 @@ lemma nu_ext_int_mul
     rw [h_smul]
     exact zsmul_mem hx z
   unfold nu_ext
-  rw [dif_pos hx, dif_pos hzx]
+  rw [dite_eq_left hx, dite_eq_left hzx]
   have h_eq : (⟨(z : k) * x, hzx⟩ : ClassFun.Lambda k G) = z • ⟨x, hx⟩ := by
     ext
     exact Eq.symm (zsmul_eq_mul x z)
@@ -226,7 +226,7 @@ lemma nu_ext_int
     rw [h_smul]
     exact zsmul_mem (Subring.one_mem _) z
   unfold nu_ext
-  rw [dif_pos hz]
+  rw [dite_eq_left hz]
   have h_eq : (⟨(z : k), hz⟩ : ClassFun.Lambda k G) = z • (1 : ClassFun.Lambda k G) := by
     ext
     calc (z : k) = (z : k) * 1 := (mul_one _).symm
@@ -419,7 +419,7 @@ lemma nuStar_mem_characterSpan [Finite G]
   have hz :
       nu_ext (k := k) (G := G) (B.b.repr f i) = (z : k) := by
     unfold nu_ext
-    rw [dif_pos (hf i)]
+    rw [dite_eq_left (hf i)]
   rw [hz, Int.cast_smul_eq_zsmul, B.b_eq]
   exact Submodule.smul_mem _ z
     (ClassFun.characterSpan.character_mem (B.V i))

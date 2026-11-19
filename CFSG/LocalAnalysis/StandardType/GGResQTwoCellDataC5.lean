@@ -1293,7 +1293,7 @@ theorem hwits_C5b4c3w21 :
     · rw [ggResQTwoCellAt_of_find (w := w_C5b4c3w21_2_2) (by rfl)]
       exact hcell_C5b4c3w21_2_2
 
-@[expose] def wits_C5_b0 (s : Fin 5 × ℤ × ℤ) : List (ℕ × ℕ × GGResQTwoCell 5) :=
+@[expose] def wits_C5_b0 (_s : Fin 5 × ℤ × ℤ) : List (ℕ × ℕ × GGResQTwoCell 5) :=
   []
 
 theorem cell_C5_b0 :
@@ -1333,21 +1333,21 @@ theorem cell_C5_b4 :
   intro s hs
   simp only [GGResIDisp.C5.shapes_C5_b4, List.mem_cons, List.not_mem_nil, or_false] at hs
   rcases hs with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
-  · simp only [wits_C5_b4, if_pos rfl]
+  · simp only [wits_C5_b4]
     exact hwits_C5b4c0
-  · simp only [wits_C5_b4, if_neg (by decide : ¬ (((0, -1, -2)) = ((0, -1, -1)))), if_pos rfl]
+  · simp only [wits_C5_b4]
     exact hwits_C5b4c0w12
-  · simp only [wits_C5_b4, if_neg (by decide : ¬ (((0, -2, -1)) = ((0, -1, -1)))), if_neg (by decide : ¬ (((0, -2, -1)) = ((0, -1, -2)))), if_pos rfl]
+  · simp only [wits_C5_b4]
     exact hwits_C5b4c0w21
-  · simp only [wits_C5_b4, if_neg (by decide : ¬ (((1, -1, -1)) = ((0, -1, -1)))), if_neg (by decide : ¬ (((1, -1, -1)) = ((0, -1, -2)))), if_neg (by decide : ¬ (((1, -1, -1)) = ((0, -2, -1)))), if_pos rfl]
+  · simp only [wits_C5_b4]
     exact hwits_C5b4c1
-  · simp only [wits_C5_b4, if_neg (by decide : ¬ (((2, -1, -1)) = ((0, -1, -1)))), if_neg (by decide : ¬ (((2, -1, -1)) = ((0, -1, -2)))), if_neg (by decide : ¬ (((2, -1, -1)) = ((0, -2, -1)))), if_neg (by decide : ¬ (((2, -1, -1)) = ((1, -1, -1)))), if_pos rfl]
+  · simp only [wits_C5_b4]
     exact hwits_C5b4c2
-  · simp only [wits_C5_b4, if_neg (by decide : ¬ (((3, -1, -1)) = ((0, -1, -1)))), if_neg (by decide : ¬ (((3, -1, -1)) = ((0, -1, -2)))), if_neg (by decide : ¬ (((3, -1, -1)) = ((0, -2, -1)))), if_neg (by decide : ¬ (((3, -1, -1)) = ((1, -1, -1)))), if_neg (by decide : ¬ (((3, -1, -1)) = ((2, -1, -1)))), if_pos rfl]
+  · simp only [wits_C5_b4]
     exact hwits_C5b4c3
-  · simp only [wits_C5_b4, if_neg (by decide : ¬ (((3, -1, -2)) = ((0, -1, -1)))), if_neg (by decide : ¬ (((3, -1, -2)) = ((0, -1, -2)))), if_neg (by decide : ¬ (((3, -1, -2)) = ((0, -2, -1)))), if_neg (by decide : ¬ (((3, -1, -2)) = ((1, -1, -1)))), if_neg (by decide : ¬ (((3, -1, -2)) = ((2, -1, -1)))), if_neg (by decide : ¬ (((3, -1, -2)) = ((3, -1, -1)))), if_pos rfl]
+  · simp only [wits_C5_b4]
     exact hwits_C5b4c3w12
-  · simp only [wits_C5_b4, if_neg (by decide : ¬ (((3, -2, -1)) = ((0, -1, -1)))), if_neg (by decide : ¬ (((3, -2, -1)) = ((0, -1, -2)))), if_neg (by decide : ¬ (((3, -2, -1)) = ((0, -2, -1)))), if_neg (by decide : ¬ (((3, -2, -1)) = ((1, -1, -1)))), if_neg (by decide : ¬ (((3, -2, -1)) = ((2, -1, -1)))), if_neg (by decide : ¬ (((3, -2, -1)) = ((3, -1, -1)))), if_neg (by decide : ¬ (((3, -2, -1)) = ((3, -1, -2)))), if_pos rfl]
+  · simp only [wits_C5_b4]
     exact hwits_C5b4c3w21
 theorem hsideOK_C5_b4 :
     ∀ s ∈ GGResIDisp.C5.shapes_C5_b4, ∀ w ∈ wits_C5_b4 s,

@@ -248,7 +248,7 @@ theorem fin812Q1Cyclic_of (h45 : Sec4.Item4_5) (h84 : Pair84A) :
       rw [Sylow.card_eq_multiplicity, factorization_card_Y hY]
       norm_num
     set SY' : Subgroup G := (SY : Subgroup Y).map Y.subtype with hSY'
-    have hSY'p : IsPGroup 3 SY' := SY.isPGroup'.map Y.subtype
+    have hSY'p : IsPGroup 3 SY' := SY.isPGroup.map Y.subtype
     have hBSY : B ≤ SY' := fun x hx => ⟨⟨x, hBY hx⟩, hSY (mem_subgroupOf.mpr hx), rfl⟩
     have hBlt : B < SY' := lt_of_le_of_ne hBSY fun hBS => by
       have h1 : Nat.card SY' = 81 := by

@@ -43,7 +43,7 @@ theorem tany_sound {Y : Nat} (h : (List.range 15).any (fun j => eqK Y (TP j)) = 
     glMkT.contains (unpackR 22 Y) = true := by
   obtain ⟨j, hj, he⟩ := List.any_eq_true.1 h
   rw [List.mem_range] at hj
-  rw [Array.contains_iff, Array.mem_iff_getElem]
+  rw [_root_.Array.contains_iff_mem, Array.mem_iff_getElem]
   refine ⟨j, by simp [glMkT, hj], ?_⟩
   rw [← getElem!_pos glMkT j (by simp [glMkT, hj]), mkT_get hj]
   exact (eq_unpack_of_eqK he).symm

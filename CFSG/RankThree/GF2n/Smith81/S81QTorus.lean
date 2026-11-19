@@ -16,10 +16,12 @@ section Torus
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] in
 theorem T0_le_EAut0 : T0 K ≤ EAut0 K := by
   rw [← range_lamGHom]
   exact Subgroup.map_le_range _ _
 
+omit [Finite K] [CharP K 2] in
 theorem conj_T0g_mem_URge {τ : Gp K} (hτ : τ ∈ T0g K) {g : Gp K} (hg : g ∈ URge K Rd6 1) :
     τ * g * τ⁻¹ ∈ URge K Rd6 1 := by
   refine Subgroup.iSup_induction
@@ -46,6 +48,7 @@ theorem conj_T0g_mem_URge {τ : Gp K} (hτ : τ ∈ T0g K) {g : Gp K} (hg : g �
     rw [this]
     exact hx _ (hy g hg)
 
+omit [Finite K] in
 theorem conj_T0_mem_posU0 {t h : W K ≃ₗ[K] W K} (ht : t ∈ T0 K) (hh : h ∈ posU0 K) :
     t * h * t⁻¹ ∈ posU0 K := by
   obtain ⟨τ, hτ, rfl⟩ := ht
@@ -54,6 +57,7 @@ theorem conj_T0_mem_posU0 {t h : W K ≃ₗ[K] W K} (ht : t ∈ T0 K) (hh : h �
   refine ⟨τ * u * τ⁻¹, ?_, by simp only [map_mul, map_inv]⟩
   exact conj_T0g_mem_URge hτ hu
 
+omit [Finite K] in
 theorem T0_le_normalizer_posU0 :
     T0 K ≤ Subgroup.normalizer (posU0 K : Set (W K ≃ₗ[K] W K)) := by
   intro t ht
@@ -75,7 +79,7 @@ theorem isPGroup_posU0 : IsPGroup 2 (posU0 K) := by
   obtain ⟨S, hS⟩ := exists_sylow_perpLevi_eq (K := K)
   have h1 : IsPGroup 2 ((posPerpU K).subgroupOf (EPilot.perpLevi .E7 K)) := by
     rw [← hS]
-    exact S.isPGroup'
+    exact S.isPGroup
   have h2 : IsPGroup 2 (ULG K) := by
     rw [← SK.psiD_map_posPerpU]
     exact h1.map _

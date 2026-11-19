@@ -24,9 +24,9 @@ theorem exists_width_bound {p : ℕ} {P T B : Subgroup G} {e : ℕ} {V : Type} [
     [Module (ZMod 2) V] {ρ : Representation (ZMod 2) G V}
     (hc : ExtraspecialBinaryActionCounterexample G p P T B e ρ) (n : ℕ) (hn : Nat.card ↥P = p ^ (1 + 2 * n)) :
     ∃ w : ℕ, e ≤ 2 * w ∧ 2 ^ w ≤ 2 * n := by
-  haveI : Fact p.Prime := ⟨hc.oddPrimeClassTwoAction.setting.prime⟩
-  haveI : Fact (⁅⁅P, P⁆, P⁆ = ⊥) := ⟨hc.oddPrimeClassTwoAction.setting.class_le_two⟩
-  haveI : Fact (Monoid.exponent ↥P = p) := ⟨hc.oddPrimeClassTwoAction.setting.exponent⟩
+  have : Fact p.Prime := ⟨hc.oddPrimeClassTwoAction.setting.prime⟩
+  have : Fact (⁅⁅P, P⁆, P⁆ = ⊥) := ⟨hc.oddPrimeClassTwoAction.setting.class_le_two⟩
+  have : Fact (Monoid.exponent ↥P = p) := ⟨hc.oddPrimeClassTwoAction.setting.exponent⟩
   have hp2 : p ≠ 2 := by
     rintro rfl
     exact absurd hc.oddPrimeClassTwoAction.setting.odd (by decide)
@@ -46,10 +46,10 @@ theorem exists_width_bound {p : ℕ} {P T B : Subgroup G} {e : ℕ} {V : Type} [
     simpa [beta_apply_coe] using this
   set J := Ralpha p P T B A H hinv with hJ
   obtain ⟨hE, C, hC⟩ := RalphaExtraspecial.extraspecial_and_automizer hc hq hAB hA hH hind hRne
-  haveI : Finite (Q p P T B H ≃ₗ[ZMod p] Q p P T B H) :=
+  have : Finite (Q p P T B H ≃ₗ[ZMod p] Q p P T B H) :=
     Finite.of_injective (fun f : Q p P T B H ≃ₗ[ZMod p] Q p P T B H => (f : Q p P T B H → Q p P T B H))
       (fun f g h => LinearEquiv.ext fun x => congrFun h x)
-  haveI : Finite J := inferInstanceAs (Finite ↥(Ralpha p P T B A H hinv))
+  have : Finite J := inferInstanceAs (Finite ↥(Ralpha p P T B A H hinv))
   obtain ⟨w, -, hw⟩ := CFSG.LargeExtraspecial.RepresentationSupport.ExtraspecialTwoOrderWidth.exists_width J hE
   have hcard : Nat.card J = 2 ^ (1 + 2 * w) := by rw [hw]; ring_nf
   have hq2 : q ≠ 2 := by
@@ -67,8 +67,8 @@ theorem exists_width_bound {p : ℕ} {P T B : Subgroup G} {e : ℕ} {V : Type} [
       have : ((2 : ℕ) : ZMod p) = 0 := by exact_mod_cast h
       rw [ZMod.natCast_eq_zero_iff] at this
       exact hp2 ((Nat.prime_dvd_prime_iff_eq (Fact.out) Nat.prime_two).1 this)
-    haveI : Module.Finite (ZMod p) (Q p P T B H) := Module.Finite.of_finite
-    haveI : Module.Finite (ZMod p) (W P) := Module.Finite.of_finite
+    have : Module.Finite (ZMod p) (Q p P T B H) := Module.Finite.of_finite
+    have : Module.Finite (ZMod p) (W P) := Module.Finite.of_finite
     let ι : Representation (ZMod p) J (Q p P T B H) :=
       { toFun := fun x => ((x : Q p P T B H ≃ₗ[ZMod p] Q p P T B H) :
           Q p P T B H →ₗ[ZMod p] Q p P T B H)

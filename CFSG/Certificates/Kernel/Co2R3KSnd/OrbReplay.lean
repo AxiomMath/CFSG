@@ -59,9 +59,9 @@ theorem orbKey_eq (m D P V Q y : Nat) :
   unfold orbKey key
   rw [nIf_eq]
   by_cases hb : at12 D y = 1
-  · rw [if_pos (beq_true hb), if_pos hb]
+  · rw [ite_eq_left (beq_true hb), ite_eq_left hb]
     rfl
-  · rw [if_neg (fun h' => hb (beq_t h')), if_neg hb]
+  · rw [ite_eq_right (fun h' => hb (beq_t h')), ite_eq_right hb]
     rfl
 
 private theorem orbPt_spec {n m : Nat} {G : Nat → Nat} {L D P V Q y : Nat}

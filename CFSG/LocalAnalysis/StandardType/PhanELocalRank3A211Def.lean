@@ -15,6 +15,7 @@ open CFSG.Monster.B.Geometry Module
 
 variable {K : Type} [Field K] [Finite K] (f : ℕ) [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_mem_farSet_a3_211_iff (x : FlagK K 4) :
     x ∈ farSet 4 [0, 2, 3, 4] ↔
       x.E 1 ⊓ Vsub 4 3 = ⊥ ∧ x.E 2 ⊓ Vsub 4 2 = ⊥ := by
@@ -95,6 +96,7 @@ private theorem plh_mem_farSet_a3_211_iff (x : FlagK K 4) :
       · intro _
         rw [show ([0, 2, 3, 4] : List ℕ).getD 3 0 = 4 from rfl, Vsub_self, sup_top_eq]
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_ok_iff (p L : Submodule K (Fin 4 → K))
     (hp : finrank K p = 1) (hpL : p ≤ L) (hL : L ⊓ Vsub 4 2 = ⊥) :
     (![1, 0] : Fin 2 → K) ∉ p.map (rho (K := K)) ↔ p ⊓ Vsub 4 3 = ⊥ := by
@@ -144,7 +146,7 @@ private theorem plh_ok_iff (p L : Submodule K (Fin 4 → K))
       refine ⟨(v 2)⁻¹, ?_⟩
       rw [hrho]
       funext i
-      fin_cases i <;> simp [hv3, hv2ne, inv_mul_cancel₀]
+      fin_cases i <;> simp [hv3, hv2ne]
   have hdisj : (K ∙ v) ⊓ Vsub 4 3 = ⊥ ↔ v 3 ≠ 0 := by
     constructor
     · intro hbot hv3
@@ -178,7 +180,7 @@ private theorem plh_ok_iff (p L : Submodule K (Fin 4 → K))
 theorem genSet_a3_211_eq :
     genSet K f 4 [0, 2, 3, 4] [] = admSet (AdmS (D211 (K := K) f)) := by
   ext x
-  simp only [genSet, Set.mem_setOf_eq, admSet, AdmS, D211]
+  simp only [genSet, Set.mem_ofPred_eq, admSet, AdmS, D211]
   have hfar_iff := plh_mem_farSet_a3_211_iff (K := K) x
   have hle : ∀ i, i < ([0, 2, 3, 4] : List ℕ).length →
       ([0, 2, 3, 4] : List ℕ).getD i 0 ≤ 4 := by

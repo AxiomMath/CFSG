@@ -197,10 +197,10 @@ theorem not_mem_core {K L : Type} [Field K] [Finite K] [Field L] [Finite L]
     rw [← zpow_sum_prod, exp_sum j]
     by_cases hj : j = node
     · subst hj
-      rw [if_pos rfl, Pi.mulSingle_eq_same]
+      rw [ite_eq_left rfl, Pi.mulSingle_eq_same]
       apply Units.ext
       simp [sU, hs2]
-    · rw [if_neg hj, zpow_zero, Pi.mulSingle_eq_of_ne hj, map_one]
+    · rw [ite_eq_right hj, zpow_zero, Pi.mulSingle_eq_of_ne hj, map_one]
   have hyL : ((e7Isogeny L (minTorus e7Data_valid L uL) : adjointGroup Tag.E7 L) :
       ModGL Tag.E7 L) =
       rootDiagUnit Tag.E7
@@ -276,7 +276,7 @@ end E7S
 open E7S in
 theorem e7SplitTorusNonSimple_holds : E7SplitTorusNonSimple := by
   intro K _ _ h7
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   obtain ⟨p, hchar, n, hp, hcardK⟩ := FiniteField.card' K
   have hcard : Nat.card K = p ^ (n : ℕ) := by rw [Nat.card_eq_fintype_card, hcardK]
   have hp2 : p ≠ 2 := by
@@ -323,12 +323,12 @@ theorem e7SplitTorusNonSimple_holds : E7SplitTorusNonSimple := by
   have hmon : P.Monic := by
     rw [hP]
     exact Polynomial.monic_X_pow_sub_C ζ0 two_ne_zero
-  haveI : Fact (Irreducible P) := ⟨hirr⟩
-  haveI : Module.Finite K (AdjoinRoot P) := hmon.finite_adjoinRoot
-  haveI : Finite (AdjoinRoot P) := Module.finite_of_finite K
-  haveI : CharP (AdjoinRoot P) p :=
+  have : Fact (Irreducible P) := ⟨hirr⟩
+  have : Module.Finite K (AdjoinRoot P) := hmon.finite_adjoinRoot
+  have : Finite (AdjoinRoot P) := Module.finite_of_finite K
+  have : CharP (AdjoinRoot P) p :=
     charP_of_injective_algebraMap (algebraMap K (AdjoinRoot P)).injective p
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hs2 : (AdjoinRoot.root P) ^ 2 = algebraMap K (AdjoinRoot P) ζ0 := by
     have h0 : AdjoinRoot.mk P (Polynomial.X ^ 2 - Polynomial.C ζ0) = 0 := by
       rw [← hP]

@@ -25,13 +25,13 @@ private theorem exists_invariant_sylow_of_not_dvd' {A H : Type*} [Group A] [Grou
 theorem exists_conj_normalizes_inf {p : ℕ} [Fact p.Prime]
     {R V U Y : Subgroup G} (hVp : IsPGroup p V) (hRcop : Nat.Coprime p (Nat.card R))
     (hVR : V ≤ normalizer (R : Set G)) (hUV : U ≤ V)
-    (hYR : Y ≤ normalizer (R : Set G)) (hUY : U ≤ normalizer (Y : Set G))
+    (_hYR : Y ≤ normalizer (R : Set G)) (hUY : U ≤ normalizer (Y : Set G))
     (hsyl : CFSG.ABGLocalTools.IsSylowOf 2 (Y ⊓ R) R) :
     ∃ c ∈ R, (∀ u ∈ U, c * u = u * c) ∧
       CFSG.ABGLocalTools.IsSylowOf 2 (Y.map (MulAut.conj c).toMonoidHom ⊓ R) R ∧
       V ≤ normalizer ((Y.map (MulAut.conj c).toMonoidHom ⊓ R : Subgroup G) : Set G) := by
   have hp : p.Prime := Fact.out
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hUp : IsPGroup p U := hVp.to_le hUV
   have hUR : U ≤ normalizer (R : Set G) := hUV.trans hVR
   have hpR : ¬ p ∣ Nat.card R := (Nat.Prime.coprime_iff_not_dvd hp).1 hRcop
@@ -52,7 +52,7 @@ theorem exists_conj_normalizes_inf {p : ℕ} [Fact p.Prime]
       Subgroup.mem_map_iff_mem R.subtype_injective
     rw [← h1, hP₁]
     exact ⟨fun h => h.1, fun h => ⟨h, z.2⟩⟩
-  letI : MulDistribMulAction ↥U ↥R := MulDistribMulAction.compHom ↥R φU
+  let : MulDistribMulAction ↥U ↥R := MulDistribMulAction.compHom ↥R φU
   have hU_smul : ∀ (u : ↥U) (z : ↥R), ((u • z : ↥R) : G) = (u : G) * (z : G) * (u : G)⁻¹ :=
     fun u z => rfl
   have hP : ∀ a : ↥U, ∀ x ∈ (P₁ : Subgroup ↥R), a • x ∈ (P₁ : Subgroup ↥R) := by
@@ -74,11 +74,11 @@ theorem exists_conj_normalizes_inf {p : ℕ} [Fact p.Prime]
       (c' : G) * x * (c' : G)⁻¹ ∈ Y := by
     intro x
     rw [Subgroup.mem_map_equiv]
-    simp [MulAut.conj_symm_apply]
+    simp
   have hmemQ₀ : ∀ z : ↥R, z ∈ (Q₀ : Subgroup ↥R) ↔ (c' : G) * (z : G) * (c' : G)⁻¹ ∈ Y := by
     intro z
     rw [← hc', Subgroup.mem_map_equiv, hmemP₁]
-    simp [MulAut.conj_symm_apply]
+    simp
   have hQ₀eq : (Q₀ : Subgroup ↥R).map R.subtype =
       Y.map (MulAut.conj ((c'⁻¹ : ↥R) : G)).toMonoidHom ⊓ R := by
     ext x

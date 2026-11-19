@@ -58,8 +58,8 @@ theorem not_isoLThreePi_of_dvd {X : Type} [Group X] [Finite X] [Group.IsPerfect 
       have : Nontrivial X := Finite.one_lt_card_iff_nontrivial.mp (by omega)
       obtain ⟨rfl, rfl⟩ := (Nat.prime_two.pow_eq_iff).mp hq2
       have hs := Sec13.isSolvable_projSU_two
-      have hsolv : IsSolvable X :=
-        solvable_of_surjective (f := φ.symm.toMonoidHom) φ.symm.surjective
+      have hsolv : Group.IsSolvable X :=
+        Group.isSolvable_of_surjective (f := φ.symm.toMonoidHom) φ.symm.surjective
       exact Group.IsPerfect.not_isSolvable X hsolv
     · rw [hc] at h3d
       exact hU _ (lt_of_dvd_ordU (by omega) hB h3d) h2 hq2 h3d
@@ -94,7 +94,7 @@ theorem noCfgS429_of_dvd {S : Type} [Group S] [Finite S]
       ¬ IsType429 X) :
     NoCfgS429 S := by
   intro A σ K hc
-  haveI : Group.IsPerfect K := hc.isPerfect
+  have : Group.IsPerfect K := hc.isPerfect
   exact h (K ⧸ CFSG.pCore 2 K)
     ((Subgroup.card_quotient_dvd_card _).trans (Subgroup.card_subgroup_dvd_card K)) hc.isType
 
@@ -143,7 +143,7 @@ theorem noCfgS429_of_inner {S : Type} [Group S] [Finite S] (hZ : Subgroup.center
     exact hmem
   have hs1 : s ≠ 1 := fun h => hc.ne_one (by rw [h, map_one])
   have hso : orderOf s = 3 := orderOf_eq_prime hs3 hs1
-  haveI : Group.IsPerfect K := hc.isPerfect
+  have : Group.IsPerfect K := hc.isPerfect
   have hK : Nat.card K ∣ N := by
     have hle : K ≤ Subgroup.centralizer ({s} : Set S) := by
       rw [← autFix_conj_eq_centralizer]
@@ -154,7 +154,7 @@ theorem noCfgS429_of_inner {S : Type} [Group S] [Finite S] (hZ : Subgroup.center
 
 theorem center_eq_bot_of_simple {S : Type*} [Group S] (hs : IsSimpleGroup S)
     (hna : ∃ a b : S, a * b ≠ b * a) : Subgroup.center S = ⊥ := by
-  haveI := hs
+  have := hs
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center S) with h | h
   · exact h
   · exfalso

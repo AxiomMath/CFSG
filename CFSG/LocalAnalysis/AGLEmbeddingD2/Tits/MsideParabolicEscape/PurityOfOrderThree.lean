@@ -265,7 +265,7 @@ theorem D2Escape.pure_of_normalRankFour (hK : KFactNormalRankFourThree) {P : Syl
   have h4 : 4 ≤ pRank 3 (P : Subgroup G) := by
     rw [pRank_sylow_eq_globalRank 3 hp P]
     exact betaFour_globalRank h3
-  obtain ⟨N, hNP, hNn, hN, hNcard⟩ := hK G (P : Subgroup G) P.isPGroup' h4
+  obtain ⟨N, hNP, hNn, hN, hNcard⟩ := hK G (P : Subgroup G) P.isPGroup h4
   intro x hxM hx
   have hx3 : x ^ 3 = 1 := by
     have := pow_orderOf_eq_one x

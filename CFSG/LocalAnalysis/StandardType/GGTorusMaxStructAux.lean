@@ -66,7 +66,7 @@ theorem tmStruct_congr_symm {G H : Type*} [Group G] [Group H]
     (e : G ≃* H) (f : MulAut G) :
     MulAut.congr e.symm (MulAut.congr e f) = f := by
   ext x
-  simp only [MulAut.congr_apply, MulEquiv.symm_trans_apply, MulEquiv.trans_apply,
+  simp only [MulAut.congr_apply, MulEquiv.trans_apply,
     MulEquiv.symm_symm, MulEquiv.symm_apply_apply]
 
 end CFSG.StandardType.FrameRoute

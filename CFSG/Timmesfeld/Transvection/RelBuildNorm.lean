@@ -44,7 +44,7 @@ theorem exists_tw_of_add_of_norm {σ : F ≃+* F} {φ : F → F}
             φ 1 * (σ (φ s) * φ s - (σ (φ 1) * φ 1) * (σ s * s)) := by
         ring
       rw [h2, h3] at hmain
-      simp only [sub_self, mul_zero, sub_zero] at hmain
+      simp only [sub_self, mul_zero] at hmain
       exact (mul_eq_zero.mp hmain).resolve_left hσK
     have hPQ : ∀ s, (φ s = φ 1 * s) ∨ (φ s = φ 1 * σ s) := by
       intro s
@@ -62,7 +62,7 @@ theorem exists_norm_eq_one_pow_six_ne_one {K : Type} [Field K] [Finite K] [CharP
     (hK : Nat.card K = (2 ^ n) ^ 2) (hn : 2 ≤ n) :
     ∃ b : K, unitaryInvolution K 2 n b * b = 1 ∧ b ^ 6 ≠ 1 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hq2 : 2 ^ 2 ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := Kˣ)
   have hcard : Nat.card Kˣ = (2 ^ n) ^ 2 - 1 := by

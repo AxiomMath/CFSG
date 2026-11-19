@@ -278,7 +278,7 @@ theorem b_scan {c W : Nat} (hc : c < 2 ^ 22)
     Finset.mem_range.1 (Finset.mem_filter.1 hi).1)]
   congr 1
   ext x
-  simp only [Set.mem_setOf_eq, Set.mem_image, Finset.coe_filter, Finset.mem_range]
+  simp only [Set.mem_ofPred_eq, Set.mem_image, Finset.coe_filter, Finset.mem_range]
   constructor
   · rintro ⟨hx0, hx1⟩
     obtain ⟨i, hi, rfl⟩ := (mem_O0 x).1 hx0
@@ -483,7 +483,6 @@ theorem d2_mem : ∀ k < 1120, ∃ g : NativeSporadic.Co2,
   · rintro g hg x ⟨h, hh, hx⟩
     obtain ⟨y, hyfix, hy⟩ := gen_elt hfix hg
     refine ⟨y * h, by rw [co2Act_mul, hh, hyfix], ?_⟩
-    change toVecD 22 (vmF 22 g x) = _
     rw [hy, hx, co2Act_mul]
 
 theorem ob_bil (a : Nat) : bil₀₂ (toVecD 22 a) (toVecD 22 (w12Co2Rep 2)) =
@@ -566,29 +565,29 @@ theorem hyp_dot (z : Vec22) : z ⬝ᵥ (rowsMatrix 22 (unpackR 22 (hypF 11)) *�
     intro i
     simp only [Matrix.mulVec, dotProduct, hyp_rows]
     by_cases h : i.val < 11
-    · rw [dif_pos h, Finset.sum_eq_single ⟨i.val + 11, by omega⟩]
+    · rw [dite_eq_left h, Finset.sum_eq_single ⟨i.val + 11, by omega⟩]
       · simp [h]
       · intro j _ hj
-        rw [if_neg, zero_mul]
+        rw [ite_eq_right, zero_mul]
         rintro ⟨-, e⟩
         exact hj (Fin.ext e)
       · intro hn
         exact absurd (Finset.mem_univ _) hn
-    · rw [dif_neg h]
-      exact Finset.sum_eq_zero fun j _ => by rw [if_neg (fun h' => h h'.1), zero_mul]
+    · rw [dite_eq_right h]
+      exact Finset.sum_eq_zero fun j _ => by rw [ite_eq_right (fun h' => h h'.1), zero_mul]
   change ∑ i : Fin (11 + 11), z i * (rowsMatrix 22 (unpackR 22 (hypF 11)) *ᵥ z) i = _
   rw [Fin.sum_univ_add]
   have h1 : ∀ a : Fin 11, z (Fin.castAdd 11 a) *
       (rowsMatrix 22 (unpackR 22 (hypF 11)) *ᵥ z) (Fin.castAdd 11 a) =
         z (Fin.castAdd 11 a) * z (Fin.natAdd 11 a) := by
     intro a
-    rw [hv, dif_pos (by simp)]
+    rw [hv, dite_eq_left (by simp)]
     exact congrArg (z (Fin.castAdd 11 a) * ·)
-      (congrArg z (Fin.ext (by simp only [Fin.coe_castAdd, Fin.coe_natAdd]; omega)))
+      (congrArg z (Fin.ext (by simp only [Fin.val_castAdd, Fin.val_natAdd]; omega)))
   have h2 : ∀ a : Fin 11, z (Fin.natAdd 11 a) *
       (rowsMatrix 22 (unpackR 22 (hypF 11)) *ᵥ z) (Fin.natAdd 11 a) = 0 := by
     intro a
-    rw [hv, dif_neg (by simp), mul_zero]
+    rw [hv, dite_eq_right (by simp), mul_zero]
   simp only [h1, h2, Finset.sum_const_zero, add_zero]
 
 theorem hyp_MN : rowsMatrix 22 (unpackR 22 Ob.Pm) * rowsMatrix 22 (unpackR 22 Ob.Pmi) = 1 := by
@@ -699,7 +698,7 @@ theorem span_top_of_mul {d : ℕ} (M N : Matrix (Fin d) (Fin d) (ZMod 2))
       by_cases hik : i = k
       · subst hik
         simp
-      · rw [if_neg hik, if_neg (Ne.symm hik)]
+      · rw [ite_eq_right hik, ite_eq_right (Ne.symm hik)]
     rw [e]
     exact Submodule.sum_mem _ fun j _ => Submodule.smul_mem _ _ (hrow j)
   rw [Submodule.eq_top_iff']

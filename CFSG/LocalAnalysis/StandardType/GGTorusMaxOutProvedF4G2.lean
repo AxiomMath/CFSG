@@ -146,10 +146,10 @@ theorem tmOut_F4
       tmLieOut (.F4 q) := by
     rw [ht]
     by_cases h2 : q.p = 2
-    · rw [if_pos h2]
+    · rw [ite_eq_left h2]
       have h := gl12kE_F4_card_outer q hv
       rwa [Nat.mul_comm 2 q.exponent] at h
-    · rw [if_neg h2, Nat.mul_one]
+    · rw [ite_eq_right h2, Nat.mul_one]
       obtain ⟨K, _, _, hK, -, ⟨eK⟩⟩ :=
         exists_catEquiv_adjointGroup CFSG.TauCetiBridge.Even.chevalleyBridgesAll.f4 q hv
       have hK' : Nat.card K = q.p ^ q.exponent :=
@@ -184,10 +184,10 @@ theorem tmOut_G2
       tmLieOut (.G2 q) := by
     rw [ht]
     by_cases h3 : q.p = 3
-    · rw [if_pos h3]
+    · rw [ite_eq_left h3]
       have h := gl12kE_G2_card_outer q hv hq3
       rwa [Nat.mul_comm 2 q.exponent] at h
-    · rw [if_neg h3, Nat.mul_one]
+    · rw [ite_eq_right h3, Nat.mul_one]
       obtain ⟨K, _, _, hK, -, ⟨eK⟩⟩ :=
         exists_catEquiv_adjointGroup CFSG.TauCetiBridge.Even.chevalleyBridgesAll.g2 q hv
       have hK' : Nat.card K = q.p ^ q.exponent :=

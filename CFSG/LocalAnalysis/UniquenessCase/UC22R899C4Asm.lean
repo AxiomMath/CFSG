@@ -44,8 +44,8 @@ theorem uc22r899c4_sp_of_facts {D : Data G}
   refine uc22r899c4_sp_of_scalar hSg h614 h76 hL hc3 hLS hs hsn hr hrs hp ?_
   intro K₁ h1S K₂ h2S hne a₁ a₂ ha₁ ha₂ ha₁o ha₂o
   obtain ⟨hpp, hp2⟩ := D.sig_prime p hp
-  haveI : Fact p.Prime := ⟨hpp⟩
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact p.Prime := ⟨hpp⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hr2 : r ≠ 2 := uc22ine229_ne_two hs hrs
   obtain ⟨K₃, h3S, h31, h32⟩ := uc22r899c3_exists_third (K₁ := K₁) (K₂ := K₂) hc3
   set Kf : Fin 3 → Subgroup G := ![K₁, K₂, K₃] with hKf
@@ -56,7 +56,7 @@ theorem uc22r899c4_sp_of_facts {D : Data G}
   have hKfne : ∀ i j, i ≠ j → Kf i ≠ Kf j := by
     intro i j hij
     fin_cases i <;> fin_cases j
-    all_goals first | exact absurd rfl hij | skip
+    all_goals try exact absurd rfl hij
     exacts [hne, h31.symm, hne.symm, h32.symm, h31, h32]
   have hKfC : ∀ i, Kf i ∈ calC D.M := fun i => uc22p2214_calC_of_mem_conjSetOf hL (hKfS i)
   have hKfM : ∀ i, Kf i ≤ D.M := fun i => uc22p22a_le_of_isSubnormal (hKfC i).1

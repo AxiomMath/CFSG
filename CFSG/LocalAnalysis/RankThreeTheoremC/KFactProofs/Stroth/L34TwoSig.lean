@@ -33,7 +33,7 @@ theorem twoSignalizerL34 :
     TwoSignalizerL34 := by
   intro X _ _ K hKn _hs _hnab B _hB hBc _hBC hcase T hT hBT
   obtain ⟨hL, hBK⟩ := hcase
-  haveI : K.Normal := hKn
+  have : K.Normal := hKn
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ε, ψ, hker, hψR, hψK⟩ := L34Hom.exists_hom_R hL
   obtain ⟨B₀, hB₀S, hB₀c, hcheck⟩ := l34TwoSig_check
@@ -71,7 +71,7 @@ theorem twoSignalizerL34 :
     obtain ⟨n, hn⟩ := hT ⟨t, ht⟩
     have htn : t ^ 2 ^ n = 1 := congrArg Subtype.val hn
     refine pow_256_eq_one (hconjR t) (n := n) ?_
-    have e : s⁻¹ * ψ t * s = (MulAut.conj s⁻¹) (ψ t) := by simp [MulAut.conj_apply]
+    have e : s⁻¹ * ψ t * s = (MulAut.conj s⁻¹) (ψ t) := by simp
     rw [e, ← map_pow, ← map_pow, htn, map_one, map_one]
   have hcomm : ∀ t ∈ T, ∀ c ∈ B₀, c * (s⁻¹ * ψ t * s) = s⁻¹ * ψ t * s * c := by
     intro t ht

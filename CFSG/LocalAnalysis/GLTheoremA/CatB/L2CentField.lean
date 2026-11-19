@@ -97,10 +97,10 @@ theorem l2c_solvable_two {F₀ : Type} [Field F₀] [Finite F₀] (hF : Nat.card
     rw [CFSG.SL2MinimalFaithful.card_specialLinearGroup_fin_two, hcard1]
     norm_num
   have hsl := CFSG.GH74.GLS.IVK.Lifted.isSolvable_of_card_two_three hc
-  haveI := hsl
+  have := hsl
   have hpsl : Group.IsSolvable (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 1)) :=
     Group.isSolvable_of_surjective (f := QuotientGroup.mk' (Subgroup.center _)) (QuotientGroup.mk'_surjective _)
-  haveI := hpsl
+  have := hpsl
   have e := statedLinearModelEquivGaloisPSL F₀ 2 2 1 (by norm_num) hF
   exact Group.isSolvable_of_surjective (f := e.symm.toMonoidHom) e.symm.surjective
 
@@ -111,10 +111,10 @@ theorem l2c_pSimple_iso {G : Type} [Group G] [Finite G] {S : Subgroup G}
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center (PQuot 3 S)) with h | h
     · exact h
     · exfalso
-      haveI := hq.2
+      have := hq.2
       have hnt : Nontrivial (PQuot 3 S ⧸ Subgroup.center (PQuot 3 S)) := inferInstance
       rw [h] at hnt
-      haveI : Subsingleton (PQuot 3 S ⧸ (⊤ : Subgroup (PQuot 3 S))) :=
+      have : Subsingleton (PQuot 3 S ⧸ (⊤ : Subgroup (PQuot 3 S))) :=
         QuotientGroup.subsingleton_quotient_top
       exact not_subsingleton _ this
   exact ⟨(QuotientGroup.quotientMulEquivOfEq hcen).trans QuotientGroup.quotientBot⟩
@@ -127,16 +127,16 @@ theorem l2c_ne_bot_of_comp {G : Type} [Group G] [Finite G] {X S : Subgroup G}
     (hS : GLAPComponent 3 X S) : S ≠ ⊥ := by
   intro h
   subst h
-  haveI := l2c_nontrivial_pQuot (isQuasisimple_pQuot_of_glaPComponent Nat.prime_three hS)
+  have := l2c_nontrivial_pQuot (isQuasisimple_pQuot_of_glaPComponent Nat.prime_three hS)
   have : Subsingleton (PQuot 3 (⊥ : Subgroup G)) := by unfold PQuot; infer_instance
   exact not_subsingleton _ this
 
 theorem l2c_core_ne_top {G : Type} [Group G] [Finite G] {X : Subgroup G}
     (hq : CFSG.Open.IsQuasisimple (PQuot 3 X)) (h : GLAPPrimeCore 3 ↥X = ⊤) : False := by
-  haveI := l2c_nontrivial_pQuot hq
+  have := l2c_nontrivial_pQuot hq
   have hnt : Nontrivial (↥X ⧸ GLAPPrimeCore 3 ↥X) := inferInstance
   rw [h] at hnt
-  haveI : Subsingleton (↥X ⧸ (⊤ : Subgroup ↥X)) := QuotientGroup.subsingleton_quotient_top
+  have : Subsingleton (↥X ⧸ (⊤ : Subgroup ↥X)) := QuotientGroup.subsingleton_quotient_top
   exact not_subsingleton _ this
 
 theorem l2c_field_case (h0 : L2CentreThree) (h1 : L2Aut3Classification) (h2 : L2FieldFixed)
@@ -185,7 +185,7 @@ theorem l2c_field_case (h0 : L2CentreThree) (h1 : L2Aut3Classification) (h2 : L2
   let ψ₀ : fixS a ≃* fixS β :=
     (θ.subgroupMap (fixS a)).trans (MulEquiv.subgroupCongr hfix.symm)
   have hcontra : Group.IsSolvable (fixS β) → False := fun hs => by
-    haveI : Group.IsSolvable (fixS a) :=
+    have : Group.IsSolvable (fixS a) :=
       Group.isSolvable_of_surjective (f := ψ₀.symm.toMonoidHom) ψ₀.symm.surjective
     exact CFSG.HardMathSupport.Dickson.KD.false_of_glaPComponent_of_solvable hS inferInstance
   rcases h1 F β hβ3 with hb | hsol | ⟨σ, φ, γ, hφ, hβγ⟩
@@ -202,7 +202,7 @@ theorem l2c_field_case (h0 : L2CentreThree) (h1 : L2Aut3Classification) (h2 : L2
     · simp at hk; omega
     ·
       have hT : Group.IsSolvable (StatedProj (StatedSL 2 F₀)) := l2c_solvable_two (by rw [hk])
-      haveI := hT
+      have := hT
       exact (hcontra (Group.isSolvable_of_surjective (f := ψ.symm.toMonoidHom) ψ.symm.surjective)).elim
   have hT4 : 4 ≤ Nat.card F₀ := by
     rw [hk]

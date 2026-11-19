@@ -10,14 +10,17 @@ open Subgroup CFSG.OddStandard.SmallF3.HarrisU33
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem fzl_R_le_N2 (t x₁ x₂ : G) : fzR t x₁ x₂ ≤ fzN2 t x₁ x₂ := by
   unfold fzR CFSG.Open.pCoreOf
   exact Subgroup.map_subtype_le _
 
+omit [Finite G] in
 theorem fzl_R_isPGroup (t x₁ x₂ : G) : IsPGroup 2 (fzR t x₁ x₂) := by
   unfold fzR CFSG.Open.pCoreOf
   exact (CFSG.pCore_isPGroup (p := 2) (G := ↥(fzN2 t x₁ x₂))).map _
 
+omit [Finite G] in
 theorem fzl_R_normal (t x₁ x₂ : G) :
     ∀ n ∈ fzN2 t x₁ x₂, ∀ r ∈ fzR t x₁ x₂, n * r * n⁻¹ ∈ fzR t x₁ x₂ := by
   intro n hn r hr
@@ -28,6 +31,7 @@ theorem fzl_R_normal (t x₁ x₂ : G) :
   · exact (CFSG.pCore_normal (p := 2) (G := ↥(fzN2 t x₁ x₂))).conj_mem x hx ⟨n, hn⟩
   · simp
 
+omit [Finite G] in
 theorem fzl_R_le_T {t x₁ x₂ : G} {S T₂ : Subgroup G} (hT : IsFzT2 t x₁ x₂ S T₂) :
     fzR t x₁ x₂ ≤ T₂ := by
   set N : Subgroup G := fzN2 t x₁ x₂ with hN

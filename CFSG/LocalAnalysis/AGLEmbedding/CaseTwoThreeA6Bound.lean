@@ -62,7 +62,7 @@ theorem center_eq_zpowers_of_sylow {A : Subgroup X} (hZ : Nat.card (Subgroup.cen
     have hgζ : g * ζ * g⁻¹ ∈ Subgroup.zpowers ζ :=
       hZζ _ ((Subgroup.mem_normalizer_iff.mp hgN ζ).mp hζA)
         ((Subgroup.mem_normalizer_iff.mp (mem_normalizer_centralizer hgN) ζ).mp hζC)
-    obtain ⟨k, hk⟩ := S.isPGroup' ⟨g, hg⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨g, hg⟩
     exact commute_of_mem_normalizer_zpowers_of_pow_prime_pow hp hζo
       (mem_normalizer_zpowers_of_mem_zpowers hgζ) (by simpa using congrArg Subtype.val hk)
   have hζS : ζ ∈ (S : Subgroup X) := by
@@ -70,7 +70,7 @@ theorem center_eq_zpowers_of_sylow {A : Subgroup X} (hZ : Nat.card (Subgroup.cen
       rw [Subgroup.zpowers_le]
       exact Subgroup.centralizer_le_normalizer _
         (Subgroup.mem_centralizer_iff.mpr fun g hg => (hSζ g hg).eq)
-    have hV := IsPGroup.to_sup_of_normal_left' S.isPGroup'
+    have hV := IsPGroup.to_sup_of_normal_left' S.isPGroup
       (isPGroup_zpowers_of_pow_eq_one (k := 1) (by simpa using hζ3)) hζN
     have hmax := S.maximal_isPGroup.eq_of_ge hV le_sup_left
     exact hmax ▸ Subgroup.mem_sup_right (Subgroup.mem_zpowers ζ)

@@ -54,7 +54,7 @@ theorem exists_normTwo_of_mulAut {H : Type} [Group H] (X B : Subgroup H)
   have hS' : S.map (ρ ⟨b, hb⟩ : X →* X) = S := hfix _ (MonoidHom.mem_range.mpr ⟨⟨b, hb⟩, rfl⟩)
   rw [Subgroup.mem_normalizer_iff]
   intro y
-  simp only [SetLike.mem_coe, Subgroup.mem_map, Subgroup.coe_subtype]
+  simp only [Subgroup.mem_map, Subgroup.coe_subtype]
   constructor
   · rintro ⟨s, hs, rfl⟩
     refine ⟨ρ ⟨b, hb⟩ s, ?_, hρ s⟩

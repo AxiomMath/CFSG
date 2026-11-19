@@ -105,7 +105,7 @@ theorem kForm_decomp [Fintype K] [Fintype F] (τ : F →ₐ[K] F)
   funext i j k
   fin_cases i <;> fin_cases j <;> fin_cases k <;>
     simp [vE0, vE1, vP, vR, e0, e1, embP, embR, Algebra.smul_def, hc0, hc1, h100, h010, h101,
-      h110, hτ3]
+      h110]
 
 theorem quad_e0 : quad (e0 F) = 0 := by
   simp [quad, e0]
@@ -125,12 +125,12 @@ theorem exists_sl_mulVec_pi_single {w : Fin 2 → F} (hw : w ≠ 0) :
     · rw [Matrix.det_fin_two_of]
       simp [h1]
     · funext i
-      fin_cases i <;> simp [h0, Matrix.mulVec, dotProduct, Fin.sum_univ_two, Pi.single_apply]
+      fin_cases i <;> simp [h0, Matrix.mulVec, dotProduct, Pi.single_apply]
   · refine ⟨⟨!![w 0, 0; w 1, (w 0)⁻¹], ?_⟩, ?_⟩
     · rw [Matrix.det_fin_two_of]
       simp [h0]
     · funext i
-      fin_cases i <;> simp [Matrix.mulVec, dotProduct, Fin.sum_univ_two, Pi.single_apply, h0]
+      fin_cases i <;> simp [Matrix.mulVec, dotProduct, Pi.single_apply]
 
 theorem act_add (τ : F →+* F) (g : Mat2 F) (x y : Hyp F) :
     act τ g (x + y) = act τ g x + act τ g y := by
@@ -302,9 +302,9 @@ theorem beta_pt_eq [Fintype K] [Fintype F] (τ : F →ₐ[K] F)
       · rw [Matrix.det_fin_two_of]
         linear_combination d⁻¹ * hdet + hdinv
       · funext i
-        fin_cases i <;> simp [Matrix.mulVec, dotProduct, Fin.sum_univ_two, Pi.single_apply]
+        fin_cases i <;> simp [Matrix.mulVec, dotProduct, Pi.single_apply]
       · funext i
-        fin_cases i <;> simp [Matrix.mulVec, dotProduct, Fin.sum_univ_two, Pi.single_apply]
+        fin_cases i <;> simp [Matrix.mulVec, dotProduct, Pi.single_apply]
     have hx : ((vPt τ hτ3 v : kForm τ) : Hyp F) = act (τ : F →+* F) (g : Mat2 F)
         ((vPt τ hτ3 (Pi.single 0 1) : kForm τ) : Hyp F) := by
       show pt (τ : F →+* F) v = act (τ : F →+* F) (g : Mat2 F) (pt (τ : F →+* F) (Pi.single 0 1))
@@ -443,7 +443,7 @@ theorem vE1_eq (τ : F →ₐ[K] F) (hτ3 : ∀ a, τ (τ (τ a)) = a) :
   apply Subtype.ext
   funext i j k
   fin_cases i <;> fin_cases j <;> fin_cases k <;>
-    simp [vE1, vPt, pt, e1, Pi.single_apply]
+    simp [vE1, vPt, pt, e1]
 
 theorem vE0_mem (τ : F →ₐ[K] F) (hτ3 : ∀ a, τ (τ (τ a)) = a) : vE0 τ ∈ spPt τ hτ3 := by
   rw [vE0_eq τ hτ3]
@@ -611,7 +611,7 @@ theorem betaDefect_add_right (τ : F →ₐ[K] F) (β : LinearMap.BilinForm K (k
     (x y y' : kForm τ) :
     betaDefect τ β c x (y + y') = betaDefect τ β c x y + betaDefect τ β c x y' := by
   unfold betaDefect
-  simp only [map_add, LinearMap.add_apply, Submodule.coe_add, polar_add_right]
+  simp only [map_add, Submodule.coe_add, polar_add_right]
   ring
 
 theorem coe_smul_K (τ : F →ₐ[K] F) (a : K) (x : kForm τ) :
@@ -631,7 +631,7 @@ theorem betaDefect_smul_right (τ : F →ₐ[K] F) (β : LinearMap.BilinForm K (
     (a : K) (x y : kForm τ) :
     betaDefect τ β c x (a • y) = algebraMap K F a * betaDefect τ β c x y := by
   unfold betaDefect
-  simp only [map_smul, LinearMap.smul_apply, smul_eq_mul, coe_smul_K, polar_smul_right,
+  simp only [map_smul, smul_eq_mul, coe_smul_K, polar_smul_right,
     map_mul]
   ring
 
@@ -703,8 +703,7 @@ theorem act_uMat_e1 [Fintype K] [Fintype F] (τ : F →ₐ[K] F)
   refine ⟨k, hk', ?_⟩
   funext i j k'
   fin_cases i <;> fin_cases j <;> fin_cases k' <;>
-    simp [act, uMat, embP, embR, e0, e1, Fin.sum_univ_two, Algebra.smul_def, hk', hτ3, map_mul,
-      map_add] <;>
+    simp [act, uMat, embP, embR, e0, e1, Fin.sum_univ_two, Algebra.smul_def, hk', hτ3, map_mul];
     ring
 
 theorem quad_embR (τ : F →ₐ[K] F) (r : F) : quad (embR τ r) = 0 := by
@@ -720,7 +719,7 @@ theorem quad_I2 (τ : F →ₐ[K] F) (hτ3 : ∀ a, τ (τ (τ a)) = a) (h2 : (2
     (t : F) (hk : algebraMap K F k = t * τ t * τ (τ t)) :
     quad (k • e0 F + e1 F + embP τ (t * τ t) + embR τ t) = 0 := by
   have hk' := hk
-  simp [quad, e0, e1, embP, embR, Algebra.smul_def, hτ3, map_add, map_mul, hk']
+  simp [quad, e0, e1, embP, embR, Algebra.smul_def, hτ3, map_mul, hk']
   linear_combination (2 * (t * τ t * τ (τ t))) * h2
 
 theorem quad_smulF (a : F) (x : Hyp F) : quad (a • x) = a ^ 2 * quad x := by

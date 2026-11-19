@@ -44,7 +44,7 @@ theorem exists_conj_mem_range_or_borelStd_or_stdAut_zero {K : Type} [Field K] [F
     change (↑(π.range ⊔ E) : Set H).Finite
     rw [Subgroup.coe_mul_of_right_le_normalizer_left (π.range) E hE]
     exact hNfin.mul hEfin
-  haveI : Fintype P := hPfin.fintype
+  have : Fintype P := hPfin.fintype
   have hgP : g ∈ P := Subgroup.mem_sup_right (Subgroup.mem_zpowers g)
   let gP : P := ⟨g, hgP⟩
   let πP : Matrix.SpecialLinearGroup (Fin n) K →* P :=
@@ -320,7 +320,7 @@ theorem exists_conj_eq_fieldAut_of_stdAut_zero {K : Type} [Field K] [Fintype K] 
       MulAut.conj x⁻¹ := by
     have hstdinv : CFSG.QuasithinUnique.K1.stdAut P⁻¹ (RingEquiv.refl K) 0 =
         (CFSG.QuasithinUnique.K1.stdAut P (RingEquiv.refl K) 0)⁻¹ := by
-      simp only [CFSG.QuasithinUnique.K1.stdAut, RingAut.one_eq_refl, map_one, pow_zero, mul_one]
+      simp only [CFSG.QuasithinUnique.K1.stdAut, pow_zero, mul_one]
       exact map_inv (CFSG.ComponentClassification.CatalogueBHigherLinearAction.slConjugation 4 K) P
     rw [hstdinv, hconj_x]
     exact (map_inv (MulAut.conj (G := Matrix.SpecialLinearGroup (Fin 4) K)) x).symm

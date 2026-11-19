@@ -165,7 +165,7 @@ theorem excU9_u38_model {Y : Type} [Group Y] (hU : catalogIs Y S9.isU3eight) :
           CFSG.StandardType.ChevTwo.blueprintLieModel_of_modelsLieModel (by simp [CFSG.Blueprint.classicalTags]) hM
         obtain ⟨hfin, -, -⟩ := CFSG.ComponentClassification.CatLeafProof.lieOrderFormulasInput Y _ _ _ _
           (CFSG.Blueprint.LieModel.admissible hB) hB
-        haveI := hfin
+        have := hfin
         have hcard := CFSG.HardMathSupport.Solomon.Coordinator.lieOrderBridge_holds
           ⟨.twistedA 2 q, hv⟩ Y ⟨e⟩
         refine ⟨hB, ?_⟩
@@ -213,13 +213,13 @@ theorem excU9_inner_big_dvd {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] {p�
     2 ^ 13 ∣ Nat.card (↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) ⧸
       Subgroup.center ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i)) := by
   classical
-  haveI : CharP L 2 := CFSG.StandardType.ExcThreeAtTwo.charP_two_of_langSetup_q_eq_two S hq2
+  have : CharP L 2 := CFSG.StandardType.ExcThreeAtTwo.charP_two_of_langSetup_q_eq_two S hq2
   have hk : twistKind S.ρ (rootCharHom a) i = .inner := by
     unfold twistKind
-    rw [if_pos hinner]
+    rw [ite_eq_left hinner]
   obtain ⟨D⟩ := CFSG.HardMathSupport.Dickson.Sec6.Up34Exc.nonempty_innerData S hT i hk
-  haveI := D.hKfin
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := D.hKfin
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hperf := CFSG.HardMathSupport.Dickson.Sec6.Up34Exc.isPerfect_componentRootSpan_of_big hτ D
     (by omega)
   obtain ⟨g, hg, hgk⟩ :=
@@ -246,7 +246,7 @@ theorem excU9_rat_notU38 {τ : Tag} (hτ : τ = .E7 ∨ τ = .E8) {L : Type} [Fi
     (hU : catalogIs (↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) ⧸
       Subgroup.center ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i)) S9.isU3eight) : False := by
   classical
-  haveI : CharP L 2 := CFSG.StandardType.ExcThreeAtTwo.charP_two_of_langSetup_q_eq_two S hq2
+  have : CharP L 2 := CFSG.StandardType.ExcThreeAtTwo.charP_two_of_langSetup_q_eq_two S hq2
   obtain ⟨hX3, hXcard⟩ := excU9_u38_model hU
   have htd : ∀ (t : StatedLieTag) (n f : ℕ),
       CFSG.Blueprint.LieModel (↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) ⧸
@@ -454,10 +454,10 @@ theorem excU9_adjoint_notU38_of_model {τ : Tag} (hτ : τ = .E7 ∨ τ = .E8) {
   classical
   set L := AlgebraicClosure K
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (ModGL τ K) := finite_modGL
+  have : Finite (ModGL τ K) := finite_modGL
   set n := canonicalRep (coxeterSystem τ) L w₀ with hn
   set W := twModel n (iterateFrobenius L 2 1) with hW
-  haveI hWfin : Finite W := finite_twModel hg0C hg0
+  have hWfin : Finite W := finite_twModel hg0C hg0
   have hFr2 : ∀ c : L, iterateFrobenius L 2 1 c = c ^ 2 := iterateFrobenius_two_one
   set s' : ModGL τ L := (e s : ModGL τ L) with hs'
   have hs'W : s' ∈ W := hMW (e s).2
@@ -573,7 +573,7 @@ theorem excU9_adjoint_E8_notU38 {K : Type} [Field K] [Finite K] (hK : Nat.card K
     RingHom.ext fun c => by rw [hFr, hK, iterateFrobenius_two_one]
   subst hFr2
   have hMW := langModel_le_twModel Tag.E8 K (AlgebraicClosure K) hFr hg0C hg0
-  haveI : Finite (twModel (canonicalRep (coxeterSystem Tag.E8) (AlgebraicClosure K) e8Neg)
+  have : Finite (twModel (canonicalRep (coxeterSystem Tag.E8) (AlgebraicClosure K) e8Neg)
       (iterateFrobenius (AlgebraicClosure K) 2 1)) := finite_twModel hg0C hg0
   have hWM := le_langModel_E8_of_le_twModel K (AlgebraicClosure K) hFr hg0C hg0 (P :=
     twModel (canonicalRep (coxeterSystem Tag.E8) (AlgebraicClosure K) e8Neg)

@@ -19,7 +19,7 @@ theorem ggF4TW_iso_twA2 {f : ℕ} {jj : LargeEvenLabel} (hiso : GGLabelIso ⟨.t
   obtain ⟨t, r, n⟩ := jj
   simp [GGLabelIso] at hiso
   simp only [LargeEvenLabel.mk.injEq]
-  rcases hiso with ⟨h1, h2, h3⟩ <;> subst_vars <;> simp_all
+  rcases hiso with ⟨h1, h2, h3⟩; subst_vars; simp_all
 
 private theorem ggF4TW_zmod_eq_one_of_dvd {p a : ℕ} (h : p ∣ a - 1) (ha : 1 ≤ a) :
     ((a : ZMod p)) = 1 := by
@@ -271,7 +271,7 @@ private theorem ggF4TW_entrySU
 private theorem ggF4TW_entryLin
     {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs : Subgroup G} {x : G} {L D J : Subgroup G}
     {ks : Finset (Subgroup G)} {f : ℕ} {K : Subgroup G}
-    (hL : GGLBalanceInput) (hRig : GGLabelRigidInput) (hTCJ : GGTCJKnown) (hP : GGStdSubPrimeInput)
+    (hL : GGLBalanceInput) (_hRig : GGLabelRigidInput) (_hTCJ : GGTCJKnown) (hP : GGStdSubPrimeInput)
     (hOrd : ggF4TW_OrderInput)
     (hres : GGF4SmallRes p B Bs x L D J ks) (hf : 2 ≤ f) (hpf : p ∣ 2 ^ f + 1)
     (hLlab : GGHasLabel ⟨.twA, 3, f⟩ (L ⧸ Subgroup.center L)) (hJB : GGF4JBlock p f L J)

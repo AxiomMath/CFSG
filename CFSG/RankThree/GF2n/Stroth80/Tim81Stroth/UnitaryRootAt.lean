@@ -22,6 +22,7 @@ open scoped commutatorElement Matrix
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G} [(Q.subgroupOf M).Normal]
 
+omit [Finite G] in
 theorem unitaryRootAt_of_unitaryConclusion
     {Z0 : Subgroup G} {f m : ℕ} (hf : 2 ≤ f) (hm : 4 ≤ m)
     (hcardV : Nat.card ↥((bar M Q Z0).subgroupOf (bar M Q (H0 M Z))) = 2 ^ f)
@@ -79,7 +80,7 @@ theorem tim81Stroth_of_hwc_un_root
         ((isElemAbelian_bar_Z0 hc hs hZc hZ0).subgroupOf (bar M Q (H0 M Z)))
       elem := (isElemAbelian_bar_Z0 hc hs hZc hZ0).subgroupOf (bar M Q (H0 M Z))
       ti := isTI_bar_Z0 hc hs hZ0 hElt }
-  haveI hFinH : Finite (Hbar M Q Z) :=
+  have hFinH : Finite (Hbar M Q Z) :=
     Finite.of_injective (Subtype.val) Subtype.val_injective
   rcases h1 (Hbar M Q Z) (MbarPrime M Q Z Z0)
     ((bar M Q Z0).subgroupOf (bar M Q (H0 M Z))) hyp h4 hwc with hwcM | hUC | hH
@@ -151,7 +152,7 @@ theorem tim81StrothSp_of_hwc_un_root
         ((isElemAbelian_bar_Z0_sp h51 hA hc hs hZ0).subgroupOf (bar M Q (H0 M Z)))
       elem := (isElemAbelian_bar_Z0_sp h51 hA hc hs hZ0).subgroupOf (bar M Q (H0 M Z))
       ti := isTI_bar_Z0_sp hc hs hZ0 hElt }
-  haveI hFinH : Finite (Hbar M Q Z) :=
+  have hFinH : Finite (Hbar M Q Z) :=
     Finite.of_injective (Subtype.val) Subtype.val_injective
   rcases h1 (Hbar M Q Z) (MbarPrime M Q Z Z0)
     ((bar M Q Z0).subgroupOf (bar M Q (H0 M Z))) hyp h4 hwc with hwcM | hUC | hH
@@ -218,7 +219,7 @@ theorem tim81StrothUnRootStatement_holds
     (hpin : UnitaryConclusionPin) :
     Tim81StrothUnRootStatement := by
   intro G _ _ M Q Z B hQN hc n t hs Z0 hZ0 hmaxAb hElt hF hNL k hk
-  haveI := hQN
+  have := hQN
   have hO2 : inSubgroup (pCore 2) (MbarPrime M Q Z Z0) =
       (bar M Q (hc.CN t)).subgroupOf (bar M Q (H0 M Z)) :=
     inSubgroup_pCore_eq_bar_CN hc hs.toSec5.mem hZ0
@@ -236,7 +237,7 @@ theorem tim81StrothSpUnRootStatement_holds
     (hpin : UnitaryConclusionPin) :
     Tim81StrothSpUnRootStatement := by
   intro G _ _ M Q Z B hQN hc n t hs Z0 hZ0 hmaxAb hElt hF hNL k hk
-  haveI := hQN
+  have := hQN
   have hO2sub : pCore 2 (MbarPrime M Q Z Z0) =
       ((bar M Q (hc.CN t)).subgroupOf (bar M Q (H0 M Z))).subgroupOf
         (MbarPrime M Q Z Z0) := by

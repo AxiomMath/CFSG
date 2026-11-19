@@ -53,8 +53,8 @@ theorem burnsideF4m_A42_U5gen {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Sub
           (amalgamMap ((burnsideF4d_bOne β ε).comp (burnsideF4m_psi θ h1))
             ((burnsideF4d_bTwo β ε).comp (burnsideF4m_psi θ h2)) j) := by
   classical
-  haveI := hyp.amalgam.finite
-  haveI := hyp.amalgam.normal
+  have := hyp.amalgam.finite
+  have := hyp.amalgam.normal
   have hyp' := burnsideF4j_restrict ChF.nativeChartCompatibility hyp.amalgam
   have h27 := as_F_4_27 .U5 f ↥Gp ⊤ _ _ hyp' rfl
   dsimp only at h27
@@ -87,7 +87,7 @@ theorem burnsideF4m_A42_U5gen {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Sub
   have hwL := hwRI (by decide)
   have hw2 : w * w = 1 := hwL.2.2.1
   obtain ⟨K, _, h, Ψ, hG1, hG2⟩ := burnsideF4m_U5_chart hyp.amalgam.toHypF_4_4g
-  haveI : Finite (hypPSU h 2 1) := CFSG.RankThree.PartOne.U5K.Hyp.finite_hypPSU h
+  have : Finite (hypPSU h 2 1) := CFSG.RankThree.PartOne.U5K.Hyp.finite_hypPSU h
   have hsub : ∀ X : Subgroup (hypPSU h 2 1),
       (X.map (Gp.subtype.comp Ψ.toMonoidHom)).subgroupOf Gp = X.map Ψ.toMonoidHom := by
     intro X

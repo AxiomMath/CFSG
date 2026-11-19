@@ -18,8 +18,10 @@ variable {V : Type} [CommGroup V] [Finite V]
   map_one' := by simp
   map_mul' v w := by simp [mul_comm, mul_assoc, mul_left_comm]
 
+omit [Finite V] in
 theorem commMap_apply (x : MulAut V) (v : V) : commMap x v = x v * v⁻¹ := rfl
 
+omit [Finite V] in
 theorem mem_ker_commMap {x : MulAut V} {v : V} : v ∈ (commMap x).ker ↔ x v = v := by
   rw [MonoidHom.mem_ker, commMap_apply, mul_inv_eq_one]
 
@@ -28,6 +30,7 @@ theorem orderOf_two_zmod_seven : orderOf (2 : ZMod 7) = 3 := by
   have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   exact orderOf_eq_prime (by decide) (by decide)
 
+omit [Finite V] in
 theorem prod_shift (f : ℕ → V) (h : f 7 = f 0) :
     ∏ i ∈ Finset.range 7, (f (i + 1) * (f i)⁻¹) = 1 := by
   rw [Finset.prod_mul_distrib, Finset.prod_inv_distrib]
@@ -39,6 +42,7 @@ theorem prod_shift (f : ℕ → V) (h : f 7 = f 0) :
   have h3 := mul_right_cancel h1
   rw [h3, mul_inv_cancel]
 
+omit [Finite V] in
 theorem eq_one_of_commMap_fixed (hV : ∀ v : V, v * v = 1) {x : MulAut V} (hx7 : x ^ 7 = 1) {v : V}
     (hfix : x (commMap x v) = commMap x v) : commMap x v = 1 := by
   set w := commMap x v with hw

@@ -64,7 +64,7 @@ private theorem weyl_lower [CharP K 2] {t : K} (ht : t ≠ 0) (b : K) :
   have h2 : t⁻¹ * t = 1 := inv_mul_cancel₀ ht
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [coe_weyl ht, Matrix.mul_apply, Fin.sum_univ_two, h1, h2] <;> ring
+    simp [coe_weyl ht, Matrix.mul_apply, Fin.sum_univ_two, h1, h2]; ring
 
 private theorem weyl_upper [CharP K 2] {t : K} (ht : t ≠ 0) (a : K) :
     weyl t * upper a * weyl t = lower (t⁻¹ ^ 2 * a) := by
@@ -72,7 +72,7 @@ private theorem weyl_upper [CharP K 2] {t : K} (ht : t ≠ 0) (a : K) :
   have h2 : t⁻¹ * t = 1 := inv_mul_cancel₀ ht
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [coe_weyl ht, Matrix.mul_apply, Fin.sum_univ_two, h1, h2] <;> ring
+    simp [coe_weyl ht, Matrix.mul_apply, Fin.sum_univ_two, h1, h2]; ring
 
 private theorem eq_upper (g : SpecialLinearGroup (Fin 2) K)
     (h00 : (g : Matrix (Fin 2) (Fin 2) K) 0 0 = 1) (h11 : (g : Matrix (Fin 2) (Fin 2) K) 1 1 = 1)
@@ -100,9 +100,6 @@ private theorem eq_upper_lower_upper (g : SpecialLinearGroup (Fin 2) K)
     first
     | ring1
     | linear_combination -hdet
-    | linear_combination (-2 : K) * hdet
-    | linear_combination hdet
-    | linear_combination (2 : K) * hdet
 
 variable {Mm : Type} [AddCommGroup Mm] [Module K Mm]
 
@@ -173,35 +170,43 @@ private structure Setup (ρ : SpecialLinearGroup (Fin 2) K →* (Mm ≃ₗ[K] Mm
 
 variable [CharP K 2] {ρ : SpecialLinearGroup (Fin 2) K →* (Mm ≃ₗ[K] Mm)} {X X' : Submodule K Mm}
 
+omit [CharP K 2] in
 private theorem Setup.eq_zero (S : Setup ρ X X') {x : Mm} (hx : x ∈ X) (hx' : x ∈ X') : x = 0 :=
   (Submodule.disjoint_def.1 S.compl.disjoint) x hx hx'
 
+omit [CharP K 2] in
 private theorem Setup.opE_mem (S : Setup ρ X X') (a : K) (m : Mm) : opE ρ a m ∈ X := S.up_mem a m
 
+omit [CharP K 2] in
 private theorem Setup.opF_mem (S : Setup ρ X X') (b : K) (m : Mm) : opF ρ b m ∈ X' := S.lo_mem b m
 
-private theorem Setup.up_apply (S : Setup ρ X X')
+omit [CharP K 2] in
+private theorem Setup.up_apply (_S : Setup ρ X X')
     (a : K) (m : Mm) : ρ (upper a) m = m + opE ρ a m := by
   rw [opE_apply, add_sub_cancel]
 
-private theorem Setup.lo_apply (S : Setup ρ X X')
+omit [CharP K 2] in
+private theorem Setup.lo_apply (_S : Setup ρ X X')
     (b : K) (m : Mm) : ρ (lower b) m = m + opF ρ b m := by
   rw [opF_apply, add_sub_cancel]
 
+omit [CharP K 2] in
 private theorem Setup.opE_add (S : Setup ρ X X')
     (a b : K) (m : Mm) : opE ρ (a + b) m = opE ρ a m + opE ρ b m := by
   rw [opE_apply, upper_add, rho_mul, S.up_apply b m, map_add, S.up_fix a _ (S.opE_mem b m),
     S.up_apply a m]
   abel
 
-private theorem Setup.opE_zero (S : Setup ρ X X') (m : Mm) : opE ρ 0 m = 0 := by
+omit [CharP K 2] in
+private theorem Setup.opE_zero (_S : Setup ρ X X') (m : Mm) : opE ρ 0 m = 0 := by
   rw [opE_apply, upper_zero, rho_one, sub_self]
 
-private theorem Setup.weyl_apply (S : Setup ρ X X') (t : K) (m : Mm) :
+omit [CharP K 2] in
+private theorem Setup.weyl_apply (_S : Setup ρ X X') (t : K) (m : Mm) :
     ρ (weyl t) m = ρ (upper t) (ρ (lower t⁻¹) (ρ (upper t) m)) := by
   rw [weyl, rho_mul, rho_mul]
 
-private theorem Setup.weyl_weyl (S : Setup ρ X X')
+private theorem Setup.weyl_weyl (_S : Setup ρ X X')
     {t : K} (ht : t ≠ 0) (m : Mm) : ρ (weyl t) (ρ (weyl t) m) = m := by
   rw [← rho_mul, weyl_mul_self ht, rho_one]
 
@@ -276,7 +281,7 @@ private theorem Setup.opE_sq_mul (S : Setup ρ X X')
     (S.weyl_X' ht hFb).1, add_sub_cancel_left]
 
 private theorem Setup.opE_eq (S : Setup ρ X X')
-    {y : Mm} (hy : y ∈ X') (a : K) : opE ρ a y = opE ρ 1 (kap ρ a y) :=
+    {y : Mm} (_hy : y ∈ X') (a : K) : opE ρ a y = opE ρ 1 (kap ρ a y) :=
   (S.opE_opF_one (S.opE_mem a y)).symm
 
 private theorem Setup.opF_opE (S : Setup ρ X X')
@@ -290,8 +295,10 @@ private theorem Setup.opF_X (S : Setup ρ X X')
   conv_lhs => rw [← S.opE_opF_one hx]
   exact S.opF_opE (S.opF_mem 1 x) b
 
+omit [CharP K 2] in
 private theorem Setup.kap_mem (S : Setup ρ X X') (a : K) (m : Mm) : kap ρ a m ∈ X' := S.opF_mem _ _
 
+omit [CharP K 2] in
 private theorem Setup.kap_add (S : Setup ρ X X')
     (a b : K) (m : Mm) : kap ρ (a + b) m = kap ρ a m + kap ρ b m := by
   rw [kap_apply, S.opE_add, map_add]

@@ -48,7 +48,7 @@ private theorem index_Fix_conj {V : Type} [Group V] [Finite V] (c r : MulAut V) 
   exact Subgroup.index_map_equiv _ (c : V ≃* V)
 
 private theorem sq_mem_of_relIndex_le_two {V : Type} [Group V] [Finite V]
-    {D D₀ : Subgroup (MulAut V)} (hle : D₀ ≤ D) (h2 : D₀.relIndex D ≤ 2) {x : MulAut V}
+    {D D₀ : Subgroup (MulAut V)} (_hle : D₀ ≤ D) (h2 : D₀.relIndex D ≤ 2) {x : MulAut V}
     (hx : x ∈ D) : x ^ 2 ∈ D₀ := by
   by_cases h1 : D₀.relIndex D = 1
   · exact D₀.pow_mem (Subgroup.relIndex_eq_one.1 h1 hx) 2
@@ -56,7 +56,7 @@ private theorem sq_mem_of_relIndex_le_two {V : Type} [Group V] [Finite V]
       have h0 : (D₀.subgroupOf D).index ≠ 0 := Subgroup.FiniteIndex.index_ne_zero
       unfold Subgroup.relIndex at h1 h2
       omega
-    haveI : (D₀.subgroupOf D).Normal := Subgroup.normal_of_index_eq_two hidx
+    have : (D₀.subgroupOf D).Normal := Subgroup.normal_of_index_eq_two hidx
     have key := Subgroup.pow_index_mem (D₀.subgroupOf D) ⟨x, hx⟩
     rw [hidx] at key
     exact Subgroup.mem_subgroupOf.1 key
@@ -65,8 +65,8 @@ private theorem card_le_two_of_isCyclic {V : Type} [Group V] [Finite V]
     {S E : Subgroup (MulAut V)} [IsCyclic S] (hES : E ≤ S) (hE2 : ∀ x ∈ E, x * x = 1) :
     Nat.card E ≤ 2 := by
   classical
-  haveI : IsCyclic E := Subgroup.isCyclic_of_le hES
-  haveI : Fintype E := Fintype.ofFinite E
+  have : IsCyclic E := Subgroup.isCyclic_of_le hES
+  have : Fintype E := Fintype.ofFinite E
   have h := IsCyclic.card_pow_eq_one_le (α := E) (n := 2) (by norm_num)
   have hall : ∀ a : E, a ^ 2 = 1 := fun a => Subtype.ext (by simpa [sq] using hE2 a.1 a.2)
   simp only [hall, Finset.filter_true, Finset.card_univ] at h
@@ -145,10 +145,10 @@ private theorem normalizer_commutator_zpowers {V : Type} [Group V] {P : Subgroup
 
 theorem bad_config_false {V : Type} [Group V] [Finite V] (hV : ∀ v : V, v * v = 1)
     (P S E : Subgroup (MulAut V)) (c : MulAut V)
-    (hP5 : IsPGroup 5 P) (hS2 : IsPGroup 2 S)
+    (hP5 : IsPGroup 5 P) (_hS2 : IsPGroup 2 S)
     (hSP : S ≤ Subgroup.normalizer (P : Set (MulAut V)))
     (hcP : c ∈ Subgroup.normalizer (P : Set (MulAut V)))
-    (hcS : c ∈ Subgroup.normalizer (S : Set (MulAut V))) (hc3 : c ^ 3 = 1)
+    (_hcS : c ∈ Subgroup.normalizer (S : Set (MulAut V))) (hc3 : c ^ 3 = 1)
     (hfaith : ∀ s ∈ S, (∀ p ∈ P, s * p = p * s) → s = 1)
     (hshape : Shape81 S c)
     (hperf : (IsCyclic S ∧ ∀ s ∈ S, c * s * c⁻¹ = s) → ⁅P, Subgroup.zpowers c⁆ = P)
@@ -164,7 +164,7 @@ theorem bad_config_false {V : Type} [Group V] [Finite V] (hV : ∀ v : V, v * v 
   rcases hshape with ⟨hScyc, hcS'⟩ |
     ⟨z, hzS, hzo, hzc, hzcen, hrz, hEcl, Q, hQS, hzcomm, _hQc, hQgen⟩
   ·
-    haveI : IsCyclic S := hScyc
+    have : IsCyclic S := hScyc
     obtain ⟨z, hzE, hz1⟩ : ∃ z ∈ E, z ≠ 1 := by
       rcases E.bot_or_exists_ne_one with h | h
       · exact absurd h hE1

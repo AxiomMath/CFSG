@@ -216,7 +216,7 @@ theorem runFromF_eq (n w s : Nat) (G X W KT : Nat → Nat) (kg c bound : Nat) :
     change strictN (headRF n w s G X W KT kg c bound h cur) (fun c' =>
       strictN (Nat.succ h) (fun h' => runFromF n w s G X W KT kg c bound len h' c')) = _
     unfold headRF
-    simp only [strictN_eq', Nat.succ_eq_add_one] <;> rfl
+    simp only [strictN_eq', Nat.succ_eq_add_one]
 
 theorem one_shl (k : Nat) : Nat.shiftLeft (nat_lit 1) k = 2 ^ k := by
   change 1 <<< k = _
@@ -333,7 +333,7 @@ theorem foldr_fail {ok : Nat → Bool} {f : Nat → Nat} {m : Nat}
   | q :: l, a, h => by
     rw [List.foldr_cons] at h
     by_cases hq : ok q = true
-    · rw [if_pos hq, xorT_eq] at h
+    · rw [ite_eq_left hq, xorT_eq] at h
       have hr := Nat.xor_lt_two_pow h (hf q hq)
       rw [Nat.xor_assoc, Nat.xor_self, Nat.xor_zero] at hr
       obtain ⟨h1, h2⟩ := foldr_fail hf l a hr
@@ -341,8 +341,8 @@ theorem foldr_fail {ok : Nat → Bool} {f : Nat → Nat} {m : Nat}
       · rcases List.mem_cons.1 hr with rfl | hr
         · exact hq
         · exact h1 r hr
-      · rw [List.foldr_cons, List.foldr_cons, if_pos hq, h2]
-    · rw [if_neg hq, lorT_eq] at h
+      · rw [List.foldr_cons, List.foldr_cons, ite_eq_left hq, h2]
+    · rw [ite_eq_right hq, lorT_eq] at h
       exact absurd (lt_of_le_of_lt Nat.right_le_or h) (lt_irrefl _)
 
 theorem good_of_pts {n w s x : Nat}

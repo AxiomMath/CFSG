@@ -80,7 +80,7 @@ theorem exists_evVec {Z : Fin 8 → ZMod 2} (hZ : ∑ p, Z p = 0) :
 theorem evVec_evDec {Z : Fin 8 → ZMod 2} (hZ : ∑ p, Z p = 0) :
     evVec (evDec Z) = Z ∨ evVec (evDec Z) = Z + 1 := by
   unfold evDec
-  rw [dif_pos (exists_evVec hZ)]
+  rw [dite_eq_left (exists_evVec hZ)]
   exact (exists_evVec hZ).choose_spec
 
 theorem evDec_eq {Z : Fin 8 → ZMod 2} {x : Fin 6 → ZMod 2} (hZ : ∑ p, Z p = 0)
@@ -227,7 +227,7 @@ theorem evAct_add (σ : Equiv.Perm (Fin 8)) (x y : Fin 6 → ZMod 2) :
   rw [show (fun p => (evVec x + evVec y) (σ.symm p)) =
       (fun p => evVec x (σ.symm p)) + (fun p => evVec y (σ.symm p)) by
     funext p
-    simp only [Pi.add_apply, Pi.one_apply]]
+    simp only [Pi.add_apply]]
   exact evDec_add hx hy
 
 theorem evAct_one (x : Fin 6 → ZMod 2) : evAct 1 x = x := by
@@ -256,7 +256,7 @@ theorem evAct_mul (σ τ : Equiv.Perm (Fin 8)) (x : Fin 6 → ZMod 2) :
       · left
         rw [hσ, hτ]
         funext p
-        simp [W, Pi.add_apply, Equiv.Perm.mul_apply, perm_symm_mul]
+        simp [W, Equiv.Perm.mul_apply, perm_symm_mul]
       · right
         rw [hσ, hτ]
         funext p
@@ -378,7 +378,7 @@ theorem evAct_evPair (σ : Equiv.Perm (Fin 8)) {i j : Fin 8} (hij : i ≠ j) :
       · right
         rw [hB, hZeq]
         funext p
-        simp [B, Pi.add_apply, Pi.one_apply, add_assoc, CharTwo.add_self_eq_zero]
+        simp [B, Pi.add_apply, add_assoc, CharTwo.add_self_eq_zero]
       · left
         rw [hB, hZeq]
   have hdec : evDec Z = evPair (σ i) (σ j) := evDec_eq hZ key
@@ -485,7 +485,7 @@ theorem evActHom_injective : Function.Injective evActHom := by
       · exact absurd (h.symm.trans h') hjk
   have hρeq : ρ = 1 := Equiv.ext hfixpoint
   have hτσ : τ = σ := by
-    calc τ = σ * ρ := by simp [ρ, mul_assoc]
+    calc τ = σ * ρ := by simp [ρ]
       _ = σ := by rw [hρeq, mul_one]
   exact hτσ.symm
 

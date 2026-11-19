@@ -56,6 +56,7 @@ theorem pPrimeCoreOf_le_of_isPCompIn {H J : Subgroup G} (hJ : IsPCompIn 2 H J) :
   rw [TwoThin.pPrimeCoreOf_eq_map_subgroupOf hJH]
   exact Subgroup.map_mono h1
 
+omit [Finite G] in
 theorem conj_mem_pPrimeCoreOf {Λ : Subgroup G} {g n : G} (hg : g ∈ Λ)
     (hn : n ∈ pPrimeCoreOf 2 Λ) : g * n * g⁻¹ ∈ pPrimeCoreOf 2 Λ :=
   (mem_normalizer_iff.mp (TwoThin.mem_normalizer_pPrimeCoreOf (le_normalizer hg)) n).mp hn

@@ -14,6 +14,7 @@ section L3
 
 variable {S : Type} [Group S] [Finite S] {F : Subgroup S} {a : S}
 
+omit [Finite S] in
 theorem mem_sup_zpowers_of_sq [F.Normal] (ha2 : a * a = 1) {x : S}
     (hx : x ∈ F ⊔ Subgroup.zpowers a) : x ∈ F ∨ ∃ f ∈ F, x = f * a := by
   obtain ⟨y, hy, z, hz, rfl⟩ := Subgroup.mem_sup_of_normal_left.mp hx
@@ -25,6 +26,7 @@ theorem mem_sup_zpowers_of_sq [F.Normal] (ha2 : a * a = 1) {x : S}
   · right
     exact ⟨y, hy, by rw [h]⟩
 
+omit [Finite S] in
 theorem centralizer_le_of_E16 [F.Normal] (hF16 : Nat.card F = 16)
     (hZ4 : Nat.card (F ⊓ Subgroup.centralizer ({a} : Set S) : Subgroup S) = 4)
     (hCZ : Subgroup.centralizer ((F ⊓ Subgroup.centralizer ({a} : Set S) : Subgroup S) : Set S) ≤
@@ -174,7 +176,7 @@ theorem card_fix_le_four_of_commute [F.Normal] (hFa : IsElemAbelian 2 F)
       rw [← hH8]
       exact Subgroup.card_dvd_of_le inf_le_left
     generalize Nat.card (H ⊓ Subgroup.centralizer ({a} : Set S) : Subgroup S) = c at hcdvd hfix hlt
-    interval_cases c <;> first | omega | simp_all
+    interval_cases c <;> first | omega
 
 
 theorem exists_comm_of_noncyclic [F.Normal] (hS : IsPGroup 2 S) (hFa : IsElemAbelian 2 F)
@@ -251,7 +253,7 @@ theorem exists_comm_of_noncyclic [F.Normal] (hS : IsPGroup 2 S) (hFa : IsElemAbe
       have h4 : orderOf (⟨v, hv⟩ : V) = 4 := by
         generalize orderOf (⟨v, hv⟩ : V) = d at hdvd' hne2
         have hd4 : d ≤ 4 := Nat.le_of_dvd (by norm_num) hdvd'
-        interval_cases d <;> first | rfl | omega | simp_all
+        interval_cases d <;> first | rfl | omega
       exact hU (isCyclic_of_orderOf_eq_card (⟨v, hv⟩ : V) (h4.trans hV4.symm))
     have hVcomm : ∀ x ∈ V, ∀ y ∈ V, x * y = y * x := by
       intro x hx y hy

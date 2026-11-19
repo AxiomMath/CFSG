@@ -24,15 +24,15 @@ theorem alt6_isSimpleGroup : IsSimpleGroup (alternatingGroup (Fin 6)) :=
 theorem alt6_nonabelian : ∃ a b : alternatingGroup (Fin 6), a * b ≠ b * a := by
   by_contra hc
   push Not at hc
-  haveI := alt6_isSimpleGroup
-  letI : CommGroup (alternatingGroup (Fin 6)) :=
+  have := alt6_isSimpleGroup
+  let : CommGroup (alternatingGroup (Fin 6)) :=
     { (inferInstance : Group (alternatingGroup (Fin 6))) with mul_comm := hc }
   have hp := IsSimpleGroup.prime_card (α := alternatingGroup (Fin 6))
   rw [Nat.card_eq_fintype_card, card_alternatingGroup] at hp
   norm_num [Nat.factorial] at hp
 
 theorem alt6_center_eq_bot : Subgroup.center (alternatingGroup (Fin 6)) = ⊥ := by
-  haveI := alt6_isSimpleGroup
+  have := alt6_isSimpleGroup
   obtain ⟨a, b, hab⟩ := alt6_nonabelian
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center (alternatingGroup (Fin 6)))
     with h | h
@@ -41,7 +41,7 @@ theorem alt6_center_eq_bot : Subgroup.center (alternatingGroup (Fin 6)) = ⊥ :=
     exact hab (Subgroup.mem_center_iff.1 (h ▸ Subgroup.mem_top b) a)
 
 theorem alt6_isQuasisimple : CFSG.Open.IsQuasisimple (alternatingGroup (Fin 6)) := by
-  haveI := alt6_isSimpleGroup
+  have := alt6_isSimpleGroup
   refine ⟨?_, ?_⟩
   · rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (commutator (alternatingGroup (Fin 6)))
       with h | h
@@ -94,8 +94,8 @@ theorem center_eq_bot_of_equiv_alt6 (e : J ≃* alternatingGroup (Fin 6)) :
 
 theorem glaPPrimeCore_three_eq_bot_of_equiv_alt6 (e : J ≃* alternatingGroup (Fin 6)) [Finite J] :
     GLAPPrimeCore 3 J = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : IsSimpleGroup J := e.isSimpleGroup_congr.2 alt6_isSimpleGroup
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsSimpleGroup J := e.isSimpleGroup_congr.2 alt6_isSimpleGroup
   have hcop : Nat.Coprime 3 (Nat.card (GLAPPrimeCore 3 J)) :=
     CFSG.pPrimeCore_coprime_card (p := 3) (G := J)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (GLAPPrimeCore 3 J) with h | h

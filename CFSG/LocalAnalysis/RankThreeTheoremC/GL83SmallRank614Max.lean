@@ -71,7 +71,7 @@ theorem exists_conj_le_normalizer_of_isMax (hS : Setting G) (hU0 : FullCoreLocal
     rw [normalizer_eq_top_iff.mpr inferInstance]
     exact le_top
   obtain ⟨S, hSsyl, -, hPS⟩ := CFSG.Goldschmidt.G310.exists_invariant_sylow_containing
-    Nat.prime_three Nat.prime_two P.isPGroup' hD3 hPD bot_le hbot2 hPbot
+    Nat.prime_three Nat.prime_two P.isPGroup hD3 hPD bot_le hbot2 hPbot
   obtain ⟨c, hc, hTc⟩ := CFSG.Goldschmidt.G310.exists_conj_of_invariant_sylows
     Nat.prime_three Nat.prime_two hbot3 hD3 bot_le hSsyl hTD bot_le bot_le
   refine ⟨c, CFSG.AGLEmbedding.glbPrimeCore_le 3 M (mem_inf.mp hc).1, ?_⟩
@@ -117,7 +117,7 @@ theorem isMax_top_of_isMax (hS : Setting G) (hU0 : FullCoreLocal G) (hD2 : Theor
   have hYM : Y ≤ M := by
     rintro _ ⟨a, ha, rfl⟩
     exact M.mul_mem (M.mul_mem hgM (hPM ha)) (M.inv_mem hgM)
-  have hY3 : IsPGroup 3 Y := P.isPGroup'.map _
+  have hY3 : IsPGroup 3 Y := P.isPGroup.map _
   have hYc : Nat.card Y = 81 := by
     rw [Subgroup.card_map_of_injective (MulAut.conj g).injective]
     exact max614_card_eq_eighty_one e

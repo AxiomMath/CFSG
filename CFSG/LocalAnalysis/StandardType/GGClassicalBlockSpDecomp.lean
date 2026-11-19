@@ -30,7 +30,7 @@ private lemma ggJS3_adjoin_comm {ι F : Type} [Fintype ι] [DecidableEq ι] [Fie
     (fun x y hx hy => ggJS3_pair_comm S hS x hx y hy)
     (fun r₁ r₂ => by
       rw [Algebra.algebraMap_eq_smul_one]
-      simp only [smul_mul_assoc, mul_smul_comm, one_mul, mul_one, smul_smul, mul_comm])
+      simp only [smul_mul_assoc, mul_smul_comm, one_mul, mul_one])
     (fun r x hx => by
       rw [Algebra.algebraMap_eq_smul_one]
       simp only [smul_mul_assoc, mul_smul_comm, one_mul, mul_one])
@@ -132,7 +132,7 @@ private lemma ggJS3_blk_val {ι F : Type} [Fintype ι] [DecidableEq ι] [Field F
     (ggJS3_blk x e : Matrix ι ι F) = (x : Matrix ι ι F) * e + (1 - e) := by
   have h : ∃ u : GL ι F, (u : Matrix ι ι F) = (x : Matrix ι ι F) * e + (1 - e) :=
     ⟨ggJS3_blkAux x e hid hcomm, rfl⟩
-  rw [ggJS3_blk, dif_pos h]
+  rw [ggJS3_blk, dite_eq_left h]
   exact Classical.choose_spec h
 
 private lemma ggJS3_blk_mem_centralizer {U ι F : Type} [Group U] [Fintype ι] [DecidableEq ι]
@@ -175,8 +175,8 @@ private lemma ggJS3_J_mul_self {n : ℕ} {F : Type} [Field F] :
     ggJS3_J n F * ggJS3_J n F = -1 := by
   unfold ggJS3_J
   rw [Matrix.fromBlocks_multiply]
-  simp only [Matrix.mul_zero, Matrix.mul_one, Matrix.zero_mul, zero_add, add_zero,
-    Matrix.mul_neg, Matrix.neg_mul, neg_zero]
+  simp only [Matrix.mul_zero, Matrix.mul_one, zero_add, add_zero,
+    Matrix.mul_neg, neg_zero]
   rw [show (-1 : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) =
       Matrix.fromBlocks (-1) 0 0 (-1) by
     rw [← Matrix.fromBlocks_one, Matrix.fromBlocks_neg]
@@ -256,7 +256,7 @@ private lemma ggJS3_blk_commute_matrices {ι F : Type} [Fintype ι] [DecidableEq
     (A : Subalgebra F (Matrix ι ι F)) (P : Finset (Matrix ι ι F))
     (hPsum : ∑ p ∈ P, p = 1)
     (horth : ∀ p ∈ P, ∀ q ∈ P, p ≠ q → p * q = 0)
-    (hid : ∀ p ∈ P, IsIdempotentElem p)
+    (_hid : ∀ p ∈ P, IsIdempotentElem p)
     (hpA : ∀ p ∈ P, p ∈ A)
     {M N ε ε' : Matrix ι ι F} (hε : ε ∈ P) (hε' : ε' ∈ P) (hne : ε ≠ ε')
     (hMA : ∀ a ∈ A, M * a = a * M) (hNA : ∀ a ∈ A, N * a = a * N)
@@ -324,7 +324,7 @@ private lemma ggJS3_blk_commute_matrices {ι F : Type} [Fintype ι] [DecidableEq
 
 private lemma ggJS3_exists_prod {U ι F : Type} [Group U] [Fintype ι] [DecidableEq ι] [Field F]
     (j : U →* GL ι F) (G : Matrix ι ι F → Subgroup U)
-    (P : Finset (Matrix ι ι F)) (hPsum : ∑ p ∈ P, p = 1)
+    (P : Finset (Matrix ι ι F)) (_hPsum : ∑ p ∈ P, p = 1)
     (horth : ∀ p ∈ P, ∀ q ∈ P, p ≠ q → p * q = 0)
     (hfix : ∀ p ∈ P, ∀ x ∈ G p, (j x : Matrix ι ι F) * (1 - p) = 1 - p)
     (hcomm : ∀ p ∈ P, ∀ x ∈ G p, (j x : Matrix ι ι F) * p = p * (j x : Matrix ι ι F))
@@ -597,7 +597,7 @@ private lemma ggJS3_iSup_eq_centralizer {K : Type} [Field K] [Fintype K] [CharP 
       (Subgroup.centralizer ({b} : Set (GL (Fin n ⊕ Fin n) K))).comap
         (StatedSp n K).subtype := by
   apply le_antisymm
-  · apply iSup_le; intro ε; apply iSup_le; intro hε; intro x hx
+  · apply iSup_le; intro ε; apply iSup_le; intro hε x hx
     exact Subgroup.mem_comap.mpr (Subgroup.mem_inf.mp (Subgroup.mem_comap.mp hx)).1
   · intro u hu
     obtain ⟨w, hw_mem, hw_prop⟩ := ggJS3_exists_prod (StatedSp n K).subtype
@@ -617,7 +617,7 @@ private lemma ggJS3_iSup_eq_centralizer {K : Type} [Field K] [Fintype K] [CharP 
     rw [← hw_eq]; exact hw_mem'
 
 theorem centralizer_block_decomp_Sp {K : Type} [Field K] [Fintype K] [CharP K 2] {n : ℕ}
-    (b : GL (Fin n ⊕ Fin n) K) (hb : b ∈ StatedSp n K) (hodd : Odd (orderOf b)) :
+    (b : GL (Fin n ⊕ Fin n) K) (_hb : b ∈ StatedSp n K) (_hodd : Odd (orderOf b)) :
     ∃ P : Finset (Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K),
       (∀ ε ∈ P, IsPrimAdjIdemIn (RingHom.id K)
         (Matrix.fromBlocks 0 1 (-1) 0 : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K)

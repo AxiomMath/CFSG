@@ -73,7 +73,7 @@ theorem A7_natural_local_produces_normalizer_and_solvable_confinement_F4 (h331 :
     rw [← conjugate_eq_conj_smul] at hg hv
     exact hwt4 g hg v hv hv1
   obtain ⟨hhyp', hWQ'⟩ := A7_hyperplane_in_Sylow_centralizes_entire_conjugate hVel hV64
-    T.isPGroup' hVT hTV hNM ψ hNact hTI' hwt2 hwt4'
+    T.isPGroup hVT hTV hNM ψ hNact hTI' hwt2 hwt4'
   have hhyp : ∀ (g : G) (B : Subgroup G), B ≤ CFSG.conjugate V g ⊓ T →
       B.relIndex (CFSG.conjugate V g) ≤ 2 → ⁅V, CFSG.conjugate V g⁆ = ⊥ := by
     intro g B hB hBi
@@ -91,7 +91,7 @@ theorem A7_natural_local_produces_normalizer_and_solvable_confinement_F4 (h331 :
   have hVQ : V ≤ Q := hVW.trans hWQ
   have hQT : Q ≤ (T : Subgroup G) := inf_le_left
   have hQ1 : Q ≠ ⊥ := fun h => hV1 (le_bot_iff.1 (h ▸ hVQ))
-  have hQ2 : IsPGroup 2 Q := T.isPGroup'.to_le hQT
+  have hQ2 : IsPGroup 2 Q := T.isPGroup.to_le hQT
   have hW1 : W ≠ ⊥ := fun h => hV1 (le_bot_iff.1 (h ▸ hVW))
   have hW2 : IsPGroup 2 W := hQ2.to_le hWQ
   have hRV : pCoreOf 2 L ≤ centralizer (V : Set G) :=
@@ -114,7 +114,7 @@ theorem A7_natural_local_produces_normalizer_and_solvable_confinement_F4 (h331 :
     have hLXperf : ⁅L.subgroupOf X, L.subgroupOf X⁆ = L.subgroupOf X := by
       apply map_injective X.subtype_injective
       rw [map_commutator, subgroupOf_map_subtype, inf_eq_left.2 hLX, hLperf]
-    obtain ⟨k, hk⟩ := index_subgroupOf_sup_eq_two_pow T.isPGroup' hTL
+    obtain ⟨k, hk⟩ := index_subgroupOf_sup_eq_two_pow T.isPGroup hTL
     let ρ : X →* MulAut (V.subgroupOf X) := MulAut.conjNormal
     have hker : ρ.ker = centralizer ((V.subgroupOf X : Subgroup X) : Set X) := by
       ext x
@@ -191,7 +191,7 @@ theorem A7_natural_local_produces_normalizer_and_solvable_confinement_F4 (h331 :
         exact ⟨hxT, fun v hv => Subtype.ext (hxc (v : G) hv)⟩
     rw [heq] at hn
     exact (normal_subgroupOf_iff_le_normalizer (hQT.trans le_sup_right)).1 hn
-  have hTsyl : quasithinIsSylowTwo (T : Subgroup G) := ⟨T.isPGroup', T.not_dvd_index⟩
+  have hTsyl : quasithinIsSylowTwo (T : Subgroup G) := ⟨T.isPGroup, T.not_dvd_index⟩
   obtain ⟨-, h331B⟩ := h331 G T hs hnab hQTKE hTsyl
   obtain ⟨⟨hMmax, -, huniq⟩, -⟩ := h331B L hLmax hLq
   have hcl : conjClosure L T = L :=

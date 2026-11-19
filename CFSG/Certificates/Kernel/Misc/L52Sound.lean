@@ -94,7 +94,7 @@ theorem testBit_selN (A i k B j : ℕ) :
   simp only [Nat.add_eq, Nat.mul_eq, land_eq, shiftRight_eq']
   cases A.testBit (5 * i + k)
   · simp
-  · simp only [cond_true, Nat.testBit_and, Nat.testBit_shiftRight, testBit_31, Bool.and_true]
+  · simp only [_root_.Bool.cond_true, Nat.testBit_and, Nat.testBit_shiftRight, testBit_31, Bool.and_true]
     rw [Bool.and_comm]
 
 theorem mMulN_bit (X Y : ℕ) {i j : ℕ} (hi : i < 5) (hj : j < 5) :

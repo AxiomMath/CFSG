@@ -48,6 +48,7 @@ theorem card_tildeV_of_witness {L : Subgroup (GLV V)} {n : ℕ}
   rw [h2, mul_comm] at h1
   exact (Nat.eq_of_mul_eq_mul_left hpos h1).symm
 
+omit [Finite V] in
 theorem fpf_of_conj_d0 {L : Subgroup (GLV V)} {α : ↥L →* alternatingGroup (Fin 6)}
     {β : ↥(commSpace L ⊤) →+ altHeart 6}
     (hker : β.ker = ((fixedSpace L).comap (commSpace L ⊤).subtype).toAddSubgroup)
@@ -120,7 +121,7 @@ theorem footeLemma24Twist {G L : Subgroup (GLV V)} {ψ : ↥G ≃* alternatingGr
       (by rw [hℓ₁, MulEquiv.apply_symm_apply]; exact c345_eq_c3)
   have hnodup : [τ 0, τ 2, τ 1, τ 3, τ 5, τ 4].Nodup := by
     have : ([0, 2, 1, 3, 5, 4] : List (Fin 6)).Nodup := by decide
-    simpa using this.map τ.injective
+    simp
   have hdim : Module.finrank (ZMod 2) (TildeV L) ≤ 4 := by
     have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hc := card_tildeV_of_witness hβ hker

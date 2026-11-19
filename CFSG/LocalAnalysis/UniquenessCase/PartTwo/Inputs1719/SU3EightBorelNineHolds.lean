@@ -128,7 +128,7 @@ theorem k_SU3EightBorelNine_holds :
     have hmem : xN ^ 3 ∈ ZN := hx3ZN
     rw [Subgroup.mem_subgroupOf] at hmem
     have hcoe : xX ^ 3 = ((xN ^ 3 : ↥N) : X) := by
-      simp [xX, xN, SubgroupClass.coe_pow]
+      simp [xX, xN]
     rw [hcoe]
     exact hmem
   exact ⟨xX, xN.2, hxXord, hxX3ord, hxX3cen⟩

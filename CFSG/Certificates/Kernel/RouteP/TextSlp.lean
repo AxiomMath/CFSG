@@ -21,9 +21,9 @@ theorem splitPK_eq (c : Char) : ∀ (l acc : List Char),
   | a :: t, acc => by
     unfold splitPK
     by_cases h : (a == c) = true
-    · rw [if_pos h, List.splitOnPPrepend_cons_pos (p := (· == c)) h, splitPK_eq c t [],
+    · rw [ite_eq_left h, List.splitOnPPrepend_cons_pos (p := (· == c)) h, splitPK_eq c t [],
         List.splitOnPPrepend_nil_right]
-    · rw [if_neg h, List.splitOnPPrepend_cons_neg (p := (· == c)) (by simpa using h),
+    · rw [ite_eq_right h, List.splitOnPPrepend_cons_neg (p := (· == c)) (by simpa using h),
         splitPK_eq c t]
 
 theorem splitK_eq (c : Char) (l : List Char) : splitK c l = l.splitOn c := by
@@ -97,12 +97,12 @@ theorem tokInt_eq {t : List Char} (h : tokIntOK t = true) :
   match t, h with
   | [], _ => rfl
   | '-' :: ds, h =>
-    simp only [isEmpty_ofList, List.isEmpty_cons, Bool.false_eq_true, if_false]
+    simp only [isEmpty_ofList, List.isEmpty_cons, Bool.false_eq_true, ite_false]
     exact toInt?_ofList_neg' h
   | c :: ds, h =>
     by_cases hc : c = '-'
     · subst hc
-      simp only [isEmpty_ofList, List.isEmpty_cons, Bool.false_eq_true, if_false]
+      simp only [isEmpty_ofList, List.isEmpty_cons, Bool.false_eq_true, ite_false]
       exact toInt?_ofList_neg' h
     · have h' : digitsL (c :: ds) = true := by
         unfold tokIntOK at h
@@ -110,7 +110,7 @@ theorem tokInt_eq {t : List Char} (h : tokIntOK t = true) :
       have e : tokInt (c :: ds) = some (decVal (c :: ds) : Int) := by
         unfold tokInt
         split <;> simp_all
-      simp only [isEmpty_ofList, List.isEmpty_cons, Bool.false_eq_true, if_false, e]
+      simp only [isEmpty_ofList, List.isEmpty_cons, Bool.false_eq_true, ite_false, e]
       exact toInt?_ofList' h'
 
 theorem filterMap_congr' {α β γ : Type} (f : α → Option γ) (g : β → Option γ) (m : β → α) :
@@ -177,10 +177,10 @@ theorem lineNums_ofList (pre : String) (skip : Nat) (cs : List Char)
     exact startsWith_ofList pre l
   rw [hfil]
   cases hf : (splitK '\n' cs).find? (fun l => pre.toList.isPrefixOf l) with
-  | none => simp [hf]
+  | none => simp
   | some l =>
     rw [hf] at h
-    simp only [Option.map_some, hf]
+    simp only [Option.map_some]
     rw [sp_eq, splitOn_ofList, ← splitK_eq, ← List.map_drop]
     congr 1
     exact filterMap_congr' _ _ _ _ fun t ht => tokNat_eq (List.all_eq_true.1 h t ht)

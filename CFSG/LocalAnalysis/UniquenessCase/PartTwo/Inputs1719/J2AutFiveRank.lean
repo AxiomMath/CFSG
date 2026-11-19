@@ -19,7 +19,7 @@ open CFSG.Sporadic.Schreier CFSG.Sporadic.SmallOddCore
 theorem k_J2_aut_five_rank_holds : K_J2_aut_five_rank := by
   intro X _ _ hX
   obtain ⟨e⟩ := hX
-  haveI : Finite ↥j2P := Subtype.finite
+  have : Finite ↥j2P := Subtype.finite
   have hcard : Nat.card (MulAut ↥j2P) = 1209600 := by
     obtain ⟨-, -, -, -, h⟩ := ctuc_j2_full_automorphism_permutation_model
     exact h

@@ -10,23 +10,28 @@ open Equiv Equiv.Perm
 
 variable {β γ : Type} [Fintype β] [DecidableEq β] [Fintype γ] [DecidableEq γ]
 
+omit [Fintype β] [Fintype γ] in
 theorem pairSwap_apply_inl (b : β) (c : Bool) :
     pairSwap β γ b (Sum.inl (b, c)) = Sum.inl (b, !c) := by
   cases c <;> simp [pairSwap]
 
+omit [Fintype β] [Fintype γ] in
 theorem pairSwap_apply_inr (b : β) (x : γ) :
     pairSwap β γ b (Sum.inr x) = Sum.inr x :=
   Equiv.swap_apply_of_ne_of_ne (by simp) (by simp)
 
+omit [Fintype β] [Fintype γ] in
 theorem pairSwap_apply_of_ne_inl {b b' : β} (h : b' ≠ b) (c : Bool) :
     pairSwap β γ b (Sum.inl (b', c)) = Sum.inl (b', c) :=
   Equiv.swap_apply_of_ne_of_ne (by simp [h]) (by simp [h])
 
+omit [Fintype β] [Fintype γ] in
 theorem conj_pairSwap_apply_inl (h : Perm ((β × Bool) ⊕ γ)) (b : β) (c : Bool) :
     (h * pairSwap β γ b * h⁻¹) (h (Sum.inl (b, c))) = h (Sum.inl (b, !c)) := by
   rw [pairSwap, ← Equiv.swap_apply_apply h (Sum.inl (b, false)) (Sum.inl (b, true))]
   cases c <;> simp
 
+omit [Fintype β] [Fintype γ] in
 theorem conj_pairSwap_apply_of_ne (h : Perm ((β × Bool) ⊕ γ)) (b : β)
     {p : (β × Bool) ⊕ γ} (hp0 : p ≠ Sum.inl (b, false)) (hp1 : p ≠ Sum.inl (b, true)) :
     (h * pairSwap β γ b * h⁻¹) (h p) = h p := by
@@ -34,17 +39,20 @@ theorem conj_pairSwap_apply_of_ne (h : Perm ((β × Bool) ⊕ γ)) (b : β)
   exact Equiv.swap_apply_of_ne_of_ne (fun hh => hp0 (h.injective hh))
     (fun hh => hp1 (h.injective hh))
 
+omit [Fintype β] [Fintype γ] in
 theorem conj_pairSwap_mul (h : Perm ((β × Bool) ⊕ γ)) (b b' : β) :
     h * (pairSwap β γ b * pairSwap β γ b') * h⁻¹ =
       (h * pairSwap β γ b * h⁻¹) * (h * pairSwap β γ b' * h⁻¹) := by
   group
 
+omit [Fintype β] [DecidableEq β] [Fintype γ] [DecidableEq γ] in
 theorem eq_inl_of_ne_inr [Subsingleton γ] {x : γ} {z : (β × Bool) ⊕ γ}
     (hz : z ≠ Sum.inr x) : ∃ b c, z = Sum.inl (b, c) := by
   rcases z with bc | y
   · exact ⟨bc.1, bc.2, rfl⟩
   · exact absurd (by rw [Subsingleton.elim y x]) hz
 
+omit [Fintype β] [DecidableEq β] [Fintype γ] [DecidableEq γ] in
 theorem not_three_cycle_pattern {Q : Subgroup (Perm ((β × Bool) ⊕ γ))}
     (hQ : ¬ 3 ∣ Nat.card Q) {x y : Perm ((β × Bool) ⊕ γ)} (hx : x ∈ Q) (hy : y ∈ Q)
     {a b e : (β × Bool) ⊕ γ} (hab : a ≠ b) (hae : a ≠ e) (hbe : b ≠ e)
@@ -64,11 +72,13 @@ theorem exists_ne_of_card_three {β : Type*} [Fintype β] [DecidableEq β]
   obtain ⟨c, -, hc⟩ := Finset.exists_mem_notMem_of_card_lt_card hcard
   exact ⟨c, by simpa using hc⟩
 
+omit [Fintype β] [DecidableEq β] [Fintype γ] [DecidableEq γ] in
 theorem notMem_pair_of_ne_firstCoord {b' b₀ : β} {z : (β × Bool) ⊕ γ}
     (hne : b' ≠ Sum.elim Prod.fst (fun _ => b₀) z) :
     z ≠ Sum.inl (b', false) ∧ z ≠ Sum.inl (b', true) := by
   constructor <;> intro hz <;> apply hne <;> rw [hz] <;> rfl
 
+omit [Fintype β] [DecidableEq β] [Fintype γ] [DecidableEq γ] in
 theorem exists_config_of_moves_inr [Subsingleton γ] {h : Perm ((β × Bool) ⊕ γ)} {x : γ}
     (hne : h (Sum.inr x) ≠ Sum.inr x) :
     ∃ (b₀ : β) (c₀ : Bool) (b₂ : β) (c₂ : Bool),
@@ -92,14 +102,14 @@ theorem exists_config_of_moves_inr [Subsingleton γ] {h : Perm ((β × Bool) ⊕
   have hw_ne : h (Sum.inl (b₀, !c₀)) ≠ Sum.inr x := by
     intro hw
     have h1 : Sum.inl (b₀, !c₀) = Sum.inl (b₀, c₀) := h.injective (hw.trans hz_apply.symm)
-    have h2 : (!c₀) = c₀ := by simpa using h1
+    have h2 : (!c₀) = c₀ := by simp at h1
     exact (Bool.not_ne_self c₀) h2
   obtain ⟨b₂, c₂, hw⟩ := eq_inl_of_ne_inr hw_ne
   have he_ne_inr : Sum.inl (b₂, !c₂) ≠ Sum.inr x := by simp
   have he_ne_w : Sum.inl (b₂, !c₂) ≠ h (Sum.inl (b₀, !c₀)) := by
     intro hew
     rw [hw] at hew
-    have h2 : (!c₂) = c₂ := by simpa using hew
+    have h2 : (!c₂) = c₂ := by simp at hew
     exact (Bool.not_ne_self c₂) h2
   have hfinv_ne : ∀ c : Bool, h⁻¹ (Sum.inl (b₂, !c₂)) ≠ Sum.inl (b₀, c) := by
     intro c hp
@@ -113,6 +123,7 @@ theorem exists_config_of_moves_inr [Subsingleton γ] {h : Perm ((β × Bool) ⊕
       exact he_ne_w heq
   exact ⟨b₀, c₀, b₂, c₂, hz, hz_apply, hw, he_ne_inr, he_ne_w, hfinv_ne⟩
 
+omit [Fintype β] [Fintype γ] in
 theorem fixes_inr_of_swaps [Subsingleton γ] {Q : Subgroup (Perm ((β × Bool) ⊕ γ))}
     (hQ : ¬ 3 ∣ Nat.card Q) (hsw : ∀ b, pairSwap β γ b ∈ Q)
     {h : Perm ((β × Bool) ⊕ γ)} (hh : ∀ b, h * pairSwap β γ b * h⁻¹ ∈ Q) (x : γ) :
@@ -146,6 +157,7 @@ theorem fixes_inr_of_swaps [Subsingleton γ] {Q : Subgroup (Perm ((β × Bool) �
   exact not_three_cycle_pattern hQ (hh b₀) (hsw b₂) hw_ne he_ne_w.symm he_ne_inr.symm
     hx_w hx_inr hx_e hy_w hy_e hy_inr
 
+omit [Fintype β] [Fintype γ] in
 theorem maps_pair_to_pair_of_swaps [Subsingleton γ] {Q : Subgroup (Perm ((β × Bool) ⊕ γ))}
     (hQ : ¬ 3 ∣ Nat.card Q) (hsw : ∀ b, pairSwap β γ b ∈ Q)
     {h : Perm ((β × Bool) ⊕ γ)} (hh : ∀ b, h * pairSwap β γ b * h⁻¹ ∈ Q)
@@ -173,7 +185,7 @@ theorem maps_pair_to_pair_of_swaps [Subsingleton γ] {Q : Subgroup (Perm ((β ×
       exact (Equiv.apply_symm_apply h e).symm
     cases c
     · have hea : e = Sum.inl (b₁, c₁) := heq.trans ha
-      have h2 : (!c₁) = c₁ := by simpa [e] using hea
+      have h2 : (!c₁) = c₁ := by simp [e] at hea
       exact (Bool.not_ne_self c₁) h2
     · exact hne heq.symm
   have hx_e : (h * pairSwap β γ b * h⁻¹) e = e := by
@@ -210,11 +222,12 @@ theorem maps_pair_to_pair_of_swaps [Subsingleton γ] {Q : Subgroup (Perm ((β ×
   have hae : h (Sum.inl (b, false)) ≠ e := by
     rw [ha]
     intro hh
-    have h2 : c₁ = !c₁ := by simpa [e] using hh
+    have h2 : c₁ = !c₁ := by simp [e] at hh
     exact (Bool.not_ne_self c₁) h2.symm
   exact not_three_cycle_pattern hQ (hh b) (hsw b₁) hab hae hne
     hx_a hx_b hx_e hy_a hy_e hy_b
 
+omit [Fintype β] [DecidableEq β] [Fintype γ] [DecidableEq γ] in
 theorem mem_pairCent_of_apply [Subsingleton γ] {h : Perm ((β × Bool) ⊕ γ)}
     (hfix : ∀ x : γ, h (Sum.inr x) = Sum.inr x)
     (hpair : ∀ b : β, h (Sum.inl (b, true)) =
@@ -230,6 +243,7 @@ theorem mem_pairCent_of_apply [Subsingleton γ] {h : Perm ((β × Bool) ⊕ γ)}
     · simp [Equiv.Perm.mul_apply, pairInv_apply_inl, hpair b, pairInv_involutive]
   · simp [Equiv.Perm.mul_apply, pairInv_apply_inr, hfix x]
 
+omit [Fintype β] [Fintype γ] in
 theorem mem_pairCent_of_swaps [Subsingleton γ] {Q : Subgroup (Perm ((β × Bool) ⊕ γ))}
     (hQ : ¬ 3 ∣ Nat.card Q) (hsw : ∀ b, pairSwap β γ b ∈ Q) {h : Perm ((β × Bool) ⊕ γ)}
     (hh : ∀ b, h * pairSwap β γ b * h⁻¹ ∈ Q) : h ∈ pairCent β γ := by
@@ -237,6 +251,7 @@ theorem mem_pairCent_of_swaps [Subsingleton γ] {Q : Subgroup (Perm ((β × Bool
     fun x => fixes_inr_of_swaps hQ hsw hh x
   exact mem_pairCent_of_apply hfix fun b => maps_pair_to_pair_of_swaps hQ hsw hh hfix b
 
+omit [Fintype γ] in
 theorem fixes_inr_of_doubleSwaps [Subsingleton γ] (hβ : 3 ≤ Fintype.card β)
     {Q : Subgroup (Perm ((β × Bool) ⊕ γ))} (hQ : ¬ 3 ∣ Nat.card Q)
     (hsw : ∀ b b', pairSwap β γ b * pairSwap β γ b' ∈ Q)
@@ -314,6 +329,7 @@ theorem fixes_inr_of_doubleSwaps [Subsingleton γ] (hβ : 3 ≤ Fintype.card β)
   exact not_three_cycle_pattern hQ (hh b₀ b') (hsw b₂ b₃) hw_ne he_ne_w.symm he_ne_inr.symm
     hx_w hx_inr hx_e hy_w hy_e hy_inr
 
+omit [Fintype γ] in
 theorem maps_pair_to_pair_of_doubleSwaps [Subsingleton γ] (hβ : 3 ≤ Fintype.card β)
     {Q : Subgroup (Perm ((β × Bool) ⊕ γ))} (hQ : ¬ 3 ∣ Nat.card Q)
     (hsw : ∀ b b', pairSwap β γ b * pairSwap β γ b' ∈ Q)
@@ -338,7 +354,7 @@ theorem maps_pair_to_pair_of_doubleSwaps [Subsingleton γ] (hβ : 3 ≤ Fintype.
   by_contra hne
   obtain ⟨b₇, c₇, hz⟩ : ∃ b₇ c₇, h⁻¹ e = Sum.inl (b₇, c₇) := by
     rcases hz0 : h⁻¹ e with bc | y
-    · exact ⟨bc.1, bc.2, by simpa using hz0⟩
+    · exact ⟨bc.1, bc.2, by simp⟩
     · exfalso
       have heq : e = h (Sum.inr y) := by
         rw [← hz0]
@@ -353,7 +369,7 @@ theorem maps_pair_to_pair_of_doubleSwaps [Subsingleton γ] (hβ : 3 ≤ Fintype.
       exact (Equiv.apply_symm_apply h e).symm
     cases c
     · have hea : e = Sum.inl (b₁, c₁) := heq.trans ha
-      have h2 : (!c₁) = c₁ := by simpa [e] using hea
+      have h2 : (!c₁) = c₁ := by simp [e] at hea
       exact (Bool.not_ne_self c₁) h2
     · exact hne heq.symm
   have hb_ne_b₄ : b ≠ b₄ := Ne.symm hb₄_ne_b
@@ -362,12 +378,12 @@ theorem maps_pair_to_pair_of_doubleSwaps [Subsingleton γ] (hβ : 3 ≤ Fintype.
     constructor <;> intro hh
     · have hh' : b = b₄ ∧ false = false := by simpa using hh
       exact hb_ne_b₄ hh'.1
-    · have hh' : b = b₄ ∧ false = true := by simpa using hh
+    · have hh' : b = b₄ ∧ false = true := by simp at hh
       exact hb_ne_b₄ hh'.1
   have hpair_b' : (Sum.inl (b, true) : (β × Bool) ⊕ γ) ≠ Sum.inl (b₄, false) ∧
       (Sum.inl (b, true) : (β × Bool) ⊕ γ) ≠ Sum.inl (b₄, true) := by
     constructor <;> intro hh
-    · have hh' : b = b₄ ∧ true = false := by simpa using hh
+    · have hh' : b = b₄ ∧ true = false := by simp at hh
       exact hb_ne_b₄ hh'.1
     · have hh' : b = b₄ ∧ true = true := by simpa using hh
       exact hb_ne_b₄ hh'.1
@@ -431,11 +447,12 @@ theorem maps_pair_to_pair_of_doubleSwaps [Subsingleton γ] (hβ : 3 ≤ Fintype.
   have hae : h (Sum.inl (b, false)) ≠ e := by
     rw [ha]
     intro hh
-    have h2 : c₁ = !c₁ := by simpa [e] using hh
+    have h2 : c₁ = !c₁ := by simp [e] at hh
     exact (Bool.not_ne_self c₁) h2.symm
   exact not_three_cycle_pattern hQ (hh b b₄) (hsw b₁ b₅) hab hae hne
     hx_a hx_b hx_e hy_a hy_e hy_b
 
+omit [Fintype γ] in
 theorem mem_pairCent_of_doubleSwaps [Subsingleton γ] (hβ : 3 ≤ Fintype.card β)
     {Q : Subgroup (Perm ((β × Bool) ⊕ γ))} (hQ : ¬ 3 ∣ Nat.card Q)
     (hsw : ∀ b b', pairSwap β γ b * pairSwap β γ b' ∈ Q) {h : Perm ((β × Bool) ⊕ γ)}

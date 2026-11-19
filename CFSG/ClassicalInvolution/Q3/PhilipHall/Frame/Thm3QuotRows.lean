@@ -141,7 +141,7 @@ variable {X X' : Type} [Group X] [Group X']
 
 theorem isL3E8_of_mulEquiv (e : X ≃* X') (h : IsL3E8 X) : IsL3E8 X' := by
   obtain ⟨E, hEn, hEab, hcard, ⟨q⟩⟩ := h
-  haveI : (E.map e.toMonoidHom).Normal := hEn.map _ e.surjective
+  have : (E.map e.toMonoidHom).Normal := hEn.map _ e.surjective
   have hEab' : IsElemAbelian 2 (E.map e.toMonoidHom) := by
     refine ⟨⟨⟨fun a b => ?_⟩⟩, fun y hy => ?_⟩
     · rcases a with ⟨_, x₁, hx₁, rfl⟩
@@ -167,8 +167,8 @@ theorem thm3RowW_of_equiv {Φ₁ : Set (Subgroup Y₁)} {Φ₂ : Set (Subgroup Y
       famMap e (oddQuotientFamily (restrictFamily Φ₁ P₁)))
     (h : Thm3RowW Φ₁ P₁) : Thm3RowW Φ₂ P₂ := by
   obtain ⟨W, hW, hWset, ⟨d⟩⟩ := h
-  haveI := hW
-  haveI : (W.map e.toMonoidHom).Normal := hW.map _ e.surjective
+  have := hW
+  have : (W.map e.toMonoidHom).Normal := hW.map _ e.surjective
   refine ⟨W.map e.toMonoidHom, inferInstance, ?_, ⟨?_⟩⟩
   · rw [hF, wSet_map_equiv, hWset, Set.image_singleton]
   · exact (QuotientGroup.congr W (W.map e.toMonoidHom) e rfl).symm.trans d
@@ -179,8 +179,8 @@ theorem thm3RowsA_of_equiv {Φ₁ : Set (Subgroup Y₁)} {Φ₂ : Set (Subgroup 
       famMap e (oddQuotientFamily (restrictFamily Φ₁ P₁)))
     (h : Thm3RowsA Φ₁ P₁) : Thm3RowsA Φ₂ P₂ := by
   rcases h with ⟨N, hN, hidx, hLie⟩ | hM | hL | hW
-  · haveI := hN
-    haveI : (N.map e.toMonoidHom).Normal := hN.map _ e.surjective
+  · have := hN
+    have : (N.map e.toMonoidHom).Normal := hN.map _ e.surjective
     refine Or.inl ⟨N.map e.toMonoidHom, inferInstance, ?_, ?_⟩
     · exact (Subgroup.index_map_equiv N e).trans hidx
     · exact CFSG.Blueprint.LieModel.of_mulEquiv

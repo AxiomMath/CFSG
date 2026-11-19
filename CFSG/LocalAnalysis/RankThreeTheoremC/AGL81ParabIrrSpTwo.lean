@@ -63,9 +63,11 @@ section Conj
 
 variable {r : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] in
 theorem eq_one_of_conj_apply {g : StatedSp r K} (h : ∀ x, g * x * g⁻¹ = x) : g = 1 :=
   eq_of_forall_conj_eq fun x => by simpa using h x
 
+omit [Finite K] in
 theorem pow_eq_one_of_autHom_pow {α : MulAut (StatedSp r K)} {g : StatedSp r K}
     (hg : ∀ x, α x = g * x * g⁻¹) {N : ℕ} (hα : α ^ N = 1) : g ^ N = 1 := by
   have e : α = MulAut.conj g := MulEquiv.ext fun x => by rw [hg x, MulAut.conj_apply]

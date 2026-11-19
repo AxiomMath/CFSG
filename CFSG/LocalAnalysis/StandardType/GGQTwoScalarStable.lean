@@ -19,7 +19,7 @@ private lemma ggQ2ss_mul_inv_apply {p : ℕ} [Fact p.Prime] {V : Type} [AddCommG
     [Module (ZMod p) V] (e₁ e₂ : V ≃ₗ[ZMod p] V) (x : V) :
     (e₁ * e₂)⁻¹ (e₁ (e₂ x)) = x := by
   rw [← LinearEquiv.mul_apply]
-  simpa using (e₁ * e₂).symm_apply_apply x
+  simp
 
 private lemma ggQ2ss_simpleRefl_fix {p : ℕ} [Fact p.Prime] (D : GGQ2Lin p) (xV : D.V)
     {j : D.ι} (hx : D.root j xV = 0) : D.simpleRefl j xV = xV := by
@@ -39,7 +39,7 @@ private lemma ggQ2ss_parab_fix {p : ℕ} [Fact p.Prime] (D : GGQ2Lin p) (xV : D.
         rw [LinearEquiv.mul_apply, hh, hg]
       inv_mem' := by
         intro g hg
-        have h : g⁻¹ (g xV) = xV := by simpa using g.symm_apply_apply xV
+        have h : g⁻¹ (g xV) = xV := by simp
         rwa [hg] at h }
   have hsubset : D.simpleRefl '' {k | k ≠ D.a} ⊆ H := by
     rintro g ⟨j, hj, rfl⟩

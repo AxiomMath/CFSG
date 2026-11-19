@@ -165,6 +165,7 @@ theorem card_of_node (hκ : MCod K M κ) {kg kt nm nxs : List ℕ} {ngs nts : Li
       exact hq
   rw [hQO, hOc]
 
+omit [Finite G] in
 theorem lab_conj {z : G} (hzH : ∀ h ∈ H, h * z * h⁻¹ = z)
     (hQn : ∀ h ∈ H, ∀ x ∈ Q, h * x * h⁻¹ ∈ Q) {h : G} (hh : h ∈ H) (x : G) :
     (h * x * h⁻¹ = z ↔ x = z) ∧ (h * x * h⁻¹ * (h * x * h⁻¹) ≠ 1 ↔ x * x ≠ 1) ∧

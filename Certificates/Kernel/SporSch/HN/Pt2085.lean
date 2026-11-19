@@ -36,8 +36,8 @@ theorem hWordJ_eq_wJ (w : List ℤ) : hWordJ w = wJ hJ w := by
     congr 1
     unfold lJ
     by_cases h : 0 < l
-    · rw [if_pos h, if_pos h, show l.toNat = l.natAbs by omega]
-    · rw [if_neg h, if_neg h, show (-l).toNat = l.natAbs by omega]
+    · rw [ite_eq_left h, ite_eq_left h, show l.toNat = l.natAbs by omega]
+    · rw [ite_eq_right h, ite_eq_right h, show (-l).toNat = l.natAbs by omega]
 
 theorem evalWord_eq_wJ (gs : ℕ → JH) {j : ℕ} : ∀ w : List ℤ, plettersOK j w = true →
     Quiver.SchreierGraph.evalWord (fun h : Fin j => gs h) (ptoLetters j w) = wJ gs w
@@ -54,10 +54,10 @@ theorem evalWord_eq_wJ (gs : ℕ → JH) {j : ℕ} : ∀ w : List ℤ, plettersO
     rw [hcons, CFSG.KS.HNArr.wJ, ← evalWord_eq_wJ gs w hw']
     unfold lJ
     by_cases hpos : 0 < l
-    · rw [decide_eq_true hpos, Quiver.SchreierGraph.evalWord_cons_true, if_pos hpos,
+    · rw [decide_eq_true hpos, Quiver.SchreierGraph.evalWord_cons_true, ite_eq_left hpos,
         show l.toNat = l.natAbs by omega]
     · rw [show decide (0 < l) = false by simpa using hpos,
-        Quiver.SchreierGraph.evalWord_cons_false, if_neg hpos, show (-l).toNat = l.natAbs by omega]
+        Quiver.SchreierGraph.evalWord_cons_false, ite_eq_right hpos, show (-l).toNat = l.natAbs by omega]
 
 theorem sL_eq_hJ : ∀ j < 17, sL j = hJ j := by
   intro j
@@ -177,7 +177,7 @@ theorem E_mat {k : ℕ} (hk : k < 4) :
   · exact word_mat a2 e2 (hl 2 (by norm_num))
   · exact word_mat a3 e3 (hl 3 (by norm_num))
 
-theorem iG_lt {k : ℕ} (hk : k < 5) : iG k = aGenJ k := if_pos hk
+theorem iG_lt {k : ℕ} (hk : k < 5) : iG k = aGenJ k := ite_eq_left hk
 
 theorem fJ_comm_aGen {j : ℕ} (hj : j < 5) :
     fJ * aGenJ j = aGenJ j * fJ := by
@@ -365,8 +365,8 @@ theorem walk_sound : ∀ (ls es : List ℕ) (p : ℕ) (es' : List ℕ)
     cases hb : Nat.blt e (lget EN l)
     · rw [hb] at h2
       exact absurd h2 (by simp)
-    rw [hs, cond_true] at h1
-    rw [hb, cond_true] at h2
+    rw [hs, _root_.Bool.cond_true] at h1
+    rw [hb, _root_.Bool.cond_true] at h2
     have hsp : src l e = p := Nat.eq_of_beq_eq_true hs
     have hd : gi (iG l) p = dst l e := by rw [← hsp]; exact edge (Nat.blt_eq.mp hb)
     have hdl : dst l e < nPts := by rw [← hd]; exact gi_lt _ hp

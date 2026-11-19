@@ -21,7 +21,7 @@ private theorem stdUnit_norm (h : UnitaryFieldData p f K) :
   exact Pi.single_eq_same 2 1
 
 private noncomputable def lineInv (h : UnitaryFieldData p f K) {x : Fin 3 → K}
-    (hx : stdHermForm h 3 x x = 1) : (Fin 3 → K) →ₗ[K] (Fin 3 → K) :=
+    (_hx : stdHermForm h 3 x x = 1) : (Fin 3 → K) →ₗ[K] (Fin 3 → K) :=
   (2 : K) • ((stdHermForm h 3 x).smulRight x) - LinearMap.id
 
 private theorem lineInv_apply (h : UnitaryFieldData p f K) {x : Fin 3 → K}
@@ -35,9 +35,7 @@ private theorem lineInv_isometry (h : UnitaryFieldData p f K) {x : Fin 3 → K}
   rw [lineInv_apply, lineInv_apply]
   have hsymm : stdHermForm h 3 v x = h.bar (stdHermForm h 3 x v) :=
     ((stdHermForm_isSymm h 3).eq x v).symm
-  simp only [map_sub, map_add, map_smul, map_smulₛₗ, LinearMap.sub_apply, LinearMap.add_apply,
-    LinearMap.smul_apply, smul_eq_mul, hx, mul_one, mul_zero, zero_mul, sub_zero, map_zero,
-    RingHom.id_apply, hsymm, map_mul, map_ofNat]
+  simp only [map_sub, map_smul, map_smulₛₗ, LinearMap.sub_apply, LinearMap.smul_apply, smul_eq_mul, hx, mul_one, hsymm, map_mul, map_ofNat]
   ring
 
 private theorem lineInv_self (h : UnitaryFieldData p f K) {x : Fin 3 → K}
@@ -55,9 +53,7 @@ private theorem lineInv_commute_of_perp (h : UnitaryFieldData p f K) {x y : Fin 
     lineInv_apply, lineInv_apply]
   have hyx : stdHermForm h 3 y x = 0 := by
     rw [((stdHermForm_isSymm h 3).eq x y).symm, hxy, map_zero]
-  simp only [map_sub, map_add, map_smul, map_smulₛₗ, LinearMap.sub_apply, LinearMap.add_apply,
-    LinearMap.smul_apply, smul_eq_mul, hxy, hyx, mul_zero, zero_mul, sub_zero, zero_sub,
-    add_zero, map_zero, RingHom.id_apply, smul_smul]
+  simp only [map_sub, map_smul, smul_eq_mul, hxy, hyx, mul_zero, zero_sub]
   module
 
 private theorem comp_lineInv_of_isometry (h : UnitaryFieldData p f K) {x y : Fin 3 → K}
@@ -108,7 +104,7 @@ private theorem exists_su_of_eq_one (h : UnitaryFieldData p f K) (hp2 : p ≠ 2)
       stdHermForm h 3 n n = 1 ∧ g • x = n ∧
         h.norm (stdHermForm h 3 x n) ≠ 0 ∧ h.norm (stdHermForm h 3 x n) ≠ 1 := by
   classical
-  haveI : CharP K p := h.charP
+  have : CharP K p := h.charP
   let B := stdHermForm h 3
   let a := B x m
   have ht1a : h.norm a = 1 := ht1
@@ -124,7 +120,7 @@ private theorem exists_su_of_eq_one (h : UnitaryFieldData p f K) (hp2 : p ≠ 2)
   let y := h.bar a • m
   have hy : B y y = 1 := by
     rw [show y = h.bar a • m from rfl]
-    simp only [map_smulₛₗ, map_smul, LinearMap.smul_apply, smul_eq_mul,
+    simp only [map_smulₛₗ, LinearMap.smul_apply, smul_eq_mul,
       h.bar_bar, RingHom.id_apply]
     rw [show B m m = 1 from hm, mul_one]
     exact hbar_a_mul
@@ -249,7 +245,7 @@ private theorem exists_su_map_of_orthonormalBases (h : UnitaryFieldData p f K)
   let B := stdHermForm h 3
   let φ0 : (Fin 3 → K) →ₗ[K] (Fin 3 → K) := b₁.constr K b₂
   have hφ0 : ∀ i, φ0 (b₁ i) = b₂ i := fun i => by
-    simp [φ0, Module.Basis.constr_basis]
+    simp [φ0]
   have hφ0iso : ∀ u v, B (φ0 u) (φ0 v) = B u v := by
     refine isometry_of_mem_orthonormalFrames b₁ h₁ ?_
     exact mem_orthonormalFrames.mpr fun i j => by
@@ -285,14 +281,14 @@ private theorem exists_su_map_of_orthonormalBases (h : UnitaryFieldData p f K)
 
 
 
-private theorem exists_su_of_ne_zero_one (h : UnitaryFieldData p f K) (hp2 : p ≠ 2)
+private theorem exists_su_of_ne_zero_one (h : UnitaryFieldData p f K) (_hp2 : p ≠ 2)
     {x m : Fin 3 → K} (hx : stdHermForm h 3 x x = 1) (hm : stdHermForm h 3 m m = 1)
     (ht0 : h.norm (stdHermForm h 3 x m) ≠ 0)
     (ht1 : h.norm (stdHermForm h 3 x m) ≠ 1) :
     ∃ g : unitarySU p f K 3, g • m = m ∧ ∃ n : Fin 3 → K,
       stdHermForm h 3 n n = 1 ∧ stdHermForm h 3 x n = 0 ∧ g • x = n := by
   classical
-  haveI : CharP K p := h.charP
+  have : CharP K p := h.charP
   let B := stdHermForm h 3
   let a := B x m
   let t := h.norm a
@@ -384,7 +380,7 @@ private theorem exists_su_of_ne_zero_one (h : UnitaryFieldData p f K) (hp2 : p �
     ring
   have hxn : B x n = 0 := by
     rw [show n = c • e2 + d • e3 from rfl]
-    simp only [map_add, map_smul, hxe2, he3x, mul_zero, add_zero]
+    simp only [map_add, map_smul, hxe2, he3x]
     simp
   have hbe2 : b • e2 = m - a • x := by
     rw [show e2 = b⁻¹ • (m - a • x) from rfl, smul_smul, mul_inv_cancel₀ hb0, one_smul]
@@ -490,14 +486,13 @@ private theorem unitaryInvT_apply_lineInv (h : UnitaryFieldData p f K) (v : Fin 
   rw [lineInv_apply]
   funext i
   fin_cases i <;>
-    simp [negNegOneDiag, stdHermForm_single, stdUnit, Pi.single_apply,
-      Fin.sum_univ_three, Matrix.mulVec, dotProduct, Matrix.diagonal] <;> ring
+    simp [negNegOneDiag, stdHermForm_single, stdUnit, Matrix.mulVec, dotProduct, Matrix.diagonal]; ring
 
 private theorem centralizer_unitaryInvT_ne_top (h : UnitaryFieldData p f K) (hp2 : p ≠ 2) :
     Subgroup.centralizer ({unitaryInvT h} : Set (unitarySU p f K 3)) ≠ ⊤ := by
   classical
   have h2 : (2 : K) ≠ 0 := by
-    haveI : CharP K p := h.charP
+    have : CharP K p := h.charP
     exact Ring.two_ne_zero (by rw [ringChar.eq K p]; exact hp2)
   let e0 : Fin 3 → K := Pi.single 0 1
   let e1 : Fin 3 → K := Pi.single 1 1
@@ -525,10 +520,10 @@ private theorem centralizer_unitaryInvT_ne_top (h : UnitaryFieldData p f K) (hp2
     exact himg
   have hb₁2 : b₁ 2 = e2 := by
     rw [coe_frameBasis hstd hr3]
-    simp [e2, Pi.single_eq_same]
+    simp [e2]
   have hb₂2 : b₂ 2 = e0 := by
     rw [coe_frameBasis himg hr3]
-    simp [e0, Pi.single_eq_same]
+    simp [e0]
   obtain ⟨g, -, hg2⟩ := exists_su_map_of_orthonormalBases h hb₁ hb₂
   have hgx : g • e2 = e0 := by
     rw [← hb₁2, ← hb₂2]
@@ -565,7 +560,7 @@ private theorem centralizer_unitaryInvT_ne_top (h : UnitaryFieldData p f K) (hp2
     rw [← mul_smul, ← mul_smul, hcomm]
   rw [hTx, hgx, hTe0] at h1
   have hcoord := congrFun h1 0
-  simp [e0, Pi.single_apply] at hcoord
+  simp [e0] at hcoord
   have hcoord' : (2 : K) = 0 := by linear_combination hcoord
   exact h2 hcoord'
 
@@ -689,7 +684,7 @@ private theorem commute_conj_lineInv (h : UnitaryFieldData p f K)
   exact hSTi.trans (h'.trans hTSi.symm)
 
 
-private theorem conj_centralizer_le (h : UnitaryFieldData p f K)
+private theorem conj_centralizer_le (_h : UnitaryFieldData p f K)
     {T : unitarySU p f K 3} {Ksub : Subgroup (unitarySU p f K 3)}
     (hK : Subgroup.centralizer ({T} : Set (unitarySU p f K 3)) ≤ Ksub)
     {g : unitarySU p f K 3} (hg : g ∈ Ksub) :
@@ -816,7 +811,7 @@ private theorem lineInv_smul_eq (h : UnitaryFieldData p f K) {x : Fin 3 → K}
   apply LinearMap.ext
   intro v
   rw [lineInv_apply, lineInv_apply]
-  simp only [map_smulₛₗ, LinearMap.smul_apply, smul_eq_mul, smul_smul, RingHom.id_apply]
+  simp only [map_smulₛₗ, LinearMap.smul_apply, smul_eq_mul, smul_smul]
   have hbar : h.bar c * c = 1 := by
     rw [mul_comm (h.bar c) c, ← UnitaryFieldData.norm, hc]
   have hcoef : (2 : K) * (h.bar c * stdHermForm h 3 x v) * c =
@@ -833,7 +828,7 @@ private theorem conj_unitaryInvT_ne_of_perp (h : UnitaryFieldData p f K) (hp2 : 
     (g : unitarySU p f K 3) (hgx : g • stdUnit (K := K) = n) :
     (g * unitaryInvT h * g⁻¹) ≠ unitaryInvT h := by
   classical
-  haveI : CharP K p := h.charP
+  have : CharP K p := h.charP
   have h2 : (2 : K) ≠ 0 := Ring.two_ne_zero (by rw [ringChar.eq K p]; exact hp2)
   have hTlin : ∀ v : Fin 3 → K,
       (((unitaryInvT h : unitarySU p f K 3) : GL (Fin 3) K) :
@@ -883,7 +878,7 @@ private theorem eq_of_mulVecLin_eq {A B : unitarySU p f K 3}
 private theorem unitaryInvT_ne_one (h : UnitaryFieldData p f K) (hp2 : p ≠ 2) :
     unitaryInvT h ≠ 1 := by
   classical
-  haveI : CharP K p := h.charP
+  have : CharP K p := h.charP
   have h2 : (2 : K) ≠ 0 := Ring.two_ne_zero (by rw [ringChar.eq K p]; exact hp2)
   intro h1
   have := congrArg (fun t : unitarySU p f K 3 =>
@@ -903,7 +898,7 @@ private theorem unitaryInvT_ne_one (h : UnitaryFieldData p f K) (hp2 : p ≠ 2) 
 theorem isCoatom_centralizer_unitaryInvT_SU (h : UnitaryFieldData p f K) (hp2 : p ≠ 2) :
     IsCoatom (Subgroup.centralizer ({unitaryInvT h} : Set (unitarySU p f K 3))) := by
   classical
-  haveI : CharP K p := h.charP
+  have : CharP K p := h.charP
   let S := unitarySU p f K 3
   let T : S := unitaryInvT h
   let x : Fin 3 → K := stdUnit
@@ -918,7 +913,7 @@ theorem isCoatom_centralizer_unitaryInvT_SU (h : UnitaryFieldData p f K) (hp2 : 
     fun v => unitaryInvT_apply_lineInv h v
   refine ⟨centralizer_unitaryInvT_ne_top h hp2, ?_⟩
   intro H hH
-  obtain ⟨u, huH, huC⟩ := SetLike.exists_of_lt hH
+  obtain ⟨u, huH, huC⟩ := _root_.IsConcreteLE.exists_of_lt hH
   let m : Fin 3 → K := u • x
   have huIso : ∀ a b, stdHermForm h 3 (u • a) (u • b) = stdHermForm h 3 a b := by
     intro a b

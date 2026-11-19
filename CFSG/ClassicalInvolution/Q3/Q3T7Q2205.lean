@@ -158,8 +158,8 @@ section Residual
     (K K' K₃ : Subgroup G) (z u₁ u₂ u₃ : G), Q3T8.Asc77.Hyp22Setting Ω K K' K₃ z u₁ u₂ u₃ →
       ∃ K₄ ∈ twinSet Ω K, K₄ ≠ K ∧ K₄ ≠ K' ∧ K₄ ≠ K₃
 
-theorem hyp22Hyp51u_of_fourthTwin [Fact CFSG.ClassicalInvolution.Q3.Q3T8.Asc77.Hyp22Hyp51u] (hres :
-    TwinSqAlphaRows 3) (h4 : Q3T8.Asc77.Hyp22FourthTwin) :
+theorem hyp22Hyp51u_of_fourthTwin [Fact CFSG.ClassicalInvolution.Q3.Q3T8.Asc77.Hyp22Hyp51u] (_hres :
+    TwinSqAlphaRows 3) (_h4 : Q3T8.Asc77.Hyp22FourthTwin) :
     Q3T8.Asc77.Hyp22Hyp51u := Fact.out
 end Residual
 end Asc77

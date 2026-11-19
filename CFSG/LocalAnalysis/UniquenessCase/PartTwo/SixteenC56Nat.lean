@@ -24,8 +24,8 @@ private theorem exists_omegaModel_aux {W : Type} [CommGroup W] {H : Subgroup (Mu
           ⟨Multiplicative.ofAdd (((γ : GL OmI K) : Matrix OmI OmI K) *ᵥ
             Multiplicative.toAdd (m : Multiplicative (OmI → K))), Subgroup.mem_top _⟩) :
     ∃ S : OmegaModel W, S.omega = H ∧ Nat.card S.K = 2 ^ a := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := a)
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := a)
     (by rw [← Nat.card_eq_fintype_card]; exact hcard)
   have hβinj : Function.Injective β := by
     rw [injective_iff_map_eq_one]

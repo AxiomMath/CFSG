@@ -45,8 +45,8 @@ theorem isQuasisimple_of_exception [Finite G] (h44 : Sec4.Item4_4)
     exact hG.sectionFourHyp hne
   have hAe : IsElemAbelian 3 A := hAS.1.1
   obtain ⟨eX⟩ := eX
-  haveI : IsSimpleGroup X := by
-    haveI := isSimpleGroup_projSL_two (m := 2) le_rfl
+  have : IsSimpleGroup X := by
+    have := isSimpleGroup_projSL_two (m := 2) le_rfl
     exact eX.isSimpleGroup
   obtain ⟨x, y, hxy⟩ := exists_not_commute_of_mulEquiv_projSL eX
   have hXnc : ∃ x ∈ X, ∃ y ∈ X, x * y ≠ y * x :=
@@ -57,11 +57,11 @@ theorem isQuasisimple_of_exception [Finite G] (h44 : Sec4.Item4_4)
   obtain ⟨hTs, -, hT3, -⟩ := solvable_prime_complement_core_characterization (H := X₀)
     Nat.prime_three
   set T := aschbacherSolvableCore 3 X₀ with hT
-  haveI : IsSimpleGroup ((X₀ ⧸ T) ⧸ Subgroup.center (X₀ ⧸ T)) := hLq.2.1
-  haveI : IsSimpleGroup (X₀ ⧸ centerPre T) := (centerPreEquiv T).isSimpleGroup
+  have : IsSimpleGroup ((X₀ ⧸ T) ⧸ Subgroup.center (X₀ ⧸ T)) := hLq.2.1
+  have : IsSimpleGroup (X₀ ⧸ centerPre T) := (centerPreEquiv T).isSimpleGroup
   have hO3 : CFSG.pCore 3 X₀ ≤ Subgroup.center X₀ := pCore_three_le_center T hT3
   let eK : X.subgroupOf X₀ ≃* X := Subgroup.subgroupOfEquivOfLe hXX₀
-  haveI : IsSimpleGroup (X.subgroupOf X₀) := eK.isSimpleGroup
+  have : IsSimpleGroup (X.subgroupOf X₀) := eK.isSimpleGroup
   let lift : ∀ {x : G}, x ∈ X → X₀ := fun {x} hx => ⟨x, hXX₀ hx⟩
   have hlift : ∀ {x : G} (hx : x ∈ X), lift hx ∈ X.subgroupOf X₀ := fun hx =>
     Subgroup.mem_subgroupOf.mpr hx

@@ -38,7 +38,7 @@ theorem inner_typeII
     G3b.sstar_typeII_facts h.quasi hII h.sstar h.omega1_ne_bot
   have hYA : S₁ ≤ centralizer (Omega1 ((T : Subgroup G) ⊓ K) : Set G) :=
     h.le_centralizer₁.trans (centralizer_le h.omega1_le)
-  have hS₁p : IsPGroup 2 S₁ := T.isPGroup'.to_le h.le₁
+  have hS₁p : IsPGroup 2 S₁ := T.isPGroup.to_le h.le₁
   rcases hII.2 with ⟨p, f, hp, hpodd, hf, h5, h8, ⟨e⟩⟩ | hJR
   · have := hp
     exact le_of_odd_index_of_isPGroup hS₁p
@@ -51,7 +51,7 @@ theorem le_inf_of_typeII
     (T : Subgroup G) ⊓ K ≤ S₁ ⊓ S₂ := by
   have : K.Normal := h.normal
   obtain ⟨-, -, -, hΩmax, -⟩ := G3b.sstar_typeII_facts h.quasi hII h.sstar h.omega1_ne_bot
-  have heq := hΩmax _ inf_le_right (T.isPGroup'.to_le inf_le_left) (omega1_le_self _)
+  have heq := hΩmax _ inf_le_right (T.isPGroup.to_le inf_le_left) (omega1_le_self _)
   rw [heq]
   exact h.omega1_le
 

@@ -85,7 +85,6 @@ theorem cg_spec {l a : ℕ} (hl : l < 4) (ha : a < 192) :
     have e2 : Om i = fd 12 (Gt l) (Om (img (inv 32 (SG l)) i)) := by
       rw [rho l hl _ hj, inv32' hi hl]
     rw [e2, sg_inv_pt hl (om_lt hj)]
-  beta_reduce
   rw [e1, evS_om SE_zero tree rho 9 _ hka (dep hka) _ hj, rho l hl _ (img_lt _ _),
     evS_om SE_zero tree rho 9 _ hkb (dep hkb) _ hi, ← hc]
   unfold conj

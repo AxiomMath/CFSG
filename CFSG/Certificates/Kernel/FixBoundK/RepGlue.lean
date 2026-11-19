@@ -75,7 +75,7 @@ theorem fixBoundAt_rep (hbs : BasicsSem) {reps : List Rep} {gens : List (List (L
     intro A hA
     obtain ⟨c, hc, hAc⟩ := List.mem_flatMap.1 hA
     by_cases hci : c.1 = i
-    · rw [if_pos hci] at hAc
+    · rw [ite_eq_left hci] at hAc
       obtain ⟨e, he, rfl⟩ := List.mem_map.1 hAc
       obtain ⟨k, hk, rfl⟩ := List.mem_iff_getElem.1 hc
       have h := hch k (lt_of_lt_of_le hk hn)
@@ -83,7 +83,7 @@ theorem fixBoundAt_rep (hbs : BasicsSem) {reps : List Rep} {gens : List (List (L
       rw [List.getD_eq_getElem _ _ hk] at h
       rw [chunkK, chunkFull, TrivSound.allS_iff, hci, TrivSound.lenS_eq] at h
       exact ⟨e.2.1, e.2.2, h e he⟩
-    · rw [if_neg hci] at hAc
+    · rw [ite_eq_right hci] at hAc
       exact absurd hAc List.not_mem_nil
   have hA : ∀ A ∈ L, A < 2 ^ F.length := fun A hAL => by
     obtain ⟨sF, fs, h⟩ := hmemL A hAL

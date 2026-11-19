@@ -26,6 +26,7 @@ theorem IsTorusData.isThetaFamily {L : Subgroup (MulAut V)} {c : ℕ} {Θ : Subg
 
 variable [Finite V]
 
+omit [Finite V] in
 theorem commSub_stable {Θ : Subgroup (MulAut V)} {M : Subgroup V} {g : MulAut V}
     (hgΘ : ∀ θ ∈ Θ, g * θ * g⁻¹ ∈ Θ) (hgM : ∀ w ∈ M, g w ∈ M) :
     ∀ x ∈ commSub M Θ, g x ∈ commSub M Θ := by
@@ -49,6 +50,7 @@ theorem commSub_stable {Θ : Subgroup (MulAut V)} {M : Subgroup V} {g : MulAut V
     rw [map_inv]
     exact Subgroup.inv_mem _ ha
 
+omit [Finite V] in
 theorem map_commSub_le {Θ : Subgroup (MulAut V)} {M M' : Subgroup V} (f : V →* V)
     (hf : ∀ θ ∈ Θ, ∀ x, f (θ x) = θ (f x)) (hM : ∀ w ∈ M, f w ∈ M') :
     ∀ x ∈ commSub M Θ, f x ∈ commSub M' Θ := by
@@ -111,7 +113,7 @@ theorem commSub_commSub [IsF2Space V] {Θ : Subgroup (MulAut V)} (hΘ : Odd (Nat
 
 theorem commSub_le_commSub_of_le [IsF2Space V] {Θ : Subgroup (MulAut V)}
     (hΘ : Odd (Nat.card Θ)) {M M' : Subgroup V} (hM : ∀ g ∈ Θ, ∀ w ∈ M, g w ∈ M)
-    (hM' : ∀ g ∈ Θ, ∀ w ∈ M', g w ∈ M') (h : commSub M Θ ≤ M') : commSub M Θ ≤ commSub M' Θ := by
+    (_hM' : ∀ g ∈ Θ, ∀ w ∈ M', g w ∈ M') (h : commSub M Θ ≤ M') : commSub M Θ ≤ commSub M' Θ := by
   calc commSub M Θ = commSub (commSub M Θ) Θ := (commSub_commSub hΘ hM).symm
     _ ≤ commSub M' Θ := commSub_mono h (le_refl Θ)
 
@@ -121,11 +123,13 @@ theorem Rsub_inf_of_le [IsF2Space V] {Θ Θ' : Subgroup (MulAut V)} (hΘ : Odd (
   unfold Rsub
   rw [inf_right_comm, commSub_inf_of_le hΘ hM hM' hle]
 
+omit [Finite V] in
 theorem Rsub_le {Θ Θ' : Subgroup (MulAut V)} {M : Subgroup V} (hM : ∀ g ∈ Θ, ∀ w ∈ M, g w ∈ M) :
     Rsub Θ Θ' M ≤ M := by
   unfold Rsub
   exact inf_le_left.trans (commSub_le_of_invariant hM)
 
+omit [Finite V] in
 private theorem fixV_sup_RT (X Y : Subgroup (MulAut V)) : fixV (X ⊔ Y) = fixV X ⊓ fixV Y := by
   ext v
   rw [Subgroup.mem_inf]
@@ -192,6 +196,7 @@ theorem avgMap_mem_Rsub [IsF2Space V] {c : ℕ} {Θ : Subgroup (MulAut V)}
     (fun θ hθ y => avgMap_commutes hT.comm (hT.Θi_le i) θ hθ y)
     (fun w hw => avgMap_mem (fun g hg => hM g (hT.Θi_le i hg)) hw) x hx
 
+omit [Finite V] in
 private theorem odd_of_le_odd_RT {Θ Θ' : Subgroup (MulAut V)} (hΘ : Odd (Nat.card Θ))
     (h : Θ' ≤ Θ) : Odd (Nat.card Θ') :=
   Odd.of_dvd_nat hΘ (Subgroup.card_dvd_of_le h)
@@ -314,6 +319,7 @@ theorem commSub_eq_iSup_Rsub [IsF2Space V] {c : ℕ} {Θ : Subgroup (MulAut V)}
   rw [← hE x hx, EE_apply_eq_prod (Θi := Θi) x]
   exact Subgroup.prod_mem _ fun i _ => Subgroup.mem_iSup_of_mem i (avgMap_mem_Rsub hT i hM hx)
 
+omit [Finite V] in
 private theorem Rsub_map_le {Θ Θ₁ Θ₂ : Subgroup (MulAut V)} {w : MulAut V}
     (hwΘ : ∀ θ ∈ Θ, w * θ * w⁻¹ ∈ Θ) (hwΘ' : ∀ g ∈ Θ₂, w⁻¹ * g * w ∈ Θ₁) {M : Subgroup V}
     (hwM : ∀ x ∈ M, w x ∈ M) {x : V} (hx : x ∈ Rsub Θ Θ₁ M) : w x ∈ Rsub Θ Θ₂ M := by
@@ -324,6 +330,7 @@ private theorem Rsub_map_le {Θ Θ₁ Θ₂ : Subgroup (MulAut V)} {w : MulAut V
   calc g (w x) = w (w⁻¹ (g (w x))) := (MulAut.apply_inv_self V w _).symm
     _ = w x := by rw [h1]
 
+omit [Finite V] in
 theorem map_Rsub {Θ Θ₁ Θ₂ : Subgroup (MulAut V)} {w : MulAut V}
     (hwΘ : ∀ θ ∈ Θ, w * θ * w⁻¹ ∈ Θ ∧ w⁻¹ * θ * w ∈ Θ)
     (hwΘ' : (∀ g ∈ Θ₁, w * g * w⁻¹ ∈ Θ₂) ∧ ∀ g ∈ Θ₂, w⁻¹ * g * w ∈ Θ₁) {M : Subgroup V}
@@ -341,6 +348,7 @@ theorem map_Rsub {Θ Θ₁ Θ₂ : Subgroup (MulAut V)} {w : MulAut V}
       (fun g hg => by rw [inv_inv]; exact hwΘ'.1 g hg)
       (fun u hu => (hwM u hu).2) hy
 
+omit [Finite V] in
 theorem card_Rsub_inf_eq {Θ Θ₁ Θ₂ : Subgroup (MulAut V)} {w : MulAut V}
     (hwΘ : ∀ θ ∈ Θ, w * θ * w⁻¹ ∈ Θ ∧ w⁻¹ * θ * w ∈ Θ)
     (hwΘ' : (∀ g ∈ Θ₁, w * g * w⁻¹ ∈ Θ₂) ∧ ∀ g ∈ Θ₂, w⁻¹ * g * w ∈ Θ₁) {M Y : Subgroup V}
@@ -359,6 +367,7 @@ theorem card_Rsub_inf_eq {Θ Θ₁ Θ₂ : Subgroup (MulAut V)} {w : MulAut V}
     rw [Subgroup.map_inf _ _ _ hinj, map_Rsub hwΘ hwΘ' hwM, hY]
   rw [← hmap, Subgroup.card_map_of_injective hinj]
 
+omit [Finite V] in
 theorem card_Rsub_eq {Θ Θ₁ Θ₂ : Subgroup (MulAut V)} {w : MulAut V}
     (hwΘ : ∀ θ ∈ Θ, w * θ * w⁻¹ ∈ Θ ∧ w⁻¹ * θ * w ∈ Θ)
     (hwΘ' : (∀ g ∈ Θ₁, w * g * w⁻¹ ∈ Θ₂) ∧ ∀ g ∈ Θ₂, w⁻¹ * g * w ∈ Θ₁) {M : Subgroup V}
@@ -367,6 +376,7 @@ theorem card_Rsub_eq {Θ Θ₁ Θ₂ : Subgroup (MulAut V)} {w : MulAut V}
   have hinj : Function.Injective (w : MulAut V).toMonoidHom := w.injective
   rw [← map_Rsub hwΘ hwΘ' hwM, Subgroup.card_map_of_injective hinj]
 
+omit [Finite V] in
 theorem Rsub_le_of_le {Θ Θ₁ Θ₂ : Subgroup (MulAut V)} {w : MulAut V}
     (hwΘ : ∀ θ ∈ Θ, w * θ * w⁻¹ ∈ Θ ∧ w⁻¹ * θ * w ∈ Θ)
     (hwΘ' : (∀ g ∈ Θ₁, w * g * w⁻¹ ∈ Θ₂) ∧ ∀ g ∈ Θ₂, w⁻¹ * g * w ∈ Θ₁) {M Y : Subgroup V}

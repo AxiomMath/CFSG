@@ -19,6 +19,7 @@ theorem Concl17_42.of_p4 {D : Data G} {L X : Subgroup G} {p : ℕ}
 theorem Concl17_42.of_p5 {D : Data G} {L X : Subgroup G} {p : ℕ}
     (h : P17_42_5 D X p) : Concl17_42 D L X p := Or.inr (Or.inr (Or.inr (Or.inr h)))
 
+omit [Finite G] in
 private theorem exists_cosetReps {H K : Subgroup G} : ∃ Γ : Set G, CIsCosetReps H K Γ := by
   obtain ⟨T, hT, -⟩ := exists_isComplement_right (H.subgroupOf K) 1
   refine ⟨Subtype.val '' T, by rintro _ ⟨t, -, rfl⟩; exact t.2, fun k hk => ?_⟩

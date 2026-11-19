@@ -167,8 +167,8 @@ theorem central_cover {J D : Type*} [Group J] [Group D] (hJ : CFSG.IsQuasisimple
     (π : J →* D) (hπ : Function.Surjective π) (hker : π.ker ≤ Subgroup.center J) :
     (∀ x : J, π x ∈ Subgroup.center D → x ∈ Subgroup.center J) ∧ CFSG.IsQuasisimple D ∧
       Nonempty (D ⧸ Subgroup.center D ≃* J ⧸ Subgroup.center J) := by
-  haveI : Group.IsPerfect J := hJ.1
-  haveI : IsSimpleGroup (J ⧸ Subgroup.center J) := hJ.2.1
+  have : Group.IsPerfect J := hJ.1
+  have : IsSimpleGroup (J ⧸ Subgroup.center J) := hJ.2.1
   have hkey : ∀ x : J, π x ∈ Subgroup.center D → x ∈ Subgroup.center J := by
     intro x hx
     have hc : (QuotientGroup.mk x : J ⧸ Subgroup.center J) ∈
@@ -216,8 +216,8 @@ theorem exists_norm {p : ℕ} (hp : p.Prime) {X J : Subgroup Ω} {e : Ω}
     ∃ N : J →* Ω, (∀ j, N j ∈ X) ∧ (∀ j, e * N j * e⁻¹ = N j) ∧
       (∀ g : Ω, g * e = e * g → ∀ j j' : J, (j' : Ω) = g * j * g⁻¹ → g * N j * g⁻¹ = N j') ∧
       (∀ j : J, N j = 1 → ∀ k : J, k * j = j * k) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (1 < p) := ⟨hp.one_lt⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (1 < p) := ⟨hp.one_lt⟩
   let ψ : ZMod p → Ω := fun i => e ^ i.val
   have hcompI : ∀ i, IsComponentOf (J.map (MulAut.conj (ψ i)).toMonoidHom) X := fun i =>
     isComponentOf_map_conj_of_mem_normalizer hJ (Subgroup.pow_mem _ heX _)

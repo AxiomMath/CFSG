@@ -29,7 +29,7 @@ theorem c₀_normalizer [Finite K] (h3 : (3 : K) ≠ 0) (hbc : ∀ s : K, s ^ 2 
           (((c₀ h3 hbc v' : omegaMinus8 K b c) : GL OmegaIdx K) :
             Matrix OmegaIdx OmegaIdx K) *ᵥ w = w} := by
       ext w
-      simp only [commonFixedVectors, Set.mem_iInter, Set.mem_setOf_eq, fixedVectors,
+      simp only [commonFixedVectors, Set.mem_iInter, Set.mem_ofPred_eq, fixedVectors,
         Subgroup.coe_subtype]
     rw [hcommon]
     exact fix_iff h3 hbc v

@@ -21,9 +21,9 @@ theorem qs_5130K : schP QS = true ∧ orderV QS = 64 := by
 theorem bender_5130K : benderCheck (elemsV QS) tt 7 = true := by
   rw [(elemsT_eq_elemsV QS).symm.trans (elemsT_eq_elemsC QS), eq_ev_cOf tt]
   unfold benderCheck centralIn isComm
-  simp only [List.all_map, List.any_map, List.filter_map, Function.comp_def, ev_pow', ev_mul', ev_inv',
-    one_eq_ev, decide_ev_eq, decide_mem_map_ev, ne_eq, decide_not, Bool.decide_and, conj_fast,
-    comm_fast, sq_fast, pow_fast]
+  simp only [List.all_map, List.any_map, Function.comp_def, ev_pow', ev_mul', ev_inv',
+    one_eq_ev, decide_ev_eq, decide_mem_map_ev, ne_eq, decide_not, conj_fast,
+    comm_fast, pow_fast]
   decide +kernel
 
 theorem center_5130K :

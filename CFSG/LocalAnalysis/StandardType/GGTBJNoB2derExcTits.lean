@@ -18,9 +18,9 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 theorem nonempty_recipeTwF4_zero_equiv_titsD {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = 2) :
     Nonempty (LargeEvenCenterQuot (LargeEvenTwF4H 0 K) ≃* titsD) := by
-  haveI : CharP K ReeTag.F4.prime :=
+  have : CharP K ReeTag.F4.prime :=
     CFSG.StandardType.charP_two_of_card (m := 1) (by rw [hK, pow_one])
-  haveI : Fact (Nat.card K = 2) := ⟨hK⟩
+  have : Fact (Nat.card K = 2) := ⟨hK⟩
   obtain ⟨eT⟩ := CFSG.LocalAnalysis.GLTheoremA.Y10GField.nonempty_titsQuot_equiv hK
   exact ⟨eT.trans CFSG.Sporadic.Schreier.Tits.titsDerivedIso⟩
 

@@ -27,9 +27,9 @@ theorem local_sylow_eleven_centralizer_card_dvd_two_hundred_forty_two
         (Subgroup.centralizer ((T : Subgroup J) : Set J)) ∣
       242 := by
   classical
-  letI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
-  letI : IsCyclic T := isCyclic_of_prime_card hTcard
-  letI : IsMulCommutative T := IsCyclic.isMulCommutative
+  let : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  let : IsCyclic T := isCyclic_of_prime_card hTcard
+  let : IsMulCommutative T := IsCyclic.isMulCommutative
   obtain ⟨u, huorder⟩ :=
     IsCyclic.exists_ofOrder_eq_natCard (α := T)
   have huorderT : orderOf u = 11 := huorder.trans hTcard

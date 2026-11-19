@@ -104,7 +104,7 @@ theorem QLevi_conj_mem {σ : K →+* K} (h : UnitaryFieldData 2 f K) (p : ℕ) [
       exact hgz
     exact Subtype.ext h''
   refine ⟨g₁ * q' * g₁⁻¹, Qbar_conj_mem h p hp hp2 ζ hζ hζbar hgz' hq', ?_⟩
-  simp only [MonoidHom.comp_apply, Subgroup.coe_subtype, Subgroup.coe_inv, map_mul, map_inv,
+  simp only [MonoidHom.comp_apply, Subgroup.coe_subtype, map_mul, map_inv,
     hg₁g]
 
 end CFSG.LocalAnalysis.GLTheoremA.Y10F.ExcTwE6

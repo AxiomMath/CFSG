@@ -14,7 +14,7 @@ open CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719
 open CFSG.Blueprint (LieModel)
 
 theorem aCandidate_le_two_of_aParam_le_two (t : StatedLieTag) {r p f : ℕ}
-    (h : ∀ {W : Type} [CommGroup W] [Finite W] (hW : ∀ w : W, w ^ 2 = 1)
+    (h : ∀ {W : Type} [CommGroup W] [Finite W] (_hW : ∀ w : W, w ^ 2 = 1)
       (Y : Subgroup (MulAut W)),
       CFSG.Open.IsQuasisimple ↥(genFittingFStar ↥Y) →
       LieModel (↥(genFittingFStar ↥Y) ⧸ Subgroup.center ↥(genFittingFStar ↥Y)) t r p f →
@@ -23,11 +23,11 @@ theorem aCandidate_le_two_of_aParam_le_two (t : StatedLieTag) {r p f : ℕ}
     (hU : LieModel (H ⧸ Subgroup.center H) t r p f)
     {n : ℕ} (c : ACandidate H n) : n ≤ 2 := by
   classical
-  letI := c.commGroup
-  letI := c.finiteW
-  haveI : Finite (MulAut c.W) :=
+  let := c.commGroup
+  let := c.finiteW
+  have : Finite (MulAut c.W) :=
     Finite.of_injective (fun φ : MulAut c.W => (φ : c.W → c.W)) DFunLike.coe_injective
-  haveI : Finite ↥c.Y := Subtype.finite
+  have : Finite ↥c.Y := Subtype.finite
   rw [c.eq_n]
   have hFstar : fstarSubOf c.Y = genFittingFStar ↥c.Y := by
     rw [fstarSubOf, CFSG.LocalAnalysis.UniquenessCase.UC22.Fstar,
@@ -76,7 +76,7 @@ theorem aCandLe_two_of_L33 (hK : K_L33AutE8) {X : Type} [Group X]
 theorem lieModel_barInf_of_classicalTag {G : Type} [Group G] [Finite G] {M L : Subgroup G}
     (t : StatedLieTag) (ht : t ∈ CFSG.Blueprint.classicalTags) (hL : L ∈ calC M)
     (h : LieModel (Bar2 L) t 3 3 1) : LieModel (BarInf L) t 3 3 1 := by
-  haveI : IsSimpleGroup (Bar2 L) := LieModel.isSimpleGroup_of_mem_classicalTags ht h
+  have : IsSimpleGroup (Bar2 L) := LieModel.isSimpleGroup_of_mem_classicalTags ht h
   have hc : Subgroup.center (Bar2 L) = ⊥ := uc22p21k_center_eq_bot hL.2.2
   obtain ⟨e⟩ := uc22p21k_barInf_equiv_of_center_bot hL.2.2 hc
   exact LieModel.of_mulEquiv e.symm h

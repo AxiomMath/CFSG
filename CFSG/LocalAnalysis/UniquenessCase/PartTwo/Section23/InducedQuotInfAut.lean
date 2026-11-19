@@ -29,6 +29,7 @@ variable {G : Type} [Group G] [Finite G]
     MulAut (BarInf L ⧸ Subgroup.center (BarInf L)) :=
   inducedQuotInfAutHom L ⟨x, hx⟩
 
+omit [Finite G] in
 theorem inducedQuotInfAut_mk (L : Subgroup G) (x : G)
     (hx : x ∈ Subgroup.normalizer (L : Set G)) (l : ↥L) :
     inducedQuotInfAut L x hx (QuotientGroup.mk (QuotientGroup.mk l)) =
@@ -38,6 +39,7 @@ theorem inducedQuotInfAut_mk (L : Subgroup G) (x : G)
     quotientAction_mk]
   congr 2
 
+omit [Finite G] in
 theorem inducedQuotInf_inducedQuotInfAut (L : Subgroup G) (x : G)
     (hx : x ∈ Subgroup.normalizer (L : Set G)) :
     InducedQuotInf L x (inducedQuotInfAut L x hx) := by
@@ -46,6 +48,7 @@ theorem inducedQuotInf_inducedQuotInfAut (L : Subgroup G) (x : G)
     show (⟨x * (l : G) * x⁻¹, (Subgroup.mem_normalizer_iff.mp hx l).mp l.2⟩ : ↥L) = l' from
       Subtype.ext hll'.symm]
 
+omit [Finite G] in
 theorem inducedQuotInfAut_mul (L : Subgroup G) {x y : G}
     (hx : x ∈ Subgroup.normalizer (L : Set G)) (hy : y ∈ Subgroup.normalizer (L : Set G))
     (hxy : x * y ∈ Subgroup.normalizer (L : Set G)) :
@@ -55,12 +58,14 @@ theorem inducedQuotInfAut_mul (L : Subgroup G) {x y : G}
   rw [← map_mul]
   exact congrArg _ (Subtype.ext rfl)
 
+omit [Finite G] in
 theorem orderOf_inducedQuotInfAut_dvd (L : Subgroup G) {x : G}
     (hx : x ∈ Subgroup.normalizer (L : Set G)) :
     orderOf (inducedQuotInfAut L x hx) ∣ orderOf x := by
   have h := orderOf_map_dvd (inducedQuotInfAutHom L) (⟨x, hx⟩ : Subgroup.normalizer (L : Set G))
   rwa [Subgroup.orderOf_mk] at h
 
+omit [Finite G] in
 theorem inducedQuotInf_unique (L : Subgroup G) {x : G}
     (hx : x ∈ Subgroup.normalizer (L : Set G))
     {θ θ' : MulAut (BarInf L ⧸ Subgroup.center (BarInf L))}
@@ -76,6 +81,7 @@ theorem inducedQuotInf_unique (L : Subgroup G) {x : G}
   (QuotientGroup.mk' (Subgroup.center (BarInf L))).comp
     (QuotientGroup.mk' (CFSG.solvableRadical ↥L))
 
+omit [Finite G] in
 theorem inducedQuotInfAut_piBarInf (L : Subgroup G) (x : G)
     (hx : x ∈ Subgroup.normalizer (L : Set G)) (l : ↥L) :
     inducedQuotInfAut L x hx (piBarInf L l) =

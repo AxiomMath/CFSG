@@ -151,7 +151,7 @@ theorem IsSingerAction.of_central_odd_kernel [Finite G] {G' : Type*} [Group G'] 
     (h : IsSingerAction (involutionSubgroup ((R : Subgroup G).map φ)) q) :
     IsSingerAction (involutionSubgroup (R : Subgroup G)) q := by
   have hpow : ∀ x ∈ (R : Subgroup G), ∃ n : ℕ, x ^ 2 ^ n = 1 := fun x hx => by
-    obtain ⟨n, hn⟩ := R.isPGroup' ⟨x, hx⟩
+    obtain ⟨n, hn⟩ := R.isPGroup ⟨x, hx⟩
     exact ⟨n, by simpa using congrArg Subtype.val hn⟩
   have hinj : Set.InjOn φ (R : Subgroup G) := fun x hx y hy hxy => by
     obtain ⟨n, hn⟩ := hpow _ ((R : Subgroup G).mul_mem ((R : Subgroup G).inv_mem hx) hy)
@@ -160,7 +160,7 @@ theorem IsSingerAction.of_central_odd_kernel [Finite G] {G' : Type*} [Group G'] 
     exact inv_mul_eq_one.1 (eq_one_of_pow_two_pow_of_odd hodd hk hn)
   have hUR : involutionSubgroup (R : Subgroup G) ≤ R := involutionSubgroup_le _
   have hUmap := involutionSubgroup_map φ hinj
-  have hUp : IsPGroup 2 (involutionSubgroup (R : Subgroup G)) := R.isPGroup'.to_le hUR
+  have hUp : IsPGroup 2 (involutionSubgroup (R : Subgroup G)) := R.isPGroup.to_le hUR
   have hconj : ∀ g : G, φ g ∈ Subgroup.normalizer
       (((involutionSubgroup (R : Subgroup G)).map φ : Subgroup G') : Set G') →
       ∀ x ∈ involutionSubgroup (R : Subgroup G),

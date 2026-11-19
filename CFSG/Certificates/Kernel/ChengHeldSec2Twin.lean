@@ -93,7 +93,7 @@ theorem graphM_eq (hN : M.N = N) (hm : ∀ a b, M.m a b = m a b)
     (hA : ∀ x, (autArr M 1 1)[x]! = A x) (hVs : (secV M).size = N)
     (hV : ∀ x, (secV M)[x]! = V x) (ht : M.g 0 = t) : graphM M 1 = graphK N m inv A V t := by
   unfold graphM graphK graphCase graphCaseK graphSet inV1 inV1K
-  simp only [hN, elems_eq hVs hV, elems_cent hN hm hVs hV, cj_eq hm hinv, hA, hV, hm,
+  simp only [elems_cent hN hm hVs hV, cj_eq hm hinv, hA, hV, hm,
     pw_eq hm, ht]
   rfl
 
@@ -119,7 +119,7 @@ theorem fixedPts_get (hN : M.N = N) (a : Array ℕ) (x : ℕ) :
   · rw [getElem!_neg _ _ (by simp [hN, hx])]
     simp [hx]
 
-theorem unitFixM_eq (hN : M.N = N) (hm : ∀ a b, M.m a b = m a b) {α : ℕ} {A : ℕ → ℕ}
+theorem unitFixM_eq (hN : M.N = N) (_hm : ∀ a b, M.m a b = m a b) {α : ℕ} {A : ℕ → ℕ}
     {C1 C2 : ℕ → Bool} (hA : ∀ x, (autArr M α 2)[x]! = A x)
     (h1s : (M.closure [M.pw (M.g 0) 2, M.m (M.m (M.m (M.g 3) (M.g 4)) (M.g 6)) (M.g 2)]).size = N)
     (h1 : ∀ x, (M.closure [M.pw (M.g 0) 2,
@@ -222,7 +222,7 @@ theorem eaCentM_eq (hN : M.N = N) (hm : ∀ a b, M.m a b = m a b) {V : ℕ → B
   have h3 : (secEA3 M).toList.map Array.toList = ea3K N m := by
     unfold secEA3 ea3K
     rw [hinvs, eaNext_eq hm, eaNext_eq hm]
-    simp only [List.toList_toArray, Array.toList_map, List.map_map]
+    simp only [Array.toList_map, List.map_map]
     rfl
   have hbs : ∀ E : Array ℕ, (secBitmap M E).size = N := fun E => by
     simp [secBitmap, hN]

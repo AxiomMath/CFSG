@@ -53,6 +53,7 @@ theorem comm_of_mem_cent {x c : C.Dg} (h : c ∈ Subgroup.centralizer ({x} : Set
 theorem hrm : D.rm = 2 ^ 248 - 1 := Unfold.rm_eq hF
 
 include hfix in
+omit hF in
 theorem mem_U_mul {d : J} (hd : d ∈ C.Dg) {w : Fin 248 → ZMod 2}
     (hw : w ∈ (sp (U0 D) : Submodule (ZMod 2) (Fin 248 → ZMod 2))) :
     Matrix.vecMul w (𝕄 d) ∈ (sp (U0 D) : Submodule (ZMod 2) (Fin 248 → ZMod 2)) := by
@@ -81,7 +82,7 @@ theorem card_le_cent5 (x : C.Dg) {X : ℕ} (hx : 𝕄 (x : J) = pkMat X)
     (hS : ∀ c ∈ S, ∃ z < 32, ((c.1 : C.Dg) : J)⁻¹ = C.t 5 z) : Nat.card S ≤ cent5 D X := by
   classical
   have hk := hF.consts
-  rw [cent5_eq hF X, ← Nat.card_eq_finsetCard]
+  rw [cent5_eq X, ← Nat.card_eq_finsetCard]
   choose f hf1 hf2 using fun c : S => hS c c.2
   refine Nat.card_le_card_of_injective (fun c => ⟨f c, ?_⟩) ?_
   · refine Finset.mem_filter.mpr ⟨Finset.mem_range.mpr (hf1 c), ?_⟩
@@ -229,7 +230,7 @@ theorem card_centralizer_five_le [Finite J] (hc : CentFacts D O) (x : C.Dg)
     have hf0 : f ≠ 0 := fun h0 => hne (by simp only [w, h0, Matrix.zero_vecMul])
     have hw0 : w ≠ 0 := fun h0 => hf0 (hinv c f h0)
     have hwU : w ∈ (sp (U0 D) : Submodule (ZMod 2) (Fin 248 → ZMod 2)) :=
-      mem_U_mul C hF hfix (hmemD c) hfU
+      mem_U_mul C hfix (hmemD c) hfU
     have hwM : Matrix.vecMul w M = w := by
       simp only [w]
       rw [Matrix.vecMul_vecMul, ← hcomm c, ← Matrix.vecMul_vecMul, hfM]
@@ -246,7 +247,7 @@ theorem card_centralizer_five_le [Finite J] (hc : CentFacts D O) (x : C.Dg)
   set SN := {w | w ∈ (sp (U0 D) : Submodule (ZMod 2) (Fin 248 → ZMod 2)) ∧ nrm M w = 0}
   have hSN : (SN \ {0}).ncard ≤ 15 := by
     have h0 : (0 : Fin 248 → ZMod 2) ∈ SN := ⟨Submodule.zero_mem _, by simp [nrm]⟩
-    rw [Set.ncard_diff_singleton_of_mem h0]
+    rw [Set.ncard_sdiff_singleton_of_mem h0]
     have : SN.ncard ≤ 16 := ncard_nrmU hF hc
     omega
   have hfin : Finite H := inferInstance
@@ -261,7 +262,7 @@ theorem card_centralizer_five_le [Finite J] (hc : CentFacts D O) (x : C.Dg)
       exact (Set.ncard_le_ncard this (Set.toFinite _)).trans (by rw [Set.ncard_singleton]; omega)
     · have : orbit H p ⊆ (fun w => ((⟨f⟩ : Vec), (⟨w⟩ : Vec))) '' (SN \ {0}) := by
         rintro q ⟨c, rfl⟩
-        refine ⟨Matrix.vecMul v (𝕄 ((c : C.Dg) : J)⁻¹), ⟨⟨mem_U_mul C hF hfix (hmemD c) hvU, ?_⟩,
+        refine ⟨Matrix.vecMul v (𝕄 ((c : C.Dg) : J)⁻¹), ⟨⟨mem_U_mul C hfix (hmemD c) hvU, ?_⟩,
           fun h0 => hv0 (hinv c v h0)⟩, ?_⟩
         · rw [nrm_mul M _ (hcomm c), hvN, Matrix.zero_vecMul]
         · change _ = c • p
@@ -289,7 +290,7 @@ theorem ncard_U_ne_zero :
     ext w
     simp
   rw [e] at h32
-  rw [Set.ncard_diff_singleton_of_mem (Submodule.zero_mem _)]
+  rw [Set.ncard_sdiff_singleton_of_mem (Submodule.zero_mem _)]
   omega
 
 include hfix in
@@ -334,7 +335,7 @@ theorem card_centralizer_thirtyone_le [Finite J] (hc : CentFacts D O) (x : C.Dg)
     · have : orbit H p ⊆ (fun w => (⟨w⟩ : Vec)) ''
           ((sp (U0 D) : Submodule (ZMod 2) (Fin 248 → ZMod 2)) \ {0} : Set (Fin 248 → ZMod 2)) := by
         rintro q ⟨c, rfl⟩
-        refine ⟨Matrix.vecMul u (𝕄 ((c : C.Dg) : J)⁻¹), ⟨mem_U_mul C hF hfix (hmemD c) huU,
+        refine ⟨Matrix.vecMul u (𝕄 ((c : C.Dg) : J)⁻¹), ⟨mem_U_mul C hfix (hmemD c) huU,
           fun h0 => hu (hinv c u h0)⟩, ?_⟩
         change _ = c • p
         rw [hsmul c]

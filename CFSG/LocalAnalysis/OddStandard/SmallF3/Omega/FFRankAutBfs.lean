@@ -18,7 +18,7 @@ private lemma ffOutBfsF_mem {n : ℕ} (e : Fin n → Γ) {K : Subgroup Γ} {i : 
   simp [ffOutBfsF]
 
 private lemma ffOutBfs_card_pos [Finite Γ] (K : Subgroup Γ) : 0 < Nat.card K := by
-  haveI : Nonempty ↥K := ⟨⟨1, K.one_mem⟩⟩
+  have : Nonempty ↥K := ⟨⟨1, K.one_mem⟩⟩
   exact Nat.card_pos
 
 private noncomputable def ffOutBfsEquiv {n : ℕ} (e : Fin n → Γ) (he : Function.Injective e)
@@ -59,9 +59,9 @@ private lemma ffOutBfs_coset [Finite Γ] {K K' : Subgroup Γ} (hle : K' ≤ K)
   exact Subgroup.mem_subgroupOf.mp h
 
 private lemma ffOutBfs_union {n : ℕ} (e : Fin n → Γ) (he : Function.Injective e)
-    (one : Fin n) (hone : e one = 1) (mul : Fin n → Fin n → Fin n)
+    (one : Fin n) (_hone : e one = 1) (mul : Fin n → Fin n → Fin n)
     (hmul : ∀ i j, e (mul i j) = e i * e j) {K K' : Subgroup Γ} (hle : K' ≤ K)
-    (hK : ∀ y ∈ K, ∃ i, e i = y) {x : Γ} (hxK : x ∈ K) (hxK' : x ∉ K') {j : Fin n}
+    (hK : ∀ y ∈ K, ∃ i, e i = y) {x : Γ} (hxK : x ∈ K) (_hxK' : x ∉ K') {j : Fin n}
     (hj : e j = x) (hxx : x * x ∈ K') (hmulmem : ∀ y ∈ K, y ∉ K' → x * y ∈ K') :
     ffOutBfsF e K = ffOutBfsF e K' ∪ (ffOutBfsF e K').image (mul j) := by
   ext i
@@ -113,7 +113,7 @@ private lemma ffOutBfs_aux_elemAb [Finite Γ] {n : ℕ} (e : Fin n → Γ)
     rw [hF]; exact h0
   · have hcard1 : Nat.card K ≠ 1 :=
       fun h1 => hbot ((Subgroup.eq_bot_iff_card (H := K)).mpr h1)
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hKp : IsPGroup 2 ↥K := fun g => ⟨1, by
       rw [pow_one, pow_two]
       exact Subtype.ext (hKe g.1 g.2)⟩
@@ -189,7 +189,7 @@ private lemma ffOutBfs_aux_abelian [Finite Γ] {n : ℕ} (e : Fin n → Γ)
     rw [hF]; exact h0
   · have hcard1 : Nat.card K ≠ 1 :=
       fun h1 => hbot ((Subgroup.eq_bot_iff_card (H := K)).mpr h1)
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨a, ha⟩ := IsPGroup.exists_card_eq hKp
     have ha0 : a ≠ 0 := fun h0a => hcard1 (by rw [ha, h0a, pow_zero])
     obtain ⟨b, rfl⟩ : ∃ b, a = b + 1 := ⟨a - 1, by omega⟩

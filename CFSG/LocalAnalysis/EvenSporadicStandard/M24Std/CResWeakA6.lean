@@ -98,7 +98,7 @@ theorem false_of_stepA
     norm_num
   obtain ⟨S, hS⟩ := hzp.exists_le_sylow
   let S₀ : Subgroup (egQD C) := (S : Subgroup P).map P.subtype
-  have hS₀ : IsPGroup 2 S₀ := S.isPGroup'.map P.subtype
+  have hS₀ : IsPGroup 2 S₀ := S.isPGroup.map P.subtype
   have hS₀P : S₀ ≤ P := by
     rintro _ ⟨x, _, rfl⟩
     exact x.2

@@ -15,6 +15,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau : G}
 
+omit [Finite G] in
 private theorem mem_normalizer_of_normalIn {H K : Subgroup G} (hK : NormalIn H K) {g : G}
     (hg : g ∈ K) : g ∈ normalizer (H : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -54,6 +55,7 @@ private lemma p0_eq_one_of_commute_rho (h : Ctx0 t L S x₁ x₂ lam rho) {f : G
   have hmem : f ∈ twoCore t ⊓ L := ⟨hfP, hfL⟩
   rwa [h.hyp.twoCore_inf, Subgroup.mem_bot] at hmem
 
+omit [Finite G] in
 private lemma mem_zpowers_eq_one_or_eq {z g : G} (hz : z * z = 1) (hg : g ∈ zpowers z) :
     g = 1 ∨ g = z := by
   let H : Subgroup G :=
@@ -76,7 +78,7 @@ private lemma mem_zpowers_eq_one_or_eq {z g : G} (hz : z * z = 1) (hg : g ∈ zp
 private lemma card_closure_pair_general {t tau : G} (ht2 : t ^ 2 = 1) (ht1 : t ≠ 1)
     (hτ2 : tau ^ 2 = 1) (hτ1 : tau ≠ 1) (htτ : t * tau = tau * t)
     (hτt : tau ∉ zpowers t) : Nat.card ↥(closure ({t, tau} : Set G)) = 4 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have htτc : Commute t tau := htτ
   have hcl : closure ({t, tau} : Set G) = zpowers t ⊔ zpowers tau := by
     rw [Set.insert_eq, Subgroup.closure_union, ← Subgroup.zpowers_eq_closure,
@@ -189,7 +191,7 @@ theorem p0_comm_O_le_R (hc : Ctx8e t L S x₁ x₂ lam rho tau) :
 
 theorem p0_O_eq (hc : Ctx8e t L S x₁ x₂ lam rho tau) :
     ctxO t tau x₁ x₂ = ctxR t tau x₁ x₂ ⊔ ctxCO t tau x₁ x₂ rho := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hρM : rho ∈ ctxM t tau x₁ x₂ := (p0_gens_mem_M hc.toCtx4).2.2.2.2.1
   have hRX : zpowers rho ≤ Subgroup.normalizer ((ctxO t tau x₁ x₂ : Subgroup G) : Set G) :=
     Subgroup.zpowers_le.mpr (mem_normalizer_of_normalIn (p0_normal_O t tau x₁ x₂) hρM)
@@ -433,7 +435,7 @@ theorem p0_CO_dihedral (hc : Ctx8e t L S x₁ x₂ lam rho tau) :
       rw [show (4 : ℕ) = 2 * 2 from rfl, pow_mul, ha2]
       exact hc.l44.1
     have ha : orderOf (t * g) = 4 := by
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       have h := orderOf_eq_prime_pow (p := 2) (n := 1) (x := t * g) ?_ ?_
       · simpa using h
       · rw [show (2 : ℕ) ^ 1 = 2 from rfl, ha2]
@@ -473,7 +475,7 @@ theorem p0_CO_dihedral (hc : Ctx8e t L S x₁ x₂ lam rho tau) :
       rw [show (4 : ℕ) = 2 * 2 from rfl, pow_mul, hg2]
       exact hc.l44.1
     have ha : orderOf g = 4 := by
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       have h := orderOf_eq_prime_pow (p := 2) (n := 1) (x := g) ?_ ?_
       · simpa using h
       · rw [show (2 : ℕ) ^ 1 = 2 from rfl, hg2]
@@ -513,7 +515,7 @@ theorem p0_CO_center (hc : Ctx8e t L S x₁ x₂ lam rho tau) :
   have hτ2 : tau * tau = 1 := by simpa [pow_two] using hc.l44.1
   have ht2 : t * t = 1 := S4A.t_mul_self hc.hyp
   have hcomm : t * tau = tau * t := p0_comm_t_tau hc
-  haveI : IsMulCommutative (closure {t, tau}) :=
+  have : IsMulCommutative (closure {t, tau}) :=
     Subgroup.isMulCommutative_closure (by
       intro a ha b hb _
       simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at ha hb

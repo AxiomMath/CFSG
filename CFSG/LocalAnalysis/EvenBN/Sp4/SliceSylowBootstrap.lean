@@ -21,7 +21,7 @@ theorem exists_maximal_pGroup {p : ℕ} {T H : Subgroup G} (hT : IsPGroup p T) (
     ∃ W : Subgroup G, IsPGroup p W ∧ T ≤ W ∧ W ≤ H ∧
       ∀ W' : Subgroup G, IsPGroup p W' → W ≤ W' → W' ≤ H → W' = W := by
   obtain ⟨R, hR⟩ := (hT.comap_subtype (K := H)).exists_le_sylow
-  exact ⟨_, R.isPGroup'.map _, fun x hx => ⟨⟨x, hTH hx⟩, hR hx, rfl⟩, map_subtype_le _,
+  exact ⟨_, R.isPGroup.map _, fun x hx => ⟨⟨x, hTH hx⟩, hR hx, rfl⟩, map_subtype_le _,
     fun _ hW' hle hW'H => eq_of_le_of_sylow_map ⟨R, rfl⟩ hW' hle hW'H⟩
 
 theorem exists_sylow_eq_of_normalizer_le [Finite G] {p : ℕ} [Fact p.Prime] {W H : Subgroup G}
@@ -31,8 +31,8 @@ theorem exists_sylow_eq_of_normalizer_le [Finite G] {p : ℕ} [Fact p.Prime] {W 
   obtain ⟨R, hWR⟩ := hW.exists_le_sylow
   refine ⟨R, le_antisymm ?_ hWR⟩
   have hN : (R : Subgroup G) ⊓ normalizer (W : Set G) = W :=
-    hmax _ R.isPGroup'.to_inf_left (le_inf hWR le_normalizer) (inf_le_right.trans hWH)
-  have : Group.IsNilpotent (R : Subgroup G) := R.isPGroup'.isNilpotent
+    hmax _ R.isPGroup.to_inf_left (le_inf hWR le_normalizer) (inf_le_right.trans hWH)
+  have : Group.IsNilpotent (R : Subgroup G) := R.isPGroup.isNilpotent
   have hself : normalizer ((W.subgroupOf R : Subgroup R) : Set R) = W.subgroupOf R := by
     refine le_antisymm (fun x hx => ?_) le_normalizer
     rw [← subgroupOf_normalizer_eq hWR, mem_subgroupOf] at hx

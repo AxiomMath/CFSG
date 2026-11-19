@@ -306,7 +306,6 @@ theorem stronglyQuasithin_of (hG : TheoremFourHyp G) {M X : Subgroup G}
     (h3 : CFSG.Open.pRank 3 (⊤ : Subgroup X) ≤ 2) :
     CFSG.Open.SQTKTauCeti.StronglyQuasithin X := by
   intro p hp hp2
-  change CFSG.Open.pRank p (⊤ : Subgroup X) ≤ 2
   by_cases hp3 : p = 3
   · subst hp3
     exact h3

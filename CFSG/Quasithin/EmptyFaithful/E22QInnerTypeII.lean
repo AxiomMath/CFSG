@@ -203,7 +203,7 @@ theorem typeIIi_aut3 {G : Type} [Group G] {p : ℕ} (hp : p.Prime)
   have hV4 : 4 ≤ Nat.card V := by rwa [Subgroup.card_map_of_injective hι] at hY4
   obtain ⟨S₀, hVS₀⟩ := (typeIIi_isPGroup hVab).exists_le_sylow
   have hS₀ : IsSylowIn 2 (S₀ : Subgroup (PSL2 (ZMod p))) ⊤ := by
-    refine ⟨le_top, S₀.isPGroup', ?_⟩
+    refine ⟨le_top, S₀.isPGroup, ?_⟩
     rw [Subgroup.relIndex_top_right]
     exact S₀.not_dvd_index
   obtain ⟨S, m, hSS, hm2, ⟨eS⟩⟩ := e22pl2psl_sylow_dihedral_q hodd hq8 hS₀

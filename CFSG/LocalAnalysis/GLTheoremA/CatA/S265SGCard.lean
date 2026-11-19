@@ -81,8 +81,8 @@ theorem card_eq_of_tyF {Ω : Type} [Group Ω] [Finite Ω] {S B T : Subgroup Ω} 
       rcases (by omega : k = 4 ∨ k = 5) with rfl | rfl
       · exact Or.inl hk
       refine Or.inr ⟨?_, hk⟩
-      haveI := hFd.finite
-      haveI := nontrivial_of_tyFUni hU
+      have := hFd.finite
+      have := nontrivial_of_tyFUni hU
       obtain ⟨ψ⟩ := SF.nonempty_centerQuot_equiv_pSimple (p := 3) hKcomp.2.2
       have hF : Nat.card F = 64 := hFd.card.trans (by norm_num)
       exact CFSG.LocalAnalysis.GLTheoremA.CatB.U48.catalogIs_u3eight_of_statedProj hF

@@ -57,7 +57,7 @@ theorem chiefAction_eq_one_iff {H : Type*} [Group H] {N W₁ W₂ : Subgroup H}
     exact (key w).mpr (h w w.2)
 
 theorem f4Theta_mem_hermSub_one {ω : Fq 2} (hω : ω ^ 2 + ω + 1 = 0) {x : Fin 5 → ZMod 2}
-    (hx : ∑ i, x i = 0) : CFSG.Quasithin.H13.OrthFour.f4Theta ω x ∈ hermSub 1 := by
+    (_hx : ∑ i, x i = 0) : CFSG.Quasithin.H13.OrthFour.f4Theta ω x ∈ hermSub 1 := by
   rw [TwoEight.mem_hermSub_iff]
   have h := CFSG.Quasithin.H13.OrthFour.f4Theta_herm (K := Fq 2) hω x
   have hs : TwoEight.sigR 1 = fun y : Fq 2 => y ^ 2 := by
@@ -76,7 +76,7 @@ noncomputable def f4ThetaCoreHom (ω : Fq 2) (hω : ω ^ 2 + ω + 1 = 0) :
       apply Multiplicative.toAdd.injective
       simp only [toAdd_ofAdd, toAdd_mul]
       apply Subtype.ext
-      simp only [Subgroup.coe_mul, AddSubgroup.coe_add, AddMemClass.coe_add, toAdd_mul,
+      simp only [Subgroup.coe_mul, AddMemClass.coe_add, toAdd_mul,
         CFSG.Quasithin.H13.OrthFour.f4Theta_add])
 
 theorem f4ThetaCoreHom_bijective (ω : Fq 2) (hω : ω ^ 2 + ω + 1 = 0)
@@ -150,8 +150,7 @@ theorem f4ThetaCoreHom_equivariant (ω : Fq 2) (hω : ω ^ 2 + ω + 1 = 0)
   rw [TwoEight.omegaMinusAct_eq]
   apply Multiplicative.toAdd.injective
   apply Subtype.ext
-  simp only [f4ThetaCoreHom, MonoidHom.mk'_apply, TwoEight.minusAct, toAdd_ofAdd,
-    AddSubgroup.coe_add, AddMemClass.coe_add]
+  simp only [f4ThetaCoreHom, MonoidHom.mk'_apply, TwoEight.minusAct, toAdd_ofAdd]
   rw [hx, hcs]
   have hp := CFSG.Quasithin.H13.OrthFour.f4Theta_perm hω h4
     (Matrix.SpecialLinearGroup.toGL s) (Multiplicative.toAdd (m : CFSG.Quasithin.G6.PermMod 5))
@@ -223,12 +222,14 @@ private noncomputable abbrev a5G'
 private def a5GInv {V : Type} [Group V] (X : Subgroup (MulAut V)) (A : Subgroup V) : Prop :=
   ∀ g ∈ X, ∀ a ∈ A, g a ∈ A
 
+omit [Finite G] in
 private theorem a5_N₁_lt_N₀ (hN1le : N₁ ≤ N₀) (hidx : N₁.relIndex N₀ = 16) : N₁ < N₀ := by
   refine lt_of_le_of_ne hN1le ?_
   intro hEq
   rw [hEq, Subgroup.relIndex_self] at hidx
   omega
 
+omit [Finite G] in
 private theorem a5_N₀_le_normalizer_N₁ (hN1le : N₁ ≤ N₀)
     (hcomm : ∀ x ∈ N₀, ∀ y ∈ N₀, ⁅x, y⁆ ∈ N₁) :
     N₀ ≤ Subgroup.normalizer (N₁ : Set G) := by
@@ -236,6 +237,7 @@ private theorem a5_N₀_le_normalizer_N₁ (hN1le : N₁ ≤ N₀)
   intro x hx y hy
   exact hcomm x hx y (hN1le hy)
 
+omit [Finite G] in
 private theorem a5_conj_mem_N₁ (hN1le : N₁ ≤ N₀)
     (hcomm : ∀ x ∈ N₀, ∀ y ∈ N₀, ⁅x, y⁆ ∈ N₁) :
     ∀ x ∈ N₀, ∀ y ∈ N₁, x * y * x⁻¹ ∈ N₁ := by
@@ -246,6 +248,7 @@ private theorem a5_conj_mem_N₁ (hN1le : N₁ ≤ N₀)
   rw [h2]
   exact Subgroup.mul_mem _ h1 hy
 
+omit [Finite G] in
 private theorem a5_isChiefFactor (hN1le : N₁ ≤ N₀)
     (hDN0 : D ≤ Subgroup.normalizer (N₀ : Set G))
     (hDN1 : D ≤ Subgroup.normalizer (N₁ : Set G))
@@ -256,6 +259,7 @@ private theorem a5_isChiefFactor (hN1le : N₁ ≤ N₀)
     CFSG.ABGLocalTools.IsChiefFactorUnder 2 D N₀ N₁ :=
   ⟨a5_N₁_lt_N₀ hN1le hidx, hDN0, hDN1, a5_conj_mem_N₁ hN1le hcomm, hcomm, hsq, hirr⟩
 
+omit [Finite G] in
 private theorem a5_mem_map_comap [(N₁.subgroupOf N₀).Normal]
     {A : Subgroup (A5Sec N₀ N₁)} (n : ↥N₀) :
     (n : G) ∈ (A.comap (QuotientGroup.mk' (N₁.subgroupOf N₀))).map N₀.subtype ↔
@@ -283,7 +287,7 @@ private theorem a5_centralizer_sup_eq_top (hN1le : N₁ ≤ N₀) (h2grp : IsPGr
     obtain ⟨k, hk⟩ := h2grp.exists_card_eq
     rw [hk]
     exact Nat.Coprime.pow_right k (by norm_num)
-  haveI : Group.IsNilpotent ↥N₀ := IsPGroup.isNilpotent h2grp
+  have : Group.IsNilpotent ↥N₀ := IsPGroup.isNilpotent h2grp
   have hsolv : Group.IsSolvable ↥N₀ := inferInstance
   have hzpow_fixed : N₀ ≤ (N₀ ⊓ Subgroup.centralizer (Subgroup.zpowers d : Set G)) ⊔ N₁ := by
     intro n hn
@@ -316,6 +320,7 @@ private theorem a5_rho_d_ne_one (hN1le : N₁ ≤ N₀) (h2grp : IsPGroup 2 N₀
   rw [hEq, Subgroup.relIndex_self] at hdidx
   omega
 
+omit [Finite G] in
 private theorem a5_centralizer_not_le {d : G}
     (hdidx : ((N₀ ⊓ Subgroup.centralizer ({d} : Set G)) ⊔ N₁).relIndex N₀ = 4)
     (hidx : N₁.relIndex N₀ = 16) :
@@ -325,6 +330,7 @@ private theorem a5_centralizer_not_le {d : G}
   rw [hEq] at hdidx
   omega
 
+omit [Finite G] in
 private theorem a5_exists_fixed (hDN0 : D ≤ Subgroup.normalizer (N₀ : Set G))
     (hDN1 : D ≤ Subgroup.normalizer (N₁ : Set G)) [(N₁.subgroupOf N₀).Normal]
     {d c : G} (hdD : d ∈ D) (hc : c ∈ N₀ ⊓ Subgroup.centralizer ({d} : Set G))
@@ -344,8 +350,9 @@ private theorem a5_exists_fixed (hDN0 : D ≤ Subgroup.normalizer (N₀ : Set G)
     rw [QuotientGroup.eq, Subgroup.mem_subgroupOf,
       Subgroup.coe_mul, Subgroup.coe_inv,
       CFSG.ABGLocalTools.chiefConj_apply_coe, hcd]
-    simpa using Subgroup.one_mem N₁
+    simp
 
+omit [Finite G] in
 private theorem a5_ker_eq (hDN0 : D ≤ Subgroup.normalizer (N₀ : Set G))
     (hDN1 : D ≤ Subgroup.normalizer (N₁ : Set G)) [(N₁.subgroupOf N₀).Normal]
     {φ : ↥D →* alternatingGroup (Fin 5)}
@@ -357,6 +364,7 @@ private theorem a5_ker_eq (hDN0 : D ≤ Subgroup.normalizer (N₀ : Set G))
     chiefAction_eq_one_iff hDN0 hDN1 e]
   exact (hφker e).symm
 
+omit [Finite G] in
 private theorem a5_ker_rangeRestrict (hDN0 : D ≤ Subgroup.normalizer (N₀ : Set G))
     (hDN1 : D ≤ Subgroup.normalizer (N₁ : Set G)) [(N₁.subgroupOf N₀).Normal] :
     (a5Rho hDN0 hDN1).rangeRestrict.ker = (a5Rho hDN0 hDN1).ker := by
@@ -364,6 +372,7 @@ private theorem a5_ker_rangeRestrict (hDN0 : D ≤ Subgroup.normalizer (N₀ : S
   rw [MonoidHom.mem_ker, MonoidHom.mem_ker]
   exact ⟨fun h => congrArg Subtype.val h, fun h => Subtype.ext h⟩
 
+omit [Finite G] in
 private theorem a5_rangeRestrict_d_pow_three (hDN0 : D ≤ Subgroup.normalizer (N₀ : Set G))
     (hDN1 : D ≤ Subgroup.normalizer (N₁ : Set G)) [(N₁.subgroupOf N₀).Normal]
     {d : G} (hdD : d ∈ D) (hd3 : orderOf d = 3)
@@ -381,6 +390,7 @@ private theorem a5_rangeRestrict_d_pow_three (hDN0 : D ≤ Subgroup.normalizer (
     have := congrArg (fun f : ↥(a5G' hDN0 hDN1) => (f : MulAut (A5Sec N₀ N₁))) h
     simpa using this
 
+omit [Finite G] in
 private theorem a5_nonempty_G'_equiv_SL (hDN0 : D ≤ Subgroup.normalizer (N₀ : Set G))
     (hDN1 : D ≤ Subgroup.normalizer (N₁ : Set G)) [(N₁.subgroupOf N₀).Normal]
     {φ : ↥D →* alternatingGroup (Fin 5)} (hφsurj : Function.Surjective φ)
@@ -394,17 +404,20 @@ private theorem a5_nonempty_G'_equiv_SL (hDN0 : D ≤ Subgroup.normalizer (N₀ 
   exact (QuotientGroup.quotientKerEquivOfSurjective φ hφsurj).trans
     (CFSG.CGT.PushingUpLit.CGT6.sl2_four_equiv_alt5.some.symm)
 
+omit [Finite G] in
 private theorem a5_card_sec [(N₁.subgroupOf N₀).Normal] (hidx : N₁.relIndex N₀ = 16) :
     Nat.card (A5Sec N₀ N₁) = 16 := by
   show Nat.card (↥N₀ ⧸ N₁.subgroupOf N₀) = 16
   rw [← Subgroup.index_eq_card]
   exact hidx
 
+omit [Finite G] in
 private theorem a5_card_sec_le [(N₁.subgroupOf N₀).Normal] (hidx : N₁.relIndex N₀ = 16) :
     Nat.card (A5Sec N₀ N₁) ≤ 2 ^ (2 * 2) := by
   rw [a5_card_sec hidx]
   norm_num
 
+omit [Finite G] in
 private theorem a5_le_normalizer_of_GInv (hDN0 : D ≤ Subgroup.normalizer (N₀ : Set G))
     (hDN1 : D ≤ Subgroup.normalizer (N₁ : Set G)) [(N₁.subgroupOf N₀).Normal]
     {A : Subgroup (A5Sec N₀ N₁)} (hA : a5GInv (a5G' hDN0 hDN1) A) :
@@ -434,6 +447,7 @@ private theorem a5_le_normalizer_of_GInv (hDN0 : D ≤ Subgroup.normalizer (N₀
     have h1 := hstep e⁻¹ (inv_mem he) (e * y * e⁻¹) hy
     rwa [show e⁻¹ * (e * y * e⁻¹) * (e⁻¹)⁻¹ = y from by group] at h1⟩
 
+omit [Finite G] in
 private theorem a5_GInv_of_le_normalizer (hDN0 : D ≤ Subgroup.normalizer (N₀ : Set G))
     (hDN1 : D ≤ Subgroup.normalizer (N₁ : Set G)) [(N₁.subgroupOf N₀).Normal]
     {A : Subgroup (A5Sec N₀ N₁)}
@@ -455,6 +469,7 @@ private theorem a5_GInv_of_le_normalizer (hDN0 : D ≤ Subgroup.normalizer (N₀
     CFSG.ABGLocalTools.chiefAction_mk hDN0 hDN1]
   exact (a5_mem_map_comap (A := A) (CFSG.ABGLocalTools.chiefConj hDN0 e n)).mp hconj
 
+omit [Finite G] in
 private theorem a5_GInv_iff (hDN0 : D ≤ Subgroup.normalizer (N₀ : Set G))
     (hDN1 : D ≤ Subgroup.normalizer (N₁ : Set G)) [(N₁.subgroupOf N₀).Normal]
     (A : Subgroup (A5Sec N₀ N₁)) :
@@ -463,6 +478,7 @@ private theorem a5_GInv_iff (hDN0 : D ≤ Subgroup.normalizer (N₀ : Set G))
         Set G) :=
   ⟨a5_le_normalizer_of_GInv hDN0 hDN1, a5_GInv_of_le_normalizer hDN0 hDN1⟩
 
+omit [Finite G] in
 private theorem a5_GInv_eq_bot_or_top (hN1le : N₁ ≤ N₀)
     (hDN0 : D ≤ Subgroup.normalizer (N₀ : Set G))
     (hDN1 : D ≤ Subgroup.normalizer (N₁ : Set G)) [(N₁.subgroupOf N₀).Normal]
@@ -501,6 +517,7 @@ private theorem a5_GInv_eq_bot_or_top (hN1le : N₁ ≤ N₀)
     have : (n : G) ∈ Y := by rw [hY]; exact n.2
     exact (a5_mem_map_comap (A := A) n).mp this
 
+omit [Finite G] in
 private theorem a5_not_trivial_action (hDN0 : D ≤ Subgroup.normalizer (N₀ : Set G))
     (hDN1 : D ≤ Subgroup.normalizer (N₁ : Set G)) [(N₁.subgroupOf N₀).Normal]
     {d : G} (hdD : d ∈ D) (hρd_ne : a5Rho hDN0 hDN1 ⟨d, hdD⟩ ≠ 1)
@@ -599,6 +616,7 @@ private theorem a5_exists_beta {V : Type} [CommGroup V] {G : Subgroup (MulAut V)
   refine ⟨θ, β', ⟨hβ'inj, hβ'surj⟩, fun g v => ?_⟩
   simpa [β'] using hβeq g ⟨v, Subgroup.mem_top v⟩ (Subgroup.mem_top _)
 
+omit [Finite G] in
 private theorem a5_bridge_pi (hDN0 : D ≤ Subgroup.normalizer (N₀ : Set G))
     (hDN1 : D ≤ Subgroup.normalizer (N₁ : Set G)) [(N₁.subgroupOf N₀).Normal]
     {d : ↥D} {n n' : ↥N₀} (hn' : (n' : G) = (d : G) * n * (d : G)⁻¹) :
@@ -615,6 +633,7 @@ private theorem a5_bridge_pi (hDN0 : D ≤ Subgroup.normalizer (N₀ : Set G))
     (n' : A5Sec N₀ N₁) from QuotientGroup.mk'_apply _ _]
   rw [hcn']
 
+omit [Finite G] in
 private theorem natA5Sec_of_bridge (hDN0 : D ≤ Subgroup.normalizer (N₀ : Set G))
     (hDN1 : D ≤ Subgroup.normalizer (N₁ : Set G)) [(N₁.subgroupOf N₀).Normal]
     (θ : ↥(a5G' hDN0 hDN1) ≃* Matrix.SpecialLinearGroup (Fin 2) (Fq 2))
@@ -659,13 +678,13 @@ theorem a5MinusModule : A5MinusModule := by
   obtain ⟨φ, hφsurj, hφker⟩ := hφex
   obtain ⟨d, hdD, hd3, hdidx⟩ := hdex
   have hN₀norm : N₀ ≤ Subgroup.normalizer (N₁ : Set G) := a5_N₀_le_normalizer_N₁ hN1le hcomm
-  haveI hN₁normal : (N₁.subgroupOf N₀).Normal :=
+  have hN₁normal : (N₁.subgroupOf N₀).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hN₀norm
   have hchief : CFSG.ABGLocalTools.IsChiefFactorUnder 2 D N₀ N₁ :=
     a5_isChiefFactor hN1le hDN0 hDN1 hcomm hsq hidx hirr
   let V := A5Sec N₀ N₁
-  haveI hElem : IsElementaryAbelian 2 V := hchief.isElementaryAbelian
-  letI hCommGroup : CommGroup V :=
+  have hElem : IsElementaryAbelian 2 V := hchief.isElementaryAbelian
+  let hCommGroup : CommGroup V :=
     { (inferInstance : Group V) with
       mul_comm := fun a b => (IsMulCommutative.is_comm (M := V)).comm a b }
   have hV2 : ∀ v : V, v ^ 2 = 1 :=
@@ -674,7 +693,7 @@ theorem a5MinusModule : A5MinusModule := by
     a5_rho_d_ne_one hN1le h2grp hDN0 hDN1 hN₀norm hdD hd3 hdidx
   have hC_not_le : ¬ (N₀ ⊓ Subgroup.centralizer ({d} : Set G)) ≤ N₁ :=
     a5_centralizer_not_le hdidx hidx
-  obtain ⟨c, hc, hcN1⟩ := SetLike.not_le_iff_exists.mp hC_not_le
+  obtain ⟨c, hc, hcN1⟩ := IsConcreteLE.not_le_iff_exists.mp hC_not_le
   have hfix_exists : ∃ v : V, v ≠ 1 ∧ a5Rho hDN0 hDN1 ⟨d, hdD⟩ v = v :=
     a5_exists_fixed hDN0 hDN1 hdD hc hcN1
   have hGiso : Nonempty (↥(a5G' hDN0 hDN1) ≃* Matrix.SpecialLinearGroup (Fin 2) (Fq 2)) :=

@@ -13,15 +13,18 @@ variable {F : Type} [Field F] [CharP F 2]
 @[expose] def Eig (B : Matrix (Fin 6) (Fin 6) F) (c : F) : Matrix (Fin 6) (Fin 6) F :=
   1 + (c ^ 2) • B + c • (B ^ 2)
 
+omit [CharP F 2] in
 theorem cube_pow_eq_one {ω : F} (hω3 : ω ^ 3 = 1) (j : ℕ) : (ω ^ j) ^ 3 = 1 := by
   rw [← pow_mul, mul_comm, pow_mul, hω3, one_pow]
 
+omit [CharP F 2] in
 theorem one_add_omega_add_sq {ω : F} (hω3 : ω ^ 3 = 1) (hω1 : ω ≠ 1) : 1 + ω + ω ^ 2 = 0 := by
   have h : (ω - 1) * (1 + ω + ω ^ 2) = 0 := by linear_combination hω3
   rcases mul_eq_zero.1 h with h1 | h1
   · exact absurd (sub_eq_zero.1 h1) hω1
   · exact h1
 
+omit [CharP F 2] in
 theorem pow_ne_one_of_mod {ω : F} (hω3 : ω ^ 3 = 1) (hω1 : ω ≠ 1) (k : ℕ) (hk : k % 3 ≠ 0) :
     ω ^ k ≠ 1 := by
   have hk' : ω ^ k = ω ^ (k % 3) := by
@@ -36,6 +39,7 @@ theorem pow_ne_one_of_mod {ω : F} (hω3 : ω ^ 3 = 1) (hω1 : ω ≠ 1) (k : �
     have h4' : ω ^ 4 = 1 := by rw [show ω ^ 4 = (ω ^ 2) ^ 2 by ring, h2, one_pow]
     exact hω1 (h4.symm.trans h4')
 
+omit [CharP F 2] in
 theorem B_mul_Eig {B : Matrix (Fin 6) (Fin 6) F} {c : F} (hB3 : B ^ 3 = 1) (hc : c ^ 3 = 1) :
     B * Eig B c = c • Eig B c := by
   have hBBB : B * B ^ 2 = 1 := by
@@ -51,6 +55,7 @@ theorem B_mul_Eig {B : Matrix (Fin 6) (Fin 6) F} {c : F} (hB3 : B ^ 3 = 1) (hc :
     smul_smul, smul_smul, hc2, hcc, one_smul]
   abel
 
+omit [CharP F 2] in
 theorem B_mulVec_Eig {B : Matrix (Fin 6) (Fin 6) F} {c : F} (hB3 : B ^ 3 = 1) (hc : c ^ 3 = 1)
     (a : Fin 6 → F) : B *ᵥ (Eig B c *ᵥ a) = c • (Eig B c *ᵥ a) := by
   rw [Matrix.mulVec_mulVec, B_mul_Eig hB3 hc, Matrix.smul_mulVec]
@@ -66,6 +71,7 @@ theorem Eig_mul_self {B : Matrix (Fin 6) (Fin 6) F} {c : F} (hB3 : B ^ 3 = 1) (h
     show c ^ 2 * c + c * (c * c) = 0 by linear_combination c ^ 3 * (two_eq_zero' (F := F)), zero_smul,
     add_zero]
 
+omit [CharP F 2] in
 theorem commute_Eig {Y B : Matrix (Fin 6) (Fin 6) F} (hYB : Commute Y B) (c : F) :
     Commute Y (Eig B c) := by
   unfold Eig
@@ -93,6 +99,7 @@ theorem Eig_decomp {ω : F} (hω3 : ω ^ 3 = 1) (hω1 : ω ≠ 1) (B : Matrix (F
     (v : Fin 6 → F) : ∑ k ∈ Finset.range 3, Eig B (ω ^ k) *ᵥ v = v := by
   rw [← Matrix.sum_mulVec, Eig_sum_range hω3 hω1 B, Matrix.one_mulVec]
 
+omit [CharP F 2] in
 theorem herm2_eigen_orth {B : Matrix (Fin 6) (Fin 6) F}
     (hB : ∀ a b : Fin 6 → F, herm2 (B *ᵥ a) (B *ᵥ b) = herm2 a b) {c d : F} {u w : Fin 6 → F}
     (hu : B *ᵥ u = c • u) (hw : B *ᵥ w = d • w) (hcd : c ^ 2 * d ≠ 1) : herm2 u w = 0 := by
@@ -103,6 +110,7 @@ theorem herm2_eigen_orth {B : Matrix (Fin 6) (Fin 6) F}
   · exact absurd (sub_eq_zero.1 h1) hcd
   · exact h1
 
+omit [CharP F 2] in
 theorem Eig_orth {ω : F} {B : Matrix (Fin 6) (Fin 6) F}
     (hB : ∀ a b : Fin 6 → F, herm2 (B *ᵥ a) (B *ᵥ b) = herm2 a b) (hB3 : B ^ 3 = 1) (hω3 : ω ^ 3 = 1)
     (hω1 : ω ≠ 1) {j k : ℕ} (hk : k < 3) (hj : j < 3) (hjk : j ≠ k) (a b : Fin 6 → F) :
@@ -153,7 +161,7 @@ theorem eq_one_of_isometry_commute {ω : F} (hω3 : ω ^ 3 = 1) (hω1 : ω ≠ 1
       rw [Matrix.mulVec_mulVec, Eig_mul_self hB3 (cube_pow_eq_one hω3 j)]
     obtain ⟨v0, hv0⟩ : ∃ v0 : Fin 6 → F, Eig B (ω ^ j) *ᵥ v0 ≠ v0 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       apply hne j hj
       exact Matrix.ext_iff_mulVec.2 fun w => by rw [Matrix.one_mulVec]; exact hcon w
     refine key_lemma2 hF4 hY hY7 (commute_Eig hYB _)

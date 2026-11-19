@@ -39,7 +39,7 @@ theorem Psi.yop_apply (j : Fin TwistTag.E6.tag.rank) (c : K) (v : Rv K) (γ : Dr
 theorem Psi.piD_rootVec_eq_zero {ν : Fin TwistTag.E6.tag.rank → ℤ}
     (h : ν (e6Idx 1) ≠ -1) : piD K (rootVec TwistTag.E6.tag K ν) = 0 := by
   ext γ
-  rw [piD_rootVec, if_neg]
+  rw [piD_rootVec, ite_eq_right]
   · rfl
   · intro e
     apply h
@@ -60,7 +60,7 @@ theorem Psi.xOp_v0
   unfold v0
   rw [E6PinnedAdjoint.xOp_rootVec_E6 i c isRoot_neg_highest h1 h2]
   have h0 : rootVec TwistTag.E6.tag K (-e6HighestRoot + Pi.single i 1) = 0 :=
-    dif_neg fun h => e6_highest_add_aux i hi (mem_rootFinset.2 h)
+    dite_eq_right fun h => e6_highest_add_aux i hi (mem_rootFinset.2 h)
   rw [h0, smul_zero, add_zero]
 
 theorem Psi.yOp_v0
@@ -70,7 +70,7 @@ theorem Psi.yOp_v0
   unfold v0
   rw [E6PinnedAdjoint.yOp_rootVec_E6 i c isRoot_neg_highest h1 h2]
   have h0 : rootVec TwistTag.E6.tag K (-e6HighestRoot - Pi.single i 1) = 0 :=
-    dif_neg fun h => e6_highest_sub_aux i (mem_rootFinset.2 h)
+    dite_eq_right fun h => e6_highest_sub_aux i (mem_rootFinset.2 h)
   rw [h0, smul_zero, add_zero]
 
 theorem Psi.sub_single_mem_degOne {j : Fin TwistTag.E6.tag.rank}
@@ -136,7 +136,7 @@ theorem Psi.piD_xOp
         rw [map_add, map_smul, xop_apply]
         simp only [Pi.add_apply, Pi.smul_apply, piD_rootVec, smul_eq_mul]
         by_cases hγ : γ.1 - Pi.single i 1 ∈ degOneRoots
-        · rw [dif_pos hγ]
+        · rw [dite_eq_left hγ]
           have e : (μ + Pi.single i 1 = γ.1 - e6HighestRoot) ↔
               (μ = (⟨γ.1 - Pi.single i 1, hγ⟩ : Dr).1 - e6HighestRoot) := by
             constructor <;> intro e
@@ -148,7 +148,7 @@ theorem Psi.piD_xOp
               rw [e']
               abel
           simp only [e]
-        · rw [dif_neg hγ, if_neg (fun e => hγ (sub_single_mem_degOne hi hμ γ e)), mul_zero]
+        · rw [dite_eq_right hγ, ite_eq_right (fun e => hγ (sub_single_mem_degOne hi hμ γ e)), mul_zero]
   exact LinearMap.congr_fun key y
 
 theorem Psi.piD_yOp
@@ -185,7 +185,7 @@ theorem Psi.piD_yOp
         rw [map_add, map_smul, yop_apply]
         simp only [Pi.add_apply, Pi.smul_apply, piD_rootVec, smul_eq_mul]
         by_cases hγ : γ.1 + Pi.single i 1 ∈ degOneRoots
-        · rw [dif_pos hγ]
+        · rw [dite_eq_left hγ]
           have e : (μ - Pi.single i 1 = γ.1 - e6HighestRoot) ↔
               (μ = (⟨γ.1 + Pi.single i 1, hγ⟩ : Dr).1 - e6HighestRoot) := by
             constructor <;> intro e
@@ -197,7 +197,7 @@ theorem Psi.piD_yOp
               rw [e']
               abel
           simp only [e]
-        · rw [dif_neg hγ, if_neg (fun e => hγ (add_single_mem_degOne hi hμ γ e)), mul_zero]
+        · rw [dite_eq_right hγ, ite_eq_right (fun e => hγ (add_single_mem_degOne hi hμ γ e)), mul_zero]
   exact LinearMap.congr_fun key y
 
 theorem psi_conj_xUnit

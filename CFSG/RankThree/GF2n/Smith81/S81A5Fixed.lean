@@ -85,27 +85,27 @@ theorem coord_rho_cubeBasis_pos {a b : Fin 6} (hab : a.val + 1 = b.val ∨ b.val
       coord K (cubeBasis K I) J + c * coord K (cubeBasis K I) (replSet J b a hJ.1 hJ.2) := by
   rw [rho_transvGL_cubeBasis hab hne c I]
   by_cases h : b ∈ I.val ∧ a ∉ I.val
-  · rw [dif_pos h]
-    simp only [coord_add, coord_smul, coord_cubeBasis, smul_eq_mul]
+  · rw [dite_eq_left h]
+    simp only [coord_add, coord_smul, coord_cubeBasis]
     by_cases hq : replSet I a b h.1 h.2 = J
-    · rw [if_pos hq, if_pos ((replSet_eq_iff h.1 h.2 hJ.1 hJ.2).mp hq)]
-    · rw [if_neg hq, if_neg (fun h' => hq ((replSet_eq_iff h.1 h.2 hJ.1 hJ.2).mpr h'))]
-  · rw [dif_neg h]
+    · rw [ite_eq_left hq, ite_eq_left ((replSet_eq_iff h.1 h.2 hJ.1 hJ.2).mp hq)]
+    · rw [ite_eq_right hq, ite_eq_right (fun h' => hq ((replSet_eq_iff h.1 h.2 hJ.1 hJ.2).mpr h'))]
+  · rw [dite_eq_right h]
     simp only [coord_cubeBasis]
     have hq : ¬ (I = replSet J b a hJ.1 hJ.2) := fun h' => h (replSet_mem_imp hne hJ.1 hJ.2 h')
-    rw [if_neg hq, mul_zero, add_zero]
+    rw [ite_eq_right hq, mul_zero, add_zero]
 
 theorem coord_rho_cubeBasis_neg {a b : Fin 6} (hab : a.val + 1 = b.val ∨ b.val + 1 = a.val)
     (hne : a ≠ b) (c : K) (I J : Set.powersetCard (Fin 6) 3) (hJ : ¬ (a ∈ J.val ∧ b ∉ J.val)) :
     coord K (rho K (transvGL K a b hne c) (cubeBasis K I)) J = coord K (cubeBasis K I) J := by
   rw [rho_transvGL_cubeBasis hab hne c I]
   by_cases h : b ∈ I.val ∧ a ∉ I.val
-  · rw [dif_pos h]
-    simp only [coord_add, coord_smul, coord_cubeBasis, smul_eq_mul]
+  · rw [dite_eq_left h]
+    simp only [coord_add, coord_smul, coord_cubeBasis]
     by_cases hq : replSet I a b h.1 h.2 = J
     · exact absurd (replSet_eq_imp hne h.1 h.2 hq) hJ
-    · rw [if_neg hq, mul_zero, add_zero]
-  · rw [dif_neg h]
+    · rw [ite_eq_right hq, mul_zero, add_zero]
+  · rw [dite_eq_right h]
 
 theorem coord_rho_transvGL {a b : Fin 6} (hab : a.val + 1 = b.val ∨ b.val + 1 = a.val) (hne : a ≠ b)
     (c : K) (ξ : Cube K) (J : Set.powersetCard (Fin 6) 3) :
@@ -115,7 +115,7 @@ theorem coord_rho_transvGL {a b : Fin 6} (hab : a.val + 1 = b.val ∨ b.val + 1 
     rw [(cubeBasis K).span_eq]
     exact Submodule.mem_top
   by_cases hJ : a ∈ J.val ∧ b ∉ J.val
-  · rw [dif_pos hJ]
+  · rw [dite_eq_left hJ]
     induction hξ using Submodule.span_induction with
     | mem x hx =>
       obtain ⟨I, rfl⟩ := hx
@@ -129,7 +129,7 @@ theorem coord_rho_transvGL {a b : Fin 6} (hab : a.val + 1 = b.val ∨ b.val + 1 
       simp only [map_smul, coord_smul]
       rw [hx]
       ring
-  · rw [dif_neg hJ, add_zero]
+  · rw [dite_eq_right hJ, add_zero]
     induction hξ using Submodule.span_induction with
     | mem x hx =>
       obtain ⟨I, rfl⟩ := hx
@@ -147,7 +147,7 @@ theorem coord_eq_zero_of_fixed {a b : Fin 6} (hab : a.val + 1 = b.val ∨ b.val 
     (hb : b ∈ I.val) (ha : a ∉ I.val) : coord K ξ I = 0 := by
   have hJ := replSet_eq_imp hne hb ha rfl
   have key := coord_rho_transvGL hab hne 1 ξ (replSet I a b hb ha)
-  rw [dif_pos hJ, h] at key
+  rw [dite_eq_left hJ, h] at key
   have hI : I = replSet (replSet I a b hb ha) b a hJ.1 hJ.2 :=
     (replSet_eq_iff hb ha hJ.1 hJ.2).mp rfl
   rw [← hI, one_mul] at key
@@ -160,7 +160,7 @@ theorem coord_ιMulti_e_sorted {i j k : Fin 6} (hij : i < j) (hjk : j < k)
     intro r
     fin_cases r <;> rfl
   by_cases hJ : J.val = {i, j, k}
-  · rw [if_pos hJ]
+  · rw [ite_eq_left hJ]
     have hJe : J = tripleSet i j k hij.ne (hij.trans hjk).ne hjk.ne := Subtype.ext hJ
     rw [hJe, coord_ιMulti_sorted _ hij hjk]
     unfold minor3
@@ -169,13 +169,13 @@ theorem coord_ιMulti_e_sorted {i j k : Fin 6} (hij : i < j) (hjk : j < k)
       ext r s
       rw [Matrix.of_apply, hv, Matrix.one_apply]
       fin_cases r <;> fin_cases s <;>
-        simp [e, Pi.single_apply, hij.ne, hij.ne', hjk.ne, hjk.ne', (hij.trans hjk).ne,
+        simp [e, hij.ne, hij.ne', hjk.ne, hjk.ne', (hij.trans hjk).ne,
           (hij.trans hjk).ne']
     rw [hM, Matrix.det_one]
-  · rw [if_neg hJ]
+  · rw [ite_eq_right hJ]
     have hex : ∃ r : Fin 3, ![i, j, k] r ∉ J.val := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       apply hJ
       have hsub : ({i, j, k} : Finset (Fin 6)) ⊆ J.val := by
         intro x hx
@@ -194,7 +194,7 @@ theorem coord_ιMulti_e_sorted {i j k : Fin 6} (hij : i < j) (hjk : j < k)
     intro s
     rw [Matrix.of_apply, hv]
     simp only [e, Pi.single_apply]
-    apply if_neg
+    apply ite_eq_right
     intro heq
     apply hr
     rw [← heq]

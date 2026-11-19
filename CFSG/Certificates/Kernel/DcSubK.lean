@@ -48,7 +48,7 @@ theorem subK_ptsArr_getD_le (G : Array (Array Nat)) (par lab : Array Nat) (q : N
     rw [subK_ptsArr_succ, ← ih]
     have hs := subK_ptsArr_size G par lab q N
     simp only [ptsStep, Array.getD_eq_getD_getElem?, Array.getElem?_push, hs]
-    rw [if_neg (by omega)]
+    rw [ite_eq_right (by omega)]
 
 theorem subK_ptsArr_getD (G : Array (Array Nat)) (par lab : Array Nat) (q : Nat)
     {k N : Nat} (hk : k < N) : (ptsArr G par lab N q).getD k 0 =
@@ -68,12 +68,12 @@ theorem subK_elemK {n : Nat} {B : List Nat} {G : Nat → Nat → Nat} {m : Nat}
   unfold elemK at h
   by_cases hk : k = 0
   · subst hk
-    simp only [beq_self_eq_true, if_true, Bool.and_eq_true, beq_iff_eq, List.all_eq_true,
+    simp only [beq_self_eq_true, ite_true, Bool.and_eq_true, beq_iff_eq, List.all_eq_true,
       List.mem_range, decide_eq_true_eq, Bool.or_eq_true] at h
     obtain ⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨h1, -⟩, -⟩, -⟩, h2⟩, h3⟩, h4⟩, h5⟩, h6⟩, h7⟩, -⟩, -⟩ := h
     exact ⟨fun _ => h1, fun h0 => absurd rfl h0, h2, h3, h4, h5, h6, h7⟩
   · have hk' : (k == 0) = false := by simp [hk]
-    simp only [hk', Bool.false_eq_true, if_false, Bool.and_eq_true, beq_iff_eq, List.all_eq_true,
+    simp only [hk', Bool.false_eq_true, ite_false, Bool.and_eq_true, beq_iff_eq, List.all_eq_true,
       List.mem_range, decide_eq_true_eq, Bool.or_eq_true] at h
     obtain ⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨hp, hl⟩, hr⟩, h2⟩, h3⟩, h4⟩, h5⟩, h6⟩, h7⟩, -⟩, -⟩ := h
     exact ⟨fun h0 => absurd h0 hk, fun _ => ⟨hp, hl, hr⟩, h2, h3, h4, h5, h6, h7⟩
@@ -149,7 +149,7 @@ theorem subK_pts (hG : ∀ t < m, Good n (G.getD t #[]) (Lm t))
       rw [hpar k hk, hlab k hk, ← subK_ptsArr_getD_le G par lab q hp E.N hk.le]
       have ih' := (ih (E.par k) hp (by omega)).1
       have := subK_img (hG _ hl) ih'
-      simp only [h0, if_false]
+      simp only [h0, ite_false]
       exact ⟨by rw [this.1]; exact this.2, this.1⟩
 
 theorem subK_rowOf (P : Nat → Array Nat) (k : Nat) :

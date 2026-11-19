@@ -16,11 +16,11 @@ theorem exists_borelMoves_of_isL2 (hExt : K14_3Ext) {W : Type} [CommGroup W] [Fi
     {J : Subgroup W} (hJ : J ∈ irrSet L) (hJC : J ⊓ fixV L ≠ ⊥) :
     ∃ S₀ : Subgroup (MulAut W), IsSylowIn 2 S₀ L ∧ BorelMoves L S₀ := by
   obtain ⟨K, hKf, hKfin, hKcard, hR⟩ := hExt W hW L n hL hn J hJ hJC
-  letI : Field K := hKf
-  letI : Finite K := hKfin
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 :=
+  let : Field K := hKf
+  let : Finite K := hKfin
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 :=
     charP_of_card_eq_prime_pow (p := 2) (f := n)
       (by rw [← Nat.card_eq_fintype_card, hKcard])
   have h8 : 8 ≤ Nat.card K := by
@@ -31,10 +31,10 @@ theorem exists_borelMoves_of_isL2 (hExt : K14_3Ext) {W : Type} [CommGroup W] [Fi
     obtain ⟨-, F, hFf, hFfin, hFcard, ⟨eF⟩⟩ :=
       CFSG.Blueprint.LieModel.statedClassicalModel hL (t := .PSL) (n := 2) (p := 2) (f := n)
         (by decide)
-    letI : Field F := hFf
-    letI : Finite F := hFfin
-    haveI : Fintype F := Fintype.ofFinite F
-    haveI : CharP F 2 :=
+    let : Field F := hFf
+    let : Finite F := hFfin
+    have : Fintype F := Fintype.ofFinite F
+    have : CharP F 2 :=
       charP_of_card_eq_prime_pow (p := 2) (f := n)
         (by rw [← Nat.card_eq_fintype_card, hFcard])
     have hcardF : Nat.card ↥L = Nat.card SL(2, F) := by

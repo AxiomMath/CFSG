@@ -12,7 +12,7 @@ open CFSG.ComponentClassification.GrSLit.L34Facts
 open CFSG.Open
 
 private theorem w183finL34_exists_ne_one_r1 {A : Subgroup (Equiv.Perm (Fin 42))}
-    (hcard : Nat.card A = 4) (hr : r₁ ∈ A) :
+    (hcard : Nat.card A = 4) (_hr : r₁ ∈ A) :
     ∃ y ∈ A, y ≠ 1 ∧ y ≠ r₁ := by
   by_contra hcon
   have hcon' : ∀ y ∈ A, y = 1 ∨ y = r₁ := by
@@ -66,7 +66,7 @@ private theorem w183finL34_eq_four {A : Subgroup (Equiv.Perm (Fin 42))}
 private theorem w183finL34_isElemAbelian_map_conj {A : Subgroup (Equiv.Perm (Fin 42))}
     (hel : IsElemAbelian 2 A) (y : Equiv.Perm (Fin 42)) :
     IsElemAbelian 2 (A.map (MulAut.conj y⁻¹).toMonoidHom) := by
-  haveI : IsMulCommutative A := hel.1
+  have : IsMulCommutative A := hel.1
   refine ⟨Subgroup.map_isMulCommutative A _, ?_⟩
   intro x hx
   rw [Subgroup.mem_map] at hx
@@ -217,7 +217,7 @@ theorem exists_conj_Z0
     intro hbot
     rw [hbot, Subgroup.card_bot] at hcard
     omega
-  haveI : Nontrivial A := (Subgroup.nontrivial_iff_ne_bot A).2 hne
+  have : Nontrivial A := (Subgroup.nontrivial_iff_ne_bot A).2 hne
   obtain ⟨t, ht, ht1⟩ := Subgroup.exists_ne_one_of_nontrivial A
   have ht2 : t * t = 1 := by
     have := hel.2 t ht

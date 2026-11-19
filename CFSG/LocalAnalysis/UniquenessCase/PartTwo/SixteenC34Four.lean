@@ -26,7 +26,7 @@ theorem s16c34_sixteen_four (D : Data G) (h15_13 : R15_13Small D) (h154 : R16_4_
           ∃ φ ∈ Mbar D.M V₀ V hV, X = (barSub V₀ V hV L).map (MulAut.conj φ).toMonoidHom} =
           {⊥} := by
         ext X
-        simp only [Set.mem_setOf_eq, Set.mem_singleton_iff, hbot, Subgroup.map_bot]
+        simp only [Set.mem_ofPred_eq, Set.mem_singleton_iff, hbot, Subgroup.map_bot]
         exact ⟨fun ⟨_, _, hX⟩ => hX, fun hX => ⟨1, Subgroup.one_mem _, hX⟩⟩
       rw [hset, Set.ncard_singleton]
     omega

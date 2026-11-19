@@ -42,19 +42,19 @@ theorem e6_symm_ib (b : Fin 2) : e6.symm (ib b) = Sum.inr b := by
 
 theorem blk6_ia_ia (M : Matrix (Fin 4) (Fin 4) K) (N : Matrix (Fin 2) (Fin 2) K) (a b : Fin 4) :
     blk6 M N (ia a) (ia b) = M a b := by
-  simp [blk6, Matrix.reindexAlgEquiv_apply, Matrix.reindex_apply, e6_symm_ia]
+  simp [blk6, Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply, e6_symm_ia]
 
 theorem blk6_ib_ib (M : Matrix (Fin 4) (Fin 4) K) (N : Matrix (Fin 2) (Fin 2) K) (a b : Fin 2) :
     blk6 M N (ib a) (ib b) = N a b := by
-  simp [blk6, Matrix.reindexAlgEquiv_apply, Matrix.reindex_apply, e6_symm_ib]
+  simp [blk6, Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply, e6_symm_ib]
 
 theorem blk6_ia_ib (M : Matrix (Fin 4) (Fin 4) K) (N : Matrix (Fin 2) (Fin 2) K) (a : Fin 4)
     (b : Fin 2) : blk6 M N (ia a) (ib b) = 0 := by
-  simp [blk6, Matrix.reindexAlgEquiv_apply, Matrix.reindex_apply, e6_symm_ia, e6_symm_ib]
+  simp [blk6, Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply, e6_symm_ia, e6_symm_ib]
 
 theorem blk6_ib_ia (M : Matrix (Fin 4) (Fin 4) K) (N : Matrix (Fin 2) (Fin 2) K) (a : Fin 2)
     (b : Fin 4) : blk6 M N (ib a) (ia b) = 0 := by
-  simp [blk6, Matrix.reindexAlgEquiv_apply, Matrix.reindex_apply, e6_symm_ia, e6_symm_ib]
+  simp [blk6, Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply, e6_symm_ia, e6_symm_ib]
 
 theorem eq_blk6_of_offblock (M : Matrix (Fin 6) (Fin 6) K)
     (h1 : ∀ a b, M (ia a) (ib b) = 0) (h2 : ∀ a b, M (ib a) (ia b) = 0) :

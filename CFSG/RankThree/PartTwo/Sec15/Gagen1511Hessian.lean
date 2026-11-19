@@ -62,7 +62,7 @@ theorem isSolvable_centralizer_of_hessian {X : Type} [Group X] [Finite X] {p e :
       apply Subtype.ext
       simpa only [Subgroup.coe_mul, hdM] using hx
   have hsolCM : Group.IsSolvable ↥(Subgroup.centralizer ({dM} : Set M)) := by
-    haveI : Group.IsSolvable ↥(M ⊓ Subgroup.centralizer
+    have : Group.IsSolvable ↥(M ⊓ Subgroup.centralizer
         ({ProjGenLinGroup.mk (diagTau hτ)} : Set (ProjGenLinGroup (Fin 3) K))) := hsolInf
     let eCM : ↥(Subgroup.centralizer ({dM} : Set M)) ≃*
         ↥(M ⊓ Subgroup.centralizer ({ProjGenLinGroup.mk (diagTau hτ)} :
@@ -70,7 +70,7 @@ theorem isSolvable_centralizer_of_hessian {X : Type} [Group X] [Finite X] {p e :
       (MulEquiv.subgroupCongr hCeq).trans (Subgroup.subgroupOfEquivOfLe inf_le_left)
     exact Group.isSolvable_of_surjective (f := eCM.symm.toMonoidHom) eCM.symm.surjective
   have hsolX0 : Group.IsSolvable ↥(Subgroup.centralizer ({Φ dM} : Set X)) := by
-    haveI : Group.IsSolvable ↥(Subgroup.centralizer ({dM} : Set M)) := hsolCM
+    have : Group.IsSolvable ↥(Subgroup.centralizer ({dM} : Set M)) := hsolCM
     let eX : ↥(Subgroup.centralizer ({dM} : Set M)) ≃*
         ↥(Subgroup.centralizer ({Φ dM} : Set X)) :=
       ((Subgroup.centralizer ({dM} : Set M)).equivMapOfInjective Φ.toMonoidHom Φ.injective).trans
@@ -81,7 +81,7 @@ theorem isSolvable_centralizer_of_hessian {X : Type} [Group X] [Finite X] {p e :
       Subgroup.centralizer ({y} : Set X) := by
     rw [CFSG.RankThree.PartTwo.map_centralizer_singleton (MulAut.conj w) (Φ dM),
       MulAut.conj_apply, hwy]
-  haveI : Group.IsSolvable ↥(Subgroup.centralizer ({Φ dM} : Set X)) := hsolX0
+  have : Group.IsSolvable ↥(Subgroup.centralizer ({Φ dM} : Set X)) := hsolX0
   let eY : ↥(Subgroup.centralizer ({Φ dM} : Set X)) ≃*
       ↥(Subgroup.centralizer ({y} : Set X)) :=
     ((Subgroup.centralizer ({Φ dM} : Set X)).equivMapOfInjective (MulAut.conj w).toMonoidHom

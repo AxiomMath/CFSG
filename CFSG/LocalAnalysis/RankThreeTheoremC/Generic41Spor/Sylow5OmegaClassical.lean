@@ -58,7 +58,7 @@ private theorem five_pow_six_dvd_of_formula {q n D e c : ℕ} {ε : ℤ} (hq : 1
 
 private theorem not_five_pow_six_dvd {K : Type} [Group K] [Finite K] (S : Sylow 5 K)
     (hS : Nat.card S = 5 ^ 5) : ¬ 5 ^ 6 ∣ Nat.card K := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   intro h
   have h' := S.pow_dvd_card_of_pow_dvd_card h
   rw [hS] at h'
@@ -71,10 +71,10 @@ private theorem not_five_dvd_pow {ℓ f : ℕ} (hℓ : ℓ.Prime) (hℓ5 : ℓ �
 private theorem commOrRank_psl {K : Type} [Group K] [Finite K] {n ℓ f : ℕ}
     (hm : StatedClassicalModel K .PSL n ℓ f) (hℓ5 : ℓ ≠ 5) (hdiag : ¬ FiveDiagType K)
     (S : Sylow 5 K) (hS : Nat.card S = 5 ^ 5) : I294Large.CommOrRank 5 K := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨⟨hp, hf, hn2, -⟩, F, _, _, hF, ⟨e⟩⟩ := id hm
   have h5q : ¬ 5 ∣ ℓ ^ f := not_five_dvd_pow hp hℓ5
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hrF' : ¬ 5 ∣ Fintype.card F := by rw [← Nat.card_eq_fintype_card, hF]; exact h5q
   have hGL : ∀ P : Sylow 5 (GL (Fin n) F), Nonempty (P ≃* sigmaModel 5
       (orderOf (Fintype.card F : ZMod 5))
@@ -111,7 +111,7 @@ private theorem commOrRank_psl {K : Type} [Group K] [Finite K] {n ℓ f : ℕ}
   · have hamb : I294Large.CommOrRank 5 (GL (Fin n) F) :=
       I294Large.CommOrRank.of_sylow_sigmaModel Nat.prime_five
         (PSLCross.one_le_padicValNat_card Nat.prime_five hrF') hGL
-    haveI : (StatedSL n F).Normal := by
+    have : (StatedSL n F).Normal := by
       rw [CFSG.Open.StatedAPI.statedSL_eq_ker_det]; infer_instance
     have hSL : I294Large.CommOrRank 5 ↥(StatedSL n F) :=
       I294Large.CommOrRank.of_normal_coprime_index Nat.prime_five _
@@ -125,7 +125,7 @@ private theorem commOrRank_psl {K : Type} [Group K] [Finite K] {n ℓ f : ℕ}
 private theorem commOrRank_psu {K : Type} [Group K] [Finite K] {n ℓ f : ℕ}
     (hm : StatedClassicalModel K .PSU n ℓ f) (hℓ5 : ℓ ≠ 5) (hdiag : ¬ FiveDiagType K)
     (S : Sylow 5 K) (hS : Nat.card S = 5 ^ 5) : I294Large.CommOrRank 5 K := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨⟨hp, hf, hn3, -⟩, F, _, _, hF, ⟨e⟩⟩ := id hm
   have h5q : ¬ 5 ∣ ℓ ^ f := not_five_dvd_pow hp hℓ5
   refine I294Large.CommOrRank.of_mulEquiv Nat.prime_five e.symm ?_
@@ -144,9 +144,9 @@ private theorem commOrRank_psu {K : Type} [Group K] [Finite K] {n ℓ f : ℕ}
 
 private theorem commOrRank_psp {K : Type} [Group K] [Finite K] {n ℓ f : ℕ}
     (hm : StatedClassicalModel K .PSp n ℓ f) (hℓ5 : ℓ ≠ 5) : I294Large.CommOrRank 5 K := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨⟨hp, hf, hn2, -⟩, F, _, _, hF, ⟨e⟩⟩ := id hm
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hrF' : ¬ 5 ∣ Fintype.card F := by
     rw [← Nat.card_eq_fintype_card, hF]; exact not_five_dvd_pow hp hℓ5
   have hSp : I294Large.CommOrRank 5 (StatedSp n F) :=
@@ -161,9 +161,9 @@ private theorem commOrRank_psp {K : Type} [Group K] [Finite K] {n ℓ f : ℕ}
 private theorem commOrRank_pOmegaOdd {K : Type} [Group K] [Finite K] {n ℓ f : ℕ}
     (hm : StatedClassicalModel K .POmegaOdd n ℓ f) (hℓ5 : ℓ ≠ 5) :
     I294Large.CommOrRank 5 K := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨⟨hp, hf, hn, hp2⟩, F, _, _, hF, ⟨e⟩⟩ := id hm
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hpq : ¬ 5 ∣ Fintype.card F := by
     rw [← Nat.card_eq_fintype_card, hF]; exact not_five_dvd_pow hp hℓ5
   have hodd' : Odd (Fintype.card F) := by
@@ -189,9 +189,9 @@ private theorem commOrRank_pOmegaOdd {K : Type} [Group K] [Finite K] {n ℓ f : 
 private theorem commOrRank_pOmegaPlus {K : Type} [Group K] [Finite K] {n ℓ f : ℕ}
     (hm : StatedClassicalModel K .POmegaPlus n ℓ f) (hℓ5 : ℓ ≠ 5) :
     I294Large.CommOrRank 5 K := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨⟨hp, hf, hn⟩, F, _, _, hF, ⟨e⟩⟩ := id hm
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hpq : ¬ 5 ∣ Fintype.card F := by
     rw [← Nat.card_eq_fintype_card, hF]; exact not_five_dvd_pow hp hℓ5
   obtain ⟨hQnd, hT⟩ := CFSG.ClassicalGroups.Orthogonal.regular_quadPlus (K := F) (n := n)
@@ -207,9 +207,9 @@ private theorem commOrRank_pOmegaPlus {K : Type} [Group K] [Finite K] {n ℓ f :
 private theorem commOrRank_pOmegaMinus {K : Type} [Group K] [Finite K] {n ℓ f : ℕ}
     (hm : StatedClassicalModel K .POmegaMinus n ℓ f) (hℓ5 : ℓ ≠ 5) :
     I294Large.CommOrRank 5 K := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨⟨hp, hf, hn⟩, F, _, _, hF, b, c, hbc, ⟨e⟩⟩ := id hm
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hpq : ¬ 5 ∣ Fintype.card F := by
     rw [← Nat.card_eq_fintype_card, hF]; exact not_five_dvd_pow hp hℓ5
   obtain ⟨hQnd, hT⟩ := CFSG.ClassicalGroups.Orthogonal.regular_quadMinus (K := F) (n := n) hn hbc

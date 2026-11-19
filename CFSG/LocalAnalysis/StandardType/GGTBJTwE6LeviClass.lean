@@ -71,11 +71,11 @@ theorem ggTBJ_twE6_classComp
     change (ζ ^ (t₀ i).val) ^ p = 1
     rw [← pow_mul, mul_comm, pow_mul, hζ, one_pow]
   have hpL : (p : AlgebraicClosure K) ≠ 0 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Fintype K := Fintype.ofFinite K
-    haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := n * 2)
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fintype K := Fintype.ofFinite K
+    have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := n * 2)
       (by rw [Fintype.card_eq_nat_card, hK, ← pow_mul])
-    haveI : CharP (AlgebraicClosure K) 2 :=
+    have : CharP (AlgebraicClosure K) 2 :=
       charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
     rw [Ne, CharP.cast_eq_zero_iff (AlgebraicClosure K) 2]
     intro h2

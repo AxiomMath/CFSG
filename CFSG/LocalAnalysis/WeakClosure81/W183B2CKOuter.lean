@@ -139,7 +139,7 @@ private theorem w183b2_absIrr_of_isIrreducible {k : Type} [Field k] [IsAlgClosed
     {ρ : Representation k G W} (hρ : ρ.IsIrreducible) : AbsIrr ρ := by
   refine AbsIrr.of_isIrreducible hρ ?_
   intro f hf
-  haveI : Nontrivial W := ((isIrreducible_iff ρ).1 hρ).1
+  have : Nontrivial W := ((isIrreducible_iff ρ).1 hρ).1
   obtain ⟨c, hc⟩ := Module.End.exists_eigenvalue f
   refine ⟨c, ?_⟩
   have hU : IsInv ρ (Module.End.eigenspace f c) := by

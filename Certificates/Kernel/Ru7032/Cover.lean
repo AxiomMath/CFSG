@@ -122,7 +122,7 @@ theorem cls_le {r : Rep} (hr : r ∈ ctx.recs) (h5 : ¬ r.cls < 5) : r.cls = 5 :
     cases hc : Nat.blt r.cls 5
     · rfl
     · exact absurd (Nat.blt_eq.mp hc) h5
-  rw [hb, cond_false, Bool.and_eq_true] at h
+  rw [hb, Bool.cond_false, Bool.and_eq_true] at h
   exact Nat.eq_of_beq_eq_true h.1
 
 theorem Y_eq (j : ℕ) :
@@ -140,7 +140,7 @@ theorem mem_Y {r : Rep} (hr : r ∈ ctx.recs) (hc : r.cls < 5) :
   unfold atomR at h
   rw [mw_len] at h
   have hb : Nat.blt r.cls 5 = true := Nat.blt_eq.mpr hc
-  rw [hb, cond_true] at h
+  rw [hb, _root_.Bool.cond_true] at h
   split at h
   · rw [Bool.and_eq_true] at h
     have hE : ∀ w ∈ eMem ctx.C ctx.D r.cls, ∀ l ∈ w, l < 2 + ctx.C.ns := by
@@ -219,9 +219,9 @@ theorem over_le (Y : Subgroup (J ruData)) (hY : ruS ≤ Y) (hne : Y ≠ ⊤) : Y
   obtain ⟨j, -, rfl⟩ := Ru.ru_complete Y hS
   unfold memberOrTop at hne ⊢
   by_cases hj : j < 5
-  · rw [if_pos hj]
+  · rw [ite_eq_left hj]
     exact Y_le hj
-  · exact absurd (if_neg hj) hne
+  · exact absurd (ite_eq_right hj) hne
 
 theorem cover_el (g : J ruData) :
     g ∈ ruVA ∨ g ∈ ruVB ∨ ∃ w ∈ ruTopW, ∃ s ∈ ruS, ∃ t ∈ ruS, g = s * ruWord w * t := by

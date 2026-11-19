@@ -38,7 +38,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 theorem hdRo7SULCoordAux_rowDataCfg {G : Type} [Group G] [Finite G] {p : ℕ}
     {B Bs : Subgroup G} {x : G} {L D J : Subgroup G}
     (hH : GGHdRo7SULCoordHyp p B Bs x L D J) (hrow : GGHdRo7SULabL p L) :
-    ∃ (m : ℕ) (hx : x ∈ Bs), p = 3 ∧ 7 ≤ m ∧ ¬ 3 ∣ m := by
+    ∃ (m : ℕ) (_hx : x ∈ Bs), p = 3 ∧ 7 ≤ m ∧ ¬ 3 ∣ m := by
   obtain ⟨labL, -, -, hp3, -, -, hrank6, h3m⟩ := hrow
   refine ⟨labL.rank + 1, ?_, hp3, by omega, h3m⟩
   obtain ⟨-, -, -, -, -, -, hSStar, -⟩ := hH.1.1

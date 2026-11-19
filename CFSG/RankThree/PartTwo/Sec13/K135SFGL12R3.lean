@@ -28,7 +28,7 @@ theorem r3_holds_gl12 (hLP : Sec4.Item4_1LargePrime)
   intro G _ _ A c L p C c3
   have hcrit := c3.crit
   have hp : p.Prime := hcrit.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp7 : 7 ≤ p := c3.p_ge_seven
   have hp2 : p ≠ 2 := by omega
   have hzL := c3.z_mem
@@ -61,7 +61,7 @@ theorem r3_holds_gl12 (hLP : Sec4.Item4_1LargePrime)
       y * x = x * y := fun y hy x _ => ((Subgroup.mem_center_iff.mp (hYc hy)) x).symm
   obtain ⟨A₀, hA₀E, hA₀el, hA₀3⟩ := r4_exists_cube hEp hEexp hYE hY' hYcE hYΦ
     (le_trans (Nat.pow_le_pow_right hp.pos (by norm_num)) hE4)
-  haveI hRn : (CFSG.pPrimeCore p (cM c3.Y)).Normal := inferInstance
+  have hRn : (CFSG.pPrimeCore p (cM c3.Y)).Normal := inferInstance
   obtain ⟨hR, hcoreN⟩ := r3_pPrimeCore_facts (M := cM c3.Y) hp
   have hRodd : Odd (Nat.card (CFSG.pPrimeCore p (cM c3.Y))) :=
     r3_odd_of_cube hp _ hR hA₀el hA₀3 hnoM
@@ -162,7 +162,7 @@ theorem r3_holds_gl12 (hLP : Sec4.Item4_1LargePrime)
   have hnot := r3_exists_not_centralizing hp hp7 hlrN hcoreN hŪ2 hŪ1 (hĒp.to_le hBbĒ)
     (fun x hx => hĒexp x (hBbĒ hx)) hBbN hmapcomm.symm
   obtain ⟨J, hJ, hJnc⟩ := r3_exists_comp_of_not_le_centralizer_layer hnot
-  haveI hker := normal_ker_components (cM c3.Y ⧸ CFSG.pPrimeCore p (cM c3.Y))
+  have hker := normal_ker_components (cM c3.Y ⧸ CFSG.pPrimeCore p (cM c3.Y))
   have hB𝒦 : ((dPrime L p C c3.z ⊓ cM c3.Y ⊓ Subgroup.centralizer ({c3.u} : Set G)).subgroupOf
       (cM c3.Y)).map (QuotientGroup.mk' (CFSG.pPrimeCore p (cM c3.Y))) ≤
       ⨅ K : {K : Subgroup (cM c3.Y ⧸ CFSG.pPrimeCore p (cM c3.Y)) // CFSG.IsComponent K},

@@ -98,7 +98,7 @@ private theorem sbtypes_isElementaryAbelian_tildeU {L : Subgroup G} (hL : IsShor
 private theorem sbtypes_pRank_tildeU [Finite G] {L : Subgroup G} (hL : IsShort2 L) {k : ℕ}
     (hk : ((blockZ L).subgroupOf (blockU L)).index = 2 ^ k) :
     CFSG.pRank 2 (tildeU L) = k := by
-  haveI := sbtypes_isElementaryAbelian_tildeU hL
+  have := sbtypes_isElementaryAbelian_tildeU hL
   exact CFSG.pRank_eq_of_card_eq_pow Nat.one_lt_two hk
 
 private theorem sbtypes_isScriptLBlock_of_isChiBlock2 [Finite G] {X L : Subgroup G}

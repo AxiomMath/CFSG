@@ -60,7 +60,7 @@ open scoped commutatorElement
 
 theorem sec47_twist {G : Type} [Group G] {Z Q C : Subgroup G}
     (hQab : ∀ x ∈ Q, ∀ y ∈ Q, x * y = y * x) (hQle : Q ≤ Z)
-    (hCQ : C ≤ Q) (hCZ : ∀ c ∈ C, ∀ z ∈ Z, c * z = z * c)
+    (_hCQ : C ≤ Q) (hCZ : ∀ c ∈ C, ∀ z ∈ Z, c * z = z * c)
     (hZ' : ∀ u ∈ ⁅Z, Z⁆, ∀ q ∈ Q, ⁅q, u⁆ ∈ C)
     (hperf : ⁅(⁅Z, Z⁆ ⊔ Q), (⁅Z, Z⁆ ⊔ Q)⁆ ⊔ Q = ⁅Z, Z⁆ ⊔ Q) :
     ∀ m ∈ ⁅Z, Z⁆ ⊔ Q, ∀ q ∈ Q, m * q = q * m := by
@@ -157,12 +157,12 @@ theorem sec47_psl2_facts {L : Type} [Group L] [Finite L] {f : ℕ} (hf : 2 ≤ f
     rw [GaloisField.card 2 f hf0]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hf
-  haveI : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 f)) :=
+  have : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 f)) :=
     Matrix.ProjectiveSpecialLinearGroup.rank_two_simple hq4
-  haveI : Group.IsPerfect (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 f)) :=
+  have : Group.IsPerfect (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 f)) :=
     CFSG.GorensteinWalter.psl2_isPerfect_of_card_gt_three _ (by omega)
-  haveI hs : IsSimpleGroup L := e.isSimpleGroup
-  haveI hp : Group.IsPerfect L := Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom)
+  have hs : IsSimpleGroup L := e.isSimpleGroup
+  have hp : Group.IsPerfect L := Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom)
     e.symm.surjective
   exact ⟨hs, hp, inferInstance⟩
 
@@ -171,7 +171,7 @@ theorem sec47_exists_noncomm_invol {L : Type} [Group L] [Finite L] (hs : IsSimpl
     (hp : Group.IsPerfect L) {a : L} (ha : orderOf a = 2) :
     ∃ t : L, orderOf t = 2 ∧ ¬ Commute a t := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   set S : Set L := {t | orderOf t = 2} with hS
   set N : Subgroup L := Subgroup.closure S with hN
   have hNn : N.Normal := by
@@ -182,7 +182,7 @@ theorem sec47_exists_noncomm_invol {L : Type} [Group L] [Finite L] (hs : IsSimpl
       show orderOf (g * t * g⁻¹) = 2
       have h1 := orderOf_injective (MulAut.conj g).toMonoidHom (MulAut.conj g).injective t
       exact h1.trans ht
-    | one => simpa using N.one_mem
+    | one => simp
     | mul x y _ _ hx hy =>
       rw [show g * (x * y) * g⁻¹ = (g * x * g⁻¹) * (g * y * g⁻¹) by group]
       exact N.mul_mem hx hy
@@ -195,7 +195,7 @@ theorem sec47_exists_noncomm_invol {L : Type} [Group L] [Finite L] (hs : IsSimpl
     exact absurd ha (by norm_num)
   have haN : a ∈ N := Subgroup.subset_closure (show orderOf a = 2 from ha)
   have hNtop : N = ⊤ := by
-    haveI := hNn
+    have := hNn
     refine (hs.eq_bot_or_eq_top_of_normal N).resolve_left fun h0 => ?_
     rw [h0] at haN
     exact ha1 (Subgroup.mem_bot.mp haN)
@@ -285,7 +285,7 @@ theorem sec47_eq_top_of_gen {K : Type} [Group K] (W : Subgroup K) (E : Set K) (a
 theorem sec47_index_le_card {Γ : Type} [Group Γ] [Finite Γ] (U T : Subgroup Γ)
     (hΓ : ∀ x y : Γ, x * y = y * x) (hUT : U ⊔ T = ⊤) :
     U.index ≤ Nat.card T := by
-  haveI : T.Normal := ⟨fun n hn g => by
+  have : T.Normal := ⟨fun n hn g => by
     rw [hΓ g n, mul_assoc, mul_inv_cancel, mul_one]
     exact hn⟩
   have hsurj : Function.Surjective (fun t : T => (QuotientGroup.mk (s := U) (t : Γ))) := by
@@ -386,7 +386,7 @@ theorem sec47_act_mk {H : Type} [Group H] (N C : Subgroup H) [N.Normal] [C.Norma
     simp only [sec47_act_mk, sec47_conjN_mul]
 
 theorem sec47_quot_action {H : Type} [Group H] (N C : Subgroup H) [N.Normal] [C.Normal]
-    (hN : CFSG.Open.IsElemAbelian 2 N) (hCN : C ≤ N) (hC : C ≤ Subgroup.center H) :
+    (hN : CFSG.Open.IsElemAbelian 2 N) (_hCN : C ≤ N) (hC : C ≤ Subgroup.center H) :
     ∃ ρ : (H ⧸ N) →* MulAut (N ⧸ C.subgroupOf N),
       (∀ (h : H) (n : N), ρ (QuotientGroup.mk h) (QuotientGroup.mk n) =
         QuotientGroup.mk ⟨h * n * h⁻¹, Subgroup.Normal.conj_mem inferInstance (n : H) n.2 h⟩) ∧
@@ -428,10 +428,10 @@ def quotMulAutOf {H : Type} [Group H] (Y : Subgroup H) [Y.Normal] (e : MulAut H)
   invFun := QuotientGroup.map Y Y ((e⁻¹).toMonoidHom) (by intro y hy; exact he' y hy)
   left_inv q := by
     obtain ⟨h, rfl⟩ := QuotientGroup.mk_surjective q
-    simp [MulAut.inv_apply_self]
+    simp
   right_inv q := by
     obtain ⟨h, rfl⟩ := QuotientGroup.mk_surjective q
-    simp [MulAut.apply_inv_self]
+    simp
   map_mul' := (QuotientGroup.map Y Y (e.toMonoidHom) (by intro y hy; exact he y hy)).map_mul
 
 theorem sec47_quot_hom {X H : Type} [Group X] [Group H] (Y : Subgroup H) [Y.Normal]
@@ -486,7 +486,7 @@ theorem t47_card_psl2_two {K : Type} [Field K] [Finite K] [CharP K 2] (hK : Nat.
 theorem t47_isSolvable_psl2_two {K : Type} [Field K] [Finite K] [CharP K 2]
     (hK : Nat.card K = 2) : Group.IsSolvable (Matrix.ProjectiveSpecialLinearGroup (Fin 2) K) := by
   have h6 := t47_card_psl2_two hK
-  haveI : Finite (Matrix.ProjectiveSpecialLinearGroup (Fin 2) K) :=
+  have : Finite (Matrix.ProjectiveSpecialLinearGroup (Fin 2) K) :=
     Nat.finite_of_card_ne_zero (by rw [h6]; norm_num)
   exact CFSG.SignalizerFunctorTheorem.NearModels.isSolvable_of_natCard (p := 2) (q := 3)
     (a := 1) (b := 1) Nat.prime_two Nat.prime_three (by norm_num) (h6.trans (by norm_num))
@@ -494,7 +494,7 @@ theorem t47_isSolvable_psl2_two {K : Type} [Field K] [Finite K] [CharP K 2]
 theorem t47_card_sz_zero : Nat.card (CFSG.Open.Sz 0) = 20 := by
   obtain ⟨e⟩ :=
     CFSG.SignalizerFunctorTheorem.NearModels.Suzuki.nonempty_mulEquiv_suzukiGroup_zero_sz
-  have hK : Nat.card (ZMod 2) = 2 ^ (2 * 0 + 1) := by simp [Nat.card_zmod]
+  have hK : Nat.card (ZMod 2) = 2 ^ (2 * 0 + 1) := by simp
   rw [← Nat.card_congr e.toEquiv, CFSG.LieType.Ree.suzuki_order hK]
   norm_num
 

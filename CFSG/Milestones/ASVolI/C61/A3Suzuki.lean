@@ -15,8 +15,8 @@ theorem burnsideC56_suzuki {T U : Subgroup G} (hT : IsPGroup 2 T) (hUT : U ≤ T
   by_cases hne : U = T
   · subst hne
     have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Nontrivial ↥U := Finite.one_lt_card_iff_nontrivial.mp (by rw [hU4]; norm_num)
-    haveI : IsKleinFour ↥U :=
+    have : Nontrivial ↥U := Finite.one_lt_card_iff_nontrivial.mp (by rw [hU4]; norm_num)
+    have : IsKleinFour ↥U :=
       { card_four := hU4
         exponent_two := (Monoid.exponent_eq_prime_iff Nat.prime_two).mpr fun g hg =>
           orderOf_eq_prime (Subtype.ext (by simpa using hUexp g g.2)) hg }

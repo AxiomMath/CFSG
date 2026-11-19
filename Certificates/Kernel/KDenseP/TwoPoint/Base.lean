@@ -72,7 +72,7 @@ theorem res5_eq (v : Native.DVec) (k : ℕ) :
   have h1 : (2 : ZMod 5) ^ (4 - 1) = 3 := by decide
   simp only [resN, DVec.res5, map_mul, map_pow, map_intCast, map_ofNat, h1]
 
-@[expose] def wkOK : List ℕ → List (ℕ × ℕ) → Bool
+def wkOK : List ℕ → List (ℕ × ℕ) → Bool
   | [], [] => true
   | it :: IT, w :: ws => (Nat.beq (it % 4) w.1 && Nat.beq (it / 4 % 2) w.2) && wkOK IT ws
   | _, _ => false
@@ -93,7 +93,7 @@ theorem wkOK_spec : ∀ {IT : List ℕ} {ws : List (ℕ × ℕ)}, wkOK IT ws = t
     · have := hl t (by simpa using ht)
       simpa using this
 
-@[expose] def tpWK (e n : ℕ) : List (ℕ × ℕ) :=
+def tpWK (e n : ℕ) : List (ℕ × ℕ) :=
   List.replicate e (0, 0) ++ List.replicate e (1, 0) ++ List.replicate e (2, 0) ++ List.replicate n (0, 1)
 
 theorem item5 {F : Fix} {MT : MonoTab} {KT TH OCT DU1 : ℕ} (hd : dataOKP F MT KT TH OCT DU1 = true)

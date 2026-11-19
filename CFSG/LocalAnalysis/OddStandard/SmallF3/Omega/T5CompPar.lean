@@ -92,7 +92,7 @@ private theorem even_finrank_ker_add_one_of_det_eq_one {K V : Type*} [Field K] [
       change (P : (Vp × W) ≃ₗ[K] V) (x, -y) = (x : V) + -(y : V)
       exact Submodule.coe_prodEquivOfIsCompl' Vp W hcompl (x, -y)
     simp only [LinearMap.comp_apply, LinearMap.prodMap_apply, LinearMap.id_coe, id_eq,
-      LinearMap.smul_apply, Module.End.one_apply, neg_one_smul]
+      LinearMap.smul_apply, neg_one_smul]
     rw [hPxy, LinearMap.map_add, hx, hy, ← hPxy']
     change (P.symm : V ≃ₗ[K] (Vp × W)) (P (x, -y)) = (x, -y)
     exact LinearEquiv.symm_apply_apply P (x, -y)
@@ -115,19 +115,19 @@ theorem t5_cplx_perfect_parity {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
   let u : Module.End (ZMod 3) V := (c : V →ₗ[ZMod 3] V)
   have hu : u * u = (-1 : ZMod 3) • (1 : Module.End (ZMod 3) V) + (0 : ZMod 3) • u := by
     ext v
-    simp only [Module.End.mul_apply, LinearMap.add_apply, LinearMap.smul_apply,
+    simp only [Module.End.mul_apply, LinearMap.smul_apply,
       Module.End.one_apply, zero_smul, add_zero]
     change c (c v) = (-1 : ZMod 3) • v
     rw [hc v]
     simp
   let f9 : F9 →ₐ[ZMod 3] Module.End (ZMod 3) V := QuadraticAlgebra.lift ⟨u, hu⟩
-  letI : Module F9 V := Module.compHom V f9.toRingHom
-  haveI : IsScalarTower (ZMod 3) F9 V := by
+  let : Module F9 V := Module.compHom V f9.toRingHom
+  have : IsScalarTower (ZMod 3) F9 V := by
     refine IsScalarTower.of_algebraMap_smul fun r x => ?_
     show f9 (algebraMap (ZMod 3) F9 r) x = r • x
     rw [f9.commutes]
     simp [Algebra.algebraMap_eq_smul_one]
-  haveI : FiniteDimensional F9 V :=
+  have : FiniteDimensional F9 V :=
     Module.Finite.of_restrictScalars_finite (ZMod 3) F9 V
   have hf9_apply (z : F9) :
       f9 z = z.re • (1 : Module.End (ZMod 3) V) + z.im • u := by
@@ -179,7 +179,7 @@ theorem t5_cplx_perfect_parity {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
         rw [hrho9_equiv_apply y v, hrho9_equiv_apply x (ρ y v)] }
   let δ : A →* F9ˣ := (LinearEquiv.det : (V ≃ₗ[F9] V) →* F9ˣ).comp rho9
   have hda : δ a = 1 := by
-    haveI : Group.IsPerfect ↥P := hP
+    have : Group.IsPerfect ↥P := hP
     have h := Abelianization.commutator_subset_ker (δ.comp P.subtype)
     simp only [Group.IsPerfect.commutator_eq_top] at h
     have hmem := h (Subgroup.mem_top (⟨a, ha⟩ : ↥P))
@@ -199,7 +199,7 @@ theorem t5_cplx_perfect_parity {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
       Module.End.one_apply]
     exact ha2 v
   have hneg : (-1 : F9) ≠ 1 := by
-    haveI : Fact (2 < 3) := ⟨by norm_num⟩
+    have : Fact (2 < 3) := ⟨by norm_num⟩
     exact CharP.neg_one_ne_one F9 3
   have heven : Even (Module.finrank F9 (LinearMap.ker (hrho9 a + 1))) :=
     even_finrank_ker_add_one_of_det_eq_one (hrho9 a) hff hf_det hneg

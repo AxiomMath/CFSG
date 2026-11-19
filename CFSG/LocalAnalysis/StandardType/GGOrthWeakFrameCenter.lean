@@ -134,10 +134,10 @@ theorem center_eq_bot_of_hasLabel_orth_two
     subst htag
     have hr3 : rank ≠ 3 := by omega
     have hraw := hL
-    simp only [GGHasLabel, CFSG.StandardType.LargeEvenRawDatum, if_neg hr3] at hraw
+    simp only [GGHasLabel, CFSG.StandardType.LargeEvenRawDatum, ite_eq_right hr3] at hraw
     obtain ⟨K, hKfield, hKfin, hKcard, ⟨e⟩⟩ := hraw
-    letI : Field K := hKfield
-    letI : Finite K := hKfin
+    let : Field K := hKfield
+    let : Finite K := hKfin
     have hK2 : Nat.card K = 2 := by rw [hKcard]; norm_num
     have hinj := rPlus_injective_of_cover_two hK2 hr L _ (hsurj e) (hker e).le hperf
     rw [← hker e]
@@ -148,10 +148,10 @@ theorem center_eq_bot_of_hasLabel_orth_two
     have hr2 : rank ≠ 2 := by omega
     have hr3 : rank ≠ 3 := by omega
     have hraw := hL
-    simp only [GGHasLabel, CFSG.StandardType.LargeEvenRawDatum, if_neg hr2, if_neg hr3] at hraw
+    simp only [GGHasLabel, CFSG.StandardType.LargeEvenRawDatum, ite_eq_right hr2, ite_eq_right hr3] at hraw
     obtain ⟨K, hKfield, hKfin, hKcard, b, c, hirr, ⟨e⟩⟩ := hraw
-    letI : Field K := hKfield
-    letI : Finite K := hKfin
+    let : Field K := hKfield
+    let : Finite K := hKfin
     have hK2 : Nat.card K = 2 := by rw [hKcard]; norm_num
     have hinj := rMinus_injective_of_cover_two hK2 (by omega : 3 ≤ rank - 1) hirr L _
       (hsurj e) (hker e).le hperf

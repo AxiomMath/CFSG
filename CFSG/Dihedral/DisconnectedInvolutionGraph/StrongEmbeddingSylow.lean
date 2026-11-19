@@ -51,7 +51,7 @@ theorem stronglyEmbedded_sylow_inheritance (subgroup : Subgroup G)
       exact stronglyEmbedded_even_subgroup_normalizer_le subgroup hstrong smaller
         (Subgroup.map_subtype_le _) heven hmapped
     · exact Subgroup.le_normalizer
-  have _ : Group.IsNilpotent (ambient : Subgroup G) := ambient.isPGroup'.isNilpotent
+  have _ : Group.IsNilpotent (ambient : Subgroup G) := ambient.isPGroup.isNilpotent
   have htop : within = ⊤ :=
     normalizerCondition_iff_only_full_group_self_normalizing.mp
       Group.normalizerCondition_of_isNilpotent within hnormalizer

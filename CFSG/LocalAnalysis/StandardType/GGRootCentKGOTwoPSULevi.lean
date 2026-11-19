@@ -79,6 +79,7 @@ private theorem eq_of_rev_eq_self {i j : Fin (m + 1)} (hi : Fin.rev i = i)
   apply Fin.ext
   omega
 
+omit [Finite K] [CharP K 2] in
 private theorem commute_single_entries {d : ℕ} {X : Matrix (Fin d) (Fin d) K} {a b : Fin d}
     (hab : a ≠ b) (h : X * single a b 1 = single a b 1 * X) :
     (∀ i, i ≠ a → X i a = 0) ∧ (∀ j, j ≠ b → X b j = 0) ∧ X a a = X b b := by
@@ -90,7 +91,7 @@ private theorem commute_single_entries {d : ℕ} {X : Matrix (Fin d) (Fin d) K} 
     rw [Finset.sum_eq_single a]
     · simp
     · intro k _ hk
-      rw [Matrix.single_apply, if_neg (fun hc => hk hc.1.symm), mul_zero]
+      rw [Matrix.single_apply, ite_eq_right (fun hc => hk hc.1.symm), mul_zero]
     · intro ha
       exact absurd (Finset.mem_univ a) ha
   have hr : ∀ (i : Fin d), (∑ k, single a b 1 i k * X k b) =
@@ -101,13 +102,13 @@ private theorem commute_single_entries {d : ℕ} {X : Matrix (Fin d) (Fin d) K} 
       rw [Finset.sum_eq_single b]
       · simp
       · intro k _ hk
-        rw [Matrix.single_apply, if_neg (fun hc => hk hc.2.symm), zero_mul]
+        rw [Matrix.single_apply, ite_eq_right (fun hc => hk hc.2.symm), zero_mul]
       · intro hb
         exact absurd (Finset.mem_univ b) hb
     · rw [Finset.sum_eq_zero]
       · simp [hia]
       · intro k _
-        rw [Matrix.single_apply, if_neg (fun hc => hia hc.1.symm), zero_mul]
+        rw [Matrix.single_apply, ite_eq_right (fun hc => hia hc.1.symm), zero_mul]
   have hcol : ∀ i, X i a = if i = a then X b b else 0 := by
     intro i
     have h1 := key i b
@@ -122,19 +123,19 @@ private theorem commute_single_entries {d : ℕ} {X : Matrix (Fin d) (Fin d) K} 
       rw [Finset.sum_eq_single a]
       · simp
       · intro k _ hk
-        rw [Matrix.single_apply, if_neg (fun hc => hk hc.1.symm), mul_zero]
+        rw [Matrix.single_apply, ite_eq_right (fun hc => hk hc.1.symm), mul_zero]
       · intro ha
         exact absurd (Finset.mem_univ a) ha
     · rw [Finset.sum_eq_zero]
       · simp [hjb]
       · intro k _
-        rw [Matrix.single_apply, if_neg (fun hc => hjb hc.2.symm), mul_zero]
+        rw [Matrix.single_apply, ite_eq_right (fun hc => hjb hc.2.symm), mul_zero]
   have hr2 : ∀ (j : Fin d), (∑ k, single a b 1 a k * X k j) = X b j := by
     intro j
     rw [Finset.sum_eq_single b]
     · simp
     · intro k _ hk
-      rw [Matrix.single_apply, if_neg (fun hc => hk hc.2.symm), zero_mul]
+      rw [Matrix.single_apply, ite_eq_right (fun hc => hk hc.2.symm), zero_mul]
     · intro hb
       exact absurd (Finset.mem_univ b) hb
   have hrow : ∀ j, X b j = if j = b then X a a else 0 := by
@@ -144,10 +145,10 @@ private theorem commute_single_entries {d : ℕ} {X : Matrix (Fin d) (Fin d) K} 
     rw [hl2 j, hr2 j] at h1
     exact h1.symm
   refine ⟨fun i hi => ?_, fun j hj => ?_, ?_⟩
-  · rw [hcol i, if_neg hi]
-  · rw [hrow j, if_neg hj]
+  · rw [hcol i, ite_eq_right hi]
+  · rw [hrow j, ite_eq_right hj]
   · have h1 := hcol a
-    rw [if_pos rfl] at h1
+    rw [ite_eq_left rfl] at h1
     exact h1
 
 private def rootMat (m : ℕ) : Matrix (Fin (m + 1)) (Fin (m + 1)) K :=
@@ -163,6 +164,7 @@ private theorem last_ne_zero {m : ℕ} (hm : 1 ≤ m) :
   simp at this
   omega
 
+omit [Finite K] [CharP K 2] in
 private theorem isBlockOn_of_commute_root {X : Matrix (Fin (m + 1)) (Fin (m + 1)) K}
     (hm : 1 ≤ m) (hdet : X.det ≠ 0) (hR : X * rootMat m = rootMat m * X)
     (hY : X * y0Mat m = y0Mat m * X) :
@@ -320,6 +322,7 @@ private theorem mem_ker_projU (h : UnitaryFieldData 2 f K) (m : ℕ)
       (suEquiv h x) ∈ normOneScalars h (XJ h (m + 1)) (m + 1) := by
   rw [projU_apply, QuotientGroup.eq_one_iff]
 
+omit [Finite K] in
 private theorem one_add_single_sq {d : ℕ} [DecidableEq (Fin d)] {a b : Fin d} (hab : a ≠ b) :
     (1 + single a b (1 : K) : Matrix (Fin d) (Fin d) K) *
       (1 + single a b (1 : K)) = 1 := by
@@ -343,18 +346,21 @@ private theorem one_add_single_sq {d : ℕ} [DecidableEq (Fin d)] {a b : Fin d} 
           1 + (single a b (1 : K) + single a b (1 : K)) by abel]
         rw [h2, add_zero]
 
+omit [Finite K] in
 private theorem rootMat_sq {m : ℕ} (hm : 1 ≤ m) :
     rootMat (K := K) m * rootMat (K := K) m = 1 := by
   rw [rootMat]
   exact one_add_single_sq (K := K) (d := m + 1) (a := Fin.last m) (b := 0)
     (last_ne_zero hm)
 
+omit [Finite K] in
 private theorem y0Mat_sq {m : ℕ} (hm : 1 ≤ m) :
     y0Mat (K := K) m * y0Mat (K := K) m = 1 := by
   rw [y0Mat]
   exact one_add_single_sq (K := K) (d := m + 1) (a := 0) (b := Fin.last m)
     (Ne.symm (last_ne_zero hm))
 
+omit [Finite K] in
 private theorem scalar_unit_eq_one {ζ : Kˣ} (hζ : ζ * ζ = 1) : ζ = 1 := by
   apply Units.ext
   have h : (ζ : K) * (ζ : K) = 1 := by
@@ -364,6 +370,7 @@ private theorem scalar_unit_eq_one {ζ : Kˣ} (hζ : ζ * ζ = 1) : ζ = 1 := by
   · rw [h1, CharTwo.neg_eq]
     rfl
 
+omit [Finite K] in
 private theorem scalar_conj_eq_one {d : ℕ} (i : Fin d) {X R : GL (Fin d) K} {ζ : Kˣ}
     (hX : X * R * X⁻¹ = GeneralLinearGroup.scalar (Fin d) ζ * R) (hR : R * R = 1) :
     ζ = 1 ∧ X * R = R * X := by
@@ -401,7 +408,7 @@ private theorem scalar_conj_eq_one {d : ℕ} (i : Fin d) {X R : GL (Fin d) K} {�
     rw [hX, hζ1]
     rw [show (GeneralLinearGroup.scalar (Fin d) (1 : Kˣ) : GL (Fin d) K) = 1 from by
       apply Units.ext
-      simp [GeneralLinearGroup.coe_scalar, Matrix.scalar_apply]]
+      simp]
     exact one_mul R
   calc X * R = (X * R * X⁻¹) * X := by group
     _ = R * X := by rw [h]
@@ -707,7 +714,7 @@ private theorem key_matrix_eq (h : UnitaryFieldData 2 f K) (m : ℕ) (hm : 1 ≤
         GL (Fin (m + 1)) K) =
       ((lroot (unitaryInvolution K 2 f) hi₀ : SU (unitaryInvolution K 2 f) (m + 1)) :
         GL (Fin (m + 1)) K) * (A : GL (Fin (m + 1)) K))
-    {g : PJ h (m + 1)} (hg : g ∈ levi h m hi₀)
+    {g : PJ h (m + 1)} (_hg : g ∈ levi h m hi₀)
     (hkey : ∀ k ∈ levi h m hi₀, (primeFormConjHom h _ A * c) k ∈ levi h m hi₀ →
       g * (primeFormConjHom h _ A * c) k * g⁻¹ = k)
     {S : SU (unitaryInvolution K 2 f) (m + 1)} (hSπ : projU h S = g)
@@ -799,10 +806,11 @@ private theorem isBlockOn_lroot {i : Fin (m + 1)} (hi : i ≠ Fin.rev i) (hiS : 
   rw [coe_lroot]
   rintro a b (ha | hb)
   · have hia : i ≠ a := fun h => ha (h ▸ hiS)
-    rw [Matrix.add_apply, Matrix.single_apply, if_neg (fun hc => hia hc.1), add_zero]
+    rw [Matrix.add_apply, Matrix.single_apply, ite_eq_right (fun hc => hia hc.1), add_zero]
   · have hjb : Fin.rev i ≠ b := fun h => hb (h ▸ rev_mem_midSet hiS)
-    rw [Matrix.add_apply, Matrix.single_apply, if_neg (fun hc => hjb hc.2), add_zero]
+    rw [Matrix.add_apply, Matrix.single_apply, ite_eq_right (fun hc => hjb hc.2), add_zero]
 
+omit [Finite K] [CharP K 2] in
 private theorem one_add_single_comm {d : ℕ} [DecidableEq (Fin d)] {a b c e : Fin d}
     (hbc : b ≠ c) (hea : e ≠ a) :
     (1 + single a b (1 : K) : Matrix (Fin d) (Fin d) K) * (1 + single c e (1 : K)) =
@@ -924,7 +932,7 @@ private theorem T_comm_single_middle (h : UnitaryFieldData 2 f K) {m : ℕ} (hm 
   have hx00 : (((xsu : SU (unitaryInvolution K 2 f) (m + 1)) :
       GL (Fin (m + 1)) K) : Matrix (Fin (m + 1)) (Fin (m + 1)) K) 0 0 = 1 := by
     rw [coe_lroot, Matrix.add_apply, Matrix.one_apply_eq, Matrix.single_apply,
-      if_neg (by
+      ite_eq_right (by
         intro hc'
         exact (mem_midSet.mp hiS).1 hc'.1)]
     simp
@@ -934,7 +942,7 @@ private theorem T_comm_single_middle (h : UnitaryFieldData 2 f K) {m : ℕ} (hm 
     intro j hj
     have hb := isBlockOn_lroot (f := f) (K := K) (m := m) hi hiS j 0
       (Or.inr zero_not_mem_midSet)
-    rw [Matrix.one_apply, if_neg hj] at hb
+    rw [Matrix.one_apply, ite_eq_right hj] at hb
     exact hb
   have hx0' : ∀ j : Fin (m + 1), j ≠ 0 →
       (((xsu : SU (unitaryInvolution K 2 f) (m + 1)) : GL (Fin (m + 1)) K) :
@@ -942,7 +950,7 @@ private theorem T_comm_single_middle (h : UnitaryFieldData 2 f K) {m : ℕ} (hm 
     intro j hj
     have hb := isBlockOn_lroot (f := f) (K := K) (m := m) hi hiS 0 j
       (Or.inl zero_not_mem_midSet)
-    rw [Matrix.one_apply, if_neg (Ne.symm hj)] at hb
+    rw [Matrix.one_apply, ite_eq_right (Ne.symm hj)] at hb
     exact hb
   simp only [Matrix.mul_apply, Matrix.smul_apply, smul_eq_mul] at h00
   rw [Finset.sum_eq_single 0 (fun j _ hj => by rw [hx0 j hj, mul_zero])
@@ -1090,6 +1098,7 @@ private theorem T_diagonal_and_ne (h : UnitaryFieldData 2 f K) {m : ℕ} (hm : 3
   intro i
   exact (Finset.prod_ne_zero_iff.mp hprod) i (Finset.mem_univ i)
 
+omit [Finite K] [CharP K 2] in
 private theorem diag_comm_one_add_single {d : ℕ} [DecidableEq (Fin d)] {t : Fin d → K}
     {i j : Fin d} (h : t i = t j) :
     Matrix.diagonal t * (1 + Matrix.single i j (1 : K)) =
@@ -1102,11 +1111,13 @@ private theorem diag_comm_one_add_single {d : ℕ} [DecidableEq (Fin d)] {t : Fi
     rw [h, mul_one, one_mul]
   · simp
 
+omit [Finite K] [CharP K 2] in
 private theorem diagonal_comm_rootMat {t : Fin (m + 1) → K} (h : t 0 = t (Fin.last m)) :
     Matrix.diagonal t * rootMat (K := K) m = rootMat (K := K) m * Matrix.diagonal t := by
   rw [rootMat]
   exact diag_comm_one_add_single h.symm
 
+omit [Finite K] [CharP K 2] in
 private theorem diagonal_comm_y0Mat {t : Fin (m + 1) → K} (h : t 0 = t (Fin.last m)) :
     Matrix.diagonal t * y0Mat (K := K) m = y0Mat (K := K) m * Matrix.diagonal t := by
   rw [y0Mat]
@@ -1433,7 +1444,7 @@ theorem eq_one_of_conj_levi (h : UnitaryFieldData 2 f K) {m : ℕ} (hm : 3 ≤ m
         have hsq2 : (φ e + e) ^ 2 = 0 := by
           have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
           rw [add_sq, hsq, h2]
-          simp only [zero_mul, zero_add, add_zero]
+          simp only [zero_mul, add_zero]
           exact CharTwo.add_self_eq_zero (e ^ 2)
         exact sq_eq_zero_iff.mp hsq2
       have := eq_neg_of_add_eq_zero_left hsum

@@ -28,7 +28,7 @@ theorem exists_eleven_fixed_four
   let F := sylowFixedPoints X P s S
   let _ : Fintype F := Fintype.ofFinite F
   let rho : N →* Equiv.Perm F := toPermHom N F
-  have hQ : IsPGroup 3 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup 3 Q := S.isPGroup.map (fixingSubgroup P s).subtype
   have hfixeq : (F : Set X) = fixedPoints Q X := FixedNormalizerAction.fixed_eq Q
   have hF := (Degree48ThreeEntrance.three_entrance P hcard h5 hnotAlt s hs S hS).1
   have hFfin : Fintype.card F = 12 := by rwa [← Nat.card_eq_fintype_card]
@@ -42,7 +42,7 @@ theorem exists_eleven_fixed_four
     push Not at hn
     exact prime_not_dvd_range_card_of_sylow_le_ker T rho (fun z hz => hn z hz) hdiv
   obtain ⟨z,hzT,hzrho⟩ := hex
-  obtain ⟨e,he⟩ := IsPGroup.iff_orderOf.mp T.isPGroup' (⟨z,hzT⟩ : T)
+  obtain ⟨e,he⟩ := IsPGroup.iff_orderOf.mp T.isPGroup (⟨z,hzT⟩ : T)
   have hzorder : orderOf z.val.val = 11 ^ e := by
     rw [Subgroup.orderOf_coe z.val,Subgroup.orderOf_coe z]
     exact (Subgroup.orderOf_coe (⟨z,hzT⟩ : T)).trans he

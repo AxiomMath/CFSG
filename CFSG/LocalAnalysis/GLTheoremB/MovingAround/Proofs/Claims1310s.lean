@@ -40,7 +40,7 @@ theorem not_noPlaneTwoSub_of_congr {S C : Type} [Group S] [Group C] (e : S ≃* 
   have hV₀ := hno _ hF₀A (by omega) (V.map e.symm.toMonoidHom) (hV2.map _) (by
     rintro _ ⟨ψ', hψ', rfl⟩ _ ⟨v', hv', rfl⟩
     refine ⟨ψ' v', hVinv ψ' hψ' v' hv', ?_⟩
-    simp [hc, MulAut.congr_apply])
+    simp [hc])
   exact hV1 ((Subgroup.map_eq_bot_iff_of_injective V (f := e.symm.toMonoidHom) e.symm.injective).1 hV₀)
 
 end Transport
@@ -231,7 +231,7 @@ theorem mem_inndiag_of_two {K₀ : Type} [Field K₀] [Finite K₀] (hK₀ : Nat
   have hcard : Nat.card (RingAut K₀) = 2 :=
     (CFSG.LocalAnalysis.ComponentInitial.card_ringAut_and_isCyclic Nat.prime_two K₀
       (by rw [hK₀]; norm_num)).1
-  haveI : Finite (RingAut K₀) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite (RingAut K₀) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have h2 : Θ β ^ 2 = 1 := by
     have := pow_card_eq_one' (G := RingAut K₀) (x := Θ β)
     rwa [hcard] at this
@@ -244,11 +244,11 @@ theorem exists_fixed_two_elem_of_two {K₀ : Type} [Field K₀] [Finite K₀] (h
     (hβ : β ^ 3 = 1) :
     ∃ u : ↥(twistedE6RootGroup K₀ σ₀), u ≠ 1 ∧ (∃ n : ℕ, u ^ (2 ^ n) = 1) ∧ β u = u := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2K : ringChar K₀ = 2 :=
     ringChar_eq_of_card_pow Nat.prime_two le_rfl K₀ (by rw [hK₀]; norm_num)
-  haveI : CharP K₀ 2 := h2K ▸ ringChar.charP K₀
-  haveI : CharP (AlgebraicClosure K₀) 2 :=
+  have : CharP K₀ 2 := h2K ▸ ringChar.charP K₀
+  have : CharP (AlgebraicClosure K₀) 2 :=
     charP_of_injective_algebraMap (algebraMap K₀ (AlgebraicClosure K₀)).injective 2
   have hβD := mem_inndiag_of_two hK₀ σ₀ hσ₀ hβ
   rw [← range_twistedE6InndiagConj] at hβD
@@ -303,8 +303,8 @@ theorem exists_fixed_two_elem_of_two {K₀ : Type} [Field K₀] [Finite K₀] (h
     exact CFSG.HardMathSupport.Timmesfeld.CrossChar.rootDiagUnit_injective h1
   have hne3 : ((3 : ℕ) : L) ≠ 0 :=
     CFSG.LieType.SeitzGeneration.ExcHighThree.natCast_three_ne_zero_of_not_dvd (K := K₀) h3K
-  haveI : NeZero ((3 : ℕ) : L) := ⟨hne3⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L 3
+  have : NeZero ((3 : ℕ) : L) := ⟨hne3⟩
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L 3
   have hζu : IsUnit ζ := hζ.isUnit (by norm_num)
   obtain ⟨ω, hωζ⟩ : ∃ ω : Lˣ, (ω : L) = ζ := ⟨hζu.unit, hζu.unit_spec⟩
   have hω3 : ω ^ 3 = 1 := Units.ext (by simp [hωζ, hζ.pow_eq_one])
@@ -374,7 +374,7 @@ theorem exists_plane_two_of_not_le_inndiag {K : Type} [Field K] [Finite K] (σ :
       Nat.prime_two (by norm_num) K hK2f σ hσ Θ hΘ Nat.prime_three (by norm_num) (hE.2 x hxE) hxD
   set η := Θ x with hη
   have hR := CFSG.LocalAnalysis.ComponentInitial.card_ringAut_and_isCyclic Nat.prime_two K hK2f
-  haveI : Finite (RingAut K) := Nat.finite_of_card_ne_zero (by rw [hR.1]; norm_num)
+  have : Finite (RingAut K) := Nat.finite_of_card_ne_zero (by rw [hR.1]; norm_num)
   let ΘE : ↥E →* RingAut K := Θ.comp E.subtype
   have hr3 : Nat.card ΘE.range ≤ 3 := by
     have hpg : IsPGroup 3 ΘE.range := by
@@ -557,12 +557,12 @@ theorem outerPlane_regular {S : Type} [Group S] [Finite S] {A : Subgroup (MulAut
   have h2K : ringChar K = 2 :=
     ringChar_eq_of_card_pow Nat.prime_two hf K (by rw [hK, ← pow_mul, mul_comm])
   have h3K : ringChar K ≠ 3 := by rw [h2K]; norm_num
-  haveI hEi : CFSG.IsElementaryAbelian 3 ↥E := isElementaryAbelian_of_isElemAbelian' hEel
+  have hEi : CFSG.IsElementaryAbelian 3 ↥E := isElementaryAbelian_of_isElemAbelian' hEel
   have hE9' : 9 ≤ Nat.card E := by rw [hE9]; norm_num
   have hinj := twistedE6InndiagConj_injective Nat.prime_two hf hK σ hσ
   refine ⟨?_, ?_⟩
   · obtain ⟨K₁, hK₁, hroot⟩ := exists_cubeExt K
-    haveI := hK₁
+    have := hK₁
     by_cases hiso : TwistedE6DiagIsotropic K σ K₁ E
     · exact exists_twLangData twistedE6PlaneToralLang_proved 2 f Nat.prime_two (by norm_num) hf hK σ hσ
         K₁ hroot E hEi hE9 hED hiso

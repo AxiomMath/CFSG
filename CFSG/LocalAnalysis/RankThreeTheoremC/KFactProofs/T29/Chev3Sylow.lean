@@ -18,7 +18,7 @@ theorem three_le_pRank_centralizer_of_mem {L E : Subgroup X} (h4 : ¬ 3 ^ 4 ∣ 
     (hEL : E ≤ L) (hE : IsElemAbelian 3 E) (hcard : Nat.card E = 3 ^ 3) {x : X}
     (hx : orderOf x = 3) (hxL : x ∈ L) :
     3 ≤ CFSG.Open.pRank 3 (centralizer ({x} : Set X)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h27 : 3 ^ 3 ∣ Nat.card L := by
     rw [← hcard]
     exact Subgroup.card_dvd_of_le hEL
@@ -67,7 +67,7 @@ theorem three_le_pRank_centralizer_of_mem {L E : Subgroup X} (h4 : ¬ 3 ^ 4 ∣ 
 theorem three_le_pRank_centralizer_of_sylow {L : Subgroup X} (h4 : ¬ 3 ^ 4 ∣ Nat.card L)
     (hall : ∀ g : X, g ^ 3 = 1 → g ∈ L) (hr : 3 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup X)) {x : X}
     (hx : orderOf x = 3) : 3 ≤ CFSG.Open.pRank 3 (centralizer ({x} : Set X)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨E, -, hE, hcard⟩ :=
     CFSG.SectionRank.exists_isElemAbelian_card_of_le_pRank (p := 3) (H := (⊤ : Subgroup X)) hr
   have hx3 : x ^ 3 = 1 := by

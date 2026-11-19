@@ -45,7 +45,7 @@ theorem fermat_strong_uc6 {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) :
 
 theorem k42_fermat_uc6 : UCK.K42Fermat := by
   intro p hp hp2 G _ _ _ V _ _ _ ρ hρ r hr hrp hr2 D hD hfix Q hQ2 hQne hDQ hcomm
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact fermat_strong_uc6 hp2 (Nat.card Q) G V ρ hρ r hr hrp hr2 D hD hfix Q rfl hQ2 hQne hDQ hcomm
 
 theorem k42_uc6 : UCK.K42 := k42_of_fermat k42_fermat_uc6

@@ -112,7 +112,7 @@ theorem Cover217.invariant_subgroups {A E U : Subgroup G} {c : G} {L : Subgroup 
     rw [h.center_eq hθ, Subgroup.zpowers_le]
     exact Subgroup.mem_subgroupOf.2 h.c_mem_A
   have hab := h.isElemAbelian_A
-  haveI : IsMulCommutative A := hab.1
+  have : IsMulCommutative A := hab.1
   have hFel : CFSG.IsElementaryAbelian 3 (F.map (QuotientGroup.mk' (Subgroup.center ↥L))) := by
     have hFE : CFSG.IsElementaryAbelian 3 F := by
       rw [← isElemAbelian_iff_isElementaryAbelian]

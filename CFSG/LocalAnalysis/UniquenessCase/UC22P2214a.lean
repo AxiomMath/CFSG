@@ -101,7 +101,7 @@ theorem uc22p2214_j1 (D : Data G) (Ch : Choice2011 G) (h17 : S21_17 D Ch) (hJ : 
     (hJK : IsJ1 ↥(mbarImage D.M c.V K)) (hJ1 : uc22p22d_J1Nontrivial) {n : ℕ} (hn : n = 3)
     (hc2 : (conjSetOf D.M K).ncard = 2) : c.n ≤ n := by
   have hKM : K ≤ D.M := uc22p22a_le_of_isSubnormal hKC.1
-  haveI : Nontrivial ↥(mbarImage D.M c.V K) := hJ1 _ hJK
+  have : Nontrivial ↥(mbarImage D.M c.V K) := hJ1 _ hJK
   have hnt : mbarImage D.M c.V K ≠ ⊥ := (Subgroup.nontrivial_iff_ne_bot _).1 inferInstance
   have hKV : ¬ K ≤ centralizer (c.V : Set G) := fun hle =>
     hnt ((uc22br4_mbarImage_eq_bot_iff D.M c.V K c.hVM hKM).2 hle)
@@ -112,10 +112,10 @@ theorem uc22p2214_j1 (D : Data G) (Ch : Choice2011 G) (h17 : S21_17 D Ch) (hJ : 
   rcases h17 h1930 c.toCtx22.toCtx21 K hKC with h1 | ⟨-, k, -, hL | hS⟩ | ⟨-, -, hc, -⟩
   · rw [uc22p2214_ncard_eq_one_of_eq h1] at hc2
     exact absurd hc2 (by norm_num)
-  · haveI : IsSimpleGroup (Bar2 K) := CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hL
+  · have : IsSimpleGroup (Bar2 K) := CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hL
     obtain ⟨e⟩ := uc22p2214_equiv_bar2_of_center c hKC hq hZ (uc22p22g_center_bot hL)
     exact absurd (CFSG.Blueprint.LieModel.of_mulEquiv e hL) ((hJL _ hJK).1 k)
-  · haveI : IsSimpleGroup (Bar2 K) := CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_twistedB2 hS
+  · have : IsSimpleGroup (Bar2 K) := CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_twistedB2 hS
     have hZ2 : Subgroup.center (Bar2 K) = ⊥ := uc22p21k_center_eq_bot hKC.2.2
     obtain ⟨e⟩ := uc22p2214_equiv_bar2_of_center c hKC hq hZ hZ2
     exact absurd (CFSG.Blueprint.LieModel.of_mulEquiv e hS) ((hJL _ hJK).2 k)

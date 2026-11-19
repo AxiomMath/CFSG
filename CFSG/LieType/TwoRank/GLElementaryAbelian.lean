@@ -195,7 +195,7 @@ theorem card_le_two_pow_of_isElementaryAbelian {F : Type*} [Field F] (h2 : (2 : 
       (f := fun a : A => f a) hmaps
     simpa [W] using h
   let X := {χ : (A → F) // W χ ≠ ⊥}
-  letI : Fintype X := hind.fintypeNeBotOfFiniteDimensional
+  let : Fintype X := hind.fintypeNeBotOfFiniteDimensional
   have hXcard : Fintype.card X ≤ Fintype.card n := by
     have h1 : Fintype.card X ≤ Module.finrank F (n → F) :=
       hind.subtype_ne_bot_le_finrank
@@ -278,7 +278,7 @@ theorem two_mul_card_le_two_pow_of_neg_one_not_mem {F : Type*} [Field F] (h2 : (
   have hz2 : z ^ 2 = 1 := by
     change (-1 : GL n F) ^ 2 = 1
     apply Units.ext
-    simp [pow_two, neg_mul_neg]
+    simp [pow_two]
   have hzne : z ≠ 1 := by
     intro h
     exact hA (show z ∈ A from by rw [h]; exact A.one_mem)
@@ -310,7 +310,7 @@ theorem two_mul_card_le_two_pow_of_neg_one_not_mem {F : Type*} [Field F] (h2 : (
     show Subgroup.zpowers z ≤ Subgroup.center (GL n F)
     rw [Subgroup.zpowers_le]
     exact hz_center
-  haveI : Z.Normal := Subgroup.normal_of_le_center hZcenter
+  have : Z.Normal := Subgroup.normal_of_le_center hZcenter
   have hZcA : Z ≤ Subgroup.centralizer (A : Set (GL n F)) :=
     hZcenter.trans (Subgroup.center_le_centralizer _)
   have hbij : Function.Bijective
@@ -329,12 +329,12 @@ theorem two_mul_card_le_two_pow_of_neg_one_not_mem {F : Type*} [Field F] (h2 : (
     have hcard : Nat.card (A × Z) = Nat.card ↥(A ⊔ Z) :=
       Nat.card_congr (Equiv.ofBijective _ hbij)
     rw [← hcard, Nat.card_prod]
-  letI : IsElementaryAbelian 2 Z := by
+  let : IsElementaryAbelian 2 Z := by
     change IsElementaryAbelian 2 (Subgroup.zpowers z)
     exact IsElementaryAbelian.zpowers_of_pow_eq_one hz2
   have hB_elem : IsElementaryAbelian 2 ↥(A ⊔ Z) :=
     IsElementaryAbelian.sup_of_le_centralizer hZcA
-  letI : IsElementaryAbelian 2 ↥(A ⊔ Z) := hB_elem
+  let : IsElementaryAbelian 2 ↥(A ⊔ Z) := hB_elem
   have hle := card_le_two_pow_of_isElementaryAbelian h2 (A ⊔ Z)
   rw [hB_card, hZcard] at hle
   calc 2 * Nat.card A = Nat.card A * 2 := Nat.mul_comm 2 (Nat.card A)

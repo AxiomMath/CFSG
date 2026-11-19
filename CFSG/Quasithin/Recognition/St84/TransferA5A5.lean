@@ -31,6 +31,7 @@ open scoped Pointwise commutatorElement
 
 variable {H : Type} [Group H] [Finite H]
 
+omit [Finite H] in
 theorem f112sa_pCoreOf_inf_centralizer_le_centralizer_oTwoRes_P1'
     {L1 L2 S : Subgroup H}
     (ho1 : oTwoRes L1 ≤ oTwoPrime (f112saP1' L1 L2 S))
@@ -59,6 +60,7 @@ theorem f112sa_pCoreOf_inf_centralizer_le_centralizer_oTwoRes_P1'
   intro a ha
   exact Subgroup.mem_centralizer_iff.mp hvcent a (ho1 ha)
 
+omit [Finite H] in
 theorem f112sa_pCoreOf_inf_centralizer_le_centralizer_oTwoRes_P2'
     {L1 L2 S : Subgroup H}
     (ho2 : oTwoRes L2 ≤ oTwoPrime (f112saP2' L1 L2 S))
@@ -164,7 +166,7 @@ theorem f112sa_mem_K_of_local {L1 L2 S : Subgroup H}
       (mem_normalizer_oTwoPrime (hSNβ hs)) hTsyl hAleT (by rw [hpCore2, ← hT])
       (fun q hq => commutatorElement_eq_one_iff_mul_comm.mp (hsQ q hq))
     refine ⟨a, hAleT haQ, fun q hq => ?_, fun l hl => hpCore2 ▸ ha l hl⟩
-    haveI : IsMulCommutative ↥(pCoreOf 2 (f112saP1' L1 L2 S)) := hQ1ab
+    have : IsMulCommutative ↥(pCoreOf 2 (f112saP1' L1 L2 S)) := hQ1ab
     have hsC : s ∈ Subgroup.centralizer (pCoreOf 2 (f112saP1' L1 L2 S) : Set H) :=
       Subgroup.mem_centralizer_iff.mpr fun q hq =>
         (commutatorElement_eq_one_iff_mul_comm.mp (hsQ q hq)).symm

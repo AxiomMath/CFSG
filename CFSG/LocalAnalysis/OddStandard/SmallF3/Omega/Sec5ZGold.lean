@@ -42,7 +42,7 @@ local notation "𝓗" => centralizer (Singleton.singleton z : Set G)
 theorem sec5z_exists_sylow_quotient (h : Sec510Ctx G t L S z r ρ B A φ)
     {X : Type} [Group X] (π : ↥(centralizer ({z} : Set G)) →* X) (hπ : Function.Surjective π) :
     ∃ P : Sylow 2 X, (P : Subgroup X) = (S.subgroupOf (centralizer ({z} : Set G))).map π := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSH : S ≤ centralizer ({z} : Set G) := fun s hs =>
     Subgroup.mem_centralizer_singleton_iff.mpr (h.central s hs)
   have hP : IsPGroup 2 ↥(S.subgroupOf (centralizer ({z} : Set G))) :=

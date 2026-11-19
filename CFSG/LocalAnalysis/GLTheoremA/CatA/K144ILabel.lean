@@ -57,7 +57,7 @@ theorem openQuasisimple_of_simple {S : Type} [Group S] (hs : IsSimpleGroup S)
     · exact h
   · have e : S ≃* (S ⧸ Subgroup.center S) :=
       (QuotientGroup.quotientBot.symm).trans (QuotientGroup.quotientMulEquivOfEq hZ.symm)
-    haveI := hs
+    have := hs
     exact MulEquiv.isSimpleGroup e.symm
 
 theorem perfectInLayer_one_of_simple {S : Type} [Group S] (hs : IsSimpleGroup S)
@@ -158,7 +158,7 @@ theorem innDiagKind_of_i144Inner {K : Type} [Group K] (hK : CFSG.Open.IsQuasisim
     ∃ labK : GLALabel, HasLabel K (· = labK) ∧
       InnDiagKind (K ⧸ Subgroup.center K) labK (centerQuotAut K α) := by
   have hcen := center_centerQuot_eq_bot hK
-  haveI : Group.IsPerfect K := ⟨hK.1⟩
+  have : Group.IsPerfect K := ⟨hK.1⟩
   have hS : commutator (K ⧸ Subgroup.center K) = ⊤ :=
     (Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' (Subgroup.center K))
       (QuotientGroup.mk'_surjective _)).commutator_eq_top

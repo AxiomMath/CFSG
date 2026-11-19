@@ -73,19 +73,19 @@ private lemma ltrclh1_eq_two_of_equiv {k : ℕ} {E K₀ : Type}
 theorem kd2Lin_numerology {k : ℕ} {E : Type} [Field E] [Finite E] (h2E : (2 : E) = 0)
     (hk : 2 ≤ k) {Q : Type} [Group Q] (φ : Q ≃* StatedProj (StatedSL k E))
     (hQ : GGHasLabel (⟨.A, 1, 3⟩ : LargeEvenLabel) Q) : k = 2 ∧ Nat.card E = 8 := by
-  haveI hcharE : CharP E 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2E
+  have hcharE : CharP E 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2E
   dsimp only [GGHasLabel, CFSG.StandardType.LargeEvenRawDatum,
     CFSG.Assembly.LargeEvenRecipeLinear] at hQ
   obtain ⟨K₀, hfK₀, hfinK₀, hcardK₀, hQ0⟩ := hQ
-  letI : Field K₀ := hfK₀
-  letI : Finite K₀ := hfinK₀
-  letI : Fintype K₀ := Fintype.ofFinite K₀
+  let : Field K₀ := hfK₀
+  let : Finite K₀ := hfinK₀
+  let : Fintype K₀ := Fintype.ofFinite K₀
   obtain ⟨eQ⟩ := hQ0
   have hK8 : Nat.card K₀ = 8 := by
     rw [hcardK₀]
     norm_num
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hcharK : CharP K₀ 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hcharK : CharP K₀ 2 :=
     charP_of_card_eq_prime_pow (p := 2) (f := 3) (by
       rw [← Nat.card_eq_fintype_card]
       exact hcardK₀)
@@ -132,7 +132,7 @@ private lemma ltrclh3_kernel_scalar {d n : ℕ} {K : Type} [Field K] [Finite K]
     (X : GL (Fin d) K) ∈ LargeEvenScalars (Fin d) K := by
   have hperf : Group.IsPerfect ↥(LargeEvenSLGroup (Fin d) K) := by
     let e := MulEquiv.subgroupCongr (largeEvenSLGroup_eq_statedSL (K := K) d)
-    haveI : Group.IsPerfect ↥(StatedSL d K) := by
+    have : Group.IsPerfect ↥(StatedSL d K) := by
       by_cases hd3 : 3 ≤ d
       · exact CFSG.Open.StatedAPI.isPerfect_statedSL_of_three_le hd3 K
       · have hd2 : d = 2 := by omega
@@ -263,8 +263,8 @@ private lemma ltrclh4_mulSingle_conj {ι : Type*} [DecidableEq ι] {G : ι → T
   funext k
   by_cases hk : k = i
   · subst hk
-    simp [MonoidHom.mulSingle_apply, Pi.mulSingle_apply]
-  · simp [MonoidHom.mulSingle_apply, Pi.mulSingle_apply, hk]
+    simp [MonoidHom.mulSingle_apply]
+  · simp [MonoidHom.mulSingle_apply, hk]
 
 theorem kd2Lin_inner_two {k : ℕ} (hk : k = 2) {E : Type} [Field E] [Finite E]
     (hE : Nat.card E = 8) (ν : GL (Fin k) E) :
@@ -276,8 +276,8 @@ theorem kd2Lin_inner_two {k : ℕ} (hk : k = 2) {E : Type} [Field E] [Finite E]
     have h23 : ((8 : ℕ) : E) = (2 : E) ^ 3 := by norm_num
     rw [h23] at h0
     exact pow_eq_zero_iff (by norm_num : (3 : ℕ) ≠ 0) |>.mp h0
-  haveI : CharP E 2 := (CharP.charP_iff_prime_eq_zero Nat.prime_two).mpr h2E
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP E 2 := (CharP.charP_iff_prime_eq_zero Nat.prime_two).mpr h2E
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsurj : Function.Surjective (fun x : E => x ^ 2) := by
     have hinj : Function.Injective (fun x : E => x ^ 2) := by
       intro x y hxy

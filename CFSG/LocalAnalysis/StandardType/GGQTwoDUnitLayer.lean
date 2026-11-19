@@ -26,7 +26,7 @@ private theorem qtwoDB15_dSign_single {m : ℕ} {a b c : Fin m} (hca : c ≠ a) 
     (Pi.basisFun_apply (ZMod 3) (Fin m) c).symm
   have hnot : ¬ (c = a ∨ c = b) := by tauto
   have hfix : dSign m a b (dBasis m c) = dBasis m c := by
-    rw [dSign_apply, if_neg hnot, one_smul]
+    rw [dSign_apply, ite_eq_right hnot, one_smul]
   rw [hsingle]
   exact hfix
 
@@ -43,8 +43,8 @@ theorem ggQTwoDUnit_layer (hBal : GGLBalanceInput)
         LargeEvenPLayer 3 (Subgroup.centralizer ({(b' : G)} : Set G)) := by
   have hThmI : GGThmIHyp p B x L := hcfg.1.1.1.1
   have hBstar : GGBstar p B Bs := hcfg.1.1.1.2.1
-  haveI : IsSimpleGroup G := hThmI.1
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsSimpleGroup G := hThmI.1
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hBsE : CFSG.Open.IsElemAbelian p Bs := hBstar.2.1
   have hb'1 : (b' : G) ≠ 1 := by
     intro h1
@@ -145,7 +145,7 @@ theorem ggQTwoDUnit_rank_bound_of_card (hcfg : GGQTwoDCfg p B Bs x L D J 𝒦 M 
   have hBmax : LargeEvenIsBmax p B := hThmI.2.2.2.2.2.2.1.1
   have hBmax3 : LargeEvenIsBmax 3 B := hp ▸ hBmax
   obtain ⟨U, hUbot, hU2, hEU⟩ := hU
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp (CFSG.Open.IsElemAbelian.isPGroup hE)
   have hk_le : k ≤ LargeEvenTwoLocalRank 3 G :=
     le_twoLocalRank_of_normalizes Nat.prime_three hUbot hU2 hE hEU hk

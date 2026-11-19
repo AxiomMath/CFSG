@@ -195,7 +195,7 @@ theorem zpTreesOK_true : zpTreesOK (genTabs ()) (geomTrees (genTabs ())) = true 
 theorem labOK_true :
     labOK (genTabs ()) (geomTrees (genTabs ())) (geomLab (geomTrees (genTabs ()))) = true := by
   unfold labOK
-  simp only [Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq]
+  simp only [Bool.and_eq_true]
   refine ⟨⟨allIn_eq_true.2 fun i _ hi => ?_, allIn_eq_true.2 fun v _ hv => ?_⟩, ?_⟩
   · rw [beq_iff_eq, geomReps_get hi]
     exact ap_geomLab hi (gRoot_lt hi) (root_mem hi)
@@ -211,7 +211,7 @@ theorem labOK_true :
     obtain ⟨i, hi, h⟩ := exists_gS v hv
     have hgv : ap (genTabs ())[zpLetters[j]]! v < 920808 := by
       rw [hapZ _ hl v hv]
-      exact eL_lt (hgZ _ (by rw [hzL]; exact List.mem_map.2 ⟨_, by simpa using hl, rfl⟩)) hv
+      exact eL_lt (hgZ _ (by rw [hzL]; exact List.mem_map.2 ⟨_, by simp, rfl⟩)) hv
     rw [beq_iff_eq, ap_geomLab hi hgv (closed_mem hi hv h hl), ap_geomLab hi hv h]
 
 theorem memS_land (a b N : Nat) : memS (Nat.land a b) N = (memS a N && memS b N) := by

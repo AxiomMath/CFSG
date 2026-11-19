@@ -14,7 +14,7 @@ variable {G : Type} [Group G] [Finite G] {M : Subgroup G} {p : ℕ} {Q H : Subgr
 theorem isSylowOf_top_of_sylow {d : ℕ} [Fact d.Prime] (P : Sylow d G) :
     CFSG.ABGLocalTools.IsSylowOf d (P : Subgroup G) ⊤ :=
   (CFSG.ABGLocalTools.isSylowOf_iff (p := d) (P := (P : Subgroup G)) (K := ⊤)).mpr
-    ⟨le_top, P.isPGroup', by rw [Subgroup.relIndex_top_right]; exact P.not_dvd_index⟩
+    ⟨le_top, P.isPGroup, by rw [Subgroup.relIndex_top_right]; exact P.not_dvd_index⟩
 
 theorem isStronglyPEmbedded_of_sylow_witness {d : ℕ} [Fact d.Prime] {P : Sylow d G}
     {M : Subgroup G} (hP1 : (P : Subgroup G) ≠ ⊥) (hΓ : rankThreeGamma 1 d (P : Subgroup G) ≤ M)
@@ -25,7 +25,7 @@ theorem isStronglyPEmbedded_of_sylow_witness {d : ℕ} [Fact d.Prime] {P : Sylow
 theorem isStronglyPEmbedded_of_twelveCtx (h : TwelveCtx G M p Q H)
     (hns : ¬ Group.IsSolvable M) (d : ℕ) [Fact d.Prime] (hd : d ∈ sigmaSet G M)
     (hdG : d ∣ Nat.card G) : CFSG.RankThree.PartOne.IsStronglyPEmbedded d M := by
-  haveI : IsSimpleGroup G := h.cstar.simple
+  have : IsSimpleGroup G := h.cstar.simple
   obtain ⟨P, -, hΓ⟩ := stronglyDEmbedded_of_almost h hns d hd
   exact isStronglyPEmbedded_of_sylow_witness (Sylow.ne_bot_of_dvd_card P hdG) hΓ
     (CFSG.RankThreeCoreUniqueness.Helpers.twoLocal_ne_top h.cstar.nonab M h.maxLocal.1)

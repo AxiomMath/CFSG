@@ -99,7 +99,7 @@ theorem two_pow_mod_three_of_even' {k : ℕ} (hk : Even k) : 2 ^ k % 3 = 1 := by
 theorem nonempty_statedSL_mulEquiv_projSL {k : ℕ} (hk : 1 ≤ k) (hq : 2 ^ k % 3 = 2) {K : Type}
     [Field K] [Finite K] (hK : Nat.card K = 2 ^ k) :
     Nonempty (StatedSL 3 K ≃* projSL 3 (GaloisField 2 k)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hKmod : Nat.card K % 3 = 2 := by rw [hK]; exact hq
   have : Fintype K := Fintype.ofFinite K
   have : Fintype (GaloisField 2 k) := Fintype.ofFinite _

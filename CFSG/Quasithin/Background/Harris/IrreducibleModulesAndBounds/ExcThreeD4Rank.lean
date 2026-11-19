@@ -49,11 +49,11 @@ theorem trialityD4_rank_le {f : ℕ} (hf : 1 ≤ f) (K : Type) [Field K] [Finite
       (∀ x ∈ B, ∀ y ∈ B, x * y = y * x) → (∀ x ∈ B, x * x = 1) →
         Nat.card B ≤ 2 * (2 ^ f) ^ 5 := by
   have hK' : Nat.card K = 2 ^ (3 * f) := by rw [hK, ← pow_mul, mul_comm]
-  haveI : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two (by omega) hK'
+  have : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two (by omega) hK'
   have hσ3 : σ.toRingHom ^ 3 = 1 := by
     ext c
     simp only [pow_succ, pow_zero, one_mul, RingHom.mul_def, RingHom.comp_apply,
-      RingEquiv.toRingHom_eq_coe, RingHom.coe_coe, RingHom.id_apply]
+      RingEquiv.toRingHom_eq_coe, RingHom.coe_coe]
     exact ringEquiv_cube_apply_eq hK hσ c
   have hσ3E : σ ^ 3 = 1 :=
     RingEquiv.ext fun c => by
@@ -67,11 +67,11 @@ theorem trialityD4_rank_le {f : ℕ} (hf : 1 ≤ f) (K : Type) [Field K] [Finite
   have hK3 : Nat.card K = Nat.card (trialityFixedField K σ.toRingHom) ^ 3 := by
     rw [hkcard, hK]
   obtain ⟨D⟩ := exists_d4Syl K σ hσ3
-  haveI : Finite (graphFixedPosUnipotent TwistTag.D4 K σ.toRingHom) :=
+  have : Finite (graphFixedPosUnipotent TwistTag.D4 K σ.toRingHom) :=
     Finite.of_surjective _ D.bij.2
   obtain ⟨-, -, -, -, -, -, -, -, ⟨Psyl, hsyl⟩⟩ :=
     even_triality_positive_orbit_parametrization K σ hσ3
-  haveI : Finite (graphFixedRootGroup TwistTag.D4 K σ.toRingHom) :=
+  have : Finite (graphFixedRootGroup TwistTag.D4 K σ.toRingHom) :=
     Finite.of_injective (fun g => (g : ModGL TwistTag.D4.tag K)) Subtype.val_injective
   have hle : graphFixedPosUnipotent TwistTag.D4 K σ.toRingHom ≤
       graphFixedRootGroup TwistTag.D4 K σ.toRingHom :=

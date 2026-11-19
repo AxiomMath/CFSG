@@ -15,7 +15,7 @@ theorem qTwoLMDivStab_fix_card_le {G : Type} [Group G] [Finite G] {Bs L : Subgro
       ((F.thetaT (ψ v) : ↥(Bs ⊓ L)) : G)) :
     Nat.card {b : ↥Bs // r b = b} ≤ 3 * Nat.card {v : VT // ψ v = v} := by
   classical
-  haveI : Finite VT := Finite.of_injective F.thetaT F.thetaT.injective
+  have : Finite VT := Finite.of_injective F.thetaT F.thetaT.injective
   let H : Subgroup ↥Bs :=
     { carrier := {b | r b = b}
       one_mem' := map_one r
@@ -261,9 +261,9 @@ theorem qTwoLMDivStab_direct {G : Type} [Group G] [Finite G] {B Bs L : Subgroup 
 theorem qTwoLMDivStab_stabDirect_of_rigid {G : Type} [Group G] [Finite G] {B Bs L : Subgroup G}
     {x : G} {D J : Subgroup G} {𝒦 : Finset (Subgroup G)} {m : ℕ}
     (F : QTwoFrame m (QTwoQm m) ↥(sumZero m 3) Bs L x) (hG : GGThmIHyp 3 B x L)
-    (hBs : GGBstar 3 B Bs) (hL : LieModel (L ⧸ Subgroup.center L) .PSU m 2 1)
+    (_hBs : GGBstar 3 B Bs) (hL : LieModel (L ⧸ Subgroup.center L) .PSU m 2 1)
     (hrt : GGSecFiveRouteCfg 3 B Bs x L D J 𝒦) (hFrameL : QTwoFrameL 3 B Bs x L D J)
-    (hFm : hFrameL.m = m) (hm : 6 ≤ m) (h3 : 3 ∣ m)
+    (_hFm : hFrameL.m = m) (hm : 6 ≤ m) (_h3 : 3 ∣ m)
     (hV : IsQmModel m (QTwoQm m) F.permV) (hVT : IsAugModel m ↥(sumZero m 3) F.permVT)
     (hrigid : ∀ U : Subgroup (QTwoQm m), (∀ (σ : Equiv.Perm (Fin m)) (u : QTwoQm m), u ∈ U →
       F.permV σ u ∈ U) → Nat.card (QTwoQm m) ≤ 3 * Nat.card U →

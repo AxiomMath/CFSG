@@ -22,6 +22,7 @@ variable {G : Type} [Group G] [Finite G]
     (hE : E ≤ Subgroup.normalizer (L : Set G)) : ↥E →* MulAut (Bar2 L) :=
   (CFSG.LocalAnalysis.UniquenessCase.UC6S846.rhoL L).comp (Subgroup.inclusion hE)
 
+omit [Finite G] in
 @[simp] theorem psi_apply {L E : Subgroup G} (hE : E ≤ Subgroup.normalizer (L : Set G))
     (e : ↥E) :
     psi hE e = CFSG.LocalAnalysis.UniquenessCase.UC6S846.rhoL L (Subgroup.inclusion hE e) :=

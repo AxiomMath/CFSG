@@ -91,7 +91,7 @@ theorem c23ne_exists_y0 (D : Data G) (hSg : UC6S846.SigmaStd D) (h1217 : R1217 D
     intro h1
     exact hyne (Subtype.ext (by simpa using h1))
   have hpow7 : (yE : G) ^ 7 = 1 := hEab.2 (yE : G) hyE
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have horder : orderOf (yE : G) = 7 := orderOf_eq_prime hpow7 hyne'
   have hcardV₀ : Nat.card ↥V₀ ≤ 4 := by
     have h0 : Nat.card ↥V₀ = 2 ^ mSub V₀ :=
@@ -108,7 +108,7 @@ theorem c23ne_exists_y0 (D : Data G) (hSg : UC6S846.SigmaStd D) (h1217 : R1217 D
     exact (actTil_eq_one_iff V₀ V hV (Subgroup.inclusion hEstab yE)).1 h1 v hv
   have hyV : ∀ v ∈ V, (yE : G) * v = v * (yE : G) := by
     intro v hv
-    haveI : IsMulCommutative ↥V := hV.1
+    have : IsMulCommutative ↥V := hV.1
     set d : G := (yE : G) * v * (yE : G)⁻¹ * v⁻¹ with hddef
     have hd₀ : d ∈ V₀ := hδ v hv
     have hdV : d ∈ V := hP.le hd₀
@@ -155,7 +155,8 @@ theorem c23ne_sp_seven (D : Data G) (hSg : UC6S846.SigmaStd D) {V₀ V L : Subgr
     rw [hc.2.2.2]
     exact Set.mem_singleton 7)
 
-theorem c23ne_isTI_of_centralizers {M V : Subgroup G} (hV : IsElemAbelian 2 V)
+omit [Finite G] in
+theorem c23ne_isTI_of_centralizers {M V : Subgroup G} (_hV : IsElemAbelian 2 V)
     (hM : M ≤ normalizer (V : Set G))
     (hsp : CFSG.RankThree.PartOne.IsStronglyPEmbedded 7 M) {y : G} (hyM : y ∈ M)
     (hy7 : orderOf y = 7) (hyV : ∀ v ∈ V, y * v = v * y)
@@ -191,7 +192,7 @@ theorem c23ne_isTI_of_centralizers {M V : Subgroup G} (hV : IsElemAbelian 2 V)
     have hYmem : y ∈ M ⊓ M.map (MulAut.conj g⁻¹).toMonoidHom := by
       refine ⟨hyM, ?_⟩
       exact Subgroup.mem_map.2 ⟨g * y * g⁻¹, hgygM, by
-        simp [MulAut.conj_apply, mul_assoc]⟩
+        simp [mul_assoc]⟩
     have hdvd : 7 ∣ Nat.card ↥(M ⊓ M.map (MulAut.conj g⁻¹).toMonoidHom) := by
       have hle : Subgroup.zpowers y ≤ M ⊓ M.map (MulAut.conj g⁻¹).toMonoidHom := by
         rw [Subgroup.zpowers_le]

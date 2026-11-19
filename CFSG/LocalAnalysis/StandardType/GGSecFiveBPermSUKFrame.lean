@@ -209,18 +209,18 @@ private theorem exists_units_of_coord_sign {p : ℕ} {ε : Fin 3 → ZMod p}
   · intro i
     dsimp only
     by_cases hi : ε i = 1
-    · rw [if_pos hi]
+    · rw [ite_eq_left hi]
       simpa using hi.symm
-    · rw [if_neg hi]
+    · rw [ite_eq_right hi]
       have he := (hε i).resolve_left hi
       rw [he]
       rfl
   · intro i
     dsimp only
     by_cases hi : ε i = 1
-    · simp only [if_pos hi]
+    · simp only [ite_eq_left hi]
       exact Subgroup.one_mem _
-    · simp only [if_neg hi]
+    · simp only [ite_eq_right hi]
       exact Subgroup.mem_zpowers_iff.mpr ⟨1, by simp⟩
 
 private theorem conj_torus_eq_of_coord {H : Type} [Group H] {p : ℕ}

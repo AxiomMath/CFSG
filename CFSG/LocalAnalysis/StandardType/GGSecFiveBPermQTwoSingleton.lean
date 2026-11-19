@@ -121,9 +121,9 @@ theorem ggQTwoSingleton_map_conj {G : Type} [Group G] [Finite G] {n : ℕ}
     rw [Subgroup.map_inf _ _ _ (MulAut.conj g).injective, ublk_centralizer_map_conj, hp, hs]
   unfold ggQTwoSingleton
   by_cases hd : d = 0
-  · simp only [if_pos hd]
+  · simp only [ite_eq_left hd]
     rw [CFSG.SecondGeneration.map_oPrimeResidualOf_eq, hc]
-  · simpa only [if_neg hd] using hc
+  · simpa only [ite_eq_right hd] using hc
 
 @[expose] def ggQTwoIndependentSingleton {G : Type} [Group G] {n : ℕ} (d : ℕ)
     (Bs : Subgroup G) (eta : ↥Bs ≃* (Fin n → Multiplicative (ZMod 3))) (i : Fin n) :
@@ -429,7 +429,7 @@ theorem singleton_eq_native
       · simp [SLNS.mem_fixS, SLNS.inT, hεp]
       · have hw := w.isLt
         omega
-    simp only [ggQTwoSingleton, if_pos hd0]
+    simp only [ggQTwoSingleton, ite_eq_left hd0]
     rw [hpair, hsingle, QTwoSingleton.map_inf_centralizer_zpowers_eq κ hF.1,
       ← CFSG.SecondGeneration.map_oPrimeResidualOf_eq,
       QTwoSingletonNative.oPrimeResidualOf_inf_centralizer_nsSL_eq ε hprim, hs, hanchor,
@@ -454,7 +454,7 @@ theorem singleton_eq_native
           Finset.mem_compl, not_not, Finset.mem_insert, Finset.mem_singleton, Finset.mem_univ]
         aesop
       · simp [SLNS.mem_fixS, SLNS.inT, hεp]
-    simp only [ggQTwoSingleton, if_neg hd0]
+    simp only [ggQTwoSingleton, ite_eq_right hd0]
     rw [hpair, hsingle, coordBlockSL_map_inf_centralizer_eq_sdiff_of_card_two
       (Nat.card_zmod 2) κ hF.1 _ _ (by rw [QTwoBlocks.card_fixS_compl, hdim, hd1]; simp), hsets]
 

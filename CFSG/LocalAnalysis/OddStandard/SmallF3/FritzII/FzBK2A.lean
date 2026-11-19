@@ -70,20 +70,20 @@ theorem fzb_exists_coding {G : Type} [Group G] {P : Subgroup G}
   · intro p hp
     show enc p < 64
     simp only [enc]
-    rw [dif_pos hp]
+    rw [dite_eq_left hp]
     exact fzbEnc_lt _
   · intro x hx
     show dec x ∈ P
     simp only [dec]
-    rw [dif_pos hx]
+    rw [dite_eq_left hx]
     exact (ψ.symm _).2
   · intro x hx
     have hdx : dec x = ((ψ.symm (Classical.choose (fzbEnc_surj hx)) : ↥P) : G) := by
       simp only [dec]
-      rw [dif_pos hx]
+      rw [dite_eq_left hx]
     rw [hdx]
     simp only [enc]
-    rw [dif_pos (ψ.symm (Classical.choose (fzbEnc_surj hx))).2]
+    rw [dite_eq_left (ψ.symm (Classical.choose (fzbEnc_surj hx))).2]
     have hsub : (⟨((ψ.symm (Classical.choose (fzbEnc_surj hx)) : ↥P) : G),
         (ψ.symm (Classical.choose (fzbEnc_surj hx))).2⟩ : ↥P)
         = ψ.symm (Classical.choose (fzbEnc_surj hx)) := Subtype.ext rfl
@@ -92,13 +92,13 @@ theorem fzb_exists_coding {G : Type} [Group G] {P : Subgroup G}
   · intro p hp
     have henc : enc p = fzbEnc (ψ ⟨p, hp⟩) := by
       simp only [enc]
-      rw [dif_pos hp]
+      rw [dite_eq_left hp]
     rw [henc]
     have hx : fzbEnc (ψ ⟨p, hp⟩) < 64 := fzbEnc_lt _
     have hdx : dec (fzbEnc (ψ ⟨p, hp⟩)) =
         ((ψ.symm (Classical.choose (fzbEnc_surj hx)) : ↥P) : G) := by
       simp only [dec]
-      rw [dif_pos hx]
+      rw [dite_eq_left hx]
     rw [hdx]
     have hchoose : Classical.choose (fzbEnc_surj hx) = ψ ⟨p, hp⟩ :=
       fzbEnc_inj (Classical.choose_spec (fzbEnc_surj hx))
@@ -106,7 +106,7 @@ theorem fzb_exists_coding {G : Type} [Group G] {P : Subgroup G}
   · have h1 : (1 : G) ∈ P := P.one_mem
     have henc : enc 1 = fzbEnc (ψ ⟨1, h1⟩) := by
       simp only [enc]
-      rw [dif_pos h1]
+      rw [dite_eq_left h1]
     rw [henc]
     have hsub : (⟨(1 : G), h1⟩ : ↥P) = 1 := Subtype.ext rfl
     rw [hsub, map_one, fzbEnc_one]
@@ -114,13 +114,13 @@ theorem fzb_exists_coding {G : Type} [Group G] {P : Subgroup G}
     have hmem : p * p' ∈ P := P.mul_mem hp hp'
     have henc : enc (p * p') = fzbEnc (ψ ⟨p * p', hmem⟩) := by
       simp only [enc]
-      rw [dif_pos hmem]
+      rw [dite_eq_left hmem]
     have hencp : enc p = fzbEnc (ψ ⟨p, hp⟩) := by
       simp only [enc]
-      rw [dif_pos hp]
+      rw [dite_eq_left hp]
     have hencp' : enc p' = fzbEnc (ψ ⟨p', hp'⟩) := by
       simp only [enc]
-      rw [dif_pos hp']
+      rw [dite_eq_left hp']
     have hsub : (⟨p * p', hmem⟩ : ↥P) = (⟨p, hp⟩ : ↥P) * ⟨p', hp'⟩ := Subtype.ext rfl
     calc enc (p * p') = fzbEnc (ψ ⟨p * p', hmem⟩) := henc
       _ = fzbEnc (ψ ((⟨p, hp⟩ : ↥P) * ⟨p', hp'⟩)) := by rw [← hsub]

@@ -43,7 +43,7 @@ theorem s628_exists_invariant (c : S62Config p P M x z T) (hcov : SmallRankCover
   have hBC : zpowers x ⊔ zpowers z ≤ C := c.B_le_centralizer
   have hAO : smallRankS x T ⊔ (zpowers x ⊔ zpowers z) ≤ normalizer (O : Set G) :=
     (sup_le hSC hBC).trans hCO
-  have hBp : IsPGroup p ↥(zpowers x ⊔ zpowers z) := P.isPGroup'.to_le c.B_le_P
+  have hBp : IsPGroup p ↥(zpowers x ⊔ zpowers z) := P.isPGroup.to_le c.B_le_P
   obtain ⟨hcardA, hAsolv⟩ :=
     sr628_card_sup_and_solvable hp hp2 c.S_isPGroup hBp c.B_le_normalizer_S
   have hcop : Nat.Coprime (Nat.card ↥(smallRankS x T ⊔ (zpowers x ⊔ zpowers z)))

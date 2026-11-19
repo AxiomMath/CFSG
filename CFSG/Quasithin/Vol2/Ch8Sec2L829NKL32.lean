@@ -175,7 +175,7 @@ theorem L32_det_eq_one (A : GL32) : (A : M3).det = 1 := by
   simpa using h2
 
 instance L32_finite : Finite GL32 :=
-  Finite.of_injective (fun g : GL32 => (g : M3)) (fun a b h => Units.ext h)
+  Finite.of_injective (fun g : GL32 => (g : M3)) (fun _a _b h => Units.ext h)
 
 @[expose] def L32C : GL32 :=
   ⟨!![1, 0, 0; 0, 1, 1; 0, 0, 1], !![1, 0, 0; 0, 1, 1; 0, 0, 1], by decide, by decide⟩
@@ -239,7 +239,7 @@ theorem L32_isSylowTwoOf_U : IsSylowTwoOf L32U ⊤ := by
 theorem L32_sylow_conj {G : Type} [Group G] [Finite G] {S₀ S : Subgroup G}
     (h₀ : IsSylowTwoOf S₀ ⊤) (h : IsSylowTwoOf S ⊤) :
     ∃ g : G, S = S₀.map (MulAut.conj g).toMonoidHom := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsyl : ∀ {T : Subgroup G}, IsSylowTwoOf T ⊤ → ∃ P : Sylow 2 G, (P : Subgroup G) = T := by
     intro T hT
     have hi : ¬ 2 ∣ T.index := by
@@ -313,7 +313,7 @@ theorem L32_invPred_entries : ∀ a b c d e f g h i : ZMod 2,
   decide +kernel
 
 theorem L32_involution_conj {t : GL32} (ht : orderOf t = 2) : IsConj aGL t := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨ht2, ht1⟩ := orderOf_eq_prime_iff.1 ht
   rw [sq] at ht2
   have hM : (t : M3) * (t : M3) = 1 := by

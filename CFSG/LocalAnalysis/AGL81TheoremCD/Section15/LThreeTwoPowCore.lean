@@ -13,11 +13,11 @@ variable {L : Type} [Group L] [Finite L]
 
 theorem pPrimeCore_three_eq_pCore_two (hL : IsLThreeTwoPow (L ⧸ CFSG.pCore 2 L)) :
     CFSG.pPrimeCore 3 L = CFSG.pCore 2 L := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : (CFSG.pCore 2 L).Normal := CFSG.pCore_normal
-  haveI : (CFSG.pPrimeCore 3 L).Normal := CFSG.pPrimeCore_normal
-  haveI : IsSimpleGroup (L ⧸ CFSG.pCore 2 L) :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : (CFSG.pCore 2 L).Normal := CFSG.pCore_normal
+  have : (CFSG.pPrimeCore 3 L).Normal := CFSG.pPrimeCore_normal
+  have : IsSimpleGroup (L ⧸ CFSG.pCore 2 L) :=
     R1511C.isSimpleGroup_of_isLThreeTwoPow hL
   have hπ : Function.Surjective (QuotientGroup.mk' (CFSG.pCore 2 L)) :=
     QuotientGroup.mk'_surjective _

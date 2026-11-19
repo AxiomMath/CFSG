@@ -17,7 +17,7 @@ open CFSG.RankThree.PartTwo.Sec4.Item434RemL43 (PSL43 projSLEquivPSL43
   not_three_dvd_card_outer_PSL43)
 
 theorem l43_card_Q : Nat.card (projUnitriangular 4 (ZMod 3)) = 3 ^ 6 := by
-  rw [card_projUnitriangular (K := ZMod 3), Nat.card_zmod] <;> norm_num
+  rw [card_projUnitriangular (K := ZMod 3), Nat.card_zmod]
 
 theorem l43_not_dvd_PSL43 : ¬ 3 ^ (6 + 1) ∣ Nat.card PSL43 := by
   intro h
@@ -28,8 +28,6 @@ theorem l43_not_dvd_PSL43 : ¬ 3 ^ (6 + 1) ∣ Nat.card PSL43 := by
     rw [card_SL_eq (K := ZMod 3) (by norm_num : 1 ≤ 4), Nat.card_zmod]
     first
     | decide
-    | rfl
-    | norm_num [Finset.prod_Icc_succ_top]
   have h3 : 3 ^ (6 + 1) ∣ Nat.card (Matrix.SpecialLinearGroup (Fin 4) (ZMod 3)) := by
     rw [hsplit]
     exact Dvd.dvd.mul_right h _
@@ -136,7 +134,7 @@ theorem l43_outerRow_proj [Finite (projSL 4 (GaloisField 3 1))] :
 
 theorem row_l43 : RowOf (projSL 4 (GaloisField 3 1)) := by
   intro S _ _ _ _ ⟨e⟩
-  haveI : Finite (projSL 4 (GaloisField 3 1)) := Finite.of_equiv S e.toEquiv
+  have : Finite (projSL 4 (GaloisField 3 1)) := Finite.of_equiv S e.toEquiv
   exact GoodRow.of_mulEquiv e.symm ⟨l43_listRow_proj, l43_outerRow_proj⟩
 
 end CFSG.RankThree.PartTwo.Sec4.RonanK432

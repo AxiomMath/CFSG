@@ -24,8 +24,8 @@ theorem pRank_statedProj_SL_formula (hp : p.Prime) (hp2 : p ≠ 2) (hn : 1 ≤ n
     CFSG.Open.pRank p (⊤ : Subgroup (StatedProj (StatedSL n F))) =
       if p ∣ Nat.card F - 1 then n - 1 else n / orderOf (Nat.card F : ZMod p) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype F := Fintype.ofFinite F
   have hc : Fintype.card F = Nat.card F := (Nat.card_eq_fintype_card).symm
   have hZ : ¬ p ∣ Nat.card ((StatedScalars (Fin n) F).subgroupOf (StatedSL n F)) :=
     RankChevLinProof.not_dvd_card_scalars_statedSL hn (by rwa [hc])
@@ -42,7 +42,7 @@ theorem pRank_statedProj_SL_eq_of_pow {F F₀ : Type} [Field F] [Field F₀] [Fi
     (hpF : ¬ p ∣ Nat.card F) (hdiv : ¬ p ∣ Nat.gcd n (Nat.card F - 1)) :
     CFSG.Open.pRank p (⊤ : Subgroup (StatedProj (StatedSL n F))) =
       CFSG.Open.pRank p (⊤ : Subgroup (StatedProj (StatedSL n F₀))) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hF₀ : ¬ p ∣ Nat.card F₀ := fun h => hpF (hcard ▸ h.trans (dvd_pow_self _ hp.ne_zero))
   have hq₀ : 1 ≤ Nat.card F₀ := Nat.card_pos
   have hiff : p ∣ Nat.card F - 1 ↔ p ∣ Nat.card F₀ - 1 := by

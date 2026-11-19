@@ -28,7 +28,7 @@ theorem factorization_two_pow_sub_pow {f m i : ℕ} (hf : 1 ≤ f) (hi : i < m) 
 theorem factorization_prod_GL {f m : ℕ} (hf : 1 ≤ f) :
     (∏ i : Fin m, ((2 ^ f) ^ m - (2 ^ f) ^ (i : ℕ))).factorization 2 = f * (m * (m - 1) / 2) := by
   rw [Nat.factorization_prod]
-  · rw [Finsupp.finset_sum_apply]
+  · rw [_root_.Finsupp.finsetSum_apply]
     have : ∀ i ∈ (Finset.univ : Finset (Fin m)),
         ((2 ^ f) ^ m - (2 ^ f) ^ (i : ℕ)).factorization 2 = f * (i : ℕ) := fun i _ =>
       factorization_two_pow_sub_pow hf i.2
@@ -54,7 +54,7 @@ variable {K : Type} [Field K] [Finite K] {E : Type} [AddCommGroup E] [Module K E
 theorem card_linearEquiv [Module.Finite K E] {m : ℕ} (hm : Module.finrank K E = m) :
     Nat.card (E ≃ₗ[K] E) = ∏ i : Fin m, (Nat.card K ^ m - Nat.card K ^ (i : ℕ)) := by
   classical
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   let b : Module.Basis (Fin m) K E := Module.finBasisOfFinrankEq K E hm
   let e : E ≃ₗ[K] (Fin m → K) := b.equivFun
   have h1 : Nat.card (E ≃ₗ[K] E) = Nat.card ((Fin m → K) ≃ₗ[K] (Fin m → K)) :=
@@ -68,8 +68,8 @@ theorem card_linearEquiv [Module.Finite K E] {m : ℕ} (hm : Module.finrank K E 
 theorem card_ringEquiv_self [CharP K 2] {f : ℕ} (hK : Nat.card K = 2 ^ f) :
     Nat.card (K ≃+* K) = f := by
   classical
-  letI : Algebra (ZMod 2) K := ZMod.algebra K 2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Algebra (ZMod 2) K := ZMod.algebra K 2
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hfr : Module.finrank (ZMod 2) K = f := by
     have h := Module.natCard_eq_pow_finrank (K := ZMod 2) (V := K)
     rw [hK, Nat.card_zmod] at h
@@ -104,6 +104,7 @@ theorem card_ringEquiv_self [CharP K 2] {f : ℕ} (hK : Nat.card K = 2 ^ f) :
       rw [hσ]
       simp
 
+omit [Finite K] in
 theorem semilinear_unique [Nontrivial E] {T : Equiv.Perm E} {σ σ' : K ≃+* K}
     (h : ∀ (c : K) (e : E), T (c • e) = σ c • T e)
     (h' : ∀ (c : K) (e : E), T (c • e) = σ' c • T e)
@@ -124,6 +125,7 @@ variable {K : Type} [Field K] [Finite K] {E : Type} [AddCommGroup E] [Module K E
 noncomputable def semilinearField (T : semilinearPerm K E) : RingAut K :=
   Classical.choose T.2.2
 
+omit [Finite K] [Nontrivial E] in
 theorem semilinearField_spec (T : semilinearPerm K E) (c : K) (e : E) :
     T.1 (c • e) = semilinearField T c • T.1 e :=
   Classical.choose_spec T.2.2 c e
@@ -144,10 +146,12 @@ noncomputable def semilinearHom : semilinearPerm K E →* RingAut K where
   map_one' := rfl
   map_mul' _ _ := rfl
 
+omit [Finite K] [Nontrivial E] in
 theorem linearToSemilinear_injective :
-    Function.Injective (linearToSemilinear (K := K) (E := E)) := fun u v h =>
+    Function.Injective (linearToSemilinear (K := K) (E := E)) := fun _u _v h =>
   LinearEquiv.ext fun x => congrArg (fun T : semilinearPerm K E => T.1 x) h
 
+omit [Finite K] in
 theorem ker_semilinearHom :
     (semilinearHom (K := K) (E := E)).ker = (linearToSemilinear (K := K) (E := E)).range := by
   ext T
@@ -164,6 +168,7 @@ theorem ker_semilinearHom :
     exact semilinear_unique (T := (linearToSemilinear u).1) (semilinearField_spec _)
       (fun c e => map_smul u c e) (linearToSemilinear u).2.1
 
+omit [Finite K] in
 theorem card_semilinearPerm :
     Nat.card (semilinearPerm K E) =
       Nat.card (E ≃ₗ[K] E) * Nat.card (semilinearHom (K := K) (E := E)).range := by
@@ -182,8 +187,8 @@ theorem factorization_card_semilinearPerm_le [CharP K 2] [Module.Finite K E] {f 
     (hf : 1 ≤ f) (hK : Nat.card K = 2 ^ f) (hm : Module.finrank K E = m) :
     (Nat.card (semilinearPerm K E)).factorization 2 ≤
       f * (m * (m - 1) / 2) + f.factorization 2 := by
-  haveI : Finite E := Module.finite_of_finite K
-  haveI : Finite (E ≃ₗ[K] E) :=
+  have : Finite E := Module.finite_of_finite K
+  have : Finite (E ≃ₗ[K] E) :=
     Finite.of_injective (fun u : E ≃ₗ[K] E => (u : E → E)) DFunLike.coe_injective
   have hdvd := card_semilinearPerm_dvd (K := K) (E := E) hK
   have hP : Nat.card (E ≃ₗ[K] E) ≠ 0 := Nat.card_pos.ne'
@@ -204,7 +209,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z : Subgroup G}
 
 theorem factorization_card_M_eq (H : StrothHyp M Q Z) :
     (Nat.card M).factorization 2 = (Nat.card G).factorization 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S⟩ : Nonempty (Sylow 2 M) := inferInstance
   obtain ⟨T, hT⟩ := H.isSylow_of_sylow_M S
   have hcard : Nat.card (T : Subgroup G) = Nat.card (S : Subgroup M) := by
@@ -221,7 +226,7 @@ theorem factorization_card_le (H : StrothHyp M Q Z) {n : ℕ} (hn : 1 ≤ n) (hw
     (Nat.card G).factorization 2 ≤ (2 * n + 1) * (Nat.card Z).factorization 2 +
       n * (2 * n - 1) * (Nat.card Z).factorization 2 +
       ((Nat.card Z).factorization 2).factorization 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨K, _, _, _, γ, M₀, h⟩ := stroth_globalModelData H
   obtain ⟨φ, -, hφker, hφadd, hφσ⟩ := exists_actionHom_M H h
   obtain ⟨f, k₀, hf, -⟩ := H.cp
@@ -239,7 +244,7 @@ theorem factorization_card_le (H : StrothHyp M Q Z) {n : ℕ} (hn : 1 ≤ n) (hw
     rw [hKf]
     exact Nat.one_lt_two_pow (by omega)
   have hdim : Module.finrank K M₀.E = 2 * n := h.finrank_E hw hK1
-  haveI : Nontrivial M₀.E := Module.nontrivial_of_finrank_pos (R := K) (by omega)
+  have : Nontrivial M₀.E := Module.nontrivial_of_finrank_pos (R := K) (by omega)
   let ρ : ↥M →* semilinearPerm K M₀.E := φ.codRestrict _ (fun m => ⟨hφadd m, hφσ m⟩)
   have hker : ρ.ker = Q.subgroupOf M := by
     ext m
@@ -263,7 +268,7 @@ theorem factorization_card_le (H : StrothHyp M Q Z) {n : ℕ} (hn : 1 ≤ n) (hw
       hQcard, Nat.Prime.factorization_pow Nat.prime_two, Finsupp.single_eq_same]
   have hRdvd : Nat.card ρ.range ∣ Nat.card (semilinearPerm K M₀.E) :=
     Subgroup.card_subgroup_dvd_card ρ.range
-  haveI : Finite M₀.E := Module.finite_of_finite K
+  have : Finite M₀.E := Module.finite_of_finite K
   have hRne : Nat.card (semilinearPerm K M₀.E) ≠ 0 := Nat.card_pos.ne'
   have hle := (Nat.factorization_le_iff_dvd hrne hRne).mpr hRdvd 2
   have hbound := factorization_card_semilinearPerm_le (K := K) (E := M₀.E) hf0 hKf hdim

@@ -48,6 +48,7 @@ theorem w183four_conj_cases {L T : Subgroup G}
     · exact Or.inl h1
     · exact Or.inr h1
 
+omit [Finite G] in
 theorem w183four_le_normalizer {L T H : Subgroup G} (hLT : L ⊔ T = H)
     (h : ∀ t ∈ T, conjSubgroup L t = L) : H ≤ Subgroup.normalizer (L : Set G) := by
   rw [← hLT]

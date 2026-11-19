@@ -31,7 +31,7 @@ theorem finU4_outer_normal_form {S : Type} [CommGroup S] [Finite S] [Fact (∀ s
         FinU4FrobPair Z (η x) (η y) := by
   classical
   have hS : ∀ s : S, s * s = 1 := Fact.out
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hA : IsElemAbelian2 (Subgroup.zpowers σ) := by
     have hσ2pow : σ ^ 2 = 1 := by simpa [sq] using hσ2
     refine ⟨?_, ?_⟩
@@ -54,8 +54,8 @@ theorem finU4_outer_normal_form {S : Type} [CommGroup S] [Finite S] [Fact (∀ s
   have hirrLA : IsIrrOn (L ⊔ Subgroup.zpowers σ) := fun W hW =>
     hirr W (fun x hx => hW x (Subgroup.mem_sup_left hx))
   obtain ⟨K, hKfield, h, ⟨η⟩⟩ := exists_equiv_gramSU hL
-  haveI : Finite K := h.finite
-  haveI : CharP K 2 := h.charP
+  have : Finite K := h.finite
+  have : CharP K 2 := h.charP
   have hbar : ∀ c : K, h.bar c = unitaryInvolution K 2 1 c := by
     intro c
     rw [CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData.bar_apply, unitaryInvolution_apply]

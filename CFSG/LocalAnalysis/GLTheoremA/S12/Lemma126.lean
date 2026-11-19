@@ -25,7 +25,7 @@ theorem coprime_comm_self (hp : p.Prime) (hp2 : p ≠ 2) {R B' : Subgroup G} (hR
 theorem normal_pcomplement_cyclic (hp : p.Prime) {Y : Subgroup G} {y : G} (hyY : y ∈ Y) (hyp : orderOf y = p)
     (hyc : ∀ g ∈ Y, g * y = y * g) (hcyc : ∀ S : Subgroup G, S ≤ Y → IsPGroup p S → IsCyclic S) :
     ∀ g ∈ Y, ∃ n : ℕ, g ^ (p ^ n) ∈ GLAPPrimeCoreOf p Y := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set y' : ↥Y := ⟨y, hyY⟩ with hy'
   have hy'ord : orderOf y' = p := by rw [hy', Subgroup.orderOf_mk]; exact hyp
   have hy'c : ∀ g : ↥Y, g * y' = y' * g := fun g => Subtype.ext (hyc g g.2)
@@ -34,7 +34,7 @@ theorem normal_pcomplement_cyclic (hp : p.Prime) {Y : Subgroup G} {y : G} (hyY :
   obtain ⟨Q, hQ⟩ := hZp.exists_le_sylow
   have hQcyc : IsCyclic ↥(Q : Subgroup ↥Y) := by
     have h1 : IsCyclic ↥((Q : Subgroup ↥Y).map Y.subtype) :=
-      hcyc _ (Subgroup.map_subtype_le _) (Q.isPGroup'.map _)
+      hcyc _ (Subgroup.map_subtype_le _) (Q.isPGroup.map _)
     exact isCyclic_of_surjective
       (Subgroup.equivMapOfInjective (Q : Subgroup ↥Y) Y.subtype Y.subtype_injective).symm.toMonoidHom
       (MulEquiv.surjective _)
@@ -44,7 +44,7 @@ theorem normal_pcomplement_cyclic (hp : p.Prime) {Y : Subgroup G} {y : G} (hyY :
     obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.1 (hr ⟨z, hz⟩)
     exact Subgroup.mem_zpowers_iff.2 ⟨k, congrArg Subtype.val hk⟩
   have hy'Q : y' ∈ (Q : Subgroup ↥Y) := hQ (Subgroup.mem_zpowers y')
-  obtain ⟨m, hm⟩ := (IsPGroup.iff_orderOf).1 Q.isPGroup' r
+  obtain ⟨m, hm⟩ := (IsPGroup.iff_orderOf).1 Q.isPGroup r
   have hm' : orderOf (r : ↥Y) = p ^ m := by rw [Subgroup.orderOf_coe]; exact hm
   have hm0 : m ≠ 0 := by
     rintro rfl
@@ -89,7 +89,7 @@ theorem normal_pcomplement_cyclic (hp : p.Prime) {Y : Subgroup G} {y : G} (hyY :
   obtain ⟨N, hNn, hNcop, hNidx⟩ := CFSG.GH74.Uniqueness.Hering.exists_normal_pComplement_of_cyclic Q hQr hm' hNC
   have hle : N ≤ GLAPPrimeCore p ↥Y :=
     le_sSup ⟨hNn, (Nat.Prime.coprime_iff_not_dvd hp).2 hNcop⟩
-  obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 Q.isPGroup'
+  obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 Q.isPGroup
   intro g hg
   refine ⟨n, ?_⟩
   have h1 := Subgroup.pow_index_mem N (⟨g, hg⟩ : ↥Y)
@@ -100,7 +100,7 @@ theorem centMod_cx_odd (h : Cfg12 G m p B x L D K)
     (hodd : Odd (Nat.card ↥(GLAPPrimeCoreOf p (Subgroup.centralizer ({x} : Set G))))) :
     Odd (Nat.card ↥(centModSubgroup p L ⊓ Subgroup.centralizer ({x} : Set G))) := by
   have hp := h.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hxcm : x ∈ centModSubgroup p L := by
     have : x ∈ B ⊓ centModSubgroup p L := by
       rw [B_inf_centMod_eq h]
@@ -127,7 +127,7 @@ theorem centMod_cx_odd (h : Cfg12 G m p B x L D K)
   have h2 : 2 ∣ Nat.card ↥(centModSubgroup p L ⊓ Subgroup.centralizer ({x} : Set G)) := by
     by_contra hnd
     exact hev (Nat.odd_iff.2 (by omega))
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card'
     (G := ↥(centModSubgroup p L ⊓ Subgroup.centralizer ({x} : Set G))) 2 h2
   have hgY : (g : G) ∈ centModSubgroup p L ⊓ Subgroup.centralizer ({x} : Set G) := g.2
@@ -168,6 +168,7 @@ theorem Z_central_of_qs (h : Cfg12 G m p B x L D K) : L ⊓ centModSubgroup p L 
   rw [Subgroup.commutator_comm] at h3
   exact Subgroup.commutator_eq_bot_iff_le_centralizer.1 h3
 
+omit [Finite G] in
 theorem pow_mul_mem_of_normalizes {C : Subgroup G} {r : G} (hr : r ∈ Subgroup.normalizer (C : Set G)) {c : G}
     (hc : c ∈ C) (n : ℕ) : ∃ c' ∈ C, (r * c) ^ n = r ^ n * c' := by
   induction n with
@@ -202,7 +203,7 @@ theorem H_two_power (h : Cfg12 G m p B x L D K) {R₀ : Subgroup G} (hR₀2 : Is
   exact (Subgroup.mem_inf.1 hc').1
 
 theorem B_norm_Hlift (h : Cfg12 G m p B x L D K) {R₀ : Subgroup G} (hBR₀ : B ≤ Subgroup.normalizer (R₀ : Set G)) :
-    B ≤ Subgroup.normalizer ((Hlift p x L R₀ : Subgroup G) : Set G) := fun b hb =>
+    B ≤ Subgroup.normalizer ((Hlift p x L R₀ : Subgroup G) : Set G) := fun _b hb =>
   mem_normalizer_inf' (h.tri.norm hb)
     (mem_normalizer_sup' (hBR₀ hb)
       (mem_normalizer_inf' (L62.normalizer_le_normalizer_centModSubgroup p L (h.tri.norm hb))
@@ -212,13 +213,13 @@ theorem exists_char_sylow_two {H Z : Subgroup G} (hZH : Z ≤ H) (hZc : ∀ z �
     (hq : ∀ g ∈ H, ∃ n : ℕ, g ^ (2 ^ n) ∈ Z) :
     ∃ S : Subgroup G, S ≤ H ∧ IsPGroup 2 S ∧ H ≤ S ⊔ Z ∧
       ∀ g ∈ Subgroup.normalizer (H : Set G), g ∈ Subgroup.normalizer (S : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hZ'c : Z.subgroupOf H ≤ Subgroup.center ↥H := by
     intro z hz
     rw [Subgroup.mem_center_iff]
     intro g
     exact Subtype.ext (hZc _ (Subgroup.mem_subgroupOf.1 hz) _ g.2).symm
-  haveI hZ'n : (Z.subgroupOf H).Normal := Subgroup.normal_of_le_center hZ'c
+  have hZ'n : (Z.subgroupOf H).Normal := Subgroup.normal_of_le_center hZ'c
   have hqq : IsPGroup 2 (↥H ⧸ Z.subgroupOf H) := by
     intro q
     induction q using QuotientGroup.induction_on with
@@ -227,14 +228,14 @@ theorem exists_char_sylow_two {H Z : Subgroup G} (hZH : Z ≤ H) (hZc : ∀ z �
       refine ⟨n, ?_⟩
       rw [← QuotientGroup.mk_pow, QuotientGroup.eq_one_iff]
       exact Subgroup.mem_subgroupOf.2 hn
-  haveI hnilq : Group.IsNilpotent (↥H ⧸ Z.subgroupOf H) := hqq.isNilpotent
-  haveI hnil : Group.IsNilpotent ↥H := Subgroup.isNilpotent_of_ker_le_center (QuotientGroup.mk' (Z.subgroupOf H))
+  have hnilq : Group.IsNilpotent (↥H ⧸ Z.subgroupOf H) := hqq.isNilpotent
+  have hnil : Group.IsNilpotent ↥H := Subgroup.isNilpotent_of_ker_le_center (QuotientGroup.mk' (Z.subgroupOf H))
     (by rw [QuotientGroup.ker_mk']; exact hZ'c)
   obtain ⟨P⟩ : Nonempty (Sylow 2 ↥H) := inferInstance
-  haveI : Unique (Sylow 2 ↥H) := Sylow.unique_of_normal P inferInstance
+  have : Unique (Sylow 2 ↥H) := Sylow.unique_of_normal P inferInstance
   set S : Subgroup G := (P : Subgroup ↥H).map H.subtype with hS
   have hSH : S ≤ H := Subgroup.map_subtype_le _
-  have hS2 : IsPGroup 2 S := P.isPGroup'.map H.subtype
+  have hS2 : IsPGroup 2 S := P.isPGroup.map H.subtype
   refine ⟨S, hSH, hS2, ?_, ?_⟩
   · have h1 : ((P : Subgroup ↥H) ⊔ Z.subgroupOf H) = ⊤ := by
       have hd1 : ((P : Subgroup ↥H) ⊔ Z.subgroupOf H).index ∣ (P : Subgroup ↥H).index :=
@@ -420,7 +421,7 @@ theorem rank_of_normalizes (hp : p.Prime) {B' T : Subgroup G} (hT2 : IsPGroup 2 
   CFSG.HardMathSupport.Solomon.LocalBalance.pRank_le_glaTwoLocalRank_of_normalizes hp hT1 hT2 hB'T
 
 theorem isElemAbelian_card (hp : p.Prime) {A : Subgroup G} (hA : IsElemAbelian p A) : ∃ k, Nat.card A = p ^ k := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpg : IsPGroup p ↥A := fun g => ⟨1, Subtype.ext (by simpa using hA.2 (g : G) g.2)⟩
   exact (IsPGroup.iff_card).1 hpg
 

@@ -32,7 +32,7 @@ private theorem range_inr_normal (A B : Type) [Group A] [Group B] :
 theorem layer_prod_eq_top {A B : Type} [Group A] [Group B] (hA : layer A = ⊤)
     (hB : layer B = ⊤) : layer (A × B) = ⊤ := by
   have hinl : (MonoidHom.inl A B).range ≤ layer (A × B) := by
-    haveI := range_inl_normal A B
+    have := range_inl_normal A B
     have hinj : Function.Injective (MonoidHom.inl A B) := fun x y h => by
       simpa using congrArg Prod.fst h
     have hl : layer ↥(MonoidHom.inl A B).range = ⊤ :=
@@ -41,7 +41,7 @@ theorem layer_prod_eq_top {A B : Type} [Group A] [Group B] (hA : layer A = ⊤)
       (W := (MonoidHom.inl A B).range)
     rwa [hl, ← MonoidHom.range_eq_map, Subgroup.range_subtype] at h
   have hinr : (MonoidHom.inr A B).range ≤ layer (A × B) := by
-    haveI := range_inr_normal A B
+    have := range_inr_normal A B
     have hinj : Function.Injective (MonoidHom.inr A B) := fun x y h => by
       simpa using congrArg Prod.snd h
     have hl : layer ↥(MonoidHom.inr A B).range = ⊤ :=

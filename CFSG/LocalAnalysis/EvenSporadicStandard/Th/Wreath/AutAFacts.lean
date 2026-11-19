@@ -24,6 +24,7 @@ private noncomputable def normHom (L A : Subgroup G) : ↥(HnSub L A) →* MulAu
   (Subgroup.normalizerMonoidHom (H := A)).comp
     (Subgroup.inclusion fun _ hx => hx.2)
 
+omit [Finite G] in
 private theorem normHom_apply (n : ↥(HnSub L A)) (a : ↥A) :
     ((normHom L A n a : ↥A) : G) = (n : G) * (a : G) * (n : G)⁻¹ := by
   rw [normHom, MonoidHom.comp_apply, Subgroup.normalizerMonoidHom_apply_apply_coe]
@@ -37,17 +38,17 @@ private theorem normHom_surjective (W : ThLocalIn L S A B z) :
   have hfA : ∀ a ∈ A, f a ∈ A := by
     intro a ha
     dsimp [f]
-    rw [dif_pos ha]
+    rw [dite_eq_left ha]
     exact (φ ⟨a, ha⟩).2
   have hfmul : ∀ a ∈ A, ∀ b ∈ A, f (a * b) = f a * f b := by
     intro a ha b hb
     dsimp [f]
-    rw [dif_pos (A.mul_mem ha hb), dif_pos ha, dif_pos hb]
+    rw [dite_eq_left (A.mul_mem ha hb), dite_eq_left ha, dite_eq_left hb]
     exact congrArg (fun x : ↥A => (x : G)) (φ.map_mul ⟨a, ha⟩ ⟨b, hb⟩)
   have hfinj : ∀ a ∈ A, ∀ b ∈ A, f a = f b → a = b := by
     intro a ha b hb hab
     dsimp [f] at hab
-    rw [dif_pos ha, dif_pos hb] at hab
+    rw [dite_eq_left ha, dite_eq_left hb] at hab
     exact congrArg (fun x : ↥A => (x : G)) (φ.injective (Subtype.ext hab))
   obtain ⟨n, hnL, hn⟩ := W.surj f hfA hfmul hfinj
   have hnA : ∀ a ∈ A, n * a * n⁻¹ ∈ A := fun a ha => by
@@ -70,6 +71,7 @@ private theorem normHom_surjective (W : ThLocalIn L S A B z) :
   rw [normHom_apply, hn (a : G) a.2]
   simp [f, a.2]
 
+omit [Finite G] in
 private theorem normHom_ker (W : ThLocalIn L S A B z) :
     (normHom L A).ker = B.subgroupOf (HnSub L A) := by
   ext x
@@ -96,7 +98,7 @@ private noncomputable def quotientHomEquiv (W : ThLocalIn L S A B z) :
 
 private theorem isSimpleGroup_quotientHom (W : ThLocalIn L S A B z) :
     IsSimpleGroup (↥(HnSub L A) ⧸ (normHom L A).ker) := by
-  haveI : IsSimpleGroup (MulAut ↥A) := ThLocalIn.isSimpleGroup_mulAut_A W
+  have : IsSimpleGroup (MulAut ↥A) := ThLocalIn.isSimpleGroup_mulAut_A W
   exact MulEquiv.isSimpleGroup (quotientHomEquiv W)
 
 private theorem card_quotientHom (W : ThLocalIn L S A B z) :
@@ -131,11 +133,11 @@ theorem ThLocalIn.eq_of_forall_conj_eq (W : ThLocalIn L S A B z) {a a' v : G}
     rcases hx01 with rfl | rfl <;> rcases hy01 with rfl | rfl
     · simp only [zero_smul, zero_add] at hxy
       exact hcon (Or.inl (hcinj v hv 1 A.one_mem (by rw [hc1]; exact hxy.symm)))
-    · simp only [zero_smul, one_smul, zero_add, add_zero] at hxy
+    · simp only [zero_smul, one_smul, zero_add] at hxy
       exact hcon (Or.inr (Or.inr (Or.inl (hcinj v hv a' ha' hxy.symm))))
-    · simp only [zero_smul, one_smul, zero_add, add_zero] at hxy
+    · simp only [zero_smul, one_smul, add_zero] at hxy
       exact hcon (Or.inr (Or.inl (hcinj v hv a ha hxy.symm)))
-    · simp only [one_smul, zero_smul, zero_add, add_zero] at hxy
+    · simp only [one_smul] at hxy
       have hcaa : c (a * a') = c a + c a' := hcmul a ha a' ha'
       exact hcon (Or.inr (Or.inr (Or.inr
         (hcinj v hv (a * a') (A.mul_mem ha ha') (by rw [← hxy]; exact hcaa.symm)))))
@@ -303,11 +305,11 @@ theorem ThLocalIn.map_eq_one_of_card_lt (W : ThLocalIn L S A B z) {P : Type*} [G
   have hKnormal : (B.subgroupOf Hn).Normal := by
     rw [show B.subgroupOf Hn = (normHom L A).ker from (normHom_ker W).symm]
     infer_instance
-  letI : (B.subgroupOf Hn).Normal := hKnormal
+  let : (B.subgroupOf Hn).Normal := hKnormal
   let e : (Hn ⧸ B.subgroupOf Hn) ≃* (Hn ⧸ (normHom L A).ker) :=
     QuotientGroup.quotientMulEquivOfEq (normHom_ker W).symm
-  haveI : IsSimpleGroup (Hn ⧸ (normHom L A).ker) := isSimpleGroup_quotientHom W
-  haveI : IsSimpleGroup (Hn ⧸ B.subgroupOf Hn) := MulEquiv.isSimpleGroup e
+  have : IsSimpleGroup (Hn ⧸ (normHom L A).ker) := isSimpleGroup_quotientHom W
+  have : IsSimpleGroup (Hn ⧸ B.subgroupOf Hn) := MulEquiv.isSimpleGroup e
   let g : Hn ⧸ B.subgroupOf Hn →* P := QuotientGroup.lift _ f hKle
   rcases Subgroup.Normal.eq_bot_or_eq_top g.ker with hbot | htop
   · have hinj : Function.Injective g := (MonoidHom.ker_eq_bot_iff g).mp hbot
@@ -333,19 +335,19 @@ theorem ThLocalIn.eq_B_or_eq_of_normal (W : ThLocalIn L S A B z) {N₀ : Subgrou
   have hKnormal : K.Normal := by
     rw [show K = (normHom L A).ker from (normHom_ker W).symm]
     infer_instance
-  letI : K.Normal := hKnormal
+  let : K.Normal := hKnormal
   let π : Hn →* Hn ⧸ K := QuotientGroup.mk' K
   let N' : Subgroup Hn := N₀.subgroupOf Hn
   have hN'normal : N'.Normal := by
     refine ⟨fun x hx g => ?_⟩
     rw [Subgroup.mem_subgroupOf] at hx ⊢
     simpa using hn (g : G) g.2 (x : G) hx
-  haveI : N'.Normal := hN'normal
-  haveI : (N'.map π).Normal := hN'normal.map π (QuotientGroup.mk'_surjective K)
+  have : N'.Normal := hN'normal
+  have : (N'.map π).Normal := hN'normal.map π (QuotientGroup.mk'_surjective K)
   let e : (Hn ⧸ K) ≃* (Hn ⧸ (normHom L A).ker) :=
     QuotientGroup.quotientMulEquivOfEq (normHom_ker W).symm
-  haveI : IsSimpleGroup (Hn ⧸ (normHom L A).ker) := isSimpleGroup_quotientHom W
-  haveI : IsSimpleGroup (Hn ⧸ K) := MulEquiv.isSimpleGroup e
+  have : IsSimpleGroup (Hn ⧸ (normHom L A).ker) := isSimpleGroup_quotientHom W
+  have : IsSimpleGroup (Hn ⧸ K) := MulEquiv.isSimpleGroup e
   rcases Subgroup.Normal.eq_bot_or_eq_top (N'.map π) with hbot | htop
   · left
     refine le_antisymm ?_ hBN

@@ -200,8 +200,9 @@ end Weyl
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type} [AddCommGroup V] [Module F V]
   [FiniteDimensional F V]
 
+omit [CharP F 2] in
 private theorem finite_gsp (B : LinearMap.BilinForm F V) : Finite (Gsp B) := by
-  haveI : Finite V := Module.finite_of_finite F
+  have : Finite V := Module.finite_of_finite F
   exact Finite.of_injective (fun g : Gsp B => g.app) fun g h hgh => by
     apply Subtype.ext
     apply Units.ext
@@ -214,9 +215,9 @@ theorem ggTorusModelAt_gsp {B : LinearMap.BilinForm F V} (hB : B.IsAlt)
     (hsc : ∀ g : Gsp B, (∀ x ∈ E, g * x = x * g) → g ^ p = 1 → g ∈ E) :
     CFSG.StandardType.GGTorusModelAt p E := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (Gsp B) := finite_gsp B
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (Gsp B) := finite_gsp B
   have hodd : Odd (Nat.card E) := by
     have hpg : IsPGroup p E := fun x => ⟨1, Subtype.ext (by simpa using hE.2 x x.2)⟩
     obtain ⟨n, hn⟩ := hpg.exists_card_eq
@@ -232,7 +233,7 @@ theorem ggTorusModelAt_gsp {B : LinearMap.BilinForm F V} (hB : B.IsAlt)
   obtain ⟨τ, hτinj, hτrange, hτc, hact⟩ := exists_frameTorus hC.toIsPlaneFrame hp
   have hUn : ∀ a, (LinearMap.BilinForm.restrict (QuadraticMap.polarBilin Q) (U a)).Nondegenerate :=
     fun a => hC.nondeg a
-  haveI : Nonempty (OmPlusIdx ℓ) := by
+  have : Nonempty (OmPlusIdx ℓ) := by
     refine ⟨(⟨(⟨0, by omega⟩, ⟨1, by omega⟩), ?_⟩, false)⟩
     simp [Fin.lt_def]
   have htopb : ∀ b : Fin ℓ,
@@ -349,7 +350,7 @@ theorem ggTorusRootGenAvoidKG_gsp {B : LinearMap.BilinForm F V} (hB : B.IsAlt)
     (hZ : Subgroup.center (Gsp B) = ⊥) (r : ℕ) :
     CFSG.StandardType.GGTorusRootGenAvoidKG p r (Gsp B)
       (Set.range (MulAut.conj : Gsp B →* MulAut (Gsp B))) := by
-  haveI : Finite (Gsp B) := finite_gsp B
+  have : Finite (Gsp B) := finite_gsp B
   exact ggTorusRootGenAvoidKG_of_scTorusModel hp hinj hZ (fun _ h => h)
     fun E hE _ _ hsc => ggTorusModelAt_gsp hB hBn hp hp2 hpq hF4 hdim hℓ hE hsc
 

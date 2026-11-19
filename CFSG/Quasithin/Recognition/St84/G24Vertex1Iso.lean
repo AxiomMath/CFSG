@@ -90,7 +90,7 @@ private theorem abstract_eBasis [Finite G] (F : G24Frame1 L1 L2 S)
 
 private theorem exists_z1_ne_one [Finite G] (hD : G24LocalData L1 L2 S) :
     ∃ z : G, z ∈ centerOf (dsQ L1 L2 S) ∧ z ≠ 1 := by
-  haveI : Nontrivial ↥(centerOf (dsQ L1 L2 S)) := by
+  have : Nontrivial ↥(centerOf (dsQ L1 L2 S)) := by
     rw [← Finite.one_lt_card_iff_nontrivial, hD.card_centerOf_dsQ_left]
     norm_num
   obtain ⟨z, hz⟩ := exists_ne (1 : ↥(centerOf (dsQ L1 L2 S)))
@@ -159,7 +159,7 @@ private theorem v1Gen_relators [Finite G] (F : G24Frame1 L1 L2 S) :
   simpa [v1Gen] using signedProd_relsA ha hb hab hk hak hbk
 
 private theorem v1Gen_frame_action [Finite G] (F : G24Frame1 L1 L2 S)
-    (hD : G24LocalData L1 L2 S) (l : Fin 3) (j : Fin 8) :
+    (_hD : G24LocalData L1 L2 S) (l : Fin 3) (j : Fin 8) :
     (v1Gen F l : G) * v1Frame F.k F.e j * (v1Gen F l : G)⁻¹ *
       (eElt (v1Frame F.k F.e) fun i => CFSG.Quasithin.St84.G24MF.matV1 l i j)⁻¹ ∈
       centerOf (dsQ L1 L2 S) := by
@@ -190,8 +190,8 @@ private theorem v1Gen_z1Frame_action [Finite G] (F : G24Frame1 L1 L2 S)
       (1 : Matrix (Fin 2) (Fin 2) (ZMod 2)) s t) = Pi.single t 1 := by
     funext s
     by_cases hst : s = t
-    · subst hst; simp [Matrix.one_apply, Pi.single]
-    · simp [Matrix.one_apply, Pi.single, hst]
+    · subst hst; simp [Pi.single]
+    · simp [Pi.single, hst]
   fin_cases l
   · change (F.a : G) * z1Frame F.k z t * (F.a : G)⁻¹ =
       eElt (z1Frame F.k z) (fun s => CFSG.Quasithin.St84.G24MF.matZ1 0 s t)
@@ -235,7 +235,7 @@ private theorem model_zb1_mem (hM : G24M.Facts) (t : Fin 2) : G24M.zb1 t ∈ G24
 
 private theorem model_quotFrame (hM : G24M.Facts) :
     IsQuotFrame G24M.Q1 G24M.Z1 G24M.frame1 := by
-  haveI : (G24M.Z1.subgroupOf G24M.Q1).Normal :=
+  have : (G24M.Z1.subgroupOf G24M.Q1).Normal :=
     Subgroup.normal_of_le_center fun z hz =>
       Subgroup.mem_center_iff.mpr fun x =>
         Subtype.ext (by
@@ -278,8 +278,8 @@ private theorem model_a1_fixes_Z1 (hM : G24M.Facts) (hFr : G24M.FrameFacts)
         (1 : Matrix (Fin 2) (Fin 2) (ZMod 2)) s t) = Pi.single t 1 := by
       funext s
       by_cases hst : s = t
-      · subst hst; simp [Matrix.one_apply, Pi.single]
-      · simp [Matrix.one_apply, Pi.single, hst]
+      · subst hst; simp [Pi.single]
+      · simp [Pi.single, hst]
     rw [hsingle, eElt_single] at h ⊢
     exact h
   obtain ⟨w, hw⟩ := (model_eBasis hM).span z hz
@@ -299,8 +299,8 @@ private theorem model_b1_fixes_Z1 (hM : G24M.Facts) (hFr : G24M.FrameFacts)
         (1 : Matrix (Fin 2) (Fin 2) (ZMod 2)) s t) = Pi.single t 1 := by
       funext s
       by_cases hst : s = t
-      · subst hst; simp [Matrix.one_apply, Pi.single]
-      · simp [Matrix.one_apply, Pi.single, hst]
+      · subst hst; simp [Pi.single]
+      · simp [Pi.single, hst]
     rw [hsingle, eElt_single] at h ⊢
     exact h
   obtain ⟨w, hw⟩ := (model_eBasis hM).span z hz
@@ -309,7 +309,7 @@ private theorem model_b1_fixes_Z1 (hM : G24M.Facts) (hFr : G24M.FrameFacts)
     G24M.matZ1_one, Matrix.one_mulVec]
 
 private theorem exists_complement_iso [Finite G]
-    {L1 L2 S : Subgroup G} (F : G24Frame1 L1 L2 S) (hD : G24LocalData L1 L2 S)
+    {L1 L2 S : Subgroup G} (F : G24Frame1 L1 L2 S) (_hD : G24LocalData L1 L2 S)
     (hM : G24M.Facts) :
     ∃ e : ↥((L1 ⊔ bigB L1 L2 S) ⊓ Subgroup.centralizer ({F.k} : Set G)) ≃* ↥G24M.A1,
       ∀ j, e (v1Gen F j) = G24M.A1imgQ j :=
@@ -334,11 +334,11 @@ theorem exists_vertexIso_left [Finite G]
   let R : Subgroup G := P1 ⊓ Subgroup.centralizer ({F.k} : Set G)
   have hspec := F.special_data hD
   have hZc : ∀ z ∈ Z1, ∀ x ∈ Q1, z * x = x * z := hspec.2.2.2.1
-  haveI : (Z1.subgroupOf Q1).Normal := Subgroup.normal_of_le_center fun z hz =>
+  have : (Z1.subgroupOf Q1).Normal := Subgroup.normal_of_le_center fun z hz =>
     Subgroup.mem_center_iff.mpr fun x => Subtype.ext (hZc z hz x x.2).symm
   have hZc' : ∀ z ∈ G24M.Z1, ∀ x ∈ G24M.Q1, z * x = x * z := fun z hz x hx =>
     (Subgroup.mem_centralizer_iff.mp (Subgroup.mem_inf.mp hz).2 x hx).symm
-  haveI : (G24M.Z1.subgroupOf G24M.Q1).Normal := Subgroup.normal_of_le_center fun z hz =>
+  have : (G24M.Z1.subgroupOf G24M.Q1).Normal := Subgroup.normal_of_le_center fun z hz =>
     Subgroup.mem_center_iff.mpr fun x => Subtype.ext (hZc' z hz x x.2).symm
   have hf : IsQuotFrame Q1 Z1 (v1Frame F.k F.e) := abstract_quotFrame F hD
   have hf' : IsQuotFrame G24M.Q1 G24M.Z1 G24M.frame1 := model_quotFrame hM

@@ -84,7 +84,7 @@ theorem Dω_pow_three {ω : Fˣ} (hω3 : ω ^ 3 = 1) : Dω ω ^ 3 = 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [Dω, CFSG.HardMathSupport.Malle.Coordinator.CoverThreeNoInner.diagGL,
-      Matrix.diagonal_pow, Matrix.one_apply, ← pow_mul, h3, h6]
+      Matrix.diagonal_pow, ← pow_mul, h3, h6]
 
 theorem cD_pow_three {ω : Fˣ} (hω3 : ω ^ 3 = 1) : cD (F := F) ω ^ 3 = 1 := by
   change conjAut 3 F (Dω ω) ^ 3 = 1
@@ -171,7 +171,7 @@ theorem fS_ne_one (hσ : orderOf σ = 3) : fS σ ≠ 1 := by
     intro h1; rw [h1, orderOf_one] at hσ; norm_num at hσ
   obtain ⟨c, hc⟩ : ∃ c : F, σ c ≠ c := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     exact hσ1 (RingEquiv.ext hall)
   have h01 : (0 : Fin 3) ≠ 1 := by decide
   have := congrArg (fun φ : MulAut (projectiveSL 3 F) =>

@@ -31,7 +31,7 @@ private theorem s16t3_third_eq_of_cover {S : Type} [Fintype S] [DecidableEq S]
     (hb : third a b' = b) (hc : third a c' = c)
     (hb'a : b' ≠ a) (hc'a : c' ≠ a) (hxa : x ≠ a)
     (hxb : x ≠ b) (hxb' : x ≠ b') (hxc : x ≠ c) (hxc' : x ≠ c')
-    (hxy : x ≠ y) : third a x = y := by
+    (_hxy : x ≠ y) : third a x = y := by
   have hba : b ≠ a := by
     have := (h1 a b' hb'a.symm).1
     rwa [hb] at this
@@ -296,7 +296,6 @@ theorem s16t3_sts7_coordinates {S : Type} [Fintype S] [DecidableEq S] (hS : Fint
       simp only [pts, s16t3_F] <;>
       first
         | exact absurd rfl hij
-        | exact hij.elim
         | assumption
   clear th01 th02 th03 th04 th05 th06 th12 th13 th14 th15 th16 th23 th24 th25 th26
     th35 th34 th36 th45 th46 th56 th10 th20 th30 th40 th50 th60 th21 th31 th41 th51
@@ -306,7 +305,6 @@ theorem s16t3_sts7_coordinates {S : Type} [Fintype S] [DecidableEq S] (hS : Fint
     fin_cases i <;> fin_cases j <;>
       simp only [pts] at hij ⊢ <;>
       first
-        | rfl
         | exact absurd hij d_x0x1
         | exact absurd hij.symm d_x0x1
         | exact absurd hij d_x0x2
@@ -400,7 +398,7 @@ theorem s16t3_gl3_of_perm (π : {v : Fin 3 → ZMod 2 // v ≠ 0} ≃ {v : Fin 3
   let f : (Fin 3 → ZMod 2) → (Fin 3 → ZMod 2) :=
     fun v => if h : v = 0 then 0 else (π ⟨v, h⟩ : Fin 3 → ZMod 2)
   have hf0 : f 0 = 0 := by simp [f]
-  have hf : ∀ v (h : v ≠ 0), f v = (π ⟨v, h⟩ : Fin 3 → ZMod 2) := fun v h => dif_neg h
+  have hf : ∀ v (h : v ≠ 0), f v = (π ⟨v, h⟩ : Fin 3 → ZMod 2) := fun v h => dite_eq_right h
   have haddself : ∀ v : Fin 3 → ZMod 2, v + v = 0 := by
     intro v
     funext i

@@ -151,7 +151,7 @@ theorem sec38a2_arith_c {q y s w : ℕ} (hq : 4 ≤ q) (h : y * q ^ 7 = w * s)
     nlinarith
   omega
 
-theorem sec38a2_of_hyp (hp : d.CaseHyp) (h1 : d.Sec38a1) : d.Sec38a2 := by
+theorem sec38a2_of_hyp (hp : d.CaseHyp) (_h1 : d.Sec38a1) : d.Sec38a2 := by
   have hGMS := hp.gms
   have hd := hp.hyp
   intro Y hVY hYET hY
@@ -179,7 +179,7 @@ theorem sec38a2_of_hyp (hp : d.CaseHyp) (h1 : d.Sec38a1) : d.Sec38a2 := by
     have hsq := sec38a2_sq_mem hp hYET hY.1
     have hlt : Nat.card Y < (2 ^ f) ^ 14 := by
       by_cases hS : (d.E ⊔ Y) ⊓ d.T ≤ d.tP
-      · obtain ⟨y', hy'Y, hy'Z⟩ := SetLike.not_le_iff_exists.1 hYZ
+      · obtain ⟨y', hy'Y, hy'Z⟩ := IsConcreteLE.not_le_iff_exists.1 hYZ
         obtain ⟨e', he', x, hxS, rfl⟩ := sec38a2_exists_comp hp hYET hy'Y
         have hxB : x ∉ d.B₂ := by
           intro hxB
@@ -198,7 +198,7 @@ theorem sec38a2_of_hyp (hp : d.CaseHyp) (h1 : d.Sec38a1) : d.Sec38a2 := by
             rw [Data.tP, hd.card_zpowers_sup d.P_le_L, d.card_P]
           rwa [h8] at h7
         exact sec38a2_arith_b hq4 hcnt hSc hW
-      · obtain ⟨x', hx'S, hx'P⟩ := SetLike.not_le_iff_exists.1 hS
+      · obtain ⟨x', hx'S, hx'P⟩ := IsConcreteLE.not_le_iff_exists.1 hS
         obtain ⟨e1, he1, y1, hy1, hx'e⟩ :=
           exists_mul_of_mem_sup_of_le_normalizer (sec38a2_le_normalizer_E hp hYET) hx'S.1
         have hy1x : e1⁻¹ * x' = y1 := by rw [hx'e]; group

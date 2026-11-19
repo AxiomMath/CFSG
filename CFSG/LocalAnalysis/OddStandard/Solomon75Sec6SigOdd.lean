@@ -73,7 +73,7 @@ theorem orderOf_eq_two_of_mem {E : Subgroup G} (hE : IsElemAbelian 2 E) {x : G} 
   orderOf_eq_prime (hE.2 x hx) hx1
 
 theorem le_cen_of_isElemAbelian {E : Subgroup G} (hE : IsElemAbelian 2 E) {x : G} (hx : x ∈ E) :
-    E ≤ centralizer ({x} : Set G) := fun y hy =>
+    E ≤ centralizer ({x} : Set G) := fun _y hy =>
   Subgroup.mem_centralizer_singleton_iff.2 (comm_of_isElemAbelian hE hy hx)
 
 theorem isElemAbelian_of_sq {E : Subgroup G} (h : ∀ x ∈ E, x ^ 2 = 1) : IsElemAbelian 2 E := by
@@ -234,7 +234,7 @@ theorem inf_ker_eq_bot {f : G →* G'} (hker : Odd (Nat.card f.ker)) {P : Subgro
     (hP : IsPGroup 2 P) : P ⊓ f.ker = ⊥ := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := hP.exists_card_eq
-  apply Subgroup.inf_eq_bot_of_coprime
+  apply (Subgroup.disjoint_of_coprime_natCard ?_).eq_bot
   rw [hk]
   exact Nat.Coprime.pow_left k (Nat.coprime_two_left.2 hker)
 
@@ -253,7 +253,7 @@ theorem exists_lift {f : G →* G'} (hf : Function.Surjective f) (hker : Odd (Na
   have hS' : ((S.mapSurjective hψ : Sylow 2 ↥P') : Subgroup ↥P') = ⊤ :=
     ((S.mapSurjective hψ).maximal_isPGroup.eq_of_le (hP'.to_subgroup ⊤) le_top)
   rw [Sylow.coe_mapSurjective] at hS'
-  have hPp : IsPGroup 2 ((S : Subgroup C).map C.subtype) := S.isPGroup'.map _
+  have hPp : IsPGroup 2 ((S : Subgroup C).map C.subtype) := S.isPGroup.map _
   refine ⟨(S : Subgroup C).map C.subtype, fun x hx => ⟨⟨x, hRC hx⟩, hS hx, rfl⟩, ?_,
     inf_ker_eq_bot hker hPp⟩
   apply le_antisymm
@@ -276,8 +276,8 @@ theorem exists_conj_of_map_eq {f : G →* G'} (hker : Odd (Nat.card f.ker)) {P�
     intro P hP hPC hPf
     obtain ⟨S, hS⟩ := (hP.comap_subtype (K := C)).exists_le_sylow
     refine ⟨S, le_antisymm ?_ hS⟩
-    have hSG : IsPGroup 2 ((S : Subgroup C).map C.subtype) := S.isPGroup'.map _
-    haveI : Finite ↥(P.map f) := Finite.of_surjective _ (f.subgroupMap_surjective P)
+    have hSG : IsPGroup 2 ((S : Subgroup C).map C.subtype) := S.isPGroup.map _
+    have : Finite ↥(P.map f) := Finite.of_surjective _ (f.subgroupMap_surjective P)
     have hle : ((S : Subgroup C).map C.subtype).map f ≤ P.map f := by
       rw [hPf]
       rintro _ ⟨_, ⟨s, -, rfl⟩, rfl⟩
@@ -565,7 +565,7 @@ theorem map_conj_map_conj (a b : G) (U : Subgroup G) :
 
 theorem map_conj_one' (U : Subgroup G) : U.map (MulAut.conj (1 : G)).toMonoidHom = U := by
   ext x
-  simp [MulAut.conj_apply]
+  simp
 
 theorem map_conj_inv_map_conj (a : G) (U : Subgroup G) :
     (U.map (MulAut.conj a).toMonoidHom).map (MulAut.conj a⁻¹).toMonoidHom = U := by
@@ -1027,6 +1027,7 @@ variable {X : Type} [Group X] [Finite X]
 @[expose] def sigV (B : Subgroup X) : Subgroup X :=
   ⨆ (b : X) (_ : b ∈ B) (_ : b ≠ 1), oddCoreOf (cen b)
 
+omit [Finite X] in
 theorem sigV_map_conj (g : X) (B : Subgroup X) :
     (sigV B).map (MulAut.conj g).toMonoidHom = sigV (B.map (MulAut.conj g).toMonoidHom) := by
   apply le_antisymm
@@ -1045,6 +1046,7 @@ theorem sigV_map_conj (g : X) (B : Subgroup X) :
     rw [oddCoreOf_map_mulEquiv', cen_map] at h
     exact h
 
+omit [Finite X] in
 theorem map_conj_eq_of_mem_centralizer {B : Subgroup X} {c : X}
     (hc : c ∈ centralizer (B : Set X)) : B.map (MulAut.conj c).toMonoidHom = B := by
   have hcb : ∀ b ∈ B, c * b * c⁻¹ = b := fun b hb => by
@@ -1213,7 +1215,7 @@ end Sec6SigOdd
 
 theorem sec6SigOdd_of_lambda1At
     {X : Type} [Group X] [Finite X] {n : ℕ} {t : X}
-    (hS : Sec6Setting X n t) (hK : Sec6Lemma51 X n) (hΛ1 : Sec6Lambda1At X n t) :
+    (hS : Sec6Setting X n t) (_hK : Sec6Lemma51 X n) (hΛ1 : Sec6Lambda1At X n t) :
     Odd (Nat.card ↥(sec6Sig X n t)) ∧
       ∀ B : Subgroup X, B ≤ Sec6M X n (cen t) → CFSG.Open.IsElemAbelian 2 B → Nat.card B = 4 →
         (⨆ (b : X) (_ : b ∈ B) (_ : b ≠ 1), oddCoreOf (cen b)) = sec6Sig X n t :=

@@ -59,7 +59,7 @@ theorem y56_Y_decomp {c : Ctx5 G L} (hH : F33Hyp c.s c.e) {M : Subgroup G}
     · intro hx
       have h := y56_Y_norm_X0 hH y⁻¹ ((e4Y c.s).inv_mem hy) (y * x * y⁻¹) hx
       rwa [show y⁻¹ * (y * x * y⁻¹) * (y⁻¹)⁻¹ = x by group] at h
-  haveI : ((e4X0 c.s).subgroupOf (e4Y c.s)).Normal :=
+  have : ((e4X0 c.s).subgroupOf (e4Y c.s)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hYnormX0
   have hsup : (M.subgroupOf (e4Y c.s)) ⊔ ((e4X0 c.s).subgroupOf (e4Y c.s)) = ⊤ := by
     rw [← Subgroup.subgroupOf_sup hMY hX0Y, hM.2.2.2.2.1, Subgroup.subgroupOf_self]

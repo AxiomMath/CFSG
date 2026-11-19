@@ -76,7 +76,7 @@ theorem not_le_centralizer_of_sylow (h : Setting G L n) (d : Cyc L Q z) (hQ2 : N
     · exfalso
       exact hzL (Subgroup.mem_inf.1 ((relIndex_eq_one.1 h1) hzS)).2
     · exact h2
-  obtain ⟨g, hg⟩ := exists_conj_mem_of_thompson h.std.simple h.std.nonab S.isPGroup'
+  obtain ⟨g, hg⟩ := exists_conj_mem_of_thompson h.std.simple h.std.nonab S.isPGroup
     S.not_dvd_index inf_le_left hrel hzS (fun hzU => hzL (Subgroup.mem_inf.1 hzU).2) d.order
   have := not_conj_mem_L h d hQ2 g⁻¹
   rw [inv_inv] at this
@@ -88,7 +88,7 @@ theorem exists_maximal_two_subgroup (c : Subgroup G) :
       ∀ R' : Subgroup G, R' ≤ c → IsPGroup 2 R' → R ≤ R' → R' = R := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S⟩ : Nonempty (Sylow 2 c) := inferInstance
-  refine ⟨(S : Subgroup c).map c.subtype, Subgroup.map_subtype_le _, S.isPGroup'.map _, ?_⟩
+  refine ⟨(S : Subgroup c).map c.subtype, Subgroup.map_subtype_le _, S.isPGroup.map _, ?_⟩
   intro R' hR'c hR' hSR'
   have hp : IsPGroup 2 (R'.subgroupOf c) := hR'.of_equiv (subgroupOfEquivOfLe hR'c).symm
   have hle : (S : Subgroup c) ≤ R'.subgroupOf c := fun s hs => hSR' ⟨s, hs, rfl⟩

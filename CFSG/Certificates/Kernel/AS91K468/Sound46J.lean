@@ -18,12 +18,12 @@ theorem foldl_stepN_mem : ∀ (L l : List ℕ) (t : NT ℕ), ∃ new : List ℕ,
   | x :: L, l, t => by
     rw [List.foldl_cons]
     by_cases hm : memP t x = true
-    · have e : stepN (l, t) x = (l, t) := by simp only [stepN, hm, if_true]
+    · have e : stepN (l, t) x = (l, t) := by simp only [stepN, hm, ite_true]
       rw [e]
       exact foldl_stepN_mem L l t
     · have hm' : memP t x = false := by simpa using hm
       have e : stepN (l, t) x = (x :: l, insP t x) := by
-        simp only [stepN, hm', Bool.false_eq_true, if_false]
+        simp only [stepN, hm', Bool.false_eq_true, ite_false]
       rw [e]
       obtain ⟨new, h1, h2⟩ := foldl_stepN_mem L (x :: l) (insP t x)
       refine ⟨new ++ [x], by rw [h1, List.append_assoc, List.singleton_append], fun q => ?_⟩
@@ -85,12 +85,12 @@ theorem closL_step (fs : List (ℕ → ℕ)) (n : ℕ) (fr S vis fr' : List ℕ)
     (h1 : (roundN fs fr (ofListP S)).1 = fr') (h2 : fr'.isEmpty = false) :
     closL fs (n + 1) fr S vis = closL fs n fr' (fr' ++ S) (fr ++ vis) := by
   simp only [closL]
-  rw [h1, h2, if_neg Bool.false_ne_true]
+  rw [h1, h2, ite_eq_right Bool.false_ne_true]
 
 theorem closL_end (fs : List (ℕ → ℕ)) (n : ℕ) (fr S vis : List ℕ)
     (h : (roundN fs fr (ofListP S)).1.isEmpty = true) : closL fs (n + 1) fr S vis = fr ++ vis := by
   simp only [closL]
-  rw [if_pos h]
+  rw [ite_eq_left h]
 
 theorem roundOK_iff {PF : List (ℕ × ℕ)} {fr S fr' : List ℕ} (h : roundOK PF fr S fr' = true) :
     (roundN (fsOf PF) fr (ofListP S)).1 = fr' ∧ fr'.isEmpty = false := by

@@ -46,7 +46,7 @@ theorem s3_AT_conj (hS : HRSetting G L) (hOut : (innerAut (L ⧸ center L)).inde
     x * y * x⁻¹ ∈ s.fr.A ⊔ zpowers s.t := by
   obtain ⟨hPnorm, hjr⟩ := s3_jr_section s hS hOut h31 hA hRT
   let N : Subgroup ↥s.T := (zt s).subgroupOf s.T
-  haveI : N.Normal := hPnorm
+  have : N.Normal := hPnorm
   have hjr' : thompsonRank (⊤ : Subgroup (↥s.T ⧸ N)) =
       ((s.fr.A ⊔ zpowers s.t).subgroupOf s.T).map (QuotientGroup.mk' N) := hjr
   have hnormT : e.T₁ ≤ Subgroup.normalizer (s.T : Set G) :=

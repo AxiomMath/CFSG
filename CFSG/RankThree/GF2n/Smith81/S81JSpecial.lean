@@ -525,7 +525,7 @@ private theorem s81j_beta_inv {s : Cube K ≃ₗ[K] Cube K} (hs : s ∈ Gam K) {
   exact h.symm
 
 private theorem s81j_special_iff {s₁ s₂ Q : Cube K ≃ₗ[K] Cube K} (h₁ : s₁ ∈ Gam K)
-    (h₂ : s₂ ∈ Gam K) {c₁ c₂ : K} (hc₁ : c₁ ≠ 0) (hc₂ : c₂ ≠ 0)
+    (_h₂ : s₂ ∈ Gam K) {c₁ c₂ : K} (hc₁ : c₁ ≠ 0) (hc₂ : c₂ ≠ 0)
     (e₁ : s₁ (p0 K) = c₁ • p0 K) (e₂ : s₂ (p0 K) = c₂ • p0 K) :
     Special K (s₁⁻¹ * Q * s₂) ↔ Special K Q := by
   have hP : (s₁⁻¹ * Q * s₂) (p0 K) = c₂ • s₁⁻¹ (Q (p0 K)) := by

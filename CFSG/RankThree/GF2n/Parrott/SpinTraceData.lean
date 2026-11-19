@@ -157,37 +157,37 @@ private theorem spinAuxConjU :
       uA * (s1A * s2A) * uA⁻¹ = (s1A * s2A)⁻¹ := by
   left
   apply Subtype.ext
-  simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subtype.coe_mk]
+  simp only [Subgroup.coe_mul, Subgroup.coe_inv]
   exact conj_of h45 pk_u (pk_mul h45 pk_s1 pk_s2) (pk_mul h45 pk_s1 pk_s2) (by decide +kernel)
 
 private theorem spinAuxConjV : vA * s1A * vA⁻¹ = s1A ∨ vA * s1A * vA⁻¹ = s1A⁻¹ := by
   right
   apply Subtype.ext
-  simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subtype.coe_mk]
+  simp only [Subgroup.coe_mul, Subgroup.coe_inv]
   exact conj_of h45 pk_v pk_s1 pk_s1i (by decide +kernel)
 
 private theorem spinAuxConjA1 : a1A * s2A * a1A⁻¹ = s2A ∨ a1A * s2A * a1A⁻¹ = s2A⁻¹ := by
   left
   apply Subtype.ext
-  simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subtype.coe_mk]
+  simp only [Subgroup.coe_mul, Subgroup.coe_inv]
   exact conj_of h45 pk_a1 pk_s2 pk_s2 (by decide +kernel)
 
 private theorem spinAuxConjB1 : b1A * s2A * b1A⁻¹ = s2A ∨ b1A * s2A * b1A⁻¹ = s2A⁻¹ := by
   left
   apply Subtype.ext
-  simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subtype.coe_mk]
+  simp only [Subgroup.coe_mul, Subgroup.coe_inv]
   exact conj_of h45 pk_b1 pk_s2 pk_s2 (by decide +kernel)
 
 private theorem spinAuxConjA2 : a2A * s1A * a2A⁻¹ = s1A ∨ a2A * s1A * a2A⁻¹ = s1A⁻¹ := by
   left
   apply Subtype.ext
-  simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subtype.coe_mk]
+  simp only [Subgroup.coe_mul, Subgroup.coe_inv]
   exact conj_of h45 pk_a2 pk_s1 pk_s1 (by decide +kernel)
 
 private theorem spinAuxConjB2 : b2A * s1A * b2A⁻¹ = s1A ∨ b2A * s1A * b2A⁻¹ = s1A⁻¹ := by
   left
   apply Subtype.ext
-  simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subtype.coe_mk]
+  simp only [Subgroup.coe_mul, Subgroup.coe_inv]
   exact conj_of h45 pk_b2 pk_s1 pk_s1 (by decide +kernel)
 
 private theorem spinAuxFixU :

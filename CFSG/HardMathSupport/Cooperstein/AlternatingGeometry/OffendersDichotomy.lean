@@ -32,6 +32,7 @@ theorem blockData_of_shape {E : Subgroup (Perm Ω)} (hall : ∀ x : Ω, Nat.card
   obtain ⟨σ, h1, h2, h3, c, h4, h5, h6⟩ := exists_matching_of_orbits_two hall hord
   exact ⟨σ, c, h1, h2, h3, h4, h5, h6⟩
 
+omit [DecidableEq Ω] in
 theorem orbit_eq_pair {E : Subgroup (Perm Ω)} {σ : Perm Ω} (hσ1 : ∀ x, σ x ≠ x)
     (hg : ∀ g ∈ E, ∀ x, g x = x ∨ g x = σ x) (hall : ∀ x : Ω, Nat.card (orbit E x) = 2)
     (x : Ω) : orbit E x = {x, σ x} := by

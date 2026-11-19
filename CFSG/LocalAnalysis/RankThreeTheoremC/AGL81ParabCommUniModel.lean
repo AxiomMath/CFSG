@@ -20,7 +20,7 @@ variable {f : ℕ} {K : Type} [Field K] (h : UnitaryFieldData 2 f K)
 
 theorem eq_one_of_fixes_traceZero (σ : K ≃+* K) {o : ℕ} (ho : Odd o) (hσo : σ ^ o = 1)
     (hfix : ∀ a : K, a + h.bar a = 0 → σ a = a) : σ = 1 := by
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   have hsq : σ * σ = 1 := by
     ext x
     have e1 : σ (x + h.bar x) = x + h.bar x := by
@@ -139,7 +139,7 @@ theorem exists_block_scalar (hr : 1 ≤ t + s) (hε : ε ≤ 1) {I : Finset ℕ}
         Matrix (HypIndex (t + s) ε) (HypIndex (t + s) ε) K) = c • 1) ∧
       ∃ c : K, blkRes t ((γ : SemiGL (HypIndex (t + s) ε) K).left :
         Matrix (HypIndex (t + s) ε) (HypIndex (t + s) ε) K) = c • 1 := by
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   obtain ⟨j, hj⟩ := hbig
   have h4 := four_le_of_isBigBlock hI hj
   have hn3 : 3 ≤ 2 * (t + s) + ε := by omega
@@ -194,13 +194,13 @@ theorem exists_block_scalar (hr : 1 ≤ t + s) (hε : ε ≤ 1) {I : Finset ℕ}
   refine ⟨γ, hγ, RingEquiv.ext hσ1, ⟨μ, hμ0, hμbar, hsim'⟩, hflag, fun b => ?_, ?_⟩
   · by_cases hb2 : 2 ≤ b.1 - predCut I b.1
     · exact (eBlock_scalar hr hε hI γ hNF' hcM hcM' b hb2).2
-    · haveI : Subsingleton (Fin (b.1 - predCut I b.1)) :=
+    · have : Subsingleton (Fin (b.1 - predCut I b.1)) :=
         Fin.subsingleton_iff_le_one.mpr (by omega)
       exact exists_smul_one_of_subsingleton _
   · by_cases hres : 2 ≤ 2 * s + ε
     · have hs : 1 ≤ s := by omega
       exact eq_smul_one_of_res_rel hs (hresMM' hres) _ hσ1 (hres_rel hres)
-    · haveI := subsingleton_hypIndex (s := s) (ε := ε) (by omega)
+    · have := subsingleton_hypIndex (s := s) (ε := ε) (by omega)
       exact exists_smul_one_of_subsingleton _
 
 end Block
@@ -213,8 +213,8 @@ theorem submatrix_commutator_eq_one {ι : Type} [Fintype ι] [DecidableEq ι] {r
     {φ : ι → HypIndex r ε} (hφ : Function.Injective φ) {a b : ℕ}
     (hrange : ∀ x, x ∈ Set.range φ ↔ a ≤ fullPos x ∧ fullPos x < b)
     {M₁ M₂ M₁' M₂' : Matrix (HypIndex r ε) (HypIndex r ε) K}
-    (h₁a : CutPat a M₁) (h₁b : CutPat b M₁) (h₂a : CutPat a M₂) (h₂b : CutPat b M₂)
-    (h₁'a : CutPat a M₁') (h₁'b : CutPat b M₁') (h₂'a : CutPat a M₂') (h₂'b : CutPat b M₂')
+    (h₁a : CutPat a M₁) (_h₁b : CutPat b M₁) (h₂a : CutPat a M₂) (h₂b : CutPat b M₂)
+    (h₁'a : CutPat a M₁') (h₁'b : CutPat b M₁') (_h₂'a : CutPat a M₂') (h₂'b : CutPat b M₂')
     (e₁ : M₁ * M₁' = 1) (e₂ : M₂ * M₂' = 1)
     (hs₁ : ∃ c : K, M₁.submatrix φ φ = c • 1) (hs₂ : ∃ c : K, M₂.submatrix φ φ = c • 1) :
     (M₁ * M₂ * M₁' * M₂').submatrix φ φ = 1 := by
@@ -230,7 +230,7 @@ theorem submatrix_commutator_eq_one {ι : Type} [Fintype ι] [DecidableEq ι] {r
   obtain ⟨c₂, hc₂⟩ := hs₂
   have hcomm : M₁.submatrix φ φ * M₂.submatrix φ φ = M₂.submatrix φ φ * M₁.submatrix φ φ := by
     rw [hc₁, hc₂]
-    simp only [Matrix.smul_mul, Matrix.mul_smul, smul_smul, Matrix.mul_one, mul_comm]
+    simp only [Matrix.mul_smul, smul_smul, Matrix.mul_one, mul_comm]
   calc M₁.submatrix φ φ * M₂.submatrix φ φ * M₁'.submatrix φ φ * M₂'.submatrix φ φ
       = M₂.submatrix φ φ * M₁.submatrix φ φ * M₁'.submatrix φ φ * M₂'.submatrix φ φ := by
         rw [hcomm]

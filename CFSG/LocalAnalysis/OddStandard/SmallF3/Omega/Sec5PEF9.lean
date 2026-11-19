@@ -81,10 +81,10 @@ theorem sec5pef_outer_prime_order
       (Subgroup.center (Matrix.SpecialLinearGroup (Fin 2) F0))
     rw [sl2_card_formula F0] at h1
     exact h1
-  haveI : Finite (F ≃+* F) :=
+  have : Finite (F ≃+* F) :=
     Finite.of_injective (fun τ : F ≃+* F => (τ : F → F))
       (fun a b h => RingEquiv.ext (congrFun h))
-  haveI : Fintype (Subgroup.zpowers ψ) := Fintype.ofFinite _
+  have : Fintype (Subgroup.zpowers ψ) := Fintype.ofFinite _
   have hfinrank : Module.finrank F0 F = orderOf ψ := by
     show Module.finrank (FixedPoints.subfield (Subgroup.zpowers ψ) F) F = orderOf ψ
     rw [FixedPoints.finrank_eq_card, Fintype.card_eq_nat_card, Nat.card_zpowers]

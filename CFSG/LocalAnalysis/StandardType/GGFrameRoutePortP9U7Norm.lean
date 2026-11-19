@@ -96,7 +96,7 @@ private lemma p9u7a_transport (h : UnitaryFieldData 2 1 F)
     {τ : F ≃+* F} (hβg : InndiagSU.IsSemilin φ β g τ)
     {a : MulAut L} {t : Fin m → F} {D : GL (Fin m) F}
     (hD : D ∈ Subgroup.normalizer (unitarySU 2 1 F m : Set (GL (Fin m) F)))
-    (hDt : (D : Matrix (Fin m) (Fin m) F) = diagonal t)
+    (_hDt : (D : Matrix (Fin m) (Fin m) F) = diagonal t)
     (hact : ∀ s : ↥(unitarySU 2 1 F m), a (φ s) = φ (conjN D hD s)) :
     ∃ (M : GL (Fin m) F)
       (hM : M ∈ Subgroup.normalizer (unitarySU 2 1 F m : Set (GL (Fin m) F))),
@@ -256,10 +256,10 @@ private lemma p9u7a_diag_of_detOne_tau (h : UnitaryFieldData 2 1 F) (hm : 3 ≤ 
   intro i j hij
   have hMij : (M : Matrix (Fin m) (Fin m) F) i j = 0 := by
     rw [hMdiag]
-    simp [Matrix.diagonal_apply, hij]
+    simp [hij]
   rw [hM_eq, Matrix.mul_diagonal] at hMij
   have hτd : τ (d : F) ≠ 0 := by
-    simpa using (τ.injective.ne (by simp [d]))
+    simp
   exact (mul_eq_zero.mp hMij).resolve_right hτd
 
 private lemma p9u7a_all_detOne (h : UnitaryFieldData 2 1 F) (hm : 3 ≤ m)
@@ -333,7 +333,7 @@ private lemma p9u7a_exists_diag_scalar_of_transport (h : UnitaryFieldData 2 1 F)
     intro hc
     have h0 := diag_ne_zero_of_eq hMdiag (⟨0, by omega⟩ : Fin m)
     exact h0 (by rw [hc, mul_zero])
-  have hτd : τ (d : F) ≠ 0 := by simpa using (τ.injective.ne (by simp [d]))
+  have hτd : τ (d : F) ≠ 0 := by simp
   let eF : F := τ (d : F) * c2⁻¹
   have heF : eF ≠ 0 := by
     change τ (d : F) * c2⁻¹ ≠ 0
@@ -359,7 +359,7 @@ private lemma p9u7a_final_step (h : UnitaryFieldData 2 1 F) (hm : 3 ≤ m)
     (ι : ↥A →* UTorus.Proj F m)
     (hι : ∀ (a : ↥A) (t : Fin m → Fˣ), ActsDiagU φ (a : MulAut L) (fun i => (t i : F)) →
       ι a = QuotientGroup.mk t)
-    (hinner : UTorus.inner F m ≤ ι.range)
+    (_hinner : UTorus.inner F m ≤ ι.range)
     {β : MulAut L} (hβ : β ∈ Subgroup.normalizer (A : Set (MulAut L)))
     {g : GL (Fin m) F} (hg : g ∈ primeFormUnitary h (idGram F m)) {τ : F ≃+* F}
     (hβg : InndiagSU.IsSemilin φ β g τ)
@@ -395,7 +395,7 @@ private lemma p9u7a_final_step (h : UnitaryFieldData 2 1 F) (hm : 3 ≤ m)
     simp only [ub, Units.val_mk0, Units.val_inv_eq_inv_val, Units.val_mul, Units.coe_map]
     rw [htb_unit i]
     have ht_ne : τ ((t (σ.symm i) : F)) ≠ 0 := by
-      simpa using (τ.injective.ne (Units.ne_zero (t (σ.symm i))))
+      simp
     have he_ne : (e : F) ≠ 0 := Units.ne_zero e
     field_simp [ht_ne, he_ne]
     rfl

@@ -70,7 +70,7 @@ private lemma s11s_ca_sigma_inv {t σ : G} (ht : t * t = 1) (hσ : σ * σ = 1) 
       _ = t * σ⁻¹ * t * σ := by rw [hσ, one_mul]
       _ = t * σ * t * σ := by rw [hσ']
   have h2 : (σ * t * σ⁻¹ * t)⁻¹ = t * σ * t * σ := by
-    simp only [mul_inv_rev, inv_inv, ht', hσ']
+    simp only [mul_inv_rev, ht', hσ']
     group
   rw [h1, h2]
 
@@ -104,7 +104,7 @@ theorem s11s_caseA_core {D : Subgroup G} {t s σ a w z : G}
   set c : G := s * σ * (s * σ) with hc
   have htσ : (σ * t * σ⁻¹) * (σ * t * σ⁻¹) = 1 := by
     rw [← inv_eq_iff_mul_eq_one]
-    simp only [conj_inv, inv_inv, ht']
+    simp only [conj_inv, ht']
   have ht_y : t * y * t = y⁻¹ := by
     rw [hy]
     exact s11s_ca_t_inv ht hσ
@@ -141,7 +141,7 @@ theorem s11s_caseA_core {D : Subgroup G} {t s σ a w z : G}
         _ = 1 := by rw [hy22z, one_zpow]
     have htσs : (s * t * s⁻¹) * (s * t * s⁻¹) = 1 := by
       rw [← inv_eq_iff_mul_eq_one]
-      simp only [conj_inv, inv_inv, ht']
+      simp only [conj_inv, ht']
     have hy_mem_s : y ∈ zpowers (s * t * s⁻¹ * t) := by
       have heq : zpowers t ⊔ zpowers (σ * t * σ⁻¹) = zpowers t ⊔ zpowers (s * t * s⁻¹) :=
         hDσ.symm.trans hDs

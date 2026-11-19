@@ -24,13 +24,14 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem uc22r3e5c_barImage_eq_top_of_sup {C L : Subgroup G} (hCL : C ≤ L)
     (hsup : C ⊔ CFSG.Open.pCoreOf 2 L = L) : barImage L C = ⊤ := by
   have hO : CFSG.Open.pCoreOf 2 L ≤ L := Subgroup.map_subtype_le _
   have hOXeq : (CFSG.Open.pCoreOf 2 L).subgroupOf L = CFSG.pCore 2 ↥L := by
     ext o
     rw [Subgroup.mem_subgroupOf, CFSG.mem_openPCoreOf_iff]
-  haveI : ((CFSG.Open.pCoreOf 2 L).subgroupOf L).Normal := by
+  have : ((CFSG.Open.pCoreOf 2 L).subgroupOf L).Normal := by
     rw [hOXeq]
     exact CFSG.pCore_normal
   have htop : C.subgroupOf L ⊔ (CFSG.Open.pCoreOf 2 L).subgroupOf L = ⊤ := by
@@ -51,6 +52,7 @@ theorem uc22r3e5c_barImage_eq_top_of_sup {C L : Subgroup G} (hCL : C ≤ L)
     rw [hcl', map_mul, h1, mul_one]
   exact uc22p21c_mem_barImage.mpr ⟨c, hcC, hcl⟩
 
+omit [Finite G] in
 theorem uc22r3e5c_surjective_of_sup {C L : Subgroup G} (hCL : C ≤ L)
     (hsup : C ⊔ CFSG.Open.pCoreOf 2 L = L) :
     Function.Surjective ((QuotientGroup.mk' (CFSG.pCore 2 ↥L)).comp
@@ -126,7 +128,7 @@ theorem uc22r3e5c_sec7Hyp
     (hp : p ∈ D.sig) :
     F07.Sec7Hyp D p (normalizer (Subgroup.zpowers a : Set G)) := by
   obtain ⟨hpp, hp2⟩ := D.sig_prime p hp
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have hsp : CFSG.RankThree.PartOne.IsStronglyPEmbedded p D.M :=
     UC6S846.sp_of_mem_sig hSg (UC6S846.not_solvable_of_mem_calC hL) hp
   have hcard5 : Nat.card ↥(Subgroup.zpowers a) = 5 := by
@@ -153,6 +155,7 @@ theorem uc22r3e5c_sec7Hyp
     omega
   exact uc22s13xm_sec7Hyp hpp hp2 hsp hB1 hBM hN hrank
 
+omit [Finite G] in
 theorem uc22r3e5c_derInf8_le (X : Subgroup G) : F08.DerInf8 X ≤ X := by
   rw [show F08.DerInf8 X = (CFSG.RankThreeCoreUniqueness.Helpers.perfectResidual ↥X).map
     X.subtype from rfl]
@@ -193,7 +196,7 @@ theorem uc22r3e5c_core_setup
     (h5n : ¬ 5 ∣ n) {a : G} (haB : a ∈ c.B0) (ha5 : orderOf a = 5)
     (haT : a ∈ normalizer ((D.T ⊓ conjClosure D.M L : Subgroup G) : Set G)) {p : ℕ}
     (hp : p ∈ D.sig) :
-    ∃ eJ : Bar2 L ≃* Bar2 (F08.DerInf8 (L ⊓ centralizer (Subgroup.zpowers a : Set G))),
+    ∃ _eJ : Bar2 L ≃* Bar2 (F08.DerInf8 (L ⊓ centralizer (Subgroup.zpowers a : Set G))),
       ⁅F08.DerInf8 (L ⊓ centralizer (Subgroup.zpowers a : Set G)),
         F08.DerInf8 (L ⊓ centralizer (Subgroup.zpowers a : Set G))⁆ =
         F08.DerInf8 (L ⊓ centralizer (Subgroup.zpowers a : Set G)) ∧
@@ -203,19 +206,19 @@ theorem uc22r3e5c_core_setup
       p ∣ Nat.card (Bar2 (F08.DerInf8 (L ⊓ centralizer (Subgroup.zpowers a : Set G)))) := by
   have hsup := uc22r3e5c_sup_pCore_centralizer h5 h1930 c hL hSz h5n haB ha5 haT
   have hperf : Group.IsPerfect (Bar2 L) := isPerfect_bar2_of_isSz hSz
-  obtain ⟨eJ⟩ := uc22r3e5c_bar2_derInf8_equiv inf_le_left hsup hperf
+  obtain ⟨_eJ⟩ := uc22r3e5c_bar2_derInf8_equiv inf_le_left hsup hperf
   have hJperf := uc22r3e5c_derInf8_perfect (L ⊓ centralizer (Subgroup.zpowers a : Set G))
   have hJN := uc22r3e5c_derInf8_le_normalizer_inf (a := a) hL
   have hsimpJ : IsSimpleGroup
       (Bar2 (F08.DerInf8 (L ⊓ centralizer (Subgroup.zpowers a : Set G)))) := by
-    haveI : IsSimpleGroup (Bar2 L) :=
+    have : IsSimpleGroup (Bar2 L) :=
       CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_twistedB2 hSz
-    exact eJ.symm.isSimpleGroup
+    exact _eJ.symm.isSimpleGroup
   have hpJ : p ∣ Nat.card (Bar2 (F08.DerInf8
       (L ⊓ centralizer (Subgroup.zpowers a : Set G)))) := by
-    rw [← Nat.card_congr eJ.toEquiv]
+    rw [← Nat.card_congr _eJ.toEquiv]
     exact uc22r3e5c_dvd_card_bar2 h15 h1930 c hL hc2 hSz hp
-  exact ⟨eJ, hJperf, hJN, hsimpJ, hpJ⟩
+  exact ⟨_eJ, hJperf, hJN, hsimpJ, hpJ⟩
 
 theorem uc22r3e5c_dvd_card_derInf8
     {D : Data G} {Ch : Choice2011 G} (h5 : S21_5 D Ch) (h15 : S21_15C D Ch)
@@ -246,6 +249,7 @@ theorem uc22r3e5c_dvd_card_derInf8
     exact Subgroup.card_quotient_dvd_card _
   exact (uc22r3e5c_dvd_card_bar2 h15 h1930 c hL hc2 hSz hp).trans hdvd
 
+omit [Finite G] in
 theorem uc22r3e5c_false_of_isAlt_bar2 {L : Subgroup G} {n : ℕ} (hAlt : IsAlt (Bar2 L) 5)
     (hn : 2 < n) (hSz : IsSz (Bar2 L) n) : False := by
   obtain ⟨e5⟩ := hAlt
@@ -276,14 +280,14 @@ theorem uc22r3e5c_false_of_solvable
     (hsol : Group.IsSolvable ↥(F07.ImageModK p (normalizer (Subgroup.zpowers a : Set G))
       (normalizer (Subgroup.zpowers a : Set G) ⊓ D.M))) : False := by
   obtain ⟨hpp, -⟩ := D.sig_prime p hp
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   obtain ⟨-, hJperf, hJN, -, -⟩ :=
     uc22r3e5c_core_setup h5 h15 h1930 c hL hc2 hSz h5n haB ha5 haT hp
   have hJcore : F08.DerInf8 (L ⊓ centralizer (Subgroup.zpowers a : Set G)) ≤
       F07.PPrimeCoreIn p (normalizer (Subgroup.zpowers a : Set G)) :=
     le_pPrimeCoreIn_of_isSolvable inf_le_left hJN hJperf hsol
   have hpJ := uc22r3e5c_dvd_card_derInf8 h5 h15 h1930 c hL hc2 hSz h5n haB ha5 haT hp
-  haveI : (CFSG.pPrimeCore p ↥(normalizer (Subgroup.zpowers a : Set G))).Normal :=
+  have : (CFSG.pPrimeCore p ↥(normalizer (Subgroup.zpowers a : Set G))).Normal :=
     CFSG.pPrimeCore_normal
   have hcop : Nat.Coprime p
       (Nat.card (F07.PPrimeCoreIn p (normalizer (Subgroup.zpowers a : Set G)))) := by
@@ -308,7 +312,7 @@ theorem uc22r3e5c_false_of_altTen
       ∀ (S : Type) [Group S], IsSimpleGroup S → ∀ f : ↥Y →* S, Function.Surjective f →
         IsAlt S 5) : False := by
   obtain ⟨hpp, -⟩ := D.sig_prime p hp
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   obtain ⟨eJ, hJperf, hJN, hsimpJ, hpJ⟩ :=
     uc22r3e5c_core_setup h5 h15 h1930 c hL hc2 hSz h5n haB ha5 haT hp
   have hAltJ : IsAlt (Bar2 (F08.DerInf8 (L ⊓ centralizer (Subgroup.zpowers a : Set G)))) 5 :=

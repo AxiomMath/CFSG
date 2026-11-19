@@ -90,12 +90,12 @@ theorem ggCoprime_centralizer_map (P : Subgroup N) [P.Normal] (hP : IsPGroup 2 P
     (hp : p.Prime) (hp2 : p ≠ 2) {e : N} (he : e ^ p = 1) :
     Subgroup.centralizer ({QuotientGroup.mk' P e} : Set (N ⧸ P)) =
       (Subgroup.centralizer ({e} : Set N)).map (QuotientGroup.mk' P) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hep : IsPGroup p ↥(Subgroup.zpowers e) := by
     refine IsPGroup.of_card_dvd_pow (n := 1) ?_
     rw [Nat.card_zpowers]
     simpa using orderOf_dvd_of_pow_eq_one he
-  haveI : Fact (IsPGroup p ↥(Subgroup.zpowers e)) := ⟨hep⟩
+  have : Fact (IsPGroup p ↥(Subgroup.zpowers e)) := ⟨hep⟩
   have hcard : Nat.Coprime p (Nat.card P) := by
     obtain ⟨k, hk⟩ := hP.exists_card_eq
     rw [hk]

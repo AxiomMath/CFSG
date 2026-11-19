@@ -21,7 +21,7 @@ theorem isSylowOf_suzukiU_suzukiB {a : ℕ} {K : Type} [Field K] [Finite K]
   obtain ⟨P₀, hP₀⟩ := exists_sylow_eq_suzukiU hK
   have htop : IsSylowOf 2 (suzukiU a K) (⊤ : Subgroup (suzukiGroup a K)) := by
     rw [isSylowOf_iff]
-    refine ⟨le_top, hP₀ ▸ P₀.isPGroup', ?_⟩
+    refine ⟨le_top, hP₀ ▸ P₀.isPGroup, ?_⟩
     rw [Subgroup.relIndex_top_right, ← hP₀]
     exact P₀.not_dvd_index
   exact htop.of_le (suzukiU_le_suzukiB a K) le_top
@@ -84,22 +84,22 @@ theorem mem_of_fixes_base_centralizes_torus
     (h2 : MulAction.IsMultiplyPretransitive X Ω 2) (a : ℕ) (ha : 1 ≤ a)
     (N : Subgroup X) (hN : N.Normal)
     (ω β : Ω) (Q T : Subgroup N) (ψ : N ≃* suzukiGroup a (GaloisField 2 (2 * a + 1)))
-    (P : SuzukiPointAction N Ω (2 ^ (2 * a + 1)) ω β Q T)
+    (_P : SuzukiPointAction N Ω (2 ^ (2 * a + 1)) ω β Q T)
     (hψT : T.map ψ.toMonoidHom = suzukiT a (GaloisField 2 (2 * a + 1)))
     (hψB : (MulAction.stabilizer N ω).map ψ.toMonoidHom =
       suzukiB a (GaloisField 2 (2 * a + 1)))
     {g : X} (hgω : g • ω = ω)
     (hT : ∀ t ∈ T, g * (t : N) = (t : N) * g) : g ∈ N := by
   classical
-  letI : N.Normal := hN
+  let : N.Normal := hN
   let K := GaloisField 2 (2 * a + 1)
   have hK : Nat.card K = 2 ^ (2 * a + 1) := GaloisField.card 2 _ (by omega)
   have hperfG : Group.IsPerfect (suzukiGroup a K) :=
     (suzuki_perfect (a := a) (K := K) ha hK).2
   have hperfN : Group.IsPerfect N :=
     Group.IsPerfect.ofSurjective (f := ψ.symm.toMonoidHom) ψ.symm.surjective
-  haveI : Nontrivial (suzukiGroup a K) := (suzuki_simple (a := a) (K := K) ha hK).2.1
-  letI : Nontrivial N := ψ.toEquiv.nontrivial
+  have : Nontrivial (suzukiGroup a K) := (suzuki_simple (a := a) (K := K) ha hK).2.1
+  let : Nontrivial N := ψ.toEquiv.nontrivial
   have hNnonab : ¬ IsMulCommutative N := hperfN.not_isMulCommutative
   have hCbot : Subgroup.centralizer (N : Set X) = ⊥ :=
     centralizer_eq_bot_of_isMultiplyPretransitive hNnonab h2
@@ -155,7 +155,6 @@ theorem mem_of_fixes_base_centralizes_torus
     simp [MulAut.congr_apply, MulAut.conj_apply]
   exact mem_of_conjNormal_mem_inner hCbot
     ⟨ψ.symm y, by
-      change MulAut.conj (ψ.symm y) = MulAut.conjNormal (H := N) g
       exact hαeq.symm⟩
 
 theorem szCentralizerLe_of_sz {X Ω : Type} [Group X] [Finite X]
@@ -169,7 +168,7 @@ theorem szCentralizerLe_of_sz {X Ω : Type} [Group X] [Finite X]
   have hK : Nat.card K = 2 ^ (2 * a + 1) := GaloisField.card 2 _ (by omega)
   obtain ⟨ω, β, Q, T, ψ, P, hψT, hψQ, hψB⟩ :=
     exists_szPointAction (X := X) (Ω := Ω) h2 ha N hN e hΩ
-  haveI : MulAction.IsMultiplyPretransitive N Ω 2 := P.isMultiplyPretransitive
+  have : MulAction.IsMultiplyPretransitive N Ω 2 := P.isMultiplyPretransitive
   delta SzCentralizerLe
   intro x y hxy g hg hcomm
   obtain ⟨n, hx, hy, hTxy⟩ := exists_conj_torus P hxy
@@ -206,7 +205,7 @@ theorem szCentralizerLe_of_sz {X Ω : Type} [Group X] [Finite X]
   change g ∈ N
   have : g = n * g₀ * n⁻¹ := by
     change g = n * (n⁻¹ * g * n) * n⁻¹
-    simp only [Subgroup.coe_mul, Subgroup.coe_inv]
+    simp only [Subgroup.coe_inv]
     group
   rw [this]
   exact N.mul_mem (N.mul_mem n.2 hg₀N) (N.inv_mem n.2)

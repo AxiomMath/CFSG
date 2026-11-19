@@ -62,7 +62,7 @@ theorem ne_of_isComponentOf_of_commute {G : Type} [Group G] {J₁ J₂ K : Subgr
     induction b using QuotientGroup.induction_on
     rw [QuotientGroup.eq, hcenter]
     trivial
-  haveI := hsimple.toNontrivial
+  have := hsimple.toNontrivial
   exact not_subsingleton _ hsub
 
 theorem isElemAbelian_comap_of_le_range {H G : Type} [Group H] [Group G] (ψ : H →* G)
@@ -139,7 +139,7 @@ theorem f4ThreeA2A2TwoComponents_holds :
     F4ThreeA2A2TwoComponents:= by
   intro K _ _ _ h3 hq2 e g hg a ha h12 hga
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, -, hn⟩ := FiniteField.card K 2
   have hq : Nat.card K = 2 ^ (n : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hn
   have hf : 1 ≤ (n : ℕ) := n.pos

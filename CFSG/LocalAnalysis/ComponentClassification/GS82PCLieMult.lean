@@ -25,7 +25,7 @@ theorem odd_genericOrders_two {t : StatedLieTag} {n f : ℕ} (hadm : StatedLieAd
     | exact hm.of_dvd_nat (Nat.gcd_dvd_right _ _)
     | exact hp.of_dvd_nat (Nat.gcd_dvd_right _ _)
     | exact absurd rfl hadm.2.2.2
-    | (rw [if_pos hq]; exact odd_one)
+    | (rw [ite_eq_left hq]; exact odd_one)
     | (have hn : 1 ≤ n := by have := hadm.2.2; omega
        have hqn : Even ((2 ^ f) ^ n) := (Nat.even_pow' (by omega)).mpr hq
        exact hqn.add_one.of_dvd_nat (Nat.gcd_dvd_right _ _))
@@ -38,7 +38,7 @@ theorem even_exceptionalOrders_two {t : StatedLieTag} {n f : ℕ}
       (t = .PSU ∧ n = 6 ∧ f = 1) ∨ (t = .twistedB2 ∧ n = 0 ∧ f = 3) ∨
       (t = .twistedE6 ∧ n = 0 ∧ f = 1) ∨ (t = .PSL ∧ n = 3 ∧ f = 2) := by
   unfold exceptionalOrders at h
-  split at h <;> simp_all <;> decide
+  split at h <;> simp_all
 
 theorem even_center_lie_two_cases
     {Y : Type} [Group Y] [Finite Y] (hY : IsQuasisimple Y) (hO : pPrimeCore 2 Y = ⊥)

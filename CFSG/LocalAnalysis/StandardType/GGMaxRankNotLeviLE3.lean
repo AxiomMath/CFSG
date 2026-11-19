@@ -19,10 +19,10 @@ theorem ggMaxRank_notLeviLE3 {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.P
   classical
   rintro ⟨Λ, instFL, instDL, S, M, C, MJ, V', instAC', instM', ι', φ', h', α',
     hS2, hS3, hM, hC, hMJ, hMJe, hlin', hrefl', hpair', hfY, hAY, hfJ, hAJgen, hconj⟩
-  letI : Fintype Λ := instFL
-  letI : DecidableEq Λ := instDL
-  letI : AddCommGroup V' := instAC'
-  letI : Module (ZMod p) V' := instM'
+  let : Fintype Λ := instFL
+  let : DecidableEq Λ := instDL
+  let : AddCommGroup V' := instAC'
+  let : Module (ZMod p) V' := instM'
   exact ggMaxRank_levi_false (ΛJ := {j : Λ // j ∉ S}) (MJ := MJ) eJ hX hMJ ι'
     (fun j => φ' j) (fun j => h' j) (fun j => α' j)
     (fun i w => hlin' i w) (fun i => hrefl' i) hfJ hAJgen hconj

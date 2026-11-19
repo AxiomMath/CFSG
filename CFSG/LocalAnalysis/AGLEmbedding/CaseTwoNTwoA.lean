@@ -46,7 +46,7 @@ theorem D1CaseTwoDataAt.inf_d1LayerX_ne_bot (hAut : KFactCycAut) (hS : KFactSeit
   have h3 := hd.toPhaseThree hAut hS hKL
   have : Fact p.Prime := ⟨h3.prime⟩
   obtain ⟨t, ⟨htV, -, htL⟩, htp, -⟩ := exists_mem_centralizer_orderOf_eq
-    (Rbar.isPGroup'.to_le (inf_le_right.trans inf_le_left)) hmeet
+    (Rbar.isPGroup.to_le (inf_le_right.trans inf_le_left)) hmeet
   rw [h3.d1MapPCore_eq h84 hD2] at htV
   obtain ⟨r, ⟨hrR, hrY⟩, rfl⟩ := htV
   intro hbot

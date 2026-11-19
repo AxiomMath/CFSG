@@ -109,7 +109,7 @@ private theorem le_normalizer_inf_normalizer {G : Type} [Group G] {T L V₁ : Su
       have e : t⁻¹ * (t * x * t⁻¹) * t = x := by group
       rwa [e] at h1
   have hL := Subgroup.mem_normalizer_iff.mp (hTL ht) x
-  simp only [SetLike.mem_coe, Subgroup.mem_inf]
+  simp only [Subgroup.mem_inf]
   exact and_congr hL hN
 
 private theorem le_normalizer_oTwoRes_of_le_normalizer {G : Type} [Group G] {X T : Subgroup G}
@@ -138,7 +138,7 @@ private theorem lt_of_mIdx_pos {G : Type} [Group G] {X Y : Subgroup G} (hYX : Y 
   simp [CFSG.Quasithin.mIdx] at h
 
 private theorem mIdx_le_mIdx_bot {G : Type} [Group G] [Finite G] {X Y : Subgroup G}
-    (hYX : Y ≤ X) : CFSG.Quasithin.mIdx X Y ≤ CFSG.Quasithin.mIdx X ⊥ := by
+    (_hYX : Y ≤ X) : CFSG.Quasithin.mIdx X Y ≤ CFSG.Quasithin.mIdx X ⊥ := by
   unfold CFSG.Quasithin.mIdx
   have hd : Y.relIndex X ∣ (⊥ : Subgroup G).relIndex X :=
     Subgroup.relIndex_dvd_of_le_left X bot_le
@@ -980,7 +980,7 @@ theorem noFaithfulFF_tilde_transport {G : Type} [Group G] [Finite G]
   obtain ⟨hXU, hXN, -, hker⟩ := hkernel
   obtain ⟨ρ, hrange, hkerρ⟩ :=
     CFSG.Quasithin.RonanF9T.exists_hom_range_autOn X U N hXU hXN hnumerator
-  letI : CommGroup ↥(tildeOf N U) := commGroupOfElemAbelian hU
+  let : CommGroup ↥(tildeOf N U) := commGroupOfElemAbelian hU
   refine hno ↥(tildeOf N U) (fun w => Subtype.ext (by simpa using hU.2 w w.2)) ρ
     (fun x => (hkerρ x).trans (hker x x.2)) ?_
   rw [hrange]
@@ -1315,7 +1315,7 @@ private theorem f918_four {G : Type} [Group G] [Finite G] {T V L V₁ Vp H K : S
   have hH := CFSG.Quasithin.G64.sqtkGroup_of_isSQTKCat hSQ
   have hK' : conjClosure K T = K := hK.symm
   obtain ⟨hfine, hfour⟩ := F918_4_fine h hH hK' hV₁I hIU hirr inp.d310 inp.d391 inp.insp4 inp.fine4
-  haveI := factElem h hIU
+  have := factElem h hIU
   exact ⟨CFSG.Quasithin.RonanF918.isF918FourListU_of_fourListFine
     (CFSG.Quasithin.RonanF918.isQuasisimple_autIH h) hfine,
     CFSG.Quasithin.RonanF918.four_cases_of_inputs inp.griess h hK' hV₁I hIU hirr hfour

@@ -195,7 +195,7 @@ private theorem om4_class_full {K : Type} [Field K] [Finite K] [CharP K 2] {V : 
     push Not at hS
     have ht0 : t = 0 := funext fun i => by
       simp only [htdef]
-      rw [if_neg (by rintro (h1 | h1); exacts [(hS i).1 h1, (hS i).2 h1])]
+      rw [ite_eq_right (by rintro (h1 | h1); exacts [(hS i).1 h1, (hS i).2 h1])]
       rfl
     obtain ⟨u, hu, hu0⟩ :=
       (Submodule.ne_bot_iff _).mp (primaryComponent_ne_bot hx.squarefree_minpoly hh)
@@ -281,7 +281,7 @@ private theorem om4_compShape_three {K : Type} [Field K] [Finite K] [CharP K 2] 
 theorem omCompShape {A : Subgroup (OmV ≃ₗ[GaloisField 2 3] OmV)} (hAΩ : A ≤ omΩ)
     (F : SevOm.Frame omQ 7 A 3) (ζ : (GaloisField 2 3)ˣ) (hζ : orderOf ζ = 7)
     (hdim : ∀ i, finrank (GaloisField 2 3) (F.U i) = 2) (hal : CoordOm.FrameAligned F ζ)
-    (hmoves : CoordOm.FrameMovesAll F (CoordSp.signs 7))
+    (_hmoves : CoordOm.FrameMovesAll F (CoordSp.signs 7))
     {β : Fin 3 → ZMod 7} (hβ0 : β ≠ 0) (hβal : CoordSp.SpAligned β)
     {J : Subgroup (OmV ≃ₗ[GaloisField 2 3] OmV)}
     (hJ : IsComponentOf J (omΩ ⊓ Subgroup.centralizer {F.ι (ofAdd β)}))
@@ -295,7 +295,7 @@ theorem omCompShape {A : Subgroup (OmV ≃ₗ[GaloisField 2 3] OmV)} (hAΩ : A �
         ∃ h ∈ primaryFactors (F.ι (ofAdd β)).toLinearMap, h ≠ X - 1 ∧
           J = specialBlock omQ (F.ι (ofAdd β)) h ∧
           primaryMultiplicity (F.ι (ofAdd β)).toLinearMap h = 3) := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hQ : (QuadraticMap.polarBilin omQ).Nondegenerate :=
     (CFSG.ComponentClassification.CatalogueBOrthogonalPointData.regular_coordinateQuadMinus
       4 (GaloisField 2 3) (minusCoeffs 2 3).1 (minusCoeffs 2 3).2 (by norm_num)

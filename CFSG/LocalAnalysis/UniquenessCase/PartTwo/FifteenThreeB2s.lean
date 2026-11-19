@@ -79,6 +79,7 @@ section Restrict
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 private theorem s15_Three_semisimple_restrict {A : Subgroup (MulAut W)}
     (hsemi : s15Semisimple A) {Y : Subgroup W} (hY : StableUnder A Y) :
     s15Semisimple (autSub A Y) := by

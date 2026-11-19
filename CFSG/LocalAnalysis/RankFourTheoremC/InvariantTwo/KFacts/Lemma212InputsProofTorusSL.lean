@@ -241,15 +241,15 @@ theorem l212in_torusHom_sl {p n : ℕ} (hp : p.Prime) (hn : 5 ≤ n) {K : Type} 
     ∃ f : (Fin 3 → Multiplicative (ZMod p)) →* Matrix.SpecialLinearGroup (Fin n) K,
       Function.Injective f ∧ (∀ x, Commute (f x) s) ∧
       ∀ x, f x ∈ CFSG.LocalAnalysis.ComponentInitial.LinearFlag.scalars n K → f x = 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨ζ, hζ⟩ := exists_prime_orderOf_dvd_card' (G := Kˣ) p (by rwa [Nat.card_units])
   have hprimU : IsPrimitiveRoot ζ p := by
     rw [← hζ]
     exact IsPrimitiveRoot.orderOf ζ
   have hprim : IsPrimitiveRoot (ζ : K) p :=
     hprimU.map_of_injective (f := Units.coeHom K) Units.val_injective
-  haveI : NeZero (p : K) := hprim.neZero'
+  have : NeZero (p : K) := hprim.neZero'
   have hA : (s : Matrix (Fin n) (Fin n) K) ^ p = 1 := by
     rw [← SpecialLinearGroup.coe_pow, hs, SpecialLinearGroup.coe_one]
   obtain ⟨P, Q, u, hPQ, hQP, hAP⟩ := exists_eigenbasis_matrix (s : Matrix (Fin n) (Fin n) K)

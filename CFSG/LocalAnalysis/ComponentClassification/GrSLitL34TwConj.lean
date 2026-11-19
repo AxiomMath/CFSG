@@ -15,7 +15,7 @@ theorem finiteCore_of_facts (X : Subgroup WrE) (hX : GoodX X)
     (hPwS : Pw ⊓ ssS = N0w) (hcardN : Nat.card N0w = 2 ^ 12)
     (hcore : ∀ Y : Subgroup WrE, Y ≤ Pw → N0w ≤ Y → GoodX Y → ConcX Y) : ConcX X := by
   have hcardWr' : Nat.card wrR = 2 * 241920 ^ 2 := by rw [hcardWr, PSL3Four.card_R]
-  have hcardPw' : Nat.card Pw = 2 ^ 17 := by rw [hcardPw, hcardRA] <;> norm_num
+  have hcardPw' : Nat.card Pw = 2 ^ 17 := by rw [hcardPw, hcardRA]; norm_num
   have hP0card : Nat.card ↥(Pw.subgroupOf wrR) = 2 ^ 17 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hPw).toEquiv, hcardPw']
   have hP0p : IsPGroup 2 ↥(Pw.subgroupOf wrR) := IsPGroup.of_card hP0card

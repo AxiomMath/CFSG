@@ -22,6 +22,7 @@ variable (hc) in
 @[expose] def rbar (t : G) (r : ↥(Rt M (LB M Q B) t)) : ↥(bar M Q (Rt M (LB M Q B) t)) :=
   ⟨QuotientGroup.mk (⟨r, hc.Rt_le_M t r.2⟩ : ↥M), S714.mk_mem_bar _ r.2⟩
 
+omit [Finite G] in
 theorem rbar_surj (t : G) (x : ↥(bar M Q (Rt M (LB M Q B) t))) : ∃ r, rbar hc t r = x := by
   obtain ⟨m, hm, hmx⟩ := S714.exists_of_mem_bar x.2
   exact ⟨⟨m, hm⟩, Subtype.ext hmx⟩
@@ -38,7 +39,7 @@ variable (hS : IsTensorSetup hc n M₀ ρ b) (t : G)
 
 theorem fWV_of_mem {x : G} (hx : x ∈ Wt Q (Vt M (LB M Q B) B Z t)) :
     fWV hS t x = Submodule.Quotient.mk ⟨M₀.π x, (S714.mem_wsub hS t).mpr (M₀.pi_mem_img hx hx.1)⟩ :=
-  by rw [fWV, dif_pos hx]
+  by rw [fWV, dite_eq_left hx]
 
 variable {t}
 
@@ -80,6 +81,8 @@ section Delta
 
 variable (hS : IsTensorSetup hc n M₀ ρ b) (t : G)
 
+omit [(Q.subgroupOf M).Normal] in
+omit [Finite G] in
 theorem mem_M_of_mem_CN {x : G} (hx : x ∈ hc.CN t) : x ∈ M :=
   hc.Rt_le_M t (Ctx.mem_CN.mp hx).1
 
@@ -95,7 +98,7 @@ theorem coe_fDelta_of_mem {x : G} (hx : x ∈ hc.CN t) :
     (fDelta hS t x : ↥(S714.wsub hS t) →ₗ[K] M₀.E) =
       S714.delta hS t (QuotientGroup.mk (⟨x, mem_M_of_mem_CN t hx⟩ : ↥M))
         (S714.mem_bar_H0_of_CN (S714.mk_mem_bar _ hx)) := by
-  rw [fDelta, dif_pos hx]
+  rw [fDelta, dite_eq_left hx]
 
 variable {t}
 
@@ -144,7 +147,7 @@ theorem isLayerBridge_delta (h34 : Stroth34Statement) (hRoot : Stroth310RootStat
           (S714.mem_bar_H0_of_CN (S714.mk_mem_bar _ hx)) := coe_fDelta_of_mem hS t hx
     rw [hfx, conjHom_delta]
     refine S714.delta_congr hS t ?_ _ _
-    simp only [rbar, QuotientGroup.mk_mul, QuotientGroup.mk_inv]
+    simp only [rbar]
     rfl
 
 end Delta
@@ -154,7 +157,7 @@ section Apply
 variable (hS : IsTensorSetup hc n M₀ ρ b) {t : G}
 
 theorem vtSub_le_wsub (h34 : Stroth34Statement) {n' : ℕ} (hs : Sec7Hyp hc n' t) :
-    hc.VtSub hS.model t ≤ S714.wsub hS t := fun e he =>
+    hc.VtSub hS.model t ≤ S714.wsub hS t := fun _e he =>
   (S714.mem_wsub hS t).mpr (M₀.img_mono (HS6.Vt_le_Wt h34 hc hs.toSec5) ((hc.mem_VtSub hS.model t).mp he))
 
 theorem finrank_wvQ (h34 : Stroth34Statement) {n' : ℕ} (hs : Sec7Hyp hc n' t)
@@ -168,6 +171,7 @@ theorem finrank_wvQ (h34 : Stroth34Statement) {n' : ℕ} (hs : Sec7Hyp hc n' t)
   omega
 
 omit [Finite G] [(Q.subgroupOf M).Normal] in
+omit [Finite K] in
 theorem card_submodule_eq (hK : Nat.card K = Nat.card Z) {X : Type} [AddCommGroup X]
     [Module K X] [FiniteDimensional K X] (U : Submodule K X) :
     Nat.card U = Nat.card Z ^ Module.finrank K U := by

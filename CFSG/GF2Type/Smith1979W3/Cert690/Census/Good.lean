@@ -156,13 +156,13 @@ theorem goodArr_iff {minus : Bool} {D : GrpData} (hD : GrpFacts minus D) {LA : A
         hD.elt i ^ 128 = 1) := by
     by_cases hc : (LA.all fun x => Code.mul D.O[i]! D.O[x]! ==
         Code.mul D.O[x]! D.O[i]!) = true
-    · rw [if_pos hc]
+    · rw [ite_eq_left hc]
       constructor
       · intro hp _
         exact (hD.codePow_eq_one_iff hi 128).mp (beq_iff_eq.mp hp)
       · intro h
         exact beq_iff_eq.mpr ((hD.codePow_eq_one_iff hi 128).mpr (h (hcen.mp hc)))
-    · rw [if_neg hc]
+    · rw [ite_eq_right hc]
       constructor
       · intro _ hcent
         exact absurd (hcen.mpr hcent) hc
@@ -185,9 +185,9 @@ theorem elt_mem_censusN_of_contains_n0Of {minus : Bool} {D : GrpData} (hD : GrpF
   have hiList : i ∈ (n0Of D LA b ()).toList :=
     Array.mem_toList_iff.mpr (Array.contains_iff_mem.mp hi)
   rw [n0Of] at hiList
-  simp only [List.toList_toArray, List.mem_filter, List.mem_range] at hiList
+  simp only [List.mem_filter, List.mem_range] at hiList
   obtain ⟨hilt, hpred⟩ := hiList
-  simp only [Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq] at hpred
+  simp only [Bool.and_eq_true, beq_iff_eq] at hpred
   obtain ⟨hact, hnor⟩ := hpred
   refine ⟨hilt, ?_⟩
   rw [mem_censusN]
@@ -204,7 +204,7 @@ theorem goodElt_of_censusCond {minus : Bool} {H L : Subgroup (V₀ ≃ₗ[ZMod 2
   have hdvd : orderOf h ∣ Nat.card (O₀ minus) :=
     (Subgroup.orderOf_dvd_natCard _ hsub).trans
       (Subgroup.card_dvd_of_le (inf_le_left.trans hH))
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := h2grp.exists_orderOf_eq_pow
     (⟨h, hsub⟩ : ↥(H ⊓ Subgroup.centralizer (L : Set (V₀ ≃ₗ[ZMod 2] V₀))))
   have hk' : orderOf h = 2 ^ k := (Subgroup.orderOf_coe _).trans hk

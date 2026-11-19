@@ -73,7 +73,7 @@ theorem p0_base_le_Q (hc : Ctx8e t L S x₁ x₂ lam rho tau) :
 
 theorem p0_R_eq (hc : Ctx8e t L S x₁ x₂ lam rho tau) :
     ctxR t tau x₁ x₂ = ctxQ t tau x₁ x₂ rho ⊔ ctxX t tau x₁ x₂ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hrhoM : rho ∈ ctxM t tau x₁ x₂ := (p0_gens_mem_M hc.toCtx10.toCtx4).2.2.2.2.1
   have hRX : (Subgroup.zpowers rho : Subgroup G) ≤
       Subgroup.normalizer ((ctxR t tau x₁ x₂ : Subgroup G) : Set G) := by
@@ -128,9 +128,9 @@ theorem p0_R_eq (hc : Ctx8e t L S x₁ x₂ lam rho tau) :
 theorem p0_phi_Q (hc : Ctx8e t L S x₁ x₂ lam rho tau) :
     fourGrp x₁ x₂ ≤ ctxPhi (ctxQ t tau x₁ x₂ rho) ∧
       ctxPhi (ctxQ t tau x₁ x₂ rho) ≤ ctxX t tau x₁ x₂ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQO : ctxQ t tau x₁ x₂ rho ≤ ctxO t tau x₁ x₂ := (p0_Q_le_R hc).trans hc.R_le_O
-  haveI : Fact (IsPGroup 2 ↥(ctxQ t tau x₁ x₂ rho)) :=
+  have : Fact (IsPGroup 2 ↥(ctxQ t tau x₁ x₂ rho)) :=
     ⟨(p0_isPGroup_O t tau x₁ x₂).to_le hQO⟩
   constructor
   · have hx₁Q : x₁ ∈ ctxQ t tau x₁ x₂ rho :=

@@ -29,16 +29,16 @@ theorem wordVal_invWord {G : Type*} [Group G] (S : List G) :
     · have h2 : ¬ 0 < z := by omega
       have h3 : 0 < -z := by omega
       have e1 : wordVal S [-z] = S.getD ((-z).toNat - 1) 1 := by
-        simp only [wordVal, if_pos h3, mul_one]
+        simp only [wordVal, ite_eq_left h3, mul_one]
       have e2 : wordVal S (z :: w) = (S.getD ((-z).toNat - 1) 1)⁻¹ * wordVal S w := by
-        simp only [wordVal, if_neg h2]
+        simp only [wordVal, ite_eq_right h2]
       rw [e1, e2, mul_inv_rev, inv_inv]
     · have h2 : 0 < z := hpos
       have h3 : ¬ 0 < -z := by omega
       have e1 : wordVal S [-z] = (S.getD (z.toNat - 1) 1)⁻¹ := by
-        simp only [wordVal, if_neg h3, neg_neg, mul_one]
+        simp only [wordVal, ite_eq_right h3, neg_neg, mul_one]
       have e2 : wordVal S (z :: w) = S.getD (z.toNat - 1) 1 * wordVal S w := by
-        simp only [wordVal, if_pos h2]
+        simp only [wordVal, ite_eq_left h2]
       rw [e1, e2, mul_inv_rev]
 
 theorem wordVal_conjWord {G : Type*} [Group G] (S : List G) {g : List ℤ} (hg : ∀ z ∈ g, z ≠ 0)

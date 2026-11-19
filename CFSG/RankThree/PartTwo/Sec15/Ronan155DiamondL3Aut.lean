@@ -256,8 +256,7 @@ theorem false_of_transpose_form [Finite K] [CharP K 2] {G : Subgroup (SpecialLin
             field_simp
           simp only [hq, dotProduct, mulVec, Fin.sum_univ_three]
           simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
-            Matrix.head_cons, Matrix.tail_cons, mul_zero, zero_mul, add_zero, mul_one, one_mul,
-            zero_add]
+            Matrix.head_cons, Matrix.tail_cons, mul_zero, zero_mul, add_zero, mul_one, one_mul]
           rw [hsym 1 0]
           linear_combination hss + (M 1 1 + M 0 1 * s) * h2
         rw [hbot, Submodule.mem_bot] at hv
@@ -480,7 +479,7 @@ theorem eq_of_involution_of_fix [Finite K] [CharP K 2] {f : ℕ} (hK : Nat.card 
   have hστ : σ = τ := RingEquiv.ext fun x => by rw [hσx, hτx]
   subst hστ
   have hσσ : σ * σ = 1 := by
-    haveI := Fintype.ofFinite K
+    have := Fintype.ofFinite K
     apply RingEquiv.ext
     intro x
     rw [RingAut.mul_apply, hσx, hσx, ← pow_mul, ← pow_add, ← two_mul,

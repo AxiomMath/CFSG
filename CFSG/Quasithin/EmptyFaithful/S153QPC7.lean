@@ -73,7 +73,7 @@ theorem actHom_ne_one_of_orderOf_five [Finite G] {J V : Subgroup G}
   obtain ⟨P⟩ : Nonempty (Sylow 5 (↥J ⧸ CFSG.pCore 2 ↥J)) := inferInstance
   have hab : ∀ x ∈ (P : Subgroup (↥J ⧸ CFSG.pCore 2 ↥J)), ∀ y ∈ (P : Subgroup (↥J ⧸ CFSG.pCore 2 ↥J)),
       x * y = y * x := by
-    have hc : IsCyclic (P : Subgroup (↥J ⧸ CFSG.pCore 2 ↥J)) := hcyc _ P.isPGroup'
+    have hc : IsCyclic (P : Subgroup (↥J ⧸ CFSG.pCore 2 ↥J)) := hcyc _ P.isPGroup
     intro x hx y hy
     let _ := IsCyclic.commGroup (α := (P : Subgroup (↥J ⧸ CFSG.pCore 2 ↥J)))
     exact congrArg Subtype.val (mul_comm (⟨x, hx⟩ : (P : Subgroup (↥J ⧸ CFSG.pCore 2 ↥J))) ⟨y, hy⟩)

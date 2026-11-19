@@ -103,7 +103,7 @@ theorem x_not_mem_frattini (hS : Situation G p P M) (hx : Point P M x) {Q : Subg
     (hQ : IsPGroup p Q) : x ∉ (frattini ↥Q).map Q.subtype := by
   classical
   have hprime := hS.prime
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   rintro ⟨q, hqfr, hqx⟩
   obtain ⟨R, hQR⟩ := hQ.exists_le_sylow
   have hxR : x ∈ (R : Subgroup G) := hQR (hqx ▸ q.2)
@@ -126,7 +126,7 @@ theorem x_not_mem_frattini (hS : Situation G p P M) (hx : Point P M x) {Q : Subg
     (Nat.card_congr (subgroupOfEquivOfLe hAR).toEquiv).trans hAc
   have hxp : (⟨x, hxR⟩ : ↥(R : Subgroup G)) ^ p = 1 := Subtype.ext hx.pow_eq_one
   obtain ⟨E, hEC, hEe, hE3⟩ := exists_centralizer_rank_three_of_mem_frattini hS.ne_two
-    R.isPGroup' hxp hxQ hA' hAc'
+    R.isPGroup hxp hxQ hA' hAc'
   have hE : IsElemAbelian p (E.map (R : Subgroup G).subtype) := by
     have h := CFSG.IsElementaryAbelian.map_subtype (p := p) (K := (R : Subgroup G)) (H := E)
     exact ⟨h.toIsMulCommutative, fun y hy => CFSG.elemPow_eq_one_of_isElementaryAbelian y hy⟩

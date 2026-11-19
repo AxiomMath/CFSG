@@ -43,12 +43,12 @@ private theorem s16e_cm_card_of_elem {X : Type*} [Group X] {p n : ℕ}
   have h1 : Nat.card X = Nat.card (Multiplicative (Fin n → ZMod p)) := Nat.card_congr e.toEquiv
   rw [h1, show Nat.card (Multiplicative (Fin n → ZMod p)) = Nat.card (Fin n → ZMod p) from rfl,
     Nat.card_fun]
-  simp [Nat.card_eq_fintype_card, ZMod.card, Fintype.card_fin]
+  simp [Nat.card_eq_fintype_card, Fintype.card_fin]
 
 private theorem s16e_cm_pow_val_add {X : Type*} [Group X] {p : ℕ} (hp : p.Prime) {x : X}
     (hx : x ^ p = 1) (a b : ZMod p) :
     x ^ (a + b).val = x ^ a.val * x ^ b.val := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hmod : (a + b).val ≡ a.val + b.val [MOD p] := by
     rw [ZMod.val_add]
     exact Nat.mod_modEq _ _
@@ -191,7 +191,7 @@ private theorem s16e_cm_triangular_card [Finite W] {L : Subgroup (MulAut W)} {p 
     (Subgroup.closure_le L).mpr (by rintro _ ⟨k, rfl⟩; exact hv k)
   let x : Fin s → ↥(Subgroup.closure (Set.range v)) := fun k =>
     ⟨v k, Subgroup.subset_closure ⟨k, rfl⟩⟩
-  haveI hcomm : IsMulCommutative ↥(Subgroup.closure (Set.range v)) :=
+  have hcomm : IsMulCommutative ↥(Subgroup.closure (Set.range v)) :=
     IsMulCommutative.of_comm fun a b => by
       refine Subtype.ext ?_
       rw [Subgroup.coe_mul, Subgroup.coe_mul]
@@ -283,7 +283,7 @@ private theorem s16e_cm_triangular_card [Finite W] {L : Subgroup (MulAut W)} {p 
           (v k) ^ (d k).val := by simp [x]
       rwa [hcoe] at h1
     have hdvd := s16e_cm_dvd_of_pow_mem_centSub hE hp (hv k) (hmem k) hcent
-    haveI : NeZero p := ⟨hp.ne_zero⟩
+    have : NeZero p := ⟨hp.ne_zero⟩
     have hval0 : (d k).val = 0 := Nat.eq_zero_of_dvd_of_lt hdvd (ZMod.val_lt (d k))
     exact hkmem ((ZMod.val_eq_zero (d k)).mp hval0)
   have hinj : Function.Injective φ := by
@@ -297,7 +297,7 @@ private theorem s16e_cm_triangular_card [Finite W] {L : Subgroup (MulAut W)} {p 
   have hcard : Nat.card (Multiplicative (Fin s → ZMod p)) = p ^ s := by
     rw [show Nat.card (Multiplicative (Fin s → ZMod p)) = Nat.card (Fin s → ZMod p) from rfl,
       Nat.card_fun]
-    simp [Nat.card_eq_fintype_card, ZMod.card, Fintype.card_fin]
+    simp [Nat.card_eq_fintype_card, Fintype.card_fin]
   simpa [hcard] using hle
 
 private theorem s16e_cm_supp_not_singleton [Finite W] {A L : Subgroup (MulAut W)} {p r : ℕ}
@@ -374,8 +374,8 @@ theorem s16e_comm_le_commutator {W : Type} [CommGroup W] [Finite W]
   have hNbot : N = ⊥ := by
     by_contra hne
     have hNntriv : Nontrivial N := (nontrivial_iff_ne_bot N).mpr hne
-    haveI : Nontrivial N := hNntriv
-    haveI : N.Normal := hNnorm
+    have : Nontrivial N := hNntriv
+    have : N.Normal := hNnorm
     have hn5 : 5 ≤ Nat.card (Fin (r + 1)) := by
       simp [Nat.card_eq_fintype_card]
       omega
@@ -424,7 +424,7 @@ theorem s16e_comm_le_commutator {W : Type} [CommGroup W] [Finite W]
     apply hne
     have htinv : t⁻¹ x = x := by
       apply t.injective
-      simpa [hkfix x hx] using (MulEquiv.apply_symm_apply t x)
+      simp [hkfix x hx]
     have hlinv : l⁻¹ x ∈ Δ k := by
       have hmap := hmapL l⁻¹ (L.inv_mem hlL) k
       rw [← hmap]
@@ -509,7 +509,7 @@ theorem s16e_comm_le_commutator {W : Type} [CommGroup W] [Finite W]
     have hu_eq : u m = ⁅(MulAut.conj (g m : MulAut W)) l, (MulAut.conj (g m : MulAut W)) t⁆ := by
       have h1 : u m = (MulAut.conj (g m : MulAut W)).toMonoidHom y := rfl
       rw [h1]
-      simpa [y] using map_commutatorElement (MulAut.conj (g m : MulAut W)).toMonoidHom l t
+      simp [y]
     rw [hu_eq]
     exact hmem
   have hu_mem : ∀ m, Fin.castSucc m ∈ s16e_cm_supp Δ (u m) := fun m => by

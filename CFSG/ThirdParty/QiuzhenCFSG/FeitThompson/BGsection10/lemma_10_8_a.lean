@@ -182,8 +182,8 @@ public theorem CFSG.section10_sylow_narrow_of_not_mem_alpha
     (section8_primeRank_le_of_subgroup (G := M) (P : Subgroup M) p.val).trans hprankM_le
   have hgrankP_le : groupRank (P : Subgroup M) ≤ 2 :=
     section10_groupRank_le_two_of_primeRank_le_two_of_isPGroup_local
-      (R := (P : Subgroup M)) (p := p.val) P.isPGroup' hprankP_le
-  exact ⟨P.isPGroup', Or.inl hgrankP_le⟩
+      (R := (P : Subgroup M)) (p := p.val) P.isPGroup hprankP_le
+  exact ⟨P.isPGroup, Or.inl hgrankP_le⟩
 
 omit [Group G] [Finite G] [IsMinCE G] in
 public theorem CFSG.section10_isNarrowPGroup_of_equiv
@@ -289,7 +289,7 @@ private theorem CFSG.section10_sylow_narrow_of_mem_alpha_not_mem_beta
   have hPGp : IsPGroup p.val PG := by
     change IsPGroup p.val ((P : Subgroup M).map M.subtype)
     simpa using
-      (IsPGroup.map (p := p.val) (H := (P : Subgroup M)) P.isPGroup' M.subtype)
+      (IsPGroup.map (p := p.val) (H := (P : Subgroup M)) P.isPGroup M.subtype)
   obtain ⟨S, hPGS⟩ := IsPGroup.exists_le_sylow (G := G) (p := p.val) hPGp
   have hS_eq_PG : (S : Subgroup G) = PG := by
     simpa [PG] using

@@ -20,10 +20,12 @@ variable {G : Type} [Group G] [Finite G] {L : Subgroup G} {K : Type} [Field K] [
 
 open scoped Pointwise
 
+omit [Finite G] [Finite K] in
 theorem sixH_h8_t_ne_one (h : FullCenter.FCHyp L K n φ t) : t ≠ 1 := by
   intro ht
   exact h.not_conj 1 (by simp [ht])
 
+omit [Finite G] [Finite K] in
 theorem sixH_h8_t_mul_t (h : FullCenter.FCHyp L K n φ t) : t * t = 1 :=
   h.setup.t_mul_t
 
@@ -86,6 +88,7 @@ theorem sixH_h8_one_two (hS : SCSetting L K n φ t i) :
   | one => exact sixH_h8_inf_swap hS
   | two => rw [inf_comm]; exact sixH_h8_inf_swap hS
 
+omit [Finite G] [Finite K] in
 theorem sixH_h8_S_eq : S φ t i = Mhat φ t i i ⊔ Mhat φ t i i.swap := by
   cases i with
   | one => rfl
@@ -98,6 +101,7 @@ theorem sixH_h8_t_mem_normalizer_S (hS : SCSetting L K n φ t i) :
     ⟨SixF.t_mem_normalizer_Mhat hS.fc i hS.ne_bot hS.eq_bot,
       SixF.t_mem_normalizer_Mhat_swap hS.fc i hS.ne_bot hS.eq_bot⟩)
 
+omit [Finite G] [Finite K] in
 theorem sixH_h8_Mhat_swap_le_Tplus (h7 : H7Concl φ t i) : Mhat φ t i i.swap ≤ Tplus φ t i := by
   obtain ⟨-, hX⟩ := h7
   obtain ⟨hXT, -, -⟩ := hX
@@ -224,12 +228,14 @@ theorem sixH_h9_axis_cases (i k : Axis) : k = i ∨ k = i.swap := by
 
 theorem sixH_h9_swap_swap (i : Axis) : i.swap.swap = i := by cases i <;> rfl
 
+omit [Finite G] [Finite K] in
 theorem sixH_h9_U_central (h1 : H1Concl φ t i) {u g : G} (hu : u ∈ U φ i)
     (hg : g ∈ Tplus φ t i) : g * u = u * g := by
   rw [← h1] at hu
   obtain ⟨c, hc, rfl⟩ := Subgroup.mem_map.mp hu
   exact congrArg Subtype.val (Subgroup.mem_center_iff.mp hc ⟨g, hg⟩)
 
+omit [Finite G] in
 theorem sixH_h9_Cu {T N : Subgroup G} (hN : ∀ u ∈ N, ∀ g ∈ T, g * u = u * g) (y : G) :
     ∃ C : Subgroup G, ∀ z, z ∈ C ↔ z ∈ T ∧ z⁻¹ * y⁻¹ * z * y ∈ N := by
   refine ⟨{ carrier := {z | z ∈ T ∧ z⁻¹ * y⁻¹ * z * y ∈ N}
@@ -255,9 +261,10 @@ theorem sixH_h9_Cu {T N : Subgroup G} (hN : ∀ u ∈ N, ∀ g ∈ T, g * u = u 
     rw [e, hc]
     exact inv_mem hz
 
+omit [Finite K] in
 theorem sixH_h9_exists_A_not_Z (h : FullCenter.FCHyp L K n φ t) (k : Axis) :
     ∃ y ∈ A φ k, y ∉ Z₀ φ := by
-  haveI : Nontrivial (U φ k.swap) := by
+  have : Nontrivial (U φ k.swap) := by
     apply Finite.one_lt_card_iff_nontrivial.mp
     rw [FullCenter.FCHyp.card_U (φ := φ) k.swap]
     exact SixG.one_lt_card_K h
@@ -302,6 +309,7 @@ theorem sixH_h9_A_le_normalizer (h : FullCenter.FCHyp L K n φ t) (i : Axis) :
   sixH_h5_le_normalizer_of_conj fun _ hx _ ha =>
     FullCenterWeyl.conj_H_mem_A h i (FullCenterWeyl.A_le_H h _ hx) ha
 
+omit [Finite G] [Finite K] in
 theorem sixH_h9_P_eq (i : Axis) : P φ = A φ i ⊔ A φ i.swap := by
   have h0 : P φ = A φ Axis.one ⊔ A φ Axis.two := FullCenterParabolic.P_eq_A_sup_A
   cases i
@@ -333,12 +341,14 @@ theorem sixH_h9_decomp (hS : SCSetting L K n φ t i) {x : G} (hx : x ∈ Bstar �
   exact ⟨m₀ * f, mul_mem hm₀ (NextCores.F_le_M hS.fc i hS.ne_bot hS.eq_bot hf), a, ha, b, hb,
     by group⟩
 
+omit [Finite G] in
 theorem sixH_h9_comm_mul_right {a b y : G} (hb : b * y = y * b) :
     (a * b)⁻¹ * y⁻¹ * (a * b) * y = b⁻¹ * (a⁻¹ * y⁻¹ * a * y) * b := by
   calc (a * b)⁻¹ * y⁻¹ * (a * b) * y = b⁻¹ * (a⁻¹ * y⁻¹ * a) * (b * y) := by group
     _ = b⁻¹ * (a⁻¹ * y⁻¹ * a) * (y * b) := by rw [hb]
     _ = b⁻¹ * (a⁻¹ * y⁻¹ * a * y) * b := by group
 
+omit [Finite G] in
 theorem sixH_h9_comm_mul_left {a b y : G} (ha : a * y = y * a) :
     (a * b)⁻¹ * y⁻¹ * (a * b) * y = b⁻¹ * y⁻¹ * b * y := by
   have h : a⁻¹ * y⁻¹ * a = y⁻¹ := by
@@ -348,12 +358,14 @@ theorem sixH_h9_comm_mul_left {a b y : G} (ha : a * y = y * a) :
   calc (a * b)⁻¹ * y⁻¹ * (a * b) * y = b⁻¹ * (a⁻¹ * y⁻¹ * a) * b * y := by group
     _ = b⁻¹ * y⁻¹ * b * y := by rw [h]
 
+omit [Finite G] [Finite K] in
 theorem sixH_h9_not_mem_U {c : G} (h₁ : c ∉ U φ Axis.one) (h₂ : c ∉ U φ Axis.two) :
     c ∉ U φ i := by
   cases i
   · exact h₁
   · exact h₂
 
+omit [Finite G] [Finite K] in
 theorem sixH_h9_A_le_Bstar (k : Axis) : A φ k ≤ Bstar φ t i := by
   have hk : Kc φ t k ≤ Kstar φ t := by
     cases k
@@ -429,8 +441,10 @@ theorem sixH_h9 (hS : SCSetting L K n φ t i) (hM2 : ∀ x ∈ Mc φ t i, x * x 
   rw [e, sixH_h9_U_central h1 hc hg, mul_inv_cancel_right]
   exact hc
 
+omit [Finite G] [CharP K 2] [Finite K] in
 theorem sixH_h10_w_mul (k : Axis) : w φ k * w φ k = 1 := FullCenterWeyl.w_mul_self (φ := φ) k
 
+omit [Finite G] [Finite K] in
 theorem sixH_h10_M_conj (h7 : H7Concl φ t i) (h9 : H9Concl φ t i) {g y : G}
     (hg : g ∈ Mhat φ t i i.swap) (hy : y ∈ Mc φ t i) : g * y * g⁻¹ ∈ Mc φ t i := by
   have hgT : g ∈ Tplus φ t i := sixH_h8_Mhat_swap_le_Tplus h7 hg
@@ -438,6 +452,7 @@ theorem sixH_h10_M_conj (h7 : H7Concl φ t i) (h9 : H9Concl φ t i) {g y : G}
     (Subgroup.normal_subgroupOf_iff_le_normalizer h9.1).mp h9.2.1
   exact (Subgroup.mem_normalizer_iff.mp (hN hgT) y).mp hy
 
+omit [Finite K] in
 theorem sixH_h10_Mw_conj (h7 : H7Concl φ t i) (h9 : H9Concl φ t i) {g x : G}
     (hg : g ∈ Mhat φ t i i.swap) (hx : x ∈ Mw φ t i i.swap) :
     g * x * g⁻¹ ∈ Mw φ t i i.swap := by
@@ -534,6 +549,7 @@ theorem sixH_h10_Z_M_le_K (hS : SCSetting L K n φ t i) (h2d : H2dConcl φ t i) 
   exact mul_mem (SixG.U_le_K i i.swap hvU)
     ((FullCenterTorus.W_le_Fi hS.fc i.swap).trans le_sup_right hy)
 
+omit [Finite G] [CharP K 2] [Finite K] in
 theorem sixH_h10_w_conj_conj (k : Axis) (x : G) :
     w φ k * (w φ k * x * (w φ k)⁻¹) * (w φ k)⁻¹ = x := by
   have e : w φ k * (w φ k * x * (w φ k)⁻¹) * (w φ k)⁻¹ =
@@ -541,6 +557,7 @@ theorem sixH_h10_w_conj_conj (k : Axis) (x : G) :
   rw [e, sixH_h10_w_mul k]
   simp
 
+omit [Finite K] in
 theorem sixH_h10_conj_central {z : G} (hz : ∀ g ∈ Mhat φ t i i.swap, z * g = g * z) :
     ∀ g ∈ Mhat φ t i i.swap, (w φ i.swap * z * (w φ i.swap)⁻¹) * g =
       g * (w φ i.swap * z * (w φ i.swap)⁻¹) := by
@@ -607,6 +624,7 @@ theorem sixH_h10_center (hS : SCSetting L K n φ t i) (h1 : H1Concl φ t i)
     refine ⟨⟨z, sixH_h7_Kj_le hS hz⟩, Subgroup.mem_center_iff.mpr fun g => ?_, rfl⟩
     exact Subtype.ext (h6 z hz g g.2).symm
 
+omit [Finite G] [Finite K] in
 theorem sixH_h10_sq_conj {g : G} (hg : g ∈ normalizer ((Mhat φ t i i.swap : Subgroup G) : Set G))
     {x : G} (hx : x ∈ closure {x : G | ∃ y ∈ Mhat φ t i i.swap, x = y * y}) :
     g * x * g⁻¹ ∈ closure {x : G | ∃ y ∈ Mhat φ t i i.swap, x = y * y} := by

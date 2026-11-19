@@ -69,6 +69,7 @@ section Conjugates
 variable {G : Type} [Group G] [Finite G] {M : Subgroup G} {p : ℕ} {Q H : Subgroup G} {d : ℕ}
   {L₁ L₂ L₃ : Subgroup G} {n₁ n₂ n₃ : ℕ}
 
+omit [Finite G] in
 private theorem W_le_dV (D : TwelveSixIData H L₁ L₂ L₃ n₁ n₂ n₃) :
     D.W₁ ≤ D.V ∧ D.W₂ ≤ D.V ∧ D.W₃ ≤ D.V := by
   refine ⟨?_, ?_, ?_⟩
@@ -76,6 +77,7 @@ private theorem W_le_dV (D : TwelveSixIData H L₁ L₂ L₃ n₁ n₂ n₃) :
   · rw [D.cfg.join]; exact le_sup_right.trans le_sup_left
   · rw [D.cfg.join]; exact le_sup_right
 
+omit [Finite G] in
 private theorem W_le_blocks (D : TwelveSixIData H L₁ L₂ L₃ n₁ n₂ n₃) :
     D.W₁ ≤ L₁ ∧ D.W₂ ≤ L₂ ∧ D.W₃ ≤ L₃ :=
   ⟨D.le₁.trans (D.le_inf₁.trans inf_le_right),
@@ -166,6 +168,7 @@ private theorem W₃_map_conj_mem_other
       (by simp) hW2L2 (hW2dV.trans hVU) D.cfg.card₂
   · exact absurd h hne
 
+omit [Finite G] in
 private theorem conj_mul_eq_comp (u : G) :
     (MulAut.conj (u * u)).toMonoidHom =
       (MulAut.conj u).toMonoidHom.comp (MulAut.conj u).toMonoidHom := by

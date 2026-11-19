@@ -15,6 +15,7 @@ section Rotation
 
 variable {ι : Type*} [Fintype ι] [DecidableEq ι]
 
+omit [Fintype ι] in
 theorem rotMatrix_map_ringHom {R S : Type*} [CommRing R] [CommRing S] (φ : R →+* S) (i j : ι) :
     (rotMatrix (K := R) i j).map φ = rotMatrix (K := S) i j := by
   ext a b
@@ -74,7 +75,7 @@ theorem mul_mem_scalars_ne {g h z : SpecialLinearGroup (Fin n) K} {a b : Fin n} 
     (k : Matrix (Fin n) (Fin n) K) *ᵥ Pi.single a 1) he) b
   simp only [Matrix.SpecialLinearGroup.coe_mul, hc, ← mulVec_mulVec, scalar_mulVec_eq_smul,
     mulVec_smul, hg, hh] at h1
-  simp [Pi.single_apply, hab, hab.symm] at h1
+  simp [hab.symm] at h1
 
 theorem slRot_proj_pair (hn : 4 ≤ n) :
     proj n K (slRot ⟨0, by omega⟩ ⟨1, by omega⟩) ≠ 1 ∧
@@ -138,7 +139,7 @@ end PSL
 
 theorem outerFixedAt_A (r : ℕ) (q : PrimePower) (hv : (LieTypeIndex.A r q).Valid) (hr : 3 ≤ r)
     (hcop : ¬ 3 ∣ Nat.gcd (r + 1) (q.card - 1)) : OuterFixedAt ⟨.A r q, hv⟩ := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   refine outerFixedAt_of_model fun K _ _ e => ?_
   have hF : Nat.card (GaloisField q.p q.exponent) = q.card := by
     rw [PrimePower.card_def]

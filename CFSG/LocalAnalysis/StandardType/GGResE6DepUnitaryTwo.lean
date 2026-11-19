@@ -86,8 +86,8 @@ theorem original_unitSix_card720
       (fun R _ I _ => GGTorusReflGenW 3 4 R I) := by
     intro Q hQ
     obtain ⟨K, hKfield, hKfinite, hK, hQ'⟩ := hQ
-    letI : Field K := hKfield
-    letI : Finite K := hKfinite
+    let : Field K := hKfield
+    let : Finite K := hKfinite
     exact ⟨K, hKfield, hKfinite, hK,
       ⟨hQ', ggTorusReflGenW_unitSixThree (n := 1) (K := K) (by simpa using hK) le_rfl
         (by norm_num)⟩⟩

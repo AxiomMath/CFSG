@@ -14,6 +14,7 @@ open scoped Bracket
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem glueB_conj_mem {W : Subgroup G} {x : G}
     (hx : x ∈ Subgroup.normalizer (W : Set G)) {w : G} (hw : w ∈ W) : x * w * x⁻¹ ∈ W :=
   (Subgroup.mem_normalizer_iff.mp hx w).mp hw
@@ -45,11 +46,13 @@ private def glueB_commSub (U : Subgroup G) {V X : Subgroup G}
     rw [e]
     exact glueB_conj_mem (hXV (X.inv_mem hxX)) (V.inv_mem (hxU u hu))
 
+omit [Finite G] in
 private theorem glueB_mem_commSub (U : Subgroup G) {V X : Subgroup G}
     (hXV : X ≤ Subgroup.normalizer (V : Set G)) {x : G} :
     x ∈ glueB_commSub U hXV ↔ x ∈ X ∧ ∀ u ∈ U, x * u * x⁻¹ * u⁻¹ ∈ V :=
   Iff.rfl
 
+omit [Finite G] in
 theorem commutator_le_of_closure {U V X : Subgroup G} {a : G}
     (hXU : X ≤ Subgroup.normalizer (U : Set G)) (hXV : X ≤ Subgroup.normalizer (V : Set G))
     (haX : a ∈ X) (ha : ∀ u ∈ U, a * u * a⁻¹ * u⁻¹ ∈ V)

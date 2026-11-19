@@ -23,6 +23,7 @@ theorem mem_normalizer_of_cjL_eq {g : G} {A : Subgroup G} (h : cjL g A = A) :
   have : g * x * g⁻¹ ∈ cjL g A := mem_cjL_self hx
   rwa [h] at this
 
+omit [Finite G] in
 theorem cjL_eq_of_comm {g : G} {A : Subgroup G} (h : ∀ a ∈ A, g * a = a * g) : cjL g A = A := by
   ext x
   rw [mem_cjL]
@@ -57,6 +58,7 @@ theorem Cfg2.XX_cent_z (c : Cfg2 G p f z S K₁ K₂ t u H w₁ X₁) :
   exact Subgroup.mem_centralizer_singleton_iff.mp (h1 ha)
 
 
+omit [Finite G] in
 theorem mem_zpowers_of_sq_eq_one {t x : G} (ht : t * t = 1) (hx : x ∈ zpowers t) : x = 1 ∨ x = t := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hx
   have h2 : t ^ (2 : ℤ) = 1 := by rw [zpow_two]; exact ht
@@ -66,6 +68,7 @@ theorem mem_zpowers_of_sq_eq_one {t x : G} (ht : t * t = 1) (hx : x ∈ zpowers 
   · right
     rw [zpow_add_one, zpow_mul, h2, one_zpow, one_mul]
 
+omit [Finite G] in
 theorem cjL_vinv_of_HInv (hv2 : v * v ∈ H) {A : Subgroup G} (hA : HInv H A) :
     cjL v⁻¹ A = cjL v A := by
   calc cjL v⁻¹ A = cjL v⁻¹ (cjL (v * v) A) := by rw [hA _ hv2]
@@ -236,6 +239,7 @@ theorem Cfg4.t_X3 (c : Cfg4 G p f z S K₁ K₂ t u H w₁ X₁ Y v) :
     rw [hcjt, hv3, h1]
 
 
+omit [Finite G] in
 theorem commute_sup_left {A B C : Subgroup G} (hAC : ∀ a ∈ A, ∀ c ∈ C, a * c = c * a)
     (hBC : ∀ b ∈ B, ∀ c ∈ C, b * c = c * b) : ∀ x ∈ A ⊔ B, ∀ c ∈ C, x * c = c * x := by
   intro x hx c hc
@@ -244,6 +248,7 @@ theorem commute_sup_left {A B C : Subgroup G} (hAC : ∀ a ∈ A, ∀ c ∈ C, a
       (fun b hb => Subgroup.mem_centralizer_iff.mpr fun c' hc' => (hBC b hb c' hc').symm)
   exact (Subgroup.mem_centralizer_iff.mp (h hx) c hc).symm
 
+omit [Finite G] in
 theorem commute_sup {A B : Subgroup G} (hA : ∀ a ∈ A, ∀ a' ∈ A, a * a' = a' * a)
     (hB : ∀ b ∈ B, ∀ b' ∈ B, b * b' = b' * b) (hAB : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a) :
     ∀ x ∈ A ⊔ B, ∀ y ∈ A ⊔ B, x * y = y * x := by
@@ -262,6 +267,7 @@ theorem commute_sup {A B : Subgroup G} (hA : ∀ a ∈ A, ∀ a' ∈ A, a * a' =
     _ = a' * (b' * a) * b := by rw [e3.eq]
     _ = a' * b' * (a * b) := by group
 
+omit [Finite G] in
 theorem sup_pow_eq_one {A B : Subgroup G} (hAB : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a) {n : ℕ}
     (hA : ∀ a ∈ A, a ^ n = 1) (hB : ∀ b ∈ B, b ^ n = 1) : ∀ x ∈ A ⊔ B, x ^ n = 1 := by
   intro x hx
@@ -269,11 +275,13 @@ theorem sup_pow_eq_one {A B : Subgroup G} (hAB : ∀ a ∈ A, ∀ b ∈ B, a * b
   rw [(Commute.mul_pow (hAB a ha b hb) n), hA a ha, hB b hb, one_mul]
 
 
+omit [Finite G] in
 theorem pow_five_of_card {X : Subgroup G} (hX : Nat.card ↥X = 5) {x : G} (hx : x ∈ X) : x ^ 5 = 1 := by
   have := pow_card_eq_one' (G := ↥X) (x := ⟨x, hx⟩)
   rw [hX] at this
   simpa using congrArg Subtype.val this
 
+omit [Finite G] in
 theorem cjL_eq_of_mem_normalizer {g : G} {A : Subgroup G} (hg : g ∈ normalizer (A : Set G)) :
     cjL g A = A := by
   ext x

@@ -26,7 +26,7 @@ theorem hL3_of_blocks
     ∀ L : Subgroup G, L ∈ weakBlockSet M H →
       ∃ n : ℕ, Odd n ∧ IsL3TwoPow n (↥L ⧸ pCore 2 ↥L) := by
   intro L hL
-  haveI : IsSimpleGroup G := h.cstar.simple
+  have : IsSimpleGroup G := h.cstar.simple
   have hphase : CFSG.AGLEmbedding.TwoLocalPhaseThree M H := h.twoLocalPhaseThree
   have hMtop : M ≠ ⊤ :=
     CFSG.RankThreeCoreUniqueness.Helpers.twoLocal_ne_top h.cstar.nonab M h.maxLocal.1
@@ -54,7 +54,7 @@ theorem hL3_of_blocks
       hK hA hLw hX hS hno
   have hZ : Subgroup.center ↥(CFSG.AGLEmbedding.barM M L) = ⊥ :=
     center_barM_eq_bot_of_psl_three_odd hLw.toIsTwoPrimeComponent hf hm
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e₁⟩ := CFSG.Adapters.RankTwoModelTransports.nonempty_mulEquiv_psl_galoisField
     (↥(CFSG.AGLEmbedding.barM M L) ⧸
       Subgroup.center ↥(CFSG.AGLEmbedding.barM M L)) 3 2 f hm

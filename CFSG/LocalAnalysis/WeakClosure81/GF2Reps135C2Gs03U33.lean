@@ -15,7 +15,7 @@ theorem gs03AlphaU33_holds :
     GS03AlphaU33 := by
   classical
   intro G _ _ S hS hC hlie x hx
-  haveI : S.Normal := hS
+  have : S.Normal := hS
   obtain ⟨e⟩ := U33.equiv_of_lieModel hlie
   obtain ⟨M, hP, hA⟩ := U33.autModel e
   have hcert : u33GenCheck () = true := Certificates.certificate1037402
@@ -34,7 +34,7 @@ theorem gs03AlphaU33_holds :
       exact h'
     have hord : orderOf g = 2 := orderOf_eq_prime (by rwa [pow_two]) hgne
     obtain ⟨r, hr, hconj⟩ := U33.invol_A g hgA hord
-    simp only [conjSet, Set.mem_setOf_eq] at hconj
+    simp only [conjSet, Set.mem_ofPred_eq] at hconj
     obtain ⟨h, hh, hgh⟩ := hconj
     refine ⟨r, ?_, h, ?_, hgh⟩
     · rw [h1']; exact hr

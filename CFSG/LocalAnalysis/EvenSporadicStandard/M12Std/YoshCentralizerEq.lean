@@ -15,8 +15,8 @@ theorem card_inf_eq_two_pow_of_normalizes {G : Type*} [Group G] [Finite G] (H S 
     Nat.card (H ⊓ S : Subgroup G) = 2 ^ (Nat.card H).factorization 2 := by
   have hn : S ≤ normalizer (H : Set G) := le_normalizer_iff.2 hSH
   have hrel : H.relIndex (S ⊔ H) = H.relIndex S := by
-    haveI := normal_subgroupOf_of_le_normalizer hn
-    haveI := normal_subgroupOf_sup_of_le_normalizer hn
+    have := normal_subgroupOf_of_le_normalizer hn
+    have := normal_subgroupOf_sup_of_le_normalizer hn
     exact Nat.card_congr
       (QuotientGroup.quotientInfEquivProdNormalizerQuotient S H hn).toEquiv.symm
   have hM : H.relIndex S * Nat.card H = Nat.card (S ⊔ H : Subgroup G) := by

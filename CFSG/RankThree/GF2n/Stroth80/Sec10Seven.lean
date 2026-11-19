@@ -19,6 +19,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   ∀ (G : Type) [Group G] [Finite G] (M Q Z B : Subgroup G) (hc : Ctx M Q Z B) (n : ℕ) (t : G),
     Sec10Hyp hc n → Good103 M Q Z B t → ¬ SLMNat hc t 2
 
+omit [Finite G] in
 private theorem exists_minimal_degree {hc : Ctx M Q Z B} {n : ℕ} (H : Sec10Hyp hc n)
     (hge3 : ∀ s : G, Good101 M Q Z B s → ¬ SLMNat hc s 2)
     (hex : ∃ t : G, Good101 M Q Z B t) :

@@ -99,7 +99,7 @@ theorem ya550712_pic : ∀ x < 64,
   decide +kernel
 
 theorem ya550712_piA (x : ℕ) (hx : x < 64) : (arrL 64 sPi)[x]! = sPi.getD x 0 := by
-  rw [arrL_get hx, if_pos hx]
+  rw [arrL_get hx, ite_eq_left hx]
 
 theorem ya550712_tabS : autOK (enumN ()) (gN ()) (sigmaA ()) (tabS ()) = true ∧
     ∀ t < 10752, (tabS ())[t]! = compA (compA (arrL 64 sPi) (arrN (recX RN 14 t))) (arrL 64 sPi) := by
@@ -107,18 +107,16 @@ theorem ya550712_tabS : autOK (enumN ()) (gN ()) (sigmaA ()) (tabS ()) = true �
   have hgs := ya550831_gens
   refine autOK_of_conj (T := fun t => arrN (recX RN 14 t)) (PA := recF RN 14 0)
     (PB := recF RN 14 1) (POS := recPOS RN 14 2) enumN_repF.1 (by norm_num)
-    (by beta_reduce; rw [enumN_repF.2.2.1, arrN_one]) ?_ ?_ (fun t _ => arrN_size _)
+    (by rw [enumN_repF.2.2.1, arrN_one]) ?_ ?_ (fun t _ => arrN_size _)
     (fun t _ x hx => arrN_lt _ hx) (by simp [gN, wordsA, nWords])
     (fun j hj x hx => by rw [hgs j hj]; exact arrN_lt _ hx) ?_ ?_
   · intro i hi
     obtain ⟨b1, b2, b3⟩ := enumN_repF.2.2.2.1 i hi
     refine ⟨b1, b2, ?_⟩
-    beta_reduce
     rw [b3, hgs _ b2, arrN_mul]
   · intro i hi
     obtain ⟨s1, s2⟩ := ya550831_step i hi
     refine ⟨s1, ?_⟩
-    beta_reduce
     rw [s2, hgs _ (Nat.mod_lt _ (by norm_num)), arrN_mul]
   · intro x hx
     obtain ⟨p1, p2⟩ := ya550712_pi x hx

@@ -83,7 +83,7 @@ private theorem exists_ne_fixed_of_isPGroup_two {T V : Type*} [Group T] [MulActi
 
 
 theorem tor_uni_frame {p n d : ℕ} {F : Type} [Field F] [Finite F] [CharP F 2] (hp : p.Prime)
-    (hp2 : p ≠ 2) (hF : Nat.card F = (2 ^ n) ^ 2) (hn : 1 ≤ n) (hpq : p ∣ 2 ^ n + 1)
+    (_hp2 : p ≠ 2) (hF : Nat.card F = (2 ^ n) ^ 2) (hn : 1 ≤ n) (hpq : p ∣ 2 ^ n + 1)
     {G : Subgroup (GL (Fin d) F)} (hZG : LargeEvenScalars (Fin d) F ≤ G) (htor : MToral p d F G)
     (hGU : ∀ A ∈ G, A ∈ LargeEvenGUSet (Fin d) F (2 ^ n)) :
     ∃ P : GL (Fin d) F, P ∈ LargeEvenGUSet (Fin d) F (2 ^ n) ∧ MDiagAt d F P G := by
@@ -154,7 +154,7 @@ theorem tor_uni_frame {p n d : ℕ} {F : Type} [Field F] [Finite F] [CharP F 2] 
     refine ⟨Matrix.diag ((P : GL (Fin d) F)⁻¹ * (A : Matrix (Fin d) (Fin d) F) *
       (P : GL (Fin d) F)), ?_⟩
     rw [Matrix.IsDiag.diagonal_diag hdiagA]
-    simp only [Units.val_mul, Units.val_inv_eq_inv_val, inv_inv]
+    simp only [Units.val_mul, inv_inv]
 
 theorem uni_isotropic_inv {n d : ℕ} {F : Type} [Field F] [Finite F] [CharP F 2]
     (hF : Nat.card F = (2 ^ n) ^ 2) (hn : 1 ≤ n) {T : Subgroup (GL (Fin d) F)}
@@ -172,7 +172,7 @@ theorem uni_isotropic_inv {n d : ℕ} {F : Type} [Field F] [Finite F] [CharP F 2
     apply hT1
     refine (Subgroup.eq_bot_iff_forall T).mpr fun x _ => ?_
     exact Units.ext (Subsingleton.elim _ _)
-  · letI : MulAction T (Fin d → F) :=
+  · let : MulAction T (Fin d → F) :=
       { smul := fun t v => ((t : GL (Fin d) F) : Matrix (Fin d) (Fin d) F) *ᵥ v
         one_smul := fun v => by
           show (((1 : T) : GL (Fin d) F) : Matrix (Fin d) (Fin d) F) *ᵥ v = v
@@ -253,7 +253,7 @@ theorem uni_isotropic_inv {n d : ℕ} {F : Type} [Field F] [Finite F] [CharP F 2
       have hbot : W ⊓ Wp = ⊥ := by simpa [R] using hRbot
       have hWpbot : Wp = ⊥ := by
         by_contra hWpne
-        letI : MulAction T Wp :=
+        let : MulAction T Wp :=
           { smul := fun t v => ⟨((t : GL (Fin d) F) : Matrix (Fin d) (Fin d) F) *ᵥ v.1,
               hWp_invT t t.2 v.1 v.2⟩
             one_smul := fun v => by
@@ -370,7 +370,7 @@ private noncomputable abbrev hfOrth {n d : ℕ} {F : Type} [Field F] (hUF : Unit
 private theorem finrank_hfOrth_add {n d : ℕ} {F : Type} [Field F] [Finite F]
     (hUF : UnitaryFieldData 2 n F) (R : Submodule F (Fin d → F)) :
     Module.finrank F R + Module.finrank F (hfOrth hUF R) = d := by
-  haveI : FiniteDimensional F (Fin d → F) := inferInstance
+  have : FiniteDimensional F (Fin d → F) := inferInstance
   have hσ : Function.Surjective hUF.bar := fun x => ⟨hUF.bar x, hUF.bar_bar x⟩
   have hB : (gramForm hUF 1).SeparatingLeft :=
     CFSG.ClassicalGroups.UnitaryFlag.gramForm_separatingLeft hUF
@@ -400,7 +400,7 @@ private theorem finrank_le_three_of_isotropic {n : ℕ} {F : Type} [Field F] [Fi
     Module.finrank F R ≤ 3 := by
   have h1 := finrank_hfOrth_add (d := 6) hUF R
   have h2 : R ≤ hfOrth hUF R := le_hfOrth_of_isotropic hUF hRiso
-  haveI : FiniteDimensional F (hfOrth hUF R) :=
+  have : FiniteDimensional F (hfOrth hUF R) :=
     FiniteDimensional.of_injective (Submodule.subtype _) Subtype.coe_injective
   have h3 : Module.finrank F R ≤ Module.finrank F (hfOrth hUF R) :=
     Submodule.finrank_mono h2
@@ -410,7 +410,7 @@ private theorem eq_hfOrth_of_isotropic_finrank_eq {n : ℕ} {F : Type} [Field F]
     (hUF : UnitaryFieldData 2 n F) {R : Submodule F (Fin 6 → F)}
     (hRiso : ∀ u ∈ R, ∀ v ∈ R, ∑ i, (u i) ^ (2 ^ n) * v i = 0)
     (hr : Module.finrank F R = 3) : hfOrth hUF R = R := by
-  haveI : FiniteDimensional F (hfOrth hUF R) :=
+  have : FiniteDimensional F (hfOrth hUF R) :=
     FiniteDimensional.of_injective (Submodule.subtype _) Subtype.coe_injective
   have h2 : R ≤ hfOrth hUF R := le_hfOrth_of_isotropic hUF hRiso
   have h1 := finrank_hfOrth_add (d := 6) hUF R
@@ -495,7 +495,7 @@ private theorem lam_cube_eq {F : Type} [Field F]
 private lemma pow_sub_smul_mem {F : Type} [Field F] {R : Submodule F (Fin 6 → F)}
     {A : GL (Fin 6) F} {ν : F}
     (hAR : ∀ x, (A : Matrix (Fin 6) (Fin 6) F) *ᵥ x - ν • x ∈ R)
-    (hR : ∀ x ∈ R, (A : Matrix (Fin 6) (Fin 6) F) *ᵥ x ∈ R) (k : ℕ) (x : Fin 6 → F) :
+    (_hR : ∀ x ∈ R, (A : Matrix (Fin 6) (Fin 6) F) *ᵥ x ∈ R) (k : ℕ) (x : Fin 6 → F) :
     ((A : Matrix (Fin 6) (Fin 6) F) ^ k) *ᵥ x - ν ^ k • x ∈ R := by
   induction k with
   | zero => rw [pow_zero, pow_zero, Matrix.one_mulVec, one_smul, sub_self]; exact R.zero_mem
@@ -532,7 +532,7 @@ private theorem nu_cube_eq {F : Type} [Field F] {R : Submodule F (Fin 6 → F)}
   exact (sub_eq_zero.mp hzero).symm
 
 private theorem nu_eq_lam {n : ℕ} {F : Type} [Field F] [Finite F]
-    (hUF : UnitaryFieldData 2 n F) (hn : 1 ≤ n) (hpq : 3 ∣ 2 ^ n + 1)
+    (hUF : UnitaryFieldData 2 n F) (_hn : 1 ≤ n) (hpq : 3 ∣ 2 ^ n + 1)
     {μ lam ν : F} (hμ0 : μ ≠ 0) (hμq : μ ^ (2 ^ n) = μ) (hlam0 : lam ≠ 0)
     (hν : ν = μ / lam ^ (2 ^ n)) (hcube : ν ^ 3 = lam ^ 3) : ν = lam := by
   have hν0 : ν ≠ 0 := by rw [hν]; exact div_ne_zero hμ0 (pow_ne_zero _ hlam0)
@@ -714,8 +714,7 @@ private noncomputable def restrictHom {d : ℕ} {F : Type} [Field F]
     intro v
     apply Subtype.ext
     rw [restrictEquiv_apply]
-    simp only [Subgroup.coe_one, Units.val_one, Matrix.one_mulVec, LinearEquiv.coe_one,
-      LinearMap.id_apply]
+    simp only [Subgroup.coe_one, Units.val_one, Matrix.one_mulVec, LinearEquiv.coe_one]
     rfl
   map_mul' A B := by
     apply LinearEquiv.ext
@@ -771,9 +770,9 @@ private theorem restrictDet_scalar {d : ℕ} {F : Type} [Field F]
       ⟨Matrix.GeneralLinearGroup.scalar (Fin d) c, hZG (scalar_mem_LES c)⟩) =
       c ^ Module.finrank F R
   have hmem : Matrix.GeneralLinearGroup.scalar (Fin d) c ∈ G := hZG (scalar_mem_LES c)
-  haveI : Module.Finite F R :=
+  have : Module.Finite F R :=
     FiniteDimensional.of_injective (Submodule.subtype R) Subtype.coe_injective
-  haveI : Module.Free F R := Module.Free.of_basis (Module.finBasis F R)
+  have : Module.Free F R := Module.Free.of_basis (Module.finBasis F R)
   change LinearEquiv.det
     (restrictEquiv R (Matrix.GeneralLinearGroup.scalar (Fin d) c)
       (hRG (Matrix.GeneralLinearGroup.scalar (Fin d) c) hmem)
@@ -823,9 +822,6 @@ private lemma rankThreeHom_scalar {F : Type} [Field F] [Finite F] [CharP F 2]
           (hRG ((Matrix.GeneralLinearGroup.scalar (Fin 6) c))⁻¹ (G.inv_mem hmem))))) =
     Matrix.scalar (Fin 3) (c : F)
   rw [restrictEquiv_scalar]
-  change (LinearMap.toMatrixAlgEquiv e)
-    (↑((LinearMap.GeneralLinearGroup.generalLinearEquiv F R).symm
-      (c • (1 : R ≃ₗ[F] R)))) = Matrix.scalar (Fin 3) (c : F)
   rw [show (LinearMap.GeneralLinearGroup.generalLinearEquiv F R).symm (c • (1 : R ≃ₗ[F] R)) =
       LinearMap.GeneralLinearGroup.ofLinearEquiv (c • (1 : R ≃ₗ[F] R)) from rfl]
   change (LinearMap.toMatrixAlgEquiv e) ((c : F) • (1 : Module.End F R)) =
@@ -895,7 +891,7 @@ private theorem rankThreeHom_mem_scalars_iff {n : ℕ} {F : Type} [Field F] [Fin
 
 private theorem rankThreeHom_injective {n : ℕ} {F : Type} [Field F] [Finite F] [CharP F 2]
     (hUF : UnitaryFieldData 2 n F) (hn : 1 ≤ n) (hpq : 3 ∣ 2 ^ n + 1)
-    {G : Subgroup (GL (Fin 6) F)} (hZG : LargeEvenScalars (Fin 6) F ≤ G)
+    {G : Subgroup (GL (Fin 6) F)} (_hZG : LargeEvenScalars (Fin 6) F ≤ G)
     (hGU : ∀ A ∈ G, A ∈ LargeEvenGUSet (Fin 6) F (2 ^ n)) (hel : MElemMod 3 6 F G)
     {R : Submodule F (Fin 6 → F)} (hR0 : R ≠ ⊥)
     (hRG : ∀ A ∈ G, ∀ v ∈ R, (A : Matrix (Fin 6) (Fin 6) F) *ᵥ v ∈ R)
@@ -931,7 +927,7 @@ private theorem uni_survivor_false_of_rank_three {n : ℕ} {F : Type} [Field F] 
     (hUF : UnitaryFieldData 2 n F) (hr3 : Module.finrank F R = 3) : False := by
   classical
   have hRperp : hfOrth hUF R = R := eq_hfOrth_of_isotropic_finrank_eq hUF hRiso hr3
-  haveI : Module.Finite F R :=
+  have : Module.Finite F R :=
     FiniteDimensional.of_injective (Submodule.subtype R) Subtype.coe_injective
   let e : Module.Basis (Fin 3) F R := Module.finBasisOfFinrankEq F R hr3
   let f := rankThreeHom R G hRG e
@@ -996,7 +992,7 @@ theorem uni_survivor {n : ℕ} {F : Type} [Field F] [Finite F] [CharP F 2]
     MToral 3 6 F G := by
   classical
   have hUF : UnitaryFieldData 2 n F := unitaryFieldData_two_of_card hF hn
-  haveI : Module.Finite F R :=
+  have : Module.Finite F R :=
     FiniteDimensional.of_injective (Submodule.subtype R) Subtype.coe_injective
   have hle3 : Module.finrank F R ≤ 3 := finrank_le_three_of_isotropic hUF hRiso
   have hrpos : 0 < Module.finrank F R := by

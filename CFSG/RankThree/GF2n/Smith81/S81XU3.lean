@@ -33,7 +33,7 @@ theorem e3uRootElt_of_inputs
     exact ⟨hR.toCfg, t', hD, Or.inl ⟨h.1, h.2.1, Or.inl h.2.2⟩⟩
   have hTacit := eTacitE3U_of_genByB hGen
   obtain ⟨ω, hω⟩ := hσ.trace_surj 1 (map_one (unitaryInvolution F 2 f))
-  haveI hK2 : CharP K 2 :=
+  have hK2 : CharP K 2 :=
     RingHom.charP ((Subfield.subtype (Fσ (unitaryInvolution F 2 f))).comp e.toRingHom)
       (fun x y h => e.injective (Subtype.ext h)) 2
   obtain ⟨lam, hlam, hform⟩ := hformU_K e hσ (hform_U (u6InvariantFormStatement_holds F f hF)

@@ -293,7 +293,7 @@ private theorem k891a94contra_pRank_quotient_le_one {K : Type} [Group K] [Finite
     rw [(CFSG.SectionRank.pRank_sylow S).1]
     exact h1
   have hScyc : IsCyclic ↥(S : Subgroup K) := by
-    refine CFSG.isCyclic_of_pRank_le_one hp hp2 S.isPGroup' ?_
+    refine CFSG.isCyclic_of_pRank_le_one hp hp2 S.isPGroup ?_
     rw [← CFSG.SectionRank.pRank_eq_pRank_top_subgroup (S : Subgroup K)]
     exact hS1
   have hTcyc : IsCyclic ↥((S : Subgroup K).map (QuotientGroup.mk' Z)) :=

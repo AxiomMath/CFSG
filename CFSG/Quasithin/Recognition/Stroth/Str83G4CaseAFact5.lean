@@ -69,7 +69,7 @@ private theorem caseA_not_commute_base
     apply htQ
     rw [← hCZ]
     exact Subgroup.mem_inf.mpr ⟨htS, htC⟩
-  obtain ⟨y', hy'Z2, hy'notCent⟩ := SetLike.not_le_iff_exists.mp hnotle
+  obtain ⟨y', hy'Z2, hy'notCent⟩ := IsConcreteLE.not_le_iff_exists.mp hnotle
   have hnotcomm : ¬ Commute t y' := by
     intro hc
     apply hy'notCent
@@ -130,7 +130,7 @@ private theorem caseA_not_commute_of_adj
       simpa [x, gG] using (mem_conjSub.mp h)
     have hxord : orderOf x = orderOf z := by
       have hxeq : x = MulAut.conj gG⁻¹ z := by
-        simp [x, gG, MulAut.conj_apply, mul_assoc]
+        simp [x, gG, mul_assoc]
       rw [hxeq]
       exact MulEquiv.orderOf_eq (MulAut.conj gG⁻¹) z
     have h2x : ∃ k, orderOf x = 2 ^ k := by
@@ -173,7 +173,7 @@ theorem caseA_boundAt_four
   · exact hb3 β δ hβ h3
   · have hd4 : CosetGeom.dist β δ = 4 := by omega
     by_contra hnot
-    obtain ⟨z, hzZ, hzQ⟩ := SetLike.not_le_iff_exists.mp hnot
+    obtain ⟨z, hzZ, hzQ⟩ := IsConcreteLE.not_le_iff_exists.mp hnot
     obtain ⟨α₁, hadj₁, hd₁⟩ :=
       CosetGeom.exists_adj_dist_eq (α := β) (δ := δ) (d := 3) rfl (by omega)
     obtain ⟨β₂, hadj₂, hd₂⟩ :=

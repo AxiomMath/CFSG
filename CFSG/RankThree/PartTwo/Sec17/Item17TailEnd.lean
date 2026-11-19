@@ -107,7 +107,7 @@ theorem commute_of_isThreeCentralIn (h415 : Sec4.Item4_15) {L : Subgroup G}
     refine ⟨⟨⟨⟨d, hdL⟩, hdT⟩, 1, fun h => hd1 ?_⟩⟩
     have := congrArg (fun x : (T : Subgroup ↥L) => ((x : ↥L) : G)) h
     simpa using this
-  have hZnt : Nontrivial (Subgroup.center (T : Subgroup ↥L)) := T.isPGroup'.center_nontrivial
+  have hZnt : Nontrivial (Subgroup.center (T : Subgroup ↥L)) := T.isPGroup.center_nontrivial
   obtain ⟨z, hz1⟩ := exists_ne (1 : Subgroup.center (T : Subgroup ↥L))
   set z₀ : G := (((z : (T : Subgroup ↥L)) : ↥L) : G) with hz₀
   have hz₀L : z₀ ∈ L := ((z : (T : Subgroup ↥L)) : ↥L).2
@@ -119,7 +119,7 @@ theorem commute_of_isThreeCentralIn (h415 : Sec4.Item4_15) {L : Subgroup G}
     intro t ht
     have := Subgroup.mem_center_iff.mp z.2 ⟨t, ht⟩
     exact congrArg (fun x : (T : Subgroup ↥L) => ((x : ↥L) : G)) this
-  have hE : IsPGroup 3 ((T : Subgroup ↥L).map L.subtype) := T.isPGroup'.map L.subtype
+  have hE : IsPGroup 3 ((T : Subgroup ↥L).map L.subtype) := T.isPGroup.map L.subtype
   have hzd := Item134SylowBarProof.zpowers_eq_of_central_of_quot_j2 h415 hJ2 hE (d₁ := z₀)
     (d₂ := d)
     ⟨(z : (T : Subgroup ↥L)), (z : (T : Subgroup ↥L)).2, rfl⟩ ⟨⟨d, hdL⟩, hdT, rfl⟩ hz₀L hdL

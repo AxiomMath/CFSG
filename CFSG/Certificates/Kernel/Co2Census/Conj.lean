@@ -122,7 +122,7 @@ theorem pts_finite (hfun : ∀ x y M, rep x M → rep y M → x = y) :
   rintro y ⟨i, hi, hy⟩
   have hex : ∃ y, rep y (P i) := ⟨y, hy⟩
   refine Finset.mem_coe.2 (Finset.mem_image.2 ⟨i, Finset.mem_range.2 hi, ?_⟩)
-  simp only [f, dif_pos hex]
+  simp only [f, dite_eq_left hex]
   exact hfun _ _ _ hex.choose_spec hy
 
 theorem segSet_finite (hfun : ∀ x y M, rep x M → rep y M → x = y) (k : ℕ) :
@@ -153,7 +153,7 @@ theorem seg_class (hfun : ∀ x y M, rep x M → rep y M → x = y) (hs : ConjSt
 
 theorem seg_ncard (hfun : ∀ x y M, rep x M → rep y M → x = y)
     (huniq : ∀ x M M', rep x M → rep x M' → M = M') (hs : ConjSteps rep step ngen g)
-    (ht : ∀ i < N, treeK step ngen N P IX i = true) {k : ℕ} (hk : k < N) (hkk : rtOf IX k = k)
+    (ht : ∀ i < N, treeK step ngen N P IX i = true) {k : ℕ} (_hk : k < N) (_hkk : rtOf IX k = k)
     {x : G} (hx : rep x (P k)) :
     (segSet rep N P IX k).ncard = ((Finset.range N).filter fun i => rtOf IX i = k).card := by
   classical
@@ -168,11 +168,11 @@ theorem seg_ncard (hfun : ∀ x y M, rep x M → rep y M → x = y)
   let f : ℕ → G := fun i => if h : ∃ y, rep y (P i) then h.choose else 1
   have hf : ∀ i ∈ (Finset.range N).filter (fun i => rtOf IX i = k), rep (f i) (P i) := by
     intro i hi
-    simp only [f, dif_pos (hex i hi)]
+    simp only [f, dite_eq_left (hex i hi)]
     exact (hex i hi).choose_spec
   have himg : segSet rep N P IX k = ((Finset.range N).filter fun i => rtOf IX i = k).image f := by
     ext y
-    simp only [segSet, Set.mem_setOf_eq, Finset.coe_image, Set.mem_image, Finset.mem_coe]
+    simp only [segSet, Set.mem_ofPred_eq, Finset.coe_image, Set.mem_image, Finset.mem_coe]
     constructor
     · rintro ⟨i, hi, hik, hy⟩
       have hm : i ∈ (Finset.range N).filter (fun i => rtOf IX i = k) := by
@@ -186,7 +186,7 @@ theorem seg_ncard (hfun : ∀ x y M, rep x M → rep y M → x = y)
   intro i hi j hj e
   have hi' := hi
   have hj' := hj
-  rw [Finset.coe_filter, Set.mem_setOf_eq, Finset.mem_range] at hi' hj'
+  rw [Finset.coe_filter, Set.mem_ofPred_eq, Finset.mem_range] at hi' hj'
   have h1 := hf i hi
   have h2 := hf j hj
   rw [show f i = f j from e] at h1
@@ -200,11 +200,11 @@ theorem pts_ncard (hfun : ∀ x y M, rep x M → rep y M → x = y)
   let f : ℕ → G := fun i => if h : ∃ y, rep y (P i) then h.choose else 1
   have hf : ∀ i < N, rep (f i) (P i) := by
     intro i hi
-    simp only [f, dif_pos (hex i hi)]
+    simp only [f, dite_eq_left (hex i hi)]
     exact (hex i hi).choose_spec
   have himg : {y | ∃ i < N, rep y (P i)} = (Finset.range N).image f := by
     ext y
-    simp only [Set.mem_setOf_eq, Finset.coe_image, Set.mem_image, Finset.mem_coe,
+    simp only [Set.mem_ofPred_eq, Finset.coe_image, Set.mem_image, Finset.mem_coe,
       Finset.mem_range]
     constructor
     · rintro ⟨i, hi, hy⟩

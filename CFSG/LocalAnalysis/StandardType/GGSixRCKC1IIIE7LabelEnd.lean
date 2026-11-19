@@ -77,8 +77,8 @@ theorem k2At_of_row_III_of_E7_label {X : Type} [Group X] [Finite X] {K J V : Sub
     coreCommAt_subgroup_map_mulEquiv e hJK hrK hCore
   have hShort' : ShortAt J' (e ⟨r, hrK⟩) :=
     e7End_shortAt_map_mulEquiv e hJK hrK hShort
-  haveI : Finite ↥(adjointGroup .E7 (ZMod 2)) := inferInstance
-  haveI : CharP (AlgebraicClosure (ZMod 2)) 2 :=
+  have : Finite ↥(adjointGroup .E7 (ZMod 2)) := inferInstance
+  have : CharP (AlgebraicClosure (ZMod 2)) 2 :=
     charP_of_injective_algebraMap
       (algebraMap (ZMod 2) (AlgebraicClosure (ZMod 2))).injective 2
   obtain ⟨x, hx, hxr, hxV⟩ :=

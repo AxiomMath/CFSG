@@ -115,7 +115,7 @@ theorem s16c1611_exists_noncyclic_le_normalizer (D : Data G) (hin : In10 D)
       X ≤ D.M ⊓ normalizer ((D.T ⊓ F11.CTilde D.M V₀ V : Subgroup G) : Set G) ∧
       IsPGroup p X ∧ ¬ IsCyclic X := by
   have hP : PairFacts D.M V₀ V := h125.pairFacts
-  haveI hCn : ((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal :=
+  have hCn : ((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal :=
     s16c1611_ctilde_normal D hP
   let Q₀ : Subgroup G := D.T ⊓ F11.CTilde D.M V₀ V
   let N₀ : Subgroup G := D.M ⊓ normalizer (Q₀ : Set G)
@@ -171,7 +171,7 @@ theorem s16c1611_exists_noncyclic_le_normalizer (D : Data G) (hin : In10 D)
         (⟨n, hnM⟩ : ↥D.M) =
       QuotientGroup.mk' ((F11.CTilde D.M V₀ V).subgroupOf D.M) m
     rw [← hmn, map_mul, hck, mul_one]
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   obtain ⟨X, -, hXp, hXc⟩ := SpLift.exists_noncyclic_pSubgroup_le g hg (p := p)
     (K := ⊤) (E := E) (by rw [Subgroup.index_top]; exact fun h => hprime.not_dvd_one h) hEp hEc
   exact ⟨X.map N₀.subtype, Subgroup.map_subtype_le (H := N₀) X,

@@ -28,7 +28,7 @@ theorem isSylowOf_inf_of_isSubnormal' {X : Type*} [Group X] [Finite X] {p : ℕ}
 
 theorem isSylowTwoOf_inf_block {N S Y : Subgroup G} (hS : CFSG.QuasithinUnique.IsSylowTwoOf S N)
     (hY : IsBlockOfInX N Y) : CFSG.QuasithinUnique.IsSylowTwoOf (S ⊓ Y) Y := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hSN, hS2, hSi⟩ := hS
   have hP : CFSG.ABGLocalTools.IsSylowOf 2 (S.subgroupOf N) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
@@ -62,7 +62,7 @@ theorem block_le_of_normalizes {N S Y : Subgroup G} {z : G} {p : ℕ}
     (hNp : ¬ p ∣ Nat.card N) (hY : IsBlockOfInX N Y) (hzS : z ∈ normalizer (S : Set G))
     (hzp : z ^ p = 1) (hzY : z ∈ normalizer (Y : Set G)) :
     Y ≤ S ⊔ (N ⊓ centralizer ({z} : Set G)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   set H : Subgroup G := S ⊔ (N ⊓ centralizer ({z} : Set G)) with hH
   let σ : MulAut ↥Y := Y.normalizerMonoidHom ⟨z, hzY⟩

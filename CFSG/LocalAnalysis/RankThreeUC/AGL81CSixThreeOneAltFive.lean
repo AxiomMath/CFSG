@@ -32,7 +32,7 @@ private theorem natCard_sylow_lt_five_of_dvd_twelve {F : Type*} [Group F] [Finit
     (hF : Nat.card F ∣ 12) (q : ℕ) [hq : Fact q.Prime] (S : Sylow q F) :
     Nat.card (S : Subgroup F) < 5 := by
   have hqprime : q.Prime := hq.out
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp S.isPGroup'
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp S.isPGroup
   have hSdvd : Nat.card (S : Subgroup F) ∣ 12 :=
     (Subgroup.card_subgroup_dvd_card (S : Subgroup F)).trans hF
   rcases k with _ | k
@@ -77,22 +77,22 @@ private theorem fixedPointSubgroup_fitting_eq_top_of_natCard_eq_five_of_dvd_twel
     {A N : Type} [Group A] [Finite A] [Group N] [Finite N] [MulDistribMulAction A N]
     (hA : Nat.card A = 5) (hN : Nat.card N ∣ 12) :
     CFSG.fixedPointSubgroup A ↥(CFSG.fittingSubgroup N) = ⊤ := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hSylow_fixed : ∀ q ∈ (Nat.card ↥(CFSG.fittingSubgroup N)).primeFactors,
       ((default : Sylow q ↥(CFSG.fittingSubgroup N)) :
         Subgroup ↥(CFSG.fittingSubgroup N)) ≤
         CFSG.fixedPointSubgroup A ↥(CFSG.fittingSubgroup N) := by
     intro q hq
     have hqprime : q.Prime := Nat.prime_of_mem_primeFactors hq
-    letI : Fact q.Prime := ⟨hqprime⟩
+    let : Fact q.Prime := ⟨hqprime⟩
     let S : Sylow q ↥(CFSG.fittingSubgroup N) := default
     have hSchar : (S : Subgroup ↥(CFSG.fittingSubgroup N)).Characteristic :=
       Sylow.characteristic_of_normal S
         (Group.IsNilpotent.sylow_normal (CFSG.fittingSubgroup_nilpotent (G := N)) q S)
-    letI : CFSG.IsInvariant A ↥(CFSG.fittingSubgroup N)
+    let : CFSG.IsInvariant A ↥(CFSG.fittingSubgroup N)
         (S : Subgroup ↥(CFSG.fittingSubgroup N)) :=
       CFSG.isInvariant_of_characteristic (S : Subgroup ↥(CFSG.fittingSubgroup N))
-    letI : MulDistribMulAction A ↥(S : Subgroup ↥(CFSG.fittingSubgroup N)) :=
+    let : MulDistribMulAction A ↥(S : Subgroup ↥(CFSG.fittingSubgroup N)) :=
       CFSG.instMulDistribMulAction_subtype
     have hSdvd : Nat.card ↥(CFSG.fittingSubgroup N) ∣ 12 :=
       (Subgroup.card_subgroup_dvd_card (CFSG.fittingSubgroup N)).trans hN
@@ -112,7 +112,7 @@ private theorem not_faithful_of_natCard_eq_five_of_dvd_twelve
     {A N : Type} [Group A] [Finite A] [Group N] [Finite N] [MulDistribMulAction A N]
     (hA : Nat.card A = 5) (hN : Nat.card N ∣ 12) : ¬ FaithfulSMul A N := by
   intro hfaith
-  haveI : FaithfulSMul A N := hfaith
+  have : FaithfulSMul A N := hfaith
   have hN60 : Nat.card N ∣ 60 := hN.trans (by norm_num)
   have hNlt : Nat.card N < 60 := by
     have := Nat.le_of_dvd (by norm_num : (0 : ℕ) < 12) hN
@@ -187,7 +187,7 @@ private theorem isPGroup_abelianization_of_closure_orderOf_five_eq_top {H : Type
     (hgen : Subgroup.closure {h : H | orderOf h = 5} = ⊤) :
     IsPGroup 5 (Abelianization H) := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hSgen : Subgroup.closure ((Abelianization.of : H →* Abelianization H) ''
       {h : H | orderOf h = 5}) = ⊤ := by
     rw [← MonoidHom.map_closure]
@@ -205,7 +205,7 @@ private theorem isPGroup_abelianization_of_closure_orderOf_five_eq_top {H : Type
     rw [← map_pow]
     have hh5 : h ^ 5 = 1 := (orderOf_dvd_iff_pow_eq_one).mp (hh ▸ dvd_rfl)
     rw [hh5, map_one]
-  haveI hEA : CFSG.IsElementaryAbelian 5
+  have hEA : CFSG.IsElementaryAbelian 5
       ↥(Subgroup.closure ((Abelianization.of : H →* Abelianization H) ''
         {h : H | orderOf h = 5})) :=
     CFSG.RankThree.PartOne.K1214.isElementaryAbelian_closure hcomm hpow
@@ -228,7 +228,7 @@ private theorem card_abelianization_eq_one_or_five {H : Type} [Group H] [Finite 
     (hgen : Subgroup.closure {h : H | orderOf h = 5} = ⊤) :
     Nat.card (Abelianization H) = 1 ∨ Nat.card (Abelianization H) = 5 := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hQp := isPGroup_abelianization_of_closure_orderOf_five_eq_top hgen
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hQp
   have hQdvd : Nat.card (Abelianization H) ∣ 60 := by
@@ -288,7 +288,7 @@ private theorem card_commutator_dvd_twelve {H : Type} [Group H] [Finite H]
 private theorem natCard_sylow_eq_five_of_card_eq_five_mul {H : Type} [Group H] [Finite H]
     (P : Sylow 5 H) {m : ℕ} (hH : Nat.card H = 5 * m) (hm : m ∣ 12) :
     Nat.card (P : Subgroup H) = 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hmne : m ≠ 0 := by
     obtain ⟨c, hc⟩ := hm
     intro h0
@@ -395,7 +395,7 @@ private theorem centralizes_commutator_of_sylow {H : Type} [Group H] [Finite H]
     (P : Sylow 5 H) (hP : Nat.card (P : Subgroup H) = 5)
     (hD : Nat.card (commutator H) ∣ 12) :
     ∀ p ∈ (P : Subgroup H), ∀ d ∈ commutator H, p * d * p⁻¹ = d := by
-  letI : MulDistribMulAction ↥(P : Subgroup H) ↥(commutator H) :=
+  let : MulDistribMulAction ↥(P : Subgroup H) ↥(commutator H) :=
     MulDistribMulAction.compHom ↥(commutator H)
       ((MulAut.conjNormal (G := H) (H := commutator H)).comp (P : Subgroup H).subtype)
   have htriv : CFSG.ActsTrivially ↥(P : Subgroup H) ↥(commutator H) :=
@@ -450,7 +450,7 @@ private theorem card_eq_five_of_not_perfect {H : Type} [Group H] [Finite H] [Non
     (hH : Nat.card H ∣ 60)
     (hgen : Subgroup.closure {h : H | orderOf h = 5} = ⊤)
     (hperf : ¬ Group.IsPerfect H) : Nat.card H = 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hQ := card_abelianization_eq_five_of_not_perfect hH hgen hperf
   have hDH := card_eq_five_mul_card_commutator hQ
   have hD12 := card_commutator_dvd_twelve hH hQ
@@ -476,7 +476,7 @@ private theorem card_eq_five_of_not_perfect {H : Type} [Group H] [Finite H] [Non
 private theorem nonempty_mulEquiv_alt_five_of_perfect_of_card_dvd_sixty {H : Type} [Group H]
     [Finite H] [Nontrivial H] (hH : Nat.card H ∣ 60) (hperf : Group.IsPerfect H) :
     Nonempty (H ≃* alternatingGroup (Fin 5)) := by
-  haveI : Group.IsPerfect H := hperf
+  have : Group.IsPerfect H := hperf
   have hH60 : Nat.card H = 60 := by
     have hle : Nat.card H ≤ 60 := Nat.le_of_dvd (by norm_num : (0 : ℕ) < 60) hH
     by_contra hne

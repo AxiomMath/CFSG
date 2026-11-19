@@ -110,7 +110,7 @@ theorem prince_z4_of_sq {G : Type} [Group G] [Finite G] (V : Subgroup G)
     intro i
     rw [← hsq (pw i) (pw_even i)]
     exact V.mul_mem (hφ _ (pw_even i)) (hφ _ (pw_even i))
-  letI : CommGroup ↥V :=
+  let : CommGroup ↥V :=
     { (inferInstance : Group ↥V) with
       mul_comm := fun a b => Subtype.ext (hcomm a a.2 b b.2) }
   let x : Fin 4 → ↥V := fun i => ⟨φ (pw i), hφ _ (pw_even i)⟩

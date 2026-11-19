@@ -92,11 +92,11 @@ theorem i165On_famE6_of_models (h2 : E6Model165At 2) (h3 : E6Model165At 3) :
     exact dvd_two_pow_sub_one_or_eq_three_of_hasLabel_of_exists_split16 hm4 hK
       ⟨lab', hlab', hs⟩ (by rw [ht]; trivial)
   obtain ⟨F, hField, hFinite, π, hCard, hπ, hker⟩ := exists_cover_e6_of_isLabel hK ht hn2
-  letI : Field F := hField
-  letI : Finite F := hFinite
-  letI : Finite ↥(e6Data_valid.minGroup F) :=
+  let : Field F := hField
+  let : Finite F := hFinite
+  let : Finite ↥(e6Data_valid.minGroup F) :=
     CFSG.ClassicalInvolution.ModelFacts.ChevAut.finite_minGroup e6Data_valid F
-  haveI : CharP F 2 :=
+  have : CharP F 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two (by omega) hCard
   have hZcard : Nat.card (Subgroup.center ↥(e6Data_valid.minGroup F)) =
@@ -143,14 +143,14 @@ theorem i165On_famTwE6_of_models (h1 : TwE6Model165At 1) (h6 : TwE6Model165At 6)
       ⟨lab', hlab', hs⟩ (Or.inr ht)
   obtain ⟨k, hkfield, hkfin, θ, hkcard, hθ, π, hπ, hker⟩ :=
     exists_cover_twE6_of_isLabel hK ht hn2
-  letI : Field k := hkfield
-  letI : Finite k := hkfin
-  letI : Finite ↥(e6Data_valid.minGroup k) :=
+  let : Field k := hkfield
+  let : Finite k := hkfin
+  let : Finite ↥(e6Data_valid.minGroup k) :=
     CFSG.ClassicalInvolution.ModelFacts.ChevAut.finite_minGroup e6Data_valid k
-  haveI : Finite ↥(fixedGroup k θ) := Subtype.finite
+  have : Finite ↥(fixedGroup k θ) := Subtype.finite
   have hk2 : Nat.card k = 2 ^ (2 * lab.n) := by
     rw [hkcard, ← pow_mul, mul_comm]
-  haveI : CharP k 2 :=
+  have : CharP k 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two (by omega) hk2
   have hZcard : Nat.card (Subgroup.center ↥(fixedGroup k θ)) =
@@ -194,9 +194,9 @@ theorem i165On_famE7_of_models (h3 : E7Model165At 3) (h6 : E7Model165At 6) :
       CFSG.LocalAnalysis.GLTheoremA.i61_exc_E7
   obtain ⟨F, hField, hFinite, hCard, ⟨e⟩⟩ :=
     exists_mulEquiv_adjointGroup_E7_of_hasLabel hK ht hZ
-  letI : Field F := hField
-  letI : Finite F := hFinite
-  haveI : CharP F 2 :=
+  let : Field F := hField
+  let : Finite F := hFinite
+  have : CharP F 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two hlam.1 hCard
   have hqdiv : q ∣ 2 ^ lab.n - 1 ∨ lab.n = 1 ∧ q = 3 := by
@@ -262,7 +262,7 @@ theorem i165On_famE8_of_models (h3 : E8Model165At 3) (h4 : E8Model165At 4)
   let F := GaloisField 2 lab.n
   have hn1 : 1 ≤ lab.n := hlam.1
   have hCard : Nat.card F = 2 ^ lab.n := GaloisField.card 2 lab.n (by omega)
-  haveI : CharP F 2 :=
+  have : CharP F 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two hlam.1 hCard
   have hqdiv : q ∣ 2 ^ lab.n - 1 ∨ lab.n = 1 ∧ q = 3 := by

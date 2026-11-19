@@ -176,7 +176,7 @@ theorem exists_lift_of_real (N : Subgroup X) [N.Normal] (hN : N ≤ center X) (S
     rw [h1, h3, inv_pow] at h2
     calc a ^ 3 * a ^ 3 = a ^ 3 * ((a ^ 3)⁻¹ * z ^ 3) := by rw [← h2]
       _ = z ^ 3 := by group
-  obtain ⟨k, hk⟩ := S.isPGroup' ⟨a ^ 3, pow_mem haS 3⟩
+  obtain ⟨k, hk⟩ := S.isPGroup ⟨a ^ 3, pow_mem haS 3⟩
   have hk' : (a ^ 3) ^ 3 ^ k = 1 := by simpa using congrArg Subtype.val hk
   set m := (3 ^ k + 1) / 2 with hm
   have h2m : 2 * m = 3 ^ k + 1 := by
@@ -269,7 +269,7 @@ theorem exists_noncentral_of_quotient_coprime (N : Subgroup X) [N.Normal]
   obtain ⟨s, hs, rfl⟩ := mem_map.mp hsb
   obtain ⟨t, ht, rfl⟩ := mem_map.mp htb
   have hdisj : Disjoint (S : Subgroup X) N := by
-    obtain ⟨k, hk⟩ := (S.isPGroup').exists_card_eq
+    obtain ⟨k, hk⟩ := (S.isPGroup).exists_card_eq
     refine disjoint_of_coprime_natCard ?_
     rw [hk]
     exact Nat.Coprime.pow_left k ((Nat.Prime.coprime_iff_not_dvd Nat.prime_three).2 hN)

@@ -44,9 +44,9 @@ theorem normal_blockGroup_subgroupOf :
 theorem leaf_m12
     {n : ℕ} : TwinLeafS n SmallM12 :=
   TwinLeafS.of_no fun Y _ _ R S t h _ hF => by
-    haveI := h.core.simple
-    haveI := genFittingFStar_normal Y
-    haveI := normal_blockGroup_subgroupOf
+    have := h.core.simple
+    have := genFittingFStar_normal Y
+    have := normal_blockGroup_subgroupOf
     obtain ⟨e⟩ := hF
     obtain ⟨f, hf⟩ := embedsAut_of_exactModel GH74.Generic.S45.EvSpor.m12_smallAutModel
       (e.trans m12EquivD) Y (genFittingFStar Y) ⟨MulEquiv.refl _⟩

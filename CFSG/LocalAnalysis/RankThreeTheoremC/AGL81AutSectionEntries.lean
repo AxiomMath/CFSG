@@ -24,7 +24,7 @@ theorem not_smallAutomizer_of_nineThree
     · exact absurd h hp3
     · exact absurd (h ▸ hp) (by norm_num)
     · exact h
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   cases i with
   | cyclic _ _ => exact hi.elim
   | alternating n hn =>

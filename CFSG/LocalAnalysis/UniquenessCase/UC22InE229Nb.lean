@@ -36,7 +36,7 @@ theorem uc22ine229_exists_sub {L : Subgroup G} {n : ℕ} (hLS : IsL2 (Bar2 L) n 
     · rw [uc22p22r_L2_card hL]
       exact Dvd.dvd.mul_left (hrn.trans (Nat.sub_one_dvd_pow_sub_one (2 ^ n) 2)) _
     · exact hrn.trans (uc22ine229_dvd_card_of_isSz hS)
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥L) r
     (hrB.trans (Subgroup.card_quotient_dvd_card _))
   refine ⟨Subgroup.zpowers (x : G), ?_, (Subgroup.zpowers_le).2 x.2⟩

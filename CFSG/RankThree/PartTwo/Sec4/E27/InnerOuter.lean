@@ -69,14 +69,14 @@ theorem seitz27_of_inner_outer {X : Type} [Group X] [Finite X] (hZ : Subgroup.ce
     have hfix : k ∈ fixedPoints (F'.map (MulAut.conj : X →* MulAut X)) := by
       rintro _ ⟨f, hf, rfl⟩
       have h2 := hcomm f hf
-      simp only [MonoidHom.coe_coe, MulAut.conj_apply]
+      simp only [MulAut.conj_apply]
       rw [h2]
       group
     exact (le_iSup₂_of_le (F'.map (MulAut.conj : X →* MulAut X)) ⟨hFE, hrelE⟩ le_rfl :
       fixedPoints (F'.map (MulAut.conj : X →* MulAut X)) ≤ seitzHyperGamma 3 E) hfix
   ·
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-    haveI hKn : K.Normal := ⟨by
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have hKn : K.Normal := ⟨by
       rintro _ ⟨x, rfl⟩ g
       refine ⟨g x, ?_⟩
       ext y
@@ -84,7 +84,7 @@ theorem seitz27_of_inner_outer {X : Type} [Group X] [Finite X] (hZ : Subgroup.ce
     have e : X ≃* K := MonoidHom.ofInjective hinj
     have hF' : FieldAutData K 3 := hF.of_mulEquiv e.symm Nat.prime_three
     have hP' : FixPlaneGen K 3 := hP.of_mulEquiv e.symm Nat.prime_three
-    haveI : Finite (MulAut X) := inferInstance
+    have : Finite (MulAut X) := inferInstance
     have h := hyperGen_of_fieldAutData_outer (centralizer_range_conj_eq_bot hZ) hF' hP' hE hEc hin
     exact seitzHyperGamma_eq_top_of_hyperGen hZ E h
 

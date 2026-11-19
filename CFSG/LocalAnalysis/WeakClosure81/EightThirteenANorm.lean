@@ -13,9 +13,11 @@ variable {G : Type} [Group G] [Finite G]
 private def oTwoSetN (N K : Subgroup G) : Set (Subgroup G) :=
   {W | N ≤ W ∧ W ≤ K ∧ (W.subgroupOf K).Normal ∧ ∀ w ∈ W, ∃ k : ℕ, w ^ 2 ^ k ∈ N}
 
+omit [Finite G] in
 private theorem oTwoMod_eq_iSup_N (N K : Subgroup G) :
     oTwoMod N K = ⨆ W ∈ oTwoSetN N K, W := rfl
 
+omit [Finite G] in
 private theorem conj_mem_oTwoSetN {N K : Subgroup G} {h : G}
     (hhN : h ∈ Subgroup.normalizer (N : Set G))
     (hhK : h ∈ Subgroup.normalizer (K : Set G))
@@ -53,6 +55,7 @@ private theorem conj_mem_oTwoSetN {N K : Subgroup G} {h : G}
     rw [← conjSubgroup_eq_iff_mem_normalizer.mpr hhN, mem_conjSubgroup_iff, ← conj_pow]
     exact hk
 
+omit [Finite G] in
 private theorem normalizer_oTwoModN {N K : Subgroup G} :
     Subgroup.normalizer (N : Set G) ⊓ Subgroup.normalizer (K : Set G) ≤
       Subgroup.normalizer (oTwoMod N K : Set G) := by
@@ -75,7 +78,7 @@ private theorem normalizer_oTwoModN {N K : Subgroup G} :
           have heq : h⁻¹ * (h * a * h⁻¹) * h⁻¹⁻¹ = a := by group
           rwa [heq]
         exact Subgroup.mem_iSup_of_mem ⟨conjSubgroup (W : Subgroup G) h⁻¹, hWmem⟩ hmem
-      · simpa using Subgroup.one_mem (⨆ W : oTwoSetN N K, (W : Subgroup G))
+      · simp
       · intro a b ha hb
         rw [show h * (a * b) * h⁻¹ = (h * a * h⁻¹) * (h * b * h⁻¹) by group]
         exact (⨆ W : oTwoSetN N K, (W : Subgroup G)).mul_mem ha hb

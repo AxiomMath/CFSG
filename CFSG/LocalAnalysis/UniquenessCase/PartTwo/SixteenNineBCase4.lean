@@ -22,8 +22,8 @@ theorem s16n9b_case4_not_quasisimple {M : Type} [Group M] {K : Subgroup M}
   have h1 : Nat.card (↥K ⧸ Subgroup.center ↥K) = 1 := by
     rw [← Subgroup.index, Subgroup.index_eq_one]
     exact hc
-  haveI := hs.toNontrivial
-  haveI : Finite (↥K ⧸ Subgroup.center ↥K) := Nat.finite_of_card_ne_zero (by omega)
+  have := hs.toNontrivial
+  have : Finite (↥K ⧸ Subgroup.center ↥K) := Nat.finite_of_card_ne_zero (by omega)
   have h2 : Subsingleton (↥K ⧸ Subgroup.center ↥K) := Finite.card_le_one_iff_subsingleton.1 h1.le
   exact not_nontrivial_iff_subsingleton.2 h2 ‹_›
 
@@ -31,7 +31,7 @@ theorem s16n9b_case4_pcore (D : Data G) {V₀ V L : Subgroup G} (hV : IsElemAbel
     (hc : Counterex16 D V₀ V L hV) {p r : ℕ} (hp : p.Prime) (hr : 1 < r)
     (hL : IsElemAbelianOfRank p r ↥(lBar V₀ V hV L)) :
     lBar V₀ V hV L ≤ pCoreOf p (Mbar D.M V₀ V hV) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨e⟩ := hL
   have hcomm : ∀ x ∈ lBar V₀ V hV L, ∀ y ∈ lBar V₀ V hV L, x * y = y * x := by
     intro x hx y hy
@@ -48,7 +48,7 @@ theorem s16n9b_case4_pcore (D : Data G) {V₀ V L : Subgroup G} (hV : IsElemAbel
       have h' : Multiplicative.ofAdd (Pi.single i0 (1 : ZMod p)) =
           (1 : Multiplicative (Fin r → ZMod p)) := by
         have := congrArg e h
-        simpa [x] using this
+        simp [x] at this
       have h'' := congrFun (Multiplicative.ofAdd.injective h') i0
       simp at h''
     have hxp : x ^ p = 1 := by
@@ -60,7 +60,7 @@ theorem s16n9b_case4_pcore (D : Data G) {V₀ V L : Subgroup G} (hV : IsElemAbel
       simp
     have hord : orderOf x = p := orderOf_eq_prime hxp hx1
     have hxmem : (x : MulAut (Vtil V₀ V hV)) ∈ pCoreOf p' (Mbar D.M V₀ V hV) := hLp x.2
-    haveI : Fact p'.Prime := ⟨hp'⟩
+    have : Fact p'.Prime := ⟨hp'⟩
     have hpg : IsPGroup p' ↥(pCoreOf p' (Mbar D.M V₀ V hV)) :=
       (CFSG.pCore_isPGroup (p := p') (G := ↥(Mbar D.M V₀ V hV))).map (Mbar D.M V₀ V hV).subtype
     obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 hpg) ⟨x, hxmem⟩

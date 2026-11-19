@@ -169,7 +169,7 @@ section Sylow
 theorem not_isCyclic_sylow_of_perfect {Y : Type*} [Group Y] [Finite Y] (hY : Group.IsPerfect Y)
     (P : Sylow 2 Y) (hcyc : IsCyclic ↥P) {t : Y} (ht : t ∈ (P : Subgroup Y)) (ht1 : t ≠ 1) : False := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 P.isPGroup') ⟨t, ht⟩
+  obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 P.isPGroup) ⟨t, ht⟩
   have hk' : orderOf t = 2 ^ k := (Subgroup.orderOf_coe (⟨t, ht⟩ : ↥(P : Subgroup Y))).trans hk
   have hk1 : 1 ≤ k := by
     rcases Nat.eq_zero_or_pos k with h0 | h0

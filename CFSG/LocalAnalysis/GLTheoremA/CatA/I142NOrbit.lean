@@ -131,7 +131,7 @@ theorem orbitPerm_mul (ρ : A →* MulAut S) (O : Set (Subgroup S))
     exact orbitPerm_mul ρ O hO a b K)
 
 theorem layer_eq_iSup_orbits {X : Subgroup S} (ρ : A →* MulAut S)
-    (hX : ∀ a : A, X.map (ρ a).toMonoidHom = X) {ι : Type*} (O : ι → Set (Subgroup S))
+    (_hX : ∀ a : A, X.map (ρ a).toMonoidHom = X) {ι : Type*} (O : ι → Set (Subgroup S))
     (hι : ∀ K, IsComponentOf K X → ∃ i, K ∈ O i)
     (hsub : ∀ i, ∀ K ∈ O i, IsComponentOf K X) :
     GLALayer X = ⨆ i, sSup (O i) := by

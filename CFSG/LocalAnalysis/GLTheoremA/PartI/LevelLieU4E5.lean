@@ -41,8 +41,7 @@ theorem blkA_mul {ζ : K} {hζ : IsPrimitiveRoot ζ 3} {x y : SU4}
   obtain ⟨y02, y03, y12, y13, y20, y21, y30, y31⟩ := c022_zero hy
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [blkA, mat_mul, Matrix.mul_apply, Fin.sum_univ_four, x02, x03, x12, x13, x20, x21,
-      x30, x31, y02, y03, y12, y13, y20, y21, y30, y31]
+    simp [blkA, mat_mul, Matrix.mul_apply, Fin.sum_univ_four, x02, x03, x12, x13, y20, y21, y30, y31]
 
 theorem blkA_one : blkA 1 = 1 := by
   ext i j
@@ -136,7 +135,7 @@ theorem col_of_fix (x : SU4) (i k : Fin 4) (hx : x • (Pi.single i 1 : Fin 4 �
   rw [smul_single_eq] at this
   rw [this, Pi.single_apply]
 
-@[expose] noncomputable abbrev W1 : Subgroup SU4 := (blockEmb K 2 3 4 2 2 (by norm_num)).range
+noncomputable abbrev W1 : Subgroup SU4 := (blockEmb K 2 3 4 2 2 (by norm_num)).range
 
 theorem mem_W1_iff (g : SU4) :
     g ∈ W1 ↔ g • (Pi.single 0 1 : Fin 4 → K) = Pi.single 0 1 ∧
@@ -186,7 +185,7 @@ theorem W1_le_centralizer_c022 (ζ : K) (hζ : IsPrimitiveRoot ζ 3) :
   refine mem_centralizer_of_zero (mat_c022 ζ hζ) (fun i j hij => ?_)
   have hcase : i = 0 ∨ i = 1 ∨ j = 0 ∨ j = 1 := by
     fin_cases i <;> fin_cases j <;> simp_all
-  rw [W1_entry x h0 h1 i j hcase, if_neg]
+  rw [W1_entry x h0 h1 i j hcase, ite_eq_right]
   rintro rfl
   exact hij rfl
 
@@ -198,7 +197,7 @@ theorem W0_le_centralizer_c022 (ζ : K) (hζ : IsPrimitiveRoot ζ 3) :
   refine mem_centralizer_of_zero (mat_c022 ζ hζ) (fun i j hij => ?_)
   have hcase : i = 2 ∨ i = 3 ∨ j = 2 ∨ j = 3 := by
     fin_cases i <;> fin_cases j <;> simp_all
-  rw [W0_entry x h2 h3 i j hcase, if_neg]
+  rw [W0_entry x h2 h3 i j hcase, ite_eq_right]
   rintro rfl
   exact hij rfl
 
@@ -214,12 +213,12 @@ theorem W1_normal_c022 {ζ : K} {hζ : IsPrimitiveRoot ζ 3} {g : SU4}
     funext k
     fin_cases k <;>
       simp [smul_eq_mulVec, Matrix.mulVec, dotProduct, Fin.sum_univ_four, smul_single_eq, c0, c1,
-        g20, g21, g30, g31]
+        g20, g30]
   have fix1 : n • (g⁻¹ • (Pi.single 1 1 : Fin 4 → K)) = g⁻¹ • (Pi.single 1 1 : Fin 4 → K) := by
     funext k
     fin_cases k <;>
       simp [smul_eq_mulVec, Matrix.mulVec, dotProduct, Fin.sum_univ_four, smul_single_eq, c0, c1,
-        g20, g21, g30, g31]
+        g21, g31]
   rw [mem_W1_iff]
   constructor
   · rw [mul_smul, mul_smul, fix0, smul_inv_smul]

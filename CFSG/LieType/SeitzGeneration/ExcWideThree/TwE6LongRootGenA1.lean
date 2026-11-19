@@ -55,6 +55,7 @@ section A1
 
 variable {K : Type} [Field K] [Finite K] (σ : K ≃+* K)
 
+omit [Finite K] in
 theorem nG_mul_xG_neg_mul_inv (a : Fin TwistTag.E6.foldedTag.rank)
     (c : orbitField TwistTag.E6 K σ.toRingHom a) :
     nG σ a * xG σ a (-c) * (nG σ a)⁻¹ = yG σ a c := by
@@ -63,6 +64,7 @@ theorem nG_mul_xG_neg_mul_inv (a : Fin TwistTag.E6.foldedTag.rank)
   simpa only [Subgroup.coe_mul, Subgroup.coe_inv, coe_nG, coe_xG, coe_yG,
     canonicalRep_orbitReflection_eq_orbitN TwistTag.E6 σ.toRingHom a] using h
 
+omit [Finite K] in
 private theorem nG_mul_yG_mul_inv (a : Fin TwistTag.E6.foldedTag.rank)
     (c : orbitField TwistTag.E6 K σ.toRingHom a) :
     nG σ a * yG σ a c * (nG σ a)⁻¹ = xG σ a (-c) := by
@@ -71,6 +73,7 @@ private theorem nG_mul_yG_mul_inv (a : Fin TwistTag.E6.foldedTag.rank)
   simpa only [Subgroup.coe_mul, Subgroup.coe_inv, coe_nG, coe_xG, coe_yG,
     canonicalRep_orbitReflection_eq_orbitN TwistTag.E6 σ.toRingHom a] using h
 
+omit [Finite K] in
 private theorem nG_a2 : nG σ a2 = xG σ a2 1 * yG σ a2 (-1) * xG σ a2 1 := by
   apply Subtype.ext
   simp only [Subgroup.coe_mul, coe_nG, coe_xG, coe_yG,
@@ -80,6 +83,7 @@ private theorem nG_a2 : nG σ a2 = xG σ a2 1 * yG σ a2 (-1) * xG σ a2 1 := by
 
 @[expose] def nSL2 : twistedE6RootGroup K σ := n0G σ * nG σ a2 * (n0G σ)⁻¹
 
+omit [Finite K] in
 private theorem nSL2_mul_x (c : orbitField TwistTag.E6 K σ.toRingHom a2) :
     nSL2 σ * (n0G σ * xG σ a2 c * (n0G σ)⁻¹) * (nSL2 σ)⁻¹ =
       n0G σ * yG σ a2 (-c) * (n0G σ)⁻¹ := by
@@ -89,6 +93,7 @@ private theorem nSL2_mul_x (c : orbitField TwistTag.E6 K σ.toRingHom a2) :
   simp only [nSL2]
   group
 
+omit [Finite K] in
 private theorem nSL2_mul_y (c : orbitField TwistTag.E6 K σ.toRingHom a2) :
     nSL2 σ * (n0G σ * yG σ a2 c * (n0G σ)⁻¹) * (nSL2 σ)⁻¹ =
       n0G σ * xG σ a2 (-c) * (n0G σ)⁻¹ := by

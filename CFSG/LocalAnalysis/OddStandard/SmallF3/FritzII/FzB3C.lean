@@ -11,9 +11,11 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {t q tau lam rho u : G} {Z E X W R T : Subgroup G}
 
+omit [Finite G] in
 private lemma fzbs_3c_commute (hS : FzbsStr t q tau lam rho u Z E X W R T) {a b : G}
     (ha : a ∈ W) (hb : b ∈ W) : Commute a b := hS.W_comm a ha b hb
 
+omit [Finite G] in
 private lemma fzbs_3c_comm_t (hS : FzbsStr t q tau lam rho u Z E X W R T) {r : G}
     (hr : r ∈ R) : r * t * r⁻¹ * t⁻¹ ∈ Z := by
   have ht2 : t * t = 1 := by simpa [pow_two] using hS.t_sq
@@ -30,6 +32,7 @@ private lemma fzbs_3c_comm_t (hS : FzbsStr t q tau lam rho u Z E X W R T) {r : G
             group
   rw [heq]; exact hχZ
 
+omit [Finite G] in
 private lemma fzbs_3c_comm_mul (hS : FzbsStr t q tau lam rho u Z E X W R T) {r a b : G}
     (hr : r ∈ R) (ha : a ∈ W) (hb : b ∈ W) :
     r * (a * b) * r⁻¹ * (a * b)⁻¹ = (r * a * r⁻¹ * a⁻¹) * (r * b * r⁻¹ * b⁻¹) := by
@@ -40,6 +43,7 @@ private lemma fzbs_3c_comm_mul (hS : FzbsStr t q tau lam rho u Z E X W R T) {r a
       = (r * a * r⁻¹ * a⁻¹) * (a * (r * b * r⁻¹ * b⁻¹) * a⁻¹) := by group
     _ = (r * a * r⁻¹ * a⁻¹) * (r * b * r⁻¹ * b⁻¹) := by rw [hcomm]
 
+omit [Finite G] in
 private lemma fzbs_3c_comm_E (hS : FzbsStr t q tau lam rho u Z E X W R T) {r e : G}
     (hr : r ∈ R) (he : e ∈ E) : r * e * r⁻¹ * e⁻¹ ∈ Z := by
   have ht2 : t * t = 1 := by simpa [pow_two] using hS.t_sq
@@ -110,6 +114,7 @@ private lemma fzbs_3c_comm_E (hS : FzbsStr t q tau lam rho u Z E X W R T) {r e :
       have hc_eq : c = (e ^ 2)⁻¹ := by rw [hc, hrer, pow_two]; group
       rw [hc_eq]; exact inv_mem he2Z
 
+omit [Finite G] in
 theorem fzbs_comm_X (hS : FzbsStr t q tau lam rho u Z E X W R T) {r x : G} (hr : r ∈ R)
     (hx : x ∈ X) : r * x * r⁻¹ * x⁻¹ ∈ Z := by
   rcases hS.X_split x hx with hxE | htxE
@@ -123,6 +128,7 @@ theorem fzbs_comm_X (hS : FzbsStr t q tau lam rho u Z E X W R T) {r x : G} (hr :
     rw [hx_eq, fzbs_3c_comm_mul hS hr htW hx'W]
     exact mul_mem (fzbs_3c_comm_t hS hr) (fzbs_3c_comm_E hS hr hx'E)
 
+omit [Finite G] in
 theorem fzbs_R_E (hS : FzbsStr t q tau lam rho u Z E X W R T) {r e : G} (hr : r ∈ R)
     (he : e ∈ E) : r * e * r⁻¹ ∈ E := by
   have hc : r * e * r⁻¹ * e⁻¹ ∈ Z := fzbs_comm_X hS hr (hS.EX he)
@@ -130,6 +136,7 @@ theorem fzbs_R_E (hS : FzbsStr t q tau lam rho u Z E X W R T) {r e : G} (hr : r 
   rw [show r * e * r⁻¹ = (r * e * r⁻¹ * e⁻¹) * e by group]
   exact mul_mem hE he
 
+omit [Finite G] in
 theorem fzbs_aq (hS : FzbsStr t q tau lam rho u Z E X W R T) {r : G} (hr : r ∈ R) :
     q⁻¹ * (r * q * r⁻¹) ∈ X ∧ (q⁻¹ * (r * q * r⁻¹)) ^ 2 = t * (r * t * r⁻¹) := by
   have ht2 : t * t = 1 := by simpa [pow_two] using hS.t_sq
@@ -147,6 +154,7 @@ theorem fzbs_aq (hS : FzbsStr t q tau lam rho u Z E X W R T) {r : G} (hr : r ∈
   rw [hS.X_iff (q⁻¹ * (r * q * r⁻¹)) haW, ha2]
   exact hS.R_t r hr
 
+omit [Finite G] in
 theorem fzbs_W_X_mul (hS : FzbsStr t q tau lam rho u Z E X W R T) {w w' : G} (hw : w ∈ W)
     (hw' : w' ∈ W) : w * w' ∈ X ↔ (w ∈ X ↔ w' ∈ X) := by
   have ht2 : t * t = 1 := by simpa [pow_two] using hS.t_sq
@@ -184,6 +192,7 @@ theorem fzbs_W_X_mul (hS : FzbsStr t q tau lam rho u Z E X W R T) {w w' : G} (hw
       exact ⟨fun _ => ⟨fun h => absurd h hwX, fun h => absurd h hw'X⟩,
         fun _ => by rw [← heq]; exact hmem'⟩
 
+omit [Finite G] in
 theorem fzbs_R_W_X (hS : FzbsStr t q tau lam rho u Z E X W R T) {r w : G} (hr : r ∈ R)
     (hw : w ∈ W) : r * w * r⁻¹ * w⁻¹ ∈ X := by
   by_cases hwX : w ∈ X
@@ -212,6 +221,7 @@ theorem fzbs_R_W_X (hS : FzbsStr t q tau lam rho u Z E X W R T) {r w : G} (hr : 
     rw [hkey]
     exact mul_mem (inv_mem haX) hxcomm
 
+omit [Finite G] in
 theorem fzbs_W_sq_X (hS : FzbsStr t q tau lam rho u Z E X W R T) {w : G} (hw : w ∈ W) :
     w ^ 2 ∈ X := by
   by_cases hwX : w ∈ X

@@ -36,7 +36,7 @@ theorem sol78Thm412CatFS_of_inputs (hG2 : G2FixedCatalog) (hCo1 : Co1G24Centre) 
     Sol78Thm412CatFS := by
   intro Y _ _ N' hF hidx hkp hcat P hP hPq ⟨n, hn, hL⟩
   obtain ⟨σ, Q, -, hσ, hle, hcomp, hcomp2, hne, hZ, ⟨e⟩⟩ := fixedComponent_of_solStd hF hidx hP hPq
-  haveI := hF.isSimpleGroup
+  have := hF.isSimpleGroup
   have hna := hF.nonabelian
   have hLQ := lieModel_fusionZStar_of_solStd e hZ hL
   rcases hG2 n hn ↥N' hF.isSimpleGroup hna hcat σ hσ Q hle hcomp hne hLQ with hS | ⟨rfl, hCo⟩

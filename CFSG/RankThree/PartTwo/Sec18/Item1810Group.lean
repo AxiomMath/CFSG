@@ -50,8 +50,8 @@ theorem card_and_pow_three_of_isZ3TimesHeis [Finite G] {X : Subgroup G}
 theorem le_normalizer_and_card_inf [Finite G] {X Y Z : Subgroup G} (hX : Nat.card X = 81)
     (hYX : Y ≤ X) (hZX : Z ≤ X) (hY : Nat.card Y = 27) (hZ : Nat.card Z = 27) (hYZ : Y ≠ Z) :
     Y ≤ Subgroup.normalizer (Z : Set G) ∧ Nat.card (Y ⊓ Z : Subgroup G) = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (IsPGroup 3 X) := ⟨IsPGroup.of_card (n := 4) (hX.trans (by norm_num))⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (IsPGroup 3 X) := ⟨IsPGroup.of_card (n := 4) (hX.trans (by norm_num))⟩
   have hidx : (Z.subgroupOf X).index = 3 := by
     have h1 := Subgroup.card_mul_index (Z.subgroupOf X)
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hZX).toEquiv, hZ, hX] at h1
@@ -78,7 +78,7 @@ theorem le_normalizer_and_card_inf [Finite G] {X Y Z : Subgroup G} (hX : Nat.car
     · norm_num at hdvd1
     · left
       norm_num
-    · norm_num at hdvd1 <;> omega
+    · norm_num at hdvd1
     · right
       norm_num
   have hS81 : Nat.card (Y ⊔ Z : Subgroup G) = 81 := by
@@ -143,7 +143,7 @@ theorem le_omegaOneThree {E P : Subgroup G} (hEP : E ≤ P) (hE : ∀ e ∈ E, e
 theorem commutator_mem_frattini [Finite G] {p : ℕ} [Fact p.Prime] {X : Subgroup G}
     (hX : IsPGroup p X) {a e : G} (ha : a ∈ X) (he : e ∈ X) :
     a * e * a⁻¹ * e⁻¹ ∈ (frattini X).map X.subtype := by
-  haveI : Fact (IsPGroup p X) := ⟨hX⟩
+  have : Fact (IsPGroup p X) := ⟨hX⟩
   have hmem : ⁅(⟨a, ha⟩ : X), (⟨e, he⟩ : X)⁆ ∈ _root_.commutator X :=
     Subgroup.commutator_mem_commutator (Subgroup.mem_top _) (Subgroup.mem_top _)
   have hc : ⁅(⟨a, ha⟩ : X), (⟨e, he⟩ : X)⁆ ∈ frattini X :=

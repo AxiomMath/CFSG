@@ -25,7 +25,7 @@ theorem l34g_exists_order_three_of_sl23Mod {Y : Type} [Group Y] [Finite Y] {K : 
     rw [Nat.card_congr e.toEquiv]
     exact card_sl23
   have hdvd : Nat.card (↥K ⧸ oddCore ↥K) ∣ Nat.card ↥K := Subgroup.card_quotient_dvd_card _
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3 : 3 ∣ Nat.card ↥K := (show 3 ∣ 24 by norm_num).trans (h24 ▸ hdvd)
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥K) 3 h3
   exact ⟨x, x.2, by rw [← hx]; exact Subgroup.orderOf_coe x⟩

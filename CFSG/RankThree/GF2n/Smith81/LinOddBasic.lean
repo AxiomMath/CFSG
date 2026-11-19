@@ -79,6 +79,7 @@ theorem root_le_Q (H : StrothHyp M Q Z) {Y : Subgroup G} (hY : IsZConjugate Z Y)
       exact hy1 this
     exact fun y' hy' => hYQ y' hy'
 
+omit [Finite G] in
 theorem QB_conj_of_isZConjugate (H : StrothHyp M Q Z) {X : Subgroup G} (hX : IsZConjugate Z X)
     (g : G) : QB (conjSubgroup g X) = conjSubgroup g (QB X) := by
   obtain ⟨h, rfl⟩ := hX
@@ -100,12 +101,14 @@ theorem conjSubgroup_eq_bot_iff (g : G) (T : Subgroup G) : conjSubgroup g T = �
     rw [h]
     exact Subgroup.map_bot _
 
+omit [Finite G] in
 theorem QB_inf_conj_eq_bot_iff (H : StrothHyp M Q Z) {A X : Subgroup G} (hA : IsZConjugate Z A)
     (hX : IsZConjugate Z X) (g : G) :
     QB (conjSubgroup g A) ⊓ QB (conjSubgroup g X) = ⊥ ↔ QB A ⊓ QB X = ⊥ := by
   rw [QB_conj_of_isZConjugate H hA, QB_conj_of_isZConjugate H hX, ← conjSubgroup_inf,
     conjSubgroup_eq_bot_iff]
 
+omit [Finite G] in
 theorem sit_conj_back (H : StrothHyp M Q Z) {g : G} {X : Subgroup G} {x : G}
     (hX : IsZConjugate Z X) (hx : x ∈ X) (hx1 : x ≠ 1)
     (hxN : x ∈ Subgroup.normalizer (conjSubgroup g Z : Set G))
@@ -124,6 +127,7 @@ theorem sit_conj_back (H : StrothHyp M Q Z) {g : G} {X : Subgroup G} {x : G}
     apply hxQ
     rw [QB_conj_eq H g, mem_conjSubgroup]; exact h1
 
+omit [Finite G] in
 theorem cond_conj {B V₁ V₂ : Subgroup G} (hcond : Lin212CondProp M Q Z B V₁ V₂)
     (H : StrothHyp M Q Z) {g : G} {X : Subgroup G} {x : G} (hX : IsZConjugate Z X) (hx : x ∈ X)
     (hx1 : x ≠ 1) (hxN : x ∈ Subgroup.normalizer (conjSubgroup g Z : Set G))
@@ -144,6 +148,7 @@ theorem cond_conj {B V₁ V₂ : Subgroup G} (hcond : Lin212CondProp M Q Z B V�
   rw [e1, StrothHyp.QB_Z H] at h1
   exact h1
 
+omit [Finite G] in
 theorem commutator_zpowers_le {V : Subgroup G} {x : G}
     (hx : x ∈ Subgroup.normalizer (V : Set G)) : ⁅V, Subgroup.zpowers x⁆ ≤ V := by
   rw [Subgroup.commutator_le]
@@ -228,6 +233,7 @@ theorem conjSubgroup_sup (g : G) (A C : Subgroup G) :
     conjSubgroup g (A ⊔ C) = conjSubgroup g A ⊔ conjSubgroup g C :=
   Subgroup.map_sup _ _ _
 
+omit [Finite G] in
 theorem card_sup_of_comm_inf_bot {A C : Subgroup G} (hcomm : ∀ a ∈ A, ∀ c ∈ C, a * c = c * a)
     (hAC : A ⊓ C = ⊥) : Nat.card ↥(A ⊔ C) = Nat.card A * Nat.card C := by
   have h := card_sup_mul_card_inf_of_normalizer (A := A) (C := C)
@@ -245,6 +251,7 @@ theorem decomp_swap {Q V₁ V₂ : Subgroup G} (hZ₁ : ∀ a ∈ V₁, ∀ q �
   have := hZ₁ a ha b⁻¹ (Q.inv_mem (hV₂Q hb))
   simpa using this
 
+omit [Finite G] in
 theorem c4_conj (h4 : Lin212C4Prop M Q Z) (H : StrothHyp M Q Z) {g : G} {X : Subgroup G} {x : G}
     (hX : IsZConjugate Z X) (hx : x ∈ X) (hx1 : x ≠ 1)
     (hxN : x ∈ Subgroup.normalizer (conjSubgroup g Z : Set G))

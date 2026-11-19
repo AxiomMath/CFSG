@@ -103,6 +103,7 @@ section Model
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type} [AddCommGroup V] [Module F V]
   [FiniteDimensional F V] {Q : QuadraticForm F V} {p : ℕ}
 
+omit [CharP F 2] in
 private theorem i167COrth_d4_ub_aux1 {W : Type} [AddCommGroup W] [Module F W] [FiniteDimensional F W]
     {R : QuadraticForm F W} (hR : (QuadraticMap.polarBilin R).Nondegenerate) {a : ℕ}
     (hF : Nat.card F = 2 ^ a) (ha : 1 ≤ a)
@@ -141,6 +142,7 @@ private theorem i167COrth_d4_ub_aux1 {W : Type} [AddCommGroup W] [Module F W] [F
       (hNat.trans (by rw [pow_one]))
     rw [h]; omega
 
+omit [CharP F 2] in
 private theorem i167COrth_d4_ub_aux2 {W : Type} [AddCommGroup W] [Module F W] [FiniteDimensional F W]
     {R : QuadraticForm F W} (hR : (QuadraticMap.polarBilin R).Nondegenerate) {a : ℕ}
     (hF : Nat.card F = 2 ^ a) (ha : 1 ≤ a)
@@ -173,6 +175,7 @@ private theorem i167COrth_d4_ub_aux2 {W : Type} [AddCommGroup W] [Module F W] [F
     (m := (Nat.card F ^ 2 - 1) * (Nat.card F ^ 2 - 1)) (hodd.mul hodd) (hNat.trans hmain)
   rw [h]
 
+omit [CharP F 2] in
 private theorem i167COrth_d4_ub_aux3 {W : Type} [AddCommGroup W] [Module F W] [FiniteDimensional F W]
     {R : QuadraticForm F W} (hR : (QuadraticMap.polarBilin R).Nondegenerate) {a : ℕ}
     (hF : Nat.card F = 2 ^ a) (ha : 1 ≤ a)
@@ -209,6 +212,7 @@ private theorem i167COrth_d4_ub_aux3 {W : Type} [AddCommGroup W] [Module F W] [F
     (hNat.trans hmain)
   rw [h]
 
+omit [CharP F 2] in
 private theorem i167COrth_d4_ub_aux4 {W : Type} [AddCommGroup W] [Module F W] [FiniteDimensional F W]
     {R : QuadraticForm F W} (hR : (QuadraticMap.polarBilin R).Nondegenerate) {a : ℕ}
     (hF : Nat.card F = 2 ^ a) (ha : 1 ≤ a)
@@ -232,7 +236,7 @@ theorem i167COrth_d4_ub {W : Type} [AddCommGroup W] [Module F W] [FiniteDimensio
     · exact h
   interval_cases k
   · have hzero : ∀ x : W, x = 0 := finrank_zero_iff_forall_zero.mp (by omega)
-    haveI : Subsingleton W := ⟨fun x y => by rw [hzero x, hzero y]⟩
+    have : Subsingleton W := ⟨fun x y => by rw [hzero x, hzero y]⟩
     have hsub : Subsingleton ↥(TauCeti.QuadraticMap.orthogonalGroup R) :=
       ⟨fun x y => Subtype.ext (LinearEquiv.ext fun v => Subsingleton.elim _ _)⟩
     have hcard : Nat.card ↥(TauCeti.QuadraticMap.orthogonalGroup R) = 1 :=
@@ -241,6 +245,7 @@ theorem i167COrth_d4_ub {W : Type} [AddCommGroup W] [Module F W] [FiniteDimensio
   · exact i167COrth_d4_ub_aux1 hR hF ha (by omega)
   · exact i167COrth_d4_ub_aux4 hR hF ha (by omega)
 
+omit [Finite F] [CharP F 2] in
 theorem i167COrth_d4_card_dvd {x : ↥(orthDerived Q)} (hx : OddOrderIsometry Q p (x : V ≃ₗ[F] V))
     {J : Subgroup ↥(orthDerived Q)}
     (hJle : J ≤ (supportedFixedDerived Q (x : V ≃ₗ[F] V)).subgroupOf (orthDerived Q)) :
@@ -262,7 +267,7 @@ theorem i167COrth_d4_dim (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) (hp : 
     Module.finrank F V = Module.finrank F (fixedSpace (g : V ≃ₗ[F] V)) + 2 := by
   classical
   have hpl : p ≠ ringChar F := by rw [ringChar.eq F 2]; exact hp2
-  haveI : Finite V := Module.finite_of_finite F
+  have : Finite V := Module.finite_of_finite F
   have hx : OddOrderIsometry Q p (g : V ≃ₗ[F] V) := oddOrderIsometry_of_orthDerived hp hpl hQ g hg
   have hR : (QuadraticMap.polarBilin (Q.comp (fixedSpace (g : V ≃ₗ[F] V)).subtype)).Nondegenerate :=
     hx.polarBilin_fixed_nondegenerate
@@ -296,7 +301,7 @@ theorem i167COrth_d4_dim (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) (hp : 
         (Q.comp (fixedSpace (g : V ≃ₗ[F] V)).subtype))) ≤ 2 * a + 1 :=
       i167COrth_d4_ub (W := ↥(fixedSpace (g : V ≃ₗ[F] V)))
         (R := Q.comp (fixedSpace (g : V ≃ₗ[F] V)).subtype) hR hF (by omega)
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hOne : Nat.card ↥(TauCeti.QuadraticMap.orthogonalGroup (Q.comp (fixedSpace (g : V ≃ₗ[F] V)).subtype)) ≠ 0 := Nat.card_pos.ne'
     have hle : padicValNat 2 (Nat.card ↥J) ≤ padicValNat 2 (Nat.card ↥(TauCeti.QuadraticMap.orthogonalGroup
         (Q.comp (fixedSpace (g : V ≃ₗ[F] V)).subtype))) :=

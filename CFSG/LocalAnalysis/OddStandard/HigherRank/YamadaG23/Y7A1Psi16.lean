@@ -13,6 +13,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {A C0 V : Subgroup G} {a₁ b₁ a₂ b₂ z t d : G}
 
+omit [Finite G] in
 private theorem y7a_conj_U16 (h : Y7ACfg A C0 V a₁ b₁ a₂ b₂ z t d) {X : Subgroup G}
     (hX1 : X ≤ normalizer ((A ⊔ C0 : Subgroup G) : Set G)) (hX2 : X ≤ normalizer (V : Set G)) :
     ∀ x ∈ X, ∀ u ∈ {w : G | w ∈ A ⊔ C0 ∧ w ∉ A ⊔ V},
@@ -28,7 +29,7 @@ private theorem y7a_conj_U16 (h : Y7ACfg A C0 V a₁ b₁ a₂ b₂ z t d) {X : 
 
 theorem y7a_psi16 (h : Y7ACfg A C0 V a₁ b₁ a₂ b₂ z t d) {X : Subgroup G}
     (hX1 : X ≤ normalizer ((A ⊔ C0 : Subgroup G) : Set G)) (hX2 : X ≤ normalizer (V : Set G))
-    (hall : ∀ w ∈ A ⊔ C0, w ∉ A ⊔ V → w ∈ y7aO X V t) :
+    (_hall : ∀ w ∈ A ⊔ C0, w ∉ A ⊔ V → w ∈ y7aO X V t) :
     ∃ (ψ : ↥X →* Equiv.Perm (Fin 16)) (lab : G → Fin 16),
       ψ.ker = (CFSG.GH74.GLS.centralizerSection (A ⊔ C0) V).subgroupOf X ∧
       (∀ u ∈ {w : G | w ∈ A ⊔ C0 ∧ w ∉ A ⊔ V}, ∀ u' ∈ {w : G | w ∈ A ⊔ C0 ∧ w ∉ A ⊔ V},

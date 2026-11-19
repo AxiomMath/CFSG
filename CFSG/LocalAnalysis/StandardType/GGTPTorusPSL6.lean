@@ -70,8 +70,7 @@ private lemma ggTP_diagHom_coe {K : Type} [Field K] (ω : Kˣ) (hω : orderOf ω
     (x : Fin 6 → Multiplicative (ZMod 3)) :
     (ggTP_diagHom ω hω x : Matrix (Fin 6) (Fin 6) K)
       = Matrix.diagonal (fun i => (ggTP_zmod3Hom ω hω (x i) : K)) := by
-  simp only [ggTP_diagHom, MonoidHom.comp_apply, Units.coe_map,
-    Matrix.diagonalRingHom_apply]
+  simp only [ggTP_diagHom, MonoidHom.comp_apply, Units.coe_map]
   rfl
 
 private lemma ggTP_diagHom_mem_sl {K : Type} [Field K] [CharP K 2] (ω : Kˣ)
@@ -91,10 +90,10 @@ private def ggTP_permGL {K : Type} [Field K] (σ : Equiv.Perm (Fin 6)) : GL (Fin
   val := Equiv.Perm.permMatrix K σ.symm
   inv := Equiv.Perm.permMatrix K σ
   val_inv := by
-    rw [← Matrix.permMatrix_mul (σ := σ) (τ := σ.symm), Equiv.Perm.mul_symm]
+    rw [← Matrix.permMatrix_mul (σ := σ) (τ := σ.symm), ← Equiv.Perm.inv_def, mul_inv_cancel]
     exact Matrix.permMatrix_one
   inv_val := by
-    rw [← Matrix.permMatrix_mul (σ := σ.symm) (τ := σ), Equiv.Perm.symm_mul]
+    rw [← Matrix.permMatrix_mul (σ := σ.symm) (τ := σ), ← Equiv.Perm.inv_def, inv_mul_cancel]
     exact Matrix.permMatrix_one
 
 private lemma ggTP_sign_cast_eq_one {K : Type} [Field K] [CharP K 2]

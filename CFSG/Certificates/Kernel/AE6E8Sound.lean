@@ -38,11 +38,11 @@ theorem sumOK_sound (hG : GRep G g) {S W : Nat → Nat} {VL : List Nat}
 
 theorem wSel_lt (T : Nat → Nat) {j : Nat} (hj : j < 7) : wSel T j = T j := by
   unfold wSel
-  rw [Orb.nIf_eq, if_pos (by rw [Nat.blt_eq]; exact hj)]
+  rw [Orb.nIf_eq, ite_eq_left (by rw [Nat.blt_eq]; exact hj)]
 
 theorem wSel_ge (T : Nat → Nat) {j : Nat} (hj : 7 ≤ j) : wSel T j = piP := by
   unfold wSel
-  rw [Orb.nIf_eq, if_neg (by rw [Nat.blt_eq]; omega)]
+  rw [Orb.nIf_eq, ite_eq_right (by rw [Nat.blt_eq]; omega)]
 
 theorem notB_eq' (b : Bool) : notB b = !b := by cases b <;> rfl
 

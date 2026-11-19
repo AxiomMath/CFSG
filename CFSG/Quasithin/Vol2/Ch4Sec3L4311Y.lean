@@ -273,8 +273,7 @@ theorem ker_levi : s.levi.ker = CFSG.pCore 2 ↥K₂ := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : CharP F 2 := s.charP
   apply le_antisymm
-  · try with_reducible rfl
-    refine CFSG.LieType.BorelTits.le_pCore 2 (MonoidHom.normal_ker _) fun w => ?_
+  · refine CFSG.LieType.BorelTits.le_pCore 2 (MonoidHom.normal_ker _) fun w => ?_
     have hw : s.levi w = 1 := w.2
     have hrad : ((stE0Equiv F (s.αK₂ w) : ↥(Vol2.KGNat.stabE0 F)) :
         Matrix.SpecialLinearGroup (Fin 3) F) ∈ Vol2.Ch11.SecS.C11P9A.rad1 F :=

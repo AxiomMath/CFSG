@@ -27,7 +27,7 @@ theorem smallF3OmegaV_of_phases (hAlt : CFSG.OddStandard.AltStdCyclicBalancedFal
     (hL2 : CFSG.Yardstones.M0362f3a873a3.OddLieThm187bResidualL2Ree) (hI : Phase1Inputs)
     (hP : Phase2Inputs) (hL1 : Leaves1) (hL2' : Leaves2) : Omega.SmallF3OmegaV := by
   refine smallF3OmegaV_of_hypA2 fun G _ _ L hL hcat => ?_
-  haveI := hL.simple
+  have := hL.simple
   exact hypA2_of_smallF3Cyclic hI hL1 G L hL hcat
     (noResidualA2_of_inputs hAlt hCIT hEven hCTSS hL2 hI hL1.twoA7RankOne hP hL2'
       ⟨hL.simple, hL.nonab, hL.kProper, hcat, hL.balanced⟩)

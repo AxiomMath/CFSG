@@ -57,7 +57,7 @@ theorem p211_two_adic [Finite X] {p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hf 
     have hT := T.card_eq_multiplicity
     rw [Nat.factorization_def _ Nat.prime_two] at hT
     have hb2 := hbound ((T : Subgroup ↥(generalizedFitting X)).map
-      (generalizedFitting X).subtype) (map_subtype_le _) (T.isPGroup'.map _)
+      (generalizedFitting X).subtype) (map_subtype_le _) (T.isPGroup.map _)
     rw [Subgroup.card_map_of_injective (generalizedFitting X).subtype_injective, hT, hD,
       ← pow_mul 2 m 2, ← pow_succ'] at hb2
     have := (pow_le_pow_iff_right₀ (by norm_num : 1 < 2)).mp hb2

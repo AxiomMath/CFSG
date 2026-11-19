@@ -103,7 +103,7 @@ theorem nbrpmmx_ne_one {X : Type} [Group X] (n f : ℕ) (ψ : UK n f →* X)
   have hG_eq : BlkC n f S ε = BlkC n f S' ε := le_antisymm hge hle
   have hK'blockS : IsComponentOf K' ⁅BlkC n f S ε, BlkC n f S ε⁆ :=
     hG_eq.symm ▸ hK'block
-  haveI : Finite (UK n f) :=
+  have : Finite (UK n f) :=
     Finite.of_injective (ρm n f) (nbrpom_spinMatrix_injective n f)
   have hJK'' : J' = K' :=
     CFSG.LocalAnalysis.ComponentInitial.eq_of_isComponentOf_le hJ'ε hK'blockS hJK'

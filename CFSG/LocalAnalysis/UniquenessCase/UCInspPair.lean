@@ -36,7 +36,7 @@ theorem card_zpowers_three {b : G} (hb3 : b ^ 3 = 1) (hb1 : b ≠ 1) :
 theorem inspPair_of_triple [Finite G] {b z : G} {ℓ k : ℕ} (hℓ : ℓ.Prime) (hb3 : b ^ 3 = 1)
     (hz : z ^ ℓ = 1) (hz1 : z ≠ 1) (hk : b * z * b⁻¹ = z ^ k) (hk1 : ¬ ℓ ∣ k - 1) :
     InspPair ℓ (Subgroup.zpowers b) (Subgroup.zpowers z) := by
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hord : orderOf z = ℓ := orderOf_eq_prime hz hz1
   have hcard : Nat.card (Subgroup.zpowers z) = ℓ ^ 1 := by
     rw [Nat.card_zpowers, hord, pow_one]

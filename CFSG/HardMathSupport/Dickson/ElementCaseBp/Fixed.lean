@@ -264,7 +264,7 @@ theorem commutator_le_centralizer_of_mem_normalizer {Z : Type} [Group Z] [Finite
     layer_le_sup_centralizer hK
   have hEN : CFSG.layer Z ≤ Subgroup.normalizer (K : Set Z) :=
     hEsup.trans (sup_le Subgroup.le_normalizer (Subgroup.centralizer_le_normalizer _))
-  haveI : (CFSG.layer Z).Characteristic := CFSG.LocalCores.layer_characteristic
+  have : (CFSG.layer Z).Characteristic := CFSG.LocalCores.layer_characteristic
   obtain ⟨ι, hι_inj, hι_range, hι_apply⟩ := exists_centerQuotient_mulAut ↥K
   obtain ⟨b, hb_def⟩ : ∃ b : MulAut ↥K, b = Subgroup.normalizerMonoidHom K ⟨x, hxK⟩ :=
     ⟨_, rfl⟩

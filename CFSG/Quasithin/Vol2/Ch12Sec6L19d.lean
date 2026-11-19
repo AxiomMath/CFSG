@@ -554,7 +554,7 @@ theorem exists_sylow_of_even (hT : quasithinIsSylowTwo T) {H K P : Subgroup G} (
   have hSsub : S.subgroupOf H = Q :=
     Subgroup.comap_map_eq_self_of_injective H.subtype_injective _
   have hPS : P ≤ S := fun p hp => ⟨⟨p, hPH hp⟩, hQ (Subgroup.mem_subgroupOf.2 hp), rfl⟩
-  have hS2 : IsPGroup 2 S := Q.isPGroup'.map _
+  have hS2 : IsPGroup 2 S := Q.isPGroup.map _
   have hSidx : ¬ 2 ∣ S.relIndex H := by
     change ¬ 2 ∣ (S.subgroupOf H).index
     rw [hSsub]

@@ -18,8 +18,8 @@ theorem balance_gmat_c13
     ∀ R Y : Subgroup Gmat, CFSG.Open.IsElemAbelian 13 R → Nat.card R = 13 ^ 2 →
       gw genD13W1 ∈ R → Y ≤ Subgroup.centralizer ({gw genD13W1} : Set Gmat) →
       ¬ 13 ∣ Nat.card Y → R ≤ Subgroup.normalizer (Y : Set Gmat) → Y = ⊥ := by
-  haveI : Finite Gmat := generated_rational_group_finite_simple.2.2
-  haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  have : Finite Gmat := generated_rational_group_finite_simple.2.2
+  have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
   obtain ⟨hg13, hd13, -, hcg, hcd, hdg, hc1, -⟩ := d13_gw_facts
   have hc13 : orderOf (gw genD13W1) = 13 := orderOf_c13
   have hG : (Nat.card Gmat).factorization 13 = 3 := factorization_Gmat_thirteen

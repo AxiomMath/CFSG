@@ -32,7 +32,7 @@ local notation "Inn" => CFSG.ComponentClassification.OuterAutomorphisms.inner
       ∃ (F : Subgroup (D4Model K)) (z : D4Model K), IsElemAbelian 3 F ∧ 3 ^ 4 ≤ Nat.card F ∧
         z ^ 2 = 1 ∧ z ≠ 1 ∧ (∀ s ∈ F, s * z = z * s) ∧ y z = z ∧ ∀ s ∈ F, y s = s
 
-theorem d4Facts2 {K : Type} [Field K] [Finite K] {r f : ℕ} (hr : r.Prime) (hr2 : r ≠ 2)
+theorem d4Facts2 {K : Type} [Field K] [Finite K] {r f : ℕ} (hr : r.Prime) (_hr2 : r ≠ 2)
     (hf : 1 ≤ f) (hK : Nat.card K = r ^ f) :
     coordinateQuadPlus 4 K ≠ 0 ∧
       (∃ m : ℕ, Nat.card (Abelianization (matrixIsometries (coordinateQuadPlus 4 K))) = 2 ^ m) ∧

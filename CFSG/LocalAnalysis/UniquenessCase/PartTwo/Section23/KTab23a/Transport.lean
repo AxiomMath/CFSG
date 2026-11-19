@@ -63,7 +63,7 @@ private lemma mem_fixedPointSubgroup_iff {W : Type} [CommGroup W] {ι : Type} [F
       MulDistribMulAction.compHom W (H.subtype.comp S.subtype)
     ∀ w : W, (w ∈ CFSG.fixedPointSubgroup ↥S W) ↔
       (∀ s ∈ S.comap π, (((s : GL ι K) : Matrix ι ι K)).mulVec (Φ w) = Φ w) := by
-  letI : MulDistribMulAction ↥S W :=
+  let : MulDistribMulAction ↥S W :=
     MulDistribMulAction.compHom W (H.subtype.comp S.subtype)
   intro w
   rw [FixedPoints.mem_subgroup]
@@ -84,7 +84,7 @@ private lemma mem_fixedPointSubgroup_iff {W : Type} [CommGroup W] {ι : Type} [F
       exact h1
     have h3 : (((π t : ↥H) : MulAut W)) w = w := Φ.injective h2
     have hs' : s • w = (((S.subtype s : ↥H) : MulAut W)) w := by
-      simp [MulAction.compHom_smul_def, Subgroup.smul_def, MulAut.smul_def]
+      simp [Subgroup.smul_def, MulAut.smul_def]
     calc s • w = (((S.subtype s : ↥H) : MulAut W)) w := hs'
       _ = (((π t : ↥H) : MulAut W)) w :=
             congrArg (fun x : ↥H => ((x : MulAut W) w)) ht.symm
@@ -97,7 +97,7 @@ theorem card_fixedPointSubgroup_eq_of_realizesVia {W : Type} [CommGroup W] {ι :
       MulDistribMulAction.compHom W (H.subtype.comp S.subtype)
     Nat.card (CFSG.fixedPointSubgroup ↥S W) =
       Nat.card {v : ι → K // ∀ s ∈ S.comap π, ((s : GL ι K) : Matrix ι ι K) *ᵥ v = v} := by
-  letI : MulDistribMulAction ↥S W :=
+  let : MulDistribMulAction ↥S W :=
     MulDistribMulAction.compHom W (H.subtype.comp S.subtype)
   have hsurj : Function.Surjective π := hR.1
   obtain ⟨Φ, hΦ⟩ := exists_equiv_intertwining hR

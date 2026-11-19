@@ -54,7 +54,7 @@ theorem hS : ∀ j < 9, j2ThreeArrs[j]! = unpack 315 9 (C.S j) := by
     have hk : k < 7 := by omega
     have e : j2ThreeArrs[k + 2]! = CFSG.Monster.B.Fischer.hexTable3 315 (315 * k) j2ThreeHex := by
       rw [getElem!_pos _ (k + 2) (by simp [j2ThreeArrs]; omega)]
-      simp [j2ThreeArrs, Array.getElem_append]
+      simp [j2ThreeArrs]
     rw [e, JH.eq, hexTable3_sound JH.all k hk, Nat.eq_of_beq_eq_true (sS k hk)]
 
 theorem binds : Binds 315 9 C.S 9 7 C.BP j2ThreeArrs j2ThreeBaseArr :=

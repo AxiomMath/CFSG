@@ -29,6 +29,7 @@ noncomputable def descentIncl (hext : IsExtension k Q₀ Q) : ↥(orthDerived Q�
   (matrixDerivedEquiv Q).toMonoidHom.comp
     ((inclHom k hext).comp (matrixDerivedEquiv Q₀).symm.toMonoidHom)
 
+omit [Finite K] [CharP K 2] in
 theorem descentIncl_injective (hext : IsExtension k Q₀ Q) : Function.Injective (descentIncl hext) := by
   have hincl : Function.Injective (inclHom k hext) := by
     intro x y hxy
@@ -44,6 +45,7 @@ theorem descentIncl_injective (hext : IsExtension k Q₀ Q) : Function.Injective
     matrixDerivedEquiv Q (inclHom k hext ((matrixDerivedEquiv Q₀).symm b)) at hab
   exact (matrixDerivedEquiv Q₀).symm.injective (hincl ((matrixDerivedEquiv Q).injective hab))
 
+omit [Finite K] [CharP K 2] in
 theorem descentIncl_equivariant (hσk : ∀ x, x ∈ k ↔ σ x = x) (hext : IsExtension k Q₀ Q)
     (a₀ : ↥(orthDerived Q₀)) :
     SigmaEquivariant σ ((descentIncl hext a₀ : ↥(orthDerived Q)) : (Fin d → K) ≃ₗ[K] (Fin d → K)) := by
@@ -61,12 +63,14 @@ theorem descentIncl_equivariant (hσk : ∀ x, x ∈ k ↔ σ x = x) (hext : IsE
   rw [glFieldAut_glIncl k hσk] at key
   exact key.symm
 
+omit [Finite K] [CharP K 2] in
 private theorem i167COrth_descent_rat_aux1 (k : Subfield K) {d : ℕ} :
     Function.Injective (glIncl (d := d) k) := by
   intro A B hAB
   refine Units.ext (Matrix.map_injective (f := k.subtype) k.subtype_injective ?_)
   simpa only [glIncl_val] using congrArg (fun u : GL (Fin d) K => u.val) hAB
 
+omit [Finite K] [CharP K 2] in
 private theorem i167COrth_descent_rat_aux2 {σ : K ≃+* K} {g : GL (Fin d) K}
     (hg : ∀ v, matrixLinearEquiv g (coordinateFieldMap d σ v) =
       coordinateFieldMap d σ (matrixLinearEquiv g v)) :
@@ -88,6 +92,7 @@ private theorem i167COrth_descent_rat_aux2 {σ : K ≃+* K} {g : GL (Fin d) K}
     rw [← matrixLinearEquiv_apply, ← matrixLinearEquiv_apply]
     exact congrArg (fun e : (Fin d → K) ≃ₗ[K] (Fin d → K) => e v) h2)).symm
 
+omit [CharP K 2] in
 theorem i167COrth_descent_rat (SS : SubfieldSetup k Q₀ Q σ p) {a : ↥(orthDerived Q)}
     (ha : SigmaEquivariant σ (a : (Fin d → K) ≃ₗ[K] (Fin d → K))) (hap : a ^ p = 1) :
     ∃ a₀ : ↥(orthDerived Q₀), descentIncl SS.hext a₀ = a := by
@@ -131,7 +136,7 @@ private theorem i167COrth_descent_fixed_finrank_aux1 {F : Type} [Field F] {d : �
     Module.finrank F (fixedSpace (matrixLinearEquiv A)) + (A.val - 1).rank = d := by
   have hto : (matrixLinearEquiv A).toLinearMap - 1 = (A.val - 1).mulVecLin := by
     ext v
-    simp [matrixLinearEquiv_apply, Matrix.sub_mulVec]
+    simp [matrixLinearEquiv_apply]
   have hfs : fixedSpace (matrixLinearEquiv A) = LinearMap.ker ((A.val - 1).mulVecLin) := by
     rw [fixedSpace, hto]
   rw [hfs]
@@ -141,6 +146,7 @@ private theorem i167COrth_descent_fixed_finrank_aux1 {F : Type} [Field F] {d : �
   rw [Module.finrank_fin_fun] at hrn
   omega
 
+omit [Finite K] [CharP K 2] in
 theorem i167COrth_descent_fixed_finrank (hext : IsExtension k Q₀ Q) (a₀ : ↥(orthDerived Q₀)) :
     Module.finrank K
         (fixedSpace ((descentIncl hext a₀ : ↥(orthDerived Q)) : (Fin d → K) ≃ₗ[K] (Fin d → K))) =
@@ -196,6 +202,7 @@ private theorem i167COrth_descent_fixed_trivial_aux1 {k : Type} [Field k] {d : �
     Matrix.toLin'_apply']
   exact hcomp
 
+omit [Finite K] [CharP K 2] in
 private theorem i167COrth_descent_fixed_trivial_aux2 (hext : IsExtension k Q₀ Q)
     (x : matrixDerived Q₀) :
     ((descentIncl hext (matrixDerivedEquiv Q₀ x) : ↥(orthDerived Q)) :
@@ -209,6 +216,7 @@ private theorem i167COrth_descent_fixed_trivial_aux3 {k L : Type} [Field k] [Fie
   ext i j
   simp [Matrix.map_apply, Matrix.one_apply]
 
+omit [Finite K] [CharP K 2] in
 private theorem i167COrth_descent_fixed_trivial_aux4 (a b : (Fin d → k) ≃ₗ[k] (Fin d → k))
     (A B : GL (Fin d) k) (ha : a = matrixLinearEquiv A) (hb : b = matrixLinearEquiv B)
     (h : ∀ w ∈ fixedSpace a, b w = w) :
@@ -221,6 +229,7 @@ private theorem i167COrth_descent_fixed_trivial_aux4 (a b : (Fin d → k) ≃ₗ
     rw [hb, matrixLinearEquiv_apply, Matrix.sub_mulVec, Matrix.one_mulVec, sub_eq_zero]
   exact hB0.mp (h v (by rw [mem_fixedSpace]; exact hA0.mpr hv))
 
+omit [Finite K] [CharP K 2] in
 theorem i167COrth_descent_fixed_trivial (hext : IsExtension k Q₀ Q) (a₀ b₀ : ↥(orthDerived Q₀))
     (h : ∀ w ∈ fixedSpace (a₀ : (Fin d → k) ≃ₗ[k] (Fin d → k)),
       (b₀ : (Fin d → k) ≃ₗ[k] (Fin d → k)) w = w) :
@@ -265,6 +274,7 @@ theorem i167COrth_descent_fixed_trivial (hext : IsExtension k Q₀ Q) (a₀ b₀
     Matrix.one_mulVec, sub_eq_zero] at hyw
   exact hyw
 
+omit [CharP K 2] in
 private theorem i167COrth_descent_dim_aux1 (SS : SubfieldSetup k Q₀ Q σ p)
     {A : Subgroup ↥(orthDerived Q)} (hA : IsElemAbelian p A)
     (hrat : ∀ a ∈ A, SigmaEquivariant σ (a : (Fin d → K) ≃ₗ[K] (Fin d → K)))
@@ -299,6 +309,7 @@ private theorem i167COrth_descent_dim_aux1 (SS : SubfieldSetup k Q₀ Q σ p)
       rw [← ha₀']; exact h1
   exact Subgroup.mem_comap.mpr hsι
 
+omit [Finite K] [CharP K 2] in
 private theorem i167COrth_descent_dim_aux2 (SS : SubfieldSetup k Q₀ Q σ p)
     {A : Subgroup ↥(orthDerived Q)} {g : ↥(orthDerived Q)}
     {g₀ : ↥(orthDerived Q₀)} (hg₀ : descentIncl SS.hext g₀ = g)

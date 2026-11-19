@@ -31,7 +31,7 @@ theorem m22_section_mQuot_eq_three_and_not_inner
   set U : Subgroup W := commSub (⊤ : Subgroup W) H with hU
   set Z : Subgroup W := U ⊓ fixV H with hZ
   have hirr' := hirr
-  rw [irrSet, Set.mem_setOf_eq] at hirr'
+  rw [irrSet, Set.mem_ofPred_eq] at hirr'
   obtain ⟨hcommU, hIirr⟩ := hirr'
   have hHU : H ≤ stabSub U := CFSG.Quasithin.le_stabSub_of_forall_mem hIirr.2.1
   have hne : ¬ H ≤ centSub U := by

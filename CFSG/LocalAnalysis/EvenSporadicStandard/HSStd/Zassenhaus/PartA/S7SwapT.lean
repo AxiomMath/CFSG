@@ -26,7 +26,7 @@ theorem sft_not_four_dvd {B : Type} [Group B] [Finite B] (t : B) (ht : orderOf t
   obtain ⟨S, hS⟩ := hP.exists_le_sylow
   have htS : t ∈ S := hS (mem_zpowers t)
   have hSle : ∀ s ∈ S, s = 1 ∨ s = t := by
-    have hSp : IsPGroup 2 S := S.isPGroup'
+    have hSp : IsPGroup 2 S := S.isPGroup
     have : Nontrivial S := ⟨⟨⟨t, htS⟩, 1, fun h => ht1 (congrArg Subtype.val h)⟩⟩
     have : Nontrivial (center S) := hSp.center_nontrivial
     have hZp : IsPGroup 2 (center S) := hSp.to_subgroup _

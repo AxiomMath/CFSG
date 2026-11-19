@@ -26,8 +26,8 @@ private theorem kgx_paired (hSL : SLFactorFacts) {p : ℕ} (hp : p.Prime)
     (hh : h ∈ primaryFactors x.toLinearMap) (hne1 : h ≠ X - 1)
     (hne : h ≠ reciprocalPolynomial h) (hq : CFSG.IsQuasisimple ↥(specialBlock Q x h)) :
     OrthCompData (kgx_Data (ringChar K) (Nat.card K)) ↥(specialBlock Q x h) := by
-  letI : Fact (Irreducible h) := ⟨hirr⟩
-  letI : Fintype (AdjoinRoot h) := Fintype.ofFinite _
+  let : Fact (Irreducible h) := ⟨hirr⟩
+  let : Fintype (AdjoinRoot h) := Fintype.ofFinite _
   have hm : 2 ≤ primaryMultiplicity x.toLinearMap h := by
     by_contra hlt
     have hpos := hx.primaryMultiplicity_pos hh
@@ -68,7 +68,7 @@ private theorem kgx_selfDual (hSL : SLFactorFacts) (hSU : SUFactorFacts)
     (hirr : Irreducible h) (hh : h ∈ primaryFactors x.toLinearMap) (hne1 : h ≠ X - 1)
     (hself : h = reciprocalPolynomial h) (hq : CFSG.IsQuasisimple ↥(specialBlock Q x h)) :
     OrthCompData (kgx_Data (ringChar K) (Nat.card K)) ↥(specialBlock Q x h) := by
-  letI : Fact (Irreducible h) := ⟨hirr⟩
+  let : Fact (Irreducible h) := ⟨hirr⟩
   classical
   have hp2' : Odd p := hp.odd_of_ne_two hp2
   have hirr := irreducible_of_mem_primaryFactors hh
@@ -107,10 +107,10 @@ private theorem kgx_selfDual (hSL : SLFactorFacts) (hSU : SUFactorFacts)
   let e₁ : ↥(specialBlock Q x h) ≃* ↥(sesqSpecialUnitaryGroup B) :=
     (MonoidHom.ofInjective (hx.specialBlockGL_injective hh)).trans
       (MulEquiv.subgroupCongr hrange)
-  haveI := hU.finite
-  haveI : Fact ℓ.Prime := ⟨hU.prime⟩
-  haveI := hU.charP
-  letI : Fintype (AdjoinRoot h) := Fintype.ofFinite _
+  have := hU.finite
+  have : Fact ℓ.Prime := ⟨hU.prime⟩
+  have := hU.charP
+  let : Fintype (AdjoinRoot h) := Fintype.ofFinite _
   have hE : Nat.card (AdjoinRoot h) = (ℓ ^ (f * d)) ^ 2 := by
     rw [hU.card, ← pow_mul, mul_comm]
   have hK : Fintype.card (AdjoinRoot h) = (ℓ ^ (f * d)) ^ 2 := by
@@ -133,13 +133,13 @@ private theorem kgx_selfDual (hSL : SLFactorFacts) (hSU : SUFactorFacts)
       exact this
     obtain ⟨φ⟩ := CFSG.RankThree.Classical.nonempty_sesqSpecialUnitaryGroup_mulEquiv_SL2 hU hBsymm
       hBl hm2
-    letI : Fintype ↥hU.fixedField := Fintype.ofFinite _
+    let : Fintype ↥hU.fixedField := Fintype.ofFinite _
     have hcardF : Fintype.card ↥hU.fixedField = ℓ ^ (f * d) := by
       rw [Fintype.card_eq_nat_card, hU.card_fixedField]
     have h4 : 4 ≤ Fintype.card ↥hU.fixedField := by
       by_contra hlt
       refine false_of_isQuasisimple_of_isSolvable' hq ?_
-      haveI := isSolvable_sl_two_of_card_lt_four' (E := ↥hU.fixedField)
+      have := isSolvable_sl_two_of_card_lt_four' (E := ↥hU.fixedField)
         (by rw [Nat.card_eq_fintype_card]; omega)
       exact Group.isSolvable_of_isSolvable_injective (f := (e₁.trans φ).toMonoidHom)
         (e₁.trans φ).injective
@@ -163,7 +163,7 @@ private theorem kgx_selfDual (hSL : SLFactorFacts) (hSU : SUFactorFacts)
     by_cases hexc : primaryMultiplicity x.toLinearMap h = 3 ∧ ℓ ^ (f * d) = 2
     · exfalso
       refine false_of_isQuasisimple_of_isSolvable' hq ?_
-      haveI : Group.IsSolvable ↥(sesqSpecialUnitaryGroup B) := by
+      have : Group.IsSolvable ↥(sesqSpecialUnitaryGroup B) := by
         refine isSolvable_of_card_primeFactors_le_two ?_
         have hcard := (CFSG.LinearGroups.unitary_full_group_order hU hBsymm hBl
           (n := primaryMultiplicity x.toLinearMap h) rfl (by omega)).2.1
@@ -214,7 +214,7 @@ private theorem kgx_fixedFactor {p : ℕ} {K : Type} [Field K] [Finite K]
   orthCompData_fixedFactor_of (P := kgx_Data (ringChar K) (Nat.card K))
     (hprov := fun L hLn hLq => by
       have hQW := hx.polarBilin_fixed_nondegenerate
-      letI : Fintype K := Fintype.ofFinite K
+      let : Fintype K := Fintype.ofFinite K
       obtain ⟨X, _, _, hX, hfac, f, hf, hfk⟩ :=
         kgOmegaFactor_holds K hK2 (fixedSpace x) (Q.comp (fixedSpace x).subtype) hQW L hLn hLq
       refine ⟨X, inferInstance, inferInstance, ⟨hfac, ⟨hX, fun _ _ hOm6 hℓ3 => ?_⟩⟩, f, hf, hfk⟩

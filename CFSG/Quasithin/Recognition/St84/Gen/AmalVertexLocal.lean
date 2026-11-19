@@ -22,7 +22,7 @@ variable {G : Type} [Group G] [Finite G] {L1 L2 S : Subgroup G}
 
 theorem _root_.CFSG.Quasithin.Hyp111.pCoreOf_le_left (hH : Hyp111 L1 L2 S) :
     pCoreOf 2 L1 ≤ S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact (IsSylowTwoOf.le_of_normalizes (S := S ⊓ L1) (K := L1) (N := pCoreOf 2 L1)
     hH.h1.sylow (pCoreOf_le 2 L1) (le_normalizer_pCoreOf 2 L1)
     (pCoreOf_isPGroup 2 L1)).trans inf_le_left
@@ -40,12 +40,13 @@ theorem _root_.CFSG.Quasithin.Hyp111.charTwo_left (hH : Hyp111 L1 L2 S) : CharTw
 theorem _root_.CFSG.Quasithin.Hyp111.charTwo_right (hH : Hyp111 L1 L2 S) : CharTwo L2 :=
   hH.symm.charTwo_left
 
+omit [Finite G] in
 theorem twoPart_of_isLin2Type {L : Subgroup G} {f k : ℕ} (hlin : IsLin2Type L f)
     (hQ : Nat.card (pCoreOf 2 L) = 2 ^ k) : twoPart L = 2 ^ (k + f) := by
   have hlin0 := hlin
   obtain ⟨F, hField, hFintype, hFcard, -⟩ := hlin
-  letI := hField
-  letI := hFintype
+  let := hField
+  let := hFintype
   have hf : 1 ≤ f := by
     have htwo : 2 ≤ Fintype.card F := Fintype.one_lt_card
     by_contra hf
@@ -100,6 +101,7 @@ theorem hyp111R_of_isLin2Type {m n : ℕ} (hm : 2 ≤ m) (hn : 2 ≤ n) (hH : Hy
     (CFSG.Quasithin.F146Field.isL2Quot_of_isPSL
       (CFSG.Quasithin.isPSL_of_isLin2Type1521 hn h2))
 
+omit [Finite G] in
 theorem sup_bigB_left_of_le (hS1 : S ≤ L1) : L1 ⊔ bigB L1 L2 S = L1 ⊔ borelOf L2 S := by
   have hB1 : borelOf L1 S ≤ L1 := borelOf_le L1 S
   have hB2big : borelOf L2 S ≤ borelOf L1 S ⊔ borelOf L2 S ⊔ S :=
@@ -111,6 +113,7 @@ theorem sup_bigB_left_of_le (hS1 : S ≤ L1) : L1 ⊔ bigB L1 L2 S = L1 ⊔ bore
   · rw [bigB]
     exact sup_le le_sup_left (hB2big.trans le_sup_right)
 
+omit [Finite G] in
 theorem sup_bigB_right_of_le (hS2 : S ≤ L2) : L2 ⊔ bigB L1 L2 S = L2 ⊔ borelOf L1 S := by
   rw [← CFSG.Quasithin.bigB_comm L1 L2 S]
   exact sup_bigB_left_of_le hS2
@@ -179,7 +182,7 @@ theorem pCoreOf_sup_bigB_left_of_le (hH : Hyp111 L1 L2 S) (hS1 : S ≤ L1) (hS2 
   have hle1 : pCoreOf 2 L1 ≤ pCoreOf 2 (L1 ⊔ bigB L1 L2 S) :=
     CFSG.GroupTheory.pCoreOf_le_pCoreOf_of_le_normalizer 2 le_sup_left hPnorm
   have hle2 : pCoreOf 2 (L1 ⊔ bigB L1 L2 S) ≤ S := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact IsSylowTwoOf.le_of_normalizes (S := S) (K := L1 ⊔ bigB L1 L2 S)
       (N := pCoreOf 2 (L1 ⊔ bigB L1 L2 S))
       (isSylowTwoOf_sup_bigB_left_of_le hH hS1 hS2)
@@ -188,7 +191,7 @@ theorem pCoreOf_sup_bigB_left_of_le (hH : Hyp111 L1 L2 S) (hS1 : S ≤ L1) (hS2 
       (pCoreOf_isPGroup 2 (L1 ⊔ bigB L1 L2 S))
   have hle3 : pCoreOf 2 (L1 ⊔ bigB L1 L2 S) ≤ L1 :=
     hle2.trans hS1
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact le_antisymm
     (le_pCoreOf_of_le_normalizer 2 hle3
       ((le_sup_left : L1 ≤ L1 ⊔ bigB L1 L2 S).trans (le_normalizer_pCoreOf 2 _))
@@ -206,7 +209,7 @@ theorem isLinSemidirect_left_of_le (hH : Hyp111 L1 L2 S) (hS1 : S ≤ L1) (hS2 :
     {F : Type*} [Field F] {n : ℕ} {Γ : Subgroup (GL (Fin n) F)}
     (hact : LinAction (L1 ⊔ bigB L1 L2 S) (pCoreOf 2 L1) Γ) :
     IsLinSemidirect (L1 ⊔ bigB L1 L2 S) (pCoreOf 2 L1) Γ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hPchar : L1 ⊔ S ⊔ borelOf L2 S = L1 ⊔ bigB L1 L2 S := by
     rw [sup_eq_left.mpr hS1, sup_bigB_left_of_le hS1]
   have hcent : (L1 ⊔ bigB L1 L2 S) ⊓
@@ -359,6 +362,7 @@ theorem pCoreOf_inf_centralizer_le_left (hH : Hyp111 L1 L2 S) (hS1 : S ≤ L1) :
     pCoreOf 2 L2 ⊓ Subgroup.centralizer (S : Set G) ≤ pCoreOf 2 L1 :=
   pCoreOf_inf_centralizer_le_right hH.symm hS1
 
+omit [Finite G] in
 theorem inf_le_centralizer_of_sup_eq (hS : pCoreOf 2 L1 ⊔ pCoreOf 2 L2 = S)
     (hQ1 : IsElemAbelian 2 (pCoreOf 2 L1)) (hQ2 : IsElemAbelian 2 (pCoreOf 2 L2)) :
     pCoreOf 2 L1 ⊓ pCoreOf 2 L2 ≤ Subgroup.centralizer (S : Set G) := by

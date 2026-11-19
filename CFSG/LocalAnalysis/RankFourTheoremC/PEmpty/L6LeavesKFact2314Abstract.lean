@@ -19,7 +19,7 @@ theorem not_isCyclic_of_inf_eq_bot {G : Type*} [Group G] [Finite G] {p : ℕ} (h
     {R X Y : Subgroup G} (hR : IsPGroup p R) (hXR : X ≤ R) (hYR : Y ≤ R) (hX : X ≠ ⊥)
     (hY : Y ≠ ⊥) (hXY : X ⊓ Y = ⊥) : ¬ IsCyclic R := by
   intro hcyc
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have key : ∀ A B : Subgroup G, A ≤ R → B ≤ R → Nat.card A ≤ Nat.card B → A ≤ B := by
     intro A B hAR hBR hcard
     obtain ⟨a, ha⟩ := IsPGroup.iff_card.1 (hR.to_le hAR)
@@ -41,8 +41,8 @@ theorem not_isCyclic_of_inf_eq_bot {G : Type*} [Group G] [Finite G] {p : ℕ} (h
 theorem two_le_pRank_of_not_isCyclic {G : Type*} [Group G] [Finite G] {p : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) {R : Subgroup G} (hR : IsPGroup p R) (hnc : ¬ IsCyclic R) :
     2 ≤ CFSG.Open.pRank p R := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (IsPGroup p R) := ⟨hR⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (IsPGroup p R) := ⟨hR⟩
   obtain ⟨E, -, hcard, hel⟩ := CFSG.lemma_4_5_a hp2 hnc
   have hE : CFSG.Open.IsElemAbelian p E :=
     (CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian p E).mp hel
@@ -68,7 +68,7 @@ theorem two_le_pRank_posUnipotentExcept (hext : SteinbergExtras D n H) {p : ℕ}
   have hαj : (Pi.single j 1 : Fin D.rank → ℤ) j = 1 := by simp
   have hβj : reflection D.cartan i (Pi.single j 1) j = 1 := by
     rw [reflection_apply_of_ne D.cartan hji, hαj]
-  have hαi : (Pi.single j 1 : Fin D.rank → ℤ) i = 0 := by simp [Pi.single_apply, hji.symm]
+  have hαi : (Pi.single j 1 : Fin D.rank → ℤ) i = 0 := by simp [hji.symm]
   have hβi : reflection D.cartan i (Pi.single j 1) i = - D.cartan i j := by
     rw [reflection_apply_coroot, Pi.sub_apply, hαi, coroot_single]
     simp
@@ -88,12 +88,12 @@ theorem two_le_pRank_posUnipotentExcept (hext : SteinbergExtras D n H) {p : ℕ}
   have hd1 : ∀ δ ∈ D.roots, (Pi.single j 1 : Fin D.rank → ℤ) ≠ 2 • δ := by
     intro δ _ h
     have := congrFun h j
-    simp only [hαj, Pi.smul_apply, smul_eq_mul, nsmul_eq_mul] at this
+    simp only [hαj, Pi.smul_apply, nsmul_eq_mul] at this
     omega
   have hd2 : ∀ δ ∈ D.roots, reflection D.cartan i (Pi.single j 1) ≠ 2 • δ := by
     intro δ _ h
     have := congrFun h j
-    simp only [hβj, Pi.smul_apply, smul_eq_mul, nsmul_eq_mul] at this
+    simp only [hβj, Pi.smul_apply, nsmul_eq_mul] at this
     omega
   have hinf := CFSG.AGLEmbeddingD2.Tits.MsideParabolicEscape.MinPar.rootGroup_inf_eq_bot hext hα hβ
     hαmem.1.2 hβmem.1.2 hd1 hd2 hne
@@ -148,7 +148,7 @@ theorem exists_adj_of_isIrreducible {m : ℕ} {A : Matrix (Fin m) (Fin m) ℤ}
     (hirr : CFSG.ClassicalInvolution.ModelFacts.IsIrreducible A) (hm : 2 ≤ m) (i : Fin m) :
     ∃ j, j ≠ i ∧ A i j ≠ 0 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hall := hirr {i} ⟨i, rfl⟩ (fun k hk j hkj => by
     have hk' : k = i := hk
     subst hk'

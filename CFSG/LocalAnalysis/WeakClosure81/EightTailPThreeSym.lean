@@ -29,7 +29,7 @@ theorem map_centralizer_eq {Y : Type} [Group Y] [Finite Y] {m : ℕ}
   have hker : (symPi e).ker = fusionOddCore Y := by
     rw [symPi]
     ext z
-    simp [MonoidHom.mem_ker, QuotientGroup.eq_one_iff]
+    simp
   apply le_antisymm
   · intro y hy
     obtain ⟨x, hx, rfl⟩ := Subgroup.mem_map.mp hy
@@ -88,7 +88,7 @@ theorem symmetric_generation {Y : Type} [Group Y] [Finite Y] {m : ℕ}
   have hker : (symPi e).ker = fusionOddCore Y := by
     rw [symPi]
     ext z
-    simp [MonoidHom.mem_ker, QuotientGroup.eq_one_iff]
+    simp
   let P' : Sylow 2 (Perm (Fin m)) := P.mapSurjective hπsurj
   have hτP : symPi e t ∈ (P' : Subgroup (Perm (Fin m))) := by
     rw [Sylow.coe_mapSurjective]
@@ -134,14 +134,14 @@ variable {G : Type} [Group G] [Finite G] {V H T : Subgroup G}
 theorem isSymGp_of_kBarOddQuotShape (d : ShapeData V H T φ) {m : ℕ}
     (h : KBarOddQuotShape V H T (fun X _ => IsSymGp X m)) :
     IsSymGp (X ⧸ fusionOddCore X) m := by
-  haveI : Finite X := d.finite
+  have : Finite X := d.finite
   obtain ⟨Y, hYgrp, φ', hφ', hsym'⟩ := h
-  letI := hYgrp
-  haveI : Finite Y := Finite.of_surjective φ' hφ'.surjective
+  let := hYgrp
+  have : Finite Y := Finite.of_surjective φ' hφ'.surjective
   obtain ⟨Y₀, hY₀grp, φ₀, ψ, hφ₀, hψsurj, _hψcomp, hψker⟩ :=
     exists_central_quotient d.hyp83 d.eq_sup d.bar
-  letI := hY₀grp
-  haveI : Finite Y₀ := Finite.of_surjective φ₀ hφ₀.surjective
+  let := hY₀grp
+  have : Finite Y₀ := Finite.of_surjective φ₀ hφ₀.surjective
   have hoddψ : Odd (Nat.card ψ.ker) :=
     Odd.of_dvd_nat d.odd_card_center (Subgroup.card_dvd_of_le hψker)
   have hker' : φ'.ker = (Subgroup.centralizer (eSub V H T : Set G)).subgroupOf (kGenIn V H) := by
@@ -168,12 +168,12 @@ theorem exists_symSetting (d : ShapeData V H T φ)
       TailSetup V H T φ' ∧ SymSetting e t P ∧
         barSub (kGenIn V H) φ' V = Subgroup.zpowers t ∧
         (P : Subgroup Y) = barSub (kGenIn V H) φ' T := by
-  haveI : Finite X := d.finite
+  have : Finite X := d.finite
   obtain ⟨Y, hYgrp, φ', ψ, hφ', hψsurj, hψcomp, hψker⟩ :=
     exists_central_quotient d.hyp83 d.eq_sup d.bar
-  letI := hYgrp
+  let := hYgrp
   have hYfin : Finite Y := Finite.of_surjective φ' hφ'.surjective
-  haveI := hYfin
+  have := hYfin
   have hoddψ : Odd (Nat.card ψ.ker) :=
     Odd.of_dvd_nat d.odd_card_center (Subgroup.card_dvd_of_le hψker)
   obtain ⟨t, ht2, ht1, hSmap, hoddclass⟩ :=
@@ -262,8 +262,8 @@ theorem threeFirst_symmetric (h711 : ∀ H : Subgroup G, W3Lem711Alt ↥H)
   intro V H T hV hH hH0 hT hKT hshape hnot
   obtain ⟨m, hm, hshape'⟩ := hshape
   obtain ⟨X, hXgrp, hXfin, φ, d, _halt⟩ := exists_shapeData h711 hV hH hH0 hT hKT
-  letI := hXgrp
-  haveI := hXfin
+  let := hXgrp
+  have := hXfin
   have hsym : IsSymGp (X ⧸ fusionOddCore X) m := isSymGp_of_kBarOddQuotShape d hshape'
   have hS2 : Nat.card (barSub (kGenIn V H) φ V) = 2 :=
     card_barSub_eq_two_of_symGp h711 d hm hsym
@@ -272,8 +272,8 @@ theorem threeFirst_symmetric (h711 : ∀ H : Subgroup G, W3Lem711Alt ↥H)
   have hm6 : 6 ≤ m := by omega
   obtain ⟨Y, hYgrp, hYfin, φ', e, t, P, hTail, hSym, ht, hP⟩ :=
     exists_symSetting d hS2 hm6 hsym
-  letI := hYgrp
-  haveI := hYfin
+  let := hYgrp
+  have := hYfin
   have hgen : Subgroup.closure ((Subgroup.centralizer ({t} : Set Y) : Set Y) ∪
       (Subgroup.normalizer (symT t (P : Subgroup Y)) : Set Y)) = ⊤ :=
     symmetric_generation hSym

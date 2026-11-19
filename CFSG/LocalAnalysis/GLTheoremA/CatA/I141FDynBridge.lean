@@ -29,7 +29,7 @@ theorem innDiagKind_chevAut {G : Type} [Group G] {p : ℕ} {K : Subgroup G} {y :
     ∃ labL : GLALabel, HasLabel (PQuot p K) (· = labL) ∧
       InnDiagKind (PSimple p K) labL (chevAut p K ⟨y, hy⟩) := by
   have hcen := center_centerQuot_eq_bot hq
-  haveI : Group.IsPerfect (PQuot p K) := ⟨hq.1⟩
+  have : Group.IsPerfect (PQuot p K) := ⟨hq.1⟩
   have hS : commutator (PSimple p K) = ⊤ :=
     (Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' (Subgroup.center (PQuot p K)))
       (QuotientGroup.mk'_surjective _)).commutator_eq_top
@@ -58,7 +58,7 @@ theorem chevAut_eq_one_iff_of_quasisimple {G : Type} [Group G] {p : ℕ} {K : Su
     (hq : CFSG.Open.IsQuasisimple (PQuot p K)) {a : G}
     (ha : a ∈ Subgroup.normalizer (K : Set G)) :
     chevAut p K ⟨a, ha⟩ = 1 ↔ CentMod p K a := by
-  haveI : Group.IsPerfect (PQuot p K) := ⟨hq.1⟩
+  have : Group.IsPerfect (PQuot p K) := ⟨hq.1⟩
   rw [← chev_barAut_eq_one_iff_centMod ha]
   show centerQuotientHom (PQuot p K) (barAut p K ⟨a, ha⟩) = 1 ↔ _
   rw [← map_one (centerQuotientHom (PQuot p K))]
@@ -71,8 +71,8 @@ theorem centerQuot_equiv_pSimple {S : Type} [Group S] [Finite S] {p : ℕ}
   have hQ := isQuasisimple_pQuot_of_glaPComponent hp hJ
   have hne : GLAPPrimeCore p ↥J ≠ ⊤ := by
     intro htop
-    haveI : Nontrivial (PQuot p J) := isQuasisimple_nontrivial hQ
-    haveI : Subsingleton (↥J ⧸ GLAPPrimeCore p ↥J) := by
+    have : Nontrivial (PQuot p J) := isQuasisimple_nontrivial hQ
+    have : Subsingleton (↥J ⧸ GLAPPrimeCore p ↥J) := by
       rw [htop]
       exact QuotientGroup.subsingleton_quotient_top
     exact not_subsingleton (PQuot p J) ‹_›

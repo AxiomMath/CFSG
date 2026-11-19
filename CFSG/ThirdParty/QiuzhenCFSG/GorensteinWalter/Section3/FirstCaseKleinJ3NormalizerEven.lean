@@ -50,10 +50,10 @@ public theorem firstCase_klein_J3_normalizer_even
     (c : CentralizerSetup G)
     (hfirst : FirstCase c)
     (hklein : IsKleinFour (pCore 2 c.Hhat))
-    {y : G} (hyJ : y ∈ firstCaseJ c 3)
+    {y : G} (_hyJ : y ∈ firstCaseJ c 3)
     {X : Subgroup G} (hXne : X ≠ ⊥) (hXle : X ≤ c.Hhat)
     (hXcard : Nat.card X = 3)
-    (hXinv : ∀ x : G, x ∈ X → x ∈ invertedElements c.Hhat y)
+    (_hXinv : ∀ x : G, x ∈ X → x ∈ invertedElements c.Hhat y)
     (hXinf : X ⊓ (twoCoreOf c.Hhat ⊔ c.U) = ⊥) :
     Even (Nat.card (Subgroup.normalizer (X : Set G) ⊓ c.Hhat : Subgroup G)) := by
   classical
@@ -130,12 +130,10 @@ public theorem firstCase_klein_J3_normalizer_even
       apply hs4I.1
       simpa [sQ] using congrArg e hs1
     · apply e.injective
-      change e (sQ ^ 2) = e 1
       rw [map_pow, map_one]
       simpa [sQ] using hs4I.2
   have hsQx : sQ * q tH * sQ⁻¹ = (q tH)⁻¹ := by
     apply e.injective
-    change e (sQ * q tH * sQ⁻¹) = e ((q tH)⁻¹)
     rw [map_mul, map_mul, map_inv, map_inv]
     simpa [sQ] using hs4x
   have hsQT : sQ ∈ Subgroup.normalizer
@@ -186,7 +184,7 @@ public theorem firstCase_klein_J3_normalizer_even
   have hhI : IsInvolution hG := by
     refine ⟨?_, ?_⟩
     · intro hh1
-      have : orderOf hG = 1 := by simpa [hh1]
+      have : orderOf hG = 1 := by simp [hh1]
       omega
     · rw [← hhordG]
       exact pow_orderOf_eq_one hG
@@ -305,7 +303,7 @@ public theorem firstCase_klein_J3_normalizer_even
     calc
       t = (hG * hG) * t * (hG * hG) := by
         have hss : hG * hG = 1 := by simpa [pow_two] using hhI.2
-        simpa [hss]
+        simp [hss]
       _ = hG * (hG * t * hG⁻¹) * hG⁻¹ := by rw [hginv]; group
       _ = hG * (uG * t⁻¹) * hG⁻¹ := by rw [hth]
       _ = hG * (uG * t⁻¹) * hG := by rw [hginv]

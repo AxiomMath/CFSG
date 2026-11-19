@@ -102,7 +102,7 @@ theorem s16c1_G47_L3_embed {F : Type} [Field F] [Finite F] (hF : Nat.card F = 5)
     exact h
   have hTdet : ((T : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F).det = 1 := by
     have h := congrArg Units.val (Matrix.SpecialLinearGroup.coeToGL_det (t : SL(3, F)))
-    simpa [hTdef] using h
+    simp [hTdef]
   obtain ⟨P, hP⟩ := CFSG.RankThree.SubgroupLists.exists_conj_negDiag3 h2 hT2 hT1 hTdet
   have hxT : ∀ x : ↥X, Matrix.SpecialLinearGroup.toGL (x : SL(3, F)) * T =
       T * Matrix.SpecialLinearGroup.toGL (x : SL(3, F)) := by
@@ -139,14 +139,14 @@ theorem s16c1_G47_L3_embed {F : Type} [Field F] [Finite F] (hF : Nat.card F = 5)
     group
   let ρ₀ : ↥X →* GL (Fin 2) F :=
     { toFun := g₀, map_one' := hone, map_mul' := hmul }
-  haveI hperf : Group.IsPerfect ↥X :=
+  have hperf : Group.IsPerfect ↥X :=
     Group.isPerfect_def.2 (by
       show ⁅(⊤ : Subgroup ↥X), (⊤ : Subgroup ↥X)⁆ = ⊤
       exact (s16c1_sl2five_facts hX).2.1)
   let δ : ↥X →* Fˣ := Matrix.GeneralLinearGroup.det.comp ρ₀
   have hδ : δ = 1 := by
-    haveI : Group.IsPerfect δ.range := Group.IsPerfect.range δ
-    haveI : Subsingleton δ.range := Group.IsPerfect.subsingleton_of_isMulCommutative
+    have : Group.IsPerfect δ.range := Group.IsPerfect.range δ
+    have : Subsingleton δ.range := Group.IsPerfect.subsingleton_of_isMulCommutative
     apply MonoidHom.ext
     intro x
     exact Subtype.ext_iff.mp (Subsingleton.elim (⟨δ x, ⟨x, rfl⟩⟩ : δ.range) 1)
@@ -220,7 +220,7 @@ theorem s16c1_G47_L3_std {F : Type} [Field F] [Finite F] (hF : Nat.card F = 5)
   have hSL : Nat.card SL(2, F) = 120 := by
     rw [← CFSG.Open.StatedAPI.card_statedSL, CFSG.Open.StatedAPI.card_statedSL_two, hF]
     norm_num
-  haveI : Finite SL(2, F) := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite SL(2, F) := Nat.finite_of_card_ne_zero (by omega)
   have hbij : Function.Bijective ρ :=
     (Nat.bijective_iff_injective_and_card ρ).mpr ⟨hρ, hX120.trans hSL.symm⟩
   refine ⟨P, fun x => ⟨fun hx => ⟨ρ ⟨x, hx⟩, hform ⟨x, hx⟩⟩, fun ⟨A, hA⟩ => ?_⟩⟩

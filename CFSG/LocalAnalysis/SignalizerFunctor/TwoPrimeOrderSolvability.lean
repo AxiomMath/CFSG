@@ -21,7 +21,7 @@ theorem simple_two_prime_order_solvable
   let : Fact prime.Prime := ⟨prime_prime⟩
   let sylow : Sylow prime GroupType := Classical.choice inferInstance
   let : Nontrivial sylow := (Subgroup.nontrivial_iff_ne_bot _).mpr (sylow.ne_bot_of_dvd_card divides)
-  have center_large := sylow.isPGroup'.bot_lt_center
+  have center_large := sylow.isPGroup.bot_lt_center
   obtain ⟨centralElement, central, central_ne⟩ := IsConcreteLE.exists_of_lt center_large
   have central_ne_one : (centralElement : GroupType) ≠ 1 := by
     intro equal

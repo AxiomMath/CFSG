@@ -23,10 +23,13 @@ private def w172_s13_fixingSubgroup (v : V) : Subgroup (LGL 2 V) where
     calc a⁻¹ v = a⁻¹ (a v) := by conv_lhs => rw [← ha]
       _ = v := LinearEquiv.symm_apply_apply a v
 
+omit [Finite V] in
 private theorem w172_s13_add_self_two (v : V) : v + v = 0 := ZModModule.add_self v
 
+omit [Finite V] in
 private theorem w172_s13_sub_eq_add_two (x y : V) : x - y = x + y := ZModModule.sub_eq_add x y
 
+omit [Finite V] in
 private theorem w172_s13_apply_eq_of_sq_apply_eq_of_odd {g : LGL 2 V} {w : V}
     (hodd : Odd (orderOf g)) (h : g (g w) = w) : g w = w := by
   obtain ⟨m, hm⟩ := hodd
@@ -46,16 +49,19 @@ private theorem w172_s13_apply_eq_of_sq_apply_eq_of_odd {g : LGL 2 V} {w : V}
   rw [hg]
   exact hpow (m + 1)
 
+omit [Finite V] in
 private theorem w172_s13_mul_comm_of_conj_eq_self {g x : LGL 2 V} (h : g * x * g⁻¹ = x) :
     g * x = x * g := by
   conv_rhs => rw [← h]
   group
 
+omit [Finite V] in
 private theorem w172_s13_quadratic_apply_sub {A : Subgroup (LGL 2 V)}
     (hquad : commSpace A (commSub A) = ⊥) {a b : LGL 2 V} (ha : a ∈ A) (hb : b ∈ A)
     (v : V) : b (a v - v) = a v - v :=
   (commSpace_eq_bot_iff.mp hquad) b hb (a v - v) (sub_mem_commSub A ha v)
 
+omit [Finite V] in
 private theorem w172_s13_apply_eq_of_quadratic_conj {A : Subgroup (LGL 2 V)}
     (hquad : commSpace A (commSub A) = ⊥)
     {a₁ a₂ x₂ : LGL 2 V} (ha₁ : a₁ ∈ A) (ha₂ : a₂ ∈ A)
@@ -98,6 +104,7 @@ private theorem w172_s13_apply_eq_of_quadratic_conj {A : Subgroup (LGL 2 V)}
     rwa [LinearEquiv.mul_apply] at h4
   exact w172_s13_apply_eq_of_sq_apply_eq_of_odd hodd hsq
 
+omit [Finite V] in
 private theorem w172_s13_x1_fixes_span_of_forall_apply_eq {a₁ x₁ : LGL 2 V}
     (ha₁sq : a₁ * a₁ = 1) (hinv : a₁ * x₁ * a₁⁻¹ = x₁⁻¹)
     (hno : ∀ v : V, a₁ (x₁ (a₁ v - v)) = x₁ (a₁ v - v))
@@ -129,6 +136,7 @@ private theorem w172_s13_x1_fixes_span_of_forall_apply_eq {a₁ x₁ : LGL 2 V}
   | add x y _ _ hx hy => rw [map_add, hx, hy]
   | smul c x _ hx => rw [map_smul, hx]
 
+omit [Finite V] in
 private theorem w172_s13_x1_pow_four_eq_one_of_fixes_span {a₁ x₁ : LGL 2 V}
     (ha₁sq : a₁ * a₁ = 1) (hinv : a₁ * x₁ * a₁⁻¹ = x₁⁻¹)
     (hfix : ∀ w ∈ Submodule.span (ZMod 2) {w : V | ∃ v : V, w = a₁ v - v}, x₁ w = w) :
@@ -201,9 +209,10 @@ private theorem w172_s13_x1_pow_four_eq_one_of_fixes_span {a₁ x₁ : LGL 2 V}
     rwa [mul_inv_rev, inv_inv] at hyinv
   rw [show (4 : ℕ) = 2 * 2 by norm_num, pow_mul, pow_two, pow_two, hx₁2, hyy]
 
+omit [Finite V] in
 private theorem w172_s13_exists_apply_sub_ne {A : Subgroup (LGL 2 V)}
-    (hquad : commSpace A (commSub A) = ⊥)
-    {a₁ x₁ : LGL 2 V} (ha₁ : a₁ ∈ A) (ha₁sq : a₁ * a₁ = 1)
+    (_hquad : commSpace A (commSub A) = ⊥)
+    {a₁ x₁ : LGL 2 V} (_ha₁ : a₁ ∈ A) (ha₁sq : a₁ * a₁ = 1)
     (hinv : a₁ * x₁ * a₁⁻¹ = x₁⁻¹) (hprime : (orderOf x₁).Prime)
     (hodd : Odd (orderOf x₁)) :
     ∃ v : V, a₁ (x₁ (a₁ v - v)) ≠ x₁ (a₁ v - v) := by
@@ -242,7 +251,7 @@ theorem w172_index_centralizer_le_two {A X : Subgroup (LGL 2 V)} {VA : Submodule
     Odd.of_dvd_nat hodd (Subgroup.orderOf_dvd_natCard X hx₂X)
   have hp₂odd : Odd d.p₂ := by rw [d.x₂_order] at hx₂odd; exact hx₂odd
   have hprime₁ : (orderOf d.x₁).Prime := by rw [d.x₁_order]; exact d.p₁_prime
-  obtain ⟨v₀, hv₀⟩ := w172_s13_exists_apply_sub_ne (hquad := hquad) (ha₁ := d.a₁_mem)
+  obtain ⟨v₀, hv₀⟩ := w172_s13_exists_apply_sub_ne (_hquad := hquad) (_ha₁ := d.a₁_mem)
     (ha₁sq := ha₁sq) (hinv := d.a₁_inverts) (hprime := hprime₁) (hodd := hx₁odd)
   set u : V := d.x₁ (d.a₁ v₀ - v₀) with hu
   set w : V := d.a₁ u - u with hw

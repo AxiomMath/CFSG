@@ -16,6 +16,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
 namespace HS9
 
+omit [Finite G] in
 theorem exists_psi91 {hc : Ctx M Q Z B} {n : ℕ} {t : G} (hs : Sec9Hyp hc n t) :
     ∃ (K : Type) (_ : Field K) (_ : Finite K) (_ : CharP K 2),
       Nat.card K = Nat.card Z ∧
@@ -23,7 +24,7 @@ theorem exists_psi91 {hc : Ctx M Q Z B} {n : ℕ} {t : G} (hs : Sec9Hyp hc n t) 
         Function.Surjective ψ ∧ ψ.ker = (hc.CN t).subgroupOf (Rt M (LB M Q B) t) := by
   obtain ⟨K, fK, finK, hK, φ, hφr, hφk, -⟩ := hs.plus4
   obtain ⟨jj, kk, hZ2, -⟩ := hc.hyp.cp
-  haveI : CharP K 2 := charP_two_of_card_eq_two_pow (hK.trans hZ2)
+  have : CharP K 2 := charP_two_of_card_eq_two_pow (hK.trans hZ2)
   have h4 : 4 ≤ Nat.card K := by rw [hK]; exact hc.hyp.q4
   obtain ⟨e⟩ := statedOmega_plus_four_nonempty_equiv K h4
   let ψ : ↥(Rt M (LB M Q B) t) →* ↥(StatedSL 2 K) × ↥(StatedSL 2 K) :=
@@ -88,7 +89,7 @@ theorem sec9NGeFive_of (h34 : Stroth34Statement) (h311a : Stroth311aStatement)
   have hQLA : Q ≤ LB M Q (conjSubgroup r B) := sec39_Q_le_LB
   have hQN : Q ≤ hc.CN t := sec9_Q_le_CN hc ht
   obtain ⟨K, fK, finK, hch, hK, ψ, hψs, hψk⟩ := HS9.exists_psi91 hs
-  haveI := hch
+  have := hch
   have hQT : Q ≤ LB M Q B ⊓ LB M Q (conjSubgroup r B) := le_inf hQL hQLA
   have hTR : ∀ g ∈ Rt M (LB M Q B) t, ∀ x ∈ LB M Q B ⊓ LB M Q (conjSubgroup r B),
       g * x * g⁻¹ ∈ LB M Q B ⊓ LB M Q (conjSubgroup r B) := by
@@ -207,8 +208,8 @@ theorem sec9NGeFive_of (h34 : Stroth34Statement) (h311a : Stroth311aStatement)
   let N₀ : Subgroup ↥(Rt M (LB M Q B) t) := (hc.CN t).subgroupOf (Rt M (LB M Q B) t)
   let T₀ : Subgroup ↥(Rt M (LB M Q B) t) :=
     (LB M Q B ⊓ LB M Q (conjSubgroup r B)).subgroupOf (Rt M (LB M Q B) t)
-  haveI hN₀ : N₀.Normal := ⟨fun x hx g => hc.CN_conj_mem ht g.2 hx⟩
-  haveI hT₀ : T₀.Normal := ⟨fun x hx g => hTR g g.2 x hx⟩
+  have hN₀ : N₀.Normal := ⟨fun x hx g => hc.CN_conj_mem ht g.2 hx⟩
+  have hT₀ : T₀.Normal := ⟨fun x hx g => hTR g g.2 x hx⟩
   have hT₀N₀ : T₀ ≤ N₀ := fun x hx => hT'N hx
   have hNN₀ : ∀ a ∈ N₀, ∀ b ∈ N₀, ⁅a, b⁆ ∈ T₀ := fun a ha b hb =>
     hNN (Subgroup.commutator_mem_commutator ha hb)
@@ -249,7 +250,7 @@ theorem sec9NGeFive_of (h34 : Stroth34Statement) (h311a : Stroth311aStatement)
     have h6 : 2 ^ (d + 2) ≤ 2 ^ (2 * e) := by rw [pow_add]; omega
     exact (Nat.pow_le_pow_iff_right (by norm_num)).mp h6
   have hX : Nat.card (HS9.Xq N₀ T₀) = 2 ^ d := by rw [hXq]; exact hidxd
-  haveI hsimple : IsSimpleGroup ↥(StatedSL 2 K) :=
+  have hsimple : IsSimpleGroup ↥(StatedSL 2 K) :=
     isSimpleGroup_statedSL_two (statedSL_quasisimple_of_card 2 K le_rfl h4K)
   have hall := HS9.comm_mem_of_small (S := ↥(StatedSL 2 K)) N₀ T₀ hNN₀ hN2₀ ψ hψs hker hX
     (HS9.hsmall_statedSL K hKe he hd2)

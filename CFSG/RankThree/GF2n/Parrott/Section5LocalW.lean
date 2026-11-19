@@ -40,6 +40,7 @@ variable [hN : ((J z).subgroupOf (H z)).Normal] (D : QuotientData (z := z) hN)
   H z ⊓ centralizer ({σ} : Set G) ⊓
     ((Subgroup.closure ({tA, uA * vA} : Set A45)).comap (qH (z := z) D)).map (H z).subtype
 
+omit [Finite G] in
 private theorem lemma54W_pow_two_eq_one_or {τ b : G} (hτ : τ * τ = 1)
     (hb : b ∈ Subgroup.zpowers τ) : b = 1 ∨ b = τ := by
   obtain ⟨n, rfl⟩ := Subgroup.mem_zpowers_iff.mp hb
@@ -51,6 +52,7 @@ private theorem lemma54W_pow_two_eq_one_or {τ b : G} (hτ : τ * τ = 1)
   · rw [hper, h0]; simp
   · rw [hper, h1]; simp
 
+omit hN [Finite G] in
 theorem mem_lemma54W_iff_of_mem_J {σ τ : G} (hτ : τ * τ = 1) (hτJ : τ ∉ J z) {x : G}
     (hx : x ∈ J z) :
     x ∈ lemma54W z σ τ ↔ x ∈ centralizer ({σ} : Set G) ∧ x ∈ centralizer ({τ} : Set G) := by
@@ -77,6 +79,7 @@ theorem mem_lemma54W_iff_of_mem_J {σ τ : G} (hτ : τ * τ = 1) (hτJ : τ ∉
     exact ⟨x, Subgroup.mem_inf.mpr ⟨Subgroup.mem_inf.mpr ⟨hx, hσ⟩, hτx⟩, 1,
       Subgroup.one_mem _, mul_one x⟩
 
+omit hN [Finite G] in
 theorem mem_lemma54W_iff {σ τ : G} (hτ : τ * τ = 1) {x : G} :
     x ∈ lemma54W z σ τ ↔
       x ∈ J z ⊓ centralizer ({σ} : Set G) ⊓ centralizer ({τ} : Set G) ∨
@@ -180,18 +183,16 @@ private theorem mem_closure_t_uv_iff (x : A45) :
         one_mem' := Or.inl rfl
         mul_mem' := by
           intro y z hy hz
-          simp only [Set.mem_setOf_eq] at hy hz ⊢
+          simp only [Set.mem_ofPred_eq] at hy hz ⊢
           rcases hy with rfl | rfl | rfl | rfl <;>
             rcases hz with rfl | rfl | rfl | rfl <;>
-            simp only [Subtype.ext_iff, Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_one,
-              Subtype.coe_mk] <;>
+            simp only [Subtype.ext_iff, Subgroup.coe_mul, Subgroup.coe_one] <;>
             decide +kernel
         inv_mem' := by
           intro y hy
-          simp only [Set.mem_setOf_eq] at hy ⊢
+          simp only [Set.mem_ofPred_eq] at hy ⊢
           rcases hy with rfl | rfl | rfl | rfl <;>
-            simp only [Subtype.ext_iff, Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_one,
-              Subtype.coe_mk] <;>
+            simp only [Subtype.ext_iff, Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_one] <;>
             decide +kernel }
     have hle : Subgroup.closure ({tA, uA * vA} : Set A45) ≤ S := by
       rw [Subgroup.closure_le]
@@ -305,7 +306,8 @@ private theorem card_centralizer_s1s2inv :
   exact (card_centralizer_QA45_eq_filter (sigma1 * sigma2⁻¹) hm).trans
     Certificates.certificate946005.centralizer_sigma1sigma2inv
 
-private theorem lemma54T₂_eq_map (h : Tim79a.ParrottHyp z) (σ : ↥(H z)) :
+omit [Finite G] in
+private theorem lemma54T₂_eq_map (_h : Tim79a.ParrottHyp z) (σ : ↥(H z)) :
     lemma54T₂ D (σ : G) = (Subgroup.centralizer ({σ} : Set ↥(H z)) ⊓
       (Subgroup.closure ({tA, uA * vA} : Set A45)).comap (qH (z := z) D)).map (H z).subtype := by
   ext x
@@ -355,7 +357,7 @@ theorem card_lemma54T₂ (h : Tim79a.ParrottHyp z) (P : GL8)
     have h2 : qH (z := z) D σ = 1 := by rw [h1, map_one]
     rw [hqσ] at h2
     exact sigma1_mul_sigma2_inv_ne_one h2
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hσord : orderOf σ = 3 := orderOf_eq_prime hσ3 hσne
   have hJcard : Nat.card (centralizerJ σ) = 2 ^ 6 := by
     rw [show Nat.card (centralizerJ σ) =
@@ -445,7 +447,7 @@ theorem card_lemma54Y (h : Tim79a.ParrottHyp z)
     have h2 : qH (z := z) D σ = 1 := by rw [h1, map_one]
     rw [hqσ] at h2
     exact sigma1_mul_sigma2_inv_ne_one h2
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hσord : orderOf σ = 3 := orderOf_eq_prime hσ3 hσne
   have hJcard : Nat.card (centralizerJ σ) = 2 ^ 6 := by
     rw [show Nat.card (centralizerJ σ) =
@@ -497,10 +499,13 @@ private theorem conjZ_eq_one_of_qH_eq_tA (h : Tim79a.ParrottHyp z) {τ : ↥(H z
     (hqτ : qH (z := z) D τ = tA) : conjZ z τ = 1 :=
   conjZ_eq_one_of_qH_mem_QP45 (z := z) D h τ (by rw [hqτ]; exact t_mem_Q)
 
+omit [Finite G] hN in
 private theorem mul_comm_of_mem_centerIn {c : J z} (hc : (c : G) ∈ centerIn (J z)) (d : J z) :
     c * d = d * c :=
   Subtype.ext (Subgroup.mem_centralizer_iff.mp hc.2 (d : G) d.2).symm
 
+omit hN in
+omit [Finite G] in
 private theorem lemma54Cocycle_mem_centerIn (h : Tim79a.ParrottHyp z) {τ : ↥(H z)} {y : J z}
     (hy : conjV h τ (QuotientV.pi z y) = QuotientV.pi z y) :
     (lemma54Cocycle τ y : G) ∈ centerIn (J z) := by
@@ -509,6 +514,7 @@ private theorem lemma54Cocycle_mem_centerIn (h : Tim79a.ParrottHyp z) {τ : ↥(
   unfold lemma54Cocycle
   rw [map_mul, map_inv, ← conjV_mk h τ y, hy, inv_mul_cancel]
 
+omit [Finite G] hN in
 private theorem lemma54Cocycle_mul {τ : ↥(H z)} {y y' : J z}
     (hy : (lemma54Cocycle τ y : G) ∈ centerIn (J z)) :
     lemma54Cocycle τ (y * y') = lemma54Cocycle τ y * lemma54Cocycle τ y' := by
@@ -521,6 +527,7 @@ private theorem lemma54Cocycle_mul {τ : ↥(H z)} {y y' : J z}
     _ = ((y⁻¹ * conjJ' z τ y) * y'⁻¹) * conjJ' z τ y' := by rw [hcomm]
     _ = (y⁻¹ * conjJ' z τ y) * (y'⁻¹ * conjJ' z τ y') := by group
 
+omit hN [Finite G] in
 private theorem conjJ'_eq_self_of_mem_centerIn {s : ↥(H z)} (hZs : conjZ z s = 1) {c : J z}
     (hc : (c : G) ∈ centerIn (J z)) : conjJ' z s c = c := by
   apply Subtype.ext
@@ -530,6 +537,7 @@ private theorem conjJ'_eq_self_of_mem_centerIn {s : ↥(H z)} (hZs : conjZ z s =
   rw [← hcent]
   group
 
+omit hN [Finite G] in
 private theorem lemma54Cocycle_conjJ' {τ s : ↥(H z)} (hs : s * τ = τ * s) (y : J z) :
     lemma54Cocycle τ (conjJ' z s y) = conjJ' z s (lemma54Cocycle τ y) := by
   have h1 : conjJ' z τ (conjJ' z s y) = conjJ' z s (conjJ' z τ y) := by
@@ -541,17 +549,20 @@ private theorem lemma54Cocycle_conjJ' {τ s : ↥(H z)} (hs : s * τ = τ * s) (
   unfold lemma54Cocycle
   rw [h1, map_mul, map_inv]
 
+omit hN [Finite G] in
 private theorem lemma54Cocycle_conjJ'_eq_self {τ s : ↥(H z)} (hs : s * τ = τ * s)
     (hZs : conjZ z s = 1) {y : J z} (hy : (lemma54Cocycle τ y : G) ∈ centerIn (J z)) :
     lemma54Cocycle τ (conjJ' z s y) = lemma54Cocycle τ y := by
   rw [lemma54Cocycle_conjJ' hs]
   exact conjJ'_eq_self_of_mem_centerIn hZs hy
 
+omit hN [Finite G] in
 private theorem lemma54Cocycle_eq_one_of_mem_centerIn {τ : ↥(H z)} (hZτ : conjZ z τ = 1)
     {ζ : J z} (hζ : (ζ : G) ∈ centerIn (J z)) : lemma54Cocycle τ ζ = 1 := by
   unfold lemma54Cocycle
   rw [conjJ'_eq_self_of_mem_centerIn hZτ hζ, inv_mul_cancel]
 
+omit hN [Finite G] in
 theorem conjV_conjJ'_of_comm (h : Tim79a.ParrottHyp z) {g s : ↥(H z)}
     (hgs : g * s = s * g) {y : J z}
     (hy : conjV h g (QuotientV.pi z y) = QuotientV.pi z y) :
@@ -587,7 +598,7 @@ theorem mem_centralizer_of_conjV_pi_eq (h : Tim79a.ParrottHyp z) (P : GL8)
     {σ₂ : ↥(H z)} (hσ₂ : orderOf σ₂ = 3) (hq₂ : qH (z := z) D σ₂ = s2A)
     (hc₂ : σ₂ * sigma1Nine (z := z) D = sigma1Nine (z := z) D * σ₂)
     {τ : ↥(H z)} (hqτ : qH (z := z) D τ = tA)
-    (hτ₁ : τ * sigma1Nine (z := z) D = sigma1Nine (z := z) D * τ) (hτ₂ : τ * σ₂ = σ₂ * τ)
+    (hτ₁ : τ * sigma1Nine (z := z) D = sigma1Nine (z := z) D * τ) (_hτ₂ : τ * σ₂ = σ₂ * τ)
     (x : J z)
     (hσx : conjV h (sigma1Nine (z := z) D * σ₂⁻¹) (QuotientV.pi z x) = QuotientV.pi z x)
     (hτx : conjV h τ (QuotientV.pi z x) = QuotientV.pi z x) :
@@ -949,6 +960,7 @@ private theorem sq_eq_one_of_mem_base (h : Tim79a.ParrottHyp z) (P : GL8)
     simpa [qJ_coe] using hone
   rwa [pow_two] at hcoe
 
+omit [Finite G] in
 private theorem not_mem_J_of_qH_eq_tA {τ : ↥(H z)} (hqτ : qH (z := z) D τ = tA) :
     (τ : G) ∉ J z := by
   intro hmem
@@ -956,6 +968,7 @@ private theorem not_mem_J_of_qH_eq_tA {τ : ↥(H z)} (hqτ : qH (z := z) D τ =
   rw [hqτ] at hq1
   exact t_ne_one (congrArg Subtype.val hq1)
 
+omit [Finite G] in
 private theorem mul_tau_mul_tau {τ x y : G} (hτ : τ * τ = 1)
     (hxτ : x * τ = τ * x) : (τ * x) * (τ * y) = x * y := by
   calc (τ * x) * (τ * y) = τ * (x * τ) * y := by group
@@ -965,10 +978,10 @@ private theorem mul_tau_mul_tau {τ x y : G} (hτ : τ * τ = 1)
 
 theorem lemma54W_comm (h : Tim79a.ParrottHyp z) (P : GL8)
     (hP : ∀ a : A45, actionQA45 (z := z) h D a = P * rhoA a * P⁻¹)
-    {σ₂ : ↥(H z)} (hσ₂ : orderOf σ₂ = 3) (hq₂ : qH (z := z) D σ₂ = s2A)
-    (hc₂ : σ₂ * sigma1Nine (z := z) D = sigma1Nine (z := z) D * σ₂)
+    {σ₂ : ↥(H z)} (_hσ₂ : orderOf σ₂ = 3) (hq₂ : qH (z := z) D σ₂ = s2A)
+    (_hc₂ : σ₂ * sigma1Nine (z := z) D = sigma1Nine (z := z) D * σ₂)
     {τ : ↥(H z)} (hqτ : qH (z := z) D τ = tA) (hτ : τ * τ = 1)
-    (hτ₁ : τ * sigma1Nine (z := z) D = sigma1Nine (z := z) D * τ) (hτ₂ : τ * σ₂ = σ₂ * τ) :
+    (_hτ₁ : τ * sigma1Nine (z := z) D = sigma1Nine (z := z) D * τ) (_hτ₂ : τ * σ₂ = σ₂ * τ) :
     ∀ a ∈ lemma54W z ((sigma1Nine (z := z) D * σ₂⁻¹ : ↥(H z)) : G) (τ : G),
       ∀ b ∈ lemma54W z ((sigma1Nine (z := z) D * σ₂⁻¹ : ↥(H z)) : G) (τ : G), a * b = b * a := by
   intro a ha b hb
@@ -1025,10 +1038,10 @@ theorem lemma54W_comm (h : Tim79a.ParrottHyp z) (P : GL8)
 
 theorem lemma54W_mul_self (h : Tim79a.ParrottHyp z) (P : GL8)
     (hP : ∀ a : A45, actionQA45 (z := z) h D a = P * rhoA a * P⁻¹)
-    {σ₂ : ↥(H z)} (hσ₂ : orderOf σ₂ = 3) (hq₂ : qH (z := z) D σ₂ = s2A)
-    (hc₂ : σ₂ * sigma1Nine (z := z) D = sigma1Nine (z := z) D * σ₂)
+    {σ₂ : ↥(H z)} (_hσ₂ : orderOf σ₂ = 3) (hq₂ : qH (z := z) D σ₂ = s2A)
+    (_hc₂ : σ₂ * sigma1Nine (z := z) D = sigma1Nine (z := z) D * σ₂)
     {τ : ↥(H z)} (hqτ : qH (z := z) D τ = tA) (hτ : τ * τ = 1)
-    (hτ₁ : τ * sigma1Nine (z := z) D = sigma1Nine (z := z) D * τ) (hτ₂ : τ * σ₂ = σ₂ * τ) :
+    (_hτ₁ : τ * sigma1Nine (z := z) D = sigma1Nine (z := z) D * τ) (_hτ₂ : τ * σ₂ = σ₂ * τ) :
     ∀ a ∈ lemma54W z ((sigma1Nine (z := z) D * σ₂⁻¹ : ↥(H z)) : G) (τ : G), a * a = 1 := by
   intro a ha
   have hτG : (τ : G) * (τ : G) = 1 := by simpa using congrArg Subtype.val hτ
@@ -1080,13 +1093,16 @@ theorem card_lemma54W (h : Tim79a.ParrottHyp z) (P : GL8)
     CFSG.card_sup_eq_mul_of_commute _ _ hcomm hdisj,
     card_lemma54N (z := z) D h P hP hσ₂ hq₂ hc₂ hqτ hτ₁ hτ₂, Nat.card_zpowers, hordτ]
 
+omit [Finite G] in
 private theorem lemma54T₂_le_H {σ : G} {x : G} (hx : x ∈ lemma54T₂ D σ) : x ∈ H z :=
   (Subgroup.mem_inf.mp (Subgroup.mem_inf.mp hx).1).1
 
+omit [Finite G] in
 private theorem lemma54T₂_centralizes {σ : G} {x : G} (hx : x ∈ lemma54T₂ D σ) :
     x ∈ centralizer ({σ} : Set G) :=
   (Subgroup.mem_inf.mp (Subgroup.mem_inf.mp hx).1).2
 
+omit [Finite G] in
 private theorem lemma54T₂_qH_mem {σ : G} {x : G} (hx : x ∈ lemma54T₂ D σ) (hxH : x ∈ H z) :
     qH (z := z) D ⟨x, hxH⟩ ∈ Subgroup.closure ({tA, uA * vA} : Set A45) := by
   obtain ⟨y, hy, hyx⟩ := Subgroup.mem_map.mp (Subgroup.mem_inf.mp hx).2
@@ -1103,6 +1119,7 @@ private noncomputable def lemma54MapE (σ : G) (E : Subgroup G) (hE : E ≤ lemm
     rw [show (⟨((a * b : E) : G), _⟩ : ↥(H z)) =
       (⟨(a : G), _⟩ : ↥(H z)) * ⟨(b : G), _⟩ from Subtype.ext rfl, map_mul]
 
+omit [Finite G] in
 private theorem lemma54MapE_ker {σ : G} (E : Subgroup G) (hE : E ≤ lemma54T₂ D σ) :
     (lemma54MapE (z := z) D σ E hE).ker = (J z).comap E.subtype := by
   ext x
@@ -1110,12 +1127,14 @@ private theorem lemma54MapE_ker {σ : G} (E : Subgroup G) (hE : E ≤ lemma54T�
   show qH (z := z) D ⟨(x : G), lemma54T₂_le_H (z := z) D (hE x.2)⟩ = 1 ↔ (x : G) ∈ J z
   rw [← J_mem_iff D ⟨(x : G), lemma54T₂_le_H (z := z) D (hE x.2)⟩, Subgroup.mem_subgroupOf]
 
+omit [Finite G] in
 private theorem lemma54MapE_range_le {σ : G} (E : Subgroup G) (hE : E ≤ lemma54T₂ D σ) :
     (lemma54MapE (z := z) D σ E hE).range ≤
       Subgroup.closure ({tA, uA * vA} : Set A45) := by
   rintro g ⟨x, rfl⟩
   exact lemma54T₂_qH_mem (z := z) D (hE x.2) (lemma54T₂_le_H (z := z) D (hE x.2))
 
+omit [Finite G] in
 private theorem card_eq_card_inf_mul_card_range {σ : G} (E : Subgroup G)
     (hE : E ≤ lemma54T₂ D σ) :
     Nat.card E = Nat.card ↥(E ⊓ J z) *
@@ -1136,12 +1155,16 @@ private noncomputable def lemma54MapJ (E : Subgroup G) : ↥(E ⊓ J z) →* Quo
     rw [show (⟨((a * b : ↥(E ⊓ J z)) : G), _⟩ : J z) =
       (⟨(a : G), _⟩ : J z) * ⟨(b : G), _⟩ from Subtype.ext rfl, map_mul]
 
+omit hN in
+omit [Finite G] in
 private theorem lemma54MapJ_ker (E : Subgroup G) :
     (lemma54MapJ (z := z) E).ker = (centerIn (J z)).comap (E ⊓ J z).subtype := by
   ext x
   rw [MonoidHom.mem_ker, Subgroup.mem_comap]
   exact pi_eq_one_iff_mem_centerIn (Subgroup.mem_inf.mp x.2).2
 
+omit hN in
+omit [Finite G] in
 private theorem card_eq_card_inf_centerIn_mul_card_range (E : Subgroup G) :
     Nat.card ↥(E ⊓ J z) = Nat.card ↥((E ⊓ J z) ⊓ centerIn (J z)) *
       Nat.card ↥(lemma54MapJ (z := z) E).range := by
@@ -1155,6 +1178,7 @@ private theorem card_eq_card_inf_centerIn_mul_card_range (E : Subgroup G) :
   rw [hker] at h
   exact h.symm
 
+omit hN in
 private theorem card_range_le_finset (h : Tim79a.ParrottHyp z) (P : GL8) (E : Subgroup G)
     {T : Finset V}
     (hT : ∀ w : V, spinVecToV h P w ∈ (lemma54MapJ (z := z) E).range → w ∈ T) :
@@ -1300,6 +1324,7 @@ private theorem b_coord_of_mapJ_eq (h : Tim79a.ParrottHyp z) (P : GL8)
   have hxy : (x : G) * (y : G) = (y : G) * (x : G) := hcomm _ hxE _ hyE
   exact b_coord_eq_zero_of_commute (z := z) D h P hP hxy hx hy
 
+omit hN in
 private theorem card_range_le_four_of_fixed_uv (h : Tim79a.ParrottHyp z) (P : GL8)
     (E : Subgroup G)
     (hσ : ∀ w : V, spinVecToV h P w ∈ (lemma54MapJ (z := z) E).range →
@@ -1317,6 +1342,7 @@ private theorem card_range_le_four_of_fixed_uv (h : Tim79a.ParrottHyp z) (P : GL
     exact ⟨hσ w hw, huv w hw⟩)
   rwa [spin_card_fixed_sigma_uv] at h
 
+omit hN in
 private theorem card_range_le_two_of_fixed_uv_t (h : Tim79a.ParrottHyp z) (P : GL8)
     (E : Subgroup G)
     (hσ : ∀ w : V, spinVecToV h P w ∈ (lemma54MapJ (z := z) E).range →
@@ -1337,6 +1363,7 @@ private theorem card_range_le_two_of_fixed_uv_t (h : Tim79a.ParrottHyp z) (P : G
     exact ⟨hσ w hw, huv w hw, ht w hw⟩)
   rwa [spin_card_fixed_sigma_uv_t] at h
 
+omit hN in
 private theorem card_range_le_four_of_singular (h : Tim79a.ParrottHyp z) (P : GL8)
     (E : Subgroup G)
     (hσ : ∀ w : V, spinVecToV h P w ∈ (lemma54MapJ (z := z) E).range →
@@ -1347,11 +1374,11 @@ private theorem card_range_le_four_of_singular (h : Tim79a.ParrottHyp z) (P : GL
       spinVecToV h P w ∈ (lemma54MapJ (z := z) E).range → b v w = 0)
     (h8 : 8 ≤ Nat.card ↥(lemma54MapJ (z := z) E).range) : False := by
   classical
-  haveI : Fintype ↥(lemma54MapJ (z := z) E).range := Fintype.ofFinite _
+  have : Fintype ↥(lemma54MapJ (z := z) E).range := Fintype.ofFinite _
   have hnt : Nontrivial ↥(lemma54MapJ (z := z) E).range := by
     rw [← Finite.one_lt_card_iff_nontrivial]
     omega
-  haveI := hnt
+  have := hnt
   obtain ⟨y₁, hy₁⟩ := exists_ne (1 : ↥(lemma54MapJ (z := z) E).range)
   obtain ⟨y₂, hy₂₁, hy₂₂⟩ :
       ∃ y₂ : ↥(lemma54MapJ (z := z) E).range, y₂ ≠ 1 ∧ y₂ ≠ y₁ := by
@@ -1404,6 +1431,7 @@ private theorem card_range_le_four_of_singular (h : Tim79a.ParrottHyp z) (P : GL
     omega
   omega
 
+omit hN in
 private theorem card_range_le_four_of_fixed_tuv (h : Tim79a.ParrottHyp z) (P : GL8)
     (E : Subgroup G)
     (hσ : ∀ w : V, spinVecToV h P w ∈ (lemma54MapJ (z := z) E).range →
@@ -1598,7 +1626,7 @@ private theorem tau_mul_mem_N_of_range_tA (h : Tim79a.ParrottHyp z) (P : GL8)
     (hP : ∀ a : A45, actionQA45 (z := z) h D a = P * rhoA a * P⁻¹)
     {σ₂ : ↥(H z)} (hσ₂ : orderOf σ₂ = 3) (hq₂ : qH (z := z) D σ₂ = s2A)
     (hc₂ : σ₂ * sigma1Nine (z := z) D = sigma1Nine (z := z) D * σ₂)
-    {τ : ↥(H z)} (hqτ : qH (z := z) D τ = tA) (hτ : τ * τ = 1)
+    {τ : ↥(H z)} (hqτ : qH (z := z) D τ = tA) (_hτ : τ * τ = 1)
     (hτ₁ : τ * sigma1Nine (z := z) D = sigma1Nine (z := z) D * τ) (hτ₂ : τ * σ₂ = σ₂ * τ)
     {E : Subgroup G} (hE : E ≤ lemma54T₂ D ((sigma1Nine (z := z) D * σ₂⁻¹ : ↥(H z)) : G))
     (hcomm : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a)
@@ -1696,7 +1724,7 @@ private theorem false_of_range_meets (h : Tim79a.ParrottHyp z)
     {σ₂ : ↥(H z)} (hq₂ : qH (z := z) D σ₂ = s2A) {E : Subgroup G}
     (hE : E ≤ lemma54T₂ D ((sigma1Nine (z := z) D * σ₂⁻¹ : ↥(H z)) : G))
     (hcomm : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a)
-    (hsq : ∀ a ∈ E, a * a = 1) (hcard : Nat.card E = 32)
+    (_hsq : ∀ a ∈ E, a * a = 1) (hcard : Nat.card E = 32)
     (hcase : uA * vA ∈ (lemma54MapE (z := z) D
         ((sigma1Nine (z := z) D * σ₂⁻¹ : ↥(H z)) : G) E hE).range ∨
       tA * (uA * vA) ∈ (lemma54MapE (z := z) D
@@ -1908,7 +1936,7 @@ private theorem conj_mem_lemma54W_of_coord (h : Tim79a.ParrottHyp z) (P : GL8)
     {c : ↥(H z)}
     (hcσ : c * (sigma1Nine (z := z) D * σ₂⁻¹) = (sigma1Nine (z := z) D * σ₂⁻¹) * c)
     {j : G} (hjJ : j ∈ J z)
-    (hjσ : j ∈ centralizer ({((sigma1Nine (z := z) D * σ₂⁻¹ : ↥(H z)) : G)} : Set G))
+    (_hjσ : j ∈ centralizer ({((sigma1Nine (z := z) D * σ₂⁻¹ : ↥(H z)) : G)} : Set G))
     {w : V} (hw : QuotientV.pi z ⟨j, hjJ⟩ = spinVecToV h P w)
     (hwσ : ((rhoA ((⟨sigma1, sigma1_mem_A⟩ : A45) *
       (⟨sigma2, sigma2_mem_A⟩ : A45)⁻¹) : GL8) : Matrix (Fin 8) (Fin 8) (ZMod 2)) *ᵥ w = w)
@@ -1971,8 +1999,8 @@ private theorem conj_mem_lemma54W_of_coord (h : Tim79a.ParrottHyp z) (P : GL8)
 
 private theorem range_subset_tA_of_not_meets
     (h : Tim79a.ParrottHyp z) (P : GL8)
-    (hP : ∀ a : A45, actionQA45 (z := z) h D a = P * rhoA a * P⁻¹)
-    {σ₂ : ↥(H z)} (hq₂ : qH (z := z) D σ₂ = s2A) {E : Subgroup G}
+    (_hP : ∀ a : A45, actionQA45 (z := z) h D a = P * rhoA a * P⁻¹)
+    {σ₂ : ↥(H z)} (_hq₂ : qH (z := z) D σ₂ = s2A) {E : Subgroup G}
     (hE : E ≤ lemma54T₂ D ((sigma1Nine (z := z) D * σ₂⁻¹ : ↥(H z)) : G))
     (hcase : ¬ (uA * vA ∈ (lemma54MapE (z := z) D
         ((sigma1Nine (z := z) D * σ₂⁻¹ : ↥(H z)) : G) E hE).range ∨
@@ -2219,6 +2247,7 @@ private theorem tau_mem_centralizer_sigma {σ₂ τ : ↥(H z)}
       _ = (sigma1Nine (z := z) D * σ₂⁻¹) * τ := by group
   exact Subgroup.mem_centralizer_singleton_iff.mpr (congrArg Subtype.val hcomm)
 
+omit [Finite G] hN in
 private theorem tau_mul_tau_mul_inv {τ x : ↥(H z)} (hτ : τ * τ = 1) (hx : (x : G) * x = 1) :
     (τ : G) * (((τ * x : ↥(H z)) : G)) * (τ : G)⁻¹ = (((τ * x : ↥(H z)) : G))⁻¹ := by
   have hτG : (τ : G) * (τ : G) = 1 := by simpa using congrArg Subtype.val hτ
@@ -2233,6 +2262,8 @@ private theorem tau_mul_tau_mul_inv {τ x : ↥(H z)} (hτ : τ * τ = 1) (hx : 
     _ = ((τ : G) * (x : G))⁻¹ := by
           rw [mul_inv_rev, inv_eq_of_mul_eq_one_right hxG, inv_eq_of_mul_eq_one_right hτG]
 
+omit hN in
+omit [Finite G] in
 private theorem pi_inv_eq_pi (h : Tim79a.ParrottHyp z) (y : J z) :
     QuotientV.pi z y⁻¹ = QuotientV.pi z y := by
   rw [map_inv]
@@ -2288,6 +2319,7 @@ theorem mem_lemma54W_of_qH_eq_tA (h : Tim79a.ParrottHyp z) (P : GL8)
     Subgroup.mem_inf.mpr ⟨Subgroup.mem_inf.mpr ⟨qJ.2, hqC.1⟩, hqC.2⟩
   simpa [qJ] using hmem
 
+omit hN [Finite G] in
 theorem z_mem_lemma54W (h : Tim79a.ParrottHyp z) {σ τ : ↥(H z)} :
     z ∈ lemma54W z (σ : G) (τ : G) := by
   refine Subgroup.mem_sup_left (Subgroup.mem_inf.mpr

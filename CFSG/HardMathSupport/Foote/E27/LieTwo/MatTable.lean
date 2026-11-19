@@ -93,7 +93,7 @@ theorem mat_genOf (mat : G →* M2 d) (gens : Array AM)
     (hex : ∀ j < gens.size, ∃ x : G, mat x = toMat 2 d gens[j]!) {j : ℕ} (hj : j < gens.size) :
     mat (genOf mat gens hex j) = toMat 2 d gens[j]! := by
   unfold genOf
-  rw [dif_pos hj]
+  rw [dite_eq_left hj]
   exact (hex j hj).choose_spec
 
 end Spec

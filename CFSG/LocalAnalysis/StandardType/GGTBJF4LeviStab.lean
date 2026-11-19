@@ -96,7 +96,7 @@ theorem mem_closure_rootReflection_of_fix_F4
         s = rootReflection γ} := by
     congr 1
     ext s
-    simp only [Set.mem_image, Set.mem_setOf_eq]
+    simp only [Set.mem_image, Set.mem_ofPred_eq]
     exact ⟨fun ⟨γ, hγ, e⟩ => ⟨γ, hγ, e.symm⟩, fun ⟨γ, hγ, e⟩ => ⟨γ, hγ, e.symm⟩⟩
   have huC' : u ∈ Subgroup.closure {s : WeylGroup .F4 | ∃ γ ∈ componentRoots (rootCharHom a) i,
       s = rootReflection γ} := hset ▸ huC

@@ -105,7 +105,7 @@ private theorem e6c3t_conj_simple_eq_of_smul {w : WeylGroup Tag.E6} {j k : Fin T
 private theorem e6c3t_rootReflection_single (k : Fin Tag.E6.rank) :
     rootReflection (Pi.single k 1 : Fin Tag.E6.rank → ℤ) = simple Tag.E6 k := by
   unfold rootReflection
-  rw [dif_pos (isRoot_single Tag.E6 k)]
+  rw [dite_eq_left (isRoot_single Tag.E6 k)]
   exact e6c3t_conj_simple_eq_of_smul
     (Classical.choose_spec
       (Classical.choose_spec (isRoot_iff_exists_smul_single.1 (isRoot_single Tag.E6 k))))

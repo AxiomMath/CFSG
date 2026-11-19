@@ -88,15 +88,15 @@ theorem coxeterMatrix_cartanB_eq_B (n : ℕ) :
     by_cases h1 : i.val + 1 = j.val
     · by_cases h2 : j.val + 1 < n
       · rw [Spin.OddCT.coxeterMatrix_of_succ h1 h2]
-        simp only [CoxeterMatrix.B, Matrix.of_apply, if_neg hijne]
+        simp only [CoxeterMatrix.B, Matrix.of_apply, ite_eq_right hijne]
         split_ifs <;> omega
       · have h2' : j.val + 1 = n := by omega
         rw [Spin.OddCT.coxeterMatrix_of_succ_last h1 h2']
-        simp only [CoxeterMatrix.B, Matrix.of_apply, if_neg hijne]
+        simp only [CoxeterMatrix.B, Matrix.of_apply, ite_eq_right hijne]
         split_ifs <;> omega
     · have h2 : j.val + 1 ≠ i.val := by omega
       rw [Spin.OddCT.coxeterMatrix_of_far hijne h1 h2]
-      simp only [CoxeterMatrix.B, Matrix.of_apply, if_neg hijne]
+      simp only [CoxeterMatrix.B, Matrix.of_apply, ite_eq_right hijne]
       split_ifs <;> omega
   ext i j
   rcases lt_trichotomy i.val j.val with h | h | h

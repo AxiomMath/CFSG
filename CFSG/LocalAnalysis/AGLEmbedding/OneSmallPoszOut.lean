@@ -163,7 +163,7 @@ theorem D1OneSmallData.false_of_posz_out (hUP : KFactUPrimeSmall) (hUE : KFactUP
     have h3R := hd.pRank_R
     rw [hRP'] at h3R
     omega
-  have hodd := odd_card_of_twoLocals_le hp P.isPGroup' hPC hCM (glbPrimeCore_le p _)
+  have hodd := odd_card_of_twoLocals_le hp P.isPGroup hPC hCM (glbPrimeCore_le p _)
     (glbPrimeCore_normal p _) (glbPrimeCore_coprime p _) hcoreM
     fun T hT hT1 hPT => hd.cfg.ext.normalizer_le_of_sylow_le hRP hT hT1 hPT
   obtain ⟨LB, hLB⟩ := h3.exists_weakSBlock h84 hD2

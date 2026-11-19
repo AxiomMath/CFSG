@@ -220,7 +220,7 @@ theorem tmuOne_of {k tc mc : Nat} {TT TPL TGI MT MPL MGI P : Nat → Nat}
   simp only []
   rw [wordOK_of (by decide), wordOK_of hy0, wordOK_of hy1, wordOK_of hu, eT, eM, sT, sM, eu.1,
     wAZ'.1, ey0.1, ey1.1, idT_eq]
-  simp only [c1, c2, c3, c4, c5, c6, c7, c8, c9, Bool.and_true, Bool.true_and, Bool.not_false]
+  simp only [c1, c2, c3, c4, c5, c6, c7, c8, c9, Bool.and_true, Bool.not_false]
 
 theorem c8Check_of {tc : Nat} {TT TPL TGI : Nat → Nat} (hT : TmFacts (tWords 0) 16 tc TT TPL TGI)
     (hs : tmC8 TT tc = true) : c8Check = true := by

@@ -78,7 +78,7 @@ private theorem CFSG.section10_lemma_6_5_ambient_normalizer_endpoint
     change IsPGroup p.val
       ((P : Subgroup (ambientDerivedSubgroup M)).map (ambientDerivedSubgroup M).subtype)
     exact IsPGroup.map (p := p.val) (H := (P : Subgroup (ambientDerivedSubgroup M)))
-      P.isPGroup' (ambientDerivedSubgroup M).subtype
+      P.isPGroup (ambientDerivedSubgroup M).subtype
   have hHp : IsPGroup p.val H := by
     exact hPGp.of_equiv
       (Subgroup.subgroupOfEquivOfLe (H := PG) (K := M) hPG_le_M).symm
@@ -708,7 +708,7 @@ public theorem CFSG.corollary_10_9_a_3
     change IsPGroup q.val
       ((X : Subgroup (ambientDerivedSubgroup M)).map (ambientDerivedSubgroup M).subtype)
     exact IsPGroup.map (p := q.val) (H := (X : Subgroup (ambientDerivedSubgroup M)))
-      X.isPGroup' (ambientDerivedSubgroup M).subtype
+      X.isPGroup (ambientDerivedSubgroup M).subtype
   obtain ⟨P, hP_le_U⟩ :=
     section10_exists_ambient_derived_sylow_le_normalizer_of_le_derived
       (G := G) (M := M) (X := XG) (p := p) (q := q)

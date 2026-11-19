@@ -74,7 +74,7 @@ private theorem l10sb_card_le {F : Type} [Field F] [Finite F] [CharP F 2]
     (hB₁e : IsElemAbelian p B₁) (hB₁ : B₁ ≤ Subgroup.normalizer (φ.range : Set X))
     (hinn : ∀ b ∈ B₁, ∃ j ∈ φ.range, ∀ x ∈ φ.range, b⁻¹ * x * b = j * x * j⁻¹) :
     Nat.card B₁ ≤ p * Nat.card (B₁ ⊓ Subgroup.centralizer (φ.range : Set X) : Subgroup X) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let J : Subgroup X := φ.range
   let e : Matrix.SpecialLinearGroup (Fin 2) F ≃* J := MonoidHom.ofInjective hφ
   let ψ : B₁ →* MulAut J := (CFSG.LocalAnalysis.ComponentInitial.normalizerConjHom J).comp
@@ -170,7 +170,7 @@ private theorem l10sb_card_le {F : Type} [Field F] [Finite F] [CharP F 2]
   have hcardA : Nat.card A = Nat.card ψ.range := by
     rw [← Subgroup.card_map_of_injective hf, hAran]
   have hψe : IsElemAbelian p ψ.range := by
-    haveI : IsMulCommutative B₁ := hB₁e.1
+    have : IsMulCommutative B₁ := hB₁e.1
     refine ⟨⟨⟨fun a b => ?_⟩⟩, fun z hz => ?_⟩
     · obtain ⟨x, hx⟩ := MonoidHom.mem_range.1 a.2
       obtain ⟨y, hy⟩ := MonoidHom.mem_range.1 b.2
@@ -183,7 +183,7 @@ private theorem l10sb_card_le {F : Type} [Field F] [Finite F] [CharP F 2]
         rw [Subgroup.coe_pow, hB₁e.2 (x : X) x.2, Subgroup.coe_one]
       rw [← hx, ← map_pow, hxp, map_one]
   have hAe : IsElemAbelian p A := by
-    haveI : IsMulCommutative ψ.range := hψe.1
+    have : IsMulCommutative ψ.range := hψe.1
     refine ⟨⟨⟨fun a b => ?_⟩⟩, fun z hz => ?_⟩
     · apply Subtype.ext
       apply hf

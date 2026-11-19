@@ -252,7 +252,7 @@ private theorem k891hcompex_X_le_H {G : Type} [Group G] [Finite G] (D : Data G)
     (L S R A : Subgroup G) (n : ℕ) (hn : 2 ≤ n) (_hst : R891State D L S R A n) :
     R891X L (R891Z L S) n ≤ R891H L S := by
   have hn1 : n ≠ 1 := by omega
-  rw [R891X, if_neg hn1]
+  rw [R891X, ite_eq_right hn1]
   exact (Subgroup.map_subtype_le _).trans inf_le_right
 
 private theorem k891hcompex_Z_le_X {G : Type} [Group G] [Finite G] (D : Data G)
@@ -264,7 +264,7 @@ private theorem k891hcompex_X_perfect {G : Type} [Group G] [Finite G] (D : Data 
     (L S R A : Subgroup G) (n : ℕ) (hn : 2 ≤ n) (_hst : R891State D L S R A n) :
     Group.IsPerfect ↥(R891X L (R891Z L S) n) := by
   have hn1 : n ≠ 1 := by omega
-  rw [R891X, if_neg hn1]
+  rw [R891X, ite_eq_right hn1]
   have hperf : Group.IsPerfect ↥((⨅ k : ℕ, derivedSeries
       ↥(L ⊓ Subgroup.centralizer (R891Z L S : Set G)) k) :
         Subgroup ↥(L ⊓ Subgroup.centralizer (R891Z L S : Set G))) :=

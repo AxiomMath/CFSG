@@ -54,8 +54,8 @@ lemma notSU {ι F : Type} [Fintype ι] [DecidableEq ι] [Field F] [Finite F] [Ch
     (hdegJ : blockDegree (Algebra.adjoin F (Units.val '' S)) e_J < 2)
     (hdeg' : 2 ≤ blockDegree (Algebra.adjoin F (Units.val '' S')) e') : False := by
   obtain ⟨Kf, hKf, hKa, hKfin, π, hπs, hπk, -⟩ := exists_blockField (S := S') hS' hodd' he'
-  letI : Field Kf := hKf
-  letI : Algebra F Kf := hKa
+  let : Field Kf := hKf
+  let : Algebra F Kf := hKa
   have hfield := blockField_inv π hπs hπk
   have hAA' : Algebra.adjoin F (Units.val '' S') ≤ Algebra.adjoin F (Units.val '' S) :=
     Algebra.adjoin_mono (Set.image_mono hSe)

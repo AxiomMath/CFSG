@@ -34,8 +34,8 @@ theorem false_of_e8_rk2Ord_four (h : QSNL 5 S B T x D K)
     (hF : catalogIs (PSimple 5 K) (tyFUni 5)) {lab : GLALabel} (hlab : InnLabelOf B S lab)
     (hlab2 : GLAInLambda2 lab) (ht : lab.tag = .E8) (he : rk2Ord 5 lab.n = 4) : False := by
   have hc := h.cfg
-  haveI : Fact (Nat.Prime 5) := ⟨hc.prime⟩
-  haveI := hc.normal
+  have : Fact (Nat.Prime 5) := ⟨hc.prime⟩
+  have := hc.normal
   have hSN : ∀ g : Ω, g ∈ Subgroup.normalizer (S : Set Ω) := fun g =>
     (Subgroup.normalizer_eq_top_iff.2 hc.normal) ▸ Subgroup.mem_top g
   obtain ⟨t, l, n⟩ := lab
@@ -46,7 +46,7 @@ theorem false_of_e8_rk2Ord_four (h : QSNL 5 S B T x D K)
   obtain ⟨-, -, -, -, -, -, -, hl, -⟩ := CFSG.StandardType.Canonical.largeEvenRawDatum_exists hraw
   subst hl
   obtain ⟨F, _, _, hFc, -, ⟨a₀, b₀, hab₀⟩, θ, -, -, hind⟩ := hraw
-  haveI : CharP F 2 := CFSG.StandardType.charP_two_of_card hFc
+  have : CharP F 2 := CFSG.StandardType.charP_two_of_card hFc
   have hZ : Subgroup.center ↥S = ⊥ :=
     CFSG.HardMathSupport.Cooperstein.Coordinator.CurtisExc.center_eq_bot_of_E8
       ⟨⟨hcomm⟩, hc.quasi.2, θ.symm a₀, θ.symm b₀, fun h' => hab₀ (by simpa using congrArg θ h')⟩

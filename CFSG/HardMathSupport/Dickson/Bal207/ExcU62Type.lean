@@ -88,7 +88,7 @@ theorem excU62_compShape_of_unique {T : ∀ (Q : Type) [Group Q], Prop} {S : Typ
 
 theorem excU62_nontrivial_of_isQuasisimple {Q : Type*} [Group Q] (hq : CFSG.Open.IsQuasisimple Q) :
     Nontrivial Q := by
-  haveI := hq.2.toNontrivial
+  have := hq.2.toNontrivial
   exact (QuotientGroup.mk'_surjective (Subgroup.center Q)).nontrivial
 
 theorem excU62_compShape_of_core {T : ∀ (Q : Type) [Group Q], Prop} {S : Type} [Group S] [Finite S]
@@ -99,7 +99,7 @@ theorem excU62_compShape_of_core {T : ∀ (Q : Type) [Group Q], Prop} {S : Type}
   · have hnot : ∀ L : Subgroup S, ¬ CFSG.Open.IsComponentOf L (fixSubgroup β) := by
       intro L hL
       have hLb : L ≤ ⊥ := (hperf L hL.1 (Subgroup.isPerfect_iff.1 ⟨hL.2.2.1⟩)).trans hNb.le
-      haveI := excU62_nontrivial_of_isQuasisimple hL.2.2
+      have := excU62_nontrivial_of_isQuasisimple hL.2.2
       obtain ⟨x, hx⟩ := exists_ne (1 : ↥L)
       exact hx (Subtype.ext (Subgroup.mem_bot.1 (hLb x.2)))
     exact ⟨fun P hPC hP => (hperf P hPC hP).trans (hNb.le.trans bot_le),

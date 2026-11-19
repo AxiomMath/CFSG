@@ -97,7 +97,7 @@ theorem center3_of_pairData27
     {Rbar : Sylow 3 (H ⧸ primeComplementCore (G := H) 3)}
     {K₀ : Subgroup (H ⧸ primeComplementCore (G := H) 3)} {T : Subgroup G}
     (c : D2L34R27 G d P M A H R Rbar K₀ T) (hMN : M ≤ Subgroup.normalizer (V : Set G))
-    {I : Finset (Subgroup (MulAut (IntMod V hU)))} (hI : S3Family I) (hI0 : I.Nonempty)
+    {I : Finset (Subgroup (MulAut (IntMod V hU)))} (hI : S3Family I) (_hI0 : I.Nonempty)
     (hcard : ∀ L ∈ I, Nat.card L = 6)
     (hSylJ : IsSylowTwoOf (autI hU (baum T)) (autI hU (thompsonJ M)))
     (hJM : autI hU (thompsonJ M) = ⨆ L ∈ I, L)

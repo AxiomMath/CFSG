@@ -24,10 +24,10 @@ theorem normConcl_of_special_four {p n : ℕ} {A : Subgroup (V ≃ₗ[K] V)} {Y 
     (hX : D ≤ ⁅supportedBlock Q a h, supportedBlock Q a h⁆) : NormConcl p A D := by
   classical
   have hpq : p ∣ Nat.card K + 1 := by rw [hK2, hp3]
-  haveI : Fact p.Prime := ⟨S.prime⟩
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Finite (V ≃ₗ[K] V) := finite_linearEquiv
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact p.Prime := ⟨S.prime⟩
+  have : Finite V := Module.finite_of_finite K
+  have : Finite (V ≃ₗ[K] V) := finite_linearEquiv
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   have hpK : (p : K) ≠ 0 := natCast_ne_zero_of_odd S.prime S.odd
   have hIso : IsoGroup (QuadraticMap.polarBilin Q) p A :=
     isoGroup_of_le S.regular S.le_omega S.elem
@@ -189,9 +189,9 @@ theorem normConcl_of_special_four {p n : ℕ} {A : Subgroup (V ≃ₗ[K] V)} {Y 
   · have hm3 : primaryMultiplicity a.toLinearMap h = 3 := by omega
     subst hp3
     have hsolv := hSU K hK2 V Q a hx h hh hne hself hm3
-    haveI : Group.IsSolvable (specialBlock Q a h) := hsolv
+    have : Group.IsSolvable (specialBlock Q a h) := hsolv
     exact (not_isSolvable_of_isQuasisimple hE.D_qs
-      (solvable_of_solvable_injective (Subgroup.inclusion_injective hDF))).elim
+      (Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hDF))).elim
 
 end FourSpecial
 

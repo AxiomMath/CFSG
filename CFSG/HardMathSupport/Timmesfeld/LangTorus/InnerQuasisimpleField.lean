@@ -30,7 +30,7 @@ theorem ncard_pow_eq_self (r e : ℕ) [Fact r.Prime] [CharP L r] (he : 0 < e) :
     omega
   have hset : (Polynomial.X ^ (r ^ e) - Polynomial.X : L[X]).rootSet L = {c : L | c ^ (r ^ e) = c} := by
     ext c
-    simp only [Polynomial.mem_rootSet, ne_eq, Set.mem_setOf_eq]
+    simp only [Polynomial.mem_rootSet, ne_eq, Set.mem_ofPred_eq]
     constructor
     · rintro ⟨-, h⟩
       simpa [sub_eq_zero] using h

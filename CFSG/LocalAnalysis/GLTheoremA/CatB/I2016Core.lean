@@ -10,7 +10,7 @@ open Subgroup
 
 theorem le_map_pPrimeCore (p : ℕ) [Fact p.Prime] {X Y : Type} [Group X] [Group Y] [Finite X]
     [Finite Y] (e : X ≃* Y) : (CFSG.pPrimeCore p X).map e.toMonoidHom ≤ CFSG.pPrimeCore p Y := by
-  haveI : (CFSG.pPrimeCore p X).Normal := Subgroup.sSup_normal _ fun _ hN => hN.1
+  have : (CFSG.pPrimeCore p X).Normal := Subgroup.sSup_normal _ fun _ hN => hN.1
   apply CFSG.le_pPrimeCore_of_normal_coprime
   · exact (inferInstance : (CFSG.pPrimeCore p X).Normal).map e.toMonoidHom e.surjective
   · rw [Subgroup.card_map_of_injective e.injective]
@@ -37,7 +37,7 @@ variable {G : Type} [Group G]
   invFun j := ⟨g⁻¹ * j * g, by
     have h := (Subgroup.mem_normalizer_iff.1 hg (g⁻¹ * j * g)).2
     apply h
-    simpa [mul_assoc] using j.2⟩
+    simp [mul_assoc]⟩
   left_inv j := by
     apply Subtype.ext
     simp [mul_assoc]
@@ -66,7 +66,7 @@ theorem conjJ_one (J : Subgroup G) (j : ↥J) :
 
 variable [Finite G] (p : ℕ) [Fact p.Prime]
 
-@[expose] abbrev PQ (J : Subgroup G) : Type := ↥J ⧸ CFSG.pPrimeCore p ↥J
+abbrev PQ (J : Subgroup G) : Type := ↥J ⧸ CFSG.pPrimeCore p ↥J
 
 @[expose] noncomputable def sigmaQ (J : Subgroup G) (g : G) (hg : g ∈ Subgroup.normalizer (J : Set G)) :
     PQ p J ≃* PQ p J :=
@@ -157,7 +157,7 @@ end Sylow2
 theorem exists_fixed_of_pow_three {X : Type} [Finite X] (f : Equiv.Perm X) (hf : f ^ 3 = 1)
     (hc : Nat.Coprime 3 (Nat.card X)) : ∃ x, f x = x := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf f ∣ 3 := orderOf_dvd_of_pow_eq_one hf
   have hT3p : IsPGroup 3 (Subgroup.zpowers f) := by
     rw [IsPGroup.iff_card]
@@ -182,9 +182,9 @@ theorem exists_fixed_of_pow_three {X : Type} [Finite X] (f : Equiv.Perm X) (hf :
 theorem exists_two_sup_eq_top {M : Type} [Group M] [Finite M] (N : Subgroup M) [N.Normal] {k : ℕ}
     (hk : Nat.card (M ⧸ N) = 2 ^ k) : ∃ W : Subgroup M, IsPGroup 2 W ∧ W ⊔ N = ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨W₁⟩ : Nonempty (Sylow 2 M) := inferInstance
-  refine ⟨(W₁ : Subgroup M), W₁.isPGroup', ?_⟩
+  refine ⟨(W₁ : Subgroup M), W₁.isPGroup, ?_⟩
   have h2 : ((W₁ : Subgroup M) ⊔ N).index ∣ N.index := Subgroup.index_dvd_of_le le_sup_right
   have h3 : ((W₁ : Subgroup M) ⊔ N).index ∣ (W₁ : Subgroup M).index :=
     Subgroup.index_dvd_of_le le_sup_left
@@ -237,7 +237,7 @@ theorem exists_fixed_in_fiber (J : Subgroup G) (y : G) (hy : y ∈ Subgroup.norm
         invFun := fun n => ⟨j * n.1, by
           apply QuotientGroup.eq.2
           have := (CFSG.pPrimeCore 3 ↥J).inv_mem n.2
-          simpa [mul_assoc] using this⟩
+          simp [mul_assoc]⟩
         left_inv := fun x => by
           apply Subtype.ext
           simp

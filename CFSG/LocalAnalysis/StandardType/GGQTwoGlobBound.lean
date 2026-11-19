@@ -41,18 +41,18 @@ theorem qTwoGlobBnd_actionCard_le
   classical
   let A : Type := ↥(ggAInf 3 B Bs x L D J)
   let b0 : ↥Bs := ⟨x, hLM.mem⟩
-  letI : MulAction A ↥Bs :=
+  let : MulAction A ↥Bs :=
     MulAction.compHom ↥Bs (Subgroup.subtype (ggAInf 3 B Bs x L D J))
-  haveI hfinV : Finite V := Finite.of_injective (⇑ι.symm) ι.symm.injective
-  haveI hfinU : Finite ↥U := Subtype.finite
-  haveI hfinUmod : Module.Finite (ZMod 3) ↥U := Module.Finite.of_finite
-  haveI hfinBs : Fintype ↥Bs := Fintype.ofFinite ↥Bs
-  haveI hfinMulAut : Fintype (MulAut ↥Bs) :=
+  have hfinV : Finite V := Finite.of_injective (⇑ι.symm) ι.symm.injective
+  have hfinU : Finite ↥U := Subtype.finite
+  have hfinUmod : Module.Finite (ZMod 3) ↥U := Module.Finite.of_finite
+  have hfinBs : Fintype ↥Bs := Fintype.ofFinite ↥Bs
+  have hfinMulAut : Fintype (MulAut ↥Bs) :=
     Fintype.ofInjective (fun e : MulAut ↥Bs => (e : ↥Bs → ↥Bs))
       (fun a b h => MulEquiv.ext (fun y => congrArg (fun f : ↥Bs → ↥Bs => f y) h))
-  haveI hfinA : Fintype A := Fintype.ofFinite A
-  haveI hfinOrb : Fintype (MulAction.orbit A b0) := Fintype.ofFinite _
-  haveI hfinStab : Fintype (MulAction.stabilizer A b0) := Fintype.ofFinite _
+  have hfinA : Fintype A := Fintype.ofFinite A
+  have hfinOrb : Fintype (MulAction.orbit A b0) := Fintype.ofFinite _
+  have hfinStab : Fintype (MulAction.stabilizer A b0) := Fintype.ofFinite _
   have hcardU : Nat.card ↥U = 3 ^ Module.finrank (ZMod 3) U := by
     rw [Module.natCard_eq_pow_finrank (K := ZMod 3) (V := ↥U), Nat.card_zmod]
   have hOS :
@@ -116,8 +116,8 @@ theorem qTwoGlobBnd_stab_le
     Nat.card {g : ↥Abar // ((g : ↥U ≃ₗ[ZMod 3] ↥U)) u = u} ≤ 2 * m.factorial := by
   classical
   let b0 : ↥Bs := ⟨x, hLM.mem⟩
-  haveI hfinBs : Fintype ↥Bs := Fintype.ofFinite ↥Bs
-  haveI hfinMulAut : Fintype (MulAut ↥Bs) :=
+  have hfinBs : Fintype ↥Bs := Fintype.ofFinite ↥Bs
+  have hfinMulAut : Fintype (MulAut ↥Bs) :=
     Fintype.ofInjective (fun e : MulAut ↥Bs => (e : ↥Bs → ↥Bs))
       (fun a b h => MulEquiv.ext (fun y => congrArg (fun f : ↥Bs → ↥Bs => f y) h))
   have hfinTarget : Fintype {a : MulAut ↥Bs // a ∈ ggInduced ⊤ Bs ∧ a b0 = b0} :=

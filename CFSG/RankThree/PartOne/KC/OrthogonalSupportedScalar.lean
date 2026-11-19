@@ -121,9 +121,9 @@ theorem semilinConj_mem_supportedDerived_of_map_eq
     (hR : F '' (R : Set V) = (R' : Set V)) {g : V ≃ₗ[K] V}
     (hg : g ∈ supportedDerived Q R) :
     semilinConj F σ hF g ∈ supportedDerived Q R' := by
-  letI : RingHomInvPair (σ : K →+* K) (σ.symm : K →+* K) :=
+  let : RingHomInvPair (σ : K →+* K) (σ.symm : K →+* K) :=
     RingHomInvPair.of_ringEquiv σ
-  letI : RingHomInvPair (σ.symm : K →+* K) (σ : K →+* K) :=
+  let : RingHomInvPair (σ.symm : K →+* K) (σ : K →+* K) :=
     RingHomInvPair.of_ringEquiv_symm σ
   have hmap : R.map (semilinLinearEquiv (σ := σ) F hF).toLinearMap = R' := by
     apply SetLike.coe_injective
@@ -153,9 +153,9 @@ theorem map_supportedDerived_semilinConj_of_map_eq
     (μ : K) (hμ : μ ≠ 0) (hFQ : ∀ v, Q (F v) = μ * σ (Q v))
     (hR : F '' (R : Set V) = (R' : Set V)) :
     (supportedDerived Q R).map (semilinConj F σ hF) = supportedDerived Q R' := by
-  letI : RingHomInvPair (σ : K →+* K) (σ.symm : K →+* K) :=
+  let : RingHomInvPair (σ : K →+* K) (σ.symm : K →+* K) :=
     RingHomInvPair.of_ringEquiv σ
-  letI : RingHomInvPair (σ.symm : K →+* K) (σ : K →+* K) :=
+  let : RingHomInvPair (σ.symm : K →+* K) (σ : K →+* K) :=
     RingHomInvPair.of_ringEquiv_symm σ
   have hmap : R.map (semilinLinearEquiv (σ := σ) F hF).toLinearMap = R' := by
     apply SetLike.coe_injective

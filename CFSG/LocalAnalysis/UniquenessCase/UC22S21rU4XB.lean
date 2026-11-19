@@ -25,11 +25,13 @@ theorem u4x_false_of_normalizer_le {D : Data G} {Ch : Choice2011 G} (h1930 : H19
   s21_2 D Ch h1930 { c with B := c.B0, hB := c.hB0, hle := le_rfl } (zpowers b)
     (zpowers_le.2 hb) hN
 
+omit [Finite G] in
 theorem u4x_bar2_equiv {M L K : Subgroup G} (hK : K ∈ conjSetOf M L) :
     Nonempty (Bar2 L ≃* Bar2 K) := by
   obtain ⟨g, -, rfl⟩ := hK
   exact uc22p20d_bar2_conj g L
 
+omit [Finite G] in
 theorem u4x_centralizesBar {M X : Subgroup G} (hXM : X ≤ M) (hMX : M ≤ normalizer (X : Set G))
     {x : G} (hxM : x ∈ M)
     (hx : QuotientGroup.mk' (CFSG.pCore 2 ↥M) ⟨x, hxM⟩ ∈
@@ -102,7 +104,7 @@ theorem u4x_two_le_pRank {M L : Subgroup G} (hL : L ∈ calC M)
     2 ≤ CFSG.Open.pRank n (conjClosure M L) := by
   have hn : n.Prime ∧ n ≠ 2 := by
     rcases hLS with ⟨rfl, -⟩ | ⟨rfl, -⟩ <;> norm_num
-  haveI : IsSimpleGroup (Bar2 L) := by
+  have : IsSimpleGroup (Bar2 L) := by
     rcases hLS with ⟨-, h⟩ | ⟨-, h⟩
     · exact CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) h
     · exact CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_twistedB2 h

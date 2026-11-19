@@ -36,7 +36,7 @@ theorem inf_normalizer_le_pCoreOf_two {A : Subgroup G} {c : G} {L : Subgroup G}
       pPrimeCoreOf 3 (u155 A M X))) ≤ n155 A K)
     (hV : CFSG.Open.pCoreOf 2 K ∈ scriptQ A (lB A)) :
     CFSG.Open.pCoreOf 2 K ⊓ Subgroup.normalizer (X : Set G) ≤ CFSG.Open.pCoreOf 2 Y := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set V := CFSG.Open.pCoreOf 2 K with hVdef
   set D := V ⊓ Subgroup.normalizer (X : Set G) with hDdef
   have hX4 : X ∈ scriptY4 A (lB A) := hC.res ▸ hC.isY.2.1
@@ -81,6 +81,7 @@ theorem inf_normalizer_le_pCoreOf_two {A : Subgroup G} {c : G} {L : Subgroup G}
   exact Proof155w.le_pCoreOf_of_ctx155w h h1444 h146 hbot hC hmax hab hD2 hDQ hYD hDK hTD hM'mem
     hnot
 
+omit [Finite G] in
 theorem commutator_le_centralizer_of_le_centralizer {R A O : Subgroup G}
     (hRO : R ≤ Subgroup.normalizer (O : Set G)) (hOA : O ≤ Subgroup.centralizer (A : Set G)) :
     ⁅R, A⁆ ≤ Subgroup.centralizer (O : Set G) := by
@@ -106,7 +107,7 @@ theorem le_centralizer_center_of_eq_sup {A : Subgroup G} (h153 : Item153Main A (
       K ≤ Subgroup.centralizer
         ((CFSG.Open.pCoreOf 2 K ⊓ Subgroup.centralizer (CFSG.Open.pCoreOf 2 K : Set G) :
           Subgroup G) : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set V := CFSG.Open.pCoreOf 2 K with hVdef
   set U := CFSG.Open.pCoreOf 2 X with hUdef
   set Z := V ⊓ Subgroup.centralizer (V : Set G) with hZdef
@@ -161,7 +162,7 @@ theorem le_centralizer_center_of_commutator {A : Subgroup G} (h153 : Item153Main
     A ≤ Subgroup.centralizer
       ((CFSG.Open.pCoreOf 2 K ⊓ Subgroup.centralizer (CFSG.Open.pCoreOf 2 K : Set G) :
         Subgroup G) : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set V := CFSG.Open.pCoreOf 2 K with hVdef
   set Z := V ⊓ Subgroup.centralizer (V : Set G) with hZdef
   have hK4 : K ∈ scriptY4 A (lB A) := hK.prop.1
@@ -207,7 +208,7 @@ theorem center_pCoreOf_two_le {A : Subgroup G} {c : G} {L : Subgroup G}
       K ≤ Subgroup.centralizer
         ((CFSG.Open.pCoreOf 2 K ⊓ Subgroup.centralizer (CFSG.Open.pCoreOf 2 K : Set G) :
           Subgroup G) : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set R := CFSG.Open.pCoreOf 2 Y with hRdef
   set H := delta A (lB A) (R ⊔ pPrimeCoreOf 3 (u155 A M X)) with hHdef
   set O := pPrimeCoreOf 2 H with hOdef

@@ -13,13 +13,15 @@ noncomputable section
 
 variable {F : Type} [Field F] [Finite F]
 
+omit [Finite F] in
 theorem uJGL_zero_central [Finite F] [CharP F 2] {k : ℕ} (hFc : Nat.card F = (2 ^ k) ^ 2)
     {b : F} {y : GL (Fin 3) F} (hy : y ∈ CFSG.Quasithin.H.SU3.ujSub k F) :
     CFSG.Quasithin.H.SU3.uJGL k 0 b * y = y * CFSG.Quasithin.H.SU3.uJGL k 0 b := by
   obtain ⟨a, b', hb', rfl⟩ := exists_uJGL_of_mem_ujSub (F := F) hFc hy
   simp only [uJGL_mul]
-  congr 1 <;> simp [add_comm, add_left_comm, add_assoc]
+  congr 1 <;> simp [add_comm]
 
+omit [Finite F] in
 theorem exists_uJGL_zero_of_central [Finite F] [CharP F 2] {k : ℕ}
     (hk : 1 ≤ k) (hFc : Nat.card F = (2 ^ k) ^ 2) {w : GL (Fin 3) F}
     (hwB : w ∈ CFSG.Quasithin.H.SU3.ujSub k F)
@@ -38,8 +40,7 @@ theorem exists_uJGL_zero_of_central [Finite F] [CharP F 2] {k : ℕ}
     rw [uJGL_mul, uJGL_mul] at h
     have h' := congrArg (fun g : GL (Fin 3) F => ((g : Matrix (Fin 3) (Fin 3) F) 0 2)) h
     simp only [CFSG.Quasithin.H.SU3.coe_uJGL, CFSG.Quasithin.H.SU3.uJMat,
-      Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.cons_val_two, Matrix.head_cons, Matrix.tail_cons, Matrix.cons_val_fin_one] at h'
+      Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_two, Matrix.head_cons, Matrix.tail_cons, Matrix.cons_val_fin_one] at h'
     have h'' : a * CFSG.Quasithin.H.SU3.bar k t + (b + c) =
         t * CFSG.Quasithin.H.SU3.bar k a + (b + c) := by
       simpa [add_comm, add_left_comm, add_assoc] using h'
@@ -203,7 +204,7 @@ theorem u3_similitude_weight [CharP F 2] {k : ℕ} (hk : 2 ≤ k)
     dsimp [z]
     rw [CFSG.Quasithin.H.SU3.coe_uJGL, uJMat_mulVec]
     ext i
-    fin_cases i <;> simp [e0, e1, e2]
+    fin_cases i <;> simp [e1]
   have hv1eq : v1 = (CFSG.Quasithin.H.SU3.uJGL k 0 d : Matrix (Fin 3) (Fin 3) F) *ᵥ v1 := by
     have h := hφspec ⟨z, hzB⟩ e1
     rw [hz_e1, hd] at h
@@ -211,7 +212,7 @@ theorem u3_similitude_weight [CharP F 2] {k : ℕ} (hk : 2 ≤ k)
   have hv12 : v1 2 = 0 := by
     have h0 := congrFun hv1eq 0
     rw [CFSG.Quasithin.H.SU3.coe_uJGL, uJMat_mulVec] at h0
-    simp only [Matrix.cons_val_zero, zero_mul, add_zero, mul_one] at h0
+    simp only [Matrix.cons_val_zero, zero_mul, add_zero] at h0
     have h0' : v1 0 + 0 = v1 0 + d * v1 2 := by simpa using h0
     have h := add_left_cancel h0'
     exact (mul_eq_zero.mp h.symm).resolve_left hd1
@@ -282,7 +283,7 @@ theorem u3_similitude_weight [CharP F 2] {k : ℕ} (hk : 2 ≤ k)
     rw [show u = CFSG.Quasithin.H.SU3.uJGL k 1 c from rfl,
       CFSG.Quasithin.H.SU3.coe_uJGL, uJMat_mulVec]
     ext i
-    fin_cases i <;> simp [e0, e1, e2]
+    fin_cases i <;> simp [e0, e1]
   have hu_e2 : u *ᵥ e2 = e2 + e1 + c • e0 := by
     rw [show u = CFSG.Quasithin.H.SU3.uJGL k 1 c from rfl,
       CFSG.Quasithin.H.SU3.coe_uJGL, uJMat_mulVec]
@@ -294,7 +295,7 @@ theorem u3_similitude_weight [CharP F 2] {k : ℕ} (hk : 2 ≤ k)
     have h0 := congrFun h 0
     dsimp only [M] at h0
     rw [CFSG.Quasithin.H.SU3.coe_uJGL, uJMat_mulVec] at h0
-    simp only [Matrix.cons_val_zero, mul_zero, add_zero] at h0
+    simp only [Matrix.cons_val_zero] at h0
     have hv12' : g e1 2 = 0 := hv12
     rw [hv12'] at h0
     simp only [mul_zero, add_zero] at h0
@@ -306,7 +307,7 @@ theorem u3_similitude_weight [CharP F 2] {k : ℕ} (hk : 2 ≤ k)
     have h2 := congrFun h 1
     dsimp only [M] at h2
     rw [CFSG.Quasithin.H.SU3.coe_uJGL, uJMat_mulVec] at h2
-    simp only [Matrix.cons_val_one, Matrix.head_cons, mul_one] at h2
+    simp only [Matrix.cons_val_one] at h2
     have hv1 : g (e2 + e1 + c • e0) = v2 + v1 + c • e0 := by
       rw [map_add, map_add, hlin, hge0]
     rw [hv1] at h2
@@ -330,11 +331,11 @@ theorem u3_similitude_weight [CharP F 2] {k : ℕ} (hk : 2 ≤ k)
       rw [hcoef2]
       field_simp
     rw [hb, ha']
-    simp only [CFSG.Quasithin.H.SU3.bar_apply, map_inv₀, inv_pow]
+    simp only [CFSG.Quasithin.H.SU3.bar_apply, map_inv₀]
     rw [div_inv_eq_mul, pow_succ']
   have hrelq : ((v2 2) ^ (2 ^ k)) = v2 2 := by
     have hyq2 : ((v1 1) ^ (2 ^ k * 2 ^ k)) = v1 1 := by
-      letI : Fintype F := Fintype.ofFinite F
+      let : Fintype F := Fintype.ofFinite F
       rw [show 2 ^ k * 2 ^ k = Nat.card F by rw [hFc]; ring,
         Nat.card_eq_fintype_card]
       exact FiniteField.pow_card (v1 1)
@@ -360,7 +361,7 @@ theorem u3_similitude_weight [CharP F 2] {k : ℕ} (hk : 2 ≤ k)
   ·
     refine ⟨v2 0, v2 1, ?_⟩
     ext i
-    fin_cases i <;> simp [e0, e1, e2, v2, Units.val_mk0, Pi.single_smul]
+    fin_cases i <;> simp [e2, v2, Units.val_mk0]
 
 end
 

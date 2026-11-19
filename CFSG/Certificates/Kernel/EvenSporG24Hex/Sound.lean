@@ -84,7 +84,7 @@ theorem sum_hor : ∀ (n : ℕ) (f : Fin n → ℕ),
     · simp
     · congr 1
       exact hor_congr n _ _ fun i hi => by
-        simp only [hi, dif_pos, Nat.add_lt_add_iff_right]
+        simp only [hi, dite_eq_left, Nat.add_lt_add_iff_right]
         rfl
 
 theorem vecCode_eq (v : Vec) : vecCode v = hor (gv v) 14 := by
@@ -115,7 +115,7 @@ theorem vecCode_inj {v w : Vec} (h : vecCode v = vecCode w) : v = w := by
   funext i
   have := dig_vecCode v i.isLt
   rw [h, dig_vecCode w i.isLt] at this
-  simp only [gv, i.isLt, dif_pos] at this
+  simp only [gv, i.isLt, dite_eq_left] at this
   exact f4_ext this.symm
 
 theorem code_add : ∀ x y : F4, (x + y).code.val = x.code.val ^^^ y.code.val := by decide
@@ -140,7 +140,7 @@ theorem vecCode_zero : vecCode (0 : Vec) = 0 := by
   rfl
 
 theorem scaleD_dig (s x : ℕ) {i : ℕ} (hi : i < 14) : dig (scaleD s x) i = mulN s (dig x i) :=
-  dig_hor 14 _ (fun j _ => mulN_lt s _) i hi
+  dig_hor 14 _ (fun _j _ => mulN_lt s _) i hi
 
 theorem scaleD_lt (s x : ℕ) : scaleD s x < 2 ^ 28 := by
   rw [← four_pow]
@@ -151,7 +151,7 @@ theorem scaleD_congr (s : ℕ) {x y : ℕ} (h : ∀ i < 14, dig x i = dig y i) :
   hor_congr 14 _ _ fun i hi => by rw [h i hi]
 
 theorem gv_decode (n : ℕ) {i : ℕ} (hi : i < 14) : gv (decodeVec n) i = dig n i := by
-  simp only [gv, hi, dif_pos, decodeVec, code_f4, dig]
+  simp only [gv, hi, dite_eq_left, decodeVec, code_f4, dig]
 
 theorem vecCode_comb {c d : ℕ} (hc : c < 4) (hd : d < 4) (u w : Vec) :
     vecCode (comb c d u w) = scaleD c (vecCode u) ^^^ scaleD d (vecCode w) := by
@@ -159,7 +159,7 @@ theorem vecCode_comb {c d : ℕ} (hc : c < 4) (hd : d < 4) (u w : Vec) :
     (by rw [four_pow]; exact Nat.xor_lt_two_pow (scaleD_lt _ _) (scaleD_lt _ _)) fun i hi => ?_
   rw [dig_vecCode _ hi, dig_xor, scaleD_dig _ _ hi, scaleD_dig _ _ hi, dig_vecCode _ hi,
     dig_vecCode _ hi]
-  simp only [gv, hi, dif_pos, comb, code_add, code_mul, code_f4, Nat.mod_eq_of_lt hc,
+  simp only [gv, hi, dite_eq_left, comb, code_add, code_mul, code_f4, Nat.mod_eq_of_lt hc,
     Nat.mod_eq_of_lt hd]
 
 theorem map_comb (U W : ℕ) :
@@ -280,7 +280,7 @@ theorem code_sum : ∀ (n : ℕ) (f : Fin n → F4),
     rw [Fin.sum_univ_castSucc, code_add, code_sum n, xorN]
     congr 1
     · exact xorN_congr n _ _ fun b hb => by simp [hb, Nat.lt_succ_of_lt hb]
-    · rw [dif_pos (Nat.lt_succ_self n)]
+    · rw [dite_eq_left (Nat.lt_succ_self n)]
       rfl
 
 theorem csOf_length (E : List ℕ) : (csOf E).length = 56 := by simp [csOf]
@@ -308,17 +308,17 @@ theorem vecCode_mulVec (j : Fin 16) (E : List ℕ)
   · rw [four_pow]
     exact xorN_lt _ 14 fun b _ => Nat.mod_lt _ (by positivity)
   rw [dig_vecCode _ ha, mulP, dig_xorN]
-  simp only [gv, ha, dif_pos, Matrix.mulVec, dotProduct, code_sum]
+  simp only [gv, ha, dite_eq_left, Matrix.mulVec, dotProduct, code_sum]
   refine xorN_congr 14 _ _ fun b hb => ?_
-  rw [dif_pos hb, dig_vecCode _ hb, fld_csOf E hb (gv_lt v b) ha, code_mul, hE a ha b hb]
-  simp only [Gmat, Matrix.of_apply, code_f4, gv, hb, dif_pos]
+  rw [dite_eq_left hb, dig_vecCode _ hb, fld_csOf E hb (gv_lt v b) ha, code_mul, hE a ha b hb]
+  simp only [Gmat, Matrix.of_apply, code_f4, gv, hb, dite_eq_left]
 
 theorem mulP_congr (C : ℕ) {x y : ℕ} (h : ∀ i < 14, dig x i = dig y i) : mulP C x = mulP C y :=
   xorN_congr 14 _ _ fun b hb => by rw [h b hb]
 
 theorem getD_toArray (L : List ℕ) (i : ℕ) : L.toArray.getD i 0 = L.getD i 0 := by
-  simp only [Array.getD, List.size_toArray, List.getElem_toArray]
-  split <;> simp_all [List.getD_eq_getElem]
+  simp only [Array.getD, List.size_toArray]
+  split <;> simp_all
 
 theorem getD_take (L : List ℕ) {i m : ℕ} (h : i < m) : (L.take m).getD i 0 = L.getD i 0 := by
   simp only [List.getD_eq_getElem?_getD, List.getElem?_take_of_lt h]
@@ -384,6 +384,7 @@ theorem eq_of_eqL : ∀ {a b : List ℕ}, eqL a b = true → a = b
     simp only [eqL, Bool.and_eq_true] at h
     rw [Nat.eq_of_beq_eq_true h.1, eq_of_eqL h.2]
 
+set_option exponentiation.threshold 420 in
 theorem hexOK_of {T U W : List ℕ} {GE PG : List (List ℕ)} {LC : ℕ} (hT : tbl = T.toArray)
     (hd : dataOK T U W GE PG = true) (hl : linesOK U W = true) (hk : keysOK U W = true)
     (hc : lcOK U W LC = true) (hj : ∀ j < 16, hexJ U W GE PG LC j = true) : hexOK = true := by
@@ -446,8 +447,8 @@ theorem hexOK_of {T U W : List ℕ} {GE PG : List (List ℕ)} {LC : ℕ} (hT : t
     have hkn := (isortN_perm _).nodup_iff.1
       ((pairwise_of_strictInc _ hk).imp fun h => ne_of_lt h)
     have e : keyN U W k = keyN U W k' := by simp only [keyN, heq]
-    have hk1 : (k : ℕ) < ((List.range 1365).map (keyN U W)).length := by simpa using k.isLt
-    have hk2 : (k' : ℕ) < ((List.range 1365).map (keyN U W)).length := by simpa using k'.isLt
+    have hk1 : (k : ℕ) < ((List.range 1365).map (keyN U W)).length := by simp
+    have hk2 : (k' : ℕ) < ((List.range 1365).map (keyN U W)).length := by simp
     have e' : ((List.range 1365).map (keyN U W))[(k : ℕ)] =
         ((List.range 1365).map (keyN U W))[(k' : ℕ)] := by simpa using e
     exact hne (Fin.ext ((List.Nodup.getElem_inj_iff hkn).1 e'))

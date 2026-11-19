@@ -21,8 +21,8 @@ theorem normalizer_AA_le {p : ℕ} (hp : p ∈ c.sig) (hN : t.PairNormalizerLe p
     Subgroup.normalizer (t.d.AA : Set G) ≤ c.S.M := by
   classical
   have hpp : p.Prime := (c.sig_prime p hp).1
-  haveI : Fact p.Prime := ⟨hpp⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact p.Prime := ⟨hpp⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcommAA : ∀ a ∈ t.d.AA, ∀ b ∈ t.d.AA, a * b = b * a :=
     fun a ha b hb =>
       congrArg Subtype.val ((t.d.isElemAbelian_AA.1).is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
@@ -64,11 +64,11 @@ theorem normalizer_AA_le {p : ℕ} (hp : p ∈ c.sig) (hN : t.PairNormalizerLe p
     intro h1
     rw [h1, mul_one] at hcard_mul
     omega
-  haveI : Nonempty ↥((t.d.A 0 ⊔ t.d.A 1) ⊓
+  have : Nonempty ↥((t.d.A 0 ⊔ t.d.A 1) ⊓
       (t.d.A 0 ⊔ t.d.A 1).map (MulAut.conj g).toMonoidHom) := ⟨1⟩
   have hpos : 0 < Nat.card ((t.d.A 0 ⊔ t.d.A 1) ⊓
       (t.d.A 0 ⊔ t.d.A 1).map (MulAut.conj g).toMonoidHom : Subgroup G) := Nat.card_pos
-  haveI : Nontrivial ↥((t.d.A 0 ⊔ t.d.A 1) ⊓
+  have : Nontrivial ↥((t.d.A 0 ⊔ t.d.A 1) ⊓
       (t.d.A 0 ⊔ t.d.A 1).map (MulAut.conj g).toMonoidHom) :=
     Finite.one_lt_card_iff_nontrivial.mp (by omega)
   obtain ⟨x, hx1⟩ := exists_ne (1 : ↥((t.d.A 0 ⊔ t.d.A 1) ⊓

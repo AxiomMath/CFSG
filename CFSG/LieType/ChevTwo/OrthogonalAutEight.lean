@@ -156,7 +156,7 @@ theorem inducedByIso_of_smul_eq (α : MulAut Ω8)
 theorem exists_conj_smul_eq_of_odd {A X : Type*} [Group A] [MulAction A X] {x : X}
     (hodd : ¬ 2 ∣ Nat.card (MulAction.orbit A x)) {T : Subgroup A} (hT : IsPGroup 2 T) :
     ∃ g : A, ∀ t ∈ T, (g⁻¹ * t * g) • x = x := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨⟨y, hy⟩, hfix⟩ :=
     hT.nonempty_fixed_point_of_prime_not_dvd_card (MulAction.orbit A x) hodd
   obtain ⟨g, rfl⟩ := hy
@@ -253,7 +253,7 @@ theorem commute_plusEight {g : GL (Fin 4 ⊕ Fin 4) (ZMod 2)}
     (goodQ_plus (n := 3) (by norm_num)).relIndex_eq
   have hw : s⁻¹ * g ∈ StatedOmega Q8 :=
     (Subgroup.mul_mem_iff_of_index_two hidx (a := ⟨s, hs⟩⁻¹) (b := ⟨g, hg⟩)).2 (by
-      simp only [Subgroup.mem_subgroupOf, InvMemClass.coe_inv, inv_mem_iff]
+      simp only [Subgroup.mem_subgroupOf, inv_mem_iff]
       exact iff_of_false hsΩ hgΩ)
   have hgsw : (⟨g, hg⟩ : isoGrp Q8) =
       ⟨s, hs⟩ * ⟨((⟨s⁻¹ * g, hw⟩ : StatedOmega Q8) : GL (Fin 4 ⊕ Fin 4) (ZMod 2)),

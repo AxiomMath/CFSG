@@ -212,7 +212,7 @@ theorem eq_top_of_intertwiner {U : Subgroup NativeSporadic.B}
     {a b : NativeSporadic.B} (ha : a ∈ U) (hb : b ∈ U)
     {H Hi : Matrix (Fin 4370) (Fin 4370) (ZMod 2)} (hHi : H * Hi = 1)
     (h1 : bMat bA₁ * H = H * bMat a) (h2 : bMat bA₂ * H = H * bMat b) : U = ⊤ := by
-  haveI : Finite NativeSporadic.B := finite_B
+  have : Finite NativeSporadic.B := finite_B
   have hiH : Hi * H = 1 := mul_eq_one_symm hHi
   have key : ∀ g : NativeSporadic.B, ∃ u ∈ U, bMat u = Hi * bMat g * H := by
     intro g

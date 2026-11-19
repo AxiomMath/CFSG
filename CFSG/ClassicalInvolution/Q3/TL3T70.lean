@@ -22,8 +22,10 @@ variable {I : AEIdent (orbOf (TC.nbrAdj Ω) K J) n} (ctx : LabCtx I)
 
 @[expose] noncomputable def common : Set (Fin (n + 4)) := Set.range (globEmb₁ n) ∩ Set.range ctx.E.emb₂
 
+omit [Finite G] in
 theorem common_subset : ctx.common ⊆ Set.range (globEmb₁ n) := Set.inter_subset_left
 
+omit [Finite G] in
 theorem exists_four_common (hn : 5 ≤ n) :
     ∃ α : Finset (Fin (n + 4)), α.card = 4 ∧ (α : Set (Fin (n + 4))) ⊆ ctx.common := by
   have hcard : 4 ≤ (Finset.univ.map (ctx.E.c₁.trans (globEmb₁ n))).card := by
@@ -49,6 +51,7 @@ theorem s₁_comm (hn : 5 ≤ n) {L : Subgroup G} (hL : L ∈ centMembers Ω ctx
   rw [ctx.E.hs₁]
   exact ofPerm_comm_memBar hγ e hτ y hy
 
+omit [Finite G] in
 theorem exists_label_of_lab₁ (hn : 5 ≤ n) {L : Subgroup G} (hL : L ∈ centMembers Ω ctx.D.u)
     {α : Finset (Fin (n + 4))} {hα : α.card = 4} {b : Bool}
     (hlab : ctx.lab₁ L = memBar α hα b) :
@@ -62,6 +65,7 @@ theorem exists_label_of_lab₁ (hn : 5 ≤ n) {L : Subgroup G} (hL : L ∈ centM
   rw [hl, transLab_memBar (by omega)] at hlab
   exact eq_of_memBar_eq' (by omega) hlab
 
+omit [Finite G] in
 theorem overlap (hn : 5 ≤ n) {L : Subgroup G} (hL : L ∈ centMembers Ω ctx.D.u)
     {α : Finset (Fin (n + 4))} {hα : α.card = 4} {b : Bool}
     (hαO : (α : Set (Fin (n + 4))) ⊆ ctx.common) (hlab : ctx.lab₁ L = memBar α hα b) :

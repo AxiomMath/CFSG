@@ -60,13 +60,13 @@ theorem seitzHyperGamma_eq_top_of_le_primeFormD_cover
     (hE : IsElemAbelian p E) (hcard : Nat.card E = p ^ 3)
     (hD : E.map (modelAut θ) ≤ primeFormD h (idGram Kf n)) : seitzHyperGamma p E = ⊤ := by
   classical
-  haveI : Finite Kf := h.finite
-  haveI : Fact ℓ.Prime := ⟨h.prime⟩
-  haveI : CharP Kf ℓ := h.charP
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (primeFormP h (idGram Kf n)) :=
+  have : Finite Kf := h.finite
+  have : Fact ℓ.Prime := ⟨h.prime⟩
+  have : CharP Kf ℓ := h.charP
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (primeFormP h (idGram Kf n)) :=
     Finite.of_surjective (piG h n) (QuotientGroup.mk'_surjective _)
-  haveI : Finite (MulAut (primeFormP h (idGram Kf n))) := MulEquiv.finite_left
+  have : Finite (MulAut (primeFormP h (idGram Kf n))) := MulEquiv.finite_left
   have hq4 : 4 ≤ ℓ ^ f :=
     CFSG.HardMathSupport.Solomon.Coordinator.ChevQ.SeitzCubeUnitaryRestAux.four_le_of_dvd_succ hp
       hp2 (pow_ne_zero _ h.prime.ne_zero) hpq hq2
@@ -205,8 +205,8 @@ theorem exists_norm_one_glAut_fixed (h : UnitaryFieldData ℓ f Kf) (hn : 1 ≤ 
       glAut σ ((z : GL (Fin n) Kf) * GeneralLinearGroup.scalar (Fin n) s) =
         (z : GL (Fin n) Kf) * GeneralLinearGroup.scalar (Fin n) s := by
   classical
-  haveI : Finite Kf := h.finite
-  haveI : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
+  have : Finite Kf := h.finite
+  have : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
   have hZ : ((z : GL (Fin n) Kf) : Matrix (Fin n) (Fin n) Kf).map σ =
       (c : Kf) • ((z : GL (Fin n) Kf) : Matrix (Fin n) (Fin n) Kf) := by
     have h1 := congrArg (fun g : GL (Fin n) Kf => (g : Matrix (Fin n) (Fin n) Kf)) hz
@@ -432,21 +432,21 @@ theorem suSub_le_comap_seitzHyperGamma
     suSub h (fixSubfield_unitaryFieldData h hp hp2 hσ)
       (fixSubfield_unitaryFieldData_bar h hp hp2 hσ) n ≤ (seitzHyperGamma p E).comap φ := by
   classical
-  haveI : Finite Kf := h.finite
-  haveI : Fact ℓ.Prime := ⟨h.prime⟩
-  haveI : CharP Kf ℓ := h.charP
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Finite Kf := h.finite
+  have : Fact ℓ.Prime := ⟨h.prime⟩
+  have : CharP Kf ℓ := h.charP
+  have : Fact p.Prime := ⟨hp⟩
   have hC : IsPrimeFormGram (1 : GL (Fin n) Kf) := isPrimeFormGram_one
   have hne' : (n, ℓ ^ f) ≠ (3, 2) := fun h' => hne ⟨(Prod.mk.inj h').1, (Prod.mk.inj h').2⟩
   have hGU := commutator_GU1_eq_top h hn hne'
-  haveI : Finite (primeFormP h (idGram Kf n)) :=
+  have : Finite (primeFormP h (idGram Kf n)) :=
     Finite.of_surjective (piG h n) (QuotientGroup.mk'_surjective _)
-  haveI : Finite (MulAut (primeFormP h (idGram Kf n))) := MulEquiv.finite_left
+  have : Finite (MulAut (primeFormP h (idGram Kf n))) := MulEquiv.finite_left
   set κ := primeFormConjHom h (idGram Kf n) with hκ
   set h₀ := fixSubfield_unitaryFieldData h hp hp2 hσ with hh₀
   set hbar := fixSubfield_unitaryFieldData_bar h hp hp2 hσ with hhbar
-  haveI : Finite (fixSubfield σ) := h₀.finite
-  haveI : CharP (fixSubfield σ) ℓ := h₀.charP
+  have : Finite (fixSubfield σ) := h₀.finite
+  have : CharP (fixSubfield σ) ℓ := h₀.charP
   set ι := QuasiHigh4.subfieldGU h h₀ hbar n with hι
   set fσ := primeFormFieldHom h hC σ with hfσ
   have hinj := modelAut_injective hperf θ
@@ -537,13 +537,13 @@ theorem seitzHyperGamma_eq_top_of_not_le_primeFormD_cover
     {E : Subgroup (MulAut K)} (hE : IsElemAbelian p E) (hcard : Nat.card E = p ^ 3)
     (hout : ¬ E.map (modelAut θ) ≤ primeFormD h (idGram Kf n)) : seitzHyperGamma p E = ⊤ := by
   classical
-  haveI : Finite Kf := h.finite
-  haveI : Fact ℓ.Prime := ⟨h.prime⟩
-  haveI : CharP Kf ℓ := h.charP
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (primeFormP h (idGram Kf n)) :=
+  have : Finite Kf := h.finite
+  have : Fact ℓ.Prime := ⟨h.prime⟩
+  have : CharP Kf ℓ := h.charP
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (primeFormP h (idGram Kf n)) :=
     Finite.of_surjective (piG h n) (QuotientGroup.mk'_surjective _)
-  haveI : Finite (MulAut (primeFormP h (idGram Kf n))) := MulEquiv.finite_left
+  have : Finite (MulAut (primeFormP h (idGram Kf n))) := MulEquiv.finite_left
   have hq4 : 4 ≤ ℓ ^ f :=
     CFSG.HardMathSupport.Solomon.Coordinator.ChevQ.SeitzCubeUnitaryRestAux.four_le_of_dvd_succ hp
       hp2 (pow_ne_zero _ h.prime.ne_zero) hpq hq2

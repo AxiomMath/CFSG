@@ -221,7 +221,7 @@ theorem exists_order_four_inf_W (hΩ : HypOmegaGen Ω) {S₂ : Sylow 2 G} {W₂ 
   refine ⟨u, hu, hu4, ?_⟩
   have hsyl : IsSylow2In R' M := Sec6Gen.isSylow2In_of_mem_RSet_of_le hΩ hM hR' hR'M
   have heq : M ⊓ (S₂ : Subgroup G) = R' :=
-    hsyl.eq_of_le (S₂.isPGroup'.to_le inf_le_right) inf_le_left (le_inf hR'M hR'S)
+    hsyl.eq_of_le (S₂.isPGroup.to_le inf_le_right) inf_le_left (le_inf hR'M hR'S)
   rw [← heq]
   exact ⟨hu.1, hWS hu.2⟩
 

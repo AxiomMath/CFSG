@@ -199,7 +199,7 @@ theorem pow_three_eq_one_of_sylow_bound {Y : Type*} [Group Y] [Finite Y]
       _root_.one_zpow]
   obtain ⟨P₁, hP₀P₁⟩ := hP₀.exists_le_sylow
   have hP₁ : (P₁ : Subgroup Y) = P₀ :=
-    (Subgroup.eq_of_le_of_card_ge hP₀P₁ (by rw [hP₀27]; exact h27 _ P₁.isPGroup')).symm
+    (Subgroup.eq_of_le_of_card_ge hP₀P₁ (by rw [hP₀27]; exact h27 _ P₁.isPGroup)).symm
   obtain ⟨P, hσP⟩ := hσ3.exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq Y P₁ P
   have hσP' : σ ∈ (P : Subgroup Y) := hσP (Subgroup.mem_zpowers σ)

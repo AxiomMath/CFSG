@@ -26,7 +26,7 @@ theorem isFiveReflectionModel_four_true_true_of_psp {G : Type} [Group G] [Finite
   obtain ⟨e, he⟩ := exists_fivePlusEquiv
   refine ⟨ψG.trans e.symm, ?_⟩
   intro g
-  rw [Set.mem_setOf_eq]
+  rw [Set.mem_ofPred_eq]
   have ht : orderOf (ψG u) = 2 := by rw [MulEquiv.orderOf_eq ψG u, hu]
   have h64ψ : 64 ∣ Nat.card
       (Subgroup.centralizer ({ψG u} : Set FiveSquareFrameGeneration.derived)) := by

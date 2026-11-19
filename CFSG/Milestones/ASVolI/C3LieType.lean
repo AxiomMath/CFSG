@@ -220,16 +220,16 @@ theorem burnsideC3h_not_isSolvable_autOn {G : Type} [Group G] [Finite G] {D K V 
   let ψ : ↥D →* MulAut ↥V := (conjAct V).comp (Subgroup.inclusion (hDK.trans hKV))
   have hψB : ∀ d : ↥D, ψ d ∈ B := fun d =>
     hDB (conjAct_mem_autOn_of_mem (hKV (hDK d.2)) d.2)
-  haveI : Group.IsPerfect ↥D := Subgroup.isPerfect_iff.mpr hD
+  have : Group.IsPerfect ↥D := Subgroup.isPerfect_iff.mpr hD
   let ψ' : ↥D →* ↥B := ψ.codRestrict B hψB
-  haveI : Group.IsPerfect ↥ψ'.range := Group.IsPerfect.range ψ'
-  haveI : Group.IsSolvable ↥ψ'.range :=
+  have : Group.IsPerfect ↥ψ'.range := Group.IsPerfect.range ψ'
+  have : Group.IsSolvable ↥ψ'.range :=
     Group.isSolvable_of_isSolvable_injective (f := ψ'.range.subtype) ψ'.range.subtype_injective
   have htriv : ∀ d : ↥D, ψ' d = 1 := by
     by_contra h
     push Not at h
     obtain ⟨d, hd⟩ := h
-    haveI : Nontrivial ↥ψ'.range := ⟨⟨⟨ψ' d, d, rfl⟩, 1, fun h => hd (congrArg Subtype.val h)⟩⟩
+    have : Nontrivial ↥ψ'.range := ⟨⟨⟨ψ' d, d, rfl⟩, 1, fun h => hd (congrArg Subtype.val h)⟩⟩
     exact Group.IsPerfect.not_isSolvable ↥ψ'.range inferInstance
   have hDC : D ≤ Subgroup.centralizer (V : Set G) := fun d hd =>
     (conjAct_eq_one_iff ⟨d, hKV (hDK hd)⟩).1 (by
@@ -275,7 +275,7 @@ theorem burnsideC3h_isSolvable_of_ne_top_card60 {X : Type} [Group X] [Finite X] 
       have := H.card_mul_index
       rw [h, hX] at this
       omega
-    haveI : H.Normal := Subgroup.normal_of_index_eq_two hidx
+    have : H.Normal := Subgroup.normal_of_index_eq_two hidx
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal H with hb | ht
     · rw [hb] at h
       simp at h
@@ -284,7 +284,7 @@ theorem burnsideC3h_isSolvable_of_ne_top_card60 {X : Type} [Group X] [Finite X] 
       k = 1 ∨ k = 2 ∨ k = 3 ∨ k = 4 ∨ k = 5 ∨ k = 6 ∨ k = 10 ∨ k = 12 ∨ k = 15 ∨ k = 20 := by
     intro k hk h60 h30
     have : k ≤ 60 := Nat.le_of_dvd (by norm_num) hk
-    interval_cases k <;> simp_all <;> omega
+    interval_cases k <;> simp_all
   rcases key _ hd h60 h30 with h | h | h | h | h | h | h | h | h | h
   · exact isSolvable_of_card_pow_mul_pow (p := 2) (q := 3) (a := 0) (b := 0) Nat.prime_two
       Nat.prime_three (by norm_num) (by rw [h]; norm_num)
@@ -318,8 +318,7 @@ theorem burnsideC3h_swap_not_central {σ : Equiv.Perm (Fin 5)} (hσ : σ.IsSwap)
     · decide
   · intro h
     have h2 := congrArg (fun f : Equiv.Perm (Fin 5) => f x) h
-    simp [Equiv.Perm.mul_apply, Equiv.swap_apply_of_ne_of_ne, hzx, hzy, hxy, hxy.symm, hzx.symm,
-      hzy.symm] at h2
+    simp [Equiv.Perm.mul_apply, Equiv.swap_apply_of_ne_of_ne, hzy, hxy, hzx.symm] at h2
 
 open CFSG.Quasithin.C35 in
 theorem burnsideC3h_psl2_ne_const {m N : ℕ} (hN : N = 360 ∨ N = 1080 ∨ N = 6048) :
@@ -433,8 +432,8 @@ theorem burnsideC3h_caseB_false {G : Type} [Group G] [Finite G] {R M K D V : Sub
     rw [h1] at h2
     exact h2.symm
   let ψ : ↥D →* alternatingGroup (Fin 5) := α.comp (Subgroup.inclusion hDK)
-  haveI : Group.IsPerfect ↥D := Subgroup.isPerfect_iff.mpr hD
-  haveI : Group.IsPerfect ↥ψ.range := Group.IsPerfect.range ψ
+  have : Group.IsPerfect ↥D := Subgroup.isPerfect_iff.mpr hD
+  have : Group.IsPerfect ↥ψ.range := Group.IsPerfect.range ψ
   have hne : ψ.range ≠ ⊤ := by
     intro htop
     obtain ⟨π, hπ, hπn⟩ := burnsideC3h_swap_not_central hσ
@@ -445,16 +444,16 @@ theorem burnsideC3h_caseB_false {G : Type} [Group G] [Finite G] {R M K D V : Sub
     have e : (ψ d : Equiv.Perm (Fin 5)) = π := congrArg Subtype.val hd
     rw [← e]
     exact this
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   have h60 : Nat.card (alternatingGroup (Fin 5)) = 60 := by
     rw [nat_card_alternatingGroup, Nat.card_eq_fintype_card, Fintype.card_fin]
     decide
-  haveI : Group.IsSolvable ↥ψ.range := burnsideC3h_isSolvable_of_ne_top_card60 h60 hne
+  have : Group.IsSolvable ↥ψ.range := burnsideC3h_isSolvable_of_ne_top_card60 h60 hne
   have htriv : ∀ d : ↥D, ψ d = 1 := by
     by_contra h
     push Not at h
     obtain ⟨d, hd⟩ := h
-    haveI : Nontrivial ↥ψ.range := ⟨⟨⟨ψ d, d, rfl⟩, 1, fun h => hd (congrArg Subtype.val h)⟩⟩
+    have : Nontrivial ↥ψ.range := ⟨⟨⟨ψ d, d, rfl⟩, 1, fun h => hd (congrArg Subtype.val h)⟩⟩
     exact Group.IsPerfect.not_isSolvable ↥ψ.range inferInstance
   have hDO : D ≤ pCoreOf 2 K := by
     intro d hd
@@ -466,7 +465,7 @@ theorem burnsideC3h_caseB_false {G : Type} [Group G] [Finite G] {R M K D V : Sub
 open CFSG.Quasithin.C35 in
 theorem burnsideC3h_card_alt (n : ℕ) (hn : 2 ≤ n) :
     Nat.card (alternatingGroup (Fin n)) = n.factorial / 2 := by
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr hn
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr hn
   rw [nat_card_alternatingGroup, Nat.card_eq_fintype_card, Fintype.card_fin]
 
 open CFSG.Open hiding StatedSL StatedSp StatedSU StatedProj StatedScalars in

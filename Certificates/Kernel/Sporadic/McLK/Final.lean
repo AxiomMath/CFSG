@@ -122,12 +122,12 @@ theorem GNM_code (z : Int) (y : Nat) : GNM (codeZ z) y = GJ z y := by
   · change GNM (2 * (k + 3)) y = GJ (Int.ofNat (k + 3)) y
     rw [GJ_eq, GNM_other y (by omega) (by omega) (by omega)]
     have h1 : ¬(Int.ofNat (k + 3) = 1 ∨ Int.ofNat (k + 3) = -1) := by
-      rw [Int.ofNat_eq_coe]
+      rw [Int.ofNat_eq_natCast]
       omega
     have h2 : ¬Int.ofNat (k + 3) = 2 := by
-      rw [Int.ofNat_eq_coe]
+      rw [Int.ofNat_eq_natCast]
       omega
-    rw [if_neg h1, if_neg h2]
+    rw [ite_eq_right h1, ite_eq_right h2]
   · rfl
   · change GNM (2 * (k + 1) + 1) y = GJ (Int.negSucc (k + 1)) y
     rw [GJ_eq, GNM_other y (by omega) (by omega) (by omega)]
@@ -137,7 +137,7 @@ theorem GNM_code (z : Int) (y : Nat) : GNM (codeZ z) y = GJ z y := by
     have h2 : ¬Int.negSucc (k + 1) = 2 := by
       rw [Int.negSucc_eq]
       omega
-    rw [if_neg h1, if_neg h2]
+    rw [ite_eq_right h1, ite_eq_right h2]
 
 theorem foldWM_cons (x c : Nat) (w : List Nat) : foldWM x (c :: w) = GNM c (foldWM x w) := by
   change CFSG.KC.Loop.strictN (foldWM x w) (GNM c) = _

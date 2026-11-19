@@ -208,7 +208,6 @@ theorem eq_blk_of_comm {M : Matrix (Fin 4) (Fin 4) K} (h1 : M * U12 h 1 = U12 h 
   ext i j
   fin_cases i <;> fin_cases j <;> hblocks_norm <;>
     first
-    | rfl
     | linear_combination a00 | linear_combination -a00
     | linear_combination a01 | linear_combination -a01
     | linear_combination a02 | linear_combination -a02
@@ -246,7 +245,7 @@ theorem unitary_gfix {β γ : K} (hβ : β + h.bar β = 0) (hγ : γ + h.bar γ 
     uStar h (gfix β γ) * stdG * gfix β γ = stdG := by
   ext i j
   fin_cases i <;> fin_cases j <;> hblocks_norm <;>
-    first | rfl | linear_combination hβ | linear_combination hγ
+    first | linear_combination hβ | linear_combination hγ
 
 omit h in
 theorem det_gfix (β γ : K) : (gfix β γ).det = 1 := by
@@ -261,7 +260,7 @@ theorem blk_mul_gfix {β γ b f : K} (h1 : b * h.bar γ = β * f) (h2 : b * γ =
     blk 0 b f 0 * gfix (h.bar β) (h.bar γ) = gfix β γ * blk 0 b f 0 := by
   ext i j
   fin_cases i <;> fin_cases j <;> hblocks_norm <;>
-    first | rfl | linear_combination h1 | linear_combination h2
+    first | linear_combination h1 | linear_combination h2
 
 theorem eq_zero_of_blk_mul_gfix (h2 : (2 : K) ≠ 0) {l x y β γ : K} (hl : l ≠ 0)
     (hE : blk x 0 0 y * gfix β γ = gfix β γ * X1 l) : β = 0 := by

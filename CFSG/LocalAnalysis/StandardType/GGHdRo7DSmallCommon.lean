@@ -139,25 +139,25 @@ private lemma hdRo7DSmCommonAux_contradiction {n : ℕ} (hn : 6 ≤ n) {h h' : D
       fun m => if m = k.succ then -1 else if m = l.succ then -1 else 1
     have hd0 : d 0 = 1 := by
       dsimp only [d]
-      rw [if_neg (Fin.succ_ne_zero k).symm, if_neg (Fin.succ_ne_zero l).symm]
+      rw [ite_eq_right (Fin.succ_ne_zero k).symm, ite_eq_right (Fin.succ_ne_zero l).symm]
     have hdval : ∀ m, d m = 1 ∨ d m = -1 := by
       intro m
       dsimp only [d]
       by_cases hmk : m = k.succ
-      · rw [if_pos hmk]; exact Or.inr rfl
-      · rw [if_neg hmk]
+      · rw [ite_eq_left hmk]; exact Or.inr rfl
+      · rw [ite_eq_right hmk]
         by_cases hml : m = l.succ
-        · rw [if_pos hml]; exact Or.inr rfl
-        · rw [if_neg hml]; exact Or.inl rfl
+        · rw [ite_eq_left hml]; exact Or.inr rfl
+        · rw [ite_eq_right hml]; exact Or.inl rfl
     have hdprod : ∏ m, d m = 1 := by
       have hprod2 := Fintype.prod_eq_mul (f := d) k.succ l.succ hkl' (by
         intro m hm
         obtain ⟨hmk, hml⟩ := hm
         dsimp only [d]
-        rw [if_neg hmk, if_neg hml])
+        rw [ite_eq_right hmk, ite_eq_right hml])
       rw [hprod2]
       dsimp only [d]
-      rw [if_pos rfl, if_neg hkl'.symm, if_pos rfl]
+      rw [ite_eq_left rfl, ite_eq_right hkl'.symm, ite_eq_left rfl]
       decide
     have hE := hsum_d d hd0 hdval hdprod
     have hdiff : ∑ k : Fin n, (d k.succ - 1) * T k = 0 := by
@@ -175,10 +175,10 @@ private lemma hdRo7DSmCommonAux_contradiction {n : ℕ} (hn : 6 ≤ n) {h h' : D
         have h1 : i.succ ≠ k.succ := fun hh => hik (Fin.succ_injective n hh)
         have h2 : i.succ ≠ l.succ := fun hh => hil (Fin.succ_injective n hh)
         dsimp only [d]
-        rw [if_neg h1, if_neg h2]
+        rw [ite_eq_right h1, ite_eq_right h2]
         ring)]
       dsimp only [d]
-      rw [if_pos rfl, if_neg hkl'.symm, if_pos rfl]
+      rw [ite_eq_left rfl, ite_eq_right hkl'.symm, ite_eq_left rfl]
       ring
     have hzero : (-2 : ZMod 3) * T k + (-2) * T l = 0 := by
       rw [← hval, hdiff]

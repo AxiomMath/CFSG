@@ -67,7 +67,7 @@ theorem inf_hermPerp_eq_bot (hL : L ∈ isotropicLines h 3) (hL' : L' ∈ isotro
       ((stdHermForm_isSymm h 3).eq_iff (x := v) (y := y)).mpr hyv
     rw [hLv] at hx
     obtain ⟨c, rfl⟩ := Submodule.mem_span_singleton.mp hx
-    simp [map_smul, hvy, smul_eq_mul]
+    simp [hvy, smul_eq_mul]
   have hne' : (⟨L, hL⟩ : isotropicLines h 3) ≠ ⟨L', hL'⟩ := by
     intro hEq
     exact hne (congrArg Subtype.val hEq).symm

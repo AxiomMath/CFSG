@@ -137,7 +137,7 @@ theorem step4
     (hAT : A ≤ Subgroup.normalizer (T : Set G)) (hTX : T ≤ Subgroup.normalizer (X : Set G))
     (hTp : IsPGroup p T) : T ≤ Subgroup.centralizer (X : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, h9, -, -, -, -⟩ := hs.j2_local hJ
   have hXJ : Nonempty (↥X ≃* J2) := equiv_J2_of_covers hXY hXV hcov hYJ
   have hZ : Subgroup.center ↥X = ⊥ :=
@@ -180,7 +180,7 @@ theorem step4
       _ = x * y * x⁻¹ := by rw [hvc]; group
   have hE3 : IsPGroup 3 E := hs.isE27.isPGroup.to_le inf_le_left
   have hV2 : IsPGroup 2 (CFSG.Open.pCoreOf 2 Y₀) := CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 Y₀
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hinj : Function.Injective ρE := by
     refine (injective_iff_map_eq_one ρE).mpr ?_
     intro a ha1

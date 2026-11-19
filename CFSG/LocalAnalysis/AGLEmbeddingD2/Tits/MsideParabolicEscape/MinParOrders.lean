@@ -143,12 +143,14 @@ section Quotient
 variable {K : Type*} {S : Type} [Group K] [Finite K] [Group S] [Finite S] {D : UniversalRootDatum K}
   {n : Fin D.rank → K} {H : Fin D.rank → Subgroup K} {π : K →* S} {M : ℕ}
 
+omit [Finite K] [Finite S] in
 theorem card_parJ_eq_card_map_mul (h : BorelQuotient D n H π M) (J : Set (Fin D.rank)) :
     Nat.card (parJ D H J) = Nat.card ((parJ D H J).map π) * Nat.card π.ker := by
   have hrel := Subgroup.relIndex_mul_card (H := π.ker) (K := parJ D H J)
   rw [Subgroup.relIndex_ker, inf_eq_left.mpr (ker_le_parJ h J)] at hrel
   exact hrel.symm
 
+omit [Finite S] in
 theorem eq_of_map_borel_le_of_card_eq (h : BorelQuotient D n H π M) (hrank : D.rank ≤ 2)
     (hroot : ∀ i j : Fin D.rank, i ≠ j →
       Nat.card (D.rootGroup (Pi.single i 1)) ≠ Nat.card (D.rootGroup (Pi.single j 1)))

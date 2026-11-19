@@ -183,7 +183,7 @@ variable {L : Type} [Field L] [IsAlgClosed L] [CharP L 2]
   ((Units.map (entrywiseHom (iterateFrobenius L 2 h))).comp
     (Subgroup.subtype (adjointGroup Tag.D4 L))).codRestrict _
     (fun g => by
-      haveI : Fact (Nat.Prime 2) := ⟨by decide⟩
+      have : Fact (Nat.Prime 2) := ⟨by decide⟩
       simpa [entrywiseFrobGL] using
         entrywiseFrobGL_mem (p := 2) (τ := Tag.D4) (L := L) h g.2)
 
@@ -210,6 +210,7 @@ theorem rckTriD4_frobAdj_apply (h : ℕ) (x : ↥(adjointGroup Tag.D4 L)) :
       Units.map (entrywiseHom (iterateFrobenius L 2 h)) (x : ModGL Tag.D4 L) :=
   rfl
 
+omit [IsAlgClosed L] [CharP L 2] in
 theorem rckTriD4_conjAdj_apply (e : ℕ) (x : ↥(adjointGroup Tag.D4 L)) :
     (rckTriD4_conjAdj e x : ModGL Tag.D4 L) =
       (rckTriD4_trialityMatrix (L := L) ^ e) * (x : ModGL Tag.D4 L) *
@@ -223,6 +224,7 @@ theorem rckTriD4_diagramFrobHom_apply (e h : ℕ) (x : ↥(adjointGroup Tag.D4 L
         (rckTriD4_trialityMatrix (L := L) ^ e)⁻¹ := by
   simp [rckTriD4_diagramFrobHom, rckTriD4_conjAdj_apply, rckTriD4_frobAdj_apply]
 
+omit [IsAlgClosed L] [CharP L 2] in
 theorem rckTriD4_trialityMatrix_pow_mul_xUnit (e : ℕ) (k : Fin Tag.D4.rank) (c : L) :
     rckTriD4_trialityMatrix (L := L) ^ e * xUnit Tag.D4 L k c *
         (rckTriD4_trialityMatrix (L := L) ^ e)⁻¹ =
@@ -235,6 +237,7 @@ theorem rckTriD4_trialityMatrix_pow_mul_xUnit (e : ℕ) (k : Fin Tag.D4.rank) (c
         xUnit (TwistTag.D4.tag) L ((TwistTag.D4.perm ^ e) k') c
   exact h
 
+omit [IsAlgClosed L] [CharP L 2] in
 theorem rckTriD4_trialityMatrix_pow_mul_yUnit (e : ℕ) (k : Fin Tag.D4.rank) (c : L) :
     rckTriD4_trialityMatrix (L := L) ^ e * yUnit Tag.D4 L k c *
         (rckTriD4_trialityMatrix (L := L) ^ e)⁻¹ =
@@ -250,7 +253,7 @@ theorem rckTriD4_trialityMatrix_pow_mul_yUnit (e : ℕ) (k : Fin Tag.D4.rank) (c
 theorem rckTriD4_diagramFrobHom_xElement (e h : ℕ) (k : Fin Tag.D4.rank) (c : L) :
     (rckTriD4_diagramFrobHom e h (xElement k c) : ModGL Tag.D4 L) =
       xUnit Tag.D4 L ((d4RhoPerm ^ e) k) (c ^ 2 ^ h) := by
-  haveI : Fact (Nat.Prime 2) := ⟨by decide⟩
+  have : Fact (Nat.Prime 2) := ⟨by decide⟩
   rw [rckTriD4_diagramFrobHom_apply]
   change rckTriD4_trialityMatrix (L := L) ^ e *
       Units.map (entrywiseHom (iterateFrobenius L 2 h)) (xUnit Tag.D4 L k c) *
@@ -261,7 +264,7 @@ theorem rckTriD4_diagramFrobHom_xElement (e h : ℕ) (k : Fin Tag.D4.rank) (c : 
 theorem rckTriD4_diagramFrobHom_yElement (e h : ℕ) (k : Fin Tag.D4.rank) (c : L) :
     (rckTriD4_diagramFrobHom e h (yElement k c) : ModGL Tag.D4 L) =
       yUnit Tag.D4 L ((d4RhoPerm ^ e) k) (c ^ 2 ^ h) := by
-  haveI : Fact (Nat.Prime 2) := ⟨by decide⟩
+  have : Fact (Nat.Prime 2) := ⟨by decide⟩
   rw [rckTriD4_diagramFrobHom_apply]
   change rckTriD4_trialityMatrix (L := L) ^ e *
       Units.map (entrywiseHom (iterateFrobenius L 2 h)) (yUnit Tag.D4 L k c) *
@@ -286,7 +289,7 @@ theorem rckTriD4_d4NativeEquiv_equiv {τ : Tag} [E6Sub τ] {L : Type} [Field L]
     ∀ x : ↥(adjointGroup Tag.D4 L),
       n₁ * Units.map (entrywiseHom (iterateFrobenius L 2 h)) (ε x) * n₁⁻¹ =
         (ε (rckTriD4_diagramFrobHom e h x) : ModGL τ L) := by
-  haveI : Fact (Nat.Prime 2) := ⟨by decide⟩
+  have : Fact (Nat.Prime 2) := ⟨by decide⟩
   have hrhoE : ∀ k : Fin Tag.D4.rank, (d4RhoPerm ^ e) k = rhoE e k := by
     rcases he with rfl | rfl
     · intro k

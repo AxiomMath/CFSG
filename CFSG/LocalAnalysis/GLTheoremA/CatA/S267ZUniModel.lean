@@ -49,7 +49,7 @@ theorem exists_mulEquiv_PU {Q : TauCeti.PrimePower} {S : Type} [Group S]
 
 theorem center_PU_eq_bot [Finite K] (h : UnitaryFieldData ℓ f K) (hℓ : ℓ ≠ 2) :
     Subgroup.center (PU h) = ⊥ := by
-  haveI : Fact ℓ.Prime := ⟨h.prime⟩
+  have : Fact ℓ.Prime := ⟨h.prime⟩
   have hK : Nat.card K = (ℓ ^ f) ^ 2 := by rw [h.card, ← pow_mul, mul_comm]
   have hnq : (3, ℓ ^ f) ≠ (3, 2) := fun he =>
     not_three_two_of_ne_two (f := f) h.prime hℓ ⟨rfl, (Prod.ext_iff.1 he).2⟩

@@ -50,10 +50,10 @@ private theorem lay_eq_of_sup {A K C : Subgroup G} (hsup : A ⊔ K = C)
       rw [mul_right_cancel h1]
       exact hk
   have hCN : C ≤ Nor K := hsup.ge.trans (sup_le hAN Subgroup.le_normalizer)
-  haveI : (K.subgroupOf C).Normal :=
+  have : (K.subgroupOf C).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hKC).mpr hCN
   let eK : ↥(K.subgroupOf C) ≃* ↥K := Subgroup.subgroupOfEquivOfLe hKC
-  haveI : IsSimpleGroup ↥(K.subgroupOf C) := eK.isSimpleGroup
+  have : IsSimpleGroup ↥(K.subgroupOf C) := eK.isSimpleGroup
   have hnab : ∃ a b : ↥(K.subgroupOf C), a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hK
     refine ⟨eK.symm a, eK.symm b, fun h => hab ?_⟩
@@ -73,7 +73,7 @@ private theorem lay_eq_of_sup {A K C : Subgroup G} (hsup : A ⊔ K = C)
     intro q
     obtain ⟨c, rfl⟩ := QuotientGroup.mk'_surjective (K.subgroupOf C) q
     exact MonoidHom.mem_range.mp (Subgroup.mem_comap.mp (hle (Subgroup.mem_top c)))
-  haveI : Group.IsSolvable ↥(A.subgroupOf C) := Group.isSolvable_of_comm fun a b =>
+  have : Group.IsSolvable ↥(A.subgroupOf C) := Group.isSolvable_of_comm fun a b =>
     Subtype.ext (Subtype.ext (hA _ (Subgroup.mem_subgroupOf.mp a.2) _
       (Subgroup.mem_subgroupOf.mp b.2)))
   have hlay := layer_eq_of_normal_quasisimple (K.subgroupOf C) hE
@@ -85,7 +85,7 @@ private theorem exists_mul_ne_of_not_prime {Q : Type*} [Group Q] [IsSimpleGroup 
     (hQ : ¬ (Nat.card Q).Prime) : ∃ a b : Q, a * b ≠ b * a := by
   by_contra h
   simp only [not_exists, ne_eq, not_not] at h
-  letI : CommGroup Q := { (inferInstance : Group Q) with mul_comm := h }
+  let : CommGroup Q := { (inferInstance : Group Q) with mul_comm := h }
   exact hQ IsSimpleGroup.prime_card
 
 private theorem isLnq_of_equiv_SL2F4 {K : Subgroup G}
@@ -145,7 +145,7 @@ private theorem lay_cen {X Y : Type} [Group X] [Group Y] (e : X ≃* Y) {τ : Y}
     Lay (Cen (e.symm τ)) = K.map e.symm.toMonoidHom := by
   obtain ⟨hsup, -, hcomm⟩ := hdp
   let eK : ↥(K.map e.symm.toMonoidHom) ≃* ↥K := (e.symm.subgroupMap K).symm
-  haveI : IsSimpleGroup ↥(K.map e.symm.toMonoidHom) := eK.isSimpleGroup
+  have : IsSimpleGroup ↥(K.map e.symm.toMonoidHom) := eK.isSimpleGroup
   refine lay_eq_of_sup (A := (Subgroup.zpowers τ).map e.symm.toMonoidHom) ?_ ?_ ?_ ?_
   · rw [cen_symm, ← hsup, Subgroup.map_sup]
   · rintro _ ⟨a, ha, rfl⟩ _ ⟨k, hk, rfl⟩
@@ -214,10 +214,10 @@ theorem ff79_1_2_five (X : Type) [Group X] [Finite X] (hX : IsLnq 5 2 1 (⊤ : S
     g52_sylow
   obtain ⟨e4⟩ := ord3_K4_equiv
   obtain ⟨e2⟩ := ord3_K2_equiv_GL
-  haveI := ord3_isSimple_SL2_F4
-  haveI := CFSG.ComponentClassification.GHarris.isSimpleGroup_GL32_gh
-  haveI : IsSimpleGroup ↥ord3K4 := e4.isSimpleGroup
-  haveI : IsSimpleGroup ↥ord3K2 := e2.isSimpleGroup
+  have := ord3_isSimple_SL2_F4
+  have := CFSG.ComponentClassification.GHarris.isSimpleGroup_GL32_gh
+  have : IsSimpleGroup ↥ord3K4 := e4.isSimpleGroup
+  have : IsSimpleGroup ↥ord3K2 := e2.isSimpleGroup
   have hK4 : ∃ a b : ↥ord3K4, a * b ≠ b * a := exists_mul_ne_of_not_prime (by
     rw [Nat.card_congr e4.toEquiv, ord3_card_SL2_F4]
     norm_num)
@@ -264,8 +264,8 @@ theorem ff79_1_2_four (X : Type) [Group X] [Finite X] (hX : IsLnq 4 2 1 (⊤ : S
     gl4_syl3_structure
   obtain ⟨e4⟩ := gl4_K4_equiv
   obtain ⟨e5⟩ := gl4_K5_equiv
-  haveI := ord3_isSimple_SL2_F4
-  haveI : IsSimpleGroup ↥gl4K4 := e4.isSimpleGroup
+  have := ord3_isSimple_SL2_F4
+  have : IsSimpleGroup ↥gl4K4 := e4.isSimpleGroup
   have hK4 : ∃ a b : ↥gl4K4, a * b ≠ b * a := exists_mul_ne_of_not_prime (by
     rw [Nat.card_congr e4.toEquiv, ord3_card_SL2_F4]
     norm_num)

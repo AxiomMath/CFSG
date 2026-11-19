@@ -242,8 +242,8 @@ theorem tauAt_mem_orthogonalGroup (E : QuadExt F K σ) {n : ℕ} (k : Fin n) :
   exact Finset.sum_congr rfl fun i _ => by
     by_cases h : i = k
     · rw [h]
-      rw [tauAt_apply E, if_pos rfl, E.isUnitary.invol, mul_comm]
-    · rw [tauAt_apply E, if_neg h]
+      rw [tauAt_apply E, ite_eq_left rfl, E.isUnitary.invol, mul_comm]
+    · rw [tauAt_apply E, ite_eq_right h]
 
 theorem tauAt_mul_self (E : QuadExt F K σ) {n : ℕ} (k : Fin n) :
     tauAt E k * tauAt E k = 1 := by
@@ -262,7 +262,7 @@ theorem smul_single_apply {n : ℕ} (c : F) (k i : Fin n) :
   by_cases h : i = k
   · rw [h]
     simp [Algebra.smul_def]
-  · rw [Pi.smul_apply, Pi.single_eq_of_ne h, smul_zero, if_neg h]
+  · rw [Pi.smul_apply, Pi.single_eq_of_ne h, smul_zero, ite_eq_right h]
 
 theorem tauAt_eq_reflect [CharP K 2] (E : QuadExt F K σ) {n : ℕ} (k : Fin n) :
     tauAt E k = CFSG.ClassicalGroups.Orthogonal.reflect (Qn E n) (Pi.single k 1) := by
@@ -282,9 +282,9 @@ theorem tauAt_eq_reflect [CharP K 2] (E : QuadExt F K σ) {n : ℕ} (k : Fin n) 
   rw [hQ, div_one, hp]
   by_cases h : i = k
   · rw [h]
-    rw [if_pos rfl, Pi.sub_apply, smul_single_apply, if_pos rfl, algebraMap_retr_trace E,
+    rw [ite_eq_left rfl, Pi.sub_apply, smul_single_apply, ite_eq_left rfl, algebraMap_retr_trace E,
       CharTwo.sub_eq_add, ← add_assoc, CharTwo.add_self_eq_zero, zero_add]
-  · rw [if_neg h, Pi.sub_apply, smul_single_apply, if_neg h, sub_zero]
+  · rw [ite_eq_right h, Pi.sub_apply, smul_single_apply, ite_eq_right h, sub_zero]
 
 theorem dicksonInvariant_tauAt_eq_one [CharP K 2] (E : QuadExt F K σ) {n : ℕ} (k : Fin n)
     {X₀ : Submodule F (Fin n → K)}
@@ -390,7 +390,7 @@ theorem suEndN_apply_tauAt_comm (E : QuadExt F K σ) {n : ℕ}
   · rw [hi]
     rw [hrow (tauAt E k x)]
     simp only [tauAt_apply E, hrow x]
-  · rw [tauAt_apply E, if_neg hi]
+  · rw [tauAt_apply E, ite_eq_right hi]
     have hrest : tauAt E k x - (tauAt E k x) k •
         (Pi.single k (1 : K) : Fin n → K) =
         x - x k • (Pi.single k (1 : K) : Fin n → K) := by

@@ -39,7 +39,7 @@ theorem babyNoPureFourAt_two
     : BabyNoPureFourAt 2 := by
   intro t ht D hDt hD hDcard
   by_contra! hpure
-  haveI : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
+  have : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
   obtain ⟨ε⟩ : Nonempty (Shat ≃* NativeSporadic.B) :=
     ⟨CFSG.Monster.B.CTIB.sEquiv.symm.trans CFSG.Monster.B.CTIB.iotaEquiv.symm⟩
   have h2D : BabyInv 2 (ε t2DS) := by
@@ -95,7 +95,7 @@ theorem babyNoPureFourAt_two
     simpa using h6
   have hiso : ∀ (e : D) (u v : V8), b0 (ρ e u) (ρ e v) = b0 u v := fun e u v =>
     TauCeti.BilinForm.mem_isometryGroup_iff.1 (rhoXSp (φ e)).2 u v
-  haveI := hD.1
+  have := hD.1
   obtain ⟨a, ha, T, hT, hT7, hTc⟩ :=
     letI : CommGroup D := { (inferInstance : Group D) with mul_comm := fun a b => mul_comm' a b }
     PureD.exists_commute_isometry_orderOf_seven (V := V8) (E := D) b0 hE3 nondegenerate_b0

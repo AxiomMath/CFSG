@@ -18,13 +18,13 @@ open CFSG.RankThree.PartOne.KCOrthogonal
 
 private theorem ggK1CMu_charP_two {K : Type} [Field K] [Finite K] {nf : ℕ}
     (hK : Nat.card K = 2 ^ nf) : CharP K 2 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   exact charP_of_card_eq_prime_pow (p := 2) (f := nf)
     (by rw [← Nat.card_eq_fintype_card]; exact hK)
 
 private theorem ggK1CMu_prime_cast_ne_zero {K : Type} [Field K] [Finite K] {p nf : ℕ}
     (hp : p.Prime) (hp2 : p ≠ 2) (hK : Nat.card K = 2 ^ nf) : (p : K) ≠ 0 := by
-  haveI : CharP K 2 := ggK1CMu_charP_two hK
+  have : CharP K 2 := ggK1CMu_charP_two hK
   intro h
   rw [CharP.cast_eq_zero_iff K 2] at h
   exact hp2 ((Nat.prime_dvd_prime_iff_eq Nat.prime_two hp).mp h).symm
@@ -48,7 +48,7 @@ private theorem ggK1CMu_dvd_cyclotomic {K : Type} [Field K] {p : ℕ} (hp : p.Pr
         (hc.associated_of_dvd (irreducible_X_sub_C 1) h1)).trans (by rw [C_1])
     exact hc1 heq
 
-private theorem ggK1CMu_ordQ_eq_one {K : Type} [Field K] [Finite K] {p nf : ℕ} (hp : p.Prime)
+private theorem ggK1CMu_ordQ_eq_one {K : Type} [Field K] [Finite K] {p nf : ℕ} (_hp : p.Prime)
     (h1 : p ∣ 2 ^ nf - 1) (hK : Nat.card K = 2 ^ nf) : OrdPNS.ordQ K p = 1 := by
   have hle : 1 ≤ 2 ^ nf := Nat.one_le_two_pow
   have hcast : ((Nat.card K : ℕ) : ZMod p) = 1 := by
@@ -120,7 +120,7 @@ private theorem ggK1CMu_not_selfDual_of_degree_one {K : Type} [Field K] {p : ℕ
 
 private theorem ggK1CMu_selfDual_of_degree_two {K : Type} [Field K] [Finite K] {p : ℕ}
     (hp : p.Prime)
-    (hp2 : p ≠ 2) (hpK : (p : K) ≠ 0) (hpq : p ∣ Nat.card K + 1) {h : K[X]}
+    (_hp2 : p ≠ 2) (hpK : (p : K) ≠ 0) (hpq : p ∣ Nat.card K + 1) {h : K[X]}
     [Fact (Irreducible h)] (hirr : Irreducible h) (hmon : h.Monic) (h0 : h.coeff 0 ≠ 0)
     (hgd : h ∣ cyclotomic p K) (hord : orderOf (AdjoinRoot.root h) = p) :
     reciprocalPolynomial h = h := by
@@ -152,8 +152,8 @@ private theorem ggK1CMu_primaryMultiplicity_pos {K V : Type} [Field K] [AddCommG
     [Module K V] [FiniteDimensional K V] {x : Module.End K V}
     (hsq : Squarefree (minpoly K x)) {h : K[X]} (hh : h ∈ primaryFactors x) :
     0 < primaryMultiplicity x h := by
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
-  haveI : Nontrivial (primaryComponent x h) :=
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Nontrivial (primaryComponent x h) :=
     Submodule.nontrivial_iff_ne_bot.mpr (primaryComponent_ne_bot hsq hh)
   exact Module.finrank_pos
 
@@ -184,7 +184,7 @@ private theorem ggK1CMu_exists_split {p nf r : ℕ} {K : Type} [Field K] [Finite
     {x : ↥(StatedSp r K)} (hx : x ^ p = 1) :
     ∃ m : List ℕ, GGK1CMultOf p nf 1 r K x m := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hpK : (p : K) ≠ 0 := ggK1CMu_prime_cast_ne_zero hp hp2 hK
   have H := altPrimaryData_spLin (r := r) hpK hx
   have hX : spEnd x ^ p = 1 := spEnd_pow hx
@@ -212,7 +212,7 @@ private theorem ggK1CMu_exists_split {p nf r : ℕ} {K : Type} [Field K] [Finite
     intro h hh hne
     have hhT : h ∈ T := (hmemT h).mpr ⟨hh, hne⟩
     have hirr := irreducible_of_mem_primaryFactors hh
-    haveI : Fact (Irreducible h) := ⟨hirr⟩
+    have : Fact (Irreducible h) := ⟨hirr⟩
     exact ggK1CMu_not_selfDual_of_degree_one hp hp2 (monic_of_mem_primaryFactors hh)
       (hdeg1 h hhT) (orderOf_root_of_mem hp hX hh hne)
   have hsd_zero : (primaryFactors (spEnd x)).filter
@@ -323,7 +323,7 @@ private theorem ggK1CMu_exists_nonsplit {p nf r : ℕ} {K : Type} [Field K] [Fin
     {x : ↥(StatedSp r K)} (hx : x ^ p = 1) :
     ∃ m : List ℕ, GGK1CMultOf p nf 2 r K x m := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hpK : (p : K) ≠ 0 := ggK1CMu_prime_cast_ne_zero hp hp2 hK
   have hpq : p ∣ Nat.card K + 1 := by rw [hK]; exact h2
   have H := altPrimaryData_spLin (r := r) hpK hx
@@ -347,7 +347,7 @@ private theorem ggK1CMu_exists_nonsplit {p nf r : ℕ} {K : Type} [Field K] [Fin
     intro h hh
     have hh' := (hmemT h).mp hh
     have hirr := irreducible_of_mem_primaryFactors hh'.1
-    haveI : Fact (Irreducible h) := ⟨hirr⟩
+    have : Fact (Irreducible h) := ⟨hirr⟩
     have hmon := monic_of_mem_primaryFactors hh'.1
     have hgd := ggK1CMu_dvd_cyclotomic hp hirr hmon
       (ggK1CMu_dvd_X_pow_sub_one hx hh'.1) hh'.2
@@ -356,7 +356,7 @@ private theorem ggK1CMu_exists_nonsplit {p nf r : ℕ} {K : Type} [Field K] [Fin
     intro h hh hne
     have hhT : h ∈ T := (hmemT h).mpr ⟨hh, hne⟩
     have hirr := irreducible_of_mem_primaryFactors hh
-    haveI : Fact (Irreducible h) := ⟨hirr⟩
+    have : Fact (Irreducible h) := ⟨hirr⟩
     have hgd := ggK1CMu_dvd_cyclotomic hp hirr (monic_of_mem_primaryFactors hh)
       (ggK1CMu_dvd_X_pow_sub_one hx hh) hne
     exact ggK1CMu_selfDual_of_degree_two hp hp2 hpK hpq hirr
@@ -452,7 +452,7 @@ private theorem ggK1CMu_exists_nonsplit {p nf r : ℕ} {K : Type} [Field K] [Fin
     exact Multiset.coe_toList M
 
 theorem ggK1C_mult_exists {p nf r : ℕ} {K : Type} [Field K] [Finite K]
-    (hp : p.Prime) (hp2 : p ≠ 2) (hnf : 1 ≤ nf) (hK : Nat.card K = 2 ^ nf)
+    (hp : p.Prime) (hp2 : p ≠ 2) (_hnf : 1 ≤ nf) (hK : Nat.card K = 2 ^ nf)
     (hdvd : p ∣ 2 ^ nf - 1 ∨ p ∣ 2 ^ nf + 1)
     {x : ↥(StatedSp r K)} (hx : x ^ p = 1) :
     ∃ m : List ℕ, GGK1CMultOf p nf (ggMultOrd p nf) r K x m := by

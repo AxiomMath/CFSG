@@ -17,7 +17,7 @@ theorem exists_cover_localRank {n : ℕ} (hn : 1 ≤ n) (h3 : 3 ∣ 2 ^ n + 1) :
     ∃ U E : Subgroup (twistedE6Group 2 n), U ≠ ⊥ ∧ IsPGroup 2 U ∧
       E ≤ Subgroup.normalizer (U : Set (twistedE6Group 2 n)) ∧
       IsElemAbelian 3 E ∧ Nat.card E = 3 ^ 5 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have : Finite (GaloisField 2 (2 * n)) :=
     Nat.finite_of_card_ne_zero (by rw [GaloisField.card 2 (2 * n) (by omega)]; positivity)
   have hdvd : 3 ∣ Nat.card (GaloisField 2 (2 * n))ˣ := by

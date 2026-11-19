@@ -108,7 +108,7 @@ theorem isBenderGroup_of_wcl_abelian {X : Type} [Group X] [Finite X] [IsSimpleGr
   have hA : CFSG.LargeExtraspecial.S11.wcl t ≠ ⊥ := fun h => ht1 (by
     have ht := CFSG.LargeExtraspecial.S11.self_mem_wcl t
     rwa [h, Subgroup.mem_bot] at ht)
-  obtain ⟨n, hn⟩ := P.isPGroup'.exists_card_eq
+  obtain ⟨n, hn⟩ := P.isPGroup.exists_card_eq
   have hn0 : n ≠ 0 := by
     rintro rfl
     rw [pow_zero] at hn
@@ -129,7 +129,7 @@ theorem isBenderGroup_of_wcl_abelian {X : Type} [Group X] [Finite X] [IsSimpleGr
     · exact .isSuzuki a ha
         (e.trans (MulEquiv.subgroupCongr (CFSG.Models.benderSzModel_eq_sz a).symm))
   · exfalso
-    have h8 := card_dvd_eight_of_isPGroup hk hdvd P.isPGroup'
+    have h8 := card_dvd_eight_of_isPGroup hk hdvd P.isPGroup
     have := Nat.le_of_dvd (by norm_num) h8
     omega
 

@@ -71,13 +71,13 @@ namespace Lemma138
 
 theorem glaPLayer_le_self {X : Type} [Group X] [Finite X] (p : ℕ) (Z : Subgroup X) :
     GLAPLayer p Z ≤ Z :=
-  sSup_le fun L hL => hL.1
+  sSup_le fun _L hL => hL.1
 
 theorem le_of_simple_inf {Q : Type} [Group Q] {K N : Subgroup Q} (hKs : IsSimpleGroup ↥K)
     (hN : ∀ k ∈ K, ∀ x ∈ N, k * x * k⁻¹ ∈ N) {w : Q} (hwK : w ∈ K) (hwN : w ∈ N) (hw1 : w ≠ 1) :
     K ≤ N := by
   let M : Subgroup ↥K := N.subgroupOf K
-  haveI : M.Normal := ⟨fun n hn g => by
+  have : M.Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     have := hN (g : Q) g.2 (n : Q) hn
     simpa using this⟩
@@ -150,7 +150,7 @@ theorem core_isComponent
     (hW : GLAPComponent p (GLAPLayer p (Y ⊓ Subgroup.centralizer (Ft : Set Q))) W)
     (hWK : W ≤ K) (hWne : W ≠ ⊥) :
     IsComponentOf K ⊤ := by
-  haveI := hKs
+  have := hKs
   have hBp : IsPGroup p ↥B := Lemma137.isPGroup_of_isElemAbelian hB
   have hFp : IsPGroup p ↥Ft := IsPGroup.to_le hBp hFB
   have hFN : Ft ≤ Subgroup.normalizer (Y : Set Q) := by

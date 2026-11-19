@@ -227,7 +227,7 @@ theorem ncard_ahat0 :
       ↑(Finset.univ.filter fun L : Finset (Fin 6) × Bool =>
         L.1.card = 4 ∧ normB (a0List ()) L = true) := by
     ext L
-    simp only [Set.mem_setOf_eq, Finset.coe_filter, Finset.mem_univ, true_and]
+    simp only [Set.mem_ofPred_eq, Finset.coe_filter, Finset.mem_univ, true_and]
     exact ⟨fun ⟨h, hle⟩ => ⟨h, (le_normalizer_ahat0_iff h).mp hle⟩,
       fun ⟨h, hN⟩ => ⟨h, (le_normalizer_ahat0_iff h).mpr hN⟩⟩
   rw [hset, Set.ncard_coe_finset]

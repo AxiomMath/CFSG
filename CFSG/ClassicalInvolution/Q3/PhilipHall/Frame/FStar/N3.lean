@@ -24,7 +24,7 @@ theorem fpf_coord_of_cube :
 theorem exists_fpf_of_card {H : Subgroup P3} (h : Nat.card H = 6 ∨ Nat.card H = 18) :
     ∃ x ∈ H, (∀ i, x.1 i ≠ i) ∨ (∀ i, x.2 i ≠ i) := by
   have h3 : 3 ∣ Nat.card H := by rcases h with h | h <;> rw [h] <;> norm_num
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' (G := H) 3 h3
   refine ⟨y, y.2, fpf_coord_of_cube _ ?_ ?_⟩
   · have := pow_orderOf_eq_one y

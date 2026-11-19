@@ -14,13 +14,14 @@ open CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley CFSG.LieType.AlgebraicGroup
 variable {Omega : Type} [Field Omega] [IsAlgClosed Omega] [CharP Omega 2]
   {lab : LargeEvenLabel} {p : ℕ} {R : Type} [Group R] {I : Set (MulAut R)} {phi : MulAut R}
 
+omit [CharP Omega 2] in
 private lemma lk0xlqpair_span_nodes (A : K0LangMark Omega lab p R I phi)
     (x y : ℕ) (hx : x < A.row.diagram.marks.length) (hy : y < A.row.diagram.marks.length) :
     ({w : Fin A.tau.rank → ℤ | ∃ i : Fin A.row.diagram.marks.length,
         i.val ∈ [x, y] ∧ w = A.nodeMap (Pi.single i 1)} : Set (Fin A.tau.rank → ℤ)) =
       ({lqExtRoot A.tau A.row.T x, lqExtRoot A.tau A.row.T y} : Set (Fin A.tau.rank → ℤ)) := by
   ext w
-  simp only [Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff, List.mem_cons,
+  simp only [Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff, List.mem_cons,
     List.not_mem_nil, or_false]
   constructor
   · rintro ⟨i, hix | hiy, rfl⟩
@@ -32,6 +33,7 @@ private lemma lk0xlqpair_span_nodes (A : K0LangMark Omega lab p R I phi)
     · exact ⟨⟨x, hx⟩, Or.inl rfl, (lq_nodeMap_eq A ⟨x, hx⟩).symm⟩
     · exact ⟨⟨y, hy⟩, Or.inr rfl, (lq_nodeMap_eq A ⟨y, hy⟩).symm⟩
 
+omit [CharP Omega 2] in
 theorem lq_pair_ncard (A : K0LangMark Omega lab p R I phi) (P : K0Positions A)
     (j : Fin A.row.D.orbits.length) (h : (lqNodes A P j).length = 2) :
     (componentRoots (rootCharHom A.a) (P.repr j)).ncard =

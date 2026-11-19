@@ -96,7 +96,7 @@ public theorem isPGroup_of_pResidualOf_isPGroup
   have hordG : orderOf (x : G) = q := by
     calc
       orderOf (x : G) = orderOf x :=
-        by simpa using (orderOf_injective H.subtype H.subtype_injective x).symm
+        by simp
       _ = q := hxorder
   have hcopq : Nat.Coprime p q := (Nat.coprime_primes hp hqprime).2 (by
     intro hpq
@@ -559,11 +559,11 @@ public theorem componentLayerOf_isNormalIn {G : Type u} [Group G]
       exact Subgroup.mem_sSup_of_mem
         (isComponentOf_conjugateSubgroup_of_mem E.2 a ha)
         (by
-          exact Subgroup.mem_map.mpr ⟨y, hyE, by simp [conjugateSubgroup]⟩)
+          exact Subgroup.mem_map.mpr ⟨y, hyE, by simp⟩)
     refine Subgroup.closure_induction'' hgen ?_ ?_ ?_ he
     · intro x hx
       simpa [mul_assoc] using (componentLayerOf A).inv_mem (hgen x hx)
-    · simpa using (componentLayerOf A).one_mem
+    · simp
     · intro x y _hx _hy hx' hy'
       simpa [mul_assoc, mul_left_comm, mul_right_comm] using
         (componentLayerOf A).mul_mem hx' hy'
@@ -589,7 +589,7 @@ public theorem generalizedFittingSubgroupOf_isNormalIn {G : Type u} [Group G]
     refine Subgroup.closure_induction'' hgen ?_ ?_ ?_ hx
     · intro y hy
       simpa [mul_assoc] using (generalizedFittingSubgroupOf A).inv_mem (hgen y hy)
-    · simpa using (generalizedFittingSubgroupOf A).one_mem
+    · simp
     · intro y z _ _ hy' hz'
       simpa [mul_assoc, mul_left_comm, mul_right_comm] using
         (generalizedFittingSubgroupOf A).mul_mem hy' hz'
@@ -747,7 +747,7 @@ public theorem componentLayerOf_centralizer_eq_bot
   exact False.elim ((Subgroup.nontrivial_iff_ne_bot L).mp hL.2.2.1 hLbot)
 
 public theorem isSubnormal_subgroupOf_of_subnormal_of_le {A : Type u} [Group A]
-    {H N : Subgroup A} (hHN : H ≤ N) (hH : H.IsSubnormal) :
+    {H N : Subgroup A} (_hHN : H ≤ N) (hH : H.IsSubnormal) :
     (H.subgroupOf N).IsSubnormal := by
   classical
   rcases (Subgroup.IsSubnormal.isSubnormal_iff).1 hH with ⟨n, f, hmono, hnorm, hf0, hfn⟩
@@ -773,7 +773,7 @@ public theorem isSubnormal_subgroupOf_of_subnormal_of_le {A : Type u} [Group A]
     rw [← Subgroup.subgroupOf_normalizer_eq (h := hXN)]
     simpa [g, X, Y] using Subgroup.subgroupOf_mono N hYle
   have hg0 : g 0 = H.subgroupOf N := by
-    simpa [g, hf0, inf_of_le_left hHN]
+    simp [g, hf0]
   have hgn : g n = ⊤ := by
     simp [g, hfn]
   exact (Subgroup.IsSubnormal.isSubnormal_iff).2 ⟨n, g, hgmono, hgnorm, hg0, hgn⟩
@@ -789,7 +789,7 @@ public theorem exists_minimal_subnormal {A : Type u} [Group A] [Finite A]
     refine ⟨Nat.card A, ⟨⊤, ?_, Subgroup.IsSubnormal.top, ?_⟩⟩
     · exact (Subgroup.one_lt_card_iff_ne_bot (H := (⊤ : Subgroup A))).1 (by
         simpa using (Finite.one_lt_card_iff_nontrivial (α := A)).2 hA)
-    · simpa using (Nat.card_congr (Subgroup.topEquiv (G := A)).toEquiv).symm
+    · simp
   let n0 : ℕ := Nat.find hP
   rcases Nat.find_spec hP with ⟨K, hKne, hKsn, hKcard⟩
   refine ⟨K, hKne, hKsn, ?_⟩
@@ -1018,7 +1018,7 @@ public theorem isSolvable_iSup_of_normal_solvable
         intro i
         rw [iSup_eq_bot]
         intro hi
-        exact False.elim (by simpa using hi)
+        exact False.elim (by simp at hi)
       rw [hbot]
       infer_instance
     · intro a s' has' ih
@@ -1549,7 +1549,7 @@ public theorem fittingSubgroup_quotient_eq_bot_of_central_kernel
     have hPnil : Group.IsNilpotent P := by
       let f : (↥P) →* (↥Pbar) :=
         { toFun := fun x => ⟨π (P.subtype x), by
-            exact (Subgroup.mem_comap).1 (by simpa [P] using x.2)⟩
+            exact (Subgroup.mem_comap).1 (by simp [P])⟩
           map_one' := by ext; rfl
           map_mul' := by intro x y; ext; rfl }
       have hker : f.ker ≤ Subgroup.center (↥P) := by
@@ -1564,7 +1564,7 @@ public theorem fittingSubgroup_quotient_eq_bot_of_central_kernel
         apply Subtype.ext
         apply Subtype.ext
         have hyC : ((y : ↥C) : G) ∈ C :=
-          (Subgroup.map_subtype_le (H := C) P) (Subgroup.mem_map.mpr ⟨y, by simpa using y.2, rfl⟩)
+          (Subgroup.map_subtype_le (H := C) P) (Subgroup.mem_map.mpr ⟨y, by simp, rfl⟩)
         have hc : ((y : ↥C) : G) * (x : G) = (x : G) * ((y : ↥C) : G) :=
           (Subgroup.mem_centralizer_iff (g := (x : G)) (s := (C : Set G))).1
             (hKcentral hxKG) (y : ↥C) hyC
@@ -1766,7 +1766,7 @@ public theorem isComponentOf_of_central_quotient_component
     intro x hx
     rw [Subgroup.mem_comap]
     have hx1 : π x = 1 := (QuotientGroup.eq_one_iff (N := K') (x := x)).2 hx
-    simpa [hx1] using (S.one_mem : (1 : Q) ∈ S)
+    simp [hx1]
   -- subnormality of `M` in `↥C`
   have hSsn : S.IsSubnormal := by
     have h' : ((S.subgroupOf (⊤ : Subgroup Q)).map (⊤ : Subgroup Q).subtype).IsSubnormal :=
@@ -2252,11 +2252,11 @@ private theorem isPGroup_generalizedFitting_of_pCore_containment
   have hUnormG : U ≤ Subgroup.normalizer (FstarG : Set G) := by
     have htop : Subgroup.normalizer (FstarG : Set G) = ⊤ :=
       (Subgroup.normalizer_eq_top_iff).mpr hFnorm
-    simpa [htop]
+    simp [htop]
   have hKnormG : K ≤ Subgroup.normalizer (FstarG : Set G) := by
     have htop : Subgroup.normalizer (FstarG : Set G) = ⊤ :=
       (Subgroup.normalizer_eq_top_iff).mpr hFnorm
-    simpa [htop]
+    simp [htop]
   have hKidem : pResidualOf K p = K := by
     simpa [K] using pResidualOf_pResidualOf Xstar p hp
   have hcent : Centralizes K FstarG :=

@@ -12,7 +12,7 @@ open CFSG.Open CFSG.GH74.Uniqueness.SU Subgroup Equiv
 
 theorem exists_elemAbelian_alt {p n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hn : 2 * p ≤ n) :
     ∃ E : Subgroup (alternatingGroup (Fin n)), IsElemAbelian p E ∧ Nat.card E = p ^ 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨c, hc⟩ := exists_prime_orderOf_dvd_card' (G := Perm (Fin p)) p (by
     rw [Nat.card_perm, Nat.card_eq_fintype_card, Fintype.card_fin]
     exact Nat.dvd_factorial hp.pos le_rfl)

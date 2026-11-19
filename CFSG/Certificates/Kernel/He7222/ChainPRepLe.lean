@@ -29,12 +29,12 @@ theorem chain_prep_le (hn0 : 0 < n) (hn : n < 16777216) (hw : n + 1 < 2 ^ w) (L 
   let b := baseF hn0 B
   have hbv : ∀ i (hi : i < L), b i = ⟨B i, hB i hi⟩ := fun i hi => by
     change baseF hn0 B i = _
-    rw [baseF, dif_pos (hB i hi)]
+    rw [baseF, dite_eq_left (hB i hi)]
   let gset : ℕ → Set (Equiv.Perm (Fin n)) := fun i =>
     {g | ∃ q < (Gs i).length, PRep n w ((Gs i).getD q 0) g}
   let G : ℕ → Subgroup (Equiv.Perm (Fin n)) := fun i =>
     if i < L then Subgroup.closure (gset i) else ⊥
-  have hGc : ∀ i < L, G i = Subgroup.closure (gset i) := fun i hi => if_pos hi
+  have hGc : ∀ i < L, G i = Subgroup.closure (gset i) := fun i hi => ite_eq_left hi
   have hgen : ∀ i < L, ∀ q < (Gs i).length, ∃ g ∈ stabB P b i, PRep n w ((Gs i).getD q 0) g := by
     intro i
     induction i with
@@ -72,14 +72,14 @@ theorem chain_prep_le (hn0 : 0 < n) (hn : n < 16777216) (hw : n + 1 < 2 ^ w) (L 
     intro i hi
     rcases Nat.lt_or_ge i L with hiL | hiL
     · exact fun g hg => ((hGS i hiL) hg).1
-    · have : G i = ⊥ := if_neg (by omega)
+    · have : G i = ⊥ := ite_eq_right (by omega)
       rw [this]
       exact bot_le
   have hfix : ∀ i ≤ L, ∀ g ∈ G i, ∀ t < i, g (b t) = b t := by
     intro i hi g hg t ht
     rcases Nat.lt_or_ge i L with hiL | hiL
     · exact ((hGS i hiL) hg).2 t ht
-    · have : G i = ⊥ := if_neg (by omega)
+    · have : G i = ⊥ := ite_eq_right (by omega)
       rw [this, Subgroup.mem_bot] at hg
       rw [hg]
       rfl
@@ -93,7 +93,7 @@ theorem chain_prep_le (hn0 : 0 < n) (hn : n < 16777216) (hw : n + 1 < 2 ^ w) (L 
       obtain ⟨g', hg', hr', -⟩ := sch_prep hn32 (hB i hi) (hsch i hi1) hTR (G i) (hmemG i hi) hT q hq
       rw [prep_unique hr hr']
       exact hg'
-    · have : G (i + 1) = ⊥ := if_neg (by omega)
+    · have : G (i + 1) = ⊥ := ite_eq_right (by omega)
       rw [this]
       exact bot_le
   have hTm : ∀ i < L, ∀ j < (T i).length,

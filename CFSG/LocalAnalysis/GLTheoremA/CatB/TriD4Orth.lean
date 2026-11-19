@@ -24,7 +24,7 @@ private theorem exists_conj_of_inner {t : StatedLieTag}
     (hJ : GLAPComponent 3 (fixSubgroup α) J) (hT : catalogIs (PSimple 3 J) S9.isD4two) :
     ∃ j ∈ J, ∀ y ∈ J, β y = j * y * j⁻¹ := by
   have hZ : Subgroup.center S = ⊥ := by
-    haveI := hs
+    have := hs
     obtain ⟨a, b, hab⟩ := hnab
     exact TauCeti.IsSimpleGroup.center_eq_bot_of_not_isMulCommutative fun h =>
       hab (h.is_comm.comm a b)

@@ -158,18 +158,18 @@ theorem sp_E_simpleIdx_mulVec_e0 {n : ℕ} (hn : 2 ≤ n) (i : Fin n) :
     have h1 : (Pi.single (Sum.inl ⟨0, by omega⟩) (1 : k) : Fin n ⊕ Fin n → k)
         (Sum.inl (⟨i.val + 1, h⟩ : Fin n)) = 0 := by
       rw [Pi.single_apply]
-      exact if_neg (fun hh => Nat.succ_ne_zero i.val (by
+      exact ite_eq_right (fun hh => Nat.succ_ne_zero i.val (by
         simpa using congrArg Fin.val (Sum.inl.inj hh)))
     have h2 : (Pi.single (Sum.inl ⟨0, by omega⟩) (1 : k) : Fin n ⊕ Fin n → k)
         (Sum.inr i) = 0 := by
       rw [Pi.single_apply]
-      exact if_neg (fun hh => Sum.inr_ne_inl hh)
+      exact ite_eq_right (fun hh => Sum.inr_ne_inl hh)
     rw [h1, h2, zero_smul, zero_smul, sub_zero]
   · rw [sp_E_positiveLong_mulVec]
     have h2 : (Pi.single (Sum.inl ⟨0, by omega⟩) (1 : k) : Fin n ⊕ Fin n → k)
         (Sum.inr i) = 0 := by
       rw [Pi.single_apply]
-      exact if_neg (fun hh => Sum.inr_ne_inl hh)
+      exact ite_eq_right (fun hh => Sum.inr_ne_inl hh)
     rw [h2, zero_smul]
 
 omit [CharP k 2] in
@@ -181,16 +181,16 @@ theorem sp_E_simpleIdx_zero_mulVec_e1 {n : ℕ} (hn : 2 ≤ n) :
     show 0 + 1 < n
     omega
   unfold simpleIdx
-  rw [dif_pos h0]
+  rw [dite_eq_left h0]
   rw [sp_E_difference_mulVec]
   have h1 : (Pi.single (Sum.inl ⟨1, by omega⟩) (1 : k) : Fin n ⊕ Fin n → k)
       (Sum.inl (⟨0 + 1, h0⟩ : Fin n)) = 1 := by
     rw [Pi.single_apply]
-    exact if_pos (by simp)
+    exact ite_eq_left (by simp)
   have h2 : (Pi.single (Sum.inl ⟨1, by omega⟩) (1 : k) : Fin n ⊕ Fin n → k)
       (Sum.inr (⟨0, by omega⟩ : Fin n)) = 0 := by
     rw [Pi.single_apply]
-    exact if_neg (fun hh => Sum.inr_ne_inl hh)
+    exact ite_eq_right (fun hh => Sum.inr_ne_inl hh)
   rw [h1, h2, one_smul, zero_smul, sub_zero]
 
 omit [CharP k 2] in
@@ -201,11 +201,11 @@ theorem sp_E_difference_mulVec_e0 {n : ℕ} (hn : 2 ≤ n) {a b : Fin n} (hab : 
   have h1 : (Pi.single (Sum.inl ⟨0, by omega⟩) (1 : k) : Fin n ⊕ Fin n → k)
       (Sum.inl b) = 0 := by
     rw [Pi.single_apply]
-    exact if_neg (fun hh => hb (by simpa using congrArg Fin.val (Sum.inl.inj hh)))
+    exact ite_eq_right (fun hh => hb (by simpa using congrArg Fin.val (Sum.inl.inj hh)))
   have h2 : (Pi.single (Sum.inl ⟨0, by omega⟩) (1 : k) : Fin n ⊕ Fin n → k)
       (Sum.inr a) = 0 := by
     rw [Pi.single_apply]
-    exact if_neg (fun hh => Sum.inr_ne_inl hh)
+    exact ite_eq_right (fun hh => Sum.inr_ne_inl hh)
   rw [h1, h2, zero_smul, zero_smul, sub_zero]
 
 omit [CharP k 2] in
@@ -215,7 +215,7 @@ theorem sp_E_positiveLong_mulVec_e0 {n : ℕ} (hn : 2 ≤ n) (a : Fin n) :
   have h2 : (Pi.single (Sum.inl ⟨0, by omega⟩) (1 : k) : Fin n ⊕ Fin n → k)
       (Sum.inr a) = 0 := by
     rw [Pi.single_apply]
-    exact if_neg (fun hh => Sum.inr_ne_inl hh)
+    exact ite_eq_right (fun hh => Sum.inr_ne_inl hh)
   rw [h2, zero_smul]
 
 omit [CharP k 2] in
@@ -226,7 +226,7 @@ theorem sp_E_negativeLong_mulVec_e0 {n : ℕ} (hn : 2 ≤ n) {a : Fin n}
   have h1 : (Pi.single (Sum.inl ⟨0, by omega⟩) (1 : k) : Fin n ⊕ Fin n → k)
       (Sum.inl a) = 0 := by
     rw [Pi.single_apply]
-    exact if_neg (fun hh => ha (by simpa using congrArg Fin.val (Sum.inl.inj hh)))
+    exact ite_eq_right (fun hh => ha (by simpa using congrArg Fin.val (Sum.inl.inj hh)))
   rw [h1, zero_smul]
 
 omit [CharP k 2] in
@@ -238,11 +238,11 @@ theorem sp_E_difference_mulVec_e1 {n : ℕ} (hn : 2 ≤ n) {a b : Fin n} (hab : 
   have h1 : (Pi.single (Sum.inl ⟨1, by omega⟩) (1 : k) : Fin n ⊕ Fin n → k)
       (Sum.inl b) = 1 := by
     rw [Pi.single_apply]
-    exact if_pos (by simp [Fin.ext_iff, hb])
+    exact ite_eq_left (by simp [Fin.ext_iff, hb])
   have h2 : (Pi.single (Sum.inl ⟨1, by omega⟩) (1 : k) : Fin n ⊕ Fin n → k)
       (Sum.inr a) = 0 := by
     rw [Pi.single_apply]
-    exact if_neg (fun hh => Sum.inr_ne_inl hh)
+    exact ite_eq_right (fun hh => Sum.inr_ne_inl hh)
   rw [h1, h2, one_smul, zero_smul, sub_zero]
   congr 1
   exact congrArg Sum.inl (Fin.ext ha)
@@ -256,11 +256,11 @@ theorem sp_E_difference_mulVec_e0_of {n : ℕ} (hn : 2 ≤ n) {a b : Fin n} (hab
   have h1 : (Pi.single (Sum.inl ⟨0, by omega⟩) (1 : k) : Fin n ⊕ Fin n → k)
       (Sum.inl b) = 1 := by
     rw [Pi.single_apply]
-    exact if_pos (by simp [Fin.ext_iff, hb])
+    exact ite_eq_left (by simp [Fin.ext_iff, hb])
   have h2 : (Pi.single (Sum.inl ⟨0, by omega⟩) (1 : k) : Fin n ⊕ Fin n → k)
       (Sum.inr a) = 0 := by
     rw [Pi.single_apply]
-    exact if_neg (fun hh => Sum.inr_ne_inl hh)
+    exact ite_eq_right (fun hh => Sum.inr_ne_inl hh)
   rw [h1, h2, one_smul, zero_smul, sub_zero]
   congr 1
   exact congrArg Sum.inl (Fin.ext ha)
@@ -271,7 +271,7 @@ private theorem sp_natMap_weyl {n : ℕ} (hn : 2 ≤ n) (φ : ZMod 2 →+* k) (i
       if i.val = 0 then Pi.single (Sum.inl ⟨1, by omega⟩) (1 : k)
       else Pi.single (Sum.inl ⟨0, by omega⟩) (1 : k) := by
   by_cases hi : i.val = 0
-  · rw [if_pos hi]
+  · rw [ite_eq_left hi]
     have hi0 : i = ⟨0, by omega⟩ := Fin.ext hi
     rw [hi0]
     have h0 : (⟨0, by omega⟩ : Fin n).val + 1 < n := by show 0 + 1 < n; omega
@@ -287,7 +287,7 @@ private theorem sp_natMap_weyl {n : ℕ} (hn : 2 ≤ n) (φ : ZMod 2 →+* k) (i
     abel_nf
     ext a
     simp [CharTwo.two_eq_zero]
-  · rw [if_neg hi]
+  · rw [ite_eq_right hi]
     by_cases hshort : i.val + 1 < n
     · rw [CFSG.LieType.Universal.Symplectic.SpExtras.weylRep_eq_short hshort]
       simp only [map_mul, Module.End.mul_apply, sp_natMap_elt,
@@ -344,7 +344,7 @@ private theorem sp_natMap_hecke {n : ℕ} (hn : 2 ≤ n) (φ : ZMod 2 →+* k) (
   erw [spCurtisDatum_n n (ZMod 2) i]
   rw [sp_natMap_weyl hn φ i]
   by_cases hi : i.val = 0
-  · rw [if_pos hi, if_pos hi]
+  · rw [ite_eq_left hi, ite_eq_left hi]
     have hterm : ∀ c : ZMod 2,
         matRep (matMap φ (mat n (ZMod 2))) (elt (simpleIdx i) c)
           (Pi.single (Sum.inl (⟨1, by omega⟩ : Fin n)) (1 : k)) =
@@ -357,7 +357,7 @@ private theorem sp_natMap_hecke {n : ℕ} (hn : 2 ≤ n) (φ : ZMod 2 →+* k) (
       Finset.card_univ, ZMod.card, ← Finset.sum_smul, sp_sum_phi, one_smul]
     ext a
     simp [CharTwo.two_eq_zero]
-  · rw [if_neg hi, if_neg hi]
+  · rw [ite_eq_right hi, ite_eq_right hi]
     have hterm : ∀ c : ZMod 2,
         matRep (matMap φ (mat n (ZMod 2))) (elt (simpleIdx i) c)
           (Pi.single (Sum.inl (⟨0, by omega⟩ : Fin n)) (1 : k)) =

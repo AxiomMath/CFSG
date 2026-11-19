@@ -52,7 +52,7 @@ theorem false_of_coatomW {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.Prime
   obtain ⟨g, hg⟩ := exists_conj_zpowers hp hsyl hz hz'
   obtain ⟨j, hj⟩ := mem_zpowers_iff.mp hg
   let φ : G ≃* G := MulAut.conj g⁻¹
-  have hφ : ∀ x : G, φ x = g⁻¹ * x * g := fun x => by simp [φ, MulAut.conj_apply]
+  have hφ : ∀ x : G, φ x = g⁻¹ * x * g := fun x => by simp [φ]
   have hzz1 : z ∈ zpowers (φ z') := by
     refine mem_zpowers_iff.mpr ⟨j, ?_⟩
     rw [← map_zpow, hj, hφ]

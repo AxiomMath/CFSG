@@ -31,7 +31,7 @@ theorem twE6_zmod7_phi10_ne : ∀ x : ZMod 7, x ^ 4 - x ^ 3 + x ^ 2 - x + 1 ≠ 
 theorem twE6_p_eq_five_or_seven {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) (hp7 : ¬ 7 < p) :
     p = 5 ∨ p = 7 := by
   have : p ≤ 7 := by omega
-  interval_cases p <;> first | omega | (exfalso; revert hp; norm_num) | simp
+  interval_cases p <;> first | omega | (exfalso; revert hp; norm_num)
 
 theorem twE6_phi10_small {p q : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) (hp7 : ¬ 7 < p)
     (hpq : ¬ p ∣ q) (h : (p : ℤ) ∣ (exhaustionPhi 10).eval (q : ℤ)) :
@@ -99,7 +99,7 @@ theorem card_graphFixedRootGroup_E6_dvd {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1
     Nat.card (graphFixedRootGroup TwistTag.E6 K σ.toRingHom) ∣
       (ℓ ^ f) ^ 36 * ((ℓ ^ f) ^ 12 - 1) * ((ℓ ^ f) ^ 9 + 1) * ((ℓ ^ f) ^ 8 - 1) *
         ((ℓ ^ f) ^ 6 - 1) * ((ℓ ^ f) ^ 5 + 1) * ((ℓ ^ f) ^ 2 - 1) := by
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have : CharP K ℓ := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     hℓ (by omega : 1 ≤ f * 2) (by rw [hK, ← pow_mul])
   let Ω := AlgebraicClosure K
@@ -116,11 +116,11 @@ theorem card_graphFixedRootGroup_E6_dvd {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1
 
 theorem twE6CrossRankStep : TwE6CrossRankStep := by
   intro ℓ d p hℓ hd hp hp5 hne K k _ _ _ _ σ σ₀ hK hk hσ hσ₀ hrk
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
-  haveI : Finite (ModGL TwistTag.E6.tag k) := finite_modGL
-  haveI : Finite (graphFixedRootGroup TwistTag.E6 K σ.toRingHom) := Subtype.finite
-  haveI : Finite (graphFixedRootGroup TwistTag.E6 k σ₀.toRingHom) := Subtype.finite
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Finite (ModGL TwistTag.E6.tag k) := finite_modGL
+  have : Finite (graphFixedRootGroup TwistTag.E6 K σ.toRingHom) := Subtype.finite
+  have : Finite (graphFixedRootGroup TwistTag.E6 k σ₀.toRingHom) := Subtype.finite
   have hf : 1 ≤ p * d := Nat.mul_le_mul hp.one_lt.le hd
   have hpq : ¬ p ∣ ℓ ^ (p * d) := OFRC.not_dvd_pow_of_ne hp hℓ hne
   have hcong : ((ℓ ^ (p * d) : ℕ) : ZMod p) = ((ℓ ^ d : ℕ) : ZMod p) := by

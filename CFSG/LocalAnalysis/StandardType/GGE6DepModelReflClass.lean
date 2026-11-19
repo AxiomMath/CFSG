@@ -25,7 +25,7 @@ private def DHshift : Fin 6 → Vec6 :=
 private theorem dh_gen : ∀ i : Fin 6, ∀ d ∈ DH, (gensL i).mulVec d - DHshift i ∈ DH := by
   decide +kernel
 
-private def decEqVec6Fast : DecidableEq (Vec6) := fun u v =>
+@[instance_reducible] private def decEqVec6Fast : DecidableEq (Vec6) := fun u v =>
   decidable_of_iff (((List.finRange 6).all fun i => decide (u i = v i)) = true) (by
     simp only [List.all_eq_true, List.mem_finRange, decide_eq_true_eq, true_implies]
     exact funext_iff.symm)

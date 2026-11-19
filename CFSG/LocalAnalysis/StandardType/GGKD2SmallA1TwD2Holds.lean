@@ -67,7 +67,7 @@ private theorem ltrke1_setupFalse_of_iso {R : Type} [Group R] [Finite R] {K : Ty
   have hcyc : IsCyclic ↥(ggFix φ) :=
     CFSG.RankThree.PartTwo.Sec4.Item462AltProof.ChevTwoL2.isCyclic_of_le_centralizer_psl2
       (X := R) (K := K) (m := m) hm hK e (x := r) hr3 hrne (U := ggFix φ) hcommC
-  haveI : IsCyclic ↥(ggFix φ) := hcyc
+  have : IsCyclic ↥(ggFix φ) := hcyc
   exact CFSG.StandardType.Line63.H5.false_of_isComponentOf_of_isSolvable
     (C := ggFix φ) (J := J.map ψ) inferInstance hcomp'
 

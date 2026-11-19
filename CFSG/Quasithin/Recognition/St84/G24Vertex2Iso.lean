@@ -56,7 +56,7 @@ private theorem isQuotFrame_v2 [Finite G] {L1 L2 S : Subgroup G}
     IsQuotFrame (dsQ L2 L1 S) (centerOf (dsQ L2 L1 S)) (v2Frame F.k u n) := by
   have hZc : ∀ y ∈ centerOf (dsQ L2 L1 S), ∀ x ∈ dsQ L2 L1 S,
       y * x = x * y := (F.special_data hD).2.2.2.1
-  haveI : ((centerOf (dsQ L2 L1 S)).subgroupOf (dsQ L2 L1 S)).Normal :=
+  have : ((centerOf (dsQ L2 L1 S)).subgroupOf (dsQ L2 L1 S)).Normal :=
     Subgroup.normal_of_le_center fun z hz =>
       Subgroup.mem_center_iff.mpr fun x => Subtype.ext (hZc z hz x x.2).symm
   obtain ⟨h1, h2, h3, h4, h5⟩ := F.frame_spec hD hu hn
@@ -91,7 +91,7 @@ private theorem isQuotFrame_frame2 (hM : G24M.Facts) :
     IsQuotFrame G24M.Q2 G24M.Z2 G24M.frame2 := by
   have hZc : ∀ y ∈ G24M.Z2, ∀ x ∈ G24M.Q2, y * x = x * y := fun y hy x hx =>
     (Subgroup.mem_centralizer_iff.mp (Subgroup.mem_inf.mp hy).2 x hx).symm
-  haveI : (G24M.Z2.subgroupOf G24M.Q2).Normal := Subgroup.normal_of_le_center fun z hz =>
+  have : (G24M.Z2.subgroupOf G24M.Q2).Normal := Subgroup.normal_of_le_center fun z hz =>
     Subgroup.mem_center_iff.mpr fun x => Subtype.ext (hZc z hz x x.2).symm
   have hgen : G24M.Q2 ≤ Subgroup.closure (Set.range G24M.frame2) ⊔ G24M.Z2 := by
     change Subgroup.closure (Set.range G24M.pc2Y) ≤
@@ -103,7 +103,7 @@ private theorem isQuotFrame_frame2 (hM : G24M.Facts) :
     · exact Subgroup.mem_sup_left (Subgroup.subset_closure ⟨i, rfl⟩)
     · refine Subgroup.mem_sup_right ?_
       rw [hM.Z2_eq]
-      exact Subgroup.subset_closure (by fin_cases t <;> simp [G24M.zb2])
+      exact Subgroup.subset_closure (by fin_cases t <;> simp)
   refine isQuotFrame_of_card (inf_le_left : G24M.Z2 ≤ G24M.Q2) ?_ ?_ ?_ ?_ hgen ?_
   · intro i
     exact Subgroup.subset_closure ⟨Fin.castAdd 4 i, rfl⟩
@@ -160,8 +160,8 @@ private theorem model_k2_fixes_Z2 (hM : G24M.Facts) (hFr : G24M.FrameFacts)
         (1 : Matrix (Fin 4) (Fin 4) (ZMod 2)) s t) = Pi.single t 1 := by
       funext s
       by_cases hst : s = t
-      · subst hst; simp [Matrix.one_apply, Pi.single]
-      · simp [Matrix.one_apply, Pi.single, hst]
+      · subst hst; simp [Pi.single]
+      · simp [Pi.single, hst]
     rw [hsingle, eElt_single] at h ⊢
     exact h
   obtain ⟨w, hw⟩ := (isEBasisOf_zb2 hM).span z hz
@@ -194,11 +194,11 @@ theorem exists_vertexIso_right [Finite G]
   let f : Fin 6 → G := v2Frame F.k u n
   have hspec := F.special_data hD
   have hZc : ∀ z ∈ Z2, ∀ x ∈ Q2, z * x = x * z := hspec.2.2.2.1
-  haveI : (Z2.subgroupOf Q2).Normal := Subgroup.normal_of_le_center fun z hz =>
+  have : (Z2.subgroupOf Q2).Normal := Subgroup.normal_of_le_center fun z hz =>
     Subgroup.mem_center_iff.mpr fun x => Subtype.ext (hZc z hz x x.2).symm
   have hZc' : ∀ z ∈ G24M.Z2, ∀ x ∈ G24M.Q2, z * x = x * z := fun z hz x hx =>
     (Subgroup.mem_centralizer_iff.mp (Subgroup.mem_inf.mp hz).2 x hx).symm
-  haveI : (G24M.Z2.subgroupOf G24M.Q2).Normal := Subgroup.normal_of_le_center fun z hz =>
+  have : (G24M.Z2.subgroupOf G24M.Q2).Normal := Subgroup.normal_of_le_center fun z hz =>
     Subgroup.mem_center_iff.mpr fun x => Subtype.ext (hZc' z hz x x.2).symm
   have hf : IsQuotFrame Q2 Z2 f := isQuotFrame_v2 F hD hu hu' hn
   have hf' : IsQuotFrame G24M.Q2 G24M.Z2 G24M.frame2 := isQuotFrame_frame2 hM
@@ -330,8 +330,8 @@ theorem exists_vertexIso_right [Finite G]
             (1 : Matrix (Fin 4) (Fin 4) (ZMod 2)) s t) = Pi.single t 1 := by
           funext s
           by_cases hst : s = t
-          · subst hst; simp [Matrix.one_apply, Pi.single]
-          · simp [Matrix.one_apply, Pi.single, hst]
+          · subst hst; simp [Pi.single]
+          · simp [Pi.single, hst]
         rw [hsingle, eElt_single]
         simpa [gen, kA] using hzb.2.2.2.2 t
     · intro l t

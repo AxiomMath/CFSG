@@ -37,7 +37,7 @@ private theorem rckPOmegaPlus_blockTransport {k f : ℕ}
           Subgroup (ggU .POmegaPlus (k + 3) f).K)⁆) :
     ∃ (ι : (ggU .POmegaPlus (k + 3) f).K ≃*
         ↥(StatedOmega ⇑(Spin.quadPlus (k + 3) (GaloisField 2 f))))
-      (ΦB : ↥(glBlockCentralizer (Spin.spinMatrix (Spin.quadPlus (k + 3) (GaloisField 2 f)))
+      (_ΦB : ↥(glBlockCentralizer (Spin.spinMatrix (Spin.quadPlus (k + 3) (GaloisField 2 f)))
           {Spin.spinMatrix (Spin.quadPlus (k + 3) (GaloisField 2 f)) s} ε :
           Subgroup (ggU .POmegaPlus (k + 3) f).K) ≃*
         ↥(glBlockCentralizer (StatedOmega ⇑(Spin.quadPlus (k + 3) (GaloisField 2 f))).subtype
@@ -159,7 +159,7 @@ theorem rckClassicalModelID_POmegaPlus {X : Type} [Group X] [Finite X] {n f : �
           rw [map_mul, map_mul, map_inv]
           exact hconj
         rw [hyy']; exact hs₁conj' y hy
-  · letI : Field E := hEf; letI : Finite E := hEfin; letI : CharP E 2 := hEch
+  · let : Field E := hEf; let : Finite E := hEfin; let : CharP E 2 := hEch
     refine absurd (rckEq_of_block_unitarySmall_POmegaPlus (E := E) (m := m) (Q := Q)
       (by omega) hp hp2 hB₁ hDcard hB₁J hp4 hJK hKq hdD hJ hker hslift hε hJ'G hJ'map
       (hrange ▸ hB₁N) (fun b hb => hID b hb) hB₁e hm ?_) hKJ

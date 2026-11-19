@@ -49,7 +49,7 @@ private theorem grpInvolSwap_sq : grpInvolSwap ^ 2 = 1 := by
 private theorem grpInvolSwap_notMem : grpInvolSwap ∉ commutator A5WrTwo := by
   rw [A5WrTwo.commutator_eq_ker]
   intro h
-  exact grpInvol_sigmaC2_ne_one (by simpa [grpInvolSwap, RegularWreathProduct.rightHom] using h)
+  exact grpInvol_sigmaC2_ne_one (by simp [grpInvolSwap, RegularWreathProduct.rightHom] at h)
 
 private theorem grpInvol_sq_eq_one (r : Multiplicative (ZMod 2)) : r * r = 1 := by
   rcases grpInvol_coord_cases r with rfl | rfl

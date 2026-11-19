@@ -60,7 +60,7 @@ section
 
 
 theorem cl24_ree_inner {J : Type} [Group J] {f : ℕ}
-    (hadm : StatedLieAdmissible .twistedG2 0 3 f) (hm : LieModel J .twistedG2 0 3 f)
+    (_hadm : StatedLieAdmissible .twistedG2 0 3 f) (hm : LieModel J .twistedG2 0 3 f)
     {α : MulAut J} (hα : orderOf α = 2) {L : Subgroup (fixedSubgroup α)}
     (hL : IsComponent L) : Cl24Q 3 (fun f' => f' = f) L := by
   have hR : ReeTitsModel J .twistedG2 3 f := by

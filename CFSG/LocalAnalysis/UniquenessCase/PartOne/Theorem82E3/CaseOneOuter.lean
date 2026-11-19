@@ -29,7 +29,7 @@ theorem mem_L_of_mem_ker_of_pow_three_eq_one (c : Ctx82E3 D) {y : G}
       D.M.subtype)
     (hy3 : y ^ 3 = 1) : y ∈ c.L := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   set φ := CFSG.GroupTheory.conjModPCore 2 c.L D.M c.le_normalizer_L with hφ
   set C : Subgroup G := φ.ker.map D.M.subtype with hC
   by_contra hyL
@@ -67,7 +67,7 @@ theorem mem_L_of_mem_ker_of_pow_three_eq_one (c : Ctx82E3 D) {y : G}
   have hEcent : E ≤ Subgroup.centralizer (R : Set G) := hES.trans hS_cent
   have hcardR : Nat.card R = 3 := by rw [Nat.card_zpowers, hyord]
   have hRdisj_L : R ⊓ c.L = ⊥ := by
-    haveI : Fact (Nat.Prime (Nat.card R)) := ⟨by rw [hcardR]; norm_num⟩
+    have : Fact (Nat.Prime (Nat.card R)) := ⟨by rw [hcardR]; norm_num⟩
     rcases Subgroup.eq_bot_or_eq_top_of_prime_card (G := ↥R) (c.L.subgroupOf R) with h | h
     · exact disjoint_iff.mp (disjoint_comm.mp (Subgroup.subgroupOf_eq_bot.mp h))
     · exfalso
@@ -98,7 +98,7 @@ theorem not_three_dvd_card_map_ker (c : Ctx82E3 D)
     ¬ 3 ∣ Nat.card ((CFSG.GroupTheory.conjModPCore 2 c.L D.M c.le_normalizer_L).ker.map
       D.M.subtype) := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   intro h3C
   set φ := CFSG.GroupTheory.conjModPCore 2 c.L D.M c.le_normalizer_L with hφ
   set C : Subgroup G := φ.ker.map D.M.subtype with hC
@@ -158,7 +158,7 @@ theorem le_L_of_map_le_innAut (c : Ctx82E3 D)
         MulAut (↥c.L ⧸ CFSG.Open.pCore 2 ↥c.L)).range) :
     Q ≤ c.L := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   let Lbar := ↥c.L ⧸ CFSG.Open.pCore 2 ↥c.L
   let φ := CFSG.GroupTheory.conjModPCore 2 c.L D.M c.le_normalizer_L
   let C : Subgroup G := φ.ker.map D.M.subtype
@@ -206,7 +206,7 @@ theorem le_L_of_map_le_innAut (c : Ctx82E3 D)
     exact Subgroup.relIndex_dvd_card c.L C
   have h3HL : ¬ 3 ∣ c.L.relIndex H := fun hdvd => h3C (hdvd.trans hHL_idx)
   let Kh : Subgroup ↥H := c.L.subgroupOf H
-  haveI : Kh.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hL_le_H).mpr hH_le_NL
+  have : Kh.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hL_le_H).mpr hH_le_NL
   have hQhp : IsPGroup 3 (Q.subgroupOf H) := by
     have h : Q.subgroupOf H = Subgroup.comap H.subtype Q := by rw [Subgroup.comap_subtype]
     rw [h]
@@ -240,7 +240,7 @@ theorem le_L_of_isSylowOf (c : Ctx82E3 D)
       4 ≤ CFSG.Open.pRank 3 R)
     {P : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M) : P ≤ c.L := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   let Lbar := ↥c.L ⧸ CFSG.Open.pCore 2 ↥c.L
   let φ := CFSG.GroupTheory.conjModPCore 2 c.L D.M c.le_normalizer_L
   let C : Subgroup G := φ.ker.map D.M.subtype

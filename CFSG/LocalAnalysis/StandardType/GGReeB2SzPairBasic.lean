@@ -28,7 +28,7 @@ theorem reeUb_le
     {K : Type} [Field K] [Finite K] [CharP K ReeTag.F4.prime] [CharP K 2] [Fintype K] {m : ℕ} :
     reeUb K m ≤ reeU K m := by
   intro g hg
-  simp only [reeUb, Subgroup.mem_comap] at hg
+  simp only [reeUb] at hg
   simp only [reeU, Subgroup.mem_comap]
   have hpos : (((g : reeFixed ReeTag.F4 K m) : adjointGroup ReeTag.F4.tag K) :
       ModGL ReeTag.F4.tag K) ∈ posUnipotent ReeTag.F4.tag K :=
@@ -89,8 +89,7 @@ private theorem reeSz₁_mem_Uminus
   have hmap : (r2EquivSuzuki K m hK hm) y₀ = suzukiSElt m K u₀ v₀ := by
     refine Subtype.ext ?_
     refine Units.ext ?_
-    simp only [coe_r2EquivSuzuki, coe_r2Rep, coe_suzukiSElt, Subgroup.coe_subtype,
-      Function.comp_apply]
+    simp only [coe_suzukiSElt]
     exact hx₀v
   have hsymm : (r2EquivSuzuki K m hK hm).symm (suzukiSElt m K u₀ v₀) = y₀ := by
     apply (r2EquivSuzuki K m hK hm).injective

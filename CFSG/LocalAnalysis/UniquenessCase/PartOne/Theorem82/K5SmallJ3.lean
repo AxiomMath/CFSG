@@ -16,7 +16,7 @@ theorem k5J3_of_outer
       CFSG.Blueprint.NativeSporadic.J3) ≤ 2) : K5J3 := by
   intro Y _ _ hq _ hJ p hp h5
   rw [CFSG.SectionRank.pRank_coe_eq_openPRank p (⊤ : Subgroup (MulAut Y))]
-  haveI : Group.IsPerfect Y := hq.1
+  have : Group.IsPerfect Y := hq.1
   obtain ⟨e⟩ := hJ
   have hinj : CFSG.Open.pRank p (⊤ : Subgroup (MulAut Y)) ≤
       CFSG.Open.pRank p (⊤ : Subgroup (MulAut (Y ⧸ center Y))) :=

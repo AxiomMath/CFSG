@@ -68,7 +68,7 @@ theorem model107
         exact hN g hg a (B0_le_T0 ha)
       · rintro _ ⟨a, ha, rfl⟩ _ ⟨c, hc, rfl⟩
         have h := (bl0_closed.2.2 a (mem_B0_iff.1 ha)).2.2 c (mem_B0_iff.1 hc)
-        simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply]
+        simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply]
         calc g * a * g⁻¹ * (g * c * g⁻¹) = g * (a * c) * g⁻¹ := by group
           _ = g * (c * a) * g⁻¹ := by rw [h.2]
           _ = g * c * g⁻¹ * (g * a * g⁻¹) := by group

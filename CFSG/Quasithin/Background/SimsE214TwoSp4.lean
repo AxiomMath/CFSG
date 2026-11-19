@@ -120,6 +120,7 @@ theorem col_zero_of_mem_normalizer_radA2 {g : antiSp K}
   · simpa using key 0 1 0
   · simpa using key 0 0 1
 
+omit [CharP K 2] in
 theorem row_three_of_col_zero {g : antiSp K} (h1 : glMat (g : GL (Fin 4) K) 1 0 = 0)
     (h2 : glMat (g : GL (Fin 4) K) 2 0 = 0) (h3 : glMat (g : GL (Fin 4) K) 3 0 = 0) :
     glMat (g : GL (Fin 4) K) 3 1 = 0 ∧ glMat (g : GL (Fin 4) K) 3 2 = 0 ∧
@@ -138,6 +139,7 @@ theorem row_three_of_col_zero {g : antiSp K} (h1 : glMat (g : GL (Fin 4) K) 1 0 
     rw [e2]; rfl
   exact ⟨(mul_eq_zero.mp e1').resolve_left h00, (mul_eq_zero.mp e2').resolve_left h00, e3⟩
 
+omit [CharP K 2] in
 theorem glMat_pow_zero_zero {g : antiSp K} (h1 : glMat (g : GL (Fin 4) K) 1 0 = 0)
     (h2 : glMat (g : GL (Fin 4) K) 2 0 = 0) (h3 : glMat (g : GL (Fin 4) K) 3 0 = 0) :
     ∀ m : ℕ, glMat ((g ^ m : antiSp K) : GL (Fin 4) K) 0 0 = glMat (g : GL (Fin 4) K) 0 0 ^ m := by
@@ -179,7 +181,7 @@ theorem comm_rootLong_of_mem_normalizer_radA2 {g : antiSp K}
   set A := glMat (g : GL (Fin 4) K)
   ext p q
   fin_cases p <;> fin_cases q <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_four, uMat, h1, h2, h3, h31, h32, h00, h33] <;> ring
+    simp [Matrix.mul_apply, Fin.sum_univ_four, uMat, h1, h2, h3, h31, h32, h00, h33]; ring
 
 theorem rootLong_le_rootGroupOfParabolic :
     rootLong K ≤ rootGroupOfParabolic (Subgroup.normalizer (radA2 K : Set (antiSp K))) := by
@@ -275,7 +277,7 @@ theorem minorAut_parabolic {n : ℕ} (hn : 2 ≤ n) (hK : Nat.card K = 2 ^ n) :
 omit [CharP K 2] in
 theorem exists_ne_zero_ne_one (hk : 4 ≤ Nat.card K) : ∃ t : K, t ≠ 0 ∧ t ≠ 1 := by
   classical
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hcard : ({0, 1} : Finset K).card < (Finset.univ : Finset K).card := by
     have h1 : ({0, 1} : Finset K).card ≤ 2 := Finset.card_le_two
     rw [Finset.card_univ, ← Nat.card_eq_fintype_card]
@@ -284,6 +286,7 @@ theorem exists_ne_zero_ne_one (hk : 4 ≤ Nat.card K) : ∃ t : K, t ≠ 0 ∧ t
   simp only [Finset.mem_insert, Finset.mem_singleton, not_or] at ht
   exact ⟨t, ht.1, ht.2⟩
 
+omit [Finite K] in
 theorem exists_torus_conj {x : K} (hx0 : x ≠ 0) (hx1 : x ≠ 1) (β₀ γ₀ : K) :
     ∃ w ∈ antiUnipotentCenter K, ∃ n ∈ Subgroup.normalizer (antiUnipotent K : Set (antiSp K)),
       n⁻¹ * w * n = w * uElt 0 β₀ γ₀ 0 := by
@@ -309,6 +312,7 @@ end AntiSp
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem comm_of_star {T M V I : Subgroup G} {g : G} (hp : E2.Pair I (T ⊓ I) (M ⊓ I) V g)
     (h : ∀ z ∈ E2.star (M ⊓ I) I V, z ≠ 1 → ∃ w ∈ E2.star (M ⊓ I) I V,
       ∃ n ∈ E2.star (M ⊓ I) I (M ⊓ I), n⁻¹ * w * n = w * z) :

@@ -10,7 +10,7 @@ open Subgroup
 
 theorem l2_two_ne_zero {K : Type} [Field K] [Finite K] (hq : Nat.card K % 2 = 1) :
     (2 : K) ≠ 0 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   apply Ring.two_ne_zero
   intro hc
   have h := FiniteField.even_card_iff_char_two.mp hc

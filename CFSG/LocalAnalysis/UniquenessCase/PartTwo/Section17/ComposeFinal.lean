@@ -33,7 +33,7 @@ theorem compose17_final
     (h8100 : CFSG.Open.evenRank G ≠ 3 → F08.R8100R D) (h13s : SigmaRankThree13 D)
     (h869 : F08.R869 D) (h69 : UC6.R6_9 D)
     (h1219 : D.sig = D.sig1) (h1669 : Nat.card V₀ ≤ 4 → MBarGT D.M V₀ V 3) (h136 : R136a D)
-    (h8107 : F08.R8107 D) (h148 : Inputs1719.R14_8 D) (h82 : F08.R82 D) :
+    (_h8107 : F08.R8107 D) (_h148 : Inputs1719.R14_8 D) (h82 : F08.R82 D) :
     R17_57At D V₀ V ∧ R17_64_1At D V₀ V ∧ R17_64_2At D V₀ V ∧ R17_64_3At D V₀ V ∧
       R17_65At D V₀ V ∧ R17_67At D V₀ V ∧ R17_68At D V₀ V := by
   obtain ⟨-, r2_2, r2_3, -, r2_5⟩ := id r2

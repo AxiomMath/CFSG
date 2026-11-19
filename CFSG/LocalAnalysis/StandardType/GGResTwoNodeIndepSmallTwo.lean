@@ -119,8 +119,8 @@ theorem ggJoint_exists_added_not_mem (hExcl : LR6SmallRankExcl)
   classical
   have hp5 : 5 ≤ p := by rcases hcell with ⟨rfl, _⟩ | ⟨rfl, _⟩ <;> omega
   have hN5 : 5 ≤ N := by rcases hcell with ⟨_, rfl⟩ | ⟨_, rfl⟩ <;> omega
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Module.Finite (ZMod p) V := Module.Finite.of_finite
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Module.Finite (ZMod p) V := Module.Finite.of_finite
   let H : Submodule (ZMod p) V :=
     Submodule.span (ZMod p) (Set.range fun i : Λ => h (Sum.inl i))
   let r : Fin (N - 1) → (V ≃ₗ[ZMod p] V) := fun i => ggLin (p := p) ι (φ (Sum.inl (e i)))
@@ -192,8 +192,8 @@ theorem ggJoint_exists_added_not_mem (hExcl : LR6SmallRankExcl)
   push Not at hnot
   change ∀ a : Λa, h (Sum.inr a) ∈ H at hnot
   obtain ⟨a, ha⟩ := hmove
-  haveI : Nonempty Λa := ⟨a⟩
-  haveI : Nonempty {i : Λ // i ≠ b₁ ∧ i ≠ b₂} := by
+  have : Nonempty Λa := ⟨a⟩
+  have : Nonempty {i : Λ // i ≠ b₁ ∧ i ≠ b₂} := by
     obtain ⟨s, hs, hS⟩ := ggChainA_deleted_interval (by omega) e b₁ b₂ hb
       (by rwa [← hML])
     let j : Fin (N - 1) := ⟨s, by omega⟩
@@ -219,7 +219,7 @@ theorem ggJoint_exists_added_not_mem (hExcl : LR6SmallRankExcl)
     have hca : c ≠ a := fun heq => hc (Or.inl heq)
     have hcb : c ≠ b := fun heq => hc (Or.inr heq)
     have h3 : 3 ≤ Fintype.card Λa := by
-      calc 3 = ({a, b, c} : Finset Λa).card := by simp [hab, hca, hcb, Ne.symm hca, Ne.symm hcb]
+      calc 3 = ({a, b, c} : Finset Λa).card := by simp [hab, Ne.symm hca, Ne.symm hcb]
         _ ≤ Fintype.card Λa := Finset.card_le_univ _
     rw [← Nat.card_eq_fintype_card, hΛa] at h3
     omega
@@ -398,7 +398,7 @@ theorem ggJoint_weyl_small_two (hUse : ZS.UseInput) (hExcl : LR6SmallRankExcl)
         rw [hlin, hno, zero_smul, sub_zero]
     obtain ⟨t, ht, _, htz⟩ := hmove
     exact htz (MulAction.mem_stabilizer_iff.mp (hfix ht))
-  haveI : Nonempty {i : Λ // i ≠ b₁ ∧ i ≠ b₂} := by
+  have : Nonempty {i : Λ // i ≠ b₁ ∧ i ≠ b₂} := by
     obtain ⟨s, hs, hS⟩ := ggChainA_deleted_interval (by omega) e b₁ b₂ hb
       (by rwa [← hML])
     let j : Fin (N - 1) := ⟨s, by omega⟩
@@ -406,8 +406,8 @@ theorem ggJoint_weyl_small_two (hUse : ZS.UseInput) (hExcl : LR6SmallRankExcl)
   have ha := ggJoint_exists_added_not_mem hExcl hJr hPump hLB hSP hcell hH hb hΛa e hML
     hCL hWMK hCK hconn hJM hlin hrefl hpairL hpairK hfY hAY hφtop hJL hJ F hmove'
   let g : Λ ⊕ Λa → (V ≃ₗ[ZMod p] V) := fun o => ggLin (p := p) ι (φ o)
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Module.Finite (ZMod p) V := Module.Finite.of_finite
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Module.Finite (ZMod p) V := Module.Finite.of_finite
   obtain ⟨hVdim, hirr⟩ := ggJoint_absIrred_of_added_not_mem hp5 (by omega) hWML hCL hWMK
     hCK e g h α hlin hpairL hpairK F hmove' ha
   have hmap : A.map (ggLin (p := p) ι) = Subgroup.closure (Set.range g) := by

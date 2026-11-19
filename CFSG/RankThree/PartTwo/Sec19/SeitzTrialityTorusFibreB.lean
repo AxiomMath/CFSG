@@ -160,7 +160,7 @@ variable {n : ℕ} {X : Type} [Field X] [Finite X] (σ : X ≃+* X)
 theorem special_center_classX (P : D4Par n X σ) (hn : 2 ≤ n) {ε : ℤ} {p : ℕ} {L : Type}
     [Field L] [Algebra X L] [IsAlgClosure X L] [CharP L 2] {F : RclFrame 2 n X σ ε p L}
     {S : Sylow p (C0 σ)} {c : C0 σ} {E : Subgroup (C0 σ)} (Ln : RceLines F S c E) (j : Fin 4)
-    {ζ : C0 σ} (hζP : ζ ∈ rclPx (Ln.sp j)) (hζc : ∀ u ∈ rclPx (Ln.sp j), ζ * u = u * ζ)
+    {ζ : C0 σ} (_hζP : ζ ∈ rclPx (Ln.sp j)) (hζc : ∀ u ∈ rclPx (Ln.sp j), ζ * u = u * ζ)
     (hζ3 : ζ ^ 3 = 1) (hζ1 : ζ ≠ 1) : IsClassX σ ζ := by
   classical
   by_contra hnot

@@ -20,8 +20,8 @@ theorem isPGroup_omegaOneTwo (hT : IsPGroup 2 T) : IsPGroup 2 (omegaOneTwo T L) 
 
 theorem omegaOneTwo_ne_bot [Finite Y] (hT : IsPGroup 2 T) (hTL : T ⊓ L ≠ ⊥) :
     omegaOneTwo T L ≠ ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Nontrivial ↥(T ⊓ L) := (Subgroup.nontrivial_iff_ne_bot _).2 hTL
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Nontrivial ↥(T ⊓ L) := (Subgroup.nontrivial_iff_ne_bot _).2 hTL
   have hP : IsPGroup 2 ↥(T ⊓ L) := IsPGroup.to_le hT inf_le_left
   obtain ⟨n, hn⟩ := hP.exists_card_eq
   have hn1 : n ≠ 0 := by

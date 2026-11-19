@@ -122,7 +122,7 @@ theorem sec128_psi_act2 (h : Sec128Spl ρ V1 V2 φ1 φ2) (ht : Sec128Tw ρ V1 V2
 
 theorem sec128tau_one : sec128tau τ 1 = 1 := by simp [sec128tau]
 
-theorem sec128tau_g : sec128tau τ sec128g = τ := by simp [sec128tau, sec128_g_ne_one]
+theorem sec128tau_g : sec128tau τ sec128g = τ := by simp [sec128tau]
 
 @[expose] def sec128e0 (ρ : Sec128A5 × Sec128A5 →* MulAut M) (β : Sec128A5 →* Sec128A5)
     (τ : MulAut M) (w : WrZ2 Sec128A5) : MulAut M :=
@@ -217,17 +217,17 @@ theorem sec128e0_mul (ht : Sec128Tw ρ V1 V2 τ) {β : Sec128A5 →* Sec128A5}
     (q : Multiplicative (ZMod 2)) (v : Fin 5 → ZMod 2) : M :=
   if q = 1 then φ1 v else τ (φ1 v)
 
-theorem sec128phi_one (v : Fin 5 → ZMod 2) : sec128phi φ1 τ 1 v = φ1 v := if_pos rfl
+theorem sec128phi_one (v : Fin 5 → ZMod 2) : sec128phi φ1 τ 1 v = φ1 v := ite_eq_left rfl
 
 theorem sec128phi_g (v : Fin 5 → ZMod 2) : sec128phi φ1 τ sec128g v = τ (φ1 v) :=
-  if_neg sec128_g_ne_one
+  ite_eq_right sec128_g_ne_one
 
 @[expose] def sec128Vq (V1 V2 : Subgroup M) (q : Multiplicative (ZMod 2)) : Subgroup M :=
   if q = 1 then V1 else V2
 
-theorem sec128Vq_one : sec128Vq V1 V2 1 = V1 := if_pos rfl
+theorem sec128Vq_one : sec128Vq V1 V2 1 = V1 := ite_eq_left rfl
 
-theorem sec128Vq_g : sec128Vq V1 V2 sec128g = V2 := if_neg sec128_g_ne_one
+theorem sec128Vq_g : sec128Vq V1 V2 sec128g = V2 := ite_eq_right sec128_g_ne_one
 
 theorem sec128e0_act (h : Sec128Spl ρ V1 V2 φ1 φ2) (ht : Sec128Tw ρ V1 V2 τ)
     {β : Sec128A5 →* Sec128A5} (hβ : ∀ a, τ * ρ (a, 1) * τ⁻¹ = ρ (1, β a))
@@ -314,7 +314,7 @@ theorem sec128_wrAct_of {G : Type} [Group G] {V : Subgroup G} {Y : Subgroup (Mul
     by_cases hs : w.right = 1
     · rw [hs, sec128tau_one]
       exact Y.one_mem
-    · simp only [sec128tau, hs, if_false]
+    · simp only [sec128tau, hs, ite_false]
       exact hτY
   let E1 : WrZ2 Sec128A5 →* ↥Y := (sec128E ht hβ).codRestrict Y hEY
   have hE1inj : Function.Injective E1 := fun a b hab =>
@@ -325,7 +325,7 @@ theorem sec128_wrAct_of {G : Type} [Group G] {V : Subgroup G} {Y : Subgroup (Mul
       ← Nat.card_congr (MonoidHom.ofInjective h.inj).toEquiv, Nat.card_prod,
       sec127_card_alt5_type] at h1
     omega
-  haveI : Finite ↥Y := Nat.finite_of_card_ne_zero (by rw [hcardY]; norm_num)
+  have : Finite ↥Y := Nat.finite_of_card_ne_zero (by rw [hcardY]; norm_num)
   have hE1bij : Function.Bijective E1 :=
     hE1inj.bijective_of_nat_card_le (by rw [hcardY, sec128_card_wr])
   refine ⟨MulEquiv.ofBijective E1 hE1bij, sec128phi φ1 τ, sec128Vq V1 V2, ?_, ?_, ?_, ?_⟩

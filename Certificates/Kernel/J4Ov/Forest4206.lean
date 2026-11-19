@@ -36,7 +36,7 @@ theorem shape_t {t : Nat} (ht : t < 49) : (chT t).length ≤ 8 ∧
   simp only [andB_eq, Bool.and_eq_true] at h
   obtain ⟨-, -, -, -, -, -, h⟩ := h
   have h := allR_spec h t ht
-  simp only [andB_eq, Bool.and_eq_true, Nat.ble_eq, Nat.beq_eq] at h
+  simp only [Bool.and_eq_true, Nat.ble_eq, Nat.beq_eq] at h
   obtain ⟨h1, h2, h3, -, h5⟩ := h
   exact ⟨h1, h2, h3, fun i hi => Nat.eq_of_beq_eq_true (allR_spec h5 i (by rw [Nat.sub_eq]; omega))⟩
 
@@ -90,18 +90,18 @@ theorem LS_getD {t : Nat} (ht : t < 49) : LS.getD t 0 = if t < 28 then 5 else 6 
   simp only [andB_eq, Bool.and_eq_true] at h
   obtain ⟨-, -, -, -, -, -, h⟩ := h
   have h := allR_spec h t ht
-  simp only [andB_eq, Bool.and_eq_true] at h
+  simp only [Bool.and_eq_true] at h
   have h4 := Nat.eq_of_beq_eq_true h.2.2.2.1
   rw [h4]
   by_cases h28 : t < 28
   · have hb : Nat.blt t 28 = true := by
       rw [Nat.blt_eq]
       exact h28
-    rw [if_pos h28, hb]
+    rw [ite_eq_left h28, hb]
   · have hb : Nat.blt t 28 = false := by
       rw [Bool.eq_false_iff, ne_eq, Nat.blt_eq]
       exact h28
-    rw [if_neg h28, hb]
+    rw [ite_eq_right h28, hb]
 
 theorem sc_perm {t : Nat} (ht : t < 49) : (SC.getD t []).flatten.Perm (ptsT t) := by
   obtain ⟨h8, -, hsc, -⟩ := shape_t ht

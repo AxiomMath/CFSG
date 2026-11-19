@@ -24,7 +24,7 @@ theorem ggTW_refl_conj_of_typeA {p n : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) (hn :
     (f : M.Group ≃* ↥W) (φ : Λ → MulAut ↥Bs) (hf : ∀ i, (f (M.simple i) : MulAut ↥Bs) = φ i)
     (hrefl : ∀ i, GGIsReflection p (φ i)) (s : MulAut ↥Bs) (hs : s ∈ W)
     (hr : GGIsReflection p s) : ∃ w ∈ W, ∃ i : Λ, s = w * φ i * w⁻¹ := by
-  haveI : Finite ↥Bs := Finite.of_injective (Subtype.val : ↥Bs → G) Subtype.val_injective
+  have : Finite ↥Bs := Finite.of_injective (Subtype.val : ↥Bs → G) Subtype.val_injective
   let A : CoxeterMatrix (Fin n) := CoxeterMatrix.A n
   obtain ⟨cA, hcA⟩ := l05nR1_groupEquiv_of_eq (coxeterMatrix_isFiniteType_A_eq n)
   obtain ⟨cM, hcM⟩ := l05nR1_groupEquiv_of_eq hM.symm

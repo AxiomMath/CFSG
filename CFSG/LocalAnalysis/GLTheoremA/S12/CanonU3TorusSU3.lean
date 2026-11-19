@@ -196,7 +196,7 @@ theorem not_isSolvable_centralizer_of_isDiag {f : ℕ} {E : Type} [Field E]
   have hBq : CFSG.IsQuasisimple ↥B :=
     CFSG.StandardType.SURepair.isQuasisimple_blockSU_two (n := 3) h hf hScard
   have hBns : ¬ Group.IsSolvable ↥B := by
-    haveI : Nontrivial ↥B := by
+    have : Nontrivial ↥B := by
       obtain ⟨-, -, a, b, hab⟩ := hBq
       by_contra hnt
       rw [not_nontrivial_iff_subsingleton] at hnt
@@ -205,7 +205,7 @@ theorem not_isSolvable_centralizer_of_isDiag {f : ℕ} {E : Type} [Field E]
         obtain ⟨y', rfl⟩ := QuotientGroup.mk_surjective y
         rw [Subsingleton.elim x' y']
       exact hab (by rw [hs a b])
-    haveI : Group.IsPerfect ↥B := hBq.1
+    have : Group.IsPerfect ↥B := hBq.1
     exact Group.IsPerfect.not_isSolvable ↥B
   have hψinj : Function.Injective ψ := by
     intro x y hxy
@@ -268,7 +268,7 @@ theorem not_isSolvable_and_of_unitary_three {f : ℕ} {E : Type} [Field E]
       Group.IsSolvable ↥(CFSG.Open.StatedSU 3 (2 ^ f) E ⊓
         Subgroup.centralizer {M₂})) := by
   classical
-  haveI : Finite E := h.finite
+  have : Finite E := h.finite
   have hEU : ∀ x ∈ ({M₁, M₂} : Set (GL (Fin 3) E)), x ∈ primeFormUnitary h (idGram E 3) := by
     intro x hx
     simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hx
@@ -312,7 +312,7 @@ theorem not_isSolvable_and_of_unitary_three {f : ℕ} {E : Type} [Field E]
         rw [MulAut.conj_apply]
         rfl]
       rw [← map_pow]
-      simp [MulAut.conj_apply]
+      simp
     rw [hconj, h₁, mul_one, inv_mul_cancel]
   have ht₂3 : t₂ ^ 3 = 1 := by
     have hconj : t₂ ^ 3 = Pg⁻¹ * M₂ ^ 3 * Pg := by
@@ -320,13 +320,12 @@ theorem not_isSolvable_and_of_unitary_three {f : ℕ} {E : Type} [Field E]
         rw [MulAut.conj_apply]
         rfl]
       rw [← map_pow]
-      simp [MulAut.conj_apply]
+      simp
     rw [hconj, h₂, mul_one, inv_mul_cancel]
   have hu₁3 : ∀ c, u₁ c ^ 3 = 1 := by
     intro c
     have h := congrArg (fun M : GL (Fin 3) E => (M : Matrix (Fin 3) (Fin 3) E)) ht₁3
-    simp only [Units.val_pow_eq_pow_val, Units.val_one, ht₁, Matrix.diagonal_pow,
-      Pi.pow_apply] at h
+    simp only [Units.val_pow_eq_pow_val, Units.val_one, ht₁, Matrix.diagonal_pow] at h
     have h1 : Matrix.diagonal (fun c => u₁ c ^ 3) = Matrix.diagonal (fun _ => (1 : E)) := by
       rw [Matrix.diagonal_one]
       exact h
@@ -334,8 +333,7 @@ theorem not_isSolvable_and_of_unitary_three {f : ℕ} {E : Type} [Field E]
   have hu₂3 : ∀ c, u₂ c ^ 3 = 1 := by
     intro c
     have h := congrArg (fun M : GL (Fin 3) E => (M : Matrix (Fin 3) (Fin 3) E)) ht₂3
-    simp only [Units.val_pow_eq_pow_val, Units.val_one, ht₂, Matrix.diagonal_pow,
-      Pi.pow_apply] at h
+    simp only [Units.val_pow_eq_pow_val, Units.val_one, ht₂, Matrix.diagonal_pow] at h
     have h1 : Matrix.diagonal (fun c => u₂ c ^ 3) = Matrix.diagonal (fun _ => (1 : E)) := by
       rw [Matrix.diagonal_one]
       exact h

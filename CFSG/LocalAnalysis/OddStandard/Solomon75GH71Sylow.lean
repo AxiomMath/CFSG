@@ -38,7 +38,7 @@ theorem exists_sylow_eq_map_core {G : Type} [Group G] [Finite G] {t : G} (C : Su
     intro h
     rw [h, orderOf_one] at ht
     omega
-  have hT₀p : IsPGroup 2 ((T : Subgroup ↥C).map C.subtype) := T.isPGroup'.map C.subtype
+  have hT₀p : IsPGroup 2 ((T : Subgroup ↥C).map C.subtype) := T.isPGroup.map C.subtype
   obtain ⟨P, hTP⟩ := hT₀p.exists_le_sylow
   refine ⟨P, le_antisymm ?_ hTP⟩
   by_contra hPT
@@ -46,7 +46,7 @@ theorem exists_sylow_eq_map_core {G : Type} [Group G] [Finite G] {t : G} (C : Su
     rw [Ne, Subgroup.subgroupOf_eq_top]
     exact hPT
   have : Finite ↥(P : Subgroup G) := inferInstance
-  have : Group.IsNilpotent ↥(P : Subgroup G) := P.isPGroup'.isNilpotent
+  have : Group.IsNilpotent ↥(P : Subgroup G) := P.isPGroup.isNilpotent
   have hnc := Group.normalizerCondition_of_isNilpotent (G := ↥(P : Subgroup G))
   obtain ⟨x, hxn, hxT⟩ := IsConcreteLE.exists_of_lt (hnc _ (lt_top_iff_ne_top.2 hT1))
   have hx'P : (x : G) ∈ (P : Subgroup G) := x.2
@@ -171,7 +171,7 @@ theorem exists_sylow_eq_map_core {G : Type} [Group G] [Finite G] {t : G} (C : Su
     rw [hQmap]
     exact sup_le hTP (zpowers_le.2 hx'P)
   have hQp : IsPGroup 2 Q := by
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_card.1 (P.isPGroup'.to_le hQle))
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_card.1 (P.isPGroup.to_le hQle))
     exact IsPGroup.of_card (n := k) (by
       rw [← hk]
       exact (Subgroup.card_map_of_injective C.subtype_injective).symm)
@@ -213,7 +213,7 @@ theorem hasSylowTwoTypeAhat_of_centralizer_cover {G : Type} [Group G] [Finite G]
     intro a ha
     have hmem : (a : ↥(centralizer ({t} : Set G))) ∈ pPrimeCore 2 ↥(centralizer ({t} : Set G)) :=
       (QuotientGroup.eq_one_iff _).1 ha
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 T.isPGroup') a
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 T.isPGroup) a
     have h1 : orderOf a ∣ Nat.card (pPrimeCore 2 ↥(centralizer ({t} : Set G))) := by
       rw [← Subgroup.orderOf_coe a]
       exact Subgroup.orderOf_dvd_natCard _ hmem

@@ -28,7 +28,7 @@ theorem l3u3_exists_L3Kind {X : Type} [Group X] (h : catalogIs X l3u3Index) :
       · subst hr
         have hi' : q.p = 2 ∧ (q.exponent % 6 = 2 ∨ q.exponent % 6 = 4) := hi
         obtain ⟨hp2, hk⟩ := hi'
-        haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+        have : Fact q.p.Prime := ⟨q.prime_p⟩
         obtain ⟨j, hj⟩ : ∃ j, q.exponent = 2 * j := ⟨q.exponent / 2, by omega⟩
         have hchar : CharP (GaloisField q.p q.exponent) 2 := by
           rw [← hp2]
@@ -50,9 +50,9 @@ theorem l3u3_exists_L3Kind {X : Type} [Group X] (h : catalogIs X l3u3Index) :
           (TauCeti.LieTypeIndex.inStandardRange_iff _).1 ((TauCeti.LieTypeIndex.valid_iff _).1 hv).1
         have hq3 : 3 ≤ q.card := hv1.2 rfl
         have hq2 : q.card ≠ 2 := by omega
-        haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+        have : Fact q.p.Prime := ⟨q.prime_p⟩
         obtain ⟨j, hj⟩ : ∃ j, q.exponent = 2 * j + 1 := ⟨q.exponent / 2, by omega⟩
-        haveI : Fintype (GaloisField q.p (2 * q.exponent)) := Fintype.ofFinite _
+        have : Fintype (GaloisField q.p (2 * q.exponent)) := Fintype.ofFinite _
         have hcardK : Nat.card (GaloisField q.p (2 * q.exponent)) = q.card ^ 2 := by
           rw [GaloisField.card q.p (2 * q.exponent) (by omega), TauCeti.PrimePower.card_def, ← pow_mul, mul_comm]
         have hchar : CharP (GaloisField q.p (2 * q.exponent)) 2 := by

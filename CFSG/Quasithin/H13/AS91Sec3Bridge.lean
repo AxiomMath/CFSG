@@ -131,7 +131,7 @@ theorem reachOK_smul {X : Type*} [MulAction S24 X] (f : ℕ → X) (n : ℕ) (st
     {m : ℕ} (hm : steps.length = m) (P : Fin m → S24) (hPm : ∀ j, P j ∈ M24g)
     (hstep : ∀ (j : Fin m) (i : ℕ), i < n → (steps.getD j id) i < n →
       f ((steps.getD j id) i) = P j • f i)
-    {p : ℕ} {c : List ℕ} (h : Native.reachOK n steps p c = true) (hp : p < n) :
+    {p : ℕ} {c : List ℕ} (h : Native.reachOK n steps p c = true) (_hp : p < n) :
     ∀ q ∈ c, ∃ σ ∈ M24g, σ • f p = f q := by
   unfold Native.reachOK at h
   generalize Native.bfs (fun i => i) steps p 5000 = r at h

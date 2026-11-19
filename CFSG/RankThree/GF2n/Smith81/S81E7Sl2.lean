@@ -59,7 +59,7 @@ theorem det_sub_smul_one_fin_two (M : Matrix (Fin 2) (Fin 2) K) (c : K) :
     (M - c • (1 : Matrix (Fin 2) (Fin 2) K)).det =
       (M 0 0 - c) * (M 1 1 - c) - M 0 1 * M 1 0 := by
   rw [Matrix.det_fin_two]
-  simp [Matrix.one_apply]
+  simp
 
 theorem eigen_equation_components (M : Matrix (Fin 2) (Fin 2) K) (c : K) (v : Fin 2 → K)
     (hv : (M - c • (1 : Matrix (Fin 2) (Fin 2) K)) *ᵥ v = 0) :
@@ -75,7 +75,7 @@ theorem eigen_equation_components (M : Matrix (Fin 2) (Fin 2) K) (c : K) (v : Fi
 theorem exists_eigenvalue_of_pow_card [Finite K] (M : Matrix (Fin 2) (Fin 2) K)
     (hpow : M ^ Nat.card K = M) :
     ∃ a : K, (M - a • (1 : Matrix (Fin 2) (Fin 2) K)).det = 0 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcard1 : 1 < Fintype.card K := Fintype.one_lt_card
   have hpoly : (∏ c : K, (Polynomial.X - Polynomial.C c : Polynomial K)) =
       Polynomial.X ^ Fintype.card K - Polynomial.X := by
@@ -187,7 +187,7 @@ theorem sl2_conj_diag [Finite K] [CharP K 2] (hq : 4 ≤ Nat.card K)
     have hMM : M * M = 1 := by
       ext i j
       fin_cases i <;> fin_cases j <;>
-        simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.one_apply]
+        simp [Matrix.mul_apply, Fin.sum_univ_two]
       · linear_combination (-1 : K) * hdet + M 0 0 * hτ0 - h2
       · linear_combination M 0 1 * hτ0
       · linear_combination M 1 0 * hτ0
@@ -246,7 +246,7 @@ theorem sl2_conj_diag [Finite K] [CharP K 2] (hq : 4 ≤ Nat.card K)
     show !![((d * e : Kˣ) : K), 0; 0, (((d * e)⁻¹ : Kˣ) : K)] =
       !![(d : K), 0; 0, ((d⁻¹ : Kˣ) : K)] * !![(e : K), 0; 0, ((e⁻¹ : Kˣ) : K)]
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two, mul_inv] <;> ring
+    fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two]; ring
   have hinj : Function.Injective (MonoidHom.mk' sl2Diag hmul) := by
     intro d e h
     have h' : sl2Diag d = sl2Diag e := h

@@ -84,10 +84,10 @@ public theorem section14_theorem_14_9_late_type_T1_fullData_omegaSigma_mem_of_tr
           (Finset.univ.image fun p : d52.I × d52.J =>
             d52.sigma (d52.omega p.1 p.2)) := by
   classical
-  letI : Fintype d52.I := d52.instFintypeI
-  letI : Fintype d52.J := d52.instFintypeJ
-  letI : DecidableEq d52.I := d52.instDecidableEqI
-  letI : DecidableEq d52.J := d52.instDecidableEqJ
+  let : Fintype d52.I := d52.instFintypeI
+  let : Fintype d52.J := d52.instFintypeJ
+  let : DecidableEq d52.I := d52.instDecidableEqI
+  let : DecidableEq d52.J := d52.instDecidableEqJ
   rcases d52.fullHypothesis with
     ⟨_h46, _hW2K, _h31, _hIsoFull, _hVirtFull, _hClassFull, _hPrinFull,
       _h22A, hω, _h43b, _h43c, _h43d, _h45a, _h45b, _hTauCyc,
@@ -196,10 +196,10 @@ public theorem section14_theorem_14_9_late_type_T1_fullData_transport_eq_of_cycl
           ξ ⟨x, Section3.cyclicTISet_subset W1 W2 W hx⟩) :
     σ ξ = d52.sigma (Section6.theorem_6_8_transportClassFunction e ξ) := by
   classical
-  letI : Fintype d52.I := d52.instFintypeI
-  letI : Fintype d52.J := d52.instFintypeJ
-  letI : DecidableEq d52.I := d52.instDecidableEqI
-  letI : DecidableEq d52.J := d52.instDecidableEqJ
+  let : Fintype d52.I := d52.instFintypeI
+  let : Fintype d52.J := d52.instFintypeJ
+  let : DecidableEq d52.I := d52.instDecidableEqI
+  let : DecidableEq d52.J := d52.instDecidableEqJ
   rcases hNotation with
     ⟨hωData, hσmap, _hη, _hδ, _hδ', _hμirr, _hνirr,
       _hμzero_nonprincipal, _hνzero_nonprincipal, _hμind, _hνind,
@@ -360,10 +360,10 @@ public theorem section14_theorem_14_9_late_type_T1_calt1_hypothesis52_fullData_o
         hctx hLateType hTtypeP with
     ⟨d52, hd52τ, hSigmaAgree⟩
   refine ⟨d52, hd52τ, ?_⟩
-  letI : Fintype d52.I := d52.instFintypeI
-  letI : Fintype d52.J := d52.instFintypeJ
-  letI : DecidableEq d52.I := d52.instDecidableEqI
-  letI : DecidableEq d52.J := d52.instDecidableEqJ
+  let : Fintype d52.I := d52.instFintypeI
+  let : Fintype d52.J := d52.instFintypeJ
+  let : DecidableEq d52.I := d52.instDecidableEqI
+  let : DecidableEq d52.J := d52.instDecidableEqJ
   have hΩactive :
       ∀ ξ : Section1.ClassFunction W,
         Section1.IsIrreducibleCharacterOnGroup ξ →
@@ -526,10 +526,10 @@ public theorem section14_theorem_14_9_late_type_T1_book_AZero_source_bridge
   rcases hFourSixT with
     ⟨I, instI, decI, J, instJ, decJ, W46, A, A0, i0, j0, μ, δSign, ω, σ,
       _hNotation, _hSigmaAgree, hCyclicSource⟩
-  letI : Fintype I := instI
-  letI : DecidableEq I := decI
-  letI : Fintype J := instJ
-  letI : DecidableEq J := decJ
+  let : Fintype I := instI
+  let : DecidableEq I := decI
+  let : Fintype J := instJ
+  let : DecidableEq J := decJ
   rcases hCyclicSource with
     ⟨_Hcyclic, _hCyclic, _hTauCyclic, hBookSource⟩
   rcases hBookSource with
@@ -586,7 +586,7 @@ public theorem section14_theorem_14_9_late_type_T1_betaT0_CFOn_book_AZero
         _hVnil, _hW2norm, hDerComp, _hQnoncyc, _hSecond, _hFit,
         _hFitLe, _hW1le, _hW1cyc, _hW1ne, _hCent, _hNorm⟩
     exact hDerComp.2.2.1
-  haveI : ((Q ⊔ V).subgroupOf Tmax).Normal := by
+  have : ((Q ⊔ V).subgroupOf Tmax).Normal := by
     have hDerNormal :
         ((ambientDerivedSubgroup Tmax).subgroupOf Tmax).Normal :=
       (section12_normalIn_ambientDerivedSubgroup (G := G) (E := Tmax)).2
@@ -706,7 +706,7 @@ public theorem section14_theorem_14_9_late_type_T1_betaT0_supportedOn_QVsharp
         _hVnil, _hW2norm, hDerComp, _hQnoncyc, _hSecond, _hFit,
         _hFitLe, _hW1le, _hW1cyc, _hW1ne, _hCent, _hNorm⟩
     exact hDerComp.2.2.1
-  haveI : ((Q ⊔ V).subgroupOf Tmax).Normal := by
+  have : ((Q ⊔ V).subgroupOf Tmax).Normal := by
     have hDerNormal :
         ((ambientDerivedSubgroup Tmax).subgroupOf Tmax).Normal :=
       (section12_normalIn_ambientDerivedSubgroup (G := G) (E := Tmax)).2
@@ -1435,8 +1435,8 @@ private theorem section14_order_dvd_p_of_mem_Psharp
     {x : G} (hx : x ∈ section16NonidentityElements ((P : Subgroup G) : Set G)) :
     p ∣ orderOf x := by
   classical
-  letI : Fact p.Prime := ⟨hp⟩
-  letI : IsElementaryAbelian p P := hPelem
+  let : Fact p.Prime := ⟨hp⟩
+  let : IsElementaryAbelian p P := hPelem
   have hxpow : x ^ p = 1 :=
     elemPow_eq_one_of_isElementaryAbelian (p := p) (A := P) x hx.1
   have hxord : orderOf x = p := orderOf_eq_prime hxpow hx.2
@@ -1460,7 +1460,7 @@ private theorem section14_order_dvd_p_of_mem_W_diff
     Section13.section13_section12InternalDirectProduct_swap hprod
   have hW2_norm_W1 : W2 ≤ Subgroup.normalizer (W1 : Set G) :=
     hprodSwap.2.2.2.2.trans (centralizer_le_normalizer W1)
-  haveI hW1Jnormal : (W1.subgroupOf J).Normal := by
+  have hW1Jnormal : (W1.subgroupOf J).Normal := by
     simpa [J] using
       (Subgroup.normal_subgroupOf_sup_of_le_normalizer
         (H := W2) (N := W1) hW2_norm_W1)
@@ -1838,7 +1838,7 @@ public theorem section14_theorem_14_9_late_type_T1_hypothesis_11_2_of_section10_
         Nontrivial (Q ⧸ (⊥ : Subgroup G).subgroupOf Q) ∧
           IsElementaryAbelian q (Q ⧸ (⊥ : Subgroup G).subgroupOf Q) := by
     refine ⟨hBotNormalQ', ?_⟩
-    letI : ((⊥ : Subgroup G).subgroupOf Q).Normal := hBotNormalQ'
+    let : ((⊥ : Subgroup G).subgroupOf Q).Normal := hBotNormalQ'
     constructor
     · have hBotQ_ne_top : (⊥ : Subgroup G).subgroupOf Q ≠ ⊤ := by
         intro htop
@@ -1894,9 +1894,9 @@ public theorem section14_theorem_14_9_late_type_T1_zeta_mem_base_and_kernel_of_h
     Section6.inducedKernelFamily_subset_base hSbot hT1Ind hζ
   have hζKerQ : Section1.subgroupInKernel' ζ (Q.subgroupOf Tmax) := by
     rcases (hT1Ind.2 ζ).mp hζ with ⟨θ, hθirr, hθker, _hθne, hζeq⟩
-    haveI : (Q.subgroupOf Tmax).Normal :=
+    have : (Q.subgroupOf Tmax).Normal :=
       Section12.section16MFSubgroup_subgroupOf_normal hQMF
-    haveI : ((Q ⊔ V).subgroupOf Tmax).Normal := by
+    have : ((Q ⊔ V).subgroupOf Tmax).Normal := by
       rw [hQVsub_eq_der]
       infer_instance
     rcases hθirr with ⟨n, ρ, _hρirr, hθeq⟩
@@ -2145,10 +2145,10 @@ a non-base local row; its local column need not be the base column. -/
       ⟨I, instI, decI, J, instJ, decJ, Wloc, A, A0, S, SHC, R, i0, i1, j0, j1,
         μloc, δSign, ωloc, σloc, h11, hNotation10, hSHC, hζSHC, hR, hi1,
         hη01, hPrincipal⟩
-    letI : Fintype I := instI
-    letI : DecidableEq I := decI
-    letI : Fintype J := instJ
-    letI : DecidableEq J := decJ
+    let : Fintype I := instI
+    let : DecidableEq I := decI
+    let : Fintype J := instJ
+    let : DecidableEq J := decJ
     rcases
         Section11.theorem_11_9
           Tmax Q Q V D ⊥ W2 W1 Wloc A A0 S SHC R i0 j0
@@ -2954,10 +2954,10 @@ a non-base local row; its local column need not be the base column. -/
     rcases hFourSixT with
       ⟨I, instI, decI, J, instJ, decJ, Wloc, Asel, A0, i0, j0, μloc, δSign,
         ωloc, σloc, hNotation10, _hSigmaAgree, _hBookSource⟩
-    letI : Fintype I := instI
-    letI : DecidableEq I := decI
-    letI : Fintype J := instJ
-    letI : DecidableEq J := decJ
+    let : Fintype I := instI
+    let : DecidableEq I := decI
+    let : Fintype J := instJ
+    let : DecidableEq J := decJ
     have hNotation10Copy := hNotation10
     rcases hNotation10Copy with
       ⟨MFsrc, Ms, Abook, _A0book, _A1book, hSource, _hWloc, _hA0,
@@ -3219,10 +3219,10 @@ a non-base local row; its local column need not be the base column. -/
           hctx hLateType hTtypeP hNotation with
       ⟨I, instI, decI, J, instJ, decJ, Wloc, A0, i0, j0, μloc, δSign, ωloc,
         σloc, hNotation10, hNonbase⟩
-    letI : Fintype I := instI
-    letI : DecidableEq I := decI
-    letI : Fintype J := instJ
-    letI : DecidableEq J := decJ
+    let : Fintype I := instI
+    let : DecidableEq I := decI
+    let : Fintype J := instJ
+    let : DecidableEq J := decJ
     have hFamily :
         section14_theorem_14_9_late_type_T1PF11FamilySourceData
           Tmax Q V D W2 W1 Wloc i0 j0 μloc ωloc σloc τT
@@ -3367,10 +3367,10 @@ public theorem section14_theorem_14_9_late_type_T1_eta_tauT_betaT0_scalar_source
     ⟨I, instI, decI, J, instJ, decJ, Wloc, A, A0, S, SHC, R, i0, i1, j0, j1,
       μloc, δSign, ωloc, σloc, h11, hNotation10, hSHC, hζSHC, hR, hi1,
       hη01, hPrincipal⟩
-  letI : Fintype I := instI
-  letI : DecidableEq I := decI
-  letI : Fintype J := instJ
-  letI : DecidableEq J := decJ
+  let : Fintype I := instI
+  let : DecidableEq I := decI
+  let : Fintype J := instJ
+  let : DecidableEq J := decJ
   exact
     section14_theorem_14_9_late_type_T1_eta_tauT_betaT0_scalar_of_pf11_row_projection
       Tmax Q Q V D ⊥ W2 W1 Wloc A A0 S SHC R i0 i1 j0 j1
@@ -3532,7 +3532,7 @@ public theorem section14_theorem_14_9_late_type_T1_tauT1_conjugate_source_bridge
       τT1 (Section1.conjugateCharacter ζ) := by
   -- of the `calT1` members.
   classical
-  letI : Fintype Tmax := Fintype.ofFinite Tmax
+  let : Fintype Tmax := Fintype.ofFinite Tmax
   rcases h52 with ⟨hsetup, R, h52a, h52b, h52c, h52d, h52e⟩
   let X : T1T := ⟨ζ, hζ⟩
   have hζbar : Section1.conjugateCharacter ζ ∈ T1T := by
@@ -3902,7 +3902,7 @@ public theorem section14_theorem_14_9_late_type_T1_calt_extension_orth_delta_sou
                 Tmax W τT σ Γ T1T := by
   classical
   intro hctx h143 hLateType hNotation hGap T1T hCalT1 h52 hdeg
-  letI : Fintype Tmax := Fintype.ofFinite Tmax
+  let : Fintype Tmax := Fintype.ofFinite Tmax
   have hTtypeP :
       Section8.typePDefinitionData Tmax Q V W2 W1 :=
     section14_theorem_14_9_Tmax_typePDefinitionData_of_context hctx
@@ -3920,10 +3920,10 @@ public theorem section14_theorem_14_9_late_type_T1_calt_extension_orth_delta_sou
         ω η μ ν μsum νsum δ δ' σ p q u v c d
         hctx hLateType hTtypeP hNotation with
     ⟨d52, hd52τ, hΩCompat⟩
-  letI : Fintype d52.I := d52.instFintypeI
-  letI : Fintype d52.J := d52.instFintypeJ
-  letI : DecidableEq d52.I := d52.instDecidableEqI
-  letI : DecidableEq d52.J := d52.instDecidableEqJ
+  let : Fintype d52.I := d52.instFintypeI
+  let : Fintype d52.J := d52.instFintypeJ
+  let : DecidableEq d52.I := d52.instDecidableEqI
+  let : DecidableEq d52.J := d52.instDecidableEqJ
   have hDerEq : ambientDerivedSubgroup Tmax = Q ⊔ V := by
     rcases hTtypeP0 with
       ⟨_hQMF, _hW2cyc, _hW2ne, _hW2Hall, _hTcomp, _hVleDer,

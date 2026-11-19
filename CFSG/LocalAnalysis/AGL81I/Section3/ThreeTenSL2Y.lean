@@ -18,7 +18,7 @@ variable {H : Type} [Group H] [Finite H]
 theorem d_le_Y_of_threeTenHyp {I D P Y : Subgroup H} {p d : ℕ}
     (hhyp : ThreeTenHyp I D P Y p d) : D ≤ Y := by
   obtain ⟨hp, hp2, hd, hd2, hdp, hI, hD, hDne, hP, hYlt, hγ, hN⟩ := hhyp
-  haveI : Fact d.Prime := ⟨hd⟩
+  have : Fact d.Prime := ⟨hd⟩
   have hdvd : d ∣ Nat.card D := by
     rcases hD.isPGroup.card_eq_or_dvd with h1 | h1
     · exact absurd (Subgroup.card_eq_one.mp h1) hDne

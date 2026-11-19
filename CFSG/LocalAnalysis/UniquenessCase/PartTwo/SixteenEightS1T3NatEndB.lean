@@ -21,6 +21,7 @@ variable {W : Type} [CommGroup W] [Finite W] {L : Subgroup (MulAut W)} {U Z : Su
 private noncomputable def s16t3_quotHom (H : Subgroup (MulAut W)) (Z : Subgroup W)
     (hH : H ≤ stabSub Z) : ↥H →* MulAut (W ⧸ Z) :=
   (CFSG.CGT.PushingUpLit.BHS5.quotAct Z).comp (Subgroup.inclusion hH)
+omit [Finite W] in
 private theorem s16t3_realizes_quotient {D : FFModel} {H : Subgroup (MulAut W)}
     (hH : H ≤ stabSub Z) (h : D.Realizes H U Z) :
     D.Realizes (s16t3_quotHom H Z hH).range (U.map (QuotientGroup.mk' Z)) ⊥ := by
@@ -41,42 +42,49 @@ private theorem s16t3_realizes_quotient {D : FFModel} {H : Subgroup (MulAut W)}
   rw [hbot] at hres
   exact hres
 
+omit [Finite W] in
 private theorem s16t3_stable_of_realizes {D : FFModel} {H : Subgroup (MulAut W)}
     {U Z : Subgroup W} (h : D.Realizes H U Z) : StableUnder H U := by
   obtain ⟨π, hπ⟩ := h
   obtain ⟨hπs, hZU, hker, hHU, hHZ, hsec, hkerinv, β, hβs, hβk, hβe⟩ := hπ
   exact fun x hx u hu => hHU ⟨x, hx⟩ u hu
 
+omit [Finite W] in
 private theorem s16t3_stableZ_of_realizes {D : FFModel} {H : Subgroup (MulAut W)}
     {U Z : Subgroup W} (h : D.Realizes H U Z) : StableUnder H Z := by
   obtain ⟨π, hπ⟩ := h
   obtain ⟨hπs, hZU, hker, hHU, hHZ, hsec, hkerinv, β, hβs, hβk, hβe⟩ := hπ
   exact fun x hx z hz => hHZ ⟨x, hx⟩ z hz
 
+omit [Finite W] in
 private theorem s16t3_quotient_binaryNaturalSL {n a : ℕ} (hH : L ≤ stabSub Z)
     (h : BinaryNaturalSL L U Z n a) :
     BinaryNaturalSL (s16t3_quotHom L Z hH).range (U.map (QuotientGroup.mk' Z)) ⊥ n a := by
   obtain ⟨K, hK, hKf, hK2, hR⟩ := h
   exact ⟨K, hK, hKf, hK2, s16t3_realizes_quotient hH hR⟩
 
+omit [Finite W] in
 private theorem s16t3_quotient_natSpn {n a : ℕ} (hH : L ≤ stabSub Z)
     (h : NatSpn L U Z n a) :
     NatSpn (s16t3_quotHom L Z hH).range (U.map (QuotientGroup.mk' Z)) ⊥ n a := by
   obtain ⟨he, K, hK, hKf, hK2, hR⟩ := h
   exact ⟨he, K, hK, hKf, hK2, s16t3_realizes_quotient hH hR⟩
 
+omit [Finite W] in
 private theorem s16t3_quotient_natOmegaPlus {n a : ℕ} (hH : L ≤ stabSub Z)
     (h : NatOmegaPlus L U Z n a) :
     NatOmegaPlus (s16t3_quotHom L Z hH).range (U.map (QuotientGroup.mk' Z)) ⊥ n a := by
   obtain ⟨he, K, hK, hKf, hK2, hR⟩ := h
   exact ⟨he, K, hK, hKf, hK2, s16t3_realizes_quotient hH hR⟩
 
+omit [Finite W] in
 private theorem s16t3_quotient_natOmegaMinus {n a : ℕ} (hH : L ≤ stabSub Z)
     (h : NatOmegaMinus L U Z n a) :
     NatOmegaMinus (s16t3_quotHom L Z hH).range (U.map (QuotientGroup.mk' Z)) ⊥ n a := by
   obtain ⟨he, K, hK, hKf, b, c, hK2, hirr, hR⟩ := h
   exact ⟨he, K, hK, hKf, b, c, hK2, hirr, s16t3_realizes_quotient hH hR⟩
 
+omit [Finite W] in
 private theorem s16t3_quotient_alternatingNatural {n : ℕ} (hH : L ≤ stabSub Z)
     (h : AlternatingNatural L U Z n) :
     AlternatingNatural (s16t3_quotHom L Z hH).range (U.map (QuotientGroup.mk' Z)) ⊥ n :=
@@ -90,7 +98,7 @@ private theorem s16t3_abs_two_cases {F : Type} [Field F] (hF : Nat.card F = 2) (
     have hu : Nat.card Fˣ = 1 := by
       have h := Nat.card_units (α := F)
       omega
-    haveI : Subsingleton Fˣ := (Nat.card_eq_one_iff_unique.mp hu).1
+    have : Subsingleton Fˣ := (Nat.card_eq_one_iff_unique.mp hu).1
     exact congrArg Units.val (Subsingleton.elim (Units.mk0 c hc) 1)
 
 private theorem s16t3_abs_comm_id {ι : Type} [Fintype ι] [DecidableEq ι] {F : Type} [Field F]
@@ -108,16 +116,18 @@ private theorem s16t3_abs_comm_id {ι : Type} [Fintype ι] [DecidableEq ι] {F :
     simp at h1
   · exact (hc v).trans (one_smul _ _)
 
+omit [Finite W] in
 private theorem s16t3_endUnits_omegaMinus {H : Subgroup (MulAut W)} {I : Subgroup W} {n : ℕ}
     (hn : 4 ≤ n) (h : NatOmegaMinus H I ⊥ n 1) : Z391.EndUnitsTrivial H I := by
   obtain ⟨-, F, hF, hFf, b, c, hF2, hirr, hreal⟩ := h
-  letI := hF
-  haveI : Finite F := hFf
+  let := hF
+  have : Finite F := hFf
   have hF2' : Nat.card F = 2 := by simpa using hF2
   exact s15k_abs_endUnits_of_comm
     (fun g hg v => s16t3_abs_comm_id hF2' (Sum.inr (Sum.inr 0))
       (addCommutantScalar_statedOmegaMinus (m := n / 2) (by omega) hirr) g hg v) hreal
 
+omit [Finite W] in
 private theorem s16t3_concl (hL : L ≤ stabSub Z) (hU : StableUnder L U)
     (hE : Z391.EndUnitsTrivial (s16t3_quotHom L Z hL).range
       (U.map (QuotientGroup.mk' Z)))
@@ -158,8 +168,8 @@ private theorem s16t3_concl (hL : L ≤ stabSub Z) (hU : StableUnder L U)
       (⟨q u, Subgroup.mem_map_of_mem q u.2⟩ : ↥(U.map q)) := by
     intro u
     simp only [e, MulEquiv.trans_apply, QuotientGroup.quotientMulEquivOfEq_mk,
-      MulEquiv.subgroupCongr_apply, QuotientGroup.quotientKerEquivRange,
-      QuotientGroup.rangeKerLift, QuotientGroup.lift_mk, MonoidHom.rangeRestrict]
+      QuotientGroup.quotientKerEquivRange,
+      QuotientGroup.rangeKerLift, MonoidHom.rangeRestrict]
     rfl
   let φ' : MulAut (↥(U.map q)) := e.symm.trans (φbar.trans e)
   have hφbar_mk : ∀ u : ↥U, φbar (QuotientGroup.mk u) = QuotientGroup.mk (φ u) :=

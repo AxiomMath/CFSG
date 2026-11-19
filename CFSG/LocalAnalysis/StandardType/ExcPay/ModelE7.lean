@@ -66,12 +66,12 @@ private theorem excPayM_model_eq_ratPoints_map {p f : ℕ} {ht : GGExcFive .E7}
     group
 
 private theorem excPayM_ratPoints_eq_image {p f : ℕ} {ht : GGExcFive .E7} (hf : 1 ≤ f)
-    (M : GGDatumModel .E7 f p ht) :
+    (_M : GGDatumModel .E7 f p ht) :
     ratPoints (ggPhi .E7 f) = (adjointGroup .E7 (GaloisField 2 f)).map
       (baseChangeGL (ggRatEmb f)) := by
   let K := GaloisField 2 f
   let L := GGL
-  letI : Algebra K L := (ggRatEmb f).toAlgebra
+  let : Algebra K L := (ggRatEmb f).toAlgebra
   have hKcard : Nat.card K = 2 ^ f := GaloisField.card 2 f (by omega)
   have hFr : ∀ c : L, ggFrobT f c = c ^ Nat.card K := fun c => by
     rw [hKcard]
@@ -109,9 +109,9 @@ private theorem excPayM_ratPoints_eq_image {p f : ℕ} {ht : GGExcFive .E7} (hf 
 
 theorem datumModel_Γ_eq_model_E7 {p f : ℕ} {ht : GGExcFive .E7} (hf : 1 ≤ f)
     (M : GGDatumModel .E7 f p ht) : M.D.Γ = M.D.model := by
-  haveI hsc : Group.IsPerfect ↥(e7Data_valid.minGroup (GaloisField 2 f)) :=
+  have hsc : Group.IsPerfect ↥(e7Data_valid.minGroup (GaloisField 2 f)) :=
     CFSG.LieType.CurtisTits.isPerfect_e7 (GaloisField 2 f)
-  haveI : Group.IsPerfect (adjointGroup .E7 (GaloisField 2 f)) :=
+  have : Group.IsPerfect (adjointGroup .E7 (GaloisField 2 f)) :=
     Group.IsPerfect.ofSurjective (f := (e7EquivAlg f).toMonoidHom) (e7EquivAlg f).surjective
   have hImagePerf : Group.IsPerfect ↥((adjointGroup .E7 (GaloisField 2 f)).map
       (baseChangeGL (ggRatEmb f))) := by
@@ -129,14 +129,14 @@ theorem datumModel_Γ_eq_model_E7 {p f : ℕ} {ht : GGExcFive .E7} (hf : 1 ≤ f
     rw [excPayM_model_eq_ratPoints_map M]
     rw [← Subgroup.range_subtype (ratPoints M.D.Φ)]
     rw [← MonoidHom.range_comp]
-    letI : Group.IsPerfect ↥(ratPoints M.D.Φ) := hRatPointsPerf'
+    let : Group.IsPerfect ↥(ratPoints M.D.Φ) := hRatPointsPerf'
     exact Group.IsPerfect.range ((MulAut.conj M.D.g0⁻¹).toMonoidHom.comp
       (ratPoints M.D.Φ).subtype)
   have : Group.IsPerfect ↥M.D.model := hModelPerf
   simpa only [LangDatum.Γ] using (Subgroup.commutator_eq_self (H := M.D.model))
 
-theorem canonicalRep_simple_mem_model_E7 {p f : ℕ} {ht : GGExcFive .E7} (hp2 : p ≠ 2)
-    (hplus : p ∣ 2 ^ f + 1) (M : GGDatumModel .E7 f p ht) (k : Fin (langTag .E7).rank) :
+theorem canonicalRep_simple_mem_model_E7 {p f : ℕ} {ht : GGExcFive .E7} (_hp2 : p ≠ 2)
+    (_hplus : p ∣ 2 ^ f + 1) (M : GGDatumModel .E7 f p ht) (k : Fin (langTag .E7).rank) :
     canonicalRep (coxeterSystem (langTag .E7)) GGL (simple (langTag .E7) k) ∈ M.D.model := by
   let n_k := canonicalRep (coxeterSystem (langTag .E7)) GGL (simple (langTag .E7) k)
   have hmem_adj : n_k ∈ adjointGroup .E7 GGL :=

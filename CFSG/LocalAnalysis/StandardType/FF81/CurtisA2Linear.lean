@@ -82,7 +82,7 @@ theorem exists_marking_of_a2System_linear (m : ℕ) (hm : 3 ≤ m) (X : Type) [G
     intro i h
     have hθ : θ i = (hψ i ⟨i + 1, h⟩ (by simp only [pathAdj])).choose := by
       dsimp only [θ]
-      rw [dif_pos h]
+      rw [dite_eq_left h]
     rw [hθ]
     exact (hψ i ⟨i + 1, h⟩ (by simp only [pathAdj])).choose_spec
   have hcommF : ∀ i j : Fin m, (i : ℕ) + 1 < j → ∀ a b : SL(2, ZMod 2),

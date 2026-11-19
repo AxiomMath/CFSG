@@ -43,7 +43,7 @@ theorem codeOf_mem_spanList {vs : List ℕ} (hvs : ∀ v ∈ vs, v < 4096) {x : 
   rw [mem_spanList_iff hvs (codeOf_lt x), vecOf_codeOf]
   exact hx
 
-theorem f4Indep_of {x y : ℕ} (hx : x < 4096) (hy : y < 4096)
+theorem f4Indep_of {x y : ℕ} (hx : x < 4096) (_hy : y < 4096)
     (h : F4Indep (vecOf x) (vecOf y)) : f4Indep x y = true := by
   obtain ⟨hx0, hxy⟩ := h
   have htx := theta0N_lt hx

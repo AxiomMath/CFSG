@@ -78,7 +78,7 @@ theorem false_of_abelian_chief (D : Data G) {A₁ A₂ B H R : Subgroup G}
   have hfixB := hfixU B hUB hBH
   obtain ⟨ℓ, hℓ, hchief⟩ :=
     exists_isChiefFactorUnder_of_minimal hYR hRH hYn hRn hmin hab
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hRnY : R ≤ normalizer (Y : Set G) := fun x hx =>
     Subgroup.mem_normalizer_iff.mpr fun y => by
       constructor
@@ -86,9 +86,9 @@ theorem false_of_abelian_chief (D : Data G) {A₁ A₂ B H R : Subgroup G}
       · intro hy
         have h := hchief.2.2.2.1 x⁻¹ (R.inv_mem hx) (x * y * x⁻¹) hy
         simpa [mul_assoc] using h
-  haveI hNY : (Y.subgroupOf R).Normal :=
+  have hNY : (Y.subgroupOf R).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hYR.le).mpr hRnY
-  haveI hEA : IsElementaryAbelian ℓ (R ⧸ Y.subgroupOf R) := hchief.isElementaryAbelian
+  have hEA : IsElementaryAbelian ℓ (R ⧸ Y.subgroupOf R) := hchief.isElementaryAbelian
   let V := Additive (R ⧸ Y.subgroupOf R)
   let ρHgrp : H →* LinearMap.GeneralLinearGroup (ZMod ℓ) V :=
     CFSG.ABGLocalTools.chiefRep (p := ℓ) hRn hYn
@@ -130,7 +130,7 @@ theorem false_of_abelian_chief (D : Data G) {A₁ A₂ B H R : Subgroup G}
   have hℓ31 : ℓ ≠ 31 := by
     intro h31
     subst h31
-    haveI : Fact (Nat.Prime 31) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 31) := ⟨by norm_num⟩
     have hA₁p : IsPGroup 31 ↥(A₁.subgroupOf H) :=
       IsPGroup.of_card (n := 1) (by
         rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hA₁H).toEquiv, hA₁, pow_one])
@@ -187,7 +187,7 @@ theorem false_of_abelian_chief (D : Data G) {A₁ A₂ B H R : Subgroup G}
       (H := B) (K := K) hBnormK
     rw [sup_comm B K, inf_comm B K, hKB, Subgroup.card_bot, mul_one] at h
     simpa [L, mul_comm] using h
-  haveI hKnL : (K.subgroupOf L).Normal :=
+  have hKnL : (K.subgroupOf L).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hKL).mpr (sup_le Subgroup.le_normalizer hBnormK)
   have hKR : (K.subgroupOf L).IsComplement' (B.subgroupOf L) := by
     refine Subgroup.isComplement'_of_coprime ?_ ?_
@@ -223,7 +223,7 @@ theorem false_of_abelian_chief (D : Data G) {A₁ A₂ B H R : Subgroup G}
   have hρK : ∃ k ∈ K.subgroupOf L, ρL k ≠ 1 := by
     by_contra hcon
     push Not at hcon
-    obtain ⟨x, hxR, hxY⟩ := SetLike.exists_of_lt hYR
+    obtain ⟨x, hxR, hxY⟩ := _root_.IsConcreteLE.exists_of_lt hYR
     have hxY' : x ∈ Y := hfixA₁ x hxR fun a ha => by
       have h1 : ρHgrp ⟨a, hA₁H ha⟩ = 1 := by
         have h2 := hcon ⟨a, hA₁K.trans hKL ha⟩ (hA₁K ha)

@@ -26,12 +26,12 @@ section Levi
 theorem centralizer_fstar_eq_bot {H : Type} [Group H] [Finite H]
     (hS : IsSimpleGroup ↥(generalizedFitting H)) (h4 : 4 ∣ Nat.card ↥(generalizedFitting H)) :
     Subgroup.centralizer (generalizedFitting H : Set H) = ⊥ := by
-  haveI : (generalizedFitting H).Normal :=
+  have : (generalizedFitting H).Normal :=
     (CFSG.LocalCores.generalized_fitting_characteristic (G := H)).2
   by_contra hne
   have hle := GroupTheory.generalizedFitting_le_of_normal hS
     (Subgroup.normal_centralizer (H := generalizedFitting H)) hne
-  haveI : IsMulCommutative ↥(generalizedFitting H) :=
+  have : IsMulCommutative ↥(generalizedFitting H) :=
     ⟨⟨fun a b => Subtype.ext ((Subgroup.mem_centralizer_iff.mp (hle a.2)) b b.2).symm⟩⟩
   have hp := (Group.is_simple_iff_prime_card (α := ↥(generalizedFitting H))).mp hS
   have h2 : 2 ∣ Nat.card ↥(generalizedFitting H) := (Nat.dvd_of_pow_dvd (by norm_num :
@@ -59,7 +59,7 @@ theorem card_dvd_of_centralizer_eq_bot {H : Type} [Group H] [Finite H] (N : Subg
       simp only [MulAut.conjNormal_apply, MulAut.one_apply]
       rw [← hx n n.2]
       group
-  haveI : Finite (MulAut ↥N) :=
+  have : Finite (MulAut ↥N) :=
     Finite.of_injective (fun α : MulAut ↥N => (α : ↥N → ↥N)) DFunLike.coe_injective
   have hcard := Subgroup.card_ker_mul_card_range (MulAut.conjNormal : H →* MulAut ↥N)
   rw [hker, Subgroup.card_bot, one_mul] at hcard
@@ -75,7 +75,7 @@ theorem card_H0_dvd_of_fstar (hc : Ctx M Q Z B) [(Q.subgroupOf (H0 M Z)).Normal]
       Set (SubCfgGroup M Q Z)) = ⊥) :
     Nat.card (H0 M Z) ∣ Nat.card Q * (Nat.card (Outer (FStar (SubCfgGroup M Q Z))) *
       Nat.card (FStar (SubCfgGroup M Q Z))) := by
-  haveI : (generalizedFitting (SubCfgGroup M Q Z)).Normal :=
+  have : (generalizedFitting (SubCfgGroup M Q Z)).Normal :=
     (CFSG.LocalCores.generalized_fitting_characteristic (G := SubCfgGroup M Q Z)).2
   have h1 := card_dvd_of_centralizer_eq_bot (generalizedFitting (SubCfgGroup M Q Z)) hC
   rw [Subgroup.card_eq_card_quotient_mul_card_subgroup (Q.subgroupOf (H0 M Z)),
@@ -89,7 +89,7 @@ theorem card_mul_card_fstar_dvd (hc : Ctx M Q Z B) [(Q.subgroupOf (H0 M Z)).Norm
     Nat.card Q * Nat.card (FStar (SubCfgGroup M Q Z)) ∣ Nat.card (Subgroup.centralizer
       ({selfIn z} : Set ↥(Subgroup.normalClosure ({z} : Set G)))) := by
   set X := Subgroup.normalClosure ({z} : Set G) with hXdef
-  haveI hXn : X.Normal := Subgroup.normalClosure_normal
+  have hXn : X.Normal := Subgroup.normalClosure_normal
   set W : Subgroup G := X ⊓ H0 M Z with hWdef
   have hWH : W ≤ H0 M Z := inf_le_right
   have hWX : W ≤ X := inf_le_left
@@ -262,7 +262,7 @@ theorem smith219EInspectionE4_of (hNf : Smith212ENonfusedStatement) (hSt : Strot
   have H := hc.ctx.hyp
   obtain ⟨z, hz, hz1, -⟩ := exists_mem_Z_ne H 1
   obtain ⟨hN, f, hf, hLF⟩ := lieModel_of_caseE4_recursion IH (hSt _ IH.1) hX4 hc hD4 h4
-  haveI := hN
+  have := hN
   have hf1 : 1 ≤ f := by
     rcases Nat.eq_zero_or_pos f with rfl | h
     · have := H.q4
@@ -335,7 +335,7 @@ theorem smith219EInspectionE4_of (hNf : Smith212ENonfusedStatement) (hSt : Strot
         rw [hf] at h4'
         by_contra hlt
         push Not at hlt
-        interval_cases f <;> norm_num at h4'
+        interval_cases f; norm_num at h4'
       omega)
   rcases hres with ⟨h, -⟩ | ⟨-, rfl⟩ | ⟨h, -⟩
   · omega
@@ -351,7 +351,7 @@ theorem smith219EInspectionE5_of (hNf : Smith212ENonfusedStatement) (hSt : Strot
   have H := hc.ctx.hyp
   obtain ⟨z, hz, hz1, -⟩ := exists_mem_Z_ne H 1
   obtain ⟨hN, f, hf, hLF⟩ := lieModel_of_caseE5_recursion IH (hSt _ IH.1) hX5 hc hD4 h5
-  haveI := hN
+  have := hN
   have hf1 : 1 ≤ f := by
     rcases Nat.eq_zero_or_pos f with rfl | h
     · have := H.q4

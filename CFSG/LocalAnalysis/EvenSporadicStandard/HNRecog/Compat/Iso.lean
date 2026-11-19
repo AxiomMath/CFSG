@@ -20,7 +20,7 @@ theorem theta_injOn [Finite G] [Finite G'] (h : F5Std a z) (h' : F5Std a' z')
   cp_theta_injOn h h' hα hθ hx hy hxy
 
 theorem card_conjVert_eq [Finite G] [Finite G'] (h : F5Std a z) (h' : F5Std a' z')
-    (hα : IsIsoOn (Gx a) (Gx a') α) : Nat.card (ConjVert a) = Nat.card (ConjVert a') :=
+    (_hα : IsIsoOn (Gx a) (Gx a') α) : Nat.card (ConjVert a) = Nat.card (ConjVert a') :=
   cp_card_conjVert_eq h h'
 
 theorem exists_graphIso_of_injective_regular {V W : Type} [Finite V] [Finite W]

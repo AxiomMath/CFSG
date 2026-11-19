@@ -278,7 +278,7 @@ theorem twoCentral_fix (Φ : GGQTwoDNbrSixFrame B Bs X z) {T : Finset (Fin 6)} {
     refine (Φ.mem_eqSub T s₀).2 fun i hi j hj => ?_
     have hik : i ≠ k := fun h => hk (h ▸ hi)
     have hjk : j ≠ k := fun h => hk (h ▸ hj)
-    rw [hv, Sl.dBasis_apply, Sl.dBasis_apply, if_neg hik, if_neg hjk]
+    rw [hv, Sl.dBasis_apply, Sl.dBasis_apply, ite_eq_right hik, ite_eq_right hjk]
   set c : Fin 6 → Φ.Kˣ := fun i => Φ.ω ^ (Φ.P (z (Additive.ofMul s₀)) i).val with hc
   have hci : ∀ i, c i = if i = k then Φ.ω else 1 := by
     intro i
@@ -296,8 +296,8 @@ theorem twoCentral_fix (Φ : GGQTwoDNbrSixFrame B Bs X z) {T : Finset (Fin 6)} {
     rw [Matrix.GeneralLinearGroup.val_det_apply, Units.val_one] at h1
     change Matrix.det (Matrix.diagonal fun i => ((c i : Φ.Kˣ) : Φ.K)) = 1 at h1
     rw [Matrix.det_diagonal, Finset.prod_eq_single k
-      (fun i _ hik => by rw [hci, if_neg hik, Units.val_one])
-      (fun h => absurd (Finset.mem_univ k) h), hci, if_pos rfl, Units.val_eq_one] at h1
+      (fun i _ hik => by rw [hci, ite_eq_right hik, Units.val_one])
+      (fun h => absurd (Finset.mem_univ k) h), hci, ite_eq_left rfl, Units.val_eq_one] at h1
     have h3 := Φ.ω_order
     rw [h1, orderOf_one] at h3
     exact absurd h3 (by norm_num)

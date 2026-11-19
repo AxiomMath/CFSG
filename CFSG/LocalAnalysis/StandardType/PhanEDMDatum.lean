@@ -28,17 +28,17 @@ theorem exists_retraction (hres : IsResidual X lev) {J : Set I} (hJ : J.Nonempty
     obtain ⟨hxA, hxm⟩ := hx
     by_cases hle : lev x ≤ m
     · dsimp only [π]
-      rw [if_pos hle]
+      rw [ite_eq_left hle]
       exact ⟨⟨hxA, hle⟩, X.adj_refl i x⟩
     · dsimp only [π]
-      rw [if_neg hle]
+      rw [ite_eq_right hle]
       have hex : ∃ x' ∈ X.residue J c, lev x' ≤ m ∧ X.adj i x x' := hi x hxA hxm
-      rw [dif_pos hex]
+      rw [dite_eq_left hex]
       exact ⟨⟨hex.choose_spec.1, hex.choose_spec.2.1⟩, hex.choose_spec.2.2⟩
   · intro x hx
     obtain ⟨_, hxm⟩ := hx
     dsimp only [π]
-    exact if_pos hxm
+    exact ite_eq_left hxm
 
 theorem exists_step_gallery (hres : IsResidual X lev) (hlco : Lco X lev) {J : Set I} (c : C)
     {m : ℕ} {i : I} (hi : i ∈ J) {π : C → C}
@@ -106,7 +106,7 @@ private theorem q2cDMd_pushEps_of_mem (X : ChamberSystem I C) (J : Set I) (Q P :
     {j : I} {x y : C} (hx : x ∈ P) (hy : y ∈ P) :
     q2cDMd_pushEps X J Q P i π step j x y = [(j, y)] := by
   unfold q2cDMd_pushEps
-  rw [if_pos ⟨hx, hy⟩]
+  rw [ite_eq_left ⟨hx, hy⟩]
 
 private theorem q2cDMd_pushEps_of_adj (X : ChamberSystem I C) (J : Set I) (Q P : Set C)
     (i : I) (π : C → C)
@@ -116,8 +116,8 @@ private theorem q2cDMd_pushEps_of_adj (X : ChamberSystem I C) (J : Set I) (Q P :
     (hxy : X.adj j x y) :
     q2cDMd_pushEps X J Q P i π step j x y = (step j hj x hx y hy hxy).choose := by
   unfold q2cDMd_pushEps
-  rw [if_neg hP,
-    dif_pos (show j ∈ J ∧ x ∈ Q ∧ y ∈ Q ∧ X.adj j x y from ⟨hj, hx, hy, hxy⟩)]
+  rw [ite_eq_right hP,
+    dite_eq_left (show j ∈ J ∧ x ∈ Q ∧ y ∈ Q ∧ X.adj j x y from ⟨hj, hx, hy, hxy⟩)]
 
 theorem exists_pushData (hres : IsResidual X lev) (hlco : Lco X lev) {J : Set I}
     (hJ : J.Nonempty) (c : C) {m : ℕ} (hm : ∃ x ∈ X.residue J c, lev x ≤ m) :

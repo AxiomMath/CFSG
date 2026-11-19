@@ -60,6 +60,7 @@ variable {k m : ℕ}
     · simp [hsmul, map_smul]
     · by_cases hj : (j : ℕ) < k <;> simp [hsmul, hj, map_smul]
 
+omit [Finite K] [CharP K 2] in
 theorem castLin_apply (h : k ≤ m)
     (g : ((F × F) × (Fin k → K)) →ₗ[F] ((F × F) × (Fin k → K)))
     (v : (F × F) × (Fin m → K)) :
@@ -68,12 +69,14 @@ theorem castLin_apply (h : k ≤ m)
         if hj : (j : ℕ) < k then (g (castRestr h v)).2 ⟨(j : ℕ), hj⟩ else v.2 j) :=
   rfl
 
+omit [Finite K] [CharP K 2] in
 theorem castLin_fst (h : k ≤ m)
     (g : ((F × F) × (Fin k → K)) →ₗ[F] ((F × F) × (Fin k → K)))
     (v : (F × F) × (Fin m → K)) :
     (castLin h g v).1 = (g (castRestr h v)).1 := by
   rw [castLin_apply]
 
+omit [Finite K] [CharP K 2] in
 theorem castLin_snd_of_lt (h : k ≤ m)
     (g : ((F × F) × (Fin k → K)) →ₗ[F] ((F × F) × (Fin k → K)))
     (v : (F × F) × (Fin m → K)) {j : Fin m} (hj : (j : ℕ) < k) :
@@ -81,6 +84,7 @@ theorem castLin_snd_of_lt (h : k ≤ m)
   rw [castLin_apply]
   simp [hj]
 
+omit [Finite K] [CharP K 2] in
 theorem castLin_snd_of_not_lt (h : k ≤ m)
     (g : ((F × F) × (Fin k → K)) →ₗ[F] ((F × F) × (Fin k → K)))
     (v : (F × F) × (Fin m → K)) {j : Fin m} (hj : ¬ (j : ℕ) < k) :
@@ -88,6 +92,7 @@ theorem castLin_snd_of_not_lt (h : k ≤ m)
   rw [castLin_apply]
   simp [hj]
 
+omit [Finite K] [CharP K 2] in
 theorem castRestr_castLin (h : k ≤ m)
     (g : ((F × F) × (Fin k → K)) →ₗ[F] ((F × F) × (Fin k → K))) (v : (F × F) × (Fin m → K)) :
     castRestr h (castLin h g v) = g (castRestr h v) := by
@@ -100,6 +105,7 @@ theorem castRestr_castLin (h : k ≤ m)
     rw [castLin_snd_of_lt h g v (by rw [Fin.val_castLE]; exact i.2)]
     congr 1
 
+omit [Finite K] [CharP K 2] in
 theorem castLin_comp (h : k ≤ m)
     (g g' : ((F × F) × (Fin k → K)) →ₗ[F] ((F × F) × (Fin k → K))) :
     castLin h (g ∘ₗ g') = castLin h g ∘ₗ castLin h g' := by
@@ -121,6 +127,7 @@ theorem castLin_comp (h : k ≤ m)
         castLin_snd_of_not_lt (h := h) (g := g) (v := castLin h g' v) hj,
         castLin_snd_of_not_lt (h := h) (g := g') (v := v) hj]
 
+omit [Finite K] [CharP K 2] in
 theorem castLin_id (h : k ≤ m) :
     castLin h (LinearMap.id : ((F × F) × (Fin k → K)) →ₗ[F] ((F × F) × (Fin k → K))) =
       LinearMap.id := by
@@ -138,6 +145,7 @@ theorem castLin_id (h : k ≤ m) :
     · rw [castLin_snd_of_not_lt (h := h) (g := LinearMap.id) (v := v) hj]
       rfl
 
+omit [Field F] [Field K] [Algebra F K] [Finite K] [CharP K 2] in
 theorem castRestr_refl (v : (F × F) × (Fin m → K)) :
     castRestr (le_refl m) v = v := by
   refine Prod.ext (Prod.ext rfl rfl) (funext fun i => ?_)
@@ -145,6 +153,7 @@ theorem castRestr_refl (v : (F × F) × (Fin m → K)) :
   rw [Fin.castLE_rfl]
   rfl
 
+omit [Field F] [Algebra F K] [Finite K] [CharP K 2] in
 theorem castRestr_surjective (h : k ≤ m) :
     Function.Surjective (castRestr (F := F) (K := K) h) := by
   intro v
@@ -153,9 +162,10 @@ theorem castRestr_surjective (h : k ≤ m) :
   refine Prod.ext (Prod.ext rfl rfl) (funext fun i => ?_)
   change (if hi : ((Fin.castLE h i : Fin m) : ℕ) < k then
     v.2 ⟨((Fin.castLE h i : Fin m) : ℕ), hi⟩ else 0) = v.2 i
-  rw [dif_pos (by rw [Fin.val_castLE]; exact i.2)]
+  rw [dite_eq_left (by rw [Fin.val_castLE]; exact i.2)]
   exact congrArg v.2 (Fin.ext (by rw [Fin.val_castLE]))
 
+omit [Field F] [Field K] [Algebra F K] [Finite K] [CharP K 2] in
 theorem castRestr_castRestr {l : ℕ} (h₁ : k ≤ l) (h₂ : l ≤ m)
     (v : (F × F) × (Fin m → K)) :
     castRestr h₁ (castRestr h₂ v) = castRestr (h₁.trans h₂) v := by
@@ -163,6 +173,7 @@ theorem castRestr_castRestr {l : ℕ} (h₁ : k ≤ l) (h₂ : l ≤ m)
   change v.2 (Fin.castLE h₂ (Fin.castLE h₁ i)) = v.2 (Fin.castLE (h₁.trans h₂) i)
   exact congrArg v.2 (Fin.ext rfl)
 
+omit [Finite K] [CharP K 2] in
 theorem castLin_refl (g : ((F × F) × (Fin m → K)) →ₗ[F]
     ((F × F) × (Fin m → K))) :
     castLin (le_refl m) g = g := by
@@ -173,6 +184,7 @@ theorem castLin_refl (g : ((F × F) × (Fin m → K)) →ₗ[F]
   · rw [castLin_fst, castRestr_refl]
   · rw [castLin_snd_of_lt (h := le_refl m) (g := g) (v := v) j.2, castRestr_refl]
 
+omit [Finite K] [CharP K 2] in
 theorem castLin_castLin {l : ℕ} (h₁ : k ≤ l) (h₂ : l ≤ m)
     (g : ((F × F) × (Fin k → K)) →ₗ[F] ((F × F) × (Fin k → K))) :
     castLin h₂ (castLin h₁ g) = castLin (h₁.trans h₂) g := by
@@ -218,11 +230,13 @@ theorem castLin_castLin {l : ℕ} (h₁ : k ≤ l) (h₂ : l ≤ m)
         exact LinearEquiv.symm_apply_apply g v
       rw [h1, castLin_id])
 
+omit [Finite K] [CharP K 2] in
 theorem castEquiv_apply (h : k ≤ m)
     (g : ((F × F) × (Fin k → K)) ≃ₗ[F] ((F × F) × (Fin k → K))) (v : (F × F) × (Fin m → K)) :
     castEquiv h g v = castLin h g.toLinearMap v := by
   rw [castEquiv, LinearEquiv.coe_ofLinearMap]
 
+omit [Finite K] [CharP K 2] in
 theorem castEquiv_toLinearMap (h : k ≤ m)
     (g : ((F × F) × (Fin k → K)) ≃ₗ[F] ((F × F) × (Fin k → K))) :
     (castEquiv h g).toLinearMap = castLin h g.toLinearMap :=
@@ -456,6 +470,7 @@ theorem uniEmb_injective (h : UnitaryFieldData 2 f K) (m : ℕ) :
   exact (suEquiv h m).symm.injective (suEmb_injective E m (by
     simpa [uniEmb, MonoidHom.comp_apply] using hab))
 
+omit [Finite K] [CharP K 2] in
 private theorem blkMat_castSucc_mulVec_castSucc {A : Matrix (Fin m) (Fin m) K}
     (x : Fin (m + 1) → K) (a : Fin m) :
     (blkMat (Fin.castSucc) A *ᵥ x) (Fin.castSucc a) =
@@ -464,11 +479,12 @@ private theorem blkMat_castSucc_mulVec_castSucc {A : Matrix (Fin m) (Fin m) K}
   have hlast : blkMat (Fin.castSucc) A (Fin.castSucc a) (Fin.last m) = 0 := by
     rw [blkMat_apply_of_not_mem_right A (Fin.castSucc a)
       (fun y h => Fin.castSucc_ne_last y h.symm)]
-    rw [Matrix.one_apply, if_neg (Fin.castSucc_ne_last a)]
+    rw [Matrix.one_apply, ite_eq_right (Fin.castSucc_ne_last a)]
   rw [hlast, zero_mul, add_zero]
   exact Finset.sum_congr rfl fun b _ => by
     rw [blkMat_apply_ι (Fin.castSucc_injective m)]
 
+omit [Finite K] [CharP K 2] in
 private theorem blkMat_castSucc_mulVec_last {A : Matrix (Fin m) (Fin m) K}
     (x : Fin (m + 1) → K) :
     (blkMat (Fin.castSucc) A *ᵥ x) (Fin.last m) = x (Fin.last m) := by
@@ -477,11 +493,11 @@ private theorem blkMat_castSucc_mulVec_last {A : Matrix (Fin m) (Fin m) K}
     intro b
     rw [blkMat_apply_of_not_mem_left A
       (fun y h => Fin.castSucc_ne_last y h.symm) (Fin.castSucc b)]
-    rw [Matrix.one_apply, if_neg (fun h => Fin.castSucc_ne_last b h.symm)]
+    rw [Matrix.one_apply, ite_eq_right (fun h => Fin.castSucc_ne_last b h.symm)]
   rw [Finset.sum_eq_zero fun b _ => by rw [hzero b, zero_mul], zero_add]
   rw [blkMat_apply_of_not_mem_left A
     (fun y h => Fin.castSucc_ne_last y h.symm) (Fin.last m)]
-  rw [Matrix.one_apply, if_pos rfl, one_mul]
+  rw [Matrix.one_apply, ite_eq_left rfl, one_mul]
 
 theorem suEmb_blkEmb (m : ℕ) (G : SUid (unitaryInvolution K 2 f) m) :
     suEmb E (m + 1) (blkEmb (unitaryInvolution K 2 f) (Fin.castSucc_injective m) G) =
@@ -493,14 +509,14 @@ theorem suEmb_blkEmb (m : ℕ) (G : SUid (unitaryInvolution K 2 f) m) :
   refine Prod.ext ?_ ?_
   · rfl
   · funext j
-    simp only [Prod.mk.eta]
+    simp only
     refine Fin.lastCases ?_ (fun a => ?_) j
     · rw [CFSG.ClassicalGroups.Unitary.smul_def, coe_coe_blkEmb, blkMat_castSucc_mulVec_last]
       simp [Fin.val_last]
     · rw [CFSG.ClassicalGroups.Unitary.smul_def, coe_coe_blkEmb,
         blkMat_castSucc_mulVec_castSucc]
       have hj : ((Fin.castSucc a : Fin (m + 1)) : ℕ) < m := a.2
-      rw [dif_pos hj]
+      rw [dite_eq_left hj]
       have hR : (suEmbLin (F := F) m G (castRestr (Nat.le_succ m) p)).2
           ⟨(Fin.castSucc a : Fin (m + 1)), hj⟩ =
           (((G : GL (Fin m) K) : Matrix (Fin m) (Fin m) K) *ᵥ
@@ -550,7 +566,7 @@ open CFSG.LieType.Steinberg
 theorem galoisQuadExt (h : UnitaryFieldData 2 f K) :
     letI := galoisAlgebra h
     QuadExt (GaloisField 2 f) K (unitaryInvolution K 2 f) := by
-  letI := galoisAlgebra h
+  let := galoisAlgebra h
   exact quadExt_of_card_of_char_two f (GaloisField.card 2 f (by have := h.one_le; omega))
     (by rw [h.card, ← pow_mul, mul_comm])
 

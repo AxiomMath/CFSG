@@ -345,7 +345,7 @@ theorem hasCyclicSylowTwo_inf_centralizer (hC : linkedClass Q = {Q})
       (P : Subgroup Y).equivMapOfInjective Y.subtype Y.subtype_injective
     have hYQ : Y ≤ bar Q Q := inf_le_left.trans (bar_mono Q (twoPrimeLayerIn_le Q))
     rcases isCyclic_or_dihedral_of_isSylowOf hR hRd ((map_subtype_le _).trans hYQ)
-        (P.isPGroup'.map Y.subtype) with h | ⟨k, hk, ⟨f⟩⟩
+        (P.isPGroup.map Y.subtype) with h | ⟨k, hk, ⟨f⟩⟩
     · exact absurd ((MulEquiv.isCyclic e).mpr h) hnc
     · have hev : Even (2 ^ k) := (Nat.even_pow' (by omega)).mpr even_two
       obtain ⟨a, b, ha, hb, ha1, hb1, hab, hc, -, -⟩ :=

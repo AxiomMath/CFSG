@@ -70,6 +70,7 @@ private theorem xof_le_wker (c : Pre45 p G D) : Xof G ≤ Wker G := by
   exact Subgroup.mem_map.mpr ⟨_, hmem,
     map_commutatorElement (Subgroup.subtype (Xof G)) _ _⟩
 
+omit [Finite G] in
 private theorem inf_centralizer_X_eq_zxof :
     Xof G ⊓ Subgroup.centralizer (Xof G : Set G) = ZXof G := by
   ext x
@@ -139,7 +140,7 @@ theorem r2_centralizer_X (c : Front45 p G D) :
     Subgroup.centralizer (Xof G : Set G) = Subgroup.center G := by
   let C : Subgroup G := Subgroup.centralizer (Xof G : Set G)
   have hCnorm : C.Normal := Subgroup.normal_centralizer (H := Xof G)
-  haveI : C.Normal := hCnorm
+  have : C.Normal := hCnorm
   have hZXle : Subgroup.center G ≤ C := Subgroup.center_le_centralizer _
   have hCne : C ≠ ⊤ := centralizer_X_ne_top c
   have hCleH : C ≤ CFSG.pPrimeCore 3 G :=
@@ -165,7 +166,7 @@ theorem r2_centralizer_X (c : Front45 p G D) :
   have hDle : D ≤ Subgroup.centralizer (C : Set G) :=
     Subgroup.commutator_eq_bot_iff_le_centralizer.mp hDCbot
   have htop : (⊤ : Subgroup G) ≤ Subgroup.centralizer (C : Set G) := by
-    haveI : (Subgroup.centralizer (C : Set G)).Normal := Subgroup.normal_centralizer (H := C)
+    have : (Subgroup.centralizer (C : Set G)).Normal := Subgroup.normal_centralizer (H := C)
     rw [← c.gen]
     exact Subgroup.normalClosure_le_normal hDle
   have hCleZ : C ≤ Subgroup.center G := by
@@ -182,7 +183,7 @@ private theorem range_sub_one_invariant {V : Type*} [AddCommGroup V] [Module (ZM
   intro x hx
   obtain ⟨v, rfl⟩ := hx
   refine ⟨(a : V →ₗ[ZMod 2] V) v, ?_⟩
-  simp only [LinearMap.sub_apply, map_sub, Module.End.one_apply, LinearMap.id_apply]
+  simp only [LinearMap.sub_apply, map_sub, Module.End.one_apply]
 
 private theorem sq_add_self_add_one_mul_sub_one {V : Type*} [AddCommGroup V] [Module (ZMod 2) V]
     {a : V →ₗ[ZMod 2] V} (ha3 : a ^ 3 = 1) : (a ^ 2 + a + 1) * (a - 1) = 0 := by
@@ -217,8 +218,7 @@ private theorem restrict_range_sub_one_sq_add_self_add_one {V : Type*}
       ((a : V →ₗ[ZMod 2] V) ^ 2) x.1 := restrict_pow_apply haP 2 x
   have h2 : ((a : V →ₗ[ZMod 2] V).restrict haP x : V) =
       (a : V →ₗ[ZMod 2] V) x.1 := LinearMap.coe_restrict_apply haP x
-  simp only [LinearMap.add_apply, Module.End.one_apply, Submodule.coe_add, Submodule.coe_zero,
-    LinearMap.id_apply]
+  simp only [LinearMap.add_apply, Module.End.one_apply, Submodule.coe_add]
   rw [h1, h2]
   simpa only [LinearMap.add_apply, Module.End.one_apply, LinearMap.id_apply, LinearMap.zero_apply,
     Submodule.coe_zero] using hx
@@ -232,7 +232,7 @@ private theorem commute_preserves_range_sub_one {V : Type*} [AddCommGroup V] [Mo
   have hcommv := congrFun (congrArg (fun f : Module.End (ZMod 2) V => (f : V → V))
     (show ch * a = a * ch from h)) v
   simp only [Module.End.mul_apply] at hcommv
-  simp only [LinearMap.sub_apply, map_sub, Module.End.one_apply, LinearMap.id_apply]
+  simp only [LinearMap.sub_apply, map_sub, Module.End.one_apply]
   rw [hcommv]
 
 private theorem restrict_cube_eq_one {V : Type*} [AddCommGroup V] [Module (ZMod 2) V]
@@ -334,6 +334,7 @@ private def preimageSubmodule {X : Type*} [Group X] {W : Type*} [AddCommGroup W]
     rw [hx']
     exact W₀.neg_mem hx
 
+omit [Finite G] in
 private theorem preimageSubmodule_conj_mem {H : Subgroup G} [H.Normal] {W : Type*}
     [AddCommGroup W] [Module (ZMod 2) W]
     (φ : (G ⧸ Wker G) →* (W ≃ₗ[ZMod 2] W))
@@ -423,7 +424,7 @@ private theorem preimageSubmodule_eq_top (c : Front45 p G D) {W : Type} [AddComm
     (hT : Tof G D ≤ (preimageSubmodule S.π W₀).map (Xof G).subtype) :
     W₀ = ⊤ := by
   have hX_le_Y : Xof G ≤ (preimageSubmodule S.π W₀).map (Xof G).subtype := by
-    haveI : ((preimageSubmodule S.π W₀).map (Xof G).subtype).Normal := hY_normal
+    have : ((preimageSubmodule S.π W₀).map (Xof G).subtype).Normal := hY_normal
     have := Subgroup.normalClosure_le_normal hT
     rwa [c.X_gen] at this
   have hYeq : (preimageSubmodule S.π W₀).map (Xof G).subtype = Xof G :=
@@ -561,11 +562,11 @@ private theorem r21_action_eq_one {W : Type} [AddCommGroup W] [Module (ZMod 2) W
 
 theorem r2_H_le_wker (hSymp : SympData) (c : Front45 p G D) :
     CFSG.pPrimeCore 3 G ≤ Wker G := by
-  haveI hcyc : IsCyclic ↥(Subgroup.center ↥(Xof G)) := uc45_center_Xof_isCyclic c.toPre45
+  have hcyc : IsCyclic ↥(Subgroup.center ↥(Xof G)) := uc45_center_Xof_isCyclic c.toPre45
   obtain ⟨W, _, _, hWfin, _, φ, π, _, _, hφinj, _, hπsurj, _, hequiv, _, hmem, horder⟩ :=
     hSymp G (Xof G) (Wker G) (xof_isPGroup (G := G)) c.class_two.1
       c.class_two.2 hcyc (fun g => mem_wker (G := G) (g := g))
-  haveI : Finite W := hWfin
+  have : Finite W := hWfin
   have hcycD : IsCyclic ↥D := isCyclic_of_prime_card c.card_three
   obtain ⟨d, hd⟩ := (Subgroup.isCyclic_iff_exists_zpowers_eq_top D).mp hcycD
   let S : R21Data p G D W :=

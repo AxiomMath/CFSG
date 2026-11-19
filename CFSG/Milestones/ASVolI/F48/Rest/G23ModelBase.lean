@@ -122,10 +122,10 @@ end Restrict
 
 section Decode
 
-@[expose] def burnsideF48t_dv (v : Array ℕ) : Fin 14 → ZMod 3 :=
+def burnsideF48t_dv (v : Array ℕ) : Fin 14 → ZMod 3 :=
   fun j => ((v[(j : ℕ)]! : ℕ) : ZMod 3)
 
-@[expose] def burnsideF48t_dm (A : Array ℕ) : Matrix (Fin 14) (Fin 14) (ZMod 3) :=
+def burnsideF48t_dm (A : Array ℕ) : Matrix (Fin 14) (Fin 14) (ZMod 3) :=
   Matrix.of fun i j => ((A[14 * (i : ℕ) + j]! : ℕ) : ZMod 3)
 
 theorem burnsideF48t_list_sum_range {M : Type*} [AddCommMonoid M] (f : ℕ → M) (n : ℕ) :
@@ -169,10 +169,10 @@ end Decode
 
 section Gen
 
-@[expose] noncomputable def burnsideF48t_g23R : Subgroup (GL (Fin 14) (ZMod 3)) :=
+noncomputable def burnsideF48t_g23R : Subgroup (GL (Fin 14) (ZMod 3)) :=
   Subgroup.closure {gX 0, gX 1, gY 0, gY 1}
 
-@[expose] noncomputable def burnsideF48t_g23RGen (i : ℕ) : GL (Fin 14) (ZMod 3) :=
+noncomputable def burnsideF48t_g23RGen (i : ℕ) : GL (Fin 14) (ZMod 3) :=
   if i = 0 then gX 0 else if i = 1 then gX 1 else if i = 2 then gY 0 else gY 1
 
 theorem burnsideF48t_g23_coe_RGen {i : ℕ} (hi : i < 4) :
@@ -186,11 +186,11 @@ theorem burnsideF48t_g23_coe_RGen {i : ℕ} (hi : i < 4) :
     rw [List.getElem!_toArray, List.getD_eq_getElem?_getD]
     simp [List.getElem!_eq_getElem?_getD]
   interval_cases i
-  · rw [burnsideF48t_g23RGen, if_pos rfl, coe_gX0]; exact (hdm _).symm
-  · rw [burnsideF48t_g23RGen, if_neg (by decide), if_pos rfl, coe_gX1]; exact (hdm _).symm
-  · rw [burnsideF48t_g23RGen, if_neg (by decide), if_neg (by decide), if_pos rfl, coe_gY0]
+  · rw [burnsideF48t_g23RGen, ite_eq_left rfl, coe_gX0]; exact (hdm _).symm
+  · rw [burnsideF48t_g23RGen, ite_eq_right (by decide), ite_eq_left rfl, coe_gX1]; exact (hdm _).symm
+  · rw [burnsideF48t_g23RGen, ite_eq_right (by decide), ite_eq_right (by decide), ite_eq_left rfl, coe_gY0]
     exact (hdm _).symm
-  · rw [burnsideF48t_g23RGen, if_neg (by decide), if_neg (by decide), if_neg (by decide), coe_gY1]
+  · rw [burnsideF48t_g23RGen, ite_eq_right (by decide), ite_eq_right (by decide), ite_eq_right (by decide), coe_gY1]
     exact (hdm _).symm
 
 theorem burnsideF48t_g23_XMat_eq (i : Fin Tag.G2.rank) (c : ZMod 3) :
@@ -294,7 +294,7 @@ theorem burnsideF48t_g23_ptsGen {k : ℕ} (hk : k < 4) (i : Fin 728) :
         (burnsideF48t_g23MulVec (burnsideF48t_g23Mats ())[k]! (burnsideF48t_g23Pts ())[(i : ℕ)]!) :=
   Certificates.certificate7760.2.2.2 k hk i
 
-@[expose] def burnsideF48t_g23vec (k : ℕ) : Fin 14 → ZMod 3 :=
+def burnsideF48t_g23vec (k : ℕ) : Fin 14 → ZMod 3 :=
   burnsideF48t_dv (burnsideF48t_g23Pts ())[k]!
 
 theorem burnsideF48t_cast_three_inj {a b : ℕ} (ha : a < 3) (hb : b < 3)
@@ -302,19 +302,19 @@ theorem burnsideF48t_cast_three_inj {a b : ℕ} (ha : a < 3) (hb : b < 3)
   have := congrArg ZMod.val h
   rwa [ZMod.val_cast_of_lt ha, ZMod.val_cast_of_lt hb] at this
 
-@[expose] def burnsideF48t_g23Pt (k : Fin 728) : Set (Fin 14 → ZMod 3) :=
+def burnsideF48t_g23Pt (k : Fin 728) : Set (Fin 14 → ZMod 3) :=
   {burnsideF48t_g23vec k, (2 : ZMod 3) • burnsideF48t_g23vec k}
 
-theorem burnsideF48t_g23_RGen0 : burnsideF48t_g23RGen 0 = gX 0 := if_pos rfl
+theorem burnsideF48t_g23_RGen0 : burnsideF48t_g23RGen 0 = gX 0 := ite_eq_left rfl
 
 theorem burnsideF48t_g23_RGen1 : burnsideF48t_g23RGen 1 = gX 1 := by
-  rw [burnsideF48t_g23RGen, if_neg (by decide), if_pos rfl]
+  rw [burnsideF48t_g23RGen, ite_eq_right (by decide), ite_eq_left rfl]
 
 theorem burnsideF48t_g23_RGen2 : burnsideF48t_g23RGen 2 = gY 0 := by
-  rw [burnsideF48t_g23RGen, if_neg (by decide), if_neg (by decide), if_pos rfl]
+  rw [burnsideF48t_g23RGen, ite_eq_right (by decide), ite_eq_right (by decide), ite_eq_left rfl]
 
 theorem burnsideF48t_g23_RGen3 : burnsideF48t_g23RGen 3 = gY 1 := by
-  rw [burnsideF48t_g23RGen, if_neg (by decide), if_neg (by decide), if_neg (by decide)]
+  rw [burnsideF48t_g23RGen, ite_eq_right (by decide), ite_eq_right (by decide), ite_eq_right (by decide)]
 
 theorem burnsideF48t_g23_RGen_mem (i : ℕ) : burnsideF48t_g23RGen i ∈ burnsideF48t_g23R := by
   unfold burnsideF48t_g23RGen

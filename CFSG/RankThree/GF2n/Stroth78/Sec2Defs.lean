@@ -16,10 +16,11 @@ abbrev Hbar (z : G) : Type := ↥(H z) ⧸ (Q z).subgroupOf (H z)
 
 abbrev QaOf (a : G) : Subgroup G := Qa a
 
-abbrev La (S : Setting z E F) (a : G) : Subgroup G := Q z ⊔ (QaOf a ⊓ H z)
+abbrev La (_S : Setting z E F) (a : G) : Subgroup G := Q z ⊔ (QaOf a ⊓ H z)
 
-abbrev Ra (S : Setting z E F) (a : G) : Subgroup G := Q z ⊔ (centerIn (QaOf a) ⊓ H z)
+abbrev Ra (_S : Setting z E F) (a : G) : Subgroup G := Q z ⊔ (centerIn (QaOf a) ⊓ H z)
 
+omit [Finite G] in
 theorem Q_le_La (S : Setting z E F) (a : G) : Q z ≤ La S a := le_sup_left
 
 @[expose] noncomputable def Lbar (S : Setting z E F) (a : G) : Subgroup (Hbar z) :=
@@ -32,7 +33,7 @@ theorem one_mem_Lbar (S : Setting z E F) (a : G) : (1 : Hbar z) ∈ Lbar S a := 
   refine Subgroup.mem_map.mpr ⟨1, ?_, rfl⟩
   exact Subgroup.mem_subgroupOf.mpr (Q_le_La S a (one_mem _))
 
-@[expose] def IsA2Q (S : Setting z E F) (x : G) : Prop :=
+@[expose] def IsA2Q (_S : Setting z E F) (x : G) : Prop :=
   x ∈ H z ∧ x ∉ Q z ∧ x ^ 2 ∈ Q z ∧
     Nat.card ↥(⁅Q z, Subgroup.zpowers x⁆ ⊔ ZQ z) = 4 * Nat.card (ZQ z) ∧
     IsElemAbelian 2 ⁅Q z, Subgroup.zpowers x⁆

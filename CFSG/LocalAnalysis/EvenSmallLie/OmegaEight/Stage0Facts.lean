@@ -106,7 +106,7 @@ theorem card_eq_of_max [Finite G] {L U : Subgroup G} (hUL : U ≤ L)
   have hU2' : IsPGroup 2 (U.subgroupOf L) := hU2.of_equiv (subgroupOfEquivOfLe hUL).symm
   obtain ⟨S, hS⟩ := hU2'.exists_le_sylow
   have hSmap : (S : Subgroup L).map L.subtype = U :=
-    hUmax _ (map_subtype_le _) (S.isPGroup'.map _) fun x hx => ⟨⟨x, hUL hx⟩, hS hx, rfl⟩
+    hUmax _ (map_subtype_le _) (S.isPGroup.map _) fun x hx => ⟨⟨x, hUL hx⟩, hS hx, rfl⟩
   have hcardS : Nat.card S = Nat.card U := by
     rw [← hSmap, card_map_of_injective L.subtype_injective]
   have h1 : 2 ^ n ∣ Nat.card S := S.pow_dvd_card_of_pow_dvd_card (by rw [hL]; exact Dvd.intro m rfl)

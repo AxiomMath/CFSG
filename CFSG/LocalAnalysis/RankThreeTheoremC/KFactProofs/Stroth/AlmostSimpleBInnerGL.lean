@@ -19,6 +19,7 @@ theorem finite_generalLinearGroup' [Finite E] :
     Finite.of_injective _ (DFunLike.coe_injective (F := W →ₗ[E] W))
   exact Finite.of_injective _ Units.val_injective
 
+omit [FiniteDimensional E W] in
 private theorem eq_one_of_apply_smul [CharP E 2] (g : LinearMap.GeneralLinearGroup E W)
     (hg : g ^ 2 = 1) (c : E) (hcw : ∀ w, (g : Module.End E W) w = c • w) : g = 1 := by
   rcases subsingleton_or_nontrivial W with hW | hW
@@ -60,7 +61,7 @@ private theorem sub_one_sq_dvd_prod (q m : ℕ) (hm : 2 ≤ m) :
     (q - 1) ^ 2 ∣ ∏ i : Fin m, (q ^ m - q ^ (i : ℕ)) := by
   let a : Fin m := ⟨0, by omega⟩
   let b : Fin m := ⟨1, by omega⟩
-  have hab : a ≠ b := fun h => by simpa [a, b, Fin.ext_iff] using h
+  have hab : a ≠ b := fun h => by simp [a, b, Fin.ext_iff] at h
   have h0 : q - 1 ∣ q ^ m - q ^ (a : ℕ) := by
     simpa [a] using Nat.sub_one_dvd_pow_sub_one q m
   have h1 : q - 1 ∣ q ^ m - q ^ (b : ℕ) := by

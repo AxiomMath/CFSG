@@ -101,8 +101,7 @@ theorem twistTransportGL_conj {h : UnitaryFieldData p f K}
     R * ((A * g * A⁻¹ : GL (HypIndex m ε) K) : Matrix (HypIndex m ε) (HypIndex m ε) K) *
       transportInv h R
   rw [Units.val_mul, Units.val_mul]
-  simp only [Matrix.mul_assoc, transportInv_mul_cancel_left hR', transportInv_mul hR',
-    Matrix.mul_one]
+  simp only [Matrix.mul_assoc, transportInv_mul_cancel_left hR']
 
 theorem glAut_transportGL {h : UnitaryFieldData p f K}
     {R : Matrix (Fin (2 * m + ε)) (HypIndex m ε) K} (hR : IsHypTransport h R) (σ : K ≃+* K)
@@ -270,7 +269,7 @@ theorem mul_twistTransportGLInv_mul {h : UnitaryFieldData p f K}
   simp only [Matrix.mul_assoc, mul_transportInv_cancel_left hR, mul_transportInv hR',
     Matrix.mul_one]
 
-theorem exists_similitude_of_represents (h : UnitaryFieldData p f K) (hm : 2 ≤ m)
+theorem exists_similitude_of_represents (h : UnitaryFieldData p f K) (_hm : 2 ≤ m)
     (hε : ε ≤ 1) (hr : 1 ≤ m) (hn : 1 ≤ 2 * m + ε)
     {R : Matrix (Fin (2 * m + ε)) (HypIndex m ε) K} (hR : IsHypTransport h R) (σ : K ≃+* K)
     (B : GL (Fin (2 * m + ε)) K)
@@ -462,6 +461,7 @@ section Involution
 
 variable {r f : ℕ} [Fact r.Prime] {K : Type} [Field K] [Finite K] [CharP K r]
 
+omit [CharP K r] in
 theorem unitaryFieldData_of_card (hK : Nat.card K = (r ^ f) ^ 2) : UnitaryFieldData r f K := by
   refine ⟨Fact.out, ?_, by rw [hK, ← pow_mul, mul_comm]⟩
   rcases Nat.eq_zero_or_pos f with h0 | h0

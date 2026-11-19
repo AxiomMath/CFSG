@@ -66,7 +66,7 @@ theorem rkIdx_V10 : rkIdx V10 = 1 := by
   exact padicValNat.self (by norm_num)
 
 theorem rk_US : rk ↥US = 4 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [rk, card_US, show (16 : ℕ) = 2 ^ 4 by norm_num, padicValNat.prime_pow]
 
 theorem fixV_imgCd_sxKS : fixV (imgCd sxKS) = US := by
@@ -150,8 +150,7 @@ theorem imgCd_sxGen_comm_mem_V10 : ∀ φ ∈ imgCd sxGen, ∀ v : W11, φ v * v
         rw [hact, hinv, hxor]
       rw [hgoal, toW_mem_V10_iff (Nat.xor_lt_two_pow (actM_lt (fun c hc =>
         sxCols_lt c (List.mem_append_left _ hc)) m) hm)]
-      simp only [Nat.and_xor_distrib_right, popPar_xor, (v10_pres m hm).1, Bool.bne_eq_xor,
-        Bool.xor_self]
+      simp only [Nat.and_xor_distrib_right, popPar_xor, (v10_pres m hm).1, Bool.xor_self]
     · intro v
       obtain ⟨m, hm, rfl⟩ := toW_surj 11 v
       change rhoCd sxG2_mem (toW 11 m) * (toW 11 m)⁻¹ ∈ V10
@@ -164,8 +163,7 @@ theorem imgCd_sxGen_comm_mem_V10 : ∀ φ ∈ imgCd sxGen, ∀ v : W11, φ v * v
         rw [hact, hinv, hxor]
       rw [hgoal, toW_mem_V10_iff (Nat.xor_lt_two_pow (actM_lt (fun c hc =>
         sxCols_lt c (List.mem_append_right _ hc)) m) hm)]
-      simp only [Nat.and_xor_distrib_right, popPar_xor, (v10_pres m hm).2.1, Bool.bne_eq_xor,
-        Bool.xor_self]
+      simp only [Nat.and_xor_distrib_right, popPar_xor, (v10_pres m hm).2.1, Bool.xor_self]
     · intro v
       obtain ⟨m, hm, rfl⟩ := toW_surj 11 v
       change rhoCd sxT_mem (toW 11 m) * (toW 11 m)⁻¹ ∈ V10
@@ -176,8 +174,7 @@ theorem imgCd_sxGen_comm_mem_V10 : ∀ φ ∈ imgCd sxGen, ∀ v : W11, φ v * v
           (toW_xor 11 (actM sxTC m) m).symm
         rw [hact, hinv, hxor]
       rw [hgoal, toW_mem_V10_iff (Nat.xor_lt_two_pow (actM_lt sxTC_lt m) hm)]
-      simp only [Nat.and_xor_distrib_right, popPar_xor, (v10_pres m hm).2.2, Bool.bne_eq_xor,
-        Bool.xor_self]
+      simp only [Nat.and_xor_distrib_right, popPar_xor, (v10_pres m hm).2.2, Bool.xor_self]
   intro φ hφ v
   exact hle hφ v
 

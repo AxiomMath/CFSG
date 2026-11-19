@@ -165,7 +165,7 @@ theorem exc2t_closure_top_of_fixedRoot
     (E S₀ : Subgroup (graphFixedRootGroup t k σ.toRingHom)) (hE : IsElemAbelian p E)
     (hS₀ : S₀ ≠ ⊥) (hS₀2 : IsPGroup 2 S₀) (hEN : E ≤ normalizer (S₀ : Set _)) :
     twoLocalClosure E = ⊤ := by
-  haveI : CFSG.IsElementaryAbelian p E := exc2t_isElementaryAbelian hE
+  have : CFSG.IsElementaryAbelian p E := exc2t_isElementaryAbelian hE
   have hAC : E.map (graphFixedRootGroup t k σ.toRingHom).subtype ≤
       graphFixedRootGroup t k σ.toRingHom := by
     rintro _ ⟨y, -, rfl⟩
@@ -201,7 +201,7 @@ theorem not_uniqueFour_of_twistedChevalleyModel_two
     {G : Type} [Group G] [Finite G] (hS : Standing4 G) (t : TwistTag) {f : ℕ}
     (h : TwistedChevalleyModel G t (2 ^ f)) : ¬ uniqueFourUnique G := by
   obtain ⟨K, _, _, hK, σ₀, hσ₀, ⟨φ⟩⟩ := h
-  haveI := hS.simple
+  have := hS.simple
   have := finite_modGL (τ := t.tag) (K := K)
   have hf : 0 < f := by
     rcases Nat.eq_zero_or_pos f with h0 | h0
@@ -211,7 +211,7 @@ theorem not_uniqueFour_of_twistedChevalleyModel_two
       omega
     · exact h0
   have hK2 : Nat.card K = 2 ^ (f * t.order) := by rw [hK, pow_mul]
-  haveI : CharP K 2 := exc2t_charP_two (f := f * t.order)
+  have : CharP K 2 := exc2t_charP_two (f := f * t.order)
     (by have := Nat.mul_pos hf t.order_pos; omega) hK2
   obtain ⟨σ, hσ, hord, -⟩ := finite_graph_field_parameter_fields t Nat.prime_two hf K hK
   have hσeq : σ₀ = σ.toRingHom := RingHom.ext fun c => (hσ₀ c).trans (hσ c).symm
@@ -226,10 +226,10 @@ theorem not_uniqueFour_of_twistedChevalleyModel_two
     center_graphFixedRootGroup_eq_bot σ.surjective
   obtain ⟨ψ⟩ := exc2t_derived_equiv _ _ hperf.2.2.1 hZ
   let e : G ≃* ↥(graphFixedRootGroup t K σ.toRingHom) := φ.trans ψ
-  haveI : IsSimpleGroup ↥(graphFixedRootGroup t K σ.toRingHom) := MulEquiv.isSimpleGroup e.symm
+  have : IsSimpleGroup ↥(graphFixedRootGroup t K σ.toRingHom) := MulEquiv.isSimpleGroup e.symm
   exact not_uniqueFour_of_closure hS (closure_hyp_of_mulEquiv e
     fun p hp hp2 E S₀ hE hS₀ hS₀2 hEN => by
-      haveI : Fact p.Prime := ⟨hp⟩
+      have : Fact p.Prime := ⟨hp⟩
       exact exc2t_closure_top_of_fixedRoot t K p hp2 σ hσo E S₀ hE hS₀ hS₀2 hEN)
 
 end CFSG.LocalAnalysis.UniqueFourCatalog

@@ -45,7 +45,7 @@ theorem two_part_card_centralizer [Finite G]
     rw [hTdef, Subgroup.card_map_of_injective (Subgroup.subtype_injective C),
       Sylow.card_eq_multiplicity]
   have hTC : T ≤ C := Subgroup.map_subtype_le _
-  have hTp : IsPGroup 2 T := T₂.isPGroup'.map _
+  have hTp : IsPGroup 2 T := T₂.isPGroup.map _
   have hT1 : 1 < Nat.card T := by
     rw [hTcard]
     exact Nat.one_lt_pow (Nat.Prime.factorization_pos_of_dvd Nat.prime_two Nat.card_pos.ne'

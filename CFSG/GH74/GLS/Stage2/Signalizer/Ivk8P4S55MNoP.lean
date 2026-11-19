@@ -15,7 +15,7 @@ theorem card_sylow_two {M : Type*} [Group M] [Finite M] {P K : Subgroup M}
   obtain ⟨Q, rfl⟩ := h
   rw [Subgroup.card_map_of_injective K.subtype_injective]
   have h1 := Q.pow_dvd_card_of_pow_dvd_card hk
-  obtain ⟨m, hm⟩ := IsPGroup.iff_card.1 Q.isPGroup'
+  obtain ⟨m, hm⟩ := IsPGroup.iff_card.1 Q.isPGroup
   have h2 : Nat.card (Q : Subgroup K) ∣ Nat.card K := Subgroup.card_subgroup_dvd_card _
   rw [hm] at h1 h2 ⊢
   have hkm : k ≤ m := (Nat.pow_dvd_pow_iff_le_right (by norm_num)).1 h1

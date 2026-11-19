@@ -11,13 +11,14 @@ namespace FiveTransitive.Research.HallSylowNormalizer
 variable {G X : Type} [Group G] [Finite G] [Fintype X] [MulAction G X]
 variable {p k : ℕ} [Fact p.Prime]
 
-@[expose] abbrev FixedEmbedding (P : Subgroup G) (k : ℕ) :=
+abbrev FixedEmbedding (P : Subgroup G) (k : ℕ) :=
   Fin k ↪ MulAction.fixedPoints P X
 
 @[expose] def FixedEmbedding.toAmbient (P : Subgroup G)
     (a : FixedEmbedding (X := X) P k) : Fin k ↪ X :=
   a.trans (Function.Embedding.subtype _)
 
+omit [Finite G] [Fintype X] in
 @[simp] theorem FixedEmbedding.toAmbient_apply (P : Subgroup G)
     (a : FixedEmbedding (X := X) P k) (i : Fin k) :
     a.toAmbient P i = (a i : X) := rfl
@@ -33,6 +34,7 @@ private def IsSylowAtFixedEmbedding (P : Subgroup G)
   Subgroup.map (MulAction.stabilizer G e).subtype
     (Q : Subgroup (MulAction.stabilizer G e))
 
+omit [Finite G] [Fintype X] [Fact (Nat.Prime p)] in
 theorem ambientSylow_le_stabilizer (e : Fin k ↪ X)
     (Q : Sylow p (MulAction.stabilizer G e)) :
     ambientSylow e Q ≤ MulAction.stabilizer G e := by
@@ -40,6 +42,7 @@ theorem ambientSylow_le_stabilizer (e : Fin k ↪ X)
   obtain ⟨q, hq, rfl⟩ := hg
   exact q.property
 
+omit [Finite G] [Fintype X] [Fact (Nat.Prime p)] in
 private theorem ambientSylow_card (e : Fin k ↪ X)
     (Q : Sylow p (MulAction.stabilizer G e)) :
     Nat.card (ambientSylow e Q) = Nat.card (Q : Subgroup
@@ -49,6 +52,7 @@ private theorem ambientSylow_card (e : Fin k ↪ X)
     ((Q : Subgroup (MulAction.stabilizer G e)).equivMapOfInjective
       (MulAction.stabilizer G e).subtype Subtype.coe_injective).toEquiv
 
+omit [Fintype X] in
 private theorem ambientSylow_isSylowAtFixedEmbedding
     (htrans : MulAction.IsMultiplyPretransitive G X k)
     (e : Fin k ↪ X) (Q : Sylow p (MulAction.stabilizer G e))
@@ -64,7 +68,7 @@ private theorem ambientSylow_isSylowAtFixedEmbedding
     intro i
     change g • (a i : X) = (a i : X)
     exact (a i).property ⟨g, hg⟩
-  letI : MulAction.IsMultiplyPretransitive G X k := htrans
+  let : MulAction.IsMultiplyPretransitive G X k := htrans
   obtain ⟨x, hx⟩ := htrans.exists_smul_eq e aX
   have hstabCard : Nat.card (MulAction.stabilizer G aX) =
       Nat.card (MulAction.stabilizer G e) := by
@@ -89,6 +93,7 @@ private theorem ambientSylow_isSylowAtFixedEmbedding
       (P.subgroupOf (MulAction.stabilizer G aX)) = P
   exact Subgroup.map_subgroupOf_eq_of_le hP_le
 
+omit [Fintype X] in
 private theorem exists_mem_normalizer_maps_fixedEmbedding
     (htrans : MulAction.IsMultiplyPretransitive G X k)
     (P : Subgroup G)
@@ -100,7 +105,7 @@ private theorem exists_mem_normalizer_maps_fixedEmbedding
   classical
   let aX : Fin k ↪ X := a.toAmbient P
   let bX : Fin k ↪ X := b.toAmbient P
-  letI : MulAction.IsMultiplyPretransitive G X k := htrans
+  let : MulAction.IsMultiplyPretransitive G X k := htrans
   obtain ⟨x, hx⟩ := htrans.exists_smul_eq aX bX
   have hxba : bX = x • aX := hx.symm
   obtain ⟨Qa, hQa⟩ := hsylow a
@@ -190,6 +195,7 @@ private theorem exists_mem_normalizer_maps_fixedEmbedding
       simpa [Function.Embedding.smul_apply] using hxi]
     simpa [Function.Embedding.smul_apply] using hyi
 
+omit [Fintype X] in
 theorem exists_mem_normalizer_ambientSylow_maps
     (htrans : MulAction.IsMultiplyPretransitive G X k)
     (e : Fin k ↪ X) (Q : Sylow p (MulAction.stabilizer G e))

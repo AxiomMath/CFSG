@@ -95,7 +95,7 @@ private theorem exists_fixed_inverter (hT : Sz32Data K T)
     calc b * t = (n⁻¹ * (φ n * t * (φ n)⁻¹) * n) * b := by rw [hbdef]; group
       _ = t * b := by rw [h1, h2])
   have hφn : φ n = n * b := by rw [hbdef]; group
-  letI : CommGroup T :=
+  let : CommGroup T :=
     { (inferInstance : Group T) with mul_comm := fun x y => Subtype.ext (hcomm x x.2 y y.2) }
   have hTcyc : IsCyclic T := hT.isCyclic
   set fT : T →* T :=
@@ -156,7 +156,7 @@ private theorem exists_fixed_inverter (hT : Sz32Data K T)
     intro i j
     rw [hψ_apply]
     simp only [map_mul, map_pow, hfb, hfc, mul_pow, pow_add, pow_succ]
-    simp only [mul_comm, mul_left_comm, mul_assoc]
+    simp only [mul_comm, mul_assoc]
   have h5 : ψ^[5] (bT ^ 0 * cT ^ 0) = bT ^ 5 * cT ^ 10 := by
     simp only [Function.iterate_succ_apply', Function.iterate_zero_apply, hstep]
   have hb5 : bT ^ 5 = 1 := by
@@ -177,7 +177,7 @@ private theorem exists_fixed_inverter (hT : Sz32Data K T)
   obtain ⟨a, ha⟩ := (hrk ▸ hbker : bT ∈ θ.range)
   have hba : bT * fT a = a := by
     rw [← ha, hθ_apply]
-    simp only [MonoidHom.id_apply, div_mul_cancel]
+    simp only [div_mul_cancel]
   refine ⟨n * a, ?_, ?_, ?_⟩
   · rw [pow_two, show n * a * (n * a) = (n * a * n⁻¹) * a by rw [hnn]; group, hninv a a.2,
       inv_mul_cancel]

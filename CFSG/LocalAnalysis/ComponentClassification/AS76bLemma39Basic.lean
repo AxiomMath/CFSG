@@ -33,7 +33,7 @@ theorem absSylow_of_injective [Finite Q'] (f : Q →* Q') (hf : Function.Injecti
     ∀ S : Sylow 2 Q, IsMulCommutative (S : Subgroup Q) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro S
-  obtain ⟨S', hS'⟩ := (S.isPGroup'.map f).exists_le_sylow
+  obtain ⟨S', hS'⟩ := (S.isPGroup.map f).exists_le_sylow
   exact isMulCommutative_of_injective f hf hS' (h S')
 
 theorem absSylow_of_surjective [Finite Q] (f : Q →* Q') (hf : Function.Surjective f)
@@ -77,10 +77,10 @@ theorem SolvAbSylow.of_ker [Finite Q] [Finite Q'] (f : Q →* Q') (hker : SolvAb
     exact Group.isSolvable_of_ker_le_range f.ker.subtype f.rangeRestrict
       (by rw [MonoidHom.ker_rangeRestrict, range_subtype])
   · have hSk : (S : Subgroup Q) ≤ f.ker := by
-      have hbot := eq_bot_of_isPGroup_of_le (S.isPGroup'.map f) hodd (map_le_range f _)
+      have hbot := eq_bot_of_isPGroup_of_le (S.isPGroup.map f) hodd (map_le_range f _)
       rwa [Subgroup.map_eq_bot_iff] at hbot
     obtain ⟨S', hS'⟩ :=
-      (S.isPGroup'.comap_subtype : IsPGroup 2 ((S : Subgroup Q).subgroupOf f.ker)).exists_le_sylow
+      (S.isPGroup.comap_subtype : IsPGroup 2 ((S : Subgroup Q).subgroupOf f.ker)).exists_le_sylow
     have hc := hker.2 S'
     refine ⟨⟨fun a b => Subtype.ext ?_⟩⟩
     have ha : (⟨a, hSk a.2⟩ : f.ker) ∈ (S' : Subgroup f.ker) := hS' a.2

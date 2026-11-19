@@ -57,8 +57,7 @@ theorem coe_eltG_six (x0 x1 x2 x3 x4 x5 : ℕ) :
 theorem eProd_six (b : Fin 6 → ZMod 3) :
     eProd b = a 0 ^ (b 0).val * a 1 ^ (b 1).val * a 2 ^ (b 2).val * a 3 ^ (b 3).val *
       a 4 ^ (b 4).val * a 5 ^ (b 5).val := by
-  simp only [eProd, List.finRange_succ, List.finRange_zero, List.map_cons, List.map_map,
-    List.map_nil, List.prod_cons, List.prod_nil, mul_one, mul_assoc]
+  simp only [eProd, List.finRange_succ, List.finRange_zero, List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one, mul_assoc]
   rfl
 
 section Split

@@ -50,7 +50,7 @@ theorem uc22s206i_elem [Finite H] {Q : Subgroup H} [Q.Normal] {R : Subgroup ↥Q
     ∃ E : Subgroup H, CFSG.Open.IsElemAbelian p E ∧ Nat.card E = p ^ 2 ∧
       E ≤ centralizer (zpowers h : Set H) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set ι : ↥R →* H := Q.subtype.comp R.subtype with hι
   have hιinj : Function.Injective ι := fun a b hab => Subtype.ext (Subtype.ext hab)
   obtain ⟨W, hWfix, hW1⟩ : ∃ W : Submodule (ZMod p) (Fin d → ZMod p),
@@ -66,7 +66,7 @@ theorem uc22s206i_elem [Finite H] {Q : Subgroup H} [Q.Normal] {R : Subgroup ↥Q
       Multiplicative.toAdd (e (r : ↥R ⧸ frattini ↥R)) = 0 ↔ r ∈ frattini ↥R := by
     intro r
     rw [toAdd_eq_zero, e.map_eq_one_iff, QuotientGroup.eq_one_iff]
-  haveI hNormal : ((frattini ↥R).map ι).Normal := by
+  have hNormal : ((frattini ↥R).map ι).Normal := by
     constructor
     rintro _ ⟨o, ho, rfl⟩ g
     obtain ⟨o', ho'1, ho'2⟩ := uc22s206i_conj e φ hφ g o
@@ -120,7 +120,7 @@ theorem uc22s206i_elem [Finite H] {Q : Subgroup H} [Q.Normal] {R : Subgroup ↥Q
     rwa [Set.toFinset_singleton, Finset.card_singleton] at h'
   have hout : ∀ v : Fin d → ZMod p, ∃ w ∈ W, w ∉ Submodule.span (ZMod p) {v} := by
     intro v
-    refine SetLike.not_le_iff_exists.mp fun hle => ?_
+    refine IsConcreteLE.not_le_iff_exists.mp fun hle => ?_
     have h' := (Submodule.finrank_mono hle).trans (hspan v)
     omega
   obtain ⟨w₀, hw₀, hw₀0⟩ := hout 0
@@ -132,7 +132,7 @@ theorem uc22s206i_elem [Finite H] {Q : Subgroup H} [Q.Normal] {R : Subgroup ↥Q
     apply hw₀0
     rw [← hr₁ψ, hr₁, QuotientGroup.mk_one, map_one, toAdd_one]
     exact Submodule.zero_mem _
-  haveI : Nontrivial C := (Subgroup.nontrivial_iff_ne_bot C).2 hCne
+  have : Nontrivial C := (Subgroup.nontrivial_iff_ne_bot C).2 hCne
   obtain ⟨z₀, hz₀1⟩ := Subgroup.ne_bot_iff_exists_ne_one.1 hCp.bot_lt_center.ne'
   set z : ↥R := ((z₀ : C) : ↥R) with hz
   have hzC : z ∈ C := (z₀ : C).2
@@ -171,8 +171,8 @@ theorem uc22s206i_lift {G : Type} [Group G] [Finite G] {M : Subgroup G} {x : ↥
       Set (↥M ⧸ CFSG.pCore 2 ↥M))) :
     ∃ E : Subgroup ↥M, E ≤ centralizer (zpowers x : Set ↥M) ∧ CFSG.Open.IsElemAbelian p E ∧
       Nat.card E = p ^ 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2 : IsPGroup 2 (CFSG.pCore 2 ↥M) := CFSG.pCore_isPGroup
   have hA : IsPGroup 3 (zpowers x) := IsPGroup.of_card_dvd_pow (n := 1) (by
     rw [Nat.card_zpowers, pow_one]

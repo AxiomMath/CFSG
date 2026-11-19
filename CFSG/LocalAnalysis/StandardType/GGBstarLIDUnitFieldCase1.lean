@@ -43,7 +43,7 @@ theorem exists_eigen_isotropic (h : UnitaryFieldData 2 n K) [Finite K]
     have h2 : Ai φ B' (p + 1) = c₀ • B' := by
       rw [Ai_succ_right, hN, hφp]
       ext k l
-      simp [Matrix.mul_apply, Matrix.smul_apply, Matrix.one_apply, Matrix.map_apply]
+      simp [Matrix.mul_apply, Matrix.smul_apply, Matrix.one_apply]
     rw [h1] at h2
     by_contra hne
     have hdiff : φ c₀ - c₀ ≠ 0 := sub_ne_zero.mpr hne
@@ -93,7 +93,7 @@ theorem exists_eigen_isotropic (h : UnitaryFieldData 2 n K) [Finite K]
     funext k
     simp only [semF, Matrix.mulVec, dotProduct, hy]
     by_cases hk : cls k
-    · rw [if_pos hk, ← hGfix k a]
+    · rw [ite_eq_left hk, ← hGfix k a]
       refine Finset.sum_congr rfl fun l _ => ?_
       by_cases hl : cls l
       · simp [hl]
@@ -101,7 +101,7 @@ theorem exists_eigen_isotropic (h : UnitaryFieldData 2 n K) [Finite K]
           by_contra hne
           exact hl ((hblk k l hne).1 hk)
         simp [hl, hAkl k l this]
-    · rw [if_neg hk]
+    · rw [ite_eq_right hk]
       refine Finset.sum_eq_zero fun l _ => ?_
       by_cases hl : cls l
       · have : B' k l = 0 := by
@@ -121,11 +121,11 @@ theorem exists_eigen_isotropic (h : UnitaryFieldData 2 n K) [Finite K]
     refine ⟨Pi.single j (G i a) - Pi.single i (G j a), ?_, ?_⟩
     · intro h0
       have := congrFun h0 j
-      simp [Pi.single_apply, hij.symm] at this
+      simp [hij.symm] at this
       exact ha this
     · funext c
       simp only [Matrix.vecMul, dotProduct, Pi.sub_apply, sub_mul, Finset.sum_sub_distrib,
-        Pi.single_apply, ite_mul, zero_mul, Finset.sum_ite_eq', Finset.mem_univ, if_true,
+        Pi.single_apply, ite_mul, zero_mul, Finset.sum_ite_eq', Finset.mem_univ, ite_true,
         Pi.zero_apply]
       rw [hcon c]
       ring

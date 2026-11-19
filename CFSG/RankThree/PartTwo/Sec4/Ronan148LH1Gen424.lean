@@ -99,8 +99,8 @@ theorem a5_facts (hK : CFSG.IsQuasisimple K)
     (∃ k : K, k ^ 3 = 1 ∧ k ≠ 1 ∧ ∃ U : Subgroup K, U ≠ ⊥ ∧ IsPGroup 2 U ∧
       k ∈ Subgroup.normalizer (U : Set K)) ∧
     aschbacherSolvableCore 3 K = CFSG.pCore 2 K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set O := CFSG.pCore 2 K with hO
   set π := QuotientGroup.mk' O with hπ
   have hO2 : IsPGroup 2 O := CFSG.pCore_isPGroup
@@ -243,6 +243,7 @@ section Config
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem conj_mem_centralizer_of {d g x : G} (hg : g⁻¹ * d * g⁻¹⁻¹ ∈ Subgroup.zpowers d)
     (hx : x ∈ Subgroup.centralizer {d}) : g * x * g⁻¹ ∈ Subgroup.centralizer {d} := by
   rw [Subgroup.mem_centralizer_singleton_iff] at hx ⊢
@@ -255,6 +256,7 @@ theorem conj_mem_centralizer_of {d g x : G} (hg : g⁻¹ * d * g⁻¹⁻¹ ∈ S
     _ = g * (g⁻¹ * d * g) * x * g⁻¹ := by rw [← hj]; group
     _ = d * (g * x * g⁻¹) := by group
 
+omit [Finite G] in
 theorem mem_normalizer_inf_centralizer {L : Subgroup G} {d n : G}
     (hnL : n ∈ Subgroup.normalizer (L : Set G))
     (hnd : n ∈ Subgroup.normalizer (Subgroup.zpowers d : Set G)) :
@@ -275,6 +277,7 @@ theorem mem_normalizer_inf_centralizer {L : Subgroup G} {d n : G}
     have e : n⁻¹ * (n * x * n⁻¹) * n⁻¹⁻¹ = x := by group
     rwa [e] at this
 
+omit [Finite G] in
 theorem mem_normalizer_zpowers_of_commute {d n : G} (h : n * d = d * n) :
     n ∈ Subgroup.normalizer (Subgroup.zpowers d : Set G) :=
   Subgroup.centralizer_le_normalizer _ (Subgroup.mem_centralizer_iff.mpr fun x hx => by
@@ -287,7 +290,7 @@ theorem a5_facts_map {M : Subgroup G} {K : Subgroup M} (hK : IsComponent K)
     (∀ P : Subgroup G, P ≤ K.map M.subtype → IsPGroup 3 P → Nat.card P ≤ 3) ∧
     (∃ k ∈ K.map M.subtype, k ^ 3 = 1 ∧ k ≠ 1 ∧ ∃ U : Subgroup G, U ≤ K.map M.subtype ∧
       U ≠ ⊥ ∧ IsPGroup 2 U ∧ k ∈ Subgroup.normalizer (U : Set G)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hZ, hP, ⟨k, hk3, hk1, U, hU1, hU2, hkU⟩, -⟩ := a5_facts hK.1 e5
   set f : ↥K →* G := M.subtype.comp K.subtype with hfdef
   have hf : Function.Injective f := M.subtype_injective.comp K.subtype_injective
@@ -338,7 +341,7 @@ theorem maximal_sup_zpowers (hEF : partTwoE G = partTwoF G) {L K' U : Subgroup G
     ∀ B : Subgroup G, CFSG.Assembly.IsElemAbelian 3 B →
       Subgroup.zpowers a ⊔ Subgroup.zpowers d ⊔ Subgroup.zpowers k ≤ B →
       B = Subgroup.zpowers a ⊔ Subgroup.zpowers d ⊔ Subgroup.zpowers k := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hd1 : d ≠ 1 := by
     rintro rfl
     exact hdC (Subgroup.one_mem _)
@@ -408,7 +411,7 @@ theorem cent_a5_structure (hEF : partTwoE G = partTwoF G) {A L : Subgroup G} (hA
     ∃ k₀ ∈ K.map (L ⊓ Subgroup.centralizer {d}).subtype, k₀ ≠ 1 ∧ k₀ ^ 3 = 1 ∧
       A = Subgroup.zpowers a ⊔ Subgroup.zpowers d ⊔ Subgroup.zpowers k₀ ∧
       ∀ B : Subgroup G, CFSG.Assembly.IsElemAbelian 3 B → A ≤ B → B = A := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hZ, hP3, ⟨k, hkK, hk3, hk1, U, hUK, hU1, hU2, hkU⟩⟩ := a5_facts_map hK e5
   set K' := K.map (L ⊓ Subgroup.centralizer {d}).subtype with hK'
   have hK'M : K' ≤ L ⊓ Subgroup.centralizer {d} := Subgroup.map_subtype_le K
@@ -512,7 +515,7 @@ theorem cent_a5_structure (hEF : partTwoE G = partTwoF G) {A L : Subgroup G} (hA
     have hQc := Sylow.card_eq_multiplicity Q
     have hle3 : Nat.card (Q : Subgroup ↥K') ≤ 3 := by
       have h := hP3 ((Q : Subgroup ↥K').map K'.subtype) (Subgroup.map_subtype_le _)
-        (Q.isPGroup'.map K'.subtype)
+        (Q.isPGroup.map K'.subtype)
       rwa [Subgroup.card_map_of_injective K'.subtype_injective] at h
     have hge3 : 3 ≤ Nat.card (Q : Subgroup ↥K') :=
       calc 3 = Nat.card (Subgroup.zpowers kK) := hz3.symm
@@ -530,7 +533,7 @@ theorem cent_a5_structure (hEF : partTwoE G = partTwoF G) {A L : Subgroup G} (hA
         have : 3 ^ 2 ≤ 3 ^ f := Nat.pow_le_pow_right (by norm_num) h2
         omega
   let φ : ↥A →* MulAut ↥K' := K'.normalizerMonoidHom.comp (Subgroup.inclusion hAK')
-  letI : MulAction ↥A (Sylow 3 ↥K') := MulAction.compHom _ φ
+  let : MulAction ↥A (Sylow 3 ↥K') := MulAction.compHom _ φ
   have hApg : IsPGroup 3 ↥A := IsPGroup.of_card (n := 3) (by rw [hA.2]; norm_num)
   have hnd : ¬ 3 ∣ Nat.card (Sylow 3 ↥K') := by
     have h := card_sylow_modEq_one 3 ↥K'
@@ -668,14 +671,14 @@ theorem mem_normalizer_inf_of_structure {A L : Subgroup G} {d a k₀ : G}
   · exact (Subgroup.mem_normalizer_iff.mp hnK' x).mp hx.2
 
 theorem inf_thetaQuotCentralizer_of_structure {A L K' : Subgroup G} {d a k₀ : G}
-    (hA : Late.IsE27 A) (hL : IsComponent L) (hAN : A ≤ Subgroup.normalizer (L : Set G))
+    (hA : Late.IsE27 A) (hL : IsComponent L) (_hAN : A ≤ Subgroup.normalizer (L : Set G))
     (haA : a ∈ A) (ha1 : a ≠ 1) (haC : a ∈ Subgroup.centralizer (L : Set G)) (hdA : d ∈ A)
     (hdC : d ∉ Subgroup.centralizer (L : Set G))
     (hK'L : K' ≤ L) (hK'd : K' ≤ Subgroup.centralizer {d})
     (hZ : ∀ z ∈ K', (∀ y ∈ K', z * y = y * z) → z ^ 3 = 1 → z = 1)
     (hk₀K : k₀ ∈ K') (hk₀3 : k₀ ^ 3 = 1) (hk₀1 : k₀ ≠ 1) (hk₀A : k₀ ∈ A) :
     A ⊓ Sec4.thetaQuotCentralizer L = Subgroup.zpowers a := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hA3 : ∀ x ∈ A, x ^ 3 = 1 := hA.1.2
   have hd1 : d ≠ 1 := by
     rintro rfl
@@ -819,7 +822,7 @@ theorem false_of_cent_a5
     {K : Subgroup ↥(L ⊓ Subgroup.centralizer {d})} (hK : IsComponent K)
     (e5 : ↥K ⧸ CFSG.pCore 2 ↥K ≃* alternatingGroup (Fin 5))
     (hCA : A ⊓ Subgroup.centralizer (L : Set G) ≠ ⊥) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨a, ⟨haA, haC⟩, ha1⟩ : ∃ a ∈ A ⊓ Subgroup.centralizer (L : Set G), a ≠ 1 := by
     by_contra h
     push Not at h
@@ -1031,8 +1034,8 @@ theorem false_of_on_of_not_nineteen
     {K : Subgroup ↥(L ⊓ Subgroup.centralizer {d})}
     (hext : IsExtOf (↥K ⧸ CFSG.pCore 2 ↥K) Blueprint.NativeSporadic.ON
       (Multiplicative (ZMod 3))) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 19) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 19) := ⟨by norm_num⟩
   obtain ⟨N, hN, ⟨eN⟩, ⟨eQ⟩⟩ := hext
   have h19ON : 19 ∣ Nat.card Blueprint.NativeSporadic.ON := by
     rw [CFSG.Sporadic.ON.card_ON_eq]

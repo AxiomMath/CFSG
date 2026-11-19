@@ -70,7 +70,7 @@ theorem D1OneSmallData.inf_centralizer_le_of_b0 (hd : D1OneSmallData p P M H R R
     intro q hq
     have hqR : (q : G) ∈ R := hQ ▸ ⟨q, hq, rfl⟩
     exact ⟨hd.cfg.ext.le_P hqR, q.2⟩
-  have heq := Q.maximal_isPGroup.eq_of_ge ((P.isPGroup'.to_le inf_le_left).comap_subtype) hQle
+  have heq := Q.maximal_isPGroup.eq_of_ge ((P.isPGroup.to_le inf_le_left).comap_subtype) hQle
   intro x hx
   have hx' : (⟨x, hx.2⟩ : Subgroup.centralizer ({z} : Set G)) ∈
       (Q : Subgroup (Subgroup.centralizer ({z} : Set G))) := by
@@ -93,14 +93,14 @@ theorem D1OneSmallData.exists_moving_elt (hd : D1OneSmallData p P M H R Rbar K) 
       x ∉ R := by
     by_contra h
     push Not at h
-    exact hPR (eq_of_isPGroup_of_le_of_normalizer P.isPGroup' hd.cfg.ext.le_P h)
+    exact hPR (eq_of_isPGroup_of_le_of_normalizer P.isPGroup hd.cfg.ext.le_P h)
   refine ⟨x, hxP, hxN, hxR, fun hxz => hxR ?_⟩
   have hxzN : x ∈ Subgroup.normalizer (Subgroup.zpowers z : Set G) := by
     refine Subgroup.mem_normalizer_fintype fun y hy => ?_
     obtain ⟨n, rfl⟩ := Subgroup.mem_zpowers_iff.mp hy
     rw [← conj_zpow]
     exact Subgroup.zpow_mem _ hxz n
-  obtain ⟨k, hk⟩ := P.isPGroup' ⟨x, hxP⟩
+  obtain ⟨k, hk⟩ := P.isPGroup ⟨x, hxP⟩
   have hxk : x ^ p ^ k = 1 := by simpa using congrArg Subtype.val hk
   have hc := commute_of_mem_normalizer_zpowers_of_pow_prime_pow hp hz.2.1 hxzN hxk
   exact hd.inf_centralizer_le_of_b0 hB0

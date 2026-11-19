@@ -21,14 +21,14 @@ theorem eq_conjClosure_of_barImage11_eq {M V₀ V Y K : Subgroup G}
     Y = conjClosure M K := by
   obtain ⟨-, hMW, -⟩ := conjSetOf_subset_calC_conjClosure hK
   have hWY : conjClosure M K ≤ Y := conjClosure_le_of_le hMY hKY
-  haveI hRad : Group.IsSolvable ↥(CFSG.solvableRadical ↥Y) :=
+  have hRad : Group.IsSolvable ↥(CFSG.solvableRadical ↥Y) :=
     CFSG.ABGLocalTools.solvableRadical_isSolvable
-  haveI hOInf : Group.IsSolvable ↥(OInf Y) := by
+  have hOInf : Group.IsSolvable ↥(OInf Y) := by
     unfold OInf
     exact Group.isSolvable_of_surjective
       (f := ((CFSG.solvableRadical ↥Y).equivMapOfInjective Y.subtype
         Y.subtype_injective).toMonoidHom) (MulEquiv.surjective _)
-  haveI hS : Group.IsSolvable ↥(Y ⊓ F11.CTilde M V₀ V) :=
+  have hS : Group.IsSolvable ↥(Y ⊓ F11.CTilde M V₀ V) :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hYC)
       (Subgroup.inclusion_injective hYC)
   have hsup : Y ≤ (Y ⊓ F11.CTilde M V₀ V) ⊔ conjClosure M K := by
@@ -46,7 +46,7 @@ theorem eq_conjClosure_of_barImage11_eq {M V₀ V Y K : Subgroup G}
     exact Subgroup.mul_mem_sup hm h3
   have hSW : Y ⊓ F11.CTilde M V₀ V ≤ normalizer (conjClosure M K : Set G) :=
     inf_le_left.trans (hYM.trans hMW)
-  haveI : Group.IsPerfect Y := Subgroup.isPerfect_iff.2 hYperf
+  have : Group.IsPerfect Y := Subgroup.isPerfect_iff.2 hYperf
   exact le_antisymm (UCK.perfect_le_of_le_sup_of_isSolvable ‹Group.IsPerfect Y› hS hSW hsup) hWY
 
 end ElevenNine

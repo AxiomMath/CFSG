@@ -605,7 +605,7 @@ theorem false_of_data278 (kL : KFactL34DiagGen) (hT : T29.GL83I291Three)
     {M : Subgroup G} {x z : G} {H S : Subgroup G} (hyp : Hyp P M x z H S)
     (hnα : ¬ HasPrimeConstraint (G := M) 3) {Q K : Subgroup G} (hD : Data278 M H x z Q K) :
     False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hsit : Sit P M x z :=
     ⟨hyp.setting, hyp.u0, hyp.d1, hyp.situation, hyp.point, hyp.central⟩
   have hQH : Q ≤ H := hD.syl.le
@@ -617,7 +617,7 @@ theorem false_of_data278 (kL : KFactL34DiagGen) (hT : T29.GL83I291Three)
   have hz1 : z ≠ 1 := hyp.central.ne_one
   have hzo : orderOf z = 3 := orderOf_eq_prime hz3 hz1
   have hO : ¬ 3 ∣ Nat.card (primeComplementCore (G := ↥H) 3) := K2.qs_not_dvd_core
-  haveI hKbn := kb_normal hD.K_le hD.K_normal
+  have hKbn := kb_normal hD.K_le hD.K_normal
   obtain ⟨e⟩ := nonempty_kb_equiv hD
   obtain ⟨S₀, hS₀⟩ := hD.syl.exists_sylow_eq_subgroupOf
   set Qb : Sylow 3 (Bar ↥H) := S₀.mapSurjective (QuotientGroup.mk'_surjective _) with hQbdef
@@ -722,7 +722,7 @@ theorem false_of_data278 (kL : KFactL34DiagGen) (hT : T29.GL83I291Three)
     rw [CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.pRank_map_subtype (by norm_num),
       ← K2.qs_pRank hQ'p inf_le_left, hU₁map]
     have hsylQ : CFSG.ABGLocalTools.IsSylowOf 3 (qb H Q) ⊤ := by
-      refine CFSG.ABGLocalTools.isSylowOf_iff.mpr ⟨le_top, hQb ▸ Qb.isPGroup', ?_⟩
+      refine CFSG.ABGLocalTools.isSylowOf_iff.mpr ⟨le_top, hQb ▸ Qb.isPGroup, ?_⟩
       rw [relIndex_top_right, ← hQb]
       exact Qb.not_dvd_index
     obtain ⟨hle, hp, hidx⟩ := CFSG.ABGLocalTools.isSylowOf_iff.mp

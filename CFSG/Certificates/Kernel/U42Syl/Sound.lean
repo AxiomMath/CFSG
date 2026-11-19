@@ -398,7 +398,7 @@ theorem recB_sound {TT TI RT : List ℕ} :
 
 theorem repN_eltN {g : H6} {X : ℕ} (h : RepN g X) : RepN (eltN X) X := by
   have hx : ∃ g, RepN g X := ⟨g, h⟩
-  rw [eltN, dif_pos hx]
+  rw [eltN, dite_eq_left hx]
   exact hx.choose_spec
 
 theorem order5_cover_of_checks {TW TWI RW AW BW : List (List ℕ)} {TT TI RT REC : List ℕ} {K : ℕ}

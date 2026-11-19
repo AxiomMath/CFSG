@@ -89,9 +89,9 @@ theorem rank3II_19_20_of_gammaZeroLemma {G : Type} [Group G] [Finite G] (h : Sec
     map_mem_partTwoE hA₀ (MulAut.conj g)
   have hAE := isE27_of_mem_partTwoE hA
   obtain ⟨-, M, hM⟩ := mem_partTwoT_iff.mp (hET hA)
-  have hPM : (P : Subgroup G) ≤ M := le_of_isPGroup_of_le h.hyp191 hAE hM P.isPGroup' hg
+  have hPM : (P : Subgroup G) ≤ M := le_of_isPGroup_of_le h.hyp191 hAE hM P.isPGroup hg
   refine ⟨M, hM.1, ?_⟩
-  exact hΓ P M P.isPGroup' hPM
+  exact hΓ P M P.isPGroup hPM
     (fun V hV hVM => (mem_scriptM_gamma_of_le h.hyp191 hET hAE hM hV hVM).2)
     (fun V g hV hVM hVg => mem_of_map_conj_le h.hyp191 hV
       (mem_scriptM_gamma_of_le h.hyp191 hET hAE hM hV hVM) hVg)

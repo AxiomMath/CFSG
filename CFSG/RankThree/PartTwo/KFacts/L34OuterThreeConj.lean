@@ -81,10 +81,10 @@ section Aut
 theorem exists_conj_mem_pglSylow (hk : Nat.card k = 4) {u : kˣ} (hu : u ≠ 1)
     {α : MulAut (projectiveSL 3 k)} (hα : orderOf α = 3) :
     ∃ g : MulAut (projectiveSL 3 k), g * α * g⁻¹ ∈ pglSylow u := by
-  haveI : CharP k 2 := LinearFieldFour.charP_two_of_card_eq_four hk
-  haveI : Finite (MulAut (projectiveSL 3 k)) :=
+  have : CharP k 2 := LinearFieldFour.charP_two_of_card_eq_four hk
+  have : Finite (MulAut (projectiveSL 3 k)) :=
     Nat.finite_of_card_ne_zero (by rw [card_mulAut hk]; norm_num)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hfac : (Nat.card (MulAut (projectiveSL 3 k))).factorization 3 = 3 := by
     rw [card_mulAut hk]
     exact CFSG.RankThree.Asc83Table.factorization_eq_of_eq Nat.prime_three

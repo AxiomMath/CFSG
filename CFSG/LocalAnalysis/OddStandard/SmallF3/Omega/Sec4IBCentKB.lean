@@ -20,7 +20,7 @@ theorem sec4I_centK_B0 (hQ : Q.Nondegenerate) (fr : Sec4IFrame Q) {v w : Fin 7 �
     (hy : orderOf y = 7) (hyv : y * sec4IPsi fr v = sec4IPsi fr v * y)
     (hyw : y * sec4IPsi fr w = sec4IPsi fr w * y) : w = 0 ∨ w = v := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨g, hgy, hg7⟩ := sec4I_exists_lift_pow7 (y := y) (by rw [← hy]; exact pow_orderOf_eq_one y)
   have hgv : g * sec4IT fr v = sec4IT fr v * g :=
     sec4I_comm_T_of_comm_psi hQ fr v (by rw [hgy]; exact hyv)

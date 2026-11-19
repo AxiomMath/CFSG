@@ -43,6 +43,7 @@ section Coord
 
 variable {b : G} {L B : Subgroup G} {b₁ b₂ b₃ : G}
 
+omit [Finite G] in
 theorem ε3_eq (b₀ : G) (x : Fin 3 → ZMod 3) : ε3 b₁ b₂ b₃ x = ε4 b₀ b₁ b₂ b₃ (emb x) :=
   (ε4_emb b₀ _ _ _ x).symm
 
@@ -54,6 +55,7 @@ theorem _root_.CFSG.RankThree.PartTwo.Sec21.FF81.FF81Basis.ε3_smul (hB : FF81Ba
     ε3 b₁ b₂ b₃ (c • x) = ε3 b₁ b₂ b₃ x ^ c.val := by
   rw [ε3_eq b, ε3_eq b, emb_smul, ε4_smul hB.mono.1 hB.mono.2.1]
 
+omit [Finite G] in
 theorem ε3_zero : ε3 b₁ b₂ b₃ 0 = 1 := by simp [ε3]
 
 theorem val_one3 : (1 : ZMod 3).val = 1 := rfl
@@ -71,6 +73,7 @@ theorem _root_.CFSG.RankThree.PartTwo.Sec21.FF81.FF81Basis.ε3_neg (hB : FF81Bas
     ε3 b₁ b₂ b₃ (-x) = (ε3 b₁ b₂ b₃ x)⁻¹ :=
   eq_inv_of_mul_eq_one_left (by rw [← hB.ε3_add, neg_add_cancel, ε3_zero])
 
+omit [Finite G] in
 theorem ε3_mem (x : Fin 3 → ZMod 3) : ε3 b₁ b₂ b₃ x ∈ Subgroup.closure {b₁, b₂, b₃} := by
   have h : ∀ y ∈ ({b₁, b₂, b₃} : Set G), y ∈ Subgroup.closure ({b₁, b₂, b₃} : Set G) :=
     fun y hy => Subgroup.subset_closure hy
@@ -98,7 +101,7 @@ theorem _root_.CFSG.RankThree.PartTwo.Sec21.FF81.FF81Basis.ε3_pow (hB : FF81Bas
     ε3 b₁ b₂ b₃ x ^ n = ε3 b₁ b₂ b₃ ((n : ZMod 3) • x) := by
   rw [hB.ε3_smul, ZMod.val_natCast]
   have h3 : ε3 b₁ b₂ b₃ x ^ 3 = 1 := by
-    haveI := hB.elem.1
+    have := hB.elem.1
     exact CFSG.elemPow_eq_one_of_isElementaryAbelian _ (ε3_mem x)
   conv_lhs => rw [← Nat.mod_add_div n 3, pow_add, pow_mul, h3, one_pow, mul_one]
 
@@ -148,6 +151,7 @@ section Hyp
 
 variable {b : G} {L B : Subgroup G} {b₁ b₂ b₃ : G}
 
+omit [Finite G] in
 theorem hyp_le (i : Fin 13) : hyp b₁ b₂ b₃ i ≤ Subgroup.closure {b₁, b₂, b₃} := by
   refine (Subgroup.closure_le _).mpr ?_
   rintro y (rfl | rfl) <;> exact ε3_mem _
@@ -207,11 +211,13 @@ theorem count2 : ∀ x0 x1 x2 z0 z1 z2 : ZMod 3, ![x0, x1, x2] ≠ 0 →
       (if ∃ c : ZMod 3, ![z0, z1, z2] = c • ![x0, x1, x2] then 3 else 0) + 1 := by
   decide +kernel
 
+omit [Finite G] in
 theorem cenS_bot : CenS (⊥ : Subgroup G) = ⊤ := by
   ext y
-  simp only [Subgroup.mem_top, iff_true, Subgroup.mem_centralizer_iff, SetLike.mem_coe,
+  simp only [Subgroup.mem_top, Subgroup.mem_centralizer_iff, SetLike.mem_coe,
     Subgroup.mem_bot, forall_eq, mul_one, one_mul]
 
+omit [Finite G] in
 theorem cenS_zpowers (y : G) : CenS (Subgroup.zpowers y) = Cen y := by
   rw [CenS, Subgroup.zpowers_eq_closure, Subgroup.centralizer_closure]
 
@@ -247,13 +253,13 @@ theorem card_mul_pow_twelve (hB : FF81Basis b L B b₁ b₂ b₃) {S : Subgroup 
     intro g hg
     obtain ⟨x, rfl⟩ := hB.exists_ε3 hg
     simp only [Fintype.sum_sum_type, H, m, n, Sum.elim_inl, Sum.elim_inr, Fin.sum_univ_two,
-      Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, Subgroup.mem_bot,
-      hB.mem_hyp, hB.ε3_eq_one, hg, if_true, ite_self, Finset.sum_const_zero, add_zero, zero_add]
+      Matrix.cons_val_zero, Matrix.cons_val_one, Subgroup.mem_bot,
+      hB.mem_hyp, hB.ε3_eq_one, hg, ite_true, ite_self, Finset.sum_const_zero, add_zero, zero_add]
     rw [vec3_eta x]
     exact count1 _ _ _
   have h := wielandt_conj hS hcop' hsolv H hH m n hcoeff
   simp only [Fintype.prod_sum_type, H, m, n, Sum.elim_inl, Sum.elim_inr, Fin.prod_univ_two,
-    Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, Subgroup.card_bot, cenS_bot,
+    Matrix.cons_val_zero, Matrix.cons_val_one, Subgroup.card_bot, cenS_bot,
     inf_top_eq, hB.card_hyp, hc27, zero_mul, pow_zero, one_mul, mul_one,
     Finset.prod_const_one] at h
   apply Nat.pow_left_injective (show 9 ≠ 0 by norm_num)
@@ -288,14 +294,14 @@ theorem card_cen_mul_pow_three (hB : FF81Basis b L B b₁ b₂ b₃) {S : Subgro
     intro g hg
     obtain ⟨z, rfl⟩ := hB.exists_ε3 hg
     simp only [Fintype.sum_sum_type, H, m, n, Sum.elim_inl, Sum.elim_inr, Fin.sum_univ_two,
-      Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, hB.mem_zpowers_ε3,
-      hB.mem_hyp, hg, if_true, ite_self, Finset.sum_const_zero, add_zero, zero_add]
+      Matrix.cons_val_zero, Matrix.cons_val_one, hB.mem_zpowers_ε3,
+      hB.mem_hyp, hg, ite_true, ite_self, Finset.sum_const_zero, add_zero, zero_add]
     rw [vec3_eta x, vec3_eta z]
     rw [vec3_eta x] at hx
     exact count2 _ _ _ _ _ _ hx
   have h := wielandt_conj hS hcop' hsolv H hH m n hcoeff
   simp only [Fintype.prod_sum_type, H, m, n, Sum.elim_inl, Sum.elim_inr, Fin.prod_univ_two,
-    Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, cenS_zpowers,
+    Matrix.cons_val_zero, Matrix.cons_val_one, cenS_zpowers,
     hB.card_hyp, hc27, Nat.card_zpowers, hB.orderOf_ε3 hx, zero_mul, pow_zero, one_mul,
     mul_one, Finset.prod_const_one] at h
   apply Nat.pow_left_injective (show 9 ≠ 0 by norm_num)

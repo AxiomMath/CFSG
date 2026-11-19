@@ -154,15 +154,15 @@ theorem flag_one_no_E9 (D : Subgroup (StatedSp 3 (ZMod 2)))
     (hDO : D ≤ (Sec4.oTwoP 3 ↥(flagStabilizer 3 (ZMod 2) (↑({1} : Finset ℕ) : Set ℕ))).map
       (flagStabilizer 3 (ZMod 2) (↑({1} : Finset ℕ) : Set ℕ)).subtype)
     (hD9 : Nat.card D = 9) (hexp : ∀ d ∈ D, d ^ 3 = 1)
-    (htP : t ∈ flagStabilizer 3 (ZMod 2) (↑({1} : Finset ℕ) : Set ℕ))
-    (htD : ∀ d ∈ D, t * d * t⁻¹ ∈ D) (ht2 : ∀ d ∈ D, t ^ 2 * d * (t ^ 2)⁻¹ = d⁻¹) : False := by
-  haveI hWn : (Sec4.oTwoP 3 ↥P1).Normal := by
+    (_htP : t ∈ flagStabilizer 3 (ZMod 2) (↑({1} : Finset ℕ) : Set ℕ))
+    (_htD : ∀ d ∈ D, t * d * t⁻¹ ∈ D) (_ht2 : ∀ d ∈ D, t ^ 2 * d * (t ^ 2)⁻¹ = d⁻¹) : False := by
+  have hWn : (Sec4.oTwoP 3 ↥P1).Normal := by
     unfold Sec4.oTwoP
     infer_instance
-  haveI hWs : Group.IsSolvable ↥(Sec4.oTwoP 3 ↥P1) := sp6_oTwoP_solvable ↥P1
+  have hWs : Group.IsSolvable ↥(Sec4.oTwoP 3 ↥P1) := sp6_oTwoP_solvable ↥P1
   obtain ⟨ψ⟩ : Nonempty (StatedSp 2 (ZMod 2) ≃* Equiv.Perm (Fin 6)) :=
     CFSG.RankThree.CASymplecticSubfield.nonempty_statedSp_two_mulEquiv_perm (ZMod.card 2)
-  haveI hNn : ((Sec4.oTwoP 3 ↥P1).map leviS).Normal :=
+  have hNn : ((Sec4.oTwoP 3 ↥P1).map leviS).Normal :=
     Subgroup.Normal.map hWn leviS leviS_surjective
   let φ : ↥(Sec4.oTwoP 3 ↥P1) →* ↥((Sec4.oTwoP 3 ↥P1).map leviS) :=
     (leviS.comp (Sec4.oTwoP 3 ↥P1).subtype).codRestrict _
@@ -171,7 +171,7 @@ theorem flag_one_no_E9 (D : Subgroup (StatedSp 3 (ZMod 2)))
     intro n
     obtain ⟨w, hw, hwn⟩ := Subgroup.mem_map.mp n.2
     exact ⟨⟨w, hw⟩, Subtype.ext hwn⟩
-  haveI hNs : Group.IsSolvable ↥((Sec4.oTwoP 3 ↥P1).map leviS) :=
+  have hNs : Group.IsSolvable ↥((Sec4.oTwoP 3 ↥P1).map leviS) :=
     Group.isSolvable_of_surjective hφs
   have hcard := sp6_card_le_two_of_normal_solvable ψ ((Sec4.oTwoP 3 ↥P1).map leviS)
   have hDwW : D.subgroupOf P1 ≤ Sec4.oTwoP 3 ↥P1 := by
@@ -209,7 +209,7 @@ theorem core_B (P : Subgroup (StatedSp 3 (ZMod 2)))
     (hBP : borelSubgroup 3 (ZMod 2) ≤ P) :
     ∃ d ∈ D, t ^ 2 * d * (t ^ 2)⁻¹ ≠ d⁻¹ := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨hsh, hDP, hD, hD9, hDO, htP, htN⟩ := hpr
   obtain ⟨D₀, t₀, hD₀P, hD₀9, hexp₀, ht₀P, ht₀N, ht₀2, hD₀O⟩ :=
     pull_config hDP hD hD9 hDO htP htN hcon
@@ -223,7 +223,7 @@ theorem core_B (P : Subgroup (StatedSp 3 (ZMod 2)))
     (fun i => i ∈ borelCuts (ZMod 2) P) with hI'
   have hcoe : (↑I' : Set ℕ) = borelCuts (ZMod 2) P := by
     ext i
-    simp only [hI', Finset.coe_filter, Set.mem_setOf_eq, Finset.mem_insert, Finset.mem_singleton]
+    simp only [hI', Finset.coe_filter, Set.mem_ofPred_eq, Finset.mem_insert, Finset.mem_singleton]
     constructor
     · rintro ⟨-, h⟩
       exact h

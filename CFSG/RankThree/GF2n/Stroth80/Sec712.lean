@@ -40,6 +40,7 @@ theorem sec712_isPGroup_CN (h34 : Stroth34Statement) (h51 : Stroth51Statement)
   rw [pow_succ, mul_comm, pow_mul]
   exact h1
 
+omit [Finite G] in
 theorem sec712_simple_quot (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec7Hyp hc n t) :
     ∃ (S : Type) (_ : Group S) (π : ↥(Rt M (LB M Q B) t) →* S), Function.Surjective π ∧
       (∀ r : ↥(Rt M (LB M Q B) t), π r = 1 ↔ (r : G) ∈ hc.CN t) ∧ IsSimpleGroup S := by
@@ -54,7 +55,7 @@ theorem sec712_simple_quot (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec7Hyp hc
       subst h2
       exact hs.notPlus4 hP
     obtain ⟨K', hF, hFin, hcard, hnat⟩ := hP
-    haveI : CharP K' 2 := charP_two_of_card_eq_two_pow (hcard.trans hZ2)
+    have : CharP K' 2 := charP_two_of_card_eq_two_pow (hcard.trans hZ2)
     have hK4 : 4 ≤ Nat.card K' := by rw [hcard]; exact hq4
     obtain ⟨φ, hφr, hφk, -⟩ := hnat
     obtain ⟨h1, -, -⟩ := endg_omegaPlus_facts hK4 hm3
@@ -68,7 +69,7 @@ theorem sec712_simple_quot (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec7Hyp hc
         rw [← Subtype.coe_inj]; rfl
       rw [this, ← MonoidHom.mem_ker, hφk, Subgroup.mem_subgroupOf]
   · obtain ⟨K', hF, hFin, hcard, b, c, hirr, hnat⟩ := hMi
-    haveI : CharP K' 2 := charP_two_of_card_eq_two_pow (hcard.trans hZ2)
+    have : CharP K' 2 := charP_two_of_card_eq_two_pow (hcard.trans hZ2)
     have hK4 : 4 ≤ Nat.card K' := by rw [hcard]; exact hq4
     obtain ⟨φ, hφr, hφk, -⟩ := hnat
     obtain ⟨h1, -, -⟩ := endg_omegaMinus_facts hK4 hm2 hirr
@@ -114,7 +115,7 @@ theorem sec712_DR (h51 : Stroth51Statement) (hA : Sec7AExistsStatement)
           simp only [commutatorElement_def]; group
         rw [e]
         exact Q.mul_mem (hnormQ a haM _ (hb c hc')) (ha c hc')
-      one_mem' := ⟨M.one_mem, fun c _ => by simpa [commutatorElement_def] using Q.one_mem⟩
+      one_mem' := ⟨M.one_mem, fun c _ => by simp [commutatorElement_def]⟩
       inv_mem' := by
         rintro a ⟨haM, ha⟩
         refine ⟨M.inv_mem haM, fun c hc' => ?_⟩
@@ -170,6 +171,7 @@ section Bar
 
 variable [(Q.subgroupOf M).Normal]
 
+omit [Finite G] in
 theorem sec712_bar_normal {S T : Subgroup G} (hT : ∀ s ∈ S, ∀ x ∈ T, s * x * s⁻¹ ∈ T) :
     ((bar M Q T).subgroupOf (bar M Q S)).Normal := by
   refine ⟨fun n hn g => ?_⟩
@@ -183,6 +185,7 @@ theorem sec712_bar_normal {S T : Subgroup G} (hT : ∀ s ∈ S, ∀ x ∈ T, s *
   rw [← hkg, ← hcn, ← map_inv, ← map_mul, ← map_mul]
   exact Subgroup.mem_map_of_mem _ (Subgroup.mem_subgroupOf.mpr hkcT)
 
+omit [Finite G] in
 theorem sec712_isPGroup_bar {S T : Subgroup G} (hT2 : IsPGroup 2 ↥T) :
     IsPGroup 2 ↥((bar M Q T).subgroupOf (bar M Q S)) := by
   have h1 : IsPGroup 2 ↥(T.subgroupOf M) := hT2.comap_subtype
@@ -214,8 +217,8 @@ theorem stroth712_holds (h34 : Stroth34Statement) (h51 : Stroth51Statement)
   have hXN : ∀ g ∈ X, ∀ y ∈ N, g * y * g⁻¹ ∈ N := fun g hg y hy =>
     (Subgroup.mem_normalizer_iff.mp
       (conjSubgroup_eq_self_iff.mp (sec7_conj_CN_eq hZt hZcard hc hs hZ0 hg)) y).mp hy
-  haveI hRn : ((bar M Q R).subgroupOf (bar M Q X)).Normal := sec712_bar_normal hXR
-  haveI hNn : ((bar M Q N).subgroupOf (bar M Q X)).Normal := sec712_bar_normal hXN
+  have hRn : ((bar M Q R).subgroupOf (bar M Q X)).Normal := sec712_bar_normal hXR
+  have hNn : ((bar M Q N).subgroupOf (bar M Q X)).Normal := sec712_bar_normal hXN
   have hN2 : IsPGroup 2 ↥((bar M Q N).subgroupOf (bar M Q X)) :=
     sec712_isPGroup_bar (sec712_isPGroup_CN h34 h51 hA hc hs hZ0)
   have hDR := sec712_DR h51 hA hZcard hc hs hZ0

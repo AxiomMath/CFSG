@@ -158,7 +158,7 @@ theorem Pgrp_iso (h : Setting25 G t z z₁ ι zv R0 F) (hzt : ¬ IsConj t z)
 theorem card_Xgrp_le (h : Setting25 G t z z₁ ι zv R0 F) (hzt : ¬ IsConj t z)
     (htz : IsConj t (t * z)) (hS5 : CzS5 t z R0) : Nat.card (Xgrp h) ≤ 16200 := by
   obtain ⟨e⟩ := Pgrp_iso h hzt htz hS5
-  haveI : FiniteDimensional (ZMod 2) (Wsp h) := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) (Wsp h) := Module.Finite.of_finite
   have hbound := CFSG.GF2Type.Smith1979.W4C1.card_le_mul_stabSub (rhoX h)
     (nondegenerate_qW h) (finrank_Wsp h) (fun m => m.1.2) (wvec_ne_zero h hzt htz) (qW_wvec h)
   have hle : CFSG.GF2Type.Smith1979.W4C1.stabSub (rhoX h) (wvec h) ≤ Pgrp h := by

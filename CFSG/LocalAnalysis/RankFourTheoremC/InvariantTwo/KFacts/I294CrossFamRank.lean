@@ -28,7 +28,7 @@ theorem le_pRank_centralizer_of_sylow_abelian [Fact p.Prime]
     rw [← hk, ← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast, hx, one_zpow]
   obtain ⟨P, hP⟩ := hzp.exists_le_sylow
   have hxP : x ∈ (P : Subgroup G) := hP (Subgroup.mem_zpowers x)
-  haveI : IsMulCommutative (P : Subgroup G) := hab P
+  have : IsMulCommutative (P : Subgroup G) := hab P
   have hrk := (CFSG.SectionRank.pRank_sylow P).1
   have hPC : (P : Subgroup G) ≤ centralizer ({x} : Set G) := by
     intro z hz
@@ -56,6 +56,7 @@ noncomputable def blockEnd (hWC : IsCompl W C) : Module.End K W →* Module.End 
   ((LinearEquiv.conjAlgEquiv K (Submodule.prodEquivOfIsCompl W C hWC)).toMulEquiv.toMonoidHom).comp
     (prodMapOne K W C)
 
+omit [Finite K] [Module.Finite K V] in
 theorem blockEnd_injective (hWC : IsCompl W C) : Function.Injective (blockEnd hWC) := by
   intro g g' h
   have h1 : g.prodMap (1 : Module.End K C) = g'.prodMap (1 : Module.End K C) :=
@@ -64,6 +65,7 @@ theorem blockEnd_injective (hWC : IsCompl W C) : Function.Injective (blockEnd hW
   have := congrArg (fun F => (F (w, 0)).1) h1
   simpa using this
 
+omit [Finite K] [Module.Finite K V] in
 theorem conjAlgEquiv_prodMap_restrict (hWC : IsCompl W C) {y : Module.End K V}
     (hW : ∀ x ∈ W, y x ∈ W) (hC : ∀ x ∈ C, y x ∈ C) :
     LinearEquiv.conjAlgEquiv K (Submodule.prodEquivOfIsCompl W C hWC)
@@ -72,6 +74,7 @@ theorem conjAlgEquiv_prodMap_restrict (hWC : IsCompl W C) {y : Module.End K V}
   obtain ⟨⟨w, c⟩, rfl⟩ := (Submodule.prodEquivOfIsCompl W C hWC).surjective v
   simp [LinearEquiv.conjAlgEquiv_apply, Submodule.coe_prodEquivOfIsCompl', map_add]
 
+omit [Finite K] [Module.Finite K V] in
 theorem blockEnd_comm (hWC : IsCompl W C) {y : Module.End K V} (hW : ∀ x ∈ W, y x ∈ W)
     (hC : ∀ x ∈ C, y x ∈ C) (g : Module.End K W) (hg : g * y.restrict hW = y.restrict hW * g) :
     blockEnd hWC g * y = y * blockEnd hWC g := by
@@ -119,7 +122,7 @@ theorem natCast_ne_zero_of_not_dvd_card {p : ℕ} (hp : p.Prime) (hpK : ¬ p ∣
   have hchp : ch ∣ p := (CharP.cast_eq_zero_iff K ch p).1 h
   have hch' := CharP.char_is_prime K ch
   obtain rfl : ch = p := (Nat.prime_dvd_prime_iff_eq hch' hp).1 hchp
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   obtain ⟨n, -, hcard⟩ := FiniteField.card K ch
   apply hpK
   rw [Nat.card_eq_fintype_card, hcard]
@@ -143,11 +146,11 @@ theorem le_pRank_centralizer_GL {p : ℕ} [hp : Fact p.Prime] (hp5 : 5 ≤ p)
     ext x
     simp [hyp]
   let uW : (Module.End K W)ˣ := Units.ofPowEqOne (y.restrict hW) p hyWp hp.out.ne_zero
-  have huW : uW ^ p = 1 := Units.ext (by simpa [uW] using hyWp)
+  have huW : uW ^ p = 1 := Units.ext (by simp [uW])
   have hne : Module.finrank K W / e < p :=
     lt_of_lt_of_le ((Nat.div_lt_iff_lt_mul he).2 hWlt) (Nat.succ_le_of_lt hc)
   have hab : ∀ P : Sylow p (Module.End K W)ˣ, IsMulCommutative (P : Subgroup _) := fun P =>
-    isMulCommutative_of_isPGroup_GL hp2 hpK he hpe hne P.isPGroup'
+    isMulCommutative_of_isPGroup_GL hp2 hpK he hpe hne P.isPGroup
   have hrank : c ≤ CFSG.Open.pRank p (⊤ : Subgroup (Module.End K W)ˣ) :=
     le_pRank_GL hpK he hpe hcW
   exact (le_pRank_centralizer_of_sylow_abelian hab hrank huW).trans

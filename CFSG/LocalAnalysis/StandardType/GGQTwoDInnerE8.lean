@@ -546,7 +546,7 @@ private lemma ggQ2xE8_data_one : ggQ2xE8_data 1 = ggQ2xE8_data1 := by simp [ggQ2
 
 private lemma ggQ2xE8_data_neg : ggQ2xE8_data (-1) = ggQ2xE8_data2 := by
   unfold ggQ2xE8_data
-  rw [if_neg (by decide)]
+  rw [ite_eq_right (by decide)]
 
 def ggQ2xE8_dataSet (ε : ZMod 3) : List (GGBCV 8) :=
   (ggQ2xE8_data ε).map Prod.fst
@@ -1195,14 +1195,14 @@ lemma ggQ2xE8_rootSet_eq (ε : ZMod 3) :
 
 private lemma ggQ2xE8_finiteLinearEquiv : Finite (GGBCV 8 ≃ₗ[ZMod 3] GGBCV 8) :=
   Finite.of_injective (fun e : GGBCV 8 ≃ₗ[ZMod 3] GGBCV 8 => (e : GGBCV 8 → GGBCV 8))
-    (fun a b h => LinearEquiv.ext (congrFun h))
+    (fun _a _b h => LinearEquiv.ext (congrFun h))
 
 theorem ggQ2_D_inner_E8 (ε : ZMod 3) (hε : ε = 1 ∨ ε = -1) :
     GGQ2QuandleInner (ggBCReflSet (ggDRoots 8 ∪ {z | ggDHalfSpin ε z}))
       (ggBCReflGp (ggDRoots 8 ∪ {z | ggDHalfSpin ε z})) := by
   rw [← ggQ2xE8_rootSet_eq ε]
   intro π hT hinj hπ
-  haveI : Finite ((ggQ2xE8_D ε hε).V ≃ₗ[ZMod 3] (ggQ2xE8_D ε hε).V) :=
+  have : Finite ((ggQ2xE8_D ε hε).V ≃ₗ[ZMod 3] (ggQ2xE8_D ε hε).V) :=
     ggQ2xE8_finiteLinearEquiv
   have hTS : ggQ2xQ_isConjRefl (ggQ2xE8_D ε hε) =
       ggBCReflSet {v : GGBCV 8 | ggQ2xE8_RootSet ε v} :=

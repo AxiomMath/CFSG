@@ -145,18 +145,18 @@ open CFSG CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley CFSG.LieType.Algebraic
   CFSG.Open
   CFSG.LocalAnalysis.GLTheoremA.T171Sh
 
-theorem C3_innAutDerived_eq_inner_broad {f : ℕ} (hf : 1 ≤ f) {Q : Type} [Group Q] [Finite Q]
+theorem C3_innAutDerived_eq_inner_broad {f : ℕ} (_hf : 1 ≤ f) {Q : Type} [Group Q] [Finite Q]
     (hlab : CFSG.StandardType.GGHasLabel ⟨.C, 3, f⟩ Q) :
     CFSG.ComponentClassification.OuterAutomorphisms.innAutDerived Q =
       CFSG.ComponentClassification.OuterAutomorphisms.inner Q := by
   dsimp only [CFSG.StandardType.GGHasLabel, CFSG.StandardType.LargeEvenRawDatum,
     CFSG.Assembly.LargeEvenRecipeSymplectic] at hlab
   obtain ⟨K, hKfield, hKfinite, hKcard, hQ⟩ := hlab
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
+  let : Field K := hKfield
+  let : Finite K := hKfinite
   obtain ⟨e⟩ := hQ
   let e' : Q ≃* StatedProj (StatedSp 3 K) := e
-  haveI : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hKcard
+  have : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hKcard
   have hSp : innAutDerived (StatedProj (StatedSp 3 K)) =
       CFSG.ComponentClassification.OuterAutomorphisms.inner (StatedProj (StatedSp 3 K)) :=
     CFSG.LocalAnalysis.GLTheoremA.KD264Lie.F8Sp.sp_innAutDerived_eq_inner (n := 3) (K := K)
@@ -195,11 +195,11 @@ theorem f4_rational_C3_inner_action
       (excHighRankCompAction_of_fixedPerfect excHighRankFixedPerfectAll_holds
         excHighRankCubeTransfer_holds)
   let R : Subgroup (ModGL Tag.F4 L) := rationalComponent S.ρ S.Γ (rootCharHom a) i
-  haveI : Finite ↥R := finite_rationalComponent S i
-  haveI : Finite (↥R ⧸ Subgroup.center ↥R) :=
+  have : Finite ↥R := finite_rationalComponent S i
+  have : Finite (↥R ⧸ Subgroup.center ↥R) :=
     Finite.of_surjective (QuotientGroup.mk' (Subgroup.center ↥R))
       (QuotientGroup.mk'_surjective _)
-  haveI : Group.IsPerfect ↥R := hqs.1
+  have : Group.IsPerfect ↥R := hqs.1
   let alpha : MulAut ↥R := subgroupStabRestrict R ⟨MulAut.conj y, hyStab⟩
   have hp₀2 : p₀ ≠ 2 := by
     rintro rfl

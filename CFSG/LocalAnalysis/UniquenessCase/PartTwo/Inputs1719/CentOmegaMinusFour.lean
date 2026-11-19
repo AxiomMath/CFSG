@@ -18,11 +18,11 @@ theorem k_CentOmegaMinus4 :
   intro W _ _ hW L a hN c hc
   classical
   obtain ⟨-, K, hKfld, hKfin, b, c₀, hKcard, hirr, π, hπ⟩ := hN
-  letI : Field K := hKfld
-  letI : Finite K := hKfin
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := a) (by
+  let : Field K := hKfld
+  let : Finite K := hKfin
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := a) (by
     rw [← Nat.card_eq_fintype_card]
     exact hKcard)
   let Γ : Subgroup
@@ -84,10 +84,10 @@ theorem k_CentOmegaMinus4 :
         (by norm_num) hirr u w
     have h1 : natAct Γ ⟨A, hA⟩ (Multiplicative.ofAdd x) =
         Multiplicative.ofAdd (eichler (quadMinus (4 / 2) K b c₀) u w x) := by
-      simp only [natAct, Subtype.coe_mk, toAdd_ofAdd, hAapp x]
+      simp only [natAct, toAdd_ofAdd, hAapp x]
     have h2 : natAct Γ ⟨A, hA⟩ (Multiplicative.ofAdd (Y x)) =
         Multiplicative.ofAdd (eichler (quadMinus (4 / 2) K b c₀) u w (Y x)) := by
-      simp only [natAct, Subtype.coe_mk, toAdd_ofAdd, hAapp (Y x)]
+      simp only [natAct, toAdd_ofAdd, hAapp (Y x)]
     have h := hcomm ⟨A, hA⟩ x
     rw [h1, h2] at h
     simpa using h

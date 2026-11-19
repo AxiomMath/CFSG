@@ -173,7 +173,7 @@ theorem perfectCore_u5LnStab (hf : 2 ≤ f) :
     rw [hY, u5LnStab_eq_sup h]
     exact sup_le Subgroup.le_normalizer (by simpa [hH] using hIleNH)
   have hsolv : Group.IsSolvable ↥(Isub h) :=
-    isSolvable_of_comm fun a b => Subtype.ext (hypTorus_comm h a.2 b.2)
+    _root_.Group.isSolvable_of_comm fun a b => Subtype.ext (hypTorus_comm h a.2 b.2)
   apply le_antisymm
   · refine perfectCore_le_of_sup_solvable (A := H) (B := Isub h) (Y := Y) hHY hHn ?_ hsolv
     show Y = H ⊔ Isub h
@@ -198,7 +198,7 @@ theorem Ssub_sup_N₁sub_inf_hypScalars :
   have hc2 : c * c = 1 := by
     rw [hblk, Matrix.det_diagonal, Finset.prod_const] at hdet
     simpa [pow_two] using hdet
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   have hc1 : c = 1 := eq_one_of_mul_self_eq_one_char_two CharTwo.two_eq_zero hc2
   apply mat_injective
   ext a b
@@ -212,8 +212,8 @@ theorem perfectCore_u5LnP (hf : 2 ≤ f) :
 
 theorem pCoreOf_perfectCore_u5LnP (hf : 2 ≤ f) :
     CFSG.Open.pCoreOf 2 (perfectCore (u5LnP h)) = (Ssub h).map (hypProj h 2 1) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (hypPSU h 2 1) := finite_hypPSU_five h
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (hypPSU h 2 1) := finite_hypPSU_five h
   let S : Subgroup (hypPSU h 2 1) := (Ssub h).map (hypProj h 2 1)
   have hP : u5LnP h ≤ Subgroup.normalizer (S : Set (hypPSU h 2 1)) := u5LnP_le_normalizer_S
   have hSle : S ≤ perfectCore (u5LnP h) := by

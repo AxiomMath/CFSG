@@ -31,9 +31,9 @@ private theorem pww_ord_card_coxeterE8 :
 
 private lemma pww_getD_range_map (D : ℕ) (F : ℕ → ℕ) (j : Fin D) :
     (((List.range D).map F).getD j.val 0) = F j.val := by
-  have hlen : j.val < ((List.range D).map F).length := by simpa using j.isLt
+  have hlen : j.val < ((List.range D).map F).length := by simp
   rw [List.getD_eq_getElem _ 0 hlen, List.getElem_map]
-  have hr : (List.range D)[j.val] = j.val := List.getElem_range (by simpa using j.isLt)
+  have hr : (List.range D)[j.val] = j.val := List.getElem_range (by simp)
   rw [hr]
 
 private lemma pww_dot_add (P : Pt) (f x y : P.V) :
@@ -65,7 +65,7 @@ private lemma pww_dot_single (P : Pt) (f : P.V) (j : Fin P.D) :
   rw [Finset.sum_eq_single j]
   · rw [Pi.single_eq_same]; ring
   · intro k _ hk
-    rw [Pi.single_apply, if_neg hk, mul_zero]
+    rw [Pi.single_apply, ite_eq_right hk, mul_zero]
   · intro hj
     exact absurd (Finset.mem_univ j) hj
 
@@ -115,7 +115,7 @@ private lemma pww_lin_ext_unit (P : Pt) [Fact P.p.Prime] {W : Type*} [AddCommMon
     rw [Finset.sum_eq_single i]
     · rw [Pi.single_eq_same]; ring
     · intro k _ hk
-      rw [Pi.single_apply, if_neg (Ne.symm hk), mul_zero]
+      rw [Pi.single_apply, ite_eq_right (Ne.symm hk), mul_zero]
     · intro hi
       exact absurd (Finset.mem_univ i) hi
   rw [hz]
@@ -311,14 +311,14 @@ theorem verifyW_sound {P : Pt}
     rcases h with h | h
     · exact absurd (Fin.ext h) hij
     · by_cases h2 : (e8M.getD i.val []).getD j.val 0 = 2
-      · rw [if_pos h2] at h
-        rw [if_pos h2]
+      · rw [ite_eq_left h2] at h
+        rw [ite_eq_left h2]
         have hh : (P.dotv (pww_cb P c i).2 (pww_cb P c j).1 == 0) = true ∧
             (P.dotv (pww_cb P c j).2 (pww_cb P c i).1 == 0) = true := by
           simpa only [Bool.and_eq_true, pww_cb, pww_S] using h
         exact ⟨beq_iff_eq.mp hh.1, beq_iff_eq.mp hh.2⟩
-      · rw [if_neg h2] at h
-        rw [if_neg h2]
+      · rw [ite_eq_right h2] at h
+        rw [ite_eq_right h2]
         exact beq_iff_eq.mp h
   have hσR : ∀ i, σ i ∈ P.group := by
     intro i
@@ -388,7 +388,7 @@ theorem verifyW_sound {P : Pt}
     · have hMi : CoxeterMatrix.E₈.M i j = 2 := by rw [← hM, h2]
       rw [hMi]
       have hp := hpair i j hij
-      rw [if_pos h2] at hp
+      rw [ite_eq_left h2] at hp
       obtain ⟨ha, hb⟩ := hp
       have hfy : β i (cc j) = 0 := by rw [hbij, ha, Nat.cast_zero]
       have hgx : β j (cc i) = 0 := by rw [hbji, hb, Nat.cast_zero]
@@ -399,7 +399,7 @@ theorem verifyW_sound {P : Pt}
         · exact h
       rw [hMi]
       have hp := hpair i j hij
-      rw [if_neg h2] at hp
+      rw [ite_eq_right h2] at hp
       have hprod : β i (cc j) * β j (cc i) = 1 := by
         rw [hbij, hbji, ← Nat.cast_mul,
           ← ZMod.natCast_mod (P.dotv (pww_cb P c i).2 (pww_cb P c j).1 *

@@ -13,6 +13,7 @@ open scoped IsMulCommutative
 
 variable {G : Type} [Group G] [Finite G] {T L I : Subgroup G}
 
+omit [Finite G] in
 theorem not_le_normalizer_of_lt (hlt : L < fsuL0 T L) :
     ¬ T ≤ Subgroup.normalizer (L : Set G) := fun hT =>
   hlt.ne (le_antisymm (le_conjClosure L T) (conjClosure_le fun _ hg z hz =>
@@ -64,6 +65,7 @@ theorem mem_normalizer_conjugate_of_mem_normalizer
     exact htn this
   · exact conjugate_eq_self_iff.mp (by rw [conjugate_conjugate]; exact h)
 
+omit [Finite G] in
 theorem conjugate_le_centralizer_conjugate {X Y : Subgroup G}
     (h : X ≤ Subgroup.centralizer (Y : Set G)) (g : G) :
     CFSG.conjugate X g ≤ Subgroup.centralizer ((CFSG.conjugate Y g : Subgroup G) : Set G) := by
@@ -85,14 +87,16 @@ theorem conjugate_UL_le_centralizer (h37 : Vol2Native.A37ForSQTKCat)
   rwa [conjugate_conjugate, conjugate_eq_self_iff.mpr
     (mul_self_mem_normalizer_of_fsu h37 h38 hfsu (not_le_normalizer_of_lt hlt) ht htn)] at h1
 
+omit [Finite G] in
 theorem fsuVM_eq_sup_of_A (hA : Concl326A T L I) {t : G} (ht : t ∈ T)
     (htn : t ∉ Subgroup.normalizer (L : Set G)) :
     fsuVM T L I = fsuUL T L I ⊔ CFSG.conjugate (fsuUL T L I) t ⊔ fsuCVM T L I :=
   (hA t ht htn).1.symm
 
+omit [Finite G] in
 theorem mem_centralizer_of_le_centralizer_singleton {x : G} {A : Subgroup G}
     (h : A ≤ Subgroup.centralizer ({x} : Set G)) : x ∈ Subgroup.centralizer (A : Set G) :=
-  Subgroup.mem_centralizer_iff.mpr fun a ha =>
+  Subgroup.mem_centralizer_iff.mpr fun _a ha =>
     (Subgroup.mem_centralizer_iff.mp (h ha) x (Set.mem_singleton x)).symm
 
 theorem mem_centralizer_fsuVM_of_UL (h37 : Vol2Native.A37ForSQTKCat)

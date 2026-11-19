@@ -71,7 +71,7 @@ section Tag
 
 theorem ggRootCentKGStructTag_E6 : GGRootCentKGStructTag .E6 := by
   intro G _ _ p n f ψ _ _ hadm _ hker _ _ hC _ _ r hr _ E hEN hEC _ hEinn
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hf : 1 ≤ f := hadm.2.1
   have hK : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)
   have hπker : (e6Isogeny (GaloisField 2 f)).ker = ψ.ker :=

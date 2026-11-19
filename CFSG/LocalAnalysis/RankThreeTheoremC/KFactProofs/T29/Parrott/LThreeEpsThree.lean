@@ -129,6 +129,7 @@ section Inner
 variable {X : Type} [Group X] {L : Subgroup X} [L.Normal] {π : Bool} {p f : ℕ} {K : Type}
   [Field K] {ν : ↥(slPi π 3 (p ^ f) K) →* ↥L}
 
+omit [L.Normal] in
 theorem LModel.not_inv_mul_mem_centralizer (M : LModel L π p f K ν) {x : X} {y : GL (Fin 3) K}
     (hx : IsLiftAt ν x y) (hT : IsTypeThree π (p ^ f) K y) :
     ∀ l ∈ L, l⁻¹ * x ∉ centralizer (L : Set X) := by
@@ -148,6 +149,7 @@ theorem LModel.inducesInnDiagNonInner_of_isTypeThree (M : LModel L π p f K ν)
     (hT : IsTypeThree π (p ^ f) K y) : InducesInnDiagNonInner L x :=
   inducesInnDiagNonInner_of_isLiftAt M hcore hx (M.not_inv_mul_mem_centralizer hx hT)
 
+omit [L.Normal] in
 theorem LModel.not_mem_of_isTypeThree (M : LModel L π p f K ν) {x : X} {y : GL (Fin 3) K}
     (hx : IsLiftAt ν x y) (hT : IsTypeThree π (p ^ f) K y) : x ∉ L := fun hxL =>
   M.not_inv_mul_mem_centralizer hx hT x hxL (by rw [inv_mul_cancel]; exact one_mem _)

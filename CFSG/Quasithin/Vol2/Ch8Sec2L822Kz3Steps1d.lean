@@ -36,8 +36,8 @@ theorem kzCase0Comm_kz3 {G : Type} [Group G] [Finite G] {Gz X K0 : Subgroup G}
     (hXexp : ∀ x ∈ X, x ^ 3 ∈ CFSG.Open.pCoreOf 2 X) :
     ∀ p ∈ X, ∀ k ∈ K0, p * k * p⁻¹ * k⁻¹ ∈ CFSG.Open.pCoreOf 2 Gz := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hOX : CFSG.Open.pCoreOf 2 X ≤ CFSG.Open.pCoreOf 2 Gz :=
     CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2 ((kzPCoreOfLe_kz3 X).trans hXGz)
       (fun g hg => CFSG.LieType.BorelTits.normalizer_le_normalizer_pCoreOf 2 X (hX0 hg))

@@ -37,6 +37,7 @@ theorem dvd_card_of_le_sup148 {N L T : Subgroup G} (hNT : N ≤ Subgroup.normali
     exact Nat.dvd_of_mul_dvd_mul_right hT h5
   exact (dvd_mul_right m _).trans h6
 
+omit [Finite G] in
 theorem card_img148_mul_dvd {A Y : Subgroup G} [(ker148 A Y).Normal] {N T : Subgroup G}
     (hN : N ≤ Y ⊔ A) (hNT : N ⊓ T ≤ pPrimeCoreOf 3 Y) :
     Nat.card (img148 A Y N) * Nat.card ↥(N ⊓ T) ∣ Nat.card N := by

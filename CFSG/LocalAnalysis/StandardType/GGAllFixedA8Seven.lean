@@ -28,8 +28,7 @@ theorem ggFixedSubgroup_eq_commonFixed {R : Type} [Group R]
     (E : Subgroup (MulAut R)) :
     ggFixedSubgroup E = commonFixed (fun e : E => (e : MulAut R)) := by
   ext x
-  simp only [ggFixedSubgroup, commonFixed, Subgroup.mem_iInf, Subgroup.coe_iInf,
-    Set.mem_iInter, SetLike.mem_coe]
+  simp only [ggFixedSubgroup, commonFixed, Subgroup.mem_iInf]
   exact ⟨fun h e => h e e.property, fun h e he => h ⟨e, he⟩⟩
 
 theorem ggFixedSubgroup_map_congr {G H : Type} [Group G] [Group H] (e : G ≃* H)
@@ -39,11 +38,10 @@ theorem ggFixedSubgroup_map_congr {G H : Type} [Group G] [Group H] (e : G ≃* H
   ext x
   constructor
   · intro hx
-    simp only [ggFixedSubgroup_eq_commonFixed, commonFixed, Subgroup.mem_iInf, Subgroup.coe_iInf,
-      Set.mem_iInter] at hx
+    simp only [ggFixedSubgroup_eq_commonFixed, commonFixed, Subgroup.mem_iInf] at hx
     refine ⟨e.symm x, ?_, e.apply_symm_apply x⟩
     rw [ggFixedSubgroup_eq_commonFixed, commonFixed]
-    simp only [Subgroup.mem_iInf, Subgroup.coe_iInf, Set.mem_iInter]
+    simp only [Subgroup.coe_iInf, Set.mem_iInter]
     intro a
     let φ : ↥(E.map (MulAut.congr e).toMonoidHom) :=
       ⟨MulAut.congr e a,
@@ -54,10 +52,10 @@ theorem ggFixedSubgroup_map_congr {G H : Type} [Group G] [Group H] (e : G ≃* H
       simpa [MulAut.congr, MulEquiv.trans_apply] using hφx
     exact e.injective h2
   · rintro ⟨y, hy, rfl⟩
-    simp only [ggFixedSubgroup_eq_commonFixed, commonFixed, Subgroup.mem_iInf, Subgroup.coe_iInf,
+    simp only [ggFixedSubgroup_eq_commonFixed, commonFixed, Subgroup.coe_iInf,
       Set.mem_iInter] at hy
     rw [ggFixedSubgroup_eq_commonFixed, commonFixed]
-    simp only [Subgroup.mem_iInf, Subgroup.coe_iInf, Set.mem_iInter]
+    simp only [Subgroup.mem_iInf]
     intro φ
     obtain ⟨a, ha, hφeq⟩ := φ.property
     rw [← hφeq]
@@ -72,8 +70,7 @@ theorem ggFixedSubgroup_map_conj_eq_centralizer {G : Type} [Group G]
   ext x
   constructor
   · intro hx
-    simp only [ggFixedSubgroup_eq_commonFixed, commonFixed, Subgroup.mem_iInf, Subgroup.coe_iInf,
-      Set.mem_iInter] at hx
+    simp only [ggFixedSubgroup_eq_commonFixed, commonFixed, Subgroup.mem_iInf] at hx
     rw [Subgroup.mem_centralizer_iff]
     intro g hg
     let φ : ↥(E.map (MulAut.conj : G →* MulAut G)) :=
@@ -84,7 +81,7 @@ theorem ggFixedSubgroup_map_conj_eq_centralizer {G : Type} [Group G]
       _ = x * g := by rw [h]
   · intro hx
     rw [ggFixedSubgroup_eq_commonFixed, commonFixed]
-    simp only [Subgroup.mem_iInf, Subgroup.coe_iInf, Set.mem_iInter]
+    simp only [Subgroup.mem_iInf]
     intro φ
     obtain ⟨g, hg, hφeq⟩ := φ.property
     rw [← hφeq]
@@ -146,7 +143,7 @@ theorem ggFixedSubgroup_isSolvable_of_recipe_linear_nine_two
     rw [CFSG.Glauberman.map_centralizer_eq_of_equiv eG E1, hE1map]
   have hsolvE0 : Group.IsSolvable
       (Subgroup.centralizer (E0 : Set (GGSL9V ≃ₗ[ZMod 2] GGSL9V))) := by
-    letI : Group.IsSolvable
+    let : Group.IsSolvable
         (Subgroup.centralizer (E1 : Set (GL (Fin 9) (ZMod 2)))) := hsolvE1
     have hsolvImage : Group.IsSolvable
         ((Subgroup.centralizer (E1 : Set (GL (Fin 9) (ZMod 2)))).map eG.toMonoidHom) :=
@@ -163,14 +160,14 @@ theorem ggFixedSubgroup_isSolvable_of_recipe_linear_nine_two
   have hsolvMap : Group.IsSolvable ((ggFixedSubgroup E).map eR.toMonoidHom) := by
     rw [← hmapFix, hfixE']
     exact hsolvE0
-  letI : Group.IsSolvable ((ggFixedSubgroup E).map eR.toMonoidHom) := hsolvMap
+  let : Group.IsSolvable ((ggFixedSubgroup E).map eR.toMonoidHom) := hsolvMap
   exact Group.isSolvable_of_isSolvable_injective
     (f := eR.toMonoidHom.subgroupMap (ggFixedSubgroup E))
     (MonoidHom.subgroupMap_injective eR.toMonoidHom _ eR.injective)
 
 @[expose] def A8SevenActualMarkProp {G : Type} [Group G] (Bs X : Subgroup G) :
     LargeEvenMarkProp X :=
-  fun lab R _ I F θ =>
+  fun lab R _ I _F θ =>
     lab = ⟨.A, 8, 1⟩ ∧
     ∃ hN : Bs ≤ Subgroup.normalizer (X : Set G),
       (∀ b ∈ Bs, ∃ φ ∈ I, LargeEvenInduces θ
@@ -186,15 +183,14 @@ theorem ggFixedSubgroup_range_eq_iInf_fixed {B R : Type} [Group B] [Group R]
   ext x
   constructor
   · intro hx
-    simp only [ggFixedSubgroup_eq_commonFixed, commonFixed, Subgroup.mem_iInf, Subgroup.coe_iInf,
-      Set.mem_iInter] at hx
+    simp only [ggFixedSubgroup_eq_commonFixed, commonFixed, Subgroup.mem_iInf] at hx
     rw [Subgroup.mem_iInf]
     intro b
     exact hx ⟨β b, ⟨b, rfl⟩⟩
   · intro hx
     rw [Subgroup.mem_iInf] at hx
     rw [ggFixedSubgroup_eq_commonFixed, commonFixed]
-    simp only [Subgroup.mem_iInf, Subgroup.coe_iInf, Set.mem_iInter]
+    simp only [Subgroup.mem_iInf]
     rintro ⟨φ, b, rfl⟩
     exact hx b
 
@@ -266,7 +262,7 @@ theorem isSolvable_inf_centralizer_of_quotientFixed_solvable {G : Type} [Group G
         ((QTwoCentralizer.quotientCentralizer X Bs hN).map θ.toMonoidHom) := by
       rw [hmap]
       exact hsolvFixed
-    letI : Group.IsSolvable
+    let : Group.IsSolvable
         ((QTwoCentralizer.quotientCentralizer X Bs hN).map θ.toMonoidHom) := hsolvImage
     exact Group.isSolvable_of_isSolvable_injective
       (f := θ.toMonoidHom.subgroupMap (QTwoCentralizer.quotientCentralizer X Bs hN))
@@ -280,7 +276,7 @@ theorem isSolvable_inf_centralizer_of_quotientFixed_solvable {G : Type} [Group G
     have h := hsolvCommon
     rw [QTwoCentralizer.commonFixed_eq X Bs hN] at h
     exact h
-  haveI : Group.IsSolvable ↥((Subgroup.centralizer (Bs : Set G)).subgroupOf X) := hsolvSub
+  have : Group.IsSolvable ↥((Subgroup.centralizer (Bs : Set G)).subgroupOf X) := hsolvSub
   let f : ↥(X ⊓ Subgroup.centralizer (Bs : Set G)) →*
       ↥((Subgroup.centralizer (Bs : Set G)).subgroupOf X) :=
     { toFun := fun z => ⟨⟨z, z.property.1⟩, z.property.2⟩
@@ -302,8 +298,8 @@ theorem isSolvable_inf_centralizer_of_A8Seven_marking {G : Type} [Group G]
   have hlab : lab = ⟨.A, 8, 1⟩ := hP₀.1
   subst lab
   obtain ⟨K, fieldK, finiteK, hK, hQK⟩ := hraw
-  letI := fieldK
-  letI := finiteK
+  let := fieldK
+  let := finiteK
   obtain ⟨-, -, θ, hP⟩ := hQK
   obtain ⟨-, hN, -, hEab, hEsub, hEcard⟩ := hP
   let E : Subgroup (MulAut (LargeEvenProj (LargeEvenSLGroup (Fin 9) K))) :=

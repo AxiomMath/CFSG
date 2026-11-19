@@ -423,7 +423,7 @@ theorem exists_g36Hyp (h31 : S_G31) {H A L : Subgroup G} (hS : IsSStarIn H A)
     have hN'comm : IsMulCommutative (N.subgroupOf M) :=
       ⟨⟨fun x y => Subtype.ext (Subtype.ext (hNc _ x.2 _ (hNL y.2)))⟩⟩
     have hcomm : commutator M ≤ goldschmidtOddCore M := by
-      haveI : IsMulCommutative (N.subgroupOf M) := hN'comm
+      have : IsMulCommutative (N.subgroupOf M) := hN'comm
       exact Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup
     have hL'perf : Group.IsPerfect (L.subgroupOf M) :=
       Group.IsPerfect.ofSurjective

@@ -33,7 +33,7 @@ theorem exists_basis_gl {L : Fin 3 → Submodule (ZMod 3) (Fin 3 → ZMod 3)}
     ext j i
     rfl
   have hM : IsUnit ((Matrix.of v)ᵀ : Matrix (Fin 3) (Fin 3) (ZMod 3)) := by
-    rw [← Matrix.linearIndependent_cols_iff_isUnit, hcol]
+    rw [← Matrix.linearIndependent_col_iff_isUnit, hcol]
     exact hli
   refine ⟨hM.unit, fun i => ?_⟩
   rw [translate_span_singleton, hvL i, IsUnit.unit_spec, Matrix.mulVec_single_one, hcol]

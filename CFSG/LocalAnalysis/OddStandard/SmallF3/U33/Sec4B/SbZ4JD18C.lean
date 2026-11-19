@@ -28,7 +28,7 @@ private lemma inv_comm_mem_V (hZ : ∀ m ∈ Mc, m ∉ Q → m * m ∉ Y)
     by_contra huQ
     exact (hZ u hu huQ) (by rw [hu2]; exact Y.one_mem)
   have huY : u ∈ Y := h.Y_mem u huQ hu2
-  have hτu : τ * u = u * τ := tau_comm_Y h hMh hMc huY
+  have hτu : τ * u = u * τ := tau_comm_Y h huY
   have hm₀u : m₀ * u = u * m₀ := by
     have h : m₀ * u * τ = u * m₀ * τ := by
       calc m₀ * u * τ = m₀ * (u * τ) := by group

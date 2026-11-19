@@ -103,11 +103,11 @@ theorem prime_centralizer_sylow_control {z : G} (hz : orderOf z = p) {Q : Subgro
       @IsPGroup.le_sylow_of_normal _ _ _ _ hQn hQp' P
     have hQP' : Q ≤ (P : Subgroup (centralizer {z})).map (centralizer {z}).subtype :=
       fun q hq => ⟨⟨q, hQH hq⟩, hQP (by rwa [mem_subgroupOf]), rfl⟩
-    obtain ⟨S, hS⟩ := (P.isPGroup'.map (centralizer {z}).subtype).exists_le_sylow
-    obtain ⟨hSH, hSZ⟩ := le_centralizer_of_le hz hCQ (S : Subgroup G) S.isPGroup'
+    obtain ⟨S, hS⟩ := (P.isPGroup.map (centralizer {z}).subtype).exists_le_sylow
+    obtain ⟨hSH, hSZ⟩ := le_centralizer_of_le hz hCQ (S : Subgroup G) S.isPGroup
       (hS (hQP' hzQ)) (hQP'.trans hS)
     have hSp : IsPGroup p ((S : Subgroup G).subgroupOf (centralizer {z})) :=
-      S.isPGroup'.of_equiv (Subgroup.subgroupOfEquivOfLe hSH).symm
+      S.isPGroup.of_equiv (Subgroup.subgroupOfEquivOfLe hSH).symm
     have hPS : (P : Subgroup (centralizer {z})) ≤ (S : Subgroup G).subgroupOf (centralizer {z}) :=
       fun x hx => by
         rw [mem_subgroupOf]

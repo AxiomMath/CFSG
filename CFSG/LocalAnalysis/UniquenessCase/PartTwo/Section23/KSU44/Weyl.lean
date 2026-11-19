@@ -13,7 +13,7 @@ open CFSG.ClassicalGroups.UnitaryFlag CFSG.LocalAnalysis.ComponentInitial
 
 private lemma det_hypGram_two_zero_S09 {K : Type} [Field K] (hK : UnitaryFieldData 2 2 K) :
     (hypGram 2 0 K).det = 1 := by
-  haveI : CharP K 2 := hK.charP
+  have : CharP K 2 := hK.charP
   have hsq : (hypGram 2 0 K).det * (hypGram 2 0 K).det = 1 := by
     rw [← Matrix.det_mul, hypGram_mul_self, Matrix.det_one]
   have htwo : (2 : K) = 0 := CharP.cast_eq_zero K 2

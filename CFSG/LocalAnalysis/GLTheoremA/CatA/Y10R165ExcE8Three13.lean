@@ -23,7 +23,7 @@ theorem ncard_rootCharKernel_e8T3XColumn {p : ℕ} (hp : p.Prime) (hp3 : 3 < p) 
     (hε : ε = 1 ∨ ε = -1) {q : ZMod p} (hq : q ^ 2 + (ε : ZMod p) * q + 1 = 0) {L : Type}
     [Field L] {ζ : Lˣ} (hζ : IsPrimitiveRoot ζ p) :
     (rootCharKernel (fun i => ζ ^ (e8T3XColumn ε q i).val)).ncard = 72 := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   rw [CFSG.RankThree.PartOne.KLR.rootCharKernel_zetaPow_eq hζ,
     ncard_rootKernel_e8T3XColumn hp hp3 hε hq]
 
@@ -31,13 +31,14 @@ theorem ncard_rootCharKernel_e8T3ZColumn {p : ℕ} (hp : p.Prime) (hp3 : 3 < p) 
     (hε : ε = 1 ∨ ε = -1) {q : ZMod p} (hq : q ^ 2 + (ε : ZMod p) * q + 1 = 0) {L : Type}
     [Field L] {ζ : Lˣ} (hζ : IsPrimitiveRoot ζ p) :
     (rootCharKernel (fun i => ζ ^ (e8T3ZColumn ε q i).val)).ncard = 30 := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   rw [CFSG.RankThree.PartOne.KLR.rootCharKernel_zetaPow_eq hζ,
     ncard_rootKernel_e8T3ZColumn hp hp3 hε hq]
 
 variable {K : Type} [Field K] [Finite K] {ℓ f p : ℕ} [Fact ℓ.Prime] [CharP K ℓ]
   {L : Type} [Field L] [Algebra K L] [IsAlgClosure K L] [CharP L ℓ] {ε : ℤ}
 
+omit [Finite K] [IsAlgClosure K L] in
 private lemma rootDiagPoint_centralizes_conj (g0 : ModGL Tag.E8 L)
     {T : Subgroup (ModGL Tag.E8 L)} {A : Set (adjointGroup Tag.E8 K)}
     {c : adjointGroup Tag.E8 K}
@@ -97,7 +98,8 @@ private lemma rootCharKernel_zpow_eq {p : ℕ} [NeZero p] (hp : p.Prime)
   · intro h1
     rw [h1, one_zpow]
 
-private lemma exists_selection_points {p : ℕ} (hp : p.Prime)
+omit [Finite K] in
+private lemma exists_selection_points {p : ℕ} (_hp : p.Prime)
     {A : Set (adjointGroup Tag.E8 K)}
     (hΩ : ∀ g : adjointGroup Tag.E8 K, g ∈ Subgroup.centralizer A → orderOf g = p → g ∈ A)
     {c x₀ z₀ : adjointGroup Tag.E8 K} (hx₀ord : orderOf x₀ = p)
@@ -154,6 +156,7 @@ private lemma exists_selection_points {p : ℕ} (hp : p.Prime)
   · change c * (c⁻¹ * z₀ * c) * c⁻¹ = z₀
     group
 
+omit [Finite K] [IsAlgClosure K L] in
 private lemma selection_points_not_zpowers {p : ℕ} [NeZero p] {q : ZMod p}
     (hp : p.Prime) (hp3 : 3 < p)
     (g0 : ModGL Tag.E8 L) {ε : ℤ} (hε : ε = 1 ∨ ε = -1) (hq : q ^ 2 + (ε : ZMod p) * q + 1 = 0)
@@ -169,8 +172,7 @@ private lemma selection_points_not_zpowers {p : ℕ} [NeZero p] {q : ZMod p}
   intro hzmem
   obtain ⟨m, hm⟩ := Subgroup.mem_zpowers_iff.mp hzmem
   have hconjpow : c * x ^ m * c⁻¹ = (c * x * c⁻¹) ^ m := by
-    simpa [MulAut.conj_apply] using
-      (map_zpow (MulAut.conj c).toMonoidHom x m).symm
+    simp
   have hz₀pow : z₀ = x₀ ^ m := by
     calc z₀ = c * z * c⁻¹ := by rw [← hz]
       _ = c * x ^ m * c⁻¹ := by rw [hm]
@@ -217,7 +219,8 @@ private lemma selection_points_not_zpowers {p : ℕ} [NeZero p] {q : ZMod p}
   rw [hker] at h30
   omega
 
-theorem exists_selection_pair (hE6 : E6Layer Tag.E8) (hε : ε = 1 ∨ ε = -1)
+omit [CharP K ℓ] in
+theorem exists_selection_pair (_hE6 : E6Layer Tag.E8) (hε : ε = 1 ∨ ε = -1)
     (hf : 1 ≤ f) (hK : Nat.card K = ℓ ^ f) (hp : p.Prime) (hp3 : 3 < p)
     (hpf : (p : ℤ) ∣ (Nat.card K : ℤ) ^ 2 + ε * (Nat.card K : ℤ) + 1)
     (hq2 : ε = -1 → 2 < ℓ ^ f)
@@ -246,8 +249,8 @@ theorem exists_selection_pair (hE6 : E6Layer Tag.E8) (hε : ε = 1 ∨ ε = -1)
         rootDiagUnit Tag.E8 (fun i => ζ ^ (e8T3ZColumn ε (Nat.card K : ZMod p) i).val) *
         g0⁻¹ := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
   set T : Subgroup (ModGL Tag.E8 L) :=
     twistedTorusOf n (Units.map (entrywiseHom (iterateFrobenius L ℓ f))) with hTdef
   set q : ZMod p := (Nat.card K : ZMod p) with hqdef
@@ -318,8 +321,8 @@ theorem exists_rank_three_qTorus_centralizer_normalizer (hE6 : E6Layer Tag.E8)
       F ≤ Subgroup.normalizer (J : Set (adjointGroup Tag.E8 K)) ∧
       IsElemAbelian q F ∧ 3 ≤ CFSG.Open.pRank q F := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
   set r : ZMod p := (Nat.card K : ZMod p) with hrdef
   have hr : r ^ 2 + (ε : ZMod p) * r + 1 = 0 := by
     have h := (ZMod.intCast_zmod_eq_zero_iff_dvd

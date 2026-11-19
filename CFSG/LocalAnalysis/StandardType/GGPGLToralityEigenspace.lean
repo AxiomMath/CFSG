@@ -549,7 +549,7 @@ theorem isToral_of_E27_central [Finite K] (hpK : 3 ∣ Nat.card K - 1)
     exact ⟨1, fun _ _ i => isEmptyElim i⟩
   have hnpos : 0 < n := Nat.pos_of_ne_zero hn0
   let i₀ : Fin n := ⟨0, hnpos⟩
-  haveI : Finite (E : Set (GL (Fin n) K)) := ‹Finite E›
+  have : Finite (E : Set (GL (Fin n) K)) := ‹Finite E›
   obtain ⟨A, hA⟩ := exists_conj_diagonal hζ (E : Set (GL (Fin n) K))
     (fun x hx y hy => by
       simpa using hE.1.is_comm.comm ⟨x, hx⟩ ⟨y, hy⟩)

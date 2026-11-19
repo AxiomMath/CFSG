@@ -33,7 +33,7 @@ public theorem twoRankAtLeastTwo_of_contains_sylow
   rcases hG with ⟨E, hEcard, hEsq⟩
   have hEp : IsPGroup 2 E := by
     apply IsPGroup.of_card (p := 2) (G := E) (n := 2)
-    simpa [hEcard]
+    simp [hEcard]
   obtain ⟨S, hES⟩ := hEp.exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq G S P
   let fG : E →* G := (MulAut.conj g).toMonoidHom.comp E.subtype
@@ -89,7 +89,7 @@ public theorem IsStronglyEmbedded.twoRankAtLeastTwo_of_not_solvable_of_involutio
   have hNnormal : N.Normal := by
     dsimp [N]
     exact pPrimeCore_normal
-  letI : N.Normal := hNnormal
+  let : N.Normal := hNnormal
   have hqcenter : q u ∈ Subgroup.center Q := by
     rw [Subgroup.mem_center_iff]
     intro y
@@ -146,17 +146,17 @@ public theorem IsStronglyEmbedded.twoRankAtLeastTwo_of_not_solvable_of_involutio
       rw [hKtop]
       exact Subgroup.mem_top g
     exact hgK
-  letI : IsCyclic Q :=
+  let : IsCyclic Q :=
     (isCyclic_iff_exists_zpowers_eq_top (α := Q)).2 ⟨q u, hqtop⟩
-  letI : IsMulCommutative Q := IsCyclic.isMulCommutative
+  let : IsMulCommutative Q := IsCyclic.isMulCommutative
   have hQsolv : Group.IsSolvable Q :=
     Group.isSolvable_of_comm (fun a b : Q => mul_comm a b)
   have hNodd : Odd (Nat.card N) := by
     exact Nat.coprime_two_left.mp (by
       simpa [N] using (pPrimeCore_coprime_card (G := G) (p := 2)))
   have hNsolv : Group.IsSolvable N := odd_order_theorem N hNodd
-  letI : Group.IsSolvable N := hNsolv
-  letI : Group.IsSolvable Q := hQsolv
+  let : Group.IsSolvable N := hNsolv
+  let : Group.IsSolvable Q := hQsolv
   exact hnsolv (isSolvable_of_normal_subgroup_and_quotient N)
 
 end CFSG.BenderSuzuki

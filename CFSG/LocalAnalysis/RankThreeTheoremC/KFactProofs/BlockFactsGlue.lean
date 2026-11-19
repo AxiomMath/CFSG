@@ -53,6 +53,7 @@ theorem compParab_of_blockHyps {M S L : Subgroup G} (h : BlockL28Hyps M S L)
     (h2 : NineThreeTwo M S L) : CompParab (barM M L) (blockPL M S L) :=
   LeviBlock.compParab_of_nineThreeTwo h.2.1 h.2.2.1 h.2.2.2.2.2 h2
 
+omit [Finite G] in
 theorem exists_normal_section_blockPL {M S L T : Subgroup G} (h : BlockL28Hyps M S L)
     (hT : T ≤ Subgroup.normalizer (S : Set G) ⊓ L)
     (hN : Subgroup.normalizer (S : Set G) ⊓ L ≤ Subgroup.normalizer (T : Set G))
@@ -66,6 +67,7 @@ theorem exists_normal_section_blockPL {M S L T : Subgroup G} (h : BlockL28Hyps M
   obtain ⟨ψ', hψ', -⟩ := LeviBlock.exists_surj_barM h3 hTM ψ hψ
   exact ⟨barM M T, barM_mono hT, barM_le_normalizer_barM hN, ψ', hψ'⟩
 
+omit [Finite G] in
 theorem exists_normal_section_blockPL₂ {M S L T : Subgroup G} (h : BlockL28Hyps M S L)
     (hT : T ≤ Subgroup.normalizer (S : Set G) ⊓ L)
     (hN : Subgroup.normalizer (S : Set G) ⊓ L ≤ Subgroup.normalizer (T : Set G))
@@ -126,25 +128,25 @@ theorem kFactBlockPerfectCoreThree_of (hC : KFactCompParabPerfectCoreThree) :
       rw [hE] at h9
       exact (dvd_pow_self 3 (by norm_num)).trans h9
     · exact perfectCoreThree_of_pCore_quotient e (perfectCoreThree_perm n)
-  · haveI := isSolvable_of_card_dvd_seventyTwo
+  · have := isSolvable_of_card_dvd_seventyTwo
       (citedBlockAltSevenPL_holds G M S L hK hA hL hX hS h5)
     exact PerfectCoreThree.of_isSolvable
 
 theorem perfectCoreThree_of_hasLeviBlocks {Q P : Type} [Group Q] [Finite Q] [Group P]
     {𝒯 : Set ℕ} (hQ : HasLeviBlocks Q 𝒯) (h3 : ∀ n ∈ 𝒯, 1 < n → 3 ∣ n) (π : Q →* P)
     (hπ : Function.Surjective π) : PerfectCoreThree P := by
-  haveI : Finite P := Finite.of_surjective π hπ
+  have : Finite P := Finite.of_surjective π hπ
   intro k hk
   by_cases hbot : derivedSeries P k = ⊥
   · exact Or.inl hbot
   right
   set D := derivedSeries P k with hD
   have hDD : ⁅D, D⁆ = D := by rw [hD, ← derivedSeries_succ]; exact hk
-  haveI : Nontrivial ↥D := (Subgroup.nontrivial_iff_ne_bot D).mpr hbot
-  haveI : Group.IsPerfect ↥D := Subgroup.isPerfect_iff.mpr hDD
+  have : Nontrivial ↥D := (Subgroup.nontrivial_iff_ne_bot D).mpr hbot
+  have : Group.IsPerfect ↥D := Subgroup.isPerfect_iff.mpr hDD
   obtain ⟨M, hMn, -, hsimple⟩ :=
     CFSG.SignalizerFunctorTheorem.McBride.NearSolvable.exists_normal_isSimpleGroup_quotient ↥D
-  haveI : M.Normal := hMn
+  have : M.Normal := hMn
   have hnab : ∃ a b : ↥D ⧸ M, a * b ≠ b * a := by
     by_contra hcomm
     push Not at hcomm
@@ -153,7 +155,7 @@ theorem perfectCoreThree_of_hasLeviBlocks {Q P : Type} [Group Q] [Finite Q] [Gro
     have : IsMulCommutative (↥D ⧸ M) := ⟨⟨fun a b => hcomm a b⟩⟩
     have : Nontrivial (↥D ⧸ M) := hsimple.toNontrivial
     exact Group.IsPerfect.not_isMulCommutative (↥D ⧸ M) inferInstance
-  haveI hNn : (D.comap π).Normal := Subgroup.Normal.comap inferInstance π
+  have hNn : (D.comap π).Normal := Subgroup.Normal.comap inferInstance π
   let f : ↥(D.comap π) →* ↥D ⧸ M := (QuotientGroup.mk' M).comp (π.subgroupComap D)
   have hf : Function.Surjective f := by
     refine (QuotientGroup.mk'_surjective M).comp ?_
@@ -161,7 +163,7 @@ theorem perfectCoreThree_of_hasLeviBlocks {Q P : Type} [Group Q] [Finite Q] [Gro
     obtain ⟨x, rfl⟩ := hπ y
     exact ⟨⟨x, hy⟩, rfl⟩
   have hmem := card_mem_of_hasLeviBlocks hQ (N := D.comap π) hnab f hf
-  haveI : Nontrivial (↥D ⧸ M) := hsimple.toNontrivial
+  have : Nontrivial (↥D ⧸ M) := hsimple.toNontrivial
   exact (h3 _ hmem Finite.one_lt_card).trans (Subgroup.card_quotient_dvd_card M)
 
 theorem perfectCoreThree_of_cover {Y : Type} [Group Y] [Finite Y] {L P : Subgroup Y}

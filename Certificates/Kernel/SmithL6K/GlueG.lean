@@ -27,7 +27,7 @@ theorem reach_gns : Reach 1953 gns.length (· == 0) (fun s u v => tvImg (gns.get
   unfold gEdgeK at he
   rwa [tvImgP_tvImg (gns_lt s hs) hu] at he
 
-theorem cols_getD {k a : Nat} (hk : k < 1953) (ha : a < 20) :
+theorem cols_getD {k a : Nat} (hk : k < 1953) (_ha : a < 20) :
     (tvCols k)[a]! = (tcl.getD k []).getD a 0 := by
   rw [← tvCols_eq hk, get0]
 

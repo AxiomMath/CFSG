@@ -65,7 +65,7 @@ theorem exists_conj_suCornerSL [IsAlgClosed L] (hν : 4 ≤ ν) (c₀ c₁ : Lˣ
   have hdprod : (∏ i, d i) = 1 := by
     change (∏ i, (if i = a then u else 1) * (if i = b then u⁻¹ else 1) *
       (if i = c then v else 1) * (if i = e then v⁻¹ else 1)) = 1
-    simp only [Finset.prod_mul_distrib, Finset.prod_ite_eq', Finset.mem_univ, if_true]
+    simp only [Finset.prod_mul_distrib, Finset.prod_ite_eq', Finset.mem_univ, ite_true]
     group
   have hdprod' : (∏ i, (((d i)⁻¹ : Lˣ) : L)) = 1 := by
     rw [← Units.coe_prod, Finset.prod_inv_distrib, hdprod]

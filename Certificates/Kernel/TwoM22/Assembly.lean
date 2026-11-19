@@ -356,7 +356,7 @@ theorem twoM22_cent (x : TwoM22W) (hx : ∀ m ∈ twoM22M, x * m = m * x) :
 noncomputable def sgenN (g : Nat) : TwoM22W :=
   if h : g < 4 then twoM22SGen ⟨g, h⟩ else twoM22T0
 
-theorem sgenN_mem_S {g : Nat} (hg : g < 5) : sgenN g ∈ twoM22S := by
+theorem sgenN_mem_S {g : Nat} (_hg : g < 5) : sgenN g ∈ twoM22S := by
   unfold sgenN
   split_ifs with h
   · exact Subgroup.subset_closure (Or.inl ⟨_, rfl⟩)
@@ -367,7 +367,7 @@ theorem sgen_rep (g : Nat) (hg : g < 5) :
       (∀ x : Fin 22, pg 5 31 (g22.getD g 0) x = (sgenN g).2 x) := by
   by_cases h4 : g < 4
   · have e : sgenN g = wordOf twoM22Gen (sw.getD g (0, 0)) := by
-      rw [sgenN, dif_pos h4]
+      rw [sgenN, dite_eq_left h4]
       rfl
     rw [e]
     refine ⟨fun x => ?_, fun x => ?_⟩
@@ -377,7 +377,7 @@ theorem sgen_rep (g : Nat) (hg : g < 5) :
       exact wordEqOK_sound (allN_iff.1 sgen22 g h4) x x.2
   · obtain rfl : g = 4 := by omega
     have e : sgenN 4 = wordOf twoM22Gen t0w * twoM22T := by
-      rw [sgenN, dif_neg (by omega)]
+      rw [sgenN, dite_eq_right (by omega)]
       rfl
     rw [e]
     refine ⟨fun x => ?_, fun x => ?_⟩
@@ -438,9 +438,9 @@ theorem repS_of_mem {y : TwoM22W} (hy : y ∈ twoM22S) : ∃ k < 512, RepS k y :
       obtain ⟨g, hg, rfl⟩ : ∃ g < 5, sgenN g = s := by
         rcases hs with ⟨j, rfl⟩ | hs
         · refine ⟨j.val, by omega, ?_⟩
-          rw [sgenN, dif_pos j.2]
+          rw [sgenN, dite_eq_left j.2]
         · refine ⟨4, by norm_num, ?_⟩
-          rw [Set.mem_singleton_iff.1 hs, sgenN, dif_neg (by omega)]
+          rw [Set.mem_singleton_iff.1 hs, sgenN, dite_eq_right (by omega)]
       exact hgen g hg
     | one =>
       intro z hz
@@ -498,10 +498,10 @@ theorem good : ∀ d, ∀ k < 512, rDep RT k = d → ∃ y ∈ twoM22S, RepS k y
     have hop := rOdd_le (rPar RT k)
     by_cases hl : rLab RT k = 4
     · have hs : sgenN (rLab RT k) = wordOf twoM22Gen t0w * twoM22T := by
-        rw [hl, sgenN, dif_neg (by omega)]
+        rw [hl, sgenN, dite_eq_right (by omega)]
         rfl
       have hu := wordOf_mem twoM22Gen t0w
-      rw [if_pos hl] at hodd
+      rw [ite_eq_left hl] at hodd
       rw [hs]
       rcases Nat.le_one_iff_eq_zero_or_eq_one.1 hop with h0 | h0
       · rw [h0] at hodd
@@ -522,9 +522,9 @@ theorem good : ∀ d, ∀ k < 512, rDep RT k = d → ∃ y ∈ twoM22S, RepS k y
         rw [e]
         exact Subgroup.mul_mem _ hp (T_conj_M hu)
     · have hs : sgenN (rLab RT k) ∈ twoM22M := by
-        rw [sgenN, dif_pos (by omega)]
+        rw [sgenN, dite_eq_left (by omega)]
         exact wordOf_mem _ _
-      rw [if_neg hl, Nat.xor_zero] at hodd
+      rw [ite_eq_right hl, Nat.xor_zero] at hodd
       rw [hodd]
       refine ⟨fun h => Subgroup.mul_mem _ (hyM h) hs, fun h => ?_⟩
       rw [split]

@@ -258,6 +258,7 @@ theorem gold_commutator_step {A : Subgroup X} (hA : IsElemAbelian 2 A) {t : X}
           (mul_le_mul_left hcard_sup_le (Nat.card (I ⊓ B₁' : Subgroup ↥A)))
           (Nat.card K)
 
+omit [Finite X] in
 theorem gold_H1_normalizes {A B₁ B₂ : Subgroup X} {t : X} (hA : IsElemAbelian 2 A)
     (hB₁A : B₁ ≤ A) (hB₂A : B₂ ≤ A)
     (hB₂ : ∀ a, a ∈ B₂ ↔ a ∈ A ∧ a * t * a⁻¹ * t⁻¹ ∈ B₁) :

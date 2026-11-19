@@ -16,11 +16,11 @@ variable {Y : Type} [Group Y] [Finite Y] {p : ℕ} [Fact p.Prime] {Rb : Sylow p 
   {Y₀ : Subgroup Y} {K : Subgroup Y}
 
 theorem mem_of_mem_centralizer (hKn : K.Normal)
-    (hcent : ∀ c ∈ (Rb : Subgroup Y) ⊓ Subgroup.centralizer (K : Set Y), orderOf c = p →
-      c ∈ (Subgroup.center K).map K.subtype) :
-    ∀ c ∈ Subgroup.centralizer (K : Set Y), orderOf c = p → c ∈ K := fun c hc hcp =>
+    (hcent : ∀ _c ∈ (Rb : Subgroup Y) ⊓ Subgroup.centralizer (K : Set Y), orderOf _c = p →
+      _c ∈ (Subgroup.center K).map K.subtype) :
+    ∀ _c ∈ Subgroup.centralizer (K : Set Y), orderOf _c = p → _c ∈ K := fun _c hc hcp =>
   mem_of_mem_centralizer_of_orderOf_eq Rb hKn
-    (fun c hc hcp => Subgroup.map_subtype_le _ (hcent c hc hcp)) hc hcp
+    (fun _c hc hcp => Subgroup.map_subtype_le _ (hcent _c hc hcp)) hc hcp
 
 theorem mem_center_of_mem_centralizer (hKn : K.Normal)
     (hcent : ∀ c ∈ (Rb : Subgroup Y) ⊓ Subgroup.centralizer (K : Set Y), orderOf c = p →
@@ -51,6 +51,7 @@ theorem centralizer_eq_bot (hred : ReducedNongeneration p Y Rb Y₀) (hKn : K.No
   centralizer_eq_bot_of_forall_mem hred.prime hred.ne_two hred.core_eq_bot hKn
     (mem_of_mem_centralizer hKn hcent) hZ
 
+omit [Fact (Nat.Prime p)] in
 theorem isPGroup_center (hred : ReducedNongeneration p Y Rb Y₀) (hK : IsComponentOf K ⊤) :
     IsPGroup p (Subgroup.center K) :=
   isPGroup_center_of_isComponentOf hred.prime hred.core_eq_bot hK
@@ -58,7 +59,7 @@ theorem isPGroup_center (hred : ReducedNongeneration p Y Rb Y₀) (hK : IsCompon
 theorem pRank_sylow_le_three (hrank : Open.pRank p (Rb : Subgroup Y) = 3) (T : Sylow p K) :
     Open.pRank p (T : Subgroup K) ≤ 3 := by
   have hp : p.Prime := Fact.out
-  obtain ⟨S, hS⟩ := (T.isPGroup'.map K.subtype).exists_le_sylow
+  obtain ⟨S, hS⟩ := (T.isPGroup.map K.subtype).exists_le_sylow
   calc Open.pRank p (T : Subgroup K)
       ≤ Open.pRank p ((T : Subgroup K).map K.subtype) :=
         SectionRank.pRank_le_map hp.one_lt K.subtype K.subtype_injective _
@@ -117,6 +118,7 @@ theorem index_dvd_of_card_mulAut_dvd (K : Subgroup Y) [K.Normal]
   rw [← Subgroup.index_mul_card K] at h1
   exact Nat.dvd_of_mul_dvd_mul_right Nat.card_pos (h1.trans hm)
 
+omit [Finite Y] in
 theorem false_of_le_comm {E A : Subgroup Y} (hEcard : Nat.card E = p ^ 3)
     (hEZ : Nat.card (Subgroup.center E) = p) (hEA : E ≤ A)
     (hA : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a) : False := by

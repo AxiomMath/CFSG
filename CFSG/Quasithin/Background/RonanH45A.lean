@@ -33,6 +33,7 @@ private theorem mem_flag_of_rho_eq (hK : Nat.card K = (2 ^ n) ^ 2)
   have h21 : (g : Matrix (Fin 3) (Fin 3) K) 2 1 = 0 := by rw [hent, hf21, mul_zero]
   exact Subgroup.mem_inf.2 ⟨⟨h10, h20⟩, ⟨h20, h21⟩⟩
 
+omit [Finite K] [CharP K 2] in
 private theorem flag_le_upperTriangular :
     stabZ K ⊓ stabW K ≤ CFSG.LocalAnalysis.ComponentInitial.LinearFlag.upperTriangular 3 K := by
   intro g hg
@@ -42,6 +43,7 @@ private theorem flag_le_upperTriangular :
   fin_cases i <;> fin_cases j <;>
     first | exact h10 | exact h20 | exact h21 | exact absurd hji (by decide)
 
+omit [Finite K] [CharP K 2] in
 private theorem coe_pow_apply_self {g : SpecialLinearGroup (Fin 3) K}
     (hg : g ∈ CFSG.LocalAnalysis.ComponentInitial.LinearFlag.upperTriangular 3 K) (m : ℕ)
     (i : Fin 3) :
@@ -57,6 +59,7 @@ private theorem coe_pow_apply_self {g : SpecialLinearGroup (Fin 3) K}
         (CFSG.LocalAnalysis.ComponentInitial.LinearFlag.mem_upperTriangular_iff_isUpperTriangular.1
           hg) i, ih]
 
+omit [Finite K] in
 private theorem le_unitriangular_of_isPGroup {P : Subgroup (SpecialLinearGroup (Fin 3) K)}
     (hP2 : IsPGroup 2 P) (hPflag : ∀ g ∈ P, g ∈ stabZ K ⊓ stabW K) :
     P ≤ CFSG.LocalAnalysis.ComponentInitial.LinearFlag.unitriangular 3 K := by
@@ -76,8 +79,8 @@ theorem le_img_of_mem_aSet (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2)
       M ⊓ centSub (fixV (Subgroup.zpowers i)) = Subgroup.zpowers i)
     {T : Subgroup (MulAut (HMod n K))} (hTM : T ≤ M)
     {A : Subgroup (MulAut (HMod n K))} (hA : A ∈ E3.aSet (2 * n + 1) T) : A ≤ img hK := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (MulAut (HMod n K)) := MulEquiv.finite_left
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (MulAut (HMod n K)) := MulEquiv.finite_left
   intro a ha
   by_contra haL
   have hAT : A ≤ T := hA.1
@@ -131,7 +134,7 @@ theorem le_rhoQ2_of_mem_aSet (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2)
     (hTL : T ⊓ img hK ≤ (stabZ K ⊓ stabW K).map (rho hK))
     {A : Subgroup (MulAut (HMod n K))} (hA : A ∈ E3.aSet (2 * n + 1) T) (hAL : A ≤ img hK) :
     A ≤ (Q2 K).map (rho hK) := by
-  haveI : Finite (MulAut (HMod n K)) := MulEquiv.finite_left
+  have : Finite (MulAut (HMod n K)) := MulEquiv.finite_left
   have hAT : A ≤ T := hA.1
   have hAe : IsElemAbelian2 A := hA.2.2.1
   have hA2 : IsPGroup 2 A := E3.isPGroup_of_isElemAbelian2 hAe
@@ -154,7 +157,7 @@ theorem le_rhoQ2_of_mem_aSet (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2)
         show Multiplicative.ofAdd _ = Multiplicative.ofAdd _ * Multiplicative.ofAdd _
         rw [Subgroup.coe_mul, CFSG.Quasithin.H.L3Nine.uni3_mul_01 (hPU x.2) (hPU y.2),
           ofAdd_add, mul_comm] }
-  haveI : Finite (Multiplicative K) := inferInstance
+  have : Finite (Multiplicative K) := inferInstance
   have hQ : Nat.card (Multiplicative K) ≤ 2 ^ (2 * n) := by
     show Nat.card K ≤ 2 ^ (2 * n)
     rw [hK, ← pow_mul, mul_comm]
@@ -208,7 +211,7 @@ theorem part1 (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2)
       M ⊓ centSub (fixV (Subgroup.zpowers i)) = Subgroup.zpowers i)
     {T : Subgroup (MulAut (HMod n K))} (hTM : T ≤ M)
     (hTL : T ⊓ img hK ≤ (stabZ K ⊓ stabW K).map (rho hK)) :
-    ∀ A ∈ E3.aSet (2 * n + 1) T, A ≤ (Q2 K).map (rho hK) := fun A hA =>
+    ∀ _A ∈ E3.aSet (2 * n + 1) T, _A ≤ (Q2 K).map (rho hK) := fun _A hA =>
   le_rhoQ2_of_mem_aSet hn hK hTL hA (le_img_of_mem_aSet hn hK hMN hC hTM hA)
 
 end CFSG.Quasithin.RonanH45

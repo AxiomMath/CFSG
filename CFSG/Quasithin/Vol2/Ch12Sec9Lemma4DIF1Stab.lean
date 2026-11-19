@@ -22,8 +22,8 @@ theorem exists_glue {W C : Submodule (ZMod 2) I} (h : IsCompl W C) (a : W ≃ₗ
     ∃ g : I ≃ₗ[ZMod 2] I, (∀ w : W, g (w : I) = a w) ∧ (∀ c : C, g (c : I) = β c) := by
   refine ⟨(Submodule.prodEquivOfIsCompl W C h).symm.trans
     ((a.prodCongr β).trans (Submodule.prodEquivOfIsCompl W C h)), fun w => ?_, fun c => ?_⟩
-  · simp [Submodule.prodEquivOfIsCompl_symm_apply_left]
-  · simp [Submodule.prodEquivOfIsCompl_symm_apply_right]
+  · simp
+  · simp
 
 theorem mem_stabS_of_restrict {W : Submodule (ZMod 2) I} {g : I ≃ₗ[ZMod 2] I}
     (a : W ≃ₗ[ZMod 2] W) (ha : ∀ w : W, g (w : I) = a w) : g ∈ stabS W := by
@@ -51,8 +51,8 @@ theorem eq_bot_of_normal_two_gl {V : Type} [AddCommGroup V] [Module (ZMod 2) V]
   rcases subsingleton_or_nontrivial V with hV | hV
   · refine (Subgroup.eq_bot_iff_forall M).2 fun m _ => ?_
     exact (Subgroup.mem_bot).2 (LinearEquiv.ext fun v => Subsingleton.elim _ _)
-  haveI : Finite V := Module.finite_of_finite (ZMod 2)
-  haveI : Fintype V := Fintype.ofFinite V
+  have : Finite V := Module.finite_of_finite (ZMod 2)
+  have : Fintype V := Fintype.ofFinite V
   have hfd : 0 < finrank (ZMod 2) V := Module.finrank_pos
   have hNat : Nat.card V = 2 ^ finrank (ZMod 2) V := by
     rw [Nat.card_eq_fintype_card, Module.card_eq_pow_finrank (K := ZMod 2) (V := V)]
@@ -67,7 +67,7 @@ theorem eq_bot_of_normal_two_gl {V : Type} [AddCommGroup V] [Module (ZMod 2) V]
     omega
   obtain ⟨v, hv, hv0⟩ : ∃ v ∈ MulAction.fixedPoints ↥M V, v ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hzero : (0 : V) ∈ MulAction.fixedPoints ↥M V := by
       show ∀ m : ↥M, m • (0 : V) = 0
       intro m
@@ -128,16 +128,16 @@ theorem map_eq_of_mem_stabS {W : Submodule (ZMod 2) I} {g : I ≃ₗ[ZMod 2] I} 
 
 @[expose] def restrictHom (W : Submodule (ZMod 2) I) : stabS W →* (W ≃ₗ[ZMod 2] W) where
   toFun := restrictEquiv
-  map_one' := LinearEquiv.ext fun w => Subtype.ext rfl
-  map_mul' g h := LinearEquiv.ext fun w => Subtype.ext rfl
+  map_one' := LinearEquiv.ext fun _w => Subtype.ext rfl
+  map_mul' _g _h := LinearEquiv.ext fun _w => Subtype.ext rfl
 
 @[expose] def quotEquiv {W : Submodule (ZMod 2) I} (g : stabS W) : (I ⧸ W) ≃ₗ[ZMod 2] (I ⧸ W) :=
   Submodule.Quotient.equiv W W (g : I ≃ₗ[ZMod 2] I) (map_eq_of_mem_stabS g.2)
 
 @[expose] def quotHom (W : Submodule (ZMod 2) I) : stabS W →* ((I ⧸ W) ≃ₗ[ZMod 2] (I ⧸ W)) where
   toFun := quotEquiv
-  map_one' := LinearEquiv.ext fun x => Submodule.Quotient.induction_on _ x fun y => rfl
-  map_mul' g h := LinearEquiv.ext fun x => Submodule.Quotient.induction_on _ x fun y => rfl
+  map_one' := LinearEquiv.ext fun x => Submodule.Quotient.induction_on _ x fun _y => rfl
+  map_mul' _g _h := LinearEquiv.ext fun x => Submodule.Quotient.induction_on _ x fun _y => rfl
 
 theorem quotHom_apply {W : Submodule (ZMod 2) I} (g : stabS W) (y : I) :
     quotHom W g (Submodule.Quotient.mk y) = Submodule.Quotient.mk ((g : I ≃ₗ[ZMod 2] I) y) :=
@@ -174,6 +174,7 @@ variable {I : Type} [AddCommGroup I] [Module (ZMod 2) I] [Module.Finite (ZMod 2)
       rw [neg_sub] at h'
       simpa using h'
 
+omit [Module.Finite (ZMod 2) I] in
 theorem unipRad_le_stabS (W : Submodule (ZMod 2) I) : unipRad W ≤ stabS W := by
   intro g hg
   show ∀ v, v ∈ W ↔ g v ∈ W
@@ -186,6 +187,7 @@ theorem unipRad_le_stabS (W : Submodule (ZMod 2) I) : unipRad W ≤ stabS W := b
     have h := W.sub_mem hv (hg.2 v)
     simpa using h
 
+omit [Module.Finite (ZMod 2) I] in
 theorem unipRad_add_self_eq (W : Submodule (ZMod 2) I) (g : I ≃ₗ[ZMod 2] I) (hg : g ∈ unipRad W)
     (x : I) : g (g x) = x := by
   have hf : g x - x ∈ W := hg.2 x
@@ -197,6 +199,7 @@ theorem unipRad_add_self_eq (W : Submodule (ZMod 2) I) (g : I ≃ₗ[ZMod 2] I) 
   rw [add_self_eq_zero_zmod2, sub_eq_zero] at h0
   exact h0
 
+omit [Module.Finite (ZMod 2) I] in
 theorem unipRad_normal (W : Submodule (ZMod 2) I) (h : stabS W) (g : I ≃ₗ[ZMod 2] I)
     (hg : g ∈ unipRad W) : (h : I ≃ₗ[ZMod 2] I) * g * (h : I ≃ₗ[ZMod 2] I)⁻¹ ∈ unipRad W := by
   have hh : ∀ v, v ∈ W ↔ (h : I ≃ₗ[ZMod 2] I) v ∈ W := h.2
@@ -215,18 +218,21 @@ theorem unipRad_normal (W : Submodule (ZMod 2) I) (h : stabS W) (g : I ≃ₗ[ZM
     rw [map_sub] at hmem
     rwa [hy] at hmem
 
+omit [Module.Finite (ZMod 2) I] in
 theorem unipRad_sq (W : Submodule (ZMod 2) I) (g : I ≃ₗ[ZMod 2] I) (hg : g ∈ unipRad W) :
     g ^ 2 = 1 := by
   refine LinearEquiv.ext fun x => ?_
   rw [pow_two, LinearEquiv.mul_apply]
   exact unipRad_add_self_eq W g hg x
 
+omit [Module.Finite (ZMod 2) I] in
 theorem restrictHom_surjective (W : Submodule (ZMod 2) I) : Function.Surjective (restrictHom W) := by
   intro g
   obtain ⟨C, hC⟩ := Submodule.exists_isCompl W
   obtain ⟨G, hGW, -⟩ := exists_glue hC g (LinearEquiv.refl (ZMod 2) C)
   exact ⟨⟨G, mem_stabS_of_restrict g hGW⟩, LinearEquiv.ext fun w => Subtype.ext (hGW w)⟩
 
+omit [Module.Finite (ZMod 2) I] in
 theorem quotHom_surjective (W : Submodule (ZMod 2) I) : Function.Surjective (quotHom W) := by
   intro b
   obtain ⟨C, hC⟩ := Submodule.exists_isCompl W

@@ -38,10 +38,10 @@ theorem bW_self (x : Wv v0) : bW x x = 0 := by
 theorem sigmaW_mem_sigmaPerp :
     sigmaW ∈ sigmaPerp := bW_self sigmaW
 
-@[expose] def sigmaP :
+def sigmaP :
     sigmaPerp := ⟨sigmaW, sigmaW_mem_sigmaPerp⟩
 
-@[expose] def sigLine :
+def sigLine :
     Submodule (ZMod 2) sigmaPerp := Submodule.span (ZMod 2)
     {sigmaP}
 
@@ -69,7 +69,7 @@ theorem wAct_mem_sigmaPerp
   rw [← (mem_Usig.1 u.2 : wAct v0 u sigmaW = sigmaW), bW_wAct]
   exact hx
 
-@[expose] def perpEnd
+def perpEnd
     (u : Usig) : Module.End (ZMod 2) sigmaPerp :=
   (wAct v0 u).restrict fun _ hx => wAct_mem_sigmaPerp u hx
 
@@ -97,7 +97,7 @@ theorem sigLine_le_comap
     perpEnd_sigmaP]
   exact Submodule.mem_span_singleton_self _
 
-@[expose] def w20End
+def w20End
     (u : Usig) : Module.End (ZMod 2) W20 :=
   Submodule.mapQ sigLine sigLine (perpEnd u) (sigLine_le_comap u)
 
@@ -117,7 +117,7 @@ theorem w20End_one :
   induction x using Submodule.Quotient.induction_on with
   | H x => exact congrArg Submodule.Quotient.mk (LinearMap.congr_fun perpEnd_one x)
 
-@[expose] def rep20 :
+def rep20 :
     Representation (ZMod 2) Usig W20 where
   toFun u := w20End u⁻¹
   map_one' := (congrArg w20End inv_one).trans w20End_one
@@ -150,13 +150,13 @@ theorem u20Basis_mem
     (t : Fin 20) : decW u20Basis[(t : ℕ)]! ∈ sigmaPerp :=
   (bW_sigmaW_decW _).trans (u20Basis_perp_check t)
 
-@[expose] def q20P
+def q20P
     (t : Fin 20) : sigmaPerp := ⟨_, u20Basis_mem t⟩
 
-@[expose] def b20v
+def b20v
     (t : Fin 20) : W20 := Submodule.Quotient.mk (q20P t)
 
-@[expose] def u20Dual : Fin 20 → ℕ :=
+def u20Dual : Fin 20 → ℕ :=
   ![1, 2, 4, 8, 16, 32, 128, 256, 512, 1024, 6144, 8192, 16384, 32768, 65536, 131072, 262144,
     524288, 1048576, 2097152]
 
@@ -165,7 +165,7 @@ theorem u20Dual_check : ∀ s t : Fin 20,
 
 theorem u20Dual_sigma : ∀ s : Fin 20, bvec 22 (u20Dual s) ⬝ᵥ bvec 22 6144 = 0 := by decide +kernel
 
-@[expose] def dualW (s : Fin 20) : Wv v0 →ₗ[ZMod 2] ZMod 2 :=
+def dualW (s : Fin 20) : Wv v0 →ₗ[ZMod 2] ZMod 2 :=
   ∑ r : Fin 22, bvec 22 (u20Dual s) r • qbWBasis.coord r
 
 theorem dualW_decW (s : Fin 20) (c : ℕ) : dualW s (decW c) = bvec 22 (u20Dual s) ⬝ᵥ bvec 22 c := by
@@ -200,7 +200,7 @@ theorem sigLine_le_ker
   rw [sigLine, Submodule.span_le, Set.singleton_subset_iff, SetLike.mem_coe, LinearMap.mem_ker]
   exact dualW_sigmaP s
 
-@[expose] def dualQ
+def dualQ
     (s : Fin 20) : W20 →ₗ[ZMod 2] ZMod 2 :=
   sigLine.liftQ ((dualW s).comp sigmaPerp.subtype) (sigLine_le_ker s)
 
@@ -212,7 +212,7 @@ theorem linearIndependent_b20v :
     LinearIndependent (ZMod 2) b20v :=
   linearIndependent_of_dual b20v dualQ dualQ_b20v
 
-@[expose] def b20 :
+def b20 :
     Module.Basis (Fin 20) (ZMod 2) W20 :=
   basisOfLinearIndependentOfCardEqFinrank linearIndependent_b20v
     (by rw [Fintype.card_fin, finrank_W20])
@@ -226,7 +226,7 @@ theorem decW_actD (d : ℕ) (rows : Array ℕ) (c : ℕ) :
       ∑ i ∈ Finset.range d, if c.testBit i then decW rows[i]! else 0 := by
   rw [Native.actD, xorHom_actGo decW decW_xor, decW_zero, zero_add]
 
-@[expose] def comb20
+def comb20
     (r : ℕ) : sigmaPerp := ∑ s : Fin 20, bvec 20 r s • q20P s
 
 theorem coe_comb20

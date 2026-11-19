@@ -29,28 +29,28 @@ theorem ggFLW_entries {ι : Type} {M : CoxeterMatrix ι} (hM : GGIsWeylMatrix M)
   have hM0 : GGIsWeylMatrix M := hM
   rcases hM with ⟨n, e, _hn, _hMA | ⟨_hn2, _hMB⟩ | ⟨_hn4, _hMD⟩⟩ | ⟨e, _hE6⟩ | ⟨e, _hE7⟩ |
     ⟨e, _hE8⟩ | ⟨e, _hF4⟩ | ⟨e, _hG2⟩
-  · letI : Fintype ι := Fintype.ofEquiv (Fin n) e
+  · let : Fintype ι := Fintype.ofEquiv (Fin n) e
     obtain ⟨C, hC, hMe, -⟩ := S2MathFi1451.ggWeyl_exists_cartanTree hM0
     exact l6w2_entry_of_finiteType hC hMe hij
-  · letI : Fintype ι := Fintype.ofEquiv (Fin n) e
+  · let : Fintype ι := Fintype.ofEquiv (Fin n) e
     obtain ⟨C, hC, hMe, -⟩ := S2MathFi1451.ggWeyl_exists_cartanTree hM0
     exact l6w2_entry_of_finiteType hC hMe hij
-  · letI : Fintype ι := Fintype.ofEquiv (Fin n) e
+  · let : Fintype ι := Fintype.ofEquiv (Fin n) e
     obtain ⟨C, hC, hMe, -⟩ := S2MathFi1451.ggWeyl_exists_cartanTree hM0
     exact l6w2_entry_of_finiteType hC hMe hij
-  · letI : Fintype ι := Fintype.ofEquiv (Fin 6) e
+  · let : Fintype ι := Fintype.ofEquiv (Fin 6) e
     obtain ⟨C, hC, hMe, -⟩ := S2MathFi1451.ggWeyl_exists_cartanTree hM0
     exact l6w2_entry_of_finiteType hC hMe hij
-  · letI : Fintype ι := Fintype.ofEquiv (Fin 7) e
+  · let : Fintype ι := Fintype.ofEquiv (Fin 7) e
     obtain ⟨C, hC, hMe, -⟩ := S2MathFi1451.ggWeyl_exists_cartanTree hM0
     exact l6w2_entry_of_finiteType hC hMe hij
-  · letI : Fintype ι := Fintype.ofEquiv (Fin 8) e
+  · let : Fintype ι := Fintype.ofEquiv (Fin 8) e
     obtain ⟨C, hC, hMe, -⟩ := S2MathFi1451.ggWeyl_exists_cartanTree hM0
     exact l6w2_entry_of_finiteType hC hMe hij
-  · letI : Fintype ι := Fintype.ofEquiv (Fin 4) e
+  · let : Fintype ι := Fintype.ofEquiv (Fin 4) e
     obtain ⟨C, hC, hMe, -⟩ := S2MathFi1451.ggWeyl_exists_cartanTree hM0
     exact l6w2_entry_of_finiteType hC hMe hij
-  · letI : Fintype ι := Fintype.ofEquiv (Fin 2) e
+  · let : Fintype ι := Fintype.ofEquiv (Fin 2) e
     obtain ⟨C, hC, hMe, -⟩ := S2MathFi1451.ggWeyl_exists_cartanTree hM0
     exact l6w2_entry_of_finiteType hC hMe hij
 
@@ -99,7 +99,7 @@ private theorem l6w2_d_of_ne_root {K : Type*} [Field K] {ι : Type} [DecidableEq
     (hdepth : ∀ i, i ≠ root → depth (par i) < depth i) {i : ι} (hi : i ≠ root) :
     l6w2_d P par root depth hdepth i =
       l6w2_d P par root depth hdepth (par i) * P (par i) i * (P i (par i))⁻¹ := by
-  rw [l6w2_d.eq_1, dif_neg hi]
+  rw [l6w2_d.eq_1, dite_eq_right hi]
 
 theorem ggFLW_symmetrizer {K : Type*} [Field K] {ι : Type} [DecidableEq ι] (C : Matrix ι ι ℤ)
     (hT : CartanTree C) (P : ι → ι → K) (hP : ∀ i j, i ≠ j → (P i j ≠ 0 ↔ C i j ≠ 0)) :
@@ -107,7 +107,7 @@ theorem ggFLW_symmetrizer {K : Type*} [Field K] {ι : Type} [DecidableEq ι] (C 
   classical
   obtain ⟨par, root, depth, hpar, hdepth⟩ := hT
   set d : ι → K := l6w2_d P par root depth hdepth with hddef
-  have hroot : d root = 1 := by rw [hddef, l6w2_d.eq_1, dif_pos rfl]
+  have hroot : d root = 1 := by rw [hddef, l6w2_d.eq_1, dite_eq_left rfl]
   have hstep : ∀ i, i ≠ root → d i = d (par i) * P (par i) i * (P i (par i))⁻¹ := by
     intro i hi
     rw [hddef, l6w2_d_of_ne_root P par root depth hdepth hi]

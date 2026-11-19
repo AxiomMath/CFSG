@@ -17,10 +17,10 @@ theorem w16g_ext_center_of_extraspecial {K : Subgroup (MulAut W)}
     (hK : IsPOnePlusTwo 3 ↥K) :
     ∃ z : MulAut W, z ∈ K ∧ orderOf z = 3 ∧ (∀ y ∈ K, y * z = z * y) ∧
       (∀ x ∈ K, (∀ y ∈ K, y * x = x * y) → x ∈ Subgroup.zpowers z) := by
-  haveI : CFSG.IsExtraspecial 3 ↥K := hK.1
+  have : CFSG.IsExtraspecial 3 ↥K := hK.1
   have hcardK : Nat.card ↥K = 27 := by rw [hK.2.1]; norm_num
   have hZcard : Nat.card (Subgroup.center ↥K) = 3 := CFSG.IsExtraspecial.center_order_p 3 ↥K
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hZcyc : IsCyclic (Subgroup.center ↥K) := isCyclic_of_prime_card hZcard
   obtain ⟨z0, hz0gen⟩ := IsCyclic.exists_generator (α := Subgroup.center ↥K)
   have hz0top : Subgroup.zpowers z0 = ⊤ := le_antisymm le_top fun x _ => hz0gen x
@@ -97,7 +97,7 @@ theorem w16g_commSub_extraspecial_eq_and_irreducible (hW : ∀ w : W, w * w = 1)
 theorem w16g_isPOnePlusTwo_of_mulEquiv {p : ℕ} {X Y : Type} [Group X] [Group Y]
     (e : X ≃* Y) (h : IsPOnePlusTwo p X) : IsPOnePlusTwo p Y := by
   obtain ⟨hX, hc, hp⟩ := h
-  haveI : CFSG.IsExtraspecial p X := hX
+  have : CFSG.IsExtraspecial p X := hX
   refine ⟨isExtraspecial_of_mulEquiv e.symm, ?_, ?_⟩
   · rw [← Nat.card_congr e.toEquiv]; exact hc
   · intro y
@@ -111,7 +111,7 @@ theorem w16g_commSub_zpowers_t_ne_bot {P : Subgroup (MulAut W)} (hP : IsPGroup 3
     ⁅K, Subgroup.zpowers t⁆ ≠ ⊥ := by
   classical
   intro hbot
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have htt : t * t = 1 := by
     have h := pow_orderOf_eq_one t
     rw [ht, pow_two] at h
@@ -137,7 +137,7 @@ theorem w16g_commSub_zpowers_t_ne_bot {P : Subgroup (MulAut W)} (hP : IsPGroup 3
     set Z : Subgroup (MulAut W) := Subgroup.zpowers t with hZ
     have hZU : Z ≤ Subgroup.normalizer (P : Set (MulAut W)) :=
       Subgroup.zpowers_le.mpr ht_norm
-    letI : Subgroup.Normalizes Z P := ⟨hZU⟩
+    let : Subgroup.Normalizes Z P := ⟨hZU⟩
     have htop : commutatorAction (A := ↥Z) (G := ↥P) = ⊤ := by
       apply Subgroup.map_injective P.subtype_injective
       rw [CFSG.commutatorAction_subgroup_conj_map_eq_commutator P Z hZU, hc,
@@ -146,7 +146,7 @@ theorem w16g_commSub_zpowers_t_ne_bot {P : Subgroup (MulAut W)} (hP : IsPGroup 3
       have hZcard : Nat.card ↥Z = 2 := by rw [hZ, Nat.card_zpowers, ht]
       rw [hZcard, hcardP]
       norm_num
-    letI : MulDistribMulAction ↥Z (↥P ⧸ frattini ↥P) :=
+    let : MulDistribMulAction ↥Z (↥P ⧸ frattini ↥P) :=
       CFSG.RankThree.GroupTheory.SteinbergBY.frattiniQuotientAction ↥Z ↥P
     have hbotfix : fixedPointSubgroup ↥Z (↥P ⧸ frattini ↥P) = ⊥ :=
       CFSG.RankThree.GroupTheory.SteinbergBY.fixedPointSubgroup_quotient_eq_bot hcop htop
@@ -238,16 +238,16 @@ theorem w16g_commSub_zpowers_t_ne_bot {P : Subgroup (MulAut W)} (hP : IsPGroup 3
     have hcme := Subgroup.comap_map_eq_self (f := QuotientGroup.mk' (frattini ↥P)) hker
     rw [hmap, Subgroup.comap_top] at hcme
     exact hcme.symm
-  letI : Fact (IsPGroup 3 ↥P) := ⟨hP⟩
+  let : Fact (IsPGroup 3 ↥P) := ⟨hP⟩
   have hcycgen : Subgroup.zpowers x' = ⊤ :=
     CFSG.lemma_1_7_a (p := 3) (Subgroup.zpowers x') hsupx
-  haveI : IsCyclic ↥P := isCyclic_iff_exists_zpowers_eq_top.mpr ⟨x', hcycgen⟩
-  haveI : IsCyclic (K.subgroupOf P) := inferInstance
-  haveI : IsCyclic ↥K := isCyclic_of_surjective
+  have : IsCyclic ↥P := isCyclic_iff_exists_zpowers_eq_top.mpr ⟨x', hcycgen⟩
+  have : IsCyclic (K.subgroupOf P) := inferInstance
+  have : IsCyclic ↥K := isCyclic_of_surjective
     (Subgroup.subgroupOfEquivOfLe hKP) (Subgroup.subgroupOfEquivOfLe hKP).surjective
-  haveI : CFSG.IsExtraspecial 3 ↥K := hK.1
+  have : CFSG.IsExtraspecial 3 ↥K := hK.1
   have hctr : Subgroup.center ↥K = ⊤ := Subgroup.center_eq_top
-  haveI : Nontrivial (↥K ⧸ Subgroup.center ↥K) :=
+  have : Nontrivial (↥K ⧸ Subgroup.center ↥K) :=
     CFSG.IsExtraspecial.quotient_nontrivial 3 ↥K
   have hsub : Subsingleton (↥K ⧸ Subgroup.center ↥K) := by
     rw [hctr]

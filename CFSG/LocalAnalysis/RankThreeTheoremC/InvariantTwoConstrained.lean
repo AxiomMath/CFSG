@@ -49,7 +49,7 @@ theorem gl83InvariantTwoWithin_of_nonConstrained (hS : Setting G) (hD1 : Theorem
       rw [hk]
       exact ((Nat.coprime_primes hprime Nat.prime_two).mpr hodd).pow_right k
     have hTO := CFSG.AGLEmbedding.signalizer_le_glbPrimeCore_of_contains hprime hodd hcon
-      (P.isPGroup'.to_le hDP) (hDP.trans hPM)
+      (P.isPGroup.to_le hDP) (hDP.trans hPM)
       (fun y _ hyC hyo => hext.mem_of_mem_centralizer_of_isMulCommutative hS hD1 hp hab hCD hyC
         (by rw [← hyo]; exact pow_orderOf_eq_one y))
       hT.1 hTcop hT.2.2.1

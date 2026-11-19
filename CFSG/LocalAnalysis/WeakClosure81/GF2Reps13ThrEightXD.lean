@@ -58,7 +58,7 @@ theorem w16g_inv_or_cent_of_relIndex_three {X H : Subgroup G} {s : G}
     have : ¬ (X : Set G) ⊆ H := hXnotle
     exact Set.not_subset.mp this
   have hx₀pow : x₀ ^ 3 = 1 := hX3 x₀ hx₀X
-  haveI : IsMulCommutative X :=
+  have : IsMulCommutative X :=
     IsMulCommutative.of_comm fun a b => Subtype.ext (hXc a.1 a.2 b.1 b.2)
   let x0 : X := ⟨x₀, hx₀X⟩
   have hx0pow : x0 ^ 3 = 1 := by ext; simpa using hx₀pow

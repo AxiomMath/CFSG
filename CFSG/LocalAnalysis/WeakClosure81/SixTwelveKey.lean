@@ -18,6 +18,7 @@ namespace KLPair
 
 variable {n : ℕ} {M V A C : Subgroup G} {g : G}
 
+omit [Finite G] in
 private lemma k612_ah_mul_self {a h' : G} (hA : IsElemAbelian 2 A) (ha : a ∈ A) :
     (h'⁻¹ * a * h') * (h'⁻¹ * a * h') = 1 := by
   have haa : a * a = 1 := by
@@ -26,12 +27,14 @@ private lemma k612_ah_mul_self {a h' : G} (hA : IsElemAbelian 2 A) (ha : a ∈ A
   calc (h'⁻¹ * a * h') * (h'⁻¹ * a * h') = h'⁻¹ * (a * a) * h' := by group
     _ = 1 := by rw [haa]; group
 
+omit [Finite G] in
 private lemma k612_ah_mem_conj {a h' : G} (ha : a ∈ A) :
     h'⁻¹ * a * h' ∈ conjSubgroup A h' :=
   CFSG.Quasithin.mem_conjSubgroup_iff.2 (by
     rw [show h' * (h'⁻¹ * a * h') * h'⁻¹ = a by group]
     exact ha)
 
+omit [Finite G] in
 private lemma k612_ah_notMem_conj {a h' : G} (haC : a ∉ C) :
     h'⁻¹ * a * h' ∉ conjSubgroup C h' := by
   intro hc
@@ -39,6 +42,7 @@ private lemma k612_ah_notMem_conj {a h' : G} (haC : a ∉ C) :
   have h1 := CFSG.Quasithin.mem_conjSubgroup_iff.1 hc
   rwa [show h' * (h'⁻¹ * a * h') * h'⁻¹ = a by group] at h1
 
+omit [Finite G] in
 private lemma k612_mem_normalizer_NOf_of_mem_L (h : Hyp612Sym n M V g) {l : G}
     (hl : l ∈ LOf V g) : l ∈ normalizer ((NOf M V g : Subgroup G) : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -58,6 +62,7 @@ private lemma k612_mem_normalizer_NOf_of_mem_L (h : Hyp612Sym n M V g) {l : G}
     rw [hm']
     exact hm
 
+omit [Finite G] in
 private lemma k612_conjSubgroup_le_KOf (h : Hyp612Sym n M V g) {D : Subgroup G} {h' : G}
     (hDK : D ≤ KOf M V g) (hh' : h' ∈ LOf V g) : conjSubgroup D h' ≤ KOf M V g := by
   have hK : conjSubgroup (KOf M V g) h' = KOf M V g :=

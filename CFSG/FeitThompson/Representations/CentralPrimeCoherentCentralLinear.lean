@@ -77,6 +77,7 @@ variable (h : IsCentralPrimeInduction p a L P E Z)
 
 include h
 
+omit h in
 theorem apply_one_of_mem_indFamLinear [Fintype ↥L] {f : ↥L → ℂ}
     (hf : f ∈ indFamLinear (P.subgroupOf L)) : f 1 = ((P.subgroupOf L).index : ℂ) :=
   NormalLinearInduced.apply_one_of_mem_indFamLinear _ hf
@@ -97,7 +98,7 @@ theorem isCoherent_indFamLinear [Fintype G] [Fintype ↥L] [(P.subgroupOf L).Nor
         (NormalLinearInduced.indFamLinear_subset_indFam_Irr (P.subgroupOf L))
         h.indFamLinear_subset_Irr) :=
   isCoherent_tiIndCharSpanZeroHom h.isTI (NormalLinearInduced.finite_indFamLinear _) _ _
-    (fun _ hf => h.apply_one_of_mem_indFamLinear hf)
+    (fun _ hf => CFSG.FeitThompson.CentralPrimeInduction.IsCentralPrimeInduction.apply_one_of_mem_indFamLinear hf)
 
 end IsCentralPrimeInduction
 
@@ -247,7 +248,7 @@ theorem exists_isCoherent_centralDetectFam_union_indFamLinear [Fintype G] [Finty
   have hYIrr : Y ⊆ Irr ↥L := IsCentralPrimeInduction.indFamLinear_subset_Irr h
   have hYind := NormalLinearInduced.indFamLinear_subset_indFam_Irr (P.subgroupOf L)
   have hYdeg : ∀ ψ ∈ Y, ψ 1 = ((e : ℕ) : ℂ) := fun ψ hψ =>
-    IsCentralPrimeInduction.apply_one_of_mem_indFamLinear h hψ
+    IsCentralPrimeInduction.apply_one_of_mem_indFamLinear hψ
   obtain ⟨η, hη⟩ := IsCentralPrimeInduction.indFamLinear_nonempty h
   obtain ⟨ν, hν⟩ := isCoherent_iff.1 (IsCentralPrimeInduction.isCoherent_indFamLinear h)
   obtain ⟨μ, hμinner, hμ0, -, -, hor⟩ := CentralPrimeInduction.exists_oriented_projection h ν

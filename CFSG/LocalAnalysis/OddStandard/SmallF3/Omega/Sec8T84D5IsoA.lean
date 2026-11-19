@@ -56,7 +56,6 @@ lemma sec8t84d5_normalizer_conj_of_involution {G : Type} [Group G] {H : Subgroup
     ⟨MulAut.conj t h, hle (Subgroup.mem_map.mpr ⟨h, hh, rfl⟩), ?_⟩
   change MulAut.conj t (MulAut.conj t h) = h
   rw [MulAut.conj_apply, MulAut.conj_apply]
-  change t * (t * h * t⁻¹) * t⁻¹ = h
   rw [show t * (t * h * t⁻¹) * t⁻¹ = (t * t) * h * (t * t)⁻¹ by group, ht]
   simp
 

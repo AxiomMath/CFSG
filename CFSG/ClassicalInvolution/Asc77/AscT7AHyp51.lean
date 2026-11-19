@@ -208,7 +208,7 @@ theorem TwinFrameData.t_not_mem_closure (hp : p ≠ 2) (hq : 5 ≤ p ^ f) (hΩ :
       · exact h.hu
     exact this htcl
   have hS2 : IsPGroup 2 ↥((S : Subgroup G) ⊓ (K ⊔ K')) :=
-    (Sylow.isPGroup' S).to_le inf_le_left
+    (Sylow.isPGroup S).to_le inf_le_left
   have heq : (S : Subgroup G) ⊓ (K ⊔ K') = R ⊔ R' :=
     hQ.eq_of_le hS2 inf_le_right (le_inf (sup_le hRS hR'S) hQ.1)
   have htRR' : t ∈ R ⊔ R' := by

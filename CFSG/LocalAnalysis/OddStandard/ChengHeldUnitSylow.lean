@@ -29,7 +29,7 @@ theorem isSylowOf_inf_comap_zpowers {N Γ : Type*} [Group N] [Finite N] [Group �
     exact Subgroup.one_mem _
   have hP : IsSylowOf 2 (P : Subgroup N) ⊤ := by
     rw [isSylowOf_iff]
-    exact ⟨le_top, P.isPGroup', by simpa using P.not_dvd_index⟩
+    exact ⟨le_top, P.isPGroup, by simpa using P.not_dvd_index⟩
   have hS : IsSylowOf 2 ((P : Subgroup N) ⊓ ρ.ker) ρ.ker :=
     hP.inf_of_le_normalizer le_top (by rw [Subgroup.normalizer_eq_top])
   have hle : Subgroup.zpowers (ρ y) ≤ ρ.range := Subgroup.zpowers_le.mpr ⟨y, rfl⟩

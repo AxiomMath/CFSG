@@ -20,10 +20,10 @@ private theorem s15_Thirteen_pRank_five_le_one_of_permutes
     (hcard : ∀ W ∈ Y, Nat.card W = 4) (hn : Y.ncard ≤ 6) :
     CFSG.Open.pRank 5 X ≤ 1 := by
   classical
-  haveI : Finite ↥Y := Set.toFinite _
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  letI : MulAction X (Subgroup U) := MulAction.compHom (α := Subgroup U) X.subtype
-  letI : MulAction X ↥Y :=
+  have : Finite ↥Y := Set.toFinite _
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : MulAction X (Subgroup U) := MulAction.compHom (α := Subgroup U) X.subtype
+  let : MulAction X ↥Y :=
     { smul := fun ψ W => ⟨ψ • (W : Subgroup U), hperm ψ ψ.2 W W.2⟩
       one_smul := fun W => Subtype.ext (one_smul X (W : Subgroup U))
       mul_smul := fun ψ χ W => Subtype.ext (mul_smul ψ χ (W : Subgroup U)) }
@@ -62,7 +62,7 @@ private theorem s15_Thirteen_pRank_five_le_one_of_permutes
     have hκfix : ∀ W ∈ Y, ∀ w ∈ W, κ w = w := by
       intro W hW w hw
       set H : Subgroup (MulAut U) := Subgroup.zpowers κ with hHdef
-      letI : MulAction H U := MulAction.compHom (α := U) H.subtype
+      let : MulAction H U := MulAction.compHom (α := U) H.subtype
       have hH5 : Nat.card H ∣ 5 := by
         rw [hHdef, Nat.card_zpowers]
         exact orderOf_dvd_iff_pow_eq_one.2 hκ5
@@ -212,14 +212,14 @@ private theorem s15_Thirteen_gap1_mbar_five_rank (D : Data G) (h1217 : R1217 D)
       (by rw [ncard_wStarConj D h151 hV]; exact hs)
   exact hle.trans hsmall
 
-theorem s15_Thirteen_gap1_small (D : Data G) (hSg : UC6S846.SigmaStd D)
-    (h1219 : D.sig = D.sig1) (h1217 : R1217 D) (h127 : R127 D) (h1111 : R1111 D)
+theorem s15_Thirteen_gap1_small (D : Data G) (_hSg : UC6S846.SigmaStd D)
+    (_h1219 : D.sig = D.sig1) (h1217 : R1217 D) (h127 : R127 D) (_h1111 : R1111 D)
     (h115 : F11.R115 D) {V₀ V L : Subgroup G} (h : Hyp154 D V₀ V L) (hV : IsElemAbelian 2 V)
-    (hL : barSub V₀ V hV L ≠ ⊥) (hγ : gamma15 D.M V₀ V hV L = 2) (hk : D.k = 2)
+    (hL : barSub V₀ V hV L ≠ ⊥) (hγ : gamma15 D.M V₀ V hV L = 2) (_hk : D.k = 2)
     (h5 : 5 ∈ D.sig) (hs : s15 D.M V₀ V hV L = 5 ∨ s15 D.M V₀ V hV L = 6)
     (hcard : Nat.card V₀ ≤ 4) : False := by
   have hpf := h.hyp151.hyp125.pairFacts
-  haveI : ((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal :=
+  have : ((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal :=
     WeakClosure81.cTilde_subgroupOf_normal hV hpf.le_normalizer hpf.le_normalizer₀
   have hH11 : F11.Hyp11 D V₀ V := Hyp125.hyp11 h127 h.hyp151.hyp125
   obtain ⟨-, hle, hge⟩ := h115 V₀ V hH11 hcard 5 h5
@@ -243,7 +243,7 @@ theorem s15_Thirteen_false_of_gamma_two_of_eight_le_card (D : Data G)
       exact rk_bot
     omega
   have hpf := h.hyp125.pairFacts
-  haveI : ((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal :=
+  have : ((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal :=
     WeakClosure81.cTilde_subgroupOf_normal hV hpf.le_normalizer hpf.le_normalizer₀
   obtain ⟨n, hsn, Xbar, hXn, hXe, hXc, hXd⟩ := s15_Thirteen_exists_xbar D h1217 h hV hL hγ
   have h11 : F11.Hyp11 D V₀ V := Hyp125.hyp11 h127 h.hyp125
@@ -252,11 +252,11 @@ theorem s15_Thirteen_false_of_gamma_two_of_eight_le_card (D : Data G)
   omega
 
 theorem s15_Thirteen_gap1_large (D : Data G) (hSg : UC6S846.SigmaStd D)
-    (h1219 : D.sig = D.sig1) (h1217 : R1217 D) (h127 : R127 D) (h1111 : R1111 D)
-    (h115 : F11.R115 D) (h1110 : R1110G D) (h77 : F07.R77Eq D) {V₀ V L : Subgroup G}
+    (h1219 : D.sig = D.sig1) (h1217 : R1217 D) (h127 : R127 D) (_h1111 : R1111 D)
+    (_h115 : F11.R115 D) (h1110 : R1110G D) (h77 : F07.R77Eq D) {V₀ V L : Subgroup G}
     (h : Hyp154 D V₀ V L) (hV : IsElemAbelian 2 V)
-    (hL : barSub V₀ V hV L ≠ ⊥) (hγ : gamma15 D.M V₀ V hV L = 2) (hk : D.k = 2)
-    (h5 : 5 ∈ D.sig) (hs : s15 D.M V₀ V hV L = 5 ∨ s15 D.M V₀ V hV L = 6)
+    (_hL : barSub V₀ V hV L ≠ ⊥) (hγ : gamma15 D.M V₀ V hV L = 2) (_hk : D.k = 2)
+    (_h5 : 5 ∈ D.sig) (hs : s15 D.M V₀ V hV L = 5 ∨ s15 D.M V₀ V hV L = 6)
     (hcard : 4 < Nat.card V₀) : False := by
   have hs3 : 3 ≤ s15 D.M V₀ V hV L := by rcases hs with hs | hs <;> omega
   obtain ⟨k, hk2⟩ := IsPGroup.iff_card.mp h.hyp151.hyp125.pairFacts.elemAbelian₀.isPGroup

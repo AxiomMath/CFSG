@@ -280,8 +280,8 @@ theorem eq_indClassFun_of_inertiaGroup_eq {K : Type*} [Group K] [Fintype K]
 
 theorem exists_linearChar_eq_indClassFun_coreProduct {N U Q : Subgroup L} [Finite L]
     [Fintype ↥(N ⊔ U)] [N.Normal] [IsMulCommutative ↥N] [IsMulCommutative ↥U]
-    (hN : N ≠ ⊥) (hNU : N ⊓ U = ⊥)
-    (hL : (N ⊔ U) ⊔ Q = ⊤) (hKQ : (N ⊔ U) ⊓ Q = ⊥)
+    (_hN : N ≠ ⊥) (hNU : N ⊓ U = ⊥)
+    (_hL : (N ⊔ U) ⊔ Q = ⊤) (_hKQ : (N ⊔ U) ⊓ Q = ⊥)
     (hQU : Q ≤ normalizer (U : Set L))
     {q : ℕ} (hq : q.Prime) (hQcard : Nat.card Q = q) (hqU : q.Coprime (Nat.card U))
     (hmin : ∀ M : Subgroup L, M ≤ N → U ≤ normalizer (M : Set L) →

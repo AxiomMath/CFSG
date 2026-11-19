@@ -107,8 +107,8 @@ private theorem s16h_H5_SL8_odd [Finite W] {A L : Subgroup (MulAut W)} {t : MulA
   have hyNorm : y ∈ normalizer (L : Set (MulAut W)) := (Subgroup.mem_inf.mp hyN).2
   set N : Subgroup (MulAut W) := A ⊓ normalizer (L : Set (MulAut W)) with hN
   obtain ⟨K, hKf, hKfin, hKcard, π, hπ⟩ := h.2
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   have htrans : CFSG.Quasithin.MS93.S32.IsTransNZ (CFSG.Open.StatedSL 2 K) :=
     s16h_isTransNZ_statedSL_two K
   have hirr : ∀ J : Subgroup W, (∀ x ∈ L, ∀ w ∈ J, x w ∈ J) → Z ≤ J → J ≤ U →
@@ -182,7 +182,7 @@ private theorem s16h_psl2_cube_mem_inner {K : Type} [Field K] [Finite K] [CharP 
       (CFSG.GorensteinWalter.PSL2 K) := by
   let INN := CFSG.ComponentClassification.OuterAutomorphisms.inner (CFSG.GorensteinWalter.PSL2 K)
   let Φ := (CFSG.GorensteinWalter.psl2FieldAut K).range
-  haveI : INN.Normal := CFSG.ComponentClassification.OuterAutomorphisms.innerNormal _
+  have : INN.Normal := CFSG.ComponentClassification.OuterAutomorphisms.innerNormal _
   let q : MulAut (CFSG.GorensteinWalter.PSL2 K) →*
       MulAut (CFSG.GorensteinWalter.PSL2 K) ⧸ INN := QuotientGroup.mk' INN
   have hmapbot : INN.map q = ⊥ := by
@@ -213,19 +213,19 @@ private theorem s16h_psl2_cube_mem_inner {K : Type} [Field K] [Finite K] [CharP 
   exact hq3
 
 theorem s16h_H5_zcond_SL8_cube_inner [Finite W] {A L : Subgroup (MulAut W)} {t : MulAut W}
-    (hc : s16h_H5Cfg A L t)
+    (_hc : s16h_H5Cfg A L t)
     (h : s16h_H5RowSL2 L (commSub ⊤ L) (commSub ⊤ L ⊓ fixV L) 3) :
     ∀ x ∈ A ⊓ normalizer (L : Set (MulAut W)),
       ∃ l₀ ∈ L, ∀ l ∈ L, x ^ 3 * l * (x ^ 3)⁻¹ = l₀ * l * l₀⁻¹ := by
   intro x hxN
   obtain ⟨K, hKf, hKfin, hKcard, ⟨e₁⟩⟩ := h.1
-  letI : Field K := hKf
-  letI : Finite K := hKfin
-  letI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Field K := hKf
+  let : Finite K := hKfin
+  let : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hchar : CharP K 2 :=
     charP_of_card_eq_prime_pow (by rw [Fintype.card_eq_nat_card, hKcard])
-  letI : CharP K 2 := hchar
+  let : CharP K 2 := hchar
   have hcenter := CFSG.Walter.sl2_center_eq_bot_of_charTwo (K := K)
   let slEquiv : Matrix.SpecialLinearGroup (Fin 2) K ≃* CFSG.GorensteinWalter.PSL2 K :=
     ((QuotientGroup.quotientMulEquivOfEq hcenter).trans QuotientGroup.quotientBot).symm

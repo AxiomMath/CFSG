@@ -26,7 +26,7 @@ theorem qtwoDL1OrthPair_holds : QTwoDL1OrthPair := by
     rwa [hF] at h
   rcases (Nat.dvd_prime Nat.prime_three).mp hp3 with rfl | rfl
   · exact absurd (by rw [pmoop_eq_one_of_isReflection_one hr, one_mul, mul_one]) hnc
-  · haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  · have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨hpair, hcard⟩ := qtwoOrth_pair_card_core Φ hF hrX hr'X hr hr' hnc
     exact ⟨ggRankTwoIn X Bs r r', ggOTwoPrime_le _, hpair, hcard⟩
 

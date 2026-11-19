@@ -12,11 +12,13 @@ open scoped commutatorElement
 
 variable {K E X : Type*} [Field K] [AddCommGroup E] [Module K E] [FiniteDimensional K E] [Group X]
 
+omit [FiniteDimensional K E] in
 theorem opm_mul (a b : E ≃ₗ[K] E) (w : E) :
     opm (a * b) w = opm a w + opm b w + opm a (opm b w) := by
   simp only [opm_apply, LinearEquiv.mul_apply, map_sub]
   abel
 
+omit [FiniteDimensional K E] in
 theorem opm_sq_eq_zero (h2 : (2 : K) = 0) {g : E ≃ₗ[K] E} (hg : g * g = 1) (w : E) :
     opm g (opm g w) = 0 := by
   have hgg : g (g w) = w := by
@@ -29,6 +31,7 @@ theorem opm_sq_eq_zero (h2 : (2 : K) = 0) {g : E ≃ₗ[K] E} (hg : g * g = 1) (
     abel
   rw [key, h2, zero_smul]
 
+omit [FiniteDimensional K E] in
 theorem opm_comm_of_comm {a b : E ≃ₗ[K] E} (h : a * b = b * a) (w : E) :
     opm a (opm b w) = opm b (opm a w) := by
   have hab : a (b w) = b (a w) := by
@@ -38,6 +41,7 @@ theorem opm_comm_of_comm {a b : E ≃ₗ[K] E} (h : a * b = b * a) (w : E) :
   simp only [opm_apply, map_sub, hab]
   abel
 
+omit [FiniteDimensional K E] in
 theorem phi_apply_inv_apply (φ : X →* (E ≃ₗ[K] E)) (g : X) (w : E) :
     φ g (φ g⁻¹ w) = w := by
   have hmul : φ g * φ g⁻¹ = 1 := by
@@ -46,6 +50,7 @@ theorem phi_apply_inv_apply (φ : X →* (E ≃ₗ[K] E)) (g : X) (w : E) :
   rw [LinearEquiv.mul_apply] at h'
   exact h'
 
+omit [FiniteDimensional K E] in
 theorem phi_inv_apply_phi (φ : X →* (E ≃ₗ[K] E)) (g : X) (w : E) :
     φ g⁻¹ (φ g w) = w := by
   have hmul : φ g⁻¹ * φ g = 1 := by
@@ -54,6 +59,7 @@ theorem phi_inv_apply_phi (φ : X →* (E ≃ₗ[K] E)) (g : X) (w : E) :
   rw [LinearEquiv.mul_apply] at h'
   exact h'
 
+omit [FiniteDimensional K E] in
 theorem opm_conj (φ : X →* (E ≃ₗ[K] E)) (g a : X) (w : E) :
     opm (φ (g * a * g⁻¹)) w = φ g (opm (φ a) (φ g⁻¹ w)) := by
   rw [opm_apply, opm_apply, map_mul, map_mul, LinearEquiv.mul_apply, LinearEquiv.mul_apply,
@@ -74,8 +80,7 @@ theorem mem_conjSubgroup_iff' {V : Subgroup X} {h z : X} :
 theorem mem_normalizer_conjSubgroup_iff {V : Subgroup X} {h y : X} :
     y ∈ normalizer ((conjSubgroup h V : Subgroup X) : Set X) ↔
       h⁻¹ * y * h ∈ normalizer (V : Set X) := by
-  simp only [Subgroup.mem_normalizer_iff, SetLike.mem_coe,
-    CFSG.CGT.Timmesfeld75.mem_conjSubgroup]
+  simp only [Subgroup.mem_normalizer_iff, CFSG.CGT.Timmesfeld75.mem_conjSubgroup]
   constructor
   · intro H x
     have H' := H (h * x * h⁻¹)
@@ -98,7 +103,7 @@ variable {B : LinearMap.BilinForm K E} {φ : X →* (E ≃ₗ[K] E)} {V L Nb Rb 
 
 theorem MoveFrame.exists_ne_one (F : MoveFrame B φ V L Nb Rb Tt q) : ∃ a ∈ V, a ≠ 1 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hV : V = ⊥ := (Subgroup.eq_bot_iff_forall V).mpr hcon
   have h1 := F.V_card
   rw [hV, Subgroup.card_bot] at h1

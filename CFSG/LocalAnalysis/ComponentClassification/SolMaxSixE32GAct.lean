@@ -35,16 +35,22 @@ namespace IsFrame
 variable {Z : Ctx M θ ρ t s H Q} {w₀ w₁ x : X} (F : IsFrame Z w₀ w₁ x)
 include F
 
+omit F in
+include Z in
+variable (Z) in
 private theorem c_mem_N {c : X} (hc : c ∈ centralizer ({s, t} : Set X)) :
     c ∈ normalizer (M : Set X) :=
   Z.mem_normalizer_of_mem_C (mem_centralizer_singleton_iff.mpr
     (mem_centralizer_iff.mp hc t (by simp)).symm)
 
+omit F in
+include Z in
+variable (Z) in
 private theorem rho_comm {c : X} (hc : c ∈ centralizer ({s, t} : Set X)) :
     rhoX ρ c * σ₀ = σ₀ * rhoX ρ c := by
   have hcs : s * c = c * s := mem_centralizer_iff.mp hc s (by simp)
   have h := congrArg (rhoX ρ) hcs
-  rw [rhoX_mul Z.s_mem_N (F.c_mem_N hc), rhoX_mul (F.c_mem_N hc) Z.s_mem_N, Z.hρs] at h
+  rw [rhoX_mul Z.s_mem_N ((CFSG.ComponentClassification.SolMax.Sig36.E32.IsFrame.c_mem_N Z) hc), rhoX_mul ((CFSG.ComponentClassification.SolMax.Sig36.E32.IsFrame.c_mem_N Z) hc) Z.s_mem_N, Z.hρs] at h
   exact h.symm
 
 private theorem rhoX_mono (a : Fin 5 → ZMod 2) :
@@ -63,7 +69,7 @@ private theorem rhoX_mono (a : Fin 5 → ZMod 2) :
     rhoX_mul (mul_mem (mul_mem (pow_mem hs _) (pow_mem ht _)) (pow_mem h0 _)) (pow_mem h1 _),
     rhoX_mul (mul_mem (pow_mem hs _) (pow_mem ht _)) (pow_mem h0 _),
     rhoX_mul (pow_mem hs _) (pow_mem ht _),
-    Z.rhoX_pow hs, Z.rhoX_pow ht, Z.rhoX_pow h0, Z.rhoX_pow h1, Z.rhoX_pow h4,
+    CFSG.ComponentClassification.SolMax.Sig36.E32.Ctx.rhoX_pow hs, CFSG.ComponentClassification.SolMax.Sig36.E32.Ctx.rhoX_pow ht, CFSG.ComponentClassification.SolMax.Sig36.E32.Ctx.rhoX_pow h0, CFSG.ComponentClassification.SolMax.Sig36.E32.Ctx.rhoX_pow h1, CFSG.ComponentClassification.SolMax.Sig36.E32.Ctx.rhoX_pow h4,
     Z.hρs, Z.rho_t, F.ρw₀, F.ρw₁, F.ρx, one_pow, mul_one]
 
 private theorem coord_one {a : Fin 5 → ZMod 2} (ha0 : a 0 = 0)
@@ -105,11 +111,11 @@ private theorem conj_w₀ {c : X} (hc : c ∈ centralizer ({s, t} : Set X))
       a 0 = 0 ∧ a 1 = 0 ∧ a 4 = 0 := by
   obtain ⟨a, ha⟩ := F.conj_gen_mem hcA 2
   have ha' : c * w₀ * c⁻¹ = mono ![s, t, w₀, w₁, x] a := ha
-  have hM : c * w₀ * c⁻¹ ∈ M := (mem_normalizer_iff.mp (F.c_mem_N hc) w₀).mp F.w₀M
+  have hM : c * w₀ * c⁻¹ ∈ M := (mem_normalizer_iff.mp ((CFSG.ComponentClassification.SolMax.Sig36.E32.IsFrame.c_mem_N Z) hc) w₀).mp F.w₀M
   have hF : σ₀ ^ (a 0).val * (p 1 * p 2) ^ (a 2).val * (p 0 * p 2) ^ (a 3).val *
       πx ^ (a 4).val = rhoX ρ c * (p 1 * p 2) * (rhoX ρ c)⁻¹ := by
-    rw [← F.rhoX_mono, ← ha', rhoX_conj (F.c_mem_N hc) (le_normalizer F.w₀M), F.ρw₀]
-  have h04 := fc_w (a 0) (a 2) (a 3) (a 4) (by rw [hF]; exact Zs_conj_U12 (F.rho_comm hc))
+    rw [← F.rhoX_mono, ← ha', rhoX_conj ((CFSG.ComponentClassification.SolMax.Sig36.E32.IsFrame.c_mem_N Z) hc) (le_normalizer F.w₀M), F.ρw₀]
+  have h04 := fc_w (a 0) (a 2) (a 3) (a 4) (by rw [hF]; exact Zs_conj_U12 ((CFSG.ComponentClassification.SolMax.Sig36.E32.IsFrame.rho_comm Z) hc))
   exact ⟨a, ha', h04.1, F.coord_one h04.1 (by rw [← ha']; exact hM), h04.2⟩
 
 private theorem conj_w₁ {c : X} (hc : c ∈ centralizer ({s, t} : Set X))
@@ -119,11 +125,11 @@ private theorem conj_w₁ {c : X} (hc : c ∈ centralizer ({s, t} : Set X))
       a 0 = 0 ∧ a 1 = 0 ∧ a 4 = 0 := by
   obtain ⟨a, ha⟩ := F.conj_gen_mem hcA 3
   have ha' : c * w₁ * c⁻¹ = mono ![s, t, w₀, w₁, x] a := ha
-  have hM : c * w₁ * c⁻¹ ∈ M := (mem_normalizer_iff.mp (F.c_mem_N hc) w₁).mp F.w₁M
+  have hM : c * w₁ * c⁻¹ ∈ M := (mem_normalizer_iff.mp ((CFSG.ComponentClassification.SolMax.Sig36.E32.IsFrame.c_mem_N Z) hc) w₁).mp F.w₁M
   have hF : σ₀ ^ (a 0).val * (p 1 * p 2) ^ (a 2).val * (p 0 * p 2) ^ (a 3).val *
       πx ^ (a 4).val = rhoX ρ c * (p 0 * p 2) * (rhoX ρ c)⁻¹ := by
-    rw [← F.rhoX_mono, ← ha', rhoX_conj (F.c_mem_N hc) (le_normalizer F.w₁M), F.ρw₁]
-  have h04 := fc_w (a 0) (a 2) (a 3) (a 4) (by rw [hF]; exact Zs_conj_U02 (F.rho_comm hc))
+    rw [← F.rhoX_mono, ← ha', rhoX_conj ((CFSG.ComponentClassification.SolMax.Sig36.E32.IsFrame.c_mem_N Z) hc) (le_normalizer F.w₁M), F.ρw₁]
+  have h04 := fc_w (a 0) (a 2) (a 3) (a 4) (by rw [hF]; exact Zs_conj_U02 ((CFSG.ComponentClassification.SolMax.Sig36.E32.IsFrame.rho_comm Z) hc))
   exact ⟨a, ha', h04.1, F.coord_one h04.1 (by rw [← ha']; exact hM), h04.2⟩
 
 private theorem conj_x {c : X} (hc : c ∈ centralizer ({s, t} : Set X))
@@ -132,11 +138,11 @@ private theorem conj_x {c : X} (hc : c ∈ centralizer ({s, t} : Set X))
     c * x * c⁻¹ = x := by
   obtain ⟨a, ha⟩ := F.conj_gen_mem hcA 4
   have ha' : c * x * c⁻¹ = mono ![s, t, w₀, w₁, x] a := ha
-  have hM : c * x * c⁻¹ ∈ M := (mem_normalizer_iff.mp (F.c_mem_N hc) x).mp F.xM
+  have hM : c * x * c⁻¹ ∈ M := (mem_normalizer_iff.mp ((CFSG.ComponentClassification.SolMax.Sig36.E32.IsFrame.c_mem_N Z) hc) x).mp F.xM
   have hF : σ₀ ^ (a 0).val * (p 1 * p 2) ^ (a 2).val * (p 0 * p 2) ^ (a 3).val *
       πx ^ (a 4).val = rhoX ρ c * πx * (rhoX ρ c)⁻¹ := by
-    rw [← F.rhoX_mono, ← ha', rhoX_conj (F.c_mem_N hc) (le_normalizer F.xM), F.ρx]
-  have hz := Zs_conj_πx (F.rho_comm hc)
+    rw [← F.rhoX_mono, ← ha', rhoX_conj ((CFSG.ComponentClassification.SolMax.Sig36.E32.IsFrame.c_mem_N Z) hc) (le_normalizer F.xM), F.ρx]
+  have hz := Zs_conj_πx ((CFSG.ComponentClassification.SolMax.Sig36.E32.IsFrame.rho_comm Z) hc)
   rw [← hF] at hz
   obtain ⟨h0, h2, h3, h4⟩ := fc_x (a 0) (a 2) (a 3) (a 4) (fun i hi => hz.1 i hi)
     (Perm.mem_alternatingGroup.mp hz.2)
@@ -167,15 +173,15 @@ theorem gamma_action {c : X} (hc : c ∈ centralizer ({s, t} : Set X))
     intro i
     fin_cases i
     · show c * s * c⁻¹ = mono _ (Pi.single 0 1)
-      rw [F.E5.mono_single 0]
+      rw [CFSG.ComponentClassification.SolMax.Sig36.E32.IsE5.mono_single 0]
       exact hs
     · show c * t * c⁻¹ = mono _ (Pi.single 1 1)
-      rw [F.E5.mono_single 1]
+      rw [CFSG.ComponentClassification.SolMax.Sig36.E32.IsE5.mono_single 1]
       exact ht
     · exact ha₀
     · exact ha₁
     · show c * x * c⁻¹ = mono _ (Pi.single 4 1)
-      rw [F.E5.mono_single 4]
+      rw [CFSG.ComponentClassification.SolMax.Sig36.E32.IsE5.mono_single 4]
       exact hx
   have h2 : (2 : ZMod 2) = 0 := rfl
   refine ⟨v 2 • (Pi.single 2 1 + a₀) + v 3 • (Pi.single 3 1 + a₁), ?_, ?_, ?_, ?_⟩

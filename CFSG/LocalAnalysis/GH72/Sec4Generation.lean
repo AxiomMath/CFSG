@@ -66,7 +66,7 @@ theorem sup_eq_top_of_normalizer_le {K H : Subgroup Γ} [K.Normal] (hK : Odd (Na
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hPK : (P : Subgroup Γ) ⊓ K = ⊥ := by
     rw [inf_comm]
-    exact inf_eq_bot_of_odd_of_isPGroup hK P.isPGroup'
+    exact inf_eq_bot_of_odd_of_isPGroup hK P.isPGroup
   by_cases hHt : H.map (QuotientGroup.mk' K) = ⊤
   · rw [eq_top_iff]
     intro g _
@@ -104,7 +104,7 @@ theorem sup_eq_top_of_normalizer_le {K H : Subgroup Γ} [K.Normal] (hK : Odd (Na
         obtain ⟨p, hp, rfl⟩ := hr'
         exact mem_map_of_mem _ ⟨hp, hr⟩
     have hR1 : R ≠ ⊥ := fun h => hR'1 (by rw [← hRR', h, Subgroup.map_bot])
-    rw [← hRR', ← CFSG.Holt.H78.map_normalizer_eq_of_odd K hK (P.isPGroup'.to_le inf_le_left)]
+    rw [← hRR', ← CFSG.Holt.H78.map_normalizer_eq_of_odd K hK (P.isPGroup.to_le inf_le_left)]
     exact map_mono (hN R inf_le_left hR1)
 
 theorem not_fusionStronglyEmbedded_of_isKleinFour {Q : Type}
@@ -125,7 +125,7 @@ theorem not_fusionStronglyEmbedded_of_isKleinFour {Q : Type}
     intro W _ e
     rw [Sylow.coe_mapSurjective,
       card_map_of_injective (show Function.Injective e.toMonoidHom from e.injective), hB4]
-  rcases CFSG.Open.Open.bender_strongly_embedded Q H hH with
+  rcases CFSG.Open.Thm.bender_strongly_embedded Q H hH with
     h | ⟨M', N', hM'n, hN'n, hMN, -, hM'odd, hN'odd, hBG⟩
   · rcases h B with hc | ⟨r, hr, ⟨e⟩⟩
     · exact @IsKleinFour.not_isCyclic _ _ hB hc
@@ -151,7 +151,7 @@ theorem not_fusionStronglyEmbedded_of_isKleinFour {Q : Type}
         (QuotientGroup.quotientMulEquivOfEq (bot_subgroupOf ⊤).symm))
     have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     rcases hBG with ⟨f, hf, ⟨e⟩⟩ | ⟨f, hf, ⟨e⟩⟩ | ⟨a, ha, ⟨e⟩⟩
-    · obtain ⟨-, -, -, -, hc⟩ := CFSG.Open.Open.bender_psl2_borel f hf
+    · obtain ⟨-, -, -, -, hc⟩ := CFSG.Open.Thm.bender_psl2_borel f hf
         (Sylow.mapSurjective (hsurj (eW.trans e)) B)
       rw [hcard (eW.trans e), pow_one] at hc
       have hf2 : f = 2 := Nat.pow_right_injective le_rfl (show 2 ^ f = 2 ^ 2 by rw [← hc])
@@ -159,12 +159,12 @@ theorem not_fusionStronglyEmbedded_of_isKleinFour {Q : Type}
       obtain ⟨e₅⟩ := CFSG.Walter.nonempty_psl2_five_mulEquiv_psl2_four
       exact hnot ⟨((eW.trans e).trans e₅.symm).trans
         (CFSG.GorensteinWalter.FieldTransport.pslZModEquivGaloisFieldOne 5).symm⟩
-    · obtain ⟨-, -, -, -, hc⟩ := CFSG.Open.Open.bender_psu3_borel f hf
+    · obtain ⟨-, -, -, -, hc⟩ := CFSG.Open.Thm.bender_psu3_borel f hf
         (Sylow.mapSurjective (hsurj (eW.trans e)) B)
       rw [hcard (eW.trans e), ← pow_mul] at hc
       have h2 := Nat.pow_right_injective le_rfl (show 2 ^ 2 = 2 ^ (f * 3) by rw [← hc])
       omega
-    · obtain ⟨-, -, -, -, hc⟩ := CFSG.Open.Open.bender_suzuki_borel a ha
+    · obtain ⟨-, -, -, -, hc⟩ := CFSG.Open.Thm.bender_suzuki_borel a ha
         (Sylow.mapSurjective (hsurj (eW.trans e)) B)
       rw [hcard (eW.trans e), ← pow_mul] at hc
       have h2 := Nat.pow_right_injective le_rfl (show 2 ^ 2 = 2 ^ ((2 * a + 1) * 2) by rw [← hc])
@@ -212,7 +212,7 @@ theorem exists_sylow_quotient_mulEquiv {K K₀ T : Subgroup G} [((O K).subgroupO
   have hPK : (P : Subgroup K₀) ⊓ (O K).subgroupOf K₀ = ⊥ := by
     rw [inf_comm]
     exact inf_eq_bot_of_odd_of_isPGroup (Odd.of_dvd_nat (odd_card_O K) (card_subgroupOf_dvd _ _))
-      P.isPGroup'
+      P.isPGroup
   obtain ⟨e₁⟩ := nonempty_map_mk'_mulEquiv hPK
   rw [Sylow.coe_mapSurjective]
   exact ⟨e₁.trans (((P : Subgroup K₀).equivMapOfInjective K₀.subtype

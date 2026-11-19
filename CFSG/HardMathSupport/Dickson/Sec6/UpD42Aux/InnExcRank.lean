@@ -38,7 +38,7 @@ theorem UpD42Pumpup.exists_elemAbelian_81_fixed {S : Type} [Group S] [Finite S] 
     (h : UpD42Pumpup S α) :
     ∃ E : Subgroup ↥(fixSubgroup α), CFSG.Assembly.IsElemAbelian 3 E ∧ Nat.card E = 81 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨-, -, I, hI, hD⟩ := h
   obtain ⟨Eb, hEb, hEb81⟩ := exists_elemAbelian_81_of_isD42 hD
   have hN3 : ¬ 3 ∣ Nat.card (GLAPPrimeCore 3 ↥I) :=

@@ -19,6 +19,7 @@ variable {G : Type} [Group G] [Finite G]
 private def uSL' {F : Type*} [Field F] (t : F) : SL(2, F) :=
   ⟨!![1, t; 0, 1], by simp [Matrix.det_fin_two]⟩
 
+omit [Finite G] in
 private theorem alpha_one_zero_of_normalizes {L S : Subgroup G} {F : Type*} [Field F]
     (α : ↥L →* SL(2, F)) (hα : Function.Surjective α)
     (hmem : ∀ x : ↥L, (x : G) ∈ S ↔ ∃ t : F, (α x : Matrix (Fin 2) (Fin 2) F) = !![1, t; 0, 1])
@@ -47,10 +48,10 @@ theorem U4qLocalData.exists_inner_borelOf_left (hH : Hyp111 L1 L2 S)
   intro d hd
   obtain ⟨F, hFfield, hFfin, ⟨c₁⟩⟩ := hD.exists_coordLeft hH hS
   obtain ⟨K, hKfield, hKfin, ⟨c₂⟩⟩ := hD.exists_coordRight hH hS
-  letI := hFfield
-  letI := hKfield
-  letI := hKfin
-  haveI : CharP K 2 :=
+  let := hFfield
+  let := hKfield
+  let := hKfin
+  have : CharP K 2 :=
     charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, c₂.card])
   obtain ⟨ρ, κ, -, -, -, -, hA, -, -⟩ := hD.exists_ringHom_field hH hS c₁ c₂
   have hSL1 : S ≤ L1 := hD.le_left hH hS
@@ -87,7 +88,7 @@ theorem U4qLocalData.exists_inner_borelOf_left (hH : Hyp111 L1 L2 S)
   have hx' : (⟨(x : G), x.2⟩ : ↥L2) = x := rfl
   rw [hx', hxα, ht] at h
   simp only [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
-    Matrix.empty_val', Matrix.cons_val_fin_one, Matrix.head_cons] at h
+    Matrix.empty_val', Matrix.cons_val_fin_one] at h
   rw [ht, h]
 
 theorem U4qLocalData.exists_inner_borelOf_right (hH : Hyp111 L1 L2 S)
@@ -97,10 +98,10 @@ theorem U4qLocalData.exists_inner_borelOf_right (hH : Hyp111 L1 L2 S)
   intro d hd
   obtain ⟨F, hFfield, hFfin, ⟨c₁⟩⟩ := hD.exists_coordLeft hH hS
   obtain ⟨K, hKfield, hKfin, ⟨c₂⟩⟩ := hD.exists_coordRight hH hS
-  letI := hFfield
-  letI := hKfield
-  letI := hFfin
-  haveI : CharP F 2 :=
+  let := hFfield
+  let := hKfield
+  let := hFfin
+  have : CharP F 2 :=
     charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, c₁.card])
   have hU : UnitaryFieldData 2 f K := ⟨Nat.prime_two, hD.one_le, c₂.card⟩
   obtain ⟨ρ, κ, hκ, -, -, hρsurj, -, -, hC⟩ := hD.exists_ringHom_field hH hS c₁ c₂
@@ -148,7 +149,7 @@ theorem U4qLocalData.exists_inner_borelOf_right (hH : Hyp111 L1 L2 S)
   rw [hx', hxα] at hC1
   rw [ht] at hC2
   simp only [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
-    Matrix.empty_val', Matrix.cons_val_fin_one, Matrix.head_cons] at hC1 hC2
+    Matrix.empty_val', Matrix.cons_val_fin_one] at hC1 hC2
   have hρ : ρ t = ρ (ν * s) := by
     apply mul_left_cancel₀ hκ
     rw [map_mul, hν, ← hC2, h11, hC1]

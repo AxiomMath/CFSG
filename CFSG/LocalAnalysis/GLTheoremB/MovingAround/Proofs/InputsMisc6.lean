@@ -35,7 +35,7 @@ theorem eq_one_of_mem_center_of_commute_sylow (hG : commutator G = ⊤) {p : ℕ
     group
   have hV1 : V z = 1 := hker (hG ▸ Subgroup.mem_top z)
   have h3 : z ^ (P : Subgroup G).index = 1 := congrArg Subtype.val (hVz.symm.trans hV1)
-  obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp P.isPGroup') ⟨z, hzP⟩
+  obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp P.isPGroup) ⟨z, hzP⟩
   have hk' : orderOf z = p ^ k := by rwa [Subgroup.orderOf_mk] at hk
   have h4 : orderOf z ∣ (P : Subgroup G).index := orderOf_dvd_of_pow_eq_one h3
   rcases Nat.eq_zero_or_pos k with h0 | h0
@@ -77,7 +77,7 @@ theorem exists_mem_not_mem_comm_mod {p : ℕ} [Fact p.Prime] {R U Z : Subgroup G
     rw [hbot, Subgroup.mem_bot] at hmem
     exact hmemZ _ hmem
   have hQp : IsPGroup p (R ⧸ Z') := hR.to_quotient _
-  haveI : Group.IsNilpotent (R ⧸ Z') := hQp.isNilpotent
+  have : Group.IsNilpotent (R ⧸ Z') := hQp.isNilpotent
   obtain ⟨w, hw1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp
     (Group.IsNilpotent.inf_center_ne_bot_of_normal hN1)
   obtain ⟨hwN, hwZ⟩ := Subgroup.mem_inf.1 w.2
@@ -99,12 +99,14 @@ section Defect
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_center_of_mem_centerOf {K : Subgroup G} {z : G} (hzK : z ∈ K)
     (hz : z ∈ centerOf K) : (⟨z, hzK⟩ : ↥K) ∈ Subgroup.center ↥K := by
   obtain ⟨w, hw, hwz⟩ := hz
   have hw' : w = ⟨z, hzK⟩ := Subtype.ext hwz
   exact hw' ▸ hw
 
+omit [Finite G] in
 theorem le_normalizer_inf {R K : Subgroup G} (hRK : R ≤ Subgroup.normalizer (K : Set G)) :
     R ≤ Subgroup.normalizer ((R ⊓ K : Subgroup G) : Set G) := by
   intro r hr
@@ -194,7 +196,7 @@ theorem exists_defect' (IU : Claims1113.InputU43) (hO : GLAPPrimeCore 3 G = ⊥)
     (hK : CFSG.Open.IsKGroup G) {c : Subgroup G} (hc : IsComponentOf c (⊤ : Subgroup G)) {x : G}
     (hxc : x ∈ Subgroup.normalizer (c : Set G)) (hx3 : x ^ 3 = 1) :
     ∃ y ∈ c, y ^ 3 = 1 ∧ (∃ g ∈ c, y * g ≠ g * y) ∧ y⁻¹ * (x * y * x⁻¹) ∈ centerOf c := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨R, hR, hxR, hS, -⟩ := Claims1113.exists_sylow_normalized hxc hx3
   have hRN : R ≤ Subgroup.normalizer (c : Set G) := hR.1
   have hnc : ∀ {y : G}, y ∈ c → y ∉ centerOf c → ∃ g ∈ c, y * g ≠ g * y := by
@@ -352,7 +354,7 @@ theorem le_other' (IU : Claims1113.InputU43) (D : Claims1113.CentralData Y V x)
     (hne : c₁ ≠ c₂)
     (hall : ∀ c : Subgroup Y, IsComponentOf c (⊤ : Subgroup Y) → c = c₁ ∨ c = c₂)
     (hV1 : V ≤ c₁) : V ≤ c₂ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_cases hconj : ∃ n : Y, GLBConj n c₂ = c₁
   · obtain ⟨n, hn⟩ := hconj
     have hc₂' : GLBConj n⁻¹ c₁ = c₂ := by
@@ -553,7 +555,7 @@ theorem lemma1113O3Claim_of_inputs' (h1111 : Lemma1111Statement) (h1112 : Lemma1
     Claims11x.Lemma1113O3Claim := by
   intro G _ _ m p B M E A a K h hp hL
   subst hp
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨V, x, R, hKY, hVL, hVel, hV9, hx3, hxV, hxnV, hsolv, hrk, htr, hRt, hZ⟩ :=
     Claims1113.exists_tilde_data h1111 h1112 h119 h104ii hSolv h hL
   have hO : GLAPPrimeCore 3 (↥M ⧸ GLAPPrimeCore 3 ↥M) = ⊥ :=

@@ -35,6 +35,7 @@ private theorem N_le_stabTil {D : Data G} {Ch : Choice2011 G} (c : Ctx23L D Ch)
     c.N ≤ stabTil ⊥ A :=
   le_inf hAN (by rw [Subgroup.normalizer_eq_top]; exact le_top)
 
+omit [Finite G] in
 theorem fixV_barSub_eq_imgTil_centralizer {A : Subgroup G} (hA : IsElemAbelian 2 A)
     {X : Subgroup G} (hX : X ≤ stabTil ⊥ A) :
     fixV (barSub ⊥ A hA X) = imgTil ⊥ A hA (A ⊓ Subgroup.centralizer (X : Set G)) := by

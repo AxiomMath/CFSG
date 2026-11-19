@@ -19,11 +19,11 @@ theorem threeNineOut_psp_four {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.
     Subgroup.center G = ⊥ ∧ ¬ p ∣ Nat.card (Outer G) ∧
       (∀ q : ℕ, q.Prime → q ≠ 2 → q ∣ Nat.card (Outer G) → q = 3) ∧ 3 ∣ Nat.card G := by
   obtain ⟨-, K, hKfield, hKfinite, hKcard, ⟨e⟩⟩ := hG
-  letI := hKfield
-  letI := hKfinite
+  let := hKfield
+  let := hKfinite
   have hp2 : p ≠ 2 := by omega
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CharP K p :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : CharP K p :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hp (by omega) hKcard
   have hodd : ringChar K ≠ 2 := by
     rw [ringChar.eq K p]
@@ -207,7 +207,7 @@ private theorem single_inr_zero_not_mem_flag {K : Type} [Field K] (i : ℕ) (hi 
     (v := Pi.single (Sum.inr (0 : Fin 2)) 1)).mp hmem (Sum.inr 0) (by
       rw [SymplecticFlag.flagOrder_inr]
       omega)
-  simpa using h
+  simp at h
 
 private theorem single_inl_zero_mem_flag {K : Type} [Field K] (i : ℕ) (hi : 1 ≤ i) :
     Pi.single (Sum.inl (0 : Fin 2)) 1 ∈ SymplecticFlag.flag 2 K i := by
@@ -270,7 +270,7 @@ private theorem dotW_spFourSwap_not_mem_stab_two {K : Type} [Field K] :
   exact single_inr_zero_not_mem_flag (K := K) 2 le_rfl hv
 
 private theorem false_of_dvd_pred {K : Type} [Field K] [Finite K] {p d : ℕ}
-    (hp : p.Prime) (hp2 : p ≠ 2) (hd : d.Prime) (hd2 : d ≠ 2) (hdp : d ≠ p)
+    (_hp : p.Prime) (_hp2 : p ≠ 2) (hd : d.Prime) (hd2 : d ≠ 2) (_hdp : d ≠ p)
     (hKp : Nat.card K = p) (h2 : (2 : K) ≠ 0) (hdvd : d ∣ p - 1)
     {Y : Subgroup (StatedProj (StatedSp 2 K))}
     (hY : IsBorelDLocal p d Y) (hB : SymplecticFlag.projBorel 2 K ≤ Y)
@@ -290,7 +290,7 @@ private theorem false_of_dvd_pred {K : Type} [Field K] [Finite K] {p d : ℕ}
   have hKunits : Nat.card Kˣ = p - 1 := by
     rw [Nat.card_units, hKp]
   have hdvd' : d ∣ Nat.card Kˣ := hKunits ▸ hdvd
-  haveI : Fact d.Prime := ⟨hd⟩
+  have : Fact d.Prime := ⟨hd⟩
   obtain ⟨a, ha⟩ := exists_prime_orderOf_dvd_card' d hdvd'
   set hS : StatedSp 2 K := SymplecticTorusWeyl.torusHom (Pi.mulSingle (0 : Fin 2) a) with hSdef
   set hP : StatedProj (StatedSp 2 K) := SymplecticFlag.proj 2 K hS with hPdef
@@ -342,7 +342,7 @@ private theorem false_of_dvd_pred {K : Type} [Field K] [Finite K] {p d : ℕ}
   exact hnotY (hY.normalizer_le_of_dvd hd hHle hHcomm hdH hw0N)
 
 private theorem false_of_not_dvd_pred {K : Type} [Field K] [Finite K] {p d : ℕ}
-    (hp : p.Prime) (hp2 : p ≠ 2) (hd : d.Prime) (hd2 : d ≠ 2) (hdp : d ≠ p)
+    (hp : p.Prime) (_hp2 : p ≠ 2) (hd : d.Prime) (_hd2 : d ≠ 2) (hdp : d ≠ p)
     (hKp : Nat.card K = p) (h2 : (2 : K) ≠ 0) (hnot : ¬ d ∣ p - 1)
     (hdP : d ∣ Nat.card (StatedProj (StatedSp 2 K)))
     {Y : Subgroup (StatedProj (StatedSp 2 K))}
@@ -439,11 +439,11 @@ theorem not_isBorelDLocal_psp_four {G : Type} [Group G] [Finite G] {p d : ℕ} {
     (hdG : d ∣ Nat.card G) (hG : StatedClassicalModel G .PSp 2 p 1) :
     ¬ IsBorelDLocal p d Y := by
   obtain ⟨-, K, hKfield, hKfinite, hKcard, ⟨e⟩⟩ := hG
-  letI := hKfield
-  letI := hKfinite
+  let := hKfield
+  let := hKfinite
   have hp2 : p ≠ 2 := by omega
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CharP K p :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : CharP K p :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hp (by omega) hKcard
   have hKp : Nat.card K = p := by simpa using hKcard
   have h2 : (2 : K) ≠ 0 :=

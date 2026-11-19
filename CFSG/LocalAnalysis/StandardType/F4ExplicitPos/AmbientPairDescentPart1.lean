@@ -114,6 +114,7 @@ theorem rootSubgroup_map_bcGL_eq_fixed
       ⟨pinnedX τ K β a, Subgroup.subset_closure ⟨a, rfl⟩, ?_⟩
     rw [bcGL_pinnedX (τ := τ) (algebraMap K Ω) β a, ha]
 
+omit [Finite K] in
 theorem card_map_bcGL_rootSubgroup
     (Fr : Ω →+* Ω) (_hFr : ∀ c, Fr c = c ^ Nat.card K) (β : Fin τ.rank → ℤ) :
     Nat.card ((rootSubgroup τ K β).map (bcGL (τ := τ) (algebraMap K Ω))) = Nat.card K := by

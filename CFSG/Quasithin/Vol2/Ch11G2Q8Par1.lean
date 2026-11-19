@@ -76,7 +76,7 @@ theorem g2Act_uSL_p00 (p a b c d e f : F) :
   rw [g2Act_g2A_uSL]
   simp only [q6, Sum.elim_inl, Sum.elim_inr, cons_val_zero, cons_val_one, cons_val_two,
     head_cons, tail_cons]
-  congr 1 <;> funext k <;> fin_cases k <;> (simp; try ring)
+  congr 1 <;> funext k <;> fin_cases k <;> (simp)
 
 theorem g2X_e0_mem_stabV0 (α : F) : g2X ![α, 0, 0] ∈ stabV0 F := by
   rw [mem_stabV0, eu_eq_q6, g2Act_x0q]

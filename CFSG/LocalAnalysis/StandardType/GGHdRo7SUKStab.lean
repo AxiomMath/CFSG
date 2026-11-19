@@ -26,7 +26,7 @@ private theorem hdRo7SUKStabAux_coord_equiv {p : ℕ} {V : Type} [AddCommGroup V
       Module.Basis.coord_apply, Module.Basis.repr_self_apply]
     by_cases hij : σ i = j
     · have hji : i = σ.symm j := by rw [← hij, Equiv.symm_apply_apply]
-      simp [hij, hji]
+      simp [hji]
     · have hji : i ≠ σ.symm j := by
         intro h'
         exact hij (by rw [h', Equiv.apply_symm_apply])
@@ -129,7 +129,7 @@ private theorem hdRo7SUKStabAux_of_noncyclic {G : Type} [Group G] [Finite G] {p 
     (hnc : ∃ S : Subgroup G, S ≤ K ∧ IsPGroup p S ∧ ¬ IsCyclic S)
     {m : ℕ} {V : Type} [AddCommGroup V] [Module (ZMod p) V] (ι : Additive ↥Bs ≃+ V)
     (b : Module.Basis (Fin m) (ZMod p) V) (hy : y ∈ Bs) (hp3 : p = 3) (hm : 7 ≤ m)
-    (h3 : ¬ 3 ∣ m) (hiy : ι (Additive.ofMul (⟨y, hy⟩ : ↥Bs)) = SUOnes p b)
+    (_h3 : ¬ 3 ∣ m) (hiy : ι (Additive.ofMul (⟨y, hy⟩ : ↥Bs)) = SUOnes p b)
     (hAK : ∀ g, g ∈ (ggAutomizer K Bs).map (ggLin (p := p) ι) ↔ SUPerm p b g) :
     ∀ a ∈ (ggAutomizer ⊤ Bs).map (ggLin (p := p) ι), a (SUOnes p b) = SUOnes p b →
       ∀ s, SUPerm p b s → SUPerm p b (a * s * a⁻¹) := by
@@ -203,7 +203,7 @@ private theorem hdRo7SUKStabAux_of_noncyclic {G : Type} [Group G] [Finite G] {p 
 
 theorem su_kstab_holds : SUKStabLeaf := by
   intro G _ _ p B Bs x L D J y K hH hp hrow m V _ _ ι b hy hp3 hm h3 hiy hAK a ha hafix s hs
-  haveI : Fact p.Prime := hp
+  have : Fact p.Prime := hp
   exact hdRo7SUKStabAux_of_noncyclic hH
     (CFSG.StandardType.HdRo7KNC.knc_holds G p B Bs x L D J y K hH (Or.inr hrow))
     ι b hy hp3 hm h3 hiy hAK a ha hafix s hs

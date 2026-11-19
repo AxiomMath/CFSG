@@ -12,6 +12,7 @@ section ZStarClass
 
 variable {H : Type} [Group H] [Finite H]
 
+omit [Finite H] in
 theorem isolated_of_huniq {v : H} (hv : v * v = 1) (hv1 : v ≠ 1)
     (huniq : ∀ t : H, t * t = 1 → t * v = v * t → t = 1 ∨ t = v) (g : H)
     (hg : (g * v * g⁻¹) * v = v * (g * v * g⁻¹)) : g * v * g⁻¹ = v := by
@@ -29,13 +30,13 @@ theorem odd_ncard_conj_of_zStar {v : H} (hv : v * v = 1) (hv1 : v ≠ 1)
     (hiso : ∀ g : H, (g * v * g⁻¹) * v = v * (g * v * g⁻¹) → g * v * g⁻¹ = v) :
     Odd {w : H | IsConj v w}.ncard := by
   classical
-  haveI : Fintype H := Fintype.ofFinite H
+  have : Fintype H := Fintype.ofFinite H
   obtain ⟨N, hNn, hNodd, hNc⟩ := CFSG.ZStar.glauberman_zStar H v hv1 hv hiso
   have hfr := exists_mul_centralizer_of_zStar hv hNodd hNc
   set V : Set H := {w : H | IsConj v w} with hVdef
   have hV : ∀ g ∈ N, ∀ s ∈ V, g * s * g⁻¹ ∈ V := fun g _ s hs =>
     hs.trans (isConj_iff.2 ⟨g, rfl⟩)
-  letI : MulAction N V := conjSMulOn N V hV
+  let : MulAction N V := conjSMulOn N V hV
   let s₀ : V := ⟨v, IsConj.refl v⟩
   have horbit : MulAction.orbit N s₀ = Set.univ := by
     ext s
@@ -60,7 +61,7 @@ theorem isConj_of_involution_of_zStar {v : H} (hv : v * v = 1) (hv1 : v ≠ 1)
     (ht1 : t ≠ 1) : IsConj v t := by
   have hodd := odd_ncard_conj_of_zStar hv hv1 (isolated_of_huniq hv hv1 huniq)
   have ht2 : orderOf t = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime (by rw [pow_two]; exact ht) ht1
   have hmod := ncard_modEq_fixed (p := 2) Nat.prime_two ht2 (F := {w : H | IsConj v w}) (by
     intro g _ s hs

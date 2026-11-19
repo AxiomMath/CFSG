@@ -31,10 +31,11 @@ theorem three_ne_zero_of_not_dvd_card (h : ¬ 3 ∣ Nat.card K) : (3 : K) ≠ 0 
   rw [h33] at hdvd
   rwa [Nat.card_eq_fintype_card]
 
+omit [Finite K] in
 theorem no_root_of_not_dvd_card_sub_one (h3 : (3 : K) ≠ 0) (h : ¬ 3 ∣ Nat.card K - 1) (x : K) :
     x ^ 2 + x + 1 ≠ 0 := by
   intro hx
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hx3 : x ^ 3 = 1 := by linear_combination (x - 1) * hx
   have hx0 : x ≠ 0 := by
     rintro rfl
@@ -51,6 +52,7 @@ theorem no_root_of_not_dvd_card_sub_one (h3 : (3 : K) ≠ 0) (h : ¬ 3 ∣ Nat.c
   rw [hord, Nat.card_units] at this
   exact h this
 
+omit [Finite K] in
 theorem unit_eq_one_of_pow_three (hN : Nat.Coprime 3 (Nat.card K - 1)) (d : Kˣ) (hd : d ^ 3 = 1) :
     d = 1 := by
   have h1 : orderOf d ∣ 3 := orderOf_dvd_of_pow_eq_one hd
@@ -113,7 +115,7 @@ theorem i294CrossModelPSL67_holds : I294CrossModelPSL67 := by
     decide
   have hcard : Nat.card (Multiplicative (Fin 3 → ZMod 3)) = 3 ^ 3 := by
     rw [Nat.card_congr (Multiplicative.toAdd : Multiplicative (Fin 3 → ZMod 3) ≃ _)]
-    simp [Nat.card_eq_fintype_card, Fintype.card_fun, ZMod.card]
+    simp [Nat.card_eq_fintype_card, ZMod.card]
   have hH : ∀ a, φ a ∈ StatedSL n K := by
     intro a
     have h3a : (φ a) ^ 3 = 1 := by rw [← map_pow, hpow a, map_one]

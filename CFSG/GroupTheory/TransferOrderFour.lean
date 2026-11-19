@@ -18,9 +18,9 @@ noncomputable def extOne (g : G) : A := if h : g ∈ T then ψ ⟨g, h⟩ else 1
 
 variable {ψ}
 
-theorem extOne_of_mem {g : G} (hg : g ∈ T) : extOne ψ g = ψ ⟨g, hg⟩ := dif_pos hg
+theorem extOne_of_mem {g : G} (hg : g ∈ T) : extOne ψ g = ψ ⟨g, hg⟩ := dite_eq_left hg
 
-theorem extOne_of_not_mem {g : G} (hg : g ∉ T) : extOne ψ g = 1 := dif_neg hg
+theorem extOne_of_not_mem {g : G} (hg : g ∉ T) : extOne ψ g = 1 := dite_eq_right hg
 
 theorem extOne_conj {t : G} (ht : t ∈ T) (g : G) : extOne ψ (t⁻¹ * g * t) = extOne ψ g := by
   by_cases hg : g ∈ T
@@ -107,14 +107,14 @@ theorem transfer_eq_prod (hk : orderOf k = 4) (ψ : T →* A) :
     have h2 := minimalPeriod_dvd_iff k q.out 2
     generalize Function.minimalPeriod (k • ·) q.out = n at h4 h1 h2 ⊢
     by_cases hc1 : k • q.out = q.out
-    · rw [if_pos hc1, Nat.dvd_one.mp (h1.mpr (by rwa [pow_one])), pow_one]
-    · rw [if_neg hc1]
+    · rw [ite_eq_left hc1, Nat.dvd_one.mp (h1.mpr (by rwa [pow_one])), pow_one]
+    · rw [ite_eq_right hc1]
       by_cases hc2 : k ^ 2 • q.out = q.out
       · have hn : n = 1 ∨ n = 2 := (Nat.dvd_prime Nat.prime_two).mp (h2.mpr hc2)
         rcases hn with rfl | rfl
         · exact absurd (by simpa using h1.mp (dvd_refl 1)) hc1
-        · rw [if_pos hc2]
-      · rw [if_neg hc2, nat_eq_four_of_dvd h4 (fun h => hc2 (h2.mp h)), pow_four_eq_one hk,
+        · rw [ite_eq_left hc2]
+      · rw [ite_eq_right hc2, nat_eq_four_of_dvd h4 (fun h => hc2 (h2.mp h)), pow_four_eq_one hk,
           mul_one, inv_mul_cancel, extOne_of_mem T.one_mem]
         exact map_one ψ
   rw [Finset.prod_congr rfl (fun q _ => key q), Finset.prod_ite, Finset.prod_ite,
@@ -146,7 +146,7 @@ def Xs (k : G) (T : Subgroup G) : Set (Subgroup G) :=
 theorem Core.fk_mem_Xs_iff (h : Core k T) (x : G) :
     fk k x ∈ Xs k T ↔ x⁻¹ * k * x ∈ T ∧ x⁻¹ * k * x ∉ zpowers k := by
   unfold Xs fk
-  simp only [Set.mem_setOf_eq, Subgroup.zpowers_le]
+  simp only [Set.mem_ofPred_eq, Subgroup.zpowers_le]
   refine ⟨fun ⟨_, h1, h2⟩ => ⟨h1, fun hy => h2 ?_⟩,
     fun ⟨h1, h2⟩ => ⟨⟨x, rfl⟩, h1, fun h3 => h2 ?_⟩⟩
   · exact h.zpowers_conj_eq (h.mem_Cz_iff.mpr hy)
@@ -235,12 +235,14 @@ open scoped Classical
 def Q2 (ψ : T →* A) (k : G) (a : A) (x : G) : Prop :=
   x⁻¹ * k ^ 2 * x ∈ T ∧ x⁻¹ * k * x ∉ T ∧ extOne ψ (x⁻¹ * k ^ 2 * x) = a
 
+omit [Fintype G] in
 theorem Core.Q2_mul_left (h : Core k T) (a : A) {c : G} (hc : c ∈ Cz k) (x : G) :
     Q2 ψ k a (c * x) ↔ Q2 ψ k a x := by
   have hz : (c * x)⁻¹ * k ^ 2 * (c * x) = x⁻¹ * k ^ 2 * x := fz_mul_left hc x
   unfold Q2
   rw [hz, h.conj_mem_iff_mul hc]
 
+omit [Fintype G] in
 theorem Q2_mul_right (a : A) (x : G) {t : G} (ht : t ∈ T) :
     Q2 ψ k a (x * t) ↔ Q2 ψ k a x := by
   have e1 : (x * t)⁻¹ * k ^ 2 * (x * t) = t⁻¹ * (x⁻¹ * k ^ 2 * x) * t := by group
@@ -248,6 +250,7 @@ theorem Q2_mul_right (a : A) (x : G) {t : G} (ht : t ∈ T) :
   unfold Q2
   rw [e1, e2, conj_mem_iff_of_mem ht, conj_mem_iff_of_mem ht, extOne_conj ht]
 
+omit [Fintype G] in
 theorem Core.Q2_out_smul (h : Core k T) (a : A) {g : G} (hg : g ∈ Cz k) (c : G ⧸ T) :
     Q2 ψ k a (g • c).out ↔ Q2 ψ k a c.out := by
   have e : g • c = QuotientGroup.mk (g * c.out) := by
@@ -258,6 +261,7 @@ theorem Core.Q2_out_smul (h : Core k T) (a : A) {g : G} (hg : g ∈ Cz k) (c : G
 
 def SA (ψ : T →* A) (k : G) (a : A) : Set G := {u | ∃ x, fz k x = u ∧ Q2 ψ k a x}
 
+omit [Fintype G] in
 theorem Core.fz_mem_SA_iff (h : Core k T) (a : A) (x : G) :
     fz k x ∈ SA ψ k a ↔ Q2 ψ k a x := by
   constructor
@@ -270,10 +274,12 @@ theorem Core.fz_mem_SA_iff (h : Core k T) (a : A) (x : G) :
   · intro hQ
     exact ⟨x, rfl, hQ⟩
 
+omit [Fintype G] in
 theorem SA_subset (a : A) : SA ψ k a ⊆ T := by
   rintro _ ⟨x, rfl, hQ, _⟩
   exact hQ
 
+omit [Fintype G] in
 theorem Core.SA_conj (h : Core k T) (a : A) {s : G} (hs : s ∈ T) {u : G} (hu : u ∈ SA ψ k a) :
     s * u * s⁻¹ ∈ SA ψ k a := by
   obtain ⟨x, rfl, hQ⟩ := hu
@@ -306,6 +312,7 @@ theorem Core.four_dvd_card_filter_Q2 (h : Core k T) (hC1 : C1 ψ k) {a : A} (ha 
   rw [h2, h1]
   exact Dvd.dvd.mul_right (h.four_dvd_SA hC1 ha) _
 
+omit [Fintype G] in
 theorem Q2_out_iff (a : A) (q : orbitRel.Quotient (zpowers k) (G ⧸ T)) :
     Q2 ψ k a q.out.out ↔ ¬ k • q.out = q.out ∧ k ^ 2 • q.out = q.out ∧
       extOne ψ (q.out.out⁻¹ * k ^ 2 * q.out.out) = a := by
@@ -333,9 +340,9 @@ theorem Core.card_filter_Q2_eq (h : Core k T) (a : A) :
   refine Finset.sum_congr rfl fun q _ => ?_
   by_cases hq : Q2 ψ k a q.out.out
   · have hq' := (Q2_out_iff a q).mp hq
-    rw [if_pos hq, if_pos hq', card_orbit_eq_two hq'.1 hq'.2.1]
+    rw [ite_eq_left hq, ite_eq_left hq', card_orbit_eq_two hq'.1 hq'.2.1]
   · have hq' := fun h' => hq ((Q2_out_iff a q).mpr h')
-    rw [if_neg hq, if_neg hq']
+    rw [ite_eq_right hq, ite_eq_right hq']
     simp
 
 theorem Core.prod_two (h : Core k T) (hC1 : C1 ψ k) :
@@ -381,7 +388,7 @@ end CountTwo
 
 theorem transferCoreStmt_holds : TransferCoreStmt := by
   intro G _ _ A _ k hk hN T _ hTle hodd hkT ψ hC1 c hc hC2 hX
-  haveI := Fintype.ofFinite G
+  have := Fintype.ofFinite G
   have h : Core k T := ⟨hk, hN, hTle, hkT⟩
   have hz := h.ψ_sq_eq_one hC1
   rw [transfer_eq_prod hk, h.prod_fixed hz hc hC2 hX hodd, h.prod_two hC1, mul_one]

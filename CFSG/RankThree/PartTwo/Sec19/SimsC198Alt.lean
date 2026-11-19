@@ -16,9 +16,11 @@ namespace Alt
 
 variable {α : Type*} [DecidableEq α] [Fintype α] {σ : Perm α}
 
+omit [DecidableEq α] [Fintype α] in
 private lemma comm_apply {g σ : Perm α} (hg : Commute g σ) (x : α) : g (σ x) = σ (g x) :=
   DFunLike.congr_fun hg.eq x
 
+omit [DecidableEq α] [Fintype α] in
 private lemma comm_zpow_apply {g σ : Perm α} (hg : Commute g σ) (j : ℤ) (x : α) :
     g ((σ ^ j) x) = (σ ^ j) (g x) :=
   comm_apply (hg.zpow_right j) x
@@ -87,7 +89,7 @@ theorem alternating_false_of_perfect_centralizer {n : ℕ} (hn : n ≤ 14)
     rw [Nat.card_eq_fintype_card, Fintype.card_coe, hkcard]
     rw [Fintype.card_fin] at hk3
     omega
-  haveI : Group.IsSolvable (Perm σ.cycleFactorsFinset) := Equiv.Perm.isSolvable hcard
+  have : Group.IsSolvable (Perm σ.cycleFactorsFinset) := Equiv.Perm.isSolvable hcard
   let ι : L →* Perm (Fin n) := (alternatingGroup (Fin n)).subtype.comp L.subtype
   have hcomm : ∀ l : L, Commute (ι l) σ := fun l => by
     have h := Subgroup.mem_centralizer_singleton_iff.1 (hLc l.2)
@@ -95,11 +97,11 @@ theorem alternating_false_of_perfect_centralizer {n : ℕ} (hn : n ≤ 14)
   let ι' : L →* Subgroup.centralizer {σ} :=
     ι.codRestrict _ (fun l => Subgroup.mem_centralizer_singleton_iff.2 (hcomm l).eq)
   let ψ : L →* Perm σ.cycleFactorsFinset := (OnCycleFactors.toPermHom σ).comp ι'
-  haveI : Group.IsPerfect ψ.range := Group.IsPerfect.range ψ
+  have : Group.IsPerfect ψ.range := Group.IsPerfect.range ψ
   have hψ : ∀ l : L, ψ l = 1 := by
     by_contra hne
     obtain ⟨l, hl⟩ := not_forall.1 hne
-    haveI : Nontrivial ψ.range :=
+    have : Nontrivial ψ.range :=
       ⟨⟨⟨ψ l, MonoidHom.mem_range.2 ⟨l, rfl⟩⟩, 1, fun h => hl (congrArg Subtype.val h)⟩⟩
     exact Group.IsPerfect.not_isSolvable ψ.range inferInstance
   have hker : ∀ l : L, ∀ f ∈ σ.cycleFactorsFinset, Commute (ι l) f := fun l =>

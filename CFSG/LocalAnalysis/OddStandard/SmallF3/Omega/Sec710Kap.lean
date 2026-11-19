@@ -95,7 +95,7 @@ theorem sec710_exists_kap [Finite G] (hP : Asc82Tab6P) (h78 : Asc82Lemma78)
     ∃ κ : ↥(MSub S B ⊓ centralizer (B : Set G)) →* ↥B,
       ∀ k : ↥(MSub S B ⊓ centralizer (B : Set G)),
         (κ k : G) = (k : G) * t * (k : G)⁻¹ * t⁻¹ := by
-  haveI : IsMulCommutative (B : Subgroup G) := hc.normalE16.2.1.1.1
+  have : IsMulCommutative (B : Subgroup G) := hc.normalE16.2.1.1.1
   refine ⟨MonoidHom.mk' (fun k => ⟨(k : G) * t * (k : G)⁻¹ * t⁻¹,
     sec710_comm_mem_B hP h78 h710c hc k.2⟩) ?_, fun k => rfl⟩
   intro k₁ k₂

@@ -47,7 +47,7 @@ theorem sec93f_conjNormal_mem_inner_iff {Y : Type} [Group Y] {S : Subgroup Y} [S
 theorem listOutRank_of_outElemAbelianBound (h : ListOutElemAbelianBoundStatement) :
     ListOutRankStatement := by
   intro Y _ _ S L hSn hList hLel
-  haveI : S.Normal := hSn
+  have : S.Normal := hSn
   set C : Subgroup Y := Subgroup.centralizer (S : Set Y) with hC
   let ρ : ↥L →* Outer ↥S :=
     (QuotientGroup.mk' (inner ↥S)).comp ((MulAut.conjNormal (H := S)).comp L.subtype)
@@ -144,7 +144,7 @@ theorem sec93f_card_ge_four {S : Type} [Group S] [Finite S] [IsSimpleGroup S]
     4 ≤ Nat.card T := by
   by_contra hlt
   push Not at hlt
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTp : IsPGroup 2 ↥T := fun g => ⟨1, Subtype.ext (by simpa using hCor.1.2 (g : S) g.2)⟩
   obtain ⟨k, hk⟩ := hTp.exists_card_eq
   have hT1 : 1 < Nat.card T := (Subgroup.one_lt_card_iff_ne_bot T).mpr hT0
@@ -206,7 +206,7 @@ theorem sec93f_card_ge_four {S : Type} [Group S] [Finite S] [IsSimpleGroup S]
       rw [e, h]
       group
     · exact h
-  haveI := Fintype.ofFinite S
+  have := Fintype.ofFinite S
   obtain ⟨N, hN, hNodd, hcomm⟩ := CFSG.Milestones.glauberman_zStar S t ht1 htt hisol
   refine CFSG.GF2Type.Aschbacher1976Common.not_inZStar_of_isSimpleGroup hnc hord ?_
   exact ⟨N, hN, hNodd, hcomm⟩
@@ -229,7 +229,7 @@ theorem listMaxElemAb_of_centralizerInvolutions (h : ListCentralizerInvolutionsS
     rw [Subgroup.mem_bot]
     exact congrArg Subtype.val hx'
   have hcor' : CorBHyp (T.subgroupOf N) := sec93f_corBHyp_subgroupOf hTN hCor
-  haveI : IsSimpleGroup ↥N := hsimple _ hList
+  have : IsSimpleGroup ↥N := hsimple _ hList
   have h4 : 4 ≤ Nat.card ↥(T.subgroupOf N) := sec93f_card_ge_four (hnc _ hList) hT'0 hcor'
   have hsub : E ≤ T := by
     intro e he

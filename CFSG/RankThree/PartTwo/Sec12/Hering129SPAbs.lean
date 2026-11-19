@@ -20,7 +20,7 @@ variable {Y : Type} [Group Y] [Finite Y]
 theorem exists_fixed_lift (U : Subgroup Y) [U.Normal] (hU3 : ¬ 3 ∣ Nat.card U)
     (hUchar : ∀ (γ : MulAut Y) (u : Y), γ u ∈ U ↔ u ∈ U) (β : MulAut Y) (hβ3 : β ^ 3 = 1)
     (y₀ : Y) (h : y₀⁻¹ * β y₀ ∈ U) : ∃ c : Y, β c = c ∧ y₀⁻¹ * c ∈ U := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let A := Subgroup.zpowers β
   have hA : IsPGroup 3 A := by
     intro g
@@ -59,12 +59,13 @@ theorem exists_fixed_lift (U : Subgroup Y) [U.Normal] (hU3 : ¬ 3 ∣ Nat.card U
 
 variable {W : Type} [Group W]
 
+omit [Finite Y] in
 theorem exists_inner_of_aut (hW : SporLocal W) (U : Subgroup Y) [U.Normal]
     (hUchar : ∀ (γ : MulAut Y) (u : Y), γ u ∈ U ↔ u ∈ U) (φ : (Y ⧸ U) ≃* W) (β : MulAut Y)
     (hβ3 : β ^ 3 = 1) (hβnt : ∃ y : Y, y⁻¹ * β y ∉ U) :
     ∃ w : W, orderOf w = 3 ∧
       ∀ y : Y, φ (QuotientGroup.mk (β y)) = w * φ (QuotientGroup.mk y) * w⁻¹ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let α : MulAut Y →* MulAut Y := MonoidHom.id _
   have hN : ∀ (a : MulAut Y), ∀ n ∈ U, α a n ∈ U := fun a n hn => (hUchar a n).2 hn
   let θ := CFSG.Semidihedral.Principal.CoprimeFixedPoint.quotientAction α U hN
@@ -165,12 +166,12 @@ theorem no_sporadic_cover {Y : Type} [Group Y] [Finite Y] (hYp : Group.IsPerfect
     (φK : X →* Matrix.SpecialLinearGroup (Fin 2) F) (hφK : Function.Surjective φK)
     (hkerK : φK.ker ≤ aschbacherSolvableCore 3 X) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite W := Finite.of_equiv _ φ.toEquiv
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite W := Finite.of_equiv _ φ.toEquiv
   set U : Subgroup Y := aschbacherSolvableCore 3 Y with hU
   obtain ⟨hUs, -, hU3, -, -, -, -⟩ :=
     solvable_prime_complement_core_characterization (H := Y) Nat.prime_three
-  haveI : Group.IsSolvable U := hUs
+  have : Group.IsSolvable U := hUs
   have hUc : ∀ (γ : MulAut Y) (u : Y), γ u ∈ U ↔ u ∈ U := mem_theta_iff
   obtain ⟨w, hw3, hrel⟩ := exists_inner_of_aut hW U hUc φ β hβ3 hβnt
   set π : Y →* W := φ.toMonoidHom.comp (QuotientGroup.mk' U) with hπdef
@@ -213,7 +214,7 @@ theorem no_sporadic_cover {Y : Type} [Group Y] [Finite Y] (hYp : Group.IsPerfect
     rw [eq_mul_inv_iff_mul_eq] at h'
     exact h'
   have hPp : Group.IsPerfect P := by
-    haveI := hXp
+    have := hXp
     exact Group.IsPerfect.range ρX
   have hPsub : (P.subgroupOf (Subgroup.centralizer ({w} : Set W))).IsSubnormal := by
     let ρM : Mfix →* W := π.comp Mfix.subtype
@@ -246,16 +247,16 @@ theorem no_sporadic_cover {Y : Type} [Group Y] [Finite Y] (hYp : Group.IsPerfect
   obtain ⟨-, -, hθ3X, hmaxX, -, -, -⟩ :=
     solvable_prime_complement_core_characterization (H := X) Nat.prime_three
   have hQs : IsSimpleGroup (X ⧸ θX) := by
-    haveI : IsSimpleGroup (CFSG.PGLModel.projSL 2 F) :=
+    have : IsSimpleGroup (CFSG.PGLModel.projSL 2 F) :=
       CFSG.PGLModel.isSimpleGroup_projSL_of_two_le (n := 2) F le_rfl (Or.inr (by omega))
         (Or.inr (by omega))
     exact eQ.isSimpleGroup
   have hQn : ∃ a b : X ⧸ θX, a * b ≠ b * a := by
     by_contra hcon
-    push_neg at hcon
-    haveI : IsMulCommutative (X ⧸ θX) := ⟨⟨hcon⟩⟩
-    haveI : Group.IsPerfect X := hXp
-    haveI : Nontrivial (X ⧸ θX) := hQs.toNontrivial
+    push Not at hcon
+    have : IsMulCommutative (X ⧸ θX) := ⟨⟨hcon⟩⟩
+    have : Group.IsPerfect X := hXp
+    have : Nontrivial (X ⧸ θX) := hQs.toNontrivial
     exact Group.IsPerfect.not_isMulCommutative (X ⧸ θX) inferInstance
   have hQcard : Nat.card (X ⧸ θX) * Nat.gcd 2 (Nat.card F - 1) =
       Nat.card F * (Nat.card F ^ 2 - 1) := by

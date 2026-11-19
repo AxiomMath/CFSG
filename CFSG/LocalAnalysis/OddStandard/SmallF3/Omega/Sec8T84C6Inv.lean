@@ -126,10 +126,10 @@ theorem HCtx.card_fix_of_invol (hInv : Sec8T84FactInv) (S : HCtx E B u A H)
   classical
   obtain ⟨g, _, c, hcH, hcu, hcc, hc1, hh_eq⟩ := S.exists_invol_conj O hc hh hh2 hh1
   obtain ⟨⟨_, hEexp⟩, hEcard⟩ := S.hE
-  letI : CommGroup ↥E :=
+  let : CommGroup ↥E :=
     { (inferInstance : Group ↥E) with
       mul_comm := fun a b => Subtype.ext (setLike_mul_comm (s := E) a.2 b.2) }
-  haveI : Finite ↥E := Nat.finite_of_card_ne_zero (by rw [hEcard]; norm_num)
+  have : Finite ↥E := Nat.finite_of_card_ne_zero (by rw [hEcard]; norm_num)
   have hsq : ∀ v : ↥E, v * v = 1 :=
     fun v => Subtype.ext (by simpa [pow_two] using hEexp v v.2)
   have hfixE : ∀ e : ↥E, u e = e ↔ e ∈ B.subgroupOf E :=

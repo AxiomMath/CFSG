@@ -29,7 +29,7 @@ theorem sig_n {d₃ d₅ : L} (h35 : Fr d₃ = d₅) (h53 : Fr d₅ = d₃) :
     sigHom_pinnedX Fr (mem_rootFinset.1 v0100n_root), w_z0122, w_v0100n, h35, h53]
   exact (R5_commute v0100n (by simp [R5]) z0122 (by simp [R5]) d₅ d₃).eq
 
-theorem isW_A3 (E : Elts Fr H) (AD : ActData L) {d₃ d₅ : L} (h35 : Fr d₃ = d₅) (h53 : Fr d₅ = d₃)
+theorem isW_A3 (_E : Elts Fr H) (AD : ActData L) {d₃ d₅ : L} (h35 : Fr d₃ = d₅) (h53 : Fr d₅ = d₃)
     (hn : pinnedX Tag.F4 L z0122 d₃ * pinnedX Tag.F4 L v0100n d₅ ∈ H) {b₀ : L}
     (hb : IsW Fr H (fv Fr rS b₀)) : IsW Fr H (fv Fr rA3 (d₃ * b₀)) := by
   have hA : HasAct (pinnedX Tag.F4 L z0122 d₃ * pinnedX Tag.F4 L v0100n d₅)

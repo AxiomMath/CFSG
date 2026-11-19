@@ -112,7 +112,7 @@ theorem mem_closure_iff {g : G} :
       (pow_mem (subset_closure (by simp)) i)) (pow_mem (subset_closure (by simp)) j)
 
 theorem orderOf_u : orderOf u = 4 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact orderOf_eq_prime_pow (p := 2) (n := 1) (by simpa using h.z_ne_one) (by simpa using h.u_four)
 
 theorem x_pow_eq_one_of_mul_eq_one {a i j : ℕ} (hg : t ^ a * x ^ i * u ^ j = 1) :

@@ -62,9 +62,8 @@ private theorem omegaBlock_block (j : Fin 3) :
   obtain ⟨a, b⟩ := p
   obtain ⟨a', b'⟩ := q
   fin_cases a <;> fin_cases b <;> fin_cases a' <;> fin_cases b' <;> fin_cases j <;>
-    simp [blockEquiv, kOf, omega2, f2_one_add_one, gf2_two, Matrix.submatrix_apply,
-      Matrix.add_apply, Matrix.one_apply, Matrix.single_apply, Matrix.blockDiagonal_apply,
-      Pi.mulSingle_apply]
+    simp [blockEquiv, kOf, omega2, f2_one_add_one, Matrix.submatrix_apply,
+      Matrix.add_apply, Matrix.blockDiagonal_apply]
 
 private noncomputable def blk (v : Fin 3 → Multiplicative (ZMod 3)) :
     Matrix (Fin 2 × Fin 3) (Fin 2 × Fin 3) F2 :=
@@ -106,10 +105,10 @@ private theorem closure_gen_eq_top : Subgroup.closure (Set.range gen) = ⊤ := b
     funext k
     rw [Finset.prod_apply]
     rw [Finset.prod_eq_single k]
-    · simp only [Pi.pow_apply, gen, Pi.mulSingle_apply, if_pos rfl]
+    · simp only [Pi.pow_apply, gen, Pi.mulSingle_apply]
       exact (ofAdd_one_pow (v k)).symm
     · intro b _ hb
-      rw [Pi.pow_apply, gen, Pi.mulSingle_apply, if_neg (fun h => hb h.symm)]
+      rw [Pi.pow_apply, gen, Pi.mulSingle_apply, ite_eq_right (fun h => hb h.symm)]
       simp
     · intro hk; exact absurd (Finset.mem_univ k) hk
   rw [hv]
@@ -145,11 +144,11 @@ private theorem phiMatHom_gen (Φ : (Fin 3 → Multiplicative (ZMod 3)) ≃* ↥
   funext i
   rw [Pi.mulSingle_apply, Pi.mulSingle_apply]
   by_cases hi : i = j
-  · rw [if_pos hi, if_pos hi]
+  · rw [ite_eq_left hi, ite_eq_left hi]
     rw [show (Multiplicative.toAdd (Multiplicative.ofAdd (1 : ZMod 3))).val = 1 by
       show (1 : ZMod 3).val = 1
       decide, pow_one]
-  · rw [if_neg hi, if_neg hi]
+  · rw [ite_eq_right hi, ite_eq_right hi]
     simp
 
 private theorem phiMat_eq_blk (Φ : (Fin 3 → Multiplicative (ZMod 3)) ≃* ↥(halfTorus 5))

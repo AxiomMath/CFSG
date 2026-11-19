@@ -171,7 +171,7 @@ theorem P1_structure (h49 : d.Thm49Statement) (hd : d.Hyp) (hz : d.S56Z0 z₀) (
   have hU11le : d.s56U11 ≤ P1 d := fun a ha => by
     obtain ⟨x, hx, rfl⟩ := hU_sq a ha
     exact mul_mem hx hx
-  haveI : IsMulCommutative ↥(P1 d) := ⟨⟨fun a b => Subtype.ext (hab a a.2 b b.2)⟩⟩
+  have : IsMulCommutative ↥(P1 d) := ⟨⟨fun a b => Subtype.ext (hab a a.2 b b.2)⟩⟩
   let S : Subgroup ↥(P1 d) := d.s56U11.subgroupOf (P1 d)
   have hS4 : Nat.card S = 4 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hU11le).toEquiv]

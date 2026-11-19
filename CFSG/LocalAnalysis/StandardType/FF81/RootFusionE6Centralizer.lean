@@ -73,7 +73,7 @@ theorem centralizer_le_of_yData {G : Type} [Group G] [Finite G] {n : ℕ} {b : G
       _ = (Subgroup.zpowers b).comap D.subtype := by rw [hEq]
       _ = (Subgroup.zpowers b).subgroupOf D := rfl
   obtain ⟨Q, hQle⟩ := hP0p.exists_le_sylow
-  have hQP0 : Q = (Subgroup.zpowers b).subgroupOf D := hsyl_max Q Q.isPGroup' hQle
+  have hQP0 : Q = (Subgroup.zpowers b).subgroupOf D := hsyl_max Q Q.isPGroup hQle
   have hP0index : ¬ 3 ∣ ((Subgroup.zpowers b).subgroupOf D).index := by
     rw [← hQP0]
     exact Q.not_dvd_index

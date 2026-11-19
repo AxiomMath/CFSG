@@ -16,10 +16,12 @@ variable [Finite X] [IsSimpleGroup X] {t : X} {J : Subgroup X} {n : ℕ}
   {e : J ⧸ pPrimeCore 2 J ≃* alternatingGroup (Fin n)} {E : Subgroup X} {D : Finset (Fin n)}
   {M : Subgroup X} {e₀ : X} {F : Subgroup X} {DF : Finset (Fin n)} {r : X}
 
+omit [Finite X] [IsSimpleGroup X] in
 private theorem fixA_le_left (M : Subgroup X) (e₀ r : X) : fixA M e₀ r ≤ M :=
   ((GSLit.fixedLayer_le_inf (GSLit.fixedLayer M (zpowers e₀)) (zpowers r)).trans
     inf_le_left).trans ((GSLit.fixedLayer_le_inf M (zpowers e₀)).trans inf_le_left)
 
+omit [Finite X] [IsSimpleGroup X] in
 private theorem fixB_le_conjBy (M : Subgroup X) (t e₀ r : X) : fixB M t e₀ r ≤ conjBy M t :=
   ((GSLit.fixedLayer_le_inf (GSLit.fixedLayer (conjBy M t) (zpowers e₀)) (zpowers r)).trans
     inf_le_left).trans ((GSLit.fixedLayer_le_inf (conjBy M t) (zpowers e₀)).trans inf_le_left)
@@ -113,7 +115,7 @@ theorem Setting.fixB_type (hs : Setting t J n e E D M) (hn : n = 9)
   subst hn
   exact (fixB_facts hs hd he₀H).2
 
-theorem Setting.fixB_le (hs : Setting t J n e E D M) (hd : Data t J n e E D M e₀ F DF r) :
+theorem Setting.fixB_le (_hs : Setting t J n e E D M) (_hd : Data t J n e E D M e₀ F DF r) :
     fixB M t e₀ r ≤ centralizer ({r} : Set X) ⊓ centralizer ({e₀} : Set X) := by
   have h1 := GSLit.fixedLayer_le_inf (GSLit.fixedLayer (conjBy M t) (zpowers e₀)) (zpowers r)
   have h2 := GSLit.fixedLayer_le_inf (conjBy M t) (zpowers e₀)

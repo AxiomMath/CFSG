@@ -47,7 +47,7 @@ theorem w4Thm11_1RowM4_Fi23_holds :
   have h162 : 2 ^ 162 ≤ (fixV (Subgroup.zpowers z')).index := by
     have hbase : 2 ^ (3 ^ 4 * orderOf (2 : ZMod 3)) ≤
         Nat.card (imgT (f cz)) := by
-      haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+      have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
       exact two_pow_le_card_imgT_of_heisCfg hW' (p := 3) (n := 4) (by norm_num) hcfgmap
     have hord : orderOf (2 : ZMod 3) = 2 := by
       have h2 : (2 : ZMod 3) ^ 2 = 1 := by decide

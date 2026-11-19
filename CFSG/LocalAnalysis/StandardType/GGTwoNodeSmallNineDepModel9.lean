@@ -21,7 +21,7 @@ theorem ninedep_model_9 {V : Type} [AddCommGroup V] [Module (ZMod 3) V] (h : Fin
     ∃ (nF : ℕ) (gens : List Refl) (x' : Vec) (b : ℕ),
       (⟨3, 9, nF, gens, x', b⟩ : Pt) ∈ pts9 () ∧
       ∃ e : V ≃ₗ[ZMod 3] (Fin 9 → ZMod 3), (⟨3, 9, nF, gens, x', b⟩ : Pt).Models e h α x ha αa := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let c : Fin 9 → ZMod 3 := C.e ha
   let d : ZMod 3 := c 8
   have hd : d ≠ 0 := hM
@@ -70,26 +70,26 @@ theorem ninedep_model_9 {V : Type} [AddCommGroup V] [Module (ZMod 3) V] (h : Fin
     rw [he', pk4_Tlm_fix c d (C.e x) hcx]
     ext j
     rw [C.x_eq j]
-    fin_cases j <;> simp [Pi.single_apply, Fin.ext_iff]
+    fin_cases j <;> simp [Fin.ext_iff]
   have he'ha : e' ha = (Pi.single (8 : Fin 9) 1 : Fin 9 → ZMod 3) := by
     rw [he']
     ext j
     rw [pk4_Tlm_apply]
     by_cases h : j = 8
     · subst h
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       change d⁻¹ * c 8 = (Pi.single (8 : Fin 9) 1 : Fin 9 → ZMod 3) 8
       rw [show c 8 = d from rfl, inv_mul_cancel₀ hd, Pi.single_eq_same]
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       have hz : c j * d⁻¹ * c 8 = c j := by
         rw [show c 8 = d from rfl, mul_assoc, inv_mul_cancel₀ hd, mul_one]
       change c j - c j * d⁻¹ * c 8 = (Pi.single (8 : Fin 9) 1 : Fin 9 → ZMod 3) j
       rw [hz]
-      simp [Pi.single_apply, h]
+      simp [h]
   have hfa_getD : ∀ j : Fin 9, fa.getD j.val 0 = (αa (e'.symm (Pi.single j 1))).val := by
     intro j
     dsimp only [fa]
-    rw [List.getD_eq_getElem?_getD, List.getElem?_ofFn, dif_pos j.isLt]
+    rw [List.getD_eq_getElem?_getD, List.getElem?_ofFn, dite_eq_left j.isLt]
     rfl
   have hfa7 : fa.getD 7 0 ≠ 0 := by
     have h : fa.getD 7 0 = (αa (e'.symm (Pi.single (7 : Fin 9) 1))).val := by
@@ -108,7 +108,7 @@ theorem ninedep_model_9 {V : Type} [AddCommGroup V] [Module (ZMod 3) V] (h : Fin
     decide
   have hfa_len : fa.length = 9 := by
     dsimp only [fa]
-    simp [List.length_ofFn]
+    simp
   have hfa_mem : fa ∈ allVecs 9 := by
     have hlt : ∀ x ∈ fa, x < 3 := by
       intro x hx
@@ -137,12 +137,12 @@ theorem ninedep_model_9 {V : Type} [AddCommGroup V] [Module (ZMod 3) V] (h : Fin
     dsimp only [P]
     ext j
     rw [Pt.vec]
-    fin_cases j <;> simp [Pi.single_apply, Fin.ext_iff, xv]
+    fin_cases j <;> simp [Fin.ext_iff, xv]
   have hPvece8 : P.vec e8v = (Pi.single (8 : Fin 9) 1 : Fin 9 → ZMod 3) := by
     dsimp only [P]
     ext j
     rw [Pt.vec]
-    fin_cases j <;> simp [Pi.single_apply, Fin.ext_iff, e8v]
+    fin_cases j <;> simp [Fin.ext_iff, e8v]
   have hPgetD (i : Fin 8) : P.gens.getD i.val ⟨[], []⟩ = G.getD i.val ⟨[], []⟩ := by
     show (G ++ ([⟨fa, e8v⟩] : List Refl)).getD i.val ⟨[], []⟩ = G.getD i.val ⟨[], []⟩
     rw [List.getD_eq_getElem?_getD, List.getD_eq_getElem?_getD]
@@ -182,7 +182,7 @@ theorem ninedep_model_9 {V : Type} [AddCommGroup V] [Module (ZMod 3) V] (h : Fin
     simp only [Option.map_some, Option.getD_some]
     have hp : pk4_alphaNat α ha i.val = α i ha := by
       show (if h : i.val < 8 then α ⟨i.val, h⟩ ha else 0) = α i ha
-      rw [dif_pos i.isLt]
+      rw [dite_eq_left i.isLt]
     rw [hp]
   have hα_dot : ∀ (i : Fin 8) (w : V), α i w =
       P.dot (P.vec ((alpha8 i).dropLast ++ [0, uH.getD i.val 0])) (e' w) := by
@@ -220,26 +220,26 @@ theorem ninedep_model_9 {V : Type} [AddCommGroup V] [Module (ZMod 3) V] (h : Fin
           have hne : t.val ≠ j.val := by
             intro h
             exact ht (show t = (⟨j.val, by omega⟩ : Fin 9) from Fin.ext h)
-          rw [if_neg hne, Nat.cast_zero, mul_zero])
+          rw [ite_eq_right hne, Nat.cast_zero, mul_zero])
         (fun hmem => absurd (Finset.mem_univ _) hmem)]
-      rw [pk4_hvec8_getD_lt j.val hj (⟨j.val, by omega⟩ : Fin 9).val, if_pos rfl,
+      rw [pk4_hvec8_getD_lt j.val hj (⟨j.val, by omega⟩ : Fin 9).val, ite_eq_left rfl,
         Nat.cast_one, mul_one]
       have hne8 : ((⟨j.val, by omega⟩ : Fin 9)).val ≠ 8 := by
         show j.val ≠ 8
         omega
-      rw [if_neg hne8, add_zero]
+      rw [ite_eq_right hne8, add_zero]
     have hCx : C.e x = (Pi.single (7 : Fin 9) 1 : Fin 9 → ZMod 3) := by
       ext t
       rw [C.x_eq t]
-      fin_cases t <;> simp [Pi.single_apply, Fin.ext_iff]
+      fin_cases t <;> simp [Fin.ext_iff]
     have hα_x : α i x = 0 := by
       rw [C.α_eq i x, hCx]
       rw [Finset.sum_eq_single (7 : Fin 9)
         (fun t _ ht => by
-          rw [Pi.single_apply, if_neg ht, mul_zero])
+          rw [Pi.single_apply, ite_eq_right ht, mul_zero])
         (fun hmem => absurd (Finset.mem_univ _) hmem)]
-      rw [Pi.single_apply, if_pos rfl, mul_one]
-      rw [if_neg (by decide : ¬ ((7 : Fin 9).val = 8)), add_zero]
+      rw [Pi.single_apply, ite_eq_left rfl, mul_one]
+      rw [ite_eq_right (by decide : ¬ ((7 : Fin 9).val = 8)), add_zero]
       change (((alpha8 i).getD 7 0 : ℕ) : ZMod 3) = 0
       rw [pk4_alpha8_getD_seven i, Nat.cast_zero]
     have hα_ha : α i ha = ((uH.getD i.val 0 : ℕ) : ZMod 3) := by
@@ -254,9 +254,9 @@ theorem ninedep_model_9 {V : Type} [AddCommGroup V] [Module (ZMod 3) V] (h : Fin
           ext t
           rw [Pt.vec, pk4_getD_append_zero, pk4_hvec8_getD_lt j.val hlt t.val]
           by_cases ht : t = j
-          · rw [if_pos (by rw [ht]), Pi.single_apply, if_pos ht]
+          · rw [ite_eq_left (by rw [ht]), Pi.single_apply, ite_eq_left ht]
             simp
-          · rw [if_neg (fun h => ht (Fin.ext h)), Pi.single_apply, if_neg ht]
+          · rw [ite_eq_right (fun h => ht (Fin.ext h)), Pi.single_apply, ite_eq_right ht]
             simp
         have hsym : e'.symm (Pi.single j 1) = h ⟨j.val, hj8⟩ := by
           rw [← hvec, ← he'h ⟨j.val, hj8⟩, e'.symm_apply_apply]

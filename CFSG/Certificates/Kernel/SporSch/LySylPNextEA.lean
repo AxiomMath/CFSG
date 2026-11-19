@@ -128,7 +128,7 @@ private theorem extK_eq (hE : ∀ e ∈ E, e < n) {x : Nat} (hx : x < n) :
   · rintro ⟨h0, h1, h2, h3⟩
     refine ⟨⟨⟨h0, h1⟩, h2⟩, fun e he => ?_⟩
     have := h3 e (hE e he)
-    rw [if_pos he, Nat.beq_eq] at this
+    rw [ite_eq_left he, Nat.beq_eq] at this
     rw [tm_TBL hx (hE e he), tm_TBL (hE e he) hx]
     exact this
   · rintro ⟨⟨⟨h0, h1⟩, h2⟩, h3⟩
@@ -212,9 +212,9 @@ private theorem findM_spec (NM : Nat → Nat) (cnt m : Nat) :
     | cons a l ih =>
       rw [List.foldr_cons]
       by_cases ha : NM a = m
-      · rw [if_pos ha]
+      · rw [ite_eq_left ha]
         exact Or.inr ⟨List.mem_cons_self .., ha⟩
-      · rw [if_neg ha]
+      · rw [ite_eq_right ha]
         rcases ih with ⟨h1, h2⟩ | ⟨h1, h2⟩
         · refine Or.inl ⟨h1, fun i hi => ?_⟩
           rcases List.mem_cons.1 hi with rfl | hi
@@ -275,11 +275,11 @@ private theorem mem_take_getD {c : Nat} (hc : c ≤ L'.length) {y : List Nat} :
 
 private theorem take_succ_getD {c : Nat} (hc : c < L'.length) :
     L'.take (c + 1) = L'.take c ++ [L'.getD c []] := by
-  rw [List.take_succ, List.getElem?_eq_getElem hc, List.getD_eq_getElem _ _ hc]
+  rw [List.take_add_one, List.getElem?_eq_getElem hc, List.getD_eq_getElem _ _ hc]
   rfl
 
 private theorem eaStep_good (hrows : ∀ i < n, ∀ j < n, tmK MT i j < n) {E : List Nat}
-    (hEi : E.Pairwise (· < ·)) (hE : ∀ e ∈ E, e < n) (hlen : L'.length = nN)
+    (_hEi : E.Pairwise (· < ·)) (hE : ∀ e ∈ E, e < n) (hlen : L'.length = nN)
     (hNM : ∀ j < nN, listOfM (NM j) n (L'.getD j []) = true)
     {x : Nat} (hx : x < n) {P : List (List Nat)} {c : Nat} (hG : Good nN L' P c) :
     Good nN L' (P ++ if extendsBy (TBL MT n) E x = true then [spanBy (TBL MT n) E x] else [])
@@ -287,25 +287,25 @@ private theorem eaStep_good (hrows : ∀ i < n, ∀ j < n, tmK MT i j < n) {E : 
   intro hlt
   unfold eaStep at hlt ⊢
   by_cases hc : 1048576 ≤ c
-  · rw [if_pos hc] at hlt
+  · rw [ite_eq_left hc] at hlt
     omega
-  rw [if_neg hc] at hlt ⊢
+  rw [ite_eq_right hc] at hlt ⊢
   obtain ⟨hcN, hP⟩ := hG (by omega)
   rw [extK_eq hE hx] at hlt ⊢
   by_cases hext : extendsBy (TBL MT n) E x = true
   swap
-  · rw [if_neg hext] at hlt
-    rw [if_neg hext, if_neg hext, List.append_nil]
+  · rw [ite_eq_right hext] at hlt
+    rw [ite_eq_right hext, ite_eq_right hext, List.append_nil]
     exact ⟨hcN, hP⟩
-  rw [if_pos hext] at hlt
-  rw [if_pos hext, if_pos hext]
+  rw [ite_eq_left hext] at hlt
+  rw [ite_eq_left hext, ite_eq_left hext]
   rw [spanM_eq hE hx] at hlt ⊢
   set y := spanBy (TBL MT n) E x with hy
   by_cases hpop : popN (maskL y) n = lenL E + lenL E
   swap
-  · rw [if_neg hpop] at hlt
+  · rw [ite_eq_right hpop] at hlt
     omega
-  rw [if_pos hpop] at hlt ⊢
+  rw [ite_eq_left hpop] at hlt ⊢
   set S := E ++ E.map (tm (TBL MT n) x ·) with hS
   have hSn : ∀ z ∈ S, z < n := by
     intro z hz
@@ -336,7 +336,7 @@ private theorem eaStep_good (hrows : ∀ i < n, ∀ j < n, tmK MT i j < n) {E : 
     exact ⟨incL_spec h.1, h.2.1⟩
   obtain ⟨hf1, hf2⟩ := findM_spec NM c (maskL y)
   by_cases hf : findM NM c (maskL y) < c
-  · rw [if_pos hf]
+  · rw [ite_eq_left hf]
     refine ⟨hcN, ?_⟩
     have hfN : findM NM c (maskL y) < nN := by omega
     obtain ⟨hi, hm⟩ := hlistOf _ hfN
@@ -346,12 +346,12 @@ private theorem eaStep_good (hrows : ∀ i < n, ∀ j < n, tmK MT i j < n) {E : 
       exact ⟨_, hf, hyf⟩
     rw [List.eraseDups_append, hP]
     simp [List.removeAll, hyP]
-  · rw [if_neg hf] at hlt ⊢
+  · rw [ite_eq_right hf] at hlt ⊢
     by_cases hnew : c < nN ∧ NM c = maskL y
     swap
-    · rw [if_neg hnew] at hlt
+    · rw [ite_eq_right hnew] at hlt
       omega
-    rw [if_pos hnew]
+    rw [ite_eq_left hnew]
     refine ⟨hnew.1, ?_⟩
     obtain ⟨hi, hm⟩ := hlistOf c hnew.1
     have hyc : L'.getD c [] = y := eq_of_maskL hi hyi (by rw [hm, hnew.2])
@@ -384,7 +384,7 @@ private theorem eaOne_good (hrows : ∀ i < n, ∀ j < n, tmK MT i j < n) {E : L
 end Replay
 
 theorem nextEA_sound {n nN : Nat} {MT NM : Nat → Nat} {L L' : List (List Nat)} {CT : Nat → Nat}
-    (hn : n ≤ 256) (hrows : ∀ i < n, ∀ j < n, tmK MT i j < n)
+    (_hn : n ≤ 256) (hrows : ∀ i < n, ∀ j < n, tmK MT i j < n)
     (hL : ∀ E ∈ L, incL E = true ∧ CFSG.KS.Mathieu.allLtN n E = true)
     (hrun : ∀ t < L.length, eaOne MT NM n nN (maskL (L.getD t [])) (lenL (L.getD t [])) (CT t) =
       CT (Nat.succ t))
@@ -410,7 +410,7 @@ theorem nextEA_sound {n nN : Nat} {MT NM : Nat → Nat} {L L' : List (List Nat)}
       have hE := (allLtN_iff n _).1 h2
       rw [← hrun t htl, eaOne_eq]
       have e : L.take (t + 1) = L.take t ++ [L.getD t []] := by
-        rw [List.take_succ, List.getElem?_eq_getElem htl, List.getD_eq_getElem _ _ htl]
+        rw [List.take_add_one, List.getElem?_eq_getElem htl, List.getD_eq_getElem _ _ htl]
         rfl
       rw [e, List.flatMap_append, List.flatMap_singleton]
       exact eaOne_good hrows (incL_spec h1) hE hlen hNM (List.range n)

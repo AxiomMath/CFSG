@@ -42,8 +42,8 @@ theorem thCycContra3_of_secondLayer (h : ThSecondLayer) : ThCycContra3 := by
   obtain ⟨P, hP⟩ := (H.isPGroup_S_sup_Bp W).exists_le_sylow
   have hSt : S ⊔ zpowers t ≤ P :=
     (sup_le_sup_left (zpowers_le.2 (H.t_mem_Bp W W2)) S).trans hP
-  exact h G L R t S A B Aa z b H W W2 hF P P.isPGroup' hP
-    (H.not_sylow_le_normalizer W W2 hF P P.isPGroup' (Sylow.not_dvd_index P) hSt)
+  exact h G L R t S A B Aa z b H W W2 hF P P.isPGroup hP
+    (H.not_sylow_le_normalizer W W2 hF P P.isPGroup (Sylow.not_dvd_index P) hSt)
 
 section Certified
 

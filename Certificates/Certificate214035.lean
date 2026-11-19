@@ -12,7 +12,6 @@ open CertificateChecks
 
 theorem certificate214035 : CFSG.HardMathSupport.Timmesfeld.SporadicBalance.Fi24Seven.CentFacts :=
   by
-    intros
     exact CFSG.KD.Fi24Sev.Final.centFacts KernelFi24OrbL.bridge
 
 end Certificates

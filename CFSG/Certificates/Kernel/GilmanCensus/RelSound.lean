@@ -167,7 +167,7 @@ theorem vsub_toList (r s : IVec) (hs : s.size = r.size) :
     simp only [Array.toList_ofFn, List.getElem_ofFn, List.getElem_zipWith, Array.getElem_toList]
     rw [getElem!_pos r t (by simpa using h1), getElem!_pos s t (by simp at h1; omega)]
 
-theorem row_toList {dt : Data} {dk : DK} (h : Rel dt dk) (i : Nat) (hi : i < dk.N) :
+theorem row_toList {dt : Data} {dk : DK} (h : Rel dt dk) (i : Nat) (_hi : i < dk.N) :
     (dt.R[i]!).toList = (dk.R.getD i []).map Int.ofNat := by
   rw [getRowI, h.R, toI_getD]
 

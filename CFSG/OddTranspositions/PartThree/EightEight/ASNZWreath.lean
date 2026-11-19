@@ -204,7 +204,7 @@ theorem exists_mulEquiv_l2Wreath_three_of_commSet (h1 : TheoremOne) (h91 : Theor
       QuotientGroup.quotientMulEquivOfEq hrad.symm
     have hmapN : (N.map e.toMonoidHom).Normal := hN.map e.toMonoidHom e.surjective
     have hmapS : Group.IsSolvable (N.map e.toMonoidHom) :=
-      solvable_of_surjective (f := (N.equivMapOfInjective e.toMonoidHom e.injective).toMonoidHom)
+      Group.isSolvable_of_surjective (f := (N.equivMapOfInjective e.toMonoidHom e.injective).toMonoidHom)
         (N.equivMapOfInjective e.toMonoidHom e.injective).surjective
     have hle := CFSG.Timmesfeld.Bridge.OddTransp.le_solvableRadical hmapN hmapS
     rw [CFSG.SignalizerFunctorTheorem.Nonsolvable.solvableRadical_quotient, le_bot_iff] at hle

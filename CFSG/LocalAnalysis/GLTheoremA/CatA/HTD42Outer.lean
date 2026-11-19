@@ -93,13 +93,13 @@ theorem TD42OuterFix_holds : TD42OuterFix := by
   obtain ⟨h1, h2⟩ :=
     primePower_eq_of_card_eq Nat.prime_two (s := 1) (by norm_num) (hq2.trans (by norm_num))
   obtain ⟨hmod, -⟩ := CFSG.AGLEmbedding.ChevOuter.exists_model_equiv ⟨.trialityD4 q, hv⟩ q h1 h2 rfl e
-  haveI : IsSimpleGroup S := (CFSG.LieType.Simplicity.fam_3d4_simplicity S 2 1 hmod).2
+  have : IsSimpleGroup S := (CFSG.LieType.Simplicity.fam_3d4_simplicity S 2 1 hmod).2
   obtain ⟨⟨eT⟩, hZ, hA⟩ :=
     CFSG.RankThree.PartTwo.Sec19.lineGroup_facts_of_isoLie q h1 h2 ⟨hv, ⟨e⟩⟩
   let c : MulAut S ≃* MulAut lineGroup := MulAut.congr eT
   have hcomm : ∀ x ∈ D, ∀ y ∈ D, x * y = y * x := by
     intro x hx y hy
-    haveI := hD.1
+    have := hD.1
     exact comm_mem_of_isMulCommutative D hx hy
   have hD' : IsElemAbelian 3 (D.map c.toMonoidHom) :=
     isElemAbelian_map_of_forall c.toMonoidHom c.injective hcomm hD.2
@@ -123,7 +123,7 @@ theorem TD42OuterFix_holds : TD42OuterFix := by
     exact Subgroup.mem_map_of_mem _ hα
   refine ⟨α, hαD, hαI, F'.map (MulEquiv.symm eT).toMonoidHom, ?_, ?_, ?_⟩
   · have hcommF : ∀ x ∈ F', ∀ y ∈ F', x * y = y * x := fun x hx y hy =>
-      by haveI := hF'.1; exact comm_mem_of_isMulCommutative F' hx hy
+      by have := hF'.1; exact comm_mem_of_isMulCommutative F' hx hy
     exact isElemAbelian_map_of_forall (MulEquiv.symm eT).toMonoidHom (MulEquiv.symm eT).injective
       hcommF hF'.2
   · rw [Subgroup.card_map_of_injective (MulEquiv.symm eT).injective, hF'9]

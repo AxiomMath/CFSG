@@ -17,7 +17,7 @@ variable {G : Type} [Group G] [Finite G] {M Q H E : Subgroup G} {p k : ℕ}
 
 private theorem le_of_starImg_le (s : NineSettingGen G M p Q H E k) {A : Subgroup G} (hAH : A ≤ H)
     (hA : starImg p H A ≤ starImg p H M) : A ≤ M := by
-  haveI : Fact p.Prime := ⟨s.prime⟩
+  have : Fact p.Prime := ⟨s.prime⟩
   have h1 : A.subgroupOf H ≤ M.subgroupOf H ⊔ CFSG.pPrimeCore p ↥H := by
     have h2 : (A.subgroupOf H).map (QuotientGroup.mk' (primeComplementCore (G := ↥H) p)) ≤
         (M.subgroupOf H).map (QuotientGroup.mk' (primeComplementCore (G := ↥H) p)) := hA
@@ -35,6 +35,7 @@ private theorem le_of_starImg_le (s : NineSettingGen G M p Q H E k) {A : Subgrou
             rw [← relPPrimeCore_eq_map s.prime H]
             exact s.relPPrimeCore_le
 
+omit [Finite G] in
 private theorem exists_le_starImg_eq {P : Subgroup G}
     (hPH : P ≤ H) (hPp : IsPGroup p P) {B : Subgroup (StarGroup p H)} (hB : B ≤ starImg p H P) :
     ∃ D : Subgroup G, D ≤ P ∧ IsPGroup p D ∧ starImg p H D = B := by
@@ -61,10 +62,10 @@ private theorem exists_le_starImg_eq {P : Subgroup G}
 private theorem normalizer_starImg_le (s : NineSettingGen G M p Q H E k) {D : Subgroup G}
     (hDH : D ≤ H) (hD : IsPGroup p D) (hN : Subgroup.normalizer (D : Set G) ≤ M) :
     Subgroup.normalizer (starImg p H D : Set (StarGroup p H)) ≤ starImg p H M := by
-  haveI : Fact p.Prime := ⟨s.prime⟩
+  have : Fact p.Prime := ⟨s.prime⟩
   let O : Subgroup ↥H := primeComplementCore (G := ↥H) p
   let π : ↥H →* StarGroup p H := QuotientGroup.mk' O
-  haveI : Fact (IsPGroup p ↥(D.subgroupOf H)) := ⟨hD.comap_subtype (K := H)⟩
+  have : Fact (IsPGroup p ↥(D.subgroupOf H)) := ⟨hD.comap_subtype (K := H)⟩
   have hcop : Nat.Coprime p (Nat.card O) := primeComplementCore_coprime p
   have hnorm := CFSG.normalizer_map_quotient_eq_map_normalizer (G := ↥H) (p := p)
     (D.subgroupOf H) O inferInstance hcop
@@ -86,10 +87,10 @@ private theorem normalizer_starImg_le (s : NineSettingGen G M p Q H E k) {D : Su
 private theorem centralizer_starImg_le (s : NineSettingGen G M p Q H E k) {D : Subgroup G}
     (hDH : D ≤ H) (hD : IsPGroup p D) (hC : Subgroup.centralizer (D : Set G) ≤ M) :
     Subgroup.centralizer (starImg p H D : Set (StarGroup p H)) ≤ starImg p H M := by
-  haveI : Fact p.Prime := ⟨s.prime⟩
+  have : Fact p.Prime := ⟨s.prime⟩
   let O : Subgroup ↥H := primeComplementCore (G := ↥H) p
   let π : ↥H →* StarGroup p H := QuotientGroup.mk' O
-  haveI : Fact (IsPGroup p ↥(D.subgroupOf H)) := ⟨hD.comap_subtype (K := H)⟩
+  have : Fact (IsPGroup p ↥(D.subgroupOf H)) := ⟨hD.comap_subtype (K := H)⟩
   have hcop : Nat.Coprime p (Nat.card O) := primeComplementCore_coprime p
   have hcent := CFSG.centralizer_map_quotient_eq_map_centralizer (G := ↥H) (p := p)
     (D.subgroupOf H) O inferInstance hcop
@@ -124,7 +125,7 @@ private theorem starImg_M_ne_top (s : NineSettingGen G M p Q H E k) :
 private theorem starImg_P_ne_bot (s : NineSettingGen G M p Q H E k) (hp : p ∈ sigmaM G M)
     {P : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf p P (H ⊓ M)) :
     starImg p H P ≠ ⊥ := by
-  haveI : Fact p.Prime := ⟨s.prime⟩
+  have : Fact p.Prime := ⟨s.prime⟩
   have hPH : CFSG.ABGLocalTools.IsSylowOf p P H :=
     (s.isSylowOf_of_isSylowOf_inf hp hP).1
   have hPp : IsPGroup p P := hPH.isPGroup
@@ -177,7 +178,7 @@ private theorem centralizer_starImg_singleton_le (s : NineSettingGen G M p Q H E
     {P : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf p P (H ⊓ M))
     {x : StarGroup p H} (hxP : x ∈ starImg p H P) (hxord : orderOf x = p) :
     Subgroup.centralizer ({x} : Set (StarGroup p H)) ≤ starImg p H M := by
-  haveI : Fact p.Prime := ⟨s.prime⟩
+  have : Fact p.Prime := ⟨s.prime⟩
   have hPHle : P ≤ H := hP.le.trans inf_le_left
   have hPp : IsPGroup p P := hP.isPGroup
   have hB : Subgroup.zpowers x ≤ starImg p H P := Subgroup.zpowers_le.mpr hxP
@@ -206,7 +207,7 @@ private theorem isStronglyPEmbedded_starImg (s : NineSettingGen G M p Q H E k)
     (hΓ : ∀ P : Subgroup G, CFSG.ABGLocalTools.IsSylowOf p P (H ⊓ M) → rankThreeGamma 1 p P ≤ M)
     {P : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf p P (H ⊓ M)) :
     CFSG.RankThree.PartOne.IsStronglyPEmbedded p (starImg p H M) := by
-  haveI : Fact p.Prime := ⟨s.prime⟩
+  have : Fact p.Prime := ⟨s.prime⟩
   obtain ⟨hPH, hPQ⟩ := s.isSylowOf_of_isSylowOf_inf hp hP
   have hPp : IsPGroup p P := hPH.isPGroup
   have hPM : P ≤ M := hP.le.trans inf_le_right
@@ -234,7 +235,7 @@ private theorem component_starImg (s : NineSettingGen G M p Q H E k)
       CFSG.layer (StarGroup p H) = C ∧ CFSG.generalizedFitting (StarGroup p H) = C ∧
       IsSimpleGroup ↥C ∧ Subgroup.centralizer (C : Set (StarGroup p H)) = ⊥ ∧
       (∀ C' : Subgroup (StarGroup p H), CFSG.IsComponent C' → C' = C) := by
-  haveI : Fact p.Prime := ⟨s.prime⟩
+  have : Fact p.Prime := ⟨s.prime⟩
   obtain ⟨P, hP⟩ := CFSG.ABGLocalTools.exists_isSylowOf p (H ⊓ M)
   have hO : CFSG.pPrimeCore p (StarGroup p H) = ⊥ :=
     CFSG.pPrimeCore_quotient_pPrimeCore_eq_bot (G := ↥H) p
@@ -290,7 +291,7 @@ private theorem exists_unique_pComponent (s : NineSettingGen G M p Q H E k)
       kSub p M H = L ∧ kStar p M H = CFSG.generalizedFitting (StarGroup p H) ∧
       IsSimpleGroup ↥(kStar p M H) ∧
       Subgroup.centralizer (kStar p M H : Set (StarGroup p H)) = ⊥ := by
-  haveI : Fact p.Prime := ⟨s.prime⟩
+  have : Fact p.Prime := ⟨s.prime⟩
   obtain ⟨C, hC, hNormalC, hlayer_eq, hF_C, hCsimple, hCcent, hCuniq⟩ :=
     component_starImg s hL hp hΓ
   obtain ⟨P, hP⟩ := CFSG.ABGLocalTools.exists_isSylowOf p (H ⊓ M)
@@ -308,12 +309,12 @@ private theorem exists_unique_pComponent (s : NineSettingGen G M p Q H E k)
     have hle : C ≤ starImg p H M := by
       rw [← hLstar]
       exact Subgroup.map_mono (Subgroup.comap_mono hLM)
-    haveI : C.Normal := hNormalC
+    have : C.Normal := hNormalC
     exact (CFSG.RankThree.PartOne.IsStronglyPEmbedded.not_dvd_card_of_normal_le hY hle)
       (CFSG.RankThree.PartOne.Sec1511.p_dvd_card_component hO hC)
   have hkSub : kSub p M H = L := by
     unfold kSub
-    rw [if_neg hL]
+    rw [ite_eq_right hL]
     have hset : {Y : Subgroup G | IsPComponentIn p Y H ∧ ¬ Y ≤ M} = {L} := by
       ext Y
       constructor
@@ -332,6 +333,7 @@ private theorem exists_unique_pComponent (s : NineSettingGen G M p Q H E k)
     exact hCcent
   exact ⟨L, hLcomp, hLM, hLuniq, hkSub, hkStar, hkStarSimple, hkStarCent⟩
 
+omit [Finite G] in
 private theorem xSub_eq_primeComplementCore (hcent :
     Subgroup.centralizer (kStar p M H : Set (StarGroup p H)) = ⊥) :
     xSub p M H = (primeComplementCore (G := ↥H) p).map H.subtype := by
@@ -350,7 +352,7 @@ theorem nineFourTwo_structure {G : Type} [Group G] [Finite G] {M Q H E : Subgrou
       ((kSub p M H).subgroupOf H).Normal ∧ xSub p M H ≤ M ∧
       Nat.Coprime p (Nat.card (xSub p M H)) ∧ IsSimpleGroup ↥(kStar p M H) ∧
       Subgroup.centralizer (kStar p M H : Set (H ⧸ primeComplementCore (G := H) p)) = ⊥ := by
-  haveI : Fact p.Prime := ⟨s.prime⟩
+  have : Fact p.Prime := ⟨s.prime⟩
   obtain ⟨L, hLcomp, hLM, hLuniq, hkSub, hkStar, hkStarSimple, hkStarCent⟩ :=
     exists_unique_pComponent s hL hp hΓ
   have hkNormal : ((kSub p M H).subgroupOf H).Normal := by
@@ -381,7 +383,7 @@ theorem nineFourTwo_star {G : Type} [Group G] [Finite G] {M Q H E : Subgroup G} 
       ¬ kStar p M H ≤ starImg p H M ∧
       2 ≤ CFSG.Open.pRank p (⊤ : Subgroup (H ⧸ primeComplementCore (G := H) p)) ∧
       primeComplementCore (G := ↥H) p ≤ M.subgroupOf H := by
-  haveI : Fact p.Prime := ⟨s.prime⟩
+  have : Fact p.Prime := ⟨s.prime⟩
   obtain ⟨P, hP⟩ := CFSG.ABGLocalTools.exists_isSylowOf p (H ⊓ M)
   obtain ⟨hPH, hPQ⟩ := s.isSylowOf_of_isSylowOf_inf hp hP
   obtain ⟨L, hLcomp, hLM, -, hkSub, hkStar, -, -⟩ := exists_unique_pComponent s hL hp hΓ

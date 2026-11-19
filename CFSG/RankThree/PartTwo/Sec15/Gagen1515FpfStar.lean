@@ -111,7 +111,7 @@ theorem not_le_centralizer
       rw [← hk']
       exact (Commute.zpow_right hxD k).eq
     rw [Subgroup.mem_centralizer_singleton_iff]
-    simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, inv_inv]
+    simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
     calc (w * x * w⁻¹) * d = w * (x * (w⁻¹ * d * w)) * w⁻¹ := by group
       _ = w * ((w⁻¹ * d * w) * x) * w⁻¹ := by rw [hcomm]
       _ = d * (w * x * w⁻¹) := by group

@@ -12,18 +12,21 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_fixModZ_iff {L B : Subgroup G} (hL : IsShort2 L) {u : G} :
     u ∈ fixModZ hL B ↔ u ∈ blockU L ∧ ∀ b ∈ B, ⁅u, b⁆ ∈ blockZ L :=
   Iff.rfl
 
+omit [Finite G] in
 theorem mem_blockZ_iff {L : Subgroup G} {z : G} :
     z ∈ blockZ L ↔ z ∈ blockU L ∧ z ∈ Subgroup.centralizer (L : Set G) :=
   Iff.rfl
 
+omit [Finite G] in
 theorem blockU_le_normalizer_of_le_centralizer {L K : Subgroup G}
     (hK : K ≤ Subgroup.centralizer (L : Set G)) :
     blockU L ≤ Subgroup.normalizer (K : Set G) := fun u hu =>
-  Subgroup.centralizer_le_normalizer _ (Subgroup.mem_centralizer_iff.mpr fun k hk =>
+  Subgroup.centralizer_le_normalizer _ (Subgroup.mem_centralizer_iff.mpr fun _k hk =>
     (Subgroup.mem_centralizer_iff.mp (hK hk) u (blockU_le_left L hu)).symm)
 
 theorem fixedPts_le_fixModZ_sup {H T V L A : Subgroup G} (h : Ctx H T V L) (hAT : A ≤ T) :
@@ -85,6 +88,7 @@ theorem fixedPts_le_fixModZ_sup {H T V L A : Subgroup G} (h : Ctx H T V L) (hAT 
     (mem_fixModZ_iff h.chi.1.1).mpr ⟨huU, hcomm⟩
   exact Subgroup.mul_mem_sup huY hyK
 
+omit [Finite G] in
 theorem fixModZ_inf_eq {L A : Subgroup G} (hL : IsShort2 L) :
     fixModZ hL (A ⊓ Subgroup.normalizer (L : Set G)) ⊓
         (orbitW A L ⊓ Subgroup.centralizer (L : Set G)) = blockZ L := by

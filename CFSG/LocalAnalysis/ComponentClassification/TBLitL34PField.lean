@@ -191,7 +191,7 @@ theorem exists_field_frame
   have hQxK : Qx ≤ K := by
     rintro _ ⟨u, -, rfl⟩
     exact hLK u.2
-  have hQx2 : IsPGroup 2 Qx := (Q.isPGroup').map L.subtype
+  have hQx2 : IsPGroup 2 Qx := (Q.isPGroup).map L.subtype
   have hQxβ : Qx ≤ centralizer ({β} : Set X) := by
     rintro _ ⟨u, -, rfl⟩
     exact hLβ u.2

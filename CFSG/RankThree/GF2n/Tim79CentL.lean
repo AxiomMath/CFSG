@@ -40,7 +40,7 @@ theorem Hyp79.centralizer_L_abelian (H : Hyp79 M V Q) {g : G} (hgV : conjSubgrou
   let ψ' : G → (Fin 2 → GaloisField 2 n) := fun w =>
     if h : w ∈ W then Multiplicative.toAdd (N.ψ ⟨w, h⟩) else 0
   have hψ'_eq : ∀ (w : G) (hw : w ∈ W), ψ' w = Multiplicative.toAdd (N.ψ ⟨w, hw⟩) :=
-    fun w hw => dif_pos hw
+    fun w hw => dite_eq_left hw
   have hψ'_mul : ∀ w ∈ W, ∀ w' ∈ W, ψ' (w * w') = ψ' w + ψ' w' := by
     intro w hw w' hw'
     rw [hψ'_eq _ (mul_mem hw hw'), hψ'_eq w hw, hψ'_eq w' hw']

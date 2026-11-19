@@ -76,8 +76,8 @@ theorem word_get (k : Nat) (hk : k < 3) : ∀ x < 8330,
   rw [h1, ← h4]
   exact ⟨rfl, h4 ▸ h2⟩
 
-theorem compT_ap {P Q : Table} {x : Nat} (hx : x < 8330) (hP : P.size = 8330)
-    (hQ : ap Q x < 8330) : ap (compT 8330 P Q) x = ap P (ap Q x) := by
+theorem compT_ap {P Q : Table} {x : Nat} (hx : x < 8330) (_hP : P.size = 8330)
+    (_hQ : ap Q x < 8330) : ap (compT 8330 P Q) x = ap P (ap Q x) := by
   unfold compT ap
   rw [getElem!_pos _ x (by simpa using hx), Array.getElem_ofFn]
 

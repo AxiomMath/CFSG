@@ -33,9 +33,9 @@ theorem y7a_no_order9_small {P Q : Type} [Group P] [Finite P] [Group Q] [Finite 
     (hP : IsPGroup 2 P) (hcard : Nat.card P ≤ 8) (hQ : Nat.card Q = 9)
     (φ : Q →* MulAut P) (hφ : Function.Injective φ) : False := by
   classical
-  haveI : Fintype P := Fintype.ofFinite P
-  haveI : Fintype Q := Fintype.ofFinite Q
-  letI : MulAction Q P := MulAction.compHom P φ
+  have : Fintype P := Fintype.ofFinite P
+  have : Fintype Q := Fintype.ofFinite Q
+  let : MulAction Q P := MulAction.compHom P φ
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hP
   have hn_le : n ≤ 3 := by
     have hle : 2 ^ n ≤ 2 ^ 3 := by
@@ -43,7 +43,7 @@ theorem y7a_no_order9_small {P Q : Type} [Group P] [Finite P] [Group Q] [Finite 
       exact hcard
     exact (Nat.pow_le_pow_iff_right (by norm_num : (1 : ℕ) < 2)).mp hle
   have hQ9 : Fintype.card Q = 9 := by rw [← Nat.card_eq_fintype_card]; exact hQ
-  haveI : Nontrivial Q :=
+  have : Nontrivial Q :=
     Finite.one_lt_card_iff_nontrivial.mp (by rw [hQ]; norm_num)
   obtain ⟨g, hg⟩ := exists_ne (1 : Q)
   have hkey : ∀ h : Q, h ≠ 1 →
@@ -129,7 +129,7 @@ theorem y7a_no_order9_small {P Q : Type} [Group P] [Finite P] [Group Q] [Finite 
       (fun h : Q => Nat.card ↥(MulAction.fixedBy P h)) (Finset.mem_univ (1 : Q))]
     have hone : Nat.card ↥(MulAction.fixedBy P (1 : Q)) = Nat.card P := by
       rw [show MulAction.fixedBy P (1 : Q) = Set.univ by
-        ext x; simp [MulAction.mem_fixedBy]]
+        ext x; simp]
       simp
     have herase : (∑ h ∈ Finset.univ.erase (1 : Q),
         Nat.card ↥(MulAction.fixedBy P h)) = 8 * c := by

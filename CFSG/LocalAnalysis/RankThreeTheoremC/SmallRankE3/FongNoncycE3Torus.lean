@@ -119,7 +119,7 @@ theorem four_le_pRank_torus {ι : Type} [Fintype ι] [DecidableEq ι] {K : Type}
     (h23 : i₂ ≠ i₃) (h24 : i₂ ≠ i₄) (h34 : i₃ ≠ i₄)
     (hH : ∀ j, torusDiag (torusVec ζ j i₄) ∈ H) :
     4 ≤ pRank 3 (⊤ : Subgroup (StatedProj H)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hζ1 : ζ ≠ 1 := by
     rintro rfl
     rw [orderOf_one] at hζ
@@ -187,7 +187,7 @@ theorem four_le_pRank_torus {ι : Type} [Fintype ι] [DecidableEq ι] {K : Type}
 
 theorem psl_four_le_pRank_three {K : Type} [Field K] [Finite K] {n : ℕ} (hn : 5 ≤ n)
     (h3 : 3 ∣ Nat.card Kˣ) : 4 ≤ pRank 3 (⊤ : Subgroup (StatedProj (StatedSL n K))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ζ, hζ⟩ := exists_prime_orderOf_dvd_card' (G := Kˣ) 3 h3
   exact four_le_pRank_torus hζ (i₀ := ⟨0, by omega⟩) (i₁ := ⟨1, by omega⟩)
     (i₂ := ⟨2, by omega⟩) (i₃ := ⟨3, by omega⟩) (i₄ := ⟨4, by omega⟩)

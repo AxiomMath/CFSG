@@ -39,7 +39,7 @@ theorem bmOrd_of_rows
         intro g _
         exact (Subgroup.mem_center_iff.mp (h ▸ Subgroup.mem_top x)) g
       have htop : commutator ↥L = ⊤ := hmark.1
-      haveI := hLs.toNontrivial
+      have := hLs.toNontrivial
       rw [hbot] at htop
       exact bot_ne_top htop
   have e : ↥L ⧸ Subgroup.center ↥L ≃* ↥L :=

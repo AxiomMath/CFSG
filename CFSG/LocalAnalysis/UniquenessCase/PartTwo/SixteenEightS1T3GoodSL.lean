@@ -120,30 +120,30 @@ private lemma s16t3_rotv_apply (p q : Fin n) (x : Fin n → K) (i : Fin n) :
 
 private lemma s16t3_rotv_apply_p (p q : Fin n) (x : Fin n → K) :
     s16t3_rotv p q x p = x q := by
-  rw [s16t3_rotv_apply, if_pos rfl]
+  rw [s16t3_rotv_apply, ite_eq_left rfl]
 
 private lemma s16t3_rotv_apply_q {p q : Fin n} (hpq : p ≠ q) (x : Fin n → K) :
     s16t3_rotv p q x q = x p + x q := by
-  rw [s16t3_rotv_apply, if_neg (Ne.symm hpq), if_pos rfl]
+  rw [s16t3_rotv_apply, ite_eq_right (Ne.symm hpq), ite_eq_left rfl]
 
 private lemma s16t3_rotv_apply_of_ne {p q : Fin n} {i : Fin n} (hip : i ≠ p) (hiq : i ≠ q)
     (x : Fin n → K) : s16t3_rotv p q x i = x i := by
-  rw [s16t3_rotv_apply, if_neg hip, if_neg hiq]
+  rw [s16t3_rotv_apply, ite_eq_right hip, ite_eq_right hiq]
 
 private def s16t3_basis (i : Fin n) : Fin n → K := Pi.single i (1 : K)
 
 private lemma s16t3_basis_apply (i : Fin n) : s16t3_basis i = Pi.single i (1 : K) := rfl
 
-private lemma s16t3_rotv_eq_self {p q : Fin n} (hpq : p ≠ q) {y : Fin n → K}
+private lemma s16t3_rotv_eq_self {p q : Fin n} (_hpq : p ≠ q) {y : Fin n → K}
     (hp : y p = 0) (hq : y q = 0) : s16t3_rotv p q y = y := by
   funext i
   rw [s16t3_rotv_apply]
   by_cases hip : i = p
-  · rw [hip, if_pos rfl, hp, hq]
-  · rw [if_neg hip]
+  · rw [hip, ite_eq_left rfl, hp, hq]
+  · rw [ite_eq_right hip]
     by_cases hiq : i = q
-    · rw [hiq, if_pos rfl, hp, hq, zero_add]
-    · rw [if_neg hiq]
+    · rw [hiq, ite_eq_left rfl, hp, hq, zero_add]
+    · rw [ite_eq_right hiq]
 
 private lemma s16t3_rotv_cube {p q : Fin n} (hpq : p ≠ q) (h2 : (2 : K) = 0)
     (x : Fin n → K) :
@@ -169,20 +169,17 @@ private lemma s16t3_rotv_commute {a b c d : Fin n} (hab : a ≠ b) (hcd : c ≠ 
   funext i
   by_cases hia : i = a
   · rw [hia]
-    simp [s16t3_rotv_apply, hab, hcd, hac, had, hbc, hbd,
-      hab.symm, hcd.symm, hac.symm, had.symm, hbc.symm, hbd.symm]
+    simp [s16t3_rotv_apply, hac, had, hbc, hbd]
   · by_cases hib : i = b
     · rw [hib]
-      simp [s16t3_rotv_apply, hab, hcd, hac, had, hbc, hbd,
-        hab.symm, hcd.symm, hac.symm, had.symm, hbc.symm, hbd.symm]
+      simp [s16t3_rotv_apply, hac, had, hbc, hbd,
+        hab.symm]
     · by_cases hic : i = c
       · rw [hic]
-        simp [s16t3_rotv_apply, hab, hcd, hac, had, hbc, hbd,
-          hab.symm, hcd.symm, hac.symm, had.symm, hbc.symm, hbd.symm]
+        simp [s16t3_rotv_apply, hac.symm, had.symm, hbc.symm, hbd.symm]
       · by_cases hid : i = d
         · rw [hid]
-          simp [s16t3_rotv_apply, hab, hcd, hac, had, hbc, hbd,
-            hab.symm, hcd.symm, hac.symm, had.symm, hbc.symm, hbd.symm]
+          simp [s16t3_rotv_apply, hcd.symm, hac.symm, had.symm, hbc.symm, hbd.symm]
         · simp [s16t3_rotv_apply, hia, hib, hic, hid]
 
 private noncomputable def s16t3_rotvMat (p q : Fin n) : Matrix (Fin n) (Fin n) K :=
@@ -254,12 +251,12 @@ private lemma s16t3_rotvGL_mulVec_single_p {p q : Fin n} (hpq : p ≠ q) (h2 : (
   funext j
   rw [s16t3_rotv_apply]
   by_cases hjp : j = p
-  · rw [hjp, if_pos rfl, Pi.single_eq_of_ne' hpq, Pi.single_eq_of_ne' hpq.symm]
-  · rw [if_neg hjp]
+  · rw [hjp, ite_eq_left rfl, Pi.single_eq_of_ne' hpq, Pi.single_eq_of_ne' hpq.symm]
+  · rw [ite_eq_right hjp]
     by_cases hjq : j = q
-    · rw [hjq, if_pos rfl, Pi.single_eq_of_ne' hpq, Pi.single_eq_same, add_zero,
+    · rw [hjq, ite_eq_left rfl, Pi.single_eq_of_ne' hpq, Pi.single_eq_same, add_zero,
         Pi.single_eq_same]
-    · rw [if_neg hjq, Pi.single_eq_of_ne hjp, Pi.single_eq_of_ne hjq]
+    · rw [ite_eq_right hjq, Pi.single_eq_of_ne hjp, Pi.single_eq_of_ne hjq]
 
 private lemma s16t3_rotvGL_ne_one {p q : Fin n} (hpq : p ≠ q) (h2 : (2 : K) = 0) :
     s16t3_rotvGL hpq h2 ≠ 1 := by
@@ -282,9 +279,9 @@ theorem s16t3_good_nat_sl {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) 
       ∀ γ ∈ F, ((γ : Matrix.GeneralLinearGroup (Fin n) K) : Matrix (Fin n) (Fin n) K).mulVec x =
         x := by
   classical
-  letI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 :=
+  let : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 :=
     charP_of_card_eq_prime (p := 2) (by rw [← Nat.card_eq_fintype_card]; exact hK)
   have h2 : (2 : K) = 0 := CharP.cast_eq_zero K 2
   let i0 : Fin n := ⟨0, by omega⟩

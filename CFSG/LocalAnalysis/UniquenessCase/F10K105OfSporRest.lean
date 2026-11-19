@@ -55,7 +55,7 @@ private theorem k105r_isPGroup_three {L T B : Subgroup G} [L.Normal] (hK : K105S
     hT.inf_of_le_normalizer le_top (normalizer_eq_top_iff.mpr inferInstance).ge
   obtain ⟨Q, hQ⟩ := hTL.exists_sylow_eq_subgroupOf
   have hS : CFSG.QuasithinUnique.IsSylowTwoOf (Q : Subgroup ↥L) ⊤ := by
-    refine ⟨le_top, Q.isPGroup', ?_⟩
+    refine ⟨le_top, Q.isPGroup, ?_⟩
     change ¬ 2 ∣ (Q : Subgroup ↥L).relIndex ⊤
     rw [relIndex_top_right]
     exact Q.not_dvd_index

@@ -51,12 +51,13 @@ theorem nine3_dcal_inf_fusionOddCore_eq_bot (h : Nine3T79Setup V T A K S X p g x
   have hD2 : IsPGroup 2 (conjSubgroup V k) :=
     CFSG.CGT.Timmesfeld75.isPGroup_two_of_isElemAbelian
       (E3.isElemAbelian_conjSubgroup h.hc.core.hyp7.1 k)
-  refine Subgroup.inf_eq_bot_of_coprime ?_
+  refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
   obtain ⟨n, hn⟩ := hD2.exists_card_eq
   rw [hn]
   exact Nat.Coprime.pow_left n
     (Nat.coprime_two_left.mpr (nine3_odd_card_fusionOddCoreOf (nineH0 V K g)))
 
+omit [Finite G] in
 private theorem nine3_map_conjSubgroup_hom {G' : Type*} [Group G'] (f : G →* G')
     (A : Subgroup G) (y : G) :
     conjSubgroup (A.map f) (f y) = (conjSubgroup A y).map f := by
@@ -64,7 +65,7 @@ private theorem nine3_map_conjSubgroup_hom {G' : Type*} [Group G'] (f : G →* G
     Subgroup.map_map]
   congr 1
   ext z
-  simp [MulAut.conj_apply, map_mul]
+  simp [map_mul]
 
 theorem nine3_le_pCore_of_le_comap (h : Nine3T79Setup V T A K S X p g x) {D : Subgroup G}
     (hDH : D ≤ nineH0 V K g) (hD2 : IsPGroup 2 D)
@@ -95,7 +96,8 @@ theorem nine3_le_pCore_of_le_comap (h : Nine3T79Setup V T A K S X p g x) {D : Su
     _ = pCoreOf 2 H := rfl
     _ = pCoreOf 2 (nineH0 V K g) := rfl
 
-private theorem nine3_subgroupOf_conjSubgroup {H A : Subgroup G} (hA : A ≤ H) {y : G}
+omit [Finite G] in
+private theorem nine3_subgroupOf_conjSubgroup {H A : Subgroup G} (_hA : A ≤ H) {y : G}
     (hy : y ∈ H) :
     (conjSubgroup A y).subgroupOf H = conjSubgroup (A.subgroupOf H) ⟨y, hy⟩ := by
   ext z
@@ -170,12 +172,14 @@ theorem nine3_iSup_dcal_map_le_kSub (h : Nine3T79Setup V T A K S X p g x) :
   rw [← Subtype.ext hzx]
   exact hz
 
+omit [Finite G] in
 theorem nine3_nineI0_le_H0 : nineI0 V K g ≤ nineH0 V K g := by
   have hIleH : nineI V K ≤ nineH V K :=
     iSup₂_le fun U hU => le_iSup₂_of_le U hU inf_le_left
   exact sup_le (hIleH.trans le_sup_left)
     ((E3.conjSubgroup_mono_left g hIleH).trans le_sup_right)
 
+omit [Finite G] in
 private theorem nine3_isTI_subgroupOf {A H : Subgroup G} (hAH : A ≤ H) (hTI : IsTI A) :
     IsTI (A.subgroupOf H) := by
   intro y
@@ -249,7 +253,7 @@ theorem nine3_isTI_barV (h : Nine3T79Setup V T A K S X p g x) :
   exact CFSG.GroupTheory.isTI_map_mk'_of_odd hVsub2 hVsubTI
     (nine3_odd_card_fusionOddCore ↥(nineH0 V K g)) hTZ
 
-theorem nine3_iSub_le_pCoreOf_kSub_barV (h : Nine3T79Setup V T A K S X p g x) :
+theorem nine3_iSub_le_pCoreOf_kSub_barV (_h : Nine3T79Setup V T A K S X p g x) :
     iSub (nine3BarV V K g) (⊤ : Subgroup (nine3G1 V K g)) (nine3BarE V K g) ≤
       pCoreOf 2 (kSub (nine3BarV V K g) (⊤ : Subgroup (nine3G1 V K g)) (nine3BarE V K g)) := by
   refine iSup₂_le fun U hU => ?_
@@ -269,9 +273,9 @@ theorem nine3_fusionOddCoreOf_top_eq (X : Type*) [Group X] :
     (e := Subgroup.topEquiv (G := X))]
   rfl
 
-theorem nine3_fusionOddCore_quotient_eq_bot (h : Nine3T79Setup V T A K S X p g x) :
+theorem nine3_fusionOddCore_quotient_eq_bot (_h : Nine3T79Setup V T A K S X p g x) :
     fusionOddCore (nine3G1 V K g) = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcop : Nat.Coprime 2
       (Nat.card (QuotientGroup.mk' (fusionOddCore ↥(nineH0 V K g))).ker) := by
     rw [QuotientGroup.ker_mk']

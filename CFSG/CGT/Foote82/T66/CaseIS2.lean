@@ -37,6 +37,7 @@ theorem Hyp.theta_of_mem_K (h : Hyp G L z v H₁ m ψ)
 theorem Hyp.jL_mem_N (h : Hyp G L z v H₁ m ψ) (a : alternatingGroup (Fin (m + 6))) :
     jL ψ a ∈ NN G L := h.L_le_N (h.jL_mem a)
 
+omit [Finite V] in
 theorem theta_jL
     (hθ3 : ∀ (x : ↥(NN G L)) (σ : Perm (Fin (m + 6))),
       (x : GLV V) = pe ψ (iota2 (m + 6) σ) → θ x = σ)
@@ -173,8 +174,8 @@ theorem SBad.sign_eq_one (h : Hyp G L z v H₁ m ψ) (hS : SBad G L z ψ S) (h4 
     (hθ3 : ∀ (x : ↥(NN G L)) (σ : Perm (Fin (m + 6))),
       (x : GLV V) = pe ψ (iota2 (m + 6) σ) → θ x = σ)
     (x : ↥(NN G L)) (hxS : ∀ s ∈ S, (x : GLV V) * s = s * x) {k : ℕ}
-    (hx2 : (x : GLV V) ^ (2 ^ k) = 1) : sign (θ x) = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    (_hx2 : (x : GLV V) ^ (2 ^ k) = 1) : sign (θ x) = 1 := by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨s, hsS, hs4, hss, hgen⟩ := hS.exists_gen h h4
   have hys := hS.y_inv h hsS hs4 hgen
   by_contra hodd
@@ -294,6 +295,7 @@ theorem Hyp.eq_z_of_mem (h : Hyp G L z v H₁ m ψ) {Q : Subgroup (GLV V)} (hQK 
     ((CFSG.SectionRank.pRank_mono Nat.one_lt_two hQK).trans h.rank.le) ha hzQ ha2
     h.std.orderOf_s
 
+omit [Finite V] in
 theorem mem_map_conj {g x : GLV V} {Q : Subgroup (GLV V)} :
     x ∈ Q.map (MulAut.conj g).toMonoidHom ↔ g⁻¹ * x * g ∈ Q := by
   constructor
@@ -313,7 +315,7 @@ theorem SBad.exists_comm_conj (h : Hyp G L z v H₁ m ψ) (hS : SBad G L z ψ S)
     ∃ c ∈ KK G L, (hh * c) * z * (hh * c)⁻¹ = tt ψ ∧
       ∀ s ∈ S, ∀ s' ∈ S,
         ((hh * c)⁻¹ * s * (hh * c)) * s' = s' * ((hh * c)⁻¹ * s * (hh * c)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨s, hsS, hs4, hss, hgen⟩ := hS.exists_gen h h4
   have hz2 := h.std.orderOf_s
   have hzz : z * z = 1 := mul_self_of_orderOf_two hz2

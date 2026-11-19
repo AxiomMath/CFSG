@@ -66,14 +66,14 @@ private theorem gLAPPrimeCore_three_eq_bot_of_constrained {G : Type*} [Group G] 
     (N : Subgroup G)
     (hcen : ∀ h ∈ N, (∀ r ∈ pCoreOf 3 N, h * r = r * h) → h ∈ pCoreOf 3 N) :
     GLAPPrimeCore 3 ↥N = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   show CFSG.pPrimeCore 3 ↥N = ⊥
   rw [CFSG.pPrimeCore_eq_bot_iff]
   intro K hKn hKc
   have hBn : (CFSG.pCore 3 ↥N).Normal := CFSG.pCore_normal
   have hBp : IsPGroup 3 (CFSG.pCore 3 ↥N) := CFSG.pCore_isPGroup
   have hdisj : K ⊓ CFSG.pCore 3 ↥N = ⊥ := by
-    apply Subgroup.inf_eq_bot_of_coprime
+    apply (Subgroup.disjoint_of_coprime_natCard ?_).eq_bot
     obtain ⟨n, hn⟩ := hBp.exists_card_eq
     rw [hn]
     exact Nat.Coprime.pow_right _ hKc.symm
@@ -108,7 +108,7 @@ private theorem conj_mem_pCoreOf_three {G : Type*} [Group G] (N : Subgroup G) {c
 theorem noThreeComponents_of_conj (hQ : YS08.LieQ.LieQConstrainedInner 3) {S : Type} [Group S]
     [Finite S] (hs : IsSimpleGroup S) (hna : ∃ a b : S, a * b ≠ b * a) (hS : IsChevOfChar 3 S)
     {s : S} (hs1 : s ≠ 1) (hs3 : s ^ 3 = 1) : NoThreeComponents (MulAut.conj s) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro J hJ
   have hQ1 : Subgroup.zpowers s ≠ ⊥ := fun h => hs1 (Subgroup.zpowers_eq_bot.1 h)
   have hQ3 : IsPGroup 3 (Subgroup.zpowers s) :=

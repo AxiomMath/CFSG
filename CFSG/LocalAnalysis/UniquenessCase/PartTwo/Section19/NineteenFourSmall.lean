@@ -340,7 +340,7 @@ theorem k_U34KleinNormalizer_holds :
   have hNcenter : Subgroup.normalizer (Z : Set X) ≤ Subgroup.normalizer (Q : Set X) :=
     normalizer_center_le_normalizer_of_fusionIsTI Q hTI' hZne
   have hcenter_le_Q : Z ≤ Q := Subgroup.map_subtype_le _
-  obtain ⟨x, hx⟩ := SetLike.exists_not_mem_of_ne_top (Subgroup.normalizer (Q : Set X)) hSE.1
+  obtain ⟨x, hx⟩ := SetLike.exists_notMem_of_ne_top (Subgroup.normalizer (Q : Set X)) hSE.1
   have key : ∀ g : X, g ∉ Subgroup.normalizer (Q : Set X) →
       ∀ e ∈ E, e ∈ Subgroup.normalizer (conjSubgroup E g : Set X) → e = 1 := by
     intro g hg e heE heN

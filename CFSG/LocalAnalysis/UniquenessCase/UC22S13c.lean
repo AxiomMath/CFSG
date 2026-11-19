@@ -17,6 +17,7 @@ open CFSG.LocalAnalysis.UniquenessCase.UC22.F13 Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem uc22s13c_mem_sup_of_inner {M K : Subgroup G} (hKn : (K.subgroupOf M).Normal)
     [(barImage M K).Normal] {y : G} (hy : y ∈ M)
     (h : MulAut.conjNormal (H := barImage M K)
@@ -31,11 +32,12 @@ theorem uc22s13c_mem_sup_of_inner {M K : Subgroup G} (hKn : (K.subgroupOf M).Nor
     Subgroup.coe_inv] at h1
   exact h1.symm
 
+omit [Finite G] in
 theorem uc22s13c_inner_of_isU3 {M K : Subgroup G} (hK : K ∈ calC M)
     (hKn : (K.subgroupOf M).Normal) {m k : ℕ} (hk : m = 2 ^ k) (hU : IsU3 (Bar2 K) m) {r : ℕ}
     (hr : r.Prime) (hr7 : 7 ≤ r) {y : G} (hy : y ∈ M) (hyr : y ^ r = 1) :
     y ∈ K ⊔ cMStar M K := by
-  haveI : (barImage M K).Normal := PartTwo.s13_barImage_normal hKn
+  have : (barImage M K).Normal := PartTwo.s13_barImage_normal hKn
   have hrn : ¬ r ∣ 6 * m := by
     intro h
     rcases (Nat.Prime.dvd_mul hr).1 h with h6 | h2k

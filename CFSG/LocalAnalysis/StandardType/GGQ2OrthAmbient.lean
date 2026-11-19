@@ -171,7 +171,7 @@ private theorem ggHasLabel_form (hK : Nat.card K = 2) (s : ℕ) (δ : Fin 2)
         Subgroup.center ↥(LargeEvenOmega ⇑(planeQForm K s δ))) := by
   have hcard : Nat.card K = 2 ^ 1 := by rw [pow_one]; exact hK
   rcases hs with ⟨hev, h3⟩ | ⟨hod, h2⟩
-  · rw [planeAmbientLabel, if_pos hev]
+  · rw [planeAmbientLabel, ite_eq_left hev]
     by_cases h4 : 4 ≤ s + δ.val
     ·
       have hZ : Subgroup.center ↥(LargeEvenOmega ⇑(planeQForm K s δ)) = ⊥ := by
@@ -191,7 +191,7 @@ private theorem ggHasLabel_form (hK : Nat.card K = 2) (s : ℕ) (δ : Fin 2)
         CFSG.Blueprint.LieModel.statedClassicalModel_of_ne_zero (by omega) hLMq
       unfold GGHasLabel LargeEvenRawDatum
       dsimp only
-      rw [if_neg (by omega : ¬ s + δ.val = 3)]
+      rw [ite_eq_right (by omega : ¬ s + δ.val = 3)]
       exact recipeOmegaPlus_of_statedClassicalModel hM
     ·
       have hn3 : s + δ.val = 3 := by omega
@@ -202,13 +202,13 @@ private theorem ggHasLabel_form (hK : Nat.card K = 2) (s : ℕ) (δ : Fin 2)
         (Φ := planeQForm K s δ) (κ := Fin 3 ⊕ Fin 3) e3 (f := 1) le_rfl hcard
       unfold GGHasLabel LargeEvenRawDatum
       dsimp only
-      rw [if_pos hn3]
+      rw [ite_eq_left hn3]
       exact recipeLinear_of_statedClassicalModel hM
   · have hne : ¬ Even s := by
       rintro ⟨k, hk⟩
       obtain ⟨j, hj⟩ := hod
       omega
-    rw [planeAmbientLabel, if_neg hne]
+    rw [planeAmbientLabel, ite_eq_right hne]
     have hirr := sq_add_add_one_ne_zero (K := K) hK
     by_cases h4 : 4 ≤ s + δ.val
     ·
@@ -229,7 +229,7 @@ private theorem ggHasLabel_form (hK : Nat.card K = 2) (s : ℕ) (δ : Fin 2)
         CFSG.Blueprint.LieModel.statedClassicalModel_of_ne_zero (by omega) hLMq
       unfold GGHasLabel LargeEvenRawDatum
       dsimp only
-      rw [if_neg (by omega : ¬ s + δ.val = 2), if_neg (by omega : ¬ s + δ.val = 3)]
+      rw [ite_eq_right (by omega : ¬ s + δ.val = 2), ite_eq_right (by omega : ¬ s + δ.val = 3)]
       exact recipeOmegaMinus_of_statedClassicalModel hM
     · obtain ⟨k, hk⟩ := hod
       have hδcases : δ.val = 0 ∨ δ.val = 1 := by
@@ -248,8 +248,8 @@ private theorem ggHasLabel_form (hK : Nat.card K = 2) (s : ℕ) (δ : Fin 2)
           (b := 1) (c := 1) (f := 1) hirr e le_rfl hcard
         unfold GGHasLabel LargeEvenRawDatum
         dsimp only
-        rw [if_neg (by decide : ¬ (3 + (0 : Fin 2).val = 2)),
-          if_pos (by decide : 3 + (0 : Fin 2).val = 3)]
+        rw [ite_eq_right (by decide : ¬ (3 + (0 : Fin 2).val = 2)),
+          ite_eq_left (by decide : 3 + (0 : Fin 2).val = 3)]
         exact recipeUnitary_of_statedClassicalModel hM
       ·
         have hs1 : s = 1 := by omega
@@ -263,7 +263,7 @@ private theorem ggHasLabel_form (hK : Nat.card K = 2) (s : ℕ) (δ : Fin 2)
           (b := 1) (c := 1) (f := 1) hirr e le_rfl hcard
         unfold GGHasLabel LargeEvenRawDatum
         dsimp only
-        rw [if_pos (by decide : 1 + (1 : Fin 2).val = 2)]
+        rw [ite_eq_left (by decide : 1 + (1 : Fin 2).val = 2)]
         have h := recipeLinear_of_statedClassicalModel hM
         rw [show (2 : ℕ) ^ (2 * 1) = (2 ^ 1) ^ 2 by norm_num] at h
         exact h
@@ -276,13 +276,13 @@ theorem largeEvenMarking_omegaQ (hK : Nat.card K = 2) (s : ℕ) (δ : Fin 2)
     (CFSG.Foundations.SteinbergCA.quasisimple_iff _).2.1.mp (isQuasisimple_omegaQ hK s δ hs)
   have hlab : LargeEvenInLambda2 (planeAmbientLabel (.orthogonal δ) s) := by
     rcases hs with ⟨hev, h3⟩ | ⟨hod, h2⟩
-    · rw [planeAmbientLabel, if_pos hev]
+    · rw [planeAmbientLabel, ite_eq_left hev]
       exact ⟨le_rfl, h3⟩
     · have hne : ¬ Even s := by
         rintro ⟨k, hk⟩
         obtain ⟨j, hj⟩ := hod
         omega
-      rw [planeAmbientLabel, if_neg hne]
+      rw [planeAmbientLabel, ite_eq_right hne]
       exact ⟨le_rfl, h2⟩
   have hhas : GGHasLabel (planeAmbientLabel (.orthogonal δ) s)
       (↥(omegaQ (K := K) s δ) ⧸ Subgroup.center ↥(omegaQ (K := K) s δ)) := by

@@ -18,7 +18,7 @@ theorem close93FinalWithClaimThree_of_bound (hbound : ListWCBoundStatement) (hB 
     (h44 : Stroth44Statement) (h34 : Stroth34Statement) (hn5 : Sec9NGeFiveStatement)
     (hC : Step95CentreStatement) : Close93FinalWithClaimThreeStatement := by
   intro G _ _ M Q Z B hc n t hs Z0 hZ0 he3 hwc
-  haveI : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
+  have : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
   have hs5 : Sec5Hyp hc n t := hs.toSec5
   have ht : t ∈ LB M Q B := hs5.mem
   have hQZ0 : Q ≤ Z0 := hc.Q_le_centre ht hZ0

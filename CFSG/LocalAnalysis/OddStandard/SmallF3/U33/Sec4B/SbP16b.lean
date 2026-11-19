@@ -32,6 +32,7 @@ theorem exists_omtau_noninv (h : Setting16 Q Y τ ω) : ∃ q ∈ Q, (ω * τ * 
   obtain ⟨q, hq, hqY⟩ := exists_not_mem_Y h
   exact hqY (h.invol_omtau q hq (hc q hq))
 
+omit [Finite G] in
 private theorem commute_of_mem_Y (h : Setting16 Q Y τ ω) {y : G} (hy : y ∈ Y) :
     ∀ g : G, g * y = y * g := by
   have hyQ : y ∈ Q := h.Y_le_Q hy
@@ -58,10 +59,12 @@ private theorem commute_of_mem_Y (h : Setting16 Q Y τ ω) {y : G} (hy : y ∈ Y
   · rw [hg]
     exact ((hyq q hq).mul_right (hyτ.mul_right hyω)).eq.symm
 
+omit [Finite G] in
 theorem Y_le_center (h : Setting16 Q Y τ ω) : Y ≤ center G := by
   intro y hy
   exact Subgroup.mem_center_iff.mpr (commute_of_mem_Y h hy)
 
+omit [Finite G] in
 theorem not_central_tau (h : Setting16 Q Y τ ω) {q : G} (hq : q ∈ Q)
     (hz : ∀ a ∈ Q, (q * τ) * a = a * (q * τ)) : False := by
   obtain ⟨a, ha, ha2⟩ := h.exists_sq
@@ -79,8 +82,9 @@ theorem not_central_tau (h : Setting16 Q Y τ ω) {q : G} (hq : q ∈ Q)
   nth_rewrite 1 [← h3]
   rw [inv_mul_cancel]
 
+omit [Finite G] in
 theorem not_central_om (h : Setting16 Q Y τ ω) {q : G} (hq : q ∈ Q)
-    (hzτ : (q * ω) * τ = τ * (q * ω)) (hzQ : ∀ a ∈ Q, (q * ω) * a = a * (q * ω)) : False := by
+    (_hzτ : (q * ω) * τ = τ * (q * ω)) (hzQ : ∀ a ∈ Q, (q * ω) * a = a * (q * ω)) : False := by
   obtain ⟨a, ha, ha2⟩ := h.exists_sq
   apply ha2
   have h1 : q * (ω * a) = q * (a * ω) := by
@@ -92,6 +96,7 @@ theorem not_central_om (h : Setting16 Q Y τ ω) {q : G} (hq : q ∈ Q)
   have h2 : ω * a = a * ω := mul_left_cancel h1
   exact ((h.mem_Y a).mp (h.cent_om a ha h2)).2
 
+omit [Finite G] in
 theorem not_central_tau_om (h : Setting16 Q Y τ ω) {q : G} (hq : q ∈ Q)
     (hzQ : ∀ a ∈ Q, (q * (τ * ω)) * a = a * (q * (τ * ω))) : False := by
   have hconj : ∀ a ∈ Q, ω * a * ω⁻¹ = a⁻¹ := by
@@ -120,6 +125,7 @@ theorem not_central_tau_om (h : Setting16 Q Y τ ω) {q : G} (hq : q ∈ Q)
     rw [hstep, hconj a ha, inv_mul_cancel]
   exact ((h.mem_Y a).mp (h.invol_om a ha hsq)).2
 
+omit [Finite G] in
 theorem center_le_Y (h : Setting16 Q Y τ ω) : center G ≤ Y := by
   intro z hz
   obtain ⟨q, hq, hcases⟩ := h.cosets z
@@ -137,9 +143,11 @@ theorem center_le_Y (h : Setting16 Q Y τ ω) : center G ≤ Y := by
     rw [hzqτω] at hz
     exact h.not_central_tau_om hq (fun a ha => (Subgroup.mem_center_iff.mp hz a).symm)
 
+omit [Finite G] in
 theorem center_eq (h : Setting16 Q Y τ ω) : center G = Y :=
   le_antisymm (center_le_Y h) (Y_le_center h)
 
+omit [Finite G] in
 theorem char_Y (h : Setting16 Q Y τ ω) : Y.Characteristic := by
   rw [← center_eq h]
   exact Subgroup.centerCharacteristic

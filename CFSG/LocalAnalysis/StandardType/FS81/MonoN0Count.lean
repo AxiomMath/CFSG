@@ -141,12 +141,12 @@ private theorem monoCount_P_classify {Xg : Subgroup (GL (Fin (n + 1)) (ZMod 3))}
     monoCount_fin_ne (n := n) (a := 0) (b := 1) (by omega) (by omega) (by decide)
   have h10 : (1 : Fin (n + 1)) ≠ 0 := h01.symm
   have hv0 : v 0 = (1 : ZMod 3) := by
-    simp [v, Pi.add_apply, Pi.single_apply, h01]
+    simp [v, Pi.add_apply, h01]
   have hv1 : v 1 = (1 : ZMod 3) := by
-    simp [v, Pi.add_apply, Pi.single_apply, h10]
+    simp [v, Pi.add_apply, h10]
   have hvz : ∀ j : Fin (n + 1), j ≠ 0 → j ≠ 1 → v j = 0 := by
     intro j hj0 hj1
-    simp [v, Pi.add_apply, Pi.single_apply, hj0, hj1]
+    simp [v, Pi.add_apply, hj0, hj1]
   have hvwt : wt v = 2 := by
     change wt (Pi.single (0 : Fin (n + 1)) 1 + Pi.single (1 : Fin (n + 1)) 1) = 2
     simpa using wt_single_add_single (i := (0 : Fin (n + 1))) (j := (1 : Fin (n + 1))) h01
@@ -210,12 +210,12 @@ private theorem monoCount_P_classify {Xg : Subgroup (GL (Fin (n + 1)) (ZMod 3))}
     funext k
     by_cases hk0 : k = 0
     · subst hk0
-      simp [Pi.add_apply, Pi.smul_apply, smul_eq_mul, Pi.single_apply, h01]
+      simp [Pi.add_apply, Pi.smul_apply, smul_eq_mul, h01]
     · by_cases hk1 : k = 1
       · subst hk1
-        simp [Pi.add_apply, Pi.smul_apply, smul_eq_mul, Pi.single_apply, h10]
+        simp [Pi.add_apply, Pi.smul_apply, smul_eq_mul, h10]
       · rw [hsupp k hk0 hk1]
-        simp [Pi.add_apply, Pi.smul_apply, smul_eq_mul, Pi.single_apply, hk0, hk1]
+        simp [Pi.add_apply, Pi.smul_apply, smul_eq_mul, hk0, hk1]
   have hwne : w ≠ 0 := orbN_ne_zero hw
   rcases monoCount_zmod3_trichotomy (w 0) with hc | hc | hc <;>
     rcases monoCount_zmod3_trichotomy (w 1) with hd | hd | hd
@@ -224,10 +224,10 @@ private theorem monoCount_P_classify {Xg : Subgroup (GL (Fin (n + 1)) (ZMod 3))}
     rw [hwdec, hc, hd]
     simp
   · exact Or.inr (Or.inr (Or.inl (by
-      rw [hwdec, hc, hd]; simp only [zero_smul, one_smul, neg_smul]; abel)))
+      rw [hwdec, hc, hd]; simp only [zero_smul, one_smul]; abel)))
   · exact Or.inr (Or.inr (Or.inr (Or.inl (by
       rw [hwdec, hc, hd]; simp only [zero_smul, one_smul, neg_smul]; abel))))
-  · exact Or.inl (by rw [hwdec, hc, hd]; simp only [zero_smul, one_smul, neg_smul]; abel)
+  · exact Or.inl (by rw [hwdec, hc, hd]; simp only [zero_smul, one_smul]; abel)
   · exfalso
     have hveq : w = Pi.single (0 : Fin (n + 1)) 1 + Pi.single (1 : Fin (n + 1)) 1 := by
       rw [hwdec, hc, hd]; simp
@@ -235,11 +235,11 @@ private theorem monoCount_P_classify {Xg : Subgroup (GL (Fin (n + 1)) (ZMod 3))}
       rw [hveq]; abel
     exact orbN_ne_zero (by simpa [hzero] using hm) rfl
   · exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inl (by
-      rw [hwdec, hc, hd]; simp only [zero_smul, one_smul, neg_smul]; abel)))))
+      rw [hwdec, hc, hd]; simp only [one_smul, neg_smul]; abel)))))
   · exact Or.inr (Or.inl (by
       rw [hwdec, hc, hd]; simp only [zero_smul, one_smul, neg_smul]; abel))
   · exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (by
-      rw [hwdec, hc, hd]; simp only [zero_smul, one_smul, neg_smul]; abel)))))
+      rw [hwdec, hc, hd]; simp only [one_smul, neg_smul]; abel)))))
   · exfalso
     have hveq : w = -(Pi.single (0 : Fin (n + 1)) 1 + Pi.single (1 : Fin (n + 1)) 1) := by
       rw [hwdec, hc, hd]; simp only [one_smul, neg_smul]; abel
@@ -262,10 +262,10 @@ private theorem monoCount_wt_add_flip (S : Finset (Fin (n + 1))) :
     simp only [Finset.mem_filter, Finset.mem_univ, true_and, Finset.mem_sdiff]
     by_cases hj : j ∈ S
     · have h1 : (1 : ZMod 3) + (if j ∈ S then -1 else 1) = 0 := by simp [hj]
-      simp [h1, hj]
+      simp [hj]
     · have h1 : (1 : ZMod 3) + (if j ∈ S then -1 else 1) = 1 + 1 := by simp [hj]
       have h2 : (1 : ZMod 3) + 1 ≠ 0 := by decide
-      simp [h1, h2, hj]
+      simp [h2, hj]
   rw [hset, Finset.card_sdiff (s := S) (t := Finset.univ), Finset.inter_univ,
     Finset.card_univ, Fintype.card_fin]
 
@@ -278,11 +278,11 @@ private theorem monoCount_wt_sub_flip (S : Finset (Fin (n + 1))) :
     simp only [Finset.mem_filter, Finset.mem_univ, true_and]
     by_cases hj : j ∈ S
     · have h1 : (1 : ZMod 3) - (if j ∈ S then -1 else 1) = 1 + 1 := by
-        rw [if_pos hj]; decide
+        rw [ite_eq_left hj]; decide
       have h2 : (1 : ZMod 3) + 1 ≠ 0 := by decide
-      simp [h1, h2, hj]
+      simp [h2, hj]
     · have h1 : (1 : ZMod 3) - (if j ∈ S then -1 else 1) = 0 := by simp [hj]
-      simp [h1, hj]
+      simp [hj]
   rw [hset]
 
 private theorem monoCount_neg_flip (S : Finset (Fin (n + 1))) :
@@ -320,7 +320,7 @@ private theorem monoCount_eq_smul_single_of_wt_one {w : Coords (n + 1)} (hw : wt
         Finset.mem_filter.mpr ⟨Finset.mem_univ j, h⟩
       rw [hi] at hmem
       exact hj (Finset.mem_singleton.mp hmem)
-    simp [Pi.smul_apply, smul_eq_mul, Pi.single_apply, hj, hwj]
+    simp [Pi.smul_apply, smul_eq_mul, hj, hwj]
 
 private theorem monoCount_N_e0 {Xg : Subgroup (GL (Fin (n + 1)) (ZMod 3))}
     (h : MonoN0Hyp Xg)
@@ -495,20 +495,20 @@ theorem false_of_orbN_wt_two (hn : 4 ≤ n)
     fin_cases i
     · show ((Pi.single (1 : Fin (n + 1)) (1 : ZMod 3) : Coords (n + 1)) 0,
           (Pi.single (1 : Fin (n + 1)) (1 : ZMod 3) : Coords (n + 1)) 1) = (0, 1)
-      simp [Pi.single_apply, h01]
+      simp [h01]
     · show ((Pi.single (2 : Fin (n + 1)) (1 : ZMod 3) : Coords (n + 1)) 0,
           (Pi.single (2 : Fin (n + 1)) (1 : ZMod 3) : Coords (n + 1)) 1) = (0, 0)
-      simp [Pi.single_apply, h02, h12]
+      simp [h02, h12]
     · show ((Pi.single (0 : Fin (n + 1)) (1 : ZMod 3) +
           Pi.single (1 : Fin (n + 1)) (1 : ZMod 3) : Coords (n + 1)) 0,
           (Pi.single (0 : Fin (n + 1)) (1 : ZMod 3) +
           Pi.single (1 : Fin (n + 1)) (1 : ZMod 3) : Coords (n + 1)) 1) = (1, 1)
-      simp [Pi.add_apply, Pi.single_apply, h01, h10]
+      simp [Pi.add_apply, h01, h10]
     · show ((Pi.single (0 : Fin (n + 1)) (1 : ZMod 3) -
           Pi.single (1 : Fin (n + 1)) (1 : ZMod 3) : Coords (n + 1)) 0,
           (Pi.single (0 : Fin (n + 1)) (1 : ZMod 3) -
           Pi.single (1 : Fin (n + 1)) (1 : ZMod 3) : Coords (n + 1)) 1) = (1, -1)
-      simp [Pi.sub_apply, Pi.single_apply, h01, h10]
+      simp [Pi.sub_apply, h01, h10]
   have hQ : ∀ i i' : Fin 4, i ≠ i' → Q i ≠ Q i' ∧ Q i ≠ -Q i' := by
     decide
   have hne : ∀ i i' : Fin 4, i ≠ i' → r i ≠ r i' ∧ r i ≠ -(r i') := by

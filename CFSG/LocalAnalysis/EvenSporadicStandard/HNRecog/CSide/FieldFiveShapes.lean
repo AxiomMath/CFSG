@@ -27,14 +27,14 @@ theorem cSideFacts_five_local_shapes :
       (∃ ρ : C, orderOf ρ = 5 ∧
         IsShapeZpWrTwo 5 ↥(Subgroup.centralizer ({(ρ : C ⧸ Q)} : Set (C ⧸ Q)))) := by
   intro C _ Q _ hE hI
-  haveI : Finite Q := hE.plus.finite
-  letI : Module (ZMod 2) (Additive (Abelianization Q)) :=
+  have : Finite Q := hE.plus.finite
+  let : Module (ZMod 2) (Additive (Abelianization Q)) :=
     CFSG.GroupTheory.extraspecialQuotientModule hE.plus.isExtraspecialPGroup
   have hC : CFSG.EvenSporadicStandard.HNRecog.CSide.WeakHyp C Q :=
     CFSG.EvenSporadicStandard.HNRecog.CSide.WeakHyp.of_cIrreducible hE hI
-  haveI : Finite C := hC.finite
+  have : Finite C := hC.finite
   obtain ⟨S⟩ := hC.nonempty_setup
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   refine ⟨?_, ?_, ?_, ?_⟩
   · intro ρ hρ
     obtain ⟨hρL, hg⟩ := S.odd_data hC (Or.inr rfl) hρ

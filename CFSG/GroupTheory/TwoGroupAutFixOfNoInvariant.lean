@@ -101,7 +101,7 @@ theorem snd_eq_one_of_mulAut_prod_fix_fst {A B : Type*} [Group A] [Group B] [Fin
       rwa [h] at h1
     · exact hmemF
   have hP₁top : P₁ = ⊤ := by
-    haveI : P₁.Normal := hP₁normal
+    have : P₁.Normal := hP₁normal
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal P₁ with hbot | htop
     · exfalso
       rw [hbot, Subgroup.mem_bot] at haP
@@ -142,7 +142,7 @@ theorem prod_factors_of_apply_eq {Y₁ Y₂ : Type*} [Group Y₁] [Group Y₂] [
   · let β : MulAut (Y₂ × Y₁) :=
       MulAut.congr (MulEquiv.prodComm : Y₁ × Y₂ ≃* Y₂ × Y₁) α
     have hβ : β (a₂, 1) = (a₂, 1) := by
-      simp [β, MulAut.congr, h₂]
+      simp [β, h₂]
     intro y
     have hy := snd_eq_one_of_mulAut_prod_fix_fst β ha₂ hβ y
     simpa [β, MulAut.congr] using hy

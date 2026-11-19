@@ -47,7 +47,7 @@ theorem upperDiagGL_off (hA : IsUpperGL A) {i j : Fin (m + 1)} (hij : i ≠ j) :
     ((upperDiagGL m F A hA : GL (Fin (m + 1)) F) :
         Matrix (Fin (m + 1)) (Fin (m + 1)) F) i j = 0 := by
   rw [coe_upperDiagGL]
-  exact if_neg hij
+  exact ite_eq_right hij
 
 omit [Finite F] [CharP F 2] in
 theorem coe_upperDiagGL_inv (hA : IsUpperGL A) (i j : Fin (m + 1)) :
@@ -79,14 +79,14 @@ theorem upperUnipotent_isUpperUnitriangular (hA : IsUpperGL A) :
       Matrix (Fin (m + 1)) (Fin (m + 1)) F).IsUpperTriangular := by
     intro i j hij
     rw [coe_upperDiagGL_inv]
-    exact if_neg (ne_of_gt hij)
+    exact ite_eq_right (ne_of_gt hij)
   have htri : ((upperUnipotentGL m F A hA : GL (Fin (m + 1)) F) :
       Matrix (Fin (m + 1)) (Fin (m + 1)) F).IsUpperTriangular := by
     rw [upperUnipotentGL]
     simpa [Matrix.coe_units_inv] using hAtri.mul hTinv
   refine (Matrix.isUpperUnitriangular_def _).mpr ⟨htri, fun i => ?_⟩
   rw [upperUnipotentGL, Units.val_mul, Matrix.mul_apply_diag_of_isUpperTriangular hAtri hTinv i,
-    coe_upperDiagGL_inv, if_pos rfl, ← upperDiag_apply_val]
+    coe_upperDiagGL_inv, ite_eq_left rfl, ← upperDiag_apply_val]
   exact Units.mul_inv (upperDiag m F A hA i)
 
 omit [Finite F] [CharP F 2] in
@@ -163,7 +163,7 @@ theorem diagonal_mul_permMatrix_mul_diagonal (d : Fin (m + 1) → F)
   by_cases h : r = π s
   · subst r
     simp [LinearFlag.permMatrix_apply, Equiv.symm_apply_apply]
-  · simp [LinearFlag.permMatrix_apply, if_neg h]
+  · simp [LinearFlag.permMatrix_apply, ite_eq_right h]
 
 omit [Finite F] in
 theorem slConjugation_diagGL_weylRep (d : Fin (m + 1) → Fˣ) (s : Fin m) :

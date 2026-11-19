@@ -159,7 +159,7 @@ theorem s15k_jp_orth_minus_four {W : Type} [CommGroup W] {J : Subgroup (MulAut W
     {R : Subgroup W} (h : NatOrthMinus J R ⊥ 4 1) : SymmetricNatural J R ⊥ 5 := by
   obtain ⟨-, K, hF, hfin, b, c, hcard, hpoly, hreal⟩ := h
   have hK2 : Nat.card K = 2 := by simpa using hcard
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hK' : Fintype.card K = 2 := by rwa [← Nat.card_eq_fintype_card]
   let e : K ≃+* ZMod 2 := (ZMod.ringEquivOfPrime K Nat.prime_two hK').symm
   obtain ⟨hb, hc⟩ := s15k_jp_bc_eq_one e hpoly

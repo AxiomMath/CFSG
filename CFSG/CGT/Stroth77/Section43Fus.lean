@@ -46,74 +46,89 @@ theorem om100_add (ε ε' : Fin 3 → ℤ) : om100 m ε + om100 m ε' = om100 m 
   simp only [Pi.add_apply]
   ring
 
+omit [Finite G] in
 theorem t100_rho_c₁ (hm : 1 ≤ m) :
     dD.ρ⁻¹ * (dD.c : G) ^ 2 ^ (m - 1) * dD.ρ = (dD.c : G) ^ 2 ^ (m - 1) := by
   rw [dD.t100_c_pow, dD.conj_ofTorus dD.ρ_mem dD.ρ_conj, t100_φρ_om hm]
   exact congrArg dD.ofTorus ((om100_eq_iff hm _ _).mpr (by decide))
 
+omit [Finite G] in
 theorem t100_rho_a₁ (hm : 1 ≤ m) :
     dD.ρ⁻¹ * (dD.a : G) ^ 2 ^ m * dD.ρ = (dD.b : G) ^ 2 ^ m := by
   rw [dD.t100_a_pow, dD.conj_ofTorus dD.ρ_mem dD.ρ_conj, t100_φρ_om hm, dD.t100_b_pow]
   exact congrArg dD.ofTorus ((om100_eq_iff hm _ _).mpr (by decide))
 
+omit [Finite G] in
 theorem t100_u_a₁ :
     dD.u⁻¹ * (dD.a : G) ^ 2 ^ m * dD.u = (dD.b : G) ^ 2 ^ m := by
   rw [dD.t100_a_pow, dD.conj_ofTorus dD.u_mem dD.u_conj, t100_φu_om, dD.t100_b_pow]
   rfl
 
+omit [Finite G] in
 theorem t100_rho_b₁ (hm : 1 ≤ m) :
     dD.ρ⁻¹ * (dD.b : G) ^ 2 ^ m * dD.ρ = (dD.a : G) ^ 2 ^ m * (dD.b : G) ^ 2 ^ m := by
   rw [dD.t100_b_pow, dD.conj_ofTorus dD.ρ_mem dD.ρ_conj, t100_φρ_om hm, dD.t100_a_pow,
     ← dD.ofTorus_add, om100_add]
   exact congrArg dD.ofTorus ((om100_eq_iff hm _ _).mpr (by decide))
 
+omit [Finite G] in
 theorem t100_c₁_mul_self (hm : 1 ≤ m) :
     (dD.c : G) ^ 2 ^ (m - 1) * (dD.c : G) ^ 2 ^ (m - 1) = 1 := by
   rw [dD.t100_c_pow, ← dD.ofTorus_add, om100_add_self hm, dD.ofTorus_zero]
 
+omit [Finite G] in
 theorem t100_a₁_mul_self (hm : 1 ≤ m) : (dD.a : G) ^ 2 ^ m * (dD.a : G) ^ 2 ^ m = 1 := by
   rw [dD.t100_a_pow, ← dD.ofTorus_add, om100_add_self hm, dD.ofTorus_zero]
 
+omit [Finite G] in
 theorem t100_c₁_ne_one (hm : 1 ≤ m) : (dD.c : G) ^ 2 ^ (m - 1) ≠ 1 := by
   rw [dD.t100_c_pow, Ne, dD.ofTorus_eq_one_iff, ← om100_zero, om100_eq_iff hm]
   decide
 
+omit [Finite G] in
 theorem t100_a₁_ne_one (hm : 1 ≤ m) : (dD.a : G) ^ 2 ^ m ≠ 1 := by
   rw [dD.t100_a_pow, Ne, dD.ofTorus_eq_one_iff, ← om100_zero, om100_eq_iff hm]
   decide
 
+omit [Finite G] in
 theorem t100_b₁_mul_self (hm : 1 ≤ m) : (dD.b : G) ^ 2 ^ m * (dD.b : G) ^ 2 ^ m = 1 := by
   rw [dD.t100_b_pow, ← dD.ofTorus_add, om100_add_self hm, dD.ofTorus_zero]
 
+omit [Finite G] in
 private theorem conj_pow_eq (g x : G) (k : ℕ) : (g⁻¹ * x * g) ^ k = g⁻¹ * x ^ k * g := by
   simpa using conj_pow (a := g⁻¹) (b := x) (i := k)
 
+omit [Finite G] in
 theorem t100_u_conj_a : dD.u⁻¹ * (dD.a : G) * dD.u = dD.b := by
   rw [dD.a_eq, dD.conj_ofTorus dD.u_mem dD.u_conj,
     show (StrothTypeIndex.t100 m).action.φu Torus.a = Torus.b from
       (Type100.u_a m).trans (one_zsmul _)]
   rfl
 
+omit [Finite G] in
 theorem t100_u_conj_b : dD.u⁻¹ * (dD.b : G) * dD.u = dD.a := by
   rw [dD.b_eq, dD.conj_ofTorus dD.u_mem dD.u_conj,
     show (StrothTypeIndex.t100 m).action.φu Torus.b = Torus.a from
       (Type100.u_b m).trans (one_zsmul _)]
   rfl
 
+omit [Finite G] in
 theorem ofTorus_inv_mul_uv_mul {τ : StrothTypeIndex} (dE : StrothWeakTypeData D τ)
     (v : Torus τ.k) :
     (dE.ofTorus v)⁻¹ * dE.uv * dE.ofTorus v = dE.ofTorus (τ.action.φuv v - v) * dE.uv := by
   rw [mul_assoc, dE.uv_mul_ofTorus, ← mul_assoc, ← dE.ofTorus_neg, ← dE.ofTorus_add,
     neg_add_eq_sub]
 
+omit [Finite G] in
 theorem t100_d₂_eq (m' : ℕ) (dE : StrothWeakTypeData D (.t100 (m' + 1))) :
     (dE.a : G) ^ 2 ^ m' * (dE.b : G) ^ 2 ^ m' =
       dE.ofTorus (Torus.ofInt _ ![0, 2 ^ m', 2 ^ m']) := by
   rw [dE.a_eq, dE.b_eq, ← dE.ofTorus_nsmul, ← dE.ofTorus_nsmul, ← dE.ofTorus_add]
   congr 1
   funext i
-  fin_cases i <;> simp [gen, Pi.single_apply]
+  fin_cases i <;> simp [gen]
 
+omit [Finite G] in
 theorem t100_uv_conj_d₂ (m' : ℕ) (dE : StrothWeakTypeData D (.t100 (m' + 1))) :
     dE.uv⁻¹ * ((dE.a : G) ^ 2 ^ m' * (dE.b : G) ^ 2 ^ m') * dE.uv =
       ((dE.a : G) ^ 2 ^ m' * (dE.b : G) ^ 2 ^ m')⁻¹ := by
@@ -125,6 +140,7 @@ theorem t100_uv_conj_d₂ (m' : ℕ) (dE : StrothWeakTypeData D (.t100 (m' + 1))
     Matrix.tail_cons, Pi.neg_apply]
   refine ⟨⟨-2, by ring⟩, ⟨-1, by ring⟩, ⟨-1, by ring⟩⟩
 
+omit [Finite G] in
 theorem t100_conj_uv (m'' : ℕ) (dE : StrothWeakTypeData D (.t100 (m'' + 2))) :
     (dE.ofTorus (Torus.ofInt _ ![0, 2 ^ m'', 2 ^ m'']))⁻¹ * dE.uv *
         dE.ofTorus (Torus.ofInt _ ![0, 2 ^ m'', 2 ^ m'']) =
@@ -136,6 +152,7 @@ theorem t100_conj_uv (m'' : ℕ) (dE : StrothWeakTypeData D (.t100 (m'' + 2))) :
     Matrix.tail_cons, Pi.sub_apply]
   refine ⟨⟨-1, by ring⟩, ⟨0, by ring⟩, ⟨0, by ring⟩⟩
 
+omit [Finite G] in
 theorem t100_conj_uv' (m'' : ℕ) (dE : StrothWeakTypeData D (.t100 (m'' + 2))) :
     (dE.ofTorus (-Torus.ofInt _ ![0, 2 ^ m'', 2 ^ m'']))⁻¹ * dE.uv *
         dE.ofTorus (-Torus.ofInt _ ![0, 2 ^ m'', 2 ^ m'']) =
@@ -201,7 +218,7 @@ theorem t100_omega_eq (h : F.IsD D dD) (hm : 1 ≤ m) :
   · rw [hβ, hβb, F.dA.ofTorus_nsmul]; rfl
 
 theorem t100_a_half_mem (h : F.IsD D dD) (hm : 1 ≤ m) : (dD.a : G) ^ 2 ^ (m - 1) ∈ F.A := by
-  haveI := dD.isMulCommutative
+  have := dD.isMulCommutative
   set a' := (dD.a : G) ^ 2 ^ (m - 1) with ha'
   have ha'D : a' ∈ D := D.pow_mem dD.a.2 _
   have haD : (F.dA.a : G) ∈ D := h.A_le F.dA.a.2
@@ -221,7 +238,7 @@ theorem t100_a_half_mem (h : F.IsD D dD) (hm : 1 ≤ m) : (dD.a : G) ^ 2 ^ (m - 
   exact F.A.mul_mem F.dA.a.2 hpA
 
 theorem t100_b_half_mem (h : F.IsD D dD) (hm : 1 ≤ m) : (dD.b : G) ^ 2 ^ (m - 1) ∈ F.A := by
-  haveI := dD.isMulCommutative
+  have := dD.isMulCommutative
   set b' := (dD.b : G) ^ 2 ^ (m - 1) with hb'
   have hb'D : b' ∈ D := D.pow_mem dD.b.2 _
   have hbD : (F.dA.b : G) ∈ D := h.A_le F.dA.b.2
@@ -244,7 +261,7 @@ theorem t100_d₂_eq_xy (h : F.IsD D dD) (hm : 1 ≤ m) :
     (dD.a : G) ^ 2 ^ (m - 1) * (dD.b : G) ^ 2 ^ (m - 1) =
         ((F.dA.a : G)⁻¹ * (F.dA.b : G)⁻¹)⁻¹ ∨
       (dD.a : G) ^ 2 ^ (m - 1) * (dD.b : G) ^ 2 ^ (m - 1) = (F.dA.a : G)⁻¹ * (F.dA.b : G)⁻¹ := by
-  haveI := dD.isMulCommutative
+  have := dD.isMulCommutative
   obtain ⟨m', rfl⟩ : ∃ m', m = m' + 1 := ⟨m - 1, by omega⟩
   simp only [Nat.add_sub_cancel] at *
   obtain ⟨-, ha₁, hb₁⟩ := h.t100_omega_eq hm

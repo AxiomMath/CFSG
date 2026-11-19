@@ -112,7 +112,7 @@ theorem largeEvenLabelAll_relD_D3 {p n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
   dsimp only [LargeEvenRawDatum] at hQ ⊢
   simp only [↓reduceIte] at hQ ⊢
   obtain ⟨K, i1, i2, hK, hQ'⟩ := hQ
-  haveI : CharP K 2 := CFSG.StandardType.charP_two_of_card (m := n) hK
+  have : CharP K 2 := CFSG.StandardType.charP_two_of_card (m := n) hK
   exact ⟨K, i1, i2, hK, hQ', fun L _ _ ψ A hTB =>
     (relD_D3_tbGroup_false (p := p) (r := 3 - 1) hp hp2 (by rw [hK]; exact hpn) ψ A
       hTB).elim⟩
@@ -126,7 +126,7 @@ theorem largeEvenLabelAll_relD_twD2 {p n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (
   dsimp only [LargeEvenRawDatum] at hQ ⊢
   simp only [↓reduceIte] at hQ ⊢
   obtain ⟨K, i1, i2, hK, hQ'⟩ := hQ
-  haveI : CharP K 2 := CFSG.StandardType.charP_two_of_card (m := 2 * n) (by
+  have : CharP K 2 := CFSG.StandardType.charP_two_of_card (m := 2 * n) (by
     rw [hK, ← pow_mul, mul_comm])
   exact ⟨K, i1, i2, hK, hQ', fun L _ _ ψ A hTB =>
     (relD_twD2_tbGroup_false (p := p) (r := 2 - 1) hp hp2 hK hpn ψ A hTB).elim⟩
@@ -140,7 +140,7 @@ theorem largeEvenLabelAll_relD_twD3 {p n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (
   dsimp only [LargeEvenRawDatum] at hQ ⊢
   simp only [↓reduceIte] at hQ ⊢
   obtain ⟨K, i1, i2, hK, hQ'⟩ := hQ
-  haveI : CharP K 2 := CFSG.StandardType.charP_two_of_card (m := 2 * n) (by
+  have : CharP K 2 := CFSG.StandardType.charP_two_of_card (m := 2 * n) (by
     rw [hK, ← pow_mul, mul_comm])
   exact ⟨K, i1, i2, hK, hQ', fun L _ _ ψ A hTB =>
     (relD_twD3_tbGroup_false (p := p) (r := 3 - 1) hp hp2 hK hn hpn ψ A hTB).elim⟩

@@ -28,16 +28,18 @@ theorem sym1119_P_eq_closure (h : Sec11Data G A c L a R Y d x s r g) :
 theorem sym1119_A_le_P (h : Sec11Data G A c L a R Y d x s r g) : A ≤ sec11P R g :=
   (Item1115Proof.A_le_R h.toHyp91).trans (Item1119Proof.R_le_P R g)
 
-theorem sym1119_W0_le_P (h45 : Sec4.Item4_5) (h : Sec11Data G A c L a R Y d x s r g) :
+theorem sym1119_W0_le_P (_h45 : Sec4.Item4_5) (h : Sec11Data G A c L a R Y d x s r g) :
     sym1119W0 A x ≤ sec11P R g := by
   refine (Subgroup.closure_le _).mpr ?_
   rintro y (hy | rfl)
   · exact sym1119_A_le_P h hy
   · exact Item1119Proof.R_le_P R g (Subgroup.pow_mem _ (sym1119_x_mem_R h) 3)
 
-theorem sym1119_A_le_W0 (A : Subgroup G) (x : G) : A ≤ sym1119W0 A x := fun u hu =>
+omit [Finite G] in
+theorem sym1119_A_le_W0 (A : Subgroup G) (x : G) : A ≤ sym1119W0 A x := fun _u hu =>
   Subgroup.subset_closure (Or.inl hu)
 
+omit [Finite G] in
 theorem sym1119_y_mem_W0 (A : Subgroup G) (x : G) : x ^ 3 ∈ sym1119W0 A x :=
   Subgroup.subset_closure (Or.inr (by simp))
 
@@ -55,6 +57,7 @@ theorem sym1119_r_not_mem_W0 (h45 : Sec4.Item4_5) (h : Sec11Data G A c L a R Y d
       _ = (x ^ 3) ^ i * (u * x ^ 3) := by rw [h2]
       _ = ((x ^ 3) ^ i * u) * x ^ 3 := by rw [mul_assoc]
   rw [hy]; group
+omit [Finite G] in
 theorem sym1119_conj_comm_of_comm {g a y : G} (hga : g * a = a * g) (hya : y * a = a * y) :
     (g * y * g⁻¹) * a = a * (g * y * g⁻¹) := by
   have h1 : g⁻¹ * a = a * g⁻¹ := by
@@ -69,21 +72,24 @@ theorem sym1119_conj_comm_of_comm {g a y : G} (hga : g * a = a * g) (hya : y * a
     _ = (a * g) * y * g⁻¹ := by rw [hga]
     _ = a * (g * y * g⁻¹) := by group
 
+omit [Finite G] in
 theorem sym1119_comm_symm {W : Subgroup G} {u v : G} (h : u * v * u⁻¹ * v⁻¹ ∈ W) :
     v * u * v⁻¹ * u⁻¹ ∈ W := by
   have e : v * u * v⁻¹ * u⁻¹ = (u * v * u⁻¹ * v⁻¹)⁻¹ := by group
   rw [e]; exact W.inv_mem h
 
+omit [Finite G] in
 theorem sym1119_comm_self (W : Subgroup G) (u : G) : u * u * u⁻¹ * u⁻¹ ∈ W := by
   have : u * u * u⁻¹ * u⁻¹ = 1 := by group
   rw [this]; exact W.one_mem
 
+omit [Finite G] in
 theorem sym1119_comm_of_mem_zpowers {u c s : G} (hs : s ∈ Subgroup.zpowers c) (huc : u * c = c * u) :
     u * s * u⁻¹ * s⁻¹ = 1 := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hs
   have : u * c ^ k = c ^ k * u := ((show Commute u c from huc).zpow_right k).eq
   rw [this]; group
-theorem sym1119_g_conj_f (h113 : Item113) (h117 : Item117)
+theorem sym1119_g_conj_f (_h113 : Item113) (_h117 : Item117)
     (h : Sec11Data G A c L a R Y d x s r g) {κ : ℤ} (hgc : g * c * g⁻¹ = d ^ κ * c)
     {f : G} (hf : f ∈ Subgroup.closure ({a, c} : Set G)) :
     ∃ t : ℤ, g * f * g⁻¹ = d ^ t * f := by
@@ -138,7 +144,7 @@ theorem sym1119_VW (h45 : Sec4.Item4_5) (h : Sec11Data G A c L a R Y d x s r g)
   exact Subgroup.mul_mem _ (Subgroup.mul_mem _ (Subgroup.zpow_mem _
     (sym1119_A_le_W0 A x h.a_mem) _) (Subgroup.zpow_mem _ (sym1119_y_mem_W0 A x) _))
     (Subgroup.zpow_mem _ (sym1119_A_le_W0 A x h.mem_A) _)
-theorem sym1119_r_norm_W0 (h45 : Sec4.Item4_5) (h113 : Item113) (h117 : Item117)
+theorem sym1119_r_norm_W0 (_h45 : Sec4.Item4_5) (h113 : Item113) (h117 : Item117)
     (h : Sec11Data G A c L a R Y d x s r g) (hra : r * a = a * r)
     (hyr : x ^ 3 * r * (x ^ 3)⁻¹ * r⁻¹ ∈ Subgroup.zpowers d) :
     r ∈ Subgroup.normalizer ((sym1119W0 A x : Subgroup G) : Set G) := by
@@ -157,7 +163,7 @@ theorem sym1119_r_norm_W0 (h45 : Sec4.Item4_5) (h113 : Item113) (h117 : Item117)
     rw [e]
     exact Subgroup.mul_mem _ (Subgroup.inv_mem _ (hdzW hyr)) (sym1119_y_mem_W0 A x)
 
-theorem sym1119_x_norm_W0 (h45 : Sec4.Item4_5) (h : Sec11Data G A c L a R Y d x s r g)
+theorem sym1119_x_norm_W0 (_h45 : Sec4.Item4_5) (_h : Sec11Data G A c L a R Y d x s r g)
     (hxA : x ∈ Subgroup.normalizer (A : Set G)) :
     x ∈ Subgroup.normalizer ((sym1119W0 A x : Subgroup G) : Set G) := by
   refine Subgroup.mem_normalizer_fintype fun w hw => ?_

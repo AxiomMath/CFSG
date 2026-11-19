@@ -76,7 +76,7 @@ theorem exists_pos_isLThreeEpsAt {Q : Type} [Group Q] {p f : ℕ} [Fact p.Prime]
     (h : IsLThreeEpsAt Q p f) : ∃ n : ℕ, 1 ≤ n ∧ IsLThreeEpsAt Q p n := by
   rcases Nat.eq_zero_or_pos f with rfl | hf
   · rcases h with ⟨⟨φ⟩⟩ | ⟨h2, -⟩
-    · letI : Fintype (GaloisField p 0) := Fintype.ofFinite _
+    · let : Fintype (GaloisField p 0) := Fintype.ofFinite _
       obtain ⟨n, hp, hn⟩ := FiniteField.card (GaloisField p 0) p
       have e1 : projSL 3 (GaloisField p 0) ≃* StatedProj (StatedSL 3 (GaloisField p 0)) :=
         (MulEquiv.subgroupCongr (Census.projImage_statedSL 3 (GaloisField p 0))).symm.trans
@@ -93,9 +93,9 @@ theorem exists_isLThreeEpsAt_quot_of_isSLThreeEpsAt {Q : Type} [Group Q]
     (hq : CFSG.IsQuasisimple Q) {q : ℕ} (h : Sec4.IsSLThreeEpsAt Q q) :
     ∃ (p n : ℕ) (_ : Fact p.Prime), 1 ≤ n ∧ IsLThreeEpsAt (Q ⧸ Subgroup.center Q) p n := by
   obtain ⟨K, _, _, h⟩ := h
-  letI := Fintype.ofFinite K
+  let := Fintype.ofFinite K
   obtain ⟨k, hp, hk⟩ := FiniteField.card K (ringChar K)
-  haveI : Fact (ringChar K).Prime := ⟨hp⟩
+  have : Fact (ringChar K).Prime := ⟨hp⟩
   have hKk : Nat.card K = ringChar K ^ (k : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hk
   rcases h with ⟨hK, ⟨φ⟩⟩ | ⟨hK, ⟨φ⟩⟩
   ·

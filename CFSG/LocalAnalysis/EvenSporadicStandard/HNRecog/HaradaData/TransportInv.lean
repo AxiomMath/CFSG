@@ -61,7 +61,7 @@ theorem TwoHSFacts.inv_outer {H : Type} [Group H] {E : Subgroup H} {a z b z₁ :
     ∀ p : H, p ^ 2 = 1 → p ∉ E → ∃ h : H, h * p * h⁻¹ = b ∨ h * p * h⁻¹ = z₁ := by
   intro p hp2 hpE
   have hp1 : p ≠ 1 := by
-    intro h; exact hpE (by simpa [h] using E.one_mem)
+    intro h; exact hpE (by simp [h])
   have hpord : orderOf p = 2 := orderOf_eq_prime hp2 hp1
   obtain ⟨i, hi⟩ := hF.involution_cover p hpord
   have hcomm : E = commutator H := hE.eq_commutator

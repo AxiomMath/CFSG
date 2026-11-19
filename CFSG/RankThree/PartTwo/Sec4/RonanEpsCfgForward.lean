@@ -34,6 +34,7 @@ section Cfg
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem inf_center_eq_bot_eps {L K' : Subgroup G} (hK'L : K' ≤ L) (hK'q : IsQuasisimple K')
     (hK'type : IsTypeEps (K' ⧸ CFSG.pCore 2 K')) (hZ : IsPGroup 3 (Subgroup.center L)) :
     K'.subgroupOf L ⊓ Subgroup.center L = ⊥ := by
@@ -81,8 +82,8 @@ theorem cfgSEps_of (hθ : aschbacherSolvableCore 3 G = ⊥)
     rw [Subgroup.mem_centralizer_singleton_iff]
     exact (Subgroup.mem_centralizer_iff.mp h1 l hl)
   ·
-    haveI : Group.IsPerfect K' := hK'q.1
-    haveI : Group.IsPerfect K₁ := Group.IsPerfect.ofSurjective
+    have : Group.IsPerfect K' := hK'q.1
+    have : Group.IsPerfect K₁ := Group.IsPerfect.ofSurjective
       (f := (Subgroup.subgroupOfEquivOfLe hK'L).symm.toMonoidHom) (MulEquiv.surjective _)
     exact Group.IsPerfect.map _
   ·

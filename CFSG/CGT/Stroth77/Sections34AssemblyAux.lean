@@ -93,7 +93,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem two_pow_eleven_le_card_sylow (S : Sylow 2 G) (h11 : 2 ^ 11 ∣ Nat.card G) :
     2 ^ 11 ≤ Nat.card (S : Subgroup G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact Nat.le_of_dvd Nat.card_pos (S.pow_dvd_card_of_pow_dvd_card h11)
 
 theorem StrothWeakTypeData.three_le_of_t300_of_dvd {D : Subgroup G} {n : ℕ}

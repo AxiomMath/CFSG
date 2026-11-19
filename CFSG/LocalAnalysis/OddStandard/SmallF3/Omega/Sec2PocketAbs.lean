@@ -15,6 +15,7 @@ variable {U U' : Type} [AddCommGroup U] [Module (ZMod 3) U] [FiniteDimensional (
   [AddCommGroup U'] [Module (ZMod 3) U'] [FiniteDimensional (ZMod 3) U']
   {R : QuadraticForm (ZMod 3) U} {R' : QuadraticForm (ZMod 3) U'}
 
+omit [FiniteDimensional (ZMod 3) U] [FiniteDimensional (ZMod 3) U'] in
 theorem orthogonalGroupCongr_piOrth (e : R.IsometryEquiv R') :
     QuadraticMap.IsometryEquiv.orthogonalGroupCongr e (piOrth R) = piOrth R' := by
   apply Subtype.ext

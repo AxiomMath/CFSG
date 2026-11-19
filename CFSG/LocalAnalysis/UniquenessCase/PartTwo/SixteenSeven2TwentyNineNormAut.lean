@@ -89,7 +89,7 @@ private theorem s16c167_isSimpleGroup_mulAut_eight {W : Type*} [Group W] [Finite
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e⟩ := CFSG.SectionRank.Ccomm.nonempty_mulEquiv_of_elementary (p := 2) hcomm
     hsq (n := 3) (by rw [hcard]; norm_num)
-  haveI :=
+  have :=
     CFSG.LocalAnalysis.ComponentInitial.BinarySymplecticSix.FusionOrbits.isSimpleGroup_GL_three_two
   exact (CFSG.SectionRank.Ccomm.elemAutEquivGL e).isSimpleGroup
 
@@ -105,7 +105,7 @@ private theorem s16c167_norm_exists_ne_one_mem_inf_fixV (hW : ∀ w : W, w ^ 2 =
   have hcard : Nat.card ↥(V ⊓ fixV P) = 2 :=
     s16c167_norm_card_inf_fixV_eq_two hW hc hP hPV hfaith
   obtain ⟨m, hm⟩ := exists_prime_orderOf_dvd_card' (G := ↥(V ⊓ fixV P)) 2
-    (by change 2 ∣ Nat.card ↥(V ⊓ fixV P); exact ⟨1, hcard⟩)
+    (by exact ⟨1, hcard⟩)
   refine ⟨(m : W), m.2, ?_⟩
   intro h1
   have h2 : m = 1 := Subtype.ext h1
@@ -118,7 +118,7 @@ theorem s16c167_norm_two_element_fixes_of_normalizes_seven (hW : ∀ w : W, w ^ 
     {c : MulAut W} {k : ℕ} (hck : c ^ 2 ^ k = 1)
     (hcZ : Z.map (MulAut.conj c).toMonoidHom = Z) (hcA : c ∈ stabSub A) :
     ∀ a ∈ A, c a = a := by
-  haveI : Finite ↥A := Subtype.finite
+  have : Finite ↥A := Subtype.finite
   have hZS : Z ≤ stabSub A := by
     intro z hz
     rw [mem_stabSub]
@@ -146,7 +146,7 @@ theorem s16c167_norm_two_element_fixes_of_normalizes_seven (hW : ∀ w : W, w ^ 
   have hsqA : ∀ a : ↥A, a ^ 2 = 1 := fun a => Subtype.ext (by simpa using hW (a : W))
   have hcardAut : Nat.card (MulAut ↥A) = 168 :=
     card_mulAut_of_card_eight hcommA hsqA hA
-  haveI : IsSimpleGroup (MulAut ↥A) :=
+  have : IsSimpleGroup (MulAut ↥A) :=
     s16c167_isSimpleGroup_mulAut_eight hcommA hsqA hA
   have hcardNorm : Nat.card ↥(Subgroup.normalizer (Q : Set (MulAut ↥A))) = 21 :=
     CFSG.GF2Type.Aschbacher1976Full.HS.card_normalizer_of_card_seven_simple168 hcardAut Q hQcard
@@ -384,6 +384,7 @@ theorem s16c167_norm_natSum3_two_element_inner (hW : ∀ w : W, w ^ 2 = 1)
   rw [hxeq, MulAut.mul_apply]
   exact hcfix (l₀ w) (hlJ w hw)
 
+omit [Finite W] in
 theorem s16c167_norm_commute_of_agree {L Z : Subgroup (MulAut W)} {J : Subgroup W}
     (hZL : ∀ z ∈ Z, ∀ l ∈ L, z * l = l * z) (hZJ : ∀ z ∈ Z, ∀ w ∈ J, z w ∈ J)
     (hZf : ∀ z ∈ Z, z ≠ 1 → ∃ w ∈ J, z w ≠ w) {x : MulAut W}

@@ -78,7 +78,7 @@ private theorem low_of_tyUnTwo {G : Type} [Group G] {n : ℕ} (hn5 : 5 ≤ n) (h
 
 private theorem card_eq_three_pow {Ω : Type} [Group Ω] [Finite Ω] {B : Subgroup Ω}
     (hB : IsElemAbelian 3 B) : ∃ k, Nat.card B = 3 ^ k := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hP : IsPGroup 3 B := fun g => ⟨1, Subtype.ext (by simpa using hB.2 g g.2)⟩
   exact IsPGroup.iff_card.1 hP
 

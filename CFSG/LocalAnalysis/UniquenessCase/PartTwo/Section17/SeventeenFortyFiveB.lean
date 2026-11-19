@@ -84,7 +84,7 @@ variable {G : Type} [Group G] [Finite G]
     D.T ≤ Subgroup.normalizer
       ((Subgroup.zpowers y ⊔ (D.T ⊓ (X ⊔ F08.CentOverO2 D.M X)) : Subgroup G) : Set G)
 
-@[expose] def S17_45A (D : Data G) (X : Subgroup G) (p r : ℕ) (y : G) : Prop :=
+@[expose] def S17_45A (D : Data G) (X : Subgroup G) (_p r : ℕ) (y : G) : Prop :=
   ∃ A : Subgroup G,
     CFSG.ABGLocalTools.IsSylowOf r A
       (X ⊓ Subgroup.normalizer ((D.T ⊓ X : Subgroup G) : Set G)) ∧
@@ -139,7 +139,7 @@ theorem gap17_45_cyclicS_holds {D : Data G} {X : Subgroup G} {p : ℕ}
     D.sylowM hrank hpK hbM hbN hbord hbTN
 
 theorem s17_45_normalizes_borel {D : Data G} {X : Subgroup G}
-    (hXM : X ≤ D.M) (hMX : D.M ≤ Subgroup.normalizer (X : Set G)) :
+    (_hXM : X ≤ D.M) (hMX : D.M ≤ Subgroup.normalizer (X : Set G)) :
     D.T ≤ Subgroup.normalizer
       ((X ⊓ Subgroup.normalizer ((D.T ⊓ X : Subgroup G) : Set G) : Subgroup G) : Set G) := by
   have hTM : D.T ≤ D.M := (CFSG.ABGLocalTools.isSylowOf_iff.mp D.sylowM).1

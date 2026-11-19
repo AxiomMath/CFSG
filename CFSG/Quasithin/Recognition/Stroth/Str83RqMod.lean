@@ -164,9 +164,9 @@ private theorem exists_quadratic_root {l : ℕ} (hF : Fintype.card F = 2 ^ (2 * 
     simpa using hx
   have hirr : Irreducible p :=
     (hpmon.irreducible_iff_roots_eq_zero_of_degree_le_three (by omega) (by omega)).mpr hroots
-  haveI : Fact (Irreducible p) := ⟨hirr⟩
+  have : Fact (Irreducible p) := ⟨hirr⟩
   have hinj : Function.Injective (algebraMap F (AdjoinRoot p)) := (algebraMap F _).injective
-  haveI : CharP (AdjoinRoot p) 2 := charP_of_injective_algebraMap hinj 2
+  have : CharP (AdjoinRoot p) 2 := charP_of_injective_algebraMap hinj 2
   set α : AdjoinRoot p := AdjoinRoot.root p with hαdef
   set t : AdjoinRoot p := algebraMap F (AdjoinRoot p) τ with htdef
   have h2 : (2 : AdjoinRoot p) = 0 := CharTwo.two_eq_zero
@@ -259,16 +259,19 @@ private def uHom : Multiplicative F →* SL(2, F) where
     ext i j
     fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two, add_comm]
 
+omit [Fintype F] [CharP F 2] in
 private theorem uHom_injective : Function.Injective (uHom (F := F)) := by
   intro s t hst
   have h := congrArg (fun x : SL(2, F) => (x : Matrix (Fin 2) (Fin 2) F) 0 1) hst
   change Multiplicative.toAdd s = Multiplicative.toAdd t at h
   exact Multiplicative.toAdd.injective h
 
+omit [CharP F 2] in
 private theorem natCard_range_uHom : Nat.card (uHom (F := F)).range = Fintype.card F := by
   rw [← Nat.card_congr (MonoidHom.ofInjective uHom_injective).toEquiv,
     Nat.card_congr Multiplicative.toAdd, Nat.card_eq_fintype_card]
 
+omit [Fintype F] in
 private theorem mul_self_of_mem_range_uHom {a : SL(2, F)} (ha : a ∈ (uHom (F := F)).range) :
     a * a = 1 := by
   obtain ⟨t, rfl⟩ := ha
@@ -282,7 +285,7 @@ theorem eq_zero_of_fixed_of_pow_two_pow_succ {n : ℕ} (hF : Fintype.card F = 2 
     (ρ : Representation (ZMod 2) SL(2, F) W) (hirr : ρ.IsIrreducible)
     (hW : Nat.card W = 2 ^ (2 * n)) {g : SL(2, F)} (hg1 : g ≠ 1) (hg : g ^ (2 ^ n + 1) = 1)
     {w : W} (hw : ρ g w = w) : w = 0 := by
-  haveI : Fact ρ.IsIrreducible := ⟨hirr⟩
+  have : Fact ρ.IsIrreducible := ⟨hirr⟩
   have hn : 1 ≤ n := by
     rcases Nat.eq_zero_or_pos n with h | h
     · have h1 := Fintype.one_lt_card (α := F)

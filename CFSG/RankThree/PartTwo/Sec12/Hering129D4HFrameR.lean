@@ -67,7 +67,7 @@ theorem R_comm_c {c : C0 σ}
     (hc : threeSixEmb' L X σ g c = rootDiagUnit TwistTag.D4.tag (tup ζ gT)) :
     ∀ r ∈ threeSixSingularR L X σ Fr ε vT g, r * c = c * r := by
   intro r hr
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed X
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed X
   have hinj : Function.Injective (threeSixEmb' L X σ g) := threeSixEmb'_injective g
   have hrQ := (phi_mem_R_iff P hFr hζ hgG hFg r).1 hr
   obtain ⟨hQM, -⟩ := Qv_le_and_derived (Ω := L) hζ
@@ -82,7 +82,7 @@ theorem comm_le_R {c : C0 σ}
     (hc : threeSixEmb' L X σ g c = rootDiagUnit TwistTag.D4.tag (tup ζ gT)) :
     ⁅Subgroup.centralizer ({c} : Set (C0 σ)), Subgroup.centralizer ({c} : Set (C0 σ))⁆ ≤
       threeSixSingularR L X σ Fr ε vT g := by
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed X
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed X
   rw [Subgroup.commutator_le]
   intro u hu v hv
   obtain ⟨-, hder⟩ := Qv_le_and_derived (Ω := L) hζ

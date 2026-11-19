@@ -91,10 +91,10 @@ theorem ggTwE6ThreeTwoLocalRankSixInput_of_kg (h82 : GGTwE6ThreeTwoLocalInnToral
   intro f hf h3 X hel hXI hc hloc
   obtain ⟨U, hU, hU2, hXU⟩ := hloc
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let K := GaloisField 2 (2 * f)
   let Ω := AlgebraicClosure K
-  haveI : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
+  have : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
   let Fr : Ω →+* Ω := iterateFrobenius Ω 2 f
   have hFr : ∀ c, Fr c = c ^ 2 ^ f := fun c => iterateFrobenius_def 2 f c
   obtain ⟨Φ, hΦinj, hΦrange, hΦc⟩ := exists_rgrpAut_baseChange hf Ω Fr hFr

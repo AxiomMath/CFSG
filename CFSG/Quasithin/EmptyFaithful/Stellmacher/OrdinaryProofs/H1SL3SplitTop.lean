@@ -77,8 +77,8 @@ theorem exists_complement_of_isSum {G : Type} [Group G] {F : Type} [Field F]
   obtain ⟨S, rfl⟩ : ∃ S : AbelSub G, S.carrier = V := ⟨⟨V, hVab⟩, rfl⟩
   obtain ⟨hA, hZV, β, hβs, hβker, hβeqV⟩ := hV
   have hS2 : ∀ x ∈ S.carrier, x * x = 1 := hV2
-  letI : Module (ZMod 2) (S.quot W) := AbelSub.quotZMod S W hS2
-  letI : Module (ZMod 2) (Fin k → Fin 3 → F) := zmodCoords k
+  let : Module (ZMod 2) (S.quot W) := AbelSub.quotZMod S W hS2
+  let : Module (ZMod 2) (Fin k → Fin 3 → F) := zmodCoords k
   obtain ⟨τ, h0, h1⟩ := exists_tau hF
   have hker' : ∀ a : ↥A, α a = 1 → ∀ v : S.carrier, (a : G) * v * (a : G)⁻¹ * v⁻¹ ∈ W :=
     fun a ha v => hker a ha v v.2

@@ -110,7 +110,7 @@ theorem exists_two_subgroup_acting {Y : Type} [Group Y] [Finite Y] {b₁ b₂ h�
   obtain ⟨v₁, hv₁, hgv₁⟩ := hlift ⟨n₁, Subgroup.subset_closure (Set.mem_insert _ _)⟩
   obtain ⟨v₂, hv₂, hgv₂⟩ := hlift ⟨n₂, Subgroup.subset_closure (Set.mem_insert_of_mem _ rfl)⟩
   refine ⟨(P₀ : Subgroup T).map (N.subtype.comp T.subtype), ((v₁ : N) : Y), ((v₂ : N) : Y),
-    P₀.isPGroup'.map _, ⟨v₁, hv₁, rfl⟩, ⟨v₂, hv₂, rfl⟩, ?_, ?_, ?_⟩
+    P₀.isPGroup.map _, ⟨v₁, hv₁, rfl⟩, ⟨v₂, hv₂, rfl⟩, ?_, ?_, ?_⟩
   · rintro b hb _ ⟨v, -, rfl⟩
     exact ((Subgroup.mem_normalizer_iff.mp (v : N).2) b).mp hb
   · intro b hb

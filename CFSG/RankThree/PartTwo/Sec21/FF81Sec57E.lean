@@ -22,10 +22,12 @@ open P51 (V e)
 
 variable {G : Type} [Group G] [Finite G] {b : G} {L B : Subgroup G} {b₁ b₂ b₃ t₀ s₀ : G}
 
+omit [Finite G] in
 theorem S57.conj_mem_cen {g a y : G} (hy : y ∈ Cen a) : g * y * g⁻¹ ∈ Cen (g * a * g⁻¹) :=
   Subgroup.mem_centralizer_singleton_iff.mpr
     (S57.conj_comm (Subgroup.mem_centralizer_singleton_iff.mp hy))
 
+omit [Finite G] in
 theorem S57.cen_eq_of_zpowers_eq {x y : G} (h : Subgroup.zpowers x = Subgroup.zpowers y) :
     Cen x = Cen y := by
   have key : ∀ {x y : G}, x ∈ Subgroup.zpowers y → Cen y ≤ Cen x := fun hx c hc => by
@@ -36,6 +38,7 @@ theorem S57.cen_eq_of_zpowers_eq {x y : G} (h : Subgroup.zpowers x = Subgroup.zp
   · rw [h]; exact Subgroup.mem_zpowers y
   · rw [← h]; exact Subgroup.mem_zpowers x
 
+omit [Finite G] in
 theorem S57.card_inf_cen_conj {A : Subgroup G} {g : G} (hg : g ∈ A) (x : G) :
     Nat.card ↥(A ⊓ Cen (g * x * g⁻¹)) = Nat.card ↥(A ⊓ Cen x) := by
   have hmap : (A ⊓ Cen x).map (MulAut.conj g).toMonoidHom = A ⊓ Cen (g * x * g⁻¹) := by
@@ -54,6 +57,7 @@ theorem S57.card_inf_cen_conj {A : Subgroup G} {g : G} (hg : g ∈ A) (x : G) :
   rw [← hmap]
   exact Subgroup.card_map_of_injective (MulAut.conj g).injective
 
+omit [Finite G] in
 theorem S57.map_conj_cen (g a : G) :
     (Cen a).map (MulAut.conj g).toMonoidHom = Cen (g * a * g⁻¹) := by
   ext z
@@ -65,12 +69,14 @@ theorem S57.map_conj_cen (g a : G) :
     have := S57.conj_mem_cen (g := g⁻¹) hz
     rwa [show g⁻¹ * (g * a * g⁻¹) * g⁻¹⁻¹ = a by group, inv_inv] at this
 
+omit [Finite G] in
 theorem S57.card_cen2_conj (g a x : G) :
     Nat.card ↥(Cen (g * a * g⁻¹) ⊓ Cen (g * x * g⁻¹)) = Nat.card ↥(Cen a ⊓ Cen x) := by
   rw [← S57.map_conj_cen, ← S57.map_conj_cen,
     ← Subgroup.map_inf_eq _ _ _ (MulAut.conj g).injective]
   exact Subgroup.card_map_of_injective (MulAut.conj g).injective
 
+omit [Finite G] in
 theorem S57.mem_inf_cen_conj {A : Subgroup G} {g x z : G} (hg : g ∈ A)
     (hz : z ∈ A ⊓ Cen (g * x * g⁻¹)) : g⁻¹ * z * g ∈ A ⊓ Cen x := by
   obtain ⟨h1, h2⟩ := Subgroup.mem_inf.mp hz
@@ -96,6 +102,7 @@ theorem FF81Sec5.card_β_sup {M' : Subgroup G} (hM' : M' ≤ M₅₇ b b₁ b₂
   have hcard := (CFSG.GroupTheory.card_sup_mul_card_inf_of_commute _ _ hc).1
   rwa [hinf, Subgroup.card_bot, mul_one, Nat.card_zpowers, h5.β_orderOf] at hcard
 
+omit h5 [Finite G] in
 theorem FF81Sec5.β_sup_le_cen {x : G} (hx : x ∈ M₅₇ b b₁ b₂ b₃ s₀) :
     Subgroup.zpowers (β' b₂ b₃) ⊔ (M₅₇ b b₁ b₂ b₃ s₀ ⊓ Cen x) ≤ Cen (β' b₂ b₃) ⊓ Cen x := by
   have hMβ : M₅₇ b b₁ b₂ b₃ s₀ ≤ Cen (β' b₂ b₃) :=
@@ -108,12 +115,12 @@ theorem FF81Sec5.β_sup_le_cen {x : G} (hx : x ∈ M₅₇ b b₁ b₂ b₃ s₀
 theorem FF81Sec5.card_le_cen {x : G} (hx : x ∈ M₅₇ b b₁ b₂ b₃ s₀) :
     3 * Nat.card ↥(M₅₇ b b₁ b₂ b₃ s₀ ⊓ Cen x) ≤ Nat.card ↥(Cen (β' b₂ b₃) ⊓ Cen x) := by
   rw [← h5.card_β_sup hJs inf_le_left]
-  exact Subgroup.card_le_of_le (h5.β_sup_le_cen hJs hx)
+  exact Subgroup.card_le_of_le (FF81Sec5.β_sup_le_cen hJs hx)
 
 theorem FF81Sec5.cen_eq_of_card {x : G} (hx : x ∈ M₅₇ b b₁ b₂ b₃ s₀)
     (hle : Nat.card ↥(Cen (β' b₂ b₃) ⊓ Cen x) ≤ 3 * Nat.card ↥(M₅₇ b b₁ b₂ b₃ s₀ ⊓ Cen x)) :
     Cen (β' b₂ b₃) ⊓ Cen x = Subgroup.zpowers (β' b₂ b₃) ⊔ (M₅₇ b b₁ b₂ b₃ s₀ ⊓ Cen x) := by
-  refine (Subgroup.eq_of_le_of_card_ge (h5.β_sup_le_cen hJs hx) ?_).symm
+  refine (Subgroup.eq_of_le_of_card_ge (FF81Sec5.β_sup_le_cen hJs hx) ?_).symm
   rwa [h5.card_β_sup hJs inf_le_left]
 
 theorem FF81Sec5.cen_β_b (hSR3 : KF_Sp6ShortRoot3) (hCls : KF_Sp6Cls)
@@ -157,6 +164,7 @@ theorem FF81Sec5.cen_β_b (hSR3 : KF_Sp6ShortRoot3) (hCls : KF_Sp6Cls)
   have hc : Nat.card ↥(M₅₇ b b₁ b₂ b₃ s₀ ⊓ Cen b) = 108 := by omega
   exact ⟨hc, h5.cen_eq_of_card hJs hbM (by omega)⟩
 
+omit hJs in
 theorem FF81Sec5.b₃_not_mem_zpowers_b₂ : b₃ ∉ Subgroup.zpowers b₂ := by
   intro h
   obtain ⟨n, hn⟩ := (mem_powers_iff_mem_zpowers).mpr h
@@ -169,13 +177,13 @@ theorem FF81Sec5.b₃_not_mem_zpowers_b₂ : b₃ ∉ Subgroup.zpowers b₂ := b
   have hne : ∀ c : ZMod 3, c • e 2 ≠ (e 3 : V) := by decide
   exact hne _ (h5.ε_inj hmod')
 
-theorem FF81Sec5.cen_β_u (hKF : KF_Sp6Levi) (hCls : KF_Sp6Cls)
+theorem FF81Sec5.cen_β_u (_hKF : KF_Sp6Levi) (hCls : KF_Sp6Cls)
     (hmod : StatedClassicalModel (M₅₇ b b₁ b₂ b₃ s₀) .PSp 3 2 1)
     (e6 : ↥(OUp 3 (CenS (Subgroup.closure {b₂, b₃}))) ≃* Equiv.Perm (Fin 6)) :
     Nat.card ↥(M₅₇ b b₁ b₂ b₃ s₀ ⊓ Cen (b₂ * b₃)) = 2160 ∧
       Cen (β' b₂ b₃) ⊓ Cen (b₂ * b₃) =
         Subgroup.zpowers (β' b₂ b₃) ⊔ (M₅₇ b b₁ b₂ b₃ s₀ ⊓ Cen (b₂ * b₃)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hB := h5.basis
   have hb₂B : b₂ ∈ B := h5.ε_e2 ▸ h5.ε_mem _
   have hb₃B : b₃ ∈ B := h5.ε_e3 ▸ h5.ε_mem _
@@ -201,7 +209,7 @@ theorem FF81Sec5.cen_β_u (hKF : KF_Sp6Levi) (hCls : KF_Sp6Cls)
   have hl1 : l ≠ 1 := by
     rintro rfl
     rw [mul_one] at hxl
-    refine h5.b₃_not_mem_zpowers_b₂ hJs ?_
+    refine h5.b₃_not_mem_zpowers_b₂ ?_
     rw [← hzg, hb₃x, hxl, ← conj_zpow]
     exact Subgroup.zpow_mem_zpowers _ i
   have hb3 : b ^ 3 = 1 := by rw [← h5.orderOf_b, pow_orderOf_eq_one]
@@ -260,7 +268,7 @@ theorem FF81Sec5.cen_β_u (hKF : KF_Sp6Levi) (hCls : KF_Sp6Cls)
     calc _ ≤ Nat.card ↥(Cen b₂ ⊓ Cen b₃) := Subgroup.card_le_of_le hK
       _ = Nat.card ↥(Cen b ⊓ Cen x) := by rw [hCb₂, hb₃x, S57.card_cen2_conj]
       _ ≤ 6480 := h6480
-  have huM : b₂ * b₃ ∈ M₅₇ b b₁ b₂ b₃ s₀ := Subgroup.mem_sup_right (h5.A₁_le_H hKF h5.u_mem_A₁)
+  have huM : b₂ * b₃ ∈ M₅₇ b b₁ b₂ b₃ s₀ := Subgroup.mem_sup_right (h5.A₁_le_H h5.u_mem_A₁)
   have hJu : OUp 3 (CenS (Subgroup.closure {b₂, b₃})) ≤ M₅₇ b b₁ b₂ b₃ s₀ ⊓ Cen (b₂ * b₃) :=
     fun j hj => by
     obtain ⟨h2, h3⟩ := mem_cenS_pair_iff.mp (OUp_le _ hj)
@@ -277,7 +285,7 @@ theorem FF81Sec5.cen_β_u (hKF : KF_Sp6Levi) (hCls : KF_Sp6Cls)
 
 theorem FF81Sec5.mem_of_pow2 {M' : Subgroup G} (hM' : M' ≤ M₅₇ b b₁ b₂ b₃ s₀) {x : G}
     (hx : x ∈ Subgroup.zpowers (β' b₂ b₃) ⊔ M') {k : ℕ} (hk : x ^ 2 ^ k = 1) : x ∈ M' := by
-  obtain ⟨a, ha, m, hm, rfl⟩ := h5.mem_β_sup hJs hM' hx
+  obtain ⟨a, ha, m, hm, rfl⟩ := CFSG.RankThree.PartTwo.Sec21.FF81.FF81Sec5.mem_β_sup hJs hM' hx
   have hmβ : Commute m (β' b₂ b₃) := Subgroup.mem_centralizer_singleton_iff.mp
     (((S57.M_le_cenS hJs).trans (S57.cenS_pair_le_left _ _)) (hM' hm))
   obtain ⟨j, rfl⟩ := Subgroup.mem_zpowers_iff.mp ha
@@ -416,7 +424,7 @@ theorem FF81Sec5.T_max {s : G}
       5 ∣ Nat.card ↥(M₅₇ b b₁ b₂ b₃ s₀ ⊓ Cen y) → y = s) :
     ∀ P : Subgroup G, P ≤ Cen (β' b₂ b₃) → IsPGroup 2 P → T ≤ P → P = T := by
   intro P hPC hP2 hTP
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hMβ : M₅₇ b b₁ b₂ b₃ s₀ ≤ Cen (β' b₂ b₃) :=
     (S57.M_le_cenS hJs).trans (S57.cenS_pair_le_left _ _)
   have hsM : s ∈ M₅₇ b b₁ b₂ b₃ s₀ := (Subgroup.mem_inf.mp (hTle hsT)).1
@@ -438,8 +446,8 @@ theorem FF81Sec5.T_max {s : G}
     refine lt_top_iff_ne_top.mpr fun h => hne (le_antisymm (fun x hx => ?_) hTP)
     have : (⟨x, hx⟩ : P) ∈ T.subgroupOf P := h ▸ Subgroup.mem_top _
     exact Subgroup.mem_subgroupOf.mp this
-  haveI := hP2.isNilpotent
-  obtain ⟨n, hnN, hnT⟩ := SetLike.exists_of_lt (Group.normalizerCondition_of_isNilpotent (G := ↥P) _ hlt)
+  have := hP2.isNilpotent
+  obtain ⟨n, hnN, hnT⟩ := IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent (G := ↥P) _ hlt)
   have hn₀T : (n : G) ∉ T := fun h => hnT (Subgroup.mem_subgroupOf.mpr h)
   have hnorm : ∀ {c : ↥P}, c ∈ Subgroup.normalizer ((T.subgroupOf P : Subgroup ↥P) : Set ↥P) →
       ∀ t ∈ T, (c : G) * t * (c : G)⁻¹ ∈ T := by
@@ -467,7 +475,7 @@ theorem FF81Sec5.T_max {s : G}
     simpa [MulAut.conj_apply, hs2] using h
   have hzM : n₀ * s * n₀⁻¹ ∈ M₅₇ b b₁ b₂ b₃ s₀ := (Subgroup.mem_inf.mp (hTle hzT)).1
   have hn₀C : n₀ ∈ Cen (β' b₂ b₃) := hPC n.2
-  obtain ⟨a, ha, m, hm, hnam⟩ := h5.mem_β_sup hJs le_rfl (hkey n₀ hn₀C hzM)
+  obtain ⟨a, ha, m, hm, hnam⟩ := CFSG.RankThree.PartTwo.Sec21.FF81.FF81Sec5.mem_β_sup hJs le_rfl (hkey n₀ hn₀C hzM)
   have hz' : n₀ * s * n₀⁻¹ = m * s * m⁻¹ := by
     have hw : m * s * m⁻¹ ∈ Cen (β' b₂ b₃) := hMβ ((M₅₇ b b₁ b₂ b₃ s₀).mul_mem
       ((M₅₇ b b₁ b₂ b₃ s₀).mul_mem hm hsM) ((M₅₇ b b₁ b₂ b₃ s₀).inv_mem hm))
@@ -503,11 +511,11 @@ theorem ff81_5_7b_of (hKF : KF_Sp6Levi) (hCls : KF_Sp6Cls)
   obtain ⟨-, -, ⟨⟨e6⟩, hJs, hbJ, -⟩, -, -, c6, hD⟩ := id c
   obtain ⟨t, ht⟩ := h5.exists_t₃
   obtain ⟨hsM, hcs, hF1⟩ := h5.cen_β_sstar hJs ht hKF hCls hmod c6 hD e6
-  have hs2 := h5.orderOf_sstar ht
+  have hs2 := h5.orderOf_sstar (t := t)
   have hMβ : M₅₇ b b₁ b₂ b₃ s₀ ≤ Cen (β' b₂ b₃) :=
     (S57.M_le_cenS hJs).trans (S57.cenS_pair_le_left _ _)
   have hbM : b ∈ M₅₇ b b₁ b₂ b₃ s₀ := Subgroup.mem_sup_left hbJ
-  have huM : b₂ * b₃ ∈ M₅₇ b b₁ b₂ b₃ s₀ := Subgroup.mem_sup_right (h5.A₁_le_H hKF h5.u_mem_A₁)
+  have huM : b₂ * b₃ ∈ M₅₇ b b₁ b₂ b₃ s₀ := Subgroup.mem_sup_right (h5.A₁_le_H h5.u_mem_A₁)
   have hb := h5.cen_β_b hJs hSR3 hCls hmod hbJ
   have hu := h5.cen_β_u hJs hKF hCls hmod e6
   have hs5 : 5 ∣ Nat.card ↥(M₅₇ b b₁ b₂ b₃ s₀ ⊓ Cen (t * s₀ * t⁻¹)) := by rw [hcs]; norm_num
@@ -515,7 +523,7 @@ theorem ff81_5_7b_of (hKF : KF_Sp6Levi) (hCls : KF_Sp6Cls)
       g ∈ Subgroup.zpowers (β' b₂ b₃) ⊔ M₅₇ b b₁ b₂ b₃ s₀ := fun g hg hτ =>
     h5.key_fusion hJs hCls hmod hbM huM hb hu hsM hs2 hs5 hF1 hg hτ
   obtain ⟨T, hTle, hT, hsT, huniq⟩ := ((hCls G _ hmod).2.2.2.2 _ hsM hs2 hs5).2
-  refine le_antisymm (h5.β_sup_M_le hJs) ?_
+  refine le_antisymm (CFSG.RankThree.PartTwo.Sec21.FF81.FF81Sec5.β_sup_M_le hJs) ?_
   refine S57.holt_mod hHolt (Subgroup.zpowers_le.mpr
       (Subgroup.mem_centralizer_singleton_iff.mpr rfl)) hMβ ?_ (h5.zpowers_β_inf_M hJs) hmod hsM
     hs2 (hTle.trans (inf_le_left.trans hMβ)) (hTle.trans inf_le_right) hsT

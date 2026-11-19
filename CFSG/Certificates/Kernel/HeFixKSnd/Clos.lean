@@ -27,7 +27,7 @@ theorem closK_spec {n w nb N SA SB SM q t j : Nat} (h : closK n w nb N SA SB SM 
     Nat.add_eq, Nat.mul_eq] at h
   obtain ⟨-, hall⟩ := h
   have hi' := CFSG.KS.allN_spec hall i hi
-  simp only [CFSG.KC.HexaK.strictB_eq', CFSG.KC.HexaK.andB_eq, Bool.and_eq_true,
+  simp only [Bool.and_eq_true,
     Nat.blt_eq] at hi'
   obtain ⟨hm, ha, hb, hall2⟩ := hi'
   have hbeq := Nat.eq_of_beq_eq_true hb
@@ -44,7 +44,7 @@ theorem closK_spec {n w nb N SA SB SM q t j : Nat} (h : closK n w nb N SA SB SM 
     intro k hk
     have hk' : k < nb := List.mem_range.1 hk
     have hk2 := CFSG.KS.allN_spec hall2 k hk'
-    simp only [CFSG.KC.HexaK.strictB_eq', CFSG.KC.HexaK.andB_eq, Bool.and_eq_true,
+    simp only [Bool.and_eq_true,
       Nat.blt_eq] at hk2
     obtain ⟨hxn, hxeq⟩ := hk2
     have hxeq' := Nat.eq_of_beq_eq_true hxeq

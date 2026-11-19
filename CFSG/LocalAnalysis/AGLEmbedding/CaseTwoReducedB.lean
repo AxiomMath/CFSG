@@ -242,12 +242,12 @@ theorem ReducedNongeneration.centralizer_le_of_mem_pCore (h : ReducedNongenerati
         Subgroup.mem_centralizer_singleton_iff.mpr
           (Subgroup.mem_centralizer_singleton_iff.mp hc.2).symm
       exact Subgroup.mem_centralizer_singleton_iff.mp (Subgroup.zpowers_le.mpr hzc hy)
-    exact eq_one_of_mem_of_coprime Rb.isPGroup'
+    exact eq_one_of_mem_of_coprime Rb.isPGroup
       (hCz ⟨h.mem_centralizer_of_coprime_of_caseTwo hKL hL hiso (hcyc L hL) ht htp hc.1 hcop, hcz⟩)
       hcop
   have hRz : (Rb : Subgroup Y) ≤ Subgroup.centralizer ({z} : Set Y) := by
     intro v hv
-    obtain ⟨k, hk⟩ := Rb.isPGroup' ⟨v, hv⟩
+    obtain ⟨k, hk⟩ := Rb.isPGroup ⟨v, hv⟩
     have hvk : v ^ p ^ k = 1 := by simpa using congrArg Subtype.val hk
     exact Subgroup.mem_centralizer_singleton_iff.mpr
       (commute_of_mem_normalizer_zpowers_of_pow_prime_pow hp hzp (hzN v) hvk).eq
@@ -269,7 +269,7 @@ theorem ReducedNongeneration.centralizer_le_of_isPGroup (h : ReducedNongeneratio
     (Subgroup.normal_subgroupOf_iff_le_normalizer (Subgroup.centralizer_le_normalizer _)).mp
       (Subgroup.normal_subgroupOf_centralizer_normalizer _)
   have hpg : IsPGroup p (((Rb : Subgroup Y) ⊔ Subgroup.centralizer (L : Set Y) : Subgroup Y)) :=
-    Rb.isPGroup'.to_sup_of_normal_right' hW ((h.sylow_le_normalizer_component hL).trans hNC)
+    Rb.isPGroup.to_sup_of_normal_right' hW ((h.sylow_le_normalizer_component hL).trans hNC)
   exact le_sup_right.trans (Rb.maximal_isPGroup.le_of_ge hpg le_sup_left)
 
 end Reduced

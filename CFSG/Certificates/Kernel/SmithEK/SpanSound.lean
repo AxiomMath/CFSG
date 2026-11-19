@@ -50,9 +50,9 @@ theorem dig_wM (Q : Nat) {u : Nat} (hu : u < 37) : dig (wM Q) u = f4mul (dig Q u
   simp only [Nat.testBit_or, Nat.testBit_and, Nat.testBit_xor, Nat.testBit_shiftLeft,
     Nat.testBit_shiftRight, e0, e1]
   rcases Nat.eq_zero_or_pos u with rfl | hu0
-  · simp [Nat.add_comm, hm]
+  · simp [hm]
   · rw [e2 (by omega)]
-    simp [Nat.add_comm, show 2 * u + 1 - 1 = 2 * u by omega, show 2 * u ≥ 1 by omega, e0, e1]
+    simp [Nat.add_comm, show 2 * u ≥ 1 by omega, e0]
 
 theorem dig_wM2 (Q : Nat) {u : Nat} (hu : u < 37) : dig (wM2 Q) u = f4mul (dig Q u) 3 := by
   have e0 := m01_testBit (2 * u) (by omega)
@@ -69,10 +69,9 @@ theorem dig_wM2 (Q : Nat) {u : Nat} (hu : u < 37) : dig (wM2 Q) u = f4mul (dig Q
   simp only [Nat.testBit_or, Nat.testBit_and, Nat.testBit_xor, Nat.testBit_shiftLeft,
     Nat.testBit_shiftRight, e0, e1]
   rcases Nat.eq_zero_or_pos u with rfl | hu0
-  · simp [Nat.add_comm, hm]
+  · simp [hm]
   · rw [e2 (by omega)]
-    simp [Nat.add_comm, show 2 * u + 1 - 1 = 2 * u by omega, show 2 * u ≥ 1 by omega, e0, e1]
-    try omega
+    simp [Nat.add_comm, show 2 * u ≥ 1 by omega, e0]
 
 theorem colQ_congr {A B A' B' : Nat} (col : List (List (List Nat)))
     (h0 : ∀ ab ∈ col, ∀ u ∈ ab.getD 0 [], u < 37) (h1 : ∀ ab ∈ col, ∀ u ∈ ab.getD 1 [], u < 37)
@@ -180,7 +179,7 @@ theorem coefR_scale (v : Nat) : ∀ (E : List (Nat × Nat)) (s a : Nat),
     intro s a
     rw [List.length_cons, List.range_succ_eq_map, List.foldl_cons, List.foldl_map]
     rw [List.foldl_ext _ (fun acc i => if v.testBit (E[i]!).1 then acc + (2 * s) * 2 ^ i else acc) _
-      (fun acc i _ => by simp [pow_succ, Nat.mul_comm, Nat.mul_left_comm, Nat.mul_assoc])]
+      (fun acc i _ => by simp [pow_succ, Nat.mul_comm, Nat.mul_assoc])]
     rw [ih]
     have e : coefR (be :: E) v = (if v.testBit be.1 then 1 else 0) + 2 * coefR E v := rfl
     have h0 : (be :: E)[0]! = be := rfl

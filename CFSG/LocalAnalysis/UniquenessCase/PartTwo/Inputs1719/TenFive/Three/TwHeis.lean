@@ -41,8 +41,8 @@ private theorem twHeis_commutator_mul {G k : Type*} [Group G] [Field k] {B B' D 
     (hE : ∀ c d, E (c + d) = E c * E d)
     (hBD : ∀ c d, ⁅B c, D d⁆ = E (n * (c * d)))
     (hB'D' : ∀ c d, ⁅B' c, D' d⁆ = E (n' * (c * d)))
-    (hEB : ∀ c d, Commute (E c) (B d)) (hEB' : ∀ c d, Commute (E c) (B' d))
-    (hED : ∀ c d, Commute (E c) (D d)) (hED' : ∀ c d, Commute (E c) (D' d))
+    (hEB : ∀ c d, Commute (E c) (B d)) (_hEB' : ∀ c d, Commute (E c) (B' d))
+    (hED : ∀ c d, Commute (E c) (D d)) (_hED' : ∀ c d, Commute (E c) (D' d))
     (c₁ b₁ c₂ d₂ : k) :
     ⁅B c₁ * B' b₁, D c₂ * D' d₂⁆ = E (n * (c₁ * c₂) + n' * (b₁ * d₂)) := by
   have hcbd : Commute (D c₂) ⁅B' b₁, D' d₂⁆ := by

@@ -94,10 +94,10 @@ theorem exists_ρ_of_checks {KT : Nat → Nat} {RL : List (List Nat)} {T : Nat �
     ∃ ρ : ↥(Subgroup.closure (Set.range h)) →* Equiv.Perm (Fin 26572),
       ∀ k (p : Fin 26572), ((ρ ⟨h k, Subgroup.subset_closure ⟨k, rfl⟩⟩ p : Fin 26572) : ℕ) =
         T k p := by
-  haveI : CharP K 3 := by
-    haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
-    haveI : Fintype K := Fintype.ofFinite K
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : CharP K 3 := by
+    have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
+    have : Fintype K := Fintype.ofFinite K
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact charP_of_card_eq_prime_pow (f := 3) (by rw [← Nat.card_eq_fintype_card, hK]; norm_num)
   have hc : ∀ p < 26572, canon (key KT p) = true := fun p hp => (wf84_spec (hwf p hp)).2.1
   have hb : ∀ p < 26572, VB 84 (vOf (key KT p)) := fun p hp => (wf84_spec (hwf p hp)).1
@@ -110,7 +110,7 @@ theorem exists_ρ_of_checks {KT : Nat → Nat} {RL : List (List Nat)} {T : Nat �
     obtain ⟨hlt, hmv⟩ := hkeys k k.2 p hp
     refine ⟨hlt, ?_⟩
     have hrk : burnsideF48d_rows (burnsideF48d_colTab ()) k =
-        burnsideF48d_genRows (burnsideF48d_colTab ()) k := if_neg (by omega)
+        burnsideF48d_genRows (burnsideF48d_colTab ()) k := ite_eq_right (by omega)
     have e : h k • P p =
         burnsideF48d_Ψ ω (vecOf (ofV (vOf (mv (RL.getD k []) (key KT p))))) := by
       rw [hsmul, hh k, ← rows_mulVecT (hrows k k.2) (hb p hp), hrk]

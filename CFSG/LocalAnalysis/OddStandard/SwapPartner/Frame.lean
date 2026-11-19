@@ -65,10 +65,10 @@ theorem swapFrame_cases {h : Setting G L 10} {d : Cyc L Q z} {ι : Perm (Fin 10)
   rw [liftS8_r₁', card_cycleType_r₁'] at hpair
   by_cases he : ε r₁' = -1
   · right
-    rw [if_pos he] at hpair
+    rw [ite_eq_left he] at hpair
     exact hpair
   · left
-    rw [if_neg he] at hpair
+    rw [ite_eq_right he] at hpair
     exact hpair
 
 end CFSG.OddStandard.AltStdSec.SwapPartner

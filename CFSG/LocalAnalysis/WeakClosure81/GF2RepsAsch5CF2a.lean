@@ -21,7 +21,7 @@ theorem isSolvable_quotient_of_outSolvable {K : Type} [Group K] (F : Subgroup K)
       rw [Subgroup.mem_centralizer_iff]
       intro x hx
       have h2 := congrArg (fun φ : MulAut ↥F => ((φ ⟨x, hx⟩ : ↥F) : K)) hf
-      simp only [MonoidHom.coe_mk, OneHom.coe_mk, MulAut.conj_apply, MulAut.conjNormal_apply,
+      simp only [MulAut.conj_apply, MulAut.conjNormal_apply,
         Subgroup.coe_mul, InvMemClass.coe_inv] at h2
       calc x * ((f : K)⁻¹ * k) = (f : K)⁻¹ * (f * x * (f : K)⁻¹) * f * ((f : K)⁻¹ * k) := by group
         _ = (f : K)⁻¹ * (k * x * k⁻¹) * f * ((f : K)⁻¹ * k) := by rw [h2]

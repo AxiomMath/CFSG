@@ -96,7 +96,7 @@ private lemma ggTUClC_sum_eq_of_unique_pos {l : List ℕ}
         rcases ih h' with h0 | ⟨k, hk, hpk, hsum⟩
         · exact Or.inl (by simp [ha0, h0])
         · exact Or.inr ⟨k + 1, by simp [hk], by simpa [List.getD_cons_succ] using hpk,
-            by simp [ha0, hsum, List.getD_cons_succ]⟩
+            by simp [ha0, hsum]⟩
 
 private lemma ggTUClC_sum_eq_getD_of_unique_pos {l : List ℕ} {k : ℕ} (hk : k < l.length)
     (hpos : 0 < l.getD k 0)
@@ -293,7 +293,7 @@ private lemma ggTUClC_ne_one_of_hr2 {r p : ℕ} {rest : List ℕ} (hr2 : r = 2 �
     rw [List.sum_eq_zero_iff_forall_eq_nat]
     intro x hx
     rw [List.length_eq_zero_iff.mp hlen0] at hx
-    simpa using hx
+    simp at hx
   have hr2' : r = 2 := by omega
   have := hr2 hr2'
   omega
@@ -387,7 +387,7 @@ private lemma ggTUClC_c_row {r p n : ℕ} {m : List ℕ} {o : GGKacOrbit}
     have h1 : ¬ ((m0 :: rest).headD 0 = 1) := by rw [List.headD_cons]; omega
     have h2 : ¬ ((m0 :: rest).headD 0 = 2 ∧ n = 1) := by rw [List.headD_cons]; exact hne
     have h3 : 2 ≤ (m0 :: rest).headD 0 := by rw [List.headD_cons]; exact hm0
-    rw [if_neg h1, if_neg h2, if_pos h3] at hDo
+    rw [ite_eq_right h1, ite_eq_right h2, ite_eq_left h3] at hDo
     rcases List.append_eq_singleton_iff.mp hDo with ⟨horb0, -⟩ | ⟨horb0, horbJ⟩
     · exact absurd horb0 (by simp)
     · have hmem : o ∈ [⟨⟨.C, m0, n⟩, true⟩] := ggTUClC_mem_of_eq_singleton horb0

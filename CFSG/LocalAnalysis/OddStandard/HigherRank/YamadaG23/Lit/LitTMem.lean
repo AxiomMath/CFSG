@@ -45,7 +45,7 @@ private lemma mem_normalizer_of_centralizes {Gh Zh : Subgroup Γ}
     exact hz
 
 theorem lit_mem_T_iff {Gh Zh : Subgroup Γ} {t : Γ} (hZc : ∀ x ∈ Gh, ∀ z ∈ Zh, x * z = z * x)
-    (hZG : Zh ≤ Gh) (htZ : t ∈ normalizer (Zh : Set Γ)) {x : Γ} (hx : x ∈ Gh) :
+    (_hZG : Zh ≤ Gh) (htZ : t ∈ normalizer (Zh : Set Γ)) {x : Γ} (hx : x ∈ Gh) :
     x ∈ centralizerSection (Zh ⊔ zpowers t) Zh ↔ ⁅t, x⁆ ∈ Zh := by
   constructor
   · intro hxK

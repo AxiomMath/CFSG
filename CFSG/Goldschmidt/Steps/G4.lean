@@ -25,7 +25,7 @@ theorem exists_elemAbelian_ge_eight (S : Sylow 2 G) {U : Subgroup G} (hUS : U �
   by_cases h8 : 8 ≤ Nat.card U
   · exact ⟨U, le_rfl, hU, h8⟩
   have hcard : Nat.card U = 4 := by
-    obtain ⟨k, hk⟩ := ((S.isPGroup').to_le hUS).exists_card_eq
+    obtain ⟨k, hk⟩ := ((S.isPGroup).to_le hUS).exists_card_eq
     rw [hk] at hU4 h8 ⊢
     rcases Nat.lt_or_ge k 3 with h | h
     · interval_cases k <;> omega
@@ -56,7 +56,7 @@ theorem exists_elemAbelian_ge_eight (S : Sylow 2 G) {U : Subgroup G} (hUS : U �
   have hAcard : Nat.card (E.subgroupOf S) = 8 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hES).toEquiv, hE8]
   obtain ⟨-, -, hVW, hW, hW8, -⟩ := CFSG.ProperTwoGeneratedCore.normal_four_centralizer_rank_three
-    S.isPGroup' (U.subgroupOf S) hV hVcard (E.subgroupOf S) hA hAcard
+    S.isPGroup (U.subgroupOf S) hV hVcard (E.subgroupOf S) hA hAcard
   refine ⟨(E.subgroupOf S ⊓ Subgroup.centralizer ((U.subgroupOf S : Subgroup S) : Set S) ⊔
     U.subgroupOf S).map (S : Subgroup G).subtype, ?_,
     CFSG.LargeEvenClassification.Helpers.elementary_map _ hW _, ?_⟩

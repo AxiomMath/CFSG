@@ -27,7 +27,7 @@ theorem three_dvd_two_pow_add_one {n : ℕ} (hn : Odd n) : 3 ∣ 2 ^ n + 1 := by
 theorem lift_maximal {H K : Type*} [Group H] [Group K] [Finite H] (f : H →* K) {q : ℕ}
     (SL : Subgroup H) (S : Subgroup K) (hmap : SL.map f = S) (hdisj : Disjoint SL f.ker)
     (hker : IsPGroup 2 f.ker) (hq : q.Prime) (hq2 : q ≠ 2)
-    (hmax : ∀ T : Subgroup K, IsPGroup q T → S ≤ T → T = S) (hSL : IsPGroup q SL) :
+    (hmax : ∀ T : Subgroup K, IsPGroup q T → S ≤ T → T = S) (_hSL : IsPGroup q SL) :
     ∀ T : Subgroup H, IsPGroup q T → SL ≤ T → T = SL := by
   intro T hT hSLT
   have hTdisj : Disjoint T f.ker := by
@@ -61,8 +61,8 @@ theorem keyLemma (hOut : UCK.U3OutShape) (hKey : UCK.U3Key) {M L : Subgroup G} (
       ∃ Sb : Subgroup (Bar2 L), IsPGroup q Sb ∧ ¬ q ∣ Sb.index ∧
         (S.subgroupOf L).map (QuotientGroup.mk' (CFSG.pCore 2 ↥L)) = Sb := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact q.Prime := ⟨hq⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq2 : q ≠ 2 := by rintro rfl; omega
   set N : Subgroup G := normalizer (L : Set G) with hNdef
   set O : Subgroup G := pCoreOf 2 L with hOdef
@@ -87,7 +87,7 @@ theorem keyLemma (hOut : UCK.U3OutShape) (hKey : UCK.U3Key) {M L : Subgroup G} (
     · exact Or.inr hpd
     left
     obtain ⟨Nsub, hNn, hInn, hcyc, hcube, hEven⟩ := hOut (Bar2 L) n hX
-    haveI := hNn
+    have := hNn
     let MN : Subgroup ↥N := M.subgroupOf N
     let H : Subgroup (MulAut (Bar2 L)) := MN.map ρ
     have hgenMN := closure_pPrime_subgroupOf hMN (p := p) hOp

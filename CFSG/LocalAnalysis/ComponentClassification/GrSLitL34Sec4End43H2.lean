@@ -92,7 +92,7 @@ theorem l34Lemma43HeldStep_of_inputs
       refine lt_top_iff_ne_top.mpr fun htop => hQT fun q hq => ?_
       have : (⟨q, hq⟩ : Q) ∈ T.subgroupOf Q := by rw [htop]; exact mem_top _
       exact mem_subgroupOf.mp this
-    have hnil : Group.IsNilpotent Q := Q.isPGroup'.isNilpotent
+    have hnil : Group.IsNilpotent Q := Q.isPGroup.isNilpotent
     obtain ⟨y, hyN, hyT⟩ :=
       IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hlt)
     have hyM : (y : G) ∈ M := by
@@ -103,7 +103,7 @@ theorem l34Lemma43HeldStep_of_inputs
       have := (mem_normalizer_iff.mp hyN _).mp hz'
       exact mem_subgroupOf.mp this
     have hQ' : IsPGroup 2 ↥(T ⊔ zpowers (y : G)) :=
-      Q.isPGroup'.to_le (sup_le hTQ (zpowers_le.mpr y.2))
+      Q.isPGroup.to_le (sup_le hTQ (zpowers_le.mpr y.2))
     have heq := hT.eq_of_le le_sup_left (sup_le hT.1 (zpowers_le.mpr (hKN hyM))) hQ'
     have hyT' : (y : G) ∈ T ⊔ zpowers (y : G) :=
       (le_sup_right : zpowers (y : G) ≤ T ⊔ zpowers (y : G)) (mem_zpowers (y : G))

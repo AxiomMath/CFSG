@@ -573,7 +573,7 @@ theorem homComp_eq_self_of_forall_apply_ne_zero {Γ : Type*} [DecidableEq Γ] {I
   funext i
   by_cases hi : w i = 0
   · simp [homComp, hi]
-  · rw [homComp, if_pos (hw i hi)]
+  · rw [homComp, ite_eq_left (hw i hi)]
 
 theorem homComp_eq_zero_of_forall_apply_ne_zero_ne {Γ : Type*} [DecidableEq Γ] {I : Type*}
     {deg : I → Γ} {e : Γ} {w : I → k} (hw : ∀ i, w i ≠ 0 → deg i ≠ e) :
@@ -581,7 +581,7 @@ theorem homComp_eq_zero_of_forall_apply_ne_zero_ne {Γ : Type*} [DecidableEq Γ]
   funext i
   by_cases hi : w i = 0
   · simp [homComp, hi]
-  · rw [homComp, if_neg (hw i hi)]
+  · rw [homComp, ite_eq_right (hw i hi)]
     rfl
 
 theorem linearIndependent_mk_of_bWt (ε : τ → Finset (Fin n)) {ι : Type*} (v : ι → bCyc (k := k) ε)
@@ -685,14 +685,14 @@ theorem bDer_mulVec_single_eq_single_update [CharP k 2] (ε : τ → Finset (Fin
       ((Pi.single (Function.update t (r, j) s0) (1 : k) : BIdx ε → k) s)
   rw [kronDer_single_apply (R := k) h2 (P := fun p : τ × Fin n => p.1 = r) hab]
   by_cases hs : s = Function.update t (r, j) s0
-  · rw [if_pos ?_]
+  · rw [ite_eq_left ?_]
     · rw [hs, Pi.single_eq_same]
     refine ⟨(r, j), rfl, ?_, hb, ha, ?_⟩
     · intro q hq
       rw [hs, Function.update_of_ne hq]
     · have hsj : s (r, j) = s0 := by rw [hs]; exact Function.update_self _ _ _
       exact (congrArg Subtype.val hsj).trans hs0
-  · rw [if_neg ?_, Pi.single_apply, if_neg hs]
+  · rw [ite_eq_right ?_, Pi.single_apply, ite_eq_right hs]
     intro hcond
     obtain ⟨i, hiP, hist, hbi, hai, hsi⟩ := hcond
     have hii : i = (r, j) := huniq i hiP hbi hai

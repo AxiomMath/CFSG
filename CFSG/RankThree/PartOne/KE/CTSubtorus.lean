@@ -92,7 +92,7 @@ theorem sylow_conjugacy_of_subtorus {τ : Tag} (d : ℕ) {C : Type} [Group C] [F
     obtain ⟨P0⟩ : Nonempty (Sylow p Z) := inferInstance
     set P1 : Subgroup (ModGL τ L) := ((P0 : Subgroup Z).map Z.subtype).map cg with hP1
     have hP1X : P1 ≤ X := Subgroup.map_mono (Subgroup.map_subtype_le _)
-    have hP1p : IsPGroup p P1 := (P0.isPGroup'.map _).map cg
+    have hP1p : IsPGroup p P1 := (P0.isPGroup.map _).map cg
     have hP1range : P1 ≤ ι.range := hpg p hp hp3 P1 hP1X hP1p
     set P : Subgroup C := P1.comap ι with hP
     have hPmap : P.map ι = P1 := by

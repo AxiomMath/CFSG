@@ -26,7 +26,7 @@ private theorem card_Q2_of_frame [Finite G] (F : G24Frame2 L1 L2 S) :
     ext e
     rw [MonoidHom.mem_ker, Subgroup.mem_subgroupOf]
     exact (F.FN.ker e).symm
-  haveI : K.Normal := hK ▸ MonoidHom.normal_ker F.FN.φ
+  have : K.Normal := hK ▸ MonoidHom.normal_ker F.FN.φ
   let e := QuotientGroup.quotientKerEquivOfSurjective F.FN.φ F.FN.surj
   have hquot : Nat.card (↥Q ⧸ K) = 16 := by
     have hcard := Nat.card_congr e.toEquiv

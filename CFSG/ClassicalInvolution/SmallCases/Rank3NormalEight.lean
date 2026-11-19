@@ -92,7 +92,7 @@ theorem exists_normal_elemAbelian_eight_of_not_fourGenerated [Finite F]
     · rw [Subgroup.card_map_of_injective (S : Subgroup F).subtype_injective]
       exact hc
   have hall := CFSG.Milestones.cls_connectivity_macwilliams_four_generator
-    (S : Subgroup F) S.isPGroup' hE
+    (S : Subgroup F) S.isPGroup hE
   refine fourGenerated_of_sylow S fun P hPS => ?_
   obtain ⟨X, hX4, hXcl⟩ := hall (P.subgroupOf (S : Subgroup F))
   refine ⟨X.image (S : Subgroup F).subtype, Finset.card_image_le.trans hX4, ?_⟩
@@ -183,7 +183,7 @@ theorem le_centralizer_of_normal_of_quaternion_sylow [Finite G] {J S E : Subgrou
     (hcard : Nat.card E ≤ Nat.card (T : Subgroup J)) :
     E ≤ Subgroup.centralizer ({z} : Set G) := by
   obtain ⟨hU, -⟩ := unique_involution_of_quaternion_sylow hzJ hz hcent T hT
-  refine le_centralizer_of_normal_of_unique_involution hTS hES hE (T.isPGroup'.map J.subtype)
+  refine le_centralizer_of_normal_of_unique_involution hTS hES hE (T.isPGroup.map J.subtype)
     (fun x hx hx2 => ?_) (by rwa [Subgroup.card_map_of_injective J.subtype_injective])
   obtain ⟨y, -, rfl⟩ := Subgroup.mem_map.mp hx
   exact hU y.1 y.2 (by simpa using hx2)

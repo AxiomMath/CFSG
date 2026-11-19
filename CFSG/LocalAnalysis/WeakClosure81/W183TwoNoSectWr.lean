@@ -71,10 +71,10 @@ private theorem w183b5_noPsp45Factor_perm (hO : LieOrderFormulasInput) (n : ℕ)
       exact (Nat.factorial_dvd_factorial hn : Nat.factorial n ∣ Nat.factorial 6)
     exact (hT.card_facts hO).2.1 (hd.trans h720)
   · have h7 : 7 ≤ n := by omega
-    haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
+    have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
     refine NoPsp45Factor.of_index_two hO (alternatingGroup (Fin n))
       alternatingGroup.index_eq_two ?_
-    haveI : IsSimpleGroup (alternatingGroup (Fin n)) :=
+    have : IsSimpleGroup (alternatingGroup (Fin n)) :=
       alternatingGroup.isSimpleGroup (by rw [Nat.card_eq_fintype_card, Fintype.card_fin]; omega)
     refine NoPsp45Factor.of_isSimpleGroup fun T _ hT => ⟨fun e => ?_⟩
     obtain ⟨t, m, p, f, hp, hp2, hadm, hY⟩ := hT.oddLieType
@@ -93,7 +93,7 @@ private theorem w183b5_noPsp45Factor_sl2 (hO : LieOrderFormulasInput) {F : Type}
     [Finite F] {n : ℕ} (hF : Nat.card F = 2 ^ n) :
     NoPsp45Factor (Matrix.SpecialLinearGroup (Fin 2) F) := by
   have hn : 1 ≤ n := one_le_of_natCard_eq_two_pow hF
-  haveI : CharP F 2 := charP_two_of_natCard_eq_two_pow hF
+  have : CharP F 2 := charP_two_of_natCard_eq_two_pow hF
   have hcard : Nat.card (Matrix.SpecialLinearGroup (Fin 2) F) =
       lieOrderNumerator .PSL 2 (2 ^ n) := by
     rw [CFSG.LocalAnalysis.ComponentInitial.LinearFlag.card_SL_eq (by norm_num), hF]
@@ -111,7 +111,7 @@ private theorem w183b5_noPsp45Factor_sl2 (hO : LieOrderFormulasInput) {F : Type}
       rw [hF]
       calc 4 = 2 ^ 2 := by norm_num
         _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn2
-    haveI : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) F) :=
+    have : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) F) :=
       CFSG.RankThree.PartOne.KCRootAxis.sl2_isSimpleGroup h4
     refine NoPsp45Factor.of_isSimpleGroup fun T _ hT => ⟨fun e => ?_⟩
     have hadm : StatedLieAdmissible .PSL 2 2 n :=
@@ -186,9 +186,9 @@ private theorem w183b5_noPsp45Factor_statedOmega_quadMinus_three_of_card_eq_thre
     rw [show CFSG.Open.ordTwistedA (4 - 1) (3 ^ 1) = 3265920 by decide] at h
     exact h
   let e := statedOmegaEquivCommutator (coe_quadMinus 3 F b c)
-  haveI : Finite ↥(commutator ↥(TauCeti.QuadraticMap.orthogonalGroup (quadMinus 3 F b c))) :=
+  have : Finite ↥(commutator ↥(TauCeti.QuadraticMap.orthogonalGroup (quadMinus 3 F b c))) :=
     Finite.of_equiv _ e.toEquiv
-  haveI := hq.2.1
+  have := hq.2.1
   refine NoPsp45Factor.of_mulEquiv e.symm (NoPsp45Factor.of_normal _
     (NoPsp45Factor.of_commute hO fun a b => Subtype.ext (Subgroup.mem_center_iff.mp b.2 a.1))
     (NoPsp45Factor.of_isSimpleGroup fun T _ hT => ⟨fun eT => ?_⟩))
@@ -211,14 +211,14 @@ theorem noPsp45Factor_of_isOrth6MinusMod (hO : LieOrderFormulasInput)
     NoPsp45Factor Y := by
   obtain ⟨F, _, _, hF3, b, c, hbc, N, hPN, hNO, ⟨e⟩⟩ := h
   refine NoPsp45Factor.of_mulEquiv e.symm ?_
-  haveI : Finite (Matrix.ProjGenLinGroup (Fin 2 ⊕ Fin 2 ⊕ Fin 2) F) := inferInstance
+  have : Finite (Matrix.ProjGenLinGroup (Fin 2 ⊕ Fin 2 ⊕ Fin 2) F) := inferInstance
   have hkey : ∀ x ∈ N, ∀ y ∈ N, ⁅x, y⁆ ∈ CFSG.PGLModel.projOmegaMinus 2 F b c := by
     intro x hx y hy
     obtain ⟨g, hg, rfl⟩ := hNO hx
     obtain ⟨h, hh, rfl⟩ := hNO hy
     rw [← map_commutatorElement Matrix.ProjGenLinGroup.mk]
     exact Subgroup.mem_map_of_mem _ (Subgroup.commutator_mem_commutator hg hh)
-  haveI : ((CFSG.PGLModel.projOmegaMinus 2 F b c).subgroupOf N).Normal := by
+  have : ((CFSG.PGLModel.projOmegaMinus 2 F b c).subgroupOf N).Normal := by
     refine ⟨fun a ha n => ?_⟩
     have h1 : ⁅(n : Matrix.ProjGenLinGroup (Fin 2 ⊕ Fin 2 ⊕ Fin 2) F),
         (a : Matrix.ProjGenLinGroup (Fin 2 ⊕ Fin 2 ⊕ Fin 2) F)⁆ ∈

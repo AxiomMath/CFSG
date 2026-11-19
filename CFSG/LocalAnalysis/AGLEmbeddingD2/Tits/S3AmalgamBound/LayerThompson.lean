@@ -23,7 +23,7 @@ theorem false_of_isPSolvable_surj {N S : Type} [Group N] [Group S]
     exact Nat.card_congr (QuotientGroup.quotientKerEquivOfSurjective φ hφ).toEquiv
   rcases hN H (Subgroup.Normal.isSubnormal inferInstance) φ.ker hsimple with h | h
   · rw [hidx] at h
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have : IsCyclic S := isCyclic_of_prime_card (p := 3) h
     exact hnc ⟨⟨fun a b => mul_comm a b⟩⟩
   · rw [hidx] at h
@@ -102,8 +102,8 @@ theorem layer_le_commutator_thompsonJ {G : Type} [Group G] [Finite G] {M L T : S
   have hTM : T ≤ M := hT.1
   have hJT : J ≤ T := CFSG.Quasithin.B6.thompsonJ_le T
   have hJM : J ≤ M := hJT.trans hTM
-  haveI hLn' : (L.subgroupOf M).Normal := hLn
-  haveI hSn : (starImg M L).Normal := normal_starImg hLn
+  have hLn' : (L.subgroupOf M).Normal := hLn
+  have hSn : (starImg M L).Normal := normal_starImg hLn
   set π : ↥M →* M ⧸ D.subgroupOf M := QuotientGroup.mk' (D.subgroupOf M) with hπ
   set S : Subgroup (M ⧸ D.subgroupOf M) := starImg M L with hSdef
   have hSmem : ∀ s ∈ S, ∃ l : ↥M, (l : G) ∈ L ∧ π l = s := by
@@ -219,9 +219,9 @@ theorem layer_le_commutator_thompsonJ {G : Type} [Group G] [Finite G] {M L T : S
     have hx : x = k * ⟨n, hnM⟩ := Subtype.ext hxn
     rw [hx, map_mul, (MonoidHom.mem_ker.mp hk), one_mul]
     rfl
-  haveI hInnN : (innSub ↥S).Normal := innSub_normal' _
+  have hInnN : (innSub ↥S).Normal := innSub_normal' _
   set H : Subgroup ↥N := (innSub ↥S).comap ΨN with hH
-  haveI hHn : H.Normal := hInnN.comap ΨN
+  have hHn : H.Normal := hInnN.comap ΨN
   have hmemH : ∀ n : ↥N, n ∈ H ↔ ΨN n ∈ innSub ↥S := fun n => Iff.rfl
   let φ : ↥H →* ↥(innSub ↥S) :=
     ((ΨN.comp H.subtype)).codRestrict (innSub ↥S) (fun h => h.2)
@@ -240,7 +240,7 @@ theorem layer_le_commutator_thompsonJ {G : Type} [Group G] [Finite G] {M L T : S
     show ΨN n = MulAut.conj s
     rw [← hn, hΨl]
   obtain ⟨e⟩ := innSub_equiv (S := ↥S) hnc
-  haveI := hS
+  have := hS
   have hSi : IsSimpleGroup ↥(innSub ↥S) := MulEquiv.isSimpleGroup e.symm
   have hnc' : ¬ IsMulCommutative ↥(innSub ↥S) := by
     intro hc

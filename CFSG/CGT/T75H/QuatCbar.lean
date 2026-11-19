@@ -341,7 +341,7 @@ theorem exists_conj_fix_z (D : D8Data T T₁ ℓ a b y)
     hSub_le_normalizer (fun w hw => (mem_normIn.1 hw).2) hhH
   have hSle : (S : Subgroup G) ≤ Subgroup.normalizer (T : Set G) := fun s hs => hS.norm s hs
   have hSN : CFSG.ABGLocalTools.IsSylowOf 2 (S : Subgroup G) (Subgroup.normalizer (T : Set G)) :=
-    CFSG.ABGLocalTools.isSylowOf_iff.2 ⟨hSle, S.isPGroup', fun hd =>
+    CFSG.ABGLocalTools.isSylowOf_iff.2 ⟨hSle, S.isPGroup, fun hd =>
       S.not_dvd_index (hd.trans (Subgroup.relIndex_dvd_index_of_le hSle))⟩
   obtain ⟨S', hS'⟩ : ∃ S' : Sylow 2 G, S' = h • S := ⟨_, rfl⟩
   have hmem : ∀ x : G, x ∈ (S' : Subgroup G) ↔ h⁻¹ * x * h ∈ (S : Subgroup G) := by
@@ -357,7 +357,7 @@ theorem exists_conj_fix_z (D : D8Data T T₁ ℓ a b y)
     have e : h * (h⁻¹ * x * h) * h⁻¹ = x := by group
     rwa [e] at this
   have hS'N : CFSG.ABGLocalTools.IsSylowOf 2 (S' : Subgroup G) (Subgroup.normalizer (T : Set G)) :=
-    CFSG.ABGLocalTools.isSylowOf_iff.2 ⟨hS'le, S'.isPGroup', fun hd =>
+    CFSG.ABGLocalTools.isSylowOf_iff.2 ⟨hS'le, S'.isPGroup, fun hd =>
       S'.not_dvd_index (hd.trans (Subgroup.relIndex_dvd_index_of_le hS'le))⟩
   have hKN : Subgroup.centralizer (T : Set G) ≤ Subgroup.normalizer (T : Set G) :=
     Subgroup.centralizer_le_normalizer (T : Set G)

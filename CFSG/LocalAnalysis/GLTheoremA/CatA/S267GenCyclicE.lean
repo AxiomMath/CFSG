@@ -50,7 +50,7 @@ private theorem quasisimple_chev_of_comp {Q : TauCeti.LieTypeIndex → Prop}
     exact hgj
   obtain ⟨e₁⟩ := CFSG.RankThree.PartOne.nonempty_centerQuotientEquiv_of_surjective hperfJ
     f.rangeRestrict f.rangeRestrict_surjective hker
-  haveI : IsSimpleGroup (↥f.range ⧸ Subgroup.center ↥f.range) := hq₀.2
+  have : IsSimpleGroup (↥f.range ⧸ Subgroup.center ↥f.range) := hq₀.2
   exact ⟨⟨hperfJ.commutator_eq_top, e₁.isSimpleGroup⟩,
     (CFSG.LocalAnalysis.GLTheoremA.S9.isChevSimple_congr e₁).2 hc₀⟩
 
@@ -91,7 +91,7 @@ private theorem exists_orderOf_eq_two_of_one_le {X : Type} [Group X] [Finite X] 
       exact csSup_empty
     omega
   obtain ⟨_, _, ⟨T, hT, hT2, -⟩, -⟩ := hne
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := hT2.exists_card_eq
   have hn0 : n ≠ 0 := by
     rintro rfl
@@ -128,7 +128,7 @@ theorem genStep5On_of_leaves {Q : TauCeti.LieTypeIndex → Prop} (h4 : GenPlaneC
   intro p q Ω _ _ S B H B' d J hT _ hcomp
   obtain ⟨⟨hB'el, hB'c, -⟩, hdB', hdS, hJ⟩ := hT
   have hp := H.pPrime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set D : Subgroup Ω := B' ⊓ centModSubgroup p J
   set B₀ : Subgroup Ω := B' ⊓ centModSubgroup p S
   have hJS : J ≤ S := fun j hj => (hJ.1 hj).1
@@ -179,7 +179,7 @@ theorem genStep6On_of_leaves {Q : TauCeti.LieTypeIndex → Prop} (h1 : GenGood)
   intro p q Ω _ _ S B H B' d J hT hN hD
   obtain ⟨⟨hB'el, -, hB'case⟩, hdB', hdS, hJ⟩ := hT
   have hp := H.pPrime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set D : Subgroup Ω := B' ⊓ centModSubgroup p J
   have hDB' : D ≤ B' := inf_le_left
   have hDel : IsElemAbelian p D := hB'el.mono hDB'

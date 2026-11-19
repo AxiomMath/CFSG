@@ -70,6 +70,7 @@ theorem uc22p2213a_n_ne_zero (D : Data G) {Ch : Choice2011 G} (c : Ctx21 D Ch) :
   have := Nat.le_of_dvd hpos hmem.2
   omega
 
+omit [Finite G] in
 theorem uc22p2213a_centralizesBar_of_prime {L : Subgroup G} {n r : ℕ} (hL2 : IsL2 (Bar2 L) n)
     (hr : r.Prime) (hrn : ¬ r ∣ n) (hrL : ¬ r ∣ Nat.card (Bar2 L)) {a : G}
     (ha : a ∈ normalizer (L : Set G)) (har : a ^ r = 1) : CentralizesBar a L := by

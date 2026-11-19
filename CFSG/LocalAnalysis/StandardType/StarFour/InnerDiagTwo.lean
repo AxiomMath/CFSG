@@ -33,20 +33,20 @@ private theorem x01_coe (F : Type) [Field F] (t : F) :
     ((x01 (F := F) t) : Matrix (Fin (1 + 1)) (Fin (1 + 1)) F) = !![1, t; 0, 1] := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [x01, Matrix.SpecialLinearGroup.transvection_coe, fin01]
+    simp [x01, Matrix.SpecialLinearGroup.transvection_coe]
 
 private theorem x10_coe (F : Type) [Field F] (t : F) :
     ((x10 (F := F) t) : Matrix (Fin (1 + 1)) (Fin (1 + 1)) F) = !![1, 0; t, 1] := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [x10, Matrix.SpecialLinearGroup.transvection_coe, fin10]
+    simp [x10, Matrix.SpecialLinearGroup.transvection_coe]
 
 private theorem weyl_coe (F : Type) [Field F] [CharP F 2] :
     ((weyl F) : Matrix (Fin (1 + 1)) (Fin (1 + 1)) F) = !![0, 1; 1, 0] := by
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [weyl, x01, x10, Matrix.SpecialLinearGroup.transvection_coe, Matrix.mul_apply,
-      Fin.sum_univ_two, Matrix.one_apply, Matrix.single_apply, fin01, fin10]
+      Fin.sum_univ_two, Matrix.one_apply, Matrix.single_apply]
 
 private theorem WW_coe (F : Type) [Field F] [CharP F 2] (u v : F) :
     ((WW F u v) : Matrix (Fin (1 + 1)) (Fin (1 + 1)) F) =
@@ -54,9 +54,9 @@ private theorem WW_coe (F : Type) [Field F] [CharP F 2] (u v : F) :
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [WW, x01, x10, Matrix.SpecialLinearGroup.transvection_coe, Matrix.mul_apply,
-      Fin.sum_univ_two, Matrix.one_apply, Matrix.single_apply, fin01, fin10, mul_add, add_mul]
+      Fin.sum_univ_two, Matrix.one_apply, Matrix.single_apply, mul_add, add_mul]
   all_goals ring_nf
-  all_goals simp [CharTwo.two_eq_zero]
+  all_goals simp
 
 private theorem weyl_mul_self (F : Type) [Field F] [CharP F 2] : weyl F * weyl F = 1 := by
   apply Subtype.ext
@@ -173,7 +173,7 @@ theorem exists_conj_eq_conjSL_two {F : Type} [Field F] [CharP F 2] {G : Type*} [
       rw [h0, zero_mul] at huv
       exact zero_ne_one huv) else 1
   have hd0 : (d 0 : F) = χ 0 1 := by simp [d]
-  have hd1 : (d 1 : F) = 1 := by simp [d, fin10]
+  have hd1 : (d 1 : F) = 1 := by simp [d]
   have hd : ∀ (i j : Fin (1 + 1)) (hij : i ≠ j), (d i : F) = χ i j * (d j : F) := by
     have h01 : ∀ i : Fin (1 + 1), i = 0 ∨ i = 1 := by
       intro i

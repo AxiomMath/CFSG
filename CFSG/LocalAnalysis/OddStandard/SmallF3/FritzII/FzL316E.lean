@@ -14,7 +14,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem fzl_index_two_cosets {H K : Subgroup G} (hHK : H ≤ K)
     (hcard : Nat.card K = 2 * Nat.card H) {x : G} (hx : x ∈ K) (hxH : x ∉ H) :
     ∀ y ∈ K, y ∈ H ∨ x⁻¹ * y ∈ H := by
-  haveI : Nonempty H := ⟨1⟩
+  have : Nonempty H := ⟨1⟩
   have hIdx : (H.subgroupOf K).index = 2 := by
     have hcardHK : Nat.card (H.subgroupOf K) = Nat.card H :=
       Nat.card_congr (Subgroup.subgroupOfEquivOfLe hHK).toEquiv
@@ -96,8 +96,8 @@ theorem fzl_coprime_decomp {Q : Subgroup G} {rho : G} (hQ2 : IsPGroup 2 Q) (hrho
     rw [h1]
     exact P.mul_mem (Subgroup.commutator_mem_commutator (Q.inv_mem hq)
       (Subgroup.mem_zpowers rho)) (hP_rho _ hx)
-  haveI : Fintype S := Fintype.ofFinite S
-  haveI : Fintype P := Fintype.ofFinite P
+  have : Fintype S := Fintype.ofFinite S
+  have : Fintype P := Fintype.ofFinite P
   let f : Function.End S := fun x => ⟨rho * x.1 * rho⁻¹, hS_inv x.1 x.2⟩
   have hf3 : f ^ 3 = 1 := by
     funext x; apply Subtype.ext
@@ -119,7 +119,7 @@ theorem fzl_coprime_decomp {Q : Subgroup G} {rho : G} (hQ2 : IsPGroup 2 Q) (hrho
   have hnot3 : ¬ 3 ∣ Fintype.card S := by
     rw [hcardS]
     have hP2 : IsPGroup 2 P := hQ2.to_le hPQ
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨n, hn⟩ := hP2.exists_card_eq
     rw [hn]
     intro h3
@@ -127,7 +127,7 @@ theorem fzl_coprime_decomp {Q : Subgroup G} {rho : G} (hQ2 : IsPGroup 2 Q) (hrho
   have hfix_nonempty : (Function.fixedPoints f).Nonempty := by
     by_contra h
     rw [Set.not_nonempty_iff_eq_empty] at h
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hmod := Equiv.Perm.card_fixedPoints_modEq (f := f) (p := 3) (n := 1)
       (by simpa using hf3)
     have hzero : Fintype.card (Function.fixedPoints f) = 0 := by simp [h]
@@ -149,8 +149,8 @@ theorem fzl_coprime_decomp {Q : Subgroup G} {rho : G} (hQ2 : IsPGroup 2 Q) (hrho
 
 theorem fzl_cent_of_normal_two_group {R Z : Subgroup G} {rho : G} (hR2 : IsPGroup 2 R)
     (hrho3 : rho ^ 3 = 1) (hRr : ∀ r ∈ R, rho * r * rho⁻¹ ∈ R)
-    (hZc : ∀ z ∈ Z, ∀ z' ∈ Z, z * z' = z' * z) (hZR : ∀ r ∈ R, ∀ z ∈ Z, r * z * r⁻¹ ∈ Z)
-    (hZr : ∀ z ∈ Z, rho * z * rho⁻¹ ∈ Z) (hZ4 : Nat.card Z = 4) (hZ2 : ∀ z ∈ Z, z ^ 2 = 1)
+    (_hZc : ∀ z ∈ Z, ∀ z' ∈ Z, z * z' = z' * z) (hZR : ∀ r ∈ R, ∀ z ∈ Z, r * z * r⁻¹ ∈ Z)
+    (hZr : ∀ z ∈ Z, rho * z * rho⁻¹ ∈ Z) (hZ4 : Nat.card Z = 4) (_hZ2 : ∀ z ∈ Z, z ^ 2 = 1)
     (hfix : ∀ z ∈ Z, z ≠ 1 → rho * z * rho⁻¹ ≠ z) : ∀ r ∈ R, ∀ z ∈ Z, r * z * r⁻¹ = z := by
   classical
   have hr3 : rho * rho * rho = 1 := by simpa [pow_succ, pow_two, mul_assoc] using hrho3
@@ -206,13 +206,13 @@ theorem fzl_cent_of_normal_two_group {R Z : Subgroup G} {rho : G} (hR2 : IsPGrou
     { toFun := fun r => ⟨(r : G), hR_norm r.1 r.2⟩
       map_one' := by ext; rfl
       map_mul' := by intro a b; ext; rfl }
-  letI : MulAction R ↥Z := MulAction.compHom ↥Z ψ
+  let : MulAction R ↥Z := MulAction.compHom ↥Z ψ
   have hsmul : ∀ (r : R) (z : ↥Z),
       ((r • z : ↥Z) : G) = (r : G) * (z : G) * (r : G)⁻¹ := by
     intro r z
     rfl
   have hYeven : 2 ∣ Nat.card Y := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hmod := hR2.card_modEq_card_fixedPoints ↥Z
     have hZeven : 2 ∣ Nat.card ↥Z := by rw [hZ4]; norm_num
     have hfixcard : Nat.card (MulAction.fixedPoints R ↥Z) = Nat.card Y := by

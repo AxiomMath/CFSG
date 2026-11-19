@@ -52,7 +52,7 @@ namespace IsWitnessGen
 
 variable {p : ℕ} {P : Sylow p G} {M : Subgroup G}
 
-theorem two_le_pRank_normalizer_thompson_or_core (hS : StandingGen G)
+theorem two_le_pRank_normalizer_thompson_or_core (_hS : StandingGen G)
     (hp : IsWitnessPrime p P) (hw : IsWitnessGen p P M) {T : Subgroup G}
     (hT : CFSG.ABGLocalTools.IsSylowOf 2 T M) :
     2 ≤ CFSG.Open.pRank p (M ⊓ normalizer (thompsonSubgroup T : Set G)) ∨

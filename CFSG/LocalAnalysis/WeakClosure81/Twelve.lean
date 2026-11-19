@@ -16,10 +16,13 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 @[expose] def cE (G : Subgroup (LGL 2 V)) : Submodule (ZMod 2) V :=
   fixSub G ⊓ commSub G
 
+omit [Finite V] in
 theorem cE_le_fixSub (G : Subgroup (LGL 2 V)) : cE G ≤ fixSub G := inf_le_left
 
+omit [Finite V] in
 theorem cE_le_commSub (G : Subgroup (LGL 2 V)) : cE G ≤ commSub G := inf_le_right
 
+omit [Finite V] in
 theorem mem_cE {G : Subgroup (LGL 2 V)} {v : V} :
     v ∈ cE G ↔ (∀ t ∈ G, t v = v) ∧ v ∈ commSub G :=
   ⟨fun h => ⟨h.1, h.2⟩, fun h => ⟨h.1, h.2⟩⟩
@@ -38,9 +41,11 @@ theorem mem_cE {G : Subgroup (LGL 2 V)} {v : V} :
     have h : t (c • x) - c • x = c • (t x - x) := by rw [map_smul, smul_sub]
     rw [h]; exact W.smul_mem c hx
 
+omit [Finite V] in
 theorem mem_fixMod {W : Submodule (ZMod 2) V} {t : LGL 2 V} {v : V} :
     v ∈ fixMod W t ↔ t v - v ∈ W := Iff.rfl
 
+omit [Finite V] in
 theorem commSub_le_fixSub_of_quadratic {A : Subgroup (LGL 2 V)}
     (h : commSpace A (commSub A) = ⊥) : commSub A ≤ fixSub A := by
   intro w hw b hb
@@ -48,6 +53,7 @@ theorem commSub_le_fixSub_of_quadratic {A : Subgroup (LGL 2 V)}
   rw [h, Submodule.mem_bot, sub_eq_zero] at h1
   exact h1
 
+omit [Finite V] in
 theorem commSpace_cj (g : LGL 2 V) (A : Subgroup (LGL 2 V)) :
     commSpace (cj g A) (commSub (cj g A)) =
       (commSpace A (commSub A)).map (g : V →ₗ[ZMod 2] V) := by
@@ -78,11 +84,13 @@ theorem commSpace_cj (g : LGL 2 V) (A : Subgroup (LGL 2 V)) :
     change g (a w - w) = (g * a * g⁻¹) (g w) - g w
     rw [map_sub, h2]
 
+omit [Finite V] in
 theorem commSpace_cj_eq_bot {A : Subgroup (LGL 2 V)}
     (h : commSpace A (commSub A) = ⊥) (g : LGL 2 V) :
     commSpace (cj g A) (commSub (cj g A)) = ⊥ := by
   rw [commSpace_cj, h, Submodule.map_bot]
 
+omit [Finite V] in
 theorem fixSub_sup (A B : Subgroup (LGL 2 V)) : fixSub (A ⊔ B) = fixSub A ⊓ fixSub B := by
   refine le_antisymm ?_ ?_
   · intro v hv
@@ -105,6 +113,7 @@ theorem fixSub_sup (A B : Subgroup (LGL 2 V)) : fixSub (A ⊔ B) = fixSub A ⊓ 
     have hle : A ⊔ B ≤ K := sup_le (fun a ha' => ha a ha') (fun b hb' => hb b hb')
     exact hle ht
 
+omit [Finite V] in
 theorem mem_fixSub_sup {A B : Subgroup (LGL 2 V)} {v : V} (hA : v ∈ fixSub A)
     (hB : v ∈ fixSub B) : v ∈ fixSub (A ⊔ B) := by
   let K : Subgroup (LGL 2 V) :=
@@ -124,21 +133,25 @@ theorem mem_fixSub_sup {A B : Subgroup (LGL 2 V)} {v : V} (hA : v ∈ fixSub A)
   intro t ht
   exact hle ht
 
+omit [Finite V] in
 theorem cj_cj (h k : LGL 2 V) (A : Subgroup (LGL 2 V)) :
     cj h (cj k A) = cj (h * k) A := by
   unfold cj
   rw [Subgroup.map_map]
   congr 1
 
+omit [Finite V] in
 theorem cj_one (A : Subgroup (LGL 2 V)) : cj 1 A = A := by
   have h1 : MulAut.conj (1 : LGL 2 V) = 1 := map_one _
   unfold cj
   rw [h1]
   exact Subgroup.map_id A
 
+omit [Finite V] in
 theorem cj_self_inv (g : LGL 2 V) (A : Subgroup (LGL 2 V)) : cj g⁻¹ (cj g A) = A := by
   rw [cj_cj, inv_mul_cancel, cj_one]
 
+omit [Finite V] in
 theorem map_mem_cE (G : Subgroup (LGL 2 V)) {t : LGL 2 V} (ht : t ∈ G) {y : V}
     (hy : y ∈ cE G) : t y ∈ cE G := by
   refine ⟨?_, map_mem_commSub G ht (cE_le_commSub G hy)⟩
@@ -160,7 +173,7 @@ theorem twelveSix {X : Type} [Group X] [Finite X] (hMult : SchurMultiplierInput)
     (hgen : Subgroup.normalClosure (A : Set X) = ⊤) :
     K = ⊥ := by
   obtain ⟨D, hDnorm, hKD, _hKsup, hAD⟩ := hMult X K A hKcen hKodd hA2 hAK htype
-  haveI := hDnorm
+  have := hDnorm
   have hle : Subgroup.normalClosure (A : Set X) ≤ D := Subgroup.normalClosure_le_normal hAD
   have hDtop : D = ⊤ := top_le_iff.mp (hgen ▸ hle)
   calc K = K ⊓ ⊤ := (inf_top_eq K).symm

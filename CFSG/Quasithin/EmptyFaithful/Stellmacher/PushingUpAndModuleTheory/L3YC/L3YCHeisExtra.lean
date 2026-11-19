@@ -84,7 +84,7 @@ theorem heis_top (T : Subgroup Heis) (hax : ∀ j, axg j ∈ T) (hby : ∀ i, by
     ext
     · simp
     · simp
-    · simp only [Heis.mul_w, Heis.mul_x, Heis.mul_y, dotProduct_zero, zero_dotProduct, add_zero, zero_add]
+    · simp only [Heis.mul_w, Heis.mul_x, dotProduct_zero, add_zero, zero_add]
       rw [show h.x ⬝ᵥ h.y + (h.w + h.x ⬝ᵥ h.y) = h.w + (h.x ⬝ᵥ h.y + h.x ⬝ᵥ h.y) by ring,
         Heis.zmod2_add_self, add_zero]
   rw [this]
@@ -101,14 +101,14 @@ theorem transvection_row (j : Fin 3) (hne : (0 : Fin 5) ≠ ⟨j.val + 1, by ome
   apply Subtype.ext
   rw [CFSG.LinearGroups.coe_transvection, heisHom_coe]
   ext a b
-  fin_cases j <;> fin_cases a <;> fin_cases b <;> simp [heisMat, Matrix.single_apply, axg]
+  fin_cases j <;> fin_cases a <;> fin_cases b <;> simp [heisMat, axg]
 
 theorem transvection_col (i : Fin 3) (hne : (⟨i.val + 1, by omega⟩ : Fin 5) ≠ 4) :
     SpecialLinearGroup.transvection hne (1 : ZMod 2) = heisHom (byg i) := by
   apply Subtype.ext
   rw [CFSG.LinearGroups.coe_transvection, heisHom_coe]
   ext a b
-  fin_cases i <;> fin_cases a <;> fin_cases b <;> simp [heisMat, Matrix.single_apply, byg]
+  fin_cases i <;> fin_cases a <;> fin_cases b <;> simp [heisMat, byg]
 
 theorem pCore_extraspecial_of_config {B : Type} [Group B]
     (θ : B →* SpecialLinearGroup (Fin 5) (ZMod 2)) (hθ : Function.Injective θ)

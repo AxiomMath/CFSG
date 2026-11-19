@@ -56,7 +56,7 @@ theorem odd_card_gLAPPrimeCoreOf_of_five_local [Finite G] {y : G} {P : Subgroup 
   have hTGcard : Nat.card TG = Nat.card (T : Subgroup ↥O) :=
     Subgroup.card_map_of_injective O.subtype_injective
   have hTGO : TG ≤ O := Subgroup.map_subtype_le _
-  have hTGp : IsPGroup 2 TG := T.isPGroup'.map _
+  have hTGp : IsPGroup 2 TG := T.isPGroup.map _
   have hTGn : ∀ g ∈ P, ∀ x ∈ TG, g * x * g⁻¹ ∈ TG := by
     rintro g hg _ ⟨x, hx, rfl⟩
     exact ⟨_, hT g hg x hx, rfl⟩

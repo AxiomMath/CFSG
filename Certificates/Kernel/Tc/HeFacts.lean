@@ -103,7 +103,7 @@ theorem hF2 : ∀ x ∈ heP, ∀ y ∈ heP, (x ∈ heP ↔ y ∈ heP) →
   exact (inv_mul_eq_one.1 h1).symm
 
 theorem hmul : ∀ a ∈ heP, ∀ b ∈ heP, (a * b ∈ heP ↔ (a ∈ heP ↔ b ∈ heP)) :=
-  fun a ha b hb => iff_of_true (heP.mul_mem ha hb) (iff_of_true ha hb)
+  fun _a ha _b hb => iff_of_true (heP.mul_mem ha hb) (iff_of_true ha hb)
 
 theorem q0_iff {gpk : Nat → Equiv.Perm (Fin 8330)} {m : Nat} (h : ∀ k < m, gpk k ∈ heP) :
     ∀ k < m, (gpk k ∈ heP ↔ q0 k = 0) := fun k hk => iff_of_true (h k hk) rfl
@@ -171,11 +171,11 @@ theorem gK_get {l : Nat} (hl : l < 3) :
     heTcD.gK[l]! = if l = 2 then unpack 8330 14 (HT 14) else unpack 8330 14 (HT (4 + l)) := by
   interval_cases l
   · have e : heTcD.gK[0]! = heThreeArr heTcK0 := by simp [heTcD]
-    rw [e, wK0, if_neg (by norm_num)]
+    rw [e, wK0, ite_eq_right (by norm_num)]
   · have e : heTcD.gK[1]! = heThreeArr heTcK1 := by simp [heTcD]
-    rw [e, wK1, if_neg (by norm_num)]
+    rw [e, wK1, ite_eq_right (by norm_num)]
   · have e : heTcD.gK[2]! = heThreeBA := by simp [heTcD]
-    rw [e, wB, if_pos rfl]
+    rw [e, wB, ite_eq_left rfl]
 
 theorem gY_get {k : Nat} (hk : k < 2) : heSylA[k]! = unpack 8330 14 (HT (12 + k)) := by
   interval_cases k
@@ -189,7 +189,7 @@ theorem repQ {i : Nat} (hi : i < 2) : Rep 8330 heTcD.gQ[i]! (gpq i) := by
   have h := rep_commutatorA (valid (k := 2 * i) (by omega)) (valid (k := 1 + 2 * i) (by omega))
   rwa [pOf (by omega), pOf (by omega)] at h
 
-theorem hgsQ : ∀ k < 2, Rep 8330 heTcD.gQ[k]! (gpq k) := fun k hk => repQ hk
+theorem hgsQ : ∀ _k < 2, Rep 8330 heTcD.gQ[_k]! (gpq _k) := fun _k hk => repQ hk
 
 theorem hgsK : ∀ k < 3, Rep 8330 heTcD.gK[k]! (gpk k) := fun k hk => by
   rw [gK_get hk, gpk]
@@ -209,11 +209,11 @@ theorem hgQ : ∀ k < 2, RepF 8330 (gq k) (gpq k) := fun k hk => by
 
 theorem hgK : ∀ k < 3, RepF 8330 (gk k) (gpk k) := fun k hk => by
   interval_cases k
-  · rw [gpk, if_neg (by norm_num)]
+  · rw [gpk, ite_eq_right (by norm_num)]
     exact repF (k := 4) (by norm_num)
-  · rw [gpk, if_neg (by norm_num)]
+  · rw [gpk, ite_eq_right (by norm_num)]
     exact repF (k := 5) (by norm_num)
-  · rw [gpk, if_pos rfl]
+  · rw [gpk, ite_eq_left rfl]
     exact repF (k := 14) (by norm_num)
 
 theorem hgY : ∀ k < 2, RepF 8330 (gy k) (gpy k) := fun k hk => repF (k := 12 + k) (by omega)
@@ -428,11 +428,11 @@ theorem tc_ok : tcOK 8330 7 heBase heThreeBA heTcD (heTcCQ ()) (heTcCK ()) (heTc
     exact elT (by omega)
   · rw [gK_get hl]
     interval_cases l
-    · rw [if_neg (by norm_num)]
+    · rw [ite_eq_right (by norm_num)]
       exact (elT (k := 4) (by norm_num)).1
-    · rw [if_neg (by norm_num)]
+    · rw [ite_eq_right (by norm_num)]
       exact (elT (k := 5) (by norm_num)).1
-    · rw [if_pos rfl]
+    · rw [ite_eq_left rfl]
       exact (elT (k := 14) (by norm_num)).1
   · interval_cases j
     · exact elF_id

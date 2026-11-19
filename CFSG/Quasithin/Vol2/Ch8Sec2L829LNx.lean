@@ -78,7 +78,7 @@ theorem nonab_of_simple_perfect {K Ks : Type} [Group K] [Group Ks] (hperf : comm
     intro a _ b _
     simp [commutatorElement_def, hall a b]
   rw [h1] at h2
-  haveI := hs
+  have := hs
   exact (top_ne_bot (α := Subgroup Ks)) h2
 
 theorem star_facts_of_cases {G : Type} [Group G] [Finite G] {H T M K : Subgroup G}

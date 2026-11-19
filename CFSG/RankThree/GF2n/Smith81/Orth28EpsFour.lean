@@ -168,7 +168,7 @@ theorem four_minus_P (hq : q.polarBilin.Nondegenerate)
     · have h3 := finrank_span_eq_card hy'
       have hr : Set.range ![a, (y : V)] = ({a, (y : V)} : Set V) := by
         ext x
-        simp [Fin.exists_fin_two, eq_comm, or_comm]
+        simp [eq_comm, or_comm]
       rw [hr] at h3
       simp only [Fintype.card_fin] at h3
       rw [hP]
@@ -260,6 +260,7 @@ structure PairData (q : QuadraticForm K V) (P : Submodule K V) (a w b c : V) : P
 
 variable {P : Submodule K V} {a w b c : V}
 
+omit [CharP K 2] in
 theorem PairData.eq_coord (hd : PairData q P a w b c) {p : V} (hp : p ∈ P) :
     p = polar q p b • a + polar q p c • w := by
   obtain ⟨α, β, rfl⟩ := hd.hcoord p hp
@@ -271,6 +272,7 @@ theorem PairData.eq_coord (hd : PairData q P a w b c) {p : V} (hp : p ∈ P) :
     simp
   rw [h1, h2]
 
+omit [CharP K 2] in
 theorem PairData.map_coord (hd : PairData q P a w b c) (α β : K) :
     q (α • a + β • w) = β ^ 2 * q w := by
   rw [QuadraticMap.map_add q, QuadraticMap.map_smul, QuadraticMap.map_smul,
@@ -279,11 +281,13 @@ theorem PairData.map_coord (hd : PairData q P a w b c) (α β : K) :
 
 variable {o : V ≃ₗ[K] V}
 
+omit [CharP K 2] in
 theorem PairData.fixes_P (hd : PairData q P a w b c) (ha' : o a = a) (hw' : o w = w) {p : V}
     (hp : p ∈ P) : o p = p := by
   obtain ⟨α, β, rfl⟩ := hd.hcoord p hp
   rw [map_add, map_smul, map_smul, ha', hw']
 
+omit [CharP K 2] in
 theorem PairData.sub_mem (hd : PairData q P a w b c)
     (hiso : ∀ v, q (o v) = q v) (ha' : o a = a) (hw' : o w = w) (v : V) : o v - v ∈ P := by
   have hO := TauCeti.QuadraticMap.mem_orthogonalGroup_iff.mpr hiso
@@ -292,8 +296,9 @@ theorem PairData.sub_mem (hd : PairData q P a w b c)
   rw [hd.fixes_P ha' hw' hp] at h
   rw [polar_sub_right, h, sub_self]
 
+omit [CharP K 2] in
 theorem PairData.sub_eq (hd : PairData q P a w b c)
-    (hiso : ∀ v, q (o v) = q v) (ha' : o a = a) (hw' : o w = w) (v : V) :
+    (_hiso : ∀ v, q (o v) = q v) (ha' : o a = a) (hw' : o w = w) (v : V) :
     o v - v = polar q a v • (o b - b) + polar q w v • (o c - c) := by
   set v₀ : V := v - polar q a v • b - polar q w v • c with hv₀
   have hv₀P : v₀ ∈ P := by
@@ -392,6 +397,7 @@ section Group
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem exists_root_z₀ {X : Subgroup G} {x : G} (hs : Sit M Q Z X x) :
     ∃ z₀ ∈ Z, z₀ ≠ 1 ∧ IsConj z₀ x := by
   obtain ⟨g₀, hg₀⟩ := hs.conj
@@ -402,6 +408,7 @@ theorem exists_root_z₀ {X : Subgroup G} {x : G} (hs : Sit M Q Z X x) :
   have : x = g₀ * (g₀⁻¹ * x * g₀) * g₀⁻¹ := by group
   rw [this, h]; group
 
+omit [Finite G] in
 theorem gamma_eq_of_eq {K : Type} [Field K] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ}
     (hD : GlobalModelData M Q Z γ M₀) {a b : G} (ha : a ∈ Z) (hb : b ∈ Z) (h : γ a = γ b) :
     a = b := by
@@ -430,10 +437,10 @@ theorem exists_comm_lift (hc : SmithOrthCfg M Q Z B) (C : OrthCtx M Q Z B) {X : 
     rw [OrthEps.phi_pi_commutator C hxQ hq₀Q hact, hq₀]
     refine Prod.ext ?_ ?_
     · simp only [orthTensor, Matrix.one_apply, Prod.fst_sub, map_neg]
-      simp only [Fin.isValue, ↓reduceIte, one_smul, Fin.reduceEq, zero_smul, add_zero, map_neg]
+      simp only [Fin.isValue, ↓reduceIte, one_smul, Fin.reduceEq, zero_smul, add_zero]
       rw [← hs₁]; abel
     · simp only [orthTensor, Matrix.one_apply, Prod.snd_sub, map_neg]
-      simp only [Fin.isValue, ↓reduceIte, one_smul, Fin.reduceEq, zero_smul, zero_add, map_neg]
+      simp only [Fin.isValue, ↓reduceIte, one_smul, Fin.reduceEq, zero_smul, zero_add]
       rw [← hs₂]; abel
   refine ⟨q₀, hq₀Q, hφ, ?_⟩
   have hkQ : ⁅q₀, x⁆ ∈ Q := comm_mem_Q H hs.memM hq₀Q
@@ -444,6 +451,7 @@ theorem exists_comm_lift (hc : SmithOrthCfg M Q Z B) (C : OrthCtx M Q Z B) {X : 
   have h1 : ⁅q₀, x⁆ ^ 2 = 1 := C.hD.reg.inj _ hsq hγ
   exact commute_comm_of_sq hs.x_sq (by rw [← pow_two]; exact h1)
 
+omit [Finite G] in
 theorem phi_pi_mem_of_commute (C : OrthCtx M Q Z B) {x : G}
     {o : (C.ι → C.K) ≃ₗ[C.K] (C.ι → C.K)} (hact : ActsAsTensor Q Z C.M₀ C.φ x 1 ⇑o)
     (hfix : ∀ v, o v = v → v ∈ OrthogonalInvolutions.commSpace o) {d : G} (hdQ : d ∈ Q)
@@ -465,6 +473,7 @@ theorem phi_pi_mem_of_commute (C : OrthCtx M Q Z B) {x : G}
     simpa using this.symm
   exact ⟨hfix _ e1, hfix _ e2⟩
 
+omit [Finite G] in
 theorem Z_le_commutator (hc : SmithOrthCfg M Q Z B) (C : OrthCtx M Q Z B) {x q₀ : G}
     (hq₀ : q₀ ∈ Q) (hne : C.M₀.π ⁅q₀, x⁆ ≠ 0) (hxM : x ∈ M) :
     Z ≤ ⁅Q, Subgroup.zpowers x⁆ := by
@@ -530,6 +539,7 @@ theorem mem_commutator_of_phi_mem (hc : SmithOrthCfg M Q Z B) (C : OrthCtx M Q Z
   exact Subgroup.mul_mem _ (hZ hdk)
     (Subgroup.commutator_mem_commutator hq₀Q (Subgroup.mem_zpowers x))
 
+omit [Finite G] in
 theorem commute_of_actions (C : OrthCtx M Q Z B) {x ℓ : G} (hxℓ : x * ℓ = ℓ * x)
     (hℓQ : ∀ y ∈ Q, ℓ * y * ℓ⁻¹ ∈ Q) (hxQ : ∀ y ∈ Q, x * y * x⁻¹ ∈ Q)
     {g : Matrix (Fin 2) (Fin 2) C.K} (hg : g.det ≠ 0)
@@ -553,6 +563,7 @@ theorem commute_of_actions (C : OrthCtx M Q Z B) {x ℓ : G} (hxℓ : x * ℓ = 
     exact smul_right_injective _ h10 e2
   · exact smul_right_injective _ h00 e1
 
+omit [Finite G] in
 theorem multiplier_eq_one (C : OrthCtx M Q Z B) {ℓ : G} (hℓQ : ∀ y ∈ Q, ℓ * y * ℓ⁻¹ ∈ Q)
     {o' : (C.ι → C.K) ≃ₗ[C.K] (C.ι → C.K)} (hact : ActsAsTensor Q Z C.M₀ C.φ ℓ 1 ⇑o')
     {ρ : C.K} (hρ : ∀ v, C.qU (o' v) = ρ * C.qU v) {m : ℕ} (hm : ℓ ^ (2 ^ m) = 1)
@@ -571,7 +582,7 @@ theorem multiplier_eq_one (C : OrthCtx M Q Z B) {ℓ : G} (hℓQ : ∀ y ∈ Q, 
       rw [e]
       refine ⟨hℓQ _ h1, ?_⟩
       rw [hact _ h1, h2]
-      simp [orthTensor, Matrix.one_apply, Function.iterate_succ_apply']
+      simp [orthTensor, Function.iterate_succ_apply']
   have hfix : ∀ v, (⇑o')^[2 ^ m] v = v := by
     intro v
     obtain ⟨y, hy, hyφ⟩ := exists_mem_phi_pi (M₀ := C.M₀) (φ := C.φ) ((v, 0) : _ × _)
@@ -594,7 +605,7 @@ theorem multiplier_eq_one (C : OrthCtx M Q Z B) {ℓ : G} (hℓQ : ∀ y ∈ Q, 
     have h3 : (ρ ^ (2 ^ m) - 1) * C.qU v₀ = 0 := by linear_combination -this
     exact sub_eq_zero.mp ((mul_eq_zero.mp h3).resolve_right hv₀)
   have h2 : (ρ - 1) ^ (2 ^ m) = 0 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     rw [sub_pow_char_pow, h1, one_pow, sub_self]
   exact sub_eq_zero.mp (pow_eq_zero_iff (by positivity) |>.mp h2)
 
@@ -666,7 +677,7 @@ theorem Lx_action (hc : SmithOrthCfg M Q Z B) (C : OrthCtx M Q Z B) (hsim : Orth
   have hacto' : ActsAsTensor Q Z C.M₀ C.φ ℓ 1 ⇑o' := by
     intro y hy
     rw [hactℓ y hy]
-    refine Prod.ext ?_ ?_ <;> simp [orthTensor, ho'v, hg00, hg11, hg10, hg01, Matrix.one_apply]
+    refine Prod.ext ?_ ?_ <;> simp [orthTensor, ho'v, hg00, hg11, hg10, hg01]
   have hqo' : ∀ v, C.qU (o' v) = (lam⁻¹ ^ 2 * ρ) * C.qU v := by
     intro v
     rw [ho'v, QuadraticMap.map_smul, hqρ, smul_eq_mul, pow_two]
@@ -692,7 +703,7 @@ theorem Lx_action (hc : SmithOrthCfg M Q Z B) (C : OrthCtx M Q Z B) (hsim : Orth
   rw [hq₀φ] at hφd
   have hφd' : C.φ (C.M₀.π ⁅⁅q₀, x⁆, ℓ⁆) = (w - o' w, 0) := by
     rw [hφd]
-    refine Prod.ext ?_ ?_ <;> simp [orthTensor, Matrix.one_apply]
+    refine Prod.ext ?_ ?_ <;> simp [orthTensor]
   have hwP : w - o' w ∈ OrthogonalInvolutions.commSpace o :=
     Submodule.sub_mem _ hd.pair.hw (ho'P w hd.pair.hw)
   obtain ⟨α, β, hαβ⟩ := hd.pair.hcoord _ hwP
@@ -729,8 +740,8 @@ theorem card_Lx_le (hc : SmithOrthCfg M Q Z B) (C : OrthCtx M Q Z B) (hsim : Ort
     Nat.card ↥(Lx M X) ≤ Nat.card ↥(Q ⊓ QB X) * (2 * Nat.card C.K) := by
   classical
   have h12 := smith_1_12 hs
-  haveI : Fintype C.K := Fintype.ofFinite C.K
-  haveI : Fintype ↥(Lx M X) := Fintype.ofFinite _
+  have : Fintype C.K := Fintype.ofFinite C.K
+  have : Fintype ↥(Lx M X) := Fintype.ofFinite _
   have hLx : ∀ ℓ : ↥(Lx M X), ∃ o' : (C.ι → C.K) ≃ₗ[C.K] (C.ι → C.K),
       ActsAsTensor Q Z C.M₀ C.φ (ℓ : G) 1 ⇑o' ∧ (∀ v, C.qU (o' v) = C.qU v) ∧ o' a = a ∧
         o' w = w := fun ℓ => Lx_action hc C hsim hs hact hO hoo hd hneg ℓ.2
@@ -768,7 +779,7 @@ theorem card_Lx_le (hc : SmithOrthCfg M Q Z B) (C : OrthCtx M Q Z B) (hsim : Ort
     exact Nat.mul_le_mul_right _ Finset.card_le_two
   exact hcard.trans (Nat.mul_le_mul_left _ hcard2)
 
-theorem card_D_le (hc : SmithOrthCfg M Q Z B) (C : OrthCtx M Q Z B)
+theorem card_D_le (_hc : SmithOrthCfg M Q Z B) (C : OrthCtx M Q Z B)
     {X : Subgroup G} {x : G} (hs : Sit M Q Z X x) {o : (C.ι → C.K) ≃ₗ[C.K] (C.ι → C.K)}
     (hact : ActsAsTensor Q Z C.M₀ C.φ x 1 ⇑o) {a w b c : C.ι → C.K}
     (hd : FourData C.qU o a w b c)
@@ -842,7 +853,7 @@ theorem orthEpsFourMinus_holds : OrthEpsFourMinusStatement := by
     refine hs.notQ (mem_Q_of_pi_conj_eq (M₀ := C.M₀) H hs.memM fun y hy => ?_)
     apply C.φ.injective
     rw [hact y hy, h1]
-    simp [orthTensor, Matrix.one_apply]
+    simp [orthTensor]
   obtain ⟨a, w, ha0, hqa, haP, hwP, haw, hqw, hind, hcoord, hsing, hperp, hfix⟩ :=
     OrthEps.four_minus_P hnd hO hoo' hdim heven ho1 hNoTSP
   obtain ⟨b, c, hab, hwb, hac, hwc⟩ := OrthEps.exists_dual_pair hnd hind

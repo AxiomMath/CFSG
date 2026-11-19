@@ -17,21 +17,21 @@ variable {G : Type} [Group G] [Finite G] {M : Subgroup G} {p : ℕ} {Q H : Subgr
 namespace TwelveCtx
 
 private theorem cStarL_normal (hp : p.Prime) (H : Subgroup G) : (cStarL p H).Normal := by
-  haveI hchar : (CFSG.layer (StarGroup p H)).Characteristic :=
+  have hchar : (CFSG.layer (StarGroup p H)).Characteristic :=
     CFSG.LocalCores.layer_characteristic
   rw [cStarL_eq_centralizer_layer hp H]
   infer_instance
 
 private theorem pCore_cStarL_eq (hp : p.Prime) (H : Subgroup G) :
     CFSG.pCore p ↥(cStarL p H) = (CFSG.pCore p (StarGroup p H)).subgroupOf (cStarL p H) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : (cStarL p H).Normal := cStarL_normal hp H
+  have : Fact p.Prime := ⟨hp⟩
+  have : (cStarL p H).Normal := cStarL_normal hp H
   exact pCore_eq_subgroupOf_pCore (p := p) (X := StarGroup p H) (cStarL p H)
 
 private theorem centralizer_pCore_cStarL_le (hp : p.Prime) (H : Subgroup G) :
     Subgroup.centralizer (CFSG.pCore p ↥(cStarL p H) : Set ↥(cStarL p H)) ≤
       CFSG.pCore p ↥(cStarL p H) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [pCore_cStarL_eq hp H]
   intro x hx
   rw [Subgroup.mem_subgroupOf]
@@ -47,7 +47,7 @@ private theorem centralizer_pCore_cStarL_le (hp : p.Prime) (H : Subgroup G) :
 
 private theorem pRank_pCore_cStarL_le_three (h : TwelveCtx G M p Q H) :
     CFSG.Open.pRank p (CFSG.pCore p ↥(cStarL p H)) ≤ 3 := by
-  haveI : Fact p.Prime := ⟨h.p_prime⟩
+  have : Fact p.Prime := ⟨h.p_prime⟩
   rw [pCore_cStarL_eq h.p_prime H]
   have hp1 : 1 < p := h.p_prime.one_lt
   have h1 : CFSG.Open.pRank p ((CFSG.pCore p (StarGroup p H)).subgroupOf (cStarL p H)) ≤
@@ -69,7 +69,7 @@ theorem exists_cStarL_model (h : TwelveCtx G M p Q H) :
     ∃ (W : Type) (_ : AddCommGroup W) (_ : Module (ZMod p) W) (_ : Module.Finite (ZMod p) W)
       (φ : ↥(cStarL p H) →* (Module.End (ZMod p) W)ˣ),
       φ.ker ≤ CFSG.pCore p ↥(cStarL p H) ∧ Module.finrank (ZMod p) W ≤ 4 := by
-  haveI : Fact p.Prime := ⟨h.p_prime⟩
+  have : Fact p.Prime := ⟨h.p_prime⟩
   obtain ⟨W, hWac, hWmod, hWfin, φ, hker, hdim⟩ :=
     S631.exists_commutatorModel h.p_odd (centralizer_pCore_cStarL_le h.p_prime H)
       (pRank_pCore_cStarL_le_three h)

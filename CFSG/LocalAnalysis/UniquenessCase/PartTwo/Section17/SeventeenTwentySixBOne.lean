@@ -32,9 +32,9 @@ theorem le_centralizer_of_perfect_of_isSimple_quotient_twentyfive
     L ≤ centralizer (V : Set G) := by
   intro l hl
   let φ : ↥L →* MulAut ↥V := (CFSG.Quasithin.conjAct V).comp (Subgroup.inclusion hLN)
-  haveI hperf : Group.IsPerfect ↥L := Subgroup.isPerfect_iff.mpr hLperf
+  have hperf : Group.IsPerfect ↥L := Subgroup.isPerfect_iff.mpr hLperf
   have hQ25 : ¬ 25 ∣ Nat.card ↥φ.range := by
-    letI : CommGroup ↥V := CFSG.Quasithin.commGroupOfElemAbelian hV
+    let : CommGroup ↥V := CFSG.Quasithin.commGroupOfElemAbelian hV
     have hsq : ∀ v : ↥V, v ^ 2 = 1 := fun v => Subtype.ext (by simpa using hV.2 v v.2)
     have hd : (CFSG.Quasithin.fixV φ.range).index ≤ 2 ^ 6 :=
       (Nat.le_of_dvd Nat.card_pos (Subgroup.index_dvd_card _)).trans (h16.trans (by norm_num))
@@ -69,6 +69,7 @@ theorem barSub_ne_bot_of_ctx17 {D : Data G} {V₀ V : Subgroup G}
       CFSG.Quasithin.card_eq_two_pow hsq ⊤, CFSG.Quasithin.rk_top, (h25 L c).2.1]
   exact ne_bot_of_isIrrOn_of_two_lt_card hsq (h25 L c).1 (by rw [hcardW]; norm_num)
 
+omit [Finite G] in
 theorem isSimpleGroup_bar2_of_J2 {L : Subgroup G}
     (hJ2 : IsSpor (Bar2 L) .J2) : IsSimpleGroup (Bar2 L) := by
   obtain ⟨e⟩ := hJ2
@@ -106,7 +107,7 @@ theorem exists_five_mem_centralizer_inf_cTilde
     {v : G} (hv : v ∈ V) (hvV₀ : v ∉ V₀) :
     ∃ y ∈ (D.M ⊓ centralizer ({v} : Set G)) ⊓ F11.CTilde D.M V₀ V, orderOf y = 5 := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have h := c.hyp125
   have hV := h.isElemAbelian
   have hpair := h.pairFacts
@@ -189,7 +190,7 @@ theorem exists_five_mem_centralizer_inf_cTilde
       have hU16 := CFSG.FiveTransitive.TwoGroupFiveAutomorphism.card_eq_sixteen_of_order_five
         ↥U hU2 hUle b hbord
       exact Subgroup.eq_of_le_of_card_ge hUV₀ (by rw [hU16, hcard16])
-    letI : CommGroup ↥V₀ := CFSG.Quasithin.commGroupOfElemAbelian hpair.elemAbelian₀
+    let : CommGroup ↥V₀ := CFSG.Quasithin.commGroupOfElemAbelian hpair.elemAbelian₀
     let ψ : ↥V₀ → ↥V₀ := fun w => a w / w
     have hψinj : Function.Injective ψ := by
       intro w₁ w₂ hw
@@ -269,7 +270,7 @@ theorem seventeen_twentysix_b_one
   obtain ⟨y, hy, hyord⟩ :=
     exists_five_mem_centralizer_inf_cTilde c hx h22 h23 h25 h26a hHJ v.2 hvV₀
   have hcard : Nat.card (Subgroup.zpowers y) = 5 := by rw [Nat.card_zpowers, hyord]
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hlow : 1 ≤ CFSG.Open.pRank 5 ((D.M ⊓ centralizer ({(v : G)} : Set G)) ⊓
       F11.CTilde D.M V₀ V : Subgroup G) :=
     CFSG.SectionRank.le_pRank (by norm_num) (Subgroup.zpowers_le.mpr hy)
@@ -285,7 +286,7 @@ theorem exists_lift_five {D : Data G} {V₀ V L : Subgroup G} (h : Hyp125 D V₀
     ∃ x : stabTil V₀ V, (x : G) ∈ L ∧ orderOf (x : G) = 5 ∧
       ∃ b : ℕ, actTil V₀ V h.isElemAbelian x = xb ^ (2 ^ b) := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨g, hgL, hgx⟩ := (mem_barSub V₀ V h.isElemAbelian L xb).1 hxb
   have hg5act : actTil V₀ V h.isElemAbelian (g ^ 5) = 1 := by
     rw [map_pow, hgx, ← hxo, pow_orderOf_eq_one]
@@ -319,7 +320,7 @@ theorem seventeen_twentysix_b_two
   have hHJ : K_HJData := k_HJData_holds
   classical
   intro L c v hvV₀ h5
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have h := c.hyp125
   have hV := h.isElemAbelian
   have hpair := h.pairFacts
@@ -367,7 +368,7 @@ theorem seventeen_twentysix_b_two
     obtain ⟨e⟩ := hJ2
     rw [(Nat.card_congr e.toEquiv).trans CFSG.Sporadic.J2.card_J2]
     norm_num
-  haveI : (CFSG.pCore 2 ↥L).Normal := CFSG.pCore_normal
+  have : (CFSG.pCore 2 ↥L).Normal := CFSG.pCore_normal
   have hLC : L ≤ centralizer (V₀ : Set G) :=
     CFSG.GroupTheory.le_centralizer_of_perfect_of_isSimple_quotient_twentyfive
       (CFSG.pCore 2 ↥L) c.mem_calC.2.1 CFSG.pCore_isPGroup hsimple h25d

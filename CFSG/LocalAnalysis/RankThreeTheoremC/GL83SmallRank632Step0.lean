@@ -113,9 +113,9 @@ theorem pRank_le_two_of_situation (hS : Setting G) {P : Sylow 3 G} {M : Subgroup
 private theorem exists_smallRankCentral_of_ne_bot_step0 {P : Sylow 3 G}
     (hP : (P : Subgroup G) ≠ ⊥) : ∃ z : G, SmallRankCentral P z := by
   have hnt : Nontrivial (P : Subgroup G) := (Subgroup.nontrivial_iff_ne_bot _).mpr hP
-  have hZ : Nontrivial (center (P : Subgroup G)) := P.isPGroup'.center_nontrivial
+  have hZ : Nontrivial (center (P : Subgroup G)) := P.isPGroup.center_nontrivial
   have hdvd : 3 ∣ Nat.card (center (P : Subgroup G)) :=
-    (P.isPGroup'.to_subgroup _).card_eq_or_dvd.resolve_left fun h =>
+    (P.isPGroup.to_subgroup _).card_eq_or_dvd.resolve_left fun h =>
       (Finite.one_lt_card_iff_nontrivial.mpr hZ).ne' h
   obtain ⟨c, hc⟩ := exists_prime_orderOf_dvd_card' 3 hdvd
   have hc' : orderOf ((c : P) : G) = 3 := by
@@ -145,7 +145,7 @@ private theorem exists_transvection_step0 (hS : Setting G) {P : Sylow 3 G} {M : 
     obtain ⟨A, hAP, hAe, hAc⟩ := pRank_attained 3 (P : Subgroup G) (by omega)
     exact ⟨A, hAP, (CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian 3 A).2 hAe,
       by rwa [hP3] at hAc⟩
-  obtain ⟨hcomm, h, hh, hne⟩ := hB.exists_transvection Nat.prime_three P.isPGroup'
+  obtain ⟨hcomm, h, hh, hne⟩ := hB.exists_transvection Nat.prime_three P.isPGroup
     hz.centralizes hz.ne_one hz.pow_eq_one hA
   obtain ⟨k, hk⟩ : ∃ k : ℕ, z ^ k = h * x * h⁻¹ * x⁻¹ :=
     (Submonoid.mem_powers_iff _ _).mp (mem_powers_iff_mem_zpowers.mpr (hcomm h hh))

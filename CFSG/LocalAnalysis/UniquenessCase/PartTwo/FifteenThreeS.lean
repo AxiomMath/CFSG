@@ -145,6 +145,7 @@ section Star
 
 variable {D : Data G} {V₀ V L : Subgroup G}
 
+omit [Finite G] in
 private theorem s15_Three_barSub_le_of_cTilde_eq {M V₀ V₁ V : Subgroup G} (hV : IsElemAbelian 2 V)
     (hM : M ≤ normalizer (V : Set G)) (hM₀ : M ≤ normalizer (V₀ : Set G))
     (hM₁ : M ≤ normalizer (V₁ : Set G)) (hc : F11.CTilde M V₀ V = F11.CTilde M V₁ V)

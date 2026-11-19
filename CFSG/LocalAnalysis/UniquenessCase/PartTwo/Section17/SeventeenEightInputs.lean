@@ -72,10 +72,10 @@ theorem inFSq_sup_T_of_isL3Odd (h411 : W4Lem4_11Prime) {D : Data G} {L : Subgrou
   · exact absurd h35 (by norm_num)
 
 theorem gap17_8_inFSq_of (h411 : W4Lem4_11Prime) (D : Data G) {V₀ V : Subgroup G} :
-    ∀ (hV : Hyp125 D V₀ V) (L : Subgroup G), L ∈ calC D.M → IsL3Odd (Bar2 L) 3 →
+    ∀ (_hV : Hyp125 D V₀ V) (L : Subgroup G), L ∈ calC D.M → IsL3Odd (Bar2 L) 3 →
       D.T ≤ Subgroup.normalizer (L : Set G) → D.k = 1 →
       CFSG.LocalAnalysis.WeakClosure81.InFSq 1 (L ⊔ D.T) := by
-  intro hV L hL hL3 hTL hk
+  intro _hV L hL hL3 hTL hk
   exact inFSq_sup_T_of_isL3Odd h411 hL hL3 hTL
 
 theorem classicalEvenAltG2_of_mulEquiv {X Y : Type} [Group X] [Group Y] (e : X ≃* Y)

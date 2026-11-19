@@ -43,7 +43,7 @@ theorem semStep_size (g : Int → M) (L : Array M) (w : List Int) : (semStep g L
 theorem semStep_getElem? (g : Int → M) (L : Array M) (w : List Int) {k : Nat} (hk : k < L.size) :
     (semStep g L w)[k]? = L[k]? := by
   unfold semStep
-  rw [Array.getElem?_push, if_neg (by simp; omega), Array.getElem?_push, if_neg (by omega)]
+  rw [Array.getElem?_push, ite_eq_right (by simp; omega), Array.getElem?_push, ite_eq_right (by omega)]
 
 theorem foldl_semStep_getD (g : Int → M) (Es : List (List Int)) :
     ∀ (L : Array M) (k : Nat), k < L.size → (Es.foldl (semStep g) L).getD k 1 = L.getD k 1 := by
@@ -238,7 +238,7 @@ theorem chk_prodV (hc : consts3OK d f N LO RM CI ONE UP = true) (fv : Nat → Na
     rw [h4, h2, ih.2]
     simp only [List.map_cons, List.prod_cons]
 
-theorem chk_letV (hc : consts3OK d f N LO RM CI ONE UP = true)
+theorem chk_letV (_hc : consts3OK d f N LO RM CI ONE UP = true)
     (hA : Canon3 N GA ∧ mat3 d N GA = gA) (hB : Canon3 N GB ∧ mat3 d N GB = gB)
     (hB2 : Canon3 N GB2 ∧ mat3 d N GB2 = gB * gB)
     {W : List (List Nat)} {E : List (Nat × Nat)}
@@ -262,36 +262,36 @@ theorem chk_letV (hc : consts3OK d f N LO RM CI ONE UP = true)
   by_cases h0 : a = 0
   · subst h0
     have e : Nat.beq 0 0 = true := rfl
-    simp only [e, if_true]
+    simp only [e, ite_true]
     refine ⟨hB2.1, ?_⟩
     rw [hB2.2]
     cases b <;> simp [semLetter, gen3, pow_two]
   have hb0 : Nat.beq a 0 = false := chk_beq_false h0
-  simp only [hb0, Bool.false_eq_true, if_false]
+  simp only [hb0, Bool.false_eq_true, ite_false]
   by_cases h1 : a = 1
   · subst h1
     have e : Nat.beq 1 1 = true := rfl
-    simp only [e, if_true]
+    simp only [e, ite_true]
     refine ⟨hA.1, ?_⟩
     rw [hA.2]
     cases b <;> simp [semLetter, gen3]
   have hb1 : Nat.beq a 1 = false := chk_beq_false h1
-  simp only [hb1, Bool.false_eq_true, if_false]
+  simp only [hb1, Bool.false_eq_true, ite_false]
   by_cases h2 : a = 2
   · subst h2
     have e : Nat.beq 2 2 = true := rfl
-    simp only [e, if_true]
+    simp only [e, ite_true]
     cases b
-    · simp only [Bool.false_eq_true, if_false]
+    · simp only [Bool.false_eq_true, ite_false]
       refine ⟨hB.1, ?_⟩
       rw [hB.2]
       simp [semLetter, gen3]
-    · simp only [if_true]
+    · simp only [ite_true]
       refine ⟨hB2.1, ?_⟩
       rw [hB2.2]
       simp [semLetter, gen3, pow_two]
   have hb2 : Nat.beq a 2 = false := chk_beq_false h2
-  simp only [hb2, Bool.false_eq_true, if_false]
+  simp only [hb2, Bool.false_eq_true, ite_false]
   have ha3 : 3 ≤ a := by omega
   have hlt : Nat.blt a 3 = false := by
     cases h : Nat.blt a 3
@@ -313,10 +313,10 @@ theorem chk_letV (hc : consts3OK d f N LO RM CI ONE UP = true)
   rw [← hL _ hk]
   unfold semLetter
   cases b
-  · simp only [Bool.false_eq_true, if_false, Nat.add_zero, Int.natAbs_natCast]
-    rw [if_neg (by omega), if_pos (by omega)]
-  · simp only [if_true, Int.natAbs_neg, Int.natAbs_natCast]
-    rw [if_neg (by omega), if_neg (by omega)]
+  · simp only [Bool.false_eq_true, ite_false, Nat.add_zero, Int.natAbs_natCast]
+    rw [ite_eq_right (by omega), ite_eq_left (by omega)]
+  · simp only [ite_true, Int.natAbs_neg, Int.natAbs_natCast]
+    rw [ite_eq_right (by omega), ite_eq_right (by omega)]
 
 theorem chk_word (hc : consts3OK d f N LO RM CI ONE UP = true)
     (hA : Canon3 N GA ∧ mat3 d N GA = gA) (hB : Canon3 N GB ∧ mat3 d N GB = gB)

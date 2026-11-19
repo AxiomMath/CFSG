@@ -18,6 +18,7 @@ variable {G : Type} [Group G] {M Q Z X : Subgroup G} {x : G} {K : Type} [Field K
 section ThmA
 variable [Finite G] [CharP K 2]
 
+omit [CharP K 2] in
 theorem isConj_of_rootPt (hD : GlobalModelData M Q Z γ M₀) (hs : Sit M Q Z X x) {d : G}
     (hdQ : d ∈ Q) (hd0 : M₀.π d ≠ 0) (hroot : RootPt M₀ (M₀.π d)) : IsConj x d := by
   rcases hroot with h0 | ⟨A, hA, hAQ, -, a, haA, hae⟩
@@ -72,14 +73,17 @@ theorem isConj_of_rootPt (hD : GlobalModelData M Q Z γ M₀) (hs : Sit M Q Z X 
     rintro _ ⟨d, hd, rfl⟩
     exact ⟨d⁻¹, D.inv_mem hd, Tim79.QuadModel.pi_inv M₀ (hDQ hd)⟩
 
+omit [Finite G] [CharP K 2] in
 theorem mem_piSub {D : Subgroup G} {hDQ : D ≤ Q} {e : M₀.E} :
     e ∈ piSub M₀ D hDQ ↔ ∃ d ∈ D, M₀.π d = e := Iff.rfl
 
+omit [Finite G] in
 private theorem conj_H0_fix {c : G} (hc : c ∈ H0 M Z) {w : G} (hw : w ∈ Z) :
     c * w * c⁻¹ = w := by
   have h1 : w * c = c * w := Subgroup.mem_centralizer_iff.mp (Subgroup.mem_inf.mp hc).2 w hw
   rw [← h1, mul_inv_cancel_right]
 
+omit [CharP K 2] [Finite G] in
 private theorem pi_conj_H0_eq (hs : Sit M Q Z X x) {c : G} (hc : c ∈ H0 M Z) {d y : G}
     (hdQ : d ∈ Q) (hyQ : y ∈ Q) (h : M₀.π d = M₀.π y) :
     M₀.π (c * d * c⁻¹) = M₀.π (c * y * c⁻¹) := by

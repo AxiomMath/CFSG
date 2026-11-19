@@ -138,7 +138,7 @@ theorem padicValNat_order_cofactor {q N : ℕ} {ε : ℤ} (hq4 : 4 ≤ q) (hε :
     (hpN : p ∣ N) :
     padicValNat p (q ^ 12 * (q ^ 8 + q ^ 4 + 1) * (q ^ 6 - 1) * (q ^ 2 - 1)) =
       2 * padicValNat p N := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hq4' : (4 : ℤ) ≤ (q : ℤ) := by exact_mod_cast hq4
   obtain ⟨M, hM, hpM⟩ := cofactor_torus hε hN hp hp5 hpN
   have hNpos : (0 : ℤ) < (N : ℤ) := by
@@ -163,7 +163,7 @@ theorem padicValNat_order_cofactor {q N : ℕ} {ε : ℤ} (hq4 : 4 ≤ q) (hε :
   have hPZ : ((q ^ 12 * (q ^ 8 + q ^ 4 + 1) * (q ^ 6 - 1) * (q ^ 2 - 1) : ℕ) : ℤ) =
       (q : ℤ) ^ 12 * ((q : ℤ) ^ 8 + (q : ℤ) ^ 4 + 1) * ((q : ℤ) ^ 6 - 1) *
         ((q : ℤ) ^ 2 - 1) := by
-    push_cast [Nat.cast_sub h6, Nat.cast_sub h2] <;> ring
+    push_cast [Nat.cast_sub h6, Nat.cast_sub h2]; ring
   have hPM : ((q ^ 12 * (q ^ 8 + q ^ 4 + 1) * (q ^ 6 - 1) * (q ^ 2 - 1) : ℕ) : ℤ) =
       (N : ℤ) ^ 2 * M := hPZ.trans hM
   have hPnat : q ^ 12 * (q ^ 8 + q ^ 4 + 1) * (q ^ 6 - 1) * (q ^ 2 - 1) =

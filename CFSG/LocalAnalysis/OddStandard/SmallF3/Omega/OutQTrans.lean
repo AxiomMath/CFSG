@@ -30,8 +30,8 @@ private theorem aor_isSubnormal_subgroupOf_trans {A B C : Subgroup G} (hAB : A �
     exact Iff.rfl
   exact Subgroup.IsSubnormal.trans (fun x hx => hAB hx) hA' hB
 
-theorem aor_subnormal_pair {A B M X K : Subgroup G} (hXA : X ≤ A) (hKX : K ≤ X) (hKM : K ≤ M)
-    (hMA : M ≤ A) (hXM : X ⊓ M = X ⊓ B) (hX : (X.subgroupOf A).IsSubnormal)
+theorem aor_subnormal_pair {A B M X K : Subgroup G} (_hXA : X ≤ A) (hKX : K ≤ X) (hKM : K ≤ M)
+    (_hMA : M ≤ A) (hXM : X ⊓ M = X ⊓ B) (hX : (X.subgroupOf A).IsSubnormal)
     (hK : (K.subgroupOf M).IsSubnormal) : (K.subgroupOf (A ⊓ B)).IsSubnormal := by
   have hKE : K ≤ X ⊓ B := by
     intro x hx
@@ -53,7 +53,7 @@ theorem aor_subnormal_pair {A B M X K : Subgroup G} (hXA : X ≤ A) (hKX : K ≤
     rwa [hEq] at hXAB
   exact aor_isSubnormal_subgroupOf_trans hKE hKEsn hEABsn
 
-theorem aor_subnormal_subgroupOf_subgroupOf {B D K : Subgroup G} (hDB : D ≤ B) (hKD : K ≤ D)
+theorem aor_subnormal_subgroupOf_subgroupOf {B D K : Subgroup G} (_hDB : D ≤ B) (_hKD : K ≤ D)
     (h : (K.subgroupOf D).IsSubnormal) :
     ((K.subgroupOf B).subgroupOf (D.subgroupOf B)).IsSubnormal := by
   let φ : ↥(D.subgroupOf B) →* ↥D :=

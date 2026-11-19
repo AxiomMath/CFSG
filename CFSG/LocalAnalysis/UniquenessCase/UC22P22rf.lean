@@ -22,7 +22,7 @@ theorem uc22p22r_le_oinf_of_normal_subnormal {S K H : Subgroup G} (hSK : S ≤ K
   have hSH : IsSubnormal S H := IsSubnormal.trans hSKchain hKH
   have hSHle : S ≤ H := hSH.le
   have hsub : (S.subgroupOf H).IsSubnormal := hSH.subgroupOf
-  haveI := hS
+  have := hS
   have hsolv : Group.IsSolvable ↥(S.subgroupOf H) :=
     CFSG.SignalizerFunctorTheorem.Nonsolvable.isSolvable_of_mulEquiv
       (Subgroup.subgroupOfEquivOfLe hSHle).symm
@@ -31,9 +31,9 @@ theorem uc22p22r_le_oinf_of_normal_subnormal {S K H : Subgroup G} (hSK : S ≤ K
   exact ⟨⟨x, hSHle hx⟩, h (Subgroup.mem_subgroupOf.mpr hx), rfl⟩
 
 theorem uc22p22r_pCoreOf_le_oinf {K H : Subgroup G} (hKH : IsSubnormal K H) : pCoreOf 2 K ≤ OInf H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hnil : Group.IsNilpotent ↥(CFSG.pCore 2 ↥K) := CFSG.pCore_isNilpotent
-  haveI : Group.IsSolvable ↥(CFSG.pCore 2 ↥K) := inferInstance
+  have : Group.IsSolvable ↥(CFSG.pCore 2 ↥K) := inferInstance
   have hsolv : Group.IsSolvable ↥(pCoreOf 2 K) :=
     CFSG.SignalizerFunctorTheorem.Nonsolvable.isSolvable_of_mulEquiv
       (Subgroup.equivMapOfInjective (CFSG.pCore 2 ↥K) K.subtype K.subtype_injective)

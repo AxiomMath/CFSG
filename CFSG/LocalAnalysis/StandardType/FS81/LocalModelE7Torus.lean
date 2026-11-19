@@ -33,6 +33,7 @@ noncomputable def coordHom (w : GGTorusTorWit 3 7 L' A)
   (ggTorE (p := 3) (m := 3) (by norm_num) w.cor hcomm).comp
     (MulEquiv.piMultiplicative (fun _ : Fin 7 => ZMod 3)).toMonoidHom
 
+omit [Finite L'] in
 theorem coordHom_ofAdd (w : GGTorusTorWit 3 7 L' A)
     (hcomm : ∀ j k ζ ξ, Commute (w.cor j ζ) (w.cor k ξ)) (u : Fin 7 → ZMod 3) :
     w.coordHom hcomm (Multiplicative.ofAdd u) =
@@ -42,6 +43,7 @@ theorem coordHom_ofAdd (w : GGTorusTorWit 3 7 L' A)
   rw [ggTorE_apply]
   simp only [ggTorPsi_three_three]
 
+omit [Finite L'] in
 theorem coordHom_single (w : GGTorusTorWit 3 7 L' A)
     (hcomm : ∀ j k ζ ξ, Commute (w.cor j ζ) (w.cor k ξ)) (j : Fin 7) (c : ZMod 3) :
     w.coordHom hcomm (Multiplicative.ofAdd (Pi.single j c)) =
@@ -56,6 +58,7 @@ theorem coordHom_single (w : GGTorusTorWit 3 7 L' A)
     · rw [Pi.single_eq_of_ne hk, Pi.mulSingle_eq_of_ne hk]; rfl
   rw [h, ggTorE_mulSingle, ggTorPsi_three_three]
 
+omit [Finite L'] in
 theorem coordHom_range (w : GGTorusTorWit 3 7 L' A)
     (hcomm : ∀ j k ζ ξ, Commute (w.cor j ζ) (w.cor k ξ)) :
     (w.coordHom hcomm).range = ⨆ k, (w.cor k).range := by
@@ -70,6 +73,7 @@ theorem coordHom_range (w : GGTorusTorWit 3 7 L' A)
     refine ⟨Multiplicative.ofAdd (Pi.single j (Multiplicative.toAdd ζ)), ?_⟩
     rw [coordHom_single, ofAdd_toAdd]
 
+omit [Finite L'] in
 private theorem conj_cor (w : GGTorusTorWit 3 7 L' A)
     (hw : w.Holds (CartanMatrix.E 7) CoxeterMatrix.E₇)
     (hZ : Subgroup.center L' = ⊥) (k j : Fin 7) (ζ : Multiplicative (ZMod 3)) :
@@ -102,6 +106,7 @@ theorem matVecHom_ofAdd (M : Matrix (Fin 7) (Fin 7) (ZMod 3)) (u : Fin 7 → ZMo
   rw [matVecHom, AddMonoidHom.coe_toMultiplicative]
   rfl
 
+omit [Finite L'] in
 theorem coordHom_conj (w : GGTorusTorWit 3 7 L' A)
     (hw : w.Holds (CartanMatrix.E 7) CoxeterMatrix.E₇) (hZ : Subgroup.center L' = ⊥)
     (hcomm : ∀ j k ζ ξ, Commute (w.cor j ζ) (w.cor k ξ)) (k : Fin 7) (u : Fin 7 → ZMod 3) :
@@ -138,9 +143,7 @@ theorem coordHom_conj (w : GGTorusTorWit 3 7 L' A)
       have hvec : e7CorootRefl k *ᵥ (Pi.single j 1 : Fin 7 → ZMod 3) =
           Pi.single j 1 + Pi.single k (-(CartanMatrix.E 7 k j : ZMod 3)) := by
         funext i
-        simp only [e7CorootRefl, Matrix.sub_mulVec, Matrix.one_mulVec,
-          Matrix.mulVec_single_one, Matrix.col_apply, Matrix.of_apply, Pi.add_apply,
-          Pi.sub_apply, Matrix.one_apply]
+        simp only [e7CorootRefl, Matrix.mulVec_single_one, Matrix.col_apply, Pi.add_apply]
         by_cases hik : i = k
         · rw [hik]
           by_cases hkj : k = j

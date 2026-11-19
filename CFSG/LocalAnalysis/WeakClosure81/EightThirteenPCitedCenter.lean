@@ -14,8 +14,8 @@ private theorem wccq_lieModel_centerQuotient {X : Type} [Group X]
     {t : CFSG.Assembly.LowTwoRank.StatedLieTag} {n p f : ℕ} (hq : CFSG.Open.IsQuasisimple X)
     (ht : t ∈ CFSG.Blueprint.classicalTags) (h : CFSG.Blueprint.LieModel X t n p f) :
     CFSG.Blueprint.LieModel (X ⧸ Subgroup.center X) t n p f := by
-  haveI : IsSimpleGroup X := CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags ht h
-  haveI : Group.IsPerfect X := ⟨hq.1⟩
+  have : IsSimpleGroup X := CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags ht h
+  have : Group.IsPerfect X := ⟨hq.1⟩
   exact CFSG.Blueprint.LieModel.quotient_center
     (CFSG.ProperTwoGeneratedCore.RankOnePair.center_eq_bot_of_simple_perfect X) h
 

@@ -12,6 +12,7 @@ open Matrix
 variable {W : Type} [AddCommGroup W] [Module (ZMod 2) W] [DistribMulAction A5 W]
   [SMulCommClass A5 (ZMod 2) W]
 
+omit [SMulCommClass A5 (ZMod 2) W] in
 theorem lin_case [Finite W] (ω : W →ₗ[ZMod 2] W) (hcomm : ∀ (g : A5) (w : W), ω (g • w) = g • ω w)
     (hω : ∀ w : W, ω (ω w) + ω w + w = 0) (hcard : Nat.card W = 16)
     (hact : ∃ (g : A5) (w : W), g • w ≠ w) :
@@ -20,7 +21,7 @@ theorem lin_case [Finite W] (ω : W →ₗ[ZMod 2] W) (hcomm : ∀ (g : A5) (w :
       ∀ (g : A5) (w : W), e (g • w) = (α₂ g : Matrix (Fin 2) (Fin 2) F4).mulVec (e w) := by
   classical
   have h2 : ∀ w : W, w + w = 0 := add_self_eq_zero'
-  letI : Module F4 W := modF4 ω.toAddMonoidHom h2 hω
+  let : Module F4 W := modF4 ω.toAddMonoidHom h2 hω
   have hsm : ∀ (g : A5) (x : F4) (v : W), g • (x • v) = x • (g • v) := by
     intro g x v
     cases x

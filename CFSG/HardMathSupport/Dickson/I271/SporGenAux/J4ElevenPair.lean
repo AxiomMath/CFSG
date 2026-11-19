@@ -19,7 +19,7 @@ theorem j4_allInner
     (hOut : SporadicOuterLeTwo) (e : ↥J ≃* Spor .J4) :
     ∀ α : MulAut ↥J, ∃ g : ↥J, α = MulAut.conj g := by
   have hsimple : IsSimpleGroup ↥J := isSimpleGroup_J j4Facts
-  haveI : Finite ↥J := Nat.finite_of_card_ne_zero (by rw [card_J_eq]; norm_num)
+  have : Finite ↥J := Nat.finite_of_card_ne_zero (by rw [card_J_eq]; norm_num)
   have hnab : ∃ a b : ↥J, a * b ≠ b * a := by
     refine ⟨qx, qy, fun h => qz_ne_one ?_⟩
     rw [qz, commutatorElement_def, h]
@@ -31,7 +31,7 @@ theorem j4_allInner
     have := Nat.card_pos (α := Outer ↥J)
     omega
   intro α
-  haveI : Subsingleton (Outer ↥J) := (Nat.card_eq_one_iff_unique.1 h1).1
+  have : Subsingleton (Outer ↥J) := (Nat.card_eq_one_iff_unique.1 h1).1
   have hα : (QuotientGroup.mk α : Outer ↥J) = 1 := Subsingleton.elim _ _
   obtain ⟨g, hg⟩ := (QuotientGroup.eq_one_iff α).1 hα
   exact ⟨g, hg.symm⟩

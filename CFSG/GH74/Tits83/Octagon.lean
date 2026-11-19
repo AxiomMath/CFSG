@@ -364,7 +364,7 @@ theorem Uprime_add_two_mul (j k : ℤ) : T.Uprime (j + 16 * k) = T.Uprime j := b
       win T.U (j - 4) (j + 4) := by
     convert T.win_add_two_mul (a := j - 4) (b := j + 4) (k := k) using 2 <;> ring_nf
   have hU : T.U (j + 16 * k) = T.U j := by
-    convert U_add_two_mul T j k using 1 <;> ring_nf
+    convert U_add_two_mul T j k using 1; ring_nf
   simp only [Uprime, hwin, hU]
 
 theorem Moves.conj_mem_Uprime_shift {g : G} {c : ℤ} (hg : T.Moves g (· + c))

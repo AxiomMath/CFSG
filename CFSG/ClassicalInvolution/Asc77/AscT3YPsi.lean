@@ -52,7 +52,7 @@ theorem Std20.y_psi (d : Std20 p f K K' J S R R' W V z t) (c3 : Concl20_3 K K' V
     ⟨d.hyp.conjInvariant, d.viol.hzK, d.twins, d.ne, d.hSz, d.hV, d.hVS, hV2⟩
   set X := sec20X (CoreAssembly.conjClass K) z K K' with hX
   set T : Subgroup G := (S : Subgroup G) ⊓ Subgroup.normalizer (K : Set G) with hT
-  have hT2 : IsPGroup 2 ↥T := S.isPGroup'.to_le inf_le_left
+  have hT2 : IsPGroup 2 ↥T := S.isPGroup.to_le inf_le_left
   have hTN : T ≤ Subgroup.normalizer (K : Set G) := inf_le_right
   have hRT : R ≤ T := le_inf d.hRS (d.hR.1.trans Subgroup.le_normalizer)
   have hR'T : R' ≤ T := le_inf d.hR'S (d.hR'.1.trans d.late_K'_le)
@@ -117,7 +117,7 @@ theorem Std20.y_sq_mem_X (d : Std20 p f K K' J S R R' W V z t) (c3 : Concl20_3 K
     x * x ∈ sec20X (CoreAssembly.conjClass K) z K K' := by
   obtain ⟨ψ, hψ⟩ := d.y_psi c3 c8
   have hT2 : IsPGroup 2 ↥((S : Subgroup G) ⊓ Subgroup.normalizer (K : Set G)) :=
-    S.isPGroup'.to_le inf_le_left
+    S.isPGroup.to_le inf_le_left
   set x' : ↥((S : Subgroup G) ⊓ Subgroup.normalizer (K : Set G)) := ⟨x, hx⟩ with hx'
   obtain ⟨n, hn⟩ := hT2 x'
   have hψn : (ψ x') ^ (2 ^ n) = 1 := by rw [← map_pow, hn, map_one]

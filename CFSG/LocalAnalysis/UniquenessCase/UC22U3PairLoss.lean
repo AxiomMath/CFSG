@@ -26,7 +26,7 @@ theorem exists_commute_invPair_fixed (hU : UnitaryFieldData 2 k E) (hk : 2 ≤ k
     (hJ : ∀ x ∈ J, x ^ p = 1) (hJc : p ^ 2 ≤ Nat.card J) (hβJ : ∀ x ∈ J, β x = x) :
     ∃ t ∈ J, t ≠ 1 ∧ ∃ c s : primeFormP hU (1 : Matrix (Fin 3) (Fin 3) E), orderOf c = 3 ∧
       s * c * s⁻¹ = c⁻¹ ∧ c * t = t * c ∧ s * t = t * s ∧ β c = c ∧ β s = s := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨⟨m, hm⟩, E₀, _, h₀, j, hj, hfix⟩ := exists_fixed_eq_range hU hk hp hp5 hβ hβi
   have hkm : k / p = m := by rw [hm, Nat.mul_div_cancel_left m hp.pos]
   have hpm : p ∣ 2 ^ m + 1 := by
@@ -56,7 +56,7 @@ end U3Aut
 
 private theorem isCyclic_of_card_lt_sq {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.Prime)
     (hG : ∀ x : G, x ^ p = 1) (hc : Nat.card G < p ^ 2) : IsCyclic G := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 (fun x => ⟨1, by rw [pow_one]; exact hG x⟩ : IsPGroup p G)
   have hk1 : k ≤ 1 := by
     by_contra h
@@ -67,7 +67,7 @@ private theorem isCyclic_of_card_lt_sq {G : Type} [Group G] [Finite G] {p : ℕ}
 
 private theorem mem_of_pow_mem {G : Type} [Group G] {p : ℕ} (hp : p.Prime) {z : G}
     (hz : z ^ p = 1) {K : Subgroup G} {m : ℕ} (hm : z ^ m ∈ K) (hm1 : z ^ m ≠ 1) : z ∈ K := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hzo : orderOf z = p := orderOf_eq_prime hz fun h => hm1 (by rw [h, one_pow])
   obtain ⟨k, hk⟩ := exists_pow_eq_self_of_coprime (x := z) (n := m) (by
     rw [hzo, Nat.coprime_comm, hp.coprime_iff_not_dvd]
@@ -93,7 +93,7 @@ private theorem exists_index_le_of_card_le {X P : Type} [Group X] [Finite X] [Gr
 theorem lossPairAt_of_isU3 {X : Type} [Group X] [Finite X] {n : ℕ} (hX : IsU3 X n) {p : ℕ}
     (hp : p.Prime) (hp5 : 5 ≤ p) : R847O3.LossPairAt X p := by
   intro P _ _ hexp hPab φ
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hSU, hZ⟩ := U3Loss.isSU3_of_isU3 hX
   obtain ⟨hn2, K, _, h, ⟨θ⟩⟩ := U3Loss.exists_equiv_primeFormP hX
   set Inn := (MulAut.conj : X →* MulAut X).range with hInn
@@ -194,12 +194,12 @@ theorem lossPairAt_of_isU3 {X : Type} [Group X] [Finite X] {n : ℕ} (hX : IsU3 
     have hR : Nat.card φ.range = Nat.card I := by rw [hI, inf_eq_left.2 hall]
     rw [hR, le_antisymm hI2 hcardI2, sq]
     exact Nat.mul_le_mul le_rfl hpS
-  obtain ⟨z, hzR, hzi⟩ := SetLike.not_le_iff_exists.1 hall
+  obtain ⟨z, hzR, hzi⟩ := IsConcreteLE.not_le_iff_exists.1 hall
   obtain ⟨hβp, hβi⟩ := hβ z hzR hzi
   have hzB : ∀ b ∈ B, z b = b := fun b hb => hinj (by
     have hconj : MulAut.conj (z b) = z * MulAut.conj b * z⁻¹ := by
       ext g
-      simp [MulAut.conj_apply, MulAut.mul_apply, MulAut.apply_inv_self]
+      simp [MulAut.conj_apply, MulAut.mul_apply]
     rw [hconj, hRc z hzR _ (Subgroup.mem_inf.1 (Subgroup.mem_comap.1 hb)).1,
       mul_inv_cancel_right])
   have hβJ : ∀ x ∈ J, MulAut.congr θ z x = x := by
@@ -234,7 +234,7 @@ theorem lossPairAt_of_isU3 {X : Type} [Group X] [Finite X] {n : ℕ} (hX : IsU3 
     by_contra hlt
     have hHp : ∀ x : MulAction.stabilizer φ.range ω, x ^ p = 1 := fun x =>
       Subtype.ext (Subtype.ext (hrp _ x.1.2))
-    haveI := isCyclic_of_card_lt_sq hp hHp (not_le.1 hlt)
+    have := isCyclic_of_card_lt_sq hp hHp (not_le.1 hlt)
     obtain ⟨k, hk⟩ := P22y.exists_pow_eq_of_isCyclic hp
       (a := (⟨⟨z, hzR⟩, hzω⟩ : MulAction.stabilizer φ.range ω)) (b := ⟨⟨w, hwR⟩, hwω⟩)
       (hHp _) (fun h1 => hz1 (congrArg Subtype.val (congrArg Subtype.val h1))) (hHp _)

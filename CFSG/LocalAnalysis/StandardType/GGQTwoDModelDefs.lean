@@ -12,7 +12,7 @@ open CFSG.ClassicalInvolution.PhanDn.QTwo CFSG.ClassicalInvolution.Models.Orthog
 open CFSG.LieType.BorelTits
 
 theorem qtwoLabel_self (n : ℕ) (i : Fin n) : CFSG.StandardType.ggCoxeterMatrixD n i i = 1 := by
-  rw [CFSG.StandardType.ggCoxeterMatrixD_apply, if_pos rfl]
+  rw [CFSG.StandardType.ggCoxeterMatrixD_apply, ite_eq_left rfl]
 
 theorem qtwoLabel_three_iff {m : ℕ} (hm : 3 ≤ m) (i j : Fin (m + 1)) :
     CFSG.StandardType.ggCoxeterMatrixD (m + 1) i j = 3 ↔
@@ -77,11 +77,11 @@ theorem qtwoStdW_chain (a : ℕ) (ha : a + 2 ≤ m) (i j : Fin (m + 1)) (hi : i.
   have hjcast : (⟨a + 1, hilt_j⟩ : Fin (m + 1)) =
       Fin.castSucc (⟨a + 1, by omega⟩ : Fin m) := rfl
   unfold qtwoStdW
-  rw [if_pos hlabel, if_pos hlt, stdFamilyV_θ]
+  rw [ite_eq_left hlabel, ite_eq_left hlt, stdFamilyV_θ]
   conv_lhs => rw [hjcast]
   rw [stdTheta_castSucc]
   unfold stdThetaAt
-  rw [dif_pos (by show a + 1 = a + 1; omega)]
+  rw [dite_eq_left (by show a + 1 = a + 1; omega)]
   unfold stdChainTheta qtwoStdWin
   rfl
 
@@ -105,7 +105,7 @@ theorem qtwoStdW_fork (i j : Fin (m + 1)) (hi : i.val = m - 2) (hj : j.val = m) 
     omega
   have hjlast : (⟨m, hilt_j⟩ : Fin (m + 1)) = Fin.last m := rfl
   unfold qtwoStdW
-  rw [if_pos hlabel, if_pos hlt, stdFamilyV_θ]
+  rw [ite_eq_left hlabel, ite_eq_left hlt, stdFamilyV_θ]
   conv_lhs => rw [hjlast]
   rw [stdTheta_last]
   unfold stdForkTheta
@@ -123,15 +123,15 @@ theorem qtwoStdW_symm (i j : Fin (m + 1)) : qtwoStdW E m hm i j = qtwoStdW E m h
   · have h3' : CFSG.StandardType.ggCoxeterMatrixD (m + 1) j i = 3 := by
       rw [← hsymm]; exact h3
     unfold qtwoStdW
-    rw [if_pos h3, if_pos h3']
+    rw [ite_eq_left h3, ite_eq_left h3']
     rcases lt_or_gt_of_ne hij with hlt | hlt
-    · rw [if_pos hlt, if_neg (not_lt_of_gt hlt)]
-    · rw [if_neg (not_lt_of_gt hlt), if_pos hlt]
+    · rw [ite_eq_left hlt, ite_eq_right (not_lt_of_gt hlt)]
+    · rw [ite_eq_right (not_lt_of_gt hlt), ite_eq_left hlt]
   · have h3' : CFSG.StandardType.ggCoxeterMatrixD (m + 1) j i ≠ 3 := by
       intro h
       exact h3 (by rw [hsymm]; exact h)
     unfold qtwoStdW
-    rw [if_neg h3, if_neg h3']
+    rw [ite_eq_right h3, ite_eq_right h3']
     exact sup_comm _ _
 
 end Window

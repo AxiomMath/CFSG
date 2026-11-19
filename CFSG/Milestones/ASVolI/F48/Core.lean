@@ -523,14 +523,14 @@ theorem burnsideF48_isLieParabolics_swap {E : Type} [Group E] {p : ℕ} {H B P�
 theorem burnsideF48_normalizer_eq_self {D : Type} [Group D] [Finite D] {p : ℕ} (hp : p.Prime)
     {B P₁ P₂ : Subgroup D} (h : ChF.IsLieParabolics p (⊤ : Subgroup D) B P₁ P₂) :
     Subgroup.normalizer (P₁ : Set D) = P₁ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨⟨S, ⟨-, hSp, hSidx⟩, hB⟩, hne, hinf, hmax⟩ := h
   obtain ⟨hBP₁, -, hP₁ne, hP₁max⟩ := (hmax P₁).2 (Or.inl rfl)
   by_contra hne1
   have hlt : P₁ < Subgroup.normalizer (P₁ : Set D) :=
     lt_of_le_of_ne Subgroup.le_normalizer (Ne.symm hne1)
   have htop : Subgroup.normalizer (P₁ : Set D) = ⊤ := hP₁max _ hlt le_top
-  haveI hnorm : P₁.Normal := Subgroup.normalizer_eq_top_iff.mp htop
+  have hnorm : P₁.Normal := Subgroup.normalizer_eq_top_iff.mp htop
   have hidx : ¬ p ∣ S.index := by
     rwa [Subgroup.relIndex_top_right] at hSidx
   let T : Sylow p D := hSp.toSylow hidx
@@ -730,9 +730,9 @@ theorem burnsideF48_exists_data_of_yam {κ : ChF.GLKind} {f : ℕ} {E : Type} [G
     {Gp M₁ M₂ : Subgroup E} (hyp : ChF.HypF_4_4 κ 2 f Gp M₁ M₂)
     (hP : ChF.IsLieParabolics 2 Gp (Gp ⊓ (M₁ ⊓ M₂)) (Gp ⊓ M₁) (Gp ⊓ M₂))
     (hY : burnsideF48_YamPair Gp M₁ M₂) : ∃ T : Subgroup ↥Gp, burnsideF48_Data hyp T := by
-  haveI : Gp.Normal := hyp.normal
-  haveI : Finite E := hyp.finite
-  haveI : Finite ↥Gp := inferInstance
+  have : Gp.Normal := hyp.normal
+  have : Finite E := hyp.finite
+  have : Finite ↥Gp := inferInstance
   have hPD := burnsideF48_isLieParabolics_subgroupOf hP
   obtain ⟨U, hU⟩ := hY
   have hsn1 := burnsideF48_normalizer_eq_self Nat.prime_two hPD
@@ -799,7 +799,7 @@ theorem burnsideF48_K_eq {κ : ChF.GLKind} {f : ℕ} {E : Type} [Group E] {Gp M�
     (burnsideF48_lieExt hyp hd).toLieAmalgamExt.K =
       letI : Gp.Normal := hyp.normal
       (burnsideF48_conj Gp).range := by
-  haveI : Gp.Normal := hyp.normal
+  have : Gp.Normal := hyp.normal
   refine le_antisymm (sup_le inf_le_left inf_le_left) ?_
   rw [MonoidHom.range_eq_map, ← hyp.gen, Subgroup.map_sup]
   refine sup_le_sup ?_ ?_
@@ -823,7 +823,7 @@ theorem burnsideF48_isLieExtGroup_of_isExtension {κ : ChF.GLKind} {f : ℕ} {E 
     [Group Ġ]
     (hext : ((burnsideF48_lieExt hyp hd).toLieAmalgamExt.setting hfin pm hpm).IsExtension Ġ) :
     ChF.IsLieExtGroup Ġ κ 2 f := by
-  haveI : Gp.Normal := hyp.normal
+  have : Gp.Normal := hyp.normal
   have hZ : Subgroup.center ↥Gp = ⊥ := burnsideF48_center_eq_bot hyp.centralizer_trivial
   have hKeq := burnsideF48_K_eq hyp hd
   set A : LieAmalgamExt ↥Gp := (burnsideF48_lieExt hyp hd).toLieAmalgamExt with hA
@@ -899,14 +899,14 @@ theorem burnsideF48_concl_of_setting {κ : ChF.GLKind} {f : ℕ} {E : Type} [Gro
       β.IsFaithful → β.IsSmall pm →
         ((burnsideF48_lieExt hyp hd).toLieAmalgamExt.setting hfin pm hpm).F48Concl β) :
     ChF.F48Concl κ 2 f Gp M₁ M₂ := by
-  haveI : Gp.Normal := hyp.normal
+  have : Gp.Normal := hyp.normal
   set L := burnsideF48_lieExt hyp hd with hL
   set A : LieAmalgamExt ↥Gp := L.toLieAmalgamExt with hA
   set S := A.setting hfin pm hpm with hS
   let ψ : (RankTwoAmalgam.ofSubgroups M₁ M₂).Iso S.α := L.iso
-  haveI : Finite (MulAut ↥Gp) := finite_mulAut_of_finite
-  haveI hG1 : Finite S.α.G1 := inferInstanceAs (Finite ↥A.N1)
-  haveI hG2 : Finite S.α.G2 := inferInstanceAs (Finite ↥A.N2)
+  have : Finite (MulAut ↥Gp) := finite_mulAut_of_finite
+  have hG1 : Finite S.α.G1 := inferInstanceAs (Finite ↥A.N1)
+  have hG2 : Finite S.α.G2 := inferInstanceAs (Finite ↥A.N2)
   have hN : ∀ (Y : Type) [Group Y] (β : ChF.Cpl M₁ M₂ Y), β.IsFaithful → β.IsSmall κ.m →
       Finite Y ∧ (burnsideF48_comap (burnsideF48_isoSymm ψ) β).IsFaithful ∧
         (burnsideF48_comap (burnsideF48_isoSymm ψ) β).IsSmall pm := by
@@ -1021,7 +1021,7 @@ theorem burnsideF48_lieModel_D4 {H : Type} [Group H] {f : ℕ} (h : ChF.IsGenLie
   exact Or.inr (Or.inl ⟨rfl, by decide, ⟨hp, hf, rfl⟩, hm⟩)
 
 open CFSG.Blueprint in
-theorem burnsideF48_lieModel_F4 {H : Type} [Group H] {f : ℕ} (hf3 : 3 ≤ f) (hodd : Odd f)
+theorem burnsideF48_lieModel_F4 {H : Type} [Group H] {f : ℕ} (hf3 : 3 ≤ f) (_hodd : Odd f)
     (h : ChF.IsGenLie H .F4tw 2 f) : LieModel H .twistedF4 0 2 f := by
   obtain ⟨hp, hodd', h1 | h3⟩ := h
   · omega
@@ -1056,7 +1056,6 @@ theorem burnsideF48_injective_torusDiag_un5 {F : Type} [Field F] (q N : ℕ) (hq
   fin_cases i <;> fin_cases j <;> simp only [Fin.zero_eta, Fin.mk_one, Fin.reduceFinMk,
     Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val] at hij ⊢ <;>
   first
-    | rfl
     | (exfalso; have := key _ _ (by omega) (by omega) hij; omega)
 
 open CFSG.GH74.BNPair CFSG.GH74.GLS.SP CFSG.LieType.Universal CFSG.LieType.Universal.Unitary
@@ -1245,9 +1244,9 @@ theorem burnsideF48_concl_two_F4tw {f : ℕ} (hf : 3 ≤ f) (hodd : Odd f) {E : 
     {Gp M₁ M₂ : Subgroup E} (hyp : ChF.HypF_4_4 .F4tw 2 f Gp M₁ M₂)
     (hP : ChF.IsLieParabolics 2 Gp (Gp ⊓ (M₁ ⊓ M₂)) (Gp ⊓ M₁) (Gp ⊓ M₂))
     (hY : burnsideF48_YamPair Gp M₁ M₂) : ChF.F48Concl .F4tw 2 f Gp M₁ M₂ :=
-  let oct : ∀ (K : Type) [Field K] [Finite K] [CharP K F4.prime] (a : ℕ)
-      (hK : Nat.card K = 2 ^ (2 * a + 1)), 1 ≤ a → OctInput K a hK :=
-    fun K _ _ _ a hK ha => haveI := isSimpleGroup_gm ha hK; octInputOf hK (octRGD2 hK)
+  let oct : ∀ (_K : Type) [Field _K] [Finite _K] [CharP _K F4.prime] (_a : ℕ)
+      (hK : Nat.card _K = 2 ^ (2 * _a + 1)), 1 ≤ _a → OctInput _K _a hK :=
+    fun _K _ _ _ _a hK ha => haveI := isSimpleGroup_gm ha hK; octInputOf hK (octRGD2 hK)
   burnsideF48_concl_two_of_F431 (t := .twistedF4) (m := 0) (f431ModelFacts_f4 f)
     (f431Facts45_f4 f oct _) (f431F48_f4 f _ oct (f431Facts45_f4 f oct _) (f431Generation_f4 f))
     rfl hyp (burnsideF48_lieModel_F4 hf hodd hyp.model) hP hY
@@ -1359,11 +1358,11 @@ theorem burnsideF48_concl_of_setting_M {κ : ChF.GLKind} {p f : ℕ} {E : Type} 
     (h48 : ∀ (Y : Type) [Group Y] [Finite Y] (β : (burnsideF48_setting hyp hp hm).α.Completion Y),
       β.IsFaithful → β.IsSmall κ.m → (burnsideF48_setting hyp hp hm).F48Concl β) :
     ChF.F48Concl κ p f Gp M₁ M₂ := by
-  haveI : Finite E := hyp.finite
-  haveI : Gp.Normal := hyp.normal
+  have : Finite E := hyp.finite
+  have : Gp.Normal := hyp.normal
   set S := burnsideF48_setting hyp hp hm with hSdef
-  haveI hG1 : Finite (RankTwoAmalgam.ofSubgroups M₁ M₂).G1 := inferInstanceAs (Finite ↥M₁)
-  haveI hG2 : Finite (RankTwoAmalgam.ofSubgroups M₁ M₂).G2 := inferInstanceAs (Finite ↥M₂)
+  have hG1 : Finite (RankTwoAmalgam.ofSubgroups M₁ M₂).G1 := inferInstanceAs (Finite ↥M₁)
+  have hG2 : Finite (RankTwoAmalgam.ofSubgroups M₁ M₂).G2 := inferInstanceAs (Finite ↥M₂)
   have hfin : ∀ (Y : Type) [Group Y] (β : ChF.Cpl M₁ M₂ Y), β.IsFaithful → β.IsSmall κ.m →
       Finite Y := by
     intro Y _ β hβ hs
@@ -1371,7 +1370,7 @@ theorem burnsideF48_concl_of_setting_M {κ : ChF.GLKind} {p f : ℕ} {E : Type} 
       ⟨hβ, h45.thick1, h45.thick2, pathTrans_transfer _ hβ S.ι S.hι (S.m + 1) h45.trans,
         by have := S.hm; exact le_trans (by norm_num) this⟩ hs
   refine ⟨fun Y _ β hβ hs => ?_, fun hGp => ?_⟩
-  · haveI := hfin Y β hβ hs
+  · have := hfin Y β hβ hs
     obtain ⟨⟨Ġ, hĠ, β', hβ', heq, hext⟩, -⟩ := h48 Y β hβ hs
     refine ⟨Ġ, hĠ, β', heq, ?_, ?_⟩
     · exact burnsideF48_isLieExtGroup_of_equiv (burnsideF48_G0Equiv β').symm
@@ -1386,9 +1385,9 @@ theorem burnsideF48_concl_of_setting_M {κ : ChF.GLKind} {p f : ℕ} {E : Type} 
       exact Subgroup.mem_top _
     refine ⟨⟨S.Yb, inferInstance, S.ι, S.hι, h45.isSmall_iota, fun Y _ β hβ hs => ?_⟩,
       fun Y _ β hβ hs => ?_⟩
-    · haveI := hfin Y β hβ hs
+    · have := hfin Y β hβ hs
       exact (h48 Y β hβ hs).2 hNtop
-    · haveI := hfin Y β hβ hs
+    · have := hfin Y β hβ hs
       obtain ⟨φ, -, -⟩ := (h48 Y β hβ hs).2 hNtop
       exact ⟨(burnsideF48_G0Equiv β).trans (φ.trans
         ((MulEquiv.subgroupCongr hyp.gen).trans Subgroup.topEquiv))⟩
@@ -1428,7 +1427,7 @@ theorem burnsideF48_isExtension_M {κ : ChF.GLKind} {p f : ℕ} {E : Type} [Grou
       exact (hmemN n.1).1 n.2
     · intro hy
       exact ⟨⟨⟨y, hG0 y⟩, hy⟩, rfl⟩
-  haveI : Gp.Normal := hyp.normal
+  have : Gp.Normal := hyp.normal
   have hN1 : S.N1.map ν = (Gp ⊓ M₁).subgroupOf (M₁ ⊔ M₂) := by
     ext y
     constructor
@@ -1519,7 +1518,7 @@ theorem burnsideF48_mem_stv_lv_iff' {E : Type} [Group E] {M₁ M₂ : Subgroup E
 theorem burnsideF48_pCoreOf_le_sylow {E : Type} [Group E] [Finite E] {p : ℕ} (hp : p.Prime)
     {H P S : Subgroup E} (hS : ChF.IsSylowOf p S H) (hSP : S ≤ P) (hPH : P ≤ H) :
     pCoreOf p P ≤ S := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hSH, hSp, hSidx⟩ := hS
   have h1 : IsPGroup p (S.subgroupOf P) := hSp.comap_subtype
   have hdvd : S.relIndex P ∣ S.relIndex H :=
@@ -1527,7 +1526,7 @@ theorem burnsideF48_pCoreOf_le_sylow {E : Type} [Group E] [Finite E] {p : ℕ} (
   have h2 : ¬ p ∣ (S.subgroupOf P).index := fun h => hSidx (h.trans hdvd)
   let T : Sylow p ↥P := h1.toSylow h2
   have hcore : CFSG.pCore p ↥P ≤ (T : Subgroup ↥P) := by
-    haveI : (CFSG.pCore p ↥P).Normal := CFSG.LieType.BorelTits.pCore_normal p
+    have : (CFSG.pCore p ↥P).Normal := CFSG.LieType.BorelTits.pCore_normal p
     exact (CFSG.LieType.BorelTits.pCore_isPGroup p).le_sylow_of_normal T
   have h3 : (T : Subgroup ↥P) = S.subgroupOf P := rfl
   rw [h3] at hcore
@@ -1676,7 +1675,7 @@ theorem burnsideF48_Qbar_xv_le_stv {κ : ChF.GLKind} {p f : ℕ} {E : Type} [Gro
     (hw : (burnsideF48_setting hyp hp hm).ι.graph.Adj (burnsideF48_setting hyp hp hm).ι.xv w) :
     (burnsideF48_setting hyp hp hm).Qbar (burnsideF48_setting hyp hp hm).ι.xv ≤
       stv (burnsideF48_setting hyp hp hm).ι w := by
-  haveI : Finite E := hyp.finite
+  have : Finite E := hyp.finite
   have hcore := (burnsideF48_pCoreOf_le hp hP).1
   have hlv : (burnsideF48_setting hyp hp hm).Qbar (burnsideF48_setting hyp hp hm).ι.xv ≤
       stv (burnsideF48_setting hyp hp hm).ι (burnsideF48_setting hyp hp hm).ι.lv := fun x hx =>
@@ -1698,7 +1697,7 @@ theorem burnsideF48_Qbar_lv_le_stv {κ : ChF.GLKind} {p f : ℕ} {E : Type} [Gro
     (hw : (burnsideF48_setting hyp hp hm).ι.graph.Adj (burnsideF48_setting hyp hp hm).ι.lv w) :
     (burnsideF48_setting hyp hp hm).Qbar (burnsideF48_setting hyp hp hm).ι.lv ≤
       stv (burnsideF48_setting hyp hp hm).ι w := by
-  haveI : Finite E := hyp.finite
+  have : Finite E := hyp.finite
   have hcore := (burnsideF48_pCoreOf_le hp hP).2
   have hxv : (burnsideF48_setting hyp hp hm).Qbar (burnsideF48_setting hyp hp hm).ι.lv ≤
       stv (burnsideF48_setting hyp hp hm).ι (burnsideF48_setting hyp hp hm).ι.xv := fun x hx =>
@@ -1718,7 +1717,7 @@ theorem burnsideF48_facts45L_of_F45 (hF : F_4_5) {κ : ChF.GLKind} {p f : ℕ} {
     (hm : 3 ≤ κ.m)
     (hP : ChF.IsLieParabolics p Gp (Gp ⊓ (M₁ ⊓ M₂)) (Gp ⊓ M₁) (Gp ⊓ M₂)) :
     (burnsideF48_setting hyp hp hm).Facts45L := by
-  haveI : Finite E := hyp.finite
+  have : Finite E := hyp.finite
   obtain ⟨hpoly, -, -, -, h5, -, h7, -, -⟩ :=
     hF κ p f E Gp M₁ M₂ hyp (burnsideF48_setting hyp hp hm).ι rfl
   have hext : ChF.IsLieExtAmalgam M₁ M₂ := ⟨κ, p, f, Gp, hκ, hyp⟩
@@ -1736,7 +1735,7 @@ theorem burnsideF48_facts45L_of_F45 (hF : F_4_5) {κ : ChF.GLKind} {p f : ℕ} {
 theorem burnsideF48_eq_one_of_conj_mem {E : Type} [Group E] {Gp Ms : Subgroup E} [hN : Gp.Normal]
     (hsimple : IsSimpleGroup ↥Gp) (hC : Subgroup.centralizer (Gp : Set E) = ⊥)
     (hGp : ¬ Gp ≤ Ms) {k : E} (hk : ∀ g : E, g⁻¹ * k * g ∈ Ms) : k = 1 := by
-  haveI : IsSimpleGroup ↥Gp := hsimple
+  have : IsSimpleGroup ↥Gp := hsimple
   have hcore : (Ms.subgroupOf Gp).normalCore = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Ms.subgroupOf Gp).normalCore with h | h
     · exact h
@@ -1798,7 +1797,7 @@ theorem burnsideF48_faithfulOnType_of_simple {κ : ChF.GLKind} {p f : ℕ} {E : 
     (hsimple : IsSimpleGroup ↥Gp)
     (hP : ChF.IsLieParabolics p Gp (Gp ⊓ (M₁ ⊓ M₂)) (Gp ⊓ M₁) (Gp ⊓ M₂)) (s : Bool) :
     (burnsideF48_setting hyp hp hm).FaithfulOnType s := by
-  haveI : Gp.Normal := hyp.normal
+  have : Gp.Normal := hyp.normal
   let e : (burnsideF48_setting hyp hp hm).ι.G0 ≃* E :=
     MulEquiv.ofBijective (ChF.toE (burnsideF48_setting hyp hp hm).ι)
       (burnsideF48_toE_bijective hyp.gen)

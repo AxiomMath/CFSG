@@ -70,7 +70,7 @@ theorem centre95CardLower_holds91 (h34 : Stroth34Statement) (h311a : Stroth311aS
   have hQZ0 : Q ≤ Z0 := hc.Q_le_centre ht hZ0
   have hNR : hc.CN t ≤ Rt M (LB M Q B) t := sec9_CN_le_Rt hc t
   obtain ⟨K, fK, finK, hch, E, hn, φ, ψ, u, P⟩ := exists_pts91 h34 hs
-  haveI := hn
+  have := hn
   let r' : ↥(Rt M (LB M Q B) t) := ⟨r, hrR⟩
   have hne : polar (quadPlus 2 K) u ((φ r' : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K) *ᵥ u) ≠ 0 :=
     (hypPlane_iff_polar91 h34 hs P r').mp hr.plane

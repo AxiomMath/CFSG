@@ -26,11 +26,11 @@ theorem ggMUR1_refl_eq_swap
       GGIsReflection p ((ε (Equiv.swap a b) : ↥(ggAutomizer X Bs)) : MulAut ↥Bs))
     {r : MulAut ↥Bs} (hrA : r ∈ ggAutomizer X Bs) (hr : GGIsReflection p r) :
     ∃ a b : Fin n, a ≠ b ∧ r = ((ε (Equiv.swap a b) : ↥(ggAutomizer X Bs)) : MulAut ↥Bs) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨V, hVadd, hVmod, ⟨ι⟩⟩ := exists_ggLinData (p := p) hBs
-  letI : AddCommGroup V := hVadd
-  letI : Module (ZMod p) V := hVmod
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  let : AddCommGroup V := hVadd
+  let : Module (ZMod p) V := hVmod
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
   let T : Equiv.Perm (Fin n) →* (V ≃ₗ[ZMod p] V) :=
     (ggLin (p := p) ι).comp ((Subgroup.subtype (ggAutomizer X Bs)).comp ε.toMonoidHom)
   have hT : ∀ π : Equiv.Perm (Fin n),
@@ -59,7 +59,6 @@ theorem ggMUR1_refl_eq_swap
   refine ⟨a, b, hab, ?_⟩
   have hval : ((ε (Equiv.swap a b) : ↥(ggAutomizer X Bs)) : MulAut ↥Bs) = r := by
     rw [← hswap]
-    change ((ε π : ↥(ggAutomizer X Bs)) : MulAut ↥Bs) = r
     change ((ε (ε.symm ⟨r, hrA⟩) : ↥(ggAutomizer X Bs)) : MulAut ↥Bs) = r
     simp
   exact hval.symm

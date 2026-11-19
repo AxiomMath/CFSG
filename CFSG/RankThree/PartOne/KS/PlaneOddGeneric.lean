@@ -119,7 +119,7 @@ theorem not_two_dvd_card_autPlaneProduct_of_centralizer_data {p : ℕ} (hp : p.P
     SignalizerFunctor.Helpers.normalized_subgroup_invariant_sylow_nontrivial p 2 hp Nat.prime_two
       A W hApg hAnormW hcop h2W
   set P : Subgroup M := (S : Subgroup W).map W.subtype with hP
-  have hP2 : IsPGroup 2 P := S.isPGroup'.map W.subtype
+  have hP2 : IsPGroup 2 P := S.isPGroup.map W.subtype
   have hPW : P ≤ W := Subgroup.map_subtype_le _
   have hPC : P ≤ Subgroup.centralizer ({t} : Set M) :=
     hPW.trans ((autPlaneProduct_le_theta hp hAB hcomm htA ht1).trans
@@ -230,7 +230,7 @@ theorem planeLocalCoreOdd_of_planes_trivial {T : Type} [Group T] [Finite T] {p :
   obtain ⟨S, hSnorm, hSne⟩ := SignalizerFunctor.Helpers.normalized_subgroup_invariant_sylow_nontrivial
     p 2 hp Nat.prime_two A W hApg hAnormW hcop h2W
   set S' : Subgroup (MulAut T) := (S : Subgroup W).map W.subtype with hS'
-  have hS2 : IsPGroup 2 S' := S.isPGroup'.map W.subtype
+  have hS2 : IsPGroup 2 S' := S.isPGroup.map W.subtype
   have hSinn := h2 S' hS2
   set U : Subgroup T := S'.comap (MulAut.conj : T →* MulAut T) with hU
   have hUpg : IsPGroup 2 U := hS2.comap_of_injective _ hinj

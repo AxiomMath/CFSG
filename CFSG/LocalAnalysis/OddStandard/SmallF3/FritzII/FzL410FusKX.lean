@@ -63,7 +63,7 @@ theorem fz410x_fz410_fusk_sylow (D : Fz410Set t L S T x₁ x₂ lam rho tau s Z 
     rw [Subgroup.mem_map] at hq
     obtain ⟨x, hx, hconj⟩ := hq
     rw [← hconj]
-    have hconj' : (MulAut.conj g⁻¹).toMonoidHom x = g⁻¹ * x * g := by simp [MulAut.conj_apply]
+    have hconj' : (MulAut.conj g⁻¹).toMonoidHom x = g⁻¹ * x * g := by simp
     rw [hconj']
     have hxi : i * x = x * i := (Subgroup.mem_centralizer_iff.mp hx.2) i rfl
     show g⁻¹ * x * g ∈ Subgroup.centralizer ({t} : Set G)
@@ -94,7 +94,7 @@ theorem fz410x_fz410_fusk_sylow (D : Fz410Set t L S T x₁ x₂ lam rho tau s Z 
     intro x hx
     have hxQ : g⁻¹ * x * g ∈ Qg := by
       refine Subgroup.mem_map.mpr ⟨x, hx, ?_⟩
-      simp [MulAut.conj_apply]
+      simp
     have h := hcQ (g⁻¹ * x * g) hxQ
     rw [show (g * c⁻¹)⁻¹ * x * (g * c⁻¹) = c * (g⁻¹ * x * g) * c⁻¹ by group]
     exact h

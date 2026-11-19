@@ -33,7 +33,7 @@ theorem comm_of {g h : H6} {a b : ℕ} (hg : enc6 g = a) (hh : enc6 h = b)
 theorem mem_cen_of {g h : H6} {a b : ℕ} (hg : enc6 g = a) (hh : enc6 h = b)
     (e : MULF a b = MULF b a) : g ∈ Subgroup.centralizer ({h} : Set H6) := by
   rw [Subgroup.mem_centralizer_singleton_iff]
-  first | exact comm_of hg hh e | exact (comm_of hg hh e).symm
+  first | exact comm_of hg hh e
 
 theorem inv_of_mul {g h : H6} {a b : ℕ} (hg : enc6 g = a) (hh : enc6 h = b) (e : MULF a b = ONE) :
     h = g⁻¹ :=
@@ -185,9 +185,9 @@ theorem Hyp.csl_mem (H : Hyp z s) (i : ℕ) : csl i ∈ Subgroup.centralizer ({s
   · exact inv_mem H.cg1_mem
 
 theorem Hyp.wordE_mem (H : Hyp z s) :
-    ∀ n v, wordE csl n v ∈ Subgroup.centralizer ({s} : Set H6)
+    ∀ n _v, wordE csl n _v ∈ Subgroup.centralizer ({s} : Set H6)
   | 0, _ => one_mem _
-  | n + 1, v => mul_mem (H.csl_mem _) (H.wordE_mem n _)
+  | n + 1, _v => mul_mem (H.csl_mem _) (H.wordE_mem n _)
 
 @[expose] noncomputable def tgs : List H6 :=
   (List.range 4).map fun l => wordE csl (Nat.mod (TW l) 16) (Nat.div (TW l) 16)
@@ -223,7 +223,7 @@ theorem T_facts :
 theorem Hyp.T_le (H : Hyp z s) : TSub ≤ Subgroup.centralizer ({s} : Set H6) := by
   rw [TSub, Subgroup.closure_le]
   intro g hg
-  simp only [tgs, Set.mem_setOf_eq, List.mem_map, List.mem_range] at hg
+  simp only [tgs, Set.mem_ofPred_eq, List.mem_map, List.mem_range] at hg
   obtain ⟨l, -, rfl⟩ := hg
   exact H.wordE_mem _ _
 
@@ -258,7 +258,7 @@ theorem Hyp.E9_facts (H : Hyp z s) :
 theorem Hyp.E9_le (H : Hyp z s) : E9 z ≤ Subgroup.centralizer ({s} : Set H6) := by
   rw [E9, Subgroup.closure_le]
   intro g hg
-  simp only [List.mem_cons, List.not_mem_nil, or_false, Set.mem_setOf_eq] at hg
+  simp only [List.mem_cons, List.not_mem_nil, or_false, Set.mem_ofPred_eq] at hg
   rw [SetLike.mem_coe]
   rcases hg with rfl | rfl
   · exact mem_cen_of H.ez0 H.es (by decide +kernel)

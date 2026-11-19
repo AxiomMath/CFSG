@@ -10,8 +10,8 @@ open CFSG Equiv
 
 theorem sp6_oTwoP_solvable (Y : Type) [Group Y] [Finite Y] :
     Group.IsSolvable ↥(Sec4.oTwoP 3 Y) := by
-  haveI : Group.IsNilpotent ↥(CFSG.pCore 2 Y) := CFSG.pCore_isNilpotent
-  haveI : Group.IsNilpotent ↥(CFSG.pCore 3 (Y ⧸ CFSG.pCore 2 Y)) := CFSG.pCore_isNilpotent
+  have : Group.IsNilpotent ↥(CFSG.pCore 2 Y) := CFSG.pCore_isNilpotent
+  have : Group.IsNilpotent ↥(CFSG.pCore 3 (Y ⧸ CFSG.pCore 2 Y)) := CFSG.pCore_isNilpotent
   refine Group.isSolvable_of_ker_le_range (Subgroup.inclusion (Sec4.pCore_two_le_oTwoP 3 Y))
     (((QuotientGroup.mk' (CFSG.pCore 2 Y)).comp (Sec4.oTwoP 3 Y).subtype).codRestrict
       (CFSG.pCore 3 (Y ⧸ CFSG.pCore 2 Y)) (fun x => Subgroup.mem_comap.1 x.2)) ?_
@@ -22,7 +22,7 @@ theorem sp6_oTwoP_solvable (Y : Type) [Group Y] [Finite Y] :
 
 theorem sp6_alt6_not_solvable : ¬ Group.IsSolvable (alternatingGroup (Fin 6)) := by
   intro h
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
   have hc := (IsSimpleGroup.comm_iff_isSolvable (G := alternatingGroup (Fin 6))).2 h
   let g1 : alternatingGroup (Fin 6) :=
     ⟨Equiv.swap 0 1 * Equiv.swap 2 3, by rw [Equiv.Perm.mem_alternatingGroup]; decide⟩
@@ -40,8 +40,8 @@ theorem sp6_units_eq_of_iff (u v : ℤˣ) (h : u = 1 ↔ v = 1) : u = v := by
 
 theorem sp6_card_le_two_of_normal_solvable_perm (N : Subgroup (Perm (Fin 6))) [N.Normal]
     [Group.IsSolvable N] : Nat.card N ≤ 2 := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
-  haveI : ((N ⊓ alternatingGroup (Fin 6)).subgroupOf (alternatingGroup (Fin 6))).Normal :=
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : ((N ⊓ alternatingGroup (Fin 6)).subgroupOf (alternatingGroup (Fin 6))).Normal :=
     Subgroup.normal_subgroupOf
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
     ((N ⊓ alternatingGroup (Fin 6)).subgroupOf (alternatingGroup (Fin 6))) with hM | hM
@@ -71,9 +71,9 @@ theorem sp6_card_le_two_of_normal_solvable_perm (N : Subgroup (Perm (Fin 6))) [N
 
 theorem sp6_card_le_two_of_normal_solvable {G : Type} [Group G] (ψ : G ≃* Perm (Fin 6))
     (N : Subgroup G) [N.Normal] [Group.IsSolvable N] : Nat.card N ≤ 2 := by
-  haveI hNn : (N.map ψ.toMonoidHom).Normal :=
+  have hNn : (N.map ψ.toMonoidHom).Normal :=
     Subgroup.Normal.map inferInstance ψ.toMonoidHom ψ.surjective
-  haveI hsol : Group.IsSolvable ↥(N.map ψ.toMonoidHom) :=
+  have hsol : Group.IsSolvable ↥(N.map ψ.toMonoidHom) :=
     Group.isSolvable_of_surjective (f := (MulEquiv.subgroupMap ψ N).toMonoidHom)
       (MulEquiv.subgroupMap ψ N).surjective
   have hcard : Nat.card N = Nat.card ↥(N.map ψ.toMonoidHom) :=

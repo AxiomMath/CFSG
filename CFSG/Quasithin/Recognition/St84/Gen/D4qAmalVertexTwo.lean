@@ -24,7 +24,7 @@ variable {G X : Type} [Group G] [Group X] [Finite G] [Finite X]
   {L1 L2 S H : Subgroup G} {f : ℕ}
 
 private theorem mem_map_subtype_comp {G X : Type*} [Group G] [Group X]
-    {P : Subgroup G} {NV : Subgroup X} (ψ : ↥P ≃* ↥NV) (Q : Subgroup G) (hQ : Q ≤ P)
+    {P : Subgroup G} {NV : Subgroup X} (ψ : ↥P ≃* ↥NV) (Q : Subgroup G) (_hQ : Q ≤ P)
     {x : ↥P} :
     (ψ x : X) ∈ (Q.subgroupOf P).map (NV.subtype.comp ψ.toMonoidHom) ↔ (x : G) ∈ Q := by
   constructor
@@ -71,8 +71,8 @@ private theorem commutator_mem_pCoreOf_right_of_mem_S (hH : Hyp111 L1 L2 S)
     (hD : D4qLocalData L1 L2 S f) {s t : G} (hs : s ∈ S) (ht : t ∈ S) :
     ⁅s, t⁆ ∈ pCoreOf 2 L2 := by
   obtain ⟨c2⟩ := hD.exists_coordRight hH
-  letI := c2.field
-  letI := c2.fintype
+  let := c2.field
+  let := c2.fintype
   have hsL2 : s ∈ L2 := hD.le_right hH hs
   have htL2 : t ∈ L2 := hD.le_right hH ht
   have hstL2 : ⁅s, t⁆ ∈ L2 :=
@@ -94,6 +94,7 @@ private theorem commutator_mem_pCoreOf_right_of_mem_S (hH : Hyp111 L1 L2 S)
     group
   exact (c2.ker ⟨⁅s, t⁆, hstL2⟩).mp hca
 
+omit [Finite G] [Finite X] in
 private theorem commutator_S_le_image (d : TrialityD4Data X (2 ^ f))
     (ψ : ↥(L1 ⊔ bigB L1 L2 S) ≃* ↥(Subgroup.normalizer (d.V : Set X)))
     (hψS : ∀ x : ↥(L1 ⊔ bigB L1 L2 S), (x : G) ∈ S ↔ (ψ x : X) ∈ d.S)
@@ -214,7 +215,7 @@ theorem D4qLocalData.mem_torus_right_iff_mem_J₂ (hf : 2 ≤ f) (hH : Hyp111 L1
       (D4qLocalData.mem_pCoreOf_right_iff_mem_M hH hD hHB d ψ hψS hψH ⁅y, t⁆).mp hyt
     have hmap : (ψ ⁅y, t⁆ : X) = (ψ y : X) * s * (ψ y : X)⁻¹ * s⁻¹ := by
       rw [← htψ]
-      simpa [commutatorElement_def] using map_commutatorElement F y t
+      simp [commutatorElement_def]
     rw [← hmap]
     exact hmemM
   have hNJ : N ≤ d.J₂ := by
@@ -332,7 +333,7 @@ private theorem mem_mid_right_iff_mem_W (hH : Hyp111 L1 L2 S)
     have hmemY : (ψ ⁅w, t⁆ : X) ∈ d.Y := (hZY ⁅w, t⁆).mp hwt
     have hmap : (ψ ⁅w, t⁆ : X) = (ψ w : X) * s * (ψ w : X)⁻¹ * s⁻¹ := by
       rw [← htψ]
-      simpa [commutatorElement_def] using map_commutatorElement F w t
+      simp [commutatorElement_def]
     change (ψ w : X) * s * (ψ w : X)⁻¹ * s⁻¹ ∈ d.Y
     rw [← hmap]
     exact hmemY
@@ -385,7 +386,7 @@ theorem D4qLocalData.mem_inf_right_iff_mem_J₄ (hf : 2 ≤ f) (hH : Hyp111 L1 L
     have hmemY : (ψ ⁅y, w2⁆ : X) ∈ d.Y := (hZY ⁅y, w2⁆).mp hcommZ
     have hmap : (ψ ⁅y, w2⁆ : X) = (ψ y : X) * w * (ψ y : X)⁻¹ * w⁻¹ := by
       rw [← hw2ψ]
-      simpa [commutatorElement_def] using map_commutatorElement F y w2
+      simp [commutatorElement_def]
     rw [← hmap]
     exact hmemY
   have hHL2P : H ⊓ L2 ≤ L1 ⊔ bigB L1 L2 S := (inf_le_left.trans hHB).trans hBP
@@ -518,7 +519,7 @@ private theorem vertexTwo_disjoint (hH : Hyp111 L1 L2 S)
     (hD : D4qLocalData L1 L2 S f) (h1 : IsL2Quot (3 * f) (oTwoQuot ↥L1))
     (hHB : H ≤ bigB L1 L2 S)
     (hHcomm : ∀ a ∈ H, ∀ b ∈ H, a * b = b * a)
-    (hsupQK : pCoreOf 2 L2 ⊔ (L2 ⊓ Subgroup.centralizer ((H ⊓ trivOTwoQuot L2 :
+    (_hsupQK : pCoreOf 2 L2 ⊔ (L2 ⊓ Subgroup.centralizer ((H ⊓ trivOTwoQuot L2 :
         Subgroup G) : Set G)) = L2)
     (hinfQK : pCoreOf 2 L2 ⊓ (L2 ⊓ Subgroup.centralizer ((H ⊓ trivOTwoQuot L2 :
         Subgroup G) : Set G)) = ⊥)
@@ -631,8 +632,8 @@ private theorem vertexTwo_card (hH : Hyp111 L1 L2 S)
     exact hmem
   have hdisjKH : Disjoint K2 H0 := disjoint_iff.mpr hK2H0bot
   obtain ⟨c2⟩ := hD.exists_coordRight hH
-  letI := c2.field
-  letI := c2.fintype
+  let := c2.field
+  let := c2.fintype
   obtain ⟨eK, -⟩ := exists_mulEquiv_of_complement (L := L2) (Q := Q2) (K := K2)
     c2.α c2.surj (pCoreOf_le 2 L2) hK2L c2.ker hsupQK hinfQK
   have hK2cardSL : Nat.card K2 = Nat.card (Matrix.SpecialLinearGroup (Fin 2) c2.F) :=

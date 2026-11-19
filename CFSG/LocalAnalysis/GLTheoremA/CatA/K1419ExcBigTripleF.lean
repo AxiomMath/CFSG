@@ -96,11 +96,11 @@ theorem k1419e_hasTriple_F4 {L : Type} [Field L] [IsAlgClosed L] [CharP L 2] {p�
   · exact (not_comp_eq_B2_F4 (p := 3) le_rfl hμ hcomp).elim
   · rw [hroots, rootsOf_eq_parabolicRoots kacF4 facts_F4
       (J := {j : Fin Tag.F4.rank | j.val ≤ 2}) (by decide)
-      (fun j => by simp only [Set.mem_setOf_eq]; revert j; decide)]
+      (fun j => by simp only [Set.mem_ofPred_eq]; revert j; decide)]
     exact k1419e_f4_hasTriple_B3.image_smul v
   · rw [hroots, rootsOf_eq_parabolicRoots kacF4 facts_F4
       (J := {j : Fin Tag.F4.rank | 1 ≤ j.val}) (by decide)
-      (fun j => by simp only [Set.mem_setOf_eq]; revert j; decide)]
+      (fun j => by simp only [Set.mem_ofPred_eq]; revert j; decide)]
     exact k1419e_f4_hasTriple_C3.image_smul v
   · exact (not_comp_eq_B4_F4 hμ hcomp).elim
   · rw [hroots, rootsOf_eq_parabolicRoots kacF4 facts_F4

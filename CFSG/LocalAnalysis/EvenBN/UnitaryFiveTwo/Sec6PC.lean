@@ -40,7 +40,7 @@ theorem exists_decomp_blocks {m : SL(4, F4)} (h02 : m 0 2 = 0) (h03 : m 0 3 = 0)
     have s11 : Fin.succAbove (1 : Fin 4) (1 : Fin 3) = 2 := by decide
     have s12 : Fin.succAbove (1 : Fin 4) (2 : Fin 3) = 3 := by decide
     rw [Matrix.det_succ_row_zero] at h
-    simp [Fin.sum_univ_succ, Matrix.det_fin_three, h02, h03, h12, h13, s10, s11, s12] at h
+    simp [Fin.sum_univ_succ, Matrix.det_fin_three, h02, h03, h12, h13, s12] at h
     linear_combination h - (m 2 2 * m 3 3 - m 2 3 * m 3 2) * hA
   obtain ⟨A, hA00, hA01, hA10, hA11⟩ : ∃ A : SL(2, F4), A 0 0 = m 0 0 ∧ A 0 1 = m 0 1 ∧
       A 1 0 = m 1 0 ∧ A 1 1 = m 1 1 :=
@@ -63,7 +63,6 @@ theorem exists_decomp_blocks {m : SL(4, F4)} (h02 : m 0 2 = 0) (h03 : m 0 3 = 0)
     | linear_combination h03
     | linear_combination h12
     | linear_combination h13
-    | ring1
     | linear_combination (-m 2 0) * hA -
         (m 2 0 * m 0 1 * m 1 0 + m 2 1 * m 0 0 * m 1 0) * F4.two_eq_zero
     | linear_combination (-m 2 1) * hA -

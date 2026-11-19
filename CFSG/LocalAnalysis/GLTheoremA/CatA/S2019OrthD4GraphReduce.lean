@@ -148,9 +148,9 @@ theorem exists_graph_normalForm_of_not_mem_matrixProjectiveImage (K : Type) [Fie
       MulAut.congr (coordinatePlusWitnessEquiv K (isoAdj K).symm).symm t =
         MulAut.conj g * (exactNormalAut Tag.D4 K a σ 0 * d4Graph K ε) := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K q := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
+  have : Fact q.Prime := ⟨hq⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K q := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
   have hf : 1 ≤ f := by
     by_contra hf
     have hf0 : f = 0 := by omega
@@ -159,9 +159,9 @@ theorem exists_graph_normalForm_of_not_mem_matrixProjectiveImage (K : Type) [Fie
     omega
   set Φ : adjointGroup Tag.D4 K ≃* matrixProjectiveDerived (coordinateQuadPlus 4 K) :=
     coordinatePlusWitnessEquiv K (isoAdj K).symm with hΦ
-  haveI : Finite (ModGL Tag.D4 K) := finite_modGL
-  haveI : Finite (adjointGroup Tag.D4 K) := Subtype.finite
-  haveI : Finite (matrixProjectiveDerived (coordinateQuadPlus 4 K)) :=
+  have : Finite (ModGL Tag.D4 K) := finite_modGL
+  have : Finite (adjointGroup Tag.D4 K) := Subtype.finite
+  have : Finite (matrixProjectiveDerived (coordinateQuadPlus 4 K)) :=
     Finite.of_equiv _ Φ.toEquiv
   set α := MulAut.congr Φ.symm t with hαdef
   have htα : t = MulAut.congr Φ α :=
@@ -229,14 +229,14 @@ theorem exists_graph_normalForm_of_not_mem_matrixProjectiveImage (K : Type) [Fie
 theorem s2019OrthD4Graph_of_graphType (h : S2019OrthD4GraphType) : S2019OrthD4Graph := by
   intro K _ _ q f hq hq2 hq3 hK t ht3 htE
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K q := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
+  have : Fact q.Prime := ⟨hq⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K q := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
   set Φ : adjointGroup Tag.D4 K ≃* matrixProjectiveDerived (coordinateQuadPlus 4 K) :=
     coordinatePlusWitnessEquiv K (isoAdj K).symm with hΦ
-  haveI : Finite (ModGL Tag.D4 K) := finite_modGL
-  haveI : Finite (adjointGroup Tag.D4 K) := Subtype.finite
-  haveI : Finite (matrixProjectiveDerived (coordinateQuadPlus 4 K)) :=
+  have : Finite (ModGL Tag.D4 K) := finite_modGL
+  have : Finite (adjointGroup Tag.D4 K) := Subtype.finite
+  have : Finite (matrixProjectiveDerived (coordinateQuadPlus 4 K)) :=
     Finite.of_equiv _ Φ.toEquiv
   set α := MulAut.congr Φ.symm t with hαdef
   refine s2019FixCentralizes_of_congr Nat.prime_three Φ.symm t ?_

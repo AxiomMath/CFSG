@@ -25,6 +25,7 @@ variable (K) in
   map_one' := Subtype.ext (by ext i j; fin_cases i <;> fin_cases j <;> simp [HSL])
   map_mul' s t := (CFSG.RankThree.PartOne.KLAY.HSL_mul_HSL s t).symm
 
+omit [CharP K 2] in
 theorem coe_kronSL2_HSL (t : Kˣ) :
     ((kronSL2 K (HSL t) : SL(6, K)) : Matrix (Fin 6) (Fin 6) K) =
       Matrix.diagonal ![(t : K), t, t, ((t⁻¹ : Kˣ) : K), ((t⁻¹ : Kˣ) : K), ((t⁻¹ : Kˣ) : K)] := by
@@ -36,8 +37,9 @@ theorem coe_kronSL2_HSL (t : Kˣ) :
     kroneckerMap_apply]
   obtain ⟨t00, t01, t02, t10, t11, t12⟩ := e6_table
   fin_cases i <;> fin_cases j <;> fin_cases i' <;> fin_cases j' <;>
-    simp [t00, t01, t02, t10, t11, t12, HSL, Matrix.diagonal_apply, Matrix.one_apply]
+    simp [t00, t01, t02, t10, t11, t12, HSL]
 
+omit [CharP K 2] in
 theorem prod_hEntries (t : Kˣ) :
     hEntries 0 t * hEntries 1 (t ^ 2) * hEntries 2 (t ^ 3) * hEntries 3 (t ^ 2) * hEntries 4 t =
       ![(t : K), t, t, ((t⁻¹ : Kˣ) : K), ((t⁻¹ : Kˣ) : K), ((t⁻¹ : Kˣ) : K)] := by
@@ -45,6 +47,7 @@ theorem prod_hEntries (t : Kˣ) :
   funext i
   fin_cases i <;> simp [hEntries] <;> field_simp
 
+omit [CharP K 2] in
 theorem kronSL2_HSL (t : Kˣ) :
     kronSL2 K (HSL t) = blockSL2 K 5 0 (HSL t) * blockSL2 K 5 1 (HSL (t ^ 2)) *
       blockSL2 K 5 2 (HSL (t ^ 3)) * blockSL2 K 5 3 (HSL (t ^ 2)) * blockSL2 K 5 4 (HSL t) := by
@@ -60,6 +63,7 @@ variable (K) in
 
 @[expose] def fourTorusExp : Fin Tag.E7.rank → ℤ := ![0, 0, -2, 0, 2, 0, 0]
 
+omit [CharP K 2] in
 theorem fourTorus_eq_rootDiagUnit (t : Kˣ) :
     fourTorus K t = rootDiagUnit .E7 fun i => t ^ fourTorusExp i := by
   change a5Frame K (kronSL2 K (HSL t)) = _
@@ -77,12 +81,13 @@ theorem fourTorus_eq_rootDiagUnit (t : Kˣ) :
   simp only [Pi.mul_apply, ← zpow_natCast, ← _root_.zpow_mul, ← _root_.zpow_add]
   rw [← key l]
   congr 1
-  all_goals (push_cast; ring)
 
+omit [CharP K 2] in
 theorem range_fourTorus_le_range_cubeSL2 : (fourTorus K).range ≤ (cubeSL2 K).range := by
   rintro _ ⟨t, rfl⟩
   exact ⟨HSL t, rfl⟩
 
+omit [CharP K 2] in
 theorem multiplicityWord_eq_fourTorus (ζ : Kˣ) (hζ : ζ ^ 3 = 1) :
     (Multiplicity.multiplicityWord ζ : ModGL .E7 K) = fourTorus K ζ := by
   rw [Multiplicity.multiplicityWord_val_product ζ hζ]
@@ -92,6 +97,7 @@ theorem multiplicityWord_eq_fourTorus (ζ : Kˣ) (hζ : ζ ^ 3 = 1) :
     CFSG.Blueprint.Chevalley.torusElt_one, mul_one]
   rfl
 
+omit [CharP K 2] in
 theorem exists_HSL_of_commute {ζ : Kˣ} (hζ : IsPrimitiveRoot ζ 3) {M : SL(2, K)}
     (h : M * HSL ζ = HSL ζ * M) : ∃ t : Kˣ, M = HSL t := by
   have hζK := IsPrimitiveRoot.coe_units_iff.2 hζ

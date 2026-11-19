@@ -24,6 +24,7 @@ variable {Y L : Subgroup G} (hLY : L ≤ Y)
   (hY : Y = L ⊔ CFSG.Open.pCoreOf 2 Y)
   (hL : L ⊓ CFSG.Open.pCoreOf 2 Y = ⊥)
 
+omit [Finite G] in
 theorem actL_apply_of_conj_mem (g : Subgroup.normalizer (Y : Set G)) {l : G} (hl : l ∈ L)
     (hgl : (g : G) * l * (g : G)⁻¹ ∈ L) :
     actL hLY hY hL g ⟨l, hl⟩ = ⟨(g : G) * l * (g : G)⁻¹, hgl⟩ := by
@@ -42,6 +43,7 @@ theorem actL_apply_of_conj_mem (g : Subgroup.normalizer (Y : Set G)) {l : G} (hl
     rfl
   rw [h2]
 
+omit [Finite G] in
 theorem actL_mem_centralizer {D : Subgroup G} (hDL : D ≤ L)
     (g : Subgroup.normalizer (Y : Set G))
     (hg : (g : G) ∈ Subgroup.centralizer (D : Set G)) :
@@ -79,6 +81,7 @@ theorem actL_mem_centralizer {D : Subgroup G} (hDL : D ≤ L)
       _ = MulAut.conj d * actL hLY hY hL g := by rw [h]
   exact hmul.symm
 
+omit [Finite G] in
 private theorem map_conj_subgroupOf_le_map_actL {D R : Subgroup G} (hDL : D ≤ L)
     (hDR : D ≤ R) :
     (D.subgroupOf L).map (MulAut.conj : ↥L →* MulAut ↥L) ≤
@@ -94,6 +97,7 @@ private theorem map_conj_subgroupOf_le_map_actL {D R : Subgroup G} (hDL : D ≤ 
   have hd_eq : (⟨(d : G), hdL⟩ : ↥L) = d := Subtype.ext rfl
   simpa [hd_eq] using actL_of_mem hLY hY hL hdL
 
+omit [Finite G] in
 private theorem map_actL_le_map_conj_sup_centralizer {D R : Subgroup G} (hDL : D ≤ L)
     (hRC : R ≤ D ⊔ Subgroup.centralizer (D : Set G)) :
     (R.subgroupOf (Subgroup.normalizer (Y : Set G))).map (actL hLY hY hL) ≤
@@ -130,6 +134,7 @@ private theorem map_actL_le_map_conj_sup_centralizer {D R : Subgroup G} (hDL : D
     exact (actL_of_mem hLY hY hL hdL).symm
   · exact actL_mem_centralizer hLY hY hL hDL zN hzC
 
+omit [Finite G] in
 private theorem map_conj_le_normalizer_map_actL {E R : Subgroup G} (hEL : E ≤ L)
     (hER : E ≤ Subgroup.normalizer (R : Set G)) :
     (E.subgroupOf L).map (MulAut.conj : ↥L →* MulAut ↥L) ≤
@@ -221,7 +226,7 @@ theorem exists_actQ_eq_one_of_eq_sup
   have hT_eq : T = D'.map (MulAut.conj : ↥L →* MulAut ↥L) :=
     hC ↥L (isType163P6 h) E' (isElemAbelian_inf h) (card_inf_subgroupOf h)
       D' (isMaxInvTwo h) T hT2 hDT hTC hET
-  obtain ⟨r, hrR, hrD⟩ := SetLike.exists_of_lt hDR
+  obtain ⟨r, hrR, hrD⟩ := _root_.IsConcreteLE.exists_of_lt hDR
   have hrN : r ∈ N := hRY hrR
   have hψr_mem : ψ ⟨r, hrN⟩ ∈ T := by
     exact Subgroup.mem_map.mpr

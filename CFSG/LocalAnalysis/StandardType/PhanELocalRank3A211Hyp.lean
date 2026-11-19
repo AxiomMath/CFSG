@@ -13,11 +13,13 @@ variable {K : Type} [Field K] [Finite K] (f : ℕ) [CharP K 2]
 
 private def plh_v2 (s : K) : Fin 2 → K := ![s, 1]
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_v2_ne_zero (s : K) : plh_v2 s ≠ 0 := by
   intro h
   have h1 := congrFun h 1
-  simpa [plh_v2] using h1
+  simp [plh_v2] at h1
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_v2_mem_iff (s t : K) (h : plh_v2 t ∈ K ∙ plh_v2 s) : t = s := by
   obtain ⟨a, ha⟩ := Submodule.mem_span_singleton.mp h
   have h1 : a = 1 := by
@@ -28,6 +30,7 @@ private theorem plh_v2_mem_iff (s t : K) (h : plh_v2 t ∈ K ∙ plh_v2 s) : t =
     simpa [plh_v2] using h
   rw [← h0, h1, one_mul]
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_v2_notMem_single (s : K) :
     (![1, 0] : Fin 2 → K) ∉ K ∙ plh_v2 s := by
   intro hmem
@@ -41,6 +44,7 @@ private theorem plh_v2_notMem_single (s : K) :
   rw [h1, zero_mul] at h0
   exact zero_ne_one h0
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_v2_finrank (s : K) : finrank K (K ∙ plh_v2 s) = 1 :=
   finrank_span_singleton (plh_v2_ne_zero s)
 
@@ -53,7 +57,7 @@ theorem clsHyp_a3_211 (hK : Nat.card K = (2 ^ f) ^ 2) (hq : 4 ≤ 2 ^ f) :
       intro s
       by_contra hs
       exact h ⟨K ∙ plh_v2 s, plh_v2_notMem_single s, plh_v2_finrank s, hs⟩
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     let g : K → ↥S := fun s => ⟨K ∙ plh_v2 s, hmem s⟩
     have hg : Function.Injective g := by
       intro s t hst

@@ -38,13 +38,16 @@ section Elements
 variable {F : Type} [Field F] [CharP F 2] {ω : F} (hω : ω * ω + ω + 1 = 0)
 include hω
 
+omit [CharP F 2] in
 theorem omega_cube : ω ^ 3 = 1 := by linear_combination (ω - 1) * hω
 
+omit [CharP F 2] in
 theorem det_hM : (LinearFieldFour.hM ω).det = 1 := by
   simp only [LinearFieldFour.hM, det_fin_three]
   simp
   linear_combination omega_cube hω
 
+omit [CharP F 2] in
 theorem det_hiM : (hiM ω).det = 1 := by
   simp only [hiM, det_fin_three]
   simp
@@ -58,9 +61,11 @@ theorem det_hiM : (hiM ω).det = 1 := by
 
 @[expose] def jS : SpecialLinearGroup (Fin 3) F := ⟨jM ω, det_jM hω⟩
 
+omit [CharP F 2] in
 theorem coe_hS : ((hS hω : SpecialLinearGroup (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) =
     LinearFieldFour.hM ω := rfl
 
+omit [CharP F 2] in
 theorem coe_hiS : ((hiS hω : SpecialLinearGroup (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) = hiM ω :=
   rfl
 
@@ -69,9 +74,11 @@ theorem coe_fS : ((fS hω : SpecialLinearGroup (Fin 3) F) : Matrix (Fin 3) (Fin 
 theorem coe_jS : ((jS hω : SpecialLinearGroup (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) = jM ω := rfl
 
 omit hω in
+omit [CharP F 2] in
 theorem coe_rS : ((rSL : SpecialLinearGroup (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) = rM :=
   coe_rSL
 
+omit [CharP F 2] in
 theorem hS_pow_three : hS hω ^ 3 = (1 : SpecialLinearGroup (Fin 3) F) := by
   have h3 := omega_cube hω
   apply Subtype.ext
@@ -82,7 +89,7 @@ theorem hS_pow_three : hS hω ^ 3 = (1 : SpecialLinearGroup (Fin 3) F) := by
   · linear_combination h3
   · linear_combination (ω ^ 3 + 1) * h3
 
-omit hω in
+omit hω [CharP F 2] in
 theorem rSL_pow_three : (rSL : SpecialLinearGroup (Fin 3) F) ^ 3 = 1 := by
   apply Subtype.ext
   rw [pow_succ, pow_succ, pow_one, Matrix.SpecialLinearGroup.coe_mul,
@@ -186,7 +193,7 @@ theorem proj_rSL_ne_proj_of_zero {X : SpecialLinearGroup (Fin 3) F}
     rw [← hc, ← Matrix.SpecialLinearGroup.coe_mul, mul_inv_cancel_left]
   have h2 := congrFun (congrFun h1 0) 2
   rw [hX, coe_rSL] at h2
-  simp [Matrix.mul_apply, Fin.sum_univ_three, scalar_apply, diagonal_apply] at h2
+  simp [Matrix.mul_apply, scalar_apply, diagonal_apply] at h2
   exact c.ne_zero h2.symm
 
 variable {ω : F} (hω : ω * ω + ω + 1 = 0)
@@ -246,17 +253,20 @@ section Final
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2]
 
+omit [Finite F] in
 theorem sq_eq_one_of_mem_projRad_zero {r : projectiveSL 3 F}
     (hr : r ∈ FieldFourCover.projRad F 0) : r ^ 2 = 1 := by
   obtain ⟨a, c, rfl⟩ := FieldFourCover.mem_projRad_zero.1 hr
   rw [← map_pow, sq, FieldFourCover.unipU_mul]
   simp only [CharTwo.add_self_eq_zero, mul_zero, FieldFourCover.unipU_zero, map_one]
 
+omit [Finite F] [CharP F 2] in
 theorem isSimpleGroup_projectiveSL_three : IsSimpleGroup (projectiveSL 3 F) := by
   have := (CFSG.LinearGroups.linear_projective_simple (K := F) (n := 3) (by norm_num)
     (Or.inl le_rfl)).2.1
   exact (QuotientGroup.quotientMulEquivOfEq (LinearFlag.scalars_eq_center 3 _)).isSimpleGroup
 
+omit [CharP F 2] in
 theorem card_projectiveSL_three_big (hq : 4 ≤ Nat.card F) : 5040 < Nat.card (projectiveSL 3 F) := by
   have h := CFSG.RankThree.PartTwo.KFacts.card_projectiveSL_mul_card_scalars (K := F) (n := 3)
     (by norm_num)
@@ -287,7 +297,7 @@ theorem residualData_projectiveSL (hq : 4 ≤ Nat.card F) (h3 : 3 ∣ Nat.card F
     have := hprim.geom_sum_eq_zero (by norm_num : 1 < 3)
     simp [Finset.sum_range_succ] at this
     linear_combination this
-  haveI : IsSimpleGroup (projectiveSL 3 F) := isSimpleGroup_projectiveSL_three
+  have : IsSimpleGroup (projectiveSL 3 F) := isSimpleGroup_projectiveSL_three
   refine ⟨isSimpleGroup_projectiveSL_three, ?_, card_projectiveSL_three_big hq, ?_,
     exists_e9_projectiveSL hω⟩
   · refine ⟨proj 3 F (fS hω), proj 3 F (hS hω), fun h => ?_⟩

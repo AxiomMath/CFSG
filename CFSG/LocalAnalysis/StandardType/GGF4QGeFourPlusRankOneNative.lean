@@ -38,7 +38,7 @@ theorem le_closure_two_of_isSimpleGroup {S : Subgroup X} (hS : IsSimpleGroup S) 
     (hs : s ∈ S) (hs1 : s ≠ 1) (hs2 : s ^ 2 = 1) :
     S ≤ Subgroup.closure {g | g ∈ S ∧ ∃ k : ℕ, g ^ (2 ^ k) = 1} := by
   have hN : Subgroup.normalClosure {t : S | ∃ k : ℕ, t ^ (2 ^ k) = 1} = ⊤ := by
-    haveI := hS
+    have := hS
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
       (Subgroup.normalClosure {t : S | ∃ k : ℕ, t ^ (2 ^ k) = 1}) with h | h
     · exfalso
@@ -96,6 +96,7 @@ theorem le_commSpace_mul {r : ℕ} (hr : (r : K) ≠ 0) {a b : V ≃ₗ[K] V} (h
   rw [LinearEquiv.mul_apply, hb y₁ hy₁, map_add, CFSG.RankThree.PartOne.LIT.mem_fixedSpace.mp hy₀]
   abel
 
+omit [FiniteDimensional K V] in
 theorem commute_of_isCompl {W M : Submodule K V} (hWM : IsCompl W M) {g a : V ≃ₗ[K] V}
     (hgM : ∀ v ∈ M, g v = v) (hgW : ∀ v ∈ W, g v ∈ W) (haW : ∀ v ∈ W, a v = v)
     (haM : ∀ v ∈ M, a v ∈ M) : g * a = a * g := by
@@ -118,6 +119,7 @@ theorem sub_one_pow_two_pow' {R : Type*} [Ring R] (h2 : (2 : R) = 0) (y : R) (k 
   | zero => simp
   | succ k ih => rw [pow_succ, pow_mul, ih, key, ← pow_mul]
 
+omit [FiniteDimensional K V] in
 theorem sub_one_pow_two_pow [CharP K 2] (g : Module.End K V) (k : ℕ) :
     (g - 1) ^ (2 ^ k) = g ^ (2 ^ k) - 1 := by
   have h2 : (2 : Module.End K V) = 0 := by
@@ -196,6 +198,7 @@ section Odd
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {V : Type} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {Q : QuadraticForm K V}
 
+omit [Finite K] [CharP K 2] in
 theorem othersSpace_eq_commSpace {p : ℕ} {x : V ≃ₗ[K] V} (hx : OddOrderIsometry Q p x) :
     othersSpace x.toLinearMap (X - 1) = CFSG.RankThree.PartOne.LIT.commSpace x := by
   have hle : othersSpace x.toLinearMap (X - 1) ≤ CFSG.RankThree.PartOne.LIT.commSpace x := by
@@ -209,6 +212,7 @@ theorem othersSpace_eq_commSpace {p : ℕ} {x : V ≃ₗ[K] V} (hx : OddOrderIso
   rw [← OrthRestOdd.fixedSpace_eq_lit] at h2
   omega
 
+omit [Finite K] in
 theorem apply_eq_of_two_pow_commSpace (hQ : (polarBilin Q).Nondegenerate) {p : ℕ}
     (hp : p.Prime) (hp2 : p ≠ 2) (hK1 : ∀ c : K, c ^ p = 1 → c = 1) {t : V ≃ₗ[K] V}
     (ht : t ∈ orthDerived Q) (htp : t ^ p = 1)
@@ -226,6 +230,7 @@ theorem apply_eq_of_two_pow_commSpace (hQ : (polarBilin Q).Nondegenerate) {p : �
   rw [othersSpace_eq_commSpace hx] at hgR
   exact hgR
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
 theorem fixed_of_fixed_mul {a b : V ≃ₗ[K] V}
     (hdisj : CFSG.RankThree.PartOne.LIT.commSpace a ⊓ CFSG.RankThree.PartOne.LIT.commSpace b = ⊥)
     (hab' : ∀ v ∈ CFSG.RankThree.PartOne.LIT.commSpace b, a v = v) {v : V}
@@ -332,8 +337,8 @@ theorem sign_rankOne (hQ : (polarBilin Q).Nondegenerate) (hdim : finrank K V = 8
   obtain ⟨E, _, _, D, ψ, ρ, -, -, hρinj, hρrange, hρcard⟩ := h4 hfx4
   let e := supportedFixedDerivedEquiv hx
   have hS : IsSimpleGroup ↥(supportedFixedDerived Q x) := by
-    haveI := hsimp
-    haveI : Nontrivial ↥(supportedFixedDerived Q x) := e.toEquiv.nontrivial
+    have := hsimp
+    have : Nontrivial ↥(supportedFixedDerived Q x) := e.toEquiv.nontrivial
     exact IsSimpleGroup.isSimpleGroup_of_surjective e.symm.toMonoidHom e.symm.surjective
   have hnab' : ∃ g h : ↥(supportedFixedDerived Q x), g * h ≠ h * g := by
     by_contra hc
@@ -404,10 +409,10 @@ theorem sign_rankOne (hQ : (polarBilin Q).Nondegenerate) (hdim : finrank K V = 8
         (hpres y hax)).symm
     · exact (commute_of_isCompl hcompl hgM' hgW (fun v hv => (hfix v hv).2)
         (hpres y hbx)).symm
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2dvd : 2 ∣ Nat.card ↥(supportedFixedDerived Q x) := by
     rw [hcard]
-    haveI := Fintype.ofFinite K
+    have := Fintype.ofFinite K
     have h2K : 2 ∣ Nat.card K := by
       rw [Nat.card_eq_fintype_card]
       exact (CharP.cast_eq_zero_iff K 2 _).mp (FiniteField.cast_card_eq_zero K)
@@ -641,7 +646,7 @@ theorem transp_rankOne (hQ : (polarBilin Q).Nondegenerate) (hdim : finrank K V =
       obtain ⟨v₀, hv₀, v₁, hv₁, rfl⟩ := hdec v
       rw [map_add, hghfix _ v₀ hv₀, hghpow _ v₁ hv₁, hgk]
       simp
-    haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+    have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
     have hdet : blockDet Q s h ⟨gh, hghB⟩ = 1 := by
       have h2E : (2 : AdjoinRoot h) = 0 := by
         rw [← map_ofNat (algebraMap K (AdjoinRoot h)) 2, CharTwo.two_eq_zero, map_zero]
@@ -708,8 +713,8 @@ theorem transp_rankOne (hQ : (polarBilin Q).Nondegenerate) (hdim : finrank K V =
     rw [hggh]
     exact hghF
   have hE2 : (2 : E) = 0 := by
-    haveI := Fintype.ofFinite K
-    haveI := Fintype.ofFinite E
+    have := Fintype.ofFinite K
+    have := Fintype.ofFinite E
     obtain ⟨n, -, hn⟩ := FiniteField.card K 2
     have hcE : (Fintype.card E : E) = 0 := FiniteField.cast_card_eq_zero E
     rw [← Nat.card_eq_fintype_card, hEcard, Nat.card_eq_fintype_card, hn, Nat.cast_pow,
@@ -724,6 +729,7 @@ section Pieces
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {V : Type} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {Q : QuadraticForm K V}
 
+omit [Finite K] [CharP K 2] in
 theorem minpoly_plane {D : Type} [AddCommGroup D] [Module K D] [FiniteDimensional K D]
     (hD : finrank K D = 2) {p : ℕ} (hK1 : ∀ c : K, c ^ p = 1 → c = 1) {c : D ≃ₗ[K] D}
     (hcp : c ^ p = 1) (hcfix : ∀ u, c u = u → u = 0) :
@@ -755,7 +761,7 @@ theorem minpoly_plane {D : Type} [AddCommGroup D] [Module K D] [FiniteDimensiona
       (LinearMap.charpoly_monic _).ne_zero
     rwa [LinearMap.charpoly_natDegree, hD] at this
   have hpos : 0 < (minpoly K (c : Module.End K D)).natDegree := by
-    haveI : Nontrivial D := Module.nontrivial_of_finrank_pos (R := K) (by omega)
+    have : Nontrivial D := Module.nontrivial_of_finrank_pos (R := K) (by omega)
     exact minpoly.natDegree_pos hint
   have h2 : (minpoly K (c : Module.End K D)).natDegree = 2 := by
     by_contra hne
@@ -766,6 +772,7 @@ theorem minpoly_plane {D : Type} [AddCommGroup D] [Module K D] [FiniteDimensiona
   exact ⟨Polynomial.irreducible_of_degree_le_three_of_not_isRoot (by rw [h2]; decide) hnoroot,
     h2, hnoroot⟩
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
 theorem aeval_apply_of_intertwine {D : Type} [AddCommGroup D] [Module K D] (θ : D →ₗ[K] V)
     (T : Module.End K V) (c : Module.End K D) (hθ : ∀ d, T (θ d) = θ (c d)) (f : K[X])
     (d : D) : aeval T f (θ d) = θ (aeval c f d) := by
@@ -781,6 +788,7 @@ theorem aeval_apply_of_intertwine {D : Type} [AddCommGroup D] [Module K D] (θ :
       rw [map_mul, aeval_X]
     rw [h, hT, hc, Module.End.mul_apply, Module.End.mul_apply, hθ, ih]
 
+omit [Finite K] in
 theorem primary_of_pair (hQ : (polarBilin Q).Nondegenerate) {p : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) (hK1 : ∀ c : K, c ^ p = 1 → c = 1) {E : Subgroup (V ≃ₗ[K] V)}
     (hEΩ : E ≤ orthDerived Q) (hpowE : ∀ a ∈ E, a ^ p = 1)
@@ -809,7 +817,7 @@ theorem primary_of_pair (hQ : (polarBilin Q).Nondegenerate) {p : ℕ} (hp : p.Pr
           CFSG.RankThree.PartOne.LIT.commSpace
             (τ (Pi.mulSingle k (ofAdd 1) * Pi.mulSingle l (ofAdd η))) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set f : Fin 3 → Multiplicative (ZMod p) := Pi.mulSingle k (ofAdd 1) * Pi.mulSingle l (ofAdd η)
     with hfdef
   set s := τ f with hsdef
@@ -946,7 +954,7 @@ theorem primary_of_pair (hQ : (polarBilin Q).Nondegenerate) {p : ℕ} (hp : p.Pr
     rw [hcs]
     exact hle
   refine ⟨h, hh, hne, ?_, hVh⟩
-  haveI : Fact (Irreducible h) := ⟨hirr⟩
+  have : Fact (Irreducible h) := ⟨hirr⟩
   have h4' : finrank K ↥(primaryComponent s.toLinearMap h) = 4 := by
     rw [hVh]
     exact hcs4
@@ -1032,7 +1040,7 @@ theorem spAct_reflection_cases [Fact p.Prime] (hp2 : p ≠ 2) {π : Equiv.Perm (
       have h := congrFun (h2 (Pi.single j 1)) j
       rw [(hcoord _).2.1, (hcoord _).1, Pi.single_eq_same, mul_one] at h
       rcases hε j with h1 | h1 <;> rcases hε k with h3 | h3 <;> rw [h1, h3] at h ⊢
-      all_goals first | rfl | exact absurd (by linear_combination -h) hone
+      all_goals exact absurd (by linear_combination -h) hone
     have hεi : ε i = 1 := by
       by_contra hne
       have hi' : ε i = -1 := (hε i).resolve_left hne

@@ -12,7 +12,7 @@ namespace Stellmacher.CD.L3YC
 
 variable {G : Type} [Group G] [Finite G]
 
-theorem image_pCoreOf_le_bot {H L : Subgroup G} (hLH : L ≤ H)
+theorem image_pCoreOf_le_bot {H L : Subgroup G} (_hLH : L ≤ H)
     (hs : IsSimpleGroup ↥(modO2Image H L)) (hn : ¬ IsPGroup 2 ↥(modO2Image H L)) :
     ∀ m ∈ pCoreOf 2 L, ∀ hm : m ∈ H,
       (QuotientGroup.mk' (CFSG.pCore 2 ↥H)) ⟨m, hm⟩ = 1 := by
@@ -44,7 +44,7 @@ theorem image_pCoreOf_le_bot {H L : Subgroup G} (hLH : L ≤ H)
         (z : ↥H ⧸ CFSG.pCore 2 ↥H)⁻¹
       rw [hz, map_mul, map_mul, map_inv, hxy]
       rfl
-  haveI := hnormal
+  have := hnormal
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (M.subgroupOf (modO2Image H L)) with hbot | htop
   · intro m hm hmH
     have hmem : mk ⟨m, hmH⟩ ∈ M := ⟨⟨m, hmH⟩, hm, rfl⟩

@@ -72,7 +72,7 @@ theorem exists_conj_mem_tSub
     intro x hx y hy _
     show x * y = y * x
     rcases hx with hx | hx <;> rcases hy with hx' | hx' <;> rw [hx, hx'] <;>
-      first | rfl | exact hc | exact hc.symm
+      first | exact hc | exact hc.symm
   have := Subgroup.isMulCommutative_closure hpair
   have hsq : ∀ x ∈ E, x * x = 1 := by
     intro x hx

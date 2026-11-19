@@ -231,7 +231,7 @@ theorem lemma37a {v u a b : G} (hv : v ∈ T.U 0) (hv1 : v ≠ 1) (hu : u ∈ T.
   have hvu7 : ⁅v', u⁆ ∈ T.U 7 := by
     have h := T.comm 6 8 (by norm_num) (by norm_num) u hu v' hv'U
     have h' : u * v' * u⁻¹ * v'⁻¹ ∈ T.U 7 := by
-      refine SetLike.le_def.mp ?_ h
+      refine _root_.IsConcreteLE.le_iff.mp ?_ h
       refine iSup₂_le fun k hk => ?_
       obtain ⟨h1, h2⟩ := hk
       have hk7 : k = 7 := by omega

@@ -158,11 +158,11 @@ theorem decP_letP (d : GenData) {l : Nat} (hl : l / 2 < d.gens.size) :
   unfold letP letterArr3
   rcases Nat.mod_two_eq_zero_or_one l with h | h
   · have e : Nat.beq (Nat.mod l 2) 0 = true := beq_true h
-    rw [e, if_pos h]
+    rw [e, ite_eq_left h]
     change decP (getL (gensP d) (l / 2)) = _
     rw [getL_gensP, decP_packA]
   · have e : Nat.beq (Nat.mod l 2) 0 = false := beq_false (a := l % 2) (by omega)
-    rw [e, if_neg (by omega)]
+    rw [e, ite_eq_right (by omega)]
     change decP (getL (conjL (gensP d)) (l / 2)) = _
     rw [getL_conjL (by rw [length_gensP]; exact hl), decP_conjTrP, getL_gensP, decP_packA,
       toMat3_conjTrArr3]
@@ -215,11 +215,11 @@ theorem lead_spec (w : Nat) : GF64.ofNat' (lead w) = lc (decV w) := by
   rw [e]
   unfold lead
   by_cases h0 : g6 w 0 = 0
-  · rw [beq_true h0, if_neg (by rw [not_not, z0]; exact h0)]
+  · rw [beq_true h0, ite_eq_right (by rw [not_not, z0]; exact h0)]
     by_cases h1 : g6 w 1 = 0
-    · rw [beq_true h1, if_neg (by rw [not_not, z1]; exact h1)]
-    · rw [beq_false h1, if_pos (by rw [ne_eq, z1]; exact h1)]
-  · rw [beq_false h0, if_pos (by rw [ne_eq, z0]; exact h0)]
+    · rw [beq_true h1, ite_eq_right (by rw [not_not, z1]; exact h1)]
+    · rw [beq_false h1, ite_eq_left (by rw [ne_eq, z1]; exact h1)]
+  · rw [beq_false h0, ite_eq_left (by rw [ne_eq, z0]; exact h0)]
 
 theorem lc_ne_of_lead {w : Nat} (h : lead w ≠ 0) : lc (decV w) ≠ 0 := by
   rw [← lead_spec]
@@ -243,14 +243,14 @@ theorem keyOf_spec (w : Nat) : keyOf w = keyN (decV w) := by
   unfold keyOf
   simp only [strictN_eq]
   by_cases h0 : g6 w 0 = 0
-  · rw [beq_true h0, if_neg (by rw [not_not, z0]; exact h0)]
+  · rw [beq_true h0, ite_eq_right (by rw [not_not, z0]; exact h0)]
     by_cases h1 : g6 w 1 = 0
-    · rw [beq_true h1, if_neg (by rw [not_not, z1]; exact h1)]
-    · rw [beq_false h1, if_pos (by rw [ne_eq, z1]; exact h1)]
+    · rw [beq_true h1, ite_eq_right (by rw [not_not, z1]; exact h1)]
+    · rw [beq_false h1, ite_eq_left (by rw [ne_eq, z1]; exact h1)]
       dsimp only
       rw [gm_inv (g6_lt _ _) h1 (g6_lt _ _)]
       rfl
-  · rw [beq_false h0, if_pos (by rw [ne_eq, z0]; exact h0)]
+  · rw [beq_false h0, ite_eq_left (by rw [ne_eq, z0]; exact h0)]
     dsimp only
     rw [gm_inv (g6_lt _ _) h0 (g6_lt _ _), gm_inv (g6_lt _ _) h0 (g6_lt _ _)]
     rfl
@@ -267,16 +267,16 @@ theorem lc_smul {c : GF64} (hc : c ≠ 0) (x : RowVec) : lc (smulV c x) = c * lc
 theorem keyN_lt {x : RowVec} (h : x 0 ≠ 0) : keyN x < 4096 := by
   have := GF64.toNat_lt (x 1 / x 0)
   have := GF64.toNat_lt (x 2 / x 0)
-  simp only [keyN, ne_eq, h, not_false_eq_true, if_true]
+  simp only [keyN, ne_eq, h, not_false_eq_true, ite_true]
   omega
 
 theorem keyN_ge {x : RowVec} (h : x 0 = 0) : 4096 ≤ keyN x := by
-  simp only [keyN, h, ne_eq, not_true_eq_false, if_false]
+  simp only [keyN, h, ne_eq, not_true_eq_false, ite_false]
   split_ifs <;> omega
 
 theorem keyN_lt' {x : RowVec} (h : x 0 = 0) (h1 : x 1 ≠ 0) : keyN x < 4160 := by
   have := GF64.toNat_lt (x 2 / x 1)
-  simp only [keyN, h, h1, ne_eq, not_true_eq_false, not_false_eq_true, if_false, if_true]
+  simp only [keyN, h, h1, ne_eq, not_true_eq_false, not_false_eq_true, ite_false, ite_true]
   omega
 
 theorem keyN_eq {x : RowVec} (h : x 0 = 0) (h1 : x 1 = 0) : keyN x = 4160 := by
@@ -285,7 +285,7 @@ theorem keyN_eq {x : RowVec} (h : x 0 = 0) (h1 : x 1 = 0) : keyN x = 4160 := by
 theorem div_eq_of_toNat {a b c e : GF64} (h : GF64.toNat (a / b) = GF64.toNat (c / e)) :
     a / b = c / e := toNat_inj h
 
-theorem mul_div_eq {a b c e : GF64} (hb : b ≠ 0) (he : e ≠ 0) (h : a / b = c / e) :
+theorem mul_div_eq {a b c e : GF64} (hb : b ≠ 0) (_he : e ≠ 0) (h : a / b = c / e) :
     a = b * e⁻¹ * c := by
   calc a = b * (a / b) := by field_simp
     _ = b * (c / e) := by rw [h]
@@ -314,8 +314,8 @@ theorem eq_smul_of_keyN_eq {x y : RowVec} (hx : lc x ≠ 0) (hy : lc y ≠ 0) (h
     · have hlx : lc x = x 1 := by simp [lc, x0, x1]
       have hly : lc y = y 1 := by simp [lc, y0, y1]
       have h2 : GF64.toNat (x 2 / x 1) = GF64.toNat (y 2 / y 1) := by
-        simp only [keyN, x0, y0, x1, y1, ne_eq, not_true_eq_false, not_false_eq_true, if_false,
-          if_true] at h
+        simp only [keyN, x0, y0, x1, y1, ne_eq, not_true_eq_false, not_false_eq_true, ite_false,
+          ite_true] at h
         omega
       have e2 := mul_div_eq x1 y1 (div_eq_of_toNat h2)
       rw [hlx, hly]
@@ -337,7 +337,7 @@ theorem eq_smul_of_keyN_eq {x y : RowVec} (hx : lc x ≠ 0) (hy : lc y ≠ 0) (h
     have hb' := GF64.toNat_lt (y 2 / y 0)
     have ha := GF64.toNat_lt (x 1 / x 0)
     have ha' := GF64.toNat_lt (y 1 / y 0)
-    simp only [keyN, x0, y0, ne_eq, not_false_eq_true, if_true] at h
+    simp only [keyN, x0, y0, ne_eq, not_false_eq_true, ite_true] at h
     have h1 : GF64.toNat (x 1 / x 0) = GF64.toNat (y 1 / y 0) := by omega
     have h2 : GF64.toNat (x 2 / x 0) = GF64.toNat (y 2 / y 0) := by omega
     have e1 := mul_div_eq x0 y0 (div_eq_of_toNat h1)
@@ -373,12 +373,12 @@ theorem smul_smulV (g : GL (Fin 3) GF64) (c : GF64) (x : RowVec) :
     intro u u' hu hu'
     obtain ⟨k, hk, hkx⟩ := hu
     obtain ⟨k', hk', hkx'⟩ := hu'
-    refine Set.mem_setOf.mpr ⟨k * k', K.mul_mem hk hk', ?_⟩
+    refine Set.mem_ofPred.mpr ⟨k * k', K.mul_mem hk hk', ?_⟩
     rw [mul_smul, hkx', smul_smulV, hkx, smulV_smulV, Units.val_mul, mul_comm]
   inv_mem' := by
     intro u hu
     obtain ⟨k, hk, hkx⟩ := hu
-    refine Set.mem_setOf.mpr ⟨k⁻¹, K.inv_mem hk, ?_⟩
+    refine Set.mem_ofPred.mpr ⟨k⁻¹, K.inv_mem hk, ?_⟩
     have e : x = smulV (u : GF64) (k⁻¹ • x) := by rw [← smul_smulV, ← hkx, inv_smul_smul]
     calc k⁻¹ • x = smulV (((u⁻¹ * u : GF64ˣ)) : GF64) (k⁻¹ • x) := by
           rw [inv_mul_cancel, Units.val_one, smulV_one]
@@ -574,7 +574,7 @@ theorem ps_g6_ins {t a k : Nat} (ha : a < 64) (h0 : g6 t k = 0) (j : Nat) :
   have hP : 0 < 2 ^ (6 * k) := by positivity
   have h64 : (64 : Nat) = 2 ^ 6 := rfl
   rcases lt_trichotomy j k with hjk | rfl | hjk
-  · rw [if_neg hjk.ne]
+  · rw [ite_eq_right hjk.ne]
     have e : (2 : Nat) ^ (6 * k) = 2 ^ (6 * j) * (64 * 2 ^ (6 * (k - j) - 6)) := by
       rw [h64, ← pow_add, ← pow_add]
       congr 1
@@ -582,10 +582,10 @@ theorem ps_g6_ins {t a k : Nat} (ha : a < 64) (h0 : g6 t k = 0) (j : Nat) :
     have e' : a * (2 ^ (6 * j) * (64 * 2 ^ (6 * (k - j) - 6))) =
         2 ^ (6 * j) * (64 * (a * 2 ^ (6 * (k - j) - 6))) := by ring
     rw [e, e', Nat.add_mul_div_left _ _ (by positivity), Nat.add_mul_mod_self_left]
-  · rw [if_pos rfl, Nat.add_mul_div_right _ _ hP]
+  · rw [ite_eq_left rfl, Nat.add_mul_div_right _ _ hP]
     generalize t / 2 ^ (6 * j) = X at h0 ⊢
     omega
-  · rw [if_neg hjk.ne']
+  · rw [ite_eq_right hjk.ne']
     have e : (2 : Nat) ^ (6 * j) = 2 ^ (6 * k) * (64 * 2 ^ (6 * (j - k) - 6)) := by
       rw [h64, ← pow_add, ← pow_add]
       congr 1
@@ -772,14 +772,14 @@ theorem ps_ins {ms : List Nat} {v0 s f t K w : Nat} {L : List Nat} (hC : psC ms 
   · intro z hz
     rcases List.mem_cons.1 hz with rfl | hz
     · refine ⟨by rw [hyl]; exact hw, hy18, hR, ?_⟩
-      rw [ps_g6_ins ha h0, hyk, if_pos rfl, hyl]
+      rw [ps_g6_ins ha h0, hyk, ite_eq_left rfl, hyl]
     · obtain ⟨a1, a2, a3, a4⟩ := hL z hz
-      exact ⟨a1, a2, a3, by rw [ps_g6_ins ha h0, if_neg (hne z hz), a4]⟩
+      exact ⟨a1, a2, a3, by rw [ps_g6_ins ha h0, ite_eq_right (hne z hz), a4]⟩
   · intro j hj hj0
     rw [ps_g6_ins ha h0] at hj0
     by_cases e : j = keyOf w
     · exact ⟨y, List.mem_cons_self, hyk.trans e.symm⟩
-    · rw [if_neg e] at hj0
+    · rw [ite_eq_right e] at hj0
       obtain ⟨z, hz, e'⟩ := htab j hj hj0
       exact ⟨z, List.mem_cons_of_mem _ hz, e'⟩
   · intro b hb

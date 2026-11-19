@@ -111,7 +111,7 @@ theorem unitaryRootCenterData_of_mulEquiv {F : Type u} [Group F] {K : Type} [Fie
       rw [← hsup]
       exact le_sup_right
     have hSsolv : Group.IsSolvable (S : Subgroup F) := by
-      have := (S.isPGroup').isNilpotent
+      have := (S.isPGroup).isNilpotent
       infer_instance
     have : Group.IsSolvable ((S : Subgroup F).map MulAut.conj) :=
       Group.isSolvable_of_surjective

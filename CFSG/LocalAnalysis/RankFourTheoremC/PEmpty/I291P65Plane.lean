@@ -25,6 +25,7 @@ theorem exists_elemAbelian_cube (hp : p.Prime) (h4 : 4 ≤ Open.pRank p (P : Sub
     (CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian p A).2
       (CFSG.Open.IsElemAbelian.mono hE hAE), hAc⟩
 
+omit [Finite G] in
 theorem plane_facts (hp : p.Prime) (hB : SmallRankPlane p (P : Subgroup G) x z) :
     x ∈ (P : Subgroup G) ∧ z ∈ (P : Subgroup G) ∧ x ^ p = 1 ∧ z ^ p = 1 ∧ x ≠ 1 ∧ z ≠ 1 := by
   have hBP : zpowers x ⊔ zpowers z ≤ (P : Subgroup G) := hB.isIsolatedPlane.1
@@ -57,7 +58,7 @@ theorem exists_conj_line (hp : p.Prime) (hB : SmallRankPlane p (P : Subgroup G) 
   obtain ⟨hxP, hzP, hxp, hzp, hx1, hz1⟩ := plane_facts hp hB
   have hxo : orderOf x = p := orderOf_eq_prime hxp hx1
   have hzo : orderOf z = p := orderOf_eq_prime hzp hz1
-  obtain ⟨hcomm, h, hh, hne⟩ := hB.exists_transvection hp P.isPGroup' hzc hz1 hzp
+  obtain ⟨hcomm, h, hh, hne⟩ := hB.exists_transvection hp P.isPGroup hzc hz1 hzp
     (exists_elemAbelian_cube hp h4)
   obtain ⟨d, hdeq⟩ : ∃ d, d = h * x * h⁻¹ * x⁻¹ := ⟨_, rfl⟩
   have hd : d ∈ zpowers z := by rw [hdeq]; exact hcomm h hh

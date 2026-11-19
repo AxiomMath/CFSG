@@ -23,18 +23,17 @@ variable {K : Type} [Field K]
 theorem minusQF_apply (m : ℕ) (b c : K) (v : CFSG.Assembly.LargeEvenMinusIdx m → K) :
     minusQF m b c v = CFSG.Assembly.LargeEvenQMinus m b c v := by
   simp only [minusQF, QuadraticMap.comp_apply, LinearMap.funLeft_apply, CFSG.LieType.Universal.Spin.quadMinus_apply,
-    CFSG.Assembly.LargeEvenQMinus, minusSigma, Equiv.sumAssoc_symm_apply_inl, Equiv.sumAssoc_symm_apply_inr_inl, Equiv.sumAssoc_symm_apply_inr_inr,
-    Function.comp_apply]
+    CFSG.Assembly.LargeEvenQMinus, minusSigma, Equiv.sumAssoc_symm_apply_inl, Equiv.sumAssoc_symm_apply_inr_inl, Equiv.sumAssoc_symm_apply_inr_inr]
   simp
 
 theorem minusQF_eq (m : ℕ) (b c : K) :
     ⇑(minusQF m b c) = CFSG.Assembly.LargeEvenQMinus m b c :=
   funext (minusQF_apply m b c)
 
-theorem pRank_minus_eichler_ge {m n : ℕ} (hn : 1 ≤ n) (hm : 3 ≤ m) {K : Type} [Field K] [Finite K]
+theorem pRank_minus_eichler_ge {m n : ℕ} (_hn : 1 ≤ n) (hm : 3 ≤ m) {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = 2 ^ n) (b c : K) (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
     n * (2 * m) ≤ CFSG.Open.pRank 2 (⊤ : Subgroup (LargeEvenProj (LargeEvenOmega (LargeEvenQMinus m b c)))) := by
-  haveI : CharP K 2 := CFSG.SectionRank.ClassicalOdd.charP_of_card (p := 2) (f := n) hK
+  have : CharP K 2 := CFSG.SectionRank.ClassicalOdd.charP_of_card (p := 2) (f := n) hK
   have hlib : n * (2 * m) ≤ CFSG.Open.pRank 2
       (⊤ : Subgroup (StatedProj (StatedOmega (⇑(CFSG.LieType.Universal.Spin.quadMinus (m + 1) K b c))))) := by
     have h := CFSG.GH74.Filter.le_pRank_statedProj_statedOmega (K := K)

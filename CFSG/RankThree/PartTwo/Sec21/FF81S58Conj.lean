@@ -14,14 +14,17 @@ open CFSG CFSG.RankThree.PartTwo.Sec21 CFSG.RankThree.PartTwo.Sec21.FF79
 
 variable {G : Type} [Group G] [Finite G] {b : G} {L B : Subgroup G} {b₁ b₂ b₃ : G}
 
+omit [Finite G] in
 private theorem s58_zp (g b : G) :
     conjBy g (Subgroup.zpowers b) = Subgroup.zpowers (g * b * g⁻¹) :=
   MonoidHom.map_zpowers _ _
 
+omit [Finite G] in
 private theorem s58_conjBy_inf (g : G) (U V : Subgroup G) :
     conjBy g (U ⊓ V) = conjBy g U ⊓ conjBy g V :=
   Subgroup.map_inf_eq _ _ _ (MulAut.conj g).injective
 
+omit [Finite G] in
 private theorem s58_conjBy_closure3 (g a c d : G) :
     conjBy g (Subgroup.closure ({a, c, d} : Set G)) =
       Subgroup.closure {g * a * g⁻¹, g * c * g⁻¹, g * d * g⁻¹} := by
@@ -29,6 +32,7 @@ private theorem s58_conjBy_closure3 (g a c d : G) :
     Set.image_singleton]
   rfl
 
+omit [Finite G] in
 private theorem s58_conjBy_closure4 (g a c d e : G) :
     conjBy g (Subgroup.closure ({a, c, d, e} : Set G)) =
       Subgroup.closure {g * a * g⁻¹, g * c * g⁻¹, g * d * g⁻¹, g * e * g⁻¹} := by
@@ -36,22 +40,27 @@ private theorem s58_conjBy_closure4 (g a c d e : G) :
     Set.image_insert_eq, Set.image_singleton]
   rfl
 
+omit [Finite G] in
 private theorem s58_conj_cancel (g : G) (H : Subgroup G) :
     conjBy g (conjBy g⁻¹ H) = H := by
   have h := FF79.L14.conjBy_conjBy_inv g⁻¹ H
   rwa [inv_inv] at h
 
+omit [Finite G] in
 private theorem s58_conj_fn (x n : G) (H : Subgroup G) :
     conjBy (x * n * x⁻¹) H = conjBy x (conjBy n (conjBy x⁻¹ H)) := by
   simp only [FF79.L41.conjBy_conjBy, mul_assoc]
 
+omit [Finite G] in
 private theorem s58_conj_fn' (x n : G) (H : Subgroup G) :
     conjBy (x⁻¹ * n * x) H = conjBy x⁻¹ (conjBy n (conjBy x H)) := by
   simp only [FF79.L41.conjBy_conjBy, mul_assoc]
 
+omit [Finite G] in
 private theorem s58_conj_inv_eq (x a : G) : x * a⁻¹ * x⁻¹ = (x * a * x⁻¹)⁻¹ := by
   group
 
+omit [Finite G] in
 private theorem s58_mem_six {x z c₁ c₂ c₃ : G}
     (h : z ∈ ({c₁, c₁⁻¹, c₂, c₂⁻¹, c₃, c₃⁻¹} : Set G)) :
     x * z * x⁻¹ ∈ ({x * c₁ * x⁻¹, (x * c₁ * x⁻¹)⁻¹, x * c₂ * x⁻¹, (x * c₂ * x⁻¹)⁻¹,
@@ -65,6 +74,7 @@ private theorem s58_mem_six {x z c₁ c₂ c₃ : G}
   · exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inl rfl))))
   · exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (by group)))))
 
+omit [Finite G] in
 private theorem s58_isElemAb_conjBy {p k : ℕ} {H : Subgroup G} (h : IsElemAb p k H) (g : G) :
     IsElemAb p k (conjBy g H) :=
   ⟨CFSG.IsElementaryAbelian.subgroup_map h.1 (MulAut.conj g).toMonoidHom,

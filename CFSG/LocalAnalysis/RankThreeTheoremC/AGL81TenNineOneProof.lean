@@ -62,6 +62,7 @@ theorem false_of_centralizes_cfg (hS : Setting G) (hCGT : AschbacherLocalCGTBloc
     hd.not_le hL.le hLn hRM hRmax.1 hOR hRL hsyl (normalizer_le_of_cgs_le hCGS)
   exact hL.not_le_normalizer (hLH.trans (localGroup_le_normalizer_pCoreOf 2 H))
 
+omit [Finite G] in
 theorem coprime_six_orderOf_of_isPGroup {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hp3 : p ≠ 3)
     {B : Subgroup G} (hB : IsPGroup p B) {b : G} (hb : b ∈ B) : Nat.Coprime (orderOf b) 6 := by
   obtain ⟨k, hk⟩ := hB ⟨b, hb⟩

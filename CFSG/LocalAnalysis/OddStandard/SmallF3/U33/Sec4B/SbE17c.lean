@@ -14,6 +14,7 @@ open Subgroup
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G}
   {x₁ x₂ lam rho tau om : G} {𝒮 : Subgroup G}
 
+omit [Finite G] in
 private lemma isElemAbelian_zpowers_of_mul_self {a : G} (ha : a * a = 1) :
     CFSG.Open.IsElemAbelian 2 (zpowers a) := by
   have ha2 : a ^ 2 = 1 := by rwa [pow_two]
@@ -144,7 +145,7 @@ theorem l17_F1 (hc : Ctx13 t L S x₁ x₂ lam rho tau om) (g : G) :
   have hBcent : B ≤ centralizer ({g * t * g⁻¹} : Set G) := by
     intro x hx
     have hxu : x * (g * t * g⁻¹) = (g * t * g⁻¹) * x := by
-      haveI : IsMulCommutative ↥B := hBe.1
+      have : IsMulCommutative ↥B := hBe.1
       have huB : g * t * g⁻¹ ∈ B :=
         Subgroup.mem_sup_right (Subgroup.mem_zpowers (g * t * g⁻¹))
       exact congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : ↥B) (⟨g * t * g⁻¹, huB⟩ : ↥B))
@@ -234,7 +235,7 @@ theorem l17_F2 (hc : Ctx17 t L S x₁ x₂ lam rho tau om 𝒮) (g : G) {e : G}
   have hlam_a_B : lam * a ∈ B := B.mul_mem (hclB hlamB) (hclB haB)
   have hBcent : B ≤ centralizer ({lam * a} : Set G) := by
     intro x hx
-    haveI : IsMulCommutative ↥B := hBe.1
+    have : IsMulCommutative ↥B := hBe.1
     exact Subgroup.mem_centralizer_singleton_iff.mpr
       (congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : ↥B) (⟨lam * a, hlam_a_B⟩ : ↥B)))
   have hAc : B ≤ centralizer ({(p'⁻¹ * g) * t * (p'⁻¹ * g)⁻¹} : Set G) := by

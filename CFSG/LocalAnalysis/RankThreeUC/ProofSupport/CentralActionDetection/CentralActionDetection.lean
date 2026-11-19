@@ -15,7 +15,7 @@ theorem exists_hyperplane (hp2 : p ≠ 2) (ρ : Representation (ZMod p) G W) (Z 
     (hZ : CFSG.Open.IsElemAbelian 2 Z) {z : G} (hz : z ∈ Z) (hnt : ∃ v, ρ z v ≠ v) :
     ∃ H ∈ hyperplanes 2 Z, ∃ v ∈ (commSpace ρ Z ⊓ fixedSpace ρ H), ρ z v ≠ v := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hcon
   push Not at hcon
   have hc : ((Nat.card Z : ℕ) : ZMod p) ≠ 0 :=

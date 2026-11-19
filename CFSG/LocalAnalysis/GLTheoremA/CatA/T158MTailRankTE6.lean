@@ -32,8 +32,8 @@ theorem exists_elemAbelian_of_inversions {φ : Y →* T} (hφ : Function.Surject
     ∃ F : Subgroup Y, IsElemAbelian 3 F ∧ Nat.card F = 3 ^ (m + 1) ∧ F ⊓ φ.ker = ⊥ ∧
       F.map φ ≤ Subgroup.closure (Set.range h) := by
   classical
-  haveI : Finite T := Finite.of_surjective φ hφ
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite T := Finite.of_surjective φ hφ
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hpow : ∀ i, h i ^ 3 = 1 := fun i => (hord i) ▸ pow_orderOf_eq_one (h i)
   set D : Subgroup T := Subgroup.closure (Set.range h) with hD
   have hDcard : 3 ^ (m + 1) ≤ Nat.card D := three_pow_le_card_closure h w hcomm hord hinv hfix
@@ -291,8 +291,8 @@ theorem te6_inversions'
       (∀ i, orderOf (h i) = 3) ∧ (∀ i, w i * h i * (w i)⁻¹ = (h i)⁻¹) ∧
       ∀ i j, i ≠ j → i ≠ Fin.last 4 → w i * h j * (w i)⁻¹ = h j := by
   set d : ValidLieTypeIndex := ⟨.twistedE6 q, hv⟩ with hd
-  haveI := finite_fixedField d
-  haveI : Fintype d.fixedField := Fintype.ofFinite _
+  have := finite_fixedField d
+  have : Fintype d.fixedField := Fintype.ofFinite _
   have hchar : d.characteristic = q.p := LieTypeIndex.characteristic_twistedE6 q
   have h3 : q.p ^ q.exponent % 3 = 2 := by
     rw [h2]

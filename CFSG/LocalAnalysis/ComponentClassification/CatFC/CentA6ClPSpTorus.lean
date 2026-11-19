@@ -74,7 +74,7 @@ theorem torusDiagEquiv_mem (hsigma : sigma ^ 2 = 1) (a : Eˣ) :
   intro x y
   have hinv : sigma (sigma (a : E)) = a := CatalogueBUnitaryNorm.involutive sigma hsigma _
   have ha : (a : E) ≠ 0 := a.ne_zero
-  have hs : sigma (a : E) ≠ 0 := by simpa using ha
+  have hs : sigma (a : E) ≠ 0 := by simp
   rw [hyperbolicForm_apply, hyperbolicForm_apply, torusDiagEquiv_apply_zero,
     torusDiagEquiv_apply_one, torusDiagEquiv_apply_zero, torusDiagEquiv_apply_one, map_mul,
     map_mul, map_inv₀, hinv]
@@ -89,7 +89,7 @@ theorem torusDiagEquiv_mul (a b : Eˣ) :
   ext x i
   fin_cases i
   · simp [torusDiagEquiv_apply_zero, mul_assoc]
-  · simp [torusDiagEquiv_apply_one, mul_assoc, mul_comm, mul_left_comm]
+  · simp [torusDiagEquiv_apply_one, mul_comm, mul_left_comm]
 
 @[expose] def unitaryTorus (hsigma : sigma ^ 2 = 1) :
     Eˣ →* isometryGroup (hyperbolicForm sigma) where

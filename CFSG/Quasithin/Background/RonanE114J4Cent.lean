@@ -49,7 +49,7 @@ theorem nParam_mulAut_M22_le_two :
   have hnc : ∃ x y : ↥CFSG.Blueprint.NativeSporadic.M22, x * y ≠ y * x := by
     by_contra hcomm
     push Not at hcomm
-    haveI : IsMulCommutative ↥CFSG.Blueprint.NativeSporadic.M22 := ⟨⟨fun a b => hcomm a b⟩⟩
+    have : IsMulCommutative ↥CFSG.Blueprint.NativeSporadic.M22 := ⟨⟨fun a b => hcomm a b⟩⟩
     have hcard22 : Nat.card ↥CFSG.Blueprint.NativeSporadic.M22 = 443520 :=
       CFSG.Sporadic.Mathieu.card_M22
     have hp := Group.is_simple_iff_prime_card.1 hsimple
@@ -77,8 +77,8 @@ theorem nParam_centralizer_z0_le_two :
   obtain ⟨-, -, -, hquot, -⟩ := J4L4.isTypeJ4Centralizer_of_fixed hz hz1 hfix
   obtain ⟨Z, hZn, hZc, -, -, -, -, -, θ, -, -, -, hθs, hθk, -⟩ := hquot
   set C : Subgroup J := Subgroup.centralizer ({eta uJ 11 1131} : Set J)
-  haveI : Finite ↥C := inferInstance
-  haveI : Z.Normal := hZn
+  have : Finite ↥C := inferInstance
+  have : Z.Normal := hZn
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hR2 : IsPGroup 2 ↥(CFSG.pCore 2 ↥C) := CFSG.LieType.BorelTits.pCore_isPGroup 2

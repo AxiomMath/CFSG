@@ -44,23 +44,27 @@ open _root_.Classical in
     SL(2, K) × SL(2, K) :=
   if hg : g ∈ Rt M (LB M Q B) t then D.ρ ⟨g, hg⟩ else 1
 
-theorem actM_of_mem {g : G} (hg : g ∈ H0 M Z) : actM φ g = φ ⟨g, hg⟩ := dif_pos hg
+omit [Finite G] [Finite K] in
+theorem actM_of_mem {g : G} (hg : g ∈ H0 M Z) : actM φ g = φ ⟨g, hg⟩ := dite_eq_left hg
 
+omit [Finite G] [Finite K] in
 theorem actM_one : actM φ (1 : G) = 1 := by
   rw [actM_of_mem (H0 M Z).one_mem]
   exact map_one φ
 
+omit [Finite G] [Finite K] in
 theorem actM_mul {g h : G} (hg : g ∈ H0 M Z) (hh : h ∈ H0 M Z) :
     actM φ (g * h) = actM φ g * actM φ h := by
   rw [actM_of_mem hg, actM_of_mem hh, actM_of_mem ((H0 M Z).mul_mem hg hh)]
   exact map_mul φ ⟨g, hg⟩ ⟨h, hh⟩
 
+omit [Finite G] [Finite K] in
 theorem actM_inv {g : G} (hg : g ∈ H0 M Z) : actM φ g⁻¹ = (actM φ g)⁻¹ := by
   rw [actM_of_mem hg, actM_of_mem ((H0 M Z).inv_mem hg)]
   exact map_inv φ ⟨g, hg⟩
 
 theorem rhoM_of_mem (D : ModDesc95 hc t M₀ φ Y₁ Y₂) {g : G} (hg : g ∈ Rt M (LB M Q B) t) :
-    rhoM D g = D.ρ ⟨g, hg⟩ := dif_pos hg
+    rhoM D g = D.ρ ⟨g, hg⟩ := dite_eq_left hg
 
 theorem rhoM_one (D : ModDesc95 hc t M₀ φ Y₁ Y₂) : rhoM D (1 : G) = 1 := by
   rw [rhoM_of_mem D (Rt M (LB M Q B) t).one_mem]
@@ -76,6 +80,7 @@ theorem rhoM_inv (D : ModDesc95 hc t M₀ φ Y₁ Y₂) {g : G} (hg : g ∈ Rt M
   rw [rhoM_of_mem D hg, rhoM_of_mem D ((Rt M (LB M Q B) t).inv_mem hg)]
   exact map_inv D.ρ ⟨g, hg⟩
 
+omit [Finite G] [Finite K] in
 theorem actM_conj_apply {g n : G} (hg : g ∈ H0 M Z) (hn : n ∈ H0 M Z) (e : M₀.E) :
     actM φ (g * n * g⁻¹) (actM φ g e) = actM φ g (actM φ n e) := by
   rw [actM_mul ((H0 M Z).mul_mem hg hn) ((H0 M Z).inv_mem hg), actM_mul hg hn, actM_inv hg]
@@ -97,11 +102,12 @@ theorem actM_eq_one_of_mem_Q {q : G} (hq : q ∈ Q) : actM φ q = 1 := by
   rw [actM_of_mem (hc.Q_le_H0 hq)]
   exact (S.hφQ _).mpr hq
 
+omit [Finite G] [Finite K] [AddCommGroup Y₁] [Module K Y₁] [AddCommGroup Y₂] [Module K Y₂] S in
 theorem pi_eq_zero_iff {x : G} (hx : x ∈ Q) : M₀.π x = 0 ↔ x ∈ Z := M₀.π_ker x hx
 
 @[expose] noncomputable def Wsub : Submodule K M₀.E :=
   imgSub M₀ (Wt Q (Vt M (LB M Q B) B Z t))
-    (fun c e he => smul_mem_img_Wt M₀ S.glob.reg (hc.Vt_le_Q t) c he)
+    (fun c _e he => smul_mem_img_Wt M₀ S.glob.reg (hc.Vt_le_Q t) c he)
 
 theorem exists_sec : ∃ s : (Fin 2 → Y₁) × (Fin 2 → Y₂) →ₗ[K] M₀.E,
     ∀ y, s y ∈ M₀.img (Wt Q (Vt M (LB M Q B) B Z t)) ∧ S.desc.cW (s y) = y := by
@@ -141,7 +147,7 @@ theorem actM_fix_V {n : G} (hn : n ∈ hc.CN t) {e : M₀.E}
   have hcomm : ⁅n, v⁆ ∈ Z := (Ctx.mem_CN.mp hn).2 v hvV
   have hcommQ : ⁅n, v⁆ ∈ Q := hc.Z_le_Q hcomm
   have e1 : n * v * n⁻¹ = ⁅n, v⁆ * v := by simp only [commutatorElement_def]; group
-  rw [← S.pi_conj hnH hvQ, e1, M₀.π_mul _ hcommQ _ hvQ, (S.pi_eq_zero_iff hcommQ).mpr hcomm,
+  rw [← S.pi_conj hnH hvQ, e1, M₀.π_mul _ hcommQ _ hvQ, (CFSG.RankThree.GF2n.Stroth80.HS9.Setup95.pi_eq_zero_iff hcommQ).mpr hcomm,
     zero_add]
 
 theorem actM_sub_mem_V {n : G} (hn : n ∈ hc.CN t) {e : M₀.E}

@@ -54,8 +54,8 @@ theorem testBit_iff (m i : ℕ) : m.testBit i = true ↔ bitN m i = 1 := by
 theorem ite_testBit (m i : ℕ) : (if m.testBit i = true then 1 else 0) = bitN m i := by
   rcases bitN_le m i with h | h
   · have : m.testBit i ≠ true := fun e => by rw [(testBit_iff m i).1 e] at h; exact absurd h (by decide)
-    rw [if_neg this, h]
-  · rw [if_pos ((testBit_iff m i).2 h), h]
+    rw [ite_eq_right this, h]
+  · rw [ite_eq_left ((testBit_iff m i).2 h), h]
 
 theorem rec_all {n : ℕ} {f : ℕ → Bool}
     (h : Nat.rec (motive := fun _ => Bool) true (fun j ih => bAnd(f j, ih)) n = true) :
@@ -239,9 +239,7 @@ theorem labAll_sound {L P : Array ℕ} {p : Perm (Fin 12)} {q : ℕ → ℕ}
   obtain ⟨h1, h2⟩ := bAnd_tt h
   obtain ⟨h2, h3⟩ := bAnd_tt h2
   rw [bForce_eq] at h3
-  beta_reduce at h3
   rw [bForce_eq] at h3
-  beta_reduce at h3
   have hc := CFSG.KS.HNLocal.allBelow_spec h3 k.val k.2 (by omega)
   have hLl : L.toList.length = 462 := by simpa using hL
   have hPl : P.toList.length = 462 := by simpa using hP
@@ -262,7 +260,6 @@ theorem canonAll_sound {L : Array ℕ} (hL : L.size = 462) (h : canonAllB L = tr
     IsCanon (Finset.univ.filter fun i : Fin 12 => L[k.val]!.testBit i.val) := by
   obtain ⟨h1, h2⟩ := bAnd_tt h
   rw [bForce_eq] at h2
-  beta_reduce at h2
   have hc := CFSG.KS.HNLocal.allBelow_spec h2 k.val k.2 (by omega)
   have hLl : L.toList.length = 462 := by simpa using hL
   have rL : rdW 12 4095 (packW 12 L.toList) k.val = L[k.val]! := by
@@ -448,6 +445,7 @@ variable {p₁ p₂ : Perm (Fin 12)} {R : ℕ → Finset (Fin 12 × Fin 12)}
       (R n).image (fun q => (p₂ q.1, p₂ q.2)))
 include h0 hs
 
+omit h0 in
 theorem R_mono {m n : ℕ} (h : m ≤ n) : R m ⊆ R n := by
   induction n with
   | zero => rw [Nat.le_zero.1 h]
@@ -488,7 +486,7 @@ theorem card_of_words {N : ℕ} (W : Fin 12 → Fin 12 → List Bool)
     simp only [Finset.mem_filter, Finset.mem_univ, true_and]
     refine ⟨R_ne h0 hs N q, fun hq => ?_⟩
     obtain ⟨e1, e2⟩ := hW q.1 q.2 hq
-    have := R_mono h0 hs e2 (mem_word h0 hs (W q.1 q.2))
+    have := R_mono hs e2 (mem_word h0 hs (W q.1 q.2))
     rwa [e1] at this
   rw [e]
   decide +kernel

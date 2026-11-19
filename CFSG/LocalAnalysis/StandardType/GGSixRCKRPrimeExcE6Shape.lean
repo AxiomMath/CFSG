@@ -186,7 +186,7 @@ theorem rckE6_famClass_not_excShape
     (iK : KernelComponent (rckFamChar g (fun x : S => (x : ModGL Tag.E6 GGL)))) :
     ¬ RCKExcShape ρ
       (componentRoots (rckFamChar g (fun x : S => (x : ModGL Tag.E6 GGL))) iK) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨y, hy⟩ := (isCyclic_of_prime_card hS).exists_generator
   have hSeq : S = Subgroup.zpowers (y : ModGL Tag.E6 GGL) := by
     refine le_antisymm (fun z hz => ?_) ((Subgroup.zpowers_le).2 y.2)

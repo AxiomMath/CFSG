@@ -156,7 +156,7 @@ theorem typeII_normal_core_proof (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : Ful
     (hK : TypeIIKFacts) (hX : ExtraFacts Typ p Shape) (hc : PointConfig Typ G p P M x J)
     (hfus : (P : Subgroup G) ≤ Subgroup.centralizer ({x} : Set G) ∧ U3LineWC x (P : Subgroup G)) :
     M ≤ Subgroup.normalizer ((u3T P x J ⊔ rankThreePrimeCore p M : Subgroup G) : Set G) := by
-  haveI : Fact p.Prime := ⟨hc.prime⟩
+  have : Fact p.Prime := ⟨hc.prime⟩
   exact u3_normal_core_proof_gen hS hD1 hU0 hK.inner hK.weak hK.heis hc hfus (typeII_T_structure hX hc)
     (typeII_S_decomp hX hc) (typeAutPCard_of_extra hX) (typeTorusIrred_of_extra hX) (typeTorusFpf_of_extra hX)
     (typeTorusOnCenter_of_extra hX) (typeBorelMax_of_extra hX)

@@ -98,7 +98,7 @@ theorem e6TwoRatLabelD_permLattice_eq_one
     have h2 := congrFun h1 i
     by_contra hne
     have h3 : ¬ (i = σ i) := fun h4 => hne h4.symm
-    simp [Pi.single_apply, h3] at h2
+    simp [h3] at h2
   · exact hσ i hi
 
 theorem e6TwoRatLabelD_leafPerm_eq_one
@@ -129,7 +129,7 @@ theorem e6TwoRatLabelD_leafPerm_eq_one
     have h2 := congrFun h1 i
     by_contra hne
     have h3 : ¬ (i = π i) := fun h4 => hne h4.symm
-    simp [Pi.single_apply, h3] at h2
+    simp [h3] at h2
   · exact hπfix i hi
 
 theorem e6TwoRatLabelD_conj_inv_mem_parabolic

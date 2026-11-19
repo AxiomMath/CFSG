@@ -249,7 +249,7 @@ theorem bmPComponent_of_inverted_prod {G : Type} [Group G] [Finite G] {p : ℕ} 
     (hs : IsSimpleGroup ↥H) (hnab : ∃ a b : ↥H, a * b ≠ b * a) (hpH : p ∣ Nat.card ↥H)
     (hbound : Nat.card ↥(Subgroup.centralizer ({k} : Set G)) ≤ p * Nat.card ↥H) :
     ∃ J : Subgroup G, GLAPComponent p (Subgroup.centralizer ({k} : Set G)) J := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set X : Subgroup G := Subgroup.centralizer ({k} : Set G) with hX
   have hkX : k ∈ X := Subgroup.mem_centralizer_singleton_iff.2 rfl
   have hinv : ∀ g ∈ Subgroup.zpowers k, α * g * α⁻¹ = g⁻¹ := by
@@ -348,9 +348,9 @@ theorem bmPComponent_of_inverted_prod {G : Type} [Group G] [Finite G] {p : ℕ} 
   have hKp : IsPGroup p ↥(Subgroup.zpowers k) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hk, pow_one])
   have hcent : IsPGroup p ↥(X ⊓ Subgroup.centralizer (H : Set G)) := hKp.to_le hcentle
-  haveI := hs
+  have := hs
   have hLq : CFSG.Open.IsQuasisimple ↥H := tabMFive_quasisimple_of_simple_nonab hnab
-  haveI := hs
+  have := hs
   have hLq : CFSG.Open.IsQuasisimple ↥H := tabMFive_quasisimple_of_simple_nonab hnab
   have hcore := glaPPrimeCore_eq_bot_of_normal_quasisimple hp hHk hLn hLq hpH hcent
   exact ⟨H, glaPComponent_of_normal_quasisimple hHk hLn hLq hcore⟩

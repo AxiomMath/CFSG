@@ -62,8 +62,7 @@ theorem exists_hom_of_hasA8 {Λ : Type} [Group Λ] {B : Subgroup Λ} (h : HasA8 
   obtain ⟨e⟩ := h
   refine ⟨e.toMonoidHom.comp (QuotientGroup.mk' (CFSG.pCore 2 ↥B)), ?_, ?_⟩
   · exact e.surjective.comp (QuotientGroup.mk'_surjective _)
-  · try with_reducible rfl
-    ext x
+  · ext x
     rw [MonoidHom.mem_ker, MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom,
       map_eq_one_iff e e.injective]
     exact QuotientGroup.eq_one_iff x

@@ -29,7 +29,7 @@ theorem perm_apply_eq' {n : ℕ} {t : Array ℕ} {g : Equiv.Perm (Fin n)} (ht : 
 
 theorem permsA_pair' (n : ℕ) (a b : Array ℕ) : permsA n #[a, b] = {permOfArr n a, permOfArr n b} := by
   ext x
-  simp only [permsA, Set.mem_image, Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
+  simp only [permsA, Set.mem_image, Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
   constructor
   · rintro ⟨k, hk, rfl⟩
     have hk2 : k < 2 := by simpa using hk
@@ -193,10 +193,10 @@ theorem L_simple : IsSimpleGroup (Subgroup.closure (permsA 513 #[la, lb])) := by
     (pa := permOfArr 9 pa) (pb := permOfArr 9 pb) (fun j => ?_) (fun j => ?_) (by rw [permsA_pair'])
     (by rw [permsA_pair']) ?_ hPs
   · apply Fin.ext
-    rw [Fin.coe_castLE, ← hPa j, MonoidHom.id_apply, ← La_rep (Fin.castLE h9 j), Fin.coe_castLE]
+    rw [Fin.val_castLE, ← hPa j, MonoidHom.id_apply, ← La_rep (Fin.castLE h9 j), Fin.val_castLE]
     exact (hlab j).1.symm
   · apply Fin.ext
-    rw [Fin.coe_castLE, ← hPb j, MonoidHom.id_apply, ← Lb_rep (Fin.castLE h9 j), Fin.coe_castLE]
+    rw [Fin.val_castLE, ← hPb j, MonoidHom.id_apply, ← Lb_rep (Fin.castLE h9 j), Fin.val_castLE]
     exact (hlab j).2.symm
   · have hcP : Nat.card (Subgroup.closure (permsA 9 pGens)) = 504 := by
       rw [(enumOK_spec hps9 enumP.1).2.1, szP]

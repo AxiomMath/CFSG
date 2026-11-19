@@ -39,7 +39,7 @@ theorem sec5cn_pair_expand (x₁ x₂ p : SL23) (h₁ : x₁ * x₁ = -1) (h₂ 
     ∃ i j k : Fin 2, p = (-1) ^ (k : ℕ) * x₁ ^ (i : ℕ) * x₂ ^ (j : ℕ) ∧
       ((j = 0 ∧ p * x₁ = x₁ * p) ∨ (j = 1 ∧ p * x₁ = -(x₁ * p))) ∧
       ((i = 0 ∧ p * x₂ = x₂ * p) ∨ (i = 1 ∧ p * x₂ = -(x₂ * p))) := by
-  letI : DecidableEq SL23 := inferInstance
+  let : DecidableEq SL23 := inferInstance
   exact (by decide : ∀ x₁ x₂ p : SL23, x₁ * x₁ = -1 → x₂ * x₂ = -1 → x₁ * x₂ = -(x₂ * x₁) →
     p ^ 4 = 1 → ∃ i j k : Fin 2, p = (-1) ^ (k : ℕ) * x₁ ^ (i : ℕ) * x₂ ^ (j : ℕ) ∧
       ((j = 0 ∧ p * x₁ = x₁ * p) ∨ (j = 1 ∧ p * x₁ = -(x₁ * p))) ∧

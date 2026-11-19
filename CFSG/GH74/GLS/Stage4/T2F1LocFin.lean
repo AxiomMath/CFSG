@@ -297,7 +297,7 @@ theorem hyp94Loc_of_charts
   have hSinj : ∀ x ∈ (S : Subgroup X), π x = 1 → x = 1 := by
     intro x hx h
     have hxR : x ∈ R := (QuotientGroup.eq_one_iff x).1 h
-    obtain ⟨k, hk⟩ := S.isPGroup' ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨x, hx⟩
     have hk' : x ^ (2 ^ k) = 1 := by simpa using congrArg Subtype.val hk
     have hd : orderOf x ∣ 2 ^ k := orderOf_dvd_of_pow_eq_one hk'
     obtain ⟨i, -, hi⟩ := (Nat.dvd_prime_pow Nat.prime_two).1 hd

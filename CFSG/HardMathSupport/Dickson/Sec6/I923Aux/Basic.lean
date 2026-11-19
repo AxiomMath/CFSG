@@ -98,7 +98,7 @@ theorem inner_of_pow_three {T : Type*} [Group T] [Finite T] (h : ¬ 3 ∣ Nat.ca
 theorem mem_innAutDerived_of_card_outer {Y T : Type} [Group Y] [Group T] [Finite T]
     (hY : CFSG.Open.IsQuasisimple Y) (e : (Y ⧸ Subgroup.center Y) ≃* T)
     (h : ¬ 3 ∣ Nat.card (Outer T)) {α : MulAut Y} (h3 : α ^ 3 = 1) : α ∈ innAutDerived Y := by
-  haveI : Group.IsPerfect Y := ⟨hY.1⟩
+  have : Group.IsPerfect Y := ⟨hY.1⟩
   have hβ3 : (MulAut.congr e (centerDescend Y α)) ^ 3 = 1 := by
     rw [← map_pow, ← map_pow, h3, map_one, map_one]
   have hinn : IsInnerAut (MulAut.congr e (centerDescend Y α)) := inner_of_pow_three h hβ3
@@ -109,7 +109,7 @@ theorem mem_innAutDerived_alt_ne_six {Y : Type} [Group Y] (hY : CFSG.Open.IsQuas
     {n : ℕ} (hn : 5 ≤ n) (h6 : n ≠ 6)
     (e : (Y ⧸ Subgroup.center Y) ≃* alternatingGroup (Fin n)) {α : MulAut Y} (h3 : α ^ 3 = 1) :
     α ∈ innAutDerived Y := by
-  haveI : Group.IsPerfect Y := ⟨hY.1⟩
+  have : Group.IsPerfect Y := ⟨hY.1⟩
   have hbij := CFSG.GroupTheory.AutAlternating.aut_alternatingGroup_bijective_conj n hn h6
   have hβ3 : (MulAut.congr e (centerDescend Y α)) ^ 3 = 1 := by
     rw [← map_pow, ← map_pow, h3, map_one, map_one]

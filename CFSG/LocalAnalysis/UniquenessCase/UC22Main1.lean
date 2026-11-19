@@ -11,12 +11,15 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem uc22main1_pCoreOf_le (K : Subgroup G) : pCoreOf 2 K ≤ K :=
   Subgroup.map_subtype_le _
 
+omit [Finite G] in
 theorem uc22main1_isPGroup_pCoreOf (K : Subgroup G) : IsPGroup 2 (pCoreOf 2 K) :=
   (CFSG.pCore_isPGroup (p := 2) (G := ↥K)).map K.subtype
 
+omit [Finite G] in
 theorem uc22main1_le_pCoreOf {K P : Subgroup G} (hPK : P ≤ K) (hP : IsPGroup 2 P)
     (hn : ∀ k ∈ K, ∀ x ∈ P, k * x * k⁻¹ ∈ P) : P ≤ pCoreOf 2 K := by
   have hN : (P.subgroupOf K).Normal := ⟨fun x hx k => hn (k : G) k.2 x hx⟩
@@ -25,12 +28,14 @@ theorem uc22main1_le_pCoreOf {K P : Subgroup G} (hPK : P ≤ K) (hP : IsPGroup 2
   intro x hx
   exact ⟨⟨x, hPK hx⟩, hle hx, rfl⟩
 
+omit [Finite G] in
 theorem uc22main1_conj_mem_pCoreOf_self {K : Subgroup G} {k x : G} (hk : k ∈ K)
     (hx : x ∈ pCoreOf 2 K) : k * x * k⁻¹ ∈ pCoreOf 2 K := by
   obtain ⟨y, hy, rfl⟩ := hx
   exact ⟨⟨k, hk⟩ * y * ⟨k, hk⟩⁻¹,
     (CFSG.pCore_normal (p := 2) (G := ↥K)).conj_mem y hy ⟨k, hk⟩, rfl⟩
 
+omit [Finite G] in
 theorem uc22main1_conj_mem_pCoreOf {N K : Subgroup G}
     (hnorm : ∀ n ∈ N, ∀ k ∈ K, n * k * n⁻¹ ∈ K) {n x : G} (hn : n ∈ N)
     (hx : x ∈ pCoreOf 2 K) : n * x * n⁻¹ ∈ pCoreOf 2 K := by
@@ -45,10 +50,11 @@ theorem uc22main1_conj_mem_pCoreOf {N K : Subgroup G}
     have hk' : n⁻¹ * k * n ∈ K := by simpa using hnorm n⁻¹ (N.inv_mem hn) k hk
     refine ⟨(n⁻¹ * k * n) * y * (n⁻¹ * k * n)⁻¹,
       uc22main1_conj_mem_pCoreOf_self hk' hy, ?_⟩
-    simp only [MulAut.conj_apply, MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe]
+    simp only [MulAut.conj_apply, MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass]
     group
   exact uc22main1_le_pCoreOf hPK hP2 hPn ⟨x, hx, rfl⟩
 
+omit [Finite G] in
 theorem uc22main1_no_odd_prime_elt {N K : Subgroup G} (hKN : K ≤ N)
     (hnorm : ∀ n ∈ N, ∀ k ∈ K, n * k * n⁻¹ ∈ K)
     (hN : N ⊓ centralizer (pCoreOf 2 N : Set G) ≤ pCoreOf 2 N)
@@ -113,7 +119,7 @@ theorem uc22main1_cent_pCoreOf_le {N K : Subgroup G} (hKN : K ≤ N)
     refine IsPGroup.of_card (Nat.eq_prime_pow_of_unique_prime_dvd Nat.card_pos.ne' ?_)
     intro q hq hqd
     by_contra hq2
-    haveI : Fact q.Prime := ⟨hq⟩
+    have : Fact q.Prime := ⟨hq⟩
     obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' q hqd
     exact uc22main1_no_odd_prime_elt hKN hnorm hN y.2.1 y.2.2 hq hq2
       ((Subgroup.orderOf_coe y).trans hy)
@@ -130,6 +136,7 @@ theorem uc22main1_cent_pCoreOf_le {N K : Subgroup G} (hKN : K ≤ N)
     _ = k * (x * (k⁻¹ * y * k)) * k⁻¹ := by rw [h]
     _ = (k * x * k⁻¹) * y := by group
 
+omit [Finite G] in
 theorem uc22main1_conj_mem_centralizer {Z : Subgroup G} {n k : G}
     (hn : n ∈ normalizer (Z : Set G)) (hk : k ∈ centralizer (Z : Set G)) :
     n * k * n⁻¹ ∈ centralizer (Z : Set G) := by
@@ -177,8 +184,8 @@ theorem uc22main1_centralizer_mem_hSet (D : Data G) (hC : ¬ centralizer (D.Z : 
 
 theorem uc22main1_exists_irr (D : Data G) :
     ∃ V : Subgroup G, V ≤ D.U ∧ V ≠ ⊥ ∧ D.M ≤ normalizer (V : Set G) ∧ IrrOn D.M V := by
-  haveI : Finite (Subgroup G) := Finite.of_injective _ SetLike.coe_injective
-  haveI : WellFoundedLT (Subgroup G) := Finite.to_wellFoundedLT
+  have : Finite (Subgroup G) := Finite.of_injective _ SetLike.coe_injective
+  have : WellFoundedLT (Subgroup G) := Finite.to_wellFoundedLT
   have hU : D.U ≠ ⊥ := fun h =>
     uc22main1_Z_ne_bot D (le_bot_iff.1 (h ▸ uc22main1_Z_le_U D))
   obtain ⟨V, hV⟩ := exists_minimal_of_wellFoundedLT
@@ -225,8 +232,8 @@ theorem uc22main1_ctx21 (D : Data G) (Ch : Choice2011 G) (h1930 : H1930 D) (h20_
       ∃ B0 : Subgroup G, Ch L0 B0 ∧ B0 ∈ calB1 D.T D.M L0 ∧ piSet B0 = etaSet n ∧
         AlphaCond D.T B0 n ∧ B0 ≤ D.M)
     {L : Subgroup G} (hL : L ∈ calL D.T D.M) : ∃ c : Ctx21 D Ch, c.L0 ≤ L := by
-  haveI : Finite (Subgroup G) := Finite.of_injective _ SetLike.coe_injective
-  haveI : WellFoundedLT (Subgroup G) := Finite.to_wellFoundedLT
+  have : Finite (Subgroup G) := Finite.of_injective _ SetLike.coe_injective
+  have : WellFoundedLT (Subgroup G) := Finite.to_wellFoundedLT
   obtain ⟨L0, hle, hmin⟩ := exists_minimal_le_of_wellFoundedLT (· ∈ calL D.T D.M) L hL
   have hL0 : L0 ∈ calLLow D.T D.M := hmin
   obtain ⟨n, hn⟩ := uc22main1_nParam D h20_10 h1930 hL0

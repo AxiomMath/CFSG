@@ -279,7 +279,7 @@ theorem exists_twin_q8 (h : PerpHypS n Y R S t) {φ : QuaternionGroup 2 →* Y}
     ∃ (φ' : QuaternionGroup 2 →* Y) (c : Y), (∀ x, φ' x = c * φ x * c⁻¹) ∧
       φ' (QuaternionGroup.a 2) = t ∧ (∀ x y, φ x * φ' y = φ' y * φ x) ∧
       ∀ q q', q ^ 2 ≠ 1 → φ q ≠ φ' q' := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨g, -, hne, hK'Ω, hz'⟩ := exists_twin h
   set K := tightCore R with hKdef
   set K' := conjSub g K with hK'def
@@ -375,8 +375,8 @@ theorem false_of_rank (h : PerpHypS n Y R S t) (hcyc : TwinCyc4 ↥(genFittingFS
     (hout : RankLeTwo (Outer ↥(genFittingFStar Y)))
     (hcent : t ∈ genFittingFStar Y →
       RankLeTwo ↥(genFittingFStar Y ⊓ Subgroup.centralizer ({t} : Set Y))) : False := by
-  haveI := h.core.simple
-  haveI hTn : (genFittingFStar Y).Normal := genFittingFStar_normal Y
+  have := h.core.simple
+  have hTn : (genFittingFStar Y).Normal := genFittingFStar_normal Y
   set T := genFittingFStar Y with hT
   have hC : Subgroup.centralizer (T : Set Y) = ⊥ :=
     Nobq.centralizer_genFittingFStar_eq_bot h.core.nonab
@@ -446,7 +446,7 @@ theorem leaf_l3Ne3 {n : ℕ} : TwinLeafS n SmallL3Ne3 :=
 
 theorem leaf_u3Ne3 {n : ℕ} : TwinLeafS n SmallU3Ne3 :=
   TwinLeafS.of_no fun _ _ _ _ _ _ h _ hF => by
-    haveI := h.core.simple
+    have := h.core.simple
     obtain ⟨p, f, -, -, -, -, hm⟩ := id hF
     have hodd : Odd (Nat.gcd 3 (p ^ f + 1)) :=
       (by decide : Odd 3).of_dvd_nat (Nat.gcd_dvd_left 3 _)

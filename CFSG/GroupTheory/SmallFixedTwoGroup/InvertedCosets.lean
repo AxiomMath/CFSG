@@ -116,9 +116,9 @@ private lemma card_inverted_bound_fibre_g [Finite G] {θ : MulAut G} {p : ℕ} [
             s⁻¹ * g.1 ∈ P}
         ≤ p * Nat.card {s : G // θ s = s⁻¹ ∧ s₀⁻¹ * s ∈ P} := Nat.mul_le_mul_left p hle
       _ ≤ Nat.card P := card_inverted_bound_fibre hP hPS hs₀.1 hs₀.2.1
-  · haveI : IsEmpty {s : G // θ s = s⁻¹ ∧ s ∉ Subgroup.centralizer (P : Set G) ∧
+  · have : IsEmpty {s : G // θ s = s⁻¹ ∧ s ∉ Subgroup.centralizer (P : Set G) ∧
         s⁻¹ * g.1 ∈ P} := ⟨fun x => hne ⟨x⟩⟩
-    haveI : Fintype {s : G // θ s = s⁻¹ ∧ s ∉ Subgroup.centralizer (P : Set G) ∧
+    have : Fintype {s : G // θ s = s⁻¹ ∧ s ∉ Subgroup.centralizer (P : Set G) ∧
         s⁻¹ * g.1 ∈ P} := Fintype.ofFinite _
     have h0 : Nat.card {s : G // θ s = s⁻¹ ∧ s ∉ Subgroup.centralizer (P : Set G) ∧
         s⁻¹ * g.1 ∈ P} = 0 := by
@@ -160,20 +160,20 @@ theorem card_inverted_bound [Finite G] {θ : MulAut G} {p : ℕ} [Fact p.Prime]
     p * Nat.card {g : G // θ g = g⁻¹} + Nat.card (centralizer (P : Set G)) ≤
       p * Nat.card (centralizer (P : Set G)) + Nat.card G := by
   classical
-  haveI : Fintype G := Fintype.ofFinite G
+  have : Fintype G := Fintype.ofFinite G
   have hPC : P ≤ centralizer (P : Set G) := card_inverted_bound_le_centralizer hPS
   set nS : ℕ := Nat.card {g : G // θ g = g⁻¹} with hnS
   set nC : ℕ := Nat.card (centralizer (P : Set G)) with hnC
   set nG : ℕ := Nat.card G with hnG
-  haveI : Nonempty P := ⟨1⟩
+  have : Nonempty P := ⟨1⟩
   set nP : ℕ := Nat.card P with hnP
   let T := {s : G // θ s = s⁻¹ ∧ s ∉ centralizer (P : Set G)}
   let GC := {g : G // g ∉ centralizer (P : Set G)}
   let Z := {p : T × GC // p.1.1⁻¹ * p.2.1 ∈ P}
   set nT : ℕ := Nat.card T with hnT
-  haveI : Fintype T := Fintype.ofFinite T
-  haveI : Fintype GC := Fintype.ofFinite GC
-  haveI : Fintype Z := Fintype.ofFinite Z
+  have : Fintype T := Fintype.ofFinite T
+  have : Fintype GC := Fintype.ofFinite GC
+  have : Fintype Z := Fintype.ofFinite Z
   have hZcol : Nat.card Z = nT * nP := by
     rw [hnT, hnP]
     calc Nat.card Z
@@ -245,15 +245,15 @@ theorem card_inverted_bound [Finite G] {θ : MulAut G} {p : ℕ} [Fact p.Prime]
           dsimp only at hab
           by_cases ha : a.1 ∈ centralizer (P : Set G) <;>
             by_cases hb : b.1 ∈ centralizer (P : Set G)
-          · rw [dif_pos ha, dif_pos hb] at hab
+          · rw [dite_eq_left ha, dite_eq_left hb] at hab
             have h2 : (⟨a.1, ha⟩ : centralizer (P : Set G)) = ⟨b.1, hb⟩ :=
               Sum.inr.inj hab
             exact Subtype.ext (congrArg (fun x : centralizer (P : Set G) => (x : G)) h2)
-          · rw [dif_pos ha, dif_neg hb] at hab
+          · rw [dite_eq_left ha, dite_eq_right hb] at hab
             cases hab
-          · rw [dif_neg ha, dif_pos hb] at hab
+          · rw [dite_eq_right ha, dite_eq_left hb] at hab
             cases hab
-          · rw [dif_neg ha, dif_neg hb] at hab
+          · rw [dite_eq_right ha, dite_eq_right hb] at hab
             have h2 : (⟨a.1, a.2, ha⟩ : T) = ⟨b.1, b.2, hb⟩ := Sum.inl.inj hab
             exact Subtype.ext (congrArg (fun x : T => (x : G)) h2)
       _ = Nat.card T + Nat.card (centralizer (P : Set G)) := Nat.card_sum

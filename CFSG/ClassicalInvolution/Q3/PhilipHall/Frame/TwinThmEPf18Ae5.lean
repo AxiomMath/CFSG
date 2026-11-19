@@ -74,8 +74,8 @@ theorem ae5_label_eq_of_omegaStarNbr (F : TwinDisc.ExitO2.Q8Fam Y Δ) (I : AEIde
 
 theorem ae5_not_dstarConnected (F : TwinDisc.ExitO2.Q8Fam Y Δ) (I : TC.Thin.AEIdent Δ 5)
     {K : Subgroup Y} (hK : K ∈ Δ) (hconn : ∀ L ∈ Δ, L ∈ dstarComp Δ K)
-    (htw : ∃ K' ∈ twinSet Δ K, K' ≠ K) : False := by
-  clear htw
+    (_htw : ∃ K' ∈ twinSet Δ K, K' ≠ K) : False := by
+  clear _htw
   obtain ⟨α0, h0, b0, hl0⟩ := I.label K hK
   have hconst : ∀ L, Relation.ReflTransGen (dstarAdj Δ) K L → L ∈ Δ ∧
       ∃ (h : α0.card = 4) (b : Bool), (L.subgroupOf (pSpan Δ)).map I.φ = AE.memBar α0 h b := by

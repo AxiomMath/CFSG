@@ -19,12 +19,12 @@ theorem lowerTwE6_holds :
     LowerTwE6 := by
   intro G _ _ L hq hcat
   classical
-  haveI : Group.IsPerfect ↥L := ⟨hq.1⟩
+  have : Group.IsPerfect ↥L := ⟨hq.1⟩
   obtain ⟨d, hv, hP, ⟨e⟩⟩ := CFSG.LocalAnalysis.GLTheoremA.CatB.exists_lieIndex hcat
   obtain ⟨q, rfl, hq2, hq3⟩ := hP
   set dd : TauCeti.ValidLieTypeIndex := ⟨.twistedE6 q, hv⟩ with hdd
-  haveI := finite_fixedField dd
-  haveI : Fintype dd.fixedField := Fintype.ofFinite _
+  have := finite_fixedField dd
+  have : Fintype dd.fixedField := Fintype.ofFinite _
   have hchar : dd.characteristic = q.p := TauCeti.LieTypeIndex.characteristic_twistedE6 q
   have h3 : q.p ^ q.exponent % 3 = 2 := by
     rw [TauCeti.PrimePower.card_def] at hq3

@@ -88,8 +88,8 @@ theorem kronDep_diagonal [DecidableEq ι] [∀ i, DecidableEq (κ i)] (δ : (i :
   · subst h
     simp
   · obtain ⟨i, hi⟩ := Function.ne_iff.mp h
-    rw [if_neg h]
-    exact Finset.prod_eq_zero (Finset.mem_univ i) (if_neg hi)
+    rw [ite_eq_right h]
+    exact Finset.prod_eq_zero (Finset.mem_univ i) (ite_eq_right hi)
 
 theorem pureTensor_smul_prod (v : (i : ι) → κ i → k) (c : ι → k) :
     pureTensor κ (fun i => c i • v i) = (∏ i, c i) • pureTensor κ v := by

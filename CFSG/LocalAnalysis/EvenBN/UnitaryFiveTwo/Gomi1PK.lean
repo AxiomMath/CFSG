@@ -51,7 +51,7 @@ theorem gomiLemma1PInputK
     CFSG.ComponentClassification.GSThmB.CF23I.card_of_lieModel_Sp44 hY
   have hLtop : genFittingLayer X ≠ ⊤ := fun h =>
     t_not_mem_of_facts hfacts hYcard ht2 htn' htY (h ▸ Subgroup.mem_top t)
-  haveI := hfacts.simple
+  have := hfacts.simple
   have hnab : ∃ a b : ↥(genFittingLayer X), a * b ≠ b * a := by
     obtain ⟨a, ha, b, hb, hab⟩ := hfacts.nonabelian
     exact ⟨⟨a, ha⟩, ⟨b, hb⟩, fun h => hab (congrArg Subtype.val h)⟩

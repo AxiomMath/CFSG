@@ -80,10 +80,10 @@ private theorem ggD4OddCentGraph_core
       obtain ⟨m, hm⟩ := hodd
       omega
     rw [hn1] at hF₁ hshape
-    haveI : Fintype F₁ := Fintype.ofFinite F₁
+    have : Fintype F₁ := Fintype.ofFinite F₁
     have hF₂ : Nat.card F₁ = 2 := by simpa using hF₁
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : CharP F₁ 2 :=
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : CharP F₁ 2 :=
       charP_of_card_eq_prime_pow (p := 2) (f := 1)
         (by rw [← Nat.card_eq_fintype_card]; exact hF₂)
     let φ : K ⧸ Subgroup.center K ≃* orthDerived (coordinateQuadPlus 4 F₁) :=
@@ -92,7 +92,7 @@ private theorem ggD4OddCentGraph_core
     have hL : CFSG.Blueprint.LieModel (K ⧸ Subgroup.center K) .POmegaPlus 4 2 1 :=
       CFSG.SeitzReduction.OmegaPilot.lieModel_of_mulEquiv_orthDerived_plus
         (m := 4) (f := 1) le_rfl le_rfl (by simpa using hF₂) φ
-    haveI : Group.IsPerfect K := ⟨hK⟩
+    have : Group.IsPerfect K := ⟨hK⟩
     have hcZ4 : Nat.card (Subgroup.center K) ∣ 4 :=
       CFSG.ComponentClassification.RankTwoClassical.card_center_dvd_four_of_omegaEight hL
     let π : K →* D4Recipe F₁ := θ.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center K))
@@ -120,7 +120,7 @@ private theorem ggD4OddCentGraph_core
       · intro r hr
         have hr' : s r = r := hr
         obtain ⟨g, hg⟩ := hπsurj r
-        haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+        have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
         have hx : g⁻¹ * σ g ∈ Subgroup.center K := by
           apply hπker
           rw [map_mul, map_inv, ← hcomm g, hg, hr']
@@ -149,7 +149,7 @@ private theorem ggD4OddCentGraph_core
         intro k
         exact Subtype.ext
           (Subgroup.mem_center_iff.mp (hπker (j : K) (hle j.2)) (k : K))
-      haveI : Nontrivial (↥J ⧸ Subgroup.center ↥J) := hcomp.2.2.2.toNontrivial
+      have : Nontrivial (↥J ⧸ Subgroup.center ↥J) := hcomp.2.2.2.toNontrivial
       obtain ⟨q, hq⟩ := exists_ne (1 : ↥J ⧸ Subgroup.center ↥J)
       have hq1 : q = 1 := by
         induction q using QuotientGroup.induction_on with
@@ -192,8 +192,8 @@ private theorem ggD4OddCentGraph_core
         (n := 1) le_rfl hk E hJmap
       refine largeEvenMarking_mono (fun lab R _ I F θ h => Or.inl h)
         (ggD4OddCentGraph_marking_of_map hcomp.2.2.1 eJ hmark)
-    · haveI : Group.IsSolvable ↥(ggAutFixedSubgroup s) := by
-        haveI := ggTriD4_pgu_two_solvable (n := 1) rfl hFc
+    · have : Group.IsSolvable ↥(ggAutFixedSubgroup s) := by
+        have := ggTriD4_pgu_two_solvable (n := 1) rfl hFc
         exact Group.isSolvable_of_isSolvable_injective (f := E.toMonoidHom) E.injective
       exact (gffa2_false_of_solvable this hJmap).elim
     · exfalso; omega
@@ -208,8 +208,8 @@ theorem ggD4OddCentGraphCore_holds
     obtain ⟨rfl, rfl⟩ := hD
     refine ⟨hperf, ⟨.D, 4, n⟩, hlab, ?_⟩
     unfold LargeEvenRawDatumLegacy at hraw ⊢
-    rw [if_neg (by norm_num : ¬ (4 : ℕ) = 3)] at hraw
-    rw [if_neg (by norm_num : ¬ (4 : ℕ) = 3)]
+    rw [ite_eq_right (by norm_num : ¬ (4 : ℕ) = 3)] at hraw
+    rw [ite_eq_right (by norm_num : ¬ (4 : ℕ) = 3)]
     obtain ⟨F₁, i1, i2, hF₁, hs, hna, θ, hPθ⟩ := hraw
     exact ⟨F₁, i1, i2, hF₁, hs, hna, θ, hPθ, fun hdat hnot =>
       ggD4OddCentGraph_core hK hloc hF₁ hdat.2.2.1 θ hnot⟩

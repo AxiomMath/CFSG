@@ -14,6 +14,7 @@ variable {G : Type} [Group G] [Finite G]
 @[expose] def s208Comps (D : Data G) (N : Subgroup G) : Set (Subgroup G) :=
   {C | C ∈ CFSG.Quasithin.cComp N ∧ ¬ C ≤ D.M ∧ CFSG.Open.IsQuasisimple (Bar2 C)}
 
+omit [Finite G] in
 theorem s208b_le_normalizer_sSup {N : Subgroup G} {𝒦 : Set (Subgroup G)}
     (h : ∀ g ∈ N, ∀ C ∈ 𝒦, uc22p20bCj g C ∈ 𝒦) :
     N ≤ normalizer ((sSup 𝒦 : Subgroup G) : Set G) := by

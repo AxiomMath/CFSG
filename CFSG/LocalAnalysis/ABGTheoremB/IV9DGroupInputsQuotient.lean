@@ -85,7 +85,7 @@ theorem exists_odd_le_centralizer (hQ : IsDGroup Q) (hO : CFSG.oddCore Q = ⊥)
       (Subgroup.centralizer ({x} : Set Q)).subtype
     have hxPQ : x ∈ PQ := ⟨x', hx'P, rfl⟩
     obtain ⟨S, hPS⟩ :=
-      (P.isPGroup'.map (Subgroup.centralizer ({x} : Set Q)).subtype).exists_le_sylow
+      (P.isPGroup.map (Subgroup.centralizer ({x} : Set Q)).subtype).exists_le_sylow
     obtain ⟨F, _, _, ι, L, E, hd⟩ := hlin S
     have hEP : E ≤ Subgroup.centralizer (PQ : Set Q) :=
       hd.le_centralizer.trans (Subgroup.centralizer_le (SetLike.coe_subset_coe.mpr hPS))

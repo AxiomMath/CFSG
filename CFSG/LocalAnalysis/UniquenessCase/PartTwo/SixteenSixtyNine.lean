@@ -42,7 +42,7 @@ private theorem s16b_barSub_eq_bot_iff (D : Data G) {V : Subgroup G} (h : Hyp125
 private theorem s16b_comm_eq_bot_of_le_M (D : Data G) {V₀ V : Subgroup G} (h : Hyp125 D V₀ V)
     (hW : ⁅E3.wClos V 0 D.T, V⁆ = ⊥) {g : G} (hg : conjSubgroup V g ≤ D.M) :
     ⁅V, conjSubgroup V g⁆ = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hV2 : IsPGroup 2 V := h.isElemAbelian.isPGroup
   obtain ⟨m, hmM, hm⟩ := UC6.exists_conj_le_of_isSylowOf D.sylowM hg
     (E3.isPGroup_conjSubgroup hV2 g)

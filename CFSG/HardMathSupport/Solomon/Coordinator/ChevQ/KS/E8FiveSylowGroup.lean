@@ -71,11 +71,11 @@ structure IsLift (F : E8P4Frame0 K L ℓ f) (m : ModGL .E8 L) : Prop where
 variable {F : E8P4Frame0 K L ℓ f} {m : ModGL .E8 L}
 
 theorem sylowGrp_le_monomial (hm : IsLift F m) : sylowGrp F m ≤ monomialSubgroup .E8 L :=
-  sup_le (fun x hx => torusGroup_le_monomialSubgroup (mem_twistedTorusOf.1 hx).1)
+  sup_le (fun _x hx => torusGroup_le_monomialSubgroup (mem_twistedTorusOf.1 hx).1)
     (Subgroup.zpowers_le.2 hm.mem)
 
 theorem sylowGrp_le_twistFixed (hm : IsLift F m) : sylowGrp F m ≤ twistFixed F :=
-  sup_le (fun x hx => mem_twistFixed.2 (mem_twistedTorusOf.1 hx).2)
+  sup_le (fun _x hx => mem_twistFixed.2 (mem_twistedTorusOf.1 hx).2)
     (Subgroup.zpowers_le.2 hm.fix)
 
 theorem sylowGrp_le_adjoint (hm : IsLift F m) : sylowGrp F m ≤ adjointGroup .E8 L :=

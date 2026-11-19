@@ -122,7 +122,7 @@ theorem localPair_J4_of
     fun α hα => map_eq_of_forall_iff (centralizer_forall_iff α (forall_iff_of_map_eq hα)),
     hcoat.ne_top, centralizer_ne_top, ?_, goodLocal_Hj, hC⟩
   · rw [← hP]
-    exact P.isPGroup'
+    exact P.isPGroup
   · rw [← hP]
     exact P.not_dvd_index
   · obtain ⟨g, hgz, hgH⟩ := hgen

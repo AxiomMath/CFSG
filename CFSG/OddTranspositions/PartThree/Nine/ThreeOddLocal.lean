@@ -27,7 +27,7 @@ theorem eq_one_of_mem_oddCore_of_mul_self {o : K} (ho : o ∈ CFSG.oddCore K) (h
 theorem inf_oddCore_eq_bot_of_isPGroup {P : Subgroup K} (hP : IsPGroup 2 P) :
     P ⊓ CFSG.oddCore K = ⊥ := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  refine Subgroup.inf_eq_bot_of_coprime ?_
+  refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
   obtain ⟨n, hn⟩ := hP.exists_card_eq
   rw [hn]
   exact Nat.Coprime.pow_left n (Nat.coprime_two_left.mpr CFSG.ABGLocalTools.odd_card_oddCore)
@@ -117,7 +117,7 @@ theorem commute_of_mem_sylow_of_mul_self_eq_one (hC : HypothesisC D) (hH : Th91H
   have hc1 : c = 1 := by
     have hmem : c ∈ (T : Subgroup (Halpha D hC.alpha)) ⊓ CFSG.oddCore (Halpha D hC.alpha) :=
       ⟨hcT, hZO hcZ⟩
-    rwa [inf_oddCore_eq_bot_of_isPGroup T.isPGroup', Subgroup.mem_bot] at hmem
+    rwa [inf_oddCore_eq_bot_of_isPGroup T.isPGroup, Subgroup.mem_bot] at hmem
   have h : t * v * t⁻¹ = v := by
     rw [hcdef, mul_inv_eq_one] at hc1
     exact hc1
@@ -151,7 +151,7 @@ theorem exists_omegaOne (hC : HypothesisC D) (hH : Th91Hyp D hC)
         rw [← mul_inv_rev, ha2, inv_one] }
   refine ⟨U, fun x => Iff.rfl, ?_⟩
   have hUT : U ≤ TG := fun x hx => hx.1
-  have hU2 : IsPGroup 2 U := (T.isPGroup'.map _).to_le hUT
+  have hU2 : IsPGroup 2 U := (T.isPGroup.map _).to_le hUT
   obtain ⟨k, hk⟩ := hU2.exists_card_eq
   refine ⟨k, ?_, hk⟩
   have hZO := center_le_oddCore_of_pCore_eq_bot hC hP
@@ -186,7 +186,7 @@ theorem exists_omegaOne (hC : HypothesisC D) (hH : Th91Hyp D hC)
       have hmem : f z * f z ∈ (T : Subgroup (Halpha D hC.alpha)) ⊓
           CFSG.oddCore (Halpha D hC.alpha) :=
         ⟨Subgroup.mul_mem _ (hfT z) (hfT z), hZO hsqZ⟩
-      rwa [inf_oddCore_eq_bot_of_isPGroup T.isPGroup', Subgroup.mem_bot] at hmem
+      rwa [inf_oddCore_eq_bot_of_isPGroup T.isPGroup, Subgroup.mem_bot] at hmem
     exact congrArg Subtype.val hsq
   have hinj : Function.Injective fun z => (⟨(f z : G), hfU z⟩ : U) := by
     intro a b hab
@@ -286,7 +286,7 @@ theorem alpha_structure_of_pCore_eq_bot (hC : HypothesisC D) (hH : Th91Hyp D hC)
   have hβU : β = (U : Set G) \ {1} := by
     rw [hβeq]
     ext x
-    simp only [Set.mem_setOf_eq, Set.mem_diff, SetLike.mem_coe, Set.mem_singleton_iff, hU x]
+    simp only [Set.mem_ofPred_eq, Set.mem_sdiff, SetLike.mem_coe, Set.mem_singleton_iff, hU x]
     tauto
   obtain ⟨g, hg⟩ := mem_blockClass_iff.mp hβc
   have hα : hC.alpha = (fun x => g⁻¹ * x * g) '' β := by
@@ -316,6 +316,6 @@ theorem alpha_structure_of_pCore_eq_bot (hC : HypothesisC D) (hH : Th91Hyp D hC)
       _ = b := by rw [← mul_assoc, ha2, one_mul]
   · have hUn : (U : Set G).ncard = 2 ^ k := by rw [← Nat.card_coe_set_eq]; exact hUcard
     rw [hα, Set.ncard_image_of_injective _ hinj, hβU,
-      Set.ncard_diff_singleton_of_mem (show (1 : G) ∈ (U : Set G) from U.one_mem), hUn]
+      Set.ncard_sdiff_singleton_of_mem (show (1 : G) ∈ (U : Set G) from U.one_mem), hUn]
 
 end CFSG.OddTranspositions.PartThree.Nine

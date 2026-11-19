@@ -54,7 +54,7 @@ theorem eq_one_of_mem_zpowers_of_not_mem {M : Type*} [Group M] {p : ℕ} [Fact p
     ∀ l ∈ zpowers r, l ∈ Y → l = 1 := by
   intro l hl hlY
   by_contra hne
-  haveI : Finite ↥(zpowers r) :=
+  have : Finite ↥(zpowers r) :=
     finite_zpowers.2 (orderOf_pos_iff.1 (hr ▸ (Fact.out : p.Prime).pos))
   have hdvd : orderOf l ∣ p := by
     have h1 := Subgroup.orderOf_dvd_natCard (zpowers r) hl
@@ -173,7 +173,7 @@ theorem normGensOK_spec (hg : gensOK = true) {cs ns : List (List ℕ)}
     intro c hc n hn
     obtain ⟨w, hw, rfl⟩ := hn
     have h1 := List.all_eq_true.1 h c hc
-    simp only [normGensOK, Bool.and_eq_true] at h1
+    simp only [Bool.and_eq_true] at h1
     obtain ⟨hinv, hall⟩ := h1
     have h2 := List.all_eq_true.1 hall w hw
     rw [Bool.and_eq_true] at h2

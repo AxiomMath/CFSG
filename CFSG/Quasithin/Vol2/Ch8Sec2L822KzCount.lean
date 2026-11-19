@@ -37,7 +37,7 @@ theorem false_of_kzImage_card_kz {G : Type} [Group G] [Finite G] {H K : Subgroup
     (hQ : Nat.card (↥K ⧸ CFSG.pCore 2 ↥K) = 7920)
     (hM : ∀ U : Subgroup (↥K ⧸ CFSG.pCore 2 ↥K), Nat.card U = 144 → CFSG.pCore 2 ↥U = ⊥)
     (h16 : 16 ∣ Nat.card (kzImage_kz H K)) (h9 : 9 ∣ Nat.card (kzImage_kz H K)) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hOn : ∀ h ∈ H, ∀ x ∈ pCoreOf 2 H, h * x * h⁻¹ ∈ pCoreOf 2 H := by
     intro h hh x hx
     exact (Subgroup.mem_normalizer_iff.mp

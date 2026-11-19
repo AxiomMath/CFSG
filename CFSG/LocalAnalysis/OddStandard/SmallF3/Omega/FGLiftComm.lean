@@ -11,9 +11,11 @@ open scoped commutatorElement
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem fg_pi_comm (t : OGroup Q) : piOrth Q * t = t * piOrth Q :=
   (Subgroup.mem_center_iff.mp piOrth_mem_center t).symm
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem fg_toProj_eq_or {a b : OGroup Q} (h : toProj Q a = toProj Q b) :
     a = b ∨ a = piOrth Q * b := by
   have hmem : a / b ∈ piGroup Q := by
@@ -47,6 +49,7 @@ private theorem fg_comm_central_right {G : Type*} [Group G] {z : G}
     _ = ((x * y * x⁻¹ * y⁻¹) * z) * z⁻¹ := by rw [h]
     _ = ⁅x, y⁆ := by simp only [commutatorElement_def]; group
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem fg_projSimActO_eq_of_perfect (P : Subgroup (OGroup Q)) (hperf : Group.IsPerfect ↥P)
     (x : ProjSim Q) (hx : ∀ j ∈ P, toProj Q (projSimActO Q x j) = toProj Q j) :
     ∀ j ∈ P, projSimActO Q x j = j := by
@@ -90,7 +93,8 @@ theorem fg_projSimActO_eq_of_pow_three (hpos : 0 < Module.finrank (ZMod 3) V) (x
     rw [hpi3] at h3
     exact piOrth_ne_one (Q := Q) hpos h3
 
-theorem fg_apply_comm_of_simAct (γ : simGroup Q) {t : OGroup Q} (h : simAct Q γ t = t) (v : V) :
+omit [FiniteDimensional (ZMod 3) V] in
+theorem fg_apply_comm_of_simAct [FiniteDimensional (ZMod 3) V] (γ : simGroup Q) {t : OGroup Q} (h : simAct Q γ t = t) (v : V) :
     (γ : V ≃ₗ[ZMod 3] V) ((t : V ≃ₗ[ZMod 3] V) v) =
       (t : V ≃ₗ[ZMod 3] V) ((γ : V ≃ₗ[ZMod 3] V) v) := by
   have h1 := congrArg (fun s : OGroup Q => (s : V ≃ₗ[ZMod 3] V)) h

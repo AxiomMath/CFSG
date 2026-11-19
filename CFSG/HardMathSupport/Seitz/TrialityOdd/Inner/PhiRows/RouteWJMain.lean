@@ -290,7 +290,7 @@ theorem exists_unit_pow_eq_one_ne_one' (L : Type) [Field L] [IsAlgClosed L] {r :
     intro h
     exact hr ((CharP.cast_eq_zero_iff L ℓ r).1 h)⟩
   have : NeZero r := ⟨by omega⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L r
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L r
   refine ⟨hζ.isUnit (by omega) |>.unit, ?_, ?_⟩
   · apply Units.ext
     simpa using hζ.pow_eq_one

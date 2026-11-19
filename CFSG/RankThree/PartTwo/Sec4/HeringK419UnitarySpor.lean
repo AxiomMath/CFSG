@@ -268,7 +268,7 @@ theorem exists_noncomm_of_simple {S : Type*} [Group S] [Finite S] [IsSimpleGroup
     (h2 : 2 ∣ Nat.card S) (hn2 : Nat.card S ≠ 2) : ∃ x y : S, x * y ≠ y * x := by
   by_contra h
   push Not at h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := S) 2 h2
   have hN : (Subgroup.zpowers x).Normal := by
     refine ⟨fun g hg k => ?_⟩
@@ -385,17 +385,17 @@ theorem false_of_cover_generic {G : Type} [Group G] [Finite G] {S : Type} [Group
   have hKa : ∀ k ∈ K, a * k * a⁻¹ = k := fun k hk => by
     have := Subgroup.mem_centralizer_singleton_iff.mp ((hKle hk).2)
     rw [← this, mul_assoc, mul_inv_cancel, mul_one]
-  haveI hUs : IsSimpleGroup (projSU 3 2 3) :=
+  have hUs : IsSimpleGroup (projSU 3 2 3) :=
     Sec19.Step1914TriProof.isSimpleGroup_projSU_three_of_ne_two 2 3 (by norm_num) (by norm_num)
-  haveI hKs : IsSimpleGroup K := e.isSimpleGroup
+  have hKs : IsSimpleGroup K := e.isSimpleGroup
   have hKcard : Nat.card K = 5515776 := by
     rw [Nat.card_congr e.toEquiv]
     exact Item419Res3.card_projSU_three_two_three
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hKcard]; norm_num)
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hKcard]; norm_num)
   have hKna : ∃ x y : K, x * y ≠ y * x := by
     by_contra h
     push Not at h
-    letI : CommGroup K := { (inferInstance : Group K) with mul_comm := h }
+    let : CommGroup K := { (inferInstance : Group K) with mul_comm := h }
     have hp : (Nat.card K).Prime := IsSimpleGroup.prime_card
     rw [hKcard] at hp
     norm_num at hp
@@ -415,7 +415,7 @@ theorem false_of_cover_generic {G : Type} [Group G] [Finite G] {S : Type} [Group
       rw [map_mul, map_mul]
       exact Subgroup.mem_center_iff.mp (hz y) _
   let eT : K ≃* πK.range := MonoidHom.ofInjective hπK
-  haveI hTs : IsSimpleGroup πK.range := eT.symm.isSimpleGroup
+  have hTs : IsSimpleGroup πK.range := eT.symm.isSimpleGroup
   have hTcard : Nat.card πK.range = 5515776 := by rw [← Nat.card_congr eT.toEquiv, hKcard]
   have hTna : ∃ x y : πK.range, x * y ≠ y * x := by
     obtain ⟨x, y, hxy⟩ := hKna
@@ -465,9 +465,9 @@ theorem false_of_ON_cover
     (hKle : K ≤ L ⊓ Subgroup.centralizer ({a} : Set G))
     (e : K ≃* projSU 3 2 3) : False := by
   obtain ⟨N, hNn, -, ⟨eQ⟩⟩ := hext
-  haveI : IsSimpleGroup NativeSporadic.ON := CFSG.Sporadic.ON.isSimpleGroup_ON
+  have : IsSimpleGroup NativeSporadic.ON := CFSG.Sporadic.ON.isSimpleGroup_ON
   have hScard : Nat.card NativeSporadic.ON = 460815505920 := CFSG.Sporadic.ON.card_ON_eq
-  haveI : Finite NativeSporadic.ON := Nat.finite_of_card_ne_zero (by rw [hScard]; norm_num)
+  have : Finite NativeSporadic.ON := Nat.finite_of_card_ne_zero (by rw [hScard]; norm_num)
   have hout : ¬ 3 ∣ Nat.card (Outer NativeSporadic.ON) := fun h3 =>
     absurd (Nat.dvd_trans h3 (CFSG.Sporadic.ONOddCore.r3e_on_outer_order_divides_four).1)
       (by norm_num)

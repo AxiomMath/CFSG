@@ -22,8 +22,8 @@ variable {G : Type} [Group G] [Finite G]
 
 private theorem ne_top_of_hyp97' {D : Data G} {Y H D₃ S : Subgroup G} (hY : Hyp97 D Y H D₃ S) :
     H ≠ ⊤ := by
-  haveI := D.standing.simple
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := D.standing.simple
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hH : H ≠ ⊥ := by
     intro h
     have hD : D₃ ≤ ⊥ := h ▸ hY.1.2.2.1.trans ((opp_le_self 3 Y).trans hY.1.2.1.1)
@@ -40,8 +40,8 @@ private theorem ne_top_of_hyp97' {D : Data G} {Y H D₃ S : Subgroup G} (hY : Hy
 theorem r913A5S_holds (hKF : KFactShape92A5Normalizer) (D : Data G) (h92 : R92 D) :
     R913A5S D := by
   intro Y H D₃ S hY hA5 hSH
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hYH : Y ≤ H := hY.1.2.1.1
   have hXY : Opp 3 Y ≤ Y := opp_le_self 3 Y
   have hXL : Opp 3 Y ≤ L9 Y H := opp_le_L9 Y H

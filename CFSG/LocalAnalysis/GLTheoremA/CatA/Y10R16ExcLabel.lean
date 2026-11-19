@@ -53,8 +53,8 @@ theorem exists_mulEquiv_adjointGroup_E7_of_hasLabel {K : Type} [Group K] [Finite
     lieModel_of_markedModel_E7 ht hM
   obtain ⟨-, F, hField, hFinite, hCard, ⟨φ⟩⟩ :=
     hM'.chevalleyExceptionalModel (by decide : StatedLieTag.E7 ∈ chevalleyExceptionalTags)
-  letI : Field F := hField
-  letI : Finite F := hFinite
+  let : Field F := hField
+  let : Finite F := hFinite
   let χ : AdjointQuotient .E7 F ≃* adjointGroup .E7 F :=
     (QuotientGroup.quotientMulEquivOfEq (center_adjointGroup_eq_bot (τ := .E7) (K := F))).trans
       QuotientGroup.quotientBot
@@ -80,10 +80,10 @@ theorem exists_mulEquiv_adjointGroup_of_isLabel_E8 {K : Type} [Group K] [Finite 
   have hCEM : ChevalleyExceptionalModel K .E8 2 lab.n :=
     hL.chevalleyExceptionalModel (by decide)
   obtain ⟨F, hF, hFin, hcard, ⟨iso⟩⟩ := hCEM.2
-  letI : Field F := hF
-  letI : Finite F := hFin
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fintype (GaloisField 2 lab.n) := Fintype.ofFinite _
+  let : Field F := hF
+  let : Finite F := hFin
+  have : Fintype F := Fintype.ofFinite F
+  have : Fintype (GaloisField 2 lab.n) := Fintype.ofFinite _
   have hGFcard : Nat.card (GaloisField 2 lab.n) = 2 ^ lab.n :=
     GaloisField.card 2 lab.n (by omega)
   let φ : F ≃+* GaloisField 2 lab.n := FiniteField.ringEquivOfCardEq (by

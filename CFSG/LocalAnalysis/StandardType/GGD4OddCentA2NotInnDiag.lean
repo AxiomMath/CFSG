@@ -26,7 +26,7 @@ private theorem ggD4A2NotInnDiag_labelAllGuard {K : Type*} [Group K]
 private noncomputable def ggD4A2Restrict {K : Type*} [Group K] (J : Subgroup K)
     (a : MulAut K) (ha : ∀ j : K, a j ∈ J ↔ j ∈ J) : MulAut ↥J where
   toFun j := ⟨a j, (ha j).2 j.2⟩
-  invFun j := ⟨a⁻¹ j, (ha (a⁻¹ j)).1 (by simpa using j.2)⟩
+  invFun j := ⟨a⁻¹ j, (ha (a⁻¹ j)).1 (by simp)⟩
   left_inv j := Subtype.ext (by simp)
   right_inv j := Subtype.ext (by simp)
   map_mul' j k := Subtype.ext (by simp [map_mul])
@@ -112,7 +112,7 @@ theorem ggD4OddCentA2NotInnDiagInput_of_rank :
     isElemAbelian_range_of_comm (fun a b => hl.1.1.1.is_comm.comm a b)
       (fun a => Subtype.ext (by simpa using hl.1.1.2 a a.2)) ρ
   have hker3 : Nat.card ρ.ker ≤ 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     have hord : orderOf σ = 3 :=
       orderOf_eq_prime (hl.1.1.2 σ hl.1.2.1) hl.1.2.2.1
     have hcardz : Nat.card (Subgroup.zpowers σ) = 3 := by

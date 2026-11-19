@@ -195,7 +195,7 @@ private theorem three_le_finrank_primaryComponent_of_selfdual {x : V ≃ₗ[K] V
     3 ≤ finrank K (primaryComponent x.toLinearMap h) := by
   classical
   have hirr := irreducible_of_mem_primaryFactors hh
-  haveI : Fact (Irreducible h) := ⟨hirr⟩
+  have : Fact (Irreducible h) := ⟨hirr⟩
   obtain ⟨d, ℓ, f, hU, B, hdeg, -⟩ :=
     SevOmSmall.selfDual_unitary hx hp hp2 hh hne1 hself
   have hdeg2 : 2 ≤ h.natDegree := by
@@ -219,7 +219,7 @@ private theorem three_le_finrank_orbitSpace_of_paired {x : V ≃ₗ[K] V}
     3 ≤ finrank K (orbitSpace x.toLinearMap h) := by
   classical
   have hirr := irreducible_of_mem_primaryFactors hh
-  haveI : Fact (Irreducible h) := ⟨hirr⟩
+  have : Fact (Irreducible h) := ⟨hirr⟩
   have hh' : reciprocalPolynomial h ∈ primaryFactors x.toLinearMap := hx.reciprocalPolynomial_mem hh
   have hdisj : primaryComponent x.toLinearMap h ⊓
       primaryComponent x.toLinearMap (reciprocalPolynomial h) = ⊥ :=
@@ -340,10 +340,10 @@ private theorem isCyclic_blockDet_closure (F : SevOm.Frame Q p E r)
     (u v : ↥(supportedBlock Q (F.ι s) h)) :
     IsCyclic ↥(Subgroup.closure ({(blockDet Q (F.ι s) h).toHomUnits u,
       (blockDet Q (F.ι s) h).toHomUnits v} : Set (AdjoinRoot h)ˣ)) := by
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
-  haveI : Module.Finite K (AdjoinRoot h) :=
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Module.Finite K (AdjoinRoot h) :=
     (AdjoinRoot.powerBasis (Fact.out : Irreducible h).ne_zero).finite
-  haveI : Finite (AdjoinRoot h) := Module.finite_of_finite K
+  have : Finite (AdjoinRoot h) := Module.finite_of_finite K
   infer_instance
 omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
 private theorem exists_mem_of_pow_mul_pow_mem_ker (F : SevOm.Frame Q p E r)

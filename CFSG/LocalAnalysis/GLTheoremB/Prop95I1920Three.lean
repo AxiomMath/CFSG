@@ -53,14 +53,14 @@ theorem eq_of_le_of_card_two {G : Type*} [Group G] {A B : Subgroup G} (hle : A �
   rw [hB] at h1
   have h2 : Nat.card A ≠ 1 := fun h => hne (Subgroup.card_eq_one.1 h)
   have h3 : Nat.card A = 2 := ((Nat.dvd_prime Nat.prime_two).1 h1).resolve_left h2
-  haveI : Finite B := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite B := Nat.finite_of_card_ne_zero (by omega)
   exact Subgroup.eq_of_le_of_card_ge hle (by omega)
 
 theorem congr_trans_toMonoidHom {A B C : Type*} [Group A] [Group B] [Group C] (ι : A ≃* B)
     (e : B ≃* C) :
     (MulAut.congr (ι.trans e)).toMonoidHom =
       (MulAut.congr e).toMonoidHom.comp (MulAut.congr ι).toMonoidHom :=
-  MonoidHom.ext fun f => MulEquiv.ext fun k => rfl
+  MonoidHom.ext fun _f => MulEquiv.ext fun _k => rfl
 
 theorem actsAsTransvectionAt_transport {Y Y' : Type*} [Group Y] [Group Y'] (ε : Bool) (n : ℕ)
     (W A : Subgroup Y) (W' A' : Subgroup Y') (ι : ↥A ≃* ↥A')

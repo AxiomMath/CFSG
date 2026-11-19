@@ -329,7 +329,7 @@ theorem IsFrame.exists_succ [Finite H] {Δ : Set (Subgroup H)} (hΔ : IsTransvec
 theorem exists_isMaxFrame (h : TransvectionHyp H Δ) (hML : MeetsLines Δ) :
     ∃ r, 2 ≤ r ∧ ∃ P Q : Fin r → Subgroup H, IsMaxFrame Δ P Q := by
   classical
-  haveI := h.finite
+  have := h.finite
   have hΔ := h.cls
   have hiso : NoIsolated Δ := hΔ.noIsolated h.points h.rank
   obtain ⟨A, hA, B, hB, hAB, hcAB⟩ := h.rank

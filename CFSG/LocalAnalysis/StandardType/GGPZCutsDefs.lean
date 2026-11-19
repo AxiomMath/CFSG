@@ -60,6 +60,7 @@ section Numerical
 
 variable {W T : Type*} [Group W] [Group T] [Finite W] [Finite T]
 
+omit [Finite W] in
 private theorem ggPZ_eq_range_of_card_eq (f : W →* T) {O : Subgroup T} (hO : O ≤ f.range)
     (hcard : Nat.card O = Nat.card W) : O = f.range := by
   have hdvd1 : Nat.card O ∣ Nat.card f.range := Subgroup.card_dvd_of_le hO
@@ -69,6 +70,7 @@ private theorem ggPZ_eq_range_of_card_eq (f : W →* T) {O : Subgroup T} (hO : O
   have hrangeO : Nat.card f.range = Nat.card O := Nat.dvd_antisymm hdvd2 hdvd1
   exact Subgroup.eq_of_le_of_card_ge hO (le_of_eq hrangeO)
 
+omit [Finite T] in
 private theorem ggPZ_ker_eq_bot_of_card_eq (f : W →* T) {O : Subgroup T} (hO : O ≤ f.range)
     (hcard : Nat.card O = Nat.card W) : f.ker = ⊥ := by
   have hdvd1 : Nat.card O ∣ Nat.card f.range := Subgroup.card_dvd_of_le hO

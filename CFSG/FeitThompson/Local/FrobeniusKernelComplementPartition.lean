@@ -2,7 +2,7 @@ module
 
 public import Mathlib.GroupTheory.Complement
 public import Mathlib.Algebra.BigOperators.Finprod
-public import Mathlib.Data.Setoid.Partition
+public import Mathlib.Order.Setoid.Partition
 import Mathlib.Tactic.Group
 
 public section

@@ -31,7 +31,7 @@ private theorem u3_mulVecLin_mul {p f : ℕ} {K : Type} [Field K] {n : ℕ}
       Matrix.mulVecLin ((A : Matrix.GeneralLinearGroup (Fin n) K) : Matrix (Fin n) (Fin n) K) ∘ₗ
         Matrix.mulVecLin ((B : Matrix.GeneralLinearGroup (Fin n) K) : Matrix (Fin n) (Fin n) K) := by
   ext x
-  simp [Matrix.mulVec_mulVec]
+  simp
 
 private theorem u3_norm_mul_mem_traceZero {p f : ℕ} {K : Type} [Field K]
     (h : UnitaryFieldData p f K) {c : K} (hc : c ∈ h.traceZero) (t : K) :
@@ -47,7 +47,7 @@ theorem model3_unitary_card_point (hF' : UnitaryFieldData 2 m F')
     {L : Submodule F' (Fin 3 → F')} (hL : L ∈ isotropicLines hF' 3) :
     Nat.card ↥(isotropicTransvectionGroup hF' 3 L) = 2 ^ m ∧
       ∀ x ∈ isotropicTransvectionGroup hF' 3 L, x * x = 1 := by
-  haveI : CharP F' 2 := hF'.charP
+  have : CharP F' 2 := hF'.charP
   obtain ⟨hfin, hiso⟩ := mem_isotropicLines.mp hL
   obtain ⟨v, hvL, hv0, hspan⟩ : ∃ v : Fin 3 → F', v ∈ L ∧ v ≠ 0 ∧
       ∀ a ∈ L, ∃ t : F', t • v = a := by

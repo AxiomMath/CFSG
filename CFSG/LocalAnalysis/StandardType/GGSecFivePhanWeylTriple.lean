@@ -158,7 +158,7 @@ private theorem ggWeylTriAux_pairing_arith {V : Type*} [AddCommGroup V] [Module 
   set δ : V := β - p • α with hδ
   have hcenter : B γ δ = (b - p * a) * L / 2 := by
     rw [hδ]
-    simp only [map_sub, map_smul, LinearMap.sub_apply, LinearMap.smul_apply, smul_eq_mul]
+    simp only [map_sub, map_smul, smul_eq_mul]
     rw [hb, ha]; ring
   have hnormδ : B δ δ = L := by
     rw [hδ]
@@ -288,8 +288,8 @@ theorem ggWeyl_triple_of_pairwise_noncomm {ι : Type} {M : CoxeterMatrix ι}
       exact Or.inl rfl
     · push Not at hsingle
       obtain ⟨t₂, ht₂, ht₂ne⟩ := hsingle
-      haveI : Finite ι := ggIsWeylMatrix_finite hM
-      haveI : Fintype ι := Fintype.ofFinite ι
+      have : Finite ι := ggIsWeylMatrix_finite hM
+      have : Fintype ι := Fintype.ofFinite ι
       obtain ⟨C, hC, hCart, rfl⟩ := ggWeylCartan hM hle3
       have hconn : GGSimplyLacedConnected (coxeterMatrix hC) :=
         ggSimplyLacedConnected_of_weyl hM hle3

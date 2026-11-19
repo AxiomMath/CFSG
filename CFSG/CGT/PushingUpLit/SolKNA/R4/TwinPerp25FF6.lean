@@ -63,7 +63,7 @@ theorem famF_twoGroup (h : FBase Ω b K t)
     ((coreAt b (conjSub c K)).subgroupOf (Subgroup.centralizer ({b} : Set Y))) X h2C
   exact TwinDisc.isPGroup_two_quotient_map (CFSG.ComponentClassification.OddCore.odd_card ↥X) h2X
 
-theorem restrictF_quat (h : FBase Ω b K t) {k : ℕ}
+theorem restrictF_quat (_h : FBase Ω b K t) {k : ℕ}
     (hq : ∃ Q : Subgroup Y, IsSylow2In Q (coreAt b K) ∧ Nonempty (↥Q ≃* QuaternionGroup k))
     (X : Subgroup ↥(Subgroup.centralizer ({b} : Set Y))) :
     ∀ L ∈ restrictFamily (fFam b K) X, ∃ P : Subgroup ↥X, IsSylow2In P L ∧

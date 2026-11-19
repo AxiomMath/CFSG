@@ -8,12 +8,14 @@ namespace CFSG.RankThree.GF2n.Stroth80
 
 variable {K E : Type*} [Field K] [AddCommGroup E] [Module K E] [FiniteDimensional K E]
 
+omit [FiniteDimensional K E] in
 private lemma bilin_apply_eq_quad_sub {B : LinearMap.BilinForm K E} {Qf : E → K}
     (hQf : ∀ e f, Qf (e + f) = Qf e + Qf f + B e f) (e f : E) :
     B e f = Qf (e + f) - Qf e - Qf f := by
   rw [hQf]
   ring
 
+omit [FiniteDimensional K E] in
 private lemma quad_isometry {Γ : Type*} [Group Γ] {B : LinearMap.BilinForm K E} {Qf : E → K}
     (hQf : ∀ e f, Qf (e + f) = Qf e + Qf f + B e f) (ρ : Γ →* (E ≃ₗ[K] E))
     (hρQ : ∀ γ e, Qf (ρ γ e) = Qf e) : ∀ (γ : Γ) x y, B (ρ γ x) (ρ γ y) = B x y := by
@@ -51,7 +53,7 @@ private lemma opm_mem_orthogonal_of_mem_orthogonal {Γ : Type*} [Group Γ]
   have h2 : B (ρ γ x) (ρ γ e) = B x e := hiso γ x e
   have h4 : opm (ρ γ) e = ρ γ e - e := opm_apply _ _
   rw [h4]
-  simp only [map_sub, LinearMap.sub_apply]
+  simp only [map_sub]
   rw [← h2]
   have hsub : B x (ρ γ e) - B (ρ γ x) (ρ γ e) = B (x - ρ γ x) (ρ γ e) := by
     rw [map_sub, LinearMap.sub_apply]
@@ -61,6 +63,7 @@ private lemma opm_mem_orthogonal_of_mem_orthogonal {Γ : Type*} [Group Γ]
     abel
   rw [hx', map_neg, LinearMap.neg_apply, h1, neg_zero]
 
+omit [FiniteDimensional K E] in
 private lemma opm_self_apply_eq_zero {Γ : Type*} [Group Γ] {B : LinearMap.BilinForm K E}
     {Qf : E → K} (hQf : ∀ e f, Qf (e + f) = Qf e + Qf f + B e f) {Vb Ub : Submodule K E}
     (hU : ∀ u ∈ Ub, Qf u = 0) (ρ : Γ →* (E ≃ₗ[K] E)) (hρQ : ∀ γ e, Qf (ρ γ e) = Qf e)
@@ -76,6 +79,7 @@ private lemma opm_self_apply_eq_zero {Γ : Type*} [Group Γ] {B : LinearMap.Bili
     exact h
   exact (add_left_cancel h').symm
 
+omit [FiniteDimensional K E] in
 private lemma opm_antisymm {Γ : Type*} [Group Γ] {B : LinearMap.BilinForm K E}
     {Vb : Submodule K E} (ρ : Γ →* (E ≃ₗ[K] E))
     (halt : ∀ γ, ∀ w ∈ B.orthogonal Vb, B (opm (ρ γ) w) w = 0)
@@ -89,6 +93,7 @@ private lemma opm_antisymm {Γ : Type*} [Group Γ] {B : LinearMap.BilinForm K E}
   rw [h11, h22, zero_add, add_zero] at hsum
   exact eq_neg_of_add_eq_zero_left hsum
 
+omit [FiniteDimensional K E] in
 private lemma basis_coord_expansion {W : Submodule K E} {C : Submodule K W}
     (bC : Module.Basis (Fin 2) K C) {e1 e2 : W} (he1 : e1 = bC 0) (he2 : e2 = bC 1)
     (v : C) : (v : W) = bC.equivFun v 0 • e1 + bC.equivFun v 1 • e2 := by
@@ -149,6 +154,7 @@ private lemma exists_flag_decomposition {B : LinearMap.BilinForm K E} (hndB : B.
   refine ⟨e1, e2, ?_⟩
   exact hdecomp
 
+omit [FiniteDimensional K E] in
 private lemma opm_mul_apply_eq_add {Vb W : Submodule K E} {x y : E ≃ₗ[K] E}
     (hx : ∀ v ∈ Vb, x v = v) (hy : ∀ w ∈ W, y w - w ∈ Vb) (w : E) (hw : w ∈ W) :
     (x * y) w - w = (x w - w) + (y w - w) := by
@@ -159,6 +165,7 @@ private lemma opm_mul_apply_eq_add {Vb W : Submodule K E} {x y : E ≃ₗ[K] E}
     abel
   rw [hxy, hx (y w - w) hyw, add_comm]
 
+omit [FiniteDimensional K E] in
 private lemma opm_inv_apply_eq_neg {Vb W : Submodule K E} {x : E ≃ₗ[K] E}
     (hx : ∀ v ∈ Vb, x v = v) (hxW : ∀ w ∈ W, x w - w ∈ Vb) (w : E) (hw : w ∈ W) :
     x⁻¹ w - w = -(x w - w) := by
@@ -167,6 +174,7 @@ private lemma opm_inv_apply_eq_neg {Vb W : Submodule K E} {x : E ≃ₗ[K] E}
   have h1 : x (x⁻¹ w) = w := LinearEquiv.apply_symm_apply x w
   rw [map_sub, h1, map_neg, hx _ h, neg_sub]
 
+omit [FiniteDimensional K E] in
 private lemma isometry_inv {B : LinearMap.BilinForm K E} {x : E ≃ₗ[K] E}
     (hx : ∀ e f, B (x e) (x f) = B e f) : ∀ e f, B (x⁻¹ e) (x⁻¹ f) = B e f := by
   intro e f
@@ -176,6 +184,7 @@ private lemma isometry_inv {B : LinearMap.BilinForm K E} {x : E ≃ₗ[K] E}
   rw [h1, h2] at h
   exact h.symm
 
+omit [FiniteDimensional K E] in
 private lemma fixes_inv {Vb : Submodule K E} {x : E ≃ₗ[K] E} (hx : ∀ v ∈ Vb, x v = v) :
     ∀ v ∈ Vb, x⁻¹ v = v := by
   intro v hv
@@ -183,17 +192,20 @@ private lemma fixes_inv {Vb : Submodule K E} {x : E ≃ₗ[K] E} (hx : ∀ v ∈
   have h1 : x (x⁻¹ v) = v := LinearEquiv.apply_symm_apply x v
   rw [h1, hx v hv]
 
+omit [FiniteDimensional K E] in
 private lemma fixes_mul {Vb : Submodule K E} {x y : E ≃ₗ[K] E}
     (hx : ∀ v ∈ Vb, x v = v) (hy : ∀ v ∈ Vb, y v = v) : ∀ v ∈ Vb, (x * y) v = v := by
   intro v hv
   rw [LinearEquiv.mul_apply, hy v hv, hx v hv]
 
+omit [FiniteDimensional K E] in
 private lemma isometry_mul {B : LinearMap.BilinForm K E} {x y : E ≃ₗ[K] E}
     (hx : ∀ e f, B (x e) (x f) = B e f) (hy : ∀ e f, B (y e) (y f) = B e f) :
     ∀ e f, B ((x * y) e) ((x * y) f) = B e f := by
   intro e f
   rw [LinearEquiv.mul_apply, LinearEquiv.mul_apply, hx, hy]
 
+omit [FiniteDimensional K E] in
 private lemma exists_flag_coefficient_hom {Γ : Type*} [Group Γ] {B : LinearMap.BilinForm K E}
     {Vb Ub : Submodule K E} (hUorth : Ub ≤ B.orthogonal Ub) (ρ : Γ →* (E ≃ₗ[K] E))
     (hρU : ∀ γ, ∀ e ∈ B.orthogonal Ub, ρ γ e - e ∈ Vb)
@@ -279,8 +291,9 @@ private lemma opm_mem_of_coefficient_eq_zero {Γ : Type*} [Group Γ]
     rw [hanti γ, hc0, neg_zero]
   rw [hDw, hfu']
   simp only [map_add, LinearMap.add_apply, map_smul, LinearMap.smul_apply,
-    huu, hu1, hu2, h1u, h2u, h11, h22, h21, hc0, smul_zero, add_zero, zero_add, mul_zero]
+    huu, hu1, hu2, h1u, h2u, h11, h22, h21, hc0, smul_zero, add_zero]
 
+omit [FiniteDimensional K E] in
 private lemma isSymm_of_quad {B : LinearMap.BilinForm K E} {Qf : E → K}
     (hQf : ∀ e f, Qf (e + f) = Qf e + Qf f + B e f) : B.IsSymm := by
   refine ⟨fun e f => ?_⟩

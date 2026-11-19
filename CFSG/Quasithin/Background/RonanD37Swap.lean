@@ -104,6 +104,7 @@ section Core
 
 variable [Finite U] {X : Subgroup (MulAut U)} {s : MulAut U} [Fintype F] [CharP F 2]
 
+omit [Finite U] in
 theorem norm_inf_cent_eq_bot (Mm : MatModel L₁ L₂ F d) {B : Subgroup (MulAut U)}
     (hE : IsElemAbelian2 B) {b : MulAut U} (hbB : b ∈ B)
     (ht₂ : L₂.map (MulAut.conj b).toMonoidHom = L₁) :
@@ -139,6 +140,7 @@ theorem exists_fix_moved (hC : Core X L₁ L₂ s) (Mm : MatModel L₁ L₂ F d)
   have hc₂ := commute_of_swap hsw₂ hxb hc₁
   exact hx1 (eq_one_of_comm Mm hc₁ hc₂ (e := 1) (by rw [pow_one]; exact hx2))
 
+omit [Finite U] [Fintype F] [CharP F 2] in
 theorem natCard_fix_two_eq (Mm : MatModel L₁ L₂ F d) (b x : MulAut U) :
     Nat.card {u : U // b u = u ∧ x u = u} =
       Nat.card {X // coordAut Mm b X = X ∧ coordAut Mm x X = X} := by
@@ -156,12 +158,14 @@ theorem card_fixV_le_fix_two {B : Subgroup (MulAut U)} {b x : MulAut U} (hb : b 
   simp only [Subtype.mk.injEq] at h
   exact Subtype.ext h
 
+omit [CharP F 2] in
 theorem natCard_fix_two_le_left (T T' : Matrix (Fin d) (Fin d) F →+ Matrix (Fin d) (Fin d) F) :
     Nat.card {X // T X = X ∧ T' X = X} ≤ Nat.card {X // T X = X} :=
   Nat.card_le_card_of_injective (fun X => ⟨X.1, X.2.1⟩) fun X Y h => by
     simp only [Subtype.mk.injEq] at h
     exact Subtype.ext h
 
+omit [CharP F 2] in
 theorem natCard_fix_two_le_right (T T' : Matrix (Fin d) (Fin d) F →+ Matrix (Fin d) (Fin d) F) :
     Nat.card {X // T X = X ∧ T' X = X} ≤ Nat.card {X // T' X = X} :=
   Nat.card_le_card_of_injective (fun X => ⟨X.1, X.2.2⟩) fun X Y h => by

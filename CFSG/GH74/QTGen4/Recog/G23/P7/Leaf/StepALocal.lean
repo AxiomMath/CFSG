@@ -230,6 +230,7 @@ section Specific
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem stepA_rels {H H₁ H₂ : Subgroup G} {e : Fin 6 → G} (hL : HLetters H H₁ H₂ e) :
     e 0 ^ 3 = 1 ∧ e 2 ^ 3 = 1 ∧ e 2 * e 0 = e 0 * e 2 ∧
       (e 0 * e 1) ^ 2 = (e 2 * e 3) ^ 2 ∧ e 4 ^ 2 = 1 := by
@@ -239,7 +240,7 @@ theorem stepA_rels {H H₁ H₂ : Subgroup G} {e : Fin 6 → G} (hL : HLetters H
   · have h := hL.rels [(2, true), (2, true), (2, true)] (by simp [g23WordsH])
     simpa [FreeGroup.lift_mk, pow_three, mul_assoc] using h
   · have h := hL.rels [(0, false), (2, false), (0, true), (2, true)] (by simp [g23WordsH])
-    simp [FreeGroup.lift_mk, mul_assoc] at h
+    simp [FreeGroup.lift_mk] at h
     have h' := inv_mul_eq_one.mp h
     calc e 2 * e 0 = e 2 * ((e 2)⁻¹ * (e 0 * e 2)) := by rw [← h']
       _ = e 0 * e 2 := by group
@@ -252,6 +253,7 @@ theorem stepA_rels {H H₁ H₂ : Subgroup G} {e : Fin 6 → G} (hL : HLetters H
   · have h := hL.rels [(4, true), (4, true)] (by simp [g23WordsH])
     simpa [FreeGroup.lift_mk, pow_two, mul_assoc] using h
 
+omit [Finite G] in
 theorem stepA_gen {H H₁ H₂ : Subgroup G} {e : Fin 6 → G} (hL : HLetters H H₁ H₂ e) :
     e 0 ∈ H₁ ∧ e 1 ∈ H₁ ∧ e 2 ∈ H₂ ∧ e 3 ∈ H₂ ∧ e 0 ∈ H ∧ e 2 ∈ H ∧ e 4 ∈ H := by
   have hg : ∀ i : Fin 5, e i.castSucc ∈ H := fun i => by
@@ -262,6 +264,7 @@ theorem stepA_gen {H H₁ H₂ : Subgroup G} {e : Fin 6 → G} (hL : HLetters H 
   have h3 : e 3 ∈ H₂ := by rw [← hL.gen₂]; exact Subgroup.subset_closure (by simp)
   exact ⟨h0, h1, h2, h3, hg 0, hg 2, hg 4⟩
 
+omit [Finite G] in
 theorem stepA_e4_notMem {T H H₁ H₂ M M₁ M₂ Pb Np Nm : Subgroup G} {e : Fin 6 → G}
     (D : StepAData T H H₁ H₂ M M₁ M₂ Pb Np Nm e) : e 4 ∉ H₁ ⊔ H₂ := by
   intro h4
@@ -282,6 +285,7 @@ theorem stepA_e4_notMem {T H H₁ H₂ M M₁ M₂ Pb Np Nm : Subgroup G} {e : F
   rw [hEq, Subgroup.relIndex_self] at hidx
   exact absurd hidx (by norm_num)
 
+omit [Finite G] in
 theorem stepA_e4_orderOf {T H H₁ H₂ M M₁ M₂ Pb Np Nm : Subgroup G} {e : Fin 6 → G}
     (D : StepAData T H H₁ H₂ M M₁ M₂ Pb Np Nm e) : orderOf (e 4) = 2 := by
   have h4 := (stepA_rels D.setup.lets).2.2.2.2
@@ -292,6 +296,7 @@ theorem stepA_e4_orderOf {T H H₁ H₂ M M₁ M₂ Pb Np Nm : Subgroup G} {e : 
     exact Subgroup.one_mem _
   exact orderOf_eq_prime h4 hne
 
+omit [Finite G] in
 theorem stepA_z_orderOf {T H H₁ H₂ M M₁ M₂ Pb Np Nm : Subgroup G} {e : Fin 6 → G}
     (D : StepAData T H H₁ H₂ M M₁ M₂ Pb Np Nm e) : orderOf (zOf e) = 2 := by
   obtain ⟨c, hc⟩ := isConj_iff.mp (D.hO (e 4) (stepA_e4_orderOf D))
@@ -299,6 +304,7 @@ theorem stepA_z_orderOf {T H H₁ H₂ M M₁ M₂ Pb Np Nm : Subgroup G} {e : F
     unfold SemiconjBy; rw [← hc]; group)
   rw [h, stepA_e4_orderOf D]
 
+omit [Finite G] in
 theorem stepA_z_sq {T H H₁ H₂ M M₁ M₂ Pb Np Nm : Subgroup G} {e : Fin 6 → G}
     (D : StepAData T H H₁ H₂ M M₁ M₂ Pb Np Nm e) : zOf e * zOf e = 1 := by
   have h := pow_orderOf_eq_one (zOf e)
@@ -306,6 +312,7 @@ theorem stepA_z_sq {T H H₁ H₂ M M₁ M₂ Pb Np Nm : Subgroup G} {e : Fin 6 
   rw [← pow_two]
   exact h
 
+omit [Finite G] in
 theorem stepA_z_ne_one {T H H₁ H₂ M M₁ M₂ Pb Np Nm : Subgroup G} {e : Fin 6 → G}
     (D : StepAData T H H₁ H₂ M M₁ M₂ Pb Np Nm e) : zOf e ≠ 1 := by
   intro h
@@ -313,12 +320,14 @@ theorem stepA_z_ne_one {T H H₁ H₂ M M₁ M₂ Pb Np Nm : Subgroup G} {e : Fi
   rw [h, orderOf_one] at this
   exact absurd this (by norm_num)
 
+omit [Finite G] in
 theorem stepA_zH1 {T H H₁ H₂ M M₁ M₂ Pb Np Nm : Subgroup G} {e : Fin 6 → G}
     (D : StepAData T H H₁ H₂ M M₁ M₂ Pb Np Nm e) : zOf e ∈ H₁ := by
   obtain ⟨h0, h1, -⟩ := stepA_gen D.setup.lets
   show (e 0 * e 1) ^ 2 ∈ H₁
   exact H₁.pow_mem (H₁.mul_mem h0 h1) 2
 
+omit [Finite G] in
 theorem stepA_zH2 {T H H₁ H₂ M M₁ M₂ Pb Np Nm : Subgroup G} {e : Fin 6 → G}
     (D : StepAData T H H₁ H₂ M M₁ M₂ Pb Np Nm e) : zOf e ∈ H₂ := by
   obtain ⟨-, -, h2, h3, -⟩ := stepA_gen D.setup.lets
@@ -326,6 +335,7 @@ theorem stepA_zH2 {T H H₁ H₂ M M₁ M₂ Pb Np Nm : Subgroup G} {e : Fin 6 �
   rw [(stepA_rels D.setup.lets).2.2.2.1]
   exact H₂.pow_mem (H₂.mul_mem h2 h3) 2
 
+omit [Finite G] in
 theorem stepA_zH {T H H₁ H₂ M M₁ M₂ Pb Np Nm : Subgroup G} {e : Fin 6 → G}
     (D : StepAData T H H₁ H₂ M M₁ M₂ Pb Np Nm e) : zOf e ∈ H :=
   D.setup.ctx.one.le_one (stepA_zH1 D)
@@ -356,6 +366,7 @@ theorem stepA_e4_comm {T H H₁ H₂ M M₁ M₂ Pb Np Nm : Subgroup G} {e : Fin
     (D : StepAData T H H₁ H₂ M M₁ M₂ Pb Np Nm e) : e 4 * zOf e = zOf e * e 4 :=
   (stepA_H_iff D (e 4)).mp (by obtain ⟨-, -, -, -, -, -, h4⟩ := stepA_gen D.setup.lets; exact h4)
 
+omit [Finite G] in
 theorem stepA_t_ne_z {T H H₁ H₂ M M₁ M₂ Pb Np Nm : Subgroup G} {e : Fin 6 → G}
     (D : StepAData T H H₁ H₂ M M₁ M₂ Pb Np Nm e) : e 4 ≠ zOf e := by
   intro h
@@ -438,12 +449,14 @@ theorem stepA_E {T H H₁ H₂ M M₁ M₂ Pb Np Nm : Subgroup G} {e : Fin 6 →
       rw [h, orderOf_one] at this
       exact absurd this (by norm_num)) (stepA_z_ne_one D) (stepA_t_ne_z D)
 
+omit [Finite G] in
 theorem stepA_H_elems {T H H₁ H₂ M M₁ M₂ Pb Np Nm : Subgroup G} {e : Fin 6 → G}
     (D : StepAData T H H₁ H₂ M M₁ M₂ Pb Np Nm e) :
     e 0 ∈ H ∧ e 2 ∈ H ∧ e 4 ∈ H := by
   obtain ⟨-, -, -, -, h0, h2, h4⟩ := stepA_gen D.setup.lets
   exact ⟨h0, h2, h4⟩
 
+omit [Finite G] in
 theorem stepA_P_le_H {T H H₁ H₂ M M₁ M₂ Pb Np Nm : Subgroup G} {e : Fin 6 → G}
     (D : StepAData T H H₁ H₂ M M₁ M₂ Pb Np Nm e) : Psub e ≤ H := by
   obtain ⟨h0, h2, -⟩ := stepA_H_elems D
@@ -455,6 +468,7 @@ theorem stepA_P_le_H {T H H₁ H₂ M M₁ M₂ Pb Np Nm : Subgroup G} {e : Fin 
   · exact h0
   · exact h2
 
+omit [Finite G] in
 theorem stepA_E_le_H {T H H₁ H₂ M M₁ M₂ Pb Np Nm : Subgroup G} {e : Fin 6 → G}
     (D : StepAData T H H₁ H₂ M M₁ M₂ Pb Np Nm e) : Esub e ≤ H := by
   obtain ⟨-, -, h4⟩ := stepA_H_elems D
@@ -497,6 +511,7 @@ theorem stepA_card_normalizer {T H H₁ H₂ M M₁ M₂ Pb Np Nm : Subgroup G} 
     rw [hN]; exact le_sup_right
   rw [hN, stepA_card_sup (Psub e) (Esub e) hB (stepA_P_inf_E D), D.hF.card_P, (stepA_E D).2]
 
+omit [Finite G] in
 theorem stepA_dvd576 {T H H₁ H₂ M M₁ M₂ Pb Np Nm : Subgroup G} {e : Fin 6 → G}
     (D : StepAData T H H₁ H₂ M M₁ M₂ Pb Np Nm e) : 576 ∣ Nat.card G := by
   have h := Subgroup.card_subgroup_dvd_card H
@@ -505,7 +520,7 @@ theorem stepA_dvd576 {T H H₁ H₂ M M₁ M₂ Pb Np Nm : Subgroup G} {e : Fin 
 theorem stepA_not27 {T H H₁ H₂ M M₁ M₂ Pb Np Nm : Subgroup G} {e : Fin 6 → G}
     (D : StepAData T H H₁ H₂ M M₁ M₂ Pb Np Nm e) : ¬ 27 ∣ Nat.card G := by
   intro h27
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hP : Nat.card (Psub e) = 3 ^ 2 := by rw [D.hF.card_P]; norm_num
   have h := Sylow.prime_pow_dvd_card_normalizer (p := 3) (n := 2)
     (by norm_num; exact h27) hP
@@ -515,7 +530,7 @@ theorem stepA_not27 {T H H₁ H₂ M M₁ M₂ Pb Np Nm : Subgroup G} {e : Fin 6
 theorem stepA_P_sylow {T H H₁ H₂ M M₁ M₂ Pb Np Nm : Subgroup G} {e : Fin 6 → G}
     (D : StepAData T H H₁ H₂ M M₁ M₂ Pb Np Nm e) (S : Subgroup G) (hS : IsPGroup 3 S)
     (hPS : Psub e ≤ S) : S = Psub e := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Q, hQ⟩ := hS.exists_le_sylow
   have hn : Nat.card G ≠ 0 := Nat.card_pos.ne'
   have h9 : 3 ^ 2 ∣ Nat.card G := dvd_trans (by norm_num) (stepA_dvd576 D)
@@ -544,7 +559,7 @@ theorem stepA_Nm_eq {T H H₁ H₂ M M₁ M₂ Pb Np Nm : Subgroup G} {e : Fin 6
 
 theorem stepA_sylow_count {T H H₁ H₂ M M₁ M₂ Pb Np Nm : Subgroup G} {e : Fin 6 → G}
     (D : StepAData T H H₁ H₂ M M₁ M₂ Pb Np Nm e) : Nat.card G / 36 % 3 = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hPp : IsPGroup 3 (Psub e) := IsPGroup.of_card (n := 2) (by rw [D.hF.card_P]; norm_num)
   have hdvd : Nat.card (Psub e) * (Psub e).index = Nat.card G := Subgroup.card_mul_index _
   rw [D.hF.card_P] at hdvd
@@ -625,14 +640,15 @@ theorem stepA_e2_ne_one {T H H₁ H₂ M M₁ M₂ Pb Np Nm : Subgroup G} {e : F
 
 theorem stepA_e0_order {T H H₁ H₂ M M₁ M₂ Pb Np Nm : Subgroup G} {e : Fin 6 → G}
     (D : StepAData T H H₁ H₂ M M₁ M₂ Pb Np Nm e) : orderOf (e 0) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact orderOf_eq_prime (stepA_rels D.setup.lets).1 (stepA_e0_ne_one D)
 
 theorem stepA_e2_order {T H H₁ H₂ M M₁ M₂ Pb Np Nm : Subgroup G} {e : Fin 6 → G}
     (D : StepAData T H H₁ H₂ M M₁ M₂ Pb Np Nm e) : orderOf (e 2) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact orderOf_eq_prime (stepA_rels D.setup.lets).2.1 (stepA_e2_ne_one D)
 
+omit [Finite G] in
 theorem stepA_card_M1 {T H H₁ H₂ M M₁ M₂ Pb Np Nm : Subgroup G} {e : Fin 6 → G}
     (D : StepAData T H H₁ H₂ M M₁ M₂ Pb Np Nm e) : Nat.card M₁ = 3 := by
   rcases D.loc.cor.cases with h | h | h
@@ -681,6 +697,7 @@ theorem stepA_v2_le {T H H₁ H₂ M M₁ M₂ Pb Np Nm : Subgroup G} {e : Fin 6
   rw [stepA_M2 D]
   exact Subgroup.zpowers_le.mpr (stepA_H_elems D).2.1
 
+omit [Finite G] in
 theorem stepA_val_neg {K : Subgroup G} (ψ : ↥K ≃* SL(2, ZMod 3)) {x : G} (hx : x ∈ K)
     (hx2 : x * x = 1) (hx1 : x ≠ 1) : (ψ ⟨x, hx⟩).1 = -1 := by
   have hA : ψ ⟨x, hx⟩ * ψ ⟨x, hx⟩ = 1 := by
@@ -689,6 +706,7 @@ theorem stepA_val_neg {K : Subgroup G} (ψ : ↥K ≃* SL(2, ZMod 3)) {x : G} (h
     hx1 (congrArg Subtype.val (ψ.injective (h.trans (map_one ψ).symm)))
   exact sl_unique_invol _ (ψ ⟨x, hx⟩).2 (congrArg Subtype.val hA) (fun h => hA1 (Subtype.ext h))
 
+omit [Finite G] in
 theorem stepA_invol_H2 {T H H₁ H₂ M M₁ M₂ Pb Np Nm : Subgroup G} {e : Fin 6 → G}
     (D : StepAData T H H₁ H₂ M M₁ M₂ Pb Np Nm e) {b : G} (hb : b ∈ H₂) (hb2 : b * b = 1)
     (hb1 : b ≠ 1) : b = zOf e := by
@@ -699,6 +717,7 @@ theorem stepA_invol_H2 {T H H₁ H₂ M M₁ M₂ Pb Np Nm : Subgroup G} {e : Fi
   have h3 : ψ ⟨b, hb⟩ = ψ ⟨zOf e, hz2⟩ := Subtype.ext (h1.trans h2.symm)
   exact congrArg Subtype.val (ψ.injective h3)
 
+omit [Finite G] in
 theorem stepA_invol_H1 {T H H₁ H₂ M M₁ M₂ Pb Np Nm : Subgroup G} {e : Fin 6 → G}
     (D : StepAData T H H₁ H₂ M M₁ M₂ Pb Np Nm e) {b : G} (hb : b ∈ H₁) (hb2 : b * b = 1)
     (hb1 : b ≠ 1) : b = zOf e := by
@@ -719,7 +738,7 @@ theorem stepAGood_e0 {T H H₁ H₂ M M₁ M₂ Pb Np Nm : Subgroup G} {e : Fin 
     (D : StepAData T H H₁ H₂ M M₁ M₂ Pb Np Nm e) : StepAGood H (zOf e) (e 0) := by
   have hC := stepA_v1_le D
   have hzP : Subgroup.zpowers (e 0) ≤ Psub e :=
-    Subgroup.zpowers_le.mpr (Subgroup.subset_closure (by simp [Psub]))
+    Subgroup.zpowers_le.mpr (Subgroup.subset_closure (by simp))
   have hA3 : ∀ a ∈ Subgroup.zpowers (e 0), a ^ 3 = 1 := fun a ha =>
     D.hF.elem_P.2 a (hzP ha)
   have hc : ∀ a ∈ Subgroup.zpowers (e 0), ∀ b ∈ H₂, a * b = b * a := by
@@ -746,7 +765,7 @@ theorem stepAGood_e2 {T H H₁ H₂ M M₁ M₂ Pb Np Nm : Subgroup G} {e : Fin 
     (D : StepAData T H H₁ H₂ M M₁ M₂ Pb Np Nm e) : StepAGood H (zOf e) (e 2) := by
   have hC := stepA_v2_le D
   have hzP : Subgroup.zpowers (e 2) ≤ Psub e :=
-    Subgroup.zpowers_le.mpr (Subgroup.subset_closure (by simp [Psub]))
+    Subgroup.zpowers_le.mpr (Subgroup.subset_closure (by simp))
   have hA3 : ∀ a ∈ Subgroup.zpowers (e 2), a ^ 3 = 1 := fun a ha =>
     D.hF.elem_P.2 a (hzP ha)
   have hc : ∀ a ∈ Subgroup.zpowers (e 2), ∀ b ∈ H₁, a * b = b * a := by
@@ -821,6 +840,7 @@ theorem stepAGood_mix' {T H H₁ H₂ M M₁ M₂ Pb Np Nm : Subgroup G} {e : Fi
     · exact absurd h hu1
     · exact h
 
+omit [Finite G] in
 theorem stepA_P_form {e0 e2 : G} (hcomm : e2 * e0 = e0 * e2) {x : G}
     (hx : x ∈ Subgroup.closure ({e0, e2} : Set G)) : ∃ m n : ℤ, x = e0 ^ m * e2 ^ n := by
   have hc0 : Commute e0 e2 := hcomm.symm

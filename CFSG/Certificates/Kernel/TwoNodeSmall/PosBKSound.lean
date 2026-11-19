@@ -282,7 +282,7 @@ theorem par_verify {P : Pt} [Fact P.p.Prime] (hp : P.p = 3 ∨ P.p = 5 ∨ P.p =
     intro v
     rw [applyWord_append, sw_act hwf hSs, vec_refl, sw_act hwf hTs, vec_refl]
   cases h0 : Nat.beq kd 0
-  · rw [h0, cond_false, Bool.and_eq_true] at hk
+  · rw [h0, Bool.cond_false, Bool.and_eq_true] at hk
     obtain ⟨e1, e2⟩ := hk
     rw [Nat.beq_eq, smul_pkrP hp hlp] at e1
     have eT : P.vec T.1.f = (l : ZMod P.p) • P.vec S.1.f := by
@@ -307,7 +307,7 @@ theorem par_verify {P : Pt} [Fact P.p.Prime] (hp : P.p = 3 ∨ P.p = 5 ∨ P.p =
       funext i
       simp only [Pi.add_apply, Pi.sub_apply, Pi.smul_apply, smul_eq_mul]
       linear_combination (P.dot (P.vec S.1.f) (P.vec v) * P.vec S.1.h i) * key
-  · rw [h0, cond_true, Bool.and_eq_true] at hk
+  · rw [h0, _root_.Bool.cond_true, Bool.and_eq_true] at hk
     obtain ⟨e1, e2⟩ := hk
     rw [Nat.beq_eq, smul_pkP hp hlp] at e1
     have eT : P.vec T.1.h = (l : ZMod P.p) • P.vec S.1.h := by
@@ -397,13 +397,13 @@ theorem recOK_verify {Q : SPt} (hp : Q.pt.p = 3 ∨ Q.pt.p = 5 ∨ Q.pt.p = 7) (
   have hWF : Q.pt.WF := wfCheck_sound hwf
   unfold recOK at h
   cases h1 : Nat.blt r.1 2
-  · rw [h1, cond_false] at h
+  · rw [h1, Bool.cond_false] at h
     cases h2 : Nat.beq r.1 2
-    · rw [h2, cond_false] at h
+    · rw [h2, Bool.cond_false] at h
       exact absurd h Bool.false_ne_true
-    · rw [h2, cond_true] at h
+    · rw [h2, _root_.Bool.cond_true] at h
       exact Or.inr (cyc_verify hp hD hWF hjn h)
-  · rw [h1, cond_true] at h
+  · rw [h1, _root_.Bool.cond_true] at h
     exact Or.inl (par_verify hp hD hWF h)
 
 theorem last_pk {P : Pt} (hlen : P.gens.length = P.D) (hnF : P.nFrame = P.D - 1) (h1 : 1 ≤ P.D) :
@@ -508,12 +508,12 @@ theorem walk {F : Fd} {B : List (Nat × Nat)} {vb cN o0 o1 X N s bnd : Nat}
     rw [grpB_cons] at h
     cases hd : Nat.beq (dotK F (nthK (0, 0) (gensB B vb cN o0 o1 N fr) (N - 1)).2 X) 0 with
     | true =>
-      rw [hd, cond_true] at h
+      rw [hd, _root_.Bool.cond_true] at h
       rcases List.mem_cons.mp hfr' with rfl | hm
       · exact ⟨.fixed, fixed_of hf0 (Nat.eq_of_beq_eq_true hd)⟩
       · exact ih hft rs os h ho fr' hm
     | false =>
-      rw [hd, cond_false] at h
+      rw [hd, Bool.cond_false] at h
       cases rs with
       | nil => exact absurd h (by simp)
       | cons r rs' =>
@@ -530,12 +530,12 @@ theorem walk {F : Fd} {B : List (Nat × Nat)} {vb cN o0 o1 X N s bnd : Nat}
           exact wf_of hp (by omega) hall
         cases hk : Nat.blt r.1 3 with
         | true =>
-          rw [hk, cond_true, Bool.and_eq_true] at h
+          rw [hk, _root_.Bool.cond_true, Bool.and_eq_true] at h
           rcases List.mem_cons.mp hfr' with rfl | hm
           · exact rec_of hf0 hwf h.1
           · exact ih hft rs' os h.2 ho fr' hm
         | false =>
-          rw [hk, cond_false, Bool.and_eq_true] at h
+          rw [hk, Bool.cond_false, Bool.and_eq_true] at h
           cases os with
           | nil => exact absurd h.2 (by simp)
           | cons o os' =>
@@ -609,7 +609,7 @@ theorem rv_add_lane : ∀ (D : Nat) (x : Nat → Nat) (k c : Nat), k < D →
     · subst hkD
       have e : laneR (k + 1) k = 1 := by simp [laneR]
       rw [e, rv_congr (x := fun i => if i = k then x i + c else x i) (y := x)
-        (fun i hi => by simp only [if_neg (show i ≠ k by omega)])]
+        (fun i hi => by simp only [ite_eq_right (show i ≠ k by omega)])]
       simp only [↓reduceIte]
       omega
     · have hk' : k < D := by omega
@@ -657,19 +657,19 @@ theorem uvB_o0 {N s : Nat} (hN : N = 5 ∨ N = 6 ∨ N = 7) (hs : s < 3) (o : Na
     (fr : List Nat) : uvB N s o fr ((outsOf N s).getD 0 0) = (fr.getD 0 0, fr.getD 1 0) := by
   obtain ⟨hh, -, -, -, hj0, -, -⟩ := outs_facts hN hs
   unfold uvB
-  rw [if_neg (by rw [hj0]; exact Bool.false_ne_true), if_pos hh]
+  rw [ite_eq_right (by rw [hj0]; exact Bool.false_ne_true), ite_eq_left hh]
 
 theorem uvB_o1 {N s : Nat} (hN : N = 5 ∨ N = 6 ∨ N = 7) (hs : s < 3) (o : Nat × Nat × Nat)
     (fr : List Nat) : uvB N s o fr ((outsOf N s).getD 1 0) = (fr.getD 2 0, fr.getD 3 0) := by
   obtain ⟨hh, hne, -, -, -, hj1, -⟩ := outs_facts hN hs
   unfold uvB
-  rw [if_neg (by rw [hj1]; exact Bool.false_ne_true),
-    if_neg (by rw [hh]; exact fun e => hne (Option.some.inj e))]
+  rw [ite_eq_right (by rw [hj1]; exact Bool.false_ne_true),
+    ite_eq_right (by rw [hh]; exact fun e => hne (Option.some.inj e))]
 
 theorem uvB_in {N s k : Nat} (o : Nat × Nat × Nat) (fr : List Nat) (hJ : inJ N s k = true) :
     uvB N s o fr k = if k - s = o.1 then (o.2.1, o.2.2) else (0, 0) := by
   unfold uvB
-  rw [if_pos hJ]
+  rw [ite_eq_left hJ]
 
 theorem pkG_ptB (p N s : Nat) (o : Nat × Nat × Nat) (fr : List Nat) :
     pkG (ptB p N s o fr).pt =
@@ -680,7 +680,7 @@ theorem pkG_ptB (p N s : Nat) (o : Nat × Nat × Nat) (fr : List Nat) :
   simp only [pkG, ptB, List.map_append, List.map_map, List.map_cons, List.map_nil]
   rfl
 
-theorem gens_eq {p N s oi : Nat} (hp0 : 0 < p) (hN : N = 5 ∨ N = 6 ∨ N = 7) (hs : s < 3)
+theorem gens_eq {p N s oi : Nat} (_hp0 : 0 < p) (hN : N = 5 ∨ N = 6 ∨ N = 7) (hs : s < 3)
     {fr : List Nat} (hfr : ∀ i, fr.getD i 0 < p) :
     gensB (baseB p N s oi) (vbB p N s oi) (pkP p N (unitP N (N - 1))) ((outsOf N s).getD 0 0)
       ((outsOf N s).getD 1 0) N fr = pkG (ptB p N s (optOf p N oi) fr).pt := by
@@ -700,14 +700,14 @@ theorem gens_eq {p N s oi : Nat} (hp0 : 0 < p) (hN : N = 5 ∨ N = 6 ∨ N = 7) 
     · have h1 : i ≠ (outsOf N s).getD 1 0 := by rw [h0]; exact hne
       have hJ : inJ N s i = false := by rw [h0]; exact hj0
       have hu : (uvB N s (optOf p N oi) fr i).1 = fr.getD 0 0 := by rw [h0, uvB_o0 hN hs]
-      simp only [if_pos h0, if_neg h1, Option.map_some, hu, hJ, Bool.false_eq_true, ↓reduceIte,
+      simp only [ite_eq_left h0, ite_eq_right h1, Option.map_some, hu, hJ, Bool.false_eq_true, ↓reduceIte,
         Option.some.injEq, Prod.mk.injEq, true_and]
       rw [pkrP_snoc _ _ _ _ hc, pkrP_snoc _ _ _ _ hc, Nat.mod_eq_of_lt (hfr 0), Nat.zero_mod]
       omega
     · by_cases h1 : i = (outsOf N s).getD 1 0
       · have hJ : inJ N s i = false := by rw [h1]; exact hj1
         have hu : (uvB N s (optOf p N oi) fr i).1 = fr.getD 2 0 := by rw [h1, uvB_o1 hN hs]
-        simp only [if_neg h0, if_pos h1, Option.map_some, hu, hJ, Bool.false_eq_true, ↓reduceIte,
+        simp only [ite_eq_right h0, ite_eq_left h1, Option.map_some, hu, hJ, Bool.false_eq_true, ↓reduceIte,
           Option.some.injEq, Prod.mk.injEq, true_and]
         rw [pkrP_snoc _ _ _ _ hc, pkrP_snoc _ _ _ _ hc, Nat.mod_eq_of_lt (hfr 2), Nat.zero_mod]
         omega
@@ -715,14 +715,14 @@ theorem gens_eq {p N s oi : Nat} (hp0 : 0 < p) (hN : N = 5 ∨ N = 6 ∨ N = 7) 
           cases hq : inJ N s i with
           | true => rfl
           | false => exact absurd (hall i hi hq) (by tauto)
-        rw [if_neg h0, if_neg h1]
+        rw [ite_eq_right h0, ite_eq_right h1]
         simp only [uvB, hJ, ↓reduceIte]
         split_ifs <;> rfl
   · subst hi
     have hl : (baseB p N s oi).length = N - 1 := by simp [baseB]
     have h0 : N - 1 ≠ (outsOf N s).getD 0 0 := by omega
     have h1 : N - 1 ≠ (outsOf N s).getD 1 0 := by omega
-    rw [if_neg h0, if_neg h1, List.getElem?_append_right (by omega),
+    rw [ite_eq_right h0, ite_eq_right h1, List.getElem?_append_right (by omega),
       List.getElem?_append_right (by simp), hl]
     simp only [List.length_map, List.length_range, Nat.sub_self, List.getElem?_cons_zero,
       Option.some.injEq, Prod.mk.injEq, true_and]
@@ -738,14 +738,12 @@ theorem gens_eq {p N s oi : Nat} (hp0 : 0 < p) (hN : N = 5 ∨ N = 6 ∨ N = 7) 
       simp only [getD_range_map _ _ hi']
       by_cases h0 : i = (outsOf N s).getD 0 0
       · subst h0
-        simp only [uvB_o0 hN hs, hj0, if_neg hne, if_pos (rfl : (outsOf N s).getD 0 0 = _),
-          Bool.false_eq_true, ↓reduceIte]
+        simp only [uvB_o0 hN hs, hj0, ite_eq_right hne, Bool.false_eq_true, ↓reduceIte]
         rw [Nat.mod_eq_of_lt (hfr 1)]
         simp
       · by_cases h1 : i = (outsOf N s).getD 1 0
         · subst h1
-          simp only [uvB_o1 hN hs, hj1, if_neg h0, if_pos (rfl : (outsOf N s).getD 1 0 = _),
-            Bool.false_eq_true, ↓reduceIte]
+          simp only [uvB_o1 hN hs, hj1, ite_eq_right h0, Bool.false_eq_true, ↓reduceIte]
           rw [Nat.mod_eq_of_lt (hfr 3)]
           simp
         · have hJ : inJ N s i = true := by

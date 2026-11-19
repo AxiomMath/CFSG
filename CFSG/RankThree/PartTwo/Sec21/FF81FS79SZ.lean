@@ -17,9 +17,9 @@ theorem exists_central_complement {R Z : Subgroup H} (hZR : Z ≤ R)
     ∃ O : Subgroup H, O ≤ R ∧ Z ⊓ O = ⊥ ∧ (∀ r ∈ R, ∃ z ∈ Z, ∃ x ∈ O, r = z * x) ∧
       Nat.Coprime 3 (Nat.card O) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let N : Subgroup ↥R := Z.subgroupOf R
-  haveI hNn : N.Normal := ⟨fun n hn g => by
+  have hNn : N.Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     have e : (g : H) * (n : H) * (g : H)⁻¹ = (n : H) := by
       calc (g : H) * (n : H) * (g : H)⁻¹ = ((n : H) * (g : H)) * (g : H)⁻¹ := by
@@ -65,16 +65,18 @@ theorem exists_central_complement {R Z : Subgroup H} (hZR : Z ≤ R)
     rw [h1, ← hK.symm.index_eq_card]
     exact hcopN
 
+omit [Finite H] in
 theorem orderOf_conj_eq (g x : H) : orderOf (g * x * g⁻¹) = orderOf x := by
   have h := orderOf_injective (MulAut.conj g).toMonoidHom (MulAut.conj g).injective x
   simpa [MulAut.conj_apply] using h
 
+omit [Finite H] in
 theorem mem_complement_of_coprime_orderOf {R Z O : Subgroup H}
     (hZc : ∀ r ∈ R, ∀ z ∈ Z, r * z = z * r) (hZ3 : Nat.card Z = 3) (hOR : O ≤ R)
     (hdec : ∀ r ∈ R, ∃ z ∈ Z, ∃ x ∈ O, r = z * x) (hOc : Nat.Coprime 3 (Nat.card O))
     {x : H} (hxR : x ∈ R) (hx : Nat.Coprime 3 (orderOf x)) : x ∈ O := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨z, hz, o, ho, rfl⟩ := hdec x hxR
   by_cases hz1 : z = 1
   · rw [hz1, one_mul]
@@ -101,6 +103,7 @@ theorem mem_complement_of_coprime_orderOf {R Z O : Subgroup H}
   rw [hord] at hdvd
   exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mp hx hdvd
 
+omit [Finite H] in
 theorem conj_mem_complement {R Z O : Subgroup H}
     (hZc : ∀ r ∈ R, ∀ z ∈ Z, r * z = z * r) (hZ3 : Nat.card Z = 3) (hOR : O ≤ R)
     (hdec : ∀ r ∈ R, ∃ z ∈ Z, ∃ x ∈ O, r = z * x) (hOc : Nat.Coprime 3 (Nat.card O))
@@ -109,6 +112,7 @@ theorem conj_mem_complement {R Z O : Subgroup H}
   rw [orderOf_conj_eq]
   exact hOc.coprime_dvd_right (Subgroup.orderOf_dvd_natCard O hx)
 
+omit [Finite H] in
 theorem conj_eq_of_coprime_normal {X Q : Subgroup H}
     (hQn : ∀ g ∈ X, ∀ q ∈ Q, g * q * g⁻¹ ∈ Q) (hcop : Nat.Coprime 3 (Nat.card Q))
     {x q : H} (hx : x ∈ X) (hx3 : x ^ 3 = 1) (hx1 : x ≠ 1) (hq : q ∈ Q)
@@ -141,7 +145,7 @@ theorem FS79Hyp.conj_mem_zpowers_of_pgroup (h : FS79Hyp b t b₁ b₂ J) {S₀ :
     (hS : IsPGroup 3 S₀) (hbS : b ∈ S₀) {g : H} (hg : g * b * g⁻¹ ∈ S₀) :
     g * b * g⁻¹ ∈ Subgroup.zpowers b := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hTop : IsPGroup 3 (⊤ : Subgroup ↥S₀) := hS.of_equiv Subgroup.topEquiv.symm
   let P : Sylow 3 ↥S₀ := hTop.toSylow (by simp [Subgroup.index_top])
   have hPtop : (P : Subgroup ↥S₀) = ⊤ := rfl
@@ -163,6 +167,7 @@ theorem FS79Hyp.conj_mem_zpowers_of_pgroup (h : FS79Hyp b t b₁ b₂ J) {S₀ :
   rw [← hD]
   exact ⟨b, Subgroup.mem_zpowers b, by simp [MulAut.conj_apply]⟩
 
+omit [Finite H] in
 theorem FS79Hyp.nor_decomp (h : FS79Hyp b t b₁ b₂ J) {n : H}
     (hn : n ∈ Nor (Subgroup.zpowers b)) :
     ∃ k ∈ Opp 3 (Nor (Subgroup.zpowers b)), ∃ y ∈ Subgroup.closure ({b, t} : Set H),

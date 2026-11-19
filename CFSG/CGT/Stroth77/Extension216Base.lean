@@ -47,14 +47,14 @@ theorem t_apply_gens_t330 {m : ℕ} (hm : 3 ≤ m) (i j l : ℤ) :
     SigmaFourAction.ofMatEq, Type330.tM, Type330.uvA, Type330.ρM, ofCols_apply]
   congr 2
   · congr 1
-    simp [Matrix.mulVec, dotProduct, Fin.sum_univ_three, ofCols_apply, -mul_eq_mul_right_iff,
+    simp [-mul_eq_mul_right_iff,
       -mul_eq_mul_left_iff]
     ring
   · congr 1
-    simp [Matrix.mulVec, dotProduct, Fin.sum_univ_three, ofCols_apply, -mul_eq_mul_right_iff,
+    simp [-mul_eq_mul_right_iff,
       -mul_eq_mul_left_iff]
     ring
-  · simp [ofCols_mulVec, ofCols_apply, -mul_eq_mul_right_iff, -mul_eq_mul_left_iff]
+  · simp [ofCols_mulVec, -mul_eq_mul_right_iff, -mul_eq_mul_left_iff]
     ring
 
 @[expose] def tBar330 (v : Fin 3 → ZMod 2) : Fin 3 → ZMod 2 := ![v 0, v 0 + v 1, v 2]
@@ -85,7 +85,7 @@ theorem parityTorus_t_t330 {m : ℕ} (hm : 3 ≤ m) (y : Torus (StrothTypeIndex.
   · simp [tBar330, hI2, h4, h8, sub_eq_add_neg, ZMod.neg_eq_self_mod_two]
   · simp [tBar330, hI2, h2, h7, sub_eq_add_neg, ZMod.neg_eq_self_mod_two]
   · have hm1 : m - 1 ≠ 0 := by omega
-    simp [tBar330, hI2, h2, h7, h8, hN, hm1, sub_eq_add_neg, ZMod.neg_eq_self_mod_two]
+    simp [tBar330, hI2, h2, h7, h8, hm1, sub_eq_add_neg, ZMod.neg_eq_self_mod_two]
 
 theorem fixed_check_t330 : ∀ v : Fin 3 → ZMod 2, rhoBar300 v = v → tBar330 v = v → v = 0 := by
   unfold rhoBar300 tBar330
@@ -177,8 +177,7 @@ theorem fix4_torus_t330 {m : ℕ} (hm : 3 ≤ m) (v : Torus (StrothTypeIndex.t33
     module
   rw [et] at hzt
   have ht1 := dvd_four_of_eq_four_smul_coord 1 hzt.symm (h4 1)
-  simp only [Fin.one_eq_zero_iff, OfNat.ofNat_ne_one, ite_false, ite_true,
-    Fin.reduceEq] at ht1
+  simp only [Fin.one_eq_zero_iff, OfNat.ofNat_ne_one, ite_false, ite_true] at ht1
   obtain ⟨j', rfl⟩ := hj
   obtain ⟨l', rfl⟩ := hl
   obtain ⟨i', rfl⟩ : (4 : ℤ) ∣ i := by
@@ -231,10 +230,9 @@ theorem t330_dbl_t130_uvM {m : ℕ} {i F G N i' F' G' N' K' J' : ℤ}
       -46080*J'^4 + 34560*J'^3 + 288*J'^2 + 864*J']) ?_
   intro r c
   fin_cases r <;> fin_cases c <;>
-    simp [Type130.k, h0, h1, Type130.uvM, Type130.tM, Type130.uvA, Type130.ρM, Type130.uM, uMat,
-      Type330.uvM, Type330.tM, Type330.uvA, Type330.ρM, Type330.uM, ofCols_apply,
-      Matrix.mul_diagonal, Matrix.diagonal_mul, Matrix.mul_apply, Fin.sum_univ_three,
-      Matrix.mulVec, dotProduct, -mul_eq_zero,
+    simp [Type130.k, h0, h1, Type130.uvM, Type130.tM, Type130.uvA, Type130.ρM, Type330.uvM, Type330.tM, Type330.uvA, Type330.ρM, ofCols_apply,
+      Matrix.mul_apply, Fin.sum_univ_three,
+      -mul_eq_zero,
       -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;>
     first
     | linear_combination (-216) * hG
@@ -266,10 +264,9 @@ theorem t330_dbl_t130_tM {m : ℕ} {i F G N i' F' G' N' K' J' : ℤ}
       -504*J']) ?_
   intro r c
   fin_cases r <;> fin_cases c <;>
-    simp [Type130.k, h0, h1, Type130.uvM, Type130.tM, Type130.uvA, Type130.ρM, Type130.uM, uMat,
-      Type330.uvM, Type330.tM, Type330.uvA, Type330.ρM, Type330.uM, ofCols_apply,
-      Matrix.mul_diagonal, Matrix.diagonal_mul, Matrix.mul_apply, Fin.sum_univ_three,
-      Matrix.mulVec, dotProduct, -mul_eq_zero,
+    simp [Type130.k, h0, h1, Type130.tM, Type130.uvA, Type130.ρM, Type330.tM, Type330.uvA, Type330.ρM, ofCols_apply,
+      Matrix.mul_apply, Fin.sum_univ_three,
+      -mul_eq_zero,
       -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;>
     first
     | linear_combination (-72) * hG
@@ -289,10 +286,10 @@ theorem t330_dbl_t130_uM {m : ℕ} {i F G N i' F' G' N' K' J' : ℤ}
     (W := !![0, -96*J', 192*J'^2 - 96*J'; 0, 0, 0; 0, 0, 0]) ?_
   intro r c
   fin_cases r <;> fin_cases c <;>
-    simp [Type130.k, h0, h1, Type130.uvM, Type130.tM, Type130.uvA, Type130.ρM, Type130.uM, uMat,
-      Type330.uvM, Type330.tM, Type330.uvA, Type330.ρM, Type330.uM, ofCols_apply,
-      Matrix.mul_diagonal, Matrix.diagonal_mul, Matrix.mul_apply, Fin.sum_univ_three,
-      Matrix.mulVec, dotProduct, -mul_eq_zero,
+    simp [Type130.k, h0, h1, Type130.uM, uMat,
+      Type330.uM, ofCols_apply,
+      Matrix.mul_apply, Fin.sum_univ_three,
+      -mul_eq_zero,
       -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;>
     first
     | linear_combination (-96) * hG
@@ -308,11 +305,9 @@ theorem t330_dbl_t130_ρM {m : ℕ} {i F G N i' F' G' N' K' J' : ℤ}
     (W := !![0, 0, 0; 0, 0, 0; 0, 0, 0]) ?_
   intro r c
   fin_cases r <;> fin_cases c <;>
-    simp [Type130.k, h0, h1, Type130.uvM, Type130.tM, Type130.uvA, Type130.ρM, Type130.uM, uMat,
-      Type330.uvM, Type330.tM, Type330.uvA, Type330.ρM, Type330.uM, ofCols_apply,
-      Matrix.mul_diagonal, Matrix.diagonal_mul, Matrix.mul_apply, Fin.sum_univ_three,
-      Matrix.mulVec, dotProduct, -mul_eq_zero,
-      -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;>
-    ring1
+    simp [Type130.k, h0, h1, Type130.ρM, Type330.ρM, ofCols_apply,
+      Matrix.mul_apply, Fin.sum_univ_three,
+      -mul_eq_zero,
+      -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]
 
 end CFSG.CGT.Stroth77

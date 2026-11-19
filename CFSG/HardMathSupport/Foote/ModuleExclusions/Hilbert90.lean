@@ -130,7 +130,7 @@ theorem speiser (σ : F ≃+* F) (A : Matrix ι ι F) (r : ℕ) (hr : orderOf σ
       funext j
       simp [bB]
     have : IsUnit (Matrix.of fun i j => ((e.symm j : b) : ι → F) i) := by
-      rw [← Matrix.linearIndependent_cols_iff_isUnit]
+      rw [← Matrix.linearIndependent_col_iff_isUnit]
       exact hli
     exact (Matrix.isUnit_iff_isUnit_det _).1 this |>.ne_zero
   · ext i j

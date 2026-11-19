@@ -13,7 +13,7 @@ namespace CFSG.Sporadic.Th.Recog
 open CFSG.Sporadic.Th CFSG.Sporadic.Th.Native CFSG.Sporadic.Th.Max3
 open CFSG.Sporadic.Th.Max3.InvRep
 open CFSG.Sporadic.Th.Recog.MFactsBData
-open CFSG.Certificates Certificates
+open CFSG.Certificates _root_.CFSG.Certificates
 
 private theorem cert_centT_card :
     (CFSG.Sporadic.Th.Recog.MFactsBData.centTList ()).length = 32 :=

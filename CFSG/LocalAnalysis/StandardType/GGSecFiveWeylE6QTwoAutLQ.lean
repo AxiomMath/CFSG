@@ -24,7 +24,7 @@ theorem le_card_ggAutomizer_of_isPGroup (hK : Nat.card K = 4) {Bs L : Subgroup G
     (hLx : L ≤ Subgroup.centralizer {x}) :
     720 ≤ Nat.card (ggAutomizer L Bs) := by
   obtain ⟨ω, hω⟩ := USixTwo.exists_root_omega hK
-  haveI : Finite (MulAut ↥Bs) :=
+  have : Finite (MulAut ↥Bs) :=
     Finite.of_injective (fun f : MulAut ↥Bs => (f : ↥Bs → ↥Bs)) DFunLike.coe_injective
   have hinj : Function.Injective (fun σ : Equiv.Perm (Fin 6) =>
       (⟨psi hK θ hZ2 hBs hcard hmap hx hxL hLx hω σ,

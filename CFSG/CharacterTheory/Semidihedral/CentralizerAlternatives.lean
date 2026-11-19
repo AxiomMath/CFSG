@@ -82,7 +82,7 @@ theorem sylow_card_dvd_of_le {G : Type u} [Group G] [Finite G]
     (U : Sylow p L) (T : Sylow p J) : Nat.card U ∣ Nat.card T := by
   let f : L →* J := Subgroup.inclusion hLJ
   let V : Subgroup J := (U : Subgroup L).map f
-  have hV : IsPGroup p V := U.isPGroup'.map f
+  have hV : IsPGroup p V := U.isPGroup.map f
   obtain ⟨W, hVW⟩ := hV.exists_le_sylow
   have hUV : Nat.card U = Nat.card V :=
     Nat.card_congr ((U : Subgroup L).equivMapOfInjective f

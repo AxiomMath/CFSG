@@ -79,7 +79,7 @@ theorem prodIdx_eq {i j : Nat} (hi : i < 191) (hj : j < 191) :
   cases hc : comT (INV.getD i []) (INV.getD j [])
   · rw [hc0 hc]
     rfl
-  · simp only [if_true]
+  · simp only [ite_true]
     by_cases hij : i = j
     · subst hij
       rw [(hc1 hc).1 rfl, comp_self hi, List.idxOf_eq_length INV_spec.2.1, INV_spec.1]

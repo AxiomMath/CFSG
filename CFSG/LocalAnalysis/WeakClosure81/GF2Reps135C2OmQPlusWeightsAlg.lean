@@ -27,7 +27,7 @@ include hn hm in
 theorem omq_omPlus_wt_add (ν ν' : Fin n → ZMod m) {g : spinGroup (quadPlus n F)}
     (hg : g ∈ (omPlusCurtisDatum n F hn).H) :
     omqPlusWt ι (ν + ν') g = omqPlusWt ι ν g * omqPlusWt ι ν' g := by
-  haveI : NeZero m := ⟨by rw [hm]; exact Nat.card_pos.ne'⟩
+  have : NeZero m := ⟨by rw [hm]; exact Nat.card_pos.ne'⟩
   simp only [omqPlusWt, Pi.add_apply]
   rw [← Finset.prod_mul_distrib]
   refine Finset.prod_congr rfl fun b _ => ?_

@@ -39,7 +39,7 @@ theorem false_of_A1 {p q : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hq : q.Prime) (h
     rintro h0
     rw [h0, pow_zero] at hcardF
     exact absurd hcardF (by
-      haveI := hFfin
+      have := hFfin
       exact (Finite.one_lt_card).ne')) q
   have hF : CFSG.GH74.GLS.IVK.L2Field F := by
     refine ⟨?_, ?_⟩

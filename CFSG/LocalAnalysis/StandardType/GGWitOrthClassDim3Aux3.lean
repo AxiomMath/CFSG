@@ -16,15 +16,15 @@ private theorem owD3_zmod7_sq_of_neg_not_sq (c e : ZMod 7) (hc : c ≠ 0) (he : 
 
 theorem owD3_wit_cr_of_isotropic {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {U : Type}
     [AddCommGroup U] [Module (ZMod p) U] [Module.Finite (ZMod p) U]
-    (Q : QuadraticForm (ZMod p) U) (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
+    (Q : QuadraticForm (ZMod p) U) (_hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
     (c : ZMod p) (hc : c ≠ 0) {A : Subgroup (U ≃ₗ[ZMod p] U)} (hA : A = closure (ClassRefl p Q c))
     (hp5 : 5 ≤ p) {a : U} (haQ : Q a = c) (ha : Q a ≠ 0)
-    {r : U ≃ₗ[ZMod p] U} (hrA : r ∈ A)
+    {r : U ≃ₗ[ZMod p] U} (_hrA : r ∈ A)
     (hrefl : ∀ v, Q a • r v = Q a • v - polarBilin Q v a • a)
     {u : U} (hu_ne : u ≠ 0) (huQ : Q u = 0) (huB : polarBilin Q u a = 0) :
     WitCR p A r := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  letI : Field (ZMod p) := @ZMod.instField p ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
+  let : Field (ZMod p) := @ZMod.instField p ⟨hp⟩
   have h2K : (2 : ZMod p) ≠ 0 := by
     intro h
     have hdiv : p ∣ 2 := (CharP.cast_eq_zero_iff (ZMod p) p 2).mp h
@@ -101,7 +101,7 @@ theorem owD3_exists_triple {U : Type} [AddCommGroup U] [Module (ZMod 7) U]
     (haniso : ¬ ∃ u : U, u ≠ 0 ∧ Q u = 0 ∧ polarBilin Q u a = 0) :
     ∃ b d : U, polarBilin Q a b = 0 ∧ polarBilin Q a d = 0 ∧
       polarBilin Q b d = 0 ∧ Q b = c ∧ Q d = c := by
-  letI : Field (ZMod 7) := @ZMod.instField 7 ⟨by norm_num⟩
+  let : Field (ZMod 7) := @ZMod.instField 7 ⟨by norm_num⟩
   have h2 : (2 : ZMod 7) ≠ 0 := by decide
   have ha : Q a ≠ 0 := by rw [haQ]; exact hc
   have ha_ne : a ≠ 0 := fun h => ha (by rw [h, QuadraticMap.map_zero])
@@ -211,7 +211,7 @@ theorem owD3_linearIndependent_triple {K : Type*} [Field K] {U : Type} [AddCommG
   have h0 : g 0 = 0 := by
     have h := congrArg (fun w => polarBilin Q w a) hg
     rw [map_sum, Fin.sum_univ_three] at h
-    simp only [Matrix.cons_val_zero, Matrix.cons_val_succ, Matrix.cons_val_one,
+    simp only [Matrix.cons_val_zero, Matrix.cons_val_one,
       Matrix.head_cons, Matrix.cons_val_two, Matrix.tail_cons, LinearMap.add_apply,
       polarBilin_apply_apply, polar_smul_left] at h
     rw [polar_self, two_smul, hba', hda', hza, smul_zero, smul_zero, add_zero, add_zero,
@@ -225,7 +225,7 @@ theorem owD3_linearIndependent_triple {K : Type*} [Field K] {U : Type} [AddCommG
   have h1 : g 1 = 0 := by
     have h := congrArg (fun w => polarBilin Q w b) hg
     rw [map_sum, Fin.sum_univ_three] at h
-    simp only [Matrix.cons_val_zero, Matrix.cons_val_succ, Matrix.cons_val_one,
+    simp only [Matrix.cons_val_zero, Matrix.cons_val_one,
       Matrix.head_cons, Matrix.cons_val_two, Matrix.tail_cons, LinearMap.add_apply,
       polarBilin_apply_apply, polar_smul_left] at h
     rw [polar_self, two_smul, hab', hdb', hzb, smul_zero, smul_zero, zero_add, add_zero,
@@ -239,7 +239,7 @@ theorem owD3_linearIndependent_triple {K : Type*} [Field K] {U : Type} [AddCommG
   have h2' : g 2 = 0 := by
     have h := congrArg (fun w => polarBilin Q w d) hg
     rw [map_sum, Fin.sum_univ_three] at h
-    simp only [Matrix.cons_val_zero, Matrix.cons_val_succ, Matrix.cons_val_one,
+    simp only [Matrix.cons_val_zero, Matrix.cons_val_one,
       Matrix.head_cons, Matrix.cons_val_two, Matrix.tail_cons, LinearMap.add_apply,
       polarBilin_apply_apply, polar_smul_left] at h
     rw [polar_self, two_smul, had', hbd', hzd] at h
@@ -259,9 +259,9 @@ theorem owD3_linearIndependent_triple {K : Type*} [Field K] {U : Type} [AddCommG
 
 theorem owD3_prod_orthRefl_triple {K : Type*} [Field K] {U : Type} [AddCommGroup U] [Module K U]
     [FiniteDimensional K U]
-    (h2 : (2 : K) ≠ 0) (Q : QuadraticForm K U) {a b d : U} {c : K} (hc : c ≠ 0)
+    (_h2 : (2 : K) ≠ 0) (Q : QuadraticForm K U) {a b d : U} {c : K} (_hc : c ≠ 0)
     (ha : Q a ≠ 0) (hb : Q b ≠ 0) (hd' : Q d ≠ 0)
-    (haQ : Q a = c) (hbQ : Q b = c) (hdQ : Q d = c)
+    (_haQ : Q a = c) (_hbQ : Q b = c) (_hdQ : Q d = c)
     (hab : polarBilin Q a b = 0) (had : polarBilin Q a d = 0) (hbd : polarBilin Q b d = 0)
     (hind : LinearIndependent K ![a, b, d]) (hfin : Module.finrank K U = 3) :
     owCr_orthRefl Q a ha * owCr_orthRefl Q b hb * owCr_orthRefl Q d hd' = LinearEquiv.neg K := by
@@ -316,10 +316,10 @@ private theorem owD3_neg_one_of_anisotropic {U : Type} [AddCommGroup U] [Module 
     {a : U} (haQ : Q a = c)
     (haniso : ¬ ∃ u : U, u ≠ 0 ∧ Q u = 0 ∧ polarBilin Q u a = 0) :
     (LinearEquiv.neg (ZMod 7) : U ≃ₗ[ZMod 7] U) ∈ A := by
-  letI : Field (ZMod 7) := @ZMod.instField 7 ⟨by norm_num⟩
+  let : Field (ZMod 7) := @ZMod.instField 7 ⟨by norm_num⟩
   have h2 : (2 : ZMod 7) ≠ 0 := by decide
   have ha : Q a ≠ 0 := by rw [haQ]; exact hc
-  haveI : FiniteDimensional (ZMod 7) U := ‹Module.Finite (ZMod 7) U›
+  have : FiniteDimensional (ZMod 7) U := ‹Module.Finite (ZMod 7) U›
   obtain ⟨b, d, hab, had, hbd, hbQ, hdQ⟩ := owD3_exists_triple Q hQ hd c hc haQ haniso
   have hb' : Q b ≠ 0 := by rw [hbQ]; exact hc
   have hd' : Q d ≠ 0 := by rw [hdQ]; exact hc

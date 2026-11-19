@@ -35,7 +35,7 @@ theorem exists_translate {p : ℕ} [Fact p.Prime] {H : Subgroup G} (S : Sylow p 
   have hA₀H : A₀ ≤ H := by
     rintro _ ⟨s, -, rfl⟩
     exact s.2
-  have hA₀p : IsPGroup p A₀ := S.isPGroup'.map H.subtype
+  have hA₀p : IsPGroup p A₀ := S.isPGroup.map H.subtype
   set Q := A₀.map (MulAut.conj g).toMonoidHom with hQdef
   have hQH : Q ≤ H := by
     rintro _ ⟨x, hx, rfl⟩
@@ -75,18 +75,23 @@ variable (B₁ : Subgroup G) (b : G)
 
 variable {B₁ b}
 
+omit [Finite G] in
 theorem mem_Ahat {n : G} : n ∈ Ahat B₁ b ↔ (∀ y ∈ B₁, n * y * n⁻¹ = y) ∧ n * b * n⁻¹ * b⁻¹ ∈ B₁ :=
   Iff.rfl
 
 @[expose] def beta (b n : G) : G := n * b * n⁻¹ * b⁻¹
 
+omit [Finite G] in
 theorem beta_def (n : G) : beta b n = n * b * n⁻¹ * b⁻¹ := rfl
 
+omit [Finite G] in
 theorem beta_mem {n : G} (hn : n ∈ Ahat B₁ b) : beta b n ∈ B₁ := hn.2
 
+omit [Finite G] in
 theorem conj_b {n : G} : n * b * n⁻¹ = beta b n * b := by
   rw [beta_def, inv_mul_cancel_right]
 
+omit [Finite G] in
 theorem beta_mul (hB₁ab : ∀ x ∈ B₁, ∀ y ∈ B₁, x * y = y * x) {n m : G} (hn : n ∈ Ahat B₁ b)
     (hm : m ∈ Ahat B₁ b) : beta b (n * m) = beta b n * beta b m := by
   have e : beta b (n * m) = (n * beta b m * n⁻¹) * beta b n := by
@@ -95,13 +100,15 @@ theorem beta_mul (hB₁ab : ∀ x ∈ B₁, ∀ y ∈ B₁, x * y = y * x) {n m 
   rw [e, hn.1 _ (beta_mem hm)]
   exact hB₁ab _ (beta_mem hm) _ (beta_mem hn)
 
-theorem beta_conj {g : G} (hgb : g * b * g⁻¹ = b) (x : G) :
+omit [Finite G] in
+theorem beta_conj [Finite G] {g : G} (hgb : g * b * g⁻¹ = b) (x : G) :
     beta b (g * x * g⁻¹) = g * beta b x * g⁻¹ := by
   simp only [beta_def]
   calc g * x * g⁻¹ * b * (g * x * g⁻¹)⁻¹ * b⁻¹
       = g * x * g⁻¹ * (g * b * g⁻¹) * (g * x * g⁻¹)⁻¹ * (g * b * g⁻¹)⁻¹ := by rw [hgb]
     _ = g * (x * b * x⁻¹ * b⁻¹) * g⁻¹ := by group
 
+omit [Finite G] in
 theorem beta_one_of_mem (hbB₁ : ∀ y ∈ B₁, b * y = y * b) {y : G} (hy : y ∈ B₁) :
     beta b y = 1 := by
   rw [beta_def, ← hbB₁ y hy]
@@ -131,26 +138,33 @@ namespace Data0
 variable {b b₁ b₂ b₃ : G} (D : Data0 b b₁ b₂ b₃)
 include D
 
+omit [Finite G] D in
 theorem B₁_le_B : BO b₁ b₂ b₃ ≤ BB b b₁ b₂ b₃ := CFSG.RankThree.PartTwo.Sec21.FF81.B2Elem.B₁_le_B
 
+omit [Finite G] D in
 theorem b_mem_B : b ∈ BB b b₁ b₂ b₃ := CFSG.RankThree.PartTwo.Sec21.FF81.B2Elem.b_mem_B
 
+omit [Finite G] D in
 theorem B_eq_sup : BB b b₁ b₂ b₃ = Subgroup.zpowers b ⊔ BO b₁ b₂ b₃ := by
   rw [BB, BO, Set.insert_eq, Subgroup.closure_union, Subgroup.zpowers_eq_closure]
 
+omit [Finite G] in
 theorem B₁ab : ∀ x ∈ BO b₁ b₂ b₃, ∀ y ∈ BO b₁ b₂ b₃, x * y = y * x := fun x hx y hy =>
-  D.Bab x (D.B₁_le_B hx) y (D.B₁_le_B hy)
+  D.Bab x (CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.B₁_le_B hx) y (CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.B₁_le_B hy)
 
-theorem B₁3 : ∀ y ∈ BO b₁ b₂ b₃, y ^ 3 = 1 := fun y hy => D.B3 y (D.B₁_le_B hy)
+omit [Finite G] in
+theorem B₁3 : ∀ y ∈ BO b₁ b₂ b₃, y ^ 3 = 1 := fun y hy => D.B3 y (CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.B₁_le_B hy)
 
+omit [Finite G] in
 theorem bB₁ : ∀ y ∈ BO b₁ b₂ b₃, b * y = y * b := fun y hy =>
-  D.Bab b D.b_mem_B y (D.B₁_le_B hy)
+  D.Bab b (CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.b_mem_B (G := G) (b := b) (b₁ := b₁) (b₂ := b₂) (b₃ := b₃)) y (CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.B₁_le_B hy)
 
-theorem b3 : b ^ 3 = 1 := D.B3 b D.b_mem_B
+omit [Finite G] in
+theorem b3 : b ^ 3 = 1 := D.B3 b (CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.b_mem_B (G := G) (b := b) (b₁ := b₁) (b₂ := b₂) (b₃ := b₃))
 
 theorem exists_of_mem_B {z : G} (hz : z ∈ BB b b₁ b₂ b₃) :
     ∃ n : ℕ, n < 3 ∧ ∃ y ∈ BO b₁ b₂ b₃, z = b ^ n * y := by
-  rw [D.B_eq_sup] at hz
+  rw [CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.B_eq_sup] at hz
   refine exists_of_mem_A D.b3 (fun x hx => ?_) hz
   rw [D.bB₁ x hx, mul_inv_cancel_right]
   exact hx
@@ -168,22 +182,25 @@ theorem comm_mem {x z : G} (hx : x ∈ Ahat (BO b₁ b₂ b₃) b) (hz : z ∈ B
   rw [e]
   exact pow_mem (beta_mem hx) n
 
+omit [Finite G] in
 theorem B_le_Ahat : BB b b₁ b₂ b₃ ≤ Ahat (BO b₁ b₂ b₃) b := by
   intro z hz
   refine ⟨fun y hy => ?_, ?_⟩
-  · rw [D.Bab z hz y (D.B₁_le_B hy), mul_inv_cancel_right]
-  · rw [D.Bab z hz b D.b_mem_B, mul_inv_cancel_right, mul_inv_cancel]
+  · rw [D.Bab z hz y (CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.B₁_le_B hy), mul_inv_cancel_right]
+  · rw [D.Bab z hz b (CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.b_mem_B (G := G) (b := b) (b₁ := b₁) (b₂ := b₂) (b₃ := b₃)), mul_inv_cancel_right, mul_inv_cancel]
     exact one_mem _
 
+omit [Finite G] D in
 theorem cen_le_Ahat :
     Subgroup.centralizer ((BB b b₁ b₂ b₃ : Subgroup G) : Set G) ≤ Ahat (BO b₁ b₂ b₃) b := by
   intro x hx
   rw [Subgroup.mem_centralizer_iff] at hx
   refine ⟨fun y hy => ?_, ?_⟩
-  · rw [← hx y (D.B₁_le_B hy), mul_inv_cancel_right]
-  · rw [← hx b D.b_mem_B, mul_inv_cancel_right, mul_inv_cancel]
+  · rw [← hx y (CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.B₁_le_B hy), mul_inv_cancel_right]
+  · rw [← hx b (CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.b_mem_B (G := G) (b := b) (b₁ := b₁) (b₂ := b₂) (b₃ := b₃)), mul_inv_cancel_right, mul_inv_cancel]
     exact one_mem _
 
+omit [Finite G] in
 theorem mem_cen_of_beta {x : G} (hx : x ∈ Ahat (BO b₁ b₂ b₃) b) (h1 : beta b x = 1) :
     x ∈ Subgroup.centralizer ((BB b b₁ b₂ b₃ : Subgroup G) : Set G) := by
   have hxb : x * b * x⁻¹ = b := by rw [conj_b, h1, one_mul]
@@ -201,6 +218,7 @@ theorem mem_cen_of_beta {x : G} (hx : x ∈ Ahat (BO b₁ b₂ b₃) b) (h1 : be
   intro z hz
   exact Subgroup.mem_centralizer_singleton_iff.mp (hle hz)
 
+omit [Finite G] in
 theorem mem_B_of_beta {x : G} (hx : x ∈ Ahat (BO b₁ b₂ b₃) b) (h1 : beta b x = 1)
     (hp : IsPGroup 3 (Subgroup.zpowers x)) : x ∈ BB b b₁ b₂ b₃ :=
   D.CB x (D.mem_cen_of_beta hx h1) hp
@@ -215,7 +233,7 @@ theorem conj_mem_Ahat {g : G}
         = g * (x * (g⁻¹ * y * g⁻¹⁻¹) * x⁻¹) * g⁻¹ := by group
       _ = y := by rw [hx.1 _ hy']; group
   · have hbg : g⁻¹ * b * g⁻¹⁻¹ ∈ BB b b₁ b₂ b₃ :=
-      (Subgroup.mem_normalizer_iff.mp hg' b).mp D.b_mem_B
+      (Subgroup.mem_normalizer_iff.mp hg' b).mp (CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.b_mem_B (G := G) (b := b) (b₁ := b₁) (b₂ := b₂) (b₃ := b₃))
     have h1 := D.B₁N g hg _ (D.comm_mem hx hbg)
     have e : g * x * g⁻¹ * b * (g * x * g⁻¹)⁻¹ * b⁻¹ =
         g * (x * (g⁻¹ * b * g⁻¹⁻¹) * x⁻¹ * (g⁻¹ * b * g⁻¹⁻¹)⁻¹) * g⁻¹ := by group
@@ -229,19 +247,22 @@ theorem Ahat_le_N :
   have h1 := D.comm_mem hx hz
   have : x * z * x⁻¹ = (x * z * x⁻¹ * z⁻¹) * z := by group
   rw [this]
-  exact mul_mem (D.B₁_le_B h1) hz
+  exact mul_mem (CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.B₁_le_B h1) hz
 
+omit [Finite G] D in
 theorem beta_one : beta b (1 : G) = 1 := by simp [beta_def]
 
+omit [Finite G] in
 theorem beta_pow {x : G} (hx : x ∈ Ahat (BO b₁ b₂ b₃) b) (n : ℕ) :
     beta b (x ^ n) = beta b x ^ n := by
   induction n with
   | zero => simp [beta_def]
   | succ n ih => rw [pow_succ, beta_mul D.B₁ab (pow_mem hx n) hx, ih, pow_succ]
 
+omit [Finite G] in
 theorem beta_inv {x : G} (hx : x ∈ Ahat (BO b₁ b₂ b₃) b) : beta b x⁻¹ = (beta b x)⁻¹ := by
   have h := beta_mul D.B₁ab (inv_mem hx) hx
-  rw [inv_mul_cancel, D.beta_one] at h
+  rw [inv_mul_cancel, CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.beta_one] at h
   exact eq_inv_of_mul_eq_one_left h.symm
 
 theorem exists_pow_beta {a : G} (ha : a ∈ Ahat (BO b₁ b₂ b₃) b) :
@@ -268,20 +289,24 @@ variable {S : Sylow 3 ↥(Ahat (BO b₁ b₂ b₃) b)}
   (hS : BB b b₁ b₂ b₃ ≤ (S : Subgroup ↥(Ahat (BO b₁ b₂ b₃) b)).map (Ahat (BO b₁ b₂ b₃) b).subtype)
 include hS
 
+omit [Finite G] D hS in
 theorem A0_le : (S : Subgroup ↥(Ahat (BO b₁ b₂ b₃) b)).map (Ahat (BO b₁ b₂ b₃) b).subtype ≤
     Ahat (BO b₁ b₂ b₃) b := by
   rintro _ ⟨s, -, rfl⟩
   exact s.2
 
+omit [Finite G] D hS in
 theorem isPGroup_A0 :
     IsPGroup 3 ↥((S : Subgroup ↥(Ahat (BO b₁ b₂ b₃) b)).map (Ahat (BO b₁ b₂ b₃) b).subtype) :=
-  S.isPGroup'.map _
+  S.isPGroup.map _
 
+omit [Finite G] hS in
 theorem mem_B_of_mem_A0 {x : G}
     (hx : x ∈ (S : Subgroup ↥(Ahat (BO b₁ b₂ b₃) b)).map (Ahat (BO b₁ b₂ b₃) b).subtype)
     (h1 : beta b x = 1) : x ∈ BB b b₁ b₂ b₃ :=
-  D.mem_B_of_beta (D.A0_le hS hx) h1 ((D.isPGroup_A0 hS).to_le (Subgroup.zpowers_le.2 hx))
+  D.mem_B_of_beta (CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.A0_le (S := S) hx) h1 ((CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.isPGroup_A0).to_le (Subgroup.zpowers_le.2 hx))
 
+omit hS in
 theorem cen_conj_pow {δ : G} (hδ : δ ∈ Subgroup.centralizer ((BB b b₁ b₂ b₃ : Subgroup G) : Set G))
     (hδA : ∀ x ∈ (S : Subgroup ↥(Ahat (BO b₁ b₂ b₃) b)).map (Ahat (BO b₁ b₂ b₃) b).subtype,
       δ * x * δ⁻¹ ∈ (S : Subgroup ↥(Ahat (BO b₁ b₂ b₃) b)).map (Ahat (BO b₁ b₂ b₃) b).subtype)
@@ -289,13 +314,13 @@ theorem cen_conj_pow {δ : G} (hδ : δ ∈ Subgroup.centralizer ((BB b b₁ b�
     δ * y * δ⁻¹ * y⁻¹ ∈ BB b b₁ b₂ b₃ ∧
       ∀ n : ℕ, δ ^ n * y * (δ ^ n)⁻¹ = (δ * y * δ⁻¹ * y⁻¹) ^ n * y := by
   rw [Subgroup.mem_centralizer_iff] at hδ
-  have hδb : δ * b * δ⁻¹ = b := by rw [← hδ b D.b_mem_B, mul_inv_cancel_right]
-  have hyÂ := D.A0_le hS hy
+  have hδb : δ * b * δ⁻¹ = b := by rw [← hδ b (CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.b_mem_B (G := G) (b := b) (b₁ := b₁) (b₂ := b₂) (b₃ := b₃)), mul_inv_cancel_right]
+  have hyÂ := CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.A0_le hy
   have hw : δ * y * δ⁻¹ * y⁻¹ ∈ BB b b₁ b₂ b₃ := by
-    refine D.mem_B_of_mem_A0 hS (mul_mem (hδA y hy) (inv_mem hy)) ?_
+    refine D.mem_B_of_mem_A0 (mul_mem (hδA y hy) (inv_mem hy)) ?_
     have hc : beta b (δ * y * δ⁻¹) = beta b y := by
-      rw [beta_conj hδb, ← hδ _ (D.B₁_le_B (beta_mem hyÂ)), mul_inv_cancel_right]
-    rw [beta_mul D.B₁ab (D.A0_le hS (hδA y hy)) (inv_mem hyÂ), hc, D.beta_inv hyÂ, mul_inv_cancel]
+      rw [beta_conj hδb, ← hδ _ (CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.B₁_le_B (beta_mem hyÂ)), mul_inv_cancel_right]
+    rw [beta_mul D.B₁ab (CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.A0_le (hδA y hy)) (inv_mem hyÂ), hc, D.beta_inv hyÂ, mul_inv_cancel]
   refine ⟨hw, fun n => ?_⟩
   set w := δ * y * δ⁻¹ * y⁻¹ with hwdef
   have hδw : δ * w * δ⁻¹ = w := by rw [← hδ w hw, mul_inv_cancel_right]
@@ -309,13 +334,14 @@ theorem cen_conj_pow {δ : G} (hδ : δ ∈ Subgroup.centralizer ((BB b b₁ b�
       _ = w ^ n * (w * y) := by rw [hδwn n, hwdef, inv_mul_cancel_right]
       _ = w ^ (n + 1) * y := by rw [← mul_assoc, ← pow_succ]
 
+omit hS in
 theorem cen_two {δ : G} (hδ : δ ∈ Subgroup.centralizer ((BB b b₁ b₂ b₃ : Subgroup G) : Set G))
     (hδA : ∀ x ∈ (S : Subgroup ↥(Ahat (BO b₁ b₂ b₃) b)).map (Ahat (BO b₁ b₂ b₃) b).subtype,
       δ * x * δ⁻¹ ∈ (S : Subgroup ↥(Ahat (BO b₁ b₂ b₃) b)).map (Ahat (BO b₁ b₂ b₃) b).subtype)
     (hδ2 : IsPGroup 2 (Subgroup.zpowers δ)) {y : G}
     (hy : y ∈ (S : Subgroup ↥(Ahat (BO b₁ b₂ b₃) b)).map (Ahat (BO b₁ b₂ b₃) b).subtype) :
     δ * y * δ⁻¹ = y := by
-  obtain ⟨hw, hpow⟩ := D.cen_conj_pow hS hδ hδA hy
+  obtain ⟨hw, hpow⟩ := D.cen_conj_pow hδ hδA hy
   obtain ⟨f, hf⟩ := hδ2 ⟨δ, Subgroup.mem_zpowers δ⟩
   have hδf : δ ^ (2 ^ f) = 1 := by simpa using congrArg Subtype.val hf
   have h1 := hpow (2 ^ f)
@@ -340,7 +366,7 @@ theorem comm_mem_of_cen
       δ * x * δ⁻¹ ∈ (S : Subgroup ↥(Ahat (BO b₁ b₂ b₃) b)).map (Ahat (BO b₁ b₂ b₃) b).subtype)
     {y : G} (hy : y ∈ (S : Subgroup ↥(Ahat (BO b₁ b₂ b₃) b)).map (Ahat (BO b₁ b₂ b₃) b).subtype) :
     δ * y * δ⁻¹ * y⁻¹ ∈ BO b₁ b₂ b₃ := by
-  obtain ⟨hw, hpow⟩ := D.cen_conj_pow hS hδ hδA hy
+  obtain ⟨hw, hpow⟩ := D.cen_conj_pow hδ hδA hy
   set w := δ * y * δ⁻¹ * y⁻¹ with hwdef
   obtain ⟨e, m, hm3, hm⟩ := Nat.exists_eq_pow_mul_and_not_dvd (orderOf_pos δ).ne' 3 (by norm_num)
   have hδm : δ ^ m ∈ BB b b₁ b₂ b₃ := by
@@ -380,6 +406,7 @@ variable {S : Sylow 3 ↥(Ahat (BO b₁ b₂ b₃) b)}
   (hS : BB b b₁ b₂ b₃ ≤ (S : Subgroup ↥(Ahat (BO b₁ b₂ b₃) b)).map (Ahat (BO b₁ b₂ b₃) b).subtype)
 include hS
 
+omit hS in
 theorem exists_beta_eq {y : G} (hy : y ∈ BO b₁ b₂ b₃) :
     ∃ x ∈ (S : Subgroup ↥(Ahat (BO b₁ b₂ b₃) b)).map (Ahat (BO b₁ b₂ b₃) b).subtype,
       beta b x = y := by
@@ -394,6 +421,7 @@ theorem exists_beta_eq {y : G} (hy : y ∈ BO b₁ b₂ b₃) :
     beta_mul D.B₁ab (inv_mem hk) (pow_mem haA m), D.beta_inv hk, hmβ, hβa,
     D.B₁ab _ (inv_mem (beta_mem hk)) _ hy, mul_assoc, inv_mul_cancel, mul_one]
 
+omit hS in
 theorem exists_translate_cen {g : G}
     (hg : g ∈ Subgroup.normalizer ((BB b b₁ b₂ b₃ : Subgroup G) : Set G)) :
     ∃ k ∈ Subgroup.centralizer ((BB b b₁ b₂ b₃ : Subgroup G) : Set G),
@@ -401,8 +429,8 @@ theorem exists_translate_cen {g : G}
         (k⁻¹ * g) * x * (k⁻¹ * g)⁻¹ ∈
           (S : Subgroup ↥(Ahat (BO b₁ b₂ b₃) b)).map (Ahat (BO b₁ b₂ b₃) b).subtype := by
   obtain ⟨k₀, hk₀, hk₀A⟩ := exists_translate S (fun x hx => D.conj_mem_Ahat hg hx)
-  obtain ⟨a, haA, hβa⟩ := D.exists_beta_eq hS (inv_mem (beta_mem hk₀))
-  have haÂ := D.A0_le hS haA
+  obtain ⟨a, haA, hβa⟩ := D.exists_beta_eq (inv_mem (beta_mem hk₀))
+  have haÂ := CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.A0_le haA
   refine ⟨k₀ * a, D.mem_cen_of_beta (mul_mem hk₀ haÂ) ?_, fun x hx => ?_⟩
   · rw [beta_mul D.B₁ab hk₀ haÂ, hβa, mul_inv_cancel]
   · have e : ((k₀ * a)⁻¹ * g) * x * ((k₀ * a)⁻¹ * g)⁻¹ =
@@ -414,6 +442,7 @@ end Sylow
 
 end Data
 
+omit [Finite G] in
 theorem pow_conj_fix {g x : G} (h : g * x * g⁻¹ = x) (n : ℕ) : g ^ n * x * (g ^ n)⁻¹ = x := by
   induction n with
   | zero => simp
@@ -421,6 +450,7 @@ theorem pow_conj_fix {g x : G} (h : g * x * g⁻¹ = x) (n : ℕ) : g ^ n * x * 
     calc g ^ (n + 1) * x * (g ^ (n + 1))⁻¹ = g * (g ^ n * x * (g ^ n)⁻¹) * g⁻¹ := by group
       _ = x := by rw [ih, h]
 
+omit [Finite G] in
 theorem pow_conj_inv {g x : G} (h : g * x * g⁻¹ = x⁻¹) {n : ℕ} (hn : Odd n) :
     g ^ n * x * (g ^ n)⁻¹ = x⁻¹ := by
   have h2 : g ^ 2 * x * (g ^ 2)⁻¹ = x := by
@@ -444,6 +474,7 @@ theorem exists_odd_pow_two (g : G) : ∃ m : ℕ, Odd m ∧ IsPGroup 2 (Subgroup
   rw [Subgroup.coe_pow, Subgroup.coe_one, ← hz, ← zpow_natCast, ← zpow_mul, mul_comm z, zpow_mul,
     zpow_natCast, h1, one_zpow]
 
+omit [Finite G] in
 theorem conj_inv_of_closure {S : Set G}
     (hab : ∀ x ∈ Subgroup.closure S, ∀ y ∈ Subgroup.closure S, x * y = y * x) {g : G}
     (hg : ∀ s ∈ S, g * s * g⁻¹ = s⁻¹) : ∀ y ∈ Subgroup.closure S, g * y * g⁻¹ = y⁻¹ := by
@@ -456,6 +487,7 @@ theorem conj_inv_of_closure {S : Set G}
       ← mul_inv_rev, hab z hz x hx]
   | inv x hx ihx => rw [show g * x⁻¹ * g⁻¹ = (g * x * g⁻¹)⁻¹ by group, ihx]
 
+omit [Finite G] in
 theorem conj_eq_of_closure {S : Set G} {g : G} (hg : ∀ s ∈ S, g * s * g⁻¹ = s) :
     ∀ y ∈ Subgroup.closure S, g * y * g⁻¹ = y := by
   intro y hy
@@ -471,14 +503,18 @@ namespace Data0
 variable {b b₁ b₂ b₃ : G} (D : Data0 b b₁ b₂ b₃)
 include D
 
+omit [Finite G] D in
 theorem mem₁ : b₁ ∈ BO b₁ b₂ b₃ := Subgroup.subset_closure (by simp)
+omit [Finite G] D in
 theorem mem₂ : b₂ ∈ BO b₁ b₂ b₃ := Subgroup.subset_closure (by simp)
+omit [Finite G] D in
 theorem mem₃ : b₃ ∈ BO b₁ b₂ b₃ := Subgroup.subset_closure (by simp)
 
 theorem cen_le_N : Subgroup.centralizer ((BB b b₁ b₂ b₃ : Subgroup G) : Set G) ≤
     Subgroup.normalizer ((BB b b₁ b₂ b₃ : Subgroup G) : Set G) := fun _ hk =>
-  D.Ahat_le_N (D.cen_le_Ahat hk)
+  D.Ahat_le_N (CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.cen_le_Ahat hk)
 
+omit [Finite G] D in
 theorem translate_conj {k g z : G} (hk : k ∈ Subgroup.centralizer ((BB b b₁ b₂ b₃ : Subgroup G) : Set G))
     (hz : g * z * g⁻¹ ∈ BB b b₁ b₂ b₃) : (k⁻¹ * g) * z * (k⁻¹ * g)⁻¹ = g * z * g⁻¹ := by
   rw [Subgroup.mem_centralizer_iff] at hk
@@ -487,27 +523,31 @@ theorem translate_conj {k g z : G} (hk : k ∈ Subgroup.centralizer ((BB b b₁ 
     _ = k⁻¹ * (k * (g * z * g⁻¹)) := by rw [h]
     _ = g * z * g⁻¹ := by group
 
+omit [Finite G] D in
 theorem conj_mem_B {g z : G} (hg : g ∈ Subgroup.normalizer ((BB b b₁ b₂ b₃ : Subgroup G) : Set G))
     (hz : z ∈ BB b b₁ b₂ b₃) : g * z * g⁻¹ ∈ BB b b₁ b₂ b₃ :=
   (Subgroup.mem_normalizer_iff.mp hg z).mp hz
 
+omit [Finite G] in
 theorem isPGroup_B : IsPGroup 3 (BB b b₁ b₂ b₃) :=
   IsPGroup.of_card (n := 4) (by rw [D.Bcard]; norm_num)
 
+omit [Finite G] in
 theorem b_not_mem : b ∉ BO b₁ b₂ b₃ := by
   intro hb
   have : BB b b₁ b₂ b₃ = BO b₁ b₂ b₃ := by
-    rw [D.B_eq_sup]
+    rw [CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.B_eq_sup]
     exact sup_eq_right.mpr ((Subgroup.zpowers_le).2 hb)
   have h := D.Bcard
   rw [this, D.B₁card] at h
   omega
 
+omit [Finite G] in
 theorem b₁_ne_b₂ : b₁ ≠ b₂ := by
   intro e
   have hinj := CFSG.RankThree.PartTwo.Sec21.FF81.B2Elem.coord_injective
-    (D.B₁ab _ D.mem₁ _ D.mem₂) (D.B₁ab _ D.mem₁ _ D.mem₃) (D.B₁ab _ D.mem₂ _ D.mem₃)
-    (D.B₁3 _ D.mem₁) (D.B₁3 _ D.mem₂) (D.B₁3 _ D.mem₃) D.B₁card
+    (D.B₁ab _ CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₁ _ CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₂) (D.B₁ab _ CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₁ _ CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₃) (D.B₁ab _ CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₂ _ CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₃)
+    (D.B₁3 _ CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₁) (D.B₁3 _ CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₂) (D.B₁3 _ CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₃) D.B₁card
   have e' : CFSG.RankThree.PartTwo.Sec21.FF81.B2Elem.coord b₁ b₂ b₃ (1, 0, 0) =
       CFSG.RankThree.PartTwo.Sec21.FF81.B2Elem.coord b₁ b₂ b₃ (0, 1, 0) := by
     simp [CFSG.RankThree.PartTwo.Sec21.FF81.B2Elem.coord, e]
@@ -531,36 +571,37 @@ theorem card_A0 :
       3 ^ 7 := by
   set A0 := (S : Subgroup ↥(Ahat (BO b₁ b₂ b₃) b)).map (Ahat (BO b₁ b₂ b₃) b).subtype
   let φ : ↥A0 →* ↥(BO b₁ b₂ b₃) :=
-    { toFun := fun x => ⟨beta b x, beta_mem (D.A0_le hS x.2)⟩
-      map_one' := Subtype.ext D.beta_one
-      map_mul' := fun x y => Subtype.ext (beta_mul D.B₁ab (D.A0_le hS x.2) (D.A0_le hS y.2)) }
+    { toFun := fun x => ⟨beta b x, beta_mem (CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.A0_le x.2)⟩
+      map_one' := Subtype.ext CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.beta_one
+      map_mul' := fun x y => Subtype.ext (beta_mul D.B₁ab (CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.A0_le x.2) (CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.A0_le y.2)) }
   have hsurj : Function.Surjective φ := by
     rintro ⟨y, hy⟩
-    obtain ⟨x, hx, hxy⟩ := D.exists_beta_eq hS hy
+    obtain ⟨x, hx, hxy⟩ := D.exists_beta_eq hy
     exact ⟨⟨x, hx⟩, Subtype.ext hxy⟩
   have hker : φ.ker = (BB b b₁ b₂ b₃).subgroupOf A0 := by
     ext x
     rw [MonoidHom.mem_ker, Subgroup.mem_subgroupOf]
     constructor
     · intro h1
-      exact D.mem_B_of_mem_A0 hS x.2 (congrArg Subtype.val h1)
+      exact D.mem_B_of_mem_A0 x.2 (congrArg Subtype.val h1)
     · intro hx
       apply Subtype.ext
       show beta b x = 1
-      rw [beta_def, D.Bab _ hx b D.b_mem_B, mul_inv_cancel_right, mul_inv_cancel]
+      rw [beta_def, D.Bab _ hx b (CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.b_mem_B (G := G) (b := b) (b₁ := b₁) (b₂ := b₂) (b₃ := b₃)), mul_inv_cancel_right, mul_inv_cancel]
   have h1 := Subgroup.card_eq_card_quotient_mul_card_subgroup φ.ker
   rw [Nat.card_congr (QuotientGroup.quotientKerEquivOfSurjective φ hsurj).toEquiv, hker,
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hS).toEquiv, D.B₁card, D.Bcard] at h1
   rw [h1]
   norm_num
 
+omit hS in
 theorem beta_conj_mul {g x y : G} (hgb : g * b * g⁻¹ = b)
     (hg : ∀ x ∈ (S : Subgroup ↥(Ahat (BO b₁ b₂ b₃) b)).map (Ahat (BO b₁ b₂ b₃) b).subtype,
       g * x * g⁻¹ ∈ (S : Subgroup ↥(Ahat (BO b₁ b₂ b₃) b)).map (Ahat (BO b₁ b₂ b₃) b).subtype)
     (hx : x ∈ (S : Subgroup ↥(Ahat (BO b₁ b₂ b₃) b)).map (Ahat (BO b₁ b₂ b₃) b).subtype)
     (hy : y ∈ Ahat (BO b₁ b₂ b₃) b) :
     beta b (g * x * g⁻¹ * y) = g * beta b x * g⁻¹ * beta b y := by
-  rw [beta_mul D.B₁ab (D.A0_le hS (hg x hx)) hy, beta_conj hgb]
+  rw [beta_mul D.B₁ab (CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.A0_le (hg x hx)) hy, beta_conj hgb]
 
 theorem comm_cube_A0 {t₁ t₂ t₃ : G}
     (ht : ∀ t ∈ ({t₁, t₂, t₃} : Set G), t ∈ Subgroup.normalizer ((BB b b₁ b₂ b₃ : Subgroup G) : Set G) ∧
@@ -576,17 +617,17 @@ theorem comm_cube_A0 {t₁ t₂ t₃ : G}
       ∀ x ∈ (S : Subgroup ↥(Ahat (BO b₁ b₂ b₃) b)).map (Ahat (BO b₁ b₂ b₃) b).subtype,
         x ^ 3 ∈ BO b₁ b₂ b₃ := by
   set A0 := (S : Subgroup ↥(Ahat (BO b₁ b₂ b₃) b)).map (Ahat (BO b₁ b₂ b₃) b).subtype with hA0
-  obtain ⟨a₁, ha₁, hβ₁⟩ := D.exists_beta_eq hS D.mem₁
-  obtain ⟨a₂, ha₂, hβ₂⟩ := D.exists_beta_eq hS D.mem₂
-  obtain ⟨a₃, ha₃, hβ₃⟩ := D.exists_beta_eq hS D.mem₃
-  have hÂ : ∀ {x}, x ∈ A0 → x ∈ Ahat (BO b₁ b₂ b₃) b := fun hx => D.A0_le hS hx
+  obtain ⟨a₁, ha₁, hβ₁⟩ := D.exists_beta_eq CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₁
+  obtain ⟨a₂, ha₂, hβ₂⟩ := D.exists_beta_eq CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₂
+  obtain ⟨a₃, ha₃, hβ₃⟩ := D.exists_beta_eq CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₃
+  have hÂ : ∀ {x}, x ∈ A0 → x ∈ Ahat (BO b₁ b₂ b₃) b := fun hx => CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.A0_le (S := S) hx
   have key : ∀ x ∈ A0, beta b x = 1 → ∃ z ∈ BB b b₁ b₂ b₃, z⁻¹ * x ∈ BO b₁ b₂ b₃ :=
-    fun x hx h1 => ⟨x, D.mem_B_of_mem_A0 hS hx h1, by rw [inv_mul_cancel]; exact one_mem _⟩
+    fun x hx h1 => ⟨x, D.mem_B_of_mem_A0 hx h1, by rw [inv_mul_cancel]; exact one_mem _⟩
   obtain ⟨hN₁, hb₁, hA₁⟩ := ht t₁ (by simp)
   obtain ⟨hN₂, hb₂, hA₂⟩ := ht t₂ (by simp)
   obtain ⟨hN₃, hb₃, hA₃⟩ := ht t₃ (by simp)
   refine CFSG.RankThree.PartTwo.Sec21.FF81.AtildeElem.mem_of_quotient (B := BB b b₁ b₂ b₃)
-    (a := ![a₁, a₂, a₃]) (t := ![t₁, t₂, t₃]) hS ?_ (fun x hx y hy => ?_) (D.B₁_le_B.trans hS)
+    (a := ![a₁, a₂, a₃]) (t := ![t₁, t₂, t₃]) hS ?_ (fun x hx y hy => ?_) (CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.B₁_le_B.trans hS)
     (fun z hz x hx => ?_) (fun z hz => ?_) (fun x hx y hy => ?_) ?_ (fun x hx => ?_) ?_ ?_ ?_ ?_ ?_
   · intro i; fin_cases i
     exacts [ha₁, ha₂, ha₃]
@@ -605,17 +646,17 @@ theorem comm_cube_A0 {t₁ t₂ t₃ : G}
     fin_cases i
     · refine key _ (pow_mem ha₁ 3) ?_
       show beta b (a₁ ^ 3) = 1
-      rw [D.beta_pow (hÂ ha₁), hβ₁, D.B₁3 _ D.mem₁]
+      rw [D.beta_pow (hÂ ha₁), hβ₁, D.B₁3 _ CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₁]
     · refine key _ (pow_mem ha₂ 3) ?_
       show beta b (a₂ ^ 3) = 1
-      rw [D.beta_pow (hÂ ha₂), hβ₂, D.B₁3 _ D.mem₂]
+      rw [D.beta_pow (hÂ ha₂), hβ₂, D.B₁3 _ CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₂]
     · refine key _ (pow_mem ha₃ 3) ?_
       show beta b (a₃ ^ 3) = 1
-      rw [D.beta_pow (hÂ ha₃), hβ₃, D.B₁3 _ D.mem₃]
+      rw [D.beta_pow (hÂ ha₃), hβ₃, D.B₁3 _ CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₃]
   ·
     obtain ⟨v, hv⟩ := CFSG.RankThree.PartTwo.Sec21.FF81.B2Elem.exists_coord
-      (D.B₁ab _ D.mem₁ _ D.mem₂) (D.B₁ab _ D.mem₁ _ D.mem₃) (D.B₁ab _ D.mem₂ _ D.mem₃)
-      (D.B₁3 _ D.mem₁) (D.B₁3 _ D.mem₂) (D.B₁3 _ D.mem₃) (beta_mem (hÂ hx))
+      (D.B₁ab _ CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₁ _ CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₂) (D.B₁ab _ CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₁ _ CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₃) (D.B₁ab _ CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₂ _ CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₃)
+      (D.B₁3 _ CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₁) (D.B₁3 _ CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₂) (D.B₁3 _ CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₃) (beta_mem (hÂ hx))
     set P := a₁ ^ (v.1 : ℕ) * a₂ ^ (v.2.1 : ℕ) * a₃ ^ (v.2.2 : ℕ) with hP
     have hPA : P ∈ A0 := mul_mem (mul_mem (pow_mem ha₁ _) (pow_mem ha₂ _)) (pow_mem ha₃ _)
     have hβP : beta b P = beta b x := by
@@ -624,7 +665,7 @@ theorem comm_cube_A0 {t₁ t₂ t₃ : G}
         D.beta_pow (hÂ ha₁), D.beta_pow (hÂ ha₂), D.beta_pow (hÂ ha₃), hβ₁, hβ₂, hβ₃, ← hv]
       rfl
     have hz : P⁻¹ * x ∈ BB b b₁ b₂ b₃ := by
-      refine D.mem_B_of_mem_A0 hS (mul_mem (inv_mem hPA) hx) ?_
+      refine D.mem_B_of_mem_A0 (mul_mem (inv_mem hPA) hx) ?_
       rw [beta_mul D.B₁ab (inv_mem (hÂ hPA)) (hÂ hx), D.beta_inv (hÂ hPA), hβP, inv_mul_cancel]
     refine ⟨v.1, v.2.1, v.2.2, P⁻¹ * x, hz, ?_⟩
     simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two, Matrix.head_cons,
@@ -659,20 +700,20 @@ theorem comm_cube_A0 {t₁ t₂ t₃ : G}
   · intro i; fin_cases i
     · refine key _ (mul_mem (hA₁ _ ha₁) ha₁) ?_
       show beta b (t₁ * a₁ * t₁⁻¹ * a₁) = 1
-      rw [D.beta_conj_mul hS hb₁ hA₁ ha₁ (hÂ ha₁), hβ₁, ht₁.1, inv_mul_cancel]
+      rw [D.beta_conj_mul hb₁ hA₁ ha₁ (hÂ ha₁), hβ₁, ht₁.1, inv_mul_cancel]
     · refine key _ (mul_mem (hA₂ _ ha₂) ha₂) ?_
       show beta b (t₂ * a₂ * t₂⁻¹ * a₂) = 1
-      rw [D.beta_conj_mul hS hb₂ hA₂ ha₂ (hÂ ha₂), hβ₂, ht₂.2.1, inv_mul_cancel]
+      rw [D.beta_conj_mul hb₂ hA₂ ha₂ (hÂ ha₂), hβ₂, ht₂.2.1, inv_mul_cancel]
     · refine key _ (mul_mem (hA₃ _ ha₃) ha₃) ?_
       show beta b (t₃ * a₃ * t₃⁻¹ * a₃) = 1
-      rw [D.beta_conj_mul hS hb₃ hA₃ ha₃ (hÂ ha₃), hβ₃, ht₃.2.2, inv_mul_cancel]
+      rw [D.beta_conj_mul hb₃ hA₃ ha₃ (hÂ ha₃), hβ₃, ht₃.2.2, inv_mul_cancel]
   · intro i j hij
     have hcase : ∀ (t a y : G), t * b * t⁻¹ = b → (∀ x ∈ A0, t * x * t⁻¹ ∈ A0) → a ∈ A0 →
         beta b a = y → t * y * t⁻¹ = y →
         ∃ z ∈ BB b b₁ b₂ b₃, z⁻¹ * (t * a * t⁻¹ * a⁻¹) ∈ BO b₁ b₂ b₃ := by
       intro t a y htb htA ha hay hty
       refine key _ (mul_mem (htA _ ha) (inv_mem ha)) ?_
-      rw [D.beta_conj_mul hS htb htA ha (inv_mem (hÂ ha)), D.beta_inv (hÂ ha), hay, hty,
+      rw [D.beta_conj_mul htb htA ha (inv_mem (hÂ ha)), D.beta_inv (hÂ ha), hay, hty,
         mul_inv_cancel]
     fin_cases i <;> fin_cases j <;> simp at hij ⊢
     · exact hcase t₁ a₂ b₂ hb₁ hA₁ ha₂ hβ₂ ht₁.2.1
@@ -697,9 +738,11 @@ structure Mono (b b₁ b₂ b₃ τ ι₁ ι₂ ι₃ σ₁₂ σ₂₃ γ : G) 
   p₂₃ : σ₂₃ * b₁ * σ₂₃⁻¹ = b₁ ∧ σ₂₃ * b₂ * σ₂₃⁻¹ = b₃ ∧ σ₂₃ * b₃ * σ₂₃⁻¹ = b₂
   cyc : γ * b₁ * γ⁻¹ = b₂ ∧ γ * b₂ * γ⁻¹ = b₃ ∧ γ * b₃ * γ⁻¹ = b₁
 
+omit [Finite G] in
 theorem inv_conj_of_conj {g x y : G} (h : g * x * g⁻¹ = y) : g⁻¹ * y * g = x := by
   rw [← h]; group
 
+omit [Finite G] in
 theorem Mono.of_gens {b b₁ b₂ b₃ τ t₁ s c : G}
     (hN : ∀ g ∈ ({τ, t₁, s, c} : Set G),
       g ∈ Subgroup.normalizer ((BB b b₁ b₂ b₃ : Subgroup G) : Set G) ∧ g * b * g⁻¹ = b)
@@ -754,16 +797,18 @@ namespace Data0
 variable {b b₁ b₂ b₃ : G} (D : Data0 b b₁ b₂ b₃)
 include D
 
+omit [Finite G] in
 theorem b₁_ne_one : b₁ ≠ 1 := by
   intro e
   have hinj := CFSG.RankThree.PartTwo.Sec21.FF81.B2Elem.coord_injective
-    (D.B₁ab _ D.mem₁ _ D.mem₂) (D.B₁ab _ D.mem₁ _ D.mem₃) (D.B₁ab _ D.mem₂ _ D.mem₃)
-    (D.B₁3 _ D.mem₁) (D.B₁3 _ D.mem₂) (D.B₁3 _ D.mem₃) D.B₁card
+    (D.B₁ab _ CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₁ _ CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₂) (D.B₁ab _ CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₁ _ CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₃) (D.B₁ab _ CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₂ _ CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₃)
+    (D.B₁3 _ CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₁) (D.B₁3 _ CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₂) (D.B₁3 _ CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₃) D.B₁card
   have e' : CFSG.RankThree.PartTwo.Sec21.FF81.B2Elem.coord b₁ b₂ b₃ (1, 0, 0) =
       CFSG.RankThree.PartTwo.Sec21.FF81.B2Elem.coord b₁ b₂ b₃ (0, 0, 0) := by
     simp [CFSG.RankThree.PartTwo.Sec21.FF81.B2Elem.coord, e]
   exact absurd (hinj e') (by decide)
 
+omit [Finite G] D in
 theorem eq_one_of_eq_inv {y : G} (hy3 : y ^ 3 = 1) (e : y⁻¹ = y) : y = 1 := by
   have hyy : y * y = 1 := by
     calc y * y = y⁻¹ * y := by rw [e]
@@ -771,6 +816,7 @@ theorem eq_one_of_eq_inv {y : G} (hy3 : y ^ 3 = 1) (e : y⁻¹ = y) : y = 1 := b
   calc y = y ^ 3 * (y * y)⁻¹ := by group
     _ = 1 := by rw [hy3, hyy, inv_one, one_mul]
 
+omit [Finite G] D in
 theorem mem_cen_of_gens {δ : G} (h : ∀ z ∈ ({b, b₁, b₂, b₃} : Set G), δ * z * δ⁻¹ = z) :
     δ ∈ Subgroup.centralizer ((BB b b₁ b₂ b₃ : Subgroup G) : Set G) := by
   have h' := conj_eq_of_closure h
@@ -793,20 +839,22 @@ variable {S : Sylow 3 ↥(Ahat (BO b₁ b₂ b₃) b)}
   (hS : BB b b₁ b₂ b₃ ≤ (S : Subgroup ↥(Ahat (BO b₁ b₂ b₃) b)).map (Ahat (BO b₁ b₂ b₃) b).subtype)
 include hS
 
+omit hS in
 theorem exists_translate' {g : G}
     (hg : g ∈ Subgroup.normalizer ((BB b b₁ b₂ b₃ : Subgroup G) : Set G)) :
     ∃ g' ∈ Subgroup.normalizer ((BB b b₁ b₂ b₃ : Subgroup G) : Set G),
       (∀ z ∈ BB b b₁ b₂ b₃, g' * z * g'⁻¹ = g * z * g⁻¹) ∧
       ∀ x ∈ (S : Subgroup ↥(Ahat (BO b₁ b₂ b₃) b)).map (Ahat (BO b₁ b₂ b₃) b).subtype,
         g' * x * g'⁻¹ ∈ (S : Subgroup ↥(Ahat (BO b₁ b₂ b₃) b)).map (Ahat (BO b₁ b₂ b₃) b).subtype := by
-  obtain ⟨k, hk, hkA⟩ := D.exists_translate_cen hS hg
+  obtain ⟨k, hk, hkA⟩ := D.exists_translate_cen hg
   exact ⟨k⁻¹ * g, mul_mem (inv_mem (D.cen_le_N hk)) hg,
-    fun z hz => D.translate_conj hk (D.conj_mem_B hg hz), hkA⟩
+    fun z hz => CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.translate_conj hk (CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.conj_mem_B hg hz), hkA⟩
 
 end Sylow4
 
 end Data
 
+omit [Finite G] in
 theorem isPGroup_zpowers_of_pow {p k : ℕ} {x : G} (h : x ^ (p ^ k) = 1) :
     IsPGroup p (Subgroup.zpowers x) := by
   intro g
@@ -825,7 +873,7 @@ theorem exists_K : ∃ K : Subgroup G,
     K ≤ Subgroup.centralizer ((BB b b₁ b₂ b₃ : Subgroup G) : Set G) ∧
     Nat.Coprime (Nat.card K) 3 ∧
     Subgroup.centralizer ((BB b b₁ b₂ b₃ : Subgroup G) : Set G) ≤ BB b b₁ b₂ b₃ ⊔ K := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set H := Subgroup.centralizer ((BB b b₁ b₂ b₃ : Subgroup G) : Set G) with hHdef
   have hBH : BB b b₁ b₂ b₃ ≤ H := fun z hz =>
     Subgroup.mem_centralizer_iff.mpr fun w hw => D.Bab w hw z hz
@@ -833,7 +881,7 @@ theorem exists_K : ∃ K : Subgroup G,
   obtain ⟨P, -⟩ := hBp.exists_le_sylow
   have hPB : ∀ x : ↥H, x ∈ (P : Subgroup ↥H) → (x : G) ∈ BB b b₁ b₂ b₃ := by
     intro x hx
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨x, hx⟩
     have hk' : (x : G) ^ (3 ^ k) = 1 := by
       have := congrArg (fun y : ↥(P : Subgroup ↥H) => ((y : ↥H) : G)) hk
       simpa using this
@@ -873,7 +921,7 @@ theorem exists_K : ∃ K : Subgroup G,
       have hd := hcomp.disjoint
       rw [Subgroup.disjoint_def] at hd
       exact hd hqm (pow_mem hq m)
-    obtain ⟨e, he⟩ := P.isPGroup' ⟨q, hq⟩
+    obtain ⟨e, he⟩ := P.isPGroup ⟨q, hq⟩
     have hqe : q ^ (3 ^ e) = 1 := by simpa using congrArg Subtype.val he
     have hq1 : q = 1 := by
       have h1 : orderOf q ∣ Nat.gcd m (3 ^ e) :=
@@ -888,7 +936,7 @@ theorem exists_K : ∃ K : Subgroup G,
     have hnH : n * (k : G) * n⁻¹ ∈ H := by
       rw [Subgroup.mem_centralizer_iff]
       intro z hz
-      have hz' : n⁻¹ * z * n⁻¹⁻¹ ∈ BB b b₁ b₂ b₃ := D.conj_mem_B (inv_mem hn) hz
+      have hz' : n⁻¹ * z * n⁻¹⁻¹ ∈ BB b b₁ b₂ b₃ := CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.conj_mem_B (inv_mem hn) hz
       have hc := Subgroup.mem_centralizer_iff.mp k.2 _ hz'
       calc z * (n * k * n⁻¹) = n * ((n⁻¹ * z * n⁻¹⁻¹) * k) * n⁻¹ := by group
         _ = n * (k * (n⁻¹ * z * n⁻¹⁻¹)) * n⁻¹ := by rw [hc]
@@ -934,14 +982,15 @@ namespace Data0
 variable {b b₁ b₂ b₃ : G} (D : Data0 b b₁ b₂ b₃)
 include D
 
+omit [Finite G] in
 theorem gens_ne : b₂ ≠ b₁ ∧ b₂ ≠ b₁⁻¹ ∧ b₃ ≠ b₁ ∧ b₃ ≠ b₁⁻¹ ∧ b₃ ≠ b₂ ∧ b₃ ≠ b₂⁻¹ := by
   have hinj := CFSG.RankThree.PartTwo.Sec21.FF81.B2Elem.coord_injective
-    (D.B₁ab _ D.mem₁ _ D.mem₂) (D.B₁ab _ D.mem₁ _ D.mem₃) (D.B₁ab _ D.mem₂ _ D.mem₃)
-    (D.B₁3 _ D.mem₁) (D.B₁3 _ D.mem₂) (D.B₁3 _ D.mem₃) D.B₁card
+    (D.B₁ab _ CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₁ _ CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₂) (D.B₁ab _ CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₁ _ CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₃) (D.B₁ab _ CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₂ _ CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₃)
+    (D.B₁3 _ CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₁) (D.B₁3 _ CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₂) (D.B₁3 _ CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₃) D.B₁card
   have hsq : ∀ x : G, x ^ 3 = 1 → x⁻¹ = x ^ 2 := fun x hx => by
     rw [inv_eq_iff_mul_eq_one, ← pow_succ', hx]
-  have h1 := hsq b₁ (D.B₁3 _ D.mem₁)
-  have h2 := hsq b₂ (D.B₁3 _ D.mem₂)
+  have h1 := hsq b₁ (D.B₁3 _ CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₁)
+  have h2 := hsq b₂ (D.B₁3 _ CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₂)
   refine ⟨fun e => ?_, fun e => ?_, fun e => ?_, fun e => ?_, fun e => ?_, fun e => ?_⟩
   · exact absurd (hinj (show CFSG.RankThree.PartTwo.Sec21.FF81.B2Elem.coord b₁ b₂ b₃ (0, 1, 0) =
       CFSG.RankThree.PartTwo.Sec21.FF81.B2Elem.coord b₁ b₂ b₃ (1, 0, 0) by
@@ -1078,6 +1127,7 @@ theorem hbt_of {τ ι₁ ι₂ ι₃ σ₁₂ σ₂₃ γ : G} (M : Mono b b₁ 
 
 end Data
 
+omit [Finite G] in
 theorem pow_conj_mem {A : Subgroup G} {g : G} (hg : ∀ x ∈ A, g * x * g⁻¹ ∈ A) (n : ℕ) :
     ∀ x ∈ A, g ^ n * x * (g ^ n)⁻¹ ∈ A := by
   induction n with
@@ -1102,7 +1152,7 @@ theorem four_le_localRank_of_lift {b b₁ b₂ b₃ τ ι₁ ι₂ ι₃ σ₁�
       ∃ K NL : Subgroup G, Compl b b₁ b₂ b₃ K NL)
     (hbG : b ∈ commutator G) :
     4 ≤ CFSG.Assembly.RankThreeEven.localRank 3 G := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set N := Subgroup.normalizer ((BB b b₁ b₂ b₃ : Subgroup G) : Set G) with hNdef
   set B₁ := BO b₁ b₂ b₃ with hB₁def
   set Â := Ahat (BO b₁ b₂ b₃) b with hÂdef
@@ -1111,7 +1161,7 @@ theorem four_le_localRank_of_lift {b b₁ b₂ b₃ τ ι₁ ι₂ ι₃ σ₁�
   have hS : BB b b₁ b₂ b₃ ≤ (S : Subgroup ↥Â).map Â.subtype := fun z hz =>
     ⟨⟨z, D.B_le_Ahat hz⟩, hSle (Subgroup.mem_subgroupOf.mpr hz), rfl⟩
   set A0 := (S : Subgroup ↥Â).map Â.subtype with hA0def
-  have hÂ : ∀ {x}, x ∈ A0 → x ∈ Â := fun hx => D.A0_le hS hx
+  have hÂ : ∀ {x}, x ∈ A0 → x ∈ Â := fun hx => CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.A0_le (S := S) hx
   obtain ⟨hτN, hτb⟩ := M.mem τ (by simp)
   obtain ⟨hι₁N, hι₁b⟩ := M.mem ι₁ (by simp)
   obtain ⟨hι₂N, hι₂b⟩ := M.mem ι₂ (by simp)
@@ -1119,17 +1169,17 @@ theorem four_le_localRank_of_lift {b b₁ b₂ b₃ τ ι₁ ι₂ ι₃ σ₁�
   obtain ⟨hσ₁₂N, hσ₁₂b⟩ := M.mem σ₁₂ (by simp)
   obtain ⟨hσ₂₃N, hσ₂₃b⟩ := M.mem σ₂₃ (by simp)
   obtain ⟨hγN, hγb⟩ := M.mem γ (by simp)
-  obtain ⟨τ', hτ'N, hτ'B, hτ'A⟩ := D.exists_translate' hS hτN
-  obtain ⟨ι₁', hι₁'N, hι₁'B, hι₁'A⟩ := D.exists_translate' hS hι₁N
-  obtain ⟨ι₂', hι₂'N, hι₂'B, hι₂'A⟩ := D.exists_translate' hS hι₂N
-  obtain ⟨ι₃', hι₃'N, hι₃'B, hι₃'A⟩ := D.exists_translate' hS hι₃N
-  obtain ⟨σ₁₂', hσ₁₂'N, hσ₁₂'B, hσ₁₂'A⟩ := D.exists_translate' hS hσ₁₂N
-  obtain ⟨σ₂₃', hσ₂₃'N, hσ₂₃'B, hσ₂₃'A⟩ := D.exists_translate' hS hσ₂₃N
-  obtain ⟨γ', hγ'N, hγ'B, hγ'A⟩ := D.exists_translate' hS hγN
-  have hb := D.b_mem_B
-  have h₁ : b₁ ∈ BB b b₁ b₂ b₃ := D.B₁_le_B D.mem₁
-  have h₂ : b₂ ∈ BB b b₁ b₂ b₃ := D.B₁_le_B D.mem₂
-  have h₃ : b₃ ∈ BB b b₁ b₂ b₃ := D.B₁_le_B D.mem₃
+  obtain ⟨τ', hτ'N, hτ'B, hτ'A⟩ := D.exists_translate' (S := S) hτN
+  obtain ⟨ι₁', hι₁'N, hι₁'B, hι₁'A⟩ := D.exists_translate' (S := S) hι₁N
+  obtain ⟨ι₂', hι₂'N, hι₂'B, hι₂'A⟩ := D.exists_translate' (S := S) hι₂N
+  obtain ⟨ι₃', hι₃'N, hι₃'B, hι₃'A⟩ := D.exists_translate' (S := S) hι₃N
+  obtain ⟨σ₁₂', hσ₁₂'N, hσ₁₂'B, hσ₁₂'A⟩ := D.exists_translate' (S := S) hσ₁₂N
+  obtain ⟨σ₂₃', hσ₂₃'N, hσ₂₃'B, hσ₂₃'A⟩ := D.exists_translate' (S := S) hσ₂₃N
+  obtain ⟨γ', hγ'N, hγ'B, hγ'A⟩ := D.exists_translate' (S := S) hγN
+  have hb := (CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.b_mem_B (G := G) (b := b) (b₁ := b₁) (b₂ := b₂) (b₃ := b₃))
+  have h₁ : b₁ ∈ BB b b₁ b₂ b₃ := CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.B₁_le_B CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₁
+  have h₂ : b₂ ∈ BB b b₁ b₂ b₃ := CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.B₁_le_B CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₂
+  have h₃ : b₃ ∈ BB b b₁ b₂ b₃ := CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.B₁_le_B CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₃
   obtain ⟨hAab, hA3⟩ := D.comm_cube_A0 hS (t₁ := ι₁') (t₂ := ι₂') (t₃ := ι₃')
     (by
       rintro t (rfl | rfl | rfl)
@@ -1148,30 +1198,30 @@ theorem four_le_localRank_of_lift {b b₁ b₂ b₃ τ ι₁ ι₂ ι₃ σ₁�
   have hτ₂A : ∀ x ∈ A0, τ₂ * x * τ₂⁻¹ ∈ A0 := pow_conj_mem hτ'A m
   have hτ₂b : τ₂ * b * τ₂⁻¹ = b := pow_conj_fix (by rw [hτ'B b hb, hτb]) m
   have hτ₂inv : ∀ y ∈ B₁, τ₂ * y * τ₂⁻¹ = y⁻¹ := fun y hy =>
-    pow_conj_inv (by rw [hτ'B y (D.B₁_le_B hy), hτinv y hy]) hm
+    pow_conj_inv (by rw [hτ'B y (CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.B₁_le_B hy), hτinv y hy]) hm
   have hτ₂sq : ∀ x ∈ A0, τ₂ * (τ₂ * x * τ₂⁻¹) * τ₂⁻¹ = x := by
     intro x hx
     have hδ : τ₂ ^ 2 ∈ Subgroup.centralizer ((BB b b₁ b₂ b₃ : Subgroup G) : Set G) := by
-      refine D.mem_cen_of_gens fun z hz => ?_
+      refine CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem_cen_of_gens fun z hz => ?_
       have e : τ₂ ^ 2 * z * (τ₂ ^ 2)⁻¹ = τ₂ * (τ₂ * z * τ₂⁻¹) * τ₂⁻¹ := by
         rw [pow_two, mul_inv_rev]; simp only [mul_assoc]
       rw [e]
       rcases hz with rfl | rfl | rfl | rfl
       · rw [hτ₂b, hτ₂b]
-      · rw [hτ₂inv _ D.mem₁, show τ₂ * z⁻¹ * τ₂⁻¹ = (τ₂ * z * τ₂⁻¹)⁻¹ by group,
-          hτ₂inv _ D.mem₁, inv_inv]
-      · rw [hτ₂inv _ D.mem₂, show τ₂ * z⁻¹ * τ₂⁻¹ = (τ₂ * z * τ₂⁻¹)⁻¹ by group,
-          hτ₂inv _ D.mem₂, inv_inv]
-      · rw [hτ₂inv _ D.mem₃, show τ₂ * z⁻¹ * τ₂⁻¹ = (τ₂ * z * τ₂⁻¹)⁻¹ by group,
-          hτ₂inv _ D.mem₃, inv_inv]
+      · rw [hτ₂inv _ CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₁, show τ₂ * z⁻¹ * τ₂⁻¹ = (τ₂ * z * τ₂⁻¹)⁻¹ by group,
+          hτ₂inv _ CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₁, inv_inv]
+      · rw [hτ₂inv _ CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₂, show τ₂ * z⁻¹ * τ₂⁻¹ = (τ₂ * z * τ₂⁻¹)⁻¹ by group,
+          hτ₂inv _ CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₂, inv_inv]
+      · rw [hτ₂inv _ CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₃, show τ₂ * z⁻¹ * τ₂⁻¹ = (τ₂ * z * τ₂⁻¹)⁻¹ by group,
+          hτ₂inv _ CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₃, inv_inv]
     have h2p : IsPGroup 2 (Subgroup.zpowers (τ₂ ^ 2)) :=
       hτ₂p.to_le (Subgroup.zpowers_le.2 (pow_mem (Subgroup.mem_zpowers _) 2))
-    have := D.cen_two hS hδ (pow_conj_mem hτ₂A 2) h2p hx
+    have := D.cen_two hδ (pow_conj_mem hτ₂A 2) h2p hx
     calc τ₂ * (τ₂ * x * τ₂⁻¹) * τ₂⁻¹ = τ₂ ^ 2 * x * (τ₂ ^ 2)⁻¹ := by
           rw [pow_two, mul_inv_rev]; simp only [mul_assoc]
       _ = x := this
   have H : CFSG.RankThree.PartTwo.Sec21.FF81.B2Construct.Hyp A0 B₁ b τ₂ :=
-    { B₁A := D.B₁_le_B.trans hS
+    { B₁A := CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.B₁_le_B.trans hS
       bA := hS hb
       B₁n := fun x hx y hy => by rw [(hÂ hx).1 y hy]; exact hy
       Aab := hAab
@@ -1189,12 +1239,12 @@ theorem four_le_localRank_of_lift {b b₁ b₂ b₃ τ ι₁ ι₂ ι₃ σ₁�
           rw [beta_conj hτ₂b, hτ₂inv _ (beta_mem (hÂ hx))]
         have h2 : beta b (τ₂ * x * τ₂⁻¹) = beta b x := by
           have e : τ₂ * x * τ₂⁻¹ = (τ₂ * x * τ₂⁻¹ * x⁻¹) * x := by group
-          rw [e, beta_mul D.B₁ab (D.B_le_Ahat (D.B₁_le_B hfx)) (hÂ hx),
+          rw [e, beta_mul D.B₁ab (D.B_le_Ahat (CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.B₁_le_B hfx)) (hÂ hx),
             beta_one_of_mem D.bB₁ hfx, one_mul]
         have h3 : beta b x = 1 :=
-          D.eq_one_of_eq_inv (D.B₁3 _ (beta_mem (hÂ hx))) (h1.symm.trans h2)
-        rw [← D.B_eq_sup]
-        exact D.mem_B_of_mem_A0 hS hx h3 }
+          CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.eq_one_of_eq_inv (D.B₁3 _ (beta_mem (hÂ hx))) (h1.symm.trans h2)
+        rw [← CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.B_eq_sup]
+        exact D.mem_B_of_mem_A0 hx h3 }
   set B₂ := H.B₂ with hB₂def
   have hB₂A : B₂ ≤ A0 := H.le_A
   have hnorm : ∀ g ∈ N, (∀ x ∈ A0, g * x * g⁻¹ ∈ A0) →
@@ -1234,7 +1284,7 @@ theorem four_le_localRank_of_lift {b b₁ b₂ b₃ τ ι₁ ι₂ ι₃ σ₁�
       rw [inv_inv] at h
       calc τ₂⁻¹ * y * τ₂⁻¹⁻¹ = τ₂⁻¹ * (τ₂ * y⁻¹ * τ₂⁻¹) * τ₂⁻¹⁻¹ := by rw [h]
         _ = y⁻¹ := by group
-    refine D.mem_cen_of_gens fun z hz => ?_
+    refine CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem_cen_of_gens fun z hz => ?_
     have e : (g⁻¹ * τ₂ * g) * τ₂⁻¹ * z * ((g⁻¹ * τ₂ * g) * τ₂⁻¹)⁻¹ =
         g⁻¹ * (τ₂ * (g * (τ₂⁻¹ * z * τ₂⁻¹⁻¹) * g⁻¹) * τ₂⁻¹) * g⁻¹⁻¹ := by group
     rw [e]
@@ -1269,7 +1319,7 @@ theorem four_le_localRank_of_lift {b b₁ b₂ b₃ τ ι₁ ι₂ ι₃ σ₁�
     norm_num at h ⊢
     omega
   have hPp : IsPGroup 3 ↥(A0 ⊔ Subgroup.zpowers c : Subgroup G) :=
-    IsPGroup.to_sup_of_normal_left' (D.isPGroup_A0 hS) hcp
+    IsPGroup.to_sup_of_normal_left' (CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.isPGroup_A0) hcp
       ((Subgroup.zpowers_le).2
         (CFSG.RankThree.PartTwo.Sec21.FF81.B2Elem.mem_normalizer_of_conj_mem hcA))
   have hPcard : 3 ^ 8 ≤ Nat.card ↥(A0 ⊔ Subgroup.zpowers c : Subgroup G) := by
@@ -1285,7 +1335,7 @@ theorem four_le_localRank_of_lift {b b₁ b₂ b₃ τ ι₁ ι₂ ι₃ σ₁�
       have hcA0 : c ∈ A0 := by
         rw [heq]
         exact Subgroup.mem_sup_right (Subgroup.mem_zpowers c)
-      have := (hÂ hcA0).1 b₁ D.mem₁
+      have := (hÂ hcA0).1 b₁ CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₁
       rw [hc₁] at this
       exact D.b₁_ne_b₂ this.symm
     rw [hk]
@@ -1297,11 +1347,11 @@ theorem four_le_localRank_of_lift {b b₁ b₂ b₃ τ ι₁ ι₂ ι₃ σ₁�
     rw [hsup] at hPR ⊢
     exact (Subgroup.eq_of_le_of_card_ge hPR ((hN3 R hRN hRp).trans hPcard)).symm
   have hSetup := H.toSetup (b₁ := b₁) (b₂ := b₂) (b₃ := b₃) (c := c) rfl D.Bab D.B3 D.Bcard
-    D.B₁card ((D.A0_le hS).trans D.Ahat_le_N) hcN hcb hc₁ hc₂ hc₃ hcB₂ hc3 hPmax
-  have hB₂p : IsPGroup 3 B₂ := (D.isPGroup_A0 hS).to_le hB₂A
+    D.B₁card ((CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.A0_le (S := S)).trans D.Ahat_le_N) hcN hcb hc₁ hc₂ hc₃ hcB₂ hc3 hPmax
+  have hB₂p : IsPGroup 3 B₂ := (CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.isPGroup_A0).to_le hB₂A
   have hker : ∀ x ∈ B₂, x * b = b * x → x ∈ B₁ :=
     CFSG.RankThree.PartTwo.Sec21.FF81.RankFour.ker_of_cenS H.B₁_le H.inv_comm.2 hB₂p
-      (fun x hx hx2 => H.mem_B₁_of_mem_sup (by rw [← D.B_eq_sup]; exact hx) hx2) D.CB
+      (fun x hx hx2 => H.mem_B₁_of_mem_sup (by rw [← CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.B_eq_sup]; exact hx) hx2) D.CB
   set T : Set G := {ι₁', ι₂', ι₃', σ₁₂', σ₂₃', γ'} with hTdef
   have hT : ∀ g ∈ T, ∀ x ∈ B₂, g * x * g⁻¹ ∈ B₂ := by
     rintro g (rfl | rfl | rfl | rfl | rfl | rfl)
@@ -1325,7 +1375,7 @@ theorem four_le_localRank_of_lift {b b₁ b₂ b₃ τ ι₁ ι₂ ι₃ σ₁�
     refine hirr K hKB₁ hK ?_
     have tr : ∀ {g g' : G}, (∀ z ∈ BB b b₁ b₂ b₃, g' * z * g'⁻¹ = g * z * g⁻¹) → g' ∈ T →
         ∀ x ∈ K, g * x * g⁻¹ ∈ K := fun hg'B hg'T x hx => by
-      rw [← hg'B x (D.B₁_le_B (hKB₁ hx))]
+      rw [← hg'B x (CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.B₁_le_B (hKB₁ hx))]
       exact hKT _ hg'T x hx
     rintro g (rfl | rfl | rfl | rfl | rfl | rfl)
     · exact tr hι₁'B (by simp [hTdef])
@@ -1336,13 +1386,13 @@ theorem four_le_localRank_of_lift {b b₁ b₂ b₃ τ ι₁ ι₂ ι₃ σ₁�
     · exact tr hγ'B (by simp [hTdef])
   have hirr' := CFSG.RankThree.PartTwo.Sec21.FF81.RankFour.irreducible_of_kappa H.B₁_le
     H.inv_comm.2 (fun x hx => H.bB₂ hx) (fun y hy => (D.bB₁ y hy).symm) hker hTb hB₁irr
-  have hA0N : A0 ≤ N := (D.A0_le hS).trans D.Ahat_le_N
+  have hA0N : A0 ≤ N := (CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.A0_le (S := S)).trans D.Ahat_le_N
   have hno : ∀ (K NL : Subgroup G), Compl b b₁ b₂ b₃ K NL →
       ∀ hb : b ∈ N, (⟨b, hb⟩ : ↥N) ∉ commutator ↥N := by
     intro K NL C hbN hmem
     have hKA : ∀ k ∈ K, k ∈ A0 → k = 1 := by
       intro k hk hkA
-      obtain ⟨e, he⟩ := (D.isPGroup_A0 hS) ⟨k, hkA⟩
+      obtain ⟨e, he⟩ := (CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.isPGroup_A0) ⟨k, hkA⟩
       have hke : k ^ (3 ^ e) = 1 := by simpa using congrArg Subtype.val he
       have h1 : orderOf k ∣ 3 ^ e := orderOf_dvd_of_pow_eq_one hke
       have h2 : orderOf k ∣ Nat.card K := Subgroup.orderOf_dvd_natCard K hk
@@ -1367,7 +1417,7 @@ theorem four_le_localRank_of_lift {b b₁ b₂ b₃ τ ι₁ ι₂ ι₃ σ₁�
       exact ⟨y, hy, k, hk, hyk⟩
     have hÂdec : ∀ a ∈ Â, ∃ x ∈ A0, ∃ k ∈ K, a = x * k := by
       intro a ha
-      obtain ⟨x, hx, hxa⟩ := D.exists_beta_eq hS (beta_mem ha)
+      obtain ⟨x, hx, hxa⟩ := D.exists_beta_eq (beta_mem ha)
       have hc : x⁻¹ * a ∈ Subgroup.centralizer ((BB b b₁ b₂ b₃ : Subgroup G) : Set G) := by
         refine D.mem_cen_of_beta (mul_mem (inv_mem (hÂ hx)) ha) ?_
         rw [beta_mul D.B₁ab (inv_mem (hÂ hx)) ha, D.beta_inv (hÂ hx), hxa, inv_mul_cancel]
@@ -1400,10 +1450,10 @@ theorem four_le_localRank_of_lift {b b₁ b₂ b₃ τ ι₁ ι₂ ι₃ σ₁�
     have hconjB₂ : ∀ g ∈ N, ∀ y ∈ B₂, g * y * g⁻¹ ∈ M₀ := by
       intro g hg y hy
       obtain ⟨x, hx, k, hk, l, hl, rfl⟩ := hNdec g hg
-      obtain ⟨k₁, hk₁, hk₁A⟩ := D.exists_translate_cen hS (C.NLN hl)
+      obtain ⟨k₁, hk₁, hk₁A⟩ := D.exists_translate_cen (C.NLN hl)
       have hl'N : k₁⁻¹ * l ∈ N := mul_mem (inv_mem (D.cen_le_N hk₁)) (C.NLN hl)
       have hl'b : (k₁⁻¹ * l) * b * (k₁⁻¹ * l)⁻¹ = b := by
-        rw [D.translate_conj hk₁ (by rw [C.NLb l hl]; exact hb), C.NLb l hl]
+        rw [CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.translate_conj hk₁ (by rw [C.NLb l hl]; exact hb), C.NLb l hl]
       have hy₁ : (k₁⁻¹ * l) * y * (k₁⁻¹ * l)⁻¹ ∈ B₂ := hfixnorm _ hl'N hk₁A hl'b y hy
       obtain ⟨z, hz, k₂, hk₂, hzk⟩ := hBK _ (C.CK hk₁)
       have e : x * k * l * y * (x * k * l)⁻¹ =
@@ -1462,7 +1512,7 @@ theorem four_le_localRank_of_lift {b b₁ b₂ b₃ τ ι₁ ι₂ ι₃ σ₁�
       have e : x * k * l * m * (x * k * l)⁻¹ = x * (k * l * m * (k * l)⁻¹) * x⁻¹ := by group
       rw [e]
       exact hA0M x hx _ (mul_mem (mul_mem (mul_mem hkM hlM) hm) (inv_mem (mul_mem hkM hlM)))
-    haveI hMn : (M.subgroupOf N).Normal := ⟨fun n hn g => by
+    have hMn : (M.subgroupOf N).Normal := ⟨fun n hn g => by
       rw [Subgroup.mem_subgroupOf] at hn ⊢
       exact hNM g g.2 n hn⟩
     have hle : commutator ↥N ≤ M.subgroupOf N := by
@@ -1497,7 +1547,7 @@ theorem four_le_localRank_of_lift {b b₁ b₂ b₃ τ ι₁ ι₂ ι₃ σ₁�
     have hbM' : b ∈ ((M₀ ⊔ NL : Subgroup G) : Set G) := hbM
     rw [hcoe] at hbM'
     obtain ⟨m, hm, l, hl, hml⟩ := hbM'
-    have hM₀Â : M₀ ≤ Â := sup_le (hB₂A.trans (D.A0_le hS)) (C.KC.trans D.cen_le_Ahat)
+    have hM₀Â : M₀ ≤ Â := sup_le (hB₂A.trans (CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.A0_le (S := S))) (C.KC.trans CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.cen_le_Ahat)
     have hlÂ : l ∈ Â := by
       have e : l = m⁻¹ * b := by rw [← hml, inv_mul_cancel_left]
       rw [e]
@@ -1521,7 +1571,7 @@ theorem four_le_localRank_of_lift {b b₁ b₂ b₃ τ ι₁ ι₂ ι₃ σ₁�
     have hk1 := hKA k hk hkA
     simp only [hk1, mul_one] at hyk
     rw [hyk] at hy
-    exact D.b_not_mem (H.mem_B₁_of_mem_sup (by rw [← D.B_eq_sup]; exact hb) hy)
+    exact D.b_not_mem (H.mem_B₁_of_mem_sup (by rw [← CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.B_eq_sup]; exact hb) hy)
   have hbN' : ∀ hb : b ∈ N, (⟨b, hb⟩ : ↥N) ∈ commutator ↥N →
       ∃ s : G, s * b₁ * s⁻¹ = b₁⁻¹ ∧ ∀ x ∈ B₂, s * x * s⁻¹ * x⁻¹ ∈ B₁ := by
     intro hbN hmem
@@ -1538,7 +1588,7 @@ theorem four_le_localRank_of_lift {b b₁ b₂ b₃ τ ι₁ ι₂ ι₃ σ₁�
       · rw [hτb, htb]
       · have hzB : z ∈ B₁ := Subgroup.subset_closure hz
         rw [hτinv z hzB, show t * z⁻¹ * t⁻¹ = (t * z * t⁻¹)⁻¹ by group, htB₁ z hzB]
-    obtain ⟨s, hsN, hsB, hsA⟩ := D.exists_translate' hS hs₀N
+    obtain ⟨s, hsN, hsB, hsA⟩ := D.exists_translate' (S := S) hs₀N
     have hsinv : ∀ z ∈ BB b b₁ b₂ b₃, s * z * s⁻¹ = z⁻¹ := fun z hz => by
       rw [hsB z hz, hs₀inv z hz]
     have hsinv' : ∀ z ∈ BB b b₁ b₂ b₃, s⁻¹ * z * s⁻¹⁻¹ = z⁻¹ := by
@@ -1549,9 +1599,9 @@ theorem four_le_localRank_of_lift {b b₁ b₂ b₃ τ ι₁ ι₂ ι₃ σ₁�
         _ = z⁻¹ := by group
     have hδ : (s⁻¹ * τ₂ * s) * τ₂⁻¹ ∈
         Subgroup.centralizer ((BB b b₁ b₂ b₃ : Subgroup G) : Set G) := by
-      refine D.mem_cen_of_gens fun z hz => ?_
+      refine CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem_cen_of_gens fun z hz => ?_
       have hzB : z ∈ BB b b₁ b₂ b₃ := Subgroup.subset_closure hz
-      have hz' : τ₂⁻¹ * z * τ₂⁻¹⁻¹ ∈ BB b b₁ b₂ b₃ := D.conj_mem_B (inv_mem hτ₂N) hzB
+      have hz' : τ₂⁻¹ * z * τ₂⁻¹⁻¹ ∈ BB b b₁ b₂ b₃ := CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.conj_mem_B (inv_mem hτ₂N) hzB
       have e : (s⁻¹ * τ₂ * s) * τ₂⁻¹ * z * ((s⁻¹ * τ₂ * s) * τ₂⁻¹)⁻¹ =
           s⁻¹ * (τ₂ * (s * (τ₂⁻¹ * z * τ₂⁻¹⁻¹) * s⁻¹) * τ₂⁻¹) * s⁻¹⁻¹ := by group
       rw [e, hsinv _ hz', show τ₂ * (τ₂⁻¹ * z * τ₂⁻¹⁻¹)⁻¹ * τ₂⁻¹ = z⁻¹ by group,
@@ -1571,12 +1621,12 @@ theorem four_le_localRank_of_lift {b b₁ b₂ b₃ τ ι₁ ι₂ ι₃ σ₁�
         calc x * b⁻¹ * x⁻¹ * b = b⁻¹ * ((x * b * x⁻¹ * b⁻¹)⁻¹ * b) := by group
           _ = b⁻¹ * (b * (x * b * x⁻¹ * b⁻¹)⁻¹) := by rw [hβc.inv_left.eq]
           _ = (x * b * x⁻¹ * b⁻¹)⁻¹ := by group
-      rw [e2, hsinv _ (D.B₁_le_B (inv_mem (beta_mem (hÂ hxA)))), inv_inv]
+      rw [e2, hsinv _ (CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.B₁_le_B (inv_mem (beta_mem (hÂ hxA)))), inv_inv]
     have hw : s * x * s⁻¹ * x⁻¹ ∈ BB b b₁ b₂ b₃ := by
-      refine D.mem_B_of_mem_A0 hS (mul_mem (hsA x hxA) (inv_mem hxA)) ?_
+      refine D.mem_B_of_mem_A0 (mul_mem (hsA x hxA) (inv_mem hxA)) ?_
       rw [beta_mul D.B₁ab (hÂ (hsA x hxA)) (inv_mem (hÂ hxA)), hsx, D.beta_inv (hÂ hxA),
         mul_inv_cancel]
-    exact H.mem_B₁_of_mem_sup (by rw [← D.B_eq_sup]; exact hw)
+    exact H.mem_B₁_of_mem_sup (by rw [← CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.B_eq_sup]; exact hw)
       (mul_mem (hsB₂ x hx) (inv_mem hx))
   have hB₂3 := CFSG.RankThree.PartTwo.Sec21.FF81.B2Elem.exp_three_of_irreducible' hSetup hT
     hirr' hB₂card hbN' hbG
@@ -1592,11 +1642,11 @@ theorem four_le_localRank_of_lift {b b₁ b₂ b₃ τ ι₁ ι₂ ι₃ σ₁�
   have ht1 : t ≠ 1 := by
     intro e
     rw [e, one_mul, inv_one, mul_one] at ht₁
-    exact D.b₁_ne_one (D.eq_one_of_eq_inv (D.B₁3 _ D.mem₁) ht₁.symm)
+    exact D.b₁_ne_one (CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.eq_one_of_eq_inv (D.B₁3 _ CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₁) ht₁.symm)
   have ht2cen : ∀ x ∈ A0, t ^ 2 * x * (t ^ 2)⁻¹ = x := by
     intro x hx
     have hδ : t ^ 2 ∈ Subgroup.centralizer ((BB b b₁ b₂ b₃ : Subgroup G) : Set G) := by
-      refine D.mem_cen_of_gens fun z hz => ?_
+      refine CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem_cen_of_gens fun z hz => ?_
       have e : t ^ 2 * z * (t ^ 2)⁻¹ = t * (t * z * t⁻¹) * t⁻¹ := by
         rw [pow_two, mul_inv_rev]; simp only [mul_assoc]
       rw [e]
@@ -1605,7 +1655,7 @@ theorem four_le_localRank_of_lift {b b₁ b₂ b₃ τ ι₁ ι₂ ι₃ σ₁�
       · rw [ht₁, show t * z⁻¹ * t⁻¹ = (t * z * t⁻¹)⁻¹ by group, ht₁, inv_inv]
       · rw [ht₂, ht₂]
       · rw [ht₃, ht₃]
-    exact D.cen_two hS hδ (pow_conj_mem htA 2)
+    exact D.cen_two hδ (pow_conj_mem htA 2)
       (ht₂p.to_le (Subgroup.zpowers_le.2 (pow_mem (Subgroup.mem_zpowers _) 2))) hx
   by_cases hsq : t ^ 2 = 1
   · exact CFSG.RankThree.PartTwo.Sec21.FF81.RankFour.four_le_localRank_of_setup hSetup hT

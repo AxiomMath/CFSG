@@ -17,7 +17,7 @@ variable {F : Type} [Field F]
 theorem det_sub_smul_one (M : Matrix (Fin 3) (Fin 3) F) (l : F) :
     (M - l • (1 : Matrix (Fin 3) (Fin 3) F)).det =
       M.det - l * sInv M + l ^ 2 * M.trace - l ^ 3 := by
-  simp [Matrix.det_fin_three, Matrix.trace_fin_three, sInv, Matrix.one_apply]
+  simp [Matrix.det_fin_three, Matrix.trace_fin_three, sInv]
   ring
 
 theorem exists_eigenvec_of_cube (M : Matrix (Fin 3) (Fin 3) F) (hM3 : M * M * M = 1)
@@ -112,7 +112,7 @@ theorem exists_normalForm (hσ : ∀ c : F, σ (σ c) = c) {ω : F} (h3 : (3 : F
         rw [Module.End.hasEigenvector_iff, Module.End.mem_eigenspace_iff, Matrix.toLin'_apply]
         exact ⟨hev j, hne j⟩)
     exact this
-  have hUunit : IsUnit U := Matrix.linearIndependent_cols_iff_isUnit.1 hli
+  have hUunit : IsUnit U := Matrix.linearIndependent_col_iff_isUnit.1 hli
   have hUdet : U.det ≠ 0 := (Matrix.isUnit_iff_isUnit_det U).1 hUunit |>.ne_zero
   set G : Matrix (Fin 3) (Fin 3) F := conjTr σ U * S * U with hG
   have hDconj : conjTr σ (diagonal lam) = diagonal lam := by

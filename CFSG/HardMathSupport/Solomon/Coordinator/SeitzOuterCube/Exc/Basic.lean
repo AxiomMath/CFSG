@@ -59,7 +59,7 @@ theorem closure_centralizers_of_excInnerLow (hLow : ExcInnerLowPlanes)
   exact closure_comm_of_planeGen_conj (hLow d p hp hp2 hpd hex _ hE hEc ⟨hin, hr, hnc⟩)
 
 theorem le_closure_centralizers_of_equiv {Y Q : Type} [Group Y] [Group Q] {H A : Subgroup Y}
-    (hAH : A ≤ H) (e : ↥H ≃* Q)
+    (_hAH : A ≤ H) (e : ↥H ≃* Q)
     (h : Subgroup.closure {c : Q | ∃ b ∈ (A.subgroupOf H).map e.toMonoidHom, b ≠ 1 ∧
       c * b = b * c} = ⊤) :
     H ≤ Subgroup.closure {x : Y | x ∈ H ∧ ∃ b ∈ A, b ≠ 1 ∧ x * b = b * x} := by
@@ -93,16 +93,16 @@ theorem le_closure_centralizers_of_equiv {Y Q : Type} [Group Y] [Group Q] {H A :
 theorem fixPlaneGen_of_standard_cat {P : Type} [Group P] {p : ℕ} (D : Subgroup (MulAut P))
     (S : Set (MulAut P))
     (hdesc : ∀ α : MulAut P, IsOuterOfOrder p α → ∃ d ∈ D, ∃ f ∈ S, α = d * f * d⁻¹)
-    (hS : ∀ f ∈ S, ∃ (Q : Type) (_ : Group Q) (e : ↥(fixedSubgroup f) ≃* Q),
+    (hS : ∀ f ∈ S, ∃ (Q : Type) (_ : Group Q) (_e : ↥(fixedSubgroup f) ≃* Q),
       ∀ B : Subgroup Q, IsElemAbelian p B → Nat.card B = p ^ 2 →
         Subgroup.closure {c : Q | ∃ b ∈ B, b ≠ 1 ∧ c * b = b * c} = ⊤) :
     FixPlaneGen P p := by
   refine CFSG.RankThree.PartTwo.Sec4.E27.fixPlaneGen_of_standard D S hdesc ?_
   intro f hf A hA hAa hAc
-  obtain ⟨Q, _, e, hQ⟩ := hS f hf
-  refine le_closure_centralizers_of_equiv hA e (hQ _ ?_ ?_)
+  obtain ⟨Q, _, _e, hQ⟩ := hS f hf
+  refine le_closure_centralizers_of_equiv hA _e (hQ _ ?_ ?_)
   · exact CFSG.Open.IsElemAbelian.map (CFSG.Open.IsElemAbelian.subgroupOf hAa _) _
-  · rw [Subgroup.card_map_of_injective e.injective,
+  · rw [Subgroup.card_map_of_injective _e.injective,
       Nat.card_congr (Subgroup.subgroupOfEquivOfLe hA).toEquiv, hAc]
 
 theorem not_isD2SeitzException_of_chevalleyExc {p : ℕ} {d : TauCeti.LieTypeIndex}

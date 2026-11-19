@@ -324,16 +324,16 @@ theorem card_Q {ρ : Equiv.Perm (Fin 820)} (hr : PR (CR 12) ρ) :
     obtain ⟨h1, h2, h3⟩ := h
     refine ⟨fun hi0 => ?_, fun hi0 => ?_, fun a ha => ?_, fun k hk e => ?_⟩
     · subst hi0
-      rw [Raw.Orb.bIf_eq, if_pos (Nat.beq_refl 0)] at h1
+      rw [Raw.Orb.bIf_eq, ite_eq_left (Nat.beq_refl 0)] at h1
       exact Nat.eq_of_beq_eq_true h1
-    · rw [Raw.Orb.bIf_eq, if_neg (by rw [Raw.Orb.beq_zero_false hi0]; decide), Bool.and_eq_true,
+    · rw [Raw.Orb.bIf_eq, ite_eq_right (by rw [Raw.Orb.beq_zero_false hi0]; decide), Bool.and_eq_true,
         Nat.blt_eq] at h1
       exact ⟨h1.1, Nat.eq_of_beq_eq_true h1.2⟩
     · have := h2 a ha
-      simp only [Raw.Orb.strictB_eq, Raw.Orb.bAnd_eq, Bool.and_eq_true, Nat.blt_eq] at this
+      simp only [Nat.blt_eq] at this
       exact ⟨this.1, Nat.eq_of_beq_eq_true this.2⟩
     · have := h3 k hk
-      rw [Raw.Orb.bIf_eq, if_pos (by rw [e]; exact Nat.beq_refl _)] at this
+      rw [Raw.Orb.bIf_eq, ite_eq_left (by rw [e]; exact Nat.beq_refl _)] at this
       exact absurd this (by decide)
   have hx : ∀ i, ∃ x : Equiv.Perm (Fin 820), i < 16 → cK (QE i) = true ∧ PR (QE i) x := by
     intro i

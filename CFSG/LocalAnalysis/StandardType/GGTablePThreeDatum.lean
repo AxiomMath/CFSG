@@ -71,6 +71,7 @@ theorem exists_closure_pair_of_stdSub {B : Subgroup G} {x : G} {L D J : Subgroup
     exact hk
   exact (Subgroup.eq_of_le_of_card_ge hclD (by rw [hcard9, hpre.2.2.1]; norm_num)).symm
 
+omit [Finite G] in
 private theorem isComponentOf_map_subtype_of_subgroupOf {H : Subgroup G} {Y Q : Subgroup ↥H}
     (h : IsComponentOf Q Y) :
     IsComponentOf (Q.map H.subtype) (Y.map H.subtype) := by

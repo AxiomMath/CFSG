@@ -102,7 +102,7 @@ theorem exists_lift_isPGroup_three [Finite H] (hπ : TwoCover π)
   obtain ⟨m, hm⟩ := IsPGroup.iff_card.mp hB
   obtain ⟨S⟩ : Nonempty (Sylow 3 (B.comap π)) := inferInstance
   set Q : Subgroup H := (S : Subgroup (B.comap π)).map (B.comap π).subtype with hQdef
-  have hQ3 : IsPGroup 3 Q := IsPGroup.map S.isPGroup' (B.comap π).subtype
+  have hQ3 : IsPGroup 3 Q := IsPGroup.map S.isPGroup (B.comap π).subtype
   have hPcard : Nat.card (B.comap π) = 2 * 3 ^ m := by rw [hπ.card_comap, hm]
   have hS : Nat.card S = 3 ^ m := by
     rw [Sylow.card_eq_multiplicity, hPcard, Nat.factorization_mul (by norm_num) (by positivity)]

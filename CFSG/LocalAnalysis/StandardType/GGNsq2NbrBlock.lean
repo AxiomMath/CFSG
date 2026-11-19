@@ -42,9 +42,9 @@ private theorem nbcb_not_solvable_of_isQuasisimple {Q : Type} [Group Q]
       exact hperf
   rw [htop] at hn
   have hall : ∀ x : Q, x = 1 := fun x => Subgroup.mem_bot.1 (hn ▸ Subgroup.mem_top x)
-  haveI : Subsingleton Q := ⟨fun a b => by rw [hall a, hall b]⟩
-  haveI : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hsimple
-  haveI : Subsingleton (Q ⧸ Subgroup.center Q) := inferInstance
+  have : Subsingleton Q := ⟨fun a b => by rw [hall a, hall b]⟩
+  have : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hsimple
+  have : Subsingleton (Q ⧸ Subgroup.center Q) := inferInstance
   exact not_subsingleton (Q ⧸ Subgroup.center Q) inferInstance
 
 
@@ -58,7 +58,7 @@ theorem exists_isComponent_block_iso {K : Type} [Field K] [Finite K] [CharP K 2]
       (a = n → ψ.range ≤ Subgroup.centralizer ({e} : Set G)) ∧
       Nonempty (↥J ⧸ Subgroup.center ↥J ≃* Su K 2 f a ⧸ Subgroup.center (Su K 2 f a)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hn0 : n ≠ 0 := by
     intro h0
     subst n
@@ -202,7 +202,7 @@ theorem exists_isComponent_block_iso {K : Type} [Field K] [Finite K] [CharP K 2]
     have hI3 : I.card ≤ 3 := by omega
     have hsol : Group.IsSolvable ↥((TableBUE.blockSU (K := K) (n := 1) I).map ψ') :=
       WitSU.isSolvable_map_blockSU_two_one hUF ψ' hI1 hI3
-    haveI : Group.IsSolvable ↥((TableBUE.blockSU (K := K) (n := 1) I).map ψ') := hsol
+    have : Group.IsSolvable ↥((TableBUE.blockSU (K := K) (n := 1) I).map ψ') := hsol
     have hsolJ : Group.IsSolvable ↥J :=
       Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hJI')
         (fun x y hxy => Subtype.ext (congrArg

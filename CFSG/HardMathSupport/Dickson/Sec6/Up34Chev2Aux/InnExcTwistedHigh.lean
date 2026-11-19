@@ -466,7 +466,7 @@ open CFSG.Open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
 theorem char2HratRank_twoD_high (τ : Tag) : Char2HratRank τ .twoD fun r _ => 5 ≤ r := by
   intro L _ _ _ p₀ S a hT hap h1 i hk h5 hq hL34
   exfalso
-  haveI := ssTw_finite_rationalComponent S i
+  have := ssTw_finite_rationalComponent S i
   cases τ with
   | G2 => exact absurd (h5.trans (compRank_le_rank _)) (by decide)
   | F4 => exact absurd (h5.trans (compRank_le_rank _)) (by decide)

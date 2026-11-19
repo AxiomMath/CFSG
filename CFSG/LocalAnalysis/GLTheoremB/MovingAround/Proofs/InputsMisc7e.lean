@@ -84,16 +84,16 @@ section Reductions
 
 theorem resOddE6_of_inndiag (h : E6InndiagSylowThree) : InputsMisc7.ResOddE6 := by
   intro K _ _ hs hnab ℓ f hch h3 P hP _
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨-, hm⟩ := hch
   obtain ⟨F, _, _, hF, ⟨e⟩⟩ := nonempty_mulEquiv_adjointGroup Tag.E6 hm
   obtain ⟨Θ, -, -, hker, -, -⟩ :=
     ordinary_E_field_graph_quotient_and_involutions Tag.E6 (Or.inl rfl) F
   have hZ := InputsMisc5.center_eq_bot_of_simple hs hnab
   let S : Sylow 3 K := ⟨P, hP.2.1, fun {Q} hQ hle => (hP.2.2 Q le_top hQ hle).le⟩
-  haveI : Finite (RingAut F) :=
+  have : Finite (RingAut F) :=
     Finite.of_injective (fun σ : F ≃+* F => (σ : F → F)) DFunLike.coe_injective
-  haveI : NeZero (exactE Tag.E6) := ⟨(exactE_pos Tag.E6).ne'⟩
+  have : NeZero (exactE Tag.E6) := ⟨(exactE_pos Tag.E6).ne'⟩
   have hG' : CFSG.HasNormalPComplement 3 (RingAut F × Multiplicative (ZMod (exactE Tag.E6))) :=
     InputsMisc7.hasNormalPComplement_of_isMulCommutative
       ⟨⟨fun x y => Prod.ext (CFSG.RankThree.PartOne.OutStructure.ringAut_comm F _ _)
@@ -123,7 +123,7 @@ theorem resOddE6_of_inndiag (h : E6InndiagSylowThree) : InputsMisc7.ResOddE6 := 
 
 theorem resOddTwE6_of_inndiag (h : TwistedE6InndiagSylowThree) : InputsMisc7.ResOddTwE6 := by
   intro X _ _ hs hnab r f hch h3 P hP _
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨⟨hrp, hf1, -⟩, hm⟩ := hch
   have hm' : TwistedChevalleyModel X .E6 (r ^ f) := hm
   obtain ⟨K, _, _, hcard, σ, hσ, ⟨e⟩⟩ := hm'
@@ -135,7 +135,7 @@ theorem resOddTwE6_of_inndiag (h : TwistedE6InndiagSylowThree) : InputsMisc7.Res
     twisted_E6_all_characteristic_exact_automorphism_normal_form hrp hf1 K hcard σ' hσ'
   have hZ := InputsMisc5.center_eq_bot_of_simple hs hnab
   let S : Sylow 3 X := ⟨P, hP.2.1, fun {Q} hQ hle => (hP.2.2 Q le_top hQ hle).le⟩
-  haveI : Finite (RingAut K) :=
+  have : Finite (RingAut K) :=
     Finite.of_injective (fun τ : K ≃+* K => (τ : K → K)) DFunLike.coe_injective
   have hG' : CFSG.HasNormalPComplement 3 (RingAut K) :=
     InputsMisc7.hasNormalPComplement_of_isMulCommutative
@@ -161,10 +161,10 @@ theorem resOddTwE6_of_inndiag (h : TwistedE6InndiagSylowThree) : InputsMisc7.Res
 open CFSG.HardMathSupport.Timmesfeld.CrossChar in
 theorem twistedE6InndiagSylowThree_of_E6 (h : E6InndiagSylowThree) : TwistedE6InndiagSylowThree := by
   intro p f hp hf h3 K _ _ hK σ hσ S₀ α hα hα3 hfix
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hq1 : 1 ≤ p ^ f := Nat.one_le_pow _ _ hp.pos
   have hq2 : 2 ≤ p ^ f := le_trans hp.two_le (Nat.le_self_pow (by omega) p)
-  haveI : Finite (ModGL Tag.E6 K) := finite_modGL
+  have : Finite (ModGL Tag.E6 K) := finite_modGL
   have hle : twistedE6RootGroup K σ ≤ adjointGroup Tag.E6 K :=
     (graphFixedRootGroup_le TwistTag.E6 K σ.toRingHom).trans inf_le_left
   set ι : twistedE6RootGroup K σ →* adjointGroup Tag.E6 K := Subgroup.inclusion hle with hιdef
@@ -220,7 +220,7 @@ theorem twistedE6InndiagSylowThree_of_E6 (h : E6InndiagSylowThree) : TwistedE6In
     rw [CFSG.Timmesfeld.ExceptionalOrders.card_adjointGroup_E6, hK]
   have hcardC₀ : Nat.card (twistedE6RootGroup K σ) = CFSG.Open.ordTwistedE6 (p ^ f) :=
     CFSG.ClassicalInvolution.card_graphFixedRootGroup_E6 hp hf hK σ.toRingHom hσ
-  have hS₀p : IsPGroup 3 (S₀.map ι) := S₀.isPGroup'.map ι
+  have hS₀p : IsPGroup 3 (S₀.map ι) := S₀.isPGroup.map ι
   have hidx : ¬ 3 ∣ (S₀.map ι).index := by
     have e1 := Subgroup.index_mul_card (S₀.map ι)
     have e2 := Subgroup.index_mul_card (S₀ : Subgroup (twistedE6RootGroup K σ))
@@ -431,8 +431,8 @@ theorem hasNormalPComplement_of_quotient_central {G : Type*} [Group G] [Finite G
     (hN : ∀ n ∈ N, (∃ k : ℕ, n ^ p ^ k = 1) → n ∈ Subgroup.center G) :
     CFSG.HasNormalPComplement p G := by
   obtain ⟨M, hMn, hMc, hMq⟩ := hq
-  haveI := hMn
-  haveI : (M.comap (QuotientGroup.mk' N)).Normal := Subgroup.Normal.comap hMn _
+  have := hMn
+  have : (M.comap (QuotientGroup.mk' N)).Normal := Subgroup.Normal.comap hMn _
   refine InputsMisc5.hasNormalPComplement_of_normal (N := M.comap (QuotientGroup.mk' N)) ?_ ?_
   · intro q
     obtain ⟨g, rfl⟩ := QuotientGroup.mk_surjective q
@@ -463,7 +463,7 @@ theorem hasNormalPComplement_fixerAut_of_no_cycle {K : Type} [Group K] [Finite K
     (hT : ∀ α : MulAut K, (∃ k : ℕ, α ^ 3 ^ k = 1) → (∀ x ∈ (P : Subgroup K), α x = x) →
       α • F = F) :
     CFSG.HasNormalPComplement 3 ↥(fixerAut (P : Subgroup K)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨g, hg⟩ := exists_fix_of_three_elements hO hκF hκy hκz hyz (fixerAut (P : Subgroup K))
     (fun c hc hc3 => hT c hc3 (mem_fixerAut.1 hc))
   set C := fixerAut (P : Subgroup K) with hC
@@ -471,7 +471,7 @@ theorem hasNormalPComplement_fixerAut_of_no_cycle {K : Type} [Group K] [Finite K
   have hmemD' : ∀ x, x ∈ D' ↔ g⁻¹ * x * g ∈ D := by
     intro x
     rw [hD', Subgroup.mem_comap]
-    simp [MulAut.conj_apply]
+    simp
   have hstab : ∀ c ∈ C, (g⁻¹ * c * g) • F = F := by
     intro c hc
     rw [mul_smul, mul_smul, hg c hc, inv_smul_smul]
@@ -483,7 +483,7 @@ theorem hasNormalPComplement_fixerAut_of_no_cycle {K : Type} [Group K] [Finite K
       group
     rw [e]
     exact hE _ _ (hstab c hc) (hstab d hd)
-  haveI : (D'.subgroupOf C).Normal := ⟨fun n hn c => by
+  have : (D'.subgroupOf C).Normal := ⟨fun n hn c => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     have e : ((c * n * c⁻¹ : C) : MulAut K) = ⁅(c : MulAut K), (n : MulAut K)⁆ * n := by
       simp only [Subgroup.coe_mul, Subgroup.coe_inv, commutatorElement_def]
@@ -538,7 +538,7 @@ open scoped Pointwise
 
 theorem resOddD4_of_noTriality (h : D4NoTrialitySylowThree) : InputsMisc7.ResOddD4 := by
   intro X _ _ hs hnab r m hcl P hP _
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h0 := hcl
   obtain ⟨-, K, _, _, hK, ⟨e⟩⟩ := h0
   have : Fintype K := Fintype.ofFinite K

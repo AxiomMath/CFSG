@@ -31,7 +31,7 @@ theorem classCharacter_simple {W : Type} [Group W]
 theorem classCharacter_conj {W : Type} [Group W]
     (cs : CoxeterSystem CoxeterMatrix.F₄ W) (k : Fin 2) (g t : W) :
     classCharacter cs k (g * t * g⁻¹) = classCharacter cs k t := by
-  simp [map_mul, map_inv, mul_comm]
+  simp [map_mul, map_inv]
 
 theorem classCharacter_eq_of_order_three {W : Type} [Group W]
     (cs : CoxeterSystem CoxeterMatrix.F₄ W) (k : Fin 2) {a b : W}

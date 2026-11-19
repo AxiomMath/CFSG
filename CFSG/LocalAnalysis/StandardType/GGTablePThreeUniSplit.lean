@@ -111,7 +111,7 @@ private theorem ker_conjHomPSU_le_center {K : Type} [Field K] {f n : ℕ} (h : U
 
 private theorem conjHomPSU_range_normal {K : Type} [Field K] {f n : ℕ} (h : UnitaryFieldData 2 f K) [Finite K] [CharP K 2]
     (hn : 1 ≤ n) (hn3 : 3 ≤ n) (hqne : ¬(n = 3 ∧ 2 ^ f = 2))
-    (hcard : Nat.card K = (2 ^ f) ^ 2) :
+    (_hcard : Nat.card K = (2 ^ f) ^ 2) :
     (conjHomPSU h hn).range.Normal := by
   have hD : (primeFormD h (idGram K n)).Normal := by
     have hreal := unitary_prime_form_full_semilinear_realization h
@@ -210,7 +210,7 @@ theorem uni_split {K : Type} [Field K] [Finite K] [CharP K 2] {q n : ℕ} (hK : 
   let R : Subgroup X := U.comap (conjHomPSU h hd1)
   let AhatX : Subgroup X := Ahat.subgroupOf X
   let N : Subgroup X := AhatX ⊔ R
-  haveI : Finite X := inferInstance
+  have : Finite X := inferInstance
   have hRnorm : ∀ n ∈ N, ∀ x ∈ R, n * x * n⁻¹ ∈ R := by
     have hAhatN : AhatX ≤ Subgroup.normalizer (R : Set X) := by
       intro g hg

@@ -18,7 +18,7 @@ private theorem mem_sup_zpowers_normal {H : Type*} [Group H] {c : H} {Z : Subgro
     (hx : x ∈ Subgroup.zpowers c ⊔ Z) :
     ∃ k : ℤ, ∃ z ∈ Z, c ^ k * z = x := by
   let L : Subgroup H := Subgroup.zpowers c ⊔ Z
-  haveI : (Z.subgroupOf L).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hZ
+  have : (Z.subgroupOf L).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hZ
   have htop : (⊤ : Subgroup ↥L) = (Subgroup.zpowers c).subgroupOf L ⊔ Z.subgroupOf L := by
     rw [← Subgroup.subgroupOf_sup (show Subgroup.zpowers c ≤ L from le_sup_left)
       (show Z ≤ L from le_sup_right), Subgroup.subgroupOf_self]

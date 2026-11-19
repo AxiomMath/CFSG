@@ -372,7 +372,7 @@ public theorem section14_theorem_14_11_4_upper_bound_of_nonpositive
   let C : ℝ := (Nat.card Cw : ℝ) + (Nat.card Cp : ℝ) + (Nat.card Cq : ℝ)
   let kterm : ℝ := ((Nat.card K - 1 : ℕ) : ℝ) / (Nat.card M : ℝ)
   classical
-  letI : Fintype Go := Fintype.ofFinite Go
+  let : Fintype Go := Fintype.ofFinite Go
   have hSge : (Nat.card Go : ℝ) ≤ S := by
     dsimp [S]
     have hsum_one_le :
@@ -536,7 +536,7 @@ public theorem section14_theorem_14_11_4_projectionData_source_bridge
           τM τM₁ ψ a := by
   intro a r hdecomp
   classical
-  letI : Fintype M := Fintype.ofFinite M
+  let : Fintype M := Fintype.ofFinite M
   rcases h1410 with
     ⟨hMmax, _hModd, _hNormVleM, hKMF, hTypeI, hDadePkg, hPunctM,
       _h52M, hExtM, hψmem, hψirr, hψdeg, _hβM⟩
@@ -614,7 +614,7 @@ public theorem section14_theorem_14_11_4_lower_bound_source_bridge
   rcases h1410 with
     ⟨hMmax, _hModd, _hNormVleM, hKMF, hTypeI, _hDadePkg, hPunctM,
       _h52M, hExtM, hψmem, hψirr, hψdeg, _hβM⟩
-  letI : Fintype M := Fintype.ofFinite M
+  let : Fintype M := Fintype.ofFinite M
   let MfullFam := insert (Section7.principalInducedCharacter M K) Mfam
   have hMfullNotation :
       Section7.inducedFamilyNotation (K.subgroupOf M) MfullFam := by
@@ -1317,7 +1317,7 @@ public theorem section14_theorem_14_11_4_upper_inequalities_source_bridge
   intro hctx h143 h1410 htilde hKV hψτ h113 hsupp h75raw
   classical
   let Go : Set G := theorem_14_11_3_G0 tildeAM W P Q
-  letI : Fintype Go := Fintype.ofFinite Go
+  let : Fintype Go := Fintype.ofFinite Go
   let Wexception : Set G :=
     (W : Set G) \ ((W1 : Set G) ∪ (W2 : Set G))
   let Cw : Set G := conjugatesOfSet Wexception

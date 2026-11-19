@@ -24,6 +24,7 @@ theorem LocalDatum.card_dvd (h : LocalDatum S c L) :
 theorem LocalDatum.twentySeven_dvd (h : LocalDatum S c L) : 27 ∣ Nat.card S :=
   (IsType198.twentySeven_dvd h.quasisimple h.type).trans h.card_dvd
 
+omit [Finite S] in
 private theorem commutator_eq_one_of_comm {x y : S} (hxy : x * y = y * x) :
     x * y * x⁻¹ * y⁻¹ = 1 := by
   rw [hxy]
@@ -32,7 +33,7 @@ private theorem commutator_eq_one_of_comm {x y : S} (hxy : x * y = y * x) :
 theorem LocalDatum.le_of_commutator_le (h : LocalDatum S c L) {H : Subgroup S}
     (hH : ∀ x ∈ Subgroup.centralizer ({c} : Set S), ∀ y ∈ Subgroup.centralizer ({c} : Set S),
       x * y * x⁻¹ * y⁻¹ ∈ H) : L ≤ H := by
-  haveI := h.perfect
+  have := h.perfect
   calc L = ⁅L, L⁆ := (Subgroup.commutator_eq_self (H := L)).symm
     _ ≤ H := by
       rw [Subgroup.commutator_le]
@@ -47,7 +48,7 @@ private theorem LocalDatum.ne_one (h : LocalDatum S c L) : c ≠ 1 := by
 
 private theorem LocalDatum.centralizer_ne_top (hS : IsSimpleGroup S) (h : LocalDatum S c L) :
     Subgroup.centralizer ({c} : Set S) ≠ ⊤ := by
-  haveI := hS
+  have := hS
   intro htop
   have hcen : c ∈ Subgroup.center S := by
     rw [Subgroup.mem_center_iff]
@@ -57,7 +58,7 @@ private theorem LocalDatum.centralizer_ne_top (hS : IsSimpleGroup S) (h : LocalD
   have hne : Subgroup.center S ≠ ⊥ := fun hb => h.ne_one (by simpa [hb] using hcen)
   have htopc : Subgroup.center S = ⊤ :=
     (Subgroup.Normal.eq_bot_or_eq_top (Subgroup.center S)).resolve_left hne
-  haveI : IsMulCommutative S := Subgroup.center_eq_top_iff.mp htopc
+  have : IsMulCommutative S := Subgroup.center_eq_top_iff.mp htopc
   have hL : L ≤ ⊥ :=
     h.le_of_commutator_le (H := ⊥) fun x _ y _ =>
       Subgroup.mem_bot.mpr (commutator_eq_one_of_comm (mul_comm' x y))
@@ -65,7 +66,7 @@ private theorem LocalDatum.centralizer_ne_top (hS : IsSimpleGroup S) (h : LocalD
 
 theorem LocalDatum.five_mul_le (hS : IsSimpleGroup S) (h : LocalDatum S c L) :
     5 * Nat.card (L ⧸ aschbacherSolvableCore 3 L) ≤ Nat.card S := by
-  haveI := hS
+  have := hS
   have hT : 7560 ≤ Nat.card (L ⧸ aschbacherSolvableCore 3 L) :=
     IsType198.le_card h.quasisimple h.type
   have hTS : Nat.card (L ⧸ aschbacherSolvableCore 3 L) ≤ Nat.card S :=
@@ -117,9 +118,9 @@ theorem LocalDatum.exists_elemAbelian (h : LocalDatum S c L) :
 
 theorem LocalDatum.exists_nonabelian (h : LocalDatum S c L) :
     ∃ P : Subgroup S, P ≤ L ∧ IsPGroup 3 P ∧ ¬ IsMulCommutative P := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Q⟩ : Nonempty (Sylow 3 (L ⧸ aschbacherSolvableCore 3 L)) := inferInstance
-  obtain ⟨P, hPL, hP, ⟨e⟩⟩ := exists_lift L (Q : Subgroup _) Q.isPGroup'
+  obtain ⟨P, hPL, hP, ⟨e⟩⟩ := exists_lift L (Q : Subgroup _) Q.isPGroup
   refine ⟨P, hPL, hP, fun hcomm => IsType198.not_isMulCommutative_sylow h.quasisimple h.type Q ?_⟩
   rw [isMulCommutative_iff] at hcomm ⊢
   intro a b

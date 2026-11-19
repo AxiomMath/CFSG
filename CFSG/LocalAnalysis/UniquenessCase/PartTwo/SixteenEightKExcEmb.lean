@@ -71,7 +71,7 @@ private theorem s16k_rho_injective {W : Type} [CommGroup W] [Finite W]
       intro h hh
       ext w
       exact mem_fixV.1 (hZtop ▸ Subgroup.mem_top w) h hh
-    haveI : Subsingleton ↥H := by rw [hHbot]; infer_instance
+    have : Subsingleton ↥H := by rw [hHbot]; infer_instance
     obtain ⟨x, y, hxy⟩ := (CFSG.ComponentClassification.Quasisimple.nontrivial hq).exists_pair_ne
     exact hxy (Subsingleton.elim x y)
   have hKcenter : ρH.ker ≤ Subgroup.center ↥H :=
@@ -264,7 +264,7 @@ private theorem s16k_quotData {W : Type} [CommGroup W] [Finite W]
   · intro hirr B hB
     have hIrr : IsIrrOn H ⊤ (fixV H) := by
       have h := hirr
-      simp only [irrSet, Set.mem_setOf_eq] at h
+      simp only [irrSet, Set.mem_ofPred_eq] at h
       rw [hcomm, top_inf_eq] at h
       exact h.2
     let J : Subgroup W := B.comap (QuotientGroup.mk' (fixV H))

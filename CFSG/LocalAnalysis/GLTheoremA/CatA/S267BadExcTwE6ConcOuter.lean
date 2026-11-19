@@ -70,7 +70,7 @@ theorem fieldActor_twE6R0 {δ : K ≃+* K} (c : Kˣ)
     apply Subtype.ext
     rw [Matrix.SpecialLinearGroup.map_apply_coe, RingHom.mapMatrix_apply]
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [compSL2] <;> simpa using hδc
+    fin_cases i <;> fin_cases j <;> simp [compSL2]; simpa using hδc
   apply Subtype.ext
   rw [coe_fieldActor, coe_twE6R0, CFSG.RankThree.Chevalley.entrywise_rootSL2_of_field, hA]
 
@@ -86,7 +86,6 @@ theorem fieldActor_twE6T (δ : K ≃+* K) :
 
 @[expose] def yTuple (u : Kˣ) : Fin 6 → Kˣ := ![u, u, u⁻¹, u⁻¹, 1, 1]
 
-include hK in
 theorem yTuple_mem (u : Kˣ) (hu : u ^ (ℓ ^ f + 1) = 1) :
     diagGL K 6 (yTuple u) ∈ SUid (unitaryInvolution K ℓ f) 6 := by
   have hσv : ∀ v : Kˣ, v ^ (ℓ ^ f + 1) = 1 → unitaryInvolution K ℓ f (v : K) * v = 1 := by
@@ -97,17 +96,17 @@ theorem yTuple_mem (u : Kˣ) (hu : u ^ (ℓ ^ f + 1) = 1) :
   · simp [yTuple, Fin.prod_univ_succ]
 
 @[expose] noncomputable def yLam (u : Kˣ) (hu : u ^ (ℓ ^ f + 1) = 1) : Su K ℓ f 6 :=
-  ⟨diagGL K 6 (yTuple u), yTuple_mem hK u hu⟩
+  ⟨diagGL K 6 (yTuple u), yTuple_mem u hu⟩
 
 theorem coe_yLam (u : Kˣ) (hu : u ^ (ℓ ^ f + 1) = 1) :
-    (((yLam hK u hu : Su K ℓ f 6) : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) =
+    (((yLam u hu : Su K ℓ f 6) : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) =
       diagonal fun i => (yTuple u i : K) :=
   rfl
 
 theorem suidMap_yLam {δ : K ≃+* K} (u : Kˣ) (hu : u ^ (ℓ ^ f + 1) = 1)
     (hu' : Units.map δ.toRingHom.toMonoidHom u ^ (ℓ ^ f + 1) = 1) :
-    suidMap (unitaryInvolution K ℓ f) 6 (ringEquiv_comm_of_finite _ δ) (yLam hK u hu) =
-      yLam hK (Units.map δ.toRingHom.toMonoidHom u) hu' := by
+    suidMap (unitaryInvolution K ℓ f) 6 (ringEquiv_comm_of_finite _ δ) (yLam u hu) =
+      yLam (Units.map δ.toRingHom.toMonoidHom u) hu' := by
   apply Subtype.ext
   apply Units.ext
   rw [coe_suidMap, coe_yLam, coe_yLam, diagonal_map (map_zero δ)]
@@ -115,12 +114,13 @@ theorem suidMap_yLam {δ : K ≃+* K} (u : Kˣ) (hu : u ^ (ℓ ^ f + 1) = 1)
   funext i
   fin_cases i <;> simp [yTuple]
 
+omit [Finite K] [Fact ℓ.Prime] [CharP K ℓ] in
 theorem map_pow_eq_one {δ : K ≃+* K} {u : Kˣ} (hu : u ^ (ℓ ^ f + 1) = 1) :
     Units.map δ.toRingHom.toMonoidHom u ^ (ℓ ^ f + 1) = 1 := by
   rw [← map_pow, hu, map_one]
 
 theorem coe_yLam_mul_inv (u u' : Kˣ) (hu : u ^ (ℓ ^ f + 1) = 1) (hu' : u' ^ (ℓ ^ f + 1) = 1) :
-    (((yLam hK u' hu' * (yLam hK u hu)⁻¹ : Su K ℓ f 6) : GL (Fin 6) K) :
+    (((yLam u' hu' * (yLam u hu)⁻¹ : Su K ℓ f 6) : GL (Fin 6) K) :
       Matrix (Fin 6) (Fin 6) K) = diagonal fun i => ((yTuple u' i * (yTuple u i)⁻¹ : Kˣ) : K) := by
   rw [Subgroup.coe_mul, Subgroup.coe_inv]
   change ((diagGL K 6 (yTuple u') * (diagGL K 6 (yTuple u))⁻¹ : GL (Fin 6) K) :
@@ -141,7 +141,7 @@ theorem commute_of_leviSU_commute_of_mem_blk01 {y h : Su K ℓ f 6}
   rw [mem_coordBlockSU_iff] at hmem
   have e55 := hmem 5 5 (Or.inl (by decide))
   rw [hμ] at e55
-  simp only [Matrix.smul_apply, Matrix.one_apply_eq, smul_eq_mul, mul_one, if_true] at e55
+  simp only [Matrix.smul_apply, Matrix.one_apply_eq, smul_eq_mul, mul_one, ite_true] at e55
   have h2 : y * h * y⁻¹ * h⁻¹ = 1 := by
     apply Subtype.ext
     apply Units.ext
@@ -165,7 +165,7 @@ theorem modelBGen_twistedE6_spec_of_inj (hℓ2 : ℓ ≠ 2) {p : ℕ} [Fact p.Pr
     {m : ℕ} (hm : 0 < m) {φ : (Fin m → Multiplicative (ZMod p)) →* Su K ℓ f 6}
     (hιφ : Function.Injective ((leviSU hK hf hζ hσζ P hP).comp φ))
     (hφδ : ∀ x, suidMap (unitaryInvolution K ℓ f) 6 (ringEquiv_comm_of_finite _ δ) (φ x) = φ x)
-    (hφy : ∀ x (u : Kˣ) (hu : u ^ (ℓ ^ f + 1) = 1), φ x * yLam hK u hu = yLam hK u hu * φ x)
+    (hφy : ∀ x (u : Kˣ) (hu : u ^ (ℓ ^ f + 1) = 1), φ x * yLam u hu = yLam u hu * φ x)
     {z₀ w₀ : Su K ℓ f 6}
     (hz₀δ : ∀ i j, δ (((z₀ : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) i j) =
       ((z₀ : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) i j)
@@ -279,20 +279,20 @@ theorem modelBGen_twistedE6_spec_of_inj (hℓ2 : ℓ ≠ 2) {p : ℕ} [Fact p.Pr
       intro u hu
       set u' := Units.map (δ ^ k).toRingHom.toMonoidHom u with hu'def
       have hu' : u' ^ (ℓ ^ (p * d) + 1) = 1 := map_pow_eq_one hu
-      have h1 := hfix (ι (yLam hK u hu)) (leviSU_mem_leviJ hK hf hζ hσζ P hP _)
-      rw [hnatk, suidMap_yLam hK u hu hu', ha, twE6Phi_apply] at h1
+      have h1 := hfix (ι (yLam u hu)) (leviSU_mem_leviJ hK hf hζ hσζ P hP _)
+      rw [hnatk, suidMap_yLam u hu hu', ha, twE6Phi_apply] at h1
       set g := φ (fun i : Fin m => x i.succ) with hg
       set n := (Multiplicative.toAdd (x 0)).val with hn
-      have h2 : ι g * ι (yLam hK u' hu') * (ι g)⁻¹ = ι (yLam hK u' hu') := by
+      have h2 : ι g * ι (yLam u' hu') * (ι g)⁻¹ = ι (yLam u' hu') := by
         rw [← map_mul, hφy, map_mul, mul_inv_cancel_right]
-      have hcomm := twE6R0_pow_commute c hct n (leviSU_mem_leviJ hK hf hζ hσζ P hP (yLam hK u' hu'))
-      have e : r₀ ^ n * ι g * ι (yLam hK u' hu') * (r₀ ^ n * ι g)⁻¹ = ι (yLam hK u' hu') := by
-        calc r₀ ^ n * ι g * ι (yLam hK u' hu') * (r₀ ^ n * ι g)⁻¹
-            = r₀ ^ n * (ι g * ι (yLam hK u' hu') * (ι g)⁻¹) * (r₀ ^ n)⁻¹ := by group
-          _ = r₀ ^ n * ι (yLam hK u' hu') * (r₀ ^ n)⁻¹ := by rw [h2]
-          _ = ι (yLam hK u' hu') := by rw [hcomm, mul_inv_cancel_right]
+      have hcomm := twE6R0_pow_commute c hct n (leviSU_mem_leviJ hK hf hζ hσζ P hP (yLam u' hu'))
+      have e : r₀ ^ n * ι g * ι (yLam u' hu') * (r₀ ^ n * ι g)⁻¹ = ι (yLam u' hu') := by
+        calc r₀ ^ n * ι g * ι (yLam u' hu') * (r₀ ^ n * ι g)⁻¹
+            = r₀ ^ n * (ι g * ι (yLam u' hu') * (ι g)⁻¹) * (r₀ ^ n)⁻¹ := by group
+          _ = r₀ ^ n * ι (yLam u' hu') * (r₀ ^ n)⁻¹ := by rw [h2]
+          _ = ι (yLam u' hu') := by rw [hcomm, mul_inv_cancel_right]
       rw [e] at h1
-      have h4 : ι (yLam hK u' hu' * (yLam hK u hu)⁻¹) = 1 := by
+      have h4 : ι (yLam u' hu' * (yLam u hu)⁻¹) = 1 := by
         rw [map_mul, map_inv, h1, mul_inv_cancel]
       obtain ⟨μ, hμ⟩ := exists_smul_of_leviSU_eq_one hK hf hζ hσζ P hP h4
       rw [coe_yLam_mul_inv] at hμ
@@ -413,7 +413,7 @@ theorem modelBGen_twistedE6_of_inj (hℓ2 : ℓ ≠ 2) {p : ℕ} [Fact p.Prime] 
     {m : ℕ} (hm : 0 < m) {φ : (Fin m → Multiplicative (ZMod p)) →* Su K ℓ f 6}
     (hιφ : Function.Injective ((leviSU hK hf hζ hσζ P hP).comp φ))
     (hφδ : ∀ x, suidMap (unitaryInvolution K ℓ f) 6 (ringEquiv_comm_of_finite _ δ) (φ x) = φ x)
-    (hφy : ∀ x (u : Kˣ) (hu : u ^ (ℓ ^ f + 1) = 1), φ x * yLam hK u hu = yLam hK u hu * φ x)
+    (hφy : ∀ x (u : Kˣ) (hu : u ^ (ℓ ^ f + 1) = 1), φ x * yLam u hu = yLam u hu * φ x)
     {z₀ w₀ : Su K ℓ f 6}
     (hz₀δ : ∀ i j, δ (((z₀ : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) i j) =
       ((z₀ : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) i j)
@@ -428,7 +428,7 @@ theorem modelBGen_twistedE6_of_inj (hℓ2 : ℓ ≠ 2) {p : ℕ} [Fact p.Prime] 
       hφδ hφy hz₀δ hw₀δ hz₀ hzw
   exact ⟨h1, h2, _, _, _, _, h3, h4, h5, h6, h7, h8, h9, h10, h11, h12, h13, h14, h15, h16, h17⟩
 
-include hf hζ hσζ hP in
+include hK hf hζ hσζ hP in
 theorem modelBGen_twistedE6 (hℓ2 : ℓ ≠ 2) {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2)
     (hcop : Nat.Coprime p (Nat.gcd 6 (ℓ ^ f + 1))) {d : ℕ} (hfd : f = p * d)
     {δ : K ≃+* K} (hδ : orderOf δ = p)
@@ -443,7 +443,7 @@ theorem modelBGen_twistedE6 (hℓ2 : ℓ ≠ 2) {p : ℕ} [Fact p.Prime] (hp2 : 
     {m : ℕ} (hm : 0 < m) {φ : (Fin m → Multiplicative (ZMod p)) →* Su K ℓ f 6}
     (hφ : Function.Injective φ)
     (hφδ : ∀ x, suidMap (unitaryInvolution K ℓ f) 6 (ringEquiv_comm_of_finite _ δ) (φ x) = φ x)
-    (hφy : ∀ x (u : Kˣ) (hu : u ^ (ℓ ^ f + 1) = 1), φ x * yLam hK u hu = yLam hK u hu * φ x)
+    (hφy : ∀ x (u : Kˣ) (hu : u ^ (ℓ ^ f + 1) = 1), φ x * yLam u hu = yLam u hu * φ x)
     {z₀ w₀ : Su (fixSubfield δ) ℓ d 6} (hz₀ : z₀ ^ p = 1) (hzw : z₀ * w₀ ≠ w₀ * z₀) :
     ModelBGen p (m + 1) ↥(twistedE6RootGroup K (unitaryInvolution K ℓ f))
       (fieldActor (unitaryInvolution K ℓ f) δ) := by
@@ -468,7 +468,7 @@ theorem exists_eq_mul_of_orderOf (hK : Nat.card K = (ℓ ^ f) ^ 2) {p : ℕ} (hp
     (hp2 : p ≠ 2) {ε : K ≃+* K} (hε : orderOf ε = p) : ∃ d, f = p * d := by
   have hc := CFSG.RankThree.PartTwo.KFacts.card_fixSubfield_pow ε
   rw [hε, hK] at hc
-  haveI : Fintype (fixSubfield ε) := Fintype.ofFinite _
+  have : Fintype (fixSubfield ε) := Fintype.ofFinite _
   obtain ⟨k, -, hk⟩ := FiniteField.card (fixSubfield ε) ℓ
   rw [Nat.card_eq_fintype_card, hk, ← pow_mul, ← pow_mul] at hc
   have h := Nat.pow_right_injective (Fact.out : ℓ.Prime).two_le hc
@@ -479,7 +479,7 @@ theorem exists_eq_mul_of_orderOf (hK : Nat.card K = (ℓ ^ f) ^ 2) {p : ℕ} (hp
 
 theorem dvd_sub_one_of_dvd_pow_sub_one {p a : ℕ} (hp : p.Prime) (ha : 1 ≤ a)
     (h : p ∣ a ^ p - 1) : p ∣ a - 1 := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   rw [← ZMod.natCast_eq_zero_iff] at h ⊢
   rw [Nat.cast_sub (Nat.one_le_pow _ _ ha), Nat.cast_pow, ZMod.pow_card, Nat.cast_one] at h
   rw [Nat.cast_sub ha, Nat.cast_one]
@@ -487,16 +487,16 @@ theorem dvd_sub_one_of_dvd_pow_sub_one {p a : ℕ} (hp : p.Prime) (ha : 1 ≤ a)
 
 theorem dvd_add_one_of_dvd_pow_add_one {p a : ℕ} (hp : p.Prime) (h : p ∣ a ^ p + 1) :
     p ∣ a + 1 := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   rw [← ZMod.natCast_eq_zero_iff] at h ⊢
   rw [Nat.cast_add, Nat.cast_pow, ZMod.pow_card] at h
   rw [Nat.cast_add]
   exact h
 
-theorem commute_yLam_of_mem_coordBlockSU (hK : Nat.card K = (ℓ ^ f) ^ 2) {J : Finset (Fin 6)}
+theorem commute_yLam_of_mem_coordBlockSU {J : Finset (Fin 6)}
     {g : Su K ℓ f 6} (hg : g ∈ coordBlockSU K ℓ f J) {u : Kˣ} (hu : u ^ (ℓ ^ f + 1) = 1)
     (hv : ∀ i ∈ J, ∀ j ∈ J, (yTuple u i : K) = yTuple u j) :
-    g * yLam hK u hu = yLam hK u hu * g := by
+    g * yLam u hu = yLam u hu * g := by
   apply Subtype.ext
   apply Units.ext
   show ((g : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) * diagonal (fun i => (yTuple u i : K)) =
@@ -522,7 +522,7 @@ theorem modelBGen_twistedE6_of_dvd_sub_one (hK : Nat.card K = (ℓ ^ f) ^ 2) (hf
     ModelBGen p 4 ↥(twistedE6RootGroup K (unitaryInvolution K ℓ f))
       (fieldActor (unitaryInvolution K ℓ f) ε) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨d, rfl⟩ := exists_eq_mul_of_orderOf hK hp hp2 hε
   have hQ1 : 1 ≤ ℓ ^ (p * d) := Nat.one_le_pow _ _ (Fact.out : ℓ.Prime).pos
   have hpQ2 : p ∣ (ℓ ^ (p * d)) ^ 2 - 1 := hpQ.trans (Nat.sub_one_dvd_pow_sub_one _ 2)
@@ -562,22 +562,22 @@ theorem modelBGen_twistedE6_of_dvd_sub_one (hK : Nat.card K = (ℓ ^ f) ^ 2) (hf
   have hφε : ∀ x, suidMap (unitaryInvolution K ℓ (p * d)) 6 (ringEquiv_comm_of_finite _ ε)
       (φ x) = φ x := fun x => suidMap_suidSub hp hp2 hK hε _
   have hφy : ∀ x (u : Kˣ) (hu : u ^ (ℓ ^ (p * d) + 1) = 1),
-      φ x * yLam hK u hu = yLam hK u hu * φ x := by
+      φ x * yLam u hu = yLam u hu * φ x := by
     intro x u hu
     rw [hφ, MonoidHom.comp_apply, blockTripleHom_apply, map_mul, map_mul]
-    have h01 := commute_yLam_of_mem_coordBlockSU hK
+    have h01 := commute_yLam_of_mem_coordBlockSU
       (suidSub_mem_coordBlockSU hp hp2 hK hε (pairBlock_mem blk01 card_blk01
         (powHom M₂ hM₂ (x 0)))) hu (by
           intro i hi j hj
           simp only [Finset.mem_insert, Finset.mem_singleton] at hi hj
           rcases hi with rfl | rfl <;> rcases hj with rfl | rfl <;> rfl)
-    have h23 := commute_yLam_of_mem_coordBlockSU hK
+    have h23 := commute_yLam_of_mem_coordBlockSU
       (suidSub_mem_coordBlockSU hp hp2 hK hε (pairBlock_mem blk23 card_blk23
         (powHom M₂ hM₂ (x 1)))) hu (by
           intro i hi j hj
           simp only [Finset.mem_insert, Finset.mem_singleton] at hi hj
           rcases hi with rfl | rfl <;> rcases hj with rfl | rfl <;> rfl)
-    have h45 := commute_yLam_of_mem_coordBlockSU hK
+    have h45 := commute_yLam_of_mem_coordBlockSU
       (suidSub_mem_coordBlockSU hp hp2 hK hε (pairBlock_mem blk45 card_blk45
         (powHom M₂ hM₂ (x 2)))) hu (by
           intro i hi j hj
@@ -596,7 +596,7 @@ theorem modelBGen_twistedE6_of_dvd_add_one (hK : Nat.card K = (ℓ ^ f) ^ 2) (hf
     ModelBGen p 6 ↥(twistedE6RootGroup K (unitaryInvolution K ℓ f))
       (fieldActor (unitaryInvolution K ℓ f) ε) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   obtain ⟨d, rfl⟩ := exists_eq_mul_of_orderOf hK hp hp2 hε
   have hQ1 : 1 ≤ ℓ ^ (p * d) := Nat.one_le_pow _ _ (Fact.out : ℓ.Prime).pos
@@ -639,7 +639,7 @@ theorem modelBGen_twistedE6_of_dvd_add_one (hK : Nat.card K = (ℓ ^ f) ^ 2) (hf
     rw [map_add, unitaryInvolution_apply, unitaryInvolution_apply, hcQ, hcQ', add_comm]
   have hεct : ε ((c : K) + ((c⁻¹ : Kˣ) : K)) = (c : K) + ((c⁻¹ : Kˣ) : K) := by
     rw [map_add, Units.val_inv_eq_inv_val, map_inv₀, hεc]
-  haveI : Finite (fixSubfield ε) := Subtype.finite
+  have : Finite (fixSubfield ε) := Subtype.finite
   obtain ⟨c₀, hc₀⟩ := CFSG.StandardType.TableBSymp.exists_orderOf_eq_of_dvd (K := fixSubfield ε)
     (p := p) (by rw [hF]; exact hpF)
   set S₀ := suidSub hp hp2 hK hε 6 with hS₀
@@ -649,7 +649,7 @@ theorem modelBGen_twistedE6_of_dvd_add_one (hK : Nat.card K = (ℓ ^ f) ^ 2) (hf
   have hφε : ∀ x, suidMap (unitaryInvolution K ℓ (p * d)) 6 (ringEquiv_comm_of_finite _ ε)
       (φ x) = φ x := fun x => suidMap_suidSub hp hp2 hK hε _
   have hφy : ∀ x (u : Kˣ) (hu : u ^ (ℓ ^ (p * d) + 1) = 1),
-      φ x * yLam hK u hu = yLam hK u hu * φ x := by
+      φ x * yLam u hu = yLam u hu * φ x := by
     intro x u hu
     apply Subtype.ext
     apply Units.ext

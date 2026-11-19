@@ -16,7 +16,7 @@ public import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
 public import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
 public import Mathlib.Combinatorics.Enumerative.DyckWord
 public import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.Data.NNRat.Floor
 public import Mathlib.Data.Nat.Choose.Multinomial
 public import Mathlib.Geometry.Euclidean.Volume.Basic
@@ -63,7 +63,7 @@ open CFSG.RankThree.Literature.FSmith (conjEndo conjEndo_apply exists_ofMul_of
 private theorem exists_orderOf_mul_two_eq_card {R : Type*} [Group R] [Finite R] (hR : IsPGroup 2 R)
     {z : R} (hzz : z * z = 1) (hz1 : z ≠ 1) (hC : Nat.card (centralizer ({z} : Set R)) ≤ 4)
     (h8 : 8 ≤ Nat.card R) : ∃ a : R, orderOf a * 2 = Nat.card R := by
-  haveI : Finite (Shrink.{0} R) := Finite.of_equiv R (equivShrink.{0} R)
+  have : Finite (Shrink.{0} R) := Finite.of_equiv R (equivShrink.{0} R)
   let e : Shrink.{0} R ≃* R := Shrink.mulEquiv
   have hcard : Nat.card (Shrink.{0} R) = Nat.card R := Nat.card_congr e.toEquiv
   have hC' : Nat.card (centralizer ({e.symm z} : Set (Shrink.{0} R))) ≤ 4 := by
@@ -141,9 +141,9 @@ private theorem pow_four_mem_of_extraspecial {H : Type*} [Group H] [Finite H] (h
     {Q : Subgroup H} (hQn : Q.Normal) (hQ : IsExtraspecialPGroup 2 Q) (hcard : Nat.card Q = 32)
     (hCQ : centralizer (Q : Set H) ≤ Q) (g : H) : g ^ 4 ∈ Q := by
   classical
-  letI : Module (ZMod 2) (Additive (Abelianization Q)) :=
+  let : Module (ZMod 2) (Additive (Abelianization Q)) :=
     AddCommGroup.zmodModule (two_nsmul_eq_zero_of_extraspecial hQ)
-  haveI : Finite (Abelianization Q) := Quotient.finite _
+  have : Finite (Abelianization Q) := Quotient.finite _
   have hfin : Module.Finite (ZMod 2) (Additive (Abelianization Q)) := Module.Finite.of_finite
   have hcardV : Nat.card (Additive (Abelianization Q)) = 16 := by
     have h1 : Nat.card Q = Nat.card (Abelianization Q) * Nat.card (commutator Q) :=
@@ -241,7 +241,7 @@ theorem pow_four_mem {T O : Subgroup G} (hOT : O ≤ T) (hT : IsPGroup 2 T)
       have htop : center O = ⊤ := eq_top_iff.2 fun x _ => mem_center_iff.2 fun y => hnc y x
       rw [htop, Subgroup.card_top, hcard] at hcenterCard
       omega
-  haveI hQn : (O.subgroupOf T).Normal :=
+  have hQn : (O.subgroupOf T).Normal :=
     (normal_subgroupOf_iff hOT).2 fun n m hn hm => hOn m hm n hn
   have hQext : IsExtraspecialPGroup 2 (O.subgroupOf T) :=
     CFSG.RankThree.PartOne.Torsion37.isExtraspecialPGroup_of_mulEquiv
@@ -264,7 +264,7 @@ theorem card_le_of_pow_four_mem {T O S : Subgroup G} (hOS : O ≤ S) (hST : S �
     (hcent : ∀ t ∈ T, t * q * t⁻¹ * q⁻¹ ∈ O → t ∈ S) (hexp : ∀ t ∈ T, t ^ 4 ∈ O) :
     Nat.card T ≤ 8 * Nat.card O := by
   have hOT : O ≤ T := hOS.trans hST
-  haveI : (O.subgroupOf T).Normal :=
+  have : (O.subgroupOf T).Normal :=
     (normal_subgroupOf_iff hOT).2 fun n m hn hm => hOn m hm n hn
   have hOcard : Nat.card (O.subgroupOf T) = Nat.card O :=
     Nat.card_congr (subgroupOfEquivOfLe hOT).toEquiv

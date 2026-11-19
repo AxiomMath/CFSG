@@ -72,7 +72,7 @@ theorem r923_holds
   intro L hL hLM hLN hA5 hUM hSyl X hX hXL hcov hZ
   by_cases hM : IsStronglyPEmbedded 3 D.M
   · exact r923K1_holds hG3 hSch hKF D h92 hE3
-      (by unfold Data.k CFSG.LocalAnalysis.RankThreeUC.kParam; rw [if_pos hM])
+      (by unfold Data.k CFSG.LocalAnalysis.RankThreeUC.kParam; rw [ite_eq_left hM])
       L hL hLM hLN hA5 hUM X hX hXL hcov hZ
   have := D.standing.simple
   have h3 : CFSG.Open.pRank 3 D.M ≤ 3 := by

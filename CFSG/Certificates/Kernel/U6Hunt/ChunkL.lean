@@ -49,9 +49,9 @@ theorem ap5_pc22 (p q i : Nat) :
     ap5 (pc22 p q) i = if i < 22 then ap5 p (ap5 q i) else 0 := by
   rw [pc22_eq]
   by_cases hi : i < 22
-  · rw [if_pos hi, ap5_pg, ap5_pg, ap5_pg]
+  · rw [ite_eq_left hi, ap5_pg, ap5_pg, ap5_pg]
     exact CFSG.KS.PF.pg_pcomp (n := 22) (by decide) hi
-  · rw [if_neg hi]
+  · rw [ite_eq_right hi]
     exact ap5_big (CFSG.KS.PK.pcomp_lt (n := 22) (by decide) 5 p q) hi
 
 theorem apF_eq (p q i : Nat) : apF p q i = ap5 (pc22 p q) i := by
@@ -59,7 +59,7 @@ theorem apF_eq (p q i : Nat) : apF p q i = ap5 (pc22 p q) i := by
   unfold apF
   by_cases hi : i < 22
   · have hb : Nat.blt i (nat_lit 22) = true := Nat.ble_eq_true_of_le hi
-    rw [hb, if_pos hi]
+    rw [hb, ite_eq_left hi]
     change Nat.land (Nat.shiftRight p (Nat.mul (nat_lit 5)
       (Nat.land (Nat.shiftRight q (Nat.mul (nat_lit 5) i)) (nat_lit 31)))) (nat_lit 31) = _
     rw [fld5, fld5]
@@ -67,21 +67,21 @@ theorem apF_eq (p q i : Nat) : apF p q i = ap5 (pc22 p q) i := by
       rw [Bool.eq_false_iff]
       intro h'
       exact hi (Nat.le_of_ble_eq_true h')
-    rw [hb, if_neg hi]
+    rw [hb, ite_eq_right hi]
 
 theorem ap3_eq (y d t i : Nat) : ap3 y d t i = ap5 (pc22 (pc22 y d) t) i := by
   rw [ap5_pc22]
   unfold ap3
   by_cases hi : i < 22
   · have hb : Nat.blt i (nat_lit 22) = true := Nat.ble_eq_true_of_le hi
-    rw [hb, if_pos hi]
+    rw [hb, ite_eq_left hi]
     change apF y d (Nat.land (Nat.shiftRight t (Nat.mul (nat_lit 5) i)) (nat_lit 31)) = _
     rw [fld5, apF_eq]
   · have hb : Nat.blt i (nat_lit 22) = false := by
       rw [Bool.eq_false_iff]
       intro h'
       exact hi (Nat.le_of_ble_eq_true h')
-    rw [hb, if_neg hi]
+    rw [hb, ite_eq_right hi]
 
 theorem chunkL_eq (R8 R0 RY : Nat) (L8 L0 LY : List Nat) (TR : Nat → Nat) (o a : Nat) :
     chunkL R8 R0 RY L8 L0 LY TR o a = chunkK R8 R0 RY L8 L0 LY TR o a := by

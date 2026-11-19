@@ -111,7 +111,7 @@ theorem slA_toList (T : Tabs P pl LT rb PL lf) (G : Geom rb PL lf) {x y : Nat} (
     (hy : y < 693) (hxy : x < y) (hr : rb x y = true) :
     (slA LT x y).toList = (Ln rb x y).sort (· ≤ ·) := by
   have hLT := T.LT_get x hx y hy
-  rw [if_pos hr] at hLT
+  rw [ite_eq_left hr] at hLT
   unfold slA
   have e : (lf x y).toFinset = Ln rb x y := by
     ext z

@@ -48,14 +48,16 @@ open CFSG.ClassicalGroups.Orthogonal (eichler eichler_mul eichler_add_smul_self
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type} [AddCommGroup V] [Module F V]
   [FiniteDimensional F V] {Q : QuadraticForm F V} {p : ℕ}
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem aeval_mul_conj (k x : V ≃ₗ[F] V) (q : F[X]) :
     aeval ((k * x * k⁻¹).toLinearMap) q = (k.conjAlgEquiv F) (aeval x.toLinearMap q) := by
   have hconj : ((k * x * k⁻¹).toLinearMap) = (k.conjAlgEquiv F) x.toLinearMap := by
     ext v
-    simp [LinearEquiv.conjAlgEquiv_apply, LinearEquiv.mul_apply]
+    simp [LinearEquiv.conjAlgEquiv_apply]
   rw [hconj]
   exact Polynomial.aeval_algHom_apply (k.conjAlgEquiv F) x.toLinearMap q
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem primaryComponent_mul_conj (x k : V ≃ₗ[F] V) (h : F[X]) :
     primaryComponent ((k * x * k⁻¹).toLinearMap) h =
       (primaryComponent x.toLinearMap h).map (k : V →ₗ[F] V) := by
@@ -83,14 +85,16 @@ theorem primaryComponent_mul_conj (x k : V ≃ₗ[F] V) (h : F[X]) :
     change ((aeval ((k * x * k⁻¹).toLinearMap)) h) ((k : V ≃ₗ[F] V) w) = 0
     rw [h2, hw, map_zero]
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem primaryFactors_mul_conj (x k : V ≃ₗ[F] V) :
     primaryFactors ((k * x * k⁻¹).toLinearMap) = primaryFactors x.toLinearMap := by
   have hconj : ((k * x * k⁻¹).toLinearMap) = (k.conjAlgEquiv F) x.toLinearMap := by
     ext v
-    simp [LinearEquiv.conjAlgEquiv_apply, LinearEquiv.mul_apply]
+    simp [LinearEquiv.conjAlgEquiv_apply]
   unfold primaryFactors
   rw [hconj, minpoly.algEquiv_eq]
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem othersSpace_mul_conj (x k : V ≃ₗ[F] V) (h : F[X]) :
     othersSpace ((k * x * k⁻¹).toLinearMap) h =
       (othersSpace x.toLinearMap h).map (k : V →ₗ[F] V) := by
@@ -100,6 +104,7 @@ theorem othersSpace_mul_conj (x k : V ≃ₗ[F] V) (h : F[X]) :
   rw [Submodule.map_iSup]
   exact iSup_congr fun _ => primaryComponent_mul_conj x k a
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem supportedBlock_mul_conj (x k : V ≃ₗ[F] V)
     (hk : k ∈ TauCeti.QuadraticMap.orthogonalGroup Q) (h : F[X]) :
     supportedBlock Q (k * x * k⁻¹) h =
@@ -163,6 +168,7 @@ theorem supportedBlock_mul_conj (x k : V ≃ₗ[F] V)
       calc (k * s * k⁻¹) (k r₀) = k (s r₀) := by simp [LinearEquiv.mul_apply]
         _ = k r₀ := by rw [hsfix r₀ hr₀]
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem oddOrderIsometry_mul_conj {y k : V ≃ₗ[F] V} (hy : OddOrderIsometry Q p y)
     (hk : k ∈ TauCeti.QuadraticMap.orthogonalGroup Q) :
     OddOrderIsometry Q p (k * y * k⁻¹) where
@@ -182,6 +188,7 @@ theorem oddOrderIsometry_mul_conj {y k : V ≃ₗ[F] V} (hy : OddOrderIsometry Q
   cast_ne_zero := hy.cast_ne_zero
   regular := hy.regular
 
+omit [Finite F] [CharP F 2] in
 theorem supportedFixedDerived_conj {y g : V ≃ₗ[F] V} (hy : OddOrderIsometry Q p y)
     (hg : g ∈ TauCeti.QuadraticMap.orthogonalGroup Q) :
     supportedFixedDerived Q (g * y * g⁻¹) =
@@ -190,6 +197,7 @@ theorem supportedFixedDerived_conj {y g : V ≃ₗ[F] V} (hy : OddOrderIsometry 
   rw [hy'.supportedFixedDerived_eq, hy.supportedFixedDerived_eq,
     supportedBlock_mul_conj y g hg (X - 1), Subgroup.map_commutator]
 
+omit [Finite F] [FiniteDimensional F V] in
 theorem oddOrderIsometry_of_orthDerived_pow_eq_one (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
     (hp : p.Prime) (hp2 : p ≠ 2) {y : ↥(orthDerived Q)} (hy : y ^ p = 1) :
     OddOrderIsometry Q p (y : V ≃ₗ[F] V) where
@@ -205,6 +213,7 @@ theorem oddOrderIsometry_of_orthDerived_pow_eq_one (hQ : (QuadraticMap.polarBili
     rw [QuadraticMap.polarBilin_apply_apply]
     exact hv w
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem eq_zero_of_quad_eq_zero_of_not_isPlusType {W : Submodule F V}
     (hW : Module.finrank F W = 2) (h : ¬ IsPlusType (Q.comp W.subtype))
     {v : V} (hv : v ∈ W) (hQv : Q v = 0) : v = 0 := by
@@ -221,6 +230,7 @@ theorem eq_zero_of_quad_eq_zero_of_not_isPlusType {W : Submodule F V}
     rfl
   rwa [heq] at h'
 
+omit [Finite F] [CharP F 2] in
 theorem span_pair_eq_of_finrank_eq_two {W : Submodule F V} {f f' : V}
     (hf : f ∈ W) (hf' : f' ∈ W) (hfQ : Q f = 0) (hf'Q : Q f' = 0)
     (hff' : polar Q f f' = 1) (hW : Module.finrank F W = 2) :
@@ -251,6 +261,7 @@ theorem span_pair_eq_of_finrank_eq_two {W : Submodule F V} {f f' : V}
     Submodule.eq_of_le_of_finrank_eq hle (by rw [hcard, hW])
   rw [heq]
 
+omit [Finite F] [CharP F 2] in
 theorem extU_mem_orthogonalGroup {U : Submodule F V} (hU : PolarNondegOn Q U)
     {φ : U ≃ₗ[F] U}
     (hφ : φ ∈ TauCeti.QuadraticMap.orthogonalGroup (Q.restrict U)) :
@@ -274,6 +285,7 @@ theorem extU_mem_orthogonalGroup {U : Submodule F V} (hU : PolarNondegOn Q U)
     CFSG.LieType.SeitzGeneration.OrthBlk.mem_perp.mp hr u hu
   rw [QuadraticMap.map_add Q, QuadraticMap.map_add Q, hφu, horth1, horth2]
 
+omit [Finite F] [CharP F 2] in
 theorem extU_commute_of_fixes {U : Submodule F V} (hU : PolarNondegOn Q U)
     {g : V ≃ₗ[F] V} (hg : g ∈ TauCeti.QuadraticMap.orthogonalGroup Q)
     (hgU : ∀ u ∈ U, g u = u) (φ : U ≃ₗ[F] U) :

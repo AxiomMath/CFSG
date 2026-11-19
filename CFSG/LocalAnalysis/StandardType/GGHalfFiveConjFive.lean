@@ -81,7 +81,7 @@ include h
 
 theorem conj_eq_five :
     K.map (MulAut.conj (gElt φ₁)).toMonoidHom = L.map (MulAut.conj (hElt φ₂)).toMonoidHom := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let k : Fin 3 := ⟨2, by omega⟩
   let S : Subgroup (SpecialLinearGroup (Fin 4) F2) := slOn 4 {j : Fin 4 | 2 ≤ j.val}
   let f : SpecialLinearGroup (Fin 4) F2 →* G := φ₁.comp (slLower2Hom 3)

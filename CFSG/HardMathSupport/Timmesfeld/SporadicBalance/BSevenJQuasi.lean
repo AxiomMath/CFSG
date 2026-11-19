@@ -91,7 +91,7 @@ theorem quasisimple_closure_of_cover {G : Type} [Group G]
   have hN_le_center : N ≤ Subgroup.center ↥J := by
     rw [hNdef]
     exact Subgroup.zpowers_le.mpr ha'center
-  haveI hN_normal : N.Normal := Subgroup.normal_of_le_center hN_le_center
+  have hN_normal : N.Normal := Subgroup.normal_of_le_center hN_le_center
   have hN_eq : (Subgroup.zpowers a).subgroupOf J = N := by
     ext x
     rw [Subgroup.mem_subgroupOf, hNdef, Subgroup.mem_zpowers_iff, Subgroup.mem_zpowers_iff]
@@ -107,7 +107,7 @@ theorem quasisimple_closure_of_cover {G : Type} [Group G]
       simpa [Subgroup.coe_zpow] using hk'
   have ha2' : a ^ 2 = 1 := by rw [pow_two]; exact ha2
   have horder : orderOf a = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 2) := ⟨by norm_num⟩
     exact orderOf_eq_prime ha2' ha1
   have hcardN : Nat.card N = 2 := by
     rw [hNdef, Nat.card_zpowers, ha'def, Subgroup.orderOf_mk, horder]
@@ -170,7 +170,7 @@ theorem quasisimple_closure_of_cover {G : Type} [Group G]
     CFSG.Open.StatedAPI.card_of_statedClassicalModel_psl_three_four hPSLQ
   have hsimpleQ : IsSimpleGroup (↥J ⧸ N) :=
     (CFSG.LieType.Simplicity.fam_PSL_simplicity (↥J ⧸ N) 3 2 2 hPSLQ).2
-  haveI : IsSimpleGroup (↥J ⧸ N) := hsimpleQ
+  have : IsSimpleGroup (↥J ⧸ N) := hsimpleQ
   have hcenterQ : Subgroup.center (↥J ⧸ N) = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center (↥J ⧸ N)) with hc | hc
     · exact hc

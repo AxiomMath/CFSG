@@ -58,7 +58,7 @@ theorem exists_sylow_le_of_glbStronglyEmbedded {N₀ : Subgroup N} (h : GLBStron
   have hQP : (Q : Subgroup N) = P := by
     by_contra hne
     obtain ⟨x, hxQ, hxN, hxP⟩ :=
-      exists_mem_normalizer_not_mem Q.isPGroup' hPQ (Ne.symm hne)
+      exists_mem_normalizer_not_mem Q.isPGroup hPQ (Ne.symm hne)
     have hxN₀ : x ∈ N₀ :=
       normalizer_le_of_glbStronglyEmbedded h hPN₀ hPpg hPne hxN
     have hQcard : Nat.card (Q : Subgroup N) = p ^ (Nat.card N).factorization p :=
@@ -147,7 +147,7 @@ theorem sup_eq_top_of_normal {N₀ X : Subgroup N} (h : GLBStronglyEmbedded p N�
     intro x hx
     obtain ⟨y, hy, rfl⟩ := Subgroup.mem_map.mp hx
     exact Subgroup.mem_subgroupOf.mp (hQ hy)
-  have hSpg : IsPGroup p ((Q : Subgroup X).map X.subtype) := Q.isPGroup'.map X.subtype
+  have hSpg : IsPGroup p ((Q : Subgroup X).map X.subtype) := Q.isPGroup.map X.subtype
   have hScard : Nat.card ((Q : Subgroup X).map X.subtype) = Nat.card (Q : Subgroup X) :=
     Subgroup.card_map_of_injective X.subtype_injective
   have hSne : (Q : Subgroup X).map X.subtype ≠ ⊥ := by

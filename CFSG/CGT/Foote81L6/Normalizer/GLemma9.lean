@@ -38,6 +38,7 @@ variable {G : Type*} [Group G] [Finite G] {T : Sylow 2 G} {n : ℕ}
   [IsMulCommutative ↥F]
 
 include hF in
+omit [Finite G] hF in
 theorem card_fixV_eq (u : ↥(normalizer (F : Set G))) :
     Nat.card ↥(fixV (zpowers (NBar.ρ F (NBar.π F u)))) =
       Nat.card ↥(F ⊓ centralizer ({(u : G)} : Set G)) := by
@@ -65,11 +66,12 @@ variable {d₀ d₁ : G}
 
 include hF hd₀F hd₁F
 
+omit [Finite G] in
 theorem sixteen_le_card_fix {y : NBar.Q F}
     (hy : ∀ w : ↥F, NBar.ρ F (NBar.π F ⟨d₀, D.mem_normalizer_of_mem_R₀ hF hd₀⟩) w = w →
       NBar.ρ F (NBar.π F ⟨d₁, D.mem_normalizer_of_mem_R₁ hF hd₁⟩) w = w → NBar.ρ F y w = w)
     (g : NBar.Q F) : 16 ≤ Nat.card ↥(fixV (zpowers (NBar.ρ F (g * y * g⁻¹)))) := by
-  haveI := hF.finite
+  have := hF.finite
   set W := fixV (zpowers (NBar.ρ F (NBar.π F ⟨d₀, D.mem_normalizer_of_mem_R₀ hF hd₀⟩))) ⊓
     fixV (zpowers (NBar.ρ F (NBar.π F ⟨d₁, D.mem_normalizer_of_mem_R₁ hF hd₁⟩))) with hW
   have hcard : Nat.card W = 16 := card_fix_d₀_d₁ D hF hd₀ hd₀F hd₁ hd₁F
@@ -91,6 +93,7 @@ variable {m : ℕ} [NeZero m] (hm : m = 4 ∨ m = 5) {φ : NBar.Q F →* Perm (F
   (hO : pPrimeCore 2 (NBar.Q F) = ⊥)
 
 include hm hφ hO in
+omit [Finite G] in
 theorem not_isFree_involution {t' : G} (ht' : t' ∈ (T : Subgroup G) ⊓ normalizer (F : Set G))
     (ht'2 : t' * t' = 1) (ht'0 : t' ∉ D.T₀) : False := by
   set t'N : ↥(normalizer (F : Set G)) := ⟨t', (mem_inf.1 ht').2⟩
@@ -98,7 +101,7 @@ theorem not_isFree_involution {t' : G} (ht' : t' ∈ (T : Subgroup G) ⊓ normal
     rw [← MonoidHom.ker_eq_bot_iff, hφ.ker_eq, hO]
   have ht'F : t' ∉ F := fun h => ht'0 (D.T₁_le_T₀ (D.le_T₁_of_isE64 hF h))
   have h8 : Nat.card ↥(fixV (zpowers (NBar.ρ F (NBar.π F t'N)))) = 8 := by
-    rw [card_fixV_eq hF]
+    rw [card_fixV_eq]
     exact D.card_centralizer_E64_of_not_mem_T₀ rfl hF (mem_inf.1 ht').1 (mem_inf.1 ht').2 ht'0
       ht'2
   have hsq : φ (NBar.π F t'N) * φ (NBar.π F t'N) = 1 := by
@@ -127,6 +130,7 @@ theorem not_isFree_involution {t' : G} (ht' : t' ∈ (T : Subgroup G) ⊓ normal
     omega
 
 include hm hφ hO in
+omit [Finite G] in
 theorem mem_T₀_of_isSymDirect {x : G} (hx : x ∈ (T : Subgroup G) ⊓ normalizer (F : Set G)) :
     x ∈ D.T₀ := by
   by_contra hx0
@@ -140,6 +144,7 @@ theorem mem_T₀_of_isSymDirect {x : G} (hx : x ∈ (T : Subgroup G) ⊓ normali
     exact mul_mem (inv_mem (D.T₁_le_T₀ ht't)) h
 
 include hm hφ hO in
+omit [Finite G] in
 theorem ne_map_Frep01 :
     ∀ h ∈ (T : Subgroup G), F ≠ (D.Frep 0 1).map (MulAut.conj h).toMonoidHom := by
   intro h hh hFh

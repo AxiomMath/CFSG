@@ -39,13 +39,13 @@ theorem innerRecog_of_range {p : ℕ} {Y G : Type} [Group Y] [Group G] (hY : Lie
       rw [MonoidHom.mem_ker]
       exact congrArg Subtype.val hy)
 
-theorem innerRecog_of_sp3 {p f : ℕ} (hp : p.Prime) (hf : 0 < f) {K : Type} [Field K] [Finite K]
+theorem innerRecog_of_sp3 {p f : ℕ} (hp : p.Prime) (_hf : 0 < f) {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = p ^ f) {G : Type} [Group G] (Ψ : StatedSp 3 K →* G)
     (hker : Ψ.ker ≤ Subgroup.center (StatedSp 3 K)) {H : Subgroup G} (hrange : Ψ.range = H) :
     InnerRecog p ↥H := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hch : ringChar K = p := by
-    haveI : CharP K (ringChar K) := ringChar.charP K
+    have : CharP K (ringChar K) := ringChar.charP K
     obtain ⟨n, hq, hcard⟩ := FiniteField.card K (ringChar K)
     have hd : ringChar K ∣ p ^ f := by
       rw [← hK, Nat.card_eq_fintype_card, hcard]
@@ -310,10 +310,10 @@ theorem innerRecog_f4_levi {J : Set (Fin (Tag.rank .F4))} (hJ : J = f4LeviB3 ∨
     InnerRecog p ↥(subsystemGroup .F4 K J) := by
   by_cases hp2 : p = 2
   · subst hp2
-    haveI : CharP K 2 := by
+    have : CharP K 2 := by
       have := ringChar_eq_of_natCard_eq_pow hp hK hf
       rw [← this]
-      haveI : Fintype K := Fintype.ofFinite K
+      have : Fintype K := Fintype.ofFinite K
       exact ringChar.charP K
     rcases hJ with rfl | rfl
     · exact innerRecog_f4_B3_even hf hK hK4

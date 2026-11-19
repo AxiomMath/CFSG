@@ -40,7 +40,7 @@ private theorem e16k_zOf_vec_eq {n : ℕ} (α : Finset (Fin n)) (h : α.card = 4
 
 private theorem e16k_mul_vec {n : ℕ} {a b : AE.Wr n} (ha : a.perm = 1) (i : Fin n) :
     (a * b).vec i = a.vec i + b.vec i := by
-  rw [AE.Wr.mul_vec, ha] <;> rfl
+  rw [AE.Wr.mul_vec, ha]; rfl
 
 private theorem e16k_zOf_sq {n : ℕ} (ι : Fin 4 ↪ Fin n) : AE.zOf ι * AE.zOf ι = 1 := by
   have h := mul_inv_cancel (AE.zOf ι)
@@ -59,11 +59,13 @@ private theorem e16k_zOf_prod (h₁ : ({2, 3, 4, 5} : Finset (Fin 6)).card = 4)
     exact e16k_key i
   · simp [AE.Wr.mul_perm, AE.zOf_perm, AE.Wr.allOnes]
 
+omit [Finite G] in
 private theorem e16k_mem_normalizer {e : G} {L : Subgroup G}
     (hL : L ≤ Subgroup.centralizer ({e} : Set G)) : e ∈ Subgroup.normalizer (L : Set G) :=
-  Subgroup.centralizer_le_normalizer _ (Subgroup.mem_centralizer_iff.mpr fun l hl =>
+  Subgroup.centralizer_le_normalizer _ (Subgroup.mem_centralizer_iff.mpr fun _l hl =>
     (Subgroup.mem_centralizer_iff.mp (hL hl) e (Set.mem_singleton e)).symm)
 
+omit [Finite G] in
 private theorem e16k_mem_zGroup {Ω : Set (Subgroup G)} {L : Subgroup G} (hL : L ∈ Ω) {r : G}
     (hr : IsUniqueInvolution L r) : r ∈ zGroup Ω := by
   unfold zGroup
@@ -71,11 +73,13 @@ private theorem e16k_mem_zGroup {Ω : Set (Subgroup G)} {L : Subgroup G} (hL : L
   show ∃ K ∈ Ω, IsUniqueInvolution K r
   exact ⟨L, hL, hr⟩
 
+omit [Finite G] in
 private theorem e16k_mem_zPoints {Ω : Set (Subgroup G)} {L : Subgroup G} (hL : L ∈ Ω)
     {q : zGroup Ω} (hq : IsUniqueInvolution L (q : G)) : q ∈ zPoints Ω := by
   show ∃ K ∈ Ω, IsUniqueInvolution K (q : G)
   exact ⟨L, hL, hq⟩
 
+omit [Finite G] in
 private theorem e16k_conj_mem {Ω : Set (Subgroup G)} (hΩ : HypOmegaGen Ω) {d e : G}
     (hde : d * e = e * d) {L : Subgroup G} (hL : L ∈ centMembers Ω e) :
     conjSub d L ∈ centMembers Ω e := by
@@ -98,6 +102,7 @@ private theorem e16k_conj_mem {Ω : Set (Subgroup G)} (hΩ : HypOmegaGen Ω) {d 
     _ = d * (d⁻¹ * y * d) * (d⁻¹ * e) := by rw [hdinv]
     _ = y * e := by group
 
+omit [Finite G] in
 private theorem e16k_psi_mem {Ω : Set (Subgroup G)} {e : G}
     {ψ : ↥(pSpan (centMembers Ω e)) ≃* ↥(AE.aeSub 6)} {L : Subgroup G}
     {α : Finset (Fin 6)} {hα : α.card = 4} {b : Bool}
@@ -108,6 +113,7 @@ private theorem e16k_psi_mem {Ω : Set (Subgroup G)} {e : G}
   rw [← hψ]
   exact ⟨ψ y, ⟨y, Subgroup.mem_subgroupOf.mpr hy, rfl⟩, rfl⟩
 
+omit [Finite G] in
 private theorem e16k_psi_surj {Ω : Set (Subgroup G)} {e : G}
     {ψ : ↥(pSpan (centMembers Ω e)) ≃* ↥(AE.aeSub 6)} {L : Subgroup G}
     {α : Finset (Fin 6)} {hα : α.card = 4} {b : Bool}
@@ -123,6 +129,7 @@ private theorem e16k_psi_surj {Ω : Set (Subgroup G)} {e : G}
   rw [← hxw, ← hyx]
   rfl
 
+omit [Finite G] in
 private theorem e16k_psi_sq {Ω : Set (Subgroup G)} {e : G}
     {ψ : ↥(pSpan (centMembers Ω e)) ≃* ↥(AE.aeSub 6)} (q : ↥(pSpan (centMembers Ω e)))
     (hq : q * q = 1) :
@@ -136,12 +143,14 @@ private noncomputable def e16k_pt {Ω : Set (Subgroup G)} {e : G}
     ↥(pSpan (centMembers Ω e)) :=
   ψ.symm ⟨AE.zOf (AE.emb α hα), AE.memK_le_aeSub (AE.emb α hα) (AE.zOf_mem_memK (AE.emb α hα))⟩
 
+omit [Finite G] in
 private theorem e16k_psi_pt {Ω : Set (Subgroup G)} {e : G}
     (ψ : ↥(pSpan (centMembers Ω e)) ≃* ↥(AE.aeSub 6)) (α : Finset (Fin 6)) (hα : α.card = 4) :
     ((ψ (e16k_pt ψ α hα) : ↥(AE.aeSub 6)) : AE.Wr 6) = AE.zOf (AE.emb α hα) := by
   unfold e16k_pt
   rw [MulEquiv.apply_symm_apply]
 
+omit [Finite G] in
 private theorem e16k_eq_pt {Ω : Set (Subgroup G)} {e : G}
     {ψ : ↥(pSpan (centMembers Ω e)) ≃* ↥(AE.aeSub 6)} {L : Subgroup G}
     (hL : L ∈ centMembers Ω e) {α : Finset (Fin 6)} {hα : α.card = 4} {b : Bool}
@@ -163,6 +172,7 @@ private theorem e16k_eq_pt {Ω : Set (Subgroup G)} {e : G}
       ψ.injective (Subtype.ext (h3.trans (e16k_psi_pt ψ α hα).symm))
     exact congrArg Subtype.val hq3
 
+omit [Finite G] in
 private theorem e16k_isUnique {Ω : Set (Subgroup G)} {e : G}
     {ψ : ↥(pSpan (centMembers Ω e)) ≃* ↥(AE.aeSub 6)} {L : Subgroup G}
     (hL : L ∈ centMembers Ω e) {α : Finset (Fin 6)} {hα : α.card = 4} {b : Bool}
@@ -196,6 +206,7 @@ private theorem e16k_isUnique {Ω : Set (Subgroup G)} {e : G}
     · exact Or.inl hy'1
     · exact Or.inr (e16k_eq_pt hL hψ hy'L hy'2 hy'1)
 
+omit [Finite G] in
 private theorem e16k_pt_inj {Ω : Set (Subgroup G)} {e : G}
     (ψ : ↥(pSpan (centMembers Ω e)) ≃* ↥(AE.aeSub 6)) {α β : Finset (Fin 6)}
     {hα : α.card = 4} {hβ : β.card = 4}
@@ -207,6 +218,7 @@ private theorem e16k_pt_inj {Ω : Set (Subgroup G)} {e : G}
   rw [AE.range_emb, AE.range_emb] at h3
   exact Finset.coe_injective h3
 
+omit [Finite G] in
 private theorem e16k_prod {Ω : Set (Subgroup G)} {e : G}
     (ψ : ↥(pSpan (centMembers Ω e)) ≃* ↥(AE.aeSub 6)) (he : e ∈ pSpan (centMembers Ω e))
     (hψe : ((ψ ⟨e, he⟩ : ↥(AE.aeSub 6)) : AE.Wr 6) = AE.Wr.allOnes 6)
@@ -297,7 +309,7 @@ theorem exists_three_element_of_frame (c : Sit16 Ω K K' W z u e g)
   · rw [pow_one]
     have := congrArg Subtype.val hy3
     simpa using this
-  · push_neg at hyc
+  · push Not at hyc
     exact hyc
 
 theorem commutator_eq_top_of_frame (c : Sit16 Ω K K' W z u e g)
@@ -329,7 +341,7 @@ private theorem e16k_sympForm [hh : Fact (EndHyp Ω)] [h9 : Fact (Perp9 Ω)]
 theorem hmodel_frame (c : Sit16 Ω K K' W z u e g)
     (h : EndHyp Ω) (h9 : Perp9 Ω) (h13 : zGroup Ω ≠ eGroup Ω K)
     {bf : zGroup Ω → zGroup Ω → ZMod 2} (hbf : IsEndForm Ω bf) (ce : zGroup Ω) (hce : ce.1 = e)
-    (x : zGroup Ω) (hx1 : x ≠ 1) (hxce : x ≠ ce) :
+    (x : zGroup Ω) (_hx1 : x ≠ 1) (_hxce : x ≠ ce) :
     5 ≤ (Polar.sigma bf (zPoints Ω) ce ∩ {p | bf x p = 0}).ncard ∧
       ((Polar.sigma bf (zPoints Ω) ce ∩ {p | bf x p = 0}).ncard = 5 → bf ce x = 1) := by
   obtain ⟨I, ψ, -, hψI, hψL, ⟨he, hψe⟩, -⟩ := exists_equiv_X c h h9 h13
@@ -520,7 +532,7 @@ private theorem e16kc_three_cycle (c : Sit16 Ω K K' W z u e g)
     ⟨σK.comp X.subtype, fun x => rfl⟩
   have hkey : ∀ x : ↥X, f x = 1 → θ' x = 1 := by
     have h5 : 5 ≤ Nat.card (Fin 6) := by simp
-    haveI hN : ((f.ker).map θ').Normal := Subgroup.Normal.map inferInstance θ' hθ'_surj
+    have hN : ((f.ker).map θ').Normal := Subgroup.Normal.map inferInstance θ' hθ'_surj
     rcases (alternatingGroup.isSimpleGroup h5).eq_bot_or_eq_top_of_normal
       ((f.ker).map θ') with hbot | htop
     · intro x hx
@@ -637,8 +649,8 @@ theorem exists_points_sigma (c : Sit16 Ω K K' W z u e g)
         ∃ i j k : Fin 7, i < j ∧ j < k ∧ b = pt i * pt j * pt k ∧
           ∀ l : Fin 7, (l = i ∨ l = j ∨ l = k) ↔ M ≤ Subgroup.centralizer ({pt l} : Set G)) := by
   classical
-  haveI : Fact (EndHyp Ω) := ⟨h⟩
-  haveI : Fact (Perp9 Ω) := ⟨h9⟩
+  have : Fact (EndHyp Ω) := ⟨h⟩
+  have : Fact (Perp9 Ω) := ⟨h9⟩
   obtain ⟨bf, hbf⟩ := h.exists_endForm h9 c.twin h13
   have hsymp : Polar.SympForm bf := e16k_sympForm hbf
   have hsec := sections_of_frame c h13 hbf
@@ -715,7 +727,7 @@ theorem exists_points_sigma (c : Sit16 Ω K K' W z u e g)
   have hzP : ∀ p ∈ zPoints Ω, p.1 ∈ Subgroup.closure (Set.range pt) := fun p hp => by
     have hT := Polar.Sections.eq_prod_of_mem hsymp hS hspan hsec hcard64 hmem hB hp
       (hfin.toFinset.filter (fun x => bf x p = 0)) (fun x => by
-        simp only [Finset.mem_filter, Set.Finite.mem_toFinset, Polar.sigma, Set.mem_setOf_eq,
+        simp only [Finset.mem_filter, Set.Finite.mem_toFinset, Polar.sigma, Set.mem_ofPred_eq,
           hp, true_and])
     have hmemT : ∀ x ∈ hfin.toFinset.filter (fun x => bf x p = 0),
         x ∈ (Subgroup.closure (Set.range pt)).subgroupOf (zGroup Ω) := fun x hx =>
@@ -777,7 +789,7 @@ theorem exists_points_sigma (c : Sit16 Ω K K' W z u e g)
     refine ⟨yj * yi⁻¹, hinj ?_⟩
     rw [← hconj, hyi, hyj]
     group
-  haveI : MulAction.IsPretransitive σK.range (Fin 7) :=
+  have : MulAction.IsPretransitive σK.range (Fin 7) :=
     ⟨fun i j => by
       obtain ⟨x, hx⟩ := hsurj i j
       exact ⟨⟨σK x, x, rfl⟩, hx⟩⟩
@@ -855,7 +867,7 @@ theorem exists_points_sigma (c : Sit16 Ω K K' W z u e g)
     have hTmem : ∀ x : zGroup Ω, x ∈ Tidx.image pZ ↔ x ∈ 𝓔 ∧ bZ ∈ Polar.sigma bf (zPoints Ω) x := by
       intro x
       have h1 := Set.ext_iff.mp hset x
-      simp only [Set.mem_setOf_eq, Set.mem_image, Finset.mem_coe] at h1
+      simp only [Set.mem_ofPred_eq, Set.mem_image, Finset.mem_coe] at h1
       rw [Finset.mem_image]
       exact h1.symm
     have hprod3 : bZ = pZ (ord 0) * pZ (ord 1) * pZ (ord 2) := by
@@ -863,7 +875,6 @@ theorem exists_points_sigma (c : Sit16 Ω K K' W z u e g)
         hTmem, Finset.prod_image (fun x _ y _ hxy => hpZinj hxy), hTeq,
         Finset.prod_insert (by simp [hd01, hd02]), Finset.prod_insert (by simp [hd12]),
         Finset.prod_singleton, mul_assoc]
-      rfl
     refine ⟨ord 0, ord 1, ord 2, ord.strictMono (by decide), ord.strictMono (by decide), ?_, ?_⟩
     · have h := congrArg Subtype.val hprod3
       simpa using h
@@ -914,7 +925,7 @@ theorem nonempty_mulEquiv_quotient_pCore
   obtain ⟨pt, σK, -, -, -, -, -, -, -, hker, hrange, -⟩ := exists_points_sigma c h h9 h13
   have hc : Subgroup.centralizer (zGroup Ω : Set G) = pCore 2 G :=
     h.centralizer_zGroup_eq_pCore h9 c.twin h13
-  haveI : (pCore 2 G).Normal := CFSG.pCore_normal
+  have : (pCore 2 G).Normal := CFSG.pCore_normal
   have hkeq : σK.ker = pCore 2 G := hker.trans hc
   exact ⟨(QuotientGroup.quotientMulEquivOfEq hkeq).symm.trans
     ((QuotientGroup.quotientKerEquivRange σK).trans (MulEquiv.subgroupCongr hrange))⟩
@@ -922,7 +933,7 @@ theorem nonempty_mulEquiv_quotient_pCore
 theorem pCore_eq_zGroup (c : Sit16 Ω K K' W z u e g)
     (h : EndHyp Ω) (h9 : Perp9 Ω) (h13 : zGroup Ω ≠ eGroup Ω K) :
     pCore 2 G = zGroup Ω := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e7⟩ := nonempty_mulEquiv_quotient_pCore c h h9 h13
   have hcard : Nat.card (G ⧸ pCore 2 G) = 2520 := by
     rw [Nat.card_congr e7.toEquiv, Nat.card_eq_fintype_card, card_alternatingGroup,
@@ -939,7 +950,7 @@ theorem pCore_eq_zGroup (c : Sit16 Ω K K' W z u e g)
 
 theorem natCard_eq_of_frame (c : Sit16 Ω K K' W z u e g)
     (h : EndHyp Ω) (h9 : Perp9 Ω) (h13 : zGroup Ω ≠ eGroup Ω K) : Nat.card G = 161280 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e7⟩ := nonempty_mulEquiv_quotient_pCore c h h9 h13
   have hcard : Nat.card (G ⧸ pCore 2 G) = 2520 := by
     rw [Nat.card_congr e7.toEquiv, Nat.card_eq_fintype_card, card_alternatingGroup,

@@ -122,11 +122,11 @@ theorem false_of_beta (hG1 : KG1) (hfix : KJFix) (hsplit : KJSplit) (hcover : KJ
   set Z₀ := Sec3.omegaZOf (CFSG.Open.pCoreOf 2 LB) with hZ₀
   obtain ⟨r, hr, hr5, F₁, F₂, hF₁Θ, hch, u, huZ, f, hfF, hfu⟩ :=
     exists_chiefFactor hΘs hΘ3 hΘ2 hZ2 hZ1 (hZU.trans hUΘ) hZY hYΘ
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨V, hV1, hV2, hV3, ρ, q, hρ, hq⟩ := exists_chiefRep_of_isChiefFactorUnder hch
-  letI := hV1
-  letI := hV2
-  haveI := hV3
+  let := hV1
+  let := hV2
+  have := hV3
   have hF₁ : IsPGroup r F₁ := (CFSG.LieType.BorelTits.pCoreOf_isPGroup r Θ).to_le hF₁Θ
   have hloc := Sec16.Kcd166.card_le_sq_of_localRank_lt hr (hrk r hr (by omega))
   have hR3 : ∀ t : ↥Y, t * t = 1 → t ≠ 1 →

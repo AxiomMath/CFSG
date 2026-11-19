@@ -94,10 +94,10 @@ theorem IsTrichQuot.of_surjective {K K' : Type*} [Group K] [Group K'] [Finite K]
     fun P a => by
       rw [Sylow.coe_mapSurjective]
       exact ⟨fun ha => Subgroup.le_normalizer_map f ⟨a, ha, rfl⟩,
-        fun ha => RonanF13.mem_normalizer_of_central_cover f hker hodd P.isPGroup' ha⟩
+        fun ha => RonanF13.mem_normalizer_of_central_cover f hker hodd P.isPGroup ha⟩
   have hkerP : ∀ (P : Sylow 2 K) {x : K}, x ∈ (P : Subgroup K) → f x = 1 → x = 1 := by
     intro P x hx hx1
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨x, hx⟩
     exact RonanF13.eq_one_of_odd_orderOf_of_pow'
       (hodd x (MonoidHom.mem_ker.mpr hx1)) (by simpa using congrArg Subtype.val hk)
   have hinj : ∀ (P : Sylow 2 K) {x y : K}, x ∈ (P : Subgroup K) → y ∈ (P : Subgroup K) →
@@ -126,7 +126,7 @@ theorem IsTrichQuot.of_surjective {K K' : Type*} [Group K] [Group K'] [Finite K]
     have hodd : Odd (orderOf d) := by
       have hk : d ^ orderOf (f d) ∈ f.ker := by
         rw [MonoidHom.mem_ker]
-        simpa using pow_orderOf_eq_one (f d)
+        simp
       refine Odd.of_dvd_nat (hodd'.mul (hodd _ hk)) ?_
       apply orderOf_dvd_of_pow_eq_one
       rw [pow_mul]
@@ -196,7 +196,7 @@ theorem isTrichQuot_of_listed {K : Type} [Group K] [Finite K]
     let π : StatedSU 3 (2 ^ n) F →* StatedProj (StatedSU 3 (2 ^ n) F) :=
       QuotientGroup.mk' ((StatedScalars (Fin 3) F).subgroupOf (StatedSU 3 (2 ^ n) F))
     have hπ : Function.Surjective π := QuotientGroup.mk'_surjective _
-    haveI : Finite (StatedProj (StatedSU 3 (2 ^ n) F)) := Finite.of_surjective π hπ
+    have : Finite (StatedProj (StatedSU 3 (2 ^ n) F)) := Finite.of_surjective π hπ
     refine IsTrichQuot.of_mulEquiv e (IsTrichQuot.of_surjective π hπ ?_ ?_
       (BenderType.isTrichQuot hB))
     · show π.ker ≤ _

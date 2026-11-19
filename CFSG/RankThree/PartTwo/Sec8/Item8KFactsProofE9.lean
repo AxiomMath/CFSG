@@ -17,8 +17,8 @@ theorem exists_mem_center_orderOf_three {X : Type*} [Group X] [Finite X] (Q : Sy
     (hQ : Nontrivial Q) : ∃ z : X, z ∈ (Q : Subgroup X) ∧ orderOf z = 3 ∧
       ∀ y ∈ (Q : Subgroup X), z * y = y * z := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  have hZ : Nontrivial (Subgroup.center Q) := Q.isPGroup'.center_nontrivial
-  have hZp : IsPGroup 3 (Subgroup.center Q) := Q.isPGroup'.to_subgroup _
+  have hZ : Nontrivial (Subgroup.center Q) := Q.isPGroup.center_nontrivial
+  have hZp : IsPGroup 3 (Subgroup.center Q) := Q.isPGroup.to_subgroup _
   have hdvd : 3 ∣ Nat.card (Subgroup.center Q) := by
     rcases hZp.card_eq_or_dvd with h | h
     · exact absurd h (Finite.one_lt_card_iff_nontrivial.mpr hZ).ne'

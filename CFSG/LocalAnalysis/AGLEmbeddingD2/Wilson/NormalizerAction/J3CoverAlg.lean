@@ -173,7 +173,7 @@ theorem act (i : Fin 6) (j : Fin 4) :
         fin_cases i <;> simp_all [actMat]
       rw [hmat, basisProd_xB]
       fin_cases j' <;>
-        simp [xB, Matrix.one_apply, Fin.ext_iff, show (1 : ZMod 3).val = 1 from rfl]
+        simp [Matrix.one_apply, Fin.ext_iff, show (1 : ZMod 3).val = 1 from rfl]
 
 end J3Pkg
 

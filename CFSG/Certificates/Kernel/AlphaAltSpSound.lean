@@ -50,7 +50,7 @@ theorem altOK_of_altSp {p n : Nat} {m : NMod} {T : List (List (Nat × Nat × Nat
   subst hlen
   have hget : ∀ j : Fin m.acts.length, m.acts.get j = m.acts.getD j default := fun j => by
     rw [List.get_eq_getElem, List.getElem_eq_getD default]
-  simp only [NMod.altOK, List.all_eq_true, List.mem_finRange, true_implies, forall_const,
+  simp only [NMod.altOK, List.all_eq_true, List.mem_finRange, forall_const,
     beq_iff_eq]
   intro a₀ b₀ a b
   obtain ⟨⟨hnd, hall⟩, hcoef⟩ := hrow a₀ a₀.isLt b₀ b₀.isLt

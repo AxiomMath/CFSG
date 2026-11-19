@@ -22,9 +22,9 @@ private theorem exists_pow_conj_of_le_normalizer {L S E₀ Q : Subgroup G} {n p 
     ∃ E : Subgroup G, E ≤ L ∧ IsElemAbelian r E ∧ Nat.card E = r ^ 2 ∧
       ∀ x ∈ Q, ∃ k : ℕ, ∀ e ∈ E, x * e * x⁻¹ = e ^ k := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact r.Prime := ⟨hr⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hpow : ∀ x ∈ Q, ∃ k : ℕ, ∀ h ∈ L, h ∈ normalizer (S : Set G) →
       x * h * x⁻¹ * (h ^ k)⁻¹ ∈ S :=
     fun x hx => uc22p218d_exists_pow_conj_mem_sp4 hS hX (hQL hx) (hQS hx) (hp.odd_of_ne_two hp2)
@@ -93,9 +93,9 @@ theorem uc22s218n_exists_pow_torus_inner {L : Subgroup G} {n p r : ℕ} (hX : Is
     ∃ E Q : Subgroup G, E ≤ L ∧ IsElemAbelian r E ∧ Nat.card E = r ^ 2 ∧ Q ≤ L ∧
       IsElemAbelian p Q ∧ Nat.card Q = p ^ 2 ∧ ∀ x ∈ Q, ∃ k : ℕ, ∀ e ∈ E, x * e * x⁻¹ = e ^ k := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact r.Prime := ⟨hr⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨E₀, hE₀L, hE₀el, hE₀c⟩ :=
     UC6S846.exists_elemAbelian_card_of_le_pRank hr (uc22p218c_pRank_eq_two_of_bar2 hX hr hrn).ge
   obtain ⟨S', hS'⟩ := uc22p218s_exists_sylow_le_normalizer hr Nat.prime_two hE₀el.isPGroup
@@ -135,8 +135,8 @@ theorem uc22s218n_stronglyEmbedded_of_torus (D : Data G) (hSg : UC6S846.SigmaStd
     (hEel : IsElemAbelian r E) (hEc : Nat.card E = r ^ 2) (hQM : Q ≤ D.M)
     (hQel : IsElemAbelian p Q) (hQc : Nat.card Q = p ^ 2)
     (hpow : ∀ x ∈ Q, ∃ k : ℕ, ∀ e ∈ E, x * e * x⁻¹ = e ^ k) : IsStronglyPEmbedded r D.M := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hns := UC6S846.not_solvable_of_mem_calC hL
   have hEM : E ≤ D.M := hEL.trans hL.1.le
   have hE1 : E ≠ ⊥ := by

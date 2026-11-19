@@ -44,7 +44,7 @@ theorem commutator_sup_eq_of_le_normalizer {H K₁ K₂ : Subgroup G}
     ⁅H, K₁ ⊔ K₂⁆ = ⁅H, K₁⁆ ⊔ ⁅H, K₂⁆ := by
   have h := commutator_iSup_eq_of_le_normalizer (H := H) (K := fun b : Bool => cond b K₁ K₂)
     (fun b => by cases b <;> assumption)
-  simpa only [iSup_bool_eq, cond_true, cond_false] using h
+  simpa only [iSup_bool_eq, _root_.Bool.cond_true, Bool.cond_false] using h
 
 theorem iSup_commutator_eq_of_commute {ι : Sort*} {H : ι → Subgroup G} {K : Subgroup G}
     (hK : ∀ i, K ≤ normalizer (H i : Set G)) (hH : ∀ i j, H i ≤ centralizer (H j : Set G)) :
@@ -218,6 +218,7 @@ variable {H : Subgroup G} (hab : ∀ a ∈ H, ∀ b ∈ H, a * b = b * a) (hodd 
   (hxH : x ∈ normalizer (H : Set G)) (hyH : y ∈ normalizer (H : Set G))
 include hab hodd hx hy hxy hxH hyH
 
+omit hx hxH in
 theorem mem_fourGroup₁_iff {h : G} :
     h ∈ ⁅H ⊓ C x, zpowers y⁆ ↔ h ∈ H ∧ x * h * x⁻¹ = h ∧ y * h * y⁻¹ = h⁻¹ := by
   have hyC : y ∈ normalizer ((H ⊓ C x : Subgroup G) : Set G) :=
@@ -233,10 +234,12 @@ theorem mem_fourGroup₁_iff {h : G} :
     calc h * x = x * h * x⁻¹ * x := by rw [hhx]
       _ = x * h := by group
 
+omit hy hyH in
 theorem mem_fourGroup₂_iff {h : G} :
     h ∈ ⁅H ⊓ C y, zpowers x⁆ ↔ h ∈ H ∧ y * h * y⁻¹ = h ∧ x * h * x⁻¹ = h⁻¹ :=
-  mem_fourGroup₁_iff hab hodd hy hx hxy.symm hyH hxH
+  mem_fourGroup₁_iff hab hodd hx hxy.symm hxH
 
+omit hxy in
 theorem mem_fourGroup₃_iff {h : G} :
     h ∈ ⁅H, zpowers x⁆ ⊓ ⁅H, zpowers y⁆ ↔ h ∈ H ∧ x * h * x⁻¹ = h⁻¹ ∧ y * h * y⁻¹ = h⁻¹ := by
   rw [mem_inf, mem_commutator_zpowers_iff hab hodd hx hxH,
@@ -248,9 +251,9 @@ theorem fourGroup_sup_eq :
     H ⊓ C x ⊓ C y ⊔ ⁅H ⊓ C x, zpowers y⁆ ⊔ ⁅H ⊓ C y, zpowers x⁆ ⊔
       (⁅H, zpowers x⁆ ⊓ ⁅H, zpowers y⁆) = H := by
   refine le_antisymm (sup_le (sup_le (sup_le (inf_le_left.trans inf_le_left)
-    (fun h hh => ((mem_fourGroup₁_iff hab hodd hx hy hxy hxH hyH).mp hh).1))
-    (fun h hh => ((mem_fourGroup₂_iff hab hodd hx hy hxy hxH hyH).mp hh).1))
-    (fun h hh => ((mem_fourGroup₃_iff hab hodd hx hy hxy hxH hyH).mp hh).1)) ?_
+    (fun h hh => ((mem_fourGroup₁_iff hab hodd hy hxy hyH).mp hh).1))
+    (fun h hh => ((mem_fourGroup₂_iff hab hodd hx hxy hxH).mp hh).1))
+    (fun h hh => ((mem_fourGroup₃_iff hab hodd hx hy hxH hyH).mp hh).1)) ?_
   have hCx : H ⊓ C x ⊔ ⁅H, zpowers x⁆ = H :=
     inf_centralizer_sup_commutator_zpowers hab hodd hx hxH
   have hyC : y ∈ normalizer ((H ⊓ C x : Subgroup G) : Set G) :=
@@ -277,13 +280,13 @@ theorem fourGroup_sup_eq :
   have hle₂ : ⁅H, zpowers x⁆ ⊓ C y ≤ ⁅H ⊓ C y, zpowers x⁆ := by
     rintro h ⟨hh, hhy⟩
     obtain ⟨hhH, hhx⟩ := hxJ.mp hh
-    refine (mem_fourGroup₂_iff hab hodd hx hy hxy hxH hyH).mpr ⟨hhH, ?_, hhx⟩
+    refine (mem_fourGroup₂_iff hab hodd hx hxy hxH).mpr ⟨hhH, ?_, hhx⟩
     rw [← mem_centralizer_singleton_iff.mp hhy, mul_inv_cancel_right]
   have hle₃ : ⁅⁅H, zpowers x⁆, zpowers y⁆ ≤ ⁅H, zpowers x⁆ ⊓ ⁅H, zpowers y⁆ := by
     intro h hh
     obtain ⟨hhJ, hhy⟩ := hyJ'.mp hh
     obtain ⟨hhH, hhx⟩ := hxJ.mp hhJ
-    exact (mem_fourGroup₃_iff hab hodd hx hy hxy hxH hyH).mpr ⟨hhH, hhx, hhy⟩
+    exact (mem_fourGroup₃_iff hab hodd hx hy hxH hyH).mpr ⟨hhH, hhx, hhy⟩
   calc H = H ⊓ C x ⊔ ⁅H, zpowers x⁆ := hCx.symm
     _ = H ⊓ C x ⊓ C y ⊔ ⁅H ⊓ C x, zpowers y⁆ ⊔
           (⁅H, zpowers x⁆ ⊓ C y ⊔ ⁅⁅H, zpowers x⁆, zpowers y⁆) := by rw [hC₁, hC₂]
@@ -299,7 +302,7 @@ theorem exists_inverted_mem_coset {O : Subgroup G} (hO : Odd (Nat.card O)) {t k 
     (hk : k * (t * k * t⁻¹) ∈ O) : ∃ o ∈ O, t * (k * o) * t⁻¹ = (k * o)⁻¹ := by
   classical
   have : Finite O := OddInversion.finite_of_odd_card hO
-  letI : Fintype O := Fintype.ofFinite O
+  let : Fintype O := Fintype.ofFinite O
   have htinv : t⁻¹ = t := inv_eq_of_mul_eq_one_right ht
   have hOk : ∀ o ∈ O, k⁻¹ * o * k ∈ O := fun o ho => by
     have := (mem_normalizer_iff.mp (inv_mem hkO) o).mp ho
@@ -344,7 +347,7 @@ theorem IsMaxInvIn.of_le {p : ℕ} {A H K P : Subgroup G} (hP : IsMaxInvIn p A H
 theorem isSylowOf_inf_O_of_isMaxInvIn [Finite G] {p : ℕ} (hp : p.Prime) {A H P : Subgroup G}
     (hA : IsPGroup 2 A) (hAH : A ≤ normalizer (H : Set G)) (hP : IsMaxInvIn p A H P) :
     ABGLocalTools.IsSylowOf p (P ⊓ O H) (O H) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hPH, hPp, hAP, hmax⟩ := hP
   have hOodd : Odd (Nat.card (O H)) := by
     rw [card_map_of_injective H.subtype_injective]
@@ -402,7 +405,7 @@ theorem isSylowOf_inf_O_of_isMaxInvIn [Finite G] {p : ℕ} (hp : p.Prime) {A H P
       have hmem := smul_mem_pointwise_smul x a (Q : Subgroup R) hx
       rwa [← Sylow.pointwise_smul_def, hQ a] at hmem
     have hQ'R : Q' ≤ R := map_subtype_le _
-    have hQ'p : IsPGroup p Q' := Q.isPGroup'.map R.subtype
+    have hQ'p : IsPGroup p Q' := Q.isPGroup.map R.subtype
     have hQ'eq : Q' = P := hmax Q' (hQ'R.trans hRH) hQ'p hAQ' hPQ'
     have hsyl : ABGLocalTools.IsSylowOf p P R := hQ'eq ▸ ⟨Q, rfl⟩
     exact hsyl.inf_of_le_normalizer le_sup_left

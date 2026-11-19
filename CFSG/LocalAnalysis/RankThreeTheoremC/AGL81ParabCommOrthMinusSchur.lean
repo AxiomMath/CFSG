@@ -17,6 +17,7 @@ open Module QuadraticMap CFSG.ClassicalGroups.Orthogonal CFSG.RankThree.Classica
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {b c : K}
 
+omit [CharP K 2] in
 theorem schur_tail {m : ℕ} (hm : 1 ≤ m) (hirr : ∀ t : K, t ^ 2 + b * t + c ≠ 0)
     (G : ((Fin m ⊕ Fin m → K) × (Fin 2 → K)) ≃+ ((Fin m ⊕ Fin m → K) × (Fin 2 → K)))
     (σ : K ≃+* K) (hG : ∀ (a : K) (v : (Fin m ⊕ Fin m → K) × (Fin 2 → K)), G (a • v) = σ a • G v)

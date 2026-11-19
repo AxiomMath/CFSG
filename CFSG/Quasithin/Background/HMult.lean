@@ -25,11 +25,11 @@ theorem diagGL_mulVec (k : ℕ) (γ : GL ι K) (v : Fin k × ι → K) (p : Fin 
     (((diagGL k γ : GL (Fin k × ι) K) : Matrix (Fin k × ι) (Fin k × ι) K) *ᵥ v) p =
       ((γ : Matrix ι ι K) *ᵥ fun i => v (p.1, i)) p.2 := by
   simp only [diagGL, kronOneHom, Units.coe_map, Matrix.mulVec, dotProduct,
-    Fintype.sum_prod_type, Matrix.kroneckerMap_apply, Matrix.one_apply]
+    Fintype.sum_prod_type]
   rw [Finset.sum_eq_single p.1]
   · simp
   · intro b _ hb
-    simp [Matrix.one_apply, Ne.symm hb]
+    simp [Ne.symm hb]
   · intro hp
     exact (hp (Finset.mem_univ p.1)).elim
 
@@ -44,18 +44,20 @@ theorem diagGL_injective (k : ℕ) [NeZero k] :
 @[expose] def blockVec {k : ℕ} (j : Fin k) (x : ι → K) : Fin k × ι → K :=
   fun p => if p.1 = j then x p.2 else 0
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem blockVec_add {k : ℕ} (j : Fin k) (x y : ι → K) :
     blockVec j (x + y) = blockVec j x + blockVec j y := by
   funext p
   by_cases h : p.1 = j <;> simp [blockVec, h]
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem sum_blockVec {k : ℕ} (v : Fin k × ι → K) :
     (∑ j : Fin k, blockVec (ι := ι) j (fun i => v (j, i))) = v := by
   funext p
   rw [Finset.sum_apply, Finset.sum_eq_single p.1]
   · simp [blockVec]
   · intro b _ hb
-    simp [blockVec, hb, Ne.symm hb]
+    simp [blockVec, Ne.symm hb]
   · intro hp
     exact (hp (Finset.mem_univ p.1)).elim
 
@@ -93,10 +95,12 @@ theorem diagGL_blockVec (k : ℕ) (γ : GL ι K) (j : Fin k) (x : ι → K) :
     funext p
     simp [mul_add]
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem lineEmb_toAdd {k : ℕ} (u : Fin k → K) (x : StdMod ι K) :
     Multiplicative.toAdd (lineEmb (ι := ι) u x) =
       fun p => u p.1 * Multiplicative.toAdd x p.2 := rfl
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem lineEmb_injective {k : ℕ} {u : Fin k → K} (hu : u ≠ 0) :
     Function.Injective (lineEmb (ι := ι) u) := by
   intro x y h
@@ -115,6 +119,7 @@ theorem lineEmb_injective {k : ℕ} {u : Fin k → K} (hu : u ≠ 0) :
   funext i
   exact mul_left_cancel₀ hj (h' (j, i))
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem range_lineEmb {k : ℕ} (u : Fin k → K) :
     (lineEmb (ι := ι) u).range = lineSub (ι := ι) u := by
   ext v
@@ -183,6 +188,7 @@ theorem exists_lineSub_equiv {k : ℕ} (u : Fin k → K) (hu : u ≠ 0) :
     rw [← hψ (ψ.symm w), ψ.apply_symm_apply]
   rw [hw, diagGL_lineEmb]
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem normalForm_lineEmb {k : ℕ} {T : MulAut (StdMod (Fin k × ι) K)}
     {A : MulAut (StdMod ι K)} {σ : K ≃+* K} (hA : IsSemilinear A σ)
     {B : Matrix (Fin k) (Fin k) K}

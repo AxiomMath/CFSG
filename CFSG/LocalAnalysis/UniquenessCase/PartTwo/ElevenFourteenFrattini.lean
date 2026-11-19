@@ -18,7 +18,7 @@ theorem exists_noncyclic_pSubgroup_normalizer {p q : ℕ} [Fact p.Prime] [Fact q
     [(S₀.subgroupOf P).Normal] (hnc : ¬ IsCyclic (↥P ⧸ S₀.subgroupOf P)) :
     ∃ X : Subgroup G, X ≤ H ∧ IsPGroup p X ∧ ¬ IsCyclic X ∧ X ≤ normalizer (T₀ : Set G) := by
   classical
-  haveI hKn : (K.subgroupOf H).Normal :=
+  have hKn : (K.subgroupOf H).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hKH).2 hHK
   obtain ⟨hTK, hTp, hTidx⟩ := isSylowOf_iff.1 hT₀
   have hTH : T₀ ≤ H := hTK.trans hKH
@@ -71,7 +71,7 @@ theorem exists_noncyclic_pSubgroup_normalizer {p q : ℕ} [Fact p.Prime] [Fact q
     obtain ⟨x, hx, hxq⟩ := h1
     exact ⟨(x : ↥H), ⟨x, hx, rfl⟩, congrArg Subtype.val hxq⟩
   refine ⟨X'.map H.subtype, Subgroup.map_subtype_le _, ?_, ?_, ?_⟩
-  · exact (X₀.isPGroup'.map W.subtype).map H.subtype
+  · exact (X₀.isPGroup.map W.subtype).map H.subtype
   · intro hXc
     apply hnc
     have hX'c : IsCyclic ↥X' :=
@@ -83,7 +83,7 @@ theorem exists_noncyclic_pSubgroup_normalizer {p q : ℕ} [Fact p.Prime] [Fact q
       rintro ⟨q', hq'⟩
       obtain ⟨x, hx, hxq⟩ := hsurj q' hq'
       exact ⟨⟨x, hx⟩, Subtype.ext hxq⟩
-    haveI : IsCyclic ↥Q := isCyclic_of_surjective g hg
+    have : IsCyclic ↥Q := isCyclic_of_surjective g hg
     let h : ↥P →* ↥Q :=
       (π.comp (Subgroup.inclusion hPH)).codRestrict Q
         (fun x => Subgroup.mem_map.2 ⟨Subgroup.inclusion hPH x, x.2, rfl⟩)

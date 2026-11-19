@@ -98,6 +98,7 @@ section One
 
 variable {G : Type} [Group G] [Finite G] {H L N U : Subgroup G}
 
+omit [Finite G] in
 theorem translate_one (hstep : IsChiefStep H U L N) (hUH : U ≤ H) [(L.subgroupOf N).Normal]
     {m : ℕ} (hm : Odd m) (θ : ↥(chiefAut H L N) ≃* Equiv.Perm (Fin m))
     (β : ↥(coreMod m) →* ↥(chiefMod L N))

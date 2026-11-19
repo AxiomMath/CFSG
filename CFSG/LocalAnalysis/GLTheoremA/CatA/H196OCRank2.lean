@@ -36,7 +36,7 @@ theorem innerAut_inf_centralizer_eq {S : Type} [Group S] [Finite S] (hZ : Subgro
 theorem commutator_sup_le_innerAut {S : Type} [Group S] {D : Subgroup (MulAut S)}
     (hD : ∀ a ∈ D, ∀ b ∈ D, a * b = b * a) :
     ⁅innerAut S ⊔ D, innerAut S ⊔ D⁆ ≤ innerAut S := by
-  haveI : (innerAut S).Normal := innerAut_normal S
+  have : (innerAut S).Normal := innerAut_normal S
   set π := QuotientGroup.mk' (innerAut S) with hπ
   have hmap : (innerAut S ⊔ D).map π = D.map π := by
     rw [Subgroup.map_sup, (Subgroup.map_eq_bot_iff _).2 (by rw [hπ, QuotientGroup.ker_mk']),
@@ -86,7 +86,7 @@ theorem isLTwoTwentySeven_of_catalogIs {X : Type} [Group X] (h : catalogIs X (on
     obtain ⟨p, f, hpp, hff⟩ := q
     have hpf : p ^ f = 27 := (TauCeti.PrimePower.card_def _).symm.trans hq
     obtain ⟨rfl, rfl⟩ := prime_pow_eq_27 hpp hff hpf
-    haveI : Fact (Nat.Prime 3) := ⟨hpp⟩
+    have : Fact (Nat.Prime 3) := ⟨hpp⟩
     refine ⟨GaloisField 3 3, inferInstance, inferInstance, ?_, ⟨(e.trans
       (CFSG.ClassicalModels.linearCatalogCandidateEquivPSL 1 ⟨3, 3, hpp, hff⟩ hv)).trans
       (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 2 (GaloisField 3 3))⟩⟩
@@ -102,9 +102,9 @@ theorem coreFree_rankTwo_lie {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {S : Type}
     (hDI : D ⊓ innerAut S = ⊥) :
     GLAPPrimeCoreOf p (innerAut S ⊓ Subgroup.centralizer (D : Set (MulAut S))) = ⊥ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (MulAut S) := finite_mulAut S
-  haveI : (innerAut S).Normal := innerAut_normal S
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (MulAut S) := finite_mulAut S
+  have : (innerAut S).Normal := innerAut_normal S
   have hZ : Subgroup.center S = ⊥ :=
     CFSG.HardMathSupport.Timmesfeld.DefChar.center_eq_bot_of_simple hS hnc
   have hinj : Function.Injective (MulAut.conj : S →* MulAut S) :=

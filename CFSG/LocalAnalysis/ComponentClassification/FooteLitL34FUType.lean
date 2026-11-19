@@ -25,7 +25,7 @@ theorem exists_sixteen_witness
   obtain ⟨⟨h1, h2⟩, h3⟩ := hc
   have hρR : wordPerm (tg t) * repPerm i ∈ R := R.mul_mem (S_le_R (wordPerm_mem _)) (repPerm_mem i)
   have hconj : IsConj (⟨wordPerm (tg t) * repPerm i, hρR⟩ : R) r₄R :=
-    (conjClass₄.1 _).2 ⟨candTab t i, Array.mem_toList_iff.mpr (Array.contains_iff.mp h3), hrep⟩
+    (conjClass₄.1 _).2 ⟨candTab t i, Array.mem_toList_iff.mpr (_root_.Array.contains_iff_mem.mp h3), hrep⟩
   obtain ⟨c, hcR, hce⟩ := eq_conj_of_isConj hconj
   exact Certificates.certificate23204.2.2 t ht i hi
     (((hrep.comp hrep).beq_iff TabRep.idTab).mp h2)

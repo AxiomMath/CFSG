@@ -20,8 +20,8 @@ theorem uCited_rootParabolic_std {f : ℕ} (h : UnitaryFieldData 2 f K) (hr : 2 
       (hypUnitriangular h r ε)
       (uCitedRoot h r ε (Pi.single (Sum.inl (⟨1, by omega⟩ : Fin r)) (1 : K)))
       (uCitedPar h r ε) 2 := by
-  haveI := h.finite
-  haveI : Finite ↥(hypSU h r ε) := inferInstance
+  have := h.finite
+  have : Finite ↥(hypSU h r ε) := inferInstance
   obtain ⟨c, hc, hc0⟩ := exists_mem_traceZero_ne_zero' h
   have hU : ∃ T : Sylow 2 ↥(hypSU h r ε),
       (T : Subgroup ↥(hypSU h r ε)) = hypUnitriangular h r ε :=
@@ -53,7 +53,7 @@ theorem uCited_rootParabolic_std {f : ℕ} (h : UnitaryFieldData 2 f K) (hr : 2 
         HypIndex r ε → K) ≠ 0 := by
       intro hzero
       have := congrFun hzero (Sum.inl (⟨0, by omega⟩ : Fin r))
-      simpa using this
+      simp at this
     have hv : hypForm h r ε (Pi.single (Sum.inl (⟨0, by omega⟩ : Fin r)) (1 : K))
         (Pi.single (Sum.inl (⟨0, by omega⟩ : Fin r)) (1 : K)) = 0 :=
       hypForm_single_inl_self h ⟨0, by omega⟩
@@ -67,7 +67,7 @@ theorem uCited_rootParabolic_std {f : ℕ} (h : UnitaryFieldData 2 f K) (hr : 2 
             (Pi.single (Sum.inl (⟨0, by omega⟩ : Fin r)) (1 : K)))) ^ 2 := by
           rw [card_uCitedRoot h hv0 hv, UnitaryFieldData.card_traceZero h]
   · obtain ⟨T, hT⟩ := hU
-    exact (hT ▸ T.isPGroup').to_inf_left
+    exact (hT ▸ T.isPGroup).to_inf_left
   · intro N hNP hN hN2
     have hmain := spUCited_le_inf_normalizer_of_normal (G := ↥(hypSU h r ε))
       hU hUR hUP hn hNP hN hN2

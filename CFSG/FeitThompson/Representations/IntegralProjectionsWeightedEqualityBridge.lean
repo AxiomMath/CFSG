@@ -54,9 +54,9 @@ theorem cfInner_dblProj_eta (i : ι) (hi : i ∈ A) :
   rw [cfInner_add_left, cfInner_sum_left, cfInner_sum_left]
   have h1 : ∑ j ∈ A, cfInner (c j • η j) (η i) = c i := by
     rw [Finset.sum_eq_single_of_mem i hi]
-    · rw [cfInner_smul_left, hηη i hi i hi, if_pos rfl, mul_one]
+    · rw [cfInner_smul_left, hηη i hi i hi, ite_eq_left rfl, mul_one]
     · intro j hj hji
-      rw [cfInner_smul_left, hηη j hj i hi, if_neg hji, mul_zero]
+      rw [cfInner_smul_left, hηη j hj i hi, ite_eq_right hji, mul_zero]
   have h2 : ∑ j ∈ B, cfInner (g j • θ j) (η i) = 0 := by
     refine Finset.sum_eq_zero fun j hj => ?_
     rw [cfInner_smul_left, ← conj_cfInner, hηθ i hi j hj, map_zero, mul_zero]
@@ -73,9 +73,9 @@ theorem cfInner_dblProj_theta (j : ι) (hj : j ∈ B) :
     rw [cfInner_smul_left, hηθ i hi j hj, mul_zero]
   have h2 : ∑ i ∈ B, cfInner (g i • θ i) (θ j) = g j := by
     rw [Finset.sum_eq_single_of_mem j hj]
-    · rw [cfInner_smul_left, hθθ j hj j hj, if_pos rfl, mul_one]
+    · rw [cfInner_smul_left, hθθ j hj j hj, ite_eq_left rfl, mul_one]
     · intro i hi hij
-      rw [cfInner_smul_left, hθθ i hi j hj, if_neg hij, mul_zero]
+      rw [cfInner_smul_left, hθθ i hi j hj, ite_eq_right hij, mul_zero]
   rw [h1, h2, zero_add]
 
 theorem cfInner_self_eq_sum_add_sum_add
@@ -130,8 +130,8 @@ theorem cfInner_sum_smul_right_of_orthonormalOn [DecidableEq ι]
     (hθθ : ∀ i ∈ A, ∀ j ∈ A, cfInner (θ i) (θ j) = if i = j then 1 else 0)
     {j : ι} (hj : j ∈ A) : cfInner (∑ i ∈ A, c i • θ i) (θ j) = c j := by
   rw [cfInner_sum_left, Finset.sum_eq_single_of_mem j hj (fun i hi hij => by
-    rw [cfInner_smul_left, hθθ i hi j hj, if_neg hij, mul_zero]),
-    cfInner_smul_left, hθθ j hj j hj, if_pos rfl, mul_one]
+    rw [cfInner_smul_left, hθθ i hi j hj, ite_eq_right hij, mul_zero]),
+    cfInner_smul_left, hθθ j hj j hj, ite_eq_left rfl, mul_one]
 
 theorem cfInner_self_sum_zsmul_of_orthonormalOn [DecidableEq ι] {g : ι → ℤ}
     (hθθ : ∀ i ∈ A, ∀ j ∈ A, cfInner (θ i) (θ j) = if i = j then 1 else 0) :
@@ -301,7 +301,7 @@ theorem spanEmb_of_mem {χ : L → ℂ} (h : χ ∈ T) :
     spanEmb T χ = ⟨χ, Submodule.subset_span (show χ ∈ (T : Set (L → ℂ)) from h)⟩ := by
   classical
   change (if h : χ ∈ (T : Set (L → ℂ)) then _ else 0) = _
-  rw [dif_pos (show χ ∈ (T : Set (L → ℂ)) from h)]
+  rw [dite_eq_left (show χ ∈ (T : Set (L → ℂ)) from h)]
 
 theorem spanImage_eq (χ : L → ℂ) : spanImage T ν χ = (ν (spanEmb T χ) : G → ℂ) := (rfl)
 
@@ -528,7 +528,7 @@ theorem pairImage_of_mem (Γ₁ Γ₂ : virtualChars G) {x : L → ℂ}
   classical
   change (if hh : x ∈ (S1 : Set (L → ℂ)) then ν₁ ⟨x, Submodule.subset_span hh⟩
     else if x = a then Γ₁ else Γ₂) = _
-  rw [dif_pos h]
+  rw [dite_eq_left h]
 
 omit [Group L] [Fintype G] in
 theorem pairImage_left (Γ₁ Γ₂ : virtualChars G) (haS1 : a ∉ (S1 : Set (L → ℂ)))
@@ -536,7 +536,7 @@ theorem pairImage_left (Γ₁ Γ₂ : virtualChars G) (haS1 : a ∉ (S1 : Set (L
   classical
   change (if hh : a ∈ (S1 : Set (L → ℂ)) then ν₁ ⟨a, Submodule.subset_span hh⟩
     else if a = a then Γ₁ else Γ₂) = Γ₁
-  rw [dif_neg haS1, if_pos rfl]
+  rw [dite_eq_right haS1, ite_eq_left rfl]
 
 omit [Group L] [Fintype G] in
 theorem pairImage_right (Γ₁ Γ₂ : virtualChars G) (hbS1 : b ∉ (S1 : Set (L → ℂ)))
@@ -544,7 +544,7 @@ theorem pairImage_right (Γ₁ Γ₂ : virtualChars G) (hbS1 : b ∉ (S1 : Set (
   classical
   change (if hh : b ∈ (S1 : Set (L → ℂ)) then ν₁ ⟨b, Submodule.subset_span hh⟩
     else if b = a then Γ₁ else Γ₂) = Γ₂
-  rw [dif_neg hbS1, if_neg (Ne.symm hab)]
+  rw [dite_eq_right hbS1, ite_eq_right (Ne.symm hab)]
 
 theorem cfInner_pairImage_pairImage (hW : W = (S1 : Set (L → ℂ)) ∪ {a, b})
     (hS1Irr : (S1 : Set (L → ℂ)) ⊆ Irr L)
@@ -585,24 +585,24 @@ theorem cfInner_pairImage_pairImage (hW : W = (S1 : Set (L → ℂ)) ∪ {a, b})
       congr 1
       simp [Subtype.ext_iff]
     · have hne : χ ≠ χ' := fun h => hχ' (h ▸ hχ)
-      rw [if_neg hne, show χ = ⟨(χ : L → ℂ), χ.2⟩ from rfl, pairImage_of_mem Γ₁ Γ₂ hχ χ.2]
+      rw [ite_eq_right hne, show χ = ⟨(χ : L → ℂ), χ.2⟩ from rfl, pairImage_of_mem Γ₁ Γ₂ hχ χ.2]
       rcases hpair χ' hχ' with ⟨h, -⟩ | ⟨h, -⟩
       · rw [h, ← conj_cfInner, ho1, map_zero]
       · rw [h, ← conj_cfInner, ho2, map_zero]
   · by_cases hχ' : (χ' : L → ℂ) ∈ (S1 : Set (L → ℂ))
     · have hne : χ ≠ χ' := fun h => hχ (h ▸ hχ')
-      rw [if_neg hne, show χ' = ⟨(χ' : L → ℂ), χ'.2⟩ from rfl,
+      rw [ite_eq_right hne, show χ' = ⟨(χ' : L → ℂ), χ'.2⟩ from rfl,
         pairImage_of_mem Γ₁ Γ₂ hχ' χ'.2]
       rcases hpair χ hχ with ⟨h, -⟩ | ⟨h, -⟩
       · rw [h, ho1]
       · rw [h, ho2]
     · rcases hpair χ hχ with ⟨h, hxa⟩ | ⟨h, hxb⟩ <;>
         rcases hpair χ' hχ' with ⟨h', hya⟩ | ⟨h', hyb⟩
-      · rw [h, h', h11, if_pos (Subtype.ext (hxa.trans hya.symm))]
-      · rw [h, h', h12, if_neg (fun hcc => hab (by rw [← hxa, hcc, hyb]))]
+      · rw [h, h', h11, ite_eq_left (Subtype.ext (hxa.trans hya.symm))]
+      · rw [h, h', h12, ite_eq_right (fun hcc => hab (by rw [← hxa, hcc, hyb]))]
       · rw [h, h', ← conj_cfInner, h12, map_zero,
-          if_neg (fun hcc => hab (by rw [← hya, ← hcc, hxb]))]
-      · rw [h, h', h22, if_pos (Subtype.ext (hxb.trans hyb.symm))]
+          ite_eq_right (fun hcc => hab (by rw [← hya, ← hcc, hxb]))]
+      · rw [h, h', h22, ite_eq_left (Subtype.ext (hxb.trans hyb.symm))]
 
 theorem exists_isCoherentWith_insert_pair_of_orthonormal
     {S : Finset (L → ℂ)} {tau : (L → ℂ) → G → ℂ} {R : (L → ℂ) → Finset (G → ℂ)}
@@ -889,7 +889,7 @@ theorem exists_projection_of_mem_Q {lam : L → ℂ} (hlam : lam ∈ Q) :
   have hff : cfInner f f = ((1 + k ^ 2 : ℤ) : ℂ) := by
     rw [hfdef, hisoT hβmem hβmem]
     have h1 : cfInner lam lam = 1 := by
-      rw [cfInner_eq_ite_of_mem_Irr (hcfg.Q_subset_Irr hlam) (hcfg.Q_subset_Irr hlam), if_pos rfl]
+      rw [cfInner_eq_ite_of_mem_Irr (hcfg.Q_subset_Irr hlam) (hcfg.Q_subset_Irr hlam), ite_eq_left rfl]
     have h2 : cfInner lam ψ = 0 :=
       hcfS (hcfg.S3_subset hlam3) (hcfg.S1_subset hcfg.psi_mem)
         (Ne.symm (hneS13 hcfg.psi_mem hlam3))
@@ -897,7 +897,7 @@ theorem exists_projection_of_mem_Q {lam : L → ℂ} (hlam : lam ∈ Q) :
       hcfS (hcfg.S1_subset hcfg.psi_mem) (hcfg.S3_subset hlam3) (hneS13 hcfg.psi_mem hlam3)
     have h4 : cfInner ψ ψ = 1 := by
       rw [cfInner_eq_ite_of_mem_Irr (hcfg.S1_subset_Irr hcfg.psi_mem)
-        (hcfg.S1_subset_Irr hcfg.psi_mem), if_pos rfl]
+        (hcfg.S1_subset_Irr hcfg.psi_mem), ite_eq_left rfl]
     rw [cfInner_sub_left, cfInner_sub_right, cfInner_sub_right, h1, cfInner_zsmul_left,
       cfInner_zsmul_right, cfInner_zsmul_right, cfInner_zsmul_left, h2, h3, h4]
     push_cast
@@ -915,10 +915,10 @@ theorem exists_projection_of_mem_Q {lam : L → ℂ} (hlam : lam ∈ Q) :
           (Ne.symm (hneS13 hcfg.psi_mem hlam3))
       have h3 : cfInner ψ χ = 0 := by
         rw [cfInner_eq_ite_of_mem_Irr (hcfg.S1_subset_Irr hcfg.psi_mem)
-          (hcfg.S1_subset_Irr hχ), if_neg (Ne.symm hne)]
+          (hcfg.S1_subset_Irr hχ), ite_eq_right (Ne.symm hne)]
       have h4 : cfInner ψ ψ = 1 := by
         rw [cfInner_eq_ite_of_mem_Irr (hcfg.S1_subset_Irr hcfg.psi_mem)
-          (hcfg.S1_subset_Irr hcfg.psi_mem), if_pos rfl]
+          (hcfg.S1_subset_Irr hcfg.psi_mem), ite_eq_left rfl]
       rw [cfInner_sub_right, cfInner_sub_left, cfInner_sub_left, h1, h2,
         cfInner_zsmul_left, cfInner_zsmul_left, h3, h4]
       ring
@@ -929,7 +929,7 @@ theorem exists_projection_of_mem_Q {lam : L → ℂ} (hlam : lam ∈ Q) :
       rw [← htauS3 hlam3 hslam3, hfdef, hisoT hβmem (hmemS3 hlam3 hslam3)]
       have h1 : cfInner lam lam = 1 := by
         rw [cfInner_eq_ite_of_mem_Irr (hcfg.Q_subset_Irr hlam) (hcfg.Q_subset_Irr hlam),
-          if_pos rfl]
+          ite_eq_left rfl]
       have h2 : cfInner lam (star lam) = 0 :=
         hcfS (hcfg.S3_subset hlam3) (hcfg.S3_subset hslam3) (Ne.symm hslamne)
       have h3 : cfInner ψ lam = 0 :=
@@ -998,7 +998,6 @@ theorem exists_projection_of_mem_Q {lam : L → ℂ} (hlam : lam ∈ Q) :
       push_cast
       ring_nf
     rw [hS1part, ← Int.cast_smul_eq_zsmul ℂ k (spanImage S1 ν₁ ψ)]
-    push_cast
     module
 
 set_option maxHeartbeats 1000000 in
@@ -1057,7 +1056,7 @@ theorem exists_isCoherentWith_insert_pair {lam : L → ℂ} (hlam : lam ∈ Q) :
     rw [hz]
     have h1 : cfInner (spanImage S3 ν₃ lam) (spanImage S3 ν₃ lam) = 1 := by
       rw [spanImage_of_mem hlam3, hcfg.nu3_isometry,
-        cfInner_eq_ite_of_mem_Irr (hcfg.Q_subset_Irr hlam) (hcfg.Q_subset_Irr hlam), if_pos rfl]
+        cfInner_eq_ite_of_mem_Irr (hcfg.Q_subset_Irr hlam) (hcfg.Q_subset_Irr hlam), ite_eq_left rfl]
     have h2 : cfInner (spanImage S3 ν₃ lam) (spanImage S3 ν₃ (star lam)) = 0 := by
       rw [spanImage_of_mem hlam3, spanImage_of_mem hslam3, hcfg.nu3_isometry]
       exact hcfS (hcfg.S3_subset hlam3) (hcfg.S3_subset hslam3) (Ne.symm hslamne)
@@ -1066,7 +1065,7 @@ theorem exists_isCoherentWith_insert_pair {lam : L → ℂ} (hlam : lam ∈ Q) :
       exact hcfS (hcfg.S3_subset hslam3) (hcfg.S3_subset hlam3) hslamne
     have h4 : cfInner (spanImage S3 ν₃ (star lam)) (spanImage S3 ν₃ (star lam)) = 1 := by
       rw [spanImage_of_mem hslam3, hcfg.nu3_isometry,
-        cfInner_eq_ite_of_mem_Irr (hcfg.Q_subset_Irr hslam) (hcfg.Q_subset_Irr hslam), if_pos rfl]
+        cfInner_eq_ite_of_mem_Irr (hcfg.Q_subset_Irr hslam) (hcfg.Q_subset_Irr hslam), ite_eq_left rfl]
     rw [cfInner_sub_left, cfInner_sub_right, cfInner_sub_right, h1, h2, h3, h4]
     ring
   have hXop : ∀ χ' ∈ S3, ∀ f : Submodule.span ℤ (S1 : Set (L → ℂ)),

@@ -65,7 +65,7 @@ private theorem l02qf3_twistedH_simple (t : CFSG.Blueprint.Chevalley.TwistTag) (
       σ.toRingHom hσ
   obtain ⟨hsimpleG, hnaG⟩ :=
     CFSG.LieType.Chevalley.isSimpleGroup_graphFixedRootGroup_of_perfect t K σ hperf
-  haveI : IsSimpleGroup (CFSG.LieType.Chevalley.graphFixedRootGroup t K σ.toRingHom) := hsimpleG
+  have : IsSimpleGroup (CFSG.LieType.Chevalley.graphFixedRootGroup t K σ.toRingHom) := hsimpleG
   have hcenterG : Subgroup.center (CFSG.LieType.Chevalley.graphFixedRootGroup t K σ.toRingHom) = ⊥ :=
     CFSG.ComponentClassification.ExcSelector.center_eq_bot_of_isSimpleGroup' hnaG
   have eSub : ↥⁅CFSG.Blueprint.twistedFixedGroup t K σ.toRingHom,
@@ -87,7 +87,7 @@ private theorem l02qf3_twE6_simple (n : ℕ) (hn : 1 ≤ n) {K : Type} [Field K]
       ∃ a b : LargeEvenCenterQuot
         (LargeEvenTwistedH (LargeEvenCartanE 6) K LargeEvenRhoE6 n), a * b ≠ b * a := by
   have hK' : Nat.card K = 2 ^ (n * 2) := by rw [hK, pow_mul]
-  haveI : CharP K 2 := charP_two_of_card hK'
+  have : CharP K 2 := charP_two_of_card hK'
   let σ : K ≃+* K := iterateFrobeniusEquiv K 2 n
   have hσ : ∀ c : K, σ c = c ^ 2 ^ n := fun c => by
     simp only [σ, iterateFrobeniusEquiv_apply, iterateFrobenius_def]
@@ -100,7 +100,7 @@ private theorem l02qf3_triD4_simple (n : ℕ) (hn : 1 ≤ n) {K : Type} [Field K
       ∃ a b : LargeEvenCenterQuot
         (LargeEvenTwistedH LargeEvenCartanD4 K LargeEvenRhoD4 n), a * b ≠ b * a := by
   have hK' : Nat.card K = 2 ^ (n * 3) := by rw [hK, pow_mul]
-  haveI : CharP K 2 := charP_two_of_card hK'
+  have : CharP K 2 := charP_two_of_card hK'
   let σ : K ≃+* K := iterateFrobeniusEquiv K 2 n
   have hσ : ∀ c : K, σ c = c ^ 2 ^ n := fun c => by
     simp only [σ, iterateFrobeniusEquiv_apply, iterateFrobenius_def]
@@ -124,8 +124,8 @@ private theorem l02qf3_g2der_simple {K : Type} [Field K] [Finite K] (hK : Nat.ca
 private theorem l02qf3_tits_simple {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) :
     IsSimpleGroup (LargeEvenCenterQuot (LargeEvenTwF4H 0 K)) ∧
       ∃ a b : LargeEvenCenterQuot (LargeEvenTwF4H 0 K), a * b ≠ b * a := by
-  haveI : CharP K 2 := charP_two_of_card (m := 1) (by simpa using hK)
-  haveI : CharP K CFSG.LieType.Ree.ReeTag.F4.prime := inferInstanceAs (CharP K 2)
+  have : CharP K 2 := charP_two_of_card (m := 1) (by simpa using hK)
+  have : CharP K CFSG.LieType.Ree.ReeTag.F4.prime := inferInstanceAs (CharP K 2)
   obtain ⟨e⟩ := nonempty_titsQuot_equiv hK
   have hq := (CFSG.LieType.Simplicity.titsData K hK).isQuasisimple hK
   have hcenter : Subgroup.center
@@ -136,11 +136,11 @@ private theorem l02qf3_tits_simple {K : Type} [Field K] [Finite K] (hK : Nat.car
         CFSG.LieType.Ree.ReeTag.F4 K 0))) ≃*
       ↥(commutator ↥(CFSG.LieType.Ree.reeFixed CFSG.LieType.Ree.ReeTag.F4 K 0)) :=
     (QuotientGroup.quotientMulEquivOfEq hcenter).trans QuotientGroup.quotientBot
-  haveI hsimpleQ : IsSimpleGroup
+  have hsimpleQ : IsSimpleGroup
       (↥(commutator ↥(CFSG.LieType.Ree.reeFixed CFSG.LieType.Ree.ReeTag.F4 K 0)) ⧸
         Subgroup.center ↥(commutator ↥(CFSG.LieType.Ree.reeFixed
           CFSG.LieType.Ree.ReeTag.F4 K 0))) := hq.2.1
-  haveI hsimpleG : IsSimpleGroup
+  have hsimpleG : IsSimpleGroup
       ↥(commutator ↥(CFSG.LieType.Ree.reeFixed CFSG.LieType.Ree.ReeTag.F4 K 0)) :=
     eQ.symm.isSimpleGroup
   exact ⟨e.isSimpleGroup, nonabelian_of_mulEquiv e.symm (nonabelian_of_mulEquiv eQ hq.2.2)⟩
@@ -240,8 +240,8 @@ theorem kgfni_rawSimple_twisted : KGFNIRawSimpleOn KGFNITwistedLabel := by
     intro Q hQ
     dsimp only [LargeEvenRawDatum] at hQ ⊢
     obtain ⟨K, hF, hfin, hK, hQ'⟩ := hQ
-    haveI : CharP K 2 := charP_two_of_card hK
-    haveI : CharP K CFSG.LieType.Ree.ReeTag.F4.prime := inferInstanceAs (CharP K 2)
+    have : CharP K 2 := charP_two_of_card hK
+    have : CharP K CFSG.LieType.Ree.ReeTag.F4.prime := inferInstanceAs (CharP K 2)
     exact ⟨K, hF, hfin, hK, hQ',
       CFSG.LocalAnalysis.GLTheoremA.Y10GField.twF4Quot_simple ha hK⟩
   ·
@@ -251,7 +251,7 @@ theorem kgfni_rawSimple_twisted : KGFNIRawSimpleOn KGFNITwistedLabel := by
     dsimp only [LargeEvenRawDatum] at hQ ⊢
     obtain ⟨K, hF, hfin, hK, hQ'⟩ := hQ
     refine ⟨K, hF, hfin, hK, hQ', ?_⟩
-    haveI : IsSimpleGroup (alternatingGroup (Fin 6)) :=
+    have : IsSimpleGroup (alternatingGroup (Fin 6)) :=
       alternatingGroup.isSimpleGroup (by rw [Nat.card_eq_fintype_card, Fintype.card_fin]; norm_num)
     have hSbot := CFSG.LocalAnalysis.GLTheoremA.Y10GField.largeEvenScalars_two_subgroupOf_eq_bot
       hK ⁅LargeEvenSpGroup K 2, LargeEvenSpGroup K 2⁆

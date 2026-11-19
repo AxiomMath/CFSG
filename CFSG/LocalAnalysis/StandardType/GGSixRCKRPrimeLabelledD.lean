@@ -54,7 +54,7 @@ theorem rckD_twistInner {τ : Tag} {L : Type} [Field L] {ρ : Equiv.Perm (Fin τ
     twistInner (componentRoots χ i)
       ((ρ : (Fin τ.rank → ℤ) → _)^[componentOrbitLength ρ (componentRoots χ i)]) := by
   by_contra hno
-  simp only [twistKind, hno, if_false] at hkind
+  simp only [twistKind, hno, ite_false] at hkind
   split_ifs at hkind
   all_goals simp_all
 

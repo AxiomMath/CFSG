@@ -124,12 +124,12 @@ theorem term_snoc (A : Matrix (Fin 6) (Fin 6) F4) (k : ℕ) (S : Finset (Fin 6))
       ∏ i : Fin k, rowN A i (τ i) else 0) else 0 := by
   have hc := cond_snoc τ j S
   by_cases hj : j ∈ S
-  · rw [if_pos hj]
+  · rw [ite_eq_left hj]
     by_cases h : Function.Injective τ ∧ Finset.univ.image τ = S.erase j
-    · rw [if_pos (hc.2 ⟨hj, h⟩), if_pos h, Fin.prod_univ_castSucc, mul_comm]
-      simp only [Fin.snoc_castSucc, Fin.snoc_last, Fin.coe_castSucc, Fin.val_last]
-    · rw [if_neg (fun h' => h (hc.1 h').2), if_neg h, mul_zero]
-  · rw [if_neg hj, if_neg (fun h' => hj (hc.1 h').1)]
+    · rw [ite_eq_left (hc.2 ⟨hj, h⟩), ite_eq_left h, Fin.prod_univ_castSucc, mul_comm]
+      simp only [Fin.snoc_castSucc, Fin.snoc_last, Fin.val_castSucc, Fin.val_last]
+    · rw [ite_eq_right (fun h' => h (hc.1 h').2), ite_eq_right h, mul_zero]
+  · rw [ite_eq_right hj, ite_eq_right (fun h' => hj (hc.1 h').1)]
 
 open Classical in
 theorem subQ_succ (A : Matrix (Fin 6) (Fin 6) F4) (k : ℕ) (S : Finset (Fin 6)) :
@@ -146,15 +146,15 @@ theorem subQ_succ (A : Matrix (Fin 6) (Fin 6) F4) (k : ℕ) (S : Finset (Fin 6))
   simp only [Finset.univ_inter]
   refine Finset.sum_congr rfl fun j _ => ?_
   by_cases hj : j ∈ S
-  · simp only [if_pos hj]
+  · simp only [ite_eq_left hj]
     rw [Finset.mul_sum]
-  · simp only [if_neg hj, Finset.sum_const_zero]
+  · simp only [ite_eq_right hj, Finset.sum_const_zero]
 
 open Classical in
 theorem subQ_zero (A : Matrix (Fin 6) (Fin 6) F4) : subQ A 0 ∅ = 1 := by
   unfold subQ
   rw [Fintype.sum_unique]
-  rw [if_pos ⟨fun a => a.elim0, by simp⟩, Fin.prod_univ_zero]
+  rw [ite_eq_left ⟨fun a => a.elim0, by simp⟩, Fin.prod_univ_zero]
 
 theorem sign_smul (σ : Equiv.Perm (Fin 6)) (x : F4) : Equiv.Perm.sign σ • x = x := by
   rcases Int.units_eq_one_or (Equiv.Perm.sign σ) with h | h <;> rw [h]
@@ -287,10 +287,10 @@ theorem detTab_spec (P : ℕ) : ∀ n ≤ 64, detTab P n < 2 ^ (2 * n) ∧
     · exact append_lt hT hv
     · rw [fget_append hT hv]
       by_cases hlt : S < n
-      · rw [if_pos hlt]
+      · rw [ite_eq_left hlt]
         exact hS S hlt
       · have hSn : S = n := by omega
-        rw [if_neg hlt, if_pos hSn]
+        rw [ite_eq_right hlt, ite_eq_left hSn]
         subst hSn
         rcases Nat.eq_zero_or_pos S with rfl | hpos
         · rw [setOf_zero, Finset.card_empty, subQ_zero]
@@ -316,7 +316,7 @@ theorem detTab_spec (P : ℕ) : ∀ n ≤ 64, detTab P n < 2 ^ (2 * n) ∧
           refine Finset.sum_congr rfl fun j _ => ?_
           rw [bit_eq']
           by_cases hb : S.testBit j = true
-          · rw [if_pos hb, hb]
+          · rw [ite_eq_left hb, hb]
             change cF4 (fm _ _) = _
             have hpop : Nat.sub (popc 6 S) 1 = k := by
               rw [← setOf_card, hk]
@@ -328,7 +328,7 @@ theorem detTab_spec (P : ℕ) : ∀ n ≤ 64, detTab P n < 2 ^ (2 * n) ∧
               rw [Fintype.card_fin] at this
               omega
             have hrow : cF4 (ent P k j) = rowN (decM P) k j := by
-              rw [rowN, dif_pos hk6]
+              rw [rowN, dite_eq_left hk6]
               exact cF4_ent P ⟨k, hk6⟩ j
             have hsub := sub_bit S (by omega) j j.2 hb
             have e2 : pw2 j = 2 ^ (j : ℕ) := by
@@ -339,7 +339,7 @@ theorem detTab_spec (P : ℕ) : ∀ n ≤ 64, detTab P n < 2 ^ (2 * n) ∧
             change _ * cF4 (fget (detTab P S) (S - pw2 j) 2) = _
             rw [hq, setOf_sub (by omega) j hb, Finset.card_erase_of_mem (by simp [bitSet, hb]), hk]
             rfl
-          · rw [if_neg hb]
+          · rw [ite_eq_right hb]
             rw [Bool.not_eq_true] at hb
             rw [hb]
             rfl

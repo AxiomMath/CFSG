@@ -97,7 +97,7 @@ theorem asg_F1_surj : ∀ t : Fin 16, ∃ s : Fin 16, xorF (tab F1 s) s = t := b
 
 theorem asg_alt5_comm :
     ⁅alternatingGroup (Fin 5), alternatingGroup (Fin 5)⁆ = alternatingGroup (Fin 5) := by
-  haveI : IsSimpleGroup ↥(alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup ↥(alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by simp)
   have hK : ⁅(⊤ : Subgroup ↥(alternatingGroup (Fin 5))),
       (⊤ : Subgroup ↥(alternatingGroup (Fin 5)))⁆ = ⊤ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal

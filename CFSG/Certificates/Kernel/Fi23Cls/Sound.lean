@@ -63,9 +63,9 @@ theorem stepD_spec {G : Nat → Nat} {w : List Nat} {p r s : Nat} (h : stepD G w
   rw [bIf_eq, bIf_eq, bAnd_eq, bAnd_eq, bAnd_eq] at h
   by_cases h1 : Nat.beq r p = true
   · exact Or.inl (Nat.eq_of_beq_eq_true h1)
-  · rw [if_neg h1] at h
+  · rw [ite_eq_right h1] at h
     by_cases h2 : cmK G p r = true
-    · rw [if_pos h2] at h
+    · rw [ite_eq_left h2] at h
       simp only [Bool.and_eq_true, Bool.not_eq_true'] at h
       obtain ⟨h3, h4, h5, h6⟩ := h
       exact Or.inr (Or.inr ⟨by simpa [Nat.blt_eq] using h3, Nat.eq_of_beq_eq_true h4, h5, h6⟩)

@@ -50,7 +50,7 @@ theorem ntQEInStatement_holds : NTQEInStatement := by
     exact (inSubgroup_pCore_two M).1
   have haV : aG ∈ V := hpoint a T ha hT hTV
   have haG1 : aG ≠ 1 := fun h => ha (c8W_inj ψ (h.trans (c8W_zero ψ).symm))
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have haG2 : orderOf aG = 2 :=
     orderOf_eq_prime (hc.elemAb.2 _ haV) haG1
   have hA2 : Nat.card ↥(V ⊓ wOf V H) = 2 := hH.module.trans hH.q_two
@@ -107,7 +107,7 @@ theorem ntQEInStatement_holds : NTQEInStatement := by
     intro q hq
     simp only [pResidual, Subgroup.mem_iInf]
     intro N hN hpow
-    haveI := hN
+    have := hN
     refine hQN N ?_ hq
     intro x
     obtain ⟨g, rfl⟩ := QuotientGroup.mk_surjective x
@@ -121,7 +121,7 @@ theorem ntQEInStatement_holds : NTQEInStatement := by
     rw [← h, ← pow_succ']
     congr 1
     omega
-  haveI : (pResidual 2 G).Normal := Quasithin.G6.pResidual_normal_aux 2
+  have : (pResidual 2 G).Normal := Quasithin.G6.pResidual_normal_aux 2
   refine no_normal_four_in_residual (pResidual 2 G)
     (fun N _ hq => pResidual_two_idem G N hq) haG2 hQG haV hc.V_le_Q hV4
     (by rw [hcentM]; exact hQM)

@@ -30,7 +30,7 @@ theorem IsSubnormalSection.of_surjective {W : Type} [Group W] (f : Q →* Q')
   have hNeq : N.subgroupOf M = (N'.subgroupOf M').comap g := by
     ext x
     exact Iff.rfl
-  haveI : (N.subgroupOf M).Normal := by
+  have : (N.subgroupOf M).Normal := by
     rw [hNeq]
     exact hN'.comap g
   refine ⟨M, N, inferInstance, Subgroup.comap_mono hle, hNs.comap f, hMs.comap f, ?_⟩
@@ -73,7 +73,7 @@ theorem IsSubnormalSection.of_inf_le {W : Type} [Group W] (M N : Subgroup Q)
       exact Subtype.ext hny
     · rintro ⟨x, hx, rfl⟩
       exact Subgroup.mem_subgroupOf.2 ⟨(x : Q), Subgroup.mem_subgroupOf.1 hx, rfl⟩
-  haveI : (N₁.subgroupOf M₁).Normal := by
+  have : (N₁.subgroupOf M₁).Normal := by
     rw [hNeq]
     exact hN.map f₁ hf₁
   refine ⟨M₁, N₁, inferInstance, Subgroup.map_mono hNM, hNs.map (QuotientGroup.mk'_surjective A),
@@ -106,14 +106,14 @@ theorem IsSubnormalSection.of_not_inf_le {W : Type} [Group W] (M N : Subgroup Q)
     (e : (↥M ⧸ N.subgroupOf M) ≃* W) (hsimple : IsSimpleGroup (↥M ⧸ N.subgroupOf M))
     (hAN : ¬ M ⊓ A ≤ N) : IsSubnormalSection W ↥A := by
   set P : Subgroup ↥M := (M ⊓ A).subgroupOf M with hP
-  haveI hPn : P.Normal := ⟨fun x hx g => by
+  have hPn : P.Normal := ⟨fun x hx g => by
     rw [hP, Subgroup.mem_subgroupOf] at hx ⊢
     exact ⟨M.mul_mem (M.mul_mem g.2 x.2) (M.inv_mem g.2), by
       have := hA.conj_mem (x : Q) hx.2 (g : Q)
       simpa using this⟩⟩
   set K : Subgroup (↥M ⧸ N.subgroupOf M) := P.map (QuotientGroup.mk' (N.subgroupOf M)) with hK
-  haveI hKn : K.Normal := hPn.map _ (QuotientGroup.mk'_surjective _)
-  obtain ⟨x, hx, hxN⟩ := SetLike.not_le_iff_exists.1 hAN
+  have hKn : K.Normal := hPn.map _ (QuotientGroup.mk'_surjective _)
+  obtain ⟨x, hx, hxN⟩ := IsConcreteLE.not_le_iff_exists.1 hAN
   have hKtop : K = ⊤ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal K with h | h
     · exfalso
@@ -131,7 +131,7 @@ theorem IsSubnormalSection.of_not_inf_le {W : Type} [Group W] (M N : Subgroup Q)
   have hNeq : N₂.subgroupOf M₂ = (N.subgroupOf M).comap ι := by
     ext x
     exact Iff.rfl
-  haveI : (N₂.subgroupOf M₂).Normal := by
+  have : (N₂.subgroupOf M₂).Normal := by
     rw [hNeq]
     exact hN.comap ι
   refine ⟨M₂, N₂, inferInstance, fun y hy => hNM hy, hNs.subgroupOf, hMs.subgroupOf, ?_⟩
@@ -155,8 +155,8 @@ theorem AllNS.of_split {S : Type} [Group S] {Q : Type} [Group Q] (A : Subgroup Q
     (hA : AllNS S ↥A) (hQ : AllNS S (Q ⧸ A)) : AllNS S Q := by
   intro W _ hW hnab hsec
   obtain ⟨M, N, hN, hNM, hNs, hMs, ⟨e⟩⟩ := hsec
-  haveI := hW
-  haveI : IsSimpleGroup (↥M ⧸ N.subgroupOf M) := e.isSimpleGroup
+  have := hW
+  have : IsSimpleGroup (↥M ⧸ N.subgroupOf M) := e.isSimpleGroup
   by_cases hAN : M ⊓ A ≤ N
   · exact hQ W hW hnab (IsSubnormalSection.of_inf_le A M N hNM hNs hMs e hAN)
   · exact hA W hW hnab (IsSubnormalSection.of_not_inf_le A M N hNM hNs hMs e inferInstance hAN)
@@ -169,9 +169,9 @@ theorem AllNS.of_solvable [Group.IsSolvable Q] : AllNS S Q := by
   intro W _ hW hnab hsec
   exfalso
   obtain ⟨M, N, hN, hNM, hNs, hMs, ⟨e⟩⟩ := hsec
-  haveI : Group.IsSolvable ↥M := inferInstance
-  haveI : Group.IsSolvable (↥M ⧸ N.subgroupOf M) := inferInstance
-  haveI : Group.IsSolvable W := Group.isSolvable_of_surjective (f := e.toMonoidHom) e.surjective
+  have : Group.IsSolvable ↥M := inferInstance
+  have : Group.IsSolvable (↥M ⧸ N.subgroupOf M) := inferInstance
+  have : Group.IsSolvable W := Group.isSolvable_of_surjective (f := e.toMonoidHom) e.surjective
   obtain ⟨a, b, hab⟩ := hnab
   exact hab (((IsSimpleGroup.comm_iff_isSolvable (G := W)).2 inferInstance) a b)
 
@@ -207,9 +207,9 @@ theorem AllNS.of_simple (hQ : IsSimpleGroup Q) (e : Q ≃* S) : AllNS S Q := by
 
 theorem AllNS.of_quasisimple (hQ : IsSimpleGroup (Q ⧸ Subgroup.center Q))
     (e : (Q ⧸ Subgroup.center Q) ≃* S) : AllNS S Q := by
-  haveI : (Subgroup.center Q).Normal := inferInstance
+  have : (Subgroup.center Q).Normal := inferInstance
   refine AllNS.of_split (Subgroup.center Q) ?_ (AllNS.of_simple hQ e)
-  haveI : Group.IsSolvable ↥(Subgroup.center Q) := inferInstance
+  have : Group.IsSolvable ↥(Subgroup.center Q) := inferInstance
   exact AllNS.of_solvable
 
 end Basic

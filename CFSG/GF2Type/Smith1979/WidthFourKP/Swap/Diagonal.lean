@@ -21,7 +21,7 @@ open CFSG.RankThree.OrthogonalInvolutions
 variable {G : Type} [Group G] [Finite G] {S : Setting G} {g : G}
 variable (D : S5.SwapData S g)
 
-theorem SwapW4.chi_ker_le_center (W : SwapW4 D) : D.chi.ker ≤ Subgroup.center D.Z :=
+theorem SwapW4.chi_ker_le_center (_W : SwapW4 D) : D.chi.ker ≤ Subgroup.center D.Z :=
   CFSG.ComponentClassification.SwappedQuasisimpleProduct.diagonal_kernel_central D.Z
     (MulAut.conj D.t) D.commutator_eq_bot
 
@@ -99,8 +99,8 @@ theorem SwapW4.isSimpleGroup_Z (W : SwapW4 D) : IsSimpleGroup D.Z := by
   have hRsimple : IsSimpleGroup (RmodN S g D.t) := by
     rw [hR]
     exact (S8.isSimpleGroup_omegaGroup_minus_four hQ W.h4 hmin).1
-  haveI : IsSimpleGroup (RmodN S g D.t) := hRsimple
-  haveI : IsSimpleGroup D.Xhat :=
+  have : IsSimpleGroup (RmodN S g D.t) := hRsimple
+  have : IsSimpleGroup D.Xhat :=
     MulEquiv.isSimpleGroup (SwapW4.xhatEquivRmodN D W)
   exact MulEquiv.isSimpleGroup (SwapW4.chiEquiv D W)
 
@@ -128,9 +128,9 @@ theorem SwapW4.card_E2 (W : SwapW4 D) :
     (fun x hx y hy => D.mul_comm_of_mem hx hy) (SwapW4.Z_inf_W D W),
     SwapW4.card_Z D W, SwapW4.card_W D W]
 
-theorem SwapW4.mem_E2_iff (W : SwapW4 D) {e : S.O} :
+theorem SwapW4.mem_E2_iff (_W : SwapW4 D) {e : S.O} :
     e ∈ D.Z ⊔ D.W ↔ ∃ z ∈ D.Z, ∃ w ∈ D.W, z * w = e :=
-  GL83.CompFam.mem_sup_of_commute (fun x hx y hy => D.mul_comm_of_mem hx hy)
+  GL83.CompFam.mem_sup_of_commute (fun _x hx _y hy => D.mul_comm_of_mem hx hy)
 
 theorem SwapW4.decomp (W : SwapW4 D) {e : S.O} (he : e ∈ D.Z ⊔ D.W) :
     ∃! p : D.Z × D.Z, e = (p.1 : S.O) * (D.t * (p.2 : S.O) * D.t⁻¹) := by
@@ -223,7 +223,7 @@ theorem SwapW4.E2_inf_centralizer (W : SwapW4 D) :
   exact hp'.symm
 
 
-noncomputable def SwapW4.P (W : SwapW4 D) : Subgroup D.Z :=
+noncomputable def SwapW4.P (_W : SwapW4 D) : Subgroup D.Z :=
   (S.Lbar g ⊓ D.Xhat).comap D.chi
 
 theorem SwapW4.Lbar_eq_sup_Nbar (W : SwapW4 D) :
@@ -439,7 +439,7 @@ theorem SwapW4.normalizer_E2_decomp (W : SwapW4 D) {e : S.O}
       D.mul_comm_of_mem_W (D.conj_mem_W hz2) (D.Z.inv_mem hz2)
     have hcommW' : D.t * z2 * D.t * z2⁻¹ = z2⁻¹ * D.t * z2 * D.t := by
       simpa [D.t_inv W.H, mul_assoc] using hcommW
-    simp [hp0, D.t_inv W.H, D.t_mul_t W.H, hcommW', huS, hu_inv, mul_assoc]
+    simp [hp0, D.t_inv W.H, D.t_mul_t W.H, huS, hu_inv, mul_assoc]
     calc D.t * (z2 * (D.t * (z2⁻¹ * (D.t * z1⁻¹))))
         = (D.t * z2 * D.t * z2⁻¹) * (D.t * z1⁻¹) := by group
       _ = (z2⁻¹ * D.t * z2 * D.t) * (D.t * z1⁻¹) := by rw [hcommW']

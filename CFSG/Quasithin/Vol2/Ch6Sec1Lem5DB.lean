@@ -46,7 +46,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem exists_elemAbelian_sq_ch615 {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {C : Subgroup G}
     (P : Sylow p ↥C) (hP : ¬ IsCyclic P) :
     ∃ E : Subgroup G, E ≤ C ∧ IsElemAbelian p E ∧ Nat.card E = p ^ 2 := by
-  have : Fact (IsPGroup p ↥(P : Subgroup ↥C)) := ⟨P.isPGroup'⟩
+  have : Fact (IsPGroup p ↥(P : Subgroup ↥C)) := ⟨P.isPGroup⟩
   obtain ⟨S, -, hcard, hel⟩ := lemma_4_5_a hp2 hP
   set f : ↥(P : Subgroup ↥C) →* G := C.subtype.comp (P : Subgroup ↥C).subtype with hf
   have hfinj : Function.Injective f :=

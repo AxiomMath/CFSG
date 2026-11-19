@@ -15,7 +15,7 @@ open CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley CFSG.LieType.Steinberg.Minu
 
 variable {n : ℕ} {k k₁ k₂ : Type} [Field k] [Field k₁] [Field k₂]
 
-private theorem scPhi_xm (ι : k →+* k₁) {γ : Fin (Tag.rank .E6) → ℤ} (hγ : IsRoot .E6 γ)
+private theorem scPhi_xm (ι : k →+* k₁) {γ : Fin (Tag.rank .E6) → ℤ} (_hγ : IsRoot .E6 γ)
     (c : k) :
     scPhi ι (e6Data_valid.xm k γ c) = e6Data_valid.xm k₁ γ (ι c) :=
   Subtype.ext (units_map_xu ι e6Data_valid γ c)

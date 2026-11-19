@@ -21,7 +21,7 @@ section Simple
 
 theorem isSimpleGroup_of_isQuasisimple {X : Type} [Group X] (hq : CFSG.Open.IsQuasisimple X)
     (hZ : Subgroup.center X = ⊥) : IsSimpleGroup X := by
-  haveI := hq.2
+  have := hq.2
   exact ((QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot).symm.isSimpleGroup
 
 theorem isQuasisimple_of_valid {c : CompData} (hV : c.Valid) (hne : c ≠ CompData.sl23) :
@@ -49,7 +49,7 @@ section Shape
 variable {Y : Type} [Group Y] [Finite Y] {Φ : Set (Subgroup Y)}
 
 theorem genFittingFStar_ne_bot (hF : FStarSimple Y) : genFittingFStar Y ≠ ⊥ := by
-  haveI : IsSimpleGroup ↥(genFittingFStar Y) := hF.1
+  have : IsSimpleGroup ↥(genFittingFStar Y) := hF.1
   have : Nontrivial ↥(genFittingFStar Y) := IsSimpleGroup.toNontrivial
   exact (Subgroup.nontrivial_iff_ne_bot _).mp this
 
@@ -66,7 +66,7 @@ theorem lie_case
       LieDatum (genFittingFStar Y) M := by
   set L := genFittingFStar Y with hL
   set H := omegaGen (lOrbit L M) with hH
-  haveI : IsSimpleGroup ↥L := hF.1
+  have : IsSimpleGroup ↥L := hF.1
   have hC := centralizer_eq_bot_of_fStarSimple hF
   have hMne : M ≠ ⊥ := fun h => hz.ne_one (Subgroup.mem_bot.mp (h ▸ hz.mem))
   have hLH : L ≤ H := le_omegaGen_lOrbit (genFittingFStar_normal Y) hC hMne
@@ -74,7 +74,7 @@ theorem lie_case
   obtain ⟨c, hV, hne, φ, hs, hk, F, hFf, hMF, h24, hcl⟩ := h
   have hq : CFSG.Open.IsQuasisimple ↥H :=
     isQuasisimple_of_centralQuotient (isQuasisimple_of_valid hV hne) φ hs hk
-  haveI : IsSimpleGroup ↥H := isSimpleGroup_of_isQuasisimple hq (center_eq_bot_of_le hC hLH)
+  have : IsSimpleGroup ↥H := isSimpleGroup_of_isQuasisimple hq (center_eq_bot_of_le hC hLH)
   have hHL : H = L := eq_genFittingFStar_of_isSimpleGroup hF hLH
   have hMΛ : M ≤ (F.map φ).map H.subtype := by
     have := Subgroup.map_mono (f := H.subtype) hMF
@@ -104,7 +104,7 @@ theorem thm6Exit_cases (hF : FStarSimple Y) {X : Subgroup Y} (hLX : genFittingFS
         CFSG.Blueprint.LieModel ↥(genFittingFStar Y) .PSU 3 3 1 ∨
         CFSG.Blueprint.NativeSporadic.IsSporadic ↥(genFittingFStar Y) .M12) ∨
       (E3aShape ↥X ∧ IsE3aGroup ↥(genFittingFStar Y)) := by
-  haveI : IsSimpleGroup ↥(genFittingFStar Y) := hF.1
+  have : IsSimpleGroup ↥(genFittingFStar Y) := hF.1
   obtain ⟨eF⟩ := nonempty_fStarQuot_equiv (genFittingFStar_normal Y) hF.2
     (centralizer_eq_bot_of_fStarSimple hF) hLX
   rcases h with ⟨p, f, hp, hp2, ⟨hfe, hl2, hidx⟩ | ⟨hl3 | hu3, hidx⟩⟩ | ⟨⟨e⟩, -⟩
@@ -125,14 +125,14 @@ theorem thm6Exit_cases (hF : FStarSimple Y) {X : Subgroup Y} (hLX : genFittingFS
 theorem m12_case (hF : FStarSimple Y) {X : Subgroup Y}
     (hLX : genFittingFStar Y ≤ X) (e : ↥X ≃* CFSG.Blueprint.NativeSporadic.Carrier .M12) :
     CFSG.Blueprint.NativeSporadic.IsSporadic ↥(genFittingFStar Y) .M12 := by
-  haveI : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .M12) :=
+  have : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .M12) :=
     CFSG.Sporadic.Mathieu.fam_m12_simplicity.2.2
-  haveI : IsSimpleGroup ↥X := e.isSimpleGroup
+  have : IsSimpleGroup ↥X := e.isSimpleGroup
   exact ⟨(MulEquiv.subgroupCongr (eq_genFittingFStar_of_isSimpleGroup hF hLX)).symm.trans e⟩
 
 theorem twin_case (hF : FStarSimple Y) {X : Subgroup Y} (hLX : genFittingFStar Y ≤ X)
     (h : IsTwinGroup ↥X) : X = genFittingFStar Y ∧ IsTwinGroup ↥(genFittingFStar Y) := by
-  haveI : IsSimpleGroup ↥X := by
+  have : IsSimpleGroup ↥X := by
     rcases h with h | h
     · exact CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) h
     · exact CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) h
@@ -158,7 +158,7 @@ theorem orbit_shape
       (omegaGen (lOrbit (genFittingFStar Y) M) = genFittingFStar Y ∧
         IsTwinGroup ↥(genFittingFStar Y)) := by
   have hMne : M ≠ ⊥ := fun h => hz.ne_one (Subgroup.mem_bot.mp (h ▸ hz.mem))
-  haveI : IsSimpleGroup ↥(genFittingFStar Y) := hF.1
+  have : IsSimpleGroup ↥(genFittingFStar Y) := hF.1
   have hLH : genFittingFStar Y ≤ omegaGen (lOrbit (genFittingFStar Y) M) :=
     le_omegaGen_lOrbit (genFittingFStar_normal Y) (centralizer_eq_bot_of_fStarSimple hF) hMne
   rcases hI with hlie | ⟨-, -, h6, hn⟩ | ⟨-, ⟨e⟩, -⟩ | ⟨ht, -⟩

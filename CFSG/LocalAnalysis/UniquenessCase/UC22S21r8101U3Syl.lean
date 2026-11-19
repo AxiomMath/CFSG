@@ -42,8 +42,8 @@ theorem u81_omega_decomp (u : U4P D L K n p) {r : ℕ} (hr : r.Prime) (hrp : r �
       ∃ c ∈ barImage D.M B ⊓ centralizer
         ((barImage D.M L ⊔ barImage D.M K : Subgroup (Bar2 D.M)) : Set (Bar2 D.M)),
         β = x₀ * x₁ * c := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hr2 := u.r_ne_two hr hrp
   obtain ⟨hcomm, hinf, -, -, -, -, hXC⟩ := u4x_bar_structure u.hL u.hK u.hne u.hset u.shape
   have hmem : ∀ x ∈ barImage D.M R, x ^ r = 1 → x ∈ barImage D.M B := by
@@ -82,8 +82,8 @@ theorem u81_sp_of_two_le_pRank (u : U4P D L K n p) {r : ℕ} (hr : r.Prime)
   have hr2 := u.r_ne_two hr hrp
   have hn := u.prime_p
   have hn2 := u.p_ne_two
-  haveI : Fact p.Prime := ⟨hn⟩
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact p.Prime := ⟨hn⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hrσ : r ∉ D.sig := fun h => hnot (UC6S846.sp_of_mem_sig hSg hns h)
   have h76n := h76 p u.hσ (UC6S846.sp_of_mem_sig hSg hns u.hσ)
   obtain ⟨R, hR⟩ := CFSG.ABGLocalTools.exists_isSylowOf r D.M

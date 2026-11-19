@@ -129,7 +129,7 @@ theorem exists_qElt_anisoTorus {d : ℕ} {Q : QuadraticForm F (Fin d → F)} {a 
     (hT : ∃ T : Submodule F (Fin d → F), Module.finrank F T = 3 ∧ ∀ x ∈ T, Q x = 0)
     {n q : ℕ} (hF : Nat.card F = 2 ^ n) (hq : q.Prime) (hqdvd : q ∣ 2 ^ n + 1) :
     ∃ u ∈ anisoTorusOf Q h.ne b c, orderOf u = q := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hcard : Nat.card (anisoTorusOf Q h.ne b c) = Nat.card F + 1 :=
     h.card_anisoTorusOf hQ hT
   have hdvd : q ∣ Nat.card (anisoTorusOf Q h.ne b c) := by rw [hcard, hF]; exact hqdvd
@@ -161,15 +161,15 @@ theorem exists_g3 (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) (hF : Nat.card F =
     (isAnisoCoord_coordinateQuadMinus (K := F) (by norm_num) hirr).exists_ne_zero hn hF hq hqdvd
 
 theorem exists_u (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) (hF : Nat.card F = 2 ^ n)
-    (hq : q.Prime) (hqdvd : q ∣ 2 ^ n + 1) (hn : 2 ≤ n) :
+    (hq : q.Prime) (hqdvd : q ∣ 2 ^ n + 1) (_hn : 2 ≤ n) :
     ∃ u ∈ anisoTorusOf (Qc F b c) (anisoCoord_ne (n := 5) (by norm_num)) b c, orderOf u = q := by
   obtain ⟨hQ, hT⟩ := regular_coordinateQuadMinus 5 F b c (by norm_num) hirr
   exact exists_qElt_anisoTorus (h := isAnisoCoord_coordinateQuadMinus (K := F) (by norm_num) hirr)
     hQ hT hF hq hqdvd
 
 private theorem card_sup_zpowers_leviFixBar_eq_sq
-    (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) (hF : Nat.card F = 2 ^ n)
-    (hq : q.Prime) (hqdvd : q ∣ 2 ^ n + 1) (hn : 2 ≤ n)
+    (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) (_hF : Nat.card F = 2 ^ n)
+    (_hq : q.Prime) (_hqdvd : q ∣ 2 ^ n + 1) (_hn : 2 ≤ n)
     {g2 g3 : matrixProjectiveDerived (Qc F b c)}
     (hg2 : g2 ∈ leviFixBar (cPair F b c 2) (cPair F b c 3))
     (hg3 : g3 ∈ leviFixBar (cPair F b c 2) (flipPair (cPair F b c 3)))
@@ -204,12 +204,12 @@ private theorem card_sup_zpowers_leviFixBar_eq_sq
   exact hcardE
 
 private theorem le_centralizer_zpowers_sup_stabPairsBar
-    (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) (hF : Nat.card F = 2 ^ n)
-    (hq : q.Prime) (hqdvd : q ∣ 2 ^ n + 1) (hn : 2 ≤ n)
+    (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) (_hF : Nat.card F = 2 ^ n)
+    (_hq : q.Prime) (_hqdvd : q ∣ 2 ^ n + 1) (_hn : 2 ≤ n)
     {g2 g3 : matrixProjectiveDerived (Qc F b c)}
     (hg2 : g2 ∈ leviFixBar (cPair F b c 2) (cPair F b c 3))
     (hg3 : g3 ∈ leviFixBar (cPair F b c 2) (flipPair (cPair F b c 3)))
-    (hord2 : orderOf g2 = q) (hord3 : orderOf g3 = q) :
+    (_hord2 : orderOf g2 = q) (_hord3 : orderOf g3 = q) :
     stabPairsBar (Qc F b c) miE2 miF2 miE3 miF3 ≤
       Subgroup.centralizer (↑(Subgroup.zpowers g2 ⊔ Subgroup.zpowers g3) :
         Set (matrixProjectiveDerived (Qc F b c))) := by
@@ -280,9 +280,10 @@ private theorem le_centralizer_zpowers_sup_stabPairsBar
     exact ((show Commute g3 l from hL3 l hl).zpow_left k).eq
   exact Subgroup.mem_centralizer_singleton_iff.mp ((sup_le h1 h2) hx)
 
+omit [Finite F] in
 private theorem normal_stabPairsBar_subgroupOf_centralizer
-    (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) (hF : Nat.card F = 2 ^ n)
-    (hq : q.Prime) (hqdvd : q ∣ 2 ^ n + 1) (hn : 2 ≤ n) (hq2 : q ≠ 2)
+    (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) (_hF : Nat.card F = 2 ^ n)
+    (hq : q.Prime) (_hqdvd : q ∣ 2 ^ n + 1) (_hn : 2 ≤ n) (hq2 : q ≠ 2)
     {g2 g3 : matrixProjectiveDerived (Qc F b c)}
     (hg2 : g2 ∈ leviFixBar (cPair F b c 2) (cPair F b c 3))
     (hord2 : orderOf g2 = q)

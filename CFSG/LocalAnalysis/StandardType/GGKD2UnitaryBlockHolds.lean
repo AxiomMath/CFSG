@@ -44,9 +44,9 @@ private theorem ltrcu1_isQuasisimple_native {Q : Type*} [Group Q]
 private theorem ltrcu1_not_isSolvable_of_isQuasisimple {Q : Type*} [Group Q]
     (hQ : CFSG.IsQuasisimple Q) : ¬ Group.IsSolvable Q := by
   obtain ⟨hperf, hsimple, -⟩ := hQ
-  haveI : Nontrivial (Q ⧸ Subgroup.center Q) := hsimple.toNontrivial
-  haveI : Nontrivial Q := (QuotientGroup.mk'_surjective (Subgroup.center Q)).nontrivial
-  haveI : Group.IsPerfect Q := hperf
+  have : Nontrivial (Q ⧸ Subgroup.center Q) := hsimple.toNontrivial
+  have : Nontrivial Q := (QuotientGroup.mk'_surjective (Subgroup.center Q)).nontrivial
+  have : Group.IsPerfect Q := hperf
   exact Group.IsPerfect.not_isSolvable Q
 
 private theorem ltrcu1_not_labelIso_twA_A {c n m : ℕ} :
@@ -123,12 +123,12 @@ private theorem ltrcu1_blockSU_card_eq_two
       have h2 : (2 : ℕ) ^ n = 2 ^ 1 := by simpa using hpow
       exact Nat.pow_right_injective (by norm_num) h2
     subst hn1
-    haveI : Group.IsSolvable ↥(unitarySU 2 1 K I.card) :=
+    have : Group.IsSolvable ↥(unitarySU 2 1 K I.card) :=
       WitSU.isSolvable_unitarySU_two_one h (by omega) (by omega)
-    haveI hsolQ : Group.IsSolvable ↥(TableBUE.blockSU (K := K) (n := 1) I) :=
+    have hsolQ : Group.IsSolvable ↥(TableBUE.blockSU (K := K) (n := 1) I) :=
       Group.isSolvable_of_surjective (f := (TableBUE.blockSUEquiv I h).toMonoidHom)
         (TableBUE.blockSUEquiv I h).surjective
-    haveI hsolJ : Group.IsSolvable ↥J₀ := by
+    have hsolJ : Group.IsSolvable ↥J₀ := by
       have hres := Group.isSolvable_of_surjective
         (f := (π.comp (TableBUE.blockSU (K := K) (n := 1) I).subtype).rangeRestrict)
         (MonoidHom.rangeRestrict_surjective _)
@@ -172,9 +172,9 @@ private theorem ltrcu1_blockSU_card_eq_two
   have hlam_A : LargeEvenInLambda2 (⟨.A, 1, m⟩ : LargeEvenLabel) := by
     obtain ⟨E, hfE, hfinE, hEcard, ⟨e0⟩⟩ := by
       simpa only [GGHasLabel, LargeEvenRawDatum, LargeEvenRecipeLinear] using hlabel
-    letI : Field E := hfE
-    letI : Finite E := hfinE
-    haveI : IsSimpleGroup (↥J₀ ⧸ Subgroup.center ↥J₀) := hJ₀.2.1
+    let : Field E := hfE
+    let : Finite E := hfinE
+    have : IsSimpleGroup (↥J₀ ⧸ Subgroup.center ↥J₀) := hJ₀.2.1
     have hSL : CFSG.Assembly.LargeEvenSLGroup (Fin (1 + 1)) E = CFSG.Open.StatedSL 2 E :=
       CFSG.Assembly.largeEvenSLGroup_eq_statedSL 2
     have e0' : ↥J₀ ⧸ Subgroup.center ↥J₀ ≃*
@@ -216,7 +216,7 @@ theorem unitaryBlockOfComponent_holds :
         D * (s : GL (Fin d) K) := by
       rw [mul_assoc, inv_mul_cancel, mul_one]
     have h2 := congrArg (fun g : GL (Fin d) K => (g : Matrix (Fin d) (Fin d) K)) h1
-    simpa [Units.val_mul] using h2
+    simp [Units.val_mul]
   obtain ⟨i₀, hIcard2raw, hQblkRaw⟩ :=
     eq_blockSU_of_isComponentOf_ggFix_diag (hKd := h) (t := fun i => (τ i : K)) ht α hδ hQ
   let I : Finset (Fin d) := Finset.univ.filter (fun i => (τ i : K) = (τ i₀ : K))
@@ -243,12 +243,12 @@ theorem unitaryBlockOfComponent_holds :
       have h1n : 1 ≤ n := h.one_le
       have hn1 : n = 1 := by omega
       subst hn1
-      haveI : Group.IsSolvable ↥(unitarySU 2 1 K I.card) :=
+      have : Group.IsSolvable ↥(unitarySU 2 1 K I.card) :=
         WitSU.isSolvable_unitarySU_two_one h (by omega) (by omega)
-      haveI hsolQ : Group.IsSolvable ↥(TableBUE.blockSU (K := K) (n := 1) I) :=
+      have hsolQ : Group.IsSolvable ↥(TableBUE.blockSU (K := K) (n := 1) I) :=
         Group.isSolvable_of_surjective (f := (TableBUE.blockSUEquiv I h).toMonoidHom)
           (TableBUE.blockSUEquiv I h).surjective
-      haveI hsolJ : Group.IsSolvable ↥J₀ := by
+      have hsolJ : Group.IsSolvable ↥J₀ := by
         have hres := Group.isSolvable_of_surjective
           (f := (π.comp (TableBUE.blockSU (K := K) (n := 1) I).subtype).rangeRestrict)
           (MonoidHom.rangeRestrict_surjective _)

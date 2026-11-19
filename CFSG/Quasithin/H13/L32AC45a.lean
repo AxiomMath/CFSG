@@ -37,7 +37,7 @@ theorem isAlt_five_of_isPSL {X : Type} [Group X] [Finite X] (hperf : Group.IsPer
       hperf.commutator_eq_top _ rfl hodd ?_
     intro r _ _ hr2 P
     have hrp : r.Prime := Fact.out
-    obtain ⟨k, hk⟩ := P.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := P.isPGroup.exists_card_eq
     have hdvd : r ^ k ∣ 60 := by
       rw [← hk, ← h60]
       exact Subgroup.card_subgroup_dvd_card _

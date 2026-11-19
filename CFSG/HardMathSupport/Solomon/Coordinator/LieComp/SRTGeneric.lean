@@ -33,18 +33,18 @@ theorem isEmpty_quot_alternating_six_of_equiv_cat (hb : LieOrderBridge) {N : Typ
   have hZ : Subgroup.center N = ⊥ := b3Lie_center_eq_bot hnc
   let eZ : N ⧸ Subgroup.center N ≃* N :=
     (QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot
-  haveI : Finite (N ⧸ Subgroup.center N) := inferInstance
+  have : Finite (N ⧸ Subgroup.center N) := inferInstance
   exact isEmpty_mulEquiv_alternating_six hb idx ⟨eZ.trans e⟩
 
 private theorem nontrivial_of_open_quasisimple {K : Type*} [Group K]
     (h : CFSG.Open.IsQuasisimple K) : Nontrivial K := by
-  haveI : IsSimpleGroup (K ⧸ Subgroup.center K) := h.2
+  have : IsSimpleGroup (K ⧸ Subgroup.center K) := h.2
   exact (QuotientGroup.mk_surjective (s := Subgroup.center K)).nontrivial
 
 theorem false_of_open_quasisimple_of_isSolvable {K : Type*} [Group K]
     (h : CFSG.Open.IsQuasisimple K) (hs : Group.IsSolvable K) : False := by
-  haveI := nontrivial_of_open_quasisimple h
-  haveI : Group.IsPerfect K := ⟨h.1⟩
+  have := nontrivial_of_open_quasisimple h
+  have : Group.IsPerfect K := ⟨h.1⟩
   exact Group.IsPerfect.not_isSolvable K hs
 
 private theorem normal_of_commutator_le' {G : Type*} [Group G] {H : Subgroup G}
@@ -68,7 +68,7 @@ private theorem quotient_comm_of_commutator_le {G : Type*} [Group G] {H : Subgro
 
 theorem not_isComponentOf_of_isSolvable {S : Type} [Group S] {C K : Subgroup S}
     (hC : Group.IsSolvable ↥C) (hK : IsComponentOf K C) : False := by
-  haveI : Group.IsSolvable ↥K :=
+  have : Group.IsSolvable ↥K :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hK.1)
       (Subgroup.inclusion_injective hK.1)
   exact false_of_open_quasisimple_of_isSolvable hK.2.2 inferInstance
@@ -162,15 +162,15 @@ theorem srtOut_of_isSolvable (q : ℕ) {S : Type} [Group S] (β : MulAut S)
     (h : Group.IsSolvable ↥(fixSubgroup β)) : SRTOut q β :=
   ⟨lieCompsExport_of_isSolvable q β h, fun _ =>
     ⟨(lieCompsExport_of_isSolvable q β h).layer, (lieCompsExport_of_isSolvable q β h).comps,
-      fun ⟨K, hK, _⟩ => (not_isComponentOf_of_isSolvable h hK).elim⟩⟩
+      fun ⟨_K, hK, _⟩ => (not_isComponentOf_of_isSolvable h hK).elim⟩⟩
 
 theorem srtOut_of_fixed_equiv_simple {q : ℕ} {S : Type} [Group S] [Finite S] (β : MulAut S)
     {X : Type} [Group X] [IsSimpleGroup X] (hnc : ∃ x y : X, x * y ≠ y * x)
     (hchev : CFSG.Yardstones.Md0ec50421ce4.IsChevSimple q X)
     (hA6 : LieOrderBridge → IsEmpty ((X ⧸ Subgroup.center X) ≃* alternatingGroup (Fin 6)))
     (e : ↥(fixSubgroup β) ≃* X) : SRTOut q β := by
-  haveI : Finite X := Finite.of_equiv _ e.toEquiv
-  haveI : IsSimpleGroup ↥(fixSubgroup β) := e.isSimpleGroup
+  have : Finite X := Finite.of_equiv _ e.toEquiv
+  have : IsSimpleGroup ↥(fixSubgroup β) := e.isSimpleGroup
   have hnc' : ∃ x y : ↥(fixSubgroup β), x * y ≠ y * x := by
     obtain ⟨x, y, hxy⟩ := hnc
     exact ⟨e.symm x, e.symm y, fun h => hxy (e.symm.injective (by
@@ -204,9 +204,9 @@ theorem srtOut_of_fixed_equiv_derived {q : ℕ} {S : Type} [Group S] [Finite S] 
     (D.equivMapOfInjective e.toMonoidHom e.injective).trans (MulEquiv.subgroupCongr hmap)
   let eN : ↥D ≃* ↥N := D.equivMapOfInjective C.subtype C.subtype_injective
   let eDN : ↥(commutator X) ≃* ↥N := eD.symm.trans eN
-  haveI := hs
-  haveI : Finite ↥(commutator X) := Finite.of_equiv _ eD.symm.toEquiv.symm
-  haveI : IsSimpleGroup ↥N := eDN.symm.isSimpleGroup
+  have := hs
+  have : Finite ↥(commutator X) := Finite.of_equiv _ eD.symm.toEquiv.symm
+  have : IsSimpleGroup ↥N := eDN.symm.isSimpleGroup
   have hncN : ∃ x y : ↥N, x * y ≠ y * x := by
     obtain ⟨x, y, hxy⟩ := hnc
     exact ⟨eDN x, eDN y, fun h => hxy (eDN.injective (by

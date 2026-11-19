@@ -18,7 +18,7 @@ theorem degree_mod_two
   let b:Fin 4 ↪ X := (Fin.castLEEmb hcard).trans (Finite.equivFin X).symm.toEmbedding
   let P:Sylow 2 (stabilizer G b) := Classical.arbitrary _
   let A := (P:Subgroup (stabilizer G b)).map (stabilizer G b).subtype
-  have hA:IsPGroup 2 A := P.isPGroup'.map (stabilizer G b).subtype
+  have hA:IsPGroup 2 A := P.isPGroup.map (stabilizer G b).subtype
   have hmod := hA.card_modEq_card_fixedPoints X
   have hc := (hlocal b P).1
   change Nat.card X % 2=Nat.card (fixedPoints A X) % 2 at hmod

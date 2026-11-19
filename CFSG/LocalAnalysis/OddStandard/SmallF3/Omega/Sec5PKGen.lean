@@ -21,7 +21,7 @@ theorem sec5pk_twoRes_eq {K : Subgroup G} (hK : IsSL23Mod K) : twoRes K = K := b
 theorem sec5pk_orderOf_three_pow {K : Subgroup G} (hK : IsSL23Mod K)
     (hO : IsPGroup 3 (oddCoreIn K)) :
     ∀ k ∈ K, Odd (orderOf k) → ∃ n : ℕ, orderOf k = 3 ^ n := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e⟩ := hK
   intro k hkK hkodd
   have hquot : Nat.card (↥K ⧸ CFSG.oddCore ↥K) = 24 := by

@@ -206,9 +206,9 @@ private theorem flagLevi_eq_top {I : Set ℕ} (hI : ∀ i ∈ I, i ≤ 3) (t : �
       infer_instance
     have hbottop : (⊥ : Subgroup ↥(flagBlock (K := K) hI t j)) = ⊤ :=
       (Subgroup.eq_bot_of_subsingleton (⊤ : Subgroup _)).symm
-    rw [flagLevi, if_pos h]
+    rw [flagLevi, ite_eq_left h]
     exact hbottop
-  · rw [flagLevi, if_neg h]
+  · rw [flagLevi, ite_eq_right h]
 
 omit [CharP K 2] in
 private theorem flagLevi_eq_bot_or_isLeviBlock {I : Set ℕ} (hI : ∀ i ∈ I, i ≤ 3)
@@ -221,7 +221,7 @@ private theorem flagLevi_eq_bot_or_isLeviBlock {I : Set ℕ} (hI : ∀ i ∈ I, 
   · left
     rw [flagLevi]
     change (if spFlagLeviCoordBlock (K := K) hI t j = ⊥ then ⊥ else ⊤) = ⊥
-    rw [if_pos hbot]
+    rw [ite_eq_left hbot]
   · right
     rw [flagLevi_eq_top (K := K) hI t j]
     exact IsLeviBlock.of_mulEquiv Subgroup.topEquiv.symm hlev
@@ -320,7 +320,7 @@ private theorem flagBlock_ne_bot_of_flagLevi_ne_bot {I : Set ℕ} (hI : ∀ i �
     flagBlock (K := K) hI t j ≠ ⊥ := by
   intro hbot
   have hle : flagLevi (K := K) hI t j = ⊥ := by
-    rw [flagLevi, if_pos hbot]
+    rw [flagLevi, ite_eq_left hbot]
   exact h hle
 
 omit [CharP K 2] in
@@ -336,22 +336,22 @@ private theorem card_nontrivial_flagLevi_le_two {I : Set ℕ} (hI : ∀ i ∈ I,
       · exact Subtype.ext (Fin.ext (by rw [hx0, hy0]))
       · have hxval : (f x : ℕ) = 0 := by
           dsimp only [f]
-          rw [if_pos hx0]
+          rw [ite_eq_left hx0]
           rfl
         have hyval : (f y : ℕ) = 1 := by
           dsimp only [f]
-          rw [if_neg hy0]
+          rw [ite_eq_right hy0]
           rfl
         have := congrArg Fin.val hxy
         omega
     · by_cases hy0 : (y.1 : ℕ) = 0
       · have hxval : (f x : ℕ) = 1 := by
           dsimp only [f]
-          rw [if_neg hx0]
+          rw [ite_eq_right hx0]
           rfl
         have hyval : (f y : ℕ) = 0 := by
           dsimp only [f]
-          rw [if_pos hy0]
+          rw [ite_eq_left hy0]
           rfl
         have := congrArg Fin.val hxy
         omega

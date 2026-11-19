@@ -37,7 +37,7 @@ theorem e8TenTwo_check : E8TenTwo.e8TenTwoCheck () = true :=
 
 theorem e8Ten_opp_case2 (K : Type) [Field K] [Finite K] (hK : Nat.card K = 2)
     (D : LangLevi TwClass.e8Ten.tag K TwClass.e8Ten.w) (H : Subgroup (ModGL Tag.E8 K))
-    (hHG : H ≤ adjointGroup Tag.E8 K) (hXH : TwClass.e8Ten.X₁ D ⊔ TwClass.e8Ten.X₂ D ≤ H)
+    (_hHG : H ≤ adjointGroup Tag.E8 K) (hXH : TwClass.e8Ten.X₁ D ⊔ TwClass.e8Ten.X₂ D ≤ H)
     (v : ModGL Tag.E8 K) (hvQ : v ∈ Qθ Tag.E8 K)
     (hvB : conjSub v (Heis.Uneg Tag.E8 K) ≤ H)
     (hvM : ∀ β, CoordsAux.κ D v β ≠ 0 →

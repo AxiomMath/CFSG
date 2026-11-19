@@ -68,7 +68,7 @@ theorem stronglyClosed_map (P : Sylow p G) {S : Subgroup G} (hSP : S ≤ P)
     rwa [sup_comm]
   have hyp : IsPGroup p (zpowers y) := by
     have hxp : IsPGroup p (zpowers x) :=
-      (P.isPGroup'.to_le ((zpowers_le).mpr (hSP hx)))
+      (P.isPGroup.to_le ((zpowers_le).mpr (hSP hx)))
     have := hxp.map (MulAut.conj g⁻¹).toMonoidHom
     have e : (MulAut.conj g⁻¹).toMonoidHom x = y := by simp [y]
     rwa [MonoidHom.map_zpowers, e] at this
@@ -98,7 +98,7 @@ theorem normalizer_map (P : Sylow p G) {S : Subgroup G} (hSP : S ≤ P)
       Subgroup.map_mono hSP h1
     rw [← Subgroup.mem_comap, Subgroup.comap_map_eq, QuotientGroup.ker_mk'] at h3
     rwa [sup_comm]
-  have hp : IsPGroup p (conjSub g S) := (P.isPGroup'.to_le hSP).map _
+  have hp : IsPGroup p (conjSub g S) := (P.isPGroup.to_le hSP).map _
   obtain ⟨n, hn, hnle⟩ := exists_conjSub_le_of_le_sup P N hle hp
   rw [← conjSub_mul] at hnle
   have heq := conj_eq_of_conj_le hS hnle

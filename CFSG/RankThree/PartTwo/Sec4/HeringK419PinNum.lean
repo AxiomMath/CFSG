@@ -81,7 +81,7 @@ theorem not_dvd_pow_pow_sub_one {p e j : ℕ} (hp : p.Prime) (he : 1 ≤ e) (hj 
 theorem not_dvd_prod_pow_sub_one {p e : ℕ} (hp : p.Prime) (he : 1 ≤ e) (J : Finset ℕ)
     (c : ℕ → ℕ) (hc : ∀ j ∈ J, 1 ≤ c j) : ¬ p ∣ ∏ j ∈ J, ((p ^ e) ^ c j - 1) := by
   intro h
-  obtain ⟨j, hj, h⟩ := (Prime.dvd_finset_prod_iff hp.prime _).mp h
+  obtain ⟨j, hj, h⟩ := (Prime.dvd_finsetProd_iff hp.prime _).mp h
   exact not_dvd_pow_pow_sub_one hp he (hc j hj) h
 
 theorem exact_pow_of_mul_eq {p k M g Q : ℕ} (hp : p.Prime) (hg : ¬ p ∣ g) (hQ : ¬ p ∣ Q)

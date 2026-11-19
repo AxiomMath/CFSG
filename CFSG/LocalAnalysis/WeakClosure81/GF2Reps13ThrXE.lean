@@ -20,9 +20,11 @@ private def w16g_delta (s : MulAut W) : W →* W where
     rw [map_mul, mul_inv_rev]
     ac_rfl
 
+omit [Finite W] in
 @[simp] private theorem w16g_delta_apply (s : MulAut W) (w : W) :
     w16g_delta s w = s w * w⁻¹ := rfl
 
+omit [Finite W] in
 private theorem w16g_map_delta_le (s : MulAut W) {U : Subgroup W}
     (hU : ∀ u ∈ U, s u ∈ U) : U.map (w16g_delta s) ≤ U := by
   rintro y ⟨u, hu, rfl⟩
@@ -98,6 +100,7 @@ private theorem w16g_commSub_zpowers_eq_map_delta (s : MulAut W) {U : Subgroup W
     rw [Subgroup.mem_comap, w16g_delta_apply]
     exact Subgroup.subset_closure ⟨s, Subgroup.mem_zpowers s, u, hu, rfl⟩
 
+omit [Finite W] in
 private theorem w16g_card_map_delta_of_ker (s : MulAut W) {U : Subgroup W}
     (hker : ∀ u ∈ U, w16g_delta s u = 1 → u = 1) :
     Nat.card ↥(U.map (w16g_delta s)) = Nat.card ↥U := by
@@ -138,7 +141,7 @@ theorem rk_commSub_iSup_eq_sum {ι : Type*} [Fintype ι] (hW : ∀ w : W, w * w 
         refine Finset.sum_congr rfl fun i _ => ?_
         rw [w16g_commSub_zpowers_eq_map_delta s (hs i)]
 
-theorem rk_commSub_swap (hW : ∀ w : W, w * w = 1) {s : MulAut W} (hs2 : s * s = 1)
+theorem rk_commSub_swap (_hW : ∀ w : W, w * w = 1) {s : MulAut W} (hs2 : s * s = 1)
     {U U' : Subgroup W} (hUU' : U' = U.map s.toMonoidHom) (hdisj : U ⊓ U' = ⊥) :
     rk ↥U' = rk ↥U ∧ rk ↥(commSub (U ⊔ U') (Subgroup.zpowers s)) = rk ↥U := by
   have hcardU' : Nat.card ↥U' = Nat.card ↥U := by
@@ -191,7 +194,7 @@ theorem rk_commSub_fixed_inverted (hW : ∀ w : W, w * w = 1) {X : Subgroup (Mul
     2 * rk ↥(commSub U (Subgroup.zpowers s)) = rk ↥U := by
   have hp3 : Nat.Prime 3 := by norm_num
   have hp32 : (3 : ℕ) ≠ 2 := by norm_num
-  haveI : Fact (Nat.Prime 3) := ⟨hp3⟩
+  have : Fact (Nat.Prime 3) := ⟨hp3⟩
   have hHmem : s13KerOn X U ∈
       CFSG.LocalAnalysis.RankThreeUC.BinaryRepresentations.hyperplanes 3 X :=
     s13KerOn_mem_hyperplanes hW hp3 hp32 hX hU
@@ -308,13 +311,13 @@ theorem rk_commSub_fixed_inverted (hW : ∀ w : W, w * w = 1) {X : Subgroup (Mul
   exact hbridge.symm
 
 theorem even_rk_commSub_fixed_central (hW : ∀ w : W, w * w = 1) {X : Subgroup (MulAut W)}
-    (hX : IsElemAbelian 3 X) {s : MulAut W} (hs2 : s * s = 1)
-    (hsX : ∀ x ∈ X, s * x * s⁻¹ ∈ X) {U : Subgroup W} (hU : U ∈ s13IsoComps X)
+    (hX : IsElemAbelian 3 X) {s : MulAut W} (_hs2 : s * s = 1)
+    (_hsX : ∀ x ∈ X, s * x * s⁻¹ ∈ X) {U : Subgroup W} (hU : U ∈ s13IsoComps X)
     (hsU : ∀ u ∈ U, s u ∈ U) (hcent : ∀ x ∈ X, s * x * s⁻¹ * x⁻¹ ∈ s13KerOn X U) :
     Even (rk ↥(commSub U (Subgroup.zpowers s))) := by
   have hp3 : Nat.Prime 3 := by norm_num
   have hp32 : (3 : ℕ) ≠ 2 := by norm_num
-  haveI : Fact (Nat.Prime 3) := ⟨hp3⟩
+  have : Fact (Nat.Prime 3) := ⟨hp3⟩
   have hHmem : s13KerOn X U ∈
       CFSG.LocalAnalysis.RankThreeUC.BinaryRepresentations.hyperplanes 3 X :=
     s13KerOn_mem_hyperplanes hW hp3 hp32 hX hU
@@ -384,7 +387,7 @@ theorem even_rk_commSub_fixed_central (hW : ∀ w : W, w * w = 1) {X : Subgroup 
   have hdParam3 : dParam 3 = 2 := by
     rw [dParam]
     exact (orderOf_eq_iff (by norm_num : 0 < 2)).2
-      ⟨by decide, by intro m hm _; interval_cases m <;> decide⟩
+      ⟨by decide, by intro m hm _; interval_cases m; decide⟩
   rw [hdParam3] at hdvd
   exact even_iff_two_dvd.mpr hdvd
 

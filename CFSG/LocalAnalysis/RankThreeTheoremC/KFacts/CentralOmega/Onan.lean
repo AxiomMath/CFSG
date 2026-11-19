@@ -16,7 +16,7 @@ theorem not_forall_commute_onan
     (e : L ⧸ Subgroup.center L ≃* (TauCeti.CFSGIndex.sporadic .ONan).Group) (S : Sylow 3 L) :
     ¬ ∀ a ∈ (S : Subgroup L), ∀ b ∈ (S : Subgroup L), a ^ 3 = 1 → b ^ 3 = 1 →
       a * b = b * a := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hne : Subgroup.center L ≠ ⊥ := by
     intro h
     rw [h, Subgroup.card_bot] at hc

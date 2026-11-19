@@ -26,11 +26,11 @@ theorem labVec_apply (d : ℕ) (a : ℤ) (k : Fin d) :
 
 theorem labVec_eq_zero_of_le {d : ℕ} {a : ℤ} {r : ℕ} (har : a.natAbs ≤ r) {k : Fin d}
     (hk : r ≤ (k : ℕ)) : labVec d a k = 0 := by
-  rw [labVec_apply, if_neg (by omega)]
+  rw [labVec_apply, ite_eq_right (by omega)]
 
 theorem labVec_eq_zero_of_gt {d : ℕ} {a : ℤ} (hd : d < a.natAbs) : labVec d a = 0 := by
   funext k
-  rw [labVec_apply, if_neg (by omega)]
+  rw [labVec_apply, ite_eq_right (by omega)]
   rfl
 
 def labIdx {d : ℕ} (a : ℤ) (ha0 : a ≠ 0) (ha : a.natAbs ≤ d) : Fin d :=
@@ -100,13 +100,13 @@ theorem labVec_dotProduct (d : ℕ) {a b : ℤ} (ha0 : a ≠ 0) (hb0 : b ≠ 0)
     · exact absurd h hb0
     · exact Or.inl ⟨by rwa [Int.sign_eq_one_iff_pos], h⟩
   by_cases h : a.natAbs = b.natAbs
-  · rw [if_pos (hidx.mpr h)]
+  · rw [ite_eq_left (hidx.mpr h)]
     rcases hsa with ⟨e1, p1⟩ | ⟨e1, p1⟩ <;> rcases hsb with ⟨e2, p2⟩ | ⟨e2, p2⟩ <;> rw [e1, e2]
-    · rw [if_pos (by omega)]; ring
-    · rw [if_neg (by omega), if_pos (by omega)]; ring
-    · rw [if_neg (by omega), if_pos (by omega)]; ring
-    · rw [if_pos (by omega)]; ring
-  · rw [if_neg (fun hc => h (hidx.mp hc)), if_neg (by omega), if_neg (by omega), mul_zero]
+    · rw [ite_eq_left (by omega)]; ring
+    · rw [ite_eq_right (by omega), ite_eq_left (by omega)]; ring
+    · rw [ite_eq_right (by omega), ite_eq_left (by omega)]; ring
+    · rw [ite_eq_left (by omega)]; ring
+  · rw [ite_eq_right (fun hc => h (hidx.mp hc)), ite_eq_right (by omega), ite_eq_right (by omega), mul_zero]
 
 def labVec3 (d : ℕ) (L : ℤ × ℤ × ℤ) : Fin d → ℤ :=
   labVec d L.1 + labVec d L.2.1 + labVec d L.2.2
@@ -129,13 +129,13 @@ theorem labVec3_eq_zero_of_le {d : ℕ} {L : ℤ × ℤ × ℤ} {r : ℕ} (h1 : 
   rw [labVec3_apply, labVec_eq_zero_of_le h1 hk, labVec_eq_zero_of_le h2 hk,
     labVec_eq_zero_of_le h3 hk, add_zero, add_zero]
 
-theorem labVec3_castLE {d d' : ℕ} (h : d ≤ d') (L : ℤ × ℤ × ℤ) (k' : Fin d') :
+theorem labVec3_castLE {d d' : ℕ} (_h : d ≤ d') (L : ℤ × ℤ × ℤ) (k' : Fin d') :
     labVec3 d' L k' = if hk : (k' : ℕ) < d then labVec3 d L ⟨k', hk⟩ else
       labVec3 d' L k' := by
   by_cases hk : (k' : ℕ) < d
-  · rw [dif_pos hk, labVec3_apply, labVec3_apply, labVec_apply, labVec_apply, labVec_apply,
+  · rw [dite_eq_left hk, labVec3_apply, labVec3_apply, labVec_apply, labVec_apply, labVec_apply,
       labVec_apply, labVec_apply, labVec_apply]
-  · rw [dif_neg hk]
+  · rw [dite_eq_right hk]
 
 @[expose] def triDot (L M : ℤ × ℤ × ℤ) : ℤ :=
   labDot L.1 M.1 + labDot L.1 M.2.1 + labDot L.1 M.2.2 +
@@ -187,7 +187,7 @@ theorem natAbs_le_labLevel (r : ℕ) (a : ℤ) : a.natAbs ≤ labLevel r a := le
 instance (r : ℕ) (a : ℤ) : Decidable (IsFreshLab r a) :=
   decidable_of_iff (a.natAbs ≤ r ∨ a = (r : ℤ) + 1) Iff.rfl
 
-theorem IsFreshLab.ne_zero {r : ℕ} {a : ℤ} (h : IsFreshLab r a) (h0 : a.natAbs ≠ 0) : a ≠ 0 :=
+theorem IsFreshLab.ne_zero {r : ℕ} {a : ℤ} (_h : IsFreshLab r a) (h0 : a.natAbs ≠ 0) : a ≠ 0 :=
   fun hz => h0 (by rw [hz]; rfl)
 
 theorem IsFreshLab.natAbs_le_succ {r : ℕ} {a : ℤ} (h : IsFreshLab r a) : a.natAbs ≤ r + 1 := by
@@ -221,13 +221,13 @@ theorem IsNormalTri.labBounded {r : ℕ} {L : ℤ × ℤ × ℤ} (hL : IsNormalT
 theorem labVec_dotProduct_self (d : ℕ) {a : ℤ} (ha0 : a ≠ 0) :
     labVec d a ⬝ᵥ labVec d a = if a.natAbs ≤ d then 1 else 0 := by
   by_cases h : a.natAbs ≤ d
-  · rw [if_pos h, labVec_dotProduct d ha0 ha0 h h, labDot, if_pos rfl]
-  · rw [if_neg h, labVec_eq_zero_of_gt (by omega), zero_dotProduct]
+  · rw [ite_eq_left h, labVec_dotProduct d ha0 ha0 h h, labDot, ite_eq_left rfl]
+  · rw [ite_eq_right h, labVec_eq_zero_of_gt (by omega), zero_dotProduct]
 
 theorem labVec_dotProduct_eq_zero (d : ℕ) {a b : ℤ} (ha0 : a ≠ 0) (hb0 : b ≠ 0)
     (hab : a.natAbs ≠ b.natAbs) : labVec d a ⬝ᵥ labVec d b = 0 := by
   by_cases h : a.natAbs ≤ d ∧ b.natAbs ≤ d
-  · rw [labVec_dotProduct d ha0 hb0 h.1 h.2, labDot, if_neg (by omega), if_neg (by omega)]
+  · rw [labVec_dotProduct d ha0 hb0 h.1 h.2, labDot, ite_eq_right (by omega), ite_eq_right (by omega)]
   · rcases Nat.lt_or_ge d a.natAbs with hda | hda
     · rw [labVec_eq_zero_of_gt hda, zero_dotProduct]
     · rw [labVec_eq_zero_of_gt (show d < b.natAbs by by_contra hc; exact h ⟨hda, by omega⟩),

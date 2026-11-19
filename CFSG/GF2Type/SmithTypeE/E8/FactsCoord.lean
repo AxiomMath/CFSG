@@ -57,7 +57,7 @@ theorem coord_rho_sub {β : Fin (Tag.rank .E7) → ℤ} (hβ : IsRoot .E7 β)
       ∑ a : Fin e7Data.d, if (e7Data.wt a ⬝ᵥ β = -1 ∧
         e7Data.wt b = e7Data.wt a + MinData.toWeight β) then v a else 0 := by
   rw [e7Rep56_pinnedElt_apply hβ, one_smul, add_sub_cancel_left, rootOp_apply_eq_sum,
-    Finsupp.finset_sum_apply]
+    _root_.Finsupp.finsetSum_apply]
   refine Finset.sum_congr rfl fun a _ => ?_
   rw [Finsupp.smul_apply, rootOp_single_coord hβ]
   split_ifs <;> simp
@@ -93,7 +93,7 @@ theorem coord_rho_sub_ne_zero {β : Fin (Tag.rank .E7) → ℤ} (hβ : IsRoot .E
   refine hb (Finset.sum_eq_zero fun a _ => ?_)
   by_cases h : e7Data.wt a ⬝ᵥ β = -1 ∧ e7Data.wt b = e7Data.wt a + MinData.toWeight β
   · exact absurd (wt_dot_shift hβ h.1 h.2) hne
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
 
 theorem mem_weightVec_iff {w : Fin e7Data.d →₀ ZMod 2} :
     w ∈ weightVec ↔ ∃ g : ↥(adjointGroup .E7 (ZMod 2)), e7Rep56 (ZMod 2) g e7Y56 = w := Iff.rfl
@@ -226,14 +226,14 @@ theorem sum_single_mem_weightVec (T : Finset (Fin e7Data.d)) (hne : T.Nonempty)
         obtain ⟨hbl, hbT⟩ := Finset.mem_erase.1 hb
         rw [e7Rep56_pinnedElt_single (K := ZMod 2) hβ b]
         by_cases hbμ : b = μ
-        · rw [hbμ, if_pos hwμ, if_pos (rfl : μ = μ), wt_e7Shift hwl]
-        · rw [if_neg (hfix b hbT hbμ hbl), if_neg hbμ, add_zero]
+        · rw [hbμ, ite_eq_left hwμ, ite_eq_left (rfl : μ = μ), wt_e7Shift hwl]
+        · rw [ite_eq_right (hfix b hbT hbμ hbl), ite_eq_right hbμ, add_zero]
       have hμmem : μ ∈ T.erase l := Finset.mem_erase.2 ⟨hμl, hμT⟩
       have hsum : e7Rep56 (ZMod 2) (pinnedElt .E7 β 1)
           (∑ b ∈ T.erase l, (Finsupp.single b 1 : Fin e7Data.d →₀ ZMod 2)) =
             ∑ b ∈ T, (Finsupp.single b 1 : Fin e7Data.d →₀ ZMod 2) := by
         rw [map_sum, Finset.sum_congr rfl key, Finset.sum_add_distrib, Finset.sum_ite_eq',
-          if_pos hμmem, ← Finset.sum_erase_add T _ hl]
+          ite_eq_left hμmem, ← Finset.sum_erase_add T _ hl]
       rw [← hsum]
       exact rep_mem_weightVec hS (pinnedElt .E7 β 1)
 
@@ -251,7 +251,7 @@ theorem single_mem_W0 {b : Fin e7Data.d} (hb : 0 < wgrade b) :
   rw [mem_W0]
   intro b' hb'
   have hne : b' ≠ b := fun h => by subst h; omega
-  simp [Finsupp.single_apply, hne.symm]
+  simp [hne.symm]
 
 theorem exists_adj_core {w : Fin e7Data.d →₀ ZMod 2} (hw : w ∈ weightVec) :
     ∃ w' ∈ weightVec, w' ∈ collSpace w ∧ w' ≠ w := by
@@ -285,12 +285,12 @@ theorem rho_pinned_e7Y56_mem_W0 {β : Fin (Tag.rank .E7) → ℤ} (hβ : IsRoot 
   have h0 : (Finsupp.single (⟨0, by decide⟩ : Fin e7Data.d) (1 : ZMod 2)) ∈ W0 :=
     single_mem_W0 (by change 0 < e8fGrade _; rw [grade_zero]; omega)
   by_cases h : e7Data.wt 0 ⬝ᵥ β = -1
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     refine add_mem h0 (single_mem_W0 ?_)
     obtain ⟨b, hb⟩ := exists_shift hβ (a := ⟨0, by decide⟩) h
     rw [wt_e7Shift hb]
     exact zero_shift_grade hβ h hb
-  · rw [if_neg h, add_zero]
+  · rw [ite_eq_right h, add_zero]
     exact h0
 
 theorem tv_wt_core {r : ↥(adjointGroup .E7 (ZMod 2))} (hr : IsRootInvol r)

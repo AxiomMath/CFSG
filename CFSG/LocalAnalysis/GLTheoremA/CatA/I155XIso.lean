@@ -27,9 +27,9 @@ theorem exists_pSimple_equiv_compat {p : ℕ} (hp : p.Prime) {H J : Subgroup G}
     (QuotientGroup.quotientMulEquivOfEq hbot).trans QuotientGroup.quotientBot
   have hB : CFSG.Open.IsQuasisimple (T ⧸ GLAPPrimeCore p T) :=
     CFSG.SignalizerFunctorTheorem.TransportA.isQuasisimple_of_mulEquiv eB.symm hTq
-  haveI : IsSimpleGroup ((T ⧸ GLAPPrimeCore p T) ⧸ Subgroup.center (T ⧸ GLAPPrimeCore p T)) :=
+  have : IsSimpleGroup ((T ⧸ GLAPPrimeCore p T) ⧸ Subgroup.center (T ⧸ GLAPPrimeCore p T)) :=
     hB.2
-  haveI : IsSimpleGroup (PSimple p J) := (isQuasisimple_pQuot_of_glaPComponent hp hJ).2
+  have : IsSimpleGroup (PSimple p J) := (isQuasisimple_pQuot_of_glaPComponent hp hJ).2
   have hinj : Function.Injective (pSimpleMapOfSurjective hp f hf) := by
     rw [← MonoidHom.ker_eq_bot_iff]
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (pSimpleMapOfSurjective hp f hf).ker with h | h
@@ -94,8 +94,8 @@ theorem exists_iso_of_covering {p : ℕ} (hp : p.Prime) {H X K J : Subgroup G} {
     intro j hj
     rw [← hJR]
     exact (mem_actImage_iff hJN).2 ⟨j, hj, rfl⟩
-  haveI := isSimpleGroup_range hp hK
-  haveI : IsSimpleGroup (PSimple p K) := (chev_pSimple_simple_nonabelian hp hK).1
+  have := isSimpleGroup_range hp hK
+  have : IsSimpleGroup (PSimple p K) := (chev_pSimple_simple_nonabelian hp hK).1
   let ψ0 : ↥J →* MulAut (PSimple p K) := (chevAut p K).comp (Subgroup.inclusion hJN)
   have hψ0 : ∀ j : ↥J, ψ0 j = act p K (j : G) := fun j => (act_of_mem (hJN j.2)).symm
   let ψ : ↥J →* (MulAut.conj : PSimple p K →* MulAut (PSimple p K)).range :=

@@ -23,9 +23,9 @@ theorem qf_smul (c : K) (v : V K) : qf (c • v) = c ^ 2 * qf v := by
   rw [Finset.mul_sum]
   refine Finset.sum_congr rfl fun a _ => ?_
   by_cases ha : a < opp a
-  · simp only [if_pos ha, Finsupp.smul_apply, smul_eq_mul]
+  · simp only [ite_eq_left ha, Finsupp.smul_apply, smul_eq_mul]
     ring
-  · simp only [if_neg ha, mul_zero]
+  · simp only [ite_eq_right ha, mul_zero]
 
 theorem beta_eq_sum (u v : V K) :
     beta u v = ∑ a : Fin e7Data.d, if a < opp a then u a * v (opp a) + u (opp a) * v a else 0 := by
@@ -42,8 +42,8 @@ theorem beta_eq_sum (u v : V K) :
       (if opp a < opp (opp a) then u (opp (opp a)) * v (opp a) else 0)
     rw [opp_opp]
     by_cases h : a < opp a
-    · rw [if_pos h, if_neg (lt_asymm h)]
-    · rw [if_neg h, if_pos (lt_of_le_of_ne (not_lt.mp h) (opp_ne_self a))]
+    · rw [ite_eq_left h, ite_eq_right (lt_asymm h)]
+    · rw [ite_eq_right h, ite_eq_left (lt_of_le_of_ne (not_lt.mp h) (opp_ne_self a))]
   unfold beta
   rw [split, second, ← Finset.sum_add_distrib]
   refine Finset.sum_congr rfl fun a _ => ?_
@@ -60,11 +60,11 @@ theorem qf_eq_zero_of_support {v : V K} (h : ∀ a, v a = 0 ∨ v (opp a) = 0) :
   unfold qf
   refine Finset.sum_eq_zero fun a _ => ?_
   by_cases ha : a < opp a
-  · rw [if_pos ha]
+  · rw [ite_eq_left ha]
     rcases h a with h1 | h1
     · rw [h1, zero_mul]
     · rw [h1, mul_zero]
-  · rw [if_neg ha]
+  · rw [ite_eq_right ha]
 
 theorem beta_single_left (a : Fin e7Data.d) (y : V K) :
     beta (Finsupp.single a 1) y = y (opp a) := by
@@ -72,7 +72,7 @@ theorem beta_single_left (a : Fin e7Data.d) (y : V K) :
   rw [Finset.sum_eq_single a]
   · simp
   · intro c _ hc
-    simp [Finsupp.single_apply, hc, Ne.symm hc]
+    simp [hc]
   · intro h
     exact absurd (Finset.mem_univ a) h
 
@@ -85,9 +85,9 @@ theorem qf_single (a : Fin e7Data.d) : qf (Finsupp.single a (1 : K)) = 0 := by
       apply opp_ne_self a
       calc opp a = opp b := by rw [hb]
         _ = a := h
-    simp [Finsupp.single_apply, hob, Ne.symm hob]
+    simp [hob]
   · left
-    simp [Finsupp.single_apply, hb, Ne.symm hb]
+    simp [hb]
 
 theorem opp_wt_eq {b₁ b₂ : Fin e7Data.d} (h : opp b₁ = b₂) :
     e7Data.wt b₁ + e7Data.wt b₂ = 0 := by
@@ -114,10 +114,10 @@ theorem qf_rootOp {δ : Rt} (hδ : IsRoot .E7 δ) (v : V K) : qf (e7Data.rootOp 
   by_cases ha : pr a δ = 1
   · right
     have hA : ¬ pr (opp a) δ = 1 := by
-      rw [pr_opp, ha] <;> norm_num
-    rw [rootOp_apply hδ v (opp a), if_neg hA]
+      rw [pr_opp, ha]; norm_num
+    rw [rootOp_apply hδ v (opp a), ite_eq_right hA]
   · left
-    rw [rootOp_apply hδ v a, if_neg ha]
+    rw [rootOp_apply hδ v a, ite_eq_right ha]
 
 theorem beta_rootOp_self {δ : Rt} (hδ : IsRoot .E7 δ) (v : V K) :
     beta v (e7Data.rootOp K δ v) = 0 := by
@@ -127,22 +127,22 @@ theorem beta_rootOp_self {δ : Rt} (hδ : IsRoot .E7 δ) (v : V K) :
   refine Finset.sum_involution (fun a _ => if pr a δ = -1 then opp (shift δ a) else a) ?_ ?_ ?_ ?_
   · intro a _
     by_cases h : pr a δ = -1
-    · have hA : pr (opp a) δ = 1 := by rw [pr_opp, h] <;> norm_num
+    · have hA : pr (opp a) δ = 1 := by rw [pr_opp, h]; norm_num
       have hB : shift (-δ) (opp a) = opp (shift δ a) := (opp_shift hδ h).symm
       have hC : pr (opp (opp (shift δ a))) δ = 1 := by rw [opp_opp, pr_shift_self hδ h]
       have hD : shift (-δ) (opp (opp (shift δ a))) = a := by rw [opp_opp, shift_neg_shift hδ h]
-      rw [if_pos h, if_pos hA, if_pos hC, hB, hD]
+      rw [ite_eq_left h, ite_eq_left hA, ite_eq_left hC, hB, hD]
       linear_combination (v a * v (opp (shift δ a))) * h2
     · have hA : ¬ pr (opp a) δ = 1 := by
         rw [pr_opp]
         intro hc
         apply h
         omega
-      rw [if_neg h, if_neg hA]
+      rw [ite_eq_right h, ite_eq_right hA]
       ring
   · intro a _ hfa
     by_cases h : pr a δ = -1
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       exact opp_shift_ne_self hδ h
     · exfalso
       have hA : ¬ pr (opp a) δ = 1 := by
@@ -151,14 +151,14 @@ theorem beta_rootOp_self {δ : Rt} (hδ : IsRoot .E7 δ) (v : V K) :
         apply h
         omega
       apply hfa
-      rw [if_neg hA, mul_zero]
+      rw [ite_eq_right hA, mul_zero]
   · intro a _
     exact Finset.mem_univ _
   · intro a _
     by_cases h : pr a δ = -1
     · have ha' : pr (opp (shift δ a)) δ = -1 := by rw [pr_opp, pr_shift_self hδ h]
-      rw [if_pos h, if_pos ha', opp_shift hδ ha', opp_opp, shift_neg_shift hδ h]
-    · rw [if_neg h, if_neg h]
+      rw [ite_eq_left h, ite_eq_left ha', opp_shift hδ ha', opp_opp, shift_neg_shift hδ h]
+    · rw [ite_eq_right h, ite_eq_right h]
 
 theorem qf_xu {δ : Rt} (hδ : IsRoot .E7 δ) (c : K) (v : V K) :
     qf ((e7Data_valid.xu K δ c : Module.End K (V K)) v) = qf v := by
@@ -174,10 +174,12 @@ variable {K : Type} [Field K] [CharP K 2]
 @[expose] def Hop (K : Type) [Field K] (ε : Rt) : Module.End K (V K) :=
   diagOp (fun b => ((pr b ε : ℤ) : K))
 
+omit [CharP K 2] in
 theorem Hop_single (ε : Rt) (a : Fin e7Data.d) :
     Hop K ε (Finsupp.single a 1) = ((pr a ε : ℤ) : K) • Finsupp.single a 1 :=
   diagOp_single _ a
 
+omit [CharP K 2] in
 theorem Hop_apply (ε : Rt) (v : V K) (b : Fin e7Data.d) :
     Hop K ε v b = ((pr b ε : ℤ) : K) * v b := by
   induction v using Finsupp.induction_linear with
@@ -189,16 +191,18 @@ theorem Hop_apply (ε : Rt) (v : V K) (b : Fin e7Data.d) :
     rw [e, map_smul, Hop_single]
     simp only [Finsupp.smul_apply, smul_eq_mul, Finsupp.single_apply]
     by_cases hab : a = b
-    · rw [if_pos hab, ← hab]
+    · rw [ite_eq_left hab, ← hab]
       ring
     · simp [hab]
 
 @[expose] def algA (K : Type) [Field K] (P : Set Rt) : Submodule K (Module.End K (V K)) :=
   Submodule.span K ({Y | ∃ γ ∈ P, Y = e7Data.rootOp K γ} ∪ {Y | ∃ γ ∈ P, Y = Hop K γ})
 
+omit [CharP K 2] in
 theorem rootOp_mem_algA {P : Set Rt} {γ : Rt} (hγ : γ ∈ P) : e7Data.rootOp K γ ∈ algA K P :=
   Submodule.subset_span (Or.inl ⟨γ, hγ, rfl⟩)
 
+omit [CharP K 2] in
 theorem Hop_mem_algA {P : Set Rt} {γ : Rt} (hγ : γ ∈ P) : Hop K γ ∈ algA K P :=
   Submodule.subset_span (Or.inr ⟨γ, hγ, rfl⟩)
 
@@ -213,19 +217,19 @@ theorem rootOp_neg_add_apply {δ : Rt} (hδ : IsRoot .E7 δ) (v : V K) :
   ·
     have h2 : pr b (-δ) = 1 := by simp [pr_neg, h1]
     have h3 : ¬ pr b δ = 1 := by rw [h1]; norm_num
-    rw [if_neg h3, zero_add, if_pos h2, neg_neg, rootOp_apply hδ v (shift δ b),
-      if_pos (pr_shift_self hδ h1), shift_neg_shift hδ h1, h1]
+    rw [ite_eq_right h3, zero_add, ite_eq_left h2, neg_neg, rootOp_apply hδ v (shift δ b),
+      ite_eq_left (pr_shift_self hδ h1), shift_neg_shift hδ h1, h1]
     simp [CharTwo.neg_eq]
   ·
     have h2 : ¬ pr b (-δ) = 1 := by simp [pr_neg, h1]
     have h3 : ¬ pr b δ = 1 := by rw [h1]; norm_num
-    rw [if_neg h3, zero_add, if_neg h2, h1]
+    rw [ite_eq_right h3, zero_add, ite_eq_right h2, h1]
     simp
   ·
     have h2 : ¬ pr b (-δ) = 1 := by simp [pr_neg, h1]
     have h4 : pr (shift (-δ) b) (-δ) = 1 := by simp [pr_neg, pr_shift_neg hδ h1]
-    rw [if_pos h1, rootOp_apply hδ' v (shift (-δ) b), if_pos h4, neg_neg,
-      shift_shift_neg hδ h1, if_neg h2, add_zero, h1]
+    rw [ite_eq_left h1, rootOp_apply hδ' v (shift (-δ) b), ite_eq_left h4, neg_neg,
+      shift_shift_neg hδ h1, ite_eq_right h2, add_zero, h1]
     simp
 
 theorem rootOp_Hop_add_apply {δ : Rt} (hδ : IsRoot .E7 δ) (ε : Rt) (v : V K) :
@@ -242,7 +246,7 @@ theorem rootOp_Hop_add_apply {δ : Rt} (hδ : IsRoot .E7 δ) (ε : Rt) (v : V K)
       rw [h3]
       unfold ipR
       ring
-    simp only [if_pos h1]
+    simp only [ite_eq_left h1]
     rw [hc, Int.cast_sub]
     have h2' : (2 : K) = 0 := CharTwo.two_eq_zero
     linear_combination (((pr b ε : ℤ) : K) * v (shift (-δ) b) -
@@ -279,6 +283,7 @@ theorem rootOp_comm_add {γ δ : Rt} (hγ : IsRoot .E7 γ) (hδ : IsRoot .E7 δ)
   · rw [neg_smul, one_smul]
     exact neg_eq_of_add_eq_zero_right (add_self_eq_zero_of_charTwo (K := K) _)
 
+omit [CharP K 2] in
 theorem conj_expand (c : K) (E Y : Module.End K (V K)) :
     ((1 : Module.End K (V K)) + c • E) * Y * ((1 : Module.End K (V K)) + c • E) =
       Y + c • (E * Y + Y * E) + c ^ 2 • (E * Y * E) := by
@@ -454,10 +459,10 @@ theorem algA_apply_single_zero {P : Set Rt} (hP : ∀ β ∈ P, IsRoot .E7 β) {
     · rw [rootOp_single (K := K) (hP γ hγ) a]
       split_ifs with hpr
       · have hne : shift γ a ≠ b := fun e => hb (Or.inr ⟨γ, hγ, hpr, e.symm⟩)
-        rw [Finsupp.single_apply, if_neg hne]
+        rw [Finsupp.single_apply, ite_eq_right hne]
       · simp
     · have hab : a ≠ b := fun e => hb (Or.inl e.symm)
-      simp [Hop_single, Finsupp.single_apply, hab]
+      simp [Hop_single, hab]
   | zero => simp
   | add x y hx hy ihx ihy => simp [ihx, ihy]
   | smul c x hx ihx => simp [ihx]
@@ -500,7 +505,7 @@ theorem line_coord_vanish {P : Set Rt} (hP : ∀ β ∈ P, IsRoot .E7 β)
     (hPadd : ∀ β ∈ P, ∀ γ ∈ P, IsRoot .E7 (β + γ) → β + γ ∈ P) {a : Fin e7Data.d}
     (hT : ∀ b₁ b₂, NearP P a b₁ → NearP P a b₂ → opp b₁ ≠ b₂)
     {l l' : (Module.End K (V K))ˣ} (hl : l ∈ GrpP K P) (hl' : l' ∈ GrpP K P) {α β γ : K}
-    (hα : α ≠ 0) (hβ : β ≠ 0) (hγ : γ ≠ 0)
+    (hα : α ≠ 0) (hβ : β ≠ 0) (_hγ : γ ≠ 0)
     (h : α • (Finsupp.single a 1 : V K) + β • (l : Module.End K (V K)) (Finsupp.single a 1) =
       γ • (l' : Module.End K (V K)) (Finsupp.single a 1)) :
     ((l : Module.End K (V K)) (Finsupp.single a 1)) (opp a) = 0 ∧
@@ -527,7 +532,7 @@ theorem line_coord_vanish {P : Set Rt} (hP : ∀ β ∈ P, IsRoot .E7 β)
       exact add_mem (rootOp_mem_algA hg) (Hop_mem_algA hd)
     have hYw : Y (Finsupp.single a 1) = Finsupp.single (shift g a) 1 := by
       rw [hYdef, LinearMap.add_apply, rootOp_single (K := K) (hP g hg) a,
-        Hop_single (K := K) d a, if_pos hag, had, Int.cast_zero, zero_smul, add_zero]
+        Hop_single (K := K) d a, ite_eq_left hag, had, Int.cast_zero, zero_smul, add_zero]
     have hne : ¬ pr (opp (shift g a)) g = 1 := by
       rw [pr_opp, pr_shift_self (hP g hg) hag]
       norm_num
@@ -535,7 +540,7 @@ theorem line_coord_vanish {P : Set Rt} (hP : ∀ β ∈ P, IsRoot .E7 β)
         ((pr (opp (shift g a)) d : ℤ) : K) * z (opp (shift g a)) := by
       intro z
       rw [hYdef, LinearMap.add_apply, Finsupp.add_apply, rootOp_apply (hP g hg) z,
-        if_neg hne, zero_add, Hop_apply]
+        ite_eq_right hne, zero_add, Hop_apply]
     have hc : ((pr (opp (shift g a)) d : ℤ) : K) ≠ 0 := by
       rcases pr_mem (hP d hd) (opp (shift g a)) with h' | h' | h'
       · rw [h']

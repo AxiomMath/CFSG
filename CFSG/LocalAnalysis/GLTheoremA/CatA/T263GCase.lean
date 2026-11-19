@@ -89,9 +89,10 @@ variable {p : ℕ} {Ω : Type} [Group Ω] [Finite Ω]
 
 theorem t263_card_eq_pow (hp : p.Prime) {H : Subgroup Ω} (hH : CFSG.Open.IsElemAbelian p H) :
     ∃ k : ℕ, Nat.card ↥H = p ^ k := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact (isPGroup_of_isElemAbelian hH).exists_card_eq
 
+omit [Finite Ω] in
 theorem t263_caseI_numerics (hp : p.Prime) {B B₀ C : Subgroup Ω} {m : ℕ}
     (hBc : Nat.card ↥B = p ^ m) (hm : 4 ≤ m) (hC : ∃ c : ℕ, Nat.card ↥C = p ^ c)
     (hB₀ : ∃ a : ℕ, Nat.card ↥B₀ = p ^ a) (hC3 : Nat.card ↥C < p ^ 3)
@@ -111,6 +112,7 @@ theorem t263_caseI_numerics (hp : p.Prime) {B B₀ C : Subgroup Ω} {m : ℕ}
   subst hc2 ha3 hm4
   exact ⟨hc, ha, hBc⟩
 
+omit [Finite Ω] in
 theorem t263_caseI_layer (hp : p.Prime) {S B : Subgroup Ω} (hBel : CFSG.Open.IsElemAbelian p B)
     (hCc : Nat.card ↥(B ⊓ Subgroup.centralizer (S : Set Ω)) = p ^ 2) {b : Ω} (hb : b ∈ B)
     (hbC : b ∉ B ⊓ Subgroup.centralizer (S : Set Ω))
@@ -212,7 +214,7 @@ theorem t263GenOn_of_cases {Q : TauCeti.CFSGIndex → Prop}
     T263GenOn t263KGroup Q := by
   intro p hp hp2 Ω _ _ hK S B hSn hSq hSp hSc hQ hIH hSB hΩ hB h4 hT hC
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_cases hmk : p = 3 ∧ GLAMarking (↥S) (fun lab _ _ _ _ _ => lab.n = 1)
   · exact Or.inr hmk
   have hF2 : p = 3 → ¬ GLAMarking (↥S) (fun lab _ _ _ _ _ => lab.n = 1) := fun h3 hm => hmk ⟨h3, hm⟩

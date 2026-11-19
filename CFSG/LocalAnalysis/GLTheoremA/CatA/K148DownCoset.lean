@@ -31,6 +31,7 @@ theorem k148_ker_le {J I : Subgroup G} (hIJ : I ≤ J) :
     le_sSup ⟨inferInstance, hcop⟩
   exact hle (Subgroup.mem_comap.2 hO)
 
+omit [Finite G] in
 theorem k148_mk_mem_fix {J Y : Subgroup G} (hYJ : Y ≤ J) {d : G}
     (hdN : d ∈ Subgroup.normalizer (J : Set G)) (hdY : ∀ y ∈ Y, d * y = y * d) (y : ↥Y) :
     (QuotientGroup.mk (Subgroup.inclusion hYJ y) : PQuot 3 J) ∈ lemma102_fixSub 3 hdN := by
@@ -47,6 +48,7 @@ theorem k148_mk_mem_fix {J Y : Subgroup G} (hYJ : Y ≤ J) {d : G}
     _ = d⁻¹ * (d * ((Subgroup.inclusion hYJ y : ↥J) : G)) := by rw [hc]
     _ = ((Subgroup.inclusion hYJ y : ↥J) : G) := by group
 
+omit [Finite G] in
 theorem k148_range_le_fix {J I : Subgroup G} (hIJ : I ≤ J) {d : G}
     (hdN : d ∈ Subgroup.normalizer (J : Set G)) (hdI : ∀ i ∈ I, d * i = i * d) :
     (k148Rho hIJ).range ≤ lemma102_fixSub 3 hdN := by
@@ -96,6 +98,7 @@ theorem k148_fix_lift {J : Subgroup G} {d : G} (hdN : d ∈ Subgroup.normalizer 
 @[expose] def k148Psi {J X : Subgroup G} (hXJ : X ≤ J) : ↥X →* PQuot 3 J :=
   (QuotientGroup.mk' (GLAPPrimeCore 3 ↥J)).comp (Subgroup.inclusion hXJ)
 
+omit [Finite G] in
 theorem k148Psi_apply {J X : Subgroup G} (hXJ : X ≤ J) (x : ↥X) :
     k148Psi hXJ x = QuotientGroup.mk (Subgroup.inclusion hXJ x) := rfl
 
@@ -106,6 +109,7 @@ theorem k148Psi_apply {J X : Subgroup G} (hXJ : X ≤ J) (x : ↥X) :
   map_one' := Subtype.ext (map_one (k148Psi hIJ))
   map_mul' x y := Subtype.ext (map_mul (k148Psi hIJ) x y)
 
+omit [Finite G] in
 theorem k148Phi_val {J I : Subgroup G} (hIJ : I ≤ J) {d : G}
     (hdN : d ∈ Subgroup.normalizer (J : Set G)) (hdI : ∀ i ∈ I, d * i = i * d) (i : ↥I) :
     ((k148Phi hIJ hdN hdI i : ↥(lemma102_fixSub 3 hdN)) : PQuot 3 J) = k148Psi hIJ i := by
@@ -115,10 +119,11 @@ theorem k148Phi_val {J I : Subgroup G} (hIJ : I ≤ J) {d : G}
 @[expose] def k148PhiX {J : Subgroup G} {d : G} (hdN : d ∈ Subgroup.normalizer (J : Set G)) :
     ↥(J ⊓ Subgroup.centralizer ({d} : Set G)) →* ↥(lemma102_fixSub 3 hdN) where
   toFun x := ⟨k148Psi inf_le_left x,
-    k148_mk_mem_fix inf_le_left hdN (fun y hy => (Subgroup.mem_centralizer_singleton_iff.1 hy.2).symm) x⟩
+    k148_mk_mem_fix inf_le_left hdN (fun _y hy => (Subgroup.mem_centralizer_singleton_iff.1 hy.2).symm) x⟩
   map_one' := Subtype.ext (map_one (k148Psi inf_le_left))
-  map_mul' x y := Subtype.ext (map_mul (k148Psi inf_le_left) x y)
+  map_mul' x _y := Subtype.ext (map_mul (k148Psi inf_le_left) x _y)
 
+omit [Finite G] in
 theorem k148PhiX_val {J : Subgroup G} {d : G} (hdN : d ∈ Subgroup.normalizer (J : Set G))
     (x : ↥(J ⊓ Subgroup.centralizer ({d} : Set G))) :
     ((k148PhiX hdN x : ↥(lemma102_fixSub 3 hdN)) : PQuot 3 J) = k148Psi inf_le_left x := by
@@ -159,6 +164,7 @@ theorem k148_sub_fix {J I : Subgroup G} (hIJ : I ≤ J) {d : G}
   rw [heq] at hmap
   exact hmap
 
+omit [Finite G] in
 theorem k148_quot_hom {H : Type} [Group H] {I : Subgroup G} (Φ : ↥I →* H)
     (hΦ : Φ.ker ≤ GLAPPrimeCore 3 ↥I) :
     ∃ φ : ↥Φ.range →* PQuot 3 I, Function.Surjective φ := by

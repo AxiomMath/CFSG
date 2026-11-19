@@ -35,7 +35,7 @@ theorem td4Alt_of_goodSub (h : TD4Res) : TD4Alt := by
     cases d with
     | trialityD4 q =>
       obtain ⟨hq2c, hq3⟩ := hi
-      haveI : Finite (CFSGIndex.lie ⟨.trialityD4 q, hv⟩).Group := Finite.of_equiv _ e.toEquiv
+      have : Finite (CFSGIndex.lie ⟨.trialityD4 q, hv⟩).Group := Finite.of_equiv _ e.toEquiv
       have hchev : IsChevSimple 2 (CFSGIndex.lie ⟨.trialityD4 q, hv⟩).Group :=
         (CFSG.LocalAnalysis.GLTheoremA.S9.isChevSimple_congr e).1 hK.chev
       left
@@ -78,7 +78,7 @@ theorem exists_good_element_of_pair' {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     · rcases hN3 d p hp hp2 hchar hgf2 htits D hD hD2 hDi with h | ⟨hlpe, hself⟩
       · exact absurd h hgood
       · exact (hlp hlpe D hD hD2 hDi hself hgood T hT2 hT hDT).elim
-  · obtain ⟨b, hbD, hbi⟩ := SetLike.not_le_iff_exists.1 hDi
+  · obtain ⟨b, hbD, hbi⟩ := IsConcreteLE.not_le_iff_exists.1 hDi
     have hb1 : b ≠ 1 := fun h => hbi (h ▸ (innAutDerived _).one_mem)
     have hbp : b ^ p = 1 := hD.2 b hbD
     obtain ⟨J, hJ, hJp, -⟩ := hN2 d p hp hp2 hchar hdvd h3 h5 b hbp hbi
@@ -94,7 +94,7 @@ theorem goodSub_one_of_inputs' (d : ValidLieTypeIndex) {p : ℕ} (hp : p.Prime) 
     (h5 : ¬ (p = 5 ∧ d.1 = .suzuki 2)) (hgf2 : ¬ (p = 3 ∧ ov2Idx d.1))
     (htits : ¬ (p = 5 ∧ d.1 = .tits)) (hlp : LpEpsNoGoodTwoLocal p d) : GoodSubAt p d 1 := by
   intro _ hdvd A hA hcard T hT2 hT hAT
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨D, hDA, hDcard⟩ := exists_sub_card_pow (n := 2) hp hA (by simpa using hcard)
   obtain ⟨a, haD, ha1, hgood⟩ := exists_good_element_of_pair' d hp hp2 hN2 hN3 hPL hchar hdvd h3 h5
     hgf2 htits hlp (isElemAbelian_mono hA hDA) hDcard hT2 hT fun α hα => hAT α (hDA hα)

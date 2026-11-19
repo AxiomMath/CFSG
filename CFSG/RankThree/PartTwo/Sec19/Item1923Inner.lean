@@ -20,10 +20,12 @@ open CFSG.RankThree.PartTwo.Sec19 (starIm IsList194 IsSmall194 IsTripleA6 IsProp
 
 variable {G : Type} [Group G] [Finite G] {A M N L K : Subgroup G} {c : G}
 
+omit [Finite G] in
 private theorem inner1923_comm {A : Subgroup G} (hA : IsE27 A) {x y : G} (hx : x ∈ A)
     (hy : y ∈ A) : x * y = y * x :=
   congrArg Subtype.val (hA.1.1.is_comm.comm ⟨x, hx⟩ ⟨y, hy⟩)
 
+omit [Finite G] in
 private theorem inner1923_plane_le_left : planeGroup A L c ≤ L := by
   intro x hx
   unfold planeGroup at hx
@@ -117,7 +119,7 @@ private theorem inner1923_central_facts {X : Type} [Group X] (F : QuaternionGrou
 private theorem inner1923_inv_of_fixed_eq_one {X : Type} [Group X] [Finite X]
     (hcomm : ∀ x y : X, x * y = y * x) (z : MulAut X) (hz2 : z ^ 2 = 1)
     (hfix : ∀ x : X, z x = x → x = 1) : ∀ b : X, z b = b⁻¹ := by
-  letI : CommGroup X := { ‹Group X› with mul_comm := hcomm }
+  let : CommGroup X := { ‹Group X› with mul_comm := hcomm }
   have hsq : ∀ y : X, z (z y) = y := fun y => by
     have := congrArg (fun φ : MulAut X => φ y) hz2
     simpa [pow_two] using this
@@ -184,11 +186,11 @@ theorem step1923_involution_inverts (h : Hyp1921 G A M N L) (hF : Facts1922 G A 
   let Fix : Subgroup ↥(A ⊓ L : Subgroup G) :=
     { carrier := {b | F (QuaternionGroup.a 2) b = b}
       mul_mem' := fun {x y} hx hy => by
-        simp only [Set.mem_setOf_eq, map_mul] at hx hy ⊢
+        simp only [Set.mem_ofPred_eq, map_mul] at hx hy ⊢
         rw [hx, hy]
       one_mem' := by simp
       inv_mem' := fun {x} hx => by
-        simp only [Set.mem_setOf_eq, map_inv] at hx ⊢
+        simp only [Set.mem_ofPred_eq, map_inv] at hx ⊢
         rw [hx] }
   have hkey : ∀ ψ ∈ Sec4.autIn (planeGroup A L c) (A ⊓ L), ∀ b ∈ Fix, ψ b ∈ Fix := by
     intro ψ hψ b hb
@@ -350,7 +352,7 @@ theorem step1923_inverting (h : Hyp1921 G A M N L) (hF : Facts1922 G A M N L c)
     exact key.symm
 
 theorem step1923_square_inverting (h : Hyp1921 G A M N L) (hF : Facts1922 G A M N L c)
-    (hK : K ∈ oTwoComponentsIn M)
+    (_hK : K ∈ oTwoComponentsIn M)
     (hcyc : CFSG.ClassicalInvolution.Nobq.OutTwoCyclic (K ⧸ CFSG.pCore 2 K))
     (hnorm : planeGroup A L c ≤ Subgroup.normalizer (K : Set G)) :
     ∃ (w : G) (hw : w ∈ Subgroup.normalizer (K : Set G)), w ∈ planeGroup A L c ∧

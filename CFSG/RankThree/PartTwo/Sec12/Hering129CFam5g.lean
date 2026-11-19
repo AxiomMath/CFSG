@@ -21,8 +21,8 @@ theorem exists_mem_normalizer_of_map {G H : Type} [Group G] [Finite G] [Group H]
     (hcop : ¬ 3 ∣ Nat.card g.ker) {h : H}
     (hh : h ∈ Subgroup.normalizer ((T.map g : Subgroup H) : Set H)) :
     ∃ n ∈ Subgroup.normalizer (T : Set G), g n = h := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (IsPGroup 3 (↥T)) := ⟨hT⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (IsPGroup 3 (↥T)) := ⟨hT⟩
   have hM : g.ker.Normal := g.normal_ker
   have hcop' : Nat.Coprime 3 (Nat.card g.ker) :=
     (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mpr hcop
@@ -71,11 +71,11 @@ theorem a6_sylow_normalized (Q' : Sylow 3 (alternatingGroup (Fin 6))) :
     ∃ y : alternatingGroup (Fin 6), y ∈ Subgroup.normalizer
       ((Q' : Subgroup (alternatingGroup (Fin 6))) : Set (alternatingGroup (Fin 6))) ∧
       y * y ∉ (Q' : Subgroup (alternatingGroup (Fin 6))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcard : Nat.card A6Q0 = 3 ^ (Nat.card (alternatingGroup (Fin 6))).factorization 3 := by
     rw [card_A6Q0, card_alternatingGroup6, factorization_three_360]
     norm_num
-  obtain ⟨x, hx⟩ := Sec4.Item434AltPerm.exists_le_map_conj_of_card hcard Q'.isPGroup'
+  obtain ⟨x, hx⟩ := Sec4.Item434AltPerm.exists_le_map_conj_of_card hcard Q'.isPGroup
   have hcard' : Nat.card ↥(A6Q0.map (MulAut.conj x).toMonoidHom) = 9 := by
     rw [Subgroup.card_map_of_injective (MulAut.conj x).injective, card_A6Q0]
   have hQ'card : Nat.card (Q' : Subgroup (alternatingGroup (Fin 6))) = 9 := by
@@ -105,8 +105,8 @@ section M12
 theorem PPair.false_M12 {S Lb : Type} [Group S] [Finite S] [Group Lb] {s : S}
     {J : Subgroup S} {g : ↥J →* Lb} (hS : Nat.card S = 95040)
     (hloc : Toolkit.M12ThreeLocalData S) (h : PPair s J g) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := h.finite_Lb
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := h.finite_Lb
   have h81 : ¬ 81 ∣ Nat.card S := by
     rw [hS]
     norm_num
@@ -123,7 +123,7 @@ theorem PPair.false_M12 {S Lb : Type} [Group S] [Finite S] [Group Lb] {s : S}
   let T_syl : Sylow 3 J := P0.subtype hP0J
   have hTeq : (T_syl : Subgroup J) = (P0 : Subgroup S).subgroupOf J := rfl
   set T : Subgroup J := (T_syl : Subgroup J) with hT
-  have hT3 : IsPGroup 3 T := T_syl.isPGroup'
+  have hT3 : IsPGroup 3 T := T_syl.isPGroup
   let F : J →* alternatingGroup (Fin 6) := f.comp g
   have hF : Function.Surjective F := hf.comp h.surjective
   let Q' : Sylow 3 (alternatingGroup (Fin 6)) := T_syl.mapSurjective hF

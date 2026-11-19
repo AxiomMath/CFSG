@@ -52,8 +52,8 @@ theorem s16t3_exists_permuting_three_of_two_three {A Q : Type*} [Group A] [Finit
     ∃ Y : Subgroup A, IsPGroup 3 ↥Y ∧ Nat.card ↥Y = 3 ^ y ∧
       (Y : Set A) * (T : Set A) = (T : Set A) * (Y : Set A) ∧ Y ≤ J.comap φ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set JA : Subgroup A := J.comap φ
   have hTJA : T ≤ JA := Subgroup.map_le_iff_le_comap.mp hTJ
   obtain ⟨b, hb⟩ := hT2.exists_card_eq
@@ -96,7 +96,7 @@ theorem s16t3_exists_permuting_three_of_two_three {A Q : Type*} [Group A] [Finit
     exact Nat.coprime_pow_primes y x Nat.prime_three Nat.prime_two (by norm_num)
   have hcompl : Subgroup.IsComplement' (Y.subgroupOf JA) (T.subgroupOf JA) :=
     Subgroup.isComplement'_of_coprime hprod hcop
-  refine ⟨Y, P.isPGroup'.map JA.subtype, hYcard, ?_, hYle⟩
+  refine ⟨Y, P.isPGroup.map JA.subtype, hYcard, ?_, hYle⟩
   have himgY : JA.subtype '' (Y.subgroupOf JA : Set ↥JA) = (Y : Set A) := by
     rw [← Subgroup.coe_map, Subgroup.map_subgroupOf_eq_of_le hYle]
   have himgT : JA.subtype '' (T.subgroupOf JA : Set ↥JA) = (T : Set A) := by

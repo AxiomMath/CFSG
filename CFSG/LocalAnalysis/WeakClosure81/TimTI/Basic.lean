@@ -169,8 +169,8 @@ theorem exists_ne_ne_one (h : Hyp X S) :
     ∃ s ∈ S, ∃ t ∈ S, s ≠ 1 ∧ t ≠ 1 ∧ s ≠ t := by
   classical
   have hSfin : Finite S := (Nat.card_pos_iff.mp (lt_trans (by norm_num) h.card)).2
-  haveI : Finite S := hSfin
-  letI : Fintype S := Fintype.ofFinite S
+  have : Finite S := hSfin
+  let : Fintype S := Fintype.ofFinite S
   have h2lt : 2 < (Finset.univ : Finset S).card := by
     rw [Finset.card_univ, ← Nat.card_eq_fintype_card]
     exact h.card
@@ -187,7 +187,7 @@ theorem exists_isClass [Finite X] (h : Hyp X S) : ∃ d₀ : X, dSet S = {g | Is
   obtain ⟨s, hs, _, _, hs1, _, _⟩ := h.exists_ne_ne_one
   refine ⟨s, ?_⟩
   ext y
-  rw [mem_dSet_iff, Set.mem_setOf_eq]
+  rw [mem_dSet_iff, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨x, hxS, hx1, hxy⟩
     exact (h.isConj_of_mem hs hxS hs1 hx1).trans hxy

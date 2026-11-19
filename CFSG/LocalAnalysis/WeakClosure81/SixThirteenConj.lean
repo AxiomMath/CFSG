@@ -28,6 +28,7 @@ theorem forall_conjSubgroup_eq_of_isTI {V₀ : Subgroup G} (h : CFSG.CGT.Timmesf
       rwa [heq] at h2
     exact (Subgroup.eq_of_le_of_card_ge hle (by rw [E3.card_conjSubgroup])).symm
 
+omit [Finite G] in
 theorem isTI_form_conj {V₀ : Subgroup G}
     (hTI : ∀ y : G, V₀ ⊓ conjSubgroup V₀ y ≠ ⊥ → conjSubgroup V₀ y = V₀) (g : G) :
     ∀ y : G, conjSubgroup V₀ g ⊓ conjSubgroup (conjSubgroup V₀ g) y ≠ ⊥ →
@@ -45,6 +46,7 @@ theorem isTI_form_conj {V₀ : Subgroup G}
     rw [h2, ← E3.conjSubgroup_inf, hbot, E3.conjSubgroup_bot]
   rw [h2, hTI z hzmem]
 
+omit [Finite G] in
 private theorem conjSubgroup_conj_mul {A : Subgroup G} (y g : G) :
     conjSubgroup (conjSubgroup A y) (y⁻¹ * g * y) =
       conjSubgroup (conjSubgroup A g) y := by
@@ -52,6 +54,7 @@ private theorem conjSubgroup_conj_mul {A : Subgroup G} (y g : G) :
   congr 1
   group
 
+omit [Finite G] in
 theorem inCalO_conj {n : ℕ} {M V₀ V : Subgroup G} (y g : G) :
     InCalO n (conjSubgroup M y) (conjSubgroup V₀ y) (conjSubgroup V y) (y⁻¹ * g * y) ↔
       InCalO n M V₀ V g := by

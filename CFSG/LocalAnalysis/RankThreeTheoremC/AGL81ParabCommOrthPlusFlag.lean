@@ -21,6 +21,7 @@ section Basic
 
 variable [Finite K] [CharP K 2]
 
+omit [CharP K 2] in
 theorem posUnip_le_plusFlagStab (hr : 3 ≤ r) {D : Finset ℕ} (hD : ∀ d ∈ D, 1 ≤ d ∧ d ≤ r) :
     posUnip r K ≤ plusFlagStab K r D := by
   intro g hg
@@ -30,6 +31,7 @@ theorem posUnip_le_plusFlagStab (hr : 3 ≤ r) {D : Finset ℕ} (hD : ∀ d ∈ 
   exact mem_plusFlagStab.2 ⟨OrthogonalSplit.borel_le hb, fun d hd =>
     MulAction.mem_stabilizer_iff.1 (borel_le_stabilizer_flag (hD d hd).1 (hD d hd).2 hb)⟩
 
+omit [Finite K] in
 theorem fieldConj_mem_plusFlagStab (hr : 3 ≤ r) {D : Finset ℕ} (hD : ∀ d ∈ D, d ≤ r)
     (σ : K ≃+* K) {x : GLV r K} (hx : x ∈ plusFlagStab K r D) :
     fieldConj r K σ x ∈ plusFlagStab K r D := by
@@ -41,6 +43,7 @@ theorem fieldConj_mem_plusFlagStab (hr : 3 ≤ r) {D : Finset ℕ} (hD : ∀ d �
 @[expose] def Normalizes (D : Finset ℕ) (h : GLV r K) (σ : K ≃+* K) : Prop :=
   ∀ q ∈ plusFlagStab K r D, ∃ x ∈ plusFlagStab K r D, h * fieldConj r K σ x * h⁻¹ = q
 
+omit [Finite K] in
 theorem smul_invariant (hr : 3 ≤ r) {D : Finset ℕ} (hD : ∀ d ∈ D, d ≤ r) {h : GLV r K}
     {σ : K ≃+* K} (hN : Normalizes D h σ) {W : Submodule K (Fin r ⊕ Fin r → K)}
     (hW : ∀ q ∈ plusFlagStab K r D, q • W = W) :
@@ -51,6 +54,7 @@ theorem smul_invariant (hr : 3 ≤ r) {D : Finset ℕ} (hD : ∀ d ∈ D, d ≤ 
   have hmul : h * fieldConj r K σ x * h⁻¹ * h = h * fieldConj r K σ x := by group
   rw [← mul_smul, hmul, mul_smul, hxσ]
 
+omit [CharP K 2] in
 theorem finrank_Xstar (hr : 3 ≤ r) :
     Module.finrank K ↥(Xstar r K (by omega : 0 < r)) = r := by
   have h := (swapPair_smul_flag_top (K := K) hr).1
@@ -60,6 +64,7 @@ theorem finrank_Xstar (hr : 3 ≤ r) :
   rw [← h]
   exact h2
 
+omit [CharP K 2] in
 theorem classify_invariant (hr : 3 ≤ r) {D : Finset ℕ} (hD : ∀ d ∈ D, 1 ≤ d ∧ d ≤ r)
     {W : Submodule K (Fin r ⊕ Fin r → K)} (hW : ∀ q ∈ plusFlagStab K r D, q • W = W)
     (hs : ∀ x ∈ W, quadPlus r K x = 0) (h1 : 1 ≤ Module.finrank K ↥W) :
@@ -111,11 +116,13 @@ theorem smul_flag_mem (hr : 3 ≤ r) {D : Finset ℕ} (hD : ∀ d ∈ D, 1 ≤ d
     exact Or.inr ⟨h1, Or.inr h2⟩
 
 
+omit [Finite K] [CharP K 2] in
 theorem sCoord_mem_Xstar (σ : K ≃+* K) (hr : 0 < r) {v : Fin r ⊕ Fin r → K}
     (hv : v ∈ Xstar r K hr) : sCoord σ v ∈ Xstar r K hr := by
   obtain ⟨h1, h2⟩ := (mem_Xstar hr).1 hv
   exact (mem_Xstar hr).2 ⟨by simp [h1], fun k hk => by simp [h2 k hk]⟩
 
+omit [Finite K] [CharP K 2] in
 theorem smul_Xstar_fieldConj (σ : K ≃+* K) (hr : 0 < r) {x : GLV r K}
     (hx : x • Xstar r K hr = Xstar r K hr) :
     fieldConj r K σ x • Xstar r K hr = Xstar r K hr := by
@@ -145,6 +152,7 @@ theorem smul_Xstar_fieldConj (σ : K ≃+* K) (hr : 0 < r) {x : GLV r K}
     rw [← LinearEquiv.mul_apply, ← map_mul, mul_inv_cancel, map_one]
     rfl
 
+omit [Finite K] [CharP K 2] in
 theorem exists_stab_X_not_stab_Xstar (hr : 3 ≤ r) :
     ∃ g ∈ orthElementaryGroup (quadPlus r K), g • flag r K r = flag r K r ∧
       g • Xstar r K (by omega : 0 < r) ≠ Xstar r K (by omega : 0 < r) := by
@@ -159,7 +167,7 @@ theorem exists_stab_X_not_stab_Xstar (hr : 3 ≤ r) :
       obtain ⟨hv1, -⟩ := mem_flag_iff_coord.1 hv
       rw [rpElt_apply hij]
       refine mem_flag_iff_coord.2 ⟨fun k => ?_, fun k hk => absurd k.2 (by omega)⟩
-      simp [hv1 k, hv1 i₀, Pi.single_apply]
+      simp [hv1 k, hv1 i₀]
     refine Submodule.eq_of_le_of_finrank_eq ?_ ?_
     · rintro _ ⟨v, hv, rfl⟩
       exact hle v hv
@@ -171,14 +179,14 @@ theorem exists_stab_X_not_stab_Xstar (hr : 3 ≤ r) :
       simp [Pi.single_eq_of_ne this]
     have hg := Submodule.smul_mem_pointwise_smul _ (rpElt (Sum.inl i₀) (Sum.inl j₀) (1 : K)) _ hf
     rw [hX] at hg
-    have h2 := ((mem_Xstar (by omega)).1 hg).2 j₀ (by simp [i₀, j₀, Fin.ext_iff]; omega)
+    have h2 := ((mem_Xstar (by omega)).1 hg).2 j₀ (by simp [j₀, Fin.ext_iff]; omega)
     have hji : (Sum.inr j₀ : Fin r ⊕ Fin r) ≠ Sum.inr i₀ := by
       simp only [ne_eq, Sum.inr.injEq, i₀, j₀, Fin.mk.injEq]
       omega
     change rpElt (Sum.inl i₀) (Sum.inl j₀) (1 : K) (Pi.single (Sum.inr i₀) 1) (Sum.inr j₀) = 0
       at h2
     rw [rpElt_apply hij] at h2
-    simp [Pi.single_apply, hji] at h2
+    simp [hji] at h2
 
 theorem mem_of_pow_eq_one {G : Type*} [Group G] (α : MulAut G) {T₁ T₂ : Set G}
     (h12 : ∀ x ∈ T₁, α x ∈ T₂) (h21 : ∀ x ∈ T₂, α x ∈ T₁) {n : ℕ} (hn : Odd n)
@@ -194,26 +202,27 @@ theorem mem_of_pow_eq_one {G : Type*} [Group G] (α : MulAut G) {T₁ T₂ : Set
       · rw [pow_succ', MulAut.mul_apply]
         have := ih.1 x hx
         by_cases hj : Even j
-        · rw [if_pos hj] at this
-          rw [if_neg (hpar.not.2 (not_not.2 hj))]
+        · rw [ite_eq_left hj] at this
+          rw [ite_eq_right (hpar.not.2 (not_not.2 hj))]
           exact h12 _ this
-        · rw [if_neg hj] at this
-          rw [if_pos (hpar.2 hj)]
+        · rw [ite_eq_right hj] at this
+          rw [ite_eq_left (hpar.2 hj)]
           exact h21 _ this
       · rw [pow_succ', MulAut.mul_apply]
         have := ih.2 x hx
         by_cases hj : Even j
-        · rw [if_pos hj] at this
-          rw [if_neg (hpar.not.2 (not_not.2 hj))]
+        · rw [ite_eq_left hj] at this
+          rw [ite_eq_right (hpar.not.2 (not_not.2 hj))]
           exact h21 _ this
-        · rw [if_neg hj] at this
-          rw [if_pos (hpar.2 hj)]
+        · rw [ite_eq_right hj] at this
+          rw [ite_eq_left (hpar.2 hj)]
           exact h12 _ this
   intro x hx
   have := (key n).1 x hx
-  rw [hα, if_neg (Nat.not_even_iff_odd.2 hn)] at this
+  rw [hα, ite_eq_right (Nat.not_even_iff_odd.2 hn)] at this
   exact this
 
+omit [Finite K] [CharP K 2] in
 theorem flag_top_ne_Xstar (hr : 3 ≤ r) :
     flag r K r ≠ Xstar r K (by omega : 0 < r) := by
   intro h

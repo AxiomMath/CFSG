@@ -22,7 +22,7 @@ theorem odd_card_eqvAut [Finite P] (hP : ∀ p : P, p ^ 2 = 1)
   have hSΓ : ∀ s ∈ S, s ∈ eqvAut A P := by
     rintro _ ⟨x, _, rfl⟩
     exact x.2
-  have hSp : IsPGroup 2 ↥S := Syl.isPGroup'.map (eqvAut A P).subtype
+  have hSp : IsPGroup 2 ↥S := Syl.isPGroup.map (eqvAut A P).subtype
   let U : Subgroup P := fixed ↥S ⊤
   have hUinv : IsInv A U := by
     intro a w hw

@@ -14,8 +14,8 @@ theorem frattini_reduction {Y : Type*} [Group Y] {B V : Subgroup Y}
     (σ : MulAut ↥B) (hσ : ∀ b : ↥B, (b : Y) ∈ V ↔ ((σ b : ↥B) : Y) ∈ V) :
     ∃ (b : ↥B) (n : MulAut ↥B), σ = MulAut.conj b * n ∧ (n d = d ∨ n d = d⁻¹) ∧
       ∀ x : ↥B, (x : Y) ∈ V ↔ ((n x : ↥B) : Y) ∈ V := by
-  haveI : Finite ↥B := Nat.finite_of_card_ne_zero (by rw [hB]; norm_num)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite ↥B := Nat.finite_of_card_ne_zero (by rw [hB]; norm_num)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf d = 3 := by rw [← Nat.card_zpowers]; exact hd
   have hd3 : d ^ 3 = 1 := by rw [← hord]; exact pow_orderOf_eq_one d
   have hddd : d * d * d = 1 := by rw [← hd3, pow_three, mul_assoc]
@@ -40,7 +40,7 @@ theorem frattini_reduction {Y : Type*} [Group Y] {B V : Subgroup Y}
     omega
   let P3 : Sylow 3 ↥B := hPsyl.toSylow hPidx
   let Q3 : Sylow 3 ↥B := hQsyl.toSylow hQidx
-  haveI : Finite (Sylow 3 ↥B) := Sylow.finite_of_finiteIndex P3
+  have : Finite (Sylow 3 ↥B) := Sylow.finite_of_finiteIndex P3
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq (↥B) P3 Q3
   have hconj : MulAut.conj g • P = Q := by
     have h1 : ((g • P3 : Sylow 3 ↥B) : Subgroup ↥B) = (Q3 : Subgroup ↥B) := by rw [hg]

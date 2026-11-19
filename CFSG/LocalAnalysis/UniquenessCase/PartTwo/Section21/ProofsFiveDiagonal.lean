@@ -15,9 +15,10 @@ open Subgroup CFSG.Open CFSG.GroupTheory
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mk_pow_orderOf_eq_one {M : Subgroup G} {a : G} (ha : a ∈ M) :
     (QuotientGroup.mk' (CFSG.pCore 2 ↥M) ⟨a, ha⟩) ^ orderOf a = 1 := by
-  haveI : (CFSG.pCore 2 ↥M).Normal := CFSG.pCore_normal
+  have : (CFSG.pCore 2 ↥M).Normal := CFSG.pCore_normal
   have hcoe : orderOf (⟨a, ha⟩ : ↥M) = orderOf a := (Subgroup.orderOf_coe _).symm
   have h : (⟨a, ha⟩ : ↥M) ^ orderOf a = 1 := by
     rw [← hcoe]
@@ -31,15 +32,15 @@ theorem centralizer_mk_eq_map_centralizer_bar2 {M : Subgroup G} {a : G} (ha : a 
       (Subgroup.centralizer ({(⟨a, ha⟩ : ↥M)} : Set ↥M)).map
         (QuotientGroup.mk' (CFSG.pCore 2 ↥M)) := by
   classical
-  haveI : Fact (orderOf a).Prime := ⟨hr⟩
+  have : Fact (orderOf a).Prime := ⟨hr⟩
   let N : Subgroup ↥M := CFSG.pCore 2 ↥M
-  haveI : N.Normal := CFSG.pCore_normal
+  have : N.Normal := CFSG.pCore_normal
   let q : ↥M →* Bar2 M := QuotientGroup.mk' N
   let T : Subgroup ↥M := Subgroup.zpowers (⟨a, ha⟩ : ↥M)
   have hTcard : Nat.card ↥T = orderOf a := by
     rw [show Nat.card ↥T = orderOf (⟨a, ha⟩ : ↥M) from Nat.card_zpowers _]
     exact (Subgroup.orderOf_coe _).symm
-  haveI : Fact (IsPGroup (orderOf a) ↥T) :=
+  have : Fact (IsPGroup (orderOf a) ↥T) :=
     ⟨IsPGroup.of_card (G := ↥T) (n := 1) (by rw [hTcard, pow_one])⟩
   have hcop : Nat.Coprime (orderOf a) (Nat.card N) := by
     obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp (CFSG.pCore_isPGroup (p := 2) (G := ↥M))
@@ -53,16 +54,18 @@ theorem centralizer_mk_eq_map_centralizer_bar2 {M : Subgroup G} {a : G} (ha : a 
   simp only [T, Subgroup.zpowers_eq_closure, Subgroup.centralizer_closure] at h
   exact h
 
+omit [Finite G] in
 theorem isPerfect_barImage_of_mem_calC {M L : Subgroup G} (hL : L ∈ calC M) :
     Group.IsPerfect ↥(barImage M L) := by
   have hLM : L ≤ M := CFSG.Quasithin.A3.subnormal_le hL.1
-  haveI : Group.IsPerfect ↥L := Subgroup.isPerfect_iff.mpr hL.2.1
-  haveI : Group.IsPerfect ↥(L.subgroupOf M) :=
+  have : Group.IsPerfect ↥L := Subgroup.isPerfect_iff.mpr hL.2.1
+  have : Group.IsPerfect ↥(L.subgroupOf M) :=
     Group.IsPerfect.ofSurjective
       (f := (Subgroup.subgroupOfEquivOfLe hLM).symm.toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hLM).symm.surjective
   exact Group.IsPerfect.map (H := L.subgroupOf M) (QuotientGroup.mk' (CFSG.pCore 2 ↥M))
 
+omit [Finite G] in
 theorem map_centralizer_coe_le_centralizer {M : Subgroup G} {a : G} (ha : a ∈ M) :
     (Subgroup.centralizer ({(⟨a, ha⟩ : ↥M)} : Set ↥M)).map M.subtype ≤
       Subgroup.centralizer ({a} : Set G) := by
@@ -88,9 +91,9 @@ private theorem isPerfect_map_perfectResidual_subtype {W : Subgroup G} :
     ⁅(CFSG.perfectResidual ↥W).map W.subtype,
         (CFSG.perfectResidual ↥W).map W.subtype⁆ =
       (CFSG.perfectResidual ↥W).map W.subtype := by
-  haveI : Group.IsPerfect ↥(CFSG.perfectResidual ↥W) :=
+  have : Group.IsPerfect ↥(CFSG.perfectResidual ↥W) :=
     CFSG.perfect_residual_characterization.2.2.1
-  haveI : Group.IsPerfect ↥((CFSG.perfectResidual ↥W).map W.subtype) :=
+  have : Group.IsPerfect ↥((CFSG.perfectResidual ↥W).map W.subtype) :=
     Group.IsPerfect.map (H := CFSG.perfectResidual ↥W) W.subtype
   exact Subgroup.isPerfect_iff.mp inferInstance
 
@@ -107,6 +110,7 @@ private theorem range_orbitDiagonalHom_le_centralizer {M L : Subgroup G} {a : G}
     (barImage M L) (orderOf a) (mk_pow_orderOf_eq_one ha)
     (conjugatesCommute_barImage hL ha hr haL) y
 
+omit [Finite G] in
 private theorem iSup_conjugatePower_le {M L : Subgroup G} {a : G} (hLM : L ≤ M) (ha : a ∈ M) :
     (⨆ i : Fin (orderOf a), conjugatePower a L i) ≤ M := by
   refine iSup_le fun i => ?_
@@ -169,7 +173,7 @@ private theorem perfect_le_iSup_of_map_le {M L : Subgroup G} {a : G} {D : Subgro
   have hpcX : pCoreOf 2 M ≤ Subgroup.normalizer (X : Set G) := by
     simpa only [X] using pCore_le_normalizer_iSup_conjugatePower hL ha
   have hYN : Y ≤ Subgroup.normalizer (X : Set G) := sup_le Subgroup.le_normalizer hpcX
-  haveI hNX : (X.subgroupOf Y).Normal :=
+  have hNX : (X.subgroupOf Y).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hXY).mpr hYN
   have hDsubX : D.subgroupOf M ≤ (X.subgroupOf M) ⊔ CFSG.pCore 2 ↥M := by
     have h1 := (Subgroup.map_le_iff_le_comap.mp hmap)
@@ -178,13 +182,13 @@ private theorem perfect_le_iSup_of_map_le {M L : Subgroup G} {a : G} {D : Subgro
     have h1 := Subgroup.map_mono (f := M.subtype) hDsubX
     rwa [Subgroup.map_sup, Subgroup.map_subgroupOf_eq_of_le hDM,
       Subgroup.map_subgroupOf_eq_of_le hXM] at h1
-  haveI hSolv : Group.IsSolvable ↥((pCoreOf 2 M).subgroupOf Y) := by
-    haveI : Group.IsSolvable ↥(pCoreOf 2 M) := uc22p22u_isSolvable_pCoreOf M
+  have hSolv : Group.IsSolvable ↥((pCoreOf 2 M).subgroupOf Y) := by
+    have : Group.IsSolvable ↥(pCoreOf 2 M) := uc22p22u_isSolvable_pCoreOf M
     let e := Subgroup.subgroupOfEquivOfLe (show pCoreOf 2 M ≤ Y from le_sup_right)
     exact Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom)
       (fun x y h => e.injective h)
-  haveI hPerf : Group.IsPerfect ↥(D.subgroupOf Y) := by
-    haveI : Group.IsPerfect ↥D := Subgroup.isPerfect_iff.mpr hDperf
+  have hPerf : Group.IsPerfect ↥(D.subgroupOf Y) := by
+    have : Group.IsPerfect ↥D := Subgroup.isPerfect_iff.mpr hDperf
     let e := Subgroup.subgroupOfEquivOfLe hDY
     exact Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom)
       (fun x => ⟨e x, by simp⟩)
@@ -221,6 +225,7 @@ private theorem map_subgroupOf_diagonalPreimage_eq {M : Subgroup G} {a : G} (ha 
     rw [uc22p21c_mem_barPreimage]
     exact ⟨c.2, by rw [hq]; exact hy⟩
 
+omit [Finite G] in
 private theorem subgroupOf_map_subtype_map_eq {M : Subgroup G} {DM : Subgroup ↥M}
     {q : ↥M →* Bar2 M} :
     ((DM.map M.subtype).subgroupOf M).map q = DM.map q := by
@@ -258,10 +263,10 @@ private theorem exists_perfect_map_diagonal {M L : Subgroup G} {a : G} (hL : L �
   have hψrange : ψ.range = E := by
     rw [MonoidHom.range_comp, Subgroup.inclusion_range]
     exact hWmap
-  haveI hBarPerf : Group.IsPerfect ↥(barImage M L) := isPerfect_barImage_of_mem_calC hL
-  haveI hEperf : Group.IsPerfect ↥E := Group.IsPerfect.range (f := δ)
+  have hBarPerf : Group.IsPerfect ↥(barImage M L) := isPerfect_barImage_of_mem_calC hL
+  have hEperf : Group.IsPerfect ↥E := Group.IsPerfect.range (f := δ)
   have hDMmap : DM.map q = E := by
-    haveI : Group.IsPerfect ↥ψ.range := hψrange.symm ▸ hEperf
+    have : Group.IsPerfect ↥ψ.range := hψrange.symm ▸ hEperf
     calc DM.map q = ((CFSG.perfectResidual ↥W).map (Subgroup.inclusion hWM)).map q := rfl
       _ = (CFSG.perfectResidual ↥W).map ψ := by rw [Subgroup.map_map]
       _ = ψ.range := map_perfectResidual_eq_range ψ
@@ -319,17 +324,17 @@ private theorem exists_elemAbelian_le_diagonal {M L : Subgroup G} {a : G} {p : �
         (conjugatesCommute_barImage hL ha hr haL)).range ∧
       IsElemAbelian p S ∧ Nat.card S = p ^ 2 := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let q : ↥M →* Bar2 M := QuotientGroup.mk' (CFSG.pCore 2 ↥M)
   let δ : ↥(barImage M L) →* Bar2 M :=
     orbitDiagonalHom (q ⟨a, ha⟩) (barImage M L) (orderOf a) (mk_pow_orderOf_eq_one ha)
       (conjugatesCommute_barImage hL ha hr haL)
-  haveI hLperf : Group.IsPerfect (Bar2 L) :=
+  have hLperf : Group.IsPerfect (Bar2 L) :=
     Group.IsPerfect.mk (uc22p22j_perfect_bar2 L hL.2.1)
   obtain ⟨e⟩ := CFSG.LocalAnalysis.UniquenessCase.PartTwo.s13_bar_equiv hL
   let φ : Bar2 L →* Bar2 M := δ.comp e.toMonoidHom
   let Z₀ : Subgroup (Bar2 L) := φ.ker
-  haveI hZ₀normal : Z₀.Normal := MonoidHom.normal_ker φ
+  have hZ₀normal : Z₀.Normal := MonoidHom.normal_ker φ
   have hZ₀center : Z₀ ≤ Subgroup.center (Bar2 L) :=
     ker_comp_le_center_of_ker_le_center e
       (orbitDiagonalHom_ker_le_center (q ⟨a, ha⟩) (barImage M L) (orderOf a)
@@ -351,7 +356,7 @@ private theorem not_dvd_card_ker_mk_comp {M D : Subgroup G}
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) :
     ¬ p ∣ Nat.card (((QuotientGroup.mk' (CFSG.pCore 2 ↥M)).comp
       (D.subgroupOf M).subtype).ker) := by
-  haveI : (CFSG.pCore 2 ↥M).Normal := CFSG.pCore_normal
+  have : (CFSG.pCore 2 ↥M).Normal := CFSG.pCore_normal
   have hle : (((QuotientGroup.mk' (CFSG.pCore 2 ↥M)).comp
       (D.subgroupOf M).subtype).ker).map (D.subgroupOf M).subtype ≤
         CFSG.pCore 2 ↥M := by
@@ -374,7 +379,7 @@ private theorem le_pRank_of_elemAbelian_lift {M D : Subgroup G} (hDM : D ≤ M)
     (hker : ¬ p ∣ Nat.card ψ.ker) :
     2 ≤ CFSG.Open.pRank p D := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨S', hS'elem, hS'map, hS'card⟩ :=
     CFSG.LieType.SeitzGeneration.ExcHigh.TwFive.exists_lift_of_le_range ψ hker hS hSe
   let Sg : Subgroup G := (S'.map (D.subgroupOf M).subtype).map M.subtype
@@ -393,7 +398,7 @@ private theorem le_pRank_of_elemAbelian_lift {M D : Subgroup G} (hDM : D ≤ M)
   exact CFSG.SectionRank.le_pRank (p := p) hp.one_lt hSgD hSg_elem hSg_card
 
 theorem two_le_pRank_diagonal {M L : Subgroup G} {a : G} {D : Subgroup G}
-    (hL : L ∈ calC M) (ha : a ∈ M) (hr : (orderOf a).Prime) (hr2 : orderOf a ≠ 2)
+    (hL : L ∈ calC M) (ha : a ∈ M) (hr : (orderOf a).Prime) (_hr2 : orderOf a ≠ 2)
     (haL : a ∉ Subgroup.normalizer (L : Set G)) (hDM : D ≤ M)
     (hDmap : (D.subgroupOf M).map (QuotientGroup.mk' (CFSG.pCore 2 ↥M)) =
       (orbitDiagonalHom (QuotientGroup.mk' (CFSG.pCore 2 ↥M) ⟨a, ha⟩) (barImage M L)
@@ -403,7 +408,7 @@ theorem two_le_pRank_diagonal {M L : Subgroup G} {a : G} {D : Subgroup G}
     (hP : ∃ P : Sylow p (Bar2 L), ¬ IsCyclic ↥(P : Subgroup (Bar2 L))) :
     2 ≤ CFSG.Open.pRank p D := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let q : ↥M →* Bar2 M := QuotientGroup.mk' (CFSG.pCore 2 ↥M)
   let E : Subgroup (Bar2 M) :=
     (orbitDiagonalHom (q ⟨a, ha⟩) (barImage M L) (orderOf a) (mk_pow_orderOf_eq_one ha)

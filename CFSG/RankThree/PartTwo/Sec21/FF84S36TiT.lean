@@ -93,7 +93,7 @@ theorem S36_ext_refl {H K : Type} [Group H] [Group K] (f : H →* K) (hf : Funct
 
 theorem S36_zpowers_two {G : Type} [Group G] {s x : G} (hs2 : s * s = 1) (hs1 : s ≠ 1)
     (hx : x ∈ Subgroup.zpowers s) : x = 1 ∨ x = s := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hord : orderOf s = 2 := orderOf_eq_prime (by rw [sq]; exact hs2) hs1
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 hx
   have hmod := zpow_mod_orderOf s k
@@ -107,12 +107,12 @@ theorem S36_zpowers_two {G : Type} [Group G] {s x : G} (hs2 : s * s = 1) (hs1 : 
 
 theorem S36_isExtraspecial_of_ext {G : Type} [Group G] [Finite G] {Q : Subgroup G} {z : G}
     (h : ExtraspecialAt Q z) : IsExtraspecialPGroup 2 ↥Q := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hz2 : z * z = 1 := h.sq_eq
   have hz1 : z ≠ 1 := h.ne_one
   have hordz : orderOf z = 2 := orderOf_eq_prime (by rw [sq]; exact hz2) hz1
   have hP : IsPGroup 2 ↥Q := IsPGroup.of_card (show Nat.card ↥Q = 2 ^ 5 by rw [h.card_eq]; norm_num)
-  haveI : Fact (IsPGroup 2 ↥Q) := ⟨hP⟩
+  have : Fact (IsPGroup 2 ↥Q) := ⟨hP⟩
   have hzc : ∀ x : ↥Q, x ∈ Subgroup.center ↥Q ↔ (x : G) = 1 ∨ (x : G) = z := by
     intro x
     constructor

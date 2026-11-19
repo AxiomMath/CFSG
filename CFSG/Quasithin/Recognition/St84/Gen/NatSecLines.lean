@@ -117,7 +117,7 @@ private theorem omegaPreimage_ne {E Z : Subgroup G} [Finite ↥E]
     (hE : IsPGroup 2 E) (hne : Z ≠ E) : omegaPreimage E Z ≠ Z := by
   classical
   let Q := ↥E ⧸ (Z.subgroupOf E)
-  haveI hZn : (Z.subgroupOf E).Normal :=
+  have hZn : (Z.subgroupOf E).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hZE).mpr hEZ
   have hQp : IsPGroup 2 Q := hE.to_quotient (Z.subgroupOf E)
   have hcardQ : Nat.card Q ≠ 1 := by
@@ -280,7 +280,7 @@ private theorem two_pow_le_relIndex_omegaPreimage {L E Z : Subgroup G} [Finite �
   have hLH : L ≤ H := le_sup_right
   have hMH : omegaPreimage E Z ≤ H := fun _ hx => hEH hx.1
   have hZH : Z ≤ H := hZE.trans hEH
-  haveI hHfin : Finite ↥H :=
+  have hHfin : Finite ↥H :=
     finite_sup_of_le_normalizer (X := E) (P := E) (A := L) le_rfl hLE
   let L' := L.subgroupOf H
   let V' := (omegaPreimage E Z).subgroupOf H

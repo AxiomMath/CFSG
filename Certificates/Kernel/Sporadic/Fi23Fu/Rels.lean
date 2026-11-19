@@ -220,35 +220,35 @@ theorem N_gs : ∀ j < 12, N (j + 12 + 1) = mat (gs j) := by
     unfold chainL
     simp only [decide_eq_true_eq]
     by_cases h2 : z.natAbs ≤ 2
-    · rw [if_pos h2, mat_genG]
+    · rw [ite_eq_left h2, mat_genG]
       have hz4 : z = 1 ∨ z = -1 ∨ z = 2 ∨ z = -2 := by omega
       rcases hz4 with rfl | rfl | rfl | rfl <;> norm_num [N_A, N_B]
     · have h3 : z.natAbs - 3 < j := by omega
-      rw [if_neg h2, if_pos h3]
+      rw [ite_eq_right h2, ite_eq_left h3]
       have e : z.natAbs + 9 + 1 = (z.natAbs - 3) + 12 + 1 := by omega
       rw [e, ih _ h3 (by omega)]
       by_cases hp : 0 < z
-      · rw [if_pos hp, if_pos hp]
+      · rw [ite_eq_left hp, ite_eq_left hp]
         rfl
-      · rw [if_neg hp, if_neg hp, mat_inv]
+      · rw [ite_eq_right hp, ite_eq_right hp, mat_inv]
         rfl
 
 theorem N_gen {g : Nat} (hg : g < 24) : N (g + 1) = mat (genJ g) := by
   unfold genJ
   by_cases h10 : g < 10
-  · rw [if_pos h10, mat_img h10]
+  · rw [ite_eq_left h10, mat_img h10]
     exact N_br (by omega)
-  · rw [if_neg h10]
+  · rw [ite_eq_right h10]
     by_cases ha : g = 10
     · subst ha
-      rw [if_pos rfl, mat_a]
+      rw [ite_eq_left rfl, mat_a]
       exact N_A
-    · rw [if_neg ha]
+    · rw [ite_eq_right ha]
       by_cases hb : g = 11
       · subst hb
-        rw [if_pos rfl, mat_b]
+        rw [ite_eq_left rfl, mat_b]
         exact N_B
-      · rw [if_neg hb]
+      · rw [ite_eq_right hb]
         have e : g + 1 = (g - 12) + 12 + 1 := by omega
         rw [e]
         exact N_gs (g - 12) (by omega)
@@ -256,8 +256,8 @@ theorem N_gen {g : Nat} (hg : g < 24) : N (g + 1) = mat (genJ g) := by
 theorem letF_J {x : Nat × Bool} (hx : x.1 < 24) : Mt (letM RF 24 x) = mat (letJ x) := by
   rw [letF hx, letJ, N_gen hx]
   cases x.2
-  · rw [if_neg Bool.false_ne_true, if_neg Bool.false_ne_true, mat_inv]
-  · rw [if_pos rfl, if_pos rfl]
+  · rw [ite_eq_right Bool.false_ne_true, ite_eq_right Bool.false_ne_true, mat_inv]
+  · rw [ite_eq_left rfl, ite_eq_left rfl]
 
 theorem relJ {v : List (Nat × Bool)} (hv : v ∈ relsF) : (v.map letJ).prod = 1 := by
   apply mat_injective
@@ -311,10 +311,10 @@ theorem letJ_kleinL {l : Nat} (hl : l < 24) : letJ (kleinL l) = CFSG.Perm.pairG 
   have h1 : ¬ l / 2 + 12 < 10 := by omega
   have h2 : l / 2 + 12 ≠ 10 := by omega
   have h3 : l / 2 + 12 ≠ 11 := by omega
-  simp only [if_neg h1, if_neg h2, if_neg h3, Nat.add_sub_cancel]
+  simp only [ite_eq_right h1, ite_eq_right h2, ite_eq_right h3, Nat.add_sub_cancel]
   by_cases hp : l % 2 = 0
-  · rw [if_pos hp, if_pos (by rw [hp]; rfl)]
-  · rw [if_neg hp, if_neg (by intro h; exact hp (Nat.eq_of_beq_eq_true h))]
+  · rw [ite_eq_left hp, ite_eq_left (by rw [hp]; rfl)]
+  · rw [ite_eq_right hp, ite_eq_right (by intro h; exact hp (Nat.eq_of_beq_eq_true h))]
 
 theorem rel12_mem : kleinZW.map kleinL ++ vW ++ uInvW ++ vInvW ∈ relsF := by
   unfold relsF

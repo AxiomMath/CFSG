@@ -100,6 +100,6 @@ theorem not_elConfig_ru :
   have : Finite (NativeSporadic.Carrier .Ru) := (CFSG.Sporadic.Ru.fam_ru_simplicity).1
   obtain ⟨P, hP⟩ := hs.exists_center_small hZ
   exact ModH.not_elConfig_of_center hs.pointwise
-    (ModH.centerSmall_of_one (K1.isSylowTwoOf_top_iff.2 ⟨P.isPGroup', P.not_dvd_index⟩) hP)
+    (ModH.centerSmall_of_one (K1.isSylowTwoOf_top_iff.2 ⟨P.isPGroup, P.not_dvd_index⟩) hP)
 
 end CFSG.Quasithin.ModH.RuEl

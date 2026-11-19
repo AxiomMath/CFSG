@@ -115,7 +115,7 @@ theorem fieldKind_unitary_data {S : Type} [Group S] [Finite S] {labK : GLALabel}
       A, σ, u, e, hA, hαu, hgraph, hσ⟩
   ·
     unfold LargeEvenRawDatum at hraw
-    simp only [ht, hr, if_true] at hraw
+    simp only [ht, hr, ite_true] at hraw
     unfold LargeEvenRecipeUnitary at hraw
     obtain ⟨K, hK, hKf, hcard, hQ'⟩ := hraw
     obtain ⟨-, -, θ, -, hB, hC⟩ := hQ'

@@ -72,7 +72,7 @@ theorem IsPosFrame.mem_fixS (hε : IsPosFrame ε) (he : e = 2) {Tb : Finset (Fin
 theorem IsPosFrame.shift {M : ℕ} {ε : Fin (M + 2) ≃ (Fin e × Fin (s + 1)) ⊕ Fin d}
     {εo : Fin M ≃ (Fin e × Fin s) ⊕ Fin d} (hε : IsPosFrame ε) (hεo : IsPosFrame εo) (q : Fin M) :
     ε ⟨q.val + 2, by omega⟩ = Sum.map (Prod.map id Fin.succ) id (εo q) := by
-  rw [Equiv.apply_eq_iff_eq_symm_apply]
+  rw [← _root_.Equiv.eq_symm_apply]
   apply Fin.ext
   rcases hq : εo q with ⟨a, k⟩ | j
   · simp only [Sum.map_inl, Prod.map_apply, id_eq]
@@ -177,11 +177,11 @@ theorem exists_compIndicator_eq_pow {g : (ZMod 2)[X]} [Fact (Irreducible g)]
   refine ⟨o₁ * o₂, ?_, ?_⟩
   · refine RestSL.compIndicator_eq_pow εo hC (SLNS.kT Tb) Tb
       (fun i hi => by simp [SLNS.kT, hi]) ho fun i hi => ?_
-    rw [SLNS.kT, if_pos hi, pow_one, pow_mul, h₁, one_pow]
+    rw [SLNS.kT, ite_eq_left hi, pow_one, pow_mul, h₁, one_pow]
   · rw [hinv]
     refine RestSL.compIndicator_eq_pow εo hC (2 • SLNS.kT Tb) Tb
       (fun i hi => by simp [SLNS.kT, hi]) ho fun i hi => ?_
-    rw [Pi.smul_apply, SLNS.kT, if_pos hi, smul_eq_mul, mul_one, mul_comm, pow_mul, h₂, one_pow]
+    rw [Pi.smul_apply, SLNS.kT, ite_eq_left hi, smul_eq_mul, mul_one, mul_comm, pow_mul, h₂, one_pow]
 
 end QTwoCharts
 
@@ -254,7 +254,7 @@ theorem overlap_conj_torus {M : ℕ} {ε : Fin (M + 2) ≃ (Fin (rootPB g).dim �
     have h2 : 2 ≤ (j.succ.succ : Fin (r + 2)).val := by simp [Fin.val_succ]
     have hj : (⟨(j.succ.succ : Fin (r + 2)).val - 2, by omega⟩ : Fin r) = j :=
       Fin.ext (by simp [Fin.val_succ])
-    simp only [c, dif_pos h2, hj, SLNS.kT]
+    simp only [c, dite_eq_left h2, hj, SLNS.kT]
     split_ifs <;> rfl
   have hact : ∀ u, ((eta.symm v : ↥Bs) : G) * κ u * ((eta.symm v : ↥Bs) : G)⁻¹ =
       κ (blockSL (ZMod 2) (M + 2) M 2 (by omega) (SLNS.nsSL εo hC (SLNS.kT Tb))) * κ u *

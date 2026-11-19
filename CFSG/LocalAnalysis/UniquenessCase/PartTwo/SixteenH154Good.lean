@@ -238,6 +238,7 @@ theorem s16h_unique₂_of_condU2 (D : Data G) (h61 : UC6.R6_1 D) {V₀ V L : Sub
   · exact hU x hx y hy (s16h_barSub_ne_of_wSub_ne D h.hyp151 hx hy hne) w
       ⟨hlex hw, hley hw⟩ hw0
 
+omit [Finite G] in
 private theorem s16h_isPGroup_two_sub_v {V U : Subgroup G} (hV : IsElemAbelian 2 V)
     (hUV : U ≤ V) : IsPGroup 2 U := by
   intro g

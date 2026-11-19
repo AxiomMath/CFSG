@@ -14,8 +14,8 @@ variable {G : Type} [Group G] [Finite G]
 theorem le_centralizer_of_isPGroup_of_card_lt {p : ℕ} (hp : p.Prime) {B V₀ : Subgroup G}
     (hB : IsPGroup p B) (hN : B ≤ normalizer (V₀ : Set G)) (hcard : Nat.card V₀ < p) :
     B ≤ centralizer (V₀ : Set G) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  letI : MulAction B ↥V₀ := MulAction.compHom ↥V₀ (Subgroup.inclusion hN)
+  have : Fact p.Prime := ⟨hp⟩
+  let : MulAction B ↥V₀ := MulAction.compHom ↥V₀ (Subgroup.inclusion hN)
   have hmod := hB.card_modEq_card_fixedPoints ↥V₀
   have hle : Nat.card (MulAction.fixedPoints B ↥V₀) ≤ Nat.card ↥V₀ :=
     Nat.card_le_card_of_injective (fun x : ↥(MulAction.fixedPoints B ↥V₀) => (x.1 : ↥V₀))
@@ -60,7 +60,7 @@ theorem exists_lift_of_mem_fixV_barSub {V₀ V B : Subgroup G} (hV : IsElemAbeli
     (hB : B ≤ stabTil V₀ V) (hodd : Odd (Nat.card B)) {q : Vtil V₀ V hV}
     (hq : q ∈ fixV (barSub V₀ V hV B)) :
     ∃ x : IntMod V hV, x.val ∈ centralizer (B : Set G) ∧ mkTil V₀ V hV x = q := by
-  letI : Fintype B := Fintype.ofFinite B
+  let : Fintype B := Fintype.ofFinite B
   obtain ⟨x₀, hx₀⟩ := mkTil_surjective V₀ V hV q
   let F : B → IntMod V hV := fun b => actStab V₀ V hV ⟨(b : G), hB b.2⟩ x₀
   let x : IntMod V hV := ∏ b : B, F b
@@ -148,7 +148,7 @@ theorem rk_add_rk_fixV_barSub_le {V₀ V B : Subgroup G} (hV : IsElemAbelian 2 V
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hBp : IsPGroup p B) (hB : B ≤ stabTil V₀ V)
     (hV₀B : V₀ ≤ centralizer (B : Set G)) :
     rk ↥V₀ + rk ↥(fixV (barSub V₀ V hV B)) ≤ rk ↥(V ⊓ centralizer (B : Set G)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨n, hn⟩ := hBp.exists_card_eq
   have hodd : Odd (Nat.card B) := by
     rw [hn]

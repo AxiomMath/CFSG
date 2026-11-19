@@ -60,7 +60,7 @@ theorem le_of_maxSylowCase {p : ℕ} (hp : p.Prime) (P : Sylow p G) {M : Subgrou
   obtain ⟨K, hHK, hK⟩ := exists_maximal_twoLocal hH
   have hKM : 3 ≤ pRank p (K ⊓ M) := hHM.trans (pRank_mono p hp (inf_le_inf_right M hHK))
   obtain ⟨R, hRM, hRrank, -⟩ := intersecting_local_has_contained_sylow p hp P hPM hWM hKM
-  obtain ⟨m, hm⟩ := exists_conjugate_le_sylow_of_le p P hPM hRM (R.isPGroup'.map K.subtype)
+  obtain ⟨m, hm⟩ := exists_conjugate_le_sylow_of_le p P hPM hRM (R.isPGroup.map K.subtype)
   have hσ := glbIsMaxTwoLocal_map_mulAut hK (MulAut.conj (m : G))
   refine hHK.trans (le_of_map_conj_le m.2 (hcase _ hσ (sylowMapMulAut R _) ?_ ?_))
   · rw [map_subtype_sylowMapMulAut]

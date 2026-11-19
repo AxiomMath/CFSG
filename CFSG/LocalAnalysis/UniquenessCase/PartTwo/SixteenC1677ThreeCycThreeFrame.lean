@@ -89,7 +89,7 @@ theorem s168e3_cyc3_sylow [Finite W] (hW : ∀ w : W, w ^ 2 = 1) (hcard : Nat.ca
     (hqm : 2 ≤ CFSG.Open.pRank 3 A) :
     ∃ E : Subgroup (MulAut W), E ≤ A ∧ L ≤ E ∧ Nat.card ↥E = 9 ∧
       (∀ a ∈ E, ∀ b ∈ E, a * b = b * a) ∧ (∀ a ∈ E, a ^ 3 = 1) ∧ ¬ 3 ^ 3 ∣ Nat.card ↥A := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcube : ¬ 3 ^ 3 ∣ Nat.card ↥A := by
     intro hd
     have h1 : Nat.card ↥A ∣ Nat.card (MulAut W) := Subgroup.card_subgroup_dvd_card A
@@ -112,7 +112,7 @@ theorem s168e3_cyc3_sylow [Finite W] (hW : ∀ w : W, w ^ 2 = 1) (hcard : Nat.ca
   have hE₀card9 : Nat.card ↥E₀ = 9 := by
     rw [hE₀card, hpRank]; norm_num
   have hLE₀ : L ≤ E₀ := by
-    haveI hN : (L.subgroupOf A).Normal := by
+    have hN : (L.subgroupOf A).Normal := by
       rw [Subgroup.normal_subgroupOf_iff hLA]
       intro h k hh hk
       have hmap := hLn k hk
@@ -162,7 +162,7 @@ theorem s168e3_cyc3_frame [Finite W] (hW : ∀ w : W, w ^ 2 = 1) (hcard : Nat.ca
       fixV (Subgroup.zpowers y₁) = Z₁ ∧ fixV (Subgroup.zpowers y₂) = Z₂ ∧
       commSub ⊤ (Subgroup.zpowers y₁) = Z₂ ∧ commSub ⊤ (Subgroup.zpowers y₂) = Z₁ ∧
       Nat.card ↥Z₁ = 4 ∧ Nat.card ↥Z₂ = 4 ∧ Z₁ ⊓ Z₂ = ⊥ ∧ Z₁ ⊔ Z₂ = ⊤ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hfixx : fixV (Subgroup.zpowers x) = ⊥ := by
     rw [Subgroup.eq_bot_iff_forall]
     intro w hw
@@ -175,7 +175,7 @@ theorem s168e3_cyc3_frame [Finite W] (hW : ∀ w : W, w ^ 2 = 1) (hcard : Nat.ca
       by_contra hfix
       exact hno ⟨y, hyE, hyne, hfix⟩
     let Y : Set W := {w | w ≠ 1}
-    letI : MulAction ↥E W := MulAction.compHom W E.subtype
+    let : MulAction ↥E W := MulAction.compHom W E.subtype
     have hYinv : ∀ h : ↥E, ∀ y ∈ Y, h • y ∈ Y := by
       intro h y hy
       change (h : MulAut W) y ≠ 1

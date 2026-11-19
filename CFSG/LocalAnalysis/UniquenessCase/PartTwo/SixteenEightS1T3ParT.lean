@@ -13,6 +13,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {W : Type} [CommGroup W] [Finite W] {A L T : Subgroup (MulAut W)}
 
+omit [Finite W] in
 theorem s16t3_parab_of_model (h : ThreeNat A L T) {ι : Type} [Fintype ι] [DecidableEq ι]
     {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2)
     {Γ : Subgroup (Matrix.GeneralLinearGroup ι K)} {I : Subgroup W} (hTI : StableUnder T I)
@@ -134,7 +135,7 @@ theorem ThreeNat.exists_parab_of_parabIn (h : ThreeNat A L T) {a : ℕ} (hP : T3
     ∃ P : Subgroup (MulAut W), P ≤ L ∧ (∀ t ∈ T, ∀ x ∈ P, t * x * t⁻¹ ∈ P) ∧ T ⊓ L ≤ P ∧
       Nat.card ↥P = 3 ^ a * Nat.card ↥(T ⊓ L) ∧
       ∀ x ∈ P, ∀ m : ℕ, x ^ 3 ^ m = 1 → x ^ 3 = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, h1, h2, h3, h4, h5⟩ := hP
   have hS := (h.sylow.inf_of_le_normalizer h.le h.normal).card_eq
   exact ⟨P, h1, h2, h3, by rw [h4, hS], h5⟩

@@ -18,16 +18,16 @@ theorem card_linearEquiv_zmod_three {V : Type*} [AddCommGroup V] [Module (ZMod 3
 
 theorem not_seven_dvd_prod_of_le_five {n : ℕ} (hn : n ≤ 5) :
     ¬ 7 ∣ ∏ i : Fin n, (3 ^ n - 3 ^ (i : ℕ)) := by
-  interval_cases n <;> first | decide | (simp [Fin.prod_univ_succ]; omega)
+  interval_cases n <;> first | decide
 
 theorem three_pow_six_le_card_of_seven_dvd {G : Type} [Group G] [Finite G] {Bs : Subgroup G}
     (hBs : CFSG.Open.IsElemAbelian 3 Bs) {A : Subgroup (MulAut ↥Bs)} (h7 : 7 ∣ Nat.card A) :
     3 ^ 6 ≤ Nat.card Bs := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨V, _, _, ⟨ι⟩⟩ := exists_ggLinData (p := 3) hBs
-  haveI : Finite V := Finite.of_equiv ↥Bs (Additive.ofMul.trans ι.toEquiv)
-  haveI : Module.Finite (ZMod 3) V := inferInstance
+  have : Finite V := Finite.of_equiv ↥Bs (Additive.ofMul.trans ι.toEquiv)
+  have : Module.Finite (ZMod 3) V := inferInstance
   have hdvd : Nat.card A ∣ Nat.card (V ≃ₗ[ZMod 3] V) := by
     refine Subgroup.card_dvd_of_injective ((ggLin (p := 3) ι).comp A.subtype) ?_
     exact (ggLin_injective (p := 3) ι).comp A.subtype_injective

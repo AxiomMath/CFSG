@@ -132,7 +132,7 @@ theorem isSylowOf_projUnitriangular (hn : 1 ≤ n) :
   rw [CFSG.ABGLocalTools.isSylowOf_iff]
   refine ⟨le_top, ?_, ?_⟩
   · rw [← hQ]
-    exact Q.isPGroup'
+    exact Q.isPGroup
   · rw [Subgroup.relIndex_top_right, ← hQ]
     exact Q.not_dvd_index
 

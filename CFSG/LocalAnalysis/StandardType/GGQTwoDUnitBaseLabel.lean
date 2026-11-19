@@ -35,8 +35,8 @@ private theorem qtwoDB29_orthM_absurd {G : Type} [Group G] [Finite G] {p : ℕ} 
     (hrefl : GGIsReflection p r) (hr6 : Nat.card ↥(ggRankOneIn L Bs r) = 6)
     (h : GGInnerDiagOnLabel (fun p lab => ggRowP_EOmM p lab ∧ 2 ≤ lab.n) p Bs L) : False := by
   obtain ⟨hp, hp2⟩ := ggRouteCfg_prime hroute
-  haveI : Fact (Nat.Prime p) := ⟨hp⟩
-  haveI : Group.IsPerfect ↥L := Group.IsPerfect.mk h.1
+  have : Fact (Nat.Prime p) := ⟨hp⟩
+  have : Group.IsPerfect ↥L := Group.IsPerfect.mk h.1
   have hconf : GGConfig p B Bs x L D J := hroute.1.1
   obtain ⟨-, hBs, -, -, -⟩ := hconf.tableB_facts
   have hSC : ∀ g ∈ Subgroup.centralizer (Bs : Set G), g ^ p = 1 → g ∈ Bs := hconf.2.1.2.2.2
@@ -56,7 +56,7 @@ private theorem qtwoDB29_orthM_absurd {G : Type} [Group G] [Finite G] {p : ℕ} 
     rw [hw]
     exact hgconj b
   have hthree := CFSG.RankThree.PartOne.exists_threeSingular_of_dim Φ.Q hQ Φ.hr hdim
-  haveI : Nontrivial Φ.V := CFSG.RankThree.PartOne.nontrivial_of_threeSingular hthree
+  have : Nontrivial Φ.V := CFSG.RankThree.PartOne.nontrivial_of_threeSingular hthree
   have hZ := CFSG.RankThree.PartOne.center_orthDerived_eq_bot hQ hthree
   obtain ⟨xs, hxs⟩ := Φ.exists_signed_action_of_inner hp2 hQ hZ w r hwr hrefl
   have hrank := Φ.rankOne_eq_map_of_signed_action w r xs hwr hxs
@@ -98,13 +98,13 @@ private theorem qtwoDB29_orthM_absurd {G : Type} [Group G] [Finite G] {p : ℕ} 
   have hle : (if xs.2 = true then Φ.Δ.rankOnePos a b else Φ.Δ.rankOne a b) ≤
       CFSG.RankThree.Classical2.orthDerived Φ.Q := by
     by_cases hx : xs.2 = true
-    · rw [if_pos hx]; exact Φ.Δ.rankOnePos_le a b
-    · rw [if_neg hx]; exact Φ.Δ.rankOne_le a b
+    · rw [ite_eq_left hx]; exact Φ.Δ.rankOnePos_le a b
+    · rw [ite_eq_right hx]; exact Φ.Δ.rankOne_le a b
   have hcardSigned : Nat.card ↥(if xs.2 = true then Φ.Δ.rankOnePos a b
       else Φ.Δ.rankOne a b) = Nat.card Φ.F * (Nat.card Φ.F ^ 2 - 1) := by
     by_cases hx : xs.2 = true
-    · rw [if_pos hx]; exact hcardRankOnePos
-    · rw [if_neg hx]; exact hcardRankOne
+    · rw [ite_eq_left hx]; exact hcardRankOnePos
+    · rw [ite_eq_right hx]; exact hcardRankOne
   have hfin : Nat.card ↥(ggRankOneIn L Bs r) = Nat.card Φ.F * (Nat.card Φ.F ^ 2 - 1) := by
     rw [hrank, Subgroup.card_map_of_injective Φ.hinj,
       Nat.card_congr (Subgroup.subgroupOfEquivOfLe hle).toEquiv]

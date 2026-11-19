@@ -32,16 +32,20 @@ section Generic
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem piLayer_le {p : ℕ} (H : Subgroup G) : piLayer p H ≤ H :=
   iSup_le fun _ => iSup_le fun hL => hL.1.1
 
+omit [Finite G] in
 theorem Ke_le (p : ℕ) (K : Subgroup G) (e : G) : Prop1116.Ke p K e ≤ K :=
   sup_le ((gLAPPrimeCoreOf_le p _).trans inf_le_left) ((piLayer_le _).trans inf_le_left)
 
+omit [Finite G] in
 theorem core_le_Ke (p : ℕ) (K : Subgroup G) (e : G) :
     GLAPPrimeCoreOf p (K ⊓ Subgroup.centralizer ({e} : Set G)) ≤ Prop1116.Ke p K e :=
   le_sup_left
 
+omit [Finite G] in
 theorem le_Ke_of_component {p : ℕ} {K J : Subgroup G} {e : G}
     (hJ : GLAPComponent p (K ⊓ Subgroup.centralizer ({e} : Set G)) J)
     (hπ : IsPiGroup p (barOf p J)) : J ≤ Prop1116.Ke p K e :=
@@ -59,7 +63,7 @@ theorem isPGroup_center_of_core_eq_bot {p : ℕ} (hp : p.Prime) {Y : Type*} [Gro
   have hord : orderOf ((z : Y) ^ p ^ a) = b := by
     rw [orderOf_pow_of_dvd (pow_ne_zero a hp.ne_zero) ⟨b, hab⟩, hab,
       Nat.mul_div_cancel_left _ (pow_pos hp.pos a)]
-  haveI : (Subgroup.zpowers ((z : Y) ^ p ^ a)).Normal :=
+  have : (Subgroup.zpowers ((z : Y) ^ p ^ a)).Normal :=
     Subgroup.normal_of_le_center (by rw [Subgroup.zpowers_le]; exact hz')
   have hcop : Nat.Coprime p (Nat.card (Subgroup.zpowers ((z : Y) ^ p ^ a))) := by
     rw [Nat.card_zpowers, hord]
@@ -83,20 +87,21 @@ theorem isPGroup_zpowers_two {T : Type*} [Group T] {a : T} (ha : ∃ k : ℕ, a 
 theorem mul_two_of_isNilpotent {T : Type*} [Group T] [Finite T] [Group.IsNilpotent T] {a b : T}
     (ha : ∃ k : ℕ, a ^ 2 ^ k = 1) (hb : ∃ k : ℕ, b ^ 2 ^ k = 1) :
     ∃ k : ℕ, (a * b) ^ 2 ^ k = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow 2 T))
-  haveI : Unique (Sylow 2 T) := Sylow.unique_of_normal P inferInstance
+  have : Unique (Sylow 2 T) := Sylow.unique_of_normal P inferInstance
   have hmem : ∀ x : T, (∃ k : ℕ, x ^ 2 ^ k = 1) → x ∈ P := by
     intro x hx
     obtain ⟨Q, hQ⟩ := (isPGroup_zpowers_two hx).exists_le_sylow
     have hQP : Q = P := Subsingleton.elim Q P
     exact hQP ▸ hQ (Subgroup.mem_zpowers x)
   have hab : a * b ∈ P := P.mul_mem (hmem a ha) (hmem b hb)
-  obtain ⟨k, hk⟩ := P.isPGroup' ⟨a * b, hab⟩
+  obtain ⟨k, hk⟩ := P.isPGroup ⟨a * b, hab⟩
   exact ⟨k, congrArg Subtype.val hk⟩
 
 variable {Y : Type} [Group Y] [Finite Y]
 
+omit [Finite Y] in
 theorem exists_two_lift (hZ : IsPGroup 3 ↥(Subgroup.center Y)) (α : MulAut Y)
     {w : Y ⧸ Subgroup.center Y} (hw : ∃ k : ℕ, w ^ 2 ^ k = 1)
     (hfix : quotientCenterAut' Y α w = w) :
@@ -148,7 +153,7 @@ theorem exists_mem_pCoreOf_lift (hZ : IsPGroup 3 ↥(Subgroup.center Y)) (α : M
     {w : Y ⧸ Subgroup.center Y}
     (hw : w ∈ pCoreOf 2 (fixSub (quotientCenterAut' Y α))) :
     ∃ y : Y, y ∈ pCoreOf 2 (fixSub α) ∧ (QuotientGroup.mk y : Y ⧸ Subgroup.center Y) = w := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set ᾱ := quotientCenterAut' Y α with hᾱ
   set W : Subgroup (Y ⧸ Subgroup.center Y) := pCoreOf 2 (fixSub ᾱ) with hW
   have hW2 : IsPGroup 2 ↥W := CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 _
@@ -167,8 +172,8 @@ theorem exists_mem_pCoreOf_lift (hZ : IsPGroup 3 ↥(Subgroup.center Y)) (α : M
     rw [Subgroup.mem_center_iff]
     intro g
     exact Subtype.ext (Subgroup.mem_center_iff.1 hsc (g : Y))
-  haveI : Group.IsNilpotent ↥W := hW2.isNilpotent
-  haveI : Group.IsNilpotent ↥S := Subgroup.isNilpotent_of_ker_le_center f hker
+  have : Group.IsNilpotent ↥W := hW2.isNilpotent
+  have : Group.IsNilpotent ↥S := Subgroup.isNilpotent_of_ker_le_center f hker
   let Q : Subgroup Y :=
     { carrier := {y | y ∈ S ∧ ∃ k : ℕ, y ^ 2 ^ k = 1}
       mul_mem' := by
@@ -229,8 +234,8 @@ theorem comap_le_pPrimeCore {p q : ℕ} (hp : p.Prime) (hq : q.Prime) (hpq : p �
     (Q : Subgroup Y) (hQ : IsPGroup q ↥Q)
     (hnorm : ∀ x : Cg, ρ x ∈ Subgroup.normalizer (Q : Set Y)) :
     Q.comap ρ ≤ CFSG.pPrimeCore p Cg := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hN : (Q.comap ρ).Normal := by
     refine ⟨fun r hr g => ?_⟩
     rw [Subgroup.mem_comap] at hr ⊢
@@ -278,7 +283,7 @@ theorem lift_two_core {K : Subgroup G} {d : G} (hdN : d ∈ Subgroup.normalizer 
     (hy : y ∈ pCoreOf 2 (fixSub (barAut 3 K ⟨d, hdN⟩))) :
     ∃ (c : G) (hc : c ∈ K), c ∈ GLAPPrimeCoreOf 3 (K ⊓ Subgroup.centralizer ({d} : Set G)) ∧
       (QuotientGroup.mk' (GLAPPrimeCore 3 ↥K) ⟨c, hc⟩ : barOf 3 K) = y := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set α := barAut 3 K ⟨d, hdN⟩ with hα
   set C : Subgroup G := K ⊓ Subgroup.centralizer ({d} : Set G) with hC
   have hCK : C ≤ K := inf_le_left
@@ -403,7 +408,7 @@ theorem eq_top_of_map_center_eq_top {Y : Type*} [Group Y] (hperf : commutator Y 
 
 theorem inputA7Gen_holds : Prop1116.InputA7Gen := by
   intro G _ _ X K B hK hBX hBn hBel hBrk hA7
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : Nat.Prime 3 := Nat.prime_three
   set H : Subgroup G := ⨆ (e : G) (_ : e ∈ B) (_ : e ≠ 1), Prop1116.Ke 3 K e with hH
   have hHK : H ≤ K := iSup_le fun e => iSup_le fun _ => iSup_le fun _ => Ke_le 3 K e
@@ -412,10 +417,10 @@ theorem inputA7Gen_holds : Prop1116.InputA7Gen := by
   suffices hcov : ∀ k ∈ K, ∃ h ∈ H, h⁻¹ * k ∈ GLAPPrimeCoreOf 3 K from
     ((barX_eq_iff_cov hp hK.2.1 hHK).2 hcov).ge
   obtain ⟨e7⟩ := hA7
-  haveI hnt7 : Nontrivial (alternatingGroup (Fin 7)) := S7.isSimple_Alt7.toNontrivial
-  haveI hntQ : Nontrivial (barOf 3 K ⧸ Subgroup.center (barOf 3 K)) :=
+  have hnt7 : Nontrivial (alternatingGroup (Fin 7)) := S7.isSimple_Alt7.toNontrivial
+  have hntQ : Nontrivial (barOf 3 K ⧸ Subgroup.center (barOf 3 K)) :=
     e7.symm.injective.nontrivial
-  haveI hntK : Nontrivial (barOf 3 K) :=
+  have hntK : Nontrivial (barOf 3 K) :=
     (QuotientGroup.mk_surjective (s := Subgroup.center (barOf 3 K))).nontrivial
   have hq : CFSG.Open.IsQuasisimple (barOf 3 K) := isQuasisimple_barOf hp hK hntK
   have hO : GLAPPrimeCore 3 (barOf 3 K) = ⊥ :=

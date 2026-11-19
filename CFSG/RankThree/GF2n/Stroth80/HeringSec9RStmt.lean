@@ -21,9 +21,11 @@ namespace HS9
 @[expose] def GoodAll (M Q B Y : Subgroup G) : Prop :=
   ∀ m ∈ M, GoodPt M Q B Y (conjSubgroup m B)
 
+omit [Finite G] in
 theorem isConjB_self (M B : Subgroup G) : IsConjB M B B :=
   ⟨1, M.one_mem, (conjSubgroup_one B).symm⟩
 
+omit [Finite G] in
 theorem goodPt_self (M Q B Y : Subgroup G) : GoodPt M Q B Y B :=
   ⟨1, M.one_mem, conjSubgroup_one Y, conjSubgroup_one (LB M Q B)⟩
 
@@ -114,6 +116,7 @@ end HS9
 
 namespace HS9
 
+omit [Finite G] in
 theorem exists_mem_LB_inf_Y_not_mem (hc : Ctx M Q Z B) {X Y : Subgroup G}
     (h4 : Sec4Concl M Q Z B X Y) : ∃ y ∈ LB M Q B ⊓ Y, y ∉ Q := by
   by_contra hno

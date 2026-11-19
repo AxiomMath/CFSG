@@ -23,7 +23,7 @@ theorem not_prime_pow_four_dvd_360 {p : ℕ} (hp : p.Prime) : ¬ p ^ 4 ∣ 360 :
     have : 5 ^ 4 ≤ p ^ 4 := Nat.pow_le_pow_left (by omega) 4
     omega
   have hp2 := hp.two_le
-  interval_cases p <;> first | exact absurd h (by decide) | exact absurd hp (by decide)
+  interval_cases p <;> first | exact absurd h (by decide)
 
 theorem leafType_of_pow_four_dvd {p : ℕ} (hp : p.Prime) {T : Type} [Group T]
     (hC : IsChevSimple p T) (h4 : p ^ 4 ∣ Nat.card T) : LeafType p T := by
@@ -60,7 +60,7 @@ theorem shapeRkAt_of_subgroup_data_nq {G : Type} [Group G] {p : ℕ} (hp : p.Pri
       c ^ p = 1)
     (hG : Good ↥L) (hR : Rk ↥L) : ShapeRkAt p Good Rk x := by
   have hLP : L ≤ P := fun l hl => (hLC hl).2
-  haveI : Finite ↥L := Finite.of_injective (Subgroup.inclusion hLP) (Subgroup.inclusion_injective hLP)
+  have : Finite ↥L := Finite.of_injective (Subgroup.inclusion hLP) (Subgroup.inclusion_injective hLP)
   let C' : Subgroup ↥P := Subgroup.centralizer ({x} : Set ↥P)
   let L' : Subgroup ↥P := L.comap P.subtype
   have hmapC : C'.map P.subtype = Subgroup.centralizer ({(x : G)} : Set G) ⊓ P :=
@@ -79,7 +79,7 @@ theorem shapeRkAt_of_subgroup_data_nq {G : Type} [Group G] {p : ℕ} (hp : p.Pri
       exact ⟨g, g.2, rfl⟩
     have := hLn _ hgC _ he
     exact this
-  haveI := hEn
+  have := hEn
   have hEmap : E.map C'.subtype = L' := Subgroup.map_subgroupOf_eq_of_le hL'C
   have eL : ↥L' ≃* ↥L := Subgroup.subgroupOfEquivOfLe hLP
   have eE : ↥(E.map C'.subtype) ≃* ↥L := (MulEquiv.subgroupCongr hEmap).trans eL
@@ -90,10 +90,10 @@ theorem shapeRkAt_of_subgroup_data_nq {G : Type} [Group G] {p : ℕ} (hp : p.Pri
   have hpE : p ∣ Nat.card ↥(E.map C'.subtype) := by
     rw [Nat.card_congr eE.toEquiv]; exact hpL
   have hZE : Subgroup.center ↥(E.map C'.subtype) = ⊥ := by
-    haveI := hsE
+    have := hsE
     exact center_eq_bot_of_simple_nonab hnabE
   have hcoreE : GLAPPrimeCore p ↥(E.map C'.subtype) = ⊥ := by
-    haveI := hsE
+    have := hsE
     exact glaPPrimeCore_eq_bot_of_simple hp hpE
   have hLC' : E.map C'.subtype ≤ Subgroup.centralizer ({x} : Set ↥P) := Subgroup.map_subtype_le E
   have hLn' : ∀ g ∈ Subgroup.centralizer ({x} : Set ↥P), ∀ l ∈ E.map C'.subtype,
@@ -101,7 +101,7 @@ theorem shapeRkAt_of_subgroup_data_nq {G : Type} [Group G] {p : ℕ} (hp : p.Pri
     rintro g hg _ ⟨e, he, rfl⟩
     exact ⟨⟨g, hg⟩ * e * ⟨g, hg⟩⁻¹, hEn.conj_mem e he ⟨g, hg⟩, rfl⟩
   have hLq : CFSG.Open.IsQuasisimple ↥(E.map C'.subtype) := by
-    haveI := hsE
+    have := hsE
     exact isQuasisimple_of_simple_nonab hnabE
   have hcentP : IsPGroup p ↥(Subgroup.centralizer ({x} : Set ↥P) ⊓
       Subgroup.centralizer ((E.map C'.subtype : Subgroup ↥P) : Set ↥P)) := by

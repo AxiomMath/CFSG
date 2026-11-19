@@ -16,6 +16,7 @@ open scoped Pointwise commutatorElement MatrixGroups
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem q1s_commutator_eq_one_of_mem_q2 {L1 L2 S : Subgroup G} {s x : G}
     (hsQ : s ∈ Q2 L1 L2 S) (hxZ : x ∈ Z2 L1 L2 S) :
     x * s * x⁻¹ * s⁻¹ = 1 := by
@@ -63,16 +64,16 @@ private theorem q1s_fixedSub_zpowers_eq
     letI : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
     letI : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
     ∀ {a : SL(2, GaloisField 2 m)}
-      (ha : a ∈ (imageOTwoQuot (u3H L1 L2 S) S).map e.toMonoidHom) (ha1 : a ≠ 1),
+      (_ha : a ∈ (imageOTwoQuot (u3H L1 L2 S) S).map e.toMonoidHom) (_ha1 : a ≠ 1),
       fixedSub (l2ChiefSectionRep hstepW (q2_le_u3H L1 L2 S) hE e) (Subgroup.zpowers a) =
         fixedSub (l2ChiefSectionRep hstepW (q2_le_u3H L1 L2 S) hE e)
           ((imageOTwoQuot (u3H L1 L2 S) S).map e.toMonoidHom) := by
   classical
-  haveI : Fintype (GaloisField 2 m) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 m) := Fintype.ofFinite _
   let H := u3H L1 L2 S
   let hUH : Q2 L1 L2 S ≤ H := q2_le_u3H L1 L2 S
-  letI : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
+  let : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
   let ρ := l2ChiefSectionRep hstepW hUH hE e
   have hnat' : IsNaturalModule ρ := hnat
   let A : Subgroup (SL(2, GaloisField 2 m)) := (imageOTwoQuot H S).map e.toMonoidHom
@@ -81,7 +82,7 @@ private theorem q1s_fixedSub_zpowers_eq
   have hAeqF : Nat.card A = Nat.card (GaloisField 2 m) := by
     rw [hApr.2]
     exact (GaloisField.card 2 m (by omega)).symm
-  exact fun {a} ha ha1 => IsNaturalModule.fixedSub_zpowers_eq hnat' hA2 hAeqF ha ha1
+  exact fun {a} _ha _ha1 => IsNaturalModule.fixedSub_zpowers_eq hnat' hA2 hAeqF _ha _ha1
 
 private theorem q1s_mem_z1_of_mem_w_fixed
     {L1 L2 S : Subgroup G} {m : ℕ} {W : Subgroup G}
@@ -99,8 +100,8 @@ private theorem q1s_mem_z1_of_mem_w_fixed
   classical
   let H := u3H L1 L2 S
   let hUH : Q2 L1 L2 S ≤ H := q2_le_u3H L1 L2 S
-  letI : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
+  let : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
   have hSleH : S ≤ H := str86_s_le_u3H hF.toW hSB hm hL2
   have hsH : s ∈ H := hSleH hsS
   let a : SL(2, GaloisField 2 m) := e (QuotientGroup.mk ⟨s, hsH⟩)
@@ -240,11 +241,11 @@ private theorem q2s_card_centralizer_inf_W
     {x : G} (hxS : x ∈ S) (hxQ : x ∉ Q2 L1 L2 S) :
     Nat.card ↥(Subgroup.centralizer ({x} : Set G) ⊓ W) = 2 ^ m := by
   classical
-  haveI : Fintype (GaloisField 2 m) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 m) := Fintype.ofFinite _
   let H := u3H L1 L2 S
   let hUH : Q2 L1 L2 S ≤ H := q2_le_u3H L1 L2 S
-  letI : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
+  let : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
   let ρ := l2ChiefSectionRep hstepW hUH hE e
   have hnat' : IsNaturalModule ρ := hnat
   let A : Subgroup (SL(2, GaloisField 2 m)) := (imageOTwoQuot H S).map e.toMonoidHom
@@ -282,9 +283,9 @@ private theorem q2s_card_W {L1 L2 S W : Subgroup G} {m : ℕ}
       IsNaturalModule (l2ChiefSectionRep hstepW (q2_le_u3H L1 L2 S) hE e)) :
     Nat.card ↥W = (2 ^ m) ^ 2 := by
   classical
-  haveI : Fintype (GaloisField 2 m) := Fintype.ofFinite _
-  letI : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
+  have : Fintype (GaloisField 2 m) := Fintype.ofFinite _
+  let : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
   obtain ⟨φ, -⟩ := hnat
   calc Nat.card ↥W = Nat.card ↥(Ch3z.chiefMod ⊥ W) :=
         Nat.card_congr (chiefModBotMulEquiv W).toEquiv
@@ -296,6 +297,7 @@ private theorem q2s_card_W {L1 L2 S W : Subgroup G} {m : ℕ}
     _ = (2 ^ m) ^ 2 := by
         rw [GaloisField.card 2 m (by omega), pow_two]
 
+omit [Finite G] in
 private theorem q2s_relIndex_centralizer_W {W : Subgroup G} {m : ℕ} {x : G}
     (hCW : Nat.card ↥(Subgroup.centralizer ({x} : Set G) ⊓ W) = 2 ^ m)
     (hWcard : Nat.card ↥W = (2 ^ m) ^ 2) :
@@ -387,6 +389,7 @@ theorem str86_natural_commutator_zpowers_eq
   rw [hZ1]
   exact hcard_comm
 
+omit [Finite G] in
 private theorem n1_conj_smul_iInf_eq {P B W : Subgroup G} (hBP : B ≤ P) {b : G}
     (hb : b ∈ B) :
     MulAut.conj b • (⨅ (h : G) (_ : h ∈ P), MulAut.conj h • W) =
@@ -423,12 +426,14 @@ private theorem n1s_bigB_normalizer_W {L1 L2 S W : Subgroup G}
   have h := D14.le_normalizer_commutator hBZ2 hBH
   rwa [hcomm] at h
 
+omit [Finite G] in
 private theorem n1s_q2_centralizer_W {L1 L2 S W : Subgroup G}
     (hWZ2 : W ≤ Z2 L1 L2 S) :
     Q2 L1 L2 S ≤ Subgroup.centralizer (W : Set G) :=
   (SmithC27.pCoreOf_le_centralizer_omegaOneCenterOf (P2 L1 L2 S)).trans
     (Subgroup.centralizer_le hWZ2)
 
+omit [Finite G] in
 private theorem n1s_z1_le_iInf {L1 L2 S W : Subgroup G}
     (hWS : W ⊓ Subgroup.centralizer (S : Set G) = Z1 L1 L2 S) :
     Z1 L1 L2 S ≤ ⨅ (h : G) (_ : h ∈ P1 L1 L2 S), MulAut.conj h • W := by
@@ -444,6 +449,7 @@ private theorem n1s_z1_le_iInf {L1 L2 S W : Subgroup G}
     simpa using (Subgroup.mem_normalizer_iff.mp
       (hP1Z1 ((P1 L1 L2 S).inv_mem hh)) z).mp hz)
 
+omit [Finite G] in
 private theorem n1s_iInf_le_W {L1 L2 S W : Subgroup G} :
     (⨅ (h : G) (_ : h ∈ P1 L1 L2 S), MulAut.conj h • W) ≤ W := by
   intro x hx
@@ -451,6 +457,7 @@ private theorem n1s_iInf_le_W {L1 L2 S W : Subgroup G} :
     (Subgroup.mem_iInf.mp (Subgroup.mem_iInf.mp hx 1)) ((P1 L1 L2 S).one_mem)
   simpa using h1
 
+omit [Finite G] in
 private theorem n1s_bigB_invariant_iInf {L1 L2 S W : Subgroup G} :
     bigB L1 L2 S ≤ Subgroup.normalizer
       (((⨅ (h : G) (_ : h ∈ P1 L1 L2 S), MulAut.conj h • W) : Subgroup G) : Set G) := by
@@ -474,6 +481,7 @@ private theorem n1s_bigB_invariant_iInf {L1 L2 S W : Subgroup G} :
       rwa [Subgroup.mem_pointwise_smul_iff_inv_smul_mem]
     rwa [hfix] at hx''
 
+omit [Finite G] in
 private theorem n1s_P1_le_normalizer_of_iInf_eq {L1 L2 S W : Subgroup G}
     (hWeq : ((⨅ (h : G) (_ : h ∈ P1 L1 L2 S), MulAut.conj h • W) : Subgroup G) = W) :
     P1 L1 L2 S ≤ Subgroup.normalizer (W : Set G) := by

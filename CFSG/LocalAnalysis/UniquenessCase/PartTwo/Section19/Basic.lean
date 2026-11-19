@@ -42,6 +42,7 @@ theorem isMulCommutative_of_isZModSq {X : Type} [Group X] {n : ℕ} (h : IsZModS
   apply e.injective
   rw [map_mul, map_mul, mul_comm]
 
+omit [Finite G] in
 theorem card_eq_of_isZModSq {A : Subgroup G} {n : ℕ} (hA : IsZModSq A n) :
     Nat.card A = (2 ^ n - 1) * (2 ^ n - 1) := by
   obtain ⟨e⟩ := hA
@@ -49,10 +50,12 @@ theorem card_eq_of_isZModSq {A : Subgroup G} {n : ℕ} (hA : IsZModSq A n) :
   show Nat.card (ZMod (2 ^ n - 1) × ZMod (2 ^ n - 1)) = (2 ^ n - 1) * (2 ^ n - 1)
   rw [Nat.card_prod, Nat.card_zmod]
 
+omit [Finite G] in
 theorem le_centralizer_of_isMulCommutative_of_le {A A₀ : Subgroup G}
     (hcomm : IsMulCommutative ↥A) (hA₀ : A₀ ≤ A) : A ≤ centralizer (A₀ : Set G) :=
   (Subgroup.le_centralizer_iff_isMulCommutative.mpr hcomm).trans (Subgroup.centralizer_le hA₀)
 
+omit [Finite G] in
 theorem isTI_of_hyp123_of_ne_bot {M T V₀ V : Subgroup G} (h : Hyp123 M T V₀ V)
     (hne : V₀ ≠ ⊥) : CFSG.CGT.Timmesfeld75.IsTI V₀ := by
   rcases h with ⟨-, rfl⟩ | ⟨h0, -, -⟩

@@ -27,6 +27,7 @@ theorem mul_self_of_mem_zpowers {G : Type*} [Group G] {z s : G} (hz : z * z = 1)
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 hs
   rw [← zpow_add, ← two_mul, zpow_mul, zpow_two, hz, one_zpow]
 
+omit [Finite V] in
 theorem apply_eq_of_mem_commSpace {z : GLV V} (hz : z * z = 1) {w : V}
     (hw : w ∈ commSpace (Subgroup.zpowers z) ⊤) : z w = w := by
   let S : Subgroup (GLV V) :=
@@ -74,8 +75,10 @@ theorem perfect_of_isQuasisimple {Γ : Type*} [Group Γ] {L : Subgroup Γ}
     (hq : CFSG.Open.IsQuasisimple ↥L) : ⁅L, L⁆ = L :=
   Subgroup.isPerfect_iff.1 (Group.isPerfect_def.2 hq.1)
 
+omit [Finite V] in
 theorem layerIn_le (H : Subgroup (GLV V)) : layerIn H ≤ H := Subgroup.map_subtype_le _
 
+omit [Finite V] in
 theorem conj_mem_layerIn {H : Subgroup (GLV V)} {g : GLV V} (hg : g ∈ H) {e : GLV V}
     (he : e ∈ layerIn H) : g * e * g⁻¹ ∈ layerIn H := by
   have : (CFSG.layer ↥H).Characteristic := CFSG.LocalCores.layer_characteristic
@@ -151,16 +154,20 @@ theorem setup6₀ : Setup6 (G ⊓ vFix v) (Subgroup.zpowers z) L :=
 
 theorem L_le_layerIn : L ≤ layerIn (G ⊓ vFix v) := h.setup6₀.le_layerIn
 
+omit [Finite V] h in
 theorem L_le_L₀ : L ≤ bbL₀ G L v := le_normalClosure _ _
 
 theorem L₀_le_layerIn : bbL₀ G L v ≤ layerIn (G ⊓ vFix v) := normalClosure_le h.L_le_layerIn
 
 theorem L₀_le_H₀ : bbL₀ G L v ≤ G ⊓ vFix v := h.L₀_le_layerIn.trans (layerIn_le _)
 
+omit [Finite V] h in
 theorem L₀_le_H₁ : bbL₀ G L v ≤ bbH₁ G L z v := le_sup_left
 
-theorem L_le_H₁ : L ≤ bbH₁ G L z v := h.L_le_L₀.trans h.L₀_le_H₁
+omit [Finite V] h in
+theorem L_le_H₁ : L ≤ bbH₁ G L z v := CFSG.CGT.Foote82.BranchB.Hyp.L_le_L₀.trans CFSG.CGT.Foote82.BranchB.Hyp.L₀_le_H₁
 
+omit [Finite V] h in
 theorem z_mem_H₁ : z ∈ bbH₁ G L z v := (le_sup_right : Subgroup.zpowers z ≤ _)
   (Subgroup.mem_zpowers z)
 
@@ -187,11 +194,11 @@ theorem orbitData : ∃ K : Subgroup (GLV V),
 theorem conj_mem_L₀ {g : GLV V} (hg : g ∈ bbH₁ G L z v) {a : GLV V} (ha : a ∈ bbL₀ G L v) :
     g * a * g⁻¹ ∈ bbL₀ G L v := by
   obtain ⟨K, hO⟩ := h.orbitData
-  exact ((Subgroup.normal_subgroupOf_iff h.L₀_le_H₁).1 hO.normal) a g ha hg
+  exact ((Subgroup.normal_subgroupOf_iff CFSG.CGT.Foote82.BranchB.Hyp.L₀_le_H₁).1 hO.normal) a g ha hg
 
 theorem mul_self_mem_L₀ {g : GLV V} (hg : g ∈ bbH₁ G L z v) : g * g ∈ bbL₀ G L v := by
   obtain ⟨K, hO⟩ := h.orbitData
-  haveI := hO.normal
+  have := hO.normal
   have hy : (⟨g, hg⟩ : ↥(bbH₁ G L z v)) ∈ (bbL₀ G L v).subgroupOf (bbH₁ G L z v) ⊔
       (Subgroup.zpowers z).subgroupOf (bbH₁ G L z v) := by
     rw [hO.sup_eq]
@@ -221,13 +228,13 @@ theorem mem_L₀_of_odd {g : GLV V} (hg : g ∈ bbH₁ G L z v) (hodd : Odd (ord
 theorem false_of_involution {t : GLV V} (htG : t ∈ G) (ht : orderOf t = 2)
     (hc : ∀ a ∈ bbL₀ G L v, t * a = a * t) : False := by
   have htL : t ∈ Subgroup.centralizer (L : Set (GLV V)) :=
-    Subgroup.mem_centralizer_iff.2 fun l hl => (hc l (h.L_le_L₀ hl)).symm
+    Subgroup.mem_centralizer_iff.2 fun l hl => (hc l (CFSG.CGT.Foote82.BranchB.Hyp.L_le_L₀ hl)).symm
   have hcomp := h.std.component_of_inv t htG ht htL
   have hL₀ : bbL₀ G L v ≤ G ⊓ Subgroup.centralizer ({t} : Set (GLV V)) := fun a ha =>
     ⟨(h.L₀_le_H₀ ha).1, Subgroup.mem_centralizer_singleton_iff.2 (hc a ha).symm⟩
   have hsub : IsSubnormal L (bbL₀ G L v) := by
     have := hcomp.2.1.inf_of_le hL₀
-    rwa [inf_eq_left.2 h.L_le_L₀] at this
+    rwa [inf_eq_left.2 CFSG.CGT.Foote82.BranchB.Hyp.L_le_L₀] at this
   exact h.not_sub (hsub.trans h.isSubnormal_L₀)
 
 theorem odd_of_commute {g : GLV V} (hg : g ∈ bbH₁ G L z v)
@@ -266,26 +273,26 @@ theorem inv₀ : Invariant (bbH₁ G L z v) (bbW₀ G L v) :=
 
 theorem L₀_le_normalClosure : bbL₀ G L v ≤ normalClosure (bbH₁ G L z v) L := by
   obtain ⟨K, hO⟩ := h.orbitData
-  have hNH : normalClosure (bbH₁ G L z v) L ≤ bbH₁ G L z v := normalClosure_le h.L_le_H₁
-  haveI hN : ((normalClosure (bbH₁ G L z v) L).subgroupOf (bbH₁ G L z v)).Normal := by
+  have hNH : normalClosure (bbH₁ G L z v) L ≤ bbH₁ G L z v := normalClosure_le CFSG.CGT.Foote82.BranchB.Hyp.L_le_H₁
+  have hN : ((normalClosure (bbH₁ G L z v) L).subgroupOf (bbH₁ G L z v)).Normal := by
     rw [Subgroup.normal_subgroupOf_iff hNH]
     intro a g ha hg
     exact normalClosure_conj hg ha
   have hle := hO.le_of_normal
     (N := (normalClosure (bbH₁ G L z v) L).subgroupOf (bbH₁ G L z v))
-    (commutator_subgroupOf_self h.L_le_H₁ h.L_perfect)
-    (subgroupOf_ne_bot h.L_le_H₁ h.L_ne_bot) (Subgroup.comap_mono h.L_le_L₀)
+    (commutator_subgroupOf_self CFSG.CGT.Foote82.BranchB.Hyp.L_le_H₁ h.L_perfect)
+    (subgroupOf_ne_bot CFSG.CGT.Foote82.BranchB.Hyp.L_le_H₁ h.L_ne_bot) (Subgroup.comap_mono CFSG.CGT.Foote82.BranchB.Hyp.L_le_L₀)
     (Subgroup.comap_mono (le_normalClosure (bbH₁ G L z v) L))
   intro a ha
-  exact hle (show (⟨a, h.L₀_le_H₁ ha⟩ : ↥(bbH₁ G L z v)) ∈ (bbL₀ G L v).subgroupOf _ from ha)
+  exact hle (show (⟨a, CFSG.CGT.Foote82.BranchB.Hyp.L₀_le_H₁ ha⟩ : ↥(bbH₁ G L z v)) ∈ (bbL₀ G L v).subgroupOf _ from ha)
 
 theorem irrSec : IrrSec (bbH₁ G L z v) (bbW₀ G L v) (bbW₁ G L v) := by
   have hL₀N := h.L₀_le_normalClosure
   refine ⟨lt_of_le_of_ne inf_le_right fun heq => ?_, fun J hJ hJ₀ hJ₁ => ?_⟩
   · refine h.not_fix_commSpace fun l hl u hu => ?_
-    have hu' : u ∈ bbW₀ G L v := heq ▸ (commSpace_mono h.L_le_L₀ le_rfl hu)
-    exact hu'.1 l (h.L_le_L₀ hl)
-  · rcases trivial_or_commSpace_le h.L_perfect h.setup6.irrTilde (hJ.mono h.L_le_H₁) with
+    have hu' : u ∈ bbW₀ G L v := heq ▸ (commSpace_mono CFSG.CGT.Foote82.BranchB.Hyp.L_le_L₀ le_rfl hu)
+    exact hu'.1 l (CFSG.CGT.Foote82.BranchB.Hyp.L_le_L₀ hl)
+  · rcases trivial_or_commSpace_le h.L_perfect h.setup6.irrTilde (hJ.mono CFSG.CGT.Foote82.BranchB.Hyp.L_le_H₁) with
       hJL | hJL
     · left
       have hfix : normalClosure (bbH₁ G L z v) L ≤ centralizerOn ⊤ J := by
@@ -331,8 +338,8 @@ theorem not_trivial : ¬ ∀ x ∈ bbH₁ G L z v, ∀ w ∈ bbW₁ G L v, x w -
   intro hall
   have h1 : commSpace L (commSpace L ⊤) ≤ fixedSpace L := by
     refine commSpace_le_iff.2 fun l hl u hu => ?_
-    have := hall l (h.L_le_H₁ hl) u (commSpace_mono h.L_le_L₀ le_rfl hu)
-    exact fixedSpace_anti h.L_le_L₀ this.1
+    have := hall l (CFSG.CGT.Foote82.BranchB.Hyp.L_le_H₁ hl) u (commSpace_mono CFSG.CGT.Foote82.BranchB.Hyp.L_le_L₀ le_rfl hu)
+    exact fixedSpace_anti CFSG.CGT.Foote82.BranchB.Hyp.L_le_L₀ this.1
   have h2 : commSpace L (commSpace L (commSpace L ⊤)) = ⊥ :=
     commSpace_eq_bot_iff.2 fun l hl u hu => h1 hu l hl
   rw [commSpace_commSpace_top_of_perfect h.L_perfect,
@@ -374,6 +381,7 @@ theorem sub_one_pow_two_pow_of_two_eq_zero {R : Type*} [Ring R] (h2 : (2 : R) = 
       rw [this, h2, zero_mul, sub_zero]
     rw [pow_succ, pow_mul, pow_mul, ih, hsq]
 
+omit [Finite V] in
 theorem eq_one_of_odd_of_series {x : GLV V} (hodd : Odd (orderOf x))
     {W₀ W₁ : Submodule (ZMod 2) V} (h₂ : ∀ u, x u - u ∈ W₁) (h₁ : ∀ w ∈ W₁, x w - w ∈ W₀)
     (h₀ : ∀ w ∈ W₀, x w = w) : x = 1 := by
@@ -424,7 +432,7 @@ theorem injective : Function.Injective (sectHom (bbH₁ G L z v) h.inv₀ h.inv�
   have hxc : ∀ a ∈ bbL₀ G L v, (x : GLV V) * a = a * x := by
     intro a ha
     have := Subgroup.mem_centralizer_iff.1
-      (hcen (show (⟨a, h.L₀_le_H₁ ha⟩ : ↥(bbH₁ G L z v)) ∈ (bbL₀ G L v).subgroupOf _ from ha))
+      (hcen (show (⟨a, CFSG.CGT.Foote82.BranchB.Hyp.L₀_le_H₁ ha⟩ : ↥(bbH₁ G L z v)) ∈ (bbL₀ G L v).subgroupOf _ from ha))
       x hx
     exact congrArg Subtype.val this
   have hodd := h.odd_of_commute x.2 hxc
@@ -492,7 +500,7 @@ theorem map_L_ne_range :
     have := h.injective hlg
     subst this
     exact hl
-  have hLL₀ : L = bbL₀ G L v := le_antisymm h.L_le_L₀ (h.L₀_le_H₁.trans hH₁L)
+  have hLL₀ : L = bbL₀ G L v := le_antisymm CFSG.CGT.Foote82.BranchB.Hyp.L_le_L₀ (CFSG.CGT.Foote82.BranchB.Hyp.L₀_le_H₁.trans hH₁L)
   exact h.not_sub (hLL₀ ▸ h.isSubnormal_L₀)
 
 end Hyp

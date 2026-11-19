@@ -138,7 +138,7 @@ theorem yI_ltAt (hF : QFacts gw wd lt) {k i : ℕ} (hk : k < 4) (hi : i < 81) :
   rw [← hF.ltt k hk i hi] at h1
   exact RootCertificate.represents_unique h1 (rep_wordT (rep_yI hF hi) _ (letters_getD hF.letters k))
 
-theorem mulI_spec (hF : QFacts gw wd lt) {i j : ℕ} (hi : i < 81) (hj : j < 81) :
+theorem mulI_spec (hF : QFacts gw wd lt) {i j : ℕ} (_hi : i < 81) (hj : j < 81) :
     mulI lt wd i j < 81 ∧ yI gw wd (mulI lt wd i j) = yI gw wd i * yI gw wd j := by
   have hks : ∀ ks : List ℕ, (∀ k ∈ ks, k < 4) →
       ks.foldr (fun k x => ltAt lt k x) j < 81 ∧

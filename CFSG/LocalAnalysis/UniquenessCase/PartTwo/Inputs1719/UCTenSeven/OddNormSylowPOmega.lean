@@ -192,7 +192,7 @@ theorem normSylowAt_pomega {X : Type} [Group X] [Finite X] (hXs : IsSimpleGroup 
       rw [hψyt]
       exact ((Subgroup.mem_centralizer_iff.mp (hyC k)) (ψ x)
         (Subgroup.mem_inf.mpr ⟨hxP, hxJ⟩)).symm
-    obtain ⟨a, ha⟩ := (Qs k).isPGroup' ⟨A, hA⟩
+    obtain ⟨a, ha⟩ := (Qs k).isPGroup ⟨A, hA⟩
     have hxa : (x : (modelUniv t n r f hpr).K) ^ 2 ^ a = 1 := by
       have hA2 : A ^ 2 ^ a = 1 := congrArg Subtype.val ha
       have : eR k (x ^ 2 ^ a) = 1 := by rw [map_pow, hxA, hA2]
@@ -216,7 +216,7 @@ theorem normSylowAt_pomega {X : Type} [Group X] [Finite X] (hXs : IsSimpleGroup 
       (fun B hB => by simpa using hcommV (i, true) B hB)
   have hPK2 : IsPGroup 2 ((P : Subgroup X).comap ψ) := by
     intro g
-    obtain ⟨a, ha⟩ := P.isPGroup' ⟨ψ g, g.2⟩
+    obtain ⟨a, ha⟩ := P.isPGroup ⟨ψ g, g.2⟩
     refine ⟨a + 2, Subtype.ext ?_⟩
     have hg : (g : (modelUniv t n r f hpr).K) ^ 2 ^ a ∈ ψ.ker := by
       rw [MonoidHom.mem_ker, map_pow]

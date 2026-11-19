@@ -59,10 +59,10 @@ theorem run_congr {F G : Nat → Nat → Nat} {lv : List Nat} {n r : Nat} (hr : 
       generalize (List.range k).foldl (BS.step F lv) ⟨[r], [0], [0]⟩ = s at hlt ⊢
       unfold BS.step
       by_cases hk : k < s.pts.length
-      · rw [if_pos hk, if_pos hk]
+      · rw [ite_eq_left hk, ite_eq_left hk]
         have hp : s.pts.getD k 0 < n := hlt _ (getD_mem' hk)
         exact letters_congr hp lv hF hFG s hlt
-      · rw [if_neg hk, if_neg hk]
+      · rw [ite_eq_right hk, ite_eq_right hk]
         exact ⟨rfl, hlt⟩
   unfold BS.run
   exact (key n).1
@@ -121,7 +121,7 @@ theorem treeOf_pos_ap (hn : n < 2 ^ 32) (hs : RunOK n F lv r s) {p : Nat} (hp : 
     (hm : p ∈ s.pts) : ap (treeOf n s).pos p = s.pts.idxOf p := by
   unfold ap treeOf
   rw [getElem!_pos _ p (by simpa using hp)]
-  simp only [Array.getElem_ofFn, hm, if_true, UInt32.toNat_ofNat']
+  simp only [Array.getElem_ofFn, hm, ite_true, UInt32.toNat_ofNat']
   have := List.idxOf_lt_length_iff.mpr hm
   have := hs.le
   exact Nat.mod_eq_of_lt (by omega)
@@ -130,7 +130,7 @@ theorem treeOf_pos_nmem {p : Nat} (hp : p < n) (hm : p ∉ s.pts) :
     ap (treeOf n s).pos p = 2 ^ 32 - 1 := by
   unfold ap treeOf
   rw [getElem!_pos _ p (by simpa using hp)]
-  simp only [Array.getElem_ofFn, hm, if_false]
+  simp only [Array.getElem_ofFn, hm, ite_false]
   rfl
 
 theorem treeOf_size : (treeOf n s).pts.size = s.pts.length := by
@@ -154,7 +154,7 @@ theorem inTree_treeOf (hn : n < 2 ^ 32) (hs : RunOK n F lv r s) {v : Nat} (hv : 
       have := hs.le
       omega
     have h2 : s.pts.contains v = false := by simpa using hm
-    simp only [h2, Bool.and_eq_false_iff, decide_eq_false_iff_not, Bool.false_eq, beq_eq_false_iff_ne]
+    simp only [h2, Bool.and_eq_false_iff, decide_eq_false_iff_not, beq_eq_false_iff_ne]
     left
     exact h1
 
@@ -206,7 +206,7 @@ theorem propagate_treeOf (hn : n < 2 ^ 32) (hs : RunOK n F lv r s)
   intro k ih
   rw [propagate, propL_eq, treeOf_par_ap hn hs, treeOf_lab_ap hs hlv]
   by_cases h : 0 < k ∧ s.par.getD k 0 < k
-  · rw [dif_pos h, if_pos h, ih _ h.2]
+  · rw [dite_eq_left h, ite_eq_left h, ih _ h.2]
     have hl : s.lab.getD k 0 ∈ lv := by
       rcases Nat.lt_or_ge k s.pts.length with hk | hk
       · exact hs.lab_mem k h.1 hk
@@ -216,7 +216,7 @@ theorem propagate_treeOf (hn : n < 2 ^ 32) (hs : RunOK n F lv r s)
         rw [this]
         exact h0
     exact hL _ hl _ (propLF_lt hF hc _ _)
-  · rw [dif_neg h, if_neg h]
+  · rw [dite_eq_right h, ite_eq_right h]
 
 theorem all_congr' {α : Type} {l : List α} {p q : α → Bool} (h : ∀ x ∈ l, p x = q x) :
     l.all p = l.all q := by
@@ -292,10 +292,10 @@ theorem propL_root (hs : RunOK n F lv r s) : ∀ k < s.pts.length, propL F s r k
   rw [propL_eq]
   by_cases h0 : 0 < k
   · have hp := hs.par_lt k h0 hk
-    rw [if_pos ⟨h0, hp⟩, ih _ hp (by omega), hs.edge k h0 hk]
+    rw [ite_eq_left ⟨h0, hp⟩, ih _ hp (by omega), hs.edge k h0 hk]
   · have : k = 0 := by omega
     subst this
-    rw [if_neg (by omega), hs.root]
+    rw [ite_eq_right (by omega), hs.root]
 
 theorem candTw_root {m : Nat} (hs : RunOK n F lv r s) (hcl : ∀ p ∈ s.pts, ∀ l < m, F l p ∈ s.pts) :
     candTw F m s r = true := by
@@ -332,7 +332,7 @@ theorem mark_spec : ∀ (ps : List Nat) (seen : Array Bool), (∀ p ∈ ps, p < 
     refine ⟨h1.trans hsz, fun x hx => ?_⟩
     rw [h2 x (by rw [hsz]; exact hx)]
     rw [getElem!_pos _ x (by rw [hsz]; exact hx), getElem!_pos _ x hx]
-    simp only [Array.set!_eq_setIfInBounds, Array.getElem_setIfInBounds, List.contains_cons]
+    simp only [Array.set!_eq_setIfInBounds, List.contains_cons]
     by_cases e : p = x
     · subst e
       simp
@@ -379,8 +379,8 @@ theorem orbitTrees_eq {n : Nat} (hn : n < 2 ^ 32) {L : Array Table} {F : Nat →
     obtain ⟨h1, h2, h3, h4⟩ := hAB
     by_cases hc : B.1.contains r = true
     · have hg : g A r = (A.1, A.2) := by
-        simp only [g, h2 r hr, hc, Bool.not_true, Bool.false_eq_true, if_false]
-      have hgB : gB B r = B := by simp only [gB, hc, if_true]
+        simp only [g, h2 r hr, hc, Bool.not_true, Bool.false_eq_true, ite_false]
+      have hgB : gB B r = B := by simp only [gB, hc, ite_true]
       rw [hg, hgB]
       exact ⟨h1, h2, h3, h4⟩
     · have hc' : B.1.contains r = false := by simpa using hc
@@ -388,14 +388,14 @@ theorem orbitTrees_eq {n : Nat} (hn : n < 2 ^ 32) {L : Array Table} {F : Nat →
       set_option linter.unusedVariables false in
       have hg : g A r = ((BS.run F (List.range L.size) n r).pts.foldl (fun b p => b.set! p true) A.1,
           A.2.push (treeOf n (BS.run F (List.range L.size) n r))) := by
-        simp only [g, h2 r hr, hc', Bool.not_false, if_true, hrun r hr]
+        simp only [g, h2 r hr, hc', Bool.not_false, ite_true, hrun r hr]
         congr 1
         simp only [treeOf, List.foldl_toArray, List.foldl_map]
         apply foldl_congr''
         intro x hx b
         rw [UInt32.toNat_ofNat', Nat.mod_eq_of_lt (by have := hok.lt x hx; omega)]
       have hgB : gB B r = (B.1 ++ (BS.run F (List.range L.size) n r).pts,
-          B.2 ++ [BS.run F (List.range L.size) n r]) := by simp only [gB, hc', Bool.false_eq_true, if_false]
+          B.2 ++ [BS.run F (List.range L.size) n r]) := by simp only [gB, hc', Bool.false_eq_true, ite_false]
       rw [hg, hgB]
       obtain ⟨m1, m2⟩ := mark_spec (BS.run F (List.range L.size) n r).pts A.1
         (fun p hp => by rw [h1]; exact hok.lt p hp)

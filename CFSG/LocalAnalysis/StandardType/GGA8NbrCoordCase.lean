@@ -95,7 +95,7 @@ private theorem a8ca_seven_dvd_card {G : Type} [Group G] {J : Subgroup G}
       Nat.card J := by
     rw [← hJ]
     exact Nat.card_congr (MonoidHom.ofInjective hinj).toEquiv
-  haveI : Fintype (GaloisField 2 3) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 3) := Fintype.ofFinite _
   rw [← hcard, Matrix.card_SL_field (𝔽 := GaloisField 2 3) 3]
   have hq : Fintype.card (GaloisField 2 3) = 8 := by
     rw [← Nat.card_eq_fintype_card, GaloisField.card 2 3 (by norm_num)]
@@ -142,7 +142,6 @@ private theorem a8ca_hV {G : Type} [Group G] {Bs K : Subgroup G} {x y : G} (hxBs
   have hkK : (kb : G) ∈ K := (hK0 kb).mp hιk0
   have hkbG : (kb : G) = x * (y ^ m)⁻¹ := by
     rw [hkb]
-    change ((Additive.toMul (Additive.ofMul xb - m • Additive.ofMul yb) : ↥Bs) : G) = _
     rw [toMul_sub, toMul_nsmul]
     simp [div_eq_mul_inv, hxb, hyb]
   have hcomm : w * (kb : G) = (kb : G) * w := by
@@ -190,7 +189,7 @@ theorem ggForkA8CoordA3Input_of_mp
     (hMp : GGInnerDiagMpInput) (hLB : GGLBalanceInput) : GGForkA8CoordA3Input := by
   intro G _ _ p B Bs x L D J hcfg hinn hNT hp y K hnb hKm hlab
   subst hp
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hmodL : StatedClassicalModel (L ⧸ Subgroup.center L) .PSL 4 2 3 :=
     statedClassicalModel_of_hasLabel_typeA (n := 3) (f := 3)
       ⟨by norm_num, by norm_num, fun h => by simp at h⟩ hlab

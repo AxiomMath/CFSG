@@ -24,6 +24,7 @@ theorem fixSubgroup_conj_eq_centralizer {G : Type*} [Group G] (t : G) :
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {V : Type} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {Q : QuadraticForm K V}
 
+omit [Finite K] in
 theorem exists_lift_orderOf_three (hQ : (polarBilin Q).Nondegenerate) [Nontrivial V]
     {t : ProjOrthDerived Q} (ht : orderOf t = 3) :
     ∃ x : orthDerived Q, piOrth Q x = t ∧ orderOf x = 3 := by

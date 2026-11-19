@@ -16,12 +16,12 @@ variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
 private lemma y7a_M3_comm (c : Ctx7 G L) (hH : F33Hyp c.s c.e) {x y : G}
     (hx : x ∈ M3 c.s) (hy : y ∈ M3 c.s) : x * y = y * x := by
-  haveI : IsMulCommutative ↥(M3 c.s) := (y7a_M3_elemAbelian c hH).1
+  have : IsMulCommutative ↥(M3 c.s) := (y7a_M3_elemAbelian c hH).1
   exact congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : ↥(M3 c.s)) ⟨y, hy⟩)
 
 private lemma y7a_M3_comm_F (c : Ctx7 G L) (hH : F33Hyp c.s c.e) {m : G}
-    (hm : m ∈ M3 c.s) : ∀ x ∈ c.s.fr.F, m * x = x * m :=
-  fun x hx => y7a_M3_comm c hH hm (y7a_F_le_M3 c hx)
+    (hm : m ∈ M3 c.s) : ∀ _x ∈ c.s.fr.F, m * _x = _x * m :=
+  fun _x hx => y7a_M3_comm c hH hm (y7a_F_le_M3 c hx)
 
 private lemma y7a_M3_comm_E (c : Ctx7 G L) (hH : F33Hyp c.s c.e) {m : G} (hm : m ∈ M3 c.s)
     (he0 : (c.s.fr.a₁ * c.s.fr.b₁ * c.s.fr.a₂) * m =

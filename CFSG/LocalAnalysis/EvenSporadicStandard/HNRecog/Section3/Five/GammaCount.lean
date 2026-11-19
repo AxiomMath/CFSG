@@ -273,10 +273,9 @@ theorem card_Gxy_eq_of_orb5E (hI : TwoHSInterface) (hU : U35Facts) [Finite G] {a
 theorem card_eq_of_isShapeFiveCubeByTwoTwo {X : Type*} [Group X] (h : IsShapeFiveCubeByTwoTwo X) :
     Nat.card X = 500 := by
   obtain ⟨N, hN, _hp, hNcard, ⟨e⟩⟩ := h
-  haveI := hN
+  have := hN
   have hquot : Nat.card (X ⧸ N) = 4 := by
     rw [Nat.card_congr e.toEquiv]
-    change Nat.card (Elem2 2) = 4
     rw [Nat.card_congr Multiplicative.toAdd, Nat.card_fun, Nat.card_zmod, Nat.card_fin]
     norm_num
   rw [Subgroup.card_eq_card_quotient_mul_card_subgroup N, hquot, hNcard]

@@ -245,8 +245,8 @@ theorem D1PhaseThree.false_of_u33_three_ib (h : D1PhaseThree p P M H R) (hp3 : p
               (Subgroup.npow_mem_zpowers z i) hzi1)) hzRC
         calc Nat.card RC ≤ Nat.card (centerOf T) := Subgroup.card_le_of_le hle
           _ = 3 := hc.card_Z hShape
-    have hidx := hAut (barM M (P : Subgroup G)) hPA ((P.isPGroup'.comap_subtype (K := M)).map _)
-    have hbound := card_le_mul_card_rPart h.sylow_le P.isPGroup' hRM hRp (h.le_P hzR) hPz
+    have hidx := hAut (barM M (P : Subgroup G)) hPA ((P.isPGroup.comap_subtype (K := M)).map _)
+    have hbound := card_le_mul_card_rPart h.sylow_le P.isPGroup hRM hRp (h.le_P hzR) hPz
       (C := Subgroup.centralizer (A : Set (↥M ⧸ CFSG.pCore 2 ↥M)))
       (fun y hy => Subgroup.mem_centralizer_singleton_iff.mpr
         (Subgroup.mem_centralizer_iff.mp hy _ hzL₁).symm) hidx

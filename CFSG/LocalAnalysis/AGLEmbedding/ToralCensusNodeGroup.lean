@@ -52,7 +52,7 @@ theorem eq_one_of_commute_of_perfect_cyclic [Finite G] {p : ℕ} (hp : p.Prime) 
   have key := eq_one_of_mem_center_of_perfect_cyclic (G := A) (p := p) (z := ⟨z, hzA⟩)
     (fun P => by
       have hc := hcyc ((P : Subgroup A).map A.subtype)
-        (by rintro _ ⟨x, -, rfl⟩; exact x.2) (P.isPGroup'.map _)
+        (by rintro _ ⟨x, -, rfl⟩; exact x.2) (P.isPGroup.map _)
       let e := Subgroup.equivMapOfInjective (P : Subgroup A) A.subtype A.subtype_injective
       exact isCyclic_of_surjective e.symm.toMonoidHom e.symm.surjective)
     (Subgroup.mem_center_iff.2 fun g => Subtype.ext (hz g g.2))
@@ -99,7 +99,7 @@ theorem exists_conj_mem_zpowers_of_cyclic [Finite G] {p : ℕ} (hp : p.Prime) {V
     rw [← hg, Sylow.coe_subgroup_smul, Subgroup.pointwise_smul_def]
     exact ⟨_, hQ (Subgroup.mem_zpowers _), rfl⟩
   have hcP := hcyc ((P : Subgroup V).map V.subtype) (by rintro _ ⟨y, -, rfl⟩; exact y.2)
-    (P.isPGroup'.map _)
+    (P.isPGroup.map _)
   refine ⟨g, g.2, mem_zpowers_of_isCyclic_of_dvd hcP ⟨_, hgu, rfl⟩
     ⟨_, hP (Subgroup.mem_zpowers _), rfl⟩
     ?_⟩
@@ -130,7 +130,7 @@ theorem exists_conj_mem_of_sup [Finite G] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 
     exact hp2 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).1 (hp.dvd_of_dvd_pow h2))
   obtain ⟨S₁⟩ : Nonempty (Sylow p L') := inferInstance
   set S : Subgroup N := (S₁ : Subgroup L').map L'.subtype with hS
-  have hSp : IsPGroup p S := S₁.isPGroup'.map _
+  have hSp : IsPGroup p S := S₁.isPGroup.map _
   have hSi : ¬ p ∣ S.index := by
     rw [hS, Subgroup.index_map_subtype]
     exact fun hd => (hp.dvd_mul.1 hd).elim S₁.not_dvd_index hpL

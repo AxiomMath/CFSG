@@ -50,7 +50,7 @@ end Basic
 section Core
 
 instance ys03_finite_mulAut (S : Type) [Group S] [Finite S] : Finite (MulAut S) :=
-  Finite.of_injective (fun f : MulAut S => (f : S → S)) (fun f g h => MulEquiv.ext (congrFun h))
+  Finite.of_injective (fun _f : MulAut S => (_f : S → S)) (fun _f _g h => MulEquiv.ext (congrFun h))
 
 theorem ys03_exists_isSCp_above {G : Type} [Group G] [Finite G] {p : ℕ} {W : Subgroup G}
     (hW : IsElemAbelian p W) : ∃ A₁ : Subgroup G, IsSCp p ⊤ A₁ ∧ W ≤ A₁ := by
@@ -72,8 +72,8 @@ theorem ys03_coreFree_of_strongBal {S : Type} [Group S] [Finite S] (hS : IsSimpl
     (hH : innerAut S ≤ H) (hxH : x ∈ Subgroup.normalizer (H : Set (MulAut S))) :
     GLAPPrimeCoreOf p (H ⊓ Subgroup.centralizer ({x} : Set (MulAut S))) = ⊥ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := hS
+  have : Fact p.Prime := ⟨hp⟩
+  have := hS
   have hZ : Subgroup.center S = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center S) with h | h
     · exact h
@@ -87,17 +87,17 @@ theorem ys03_coreFree_of_strongBal {S : Type} [Group S] [Finite S] (hS : IsSimpl
   have hIY : innerAut S ≤ Y := hH.trans hHY
   have hYN : Y ≤ Subgroup.normalizer (H : Set (MulAut S)) :=
     sup_le Subgroup.le_normalizer ((Subgroup.zpowers_le).2 hxH)
-  haveI hIn : (innerAut S).Normal := by
+  have hIn : (innerAut S).Normal := by
     refine ⟨fun n hn g => ?_⟩
     obtain ⟨c, rfl⟩ := hn
     refine ⟨g c, ?_⟩
     ext y
     simp [MulAut.conj_apply]
   set K : Subgroup ↥Y := (innerAut S).subgroupOf Y with hK
-  haveI hKn : K.Normal := Subgroup.Normal.subgroupOf hIn Y
+  have hKn : K.Normal := Subgroup.Normal.subgroupOf hIn Y
   let eK : ↥K ≃* S :=
     (Subgroup.subgroupOfEquivOfLe hIY).trans (MonoidHom.ofInjective hinj).symm
-  haveI : IsSimpleGroup ↥K := eK.isSimpleGroup
+  have : IsSimpleGroup ↥K := eK.isSimpleGroup
   have hncK : ∃ a b : ↥K, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hnc
     exact ⟨eK.symm a, eK.symm b, fun h => hab (eK.symm.injective (by rw [map_mul, map_mul, h]))⟩
@@ -106,9 +106,9 @@ theorem ys03_coreFree_of_strongBal {S : Type} [Group S] [Finite S] (hS : IsSimpl
     Subgroup.mem_subgroupOf.2 ⟨s, rfl⟩
   have hcoreY : GLAPPrimeCore p ↥Y = ⊥ := by
     set N : Subgroup ↥Y := GLAPPrimeCore p ↥Y with hN
-    haveI hNn : N.Normal := GLAPPrimeCore.normal p _
+    have hNn : N.Normal := GLAPPrimeCore.normal p _
     have hNK0 : N.subgroupOf K = ⊥ := by
-      haveI : (N.subgroupOf K).Normal := Subgroup.Normal.subgroupOf hNn K
+      have : (N.subgroupOf K).Normal := Subgroup.Normal.subgroupOf hNn K
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (N.subgroupOf K) with h | h
       · exact h
       · exfalso
@@ -236,7 +236,7 @@ theorem ys03_weak_of_coreFree {p : ℕ} (hp : p.Prime) {S : Type} [Group S] (h :
     {A : Subgroup (MulAut S)} (hA : IsElemAbelian p A) :
     IsTwoPrimaryWeaklyLocallyBalanced p 1 A := by
   intro D hD H hH hAH
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hDne : D ≠ ⊥ := fun hb => hp.ne_one (by
     have := hD.2.2
     rw [hb, Subgroup.card_bot, pow_one] at this
@@ -249,7 +249,7 @@ theorem ys03_weak_of_coreFree {p : ℕ} (hp : p.Prime) {S : Type} [Group S] (h :
   rw [hle, Subgroup.commutator_bot_left]
   simp
 
-theorem ys03_weak_of_card_le {p : ℕ} (hp : p.Prime) {S : Type} [Group S] [Finite S]
+theorem ys03_weak_of_card_le {p : ℕ} (_hp : p.Prime) {S : Type} [Group S] [Finite S]
     {A : Subgroup (MulAut S)} (hcard : Nat.card A ≤ p) :
     IsTwoPrimaryWeaklyLocallyBalanced p 1 A := by
   intro D hD H hH hAH
@@ -295,8 +295,8 @@ theorem ys03_weak_of_oPrime {p : ℕ} (hp : p.Prime) {S : Type} [Group S] [Finit
     {A : Subgroup (MulAut S)} (hA : IsElemAbelian p A) :
     IsTwoPrimaryWeaklyLocallyBalanced p 1 A := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI hIn : (innerAut S).Normal := ys03_innerAut_normal S
+  have : Fact p.Prime := ⟨hp⟩
+  have hIn : (innerAut S).Normal := ys03_innerAut_normal S
   have hinj := ys03_conj_injective hcen
   have hAin : ∀ a ∈ A, a ∈ innerAut S := fun a ha => hinner a (hA.2 a ha)
   intro D hD H hH hAH
@@ -379,7 +379,7 @@ theorem ys03_inner_of_pow_of_outer_le_two {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 
     [Group K] [Finite K]
     (hout : Nat.card (CFSG.ComponentClassification.OuterAutomorphisms.Outer K) ≤ 2)
     {y : MulAut K} (hy : y ^ p = 1) : y ∈ innerAut K := by
-  haveI : (innerAut K).Normal := ys03_innerAut_normal K
+  have : (innerAut K).Normal := ys03_innerAut_normal K
   let q : MulAut K →* CFSG.ComponentClassification.OuterAutomorphisms.Outer K :=
     QuotientGroup.mk' (CFSG.ComponentClassification.OuterAutomorphisms.inner K)
   have hsq : (q y) ^ 2 = 1 := by

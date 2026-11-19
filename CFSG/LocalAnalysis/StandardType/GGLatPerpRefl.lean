@@ -94,7 +94,7 @@ theorem perp_reflect (τ : Tag) (i : Fin τ.rank) {v : Fin τ.rank → ℤ} :
     exact ⟨IsRoot.reflect i hβ', by rw [latGram_reflect]; exact hg'⟩
 
 theorem latLinked_image_iff {N : ℕ} (S : Matrix (Fin N) (Fin N) ℤ)
-    (s : (Fin N → ℤ) → (Fin N → ℤ)) (hs : Function.Injective s)
+    (s : (Fin N → ℤ) → (Fin N → ℤ)) (_hs : Function.Injective s)
     (hs2 : ∀ x, s (s x) = x) {Φ Ψ : Set (Fin N → ℤ)} (hΨ : Ψ = s '' Φ)
     (hgram : ∀ a b, latGram S (s a) (s b) = latGram S a b) {a b : Fin N → ℤ} :
     latLinked S Ψ (s a) (s b) ↔ latLinked S Φ a b := by
@@ -103,7 +103,7 @@ theorem latLinked_image_iff {N : ℕ} (S : Matrix (Fin N) (Fin N) ℤ)
   · intro h
     let rΦ : (Fin N → ℤ) → (Fin N → ℤ) → Prop :=
       fun x y => x ∈ Φ ∧ y ∈ Φ ∧ latGram S x y ≠ 0
-    haveI : IsEquiv _ (fun x y => Relation.EqvGen rΦ (s x) (s y)) :=
+    have : IsEquiv _ (fun x y => Relation.EqvGen rΦ (s x) (s y)) :=
       IsEquiv.comap (r := Relation.EqvGen rΦ) s
     have hle : (fun x y => x ∈ Ψ ∧ y ∈ Ψ ∧ latGram S x y ≠ 0) ≤
         fun x y => Relation.EqvGen rΦ (s x) (s y) := by
@@ -112,7 +112,6 @@ theorem latLinked_image_iff {N : ℕ} (S : Matrix (Fin N) (Fin N) ℤ)
       rw [hΨ] at hx hy
       obtain ⟨x', hx', rfl⟩ := hx
       obtain ⟨y', hy', rfl⟩ := hy
-      change Relation.EqvGen rΦ (s (s x')) (s (s y'))
       rw [hs2 x', hs2 y']
       exact Relation.EqvGen.rel _ _ ⟨hx', hy', by rw [← hgram]; exact hg⟩
     have h' := (Relation.EqvGen.eqvGen_le hle) (s a) (s b) h
@@ -120,7 +119,7 @@ theorem latLinked_image_iff {N : ℕ} (S : Matrix (Fin N) (Fin N) ℤ)
   · intro h
     let rΨ : (Fin N → ℤ) → (Fin N → ℤ) → Prop :=
       fun x y => x ∈ Ψ ∧ y ∈ Ψ ∧ latGram S x y ≠ 0
-    haveI : IsEquiv _ (fun x y => Relation.EqvGen rΨ (s x) (s y)) :=
+    have : IsEquiv _ (fun x y => Relation.EqvGen rΨ (s x) (s y)) :=
       IsEquiv.comap (r := Relation.EqvGen rΨ) s
     have hle : (fun x y => x ∈ Φ ∧ y ∈ Φ ∧ latGram S x y ≠ 0) ≤
         fun x y => Relation.EqvGen rΨ (s x) (s y) := by
@@ -245,7 +244,7 @@ theorem reflect_single (τ : Tag) (i l : Fin τ.rank) :
     rw [Finset.sum_eq_single l]
     · simp
     · intro j _ hj
-      simp [Pi.single_apply, hj]
+      simp [hj]
     · intro hl
       exact absurd (Finset.mem_univ l) hl
   simp only [reflect, h]

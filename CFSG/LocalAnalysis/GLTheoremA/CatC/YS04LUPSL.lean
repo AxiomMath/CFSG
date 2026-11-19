@@ -19,7 +19,7 @@ open CFSG.HardMathSupport.Timmesfeld.Tables.T1b
 
 theorem dvd_sub_one_of_pow_eq {p a b : ℕ} (hp : p.Prime) (hb : b = a ^ p) (hpb : p ∣ b - 1) :
     p ∣ a - 1 := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   rcases Nat.eq_zero_or_pos a with rfl | ha
   · simp
   have ha1 : 1 ≤ a := ha
@@ -39,7 +39,7 @@ theorem dvd_sub_one_of_pow_eq {p a b : ℕ} (hp : p.Prime) (hb : b = a ^ p) (hpb
 theorem exists_orderOf_prime_range {n : ℕ} {K : Type} [Field K] [Finite K] (hn : 3 ≤ n) {p : ℕ}
     (hp : p.Prime) (k : Subfield K) (hpk : p ∣ Nat.card k - 1) :
     ∃ x : (linearSubfieldInclusion n k).range, orderOf x = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hdvd : p ∣ Nat.card (↥k)ˣ := by rw [Nat.card_units]; exact hpk
   obtain ⟨ζ, hζ⟩ := exists_prime_orderOf_dvd_card' p hdvd
   have hζp : ζ ^ p = 1 := hζ ▸ pow_orderOf_eq_one ζ
@@ -198,20 +198,20 @@ theorem psl_LUGood {n : ℕ} {K : Type} [Field K] [Finite K] (hn : 3 ≤ n) {p :
     (hinn : D ⊓ (MulAut.conj : projectiveSL n K →* MulAut (projectiveSL n K)).range = ⊥) :
     LUGood p D := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hnot : ¬ D ≤ linearAutGroup n K := by
     intro hle
     have h1 := card_le_mul_card_inf_inner_of_le hn hp D hD hle
     rw [hinn, Subgroup.card_bot, hc] at h1
     nlinarith [hp.two_le]
-  obtain ⟨x, hxD, hxL⟩ := SetLike.not_le_iff_exists.1 hnot
+  obtain ⟨x, hxD, hxL⟩ := IsConcreteLE.not_le_iff_exists.1 hnot
   have hx1 : x ≠ 1 := fun h => hxL (by rw [h]; exact one_mem _)
   have hxp : x ^ p = 1 := hD.2 x hxD
   have hord : orderOf x = p := orderOf_eq_prime hxp hx1
   have hxS : x ∈ semilinearAutGroup n K := mem_semilinearAutGroup_of_pow_eq_one hn hp hp2 hxp
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   obtain ⟨ℓ, hchar, f, hℓ, hcard⟩ := FiniteField.card' K
-  haveI : CharP K ℓ := hchar
+  have : CharP K ℓ := hchar
   have hK : Nat.card K = ℓ ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card, hcard]
   obtain ⟨hpf, σ, hσ, ⟨β, -, hxβ⟩, hkcard⟩ :=
     CFSG.HardMathSupport.Lang.UnitaryAutomorphisms.higher_linear_prime_semilinear_field_descent'

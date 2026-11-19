@@ -46,7 +46,7 @@ theorem three_le_pRank_of_fieldFactor {X C A : Type} [Group X] [Finite X] [Group
     {E : Subgroup (MulAut X)} (hEH : E ≤ H) (hE : IsElemAbelian 3 E) (hEc : Nat.card E = 9) :
     3 ≤ Open.pRank 3 (H ⊓ centralizer (E : Set (MulAut X))) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcomm : ∀ a b : C, a * b = b * a := fun a b => (IsCyclic.commGroup (α := C)).mul_comm a b
   obtain ⟨k, hk⟩ := hα
   have hφk : Φ α ^ 3 ^ k = 1 := by rw [← map_pow, hk, map_one]
@@ -92,7 +92,7 @@ theorem three_le_pRank_of_fieldFactor {X C A : Type} [Group X] [Finite X] [Group
   have hβH : β ∈ H := by
     have hδ : α₁⁻¹ * β ∈ (S' : Subgroup (MulAut X)) :=
       mul_mem (inv_mem (hS' (mem_zpowers α₁))) hβS'
-    obtain ⟨n, hn⟩ := S'.isPGroup' ⟨_, hδ⟩
+    obtain ⟨n, hn⟩ := S'.isPGroup ⟨_, hδ⟩
     have hI := hD (α₁⁻¹ * β) (by rw [map_mul, map_inv, hβΦ, inv_mul_cancel])
       ⟨n, by simpa using congrArg Subtype.val hn⟩
     have : β = α₁ * (α₁⁻¹ * β) := by group
@@ -206,15 +206,14 @@ theorem T2_det {ω : K} (hω : ω ^ 3 = 1) (v : Fin 2 → ZMod 3) : (T2 ω v).de
 theorem T2_map {ω : K} (σ : K ≃+* K) (hσ : σ ω = ω) (v : Fin 2 → ZMod 3) :
     (T2 ω v).map σ = T2 ω v := by
   have hc : ∀ x, σ (chi ω x) = chi ω x := fun x => by rw [chi, map_pow, hσ]
-  simp [T2, fromBlocks_map, diagonal_map, hc]
+  simp [T2, diagonal_map, hc]
 
 theorem T2_gram {ω : K} (hω : ω ^ 3 = 1) (b : K →+* K) (hb : b ω = ω) (v : Fin 2 → ZMod 3) :
     ((T2 ω v).map b)ᵀ * J2 * T2 ω v = J2 := by
   have hc : ∀ x, b (chi ω x) = chi ω x := fun x => by rw [chi, map_pow, hb]
   rw [T2, J2, fromBlocks_map, fromBlocks_transpose, fromBlocks_multiply, fromBlocks_multiply]
   simp only [diagonal_map (map_zero b), hc, Matrix.map_zero _ (map_zero b), transpose_zero,
-    diagonal_transpose, Matrix.zero_mul, Matrix.mul_zero, Matrix.mul_one, Matrix.one_mul,
-    zero_add, add_zero, diagonal_mul_diagonal, chi_mul_neg hω]
+    diagonal_transpose, Matrix.zero_mul, Matrix.mul_zero, Matrix.mul_one, zero_add, add_zero, diagonal_mul_diagonal, chi_mul_neg hω]
   rw [show (fun i : Fin 2 => chi ω (-v i) * chi ω (v i)) = fun _ => 1 from
     funext fun i => by rw [mul_comm, chi_mul_neg hω], diagonal_const_one]
 
@@ -235,7 +234,7 @@ theorem P2_mul_Q2 {l l' : K} (hl : l + l' = 1) : P2 l l' * Q2 l l' = 1 := by
   have hl' : l' + l = 1 := by rw [add_comm]; exact hl
   rw [P2, Q2, fromBlocks_multiply, ← fromBlocks_one]
   congr 1 <;> simp only [Matrix.one_mul, Matrix.mul_one, diagonal_add, h2, diagonal_zero] <;>
-    ext i j <;> by_cases hij : i = j <;> simp [diagonal_apply, Matrix.one_apply, hij, hl, hl']
+    ext i j <;> by_cases hij : i = j <;> simp [Matrix.one_apply, hij, hl, hl']
 
 theorem Q2_mul_P2 {l l' : K} (hl : l + l' = 1) : Q2 l l' * P2 l l' = 1 :=
   mul_eq_one_comm.1 (P2_mul_Q2 hl)
@@ -249,10 +248,10 @@ theorem P2_gram (b : K →+* K) {l l' : K} (hl : l + l' = 1) (hb : b l = l') (hb
     diagonal_add, mul_comm l l', h2, diagonal_zero]
   congr 1
   · ext i j
-    by_cases hij : i = j <;> simp [Matrix.one_apply, hij, h2]
+    by_cases hij : i = j <;> simp [hij, h2]
   all_goals ext i j
   all_goals by_cases hij : i = j <;>
-    simp [diagonal_apply, Matrix.one_apply, hij, hl, add_comm l' l]
+    simp [Matrix.one_apply, hij, hl, add_comm l' l]
 
 end CharTwo
 
@@ -362,9 +361,9 @@ theorem three_le_pRank_psu {X : Type} [Group X] [Finite X] (hp : p = 2) (hf : Ev
     3 ≤ Open.pRank 3 (H ⊓ centralizer (E : Set (MulAut X))) := by
   classical
   subst hp
-  haveI : CharP K 2 := h.charP
-  haveI := h.finite
-  haveI : IsCyclic (K ≃+* K) := (card_ringAut_and_isCyclic Nat.prime_two K h.card).2
+  have : CharP K 2 := h.charP
+  have := h.finite
+  have : IsCyclic (K ≃+* K) := (card_ringAut_and_isCyclic Nat.prime_two K h.card).2
   set P := primeFormP h ((1 : GL (Fin (4 + s)) K) : Matrix (Fin (4 + s)) (Fin (4 + s)) K)
   have hC : IsPrimeFormGram (1 : GL (Fin (4 + s)) K) := isPrimeFormGram_one
   have hm : 3 ≤ 4 + s := by omega
@@ -429,7 +428,7 @@ theorem three_le_pRank_typeTwistedA {X : Type} [Group X] [Finite X]
   obtain ⟨d, hv⟩ := d
   obtain ⟨q, hq | hq⟩ := hU <;> simp only at hq <;> subst hq
   · have hp : q.p = 2 := hd.1
-    haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+    have : Fact q.p.Prime := ⟨q.prime_p⟩
     have hK := unitaryFieldData_galoisField q
     have hq3 : ¬ 3 ∣ q.p ^ q.exponent := by
       rw [hp]
@@ -446,7 +445,7 @@ theorem three_le_pRank_typeTwistedA {X : Type} [Group X] [Finite X]
     exact three_le_pRank_psu hK hp hl (s := 0) (by norm_num) (e.trans e'.symm) hc hab hinn hαH
       hαk hαn hEH hE hEc
   · have hp : q.p = 2 := hd.1
-    haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+    have : Fact q.p.Prime := ⟨q.prime_p⟩
     have hK := unitaryFieldData_galoisField q
     have hq3 : ¬ 3 ∣ q.p ^ q.exponent := by
       rw [hp]

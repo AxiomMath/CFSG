@@ -112,6 +112,7 @@ private theorem not_L_le_centralizer_V (D : Data G) (Ch : Choice2011 G) (h4 : S2
     simp [M] at this
   exact hM1 (Subsingleton.elim _ _)
 
+omit [Finite G] in
 private theorem card_fixed_eq_card_of_alpha_ne_one
     {L V : Subgroup G} {hV : IsElemAbelian 2 V}
     {hLV : L ≤ Subgroup.normalizer (V : Set G)} {n : ℕ}
@@ -289,7 +290,7 @@ private theorem offender_card_le (D : Data G) (Ch : Choice2011 G) (c : Ctx23L D 
   have hW_le_R : W ≤ R := CFSG.RankThree.PartOne.Sec15Final.omegaOneCenterIn_le R
   have hXT : X ≤ D.T :=
     sup_le (inf_le_left.trans hAT) (hW_le_R.trans (pCoreOf_sup_le_T D Ch c))
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := CFSG.Quasithin.BlueprintB2.exists_card_eq_pow_of_isElementaryAbelian
     (CFSG.Open.isElemAbelian_iff_isElementaryAbelian.mp hXel)
   have hk_le : k ≤ CFSG.Open.pRank 2 D.T :=
@@ -537,7 +538,7 @@ private theorem offender_chain
 
 private theorem exists_sylow_coe_eq_T (D : Data G) :
     ∃ S : Sylow 2 G, (S : Subgroup G) = D.T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsyl := CFSG.ABGLocalTools.isSylowOf_iff.mp D.sylowG
   have hT2 : IsPGroup 2 D.T := hsyl.2.1
   have hnot : ¬ 2 ∣ D.T.index := by
@@ -550,7 +551,7 @@ private theorem pRank_sup_eq_pRank_T (D : Data G) (Ch : Choice2011 G) (c : Ctx23
   refine le_antisymm ?_ (CFSG.SectionRank.pRank_mono (by norm_num : 1 < 2) le_sup_right)
   refine CFSG.SectionRank.pRank_le (by norm_num : 1 < 2) ?_
   intro E hEH hEel
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := CFSG.Quasithin.BlueprintB2.exists_card_eq_pow_of_isElementaryAbelian
     (CFSG.Open.isElemAbelian_iff_isElementaryAbelian.mp hEel)
   obtain ⟨x, hxH, hxE⟩ := CFSG.ClassicalInvolution.Disconnected.AschTight.exists_conj_le_of_sylow_le
@@ -642,6 +643,7 @@ private theorem W_eq_sup_centW (D : Data G) (Ch : Choice2011 G) (h4 : S23_4 D Ch
     hVW inf_le_left (by rw [← Subgroup.inf_relIndex_left c.V Y, hYeq]; exact hrel.symm)
   simpa [Y] using h.symm
 
+omit [Finite G] in
 private theorem commutator_sup_le_of_le_centralizer
     {V W A : Subgroup G} (hWV : W ≤ Subgroup.centralizer (V : Set G))
     (hWA : W ≤ Subgroup.centralizer (A : Set G))
@@ -681,8 +683,6 @@ private theorem commutator_W_A_le (D : Data G) (Ch : Choice2011 G) (c : Ctx23L D
     ⁅CFSG.RankThree.PartOne.omegaOneCenterIn (CFSG.Open.pCoreOf 2 (c.L ⊔ D.T)), A⁆ ≤
       c.V := by
   rw [hW]
-  change ⁅c.V ⊔ (CFSG.RankThree.PartOne.omegaOneCenterIn
-      (CFSG.Open.pCoreOf 2 (c.L ⊔ D.T)) ⊓ Subgroup.centralizer (A : Set G)), A⁆ ≤ c.V
   have hW_le_R : CFSG.RankThree.PartOne.omegaOneCenterIn
       (CFSG.Open.pCoreOf 2 (c.L ⊔ D.T)) ≤ CFSG.Open.pCoreOf 2 (c.L ⊔ D.T) :=
     CFSG.RankThree.PartOne.Sec15Final.omegaOneCenterIn_le _
@@ -725,6 +725,7 @@ private def commutatorKernel (V W H : Subgroup G)
     simpa using (Subgroup.mem_normalizer_iff.mp (hVH (H.inv_mem haH)) ⁅w, a⁆⁻¹).mp
       (V.inv_mem (ha w hw))
 
+omit [Finite G] in
 private theorem commutatorKernel_conj_mem (V W H : Subgroup G)
     (hVH : H ≤ Subgroup.normalizer (V : Set G))
     (hWH : H ≤ Subgroup.normalizer (W : Set G)) {n : G} (hn : n ∈ H) {k : G}
@@ -853,8 +854,8 @@ private theorem map_commutatorKernel_eq_top
       Subgroup.mem_map.mpr ⟨⟨l0, hl0L⟩, Subgroup.mem_subgroupOf.mpr ⟨hl0K, hl0L⟩, rfl⟩
     rw [hbot] at hmem
     exact hαl0 (Subgroup.mem_bot.mp hmem)
-  haveI : CharP κ.K 2 := κ.charP_two
-  haveI hsimple : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) κ.K) :=
+  have : CharP κ.K 2 := κ.charP_two
+  have hsimple : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) κ.K) :=
     CFSG.CGT.PushingUpLit.A78.isSimpleGroup_SL2_charTwo κ.K hcard4
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
     ((K'.subgroupOf c.L).map κ.α) with hbot | htop

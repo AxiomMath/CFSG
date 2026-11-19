@@ -22,7 +22,7 @@ theorem isSL23Mod_rootSU2_herm : IsSL23Mod (rootSU2 F9 3 1 (by norm_num : 2 ≤ 
   have hk : Nat.card (fixedSubfield F9 3 1) = 3 := by
     rw [card_fixedSubfield natCard_F9]
     norm_num
-  haveI := Fintype.ofFinite (fixedSubfield F9 3 1)
+  have := Fintype.ofFinite (fixedSubfield F9 3 1)
   have hk' : Fintype.card (fixedSubfield F9 3 1) = 3 := by
     rw [← Nat.card_eq_fintype_card, hk]
   exact isSL23Mod_of_mulEquiv

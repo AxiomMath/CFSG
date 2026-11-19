@@ -58,7 +58,7 @@ theorem exists_th2Std [Finite G] {x y : G} {K : Subgroup G} (h : IsV2StarStar x 
   obtain ⟨S0, hS0⟩ := hT.isPGroup.exists_le_sylow
   have hSsyl : IsSylowOf 2 (S0 : Subgroup G) ⊤ := by
     rw [isSylowOf_iff]
-    refine ⟨le_top, S0.isPGroup', ?_⟩
+    refine ⟨le_top, S0.isPGroup, ?_⟩
     rw [Subgroup.relIndex_top_right]
     exact S0.not_dvd_index
   exact ⟨T, S0, ⟨h, ⟨hT, hTN⟩, hyT, hSsyl, hS0⟩⟩

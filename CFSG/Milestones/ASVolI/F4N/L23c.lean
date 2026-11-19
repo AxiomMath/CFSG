@@ -37,7 +37,7 @@ theorem burnsideF4n_N1set_tits_conj {α : RankTwoAmalgam.{0}} {Y : Type} [Group 
     (hgl : g • c.lv = c.lv) (hgc : g • cc = cc) (hs : s ∈ N1set c GLKind.Tits cc y) :
     g * s * g⁻¹ ∈ N1set c GLKind.Tits cc y := by
   unfold N1set at hs ⊢
-  rw [if_pos rfl] at hs ⊢
+  rw [ite_eq_left rfl] at hs ⊢
   obtain ⟨hsx, hcy, q, hq0, hqg, hqs⟩ := hs
   refine ⟨?_, ?_, g • q, ?_, ?_, ?_⟩
   · rw [MulAction.mem_stabilizer_iff, mul_smul, mul_smul,
@@ -67,7 +67,7 @@ theorem burnsideF4n_N2set_g2d_conj {α : RankTwoAmalgam.{0}} {Y : Type} [Group Y
     (hgc : g • cc = cc) (hgy : g • y' = y') (ht : t ∈ N2set c GLKind.G2d cc y y') :
     g * t * g⁻¹ ∈ N2set c GLKind.G2d cc y y' := by
   unfold N2set at ht ⊢
-  rw [if_neg (by decide)] at ht ⊢
+  rw [ite_eq_right (by decide)] at ht ⊢
   refine ⟨?_, ?_⟩
   · rw [MulAction.mem_stabilizer_iff, mul_smul, mul_smul,
       show g⁻¹ • cc = cc by rw [inv_smul_eq_iff, hgc], MulAction.mem_stabilizer_iff.mp ht.1, hgc]
@@ -97,7 +97,7 @@ theorem burnsideF4n_ncard_eq_mul_fiber {G : Type*} [Group G] [Finite G] (N₁ : 
       invFun := fun st => ⟨((st.1 : G), (st.2 : G)), st.2.2⟩
       left_inv := fun st => rfl
       right_inv := fun st => rfl }
-  haveI : Fintype N₁ := Fintype.ofFinite N₁
+  have : Fintype N₁ := Fintype.ofFinite N₁
   have h1 : P.ncard = Nat.card P := (Nat.card_coe_set_eq P).symm
   have h2 : N₁.ncard = Nat.card N₁ := (Nat.card_coe_set_eq N₁).symm
   have h3 : {t | (s₀, t) ∈ P}.ncard = Nat.card {t | (s₀, t) ∈ P} := (Nat.card_coe_set_eq _).symm
@@ -182,7 +182,7 @@ theorem burnsideF4n_fiber_tits {E : Type} [Group E] [Finite E] {p : ℕ} (hp : p
       refine ⟨burnsideF4n_N1set_tits_conj ρ hgx hgl (hgΓx cc hcc) hst.1, ?_, ?_⟩
       · have h2 := hst.2.1
         unfold N2set at h2 ⊢
-        rw [if_pos rfl] at h2 ⊢
+        rw [ite_eq_left rfl] at h2 ⊢
         exact burnsideF4n_cyc2_conj ρ hgx hgl (hgΓl y hy) h2
       · show orderOf (g * st.1 * g⁻¹ * (g * st.2 * g⁻¹)) = _
         rw [burnsideF4n_orderOf_conj_mul]
@@ -220,7 +220,7 @@ theorem burnsideF4n_fiber_g2d {E : Type} [Group E] [Finite E] {p : ℕ} (hp : p.
       refine ⟨?_, burnsideF4n_N2set_g2d_conj ρ hgx hgc (hgΓc y' hy') hst.2.1, ?_⟩
       · have h2 := hst.1
         unfold N1set at h2 ⊢
-        rw [if_neg (by decide)] at h2 ⊢
+        rw [ite_eq_right (by decide)] at h2 ⊢
         exact burnsideF4n_cyc2_conj ρ hgx hgl (hgΓl y hy) h2
       · show orderOf (g * st.1 * g⁻¹ * (g * st.2 * g⁻¹)) = _
         rw [burnsideF4n_orderOf_conj_mul]
@@ -248,16 +248,16 @@ theorem burnsideF4n_no_three
     (n12 : ¬ Amalgam.Completion.IsEquivalent ρ₁.toCompletion ρ₂.toCompletion)
     (n13 : ¬ Amalgam.Completion.IsEquivalent ρ₁.toCompletion ρ₃.toCompletion)
     (n23 : ¬ Amalgam.Completion.IsEquivalent ρ₂.toCompletion ρ₃.toCompletion) : False := by
-  haveI : Finite E := hyp.finite
-  haveI := burnsideF4b_finite_G1 M₁ M₂
-  haveI := burnsideF4b_finite_G2 M₁ M₂
+  have : Finite E := hyp.finite
+  have := burnsideF4b_finite_G1 M₁ M₂
+  have := burnsideF4b_finite_G2 M₁ M₂
   have hp : p.Prime := burnsideF4a_prime_of_isGenLie hyp.model
   have hP := burnsideF4n_parabolics_at hyp
   subst hGp
   have hι := hρ₁
   have hιs := hs₁
   have Fι := burnsideF4n_facts46_at h46 hyp ρ₁ hι
-  haveI : Finite Y₁ := burnsideF4b_finite_of_small Fι hιs
+  have : Finite Y₁ := burnsideF4b_finite_of_small Fι hιs
   obtain ⟨cc₁, hcc₁, hcc₁l, -⟩ := Fι.hval ρ₁.xv ρ₁.lv ρ₁.lv
   obtain ⟨y₁, hy₁, hy₁x, -⟩ := Fι.hval ρ₁.lv ρ₁.xv ρ₁.xv
   obtain ⟨y'₁, hy'₁, hy'₁x, -⟩ := Fι.hval cc₁ ρ₁.xv ρ₁.xv
@@ -302,7 +302,7 @@ theorem burnsideF4n_no_three
     have hsl : s ∈ stv ρ₁ ρ₁.lv := by
       have := hs
       unfold N1set at this
-      rw [if_neg (by decide)] at this
+      rw [ite_eq_right (by decide)] at this
       exact this.1
     obtain ⟨b₂, rfl⟩ := stv_lv_le_range_f2 _ hsl
     obtain ⟨N₂', hN₂'⟩ : ∃ N : Set (RankTwoAmalgam.ofSubgroups M₁ M₂).G2, N = {b | f1 (c := ρ₁) a₀ *
@@ -346,7 +346,7 @@ theorem burnsideF4n_no_three
             (f1 (c := ρ₁) a₀ • f2 (c := ρ₁) b₁ • ρ₁.xv) ρ}.ncard := by
       intro Z _ ρ hρ hsρ
       obtain ⟨hfin, Fρ, hcρ, hyρ, hy'ρ, h20ρ⟩ := hdata Z ρ hρ hsρ
-      haveI := hfin
+      have := hfin
       have hs₀ := (burnsideF4n_N1set_g2d_iff ρ₁ ρ hι hρ b₀ b₂ _
         (f1 (c := ρ) a₀ • ρ.lv)).mp hs
       have hfib := burnsideF4n_fiber_g2d hp hP ρ a₀ hcρ hyρ hy'ρ (h20ρ.2 rfl) hs₀
@@ -359,7 +359,7 @@ theorem burnsideF4n_no_three
       have htc : t ∈ stv ρ (f1 (c := ρ) a₀ • ρ.lv) := by
         have := htN
         unfold N2set at this
-        rw [if_neg (by decide)] at this
+        rw [ite_eq_right (by decide)] at this
         exact this.1
       have ht' : (f1 (c := ρ) a₀)⁻¹ * t * f1 (c := ρ) a₀ ∈ stv ρ ρ.lv := by
         rw [MulAction.mem_stabilizer_iff, mul_smul, mul_smul,
@@ -371,9 +371,9 @@ theorem burnsideF4n_no_three
       refine ⟨b, ⟨⟨?_, f2 (c := ρ₁) b₂, hs, (theta_ξ2 _ b₂).symm⟩,
         ⟨?_, f1 (c := ρ₁) a₀ * f2 (c := ρ₁) b * (f1 (c := ρ₁) a₀)⁻¹,
           (burnsideF4n_N2set_g2d_iff ρ₁ ρ hι hρ a₀ b₁ b _ _).mpr htN, ?_⟩, ?_⟩, rfl⟩
-      · rw [liftDom1, if_neg (by decide)]
+      · rw [liftDom1, ite_eq_right (by decide)]
         exact ⟨b₂, rfl⟩
-      · rw [liftDom2, if_neg (by decide)]
+      · rw [liftDom2, ite_eq_right (by decide)]
         exact ⟨a₀, rfl, b, rfl⟩
       · show _ = ρ₁.theta (xi1 M₁ M₂ a₀ * xi2 M₁ M₂ b * (xi1 M₁ M₂ a₀)⁻¹)
         rw [map_mul, map_mul, map_inv, Subgroup.coe_mul, Subgroup.coe_mul, Subgroup.coe_inv]
@@ -419,7 +419,7 @@ theorem burnsideF4n_no_three
     have hsx : s ∈ stv ρ₁ ρ₁.xv := by
       have := hs
       unfold N1set at this
-      rw [if_pos rfl] at this
+      rw [ite_eq_left rfl] at this
       exact this.1
     obtain ⟨a₁, rfl⟩ := stv_xv_le_range_f1 _ hsx
     obtain ⟨N₂', hN₂'⟩ : ∃ N : Set (RankTwoAmalgam.ofSubgroups M₁ M₂).G2, N = {b | f2 (c := ρ₁) b ∈
@@ -453,7 +453,7 @@ theorem burnsideF4n_no_three
             (f1 (c := ρ₁) a₀ • f2 (c := ρ₁) b₁ • ρ₁.xv) ρ}.ncard := by
       intro Z _ ρ hρ hsρ
       obtain ⟨hfin, Fρ, hcρ, hyρ, hy'ρ, h20ρ⟩ := hdata Z ρ hρ hsρ
-      haveI := hfin
+      have := hfin
       have hs₀ := (burnsideF4n_N1set_tits_iff ρ₁ ρ hι hρ Fι Fρ a₀ a₁ _
         (f2 (c := ρ) b₀ • ρ.xv)).mp hs
       have hfib := burnsideF4n_fiber_tits hp hP ρ hcρ hyρ (h20ρ.1 rfl) hs₀
@@ -465,16 +465,16 @@ theorem burnsideF4n_no_three
       have htl : t ∈ stv ρ ρ.lv := by
         have := htN
         unfold N2set at this
-        rw [if_pos rfl] at this
+        rw [ite_eq_left rfl] at this
         exact this.1
       obtain ⟨b, rfl⟩ := stv_lv_le_range_f2 ρ htl
       refine ⟨b, ⟨⟨?_, f1 (c := ρ₁) a₁, hs, (theta_ξ1 _ a₁).symm⟩,
         ⟨?_, f2 (c := ρ₁) b,
           (burnsideF4n_N2set_tits_iff ρ₁ ρ hι hρ b₀ b _ _ _ _).mpr htN,
           (theta_ξ2 _ b).symm⟩, ?_⟩, rfl⟩
-      · rw [liftDom1, if_pos rfl]
+      · rw [liftDom1, ite_eq_left rfl]
         exact ⟨a₁, rfl⟩
-      · rw [liftDom2, if_pos rfl]
+      · rw [liftDom2, ite_eq_left rfl]
         exact ⟨b, rfl⟩
       · have e : ρ.toCompletion.hat (xi1 M₁ M₂ a₁) * ρ.toCompletion.hat (xi2 M₁ M₂ b) =
             ((f1 (c := ρ) a₁ * f2 (c := ρ) b : ρ.G0) : Z) := by

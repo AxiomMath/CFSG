@@ -53,6 +53,7 @@ section Opposite
 
 variable {Γ : SimpleGraph V} [Fintype V] [DecidableRel Γ.Adj]
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem dist_eq_four_of_adj_line_of_ne
     (hP : IsGeneralizedPolygon Γ 4) (c : Γ.Coloring (Fin 2))
     {L M N W x y : V} (hL : c L = 1) (hM : c M = 1) (hLM : Γ.dist L M = 4)
@@ -108,6 +109,7 @@ section MeetsSpan
 
 variable {Γ : SimpleGraph V} [Fintype V] [DecidableRel Γ.Adj]
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem exists_spanSet_adj_of_mem_spanBlock_of_ne
     (hP : IsGeneralizedPolygon Γ 4) {y N a z1 z2 : V}
     (hNy : Γ.Adj N y) (hNa : Γ.Adj N a) (hay : a ≠ y)

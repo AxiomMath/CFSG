@@ -358,13 +358,13 @@ theorem lcorr_init {c : Lay} (hc : c.ok = true) (hp : c.p = 3) {A B n : ℕ} {LA
     rw [ofFn_getElem! _ hr]
   rw [e1, e2]
   by_cases h0 : r = 0
-  · rw [if_pos h0, if_pos h0]
+  · rw [ite_eq_left h0, ite_eq_left h0]
     exact rel_decode hc hp hA hsA
-  · rw [if_neg h0, if_neg h0]
+  · rw [ite_eq_right h0, ite_eq_right h0]
     by_cases h1 : r = 1
-    · rw [if_pos h1, if_pos h1]
+    · rw [ite_eq_left h1, ite_eq_left h1]
       exact rel_decode hc hp hB hsB
-    · rw [if_neg h1, if_neg h1]
+    · rw [ite_eq_right h1, ite_eq_right h1]
       exact rel_one hc hp
 
 theorem lcorr_regs {c : Lay} (hc : c.ok = true) (hp : c.p = 3) {A B : ℕ} {LA LB : List Char}

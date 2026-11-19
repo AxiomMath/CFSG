@@ -44,7 +44,7 @@ theorem comm_check_d : ∀ w : Perm (Fin 8), w * (a8c * a8d) = (a8c * a8d) * w �
   exact ofSix_commute_a8d σ e hw h8 h1
 
 theorem comm_of_theta_comm (hA : A8Model L)
-    (h : FF84Sec4 b L B K b₁ b₂) {β : G} (hβ : β ∈ L) (hβ3 : β ^ 3 = 1) (hθ : ThM L b₁ b₂ θ)
+    (_h : FF84Sec4 b L B K b₁ b₂) {β : G} (hβ : β ∈ L) (hβ3 : β ^ 3 = 1) (hθ : ThM L b₁ b₂ θ)
     {e : G} (heN : e ∈ Nor L) (hc : thG L θ e * thG L θ β = thG L θ β * thG L θ e) :
     e * β = β * e := by
   have hβN : β ∈ Nor L := Subgroup.le_normalizer hβ

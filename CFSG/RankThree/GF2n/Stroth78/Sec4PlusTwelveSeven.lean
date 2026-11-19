@@ -37,8 +37,8 @@ theorem false_of_card_Lbar_le_eight_mul_of_seven_dvd (S : Setting z E F) {a : G}
     (hLb8 : Nat.card ↥(Lbar S a) ≤
       8 * Nat.card ↥(Lbar S a ⊓ Subgroup.centralizer (Xsub S a : Set (Hbar z)))) : False := by
   classical
-  letI := modAbF S
-  haveI : FiniteDimensional (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
+  let := modAbF S
+  have : FiniteDimensional (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
   have hA : ∀ e ∈ Lbar S a, e * e = 1 := fun e he => by
     rw [← pow_two]
     exact sq_eq_one_of_mem_Lbar S h.mem_Q h.isConj he
@@ -49,7 +49,7 @@ theorem false_of_card_Lbar_le_eight_mul_of_seven_dvd (S : Setting z E F) {a : G}
       (Subgroup.card_dvd_of_le (inf_le_right : Lbar S a ⊓ C ≤ C)).trans hC6
     have h3 : ¬ 3 ∣ Nat.card ↥(Lbar S a ⊓ C) := by
       intro h3
-      haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+      have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
       obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥(Lbar S a ⊓ C)) 3 h3
       have hx2 : x * x = 1 := Subtype.ext (hA x (Subgroup.mem_inf.mp x.2).1)
       have hdv : orderOf x ∣ 2 := orderOf_dvd_of_pow_eq_one (by rw [pow_two]; exact hx2)
@@ -119,8 +119,8 @@ theorem false_of_card_Lbar_le_eight_mul_of_seven_dvd (S : Setting z E F) {a : G}
   have hCcard : Nat.card ↥C = 6 := by
     rw [Nat.card_congr eC.toEquiv, Nat.card_eq_fintype_card, Fintype.card_perm, Fintype.card_fin]
     rfl
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨ρ', hρ'⟩ := exists_prime_orderOf_dvd_card' (G := ↥C) 3 (by rw [hCcard]; norm_num)
   obtain ⟨σ', hσ'⟩ := exists_prime_orderOf_dvd_card' (G := ↥(Xsub S a)) 7 h7
   have hρo : orderOf (ρ' : Hbar z) = 3 := by rw [Subgroup.orderOf_coe]; exact hρ'

@@ -11,6 +11,7 @@ open Subgroup
 
 variable {A : Type} [Group A] [Finite A] {H : Subgroup A} {𝒮 : Set (Subgroup A)} {x : A}
 
+omit [Finite A] in
 private theorem mem_conjugate_mul_conj {S : Subgroup A} {d : A} (hx : x * x = 1) (hd : d ∈ S) :
     x * d * x⁻¹ ∈ CFSG.conjugate S x := by
   unfold CFSG.conjugate
@@ -21,7 +22,7 @@ private theorem mem_conjugate_mul_conj {S : Subgroup A} {d : A} (hx : x * x = 1)
   rw [e]; exact hd
 
 theorem L34GFac.ne_bot (hF : L34GFac H 𝒮 x) {S : Subgroup A} (hS : S ∈ 𝒮) : S ≠ ⊥ := by
-  haveI : Nontrivial ↥S := (l34g_simple_of_simpleFStar (hF.simple S hS)).1.toNontrivial
+  have : Nontrivial ↥S := (l34g_simple_of_simpleFStar (hF.simple S hS)).1.toNontrivial
   exact (Subgroup.nontrivial_iff_ne_bot S).mp inferInstance
 
 theorem L34GFac.center_eq_bot (hF : L34GFac H 𝒮 x) {S : Subgroup A} (hS : S ∈ 𝒮) :
@@ -39,6 +40,7 @@ theorem L34GFac.inf_eq_bot (hF : L34GFac H 𝒮 x) {S T : Subgroup A} (hS : S �
   rw [L34GFac.center_eq_bot hF hS] at hmem
   exact Subtype.ext_iff.mp (Subgroup.mem_bot.mp hmem)
 
+omit [Finite A] in
 theorem L34GFac.eq_one_of_centralizes (hF : L34GFac H 𝒮 x) {z : A}
     (hz : ∀ S ∈ 𝒮, ∀ s ∈ S, z * s = s * z) : z = 1 := by
   have hH : H ≤ Subgroup.centralizer ({z} : Set A) := by
@@ -53,11 +55,13 @@ theorem L34GFac.eq_one_of_centralizes (hF : L34GFac H 𝒮 x) {z : A}
   rw [hF.cent] at hzH
   simpa using hzH
 
+omit [Finite A] in
 theorem L34GFac.comm_conj (hF : L34GFac H 𝒮 x) {S : Subgroup A} (hS : S ∈ 𝒮)
     (hne : CFSG.conjugate S x ≠ S) : ∀ a ∈ S, ∀ b ∈ CFSG.conjugate S x, a * b = b * a := by
   intro a ha b hb
   exact hF.comm S hS (CFSG.conjugate S x) (hF.perm S hS) hne.symm a ha b hb
 
+omit [Finite A] in
 theorem L34GFac.diag_mul (hF : L34GFac H 𝒮 x) {S : Subgroup A} (hS : S ∈ 𝒮)
     (hne : CFSG.conjugate S x ≠ S) {d e : A} (hd : d ∈ S) (he : e ∈ S) :
     (d * e) * (x * (d * e) * x⁻¹) = (d * (x * d * x⁻¹)) * (e * (x * e * x⁻¹)) := by
@@ -80,6 +84,7 @@ theorem L34GFac.diag_eq_one (hF : L34GFac H 𝒮 x) {S : Subgroup A} (hS : S ∈
   rw [h1, mul_one] at h
   exact h
 
+omit [Finite A] in
 theorem L34GFac.diag_mem (hF : L34GFac H 𝒮 x) {S : Subgroup A} (hS : S ∈ 𝒮)
     (hne : CFSG.conjugate S x ≠ S) {d : A} (hd : d ∈ S) :
     d * (x * d * x⁻¹) ∈ H ⊓ centralizer ({x} : Set A) := by

@@ -38,11 +38,11 @@ theorem automorphism_frame_action {K : Type} [Field K] [Finite K] [CharP K 2]
   classical
   let L := AlgebraicClosure K
   let ι : K →+* L := algebraMap K L
-  letI : Fact p.Prime := ⟨hp⟩
-  letI : NeZero p := ⟨hp.ne_zero⟩
-  letI : Fintype K := Fintype.ofFinite K
-  haveI : CharP L 2 := charP_of_injective_algebraMap ι.injective 2
-  haveI : ExpChar L 2 := ExpChar.prime Nat.prime_two
+  let : Fact p.Prime := ⟨hp⟩
+  let : NeZero p := ⟨hp.ne_zero⟩
+  let : Fintype K := Fintype.ofFinite K
+  have : CharP L 2 := charP_of_injective_algebraMap ι.injective 2
+  have : ExpChar L 2 := ExpChar.prime Nat.prime_two
   obtain ⟨f, -, hcard⟩ := FiniteField.card K 2
   have hcard' : Nat.card K = 2 ^ (f : ℕ) := by
     rw [Nat.card_eq_fintype_card, hcard]

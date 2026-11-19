@@ -22,49 +22,49 @@ private theorem gen_commutator_mem_1 (hθ : ∀ t, θ (c.σ t) = c'.σ (θ t))
     ⁅x, y⁆ ∈ DeltaWin c c' θ 1 j := by
     interval_cases j
     ·
-      simp only [Gen, Set.mem_setOf_eq] at hx hy
+      simp only [Gen, Set.mem_ofPred_eq] at hx hy
       rcases hx with ⟨t, rfl⟩ | ⟨hie, t, rfl⟩
       · rcases hy with ⟨u, rfl⟩ | ⟨hje, u, rfl⟩
         · simpa using commutator_mem_c12 c c' θ 0 (show Even (0 : ℤ) from ⟨0, rfl⟩) t u
         · exact commutator_mem_c12' c c' θ 0 (show Even (0 : ℤ) from ⟨0, rfl⟩) t u
       · exfalso; obtain ⟨a, ha⟩ := hie; omega
     ·
-      simp only [Gen, Set.mem_setOf_eq] at hx hy
+      simp only [Gen, Set.mem_ofPred_eq] at hx hy
       rcases hx with ⟨t, rfl⟩ | ⟨hie, t, rfl⟩
       · rcases hy with ⟨u, rfl⟩ | ⟨hje, u, rfl⟩
         · exact commutator_mem_c13 c c' θ 0 (show Even (0 : ℤ) from ⟨0, rfl⟩) t u
         · exfalso; obtain ⟨a, ha⟩ := hje; omega
       · exfalso; obtain ⟨a, ha⟩ := hie; omega
     ·
-      simp only [Gen, Set.mem_setOf_eq] at hx hy
+      simp only [Gen, Set.mem_ofPred_eq] at hx hy
       rcases hx with ⟨t, rfl⟩ | ⟨hie, t, rfl⟩
       · rcases hy with ⟨u, rfl⟩ | ⟨hje, u, rfl⟩
         · exact commutator_mem_r2 c c' θ hθ 0 (show Even (0 : ℤ) from ⟨0, rfl⟩) t u
         · exact commutator_mem_c14' c c' θ 0 (show Even (0 : ℤ) from ⟨0, rfl⟩) t u
       · exfalso; obtain ⟨a, ha⟩ := hie; omega
     ·
-      simp only [Gen, Set.mem_setOf_eq] at hx hy
+      simp only [Gen, Set.mem_ofPred_eq] at hx hy
       rcases hx with ⟨t, rfl⟩ | ⟨hie, t, rfl⟩
       · rcases hy with ⟨u, rfl⟩ | ⟨hje, u, rfl⟩
         · exact commutator_mem_c15 c c' θ 0 (show Even (0 : ℤ) from ⟨0, rfl⟩) t u
         · exfalso; obtain ⟨a, ha⟩ := hje; omega
       · exfalso; obtain ⟨a, ha⟩ := hie; omega
     ·
-      simp only [Gen, Set.mem_setOf_eq] at hx hy
+      simp only [Gen, Set.mem_ofPred_eq] at hx hy
       rcases hx with ⟨t, rfl⟩ | ⟨hie, t, rfl⟩
       · rcases hy with ⟨u, rfl⟩ | ⟨hje, u, rfl⟩
         · exact commutator_mem_r4 c c' θ hθ 0 (show Even (0 : ℤ) from ⟨0, rfl⟩) t u
         · exact commutator_mem_r3 c c' θ hθ 0 (show Even (0 : ℤ) from ⟨0, rfl⟩) t u
       · exfalso; obtain ⟨a, ha⟩ := hie; omega
     ·
-      simp only [Gen, Set.mem_setOf_eq] at hx hy
+      simp only [Gen, Set.mem_ofPred_eq] at hx hy
       rcases hx with ⟨t, rfl⟩ | ⟨hie, t, rfl⟩
       · rcases hy with ⟨u, rfl⟩ | ⟨hje, u, rfl⟩
         · exact commutator_mem_r5 c c' θ hθ 0 (show Even (0 : ℤ) from ⟨0, rfl⟩) t u
         · exfalso; obtain ⟨a, ha⟩ := hje; omega
       · exfalso; obtain ⟨a, ha⟩ := hie; omega
     ·
-      simp only [Gen, Set.mem_setOf_eq] at hx hy
+      simp only [Gen, Set.mem_ofPred_eq] at hx hy
       rcases hx with ⟨t, rfl⟩ | ⟨hie, t, rfl⟩
       · rcases hy with ⟨u, rfl⟩ | ⟨hje, u, rfl⟩
         · exact commutator_mem_r7 c c' θ hθ 0 (show Even (0 : ℤ) from ⟨0, rfl⟩) t u
@@ -77,7 +77,7 @@ private theorem gen_commutator_mem_2 (hθ : ∀ t, θ (c.σ t) = c'.σ (θ t))
     ⁅x, y⁆ ∈ DeltaWin c c' θ 2 j := by
     interval_cases j
     ·
-      simp only [Gen, Set.mem_setOf_eq] at hx hy
+      simp only [Gen, Set.mem_ofPred_eq] at hx hy
       rcases hx with ⟨t, rfl⟩ | ⟨hie, t, rfl⟩
       · rcases hy with ⟨u, rfl⟩ | ⟨hje, u, rfl⟩
         · exact commutator_mem_c23 c c' θ 0 (show Even (0 : ℤ) from ⟨0, rfl⟩) t u
@@ -86,7 +86,7 @@ private theorem gen_commutator_mem_2 (hθ : ∀ t, θ (c.σ t) = c'.σ (θ t))
         · exact commutator_mem_c2'3 c c' θ 0 (show Even (0 : ℤ) from ⟨0, rfl⟩) t u
         · exfalso; obtain ⟨a, ha⟩ := hje; omega
     ·
-      simp only [Gen, Set.mem_setOf_eq] at hx hy
+      simp only [Gen, Set.mem_ofPred_eq] at hx hy
       rcases hx with ⟨t, rfl⟩ | ⟨hie, t, rfl⟩
       · rcases hy with ⟨u, rfl⟩ | ⟨hje, u, rfl⟩
         · exact commutator_mem_r8 c c' θ hθ 0 (show Even (0 : ℤ) from ⟨0, rfl⟩) t u
@@ -95,7 +95,7 @@ private theorem gen_commutator_mem_2 (hθ : ∀ t, θ (c.σ t) = c'.σ (θ t))
         · exact commutator_mem_c2'4 c c' θ 0 (show Even (0 : ℤ) from ⟨0, rfl⟩) t u
         · exact commutator_mem_c2'4' c c' θ 0 (show Even (0 : ℤ) from ⟨0, rfl⟩) t u
     ·
-      simp only [Gen, Set.mem_setOf_eq] at hx hy
+      simp only [Gen, Set.mem_ofPred_eq] at hx hy
       rcases hx with ⟨t, rfl⟩ | ⟨hie, t, rfl⟩
       · rcases hy with ⟨u, rfl⟩ | ⟨hje, u, rfl⟩
         · exact commutator_mem_r9 c c' θ hθ 0 (show Even (0 : ℤ) from ⟨0, rfl⟩) t u
@@ -104,7 +104,7 @@ private theorem gen_commutator_mem_2 (hθ : ∀ t, θ (c.σ t) = c'.σ (θ t))
         · exact commutator_mem_c2'5 c c' θ 0 (show Even (0 : ℤ) from ⟨0, rfl⟩) t u
         · exfalso; obtain ⟨a, ha⟩ := hje; omega
     ·
-      simp only [Gen, Set.mem_setOf_eq] at hx hy
+      simp only [Gen, Set.mem_ofPred_eq] at hx hy
       rcases hx with ⟨t, rfl⟩ | ⟨hie, t, rfl⟩
       · rcases hy with ⟨u, rfl⟩ | ⟨hje, u, rfl⟩
         · exact commutator_mem_c26 c c' θ 0 (show Even (0 : ℤ) from ⟨0, rfl⟩) t u
@@ -113,7 +113,7 @@ private theorem gen_commutator_mem_2 (hθ : ∀ t, θ (c.σ t) = c'.σ (θ t))
         · exact commutator_mem_c2'6 c c' θ 0 (show Even (0 : ℤ) from ⟨0, rfl⟩) t u
         · exact commutator_mem_c2'6' c c' θ 0 (show Even (0 : ℤ) from ⟨0, rfl⟩) t u
     ·
-      simp only [Gen, Set.mem_setOf_eq] at hx hy
+      simp only [Gen, Set.mem_ofPred_eq] at hx hy
       rcases hx with ⟨t, rfl⟩ | ⟨hie, t, rfl⟩
       · rcases hy with ⟨u, rfl⟩ | ⟨hje, u, rfl⟩
         · exact commutator_mem_r11 c c' θ hθ 0 (show Even (0 : ℤ) from ⟨0, rfl⟩) t u
@@ -122,7 +122,7 @@ private theorem gen_commutator_mem_2 (hθ : ∀ t, θ (c.σ t) = c'.σ (θ t))
         · exact commutator_mem_r10 c c' θ hθ 0 (show Even (0 : ℤ) from ⟨0, rfl⟩) t u
         · exfalso; obtain ⟨a, ha⟩ := hje; omega
     ·
-      simp only [Gen, Set.mem_setOf_eq] at hx hy
+      simp only [Gen, Set.mem_ofPred_eq] at hx hy
       rcases hx with ⟨t, rfl⟩ | ⟨hie, t, rfl⟩
       · rcases hy with ⟨u, rfl⟩ | ⟨hje, u, rfl⟩
         · exact commutator_mem_r15 c c' θ hθ 0 (show Even (0 : ℤ) from ⟨0, rfl⟩) t u
@@ -137,35 +137,35 @@ private theorem gen_commutator_mem_3 (hθ : ∀ t, θ (c.σ t) = c'.σ (θ t))
     ⁅x, y⁆ ∈ DeltaWin c c' θ 3 j := by
     interval_cases j
     ·
-      simp only [Gen, Set.mem_setOf_eq] at hx hy
+      simp only [Gen, Set.mem_ofPred_eq] at hx hy
       rcases hx with ⟨t, rfl⟩ | ⟨hie, t, rfl⟩
       · rcases hy with ⟨u, rfl⟩ | ⟨hje, u, rfl⟩
         · exact commutator_mem_c12 c c' θ 2 (show Even (2 : ℤ) from ⟨1, rfl⟩) t u
         · exact commutator_mem_c12' c c' θ 2 (show Even (2 : ℤ) from ⟨1, rfl⟩) t u
       · exfalso; obtain ⟨a, ha⟩ := hie; omega
     ·
-      simp only [Gen, Set.mem_setOf_eq] at hx hy
+      simp only [Gen, Set.mem_ofPred_eq] at hx hy
       rcases hx with ⟨t, rfl⟩ | ⟨hie, t, rfl⟩
       · rcases hy with ⟨u, rfl⟩ | ⟨hje, u, rfl⟩
         · exact commutator_mem_c13 c c' θ 2 (show Even (2 : ℤ) from ⟨1, rfl⟩) t u
         · exfalso; obtain ⟨a, ha⟩ := hje; omega
       · exfalso; obtain ⟨a, ha⟩ := hie; omega
     ·
-      simp only [Gen, Set.mem_setOf_eq] at hx hy
+      simp only [Gen, Set.mem_ofPred_eq] at hx hy
       rcases hx with ⟨t, rfl⟩ | ⟨hie, t, rfl⟩
       · rcases hy with ⟨u, rfl⟩ | ⟨hje, u, rfl⟩
         · exact commutator_mem_r2 c c' θ hθ 2 (show Even (2 : ℤ) from ⟨1, rfl⟩) t u
         · exact commutator_mem_c14' c c' θ 2 (show Even (2 : ℤ) from ⟨1, rfl⟩) t u
       · exfalso; obtain ⟨a, ha⟩ := hie; omega
     ·
-      simp only [Gen, Set.mem_setOf_eq] at hx hy
+      simp only [Gen, Set.mem_ofPred_eq] at hx hy
       rcases hx with ⟨t, rfl⟩ | ⟨hie, t, rfl⟩
       · rcases hy with ⟨u, rfl⟩ | ⟨hje, u, rfl⟩
         · exact commutator_mem_c15 c c' θ 2 (show Even (2 : ℤ) from ⟨1, rfl⟩) t u
         · exfalso; obtain ⟨a, ha⟩ := hje; omega
       · exfalso; obtain ⟨a, ha⟩ := hie; omega
     ·
-      simp only [Gen, Set.mem_setOf_eq] at hx hy
+      simp only [Gen, Set.mem_ofPred_eq] at hx hy
       rcases hx with ⟨t, rfl⟩ | ⟨hie, t, rfl⟩
       · rcases hy with ⟨u, rfl⟩ | ⟨hje, u, rfl⟩
         · exact commutator_mem_r4 c c' θ hθ 2 (show Even (2 : ℤ) from ⟨1, rfl⟩) t u
@@ -178,7 +178,7 @@ private theorem gen_commutator_mem_4 (hθ : ∀ t, θ (c.σ t) = c'.σ (θ t))
     ⁅x, y⁆ ∈ DeltaWin c c' θ 4 j := by
     interval_cases j
     ·
-      simp only [Gen, Set.mem_setOf_eq] at hx hy
+      simp only [Gen, Set.mem_ofPred_eq] at hx hy
       rcases hx with ⟨t, rfl⟩ | ⟨hie, t, rfl⟩
       · rcases hy with ⟨u, rfl⟩ | ⟨hje, u, rfl⟩
         · exact commutator_mem_c23 c c' θ 2 (show Even (2 : ℤ) from ⟨1, rfl⟩) t u
@@ -187,7 +187,7 @@ private theorem gen_commutator_mem_4 (hθ : ∀ t, θ (c.σ t) = c'.σ (θ t))
         · exact commutator_mem_c2'3 c c' θ 2 (show Even (2 : ℤ) from ⟨1, rfl⟩) t u
         · exfalso; obtain ⟨a, ha⟩ := hje; omega
     ·
-      simp only [Gen, Set.mem_setOf_eq] at hx hy
+      simp only [Gen, Set.mem_ofPred_eq] at hx hy
       rcases hx with ⟨t, rfl⟩ | ⟨hie, t, rfl⟩
       · rcases hy with ⟨u, rfl⟩ | ⟨hje, u, rfl⟩
         · exact commutator_mem_r8 c c' θ hθ 2 (show Even (2 : ℤ) from ⟨1, rfl⟩) t u
@@ -196,7 +196,7 @@ private theorem gen_commutator_mem_4 (hθ : ∀ t, θ (c.σ t) = c'.σ (θ t))
         · exact commutator_mem_c2'4 c c' θ 2 (show Even (2 : ℤ) from ⟨1, rfl⟩) t u
         · exact commutator_mem_c2'4' c c' θ 2 (show Even (2 : ℤ) from ⟨1, rfl⟩) t u
     ·
-      simp only [Gen, Set.mem_setOf_eq] at hx hy
+      simp only [Gen, Set.mem_ofPred_eq] at hx hy
       rcases hx with ⟨t, rfl⟩ | ⟨hie, t, rfl⟩
       · rcases hy with ⟨u, rfl⟩ | ⟨hje, u, rfl⟩
         · exact commutator_mem_r9 c c' θ hθ 2 (show Even (2 : ℤ) from ⟨1, rfl⟩) t u
@@ -205,7 +205,7 @@ private theorem gen_commutator_mem_4 (hθ : ∀ t, θ (c.σ t) = c'.σ (θ t))
         · exact commutator_mem_c2'5 c c' θ 2 (show Even (2 : ℤ) from ⟨1, rfl⟩) t u
         · exfalso; obtain ⟨a, ha⟩ := hje; omega
     ·
-      simp only [Gen, Set.mem_setOf_eq] at hx hy
+      simp only [Gen, Set.mem_ofPred_eq] at hx hy
       rcases hx with ⟨t, rfl⟩ | ⟨hie, t, rfl⟩
       · rcases hy with ⟨u, rfl⟩ | ⟨hje, u, rfl⟩
         · exact commutator_mem_c26 c c' θ 2 (show Even (2 : ℤ) from ⟨1, rfl⟩) t u
@@ -220,21 +220,21 @@ private theorem gen_commutator_mem_5 (hθ : ∀ t, θ (c.σ t) = c'.σ (θ t))
     ⁅x, y⁆ ∈ DeltaWin c c' θ 5 j := by
     interval_cases j
     ·
-      simp only [Gen, Set.mem_setOf_eq] at hx hy
+      simp only [Gen, Set.mem_ofPred_eq] at hx hy
       rcases hx with ⟨t, rfl⟩ | ⟨hie, t, rfl⟩
       · rcases hy with ⟨u, rfl⟩ | ⟨hje, u, rfl⟩
         · exact commutator_mem_c12 c c' θ 4 (show Even (4 : ℤ) from ⟨2, rfl⟩) t u
         · exact commutator_mem_c12' c c' θ 4 (show Even (4 : ℤ) from ⟨2, rfl⟩) t u
       · exfalso; obtain ⟨a, ha⟩ := hie; omega
     ·
-      simp only [Gen, Set.mem_setOf_eq] at hx hy
+      simp only [Gen, Set.mem_ofPred_eq] at hx hy
       rcases hx with ⟨t, rfl⟩ | ⟨hie, t, rfl⟩
       · rcases hy with ⟨u, rfl⟩ | ⟨hje, u, rfl⟩
         · exact commutator_mem_c13 c c' θ 4 (show Even (4 : ℤ) from ⟨2, rfl⟩) t u
         · exfalso; obtain ⟨a, ha⟩ := hje; omega
       · exfalso; obtain ⟨a, ha⟩ := hie; omega
     ·
-      simp only [Gen, Set.mem_setOf_eq] at hx hy
+      simp only [Gen, Set.mem_ofPred_eq] at hx hy
       rcases hx with ⟨t, rfl⟩ | ⟨hie, t, rfl⟩
       · rcases hy with ⟨u, rfl⟩ | ⟨hje, u, rfl⟩
         · exact commutator_mem_r2 c c' θ hθ 4 (show Even (4 : ℤ) from ⟨2, rfl⟩) t u
@@ -247,7 +247,7 @@ private theorem gen_commutator_mem_6 (hθ : ∀ t, θ (c.σ t) = c'.σ (θ t))
     ⁅x, y⁆ ∈ DeltaWin c c' θ 6 j := by
     interval_cases j
     ·
-      simp only [Gen, Set.mem_setOf_eq] at hx hy
+      simp only [Gen, Set.mem_ofPred_eq] at hx hy
       rcases hx with ⟨t, rfl⟩ | ⟨hie, t, rfl⟩
       · rcases hy with ⟨u, rfl⟩ | ⟨hje, u, rfl⟩
         · exact commutator_mem_c23 c c' θ 4 (show Even (4 : ℤ) from ⟨2, rfl⟩) t u
@@ -256,7 +256,7 @@ private theorem gen_commutator_mem_6 (hθ : ∀ t, θ (c.σ t) = c'.σ (θ t))
         · exact commutator_mem_c2'3 c c' θ 4 (show Even (4 : ℤ) from ⟨2, rfl⟩) t u
         · exfalso; obtain ⟨a, ha⟩ := hje; omega
     ·
-      simp only [Gen, Set.mem_setOf_eq] at hx hy
+      simp only [Gen, Set.mem_ofPred_eq] at hx hy
       rcases hx with ⟨t, rfl⟩ | ⟨hie, t, rfl⟩
       · rcases hy with ⟨u, rfl⟩ | ⟨hje, u, rfl⟩
         · exact commutator_mem_r8 c c' θ hθ 4 (show Even (4 : ℤ) from ⟨2, rfl⟩) t u
@@ -265,13 +265,13 @@ private theorem gen_commutator_mem_6 (hθ : ∀ t, θ (c.σ t) = c'.σ (θ t))
         · exact commutator_mem_c2'4 c c' θ 4 (show Even (4 : ℤ) from ⟨2, rfl⟩) t u
         · exact commutator_mem_c2'4' c c' θ 4 (show Even (4 : ℤ) from ⟨2, rfl⟩) t u
 
-private theorem gen_commutator_mem_7 (hθ : ∀ t, θ (c.σ t) = c'.σ (θ t))
+private theorem gen_commutator_mem_7 (_hθ : ∀ t, θ (c.σ t) = c'.σ (θ t))
     (j : ℤ) (hij : (7 : ℤ) < j) (hj : j ≤ 8)
     {x y : G × G'} (hx : x ∈ Gen c c' θ 7) (hy : y ∈ Gen c c' θ j) :
     ⁅x, y⁆ ∈ DeltaWin c c' θ 7 j := by
     interval_cases j
     ·
-      simp only [Gen, Set.mem_setOf_eq] at hx hy
+      simp only [Gen, Set.mem_ofPred_eq] at hx hy
       rcases hx with ⟨t, rfl⟩ | ⟨hie, t, rfl⟩
       · rcases hy with ⟨u, rfl⟩ | ⟨hje, u, rfl⟩
         · exact commutator_mem_c12 c c' θ 6 (show Even (6 : ℤ) from ⟨3, rfl⟩) t u

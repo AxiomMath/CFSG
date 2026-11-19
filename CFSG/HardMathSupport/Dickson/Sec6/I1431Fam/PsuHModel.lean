@@ -32,7 +32,7 @@ theorem t6psuh_scalar_apply (δ : Eˣ) (w : W) :
 theorem t6psuh_scalar_comm (δ : Eˣ) (g : LinearMap.GeneralLinearGroup E W) :
     t6psuh_scalar δ * g = g * t6psuh_scalar δ := by
   apply Units.ext
-  simp only [Units.val_mul, t6psuh_scalar, Units.coe_map, MonoidHom.coe_coe]
+  simp only [Units.val_mul, t6psuh_scalar, Units.coe_map, _root_.MonoidHom.coe_ofClass]
   exact Algebra.commutes (δ : E) (g : Module.End E W)
 
 theorem t6psuh_det_scalar [FiniteDimensional E W] (δ : Eˣ) :

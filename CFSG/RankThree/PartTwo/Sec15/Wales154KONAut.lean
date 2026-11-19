@@ -39,7 +39,7 @@ private theorem exists_perfect_le_centralizer {Y : Type*} [Group Y] [Finite Y]
     calc v * o * g = g * (v * o) * g⁻¹ * g := by rw [hfx]
       _ = g * (v * o) := by group
   set N : Subgroup V := O.subgroupOf V with hN
-  haveI : N.Normal := ⟨fun n hn v => by
+  have : N.Normal := ⟨fun n hn v => by
     rw [hN, mem_subgroupOf] at hn ⊢
     simpa using hVO v v.2 n hn⟩
   set C : Subgroup Y := V ⊓ centralizer ({g} : Set Y)
@@ -57,7 +57,7 @@ private theorem exists_perfect_le_centralizer {Y : Type*} [Group Y] [Finite Y]
     rw [h1]
     exact O.inv_mem ho
   obtain ⟨n, -, hn⟩ := CFSG.exists_perfectResidual_eq_derivedSeries (G := C)
-  haveI : Group.IsPerfect (derivedSeries C n) :=
+  have : Group.IsPerfect (derivedSeries C n) :=
     isPerfect_iff.mpr (by rw [← derivedSeries_succ, ← hn])
   have hmap : (derivedSeries C n).map ψ = ⊤ := by
     rw [map_derivedSeries_eq hψ, Group.IsPerfect.derivedSeries_eq_top]
@@ -85,22 +85,22 @@ private theorem false_of_outer_fix {Y : Type} [Group Y] [Finite Y] (e : Y ≃* N
     (hτ2 : τ * τ = 1) (hτ : τ ∉ OuterAutomorphisms.inner Y) (hτV : ∀ v ∈ V₀, τ v = v)
     (hτg : τ g = g) : False := by
   classical
-  haveI := hV₀p
+  have := hV₀p
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set Cg := centralizer ({g} : Set Y)
   obtain ⟨E, hEn, ⟨eE⟩, hidx⟩ :=
     CFSG.LocalAnalysis.GLTheoremA.S8.L84.alt6_normal_centralizer_ON e hg
-  haveI := hEn
+  have := hEn
   obtain ⟨-, hZE, -⟩ := CFSG.LocalAnalysis.GLTheoremA.S8.L84.alt6_split eE hidx
   set W : Subgroup Cg := V₀.subgroupOf Cg
   have eW : W ≃* V₀ := subgroupOfEquivOfLe hV₀
-  haveI : Group.IsPerfect W :=
+  have : Group.IsPerfect W :=
     Group.IsPerfect.ofSurjective (f := eW.symm.toMonoidHom) eW.symm.surjective
   have hWE : W ≤ E := by
-    have hab := IsPGroup.commutative_of_card_eq_prime_sq (p := 3) (G := Cg ⧸ E)
-      (by rw [← index_eq_card, hidx]; norm_num)
-    haveI : Group.IsPerfect (W.map (QuotientGroup.mk' E)) := Group.IsPerfect.map _
-    haveI : IsMulCommutative (W.map (QuotientGroup.mk' E)) :=
+    have hab := (IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3) (G := Cg ⧸ E)
+      (by rw [← index_eq_card, hidx]; norm_num)).is_comm.comm
+    have : Group.IsPerfect (W.map (QuotientGroup.mk' E)) := Group.IsPerfect.map _
+    have : IsMulCommutative (W.map (QuotientGroup.mk' E)) :=
       ⟨⟨fun a b => Subtype.ext (hab a b)⟩⟩
     intro w hw
     have h1 : (⟨QuotientGroup.mk' E w, mem_map_of_mem _ hw⟩ : W.map (QuotientGroup.mk' E)) = 1 :=
@@ -121,7 +121,7 @@ private theorem false_of_outer_fix {Y : Type} [Group Y] [Finite Y] (e : Y ≃* N
     exact congrArg Subtype.val h1
   set W' : Subgroup E := W.subgroupOf E
   have eW' : W' ≃* W := subgroupOfEquivOfLe hWE
-  haveI hW'p : Group.IsPerfect W' :=
+  have hW'p : Group.IsPerfect W' :=
     Group.IsPerfect.ofSurjective (f := eW'.symm.toMonoidHom) eW'.symm.surjective
   have hcard : Nat.card W' = Nat.card V₀ :=
     (Nat.card_congr eW'.toEquiv).trans (Nat.card_congr eW.toEquiv)
@@ -171,8 +171,8 @@ theorem ks154ON_of_core (h : KS154ONCore) : KS154ON := by
   intro Q _ _ hQ htc K hKp h5 α hα3 _ hαO P hP hKP hαP
   unfold KS154ONCore at h
   classical
-  haveI : Group.IsPerfect Q := hQ.1
-  haveI : Group.IsPerfect K := hKp
+  have : Group.IsPerfect Q := hQ.1
+  have : Group.IsPerfect K := hKp
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
@@ -180,7 +180,7 @@ theorem ks154ON_of_core (h : KS154ONCore) : KS154ON := by
     Finite.of_injective (fun f : MulAut Q => (f : Q → Q)) DFunLike.coe_injective
   obtain ⟨hZ3, ⟨φ⟩⟩ := htc
   set Z := center Q with hZ
-  haveI : Finite (Q ⧸ Z) := Finite.of_surjective _ (QuotientGroup.mk'_surjective Z)
+  have : Finite (Q ⧸ Z) := Finite.of_surjective _ (QuotientGroup.mk'_surjective Z)
   set π : Q →* Q ⧸ Z := QuotientGroup.mk' Z with hπ
   set c : Q →* MulAut Q := MulAut.conj with hc
   have hπZ : ∀ q : Q, π q = 1 ↔ q ∈ Z := fun q => by
@@ -236,7 +236,7 @@ theorem ks154ON_of_core (h : KS154ONCore) : KS154ON := by
       by simp⟩
   set V : Subgroup (Q ⧸ Z) := K.map π
   set O : Subgroup (Q ⧸ Z) := OK.map π
-  haveI : Group.IsPerfect V := Group.IsPerfect.map π
+  have : Group.IsPerfect V := Group.IsPerfect.map π
   have hVO : ∀ v ∈ V, ∀ o ∈ O, v * o * v⁻¹ ∈ O := by
     rintro _ ⟨k, hk, rfl⟩ _ ⟨p, hp, rfl⟩
     exact ⟨k * p * k⁻¹, hKOK k hk p hp, by simp only [map_mul, map_inv]⟩

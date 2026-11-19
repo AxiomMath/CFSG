@@ -12,8 +12,8 @@ open CFSG.EvenSporadicStandard.HNRecog
 
 theorem perp_of_hyps (hI : TwoHSInterface) {G : Type} [Group G] [Finite G] {a z : G}
     (h : IsF5Type a z) (hF1 : Vert Fusion1Facts a z) (hF2 : Vert Fusion2Facts a z)
-    (hF3 : Vert Fusion3Facts a z) (hPic : Vert A8Pictures a z) (hT3 : Vert TableIIIFacts a z)
-    (hT4 : Vert TableIVFacts a z) (hPar : Vert ParityFacts a z) : PerpFacts a z := by
+    (_hF3 : Vert Fusion3Facts a z) (_hPic : Vert A8Pictures a z) (hT3 : Vert TableIIIFacts a z)
+    (hT4 : Vert TableIVFacts a z) (_hPar : Vert ParityFacts a z) : PerpFacts a z := by
   have hT4a : TableIVFacts a z := hT4.self
   have ha2 : a ^ 2 = 1 := by rw [← h.orderOf_a]; exact pow_orderOf_eq_one a
   have hsq : ∀ {x : G}, IsConj a x → x ^ 2 = 1 := fun {x} hx => by

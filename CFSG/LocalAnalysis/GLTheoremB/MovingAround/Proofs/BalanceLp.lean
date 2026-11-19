@@ -30,7 +30,7 @@ theorem exists_pGroup_image {G A : Type*} [Group G] [Group A] [Finite G] {p : �
   obtain ⟨S₀⟩ : Nonempty (Sylow p W) := Sylow.nonempty
   have htop : ((S₀.mapSurjective hf : Sylow p D) : Subgroup D) = ⊤ :=
     le_antisymm le_top ((S₀.mapSurjective hf).maximal_isPGroup.2 (hD.to_subgroup ⊤) le_top)
-  refine ⟨(S₀ : Subgroup W).map W.subtype, S₀.isPGroup'.map _, ?_, ?_⟩
+  refine ⟨(S₀ : Subgroup W).map W.subtype, S₀.isPGroup.map _, ?_, ?_⟩
   · rintro _ ⟨w, -, rfl⟩
     exact w.2
   · intro d hd
@@ -104,7 +104,7 @@ theorem linear_heis_core {F : Type} [Field F] [Finite F] {p : ℕ} (hp : p.Prime
     (hDc : Nat.card D = p ^ 2) (hnb : ¬ IsLocallyOTwoBalanced p 2 D) :
     ∃ P : Subgroup (GL (Fin p) F), IsPGroup p P ∧ (∃ x ∈ P, ∃ y ∈ P, x * y ≠ y * x) ∧
       (∀ g ∈ P, conjAut p F g ∈ D) ∧ ∀ d ∈ D, ∃ g ∈ P, conjAut p F g = d := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hn : 3 ≤ p := by have := hp.two_le; omega
   obtain ⟨H, hH, hDH, hΔ⟩ := exists_delta_of_not_balanced hp hDc hnb
   have hΔ' : localDeltaIn p H D ≠ ⊥ := fun h0 =>
@@ -149,7 +149,7 @@ theorem unitary_heis_core {ℓ f : ℕ} {K : Type} [Field K] (h : UnitaryFieldDa
       (∀ g ∈ P, primeFormConjHom h (idGram K p) g ∈ D) ∧
         ∀ d ∈ D, ∃ g ∈ P, primeFormConjHom h (idGram K p) g = d := by
   have := h.finite
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hn : 3 ≤ p := by have := hp.two_le; omega
   obtain ⟨H, hH, hDH, hΔ⟩ := exists_delta_of_not_balanced hp hDc hnb
   have hΔ' : localDeltaIn p H D ≠ ⊥ := fun h0 =>

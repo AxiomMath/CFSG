@@ -27,7 +27,7 @@ theorem residualAt_of_mulEquiv {T T' : Type} [Group T] [Group T'] (e : T ≃* T'
 theorem residualSL3_of_one_le :
     ∀ m : ℕ, 1 ≤ m → ResidualAt (projSL 3 (GaloisField 2 (2 * m))) := by
   intro m hm
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard : Nat.card (GaloisField 2 (2 * m)) = 2 ^ (2 * m) :=
     GaloisField.card 2 (2 * m) (by omega)
   have h4 : 4 ≤ Nat.card (GaloisField 2 (2 * m)) := by

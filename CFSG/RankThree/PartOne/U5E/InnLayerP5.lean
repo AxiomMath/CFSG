@@ -103,7 +103,7 @@ theorem odd_card_centralizer_of_coprime {p : ℕ} {A : Subgroup G} {c : G} {L E 
       (hbot.trans (Subgroup.map_bot _).symm)
   have hS'2 : IsPGroup 2 ↥((S : Subgroup ↥(Subgroup.centralizer (I : Set G))).map
       (Subgroup.centralizer (I : Set G)).subtype) :=
-    S.isPGroup'.map (Subgroup.centralizer (I : Set G)).subtype
+    S.isPGroup.map (Subgroup.centralizer (I : Set G)).subtype
   have key : ∀ y : ↥E, ∀ g : G, g ∈ (S : Subgroup ↥(Subgroup.centralizer (I : Set G))).map
       (Subgroup.centralizer (I : Set G)).subtype →
       (y : G) * g * (y : G)⁻¹ ∈ (S : Subgroup ↥(Subgroup.centralizer (I : Set G))).map

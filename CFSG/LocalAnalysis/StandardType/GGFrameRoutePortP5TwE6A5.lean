@@ -35,7 +35,7 @@ theorem exists_isRoot_corootVec_eq {v : X3}
       ∑ i, v i * ((α i : ℤ) : ZMod 3) = 0
     have hS : kerRoots v = ↑S := by
       ext α
-      simp only [kerRoots, Set.mem_setOf_eq, S, Finset.mem_coe, Finset.mem_filter,
+      simp only [kerRoots, Set.mem_ofPred_eq, S, Finset.mem_coe, Finset.mem_filter,
         mem_rootFinset, pairVec]
     rw [CFSG.HardMathSupport.Solomon.Coordinator.ChevQ.E6Three.e6KerCount, hS,
       Set.ncard_coe_finset]
@@ -178,7 +178,7 @@ theorem fixedSubgroup_twConj_eq
 theorem normal_solvable_of_eq_sup_cyclic {G : Type*} [Group G] {C X D : Subgroup G}
     (hC : C = X ⊔ D) (hX : IsCyclic X) (hXD : X ≤ Subgroup.centralizer (D : Set G)) :
     D ≤ C ∧ (D.subgroupOf C).Normal ∧
-      ∀ _ : (D.subgroupOf C).Normal, IsSolvable (↥C ⧸ D.subgroupOf C) := by
+      ∀ _ : (D.subgroupOf C).Normal, Group.IsSolvable (↥C ⧸ D.subgroupOf C) := by
   subst hC
   have hXn : X ≤ Subgroup.normalizer (D : Set G) :=
     hXD.trans (Subgroup.centralizer_le_normalizer (D : Set G))
@@ -205,7 +205,7 @@ theorem normal_solvable_of_eq_sup_cyclic {G : Type*} [Group G] {C X D : Subgroup
         exact hd
       rw [hd1, mul_one]
       rfl
-    refine isSolvable_of_comm fun a b => ?_
+    refine _root_.Group.isSolvable_of_comm fun a b => ?_
     obtain ⟨x, rfl⟩ := hf a
     obtain ⟨y, rfl⟩ := hf b
     simpa only [map_mul] using congrArg f (hX.isMulCommutative.is_comm.comm x y)

@@ -17,7 +17,6 @@ theorem certificate26682 :
     ∀ v ∈ onL, ∀ v' ∈ onL, v * v = 1 → v' * v' = 1 → v ≠ 1 → v' ≠ 1 →
       v ∉ (Subgroup.center ↥onL).map onL.subtype → v' ∉ (Subgroup.center ↥onL).map onL.subtype →
       ∃ g ∈ onL, g * v * g⁻¹ = v' := by
-  intros
   obtain ⟨hqq, x, c, h⟩ := KernelSpor.ON26682.row26682
   obtain ⟨hxL, hxx, hx1, hxc, hcP, hcz, hgen, hone⟩ := h
   exact ⟨hqq, ⟨x, c, hxL, hxx, hx1, hxc, hcP, hcz, hgen⟩, hone⟩

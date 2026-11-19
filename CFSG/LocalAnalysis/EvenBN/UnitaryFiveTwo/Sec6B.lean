@@ -164,7 +164,7 @@ theorem le_normalizer_liftFixG (h : d.Hyp) {Γ : Subgroup G}
     rw [e]
     exact mul_mem (h.Y_le_liftFixG hΓ hc) hb
 
-theorem Γ_le_normalizer_liftFixG_of_comm (h : d.Hyp) {Γ₁ Γ₂ : Subgroup G}
+theorem Γ_le_normalizer_liftFixG_of_comm (_h : d.Hyp) {Γ₁ Γ₂ : Subgroup G}
     (hΓ₁ : Γ₁ ≤ ModSplit.normDY d.D₂ d.Y) (hΓ₂ : Γ₂ ≤ ModSplit.normDY d.D₂ d.Y)
     (hcomm : ∀ a ∈ Γ₁, ∀ b ∈ Γ₂, a * b = b * a) :
     Γ₁ ≤ normalizer (ModSplit.liftFixG d.D₂ d.Y Γ₂ : Set G) := fun g hg =>

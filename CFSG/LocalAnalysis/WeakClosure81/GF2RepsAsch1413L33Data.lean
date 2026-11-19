@@ -30,7 +30,7 @@ theorem asch1413_l33_data {Q : Type} [Group Q] [Finite Q] {L A : Subgroup Q}
     change Nat.card (A.map θ) = 4
     rw [Subgroup.card_map_of_injective hθ, hA]
   have hAe' : IsElemAbelian 2 A' := by
-    haveI : IsMulCommutative ↥A := hAe.1
+    have : IsMulCommutative ↥A := hAe.1
     refine ⟨Subgroup.map_isMulCommutative (H := A) θ, ?_⟩
     intro x hx
     obtain ⟨x0, hx0, hx0eq⟩ := Subgroup.mem_map.mp hx

@@ -64,9 +64,9 @@ theorem bridge_B2 (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeIndex.B 2 q).Va
   rcases CFSG.Models.lieModel_B 2 q hv (MulEquiv.refl _) with hm | hm
   · rw [h1, h2] at hm
     obtain ⟨-, K, _, _, hK, ⟨e'⟩⟩ := hm.statedClassicalModel (by decide)
-    haveI : Fintype K := Fintype.ofFinite K
-    haveI : Fintype (GaloisField 2 3) := Fintype.ofFinite (GaloisField 2 3)
-    haveI : CharP K 2 := charP_two_of_card_eight K (by rw [← Nat.card_eq_fintype_card, hK]; norm_num)
+    have : Fintype K := Fintype.ofFinite K
+    have : Fintype (GaloisField 2 3) := Fintype.ofFinite (GaloisField 2 3)
+    have : CharP K 2 := charP_two_of_card_eight K (by rw [← Nat.card_eq_fintype_card, hK]; norm_num)
     have hcard : Fintype.card K = Fintype.card (GaloisField 2 3) := by
       rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hK,
         GaloisField.card 2 3 (by norm_num)]
@@ -145,7 +145,7 @@ theorem Pm_ne_one_of_ne_one {K : Type} [Field K] [CharP K 2] {A : ↥(StatedSp 2
   fun hP => hA1 (eq_one_of_Pm_eq_one hP)
 
 theorem isSimple_H : IsSimpleGroup ↥(StatedSp 2 (GaloisField 2 3)) := by
-  haveI : Fintype (GaloisField 2 3) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 3) := Fintype.ofFinite _
   have h4 : 4 ≤ Nat.card (GaloisField 2 3) := by
     rw [GaloisField.card 2 3 (by norm_num)]
     norm_num
@@ -156,16 +156,16 @@ theorem downLe_of_parts {S : Type} [Group S] (e : S ≃* ↥(StatedSp 2 (GaloisF
     (hout : ∀ α : MulAut S, α ^ 3 = 1 → α ∉ (MulAut.conj : S →* MulAut S).range →
       ∀ I : Subgroup S, GLAPComponent 3 (fixSubgroup α) I → kLevel 3 (PSimple 3 I) ≤ 2) :
     DownLe 3 2 S := by
-  haveI : Fintype (GaloisField 2 3) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 3) := Fintype.ofFinite _
   have hK : Nat.card (GaloisField 2 3) = 8 := by
     rw [GaloisField.card 2 3 (by norm_num)]
     norm_num
   have hcard : Fintype.card (GaloisField 2 3) = 8 := by
     rw [← Nat.card_eq_fintype_card]
     exact hK
-  haveI : Finite S := Finite.of_equiv _ e.symm.toEquiv
-  haveI : IsSimpleGroup ↥(StatedSp 2 (GaloisField 2 3)) := isSimple_H
-  haveI : IsSimpleGroup S := e.isSimpleGroup
+  have : Finite S := Finite.of_equiv _ e.symm.toEquiv
+  have : IsSimpleGroup ↥(StatedSp 2 (GaloisField 2 3)) := isSimple_H
+  have : IsSimpleGroup S := e.isSimpleGroup
   have hnc : ¬ IsMulCommutative S := not_comm_of_mulEquiv e not_comm_H
   have hZ : Subgroup.center S = ⊥ := center_eq_bot_of_simple' hnc
   have h3S : 3 ∣ Nat.card S := by
@@ -193,7 +193,7 @@ theorem downLe_of_parts {S : Type} [Group S] (e : S ≃* ↥(StatedSp 2 (GaloisF
         rcases CFSG.Open.IsSubnormal.eq_bot_or_top hI.2.1 with h | h
         · exact absurd h (glaPComponent_ne_bot' hI)
         · exact h
-      haveI : IsSimpleGroup (⊤ : Subgroup S) := Subgroup.topEquiv.isSimpleGroup
+      have : IsSimpleGroup (⊤ : Subgroup S) := Subgroup.topEquiv.isSimpleGroup
       have h3top : 3 ∣ Nat.card (⊤ : Subgroup S) := by
         rw [Subgroup.card_top]
         exact h3S

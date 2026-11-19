@@ -26,7 +26,7 @@ theorem eq_of_inClassXBlock {X Y B : Subgroup G} (hX : X = Opp 3 Y)
     (CFSG.AGLEmbedding.NoXBlock.isShortGroup_of_isShort2 hBX.1).residual_eq
   have hBXle : B ≤ X := by
     obtain ⟨k, hk⟩ := hidx
-    haveI : (X.subgroupOf Y).Normal := (normal_subgroupOf_iff_le_normalizer hXY).2 hYX
+    have : (X.subgroupOf Y).Normal := (normal_subgroupOf_iff_le_normalizer hXY).2 hYX
     have hN : (X.subgroupOf B).Normal :=
       ⟨fun n hn b => (mem_normalizer_iff.1 (hYX (hBY b.2)) n).1 hn⟩
     have htop := CFSG.CGT.PushingUpLit.oResidualTwo_eq_top_iff.1 hres (X.subgroupOf B) hN
@@ -69,7 +69,7 @@ theorem eq_of_inClassXBlock {X Y B : Subgroup G} (hX : X = Opp 3 Y)
     CFSG.CGT.PushingUpLit.ThmOne.le_normalizer_of_isSubnormal_of_isPGroup hres hBXle hsnX
       (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 X) (CFSG.LieType.BorelTits.pCoreOf_le 2 X)
       (hBXle.trans (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 X))
-  haveI hBn : (B.subgroupOf X).Normal := by
+  have hBn : (B.subgroupOf X).Normal := by
     rw [← normalizer_eq_top_iff, eq_top_iff, ← hsup]
     refine sup_le le_normalizer fun o ho => mem_normalizer_iff.2 fun x => ?_
     exact mem_normalizer_iff.1 (hON (mem_map_of_mem X.subtype ho)) (x : G)
@@ -131,7 +131,7 @@ theorem r912A5_of_inputs (D : Data G) (h99 : R99 D) (h910 : R910 D)
     by_contra hS
     have hcgs := cgsIn_ne_of_isAlt (opp_le_self 3 Y) hYX hidx hSY hA5
       fun C hCS hC hchar => not_le_normalizer_of_hyp97 h910 h9R5 hY hS hCS hC hchar
-    haveI := D.standing.simple
+    have := D.standing.simple
     have hYtop : Y ≠ ⊤ := fun h => CFSG.PreuniquenessRankFour.Helpers.twoLocal_ne_top
       D.standing.nonab D.maxLocal.1 (top_le_iff.1 (h ▸ hY.1.1.1))
     have hC2 : CFSG.QuasithinUnique.CharTwo Y := by

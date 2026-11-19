@@ -69,7 +69,7 @@ theorem qTwoShape_eq_fork_triple {m : ℕ} (hm : 3 ≤ m)
   apply Set.eq_of_subset_of_ncard_le hsub
   have hcard : ({⟨m - 2, by omega⟩, ⟨m - 1, by omega⟩, Fin.last m} :
       Set (Fin (m + 1))).ncard = 3 := by
-    simp [Set.ncard_insert_of_notMem, Set.ncard_pair, Fin.ext_iff, show m - 2 ≠ m - 1 by omega,
+    simp [Set.ncard_insert_of_notMem, Fin.ext_iff, show m - 2 ≠ m - 1 by omega,
       show m - 2 ≠ m by omega, show m - 1 ≠ m by omega]
   rw [hcard]
   exact qTwoShape_ncard_le_three_of_fork_mem hm hC ha hb

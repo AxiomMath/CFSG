@@ -30,6 +30,7 @@ namespace Wales1411W
 
 variable {M : Type} [Group M] [Finite M]
 
+omit [Finite M] in
 theorem le_normalizer_pCoreOf_centralizer {E : Subgroup M} (hE : IsMulCommutative E)
     {x : M} (hx : x ∈ E) :
     E ≤ Subgroup.normalizer (CFSG.Open.pCoreOf 2 (Subgroup.centralizer ({x} : Set M)) : Set M) ∧

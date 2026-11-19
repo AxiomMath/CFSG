@@ -15,7 +15,7 @@ variable {G : Type} [Group G] [Finite G]
 private theorem s16h_sl4tf_map_conj_one {T : Type*} [Group T] (X : Subgroup T) :
     X.map (MulAut.conj (1 : T)).toMonoidHom = X := by
   ext x
-  simp [Subgroup.mem_map, MulAut.conj_apply]
+  simp [Subgroup.mem_map]
 
 private theorem s16h_sl4tf_map_conj_mul {T : Type*} [Group T] (X : Subgroup T) (x y : T) :
     (X.map (MulAut.conj x).toMonoidHom).map (MulAut.conj y).toMonoidHom =
@@ -26,7 +26,7 @@ private theorem s16h_sl4tf_map_conj_mul {T : Type*} [Group T] (X : Subgroup T) (
   simp [MulAut.conj_apply, mul_assoc]
 
 private theorem s16h_sl4tf_exists_conj_eq {D : Data G} {V₀ V L : Subgroup G}
-    (h : Hyp151 D V₀ V L) (hV : IsElemAbelian 2 V) {φ : MulAut (Vtil V₀ V hV)}
+    (_h : Hyp151 D V₀ V L) (hV : IsElemAbelian 2 V) {φ : MulAut (Vtil V₀ V hV)}
     (hφ : φ ∈ Mbar D.M V₀ V hV) :
     ∃ m : G, m ∈ D.M ∧ barSub V₀ V hV (conjSubgroup L m) =
       (barSub V₀ V hV L).map (MulAut.conj φ).toMonoidHom := by

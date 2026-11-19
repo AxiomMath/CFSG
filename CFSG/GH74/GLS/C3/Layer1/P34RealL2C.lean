@@ -143,7 +143,7 @@ theorem autP34_of_L2
   obtain ⟨e', N, hNT⟩ := ivk_1_2a_exists F hF K e T'
   have hBN : B ≤ (N.T : Subgroup (MulAut K)) := by rw [hNT]; exact hBT'
   have hPeq : N.P = B ⊓ innAut K :=
-    hSyl.eq_of_le (inf_le_inf_right _ hBN) inf_le_right N.T.isPGroup'.to_inf_left
+    hSyl.eq_of_le (inf_le_inf_right _ hBN) inf_le_right N.T.isPGroup.to_inf_left
   have hαα : α * α = 1 := by
     have := pow_orderOf_eq_one α
     rwa [hα2, sq] at this

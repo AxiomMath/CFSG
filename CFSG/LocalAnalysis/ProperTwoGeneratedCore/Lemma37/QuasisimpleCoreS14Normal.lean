@@ -150,7 +150,7 @@ theorem exists_sylowPlaced (hz : FourGen Q z) (h : Setting J Q B) {w : J}
   set P := (P₁ : Subgroup M₁).map M₁.subtype with hP
   have hwP : w ∈ P := ⟨⟨w, hwM⟩, hwP₁ (Subgroup.mem_zpowers _), rfl⟩
   have hPM : P ≤ M₁ := Subgroup.map_subtype_le _
-  have hP2 : IsPGroup 2 P := P₁.isPGroup'.map _
+  have hP2 : IsPGroup 2 P := P₁.isPGroup.map _
   have hPcard : Nat.card P = Nat.card (P₁ : Subgroup M₁) :=
     Subgroup.card_map_of_injective M₁.subtype_injective
   have hPmax : ∀ P' ≤ M₁, IsPGroup 2 P' → Nat.card P' ≤ Nat.card P := fun P' hP' hP'2 => by
@@ -159,7 +159,7 @@ theorem exists_sylowPlaced (hz : FourGen Q z) (h : Setting J Q B) {w : J}
   have hQmax : ∀ P' ≤ NV, IsPGroup 2 P' → Nat.card P' ≤ Nat.card (Q : Subgroup J) :=
     fun P' _ hP' => card_le_card_sylow_of_isPGroup Q hP'
   obtain ⟨n, hnNV, hn⟩ :=
-    exists_conj_mem_of_card_le hQNV Q.isPGroup' hQmax (hPM.trans inf_le_left) hP2
+    exists_conj_mem_of_card_le hQNV Q.isPGroup hQmax (hPM.trans inf_le_left) hP2
   refine ⟨n, hnNV, hn w hwP, ?_, ?_⟩
   · have hwc : w * (n * z * n⁻¹) = (n * z * n⁻¹) * w := by
       rcases hz.conj_eq_of_mem_normalizer h hnNV with h1 | h1 <;> rw [h1]

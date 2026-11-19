@@ -186,7 +186,7 @@ theorem moving_theta_odd_core_quotient {p : ℕ} (hp : p.Prime) (hodd : p ≠ 2)
   obtain ⟨P, hP⟩ := CFSG.SolvableHall.exists_invariant_sylow (p := p) (A := A) (H := N) hNp 2
   have hPfix : ∀ a : A, ∀ x ∈ (P : Subgroup N), a • (x : L) = x := by
     have hU := hcent ((P : Subgroup N).map N.subtype) (Subgroup.map_subtype_le _)
-      (P.isPGroup'.map _) (by
+      (P.isPGroup.map _) (by
         rintro a _ ⟨y, hy, rfl⟩
         exact ⟨a • y, hP a y hy, rfl⟩)
     intro a x hx

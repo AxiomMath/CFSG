@@ -15,8 +15,8 @@ open CFSG.AGLEmbeddingD2.Tits.S3AmalgamBound.ThreeRankCls (statedClassical_of_li
 theorem k331c_two_ne_zero {K : Type} [Field K] [Finite K] {p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hf : f ≠ 0) (hK : Nat.card K = p ^ f) : (2 : K) ≠ 0 := by
   intro h
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h
   obtain ⟨n, -, hn⟩ := FiniteField.card K 2
   have h1 : p ∣ 2 ^ (n : ℕ) := by
     rw [← hn, ← Nat.card_eq_fintype_card, hK]
@@ -26,8 +26,8 @@ theorem k331c_two_ne_zero {K : Type} [Field K] [Finite K] {p f : ℕ} (hp : p.Pr
 theorem k331c_pRank_three_psl_two_le_one {K : Type} [Field K] [Finite K] {f : ℕ}
     (hK : Nat.card K = 2 ^ f) (hf : 3 ≤ f) :
     CFSG.Open.pRank 3 (⊤ : Subgroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) K)) ≤ 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h7 : 7 ≤ Nat.card K := by
     rw [hK]
     exact (Nat.pow_le_pow_right (by norm_num) hf).trans' (by norm_num)

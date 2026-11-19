@@ -17,6 +17,7 @@ open CFSG CFSG.Assembly
 
 variable {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {x : G} {L D J : Subgroup G} {y : G}
 
+omit [Finite G] in
 theorem ggTPNMarked_atL_qTwo (hL2 : GGInnerDiagOnLabel GGLabQTwo 3 Bs L)
     (hN : Bs ≤ Subgroup.normalizer (L : Set G)) :
     GGTPNMarked 3 (fun _ _ => True) (ggAutsOf L Bs hN) := by

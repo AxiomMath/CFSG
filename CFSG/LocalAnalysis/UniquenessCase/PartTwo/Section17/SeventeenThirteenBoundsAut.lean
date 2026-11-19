@@ -85,7 +85,7 @@ theorem inFGroup_of_almostSimple_l2Odd (h410 : W4Lem4_10)
       have hq11 : 11 ≤ q := by
         obtain ⟨k, hk⟩ := hodd
         omega
-      have hmono : 11 * (11 ^ 2 - 1) ≤ q * (q ^ 2 - 1) := by gcongr <;> omega
+      have hmono : 11 * (11 ^ 2 - 1) ≤ q * (q ^ 2 - 1) := by gcongr
       rcases hsmall with h7 | h9 | hsym
       ·
         have hAsimple : IsSimpleGroup A := CFSG.Quasithin.Insp9.isSimpleGroup_psl_two h7

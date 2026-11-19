@@ -18,7 +18,7 @@ open CFSG.Sporadic.Co1Block.Native CFSG.KC.Enum CFSG.KS CFSG.KC.Pack CFSG.KC.Mer
 
 theorem step_idle {n : Nat} {G : Array (Array Nat)} {st : St} {h : Nat}
     (hh : st.2.2.1.size ≤ h) : mergeSearchStep n G st h = st := by
-  rw [step_eq, if_neg (by omega)]
+  rw [step_eq, ite_eq_right (by omega)]
 
 theorem steps_idle {n : Nat} {G : Array (Array Nat)} :
     ∀ (l : List Nat) (st : St), (∀ h ∈ l, st.2.2.1.size ≤ h) → l.foldl (mergeSearchStep n G) st = st

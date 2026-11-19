@@ -179,6 +179,7 @@ theorem conj_inf_pCoreOf_le_normalizer {H T A : Subgroup G}
     rwa [h2] at h1
   exact hBg.trans hWn
 
+omit [Finite G] in
 theorem inf_pCoreOf_le_nVSub {H A : Subgroup G}
     (hfb : ∀ g ∈ H, conjSubgroup (A ⊓ pCoreOf 2 H) g ≤ normalizer (A : Set G))
     {h : G} (hh : h ∈ H) : A ⊓ pCoreOf 2 H ≤ nVSub A h := by
@@ -191,6 +192,7 @@ theorem inf_pCoreOf_le_nVSub {H A : Subgroup G}
   rw [mem_conjSubgroup_iff]
   rwa [show h⁻¹ * (h * b * h⁻¹) * h⁻¹⁻¹ = b by group]
 
+omit [Finite G] in
 theorem conj_inf_pCoreOf_le_bSub {H A : Subgroup G}
     (hfb : ∀ g ∈ H, conjSubgroup (A ⊓ pCoreOf 2 H) g ≤ normalizer (A : Set G))
     {h : G} (hh : h ∈ H) : conjSubgroup (A ⊓ pCoreOf 2 H) h ≤ bSub A h := by

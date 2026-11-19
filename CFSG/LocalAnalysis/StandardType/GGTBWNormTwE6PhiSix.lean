@@ -374,12 +374,12 @@ theorem exists_twisted_reference {n : ℕ} (hn : 1 ≤ n) {K : Type} [Field K] [
         t (Multiplicative.ofAdd fun i =>
           diagWeight p (Nat.card K) i * Multiplicative.toAdd v i) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp : p.Prime := Fact.out
   set σ : K ≃+* K := iterateFrobeniusEquiv K 2 n with hσdef
   have hσ : ∀ c, σ.toRingHom c = c ^ (2 ^ n) := fun c => iterateFrobeniusEquiv_def K 2 n c
   let Ω := AlgebraicClosure K
-  haveI : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
+  have : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
   let Fr : Ω →+* Ω := iterateFrobenius Ω 2 n
   have hFr : ∀ c, Fr c = c ^ (2 ^ n) := fun c => iterateFrobenius_def 2 n c
   have h2 : (2 : Ω) = 0 := by exact_mod_cast CharP.cast_eq_zero Ω 2
@@ -548,9 +548,9 @@ theorem exists_twisted_reference {n : ℕ} (hn : 1 ≤ n) {K : Type} [Field K] [
     · exact hv0
     · exact hv1
     · exact hv2
-  have hw1 : diagWeight p (Nat.card K) 1 = 1 := if_neg (by decide)
-  have hw2 : diagWeight p (Nat.card K) 2 = 1 := if_neg (by decide)
-  have hw0 : diagWeight p (Nat.card K) 0 = (Nat.card K : ZMod p) := if_pos rfl
+  have hw1 : diagWeight p (Nat.card K) 1 = 1 := ite_eq_right (by decide)
+  have hw2 : diagWeight p (Nat.card K) 2 = 1 := ite_eq_right (by decide)
+  have hw0 : diagWeight p (Nat.card K) 0 = (Nat.card K : ZMod p) := ite_eq_left rfl
   have hϖu : ∀ a : ZMod p, ϖS * u (Multiplicative.ofAdd a) * ϖS⁻¹ =
       u (Multiplicative.ofAdd ((Nat.card K : ZMod p) * a)) := by
     intro a
@@ -609,9 +609,9 @@ theorem ggTorusWNormSC_recipe_twE6_phi6 {n : ℕ} (hn : 1 ≤ n) {K : Type} [Fie
     GGTorusWNormSC p (TwE6Delta.RecipeR K n) (TwE6Delta.RecipeI K n) := by
   classical
   have : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, ← pow_mul])
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Fintype K := Fintype.ofFinite K
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fintype K := Fintype.ofFinite K
   have hp3 : p ≠ 3 := by omega
   have hp2 : p ≠ 2 := by omega
   let σ : K ≃+* K := iterateFrobeniusEquiv K 2 n

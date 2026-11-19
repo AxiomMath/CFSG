@@ -43,7 +43,7 @@ private theorem m4_mem_sup_of_le_normalizer {X Y : Subgroup G}
   exact hP hs
 
 private lemma m4_conj_pow_eq {u g c z : G} (hguc : g⁻¹ * u * g = u * c)
-    (hcg : g * c = c * g) (hz3 : z ^ 3 = 1) (hz1 : z ≠ 1)
+    (hcg : g * c = c * g) (hz3 : z ^ 3 = 1) (_hz1 : z ≠ 1)
     (hcz : c ∈ Subgroup.zpowers z) (hc1 : c ≠ 1) :
     ∃ k : ℕ, (g ^ k)⁻¹ * u * g ^ k = u * z := by
   have hfin : IsOfFinOrder z := isOfFinOrder_iff_pow_eq_one.mpr ⟨3, by norm_num, hz3⟩

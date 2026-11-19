@@ -30,8 +30,8 @@ private theorem sCentT_eq (m : Nat → Nat → Nat) (u base : Nat) (acc : List N
     rw [sCentT_eq m u base acc L, List.map_cons, List.filter_cons]
     simp only [Nat.add_eq]
     cases h : Nat.beq (m (pc + base) u) (m u (pc + base))
-    · simp [h]
-    · simp [h]
+    · simp
+    · simp
 
 private theorem land255 (x : Nat) : Nat.land x 255 = x % 256 := by
   have := Nat.and_two_pow_sub_one_eq_mod x 8
@@ -74,7 +74,7 @@ private theorem blockT (m : Nat → Nat → Nat) (DPR : List Nat) (DM u pd j bas
     have e2 : Nat.land (pc + (1024 * pd + 256 * j)) 255 = pc := by
       rw [land255]; omega
     rw [e1, e2] at h
-    simp only [h, hg, Bool.and_self]
+    simp only [h, Bool.and_self]
 
 private theorem sCentD_eq (m : Nat → Nat → Nat) (DPR : List Nat) (DM u pd : Nat)
     (acc : List Nat) (hpd : pd < 8) (hm : CommTests m DPR DM u) :

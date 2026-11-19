@@ -38,7 +38,9 @@ private lemma y4_commute_data {Q : Type*} [Group Q] {t a b c ε : Q}
     (hε : ε = 1 ∨ ε = t) (habc : a * b * c = ε) :
     Commute a b ∧ Commute a c ∧ Commute b c := by
   have hε2 : ε * ε = 1 := by
-    rcases hε with rfl | rfl <;> simpa using ht
+    rcases hε with rfl | rfl
+    · simp
+    · simpa using ht
   have hεC : ∀ z : Q, ε * z = z * ε := by
     intro z
     rcases hε with rfl | rfl

@@ -22,15 +22,18 @@ variable {ι : V → Submodule K W} {A : Submodule K W}
     (p : V) : Submodule K W :=
   ⨆ x : {x : V // x ∈ ptPerp Γ c {p}}, ι x.1
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem submodule_le_perpSpan {p x : V} (hx : x ∈ ptPerp Γ c {p}) :
     ι x ≤ perpSpan c ι p :=
   le_iSup (fun x : {x : V // x ∈ ptPerp Γ c {p}} => ι x.1) ⟨x, hx⟩
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem perpSpan_le_ambient (hι : IsProjGQ c ι A) (p : V) : perpSpan c ι p ≤ A := by
   refine iSup_le ?_
   rintro ⟨x, -⟩
   exact hι.le_ambient x
 
+omit [Fintype V] in
 theorem ptPerp_inter_ptPerp_of_collinear (hP : IsGeneralizedPolygon Γ 4) {p q L : V}
     (hp : c p = 0) (hq : c q = 0) (hpq : p ≠ q)
     (hpL : Γ.Adj p L) (hqL : Γ.Adj q L) :
@@ -91,9 +94,9 @@ theorem ptPerp_inter_ptPerp_of_collinear (hP : IsGeneralizedPolygon Γ 4) {p q L
 theorem submodule_eq_sup_of_finrank_two {T P Q : Submodule K W}
     (hT2 : finrank K T = 2) (hP1 : finrank K P = 1) (hQ1 : finrank K Q = 1)
     (hPQ : P ≠ Q) (hP : P ≤ T) (hQ : Q ≤ T) : T = P ⊔ Q := by
-  haveI : FiniteDimensional K P := Module.finite_of_finrank_pos (by omega)
-  haveI : FiniteDimensional K Q := Module.finite_of_finrank_pos (by omega)
-  haveI : FiniteDimensional K T := Module.finite_of_finrank_pos (by omega)
+  have : FiniteDimensional K P := Module.finite_of_finrank_pos (by omega)
+  have : FiniteDimensional K Q := Module.finite_of_finrank_pos (by omega)
+  have : FiniteDimensional K T := Module.finite_of_finrank_pos (by omega)
   have hbot : P ⊓ Q = ⊥ := by
     rw [Submodule.eq_bot_iff]
     intro v hv
@@ -113,8 +116,8 @@ theorem submodule_eq_sup_of_finrank_two {T P Q : Submodule K W}
 theorem finrank_sup_eq_two_of_finrank_eq_one {P Q : Submodule K W}
     (hP1 : finrank K P = 1) (hQ1 : finrank K Q = 1) (hPQ : P ≠ Q) :
     finrank K ↥(P ⊔ Q) = 2 := by
-  haveI : FiniteDimensional K P := Module.finite_of_finrank_pos (by omega)
-  haveI : FiniteDimensional K Q := Module.finite_of_finrank_pos (by omega)
+  have : FiniteDimensional K P := Module.finite_of_finrank_pos (by omega)
+  have : FiniteDimensional K Q := Module.finite_of_finrank_pos (by omega)
   have hbot : P ⊓ Q = ⊥ := by
     rw [Submodule.eq_bot_iff]
     intro v hv

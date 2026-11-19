@@ -70,7 +70,7 @@ theorem innerActOn_oneNode (h : BorelQuotient D n H π M) {A : Subgroup K} (hBA 
       innerActOn (((rankOne D.rootGroup i).subgroupOf A).map
         (QuotientGroup.mk' ((posUnipotentExcept D i).subgroupOf A))) := by
   classical
-  haveI := normal_posUnipotentExcept_subgroupOf h hBA hI
+  have := normal_posUnipotentExcept_subgroupOf h hBA hI
   set U : Subgroup ↥A := (posUnipotentExcept D i).subgroupOf A
   set S : Subgroup (↥A ⧸ U) := ((rankOne D.rootGroup i).subgroupOf A).map (QuotientGroup.mk' U)
   have hUA := posUnipotentExcept_le_of_borel_le hBA i
@@ -122,7 +122,7 @@ theorem leviInnAt_of_oneNode (hPL : P ≤ L) (π : K →* ↥L) (h : BorelQuotie
     (hrk : Open.pRank 3 (perfectJoin P) ≤ 1) : LeviInnAt P := by
   classical
   set A : Subgroup K := coverSub π P
-  haveI := normal_posUnipotentExcept_subgroupOf h hBA hI
+  have := normal_posUnipotentExcept_subgroupOf h hBA hI
   set U : Subgroup ↥A := (posUnipotentExcept D i).subgroupOf A with hU
   set Λ : Subgroup ↥A := (rankOne D.rootGroup i).subgroupOf A with hΛ
   set S : Subgroup (↥A ⧸ U) := Λ.map (QuotientGroup.mk' U)
@@ -257,7 +257,7 @@ end TorusInner
 theorem leviInnOn_g2
     (hGA : GriessAllModelsStatement) : LeviInnOn (IsLieOf IdxG2) := by
   intro Y _ _ L P hCP hG hLn _ _ hrk
-  haveI := hLn
+  have := hLn
   obtain ⟨f, hf, ⟨e⟩⟩ := exists_mulEquiv_g2 hGA hCP hG
   obtain ⟨T, hNT, hne, htop⟩ := exists_sylow_le_subgroupOf_of_compParab hCP
   obtain ⟨π', hQ, hBA, i, hI⟩ := exists_single_node_g2 e T hNT hne htop

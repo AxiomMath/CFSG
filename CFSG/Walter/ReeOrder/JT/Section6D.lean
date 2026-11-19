@@ -253,7 +253,7 @@ theorem exists_pow_eq_one_not_mem {X : Subgroup G} (hXp : IsPGroup h.p X)
     (hlt : ∀ S : Sylow h.p G, Nat.card X < Nat.card S) :
     ∃ y ∈ Subgroup.normalizer (X : Set G), (∃ n : ℕ, y ^ h.p ^ n = 1) ∧ y ∉ X := by
   obtain ⟨S, hXS⟩ := hXp.exists_le_sylow
-  have := (S.isPGroup').isNilpotent
+  have := (S.isPGroup).isNilpotent
   have hnc : NormalizerCondition S := Group.normalizerCondition_of_isNilpotent
   have hlt' : X.subgroupOf S < ⊤ := by
     refine lt_of_le_of_ne le_top fun h0 => ?_
@@ -265,7 +265,7 @@ theorem exists_pow_eq_one_not_mem {X : Subgroup G} (hXp : IsPGroup h.p X)
   · have h1 := (Subgroup.mem_normalizer_iff.mp hyN ⟨x, hXS hx⟩).mp (by exact hx)
     rw [Subgroup.mem_subgroupOf] at h1
     simpa using h1
-  · obtain ⟨n, hn⟩ := S.isPGroup' y
+  · obtain ⟨n, hn⟩ := S.isPGroup y
     exact ⟨n, by simpa using congrArg Subtype.val hn⟩
   · exact h0
 

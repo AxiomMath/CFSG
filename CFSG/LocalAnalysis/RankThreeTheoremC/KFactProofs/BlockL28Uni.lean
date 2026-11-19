@@ -87,7 +87,7 @@ theorem uniBar_eq_of_pow_seven (h : UnitaryFieldData 2 3 K) {x : Kˣ} (hx : x ^ 
 theorem uniExists_sevenSubgroup (hK : Nat.card K = 64) : ∃ μ : Subgroup Kˣ, Nat.card μ = 7 := by
   have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
   have hU : Nat.card Kˣ = 63 := by rw [Nat.card_units, hK]
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := Kˣ) 7 (by rw [hU]; norm_num)
   exact ⟨Subgroup.zpowers x, by rw [Nat.card_zpowers, hx]⟩
 

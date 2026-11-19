@@ -1513,7 +1513,7 @@ theorem fixed_of_B' (h112 : Input11_2_2) {m : ℕ} (hS : GLStanding G m 3) {b x 
     glaPComponent_of_le Nat.prime_three hJcompA hJK₁ hK₁A
   have hqs : IsSimpleGroup (barOf 3 C₀ ⧸ Subgroup.center (barOf 3 C₀)) :=
     (isQuasisimple_quotient_of_glaPComponent hC₀c).2
-  haveI hsimp : IsSimpleGroup (↥K₁ ⧸ GLAPPrimeCore 3 ↥K₁) := e.isSimpleGroup
+  have hsimp : IsSimpleGroup (↥K₁ ⧸ GLAPPrimeCore 3 ↥K₁) := e.isSimpleGroup
   obtain ⟨-, hsn, hq⟩ := hJcompK.2.2.1
   have hbarTop : barX 3 K₁ (Jof x L) = ⊤ :=
     claim_eq_top_of_simple hsn (cf1_nontrivial hq)
@@ -1521,7 +1521,7 @@ theorem fixed_of_B' (h112 : Input11_2_2) {m : ℕ} (hS : GLStanding G m 3) {b x 
     quotEquivBarX Nat.prime_three hJK₁ hJcompK.2.1
   let e3 : ↥(barX 3 K₁ (Jof x L)) ≃* (↥K₁ ⧸ GLAPPrimeCore 3 ↥K₁) :=
     (MulEquiv.subgroupCongr hbarTop).trans Subgroup.topEquiv
-  haveI : IsSimpleGroup (barOf 3 (Jof x L)) := (e2.trans e3).isSimpleGroup
+  have : IsSimpleGroup (barOf 3 (Jof x L)) := (e2.trans e3).isSimpleGroup
   exact claim_no_simple_exc h.barOf_equiv.some
     (isQuasisimple_quotient_of_glaPComponent h.comp) hexc
 
@@ -2205,7 +2205,7 @@ theorem bar3_barCenter_eq {B L : Subgroup G} {b : G} (hB : IsElemAbelian 3 B) (h
     barCenterAt 3 b (bClosure B L) =
       ⨆ i : {L' : Subgroup G // IsBConjugate B L L'}, barCenterAt 3 b i.1 := by
   classical
-  haveI : Fintype {L' : Subgroup G // IsBConjugate B L L'} := Fintype.ofFinite _
+  have : Fintype {L' : Subgroup G // IsBConjugate B L L'} := Fintype.ofFinite _
   have h1 : ∀ K : Subgroup G, barCenterAt 3 b K =
       CFSG.HardMathSupport.Timmesfeld.ComponentBalance.centreIn (barImageAt 3 b K) := fun K =>
     CFSG.HardMathSupport.Timmesfeld.ComponentBalance.map_subtype_center _
@@ -2455,8 +2455,8 @@ theorem core_ii (h191 : Input19_1_2) (h196 : Input19_6_9) (h143 : Input14_3_L3) 
     (hDx : D ≤ Cen x) (hcomp : GLAPComponent 3 (Cen x) (Jstar x L))
     (hbN : b ∈ Subgroup.normalizer (Jstar x L : Set G)) :
     oPrimePOf 3 (Jof x L) ≤ oPrimePOf 3 (Cen x) := by
-  haveI := hS.simple
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := hS.simple
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hBel : IsElemAbelian 3 B := hB.1.1
   have hDB : D ≤ B := hD.1
   have hDel : IsElemAbelian 3 D := hD.2.1

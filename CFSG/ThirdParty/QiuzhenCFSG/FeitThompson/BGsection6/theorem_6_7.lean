@@ -55,7 +55,7 @@ private theorem CFSG.theorem_6_7_reduced
         simpa [commutatorElement_def, mul_assoc] using L.mul_mem he_conj_x (L.inv_mem hxL)
       exact ⟨hcomm_memS, hcomm_memL⟩
     have hSL_cop : Nat.Coprime (Nat.card S) (Nat.card L) := by
-      rcases S.isPGroup'.exists_card_eq with ⟨n, hn⟩
+      rcases S.isPGroup.exists_card_eq with ⟨n, hn⟩
       rw [hn]
       exact Nat.Coprime.pow_left n hLp'
     have hSL_bot : (S : Subgroup G) ⊓ L = ⊥ :=
@@ -64,7 +64,7 @@ private theorem CFSG.theorem_6_7_reduced
       simpa [hSL_bot] using hcomm_mem
     simpa using hcomm_bot
   have hL_centS : L ≤ Subgroup.centralizer (S : Set G) := by
-    let : Fact (IsPGroup p ↥(S : Subgroup G)) := ⟨S.isPGroup'⟩
+    let : Fact (IsPGroup p ↥(S : Subgroup G)) := ⟨S.isPGroup⟩
     let : MulDistribMulAction ↥L ↥(S : Subgroup G) :=
       Subgroup.conjMulDistribMulActionOfLeNormalizer (G := G) L (S : Subgroup G) hL_normS
     let Esub : Subgroup ↥(S : Subgroup G) := E.subgroupOf (S : Subgroup G)
@@ -85,9 +85,9 @@ private theorem CFSG.theorem_6_7_reduced
       rw [hExpEq]
       exact IsElementaryAbelian.exponent_dvd_p p E
     have hEsub : ∃ _ : Fact (IsPGroup p ↥Esub), IsElementaryAbelian p ↥Esub := by
-      refine ⟨⟨S.isPGroup'.to_subgroup Esub⟩, hEsub_elem⟩
+      refine ⟨⟨S.isPGroup.to_subgroup Esub⟩, hEsub_elem⟩
     have hSL_cop : Nat.Coprime (Nat.card ↥L) (Nat.card ↥(S : Subgroup G)) := by
-      rcases S.isPGroup'.exists_card_eq with ⟨n, hn⟩
+      rcases S.isPGroup.exists_card_eq with ⟨n, hn⟩
       rw [hn]
       exact Nat.Coprime.symm (Nat.Coprime.pow_left n hLp')
     have htrivS : ActsTrivially (A := ↥L) (G := ↥(S : Subgroup G)) := by
@@ -201,7 +201,7 @@ private theorem CFSG.theorem_6_7_reduced
     simpa [hS_eq_pCore] using hy_pCore
   have hL_bot : L = ⊥ := by
     have hLpGroup : IsPGroup p L :=
-      IsPGroup.to_le (H := L) (K := (S : Subgroup G)) S.isPGroup' hL_le_S
+      IsPGroup.to_le (H := L) (K := (S : Subgroup G)) S.isPGroup hL_le_S
     have hL_card_one : Nat.card L = 1 := by
       rcases hLpGroup.card_eq_or_dvd with h1 | hpdvd
       · exact h1
@@ -299,7 +299,7 @@ public theorem CFSG.theorem_6_7
             (MonoidHom.exponent_dvd (MonoidHom.subgroupMap_surjective q E))
             (IsElementaryAbelian.exponent_dvd_p p E)
         have hSK_cop : Nat.Coprime (Nat.card (S : Subgroup G)) (Nat.card K) := by
-          rcases S.isPGroup'.exists_card_eq with ⟨n, hn⟩
+          rcases S.isPGroup.exists_card_eq with ⟨n, hn⟩
           rw [hn]
           simpa [K] using Nat.Coprime.pow_left n (pPrimeCore_coprime_card (G := G) (p := p))
         have hKS_bot : K ⊓ (S : Subgroup G) = ⊥ := by

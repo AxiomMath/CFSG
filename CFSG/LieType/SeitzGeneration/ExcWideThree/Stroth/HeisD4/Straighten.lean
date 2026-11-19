@@ -73,32 +73,39 @@ variable {L : Type} [Field L] [IsAlgClosed L]
 abbrev heisM (a : Fin Tag.E6.rank → Lˣ) : Subgroup (ModGL Tag.E6 L) :=
   familyGroup (K := L) (fun _ : Unit => a)
 
+omit [IsAlgClosed L] in
 theorem familyKernel_unit (a : Fin Tag.E6.rank → Lˣ) :
     familyKernel (fun _ : Unit => a) = rootCharKernel a := by
   ext α
   simp [familyKernel, rootCharKernel]
 
+omit [IsAlgClosed L] in
 theorem toralRootGroup_eq_heisM (a : Fin Tag.E6.rank → Lˣ) :
     toralRootGroup Tag.E6 L a = heisM a := by
   show torusGroup Tag.E6 L ⊔ rootSpan Tag.E6 L (rootCharKernel a) =
     torusGroup Tag.E6 L ⊔ rootSpan Tag.E6 L (familyKernel (fun _ : Unit => a))
   rw [familyKernel_unit]
 
+omit [IsAlgClosed L] in
 theorem torus_le_heisM (a : Fin Tag.E6.rank → Lˣ) : torusGroup Tag.E6 L ≤ heisM a :=
   torus_le_familyGroup _
 
+omit [IsAlgClosed L] in
 theorem rootSpan_le_heisM (a : Fin Tag.E6.rank → Lˣ) :
     rootSpan Tag.E6 L (rootCharKernel a) ≤ heisM a := by
   rw [← familyKernel_unit]
   exact rootSpan_le_familyGroup _
 
+omit [IsAlgClosed L] in
 theorem heisM_comm (a : Fin Tag.E6.rank → Lˣ) {m : ModGL Tag.E6 L} (hm : m ∈ heisM a) :
     m * rootDiagUnit Tag.E6 a = rootDiagUnit Tag.E6 a * m :=
   familyGroup_comm (fun _ : Unit => a) () hm
 
+omit [IsAlgClosed L] in
 theorem heisM_le_adjoint (a : Fin Tag.E6.rank → Lˣ) : heisM a ≤ adjointGroup Tag.E6 L :=
   familyGroup_le_adjoint _
 
+omit [IsAlgClosed L] in
 theorem kernelReflectionGroup_le_closure (a : Fin Tag.E6.rank → Lˣ) :
     kernelReflectionGroup a ≤ Subgroup.closure (rootReflection '' rootCharKernel a) := by
   refine (Subgroup.closure_le _).2 ?_
@@ -140,6 +147,7 @@ section Core
 
 variable {L : Type} [Field L] [IsAlgClosed L] {ℓ : ℕ} [Fact ℓ.Prime] [CharP L ℓ]
 
+omit [IsAlgClosed L] in
 theorem exists_triData_lattice {a : Fin Tag.E6.rank → Lˣ} (ha3 : ∀ i, a i ^ 3 = 1) :
     ∃ b3 : Fin Tag.E6.rank → ZMod 3, ∀ x, rootCharHom3 a x = 1 ↔ triChar b3 x = 1 := by
   obtain ⟨χ', hker⟩ := exists_triChar_ker_eq (rootCharHom3 a) (rootCharHom3_pow_three a ha3)
@@ -147,6 +155,7 @@ theorem exists_triData_lattice {a : Fin Tag.E6.rank → Lˣ} (ha3 : ∀ i, a i ^
   rw [← eq_triChar χ']
   exact hker x
 
+omit [IsAlgClosed L] in
 theorem triPairing_frob_rel {a : Fin Tag.E6.rank → Lˣ} {b3 : Fin Tag.E6.rank → ZMod 3}
     (hker : ∀ x, rootCharHom3 a x = 1 ↔ triChar b3 x = 1) {w' : WeylGroup Tag.E6} {q : ℕ}
     (hrel : ∀ v, rootChar a (w' • v) = rootChar a v ^ q) (v : Fin Tag.E6.rank → ℤ) :
@@ -226,6 +235,7 @@ theorem commutator_mem_kernel {f : ℕ} {a b : Fin Tag.E6.rank → Lˣ} {w w' : 
   have := mem_kernelReflectionGroup_of_mapsRootLines hmono hmaps hg₀M
   simpa using this
 
+omit [IsAlgClosed L] in
 theorem kernel_facts {a : Fin Tag.E6.rank → Lˣ} {b3 : Fin Tag.E6.rank → ZMod 3}
     (hker : ∀ x, rootCharHom3 a x = 1 ↔ triChar b3 x = 1) :
     (∀ x : WeylGroup Tag.E6, x ∈ rootCharStabilizer a ↔ x ∈ charStabilizer (triChar b3)) ∧
@@ -365,7 +375,7 @@ theorem frame_straighten (hK4 : 4 ≤ Nat.card K)
           Commute v (baseChangeGL (algebraMap K (AlgebraicClosure K)) (F.g₂ : ModGL Tag.E6 K)) := by
   classical
   obtain ⟨e, he, hcard⟩ := card_eq_pow_ringChar K
-  haveI : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
+  have : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
   have hFrEq : F.Fr = iterateFrobenius (AlgebraicClosure K) (ringChar K) e :=
     RingHom.ext fun c => by rw [F.hFr c, iterateFrobenius_def, hcard]
   have hFrob : ∀ g : ModGL Tag.E6 (AlgebraicClosure K),

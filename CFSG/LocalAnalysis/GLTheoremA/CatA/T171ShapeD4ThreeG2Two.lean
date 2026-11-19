@@ -22,7 +22,7 @@ theorem d4ExitAt_adjoint_G2_two (K : Type) [Field K] [Finite K] [CharP K 2]
   · exact absurd hi (by simp [onLie])
   · obtain ⟨q, rfl, hq2⟩ := hi
     let F := ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.D 4 q, hv⟩)
-    haveI : Finite F := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField ⟨.D 4 q, hv⟩
+    have : Finite F := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField ⟨.D 4 q, hv⟩
     have hL : Nat.card F = q.card := by
       show Nat.card ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.D 4 q, hv⟩) = q.card
       rw [TauCeti.ValidLieTypeIndex.card_fixedField]

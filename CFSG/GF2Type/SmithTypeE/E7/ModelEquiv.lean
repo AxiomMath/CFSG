@@ -27,7 +27,7 @@ theorem exists_model_equiv_of_setting [IsSimpleGroup G] (I : Inputs10)
     (ψ₀ : S.Mbar ≃* TD6) :
     ∃ (φ : S.Qt ≃ₗ[ZMod 2] (Fin 32 → ZMod 2)) (ψ : S.Mbar ≃* TD6),
       ∀ m : S.M, Phi S φ m = rhoMod (ψ (rhoM S m)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hO : Nonempty (S.Mbar ≃* timmesfeldOmegaPlus 6) := ⟨ψ₀.trans omegaTD6.symm⟩
   obtain ⟨g, haQ, hne⟩ := exists_conj_mem_QG hAS hw hO
   have hno := noA2_of_insp5 I hw hO haQ hne
@@ -36,11 +36,11 @@ theorem exists_model_equiv_of_setting [IsSimpleGroup G] (I : Inputs10)
   obtain ⟨L, hL⟩ : ∃ L : Subgroup S.Mbar, L = (S.Lbar g).subgroupOf S.Mbar := ⟨_, rfl⟩
   obtain ⟨X, hX⟩ : ∃ X : Subgroup TD6, X = L.map ψ₀.toMonoidHom := ⟨_, rfl⟩
   have hLel : CFSG.IsElementaryAbelian 2 L := by
-    haveI := S.isElementaryAbelian_Lbar haQ
+    have := S.isElementaryAbelian_Lbar haQ
     rw [hL]
     exact CFSG.IsElementaryAbelian.subgroupOf (S.Lbar_le_Mbar g)
   have hXel : CFSG.IsElementaryAbelian 2 X := by
-    haveI := hLel
+    have := hLel
     rw [hX]
     exact CFSG.IsElementaryAbelian.map _
   have hXcard : Nat.card X = 2 ^ 15 := by

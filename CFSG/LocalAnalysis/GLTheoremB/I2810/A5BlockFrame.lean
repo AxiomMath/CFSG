@@ -15,6 +15,7 @@ namespace CFSG.LocalAnalysis.GLTheoremB.Prop95Iv.I2810.A5Fr
 
 variable {X : Type} [Group X] [Finite X] {W K S : Subgroup X} [W.Normal]
 
+omit [Finite X] in
 theorem isCharIn_of_characteristic {C : Subgroup X} (hCS : C ≤ S)
     (hC : (C.subgroupOf S).Characteristic) : IsCharIn C S := by
   refine ⟨hCS, fun ψ x hx => ?_⟩
@@ -24,7 +25,8 @@ theorem isCharIn_of_characteristic {C : Subgroup X} (hCS : C ≤ S)
   rw [h1] at h2
   exact Subgroup.mem_subgroupOf.mp h2
 
-theorem a5_nochar_aux (h : Setup28 W K S) (hR : Red28 W K S) (hd : ¬ Concl28d K S) {I : Subgroup X}
+omit [Finite X] in
+theorem a5_nochar_aux (_h : Setup28 W K S) (hR : Red28 W K S) (hd : ¬ Concl28d K S) {I : Subgroup X}
     (hI : A5Frame W K S I) : CFSG.QuasithinUnique.Setup.Campbell.NoCharNormal S I := by
   intro C hCS hC0 hCchar hIN
   apply hd
@@ -37,10 +39,10 @@ theorem a5_nochar_aux (h : Setup28 W K S) (hR : Red28 W K S) (hd : ¬ Concl28d K
     hchar.normalizer_le (Subgroup.le_normalizer hs)
   exact hgen.trans (sup_le inf_le_right fun w hw => hSN (hR.w1_S hw.2))
 
-theorem a5_pick_aux (h : Setup28 W K S) (hR : Red28 W K S) {I : Subgroup X} (hI : A5Frame W K S I) :
+theorem a5_pick_aux (_h : Setup28 W K S) (_hR : Red28 W K S) {I : Subgroup X} (hI : A5Frame W K S I) :
     ∃ p ∈ K, p ∉ zPre W K ∧ p ∈ CFSG.Quasithin.pResidualOf 2 I := by
   obtain ⟨q⟩ := hI.quot
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨a, ha⟩ := exists_prime_orderOf_dvd_card' (G := ↥(alternatingGroup (Fin 5))) 3
     (by rw [A5Pure.card_alt5]; norm_num)
   let π : ↥I →* ↥(alternatingGroup (Fin 5)) := q.toMonoidHom.comp (QuotientGroup.mk' _)

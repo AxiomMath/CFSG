@@ -16,18 +16,18 @@ namespace CFSG.LocalAnalysis.UniquenessCase.UC22.KTabD
 open CFSG.Open PartTwo
 
 theorem kTab23d_omegaPlusSix {W : Type} [CommGroup W] [Finite W] (H : Subgroup (MulAut W)) (n : ℕ)
-    (hnat : IsNaturalClassicalModule H n) (hperf : ⁅H, H⁆ = H) (hn : 3 ≤ n) (S : Sylow 2 ↥H)
+    (_hnat : IsNaturalClassicalModule H n) (_hperf : ⁅H, H⁆ = H) (hn : 3 ≤ n) (S : Sylow 2 ↥H)
     (h : IsOmegaPlus ↥H 6 n ∧ NatOmegaPlus H ⊤ ⊥ 6 n) :
     IsL2Square (Bar2 (Hinf (pointStab H S))) n := by
   obtain ⟨-, K, hKf, hKfin, hK, hreal⟩ := h.2
-  letI := hKf
-  letI := hKfin
-  haveI : CharP K 2 := uc22p22d_charP_two (by omega) hK
+  let := hKf
+  let := hKfin
+  have : CharP K 2 := uc22p22d_charP_two (by omega) hK
   have hK4 : 4 ≤ Nat.card K := by
     rw [hK]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) (by omega)
-  haveI : Nonempty (Fin 3 ⊕ Fin 3) := ⟨Sum.inl 0⟩
+  have : Nonempty (Fin 3 ⊕ Fin 3) := ⟨Sum.inl 0⟩
   obtain ⟨U, hU, hfix⟩ :=
     KTabA.exists_fixedLine_statedOmega_plus_single (K := K) (p := 2) (m := 3) (by norm_num)
   have hline : KTabC.SylowFixedLine (StatedOmega (StatedQuadPlus 3 K))

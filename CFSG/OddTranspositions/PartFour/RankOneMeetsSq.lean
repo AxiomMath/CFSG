@@ -21,10 +21,10 @@ theorem not_isSolvable_Halpha_of_isBenderGroup (hC : HypothesisC D)
       (Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha))) :
     ¬ Group.IsSolvable (Halpha D hC.alpha) := by
   intro hsol
-  haveI := hsol
+  have := hsol
   have htop : CFSG.solvableRadical (Halpha D hC.alpha) = ⊤ :=
     top_le_iff.mp (le_solvableRadical (N := ⊤) Subgroup.normal_top inferInstance)
-  haveI : Nontrivial (Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha)) :=
+  have : Nontrivial (Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha)) :=
     (IsBenderGroup.isSimpleGroup hX).toNontrivial
   have hall : ∀ x : Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha), x = 1 := by
     intro x
@@ -55,7 +55,7 @@ private theorem rankOneMeetsSq_two_le_two_pow_sub_one {f : ℕ} (hf : 2 ≤ f) :
       _ ≤ 2 ^ f := Nat.pow_le_pow_of_le (by norm_num) hf
   exact Nat.le_sub_one_of_lt (by omega)
 
-private theorem rankOneMeetsSq_two_pow_sub_one_lt {f j : ℕ} (hf : 2 ≤ f) (hj : 0 < j) :
+private theorem rankOneMeetsSq_two_pow_sub_one_lt {f j : ℕ} (_hf : 2 ≤ f) (hj : 0 < j) :
     2 ^ f - 1 < 2 ^ (f * j) := by
   have hle : f ≤ f * j := Nat.le_mul_of_pos_right f hj
   have hlt : 2 ^ f - 1 < 2 ^ f := Nat.sub_one_lt (Nat.two_pow_pos f).ne'
@@ -75,6 +75,7 @@ private theorem rankOneMeetsSq_exists_point (hC : HypothesisC D) {β : Set G}
   obtain ⟨b, hb⟩ := nonempty_of_mem_blockClass hC.isBlock_alpha.nonempty hβ.1
   exact ⟨⟨b, Subgroup.subset_closure ⟨β, hβ, hb⟩⟩, hb⟩
 
+omit [Finite G] in
 private theorem rankOneMeetsSq_mk_mem_imageClass (hC : HypothesisC D) {β : Set G}
     (hβ : β ∈ Dalpha D hC.alpha) {b : Halpha D hC.alpha} (hb : (b : G) ∈ β) :
     QuotientGroup.mk' (CFSG.solvableRadical (Halpha D hC.alpha)) b ∈ imageClass hC :=

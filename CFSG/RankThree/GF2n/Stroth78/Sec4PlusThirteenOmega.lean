@@ -38,7 +38,7 @@ theorem exists_natural_pOmegaPlus_four (S : Setting z E F) {a : G} {w : ℕ} (h 
           *ᵥ π v) ∧
       (∀ v ∈ CFSG.LargeExtraspecial.A2Mod.commSpaceOf (rhoX S a) ⊤,
         StatedQuadPlus 4 (ZMod 2) (π v) = qS S v) := by
-  haveI : FiniteDimensional (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
   exact CFSG.LargeExtraspecial.A2Mod.exists_natural_pOmegaPlus_four (rootClass_Xsub S h h217 h34)
     (a2Action_Xsub S a) hX
 
@@ -55,7 +55,7 @@ theorem not_lieModel_pOmegaPlus_four_of_card_ZQ_eq_four (S : Setting z E F) {a :
     (h34 : ThreeFourPlus S a) (hZ : Nat.card ↥(ZQ z) = 4) :
     ¬ CFSG.Blueprint.LieModel ↥(Xsub S a) .POmegaPlus 4 2 1 := by
   intro hX
-  haveI : FiniteDimensional (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
   obtain ⟨φ, π, -, hinj, hπ, hQ⟩ := exists_natural_pOmegaPlus_four S h h217 h34 hX
   obtain ⟨α, hαD, haL, hnfix, hcomm⟩ := exists_alpha_of_card_ZQ_eq_four S h h217 h34 hZ
   have ha0 : aVec S h.mem_Q ≠ 0 := fun h0 => hnfix fun x => by rw [h0, map_zero]

@@ -186,7 +186,7 @@ theorem e7Label_exists_conj {X : Type} [Group X] [Finite X] {K J : Subgroup X} {
     intro x hx
     have hαx : α x = ⟨d * (x : X) * d⁻¹, hx⟩ := by
       apply Subtype.ext
-      simpa [α] using Subgroup.normalizerMonoidHom_apply_apply_coe K ⟨d, hdK⟩ x
+      simp [α]
     rw [← hαx]
     calc e (α x) = MulAut.congr e α (e x) := by
           simp [MulAut.congr_apply]
@@ -292,14 +292,13 @@ theorem e7Label_component_rowIII {X : Type} [Group X] [Finite X] {K J : Subgroup
       rw [Subgroup.mem_center_iff]
       intro x
       have h := DFunLike.congr_fun h1 x
-      simp only [MulAut.conj_apply, MulAut.one_apply] at h
+      simp only [MulAut.one_apply] at h
       exact (mul_inv_eq_iff_eq_mul.mp h).symm
     rw [CFSG.LieType.Chevalley.center_adjointGroup_eq_bot, Subgroup.mem_bot] at hmem
     exact hs1 hmem
   have hfix : ggFixSub α = Subgroup.centralizer ({s} : Set A) := by
     ext x
-    simp only [mem_ggFixSub, Subgroup.mem_centralizer_iff, Set.mem_singleton_iff,
-      MulAut.conj_apply]
+    simp only [mem_ggFixSub, Subgroup.mem_centralizer_iff, Set.mem_singleton_iff]
     constructor
     · intro h y hy
       subst hy

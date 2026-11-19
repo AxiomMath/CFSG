@@ -48,13 +48,13 @@ theorem n1_claim (hF : Hyp111 L1 L2 S)
       intro R hcard hR
       by_cases hbot : R = ⊥
       · subst hbot
-        exact ⟨0, by simp [Subgroup.relIndex_bot_right]⟩
+        exact ⟨0, by simp⟩
       ·
         have hRX : R ≤ L1 ⊔ S ⊔ N1 := hR.1.trans hUX
         have hR2 : IsPGroup 2 R :=
           (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 (P1 L1 L2 S)).to_le hR.1
         have hRsolv : Group.IsSolvable ↥R := by
-          haveI : Group.IsNilpotent ↥R := IsPGroup.isNilpotent (p := 2) hR2
+          have : Group.IsNilpotent ↥R := IsPGroup.isNilpotent (p := 2) hR2
           infer_instance
         obtain ⟨m, hm⟩ := hR2.exists_card_eq
         have hcopN1 : Nat.Coprime (Nat.card N1) (Nat.card R) := by

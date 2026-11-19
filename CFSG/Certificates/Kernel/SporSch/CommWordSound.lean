@@ -35,9 +35,9 @@ theorem evalCodes_invW (S : List (Equiv.Perm (Fin n))) :
     rcases lt_or_gt_of_ne hz with hlt | hgt
     · have h1 : 0 < -z := by omega
       have h2 : ¬ 0 < z := by omega
-      simp only [h1, h2, if_true, if_false, inv_inv]
+      simp only [h1, h2, ite_true, ite_false, inv_inv]
     · have h1 : ¬ 0 < -z := by omega
-      simp only [h1, hgt, if_true, if_false, neg_neg]
+      simp only [h1, hgt, ite_true, ite_false, neg_neg]
 
 theorem prodComm_eq (S : List (Equiv.Perm (Fin n))) :
     ∀ W : List (List ℤ × List ℤ), (∀ p ∈ W, (∀ z ∈ p.1, z ≠ 0) ∧ ∀ z ∈ p.2, z ≠ 0) →

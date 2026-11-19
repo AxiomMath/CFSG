@@ -69,7 +69,7 @@ theorem c7_core {s t b₁ b₂ : Y} {J : Fin 4 → Subgroup Y} {N : Subgroup Y}
         refine ⟨c⁻¹ * r⁻¹ * c⁻¹⁻¹, hPC c⁻¹ (hNC (N.inv_mem hc)) r⁻¹ (P.inv_mem hr), c⁻¹,
           N.inv_mem hc, ?_, by group⟩
         have := congrArg (fun g => c⁻¹ * g * c⁻¹) hct
-        simp only [mul_assoc, inv_mul_cancel_left, mul_inv_cancel_left] at this
+        simp only [mul_assoc, inv_mul_cancel_left] at this
         calc c⁻¹ * t = c⁻¹ * (t * c) * c⁻¹ := by group
           _ = c⁻¹ * (c * t) * c⁻¹ := by rw [hct]
           _ = t * c⁻¹ := by group }
@@ -98,7 +98,7 @@ theorem c7_core {s t b₁ b₂ : Y} {J : Fin 4 → Subgroup Y} {N : Subgroup Y}
       · exact hb12sq
     exact c7_class hq hcom hJinj hb2 (Subgroup.mem_centralizer_singleton_iff.mp hbC) (hperm b hb)
       (hmove b hb) hNC hPN hodd (hG b hb) hℓ hcomm
-  haveI hPnorm : (P.subgroupOf C).Normal := ⟨fun a ha g => by
+  have hPnorm : (P.subgroupOf C).Normal := ⟨fun a ha g => by
     rw [Subgroup.mem_subgroupOf] at ha ⊢
     exact hPC g g.2 a ha⟩
   let mk : ↥C →* (↥C ⧸ P.subgroupOf C) := QuotientGroup.mk' (P.subgroupOf C)
@@ -192,7 +192,7 @@ theorem c7_core {s t b₁ b₂ : Y} {J : Fin 4 → Subgroup Y} {N : Subgroup Y}
   have hcop : Nat.Coprime 2 (Nat.card X) := by
     rw [Nat.Prime.coprime_iff_not_dvd Nat.prime_two]
     intro hdvd
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := X) 2 hdvd
     obtain ⟨n', hn'N', hn'⟩ := x.2
     obtain ⟨m, hm, hmP⟩ := hodd n'.1 (Subgroup.mem_subgroupOf.mp hn'N')

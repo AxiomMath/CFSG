@@ -60,8 +60,8 @@ private theorem i167CLin_block_exists_aux2 {K : Type} [Field K] [Finite K] {n : 
     exact hord
   obtain ⟨r, D, d, hFld, hFin, hAlg, Φ, θ, hNZ, hΦinj, hΦrange, hθinj, hθrange, hθapply⟩ :=
     CFSG.StandardType.LinNonsplit.exists_piMat_commutant (Subgroup.zpowers g) hA
-  letI : ∀ i, Field (D i) := hFld
-  haveI : ∀ i, Finite (D i) := hFin
+  let : ∀ i, Field (D i) := hFld
+  have : ∀ i, Finite (D i) := hFin
   have hΦrange' : ∀ X : Matrix (Fin n) (Fin n) K,
       X * (g : Matrix (Fin n) (Fin n) K) = (g : Matrix (Fin n) (Fin n) K) * X →
         X ∈ Set.range Φ := by
@@ -236,7 +236,7 @@ private lemma i167CLin_block_coord_aux2 {K : Type} [Field K] [Finite K] {n : ℕ
         ∀ i, c i ^ p = 1 := by
   refine ⟨?_, ?_, ?_⟩
   · intro i h
-    haveI : Nonempty (Fin (B.d i)) := ⟨0, B.pos i⟩
+    have : Nonempty (Fin (B.d i)) := ⟨0, B.pos i⟩
     have hunit : IsUnit (((w i : GL (Fin (B.d i)) (B.D i)) :
         Matrix (Fin (B.d i)) (Fin (B.d i)) (B.D i))) := ⟨w i, rfl⟩
     exact hunit.ne_zero (by rw [← hc i, h, map_zero])
@@ -256,7 +256,7 @@ private lemma i167CLin_block_coord_aux2 {K : Type} [Field K] [Finite K] {n : ℕ
     have hwi : (w i) ^ p = 1 := by
       have := congrFun hwp i
       simpa [Pi.pow_apply] using this
-    haveI : Nonempty (Fin (B.d i)) := ⟨0, B.pos i⟩
+    have : Nonempty (Fin (B.d i)) := ⟨0, B.pos i⟩
     apply (Matrix.scalar_inj (n := Fin (B.d i))).mp
     rw [map_pow, hc i, ← Units.val_pow_eq_pow_val, hwi, Units.val_one, map_one]
 
@@ -298,7 +298,7 @@ private theorem i167CLin_block_fixed_aux4 {K : Type} [Field K] [Finite K] {n : �
   have hsum1 : (∑ j : Fin B.r,
       (Pi.single j 1 : ∀ l, Matrix (Fin (B.d l)) (Fin (B.d l)) (B.D l))) = 1 := by
     funext l
-    simp [Pi.single_apply]
+    simp
   change ∑ j, B.Φ (Pi.single j 1) = 1
   have : B.Φ (∑ j : Fin B.r,
       (Pi.single j 1 : ∀ l, Matrix (Fin (B.d l)) (Fin (B.d l)) (B.D l))) =
@@ -482,7 +482,7 @@ private theorem i167CLin_block_fixed_aux16 {K : Type} [Field K] [Finite K] {n : 
       · subst hl; simp
       · simp [Pi.single_eq_of_ne hl]
     rw [h, hi]
-    simp [i167CLin_block_fixed_aux1]
+    simp
 
 private theorem i167CLin_block_fixed_aux_e_idem {K : Type} [Field K] [Finite K] {n : ℕ} {g : GL (Fin n) K}
     (B : LinBlock K g) (i : Fin B.r) :
@@ -738,8 +738,8 @@ private theorem i167CLin_block_fixed_aux18surj {K : Type} [Field K] [Finite K] {
 
 private theorem i167CLin_block_fixed_aux17a {K : Type} [Field K] [Finite K] {n : ℕ} {g : GL (Fin n) K}
     (B : LinBlock K g) {c : ∀ i, B.D i}
-    (hc : (g : Matrix (Fin n) (Fin n) K) = B.Φ (fun i => Matrix.scalar (Fin (B.d i)) (c i)))
-    {i : Fin B.r} (hi : c i = 1) (y : B.D i) {α : K}
+    (_hc : (g : Matrix (Fin n) (Fin n) K) = B.Φ (fun i => Matrix.scalar (Fin (B.d i)) (c i)))
+    {i : Fin B.r} (_hi : c i = 1) (y : B.D i) {α : K}
     (hα' : i167CLin_block_fixed_aux13 B i (B.Φ (Pi.single i (Matrix.scalar (Fin (B.d i)) y)))
       (i167CLin_block_fixed_aux14 B i (Matrix.scalar (Fin (B.d i)) y)) = α • LinearMap.id) :
     B.Φ (Pi.single i (Matrix.scalar (Fin (B.d i)) y)) = α • i167CLin_block_fixed_aux1 B i := by
@@ -813,15 +813,15 @@ private theorem i167CLin_block_fixed_aux17 {K : Type} [Field K] [Finite K] {n : 
       Matrix.scalar (Fin (B.d i)) (algebraMap K (B.D i) α) := by
     have := congrFun hsingle i
     simpa [Pi.single_eq_same] using this
-  haveI : Nonempty (Fin (B.d i)) :=
+  have : Nonempty (Fin (B.d i)) :=
     Fin.pos_iff_nonempty.mp (Nat.lt_of_lt_of_le Nat.zero_lt_one (B.pos i))
   exact ⟨α, (Matrix.scalar_inj).mp hscalar.symm⟩
 
 private theorem i167CLin_block_fixed_aux18fr {K : Type} [Field K] [Finite K] {n : ℕ} {g : GL (Fin n) K}
     (B : LinBlock K g) (i : Fin B.r) (hcard : Nat.card (B.D i) = Nat.card K) :
     Module.finrank K (B.D i) = 1 := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fintype (B.D i) := Fintype.ofFinite (B.D i)
+  have : Fintype K := Fintype.ofFinite K
+  have : Fintype (B.D i) := Fintype.ofFinite (B.D i)
   have hK2 : 2 ≤ Nat.card K := by
     have h := Fintype.one_lt_card (α := K)
     rw [Nat.card_eq_fintype_card]
@@ -839,12 +839,12 @@ private theorem i167CLin_block_fixed_aux18a {K : Type} [Field K] [Finite K] {n :
     (hcardMat : Nat.card (Matrix (Fin (B.d i)) (Fin (B.d i)) (B.D i)) =
       Nat.card ((i167CLin_block_fixed_aux11 B i) →ₗ[K] (i167CLin_block_fixed_aux11 B i))) :
     B.d i = Module.finrank K (i167CLin_block_fixed_aux11 B i) := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fintype (B.D i) := Fintype.ofFinite (B.D i)
-  haveI : Fintype (Matrix (Fin (B.d i)) (Fin (B.d i)) (B.D i)) := Fintype.ofFinite _
-  haveI : Finite ((i167CLin_block_fixed_aux11 B i) →ₗ[K] (i167CLin_block_fixed_aux11 B i)) :=
+  have : Fintype K := Fintype.ofFinite K
+  have : Fintype (B.D i) := Fintype.ofFinite (B.D i)
+  have : Fintype (Matrix (Fin (B.d i)) (Fin (B.d i)) (B.D i)) := Fintype.ofFinite _
+  have : Finite ((i167CLin_block_fixed_aux11 B i) →ₗ[K] (i167CLin_block_fixed_aux11 B i)) :=
     Finite.of_injective (fun f => (f : _ → _)) (fun _ _ h => LinearMap.ext (congrFun h))
-  haveI : Fintype ((i167CLin_block_fixed_aux11 B i) →ₗ[K] (i167CLin_block_fixed_aux11 B i)) :=
+  have : Fintype ((i167CLin_block_fixed_aux11 B i) →ₗ[K] (i167CLin_block_fixed_aux11 B i)) :=
     Fintype.ofFinite _
   have hK2 : 2 ≤ Nat.card K := by
     have h := Fintype.one_lt_card (α := K)
@@ -885,12 +885,12 @@ private theorem i167CLin_block_fixed_aux18 {K : Type} [Field K] [Finite K] {n : 
     (hc : (g : Matrix (Fin n) (Fin n) K) = B.Φ (fun i => Matrix.scalar (Fin (B.d i)) (c i)))
     {i : Fin B.r} (hi : c i = 1) (hj : ∀ j, c j = 1 → j = i) :
     B.d i = Module.finrank K (LinearMap.ker (Matrix.toLin' ((g : Matrix (Fin n) (Fin n) K) - 1))) := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fintype (B.D i) := Fintype.ofFinite (B.D i)
-  haveI : Fintype (Matrix (Fin (B.d i)) (Fin (B.d i)) (B.D i)) := Fintype.ofFinite _
-  haveI : Finite ((i167CLin_block_fixed_aux11 B i) →ₗ[K] (i167CLin_block_fixed_aux11 B i)) :=
+  have : Fintype K := Fintype.ofFinite K
+  have : Fintype (B.D i) := Fintype.ofFinite (B.D i)
+  have : Fintype (Matrix (Fin (B.d i)) (Fin (B.d i)) (B.D i)) := Fintype.ofFinite _
+  have : Finite ((i167CLin_block_fixed_aux11 B i) →ₗ[K] (i167CLin_block_fixed_aux11 B i)) :=
     Finite.of_injective (fun f => (f : _ → _)) (fun _ _ h => LinearMap.ext (congrFun h))
-  haveI : Fintype ((i167CLin_block_fixed_aux11 B i) →ₗ[K] (i167CLin_block_fixed_aux11 B i)) :=
+  have : Fintype ((i167CLin_block_fixed_aux11 B i) →ₗ[K] (i167CLin_block_fixed_aux11 B i)) :=
     Fintype.ofFinite _
   have hsurj := i167CLin_block_fixed_aux17 B hc hi
   have hcard : Nat.card (B.D i) = Nat.card K :=
@@ -933,7 +933,7 @@ private lemma i167CLin_block_fixed_triv_aux1 {K : Type} [Field K] [Finite K] {n 
     by_cases hj : j = i
     · subst hj
       simp [Pi.mulSingle_eq_same]
-    · simp [Pi.mulSingle, Function.update_of_ne hj, Pi.single_eq_of_ne hj, Pi.one_apply]
+    · simp [Pi.mulSingle, Function.update_of_ne hj, Pi.single_eq_of_ne hj]
   have hsubg : (g : Matrix (Fin n) (Fin n) K) - 1
       = B.Φ (fun j => Matrix.scalar (Fin (B.d j)) (c j) - 1) := by
     rw [hc, ← map_one B.Φ, ← map_sub]
@@ -945,8 +945,8 @@ private lemma i167CLin_block_fixed_triv_aux1 {K : Type} [Field K] [Finite K] {n 
     funext j
     by_cases hj : j = i
     · subst hj
-      simp [Pi.mul_apply, Pi.single_eq_same, Pi.zero_apply, hi]
-    · simp [Pi.mul_apply, Pi.single_eq_of_ne hj, Pi.zero_apply]
+      simp [Pi.mul_apply, Pi.single_eq_same, hi]
+    · simp [Pi.mul_apply, Pi.single_eq_of_ne hj]
   rw [hzero, map_zero]
 
 theorem i167CLin_block_fixed_triv {K : Type} [Field K] [Finite K] {n : ℕ} {g : GL (Fin n) K} (B : LinBlock K g)
@@ -976,11 +976,11 @@ theorem i167CLin_block_model {K : Type} [Field K] [Finite K] (h2 : (2 : K) = 0) 
       (MonoidHom.mulSingle (fun j => GL (Fin (B.d j)) (B.D j)) i)).map B.θ) :
     ∃ e : ℕ, Nat.card (B.D i) = 2 ^ e ∧ StatedClassicalModel (M ⧸ Subgroup.center M) .PSL (B.d i) 2 e := by
   classical
-  haveI : Fintype (B.D i) := Fintype.ofFinite (B.D i)
+  have : Fintype (B.D i) := Fintype.ofFinite (B.D i)
   have h2D : (2 : B.D i) = 0 := by
     rw [← map_ofNat (algebraMap K (B.D i)) 2, h2, map_zero]
   obtain ⟨q, hqchar, m, hqprime, hcard⟩ := FiniteField.card' (B.D i)
-  haveI := hqchar
+  have := hqchar
   have hq2 : q = 2 :=
     (Nat.prime_dvd_prime_iff_eq hqprime Nat.prime_two).mp
       ((CharP.cast_eq_zero_iff (B.D i) q 2).mp h2D)
@@ -997,7 +997,7 @@ theorem i167CLin_block_model {K : Type} [Field K] [Finite K] (h2 : (2 : K) = 0) 
           (MonoidHom.mulSingle (fun j => GL (Fin (B.d j)) (B.D j)) i) hms).symm)
   obtain ⟨e'⟩ :=
     CFSG.LieType.SemisimpleCentralizers.Held.nonempty_quotientCenter_equiv_statedProj eM
-  haveI : IsSimpleGroup (M ⧸ Subgroup.center M) := hM.2.2.2
+  have : IsSimpleGroup (M ⧸ Subgroup.center M) := hM.2.2.2
   exact ⟨(m : ℕ), hE,
     CFSG.LocalAnalysis.GLTheoremA.Y10GInnLin.statedClassicalModel_psl_of_isSimpleGroup
       hi2 hE e'⟩
@@ -1018,7 +1018,7 @@ private theorem i167CLin_block_dichotomy_aux2 {E : Type} [Field E] {e p : ℕ}
   have hu1 : u ≠ 1 := by
     intro h
     exact hc1 (by simpa [u] using congrArg (fun v : Eˣ => (v : E)) h)
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have horder : orderOf u = p := orderOf_eq_prime hup hu1
   have h := orderOf_dvd_natCard u
   rw [horder, Nat.card_units, hE] at h
@@ -1033,7 +1033,7 @@ theorem i167CLin_block_dichotomy {K : Type} [Field K] [Finite K] {a : ℕ} (hKa 
           ∀ m ∈ M, ∀ v ∈ LinearMap.range (Matrix.toLin' ((g : Matrix (Fin d) (Fin d) K) - 1)),
             (m : Matrix (Fin d) (Fin d) K) *ᵥ v = v)) := by
   classical
-  haveI : CharP K 2 := (CharP.charP_iff_prime_eq_zero Nat.prime_two).mpr h2
+  have : CharP K 2 := (CharP.charP_iff_prime_eq_zero Nat.prime_two).mpr h2
   have hord : ((orderOf g : ℕ) : K) ≠ 0 := i167CLin_block_dichotomy_aux1 hp hp2 g hg
   obtain ⟨B, i, hi2, hMeq⟩ := i167CLin_block_exists g hord M hM
   obtain ⟨c, hcne, hc, hcp⟩ := i167CLin_block_coord B hg

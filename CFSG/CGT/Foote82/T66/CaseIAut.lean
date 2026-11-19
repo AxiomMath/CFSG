@@ -114,13 +114,13 @@ theorem theta_eq_one_iff (hm : 5 ≤ m) (j : alternatingGroup (Fin m) →* Γ)
   · intro h a
     have := hθ x a
     rw [h] at this
-    have h1 : conjA (1 : Perm (Fin m)) a = a := Subtype.ext (by simp [coe_conjA])
+    have h1 : conjA (1 : Perm (Fin m)) a = a := Subtype.ext (by simp)
     rw [h1] at this
     calc (x : Γ) * j a = (x : Γ) * j a * (x : Γ)⁻¹ * x := by group
       _ = j a * x := by rw [this]
   · intro h
     refine theta_eq hm j hj hθ x fun a => ?_
-    have h1 : conjA (1 : Perm (Fin m)) a = a := Subtype.ext (by simp [coe_conjA])
+    have h1 : conjA (1 : Perm (Fin m)) a = a := Subtype.ext (by simp)
     rw [h1, h a]
     group
 

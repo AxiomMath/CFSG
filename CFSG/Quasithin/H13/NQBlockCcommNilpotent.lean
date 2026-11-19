@@ -93,7 +93,7 @@ theorem nilpotent_primewise_action_criterion (N : Subgroup H) [N.Normal]
   have : Fact p.Prime := hp
   have hPord : ∀ x ∈ (P : Subgroup H), ∀ r : ℕ, r.Prime → r ≠ p → (orderOf x).Coprime r := by
     intro x hx r hr hrp
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨x, hx⟩
     have h1 : orderOf x ∣ p ^ k := by
       rw [← Subgroup.orderOf_mk x hx]
       exact orderOf_dvd_of_pow_eq_one hk
@@ -155,7 +155,7 @@ theorem nilpotent_primewise_action_criterion (N : Subgroup H) [N.Normal]
         rw [hCdef, mem_subgroupOf, mem_centralizer_singleton_iff]
         set S' := (S : Subgroup (zpowers z)).map (zpowers z).subtype with hS'
         have hS'N : S' ≤ N := (map_subtype_le _).trans (zpowers_le.mpr hzN)
-        have hS'r : IsPGroup r S' := S.isPGroup'.map _
+        have hS'r : IsPGroup r S' := S.isPGroup.map _
         have hxS' : (x : H) ∈ S' := ⟨x, hx, rfl⟩
         by_cases hrp : r = p
         ·
@@ -282,7 +282,7 @@ theorem nilpotent_primewise_action_criterion (N : Subgroup H) [N.Normal]
         · exact hcop r Q x (hPord x hx r hr.out hrp) y hy
     have hPN : (P : Subgroup H) ≤ N := hPC.trans hC
     have hP1 : (P : Subgroup H) = ⊥ := by
-      obtain ⟨k, hk⟩ := (P.isPGroup').exists_card_eq
+      obtain ⟨k, hk⟩ := (P.isPGroup).exists_card_eq
       rw [← card_eq_one, hk]
       rcases k with _ | k
       · rfl

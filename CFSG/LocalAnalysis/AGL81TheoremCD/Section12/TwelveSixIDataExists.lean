@@ -24,6 +24,7 @@ open CFSG.LocalAnalysis.RankThreeUC.AGL81C
 variable {G : Type} [Group G] [Finite G] {M : Subgroup G} {p : ℕ} {Q H : Subgroup G} {d : ℕ}
   {L₁ L₂ L₃ : Subgroup G} {n₁ n₂ n₃ : ℕ}
 
+omit [Finite G] in
 private theorem le_normalizer_of_cZero_eq_singleton {X K I : Subgroup G}
     (hX : cZero X = {I}) (hKX : K ≤ Subgroup.normalizer (X : Set G)) :
     K ≤ Subgroup.normalizer (I : Set G) := by
@@ -37,6 +38,7 @@ private theorem le_normalizer_of_cZero_eq_singleton {X K I : Subgroup G}
   rw [hX] at hmem
   exact Subgroup.mem_normalizer_iff_map_conj_eq.mpr (by simpa using hmem)
 
+omit [Finite G] in
 private theorem normalize_of_cZero {H L L' I I' : Subgroup G}
     (hI' : cZero (H ⊓ L') = {I'}) (hIH : I ≤ H) (hIL : I ≤ L)
     (hLL' : L ≤ Subgroup.normalizer (L' : Set G)) :
@@ -52,6 +54,7 @@ private theorem commutator_I_le_pCoreOf {L L' I I' : Subgroup G}
   (Subgroup.commutator_mono hIL hI'L').trans
     (hL.toIsTwoPrimeComponent.commutator_le hL'.toIsTwoPrimeComponent hne)
 
+omit [Finite G] in
 private theorem mem_pCoreOf_of_mem_bot {M : Subgroup G} {x : G} (hxM : x ∈ M)
     (hmem : QuotientGroup.mk' (CFSG.pCore 2 ↥M) ⟨x, hxM⟩ ∈
       (⊥ : Subgroup (↥M ⧸ CFSG.pCore 2 ↥M))) :
@@ -61,8 +64,9 @@ private theorem mem_pCoreOf_of_mem_bot {M : Subgroup G} {x : G} (hxM : x ∈ M)
     simpa [QuotientGroup.mk'_apply] using hmem
   exact Subgroup.mem_map.mpr ⟨⟨x, hxM⟩, h1, rfl⟩
 
+omit [Finite G] in
 private theorem le_pCoreOf_of_barM_inf_eq_bot {M L L' : Subgroup G}
-    (hbot : barM M L ⊓ barM M L' = ⊥) (hL : L ≤ M) (hL' : L' ≤ M) :
+    (hbot : barM M L ⊓ barM M L' = ⊥) (hL : L ≤ M) (_hL' : L' ≤ M) :
     L ⊓ L' ≤ CFSG.Open.pCoreOf 2 M := by
   intro x hx
   have hxM : x ∈ M := hL hx.1
@@ -73,6 +77,7 @@ private theorem le_pCoreOf_of_barM_inf_eq_bot {M L L' : Subgroup G}
   rw [hbot] at hclass
   exact mem_pCoreOf_of_mem_bot hxM hclass
 
+omit [Finite G] in
 private theorem le_pCoreOf_of_barM_sup_inf_eq_bot {M L L' L'' : Subgroup G}
     (hbot : (barM M L ⊔ barM M L') ⊓ barM M L'' = ⊥)
     (hL : L ≤ M) (hL' : L' ≤ M) (hL'' : L'' ≤ M) :
@@ -88,12 +93,12 @@ private theorem le_pCoreOf_of_barM_sup_inf_eq_bot {M L L' L'' : Subgroup G}
   rw [hbot] at hclass
   exact mem_pCoreOf_of_mem_bot hxM hclass
 
-private theorem coprime_cover {X R : Subgroup G} (hXM : X ≤ M)
+private theorem coprime_cover {X R : Subgroup G} (_hXM : X ≤ M)
     (hRX : R ≤ Subgroup.normalizer (X : Set G)) (hRM : R ≤ M) (hR : IsPGroup 3 R)
     (hcomm : ⁅X, R⁆ ≤ CFSG.Open.pCoreOf 2 M) :
     X ⊓ Subgroup.centralizer (R : Set G) ⊔ (X ⊓ CFSG.Open.pCoreOf 2 M) = X := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hNle : X ⊓ CFSG.Open.pCoreOf 2 M ≤ X := inf_le_left
   have hRN : R ≤ Subgroup.normalizer ((X ⊓ CFSG.Open.pCoreOf 2 M : Subgroup G) : Set G) :=
     (le_inf hRX (hRM.trans (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 M))).trans
@@ -106,6 +111,7 @@ private theorem coprime_cover {X R : Subgroup G} (hXM : X ≤ M)
     le_inf (Subgroup.le_normalizer_iff_commutator_le_left.mp hRX) hcomm
   exact CFSG.GroupTheory.inf_centralizer_sup_eq_of_commutator_le hNle hRX hRN hR hNp hcommX
 
+omit [Finite G] in
 private theorem conj_mem_comap_of_inv {I V W : Subgroup G} {s : G}
     (hWV : W ≤ V) (hinv : ∀ w ∈ W, s * w * s⁻¹ = w⁻¹) :
     W ≤ (V ⊔ (I ⊓ CFSG.Open.pCoreOf 2 M : Subgroup G)).comap (MulAut.conj s).toMonoidHom := by
@@ -115,6 +121,7 @@ private theorem conj_mem_comap_of_inv {I V W : Subgroup G} {s : G}
   rw [MulAut.conj_apply, hinv w hw]
   exact Subgroup.mem_sup_left (V.inv_mem (hWV hw))
 
+omit [Finite G] in
 private theorem conj_mem_comap_of_commutator {I Ii V W : Subgroup G} {s : G}
     (hIiI : Ii ≤ I) (hVI : V ≤ I) (hWV : W ≤ V) (hs : s ∈ Ii)
     (hcomm : ⁅Ii, W⁆ ≤ CFSG.Open.pCoreOf 2 M) :
@@ -136,6 +143,7 @@ private theorem conj_mem_comap_of_commutator {I Ii V W : Subgroup G} {s : G}
   exact Subgroup.mul_mem _ (Subgroup.mem_sup_right hcO)
     (Subgroup.mem_sup_left (hWV hw))
 
+omit [Finite G] in
 private theorem maps_V_into_sup {I V W W' W'' : Subgroup G} {s : G}
     (hJOIN : V = W ⊔ W' ⊔ W'')
     (hW : W ≤ (V ⊔ (I ⊓ CFSG.Open.pCoreOf 2 M : Subgroup G)).comap
@@ -156,8 +164,8 @@ private theorem maps_V_into_sup {I V W W' W'' : Subgroup G} {s : G}
 
 private theorem inf_twoCore_eq_bot {I V : Subgroup G} (hV : IsPGroup 3 V) :
     (V ⊓ (I ⊓ CFSG.Open.pCoreOf 2 M : Subgroup G) : Subgroup G) = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact (IsPGroup.disjoint_of_ne 3 2 (by norm_num) V ((I ⊓ CFSG.Open.pCoreOf 2 M : Subgroup G)) hV
     ((CFSG.LieType.BorelTits.pCoreOf_isPGroup (r := 2) M).to_le inf_le_right)).eq_bot
 
@@ -242,6 +250,7 @@ private theorem commutes_of_conj_mem_sup {I Ii V W : Subgroup G} {s t : G}
   calc t * w = (t * w * t⁻¹) * t := by group
     _ = w * t := by rw [htw]
 
+omit [Finite G] in
 private theorem commute_on_sup {W' W'' : Subgroup G} {t : G}
     (h' : ∀ w ∈ W', t * w = w * t) (h'' : ∀ w ∈ W'', t * w = w * t) :
     ∀ w ∈ W' ⊔ W'', t * w = w * t := by
@@ -447,16 +456,16 @@ private theorem build_IData (hc : TwelveSixKCtx G M p Q H d L₁ L₂ L₃ n₁ 
       (TwelveFiveData.pairwise_ne hc.data hc.hcard).2.2 D.leL₂ D.leL₃
   exact ⟨⟨D, h₁₂, h₁₃, h₂₁, h₂₃, h₃₁, h₃₂, c₁₂, c₁₃, c₂₃⟩⟩
 
-private theorem build_W1 (hc : TwelveSixKCtx G M p Q H d L₁ L₂ L₃ n₁ n₂ n₃)
+private theorem build_W1 (_hc : TwelveSixKCtx G M p Q H d L₁ L₂ L₃ n₁ n₂ n₃)
     (D : IData M H L₁ L₂ L₃ n₁ n₂ n₃) : Nonempty (W1Data M H L₁ L₂ L₃ n₁ n₂ n₃) := by
   obtain ⟨W₁, hW₁I₁, hcardW₁, s₁, hs₁, hinv₁⟩ :=
     exists_card_three_inverted_of_sup_pCore_eq (I := D.I₁) (C := D.I₁) (n := n₁) D.type₁
       (sup_eq_left.mpr (Subgroup.map_subtype_le (CFSG.pCore 2 ↥D.I₁)))
   exact ⟨⟨D, W₁, s₁, hW₁I₁, hcardW₁, hs₁, hinv₁⟩⟩
 
-private theorem build_W2 (hc : TwelveSixKCtx G M p Q H d L₁ L₂ L₃ n₁ n₂ n₃)
+private theorem build_W2 (_hc : TwelveSixKCtx G M p Q H d L₁ L₂ L₃ n₁ n₂ n₃)
     (D : W1Data M H L₁ L₂ L₃ n₁ n₂ n₃) : Nonempty (W2Data M H L₁ L₂ L₃ n₁ n₂ n₃) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hW₁3 : IsPGroup 3 ↥D.W₁ :=
     (CFSG.GroupTheory.isElemAbelian_of_card_prime D.cardW₁).isPGroup
   have hcomm₂W₁ : ⁅D.I₂, D.W₁⁆ ≤ CFSG.Open.pCoreOf 2 M :=
@@ -483,6 +492,7 @@ private theorem build_W2 (hc : TwelveSixKCtx G M p Q H d L₁ L₂ L₃ n₁ n�
   exact ⟨⟨D, W₂, s₂, hW₂I₂C₁.trans inf_le_left, hW₂I₂C₁.trans inf_le_right,
     hcardW₂, hs₂, hinv₂⟩⟩
 
+omit [Finite G] in
 private theorem sup_eq_of_two_covers {C₁ C₂ N N₁ I : Subgroup G}
     (hA : C₁ ⊔ N = I) (hB : C₂ ⊔ N₁ = C₁) (hN₁N : N₁ ≤ N) : C₂ ⊔ N = I := by
   have hC₂C₁ : C₂ ≤ C₁ := by rw [← hB]; exact le_sup_left
@@ -496,6 +506,7 @@ private theorem sup_eq_of_two_covers {C₁ C₂ N N₁ I : Subgroup G}
     _ ≤ (C₂ ⊔ N) ⊔ N := sup_le_sup hC₁le le_rfl
     _ = C₂ ⊔ N := by rw [sup_assoc, sup_idem]
 
+omit [Finite G] in
 private theorem cover_W3_normalizers (D : W2Data M H L₁ L₂ L₃ n₁ n₂ n₃) :
     D.W₁ ≤ Subgroup.normalizer (Subgroup.centralizer (D.W₁ : Set G) : Set G) ∧
     D.W₂ ≤ Subgroup.normalizer (Subgroup.centralizer (D.W₁ : Set G) : Set G) := by
@@ -507,12 +518,12 @@ private theorem cover_W3_normalizers (D : W2Data M H L₁ L₂ L₃ n₁ n₂ n�
   exact ⟨Subgroup.le_normalizer.trans hN₁C₁,
     (D.leW₂C₁.trans (Subgroup.centralizer_le_normalizer (D.W₁ : Set G))).trans hN₁C₁⟩
 
-private theorem cover_W3_two_covers (hc : TwelveSixKCtx G M p Q H d L₁ L₂ L₃ n₁ n₂ n₃)
+private theorem cover_W3_two_covers (_hc : TwelveSixKCtx G M p Q H d L₁ L₂ L₃ n₁ n₂ n₃)
     (D : W2Data M H L₁ L₂ L₃ n₁ n₂ n₃) :
     (D.I₃ ⊓ Subgroup.centralizer (D.W₁ : Set G) ⊓
       Subgroup.centralizer (D.W₂ : Set G)) ⊔
       (D.I₃ ⊓ CFSG.Open.pCoreOf 2 M) = D.I₃ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let C₁ : Subgroup G := D.I₃ ⊓ Subgroup.centralizer (D.W₁ : Set G)
   let C₂ : Subgroup G := C₁ ⊓ Subgroup.centralizer (D.W₂ : Set G)
   let N : Subgroup G := D.I₃ ⊓ CFSG.Open.pCoreOf 2 M
@@ -568,9 +579,10 @@ private theorem build_W3 (hc : TwelveSixKCtx G M p Q H d L₁ L₂ L₃ n₁ n�
     hW₃I₃C₁C₂.trans (inf_le_left.trans inf_le_right), hW₃I₃C₁C₂.trans inf_le_right,
     hcardW₃, hs₃, hinv₃⟩⟩
 
+omit [Finite G] in
 private theorem V_elem_abelian (D : W3Data M H L₁ L₂ L₃ n₁ n₂ n₃) :
     IsElemAbelian 3 (D.W₁ ⊔ D.W₂ ⊔ D.W₃) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcent₁₂ : ∀ a ∈ D.W₁, ∀ b ∈ D.W₂, Commute a b := by
     intro a ha b hb
     exact Subgroup.mem_centralizer_iff.mp (D.leW₂C₁ hb) a ha
@@ -597,7 +609,7 @@ private theorem V_elem_abelian (D : W3Data M H L₁ L₂ L₃ n₁ n₂ n₃) :
 private theorem W_disjoint (hc : TwelveSixKCtx G M p Q H d L₁ L₂ L₃ n₁ n₂ n₃)
     (D : W3Data M H L₁ L₂ L₃ n₁ n₂ n₃) :
     D.W₁ ⊓ D.W₂ = ⊥ ∧ (D.W₁ ⊔ D.W₂) ⊓ D.W₃ = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩; haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩; have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hW₁3 : IsPGroup 3 ↥D.W₁ :=
     (CFSG.GroupTheory.isElemAbelian_of_card_prime D.cardW₁).isPGroup
   have hW₁₂3 : IsPGroup 3 ↥(D.W₁ ⊔ D.W₂) :=
@@ -667,7 +679,7 @@ private theorem build_VData (hc : TwelveSixKCtx G M p Q H d L₁ L₂ L₃ n₁ 
     (D : W3Data M H L₁ L₂ L₃ n₁ n₂ n₃) : Nonempty (VData M H L₁ L₂ L₃ n₁ n₂ n₃) :=
   ⟨⟨D, D.W₁ ⊔ D.W₂ ⊔ D.W₃, rfl, V_elem_abelian D, V_card hc D⟩⟩
 
-private theorem build_T1 (hc : TwelveSixKCtx G M p Q H d L₁ L₂ L₃ n₁ n₂ n₃)
+private theorem build_T1 (_hc : TwelveSixKCtx G M p Q H d L₁ L₂ L₃ n₁ n₂ n₃)
     (D : VData M H L₁ L₂ L₃ n₁ n₂ n₃) : Nonempty (T1Data M H L₁ L₂ L₃ n₁ n₂ n₃) := by
   let I : Subgroup G := D.I₁ ⊔ D.I₂ ⊔ D.I₃
   have hI₁I : D.I₁ ≤ I := le_sup_left.trans le_sup_left
@@ -691,7 +703,7 @@ private theorem build_T1 (hc : TwelveSixKCtx G M p Q H d L₁ L₂ L₃ n₁ n�
       hcomm₁W₂ hcomm₁W₃
   exact ⟨⟨D, t₁, ht₁I, hinv₁, hcomm₁⟩⟩
 
-private theorem build_T2 (hc : TwelveSixKCtx G M p Q H d L₁ L₂ L₃ n₁ n₂ n₃)
+private theorem build_T2 (_hc : TwelveSixKCtx G M p Q H d L₁ L₂ L₃ n₁ n₂ n₃)
     (D : T1Data M H L₁ L₂ L₃ n₁ n₂ n₃) : Nonempty (T2Data M H L₁ L₂ L₃ n₁ n₂ n₃) := by
   let I : Subgroup G := D.I₁ ⊔ D.I₂ ⊔ D.I₃
   have hI₁I : D.I₁ ≤ I := le_sup_left.trans le_sup_left
@@ -719,7 +731,7 @@ private theorem build_T2 (hc : TwelveSixKCtx G M p Q H d L₁ L₂ L₃ n₁ n�
       D.inv₂ hcomm₂W₁ hcomm₂W₃
   exact ⟨⟨D, t₂, ht₂I, hinv₂, hcomm₂⟩⟩
 
-private theorem build_T3 (hc : TwelveSixKCtx G M p Q H d L₁ L₂ L₃ n₁ n₂ n₃)
+private theorem build_T3 (_hc : TwelveSixKCtx G M p Q H d L₁ L₂ L₃ n₁ n₂ n₃)
     (D : T2Data M H L₁ L₂ L₃ n₁ n₂ n₃) : Nonempty (T3Data M H L₁ L₂ L₃ n₁ n₂ n₃) := by
   let I : Subgroup G := D.I₁ ⊔ D.I₂ ⊔ D.I₃
   have hI₁I : D.I₁ ≤ I := le_sup_left.trans le_sup_left

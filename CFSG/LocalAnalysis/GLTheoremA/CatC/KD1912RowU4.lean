@@ -94,25 +94,25 @@ private theorem char211_ker (ζ : K) (hζ : IsPrimitiveRoot ζ 3) :
       rw [smul_single_eq, Pi.single_apply]
       by_cases hi : i = 2
       · subst hi
-        rw [hx2, if_pos rfl]
+        rw [hx2, ite_eq_left rfl]
       · rw [entry_zero_of_mem_centralizer (mat_c211 ζ hζ) x.2 ((c211_eig_ne ζ hζ).1 i hi),
-          if_neg hi]
+          ite_eq_right hi]
     · funext i
       rw [smul_single_eq, Pi.single_apply]
       by_cases hi : i = 3
       · subst hi
-        rw [hx3, if_pos rfl]
+        rw [hx3, ite_eq_left rfl]
       · rw [entry_zero_of_mem_centralizer (mat_c211 ζ hζ) x.2 ((c211_eig_ne ζ hζ).2 i hi),
-          if_neg hi]
+          ite_eq_right hi]
   · intro hx
     rw [Subgroup.mem_subgroupOf] at hx
     obtain ⟨h2, h3⟩ := (mem_W0_iff (x : SU4)).1 hx
     have e2 : mat (x : SU4) 2 2 = 1 := by
       have := congrFun h2 2
-      rwa [smul_single_eq, Pi.single_apply, if_pos rfl] at this
+      rwa [smul_single_eq, Pi.single_apply, ite_eq_left rfl] at this
     have e3 : mat (x : SU4) 3 3 = 1 := by
       have := congrFun h3 3
-      rwa [smul_single_eq, Pi.single_apply, if_pos rfl] at this
+      rwa [smul_single_eq, Pi.single_apply, ite_eq_left rfl] at this
     apply Prod.ext
     · apply Units.ext
       simpa [char211, diagChar] using e2
@@ -265,7 +265,7 @@ private theorem pPrimeCore_bot_KA (ζ : K) (hζ : IsPrimitiveRoot ζ 3) :
     intro w x hw hx
     exact W1_normal_c022 (KA_le_C ζ hζ hx) hw
   have hW1core : pPrimeCore 3 ↥(W1.subgroupOf (KA ζ hζ)) = ⊥ := by
-    haveI : IsSimpleGroup ↥W0 := isSimpleGroup_W0
+    have : IsSimpleGroup ↥W0 := isSimpleGroup_W0
     have hsimpleW1 : IsSimpleGroup ↥W1 := W1equivW0.isSimpleGroup
     have h3W1 : 3 ∣ Nat.card ↥W1 := by
       rw [Nat.card_congr W1equivW0.toEquiv]
@@ -280,7 +280,7 @@ private theorem pPrimeCore_bot_KA (ζ : K) (hζ : IsPrimitiveRoot ζ 3) :
     let f : ↥(KA ζ hζ) ⧸ (piA ζ hζ).ker ≃* ↥(piA ζ hζ).range :=
       QuotientGroup.quotientKerEquivRange (piA ζ hζ)
     let g : ↥(piA ζ hζ).range ≃* ↥W0 := MulEquiv.subgroupCongr (piA_range ζ hζ)
-    haveI : IsSimpleGroup ↥W0 := isSimpleGroup_W0
+    have : IsSimpleGroup ↥W0 := isSimpleGroup_W0
     exact (e.trans (f.trans g)).isSimpleGroup
   have hdvd : 3 ∣ Nat.card (↥(KA ζ hζ) ⧸ W1.subgroupOf (KA ζ hζ)) := by
     let e : ↥(KA ζ hζ) ⧸ W1.subgroupOf (KA ζ hζ) ≃*
@@ -411,7 +411,7 @@ private theorem twoNilpotent_outer_SU4 :
       CFSG.LocalAnalysis.ComponentInitial.finite_field_automorphism_fixed_field_cardinality
         (F := K) Nat.prime_two (n := 6) (by norm_num) (by rw [card_K]; norm_num)
     exact isCyclic_iff_exists_zpowers_eq_top.mpr ⟨σ, htop⟩
-  haveI : IsCyclic (CFSG.ComponentClassification.OuterAutomorphisms.Outer SU4) :=
+  have : IsCyclic (CFSG.ComponentClassification.OuterAutomorphisms.Outer SU4) :=
     (MulEquiv.isCyclic e).mpr hcycAut
   exact CFSG.Quasithin.H13.OutTwoNilp.twoNilpotent_of_isCyclic
 

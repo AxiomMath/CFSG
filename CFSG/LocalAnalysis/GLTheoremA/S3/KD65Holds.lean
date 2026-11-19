@@ -81,7 +81,6 @@ private theorem kd65h_generic_coprime {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (
   all_goals first
     | exact ⟨key _ (Or.inr (Or.inl (Nat.gcd_dvd_right _ _))), one⟩
     | exact ⟨key _ (Or.inr (Or.inr (Nat.gcd_dvd_right _ _))), one⟩
-    | exact ⟨key _ (Or.inl ((Nat.gcd_dvd_left _ _).trans (by norm_num))), one⟩
     | exact ⟨one, one⟩
 
 private theorem kd65h_exc_three {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (t : StatedLieTag)
@@ -236,7 +235,7 @@ theorem kd65_of_outer_facts (hGA : GriessAllModelsStatement)
   have hqE' : CFSG.IsQuasisimple E :=
     CFSG.AGLEmbedding.KFactProofs.ThreeCover.isQuasisimple_of_open hqE
   have hpZ : p ∣ Nat.card (Subgroup.center E) := by
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     obtain ⟨k, hk⟩ := hZp.exists_card_eq
     rcases k with _ | k
     · rw [pow_zero] at hk

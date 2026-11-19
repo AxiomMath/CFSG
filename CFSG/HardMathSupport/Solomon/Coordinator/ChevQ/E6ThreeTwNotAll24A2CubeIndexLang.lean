@@ -432,7 +432,7 @@ theorem a2cube_inf_rootSpan_le_rationalComponent
   obtain ⟨hs3, hratI⟩ := hrat i
   obtain ⟨hs0, hs, hmin⟩ := outer_componentOrbitLength_spec S hT i
   set s := componentOrbitLength S.ρ (componentRoots (rootCharHom ta) i) with hsdef
-  haveI : NeZero s := ⟨hs0.ne'⟩
+  have : NeZero s := ⟨hs0.ne'⟩
   set P := outerOrbitFamily S hT i hs hmin with hP
   have hPA : P.A = rootSpan Tag.E6 L (kernelRoots (rootCharHom ta)) := by
     rw [hP, outerOrbitFamily_A, hratI]
@@ -520,7 +520,7 @@ theorem a2cube_inf_rootSpan_le_rationalComponent
     have h := mul_mem hxΓ (inv_mem (hRΓ hNR))
     rwa [mul_inv_cancel_right] at h
   have hζ1 : ζ = 1 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hord : orderOf d = 3 := orderOf_eq_prime hd3 h1
     obtain ⟨m, rfl⟩ := Subgroup.mem_zpowers_iff.1 hζd
     have hm : d ^ m = d ^ (m % 3) := by

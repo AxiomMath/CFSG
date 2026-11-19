@@ -92,18 +92,16 @@ private theorem mem_closure_t_uv_iff (x : A45) :
         one_mem' := Or.inl rfl
         mul_mem' := by
           intro y z hy hz
-          simp only [Set.mem_setOf_eq] at hy hz ⊢
+          simp only [Set.mem_ofPred_eq] at hy hz ⊢
           rcases hy with rfl | rfl | rfl | rfl <;>
             rcases hz with rfl | rfl | rfl | rfl <;>
-            simp only [Subtype.ext_iff, Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_one,
-              Subtype.coe_mk] <;>
+            simp only [Subtype.ext_iff, Subgroup.coe_mul, Subgroup.coe_one] <;>
             decide +kernel
         inv_mem' := by
           intro y hy
-          simp only [Set.mem_setOf_eq] at hy ⊢
+          simp only [Set.mem_ofPred_eq] at hy ⊢
           rcases hy with rfl | rfl | rfl | rfl <;>
-            simp only [Subtype.ext_iff, Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_one,
-              Subtype.coe_mk] <;>
+            simp only [Subtype.ext_iff, Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_one] <;>
             decide +kernel }
     have hle : Subgroup.closure ({tA, uvA} : Set A45) ≤ S := by
       rw [Subgroup.closure_le]
@@ -165,7 +163,7 @@ theorem exists_conj_mem_closure_t_uv_of_mem_centralizer
       (⟨sigma2, sigma2_mem_A⟩ : ↥QA45.originalSubgroup)⁻¹} : Set ↥QA45.originalSubgroup),
       c * a * c⁻¹ ∈ Subgroup.closure {(⟨t, t_mem_A⟩ : ↥QA45.originalSubgroup),
         (⟨u, u_mem_A⟩ : ↥QA45.originalSubgroup) * (⟨v, v_mem_A⟩ : ↥QA45.originalSubgroup)} := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hEle, _, hEcard⟩ := qa45_sigma_centralizer_sylow.2.1
   have hCcard : Nat.card SpinFixedCardSigma.Csigma = 108 := by
     show Nat.card (Subgroup.centralizer ({(s1A * s2A⁻¹)} : Set A45)) = 108

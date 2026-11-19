@@ -103,11 +103,12 @@ section Lin
 variable {E M : Type*} [Field E] [AddCommGroup M] [Module E M] {ι : Type*} [DecidableEq ι]
   (b : Module.Basis ι E M) {i j : ι}
 
+omit [DecidableEq ι] in
 private theorem coord_self' (i : ι) : b.coord i (b i) = 1 := by
   rw [Module.Basis.coord_apply, Module.Basis.repr_self, Finsupp.single_eq_same]
 
 private theorem coord_ne' (hij : i ≠ j) : b.coord j (b i) = 0 := by
-  rw [Module.Basis.coord_apply, Module.Basis.repr_self, Finsupp.single_apply, if_neg hij]
+  rw [Module.Basis.coord_apply, Module.Basis.repr_self, Finsupp.single_apply, ite_eq_right hij]
 
 theorem modelThree_lin [CharP E 3] [Finite E] (b : Module.Basis ι E M) (hij : i ≠ j) {l : E}
     (hl : l ≠ 0)
@@ -149,7 +150,7 @@ theorem modelThree_lin [CharP E 3] [Finite E] (b : Module.Basis ι E M) (hij : i
     have hνa : ν a = a • nb b i j := rfl
     simp only [hνa, Module.End.mul_apply, LinearMap.add_apply, Module.End.one_apply,
       LinearMap.smul_apply, nb_apply, map_add, map_smul, coord_self', coord_ne' b hij,
-      coord_ne' b (Ne.symm hij), smul_zero, zero_smul, add_zero, zero_add, one_smul, smul_smul,
+      smul_zero, zero_smul, zero_add, one_smul, smul_smul,
       map_zero] at h1
     exact mul_ne_zero hc' ha ((smul_eq_zero.1 h1).resolve_right (b.ne_zero i))
 
@@ -164,7 +165,7 @@ theorem modelThree_herm [CharP E 3] (hH : H.IsSymm) (hv : H v v = 0) (hw : H w w
     (hvw : H v w = 1) (E₀ : Subfield E) [Finite E₀] (hE₀ : ∀ t ∈ E₀, σ t = t)
     (h9 : 9 ≤ Nat.card E₀) {l : E} (hlE : l ∈ E₀) (hl : l ≠ 0) (hl2 : l ^ 2 ≠ 1) {η : E}
     (hη0 : η ≠ 0) (hη : σ η = -η) : ModelThree (sesqUnitaryGroup H) := by
-  have hwv := hwv_eq hH hv hw hvw
+  have hwv := hwv_eq hH hvw
   have hc : l ^ 2 - 1 ≠ 0 := sub_ne_zero.2 hl2
   have hc' : l⁻¹ ^ 2 - 1 ≠ 0 := by
     rw [inv_pow]
@@ -202,7 +203,7 @@ theorem modelThree_herm [CharP E 3] (hH : H.IsSymm) (hv : H v v = 0) (hw : H w w
       ring
     have hd : ((htorus hH hv hw hvw hl : LinearMap.GeneralLinearGroup E M) : M →ₗ[E] M) *
         nh H v = (l ^ 2) • (nh H v * (htorus hH hv hw hvw hl : M →ₗ[E] M)) := by
-      have := htorus_mul_nh hH hv hw hvw hl 1
+      have := htorus_mul_nh hH hv hvw hl 1
       rw [one_smul] at this
       rw [htorus_val]
       exact this
@@ -212,19 +213,19 @@ theorem modelThree_herm [CharP E 3] (hH : H.IsSymm) (hv : H v v = 0) (hw : H w w
         unipotentUnit (((a : E) * η) • nh H v) (by rw [smul_mul_smul, hN, smul_zero]) := rfl
     rw [e, ← key]
     exact Subgroup.commutator_mem_commutator (htorus_mem hH hv hw hvw hl hσl)
-      (htv_mem hH hv hw hvw hs v hv)
+      (htv_mem hH hs v hv)
   · refine ⟨⁅htorus hH hv hw hvw hl, unipotentUnit (η • nh H w)
       (by rw [smul_mul_smul, nh_mul_self hw, smul_zero])⁆,
       Subgroup.commutator_mem_commutator (htorus_mem hH hv hw hvw hl hσl)
-        (htv_mem hH hv hw hvw hη w hw), ?_⟩
+        (htv_mem hH hη w hw), ?_⟩
     rw [commutator_val_of_conj (unipotentUnit_val _ _)
-      (by rw [smul_mul_smul, nh_mul_self hw, smul_zero]) (htorus_mul_nh' hH hv hw hvw hl η)]
+      (by rw [smul_mul_smul, nh_mul_self hw, smul_zero]) (htorus_mul_nh' hH hw hvw hl η)]
     intro h
     have h1 := LinearMap.congr_fun h w
     have hνa : ν a = ((a : E) * η) • nh H v := rfl
     simp only [hνa, Module.End.mul_apply, LinearMap.add_apply, Module.End.one_apply,
       LinearMap.smul_apply, nh_apply,
-      map_add, map_smul, hw, hvw, hwv, smul_zero, zero_smul, add_zero, one_smul] at h1
+      map_smul, hw, hvw, hwv, smul_zero, zero_smul, add_zero, one_smul] at h1
     have h2 : ((l⁻¹ ^ 2 - 1) * (η * ((a : E) * η))) • w = 0 := by
       linear_combination (norm := module) -h1
     have ha' : (a : E) ≠ 0 := fun h0 => ha (Subtype.ext h0)
@@ -290,8 +291,8 @@ theorem modelThree_alt_root [CharP K 3] [Finite K] (hB : B.IsAlt) (hvw : B v w =
     have hνa : ν a = a • nv B v := rfl
     simp only [hνa, Module.End.mul_apply, LinearMap.add_apply, Module.End.one_apply,
       LinearMap.smul_apply, nv_apply,
-      map_add, map_smul, hB.self_eq_zero, hvw, hwv, smul_zero, zero_smul, add_zero,
-      one_smul, smul_eq_mul] at h1
+      map_smul, hB.self_eq_zero, hvw, hwv, smul_zero, zero_smul, add_zero,
+      one_smul] at h1
     have h2 : ((l⁻¹ ^ 2 - 1) * a) • w = 0 := by
       linear_combination (norm := module) h1
     exact mul_ne_zero hc' ha ((smul_eq_zero.1 h2).resolve_right hw0)
@@ -349,7 +350,7 @@ theorem modelThree_alt_two [CharP K 3] [Finite K] (hB : B.IsAlt)
   · ext <;> simp [nsmul_eq_mul, h3K]
   · rw [Nat.card_prod]
     have : 3 ≤ Nat.card K := by
-      haveI := Fintype.ofFinite K
+      have := Fintype.ofFinite K
       obtain ⟨n, hp, hn⟩ := FiniteField.card K 3
       rw [Nat.card_eq_fintype_card, hn]
       exact le_trans (by norm_num) (Nat.pow_le_pow_right (by norm_num) n.pos)
@@ -370,8 +371,8 @@ theorem modelThree_alt_two [CharP K 3] [Finite K] (hB : B.IsAlt)
       intro h
       have h1 := LinearMap.congr_fun h w'
       simp only [Module.End.mul_apply, hν, LinearMap.add_apply, Module.End.one_apply, nv_apply,
-        map_add, map_smul, hB.self_eq_zero, hv'w', hw'v', ha1, zero_smul, smul_zero, zero_add,
-        add_zero, one_smul, smul_eq_mul] at h1
+        map_smul, hB.self_eq_zero, hv'w', hw'v', ha1, zero_smul, zero_add,
+        add_zero, one_smul] at h1
       have h2 : (a.2 * -1) • w' = 0 := by
         linear_combination (norm := module) -h1
       exact mul_ne_zero ha2 (neg_ne_zero.2 one_ne_zero) ((smul_eq_zero.1 h2).resolve_right hw'0)
@@ -380,8 +381,7 @@ theorem modelThree_alt_two [CharP K 3] [Finite K] (hB : B.IsAlt)
       intro h
       have h1 := LinearMap.congr_fun h w
       simp only [Module.End.mul_apply, hν, LinearMap.add_apply, Module.End.one_apply, nv_apply,
-        map_add, map_smul, hB.self_eq_zero, hvw, hwv, hv'w, hwv', zero_smul, smul_zero, zero_add,
-        add_zero, one_smul, smul_eq_mul] at h1
+        map_smul, hB.self_eq_zero, hvw, hwv, hv'w, zero_smul, smul_zero, add_zero, one_smul] at h1
       have h2 : (a.1 * -1) • w = 0 := by
         linear_combination (norm := module) -h1
       exact mul_ne_zero ha1 (neg_ne_zero.2 one_ne_zero) ((smul_eq_zero.1 h2).resolve_right hw0)

@@ -20,8 +20,8 @@ theorem burnsideF411a_autCentSylow_projSL3 (K : Type) [Field K] [Finite K] (p : 
 
 theorem burnsideF411a_autCentSylow_L3 (K : Type) [Field K] [Finite K] (p : ℕ) [Fact p.Prime]
     [CharP K p] : burnsideF411_AutCentSylow (StatedProj (StatedSL 3 K)) p := by
-  haveI := burnsideF411a_finite_projSL (K := K) 3
-  haveI : Finite (StatedProj (StatedSL 3 K)) :=
+  have := burnsideF411a_finite_projSL (K := K) 3
+  have : Finite (StatedProj (StatedSL 3 K)) :=
     Finite.of_equiv _ (burnsideF411a_projSLEquivStated K).toEquiv
   exact burnsideF411_autCentSylow_of_mulEquiv (burnsideF411a_projSLEquivStated K)
     (burnsideF411a_autCentSylow_projSL3 K p)

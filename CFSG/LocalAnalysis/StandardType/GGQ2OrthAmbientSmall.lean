@@ -103,7 +103,7 @@ private theorem isSolvable_largeEvenOrthGroup_of_isometry {V : Type} [AddCommGro
     Group.IsSolvable ↥(LargeEvenOrthGroup (planeQ (K := K) s δ)) := by
   let H := TauCeti.QuadraticMap.orthogonalGroup (planeQForm K s δ)
   have h1 : Group.IsSolvable ↥H :=
-    @solvable_of_solvable_injective _ _ _ _
+    @Group.isSolvable_of_isSolvable_injective _ _ _ _
       (QuadraticMap.IsometryEquiv.orthogonalGroupCongr e).toMonoidHom
       (QuadraticMap.IsometryEquiv.orthogonalGroupCongr e).injective h
   have hO : LargeEvenOrthGroup (planeQ (K := K) s δ) =
@@ -125,7 +125,7 @@ private theorem isSolvable_largeEvenOrthGroup_of_isometry {V : Type} [AddCommGro
   have hf : Function.Injective f := by
     intro x y hxy
     exact Subtype.ext (g.injective (congrArg Subtype.val hxy))
-  exact @solvable_of_solvable_injective _ _ _ _ f hf h1
+  exact @Group.isSolvable_of_isSolvable_injective _ _ _ _ f hf h1
 
 private theorem isSolvable_largeEvenOrthGroup_four (hK : Nat.card K = 2) (s : ℕ) (δ : Fin 2)
     (hs : ¬ ((Even s ∧ 3 ≤ s + δ.val) ∨ (Odd s ∧ 2 ≤ s + δ.val))) :
@@ -158,7 +158,7 @@ theorem isSolvable_omegaQ_of_not_admissible (hK : Nat.card K = 2) (s : ℕ) (δ 
     Group.IsSolvable ↥(omegaQ (K := K) s δ) := by
   have hO := isSolvable_largeEvenOrthGroup_four hK s δ hs
   rw [omegaQ, largeEvenOmega_def]
-  exact @solvable_of_solvable_injective _ _ _ _
+  exact @Group.isSolvable_of_isSolvable_injective _ _ _ _
     (Subgroup.inclusion (Subgroup.commutator_le_self
       (LargeEvenOrthGroup (planeQ (K := K) s δ))))
     (Subgroup.inclusion_injective _) hO

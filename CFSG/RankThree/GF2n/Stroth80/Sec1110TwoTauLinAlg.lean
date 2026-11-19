@@ -135,7 +135,7 @@ theorem sub_mem_span_of_perp (M₀ : QuadModel QF V K γ) {T : M₀.E →ₗ[K] 
       have h0 := halt v' hv'b
       rw [hd'] at h0
       simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul,
-        hbperp, zero_mul, mul_zero, zero_add] at h0
+        hbperp, mul_zero, zero_add] at h0
       exact (mul_eq_zero.mp h0).resolve_right hcv'
     have hTv' : T v' - v' = a' • b := by rw [hd', hd'0, zero_smul, add_zero]
     obtain ⟨a, d, hd⟩ := hcoord (T v - v) (hTW' v hv)
@@ -143,7 +143,7 @@ theorem sub_mem_span_of_perp (M₀ : QuadModel QF V K γ) {T : M₀.E →ₗ[K] 
       have h0 := hsa v v'
       rw [hd, hTv'] at h0
       simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul,
-        hbperp, zero_mul, mul_zero, zero_add] at h0
+        hbperp, mul_zero, zero_add] at h0
       rw [hv, mul_zero] at h0
       exact (mul_eq_zero.mp h0).resolve_right hcv'
     exact ⟨a, by rw [hd, hd0, zero_smul, add_zero]⟩
@@ -439,7 +439,7 @@ theorem finrank_range_eq_two_of_mem (M₀ : QuadModel QF V K γ) {T : M₀.E →
   rw [hrange] at hv
   obtain ⟨a, d, ha⟩ := Submodule.mem_span_pair.mp hv
   rw [← ha, M₀.Qf_add, M₀.Qf_smul, M₀.Qf_smul, hQb, hQb']
-  simp only [map_smul, LinearMap.smul_apply, smul_eq_mul, hB, mul_zero, add_zero, zero_add]
+  simp only [map_smul, LinearMap.smul_apply, smul_eq_mul, hB, mul_zero, add_zero]
 
 theorem finrank_range_eq_two_and_singular_of_flag [CharP K 2] (M₀ : QuadModel QF V K γ)
     {T : M₀.E →ₗ[K] M₀.E} (hT : ∀ e, M₀.Qf (T e) = M₀.Qf e) (hT2 : ∀ e, T (T e) = e)

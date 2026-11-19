@@ -37,7 +37,7 @@ theorem kgLangTorA_hilbert90 {F : Type} [Field F] {p : ℕ} (hp : p.Prime) {σ :
   have hN : TableBUF.partNorm σ ω⁻¹ p = 1 := by
     simp only [TableBUF.partNorm]
     rw [Finset.prod_congr rfl (fun i _ => hfix i)]
-    simp [Finset.prod_const, Finset.card_range, ← inv_pow, hωp]
+    simp [Finset.prod_const, Finset.card_range, hωp]
   obtain ⟨b, hb0, hb⟩ := TableBUF.exists_hilbert90 hp hσp hσ1 (inv_ne_zero hω0) hN
   refine ⟨Units.mk0 b hb0, ?_⟩
   change σ b = ω * b
@@ -69,12 +69,12 @@ theorem kgLangTorA_aeval_pow_card {d p : ℕ} {F : Type} [Field F] [Finite F] (h
     (hpF : ¬ p ∣ Nat.card F) {e : Matrix (Fin d) (Fin d) F} (he : e ^ p = 1)
     (P : Polynomial F) :
     Polynomial.aeval e P ^ (Nat.card F ^ (p - 1)) = Polynomial.aeval e P := by
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   rw [Nat.card_eq_fintype_card]
   have hQstep : ∀ x : Matrix (Fin d) (Fin d) F,
       Polynomial.aeval x P ^ Fintype.card F = Polynomial.aeval (x ^ Fintype.card F) P := by
     intro x
-    rw [← map_pow, ← FiniteField.expand_card P, Polynomial.expand_aeval]
+    rw [← map_pow, ← FiniteField.Polynomial.expand_card P, Polynomial.expand_aeval]
   have hkey : ∀ k : ℕ, Polynomial.aeval e P ^ (Fintype.card F ^ k) =
       Polynomial.aeval (e ^ (Fintype.card F ^ k)) P := by
     intro k
@@ -96,14 +96,14 @@ private theorem kgLangTorAFldAux_map_scalar {d : ℕ} {F : Type} [Field F] (f : 
   ext i j
   by_cases h : i = j
   · subst h
-    simp [Matrix.scalar_apply, Matrix.diagonal_apply]
-  · simp [Matrix.scalar_apply, Matrix.diagonal_apply, h]
+    simp [Matrix.scalar_apply]
+  · simp [Matrix.scalar_apply, h]
 
 theorem kgLangTorA_unitary_correct {d n p : ℕ} {F : Type} [Field F] [Finite F] (hp : p.Prime)
     (hp2 : p ≠ 2) (hF : Nat.card F = (2 ^ n) ^ 2) {σ : F ≃+* F} {e : GL (Fin d) F}
     (heu : Matrix.transpose ((e : Matrix (Fin d) (Fin d) F).map (· ^ 2 ^ n)) *
       (e : Matrix (Fin d) (Fin d) F) = 1)
-    (he : Matrix.GeneralLinearGroup.map (σ : F →+* F) e = e) (hep : e ^ p = 1)
+    (_he : Matrix.GeneralLinearGroup.map (σ : F →+* F) e = e) (hep : e ^ p = 1)
     {s : GL (Fin d) F} {P : Polynomial F}
     (hs : (s : Matrix (Fin d) (Fin d) F) = Polynomial.aeval (e : Matrix (Fin d) (Fin d) F) P)
     (hsσ : Matrix.GeneralLinearGroup.map (σ : F →+* F) s = s * e) :
@@ -112,10 +112,10 @@ theorem kgLangTorA_unitary_correct {d n p : ℕ} {F : Type} [Field F] [Finite F]
       Matrix.transpose ((s' : Matrix (Fin d) (Fin d) F).map (· ^ 2 ^ n)) *
         (s' : Matrix (Fin d) (Fin d) F) = 1 ∧
       Matrix.GeneralLinearGroup.map (σ : F →+* F) s' = s' * e := by
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   have hcardF : Fintype.card F = 2 ^ (2 * n) := by
     rw [← Nat.card_eq_fintype_card, hF, ← pow_mul, mul_comm]
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n) (by simpa using hcardF)
+  have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n) (by simpa using hcardF)
   let φ : F →+* F := iterateFrobenius F 2 n
   have hφ : ∀ x : F, φ x = x ^ 2 ^ n := fun x => iterateFrobenius_def 2 n x
   have hφφ : ∀ x : F, φ (φ x) = x := by
@@ -294,8 +294,6 @@ theorem kgLangTorA_unitary_correct {d n p : ℕ} {F : Type} [Field F] [Finite F]
     exact Nat.even_pow.mpr ⟨even_two, Nat.mul_ne_zero (by omega) (by omega)⟩
   have hM_coe : (starU s * s : Matrix (Fin d) (Fin d) F) =
       Polynomial.aeval (e : Matrix (Fin d) (Fin d) F) (Q * P) := by
-    change (starU s : Matrix (Fin d) (Fin d) F) * (s : Matrix (Fin d) (Fin d) F) =
-      Polynomial.aeval (e : Matrix (Fin d) (Fin d) F) (Q * P)
     rw [hstarU, hM]
   set u : GL (Fin d) F := (starU s * s) ^ (m / 2) with hu_def
   have hu2 : u ^ 2 = starU s * s := by
@@ -400,7 +398,7 @@ theorem kgLangTorA_pow_eq_on_fixed {F : Type} [Field F] [Finite F] {n p : ℕ} (
     (x : F) ^ 2 ^ n = (x : F) ^ 2 ^ (n / p) := by
   obtain ⟨hpn, hcard0⟩ := kgLangTorA_card_fixed_unitary hn hp hp2 hF hσ
   set q₀ := 2 ^ (n / p) with hq₀
-  haveI : Fintype (semilinearFixedSubfield σ) := Fintype.ofFinite _
+  have : Fintype (semilinearFixedSubfield σ) := Fintype.ofFinite _
   have hcard0' : Fintype.card (semilinearFixedSubfield σ) = q₀ ^ 2 := by
     rw [← Nat.card_eq_fintype_card, hcard0, hq₀]
   have hfixpow : ∀ m : ℕ, ∀ y : semilinearFixedSubfield σ, y ^ ((q₀ ^ 2) ^ m) = y := by

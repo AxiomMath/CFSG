@@ -36,8 +36,8 @@ variable {G : Type} [Group G] [Finite G]
 private theorem dvd_card_pQuot_of_glaPComponent {p : ℕ} (hp : p.Prime) {X H : Subgroup G}
     (hH : GLAPComponent p X H) : p ∣ Nat.card (PQuot p H) := by
   by_contra hdvd
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Nontrivial (PQuot p H) := isQuasisimple_nontrivial
+  have : Fact p.Prime := ⟨hp⟩
+  have : Nontrivial (PQuot p H) := isQuasisimple_nontrivial
     (isQuasisimple_pQuot_of_glaPComponent hp hH)
   have hKc : Nat.Coprime p (Nat.card (GLAPPrimeCore p ↥H)) := CFSG.pPrimeCore_coprime_card
   have hcard : Nat.card ↥H = Nat.card (PQuot p H) * Nat.card (GLAPPrimeCore p ↥H) :=
@@ -52,7 +52,7 @@ private theorem dvd_card_pQuot_of_glaPComponent {p : ℕ} (hp : p.Prime) {X H : 
 
 private theorem exists_pow_eq_one_noncomm {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {X K : Subgroup G}
     (hK : GLAPComponent p X K) : ∃ w ∈ K, w ^ p = 1 ∧ ∃ k ∈ K, k * w ≠ w * k := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let π : ↥K →* PQuot p K := QuotientGroup.mk' (GLAPPrimeCore p ↥K)
   have hKc : Nat.Coprime p (Nat.card (GLAPPrimeCore p ↥K)) := CFSG.pPrimeCore_coprime_card
   obtain ⟨yb, hyord, hycen⟩ :=
@@ -150,8 +150,8 @@ theorem tripleLevel_le_five' (p : ℕ) (B L : Subgroup G) : tripleLevel p B L �
   classical
   unfold tripleLevel
   by_cases h : IsGStar p B L
-  · rw [if_pos h]
-  · rw [if_neg h]
+  · rw [ite_eq_left h]
+  · rw [ite_eq_right h]
     exact (Nat.min_le_left 4 _).trans (by norm_num)
 
 theorem tripleLevel_le_dLevel {p : ℕ} {B L : Subgroup G} {x : G} (hS : IsSTriple p B x L) :
@@ -169,8 +169,8 @@ theorem tripleLevel_le_of_pumpRel {p : ℕ} (h49 : Lemma49At G p) {t t' : Triple
   obtain ⟨hk, hg⟩ := h49 t t' hrel
   unfold tripleLevel
   by_cases h : IsGStar p t.1 t.2.2
-  · rw [if_pos h, if_pos (hg h)]
-  · rw [if_neg h]
+  · rw [ite_eq_left h, ite_eq_left (hg h)]
+  · rw [ite_eq_right h]
     split_ifs
     · exact (Nat.min_le_left 4 _).trans (by norm_num)
     · exact hk
@@ -220,7 +220,7 @@ theorem lemma412 {p : ℕ} (h43 : Lemma43At G p) (hd : dLevel G p ≤ 4) {B L : 
     exact ⟨E, hEB, hE, hEc, by rwa [closureIn_eq_self hN']⟩
   have h5 : tripleLevel p B' L' = 5 := by
     unfold tripleLevel
-    rw [if_pos hGS]
+    rw [ite_eq_left hGS]
   have := tripleLevel_le_dLevel hS'
   omega
 

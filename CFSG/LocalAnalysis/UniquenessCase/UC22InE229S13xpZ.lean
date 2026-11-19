@@ -105,7 +105,7 @@ theorem r136bFour_of_r7_8R3p3
     by_cases h1S : 1 ≤ CFSG.Open.pRank p (F13.Sp D.M p)
     ·
       obtain ⟨P, hP, hPN⟩ := hB.2.2.2.2.2
-      haveI : Fact p.Prime := ⟨hpp⟩
+      have : Fact p.Prime := ⟨hpp⟩
       have hdvd : p ∣ Nat.card P := by
         obtain ⟨E, hE, -, hcE⟩ := CFSG.SectionRank.exists_pRank hpp.one_lt (F13.Sp D.M p)
         have h1 : p ∣ Nat.card (F13.Sp D.M p) := by

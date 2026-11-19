@@ -50,7 +50,7 @@ private theorem exists_calC_cover_of_component_aux
   classical
   have hms : D.M ≤ stabTil V₀ V :=
     le_stabTil h125.pairFacts.le_normalizer h125.pairFacts.le_normalizer₀
-  haveI hCT : ((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal :=
+  have hCT : ((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal :=
     s15_Three_cTilde_normal hV hms
   set X : Subgroup G := preBarSub D.M V₀ V hV H with hXdef
   have hXM : X ≤ D.M := by rw [hXdef]; exact inf_le_left
@@ -155,10 +155,10 @@ private theorem exists_calC_cover_of_component_aux
       · exact (Subgroup.map_eq_bot_iff _).mpr hker
       · have hcomp' := CFSG.Quasithin.B15P4.isComponentOf_map_hom psi hC hker
         rw [hYmap] at hcomp'
-        haveI : Group.IsPerfect ↥(C.map psi) := ⟨hcomp'.2.2.1⟩
+        have : Group.IsPerfect ↥(C.map psi) := ⟨hcomp'.2.2.1⟩
         have hsub : CFSG.Open.IsSubnormal ((C.map psi).subgroupOf H) ⊤ :=
           A3.subnormal_top_iff.mpr hcomp'.2.1.subgroupOf
-        haveI : Group.IsPerfect ↥((C.map psi).subgroupOf H) :=
+        have : Group.IsPerfect ↥((C.map psi).subgroupOf H) :=
           Group.IsPerfect.ofSurjective
             (f := (Subgroup.subgroupOfEquivOfLe hcomp'.1).symm.toMonoidHom)
             (Subgroup.subgroupOfEquivOfLe hcomp'.1).symm.surjective
@@ -211,9 +211,9 @@ theorem exists_calC_cover_of_simple_component
     ∃ K : Subgroup G, K ∈ calC D.M ∧
       barSub V₀ V hV K = H ∧
       Nonempty ((Bar2 K ⧸ Subgroup.center (Bar2 K)) ≃* ↥H) := by
-  haveI := hsimple
+  have := hsimple
   have hZH : Subgroup.center ↥H = ⊥ := by
-    haveI : Group.IsPerfect ↥H := ⟨hcomp.2.2.1⟩
+    have : Group.IsPerfect ↥H := ⟨hcomp.2.2.1⟩
     exact TauCeti.IsSimpleGroup.center_eq_bot_of_not_isMulCommutative
       (Group.IsPerfect.not_isMulCommutative (G := ↥H))
   obtain ⟨K, hK, hbar, hiso⟩ :=

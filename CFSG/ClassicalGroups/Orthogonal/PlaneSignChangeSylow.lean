@@ -32,7 +32,7 @@ theorem signEquiv_injective {ι : Type*} [Fintype ι] [DecidableEq ι]
     simpa only [coe_signEquiv] using h
   have hii := congrFun₂ hmat i i
   rw [signDiag_apply, signDiag_apply] at hii
-  simp only [if_true] at hii
+  simp only [ite_true] at hii
   by_cases hiS : i ∈ S <;> by_cases hiT : i ∈ T <;>
     simp [hiS, hiT, hneg, hneg'] at hii ⊢
 
@@ -218,7 +218,7 @@ private theorem exists_sylow_of_card_four {G : Type*} [Group G]
     (S T : Subgroup G) (hST : S ≤ T) {t : ℕ}
     (hScard : Nat.card ↥S = 4) (hTcard : Nat.card ↥T = 4 * t) (ht : Odd t) :
     ∃ Q : Sylow 2 ↥T, (Q : Subgroup ↥T) = S.subgroupOf T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let P : Subgroup ↥T := S.subgroupOf T
   have hPcard : Nat.card ↥P = 4 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hST).toEquiv, hScard]
@@ -248,8 +248,8 @@ theorem isSylow_signChangeSubgroup_of_discr_ne_zero
         (signChangeSubgroup c).subgroupOf
           (TauCeti.QuadraticMap.orthogonalGroup Q) := by
   classical
-  letI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2 : (2 : K) ≠ 0 := Invertible.ne_zero (2 : K)
   have hPolar : (polarBilin Q).Nondegenerate :=
     QuadraticMap.nondegenerate_polar_iff.mpr hQ
@@ -287,7 +287,7 @@ theorem isSylow_signChangeSubgroup_of_discr_ne_zero
   have hchar : ringChar K ≠ 2 := by
     intro h
     apply h2
-    haveI : CharP K 2 := by
+    have : CharP K 2 := by
       have h' := ringChar.charP K
       rwa [h] at h'
     simpa using CharP.cast_eq_zero K 2

@@ -60,6 +60,7 @@ private theorem three_not_mem_sigmaA_of_five_le (hS : Setting G) {p : ℕ}
     have := CFSG.LocalAnalysis.RankThreeUC.S15.seven_le_of_mem_sigmaA_of_seven_le hrank hp h7 3 h3
     omega
 
+omit [Finite G] in
 private theorem normalizer_zpowers_le_normalizer_centralizer' (u : G) :
     normalizer ((zpowers u : Subgroup G) : Set G) ≤
       normalizer ((centralizer ({u} : Set G) : Subgroup G) : Set G) := by
@@ -88,7 +89,7 @@ private theorem normalizer_zpowers_le_of_centralizer_rank3 (hS : Setting G) {p :
     (hC2 : 2 ≤ CFSG.Open.pRank p (centralizer ({u} : Set G))) :
     normalizer ((zpowers u : Subgroup G) : Set G) ≤ M := by
   have hp : p.Prime := sigmaA_prime p hsit.mem_sigmaA
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨S, hSyl⟩ := CFSG.ABGLocalTools.exists_isSylowOf p (centralizer ({u} : Set G))
   have hSM : S ≤ M := hSyl.le.trans hCM
   have hS2 : 2 ≤ CFSG.Open.pRank p S := by
@@ -112,7 +113,7 @@ theorem omega_le_of_omegaU (hS : Setting G) (hD2 : TheoremD2 G) (hU0 : FullCoreL
   by_contra hqB
   obtain ⟨U, hUQ, hUe, hUc, hUr⟩ := hΩU ⟨q, hqQ, hq1, hqB⟩
   have hp : p.Prime := sigmaA_prime p hsit.mem_sigmaA
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hQM : Q ≤ M := hopt.sylow_le Q hQp hQH hBQ
   have hUM : U ≤ M := hUQ.trans hQM
   have hUp : IsPGroup p U := elementary_isPGroup p U hUe

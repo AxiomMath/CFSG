@@ -11,6 +11,7 @@ open Subgroup CFSG.GH74.GLS.C3.Prop121 CFSG.GH74.GLS.C3.Layer2
 
 variable {n : Nat} [Group (Idx n)]
 
+omit [Group (Idx n)] in
 theorem getD_toArray_map_elemsI (f : Idx n → Nat) (a : Idx n) :
     ((elemsI n).map f).toArray.getD a.v 0 = f a := by
   have ha : a.v < (List.finRange n).length := by

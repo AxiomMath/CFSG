@@ -51,10 +51,10 @@ theorem exists_marked_cover_position
   have hIso : GGLabelIso lab' labL := ggLabelRigidInput_holds _ _ _ hLab' hL hHasLab' hhL
   have hRawL := largeEvenRawDatum_of_ggLabelIso hIso hRaw
   obtain ⟨R, hR, I, F, hdata⟩ := largeEvenRawDatum_exists (hProducer _ hRawL)
-  letI : Group R := hR
+  let : Group R := hR
   obtain ⟨⟨_, _, theta, hInd⟩, hProd⟩ := hdata
   have hOrderY : orderOf y = 3 := by
-    letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact orderOf_eq_prime hy3 hy
   have hOrder : orderOf (ggInducedAut theta y) = 3 := by
     rw [orderOf_injective (ggInducedAut theta)
@@ -75,7 +75,7 @@ theorem cyclicOn_of_producers_and_cuts
   obtain ⟨hperf, R, hR, I, theta, hInd, M, j, hqs, hJmap, hlabel, hj⟩ :=
     exists_marked_cover_position hE6 hTwE6 J y E labL labJ hL hJ hpair hhL hhJ
       hy hy3 hyE hcomp hmark
-  letI : Group R := hR
+  let : Group R := hR
 
   have hrow' : row labL M.row.D.orbits[j].lab := by rw [hlabel]; exact hrow
   have htau : M.tau = CFSG.Blueprint.Chevalley.Tag.E6 := by
@@ -101,7 +101,7 @@ theorem rowCover_of_producers
   obtain ⟨hperf, R, hR, I, theta, hInd, M, j, hqs, hJmap, hlabel, hj⟩ :=
     exists_marked_cover_position hE6 hTwE6 J y E labL labJ hL hJ hpair hhL hhJ
       hy hy3 hyE hcomp hmark
-  letI : Group R := hR
+  let : Group R := hR
   have hdvd : labL.n ∣ M.row.D.orbits[j].lab.n := by
     rw [M.field_exp]
     exact dvd_mul_left labL.n (M.orbitNodes j).length

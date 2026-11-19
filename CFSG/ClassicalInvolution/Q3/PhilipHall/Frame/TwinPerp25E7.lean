@@ -213,10 +213,10 @@ theorem exists_twinShareQ (C : Ctx Ω K K' W S R R' z t u₁ u₂ a)
         Q8.TwinShareQ C.fam A₁ A₁' z₁ a₁ b₁ C.swap.fam A₂ A₂' z₂ a₂ b₂ (twinπ Ω a hMa)
           (twinπ Ω (a * z) hMaz) ((TwinADescent.coreAt a K).subgroupOf (twinM a K K'))
           ((TwinADescent.coreAt a K').subgroupOf (twinM a K K'))) ∧
-      (∀ {b : G} (hbC : b ∈ Subgroup.centralizer ({a} : Set G))
+      (∀ {b : G} (_hbC : b ∈ Subgroup.centralizer ({a} : Set G))
         (hb : conjSub b (layerX Ω a) = layerX Ω a), conjSub b K = K →
           A₁.map (C25Y.layerAut (layerX Ω a) hb).toMonoidHom = A₁) ∧
-      (∀ {b : G} (hbC : b ∈ Subgroup.centralizer ({a * z} : Set G))
+      (∀ {b : G} (_hbC : b ∈ Subgroup.centralizer ({a * z} : Set G))
         (hb : conjSub b (layerX Ω (a * z)) = layerX Ω (a * z)), conjSub b K = K →
           A₂.map (C25Y.layerAut (layerX Ω (a * z)) hb).toMonoidHom = A₂) ∧
       (∀ {g : G} (hg : g * a * g⁻¹ = a * z), conjSub g K = K →
@@ -252,10 +252,10 @@ theorem exists_twinShareQ (C : Ctx Ω K K' W S R R' z t u₁ u₂ a)
       (le_sup_right : TwinADescent.coreAt a K' ≤ twinM a K K')
     rw [← h]
     exact Subgroup.subgroupOf_self (twinM a K K')
-  · intro b hbC hb hbK
-    exact C.A_map_layerAut hD₁.twin.hA hA₁ hU₁ hbC hb hbK
-  · intro b hbC hb hbK
-    exact C.swap.A_map_layerAut hD₂.twin.hA hA₂ hU₂ hbC hb hbK
+  · intro b _hbC hb hbK
+    exact C.A_map_layerAut hD₁.twin.hA hA₁ hU₁ _hbC hb hbK
+  · intro b _hbC hb hbK
+    exact C.swap.A_map_layerAut hD₂.twin.hA hA₂ hU₂ _hbC hb hbK
   · intro g hg hgK
     apply hU₂ _ (C.map_fam_layerIso C.swap hg hD₁.twin.hA)
     have h := map_imgK_layerIso C.hΩ hg K

@@ -85,7 +85,7 @@ theorem erelOK1080_of : Ly1080.erelOK = true := by
     (Ly1080.erelWords.getD i []) fun l hl =>
       uLetT (erelWords_ok i hi l hl).1 (erelWords_ok i hi l hl).2
   have e : Ly1080.erelWords[i]! = Ly1080.erelWords.getD i [] := by
-    simp [List.getD_eq_getElem?_getD, getElem!_def, hl, hi]
+    simp [List.getD_eq_getElem?_getD, hl, hi]
   have hu := (base11.2.2.2.1 i hi).1
   rw [e, hw.1, sigT, uT hi, conjT_unpack hs hs hu,
     tblEq_unpack (canonK_pcomp (canonK_pcomp hs hu) hs) hw.2]
@@ -108,16 +108,16 @@ theorem genOK1080_of : Ly1080.genOK = true := by
   have w1 := wordT_eqK hid11 base11.2.1 (gens := Ly1080.abLet) (G := LAB)
     (Ly1080.genWords.getD 1 []) fun l _ => abLetT l
   have e0 : Ly1080.genWords[0]! = Ly1080.genWords.getD 0 [] := by
-    simp [List.getD_eq_getElem?_getD, getElem!_def, hl]
+    simp [List.getD_eq_getElem?_getD, hl]
   have e1 : Ly1080.genWords[1]! = Ly1080.genWords.getD 1 [] := by
-    simp [List.getD_eq_getElem?_getD, getElem!_def, hl]
+    simp [List.getD_eq_getElem?_getD, hl]
   unfold Ly1080.genOK
   rw [hl, e0, e1, w0.1, w1.1, uT (by norm_num), uT (by norm_num),
     tblEq_unpack (base11.2.2.2.1 1 (by norm_num)).1 w0.2,
     tblEq_unpack (base11.2.2.2.1 2 (by norm_num)).1 w1.2, h.1, h.2]
   rfl
 
-theorem txyLet1080T {l : Int} (h0 : l ≠ 0) (h5 : l.natAbs ≤ 5) :
+theorem txyLet1080T {l : Int} (_h0 : l ≠ 0) (h5 : l.natAbs ≤ 5) :
     Ly1080.txyLet l = tabT (unpack 1080 11 (LY l)) ∧ C11 (LY l) := by
   unfold Ly1080.txyLet LY
   by_cases hl : 0 < l
@@ -138,7 +138,7 @@ theorem sigmaTxyOK1080_of : Ly1080.sigmaTxyOK = true := by
     (Ly1080.sigmaTxyWords.getD j []) fun l hl =>
       txyLet1080T (sigmaWords_ok j hj l hl).1 (sigmaWords_ok j hj l hl).2
   have e : Ly1080.sigmaTxyWords[j]! = Ly1080.sigmaTxyWords.getD j [] := by
-    simp [List.getD_eq_getElem?_getD, getElem!_def, hl, hj]
+    simp [List.getD_eq_getElem?_getD, hl, hj]
   have ht := r1gc hj
   rw [e, hw.1, sigT, txy1080T hj, conjT_unpack hs hs ht,
     tblEq_unpack (canonK_pcomp (canonK_pcomp hs ht) hs) hw.2]

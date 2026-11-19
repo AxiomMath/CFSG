@@ -41,7 +41,7 @@ theorem gp_add {g : H} (hg : g ^ 3 = 1) (a b : ZMod 3) : gp g (a + b) = gp g a *
 
 theorem gp_zero (g : H) : gp g 0 = 1 := by simp [gp]
 
-theorem gp_one {g : H} (hg : g ^ 3 = 1) : gp g 1 = g := by
+theorem gp_one {g : H} (_hg : g ^ 3 = 1) : gp g 1 = g := by
   unfold gp
   have : (1 : ZMod 3).val = 1 := rfl
   rw [this, pow_one]
@@ -92,6 +92,7 @@ theorem qel_add (a b : Vec) : qel x e₂ e₃ (a + b) = qel x e₂ e₃ a * qel 
   simp only [qel, Prod.mk_add_mk, gp_add h.x3, gp_add h.e₂3, gp_add h.e₃3]
   exact (mul3 (h.comm_xe₂ _ _).symm (h.comm_xe₃ _ _).symm (h.comm_e₂e₃ _ _).symm).symm
 
+omit h in
 theorem qel_zero : qel x e₂ e₃ 0 = 1 := by
   simp [qel, gp_zero]
 
@@ -185,7 +186,7 @@ theorem WA.val_zero : WA.val W hab (0 : WA W hab) = 1 := rfl
 
 theorem WA.of_mul (a b : ↥W) : WA.of W hab (a * b) = WA.of W hab a + WA.of W hab b := rfl
 
-theorem WA.val_injective : Function.Injective (WA.val W hab) := fun a b h => h
+theorem WA.val_injective : Function.Injective (WA.val W hab) := fun _a _b h => h
 
 def cj (q : H) (hq : q ∈ normalizer (W : Set H)) (w : ↥W) : ↥W :=
   ⟨q * w * q⁻¹, (mem_normalizer_iff.mp hq w).mp w.2⟩
@@ -217,7 +218,7 @@ theorem modData (hW2 : ∀ w ∈ W, w ^ 2 = 1)
     apply WA.val_injective
     apply Subtype.ext
     show (WA.val W hab (actHom (qel x e₂ e₃ 0) (hq 0) w) : H) = _
-    rw [actHom_apply, h.qel_zero]
+    rw [actHom_apply, CFSG.LocalAnalysis.RankThreeTheoremC.GL83P3A6Mod.Frame3.qel_zero]
     simp
   · intro a b
     ext w

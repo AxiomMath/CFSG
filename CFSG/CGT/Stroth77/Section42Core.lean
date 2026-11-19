@@ -326,7 +326,7 @@ theorem u_mul_d8 (i j l : Bool) : dD.u * dD.d8 i j l = dD.d8 (xor i j) j (!l) :=
   have h : dD.u * dD.uv = dD.uv * dD.u := dD.uv_comm_u.symm
   have h' : dD.u * dD.t = dD.uv * (dD.t * dD.u) := by rw [dD.u_mul_t_eq, mul_assoc]
   cases i <;> cases j <;> cases l <;>
-    simp [d8, dD.u_mul_uv, dD.u_mul_t, dD.u_mul_u, dD.u_sq, dD.uv_mul_uv, dD.uv_sq, h, h']
+    simp [d8, dD.u_mul_uv, dD.u_mul_t, dD.u_sq, dD.uv_mul_uv, h, h']
 
 theorem mem_closure_iff_d8 {x : G} :
     x ∈ Subgroup.closure ({dD.uv, dD.t, dD.u} : Set G) ↔ ∃ i j l, x = dD.d8 i j l := by
@@ -423,7 +423,7 @@ theorem d8_mul_ofTorus (i j l : Bool) (v : Torus τ.k) :
     dD.d8 i j l * dD.ofTorus v = dD.ofTorus (τ.action.d8Act i j l v) * dD.d8 i j l := by
   cases i <;> cases j <;> cases l <;>
     simp [d8, SigmaFourAction.d8Act, mul_assoc, uv_mul_ofTorus, t_mul_ofTorus, u_mul_ofTorus,
-      uv_mul_ofTorus_mul, t_mul_ofTorus_mul, u_mul_ofTorus_mul]
+      uv_mul_ofTorus_mul, t_mul_ofTorus_mul]
 
 theorem nf_commute_iff (v w : Torus τ.k) (i j l : Bool) :
     dD.ofTorus v * dD.d8 i j l * dD.ofTorus w = dD.ofTorus w * (dD.ofTorus v * dD.d8 i j l) ↔
@@ -574,7 +574,7 @@ theorem mem_S₁_iff (hk0 : 1 ≤ τ.k 0)
       have hz : ∀ (z : ℤ) (w : Torus τ.k), dD.ofTorus (z • w) = dD.ofTorus w ^ z := by
         intro z w
         rcases z with z | z
-        · rw [Int.ofNat_eq_coe, natCast_zsmul, ofTorus_nsmul, zpow_natCast]
+        · rw [Int.ofNat_eq_natCast, natCast_zsmul, ofTorus_nsmul, zpow_natCast]
         · rw [Int.negSucc_eq, neg_zsmul, ofTorus_neg, zpow_neg]
           congr 1
           rw [← Int.natCast_succ, natCast_zsmul, ofTorus_nsmul, zpow_natCast]

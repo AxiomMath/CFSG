@@ -46,7 +46,7 @@ theorem wPoint_coe (W : Matrix (Fin 4) (Fin 4) K) :
       have : pos ≠ 0 := fun h => hpos (by simp [h])
       simp [Pi.single_eq_of_ne this]
     · funext i
-      simp [Matrix.mulVec, dotProduct, Fin.sum_univ_four, Pi.single_apply, mul_comm]
+      simp [Matrix.mulVec, dotProduct, Pi.single_apply, mul_comm]
   · rintro ⟨v, hv, rfl⟩
     have h1 : v 1 = 0 := hv 1 (by simp)
     have h2 : v 2 = 0 := hv 2 (by simp)

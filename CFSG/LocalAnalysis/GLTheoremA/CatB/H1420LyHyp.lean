@@ -25,7 +25,7 @@ theorem typeHyp3_mcl (hOrd : SporadicOrdersTable) (hOut : SporadicOuterLeTwo)
     obtain ⟨i, hi, ⟨e⟩⟩ := h
     simp only [S8.sporIs] at hi
     subst hi
-    haveI : IsSimpleGroup T := (MulEquiv.isSimpleGroup_congr e).2 hsimple
+    have : IsSimpleGroup T := (MulEquiv.isSimpleGroup_congr e).2 hsimple
     have hcard : Nat.card T = 898128000 := by
       rw [Nat.card_congr e.toEquiv, hOrd .McL]
       rfl
@@ -33,10 +33,10 @@ theorem typeHyp3_mcl (hOrd : SporadicOrdersTable) (hOut : SporadicOuterLeTwo)
       S8.HNRows.exists_noncomm_of_simple (by rw [hcard]; norm_num)
     have h2 : Nat.card (Outer T) ≤ 2 := hOut T inferInstance hnab .McL ⟨e⟩
     have hpos : 0 < Nat.card (Outer T) := by
-      haveI : Finite (MulAut T) :=
+      have : Finite (MulAut T) :=
         Finite.of_injective (fun f : MulAut T => (f : T → T)) fun _ _ h =>
           MulEquiv.ext (congrFun h)
-      haveI : Finite (Outer T) :=
+      have : Finite (Outer T) :=
         Finite.of_surjective _ (QuotientGroup.mk'_surjective _ : Function.Surjective
           (QuotientGroup.mk' (inner T)))
       exact Nat.card_pos

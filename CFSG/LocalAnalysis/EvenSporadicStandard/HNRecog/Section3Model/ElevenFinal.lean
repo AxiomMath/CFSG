@@ -21,7 +21,7 @@ theorem suborbitFacts_eleven_one_class :
   intro H _ E h x y hx hy
   have hP : Nat.card ↥P1408 = 177408000 := card_P1408 (hsCtx_of_isHSCover h.toIsHSCover)
   obtain ⟨Ψ, -⟩ := exists_mulEquiv_p1408_of_isF5Centralizer h
-  haveI : Finite ↥P1408 := Nat.finite_of_card_ne_zero (by rw [hP]; norm_num)
+  have : Finite ↥P1408 := Nat.finite_of_card_ne_zero (by rw [hP]; norm_num)
   have hC : ∀ t : ↥P1408, orderOf t = 11 →
       Nat.card ↥(Subgroup.centralizer ({t} : Set ↥P1408)) = 22 := by
     intro t ht

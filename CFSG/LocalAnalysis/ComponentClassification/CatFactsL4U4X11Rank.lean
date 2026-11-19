@@ -59,7 +59,7 @@ theorem pRank_le_two_of_lieModel_psl_two {Y : Type} [Group Y] [Finite Y] {p f : 
   refine SectionRank.pRank_le one_lt_two fun E _ hE => ?_
   have hE2 : IsPGroup 2 E := fun x => ⟨1, by rw [pow_one]; exact Subtype.ext (hE.2 x x.2)⟩
   obtain ⟨T, hET⟩ := hE2.exists_le_sylow
-  have hT2 : IsPGroup 2 (T : Subgroup Y) := T.isPGroup'
+  have hT2 : IsPGroup 2 (T : Subgroup Y) := T.isPGroup
   by_cases h8 : 8 ≤ Nat.card T
   · obtain ⟨m, hm, ⟨φ⟩⟩ := CatFactsL4U4.L2Dih.dihedral_of_lieModel_psl_two Y p f hp hp2 hf hL T h8
     have h2m : 2 ≤ 2 ^ m := by

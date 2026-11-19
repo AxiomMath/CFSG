@@ -11,6 +11,7 @@ open Subgroup CFSG.EvenSporadicStandard.HNRecog.HaradaLA
 variable {G : Type} [Group G] [Finite G] {t z z₁ : G} {ι : Elem2 6 →* G} {zv : V6}
   {R0 F : Subgroup G}
 
+omit [Finite G] in
 theorem eq_bot_of_odd_normal_centralizer (hD2 : HData2 G t z z₁ ι zv R0 F) {U : Subgroup G}
     (hU : U ≤ centralizer ({t} : Set G) ⊓ centralizer ({z} : Set G))
     (hn : ∀ c ∈ centralizer ({t} : Set G) ⊓ centralizer ({z} : Set G), ∀ u ∈ U, c * u * c⁻¹ ∈ U)

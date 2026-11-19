@@ -255,7 +255,7 @@ theorem ptQ : ∀ i < 8,
 theorem encR : rEnum () = penumRec 1782 11 8192 RT RPL ∧
     enumOK 1782 (rArrs ()) (penumRec 1782 11 8192 RT RPL) = true :=
   penumK_left_sound S26990.hsz
-    ⟨rA_size, fun j hj => ⟨(rA_facts hj).1, (ok_spec (rA_facts hj).2).1⟩⟩ hd_parts.1 ptR
+    ⟨rA_size, fun _j hj => ⟨(rA_facts hj).1, (ok_spec (rA_facts hj).2).1⟩⟩ hd_parts.1 ptR
 
 theorem enc2 : n2Enum () = penumRec 1782 11 512 N2T N2PL ∧
     enumOK 1782 (n2Arrs ()) (penumRec 1782 11 512 N2T N2PL) = true :=

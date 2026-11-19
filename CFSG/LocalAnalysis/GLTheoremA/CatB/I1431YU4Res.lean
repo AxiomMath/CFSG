@@ -16,6 +16,7 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2]
   ∀ w ∈ W, (g : Matrix (HypIndex 2 0) (HypIndex 2 0) K) *ᵥ w = w
 
 
+omit [Finite K] [CharP K 2] in
 theorem mulVec_mem_of_isoStab {h : UnitaryFieldData 2 3 K} {W : Submodule K (HypIndex 2 0 → K)}
     {g : hypSU h 2 0} (hg : g ∈ isoStabilizer h 2 0 W) {w : HypIndex 2 0 → K} (hw : w ∈ W) :
     ((g : GL (HypIndex 2 0) K) : Matrix (HypIndex 2 0) (HypIndex 2 0) K) *ᵥ w ∈ W := by
@@ -31,11 +32,13 @@ theorem mulVec_mem_of_isoStab {h : UnitaryFieldData 2 3 K} {W : Submodule K (Hyp
     (hx : ∀ w ∈ W, (x : Matrix (HypIndex 2 0) (HypIndex 2 0) K) *ᵥ w ∈ W) : W →ₗ[K] W :=
   LinearMap.restrict (Matrix.mulVecLin (x : Matrix (HypIndex 2 0) (HypIndex 2 0) K)) hx
 
+omit [Finite K] [CharP K 2] in
 theorem resW_apply {W : Submodule K (HypIndex 2 0 → K)} (x : GL (HypIndex 2 0) K)
     (hx : ∀ w ∈ W, (x : Matrix (HypIndex 2 0) (HypIndex 2 0) K) *ᵥ w ∈ W) (w : W) :
     ((resW x hx w : W) : HypIndex 2 0 → K) = (x : Matrix (HypIndex 2 0) (HypIndex 2 0) K) *ᵥ (w : HypIndex 2 0 → K) :=
   rfl
 
+omit [Finite K] [CharP K 2] in
 theorem resW_mul {W : Submodule K (HypIndex 2 0 → K)} {x y : GL (HypIndex 2 0) K}
     (hx : ∀ w ∈ W, (x : Matrix (HypIndex 2 0) (HypIndex 2 0) K) *ᵥ w ∈ W)
     (hy : ∀ w ∈ W, (y : Matrix (HypIndex 2 0) (HypIndex 2 0) K) *ᵥ w ∈ W)
@@ -45,6 +48,7 @@ theorem resW_mul {W : Submodule K (HypIndex 2 0 → K)} {x y : GL (HypIndex 2 0)
   rw [Module.End.mul_apply, resW_apply, resW_apply, resW_apply, Units.val_mul,
     Matrix.mulVec_mulVec]
 
+omit [Finite K] [CharP K 2] in
 theorem resW_one {W : Submodule K (HypIndex 2 0 → K)} (hW : ∀ w ∈ W, (1 : GL (HypIndex 2 0) K) *ᵥ w ∈ W) :
     resW (1 : GL (HypIndex 2 0) K) hW = 1 := by
   refine LinearMap.ext fun w => Subtype.ext ?_
@@ -54,8 +58,9 @@ theorem resW_one {W : Submodule K (HypIndex 2 0 → K)} (hW : ∀ w ∈ W, (1 : 
     (b : Module.Basis (Fin 2) K W) (X : Subgroup (hypSU h 2 0)) (hX : X ≤ isoStabilizer h 2 0 W)
     (x : X) : Matrix (Fin 2) (Fin 2) K :=
   LinearMap.toMatrix b b (resW ((x : hypSU h 2 0) : GL (HypIndex 2 0) K)
-    (fun w hw => mulVec_mem_of_isoStab (hX x.2) hw))
+    (fun _w hw => mulVec_mem_of_isoStab (hX x.2) hw))
 
+omit [Finite K] [CharP K 2] in
 theorem restrMat_mul {h : UnitaryFieldData 2 3 K} {W : Submodule K (HypIndex 2 0 → K)}
     (b : Module.Basis (Fin 2) K W) (X : Subgroup (hypSU h 2 0)) (hX : X ≤ isoStabilizer h 2 0 W)
     (x y : X) : restrMat b X hX (x * y) = restrMat b X hX x * restrMat b X hX y := by
@@ -64,6 +69,7 @@ theorem restrMat_mul {h : UnitaryFieldData 2 3 K} {W : Submodule K (HypIndex 2 0
   congr 1
   exact resW_mul _ _ _
 
+omit [Finite K] [CharP K 2] in
 theorem restrMat_one {h : UnitaryFieldData 2 3 K} {W : Submodule K (HypIndex 2 0 → K)}
     (b : Module.Basis (Fin 2) K W) (X : Subgroup (hypSU h 2 0)) (hX : X ≤ isoStabilizer h 2 0 W) :
     restrMat b X hX 1 = 1 := by
@@ -82,11 +88,13 @@ theorem restrMat_one {h : UnitaryFieldData 2 3 K} {W : Submodule K (HypIndex 2 0
   map_one' := Units.ext (restrMat_one b X hX)
   map_mul' x y := Units.ext (restrMat_mul b X hX x y)
 
+omit [Finite K] [CharP K 2] in
 theorem restrHom_apply {h : UnitaryFieldData 2 3 K} {W : Submodule K (HypIndex 2 0 → K)}
     (b : Module.Basis (Fin 2) K W) (X : Subgroup (hypSU h 2 0)) (hX : X ≤ isoStabilizer h 2 0 W)
     (x : X) : ((restrHom b X hX x : GL (Fin 2) K) : Matrix (Fin 2) (Fin 2) K) = restrMat b X hX x :=
   rfl
 
+omit [Finite K] [CharP K 2] in
 theorem fixesPt_of_restrHom_eq_one {h : UnitaryFieldData 2 3 K} {W : Submodule K (HypIndex 2 0 → K)}
     (b : Module.Basis (Fin 2) K W) (X : Subgroup (hypSU h 2 0)) (hX : X ≤ isoStabilizer h 2 0 W)
     (x : X) (hx : restrHom b X hX x = 1) :

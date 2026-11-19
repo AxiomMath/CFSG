@@ -28,7 +28,7 @@ section Field
 
 theorem exists_natCard_eq_two_pow (F : Type) [Field F] [Finite F] [CharP F 2] :
     ∃ f : ℕ, 1 ≤ f ∧ Nat.card F = 2 ^ f := by
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   obtain ⟨n, -, hn⟩ := FiniteField.card F 2
   exact ⟨n, n.pos, by rw [Nat.card_eq_fintype_card, hn]⟩
 
@@ -39,6 +39,7 @@ section Perp
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type} [AddCommGroup V] [Module F V]
   [FiniteDimensional F V] {Q : QuadraticForm F V}
 
+omit [Finite F] [CharP F 2] in
 theorem nondeg_comp_polarPerp (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {W : Submodule F V}
     (hW : (QuadraticMap.polarBilin (Q.comp W.subtype)).Nondegenerate) :
     (QuadraticMap.polarBilin (Q.comp (polarPerp Q W).subtype)).Nondegenerate := by
@@ -68,6 +69,7 @@ private noncomputable def isPlusType_comp_polarPerp_iff_aux1 {W : Submodule F V}
       (mem_polarPerp_iff (x := (y : V))).1 y.2 x x.2, add_zero]
     rfl
 
+omit [CharP F 2] in
 theorem isPlusType_comp_polarPerp_iff (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {n : ℕ}
     (hdim : Module.finrank F V = 2 * n) (hn : 2 ≤ n) {W : Submodule F V}
     (hW : (QuadraticMap.polarBilin (Q.comp W.subtype)).Nondegenerate) (hW2 : Module.finrank F W = 2)
@@ -105,6 +107,7 @@ section TotallySingular
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {W : Type} [AddCommGroup W] [Module F W]
   [FiniteDimensional F W] {R : QuadraticForm F W}
 
+omit [CharP F 2] in
 theorem exists_threeSingular (hR : (QuadraticMap.polarBilin R).Nondegenerate) {m : ℕ}
     (hdim : Module.finrank F W = 2 * m) (hm : (IsPlusType R ∧ 3 ≤ m) ∨ (¬ IsPlusType R ∧ 4 ≤ m)) :
     ∃ T : Submodule F W, Module.finrank F T = 3 ∧ ∀ u ∈ T, R u = 0 := by
@@ -129,7 +132,7 @@ private theorem nonempty_pSimple_top_orthDerived_mulEquiv_aux1
     (hR : (QuadraticMap.polarBilin R).Nondegenerate) {m : ℕ} (hm : 3 ≤ m)
     (hdim : Module.finrank F W = 2 * m)
     (hT : ∃ T : Submodule F W, Module.finrank F T = 3 ∧ ∀ u ∈ T, R u = 0) {p : ℕ}
-    (hp : p.Prime) (hp2 : p ≠ 2) (hpq : p ∣ Nat.card F + 1) :
+    (_hp : p.Prime) (_hp2 : p ≠ 2) (hpq : p ∣ Nat.card F + 1) :
     p ∣ Nat.card ↥(orthDerived R) := by
   have hΩ := CFSG.RankThree.PartOne.FieldFix.omegaGroup_le_orthDerived hR hT
   have hq : p ∣ Nat.card F ^ 2 - 1 := by
@@ -156,23 +159,23 @@ theorem nonempty_pSimple_top_orthDerived_mulEquiv (hR : (QuadraticMap.polarBilin
     (hT : ∃ T : Submodule F W, Module.finrank F T = 3 ∧ ∀ u ∈ T, R u = 0) {p : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) (hpq : p ∣ Nat.card F + 1) :
     Nonempty (PSimple p (⊤ : Subgroup ↥(orthDerived R)) ≃* ↥(orthDerived R)) := by
-  haveI : Finite W := Module.finite_of_finite F
-  haveI : Finite (W ≃ₗ[F] W) :=
+  have : Finite W := Module.finite_of_finite F
+  have : Finite (W ≃ₗ[F] W) :=
     Finite.of_injective (fun e : W ≃ₗ[F] W => (e : W → W))
       fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
-  haveI : Nontrivial W := CFSG.RankThree.PartOne.nontrivial_of_threeSingular hT
+  have : Nontrivial W := CFSG.RankThree.PartOne.nontrivial_of_threeSingular hT
   have hZ := CFSG.RankThree.PartOne.center_orthDerived_eq_bot hR hT
   have hq := CFSG.RankThree.PartOne.KCOrthogonal.isQuasisimple_orthDerived hR hT
   let e : (↥(orthDerived R) ⧸ Subgroup.center ↥(orthDerived R)) ≃* ↥(orthDerived R) :=
     (QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot
-  haveI hsimple : IsSimpleGroup ↥(orthDerived R) := by
-    haveI : IsSimpleGroup (↥(orthDerived R) ⧸ Subgroup.center ↥(orthDerived R)) := hq.2.1
+  have hsimple : IsSimpleGroup ↥(orthDerived R) := by
+    have : IsSimpleGroup (↥(orthDerived R) ⧸ Subgroup.center ↥(orthDerived R)) := hq.2.1
     exact e.symm.isSimpleGroup
   have hncR : ∃ x y : ↥(orthDerived R), x * y ≠ y * x := by
     obtain ⟨a, b, hab⟩ := hq.2.2
     exact ⟨e a, e b, fun h => hab (by simpa using congrArg e.symm h)⟩
   have hdvd := nonempty_pSimple_top_orthDerived_mulEquiv_aux1 hR hm hdim hT hp hp2 hpq
-  haveI : IsSimpleGroup ↥(⊤ : Subgroup ↥(orthDerived R)) := Subgroup.topEquiv.isSimpleGroup
+  have : IsSimpleGroup ↥(⊤ : Subgroup ↥(orthDerived R)) := Subgroup.topEquiv.isSimpleGroup
   have hnc : ∃ x y : ↥(⊤ : Subgroup ↥(orthDerived R)), x * y ≠ y * x := by
     obtain ⟨x, y, hxy⟩ := hncR
     exact ⟨Subgroup.topEquiv.symm x, Subgroup.topEquiv.symm y,
@@ -203,7 +206,7 @@ private theorem catalogIs_orthDerived_plus_aux1
         ⟨CFSG.RankThree.PartOne.piOrth_injective hnd, CFSG.RankThree.PartOne.piOrth_surjective⟩).trans
       (CFSG.RankThree.PartOne.statedProjOrthEquiv
         (CFSG.LieType.Universal.Spin.coe_quadPlus (n := m) (K := F))).symm
-  haveI : Finite ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨TauCeti.LieTypeIndex.D m q, hv⟩) :=
+  have : Finite ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨TauCeti.LieTypeIndex.D m q, hv⟩) :=
     CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField _
   have hFO : Nat.card F =
       TauCeti.ValidLieTypeIndex.fieldOrder ⟨TauCeti.LieTypeIndex.D m q, hv⟩ := by
@@ -309,7 +312,7 @@ private theorem catalogIs_orthDerived_minus_aux1 {K : Type} [Field K] [Finite K]
     exact ⟨hm, not_false⟩
   obtain ⟨b₀, c₀, hirr₀, ⟨eT⟩⟩ :=
     CFSG.RankThree.PartTwo.Census.Carrier.SpinD.exists_typeTwistedDGroupEquivStatedProj m q hv hp
-  haveI : Finite ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨TauCeti.LieTypeIndex.twistedD m q, hv⟩) :=
+  have : Finite ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨TauCeti.LieTypeIndex.twistedD m q, hv⟩) :=
     CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField _
   obtain ⟨φ⟩ := CFSG.ClassicalModels.nonempty_ringEquiv_validIndex_fixedField
     ⟨TauCeti.LieTypeIndex.twistedD m q, hv⟩ K (by
@@ -363,6 +366,7 @@ section Transport
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type} [AddCommGroup V] [Module F V]
   [FiniteDimensional F V] {Q : QuadraticForm F V} {p : ℕ}
 
+omit [Finite F] [CharP F 2] in
 theorem catalogIs_pSimple_supportedFixedDerived {x : ↥(orthDerived Q)}
     (hx : OddOrderIsometry Q p (x : V ≃ₗ[F] V)) {Q₁ : TauCeti.CFSGIndex → Prop}
     (h : catalogIs (PSimple p (⊤ : Subgroup
@@ -378,7 +382,7 @@ private theorem catalogIs_pSimple_specialBlock_aux1 {F : Type} [Field F] [Finite
     {h : F[X]} (hdeg : h.natDegree = 2) [Fact (Irreducible h)] {d ℓ f : ℕ}
     (hU : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData ℓ (f * d) (AdjoinRoot h))
     (hcard : Nat.card F = ℓ ^ f) : d = 1 := by
-  haveI : Module.Finite F (AdjoinRoot h) :=
+  have : Module.Finite F (AdjoinRoot h) :=
     (AdjoinRoot.powerBasis (Fact.out : Irreducible h).ne_zero).finite
   have hE : Nat.card (AdjoinRoot h) = (Nat.card F) ^ 2 := by
     rw [Module.natCard_eq_pow_finrank (K := F),
@@ -405,7 +409,7 @@ theorem catalogIs_pSimple_specialBlock (hp : p.Prime) (hp2 : p ≠ 2) (hpq : p �
     (hx'.reciprocal_eq_of_dvd_card_succ hp hpq hh hne).symm
   have hdeg : h.natDegree = 2 :=
     CFSG.RankThree.PartOne.K159.natDegree_eq_two_of_dvd_card_add_one hx' hp hp2 hpq hh hne
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   obtain ⟨d, ℓ, f, hU, B, hd0, hcard, hBs, hBl, hrange⟩ :=
     CFSG.HardMathSupport.Timmesfeld.CrossChar.orth2_exists_unitary_model hx'
       (hp.odd_of_ne_two hp2) hh hne hself
@@ -530,10 +534,10 @@ theorem not_layerIs_top_isUnA (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {
   have hcard := card_pSimple_glaLayer_top_orthDerived hQ hdim hn hp hp2 hpq
   have hv := v2_card_orthDerived hQ hdim hn hf hf1
   rw [hf] at hL
-  haveI : Finite V := Module.finite_of_finite F
-  haveI : Finite (V ≃ₗ[F] V) := Finite.of_injective (fun e : V ≃ₗ[F] V => (e : V → V))
+  have : Finite V := Module.finite_of_finite F
+  have : Finite (V ≃ₗ[F] V) := Finite.of_injective (fun e : V ≃ₗ[F] V => (e : V → V))
     fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
-  haveI : Finite (PSimple p (GLALayer (⊤ : Subgroup ↥(orthDerived Q)))) :=
+  have : Finite (PSimple p (GLALayer (⊤ : Subgroup ↥(orthDerived Q)))) :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; exact Nat.card_pos.ne')
   obtain ⟨-, -, hu⟩ := CFSG.LocalAnalysis.GLTheoremA.S172.v2_isUnA hb hf1 hL.2
   rw [hcard, hv] at hu

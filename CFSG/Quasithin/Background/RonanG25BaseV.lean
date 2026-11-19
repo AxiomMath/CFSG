@@ -14,25 +14,31 @@ section V
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {Γ : Type} [Group Γ]
 
+omit [Finite F] [CharP F 2] in
 theorem actV_apply {ρ : Γ →* SL(3, F)} (x : Γ) (e : Fin 3 → F) :
     actV ρ x e = (ρ x : Matrix (Fin 3) (Fin 3) F) *ᵥ e := rfl
 
+omit [Finite F] [CharP F 2] in
 theorem actV_eq_smul {ρ : Γ →* SL(3, F)} (x : Γ) (e : Fin 3 → F) :
     actV ρ x e = ρ x • e := rfl
 
+omit [Finite F] [CharP F 2] in
 theorem actV_smul {ρ : Γ →* SL(3, F)} (x : Γ) (c : F) (e : Fin 3 → F) :
     actV ρ x (c • e) = c • actV ρ x e := by
   rw [actV_apply, actV_apply, Matrix.mulVec_smul]
 
+omit [Finite F] [CharP F 2] in
 theorem vE_zero_ne : vE F 0 ≠ 0 := by
   intro h
   have h0 := congrFun h 0
   simp at h0
 
+omit [Finite F] [CharP F 2] in
 theorem mem_lineSub {e : Fin 3 → F} : e ∈ lineSub F ↔ ∃ c : F, c • vE F 0 = e := by
   unfold lineSub
   rw [Submodule.mem_toAddSubgroup, Submodule.mem_span_singleton]
 
+omit [Finite F] [CharP F 2] in
 theorem mem_lineSub_coords {e : Fin 3 → F} : e ∈ lineSub F ↔ e 1 = 0 ∧ e 2 = 0 := by
   constructor
   · intro he
@@ -44,6 +50,7 @@ theorem mem_lineSub_coords {e : Fin 3 → F} : e ∈ lineSub F ↔ e 1 = 0 ∧ e
     ext i
     fin_cases i <;> simp [vE, h1, h2]
 
+omit [Finite F] [CharP F 2] in
 theorem lineSub_inv {ρ : Γ →* SL(3, F)} (hρ : L1Rep ρ) : AInv (actV ρ) (lineSub F) := by
   intro x e he
   obtain ⟨c, rfl⟩ := mem_lineSub.1 he
@@ -51,14 +58,17 @@ theorem lineSub_inv {ρ : Γ →* SL(3, F)} (hρ : L1Rep ρ) : AInv (actV ρ) (l
   refine mem_lineSub.2 ⟨c * c', ?_⟩
   rw [actV_smul, actV_eq_smul, hc', smul_smul]
 
+omit [Finite F] [CharP F 2] in
 theorem bot_inv {ρ : Γ →* SL(3, F)} : AInv (actV ρ) (⊥ : AddSubgroup (Fin 3 → F)) := by
   intro x e he
   rw [AddSubgroup.mem_bot.1 he, map_zero]
   exact AddSubgroup.zero_mem _
 
+omit [Finite F] [CharP F 2] in
 theorem top_inv {ρ : Γ →* SL(3, F)} : AInv (actV ρ) (⊤ : AddSubgroup (Fin 3 → F)) :=
   fun _ _ _ => AddSubgroup.mem_top _
 
+omit [Finite F] [CharP F 2] in
 theorem scalar_ne_zero_of_stab {ρ : Γ →* SL(3, F)} (x : Γ) {c' : F}
     (hc' : ρ x • vE F 0 = c' • vE F 0) : c' ≠ 0 := by
   rintro rfl
@@ -67,6 +77,7 @@ theorem scalar_ne_zero_of_stab {ρ : Γ →* SL(3, F)} (x : Γ) {c' : F}
     _ = (ρ x)⁻¹ • (0 : F) • vE F 0 := by rw [hc']
     _ = 0 := by rw [zero_smul, smul_zero]
 
+omit [Finite F] [CharP F 2] in
 theorem bot_lt_lineSub : (⊥ : AddSubgroup (Fin 3 → F)) < lineSub F := by
   refine lt_of_le_of_ne bot_le fun h => ?_
   have h0 : vE F 0 ∈ (⊥ : AddSubgroup (Fin 3 → F)) := by
@@ -74,6 +85,7 @@ theorem bot_lt_lineSub : (⊥ : AddSubgroup (Fin 3 → F)) < lineSub F := by
     exact mem_lineSub.2 ⟨1, one_smul _ _⟩
   exact vE_zero_ne (AddSubgroup.mem_bot.1 h0)
 
+omit [Finite F] [CharP F 2] in
 theorem lineSub_lt_top : lineSub F < ⊤ := by
   refine lt_top_iff_ne_top.2 fun h => ?_
   have h1 : vE F 1 ∈ lineSub F := by
@@ -83,6 +95,7 @@ theorem lineSub_lt_top : lineSub F < ⊤ := by
   have h2 := congrFun hc 1
   simp [vE] at h2
 
+omit [Finite F] [CharP F 2] in
 theorem card_lineSub : Nat.card (lineSub F) = Nat.card F := by
   let f : F → lineSub F := fun c => ⟨c • vE F 0, mem_lineSub.2 ⟨c, rfl⟩⟩
   have hf : Function.Bijective f := by
@@ -93,6 +106,7 @@ theorem card_lineSub : Nat.card (lineSub F) = Nat.card F := by
       exact ⟨c, Subtype.ext hc⟩
   exact (Nat.card_congr (Equiv.ofBijective f hf)).symm
 
+omit [Finite F] [CharP F 2] in
 theorem line_simple {ρ : Γ →* SL(3, F)} (hρ : L1Rep ρ) (M : AddSubgroup (Fin 3 → F))
     (h2 : M ≤ lineSub F) (hM : AInv (actV ρ) M) : M = ⊥ ∨ M = lineSub F := by
   by_cases hbot : M = ⊥
@@ -119,12 +133,14 @@ theorem line_simple {ρ : Γ →* SL(3, F)} (hρ : L1Rep ρ) (M : AddSubgroup (F
   rw [← hc₀m, actV_smul, actV_eq_smul, hx, smul_smul, hcc] at h3
   exact h3
 
+omit [Finite F] [CharP F 2] in
 theorem blk_mulVec_one (N : SL(2, F)) (e : Fin 3 → F) :
     ((CFSG.Quasithin.SL3Model.blk N : Matrix (Fin 3) (Fin 3) F) *ᵥ e) 1 =
       (N.1 *ᵥ ![e 1, e 2]) 0 := by
   simp [CFSG.Quasithin.SL3Model.blk_coe, Matrix.mulVec, dotProduct, Fin.sum_univ_three,
     Fin.sum_univ_two]
 
+omit [Finite F] [CharP F 2] in
 theorem blk_mulVec_two (N : SL(2, F)) (e : Fin 3 → F) :
     ((CFSG.Quasithin.SL3Model.blk N : Matrix (Fin 3) (Fin 3) F) *ᵥ e) 2 =
       (N.1 *ᵥ ![e 1, e 2]) 1 := by
@@ -181,12 +197,14 @@ theorem quot_simple {ρ : Γ →* SL(3, F)} (hρ : L1Rep ρ) (M : AddSubgroup (F
     ext i
     fin_cases i <;> simp
 
+omit [Finite F] [CharP F 2] in
 theorem planeCoord_apply (e : Fin 3 → F) : planeCoord F e = ![e 1, e 2] := rfl
 
 @[expose] noncomputable def betaV (ρ : Γ →* SL(3, F)) (hρ : L1Rep ρ) :
     Γ →* Matrix.GeneralLinearGroup (Fin 2) F :=
   ablkHom.comp (ρ.codRestrict (Pt (vE F 0)) hρ.stab)
 
+omit [Finite F] [CharP F 2] in
 theorem betaV_coe {ρ : Γ →* SL(3, F)} (hρ : L1Rep ρ) (x : Γ) :
     ((betaV ρ hρ x : Matrix.GeneralLinearGroup (Fin 2) F) : Matrix (Fin 2) (Fin 2) F) =
       ablk (ρ x) :=

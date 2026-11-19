@@ -169,14 +169,14 @@ theorem ggPZ_reflLift {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
         p * Nat.card ↥(FE ⊓ AE) := Nat.mul_le_mul_right _ hr
     exact Nat.le_of_mul_le_mul_left (le_trans hbig h1) (Fact.out : p.Prime).pos
   have hcard2 : 2 ≤ Nat.card ↥(FE ⊓ AE) := (Fact.out : p.Prime).two_le.trans hcard_ge
-  haveI : Fintype ↥(FE ⊓ AE) := Fintype.ofFinite _
+  have : Fintype ↥(FE ⊓ AE) := Fintype.ofFinite _
   have hfintype : 1 < Fintype.card ↥(FE ⊓ AE) := by
     rw [← Nat.card_eq_fintype_card]
     omega
   obtain ⟨b, hbne⟩ := Fintype.exists_ne_of_one_lt_card hfintype (1 : ↥(FE ⊓ AE))
   obtain ⟨hbFE, hbAE⟩ := Subgroup.mem_inf.mp b.2
   set a : G := (b : G) with ha
-  have haE : a ∈ E := by simpa [ha] using (b : ↥E).2
+  have haE : a ∈ E := by simp [ha]
   have haAJ : a ∈ E ⊓ J := by simpa [ha] using Subgroup.mem_subgroupOf.mp hbAE
   have haJ : a ∈ J := haAJ.2
   have haFix : g * a * g⁻¹ = a := by simpa [FE, ha] using hbFE

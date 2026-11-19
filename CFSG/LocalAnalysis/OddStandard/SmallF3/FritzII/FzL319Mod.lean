@@ -25,9 +25,11 @@ private lemma fzlV_add_self (v : FzV) : v + v = 0 := by
   have hall : ∀ a : ZMod 2, a + a = 0 := by decide
   exact Prod.ext (hall v.1) (Prod.ext (hall v.2.1) (hall v.2.2))
 
+omit [Finite G] in
 private lemma fzlM_zero (t tau lam : G) : fzlM t tau lam 0 = 1 := by
   simp [fzlM, ZMod.val_zero]
 
+omit [Finite G] in
 private lemma fzl_pow_add (s : G) (hs : s ^ 2 = 1) (a b : ZMod 2) :
     s ^ (a + b).val = s ^ a.val * s ^ b.val := by
   have h01 : ∀ x : ZMod 2, x = 0 ∨ x = 1 := by decide
@@ -36,6 +38,7 @@ private lemma fzl_pow_add (s : G) (hs : s ^ 2 = 1) (a b : ZMod 2) :
     subst ha; subst hb
     simp [ZMod.val_add, ZMod.val_zero, ZMod.val_one, ← pow_two, hs]
 
+omit [Finite G] in
 private lemma fzl_three {a b c : G} (hab : a * b = b * a) (hac : a * c = c * a)
     (hbc : b * c = c * b) (p q r p' q' r' : ℕ) :
     a ^ p * b ^ q * c ^ r * (a ^ p' * b ^ q' * c ^ r') =
@@ -59,6 +62,7 @@ private lemma fzl_three {a b c : G} (hab : a * b = b * a) (hac : a * c = c * a)
     _ = a ^ (p + p') * b ^ (q + q') * c ^ (r + r') := by
       rw [← pow_add a p p', ← pow_add b q q', ← pow_add c r r']
 
+omit [Finite G] in
 private lemma fzlM_add_aux (t tau lam : G) (ht : t ^ 2 = 1) (htau : tau ^ 2 = 1)
     (hlam : lam ^ 2 = 1) (httau : tau * t = t * tau) (htlam : lam * t = t * lam)
     (htaulam : lam * tau = tau * lam) (v w : FzV) :
@@ -74,31 +78,38 @@ private lemma fzlM_add_aux (t tau lam : G) (ht : t ^ 2 = 1) (htau : tau ^ 2 = 1)
 
 include D
 
+omit [Finite G] in
 private lemma fzl_tau_comm : tau * t = t * tau := by
   calc tau * t = tau * t * tau⁻¹ * tau := by group
     _ = t * tau := by rw [D.str.tau_t]
 
+omit [Finite G] in
 private lemma fzl_lam_comm_t : lam * t = t * lam := by
   calc lam * t = lam * t * lam⁻¹ * lam := by group
     _ = t * lam := by rw [D.str.lam_t]
 
+omit [Finite G] in
 private lemma fzlM_add (v w : FzV) :
     fzlM t tau lam (v + w) = fzlM t tau lam v * fzlM t tau lam w :=
   fzlM_add_aux t tau lam D.str.t_sq D.pf.tau_sq1 D.str.lam_sq (fzl_tau_comm D)
     (fzl_lam_comm_t D) D.str.tau_lam.symm v w
 
+omit [Finite G] in
 private lemma fzlM_sq (v : FzV) : fzlM t tau lam v * fzlM t tau lam v = 1 := by
   rw [← fzlM_add D v v, fzlV_add_self v, fzlM_zero]
 
+omit [Finite G] in
 private lemma fzlM_inv (v : FzV) : (fzlM t tau lam v)⁻¹ = fzlM t tau lam v :=
   inv_eq_of_mul_eq_one_right (fzlM_sq D v)
 
+omit [Finite G] in
 private lemma fzl_symm_mul (a b : FzUT) :
     ((D.φ.symm (a * b) : ↥P) : G)
       = ((D.φ.symm a : ↥P) : G) * ((D.φ.symm b : ↥P) : G) := by
   rw [map_mul]
   rfl
 
+omit [Finite G] in
 private lemma fzl_ap_conj (b : ZMod 2) (σ : MulAut FzUT) (s : G)
     (hσ : ∀ q, ((D.φ.symm (σ q) : ↥P) : G) = s * ((D.φ.symm q : ↥P) : G) * s⁻¹)
     (q : FzUT) :
@@ -109,9 +120,10 @@ private lemma fzl_ap_conj (b : ZMod 2) (σ : MulAut FzUT) (s : G)
   rcases h01 b with hb | hb
   · subst hb; simp [fzAp, ZMod.val_zero]
   · subst hb
-    rw [fzAp, if_neg h10, ZMod.val_one 2, pow_one]
+    rw [fzAp, ite_eq_right h10, ZMod.val_one 2, pow_one]
     exact hσ q
 
+omit [Finite G] in
 private lemma fzl_act_conj (v : FzV) (q : FzUT) :
     ((D.φ.symm (fzAct D.cT D.cS D.cL v q) : ↥P) : G)
       = fzlM t tau lam v * ((D.φ.symm q : ↥P) : G) * (fzlM t tau lam v)⁻¹ := by
@@ -123,11 +135,13 @@ private lemma fzl_act_conj (v : FzV) (q : FzUT) :
   unfold fzlM
   group
 
+omit [Finite G] in
 private lemma fzl_mu_eq (x : FzElt) :
     D.mu x = ((D.φ.symm x.1 : ↥P) : G) * fzlM t tau lam x.2 := by
   unfold mu fzlM
   group
 
+omit [Finite G] in
 private lemma fzlM_mem_P_zero (u : FzV) (hu : fzlM t tau lam u ∈ P) : u = 0 := by
   have h01 : ∀ a : ZMod 2, a = 0 ∨ a = 1 := by decide
   have hPR : P ≤ R := D.pf.PQ.trans D.str.QR
@@ -178,6 +192,7 @@ private lemma fzlM_mem_P_zero (u : FzV) (hu : fzlM t tau lam u ∈ P) : u = 0 :=
           · exact (h0 h).elim
         exact Prod.ext h0' (Prod.ext h1' h2')
 
+omit [Finite G] in
 theorem mu_mul (x y : FzElt) : D.mu (fzMulC D.cT D.cS D.cL x y) = D.mu x * D.mu y := by
   rw [fzl_mu_eq D (x := fzMulC D.cT D.cS D.cL x y), fzl_mu_eq D (x := x),
     fzl_mu_eq D (x := y)]
@@ -185,10 +200,12 @@ theorem mu_mul (x y : FzElt) : D.mu (fzMulC D.cT D.cS D.cL x y) = D.mu x * D.mu 
   rw [fzl_symm_mul D, fzl_act_conj D, fzlM_add D]
   group
 
+omit [Finite G] in
 theorem mu_one : D.mu fzOneC = 1 := by
   rw [fzl_mu_eq D]
   simp [fzOneC, fzlM_zero]
 
+omit [Finite G] in
 theorem mu_mem (x : FzElt) : D.mu x ∈ T := by
   rw [fzl_mu_eq D]
   unfold fzlM
@@ -196,6 +213,7 @@ theorem mu_mem (x : FzElt) : D.mu x ∈ T := by
     (T.pow_mem D.lam_mem _))
   exact (D.pf.PQ.trans (D.str.QR.trans D.str.RT)) (D.φ.symm x.1).2
 
+omit [Finite G] in
 theorem mu_injective : Function.Injective D.mu := by
   intro x y h
   rw [fzl_mu_eq D (x := x), fzl_mu_eq D (x := y)] at h

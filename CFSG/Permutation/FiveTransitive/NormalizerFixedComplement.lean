@@ -11,10 +11,10 @@ namespace FiveTransitive.NormalizerFixedComplement
 
 open MulAction
 
-@[expose] abbrev Normalizer {G : Type*} [Group G] (Q : Subgroup G) :=
+abbrev Normalizer {G : Type*} [Group G] (Q : Subgroup G) :=
   Subgroup.normalizer (Q : Set G)
 
-@[expose] abbrev Inside {G : Type*} [Group G] (Q : Subgroup G) := Q.subgroupOf (Normalizer Q)
+abbrev Inside {G : Type*} [Group G] (Q : Subgroup G) := Q.subgroupOf (Normalizer Q)
 
 @[expose] def Domain {G X : Type*} [Group G] [MulAction G X] (Q : Subgroup G) :
     SubMulAction (Normalizer Q) X :=

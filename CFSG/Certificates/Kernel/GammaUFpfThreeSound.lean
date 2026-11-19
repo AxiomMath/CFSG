@@ -19,10 +19,10 @@ theorem combo_eq : combo = comboK := by
     have h2 : Nat.shiftRight m 1 = m / 2 := (Nat.shiftRight_eq_div_pow m 1).trans (by norm_num)
     rw [ih, h1, h2]
     by_cases hm : m % 2 = 1
-    · rw [if_pos hm, hm]
+    · rw [ite_eq_left hm, hm]
       rfl
     · have hb : Nat.beq (m % 2) 1 = false := Bool.eq_false_iff.2 fun h => hm (Nat.eq_of_beq_eq_true h)
-      rw [if_neg hm, hb]
+      rw [ite_eq_right hm, hb]
       rfl
 
 theorem f0b_eq : f0b = f0K := by

@@ -130,7 +130,7 @@ theorem odd_card_centralizer_inf_of_isCharTwoType {G : Type} [Group G] [Finite G
   have hTne : (T : Subgroup ↥D) ≠ ⊥ := Sylow.ne_bot_of_dvd_card T hDeven.two_dvd
   set P : Subgroup G := (T : Subgroup ↥D).map D.subtype with hPdef
   have hPD : P ≤ D := Subgroup.map_subtype_le _
-  have hP2 : IsPGroup 2 P := (T.isPGroup').map D.subtype
+  have hP2 : IsPGroup 2 P := (T.isPGroup).map D.subtype
   have hPne : P ≠ ⊥ := by
     intro hbot
     apply hTne

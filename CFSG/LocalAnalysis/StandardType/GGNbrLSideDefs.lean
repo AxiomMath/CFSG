@@ -57,7 +57,7 @@ inductive GGNbrLSideFamily : Type
 
 @[expose] def GGNbrLSideRSAt (lab : LargeEvenLabel) : Prop :=
   LargeEvenInLambda2 lab → LargeEvenSplit 3 lab →
-    LargeEvenLabelAll lab fun R _ I _ => GGNbrLSideDich lab I
+    LargeEvenLabelAll lab fun _R _ I _ => GGNbrLSideDich lab I
 
 @[expose] def GGNbrLSideRSFamily (f : GGNbrLSideFamily) : Prop :=
   ∀ lab : LargeEvenLabel, ggNbrLSideFamilyOf lab = f → GGNbrLSideRSAt lab

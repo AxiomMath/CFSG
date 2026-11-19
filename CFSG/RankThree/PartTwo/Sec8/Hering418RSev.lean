@@ -20,7 +20,7 @@ section Final
 theorem inner_of_sevenEightRes {X : Type} [Group X] [Finite X] (hq : IsQuasisimple X)
     (hX : IsSevenEightRes X) {σ : MulAut X} (hσ : σ ^ 3 = 1) :
     σ ∈ (MulAut.conj : X →* MulAut X).range := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rcases hX with ⟨⟨φ⟩⟩ | ⟨⟨φ⟩⟩ | ⟨-, hG2 | ⟨⟨φ⟩⟩⟩
   · exact inner_of_equiv (φ.trans Sec4.Item434SmallTwoIII.sp62Equiv)
       (fun τ _ => Sec4.Item434SmallTwoIII.mem_range_conj_H6 τ) hσ
@@ -34,8 +34,8 @@ theorem inner_of_sevenEightRes {X : Type} [Group X] [Finite X] (hq : IsQuasisimp
 
 theorem noCommute37_quot_of_sevenEightRes {X : Type} [Group X] [Finite X] (hq : IsQuasisimple X)
     (hX : IsSevenEightRes X) : NoCommute37 (X ⧸ Subgroup.center X) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rcases hX with ⟨⟨φ⟩⟩ | ⟨⟨φ⟩⟩ | ⟨-, hG2 | ⟨⟨φ⟩⟩⟩
   · have hZ := Sec13.Res5Proof.center_eq_bot_of_projSp (n := 3)
       ⟨Nat.prime_two, le_rfl, by norm_num, by decide⟩ hq φ

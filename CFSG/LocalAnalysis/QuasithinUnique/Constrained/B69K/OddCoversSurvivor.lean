@@ -87,7 +87,7 @@ theorem three_rank_of_survivor_cover (hGA : GriessAllModelsStatement)
     refine ⟨hZ, ?_⟩
     obtain ⟨hadm, K, _, _, hK, ⟨e⟩⟩ := h
     have hf1 : 1 ≤ f := hadm.2.1
-    haveI : CharP K 2 :=
+    have : CharP K 2 :=
       CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two hf1 hK
     have h3K : 3 ∣ Nat.card K - 1 := by
       rw [hK]
@@ -148,7 +148,7 @@ theorem stronglyQuasithin_of_survivor_cover (hGA : GriessAllModelsStatement)
   by_cases hp3 : p = 3
   · subst hp3
     exact h3
-  · haveI : Fact p.Prime := ⟨hp⟩
+  · have : Fact p.Prime := ⟨hp⟩
     have hN : ¬ p ∣ Nat.card (Subgroup.center L) := by
       rw [hZ]
       intro hd

@@ -21,6 +21,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_normalizer_commutator {H₁ H₂ : Subgroup G} {g : G}
     (h₁ : g ∈ Subgroup.normalizer (H₁ : Set G)) (h₂ : g ∈ Subgroup.normalizer (H₂ : Set G)) :
     g ∈ Subgroup.normalizer ((⁅H₁, H₂⁆ : Subgroup G) : Set G) := by
@@ -28,6 +29,7 @@ theorem mem_normalizer_commutator {H₁ H₂ : Subgroup G} {g : G}
   unfold GLBConj at h₁ h₂ ⊢
   rw [Subgroup.map_commutator, h₁, h₂]
 
+omit [Finite G] in
 theorem commutator_le_left_of_le_normalizer {A H : Subgroup G}
     (h : H ≤ Subgroup.normalizer (A : Set G)) : (⁅A, H⁆ : Subgroup G) ≤ A := by
   rw [Subgroup.commutator_le]
@@ -36,6 +38,7 @@ theorem commutator_le_left_of_le_normalizer {A H : Subgroup G}
   have : g * a⁻¹ * g⁻¹ ∈ A := (Subgroup.mem_normalizer_iff.1 (h hg) a⁻¹).1 (A.inv_mem ha)
   simpa [mul_assoc] using A.mul_mem ha this
 
+omit [Finite G] in
 theorem le_sup_inf_of_le_sup {A C N : Subgroup G} (hAC : A ≤ C) (hCAN : C ≤ A ⊔ N)
     (hAN : A ≤ Subgroup.normalizer (N : Set G)) : C ≤ A ⊔ (C ⊓ N) := by
   intro c hc
@@ -47,16 +50,18 @@ theorem le_sup_inf_of_le_sup {A C N : Subgroup G} (hAC : A ≤ C) (hCAN : C ≤ 
     simpa using this
   exact Subgroup.mul_mem_sup hx ⟨hnC, hn⟩
 
+omit [Finite G] in
 theorem le_glaPPrimeCoreOf_of_le_normalizer {p : ℕ} {N K : Subgroup G} (hNK : N ≤ K)
     (hKN : K ≤ Subgroup.normalizer (N : Set G)) (hcop : Nat.Coprime p (Nat.card N)) :
     N ≤ GLAPPrimeCoreOf p K := by
-  haveI hn : (N.subgroupOf K).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hNK).2 hKN
+  have hn : (N.subgroupOf K).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hNK).2 hKN
   have hcard : Nat.card (N.subgroupOf K) = Nat.card N :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hNK).toEquiv
   have hle : N.subgroupOf K ≤ GLAPPrimeCore p ↥K := le_sSup ⟨hn, hcard ▸ hcop⟩
   intro n hn'
   exact ⟨⟨n, hNK hn'⟩, hle hn', rfl⟩
 
+omit [Finite G] in
 theorem mem_normalizer_sup_of_mem {A C : Subgroup G} {g : G}
     (hA : g ∈ Subgroup.normalizer (A : Set G)) (hC : g ∈ Subgroup.normalizer (C : Set G)) :
     g ∈ Subgroup.normalizer ((A ⊔ C : Subgroup G) : Set G) := by

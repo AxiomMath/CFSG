@@ -79,7 +79,7 @@ theorem perm_commutes_all_eq_one {n : ℕ} (hn : 3 ≤ n) (g : Equiv.Perm (Fin n
   refine Equiv.ext fun i => ?_
   simpa using hfix i
 
-theorem perm_map_stab_inner {n : ℕ} (hn : 3 ≤ n) (a : Fin n)
+theorem perm_map_stab_inner {n : ℕ} (_hn : 3 ≤ n) (a : Fin n)
     (φ : Equiv.Perm (Fin n) → Equiv.Perm (Fin n))
     (hmul : ∀ σ τ : Equiv.Perm (Fin n), φ (σ * τ) = φ σ * φ τ)
     (h0 : ∀ σ : Equiv.Perm (Fin n), φ σ a = a ↔ σ a = a) :
@@ -222,7 +222,6 @@ theorem perm_two_subgroup_dichotomy {n : ℕ} (hodd : Odd n) (h5 : 5 ≤ n)
     intro x
     first
     | exact Iff.rfl
-    | simp
   mul_mem' := by
     intro σ τ hσ hτ x
     rw [Equiv.Perm.mul_apply]
@@ -233,7 +232,6 @@ theorem perm_two_subgroup_dichotomy {n : ℕ} (hodd : Odd n) (h5 : 5 ≤ n)
     have hx : σ (σ⁻¹ x) = x := by
       first
       | (rw [Equiv.Perm.inv_def]; exact Equiv.apply_symm_apply σ x)
-      | simp
     rw [hx] at h
     exact h.symm
 
@@ -265,12 +263,12 @@ theorem bt_swap_mem_young {n : ℕ} {O : Finset (Fin n)} {a b : Fin n}
   intro z
   rw [Equiv.swap_apply_def]
   by_cases h1 : z = a
-  · rw [if_pos h1, h1]
+  · rw [ite_eq_left h1, h1]
     exact h.symm
   · by_cases h2 : z = b
-    · rw [if_neg h1, if_pos h2, h2]
+    · rw [ite_eq_right h1, ite_eq_left h2, h2]
       exact h
-    · rw [if_neg h1, if_neg h2]
+    · rw [ite_eq_right h1, ite_eq_right h2]
 
 theorem bt_exists_ne_mem {n : ℕ} (O : Finset (Fin n)) (h2 : 2 ≤ O.card) (a : Fin n) :
     ∃ x ∈ O, x ≠ a := by
@@ -319,7 +317,7 @@ theorem exists_even_not_mem_young {n : ℕ} (O : Finset (Fin n)) (h2 : 2 ≤ O.c
   refine ⟨Equiv.swap a p * Equiv.swap p q, ?_, ?_⟩
   · rw [Equiv.Perm.mem_alternatingGroup, Equiv.Perm.sign_mul, Equiv.Perm.sign_swap hap,
       Equiv.Perm.sign_swap hpq]
-    all_goals first | rfl | decide | norm_num | simp
+    all_goals first | rfl
   · intro hmem
     have h1 := (mem_young_iff.mp hmem) a
     rw [Equiv.Perm.mul_apply, Equiv.swap_apply_of_ne_of_ne hap haq,

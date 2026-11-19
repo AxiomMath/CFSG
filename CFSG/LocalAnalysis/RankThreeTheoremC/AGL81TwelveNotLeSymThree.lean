@@ -20,7 +20,7 @@ theorem kFactTwelveNotLeSymThreeUnique_holds : KFactTwelveNotLeSymThreeUnique :=
   · exact SymThree.eq_of_mulEquiv_perm_of_three_four_six hn e hX' eX eW
   · exact SymThree.eq_of_mulEquiv_perm e hX' eX eW
   · exact SymThree.eq_of_mulEquiv_perm_prod hs e hX' hW' eX eW
-  · haveI := SymThree.isSimpleGroup_of_mulEquiv_lie_B hk hq hd e
+  · have := SymThree.isSimpleGroup_of_mulEquiv_lie_B hk hq hd e
     exact (SymThree.false_of_isSimpleGroup_of_isSubnormal hX' eX).elim
   · exact SymThree.eq_of_central_cover f hf hker hcard eX eW
 

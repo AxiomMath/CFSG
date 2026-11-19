@@ -41,7 +41,7 @@ private lemma three_dvd_two_pow_mul_sub_one (j e : ℕ) : 3 ∣ (2 ^ j) ^ (2 * e
 
 private lemma exists_cube_root_unity_of_three_dvd {L : Type} [Field L] [Finite L]
     (h : 3 ∣ Nat.card L - 1) : ∃ w : L, w ^ 3 = 1 ∧ w ≠ 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have h3u : 3 ∣ Nat.card Lˣ := by rwa [Nat.card_units]
   obtain ⟨ω, hω⟩ := exists_prime_orderOf_dvd_card' (G := Lˣ) 3 h3u
   have hω3 : ω ^ 3 = 1 := by simpa [hω] using pow_orderOf_eq_one ω
@@ -75,7 +75,7 @@ private lemma natDegree_eq_one_of_irreducible_of_root_mem_range {L : Type} [Fiel
     {P : Polynomial L} (hirr : Irreducible P)
     (hmem : AdjoinRoot.root P ∈ (algebraMap L (AdjoinRoot P)).range) :
     P.natDegree = 1 := by
-  haveI : Fact (Irreducible P) := ⟨hirr⟩
+  have : Fact (Irreducible P) := ⟨hirr⟩
   obtain ⟨a₀, ha₀⟩ := hmem
   have hPne : P ≠ 0 := hirr.ne_zero
   have hmin := AdjoinRoot.minpoly_root (K := L) hPne
@@ -91,9 +91,9 @@ private lemma natDegree_eq_one_of_irreducible_of_dvd {L : Type} [Field L] [Finit
     {P : Polynomial L} (hirr : Irreducible P) {c : L}
     (hdvd : P ∣ Polynomial.X ^ 3 - Polynomial.C c)
     (hω : ∃ w : L, w ^ 3 = 1 ∧ w ≠ 1) (h3 : ¬ 3 ∣ P.natDegree) : P.natDegree = 1 := by
-  haveI : Fact (Irreducible P) := ⟨hirr⟩
+  have : Fact (Irreducible P) := ⟨hirr⟩
   have hPne : P ≠ 0 := hirr.ne_zero
-  haveI : FiniteDimensional L (AdjoinRoot P) := (AdjoinRoot.powerBasis hPne).finite
+  have : FiniteDimensional L (AdjoinRoot P) := (AdjoinRoot.powerBasis hPne).finite
   have ha3 : (AdjoinRoot.root P) ^ 3 ∈ (algebraMap L (AdjoinRoot P)).range := by
     refine ⟨c, ?_⟩
     have h := AdjoinRoot.mk_eq_zero.mpr hdvd
@@ -169,7 +169,7 @@ private lemma scalar_unitary_eq {L : Type} [Field L] {n : ℕ} {τ : L ≃+* L}
       τ (c : L) • (1 : Matrix (Fin n) (Fin n) L) := by
     ext i j
     by_cases hij : i = j <;>
-      simp [Matrix.map_apply, Matrix.smul_apply, Matrix.one_apply, hij]
+      simp [Matrix.map_apply, Matrix.smul_apply, hij]
   rw [hmap, Matrix.transpose_smul, Matrix.transpose_one] at hzu
   have hmul : (τ (c : L) • (1 : Matrix (Fin n) (Fin n) L)) * ((c : L) • 1) =
       (τ (c : L) * (c : L)) • 1 := by
@@ -218,7 +218,7 @@ private lemma three_dvd_Q_add_one_of_scalar_central {L : Type} [Field L] [Finite
     apply hz1
     rw [hzc]
     apply Units.ext
-    simp [CFSG.LocalAnalysis.GLTheoremA.Y10GInnLin.val_scalar_gl, hc1]
+    simp [hc1]
   exact three_dvd_Q_add_one_of_scalar_unitary hτ hτQ hn (by rw [← hzc]; exact hzGU) hc3 hcne
 
 private lemma exists_central_order_three_of_equiv {K : Type} [Field K] {E : Type} [Field E]
@@ -271,7 +271,7 @@ theorem k1419ClsUniDichot {L : Type} [Field L] [Finite L] {n Q : ℕ} {τ : L �
           ∃ z : GL (Fin n) L, z ∈ M ∧ z ≠ 1 ∧ z ^ 3 = 1 ∧ (∀ y ∈ M, z * y = y * z) ∧
             z ∉ StatedScalars (Fin n) L))) := by
   obtain ⟨j, hQj⟩ := hQ
-  haveI : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
+  have : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
   have h2 : (2 : L) = 0 :=
     CFSG.LocalAnalysis.GLTheoremA.Y10GInnUni.two_eq_zero_of_card (K := L) (n := j)
       (by rw [hL, hQj])
@@ -304,8 +304,8 @@ theorem k1419ClsUniDichot {L : Type} [Field L] [Finite L] {n Q : ℕ} {τ : L �
       · exact Or.inl hdd
       · right
         rintro ⟨ha3, hq3⟩
-        letI : Field E := hEfld
-        letI : Finite E := hEfin
+        let : Field E := hEfld
+        let : Finite E := hEfin
         obtain ⟨z₀, hz₀SU, hz₀ne, hz₀3, hz₀cen⟩ :=
           k1419ClsUniCentreSU (q := Q ^ dd) ⟨j * dd, by rw [hQj, pow_mul]⟩ τ' hτ' hτ'Q
             hEcard ha2 ha3 hq3
@@ -338,7 +338,7 @@ theorem k1419ClsUniDichot {L : Type} [Field L] [Finite L] {n Q : ℕ} {τ : L �
             intro h
             have h1 : (1 : L) = 0 := by
               have := congrFun h ⟨0, hn⟩
-              simpa [x₀] using this
+              simp [x₀] at this
             exact one_ne_zero h1
           have hdvd : P ∣ Polynomial.X ^ 3 - Polynomial.C c :=
             dvd_X_pow_three_sub_C_of_aeval_mulVec_eq_zero (A : Matrix (Fin n) (Fin n) L)
@@ -374,8 +374,8 @@ theorem k1419ClsUniDichot {L : Type} [Field L] [Finite L] {n Q : ℕ} {τ : L �
       · exact Or.inl he
       · right
         intro hb3
-        letI : Field E := hEfld
-        letI : Finite E := hEfin
+        let : Field E := hEfld
+        let : Finite E := hEfin
         have h3E : 3 ∣ Nat.card E - 1 := by
           rw [hEcard, hQj]
           exact three_dvd_two_pow_mul_sub_one j e
@@ -429,9 +429,9 @@ theorem k1419ClsUniDichot {L : Type} [Field L] [Finite L] {n Q : ℕ} {τ : L �
             rw [hk]
             by_cases hik : i = k
             · subst hik
-              simp [Pi.single_eq_same, Matrix.smul_apply, Matrix.one_apply]
+              simp [Pi.single_eq_same, Matrix.smul_apply]
             · rw [Pi.single_eq_of_ne hik, mul_zero]
-              simp [Matrix.smul_apply, Matrix.one_apply, hik]
+              simp [Matrix.smul_apply, hik]
           have hQ3 : Q % 3 = 1 :=
             k1419ClsUniNu hτ hτQ hL ⟨j, hQj⟩ A hA c hc X Y hXY hXne hYne hXi hYi p q hp hq
               hpq

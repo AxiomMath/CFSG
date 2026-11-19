@@ -15,12 +15,12 @@ section Certified
 
 theorem centreDvdThree_of : CentreDvdThree := by
   intro G _ _ L hS hL
-  haveI : Group.IsPerfect ↥L := ⟨hS.std.standard.1.1⟩
+  have : Group.IsPerfect ↥L := ⟨hS.std.standard.1.1⟩
   exact Setup.card_center_dvd_three inferInstance hL
 
 theorem oddCentre_of : OddCentre := by
   intro G _ _ L hS hL
-  haveI : Group.IsPerfect ↥L := ⟨hS.std.standard.1.1⟩
+  have : Group.IsPerfect ↥L := ⟨hS.std.standard.1.1⟩
   have h3 : Nat.card ↥(center ↥L) ∣ 3 := Setup.card_center_dvd_three inferInstance hL
   exact Odd.of_dvd_nat (by decide) h3
 

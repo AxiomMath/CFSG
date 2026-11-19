@@ -103,7 +103,7 @@ private theorem eA_conj (h : WHyp G L A T z t W W₁ W₂) {x : G}
   apply Subtype.ext
   rw [coe_deltaV₁, h.hyp.delta_conj hx.1, coe_eA h a]
 
-private noncomputable def XQ (h : WHyp G L A T z t W W₁ W₂) : Subgroup ↥(XW W) :=
+private noncomputable def XQ (_h : WHyp G L A T z t W W₁ W₂) : Subgroup ↥(XW W) :=
   ((L ⊓ normalizer (A : Set G)).subgroupOf (normalizer (W : Set G))).map (toXW W)
 
 private noncomputable def XQ₁ (h : WHyp G L A T z t W W₁ W₂) :
@@ -233,7 +233,7 @@ private theorem restrictHom_eq_one (h : WHyp G L A T z t W W₁ W₂) {q : ↥(X
   ext w
   rw [← hqn]
   rw [coe_toXW_apply]
-  haveI : IsMulCommutative ↥W := h.elemAb.toIsMulCommutative
+  have : IsMulCommutative ↥W := h.elemAb.toIsMulCommutative
   have hcomm : (n : G) * (w : G) = (w : G) * (n : G) :=
     congrArg Subtype.val (mul_comm' (⟨(n : G), h.e3.A_le hnA⟩ : ↥W) w)
   rw [hcomm]
@@ -279,7 +279,7 @@ private theorem restrictHom_range (h : WHyp G L A T z t W W₁ W₂) :
 private noncomputable def resEquiv (h : WHyp G L A T z t W W₁ W₂) :
     ↥(XQ h) ≃* ↥(XQ₁ h) :=
   (MulEquiv.ofBijective (restrictHom h).rangeRestrict
-    ⟨fun a b hab => restrictHom_injective h (congrArg Subtype.val hab),
+    ⟨fun _a _b hab => restrictHom_injective h (congrArg Subtype.val hab),
       MonoidHom.rangeRestrict_surjective _⟩).trans
     (MulEquiv.subgroupCongr (restrictHom_range h))
 
@@ -323,7 +323,7 @@ private theorem toXW_eq_zpow_of_mem_R₀ (h : WHyp G L A T z t W W₁ W₂) {r :
     apply Subtype.ext
     ext x
     rw [coe_toXW_apply]
-    haveI : IsMulCommutative ↥W := h.elemAb.toIsMulCommutative
+    have : IsMulCommutative ↥W := h.elemAb.toIsMulCommutative
     have hcomm : v * (x : G) = (x : G) * v :=
       congrArg Subtype.val (mul_comm' (⟨v, hvW⟩ : ↥W) x)
     rw [hcomm]
@@ -414,7 +414,7 @@ private theorem fixed_zX (h : WHyp G L A T z t W W₁ W₂)
       group
     have h1 := H (toXW W ⟨m, hm⟩) ⟨a, haW⟩ hzfix
     have h2 := congrArg Subtype.val h1
-    simp only [MulAut.mul_apply, coe_toXW_apply] at h2
+    simp only [coe_toXW_apply] at h2
     have huW : m * a * m⁻¹ ∈ W := (mem_normalizer_iff.1 hm a).1 haW
     rw [h.mem_A_iff huW]
     calc z * (m * a * m⁻¹) = (z * (m * a * m⁻¹) * z⁻¹) * z := by group

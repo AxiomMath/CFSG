@@ -37,7 +37,7 @@ variable {G : Type*} [Group G]
   disconnectedConjStabilizer (Subtype.val '' Δ.supp)
 
 theorem component_stabilizer_strongly_embedded (G : Type*) [Group G] [Finite G]
-    (heven : Even (Nat.card G))
+    (_heven : Even (Nat.card G))
     (htwo : ∃ Δ₁ Δ₂ : (involutionGraph G).ConnectedComponent, Δ₁ ≠ Δ₂)
     (Δ : (involutionGraph G).ConnectedComponent) :
     disconnectedStronglyEmbedded (disconnectedComponentStabilizer Δ) := by

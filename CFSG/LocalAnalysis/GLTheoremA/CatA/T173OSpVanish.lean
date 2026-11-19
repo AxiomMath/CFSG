@@ -30,10 +30,12 @@ private def commonFixed (T : Subgroup ↥(StatedSp ℓ F)) :
     show spEnd t (c • v) = c • v
     rw [map_smul, hv t ht]
 
+omit [Finite F] [CharP F 2] in
 private theorem mem_commonFixed {T : Subgroup ↥(StatedSp ℓ F)}
     {v : Fin ℓ ⊕ Fin ℓ → F} :
     v ∈ commonFixed T ↔ ∀ t ∈ T, spEnd t v = v := Iff.rfl
 
+omit [CharP F 2] in
 private theorem exists_ne_zero_mem_commonFixed {T : Subgroup ↥(StatedSp ℓ F)}
     (hT2 : IsPGroup 2 T) (hℓ : 1 ≤ ℓ) (hn : Nat.card F = 2 ^ n) :
     ∃ v, v ≠ 0 ∧ v ∈ commonFixed T := by
@@ -42,7 +44,7 @@ private theorem exists_ne_zero_mem_commonFixed {T : Subgroup ↥(StatedSp ℓ F)
     { toFun := fun t => spEnd (t : ↥(StatedSp ℓ F))
       map_one' := by rw [Subgroup.coe_one, spEnd_one]
       map_mul' := fun a b => by rw [Subgroup.coe_mul, spEnd_mul] }
-  letI : MulAction ↥T (Fin ℓ ⊕ Fin ℓ → F) :=
+  let : MulAction ↥T (Fin ℓ ⊕ Fin ℓ → F) :=
     { smul := fun t v => ρ t v
       one_smul := fun v => by
         change spEnd ((1 : ↥T) : ↥(StatedSp ℓ F)) v = v
@@ -52,7 +54,7 @@ private theorem exists_ne_zero_mem_commonFixed {T : Subgroup ↥(StatedSp ℓ F)
         change spEnd (((a * b : ↥T) : ↥(StatedSp ℓ F))) v =
           spEnd ((a : ↥T) : ↥(StatedSp ℓ F)) (spEnd ((b : ↥T) : ↥(StatedSp ℓ F)) v)
         rw [Subgroup.coe_mul, spEnd_mul, Module.End.mul_apply] }
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcardα : Nat.card (Fin ℓ ⊕ Fin ℓ) = 2 * ℓ := by
     rw [Nat.card_eq_fintype_card, Fintype.card_sum, Fintype.card_fin]
     omega
@@ -74,6 +76,7 @@ private theorem exists_ne_zero_mem_commonFixed {T : Subgroup ↥(StatedSp ℓ F)
     (Fin ℓ ⊕ Fin ℓ → F) hcard hfix0
   exact ⟨v, hne.symm, fun t ht => hv ⟨t, ht⟩⟩
 
+omit [Finite F] [CharP F 2] in
 private theorem commonFixed_normalizer_maps {T : Subgroup ↥(StatedSp ℓ F)}
     {g : ↥(StatedSp ℓ F)} (hg : g ∈ Subgroup.normalizer (T : Set ↥(StatedSp ℓ F)))
     {v : Fin ℓ ⊕ Fin ℓ → F} (hv : v ∈ commonFixed T) :
@@ -91,14 +94,15 @@ private theorem commonFixed_normalizer_maps {T : Subgroup ↥(StatedSp ℓ F)}
 private theorem not_commutative_of_isComponentOf {G : Type} [Group G] {K L : Subgroup G}
     (hK : IsComponentOf K L) (hcomm : ∀ a ∈ K, ∀ b ∈ K, a * b = b * a) : False := by
   have hperf : Group.IsPerfect ↥K := Group.isPerfect_def.mpr hK.2.2.1
-  haveI : Nontrivial ↥K := by
-    haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hK.2.2.2
+  have : Nontrivial ↥K := by
+    have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hK.2.2.2
     exact (QuotientGroup.mk'_surjective (Subgroup.center ↥K)).nontrivial
-  haveI : IsMulCommutative ↥K :=
+  have : IsMulCommutative ↥K :=
     isMulCommutative_iff.mpr fun a b => Subtype.ext (hcomm a a.2 b b.2)
-  haveI : Group.IsPerfect ↥K := hperf
+  have : Group.IsPerfect ↥K := hperf
   exact (Group.IsPerfect.not_isMulCommutative (G := ↥K)) inferInstance
 
+omit [Finite F] [CharP F 2] in
 private theorem diagSp_mulSingle_mem_inf
     {V K : Subgroup ↥(StatedSp ℓ F)}
     (hV : V = CFSG.LocalAnalysis.GLTheoremA.Y10F.symplecticQTorus (F := F) (ℓ := ℓ) p)
@@ -133,7 +137,7 @@ private theorem not_two_ne_one_of_preserves_planes
     (hcent : V ⊓ Subgroup.centralizer (K : Set ↥(StatedSp ℓ F)) =
       Subgroup.zpowers (diagSp F ℓ t))
     {i₁ i₂ : Fin ℓ} (hne : i₁ ≠ i₂) (h1 : t i₁ ≠ 1) (h2 : t i₂ ≠ 1) : False := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpdvd : p ∣ Nat.card Fˣ := by rw [Nat.card_units, hn]; exact hpq
   obtain ⟨ζ, hζo⟩ := exists_prime_orderOf_dvd_card' p hpdvd
   have hζp : ζ ^ p = 1 := hζo ▸ pow_orderOf_eq_one ζ
@@ -170,6 +174,7 @@ private theorem not_two_ne_one_of_preserves_planes
     simpa [Pi.mulSingle_eq_same, hzero] using h.symm
   exact hζ1 hζeq
 
+omit [CharP F 2] in
 private theorem four_le_card_of_prime_dvd (hp : p.Prime) (hp2 : p ≠ 2)
     (hn : Nat.card F = 2 ^ n) (hpq : p ∣ 2 ^ n - 1) : 4 ≤ Nat.card F := by
   have hp3 : 3 ≤ p := by
@@ -264,6 +269,7 @@ private theorem false_of_preserves_planes
     exact hsingle j i₀ hj htj hi₀
   exact false_of_two_trivial_planes hℓ hn hp hp2 hpq htp hKdef hpl hone
 
+omit [CharP F 2] in
 private theorem commonFixed_ne_bot_ne_top
     (hℓ : 1 ≤ ℓ) (hn : Nat.card F = 2 ^ n)
     {T : Subgroup ↥(StatedSp ℓ F)} (hT1 : T ≠ ⊥) (hT2 : IsPGroup 2 T) :

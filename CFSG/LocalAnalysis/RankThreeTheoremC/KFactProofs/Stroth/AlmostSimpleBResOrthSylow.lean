@@ -52,7 +52,7 @@ theorem sylowIso_of_cover [Finite O] [Finite H] (hp2 : p ≠ 2) {N : Subgroup O}
     (hker : ∀ x, π x = 1 → x ^ 2 = 1) (hO : SylowIso p O G') : SylowIso p H G' := by
   intro P P'
   obtain ⟨S⟩ : Nonempty (Sylow p O) := inferInstance
-  have hSN : (S : Subgroup O) ≤ N := le_of_isPGroup_of_sq_mem hp2 hsq S.isPGroup'
+  have hSN : (S : Subgroup O) ≤ N := le_of_isPGroup_of_sq_mem hp2 hsq S.isPGroup
   let SN : Sylow p N := S.subtype hSN
   let SH : Sylow p H := Sylow.mapSurjective hπ SN
   let e1 : ↥SN ≃* ↥S := Subgroup.subgroupOfEquivOfLe hSN
@@ -65,7 +65,7 @@ theorem sylowIso_of_cover [Finite O] [Finite H] (hp2 : p ≠ 2) {N : Subgroup O}
       have h3 := congrArg Subtype.val this
       simpa using h3
     have hxS : ((x : N) : O) ∈ (S : Subgroup O) := x.2
-    have h4 := eq_one_of_isPGroup_of_sq_eq_one hp2 S.isPGroup' hxS h2
+    have h4 := eq_one_of_isPGroup_of_sq_eq_one hp2 S.isPGroup hxS h2
     apply Subtype.ext
     apply Subtype.ext
     simpa using h4
@@ -88,7 +88,7 @@ theorem le_of_elemAbelian_sylowSp {G : Type} [Group G] (hp : p.Prime) (hp2 : p �
     {E : Subgroup G} (hE : IsElemAbelian p E) (hEc : Nat.card E = p ^ 2) :
     2 * orderOf (Nat.card F : ZMod p) ≤
       (if Even (orderOf (Nat.card F : ZMod p)) then 2 * n' else n') := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨P, hEP⟩ := (IsPGroup.of_card hEc).exists_le_sylow
   obtain ⟨P'⟩ : Nonempty (Sylow p (StatedSp n' F)) := inferInstance
   obtain ⟨φ⟩ := hS P P'
@@ -101,7 +101,7 @@ theorem le_of_elemAbelian_sylowSp {G : Type} [Group G] (hp : p.Prime) (hp2 : p �
     rw [← hEc]
     exact (Nat.card_congr (MonoidHom.ofInjective hψ).toEquiv).symm
   have hcomm : IsMulCommutative ψ.range := by
-    haveI := hE.1
+    have := hE.1
     refine ⟨⟨fun a b => ?_⟩⟩
     obtain ⟨x, hx⟩ := a.2
     obtain ⟨y, hy⟩ := b.2
@@ -143,7 +143,7 @@ theorem exists_pair_of_sylowIso (hp : p.Prime) (hp2 : p ≠ 2) {F : Type} [Field
     {G : Type} [Group G] (hS : SylowIso p G (StatedSp n' F)) :
     ∃ y₁ y₂ : G, Commute y₁ y₂ ∧ y₁ ^ p = 1 ∧ y₂ ^ p = 1 ∧
       ∀ i j : ℤ, y₁ ^ i * y₂ ^ j = 1 → (p : ℤ) ∣ i ∧ (p : ℤ) ∣ j := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨y₁, y₂, hc, h1, h2, hi⟩ := exists_pair_sp hp hp2 hpc h2e (n' := n')
   have hnorm : Subgroup.zpowers y₂ ≤ Subgroup.normalizer (Subgroup.zpowers y₁) := by
     rw [Subgroup.zpowers_le]

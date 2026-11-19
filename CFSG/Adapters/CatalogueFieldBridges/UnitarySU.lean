@@ -17,7 +17,7 @@ theorem exists_twistedA_mulEquiv_centerQuotient_statedSU {K : Type} [Field K] [F
         Nonempty (↥(StatedSU m q K) ⧸ Subgroup.center ↥(StatedSU m q K) ≃*
           (TauCeti.CFSGIndex.lie ⟨TauCeti.LieTypeIndex.twistedA (m - 1) q', hv⟩).Group) := by
   classical
-  haveI := ringChar.charP K
+  have := ringChar.charP K
   have hq2 : 2 ≤ q := by
     have h1 : 1 < Fintype.card K := Fintype.one_lt_card
     rcases Nat.lt_or_ge q 2 with h | h
@@ -35,7 +35,7 @@ theorem exists_twistedA_mulEquiv_centerQuotient_statedSU {K : Type} [Field K] [F
       omega
     · exact h0
   subst hqf
-  haveI : Fact (Nat.Prime (ringChar K)) := ⟨hp⟩
+  have : Fact (Nat.Prime (ringChar K)) := ⟨hp⟩
   have hNat : Nat.card K = (ringChar K ^ f) ^ 2 := by
     rw [Nat.card_eq_fintype_card]
     exact hK
@@ -53,7 +53,7 @@ theorem exists_twistedA_mulEquiv_centerQuotient_statedSU {K : Type} [Field K] [F
     exact hne (by rw [show m = 3 by omega, show ringChar K ^ f = 2 by omega])
   obtain ⟨-, K₀, _, _, hK₀, ⟨e₀⟩⟩ :=
     CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA (m - 1) q' hv (MulEquiv.refl _)
-  haveI : Fintype K₀ := Fintype.ofFinite _
+  have : Fintype K₀ := Fintype.ofFinite _
   rw [Nat.sub_add_cancel (by omega : 1 ≤ m)] at e₀
   have hKK : Fintype.card K = Fintype.card K₀ := by
     rw [hK, Fintype.card_eq_nat_card (α := K₀), hK₀]

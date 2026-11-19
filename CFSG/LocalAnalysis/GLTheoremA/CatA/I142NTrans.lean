@@ -25,7 +25,7 @@ theorem isQuasisimple_of_mulEquiv' (e : G ≃* G') (h : CFSG.Open.IsQuasisimple 
 theorem nontrivial_of_isQuasisimple {Q : Type*} [Group Q] (hQ : CFSG.Open.IsQuasisimple Q) :
     Nontrivial Q := by
   obtain ⟨_, hs⟩ := hQ
-  haveI := hs.toNontrivial
+  have := hs.toNontrivial
   obtain ⟨a, b, hab⟩ := exists_pair_ne (Q ⧸ Subgroup.center Q)
   obtain ⟨a, rfl⟩ := QuotientGroup.mk_surjective a
   obtain ⟨b, rfl⟩ := QuotientGroup.mk_surjective b
@@ -181,12 +181,13 @@ section Commute
 
 variable {S : Type*} [Group S] [Finite S]
 
+omit [Finite S] in
 theorem gw_isComponentOf_of_open {X L : Subgroup S} (hL : CFSG.Open.IsComponentOf L X) :
     CFSG.GorensteinWalter.IsComponentOf L X := by
   refine ⟨hL.1, CFSG.Assembly.IsSubnormal.subgroupOf
     ((CFSG.Assembly.isSubnormal_iff_open).2 hL.2.1), ?_⟩
   obtain ⟨hc, hs⟩ := hL.2.2
-  haveI := nontrivial_of_isQuasisimple hL.2.2
+  have := nontrivial_of_isQuasisimple hL.2.2
   exact ⟨inferInstance, hc, hs⟩
 
 theorem isComponent_commute_or_eq {X K K' : Subgroup S}

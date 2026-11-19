@@ -42,13 +42,13 @@ theorem transferFocal_ker_spec (S : Sylow 2 G) :
       Nat.card (↥(S : Subgroup G) ⧸ (S : Subgroup G).focalSubgroupOf) := by
     rw [Subgroup.index_eq_card]
     exact Nat.card_congr
-      (Subgroup.transferFocal.quotientKerMulEquivQuotientFocalSubroupOf S).toEquiv
+      (Subgroup.transferFocal.quotientKerMulEquivQuotientFocalSubgroupOf S).toEquiv
   have hcardF : Nat.card (S : Subgroup G).focalSubgroupOf =
       Nat.card (S : Subgroup G).focalSubgroup :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe (S : Subgroup G).focalSubgroup_le).toEquiv
   refine ⟨MonoidHom.normal_ker _, ?_, ?_, ?_⟩
   · rw [hidx]
-    exact (S.isPGroup'.to_quotient _).exists_card_eq
+    exact (S.isPGroup.to_quotient _).exists_card_eq
   · rw [inf_comm]
     exact Subgroup.ker_transferFocal_inf_eq_focalSubgroup S
   · rw [hidx, ← hcardF]

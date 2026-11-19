@@ -18,7 +18,7 @@ open CFSG.RankThree.PartTwo.Sec21.Tables
 abbrev dgl {N : ℕ} (d : GL (Fin N) xunK) (j : Fin N) : xunK :=
   ((d : GL (Fin N) xunK) : Matrix (Fin N) (Fin N) xunK) j j
 
-theorem isGood_of_torus {N : ℕ} (hN1 : 1 ≤ N) (hN4 : 4 ≤ N) (i0 : Fin N) (hi0 : (i0 : ℕ) = 0)
+theorem isGood_of_torus {N : ℕ} (hN1 : 1 ≤ N) (hN4 : 4 ≤ N) (i0 : Fin N) (_hi0 : (i0 : ℕ) = 0)
     (T : Subgroup (uU xunH N))
     (hdiag : ∀ d ∈ T, IsDiagU N (d : GL (Fin N) xunK))
     (hfour : ∀ d ∈ T, ∀ j : Fin N, (j : ℕ) < 4 → dgl d j = dgl d i0)
@@ -46,13 +46,13 @@ theorem isGood_of_torus {N : ℕ} (hN1 : 1 ≤ N) (hN4 : 4 ≤ N) (i0 : Fin N) (
     intro a b hab
     rcases hab with ⟨ha, hb⟩ | ⟨ha, hb⟩
     · rw [memC] at hb
-      push_neg at hb
+      push Not at hb
       obtain ⟨d, hd, hne⟩ := hb
       refine ⟨d, hd, ?_⟩
       rw [(memC a).1 ha d hd]
       exact fun h => hne h.symm
     · rw [memC] at ha
-      push_neg at ha
+      push Not at ha
       obtain ⟨d, hd, hne⟩ := ha
       refine ⟨d, hd, ?_⟩
       rw [(memC b).1 hb d hd]

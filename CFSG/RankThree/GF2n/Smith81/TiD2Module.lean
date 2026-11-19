@@ -39,15 +39,18 @@ theorem _root_.CFSG.RankThree.GF2n.Stroth80.Ctx.Lgen_le_H0 (hc : Ctx M Q Z B) :
     _ = m * ((m⁻¹ * y * m) * (m⁻¹ * z * m)) * m⁻¹ := by rw [h2]
     _ = y * z := by group
 
-theorem _root_.CFSG.RankThree.GF2n.Stroth80.Ctx.Q_le_Lgen (hc : Ctx M Q Z B) :
+omit [Finite G] in
+theorem _root_.CFSG.RankThree.GF2n.Stroth80.Ctx.Q_le_Lgen (_hc : Ctx M Q Z B) :
     Q ≤ Lgen M (LB M Q B) :=
   le_sup_left.trans (le_Lgen_self M (LB M Q B))
 
+omit [Finite G] in
 theorem _root_.CFSG.RankThree.GF2n.Stroth80.Ctx.Lgen_le_M (hc : Ctx M Q Z B) :
     Lgen M (LB M Q B) ≤ M :=
   Lgen_le hc.LB_le_M
 
-theorem _root_.CFSG.RankThree.GF2n.Stroth80.Ctx.mem_Lgen_conj (hc : Ctx M Q Z B) {m s : G}
+omit [Finite G] in
+theorem _root_.CFSG.RankThree.GF2n.Stroth80.Ctx.mem_Lgen_conj (_hc : Ctx M Q Z B) {m s : G}
     (hm : m ∈ M) (hs : s ∈ Lgen M (LB M Q B)) : m * s * m⁻¹ ∈ Lgen M (LB M Q B) := by
   have h1 : m * s * m⁻¹ ∈ conjSubgroup m (Lgen M (LB M Q B)) := by
     rw [mem_conjSubgroup, show m⁻¹ * (m * s * m⁻¹) * m = s by group]
@@ -147,21 +150,21 @@ theorem exists_det_equiv {K E : Type*} [Field K] [AddCommGroup E] [Module K E]
     have c00 : X 0 0 = 0 := by
       have := congrArg (fun v => B v (f₀ : E)) hX'
       simp only [hθ, map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul,
-        h00, h10, halt, hff f₀ f₁, hff f₁ f₀, map_zero, LinearMap.zero_apply] at this
+        h00, h10, halt, hff f₁ f₀, map_zero, LinearMap.zero_apply] at this
       linear_combination this
     have c01 : X 0 1 = 0 := by
       have := congrArg (fun v => B v (f₁ : E)) hX'
       simp only [hθ, map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul,
-        h01, h11, halt, hff f₀ f₁, hff f₁ f₀, map_zero, LinearMap.zero_apply] at this
+        h01, h11, halt, hff f₀ f₁, map_zero, LinearMap.zero_apply] at this
       linear_combination this
     have c11 : X 1 1 = 0 := by
       have := congrArg (fun v => B (b 0 : E) v) hX'
-      simp only [hθ, map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul,
+      simp only [hθ, map_add, map_smul, smul_eq_mul,
         h00, h01, hb0b1, map_zero] at this
       linear_combination this
     have c10 : X 1 0 = 0 := by
       have := congrArg (fun v => B (b 1 : E) v) hX'
-      simp only [hθ, map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul,
+      simp only [hθ, map_add, map_smul, smul_eq_mul,
         h10, h11, hb0b1, map_zero] at this
       linear_combination this
     rw [Matrix.eta_fin_two X, c00, c01, c10, c11]
@@ -178,13 +181,14 @@ theorem exists_det_equiv {K E : Type*} [Field K] [AddCommGroup E] [Module K E]
   rw [LinearEquiv.symm_apply_apply]
   exact (hθQ X).symm
 
+omit [Finite G] in
 theorem exists_psi {S : Subgroup G} {K : Type} [Field K] [Finite K] {n : ℕ}
     (hS : QuotSat S Q (IsSLModel 2 n)) (hK : Nat.card K = n) :
     ∃ ψ : ↥S →* SL(2, K), Function.Surjective ψ ∧ ∀ m : ↥S, ψ m = 1 ↔ (m : G) ∈ Q := by
   obtain ⟨hN, K', hfld, hfin, hcard, ⟨e⟩⟩ := hS
-  haveI := hN
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fintype K' := Fintype.ofFinite K'
+  have := hN
+  have : Fintype K := Fintype.ofFinite K
+  have : Fintype K' := Fintype.ofFinite K'
   have hKK : Fintype.card K' = Fintype.card K := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hK, hcard]
   let ι : K' ≃+* K := FiniteField.ringEquivOfCardEq hKK
@@ -284,7 +288,7 @@ theorem kernel_dichotomy {K : Type} [Field K] [Finite K] [CharP K 2] (h4 : 4 ≤
     {S : Type*} [Group S] (ψ : S →* SL(2, K)) (hψs : Function.Surjective ψ)
     (p : S →* SL(2, K)) (hp : ∀ m, ψ m = 1 → p m = 1) :
     (∀ m, p m = 1) ∨ (∀ m, p m = 1 → ψ m = 1) := by
-  haveI : (p.ker.map ψ).Normal := Subgroup.Normal.map inferInstance ψ hψs
+  have : (p.ker.map ψ).Normal := Subgroup.Normal.map inferInstance ψ hψs
   rcases D2.sl2_normal_eq_bot_or_top h4 (p.ker.map ψ) with h | h
   · right
     intro m hm
@@ -323,7 +327,7 @@ theorem twist_of_pair {K : Type} [Field K] [Finite K] [CharP K 2]
   have hβ₂ : ∀ m, β₂ (ψ m) = p₂ m := fun m =>
     MonoidHom.liftOfRightInverse_comp_apply ψ (Function.surjInv hψs)
       (Function.rightInverse_surjInv hψs) ⟨p₂, fun m hm => (h₂ m).mp (MonoidHom.mem_ker.mp hm)⟩ m
-  haveI : Finite SL(2, K) := Finite.of_injective (fun g : SL(2, K) => (g : Mat2 K))
+  have : Finite SL(2, K) := Finite.of_injective (fun g : SL(2, K) => (g : Mat2 K))
     Subtype.val_injective
   have hinj : ∀ (β : SL(2, K) →* SL(2, K)) (p : S →* SL(2, K)), (∀ m, β (ψ m) = p m) →
       (∀ m, ψ m = 1 ↔ p m = 1) → Function.Injective β := by
@@ -361,7 +365,7 @@ theorem twist_of_pair {K : Type} [Field K] [Finite K] [CharP K 2]
     rw [hp m e, D2.twEquiv_apply]
     simp only [D2.pairEquiv_apply, Matrix.SpecialLinearGroup.coe_one, Matrix.one_mul,
       Matrix.transpose_mul, hp₂ m, Matrix.SpecialLinearGroup.coe_mul]
-    simp only [Matrix.transpose_mul, Matrix.mul_assoc]
+    simp only [Matrix.mul_assoc]
     have hcc : ((c : Mat2 K))ᵀ * (((c⁻¹ : SL(2, K)) : Mat2 K))ᵀ = 1 := by
       rw [← Matrix.transpose_mul, D2.sl_inv_mul, Matrix.transpose_one]
     rw [hcc, Matrix.mul_one]
@@ -531,6 +535,7 @@ theorem exists_d2Data
 
 variable {S : Subgroup G} {φS : ↥S →* (M₀.E ≃ₗ[K] M₀.E)}
 
+omit [Finite G] [Finite K] in
 theorem D2Data.lemmaS (D : D2Data Q Z M₀ φS) {t : ↥S} (htQ : (t : G) ∉ Q)
     (ht2 : (t : G) ^ 2 ∈ Q) :
     ∃ c : Fin 2 → K, c ≠ 0 ∧ ∀ e, φS t e = e → M₀.Qf e = 0 →
@@ -549,6 +554,7 @@ theorem D2Data.lemmaS (D : D2Data Q Z M₀ φS) {t : ↥S} (htQ : (t : G) ∉ Q)
   refine ⟨μ, D.Θ.injective ?_⟩
   rw [hμ, map_smul, LinearEquiv.apply_symm_apply]
 
+omit [Finite G] [Finite K] [CharP K 2] in
 theorem D2Data.B_eq_polar (D : D2Data Q Z M₀ φS) (e f : M₀.E) :
     M₀.B e f = D2.polar (D.Θ e) (D.Θ f) := by
   have h1 := M₀.Qf_add e f
@@ -556,12 +562,14 @@ theorem D2Data.B_eq_polar (D : D2Data Q Z M₀ φS) (e f : M₀.E) :
   rw [← map_add, D.det_eq, D.det_eq, D.det_eq] at h2
   linear_combination h2 - h1
 
+omit [Finite G] [Finite K] [CharP K 2] in
 theorem D2Data.B_tw_ne_zero (D : D2Data Q Z M₀ φS) {c c' : Fin 2 → K}
     (h : c 0 * c' 1 - c 1 * c' 0 ≠ 0) :
     M₀.B (D.Θ.symm (D2.tw D.σ c)) (D.Θ.symm (D2.tw D.σ c')) ≠ 0 := by
   rw [D.B_eq_polar, LinearEquiv.apply_symm_apply, LinearEquiv.apply_symm_apply]
   exact D2.polar_tw_ne_zero D.σ h
 
+omit [Finite G] in
 theorem D2Data.card_le_of_pGroup (D : D2Data Q Z M₀ φS) {P : Subgroup G} (hPS : P ≤ S)
     (hP2 : IsPGroup 2 P) (hPQ : P ⊓ Q = ⊥) : Nat.card P ≤ Nat.card K := by
   let f : ↥P →* SL(2, K) := D.p.comp (Subgroup.inclusion hPS)
@@ -576,6 +584,7 @@ theorem D2Data.card_le_of_pGroup (D : D2Data Q Z M₀ φS) {P : Subgroup G} (hPS
   rw [h3]
   exact D2.card_le_of_isPGroup_sl2 (hP2.of_surjective f.rangeRestrict f.rangeRestrict_surjective)
 
+omit [Finite K] in
 theorem D2Data.card_le_two_mul (D : D2Data Q Z M₀ φS)
     (δ : ↥(D2.detIsom K) →* Multiplicative (ZMod 2))
     (hδ : ∀ T : ↥(D2.detIsom K), δ T = 1 ↔ (T : Mat2 K ≃ₗ[K] Mat2 K) ∈ D2.pairGroup K)
@@ -633,7 +642,7 @@ theorem D2Data.card_le_two_mul (D : D2Data Q Z M₀ φS)
   have h3 : Nat.card g'.range ≤ 2 := by
     refine (Subgroup.card_le_card_group g'.range).trans ?_
     rw [Nat.card_congr Multiplicative.toAdd]
-    simp [Nat.card_zmod]
+    simp
   have h4 : Nat.card g'.ker ≤ Nat.card ↥(P ⊓ S) := by
     refine Nat.card_le_card_of_injective
       (fun x : g'.ker => (⟨(x : ↥P).1, (x : ↥P).2, hmemS _ (MonoidHom.mem_ker.mp x.2)⟩ :
@@ -646,6 +655,8 @@ theorem D2Data.card_le_two_mul (D : D2Data Q Z M₀ φS)
     _ ≤ Nat.card ↥(P ⊓ S) * 2 := Nat.mul_le_mul h4 h3
     _ = 2 * Nat.card ↥(P ⊓ S) := by ring
 
+omit [Finite K] [CharP K 2] in
+omit [Finite G] in
 theorem D2Data.exists_ctx_line (D : D2Data Q Z M₀ φS) (hc : Ctx M Q Z B) (hSM : S ≤ M)
     (hφπ : ∀ (m : ↥S) (x : G), x ∈ Q → M₀.π ((m : G) * x * (m : G)⁻¹) = φS m (M₀.π x))
     {c₁ : Fin 2 → K} (hc₁ : c₁ ≠ 0)

@@ -50,7 +50,7 @@ theorem ggResQTwoFinite_A3 {Λ : Type} [Fintype Λ] [DecidableEq Λ] {b : Λ}
   · exfalso
     exact ggResII_leaf_cut hCL hdel e hCe hk {0} 0 2
       (by decide) (by decide) (by decide) (by decide)
-      (by intro a ha c hc hcb; fin_cases a <;> fin_cases c <;> simp_all <;> decide)
+      (by intro a ha c hc hcb; fin_cases a <;> fin_cases c <;> simp_all; decide)
   · exact ⟨⟨3, CartanMatrix.A 3, e, hCe, 2, hk, 0, by decide,
       GGResIDisp.A3.pt_A3_b2, GGResIDisp.A3.hcyc_A3_b2,
       GGResIDisp.A3.shapes_A3_b2, GGResIDisp.A3.vecs_A3_b2,
@@ -210,7 +210,7 @@ theorem ggResQTwoFinite_B3 {Λ : Type} [Fintype Λ] [DecidableEq Λ] {b : Λ}
   · exfalso
     exact ggResII_leaf_cut hCL hdel e hCe hk {0} 0 2
       (by decide) (by decide) (by decide) (by decide)
-      (by intro a ha c hc hcb; fin_cases a <;> fin_cases c <;> simp_all <;> decide)
+      (by intro a ha c hc hcb; fin_cases a <;> fin_cases c <;> simp_all; decide)
   · exact ⟨⟨3, CartanMatrix.B 3, e, hCe, 2, hk, 0, by decide,
       GGResIDisp.B3.pt_B3_b2, GGResIDisp.B3.hcyc_B3_b2,
       GGResIDisp.B3.shapes_B3_b2, GGResIDisp.B3.vecs_B3_b2,
@@ -370,7 +370,7 @@ theorem ggResQTwoFinite_C3 {Λ : Type} [Fintype Λ] [DecidableEq Λ] {b : Λ}
   · exfalso
     exact ggResII_leaf_cut hCL hdel e hCe hk {0} 0 2
       (by decide) (by decide) (by decide) (by decide)
-      (by intro a ha c hc hcb; fin_cases a <;> fin_cases c <;> simp_all <;> decide)
+      (by intro a ha c hc hcb; fin_cases a <;> fin_cases c <;> simp_all; decide)
   · exact ⟨⟨3, CartanMatrix.C 3, e, hCe, 2, hk, 0, by decide,
       GGResIDisp.C3.pt_C3_b2, GGResIDisp.C3.hcyc_C3_b2,
       GGResIDisp.C3.shapes_C3_b2, GGResIDisp.C3.vecs_C3_b2,
@@ -853,7 +853,7 @@ theorem ggResQTwo_actual_family
     GGResLeviDatumCell 3 Bs L J K ggSelI (ggTypRankLt 8) GGResQTwoResidualCell ∨
       GGWeylReflectionGroup 3 (ggAutomizer L Bs ⊔ ggAutomizer K Bs) :=
   ggResQTwo_actual hH hLD hFork hStd hE6 hq hFix ha₀
-    (fun b ML CL hWL hCL h3 h8 hdel => ggResQTwoFinite_of_weyl hWL hCL h3 h8 hdel)
+    (fun _b _ML _CL hWL hCL h3 h8 hdel => ggResQTwoFinite_of_weyl hWL hCL h3 h8 hdel)
 
 section QTwoFamilyHolds
 

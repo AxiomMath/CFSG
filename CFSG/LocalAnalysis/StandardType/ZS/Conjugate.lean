@@ -271,7 +271,7 @@ private theorem sSupIndep_translates_other [FiniteDimensional K U]
     rw [hrg, movedSpace_conj]
     exact Submodule.map_mono hZker.2
   intro Y' hY'
-  rw [Set.mem_diff, Set.mem_singleton_iff] at hY'
+  rw [Set.mem_sdiff, Set.mem_singleton_iff] at hY'
   obtain ⟨⟨g', hg', rfl⟩, hne⟩ := hY'
   have hYsimple : NSimple N (Z.map (g : U →ₗ[K] U)) := map_simple hN hZ hg
   have hY'simple : NSimple N (Z.map (g' : U →ₗ[K] U)) := map_simple hN hZ hg'
@@ -298,7 +298,7 @@ private theorem sSupIndep_translates [FiniteDimensional K U] {G N : Subgroup (U 
       sSup ({Y : Submodule K U | ∃ g ∈ G, Y = Z.map (g : U →ₗ[K] U)} \
         {Z.map (g : U →ₗ[K] U)})) :=
     NInv_inf hYsimple.2.1 (NInv_sSup fun Y hY' => by
-      rw [Set.mem_diff] at hY'
+      rw [Set.mem_sdiff] at hY'
       obtain ⟨⟨g'', hg'', rfl⟩, _⟩ := hY'
       exact (map_simple hN hZ hg'').2.1)
   rcases hYsimple.2.2 _ inf_le_left hinf_inv with h | h

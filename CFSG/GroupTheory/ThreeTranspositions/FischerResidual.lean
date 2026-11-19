@@ -41,7 +41,7 @@ theorem map_center_ne_one {E : Set X} (hP : Pair X E)
 theorem pair_quot_center {E : Set X} (hP : Pair X E)
     (h2 : ∀ N : Subgroup X, N.Normal → IsPGroup 2 N → N = ⊥) :
     Pair (X ⧸ Subgroup.center X) ((QuotientGroup.mk' (Subgroup.center X)) '' E) := by
-  haveI : Finite X := Pair.finite hP
+  have : Finite X := Pair.finite hP
   have hodd : Odd (Nat.card (Subgroup.center X)) := CFSG.CGT.Timmesfeld75.odd_card_center h2
   exact CFSG.RankThree.PartOne.FIS.pair_image hP (QuotientGroup.mk' (Subgroup.center X))
     (QuotientGroup.mk'_surjective _) (fun e he => map_center_ne_one hP hodd he)
@@ -52,13 +52,13 @@ theorem exists_minimalNormal_quotient_center {E : Set X} (hP : Pair X E)
     ∃ N : Subgroup (X ⧸ Subgroup.center X), N.Normal ∧ N ≠ ⊥ ∧
       IsSimpleGroup ↥N ∧ ¬ Group.IsSolvable ↥N ∧
       Subgroup.centralizer (N : Set (X ⧸ Subgroup.center X)) = ⊥ := by
-  haveI : Finite X := Pair.finite hP
+  have : Finite X := Pair.finite hP
   have hPq : Pair (X ⧸ Subgroup.center X) ((QuotientGroup.mk' (Subgroup.center X)) '' E) :=
     pair_quot_center hP h2
   have hZ : Subgroup.center (X ⧸ Subgroup.center X) = ⊥ :=
     Pair.center_quotient_center_eq_bot hP
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h2q : ∀ N : Subgroup (X ⧸ Subgroup.center X), N.Normal → IsPGroup 2 N → N = ⊥ := by
     intro N hN hNp
     have hle : N ≤ CFSG.pCore 2 (X ⧸ Subgroup.center X) := le_sSup ⟨hN, hNp⟩
@@ -88,7 +88,7 @@ theorem exists_minimalNormal_quotient_center {E : Set X} (hP : Pair X E)
 
 theorem commutator_eq_self_of_isSimpleGroup {Y : Type} [Group Y] {N : Subgroup Y}
     (hNs : IsSimpleGroup ↥N) (hNsol : ¬ Group.IsSolvable ↥N) : ⁅N, N⁆ = N := by
-  haveI : Group.IsPerfect ↥N :=
+  have : Group.IsPerfect ↥N :=
     Group.IsPerfect.mk (CFSG.RankThree.PartOne.FIS.commutator_eq_top_of_simple hNs hNsol)
   exact Subgroup.commutator_eq_self
 
@@ -109,14 +109,14 @@ theorem exists_threeNormal_of_pair {Y : Type} [Group Y] {D : Set Y}
     (hP : Pair Y D)
     (hcube : ∀ a ∈ D, ∀ b ∈ D, (a * b) ^ 3 = 1) :
     ∃ P : Subgroup Y, P.Normal ∧ IsPGroup 3 P ∧ commutator Y ≤ P := by
-  haveI : Finite Y := Pair.finite hP
+  have : Finite Y := Pair.finite hP
   have hnc : ∀ a ∈ D, ∀ b ∈ D, a * b = b * a → a = b :=
     fun a ha b hb hab => CFSG.RankThree.PartOne.FIS.WidthOne.eq_of_comm_of_cube
       (Pair.mul_self hP ha) (Pair.mul_self hP hb) hab (hcube a ha b hb)
   have hconj : ∀ e ∈ D, ∀ g : Y, g * e * g⁻¹ ∈ D := fun e he g => Pair.conj_mem hP he g
   let P : Subgroup Y := Subgroup.closure {x | ∃ a ∈ D, ∃ b ∈ D, x = a * b}
   have hPn : P.Normal := CFSG.RankThree.PartOne.FIS.WidthOne.pairClosure_normal hconj
-  haveI : P.Normal := hPn
+  have : P.Normal := hPn
   have hP3 : IsPGroup 3 P :=
     CFSG.RankThree.PartOne.FIS.isPGroup_three_closure_mul D hconj (Pair.closure_eq hP)
       (fun e he => Pair.mul_self hP he) (fun e he => Pair.ne_one hP he) hnc hcube
@@ -170,7 +170,7 @@ theorem pResidualOf_three_commutator_le_of_map_quotient {Y : Type} [Group Y]
     rw [← map_pow] at hk'
     exact (QuotientGroup.eq_one_iff _).1 hk'
   have hres : CFSG.Quasithin.pResidual 3 ↥(commutator Y) ≤ N.subgroupOf (commutator Y) := by
-    haveI : (N.subgroupOf (commutator Y)).Normal := hNn.subgroupOf (commutator Y)
+    have : (N.subgroupOf (commutator Y)).Normal := hNn.subgroupOf (commutator Y)
     refine CFSG.Quasithin.pResidual_le (fun y => ?_)
     obtain ⟨k, hk⟩ := hkey (y : Y) y.2
     exact ⟨k, by rw [Subgroup.mem_subgroupOf]; simpa using hk⟩
@@ -182,7 +182,7 @@ theorem pResidualOf_three_commutator_eq {Y : Type} [Group Y] {E : Set Y}
     (hNbot : N ≠ ⊥) (hNs : IsSimpleGroup ↥N) (hNsol : ¬ Group.IsSolvable ↥N)
     (hNle : N ≤ commutator Y) :
     CFSG.Quasithin.pResidualOf 3 (commutator Y) = N := by
-  haveI : Finite Y := Pair.finite hP
+  have : Finite Y := Pair.finite hP
   refine le_antisymm ?_
     (le_pResidualOf_of_perfect (commutator_eq_self_of_isSimpleGroup hNs hNsol) hNle)
   by_cases hEN : E ⊆ N
@@ -307,7 +307,7 @@ theorem hyp_threeResidualQuot {E : Set X} (hP : Pair X E)
     (h3 : ∀ N : Subgroup X, N.Normal → IsPGroup 3 N → N ≤ Subgroup.center X)
     {d : X} (hd : d ∈ E) :
     Hyp ↥(threeResidualQuot d) (threeResidualClass d) := by
-  haveI : Finite X := Pair.finite hP
+  have : Finite X := Pair.finite hP
   obtain ⟨N, hNn, hNbot, hNs, hNsol, hcent⟩ :=
     exists_minimalNormal_quotient_center hP h2 h3
   have hPq : Pair (X ⧸ Subgroup.center X) ((QuotientGroup.mk' (Subgroup.center X)) '' E) :=

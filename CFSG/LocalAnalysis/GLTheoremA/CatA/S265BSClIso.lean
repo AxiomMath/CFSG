@@ -18,7 +18,7 @@ theorem exists_invariant_isotropic_of_normalizes_two_group (hF : Nat.card F = 2)
     (hTf : ∀ t ∈ T, ∀ u v, f (t u) (t v) = f u v) (hAf : ∀ a ∈ A, ∀ u v, f (a u) (a v) = f u v)
     (hAT : A ≤ Subgroup.normalizer (T : Set (V ≃ₗ[F] V))) :
     ∃ R : Submodule F V, R ≠ ⊥ ∧ (∀ a ∈ A, ∀ v ∈ R, a v ∈ R) ∧ ∀ u ∈ R, ∀ v ∈ R, f u v = 0 := by
-  haveI : Finite V := Module.finite_of_finite F
+  have : Finite V := Module.finite_of_finite F
   let C : Submodule F V := ⨅ t : T, fixedByEnd (t : V ≃ₗ[F] V)
   have hCmem : ∀ v, v ∈ C ↔ ∀ t ∈ T, t v = v := fun v => by
     simp only [C, Submodule.mem_iInf, mem_fixedByEnd, Subtype.forall]
@@ -54,7 +54,7 @@ theorem exists_invariant_isotropic_of_normalizes_two_group (hF : Nat.card F = 2)
     by_contra hcon
     push Not at hcon
     exact ht₀ (Subtype.ext (LinearEquiv.ext hcon))
-  haveI : Nontrivial V := ⟨⟨_, _, hv₀⟩⟩
+  have : Nontrivial V := ⟨⟨_, _, hv₀⟩⟩
   have hCtop : C ≠ ⊤ := fun htop =>
     hv₀ ((hCmem v₀).1 (htop ▸ Submodule.mem_top) t₀ t₀.2)
   have hperp : f.orthogonal C ≠ ⊥ := by

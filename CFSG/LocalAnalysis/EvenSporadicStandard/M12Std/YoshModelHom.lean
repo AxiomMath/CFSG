@@ -24,7 +24,7 @@ theorem injective_of_selfCentralizing (M E : Subgroup Q) (hEM : E ≤ M)
   rw [← MonoidHom.ker_eq_bot_iff]
   by_contra hker
   let E' : Subgroup ↥M := E.subgroupOf M
-  haveI : E'.Normal := by
+  have : E'.Normal := by
     refine ⟨fun n hn g => ?_⟩
     have hn' : (n : Q) ∈ E := hn
     show ((g * n * g⁻¹ : ↥M) : Q) ∈ E

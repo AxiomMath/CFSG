@@ -69,7 +69,7 @@ theorem ff6p_star_normalizes_simInGStar (hQ : Q.Nondegenerate)
   exact ⟨toProj Q (fr.pOrth σ * fr.signChange K), h.symm⟩
 
 theorem ff6p_star_normalizer (hQ : Q.Nondegenerate) (h2 : 2 ≤ Module.finrank (ZMod 3) V)
-    (hπ : piOrth Q ∉ omegaGroup hQ) (fr : PFrame Q (Option (Fin 5)) ffC) {n : ↥(omegaProj hQ)}
+    (_hπ : piOrth Q ∉ omegaGroup hQ) (fr : PFrame Q (Option (Fin 5)) ffC) {n : ↥(omegaProj hQ)}
     (hn : n ∈ Subgroup.normalizer
       ((ffB1p hQ fr : Subgroup ↥(omegaProj hQ)) : Set ↥(omegaProj hQ))) :
     ∃ g : ↥(omegaGroup hQ), (g : OGroup Q) ∈ ffN0p hQ fr ∧ n = omegaToProj hQ g := by

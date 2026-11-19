@@ -22,7 +22,7 @@ variable {G : Type} [Group G] [Finite G]
 private theorem uc22s2122np_isSylowOf_sup_pCoreOf {M L S : Subgroup G}
     (hLM : L ≤ M) (hS : IsSylowOf 7 S L) :
     IsSylowOf 7 S (L ⊔ pCoreOf 2 M) := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hQp : IsPGroup 2 (pCoreOf 2 M) := CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 M
   have hLnorm : L ≤ normalizer (pCoreOf 2 M : Set G) :=
     hLM.trans (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 M)
@@ -103,7 +103,7 @@ private theorem uc22s2122np_exists_bar_order_seven {D : Data G} {L : Subgroup G}
     (hĒL : Ē ⊓ barImage D.M L ≠ ⊥) :
     ∃ ē : ↥(Ē ⊓ barImage D.M L), orderOf ē = 7 := by
   classical
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hne1 : Nat.card ↥(Ē ⊓ barImage D.M L) ≠ 1 := by
     intro h
     exact hĒL (Subgroup.card_eq_one.mp h)
@@ -184,7 +184,7 @@ private theorem uc22s2122np_mem_uniqueSet_of_mem_sup_pCoreOf {D : Data G} {L : S
     {e : G} (heLQ : e ∈ L ⊔ pCoreOf 2 D.M) (heord : orderOf e = 7) :
     zpowers e ∈ uniqueSet D.M := by
   classical
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hLM : L ≤ D.M := hL.1.le
   have hQM : pCoreOf 2 D.M ≤ D.M := CFSG.LieType.BorelTits.pCoreOf_le 2 D.M
   have hLQM : L ⊔ pCoreOf 2 D.M ≤ D.M := sup_le hLM hQM
@@ -282,7 +282,7 @@ theorem uc22s2122np_exists_E_of_barE {D : Data G} {L : Subgroup G} (hL : L ∈ c
       ((E ⊔ D.T : Subgroup G) : Set G) = (E : Set G) * (D.T : Set G) ∧ b ∈ E ∧
       ∃ X ≤ E, Nat.card X = 7 ∧ X ∈ uniqueSet D.M := by
   classical
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hbP : b ∈ barPreimage D.M Ē := uc22p21c_mem_barPreimage.2 ⟨hbM, hbĒ⟩
   have hbzp : IsPGroup 7 (zpowers b) := by
     apply IsPGroup.of_card_dvd_pow (n := 1)

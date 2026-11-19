@@ -72,7 +72,7 @@ private theorem theorem_13_6_nonkernelInducedFamily_pairwise_orthogonal
       ∀ η : Section1.ClassFunction M, η ∈ S → ζ ≠ η →
         Section1.scalarProduct M ζ η = 0 := by
   classical
-  letI : (H.subgroupOf M).Normal := hHnormal
+  let : (H.subgroupOf M).Normal := hHnormal
   intro ζ hζ η hη hneq
   rcases (hS.2.2 ζ).mp hζ with ⟨θζ, hθζ, _hθζnotker, hζeq⟩
   rcases (hS.2.2 η).mp hη with ⟨θη, hθη, _hθηnotker, hηeq⟩
@@ -173,7 +173,7 @@ private theorem theorem_13_6_subgroupInKernel_inducedCF_of_source
             0) = ∑ _x : G, Section1.degree θ := by
     refine Finset.sum_congr rfl ?_
     intro x _hx
-    rw [dif_pos (hxH x)]
+    rw [dite_eq_left (hxH x)]
     exact hθker ⟨⟨x * (a : G) * x⁻¹, hxH x⟩,
       Subgroup.mem_subgroupOf.mpr (hxA x)⟩
   calc
@@ -225,7 +225,7 @@ public theorem theorem_13_6_lambda_inducedFromNonkernel_H_source
       hDercomp, _hMFnotcyc, _hsecond, _hfit, _hfitDer, _hW2le, _hW2cyc,
       _hW2ne, _hcent, _hnorm⟩
   rcases hMF with ⟨⟨_hPSmax, hPNormal, _hPnil, _hPHall⟩, _hmax⟩
-  letI : (P.subgroupOf Smax).Normal := hPNormal
+  let : (P.subgroupOf Smax).Normal := hPNormal
   have hPHsub : P.subgroupOf Smax ≤ H.subgroupOf Smax := by
     intro x hx
     change ((x : Smax) : G) ∈ H
@@ -248,7 +248,7 @@ public theorem theorem_13_6_lambda_inducedFromNonkernel_H_source
     have hDnormal : ((ambientDerivedSubgroup Smax).subgroupOf Smax).Normal := by
       simpa using (section12_normalIn_ambientDerivedSubgroup (G := G) (E := Smax)).2
     simpa [← hDer_eq] using hDnormal
-  letI : ((P ⊔ U).subgroupOf Smax).Normal := hPUnormal
+  let : ((P ⊔ U).subgroupOf Smax).Normal := hPUnormal
   have hIndPUker : Section1.subgroupInKernel'
       (Section1.inducedCF ((P ⊔ U).subgroupOf Smax) θPU)
       (P.subgroupOf Smax) := by
@@ -471,7 +471,7 @@ public theorem theorem_13_6_calS1_split1_conjugate_ne_source
         _hd_card, _hU_card, _hV_card, _hSfam, _hTfam, _hDadeS, _hDadeT,
         _hnotation, _hDadeDiff, _hZeroDegree, _hConjIndex, _hConjBetaTau,
         _hChoice, hMin, _hFourSixS, _hFourSixT⟩
-    letI : IsMinCE G := hMin
+    let : IsMinCE G := hMin
     exact section13_odd_card_subgroup_of_odd_group Smax IsMinCE.odd_order
   have hq_gt_one : 1 < q :=
     (section13_theorem_13_10_rawSourcePositivity_of_sourceData
@@ -889,8 +889,8 @@ public theorem section13_calS1_P_sup_U_constituent_decomposition_source
   rcases Section1.exists_positive_irreducible_decomposition_of_character
       θPU hθPUchar hθPU_ne with
     ⟨ι, hι, hιdec, e, ψ, _i0, hepos, hψbook, hψpair, hdecomp⟩
-  letI : Fintype ι := hι
-  letI : DecidableEq ι := hιdec
+  let : Fintype ι := hι
+  let : DecidableEq ι := hιdec
   have hψclass : ∀ i : ι, Section1.IsClassFunction (ψ i) := by
     intro i
     exact Section1.isBookIrreducibleCharacter_isClassFunction (ψ i) (hψbook i)
@@ -913,9 +913,9 @@ public theorem section13_calS1_P_sup_U_constituent_decomposition_source
       Section1.weightedFamilySum (fun i : ιu => (eu i : ℂ)) ψu =
         Section1.weightedFamilySum (fun i : ι => (e i : ℂ)) ψ := by
     ext g
-    haveI : Finite ι := Finite.of_fintype ι
-    letI : Fintype ι := Fintype.ofFinite ι
-    letI : Fintype ιu := Fintype.ofFinite ιu
+    have : Finite ι := Finite.of_fintype ι
+    let : Fintype ι := Fintype.ofFinite ι
+    let : Fintype ιu := Fintype.ofFinite ιu
     let equivULift : ι ≃ ιu := Equiv.ulift.{u, 0}.symm
     simpa [Section1.weightedFamilySum, ιu, eu, ψu] using
       (Fintype.sum_equiv equivULift
@@ -959,7 +959,7 @@ private theorem section13_subgroupInKernel'_of_irreducible_constituent_of_kernel
       rw [hnone f, hnone g]
     exact hhom_ne (Module.finrank_zero_of_subsingleton)
   rcases hexists with ⟨f, hfne⟩
-  letI : Representation.IsIrreducible φρ := hφρirr
+  let : Representation.IsIrreducible φρ := hφρirr
   have hfinj : Function.Injective f := by
     rcases Representation.IsIrreducible.injective_or_eq_zero f with hfinj | hfzero
     · exact hfinj
@@ -3586,10 +3586,10 @@ public theorem section13_typeP_prTIres_pf4_primeTIirr_spec_product_entry_matchin
   classical
   intro I J instI decI instJ decJ Wsec A0 i0 j0 piChar δSign
     ωsec σsec hpackage
-  letI : Fintype I := instI
-  letI : DecidableEq I := decI
-  letI : Fintype J := instJ
-  letI : DecidableEq J := decJ
+  let : Fintype I := instI
+  let : DecidableEq I := decI
+  let : Fintype J := instJ
+  let : DecidableEq J := decJ
   have hselectedData :
       (∀ i j, Section1.IsIrreducibleCharacterOnGroup (piChar i j)) ∧
         (∀ i j,
@@ -3649,10 +3649,10 @@ public theorem section13_typeP_prTIres_pf4_primeTIirr_spec_product_entry_matchin
   classical
   intro _hq0 _hp0 I J instI decI instJ decJ Wsec A0 i0 j0 piChar δSign
     ωsec σsec hpackage
-  letI : Fintype I := instI
-  letI : DecidableEq I := decI
-  letI : Fintype J := instJ
-  letI : DecidableEq J := decJ
+  let : Fintype I := instI
+  let : DecidableEq I := decI
+  let : Fintype J := instJ
+  let : DecidableEq J := decJ
   exact
     section13_typeP_prTIres_pf4_primeTIirr_spec_product_entry_matching_bounded_source
       Smax Tmax W W1 W2 P Q U V C D Sfam Tfam τS τT
@@ -3706,10 +3706,10 @@ public theorem section13_typeP_prTIres_pf4_primeTIirr_spec_product_matching_raw_
   classical
   intro hq0 hp0 I J instI decI instJ decJ Wsec A0 i0 j0 piChar δSign
     ωsec σsec hpackage
-  letI : Fintype I := instI
-  letI : DecidableEq I := decI
-  letI : Fintype J := instJ
-  letI : DecidableEq J := decJ
+  let : Fintype I := instI
+  let : DecidableEq I := decI
+  let : Fintype J := instJ
+  let : DecidableEq J := decJ
   rcases
       section13_typeP_prTIres_pf4_primeTIirr_spec_product_entry_matching_source
         Smax Tmax W W1 W2 P Q U V C D Sfam Tfam τS τT
@@ -3839,10 +3839,10 @@ public theorem section13_typeP_prTIres_pf4_primeTIirr_spec_product_matching_sour
   classical
   intro hq0 hp0 I J instI decI instJ decJ Wsec A0 i0 j0 piChar δSign
     ωsec σsec hpackage
-  letI : Fintype I := instI
-  letI : DecidableEq I := decI
-  letI : Fintype J := instJ
-  letI : DecidableEq J := decJ
+  let : Fintype I := instI
+  let : DecidableEq I := decI
+  let : Fintype J := instJ
+  let : DecidableEq J := decJ
   rcases
       section13_typeP_prTIres_pf4_primeTIirr_spec_product_matching_base_source
         Smax Tmax W W1 W2 P Q U V C D Sfam Tfam τS τT
@@ -3923,10 +3923,10 @@ public theorem section13_typeP_prTIres_pf4_primeTIirr_spec_table_matching_source
   classical
   intro hq0 hp0 I J instI decI instJ decJ Wsec A0 i0 j0 piChar δSign
     ωsec σsec hpackage
-  letI : Fintype I := instI
-  letI : DecidableEq I := decI
-  letI : Fintype J := instJ
-  letI : DecidableEq J := decJ
+  let : Fintype I := instI
+  let : DecidableEq I := decI
+  let : Fintype J := instJ
+  let : DecidableEq J := decJ
   rcases
       section13_typeP_prTIres_pf4_primeTIirr_spec_product_matching_source
         Smax Tmax W W1 W2 P Q U V C D Sfam Tfam τS τT
@@ -3999,10 +3999,10 @@ public theorem section13_typeP_prTIres_pf4_primeTIirr_spec_core_source
   constructor
   · intro hq0 hp0 I J instI decI instJ decJ Wsec A0 i0 j0 piChar δSign
       ωsec σsec hpackage
-    letI : Fintype I := instI
-    letI : DecidableEq I := decI
-    letI : Fintype J := instJ
-    letI : DecidableEq J := decJ
+    let : Fintype I := instI
+    let : DecidableEq I := decI
+    let : Fintype J := instJ
+    let : DecidableEq J := decJ
     rcases
         section13_typeP_prTIres_pf4_primeTIirr_spec_table_matching_source
           Smax Tmax W W1 W2 P Q U V C D Sfam Tfam τS τT
@@ -4162,10 +4162,10 @@ public theorem section13_typeP_prTIres_natural_primeTIirr_package_source
   rcases hTauS with
     ⟨I, instI, decI, J, instJ, decJ, Wsec, _A, A0, i0, j0, piChar,
       δSign, ωsec, σsec, hnotation10, hSigmaAgree, ⟨H_cyclicA0, hCyclicA0, hTauCyclicA0, hBook⟩⟩
-  letI : Fintype I := instI
-  letI : DecidableEq I := decI
-  letI : Fintype J := instJ
-  letI : DecidableEq J := decJ
+  let : Fintype I := instI
+  let : DecidableEq I := decI
+  let : Fintype J := instJ
+  let : DecidableEq J := decJ
   have hpackage : section13_typeP_prTIres_pf4_sourceSelectedPackageData
       Smax P U W1 W2 Wsec A0 i0 j0 piChar δSign ωsec σsec τS :=
     ⟨_A, hnotation10, hSigmaAgree,
@@ -4200,10 +4200,10 @@ public theorem section13_typeP_prTIres_natural_primeTIirr_package_source
   refine ⟨hbaseNatural, hdistinctNatural, ?_⟩
   intro I' J' instI' decI' instJ' decJ' Wsec' A0' i0' j0' piChar'
     δSign' ωsec' σsec' hpackage' _hp0'
-  letI : Fintype I' := instI'
-  letI : DecidableEq I' := decI'
-  letI : Fintype J' := instJ'
-  letI : DecidableEq J' := decJ'
+  let : Fintype I' := instI'
+  let : DecidableEq I' := decI'
+  let : Fintype J' := instJ'
+  let : DecidableEq J' := decJ'
   rcases
       section13_typeP_prTIres_pf4_natural_table_normalized_functions_choice_source
         Smax Tmax W W1 W2 P Q U V C D Sfam Tfam τS τT
@@ -4545,10 +4545,10 @@ public theorem section13_typeP_prTIres_pf4_natural_table_indexing_functions_sour
   rcases hTauS with
     ⟨I, instI, decI, J, instJ, decJ, Wsec, _A, A0, i0, j0, piChar,
       δSign, ωsec, σsec, hnotation10, hSigmaAgree, ⟨H_cyclicA0, hCyclicA0, hTauCyclicA0, hBook⟩⟩
-  letI : Fintype I := instI
-  letI : DecidableEq I := decI
-  letI : Fintype J := instJ
-  letI : DecidableEq J := decJ
+  let : Fintype I := instI
+  let : DecidableEq I := decI
+  let : Fintype J := instJ
+  let : DecidableEq J := decJ
   have hpackage : section13_typeP_prTIres_pf4_sourceSelectedPackageData
       Smax P U W1 W2 Wsec A0 i0 j0 piChar δSign ωsec σsec τS :=
     ⟨_A, hnotation10, hSigmaAgree,
@@ -4616,10 +4616,10 @@ public theorem section13_typeP_prTIres_pf4_natural_table_indexing_source
         hsource hnotation with
     ⟨I, instI, decI, J, instJ, decJ, Wsec, A, A0, i0, j0, piChar, δSign,
       ωsec, σsec, hnotation10, hp0, fI, fJ, hfI, hfJ, hzero, hentry⟩
-  letI : Fintype I := instI
-  letI : DecidableEq I := decI
-  letI : Fintype J := instJ
-  letI : DecidableEq J := decJ
+  let : Fintype I := instI
+  let : DecidableEq I := decI
+  let : Fintype J := instJ
+  let : DecidableEq J := decJ
   rcases hsource with
     ⟨_hcaseB, hptypeS, _hptypeT, hp, hq, _hC, _hD, _hc, _hd,
       _hUcard, _hVcard, _hSfam, _hTfam, _hDadeS, _hDadeT,
@@ -4748,10 +4748,10 @@ public theorem section13_typeP_prTIres_pf4_natural_muTable_equiv_source
         ω η μ ν μsum νsum δ δ' σ p q u v c d hsource hnotation with
     ⟨I, instI, decI, J, instJ, decJ, Wsec, A, A0, i0, j0, piChar, δSign,
       ωsec, σsec, hnotation10, hp0, eI, eJ, hzeroIndex, hentry⟩
-  letI : Fintype I := instI
-  letI : DecidableEq I := decI
-  letI : Fintype J := instJ
-  letI : DecidableEq J := decJ
+  let : Fintype I := instI
+  let : DecidableEq I := decI
+  let : Fintype J := instJ
+  let : DecidableEq J := decJ
   rcases hsource with
     ⟨_hcaseB, hptypeS, _hptypeT, hp, hq, _hC, _hD, _hc, _hd,
       _hUcard, _hVcard, _hSfam, _hTfam, _hDadeS, _hDadeT,
@@ -4931,10 +4931,10 @@ public theorem section13_typeP_prTIres_pf4_natural_index_source
     ⟨I, instI, decI, J, instJ, decJ, _Wsec, _A, _A0, i0, j0, piChar,
       _δSign, _ωsec, _σsec, xCharD, _hnotation10, h45aD, h45bD, hbase,
       _hcardI, _hcardJ, hp0, eI, eJ, hzeroIndex, hentry⟩
-  letI : Fintype I := instI
-  letI : DecidableEq I := decI
-  letI : Fintype J := instJ
-  letI : DecidableEq J := decJ
+  let : Fintype I := instI
+  let : DecidableEq I := decI
+  let : Fintype J := instJ
+  let : DecidableEq J := decJ
   rcases hnotation with
     ⟨_homega, _hmap, _hη, _hδ, _hδ', _hμirr, _hνirr, _hμnonprincipal,
       _hνnonprincipal, _hμind, _hνind, hμsum, _hνsum⟩
@@ -5048,8 +5048,8 @@ public theorem section13_typeP_prTIres_rowSource_pf4_alignment_source
         Smax Tmax W W1 W2 P Q U V C D Sfam Tfam τS τT
         ω η μ ν μsum νsum δ δ' σ p q u v c d hsource hnotation with
     ⟨hp0, I, instI, J, instJ, piChar, xChar, e, h45a, h45b, hcolumn, hzero⟩
-  letI : Fintype I := instI
-  letI : Fintype J := instJ
+  let : Fintype I := instI
+  let : Fintype J := instJ
   let rowSource : ℕ → Section1.ClassFunction ((P ⊔ U).subgroupOf Smax) :=
     fun j => if hj : j < p then xChar (e ⟨j, hj⟩) else xChar (e ⟨0, hp0⟩)
   refine ⟨rowSource, ?_, ?_, I, instI, J, instJ, piChar, xChar, h45b, ?_⟩
@@ -5109,8 +5109,8 @@ public theorem section13_typeP_prTIres_rowSource_classification_source
         ω η μ ν μsum νsum δ δ' σ p q u v c d hsource hnotation with
     ⟨rowSource, hrowSource, hrowZero, I, instI, J, instJ, piChar, xChar, h45b,
       hrange⟩
-  letI : Fintype I := instI
-  letI : Fintype J := instJ
+  let : Fintype I := instI
+  let : Fintype J := instJ
   refine ⟨rowSource, hrowSource, hrowZero, ?_⟩
   intro ψ hψirr hψnonrow
   exact section13_typeP_prTIres_nonrow_induced_irreducible_of_pf4_range
@@ -5271,8 +5271,8 @@ private theorem section13_scalarProduct_characters_ne_zero_of_common_irreducible
   rcases Section1.exists_positive_irreducible_decomposition_of_character
       χ hχchar hχne with
     ⟨ι, hι, hιdec, e, φs, _i0, hepos, hφsbook, _hφspair, hχdecomp⟩
-  letI : Fintype ι := hι
-  letI : DecidableEq ι := hιdec
+  let : Fintype ι := hι
+  let : DecidableEq ι := hιdec
   have hφsirr : ∀ i : ι, Section1.IsIrreducibleCharacterOnGroup (φs i) := by
     intro i
     exact Section1.isIrreducibleCharacterOnGroup_of_isBookIrreducibleCharacter
@@ -5290,7 +5290,7 @@ private theorem section13_scalarProduct_characters_ne_zero_of_common_irreducible
   choose n hn using fun i : ι =>
     Section1.scalarProduct_character_character_eq_nat
       (φs i) ξ (hφsbook i).1 hξchar
-  haveI : Finite ι := Finite.of_fintype ι
+  have : Finite ι := Finite.of_fintype ι
   let univι : Finset ι := @Finset.univ ι (Fintype.ofFinite ι)
   let total : ℕ := ∑ i ∈ univι, e i * n i
   have hn_iφ_ne : n iφ ≠ 0 := by
@@ -5731,7 +5731,7 @@ public theorem section13_calS1_inducedCF_P_sup_U_constituent_span_decomposition_
       ω η μ ν μsum νsum δ δ' σ p q u v c d
       hsource hnotation hH θ θPU hθirr hθnotker hθPUeq with
     ⟨ι, hι, e, ψ, hdecompPU, hψirr, hψlies⟩
-  letI : Finite ι := hι
+  let : Finite ι := hι
   refine ⟨ι, hι, e, (fun i =>
     Section1.inducedCF ((P ⊔ U).subgroupOf Smax) (ψ i)), ?_, ?_⟩
   · rw [hdecompPU]
@@ -5787,7 +5787,7 @@ public theorem section13_calS1_inducedCF_P_sup_U_integerSpan_of_constituent_clas
       ω η μ ν μsum νsum δ δ' σ p q u v c d
       hsource hnotation hH θ θPU hθirr hθnotker hθPUeq horth with
     ⟨ι, hι, e, χ, hdecomp, hχspan⟩
-  letI : Finite ι := hι
+  let : Finite ι := hι
   rw [hdecomp]
   exact section13_integerSpan_weightedFamilySum_nat
     (section13_irreducibleSubfamily Smax Sfam) e χ hχspan
@@ -6198,7 +6198,7 @@ private theorem theorem_13_6_theorem_13_5_hypothesis_core_of_lambda_mem_source
     theorem_13_6_calS1_subset_integerSpan_source
       Smax Tmax W W1 W2 P Q U V C D H Sfam Tfam τS τ1 τT
       lam lamτ p q u v c d hsource hlamS h6hyp S1 hS1
-  letI : IsMulCommutative (H.subgroupOf Smax) :=
+  let : IsMulCommutative (H.subgroupOf Smax) :=
     theorem_13_5_H_subgroupOf_isMulCommutative
       Smax Tmax W W1 W2 P Q U V C D H Sfam Tfam τS τT
         p q u v c d hsource h6hyp.1 hS1.1
@@ -6839,7 +6839,7 @@ private theorem theorem_13_6_exists_W1_order_comm_of_source
     ⟨_hMF, hW1cyc, hW1ne, _hW1Hall, _hScomp, _hUleDer, _hUnil,
       _hW1norm, _hDercomp, _hMFnotcyc, _hsecond, _hfit, _hfitDer,
       _hW2le, _hW2cyc, _hW2ne, hcentW1, _hnorm⟩
-  letI : IsCyclic W1 := hW1cyc
+  let : IsCyclic W1 := hW1cyc
   rcases IsCyclic.exists_generator (α := W1) with ⟨yW1, hygen⟩
   let y : G := yW1
   have hyW1 : y ∈ W1 := yW1.property
@@ -6990,7 +6990,7 @@ private theorem theorem_13_6_lambda_vanish_on_yx_of_not_mem_P_sup_U
     (hgPU : g ∉ P ⊔ U) :
     lam ⟨g, hgS⟩ = 0 := by
   rcases hind with ⟨θPU, hlam⟩
-  letI : ((P ⊔ U).subgroupOf Smax).Normal := hnormal
+  let : ((P ⊔ U).subgroupOf Smax).Normal := hnormal
   have hgPUsub : (⟨g, hgS⟩ : Smax) ∉ (P ⊔ U).subgroupOf Smax := by
     intro hg
     exact hgPU (by
@@ -7307,7 +7307,7 @@ private theorem theorem_13_6_lambda_tau_vanish_on_yx_cyclicTI_source
       _hUcard, _hVcard, hSfam, _hTfam, hDadeS, _hDadeT,
       hnotationData, _hDadeDiff, _hZeroDegree, _hConjIndex, _hConjBetaTau,
       _hChoice, _hMin, hFourSixS, _hFourSixT⟩
-  letI : IsMinCE G := _hMin
+  let : IsMinCE G := _hMin
   rcases hnotationData with
     ⟨ω, η, μ, ν, μsum, νsum, δ, δ', σ, hnotation⟩
   exact theorem_13_6_lambda_tau_vanish_on_yx_of_coherent_source
@@ -7791,7 +7791,7 @@ private theorem theorem_13_6_p_ne_two_of_source
       _hnotation, _hDadeDiff, _hZeroBase, _hConjIndex, _hConjBeta,
       _hChoice, hMin, _hTauS, _hTauT⟩
   have hoddG : Odd (Nat.card G) := by
-    letI : IsMinCE G := hMin
+    let : IsMinCE G := hMin
     exact IsMinCE.odd_order
   have hW2_ne_two : Nat.card W2 ≠ 2 :=
     Odd.ne_two_of_dvd_nat hoddG (Subgroup.card_subgroup_dvd_card W2)

@@ -23,6 +23,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem uc22r3e5c_normalizer_subgroupOf {X P : Subgroup G} (hPX : P ≤ X) :
     Subgroup.normalizer ((P.subgroupOf X : Subgroup ↥X) : Set ↥X) =
       (X ⊓ Subgroup.normalizer (P : Set G)).subgroupOf X := by
@@ -60,12 +61,13 @@ private theorem uc22r3e5c_normalizer_subgroupOf {X P : Subgroup G} (hPX : P ≤ 
     rw [hconj]
     exact hgN' (z : G)
 
+omit [Finite G] in
 theorem uc22r3e5c_barImage_inf_normalizer {X P : Subgroup G} (hPX : P ≤ X)
     (hO2 : pCoreOf 2 X ≤ P) :
     barImage X (X ⊓ Subgroup.normalizer (P : Set G)) =
       Subgroup.normalizer (barImage X P : Set (Bar2 X)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let π : ↥X →* Bar2 X := QuotientGroup.mk' (CFSG.pCore 2 ↥X)
   have hsub : (X ⊓ Subgroup.normalizer (P : Set G)).subgroupOf X =
       Subgroup.normalizer ((P.subgroupOf X : Subgroup ↥X) : Set ↥X) := by

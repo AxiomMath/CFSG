@@ -25,7 +25,7 @@ theorem ggTBTorRelA5_holds :
     have hm : ggTorMpm p ⟨.A, 5, n⟩ = 2 ^ n + 1 := by
       unfold ggTorMpm
       dsimp only
-      rw [if_neg hpq']
+      rw [ite_eq_right hpq']
     intro Q hQ
     dsimp only [LargeEvenRawDatum] at hQ ⊢
     obtain ⟨K, i1, i2, hK, hQ'⟩ := hQ
@@ -40,7 +40,7 @@ theorem ggTBTorRelA5_holds :
     have hm : ggTorMpm p ⟨.twA, 5, n⟩ = 2 ^ n - 1 := by
       unfold ggTorMpm
       dsimp only
-      rw [if_pos hpq]
+      rw [ite_eq_left hpq]
     intro Q hQ
     dsimp only [LargeEvenRawDatum] at hQ ⊢
     obtain ⟨K, i1, i2, hK, hQ'⟩ := hQ

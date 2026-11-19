@@ -21,10 +21,10 @@ theorem normal_eq_factor {S : Type} [Group S] [Finite S] [IsSimpleGroup S]
   classical
   let H₁ : Subgroup S := H.comap (MonoidHom.inl S S)
   let H₂ : Subgroup S := H.comap (MonoidHom.inr S S)
-  haveI : H₁.Normal := ⟨fun n hn g => by
+  have : H₁.Normal := ⟨fun n hn g => by
     have := Subgroup.Normal.conj_mem ‹H.Normal› _ hn (MonoidHom.inl S S g)
     simpa [H₁] using this⟩
-  haveI : H₂.Normal := ⟨fun n hn g => by
+  have : H₂.Normal := ⟨fun n hn g => by
     have := Subgroup.Normal.conj_mem ‹H.Normal› _ hn (MonoidHom.inr S S g)
     simpa [H₂] using this⟩
   have hcardprod : ∀ A B : Subgroup S, Nat.card (A.prod B) = Nat.card A * Nat.card B :=
@@ -81,6 +81,7 @@ theorem normal_eq_factor {S : Type} [Group S] [Finite S] [IsSimpleGroup S]
     rw [hcardprod, Subgroup.card_bot, Subgroup.card_top, hcard]
     omega
 
+omit [Finite G] in
 theorem exists_comm_decomp_of_hom {R Y N Q : Subgroup G} {S : Type} [Group S] [Finite S]
     [IsSimpleGroup S] (hcen : ∀ a : S, (∀ c, a * c = c * a) → a = 1) (ψ : ↥R →* S × S)
     (hψ : Function.Surjective ψ) (hker : ψ.ker = N.subgroupOf R) (hYR : Y ≤ R)
@@ -184,7 +185,7 @@ theorem center_eq_one_of_simple {S : Type} [Group S] [Finite S] [IsSimpleGroup S
   have hctop : Subgroup.center S = ⊤ :=
     (IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center S)).resolve_left fun h =>
       hne (by rw [h] at hcent; exact Subgroup.mem_bot.mp hcent)
-  letI : CommGroup S := Group.commGroupOfCenterEqTop hctop
+  let : CommGroup S := Group.commGroupOfCenterEqTop hctop
   have hp := IsSimpleGroup.prime_card (α := S)
   rw [hq] at hp
   have hq1 : q ≠ 1 := by omega
@@ -229,12 +230,12 @@ theorem exists_comm_decomp_omegaPlus (h34 : Stroth34Statement) (h311a : Stroth31
   have hNYQ : hc.CN x ⊓ Y = Q := by
     refine le_antisymm (fun z hz => hYN ⟨hz.2, hz.1⟩) (le_inf hQN hQY)
   obtain ⟨K, fK, finK, hK, φ, hφ, hker, -⟩ := hII
-  haveI : CharP K 2 := by
+  have : CharP K 2 := by
     obtain ⟨e, -, he, -⟩ := hc.hyp.cp
     exact charP_two_of_card_eq_two_pow (hK.trans he)
   have hK4 : 4 ≤ Nat.card K := hK ▸ hq4
   obtain ⟨e⟩ := statedOmega_plus_four_nonempty_equiv K hK4
-  haveI := isSimpleGroup_statedSL_two (statedSL_quasisimple_of_card 2 K le_rfl hK4)
+  have := isSimpleGroup_statedSL_two (statedSL_quasisimple_of_card 2 K le_rfl hK4)
   have hScard : Nat.card ↥(StatedSL 2 K) = Nat.card K * (Nat.card K ^ 2 - 1) :=
     card_statedSL_two K
   have hcen := center_eq_one_of_simple (S := ↥(StatedSL 2 K)) hK4 hScard

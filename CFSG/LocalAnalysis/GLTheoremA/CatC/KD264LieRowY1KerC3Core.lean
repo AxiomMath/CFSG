@@ -19,6 +19,7 @@ section Core
 variable {K V Γ : Type} [Field K] [AddCommGroup V] [Module K V] [FiniteDimensional K V]
   [Group Γ] [Fintype Γ]
 
+omit [Fintype Γ] in
 theorem natCard_ne_zero' (h3 : (3 : K) ≠ 0) (hΓ : Nat.card Γ = 27) (D : Subgroup Γ) :
     (Nat.card D : K) ≠ 0 := by
   have hdvd : Nat.card D ∣ 3 ^ 3 := by
@@ -30,11 +31,13 @@ theorem natCard_ne_zero' (h3 : (3 : K) ≠ 0) (hΓ : Nat.card Γ = 27) (D : Subg
   push_cast
   exact pow_ne_zero _ h3
 
+omit [FiniteDimensional K V] in
 theorem left_mul_av {ρ : Γ →* Module.End K V} {D : Subgroup Γ} {g : Γ} (hg : g ∈ D) :
     ρ g * av ρ D = av ρ D := by
   simp only [av]
   rw [mul_smul_comm, sum_left_mul ρ hg]
 
+omit [FiniteDimensional K V] in
 theorem left_mul_avTop {ρ : Γ →* Module.End K V} (g : Γ) :
     ρ g * av ρ ⊤ = av ρ ⊤ :=
   left_mul_av (Subgroup.mem_top g)
@@ -45,17 +48,21 @@ theorem left_mul_avTop {ρ : Γ →* Module.End K V} (g : Γ) :
 
 variable {ρ : Γ →* Module.End K V}
 
+omit [FiniteDimensional K V] in
 theorem Qf_some_of_mem {F : Subgroup Γ} (hF : F ∈ idx3 Γ) :
     Qf ρ (some F) = av ρ F - av ρ ⊤ := by
-  simp only [Qf, if_pos hF]
+  simp only [Qf, ite_eq_left hF]
 
+omit [FiniteDimensional K V] in
 theorem Qf_some_of_not_mem {F : Subgroup Γ} (hF : F ∉ idx3 Γ) : Qf ρ (some F) = 0 := by
-  simp only [Qf, if_neg hF]
+  simp only [Qf, ite_eq_right hF]
 
+omit [FiniteDimensional K V] in
 theorem av_top_mul_top (h3 : (3 : K) ≠ 0) (hΓ : Nat.card Γ = 27) :
     av ρ ⊤ * av ρ ⊤ = av ρ ⊤ :=
   av_mul_self ρ (natCard_ne_zero' h3 hΓ ⊤)
 
+omit [FiniteDimensional K V] in
 theorem Qf_idem (h3 : (3 : K) ≠ 0) (hΓ : Nat.card Γ = 27) (o : Option (Subgroup Γ)) :
     Qf ρ o * Qf ρ o = Qf ρ o := by
   cases o with
@@ -70,8 +77,9 @@ theorem Qf_idem (h3 : (3 : K) ≠ 0) (hΓ : Nat.card Γ = 27) (o : Option (Subgr
     · rw [Qf_some_of_not_mem hF]
       simp
 
-theorem Qf_orth (h3 : (3 : K) ≠ 0) (hΓ : Nat.card Γ = 27) (hexp : ∀ g : Γ, g ^ 3 = 1)
-    (hcomm : ∀ g h : Γ, g * h = h * g) {o₁ o₂ : Option (Subgroup Γ)} (hne : o₁ ≠ o₂) :
+omit [FiniteDimensional K V] in
+theorem Qf_orth (h3 : (3 : K) ≠ 0) (hΓ : Nat.card Γ = 27) (_hexp : ∀ g : Γ, g ^ 3 = 1)
+    (_hcomm : ∀ g h : Γ, g * h = h * g) {o₁ o₂ : Option (Subgroup Γ)} (hne : o₁ ≠ o₂) :
     Qf ρ o₁ * Qf ρ o₂ = 0 := by
   cases o₁ with
   | none =>
@@ -101,6 +109,7 @@ theorem Qf_orth (h3 : (3 : K) ≠ 0) (hΓ : Nat.card Γ = 27) (hexp : ∀ g : Γ
         · rw [Qf_some_of_not_mem h2, mul_zero]
       · rw [Qf_some_of_not_mem h1, zero_mul]
 
+omit [FiniteDimensional K V] in
 theorem Qf_sum (h3 : (3 : K) ≠ 0) (hΓ : Nat.card Γ = 27) (hexp : ∀ g : Γ, g ^ 3 = 1)
     (hcomm : ∀ g h : Γ, g * h = h * g) : ∑ o, Qf ρ o = 1 := by
   rw [Fintype.sum_option]
@@ -112,11 +121,13 @@ theorem Qf_sum (h3 : (3 : K) ≠ 0) (hΓ : Nat.card Γ = 27) (hexp : ∀ g : Γ,
   rw [← Nat.cast_smul_eq_nsmul K 13]
   module
 
+omit [FiniteDimensional K V] in
 theorem decomp (h3 : (3 : K) ≠ 0) (hΓ : Nat.card Γ = 27) (hexp : ∀ g : Γ, g ^ 3 = 1)
     (hcomm : ∀ g h : Γ, g * h = h * g) (v : V) : v = ∑ o, Qf ρ o v := by
   have h := congrArg (fun f : Module.End K V => f v) (Qf_sum (ρ := ρ) h3 hΓ hexp hcomm).symm
   simpa [LinearMap.sum_apply, Module.End.one_apply] using h
 
+omit [FiniteDimensional K V] in
 theorem Qf_bilin (B : LinearMap.BilinForm K V)
     (hB : ∀ (g : Γ) (u w : V), B (ρ g u) (ρ g w) = B u w) (o : Option (Subgroup Γ)) (u v : V) :
     B (Qf ρ o u) v = B u (Qf ρ o v) := by
@@ -130,6 +141,7 @@ theorem Qf_bilin (B : LinearMap.BilinForm K V)
     · rw [Qf_some_of_not_mem hF]
       simp
 
+omit [FiniteDimensional K V] in
 theorem range_nondeg (h3 : (3 : K) ≠ 0) (hΓ : Nat.card Γ = 27) (hexp : ∀ g : Γ, g ^ 3 = 1)
     (hcomm : ∀ g h : Γ, g * h = h * g) (B : LinearMap.BilinForm K V)
     (hB : ∀ (g : Γ) (u w : V), B (ρ g u) (ρ g w) = B u w)
@@ -184,7 +196,7 @@ theorem exists_common_nontrivial (hΓ : Nat.card Γ = 27) (S : Finset (Subgroup 
     have : Nontrivial H := Finite.one_lt_card_iff_nontrivial.1 hH
     obtain ⟨x, hx⟩ := exists_ne (1 : H)
     exact ⟨x.1, x.2, fun h => hx (Subtype.ext h)⟩
-  haveI : Nontrivial Γ := Finite.one_lt_card_iff_nontrivial.1 (by rw [hΓ]; norm_num)
+  have : Nontrivial Γ := Finite.one_lt_card_iff_nontrivial.1 (by rw [hΓ]; norm_num)
   have hc : S.card = 0 ∨ S.card = 1 ∨ S.card = 2 := by omega
   rcases hc with h0 | h1 | h2
   · obtain ⟨g, hg⟩ := exists_ne (1 : Γ)

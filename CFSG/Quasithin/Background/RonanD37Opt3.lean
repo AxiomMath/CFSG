@@ -15,15 +15,18 @@ variable {U : Type} [CommGroup U] [Finite U] {L₁ L₂ : Subgroup (MulAut U)}
 
 private def transvMat (a b : F) : Matrix (Fin 3) (Fin 3) F := !![1, 0, a; 0, 1, b; 0, 0, 1]
 
+omit [Fintype F] [CharP F 2] in
 private theorem transvMat_mul (a b c d : F) :
     transvMat a b * transvMat c d = transvMat (a + c) (b + d) := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [transvMat, Matrix.mul_apply, Fin.sum_univ_three] <;> ring
 
+omit [Fintype F] [CharP F 2] in
 private theorem transvMat_zero : transvMat (0 : F) 0 = 1 := by
   rw [Matrix.one_fin_three]
   rfl
 
+omit [Fintype F] [CharP F 2] in
 private theorem det_transvMat (a b : F) : (transvMat a b).det = 1 := by
   simp [transvMat, Matrix.det_fin_three]
 
@@ -31,18 +34,22 @@ private def transvAct (p : (F × F) × (F × F)) (X : Matrix (Fin 3) (Fin 3) F) 
     Matrix (Fin 3) (Fin 3) F :=
   transvMat p.1.1 p.1.2 * X * (transvMat p.2.1 p.2.2)ᵀ
 
+omit [Fintype F] [CharP F 2] in
 private theorem transvAct_transvAct (p q : (F × F) × (F × F)) (X : Matrix (Fin 3) (Fin 3) F) :
     transvAct p (transvAct q X) = transvAct (p + q) X := by
   simp only [transvAct, Prod.fst_add, Prod.snd_add, ← transvMat_mul, Matrix.transpose_mul,
     Matrix.mul_assoc]
 
+omit [Fintype F] [CharP F 2] in
 private theorem transvAct_zero (X : Matrix (Fin 3) (Fin 3) F) : transvAct 0 X = X := by
   simp [transvAct, transvMat_zero]
 
+omit [Fintype F] [CharP F 2] in
 private theorem transvAct_add (p : (F × F) × (F × F)) (X Y : Matrix (Fin 3) (Fin 3) F) :
     transvAct p (X + Y) = transvAct p X + transvAct p Y := by
   simp [transvAct, Matrix.mul_add, Matrix.add_mul]
 
+omit [Fintype F] [CharP F 2] in
 private theorem transvAct_apply (p : (F × F) × (F × F)) (X : Matrix (Fin 3) (Fin 3) F)
     (i j : Fin 3) :
     transvAct p X i j = X i j + ![p.1.1, p.1.2, 0] i * X 2 j + ![p.2.1, p.2.2, 0] j * X i 2 +
@@ -58,6 +65,7 @@ private def transvAut (Mm : MatModel L₁ L₂ F 3) (p : (F × F) × (F × F)) :
   right_inv v := by simp [transvAct_transvAct, transvAct_zero]
   map_mul' v w := by simp [transvAct_add]
 
+omit [Finite U] [Fintype F] [CharP F 2] in
 private theorem toAdd_β_transvAut (Mm : MatModel L₁ L₂ F 3) (p : (F × F) × (F × F)) (v : U) :
     Multiplicative.toAdd (Mm.β (transvAut Mm p v)) =
       transvAct p (Multiplicative.toAdd (Mm.β v)) := by
@@ -77,10 +85,12 @@ private def transvHom (Mm : MatModel L₁ L₂ F 3) :
     apply Multiplicative.toAdd.injective
     simp [toAdd_β_transvAut, transvAct_transvAct]
 
+omit [Finite U] [Fintype F] [CharP F 2] in
 private theorem transvHom_apply (Mm : MatModel L₁ L₂ F 3)
     (p : Multiplicative ((F × F) × (F × F))) :
     transvHom Mm p = transvAut Mm (Multiplicative.toAdd p) := rfl
 
+omit [Finite U] [Fintype F] [CharP F 2] in
 private theorem transvAut_injective (Mm : MatModel L₁ L₂ F 3) {p q : (F × F) × (F × F)}
     (h : transvAut Mm p = transvAut Mm q) : p = q := by
   have key : ∀ i j, transvAct p !![0, 0, 0; 0, 0, 0; 0, 0, 1] i j =
@@ -98,6 +108,7 @@ private theorem transvAut_injective (Mm : MatModel L₁ L₂ F 3) {p q : (F × F
   simp [transvAct_apply] at h02 h12 h20 h21
   simp [h02, h12, h20, h21]
 
+omit [Finite U] [Fintype F] [CharP F 2] in
 private theorem transvAut_mem_sup (Mm : MatModel L₁ L₂ F 3)
     (hR₁ : ∀ g : Matrix.GeneralLinearGroup (Fin 3) F, (g : Matrix (Fin 3) (Fin 3) F).det = 1 →
       ∃ l, Mm.R₁ l = g)
@@ -120,6 +131,7 @@ private theorem transvAut_mem_sup (Mm : MatModel L₁ L₂ F 3)
   rw [this]
   exact Subgroup.mul_mem_sup l.2 k.2
 
+omit [Finite U] [Fintype F] [CharP F 2] in
 private theorem mem_fixV_range_transvHom (Mm : MatModel L₁ L₂ F 3) (v : U) :
     v ∈ fixV (transvHom Mm).range ↔
       Multiplicative.toAdd (Mm.β v) 0 2 = 0 ∧ Multiplicative.toAdd (Mm.β v) 1 2 = 0 ∧
@@ -158,12 +170,14 @@ private def edgeHom (Mm : MatModel L₁ L₂ F 3) : U →* Multiplicative (F × 
     apply Multiplicative.toAdd.injective
     simp
 
+omit [Finite U] [Fintype F] [CharP F 2] in
 private theorem ker_edgeHom (Mm : MatModel L₁ L₂ F 3) :
     (edgeHom Mm).ker = fixV (transvHom Mm).range := by
   ext v
   rw [MonoidHom.mem_ker, mem_fixV_range_transvHom]
   simp [edgeHom]
 
+omit [Finite U] [Fintype F] [CharP F 2] in
 private theorem edgeHom_surjective (Mm : MatModel L₁ L₂ F 3) :
     Function.Surjective (edgeHom Mm) := by
   intro y
@@ -178,17 +192,19 @@ private def cornerSub (Mm : MatModel L₁ L₂ F 3) : Subgroup U where
   carrier := {v | Multiplicative.toAdd (Mm.β v) 2 2 = 0}
   one_mem' := by simp
   mul_mem' {v w} hv hw := by
-    simp only [Set.mem_setOf_eq] at hv hw ⊢
+    simp only [Set.mem_ofPred_eq] at hv hw ⊢
     simp [hv, hw]
   inv_mem' {v} hv := by
-    simp only [Set.mem_setOf_eq] at hv ⊢
+    simp only [Set.mem_ofPred_eq] at hv ⊢
     simp [hv]
 
+omit [Fintype F] in
 private theorem sq_eq_one_param (p : Multiplicative ((F × F) × (F × F))) : p ^ 2 = 1 := by
   apply Multiplicative.toAdd.injective
   rw [toAdd_pow, toAdd_one, two_nsmul]
   ext <;> simp [CharTwo.add_self_eq_zero]
 
+omit [Finite U] [Fintype F] in
 theorem exists_opt_three (Mm : MatModel L₁ L₂ F 3)
     (hR₁ : ∀ g : Matrix.GeneralLinearGroup (Fin 3) F, (g : Matrix (Fin 3) (Fin 3) F).det = 1 →
       ∃ l, Mm.R₁ l = g)

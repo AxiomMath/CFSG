@@ -30,7 +30,7 @@ theorem false_of_kf135_gl12 (hKF : K135SF.KF135GL12) {M' : Type} [Group M'] [Fin
   have hperf : Group.IsPerfect J := hJq.1
   have hSsimple : IsSimpleGroup (J ⧸ Subgroup.center J) := hJq.2.1
   have hSnonab : ∃ a b : J ⧸ Subgroup.center J, a * b ≠ b * a := hJq.2.2
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨P0, hP0⟩ : ∃ P0 : Subgroup (MulAut (J ⧸ Subgroup.center J)),
       P0 = (Ē.subgroupOf (Subgroup.normalizer (J : Set M'))).map (actS J) := ⟨_, rfl⟩
   have hPexp : ∀ y ∈ P0, y ^ p = 1 := by
@@ -50,10 +50,10 @@ theorem r5_holds_gl12 (hLP : Sec4.Item4_1LargePrime)
     (hTC : Sec4.Item4_1ThreeCover) (h42 : Sec4.Item4_2) (hMP : KFactMultPrime) (hKF : KF135)
     (hMPG : K135SF.KFactMultPrimeGL12) (hKFG : K135SF.KF135GL12) : R5 := by
   intro G _ _ A c L p C c5
-  haveI : c5.R.Normal := c5.R_normal
+  have : c5.R.Normal := c5.R_normal
   have hcrit := c5.crit
   have hp : p.Prime := hcrit.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp7 : 7 ≤ p := c5.p_ge_seven
   have hp2 : p ≠ 2 := by omega
   have hzL := c5.z_mem

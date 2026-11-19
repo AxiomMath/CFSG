@@ -51,7 +51,7 @@ theorem conj_mem_twoTransY {x y : Equiv.Perm Ω} (hx : x ∈ X)
     (hy : y ∈ twoTransY X T) : x * y * x⁻¹ ∈ twoTransY X T := by
   induction hy using Subgroup.closure_induction with
   | mem s hs => exact Subgroup.subset_closure (conj_mem_twoTransD hx hs)
-  | one => simpa using (twoTransY X T).one_mem
+  | one => simp
   | mul a b ha hb iha ihb =>
       have he : x * (a * b) * x⁻¹ = (x * a * x⁻¹) * (x * b * x⁻¹) := by group
       rw [he]
@@ -63,14 +63,17 @@ theorem conj_mem_twoTransY {x y : Equiv.Perm Ω} (hx : x ∈ X)
 
 namespace TwoTransHyp
 
+omit [Finite Ω] in
 private lemma t_mul_self (h : TwoTransHyp X T α) {t : Equiv.Perm Ω} (ht : t ∈ T) :
     t * t = 1 := by
   have := h.elemAb.2 t ht
   simpa [pow_two] using this
 
+omit [Finite Ω] in
 private lemma isPGroup_T (h : TwoTransHyp X T α) : IsPGroup 2 T :=
-  CFSG.Timmesfeld.Bridge.OddLocal.isPGroup_two_of_mul_self fun t ht => h.t_mul_self ht
+  CFSG.Timmesfeld.Bridge.OddLocal.isPGroup_two_of_mul_self fun _t ht => h.t_mul_self ht
 
+omit [Finite Ω] in
 private lemma conj_unique_fixed (h : TwoTransHyp X T α) {x : Equiv.Perm Ω}
     {t : Equiv.Perm Ω} (ht : t ∈ T) (ht1 : t ≠ 1) :
     ∃! β : Ω, (x * t * x⁻¹) β = β := by
@@ -113,16 +116,19 @@ lemma pointRep_mem (h : TwoTransHyp X T α) (β : Ω) : h.pointRep β ∈ X :=
 lemma pointRep_alpha (h : TwoTransHyp X T α) (β : Ω) : h.pointRep β α = β :=
   (Classical.choose_spec (h.exists_mem_X_map_alpha β)).2
 
+omit [Finite Ω] in
 lemma mul_self_of_mem_twoTransD (h : TwoTransHyp X T α) {s : Equiv.Perm Ω}
     (hs : s ∈ twoTransD X T) : s * s = 1 := by
   obtain ⟨-, x, hx, t, ht, rfl⟩ := hs
   rw [show (x * t * x⁻¹) * (x * t * x⁻¹) = x * (t * t) * x⁻¹ by group, h.t_mul_self ht]
   group
 
+omit [Finite Ω] in
 private lemma twoTransD_subset_X (h : TwoTransHyp X T α) : twoTransD X T ⊆ X := by
   rintro s ⟨-, x, hx, t, ht, rfl⟩
   exact X.mul_mem (X.mul_mem hx (h.le ht)) (X.inv_mem hx)
 
+omit [Finite Ω] in
 lemma twoTransY_le_X (h : TwoTransHyp X T α) : twoTransY X T ≤ X :=
   (Subgroup.closure_le X).mpr h.twoTransD_subset_X
 
@@ -244,6 +250,7 @@ theorem odd_card (h : TwoTransHyp X T α) : Odd (Nat.card Ω) := by
   rw [Nat.odd_iff]
   simpa [Nat.ModEq] using hmod
 
+omit [Finite Ω] in
 theorem exists_unique_fixed (h : TwoTransHyp X T α) {s : Equiv.Perm Ω}
     (hs : s ∈ twoTransD X T) : ∃! β : Ω, s β = β := by
   obtain ⟨hs1, x, hx, t, ht, rfl⟩ := hs
@@ -351,6 +358,7 @@ private lemma even_order_conj_data (h : TwoTransHyp X T α) {s s' : Equiv.Perm �
   · simpa [hρdef] using hord_pow
   · simpa [hρdef] using hpow2
 
+omit [Finite Ω] in
 private lemma even_order_u_involution (h : TwoTransHyp X T α) {s s' u' : Equiv.Perm Ω}
     (hs : s ∈ twoTransD X T) (hs' : s' ∈ twoTransD X T) {b k : ℕ}
     (hconj : u' = (s * s') ^ (-(k : ℤ)) * s' * ((s * s') ^ (-(k : ℤ)))⁻¹)
@@ -483,6 +491,7 @@ private lemma odd_orderOf_mul_of_ne_fixed (h : TwoTransHyp X T α)
   have hu'β : u' β = β := h.even_order_u_fixed hs hβ hP
   exact h.even_order_u_contradiction hs hs' hβ hγ hne hodd hconj hsu' hord_pow hu'β
 
+omit [Finite Ω] in
 private lemma orderOf_mul_dvd_two_of_commute (h : TwoTransHyp X T α)
     {s s' : Equiv.Perm Ω} (hs : s ∈ twoTransD X T) (hs' : s' ∈ twoTransD X T)
     (hc : Commute s s') : orderOf (s * s') ∣ 2 := by
@@ -526,7 +535,7 @@ private lemma eq_fix_of_commute (h : TwoTransHyp X T α) {s s' : Equiv.Perm Ω} 
   have hs_tSub : s ∈ h.tSub β := h.mem_tSub_of_mem_twoTransD_of_fixed hs hβ
   exact hne (h.tSub_unique_fixed hs_tSub hs.1 γ (hss' ▸ hγ)).symm
 
-private def twoTransDY (h : TwoTransHyp X T α) : Set ↥(twoTransY X T) :=
+private def twoTransDY (_h : TwoTransHyp X T α) : Set ↥(twoTransY X T) :=
   {s | (s : Equiv.Perm Ω) ∈ twoTransD X T}
 
 private lemma reach_fixed_eq (h : TwoTransHyp X T α) {x y : ↥(twoTransY X T)}
@@ -562,6 +571,7 @@ private lemma isOddTransp_twoTransDY (h : TwoTransHyp X T α) :
       (s' : Equiv.Perm Ω) hs'D
     rwa [← Subgroup.orderOf_coe]
 
+omit [Finite Ω] in
 private lemma isNormalSet_twoTransDY (h : TwoTransHyp X T α) :
     IsNormalSet h.twoTransDY := by
   intro g s hs
@@ -570,6 +580,7 @@ private lemma isNormalSet_twoTransDY (h : TwoTransHyp X T α) :
   show ((g * s * g⁻¹ : ↥(twoTransY X T)) : Equiv.Perm Ω) ∈ twoTransD X T
   simpa using conj_mem_twoTransD hgX hsD
 
+omit [Finite Ω] in
 private lemma closure_twoTransDY (h : TwoTransHyp X T α) :
     Subgroup.closure h.twoTransDY = ⊤ :=
   Subgroup.closure_preimage_eq_top (twoTransD X T)
@@ -578,7 +589,7 @@ private lemma meetsSq_twoTransDY (h : TwoTransHyp X T α) :
     ∃ u ∈ h.twoTransDY, ∃ v ∈ h.twoTransDY, u ≠ v ∧ Commute u v ∧
       u * v ∈ h.twoTransDY := by
   obtain ⟨t, ht, ht1⟩ := h.exists_ne_one
-  haveI : Fintype T := Fintype.ofFinite T
+  have : Fintype T := Fintype.ofFinite T
   have hcard : 4 ≤ Fintype.card T := by
     simpa [Nat.card_eq_fintype_card] using h.four_le
   have h3 : 3 ≤ ENat.card T := by
@@ -614,7 +625,7 @@ private lemma meetsSq_twoTransDY (h : TwoTransHyp X T α) :
       have h1 := h.tSub_eq_conj (x := 1) X.one_mem (by simp : (1 : Equiv.Perm Ω) α = α)
       rw [h1]
       ext s
-      simp [Subgroup.mem_map, MulAut.conj_apply]
+      simp [Subgroup.mem_map]
     exact h.commute_of_mem_tSub (by rw [htSub]; exact ht)
       (by rw [htSub]; exact T.mul_mem ht t'.2)
   have hc : Commute u v := Subtype.ext hcPerm

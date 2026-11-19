@@ -62,11 +62,11 @@ variable {p f : ℕ}
     by
       have h : (t : K) * ((t⁻¹ : Kˣ) : K) = 1 := by simp
       have h' : ((t⁻¹ : Kˣ) : K) * (t : K) = 1 := by simp
-      ext i j; fin_cases i <;> fin_cases j <;> simp [mul_apply, Fin.sum_univ_three, h, h'],
+      ext i j; fin_cases i <;> fin_cases j <;> simp [mul_apply, Fin.sum_univ_three],
     by
       have h : (t : K) * ((t⁻¹ : Kˣ) : K) = 1 := by simp
       have h' : ((t⁻¹ : Kˣ) : K) * (t : K) = 1 := by simp
-      ext i j; fin_cases i <;> fin_cases j <;> simp [mul_apply, Fin.sum_univ_three, h, h']⟩
+      ext i j; fin_cases i <;> fin_cases j <;> simp [mul_apply, Fin.sum_univ_three]⟩
 
 theorem coe_diagInv (t : Kˣ) :
     ((diagInv t : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) =

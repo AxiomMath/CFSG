@@ -55,18 +55,18 @@ theorem t27_mem : t27 ∈ T27 := by
 
 theorem mem_zpowers_c27 {s : Perm (Fin 12)} (hs : s ∈ T27)
     (hc : ∀ t ∈ T27, t * s = s * t) : s ∈ Subgroup.zpowers c27 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hnc : ¬ ∀ u v : T27, u * v = v * u := by
     intro h
     have h1 := congrArg Subtype.val (h ⟨x27, x27_mem_T27⟩ ⟨y27, y27_mem_T27⟩)
-    simp only [Subgroup.coe_mul, Subgroup.coe_mk] at h1
+    simp only [Subgroup.coe_mul] at h1
     exact x27_y27_noncomm h1
   have hle := L28Sq.card_center_le_three card_T27 hnc
   have hcZ : (⟨c27, c27_mem⟩ : T27) ∈ Subgroup.center T27 := by
     rw [Subgroup.mem_center_iff]
     rintro ⟨u, hu⟩
     apply Subtype.ext
-    simp only [Subgroup.coe_mul, Subgroup.coe_mk]
+    simp only [Subgroup.coe_mul]
     have hle' : T27 ≤ Subgroup.centralizer ({c27} : Set (Perm (Fin 12))) := by
       rw [T27_eq, Subgroup.closure_le]
       rintro w (rfl | rfl)
@@ -75,7 +75,7 @@ theorem mem_zpowers_c27 {s : Perm (Fin 12)} (hs : s ∈ T27)
     exact (Subgroup.mem_centralizer_singleton_iff.mp (hle' hu))
   have hoc : orderOf (⟨c27, c27_mem⟩ : T27) = 3 := by
     refine orderOf_eq_prime (Subtype.ext ?_) fun h => c27_ne_one ?_
-    · simp only [SubgroupClass.coe_pow, Subgroup.coe_mk, OneMemClass.coe_one]
+    · simp only [SubgroupClass.coe_pow, OneMemClass.coe_one]
       exact c27_cube
     · have h1 := congrArg Subtype.val h
       simpa only [Subgroup.coe_mk, OneMemClass.coe_one] using h1
@@ -88,7 +88,7 @@ theorem mem_zpowers_c27 {s : Perm (Fin 12)} (hs : s ∈ T27)
     rw [Subgroup.mem_center_iff]
     rintro ⟨u, hu⟩
     apply Subtype.ext
-    simp only [Subgroup.coe_mul, Subgroup.coe_mk]
+    simp only [Subgroup.coe_mul]
     exact hc u hu
   rw [hZ] at hsZ
   obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.mp hsZ

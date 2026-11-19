@@ -78,12 +78,13 @@ theorem TrichConcl.smul {δ μ' : CosetGeom G₀ G₁ G₂} {Q K : Subgroup G}
 
 variable [Finite G]
 
+omit [Finite G] in
 private theorem commutator_inv_mul_mem_of_normal {E H : Subgroup G}
     (hEH : E ≤ H) (hNorm : H ≤ Subgroup.normalizer (E : Set G))
     {x x' y y' : G} (hx : x ∈ H) (hx' : x' ∈ H) (hy : y ∈ H) (hy' : y' ∈ H)
     (hxx' : x⁻¹ * x' ∈ E) (hyy' : y⁻¹ * y' ∈ E) :
     (x * y * x⁻¹ * y⁻¹)⁻¹ * (x' * y' * x'⁻¹ * y'⁻¹) ∈ E := by
-  haveI : (E.subgroupOf H).Normal :=
+  have : (E.subgroupOf H).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hEH).mpr hNorm
   set z : G := (x * y * x⁻¹ * y⁻¹)⁻¹ * (x' * y' * x'⁻¹ * y'⁻¹) with hz
   have hzH : z ∈ H :=

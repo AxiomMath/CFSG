@@ -47,9 +47,9 @@ theorem kd_arms {S : Type} [Group S] [Finite S] [IsSimpleGroup S] (I : ArmInputs
   set D' : Subgroup ↥(fixedSubgroup σ) := Dbar.subgroupOf (fixedSubgroup σ) with hD'
   let e : ↥D' ≃* ↥Dbar := Subgroup.subgroupOfEquivOfLe hle
   have hDm' : LieModel ↥D' .PSp 3 2 1 := LieModel.of_mulEquiv e.symm hDm
-  haveI hsimple : IsSimpleGroup ↥D' :=
+  have hsimple : IsSimpleGroup ↥D' :=
     LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hDm'
-  haveI : Group.IsPerfect ↥D' := hD.1.1
+  have : Group.IsPerfect ↥D' := hD.1.1
   have hnaD : ∃ a b : ↥D', a * b ≠ b * a :=
     exists_noncomm_of_perfect_simple Group.IsPerfect.commutator_eq_top
   have hZ : center ↥D' = ⊥ := center_eq_bot_of_simple_nonab hnaD

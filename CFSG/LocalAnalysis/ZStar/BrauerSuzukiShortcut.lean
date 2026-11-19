@@ -110,7 +110,7 @@ private theorem sylow_two_cyclic_or_quaternion_of_uniqueInvolution
         (by rw [hUcard, hVcard])).symm
   have hclass :=
     BenderSuzuki.External.huppert_III_8_2_pgroup_unique_order_prime_subgroup
-      (G := P) (p := 2) Nat.prime_two P.isPGroup'
+      (G := P) (p := 2) Nat.prime_two P.isPGroup
       ⟨U, hUcard, huniqueU⟩
   exact hclass.2 rfl
 

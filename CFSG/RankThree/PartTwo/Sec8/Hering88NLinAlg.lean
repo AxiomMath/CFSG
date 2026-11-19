@@ -12,10 +12,10 @@ open Polynomial
 
 theorem pow_four_eq_one_of_two_power_le_four {F : Type*} [Field F] [CharP F 2] {n : ℕ}
     (hn : n ≤ 4) {u : Matrix (Fin n) (Fin n) F} (h2 : ∃ k : ℕ, u ^ 2 ^ k = 1) : u ^ 4 = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rcases Nat.eq_zero_or_pos n with rfl | hpos
   · exact Subsingleton.elim _ _
-  haveI : NeZero n := ⟨hpos.ne'⟩
+  have : NeZero n := ⟨hpos.ne'⟩
   obtain ⟨k, hk⟩ := h2
   have hN : IsNilpotent (u - 1) := ⟨2 ^ k, by
     rw [sub_pow_char_pow_of_commute (p := 2) (h := Commute.one_right u), one_pow, hk, sub_self]⟩

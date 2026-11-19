@@ -16,6 +16,7 @@ variable {K : Type*} [Field K] {ι ι' : Type*} [Fintype ι] [DecidableEq ι] [F
 @[expose] def extMat (E : Matrix ι' ι K) (G : Matrix ι ι K) : Matrix ι' ι' K :=
   1 + E * (G - 1) * Eᵀ
 
+omit [Fintype ι'] in
 theorem extMat_one (E : Matrix ι' ι K) : extMat E 1 = 1 := by
   simp [extMat]
 
@@ -80,6 +81,7 @@ theorem extMat_retract {E₁ E₂ : Matrix ι' ι K} (h11 : E₁ᵀ * E₁ = 1) 
         rw [k', k, h11, k'']
         simp
 
+omit [Fintype ι'] in
 theorem extMat_map {L : Type*} [Field L] (φ : K →+* L) {E : Matrix ι' ι K} {E' : Matrix ι' ι L}
     (hE : E.map φ = E') (G : Matrix ι ι K) : (extMat E G).map φ = extMat E' (G.map φ) := by
   unfold extMat

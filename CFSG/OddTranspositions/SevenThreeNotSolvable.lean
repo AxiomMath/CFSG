@@ -12,7 +12,7 @@ open CFSG.Timmesfeld CFSG.Timmesfeld.Connectivity CFSG.Timmesfeld.Bridge CFSG.Ti
 variable {G : Type} [Group G] [Finite G] {D : Set G}
 
 theorem thirdK_not_solvable (hS : Setup G D)
-    {u w v : G} (htri : IsTriangle D u w v) {n : ℕ} (hn : Odd n) (hn1 : 1 < n)
+    {u w v : G} (htri : IsTriangle D u w v) {n : ℕ} (hn : Odd n) (_hn1 : 1 < n)
     (hord : orderOf (u * v * w) = 2 * n) :
     ¬ Group.IsSolvable ↥(thirdK D ((u * v * w) ^ n)) := by
   intro hsolv

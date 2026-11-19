@@ -103,7 +103,7 @@ theorem lane_le {l : ℕ} (hl : l < NL) {k : J} (hk : k ∈ X0Sub) :
     have h := (canon_lane ht0 ht hl).1
     rwa [rm_eq] at h
 
-theorem lane_fix {l : ℕ} (hl : l < NL) {k : J} (hk : k ∈ X0Sub)
+theorem lane_fix {l : ℕ} (hl : l < NL) {k : J} (_hk : k ∈ X0Sub)
     (hfix : k • qL l = qL l) {t : ℕ} (ht : t < 6720) (hPR : PR k⁻¹ (CFSG.KD.X0O.MSF t)) :
     t = 0 ∨ (l, t) ∈ FXL := by
   rcases Nat.eq_zero_or_pos t with rfl | ht0
@@ -195,18 +195,18 @@ theorem step_elt (s : ℕ × ℕ × ℕ) (l : ℕ) : ∃ σ : J, ∀ x < 2 ^ 112
   unfold stepV
   by_cases hA : s.1.testBit l
   · exact ⟨a, fun x hx => by
-      rw [if_pos hA]
+      rw [ite_eq_left hA]
       exact ⟨vecJ_lt _ _, (act' PR_Ai hx).symm⟩⟩
   · by_cases hB : s.2.1.testBit l
     · exact ⟨b, fun x hx => by
-        rw [if_neg hA, if_pos hB]
+        rw [ite_eq_right hA, ite_eq_left hB]
         exact ⟨vecJ_lt _ _, (act' PR_Bi hx).symm⟩⟩
     · by_cases hC : s.2.2.testBit l
       · exact ⟨b⁻¹, fun x hx => by
-          rw [if_neg hA, if_neg hB, if_pos hC]
+          rw [ite_eq_right hA, ite_eq_right hB, ite_eq_left hC]
           exact ⟨vecJ_lt _ _, (act PR_B hx).symm⟩⟩
       · exact ⟨1, fun x hx => by
-          rw [if_neg hA, if_neg hB, if_neg hC, one_smul]
+          rw [ite_eq_right hA, ite_eq_right hB, ite_eq_right hC, one_smul]
           exact ⟨hx, rfl⟩⟩
 
 theorem walk_elt (l : ℕ) : ∀ S : List (ℕ × ℕ × ℕ), ∃ w : J, ∀ x < 2 ^ 112,
@@ -276,7 +276,7 @@ open Classical in
 open Classical in
 theorem mem_covU {x : Row} : x ∈ covU ↔ ∃ l < NL, x ∈ orbL l := by
   unfold covU orbF
-  simp only [Finset.mem_biUnion, Finset.mem_range, Set.Finite.mem_toFinset, exists_prop]
+  simp only [Finset.mem_biUnion, Finset.mem_range, Set.Finite.mem_toFinset]
 
 theorem lanes_cover
     {p : Row} (hp : p ∈ Pts) : ∃ l < NL, p ∈ orbL l := by

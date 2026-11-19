@@ -219,8 +219,8 @@ private theorem famTwoDModel_lieModel_of_export
       exact (ε.symm j).2
     · intro hβ
       exact ⟨ε ⟨β, hβ⟩, by simp⟩
-  have hsw := hswap ⟨m - 2, by omega⟩ ⟨m - 1, by omega⟩ (by simp only [Fin.val_mk]; omega)
-    (by simp only [Fin.val_mk]; omega)
+  have hsw := hswap ⟨m - 2, by omega⟩ ⟨m - 1, by omega⟩ (by simp only; omega)
+    (by simp only; omega)
   have hlie := CFSG.LocalAnalysis.GLTheoremA.KD264Lie.ExcUntw.lieModel_orbitGroup_of_datum_four
     hτ D (by omega) (by rw [hDe]; exact hrec r e m he hm5 hQ')
     (fun j : Fin m => (ε.symm j : Fin τ.rank → ℤ)) hbroot hbinj hG (hDs.trans hrange.symm) hfix
@@ -266,8 +266,8 @@ theorem fam_lieModel_rationalComponent_of_twoD_rank
   classical
   obtain ⟨r, e, m, hr, hchar, hm5, z, ε, D, hq, he, hDe, hRC, hDs, hCart, hfix, hswap⟩ :=
     fam_exists_twoD_export S (Or.inr hτ) χ i hker hρΨ h5 hD hout b j hsel
-  haveI := hr
-  haveI := hchar
+  have := hr
+  have := hchar
   obtain ⟨e', he', hmodel⟩ :=
     famTwoDModel_lieModel_of_export (Or.inr hτ) S χ i hm5 z ε D hq he hDe hRC hDs hCart hfix
       hswap Q hrec hQ

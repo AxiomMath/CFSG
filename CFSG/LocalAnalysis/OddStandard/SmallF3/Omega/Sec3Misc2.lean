@@ -14,7 +14,7 @@ variable {G : Type} [Group G]
 
 private theorem odd_card_oddCore' (X : Type*) [Group X] [Finite X] :
     Odd (Nat.card (CFSG.oddCore X)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [CFSG.oddCore_eq_piCore, ← CFSG.pPrimeCore_eq_piCore 2 (G := X)]
   exact Nat.coprime_two_left.mp (CFSG.pPrimeCore_coprime_card (p := 2) (G := X))
 
@@ -146,7 +146,7 @@ private theorem false_of_center_ne_bot_of_simple [Finite G] {I : Subgroup G} {u 
     center_ne_bot_of_mem_center hu huI hc
   have htop : Subgroup.center (I ⧸ oddCore I) = ⊤ :=
     (hsimple.eq_bot_or_eq_top_of_normal (Subgroup.center (I ⧸ oddCore I))).resolve_left hne
-  haveI : IsMulCommutative (I ⧸ oddCore I) := Subgroup.center_eq_top_iff.mp htop
+  have : IsMulCommutative (I ⧸ oddCore I) := Subgroup.center_eq_top_iff.mp htop
   exact hnp (Group.is_simple_iff_prime_card.mp hsimple)
 
 private theorem false_of_smallF3OmegaQuotient [Finite G] {I : Subgroup G} {u : G}
@@ -167,10 +167,10 @@ private theorem commutator_le_of_sup_central_eq_top {H : Type*} [Group H] {N M :
     rw [Subgroup.le_normalizer_iff]
     intro n hn k hk
     exact N.mul_mem (N.mul_mem hn hk) (N.inv_mem hn)
-  haveI : N.Normal := by
+  have : N.Normal := by
     rw [← Subgroup.normalizer_eq_top_iff, eq_top_iff, ← hsup]
     exact sup_le hNnorm (hM.trans (Subgroup.center_le_normalizer (N : Set H)))
-  haveI hMcomm : IsMulCommutative M := by
+  have hMcomm : IsMulCommutative M := by
     refine IsMulCommutative.of_comm fun a b => Subtype.ext ?_
     exact (Subgroup.mem_center_iff.mp (hM a.2) (b : H)).symm
   exact Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup
@@ -187,7 +187,7 @@ theorem isTwoU43_of_mem_center [Finite G] {I : Subgroup G} (hI : InFStar I) {u :
   · exact (false_of_smallF3StarQuotient hu huI hc hstar).elim
 
 theorem eq_of_le_of_isTwoU43 [Finite G] {K I : Subgroup G} (hKI : K ≤ I)
-    (hK : IsQuasisimple K) (hI : IsQuasisimple I) (hKt : IsTwoU43 (K ⧸ oddCore K))
+    (_hK : IsQuasisimple K) (hI : IsQuasisimple I) (hKt : IsTwoU43 (K ⧸ oddCore K))
     (hIt : IsTwoU43 (I ⧸ oddCore I)) : K = I := by
   have hKcard : Nat.card (K ⧸ oddCore K) = 6531840 := card_of_isTwoU43 hKt
   have hIcard : Nat.card (I ⧸ oddCore I) = 6531840 := card_of_isTwoU43 hIt
@@ -234,7 +234,7 @@ theorem eq_of_le_of_isTwoU43 [Finite G] {K I : Subgroup G} (hKI : K ≤ I)
     exact Subgroup.mul_mem_sup (by rw [Subgroup.mem_subgroupOf]; exact k.2) ho
   have hOI_ne_top : oddCore ↥I ≠ ⊤ := by
     intro htop
-    haveI : Subsingleton (↥I ⧸ oddCore ↥I) := by
+    have : Subsingleton (↥I ⧸ oddCore ↥I) := by
       rw [htop]; exact QuotientGroup.subsingleton_quotient_top
     have h1 : Nat.card (Subgroup.center (↥I ⧸ oddCore ↥I)) = 1 :=
       Nat.card_eq_one_iff_unique.mpr ⟨inferInstance, ⟨1⟩⟩

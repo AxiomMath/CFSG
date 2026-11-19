@@ -66,7 +66,7 @@ private theorem swapEquiv_mul_negEquiv_mul_swapEquiv {t : ℕ} {i j : Fin t} (hi
       exact hk (by
         have := congrArg (Equiv.swap i j) h
         simpa using this)
-    rw [if_neg hne, if_neg hk, Equiv.swap_apply_self]
+    rw [ite_eq_right hne, ite_eq_right hk, Equiv.swap_apply_self]
 
 private theorem sgnAut_eq_inv_of_coord_eq_one {n : ℕ} (i0 : Fin n)
     {f : Fin n → Multiplicative (ZMod 3)} (h : ∀ k, k ≠ i0 → f k = 1) :

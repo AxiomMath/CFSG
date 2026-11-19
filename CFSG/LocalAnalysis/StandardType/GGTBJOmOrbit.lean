@@ -19,6 +19,7 @@ open CFSG.RankThree.Classical2 (orthDerived)
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {V : Type} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {Q : QuadraticForm K V} {p r : ℕ} {A : Subgroup (V ≃ₗ[K] V)}
 
+omit [Finite K] [CharP K 2] in
 private lemma omorb_map_pow {M N : Type*} [AddCommGroup M] [Module K M]
     [AddCommGroup N] [Module K N]
     (φ : M →ₗ[K] N) {a : Module.End K M} {b : Module.End K N}
@@ -29,6 +30,7 @@ private lemma omorb_map_pow {M N : Type*} [AddCommGroup M] [Module K M]
   | succ n ih =>
     rw [pow_succ', pow_succ', Module.End.mul_apply, Module.End.mul_apply, h, ih]
 
+omit [Finite K] [CharP K 2] in
 private lemma omorb_aeval_map_eq {M N : Type*} [AddCommGroup M] [Module K M]
     [AddCommGroup N] [Module K N]
     (φ : M →ₗ[K] N) (a : Module.End K M) (b : Module.End K N)
@@ -42,6 +44,7 @@ private lemma omorb_aeval_map_eq {M N : Type*} [AddCommGroup M] [Module K M]
     simp only [LinearMap.smul_apply, Module.End.mul_apply, Module.End.one_apply]
     rw [map_smul, omorb_map_pow φ h n m]
 
+omit [Finite K] [CharP K 2] in
 private lemma omorb_coeff_zero_ne_of_dvd_X_pow_sub_one {f : K[X]} {n : ℕ} (hn : n ≠ 0)
     (hf : f ∣ (X ^ n - 1 : K[X])) : f.coeff 0 ≠ 0 := by
   obtain ⟨g, hg⟩ := hf
@@ -50,6 +53,7 @@ private lemma omorb_coeff_zero_ne_of_dvd_X_pow_sub_one {f : K[X]} {n : ℕ} (hn 
   simp only [coeff_sub, coeff_X_pow, coeff_one, mul_coeff_zero, h0] at h
   simp [hn.symm] at h
 
+omit [Finite K] [CharP K 2] in
 private lemma omorb_reciprocalPolynomial_X_add_C {a : K} (ha : a ≠ 0) :
     reciprocalPolynomial (X + C a : K[X]) = X + C a⁻¹ := by
   have h0 : (X + C a : K[X]).coeff 0 = a := by simp
@@ -63,6 +67,7 @@ private lemma omorb_reciprocalPolynomial_X_add_C {a : K} (ha : a ≠ 0) :
   rw [h0, h1, mul_add, ← mul_assoc, ← C_mul, inv_mul_cancel₀ ha, C_1, one_mul, mul_one]
   ring
 
+omit [Finite K] in
 private theorem omorb_block_decomp {D : Type} [AddCommGroup D] [Module K D]
     [FiniteDimensional K D] (hD : finrank K D = 2) {p : ℕ} (hp : p.Prime) (hpK : (p : K) ≠ 0)
     (y : D ≃ₗ[K] D) (hyp : y ^ p = 1) (hfix : ∀ d, y d = d → d = 0)
@@ -72,7 +77,7 @@ private theorem omorb_block_decomp {D : Type} [AddCommGroup D] [Module K D]
       (∀ d : D, d ∈ primaryComponent y.toLinearMap h ⊔
         primaryComponent y.toLinearMap (reciprocalPolynomial h)) := by
   classical
-  haveI : Nontrivial D :=
+  have : Nontrivial D :=
     Module.nontrivial_of_finrank_pos (R := K) (M := D) (by rw [hD]; norm_num)
   have haeval : aeval y.toLinearMap (X ^ p - 1 : K[X]) = 0 := by
     rw [map_sub, map_pow, aeval_X, map_one, sub_eq_zero, ← toLinearMap_pow, hyp]
@@ -214,36 +219,42 @@ private lemma omorb_toAdd_piMul (f : Fin r → Multiplicative (ZMod p)) (j : Fin
     toAdd (piMul r p f) j = toAdd (f j) := by
   rw [piMul_apply, toAdd_ofAdd]
 
+omit [Finite K] [FiniteDimensional K V] in
 private lemma omorb_oddOrderIsometry (Δ : TBJOmData Q p A r) (hp : p.Prime) (hp2 : p ≠ 2)
     (hQ : (polarBilin Q).Nondegenerate) (hA : A ≤ orthDerived Q)
     (f : Fin r → Multiplicative (ZMod p)) : OddOrderIsometry Q p (Δ.τ f) := by
   rw [Δ.τ_eq f]
   exact SevOm.Frame.oddOrderIsometry hQ hp2 hp hA Δ.F (piMul r p f)
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem TBJOmData.oddOrderIsometry [Fact p.Prime] (hp2 : p ≠ 2) (Δ : TBJOmData Q p A r)
     (hQ : (polarBilin Q).Nondegenerate) (hA : A ≤ orthDerived Q)
     (f : Fin r → Multiplicative (ZMod p)) :
     OddOrderIsometry Q p (Δ.τ f) :=
   omorb_oddOrderIsometry Δ Fact.out hp2 hQ hA f
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem TBJOmData.mem_fixedSpace_iff (Δ : TBJOmData Q p A r) (f₀ : Fin r → Multiplicative (ZMod p))
     (v : V) : v ∈ fixedSpace (Δ.τ f₀) ↔
       ∀ j, toAdd (f₀ j) ≠ 0 → ∀ u ∈ Δ.F.U j, QuadraticMap.polar Q u v = 0 := by
   rw [mem_fixedSpace, Δ.τ_eq]
   exact Δ.F.fix (piMul r p f₀) v
 
+omit [Finite K] [FiniteDimensional K V] in
 private lemma omorb_le_fixedSpace_of_toAdd_eq_zero (Δ : TBJOmData Q p A r)
     (f₀ : Fin r → Multiplicative (ZMod p)) (j : Fin r) (hj : toAdd (f₀ j) = 0) :
     Δ.F.U j ≤ fixedSpace (Δ.τ f₀) := by
   rw [Δ.τ_eq]
   exact Δ.F.le_fixedSpace (s := piMul r p f₀) (by simpa [omorb_toAdd_piMul] using hj)
 
+omit [Finite K] [CharP K 2] in
 private lemma omorb_reciprocal_ne_X_sub_one {x : V ≃ₗ[K] V} (hx : OddOrderIsometry Q p x)
     {h : K[X]} (hh : h ∈ primaryFactors x.toLinearMap) (hX : h ≠ X - 1) :
     reciprocalPolynomial h ≠ X - 1 := by
   intro he
   exact hX (by rw [← hx.reciprocal_reciprocal_eq hh, he, reciprocalPolynomial_X_sub_one])
 
+omit [Finite K] [CharP K 2] in
 private lemma omorb_fixedSpace_le_othersSpace {x : V ≃ₗ[K] V} (hx : OddOrderIsometry Q p x)
     {h : K[X]} (hh : h ∈ primaryFactors x.toLinearMap) (hX : h ≠ X - 1) :
     fixedSpace x ≤ othersSpace x.toLinearMap h := by
@@ -257,11 +268,13 @@ private lemma omorb_fixedSpace_le_othersSpace {x : V ≃ₗ[K] V} (hx : OddOrder
   · rw [fixedSpace_eq_bot_of_not_mem hmem]
     exact bot_le
 
+omit [Finite K] [CharP K 2] in
 private lemma omorb_orbitSpace_reciprocal {x : V ≃ₗ[K] V} (hx : OddOrderIsometry Q p x)
     {h : K[X]} (hh : h ∈ primaryFactors x.toLinearMap) :
     orbitSpace x.toLinearMap (reciprocalPolynomial h) = orbitSpace x.toLinearMap h := by
   rw [orbitSpace, orbitSpace, hx.reciprocal_reciprocal_eq hh, sup_comm]
 
+omit [Finite K] [CharP K 2] in
 private lemma omorb_orbitSpace_le_othersSpace {x : V ≃ₗ[K] V} (hx : OddOrderIsometry Q p x)
     {h k : K[X]} (hh : h ∈ primaryFactors x.toLinearMap)
     (hk : k ∈ primaryFactors x.toLinearMap) (hkh : k ≠ h)
@@ -282,6 +295,7 @@ private lemma omorb_orbitSpace_le_othersSpace {x : V ≃ₗ[K] V} (hx : OddOrder
   rw [orbitSpace]
   exact sup_le h1 h4
 
+omit [Finite K] in
 private lemma omorb_isCompl_orthogonal (Δ : TBJOmData Q p A r) (j : Fin r) :
     IsCompl (Δ.F.U j) (LinearMap.BilinForm.orthogonal (polarBilin Q) (Δ.F.U j)) := by
   have hrefl : (polarBilin Q).IsRefl := fun x y h => by
@@ -314,6 +328,7 @@ private lemma omorb_add_self (K : Type) [Field K] [CharP K 2] {V : Type} [AddCom
   calc x + x = x + -x := by rw [omorb_neg_eq K x]
     _ = 0 := add_neg_cancel x
 
+omit [Finite K] in
 private lemma omorb_exists_decomp (Δ : TBJOmData Q p A r)
     (f₀ : Fin r → Multiplicative (ZMod p)) (v : V) :
     ∃ u : Fin r → V, (∀ j, u j ∈ Δ.F.U j) ∧
@@ -349,6 +364,7 @@ private lemma omorb_exists_decomp (Δ : TBJOmData Q p A r)
     exact Δ.F.orth k j hj.1.symm w hw (u j) (hu j)
   rw [hwk, QuadraticMap.polar_add_right, h1, h2, add_zero]
 
+omit [Finite K] in
 private lemma omorb_block_data (Δ : TBJOmData Q p A r) (hp : p.Prime) (hp2 : p ≠ 2)
     (hQ : (polarBilin Q).Nondegenerate) (hA : A ≤ orthDerived Q)
     (f₀ : Fin r → Multiplicative (ZMod p)) (j : Fin r) (hj : toAdd (f₀ j) ≠ 0)
@@ -409,6 +425,7 @@ private lemma omorb_block_data (Δ : TBJOmData Q p A r) (hp : p.Prime) (hp2 : p 
     · rw [mem_primaryComponent, ← hTransθ (reciprocalPolynomial h) d2,
         mem_primaryComponent.mp hd2, map_zero]
 
+omit [Finite K] in
 private lemma omorb_piece_orbit (Δ : TBJOmData Q p A r) (hp : p.Prime) (hp2 : p ≠ 2)
     (hQ : (polarBilin Q).Nondegenerate) (hA : A ≤ orthDerived Q)
     (f₀ : Fin r → Multiplicative (ZMod p)) (j : Fin r) (hj : toAdd (f₀ j) ≠ 0) :
@@ -418,6 +435,7 @@ private lemma omorb_piece_orbit (Δ : TBJOmData Q p A r) (hp : p.Prime) (hp2 : p
     omorb_block_data Δ hp hp2 hQ hA f₀ j hj (Δ.c ^ (toAdd (f₀ j)).val) rfl
   exact ⟨h, hhx, hne1, hU⟩
 
+omit [Finite K] in
 private lemma omorb_piece_othersSpace (Δ : TBJOmData Q p A r) (hp : p.Prime) (hp2 : p ≠ 2)
     (hQ : (polarBilin Q).Nondegenerate) (hA : A ≤ orthDerived Q)
     (f₀ : Fin r → Multiplicative (ZMod p)) {h : K[X]}
@@ -439,6 +457,7 @@ private lemma omorb_piece_othersSpace (Δ : TBJOmData Q p A r) (hp : p.Prime) (h
       exact hj (by rwa [← omorb_orbitSpace_reciprocal hx hh, ← e])
     exact omorb_orbitSpace_le_othersSpace hx hh hk hkh hkh' (hUk hu)
 
+omit [Finite K] in
 private lemma omorb_orbitSpace_le_iSup (Δ : TBJOmData Q p A r) (hp : p.Prime) (hp2 : p ≠ 2)
     (hQ : (polarBilin Q).Nondegenerate) (hA : A ≤ orthDerived Q)
     (f₀ : Fin r → Multiplicative (ZMod p)) {h : K[X]}
@@ -495,6 +514,7 @@ private lemma omorb_orbitSpace_le_iSup (Δ : TBJOmData Q p A r) (hp : p.Prime) (
   rw [sub_eq_zero.mp hzero]
   exact hs_mem
 
+omit [Finite K] in
 theorem TBJOmData.orbitSpace_eq [Fact p.Prime] (hp2 : p ≠ 2) (Δ : TBJOmData Q p A r)
     (hQ : (polarBilin Q).Nondegenerate) (hA : A ≤ orthDerived Q)
     (f₀ : Fin r → Multiplicative (ZMod p)) {h : K[X]}
@@ -504,6 +524,7 @@ theorem TBJOmData.orbitSpace_eq [Fact p.Prime] (hp2 : p ≠ 2) (Δ : TBJOmData Q
   refine le_antisymm (omorb_orbitSpace_le_iSup Δ Fact.out hp2 hQ hA f₀ hh hX) ?_
   exact iSup₂_le fun j hj => hj
 
+omit [Finite K] in
 theorem TBJOmData.active_of_le_orbitSpace [Fact p.Prime] (hp2 : p ≠ 2) (Δ : TBJOmData Q p A r)
     (hQ : (polarBilin Q).Nondegenerate) (hA : A ≤ orthDerived Q)
     (f₀ : Fin r → Multiplicative (ZMod p)) {h : K[X]}
@@ -525,13 +546,14 @@ theorem TBJOmData.active_of_le_orbitSpace [Fact p.Prime] (hp2 : p ≠ 2) (Δ : T
     exact hmem
   exact Δ.F.ne_bot j (le_bot_iff.mp hlebot)
 
+omit [Finite K] in
 private lemma omorb_exists_piece (Δ : TBJOmData Q p A r) (hp : p.Prime) (hp2 : p ≠ 2)
     (hQ : (polarBilin Q).Nondegenerate) (hA : A ≤ orthDerived Q)
     (f₀ : Fin r → Multiplicative (ZMod p)) {h : K[X]}
     (hh : h ∈ primaryFactors (Δ.τ f₀).toLinearMap) (hX : h ≠ X - 1) :
     ∃ j, toAdd (f₀ j) ≠ 0 ∧ Δ.F.U j ≤ orbitSpace (Δ.τ f₀).toLinearMap h := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hx : OddOrderIsometry Q p (Δ.τ f₀) := omorb_oddOrderIsometry Δ hp hp2 hQ hA f₀
   have hO_ne : orbitSpace (Δ.τ f₀).toLinearMap h ≠ ⊥ := by
     intro hbot
@@ -550,6 +572,7 @@ private lemma omorb_exists_piece (Δ : TBJOmData Q p A r) (hp : p.Prime) (hp2 : 
   obtain ⟨j, hj⟩ := hex
   exact ⟨j, TBJOmData.active_of_le_orbitSpace (p := p) (Q := Q) hp2 Δ hQ hA f₀ hh hX j hj, hj⟩
 
+omit [Finite K] in
 theorem TBJOmData.exists_piece [Fact p.Prime] (hp2 : p ≠ 2) (Δ : TBJOmData Q p A r)
     (hQ : (polarBilin Q).Nondegenerate) (hA : A ≤ orthDerived Q)
     (f₀ : Fin r → Multiplicative (ZMod p)) {h : K[X]}
@@ -557,10 +580,11 @@ theorem TBJOmData.exists_piece [Fact p.Prime] (hp2 : p ≠ 2) (Δ : TBJOmData Q 
     ∃ j, toAdd (f₀ j) ≠ 0 ∧ Δ.F.U j ≤ orbitSpace (Δ.τ f₀).toLinearMap h :=
   omorb_exists_piece Δ Fact.out hp2 hQ hA f₀ hh hX
 
+omit [Finite K] in
 theorem TBJOmData.piece_ker [Fact p.Prime] (hp2 : p ≠ 2) (Δ : TBJOmData Q p A r)
     (hQ : (polarBilin Q).Nondegenerate) (hA : A ≤ orthDerived Q)
     (f₀ : Fin r → Multiplicative (ZMod p)) {h : K[X]}
-    (hh : h ∈ primaryFactors (Δ.τ f₀).toLinearMap) (hX : h ≠ X - 1) (j : Fin r)
+    (hh : h ∈ primaryFactors (Δ.τ f₀).toLinearMap) (_hX : h ≠ X - 1) (j : Fin r)
     (hj : toAdd (f₀ j) ≠ 0) (hU : Δ.F.U j ≤ orbitSpace (Δ.τ f₀).toLinearMap h) :
     (∃ d : Δ.D, d ≠ 0 ∧
       aeval ((Δ.c ^ (toAdd (f₀ j)).val : Δ.D ≃ₗ[K] Δ.D) : Δ.D →ₗ[K] Δ.D) h d = 0) ∨

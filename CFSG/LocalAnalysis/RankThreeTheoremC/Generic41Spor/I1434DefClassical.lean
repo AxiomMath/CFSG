@@ -15,8 +15,8 @@ namespace CFSG.LocalAnalysis.RankThreeTheoremC.Generic41Spor.I1434
 
 theorem charP_five_of_card_eq_five_pow {F : Type} [Field F] [Finite F] {m : ℕ}
     (h : Nat.card F = 5 ^ m) : CharP F 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI := Fintype.ofFinite F
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have := Fintype.ofFinite F
   exact charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card]; exact h)
 
 theorem fiveExpLe_statedProj {ι : Type} [Fintype ι] [DecidableEq ι] {F : Type} [Field F]
@@ -98,19 +98,19 @@ theorem sl3TransA_pow : (sl3TransA : Matrix (Fin 3) (Fin 3) F) ^ 5 = 1 := by
   have h5 : (5 : F) = 0 := by exact_mod_cast CharP.cast_eq_zero F 5
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [sl3TransA, pow_succ, Matrix.mul_apply, Fin.sum_univ_three] <;> norm_num <;> exact h5
+    simp [sl3TransA, pow_succ, Matrix.mul_apply, Fin.sum_univ_three]; norm_num; exact h5
 
 theorem sl3TransB_pow : (sl3TransB : Matrix (Fin 3) (Fin 3) F) ^ 5 = 1 := by
   have h5 : (5 : F) = 0 := by exact_mod_cast CharP.cast_eq_zero F 5
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [sl3TransB, pow_succ, Matrix.mul_apply, Fin.sum_univ_three] <;> norm_num <;> exact h5
+    simp [sl3TransB, pow_succ, Matrix.mul_apply, Fin.sum_univ_three]; norm_num; exact h5
 
 theorem sl3TransC_pow : (sl3TransC : Matrix (Fin 3) (Fin 3) F) ^ 5 = 1 := by
   have h5 : (5 : F) = 0 := by exact_mod_cast CharP.cast_eq_zero F 5
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [sl3TransC, pow_succ, Matrix.mul_apply, Fin.sum_univ_three] <;> norm_num <;> exact h5
+    simp [sl3TransC, pow_succ, Matrix.mul_apply, Fin.sum_univ_three]; norm_num; exact h5
 
 @[expose] def glTransA : GL (Fin 3) F :=
   ⟨sl3TransA, sl3TransA ^ 4, by rw [← pow_succ', sl3TransA_pow],
@@ -170,7 +170,7 @@ theorem classical_five_false {K : Type} [Group K] [Finite K] {t : StatedLieTag} 
   case PSL =>
     have hn : 2 ≤ n := hM.1.2.2.1
     obtain ⟨F, _, _, hF, ⟨e⟩⟩ := hM.2
-    haveI := charP_five_of_card_eq_five_pow hF
+    have := charP_five_of_card_eq_five_pow hF
     rcases Nat.lt_or_ge n 4 with h4 | h4
     ·
       obtain rfl : n = 3 := by
@@ -187,7 +187,7 @@ theorem classical_five_false {K : Type} [Group K] [Finite K] {t : StatedLieTag} 
   case PSU =>
     have hn : 3 ≤ n := hM.1.2.2.1
     obtain ⟨F, _, _, hF, ⟨e⟩⟩ := hM.2
-    haveI := charP_five_of_card_eq_five_pow (m := f * 2) (by rw [hF, ← pow_mul])
+    have := charP_five_of_card_eq_five_pow (m := f * 2) (by rw [hF, ← pow_mul])
     rcases Nat.lt_or_ge n 4 with h4 | h4
     · obtain rfl : n = 3 := by omega
       rcases Nat.lt_or_ge f 2 with hf2 | hf2
@@ -206,7 +206,7 @@ theorem classical_five_false {K : Type} [Group K] [Finite K] {t : StatedLieTag} 
   case PSp =>
     have hn : 2 ≤ n := hM.1.2.2.1
     obtain ⟨F, _, _, hF, ⟨e⟩⟩ := hM.2
-    haveI := charP_five_of_card_eq_five_pow hF
+    have := charP_five_of_card_eq_five_pow hF
     obtain ⟨m, rfl⟩ : ∃ m, n = m + 2 := ⟨n - 2, by omega⟩
     refine hD.false_of_classicalModel hM hn e (k := m + 1) ?_ ?_
     · simp only [Fintype.card_sum, Fintype.card_fin]
@@ -217,7 +217,7 @@ theorem classical_five_false {K : Type} [Group K] [Finite K] {t : StatedLieTag} 
   case POmegaOdd =>
     have hn : 3 ≤ n := hM.1.2.2.1
     obtain ⟨F, _, _, hF, ⟨e⟩⟩ := hM.2
-    haveI := charP_five_of_card_eq_five_pow hF
+    have := charP_five_of_card_eq_five_pow hF
     obtain ⟨m, rfl⟩ : ∃ m, n = m + 3 := ⟨n - 3, by omega⟩
     refine hD.false_of_classicalModel hM hn e (k := m + 2) ?_ ?_
     · simp only [Fintype.card_sum, Fintype.card_fin, Fintype.card_unit]
@@ -228,7 +228,7 @@ theorem classical_five_false {K : Type} [Group K] [Finite K] {t : StatedLieTag} 
   case POmegaPlus =>
     have hn : 4 ≤ n := hM.1.2.2
     obtain ⟨F, _, _, hF, ⟨e⟩⟩ := hM.2
-    haveI := charP_five_of_card_eq_five_pow hF
+    have := charP_five_of_card_eq_five_pow hF
     obtain ⟨m, rfl⟩ : ∃ m, n = m + 4 := ⟨n - 4, by omega⟩
     refine hD.false_of_classicalModel hM hn e (k := m + 2) ?_ ?_
     · simp only [Fintype.card_sum, Fintype.card_fin]
@@ -241,7 +241,7 @@ theorem classical_five_false {K : Type} [Group K] [Finite K] {t : StatedLieTag} 
   case POmegaMinus =>
     have hn : 4 ≤ n := hM.1.2.2
     obtain ⟨F, _, _, hF, b, c, -, ⟨e⟩⟩ := hM.2
-    haveI := charP_five_of_card_eq_five_pow hF
+    have := charP_five_of_card_eq_five_pow hF
     obtain ⟨m, rfl⟩ : ∃ m, n = m + 4 := ⟨n - 4, by omega⟩
     refine hD.false_of_classicalModel hM hn e (k := m + 2) ?_ ?_
     · simp only [Fintype.card_sum, Fintype.card_fin]

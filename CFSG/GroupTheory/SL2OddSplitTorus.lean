@@ -27,7 +27,7 @@ theorem dg_mul_unipotent (a : F) (ha : a ≠ 0) (t : F) :
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [dg, sl2, CFSG.SL2MinimalFaithful.coe_unipotent,
-      Matrix.SpecialLinearGroup.coe_mul, Matrix.mul_apply, Fin.sum_univ_two] <;>
+      Matrix.mul_apply, Fin.sum_univ_two];
     field_simp
 
 private theorem unipotent_range_facts [Finite F] [CharP F 2] :
@@ -40,7 +40,7 @@ private theorem unipotent_range_facts [Finite F] [CharP F 2] :
       (CFSG.SL2MinimalFaithful.unipotentHom_injective (F := F))).toEquiv]
     exact Nat.card_congr Multiplicative.toAdd
   have hp : IsPGroup 2 (CFSG.SL2MinimalFaithful.unipotentHom (F := F)).range := by
-    letI : Fintype F := Fintype.ofFinite F
+    let : Fintype F := Fintype.ofFinite F
     obtain ⟨n, -, hn⟩ := FiniteField.card F 2
     exact IsPGroup.of_card (n := n) (by rw [hcard, Nat.card_eq_fintype_card, hn])
   have hsq : ∀ s ∈ (CFSG.SL2MinimalFaithful.unipotentHom (F := F)).range, s * s = 1 := by
@@ -144,7 +144,7 @@ private theorem exists_commutator_dg_unipotent [CharP F 2] {a : F} (ha0 : a ≠ 
 theorem exists_conj_mem_diagSub_of_odd_order_dvd_card_sub_one [Finite F] [CharP F 2]
     {y : SL2m F} (hodd : Odd (orderOf y)) (hdvd : orderOf y ∣ Nat.card F - 1)
     (hy1 : y ≠ 1) : ∃ P : SL2m F, P⁻¹ * y * P ∈ diagSub F := by
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   have hpow : y ^ (Nat.card F - 1) = 1 := orderOf_dvd_iff_pow_eq_one.mp hdvd
   have hqnat : y ^ Nat.card F = y := by
     have hpos : 0 < Nat.card F := Nat.card_pos
@@ -158,7 +158,7 @@ theorem exists_conj_mem_diagSub_of_odd_order_dvd_card_sub_one [Finite F] [CharP 
   have htr := trace_eq_of_det_sub_eq_zero ha
   have ha0 : a ≠ 0 := by
     rintro rfl
-    have hdet0 : y.1.det = 0 := by simpa using ha
+    have hdet0 : y.1.det = 0 := by simp at ha
     exact zero_ne_one (hdet0.symm.trans y.2)
   have haa : a * a ≠ 1 := by
     intro hsq
@@ -195,7 +195,7 @@ private theorem exists_conj_dg_form [Finite F] [CharP F 2] {y : SL2m F}
     intro h0
     have hdet := sl2_det d
     rw [h0, (mem_diagSub.mp hP).1, (mem_diagSub.mp hP).2] at hdet
-    simpa using hdet
+    simp at hdet
   have hmul : d.1 0 0 * d.1 1 1 = 1 := by
     have hdet := sl2_det d
     rw [(mem_diagSub.mp hP).1, (mem_diagSub.mp hP).2] at hdet
@@ -249,9 +249,6 @@ theorem exists_twoSubgroup_normalizer_commutator_eq [Finite F] [CharP F 2] {y : 
   · rintro _ ⟨s, hs, rfl⟩
     simpa using hS0sq s hs
   · rw [show y = P * d * P⁻¹ by rw [hd]; group]
-    change P * d * P⁻¹ ∈ Subgroup.normalizer
-      (((CFSG.SL2MinimalFaithful.unipotentHom (F := F)).range.map
-        (MulAut.conj P).toMonoidHom : Subgroup (SL2m F)) : Set (SL2m F))
     rw [← Subgroup.map_equiv_normalizer_eq _ (MulAut.conj P)]
     exact Subgroup.mem_map_of_mem _ hdS0
   · refine ⟨P * s * P⁻¹, Subgroup.mem_map_of_mem _ hs, ?_⟩

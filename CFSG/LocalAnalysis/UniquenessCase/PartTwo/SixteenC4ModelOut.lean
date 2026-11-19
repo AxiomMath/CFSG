@@ -17,10 +17,12 @@ namespace UFrame
 variable {V₀ V : Subgroup G} {hV : IsElemAbelian 2 V} {L : Subgroup G}
   (F : UFrame V₀ V hV L)
 
+omit [Finite G] in
 theorem rho_one : F.rho (1 : MulAut (Vtil V₀ V hV)) = AddEquiv.refl _ := by
   ext x : 1
   simp [rho]
 
+omit [Finite G] in
 theorem s16_C4ModelOut_hcom_vec {E : Subgroup (MulAut (Vtil V₀ V hV))}
     (hcom : ∀ x ∈ E, x ≠ 1 → ∀ w : Vtil V₀ V hV, x w = w → ∀ y ∈ E, y w * w⁻¹ ∈ fixV E)
     {x : MulAut (Vtil V₀ V hV)} (hx : x ∈ E) (hx1 : x ≠ 1) {r : Fin 4 → F.K}

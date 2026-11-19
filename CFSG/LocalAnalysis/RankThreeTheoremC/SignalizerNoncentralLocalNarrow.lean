@@ -58,7 +58,7 @@ theorem signalizerNoncentralLocal_of_narrow (hS : Setting G)
   have hprime := sigmaA_prime p hp
   have hM := hext.obstruction.1
   have hA : IsPGroup p ((P : Subgroup G) ⊓ (D ⊔ centralizer (D : Set G)) : Subgroup G) :=
-    P.isPGroup'.to_le inf_le_left
+    P.isPGroup.to_le inf_le_left
   have h3u : 3 ≤ CFSG.Open.pRank p ((P : Subgroup G) ⊓ centralizer ({u} : Set G)) :=
     hU3.trans (pRank_mono p hprime.one_lt (inf_le_inf_left _
       (centralizer_le (Set.singleton_subset_iff.mpr huU))))

@@ -11,7 +11,7 @@ open scoped commutatorElement
 private theorem i314_prime_mul_card_le {G : Type} [Group G] [Finite G] {q : ℕ} (hq : q.Prime)
     {B B' : Subgroup G} (hB' : CFSG.Open.IsElemAbelian q B') (hBB : B < B') :
     q * Nat.card B ≤ Nat.card B' := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hB : CFSG.Open.IsElemAbelian q B := hB'.mono hBB.le
   obtain ⟨s, hs⟩ := IsPGroup.iff_card.mp hB.isPGroup
   obtain ⟨t, ht⟩ := IsPGroup.iff_card.mp hB'.isPGroup
@@ -99,9 +99,9 @@ private theorem i314_index_bound {G : Type} [Group G] [Finite G] {q : ℕ} (hq :
     · subst hBeq
       have hpos : 0 < Nat.card ↥D ^ (d + 1) := pow_pos Nat.card_pos _
       exact Nat.le_mul_of_pos_right _ hpos
-    · obtain ⟨a, haA, haB⟩ := SetLike.exists_of_lt (lt_of_le_of_ne hBA hBeq)
+    · obtain ⟨a, haA, haB⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne hBA hBeq)
       have hBB' : B < B ⊔ Subgroup.zpowers a :=
-        SetLike.lt_iff_le_and_exists.2
+        IsConcreteLE.lt_iff_le_and_exists.2
           ⟨le_sup_left, a, Subgroup.mem_sup_right (Subgroup.mem_zpowers a), haB⟩
       have hB'A : B ⊔ Subgroup.zpowers a ≤ A := sup_le hBA (Subgroup.zpowers_le.2 haA)
       have hq' : q * Nat.card ↥B ≤ Nat.card ↥(B ⊔ Subgroup.zpowers a : Subgroup G) :=
@@ -122,7 +122,7 @@ private theorem i314_index_bound {G : Type} [Group G] [Finite G] {q : ℕ} (hq :
 
 theorem i314At_holds : I314At := by
   intro G _ _ q k R N hq hexp hclass hDN hNR hk
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hq1 : 1 < q := hq.one_lt
   obtain ⟨A, hAR, hA, hAcard⟩ := CFSG.SectionRank.exists_pRank hq1 R
   generalize hm : CFSG.Open.pRank q R = m at hAcard ⊢
@@ -154,7 +154,7 @@ theorem i314At_holds : I314At := by
     by_contra hyA
     have hyS : y ∈ A ⊔ Subgroup.zpowers y := Subgroup.mem_sup_right (Subgroup.mem_zpowers y)
     have hlt : A < A ⊔ Subgroup.zpowers y :=
-      SetLike.lt_iff_le_and_exists.2 ⟨le_sup_left, y, hyS, hyA⟩
+      IsConcreteLE.lt_iff_le_and_exists.2 ⟨le_sup_left, y, hyS, hyA⟩
     have hyab : CFSG.Open.IsElemAbelian q (Subgroup.zpowers y) :=
       CFSG.Open.isElemAbelian_zpowers (hexp y hyR)
     have hcomm : ∀ a ∈ A, ∀ b ∈ Subgroup.zpowers y, a * b = b * a := by

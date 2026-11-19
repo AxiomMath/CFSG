@@ -48,7 +48,7 @@ theorem exists_sylow_three_K
     exact h1.symm
   obtain ⟨S⟩ := (inferInstance : Nonempty (Sylow 3 ↥K))
   refine ⟨(S : Subgroup ↥K).map K.subtype, Subgroup.map_subtype_le _,
-    (S.isPGroup').map _, ?_⟩
+    (S.isPGroup).map _, ?_⟩
   rw [Subgroup.card_map_of_injective K.subtype_injective, Sylow.card_eq_multiplicity, hcardK]
   have h1 : (2 ^ a * 27).factorization 3 = 3 := by
     rw [Nat.factorization_mul (by positivity) (by norm_num), Finsupp.add_apply,

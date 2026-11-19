@@ -52,7 +52,7 @@ variable {n F}
 
 theorem matD_apply (x : spinGroup (quadPlus n F)) (u v : Fin (n + n)) :
     matD n F x u v = Smat x ((posEquiv n).symm u) ((posEquiv n).symm v) := by
-  simp [matD, Matrix.reindexAlgEquiv_apply, Smat]
+  simp [matD, Smat]
 
 theorem Smat_polar (x : spinGroup (quadPlus n F)) (v w : Fin n ⊕ Fin n → F) :
     polar (quadPlus n F) (Smat x *ᵥ v) (Smat x *ᵥ w) = polar (quadPlus n F) v w := by
@@ -72,8 +72,7 @@ theorem matD_unit (x : spinGroup (quadPlus n F)) (a b : Fin (n + n)) :
     ∑ t, matD n F x t a * matD n F x (Fin.rev t) b = if b = Fin.rev a then 1 else 0 := by
   have key := Smat_polar x (Pi.single ((posEquiv n).symm a) 1) (Pi.single ((posEquiv n).symm b) 1)
   rw [polar_quadPlus_eq, polar_quadPlus_eq] at key
-  simp only [Matrix.mulVec_single_one, Matrix.col_apply, Pi.single_apply, mul_ite, mul_one, mul_zero,
-    Finset.sum_ite_eq', Finset.mem_univ, if_true] at key
+  simp only [Matrix.mulVec_single_one, Matrix.col_apply, Pi.single_apply, mul_ite, mul_one, mul_zero] at key
   set a' := (posEquiv n).symm a with ha'
   set b' := (posEquiv n).symm b with hb'
   have hR : (∑ x : Fin n ⊕ Fin n, if x.swap = b' then (if x = a' then (1 : F) else 0) else 0) =
@@ -92,8 +91,8 @@ theorem matD_unit (x : spinGroup (quadPlus n F)) (a b : Fin (n + n)) :
             rw [Equiv.apply_symm_apply, posEquiv_swap, Equiv.apply_symm_apply]
           rw [this]
       by_cases h : a'.swap = b'
-      · rw [if_pos h, if_pos rfl, if_pos (hiff.mp h)]
-      · rw [if_neg h, if_neg (fun h' => h (hiff.mpr h'))]
+      · rw [ite_eq_left h, ite_eq_left rfl, ite_eq_left (hiff.mp h)]
+      · rw [ite_eq_right h, ite_eq_right (fun h' => h (hiff.mpr h'))]
     · intro x _ hx
       simp [hx]
     · simp
@@ -118,7 +117,7 @@ theorem matD_quad (x : spinGroup (quadPlus n F)) (c : Fin (n + n)) :
     by_cases h1 : (Sum.inl i : Fin n ⊕ Fin n) = (posEquiv n).symm c
     · have h2 : (Sum.inr i : Fin n ⊕ Fin n) ≠ (posEquiv n).symm c := by
         rw [← h1]; simp
-      simp [Pi.single_apply, h1, h2]
+      simp [h1, h2]
     · simp [Pi.single_apply, h1]
   rw [hz] at key
   rw [← key]
@@ -267,7 +266,7 @@ variable {n : ℕ} {F : Type} [Field F]
 
 theorem matDe_apply (e : Equiv.Perm (Fin (n + n))) (g : spinGroup (quadPlus n F)) (a b : Fin (n + n)) :
     matDe e g a b = matD n F g (e a) (e b) := by
-  simp [matDe, Matrix.reindexAlgEquiv_apply]
+  simp [matDe]
 
 theorem matDe_injective [CharP F 2] (e : Equiv.Perm (Fin (n + n))) : Function.Injective (matDe (F := F) e) := by
   intro x y h
@@ -340,7 +339,7 @@ theorem matDe_diag_zero [CharP F 2] (e : Equiv.Perm (Fin (n + n)))
       have h1 : ¬ InA j v := fun h => hcon (Or.inl h)
       have h2 : v ≠ Fin.rev a := fun h => hcon (Or.inr h)
       apply hv
-      rw [hS v (Fin.rev a) (fun ⟨h, _⟩ => h1 h), if_neg h2]
+      rw [hS v (Fin.rev a) (fun ⟨h, _⟩ => h1 h), ite_eq_right h2]
     have hnA : ¬ InA j (Fin.rev a) := fun h => InA_not_InA' ha h
     have hAA : ∀ v, InA j v → ¬ InA j (Fin.rev v) := fun v hv h => InA_not_InA' hv h
     rcases key u hu with h | h
@@ -384,7 +383,7 @@ theorem posEquiv_symm_ge (v : Fin (n + n)) (h : n ≤ v.val) :
   apply Fin.ext
   have := v.isLt
   rw [Equiv.apply_symm_apply, posEquiv_inr]
-  simp only [Fin.val_mk]
+  simp only
   omega
 
 @[expose] def tauE (n : ℕ) (hn : 3 ≤ n) : Equiv.Perm (Fin (n + n)) :=
@@ -423,8 +422,8 @@ theorem fE_val (hn : 3 ≤ n) (k : Fin n) (w : Fin (n + n)) :
       (if w.val = n - 1 then n else if w.val = n then n - 1 else w.val) else w.val := by
   unfold fE
   by_cases h : k.val + 2 = n
-  · rw [if_pos h, if_pos h]; exact tauE_val hn w
-  · rw [if_neg h, if_neg h]; simp
+  · rw [ite_eq_left h, ite_eq_left h]; exact tauE_val hn w
+  · rw [ite_eq_right h, ite_eq_right h]; simp
 
 @[expose] def jD (n : ℕ) (k : Fin n) : Fin ((n + n) / 2) :=
   ⟨if k.val + 2 = n then n - 1 else k.val, by have := k.isLt; split_ifs <;> omega⟩
@@ -440,36 +439,36 @@ theorem mvec_pos_iff (hn : 3 ≤ n) (k : Fin n) (w : Fin (n + n)) :
   set v := fE hn k w with hvdef
   have hvlt := v.isLt
   by_cases hk2 : k.val + 2 = n
-  · simp only [hk2, if_true] at hv ⊢
+  · simp only [hk2, ite_true] at hv ⊢
     split_ifs at hv with h1 h2
     · rcases lt_or_ge v.val n with h | h
       · rw [posEquiv_symm_lt v h]
-        simp only [mvec, Sum.elim_inl, Fin.val_mk]
+        simp only [mvec, Sum.elim_inl]
         split_ifs <;> omega
       · rw [posEquiv_symm_ge v h]
-        simp only [mvec, Sum.elim_inr, Fin.val_mk]
+        simp only [mvec, Sum.elim_inr]
         split_ifs <;> omega
     · rcases lt_or_ge v.val n with h | h
       · rw [posEquiv_symm_lt v h]
-        simp only [mvec, Sum.elim_inl, Fin.val_mk]
+        simp only [mvec, Sum.elim_inl]
         split_ifs <;> omega
       · rw [posEquiv_symm_ge v h]
-        simp only [mvec, Sum.elim_inr, Fin.val_mk]
+        simp only [mvec, Sum.elim_inr]
         split_ifs <;> omega
     · rcases lt_or_ge v.val n with h | h
       · rw [posEquiv_symm_lt v h]
-        simp only [mvec, Sum.elim_inl, Fin.val_mk]
+        simp only [mvec, Sum.elim_inl]
         split_ifs <;> omega
       · rw [posEquiv_symm_ge v h]
-        simp only [mvec, Sum.elim_inr, Fin.val_mk]
+        simp only [mvec, Sum.elim_inr]
         split_ifs <;> omega
-  · simp only [hk2, if_false] at hv ⊢
+  · simp only [hk2, ite_false] at hv ⊢
     rcases lt_or_ge v.val n with h | h
     · rw [posEquiv_symm_lt v h]
-      simp only [mvec, Sum.elim_inl, Fin.val_mk]
+      simp only [mvec, Sum.elim_inl]
       split_ifs <;> omega
     · rw [posEquiv_symm_ge v h]
-      simp only [mvec, Sum.elim_inr, Fin.val_mk]
+      simp only [mvec, Sum.elim_inr]
       split_ifs <;> omega
 
 end Frames
@@ -511,7 +510,7 @@ theorem exists_rootElt_e (hn : 3 ≤ n) (e : Equiv.Perm (Fin (n + n)))
     Matrix.single_apply, hQinj.eq_iff, RingEquiv.refl_apply, smul_eq_mul]
   have hrb : Fin.rev b ≠ a := fun h => hba (by rw [← h, Fin.rev_rev])
   have hn2 : ∀ x : F, -x = x := fun x => CharTwo.neg_eq x
-  split_ifs <;> simp_all [sub_eq_add_neg, hn2] <;> ring
+  split_ifs <;> simp_all [sub_eq_add_neg]
 
 end RootE
 

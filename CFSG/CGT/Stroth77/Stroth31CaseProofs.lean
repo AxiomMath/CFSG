@@ -14,56 +14,68 @@ section PrintedImages
 
 variable {D : Subgroup G} {m : ℕ}
 
+omit [Finite G] in
 theorem t100w_t_c (dD : StrothWeakTypeData D (StrothTypeIndex.t100 m)) :
     dD.e (Additive.ofMul (conjBy dD.t_mem dD.c)) =
       (1 : ℤ) • Torus.c + (2 : ℤ) • Torus.a :=
   (dD.conj_apply dD.t_mem dD.t_conj Torus.c).trans (Type100.t_c m)
 
+omit [Finite G] in
 theorem t100w_t_a (dD : StrothWeakTypeData D (StrothTypeIndex.t100 m)) :
     dD.e (Additive.ofMul (conjBy dD.t_mem dD.a)) = (-1 : ℤ) • Torus.a :=
   (dD.conj_apply dD.t_mem dD.t_conj Torus.a).trans (Type100.t_a m)
 
+omit [Finite G] in
 theorem t100w_u_a (dD : StrothWeakTypeData D (StrothTypeIndex.t100 m)) :
     dD.e (Additive.ofMul (conjBy dD.u_mem dD.a)) = (1 : ℤ) • Torus.b :=
   (dD.conj_apply dD.u_mem dD.u_conj Torus.a).trans (Type100.u_a m)
 
+omit [Finite G] in
 @[simp] theorem e_c (dD : StrothWeakTypeData D (StrothTypeIndex.t100 m)) :
     dD.e (Additive.ofMul dD.c) = Torus.c := by
   simp [StrothWeakTypeData.c]
 
+omit [Finite G] in
 @[simp] theorem e_a (dD : StrothWeakTypeData D (StrothTypeIndex.t100 m)) :
     dD.e (Additive.ofMul dD.a) = Torus.a := by
   simp [StrothWeakTypeData.a]
 
+omit [Finite G] in
 @[simp] theorem e_b (dD : StrothWeakTypeData D (StrothTypeIndex.t100 m)) :
     dD.e (Additive.ofMul dD.b) = Torus.b := by
   simp [StrothWeakTypeData.b]
 
+omit [Finite G] in
 theorem eq_of_e_eq (dD : StrothWeakTypeData D (StrothTypeIndex.t100 m)) {x y : D}
     (h : dD.e (Additive.ofMul x) = dD.e (Additive.ofMul y)) : x = y := by
   have h1 : Additive.ofMul x = Additive.ofMul y := by
     simpa using congrArg dD.e.symm h
   simpa using congrArg Additive.toMul h1
 
+omit [Finite G] in
 theorem strothConj_mul (r x y : G) :
     strothConj r (x * y) = strothConj r x * strothConj r y := by
   simp only [strothConj]
   group
 
+omit [Finite G] in
 theorem strothConj_mul_eq (g h x : G) :
     strothConj (g * h) x = strothConj h (strothConj g x) := by
   simp only [strothConj]
   group
 
+omit [Finite G] in
 @[simp] theorem strothConj_one (r : G) : strothConj r 1 = 1 := by
   simp [strothConj]
 
+omit [Finite G] in
 theorem strothConj_pow (r x : G) (n : ℕ) :
     strothConj r (x ^ n) = (strothConj r x) ^ n := by
   induction n with
   | zero => simp
   | succ n ih => rw [pow_succ, pow_succ, strothConj_mul, ih]
 
+omit [Finite G] in
 theorem conj_a_u (dD : StrothWeakTypeData D (StrothTypeIndex.t100 m)) :
     strothConj (dD.u : G) (dD.a : G) = (dD.b : G) := by
   have h : conjBy dD.u_mem dD.a = dD.b := by
@@ -72,6 +84,7 @@ theorem conj_a_u (dD : StrothWeakTypeData D (StrothTypeIndex.t100 m)) :
     simp [StrothWeakTypeData.b]
   simpa [conjBy, strothConj] using congrArg (Subtype.val) h
 
+omit [Finite G] in
 theorem conj_c_t (dD : StrothWeakTypeData D (StrothTypeIndex.t100 m)) :
     strothConj (dD.t : G) (dD.c : G) = (dD.c : G) * (dD.a : G) ^ 2 := by
   have h : conjBy dD.t_mem dD.c = dD.c * dD.a ^ 2 := by
@@ -84,6 +97,7 @@ theorem conj_c_t (dD : StrothWeakTypeData D (StrothTypeIndex.t100 m)) :
     simp
   simpa [conjBy, strothConj] using congrArg (Subtype.val) h
 
+omit [Finite G] in
 theorem conj_a_t (dD : StrothWeakTypeData D (StrothTypeIndex.t100 m)) :
     strothConj (dD.t : G) (dD.a : G) = ((dD.a : G))⁻¹ := by
   have h : conjBy dD.t_mem dD.a = dD.a⁻¹ := by
@@ -101,18 +115,21 @@ section Orders
 
 variable {D : Subgroup G} {m : ℕ}
 
+omit [Finite G] in
 theorem orderOf_c (dD : StrothWeakTypeData D (StrothTypeIndex.t100 m)) :
     orderOf dD.c = 2 ^ m := by
   rw [StrothWeakTypeData.c, ← addOrderOf_ofMul_eq_orderOf, ofMul_toMul, AddEquiv.addOrderOf_eq,
     addOrderOf_c]
   rfl
 
+omit [Finite G] in
 theorem orderOf_a (dD : StrothWeakTypeData D (StrothTypeIndex.t100 m)) :
     orderOf dD.a = 2 ^ (m + 1) := by
   rw [StrothWeakTypeData.a, ← addOrderOf_ofMul_eq_orderOf, ofMul_toMul, AddEquiv.addOrderOf_eq,
     addOrderOf_a]
   rfl
 
+omit [Finite G] in
 theorem orderOf_b (dD : StrothWeakTypeData D (StrothTypeIndex.t100 m)) :
     orderOf dD.b = 2 ^ (m + 1) := by
   rw [StrothWeakTypeData.b, ← addOrderOf_ofMul_eq_orderOf, ofMul_toMul, AddEquiv.addOrderOf_eq,
@@ -125,6 +142,7 @@ section ConjugationCalculus
 
 variable {D : Subgroup G}
 
+omit [Finite G] in
 theorem strothConj_eq_of_mul_inv_mem_centralizer {D : Subgroup G} {a b : G}
     (hab : a * b⁻¹ ∈ Subgroup.centralizer (D : Set G)) {x : G} (hx : x ∈ D) :
     strothConj a x = strothConj b x := by
@@ -139,6 +157,7 @@ theorem strothConj_eq_of_mul_inv_mem_centralizer {D : Subgroup G} {a b : G}
     _ = strothConj b (strothConj (a * b⁻¹) x) := by rw [strothConj_mul_eq]
     _ = strothConj b x := by rw [h1]
 
+omit [Finite G] in
 theorem strothConj_conj_commute {D : Subgroup G}
     (hDc : ∀ x ∈ D, ∀ y ∈ D, x * y = y * x) {r : G}
     (hrN : r ∈ Subgroup.normalizer (D : Set G))
@@ -166,6 +185,7 @@ theorem strothConj_conj_commute {D : Subgroup G}
     _ = strothConj (g * r) x := h
     _ = strothConj r (strothConj g x) := strothConj_mul_eq g r x
 
+omit [Finite G] in
 theorem mul_comm_mem_of_isMulCommutative {D : Subgroup G} [IsMulCommutative D] {x y : G}
     (hx : x ∈ D) (hy : y ∈ D) : x * y = y * x := by
   have h := mul_comm' (⟨x, hx⟩ : D) ⟨y, hy⟩
@@ -190,10 +210,12 @@ section Case1Reduction
 
 variable {D : Subgroup G} {m : ℕ}
 
+omit [Finite G] in
 theorem strothCab_eq_mul (dD : StrothWeakTypeData D (StrothTypeIndex.t100 m)) :
     strothCab dD = (dD.c : G) * strothAB dD := by
   simp [strothCab_def, strothAB_def, mul_assoc]
 
+omit [Finite G] in
 theorem case1_ab_fixed (dD : StrothWeakTypeData D (StrothTypeIndex.t100 m)) {r : G}
     (hcab : strothConj r (strothCab dD) = strothCab dD)
     (hc : strothConj r (dD.c : G) = (dD.c : G)) :
@@ -202,34 +224,39 @@ theorem case1_ab_fixed (dD : StrothWeakTypeData D (StrothTypeIndex.t100 m)) {r :
   rw [strothConj_mul, hc] at hcab
   exact mul_left_cancel hcab
 
+omit [Finite G] in
 theorem case1_a_sq (dD : StrothWeakTypeData D (StrothTypeIndex.t100 m)) {r : G}
     (hrN : r ∈ Subgroup.normalizer (D : Set G))
     (ht : ∃ d ∈ D, strothConj r (dD.t : G) = d * (dD.t : G))
     (hc : strothConj r (dD.c : G) = (dD.c : G)) :
     (strothConj r (dD.a : G)) ^ 2 = (dD.a : G) ^ 2 := by
-  haveI : IsMulCommutative D := dD.isMulCommutative
+  have : IsMulCommutative D := dD.isMulCommutative
   have hDc : ∀ x ∈ D, ∀ y ∈ D, x * y = y * x :=
     fun _ hx _ hy => mul_comm_mem_of_isMulCommutative hx hy
   have hcomm := strothConj_conj_commute (D := D) hDc hrN ht dD.c.2
   rw [hc, conj_c_t dD, strothConj_mul, hc, strothConj_pow] at hcomm
   exact (mul_left_cancel hcomm).symm
 
+omit [Finite G] in
 theorem strothConj_conj_commute_t (dD : StrothWeakTypeData D (StrothTypeIndex.t100 m))
     {r : G} (hrN : r ∈ Subgroup.normalizer (D : Set G))
     (ht : ∃ d ∈ D, strothConj r (dD.t : G) = d * (dD.t : G)) {x : G} (hx : x ∈ D) :
     strothConj (dD.t : G) (strothConj r x) = strothConj r (strothConj (dD.t : G) x) := by
-  haveI : IsMulCommutative D := dD.isMulCommutative
+  have : IsMulCommutative D := dD.isMulCommutative
   exact strothConj_conj_commute (fun _ hx _ hy => mul_comm_mem_of_isMulCommutative hx hy) hrN ht hx
 
+omit [Finite G] in
 theorem strothConj_conj (r g x : G) :
     strothConj r (strothConj g x) = strothConj (strothConj r g) (strothConj r x) := by
   simp only [strothConj]
   group
 
+omit [Finite G] in
 theorem strothConj_inv (r x : G) : strothConj r x⁻¹ = (strothConj r x)⁻¹ := by
   simp only [strothConj]
   group
 
+omit [Finite G] in
 theorem strothConj_eq_self_of_mem_of_abelian {D : Subgroup G}
     (hDc : ∀ x ∈ D, ∀ y ∈ D, x * y = y * x) {d : G} (hd : d ∈ D) {x : G} (hx : x ∈ D) :
     strothConj d x = x := by
@@ -239,6 +266,7 @@ theorem strothConj_eq_self_of_mem_of_abelian {D : Subgroup G}
     _ = d⁻¹ * (d * x) := by rw [← h]
     _ = x := by group
 
+omit [Finite G] in
 theorem case1_exists_involution (dD : StrothWeakTypeData D (StrothTypeIndex.t100 m)) {r : G}
     (hrN : r ∈ Subgroup.normalizer (D : Set G))
     (hu : ∃ d ∈ D, strothConj r (dD.u : G) = d * (dD.u : G))
@@ -249,7 +277,7 @@ theorem case1_exists_involution (dD : StrothWeakTypeData D (StrothTypeIndex.t100
       strothConj (dD.t : G) s = s ∧
       strothConj r (dD.a : G) = (dD.a : G) * s ∧
       strothConj r (dD.b : G) = (dD.b : G) * s := by
-  haveI : IsMulCommutative D := dD.isMulCommutative
+  have : IsMulCommutative D := dD.isMulCommutative
   have hDc : ∀ x ∈ D, ∀ y ∈ D, x * y = y * x :=
     fun _ hx _ hy => mul_comm_mem_of_isMulCommutative hx hy
   obtain ⟨du, hduD, hdu⟩ := hu
@@ -321,6 +349,7 @@ theorem case1_exists_involution (dD : StrothWeakTypeData D (StrothTypeIndex.t100
           group
   exact ⟨s, hsD, hss, hsu, hst, hsval, by rw [hbu, hsu]⟩
 
+omit [Finite G] in
 theorem case1_normal_form (dD : StrothWeakTypeData D (StrothTypeIndex.t100 m)) {r : G}
     (hrN : r ∈ Subgroup.normalizer (D : Set G))
     (hu : ∃ d ∈ D, strothConj r (dD.u : G) = d * (dD.u : G))
@@ -345,6 +374,7 @@ section RemainingCases
 
 variable {D : Subgroup G} {m : ℕ}
 
+omit [Finite G] in
 theorem stroth31Case1 (dD : StrothWeakTypeData D (StrothTypeIndex.t100 m)) {r : G}
     (hrN : r ∈ Subgroup.normalizer (D : Set G))
     (hu : ∃ d ∈ D, strothConj r (dD.u : G) = d * (dD.u : G))
@@ -398,6 +428,7 @@ theorem stroth31Case2 {X : StrothAmbient G} {m : ℕ} {Z : StrothDatum X}
   · obtain ⟨h1, h2⟩ := hnf2 h
     exact hsub2 hfus h h1 h2
 
+omit [Finite G] in
 theorem stroth31Case3 (dD : StrothWeakTypeData D (StrothTypeIndex.t100 m)) {r : G}
     (hsplit : strothConj r (dD.c : G) = ((dD.c : G))⁻¹ ∨
       strothConj r (dD.c : G) = ((dD.c : G))⁻¹ * (strothAB dD) ^ (2 ^ m))
@@ -408,6 +439,7 @@ theorem stroth31Case3 (dD : StrothWeakTypeData D (StrothTypeIndex.t100 m)) {r : 
   · exact hsub1 h
   · exact hsub2 h
 
+omit [Finite G] in
 theorem stroth31Case4 (dD : StrothWeakTypeData D (StrothTypeIndex.t100 m)) {r : G}
     (hsplit : strothConj r (dD.c : G) = ((dD.c : G))⁻¹ ∨
       strothConj r (dD.c : G) = ((dD.c : G))⁻¹ * (strothAB dD) ^ (2 ^ m))

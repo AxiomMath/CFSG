@@ -82,7 +82,7 @@ variable {S : Type*} [CommGroup S]
 
 theorem uc611_l47_eq_one_of_zpow_odd (hS : IsPGroup 2 S) {u : S} {n : ℤ} (hn : Odd n)
     (h : u ^ n = 1) : u = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 hS) u
   have hdvd : (orderOf u : ℤ) ∣ n := orderOf_dvd_iff_zpow_eq_one.2 h
   rw [hk] at hdvd
@@ -236,7 +236,7 @@ theorem uc611_gl_pCoreOf_le_primeCore (M : Subgroup G) : pCoreOf 2 M ≤ rankThr
   refine le_sSup ⟨CFSG.openPCoreOf_le 2 M, ?_, ?_⟩
   · rw [CFSG.openPCoreOf_subgroupOf]
     exact CFSG.pCore_normal
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨k, hk⟩ := (IsPGroup.iff_card (p := 2)).1 (uc611_gl_isPGroup_pCoreOf M)
     rw [hk]
     exact Nat.Coprime.pow_right k (by norm_num)
@@ -249,7 +249,7 @@ theorem uc611_gl_le_normalizer_pCoreOf (M : Subgroup G) : M ≤ normalizer (pCor
 
 theorem uc611_pCoreOf_le_Q (D : Data G) {Q : Subgroup G}
     (hQ : IsSylowOf 2 Q (rankThreePrimeCore 3 D.M)) : pCoreOf 2 D.M ≤ Q := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hKM : rankThreePrimeCore 3 D.M ≤ D.M :=
     CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.AlmostSimple.relPPrimeCore_le D.M
   have h1 := hQ.inf_of_le_normalizer (uc611_gl_pCoreOf_le_primeCore D.M)
@@ -260,8 +260,8 @@ theorem uc611_pCoreOf_le_Q (D : Data G) {Q : Subgroup G}
 
 theorem uc611_inf_centralizer_Q (D : Data G) {P Q : Subgroup G} (hP3 : IsPGroup 3 P) (hPM : P ≤ D.M)
     (hQ : IsSylowOf 2 Q (rankThreePrimeCore 3 D.M)) : P ⊓ centralizer (Q : Set G) = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hNQ := uc611_pCoreOf_le_Q D hQ
   have hdis := IsPGroup.disjoint_of_ne 3 2 (by norm_num) P (pCoreOf 2 D.M) hP3
     (uc611_gl_isPGroup_pCoreOf D.M)
@@ -280,13 +280,13 @@ theorem uc611_gl_isPGroup_of_wreath {P : Subgroup G}
 
 theorem uc611_gl_le_of_clauseC {M P : Subgroup G} (hc : rankThreeClauseC M P) : P ≤ M := by
   obtain ⟨-, ⟨e⟩, hΓ, -⟩ := hc
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hP3 := uc611_gl_isPGroup_of_wreath e
   have hcard : 1 < Nat.card P := by
     rw [Nat.card_congr e.toEquiv, RegularWreathProduct.card]
     simp
-  haveI : Nontrivial P := Finite.one_lt_card_iff_nontrivial.1 hcard
-  haveI : Nontrivial (center P) := hP3.center_nontrivial
+  have : Nontrivial P := Finite.one_lt_card_iff_nontrivial.1 hcard
+  have : Nontrivial (center P) := hP3.center_nontrivial
   have hJ3 : IsPGroup 3 (thompsonSubgroup P) := hP3.to_le (CFSG.Open.thompsonSubgroup_le_self P)
   have hJ1 : thompsonSubgroup P ≠ ⊥ := by
     intro h
@@ -329,7 +329,7 @@ theorem uc611_clauseC_at {M P Q X : Subgroup G} (hc : rankThreeClauseC M P)
     ∃ n : ℕ, 1 ≤ n ∧ rankThreeIsQ8CentralCyclic (Q ⊓ centralizer (X : Set G)) n := by
   have hPM := uc611_gl_le_of_clauseC hc
   obtain ⟨-, ⟨e⟩, -, hall⟩ := hc
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hP3 := uc611_gl_isPGroup_of_wreath e
   obtain ⟨Q₀, hQ₀K, hQ₀2, hQ₀idx, hPQ₀, m, hm1, hm⟩ := hall X hXP hX3 hXA
   have hcop : ¬ 3 ∣ Nat.card ↥(rankThreePrimeCore 3 M) := fun hd =>

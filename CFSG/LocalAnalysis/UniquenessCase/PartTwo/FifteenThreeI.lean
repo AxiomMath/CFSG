@@ -131,7 +131,7 @@ theorem s15_Three_sig_big (hgapSig : S15ThreeSigSubPiGap D) (hgapRank : S15Three
       D.sig = {p} ∧ CFSG.Open.pRank p D.M = 3 := by
   have hpf := h.hyp125.pairFacts
   have hMs : D.M ≤ stabTil V₀ V := le_stabTil hpf.le_normalizer hpf.le_normalizer₀
-  haveI := s15_Three_cTilde_normal (D := D) hV hMs
+  have := s15_Three_cTilde_normal (D := D) hV hMs
   have hH11 : F11.Hyp11 D V₀ V := Hyp125.hyp11 h127 h.hyp125
   have hdvd := s15_Three_sig_sub_pi hgapSig hx h614 h76 h82 h hV hshape hperf hL2 hrs hsig hSg h3
     hns

@@ -35,7 +35,7 @@ theorem eq_sum_spanVec {u : Fin 12 → ZMod 2} (hu : ∑ i, u i = 0) :
   funext j
   simp only [spanVec, Finset.sum_apply, Pi.smul_apply, Pi.add_apply, smul_eq_mul, mul_add,
     Finset.sum_add_distrib, Pi.single_apply, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq,
-    Finset.mem_univ, if_true]
+    Finset.mem_univ, ite_true]
   by_cases hj : j = 0 <;> simp [hj, hu]
 
 theorem linear_eq_of_spanVec {X : Type*} [AddCommMonoid X] [Module (ZMod 2) X]
@@ -135,7 +135,7 @@ theorem m12M_ker {u : Fin 12 → ZMod 2} (hu : ∑ i, u i = 0) (h : m12M *ᵥ u 
     simp only [Matrix.mulVecLin_apply] at this
     rw [this]
     funext j
-    simp [Finset.sum_apply, Matrix.mulVec_smul, hc, Finset.sum_mul, mul_assoc]
+    simp [Finset.sum_apply, Matrix.mulVec_smul, hc]
   rw [h1] at h2
   have h3 : ∀ a : ZMod 2, a = 0 ∨ a = 1 := by decide
   rcases h3 (∑ i, u i * c i) with h4 | h4

@@ -23,7 +23,7 @@ theorem uc22p22r_L2_card [Finite X] (h : IsL2 X n) : Nat.card X = 2 ^ n * ((2 ^ 
 theorem uc22p22r_L2_card_normalizer [Finite X] (h : IsL2 X n) (U : Sylow 2 X) :
     Nat.card (normalizer ((U : Subgroup X) : Set X)) * (2 ^ n + 1) = Nat.card X := by
   obtain ⟨-, F, _, _, hFcard, _, ⟨e⟩⟩ := uc22p22g_isL2_psl h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set U' : Sylow 2 (CFSG.GorensteinWalter.PSL2 F) :=
     Sylow.mapSurjective (f := e.toMonoidHom) e.surjective U with hU'
   have hN : (normalizer ((U : Subgroup X) : Set X)).map e.toMonoidHom =
@@ -52,7 +52,7 @@ theorem uc22p22r_dvd_succ {p : ℕ} (hpn : (2 : ℤ) ^ n ≡ -1 [ZMOD (p : ℤ)]
 
 theorem uc22p22r_L2_exists_orderOf [Finite X] (h : IsL2 X n) {p : ℕ} (hp : p.Prime)
     (hpn : (2 : ℤ) ^ n ≡ -1 [ZMOD (p : ℤ)]) : ∃ x : X, orderOf x = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq : 1 ≤ 2 ^ n := Nat.one_le_two_pow
   have h2 : (2 ^ n) ^ 2 - 1 = (2 ^ n + 1) * (2 ^ n - 1) := by
     rw [← Nat.sq_sub_sq, one_pow]
@@ -188,8 +188,8 @@ theorem uc22p22r_conj_eq_or [Finite G] (hKs : IsSimpleGroup ↥K) (hcomm : ∀ a
     refine ⟨g⁻¹ * x * g * k * (g⁻¹ * x * g)⁻¹, hKX _ hx' k hk, ?_⟩
     show g * (g⁻¹ * x * g * k * (g⁻¹ * x * g)⁻¹) * g⁻¹ = x * (g * k * g⁻¹) * x⁻¹
     group
-  haveI := hKs
-  haveI hN : ((K' ⊓ K).subgroupOf K).Normal := by
+  have := hKs
+  have hN : ((K' ⊓ K).subgroupOf K).Normal := by
     constructor
     intro y hy k
     rw [Subgroup.mem_subgroupOf] at hy ⊢
@@ -242,10 +242,10 @@ theorem uc22p22r_pElementSubgroup_normal :
 theorem uc22p22r_le_pElementSubgroup {K : Subgroup G} (hKs : IsSimpleGroup ↥K) {z : G} (hzK : z ∈ K)
     (hzo : orderOf z = p) (hz1 : z ≠ 1) : K ≤ CFSG.RankThree.PartOne.pElementSubgroup p ⊤ := by
   set P := CFSG.RankThree.PartOne.pElementSubgroup p (⊤ : Subgroup G) with hP
-  haveI : P.Normal := uc22p22r_pElementSubgroup_normal
-  haveI := hKs
+  have : P.Normal := uc22p22r_pElementSubgroup_normal
+  have := hKs
   have hzP : z ∈ P := Subgroup.subset_closure ⟨Subgroup.mem_top z, 1, by rw [hzo, pow_one]⟩
-  haveI hN : (P.subgroupOf K).Normal := Subgroup.normal_subgroupOf
+  have hN : (P.subgroupOf K).Normal := Subgroup.normal_subgroupOf
   rcases Subgroup.Normal.eq_bot_or_eq_top (P.subgroupOf K) with h | h
   · exfalso
     have h1 : (⟨z, hzK⟩ : ↥K) ∈ P.subgroupOf K := Subgroup.mem_subgroupOf.2 hzP
@@ -465,7 +465,7 @@ theorem uc22p22r_mem_of_inner [Finite G] {K L : Subgroup G} (hcomm : ∀ a ∈ K
 theorem uc22p22r_eigen {Q : Type} [Group Q] (hQ : ∀ x y : Q, x * y = y * x) {p : ℕ} (hp : p.Prime)
     (τ : MulAut Q) (hτ : ∀ x, τ (τ x) = x) {a : Q} (ha : orderOf a = p) :
     ∃ b : Q, orderOf b = p ∧ (τ b = b ∨ τ b = b⁻¹) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_cases h : τ a * a = 1
   · exact ⟨a, ha, Or.inr (eq_inv_of_mul_eq_one_left h)⟩
   · refine ⟨τ a * a, orderOf_eq_prime ?_ h, Or.inl ?_⟩
@@ -489,8 +489,8 @@ theorem uc22p22r_exists_invariant_lift [Finite G] {T S N : Subgroup G} (hT2 : Is
     ∃ P : Subgroup G, S ≤ P ∧ P ≤ N ∧ T ≤ normalizer (P : Set G) ∧
       Nat.card P = Nat.card S * p ^ (Nat.card (↥N ⧸ S.subgroupOf N)).factorization p := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let ρ₀ : ↥T →* MulAut ↥N := N.normalizerMonoidHom.comp (Subgroup.inclusion hTN)
   have hρ₀ : ∀ (t : ↥T) (x : ↥N), ((ρ₀ t x : ↥N) : G) = (t : G) * x * (t : G)⁻¹ := by
     intro t x
@@ -557,7 +557,7 @@ theorem uc22p22r_fixSub_inv {A : Subgroup H} {g : H} (hg : g ∈ normalizer (A :
 theorem uc22p22r_exists_fixed_ne_zero [Finite Vmod] {p : ℕ} (hp : p.Prime) {P : Subgroup H} (hP : IsPGroup p P)
     {Z : Submodule (ZMod 2) Vmod} (hZ : CFSG.HardMathSupport.Meierfrankenfeld.GeneralFF.IsInvariant ρ P Z) (hZ1 : ¬ Nat.card ↥Z ≡ 1 [MOD p]) :
     ∃ w ∈ Z, w ≠ 0 ∧ ∀ g ∈ P, ρ g w = w := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let _ : MulAction ↥P ↥Z :=
     { smul := fun g z => ⟨ρ g z, hZ g g.2 z z.2⟩
       one_smul := fun z => Subtype.ext (by

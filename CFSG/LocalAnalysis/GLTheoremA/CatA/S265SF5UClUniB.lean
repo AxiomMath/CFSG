@@ -29,8 +29,8 @@ theorem false_of_component_primeForm_five {f N e : ℕ} {K : Type} [Field K]
     (hZ : Subgroup.center ↥T = ⊥) (h5 : 5 ∣ 2 ^ e + 1) (h25 : ¬ 25 ∣ 2 ^ e + 1)
     (hcard : Nat.card T = ordTwistedA 4 (2 ^ e)) : False := by
   classical
-  haveI := h.finite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := h.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hq : 2 ≤ 2 ^ f := by
     have := Nat.one_lt_pow (by have := h.one_le; omega : f ≠ 0) (by norm_num : 1 < 2)
     omega
@@ -43,7 +43,7 @@ theorem false_of_component_primeForm_five {f N e : ℕ} {K : Type} [Field K]
   have hH : UnitaryPrimaryData h.bar (idForm h N) x :=
     primaryData_toLin' h A.2 (by norm_num : Nat.Prime 5) (by norm_num) hA
   obtain ⟨a, haT⟩ := exists_good_block_of_component hq A hxdef hH T hT
-  haveI : Fact (Irreducible (a.1 : K[X])) := ⟨irreducible_of_mem_primaryFactors a.1.2⟩
+  have : Fact (Irreducible (a.1 : K[X])) := ⟨irreducible_of_mem_primaryFactors a.1.2⟩
   have hd : 1 ≤ (a.1 : K[X]).natDegree :=
     Irreducible.natDegree_pos (irreducible_of_mem_primaryFactors a.1.2)
   have hfd : 1 ≤ f * (a.1 : K[X]).natDegree := Nat.mul_pos h.one_le hd
@@ -151,7 +151,7 @@ theorem false_of_component_primeForm_five {f N e : ℕ} {K : Type} [Field K]
     rw [← eSU.apply_symm_apply (z : ↥(StatedSU _ _ E)), hu1, map_one]
     rfl
   obtain ⟨eSL⟩ := nonempty_specialBlock_mulEquiv_SL (pairedPrimaryBlock hH a.1 (Ne.symm hself))
-  haveI : Finite (AdjoinRoot (a.1 : K[X])) := Module.finite_of_finite K
+  have : Finite (AdjoinRoot (a.1 : K[X])) := Module.finite_of_finite K
   obtain ⟨g, hg, hker⟩ := exists_central_surjection_of_mulEquiv eSL gS hgSsurj hgSker
   refine hSL _ _ (AdjoinRoot (a.1 : K[X])) a.2.1 (by omega)
     (CFSG.RankThree.PartOne.KCUnitary.natCard_adjoinRoot h) (fun _ => ?_) g hg hker

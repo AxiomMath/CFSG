@@ -90,7 +90,7 @@ theorem exists_nonsingular_of_moved (h3 : (3 : K) ≠ 0) {Q : QuadraticForm K V}
   have hu₀W : u₀ + g u₀ + g (g u₀) = 0 := by
     have h1 : u₀ + g u₀ + g (g u₀) = (3 : K) • s - ((3 : K) • s) := by
       rw [hu₀]
-      simp only [map_sub, map_smul, hfix w, ← hs]
+      simp only [map_sub, map_smul]
       simp only [hs, map_add]
       rw [hg3' w]
       module

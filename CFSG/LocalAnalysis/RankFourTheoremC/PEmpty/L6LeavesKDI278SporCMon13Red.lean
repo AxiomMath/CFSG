@@ -64,10 +64,10 @@ theorem balance_mulAut_of_inner {X : Type} [Group X] [Finite X]
 
 theorem gmat_center_eq_bot :
     Subgroup.center CFSG.Monster.Generated.Gmat = ⊥ := by
-  haveI : IsSimpleGroup ↥CFSG.Monster.Generated.Gmat :=
+  have : IsSimpleGroup ↥CFSG.Monster.Generated.Gmat :=
     generated_rational_group_finite_simple.2.1
-  haveI : Finite ↥CFSG.Monster.Generated.Gmat := generated_rational_group_finite_simple.2.2
-  haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  have : Finite ↥CFSG.Monster.Generated.Gmat := generated_rational_group_finite_simple.2.2
+  have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
   obtain ⟨-, -, -, -, -, hdg, -, -⟩ := d13_gw_facts
   apply CFSG.HardMathSupport.Dickson.BMRows.M13Normal.center_eq_bot_of_simple_nonab
   refine ⟨gw genD13W2, gw genD13W0, fun h => ?_⟩
@@ -83,8 +83,8 @@ theorem kdI278SporCMonster_of_xE
       Y ≤ Subgroup.centralizer ({gw thirteenX} : Set CFSG.Monster.Generated.Gmat) →
       ¬ 13 ∣ Nat.card Y → R ≤ Subgroup.normalizer (Y : Set CFSG.Monster.Generated.Gmat) → Y = ⊥) :
     KDI278SporCMonster := by
-  haveI : Finite ↥CFSG.Monster.Generated.Gmat := generated_rational_group_finite_simple.2.2
-  haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  have : Finite ↥CFSG.Monster.Generated.Gmat := generated_rational_group_finite_simple.2.2
+  have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
   have hx : orderOf (gw thirteenX) = 13 := orderOf_xE
   have hc : orderOf (gw genD13W1) = 13 := orderOf_c13
   have hbal := balance_of_census_local hc hx census_thirteen balance_gmat_c13 hD
@@ -93,7 +93,7 @@ theorem kdI278SporCMonster_of_xE
       (TauCeti.CFSGIndex.sporadic TauCeti.SporadicName.M).Group) :=
     CFSG.Blueprint.NativeSporadic.MonsterModel.iso_gmat_tauCeti
   intro Z _ _ K hKn hsK hC B hB hBc _ W hBW hW
-  haveI : K.Normal := hKn
+  have : K.Normal := hKn
   obtain ⟨eK⟩ := hsK
   obtain ⟨b⟩ := hiso
   have f : ↥K ≃* ↥CFSG.Monster.Generated.Gmat := eK.trans b.symm

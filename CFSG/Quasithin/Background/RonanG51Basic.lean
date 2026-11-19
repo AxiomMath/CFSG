@@ -52,14 +52,14 @@ theorem a6_irred (i : Fin 4) :
     Nontrivial (D i) ∧ ∀ S : AddSubgroup (D i),
       (∀ (g : ↥(alternatingGroup (Fin 6))) (m : D i), m ∈ S → a6BinaryRep i g m ∈ S) →
         S = ⊥ ∨ S = ⊤ := by
-  haveI := isIrreducible_a6BinaryRep i
+  have := isIrreducible_a6BinaryRep i
   exact ⟨nontrivial_of_isIrreducible (a6BinaryRep i), fun S hS =>
     addSubgroup_eq_bot_or_top_of_isIrreducible (a6BinaryRep i) (isIrreducible_a6BinaryRep i) S hS⟩
 
 theorem mrep_irred (i : Fin 4) :
     Nontrivial (D i) ∧ ∀ S : AddSubgroup (D i),
       (∀ (g : Equiv.Perm (Fin 6)) (m : D i), m ∈ S → Mrep i g m ∈ S) → S = ⊥ ∨ S = ⊤ := by
-  haveI := isIrreducible_Mrep i
+  have := isIrreducible_Mrep i
   exact ⟨nontrivial_of_isIrreducible (Mrep i), fun S hS =>
     addSubgroup_eq_bot_or_top_of_isIrreducible (Mrep i) (isIrreducible_Mrep i) S hS⟩
 
@@ -85,7 +85,7 @@ theorem a6_not_iso (i j : Fin 4) (hij : i ≠ j) :
   have he : ∀ g : ↥(alternatingGroup (Fin 6)),
       e.toLinearMap ∘ₗ a6BinaryRep i g = a6BinaryRep j g ∘ₗ e.toLinearMap :=
     fun g => LinearMap.ext fun m => hf g m
-  haveI := isEmpty_equiv_a6BinaryRep i j hij
+  have := isEmpty_equiv_a6BinaryRep i j hij
   exact IsEmpty.false (Representation.Equiv.mk e he)
 
 theorem a6_complete {W : Type} [AddCommGroup W] [Module (ZMod 2) W] [Finite W] [Nontrivial W]
@@ -94,7 +94,7 @@ theorem a6_complete {W : Type} [AddCommGroup W] [Module (ZMod 2) W] [Finite W] [
       S = ⊥ ∨ S = ⊤) :
     ∃ i : Fin 4, ∃ f : W ≃+ D i, ∀ (g : ↥(alternatingGroup (Fin 6))) (m : W),
       f (σ g m) = a6BinaryRep i g (f m) := by
-  haveI : σ.IsIrreducible := isIrreducible_of_addSubgroup_bot_or_top σ hS
+  have : σ.IsIrreducible := isIrreducible_of_addSubgroup_bot_or_top σ hS
   obtain ⟨-, i, ⟨e⟩⟩ := a6BinaryRep_complete W σ this
   exact ⟨i, e.toLinearEquiv.toAddEquiv, fun g m =>
     Representation.IntertwiningMap.isIntertwining _ _ e.toIntertwiningMap g m⟩

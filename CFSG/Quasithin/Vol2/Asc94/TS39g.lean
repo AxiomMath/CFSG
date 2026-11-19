@@ -10,9 +10,11 @@ open CFSG.CGT.Timmesfeld75 CFSG.Open
 
 variable {G : Type} [Group G] [Finite G] {z : G}
 
+omit [Finite G] in
 theorem Frame3.Δ_nonempty (F : Frame3 G z) (i : Fin 7) : (F.Δ i).Nonempty :=
   Set.nonempty_of_ncard_ne_zero (by rw [F.Δ_card i]; fin_cases i <;> simp)
 
+omit [Finite G] in
 theorem Frame3.Δ1_sub_Sz (F : Frame3 G z) (hU1 : ∀ u ∈ F.U, u ≠ 1 → InZG z u) :
     F.Δ 1 ⊆ F.Sz := by
   intro s hs
@@ -21,12 +23,14 @@ theorem Frame3.Δ1_sub_Sz (F : Frame3 G z) (hU1 : ∀ u ∈ F.U, u ≠ 1 → InZ
   simp only [Set.mem_insert_iff, Set.mem_singleton_iff, not_or] at h2
   exact ⟨(Subgroup.mem_inf.1 h1).1, h2.1, hU1 _ (Subgroup.mem_inf.1 h1).2 h2.1⟩
 
+omit [Finite G] in
 theorem Frame3.Δ0_sub_Sz (F : Frame3 G z) : F.Δ 0 ⊆ F.Sz := by
   intro s hs
   rw [F.Δ0] at hs
   rw [Set.mem_singleton_iff.1 hs]
   exact ⟨F.z_mem_A, F.z_ne_one, 1, by simp⟩
 
+omit [Finite G] in
 theorem Frame3.not_Δ2_sub_Sz (F : Frame3 G z)
     (hU2 : ¬ ∀ u ∈ F.U2, u ≠ 1 → InZG z u) : ¬ F.Δ 2 ⊆ F.Sz := by
   intro hsub
@@ -46,6 +50,7 @@ theorem Frame3.not_Δ3_sub_Sz (F : Frame3 G z) : ¬ F.Δ 3 ⊆ F.Sz := by
   obtain ⟨-, -, g, hg⟩ := hsub ha
   exact s39_4 F.toFrame1 a (F.Δ3_sub a ha) g hg.symm
 
+omit [Finite G] in
 theorem Frame3.dich (F : Frame3 G z) (i : Fin 7) : F.Δ i ⊆ F.Sz ∨ Disjoint (F.Δ i) F.Sz := by
   by_cases h : ∃ a, a ∈ F.Δ i ∧ a ∈ F.Sz
   · left
@@ -75,7 +80,7 @@ theorem s39_7 (F : Frame3 G z) (hU1 : ∀ u ∈ F.U, u ≠ 1 → InZG z u)
   have h2 := F.not_Δ2_sub_Sz hU2
   have h3 := F.not_Δ3_sub_Sz
   have hsum := F.ncard_Sz_eq_sum hdich
-  rw [Fin.sum_univ_seven, if_pos h0, if_pos h1, if_neg h2, if_neg h3] at hsum
+  rw [Fin.sum_univ_seven, ite_eq_left h0, ite_eq_left h1, ite_eq_right h2, ite_eq_right h3] at hsum
   have c0 : (F.Δ 0).ncard = 1 := by simpa using F.Δ_card 0
   have c1 : (F.Δ 1).ncard = 6 := by simpa using F.Δ_card 1
   have c4 : (F.Δ 4).ncard = 12 := by simpa using F.Δ_card 4
@@ -86,18 +91,18 @@ theorem s39_7 (F : Frame3 G z) (hU1 : ∀ u ∈ F.U, u ≠ 1 → InZG z u)
       (n = 19 ∨ n = 31 ∨ n = 43 ∨ n = 55) → False := by
     intro n hn hj hcases
     rcases hcases with rfl | rfl | rfl | rfl
-    · haveI : Fact (Nat.Prime 19) := ⟨by norm_num⟩
+    · have : Fact (Nat.Prime 19) := ⟨by norm_num⟩
       refine Frame2.not_prime_dvd_card_normalizer F.toFrame2 19 (by norm_num)
         (hcong_of 19 (by decide)) ?_
       rw [Frame2.card_normalizer_A F.toFrame2, hn]
       exact dvd_mul_right 19 _
     · exact F.false_of_card_31 hU1 hn hj
-    · haveI : Fact (Nat.Prime 43) := ⟨by norm_num⟩
+    · have : Fact (Nat.Prime 43) := ⟨by norm_num⟩
       refine Frame2.not_prime_dvd_card_normalizer F.toFrame2 43 (by norm_num)
         (hcong_of 43 (by decide)) ?_
       rw [Frame2.card_normalizer_A F.toFrame2, hn]
       exact dvd_mul_right 43 _
-    · haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+    · have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
       refine Frame2.not_prime_dvd_card_normalizer F.toFrame2 11 (by norm_num)
         (hcong_of 11 (by decide)) ?_
       rw [Frame2.card_normalizer_A F.toFrame2, hn]
@@ -134,7 +139,7 @@ theorem s39_7 (F : Frame3 G z) (hU1 : ∀ u ∈ F.U, u ≠ 1 → InZG z u)
         intro l hl d hd
         by_cases hd1 : d = 1
         · rw [hd1]
-          simpa using (F.A ⊓ F.U).one_mem
+          simp
         · exact hSz _ (F.conj_mem_Sz (hSz' d hd hd1) hl)
       rw [Subgroup.mem_normalizer_iff]
       intro d

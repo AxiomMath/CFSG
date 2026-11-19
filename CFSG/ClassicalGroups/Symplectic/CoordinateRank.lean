@@ -71,10 +71,10 @@ theorem finrank_map_sub_one_sup_of_coords {W₁ W₂ : Submodule K E} (hdisj : D
     exact W.sub_mem (hW w hw) hw
   have h1 := finrank_map_sub_one_of_coords e₁ T hT₁ t he₁
   have h2 := finrank_map_sub_one_of_coords e₂ T hT₂ t he₂
-  haveI : FiniteDimensional K (Submodule.map (T - 1) W₁) := by
+  have : FiniteDimensional K (Submodule.map (T - 1) W₁) := by
     rw [map_sub_one_eq_map_range e₁ T hT₁ t he₁]
     infer_instance
-  haveI : FiniteDimensional K (Submodule.map (T - 1) W₂) := by
+  have : FiniteDimensional K (Submodule.map (T - 1) W₂) := by
     rw [map_sub_one_eq_map_range e₂ T hT₂ t he₂]
     infer_instance
   have hd : Disjoint (Submodule.map (T - 1) W₁) (Submodule.map (T - 1) W₂) :=

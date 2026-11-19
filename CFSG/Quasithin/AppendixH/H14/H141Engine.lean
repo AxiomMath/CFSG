@@ -115,7 +115,7 @@ theorem EngineHyp.decomp (h : EngineHyp tab hT M gens gm L) :
       have hg1 : g k = 1 := by
         show (if hk' : (k : ℕ) = 0 then (1 : S24)
           else Classical.choose (hstAt_exists (k : ℕ) k.2)) = 1
-        rw [dif_pos hk]
+        rw [dite_eq_left hk]
       refine ⟨?_, fun n hn => ?_⟩
       · rw [hg1]; exact M.one_mem
       · rw [hg1, one_mul, inv_one, mul_one, hst0, linAct_idSt hn]
@@ -124,7 +124,7 @@ theorem EngineHyp.decomp (h : EngineHyp tab hT M gens gm L) :
         show (if hk' : (k : ℕ) = 0 then (1 : S24)
           else Classical.choose (hstAt_exists (k : ℕ) k.2)) =
             Classical.choose (hstAt_exists (k : ℕ) k.2)
-        rw [dif_neg hk]
+        rw [dite_eq_right hk]
       rw [hgne]
       exact hspec
   let act : S24 → (Fin 64 → S24) := fun x n => x * tab64Perm tab (n : ℕ) * x⁻¹
@@ -176,7 +176,7 @@ theorem EngineHyp.decomp (h : EngineHyp tab hT M gens gm L) :
   · show g k = 1
     show (if hk' : (k : ℕ) = 0 then (1 : S24)
       else Classical.choose (hstAt_exists (k : ℕ) k.2)) = 1
-    rw [dif_pos hk0]
+    rw [dite_eq_left hk0]
   · exfalso
     exact hk0 (hstAt_inj (k : ℕ) 0 k.2 hNpos (by rw [hstid, hhead0]))
 

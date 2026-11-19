@@ -11,7 +11,7 @@ open Subgroup
 
 theorem lit_normal_perm6 (N : Subgroup (Equiv.Perm (Fin 6))) [N.Normal] (hN : N ≠ ⊥) :
     alternatingGroup (Fin 6) ≤ N := by
-  haveI : Nontrivial N := (Subgroup.nontrivial_iff_ne_bot N).mpr hN
+  have : Nontrivial N := (Subgroup.nontrivial_iff_ne_bot N).mpr hN
   exact Equiv.Perm.alternatingGroup_le_of_normal (by simp) this
 
 section OddCore

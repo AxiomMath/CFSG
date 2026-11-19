@@ -19,6 +19,7 @@ section Core
 
 variable {K : Type} [Field K] [Finite K] {p : ℕ} [Fact p.Prime] [CharP K p]
 
+omit [Finite K] in
 theorem center_SL3_eq_bot (hcube : ∀ c : K, c ^ 3 = 1 → c = 1) :
     Subgroup.center SL(3, K) = ⊥ := by
   rw [eq_bot_iff]
@@ -76,8 +77,8 @@ theorem inspL3_L {G : Type} [Group G] [Finite G] {p f : ℕ} (hq : p ^ f % 3 = 2
   rcases hL with ⟨-, ⟨-, K, hKf, hKfin, hK, ⟨e⟩⟩⟩ | ⟨h, -⟩ | ⟨h, -⟩ | ⟨h, -⟩
   · have hp : p.Prime := hadm.1
     have hf : 1 ≤ f := hadm.2.1
-    haveI : Fact p.Prime := ⟨hp⟩
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fact p.Prime := ⟨hp⟩
+    have : Fintype K := Fintype.ofFinite K
     have hKc : CharP K p :=
       charP_of_card_eq_prime_pow (f := f) (by rw [← Nat.card_eq_fintype_card, hK])
     have hq' : Nat.card K % 3 = 2 := by rw [hK]; exact hq

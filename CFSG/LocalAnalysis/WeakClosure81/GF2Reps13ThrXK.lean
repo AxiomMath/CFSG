@@ -15,7 +15,7 @@ variable {W : Type} [CommGroup W] [Finite W]
 
 private theorem w16g_odd_card_of_isElemAbelian_three {X : Subgroup (MulAut W)}
     (hX : IsElemAbelian 3 X) : Odd (Nat.card X) := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hpg : IsPGroup 3 X := fun x => ⟨1, by
     rw [pow_one]
     exact Subtype.ext (hX.2 x.1 x.2)⟩
@@ -23,17 +23,20 @@ private theorem w16g_odd_card_of_isElemAbelian_three {X : Subgroup (MulAut W)}
   rw [hm]
   exact Odd.pow (by norm_num : Odd 3)
 
+omit [Finite W] in
 private theorem w16g_map_mem_s13IsoComps' {A X : Subgroup (MulAut W)} {g : MulAut W}
     (hg : g ∈ A) (hXA : ∀ g ∈ A, ∀ x ∈ X, g * x * g⁻¹ ∈ X) (U : ↥(s13IsoComps X)) :
     U.1.map g.toMonoidHom ∈ s13IsoComps X :=
   map_mem_s13IsoComps (hXA g hg) (by simpa using hXA g⁻¹ (A.inv_mem hg)) U.2
 
+omit [Finite W] in
 private theorem w16g_conj_map_conj (Q : Subgroup (MulAut W)) (g a : MulAut W) :
     (Q.map (MulAut.conj a).toMonoidHom).map (MulAut.conj g).toMonoidHom =
       Q.map (MulAut.conj (g * a)).toMonoidHom := by
   rw [Subgroup.map_map]
   rfl
 
+omit [Finite W] in
 private theorem w16g_s13SuppGraph_adj_map {A X Q : Subgroup (MulAut W)} {g : MulAut W}
     (hg : g ∈ A) (hXA : ∀ g ∈ A, ∀ x ∈ X, g * x * g⁻¹ ∈ X)
     {U U' : ↥(s13IsoComps X)} (h : (s13SuppGraph A X Q).Adj U U') :
@@ -57,6 +60,7 @@ private theorem w16g_s13SuppGraph_adj_map {A X Q : Subgroup (MulAut W)} {g : Mul
         w16g_s13Supp_conj (hXA g hg) (by simpa using hXA g⁻¹ (A.inv_mem hg)), hsupp,
         Set.image_pair]
 
+omit [Finite W] in
 private theorem w16g_s13CompSet_image_eq {A X Q : Subgroup (MulAut W)} {g : MulAut W}
     (hg : g ∈ A) (hXA : ∀ g ∈ A, ∀ x ∈ X, g * x * g⁻¹ ∈ X)
     (c : (s13SuppGraph A X Q).ConnectedComponent) :
@@ -110,6 +114,7 @@ private theorem w16g_s13CompSet_image_eq {A X Q : Subgroup (MulAut W)} {g : MulA
     (fun U : Subgroup W => U.map g.toMonoidHom) '' (Subtype.val '' c.supp)
   rw [← hsupp, Set.image_image, Set.image_image]
 
+omit [Finite W] in
 private theorem w16g_s13CompSet_conj_disjoint_or_eq {A X Q : Subgroup (MulAut W)}
     (hXA : ∀ g ∈ A, ∀ x ∈ X, g * x * g⁻¹ ∈ X) {g : MulAut W} (hg : g ∈ A)
     (c : (s13SuppGraph A X Q).ConnectedComponent) :
@@ -159,6 +164,7 @@ private theorem w16g_sum_eq_pair {ι : Type*} [Fintype ι] [DecidableEq ι] (g :
         exact h k hk.1 hk.2)).symm
   rw [h1, Finset.sum_pair hij]
 
+omit [Finite W] in
 private theorem w16g_conj_mem_s13XSupp (h : HAb A X Q t 3) {C : Set (Subgroup W)}
     (hC : (fun U : Subgroup W => U.map t.toMonoidHom) '' C = C) {y : MulAut W}
     (hy : y ∈ s13XSupp X C) : t * y * t⁻¹ ∈ s13XSupp X C := by
@@ -187,7 +193,7 @@ private theorem w16g_conj_mem_s13XSupp (h : HAb A X Q t 3) {C : Set (Subgroup W)
     have hyfix : y (t⁻¹ u) = t⁻¹ u := mem_centSub.mp hy'.2 (t⁻¹ u) hmem
     show (t * y * t⁻¹) u = u
     rw [MulAut.mul_apply, MulAut.mul_apply, hyfix]
-    simp [MulAut.mul_apply]
+    simp
   exact ⟨h.hXA t h.htA y hy.1, hcent⟩
 
 private theorem w16g_case_one_sign (h : HAb A X Q t 3)
@@ -451,7 +457,7 @@ private theorem w16g_case_one_sign (h : HAb A X Q t 3)
 
 private theorem w16g_dParam_three' : dParam 3 = 2 := by
   rw [dParam]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact orderOf_eq_prime (p := 2) (by decide) (by decide)
 
 private theorem w16g_case_one_eps_neg (h : HAb A X Q t 3)
@@ -549,7 +555,7 @@ private theorem w16g_case_one_eps_neg (h : HAb A X Q t 3)
     (fun x hx => h.hXA t h.htA x hx) hCsub
     (fun V hV => by rw [← htMapC]; exact ⟨V, hV, rfl⟩)
     (fun V hV hVfix => ⟨rfl, hinv_fixed V hV hVfix⟩)
-  haveI : Fintype ↥(s13CompSet A X Q c) := Fintype.ofFinite _
+  have : Fintype ↥(s13CompSet A X Q c) := Fintype.ofFinite _
   have h2rk : ∀ V : ↥(s13CompSet A X Q c), 2 ≤ rk ↥(V.1 : Subgroup W) := by
     intro V
     obtain ⟨s, hs, hsrk⟩ := rk_s13IsoComps_eq h.hW hp3 hp32 h.hXe (hCsub V.2)
@@ -925,7 +931,7 @@ private theorem w16g_case_one_eps_one (h : HAb A X Q t 3)
     exact (rk_eq_zero_iff (fun y => by rw [pow_two]; exact h.hW y)).mp hzero⟩
 
 
-private theorem w16g_compSet_conj_self (h : HAb A X Q t 3) (hQ3 : Nat.card ↥Q = 3)
+private theorem w16g_compSet_conj_self (h : HAb A X Q t 3) (_hQ3 : Nat.card ↥Q = 3)
     (he : (s13Supp X Q).ncard = 2) (c : (s13SuppGraph A X Q).ConnectedComponent)
     (hQc : Q ≤ s13XSupp X (s13CompSet A X Q c)) :
     (fun U : Subgroup W => U.map t.toMonoidHom) '' s13CompSet A X Q c =
@@ -973,7 +979,7 @@ theorem w16g_s13_three_case_one_large (h : HAb A X Q t 3)
   classical
   have hp3 : Nat.Prime 3 := by norm_num
   have hp32 : (3 : ℕ) ≠ 2 := by norm_num
-  haveI : Fact (Nat.Prime 3) := ⟨hp3⟩
+  have : Fact (Nat.Prime 3) := ⟨hp3⟩
   have hodd : Odd (Nat.card X) := w16g_odd_card_of_isElemAbelian_three h.hXe
   have h2 : ∀ a ∈ A, (s13Supp X (Q.map (MulAut.conj a).toMonoidHom)).ncard = 2 := by
     intro a ha
@@ -1057,9 +1063,9 @@ theorem w16g_s13_three_case_one_large (h : HAb A X Q t 3)
   have hind : sSupIndep (conjSubs A (commSub ⊤ L)) :=
     sSupIndep_conjSubs_of_s13Supp h.hW (p := 3) hp3 hp32 h.hXe h.hXA hLle hdisj
   obtain ⟨U, U', hUU', hsuppQ⟩ := Set.ncard_eq_two.mp he
-  haveI : Finite (Subgroup W) :=
+  have : Finite (Subgroup W) :=
     Finite.of_injective (fun S : Subgroup W => (S : Set W)) SetLike.coe_injective
-  haveI : Fintype ↥c.supp := Fintype.ofFinite _
+  have : Fintype ↥c.supp := Fintype.ofFinite _
   obtain ⟨lam, hl⟩ := exists_coord h.hW hp3 hp32 h.hXe
   obtain ⟨f, π, ε, hfne, -, hεpm, hmap_of_pi, hπ_invol, hrel, hε1_dich, hεm1_dich⟩ :=
     w16g_case_one_sign h hH0 hQ3 he c hQc hl hUU' hsuppQ
@@ -1116,7 +1122,7 @@ theorem w16g_s13_three_case_one_large (h : HAb A X Q t 3)
         · rw [Set.mem_singleton_iff.mp h, CFSG.RankThree.S4Free.Stell.rk_map_mulAut]
           exact hrkU'_two
     have hsumC : rk ↥(commSub ⊤ L) = 2 * C.ncard := by
-      haveI : Fintype ↥C := Fintype.ofFinite _
+      have : Fintype ↥C := Fintype.ofFinite _
       rw [hcomm_eq, w16g_rk_iSup_eq_sum (fun w => by rw [pow_two]; exact h.hW w)
         (fun U : ↥C => (U.1 : Subgroup W)) hindC]
       have h2 : ∑ U : ↥C, rk ↥(U.1 : Subgroup W) = ∑ _ : ↥C, (2 : ℕ) :=
@@ -1445,7 +1451,7 @@ theorem w16g_s13_three_case_one_large (h : HAb A X Q t 3)
     · have hsum2 : rk ↥(commSub ⊤ L) = ∑ᶠ V ∈ C, rk ↥V := by
         rw [rk_commSub_top_eq_sum h.hW hp3 hp32 h.hXe hLle, hLsupp]
       rw [hsum2]
-      haveI : Fintype ↥C := Fintype.ofFinite _
+      have : Fintype ↥C := Fintype.ofFinite _
       rw [← finsum_subtype_eq_finsum_cond, finsum_eq_sum_of_fintype]
       have h3 : (∑ V : ↥C, rk ↥(V.1 : Subgroup W)) = ∑ _ : ↥C, (2 : ℕ) :=
         Finset.sum_congr rfl fun V _ => hrk2 V.1 V.2
@@ -1463,7 +1469,7 @@ theorem s13_three_case_one (h : HAb A X Q t 3)
   classical
   have hp3 : Nat.Prime 3 := by norm_num
   have hp32 : 3 ≠ 2 := by norm_num
-  haveI : Fact (Nat.Prime 3) := ⟨hp3⟩
+  have : Fact (Nat.Prime 3) := ⟨hp3⟩
   have hodd : Odd (Nat.card X) := w16g_odd_card_of_isElemAbelian_three h.hXe
   have h2 : ∀ a ∈ A, (s13Supp X (Q.map (MulAut.conj a).toMonoidHom)).ncard = 2 := by
     intro a ha
@@ -1494,7 +1500,7 @@ theorem s13_three_case_one (h : HAb A X Q t 3)
       exact hne01 (congrArg Subtype.val heq)
     · have hmap1 : Q.map (MulAut.conj (1 : MulAut W)).toMonoidHom = Q := by
         rw [show (MulAut.conj (1 : MulAut W)).toMonoidHom = MonoidHom.id (MulAut W) from by
-          ext x; simp [MulAut.conj_apply], Subgroup.map_id]
+          ext x; simp, Subgroup.map_id]
       rw [hmap1]; exact hsuppQ
   have hU₀C : U₀ ∈ C :=
     ⟨v₀, SimpleGraph.ConnectedComponent.connectedComponentMk_mem, rfl⟩

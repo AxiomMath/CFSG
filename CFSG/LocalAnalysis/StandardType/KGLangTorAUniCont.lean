@@ -52,7 +52,7 @@ theorem kgLangTorA_uni_cont
   rw [KGLangAxisTorACont]
   intro K _ _ θ hK A hA hAIF α₀ hα₀ hα₀I hcard2 hcardSplit
   have hd2 : 2 ≤ d := by omega
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hdq' : ¬(d = 3 ∧ 2 ^ lab.n = 2) := by
     intro h
     exact hq ⟨by simpa [d] using h.1, h.2⟩
@@ -113,7 +113,7 @@ theorem kgLangTorA_uni_cont
   have hg₀norm : g₀ ∈ Subgroup.normalizer (SU : Set (GL (Fin d) F)) := hN hg₀GU
   let ψ₀ : SU →* SU :=
     { toFun := fun g => ⟨Matrix.GeneralLinearGroup.map (σ : F →+* F) (g : GL (Fin d) F),
-        GGL45TG.SU.map_mem_su hdata σ g.2⟩
+        GGL45TG.SU.map_mem_su σ g.2⟩
       map_one' := by
         apply Subtype.ext
         exact map_one (Matrix.GeneralLinearGroup.map (σ : F →+* F))
@@ -234,7 +234,7 @@ theorem kgLangTorA_uni_cont
   have hs_fixed' : ψ₀ ⟨s, hsSU⟩ = ⟨s, hsSU⟩ * ⟨e, heSU⟩ := by
     apply Subtype.ext
     exact hsσ
-  haveI hSUperf : Group.IsPerfect SU :=
+  have hSUperf : Group.IsPerfect SU :=
     Subgroup.isPerfect_iff.mpr (GGL45TG.SU.commutator_su hdata hd' (by omega : 2 ≤ lab.n))
   have hSU : commutator SU = ⊤ := Group.IsPerfect.commutator_eq_top
   obtain ⟨k, eK, heKne', heKp, hAe, hBk, hke⟩ :=

@@ -36,7 +36,7 @@ theorem isSimpleGroup_unitarySU_four' {k : ℕ} {F : Type} [Field F] (h₀ : Uni
       exact Nat.Coprime.pow_left 2 (Nat.coprime_two_left.mpr hodd)
     exact CFSG.RankThree.PartOne.KFU.scalars_subgroupOf_eq_bot
       (by rw [h₀.card, ← pow_mul, mul_comm]) (by norm_num) hcop
-  haveI := CFSG.SeitzReduction.UnitaryPilot.isSimpleGroup_unitaryPSU_of_three_le h₀
+  have := CFSG.SeitzReduction.UnitaryPilot.isSimpleGroup_unitaryPSU_of_three_le h₀
     (n := 4) (by norm_num) (by simp)
   exact ((QuotientGroup.quotientMulEquivOfEq hbot).trans
     QuotientGroup.quotientBot).symm.isSimpleGroup
@@ -56,12 +56,12 @@ theorem CfgSEps.false_of_autFix_su4 {S : Type} [Group S] [Finite S] {A : Subgrou
     have := Nat.le_of_dvd (by norm_num) h2
     norm_num at this
     omega
-  · haveI hs := isSimpleGroup_unitarySU_four' h₀
+  · have hs := isSimpleGroup_unitarySU_four' h₀
     have hna : ∃ a b : unitarySU 2 k F 4, a * b ≠ b * a := by
       by_contra h
       push Not at h
-      haveI := hc.nontrivial
-      haveI := hc.isPerfect
+      have := hc.nontrivial
+      have := hc.isPerfect
       have hKab : ∀ a b : K, a * b = b * a := fun a b => Subtype.ext
         (show (a : S) * b = b * a from by
           have := congrArg (fun x => ((eC.symm x : autFix σ) : S))
@@ -79,7 +79,7 @@ section Row
 theorem rowSEpsOf_seven_SU4_of (hU4 : U4OddInnerEps) :
     ∀ n : ℕ, 1 ≤ n → RowSEpsOf (projSU 4 2 n) := by
   intro n hn S _ _ hs hna ⟨eS⟩ A σ K hc
-  haveI := hc.isPerfect
+  have := hc.isPerfect
   by_cases hin : IsInnerAut σ
   · rcases Nat.even_or_odd n with hev | hodd
     ·
@@ -124,7 +124,7 @@ theorem rowSEpsOf_seven_SU4_of (hU4 : U4OddInnerEps) :
           rw [hFm]
           calc 4 = 2 ^ 2 := by norm_num
             _ ≤ 2 ^ m := Nat.pow_le_pow_right (by norm_num) hm
-        haveI : CharP (GaloisField 2 m) 2 := inferInstance
+        have : CharP (GaloisField 2 m) 2 := inferInstance
         have hNq : IsQuasisimple N := CFSG.LocalCores.isQuasisimple_of_mulEquiv ι'.symm
           (RonanKChevTwo.SpFour.isQuasisimple_sl2 h4)
         have hNZ : Subgroup.center N = ⊥ :=

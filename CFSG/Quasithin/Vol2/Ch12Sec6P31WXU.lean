@@ -86,6 +86,7 @@ section Y
 
 variable {Y : Type} [Group Y] [Finite Y]
 
+omit [Finite Y] in
 theorem isCyclic_quotient_of_cyc {B U : Subgroup Y} [hN : (U.subgroupOf B).Normal]
     (hcyc : ∃ g ∈ B, ∀ b ∈ B, ∃ k : ℕ, (g ^ k)⁻¹ * b ∈ U) :
     IsCyclic (↥B ⧸ U.subgroupOf B) := by
@@ -99,12 +100,13 @@ theorem isCyclic_quotient_of_cyc {B U : Subgroup Y} [hN : (U.subgroupOf B).Norma
   rw [zpow_natCast, ← QuotientGroup.mk_pow, QuotientGroup.eq, Subgroup.mem_subgroupOf]
   simpa using hk
 
+omit [Finite Y] in
 theorem habel_of_cyc {B U : Subgroup Y} (hUB : U ≤ B) (hBU : B ≤ Subgroup.normalizer (U : Set Y))
     (hcyc : ∃ g ∈ B, ∀ b ∈ B, ∃ k : ℕ, (g ^ k)⁻¹ * b ∈ U) :
     ∀ a ∈ B, ∀ b ∈ B, a * b * a⁻¹ * b⁻¹ ∈ U := by
   classical
-  haveI hN : (U.subgroupOf B).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hUB).2 hBU
-  haveI := isCyclic_quotient_of_cyc (U := U) (B := B) hcyc
+  have hN : (U.subgroupOf B).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hUB).2 hBU
+  have := isCyclic_quotient_of_cyc (U := U) (B := B) hcyc
   intro a ha b hb
   have h1 : (QuotientGroup.mk ⟨a, ha⟩ : ↥B ⧸ U.subgroupOf B) * QuotientGroup.mk ⟨b, hb⟩ =
       QuotientGroup.mk ⟨b, hb⟩ * QuotientGroup.mk ⟨a, ha⟩ :=
@@ -118,7 +120,7 @@ theorem habel_of_cyc {B U : Subgroup Y} (hUB : U ≤ B) (hBU : B ≤ Subgroup.no
   exact h2
 
 theorem prime_dvd_index_of_orders {B U : Subgroup Y} (hUB : U ≤ B) {n z p : ℕ} {g : ℕ}
-    (hg : g ∣ 3) (heq : Nat.card B * g = Nat.card U * (4 ^ n - 1) * z) (hz : z ≠ 0)
+    (hg : g ∣ 3) (heq : Nat.card B * g = Nat.card U * (4 ^ n - 1) * z) (_hz : z ≠ 0)
     (hp : p.Prime) (hp5 : 5 ≤ p) (hpn : p ∣ 2 ^ n + 1) : p ∣ (U.subgroupOf B).index := by
   have hUcard : Nat.card (U.subgroupOf B) = Nat.card U :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hUB).toEquiv
@@ -158,7 +160,7 @@ theorem permData_of_single_U3 (hU : U3BorelFacts) {n : ℕ} (hn : 2 ≤ n)
     (hpn : p ∣ 2 ^ n + 1) : PermData Ts Ms Tls := by
   have hSylX : IsSylowTwoOf (Ts ⊓ X) X :=
     A4.isSylowTwoOf_inf_normal h.sylow le_top (by
-      haveI := h.normal
+      have := h.normal
       exact Subgroup.le_normalizer_of_normal)
   obtain ⟨hZ, hcard, hcoat, hcyc, hfrob⟩ := hU n hn Y X (Ts ⊓ X) hperf hX hSylX
   have hUB : Ts ⊓ X ≤ borel X Ts := le_inf inf_le_right Subgroup.le_normalizer
@@ -174,7 +176,7 @@ theorem false_of_single_U3_three_center (hU : U3BorelFacts) {Ts Ms Ls Tls X : Su
     (h27 : ¬ 27 ∣ Nat.card ↥Ms) : False := by
   have hSylX : IsSylowTwoOf (Ts ⊓ X) X :=
     A4.isSylowTwoOf_inf_normal h.sylow le_top (by
-      haveI := h.normal
+      have := h.normal
       exact Subgroup.le_normalizer_of_normal)
   obtain ⟨hZ3, hcard, hcoat, hcyc, hfrob⟩ := hU 3 (by norm_num) Y X (Ts ⊓ X) hperf hX hSylX
   have hg : Nat.gcd 3 (2 ^ 3 + 1) = 3 := by norm_num

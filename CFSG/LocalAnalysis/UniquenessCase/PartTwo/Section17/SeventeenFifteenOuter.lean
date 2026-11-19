@@ -17,6 +17,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isL3_image_bar2 {L N : Subgroup G} (hLN : L ≤ N)
     (hsub : CFSG.Open.IsSubnormal L N) (h7 : IsL2Over17 (Bar2 L) 7) :
     IsL3 ↥((L.subgroupOf N).map (QuotientGroup.mk' (CFSG.pCore 2 ↥N))) 1 := by
@@ -29,6 +30,7 @@ theorem isL3_image_bar2 {L N : Subgroup G} (hLN : L ≤ N)
   (CFSG.pCoreQuotMulAut ↥L).comp
     ((Subgroup.normalizerMonoidHom L).comp (Subgroup.inclusion inf_le_right))
 
+omit [Finite G] in
 theorem autBar2_apply_mk_coe {L N : Subgroup G} (x : ↥(N ⊓ normalizer (L : Set G)))
     (v : ↥L) :
     (autBar2 (L := L) (N := N) x) (v : Bar2 L) =
@@ -36,6 +38,7 @@ theorem autBar2_apply_mk_coe {L N : Subgroup G} (x : ↥(N ⊓ normalizer (L : S
         (Subgroup.inclusion inf_le_right x) v) : Bar2 L) :=
   CFSG.pCoreQuotMulAut_mk _ v
 
+omit [Finite G] in
 theorem autBar2_eq_one_iff {L N : Subgroup G}
     (x : ↥(N ⊓ normalizer (L : Set G))) :
     autBar2 (L := L) (N := N) x = 1 ↔
@@ -112,7 +115,7 @@ theorem oTwoThreeIn_eq_pCoreOf {L : Subgroup G} (h7 : IsL2Over17 (Bar2 L) 7) :
     rw [h3]
     exact Subgroup.mem_bot.mpr ((QuotientGroup.eq_one_iff y).mpr hy)
 
-theorem exists_bar2_data {L N : Subgroup G} (hLN : L ≤ N)
+theorem exists_bar2_data {L N : Subgroup G} (_hLN : L ≤ N)
     (hsub : CFSG.Open.IsSubnormal L N) (hperf : ⁅L, L⁆ = L)
     (hq : CFSG.Open.IsQuasisimple (Bar2 L)) :
     ∃ (Z : Type) (_ : Group Z) (ψ : ↥N →* Z), Function.Surjective ψ ∧
@@ -139,12 +142,12 @@ theorem exists_bar2_data_l3 {L N : Subgroup G} (hLN : L ≤ N)
   · exact isL3_image_bar2 hLN hsub h7
 
 @[expose] def Gap17_15_threeConj (D : Data G) (V₀ V L : Subgroup G) (r q : ℕ)
-    (hC : Ctx17_6 D V₀ V L r q) : Prop :=
+    (_hC : Ctx17_6 D V₀ V L r q) : Prop :=
   IsL2Over17 (Bar2 L) 7 → ¬ IsL2Over17 (Bar2 (L ⊔ D.T)) 7 →
     ¬ 2 < (CFSG.LocalAnalysis.UniquenessCase.UC22.conjSetOf D.M L).ncard
 
 @[expose] def Gap17_15_autPGL2 (D : Data G) (V₀ V L : Subgroup G) (r q : ℕ)
-    (hC : Ctx17_6 D V₀ V L r q) : Prop :=
+    (_hC : Ctx17_6 D V₀ V L r q) : Prop :=
   IsL2Over17 (Bar2 L) 7 → ¬ IsL2Over17 (Bar2 (L ⊔ D.T)) 7 →
     (L.subgroupOf (L ⊔ D.T)).Normal →
     CFSG.Quasithin.F6.IsPGL2 7 (Bar2 (L ⊔ D.T)) ∧
@@ -156,7 +159,7 @@ theorem exists_bar2_data_l3 {L N : Subgroup G} (hLN : L ≤ N)
       CFSG.Quasithin.F6.IsPGL2 7 A
 
 @[expose] def Gap17_15_pairPGL2 (D : Data G) (V₀ V L : Subgroup G) (r q : ℕ)
-    (hC : Ctx17_6 D V₀ V L r q) : Prop :=
+    (_hC : Ctx17_6 D V₀ V L r q) : Prop :=
   CFSG.Quasithin.F6.IsPGL2 7 (Bar2 (L ⊔ D.T)) →
     CFSG.LocalAnalysis.WeakClosure81.InFSq 1 (L ⊔ D.T)
 

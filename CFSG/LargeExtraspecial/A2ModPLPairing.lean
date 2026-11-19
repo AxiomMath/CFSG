@@ -61,11 +61,11 @@ theorem IsPointMaps.exists_polar_eq (hA : A2Action (transvectionSet 4 (ZMod 2)) 
         exact (CharTwo.add_eq_zero).mp h0
       · intro h
         have := congrFun h i
-        simp [Pi.single_apply, hij] at this
+        simp [hij] at this
       · intro h
         have := congrFun h i
-        simp [Pi.single_apply, hij] at this
-      · simp [add_dotProduct, dotProduct_add, Pi.single_apply, hij, Ne.symm hij]
+        simp [hij] at this
+      · simp [dotProduct_add, hij, Ne.symm hij]
         decide
   refine ⟨QuadraticMap.polar Q (P (Pi.single 0 1)) (Pd (Pi.single 0 1)), ?_⟩
   have hB : B1 = (QuadraticMap.polar Q (P (Pi.single 0 1)) (Pd (Pi.single 0 1))) • B2 := by

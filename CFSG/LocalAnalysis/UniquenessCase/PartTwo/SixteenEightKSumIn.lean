@@ -23,7 +23,7 @@ theorem s16k_case162_2_of_sl (h : S16kBase D V₀ V L hV) {n : ℕ} (h3 : 3 ≤ 
     Case162_2 D V₀ V hV L :=
   ⟨h.s1, Or.inr (Or.inl ⟨n, h3, h5, s16k_isLn_of_isSLn h3 hSL,
     (s16k_star h).sumOfNat_map
-      (fun ρ θ hθ he hk I _ hI => s16k_binaryNaturalSL_map hI ρ hk θ hθ he) hS⟩)⟩
+      (fun ρ θ hθ he hk _I _ hI => s16k_binaryNaturalSL_map hI ρ hk θ hθ he) hS⟩)⟩
 
 theorem s16k_case162_2_of_sp_six (h : S16kBase D V₀ V L hV)
     (hSp : IsSpn ↥(lBar V₀ V hV L) 6 1)
@@ -31,7 +31,7 @@ theorem s16k_case162_2_of_sp_six (h : S16kBase D V₀ V L hV)
       (commSub ⊤ (lBar V₀ V hV L)) (commSub ⊤ (lBar V₀ V hV L) ⊓ fixV (lBar V₀ V hV L)) 2) :
     Case162_2 D V₀ V hV L :=
   ⟨h.s1, Or.inr (Or.inr (Or.inl ⟨hSp, (s16k_star h).sumOfNat_map
-    (fun ρ θ hθ he hk I _ hI => s16k_natSpn_map hI ρ hk θ hθ he) hS⟩))⟩
+    (fun ρ θ hθ he hk _I _ hI => s16k_natSpn_map hI ρ hk θ hθ he) hS⟩))⟩
 
 theorem s16k_case162_2_of_omegaMinus_six (h : S16kBase D V₀ V L hV)
     (hΩ : IsOmegaMinus ↥(lBar V₀ V hV L) 6 1)
@@ -39,7 +39,7 @@ theorem s16k_case162_2_of_omegaMinus_six (h : S16kBase D V₀ V L hV)
       (commSub ⊤ (lBar V₀ V hV L)) (commSub ⊤ (lBar V₀ V hV L) ⊓ fixV (lBar V₀ V hV L)) 2) :
     Case162_2 D V₀ V hV L :=
   ⟨h.s1, Or.inr (Or.inr (Or.inr (Or.inl ⟨hΩ, (s16k_star h).sumOfNat_map
-    (fun ρ θ hθ he hk I _ hI => s16k_natOmegaMinus_map hI ρ hk θ hθ he) hS⟩)))⟩
+    (fun ρ θ hθ he hk _I _ hI => s16k_natOmegaMinus_map hI ρ hk θ hθ he) hS⟩)))⟩
 
 theorem s16k_case162_2_of_omegaMinus_eight (h : S16kBase D V₀ V L hV)
     (hΩ : IsOmegaMinus ↥(lBar V₀ V hV L) 8 1)
@@ -47,7 +47,7 @@ theorem s16k_case162_2_of_omegaMinus_eight (h : S16kBase D V₀ V L hV)
       (commSub ⊤ (lBar V₀ V hV L)) (commSub ⊤ (lBar V₀ V hV L) ⊓ fixV (lBar V₀ V hV L)) 2) :
     Case162_2 D V₀ V hV L :=
   ⟨h.s1, Or.inr (Or.inr (Or.inr (Or.inr ⟨hΩ, (s16k_star h).sumOfNat_map
-    (fun ρ θ hθ he hk I _ hI => s16k_natOmegaMinus_map hI ρ hk θ hθ he) hS⟩)))⟩
+    (fun ρ θ hθ he hk _I _ hI => s16k_natOmegaMinus_map hI ρ hk θ hθ he) hS⟩)))⟩
 
 theorem s16k_case162_2_of_alt (h : S16kBase D V₀ V L hV) {n : ℕ} (h5 : 5 ≤ n) (h11 : n ≤ 11)
     (hA : IsAlt ↥(lBar V₀ V hV L) n)
@@ -55,7 +55,7 @@ theorem s16k_case162_2_of_alt (h : S16kBase D V₀ V L hV) {n : ℕ} (h5 : 5 ≤
       (commSub ⊤ (lBar V₀ V hV L)) (commSub ⊤ (lBar V₀ V hV L) ⊓ fixV (lBar V₀ V hV L)) 2) :
     Case162_2 D V₀ V hV L :=
   ⟨h.s1, Or.inl ⟨n, h5, h11, hA, (s16k_star h).sumOfNat_map
-    (fun ρ θ hθ he hk I _ hI => s16k_alternatingNatural_map hI ρ hk θ hθ he) hS⟩⟩
+    (fun ρ θ hθ he hk _I _ hI => s16k_alternatingNatural_map hI ρ hk θ hθ he) hS⟩⟩
 
 theorem s16k_case162_2_of_omegaMinus_four (h : S16kBase D V₀ V L hV)
     (hΩ : IsOmegaMinus ↥(lBar V₀ V hV L) 4 1)

@@ -44,10 +44,9 @@ theorem glMap_tvGL (hd : 2 ≤ d) (τ : K ≃+* K) (b : K) : glMap τ (tvGL hd b
   ext i j
   by_cases h : i = fin0 hd ∧ j = fin1 hd
   · obtain ⟨rfl, rfl⟩ := h
-    simp [Matrix.map_apply, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply]
+    simp [Matrix.map_apply, Matrix.add_apply, Matrix.one_apply]
   · have hi : ¬ (i = fin0 hd ∧ j = fin1 hd) := h
-    simp only [Matrix.map_apply, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply, hi, if_false,
-      add_zero, map_zero]
+    simp only [Matrix.map_apply, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply]
     split_ifs <;> simp
 
 
@@ -103,7 +102,7 @@ theorem mu_eq_one_of_three_le {d : ℕ} (hd : 3 ≤ d) (N : GL (Fin d) K) (s b :
   have hzero : ∀ i j : Fin d, i ≠ fin0 hd2 → j ≠ fin1 hd2 → (N : Matrix (Fin d) (Fin d) K) i j = 0 := by
     intro i j hi hj
     have h1 := hent i j
-    simp only [if_neg hj, if_neg hi, add_zero] at h1
+    simp only [ite_eq_right hj, ite_eq_right hi, add_zero] at h1
     have h2 : (1 - (μ : K)) * (N : Matrix (Fin d) (Fin d) K) i j = 0 := by linear_combination h1
     rcases mul_eq_zero.1 h2 with h3 | h3
     · exact absurd (sub_eq_zero.1 h3).symm hμ'
@@ -179,12 +178,12 @@ theorem tau_apply_eq_of_conj_tv {d : ℕ} (hd : 2 ≤ d) (N : GL (Fin d) K) (τ 
     by_cases h1 : i = fin0 hd ∧ j = fin1 hd
     · obtain ⟨rfl, rfl⟩ := h1
       simp
-    · simp [Matrix.single_apply, h1]
+    · simp [Matrix.single_apply]
   have key : ∀ t : K, M * (1 + Matrix.single (fin0 hd) (fin1 hd) t) * M' = 1 + t • (M * E * M') := by
     intro t
     rw [hs t]
     calc M * (1 + t • E) * M' = M * M' + t • (M * E * M') := by
-          simp [mul_add, add_mul, Matrix.mul_smul, Matrix.smul_mul, mul_assoc]
+          simp [mul_add, add_mul, mul_assoc]
       _ = 1 + t • (M * E * M') := by rw [hMM']
   have hmat : ∀ t : K, M * (1 + Matrix.single (fin0 hd) (fin1 hd) (τ t)) * M' = 1 + Matrix.single (fin0 hd) (fin1 hd) t := by
     intro t

@@ -21,9 +21,9 @@ theorem sec7l77_centralizer_L_solvable [Finite G] (h72 : Asc82Lemma72) {t : G}
     Group.IsSolvable ↥(centralizer (L : Set G)) := by
   classical
   let C : Subgroup G := centralizer (L : Set G)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P⟩ : Nonempty (Sylow 2 ↥C) := inferInstance
-  haveI : IsCyclic ↥((P : Subgroup ↥C).map C.subtype) :=
+  have : IsCyclic ↥((P : Subgroup ↥C).map C.subtype) :=
     h72 G t L hctx.toSec3SettingLB hctx.omega6 _ (isSylow2Of_map_sylow P)
   have hcyc : IsCyclic ↥(P : Subgroup ↥C) :=
     isCyclic_of_injective
@@ -138,9 +138,9 @@ theorem sec7l77_H_solvable [Finite G] (h36 : Asc82Lemma36) (h72 : Asc82Lemma72)
   have hXle : X ≤ D ⊔ C := fun h hh =>
     sec7l77_inner_le h36 hP hc hh.1.1.1 hh.1.1.2 hh.1.2 hh.2
   have hXsol : Group.IsSolvable ↥X :=
-    solvable_of_solvable_injective (Subgroup.inclusion_injective hXle)
+    Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hXle)
   have hXHs : X ≤ Hs := inf_le_left
-  haveI hnorm : (X.subgroupOf Hs).Normal := by
+  have hnorm : (X.subgroupOf Hs).Normal := by
     refine ⟨fun n hn k => ?_⟩
     have hnX : (n : G) ∈ X := hn
     obtain ⟨l, hl, c, hcC, hnlc⟩ := innerOn_decompose (L := L) (s := (n : G)) hnX.2
@@ -167,7 +167,7 @@ theorem sec7l77_H_solvable [Finite G] (h36 : Asc82Lemma36) (h72 : Asc82Lemma72)
     rw [hval]
     exact Subgroup.mul_mem_sup hklk hkck
   have hNsol : Group.IsSolvable ↥(X.subgroupOf Hs) :=
-    solvable_of_solvable_injective (f := (Subgroup.subgroupOfEquivOfLe hXHs).toMonoidHom)
+    Group.isSolvable_of_isSolvable_injective (f := (Subgroup.subgroupOfEquivOfLe hXHs).toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hXHs).injective
   refine sec7l77_solvable_of_odd_le (X.subgroupOf Hs) hNsol fun x hx => ?_
   have hxN : (x : G) ∈ normalizer (L : Set G) := hctx.cent_le_normalizer h36 _ x.2.1.2

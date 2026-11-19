@@ -97,8 +97,7 @@ private theorem map_transpose_u3Refl (σ : K →+* K) (hc : σ c = d) (hd : σ d
 private theorem negNegOneDiag_mul_u3Refl : negNegOneDiag K * u3Refl c d = 1 + u3Nil c d := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [negNegOneDiag, u3Refl, u3Nil, Matrix.mul_apply, Fin.sum_univ_three,
-      Matrix.one_apply] <;> ring
+    simp [negNegOneDiag, u3Refl, u3Nil, Matrix.mul_apply, Fin.sum_univ_three] <;> ring
 
 private theorem u3Nil_pow_three (hcd : c * d = -1) : u3Nil c d ^ 3 = 0 := by
   rw [pow_succ, sq]

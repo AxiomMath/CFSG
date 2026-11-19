@@ -102,7 +102,7 @@ theorem barSub_ne_bot_of_card_le_two (D : Data G) (h127 : R127 D) {V₀ V L : Su
     exact ((Subgroup.mem_centralizer_iff.mp (hcommV hx)) v hv).symm
   have hnti : ¬ CFSG.CGT.Timmesfeld75.IsTI V := (twelve_nine D h127 hV).1
   rw [CFSG.CGT.Timmesfeld75.IsTI] at hnti
-  push_neg at hnti
+  push Not at hnti
   obtain ⟨g, hgne, hgne'⟩ := hnti
   have hgM : g ∉ D.M := by
     intro hg

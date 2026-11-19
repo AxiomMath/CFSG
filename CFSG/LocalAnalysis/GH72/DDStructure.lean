@@ -24,8 +24,8 @@ theorem isDih_of_isDihNonab {D : Subgroup G} (h : IsDihNonab D) : IsDih D := by
 
 theorem isKleinFour_of_isFourIn {D V : Subgroup G} (hV : IsFourIn D V) : IsKleinFour V := by
   obtain ⟨-, hV2, hV4⟩ := hV
-  haveI : Finite V := Nat.finite_of_card_ne_zero (by rw [hV4]; norm_num)
-  haveI : Nontrivial V := Finite.one_lt_card_iff_nontrivial.1 (by rw [hV4]; norm_num)
+  have : Finite V := Nat.finite_of_card_ne_zero (by rw [hV4]; norm_num)
+  have : Nontrivial V := Finite.one_lt_card_iff_nontrivial.1 (by rw [hV4]; norm_num)
   refine ⟨hV4, (Monoid.exponent_eq_prime_iff Nat.prime_two).2 fun g hg => ?_⟩
   exact orderOf_eq_prime (by rw [pow_two]; exact Subtype.ext (hV2 g g.2)) hg
 
@@ -35,12 +35,12 @@ variable {D : Subgroup G}
 
 theorem finite (hD : IsDih D) : Finite D := by
   obtain ⟨a, -, ⟨e⟩⟩ := hD
-  haveI : NeZero (2 ^ a) := ⟨by positivity⟩
+  have : NeZero (2 ^ a) := ⟨by positivity⟩
   exact Finite.of_equiv _ e.symm.toEquiv
 
 theorem elemBound (hD : IsDih D) : ElemBound D 4 := by
   obtain ⟨a, -, ⟨e⟩⟩ := hD
-  haveI : NeZero (2 ^ a) := ⟨by positivity⟩
+  have : NeZero (2 ^ a) := ⟨by positivity⟩
   exact elemBound_of_dihedral e
 
 theorem exists_four (hD : IsDih D) : ∃ V, IsFourIn D V := by
@@ -72,7 +72,7 @@ theorem mem_four_of_central (hD : IsDih D) {V : Subgroup G} (hV : IsFourIn D V) 
   obtain ⟨a, ha, ⟨e⟩⟩ := hD
   rcases Nat.lt_or_ge a 2 with h | h
   · obtain rfl : a = 1 := by omega
-    haveI : Finite D := Finite.of_equiv _ e.symm.toEquiv
+    have : Finite D := Finite.of_equiv _ e.symm.toEquiv
     have hcard : Nat.card D = 4 := by
       rw [Nat.card_congr e.toEquiv, DihedralGroup.nat_card]
       norm_num
@@ -220,8 +220,8 @@ theorem isE16_sup {V₁ V₂ : Subgroup G} (h₁ : IsFourIn S₁ V₁) (h₂ : I
 theorem e16_split {A : Subgroup G} (hAS : A ≤ S) (hA : IsE16 A) :
     A = (A ⊓ S₁) ⊔ (A ⊓ S₂) ∧ IsFourIn S₁ (A ⊓ S₁) ∧ IsFourIn S₂ (A ⊓ S₂) := by
   have hA2 : ∀ x ∈ A, x * x = 1 := isElemAbelian_two_iff.1 hA.1
-  haveI := hd.dih₁.finite
-  haveI := hd.isDih₂.finite
+  have := hd.dih₁.finite
+  have := hd.isDih₂.finite
   obtain ⟨hsplit, h₁, h₂⟩ := eq_sup_inf_of_card (k₁ := 4) (k₂ := 4)
     (fun x hx y hy => hd.comm hx hy) hd.inf_eq hd.dih₁.elemBound hd.isDih₂.elemBound
     (hd.sup_eq ▸ hAS) hA2 (by rw [hA.2])

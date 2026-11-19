@@ -46,7 +46,7 @@ theorem genericRedAt_of_plane {S : ℕ → ∀ (K : Type) [Group K], Prop} (hS :
   have hTQJ : (T : Subgroup ↥J).map J.subtype = QJ := by
     rw [hT, map_subgroupOf_eq_of_le hQJJ]
   have hinjT : ∀ t ∈ (T : Subgroup ↥J), ψ t = 1 → t = 1 :=
-    u3main_eq_one_of_ker ψ hkercop T.isPGroup'
+    u3main_eq_one_of_ker ψ hkercop T.isPGroup
   have hTb := Sylow.coe_mapSurjective hψ T
   obtain ⟨h2rk, u, hu, huord, zb, hzb1, hzb2, hzbu, hgenK⟩ :=
     hK p h5 Q hSpQ (Sylow.mapSurjective hψ T)

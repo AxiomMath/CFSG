@@ -408,6 +408,7 @@ theorem inEtaAt {T : Array ℕ} {c : Nat} (hc : c < 64)
   exact ⟨(c, wordA 16240 #[tA, tB] #[invCand 16240 tA, invCand 16240 tB] (etaW 6 c)),
     List.mem_map.2 ⟨c, List.mem_range.2 hc, rfl⟩, h⟩
 
+omit rA rB in
 theorem grpT : Φ 0 * Φ 0 = evalSigned [Φ 11, Φ 21] (etaW 6 (CFSG.KD.RuCoverNet7296.MC 79)) := by
   have hl := letters7296.1 _ (bounds7296.1 79 (by decide))
   have h := hm7296 79 (by decide)
@@ -426,7 +427,7 @@ theorem inEtaT_of {t0 : Array ℕ} (r0 : Rep 16240 t0 (Φ 0)) :
   have hl := letters7296.1 _ hc
   have key : eqA 16240 (compA 16240 t0 t0) (wordA 16240 #[tA, tB]
       #[invCand 16240 tA, invCand 16240 tB] (etaW 6 (CFSG.KD.RuCoverNet7296.MC 79))) = true :=
-    (eqA_iff (rep_compA r0 r0) (rep_wordA2 rA rB _ hl)).2 (grpT rA rB)
+    (eqA_iff (rep_compA r0 r0) (rep_wordA2 rA rB _ hl)).2 (grpT)
   exact inEtaAt hc key
 
 theorem eta_of {t0 : Array ℕ} (r0 : Rep 16240 t0 (Φ 0)) :

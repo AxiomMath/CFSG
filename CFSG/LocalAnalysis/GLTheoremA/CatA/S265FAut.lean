@@ -19,7 +19,7 @@ variable {Ω : Type} [Group Ω] [Finite Ω]
 private theorem s265f_card_dgrp {p : ℕ} (hp : p.Prime) {B : Subgroup Ω} {x b : Ω} (hB : IsElemAbelian p B)
     (hxB : x ∈ B) (hx1 : x ≠ 1) (hb : b ∈ B) (hbx : b ∉ Subgroup.zpowers x) :
     Nat.card ↥(Dgrp b x) = p ^ 2 := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hzx : Subgroup.zpowers x ≤ B := Subgroup.zpowers_le.2 hxB
   have hordx : Nat.card (Subgroup.zpowers x) = p := by
     rw [Nat.card_zpowers, orderOf_eq_prime (hB.2 x hxB) hx1]
@@ -29,6 +29,7 @@ private theorem s265f_card_dgrp {p : ℕ} (hp : p.Prime) {B : Subgroup Ω} {x b 
   rw [dgrp_eq]
   exact s265_card_sup hp hB hzx (by rw [hordx, pow_one]) hb hbx hordb
 
+omit [Finite Ω] in
 private theorem s265f_zpowers_le_dgrp (x b : Ω) : Subgroup.zpowers x ≤ Dgrp b x := by
   rw [dgrp_eq]
   exact le_sup_left
@@ -46,7 +47,7 @@ theorem qu_cent_eq {p : ℕ} {S B T : Subgroup Ω} {x b : Ω} (cfg : QUCfg p S B
 theorem qu_aut_rank {p : ℕ} {S B T : Subgroup Ω} {x b : Ω} (cfg : QUCfg p S B T x b) :
     ∃ A : Subgroup (MulAut (↥S ⧸ Subgroup.center ↥S)), IsElemAbelian p A ∧ p ^ 3 ≤ Nat.card A := by
   have hp := cfg.prime
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hcard := s265f_card_dgrp hp cfg.elem cfg.xB cfg.x1 cfg.hb cfg.hbx
   have hle : Subgroup.zpowers x ≤ Dgrp b x := s265f_zpowers_le_dgrp x b
   have hordx : Nat.card (Subgroup.zpowers x) = p := by

@@ -121,7 +121,7 @@ theorem pair87UnitarySyl_of
     obtain ⟨P₀⟩ := (inferInstance : Nonempty (Sylow 2 I))
     have h1 : Nat.card P₀ = 2 ^ (Nat.card I).factorization 2 := Sylow.card_eq_multiplicity P₀
     have h2 : Nat.card ((P₀ : Subgroup I).map I.subtype) ≤ 8 :=
-      card_le_eight_of_isPGroup haN ha3 hθodd hCa (P₀.isPGroup'.map I.subtype)
+      card_le_eight_of_isPGroup haN ha3 hθodd hCa (P₀.isPGroup.map I.subtype)
         ((Subgroup.map_subtype_le _).trans hIC)
     have h3 : Nat.card (P₀ : Subgroup I) ≤ 8 :=
       (Subgroup.card_map_of_injective I.subtype_injective).symm.le.trans h2
@@ -156,7 +156,7 @@ theorem pair87UnitarySyl_of
   obtain ⟨T₀⟩ := (inferInstance : Nonempty (Sylow 2 I))
   refine ⟨T₀, ?_⟩
   rintro t ⟨s, hs, rfl⟩
-  obtain ⟨k, hk⟩ := T₀.isPGroup' ⟨s, hs⟩
+  obtain ⟨k, hk⟩ := T₀.isPGroup ⟨s, hs⟩
   exact u38_two_elt_mem hG.localRank_three.le hAel h.card_eq (hAfix Y hY) hAI hIN hIYC hS3 s.2
     ⟨k, by simpa using congrArg Subtype.val (congrArg Subtype.val hk)⟩
 

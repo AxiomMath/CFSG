@@ -80,7 +80,7 @@ theorem u3_exists_mem_L1_not_normalizer {L1 L2 S : Subgroup G}
     (hSB : bigB L1 L2 S ≤ Subgroup.normalizer (S : Set G)) :
     ∃ g ∈ L1, g ∉ Subgroup.normalizer (S : Set G) := by
   have hR : Hyp111R L1 L2 S := Hyp111R.of_hyp111 rankOneListedFacts hF.1
-  obtain ⟨g, hgL1, hgb⟩ := SetLike.exists_of_lt (F1.lt_borelOf hR)
+  obtain ⟨g, hgL1, hgb⟩ := _root_.IsConcreteLE.exists_of_lt (F1.lt_borelOf hR)
   refine ⟨g, hgL1, fun hgN => hgb ?_⟩
   rw [← u3L1_inf_normalizer_eq_borelOf hF hSB]
   exact Subgroup.mem_inf.mpr ⟨hgL1, hgN⟩

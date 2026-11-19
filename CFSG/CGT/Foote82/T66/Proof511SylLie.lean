@@ -37,7 +37,7 @@ theorem card_sqOne_congr {A B : Type*} [Group A] [Group B] (e : A ≃* B) :
 theorem card_sqOne_of_M128 {Y : Type*} [Group Y] [Finite Y] (S : Sylow 2 Y)
     (e : M128 ≃* ↥(S : Subgroup Y)) (P : Sylow 2 Y) :
     Nat.card {x : ↥(P : Subgroup Y) // x ^ 2 = 1} = 36 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [← card_sqOne_congr (e.trans (S.equiv P)), card_sqOne_M128]
 
 end SylLie
@@ -48,9 +48,9 @@ theorem sqOne_card_PSU4 {Y : Type} [Group Y] [Finite Y] {p f : ℕ} (hp : p.Prim
     (h8 : p ^ f % 8 = 3) (h : CFSG.Blueprint.LieModel Y .PSU 4 p f) (P : Sylow 2 Y) :
     Nat.card {x : ↥(P : Subgroup Y) // x ^ 2 = 1} = 36 := by
   obtain ⟨-, F, iF, fF, hF, ⟨e⟩⟩ := CFSG.GH74.GLS.Stage2.Final.lieModel_psu_unpack h
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hF' : Nat.card F = p ^ (2 * f) := by rw [hF, ← pow_mul, mul_comm]
-  haveI : CharP F p := by
+  have : CharP F p := by
     have := Fintype.ofFinite F
     exact charP_of_card_eq_prime_pow (f := 2 * f) (by rw [← Nat.card_eq_fintype_card]; exact hF')
   obtain ⟨Φ, hΦ⟩ := exists_M128_embedding_uni hF hp2 (by omega)

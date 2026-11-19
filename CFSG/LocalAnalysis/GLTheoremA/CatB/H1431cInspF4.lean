@@ -20,7 +20,7 @@ open CFSG.Blueprint.Chevalley
 
 theorem card_of_f42CompType {Q : Type} [Group Q] (h : F42CompType Q) : Nat.card Q = 1451520 := by
   obtain ⟨F, _, _, hF, ⟨e⟩⟩ := h
-  haveI : CharP F 2 :=
+  have : CharP F 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
       (le_refl 1) (by rw [hF]; norm_num)
   have hZ := CFSG.HardMathSupport.Dickson.Bal207.center_statedSp_eq_bot_of_charP_two (K := F) 3
@@ -61,7 +61,7 @@ theorem card_of_isA6 {Q : Type} [Group Q] (h : catalogIs Q S8.isA6) : Nat.card Q
 
 theorem exists_ne_comm_of_simple_perfect {H : Type*} [Group H] [IsSimpleGroup H]
     (h : commutator H = ⊤) : ∃ a b : H, a * b ≠ b * a := by
-  haveI : Group.IsPerfect H := ⟨h⟩
+  have : Group.IsPerfect H := ⟨h⟩
   by_contra hc
   apply Group.IsPerfect.not_isMulCommutative H
   refine IsMulCommutative.of_comm fun a b => ?_
@@ -72,7 +72,7 @@ theorem center_eq_bot_of_f4two
     {Y : Type} [Group Y] [Finite Y] (hY : CFSG.Open.IsQuasisimple Y)
     (hO : GLAPPrimeCore 3 Y = ⊥) {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2)
     (e : Y ⧸ Subgroup.center Y ≃* ↥(adjointGroup Tag.F4 K)) : Subgroup.center Y = ⊥ := by
-  haveI : Group.IsPerfect Y :=
+  have : Group.IsPerfect Y :=
     ((CFSG.ComponentClassification.AssemblyBPredicates.isQuasisimple_iff_native Y).1 hY).1
   let η : Y →* ↥(adjointGroup Tag.F4 K) :=
     e.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center Y))
@@ -121,7 +121,7 @@ theorem i1431InspF42_holds : I1431InspF42 := by
       have hZ : Subgroup.center Y = ⊥ := center_eq_bot_of_f4two hY hO hK e'
       let E : Y ≃* ↥(adjointGroup Tag.F4 (GaloisField 2 1)) :=
         (QuotientGroup.quotientBot.symm.trans (QuotientGroup.quotientMulEquivOfEq hZ.symm)).trans e'
-      haveI : Nontrivial (PSimple 3 A) := by
+      have : Nontrivial (PSimple 3 A) := by
         rw [← Finite.one_lt_card_iff_nontrivial, h360]
         norm_num
       by_cases hτ1 : τ = 1
@@ -130,8 +130,8 @@ theorem i1431InspF42_holds : I1431InspF42 := by
           rw [hτ1]
           exact fixSubgroup_one_eq_top
         rw [htop] at hA
-        haveI : IsSimpleGroup (Y ⧸ Subgroup.center Y) := hY.2
-        haveI : IsSimpleGroup Y :=
+        have : IsSimpleGroup (Y ⧸ Subgroup.center Y) := hY.2
+        have : IsSimpleGroup Y :=
           ((QuotientGroup.quotientMulEquivOfEq hZ).trans
             QuotientGroup.quotientBot).symm.isSimpleGroup
         have hAt : A = ⊤ := KDSpor.eq_top_of_glaPComponent_top hA

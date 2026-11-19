@@ -57,18 +57,18 @@ theorem isSimpleGroup_fixSubgroup_fieldActor_D4 (ℓ f : ℕ) (hℓ : ℓ.Prime)
     (K : Type) [Field K] [Finite K] (hK : Nat.card K = (ℓ ^ f) ^ 3)
     (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ (ℓ ^ f)) :
     IsSimpleGroup (fixSubgroup (fieldActor (t := TwistTag.D4) σ σ)) := by
-  haveI := charP_of_card_eq_cube ℓ f hℓ K hK
+  have := charP_of_card_eq_cube ℓ f hℓ K hK
   obtain ⟨hsimple, -⟩ := d4_trialityFieldImage_self_simple hℓ2 σ
-  haveI := hsimple
+  have := hsimple
   exact (fixSubgroupFieldActorEquiv K σ (ringEquiv_cube_apply_eq hK hσ)).isSimpleGroup
 
 theorem nonabelian_fixSubgroup_fieldActor_D4 (ℓ f : ℕ) (hℓ : ℓ.Prime) (hℓ2 : ℓ ≠ 2)
     (K : Type) [Field K] [Finite K] (hK : Nat.card K = (ℓ ^ f) ^ 3)
     (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ (ℓ ^ f)) :
     ∃ x y : fixSubgroup (fieldActor (t := TwistTag.D4) σ σ), x * y ≠ y * x := by
-  haveI := charP_of_card_eq_cube ℓ f hℓ K hK
+  have := charP_of_card_eq_cube ℓ f hℓ K hK
   obtain ⟨-, hnc⟩ := d4_trialityFieldImage_self_simple hℓ2 σ
-  simp only [not_forall, ne_eq] at hnc
+  simp only [not_forall] at hnc
   exact exists_noncomm_of_mulEquiv (fixSubgroupFieldActorEquiv K σ (ringEquiv_cube_apply_eq hK hσ))
     hnc
 

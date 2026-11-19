@@ -20,17 +20,18 @@ open CFSG.Open.StatedCenterThree
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 private theorem w1369_three_dvd_lend {L : Subgroup (MulAut W)} (hfield : IsField ↥(LEnd L))
     {φ : ↥(LEnd L)}
     (hφ3 : φ ^ 3 = 1) (hφ1 : φ ≠ 1) {k : ℕ} (hk : Nat.card ↥(LEnd L) = 2 ^ k) :
     3 ∣ 2 ^ k - 1 := by
-  letI : Field ↥(LEnd L) := hfield.toField
+  let : Field ↥(LEnd L) := hfield.toField
   have hφ0 : φ ≠ 0 := by
     intro h0
     have h1 : (0 : ↥(LEnd L)) = 1 := by
       have h2 := hφ3
       rw [h0] at h2
-      simpa using h2
+      simp at h2
     exact zero_ne_one h1
   let u := Units.mk0 φ hφ0
   have hu3 : u ^ 3 = 1 := by
@@ -49,16 +50,17 @@ private theorem w1369_three_dvd_lend {L : Subgroup (MulAut W)} (hfield : IsField
   rw [hcardU, hk] at hdiv
   exact hdiv
 
+omit [Finite W] in
 private theorem w1369_sigma_eq_one {L : Subgroup (MulAut W)} (hfield : IsField ↥(LEnd L))
     (hcard : Nat.card ↥(LEnd L) = 4) (σ : ↥(LEnd L) ≃+* ↥(LEnd L)) {φ : ↥(LEnd L)}
     (hφ3 : φ ^ 3 = 1) (hφ1 : φ ≠ 1) (hσφ : σ φ = φ) : ∀ ψ, σ ψ = ψ := by
-  letI : Field ↥(LEnd L) := hfield.toField
+  let : Field ↥(LEnd L) := hfield.toField
   have hφ0 : φ ≠ 0 := by
     intro h0
     have h1 : (0 : ↥(LEnd L)) = 1 := by
       have h2 := hφ3
       rw [h0] at h2
-      simpa using h2
+      simp at h2
     exact zero_ne_one h1
   let u := Units.mk0 φ hφ0
   have hu1 : u ≠ 1 := by
@@ -127,8 +129,7 @@ private theorem w1369_contra
     have hfapp : ∀ y : Additive W, f y = Additive.ofMul (z (Additive.toMul y)) := fun y => rfl
     apply AddMonoidHom.ext
     intro x
-    simp only [pow_succ, pow_zero, AddMonoid.End.coe_mul, AddMonoid.End.coe_one,
-      Function.comp_apply, hfapp]
+    simp only [pow_succ, pow_zero]
     show Additive.ofMul (z (z (z (Additive.toMul x)))) = Additive.ofMul (Additive.toMul x)
     rw [hz3app]
   have hz1 : z ≠ 1 := by
@@ -276,7 +277,7 @@ theorem sl34_excluded (hw2 : ∀ w : W, w ^ 2 = 1) {Y : Subgroup (MulAut W)} {t 
       rw [eq_top_iff]
       intro a _
       exact Subgroup.mem_center_iff.mpr fun b => Subtype.ext (hcon a a.2 b b.2).symm
-    haveI : Subsingleton (↥L ⧸ Subgroup.center ↥L) := by
+    have : Subsingleton (↥L ⧸ Subgroup.center ↥L) := by
       rw [hcenter]
       refine ⟨fun a b => ?_⟩
       induction a using QuotientGroup.induction_on with
@@ -285,7 +286,7 @@ theorem sl34_excluded (hw2 : ∀ w : W, w ^ 2 = 1) {Y : Subgroup (MulAut W)} {t 
         | H y =>
           rw [QuotientGroup.eq]
           exact Subgroup.mem_top _
-    haveI : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := c.comp.2.2.2
+    have : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := c.comp.2.2.2
     exact (not_subsingleton_iff_nontrivial.mpr
       (inferInstance : Nontrivial (↥L ⧸ Subgroup.center ↥L))) inferInstance
   obtain ⟨eL⟩ := mulEquiv_secSub hstab hf
@@ -320,7 +321,7 @@ theorem sl34_excluded (hw2 : ∀ w : W, w ^ 2 = 1) {Y : Subgroup (MulAut W)} {t 
   have hZLcard : Nat.card (Subgroup.center ↥L) = 3 := by
     rw [Nat.card_congr (Subgroup.centerCongr eSL).toEquiv]
     exact hZcard
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨z₀, hz₀ord⟩ :=
     exists_prime_orderOf_dvd_card' (G := Subgroup.center ↥L) 3 (by rw [hZLcard])
   let z : MulAut W := ((z₀ : ↥L) : MulAut W)

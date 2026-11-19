@@ -87,7 +87,7 @@ theorem false_of_outer_of_rest₃
   have D : OutData L z t T₁ F tb :=
     ⟨hcfg, hZ, fun g => thetaH_eq_one_iff h hS hz hz2 hMN g, W, htl⟩
   obtain ⟨Q, x, hTQ, hxQ, hxT, hxN, hxz, hxt⟩ := hcfg.exists_swap h.nonabelian
-  have htQ := hcfg.t_central_Q Q.isPGroup' hTQ hxQ hxz hxt
+  have htQ := hcfg.t_central_Q Q.isPGroup hTQ hxQ hxz hxt
   have hcomm := hcfg.z_mem_commutator h.nonabelian
   have hone : ∀ u ∈ L, u * u = 1 → u ≠ 1 → ∃ c ∈ L, u = c * t * c⁻¹ := fun u hu hu2 hu1 =>
     oneClass_of_isSporadic hL D.t_mem_L hu hcfg.t_sq hu2 hcfg.t_ne hu1
@@ -100,7 +100,7 @@ theorem false_of_outer_of_rest₃
   have hcr := hO.centRank_of_rankFour (m22_rankFour hL) hrel
   obtain ⟨L1, hK⟩ := hO.kStructure hsq (D.fixedData hE.fixed) htr (D.liftData hE.lift) hcr
   exact hR G L z t T₁ F tb Q x L1 D h hL hS hrel hTQ hxQ hxT hxN hxz hxt htQ
-    (hcfg.inf_centralizer_eq Q.isPGroup' hTQ) ⟨_, hcomm, rfl⟩ hO
+    (hcfg.inf_centralizer_eq Q.isPGroup hTQ) ⟨_, hcomm, rfl⟩ hO
     ⟨y, hyH, hyo, hy2⟩ ⟨A, hLA, hAH, hzA, hAz, hidx⟩ htr
     (D.card_K hone hxN hxz hxt h.nonabelian)
     (fun k hk => D.center_K hone hxN hxz hxt h.nonabelian hk) hsq hK

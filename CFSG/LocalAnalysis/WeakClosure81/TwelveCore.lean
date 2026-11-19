@@ -11,11 +11,13 @@ open CFSG.SignalizerFunctorTheorem.Quadratic CFSG.Quasithin.G11 CFSG.Open Subgro
 
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 
+omit [Finite V] in
 private theorem b12_TwelveCore_add_self_eq_zero (x : V) : x + x = 0 := by
   have h := two_smul (ZMod 2) x
   rw [show (2 : ZMod 2) = 0 by decide, zero_smul] at h
   exact h.symm
 
+omit [Finite V] in
 private theorem b12_TwelveCore_neg_eq_self (x : V) : -x = x := by
   have hx := b12_TwelveCore_add_self_eq_zero x
   calc -x = -x + 0 := by rw [add_zero]
@@ -24,6 +26,7 @@ private theorem b12_TwelveCore_neg_eq_self (x : V) : -x = x := by
     _ = 0 + x := by rw [neg_add_cancel]
     _ = x := by rw [zero_add]
 
+omit [Finite V] in
 theorem isElemAbelian_of_quadratic {A : Subgroup (LGL 2 V)}
     (h : commSpace A (commSub A) = ⊥) : IsElemAbelian 2 A := by
   have h1 : commSub A ≤ fixSub A := commSub_le_fixSub_of_quadratic h
@@ -50,6 +53,7 @@ theorem isElemAbelian_of_quadratic {A : Subgroup (LGL 2 V)}
   · rw [pow_two]
     exact hsq x hx
 
+omit [Finite V] in
 theorem fixMod_of_closure {G : Subgroup (LGL 2 V)} {S : Set (LGL 2 V)}
     (hgen : G = Subgroup.closure S) {v : V} (hS : ∀ t ∈ S, t v - v ∈ cE G) :
     ∀ t ∈ G, t v - v ∈ cE G := by
@@ -95,25 +99,30 @@ structure Hyp121K (G A : Subgroup (LGL 2 V)) (g : LGL 2 V) : Prop where
   gen : G = A ⊔ cj g A
   quadratic : commSpace A (commSub A) = ⊥
 
+omit [Finite V] in
 theorem Hyp121K.elemAb {G A : Subgroup (LGL 2 V)} {g : LGL 2 V} (h : Hyp121K G A g) :
     IsElemAbelian 2 A :=
   isElemAbelian_of_quadratic h.quadratic
 
+omit [Finite V] in
 theorem Hyp121K.conj {G A : Subgroup (LGL 2 V)} {g : LGL 2 V} (h : Hyp121K G A g) :
     Hyp121K G (cj g A) g⁻¹ where
   g_mem := G.inv_mem h.g_mem
   gen := by rw [cj_self_inv, sup_comm]; exact h.gen
   quadratic := commSpace_cj_eq_bot h.quadratic g
 
+omit [Finite V] in
 theorem twelveOneK_sum {G A : Subgroup (LGL 2 V)} {g : LGL 2 V} (h : Hyp121K G A g) :
     commSub G = commSub A ⊔ commSub (cj g A) := by
   rw [h.gen, commSub_sup]
 
+omit [Finite V] in
 theorem twelveOneK_map_sup {G A : Subgroup (LGL 2 V)} {g : LGL 2 V} (h : Hyp121K G A g) :
     (commSub A).map (cE G).mkQ ⊔ (commSub (cj g A)).map (cE G).mkQ =
       (commSub G).map (cE G).mkQ := by
   rw [← Submodule.map_sup, twelveOneK_sum h]
 
+omit [Finite V] in
 theorem twelveOneK_map_inf {G A : Subgroup (LGL 2 V)} {g : LGL 2 V} (h : Hyp121K G A g) :
     (commSub A).map (cE G).mkQ ⊓ (commSub (cj g A)).map (cE G).mkQ = ⊥ := by
   have hAG : A ≤ G := by rw [h.gen]; exact le_sup_left
@@ -161,6 +170,7 @@ theorem twelveOneK_map_inf {G A : Subgroup (LGL 2 V)} {g : LGL 2 V} (h : Hyp121K
   have hxW : x ∈ cE G := ⟨hxfixG, hxG⟩
   exact (Submodule.Quotient.mk_eq_zero (cE G)).mpr hxW
 
+omit [Finite V] in
 theorem mem_cE_of_fixed_mod_cj {G A : Subgroup (LGL 2 V)} {g : LGL 2 V} (h : Hyp121K G A g)
     {v : V} (hv : v ∈ commSub (cj g A)) (hfix : ∀ t ∈ G, t v - v ∈ cE G) : v ∈ cE G := by
   have hAgG : cj g A ≤ G := by rw [h.gen]; exact le_sup_right
@@ -192,6 +202,7 @@ theorem mem_cE_of_fixed_mod_cj {G A : Subgroup (LGL 2 V)} {g : LGL 2 V} (h : Hyp
     exact mem_fixSub_sup hvA hvB
   · exact commSub_mono (cj g A) G hAgG hv
 
+omit [Finite V] in
 theorem inf_sup_cE_leK {G A : Subgroup (LGL 2 V)} {g : LGL 2 V} (h : Hyp121K G A g) :
     commSub A ⊓ (commSub (cj g A) ⊔ cE G) ≤ cE G := by
   intro x hx
@@ -205,6 +216,7 @@ theorem inf_sup_cE_leK {G A : Subgroup (LGL 2 V)} {g : LGL 2 V} (h : Hyp121K G A
   rw [twelveOneK_map_inf h] at hmem
   exact (Submodule.Quotient.mk_eq_zero (cE G)).mp (by simpa using hmem)
 
+omit [Finite V] in
 theorem inf_sup_cE_le_agK {G A : Subgroup (LGL 2 V)} {g : LGL 2 V} (h : Hyp121K G A g) :
     commSub (cj g A) ⊓ (commSub A ⊔ cE G) ≤ cE G := by
   intro x hx

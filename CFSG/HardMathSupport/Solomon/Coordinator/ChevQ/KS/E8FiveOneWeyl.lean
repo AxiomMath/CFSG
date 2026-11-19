@@ -220,7 +220,7 @@ theorem fixSet_griessW_subset : fixSet griessW ⊆ fixSet (e8FiveH 4) := fun z h
 
 theorem ncard_fixSet_griessW_le : (fixSet griessW).ncard ≤ 25 :=
   (Set.ncard_le_ncard fixSet_griessW_subset (Set.toFinite _)).trans
-    (ncard_fixSet_le_of_param (fun z hz => fixSet_h4_param hz))
+    (ncard_fixSet_le_of_param (fun _z hz => fixSet_h4_param hz))
 
 theorem czCol_mem_fixSet : czCol ∈ fixSet griessW := by
   apply mem_dualWeylStabilizer_of_dualMatrix

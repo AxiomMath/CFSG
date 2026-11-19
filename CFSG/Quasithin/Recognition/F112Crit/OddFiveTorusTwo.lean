@@ -54,7 +54,6 @@ theorem BenderLocal.exists_fixed_nbrs_ne (hB : BenderLocal ν L) {y y₀ : Coset
     have hGH : (u : G)⁻¹ * h ∈ G₀ := CosetGeom.stab_le ν (mul_mem huν' hhν)
     refine ⟨(u : G), huU, ⟨⟨mul_mem huν' hhν, mul_mem huy' hhy⟩, ?_⟩⟩
     refine CosetGeom.mem_stab_of_smul_eq (g := ⟨(u : G)⁻¹ * h, hGH⟩) ?_
-    change (⟨(u : G)⁻¹ * h, hGH⟩ : ↥G₀) • y₀ = y₀
     rw [show (⟨(u : G)⁻¹ * h, hGH⟩ : ↥G₀) = u⁻¹ * h' from rfl, mul_smul, ← hu,
       inv_smul_smul]
   have hmul : ∀ h ∈ H, ∃ u ∈ U, ∃ k ∈ K, h = u * k := by
@@ -88,7 +87,6 @@ theorem BenderLocal.exists_fixed_nbrs_ne (hB : BenderLocal ν L) {y y₀ : Coset
     have hcx : c * x * c⁻¹ ∈ stab y₀ := (hc x hxX).2
     have hkey : (c' * (⟨x, hxG⟩ : ↥G₀) * c'⁻¹) • y₀ = y₀ := CosetGeom.smul_eq_of_mem_stab hcx
     refine CosetGeom.mem_stab_of_smul_eq (g := ⟨x, hxG⟩) ?_
-    change (⟨x, hxG⟩ : ↥G₀) • (c'⁻¹ • y₀) = c'⁻¹ • y₀
     calc (⟨x, hxG⟩ : ↥G₀) • (c'⁻¹ • y₀) = ((⟨x, hxG⟩ : ↥G₀) * c'⁻¹) • y₀ :=
           (mul_smul _ _ _).symm
       _ = (c'⁻¹ * (c' * (⟨x, hxG⟩ : ↥G₀) * c'⁻¹)) • y₀ := by
@@ -101,7 +99,7 @@ theorem CartanLocal.eq_or_eq_of_isEdgeHall (hB : BenderLocal ν L) (hC : CartanL
     {y y' ε : CosetGeom G₀ G₁ G₂} (hy : y ∈ nbrs ν) (hy' : y' ∈ nbrs ν) (hne : y ≠ y')
     (hε : ε ∈ nbrs ν) {X : Subgroup G} (hX : IsEdgeHall ν y X) (hXy' : X ≤ stab y')
     (hXε : X ≤ stab ε) : ε = y ∨ ε = y' := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let H : Subgroup G := stab ν ⊓ stab y
   let C : Subgroup G := L ⊓ stab y ⊓ stab y'
   have hCH : C ≤ H :=
@@ -127,7 +125,7 @@ theorem CartanLocal.eq_or_eq_of_isEdgeHall (hB : BenderLocal ν L) (hC : CartanL
     refine le_inf (fun g hg => ?_) hPle
     obtain ⟨x, hxP, rfl⟩ := Subgroup.mem_map.mp hg
     have hxC : (x : G) ∈ C := hPle (Subgroup.mem_map_of_mem C.subtype hxP)
-    obtain ⟨n, hn⟩ := (IsPGroup.iff_orderOf.mp P.isPGroup') ⟨x, hxP⟩
+    obtain ⟨n, hn⟩ := (IsPGroup.iff_orderOf.mp P.isPGroup) ⟨x, hxP⟩
     have hxk : (x : G) ^ 2 ^ n = 1 := by
       have h1 : (⟨x, hxP⟩ : ↥(P : Subgroup ↥C)) ^ 2 ^ n = 1 := by
         rw [← hn]; exact pow_orderOf_eq_one _

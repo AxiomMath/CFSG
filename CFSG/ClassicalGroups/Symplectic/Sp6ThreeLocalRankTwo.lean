@@ -29,20 +29,20 @@ theorem symTwo_mul_symTwo (p q : K) :
       (p ^ 2 + q ^ 2) • (diagonal ![1, 1, 0] : Matrix (Fin 3) (Fin 3) K) := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [symTwo, Matrix.mul_apply, Fin.sum_univ_three, Matrix.diagonal_apply] <;> ring
+    simp [symTwo, Matrix.mul_apply, Fin.sum_univ_three] <;> ring
 
 theorem skewTwo_mul_skewTwo :
     (skewTwo : Matrix (Fin 3) (Fin 3) K) * skewTwo =
       (-1 : K) • (diagonal ![1, 1, 0] : Matrix (Fin 3) (Fin 3) K) := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [skewTwo, Matrix.mul_apply, Fin.sum_univ_three, Matrix.diagonal_apply]
+    simp [skewTwo, Matrix.mul_apply, Fin.sum_univ_three]
 
 theorem symTwo_mul_skewTwo_add (p q : K) :
     symTwo p q * skewTwo + skewTwo * symTwo p q = 0 := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [symTwo, skewTwo, Matrix.mul_apply, Fin.sum_univ_three] <;> ring
+    simp [symTwo, skewTwo]
 
 theorem symTwo_transpose (p q : K) : (symTwo p q)ᵀ = symTwo p q := by
   ext i j
@@ -62,7 +62,7 @@ theorem diag_symTwo_skewTwo (p q : K) :
     (diagonal ![0, 0, 1] : Matrix (Fin 3) (Fin 3) K) * skewTwo = 0 ∧
     skewTwo * (diagonal ![0, 0, 1] : Matrix (Fin 3) (Fin 3) K) = 0 := by
   refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩ <;> ext i j <;> fin_cases i <;> fin_cases j <;>
-    simp [symTwo, skewTwo, Matrix.mul_apply, Fin.sum_univ_three, Matrix.diagonal_apply]
+    simp [symTwo, skewTwo, Matrix.mul_apply, Matrix.diagonal_apply]
 
 theorem rankTwoNilpotent_mul_self {s : SL(2, K)} (hs : IsCubeRootBlock s) {p q : K}
     (hpq : p ^ 2 + q ^ 2 = -3) : rankTwoNilpotent s p q * rankTwoNilpotent s p q = 0 := by
@@ -138,7 +138,7 @@ theorem rankTwoNilpotent_offDiag_ne {s : SL(2, K)} (h6 : (6 : K) ≠ 0) (p q : K
     rankTwoNilpotent s p q (Sum.inl 0) (Sum.inl 1) ≠ 0 ∨
       rankTwoNilpotent s p q (Sum.inl 1) (Sum.inl 0) ≠ 0 := by
   by_contra h
-  push_neg at h
+  push Not at h
   obtain ⟨h1, h2⟩ := h
   apply h6
   simp [rankTwoNilpotent, tensorMatrix, symTwo, skewTwo] at h1 h2
@@ -179,7 +179,7 @@ theorem two_le_pRank_centralizer_c₀_weight_two [Finite K] {r : ℕ} (hr : r.Pr
     (h5 : 5 ≤ r) {s : SL(2, K)} (hs : IsCubeRootBlock s) :
     2 ≤ CFSG.Open.pRank r (Subgroup.centralizer
       ({c₀ hs (Multiplicative.ofAdd ![1, 1, 0])} : Set (StatedSp 3 K))) := by
-  haveI := Fact.mk hr
+  have := Fact.mk hr
   obtain ⟨p, q, hpq⟩ := exists_sq_add_sq_eq_neg_three (K := K) hr
   have h6 : (6 : K) ≠ 0 := six_ne_zero_of_five_le h5 hs.three_ne_zero
   have hτ := orderOf_unipotent_one (K := K) hr
@@ -197,7 +197,7 @@ theorem two_le_pRank_centralizer_c₀_weight_two [Finite K] {r : ℕ} (hr : r.Pr
       fin_cases i <;> simp
     rw [e]
     refine commute_block_rankTwoElement hs hpq (a := 1) ?_
-    simpa using Commute.one_left (s : Matrix (Fin 2) (Fin 2) K)
+    simp
   have hu : rankTwoElement hs hpq ∈
       Subgroup.centralizer ({c₀ hs (Multiplicative.ofAdd ![1, 1, 0])} : Set (StatedSp 3 K)) := by
     rw [Subgroup.mem_centralizer_singleton_iff, c₀_point_110]
@@ -228,6 +228,6 @@ theorem one_le_pRank_centralizer_c₀_planeB [Finite K] {r : ℕ} (hr : r.Prime)
     exact (commute_block_rankTwoElement hs hpq (a := s) (a' := s) (Commute.refl _)).eq
   · rw [c₀_point_001]
     refine (commute_block_rankTwoElement hs hpq (a := 1) (a' := s) ?_).eq
-    simpa using Commute.one_left (s : Matrix (Fin 2) (Fin 2) K)
+    simp
 
 end CFSG.ClassicalGroups.Symplectic.Sp6ThreeLocal

@@ -180,7 +180,7 @@ theorem exists_WSL_twist {K L : Type} [Field K] [Finite K] [Field L] [Algebra K 
     rw [h, pow_succ, ha]
     ring
   have : NeZero ((q ^ 2 - 1 : ℕ) : L) := ⟨hq2L⟩
-  obtain ⟨μ, hμ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L (q ^ 2 - 1)
+  obtain ⟨μ, hμ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L (q ^ 2 - 1)
   have hμ0 : μ ≠ 0 := hμ.ne_zero hqpos.ne'
   have hμq2 : μ ^ (q ^ 2) = μ := by
     have h : q ^ 2 = (q ^ 2 - 1) + 1 := by omega

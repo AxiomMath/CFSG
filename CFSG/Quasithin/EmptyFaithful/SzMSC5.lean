@@ -275,7 +275,7 @@ variable {G : Type} [Group G] [Finite G]
     ∀ i : ℕ, 2 ≤ i → i ≤ 4 → ¬ MS93.IsC134CaseCorr i (kPar15129 T Z₁ L n W ⊔ pCoreOf 2 (pPar15129 T Z₁ L n W 2))
       (pCoreOf 2 (pPar15129 T Z₁ L n W 2)) (kPar15129 T Z₁ L n W)
 
-theorem input15129NotC134Corr_of_res (h : Input15129NotC134ResCorr) :
+theorem input15129NotC134Corr_of_res (_h : Input15129NotC134ResCorr) :
     Input15129NotC134Corr :=
   fun G _ _ T Mc M Z₁ Z₂ V₁ V₂ L n W hc hF hMS i hi =>
     (input15129NotC134CorrM_of_res input15129NotC134ResCorrM_holds)

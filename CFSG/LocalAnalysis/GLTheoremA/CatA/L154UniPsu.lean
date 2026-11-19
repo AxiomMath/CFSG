@@ -75,7 +75,7 @@ theorem l154_uni_good_block (hn : 1 ≤ n) (hd : 3 ≤ d) (h : UnitaryFieldData 
     (hu : ∀ g g' : ↥(StatedSU d (2 ^ n) K), (g' : GL (Fin d) K) = A * (g : GL (Fin d) K) * A⁻¹ →
       u (LargeEvenProjMk (StatedSU d (2 ^ n) K) g) = LargeEvenProjMk (StatedSU d (2 ^ n) K) g')
     (JP : Subgroup (StatedProj (StatedSU d (2 ^ n) K))) (hJP : GLAPComponent p (fixSubgroup u) JP) :
-    ∃ (H : UnitaryPrimaryData h.bar (idForm h d) (Matrix.GeneralLinearGroup.toLin A))
+    ∃ (_H : UnitaryPrimaryData h.bar (idForm h d) (Matrix.GeneralLinearGroup.toLin A))
       (a : {a : primaryFactors ((Matrix.GeneralLinearGroup.toLin A :
           LinearMap.GeneralLinearGroup K (Fin d → K)) : Module.End K (Fin d → K)) //
         IsGoodBlock h (Matrix.GeneralLinearGroup.toLin A) a}),
@@ -84,7 +84,7 @@ theorem l154_uni_good_block (hn : 1 ≤ n) (hd : 3 ≤ d) (h : UnitaryFieldData 
           specialBlock (idForm h d) (Matrix.GeneralLinearGroup.toLin A) (a.1 : K[X]) ∧
           ∃ hg : g ∈ StatedSU d (2 ^ n) K, LargeEvenProjMk (StatedSU d (2 ^ n) K) ⟨g, hg⟩ = z := by
   classical
-  haveI := h.finite
+  have := h.finite
   have hd1 : 1 ≤ d := by omega
   have hq : 2 ≤ 2 ^ n := by
     have := Nat.one_lt_pow (by omega : n ≠ 0) Nat.one_lt_two
@@ -104,15 +104,15 @@ theorem l154_uni_good_block (hn : 1 ≤ n) (hd : 3 ≤ d) (h : UnitaryFieldData 
     have : uConjAut h hd1 A' = (MulAut.congr (uTransport h hd1)).symm
         (primeFormConjHom h (idGram K d) A') := rfl
     rw [this]
-    simp [MulAut.congr_apply]
+    simp
   have hker : (uTransport h hd1).toMonoidHom.ker ≤ Subgroup.center (StatedProj (StatedSU d (2 ^ n) K)) := by
     intro z hz
     rw [MonoidHom.mem_ker] at hz
     have : z = 1 := (uTransport h hd1).injective (hz.trans (map_one (uTransport h hd1)).symm)
     subst this
     exact Subgroup.one_mem _
-  haveI : Finite (StatedProj (StatedSU d (2 ^ n) K)) := by
-    haveI : Finite ↥(StatedSU d (2 ^ n) K) := inferInstance
+  have : Finite (StatedProj (StatedSU d (2 ^ n) K)) := by
+    have : Finite ↥(StatedSU d (2 ^ n) K) := inferInstance
     exact inferInstance
   have hL : GLAPComponent p (fixSubgroup (primeFormConjHom h (idGram K d) A'))
       (JP.map (uTransport h hd1).toMonoidHom) :=
@@ -144,10 +144,10 @@ theorem l154_toLin_scalar (z : Kˣ) :
       LinearMap.GeneralLinearGroup K (Fin d → K)) : Module.End K (Fin d → K)) =
         (z : K) • (1 : Module.End K (Fin d → K)) := by
   ext v i
-  simp [Matrix.GeneralLinearGroup.coe_toLin, Matrix.mulVecLin_apply, Matrix.mulVec_smul]
+  simp [Matrix.GeneralLinearGroup.coe_toLin]
   by_cases hi : i = v
   · subst hi; simp
-  · simp [Pi.single_apply, hi]
+  · simp [hi]
 
 theorem l154_line_matrix (g : LinearMap.GeneralLinearGroup K (Fin d → K)) (N : Module.End K (Fin d → K)) (c : K)
     (hg : (g : Module.End K (Fin d → K)) = 1 + c • N) :
@@ -220,6 +220,7 @@ variable (hn : 1 ≤ n) (h : UnitaryFieldData 2 n K) (A : GL (Fin d) K)
 
 include hn H a hz
 
+omit hz in
 private theorem l154_hmemSU
     (g : LinearMap.GeneralLinearGroup K (Fin d → K))
     (hg : g ∈ specialBlock (idForm h d) (Matrix.GeneralLinearGroup.toLin A) (a.1 : K[X])) :
@@ -237,15 +238,15 @@ theorem l154_uni_block_su (hself : dualPoly h.bar (a.1 : K[X]) = a.1)
     (hm3 : 3 ≤ primaryMultiplicity (Matrix.GeneralLinearGroup.toLin A : Module.End K (Fin d → K))
       (a.1 : K[X])) : L154BlockSU n d K h JP := by
   classical
-  haveI := h.finite
+  have := h.finite
   have hq : 2 ≤ 2 ^ n := by
     have := Nat.one_lt_pow (by omega : n ≠ 0) Nat.one_lt_two
     omega
   have hgood := a.2
-  haveI : Fact (Irreducible (a.1 : K[X])) := ⟨irreducible_of_mem_primaryFactors a.1.2⟩
+  have : Fact (Irreducible (a.1 : K[X])) := ⟨irreducible_of_mem_primaryFactors a.1.2⟩
   have hdeg : 1 ≤ (a.1 : K[X]).natDegree := Irreducible.natDegree_pos Fact.out
   have hk1 : 1 ≤ n * (a.1 : K[X]).natDegree := Nat.mul_pos hn hdeg
-  haveI : Finite (AdjoinRoot (a.1 : K[X])) := Module.finite_of_finite K
+  have : Finite (AdjoinRoot (a.1 : K[X])) := Module.finite_of_finite K
   obtain ⟨hE, ι, hinj, hspec, hscal⟩ := l154_selfDual_model H a.1 hself
   obtain ⟨N, hN, hline⟩ := l154_selfDual_line H a.1 hself hgood.1
   refine ⟨_, AdjoinRoot (a.1 : K[X]), inferInstance, inferInstance, n * (a.1 : K[X]).natDegree,
@@ -264,7 +265,7 @@ theorem l154_uni_block_su (hself : dualPoly h.bar (a.1 : K[X]) = a.1)
     obtain ⟨t, ht, rfl⟩ := hg'
     exact ⟨t, ht, l154_line_matrix _ N c hgc⟩
   · intro t ht
-    exact l154_hmemSU hn h A JP H a hz _ (hspec ▸ Subgroup.mem_map_of_mem ι ht)
+    exact l154_hmemSU hn h A H a _ (hspec ▸ Subgroup.mem_map_of_mem ι ht)
   · intro P z hzP
     have h1 : (ι P : LinearMap.GeneralLinearGroup K (Fin d → K)) =
         Matrix.GeneralLinearGroup.toLin (Matrix.GeneralLinearGroup.scalar (Fin d) z) := by
@@ -274,7 +275,7 @@ theorem l154_uni_block_su (hself : dualPoly h.bar (a.1 : K[X]) = a.1)
       have := congrArg (fun g : LinearMap.GeneralLinearGroup K (Fin d → K) =>
         (g : Module.End K (Fin d → K))) h1
       exact this.trans (l154_toLin_scalar z))
-    exact l154_scalar_of_matrix_eq P _ (by simpa using z.ne_zero) h2
+    exact l154_scalar_of_matrix_eq P _ (by simp) h2
   · intro z
     rw [hz z]
     constructor
@@ -293,11 +294,11 @@ theorem l154_uni_block_su (hself : dualPoly h.bar (a.1 : K[X]) = a.1)
 
 theorem l154_uni_block_sl (hself : ¬ dualPoly h.bar (a.1 : K[X]) = a.1) : L154BlockSL n d K h JP := by
   classical
-  haveI := h.finite
+  have := h.finite
   have hgood := a.2
-  haveI : Fact (Irreducible (a.1 : K[X])) := ⟨irreducible_of_mem_primaryFactors a.1.2⟩
+  have : Fact (Irreducible (a.1 : K[X])) := ⟨irreducible_of_mem_primaryFactors a.1.2⟩
   have hdeg : 1 ≤ (a.1 : K[X]).natDegree := Irreducible.natDegree_pos Fact.out
-  haveI : Finite (AdjoinRoot (a.1 : K[X])) := Module.finite_of_finite K
+  have : Finite (AdjoinRoot (a.1 : K[X])) := Module.finite_of_finite K
   have hne : (a.1 : K[X]) ≠ dualPoly h.bar (a.1 : K[X]) := fun h' => hself h'.symm
   obtain ⟨ι, hinj, hspec, hscal⟩ := l154_paired_model H a.1 hne
   obtain ⟨N, hN, hline⟩ := l154_paired_line H a.1 hne hgood.1
@@ -311,7 +312,7 @@ theorem l154_uni_block_sl (hself : ¬ dualPoly h.bar (a.1 : K[X]) = a.1) : L154B
     obtain ⟨t, ht, rfl⟩ := hg'
     exact ⟨t, ht, l154_line_matrix _ N c hgc⟩
   · intro t ht
-    exact l154_hmemSU hn h A JP H a hz _ (hspec ▸ Subgroup.mem_map_of_mem ι ht)
+    exact l154_hmemSU hn h A H a _ (hspec ▸ Subgroup.mem_map_of_mem ι ht)
   · intro P z hzP
     have h1 : (ι P : LinearMap.GeneralLinearGroup K (Fin d → K)) =
         Matrix.GeneralLinearGroup.toLin (Matrix.GeneralLinearGroup.scalar (Fin d) z) := by
@@ -321,7 +322,7 @@ theorem l154_uni_block_sl (hself : ¬ dualPoly h.bar (a.1 : K[X]) = a.1) : L154B
       have := congrArg (fun g : LinearMap.GeneralLinearGroup K (Fin d → K) =>
         (g : Module.End K (Fin d → K))) h1
       exact this.trans (l154_toLin_scalar z))
-    exact l154_scalar_of_matrix_eq P _ (by simpa using z.ne_zero) h2
+    exact l154_scalar_of_matrix_eq P _ (by simp) h2
   · intro z
     rw [hz z]
     constructor
@@ -337,6 +338,7 @@ theorem l154_uni_block_sl (hself : ¬ dualPoly h.bar (a.1 : K[X]) = a.1) : L154B
       rw [MulEquiv.apply_symm_apply]
       exact hspec ▸ Subgroup.mem_map_of_mem ι ht
 
+omit hz in
 theorem l154_sl2_equiv (hself : dualPoly h.bar (a.1 : K[X]) = a.1)
     (hm3 : ¬ 3 ≤ primaryMultiplicity (Matrix.GeneralLinearGroup.toLin A : Module.End K (Fin d → K))
       (a.1 : K[X])) :
@@ -344,12 +346,12 @@ theorem l154_sl2_equiv (hself : dualPoly h.bar (a.1 : K[X]) = a.1)
       Nonempty (↥(specialBlock (idForm h d) (Matrix.GeneralLinearGroup.toLin A) (a.1 : K[X])) ≃*
         ↥(StatedSL 2 F)) := by
   classical
-  haveI := h.finite
+  have := h.finite
   have hq : 2 ≤ 2 ^ n := by
     have := Nat.one_lt_pow (by omega : n ≠ 0) Nat.one_lt_two
     omega
   have hgood := a.2
-  haveI : Fact (Irreducible (a.1 : K[X])) := ⟨irreducible_of_mem_primaryFactors a.1.2⟩
+  have : Fact (Irreducible (a.1 : K[X])) := ⟨irreducible_of_mem_primaryFactors a.1.2⟩
   have hm2 : primaryMultiplicity (Matrix.GeneralLinearGroup.toLin A : Module.End K (Fin d → K))
       (a.1 : K[X]) = 2 := by
     have := hgood.1
@@ -360,7 +362,7 @@ theorem l154_sl2_equiv (hself : dualPoly h.bar (a.1 : K[X]) = a.1)
       (primaryComponent (Matrix.GeneralLinearGroup.toLin A : Module.End K (Fin d → K)) (a.1 : K[X])) = 2 :=
     hm2
   obtain ⟨e2⟩ := CFSG.RankThree.Classical.nonempty_sesqSpecialUnitaryGroup_mulEquiv_SL2 hE hHf hHfl hV
-  haveI : Finite hE.fixedField := inferInstance
+  have : Finite hE.fixedField := inferInstance
   refine ⟨hE.fixedField, inferInstance, inferInstance, n * (a.1 : K[X]).natDegree, ?_,
     hE.card_fixedField,
     ⟨(e.trans e2).trans (CFSG.Assembly.LowTwoRank.specialLinearGroupEquivStatedSL 2 hE.fixedField)⟩⟩
@@ -375,8 +377,8 @@ theorem l154_uni_block_sl2 (hself : dualPoly h.bar (a.1 : K[X]) = a.1)
       (a.1 : K[X])) : L154BlockSL2 n d K h JP := by
   classical
   have hgood := a.2
-  haveI : Fact (Irreducible (a.1 : K[X])) := ⟨irreducible_of_mem_primaryFactors a.1.2⟩
-  obtain ⟨F, hF, hFfin, k, hk2, hcard, ⟨eSB⟩⟩ := l154_sl2_equiv hn h A JP H a hz hself hm3
+  have : Fact (Irreducible (a.1 : K[X])) := ⟨irreducible_of_mem_primaryFactors a.1.2⟩
+  obtain ⟨F, hF, hFfin, k, hk2, hcard, ⟨eSB⟩⟩ := l154_sl2_equiv hn h A H a hself hm3
   obtain ⟨N, hN, hline⟩ := l154_selfDual_line H a.1 hself hgood.1
   let ι' : ↥(StatedSL 2 F) →* GL (Fin d) K :=
     (Matrix.GeneralLinearGroup.toLin.symm : _ ≃* GL (Fin d) K).toMonoidHom.comp
@@ -397,7 +399,7 @@ theorem l154_uni_block_sl2 (hself : dualPoly h.bar (a.1 : K[X]) = a.1)
     rw [hι'app, MulEquiv.symm_apply_apply]
     exact l154_line_matrix g N c hgc
   · intro t
-    exact l154_hmemSU hn h A JP H a hz _ (eSB.symm t).2
+    exact l154_hmemSU hn h A H a _ (eSB.symm t).2
   · rintro t ⟨z, hzt⟩
     rw [Subgroup.mem_center_iff]
     intro t'

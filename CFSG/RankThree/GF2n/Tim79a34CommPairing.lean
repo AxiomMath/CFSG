@@ -24,7 +24,7 @@ theorem conj_eq_self_of_mul_eq {G : Type*} [Group G] {a r : G} (h : a * r = r * 
 
 theorem card_le_of_commutator_pairing {G : Type*} [Group G] [Finite G]
     (A B Px K₀ : Subgroup G) (m : ℕ)
-    (hAB : A ≤ B) (hK₀ : K₀ ≤ Px)
+    (hAB : A ≤ B) (_hK₀ : K₀ ≤ Px)
     (hcomm : ∀ b ∈ B, ∀ r ∈ Px, ⁅b, r⁆ ∈ A)
     (hAcent : ∀ a ∈ A, ∀ x ∈ B ⊔ Px, a * x = x * a)
     (hBK : ∀ b ∈ B, ∀ k ∈ K₀, b * k = k * b)
@@ -35,10 +35,10 @@ theorem card_le_of_commutator_pairing {G : Type*} [Group G] [Finite G]
     Nat.card B ≤ Nat.card A * Nat.card A ^ m := by
   have hAcomm : ∀ a ∈ A, ∀ a' ∈ A, a * a' = a' * a := fun a ha a' ha' =>
     hAcent a ha a' (Subgroup.mem_sup_left (hAB ha'))
-  letI : CommGroup A :=
+  let : CommGroup A :=
     { (inferInstance : Group A) with
       mul_comm := fun x y => Subtype.ext (hAcomm x.1 x.2 y.1 y.2) }
-  haveI hN : (K₀.subgroupOf Px).Normal :=
+  have hN : (K₀.subgroupOf Px).Normal :=
     ⟨fun n hn g => by
       rw [Subgroup.mem_subgroupOf] at hn ⊢
       exact hKn (g : G) g.2 (n : G) hn⟩
@@ -52,7 +52,7 @@ theorem card_le_of_commutator_pairing {G : Type*} [Group G] [Finite G]
     convert h using 1
     simp only [commutatorElement_def, Subgroup.coe_mul, Subgroup.coe_inv]
     group
-  letI : CommGroup (↥Px ⧸ K₀.subgroupOf Px) :=
+  let : CommGroup (↥Px ⧸ K₀.subgroupOf Px) :=
     { (inferInstance : Group (↥Px ⧸ K₀.subgroupOf Px)) with mul_comm := hQcomm }
   have hQexp : ∀ x : ↥Px ⧸ K₀.subgroupOf Px, x * x = 1 := by
     intro x
@@ -115,7 +115,7 @@ theorem card_le_of_commutator_pairing {G : Type*} [Group G] [Finite G]
     apply Subtype.ext
     apply Subtype.ext
     exact congrArg (fun z : ↥A => (z : G)) hxy
-  haveI : Finite ((↥Px ⧸ K₀.subgroupOf Px) →* ↥A) :=
+  have : Finite ((↥Px ⧸ K₀.subgroupOf Px) →* ↥A) :=
     Finite.of_injective
       (fun f : (↥Px ⧸ K₀.subgroupOf Px) →* ↥A => (f : (↥Px ⧸ K₀.subgroupOf Px) → ↥A))
       DFunLike.coe_injective

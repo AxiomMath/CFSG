@@ -51,7 +51,7 @@ variable [Finite G]
 open CFSG.OrderReductions.FrattiniElementary in
 theorem Phi'_frattini {Q : Subgroup G} (hQ : IsPGroup 2 ↥Q) :
     ∀ n (hn : n ∈ Phi' Q), (⟨n, Phi'_le Q hn⟩ : ↥Q) ∈ frattini ↥Q := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hle : Phi' Q ≤ (frattini ↥Q).map Q.subtype := by
     refine (Subgroup.closure_le _).2 ?_
     rintro x (⟨y, hy, rfl⟩ | ⟨a, ha, b, hb, rfl⟩)

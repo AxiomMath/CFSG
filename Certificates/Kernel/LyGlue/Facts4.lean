@@ -27,6 +27,7 @@ theorem ev_cvOf (p : Nat) (g : Perm (Fin n)) (hshr) (hpg) : ev (cvOf p g hshr hp
   rw [ev_apply]
   exact hpg i i.2
 
+omit hs in
 theorem cvOf_val (p : Nat) (g : Perm (Fin n)) (hshr) (hpg) : (cvOf p g hshr hpg).1 = p := rfl
 
 theorem cv_eq_of_ev {a b : CV n} (h : ev a = ev b) : a = b := ev_injective h
@@ -46,12 +47,12 @@ theorem wC243 : wC 243 = 8 := by decide
 
 theorem gcv_val (hT : Ly243.trCheck = true) {k : Nat} (hk : k < 5) : (gcv hT k).1 = GH.F k := by
   unfold gcv
-  rw [dif_pos hk]
+  rw [dite_eq_left hk]
   rfl
 
 theorem ev_gcv (hT : Ly243.trCheck = true) {k : Nat} (hk : k < 5) : ev (gcv hT k) = Ly243.gg k := by
   unfold gcv
-  rw [dif_pos hk, ev_cvOf]
+  rw [dite_eq_left hk, ev_cvOf]
 
 @[expose] noncomputable def lcv (hT : Ly243.trCheck = true) (k : Nat) : CV 243 :=
   if hk : k < 3 then
@@ -64,13 +65,13 @@ theorem ev_gcv (hT : Ly243.trCheck = true) {k : Nat} (hk : k < 5) : ev (gcv hT k
 
 theorem lcv_val (hT : Ly243.trCheck = true) {k : Nat} (hk : k < 3) : (lcv hT k).1 = LH.F k := by
   unfold lcv
-  rw [dif_pos hk]
+  rw [dite_eq_left hk]
   rfl
 
 theorem ev_lcv (hT : Ly243.trCheck = true) {k : Nat} (hk : k < 3) :
     ev (lcv hT k) = Ly243.lineG k := by
   unfold lcv
-  rw [dif_pos hk, ev_cvOf]
+  rw [dite_eq_left hk, ev_cvOf]
 
 end CertificateChecks.KernelLy
 

@@ -154,7 +154,7 @@ private lemma l05nAL_ggTorM_A {n rank : ℕ} :
   have htag : (⟨.A, rank, n⟩ : LargeEvenLabel).tag = .A := rfl
   unfold ggTorM
   rw [htag]
-  rw [if_neg (by decide : ¬ ((.A : LargeEvenLieTag) = .twA ∨
+  rw [ite_eq_right (by decide : ¬ ((.A : LargeEvenLieTag) = .twA ∨
     (.A : LargeEvenLieTag) = .twE6))]
 
 private lemma l05nAL_ggTorM_twA {n rank : ℕ} :
@@ -162,7 +162,7 @@ private lemma l05nAL_ggTorM_twA {n rank : ℕ} :
   have htag : (⟨.twA, rank, n⟩ : LargeEvenLabel).tag = .twA := rfl
   unfold ggTorM
   rw [htag]
-  rw [if_pos (by decide : ((.twA : LargeEvenLieTag) = .twA ∨
+  rw [ite_eq_left (by decide : ((.twA : LargeEvenLieTag) = .twA ∨
     (.twA : LargeEvenLieTag) = .twE6))]
 
 private lemma l05nAL_row_facts {p : ℕ} {J X : LargeEvenLabel}
@@ -253,10 +253,10 @@ theorem ggTwoNodeLarge_false_L_narrow (hKG : GGReflClassLargeInput') (hOrb : GGR
   subst lab
   obtain ⟨Λ, iF, iD, M, C, V, iAC, iM, ι, φ, h, α, e, hMeq, hW, hCL, hφ, hrefl, hpair,
     ⟨f, hf⟩, hAL⟩ := hdat
-  letI : Fintype Λ := iF
-  letI : DecidableEq Λ := iD
-  letI : AddCommGroup V := iAC
-  letI : Module (ZMod p) V := iM
+  let : Fintype Λ := iF
+  let : DecidableEq Λ := iD
+  let : AddCommGroup V := iAC
+  let : Module (ZMod p) V := iM
   have hx : x ∈ Bs := hH.1.tableB_facts.2.2.1
   have hp2 : p ≠ 2 := hH.1.1.2.2.2.2.2.1.2.1
   have hN : 11 ≤ labX.rank + 1 := by omega
@@ -352,8 +352,8 @@ theorem ggTwoNodeLarge_false_K_narrow (hKG : GGReflClassLargeInput')
   have hDatumX : GGResXDatumA p Bs K labX.rank := hEq2 ▸ hDatumLab
   obtain ⟨Λ, iF, iD, M, C, V, iVadd, iVmod, ι, φ, h, α, e, hM, hMw, hMC, hφ, hrefl,
     hpair, hIsoK, hAK⟩ := hDatumX
-  letI : AddCommGroup V := iVadd
-  letI : Module (ZMod p) V := iVmod
+  let : AddCommGroup V := iVadd
+  let : Module (ZMod p) V := iVmod
   obtain ⟨Λ', iF', iD', b₁, b₂, M', C', MJ, V', iV', iM', ι', φ', h', α',
     hb, hMw', hMC', hMJw, hMJeq, hφ', hrefl', hpair', hIsoK', hAK', hIsoJ', hAJ',
     hconj⟩ := hKd

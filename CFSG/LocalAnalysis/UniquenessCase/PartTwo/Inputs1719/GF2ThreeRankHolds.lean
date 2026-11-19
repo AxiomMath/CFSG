@@ -108,7 +108,7 @@ theorem k_GF2_threeRank_of_native
     have h2 := hZ1 (by
       change (if Even (2 ^ 1) then ((1 : ℕ), (1 : ℕ)) else
         if Even m then (2, 2) else (Nat.gcd 4 ((2 ^ 1) ^ m - 1), 1)) = (1, 1)
-      rw [if_pos (by decide)])
+      rw [ite_eq_left (by decide)])
     omega
   | POmegaMinus =>
     exfalso

@@ -25,7 +25,7 @@ private lemma s16c11_v1_fst_eq_of_mul_eq {W' : Type} [CommGroup W'] {I₀ I₁ :
   have hx : (a, b) = (a', b') := mul_injective_of_disjoint hdisj h
   exact congrArg Prod.fst hx
 
-private noncomputable def s16c11_v1_complement {W' : Type} [CommGroup W'] {I₀ I₁ : Subgroup W'}
+private theorem s16c11_v1_complement {W' : Type} [CommGroup W'] {I₀ I₁ : Subgroup W'}
     (hinf : I₀ ⊓ I₁ = ⊥) (hsup : I₀ ⊔ I₁ = ⊤) : IsComplement' I₀ I₁ :=
   (isComplement_iff_existsUnique (S := (I₀ : Set W')) (T := (I₁ : Set W'))).2
     (s16c11_v1_exists_unique_decomp hinf hsup)
@@ -98,7 +98,7 @@ private lemma s16c11_v1_proj₀_mulAut {W' : Type} [CommGroup W'] {B : Subgroup 
 theorem s16c11_v1_exists_iso_summand {W' : Type} [CommGroup W'] {B : Subgroup (MulAut W')}
     {I₀ I₁ N N' : Subgroup W'} (hinf : I₀ ⊓ I₁ = ⊥) (hsup : I₀ ⊔ I₁ = ⊤)
     (hirr₀ : IsIrrOn B I₀ ⊥) (hirr₁ : IsIrrOn B I₁ ⊥) (hN : StableUnder B N)
-    (hN' : StableUnder B N') (hNinf : N ⊓ N' = ⊥) (hNsup : N ⊔ N' = ⊤) (hN0 : N ≠ ⊥)
+    (_hN' : StableUnder B N') (hNinf : N ⊓ N' = ⊥) (_hNsup : N ⊔ N' = ⊤) (hN0 : N ≠ ⊥)
     (hN'0 : N' ≠ ⊥) :
     ∃ (I : Subgroup W') (s : ↥N →* ↥I), (I = I₀ ∨ I = I₁) ∧ Function.Bijective s ∧
       ∀ (b : MulAut W') (hb : b ∈ B) (n : ↥N),

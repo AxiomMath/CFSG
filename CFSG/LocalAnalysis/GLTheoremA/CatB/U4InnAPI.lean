@@ -32,7 +32,7 @@ theorem HasU4Quot.dvd_card {S : Type} [Group S] [Finite S] {C : Subgroup S} (h :
 theorem not_comm_of_card_25920 {T : Type} [Group T] [IsSimpleGroup T] (hT : Nat.card T = 25920) :
     ¬ ∀ a b : T, a * b = b * a := by
   intro hcomm
-  letI : CommGroup T := { (inferInstance : Group T) with mul_comm := hcomm }
+  let : CommGroup T := { (inferInstance : Group T) with mul_comm := hcomm }
   have hprime := (CommGroup.is_simple_iff_prime_card (α := T)).1 inferInstance
   rw [hT] at hprime
   exact absurd hprime (by norm_num)
@@ -53,9 +53,9 @@ theorem HasU4Quot.not_isSolvable {S : Type} [Group S] {C : Subgroup S} (h : HasU
     ¬ Group.IsSolvable ↥C := by
   obtain ⟨A, T, _, _, _, hAC, hT, f, hf⟩ := h
   intro hC
-  haveI : Group.IsSolvable ↥A :=
+  have : Group.IsSolvable ↥A :=
     Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hAC)
-  haveI : Group.IsSolvable T := Group.isSolvable_of_surjective hf
+  have : Group.IsSolvable T := Group.isSolvable_of_surjective hf
   exact not_comm_of_card_25920 hT (IsSimpleGroup.comm_iff_isSolvable.2 inferInstance)
 
 theorem HasU4Quot.map_equiv {S S' : Type} [Group S] [Group S'] (e : S ≃* S') {C : Subgroup S}
@@ -65,7 +65,7 @@ theorem HasU4Quot.map_equiv {S S' : Type} [Group S] [Group S'] (e : S ≃* S') {
     (f.comp (Subgroup.equivMapOfInjective A e.toMonoidHom e.injective).symm.toMonoidHom) ?_
   exact hf.comp (Subgroup.equivMapOfInjective A e.toMonoidHom e.injective).symm.surjective
 
-theorem HasU4Quot.of_comm_le {S : Type} [Group S] {C C' : Subgroup S} (hC' : C' ≤ C)
+theorem HasU4Quot.of_comm_le {S : Type} [Group S] {C C' : Subgroup S} (_hC' : C' ≤ C)
     (hcomm : ∀ x ∈ C, ∀ y ∈ C, ⁅x, y⁆ ∈ C') (h : HasU4Quot C) : HasU4Quot C' := by
   obtain ⟨A, T, _, _, _, hAC, hT, f, hf⟩ := h
   have hAA : A ⊓ C' ≤ A := inf_le_left
@@ -86,7 +86,7 @@ theorem HasU4Quot.of_comm_le {S : Type} [Group S] {C C' : Subgroup S} (hC' : C' 
       rw [h2]
       exact C'.mul_mem h1 hxA.2
   have hMtop : M = ⊤ := by
-    haveI := hMn
+    have := hMn
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal M with hM | hM
     · exfalso
       apply not_comm_of_card_25920 hT
@@ -176,7 +176,7 @@ theorem pPrimeCore_eq_bot_of_mulEquiv {X Y : Type*} [Group X] [Group Y] (e : X �
 theorem U4InnModel.of_mulEquiv {S M : Type} [Group S] [Group M] (e : S ≃* M) (h : U4InnModel M) :
     U4InnModel S := by
   intro hS u hu3 hq
-  haveI : IsSimpleGroup M := e.symm.isSimpleGroup
+  have : IsSimpleGroup M := e.symm.isSimpleGroup
   have hu3' : (MulAut.congr e u) ^ 3 = 1 := by rw [← map_pow, hu3, map_one]
   have hq' : HasU4Quot (u4Fix (MulAut.congr e u)) := by
     rw [u4Fix_congr]
@@ -280,7 +280,7 @@ theorem pPrimeCore_eq_bot_of_normal {G : Type*} [Group G] [Finite G] {ι : Type*
   rw [Subgroup.mem_bot]
   have hNK : ∀ i, ∀ x ∈ N, x ∈ K i → x = 1 := by
     intro i x hxN hxK
-    haveI := hKn i
+    have := hKn i
     have hbot : N.subgroupOf (K i) ≤ CFSG.pPrimeCore 3 ↥(K i) := by
       refine le_sSup ⟨inferInstance, ?_⟩
       have h1 : Nat.card (N.subgroupOf (K i)) ∣ Nat.card N := by
@@ -298,7 +298,7 @@ theorem pPrimeCore_eq_bot_of_normal {G : Type*} [Group G] [Finite G] {ι : Type*
     exact congrArg Subtype.val this
   have hcomm : ∀ i, ∀ k ∈ K i, n * k = k * n := by
     intro i k hk
-    haveI := hKn i
+    have := hKn i
     have h1 : n * k * n⁻¹ * k⁻¹ ∈ N := by
       have : k * n⁻¹ * k⁻¹ ∈ N := hN.conj_mem _ (N.inv_mem hn) k
       have := N.mul_mem hn this

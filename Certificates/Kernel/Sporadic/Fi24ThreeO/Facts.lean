@@ -41,9 +41,9 @@ theorem vn : VN NW NT := by
 theorem CF_pts {c x : Nat} (hc : c ≤ 26) (hx : x < 306936) : CF NW NT c x < 306936 := by
   unfold CF
   by_cases h : c = 26
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     exact tP_facts.2.2.1 x hx
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     unfold LN
     split_ifs
     · exact (nets (by omega) hx).1
@@ -52,7 +52,7 @@ theorem CF_pts {c x : Nat} (hc : c ≤ 26) (hx : x < 306936) : CF NW NT c x < 30
 theorem cP_pts : ∀ {cs : List Nat}, (∀ c ∈ cs, c ≤ 26) → ∀ {x : Nat}, x < 306936 →
     cP NW NT cs x < 306936
   | [], _, _, hx => hx
-  | c :: cs, h, _, hx =>
+  | c :: _cs, h, _, hx =>
     CF_pts (h c List.mem_cons_self) (cP_pts (fun c' hc' => h c' (List.mem_cons_of_mem c hc')) hx)
 
 theorem invC_cons (c : Nat) (W : List Nat) :
@@ -359,7 +359,7 @@ theorem free_facts : FreeN := by
     unfold cst at hc
     rw [letB_eq', nthD_eq [] swC j hj, ptC_eq, sP_eq, sP_eq] at hc
     change orB _ (orB _ _) = true at hc
-    simp only [CFSG.KC.orB, Bool.rec] at hc
+    simp only [CFSG.KC.orB] at hc
     revert hc
     cases e1 : Nat.beq (cP NW NT (invC G1 ++ (swC[j] ++ G1)) 12) 12 <;>
       cases e2 : Nat.beq (cP NW NT (invC G1 ++ (swC[j] ++ G1)) 12) (LN NW 2 12) <;>

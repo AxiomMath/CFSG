@@ -140,7 +140,7 @@ theorem false_of_componentsNoD4 {S : Type} [Group S] [Finite S] {α : MulAut S}
   have hJle := hlayer J hJ.1 (glaPComponent_perfect hJ)
   have hJc := (glaPComponent_isComponent_of_le_layer hJ hJle).1
   have hcard := card_isD4two_cat hT
-  haveI : Nontrivial (PSimple 3 J) := by
+  have : Nontrivial (PSimple 3 J) := by
     rw [← Finite.one_lt_card_iff_nontrivial, hcard]
     norm_num
   obtain ⟨φ⟩ := CFSG.LocalAnalysis.GLTheoremA.I1431C2.nonempty_centerQuot_equiv_psimple hJc.2.2
@@ -167,7 +167,7 @@ theorem card_centerQuot_su_ne {m k q' : ℕ} {E : Type} [Field E] [Finite E] (hm
     {X : Type} [Group X] (eX : X ≃* ↥(StatedSU m q' E)) :
     Nat.card (X ⧸ Subgroup.center X) ≠ 174182400 := by
   subst hq'
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, hZ⟩ :=
     CFSG.LieType.Universal.Unitary.isQuasisimple_statedSU_of_card (p := 2) (f := k) hE hm hmq
   obtain ⟨e⟩ := CFSG.LocalAnalysis.GLTheoremA.Y10GCenterQuot.nonempty_centerQuot_of_mulEquiv eX

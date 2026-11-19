@@ -18,6 +18,7 @@ section Aux
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem mem_normalizer_commutator {H K : Subgroup G} {g : G}
     (hH : g ∈ Subgroup.normalizer (H : Set G)) (hK : g ∈ Subgroup.normalizer (K : Set G)) :
     g ∈ Subgroup.normalizer ((⁅H, K⁆ : Subgroup G) : Set G) := by
@@ -44,6 +45,7 @@ private theorem centralizer_le_of_mem_zpowers {c y : G} (hc3 : c ^ 3 = 1) (hc1 :
   rw [← hk]
   exact (Commute.zpow_right (show Commute x y from hx) k).eq
 
+omit [Finite G] in
 private theorem le_normalizer_centralizer_inf {E : Subgroup G} {a c : G}
     (hEc : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x) (hcE : c ∈ E)
     (hcomm : ∀ e ∈ E, a * e * a⁻¹ * e⁻¹ ∈ Subgroup.zpowers c) :
@@ -98,7 +100,7 @@ private theorem odd_card_theta_inf {E : Subgroup G} {a c : G}
     even_iff_two_dvd.mp (Nat.not_odd_iff_even.mp hodd)
   obtain ⟨S, hSN, hS1⟩ := SignalizerFunctor.Helpers.normalized_subgroup_invariant_sylow_nontrivial
     3 2 Nat.prime_three Nat.prime_two E _ (CFSG.Open.IsElemAbelian.isPGroup hEe) hEN hcop h2
-  exact hE ⟨hEe, hE27, _, hS1, S.isPGroup'.map _, hSN⟩
+  exact hE ⟨hEe, hE27, _, hS1, S.isPGroup.map _, hSN⟩
 
 private theorem odd_card_theta_inf_centralizer {a c : G}
     (hodd : Odd (Nat.card (inSubgroup (aschbacherSolvableCore 3)
@@ -148,7 +150,7 @@ private theorem exists_invariant_two_subgroup {a c : G} {F : Subgroup G}
       (Sec11.not_three_dvd_card_inSubgroup_theta _)
   obtain ⟨S0, hSN, hS1⟩ := SignalizerFunctor.Helpers.normalized_subgroup_invariant_sylow_nontrivial
     3 2 Nat.prime_three Nat.prime_two F T (CFSG.Open.IsElemAbelian.isPGroup hFe) hFN hcop hev
-  have hS2 : IsPGroup 2 ((S0 : Subgroup T).map T.subtype) := S0.isPGroup'.map _
+  have hS2 : IsPGroup 2 ((S0 : Subgroup T).map T.subtype) := S0.isPGroup.map _
   refine ⟨(S0 : Subgroup T).map T.subtype, Subgroup.map_subtype_le _, hS2, hS1, hSN, ?_⟩
   refine Sec21.eq_bot_of_isPGroup_two_of_odd (hS2.to_le inf_le_left) ?_
   exact Odd.of_dvd_nat hodd
@@ -175,11 +177,11 @@ end Aux
 
 theorem exists_bR {G : Type} [Group G] [Finite G] {E F : Subgroup G} {a c : G}
     (hEe : CFSG.Assembly.IsElemAbelian 3 E) (hE27 : Nat.card E = 27) (hE : E ∉ partTwoE G)
-    (hFe : CFSG.Assembly.IsElemAbelian 3 F) (hF27 : Nat.card F = 27)
-    (haF : a ∈ F) (hcF : c ∈ F) (hcE : c ∈ E) (hc3 : c ^ 3 = 1) (hc1 : c ≠ 1)
+    (hFe : CFSG.Assembly.IsElemAbelian 3 F) (_hF27 : Nat.card F = 27)
+    (_haF : a ∈ F) (hcF : c ∈ F) (hcE : c ∈ E) (hc3 : c ^ 3 = 1) (hc1 : c ≠ 1)
     (hFa : F ≤ Subgroup.centralizer ({a} : Set G))
-    (hcomm : ∀ e ∈ E, a * e * a⁻¹ * e⁻¹ ∈ Subgroup.zpowers c) (hac : a * c = c * a)
-    (hFEcard : Nat.card (E ⊓ F : Subgroup G) = 9) (hFgen : F = Subgroup.zpowers a ⊔ (E ⊓ F))
+    (hcomm : ∀ e ∈ E, a * e * a⁻¹ * e⁻¹ ∈ Subgroup.zpowers c) (_hac : a * c = c * a)
+    (hFEcard : Nat.card (E ⊓ F : Subgroup G) = 9) (_hFgen : F = Subgroup.zpowers a ⊔ (E ⊓ F))
     (hev : 2 ∣ Nat.card
       (inSubgroup (aschbacherSolvableCore 3) (Subgroup.centralizer ({a} : Set G)))) :
     ∃ (b : G) (R : Subgroup G), b ∈ E ∧ b ∈ F ∧ b ∉ Subgroup.zpowers c ∧ R ≠ ⊥ ∧

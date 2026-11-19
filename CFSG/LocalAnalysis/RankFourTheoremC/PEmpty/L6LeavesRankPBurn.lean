@@ -9,7 +9,7 @@ namespace CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.RankP
 open Subgroup
 
 theorem exists_burnside_complement {X : Type*} [Group X] [Finite X] {f : ℕ} [Fact f.Prime]
-    {N₀ ZE : Subgroup X} (hZEp : IsPGroup f ZE) (hZE : ZE ≤ N₀)
+    {N₀ ZE : Subgroup X} (hZEp : IsPGroup f ZE) (_hZE : ZE ≤ N₀)
     (hZEc : ∀ z ∈ ZE, ∀ n ∈ N₀, n * z = z * n)
     (hmax : ∀ S : Subgroup X, S ≤ N₀ → IsPGroup f S → S ≤ ZE) :
     ∃ T : Subgroup X, T ≤ N₀ ∧ ¬ f ∣ Nat.card T ∧
@@ -47,9 +47,9 @@ theorem exists_burnside_complement {X : Type*} [Group X] [Finite X] {f : ℕ} [F
         simpa using this
       show (h * (t₀ : X) * h⁻¹) ^ Nat.card θ.ker = 1
       rw [show (h * (t₀ : X) * h⁻¹) ^ Nat.card θ.ker = h * (t₀ : X) ^ Nat.card θ.ker * h⁻¹ from by
-        simpa using (conj_pow (a := h) (b := (t₀ : X)) (i := Nat.card θ.ker)), h2]
+        simp, h2]
       simp
-    obtain ⟨k, hk⟩ := P.isPGroup' (θ n')
+    obtain ⟨k, hk⟩ := P.isPGroup (θ n')
     have h3 : (θ n') ^ Nat.card θ.ker = 1 := by rw [← map_pow, hpow, map_one]
     have hcop : Nat.Coprime (Nat.card θ.ker) (f ^ k) :=
       Nat.Coprime.pow_right k (((Fact.out : f.Prime).coprime_iff_not_dvd.mpr hnd).symm)

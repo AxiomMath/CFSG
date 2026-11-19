@@ -110,7 +110,7 @@ theorem pCore_le : CFSG.pCore 2 G ≤ S :=
 theorem commute_of_mem {v w : G} (hv : v ∈ D ∩ (S : Set G)) (hw : w ∈ D ∩ (S : Set G)) :
     Commute v w :=
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  h.oddT.commute_of_isPGroup S.isPGroup' hv.1 hw.1 hv.2 hw.2
+  h.oddT.commute_of_isPGroup S.isPGroup hv.1 hw.1 hv.2 hw.2
 
 theorem mem_center_of_commute {y : G} (hb : Commute b y)
     (hL : ∀ v ∈ D ∩ (S : Set G), Commute v y) : y ∈ Subgroup.center G := by

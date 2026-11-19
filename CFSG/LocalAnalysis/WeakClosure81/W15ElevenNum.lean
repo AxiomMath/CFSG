@@ -21,7 +21,7 @@ theorem exists_k (c : Cfg1511 M V₀ V U S H P Q₀ p)
     (hX : XData15 V₀ U H Q₀ p X v) (hcard : Nat.card ↥X = p ^ 3) :
     ∃ k : ℕ, 2 ≤ k ∧ Nat.card ↥(iHull15 V₀ U H) = 2 ^ (p * k) ∧
       Nat.card ↥(v1Sub15 V₀ U) = 2 ^ ((p - 1) * k / 2) := by
-  haveI : Fact p.Prime := ⟨c.prime⟩
+  have : Fact p.Prime := ⟨c.prime⟩
   obtain ⟨x, z, g, hH, hCz, hCx⟩ := hX.heis hcard
   have hI : IsElemAbelian 2 (iHull15 V₀ U H) :=
     B2F.isElemAbelian_mono (Hyp1510.iHull15_le_zSub15 V₀ U H)
@@ -49,7 +49,7 @@ theorem exists_k (c : Cfg1511 M V₀ V U S H P Q₀ p)
       (by simpa [Nat.card_zpowers] using orderOf_dvd_of_pow_eq_one hz)
   have hZnorm : Subgroup.zpowers z ≤ Subgroup.normalizer (iHull15 V₀ U H : Set G) :=
     Subgroup.zpowers_le.mpr hzN
-  letI : MulAction ↥(Subgroup.zpowers z) ↥(iHull15 V₀ U H) :=
+  let : MulAction ↥(Subgroup.zpowers z) ↥(iHull15 V₀ U H) :=
     MulAction.compHom _ (Subgroup.inclusion hZnorm)
   have hsmul : ∀ (a : ↥(Subgroup.zpowers z)) (i : ↥(iHull15 V₀ U H)),
       ((a • i : ↥(iHull15 V₀ U H)) : G) = (a : G) * (i : G) * (a : G)⁻¹ := by

@@ -22,7 +22,7 @@ private theorem w183b5_fusionOddCore_characteristic (H : Type*) [Group H] :
 
 private theorem w183b5_odd_natCard_fusionOddCore (X : Type) [Group X] [Finite X] :
     Odd (Nat.card (fusionOddCore X)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h : fusionOddCore X = CFSG.pPrimeCore 2 X := by
     unfold fusionOddCore CFSG.pPrimeCore
     congr 1
@@ -33,7 +33,7 @@ private theorem w183b5_odd_natCard_fusionOddCore (X : Type) [Group X] [Finite X]
 
 theorem pCore_oddClassSub_eq_bot {Y : Type} [Group Y] [Finite Y] (a : Y)
     (hpc : CFSG.pCore 2 Y = ⊥) : CFSG.pCore 2 ↥(oddClassSub a) = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let X := oddClassSub a
   let N := Subgroup.normalClosure ({a} : Set Y)
   let R := CFSG.pCore 2 ↥X
@@ -55,8 +55,8 @@ theorem pCore_oddClassSub_eq_bot {Y : Type} [Group Y] [Finite Y] (a : Y)
     CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer (r := 2) (N := R') (H := N)
       hR'leN hR'norm hR'p
   have hNcoreLe : CFSG.Open.pCoreOf 2 N ≤ CFSG.pCore 2 Y := by
-    haveI : N.Normal := hNn
-    haveI : (CFSG.pCore 2 ↥N).Characteristic :=
+    have : N.Normal := hNn
+    have : (CFSG.pCore 2 ↥N).Characteristic :=
       CFSG.LieType.BorelTits.pCore_characteristic (G := ↥N) 2
     exact CFSG.LieType.BorelTits.le_pCore (r := 2) (G := Y)
       (N := CFSG.Open.pCoreOf 2 N)
@@ -80,7 +80,7 @@ theorem fusionOddCore_oddClassSub_eq_bot {Y : Type} [Group Y] [Finite Y] (a : Y)
   have hNX : N ≤ Subgroup.normalizer (X : Set Y) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hXN).mp hXn
   have hOchar : O.Characteristic := w183b5_fusionOddCore_characteristic ↥X
-  haveI : O.Characteristic := hOchar
+  have : O.Characteristic := hOchar
   have hO'norm : N ≤ Subgroup.normalizer (O' : Set Y) :=
     hNX.trans (CFSG.LieType.BorelTits.normalizer_le_normalizer_map_of_characteristic (H := X) O)
   have hO'leN : O' ≤ N := (Subgroup.map_subtype_le O).trans hXN
@@ -97,8 +97,8 @@ theorem fusionOddCore_oddClassSub_eq_bot {Y : Type} [Group Y] [Finite Y] (a : Y)
     rw [← Subgroup.map_subgroupOf_eq_of_le hO'leN]
     exact Subgroup.map_mono hO'sub_le
   have hOcharN : O_N.Characteristic := w183b5_fusionOddCore_characteristic ↥N
-  haveI : O_N.Characteristic := hOcharN
-  haveI : N.Normal := hNn
+  have : O_N.Characteristic := hOcharN
+  have : N.Normal := hNn
   have hObarNormal : (O_N.map N.subtype).Normal :=
     ConjAct.normal_of_characteristic_of_normal (H := N) (K := O_N)
   have hObarOdd : Odd (Nat.card (O_N.map N.subtype)) := by

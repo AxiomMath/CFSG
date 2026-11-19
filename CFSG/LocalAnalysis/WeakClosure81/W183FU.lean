@@ -26,6 +26,7 @@ theorem w183fu_isU3_cj {V : Type} [AddCommGroup V] [Module (ZMod 2) V]
     (Subgroup.equivMapOfInjective A (MulAut.conj y).toMonoidHom
       (MulAut.conj y).injective) h
 
+omit [Finite G] in
 private theorem w183fu_hasQuotShape_of_mulEquiv {K L L' : Subgroup G} (e : ↥L ≃* ↥L')
     (hK : ∀ l : ↥L, (l : G) ∈ K ↔ (e l : G) ∈ K) {P : ∀ (X : Type) [Group X], Prop}
     (hQ : HasQuotShape L K P) : HasQuotShape L' K P := by
@@ -37,6 +38,7 @@ private theorem w183fu_hasQuotShape_of_mulEquiv {K L L' : Subgroup G} (e : ↥L 
   have h := hK (e.symm k)
   rwa [show e (e.symm k) = k from e.apply_symm_apply k] at h
 
+omit [Finite G] in
 private theorem w183fu_isComponentModN_map_mulEquiv {K H L : Subgroup G} (e : G ≃* G)
     (hK : K.map e.toMonoidHom = K) (hH : H.map e.toMonoidHom = H)
     (h : IsComponentModN K H L) :
@@ -71,9 +73,10 @@ private theorem w183fu_isComponentModN_map_mulEquiv {K H L : Subgroup G} (e : G 
       have hkl : k = l := e.injective hkeq
       rwa [hkl] at hkK
 
+omit [Finite G] in
 theorem w183fu_component_conj {K H L : Subgroup G} (h : IsComponentModN K H L) {t : G}
     (ht : t ∈ H) {P : ∀ (X : Type) [Group X], Prop}
-    (hP : ∀ (X Y : Type) [Group X] [Group Y], X ≃* Y → P X → P Y)
+    (_hP : ∀ (X Y : Type) [Group X] [Group Y], X ≃* Y → P X → P Y)
     (hQ : HasQuotShape L (K : Set G) P) :
     IsComponentModN K H (conjSubgroup L t) ∧ HasQuotShape (conjSubgroup L t) (K : Set G) P := by
   have hKH : K ≤ H := h.2.1.trans h.2.2.1
@@ -103,7 +106,7 @@ theorem w183fu_component_conj {K H L : Subgroup G} (h : IsComponentModN K H L) {
   · simpa only [CFSG.Quasithin.conjSubgroup] using hLc
   · simpa only [CFSG.Quasithin.conjSubgroup] using hQ'
 
-theorem w183fu_cyclic_five {D : Data G} {V₀ V H : Subgroup G} {i : ℕ} (c : MinCex183 D V₀ V H i)
+theorem w183fu_cyclic_five {D : Data G} {V₀ V H : Subgroup G} {i : ℕ} (_c : MinCex183 D V₀ V H i)
     (h2 : ¬ Concl182 D V₀ V H i) (h5 : 3 < CFSG.Open.pRank 5 H) :
     ∀ P : Subgroup G, P ≤ H ⊓ D.M → IsPGroup 5 P → IsCyclic ↥P := by
   intro P hPN hP
@@ -152,12 +155,12 @@ theorem w183fu_preimage_le_M (x : Ctx188 D V₀ V H i j) (M : ModDataE H (eOmega
     Subgroup.mem_map.2 ⟨j, Subgroup.mem_comap.2 hj, rfl⟩
   exact (Subgroup.mem_inf.1 (hY ▸ hXtY hjXt)).2
 
-theorem w183fu_false_of_E25 (x : Ctx188 D V₀ V H i j) (M : ModDataE H (eOmegaZ H D.T))
+theorem w183fu_false_of_E25 (_x : Ctx188 D V₀ V H i j) (M : ModDataE H (eOmegaZ H D.T))
     (hcyc : ∀ P : Subgroup G, P ≤ H ⊓ D.M → IsPGroup 5 P → IsCyclic ↥P)
     {E : Subgroup (LGL 2 M.W)} (hE : IsElemAbelian 5 E) (hcard : Nat.card E = 25)
     (hEH : E ≤ M.img H) (hEM : ∀ j : ↥H, M.ρ j ∈ E → (j : G) ∈ D.M) : False := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   let Pim : Subgroup ↥H := E.comap M.ρ
   have hPim : ∀ p : ↥Pim, M.ρ (Pim.subtype p) ∈ E := fun p =>
     Subgroup.mem_comap.1 p.2
@@ -190,7 +193,7 @@ theorem w183fu_false_of_E25 (x : Ctx188 D V₀ V H i j) (M : ModDataE H (eOmegaZ
     obtain ⟨p, _hp, rfl⟩ := Subgroup.mem_map.1 hy
     exact Subgroup.mem_inf.2 ⟨(Pim.subtype p).2,
       hEM (Pim.subtype p) (Subgroup.mem_comap.1 p.2)⟩
-  have hQp : IsPGroup 5 ((P : Subgroup ↥Pim).map g) := P.isPGroup'.map g
+  have hQp : IsPGroup 5 ((P : Subgroup ↥Pim).map g) := P.isPGroup.map g
   have hQcyc : IsCyclic ↥((P : Subgroup ↥Pim).map g) := hcyc _ hQle hQp
   have hPcyc : IsCyclic ↥P :=
     (Subgroup.equivMapOfInjective (P : Subgroup ↥Pim) g hginj).isCyclic.mpr hQcyc

@@ -21,8 +21,9 @@ variable {K : Type} [Field K] [Finite K] {d : ℕ}
   {h : UnitaryFieldData 2 1 K} {Q : GL (Fin d) K}
   {hQ : Q ∈ primeFormUnitary h (idGram K d)}
 
+omit [Finite K] in
 theorem qTwoFramePerm_mem_normalizer_full
-    (hd3 : 3 ≤ d) (hdq : (d, 2 ^ 1) ≠ (3, 2))
+    (hd3 : 3 ≤ d) (_hdq : (d, 2 ^ 1) ≠ (3, 2))
     (hUnit : ∀ x : Kˣ, ((x : Kˣ) : K) ^ (2 ^ 1 + 1) = 1)
     {E : Subgroup (MulAut (LargeEvenProj (LargeEvenSUGroup (Fin d) K (2 ^ 1))))}
     (hfr : ∀ e ∈ E, ∃ σ : Fin d → Kˣ,
@@ -113,7 +114,7 @@ theorem four_dvd_ggAutomizer_frameBlock_full
   have hbI : b ∈ I := hTI (by rw [hTeq]; simp)
   have hcI : c ∈ I := hTI (by rw [hTeq]; simp)
   have heI : e ∈ I := hTI (by rw [hTeq]; simp)
-  haveI : Nontrivial Kˣ := by
+  have : Nontrivial Kˣ := by
     have hcard : Nat.card Kˣ = 3 := by rw [Nat.card_units, hK]; norm_num
     exact (Finite.one_lt_card_iff_nontrivial).mp (by rw [hcard]; norm_num)
   obtain ⟨ζ, hζ⟩ := exists_ne (1 : Kˣ)
@@ -154,17 +155,17 @@ theorem four_dvd_ggAutomizer_frameBlock_full
   let w0 : Fin d → Kˣ := Function.update (1 : Fin d → Kˣ) x ζ
   let w1 : Fin d → Kˣ := Function.update (1 : Fin d → Kˣ) y ζ
   have hw0z : w0 z = 1 := by
-    simp [w0, Function.update, hxz.symm]
+    simp [w0, hxz.symm]
   have hw1z : w1 z = 1 := by
-    simp [w1, Function.update, hyz.symm]
+    simp [w1, hyz.symm]
   have hw0c : w0 c = 1 := by
-    simp [w0, Function.update, hxcd.1.symm]
+    simp [w0, hxcd.1.symm]
   have hw0e : w0 e = 1 := by
-    simp [w0, Function.update, hxcd.2.symm]
+    simp [w0, hxcd.2.symm]
   have hw1a : w1 a = 1 := by
-    simp [w1, Function.update, hyab.1.symm]
+    simp [w1, hyab.1.symm]
   have hw1b : w1 b = 1 := by
-    simp [w1, Function.update, hyab.2.symm]
+    simp [w1, hyab.2.symm]
   have hw0ab : w0 a ≠ w0 b := by
     rcases hxmem with hx | hx
     · simpa [w0, Function.update, hx, hab, hab.symm] using hζ

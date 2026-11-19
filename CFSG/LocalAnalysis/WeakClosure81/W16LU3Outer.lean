@@ -14,7 +14,7 @@ open Subgroup
 theorem psuThreeOuterInvolutionInput_holds :
     PSUThreeOuterInvolutionInput := by
   intro X _ _ n hperf hPSU hZ Y hY hYc α hα hαY hnot
-  haveI hperfX : Group.IsPerfect X := ⟨hperf⟩
+  have hperfX : Group.IsPerfect X := ⟨hperf⟩
   have hX : IsU3Shape X n := ⟨hperf, hPSU, hZ⟩
   have hZodd : Odd (Nat.card (Subgroup.center X)) :=
     Odd.of_dvd_nat (by norm_num) hZ

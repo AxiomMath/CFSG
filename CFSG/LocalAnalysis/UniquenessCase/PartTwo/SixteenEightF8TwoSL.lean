@@ -12,6 +12,7 @@ open Matrix CFSG.Open CFSG.Quasithin CFSG.LocalAnalysis.ComponentInitial.Symplec
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 private theorem s16g_det_pairMat {ι : Type*} [Fintype ι] [DecidableEq ι] {a b : ι} (hab : a ≠ b)
     (g : Matrix (Fin 2) (Fin 2) K) : (pairMat a b g).det = g.det := by
   let U : Matrix ι (Fin 2) K := Matrix.of fun x c =>
@@ -25,18 +26,18 @@ private theorem s16g_det_pairMat {ι : Type*} [Fintype ι] [DecidableEq ι] {a b
     by_cases hxa : x = a
     · rw [hxa]
       by_cases hya : y = a
-      · rw [hya]; simp [U, V, pairMat, hab, Ne.symm hab, sub_add_cancel]
+      · rw [hya]; simp [U, V, pairMat, hab, sub_add_cancel]
       by_cases hyb : y = b
       · rw [hyb]; simp [U, V, pairMat, hab, Ne.symm hab]
-      · simp [U, V, pairMat, hya, hyb, Ne.symm hya, Ne.symm hyb, hab, Ne.symm hab]
+      · simp [U, V, pairMat, hya, hyb, Ne.symm hya, hab]
     by_cases hxb : x = b
     · rw [hxb]
       by_cases hya : y = a
-      · rw [hya]; simp [U, V, pairMat, hab, Ne.symm hab]
+      · rw [hya]; simp [U, V, pairMat, Ne.symm hab]
       by_cases hyb : y = b
-      · rw [hyb]; simp [U, V, pairMat, hab, Ne.symm hab, sub_add_cancel]
-      · simp [U, V, pairMat, hya, hyb, Ne.symm hya, Ne.symm hyb, hab, Ne.symm hab]
-    · simp [U, V, pairMat, hxa, hxb, Ne.symm hxa, Ne.symm hxb, hab, Ne.symm hab]
+      · rw [hyb]; simp [U, V, pairMat, Ne.symm hab, sub_add_cancel]
+      · simp [U, V, pairMat, hya, hyb, Ne.symm hyb, Ne.symm hab]
+    · simp [U, V, pairMat, hxa, hxb]
   have hVU : g = V * U + 1 := by
     ext i j
     rw [Matrix.add_apply, mul_apply,
@@ -44,6 +45,7 @@ private theorem s16g_det_pairMat {ι : Type*} [Fintype ι] [DecidableEq ι] {a b
     fin_cases i <;> fin_cases j <;> simp [U, V, hab, Ne.symm hab, sub_add_cancel]
   rw [hUV, det_mul_add_one_comm U V, ← hVU]
 
+omit [Finite K] in
 theorem s16g_pairGL_mem_statedSL {n : ℕ} {a b : Fin n} (hab : a ≠ b)
     (g : Matrix.SpecialLinearGroup (Fin 2) K) : pairGL hab g ∈ StatedSL n K := by
   rw [CFSG.Open.StatedAPI.mem_statedSL_iff, coe_pairGL, s16g_det_pairMat hab]
@@ -51,15 +53,17 @@ theorem s16g_pairGL_mem_statedSL {n : ℕ} {a b : Fin n} (hab : a ≠ b)
 
 theorem s16g_exists_units_orderOf {p : ℕ} (hp : p.Prime) (hpK : p ∣ Nat.card K - 1) :
     ∃ ζ : Kˣ, orderOf ζ = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact exists_prime_orderOf_dvd_card' (G := Kˣ) p (by rwa [Nat.card_units])
 
+omit [Finite K] in
 private theorem s16g_sl2Diag_injective : Function.Injective (sl2Diag (k := K)) := by
   intro a b h
   have h' := congrArg (fun g : Matrix.SpecialLinearGroup (Fin 2) K =>
     (g : Matrix (Fin 2) (Fin 2) K) 0 0) h
   exact Units.ext (by simpa [coe_sl2Diag] using h')
 
+omit [Finite K] in
 theorem s16g_pairGL_sl2Diag_commute {ι : Type} [Fintype ι] [DecidableEq ι] {a b c : ι}
     (hab : a ≠ b) (hbc : b ≠ c) (ζ : Kˣ) :
     Commute (pairGL hab (sl2Diag ζ)) (pairGL hbc (sl2Diag ζ)) := by
@@ -67,6 +71,7 @@ theorem s16g_pairGL_sl2Diag_commute {ι : Type} [Fintype ι] [DecidableEq ι] {a
   simp only [Units.val_mul, coe_pairGL, coe_sl2Diag, pairMat_diag hab, pairMat_diag hbc]
   exact (Matrix.commute_diagonal _ _).eq
 
+omit [Finite K] in
 theorem s16g_pairGL_sl2Diag_not_mem {ι : Type} [Fintype ι] [DecidableEq ι] {a b c : ι}
     (hab : a ≠ b) (hbc : b ≠ c) (hac : a ≠ c) {ζ : Kˣ} (hζ : ζ ≠ 1) :
     pairGL hbc (sl2Diag ζ) ∉ Subgroup.zpowers (pairGL hab (sl2Diag ζ)) := by
@@ -93,6 +98,7 @@ theorem s16g_pairGL_sl2Diag_not_mem {ι : Type} [Fintype ι] [DecidableEq ι] {a
 private theorem s16g_fin_ne {n i j : ℕ} (hi : i < n) (hj : j < n) (h : i ≠ j) :
     (⟨i, hi⟩ : Fin n) ≠ ⟨j, hj⟩ := fun e => h (Fin.mk.inj_iff.1 e)
 
+omit [Finite K] in
 private theorem s16g_single_ne_zero {ι : Type} [DecidableEq ι] (i : ι) :
     (Pi.single i 1 : ι → K) ≠ 0 := fun h => by
   have h1 := congrFun h i

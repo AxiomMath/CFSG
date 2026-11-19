@@ -15,8 +15,8 @@ namespace TypeBDatum
 private def tbSh_permAutHom (m p : ℕ) :
     Equiv.Perm (Fin m) →* MulAut (Fin m → Multiplicative (ZMod p)) where
   toFun := permAut
-  map_one' := MulEquiv.ext fun f => rfl
-  map_mul' _ _ := MulEquiv.ext fun f => rfl
+  map_one' := MulEquiv.ext fun _f => rfl
+  map_mul' _ _ := MulEquiv.ext fun _f => rfl
 
 private theorem tbSh_permAut_mem {p m : ℕ} {S : Finset (Fin m)} {π : Equiv.Perm (Fin m)}
     (hπ : ∀ i ∉ S, π i = i) : permAut (p := p) π ∈ permSupportedAut m p S := by
@@ -115,7 +115,7 @@ private theorem tbSh_isSignedPerm {p m : ℕ} {σ : MulAut (Fin m → Multiplica
 
 private theorem tbSh_fix_data {p m : ℕ} (hp : p.Prime) {S : Finset (Fin m)}
     {σ : MulAut (Fin m → Multiplicative (ZMod p))} {π : Equiv.Perm (Fin m)} {ε : Fin m → ZMod p}
-    (hε : ∀ i, ε i = 1 ∨ ε i = -1)
+    (_hε : ∀ i, ε i = 1 ∨ ε i = -1)
     (hu : ∀ f i, toAdd (σ f (π i)) = ε i * toAdd (f i))
     (hfix : ∀ i ∉ S, σ (Pi.mulSingle i (ofAdd 1)) = Pi.mulSingle i (ofAdd 1)) :
     ∀ i ∉ S, π i = i ∧ ε i = 1 := by
@@ -170,7 +170,7 @@ theorem mem_permSupportedAut_of_fix {p m : ℕ} (hp : p.Prime)
     by_cases hi : i ∈ S
     · have h := hu (fun j => if j ∈ S then ofAdd (1 : ZMod p) else 1) i
       rw [hdiag] at h
-      simp only [hπS i hi, hi, if_true, ↓reduceIte, toAdd_ofAdd, mul_one] at h
+      simp only [hπS i hi, hi, ↓reduceIte, toAdd_ofAdd, mul_one] at h
       exact h.symm
     · exact (hdata i hi).2
   have hσπ : σ = permAut π := by

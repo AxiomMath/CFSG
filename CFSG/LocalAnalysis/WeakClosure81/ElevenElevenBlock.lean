@@ -76,7 +76,7 @@ theorem eleven11_cent_normalized {M V Q U L X : Subgroup G}
 
 theorem eleven11_card_U {M V Q U L X : Subgroup G} (hd : Eleven11Data M V Q U L X)
     (h8 : Nat.card V = 8) : Nat.card U = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hUΓ := deltaEleven_subset_gammaEleven M V hd.mem_delta
   have hUV : U ≤ V := hUΓ.1
   have hUne : U ≠ ⊥ := hUΓ.2.1

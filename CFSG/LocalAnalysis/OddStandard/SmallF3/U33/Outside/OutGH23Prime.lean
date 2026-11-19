@@ -27,19 +27,19 @@ private lemma prime_dvd_20160 {p : ℕ} (hp : p.Prime) (h : p ∣ 20160) :
           ((Nat.prime_dvd_prime_iff_eq hp (by norm_num : Nat.Prime 7)).mp h7)))
 
 theorem gh23_exists_order_five_or_seven {H : Subgroup (Equiv.Perm (Fin 8))}
-    (hH : H ≤ alternatingGroup (Fin 8)) (hns : ¬ IsSolvable ↥H) :
+    (hH : H ≤ alternatingGroup (Fin 8)) (hns : ¬ Group.IsSolvable ↥H) :
     ∃ x ∈ H, orderOf x = 5 ∨ orderOf x = 7 := by
   classical
   by_contra hc
-  push_neg at hc
+  push Not at hc
   have hn5 : ¬ 5 ∣ Nat.card ↥H := by
     rintro hdvd
-    haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 5 (G := ↥H) hdvd
     exact (hc (x : Equiv.Perm (Fin 8)) x.2).1 (by rw [Subgroup.orderOf_coe, hx])
   have hn7 : ¬ 7 ∣ Nat.card ↥H := by
     rintro hdvd
-    haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 7 (G := ↥H) hdvd
     exact (hc (x : Equiv.Perm (Fin 8)) x.2).2 (by rw [Subgroup.orderOf_coe, hx])
   have hcard20160 : Nat.card ↥H ∣ 20160 := by
@@ -164,9 +164,9 @@ theorem alt8Classification_of_rooted (h : Alt8Rooted) : Alt8Classification := by
         exact Subgroup.mem_map_of_mem (MulAut.conj c).toMonoidHom hxH
     let e : ↥H ≃* ↥H' :=
       Subgroup.equivMapOfInjective H (MulAut.conj c).toMonoidHom (MulAut.conj c).injective
-    have hns' : ¬ IsSolvable ↥H' := by
+    have hns' : ¬ Group.IsSolvable ↥H' := by
       intro hsol
-      haveI : Group.IsSolvable ↥H' := hsol
+      have : Group.IsSolvable ↥H' := hsol
       exact hns (Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective)
     have hNN' : NoNormalTwo H' := NoNormalTwo.conj hNN c
     have hres : GH23Concl ↥H' := h H' hH' hgH' hns' hNN'

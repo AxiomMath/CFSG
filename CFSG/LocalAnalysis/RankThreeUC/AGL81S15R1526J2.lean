@@ -47,7 +47,7 @@ theorem gamma_D_le_M_aux2 {Y : Type} [Group Y] {Q A B : Subgroup Y}
   by_contra hcon
   rw [not_or] at hcon
   obtain ⟨hQA, hQB⟩ := hcon
-  rw [SetLike.not_le_iff_exists] at hQA hQB
+  rw [IsConcreteLE.not_le_iff_exists] at hQA hQB
   obtain ⟨q₁, hq₁Q, hq₁A⟩ := hQA
   obtain ⟨q₂, hq₂Q, hq₂B⟩ := hQB
   have hq₁B : q₁ ∈ B := (h q₁ hq₁Q).resolve_left hq₁A
@@ -75,6 +75,7 @@ theorem gamma_D_le_M_aux4 {Y : Type} [Group Y] [Finite Y] {Q K : Subgroup Y} (hK
     · exact h
   exact Subgroup.eq_of_le_of_card_ge hQK (by omega)
 
+omit [Finite G] in
 theorem gamma_D_le_M_aux5 {M : Subgroup G} {x : ↥M} (hx : orderOf x = 7) {S : Set G}
     (hxS : ∀ s ∈ S, (x : G) * s = s * (x : G)) :
     7 ∣ Nat.card ↥(M ⊓ Subgroup.centralizer S) := by
@@ -94,7 +95,7 @@ theorem gamma_D_le_M_aux5 {M : Subgroup G} {x : ↥M} (hx : orderOf x = 7) {S : 
 theorem gamma_D_le_M_gen {M : Subgroup G}
     (hs7 : CFSG.RankThree.PartOne.IsStronglyPEmbedded 7 M) {A B : Subgroup ↥M}
     (hA3 : Nat.card A = 3) (hB3 : Nat.card B = 3)
-    (hAB : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a) (hAB1 : ∀ x ∈ A ⊓ B, x = 1)
+    (hAB : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a) (_hAB1 : ∀ x ∈ A ⊓ B, x = 1)
     (hNA : Subgroup.normalizer ((A.map M.subtype : Subgroup G) : Set G) ≤ M)
     (hNB : Subgroup.normalizer ((B.map M.subtype : Subgroup G) : Set G) ≤ M)
     (hC : ∀ a ∈ A, a ≠ 1 → ∀ b ∈ B, b ≠ 1 →

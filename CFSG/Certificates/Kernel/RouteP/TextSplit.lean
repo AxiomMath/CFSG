@@ -92,17 +92,17 @@ theorem splitOnAux_asc {cs sep : List Char} (hc : ∀ c ∈ cs, c.toNat < 128)
     rw [atEnd_asc hc]
     by_cases hn : cs.length ≤ i
     · have hie : i = cs.length := by omega
-      simp only [hn, decide_true, if_true]
+      simp only [hn, decide_true, ite_true]
       rw [extract_asc hc (by omega) hi]
       simp
-    · simp only [hn, decide_false, Bool.false_eq_true, if_false]
+    · simp only [hn, decide_false, Bool.false_eq_true, ite_false]
       rw [get_asc hc (by omega), get_asc hs (by omega), headD_drop (by omega),
         headD_drop (by omega)]
       by_cases heq : (cs.getD i 'a' == sep.getD j 'a') = true
-      · simp only [heq, if_true]
+      · simp only [heq, ite_true]
         rw [next_asc hc (by omega), next_asc hs (by omega), atEnd_asc hs]
         by_cases hend : sep.length ≤ j + 1
-        · simp only [hend, decide_true, if_true]
+        · simp only [hend, decide_true, ite_true]
           have hu : (⟨i + 1⟩ : Pos.Raw).unoffsetBy ⟨j + 1⟩ = ⟨i - j⟩ := by
             apply Pos.Raw.ext
             rw [Pos.Raw.byteIdx_unoffsetBy]
@@ -117,13 +117,13 @@ theorem splitOnAux_asc {cs sep : List Char} (hc : ∀ c ∈ cs, c.toNat < 128)
           rw [List.map_cons] at this
           have e0 : (0 : Pos.Raw) = ⟨0⟩ := rfl
           rw [e0, this]
-        · simp only [hend, decide_false, Bool.false_eq_true, if_false]
+        · simp only [hend, decide_false, Bool.false_eq_true, ite_false]
           exact splitOnAux_asc hc hs hm f b (i + 1) (j + 1) r (by omega) (by omega) (by omega)
             (by omega) (by
               have : (i + 1) - (j + 1) = i - j := by omega
               rw [this]
               omega)
-      · simp only [heq, Bool.false_eq_true, if_false]
+      · simp only [heq, Bool.false_eq_true, ite_false]
         have hu : ((⟨i⟩ : Pos.Raw).unoffsetBy ⟨j⟩) = ⟨i - j⟩ := by
           apply Pos.Raw.ext
           rw [Pos.Raw.byteIdx_unoffsetBy]
@@ -146,7 +146,7 @@ theorem splitOn_ofList_sep {cs sep : List Char} (hc : ∀ c ∈ cs, c.toNat < 12
     | cons c s => simp
   unfold String.splitOn
   rw [hne]
-  simp only [Bool.false_eq_true, if_false]
+  simp only [Bool.false_eq_true, ite_false]
   have := splitOnAux_asc hc hs hm ((cs.length + 2) * (sep.length + 1) + 1) 0 0 0 [] hm (Nat.le_refl 0)
     (by omega) (by omega) (by
       have h1 := mu_lt (m := sep.length) (A := cs.length + 2) (B := cs.length + 1 - (0 - 0))

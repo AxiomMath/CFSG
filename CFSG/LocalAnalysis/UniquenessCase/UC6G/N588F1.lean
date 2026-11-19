@@ -21,7 +21,7 @@ open N588
 
 theorem not_dvd_card_rCoreL_of_mem_sigma (hLM : ¬ m.L ≤ m.M) {q : ℕ}
     (hq : q ∈ Dat.sig) : ¬ q ∣ Nat.card (rCore m.r m.L) := by
-  haveI : Fact q.Prime := ⟨(Dat.sig_prime _ hq).1⟩
+  have : Fact q.Prime := ⟨(Dat.sig_prime _ hq).1⟩
   have hOM : rCore m.r m.L ≤ m.M := m.rCoreL_le_M
   intro hd
   obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow q ↥(rCore m.r m.L)))
@@ -31,7 +31,7 @@ theorem not_dvd_card_rCoreL_of_mem_sigma (hLM : ¬ m.L ≤ m.M) {q : ℕ}
   have hQne : (P : Subgroup ↥(rCore m.r m.L)).map (rCore m.r m.L).subtype ≠ ⊥ := fun h =>
     hPne ((Subgroup.map_eq_bot_iff_of_injective _ (rCore m.r m.L).subtype_injective).1 h)
   have hQp : IsPGroup q ((P : Subgroup ↥(rCore m.r m.L)).map (rCore m.r m.L).subtype) :=
-    P.isPGroup'.map _
+    P.isPGroup.map _
   have hNQ := (m.isStronglyPEmbedded_M hq).normalizer_le hQne hQp
     ((map_subtype_le _).trans hOM)
   have hfr := frattini_of_isSylowOf (rCore_le m.r m.L) m.L_le_normalizer_rCoreL hQsyl
@@ -46,7 +46,7 @@ theorem Mz614.not_alt_fi22_of_inputs {G : Type} [Group G] [Finite G] {Dat : Data
     (hSch : UCK.KSch) (hX : UCK.K620Exc) :
     ¬ ((∃ n : ℕ, 13 ≤ n ∧ IsAlt m.Lbar n) ∨ IsSpor m.Lbar .Fi22) := by
   intro hL
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h619 := m.c619_of_inputs hKM hK3 h69 hSch
   have hLM := m.not_L_le_M_of_inputs hKM hK3 h69 hSch
   have h3 : 3 < twoLocalPrimeRank 3 ↥m.L :=

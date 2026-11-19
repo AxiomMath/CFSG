@@ -31,7 +31,7 @@ variable {κ : GLKind} {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgroup
 theorem burnsideF45_pCoreOf_le_sylow [Finite E] (hp : p.Prime)
     {H P S : Subgroup E} (hS : IsSylowOf p S H) (hSP : S ≤ P) (hPH : P ≤ H) :
     pCoreOf p P ≤ S := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hSH, hSp, hSidx⟩ := hS
   have h1 : IsPGroup p (S.subgroupOf P) := hSp.comap_subtype
   have hdvd : S.relIndex P ∣ S.relIndex H :=
@@ -39,7 +39,7 @@ theorem burnsideF45_pCoreOf_le_sylow [Finite E] (hp : p.Prime)
   have h2 : ¬ p ∣ (S.subgroupOf P).index := fun h => hSidx (h.trans hdvd)
   let T : Sylow p ↥P := h1.toSylow h2
   have hcore : CFSG.pCore p ↥P ≤ (T : Subgroup ↥P) := by
-    haveI : (CFSG.pCore p ↥P).Normal := CFSG.LieType.BorelTits.pCore_normal p
+    have : (CFSG.pCore p ↥P).Normal := CFSG.LieType.BorelTits.pCore_normal p
     exact (CFSG.LieType.BorelTits.pCore_isPGroup p).le_sylow_of_normal T
   have h3 : (T : Subgroup ↥P) = S.subgroupOf P := rfl
   rw [h3] at hcore
@@ -64,7 +64,7 @@ theorem burnsideF45_Qbar_le_stv_nbr (hyp : HypF_4_4 κ p f Gp M₁ M₂) (hp : p
     (hm : 3 ≤ κ.m) (hP : IsLieParabolics p Gp (Gp ⊓ (M₁ ⊓ M₂)) (Gp ⊓ M₁) (Gp ⊓ M₂))
     {u w : (incl M₁ M₂).Γ} (huw : (incl M₁ M₂).graph.Adj u w) :
     (burnsideF45_setting hyp hp hm).Qbar u ≤ stv (incl M₁ M₂) w := by
-  haveI : Finite E := hyp.finite
+  have : Finite E := hyp.finite
   set S := burnsideF45_setting hyp hp hm with hS
   have hcore := burnsideF45_pCoreOf_le_other hp hP
   have hxl : S.Qbar (incl M₁ M₂).xv ≤ stv (incl M₁ M₂) (incl M₁ M₂).lv := fun x hx =>
@@ -118,7 +118,7 @@ theorem burnsideF45_C6_abe (hyp : HypF_4_4 κ p f Gp M₁ M₂) (hp : p.Prime) (
     (∀ w ∈ CosetGeom.nbrs u, ∀ q ∈ Qu p Gp (incl M₁ M₂) u, q • w = w) ∧
     Nat.card ↥(CosetGeom.nbrs u \ {v}) =
       qOfType (RankTwoAmalgam.ofSubgroups M₁ M₂) (CosetGeom.vtype u) := by
-  haveI : Finite E := hyp.finite
+  have : Finite E := hyp.finite
   have hQ : Qu p Gp (incl M₁ M₂) u = (burnsideF45_setting hyp hp hm).Qbar u :=
     burnsideF45_Qu_eq_Qbar hyp hp hm u
   refine ⟨?_, ?_, ?_⟩
@@ -126,7 +126,7 @@ theorem burnsideF45_C6_abe (hyp : HypF_4_4 κ p f Gp M₁ M₂) (hp : p.Prime) (
     intro x hx
     have hxu : x ∈ stv (incl M₁ M₂) u := (burnsideF45_setting hyp hp hm).Qbar_le_stv u hx
     have hxv : x ∈ stv (incl M₁ M₂) v := burnsideF45_Qbar_le_stv_nbr hyp hp hm hP huv hx
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hpg : IsPGroup p ((burnsideF45_setting hyp hp hm).Qbar u) :=
       CFSG.LieType.BorelTits.pCoreOf_isPGroup p _
     obtain ⟨k, hk⟩ := hpg ⟨x, hx⟩
@@ -138,7 +138,7 @@ theorem burnsideF45_C6_abe (hyp : HypF_4_4 κ p f Gp M₁ M₂) (hp : p.Prime) (
   · intro w hw q hq
     rw [hQ] at hq
     exact MulAction.mem_stabilizer_iff.mp (burnsideF45_Qbar_le_stv_nbr hyp hp hm hP hw hq)
-  · haveI : Finite (RankTwoAmalgam.ofSubgroups M₁ M₂).G1 :=
+  · have : Finite (RankTwoAmalgam.ofSubgroups M₁ M₂).G1 :=
       Finite.of_injective _ (incl_faithful M₁ M₂).1
     have hcard := card_nbrs (c := incl M₁ M₂) (incl_faithful M₁ M₂) u
     have hfin : (CosetGeom.nbrs u).Finite := by
@@ -146,7 +146,7 @@ theorem burnsideF45_C6_abe (hyp : HypF_4_4 κ p f Gp M₁ M₂) (hp : p.Prime) (
       exact Nat.finite_of_card_ne_zero (by rw [hcard]; omega)
     have hv : v ∈ CosetGeom.nbrs u := huv
     rw [Nat.card_coe_set_eq] at hcard ⊢
-    rw [Set.ncard_diff_singleton_of_mem hv, hcard]
+    rw [Set.ncard_sdiff_singleton_of_mem hv, hcard]
     cases hb : CosetGeom.vtype u <;> rfl
 
 end Generic
@@ -407,8 +407,8 @@ theorem burnsideF45_C6_of_system (hyp : HypF_4_4 κ p f Gp M₁ M₂) (hp : p.Pr
     {X : Type} [Group X] (θ₀ : X ≃* ↥Gp) {n : ℕ} (D : RankTwoSystem X n) (hn : n = κ.m)
     (hU : IsSylowOf p D.U ⊤) :
     ∀ u v : (incl M₁ M₂).Γ, (incl M₁ M₂).graph.Adj u v → burnsideF45_C6Body p Gp M₁ M₂ u v := by
-  haveI : Finite E := hyp.finite
-  haveI : Finite X := Finite.of_injective _ θ₀.injective
+  have : Finite E := hyp.finite
+  have : Finite X := Finite.of_injective _ θ₀.injective
   obtain ⟨g, b, hgb⟩ := burnsideF45_conj_parabolics hp hP θ₀ D hU
   subst hn
   let θ : X ≃* ↥Gp := (MulAut.conj g).symm.trans θ₀

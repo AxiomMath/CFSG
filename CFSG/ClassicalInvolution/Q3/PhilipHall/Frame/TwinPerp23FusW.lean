@@ -67,7 +67,7 @@ theorem wshape_false (h : PerpHypS n Y R S t) {c : Y} {J J' Q Q' : Subgroup Y} {
     have h1 := WSet.conj hΦ.conjInvariant hVmem y
     rw [hV] at h1
     exact h1
-  haveI hVnormal : V.Normal := TwinSec711.normal_of_conj_eq hVn
+  have hVnormal : V.Normal := TwinSec711.normal_of_conj_eq hVn
   obtain ⟨σ, hσ⟩ : ∃ σ : MulAut (SecQ R c), σ = TwinDisc.secAct hΩ hc2'
       (⟨x, hxc⟩ : ↥(Subgroup.centralizer ({c} : Set Y))) := ⟨_, rfl⟩
   obtain ⟨σ', hσ'⟩ : ∃ σ' : MulAut (SecQ R c), σ' = TwinDisc.secAct hΩ hc2'

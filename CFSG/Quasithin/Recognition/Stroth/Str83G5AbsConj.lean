@@ -189,7 +189,7 @@ theorem series_map_conj_x₁ {C D : Subgroup G} {l : List (Subgroup G)} {μ : Mu
     hl c.d₁_mem_H c.d₂_mem_H hn c.orderOf_ζ h1 h2 hμ]
   congr 1
   refine Multiset.map_congr rfl fun φ _ => ?_
-  ext <;> simp [sigma1] <;> ring
+  ext <;> simp [sigma1]; ring
 
 theorem series_map_conj_x₂ {C D : Subgroup G} {l : List (Subgroup G)} {μ : Multiset (Coord n)}
     (hl : IsYSeries c.H C l D) (hμ : facMultiset (chiLab c.ζ c.d₁ c.d₂) l D = clsSets μ) :
@@ -214,7 +214,7 @@ theorem series_map_conj_x₂ {C D : Subgroup G} {l : List (Subgroup G)} {μ : Mu
     hl c.d₁_mem_H c.d₂_mem_H hn c.orderOf_ζ h1 h2 hμ]
   congr 1
   refine Multiset.map_congr rfl fun φ _ => ?_
-  ext <;> simp [sigma2] <;> ring
+  ext <;> simp [sigma2]; ring
 
 end Conf
 

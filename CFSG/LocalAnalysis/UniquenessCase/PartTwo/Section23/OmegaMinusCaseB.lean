@@ -84,8 +84,8 @@ private theorem prime_dvd_card_B0_of_caseB (c : Ctx23L D Ch) (h52 : S23_5_2Omega
   · exact Or.inl ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_three).1 h)
   · exact Or.inr ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_five).1 h)
 
-private theorem card_B0_eq_fifteen (c : Ctx23L D Ch) (h1930 : H1930 D) (h4 : S23_4 D Ch)
-    (h52 : S23_5_2Omega D Ch) (h53 : S23_5_3 D Ch)
+private theorem card_B0_eq_fifteen (c : Ctx23L D Ch) (h1930 : H1930 D) (_h4 : S23_4 D Ch)
+    (h52 : S23_5_2Omega D Ch) (_h53 : S23_5_3 D Ch)
     (hOm : IsOmegaMinus (Bar2 c.L) 4 (CFSG.Open.pRank 2 D.Z))
     (hB' : S23_23OmegaCaseB c) : Nat.card c.B0 = 15 := by
   have hcardB0dvd : Nat.card c.B0 ∣ Nat.card (Bar2 c.L) :=
@@ -179,7 +179,7 @@ private theorem card_B5_mul_range {D : Data G} {Ch : Choice2011 G} (c : Ctx23L D
 
 private theorem card_B5_eq_five_of_range {D : Data G} {Ch : Choice2011 G}
     (c : Ctx23L D Ch) (h1930 : H1930 D) (h53 : S23_5_3 D Ch)
-    (hOm : IsOmegaMinus (Bar2 c.L) 4 (CFSG.Open.pRank 2 D.Z))
+    (_hOm : IsOmegaMinus (Bar2 c.L) 4 (CFSG.Open.pRank 2 D.Z))
     (hB' : S23_23OmegaCaseB c) (f : ↥c.B0 →* MulAut ↥D.Z)
     (hmul : Nat.card ↥(c.B0 ⊓ Subgroup.centralizer (D.Z : Set G)) *
       Nat.card ↥f.range = 15)
@@ -229,7 +229,7 @@ theorem card_B0_of_caseB (c : Ctx23L D Ch) (h1930 : H1930 D) (h4 : S23_4 D Ch)
   have hBN : c.B0 ≤ Subgroup.normalizer (D.Z : Set G) := by
     rw [← (h4 h1930 c).1]
     exact c.hBM.trans (h4 h1930 c).2.2
-  letI : CommGroup ↥D.Z :=
+  let : CommGroup ↥D.Z :=
     { (inferInstance : Group ↥D.Z) with mul_comm := fun a b => hZel.1.is_comm.comm a b }
   have hZsq : ∀ z : ↥D.Z, z ^ 2 = 1 := fun z => Subtype.ext (hZel.2 z z.2)
   have hAut : Nat.card (MulAut ↥D.Z) = 6 :=
@@ -370,7 +370,7 @@ private theorem mem_of_square_mem_of_pow_five {X : Type} [Group X] {F : Subgroup
   exact F.pow_mem h2 3
 
 private theorem bar_commutator_eq_square {D : Data G} {Ch : Choice2011 G} (c : Ctx23L D Ch)
-    (b t : G) (hbB5 : b ∈ c.B0 ⊓ Subgroup.centralizer (D.Z : Set G))
+    (b t : G) (_hbB5 : b ∈ c.B0 ⊓ Subgroup.centralizer (D.Z : Set G))
     (hbM : b ∈ D.M) (htT : t ∈ D.T) (htinv : t * b * t⁻¹ = b⁻¹) :
     ⁅uc22p21cPi D.M ⟨b, hbM⟩, uc22p21cPi D.M ⟨t, D.sylowM.le htT⟩⁆ =
       (uc22p21cPi D.M ⟨b, hbM⟩) ^ 2 := by
@@ -524,7 +524,7 @@ private theorem fixV_map_eq_of_mem_map_phiL_B0 {D : Data G} {Ch : Choice2011 G}
 
 private theorem exists_QV_mul_B0_of_conj_mem {D : Data G} {Ch : Choice2011 G}
     (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V) (t : ↥D.T) (bL : ↥c.L)
-    (hbB0 : (bL : G) ∈ c.B0)
+    (_hbB0 : (bL : G) ∈ c.B0)
     (hconjmem : c.phiT hV t * c.phiL hV bL * (c.phiT hV t)⁻¹ ∈
       ((c.B0.subgroupOf c.L).map (c.phiL hV)).map (c.H hV).subtype) :
     ∃ q ∈ c.QV, ∃ b' ∈ c.B0, (t : G) * (bL : G) * (t : G)⁻¹ = q * b' := by
@@ -753,7 +753,7 @@ private theorem exists_conj_B0_of_le_sup (c : Ctx23L D Ch)
       (c.B0.map (MulAut.conj t).toMonoidHom).map
         (MulAut.conj x).toMonoidHom = c.B0 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let N : Subgroup G := c.B0 ⊔ c.QV
   let Y : Subgroup G := c.B0.map (MulAut.conj t).toMonoidHom
   have hB0leN : c.B0 ≤ N := le_sup_left
@@ -762,7 +762,7 @@ private theorem exists_conj_B0_of_le_sup (c : Ctx23L D Ch)
     (c.hB0.1.trans c.hL0L).trans (le_sup_left.trans c.le_normalizer_QV)
   have hNnormQV : N ≤ Subgroup.normalizer (c.QV : Set G) :=
     sup_le hB0normQV (Subgroup.le_normalizer)
-  haveI hQVnormalN : (c.QV.subgroupOf N).Normal :=
+  have hQVnormalN : (c.QV.subgroupOf N).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hQVleN).2 hNnormQV
   obtain ⟨hYleN, -, hQVY⟩ := sup_conj_B0_eq c hCLV hle
   have hQV2G : IsPGroup 2 c.QV :=
@@ -892,7 +892,7 @@ private theorem isCyclic_fitting_commutator_of_cyclic (D : Data G)
     (hcyc : IsCyclic ↥(CFSG.fittingSubgroup (Bar2 D.M))) :
     IsCyclic ↥(CFSG.fittingSubgroup ↥(commutator (Bar2 D.M))) := by
   let Fbar : Subgroup (Bar2 D.M) := CFSG.fittingSubgroup (Bar2 D.M)
-  haveI : IsCyclic ↥Fbar := hcyc
+  have : IsCyclic ↥Fbar := hcyc
   have hC : (CFSG.fittingSubgroup ↥(commutator (Bar2 D.M))).map
       (commutator (Bar2 D.M)).subtype = commutator (Bar2 D.M) ⊓ Fbar :=
     CFSG.LocalCores.fitting_normal_intersection (commutator (Bar2 D.M))
@@ -996,7 +996,7 @@ private theorem B5_le_normalizer_sup_pCore {D : Data G} {Ch : Choice2011 G}
   · intro hx
     have hb' : b⁻¹ ∈ B5 := B5.inv_mem hb
     have h := hforward b⁻¹ hb' (b * x * b⁻¹) hx
-    convert h using 2 <;> group
+    convert h using 2; group
 
 private theorem sylow_barImage_le_fitting {D : Data G} {Ch : Choice2011 G}
     (c : Ctx23L D Ch) (h1930 : H1930 D) (h2123 : S21_23 D Ch)
@@ -1004,7 +1004,7 @@ private theorem sylow_barImage_le_fitting {D : Data G} {Ch : Choice2011 G}
     {p : ℕ} (hp : p.Prime) (hpSig : p ∈ D.sig) {P : Subgroup G}
     (hP : CFSG.ABGLocalTools.IsSylowOf p P (barPreimage D.M (centE D.M))) :
     barImage D.M P ≤ CFSG.fittingSubgroup (Bar2 D.M) := by
-  haveI : Fact (Nat.Prime p) := ⟨hp⟩
+  have : Fact (Nat.Prime p) := ⟨hp⟩
   have hPp : IsPGroup p ↥P := hP.isPGroup
   have hPbarP : IsPGroup p ↥(barImage D.M P) :=
     (hPp.comap_subtype (K := D.M)).map (uc22p21cPi D.M)
@@ -1017,7 +1017,7 @@ private theorem five_not_dvd_card_sylow_and_pCore {D : Data G} {p : ℕ} (hp : p
     (hpSig : p ∈ D.sig) (h5σ : (5 : ℕ) ∉ D.sig) {P : Subgroup G} (hPp : IsPGroup p P) :
     ¬ (5 : ℕ) ∣ Nat.card ↥P ∧
       ¬ (5 : ℕ) ∣ Nat.card ↥(CFSG.Open.pCoreOf 2 D.M) := by
-  haveI : Fact (Nat.Prime p) := ⟨hp⟩
+  have : Fact (Nat.Prime p) := ⟨hp⟩
   have hp5 : p ≠ 5 := fun h => h5σ (h ▸ hpSig)
   constructor
   · obtain ⟨k, hk⟩ := hPp.exists_card_eq
@@ -1047,8 +1047,8 @@ private theorem exists_sylow_sup_pCore_normalized_by_B5 {D : Data G} {Ch : Choic
           Subgroup.normalizer (P' : Set G) := by
   let B5 : Subgroup G := c.B0 ⊓ Subgroup.centralizer (D.Z : Set G)
   let O : Subgroup G := CFSG.Open.pCoreOf 2 D.M
-  haveI : Fact (Nat.Prime p) := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime p) := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hPleR : P ≤ barPreimage D.M (centE D.M) := hP.le
   have hPM : P ≤ D.M := hPleR.trans (uc22p21c_barPreimage_le D.M (centE D.M))
   have hPbarF : barImage D.M P ≤ CFSG.fittingSubgroup (Bar2 D.M) :=
@@ -1070,7 +1070,7 @@ private theorem exists_sylow_sup_pCore_normalized_by_B5 {D : Data G} {Ch : Choic
     h5p hB5NY hnot5Y
 
 private theorem sylow_sup_pCore_isSylow_and_centralizes {D : Data G} {Ch : Choice2011 G}
-    (c : Ctx23L D Ch) (h5 : Nat.card ↥(c.B0 ⊓ Subgroup.centralizer (D.Z : Set G)) = 5)
+    (c : Ctx23L D Ch) (_h5 : Nat.card ↥(c.B0 ⊓ Subgroup.centralizer (D.Z : Set G)) = 5)
     (h1930 : H1930 D) (h2123 : S21_23 D Ch)
     (hcycN : IsCyclic ↥(CFSG.fittingSubgroup ↥(commutator (Bar2 D.M))))
     (hB7 : barImage D.M (c.B0 ⊓ Subgroup.centralizer (D.Z : Set G)) ≤
@@ -1086,8 +1086,8 @@ private theorem sylow_sup_pCore_isSylow_and_centralizes {D : Data G} {Ch : Choic
   let B5 : Subgroup G := c.B0 ⊓ Subgroup.centralizer (D.Z : Set G)
   let O : Subgroup G := CFSG.Open.pCoreOf 2 D.M
   let R : Subgroup G := barPreimage D.M (centE D.M)
-  haveI : Fact (Nat.Prime p) := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime p) := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp2 : p ≠ 2 := (D.sig_prime p hpSig).2
   have hOleR : O ≤ R := pCoreOf_le_barPreimage D.M (centE D.M)
   have hPleR : P ≤ R := hP.le
@@ -1137,7 +1137,7 @@ private theorem pRank_barPreimage_le_one_of_sylow_cyclic {D : Data G} {p : ℕ} 
     (h : ∀ P : Subgroup G, CFSG.ABGLocalTools.IsSylowOf p P
       (barPreimage D.M (centE D.M)) → IsCyclic ↥P) :
     CFSG.Open.pRank p (barPreimage D.M (centE D.M)) ≤ 1 := by
-  haveI : Fact (Nat.Prime p) := ⟨hp⟩
+  have : Fact (Nat.Prime p) := ⟨hp⟩
   obtain ⟨P, hP⟩ := CFSG.ABGLocalTools.exists_isSylowOf p
     (barPreimage D.M (centE D.M))
   exact CFSG.pRank_le_one_of_isSylowOf_le hp hP.le hP le_rfl
@@ -1162,7 +1162,7 @@ theorem hyp2120_ctx5 (hJ : J1NotSp4SU3) (c : Ctx23L D Ch) (h1930 : H1930 D)
   refine ⟨h1, ?_, ?_, ?_⟩
   · exact hyp2120_two_of_s23_8 hJ D Ch h8 h1930 c
   · intro p hp
-    haveI : Fact (Nat.Prime p) := ⟨(D.sig_prime p hp).1⟩
+    have : Fact (Nat.Prime p) := ⟨(D.sig_prime p hp).1⟩
     obtain ⟨P, hP⟩ := CFSG.ABGLocalTools.exists_isSylowOf p
       (barPreimage D.M (centE D.M))
     obtain ⟨P', hP'Y, hB5NP'⟩ :=

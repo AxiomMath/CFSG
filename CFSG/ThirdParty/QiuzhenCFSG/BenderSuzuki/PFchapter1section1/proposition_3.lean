@@ -294,8 +294,8 @@ public theorem proposition_3
     have hcancel : (k₁ : G) * t * t⁻¹ = (k₂ : G) * t * t⁻¹ := by
       rw [hval]
     simpa [mul_assoc] using hcancel
-  haveI : Fintype KType := Fintype.ofFinite KType
-  haveI : Fintype HInv := Fintype.ofFinite HInv
+  have : Fintype KType := Fintype.ofFinite KType
+  have : Fintype HInv := Fintype.ofFinite HInv
   have hcard_fintype : Fintype.card KType = Fintype.card HInv := by
     simpa [Nat.card_eq_fintype_card] using hK_card
   have hphi_surj : Function.Surjective phi :=

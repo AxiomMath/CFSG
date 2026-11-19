@@ -25,7 +25,7 @@ theorem gs03AlphaA6_holds :
     GS03AlphaA6 := by
   classical
   intro G _ _ S hS hC hAlt x hx
-  haveI : S.Normal := hS
+  have : S.Normal := hS
   obtain ⟨e⟩ := A6.equiv_of_alt6 hAlt
   obtain ⟨M, hP, hA⟩ := A6.autModel e
   have hcheck := Certificates.certificate1037401

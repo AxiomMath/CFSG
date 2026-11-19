@@ -30,7 +30,7 @@ theorem lieCompData_of_slCover {K : Type} [Field K] [Finite K] {ν : ℕ} (hν :
     (hgk : g.ker ≤ Subgroup.center (Matrix.SpecialLinearGroup (Fin ν) K)) :
     LieCompData (ringChar K) ↥R := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hFD := slFactorFacts_holds K ν hν (fun h => by
     rw [← Nat.card_eq_fintype_card]
     exact h4 h)
@@ -40,8 +40,8 @@ theorem ringChar_ne_of_pow_eq_one {p : ℕ} (hp : p.Prime) {τ : Tag} {L : Type}
     {a : Fin τ.rank → Lˣ} (hap : ∀ i, a i ^ p = 1) (h1 : rootDiagUnit τ a ≠ 1) :
     ringChar L ≠ p := by
   intro hc
-  haveI : CharP L p := ringChar.of_eq hc
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : CharP L p := ringChar.of_eq hc
+  have : Fact p.Prime := ⟨hp⟩
   apply h1
   have ha : a = 1 := by
     funext j
@@ -85,14 +85,14 @@ theorem lieCompData_of_rankOne (hT : rootDiagUnit τ ta ∈ S.D.torus)
           ((S.ρ : (Fin τ.rank → ℤ) → _)^[componentOrbitLength S.ρ
             (componentRoots (rootCharHom ta) i)])
       · unfold twistKind
-        rw [if_pos hin]
+        rw [ite_eq_left hin]
       · unfold twistKind
-        rw [if_neg hin, if_neg (by rintro (⟨h, _⟩ | ⟨h, _⟩) <;> omega),
-          if_neg (fun h => by omega), if_neg (fun h => by omega)]
+        rw [ite_eq_right hin, ite_eq_right (by rintro (⟨h, _⟩ | ⟨h, _⟩) <;> omega),
+          ite_eq_right (fun h => by omega), ite_eq_right (fun h => by omega)]
     exact twistInner_of_twistKind_eq_innerT S rootAutIsWeyl_holds hT i hkind
   obtain ⟨σ, z, hσ, hnorm, hz⟩ := exists_untwistT S hT i hs0 hinner
   obtain ⟨r, e, hr, hchar, he, hq⟩ := exists_char_pow S
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hσ' : ∀ c, σ c = c ^ (r ^ (e * s)) := fun c => by rw [hσ, hq, ← pow_mul]
   obtain ⟨hfinK, hKcard⟩ := finite_card_fixSubfield (L := L) (r := r) (n := e * s)
     (Nat.mul_pos he hs0) σ hσ'
@@ -147,13 +147,13 @@ theorem lieCompData_of_rankOne (hT : rootDiagUnit τ ta ∈ S.D.torus)
   ·
     exfalso
     have hKle : Nat.card (fixSubfield σ) ≤ 3 := by rw [hKcard]; omega
-    haveI : Group.IsSolvable SL(2, ↥(fixSubfield σ)) :=
+    have : Group.IsSolvable SL(2, ↥(fixSubfield σ)) :=
       isSolvable_specialLinear_two_of_card_le_three hKle
-    haveI : Group.IsSolvable ↥(componentRootSpan (fixSubfield σ) (rootCharHom ta) i) :=
+    have : Group.IsSolvable ↥(componentRootSpan (fixSubfield σ) (rootCharHom ta) i) :=
       Group.isSolvable_of_isSolvable_injective (f := eSL.symm.toMonoidHom) eSL.symm.injective
-    haveI : Group.IsSolvable ↥f.range :=
+    have : Group.IsSolvable ↥f.range :=
       Group.isSolvable_of_surjective (f := f.rangeRestrict) f.rangeRestrict_surjective
-    haveI : Group.IsSolvable ↥(rationalComponent S.ρ S.Γ (rootCharHom ta) i) :=
+    have : Group.IsSolvable ↥(rationalComponent S.ρ S.Γ (rootCharHom ta) i) :=
       Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hf1)
     exact not_isSolvable_of_isQuasisimple hQS inferInstance
 
@@ -169,8 +169,8 @@ theorem lieCompData_of_split_frame (hT : rootDiagUnit τ ta ∈ S.D.torus)
   classical
   obtain ⟨hs0, -, -⟩ := outer_componentOrbitLength_spec S hT i
   obtain ⟨r, e, hr, hchar, he, hq⟩ := exists_char_pow S
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : CharP L r := hchar
+  have : Fact r.Prime := ⟨hr⟩
+  have : CharP L r := hchar
   obtain ⟨σQ, hσc, f, hf1, hfker, hf2⟩ := split_exists_hom S hT i hν hψ hΨ π hπ hr hchar he hq
   obtain ⟨hfinK, -⟩ := finite_card_fixSubfield (L := L) (r := r)
     (n := e * componentOrbitLength S.ρ (componentRoots (rootCharHom ta) i))

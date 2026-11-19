@@ -41,12 +41,12 @@ theorem oddCore_centralizer_eq_bot_of_steps (hcov : PerfectInvolutionCoverageSta
       refine ⟨V, hVZ.trans inf_le_left, fun s hs => Subgroup.centralizer_le_normalizer _
         (Subgroup.mem_centralizer_iff.mpr fun v hv =>
           (Subgroup.mem_centralizer_iff.mp (hVZ hv).2 s hs).symm), hVe, hV4, fun _ => hVZ⟩
-    · obtain ⟨V, hVS, hVn, hVe, hV4⟩ := exists_normal_four_of_three_le_pRank S.isPGroup' hS3
+    · obtain ⟨V, hVS, hVn, hVe, hV4⟩ := exists_normal_four_of_three_le_pRank S.isPGroup hS3
       exact ⟨V, hVS, hVn, hVe, hV4, fun h => absurd h hc⟩
   have hU1 : U ≠ ⊥ := by
     rintro rfl
     simp at hU4
-  obtain ⟨z, hz, hz2⟩ := exists_involution_inf_subgroupCenter S.isPGroup' hUS hUn hU1
+  obtain ⟨z, hz, hz2⟩ := exists_involution_inf_subgroupCenter S.isPGroup hUS hUn hU1
   obtain ⟨hWodd, hSW, hCW, hEW, hVW, hDW, hW1⟩ := hprep G hrank S U hUS hUn hU hU4 hcompl
   obtain ⟨-, hMG⟩ := hW1 ⟨E, hES, hE, hE8, hΩE⟩
   have hCz := hcent G hcomp S U hUS hUn hU hU4 hpref z hz hz2 (oddCoreSpan U) hWodd hSW

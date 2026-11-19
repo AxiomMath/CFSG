@@ -51,7 +51,7 @@ theorem U_le_O {R A : Subgroup G} (hR : IsPGroup 2 R)
     Subgroup.mem_centralizer_singleton_iff.mpr hst
   have hSR : S ≤ R := hw.S_le_ctxVN.trans hVR
   have hsR : s ∈ R := by
-    have hrR : r ∈ R := hVR (hw.W_le_ctxVN (hw.Q_le_ctxWN hrQ))
+    have hrR : r ∈ R := hVR (CFSG.OddStandard.SmallF3.HarrisU33.Ctx4Z.W_le_ctxVN (hw.Q_le_ctxWN hrQ))
     show r⁻¹ * x ∈ R
     exact R.mul_mem (R.inv_mem hrR) (hA.1 hx)
   have hsS : s ∈ S := by
@@ -64,7 +64,7 @@ theorem U_le_O {R A : Subgroup G} (hR : IsPGroup 2 R)
     have hrv : r⁻¹ * v = v * r⁻¹ :=
       hw.Q_comm r⁻¹ (Subgroup.inv_mem _ hrQ) v (hw.Y_le_Q (hw.V_le_Y hv))
     have hvx : x * v = v * x := by
-      haveI : IsMulCommutative ↥A := hA.2.1.1
+      have : IsMulCommutative ↥A := hA.2.1.1
       exact congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : ↥A) (⟨v, hVA hv⟩ : ↥A))
     dsimp only [s]
     calc v * (r⁻¹ * x) = (v * r⁻¹) * x := by group

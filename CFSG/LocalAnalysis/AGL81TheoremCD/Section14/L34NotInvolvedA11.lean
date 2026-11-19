@@ -40,7 +40,7 @@ private theorem subtypePerm_invariance {β : Type u} [Fintype β] [DecidableEq �
     have h1 : (((k : Y) : Perm β)⁻¹) (((k : Y) : Perm β) x) = ((k : Y) : Perm β) x :=
       hkinv _ hkx
     have hsymm : (((k : Y) : Perm β)⁻¹) (((k : Y) : Perm β) x) = x := by
-      simpa using Equiv.symm_apply_apply ((k : Y) : Perm β) x
+      simp
     have h2 : x = ((k : Y) : Perm β) x := hsymm.symm.trans h1
     exact hx (h2 ▸ hkx)
 
@@ -101,6 +101,7 @@ private theorem toPermHom_ker_orbit {α : Type u} [Fintype α] [DecidableEq α]
     have := (mem_fixingSubgroup_iff G).mp hy ((b : orbit G a) : α) hb
     exact Subtype.ext (by simpa using this)
 
+omit [IsSimpleGroup S] in
 private theorem quotient_reduction {n : ℕ} (hn : n ≤ 11)
     (ih : ∀ m : ℕ, m < n → m ≤ 11 →
       ∀ (γ : Type u) [Fintype γ] [DecidableEq γ], Fintype.card γ = m →
@@ -111,7 +112,7 @@ private theorem quotient_reduction {n : ℕ} (hn : n ≤ 11)
     (K : Subgroup G) (ρ : G →* Perm β) (hker : ρ.ker = K) (hKle : K ≤ ψ.ker)
     (hsmall : Fintype.card β < n) : False := by
   classical
-  haveI : K.Normal := by rw [← hker]; exact MonoidHom.normal_ker ρ
+  have : K.Normal := by rw [← hker]; exact MonoidHom.normal_ker ρ
   let ψq : G ⧸ K →* S := QuotientGroup.lift K ψ hKle
   have hψq : Function.Surjective ψq := by
     intro s
@@ -127,6 +128,7 @@ private theorem quotient_reduction {n : ℕ} (hn : n ≤ 11)
   exact ih (Fintype.card β) hsmall (le_trans (le_of_lt hsmall) hn) β rfl
     ρ.range ψ' hψ'
 
+omit [IsSimpleGroup S] in
 private theorem complement_reduction {n : ℕ} (hn : n ≤ 11)
     (ih : ∀ m : ℕ, m < n → m ≤ 11 →
       ∀ (γ : Type u) [Fintype γ] [DecidableEq γ], Fintype.card γ = m →
@@ -148,9 +150,8 @@ private theorem complement_reduction {n : ℕ} (hn : n ≤ 11)
     simpa [ψc] using h
   have hsmall : Fintype.card {x : β // x ∉ O} < n := by
     have hcardcomp : Nat.card {x : β // x ∉ O} = Oᶜ.ncard := by
-      change Nat.card {x : β // x ∉ O} = Oᶜ.ncard
-      letI : Fintype {x : β // x ∉ O} := Fintype.ofFinite _
-      letI : Fintype ↥(Oᶜ) := Fintype.ofFinite _
+      let : Fintype {x : β // x ∉ O} := Fintype.ofFinite _
+      let : Fintype ↥(Oᶜ) := Fintype.ofFinite _
       rw [Nat.card_eq_fintype_card]
       change Fintype.card ↥(Oᶜ) = Oᶜ.ncard
       exact Set.fintypeCard_eq_ncard (Oᶜ)
@@ -196,14 +197,13 @@ private theorem intransitive_reduction {n : ℕ} (hn : n ≤ 11)
     change (MulAction.toPermHom Y (orbit Y a)).ker = fixingSubgroup Y (orbit Y a)
     exact toPermHom_ker_orbit a
   have hKnormal : K.Normal := by rw [← hker]; exact MonoidHom.normal_ker ρ
-  haveI : K.Normal := hKnormal
+  have : K.Normal := hKnormal
   have hmapNormal : (Subgroup.map ψ K).Normal := hKnormal.map ψ hψ
-  haveI : (Subgroup.map ψ K).Normal := hmapNormal
+  have : (Subgroup.map ψ K).Normal := hmapNormal
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.map ψ K) with hbot | htop
   · have hKle : K ≤ ψ.ker := (Subgroup.map_eq_bot_iff K).mp hbot
     have hsmall : Fintype.card O < n := by
       rw [← Nat.card_eq_fintype_card]
-      change Nat.card ↥O < n
       rw [Nat.card_coe_set_eq]
       have hβn : Nat.card β = n := by rw [Nat.card_eq_fintype_card, hcardβ]
       rw [← hβn]
@@ -242,11 +242,11 @@ private theorem block_kernel_top_reduction {n : ℕ} (hn : n ≤ 11)
       ∀ (γ : Type u) [Fintype γ] [DecidableEq γ], Fintype.card γ = m →
         ∀ (Y : Subgroup (Equiv.Perm γ)) (ψ : Y →* S), ¬ Function.Surjective ψ)
     {β : Type u} [Fintype β] [DecidableEq β] [Nonempty β]
-    (Y : Subgroup (Perm β)) (ψ : Y →* S) (hψ : Function.Surjective ψ)
+    (Y : Subgroup (Perm β)) (ψ : Y →* S) (_hψ : Function.Surjective ψ)
     (B : Set β) (hBne : B.Nonempty) (hBnotuniv : B ≠ Set.univ)
     (O : Set (Set β)) (hO : O = orbit Y B)
     (L : Subgroup Y) (hL : L = fixingSubgroup Y O) (ρ : Y →* Perm O)
-    (hker : ρ.ker = L) (htop : Subgroup.map ψ L = ⊤)
+    (_hker : ρ.ker = L) (htop : Subgroup.map ψ L = ⊤)
     (hcardβ : Fintype.card β = n) : False := by
   classical
   let Lβ : Subgroup (Perm β) := L.map Y.subtype
@@ -318,20 +318,20 @@ private theorem block_reduction {n : ℕ} (hn : n ≤ 11)
     have hnpos : 0 < n := by rw [← hβn]; exact Nat.card_pos
     omega
   have hLnormal : L.Normal := by rw [← hker]; exact MonoidHom.normal_ker ρ
-  haveI : L.Normal := hLnormal
+  have : L.Normal := hLnormal
   have hmapNormal : (Subgroup.map ψ L).Normal := hLnormal.map ψ hψ
-  haveI : (Subgroup.map ψ L).Normal := hmapNormal
+  have : (Subgroup.map ψ L).Normal := hmapNormal
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.map ψ L) with hbot | htop
   · have hLle : L ≤ ψ.ker := (Subgroup.map_eq_bot_iff L).mp hbot
     have hsmall : Fintype.card O < n := by
       rw [← Nat.card_eq_fintype_card]
-      change Nat.card ↥O < n
       rw [Nat.card_coe_set_eq]
       exact hOncard_lt
     exact quotient_reduction hn ih ψ hψ L ρ hker hLle hsmall
   · exact block_kernel_top_reduction hn ih Y ψ hψ B hBne hBnotuniv O rfl L rfl ρ hker htop
       hcardβ
 
+omit [IsSimpleGroup S] in
 private theorem alternatingGroup_le_of_prime {n p : ℕ} (hp : Nat.Prime p) (hp3 : p + 3 ≤ n)
     (hpn : n < 2 * p) (hpdvd : p ∣ Nat.card S)
     {β : Type u} [Fintype β] [DecidableEq β] (hcard : Fintype.card β = n)
@@ -340,7 +340,7 @@ private theorem alternatingGroup_le_of_prime {n p : ℕ} (hp : Nat.Prime p) (hp3
   classical
   have hpdvdY : p ∣ Nat.card Y :=
     hpdvd.trans (Subgroup.card_dvd_of_surjective (f := ψ) hψ)
-  haveI : Fact (Nat.Prime p) := ⟨hp⟩
+  have : Fact (Nat.Prime p) := ⟨hp⟩
   obtain ⟨g, hgord⟩ := exists_prime_orderOf_dvd_card' p hpdvdY
   have hgperm : orderOf ((g : Y) : Perm β) = p := by
     rw [Subgroup.orderOf_coe, hgord]
@@ -357,6 +357,7 @@ private theorem alternatingGroup_le_of_prime {n p : ℕ} (hp : Nat.Prime p) (hp3
   exact TauCeti.alternatingGroup_le_of_isPreprimitive_of_isCycle_mem
     hprim hp hp3' hcyc hsupp g.2
 
+omit [IsSimpleGroup S] in
 private theorem alternatingGroup_le_of_primitive
     (hS : Nat.card S = 20160)
     {n : ℕ} (hn8 : 8 ≤ n) (hn11 : n ≤ 11)
@@ -371,6 +372,7 @@ private theorem alternatingGroup_le_of_primitive
     exact alternatingGroup_le_of_prime (S := S) (p := 5) (by norm_num) (by omega)
       (by omega) hpdvd hcard Y ψ hψ hprim
 
+omit [IsSimpleGroup S] in
 private theorem nonempty_equiv_alternatingGroup_eight_of_injective
     (hS : Nat.card S = 20160)
     {n : ℕ} (hn8 : 8 ≤ n) (hn11 : n ≤ 11)
@@ -397,6 +399,7 @@ private theorem nonempty_equiv_alternatingGroup_eight_of_injective
   let efin : β ≃ Fin 8 := Fintype.equivFinOfCardEq hcard8
   exact ⟨eAS.symm.trans (Equiv.altCongrHom efin)⟩
 
+omit [IsSimpleGroup S] in
 private theorem false_of_alternatingGroup_le_bot
     (hS : Nat.card S = 20160)
     {β : Type u} [Fintype β] [DecidableEq β] [Nontrivial β]
@@ -405,7 +408,7 @@ private theorem false_of_alternatingGroup_le_bot
     (hN : N = A.subgroupOf Y) (hNnormal : N.Normal) (halt : A ≤ Y)
     (hNle : N ≤ ψ.ker) : False := by
   classical
-  haveI : N.Normal := hNnormal
+  have : N.Normal := hNnormal
   let ψq : Y ⧸ N →* S := QuotientGroup.lift N ψ hNle
   have hψq : Function.Surjective ψq := by
     intro s
@@ -435,13 +438,13 @@ private theorem false_of_alternatingGroup_le
     (halt : alternatingGroup β ≤ Y) : False := by
   classical
   have hcardn : Nat.card β = n := by rw [Nat.card_eq_fintype_card, hcard]
-  haveI : Nontrivial β := Fintype.one_lt_card_iff_nontrivial.mp (by rw [hcard]; omega)
+  have : Nontrivial β := Fintype.one_lt_card_iff_nontrivial.mp (by rw [hcard]; omega)
   let A : Subgroup (Perm β) := alternatingGroup β
   let N : Subgroup Y := A.subgroupOf Y
   have hNnormal : N.Normal := Subgroup.normal_subgroupOf (H := Y) (N := A)
-  haveI : N.Normal := hNnormal
+  have : N.Normal := hNnormal
   have hmapNormal : (Subgroup.map ψ N).Normal := hNnormal.map ψ hψ
-  haveI : (Subgroup.map ψ N).Normal := hmapNormal
+  have : (Subgroup.map ψ N).Normal := hmapNormal
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.map ψ N) with hbot | htop
   · have hNle : N ≤ ψ.ker := (Subgroup.map_eq_bot_iff N).mp hbot
     exact false_of_alternatingGroup_le_bot hS Y ψ hψ A N rfl rfl hNnormal halt hNle
@@ -457,10 +460,10 @@ private theorem false_of_alternatingGroup_le
         Subtype.ext rfl
       simpa [fA, hinc] using hyψ
     let K : Subgroup A := fA.ker
-    haveI : K.Normal := MonoidHom.normal_ker fA
+    have : K.Normal := MonoidHom.normal_ker fA
     have hsimpleA : IsSimpleGroup A :=
       alternatingGroup.isSimpleGroup (by rw [hcardn]; omega)
-    haveI : IsSimpleGroup A := hsimpleA
+    have : IsSimpleGroup A := hsimpleA
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal K with hKbot | hKtop
     · have hinj : Function.Injective fA := (MonoidHom.ker_eq_bot_iff fA).mp hKbot
       obtain ⟨e8⟩ := nonempty_equiv_alternatingGroup_eight_of_injective hS hn8 hn11 hcard
@@ -504,7 +507,7 @@ private theorem not_surjective_of_card_le_eleven_aux
       have hle := Nat.factorial_le hn7
       norm_num at hle
       omega
-    haveI : Nonempty β := Fintype.card_pos_iff.mp (by rw [hcard]; omega)
+    have : Nonempty β := Fintype.card_pos_iff.mp (by rw [hcard]; omega)
     by_cases htrans : IsPretransitive Y β
     · by_cases hprim : IsPreprimitive Y β
       · exact false_of_alternatingGroup_le hS hA8 hn8 hn hcard Y ψ hψ
@@ -529,7 +532,7 @@ theorem kFactL34NotInvolvedA11_holds :
   let ψ : Y →* _root_.CFSG.PGLModel.projSL 3 (GaloisField 2 2) :=
     φ.comp e.symm.toMonoidHom
   have hψ : Function.Surjective ψ := hφ.comp e.symm.surjective
-  haveI : IsSimpleGroup (_root_.CFSG.PGLModel.projSL 3 (GaloisField 2 2)) :=
+  have : IsSimpleGroup (_root_.CFSG.PGLModel.projSL 3 (GaloisField 2 2)) :=
     _root_.CFSG.PGLModel.isSimpleGroup_projSL_of_two_le (GaloisField 2 2)
       (by norm_num) (Or.inl (by norm_num)) (Or.inl (by norm_num))
   have hS : Nat.card (_root_.CFSG.PGLModel.projSL 3 (GaloisField 2 2)) = 20160 :=

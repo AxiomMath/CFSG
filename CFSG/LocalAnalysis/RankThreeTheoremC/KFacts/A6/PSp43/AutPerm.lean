@@ -76,7 +76,7 @@ theorem autFun_spec (α : MulAut P) (j : Fin 45) :
 theorem autFun_spec' (α : MulAut P) (j : Fin 45) : α (tauP j) = tauP (autFun α j) :=
   Subtype.ext (autFun_spec α j)
 
-theorem tauP_injective : Function.Injective tauP := fun i j h =>
+theorem tauP_injective : Function.Injective tauP := fun _i _j h =>
   tauPerm_injective (congrArg Subtype.val h)
 
 theorem autFun_mul (α β : MulAut P) (j : Fin 45) :

@@ -86,7 +86,7 @@ theorem ae6AEGen_eq : ae6AEGen = ae8Gen := rfl
 theorem ae6AEGen_mem (i : Fin 7) : ae6AEGen i ∈ aeSub 8 := by
   rw [mem_aeSub]
   fin_cases i <;> refine ⟨?_, ?_⟩ <;>
-    simp [ae6AEGen, Wr.wsum, Fin.sum_univ_eight, Equiv.Perm.sign_mul, Equiv.Perm.sign_swap] <;>
+    simp [ae6AEGen, Wr.wsum, Fin.sum_univ_eight, Equiv.Perm.sign_mul] <;>
     decide
 
 theorem ae6AEGen_mul_self (i : Fin 7) : ae6AEGen i * ae6AEGen i = 1 := by
@@ -98,7 +98,7 @@ theorem map_closure_ae6AEGen :
   rw [ae8Q, certificate_originalSubgroup, MonoidHom.map_closure]
   congr 1
   ext g
-  simp only [Set.mem_image, Set.mem_range, Set.mem_setOf_eq, ae8Gens16, List.mem_map,
+  simp only [Set.mem_image, Set.mem_range, Set.mem_ofPred_eq, ae8Gens16, List.mem_map,
     List.mem_ofFn, tab_eq, wrHom_apply, ae6AEGen_eq]
 
 theorem card_closure_ae6AEGen : Nat.card (Subgroup.closure (Set.range ae6AEGen)) = 2580480 := by
@@ -172,7 +172,7 @@ theorem map_ae6ModelV0 : (ae6ModelV 0).map omegaT.subtype = (v0Q ()).originalSub
   rw [v0Q, certificate_originalSubgroup, ae6ModelV, MonoidHom.map_closure]
   congr 1
   ext g
-  simp only [Set.mem_image, Set.mem_setOf_eq, mem_v0Gens]
+  simp only [Set.mem_image, Set.mem_ofPred_eq, mem_v0Gens]
   constructor
   · rintro ⟨_, ⟨i, hi, rfl⟩, rfl⟩
     exact ⟨i, hi, rfl⟩
@@ -204,7 +204,7 @@ theorem mem_grGens {g : Equiv.Perm (Fin 376)} : g ∈ grGens () ↔
       ((curtisPerms ()).getD (ae8Letter.getD i 0) 1))) ++
       [tab (sumPerm (wr16 (Wr.allOnes 8)) 1)] ↔ _
   rw [List.mem_append, List.mem_ofFn, List.mem_singleton, e2]
-  simp only [Set.mem_range, e]
+  simp only [e]
   constructor
   · rintro (⟨i, rfl⟩ | rfl)
     · exact Or.inl ⟨i, rfl⟩

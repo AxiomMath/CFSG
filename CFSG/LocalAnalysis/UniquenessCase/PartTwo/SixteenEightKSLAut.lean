@@ -22,7 +22,7 @@ open CFSG.ComponentClassification.OuterAutomorphisms (Outer inner)
 
 private theorem s16k_card_mulAut_dvd_of_outer_dvd {X : Type} [Group X] [Finite X] {k : ℕ}
     (hk : Nat.card (Outer X) ∣ k) : Nat.card (MulAut X) ∣ k * Nat.card X := by
-  haveI : Finite (MulAut X) :=
+  have : Finite (MulAut X) :=
     Finite.of_injective (fun φ : MulAut X => (φ : X → X)) DFunLike.coe_injective
   have hinner : Nat.card (inner X) ∣ Nat.card X := by
     have h1 : Nat.card (inner X) = Nat.card (X ⧸ (MulAut.conj : X →* MulAut X).ker) :=
@@ -48,7 +48,7 @@ theorem s16k_pRank_aut_sl_small {X : Type} [Group X] [Finite X] {n : ℕ} (hn : 
   have hn3 : 3 ≤ n := by rcases hn with rfl | rfl <;> norm_num
   have hS : CFSG.Open.StatedClassicalModel X .PSL n 2 1 := by
     obtain ⟨K, hF, hfin, hcard, ⟨e⟩⟩ := hX
-    letI : Field K := hF
+    let : Field K := hF
     have hK2 : Nat.card K = 2 := by simpa using hcard
     obtain ⟨f⟩ := s15k_jp_projEquiv hK2 (StatedSL n K)
     exact ⟨⟨Nat.prime_two, le_rfl, by omega,

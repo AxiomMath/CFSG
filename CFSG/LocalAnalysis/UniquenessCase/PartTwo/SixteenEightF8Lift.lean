@@ -27,7 +27,7 @@ private theorem s16g_fixNc_statedSL_of_elem {n : ℕ} (hn : 2 ≤ n) (hK : Nat.c
     (hp : p.Prime) (hp2 : p ≠ 2) (hp3 : p ≠ 3) (hp7 : p ≠ 7)
     {E : Subgroup (MulAut (Multiplicative (Fin n → K)))} (hEN : E ≤ s16gNorm (StatedSL n K))
     (hE : IsElemAbelian p E) (hcard : p ^ 3 ≤ Nat.card E) : FixNc (StatedSL n K) p := by
-  haveI : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
+  have : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
   have hEL : E ≤ s16gLin (Fin n) K := s16g_le_lin_of_coprime (addCommutantScalar_statedSL hn) hp
     (by
       rw [s16g_card_ringAut_eight hK]
@@ -41,7 +41,7 @@ private theorem s16g_fixNc_statedSL_of_elem {n : ℕ} (hn : 2 ≤ n) (hK : Nat.c
         rw [Nat.card_units, hK]
         exact fun h => hp7 ((Nat.prime_dvd_prime_iff_eq hp (by norm_num)).1 h))
       ((Matrix.GeneralLinearGroup.det : GL (Fin n) K →* Kˣ).comp F.subtype)) ⟨x, hx⟩
-  haveI := hF.1
+  have := hF.1
   have hFc : ∀ x ∈ F, ∀ y ∈ F, x * y = y * x := fun x hx y hy =>
     congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : F) ⟨y, hy⟩)
   exact s16g_fixNc_statedSL hn hp (by rw [hK]; exact s16g_not_dvd_eight hp hp2) hFS hF.2
@@ -52,12 +52,12 @@ private theorem s16g_fixNc_statedSp_of_elem {m : ℕ} (hm : 1 ≤ m) (hK : Nat.c
     {E : Subgroup (MulAut (Multiplicative (Fin m ⊕ Fin m → K)))}
     (hEN : E ≤ s16gNorm (StatedSp m K)) (hE : IsElemAbelian p E) (hcard : p ^ 3 ≤ Nat.card E) :
     FixNc (StatedSp m K) p := by
-  haveI : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, hm⟩⟩
+  have : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, hm⟩⟩
   obtain ⟨μ, -, hμ⟩ := s16g_exists_mult_statedSp (K := K) hm
   obtain ⟨F, hFN, hF, hFcard, hμF⟩ := s16g_exists_iso_elem_generic
     (addCommutantScalar_statedSp (m := m) (K := K)) hK μ hp hp3 hp7 hEN hE
   have hFS : F ≤ StatedSp m K := fun x hx => (hμ ⟨x, hFN hx⟩).1 (hμF ⟨x, hFN hx⟩ hx)
-  haveI := hF.1
+  have := hF.1
   have hFc : ∀ x ∈ F, ∀ y ∈ F, x * y = y * x := fun x hx y hy =>
     congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : F) ⟨y, hy⟩)
   exact s16g_fixNc_statedSp hp (by rw [hK]; exact s16g_not_dvd_eight hp hp2) hFS hF.2
@@ -68,14 +68,14 @@ private theorem s16g_fixNc_statedOmegaPlus_of_elem {m : ℕ} (hm : 3 ≤ m) (hK 
     {E : Subgroup (MulAut (Multiplicative (Fin m ⊕ Fin m → K)))}
     (hEN : E ≤ s16gNorm (StatedOmega (StatedQuadPlus m K))) (hE : IsElemAbelian p E)
     (hcard : p ^ 3 ≤ Nat.card E) : FixNc (StatedOmega (StatedQuadPlus m K)) p := by
-  haveI := s16g_charP_two hK
-  haveI : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
+  have := s16g_charP_two hK
+  have : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
   obtain ⟨μ, hμ⟩ := s16g_exists_mult_omegaPlus (K := K) hm
   obtain ⟨F, hFN, hF, hFcard, hμF⟩ := s16g_exists_iso_elem_generic
     (addCommutantScalar_statedOmegaPlus hm) hK μ hp hp3 hp7 hEN hE
   have hFΩ : F ≤ StatedOmega (StatedQuadPlus m K) := s16g_le_statedOmegaPlus_of_odd hm hp hp2 hF.2
     (fun x hx v => hμ ⟨x, hFN hx⟩ (hμF ⟨x, hFN hx⟩ hx) v)
-  haveI := hF.1
+  have := hF.1
   have hFc : ∀ x ∈ F, ∀ y ∈ F, x * y = y * x := fun x hx y hy =>
     congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : F) ⟨y, hy⟩)
   exact s16g_fixNc_statedOmegaPlus hm hp hp2
@@ -88,15 +88,15 @@ private theorem s16g_fixNc_statedOmegaMinus_of_elem {m : ℕ} (hm : 3 ≤ m) {b 
     {E : Subgroup (MulAut (Multiplicative (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2 → K)))}
     (hEN : E ≤ s16gNorm (StatedOmega (StatedQuadMinus m K b c))) (hE : IsElemAbelian p E)
     (hcard : p ^ 3 ≤ Nat.card E) : FixNc (StatedOmega (StatedQuadMinus m K b c)) p := by
-  haveI := s16g_charP_two hK
-  haveI : Nonempty (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
+  have := s16g_charP_two hK
+  have : Nonempty (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
   obtain ⟨μ, hμ⟩ := s16g_exists_mult_omegaMinus (m := m) (by omega) hirr
   obtain ⟨F, hFN, hF, hFcard, hμF⟩ := s16g_exists_iso_elem_generic
     (addCommutantScalar_statedOmegaMinus (by omega) hirr) hK μ hp hp3 hp7 hEN hE
   have hFΩ : F ≤ StatedOmega (StatedQuadMinus m K b c) :=
     s16g_le_statedOmegaMinus_of_odd (by omega) hirr hp hp2 hF.2
       (fun x hx v => hμ ⟨x, hFN hx⟩ (hμF ⟨x, hFN hx⟩ hx) v)
-  haveI := hF.1
+  have := hF.1
   have hFc : ∀ x ∈ F, ∀ y ∈ F, x * y = y * x := fun x hx y hy =>
     congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : F) ⟨y, hy⟩)
   exact s16g_fixNc_statedOmegaMinus hm hirr hp hp2

@@ -12,6 +12,7 @@ open CFSG.LocalAnalysis.UniquenessCase.UC6S846
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem uc22r3e5c_rhoL_pow_three {L : Subgroup G} {a : G}
     (haL : a ∈ normalizer (L : Set G)) (ha3 : a ^ 3 = 1) :
     UC6S846.rhoL L ⟨a, haL⟩ ^ 3 = 1 := by
@@ -21,6 +22,7 @@ theorem uc22r3e5c_rhoL_pow_three {L : Subgroup G} {a : G}
     simpa using ha3
   rw [h1, map_one]
 
+omit [Finite G] in
 theorem uc22r3e5c_exists_bar2_conj_link (g : G) (L : Subgroup G) :
     ∃ φ : Bar2 L ≃* Bar2 (L.map (MulAut.conj g).toMonoidHom),
       ∀ (x : ↥L) (hx : g * (x : G) * g⁻¹ ∈ L.map (MulAut.conj g).toMonoidHom),
@@ -52,6 +54,7 @@ theorem uc22r3e5c_exists_bar2_conj_link (g : G) (L : Subgroup G) :
   rw [QuotientGroup.congr_mk]
   congr 1
 
+omit [Finite G] in
 private theorem uc22r3e5c_conj_inv_elem {b g x : G} (hgb : g * b * g⁻¹ = b⁻¹) :
     b * (g * x * g⁻¹) * b⁻¹ = g * (b⁻¹ * x * b) * g⁻¹ := by
   have hbg : b * g = g * b⁻¹ := by
@@ -64,6 +67,7 @@ private theorem uc22r3e5c_conj_inv_elem {b g x : G} (hgb : g * b * g⁻¹ = b⁻
   rw [show b * (g * x * g⁻¹) * b⁻¹ = (b * g) * x * (g⁻¹ * b⁻¹) by group, hbg, hbg']
   group
 
+omit [Finite G] in
 theorem uc22r3e5c_rhoL_conj_swap {L : Subgroup G} {b g : G}
     (hgb : g * b * g⁻¹ = b⁻¹) (hbL : b ∈ normalizer (L : Set G))
     (hbK : b ∈ normalizer ((L.map (MulAut.conj g).toMonoidHom : Subgroup G) : Set G))
@@ -99,6 +103,7 @@ theorem uc22r3e5c_rhoL_conj_swap {L : Subgroup G} {b g : G}
   rw [UC6S846.rhoL_mk_coe, hycoe]
   exact hgroup
 
+omit [Finite G] in
 private theorem uc22r3e5c_rhoL_inv_map_eq {L : Subgroup G} {b : G}
     (hbL : b ∈ normalizer (L : Set G))
     (hαinv : (UC6S846.rhoL L ⟨b, hbL⟩)⁻¹ = UC6S846.rhoL L ⟨b, hbL⟩ ^ 2)
@@ -110,6 +115,7 @@ private theorem uc22r3e5c_rhoL_inv_map_eq {L : Subgroup G} {b : G}
     (UC6S846.rhoL L ⟨b, hbL⟩).toMonoidHom) = H
   rw [← Subgroup.map_map, hH, hH]
 
+omit [Finite G] in
 private theorem uc22r3e5c_map_swap {L : Subgroup G} {b g : G}
     (hbL : b ∈ normalizer (L : Set G))
     (hbK : b ∈ normalizer ((L.map (MulAut.conj g).toMonoidHom : Subgroup G) : Set G))
@@ -124,6 +130,7 @@ private theorem uc22r3e5c_map_swap {L : Subgroup G} {b g : G}
       H.map φ.toMonoidHom := by
   rw [Subgroup.map_map, hcomp, ← Subgroup.map_map, hHinv]
 
+omit [Finite G] in
 private theorem uc22r3e5c_torusExp_swap_he {L : Subgroup G} {b g : G}
     (hbL : b ∈ normalizer (L : Set G))
     (hbK : b ∈ normalizer ((L.map (MulAut.conj g).toMonoidHom : Subgroup G) : Set G))

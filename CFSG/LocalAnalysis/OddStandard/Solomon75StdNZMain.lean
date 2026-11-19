@@ -177,7 +177,7 @@ theorem StdSetup.card_sylow_eq_two (S : StdSetup G L n z)
     exact CFSG.ComponentClassification.StandardRecognition.mem_sylow_of_mem_center_of_orderOf_eq_two
       hzcen hzord T
   have h4 : 4 ∣ Nat.card (T : Subgroup ↥(centralizer (L : Set G))) := by
-    obtain ⟨k, hk⟩ := T.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := T.isPGroup.exists_card_eq
     have h2 : 2 ∣ Nat.card (T : Subgroup ↥(centralizer (L : Set G))) := by
       have h1 := orderOf_dvd_natCard (⟨_, hz'⟩ : ↥(T : Subgroup ↥(centralizer (L : Set G))))
       rwa [Subgroup.orderOf_mk, Subgroup.orderOf_mk, S.hz] at h1

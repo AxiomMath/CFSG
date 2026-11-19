@@ -46,7 +46,7 @@ theorem swapGL_not_scalar {n : ℕ} {i j : Fin n} (hij : i ≠ j) :
   rintro ⟨c, hc⟩
   have h := congrArg (fun A : GL (Fin n) K => (A : Matrix (Fin n) (Fin n) K) i j) hc
   simp only [Matrix.GeneralLinearGroup.coe_scalar, swapGL_apply, Equiv.swap_apply_left,
-    if_true] at h
+    ite_true] at h
   rw [Matrix.scalar_apply, Matrix.diagonal_apply_ne _ hij] at h
   exact zero_ne_one h
 
@@ -70,7 +70,7 @@ theorem diag_mul_swapGL {n : ℕ} (d : Fin n → Kˣ) {i j : Fin n} (hd : d i = 
   ext a b
   rw [Matrix.diagonal_mul, Matrix.mul_diagonal, ← coe_swapGL, swapGL_apply]
   by_cases h : Equiv.swap i j a = b
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     have hab : ((d a : Kˣ) : K) = (d b : Kˣ) := by
       rw [← h]
       by_cases hai : a = i
@@ -111,7 +111,7 @@ theorem pow_three_of_pow_six {M : Type} [Monoid M] (h3 : 3 ∣ 2 ^ n + 1) {c : M
 theorem scalar_pow_three (hK : Nat.card K = (2 ^ n) ^ 2) (h3 : 3 ∣ 2 ^ n + 1)
     {x : ↥(StatedSU 6 (2 ^ n) K)}
     (hx : x ∈ (StatedScalars (Fin 6) K).subgroupOf (StatedSU 6 (2 ^ n) K)) : x ^ 3 = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨c, hc⟩ := exists_scalar_of_mem_scalars hx
   have hdet := det_eq_one_of_linUni (n := 6) (p := 2) (f := n) (H := StatedSU 6 (2 ^ n) K)
     (Or.inr ⟨hK, rfl⟩) x.2
@@ -139,7 +139,7 @@ variable [Finite K] [CharP K 2] {n : ℕ}
 @[expose] def vE (R : Type) [CommRing R] : (Fin 3 → R) →+ (Fin 6 → R) where
   toFun u := ![u 0, u 1, u 2, -(u 0 + u 1 + u 2), 0, 0]
   map_zero' := by ext i; fin_cases i <;> simp
-  map_add' u u' := by ext i; fin_cases i <;> simp <;> ring
+  map_add' u u' := by ext i; fin_cases i <;> simp; ring
 
 theorem sum_vE (R : Type) [CommRing R] (u : Fin 3 → R) : ∑ i, vE R u i = 0 := by
   simp [vE, Fin.sum_univ_succ]
@@ -162,8 +162,8 @@ theorem su6_data (hK : Nat.card K = (2 ^ n) ^ 2) (h3 : 3 ∣ 2 ^ n + 1) :
       IsElemAbelian 3 ((StatedScalars (Fin 6) K).subgroupOf (StatedSU 6 (2 ^ n) K)) ∧
       s₀ * s₀ = 1 ∧ s₀ ∉ (StatedScalars (Fin 6) K).subgroupOf (StatedSU 6 (2 ^ n) K) ∧
       ∀ e ∈ E', e * s₀ = s₀ * e := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hq : 1 ≤ 2 ^ n := Nat.one_le_two_pow
   obtain ⟨ζ, hζr⟩ : ∃ ζ : Kˣ, orderOf ζ = 3 :=
     exists_zeta (K := K) (r := 3) (by rw [hK, sq_sub_one_eq hq]; exact Dvd.dvd.mul_right h3 _)
@@ -213,7 +213,7 @@ theorem exists_hom_su6 (hGA : GriessAllModelsStatement) (h3 : 3 ∣ 2 ^ f + 1)
     (hβc : β.ker ≤ Subgroup.center L) (hβp : IsPGroup 3 β.ker) :
     ∃ φ : ↥(StatedSU 6 (2 ^ f) K) →* L, Function.Surjective φ ∧
       β.comp φ = QuotientGroup.mk' ((StatedScalars (Fin 6) K).subgroupOf (StatedSU 6 (2 ^ f) K)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hf1 : 1 ≤ f := by
     rcases Nat.eq_zero_or_pos f with rfl | h
     · omega
@@ -236,7 +236,7 @@ theorem exists_hom_su6 (hGA : GriessAllModelsStatement) (h3 : 3 ∣ 2 ^ f + 1)
   have hmm : CFSG.Models.LieModel (StatedProj (StatedSU 6 (2 ^ f) K)) .PSU 6 2 f :=
     lieModel_of_classical ⟨hadm, K, inferInstance, inferInstance, hK, ⟨MulEquiv.refl _⟩⟩
   obtain ⟨hfin, hcard⟩ := finite_and_card_hopf hGA hmm
-  haveI := hfin
+  have := hfin
   have hdvd24 : Nat.card (hopfMultiplier (StatedProj (StatedSU 6 (2 ^ f) K))) ∣ 24 := by
     rw [hcard]
     have h1 : (CFSG.Blueprint.Multiplier.genericOrders .PSU 6 2 f).1 ∣ 6 := Nat.gcd_dvd_left _ _
@@ -276,8 +276,8 @@ theorem exists_Ebar_s_of_cover (hGA : GriessAllModelsStatement) (h3 : 3 ∣ 2 ^ 
     (hβc : β.ker ≤ Subgroup.center L) (hβp : IsPGroup 3 β.ker) :
     ∃ (Eb : Subgroup L) (s : L), IsElemAbelian 3 Eb ∧ Nat.card Eb = 27 * Nat.card β.ker ∧
       s ^ 2 = 1 ∧ β s ≠ 1 ∧ ∀ x ∈ Eb, x * s = s * x := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := by
     have := Fintype.ofFinite K
     exact charP_of_card_eq_prime_pow (f := 2 * f) (by
       rw [← Nat.card_eq_fintype_card, hK, ← pow_mul, mul_comm])

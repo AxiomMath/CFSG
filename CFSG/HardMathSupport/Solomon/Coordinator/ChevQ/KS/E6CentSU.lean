@@ -37,8 +37,8 @@ theorem rationalComponent_suN_quasisimple (hT : rootDiagUnit τ ta ∈ S.D.torus
     CFSG.IsQuasisimple ↥(rationalComponent S.ρ S.Γ (rootCharHom ta) i) := by
   classical
   obtain ⟨hs0, -, -⟩ := outer_componentOrbitLength_spec S hT i
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : CharP L r := hchar
+  have : Fact r.Prime := ⟨hr⟩
+  have : CharP L r := hchar
   set s := componentOrbitLength S.ρ (componentRoots (rootCharHom ta) i) with hsdef
   have hes : 0 < e * s := Nat.mul_pos he hs0
   obtain ⟨σQ, hσc, f, hf1, hfker, hf2⟩ := two_suN_exists_hom S hT i hν hψ hΨ π hπ hr hchar he hq

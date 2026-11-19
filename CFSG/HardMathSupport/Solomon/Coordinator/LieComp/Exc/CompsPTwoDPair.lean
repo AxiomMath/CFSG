@@ -76,7 +76,7 @@ theorem theta_lb_upper (x : F) :
   have h1 := D.δ_mul_ε
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [dmat, dinv, longRootMatrix, Matrix.mul_apply, Fin.sum_univ_four, Matrix.diagonal,
+    simp [dmat, dinv, longRootMatrix, Matrix.mul_apply, Matrix.diagonal,
       CFSG.LieType.Steinberg.coe_sl2Upper] <;>
     first | linear_combination h1 | linear_combination (algebraMap F K x) * h1
 
@@ -92,7 +92,7 @@ theorem theta_lb_lower (x : F) :
   have h1 := D.δ_mul_ε
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [dmat, dinv, longRootMatrix, Matrix.mul_apply, Fin.sum_univ_four, Matrix.diagonal,
+    simp [dmat, dinv, longRootMatrix, Matrix.mul_apply, Matrix.diagonal,
       CFSG.LieType.Steinberg.coe_sl2Lower] <;>
     first | linear_combination h1 | linear_combination (algebraMap F K x) * h1
 
@@ -135,11 +135,10 @@ theorem theta_sb_upper (t : ShortField b c) :
   have h1 := D.δ_mul_ε
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [dmat, dinv, rootMatrix, Matrix.mul_apply, Fin.sum_univ_four, Matrix.diagonal,
+    simp [dmat, dinv, rootMatrix, Matrix.mul_apply, Matrix.diagonal,
       CFSG.LieType.Steinberg.coe_sl2Upper, Matrix.single_apply, fieldCoord, kup] <;>
-    first | ring1 | linear_combination h1 |
-      linear_combination (D.δ * (algebraMap F K t.re - algebraMap F K t.im * D.ω)) * h1 |
-      linear_combination (D.ε * (algebraMap F K t.re - algebraMap F K t.im * D.ω)) * h1
+    first | linear_combination h1 |
+      linear_combination (D.δ * (algebraMap F K t.re - algebraMap F K t.im * D.ω)) * h1
 
 theorem theta_sb_lower (t : ShortField b c) :
     theta D hirr h2 (shortBlock hirr 3 finOne (tv 1 0 t)) =
@@ -151,7 +150,7 @@ theorem theta_sb_lower (t : ShortField b c) :
   have h1 := D.δ_mul_ε
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [dmat, dinv, rootMatrix, Matrix.mul_apply, Fin.sum_univ_four, Matrix.diagonal,
+    simp [dmat, dinv, rootMatrix, Matrix.mul_apply, Matrix.diagonal,
       CFSG.LieType.Steinberg.coe_sl2Lower, Matrix.single_apply, starCoord, klow] <;>
     first | ring1 | linear_combination h1 |
       linear_combination (D.δ * (algebraMap F K t.re - algebraMap F K t.im * D.ω)) * h1 |
@@ -228,7 +227,7 @@ theorem exists_theta_of_sl4 {G : Type} [Group G] (Φ : SL(4, K) →* G)
       θ.range = (Φ.comp ((blockSL2 K 3 1).comp
         (Matrix.SpecialLinearGroup.map (algebraMap F K)))).range ⊔
         (Φ.comp (usbSL σ₀.toRingHom (σσ' D))).range := by
-  haveI := fact_shortField hirr
+  have := fact_shortField hirr
   have hmap : Function.Injective
       (Matrix.SpecialLinearGroup.map (algebraMap F K) : SL(2, F) →* SL(2, K)) := by
     intro A B h
@@ -283,7 +282,7 @@ theorem twistedB2BlockPair_of_sl4 {G : Type} [Group G] (Φ : SL(4, K) →* G)
       ((Φ.comp ((blockSL2 K 3 1).comp
         (Matrix.SpecialLinearGroup.map (algebraMap F K)))).range.subgroupOf C)
       ((Φ.comp (usbSL σ₀.toRingHom (σσ' D))).range.subgroupOf C) := by
-  haveI := fact_shortField hirr
+  have := fact_shortField hirr
   obtain ⟨θ, hker, hinj, hlb, hsb, hrange⟩ := exists_theta_of_sl4 D hirr h2 Φ hΦ
   have hθC : ∀ x, θ x ∈ C := fun x => by
     have hx : θ x ∈ θ.range := ⟨x, rfl⟩

@@ -48,7 +48,7 @@ theorem pElementSubgroup_eq_self_of_isA5xA5 {Q : Type} [Group Q] [Finite Q]
   have hcardA5 : Nat.card (alternatingGroup (Fin 5)) = 60 := by
     rw [nat_card_alternatingGroup, Nat.card_eq_fintype_card, Fintype.card_fin]
     rfl
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hA5top : CFSG.RankThree.PartOne.pElementSubgroup 5
       (⊤ : Subgroup (alternatingGroup (Fin 5))) = ⊤ := by
     obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card'
@@ -59,7 +59,7 @@ theorem pElementSubgroup_eq_self_of_isA5xA5 {Q : Type} [Group Q] [Finite Q]
       omega
     have hsimple : IsSimpleGroup (⊤ : Subgroup (alternatingGroup (Fin 5))) :=
       (Subgroup.topEquiv (G := alternatingGroup (Fin 5))).isSimpleGroup_congr.mpr
-        alternatingGroup.isSimpleGroup_five
+        (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
     exact CFSG.RankThree.PartOne.KFU.pElementSubgroup_eq_of_simple hsimple
       (Subgroup.mem_top z) hz hz1
   have hProdTop : CFSG.RankThree.PartOne.pElementSubgroup 5
@@ -119,7 +119,7 @@ theorem exists_mul_centralizer_of_pow_five {Q : Type} [Group Q] [Finite Q]
     ∃ a ∈ A, ∃ c ∈ Subgroup.centralizer (A : Set Q),
       g = a * c ∧ a ^ 5 ^ k = 1 ∧ c ^ 5 ^ k = 1 := by
   have hOut2 : IsPGroup 2 (Outer ↥A) := isPGroup_two_outer_of_isA5xA5 hA
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hOut5 : ¬ 5 ∣ Nat.card (Outer ↥A) := by
     obtain ⟨m, hm⟩ := hOut2.exists_card_eq
     rw [hm]

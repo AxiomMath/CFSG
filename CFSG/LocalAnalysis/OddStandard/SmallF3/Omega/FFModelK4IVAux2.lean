@@ -57,7 +57,7 @@ theorem exists_smul_add_eq_one [Fintype K] (hodd : Fintype.card K % 2 = 1)
   obtain ⟨α, β, hab⟩ := FiniteField.exists_root_sum_quadratic hdegx hdegy hodd
   refine ⟨α, β, ?_⟩
   rw [ff_aux_q_add_smul q hxy]
-  simp only [Polynomial.eval_add, Polynomial.eval_sub, Polynomial.eval_mul, Polynomial.eval_C,
+  simp only [Polynomial.eval_sub, Polynomial.eval_mul, Polynomial.eval_C,
     Polynomial.eval_pow, Polynomial.eval_X, Polynomial.eval_one] at hab
   rw [show α ^ 2 * q x + β ^ 2 * q y = (q x * α ^ 2 + (q y * β ^ 2 - 1)) + 1 by ring]
   rw [hab, zero_add]
@@ -68,9 +68,9 @@ theorem exists_orthonormal_pair [Finite K] (q : QuadraticForm K V)
     (hq : q.polarBilin.Nondegenerate) (h3 : Module.finrank K V = 3) (h2 : (2 : K) ≠ 0)
     (hodd : Nat.card K % 2 = 1) :
     ∃ u₁ u₂ : V, q u₁ = 1 ∧ q u₂ = 1 ∧ q.polarBilin u₁ u₂ = 0 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hodd' : Fintype.card K % 2 = 1 := by rw [← Nat.card_eq_fintype_card]; exact hodd
-  haveI : Invertible (2 : K) := invertibleOfNonzero h2
+  have : Invertible (2 : K) := invertibleOfNonzero h2
   obtain ⟨b, hortho, haniso⟩ :=
     (QuadraticMap.nondegenerate_polar_iff.mp hq).exists_orthogonal_basis
   let b3 : Module.Basis (Fin 3) K V := b.reindex (finCongr h3)

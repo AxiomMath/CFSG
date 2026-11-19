@@ -22,6 +22,7 @@ open scoped IsMulCommutative Matrix
 
 variable {G : Type} [Group G] [Finite G] {v : Fin 4 → G} (hv : EBasis v)
 
+omit [Finite G] in
 theorem cent_eq_of_le16 (hcent : Subgroup.centralizer (eSub hv : Set G) ≤ eSub hv) :
     Subgroup.centralizer (eSub hv : Set G) = eSub hv :=
   le_antisymm hcent fun x hx => Subgroup.mem_centralizer_iff.mpr fun y hy => eSub_comm hv y x hy hx
@@ -93,7 +94,7 @@ theorem conclK_of_normalizer16 (hcardN : Nat.card (eNorm hv) = 322560)
       exact hinf_card_ge
     exact inf_eq_left.mp (Subgroup.eq_of_le_of_card_ge inf_le_left hcard_eSub_le)
   have hE2 : IsPGroup 2 ↥(eSub hv) := IsPGroup.of_card (n := 4) (card_eSub hv)
-  haveI : IsSimpleGroup ↥(StatedSL 4 (ZMod 2)) := E16.isSimpleGroup_statedSL4
+  have : IsSimpleGroup ↥(StatedSL 4 (ZMod 2)) := E16.isSimpleGroup_statedSL4
   have hNo : NoNormalTwo ↥(StatedSL 4 (ZMod 2)) :=
     noNormalTwo_of_simple not_isPGroup_sl4
   have hsurj : Function.Surjective α := by
@@ -134,7 +135,7 @@ theorem conclK_of_normalizer16 (hcardN : Nat.card (eNorm hv) = 322560)
     (isNaturalSection_iff_isSumOfNaturalModules_one _ _ bot_le).mp hsec
   have hcommV : IsMulCommutative ↥(eSub hv) :=
     IsMulCommutative.of_setLike_mul_comm fun x hx y hy => eSub_comm hv x y hx hy
-  letI : IsMulCommutative ↥(eSub hv) := hcommV
+  let : IsMulCommutative ↥(eSub hv) := hcommV
   have hFFM : IsFFModule (autOn (eNorm hv) (eSub hv)) :=
     FFn.isFFModule_autOn_of_sum (n := 3) (k := 1) (by decide) le_rfl (by norm_num) hsum
   have hFF : IsFFModule (autOn (Subgroup.normalizer (eSub hv : Set G))
@@ -253,7 +254,7 @@ theorem normalizer16_facts (hcardN : Nat.card (eNorm hv) = 322560)
       exact hinf_card_ge
     exact inf_eq_left.mp (Subgroup.eq_of_le_of_card_ge inf_le_left hcard_eSub_le)
   have hE2 : IsPGroup 2 ↥(eSub hv) := IsPGroup.of_card (n := 4) (card_eSub hv)
-  haveI : IsSimpleGroup ↥(StatedSL 4 (ZMod 2)) := E16.isSimpleGroup_statedSL4
+  have : IsSimpleGroup ↥(StatedSL 4 (ZMod 2)) := E16.isSimpleGroup_statedSL4
   have hNo : NoNormalTwo ↥(StatedSL 4 (ZMod 2)) :=
     noNormalTwo_of_simple not_isPGroup_sl4
   have hsurj : Function.Surjective α := by
@@ -280,7 +281,7 @@ theorem refData_normalizer16 (hcardN : Nat.card (eNorm hv) = 322560)
   norm := le_rfl
   perf := fun _ hK _ => hK
   simple := by
-    haveI : IsSimpleGroup ↥(StatedSL 4 (ZMod 2)) := E16.isSimpleGroup_statedSL4
+    have : IsSimpleGroup ↥(StatedSL 4 (ZMod 2)) := E16.isSimpleGroup_statedSL4
     obtain ⟨hsurj, hker⟩ := normalizer16_facts hv hcardN hcent
     exact simple_of_surj _ hsurj hker
 

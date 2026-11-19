@@ -16,7 +16,7 @@ open CFSG.AGLEmbeddingD2.McLaughlin.WeakBlockModuleData CFSG.AGLEmbeddingD2.Tits
 
 private theorem center_quotient_eq_bot {L : Type} [Group L] (hq : CFSG.Open.IsQuasisimple L) :
     Subgroup.center (L ⧸ Subgroup.center L) = ⊥ := by
-  haveI : IsSimpleGroup (L ⧸ Subgroup.center L) := hq.2
+  have : IsSimpleGroup (L ⧸ Subgroup.center L) := hq.2
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
     (Subgroup.center (L ⧸ Subgroup.center L)) with h | h
   · exact h
@@ -33,7 +33,7 @@ private theorem center_quotient_eq_bot {L : Type} [Group L] (hq : CFSG.Open.IsQu
       have h1 : g₁ ∈ Subgroup.center (L ⧸ Subgroup.center L) := by rw [h]; exact Subgroup.mem_top _
       rw [Subgroup.mem_bot, commutatorElement_eq_one_iff_mul_comm]
       exact (Subgroup.mem_center_iff.1 h1 g₂).symm
-    haveI := hq.2.toNontrivial
+    have := hq.2.toNontrivial
     obtain ⟨a, b, hab⟩ := exists_pair_ne (L ⧸ Subgroup.center L)
     apply hab
     have ha : a ∈ commutator (L ⧸ Subgroup.center L) := by rw [hcomm]; exact Subgroup.mem_top _
@@ -47,7 +47,7 @@ set_option linter.unusedSectionVars false
 theorem k518Crit_of_rk (h1 : K518RkSL2) (h2 : K518RkSU3) : K518Crit := by
   intro Y _ _ L S P hL hcl hrk hS hP p hp hp2 _hpZ r hrL hrS hr hr1 hr2 hr3
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq : CFSG.Open.IsQuasisimple ↥L := hL.2.2
   have hperf : commutator ↥L = ⊤ := hq.1
   have hZb : Subgroup.center (↥L ⧸ Subgroup.center ↥L) = ⊥ := center_quotient_eq_bot hq
@@ -85,7 +85,7 @@ theorem k518Crit_of_rk (h1 : K518RkSL2) (h2 : K518RkSU3) : K518Crit := by
     · have h2' : Nat.Coprime p 2 := (Nat.coprime_primes hp Nat.prime_two).2 hp2
       simpa using Nat.Coprime.pow_right 2 h2'
     · exact (Nat.coprime_primes hp Nat.prime_two).2 hp2
-  haveI : Finite (MulAut (↥L ⧸ Subgroup.center ↥L)) :=
+  have : Finite (MulAut (↥L ⧸ Subgroup.center ↥L)) :=
     Finite.of_injective (fun f : MulAut (↥L ⧸ Subgroup.center ↥L) => (f : _ → _))
       (fun f g h => MulEquiv.ext fun x => congrFun h x)
   set mk : ↥L →* ↥L ⧸ Subgroup.center ↥L := QuotientGroup.mk' (Subgroup.center ↥L) with hmk

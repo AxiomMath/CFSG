@@ -380,7 +380,7 @@ public theorem two_transvections_classification_aligned
       (by rw [htraceX]; exact htwo) (by rw [htraceY]; exact htwo)
     have hratio' : (2 + r) / 4 ∈ W.K := by
       rw [htraceXY, htraceX, htraceY] at hratio
-      convert hratio using 1 <;> ring
+      convert hratio using 1; ring
     have hfour : (4 : K) ≠ 0 := by
       rw [show (4 : K) = 2 * 2 by norm_num]
       exact mul_ne_zero htwo htwo
@@ -397,7 +397,7 @@ public theorem two_transvections_classification_aligned
       simpa [Nat.card_eq_fintype_card] using hKcard)
     have halgmem (a : ZMod p) : algebraMap (ZMod p) K a ∈ W.K := by
       obtain ⟨n, rfl⟩ := ZMod.natCast_zmod_surjective a
-      simpa using natCast_mem W.K n
+      simp
     let E : IntermediateField (ZMod p) K := W.K.toIntermediateField halgmem
     let r0 : E := ⟨r, hr_mem_of_witness m W⟩
     have hminpoly : minpoly (ZMod p) r = minpoly (ZMod p) r0 := by
@@ -545,7 +545,7 @@ public theorem two_transvections_classification_aligned
     rw [rhoSL.range_eq_map, ← hcl, MonoidHom.map_closure]
     congr 1
     ext z
-    simp [eq_comm]
+    simp
   have hSL_of_f_eq_one (hf_one : f = 1) :
       Function.Surjective rhoSL := by
     let X : Matrix.SpecialLinearGroup (Fin 2) K :=

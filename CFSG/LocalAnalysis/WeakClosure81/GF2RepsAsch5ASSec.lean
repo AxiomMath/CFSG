@@ -41,10 +41,10 @@ theorem compFactorAutInEAS_of_cfShape {G : Type} [Group G] [Finite G] {T : Subgr
     (hT : IsPGroup 2 T) {P : ∀ (X : Type) [Group X], Prop} {j : ℕ}
     (hCF : CFShape G P) (hS : ShapeInEAS j P) : CompFactorAutInEAS j T := by
   intro M N hN hNM hNs hMs hsimple
-  haveI := hN
+  have := hN
   let W := ↥M ⧸ N.subgroupOf M
-  haveI : Finite W := inferInstance
-  haveI : Finite (MulAut W) :=
+  have : Finite W := inferInstance
+  have : Finite (MulAut W) :=
     Finite.of_injective (fun f : MulAut W => (f : W → W)) fun _ _ h => MulEquiv.ext (congrFun h)
   have hP0 : IsPGroup 2 ↥(H13.P31Sec.secP T M N) := by
     refine IsPGroup.map ?_ H13.P31Sec.secActHom

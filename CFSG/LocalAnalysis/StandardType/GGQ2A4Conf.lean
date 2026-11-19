@@ -244,8 +244,8 @@ theorem hconn : ∀ i j : Fin 4,
   have hstep : ∀ i : Fin 3, r (Fin.castSucc i) i.succ := by
     intro i
     refine ⟨?_, ?_⟩ <;> rw [K.pairing] <;> fin_cases i <;> decide
-  have hsymm : Symmetric r := fun a b h => ⟨h.2, h.1⟩
-  have hR : Symmetric (Relation.ReflTransGen r) := by
+  have hsymm : (∀ ⦃a₀ b₀⦄, r a₀ b₀ → r b₀ a₀) := fun a b h => ⟨h.2, h.1⟩
+  have hR : (∀ ⦃a₀ b₀⦄, (Relation.ReflTransGen r) a₀ b₀ → (Relation.ReflTransGen r) b₀ a₀) := by
     intro a b h
     induction h with
     | refl => exact Relation.ReflTransGen.refl

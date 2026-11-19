@@ -50,7 +50,7 @@ variable {K : Type} [Field K]
 theorem g112A2Seven_mem_cases [Finite K] (hK : Nat.card K = 4) {ω : K}
     (hω : ω ^ 2 + ω + 1 = 0) (c : K) : c = 0 ∨ c = 1 ∨ c = ω ∨ c = ω ^ 2 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have h4 : Fintype.card K = 4 := by rw [← Nat.card_eq_fintype_card]; exact hK
   have hc4 : c ^ 4 = c := by
     have := FiniteField.pow_card c
@@ -69,7 +69,7 @@ theorem g112A2Seven_mem_cases [Finite K] (hK : Nat.card K = 4) {ω : K}
 theorem g112A2Seven_exists_omega [Finite K] (hK : Nat.card K = 4) :
     ∃ ω : K, ω ^ 2 + ω + 1 = 0 ∧ ω ≠ 0 ∧ ω ≠ 1 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have h4 : Fintype.card K = 4 := by rw [← Nat.card_eq_fintype_card]; exact hK
   obtain ⟨c, hc0, hc1⟩ : ∃ c : K, c ≠ 0 ∧ c ≠ 1 := by
     by_contra hcon

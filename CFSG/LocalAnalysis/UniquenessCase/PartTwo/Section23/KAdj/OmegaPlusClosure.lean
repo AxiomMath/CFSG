@@ -78,7 +78,7 @@ private theorem map_eq_top_of_card_E09 {H S : Type} [Group H] [Finite H] [Group 
     (hcard : Nat.card (H ⧸ P) = Nat.card S ^ 2) {N : Subgroup H}
     (hN₁ : φ₁.range ≤ N) (hN₂ : φ₂.range ≤ N) :
     N.map (QuotientGroup.mk' P) = ⊤ := by
-  haveI : Finite (H ⧸ P) :=
+  have : Finite (H ⧸ P) :=
     Finite.of_surjective (QuotientGroup.mk' P) (QuotientGroup.mk'_surjective P)
   have hinj : Function.Injective (MonoidHom.noncommCoprod
       ((QuotientGroup.mk' P).comp φ₁) ((QuotientGroup.mk' P).comp φ₂)
@@ -166,12 +166,12 @@ theorem normal_closure_plusRoots {K : Type} [Field K] [Finite K] [CharP K 2]
     (hnorm : Hinf (plusFlagStab K 3 ({1} : Finset ℕ)) ≤ Subgroup.normalizer (N : Set (PlusLin K)))
     (h₂ : (plusRootEmbTwo K).range ≤ N) (h₁ : (plusRootEmbOne K).range ≤ N) :
     N = Hinf (plusFlagStab K 3 ({1} : Finset ℕ)) := by
-  haveI : Finite (PlusLin K) :=
+  have : Finite (PlusLin K) :=
     Finite.of_injective (fun g : PlusLin K => (g : (Fin 3 ⊕ Fin 3 → K) → (Fin 3 ⊕ Fin 3 → K)))
       DFunLike.coe_injective
   let P : Subgroup ↥(Hinf (plusFlagStab K 3 ({1} : Finset ℕ))) :=
     CFSG.pCore 2 ↥(Hinf (plusFlagStab K 3 ({1} : Finset ℕ)))
-  haveI hPnorm : P.Normal := CFSG.pCore_normal
+  have hPnorm : P.Normal := CFSG.pCore_normal
   have hNj : (N.subgroupOf (Hinf (plusFlagStab K 3 ({1} : Finset ℕ)))).map
       (QuotientGroup.mk' P) = ⊤ :=
     map_eq_top_of_card_E09 P (rootEmbTwoCore_E09 hK) (rootEmbOneCore_E09 hK)

@@ -40,7 +40,7 @@ private theorem action_eq_one_of_quasisimple_of_inner_of_fixed_sylow
     intro t ht
     rw [Sylow.coe_mapSurjective] at ht
     obtain ⟨a, ha, hat⟩ := ht
-    obtain ⟨n, hn⟩ := T.isPGroup' ⟨a, ha⟩
+    obtain ⟨n, hn⟩ := T.isPGroup ⟨a, ha⟩
     have hpow : (ρ a) ^ (p ^ n) = 1 := by
       rw [← map_pow]
       have ha1 : a ^ (p ^ n) = 1 := congrArg Subtype.val hn
@@ -67,7 +67,7 @@ private theorem action_eq_one_of_quasisimple_of_inner_of_fixed_sylow
     have hp : p ∣ Nat.card ρ.range := by
       have hcard : Nat.card (T' : Subgroup ρ.range) ≠ 1 := by
         exact ne_of_gt ((Subgroup.one_lt_card_iff_ne_bot _).mpr hne)
-      rcases T'.isPGroup'.card_eq_or_dvd with h | h
+      rcases T'.isPGroup.card_eq_or_dvd with h | h
       · exact False.elim (hcard h)
       · exact h.trans (Subgroup.card_subgroup_dvd_card _)
     exact CFSG.HardMathSupport.Malle.E27Lie.not_sylow_le_center_of_perfect
@@ -282,7 +282,7 @@ private theorem exists_component_containing_of_sylow_le
     have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hPtop : CFSG.ABGLocalTools.IsSylowOf 3 (P : Subgroup H) ⊤ :=
       CFSG.ABGLocalTools.isSylowOf_iff.2
-        ⟨le_top, P.isPGroup', by simpa using P.not_dvd_index⟩
+        ⟨le_top, P.isPGroup, by simpa using P.not_dvd_index⟩
     have hSyl : CFSG.ABGLocalTools.IsSylowOf 3 ((P : Subgroup H) ⊓ K) K :=
       CFSG.ABGLocalTools.IsSylowOf.inf_of_isSubnormal
         hPtop
@@ -484,7 +484,7 @@ private theorem exists_component_not_le_of_perfect_centralizer_of_schreier
     rw [← Subgroup.map_subgroupOf_eq_of_le (hEX.trans hXH)]
     exact Subgroup.map_mono hEP
   have hPM := PartOne.Section9.le_of_mem_uniqueSet_of_isPGroup S.maxLocal hEU hEPG
-    (P.isPGroup'.map H.subtype)
+    (P.isPGroup.map H.subtype)
   have hPA : (P : Subgroup H) ≤ A := fun x hx => ⟨x.2, hPM (Subgroup.mem_map_of_mem H.subtype hx)⟩
   obtain ⟨K, hK, hXK⟩ := exists_component_containing_of_sylow_le hX' h3X' hHr' hSch hXF' hXO' P hPA
   let K' := K.map H.subtype

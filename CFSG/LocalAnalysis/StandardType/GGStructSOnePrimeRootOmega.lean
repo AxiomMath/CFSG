@@ -96,14 +96,14 @@ namespace RCSTOm
 
 theorem ggInvolCentTyped_frame {K V : Type} [Field K] [Finite K] [CharP K 2] [AddCommGroup V]
     [Module K V] [FiniteDimensional K V] {Q : QuadraticForm K V} {P₁ P₂ : HypPair Q}
-    (hQ : (polarBilin Q).Nondegenerate) (hEΩ : elementaryGroup Q ≤ omegaGroup Q hQ)
-    (hOE : orthDerived Q ≤ elementaryGroup Q) (h₁₂ : P₁.Orth P₂)
+    (hQ : (polarBilin Q).Nondegenerate) (_hEΩ : elementaryGroup Q ≤ omegaGroup Q hQ)
+    (_hOE : orthDerived Q ≤ elementaryGroup Q) (h₁₂ : P₁.Orth P₂)
     (hW : IsChevTwoLayered ↥(omFix Q P₁ P₂))
     {U : Type} [Group U] {σ : U →* (V ≃ₗ[K] V)} (hσ : Function.Injective σ)
     (hσE : σ.range = elementaryGroup Q) {x : U} (hx : σ x = eichler Q P₁.e P₂.e)
     {G : Type} [Group G] [Finite G] (ψ : U →* G) (hψ : Function.Injective ψ) (u : U) :
     GGInvolCentTyped ψ.range (ψ (u * x * u⁻¹)) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hE : ∀ a b : V, eichler Q a b ∈ elementaryGroup Q := eichler_mem_elementaryGroup Q
   set φ := ψ.comp (MulAut.conj u).toMonoidHom with hφdef
   have hφ : Function.Injective φ := RCSTSp.comp_conj_injective hψ u
@@ -157,7 +157,7 @@ theorem omFix_isChevTwoLayered_of_quasisimple {K V : Type} [Field K] [Finite K] 
       orthDerived (Q.restrict (wSub P₁ P₂)))
     (hQq : CFSG.IsQuasisimple ↥(orthDerived (Q.restrict (wSub P₁ P₂)))) :
     IsChevTwoLayered ↥(omFix Q P₁ P₂) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   exact IsChevTwoLayered.of_mulEquiv
     (omFixEquiv h₁₂ hQ hEΩ hOE (nondegenerate_restrict_wSub hQ h₁₂) hΩ)
     (isChevTwoLayered_orthDerived_of_isQuasisimple _ (nondegenerate_restrict_wSub hQ h₁₂) hQq)
@@ -209,12 +209,12 @@ theorem omFix_isChevTwoLayered_of_splitFour {K V : Type} [Field K] [Finite K] [C
     (hS : ∃ S : Submodule K (wSub P₁ P₂), finrank K S = 2 ∧
       ∀ x ∈ S, (Q.restrict (wSub P₁ P₂)) x = 0) :
     IsChevTwoLayered ↥(omFix Q P₁ P₂) := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Finite (V ≃ₗ[K] V) :=
+  have : Fintype K := Fintype.ofFinite K
+  have : Finite V := Module.finite_of_finite K
+  have : Finite (V ≃ₗ[K] V) :=
     Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
       fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
-  haveI : Fintype ↥(TauCeti.QuadraticMap.orthogonalGroup (Q.restrict (wSub P₁ P₂))) :=
+  have : Fintype ↥(TauCeti.QuadraticMap.orthogonalGroup (Q.restrict (wSub P₁ P₂))) :=
     Fintype.ofFinite _
   have hE : ∀ a b : V, eichler Q a b ∈ elementaryGroup Q := eichler_mem_elementaryGroup Q
   have hR := nondegenerate_restrict_wSub hQ h₁₂
@@ -246,7 +246,7 @@ theorem omFix_isChevTwoLayered_of_splitFour {K V : Type} [Field K] [Finite K] [C
           map_mul' := fun a b => Subtype.ext (map_mul (resW Q P₁ P₂) a b) }
       have hρ : Function.Injective ρ := fun a b hab =>
         resW_injective h₁₂ (congrArg Subtype.val hab)
-      haveI := hOsolv
+      have := hOsolv
       exact Group.isSolvable_of_isSolvable_injective hρ
     exact isChevTwoLayered_of_isSolvable hOm
   ·

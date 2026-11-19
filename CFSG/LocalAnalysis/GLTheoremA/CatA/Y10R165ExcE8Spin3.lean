@@ -43,7 +43,7 @@ theorem center_spinGroup_quadPlus_eq_bot {K : Type} [Field K] [Finite K] [CharP 
     (hn : 3 ≤ n) : Subgroup.center (spinGroup (quadPlus n K)) = ⊥ := by
   have hle := center_le_ker_spinAction_quadPlus (K := K) hn
   have hbot : (spinAction (quadPlus n K)).ker = ⊥ := by
-    haveI := isCentral_cliffordAlgebra_quadPlus K n
+    have := isCentral_cliffordAlgebra_quadPlus K n
     exact ker_spinAction_eq_bot_of_isCentral _ (CharP.cast_eq_zero K 2)
   rw [hbot] at hle
   exact le_antisymm hle bot_le
@@ -95,7 +95,7 @@ theorem card_e8D4Perp_eq_card_statedProj (K : Type) [Field K] [Finite K] [CharP 
       (MulAut.conj (weylWordElt .E8 K e8D4Word)).toMonoidHom from rfl,
     Subgroup.card_map_of_injective (MulEquiv.injective _), hlevi, hspin]
 
-theorem dvd_card_e8D4Perp (K : Type) [Field K] [Finite K] [CharP K 2] {p : ℕ} (hp : p.Prime)
+theorem dvd_card_e8D4Perp (K : Type) [Field K] [Finite K] [CharP K 2] {p : ℕ} (_hp : p.Prime)
     (hpq : p ∣ Nat.card K ^ 2 + 1) : p ∣ Nat.card ↥(e8D4Perp K) := by
   have hdvd4 : p ∣ Nat.card K ^ 4 - 1 := by
     have h1 : p ∣ (Nat.card K ^ 2 + 1) * (Nat.card K ^ 2 - 1) := Dvd.dvd.mul_right hpq _

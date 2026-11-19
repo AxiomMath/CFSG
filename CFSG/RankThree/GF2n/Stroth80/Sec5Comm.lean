@@ -29,7 +29,7 @@ theorem Ctx.mem_Q1_iff (hc : Ctx M Q Z B) {t : G} (htM : t ∈ M) {x : G} :
           refine Z.mul_mem ?_ ha
           have := (Subgroup.mem_normalizer_iff.mp (hc.hyp.Z_normal.2 haM) _).mp hb
           simpa using this
-        one_mem' := ⟨M.one_mem, by simpa [commutatorElement_def] using Z.one_mem⟩
+        one_mem' := ⟨M.one_mem, by simp [commutatorElement_def]⟩
         inv_mem' := by
           rintro a ⟨haM, ha⟩
           refine ⟨M.inv_mem haM, ?_⟩
@@ -42,6 +42,7 @@ theorem Ctx.mem_Q1_iff (hc : Ctx M Q Z B) {t : G} (htM : t ∈ M) {x : G} :
     have htS : t ∈ S := ⟨htM, hx⟩
     exact (Subgroup.zpowers_le.mpr htS hs).2
 
+omit [Finite G] in
 theorem Ctx.comm_mem_Q (hc : Ctx M Q Z B) {t : G} (htM : t ∈ M) {x : G} (hx : x ∈ Q) :
     ⁅x, t⁆ ∈ Q := by
   have h1 : t * x⁻¹ * t⁻¹ ∈ Q := (Subgroup.mem_normalizer_iff.mp (hc.hyp.Q_normal.2 htM) _).mp

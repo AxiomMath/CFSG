@@ -47,7 +47,7 @@ theorem permB_of_MJ {X : Nat} (h : MJ X) : permB 6156 13 X = true := by
 open CFSG.Monster.B.Co2 (permOfArr) in
 theorem pg_eq_perm {X : Nat} (h : MJ X) (x : Fin 6156) :
     pg 13 (mask 13) X x = (permOfArr 6156 (unpack 6156 13 X) x : Nat) := by
-  rw [← rep_of_validA (validA_unpack (permB_of_MJ h)) x, CFSG.KC.BfsPin.unpack_getElem!, if_pos x.2]
+  rw [← rep_of_validA (validA_unpack (permB_of_MJ h)) x, CFSG.KC.BfsPin.unpack_getElem!, ite_eq_left x.2]
 
 open CFSG.Monster.B.Co2 (permOfArr) in
 theorem eq_of_perm {X Y : Nat} (hX : MJ X) (hY : MJ Y)
@@ -375,8 +375,7 @@ theorem j3_fourJoined : ∃ K : Subgroup (Equiv.Perm (Fin 6156)),
       · rfl
       · exact absurd (Nat.eq_of_beq_eq_true e) (Nat.pos_iff_ne_zero.mp hi0)
     rw [hb] at h
-    simp only [CFSG.KS.Raw.Orb.bIf_eq, CFSG.KS.Raw.Orb.strictB_eq, CFSG.KS.Raw.Orb.bAnd_eq,
-      Bool.and_eq_true, Bool.false_eq_true, ↓reduceIte] at h
+    simp only [CFSG.KS.Raw.Orb.strictB_eq, Bool.and_eq_true] at h
     obtain ⟨h1, h2, h3, h4, h5⟩ := h
     have hpi : J3D.PAR i < i := Nat.blt_eq.mp h1
     obtain ⟨xi, yi, -⟩ := hKl i (by omega)
@@ -469,7 +468,7 @@ theorem j3_fourJoined : ∃ K : Subgroup (Equiv.Perm (Fin 6156)),
     obtain ⟨xi, yi, -⟩ := hKl i hi2
     have hc := fun c (hc : c < 5) => by
       have e := CFSG.KS.Raw.Orb.allN_iff.1 h2 c hc
-      simp only [CFSG.KS.Raw.Orb.strictB_eq, CFSG.KS.Raw.Orb.bAnd_eq, Bool.and_eq_true,
+      simp only [Bool.and_eq_true,
         Nat.add_eq, Nat.mul_eq] at e
       exact e
     refine ⟨_, (wordT_mem hsz h4 (O := J3D.IO) (L := J3D.IL) (i - J3D.nBig)).2, _, hj,
@@ -531,7 +530,7 @@ theorem j3_fourJoined : ∃ K : Subgroup (Equiv.Perm (Fin 6156)),
     obtain ⟨xj, yj, -⟩ := hKl (J3D.NJ k) (by omega)
     have hc := fun c (hc : c < 5) => by
       have e := CFSG.KS.Raw.Orb.allN_iff.1 h2 c hc
-      simp only [CFSG.KS.Raw.Orb.strictB_eq, CFSG.KS.Raw.Orb.bAnd_eq, Bool.and_eq_true,
+      simp only [Bool.and_eq_true,
         Nat.add_eq, Nat.mul_eq] at e
       exact e
     have hz := hwM J3D.NO J3D.NL k
@@ -632,7 +631,7 @@ theorem j3_fourJoined : ∃ K : Subgroup (Equiv.Perm (Fin 6156)),
       i < J3D.m ∧ (a = J3D.PX i ∨ a = J3D.PY i ∨ a = J3D.PXY i) := by
     intro a ha i hbit
     have h := CFSG.KS.Raw.Orb.allN_iff.1 c2 a ha
-    simp only [CFSG.KS.Raw.Orb.strictB_eq, CFSG.KS.Raw.Orb.bAnd_eq, Bool.and_eq_true] at h
+    simp only [CFSG.KS.Raw.Orb.strictB_eq, Bool.and_eq_true] at h
     obtain ⟨hlt, hall⟩ := h
     have hlt' : J3D.FM a < 2 ^ J3D.m := by
       have : J3D.FM a < 1 <<< J3D.m := Nat.blt_eq.mp hlt

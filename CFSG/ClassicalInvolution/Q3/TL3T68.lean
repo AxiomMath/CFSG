@@ -175,7 +175,7 @@ theorem transLab_memBar (hk : 5 ≤ k) (c : Fin k ↪ Fin m) (α : Finset (Fin k
   have h : ∃ (p : Finset (Fin k) × Bool) (hp : p.1.card = 4), memBar α hα b = memBar p.1 hp p.2 :=
     ⟨(α, b), hα, rfl⟩
   unfold transLab
-  rw [dif_pos h]
+  rw [dite_eq_left h]
   have e := h.choose_spec.choose_spec
   have hαc : α = h.choose.1 := eq_of_memBar_eq' hk e
   refine memBar_congr (by rw [← hαc]) ?_
@@ -299,10 +299,10 @@ private theorem exists_injOn_maps_finset (D W : Finset (Fin m)) (h : D.card ≤ 
   · intro x hx y hy hxy
     have hx' : x ∈ D := Finset.mem_coe.mp hx
     have hy' : y ∈ D := Finset.mem_coe.mp hy
-    simp only [dif_pos hx', dif_pos hy'] at hxy
+    simp only [dite_eq_left hx', dite_eq_left hy'] at hxy
     exact congrArg Subtype.val (e.injective (Subtype.ext hxy))
   · intro x hx
-    simp only [dif_pos hx]
+    simp only [dite_eq_left hx]
     exact (e ⟨x, hx⟩).2
 
 private theorem exists_perm_fix_map (F D W : Finset (Fin m)) (hFW : Disjoint F W)
@@ -319,27 +319,27 @@ private theorem exists_perm_fix_map (F D W : Finset (Fin m)) (hFW : Disjoint F W
     rw [hf, hf] at hxy
     by_cases hxF : x ∈ F
     · by_cases hyF : y ∈ F
-      · rw [if_pos hxF, if_pos hyF] at hxy
+      · rw [ite_eq_left hxF, ite_eq_left hyF] at hxy
         exact hxy
-      · rw [if_pos hxF, if_neg hyF] at hxy
+      · rw [ite_eq_left hxF, ite_eq_right hyF] at hxy
         have hyD : y ∈ D := (Finset.mem_union.mp hy').resolve_left hyF
         have hW := hgW y hyD
         rw [← hxy] at hW
         exact absurd hW (Finset.disjoint_left.mp hFW hxF)
     · by_cases hyF : y ∈ F
-      · rw [if_neg hxF, if_pos hyF] at hxy
+      · rw [ite_eq_right hxF, ite_eq_left hyF] at hxy
         have hxD : x ∈ D := (Finset.mem_union.mp hx').resolve_left hxF
         have hW := hgW x hxD
         rw [hxy] at hW
         exact absurd hW (Finset.disjoint_left.mp hFW hyF)
-      · rw [if_neg hxF, if_neg hyF] at hxy
+      · rw [ite_eq_right hxF, ite_eq_right hyF] at hxy
         have hxD : x ∈ D := (Finset.mem_union.mp hx').resolve_left hxF
         have hyD : y ∈ D := (Finset.mem_union.mp hy').resolve_left hyF
         exact hg (Finset.mem_coe.mpr hxD) (Finset.mem_coe.mpr hyD) hxy
   obtain ⟨π, hπ⟩ := extendPermOfInjOn (F ∪ D) f hinj
   refine ⟨π, fun x hx => ?_, fun x hx hxF => ?_⟩
-  · rw [hπ x (Finset.mem_union_left _ hx), hf, if_pos hx]
-  · rw [hπ x (Finset.mem_union_right _ hx), hf, if_neg hxF]
+  · rw [hπ x (Finset.mem_union_left _ hx), hf, ite_eq_left hx]
+  · rw [hπ x (Finset.mem_union_right _ hx), hf, ite_eq_right hxF]
     exact hgW x hx
 
 theorem exists_alt_agree_fix (σ : Equiv.Perm (Fin m)) (α T : Finset (Fin m))
@@ -357,20 +357,20 @@ theorem exists_alt_agree_fix (σ : Equiv.Perm (Fin m)) (α T : Finset (Fin m))
     rw [hf, hf] at hxy
     by_cases hx : x ∈ α
     · by_cases hy : y ∈ α
-      · rw [if_pos hx, if_pos hy] at hxy
+      · rw [ite_eq_left hx, ite_eq_left hy] at hxy
         exact σ.injective hxy
-      · rw [if_pos hx, if_neg hy] at hxy
+      · rw [ite_eq_left hx, ite_eq_right hy] at hxy
         have : y ∈ α := by
           rw [← hxy]
           exact hσmem x hx
         exact absurd this hy
     · by_cases hy : y ∈ α
-      · rw [if_neg hx, if_pos hy] at hxy
+      · rw [ite_eq_right hx, ite_eq_left hy] at hxy
         have : x ∈ α := by
           rw [hxy]
           exact hσmem y hy
         exact absurd this hx
-      · rw [if_neg hx, if_neg hy] at hxy
+      · rw [ite_eq_right hx, ite_eq_right hy] at hxy
         exact hxy
   obtain ⟨τ, hτ⟩ := exists_alt_agree
     (Equiv.ofBijective f (Finite.injective_iff_bijective.mp hinj)) (α ∪ T) (by
@@ -379,10 +379,10 @@ theorem exists_alt_agree_fix (σ : Equiv.Perm (Fin m)) (α T : Finset (Fin m))
   refine ⟨τ, fun x hx => ?_, fun x hx => ?_⟩
   · rw [hτ x (Finset.mem_union_left _ hx)]
     show f x = σ x
-    rw [hf, if_pos hx]
+    rw [hf, ite_eq_left hx]
   · rw [hτ x (Finset.mem_union_right _ hx)]
     show f x = x
-    rw [hf, if_neg (Finset.disjoint_right.mp hαT hx)]
+    rw [hf, ite_eq_right (Finset.disjoint_right.mp hαT hx)]
 
 theorem exists_alt_fix_avoid (F U T : Finset (Fin m)) (hFT : Disjoint F T)
     (hU : (U \ F).card + F.card + T.card ≤ m) (hm : (F ∪ U).card + 2 ≤ m) :

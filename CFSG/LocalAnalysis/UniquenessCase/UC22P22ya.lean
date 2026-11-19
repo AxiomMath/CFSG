@@ -152,7 +152,7 @@ theorem center_sl2_eq_bot {F : Type} [Field F] [CharP F 2] :
 
 theorem center_eq_bot_of_isL2Ev {X : Type} [Group X] {n : ℕ} (h : IsL2Ev X n) : Subgroup.center X = ⊥ := by
   obtain ⟨F, _, _, hF, ⟨e⟩⟩ := h
-  haveI := charP_two_of_card hF
+  have := charP_two_of_card hF
   refine Sigma3Dec.center_eq_bot_of_mulEquiv
     (e.trans (CFSG.Assembly.LowTwoRank.specialLinearGroupEquivStatedSL 2 F).symm) fun y hy => ?_
   have hyc : y ∈ Subgroup.center (Matrix.SpecialLinearGroup (Fin 2) F) :=
@@ -162,10 +162,10 @@ theorem center_eq_bot_of_isL2Ev {X : Type} [Group X] {n : ℕ} (h : IsL2Ev X n) 
 
 theorem isSimpleGroup_sl2 {F : Type} [Field F] [Finite F] [CharP F 2] (h4 : 4 ≤ Nat.card F) :
     IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) F) := by
-  haveI := Matrix.ProjectiveSpecialLinearGroup.rank_two_simple h4
+  have := Matrix.ProjectiveSpecialLinearGroup.rank_two_simple h4
   have e : Matrix.ProjectiveSpecialLinearGroup (Fin 2) F ≃* Matrix.SpecialLinearGroup (Fin 2) F :=
     (QuotientGroup.quotientMulEquivOfEq center_sl2_eq_bot).trans QuotientGroup.quotientBot
-  haveI : Nontrivial (Matrix.SpecialLinearGroup (Fin 2) F) := e.symm.toEquiv.nontrivial
+  have : Nontrivial (Matrix.SpecialLinearGroup (Fin 2) F) := e.symm.toEquiv.nontrivial
   exact IsSimpleGroup.isSimpleGroup_of_surjective e.toMonoidHom e.surjective
 
 theorem card_of_isL2Ev_one {X : Type} [Group X] (h : IsL2Ev X 1) : Nat.card X = 6 := by
@@ -175,7 +175,7 @@ theorem card_of_isL2Ev_one {X : Type} [Group X] (h : IsL2Ev X 1) : Nat.card X = 
 
 theorem isIndecomposable_of_card_six {X : Type} [Group X] [Finite X] (h6 : Nat.card X = 6)
     (hZ : Subgroup.center X = ⊥) : CFSG.Quasithin.IsIndecomposableGroup X := by
-  haveI : Nontrivial X := Finite.one_lt_card_iff_nontrivial.1 (by omega)
+  have : Nontrivial X := Finite.one_lt_card_iff_nontrivial.1 (by omega)
   refine ⟨inferInstance, fun B C hB hC hBC hsup => ?_⟩
   by_contra hcon
   push Not at hcon
@@ -197,9 +197,9 @@ theorem isIndecomposable_of_card_six {X : Type} [Group X] [Finite X] (h6 : Nat.c
   have hBp : (Nat.card B).Prime := hprime _ _ hcard.symm hB2 hC2
   have hab : ∀ x ∈ B, ∀ y ∈ B, x * y = y * x := by
     intro x hx y hy
-    haveI : Fact (Nat.card B).Prime := ⟨hBp⟩
-    haveI := isCyclic_of_prime_card (α := ↥B) rfl
-    letI : CommGroup ↥B := IsCyclic.commGroup
+    have : Fact (Nat.card B).Prime := ⟨hBp⟩
+    have := isCyclic_of_prime_card (α := ↥B) rfl
+    let : CommGroup ↥B := IsCyclic.commGroup
     have := mul_comm (⟨x, hx⟩ : ↥B) ⟨y, hy⟩
     exact congrArg Subtype.val this
   have hBc : B ⊔ C ≤ Subgroup.centralizer (B : Set X) := sup_le
@@ -231,16 +231,16 @@ theorem isIndecomposable_of_isL2Ev {X : Type} [Group X] [Finite X] {n : ℕ} (h 
   · have hn1 : n = 1 := by omega
     subst hn1
     exact isIndecomposable_of_card_six (card_of_isL2Ev_one ⟨F, inferInstance, inferInstance, hF, ⟨e⟩⟩) hZ
-  · haveI := charP_two_of_card hF
+  · have := charP_two_of_card hF
     have h4 : 4 ≤ Nat.card F := by
       rw [hF]
       calc 4 = 2 ^ 2 := by norm_num
         _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn2
-    haveI := isSimpleGroup_sl2 h4
+    have := isSimpleGroup_sl2 h4
     let e' : X ≃* Matrix.SpecialLinearGroup (Fin 2) F :=
       e.trans (CFSG.Assembly.LowTwoRank.specialLinearGroupEquivStatedSL 2 F).symm
-    haveI : Nontrivial X := e'.toEquiv.nontrivial
-    haveI : IsSimpleGroup X :=
+    have : Nontrivial X := e'.toEquiv.nontrivial
+    have : IsSimpleGroup X :=
       IsSimpleGroup.isSimpleGroup_of_surjective e'.symm.toMonoidHom e'.symm.surjective
     exact isIndecomposable_of_isSimpleGroup
 

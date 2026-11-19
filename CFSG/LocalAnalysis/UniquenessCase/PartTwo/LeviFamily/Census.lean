@@ -685,7 +685,7 @@ private theorem ne_zero_of_isLeviFamily_top_bar {X : Type} [Group X] [Finite X]
     CFSG.ComponentClassification.AS76b.Lemma22Full.le_of_isPGroup_of_odd_relIndex
       (N := CFSG.pCore 2 ↥J) (Y := ⊤) (P := (SJ : Subgroup ↥J)) le_top
       (by rw [Subgroup.normalizer_eq_top_iff.mpr CFSG.pCore_normal])
-      (by simpa [Subgroup.relIndex_top_right] using hOodd) le_top SJ.isPGroup'
+      (by simpa [Subgroup.relIndex_top_right] using hOodd) le_top SJ.isPGroup
   have hSeq : (S : Subgroup X) = pCoreOf 2 J := by
     calc (S : Subgroup X) = ((S : Subgroup X).subgroupOf J).map J.subtype :=
           (Subgroup.map_subgroupOf_eq_of_le hSleJ).symm

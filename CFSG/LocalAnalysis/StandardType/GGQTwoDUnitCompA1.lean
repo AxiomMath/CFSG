@@ -83,7 +83,7 @@ theorem qtwoDB7_map_isQuasisimple {X : Type} [Group X] [Finite X] {J : Subgroup 
 theorem qtwoDB7_centerQuot_of_surj {J Jb : Type} [Group J] [Group Jb] (hJ : commutator J = ⊤)
     (f : J →* Jb) (hf : Function.Surjective f) (hker : f.ker ≤ Subgroup.center J) :
     Nonempty (J ⧸ Subgroup.center J ≃* Jb ⧸ Subgroup.center Jb) := by
-  letI : Group.IsPerfect J := ⟨hJ⟩
+  let : Group.IsPerfect J := ⟨hJ⟩
   have hcomap := CFSG.ComponentClassification.Quasisimple.center_comap_of_central_kernel
     f hf hker
   have hc : Subgroup.center J = ((QuotientGroup.mk' (Subgroup.center Jb)).comp f).ker := by

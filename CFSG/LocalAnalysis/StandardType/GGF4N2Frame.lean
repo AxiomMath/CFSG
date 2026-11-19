@@ -150,11 +150,11 @@ theorem ggF4N2Bstar_signedAction_range_le_of_central
     change ggF4N2Bstar_signedAction κ (gen i) ∈ ggAutomizer L Bs
     rw [ggF4N2Bstar_signedAction_simple]
     by_cases hi : i.val + 1 < 3
-    · rw [ggSpSigned_spReflAut, dif_pos hi]
+    · rw [ggSpSigned_spReflAut, dite_eq_left hi]
       obtain ⟨w, hw⟩ := hperm (Equiv.swap i ⟨i.val + 1, hi⟩)
       exact Subgroup.subset_closure (ggInduced_congr_prod_of_conj κ χ τ hκ w _
         (fun m => (Subgroup.mem_centralizer_iff.mp (hCX m) w w.2).symm) hw)
-    · rw [ggSpSigned_spReflAut, dif_neg hi]
+    · rw [ggSpSigned_spReflAut, dite_eq_right hi]
       obtain ⟨w, hw⟩ := hsgn i
       exact Subgroup.subset_closure (ggInduced_congr_prod_of_conj κ χ τ hκ w _
         (fun m => (Subgroup.mem_centralizer_iff.mp (hCX m) w w.2).symm) hw)
@@ -279,12 +279,12 @@ theorem ggF4N2Bstar_B3_frame
   refine ⟨κ, hx, e, he, hB, fun i => ?_⟩
   rw [he]
   by_cases hi : i.val + 1 < 3
-  · rw [ggSpSigned_spReflAut, dif_pos hi]
+  · rw [ggSpSigned_spReflAut, dite_eq_left hi]
     have hij : i ≠ (⟨i.val + 1, hi⟩ : Fin 3) := by
       intro heq
       exact (Nat.ne_of_lt (Nat.lt_succ_self i.val)) (congrArg Fin.val heq)
     exact ggF4N2Bstar_swap_reflection κ hij
-  · rw [ggSpSigned_spReflAut, dif_neg hi]
+  · rw [ggSpSigned_spReflAut, dite_eq_right hi]
     exact ggF4N2Bstar_sgn_reflection κ i
 
 end OriginalFrame

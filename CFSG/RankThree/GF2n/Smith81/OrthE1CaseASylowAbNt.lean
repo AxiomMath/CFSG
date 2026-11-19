@@ -49,14 +49,14 @@ theorem nt_le_of_sylow {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G} {t
       exact hn
     rw [heq] at hmem
     exact hmem
-  haveI hNn : (N.subgroupOf H).Normal := ⟨fun a ha g => by
+  have hNn : (N.subgroupOf H).Normal := ⟨fun a ha g => by
     rw [Subgroup.mem_subgroupOf] at ha ⊢
     simpa using hNorm (g : G) g.2 (a : G) ha⟩
   have hNpg : IsPGroup 2 (N.subgroupOf H) :=
     (caseASylow_Nt_isPGroup M (LB M Q B) t).comap_subtype
   have hSpg : IsPGroup 2 S := by
     obtain ⟨hn, hq⟩ := hS2
-    haveI := hn
+    have := hn
     obtain ⟨a, ha⟩ := (IsPGroup.iff_card).mp hq
     obtain ⟨b, hb⟩ := (IsPGroup.iff_card).mp (isPGroup_Q' hH.ctx.hyp)
     refine IsPGroup.of_card (n := a + b) ?_
@@ -65,7 +65,7 @@ theorem nt_le_of_sylow {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G} {t
   have hdvd : S.relIndex H ∣ S.relIndex D :=
     ⟨H.relIndex D, (Subgroup.relIndex_mul_relIndex S H D hSH hHD).symm⟩
   have hidx : ¬ 2 ∣ (S.subgroupOf H).index := fun h => hodd (Nat.dvd_trans h hdvd)
-  haveI := hNn
+  have := hNn
   have hle : N.subgroupOf H ≤ (hSpg'.toSylow hidx : Subgroup H) :=
     IsPGroup.le_sylow_of_normal hNpg (hSpg'.toSylow hidx)
   intro x hx

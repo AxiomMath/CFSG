@@ -91,7 +91,7 @@ theorem card_le_eight_of_order_four {A : Type} [Group A] [Finite A] (h32 : ¬ 32
       _ = 8 := by norm_num
   subst hn4'
   obtain ⟨P, hEP⟩ := hEp.exists_le_sylow
-  obtain ⟨m, hm, hmd⟩ := exists_card_pow P.isPGroup'
+  obtain ⟨m, hm, hmd⟩ := exists_card_pow P.isPGroup
   have hm4 := lt_of_pow_dvd hmd (k := 5) (by norm_num; exact h32)
   have hEPeq : E = P := by
     refine eq_of_le_of_card_ge hEP ?_

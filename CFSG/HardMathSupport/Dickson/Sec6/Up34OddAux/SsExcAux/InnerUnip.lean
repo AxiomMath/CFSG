@@ -70,8 +70,8 @@ theorem ssexc_card_posPart_two [Finite K] {i : KernelComponent χ} {γ δ : Fin 
   simp only [φ] at h1
   have h2 : (([γ, δ].map fun α => pinnedX τ K α (if α = γ then ab.1 else ab.2)).prod) =
       (([γ, δ].map fun α => pinnedX τ K α (if α = γ then ab'.1 else ab'.2)).prod) := by
-    simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one, if_pos,
-      if_neg (Ne.symm hne)]
+    simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one, ite_eq_left,
+      ite_eq_right (Ne.symm hne)]
     exact h1
   have hnd : [γ, δ].Nodup := by simp [hne]
   have hL : ∀ α ∈ [γ, δ], IsRoot τ α ∧ 0 < height α := by
@@ -82,7 +82,7 @@ theorem ssexc_card_posPart_two [Finite K] {i : KernelComponent χ} {γ δ : Fin 
     · exact ⟨isRoot_of_mem_componentRoots hδ, hδp⟩
   have e1 := pinnedX_list_prod_injective (R := K) [γ, δ] hnd hL _ _ h2 γ (by simp)
   have e2 := pinnedX_list_prod_injective (R := K) [γ, δ] hnd hL _ _ h2 δ (by simp)
-  simp only [if_pos, if_neg (Ne.symm hne)] at e1 e2
+  simp only [ite_eq_left, ite_eq_right (Ne.symm hne)] at e1 e2
   exact Prod.ext e1 e2
 
 theorem ssexc_exists_two_pos (i : KernelComponent χ) {γ δ : Fin τ.rank → ℤ}
@@ -116,10 +116,10 @@ theorem ssexc_card_le_of_rank_one [Finite K] {i : KernelComponent χ} {γ : Fin 
     · obtain ⟨ε, hε, hv⟩ := exists_rootSL2_vSL_eq (K := K) hγr
       refine ⟨vSL (ε * c), ?_⟩
       rw [hv, ← mul_assoc, hε, one_mul]
-  haveI : Finite (SL2 K) := by
-    haveI : Finite (Matrix (Fin 2) (Fin 2) K) := inferInstance
+  have : Finite (SL2 K) := by
+    have : Finite (Matrix (Fin 2) (Fin 2) K) := inferInstance
     exact Finite.of_injective (fun A : SL2 K => (A : Matrix (Fin 2) (Fin 2) K)) Subtype.coe_injective
-  haveI : Finite ↥(rootSL2 τ K γ).range := inferInstance
+  have : Finite ↥(rootSL2 τ K γ).range := inferInstance
   have h1 : Nat.card ↥(componentRootSpan K χ i) ≤ Nat.card ↥(rootSL2 τ K γ).range :=
     Nat.card_le_card_of_injective (Subgroup.inclusion hle) (Subgroup.inclusion_injective hle)
   have h2 : Nat.card ↥(rootSL2 τ K γ).range ≤ Nat.card (SL2 K) :=
@@ -128,7 +128,7 @@ theorem ssexc_card_le_of_rank_one [Finite K] {i : KernelComponent χ} {γ : Fin 
     Nat.card_le_card_of_injective (fun A : SL2 K => (A : Matrix (Fin 2) (Fin 2) K))
       Subtype.coe_injective
   have h4 : Nat.card (Matrix (Fin 2) (Fin 2) K) = Nat.card K ^ 4 := by
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     simp only [Matrix, Nat.card_eq_fintype_card, Fintype.card_fun, Fintype.card_fin]
     ring
   omega

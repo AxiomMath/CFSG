@@ -56,7 +56,7 @@ theorem evP_loop (PB : ℕ) (F : ℕ → ℕ) : ∀ (n s x : ℕ),
   | succ n ih =>
     intro s x
     rw [digs_succ, List.foldl_cons]
-    simp only [Nat.rec_add_one, sN_eq] at ih ⊢
+    simp only [sN_eq] at ih ⊢
     rw [ih, land15, shr4]
 
 theorem evP_eq (PB : ℕ) (F : ℕ → ℕ) (w x : ℕ) :

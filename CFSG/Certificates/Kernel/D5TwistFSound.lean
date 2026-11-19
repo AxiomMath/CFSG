@@ -80,17 +80,17 @@ theorem xor_e (a b : Nat) : Nat.xor a b = a ^^^ b := rfl
 theorem shr_e (a b : Nat) : Nat.shiftRight a b = a >>> b := rfl
 theorem shl_e (a b : Nat) : Nat.shiftLeft a b = a <<< b := rfl
 
-theorem tb_colF (x j q : Nat) (hj : j < 5) (hq : q < 50) :
+theorem tb_colF (x j q : Nat) (_hj : j < 5) (hq : q < 50) :
     (colF x j).testBit q = x.testBit (10 * (q / 10) + 2 * j + q % 2) := by
   simp only [colF, land_e, lor_e, shl_e, shr_e, Nat.testBit_or, Nat.testBit_and,
     Nat.testBit_shiftLeft, Nat.testBit_shiftRight, tb_CMF]
   interval_cases q <;> simp <;> (congr 1; omega)
 
-theorem tb_rowF (y j q : Nat) (hj : j < 5) (hq : q < 50) :
+theorem tb_rowF (y j q : Nat) (_hj : j < 5) (hq : q < 50) :
     (rowF y j).testBit q = y.testBit (10 * j + q % 10) := by
   simp only [rowF, land_e, lor_e, shl_e, shr_e, Nat.testBit_or, Nat.testBit_and,
     Nat.testBit_shiftLeft, Nat.testBit_shiftRight, tb_1023]
-  interval_cases q <;> simp <;> (congr 1; omega)
+  interval_cases q <;> simp
 
 theorem tb_nrmF (x p : Nat) (hp : p < 25) :
     (nrmF x).testBit (2 * p) = (x.testBit (2 * p) && !x.testBit (2 * p + 1)) ∧
@@ -99,7 +99,7 @@ theorem tb_nrmF (x p : Nat) (hp : p < 25) :
     Nat.testBit_xor, Nat.testBit_shiftLeft, Nat.testBit_shiftRight, tb_LF]
   have xa1 : ∀ a b : Bool, (a ^^ (a && b)) = (a && !b) := by decide
   have xa2 : ∀ a b : Bool, (b ^^ (a && b)) = (b && !a) := by decide
-  interval_cases p <;> simp [xa1, xa2] <;> grind
+  interval_cases p <;> simp [xa1, xa2]
 
 @[expose] def pl (z : Nat × Nat) (q : Nat) : Bool × Bool := (z.1.testBit q, z.2.testBit q)
 
@@ -118,7 +118,7 @@ theorem pl_tjF_odd (x y j q : Nat) (hq : q % 2 = 1) : pl (tjF x y j) q = (false,
   simp [hq]
 
 theorem pl_tjF_big (x y j q : Nat) (hq : 50 ≤ q) : pl (tjF x y j) q = (false, false) := by
-  rw [tjF, pl_termF, tb_LF, if_neg (by simp; omega)]
+  rw [tjF, pl_termF, tb_LF, ite_eq_right (by simp; omega)]
 
 theorem pl_tjF (x y i j k : Nat) (hi : i < 5) (hj : j < 5) (hk : k < 5) :
     pl (tjF x y j) (2 * (5 * i + k)) =
@@ -126,7 +126,7 @@ theorem pl_tjF (x y i j k : Nat) (hi : i < 5) (hj : j < 5) (hk : k < 5) :
         (y.testBit (2 * (5 * j + k))) (y.testBit (2 * (5 * j + k) + 1)) := by
   have hq0 : 2 * (5 * i + k) < 50 := by omega
   have hq1 : 2 * (5 * i + k) + 1 < 50 := by omega
-  rw [tjF, pl_termF, tb_LF, if_pos (by simp; omega), tb_colF _ _ _ hj hq0,
+  rw [tjF, pl_termF, tb_LF, ite_eq_left (by simp; omega), tb_colF _ _ _ hj hq0,
     tb_colF _ _ _ hj hq1, tb_rowF _ _ _ hj hq0, tb_rowF _ _ _ hj hq1]
   have e1 : 10 * (2 * (5 * i + k) / 10) + 2 * j + 2 * (5 * i + k) % 2 = 2 * (5 * i + j) := by
     omega

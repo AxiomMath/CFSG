@@ -25,17 +25,22 @@ variable {G : Type} [Group G] {L : Subgroup G} {K : Type} [Field K] [Finite K] [
 
 variable (φ : ↥L ≃* antiSp K)
 
+omit [Finite K] [CharP K 2] in
 theorem emb_phi (g : ↥L) : emb φ (φ g) = (g : G) := by simp [emb]
 
-theorem emb_injective : Function.Injective (emb φ) := fun x y h =>
+omit [Finite K] [CharP K 2] in
+theorem emb_injective : Function.Injective (emb φ) := fun _x _y h =>
   φ.symm.injective (Subtype.ext h)
 
+omit [Finite K] [CharP K 2] in
 theorem emb_mem (x : antiSp K) : emb φ x ∈ L := (φ.symm x).2
 
+omit [Finite K] [CharP K 2] in
 theorem exists_emb {g : G} (hg : g ∈ L) : ∃ x, emb φ x = g := ⟨φ ⟨g, hg⟩, emb_phi φ ⟨g, hg⟩⟩
 
 variable {S : Subgroup G}
 
+omit [Finite K] in
 theorem mem_antiUnipotent_iff (hφ : Adapted φ S) (y : antiSp K) :
     y ∈ antiUnipotent K ↔ emb φ y ∈ S := by
   rw [← hφ]
@@ -47,6 +52,7 @@ theorem mem_antiUnipotent_iff (hφ : Adapted φ S) (y : antiSp K) :
     refine ⟨φ.symm y, ?_, by simp⟩
     exact hy
 
+omit [Finite K] in
 theorem emb_mem_normalizer (hφ : Adapted φ S) (hSL : S ≤ L) {b : antiSp K}
     (hb : b ∈ Subgroup.normalizer (antiUnipotent K : Set (antiSp K))) :
     emb φ b ∈ L ⊓ Subgroup.normalizer (S : Set G) := by
@@ -70,6 +76,7 @@ theorem emb_mem_normalizer (hφ : Adapted φ S) (hSL : S ≤ L) {b : antiSp K}
     rw [hconj, ← mem_antiUnipotent_iff φ hφ] at hg
     exact (mem_antiUnipotent_iff φ hφ y).1 ((Subgroup.mem_normalizer_iff.1 hb y).2 hg)
 
+omit [Finite K] [CharP K 2] in
 theorem card_comap_emb {T : Subgroup G} (hTL : T ≤ L) : Nat.card (T.comap (emb φ)) = Nat.card T := by
   refine Nat.card_congr (Equiv.ofBijective (fun x : ↥(T.comap (emb φ)) => (⟨emb φ x, x.2⟩ : ↥T))
     ⟨fun a b h => ?_, fun w => ?_⟩)
@@ -79,6 +86,7 @@ theorem card_comap_emb {T : Subgroup G} (hTL : T ≤ L) : Nat.card (T.comap (emb
   · obtain ⟨x, hx⟩ := exists_emb φ (hTL w.2)
     exact ⟨⟨x, Subgroup.mem_comap.2 (by rw [hx]; exact w.2)⟩, Subtype.ext hx⟩
 
+omit [Finite K] [CharP K 2] in
 theorem map_comap_emb {T : Subgroup G} (hTL : T ≤ L) : (T.comap (emb φ)).map (emb φ) = T := by
   ext g
   constructor
@@ -94,6 +102,7 @@ section Adapted
 
 variable {G : Type} [Group G] [Finite G] {L S : Subgroup G}
 
+omit [Finite G] in
 theorem exists_adapted {n : ℕ} (hn : 2 ≤ n) (hL : StatedClassicalModel ↥L .PSp 2 2 n)
     (hS : IsSylowTwoOf S L) :
     ∃ (K : Type) (_ : Field K) (_ : Finite K) (_ : CharP K 2) (φ : ↥L ≃* antiSp K),
@@ -152,13 +161,15 @@ section Parabolic
 variable {G : Type} [Group G] [Finite G] {L S : Subgroup G} {K : Type} [Field K] [Finite K]
   [CharP K 2]
 
+omit [Finite K] in
 theorem rootU_one : rootU K Axis.one = rootShort K := Subgroup.ext fun _ => Iff.rfl
 
+omit [Finite K] in
 theorem rootU_two : rootU K Axis.two = rootLong K := Subgroup.ext fun _ => Iff.rfl
 
 theorem parabolic {n : ℕ} (hn : 2 ≤ n) (hK : Nat.card K = 2 ^ n) {φ : ↥L ≃* antiSp K}
     (hφ : Adapted φ S) (hS : IsSylowTwoOf S L) {P W : Subgroup G} (hPL : P ≤ L)
-    (hPS : L ⊓ Subgroup.normalizer (S : Set G) ≤ P) (hPlt : P ≠ L)
+    (hPS : L ⊓ Subgroup.normalizer (S : Set G) ≤ P) (_hPlt : P ≠ L)
     (hPmax : ∀ K' : Subgroup G, P ≤ K' → K' ≤ L → K' = P ∨ K' = L)
     (hWS : W ≤ S) (hWc : ∀ w ∈ W, ∀ s ∈ S, w * s = s * w)
     (hWn : ∀ p ∈ P, ∀ w ∈ W, p * w * p⁻¹ ∈ W) (hW2 : ∀ w ∈ W, w * w = 1)

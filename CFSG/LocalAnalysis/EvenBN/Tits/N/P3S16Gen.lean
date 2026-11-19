@@ -74,7 +74,7 @@ theorem exists_conj_mem_St [Finite Γ] {K S : Subgroup Γ} {t : Γ}
     (htK : t ∉ K) (htN : ∀ k ∈ K, t * k * t⁻¹ ∈ K) {u : Γ} (hu2 : u * u = 1)
     (hu : ∃ k ∈ K, u = k * t) : ∃ k ∈ K, ∃ s ∈ S, k * u * k⁻¹ = s * t := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hSK, hS2, hSmax⟩ := hS
   have hti : t⁻¹ = t := inv_eq_of_mul_eq_one_right ht2
   have htS : t ∉ S := fun h => htK (hSK h)
@@ -172,7 +172,7 @@ theorem exists_conj_mem_St [Finite Γ] {K S : Subgroup Γ} {t : Γ}
       _ = t * (s * t) * t⁻¹ := by rw [h]
       _ = t * s * t⁻¹ * t := by group
 
-theorem exists_conj_normalizes_sylow [Finite Γ] {p : ℕ} [Fact p.Prime] {Ξ Θ : Subgroup Γ} (hΞΘ : Ξ ≤ Θ)
+theorem exists_conj_normalizes_sylow [Finite Γ] {p : ℕ} [Fact p.Prime] {Ξ Θ : Subgroup Γ} (_hΞΘ : Ξ ≤ Θ)
     (hnorm : ∀ θ ∈ Θ, ∀ ξ ∈ Ξ, θ * ξ * θ⁻¹ ∈ Ξ) {X : Subgroup Γ} (hX : fusionIsSylowIn p X Ξ)
     {θ : Γ} (hθ : θ ∈ Θ) : ∃ ξ ∈ Ξ, ξ * θ ∈ normalizer (X : Set Γ) := by
   obtain ⟨hXΞ, hXp, hXmax⟩ := hX

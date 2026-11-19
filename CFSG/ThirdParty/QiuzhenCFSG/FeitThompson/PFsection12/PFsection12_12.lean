@@ -44,7 +44,7 @@ private theorem theorem_12_12_actor_card_dvd_group_card_sub_one
     Nat.card A ∣ Nat.card V - 1 := by
   classical
   let V0 := {v : V // v ≠ 1}
-  letI : MulAction A V0 :=
+  let : MulAction A V0 :=
     { smul := fun a v => ⟨a • (v : V), by
         intro h
         apply v.2
@@ -74,8 +74,8 @@ private theorem theorem_12_12_actor_card_dvd_group_card_sub_one
     exact v.2 (hfree a hane (v : V) (congrArg Subtype.val hav))
   have hcard := Nat.card_congr (MulAction.selfEquivOrbitsQuotientProd hstab)
   have hcardV0 : Nat.card V0 = Nat.card V - 1 := by
-    letI : Fintype V := Fintype.ofFinite V
-    letI : Fintype V0 := Fintype.ofFinite V0
+    let : Fintype V := Fintype.ofFinite V
+    let : Fintype V0 := Fintype.ofFinite V0
     rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card]
     change Fintype.card {v : V // v ≠ 1} = Fintype.card V - 1
     simp
@@ -121,7 +121,7 @@ public theorem theorem_12_12_source_leaf
     ⟨hP0comm, hP0rank, _hL, hH, hLs, hP0Ls, _hxL,
       ⟨_hp', hxOmega, hxne⟩, _hCKnot, hNxM, _hCnotL⟩
   rcases hcomp with ⟨hHleL, hEleL, hLE, hdisjHE⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rcases hP0Sylow with ⟨PM, hP0eq⟩
   have hP0M : P0 ≤ M := by
     rw [← hP0eq]
@@ -129,7 +129,7 @@ public theorem theorem_12_12_source_leaf
   have hP0p : IsPGroup p P0 := by
     rw [← hP0eq]
     dsimp [section10AmbientSylowSubgroup]
-    exact IsPGroup.map (p := p) (H := (PM : Subgroup M)) PM.isPGroup' M.subtype
+    exact IsPGroup.map (p := p) (H := (PM : Subgroup M)) PM.isPGroup M.subtype
   have hLsL : Ls ≤ L := by
     rcases hLs with hEarly | hLate
     · rw [hEarly.2]
@@ -152,7 +152,7 @@ public theorem theorem_12_12_source_leaf
       IsPGroup.exists_le_sylow (G := H) (p := p) hP0Hp
     have hSnormal : (S : Subgroup H).Normal :=
       Group.IsNilpotent.sylow_normal hH.1.2.2.1 p S
-    exact hP0HleS.trans (le_sSup ⟨hSnormal, S.isPGroup'⟩)
+    exact hP0HleS.trans (le_sSup ⟨hSnormal, S.isPGroup⟩)
   have hP0P : P0 ≤ P := by
     intro y hy
     have hyP0H : (⟨y, hP0H hy⟩ : H) ∈ P0H := by
@@ -209,7 +209,7 @@ public theorem theorem_12_12_source_leaf
     have hxP : x ∈ P := hP0P hxP0
     have hxbot : x ∈ (⊥ : Subgroup G) := by simpa [hPbot] using hxP
     exact hxne (Subgroup.mem_bot.mp hxbot)
-  haveI : Nontrivial P := (Subgroup.nontrivial_iff_ne_bot P).2 hPne
+  have : Nontrivial P := (Subgroup.nontrivial_iff_ne_bot P).2 hPne
   have hTne : T ≠ ⊥ := by
     simpa [T, pp] using
       section10_omegaOneCenter_ne_bot_of_nontrivial_pSubgroup
@@ -217,8 +217,8 @@ public theorem theorem_12_12_source_leaf
   have hTelem : IsElementaryAbelian p T := by
     simpa [T, pp] using
       section10OmegaOneCenter_isElementaryAbelian (G := G) (p := pp) P
-  letI : IsElementaryAbelian p T := hTelem
-  haveI : (pCore p H).Characteristic := pCore_characteristic (G := H) (p := p)
+  let : IsElementaryAbelian p T := hTelem
+  have : (pCore p H).Characteristic := pCore_characteristic (G := H) (p := p)
   have hLnormH : L ≤ Subgroup.normalizer (H : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hHleL).1
       (section16MFSubgroup_subgroupOf_normal hH)
@@ -231,7 +231,7 @@ public theorem theorem_12_12_source_leaf
     hEleL.trans <| hLnormH.trans <| hNormHleP.trans <| by
       simpa [T] using section11_normalizer_le_normalizer_omegaOneCenter
         (G := G) pp P
-  letI : Fact (E ≤ Subgroup.normalizer (T : Set G)) := ⟨hEnormT⟩
+  let : Fact (E ≤ Subgroup.normalizer (T : Set G)) := ⟨hEnormT⟩
   have hregularT : ActsRegularly E T := by
     intro a ha
     have haGne : (a : G) ≠ 1 := by
@@ -254,11 +254,11 @@ public theorem theorem_12_12_source_leaf
     rw [fixedPointSubgroup_zpowers_subgroup_conj_eq_elementCentralizerIn
       T E hEnormT a]
     simp [hcentT]
-  haveI : Nontrivial T := (Subgroup.nontrivial_iff_ne_bot T).2 hTne
+  have : Nontrivial T := (Subgroup.nontrivial_iff_ne_bot T).2 hTne
   obtain ⟨V, hVnormal, hVinv, hVne, hVmin⟩ :=
     exists_minimal_normal_isInvariant (G := T) (A := E)
-  letI : V.Normal := hVnormal
-  letI : IsInvariant E T V := hVinv
+  let : V.Normal := hVnormal
+  let : IsInvariant E T V := hVinv
   have hVelem : IsElementaryAbelian p V := by
     refine
       { toIsMulCommutative := inferInstance
@@ -270,15 +270,15 @@ public theorem theorem_12_12_source_leaf
       Monoid.exponent_dvd_iff_forall_pow_eq_one.mp
         (IsElementaryAbelian.exponent_dvd_p p T) v.1
     exact hvpow
-  letI : IsElementaryAbelian p V := hVelem
-  letI : CommGroup V := IsMulCommutative.instCommGroup
+  let : IsElementaryAbelian p V := hVelem
+  let : CommGroup V := IsMulCommutative.instCommGroup
   have hregularV : ActsRegularly E V :=
     ActsRegularly.invariantSubgroup hregularT V
   have hTcard : Nat.card T ≤ p ^ 2 := by
     by_contra hnot
     have hgt : p ^ 2 < Nat.card T := Nat.lt_of_not_ge hnot
     have hgen3 : 3 ≤ generatorRank T := by
-      letI : CommGroup T := IsMulCommutative.instCommGroup
+      let : CommGroup T := IsMulCommutative.instCommGroup
       have hcardDvd : Nat.card T ∣ p ^ Group.rank T := by
         simpa using card_dvd_exponent_pow_rank' (G := T) (n := p) (fun t =>
           Monoid.exponent_dvd_iff_forall_pow_eq_one.mp
@@ -292,13 +292,13 @@ public theorem theorem_12_12_source_leaf
         exact (not_lt_of_ge (hcardLe.trans hpowLe)) hgt
       have : 3 ≤ Group.rank T := by omega
       simpa [generatorRank_eq_group_rank] using this
-    letI : Fact (IsPGroup p T) := ⟨IsElementaryAbelian.isPGroup p T⟩
+    let : Fact (IsPGroup p T) := ⟨IsElementaryAbelian.isPGroup p T⟩
     have hgenLeRankT : generatorRank T ≤ groupRank T :=
       generatorRank_le_groupRank_of_commutative_pgroup (p := p) T
     have hRankTle : groupRank T ≤ groupRank P0 :=
       section10_groupRank_le_of_le hTP0
     omega
-  haveI : Nontrivial V := (Subgroup.nontrivial_iff_ne_bot V).2 hVne
+  have : Nontrivial V := (Subgroup.nontrivial_iff_ne_bot V).2 hVne
   have hVp : IsPGroup p V := IsElementaryAbelian.isPGroup p V
   obtain ⟨n, hnpos, hVcard⟩ :=
     (IsPGroup.nontrivial_iff_card (p := p) (G := V) hVp).1 inferInstance
@@ -326,7 +326,7 @@ public theorem theorem_12_12_source_leaf
       rw [hVcardPrime] at hdiv'
       exact hdiv'
     have hVcyc : IsCyclic V := isCyclic_of_prime_card hVcardPrime
-    letI : IsCyclic V := hVcyc
+    let : IsCyclic V := hVcyc
     let φ : E →* MulAut V := MulDistribMulAction.toMulAut E V
     have hφinj : Function.Injective φ := by
       apply (MonoidHom.ker_eq_bot_iff φ).mp
@@ -356,9 +356,9 @@ public theorem theorem_12_12_source_leaf
       have hUnits : IsCyclic (ZMod (Nat.card V))ˣ := by
         rw [hVcardPrime]
         exact ZMod.isCyclic_units_prime hp
-      letI : IsCyclic (ZMod (Nat.card V))ˣ := hUnits
+      let : IsCyclic (ZMod (Nat.card V))ˣ := hUnits
       exact isCyclic_of_injective autEquiv.toMonoidHom autEquiv.injective
-    letI : IsCyclic (MulAut V) := hAutCyclic
+    let : IsCyclic (MulAut V) := hAutCyclic
     refine ⟨isCyclic_of_injective φ hφinj, ?_⟩
     left
     simpa [he] using hdiv
@@ -380,8 +380,8 @@ public theorem theorem_12_12_source_leaf
           exact Subgroup.card_map_of_injective
             (K := V) (f := T.subtype) T.subtype_injective
         _ = p ^ 2 := hVcardSq
-    letI : IsMulCommutative P0 := hP0comm
-    letI : Fact (IsPGroup p P0) := ⟨hP0p⟩
+    let : IsMulCommutative P0 := hP0comm
+    let : Fact (IsPGroup p P0) := ⟨hP0p⟩
     have hP0gen : generatorRank P0 = 2 := by
       apply le_antisymm
       · exact
@@ -409,7 +409,7 @@ public theorem theorem_12_12_source_leaf
       simpa [xV] using hxT
     let ρ :=
       Theory.Representation.ofElementaryAbelianAction (A := E) (G := V) (p := p)
-    letI : FiniteDimensional (ZMod p) (Additive V) := Module.Finite.of_finite
+    let : FiniteDimensional (ZMod p) (Additive V) := Module.Finite.of_finite
     have hρdim : Module.finrank (ZMod p) (Additive V) = 2 := by
       apply Nat.pow_right_injective hp.two_le
       calc
@@ -442,12 +442,12 @@ public theorem theorem_12_12_source_leaf
     have hVminimalTop :
         ∀ N : Subgroup V, N.Normal → IsInvariant E V N → N ≠ ⊥ → N = ⊤ := by
       intro N hNnormal hNinv hNne
-      letI : N.Normal := hNnormal
-      letI : IsInvariant E V N := hNinv
+      let : N.Normal := hNnormal
+      let : IsInvariant E V N := hNinv
       let Nmap : Subgroup T := N.map V.subtype
       have hNmapInv : IsInvariant E T Nmap := by
         simpa [Nmap] using isInvariant_map_subtype (A := E) (G := T) V N
-      letI : IsInvariant E T Nmap := hNmapInv
+      let : IsInvariant E T Nmap := hNmapInv
       have hNmapNormal : Nmap.Normal := by infer_instance
       have hNmapNe : Nmap ≠ ⊥ := by
         intro hbot
@@ -510,8 +510,8 @@ public theorem theorem_12_12_source_leaf
       odd_of_card_dvd IsMinCE.odd_order (Subgroup.card_subgroup_dvd_card E)
     have hEcomm : IsMulCommutative E :=
       theorem_2_6_a (F := ZMod p) hEodd hρdim hρinj hcharNotDvdE
-    letI : IsMulCommutative E := hEcomm
-    letI : CommGroup E := IsMulCommutative.instCommGroup
+    let : IsMulCommutative E := hEcomm
+    let : CommGroup E := IsMulCommutative.instCommGroup
     have hnonScalar :
         ∀ y : E, y ≠ 1 →
           ¬ ∃ a : ZMod p, ∀ v : Additive V, ρ y v = a • v := by
@@ -585,15 +585,15 @@ public theorem theorem_12_12_source_leaf
       have hLE' := hLE
       simp [hEbot] at hLE'
       exact hHneL hLE'.symm
-    letI : Nontrivial E := (Subgroup.nontrivial_iff_ne_bot E).2 hEne
-    letI : Representation.IsIrreducible ρ := hρirr
+    let : Nontrivial E := (Subgroup.nontrivial_iff_ne_bot E).2 hEne
+    let : Representation.IsIrreducible ρ := hρirr
     let F2 := Module.End (MonoidAlgebra (ZMod p) E) ρ.asModule
-    letI : Field F2 := endField_field ρ
-    letI : Fintype F2 := Fintype.ofFinite F2
-    letI : Module F2 ρ.asModule := endFieldModule ρ
-    letI : Finite ρ.asModule :=
+    let : Field F2 := endField_field ρ
+    let : Fintype F2 := Fintype.ofFinite F2
+    let : Module F2 ρ.asModule := endFieldModule ρ
+    let : Finite ρ.asModule :=
       Finite.of_equiv (Additive V) ρ.asModuleEquiv.symm.toEquiv
-    letI : Module.Finite F2 ρ.asModule := by
+    let : Module.Finite F2 ρ.asModule := by
       set_option maxHeartbeats 800000 in
         exact Module.Finite.of_finite
     have hAsCard : Nat.card ρ.asModule = p ^ 2 := by
@@ -608,7 +608,7 @@ public theorem theorem_12_12_source_leaf
           inferInstance
           (Module.End.instAlgebra (ZMod p) (MonoidAlgebra (ZMod p) E) ρ.asModule)
       simpa [ZMod.ringChar_zmod_n] using hchar.symm
-    letI : CharP F2 p := ringChar.of_eq hF2Char
+    let : CharP F2 p := ringChar.of_eq hF2Char
     obtain ⟨n, _hp', hF2CardPow'⟩ := FiniteField.card F2 p
     have hF2CardPow : Nat.card F2 = p ^ (n : ℕ) := by
       simpa [Nat.card_eq_fintype_card] using hF2CardPow'
@@ -740,7 +740,7 @@ public theorem theorem_12_12_source_leaf
       rw [hscalarApply, hscalarApply, hyz]
     have hEcyclic : IsCyclic E := by
       exact isCyclic_of_injective_ringHom scalarHom hscalarHomInj
-    letI : IsCyclic F2ˣ :=
+    let : IsCyclic F2ˣ :=
       isCyclic_of_injective_ringHom (Units.coeHom F2) Units.val_injective
     let baseUnits : (ZMod p)ˣ →* F2ˣ :=
       Units.map (algebraMap (ZMod p) F2).toMonoidHom
@@ -779,7 +779,7 @@ public theorem theorem_12_12_source_leaf
       by_contra hnot
       rcases Nat.Prime.not_coprime_iff_dvd.mp hnot with
         ⟨r, hr, hrE, hrP⟩
-      letI : Fact r.Prime := ⟨hr⟩
+      let : Fact r.Prime := ⟨hr⟩
       obtain ⟨z, hzOrder⟩ := exists_prime_orderOf_dvd_card' r hrE
       have hzNe : z ≠ 1 := by
         intro hz

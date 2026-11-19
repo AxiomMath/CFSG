@@ -183,7 +183,7 @@ theorem genExt_mem {G : Type*} [Group G] (s : ℤ → G) :
     unfold letG
     have hn2 : ¬ z.natAbs ≤ 2 := by omega
     have hlt : z.natAbs - 3 < j := by omega
-    rw [if_neg hn2, if_pos hlt]
+    rw [ite_eq_right hn2, ite_eq_left hlt]
     rcases hl with h7 | h8 | ⟨h9, -⟩
     · rw [h7]
       split_ifs

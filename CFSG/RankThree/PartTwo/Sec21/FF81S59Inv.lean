@@ -17,8 +17,8 @@ theorem card_sq_fixed_modEq (hγ7 : γ ^ 7 = 1) (hγT : γ ∈ Nor T) :
     Nat.card {u : G // u ∈ T ∧ u ^ 2 = 1} ≡
       Nat.card {v : G // v ∈ T ⊓ Cen γ ∧ v ^ 2 = 1} [MOD 7] := by
   classical
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  haveI : Fintype G := Fintype.ofFinite G
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fintype G := Fintype.ofFinite G
   have hγinv : γ⁻¹ ∈ Nor T := Subgroup.inv_mem _ hγT
   have hmem : ∀ {g : G}, g ∈ Nor T → ∀ u : {u : G // u ∈ T ∧ u ^ 2 = 1},
       g * (u : G) * g⁻¹ ∈ T ∧ (g * (u : G) * g⁻¹) ^ 2 = 1 := by
@@ -82,7 +82,7 @@ theorem nonempty_mulEquiv_D8 (hγ7 : γ ^ 7 = 1) (hγT : γ ∈ Nor T)
     rw [← hV]
     exact Nat.card_le_card_of_injective _ Subtype.val_injective
   have hpos : 0 < Nat.card {v : ↥(T ⊓ Cen γ) // v ^ 2 = 1} := by
-    haveI : Nonempty {v : ↥(T ⊓ Cen γ) // v ^ 2 = 1} := ⟨⟨1, one_pow 2⟩⟩
+    have : Nonempty {v : ↥(T ⊓ Cen γ) // v ^ 2 = 1} := ⟨⟨1, one_pow 2⟩⟩
     exact Nat.card_pos
   rw [Nat.card_congr hequiv] at hmod
   have h6 : Nat.card {v : ↥(T ⊓ Cen γ) // v ^ 2 = 1} = 6 := by

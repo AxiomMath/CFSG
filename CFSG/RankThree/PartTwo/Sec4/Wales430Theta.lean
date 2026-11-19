@@ -58,7 +58,7 @@ theorem maximal_of_mem_partTwoE_quotX (hEF : partTwoE G = partTwoF G)
     · intro h0
       apply hQ1
       rwa [hU₁, Subgroup.map_eq_bot_iff_of_injective _ (L ⊔ A).subtype_injective] at h0
-    · exact (Q.isPGroup'.map D.subtype).map (L ⊔ A).subtype
+    · exact (Q.isPGroup.map D.subtype).map (L ⊔ A).subtype
     · exact (Subgroup.map_mono hQN).trans (Subgroup.le_normalizer_map _)
   have hF₂ : E''.map (L ⊔ A).subtype ∈ partTwoF G := by
     rw [← hEF]

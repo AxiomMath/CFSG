@@ -61,7 +61,7 @@ theorem repK_fold (m : Nat) : ∀ l : List Nat, (∀ j ∈ l, j < 12) → ∀ (x
       exact h
 
 theorem repK_eta (m : Nat) : RepK (CFSG.Sporadic.J4.QT.eta gE 12 m) (pK m) :=
-  repK_fold m (List.range 12) (fun j hj => List.mem_range.1 hj) 1 one repK_one
+  repK_fold m (List.range 12) (fun _j hj => List.mem_range.1 hj) 1 one repK_one
 
 theorem eta_split (m : Nat) : CFSG.Sporadic.J4.QT.eta gE 12 m =
     CFSG.Sporadic.J4.QT.eta gE 12 (m % 64) * CFSG.Sporadic.J4.QT.eta gE 12 (64 * (m / 64)) := by
@@ -174,7 +174,7 @@ theorem repK_matQ {m : Nat} (hm : m < 4096) :
   rw [matQ_eq hm, eta_split m]
   exact (repK_eta _).mul (repK_eta _)
 
-theorem root_good {idx rest : Nat} (hidx : idx < 8192) (h : rootK c rm ZM LO HI idx rest = true) :
+theorem root_good {idx rest : Nat} (_hidx : idx < 8192) (h : rootK c rm ZM LO HI idx rest = true) :
     Good (nfOf idx) := by
   unfold rootK at h
   rw [CFSG.KC.J4Q.strictB_eq, CFSG.KC.J4Q.strictB_eq] at h

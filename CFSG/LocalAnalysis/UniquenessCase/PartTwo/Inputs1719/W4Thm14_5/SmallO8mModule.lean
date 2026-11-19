@@ -98,7 +98,7 @@ theorem commute_endRing_of_isOmega8m_small_involution {I : Type} [CommGroup I] [
     ∀ d : EndRing (binRep L (MulEquiv.refl ↥L)), ∀ w : Additive I,
       binaryLin t (d w) = d (binaryLin t w) := by
   have : Nontrivial I := by
-    obtain ⟨x, -, hx⟩ := SetLike.exists_of_lt hirr.1
+    obtain ⟨x, -, hx⟩ := _root_.IsConcreteLE.exists_of_lt hirr.1
     exact ⟨x, 1, fun h => hx (h ▸ Subgroup.one_mem _)⟩
   have hirrL : CFSG.LocalAnalysis.RankThreeUC.IsIrrOn L := fun U hU =>
     hirr.2.2.2 U hU bot_le le_top
@@ -381,7 +381,7 @@ theorem natOmegaMinus_eight_of_small_endRing_linear_involution {I : Type} [CommG
       binaryLin t (d w) = d (binaryLin t w)) : NatOmegaMinus L ⊤ ⊥ 8 e := by
   classical
   have : Nontrivial I := by
-    obtain ⟨x, -, hx⟩ := SetLike.exists_of_lt hirr.1
+    obtain ⟨x, -, hx⟩ := _root_.IsConcreteLE.exists_of_lt hirr.1
     exact ⟨x, 1, fun h => hx (h ▸ Subgroup.one_mem _)⟩
   have hirrL : CFSG.LocalAnalysis.RankThreeUC.IsIrrOn L := fun U hU =>
     hirr.2.2.2 U hU bot_le le_top

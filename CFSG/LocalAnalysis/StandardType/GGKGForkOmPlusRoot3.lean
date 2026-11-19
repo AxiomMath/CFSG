@@ -120,7 +120,7 @@ theorem ggKGOmR_nonabelian {m : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
   classical
   by_contra h
   push Not at h
-  haveI := ggKGOmR_isSimple (K := K) (m := m) hm
+  have := ggKGOmR_isSimple (K := K) (m := m) hm
   have hZ := ggKGOmR_center_bot (K := K) (m := m) hm
   obtain ⟨a, b, hab⟩ := exists_pair_ne (StatedOmega (StatedQuadPlus m K))
   have ha : a = 1 := by
@@ -135,11 +135,11 @@ theorem ggKGOmR_nonabelian {m : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
     simpa using this
   exact hab (ha.trans hb.symm)
 
-theorem ggKGOmR_mem_orthDerived {m : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2] (hm : 4 ≤ m)
+theorem ggKGOmR_mem_orthDerived {m : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2] (_hm : 4 ≤ m)
     (g : StatedOmega (StatedQuadPlus m K)) :
     toLinEquiv (Fin m ⊕ Fin m) K (g : GL (Fin m ⊕ Fin m) K) ∈
       CFSG.RankThree.Classical2.orthDerived (CFSG.LieType.Universal.Spin.quadPlus m K) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hmap : (StatedOmega (StatedQuadPlus m K)).map
       (toLinEquiv (Fin m ⊕ Fin m) K).toMonoidHom =
       CFSG.RankThree.Classical2.orthDerived (CFSG.LieType.Universal.Spin.quadPlus m K) := by
@@ -152,7 +152,7 @@ theorem ggKGOmR_isChevSimple {m : ℕ} {K : Type} [Field K] [Finite K] [CharP K 
     CFSG.Yardstones.Md0ec50421ce4.IsChevSimple 2
       (StatedOmega (StatedQuadPlus m K)) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hring : ringChar K = 2 := ringChar.eq (R := K) 2
   let Q := CFSG.LieType.Universal.Spin.quadPlus m K
   have hQ : Q.polarBilin.Nondegenerate :=
@@ -166,7 +166,7 @@ theorem ggKGOmR_isChevSimple {m : ℕ} {K : Type} [Field K] [Finite K] [CharP K 
     ((toLinEquiv (Fin m ⊕ Fin m) K).subgroupMap _).trans (MulEquiv.subgroupCongr hmap)
   have hqG : CFSG.IsQuasisimple (StatedOmega (StatedQuadPlus m K)) :=
     CFSG.LieType.Universal.Spin.isQuasisimple_statedOmega_quadPlus (K := K) (by omega)
-  haveI hSimpL : IsSimpleGroup (orthDerived Q) :=
+  have hSimpL : IsSimpleGroup (orthDerived Q) :=
     e.symm.isSimpleGroup_congr.2 (ggKGOmR_isSimple (K := K) (m := m) hm)
   have hncL : ∃ a b : orthDerived Q, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := ggKGOmR_nonabelian (K := K) (m := m) hm

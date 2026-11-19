@@ -27,14 +27,14 @@ theorem wperm_prep {a b ai bi W len : Nat} {ga gb : Equiv.Perm (Fin n)} (hn : n 
     unfold CFSG.KC.Enum.lt
     simp only [PK.nIf_eq]
     by_cases h0 : Nat.beq c 0 = true
-    · exact ⟨ga, hga, fun q hq => by rw [if_pos h0]; exact ha ⟨q, hq⟩⟩
+    · exact ⟨ga, hga, fun q hq => by rw [ite_eq_left h0]; exact ha ⟨q, hq⟩⟩
     by_cases h1 : Nat.beq c 1 = true
-    · exact ⟨gb, hgb, fun q hq => by rw [if_neg h0, if_pos h1]; exact hb ⟨q, hq⟩⟩
+    · exact ⟨gb, hgb, fun q hq => by rw [ite_eq_right h0, ite_eq_left h1]; exact hb ⟨q, hq⟩⟩
     by_cases h2 : Nat.beq c 2 = true
     · exact ⟨ga⁻¹, H.inv_mem hga, fun q hq => by
-        rw [if_neg h0, if_neg h1, if_pos h2]; exact hai ⟨q, hq⟩⟩
+        rw [ite_eq_right h0, ite_eq_right h1, ite_eq_left h2]; exact hai ⟨q, hq⟩⟩
     · exact ⟨gb⁻¹, H.inv_mem hgb, fun q hq => by
-        rw [if_neg h0, if_neg h1, if_neg h2]; exact hbi ⟨q, hq⟩⟩
+        rw [ite_eq_right h0, ite_eq_right h1, ite_eq_right h2]; exact hbi ⟨q, hq⟩⟩
   have hfold : ∀ k, ∃ g ∈ H, ∀ q (hq : q < n),
       foldN k (fun k q => CFSG.KC.Enum.lt w (mask w) a b ai bi (wl W k) q) q =
         (g ⟨q, hq⟩ : Nat) := by
@@ -174,8 +174,7 @@ theorem zcw_of_lists {A : Type} [Group A] [Finite A] {ga gb z : A} {p k nL nS kg
   refine ⟨1, Subgroup.one_mem _, ⟨z, hz⟩ ^ e, pow_mem (Subgroup.mem_zpowers _) e,
     fun heq => hne ?_⟩
   have h2 := congrArg Subtype.val heq
-  simp only [one_mul, inv_one, mul_one, Subgroup.coe_mul, Subgroup.coe_inv, SubgroupClass.coe_pow,
-    Subgroup.coe_mk] at h2
+  simp only [one_mul, inv_one, mul_one, Subgroup.coe_mul, Subgroup.coe_inv, SubgroupClass.coe_pow] at h2
   rw [hUj, hi'e']
   exact h2
 

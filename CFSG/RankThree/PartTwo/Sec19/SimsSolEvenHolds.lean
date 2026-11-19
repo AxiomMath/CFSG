@@ -34,7 +34,7 @@ theorem inCatalog_of_extraspecial_w4
     (hext : IsExtraspecialPGroup 2 ↥(CFSG.Open.pCoreOf 2 (CGOf z)))
     (hcard : Nat.card ↥(CFSG.Open.pCoreOf 2 (CGOf z)) = 2 ^ 9) :
     CFSG.Assembly.InCatalog G := by
-  haveI := S.simple
+  have := S.simple
   have hF := fstar_eq S hzQ hz1
   have h : CFSG.Yardstones.M3aba7dc4b8a8.Smith1979WidthFourList G :=
     hW4 G S.nonab S.charTwo S.kProper z hz (hF ▸ hext) (by rw [hF, hcard])

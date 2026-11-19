@@ -53,7 +53,7 @@ theorem act_gen
     (h5 : l ≠ 5) {p : ℕ} (hp : p < 2300) : @act co2P _ 2300 act2 (gen l) p = L l p := by
   rw [act_conj (gen l) hp]
   by_cases h : l < 5
-  · have e : (gen l).1 = permOfArr 2300 (genPerm l) := by rw [gen, dif_pos h]
+  · have e : (gen l).1 = permOfArr 2300 (genPerm l) := by rw [gen, dite_eq_left h]
     rw [e, ← rep_genPerm h ⟨Q p, (perm_facts hp).2.1⟩]
     exact ((Certificates.certificate10503).2.2.1 l h p hp).symm
   · obtain rfl | rfl : l = 6 ∨ l = 7 := by omega
@@ -120,7 +120,7 @@ theorem phi_apply
 theorem card_S :
     Nat.card (Subgroup.closure {x | x ∈ els.take 5}) = 2 ^ 18 := by
   have hj : ∀ j : Fin 5, phi (genCo2 j) = gen j := fun j => by
-    rw [phi_apply, genCo2, dif_pos j.2, MulEquiv.apply_symm_apply, gen, dif_pos j.2]
+    rw [phi_apply, genCo2, dite_eq_left j.2, MulEquiv.apply_symm_apply, gen, dite_eq_left j.2]
   have htake : els.take 5 = [gen 0, gen 1, gen 2, gen 3, gen 4] := rfl
   have hmem : ∀ j : Fin 5, gen j ∈ els.take 5 := by
     intro j

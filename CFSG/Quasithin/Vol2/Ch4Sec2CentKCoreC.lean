@@ -16,6 +16,7 @@ variable {G : Type} [Group G] [Finite G]
 variable {R Rp H K Q LH V : Subgroup G} {F : Type} [Field F] [Fintype F]
   {α : ↥K →* ↥(StatedSL 3 F)} {β : ↥Q →* Multiplicative (Fin 2 → Fin 3 → F)}
 
+omit [Finite G] in
 private theorem conj_comm_coreC {s z b a : G} (ha : a = ⁅z, s⁆) (hsa : s * a = a * s)
     (hba : b * a = a * b) (hbz : b * z = z * b) : s * b * s⁻¹ * z = z * (s * b * s⁻¹) := by
   have key0 : a * s * z = z * s := by
@@ -35,6 +36,7 @@ private theorem conj_comm_coreC {s z b a : G} (ha : a = ⁅z, s⁆) (hsa : s * a
     _ = (z * s) * b * s⁻¹ := by rw [key1]
     _ = z * (s * b * s⁻¹) := by group
 
+omit [Finite G] in
 private theorem conj_comm_sub_coreC {s a b : G} (hsa : s * a = a * s) (hba : b * a = a * b) :
     s * b * s⁻¹ * a = a * (s * b * s⁻¹) := by
   have hinv : s⁻¹ * a = a * s⁻¹ := by

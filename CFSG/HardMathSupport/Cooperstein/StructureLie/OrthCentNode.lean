@@ -38,12 +38,14 @@ theorem mem_pSet_iff {A : Set (Fin (m + 3))} {σ : Fin (m + 3) → Bool} {b : Fi
   · rintro ⟨hb, rfl⟩
     exact ⟨b, hb, rfl⟩
 
+omit [CharP F 2] in
 theorem hQ_spinMat (k : spinGroup (quadPlus (m + 3) F)) :
     ∀ v, Qf (m + 3) ((spinMat (quadPlus (m + 3) F) k).mulVec v) = Qf (m + 3) v := fun v => by
   have := spinMatrix_mem (quadPlus (m + 3) F) k v
   rw [spinMat_eq_coe]
   simpa [Qf, quadPlus_apply] using this
 
+omit [CharP F 2] in
 theorem cfg_node (hn : 3 ≤ m + 3) (j : Fin (m + 3)) (k : spinGroup (quadPlus (m + 3) F))
     (hk : ∀ u ∈ CFSG.AGLEmbedding.LieOut.radical (plusDatum (m + 3) F hn) j, k * u = u * k) :
     Cfg (spinMat (quadPlus (m + 3) F) k) (pSet (nodeA (m + 3) j) (nodeSign (m + 3) j)) := by
@@ -86,7 +88,7 @@ theorem cfg_node (hn : 3 ≤ m + 3) (j : Fin (m + 3)) (k : spinGroup (quadPlus (
       refine ⟨fun h => ?_, fun h => hba (kap_inj h).1⟩
       rw [bar_kap] at h
       obtain ⟨hbA, he⟩ := (mem_pSet_iff).1 h
-      simp only [tt, if_pos hbA] at he
+      simp only [tt, ite_eq_left hbA] at he
       cases hs : σ b <;> simp_all
     exact ⟨kap b₁ (tt b₁), kap b₂ (tt b₂), fun e => h12 (kap_inj e).1, hr b₁ h1, hr b₂ h2⟩
   exact ⟨hd, hm, htwo⟩

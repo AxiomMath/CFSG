@@ -40,8 +40,8 @@ theorem eq_bot_of_subnormal_isPGroup_two (h : CFSG.pCore 2 R = ⊥) :
 theorem exists_involution_mem_sylow [Finite R] {X : Subgroup R} (hX : IsSymThree X)
     (hXs : IsSubnormal X ⊤) (T : Sylow 2 R) :
     ∃ s ∈ (T : Subgroup R), s ∈ X ∧ s ^ 2 = 1 ∧ s ≠ 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := finite_symThree hX
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := finite_symThree hX
   obtain ⟨P, hP⟩ :=
     CFSG.Walter.exists_sylow_map_eq_inf_of_isSubnormal T (IsSubnormal.top_iff.1 hXs)
   have hcard : Nat.card P = 2 := by
@@ -56,7 +56,7 @@ theorem exists_involution_mem_sylow [Finite R] {X : Subgroup R} (hX : IsSymThree
   have hcard' : Nat.card ↥((T : Subgroup R) ⊓ X) = 2 := by
     rw [← hP, Subgroup.card_map_of_injective X.subtype_injective]
     exact hcard
-  haveI : Finite ↥((T : Subgroup R) ⊓ X) := Nat.finite_of_card_ne_zero (by rw [hcard']; norm_num)
+  have : Finite ↥((T : Subgroup R) ⊓ X) := Nat.finite_of_card_ne_zero (by rw [hcard']; norm_num)
   obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' 2 (by rw [hcard'])
   have hy2 : (y : R) ^ 2 = 1 := by
     have h1 : y ^ 2 = 1 := by
@@ -237,7 +237,7 @@ theorem eq_of_shared_three [Finite R]
     apply le_antisymm hNW
     exact sup_le hXN hX'N
   have hX'X : X' ≤ X := hXeqW ▸ hX'W
-  haveI := finite_symThree hX
+  have := finite_symThree hX
   exact (Subgroup.eq_of_le_of_card_ge hX'X (by rw [card_symThree hX, card_symThree hX'])).symm
 
 end CFSG.LocalAnalysis.RankThreeTheoremC.TwelveNotLe.Sym

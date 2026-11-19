@@ -13,6 +13,7 @@ open CFSG.LieType.BorelTits
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem relIndex_inf_centralizer_sup_conjSubgroup_le {Z A : Subgroup G} {g : G}
     (hg : g ∈ Subgroup.normalizer (Z : Set G)) :
     (Z ⊓ Subgroup.centralizer ((A ⊔ conjSubgroup A g : Subgroup G) : Set G)).relIndex Z ≤
@@ -22,7 +23,7 @@ theorem relIndex_inf_centralizer_sup_conjSubgroup_le {Z A : Subgroup G} {g : G}
     CFSG.Quasithin.F53Push.relIndex_inf_centralizer_sup_cj_le
       (g := g⁻¹) (M := Z) (J := A) hg'
 
-theorem str86_caseIIb_baum_inf_normal {L1 L2 S : Subgroup G} (hF : F112HypW L1 L2 S)
+theorem str86_caseIIb_baum_inf_normal {L1 L2 S : Subgroup G} (_hF : F112HypW L1 L2 S)
     (hSB : bigB L1 L2 S ≤ Subgroup.normalizer (S : Set G)) {m : ℕ}
     (hCZ : S ⊓ Subgroup.centralizer (Z2 L1 L2 S : Set G) = Q2 L1 L2 S)
     {A : Subgroup G} (hA : IsMaxElemAbelian S A)

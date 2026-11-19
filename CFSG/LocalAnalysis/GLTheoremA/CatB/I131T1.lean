@@ -29,8 +29,8 @@ theorem card_le_nine_of_normalizes
     (Y : Subgroup (MulAut S)) (hYc : ∀ y ∈ Y, ∀ z ∈ Y, y * z = z * y) (hY3 : ∀ y ∈ Y, y ^ 3 = 1)
     (W : Subgroup S) (hW2 : IsPGroup 2 W) (hW : W ≠ ⊥)
     (hYW : ∀ y ∈ Y, ∀ w ∈ W, y w ∈ W) : Nat.card Y ≤ 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hinj := conj_injective_of_center_eq_bot hZ
   have hW3 : ¬ 3 ∣ Nat.card W := by
     obtain ⟨m, hm⟩ := (IsPGroup.iff_card (p := 2)).1 hW2

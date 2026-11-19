@@ -36,7 +36,7 @@ theorem three_div_orderOf_le_one {p Q : ℕ} [Fact p.Prime] (hpQ : ¬ p ∣ Q + 
 theorem isCyclic_sylow_statedPSU3 {K : Type} [Field K] [Finite K] {n p : ℕ}
     (hK : Nat.card K = (2 ^ n) ^ 2) (hp : p.Prime) (hp2 : p ≠ 2) (hpn : ¬ p ∣ 2 ^ n + 1)
     (S : Sylow p (StatedProj (StatedSU 3 (2 ^ n) K))) : IsCyclic S := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpq : ¬ p ∣ 2 ^ n := fun h =>
     hp2 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).1 (hp.dvd_of_dvd_pow h))
   have hk := three_div_orderOf_le_one (p := p) hpn
@@ -54,7 +54,7 @@ theorem isCyclic_sylow_statedPSU3 {K : Type} [Field K] [Finite K] {n p : ℕ}
     exact fun h => hpn (h.trans (Nat.gcd_dvd_right _ _))
   obtain ⟨φ⟩ := sylowShape_of_surjective (famUProj 3 (2 ^ n) K)
     (QuotientGroup.mk'_surjective _) hker hSU S
-  haveI := isCyclic_homC (p := p)
+  have := isCyclic_homC (p := p)
     (a := padicValInt p ((-((2 ^ n : ℕ) : ℤ)) ^ orderOf (-((2 ^ n : ℕ) : ZMod p)) - 1)) hk
   exact isCyclic_of_surjective φ.symm.toMonoidHom φ.symm.surjective
 
@@ -70,8 +70,8 @@ theorem card_le_of_sylow_isCyclic {Y : Type*} [Group Y] [Finite Y] {p : ℕ} [Fa
     Nat.card A ≤ p := by
   have hAp : IsPGroup p A := fun x => ⟨1, Subtype.ext (by simpa using hA.2 x x.2)⟩
   obtain ⟨S, hS⟩ := hAp.exists_le_sylow
-  haveI := hcyc S
-  haveI : IsCyclic A := isCyclic_of_surjective (subgroupOfEquivOfLe hS).toMonoidHom
+  have := hcyc S
+  have : IsCyclic A := isCyclic_of_surjective (subgroupOfEquivOfLe hS).toMonoidHom
     (subgroupOfEquivOfLe hS).surjective
   exact card_le_of_isCyclic_of_pow (Fact.out : p.Prime).pos hA.2
 
@@ -83,7 +83,7 @@ theorem card_le_of_sylow_isCyclic {Y : Type*} [Group Y] [Finite Y] {p : ℕ} [Fa
 
 theorem u3RankOne : U3RankOne := by
   intro X _ _ n hX p hp hp2 hpn R hRinn hRel
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, K, _, _, hK, ⟨ψ⟩⟩ :=
     CFSG.SeitzReduction.RankOne.statedClassicalModel_of_lieModel_psu3 hX.2
   let ι : (MulAut.conj : X →* MulAut X).range ≃* StatedProj (StatedSU 3 (2 ^ n) K) :=

@@ -76,7 +76,7 @@ theorem sr628_exists_pGroup {F : Subgroup G} [Group.IsNilpotent F] {q : ℕ}
     exact hg
   obtain ⟨S, hS⟩ := hzp.exists_le_sylow
   have hSc : (S : Subgroup F).Characteristic := Sylow.characteristic_of_normal S inferInstance
-  exact ⟨(S : Subgroup F).map F.subtype, S.isPGroup'.map F.subtype, Subgroup.map_subtype_le _,
+  exact ⟨(S : Subgroup F).map F.subtype, S.isPGroup.map F.subtype, Subgroup.map_subtype_le _,
     ⟨⟨g, hgF⟩, hS (mem_zpowers _), rfl⟩,
     CFSG.LieType.BorelTits.normalizer_le_normalizer_map_of_characteristic _⟩
 

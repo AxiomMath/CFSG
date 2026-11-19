@@ -360,7 +360,7 @@ theorem cls_subset_of_nbr {G : Type} [Group G] [Finite G] {t : G} (ht : orderOf 
   have hdS : ∀ i, ψ (sw hm8 i) ∈ (T : Set G) ∩ cls t :=
     fun i => ⟨hT ⟨i, rfl⟩, hsw _ (sw_isSwap hm8 i)⟩
   have hSc : ∀ x ∈ (T : Set G) ∩ cls t, ∀ y ∈ (T : Set G) ∩ cls t, x * y = y * x :=
-    fun x hx y hy => hodd.commute_of_mem_pGroup hD2 T.isPGroup' hx.2 hx.1 hy.2 hy.1
+    fun x hx y hy => hodd.commute_of_mem_pGroup hD2 T.isPGroup hx.2 hx.1 hy.2 hy.1
   have hA := compSet_eq_swaps (by omega) ψ hsw hnb (sw_isSwap hm8 0)
   have hS0 : ∀ x ∈ (T : Set G) ∩ cls t, ∃ σ : Perm (Fin m), σ.IsSwap ∧ ψ σ = x := by
     intro x hx

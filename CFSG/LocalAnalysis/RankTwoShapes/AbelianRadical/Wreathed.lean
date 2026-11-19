@@ -241,7 +241,7 @@ theorem abelian_alperin_wreathed {G : Type} [Group G] [Finite G] (S : Sylow 2 G)
     rw [hRC] at hyR
     exact (hπC y).mpr hyR
   obtain ⟨n, hn, -, -, -, ⟨e, -⟩, -, -⟩ := abelian_radical_normalizer_wreathed
-    (S : Subgroup G) S.isPGroup' Q hQS hQab hQcard hQrank hcent hO2
+    (S : Subgroup G) S.isPGroup Q hQS hQab hQcard hQrank hcent hO2
   exact ⟨n, hn, ⟨e⟩⟩
 
 end CFSG.RankTwoShapes

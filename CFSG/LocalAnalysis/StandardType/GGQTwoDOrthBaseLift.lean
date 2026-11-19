@@ -13,16 +13,16 @@ private lemma dlift_dBasis_zero (n : ℕ) :
     dBasis (n + 1) 0 = (Fin.cons 1 (0 : DVec n) : DVec (n + 1)) := by
   funext j
   refine Fin.cases ?_ (fun k => ?_) j
-  · simp [dBasis, Pi.basisFun_apply, Pi.single_apply]
+  · simp [dBasis, Pi.basisFun_apply]
   · have hne : (0 : Fin (n + 1)) ≠ k.succ := (Fin.succ_ne_zero k).symm
-    simp [dBasis, Pi.basisFun_apply, Pi.single_apply, hne]
+    simp [dBasis, Pi.basisFun_apply]
 
 private lemma dlift_dBasis_succ (n : ℕ) (i : Fin n) :
     dBasis (n + 1) i.succ = (Fin.cons 0 (dBasis n i) : DVec (n + 1)) := by
   funext j
   refine Fin.cases ?_ (fun k => ?_) j
   · have hne : i.succ ≠ (0 : Fin (n + 1)) := Fin.succ_ne_zero i
-    simp [dBasis, Pi.basisFun_apply, Pi.single_apply, hne]
+    simp [dBasis, Pi.basisFun_apply, hne]
   · simp [dBasis, Pi.basisFun_apply, Pi.single_apply, Fin.succ_inj]
 
 private lemma dlift_cons_smul (n : ℕ) (c : ZMod 3) (v : DVec n) :
@@ -120,7 +120,7 @@ theorem exists_dLift_of_mem_dEvenStab (n : ℕ) {w : DVec (n + 1) ≃ₗ[ZMod 3]
   have hσ0 : σ 0 = 0 := by
     by_contra hne
     have h := hval
-    rw [if_neg (fun hh => hne hh.symm), mul_zero] at h
+    rw [ite_eq_right (fun hh => hne hh.symm), mul_zero] at h
     exact zero_ne_one h
   have hc0 : c 0 = 1 := by
     have h := hval

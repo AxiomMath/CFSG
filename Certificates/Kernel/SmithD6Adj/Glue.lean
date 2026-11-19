@@ -25,8 +25,8 @@ theorem d6a_mf7Any_iff (n : Nat) (p : Nat → Bool) :
       Nat.sub_zero, Nat.add_sub_cancel, Nat.div_one]
     simp only [d6s_forIn_flag, pure_bind]
     by_cases hA : (List.range' 0 n).any p = true
-    · simp [hA] <;> rfl
-    · simp [hA] <;> rfl
+    · simp [hA]; rfl
+    · simp [hA]; rfl
   rw [this]
   simp [List.any_eq_true, List.mem_range'_1]
 
@@ -135,16 +135,19 @@ variable (hwt : ∀ j (hj : j < J.wtC.flatten.length), wt j = J.wtC.flatten[j])
   (hidx : ∀ x, wtIdx x < 75735 ↔ wtTree.memB x = true)
 include hwt hidx
 
+omit hwt in
 theorem wtIdx_of_mem {t : Nat} (ht : t ∈ J.wtC.flatten) :
     wtIdx t < 75735 ∧ wt (wtIdx t) = t := by
   have h := (hidx t).2 (memB_of_mem ht)
   exact ⟨h, mf7_wt_wtIdx t h⟩
 
+omit hidx in
 theorem wt_mem {i : Nat} (hi : i < 75735) : wt i ∈ J.wtC.flatten := by
   have hi' : i < J.wtC.flatten.length := by rw [wtC_flatten_length]; exact hi
   rw [hwt i hi']
   exact List.getElem_mem hi'
 
+omit hidx in
 theorem wt_inj {a b : Nat} (ha : a < 75735) (hb : b < 75735) (h : wt a = wt b) : a = b := by
   have ha' : a < J.wtC.flatten.length := by rw [wtC_flatten_length]; exact ha
   have hb' : b < J.wtC.flatten.length := by rw [wtC_flatten_length]; exact hb
@@ -157,20 +160,21 @@ theorem wt_inj {a b : Nat} (ha : a < 75735) (hb : b < 75735) (h : wt a = wt b) :
   · have := List.pairwise_iff_getElem.1 hp b a hb' ha' hab
     omega
 
+omit hwt in
 theorem adjW_of_mem {i j : Nat} (h : (wt i ^^^ wt j) ∈ J.wtC.flatten) : adjW i j = true := by
   unfold adjW
   simp only [Bool.or_eq_true, decide_eq_true_eq]
-  exact Or.inr (wtIdx_of_mem hwt hidx h).1
+  exact Or.inr (wtIdx_of_mem hidx h).1
 
 theorem mf7ChkWt_of_pinned : mf7ChkWt () = true := by
   unfold mf7ChkWt
   simp only [Bool.and_eq_true, d6s_mf7All_iff, beq_iff_eq, bne_iff_ne, decide_eq_true_eq]
-  refine ⟨⟨fun j hj => ?_, fun i hi => ⟨ne_zero_of_mem (wt_mem hwt hidx hi), ?_⟩⟩, fun i hi => ?_⟩
-  · obtain ⟨h1, h2⟩ := wtIdx_of_mem hwt hidx (wt_mem hwt hidx hj)
-    exact wt_inj hwt hidx h1 hj h2
-  · exact lt_of_mem (wt_mem hwt hidx hi)
+  refine ⟨⟨fun j hj => ?_, fun i hi => ⟨ne_zero_of_mem (wt_mem hwt hi), ?_⟩⟩, fun i hi => ?_⟩
+  · obtain ⟨h1, h2⟩ := wtIdx_of_mem hidx (wt_mem hwt hj)
+    exact wt_inj hwt h1 hj h2
+  · exact lt_of_mem (wt_mem hwt hi)
   · rw [d6a_mf7Any_iff]
-    have hs := wt_mem hwt hidx hi
+    have hs := wt_mem hwt hi
     have hs64 : exC (wt i) ∈ J.wt64C.flatten := by
       rw [wt64_eq_map.1]
       exact List.mem_map_of_mem hs
@@ -186,10 +190,10 @@ theorem mf7ChkWt_of_pinned : mf7ChkWt () = true := by
       · exact ⟨0, by decide, h0, h1.resolve_left h0⟩
     obtain ⟨t, ht, -, -, h3⟩ := lift_facts hs hg
     obtain ⟨hne, hsum⟩ := h3 hm
-    obtain ⟨hj, hwj⟩ := wtIdx_of_mem hwt hidx ht
+    obtain ⟨hj, hwj⟩ := wtIdx_of_mem hidx ht
     refine ⟨wtIdx t, hj, ?_⟩
     simp only [Bool.and_eq_true, bne_iff_ne, ne_eq]
-    refine ⟨adjW_of_mem hwt hidx (by rw [hwj]; exact hsum), ?_⟩
+    refine ⟨adjW_of_mem hidx (by rw [hwj]; exact hsum), ?_⟩
     rw [hwj]
     exact hne
 
@@ -199,7 +203,7 @@ theorem mf7ChkTvAdj0_of_pinned (hK : lineKeys.toList = J.lineKeysC.flatten) :
   unfold mf7ChkTvAdj0
   simp only [d6s_mf7All_iff]
   intro i hi
-  have hs := wt_mem hwt hidx hi
+  have hs := wt_mem hwt hi
   obtain ⟨t, ht, hte, h0, hm⟩ := lift_facts hs (g := 0) (by decide)
   have hv : mf7Ap (tvCols 0) (wt i) = t := by
     rw [mf7Ap_eq]
@@ -209,7 +213,7 @@ theorem mf7ChkTvAdj0_of_pinned (hK : lineKeys.toList = J.lineKeysC.flatten) :
       decode64_liftT (gensT_ok 0 (by decide)) (exC_lt_two_pow _), decode64_exC]
     rfl
   rw [hv]
-  obtain ⟨hj, hwj⟩ := wtIdx_of_mem hwt hidx ht
+  obtain ⟨hj, hwj⟩ := wtIdx_of_mem hidx ht
   simp only [Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq]
   refine ⟨⟨hj, hwj⟩, ?_⟩
   obtain ⟨h1, -⟩ := adjOK_sound (adj_all _ (by rw [wt64_eq_map.1]; exact List.mem_map_of_mem hs))
@@ -217,7 +221,7 @@ theorem mf7ChkTvAdj0_of_pinned (hK : lineKeys.toList = J.lineKeysC.flatten) :
   · unfold adjW
     rw [hwj, h0 h1]
     simp
-  · exact adjW_of_mem hwt hidx (by rw [hwj]; exact (hm h1).2)
+  · exact adjW_of_mem hidx (by rw [hwj]; exact (hm h1).2)
 
 end Model
 

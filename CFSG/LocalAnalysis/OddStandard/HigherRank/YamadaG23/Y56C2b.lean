@@ -20,12 +20,14 @@ private theorem y56_z_comm_S {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hy
     exact (Subgroup.mem_inf.mp hmem).2
   exact (Subgroup.mem_centralizer_iff.mp hz x hx).symm
 
+omit [Finite G] in
 private theorem y56_conj_eq_scalar_mul {x y w : G} (h : ⁅x, y⁆ = w) :
     x * y * x⁻¹ = w * y := by
   rw [commutatorElement_def] at h
   calc x * y * x⁻¹ = (x * y * x⁻¹ * y⁻¹) * y := by group
     _ = w * y := by rw [h]
 
+omit [Finite G] in
 private theorem y56_conj_eq_inv_mul {x y w : G} (h : ⁅x, y⁆ = w) :
     y * x * y⁻¹ = w⁻¹ * x := by
   rw [commutatorElement_def] at h
@@ -39,6 +41,7 @@ private theorem y56_conj_eq_inv_mul {x y w : G} (h : ⁅x, y⁆ = w) :
     _ = (x⁻¹ * w)⁻¹ := by rw [h1]
     _ = w⁻¹ * x := by group
 
+omit [Finite G] in
 private theorem y56_conj_inv_scalar {x y w : G} (h : ⁅x, y⁆ = w) (hw : w ^ 2 = 1) :
     y * x * y⁻¹ = w * x := by
   have hwinv : w⁻¹ = w := by

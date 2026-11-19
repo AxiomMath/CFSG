@@ -29,11 +29,11 @@ theorem f112sl_oTwoRes_sup_pCoreOf {L : Subgroup H} {n : ℕ} (hn : 2 ≤ n)
       rw [GaloisField.card 2 n (by omega)]
       calc 4 = 2 ^ 2 := by norm_num
         _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn
-    haveI : IsSimpleGroup
+    have : IsSimpleGroup
         (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 n)) :=
       Matrix.ProjectiveSpecialLinearGroup.rank_two_simple hcard
     exact e.isSimpleGroup
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have h3dvd : 3 ∣ Nat.card (oTwoQuot ↥L) := by
     rw [IsL2Quot.card (by omega) h2]
     refine Dvd.dvd.mul_left ?_ _
@@ -68,7 +68,7 @@ theorem f112sl_oTwoRes_sup_pCoreOf {L : Subgroup H} {n : ℕ} (hn : 2 ≤ n)
     rw [hbot, Subgroup.mem_bot] at hmem
     exact hzne hmem
   have hAn' : (A.map π).Normal := hAn.map π (QuotientGroup.mk'_surjective Q)
-  haveI : (A.map π).Normal := hAn'
+  have : (A.map π).Normal := hAn'
   have hAtop : A.map π = ⊤ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (A.map π) with h | h
     · exact absurd h hne

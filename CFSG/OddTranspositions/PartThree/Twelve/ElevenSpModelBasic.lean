@@ -63,7 +63,7 @@ include hQ₀ in
 omit [Fintype F] [DecidableEq F] [CharP F 2] in
 theorem mStabForm_apply (Y : MSpace k F) (x : Fin k ⊕ Fin k → F) :
     mStabForm Q₀ Y x = Q₀ x + spForm k F ((Y.1.2)⁻¹ • Y.2) x ^ 2 := by
-  rw [mStabForm, QuadraticMap.add_apply, QuadraticMap.linMulLin_apply,
+  rw [mStabForm, _root_.add_apply, QuadraticMap.linMulLin_apply,
     polarBilin_apply_apply, hQ₀]
   ring
 
@@ -397,7 +397,7 @@ theorem setup_mClass (hk : 2 ≤ k) : Asc72.Setup (MGroup Q₀) (mClass Q₀) :=
         (CFSG.ClassicalGroups.Orthogonal.reflect (mForm Q₀) ''
           {v : MSpace k F | mForm Q₀ v = 1}) = mClass Q₀ := by
       ext g
-      simp only [Set.mem_preimage, Set.mem_image, Set.mem_setOf_eq, mClass]
+      simp only [Set.mem_preimage, Set.mem_image, Set.mem_ofPred_eq, mClass]
       constructor
       · rintro ⟨v, hv, hgv⟩
         exact ⟨v, hv, Subtype.ext hgv.symm⟩

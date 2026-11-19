@@ -94,7 +94,7 @@ theorem burnsideC1b_commutator_inf_zm_le_vcirc_of_pair (c : Ctx M T L φ) (h14 :
   classical
   have h := c.hyp
   have h20 := h.hyp20
-  haveI hchar : CharP F 2 := c.charP
+  have hchar : CharP F 2 := c.charP
   have hQ4 := S45Q4.hQ4 c
   have hα := c.isMVtx_of_isGoodPath hp (k := a) (by omega) ha
   have hαβ : (puAmalgam h.le).treeGraph.Adj (p a) (p (a + 1)) := hp.adj a (by omega)

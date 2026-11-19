@@ -60,7 +60,7 @@ theorem isZ4Cube_of_gens {W : Type*} [Group W] [Finite W] (hW : Nat.card W = 64)
     rw [Nat.bijective_iff_injective_and_card]
     refine ⟨hinj, ?_⟩
     rw [hW]
-    simp [Nat.card_prod]
+    simp
   exact ⟨(MulEquiv.ofBijective ψ hbij).symm⟩
 
 theorem exists_sqrt_mem_ZF (hset : HSSetting G z) {v : G} (hv : IsConj z v) :

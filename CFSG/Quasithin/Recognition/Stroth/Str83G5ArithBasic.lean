@@ -186,16 +186,16 @@ variable (k₀ m₀ : ZMod (2 ^ n - 1))
 @[simp] theorem sigma2_snd (v : Coord n) : (sigma2 k₀ v).2 = -v.2 := rfl
 
 theorem sigma1_sigma1 (v : Coord n) : sigma1 m₀ (sigma1 m₀ v) = v := by
-  ext <;> simp <;> ring
+  ext <;> simp
 
 theorem sigma2_sigma2 (v : Coord n) : sigma2 k₀ (sigma2 k₀ v) = v := by
-  ext <;> simp <;> ring
+  ext <;> simp
 
 theorem sigma1_smul (a : ZMod (2 ^ n - 1)) (v : Coord n) : sigma1 m₀ (a • v) = a • sigma1 m₀ v := by
-  ext <;> simp <;> ring
+  ext <;> simp; ring
 
 theorem sigma2_smul (a : ZMod (2 ^ n - 1)) (v : Coord n) : sigma2 k₀ (a • v) = a • sigma2 k₀ v := by
-  ext <;> simp <;> ring
+  ext <;> simp; ring
 
 theorem sigma1_add (v w : Coord n) : sigma1 m₀ (v + w) = sigma1 m₀ v + sigma1 m₀ w := by
   ext <;> simp <;> ring
@@ -204,10 +204,10 @@ theorem sigma2_add (v w : Coord n) : sigma2 k₀ (v + w) = sigma2 k₀ v + sigma
   ext <;> simp <;> ring
 
 theorem sigma1_neg (v : Coord n) : sigma1 m₀ (-v) = -sigma1 m₀ v := by
-  ext <;> simp <;> ring
+  ext <;> simp; ring
 
 theorem sigma2_neg (v : Coord n) : sigma2 k₀ (-v) = -sigma2 k₀ v := by
-  ext <;> simp <;> ring
+  ext <;> simp; ring
 
 @[expose] def sigma1Perm : Equiv.Perm (Coord n) :=
   Function.Involutive.toPerm (sigma1 m₀) (sigma1_sigma1 m₀)
@@ -320,10 +320,10 @@ theorem sigma2_mPow (s : ℤ) (v : Coord n) :
 @[simp] theorem chi_snd : (chi k₀).2 = 1 := rfl
 
 theorem sigma1_psi : sigma1 m₀ (psi m₀) = -psi m₀ := by
-  ext <;> simp [psi] <;> ring
+  ext <;> simp [psi]; ring
 
 theorem sigma2_chi : sigma2 k₀ (chi k₀) = -chi k₀ := by
-  ext <;> simp [chi] <;> ring
+  ext <;> simp [chi]; ring
 
 theorem sigma2_psi : sigma2 k₀ (psi m₀) = -mPow k₀ m₀ 1 (psi m₀) := by
   rw [mPow_one, sigma1_psi, sigma2_neg, neg_neg]

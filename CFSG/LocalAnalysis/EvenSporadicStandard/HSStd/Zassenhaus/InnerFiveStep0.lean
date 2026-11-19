@@ -159,7 +159,6 @@ theorem mem_four_cases [Finite G] {V : Subgroup G} (hV : Nat.card V = 4) {a b : 
       simp only [f, Fin.zero_eta, Fin.mk_one, Fin.reduceFinMk, Matrix.cons_val_zero,
         Matrix.cons_val_one, Matrix.cons_val, Subtype.ext_iff] at hij ⊢ <;>
       first
-      | rfl
       | exact absurd hij ha1
       | exact absurd hij.symm ha1
       | exact absurd hij hb1

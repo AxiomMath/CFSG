@@ -118,7 +118,7 @@ theorem Cover217.exists_U0 {A E U : Subgroup G} {c : G} {L : Subgroup G}
     Subgroup.mem_centralizer_singleton_iff.2 (hEXcomm x hx a' ha'EX)
   obtain ⟨e₀, he₀, he₀D⟩ : ∃ e₀ ∈ EX, e₀ ∉ D := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     have : Nat.card EX ≤ Nat.card D := Subgroup.card_le_of_le (fun x hx => hno x hx)
     omega
   have he₀C : e₀ ∈ D ⊔ I' := by rw [hCeq]; exact hEXC he₀

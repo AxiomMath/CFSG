@@ -156,7 +156,7 @@ variable {K : Type} [Field K]
 
 theorem e6Cen_torV_injective (h3 : ω ^ 3 = 1) (h1 : ω ≠ 1) {x y : Fin Tag.E6.rank → ZMod 3}
     (h : torV ω x = torV ω y) : x = y := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hprim : IsPrimitiveRoot ω 3 := IsPrimitiveRoot.iff_orderOf.2 (orderOf_eq_prime h3 h1)
   funext i
   exact ZMod.val_injective 3 (hprim.pow_inj (ZMod.val_lt _) (ZMod.val_lt _) (congrFun h i))
@@ -402,7 +402,7 @@ theorem e6Cen_O1 [Finite K] (hK4 : 4 ≤ Nat.card K) (h3 : ω ^ 3 = 1) (h1 : ω 
       rw [hsx', e6CenTz_zero, e6Cen_torV_zero, OneMemClass.coe_one]
       exact Units.ext rootDiag_one
     · refine hs24 ?_
-      rw [hsx', e6PW_finrank_torV h3 h1, e6Cen_kerCount_Tz, e6CenTzKc, if_pos rfl, if_neg hac]
+      rw [hsx', e6PW_finrank_torV h3 h1, e6Cen_kerCount_Tz, e6CenTzKc, ite_eq_left rfl, ite_eq_right hac]
   obtain ⟨u', ⟨huE, hui⟩, hu'⟩ := e6Cen_exists_inner_notMem hE hEc hED hEi hs
   obtain ⟨a', b', c', rfl⟩ := hdiag _ huE hui
   have hspan : ∀ k : ZMod 3, ¬ (a' = k * a ∧ b' = k * b ∧ c' = k * c) := by

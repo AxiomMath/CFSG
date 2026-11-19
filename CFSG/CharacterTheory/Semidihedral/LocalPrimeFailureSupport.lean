@@ -34,7 +34,7 @@ theorem exists_sylow_of_isSylowIn [Finite G] {ell : ℕ} {H : Subgroup G} {M : S
   obtain ⟨Q₁, hQ₁⟩ := (hQp.comap_of_injective φ hφ).exists_le_sylow
   refine ⟨Q₁, ?_⟩
   rw [Subgroup.map_map]
-  refine hmax _ ?_ (Q₁.isPGroup'.map φ) ?_
+  refine hmax _ ?_ (Q₁.isPGroup.map φ) ?_
   · rw [← hrange]
     exact Subgroup.map_le_range φ _
   · calc Q = (Q.comap φ).map φ := (Subgroup.map_comap_eq_self (hQle.trans hrange.ge)).symm

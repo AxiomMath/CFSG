@@ -14,7 +14,7 @@ theorem exists_noncomm_of_simple_of_not_prime {G : Type*} [Group G] [IsSimpleGro
     (hp : ¬ (Nat.card G).Prime) : ∃ a b : G, a * b ≠ b * a := by
   by_contra h
   push Not at h
-  letI : CommGroup G := { (inferInstance : Group G) with mul_comm := fun a b => h a b }
+  let : CommGroup G := { (inferInstance : Group G) with mul_comm := fun a b => h a b }
   exact hp (IsSimpleGroup.prime_card (α := G))
 
 

@@ -198,7 +198,7 @@ theorem k517_4b_lin_of_setting_of_hall
     (e : (↥Ls ⧸ Subgroup.center ↥Ls) ≃*
       (TauCeti.CFSGIndex.lie
         (⟨TauCeti.LieTypeIndex.A m Q, hv⟩ : TauCeti.ValidLieTypeIndex)).Group)
-    {U : Subgroup ↥Ls} (hU2 : IsPGroup 2 U) (hUmax : CFSG.QuasithinUnique.IsSylowTwoOf U ⊤)
+    {U : Subgroup ↥Ls} (_hU2 : IsPGroup 2 U) (hUmax : CFSG.QuasithinUnique.IsSylowTwoOf U ⊤)
     (hqQ : q ∣ Q.card - 1)
     (hU : U = (gnImg T T ⊓ Ls).subgroupOf Ls)
     (hNB : ∀ Y : Subgroup (borelPre T Ls), IsSubnormal Y ⊤ → InClassXBlock Y → False)
@@ -326,7 +326,7 @@ theorem k517_4b_lin_of_top_of_hall
   have hB : BY.Normal := by
     dsimp only [BY]
     exact Subgroup.normal_subgroupOf_of_le_normalizer hYnorm
-  haveI : BY.Normal := hB
+  have : BY.Normal := hB
   have hT2 : IsPGroup 2 (gnImg T T) := hX.sylow.2.1.map (QuotientGroup.mk' (gnC T))
   let q' : ↥(gnImg T T) →* (↥Y ⧸ BY) :=
     (QuotientGroup.mk' BY).comp (Subgroup.inclusion hT_le_Y)

@@ -46,7 +46,7 @@ private theorem exists_perfect_le_centralizer_c₀_six_of_hom [Finite K] (hK : N
     rw [Subgroup.mem_centralizer_singleton_iff]
     apply Subtype.ext
     apply Units.ext
-    simp only [Subgroup.coe_mul, Units.val_mul, Units.coe_map]
+    simp only [Subgroup.coe_mul, Units.val_mul]
     exact hc U
   · have hJ : ψ.range = (⊤ : Subgroup (Matrix.SpecialLinearGroup (Fin 3) K)).map ψ :=
       MonoidHom.range_eq_map ψ
@@ -91,17 +91,17 @@ theorem exists_perfect_le_centralizer_c₀_six_weight_one [Finite K] (hK : Nat.c
     ext p k
     rw [Matrix.toBlocks₁₂, Matrix.of_apply, hM, hρ, hρ, Matrix.zero_apply]
     fin_cases p <;> fin_cases k <;>
-      simp [X, Matrix.blockDiagonal_apply, hv, blockPowGL_zero, Matrix.one_apply]
+      simp [X, Matrix.blockDiagonal_apply, hv, blockPowGL_zero]
   have h21 : N.toBlocks₂₁ = 0 := by
     ext k p
     rw [Matrix.toBlocks₂₁, Matrix.of_apply, hM, hρ, hρ, Matrix.zero_apply]
     fin_cases k <;> fin_cases p <;>
-      simp [X, Matrix.blockDiagonal_apply, hv, blockPowGL_zero, Matrix.one_apply]
+      simp [X, Matrix.blockDiagonal_apply, hv, blockPowGL_zero]
   have h22 : N.toBlocks₂₂ = 1 := by
     ext t t'
     rw [Matrix.toBlocks₂₂, Matrix.of_apply, hM, hρ, hρ]
     fin_cases t <;> fin_cases t' <;>
-      simp [X, Matrix.blockDiagonal_apply, hv, blockPowGL_zero, Matrix.one_apply]
+      simp [X, Matrix.blockDiagonal_apply, hv, blockPowGL_zero]
   have hNb : N = fromBlocks N.toBlocks₁₁ 0 0 1 := by
     conv_lhs => rw [← Matrix.fromBlocks_toBlocks N]
     rw [h12, h21, h22]

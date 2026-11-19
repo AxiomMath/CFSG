@@ -54,7 +54,7 @@ private lemma wcgapa2_wMat_mem_centralizer (c : F) :
   fin_cases i <;> fin_cases j <;>
     simp [LinearFieldFour.coe_wMat, LinearFieldFour.wM, Matrix.mul_apply,
       Fin.sum_univ_three, hu.2 0, hu.2 1, hu.2 2, hu.1 1 0 (by decide),
-      hu.1 2 0 (by decide), hu.1 2 1 (by decide)] <;> ring
+      hu.1 2 0 (by decide), hu.1 2 1 (by decide)]; ring
 
 private lemma wcgapa2_xMat_mem_unitriangular (a : F) :
     LinearFieldFour.xMat a ∈ LinearFlag.unitriangular 3 F := by
@@ -98,15 +98,13 @@ private lemma wcgapa2_mem_inf_centralizer_imp (u : Matrix.SpecialLinearGroup (Fi
     have h := congrFun (congrFun (congrArg (fun A : Matrix.SpecialLinearGroup (Fin 3) F =>
       (A : Matrix (Fin 3) (Fin 3) F)) hx) 0) 2
     rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_mul, hu_eq] at h
-    simp [LinearFieldFour.xMat, LinearFieldFour.xM, Matrix.SpecialLinearGroup.coe_mk,
-      Matrix.mul_fin_three] at h
+    simp [LinearFieldFour.xMat, LinearFieldFour.xM, Matrix.SpecialLinearGroup.coe_mk] at h
     exact h
   have h01 : (u : Matrix (Fin 3) (Fin 3) F) 0 1 = 0 := by
     have h := congrFun (congrFun (congrArg (fun A : Matrix.SpecialLinearGroup (Fin 3) F =>
       (A : Matrix (Fin 3) (Fin 3) F)) hy) 0) 2
     rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_mul, hu_eq] at h
-    simp [LinearFieldFour.yMat, LinearFieldFour.yM, Matrix.SpecialLinearGroup.coe_mk,
-      Matrix.mul_fin_three] at h
+    simp [LinearFieldFour.yMat, LinearFieldFour.yM, Matrix.SpecialLinearGroup.coe_mk] at h
     exact h
   refine ⟨(u : Matrix (Fin 3) (Fin 3) F) 0 2, ?_⟩
   apply Subtype.ext
@@ -220,7 +218,7 @@ end Conj
 theorem a2KleinData_slThree {F : Type} [Field F] [Finite F] (hF : Nat.card F = 4)
     (S : Sylow 2 (Matrix.SpecialLinearGroup (Fin 3) F)) :
     A2KleinData (S : Subgroup (Matrix.SpecialLinearGroup (Fin 3) F)) := by
-  haveI : CharP F 2 := LinearFieldFour.charP_two_of_card_eq_four hF
+  have : CharP F 2 := LinearFieldFour.charP_two_of_card_eq_four hF
   obtain ⟨P₀, hP₀⟩ := LinearFlag.exists_sylow_unitriangular (K := F) 2 (n := 3) (by norm_num)
   have hU : A2KleinData (LinearFlag.unitriangular 3 F :
       Subgroup (Matrix.SpecialLinearGroup (Fin 3) F)) :=

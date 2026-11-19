@@ -144,8 +144,8 @@ theorem pk_selM (b : Bool) (g : M22) :
     pkw 5 ((selM b g : M22) : Perm (Fin 22)) = if b then pkw 5 (g : Perm (Fin 22)) else pI := by
   unfold selM
   cases b
-  · rw [if_neg (by decide), if_neg (by decide), OneMemClass.coe_one, pk_one']
-  · rw [if_pos rfl, if_pos rfl]
+  · rw [ite_eq_right (by decide), ite_eq_right (by decide), OneMemClass.coe_one, pk_one']
+  · rw [ite_eq_left rfl, ite_eq_left rfl]
 
 theorem pk_gen : ∀ j : Fin 5, pkw 5 ((gen j : M22) : Perm (Fin 22)) = gL.getD j.val 0 := by
   intro j
@@ -183,8 +183,8 @@ theorem coe_evalW (f : Fin 5 → M22) : ∀ w : List (Fin 5 × Bool),
     unfold evalW at ih ⊢
     rw [List.map_cons, List.prod_cons, List.map_cons, List.prod_cons, Subgroup.coe_mul, ih]
     cases x.2
-    · simp only [cond_false, Subgroup.coe_inv]
-    · simp only [cond_true]
+    · simp only [Bool.cond_false, Subgroup.coe_inv]
+    · simp only [_root_.Bool.cond_true]
 
 theorem evalW_cons (f : Fin 5 → Perm (Fin 22)) (x : Fin 5 × Bool) (w : List (Fin 5 × Bool)) :
     evalW f (x :: w) = cond x.2 (f x.1) (f x.1)⁻¹ * evalW f w := by
@@ -194,8 +194,8 @@ theorem evalW_cons (f : Fin 5 → Perm (Fin 22)) (x : Fin 5 × Bool) (w : List (
 theorem pkw_cond (f : Fin 5 → Perm (Fin 22)) (b : Bool) (j : Fin 5) :
     pkw 5 (cond b (f j) (f j)⁻¹) = cond b (pkw 5 (f j)) (pkw 5 (f j)⁻¹) := by
   cases b
-  · rw [cond_false, cond_false]
-  · rw [cond_true, cond_true]
+  · rw [Bool.cond_false, Bool.cond_false]
+  · rw [_root_.Bool.cond_true, _root_.Bool.cond_true]
 
 theorem pkw_evalW (f : Fin 5 → Perm (Fin 22)) (w : List (Fin 5 × Bool)) :
     pkw 5 (evalW f w) = pevT (fun j => pkw 5 (f j)) (fun j => pkw 5 (f j)⁻¹) w := by

@@ -74,7 +74,7 @@ theorem sec10Z_isolated [Finite G] {S : Subgroup G} {t z : G} (hS : IsSylow2Of S
   let E : Subgroup G := Subgroup.closure ({t, u, z} : Set G)
   have hcomm_gen : ({t, u, z} : Set G).Pairwise Commute :=
     fun a ha b hb _ => hcomm_all a ha b hb
-  haveI : IsMulCommutative E := isMulCommutative_closure hcomm_gen
+  have : IsMulCommutative E := isMulCommutative_closure hcomm_gen
   have hsq : ∀ x ∈ E, x * x = 1 := by
     intro x hx
     refine Subgroup.closure_induction (p := fun y _ => y * y = 1) ?_ ?_ ?_ ?_ hx

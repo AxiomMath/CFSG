@@ -52,7 +52,7 @@ lemma fz21b_V_sq_one : ∀ v ∈ fz21b_V, v ^ 2 = 1 := by decide
 lemma fz21b_V_le_of_normal {M : Subgroup FzSigma4} (hM : M.Normal)
     (hcard : 1 < Nat.card M) : fz21b_V ≤ M := by
   classical
-  haveI : Fintype M := Fintype.ofFinite M
+  have : Fintype M := Fintype.ofFinite M
   have hcard' : 1 < Fintype.card M := by rwa [Nat.card_eq_fintype_card] at hcard
   obtain ⟨y, hy1⟩ := Fintype.exists_ne_of_one_lt_card hcard' (1 : M)
   have hyM : (y : FzSigma4) ∈ M := y.2
@@ -87,7 +87,7 @@ lemma fz21b_V_le_of_normal {M : Subgroup FzSigma4} (hM : M.Normal)
         show fz21b_S01 * fz21b_S23 ∈ M
         exact M.mul_mem hS01 hS23
       exact key fz21b_D1 (by decide) hD
-    · push_neg at hfix
+    · push Not at hfix
       exact key (y : FzSigma4) ⟨h2, fun i => hfix i⟩ hyM
   · obtain ⟨h3pow, h3ne⟩ := h3
     have hconj : (∃ g, g * (y : FzSigma4) * g⁻¹ = fz21b_C012) ∧
@@ -113,7 +113,7 @@ lemma fz21b_range_card_le_two {G : Type*} [CommGroup G] (H : Subgroup G) (A : Su
   have hcomp : ψ'.comp (QuotientGroup.mk' A) = ψ := QuotientGroup.lift_comp_mk' A ψ hker
   have hrange : ψ.range = ψ'.range := by
     rw [← hcomp, MonoidHom.range_comp, QuotientGroup.range_mk', Subgroup.map_top]
-  haveI : Finite (H ⧸ A) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite (H ⧸ A) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   calc Nat.card ψ.range = Nat.card ψ'.range := by rw [hrange]
     _ ≤ Nat.card (H ⧸ A) :=
         Nat.card_le_card_of_surjective ψ'.rangeRestrict ψ'.rangeRestrict_surjective

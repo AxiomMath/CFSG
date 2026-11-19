@@ -1308,7 +1308,7 @@ private theorem centralizer_isPGroup_of_minimal_failure
           (p := p) (r := d) H hHnormal hHp x hcomm hxout hmin R)
     have hRGnormal : RG.Normal := Subgroup.normalizer_eq_top_iff.mp hnormtop
     have hRGd : IsPGroup d RG := by
-      simpa [RG] using IsPGroup.map R.isPGroup' C.subtype
+      simpa [RG] using IsPGroup.map R.isPGroup C.subtype
     rcases IsPGroup.iff_card.mp hRGd with ⟨n, hn⟩
     have hpd_cop : Nat.Coprime p d := by
       apply (Nat.Prime.coprime_iff_not_dvd (Fact.out : Nat.Prime p)).mpr
@@ -1746,7 +1746,7 @@ private theorem exists_baer_Gstar_not_pGroup
         rw [sup_bot_eq]
         congr 1
         ext z
-        simp [q, eq_comm]
+        simp [q]
   have hrange : f.range =
       Subgroup.closure
         {QuotientGroup.mk' C x, QuotientGroup.mk' C xw} := by
@@ -1970,7 +1970,7 @@ private theorem minimal_bad_witness_Gstar_eq_top
     rw [MonoidHom.map_closure]
     congr 1
     ext y
-    simp [qstar, eq_comm]
+    simp [qstar]
   have hDstarMap : Dstar.map qstar = ⊥ := by
     change Dstar.map (QuotientGroup.mk' Dstar) = ⊥
     exact QuotientGroup.map_mk'_self Dstar
@@ -2089,7 +2089,7 @@ private theorem minimal_bad_witness_lemma6_2_data
         rw [sup_bot_eq]
         congr 1
         ext z
-        simp [q, eq_comm]
+        simp [q]
   have hTopMap : (⊤ : Subgroup Q).map q = ⊤ := by
     ext y
     constructor

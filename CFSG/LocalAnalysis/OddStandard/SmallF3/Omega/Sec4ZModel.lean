@@ -21,7 +21,7 @@ private theorem sec4Z_factorization_27648 : Nat.factorization 27648 2 = 10 := by
 theorem sec4Z_exists_central_four_plus (Q : Sylow 2 (ProjOrth Sec4IQ)) :
     ∃ z : ProjOrth Sec4IQ, HasType z 4 1 ∧ z ∈ (Q : Subgroup (ProjOrth Sec4IQ)) ∧
       ∀ q ∈ (Q : Subgroup (ProjOrth Sec4IQ)), q * z = z * q := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨x₀, hx₀⟩ := exists_hasType_seven sec4IQ_nondegenerate sec4IQ_finrank
     (Or.inr (Or.inl rfl)) (1 : ℤˣ)
   have hxx : x₀ * x₀ = 1 := by

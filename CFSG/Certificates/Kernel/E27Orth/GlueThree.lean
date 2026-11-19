@@ -111,7 +111,7 @@ theorem syl_glue {L H CM RM ONE LV HV nR : ℕ} {G Y E Tr Ss W Rp Cm : ℕ → �
   let g : ℕ → ↥Om := fun j => if h : j < 3 then (hex j h).choose else 1
   have hg : ∀ j < 3, matO7 (g j) = ordMat 3 7 6 42 (G j) := by
     intro j hj
-    simp only [g, dif_pos hj]
+    simp only [g, dite_eq_left hj]
     exact (hex j hj).choose_spec
   have hle : Nat.card (gS 3 g) ≤ 19683 := by
     refine (card_le_of_lowerUni (m := 3) fun j hj => ?_).trans (by norm_num)
@@ -119,7 +119,7 @@ theorem syl_glue {L H CM RM ONE LV HV nR : ℕ} {G Y E Tr Ss W Rp Cm : ℕ → �
     have e : ∀ a b : Fin 7, a ≤ b → ordMat 3 7 6 42 (G j) a b = (1 : Matrix (Fin 7) (Fin 7) (ZMod 3)) a b := by
       intro a b hab
       have := congrFun (congrFun (hlu ⟨j, hj⟩) a) b
-      rwa [Matrix.of_apply, if_pos hab] at this
+      rwa [Matrix.of_apply, ite_eq_left hab] at this
     refine ⟨fun a b hab => ?_, fun a => ?_⟩
     · rw [e a b hab.le, Matrix.one_apply_ne (ne_of_lt hab)]
     · rw [e a a le_rfl, Matrix.one_apply_eq]

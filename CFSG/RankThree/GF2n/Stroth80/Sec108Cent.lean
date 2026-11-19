@@ -13,10 +13,12 @@ variable {𝓜 : Type} [Group 𝓜] [Finite 𝓜] {K : Type} [Field K] [Finite K
   {L R N Y : Subgroup 𝓜} {ρ : ↥R →* GL (Fin 3) K} {μ : ↥N →* Multiplicative (Fin 3 → K)}
   {T : ↥(NLY L Y) →* AddMonoid.End (Fin 3 → K)}
 
+omit [Finite 𝓜] in
 private theorem rho_eq_one_iff_mem_N (hC : Levi108 K L R N Y ρ μ T) {r : 𝓜} (hr : r ∈ R) :
     ρ ⟨r, hr⟩ = 1 ↔ r ∈ N := by
   rw [← MonoidHom.mem_ker, hC.ker_rho, Subgroup.mem_subgroupOf]
 
+omit [Finite 𝓜] in
 private theorem conj_mem_N_of_mem_L (hC : Levi108 K L R N Y ρ μ T) {l n : 𝓜}
     (hl : l ∈ L) (hn : n ∈ N) : l * n * l⁻¹ ∈ N := by
   have hlR : l ∈ R := hC.L_le_R hl
@@ -29,6 +31,7 @@ private theorem conj_mem_N_of_mem_L (hC : Levi108 K L R N Y ρ μ T) {l n : 𝓜
   rw [hn1]
   simp
 
+omit [Finite 𝓜] in
 private theorem mu_conj_L_eq (hC : Levi108 K L R N Y ρ μ T) {l n : 𝓜} (hl : l ∈ L)
     {u : Fin 3 → K} (hu0 : u 0 = 0)
     (hu : (ρ ⟨l, hC.L_le_R hl⟩ : Matrix (Fin 3) (Fin 3) K) =
@@ -38,6 +41,7 @@ private theorem mu_conj_L_eq (hC : Levi108 K L R N Y ρ μ T) {l n : 𝓜} (hl :
       Multiplicative.toAdd (μ ⟨n, hn⟩) - Multiplicative.toAdd (μ ⟨n, hn⟩) 0 • u :=
   hC.mu_conj_L hl hu0 hu hn (conj_mem_N_of_mem_L hC hl hn)
 
+omit [Finite 𝓜] in
 private theorem mem_N_of_commutator_eq_one (hC : Levi108 K L R N Y ρ μ T) {l n : 𝓜}
     (hl : l ∈ L) (hn : n ∈ N) (hnL : n ∉ L) (hc : ⁅l, n⁆ = 1) : l ∈ N := by
   obtain ⟨u, hu0, hu⟩ := hC.rho_L l hl
@@ -81,6 +85,7 @@ private theorem mem_N_of_commutator_eq_one (hC : Levi108 K L R N Y ρ μ T) {l n
     simpa using congrFun₂ hmat i j
   exact (rho_eq_one_iff_mem_N hC (hC.L_le_R hl)).mp hrho
 
+omit [Finite 𝓜] in
 private theorem commutator_eq_one_of_mem_N (hC : Levi108 K L R N Y ρ μ T) {l n : 𝓜}
     (hlN : l ∈ N) (hn : n ∈ N) : ⁅l, n⁆ = 1 := by
   have hNcomm : N ≤ Subgroup.centralizer (N : Set 𝓜) :=
@@ -89,11 +94,13 @@ private theorem commutator_eq_one_of_mem_N (hC : Levi108 K L R N Y ρ μ T) {l n
   rw [commutatorElement_def, ← hcomm]
   group
 
+omit [Finite 𝓜] in
 private theorem commutator_eq_one_iff_mem_N (hC : Levi108 K L R N Y ρ μ T) {l n : 𝓜}
     (hl : l ∈ L) (hn : n ∈ N) (hnL : n ∉ L) : ⁅l, n⁆ = 1 ↔ l ∈ N :=
   ⟨mem_N_of_commutator_eq_one hC hl hn hnL, fun hlN =>
     commutator_eq_one_of_mem_N hC hlN hn⟩
 
+omit [Finite 𝓜] in
 private theorem exists_mem_N_not_mem_L (hC : Levi108 K L R N Y ρ μ T) :
     ∃ n ∈ N, n ∉ L := by
   obtain ⟨x, hx⟩ := hC.surjective_mu
@@ -102,8 +109,9 @@ private theorem exists_mem_N_not_mem_L (hC : Levi108 K L R N Y ρ μ T) :
   have h0 : Multiplicative.toAdd (μ x) 0 = 0 :=
     (hC.mem_L_iff_mu (x : 𝓜) x.2).mp hxL
   rw [hx] at h0
-  simpa using h0
+  simp at h0
 
+omit [Finite 𝓜] in
 private theorem commute_iff_mem_N_of_mem_L (hC : Levi108 K L R N Y ρ μ T) {n l : 𝓜}
     (hn : n ∈ N) (hnL : n ∉ L) (hl : l ∈ L) : l * n = n * l ↔ l ∈ N := by
   constructor
@@ -140,6 +148,7 @@ private theorem commute_of_commute_mul_of_commute {G : Type*} [Group G] {a b c :
       _ = b * (c * a) := by rw [mul_assoc]
   exact mul_left_cancel h
 
+omit [Finite 𝓜] in
 private theorem mem_Nfrak_iff (hC : Levi108 K L R N Y ρ μ T) (g : ↥(NL L)) :
     mkG L g ∈ Nfrak L Y ↔ (g : 𝓜) ∈ Subgroup.normalizer (Y : Set 𝓜) := by
   unfold Nfrak
@@ -168,20 +177,23 @@ private theorem commute_of_commute_mul_of_commute_right {G : Type*} [Group G] {a
       _ = b * a * c := by rw [mul_assoc]
   exact mul_right_cancel h
 
+omit [Finite 𝓜] in
 private theorem N_normal_subgroupOf_R (hC : Levi108 K L R N Y ρ μ T) :
     (N.subgroupOf R).Normal := by
   rw [← hC.ker_rho]
   exact MonoidHom.normal_ker ρ
 
+omit [Finite 𝓜] in
 private theorem conj_mem_N_of_mem_R (hC : Levi108 K L R N Y ρ μ T) {r n : 𝓜}
     (hr : r ∈ R) (hn : n ∈ N) : r * n * r⁻¹ ∈ N := by
-  letI : (N.subgroupOf R).Normal := N_normal_subgroupOf_R hC
+  let : (N.subgroupOf R).Normal := N_normal_subgroupOf_R hC
   have hnR : n ∈ R := hC.N_le_R hn
   have hconj : (⟨r, hr⟩ * ⟨n, hnR⟩ * ⟨r, hr⟩⁻¹ : ↥R) ∈ N.subgroupOf R :=
     Subgroup.Normal.conj_mem (inferInstance : (N.subgroupOf R).Normal)
       ⟨n, hnR⟩ (Subgroup.mem_subgroupOf.mpr hn) ⟨r, hr⟩
   exact Subgroup.mem_subgroupOf.mp hconj
 
+omit [Finite 𝓜] in
 private theorem matrix_conj_eq_of_fixed (hC : Levi108 K L R N Y ρ μ T) {l : 𝓜}
     (hl : l ∈ L) {g : ↥(NL L)} (hgR : (g : 𝓜) ∈ R)
     (hfixg : (g : 𝓜) * l * (g : 𝓜)⁻¹ = l) :
@@ -218,7 +230,8 @@ private theorem first_col_eq_e0 (hC : Levi108 K L R N Y ρ μ T) {g : ↥(NL L)}
   funext i
   fin_cases i <;> simp [e₀, Matrix.col_apply, h00, h10, h20]
 
-private theorem vecMul_inv_eq_self_of_matrix_conj (hC : Levi108 K L R N Y ρ μ T)
+omit [Finite 𝓜] in
+private theorem vecMul_inv_eq_self_of_matrix_conj (_hC : Levi108 K L R N Y ρ μ T)
     {g : ↥(NL L)} (hgR : (g : 𝓜) ∈ R) {u : Fin 3 → K}
     (hmat : (ρ ⟨(g : 𝓜), hgR⟩ : Matrix (Fin 3) (Fin 3) K) *
         (1 + Matrix.vecMulVec (e₀ K) u) *
@@ -229,13 +242,11 @@ private theorem vecMul_inv_eq_self_of_matrix_conj (hC : Levi108 K L R N Y ρ μ 
   have hgl : (ρ ⟨(g : 𝓜), hgR⟩ : Matrix (Fin 3) (Fin 3) K) *
       (ρ ⟨(g : 𝓜), hgR⟩ : Matrix (Fin 3) (Fin 3) K)⁻¹ = 1 := by
     rw [← Matrix.GeneralLinearGroup.coe_inv]
-    simpa using congrArg (fun x : GL (Fin 3) K => (x : Matrix (Fin 3) (Fin 3) K))
-      (mul_inv_cancel (ρ ⟨(g : 𝓜), hgR⟩))
+    simp
   have hgl' : (ρ ⟨(g : 𝓜), hgR⟩ : Matrix (Fin 3) (Fin 3) K)⁻¹ *
       (ρ ⟨(g : 𝓜), hgR⟩ : Matrix (Fin 3) (Fin 3) K) = 1 := by
     rw [← Matrix.GeneralLinearGroup.coe_inv]
-    simpa using congrArg (fun x : GL (Fin 3) K => (x : Matrix (Fin 3) (Fin 3) K))
-      (inv_mul_cancel (ρ ⟨(g : 𝓜), hgR⟩))
+    simp
   have hexp : (ρ ⟨(g : 𝓜), hgR⟩ : Matrix (Fin 3) (Fin 3) K) *
       (1 + Matrix.vecMulVec (e₀ K) u) *
       (ρ ⟨(g : 𝓜), hgR⟩ : Matrix (Fin 3) (Fin 3) K)⁻¹ =
@@ -271,6 +282,7 @@ private theorem vecMul_inv_eq_self_of_matrix_conj (hC : Levi108 K L R N Y ρ μ 
     simpa [e₀, Matrix.vecMulVec] using h
   exact hrow
 
+omit [Finite 𝓜] in
 private theorem vecMul_eq_self_of_matrix_conj (hC : Levi108 K L R N Y ρ μ T) {g : ↥(NL L)}
     (hgR : (g : 𝓜) ∈ R) {u : Fin 3 → K}
     (hmat : (ρ ⟨(g : 𝓜), hgR⟩ : Matrix (Fin 3) (Fin 3) K) *
@@ -283,8 +295,7 @@ private theorem vecMul_eq_self_of_matrix_conj (hC : Levi108 K L R N Y ρ μ T) {
   have hgl' : (ρ ⟨(g : 𝓜), hgR⟩ : Matrix (Fin 3) (Fin 3) K)⁻¹ *
       (ρ ⟨(g : 𝓜), hgR⟩ : Matrix (Fin 3) (Fin 3) K) = 1 := by
     rw [← Matrix.GeneralLinearGroup.coe_inv]
-    simpa using congrArg (fun x : GL (Fin 3) K => (x : Matrix (Fin 3) (Fin 3) K))
-      (inv_mul_cancel (ρ ⟨(g : 𝓜), hgR⟩))
+    simp
   have hrow' : u ᵥ* (ρ ⟨(g : 𝓜), hgR⟩ : Matrix (Fin 3) (Fin 3) K) = u := by
     have h1 : (u ᵥ* (ρ ⟨(g : 𝓜), hgR⟩ : Matrix (Fin 3) (Fin 3) K)⁻¹) ᵥ*
         (ρ ⟨(g : 𝓜), hgR⟩ : Matrix (Fin 3) (Fin 3) K) =
@@ -323,7 +334,8 @@ private theorem row_fixed_by_X (hC : Levi108 K L R N Y ρ μ T) {l : 𝓜} (hl :
   rw [hleft] at h
   exact h
 
-private theorem vecMul_eq_self_of_inv_transpose_conj (hC : Levi108 K L R N Y ρ μ T)
+omit [Finite 𝓜] in
+private theorem vecMul_eq_self_of_inv_transpose_conj (_hC : Levi108 K L R N Y ρ μ T)
     {g : ↥(NL L)} (hgR : (g : 𝓜) ∈ R) {v : Fin 3 → K}
     (hmuc' : v = (((ρ ⟨(g : 𝓜), hgR⟩)⁻¹ : GL (Fin 3) K) :
       Matrix (Fin 3) (Fin 3) K)ᵀ *ᵥ v) :
@@ -337,8 +349,7 @@ private theorem vecMul_eq_self_of_inv_transpose_conj (hC : Levi108 K L R N Y ρ 
   have hgl' : (ρ ⟨(g : 𝓜), hgR⟩ : Matrix (Fin 3) (Fin 3) K)⁻¹ *
       (ρ ⟨(g : 𝓜), hgR⟩ : Matrix (Fin 3) (Fin 3) K) = 1 := by
     rw [← Matrix.GeneralLinearGroup.coe_inv]
-    simpa using congrArg (fun x : GL (Fin 3) K => (x : Matrix (Fin 3) (Fin 3) K))
-      (inv_mul_cancel (ρ ⟨(g : 𝓜), hgR⟩))
+    simp
   have hrow' : v ᵥ* (ρ ⟨(g : 𝓜), hgR⟩ : Matrix (Fin 3) (Fin 3) K) = v := by
     have h1 : (v ᵥ* (ρ ⟨(g : 𝓜), hgR⟩ : Matrix (Fin 3) (Fin 3) K)⁻¹) ᵥ*
         (ρ ⟨(g : 𝓜), hgR⟩ : Matrix (Fin 3) (Fin 3) K) =
@@ -384,6 +395,7 @@ private theorem mu_row_fixed_by_X (hC : Levi108 K L R N Y ρ μ T) {l : 𝓜} (h
   rw [hleft] at h
   exact h
 
+omit [Finite 𝓜] in
 private theorem Y_le_L (hC : Levi108 K L R N Y ρ μ T) : Y ≤ L := by
   intro y hy
   have hyN : y ∈ N := hC.Y_le_N hy
@@ -394,12 +406,14 @@ private theorem Y_le_L (hC : Levi108 K L R N Y ρ μ T) : Y ≤ L := by
     exact MonoidHom.mem_ker.mp hmem
   exact (hC.mem_L_iff_mu y hyN).mpr (by rw [hy1]; rfl)
 
+omit [Finite 𝓜] in
 private theorem mem_Yhat_iff (hC : Levi108 K L R N Y ρ μ T) (x : ↥(NL L)) :
     mkG L x ∈ Yhat L N ↔ (x : 𝓜) ∈ N ⊔ L := by
   unfold Yhat
   rw [← Subgroup.mem_comap, Subgroup.comap_map_eq, QuotientGroup.ker_mk',
     ← Subgroup.subgroupOf_sup hC.N_le_NL Subgroup.le_normalizer, Subgroup.mem_subgroupOf]
 
+omit [Finite 𝓜] in
 private theorem N_normal_in_sup (hC : Levi108 K L R N Y ρ μ T) :
     (N.subgroupOf (N ⊔ L)).Normal := by
   have hNR : (N.subgroupOf R).Normal := by
@@ -414,7 +428,7 @@ private theorem exists_mul_of_mem_sup_of_normal {G : Type*} [Group G] {N L K : S
     (hNK : N ≤ K) (hLK : L ≤ K) (hKL : K ≤ N ⊔ L)
     (hN : (N.subgroupOf K).Normal) {y : G} (hy : y ∈ K) :
     ∃ n ∈ N, ∃ l ∈ L, n * l = y := by
-  letI : (N.subgroupOf K).Normal := hN
+  let : (N.subgroupOf K).Normal := hN
   have htop : (N.subgroupOf K) ⊔ (L.subgroupOf K) = ⊤ := by
     rw [← Subgroup.subgroupOf_sup hNK hLK, Subgroup.subgroupOf_eq_top.mpr hKL]
   have hyK : (⟨y, hy⟩ : ↥K) ∈ (N.subgroupOf K) ⊔ (L.subgroupOf K) := by
@@ -426,7 +440,8 @@ private theorem exists_mul_of_mem_sup_of_normal {G : Type*} [Group G] {N L K : S
   have := congrArg (fun z : ↥K => (z : G)) hnl
   simpa using this
 
-private theorem exists_l0_of_centralizing (hC : Levi108 K L R N Y ρ μ T) {g n : ↥(NL L)}
+omit [Finite 𝓜] in
+private theorem exists_l0_of_centralizing (_hC : Levi108 K L R N Y ρ μ T) {g n : ↥(NL L)}
     (hcomm : mkG L g * mkG L n = mkG L n * mkG L g) :
     ∃ l₀ ∈ L, (g : 𝓜) * (n : 𝓜) * (g : 𝓜)⁻¹ = l₀ * (n : 𝓜) := by
   have hker : mkG L (g * n * g⁻¹ * n⁻¹) = 1 := by
@@ -440,6 +455,7 @@ private theorem exists_l0_of_centralizing (hC : Levi108 K L R N Y ρ μ T) {g n 
   refine ⟨(g : 𝓜) * (n : 𝓜) * (g : 𝓜)⁻¹ * (n : 𝓜)⁻¹, hmemL, ?_⟩
   group
 
+omit [Finite 𝓜] in
 private theorem conj_mem_inf_of_conj_eq (hC : Levi108 K L R N Y ρ μ T) {g n : ↥(NL L)}
     (hnN : (n : 𝓜) ∈ N) (hnL : (n : 𝓜) ∉ L) {l₀ : 𝓜} (hl₀ : l₀ ∈ L)
     (hconjN : (g : 𝓜) * (n : 𝓜) * (g : 𝓜)⁻¹ = l₀ * (n : 𝓜)) :
@@ -496,6 +512,7 @@ theorem Levi108.centralizer_le_Nfrak (hC : Levi108 K L R N Y ρ μ T) {r : GG L}
     mem_normalizer_of_conj_mem hmem_inf
   exact (mem_Nfrak_iff hC g).mpr (hC.normalizer_inf_le hgN)
 
+omit [Finite 𝓜] in
 private theorem conj_mem_sup_of_mem_normalizer_Yhat (hC : Levi108 K L R N Y ρ μ T)
     (g : ↥(NL L)) (hk : mkG L g ∈ Subgroup.normalizer (Yhat L N : Set (GG L))) :
     ∀ x ∈ (N ⊔ L : Subgroup 𝓜), (g : 𝓜) * x * (g : 𝓜)⁻¹ ∈ N ⊔ L := by
@@ -510,6 +527,7 @@ private theorem conj_mem_sup_of_mem_normalizer_Yhat (hC : Levi108 K L R N Y ρ �
     rw [map_mul, map_mul, map_inv]
   exact (mem_Yhat_iff hC (g * ⟨x, hxNL⟩ * g⁻¹)).mp (hval ▸ hy)
 
+omit [Finite 𝓜] in
 private theorem exists_conj_n0_decomp (hC : Levi108 K L R N Y ρ μ T) (g : ↥(NL L))
     (hgK : (g : 𝓜) ∈ Subgroup.normalizer ((N ⊔ L : Subgroup 𝓜) : Set 𝓜))
     (n₀ : 𝓜) (hn₀N : n₀ ∈ N) (hn₀L : n₀ ∉ L) :
@@ -532,8 +550,9 @@ private theorem exists_conj_n0_decomp (hC : Levi108 K L R N Y ρ μ T) (g : ↥(
   intro hn₁
   exact hgn₀L (by rw [← hn₁l₁]; exact L.mul_mem hn₁ hl₁L)
 
+omit [Finite 𝓜] in
 private theorem conj_mem_inf_of_normalizes_sup (hC : Levi108 K L R N Y ρ μ T) (g : ↥(NL L))
-    {n₀ n₁ l₁ : 𝓜} (hn₀N : n₀ ∈ N) (hn₀L : n₀ ∉ L) (hn₁N : n₁ ∈ N)
+    {n₀ n₁ l₁ : 𝓜} (hn₀N : n₀ ∈ N) (_hn₀L : n₀ ∉ L) (hn₁N : n₁ ∈ N)
     (hl₁L : l₁ ∈ L) (hn₁L : n₁ ∉ L)
     (hn₁l₁ : n₁ * l₁ = (g : 𝓜) * n₀ * (g : 𝓜)⁻¹) :
     ∀ x ∈ L ⊓ N, (g : 𝓜) * x * (g : 𝓜)⁻¹ ∈ L ⊓ N := by
@@ -660,6 +679,7 @@ theorem Levi108.fix_Xlevi_iff (hC : Levi108 K L R N Y ρ μ T) {l : 𝓜} (hl : 
     calc (g : 𝓜) * l * (g : 𝓜)⁻¹ = l * (g : 𝓜) * (g : 𝓜)⁻¹ := by rw [hcomm]
       _ = l := by rw [mul_assoc, mul_inv_cancel, mul_one]
 
+omit [Finite 𝓜] in
 private theorem conj_transport_of_centralizes_X (hC : Levi108 K L R N Y ρ μ T)
     {g : ↥(NL L)} (hk : mkG L g ∈ Kfrak L R) {x : ↥(NL L)} (hxX : mkG L x ∈ Xlevi L R)
     {y : 𝓜} (hyL : y ∈ L) :
@@ -692,9 +712,10 @@ private theorem conj_transport_of_centralizes_X (hC : Levi108 K L R N Y ρ μ T)
         rw [hly]
         group
 
+omit [Finite 𝓜] in
 private theorem fixed_by_X_of_centralizes_X (hC : Levi108 K L R N Y ρ μ T)
     {g : ↥(NL L)} (hk : mkG L g ∈ Kfrak L R) {y : 𝓜} (hy : y ∈ Y) (hyL : y ∈ L)
-    (hgyL : (g : 𝓜) * y * (g : 𝓜)⁻¹ ∈ L) :
+    (_hgyL : (g : 𝓜) * y * (g : 𝓜)⁻¹ ∈ L) :
     ∀ x : ↥(NL L), mkG L x ∈ Xlevi L R →
       (x : 𝓜) * ((g : 𝓜) * y * (g : 𝓜)⁻¹) * (x : 𝓜)⁻¹ =
         (g : 𝓜) * y * (g : 𝓜)⁻¹ := by

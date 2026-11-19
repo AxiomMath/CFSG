@@ -15,9 +15,9 @@ theorem card_simple_zmodTwoPoly_of_semiregular (m : ℕ) (hm : 1 ≤ m) (M : Typ
     (h2 : ∀ i, 0 < i → i < 2 ^ m - 1 → ∀ y : M, (X ^ i : (ZMod 2)[X]) • y = y → y = 0) :
     Nat.card M = 2 ^ m := by
   obtain ⟨I, hI, ⟨e⟩⟩ := isSimpleModule_iff_quot_maximal.mp ‹IsSimpleModule (ZMod 2)[X] M›
-  letI : Field ((ZMod 2)[X] ⧸ I) := Ideal.Quotient.field I
-  haveI : Finite ((ZMod 2)[X] ⧸ I) := Finite.of_equiv M e.toEquiv
-  letI : Fintype ((ZMod 2)[X] ⧸ I) := Fintype.ofFinite _
+  let : Field ((ZMod 2)[X] ⧸ I) := Ideal.Quotient.field I
+  have : Finite ((ZMod 2)[X] ⧸ I) := Finite.of_equiv M e.toEquiv
+  let : Fintype ((ZMod 2)[X] ⧸ I) := Fintype.ofFinite _
   have key : ∀ q : (ZMod 2)[X], (∀ y : M, q • y = y) ↔ Ideal.Quotient.mk I q = 1 := by
     intro q
     constructor
@@ -39,7 +39,7 @@ theorem card_simple_zmodTwoPoly_of_semiregular (m : ℕ) (hm : 1 ≤ m) (M : Typ
   have hζi : ∀ i, 0 < i → i < 2 ^ m - 1 → ζ ^ i ≠ 1 := by
     intro i hi0 hin hζ1
     have hall : ∀ y : M, (X ^ i : (ZMod 2)[X]) • y = y := (key _).mpr (by rw [map_pow]; exact hζ1)
-    haveI := IsSimpleModule.nontrivial (ZMod 2)[X] M
+    have := IsSimpleModule.nontrivial (ZMod 2)[X] M
     obtain ⟨y, hy⟩ := exists_ne (0 : M)
     exact hy (h2 i hi0 hin y (hall y))
   have hζ0 : ζ ≠ 0 := by
@@ -52,9 +52,9 @@ theorem card_simple_zmodTwoPoly_of_semiregular (m : ℕ) (hm : 1 ≤ m) (M : Typ
     by_contra hle
     have hlt := Nat.lt_of_not_le hle
     exact hζi _ (by omega) (by omega) h
-  haveI : CharP ((ZMod 2)[X] ⧸ I) 2 :=
+  have : CharP ((ZMod 2)[X] ⧸ I) 2 :=
     charP_of_injective_algebraMap (algebraMap (ZMod 2) _).injective 2
-  haveI : ExpChar ((ZMod 2)[X] ⧸ I) 2 := ExpChar.prime Nat.prime_two
+  have : ExpChar ((ZMod 2)[X] ⧸ I) 2 := ExpChar.prime Nat.prime_two
   have hfrob : ∀ x : (ZMod 2)[X] ⧸ I, x ^ 2 ^ m = x := by
     have hext : (iterateFrobenius ((ZMod 2)[X] ⧸ I) 2 m).comp (Ideal.Quotient.mk I) =
         Ideal.Quotient.mk I := by
@@ -130,8 +130,8 @@ theorem cyclicSemiregularDecomp_holds :
     Module.End.isSemisimple_of_squarefree_aeval_eq_zero hsq (by simp [hfn])
   obtain ⟨s, hind, htop, hsimple⟩ :=
     IsSemisimpleModule.exists_sSupIndep_sSup_simples_eq_top (ZMod 2)[X] (Module.AEval' f)
-  haveI : Finite (Module.AEval' f) := Finite.of_equiv E (Module.AEval'.of f).toEquiv
-  haveI : Finite (Submodule (ZMod 2)[X] (Module.AEval' f)) :=
+  have : Finite (Module.AEval' f) := Finite.of_equiv E (Module.AEval'.of f).toEquiv
+  have : Finite (Submodule (ZMod 2)[X] (Module.AEval' f)) :=
     Finite.of_injective (fun N : Submodule (ZMod 2)[X] (Module.AEval' f) =>
       (N : Set (Module.AEval' f))) SetLike.coe_injective
   let Ψ : Submodule (ZMod 2)[X] (Module.AEval' f) → Submodule (ZMod 2) E :=
@@ -145,7 +145,7 @@ theorem cyclicSemiregularDecomp_holds :
     have hfx : f x = h x := by rw [hf]; rfl
     rwa [hfx] at h1
   · intro j
-    haveI := hsimple j.1 j.2
+    have := hsimple j.1 j.2
     have hcard := card_simple_zmodTwoPoly_of_semiregular m hm
       (↥(j : Submodule (ZMod 2)[X] (Module.AEval' f))) ?_ ?_
     · rw [← hcard]

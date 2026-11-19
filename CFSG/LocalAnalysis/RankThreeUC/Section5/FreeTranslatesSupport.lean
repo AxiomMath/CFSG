@@ -72,10 +72,10 @@ theorem mem_of_support_card_lt {p : ℕ} {P T B : Subgroup G} {e : ℕ}
     x ∈ P := by
   classical
   have hP : P.Normal := hc.faithfulBinaryIrreducibleAction.normal
-  haveI : P.Normal := hP
-  haveI : Q.Normal := hQn
-  letI : CommGroup (↥Q ⧸ P.subgroupOf Q) := quotCommGroup hQcomm
-  haveI : Finite (Subgroup G) := Finite.of_injective (fun H : Subgroup G => (H : Set G)) SetLike.coe_injective
+  have : P.Normal := hP
+  have : Q.Normal := hQn
+  let : CommGroup (↥Q ⧸ P.subgroupOf Q) := quotCommGroup hQcomm
+  have : Finite (Subgroup G) := Finite.of_injective (fun H : Subgroup G => (H : Set G)) SetLike.coe_injective
   let rad : ↥(Delta p P ρ) → Subgroup (↥Q ⧸ P.subgroupOf Q) := fun D =>
     ((R D.1).subgroupOf Q).map (QuotientGroup.mk' (P.subgroupOf Q))
   have hmap : ∀ (g : G) (D : ↥(Delta p P ρ)) (z : ↥Q ⧸ P.subgroupOf Q), z ∈ rad D →

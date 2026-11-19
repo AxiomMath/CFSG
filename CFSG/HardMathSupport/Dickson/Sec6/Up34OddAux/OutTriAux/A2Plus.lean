@@ -39,8 +39,8 @@ theorem noL34Layer_a2_plus (h : A2Std σ d q) (hq5 : 5 ≤ q)
   set φ : MulAut (graphFixedRootGroup TwistTag.D4 K σ.toRingHom) :=
     MulAut.conj s * fieldActor (t := TwistTag.D4) σ σ with hφdef
   have hφ := a2_hφ_of_class (σ := σ) (d := d) hs
-  haveI := a2_finite h
-  haveI : Finite (graphFixedRootGroup TwistTag.D4 K σ.toRingHom) :=
+  have := a2_finite h
+  have : Finite (graphFixedRootGroup TwistTag.D4 K σ.toRingHom) :=
     Finite.of_equiv _ (a2Equiv h).toEquiv
   have hFD := a2_foldData h φ hφ
   have hgen : ((⨆ i, hHat σ.toRingHom i) ⊔ posUnipotent (g2Shape (twistedX σ.toRingHom))) ⊔
@@ -57,7 +57,7 @@ theorem noL34Layer_a2_plus (h : A2Std σ d q) (hq5 : 5 ≤ q)
     rfl)
   let e : ↥(fixSubgroup φ) ≃* ↥(foldFix (a2Phi h φ)) := ef.trans e0.symm
   have hSne : S ≠ ⊥ := by
-    haveI := hsimple
+    have := hsimple
     exact (Subgroup.nontrivial_iff_ne_bot S).1 IsSimpleGroup.toNontrivial
   have hnab := exists_noncomm_of_perfect S hSne hperf
   obtain ⟨r₁', r₂', -, -, -, -, R'⟩ := hFD.exists_rgd2

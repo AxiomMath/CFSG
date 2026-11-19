@@ -18,7 +18,7 @@ theorem t263CaseIxTD4_holds : T263CaseIxTD4 := by
   subst hp3
   exfalso
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   have hBel : CFSG.Open.IsElemAbelian 3 B := hB.1
   have hbp : b ^ 3 = 1 := hBel.2 b hb
   have hbN : b ∈ Subgroup.normalizer (S : Set Ω) := t263_normalizer_of_normal hSn
@@ -54,7 +54,7 @@ theorem t263CaseIxTD4_holds : T263CaseIxTD4 := by
     exact t263_n_eq_one_of_mark hc hd
   ·
     obtain ⟨E, hEC, hEs, hEna, hperf, hpE⟩ := t263CI_td4_core3 hbN hcomp hbp hNI hv hq2 hf2 eS
-    haveI := hEs
+    have := hEs
     exact t263CI_layer_ne_bot_of_perfect_core hp hp2 hSp hbN hbp hEna hEC hperf hpE hlay
 
 end Cell

@@ -48,7 +48,7 @@ theorem cl_lit_griess_schur_multipliers_all_models_statement :
 
 theorem cl_lit_griess_schur_multipliers_central_covers
     (X : Type) [Group X] (t : Assembly.LowTwoRank.StatedLieTag) (n p f : ℕ)
-    (hmodel : Models.LieModel X t n p f) :
+    (_hmodel : Models.LieModel X t n p f) :
     ((∀ S : Sylow 2 (griessHopfMultiplier X), Nat.card S ≤ 2) →
       ∀ (L : Type) [Group L] [Finite L], IsQuasisimple L →
         Nonempty ((L ⧸ Subgroup.center L) ≃* X) →

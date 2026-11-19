@@ -40,7 +40,7 @@ theorem eleven11_commutator_VX {M V Q U L X : Subgroup G}
     ⁅V, X⁆ ≤ V ⊓ blockU L ∧ Nat.card (⁅V, X⁆ : Subgroup G) = 4 ∧ ⁅V, X⁆ ⊓ blockZ L = ⊥ ∧
       V = U ⊔ ⁅V, X⁆ ∧ U ⊓ ⁅V, X⁆ = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h78 : IsLTwoBlockType L 2 := (eleven11_blockType_two hd h8).1
   obtain ⟨n, -, -, -, -, hD⟩ := hd.ten
   have hUΓ := deltaEleven_subset_gammaEleven M V hd.mem_delta
@@ -80,7 +80,7 @@ theorem eleven11_commutator_VX {M V Q U L X : Subgroup G}
       rw [hk]
       exact Nat.Coprime.pow_right k
         ((Nat.Prime.coprime_iff_not_dvd Nat.prime_two).mpr hd.isHall.2.1.not_two_dvd_nat).symm
-    have hsolv : Group.IsSolvable ↥V := isSolvable_of_comm (fun a b =>
+    have hsolv : Group.IsSolvable ↥V := _root_.Group.isSolvable_of_comm (fun a b =>
       Subtype.ext (B2F.isElemAbelian_comm hd.setting.isElemAbelian a.2 b.2))
     calc V ≤ ⁅V, X⁆ ⊔ V ⊓ Subgroup.centralizer (X : Set G) :=
           CFSG.AGLEmbedding.le_commutator_sup_inf_centralizer_of_coprime hXN hcop hsolv
@@ -95,6 +95,7 @@ theorem eleven11_commutator_VX {M V Q U L X : Subgroup G}
     exact Subgroup.card_eq_one.1 h1
   exact ⟨hcomm_le, hcard, hZ, hVsup, hinf⟩
 
+omit [Finite G] in
 private theorem mem_sup_of_commute_aux {A B : Subgroup G}
     (hAB : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a) {g : G}
     (hg : g ∈ A ⊔ B) : ∃ a ∈ A, ∃ b ∈ B, a * b = g := by

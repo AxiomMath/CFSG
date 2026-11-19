@@ -2,7 +2,7 @@ module
 
 public import CFSG.RankThree.PartOne.KC.UnitaryPrimaryDual
 public import Mathlib.Algebra.Order.Ring.Star
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.RingTheory.WittVector.IsPoly
 public import Mathlib.Tactic.Basify
 public import Mathlib.Tactic.Polynomial.Basic

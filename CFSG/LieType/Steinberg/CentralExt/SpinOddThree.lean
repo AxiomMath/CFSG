@@ -110,7 +110,7 @@ theorem sep_or_comm_three [Finite K] (hK : Nat.card K = 3) (hn4 : 4 ≤ n) {E : 
           rw [he, he']
           intro h0
           have := congrFun h0 i
-          simp [Pi.single_apply, hij, hk.1.symm, hl.1.symm, boolSign] at this
+          simp [hij, hk.1.symm, hl.1.symm, boolSign] at this
           cases s <;> simp at this
         have hcomm := commute_X_of_swap hK hπ hcen (hspec γ hγ) (hspec δ hδ) hγl hδl hnl hn0 ha
           h1 h2'

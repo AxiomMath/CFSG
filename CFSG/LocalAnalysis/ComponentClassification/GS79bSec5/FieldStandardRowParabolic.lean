@@ -114,15 +114,15 @@ private theorem row_normalizer_le_row_sup_levi_sup_torus
   have hlev : ρ (CFSG.LocalAnalysis.ComponentInitial.FieldFourCover.leviOne F B) ∈ L :=
     ⟨B, rfl⟩
   have hι1 : ρ (CFSG.LocalAnalysis.ComponentInitial.FieldFourCover.unipU F
-      (-(v 1)) 0 (v 0)) ∈ E ⊔ L := SetLike.le_def.mp le_sup_left hι
+      (-(v 1)) 0 (v 0)) ∈ E ⊔ L := _root_.IsConcreteLE.le_iff.mp le_sup_left hι
   have hlev1 : ρ (CFSG.LocalAnalysis.ComponentInitial.FieldFourCover.leviOne F B) ∈
-      E ⊔ L := SetLike.le_def.mp le_sup_right hlev
+      E ⊔ L := _root_.IsConcreteLE.le_iff.mp le_sup_right hlev
   have hι2 : ρ (CFSG.LocalAnalysis.ComponentInitial.FieldFourCover.unipU F
-      (-(v 1)) 0 (v 0)) ∈ (E ⊔ L) ⊔ T := SetLike.le_def.mp le_sup_left hι1
+      (-(v 1)) 0 (v 0)) ∈ (E ⊔ L) ⊔ T := _root_.IsConcreteLE.le_iff.mp le_sup_left hι1
   have hlev2 : ρ (CFSG.LocalAnalysis.ComponentInitial.FieldFourCover.leviOne F B) ∈
-      (E ⊔ L) ⊔ T := SetLike.le_def.mp le_sup_left hlev1
+      (E ⊔ L) ⊔ T := _root_.IsConcreteLE.le_iff.mp le_sup_left hlev1
   have htor2 : ρ (CFSG.LocalAnalysis.EvenBN.LinearThree.torSLZero F ell) ∈
-      (E ⊔ L) ⊔ T := SetLike.le_def.mp le_sup_right htor
+      (E ⊔ L) ⊔ T := _root_.IsConcreteLE.le_iff.mp le_sup_right htor
   exact ((E ⊔ L) ⊔ T).mul_mem (((E ⊔ L) ⊔ T).mul_mem hι2 htor2) hlev2
 
 theorem commutator_row_normalizer_le_row_sup_levi

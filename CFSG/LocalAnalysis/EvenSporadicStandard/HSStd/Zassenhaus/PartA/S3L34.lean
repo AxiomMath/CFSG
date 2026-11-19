@@ -410,11 +410,11 @@ theorem l34_false (hc : HarrisContra) (hF : FusionA) {G : Type}
       rcases hVmem v hv with h | h | h | h
       · exact ⟨1, Or.inl rfl, ⟨ab, hab'⟩, hxA, Subtype.ext (by rw [hgeq, h]; try rfl)⟩
       · exact ⟨t', Or.inr (Or.inl rfl), ⟨ab, hab'⟩, hxA, Subtype.ext (by
-          rw [hgeq, h, Subgroup.coe_mul, ht'v]; try rfl)⟩
+          rw [hgeq, h, Subgroup.coe_mul, ht'v])⟩
       · exact ⟨w', Or.inr (Or.inr (Or.inl rfl)), ⟨ab, hab'⟩, hxA, Subtype.ext (by
-          rw [hgeq, h, Subgroup.coe_mul, hw'v]; try rfl)⟩
+          rw [hgeq, h, Subgroup.coe_mul, hw'v])⟩
       · exact ⟨t' * w', Or.inr (Or.inr (Or.inr rfl)), ⟨ab, hab'⟩, hxA, Subtype.ext (by
-          rw [hgeq, h, Subgroup.coe_mul, hcoe_tw]; try rfl)⟩)
+          rw [hgeq, h, Subgroup.coe_mul, hcoe_tw])⟩)
     (by
       intro g hg
       refine hno g (mem_Cen.1 g.2) ?_

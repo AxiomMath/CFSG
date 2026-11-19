@@ -86,19 +86,19 @@ private theorem l48nO_ofAdd_apply {n : ℕ} (f : Fin n → ZMod 3) (i : Fin n) :
   rfl
 
 theorem ggRankOne_toral_four {G : Type} [Group G] [Finite G] {L : Subgroup G} {m : ℕ}
-    (h3 : 3 ∣ 2 ^ m + 1) (hL : commutator L = ⊤)
+    (h3 : 3 ∣ 2 ^ m + 1) (_hL : commutator L = ⊤)
     (hlab : GGHasLabel (⟨.twA, 5, m⟩ : LargeEvenLabel) (↥L ⧸ Subgroup.center ↥L)) :
     ∃ E : Subgroup G, E ≤ L ∧ IsElemAbelian 3 E ∧ Nat.card E = 3 ^ 4 ∧
       ∀ e ∈ E, (∀ l ∈ L, e * l = l * e) → e = 1 := by
   classical
   dsimp only [GGHasLabel, LargeEvenRawDatum, LargeEvenRecipeUnitary] at hlab
   obtain ⟨K, hKfield, hKfin, hKcard, ⟨eθ⟩⟩ := hlab
-  letI := hKfield
-  letI := hKfin
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (1 < 3) := ⟨by norm_num⟩
-  haveI : NeZero 3 := ⟨by norm_num⟩
+  let := hKfield
+  let := hKfin
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (1 < 3) := ⟨by norm_num⟩
+  have : NeZero 3 := ⟨by norm_num⟩
   have hm1 : 1 ≤ m := by
     rcases Nat.eq_zero_or_pos m with hm | hm
     · subst hm
@@ -106,7 +106,7 @@ theorem ggRankOne_toral_four {G : Type} [Group G] [Finite G] {L : Subgroup G} {m
     · exact hm
   have hKd : UnitaryFieldData 2 m K :=
     ⟨Nat.prime_two, hm1, by rw [hKcard, ← pow_mul, mul_comm]⟩
-  haveI hchar : CharP K 2 := hKd.charP
+  have hchar : CharP K 2 := hKd.charP
   obtain ⟨ω, hωorder, hωnorm⟩ := exists_orderOf_eq_norm_one hKd Nat.prime_three h3
   have hω3 : ω ^ 3 = 1 := by rw [← hωorder]; exact pow_orderOf_eq_one ω
   let H : Subgroup (GL (Fin 6) K) := LargeEvenSUGroup (Fin 6) K (2 ^ m)
@@ -253,7 +253,7 @@ theorem ggRankOne_toral_four {G : Type} [Group G] [Finite G] {L : Subgroup G} {m
         cube (∑ i : Fin 4, (Multiplicative.toAdd (a i)).val • l48nO_bv i r) := by
       intro r
       rw [expHom_apply]
-      simp only [l48nO_pe, toAdd_ofAdd, c, cube_nsmul]
+      simp only [l48nO_pe, c, cube_nsmul]
       exact prod_cube Finset.univ
         (fun i : Fin 4 => (Multiplicative.toAdd (a i)).val • l48nO_bv i r)
     have hlam1 : lam = 1 := by

@@ -147,8 +147,8 @@ theorem eq_map_slOn_of_component {G : Type} [Group G] {m : ℕ} (hm : 3 ≤ m)
   have hSimpleK : IsSimpleGroup ↥(S.map ψ) := (MulEquiv.isSimpleGroup_congr eK).mpr hSimpleSL
   rcases IsSubnormal.eq_bot_or_eq_of_isSimpleGroup hJKsub hSimpleK with hbot | htop
   · exfalso
-    haveI : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := hJ.2.2.2
-    haveI : Subsingleton (↥J ⧸ Subgroup.center ↥J) := by
+    have : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := hJ.2.2.2
+    have : Subsingleton (↥J ⧸ Subgroup.center ↥J) := by
       rw [hbot]; infer_instance
     obtain ⟨a, b, hab⟩ := exists_pair_ne (↥J ⧸ Subgroup.center ↥J)
     exact hab (Subsingleton.elim a b)

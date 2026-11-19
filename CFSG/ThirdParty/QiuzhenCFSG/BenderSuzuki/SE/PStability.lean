@@ -270,7 +270,7 @@ public theorem hasAbelianSylowTwo_of_odd_normal_quotient_isMulCommutative
   let q : G →* G ⧸ N := QuotientGroup.mk' N
   let qP : P →* G ⧸ N := q.comp (P : Subgroup G).subtype
   have hPNcop : Nat.Coprime (Nat.card (P : Subgroup G)) (Nat.card N) := by
-    rcases P.isPGroup'.exists_card_eq with ⟨n, hn⟩
+    rcases P.isPGroup.exists_card_eq with ⟨n, hn⟩
     rw [hn]
     exact hNodd.coprime_two_left.pow_left n
   have hPinfN : (P : Subgroup G) ⊓ N = ⊥ :=
@@ -306,7 +306,7 @@ public theorem HasAbelianSylow.of_normal_odd_quotient
   have hP_le_N : (P : Subgroup G) ≤ N := by
     let q : G →* G ⧸ N := QuotientGroup.mk' N
     let Pbar : Subgroup (G ⧸ N) := (P : Subgroup G).map q
-    have hPbar2 : IsPGroup 2 Pbar := P.isPGroup'.map q
+    have hPbar2 : IsPGroup 2 Pbar := P.isPGroup.map q
     have hPbarOdd : Odd (Nat.card Pbar) :=
       Odd.of_dvd_nat hquotOdd (Subgroup.card_subgroup_dvd_card Pbar)
     have hcard : Nat.card Pbar = 1 := by
@@ -620,7 +620,7 @@ private theorem odd_card_two_dimensional_generated_pElements_isPGroup
   have hHring : IsPGroup (ringChar F) H := by
     let e : (P : Subgroup H) ≃* H :=
       (MulEquiv.subgroupCongr hPtop).trans Subgroup.topEquiv
-    exact P.isPGroup'.of_equiv e
+    exact P.isPGroup.of_equiv e
   simpa [hchar] using hHring
 
 /-- Direct two-dimensional replacement for the final obstruction in
@@ -680,7 +680,7 @@ public theorem two_dimensional_generated_pElements_isPGroup_of_abelianSylowTwo
         (by simpa [Subgroup.orderOf_coe] using hb)
     have hScyclic : IsCyclic S :=
       isCyclic_of_isPGroup_two_isMulCommutative_unique_order_two
-        S.isPGroup' hScomm hSunique
+        S.isPGroup hScomm hSunique
     have hmin : (Nat.card H).minFac = 2 :=
       (Nat.minFac_eq_two_iff (Nat.card H)).2 hEven.two_dvd
     have hnormalizerCentralizer :

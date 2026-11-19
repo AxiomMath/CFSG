@@ -13,7 +13,7 @@ open CFSG.ClassicalGroups.Orthogonal.OmegaMinus8ThreeLocal
 theorem k7bOmega8Model_holds {r f p : ℕ} (hr : r.Prime) (hr3 : r ≠ 3) (hp : p.Prime)
     (hp2 : p ≠ 2) (hpq : p ∣ qPlusPi r f) : K7bOmega8Model r f p := by
   intro K _ _ b c hK hbc
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have h3 : (3 : K) ≠ 0 := three_ne_zero_of_card_eq hK hr3
   have hplus : plusPi (Nat.card K) = qPlusPi r f := by
     rw [hK]
@@ -36,7 +36,7 @@ theorem k7bOmega8Model_holds {r f p : ℕ} (hr : r.Prime) (hr3 : r ≠ 3) (hp : 
   ·
     rw [Nat.card_congr (MonoidHom.ofInjective (c₀_injective h3 hbc)).symm.toEquiv,
       Nat.card_congr Multiplicative.toAdd, Nat.card_eq_fintype_card]
-    simp [Fintype.card_fun, ZMod.card]
+    simp [ZMod.card]
   ·
     exact exists_k7b_centralizer h3 hbc hp hp2 hpd
 

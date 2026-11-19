@@ -80,10 +80,10 @@ theorem init_fixed {i k : Nat} (hi : i < 6)
     initColour "fixed" (suzFiveLineArr i) = col k := by
   refine S2301.arr_ext (S2301.initColour_size _ _) (col_size _) fun v hv => ?_
   rw [S2301.initColour_get _ _ hv, col, colOf_get hv, S2301.initOK_true (CFSG.KC.Pack.allN_spec h v hv),
-    if_pos (beq_self_eq_true _), line_get hi hv]
+    ite_eq_left (beq_self_eq_true _), line_get hi hv]
   by_cases e : tg (SFL12 i) v = v
-  · rw [if_pos (beq_iff_eq.2 e), if_pos e]
-  · rw [if_neg fun h => e (beq_iff_eq.1 h), if_neg e]
+  · rw [ite_eq_left (beq_iff_eq.2 e), ite_eq_left e]
+  · rw [ite_eq_right fun h => e (beq_iff_eq.1 h), ite_eq_right e]
 
 theorem init_eq {i : Nat} (hi : i < 6) :
     initColour "fixed" (suzFiveLineArr i) = col (caseStart i) := by

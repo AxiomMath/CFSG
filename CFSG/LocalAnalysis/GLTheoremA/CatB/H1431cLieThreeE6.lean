@@ -19,7 +19,7 @@ theorem lieS3_noL2_e6
     {P : Type} [Group P] [Finite P] {n f : ℕ} (hadm : StatedLieAdmissible .E6 n 3 f)
     (hm : LieModel P .E6 n 3 f) {ψ : MulAut P} (hψ3 : ψ ^ 3 = 1) (hψ : ψ ∉ inner P) :
     NoL2Layer ψ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hf : 1 ≤ f := hadm.2.1
   have hU : UntwistedChevalleyModel P .E6 (3 ^ f) := by
     rcases hm with ⟨ht', -⟩ | ⟨-, -, hE⟩ | ⟨-, ht', -⟩ | ⟨-, ht', -⟩
@@ -57,7 +57,7 @@ theorem lieS3_noL2_twE6
     · exact absurd ht' (by decide)
   obtain ⟨K, _, _, σ, hK, hσ, ⟨e⟩⟩ := exists_twistedE6RootGroup_equiv Nat.prime_three hf hE.2
   let θ : P ≃* twistedE6RootGroup K σ := e.symm
-  haveI : Finite ↥(twistedE6RootGroup K σ) := Finite.of_equiv P θ.toEquiv
+  have : Finite ↥(twistedE6RootGroup K σ) := Finite.of_equiv P θ.toEquiv
   have hβ3 : MulAut.congr θ ψ ^ 3 = 1 := by rw [← map_pow, hψ3, map_one]
   have hβinn : MulAut.congr θ ψ ∉ twistedE6Inn K σ := fun hin =>
     hψ ((congr_mem_inner_iff_of_equiv θ ψ).mp hin)

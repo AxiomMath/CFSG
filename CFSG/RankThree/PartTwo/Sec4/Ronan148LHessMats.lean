@@ -60,7 +60,7 @@ theorem hessT_mul_diagTau {τ : K} (hτ : τ ^ 3 = 1) (i : Fin 3) :
   rw [Units.val_mul, Units.val_mul, coe_hessT, coe_diagTau]
   ext a b
   fin_cases i <;> fin_cases a <;> fin_cases b <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_three, hessTMat, Matrix.diagonal_apply]
+    simp [Matrix.mul_apply, hessTMat, Matrix.diagonal_apply]
 
 theorem cycThree_mul_hessT_zero :
     (cycThree : GL (Fin 3) K) * hessT 0 = hessT 1 * cycThree := by
@@ -68,7 +68,7 @@ theorem cycThree_mul_hessT_zero :
   rw [Units.val_mul, Units.val_mul, coe_hessT, coe_hessT, coe_cycThree]
   ext a b
   fin_cases a <;> fin_cases b <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_three, hessTMat, Matrix.diagonal_apply]
+    simp [Matrix.mul_apply, hessTMat, Matrix.diagonal_apply]
 
 theorem cycThree_mul_hessT_one :
     (cycThree : GL (Fin 3) K) * hessT 1 = hessT 2 * cycThree := by
@@ -76,7 +76,7 @@ theorem cycThree_mul_hessT_one :
   rw [Units.val_mul, Units.val_mul, coe_hessT, coe_hessT, coe_cycThree]
   ext a b
   fin_cases a <;> fin_cases b <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_three, hessTMat, Matrix.diagonal_apply]
+    simp [Matrix.mul_apply, hessTMat, Matrix.diagonal_apply]
 
 theorem mk_hessT_zero_ne_one (h2 : (2 : K) ≠ 0) :
     ProjGenLinGroup.mk (hessT 0 : GL (Fin 3) K) ≠ 1 := by

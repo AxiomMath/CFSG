@@ -40,7 +40,7 @@ open scoped Pointwise in
 private lemma lq_conj_into {Γ : Type*} [Group Γ] [Finite Γ] (N S T : Subgroup Γ) [N.Normal]
     (hcop : Nat.Coprime 3 (Nat.card N)) (hS : IsPGroup 3 S) (hT : IsPGroup 3 T)
     (hTle : T ≤ S ⊔ N) : ∃ n ∈ N, ∀ t ∈ T, n * t * n⁻¹ ∈ S := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hSM : S ≤ S ⊔ N := le_sup_left
   have hcardM : Nat.card ↥(S ⊔ N) = Nat.card S * Nat.card N :=
     lq_card_sup S N (lemmaQ_inf_eq_bot hS hcop)
@@ -50,7 +50,7 @@ private lemma lq_conj_into {Γ : Type*} [Group Γ] [Finite Γ] (N S T : Subgroup
   obtain ⟨P₁, hP₁le⟩ := hS'.exists_le_sylow
   have hP₁ : (P₁ : Subgroup ↥(S ⊔ N)) = S.subgroupOf (S ⊔ N) := by
     refine (Subgroup.eq_of_le_of_card_ge hP₁le ?_).symm
-    obtain ⟨a, ha⟩ := (IsPGroup.iff_card).1 P₁.isPGroup'
+    obtain ⟨a, ha⟩ := (IsPGroup.iff_card).1 P₁.isPGroup
     have hdvd : Nat.card (P₁ : Subgroup ↥(S ⊔ N)) ∣ Nat.card S * Nat.card N := by
       rw [← hcardM]; exact Subgroup.card_subgroup_dvd_card _
     rw [ha] at hdvd
@@ -107,8 +107,8 @@ lemma lemmaQ_card_map {H : Type} [Group H] (O K : Subgroup H) [O.Normal]
 theorem lemmaQ_sylow_map {X : Type} [Group X] [Finite X] (P : Subgroup X)
     (hP : IsSylowOf 3 P ⊤) (hP9 : Nat.card P = 9) (hPO : P ⊓ pPrimeCore 3 X = ⊥) :
     IsSylowOf 3 (P.map (QuotientGroup.mk' (pPrimeCore 3 X))) ⊤ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI hOn : (pPrimeCore 3 X).Normal := pPrimeCore_normal (p := 3) (G := X)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hOn : (pPrimeCore 3 X).Normal := pPrimeCore_normal (p := 3) (G := X)
   have hOcop : Nat.Coprime 3 (Nat.card (pPrimeCore 3 X)) :=
     pPrimeCore_coprime_card (p := 3) (G := X)
   have hP3 : Nat.Coprime 3 P.index := by
@@ -148,9 +148,9 @@ theorem lemmaQ_quot_inf_bot (hKF1 : FF84KF1) (hKS : FF84KSOut) {X : Type} [Group
       Subgroup.normalClosure
         (((B.map (QuotientGroup.mk' (pPrimeCore 3 X)) : Subgroup (X ⧸ pPrimeCore 3 X)) :
           Set (X ⧸ pPrimeCore 3 X))) = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set O : Subgroup X := pPrimeCore 3 X with hOdef
-  haveI hOn : O.Normal := pPrimeCore_normal (p := 3) (G := X)
+  have hOn : O.Normal := pPrimeCore_normal (p := 3) (G := X)
   have hOcop : Nat.Coprime 3 (Nat.card O) := pPrimeCore_coprime_card (p := 3) (G := X)
   set π : X →* X ⧸ O := QuotientGroup.mk' O with hπdef
   have hmk : ∀ a b : X, π a = π b ↔ a⁻¹ * b ∈ O := fun a b => QuotientGroup.eq

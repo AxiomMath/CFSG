@@ -17,6 +17,7 @@ open scoped MatrixGroups
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem le_normalizer_sup_of_le_centralizer {I C K : Subgroup G}
     (hI : K ≤ normalizer (I : Set G)) (hC : C ≤ centralizer (K : Set G)) :
     K ≤ normalizer ((I ⊔ C : Subgroup G) : Set G) := by

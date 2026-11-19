@@ -36,7 +36,7 @@ theorem inner_innDiag_any {X L : Subgroup G} {g : G} (hL : GLAPComponent p X L)
       unfold indAut
       rw [← map_zpow]
       congr 1
-      exact Subtype.ext (by simp [zpow_neg, inv_zpow])
+      exact Subtype.ext (by simp [zpow_neg])
     rw [e]
     exact Subgroup.zpow_mem _ ((indAut_mem_inner_iff_any hq hg).2 hin) k
   obtain ⟨s, hs⟩ := hmem
@@ -87,11 +87,11 @@ theorem td4_nonInnDiag_any {X L : Subgroup G} {g : G}
   exact (ggCongr_mem_range_conj_iff θ _).1 hmem
 
 theorem autCalcAt_all (G : Type) [Group G] [Finite G] (p : ℕ) : AutCalcAt G p where
-  field_nonInnDiag := fun X L g hL _ hF => field_nonInnDiag_any hL hF
-  td4_nonInnDiag := fun X L g hL hTD4 hNI => td4_nonInnDiag_any hL hTD4 hNI
-  inner_innDiag := fun X L g hL hchev hg hin => inner_innDiag_any hL hchev hg hin
-  innDiag_unif := fun X L A _ _ hA h => innDiag_unif_holds hA h
-  td4_not_field := fun X L g _ _ hTD4 => td4_not_field_holds hTD4
+  field_nonInnDiag := fun _X _L _g hL _ hF => field_nonInnDiag_any hL hF
+  td4_nonInnDiag := fun _X _L _g hL hTD4 hNI => td4_nonInnDiag_any hL hTD4 hNI
+  inner_innDiag := fun _X _L _g hL hchev hg hin => inner_innDiag_any hL hchev hg hin
+  innDiag_unif := fun _X _L _A _ _ hA h => innDiag_unif_holds hA h
+  td4_not_field := fun _X _L _g _ _ hTD4 => td4_not_field_holds hTD4
 
 end Clauses
 

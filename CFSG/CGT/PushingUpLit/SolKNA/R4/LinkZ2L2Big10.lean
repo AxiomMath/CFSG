@@ -18,11 +18,12 @@ section Gamma
 
 variable {F : Type} [Field F] [Finite F]
 
+omit [Finite F] in
 theorem gD_one_pow (x : Fˣ) (n : ℕ) : (gD x (1 : F ≃+* F)) ^ n = gD (x ^ n) 1 := by
   rw [gD_pow]
   simp only [nrm, one_pow, autU_one_aut, Finset.prod_const, Finset.card_range, one_pow]
 
-theorem pow_half_order_eq_ubar (h2 : (2 : F) ≠ 0) {g : PGammaL2 F} (hg : IsMon g) {e K : ℕ}
+theorem pow_half_order_eq_ubar (_h2 : (2 : F) ≠ 0) {g : PGammaL2 F} (hg : IsMon g) {e K : ℕ}
     (he : 1 ≤ e) (hσ : g.right ^ 2 ^ e = 1) (hK : e < K) (hord : orderOf g = 2 ^ K) :
     g ^ 2 ^ (K - 1) = ubar F := by
   have h2e : 2 * 2 ^ (e - 1) = 2 ^ e := by
@@ -55,7 +56,7 @@ theorem pow_half_order_eq_ubar (h2 : (2 : F) ≠ 0) {g : PGammaL2 F} (hg : IsMon
   · exact absurd h hzne
   · rw [hmain, h, ubar_eq]
 
-theorem sq_pow_eq_ubar (h2 : (2 : F) ≠ 0) {g : PGammaL2 F} (hg : IsMon g)
+theorem sq_pow_eq_ubar (_h2 : (2 : F) ≠ 0) {g : PGammaL2 F} (hg : IsMon g)
     (hσ : g.right * g.right = 1) {m : ℕ} (hm : 1 ≤ m) (hord : orderOf g = 2 ^ (m + 1)) :
     g ^ 2 ^ m = ubar F := by
   obtain ⟨x, hx⟩ := exists_gD_sq hg
@@ -90,6 +91,7 @@ section Easy
 
 variable {X : Type} [Group X] [Finite X] {F : Type} [Field F] [Finite F] {Q : Subgroup X} {r : ℕ}
 
+omit [Finite X] in
 theorem mulAut_quatInvolution {r : ℕ} (hr : 4 ≤ r) (e : ↥Q ≃* QuaternionGroup (2 ^ (r - 2)))
     {β : MulAut X} (hβ : ∀ x ∈ Q, β x ∈ Q) : β (quatInvolution r e) = quatInvolution r e := by
   have hzQ : quatInvolution r e ∈ Q := quatInvolution_mem hr e
@@ -103,6 +105,7 @@ theorem mulAut_quatInvolution {r : ℕ} (hr : 4 ≤ r) (e : ↥Q ≃* Quaternion
     rw [h, map_one]
   exact eq_quatInvolution_of_sq hr e hyQ hy2 hy1
 
+omit [Finite X] in
 theorem rho_comm_ubar (E : PGamEmb X F) (hr : 4 ≤ r) (e : ↥Q ≃* QuaternionGroup (2 ^ (r - 2)))
     (hz : E.ρ (MulAut.conj (quatInvolution r e)) = SemidirectProduct.inl (pD (-1)))
     {β : MulAut X} (hβ : ∀ x ∈ Q, β x ∈ Q) : E.ρ β * ubar F = ubar F * E.ρ β := by
@@ -124,7 +127,7 @@ theorem z2BigModelPiCyc_holds (r : ℕ) : Z2BigModelPiCyc r := by
     exists_normalized_emb hL.simple hL.odd hL.even hL.model
       (quatInvolution_sq hr e) (quatInvolution_ne_one hr e)
       (quatInvolution_mem_fstar hL.index hr e)
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h2 : (2 : F) ≠ 0 := (field_facts hp hL.odd hF h4).2
   have hf0 : f ≠ 0 := by
     rintro rfl
@@ -191,9 +194,9 @@ theorem z2BigModelPiQuat_holds (r : ℕ) : Z2BigModelPiQuat r := by
     exists_normalized_emb hL.simple hL.odd hL.even hL.model
       (quatInvolution_sq hr e) (quatInvolution_ne_one hr e)
       (quatInvolution_mem_fstar hL.index hr e)
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h2 : (2 : F) ≠ 0 := (field_facts hp hL.odd hF h4).2
-  haveI : NeZero (2 ^ m) := ⟨pow_ne_zero _ (by norm_num)⟩
+  have : NeZero (2 ^ m) := ⟨pow_ne_zero _ (by norm_num)⟩
   set x : MulAut X :=
     ((eB.symm (QuaternionGroup.a (1 : ZMod (2 * 2 ^ m))) : ↥B) : MulAut X) with hxdef
   set y : MulAut X :=

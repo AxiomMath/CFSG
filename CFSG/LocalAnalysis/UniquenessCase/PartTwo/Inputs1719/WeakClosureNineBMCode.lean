@@ -112,7 +112,7 @@ theorem ldesc_closureC {gc : List (List ℕ)} (hgc : ∀ c ∈ gc, ∃ σ : P16,
     fun c hc => by obtain ⟨σ, rfl⟩ := hgc c hc; exact ⟨σ, trivial, rfl⟩
   have hset : {σ : P16 | code σ ∈ gc} = {g | g ∈ gens} := by
     ext σ
-    simp only [Set.mem_setOf_eq, ← hg, List.mem_map]
+    simp only [Set.mem_ofPred_eq, ← hg, List.mem_map]
     exact ⟨fun ⟨τ, hτ, he⟩ => code_injective he ▸ hτ, fun hσ => ⟨σ, hσ, rfl⟩⟩
   obtain ⟨hmem, hsurj⟩ := mem_closure_iff_of_tblN (n := 16) hg h
   refine ⟨fun σ => ?_, fun c hc => ?_⟩

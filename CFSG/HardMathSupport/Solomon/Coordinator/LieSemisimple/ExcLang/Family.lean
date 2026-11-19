@@ -112,8 +112,8 @@ theorem perfect_le_iSup_inf_fixed [Finite ι] (F : G →* G) (A : ι → Subgrou
 theorem isSolvable_sup_quotient_of_comm {H N : Subgroup G} [(N.subgroupOf (H ⊔ N)).Normal]
     (hH : ∀ x ∈ H, ∀ y ∈ H, x * y = y * x) (hLE : H ≤ Subgroup.normalizer (N : Set G)) :
     Group.IsSolvable (↥(H ⊔ N) ⧸ N.subgroupOf (H ⊔ N)) := by
-  haveI : (N.subgroupOf H).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hLE
-  haveI : Group.IsSolvable ↥H := Group.isSolvable_of_comm fun x y => Subtype.ext (hH x x.2 y y.2)
+  have : (N.subgroupOf H).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hLE
+  have : Group.IsSolvable ↥H := Group.isSolvable_of_comm fun x y => Subtype.ext (hH x x.2 y y.2)
   let e := QuotientGroup.quotientInfEquivProdNormalizerQuotient H N hLE
   exact Group.isSolvable_of_surjective (f := e.toMonoidHom) e.surjective
 

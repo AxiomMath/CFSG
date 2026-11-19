@@ -20,9 +20,9 @@ open CFSG.ComponentClassification.CatFactsSmall.PSp43
 
 @[expose] def gY (h : ℕ) : Equiv.Perm (Fin 3510) := if h = 0 then cGen 1 else cGen 2
 
-theorem gY_zero : gY 0 = cGen 1 := if_pos rfl
+theorem gY_zero : gY 0 = cGen 1 := ite_eq_left rfl
 
-theorem gY_one : gY 1 = cGen 2 := if_neg (by decide)
+theorem gY_one : gY 1 = cGen 2 := ite_eq_right (by decide)
 
 theorem cGen_one_mem_Ybar : cGen 1 ∈ Ybar := Subgroup.subset_closure (Set.mem_insert _ _)
 

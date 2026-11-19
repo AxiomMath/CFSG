@@ -118,7 +118,7 @@ theorem vanishPair_coord (h34 : Stroth34Statement) (hRoot : Stroth310RootStateme
       (Subgroup.mem_normalizer_iff.mp (hc.hyp.Z_normal.2 ha'M) _).mp
         (Smith81.comm_mem_Z hc.hyp hx2 (hVM k k.2))
     convert hz using 1
-    simp only [commutatorElement_def, pow_two, Subgroup.coe_mk]
+    simp only [commutatorElement_def, pow_two]
     group
   have iso : ∀ v, Q' (Fx v) = Q' v := vanishGeom_isometry_of_normalizer hQ hN Fx hFFx hcompat
   have hmemX : ∀ s : ↥(Rt M (LB M Q B) t), (φ s : GL ι K) ∈ X := fun s => by

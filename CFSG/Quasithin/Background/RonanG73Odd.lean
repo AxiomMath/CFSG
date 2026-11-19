@@ -24,7 +24,7 @@ theorem clause1
         Nonempty (↥L ≃* ↥⁅StatedSp 2 (ZMod 2), StatedSp 2 (ZMod 2)⁆) ∨
         IsHat ↥L ↥(alternatingGroup (Fin 6))) ∨
       (IsPSU 3 3 1 ↥L ∧ Module.finrank (ZMod 2) V = 6) := by
-  haveI : Finite (GLV V) :=
+  have : Finite (GLV V) :=
     CFSG.Quasithin.Background.Harris.OrdinaryProofs.finite_GLV_of_finite (V := V)
   have hSQT : CFSG.IsStronglyQuasithin (↥L ⧸ Subgroup.center ↥L) := sqt_quotient_center hS hq
   obtain ⟨p, hp, hp2, hcases⟩ := odd_model_restriction hSQT hodd

@@ -392,7 +392,7 @@ theorem Facts.case_spec (F : Facts) {i : ℕ} (hi : i < 5) {r : ℕ} (hr : r < (
       intro h hh
       unfold conjC
       rw [ofCode_mulF (symp_mulF hgi' hh) hg, ofCode_mulF hgi' hh, hginv]
-      simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply, inv_inv]
+      simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply, inv_inv]
       rfl
     rw [member, sub2, MonoidHom.map_closure, Subgroup.closure_le]
     rintro _ ⟨y, hy, rfl⟩

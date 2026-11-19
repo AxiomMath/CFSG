@@ -154,6 +154,7 @@ variable [Finite K] {G : Subgroup (GL (Fin 6) K)} {R : Submodule K (Fin 6 → K)
     ext v
     simp [Matrix.mulVec_mulVec]
 
+omit [Finite K] in
 theorem lagRes_apply (hRG : ∀ x ∈ G, ∀ v ∈ R, (x : Matrix (Fin 6) (Fin 6) K) *ᵥ v ∈ R)
     (x : G) (v : R) :
     ((lagRes R hRG x v : R) : Fin 6 → K) =
@@ -164,12 +165,14 @@ theorem lagRes_apply (hRG : ∀ x ∈ G, ∀ v ∈ R, (x : Matrix (Fin 6) (Fin 6
     (hRG : ∀ x ∈ G, ∀ v ∈ R, (x : Matrix (Fin 6) (Fin 6) K) *ᵥ v ∈ R) : ↥G →* GL (Fin 3) K :=
   (((LinearMap.toMatrixAlgEquiv b).toAlgHom.toMonoidHom).comp (lagRes R hRG)).toHomUnits
 
+omit [Finite K] in
 theorem coe_lagResMat (b : Module.Basis (Fin 3) K R)
     (hRG : ∀ x ∈ G, ∀ v ∈ R, (x : Matrix (Fin 6) (Fin 6) K) *ᵥ v ∈ R) (x : G) :
     ((lagResMat b hRG x : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) =
       LinearMap.toMatrixAlgEquiv b (lagRes R hRG x) := by
   simp [lagResMat]
 
+omit [Finite K] in
 theorem lagResMat_eq_one_iff (b : Module.Basis (Fin 3) K R)
     (hRG : ∀ x ∈ G, ∀ v ∈ R, (x : Matrix (Fin 6) (Fin 6) K) *ᵥ v ∈ R) (x : G) :
     lagResMat b hRG x = 1 ↔ ∀ v ∈ R, ((x : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) *ᵥ v = v := by
@@ -191,6 +194,7 @@ theorem lagResMat_eq_one_iff (b : Module.Basis (Fin 3) K R)
       simpa using hall v v.2
     rw [h3, map_one]
 
+omit [Finite K] in
 theorem lagResMat_scalar (b : Module.Basis (Fin 3) K R)
     (hRG : ∀ x ∈ G, ∀ v ∈ R, (x : Matrix (Fin 6) (Fin 6) K) *ᵥ v ∈ R) (u : Kˣ)
     (hu : Matrix.GeneralLinearGroup.scalar (Fin 6) u ∈ G) :

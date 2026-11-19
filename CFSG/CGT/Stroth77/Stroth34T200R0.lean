@@ -112,7 +112,7 @@ theorem t200_scalar_R1 (h : F.IsD D dD) (hS : Local.Setting (F.S : Subgroup G) D
   · exact thetaT_comm_u hS heR (h.t200_conj_u_mul_inv_mem hS hm ⟨heR, huv, ht⟩) x
   · exact thetaT_comm_rho hS heR (h.t200_proj_mul_inv_mem hS ⟨heR, huv, ht⟩) x
 
-theorem D_le_R1 (hS : Local.Setting (F.S : Subgroup G) D) : D ≤ hS.R1 dD.uv dD.t := fun d hd =>
+theorem D_le_R1 (hS : Local.Setting (F.S : Subgroup G) D) : D ≤ hS.R1 dD.uv dD.t := fun _d hd =>
   ⟨hS.D_le_R hd, (dD.crdT_cocycle_of_mem_uv hd).1, (dD.crdT_cocycle_of_mem_t hd).1⟩
 
 theorem t200_conj_mem_R1 (h : F.IsD D dD) (hS : Local.Setting (F.S : Subgroup G) D) (hm : 1 ≤ m)

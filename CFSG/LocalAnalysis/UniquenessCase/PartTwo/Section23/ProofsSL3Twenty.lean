@@ -112,7 +112,7 @@ theorem s23_20_1_of (D : Data G) (Ch : Choice2011 G) (h4 : S23_4 D Ch) (h6 : S23
   rw [Set.mem_inter_iff] at hp
   obtain ⟨hpsig, hppi⟩ := hp
   obtain ⟨hp, hp2⟩ := D.sig_prime p hpsig
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [piSet] at hppi
   obtain ⟨-, hpdvd⟩ := hppi
   obtain ⟨x, hxord⟩ := exists_prime_orderOf_dvd_card' (G := ↥c.CMETilde) p hpdvd

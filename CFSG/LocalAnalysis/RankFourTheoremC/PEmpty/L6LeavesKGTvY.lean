@@ -47,8 +47,8 @@ theorem exists_derived_of_statedSp {C : Type} [Group C] {m : ℕ} (hm : 2 ≤ m)
         exact Equiv.Perm.mem_alternatingGroup.2 hsign
       have h' := Subgroup.mem_map_equiv.1 this
       rwa [MulEquiv.symm_apply_apply] at h'
-  · haveI : IsSimpleGroup ↥(StatedSp m (ZMod 2)) := OmegaFacts.isSimpleGroup_statedSp_zmod_two h3
-    haveI : IsSimpleGroup C := e.isSimpleGroup
+  · have : IsSimpleGroup ↥(StatedSp m (ZMod 2)) := OmegaFacts.isSimpleGroup_statedSp_zmod_two h3
+    have : IsSimpleGroup C := e.isSimpleGroup
     have h4 : 4 ∣ Nat.card C := by
       rw [Nat.card_congr e.toEquiv, OmegaFacts.card_statedSp_zmod_two]
       refine Dvd.dvd.mul_right ?_ _
@@ -78,7 +78,7 @@ theorem exists_Y {X : Type} [Group X] (C : Subgroup X) {m : ℕ} (hm : 2 ≤ m)
     Subgroup.equivMapOfInjective _ C.subtype C.subtype_injective
   refine ⟨(commutator ↥C).map C.subtype, Subgroup.map_subtype_le _,
     ⟨⟨z, hz⟩, hodd' ⟨z, hz⟩ (by rwa [Subgroup.orderOf_mk]), rfl⟩, ?_, ?_, ?_⟩
-  · haveI := hgd.simple
+  · have := hgd.simple
     exact e1.symm.isSimpleGroup
   · by_contra hcon
     push Not at hcon

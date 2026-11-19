@@ -25,8 +25,8 @@ theorem pCoreOf_top_eq_bot_of_almostSimple {Q : Type} [Group Q] [Finite Q]
     (hnab : ∃ a b : ↥L, a * b ≠ b * a)
     (hC : Subgroup.centralizer (L : Set Q) = ⊥) :
     pCoreOf 2 (⊤ : Subgroup Q) = ⊥ := by
-  haveI : L.Normal := hL
-  haveI : IsSimpleGroup ↥L := hsimple
+  have : L.Normal := hL
+  have : IsSimpleGroup ↥L := hsimple
   exact CFSG.Quasithin.E1.pCoreOf_top_eq_bot_of_normal_simple L hnab hC
 
 theorem almostSimple_of_normal_simple_sup_sylow {Q : Type} [Group Q] [Finite Q]
@@ -34,7 +34,7 @@ theorem almostSimple_of_normal_simple_sup_sylow {Q : Type} [Group Q] [Finite Q]
     (hnab : ∃ a b : ↥L, a * b ≠ b * a)
     (hC : Subgroup.centralizer (L : Set Q) = ⊥)
     (hT : IsSylowIn 2 T ⊤) (hLT : L ⊔ T = ⊤) : AlmostSimple L := by
-  haveI : L.Normal := hL
+  have : L.Normal := hL
   refine ⟨hL, hsimple, hnab, hC, ?_⟩
   intro x
   have hx : x ∈ L ⊔ T := by rw [hLT]; exact Subgroup.mem_top x
@@ -59,7 +59,7 @@ theorem almostSimple_eTwo_first {Q : Type} [Group Q] [Finite Q] {L : Subgroup Q}
             (QuotientGroup.mk' (CFSG.solvableRadical Q)),
           L'.map (MulAut.conj t).toMonoidHom ∧
       L' = ⁅L', E1.barRad Q B⁆ := by
-  haveI : L.Normal := h.normal
+  have : L.Normal := h.normal
   have hR := h.solvableRadical_eq_bot
   set π := QuotientGroup.mk' (CFSG.solvableRadical Q)
   have hπi : Function.Injective π := by

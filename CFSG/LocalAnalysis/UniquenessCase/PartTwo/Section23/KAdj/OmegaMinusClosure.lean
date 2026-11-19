@@ -27,7 +27,7 @@ private theorem not_isPGroup_two_range_E16 {K : Type} [Field K] [Finite K] [Char
     (hK : 4 ≤ Nat.card K) {H : Type} [Group H] (f : SL(2, K) →* H)
     (hf : Function.Injective f) : ¬ IsPGroup 2 ↥f.range := by
   intro hP
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := Kˣ)
   have hord : orderOf g = Nat.card K - 1 := by
     rw [orderOf_eq_card_of_forall_mem_zpowers hg, Nat.card_units]
@@ -66,7 +66,7 @@ private theorem isQuasisimple_statedOmega_minus_E16 {K : Type} [Field K] [Finite
     exact ⟨n, by rw [Nat.card_eq_fintype_card, hn]⟩
   obtain ⟨hsimple, hna, -⟩ := orthResDer_facts (K := K) (b := b) (c := c) (m := 2) hK
     (by norm_num) hirr
-  haveI : IsSimpleGroup ↥(orthResDer K b c 2) := hsimple
+  have : IsSimpleGroup ↥(orthResDer K b c 2) := hsimple
   have hqs : CFSG.Open.IsQuasisimple ↥(orthResDer K b c 2) :=
     (orthMinus_isQuasisimple_of_simple hna).1
   exact CFSG.Open.IsQuasisimple.of_mulEquiv

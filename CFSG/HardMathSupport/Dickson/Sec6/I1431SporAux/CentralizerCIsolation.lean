@@ -64,7 +64,6 @@ theorem exists_lift_centralizer (E : Subgroup G) [E.Normal] (e : G ⧸ E ≃* Q)
   rw [hcent] at hb
   obtain ⟨x, hx, hxa⟩ := Subgroup.mem_map.1 hb
   refine ⟨x, (Subgroup.mem_centralizer_iff.1 hx c (Subgroup.mem_zpowers _)).symm, ?_⟩
-  change e (QuotientGroup.mk x) = a
   rw [show (QuotientGroup.mk x : G ⧸ E) = e.symm a from hxa, MulEquiv.apply_symm_apply]
 
 theorem eq_one_or_eq_of_involution_of_quotient (E : Subgroup G) [E.Normal] (e : G ⧸ E ≃* Q)
@@ -79,8 +78,8 @@ theorem eq_one_or_eq_of_involution_of_quotient (E : Subgroup G) [E.Normal] (e : 
         g * z * g⁻¹ ∈ Subgroup.zpowers z → g ^ 39 = 1)
     (hw4 : w ^ 4 = 1) (hw2 : w ^ 2 ≠ 1) (hwc : w * c = c * w)
     (ht : t * t = 1) (htc : t * c = c * t) : t = 1 ∨ t = v := by
-  haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
-  haveI : Finite (Subgroup.centralizer ({e (QuotientGroup.mk c)} : Set Q)) :=
+  have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  have : Finite (Subgroup.centralizer ({e (QuotientGroup.mk c)} : Set Q)) :=
     Nat.finite_of_card_ne_zero (by rw [hA]; norm_num)
   let φ : G →* Q := (e : G ⧸ E →* Q).comp (QuotientGroup.mk' E)
   have hφ : ∀ x, φ x = e (QuotientGroup.mk x) := fun x => rfl
@@ -140,7 +139,7 @@ theorem eq_one_or_eq_of_involution_of_quotient (E : Subgroup G) [E.Normal] (e : 
       simpa using this
     have h39 := hNE g g.2 z z.2 hz' hgz'
     exact Subtype.ext (by simpa using h39)
-  haveI := hA
+  have := hA
   obtain ⟨hα, hβ⟩ := klein_of_card_156 hA hAord hAcentral hANE
   have hwC : w ∈ Subgroup.centralizer ({c} : Set G) :=
     Subgroup.mem_centralizer_singleton_iff.2 hwc
@@ -187,14 +186,14 @@ theorem card_centralizer_subtype_eq {X : Type*} [Group X] {u c : X}
         ({(⟨u, hu⟩ : Subgroup.centralizer ({c} : Set X))} : Set (Subgroup.centralizer ({c} : Set X)))) =
       Nat.card ↥(Subgroup.centralizer ({u} : Set X) ⊓ Subgroup.centralizer ({c} : Set X)) :=
   Nat.card_congr
-    { toFun := fun y => ⟨(y.1 : X), Subgroup.mem_inf.2 ⟨
+    { toFun := fun _y => ⟨(_y.1 : X), Subgroup.mem_inf.2 ⟨
         Subgroup.mem_centralizer_singleton_iff.2
-          (congrArg Subtype.val (Subgroup.mem_centralizer_singleton_iff.1 y.2)), y.1.2⟩⟩
-      invFun := fun z => ⟨⟨z.1, (Subgroup.mem_inf.1 z.2).2⟩,
+          (congrArg Subtype.val (Subgroup.mem_centralizer_singleton_iff.1 _y.2)), _y.1.2⟩⟩
+      invFun := fun _z => ⟨⟨_z.1, (Subgroup.mem_inf.1 _z.2).2⟩,
         Subgroup.mem_centralizer_singleton_iff.2 (Subtype.ext
-          (Subgroup.mem_centralizer_singleton_iff.1 (Subgroup.mem_inf.1 z.2).1))⟩
-      left_inv := fun y => rfl
-      right_inv := fun z => rfl }
+          (Subgroup.mem_centralizer_singleton_iff.1 (Subgroup.mem_inf.1 _z.2).1))⟩
+      left_inv := fun _y => rfl
+      right_inv := fun _z => rfl }
 
 theorem isolated_of_unique_involution {X : Type*} [Group X] {x c : X} (hx2 : x * x = 1)
     (hx1 : x ≠ 1) (hxc : x * c = c * x) (hxC : x ∈ Subgroup.centralizer ({c} : Set X))
@@ -254,7 +253,7 @@ theorem not_dvd_card_pCore_thirteen : ¬ 13 ∣ Nat.card (CFSG.pCore 2 (cent xGm
 theorem orderOf_image_c13H
     (e : cent xGmat ⧸ CFSG.pCore 2 (cent xGmat) ≃* CFSG.Blueprint.NativeSporadic.Co1) :
     orderOf (e (QuotientGroup.mk c13H)) = 13 := by
-  haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
   exact orderOf_image_co1 e (by norm_num) orderOf_c13H
 
 theorem co1_facts_c13H
@@ -277,7 +276,7 @@ theorem exists_order_four_c13 :
 theorem eq_one_or_eq_xGmat_of_involution {t : Gmat} (ht : t * t = 1)
     (htx : t * xGmat = xGmat * t) (htc : t * gw genD13W1 = gw genD13W1 * t) :
     t = 1 ∨ t = xGmat := by
-  haveI : Finite (cent xGmat) := finite_cent_xGmat
+  have : Finite (cent xGmat) := finite_cent_xGmat
   obtain ⟨e⟩ := twoB_xGmat₁₃.2.2.2.1
   obtain ⟨h156, hNE⟩ := co1_facts_c13H e
   obtain ⟨w, hw4, hw2, hwc⟩ := exists_order_four_c13

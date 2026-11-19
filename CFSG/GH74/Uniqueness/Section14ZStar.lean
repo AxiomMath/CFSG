@@ -104,7 +104,7 @@ theorem exists_normal_sylow_of_zStar {H : Type} [Group H] [Finite H] (Sb : Sylow
   obtain ⟨Pr⟩ : Nonempty (Sylow r H) := inferInstance
   have hPle : (Pr : Subgroup H) ≤ Rp := by
     intro x hx
-    obtain ⟨a, ha⟩ := IsPGroup.iff_orderOf.mp Pr.isPGroup' ⟨x, hx⟩
+    obtain ⟨a, ha⟩ := IsPGroup.iff_orderOf.mp Pr.isPGroup ⟨x, hx⟩
     have hxord : orderOf x = r ^ a := by
       rw [← Subgroup.orderOf_mk x hx]
       exact ha
@@ -230,7 +230,7 @@ theorem zstar14_abstract {G : Type} [Group G] [Finite G] (N : Subgroup G) [N.Nor
       have hodd_a := CFSG.Adapters.odd_orderOf_of_mem_oddCore haO
       have h2 : orderOf ((w * s * w⁻¹ * s⁻¹ : G) : G ⧸ N) ∣ orderOf (w * s * w⁻¹ * s⁻¹) :=
         orderOf_map_dvd (QuotientGroup.mk' N) _
-      obtain ⟨j, hj⟩ := IsPGroup.iff_card.mp T.isPGroup'
+      obtain ⟨j, hj⟩ := IsPGroup.iff_card.mp T.isPGroup
       have h3 : orderOf (w * s * w⁻¹ * s⁻¹) ∣ 2 ^ j := by
         rw [← hj]
         exact Subgroup.orderOf_dvd_natCard (T : Subgroup G) haT

@@ -75,7 +75,7 @@ theorem exists_conj_commute_torsion (T : Subgroup Γ) (hT : ∀ x ∈ T, ∀ y �
     simpa using h3
   obtain ⟨S, hAS⟩ := hAp.exists_le_sylow
   set T₃ := (S : Subgroup T).map T.subtype with hT₃
-  have hT₃p : IsPGroup 3 T₃ := S.isPGroup'.map T.subtype
+  have hT₃p : IsPGroup 3 T₃ := S.isPGroup.map T.subtype
   obtain ⟨P, hT₃P⟩ := hT₃p.exists_le_sylow
   have hAT₃ : A ≤ T₃ := by
     intro t ht
@@ -84,7 +84,7 @@ theorem exists_conj_commute_torsion (T : Subgroup Γ) (hT : ∀ x ∈ T, ∀ y �
     rintro _ ⟨t, -, rfl⟩
     exact t.2
   have hnorm : (T₃.subgroupOf (P : Subgroup Γ)).Normal :=
-    normal_of_index_dvd_prime P.isPGroup' _ (relindex_dvd_three T hidx S P hT₃P)
+    normal_of_index_dvd_prime P.isPGroup _ (relindex_dvd_three T hidx S P hT₃P)
   have hyp : IsPGroup 3 (Subgroup.zpowers y) := by
     rintro ⟨_, k, rfl⟩
     refine ⟨1, Subtype.ext ?_⟩

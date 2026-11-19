@@ -11,12 +11,14 @@ open CFSG.LocalAnalysis.GLTheoremA.S172A.GL (fixSp comSp glueHom isCompl_fixSp_c
 
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [FiniteDimensional (ZMod 2) V]
 
+omit [FiniteDimensional (ZMod 2) V] in
 private lemma glue_mem_left {U Uc : Submodule (ZMod 2) V} (hc : IsCompl U Uc)
     (g' : U ≃ₗ[ZMod 2] U) {w : V} (hw : w ∈ U) : glue hc g' w ∈ U := by
   have h := glue_apply_left hc g' ⟨w, hw⟩
   rw [h]
   exact (g' ⟨w, hw⟩).2
 
+omit [FiniteDimensional (ZMod 2) V] in
 private lemma glue_mem_left_iff {U Uc : Submodule (ZMod 2) V} (hc : IsCompl U Uc)
     (g' : U ≃ₗ[ZMod 2] U) (w : V) : glue hc g' w ∈ U ↔ w ∈ U := by
   refine ⟨fun hw => ?_, glue_mem_left hc g'⟩

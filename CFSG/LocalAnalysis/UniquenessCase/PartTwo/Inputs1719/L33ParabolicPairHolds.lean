@@ -450,7 +450,7 @@ private theorem l33ParabolicModelFacts :
     hU2el, hU2card, hS0norm1, hS0norm2, hU1rad, hU2rad, hsup⟩
 
 private theorem isRadical_of_comap
-    {Y : Type} [Group Y] [Finite Y] {K S : Subgroup Y} (hKN : K.Normal)
+    {Y : Type} [Group Y] [Finite Y] {K S : Subgroup Y} (_hKN : K.Normal)
     (e : ↥K ≃* QP.originalSubgroup)
     {T : Subgroup Y} (hT : T = S ⊓ K)
     {U S0 : Subgroup QP.originalSubgroup} {V : Subgroup ↥K}

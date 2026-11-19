@@ -69,7 +69,7 @@ private theorem omSevenGW_exists_hypPairs {K : Type} [Field K] [Finite K]
   classical
   let Q := quadOdd 3 K
   have hQ : (polarBilin Q).Nondegenerate := nondegenerate_polarBilin_quadOdd 3 K h2
-  haveI : Invertible (2 : K) := invertibleOfNonzero h2
+  have : Invertible (2 : K) := invertibleOfNonzero h2
   set W : Submodule K (OmegaSevenIdx → K) := LinearMap.ker (polarBilin Q w) with hWdef
   have huW : u ∈ W := by
     rw [hWdef, LinearMap.mem_ker, polarBilin_apply_apply, polar_comm]
@@ -120,7 +120,7 @@ private theorem omSevenGW_exists_hypPairs {K : Type} [Field K] [Finite K]
       map_smul' := by
         intro c a
         ext i
-        fin_cases i <;> simp [polar_smul_right_eq] }
+        fin_cases i <;> simp }
   have hker : LinearMap.ker φ = T₁.perp ⊓ W := by
     ext v
     simp only [LinearMap.mem_ker, Submodule.mem_inf, HypPair.mem_perp, hT₁e, hWdef,

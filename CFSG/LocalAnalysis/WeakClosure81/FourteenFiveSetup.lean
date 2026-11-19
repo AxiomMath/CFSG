@@ -18,13 +18,15 @@ namespace FourteenFive
 
 variable {n : ℕ} {M V₀ V : Subgroup G} {g : G}
 
+omit [Finite G] in
 theorem hyp65_of_hyp15 (h : Hyp15 M V₀ V) (hO : InCalO1 n M V₀ V g) : Hyp65 n M V₀ V g := by
   exact ⟨h.h6.elemAbelian, h.h6.le, h.ne_bot, h.h6.normalizer_eq, h.normalizer₀, h.isTI, hO⟩
 
+omit [Finite G] in
 private theorem eq_two_of_relIndex_dvd_two_pow {H K : Subgroup G} {k : ℕ}
     (hdiv : H.relIndex K ∣ 2 ^ k) (hval : padicValNat 2 (H.relIndex K) = 1) :
     H.relIndex K = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨j, -, hj⟩ := (Nat.dvd_prime_pow Nat.prime_two).1 hdiv
   rw [hj, padicValNat.prime_pow] at hval
   rw [hval, pow_one] at hj
@@ -37,7 +39,7 @@ theorem not_V₀_le_K (h : Hyp65 n M V₀ V g)
     (h.commutator_conjV₀_V_le_V₀ hV₀K))
 
 theorem one_le_mQuot (h : Hyp65 n M V₀ V g) : 1 ≤ E3.mQuot V (conjSubgroup M g) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := (CFSG.Open.IsElemAbelian.isPGroup h.elemAbelian).exists_card_eq
   have hdiv : (conjSubgroup M g).relIndex V ∣ 2 ^ k := by
     rw [← hk]
@@ -52,7 +54,7 @@ theorem one_le_mQuot (h : Hyp65 n M V₀ V g) : 1 ≤ E3.mQuot V (conjSubgroup M
 
 theorem relIndex_U_eq_two (h : Hyp65 n M V₀ V g) (h1 : E3.mQuot V (conjSubgroup M g) = 1) :
     (UOf M V g).relIndex V = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := (CFSG.Open.IsElemAbelian.isPGroup h.elemAbelian).exists_card_eq
   have hval : padicValNat 2 ((V ⊓ conjSubgroup M g).relIndex V) = 1 := by
     rw [Subgroup.inf_relIndex_left]

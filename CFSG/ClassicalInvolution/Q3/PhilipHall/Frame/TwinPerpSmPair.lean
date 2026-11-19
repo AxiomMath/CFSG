@@ -35,7 +35,7 @@ theorem exists_u1_of_outTwoCyclic (h : PerpHypS n Y R S t) {N : Subgroup Y} [N.N
   have hS0le : S0 ≤ R := by
     rintro _ ⟨x, -, rfl⟩
     exact x.2
-  have hS0p : IsPGroup 2 S0 := S.isPGroup'.map R.subtype
+  have hS0p : IsPGroup 2 S0 := S.isPGroup.map R.subtype
   have hnc : ∃ a b : S0, a * b ≠ b * a :=
     Nobq.exists_not_commute_of_mulEquiv_quaternionGroup hn2
       ((Subgroup.equivMapOfInjective (S : Subgroup R) R.subtype R.subtype_injective).symm.trans e)
@@ -86,8 +86,8 @@ theorem exists_u1_of_outTwoCyclic (h : PerpHypS n Y R S t) {N : Subgroup Y} [N.N
 theorem exists_twinPair_of_u1 (h : PerpHypS n Y R S t) {u₁ : Y} (hu₁K : u₁ ∈ tightCore R)
     (hu₁T : u₁ ∈ genFittingFStar Y) (hu₁4 : orderOf u₁ = 4) :
     TwinPair ↥(genFittingFStar Y) := by
-  haveI hsimple := h.core.simple
-  haveI hTn : (genFittingFStar Y).Normal := genFittingFStar_normal Y
+  have hsimple := h.core.simple
+  have hTn : (genFittingFStar Y).Normal := genFittingFStar_normal Y
   have hΩ : HypOmegaGen (CoreAssembly.conjClass (tightCore R)) := h.core.hyp
   have hz : IsUniqueInvolution (tightCore R) t := uniqueInv_core h
   obtain ⟨g, hgc, hne, ⟨hK'Ω⟩, hz'⟩ := exists_twin h
@@ -174,8 +174,8 @@ theorem exists_twinPair_of_u1 (h : PerpHypS n Y R S t) {u₁ : Y} (hu₁K : u₁
 theorem false_of_outTwoCyclic_of_noTwinPair (h : PerpHypS n Y R S t)
     (hO : Nobq.OutTwoCyclic ↥(genFittingFStar Y))
     (hno : ¬ TwinPair ↥(genFittingFStar Y)) : False := by
-  haveI := h.core.simple
-  haveI hTn : (genFittingFStar Y).Normal := genFittingFStar_normal Y
+  have := h.core.simple
+  have hTn : (genFittingFStar Y).Normal := genFittingFStar_normal Y
   have hC : Subgroup.centralizer ((genFittingFStar Y : Subgroup Y) : Set Y) = ⊥ :=
     Nobq.centralizer_genFittingFStar_eq_bot h.core.nonab
   obtain ⟨-, s, hsK, hsT, hs4⟩ := exists_u1_of_outTwoCyclic h hC hO

@@ -13,15 +13,18 @@ open scoped MatrixGroups
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] in
 private theorem chief_hermBlkZ_one {n : ℕ} : hermBlkZ (1 : HMod n K) = 0 := by
   ext i j
   simp [hermBlkZ, mat_one]
 
+omit [Finite K] in
 private theorem chief_hermBlkZ_mul {n : ℕ} (X Y : HMod n K) :
     hermBlkZ (X * Y) = hermBlkZ X + hermBlkZ Y := by
   ext i j
   simp [hermBlkZ, mat_mul]
 
+omit [Finite K] in
 private theorem chief_hermBlkZ_inv {n : ℕ} (X : HMod n K) : hermBlkZ X⁻¹ = -hermBlkZ X := by
   ext i j
   simp [hermBlkZ, mat_inv]
@@ -82,7 +85,7 @@ theorem chief_V2z_top (hK : Nat.card K = (2 ^ 1) ^ 2) :
         simp
       simpa using W.mul_mem (hVW hmem) hX
     ·
-      push_neg at hne
+      push Not at hne
       refine Or.inl (le_antisymm (fun X hX => ?_) hVW)
       rw [mem_V2z_iff_hermBlkZ]
       exact hne (hermBlkZ X) ((hSmem _).2 ⟨X, hX, rfl⟩)

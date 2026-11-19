@@ -38,7 +38,7 @@ theorem plane_delta_bot (hPR : P ≤ R) (hRn : ∀ r ∈ R, ∀ q ∈ P, r * q *
     (E : Subgroup ↥P) (hE3 : ∀ x ∈ E, x ^ 3 = 1) (hEc : Nat.card E = 3 ^ 2) :
     (⨅ (d : ↥P) (_ : d ∈ E) (_ : d ≠ 1),
       GLAPPrimeCoreOf 3 (Subgroup.centralizer ({(d : M)} : Set M) ⊓ R)) = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [eq_bot_iff]
   intro y hy
   rw [Subgroup.mem_bot]
@@ -226,7 +226,7 @@ theorem plane_delta_bot (hPR : P ≤ R) (hRn : ∀ r ∈ R, ∀ q ∈ P, r * q *
   rw [hYcard, hnP] at h4
   exact hmod h4
 
-theorem eq_one_of_mem_cores (hPR : P ≤ R) (hRn : ∀ r ∈ R, ∀ q ∈ P, r * q * r⁻¹ ∈ P)
+theorem eq_one_of_mem_cores (_hPR : P ≤ R) (hRn : ∀ r ∈ R, ∀ q ∈ P, r * q * r⁻¹ ∈ P)
     (hidx : ∀ a ∈ R, ∀ b ∈ R, a ∉ P → b ∉ P → a * b ∈ P)
     (hA : ∀ x ∈ P, orderOf x = 3 →
       GLAPPrimeCoreOf 3 (Subgroup.centralizer ({x} : Set M) ⊓ P) = ⊥)

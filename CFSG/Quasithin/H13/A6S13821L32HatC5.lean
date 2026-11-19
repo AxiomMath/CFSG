@@ -16,23 +16,28 @@ open CFSG.Quasithin.H13.A6.L32HatC4
 
 variable {G : Type} [Group G] [Finite G] {T L V : Subgroup G}
 
+omit [Finite G] in
 theorem sm_mul {x y : G} (hx : x ∈ NV T V) (hy : y ∈ NV T V) :
     sm T V ((NV T V).mul_mem hx hy) = sm T V hx * sm T V hy :=
   map_mul (secMk (NV T V) (fsuV1 T V)) ⟨x, hx⟩ ⟨y, hy⟩
 
+omit [Finite G] in
 theorem sm_inv {x : G} (hx : x ∈ NV T V) : sm T V ((NV T V).inv_mem hx) = (sm T V hx)⁻¹ :=
   map_inv (secMk (NV T V) (fsuV1 T V)) ⟨x, hx⟩
 
+omit [Finite G] in
 theorem sm_congr {x y : G} (hx : x ∈ NV T V) (hy : y ∈ NV T V) (h : x = y) :
     sm T V hx = sm T V hy := by
   subst h
   rfl
 
+omit [Finite G] in
 theorem sm_conj {a y : G} (ha : a ∈ NV T V) (hy : y ∈ NV T V) :
     sm T V ha * sm T V hy * (sm T V ha)⁻¹ =
       sm T V ((NV T V).mul_mem ((NV T V).mul_mem ha hy) ((NV T V).inv_mem ha)) := by
   rw [sm_mul ((NV T V).mul_mem ha hy) ((NV T V).inv_mem ha), sm_mul ha hy, sm_inv ha]
 
+omit [Finite G] in
 theorem sm_eq_one_iff {x : G} (hx : x ∈ NV T V) : sm T V hx = 1 ↔ x ∈ fsuV1 T V :=
   secMk_eq_one_iff
 
@@ -81,7 +86,7 @@ theorem hC_holds {S : Setting4 G T L V}
     Subgroup.subset_closure ⟨1, H.one_mem, z, hz, by simp⟩
   have hV3N : S.V3 ≤ NV T V := hV3U.trans hUN
   have hE : IsElemAbelian 2 (UT T V S.V3 H) := hF.isElemAbelian_tilde
-  letI : CommGroup ↥(UT T V S.V3 H) := CFSG.Quasithin.commGroupOfElemAbelian hE
+  let : CommGroup ↥(UT T V S.V3 H) := CFSG.Quasithin.commGroupOfElemAbelian hE
   have hsq : ∀ w : ↥(UT T V S.V3 H), w ^ 2 = 1 := fun w =>
     Subtype.ext (by simpa using hE.2 w.1 w.2)
   have hK2 : pCoreOf 2 K ≤ pCoreOf 2 H :=
@@ -122,7 +127,7 @@ theorem hC_holds {S : Setting4 G T L V}
     card_tilde_V3 hV1S3 hV3N hF.card_V₁ S.card_V3
   obtain ⟨w₁, hw₁⟩ : ∃ w : ↥(tildeOf (fsuV1 T V) S.V3), w ≠ 1 := by
     have h1 : 1 < Nat.card ↥(tildeOf (fsuV1 T V) S.V3) := by rw [hcard4]; norm_num
-    haveI := Finite.one_lt_card_iff_nontrivial.mp h1
+    have := Finite.one_lt_card_iff_nontrivial.mp h1
     exact exists_ne 1
   obtain ⟨z₁, hz₁, hz₁w⟩ := mem_secImg.mp (show (w₁ : QV T V) ∈
     secImg (NV T V) (fsuV1 T V) S.V3 from w₁.2)

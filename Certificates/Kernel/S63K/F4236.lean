@@ -158,14 +158,14 @@ theorem sg_eq {k : ℕ} (hk : k < 819) :
     rw [tSig_add]
     by_cases h0 : j = 0
     · subst h0
-      rw [if_pos rfl, sg_succ]
+      rw [ite_eq_left rfl, sg_succ]
       exact ⟨rfl, hk⟩
     · have ht := tree (by omega) hj
       have hs : FK.sg k (f + 1) j = FK.fw (FK.La j) (FK.sg k f (FK.Pa j)) := by
         have e : Nat.beq j 0 = false := Bool.eq_false_iff.2 fun h => h0 (Nat.eq_of_beq_eq_true h)
         rw [sg_succ, e]
       obtain ⟨e, b⟩ := ih (FK.Pa j) ht.1 (by omega) f (by omega)
-      rw [if_neg h0, hs, par_get hj, lab_get hj, e]
+      rw [ite_eq_right h0, hs, par_get hj, lab_get hj, e]
       exact hF ht.2.1 b
 
 theorem aF_get {k : ℕ} (hk : k < 819) {y : ℕ} (hy : y < 819) :
@@ -310,7 +310,7 @@ theorem orbOK_R : f48OrbOK lay0 Fa R 71 = true := by
     rw [lay_get hx]
     by_cases h6 : FK.L0 x = 6
     · have hp := ps_lt hx h6
-      rw [h8 x hx, if_pos hp, ord_get hp, o_ps hx hp]
+      rw [h8 x hx, ite_eq_left hp, ord_get hp, o_ps hx hp]
       simp [hp]
     · simp [h6]
 
@@ -332,14 +332,14 @@ theorem keyAll {M : ℕ} (hM : M < 2 ^ 40) (hP : ∀ i < 512, FK.pwOK M i = true
       omega
     · by_cases h0 : i = 0
       · subst h0
-        rw [r_parts.1, if_pos (beq_self_eq_true 71)]
+        rw [r_parts.1, ite_eq_left (beq_self_eq_true 71)]
         refine tArr_id hTR (by norm_num) fun j h0 hj => ?_
         obtain ⟨t1, -, t3⟩ := tree h0 hj
         rw [lab_get hj, par_get hj, ord_get (lt_trans t1 hj), ord_get hj, t3]
       · have hne : (FK.O i == 71) = false := by
           rw [beq_eq_false_iff_ne, ← r_parts.1]
           exact fun e => h0 (o_inj hp (by norm_num) e)
-        rw [if_neg (by rw [hne]; exact Bool.false_ne_true)]
+        rw [ite_eq_right (by rw [hne]; exact Bool.false_ne_true)]
         exact fullFail hM hp h0 (hP i hp)
   · simp [h6]
 

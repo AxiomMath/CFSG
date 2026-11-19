@@ -71,11 +71,11 @@ theorem normOf_cross {y z : MulAut V} (hz3 : z ^ 3 = 1)
       rw [hy', hy', hz] at this
       exact this
   have hyk' := hyk
-  interval_cases k <;> interval_cases j <;> first | exact absurd rfl hjk | skip
+  interval_cases k <;> interval_cases j <;> try exact absurd rfl hjk
   all_goals
     obtain ⟨h0, h1, h2⟩ := hyk'
     simp only [normOf_apply, pow_zero, pow_one, pow_two, mul_one, MulAut.mul_apply, hy', hz,
-      h0, h1, h2] <;> first | rfl | ac_rfl
+      h0, h1, h2]; try ac_rfl
 
 @[expose] def Cj (W : Subgroup V) (y z : MulAut V) (j : ℕ) : Subgroup V := W ⊓ fixOf (y * z ^ j)
 
@@ -306,7 +306,7 @@ theorem fpf_z (hsq : ∀ v : V, v * v = 1) {y z x : MulAut V} (hy3 : y ^ 3 = 1) 
   have hc1 : Nat.card (fixOf z) = 1 := by
     generalize Nat.card (fixOf z) = c at *
     set m := Nat.card (↥((normOf z).ker ⊓ fixOf y : Subgroup V)) with hm
-    interval_cases c <;> first | omega | skip
+    interval_cases c <;> try omega
     all_goals first
       | (exfalso; exact no_cube_four m (by omega))
       | (exfalso; exact no_cube_sixteen m (by omega))

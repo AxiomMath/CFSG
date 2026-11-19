@@ -49,7 +49,7 @@ theorem exists_isComponentOf_dvd_card_center {G : Type*} [Group G] [Finite G] {p
 theorem nine_dvd_index_center {J : Type*} [Group J] [Finite J] (hJ : commutator J = ⊤)
     (h3 : 3 ∣ Nat.card (Subgroup.center J)) : 9 ∣ (Subgroup.center J).index := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨u, hu⟩ := exists_prime_orderOf_dvd_card' (G := Subgroup.center J) 3 h3
   have hu' : orderOf (u : J) = 3 := by rw [Subgroup.orderOf_coe]; exact hu
   have huc : (u : J) ∈ Subgroup.center J := u.2
@@ -61,7 +61,7 @@ theorem nine_dvd_index_center {J : Type*} [Group J] [Finite J] (hJ : commutator 
     CFSG.GH74.GLS.Stage2.Bender.Thm1.LyMult.central_mem_commutator_sylow hperf P huc ⟨1, hu3⟩
   let f : (P : Subgroup J) →* J ⧸ Subgroup.center J :=
     (QuotientGroup.mk' (Subgroup.center J)).comp (P : Subgroup J).subtype
-  have hRp : IsPGroup 3 f.range := P.isPGroup'.of_surjective f.rangeRestrict
+  have hRp : IsPGroup 3 f.range := P.isPGroup.of_surjective f.rangeRestrict
     f.rangeRestrict_surjective
   obtain ⟨k, hk⟩ := hRp.exists_card_eq
   have hkdvd : 3 ^ k ∣ (Subgroup.center J).index := by
@@ -70,9 +70,9 @@ theorem nine_dvd_index_center {J : Type*} [Group J] [Finite J] (hJ : commutator 
   have hk1 : k ≤ 1 := by
     by_contra hk2
     exact h9 ((pow_dvd_pow 3 (by omega : 2 ≤ k)).trans hkdvd)
-  haveI : IsCyclic f.range := by
+  have : IsCyclic f.range := by
     interval_cases k
-    · haveI : Subsingleton f.range :=
+    · have : Subsingleton f.range :=
         Finite.card_le_one_iff_subsingleton.1 (by rw [hk]; norm_num)
       infer_instance
     · exact isCyclic_of_prime_card (p := 3) (by simpa using hk)

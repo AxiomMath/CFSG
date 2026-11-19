@@ -71,7 +71,7 @@ theorem eq_top_of_normalizer_le_of_maximal {G : Type*} [Group G] [Finite G] [IsS
       have := hNS n hn
       rwa [h, hNA] at this
     have hSA : (S : Subgroup G) ≤ A := fun s hs => hNS' s (le_normalizer hs)
-    exact hind (index_modEq_one_of_normalizer_le hSA S.isPGroup' S.not_dvd_index hNS')
+    exact hind (index_modEq_one_of_normalizer_le hSA S.isPGroup S.not_dvd_index hNS')
   · exact h
 
 @[expose] def compSet {G : Type*} [Group G] (E : Subgroup G) : Set G :=

@@ -113,10 +113,10 @@ theorem oddCoreIn_centralizer_eq_bot_of_l3e8 (hO : classicalInvolutionOddCore X 
     have hEK : E ≤ K := fun y hy => Subgroup.mem_centralizer_iff.mpr fun z hz => by
       have := hE.1.1.comm ⟨z, hz⟩ ⟨y, hy⟩
       simpa using congrArg Subtype.val this
-    haveI : IsSimpleGroup L3Two := isSimpleGroup_l3Two
+    have : IsSimpleGroup L3Two := isSimpleGroup_l3Two
     have hfs : Function.Surjective f := e.surjective.comp (QuotientGroup.mk'_surjective E)
     have hKm : (K.map f).Normal := hKnormal.map f hfs
-    haveI := hKm
+    have := hKm
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (K.map f) with h | h
     ·
       have hnE : n ∈ E := by
@@ -138,7 +138,7 @@ theorem oddCoreIn_centralizer_eq_bot_of_l3e8 (hO : classicalInvolutionOddCore X 
         exact this.symm
       have hCtop : ∀ x : X, x ∈ C := fun x =>
         Subgroup.mem_centralizer_singleton_iff.mpr (hcz x)
-      haveI hNnormal : N.Normal := ⟨fun m hm g => conj_mem_oddCoreIn (hCtop g) hm⟩
+      have hNnormal : N.Normal := ⟨fun m hm g => conj_mem_oddCoreIn (hCtop g) hm⟩
       have hle : N ≤ classicalInvolutionOddCore X :=
         le_sSup ⟨hNnormal, hNodd⟩
       rw [hO] at hle

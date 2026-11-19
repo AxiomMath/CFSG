@@ -18,7 +18,7 @@ variable {E : Type} [Group E]
 theorem burnsideF437_not_mem_Gp [Finite E] {Gp R : Subgroup E} {fb : E}
     (hsyl : ChF.IsSylowOf 2 R (cenIn Gp fb)) (hR : fb ∉ R) (hsq : fb * fb = 1) : fb ∉ Gp := by
   intro hfG
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hfC : fb ∈ cenIn Gp fb := ⟨hfG, Subgroup.mem_centralizer_singleton_iff.mpr rfl⟩
   have hcen : Subgroup.centralizer ({fb} : Set E) =
       Subgroup.centralizer ((Subgroup.zpowers fb : Subgroup E) : Set E) := by
@@ -322,7 +322,7 @@ theorem burnsideF437_pCoreOf_cen [Finite E] {Gp M₁ M₂ : Subgroup E} {fb : E}
       (cenIn Gp fb)) :
     pCoreOf 2 (cenIn (Gp ⊓ (M₁ ⊓ M₂)) fb) =
       pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) ⊓ Subgroup.centralizer ({fb} : Set E) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set R := pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) ⊓ Subgroup.centralizer ({fb} : Set E) with hR
   have hRle : R ≤ cenIn (Gp ⊓ (M₁ ⊓ M₂)) fb :=
     inf_le_inf_right _ (CFSG.LieType.BorelTits.pCoreOf_le 2 _)

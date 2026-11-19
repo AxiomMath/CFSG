@@ -174,7 +174,7 @@ theorem exists_swapData [Finite X] {u : X} (hu1 : u ≠ 1)
     (P : Sylow 2 X) (hP : Nat.card ↥(P : Subgroup X) = 2 ^ 7) :
     ∃ (B S : Subgroup X) (τ : X), SwapData e B S τ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcardC : Nat.card ↥(centralizer ({u} : Set X)) = 960 := card_centralizer_960 e
   let Q : Sylow 2 ↥(centralizer ({u} : Set X)) := default
   let B : Subgroup X := (Q : Subgroup ↥(centralizer ({u} : Set X))).map
@@ -218,7 +218,7 @@ theorem exists_swapData [Finite X] {u : X} (hu1 : u ≠ 1)
       rw [Subgroup.mem_center_iff]
       intro c
       exact Subtype.ext (mem_centralizer_singleton_iff.1 c.2)
-    haveI : (Subgroup.zpowers uC).Normal :=
+    have : (Subgroup.zpowers uC).Normal :=
       Subgroup.normal_of_le_center (Subgroup.zpowers_le.mpr huCcenter)
     have hzp2 : IsPGroup 2 (Subgroup.zpowers uC) := by
       apply IsPGroup.of_card_dvd_pow (n := 1)
@@ -310,7 +310,7 @@ theorem exists_swapData [Finite X] {u : X} (hu1 : u ≠ 1)
         convert this using 1
         group⟩
     have hzpτ : IsPGroup 2 (Subgroup.zpowers τ) :=
-      S.isPGroup'.to_le (Subgroup.zpowers_le.mpr hτS)
+      S.isPGroup.to_le (Subgroup.zpowers_le.mpr hτS)
     have hmap : (Subgroup.zpowers τC).map (centralizer ({u} : Set X)).subtype =
         Subgroup.zpowers τ := by
       rw [MonoidHom.map_zpowers]
@@ -321,7 +321,7 @@ theorem exists_swapData [Finite X] {u : X} (hu1 : u ≠ 1)
         (centralizer ({u} : Set X)).subtype_injective).trans (MulEquiv.subgroupCongr hmap)).symm
     have hsup2 : IsPGroup 2 (((Q : Subgroup ↥(centralizer ({u} : Set X))) ⊔
         Subgroup.zpowers τC : Subgroup ↥(centralizer ({u} : Set X)))) :=
-      IsPGroup.to_sup_of_normal_left' Q.isPGroup' hzpτC (Subgroup.zpowers_le.mpr hnormQ)
+      IsPGroup.to_sup_of_normal_left' Q.isPGroup hzpτC (Subgroup.zpowers_le.mpr hnormQ)
     have hτC_notin : τC ∉ (Q : Subgroup ↥(centralizer ({u} : Set X))) := by
       intro h
       apply hτB
@@ -346,9 +346,9 @@ theorem exists_swapData [Finite X] {u : X} (hu1 : u ≠ 1)
           Dτ.subgroupOf (dihedralCentralizer e) := hx.2
       rw [hbot, Subgroup.mem_bot] at hx'
       exact Subgroup.mem_bot.mpr (congrArg Subtype.val hx')
-    haveI : (Dτ.subgroupOf (dihedralCentralizer e)).Normal :=
+    have : (Dτ.subgroupOf (dihedralCentralizer e)).Normal :=
       Subgroup.normal_subgroupOf_of_le_normalizer hD_le_normDτ
-    haveI : Group.IsNilpotent ↥(dihedralCentralizer e) := hD2.isNilpotent
+    have : Group.IsNilpotent ↥(dihedralCentralizer e) := hD2.isNilpotent
     obtain ⟨y, hy_ne⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp
       (Group.IsNilpotent.inf_center_ne_bot_of_normal hNne)
     have hyDτ : (y : X) ∈ Dτ := by

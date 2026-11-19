@@ -20,7 +20,7 @@ theorem exists_two_generators_inf_cStar (hE : C19_E2PrimeTmp p f)
   set D : Subgroup G := P ⊓ cStar K with hD
   have hDT : D ≤ (S : Subgroup G) ⊓
       Subgroup.centralizer (((S : Subgroup G) ⊓ K : Subgroup G) : Set G) := fun x hx =>
-    ⟨hPS hx.1, mem_centralizer_inf_of_mem_cStar S.isPGroup' hx.2 (hPS hx.1)⟩
+    ⟨hPS hx.1, mem_centralizer_inf_of_mem_cStar S.isPGroup hx.2 (hPS hx.1)⟩
   have hDC : IsCyclic ↥(D ⊓ C) := Subgroup.isCyclic_of_le (H' := C) inf_le_right
   obtain ⟨⟨c, hc⟩, hcgen⟩ := hDC.exists_generator
   have hCz : D ⊓ C = Subgroup.zpowers c := by
@@ -62,7 +62,7 @@ theorem twoSubgroupsFourGenerated_of_e2Prime (hE : C19_E2PrimeTmp p f)
     rw [normalizer_eq_centralizer_of_tight hd.tight.toTightBranch]
     exact hd.hSz
   refine fourGenerated_of_sylow S fun P hPS => ?_
-  obtain ⟨s₁, hs₁, hcl₁⟩ := hE3 P (S.isPGroup'.to_le hPS) (hPS.trans hSN)
+  obtain ⟨s₁, hs₁, hcl₁⟩ := hE3 P (S.isPGroup.to_le hPS) (hPS.trans hSN)
   obtain ⟨s₂, hs₂, hcl₂⟩ := exists_two_generators_inf_cStar hE hd hPS
   refine ⟨s₁ ∪ s₂, (Finset.card_union_le _ _).trans (by omega), ?_⟩
   rw [Finset.coe_union, Subgroup.closure_union, hcl₂, hcl₁]

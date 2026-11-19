@@ -10,6 +10,7 @@ open CFSG.Open CFSG.Quasithin Subgroup
 
 variable {V : Type} [CommGroup V] [Finite V]
 
+omit [Finite V] in
 theorem xInv_fixV {L A : Subgroup (MulAut V)}
     (hAL : A ≤ Subgroup.normalizer (L : Set (MulAut V))) : XInv L A (fixV L) := by
   refine ⟨fun g hg => mem_stabSub_of_inv (fun z hz => ?_) (fun z hz => ?_),
@@ -37,6 +38,7 @@ theorem xInv_fixV {L A : Subgroup (MulAut V)}
         show a⁻¹ ((a * l * a⁻¹ : MulAut V) z) = a⁻¹ z
         rw [this]
 
+omit [Finite V] in
 theorem abstract_of_natN {n : ℕ} {L : Subgroup (MulAut V)} (hs : IsSimpleGroup ↥L)
     {M₀ : Subgroup V} (hM₀U : M₀ ≤ commV L) (hLU : L ≤ stabSub (commV L))
     (hLM₀ : L ≤ stabSub M₀) (hker : M₀ = commV L ⊓ fixV L) (hnc : ¬ LTrivOn L M₀ (commV L))
@@ -67,6 +69,7 @@ theorem abstract_of_natN {n : ℕ} {L : Subgroup (MulAut V)} (hs : IsSimpleGroup
     rw [h2] at h1
     simpa using h1
 
+omit [Finite V] in
 theorem abstract_of_natO {n : ℕ} {L : Subgroup (MulAut V)} (hs : IsSimpleGroup ↥L)
     {M₀ : Subgroup V} (hM₀U : M₀ ≤ commV L) (hLU : L ≤ stabSub (commV L))
     (hLM₀ : L ≤ stabSub M₀) (hker : M₀ = commV L ⊓ fixV L) (hnc : ¬ LTrivOn L M₀ (commV L))

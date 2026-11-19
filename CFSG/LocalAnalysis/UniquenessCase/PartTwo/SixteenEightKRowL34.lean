@@ -26,8 +26,8 @@ theorem s16k_false_of_l34 (h : S16gRowCtx D V₀ V L hV)
   have hrk3 : 3 ≤ CFSG.Open.pRank p (Mbar D.M V₀ V hV) := h.three_le_pRank hpσ
   obtain ⟨Q, hQc, hQf, L', N, hsq, hcardQ, hiso, hirrImp, hNL, hrank, -⟩ :=
     s16k_exists_quot_data h
-  letI := hQc
-  letI := hQf
+  let := hQc
+  let := hQf
   rw [hm] at hcardQ
   obtain ⟨e⟩ := hiso
   have hirrQ : ∀ B : Subgroup Q, (∀ l ∈ L', ∀ b ∈ B, l b ∈ B) → B = ⊥ ∨ B = ⊤ :=
@@ -49,12 +49,12 @@ theorem s16k_false_of_l34 (h : S16gRowCtx D V₀ V L hV)
           orderOf_eq_prime (by decide) (by decide)
         rw [hord]
         norm_num
-      rw [if_neg hnot] at h2'
-      rw [if_pos hp3] at h3
+      rw [ite_eq_right hnot] at h2'
+      rw [ite_eq_left hp3] at h3
       omega
     · have hbound : (if orderOf (2 : ZMod p) ∣ 9 then 1 else 0) ≤ 1 := by
         split <;> omega
-      rw [if_neg hp3] at h3
+      rw [ite_eq_right hp3] at h3
       omega
   omega
 

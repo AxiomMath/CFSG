@@ -14,7 +14,7 @@ theorem nonempty_a11TwoSetStab_mulEquiv {i j : Fin 11} (hij : i ≠ j) :
   let Ω : Finset (Fin 11) := (Finset.univ.erase i).erase j
   have hΩmem : ∀ k, k ∈ Ω ↔ k ≠ i ∧ k ≠ j := by
     intro k
-    simp [Ω, Finset.mem_erase, and_assoc, and_comm, and_left_comm]
+    simp [Ω, Finset.mem_erase, and_comm]
   have hΩcard : Ω.card = 9 := by
     change ((Finset.univ.erase i).erase j).card = 9
     rw [Finset.card_erase_of_mem
@@ -259,7 +259,7 @@ private noncomputable def foldPerm (i j : Fin 11) (σ : Equiv.Perm (Fin 11)) :
 
 private lemma foldPerm_one (i j : Fin 11) : foldPerm i j 1 = 1 := by
   classical
-  rw [foldPerm, if_pos (one_mem (alternatingGroup (Fin 11)))]
+  rw [foldPerm, ite_eq_left (one_mem (alternatingGroup (Fin 11)))]
 
 private lemma sign_eq_neg_one_of_not_even {σ : Equiv.Perm (Fin 11)}
     (h : σ ∉ alternatingGroup (Fin 11)) : Equiv.Perm.sign σ = -1 := by
@@ -272,9 +272,9 @@ private lemma foldPerm_mem_alternatingGroup {i j : Fin 11} (hij : i ≠ j)
     foldPerm i j σ ∈ alternatingGroup (Fin 11) := by
   classical
   by_cases h : σ ∈ alternatingGroup (Fin 11)
-  · rw [foldPerm, if_pos h]
+  · rw [foldPerm, ite_eq_left h]
     exact h
-  · rw [foldPerm, if_neg h, Equiv.Perm.mem_alternatingGroup, Equiv.Perm.sign_mul,
+  · rw [foldPerm, ite_eq_right h, Equiv.Perm.mem_alternatingGroup, Equiv.Perm.sign_mul,
       sign_eq_neg_one_of_not_even h, Equiv.Perm.sign_swap hij]
     norm_num
 
@@ -308,9 +308,9 @@ private lemma foldPerm_apply_mem_pair {i j : Fin 11} (hij : i ≠ j)
   classical
   have hpair := maps_twoSet_of_mem_centralizer_swap hij hσ
   by_cases h : σ ∈ alternatingGroup (Fin 11)
-  · rw [foldPerm, if_pos h]
+  · rw [foldPerm, ite_eq_left h]
     exact hpair
-  · rw [foldPerm, if_neg h]
+  · rw [foldPerm, ite_eq_right h]
     rcases hpair with ⟨h1, h2⟩ | ⟨h1, h2⟩
     · right
       refine ⟨?_, ?_⟩
@@ -321,7 +321,7 @@ private lemma foldPerm_apply_mem_pair {i j : Fin 11} (hij : i ≠ j)
       · rw [Equiv.Perm.mul_apply, Equiv.swap_apply_left, h2]
       · rw [Equiv.Perm.mul_apply, Equiv.swap_apply_right, h1]
 
-private lemma foldPerm_mul {i j : Fin 11} (hij : i ≠ j)
+private lemma foldPerm_mul {i j : Fin 11} (_hij : i ≠ j)
     {σ τ : Equiv.Perm (Fin 11)}
     (hτ : τ ∈ Subgroup.centralizer ({Equiv.swap i j} : Set (Equiv.Perm (Fin 11)))) :
     foldPerm i j (σ * τ) = foldPerm i j σ * foldPerm i j τ := by
@@ -331,14 +331,14 @@ private lemma foldPerm_mul {i j : Fin 11} (hij : i ≠ j)
     · have hστ : σ * τ ∈ alternatingGroup (Fin 11) :=
         (alternatingGroup (Fin 11)).mul_mem hσe hτe
       simp only [foldPerm]
-      rw [if_pos hσe, if_pos hτe, if_pos hστ]
+      rw [ite_eq_left hσe, ite_eq_left hτe, ite_eq_left hστ]
     · have hτo : Equiv.Perm.sign τ = -1 := sign_eq_neg_one_of_not_even hτe
       have hστ : σ * τ ∉ alternatingGroup (Fin 11) := by
         rw [Equiv.Perm.mem_alternatingGroup, Equiv.Perm.sign_mul,
           Equiv.Perm.mem_alternatingGroup.mp hσe, hτo]
         norm_num
       simp only [foldPerm]
-      rw [if_pos hσe, if_neg hτe, if_neg hστ]
+      rw [ite_eq_left hσe, ite_eq_right hτe, ite_eq_right hστ]
       group
   · have hσo : Equiv.Perm.sign σ = -1 := sign_eq_neg_one_of_not_even hσe
     by_cases hτe : τ ∈ alternatingGroup (Fin 11)
@@ -347,7 +347,7 @@ private lemma foldPerm_mul {i j : Fin 11} (hij : i ≠ j)
           Equiv.Perm.mem_alternatingGroup.mp hτe]
         norm_num
       simp only [foldPerm]
-      rw [if_neg hσe, if_pos hτe, if_neg hστ]
+      rw [ite_eq_right hσe, ite_eq_left hτe, ite_eq_right hστ]
       have hsτ : Equiv.swap i j * τ = τ * Equiv.swap i j :=
         (Subgroup.mem_centralizer_singleton_iff.mp hτ).symm
       calc (σ * τ) * Equiv.swap i j = σ * (τ * Equiv.swap i j) := by group
@@ -358,7 +358,7 @@ private lemma foldPerm_mul {i j : Fin 11} (hij : i ≠ j)
         rw [Equiv.Perm.mem_alternatingGroup, Equiv.Perm.sign_mul, hσo, hτo]
         norm_num
       simp only [foldPerm]
-      rw [if_neg hσe, if_neg hτe, if_pos hστ]
+      rw [ite_eq_right hσe, ite_eq_right hτe, ite_eq_left hστ]
       have hsτ : Equiv.swap i j * τ = τ * Equiv.swap i j :=
         (Subgroup.mem_centralizer_singleton_iff.mp hτ).symm
       calc σ * τ = σ * τ * (Equiv.swap i j * Equiv.swap i j) := by
@@ -376,7 +376,7 @@ private lemma foldPerm_eq_one_iff {i j : Fin 11} (hij : i ≠ j)
     rw [Equiv.Perm.mem_alternatingGroup, Equiv.Perm.sign_swap hij]
     norm_num
   by_cases h : σ ∈ alternatingGroup (Fin 11)
-  · rw [foldPerm, if_pos h]
+  · rw [foldPerm, ite_eq_left h]
     constructor
     · intro h1
       left
@@ -386,7 +386,7 @@ private lemma foldPerm_eq_one_iff {i j : Fin 11} (hij : i ≠ j)
       · exfalso
         rw [h1] at h
         exact hσne h
-  · rw [foldPerm, if_neg h]
+  · rw [foldPerm, ite_eq_right h]
     constructor
     · intro h1
       right
@@ -435,7 +435,7 @@ theorem exists_twoSetFold {Y : Type*} [Group Y] {i j : Fin 11} (hij : i ≠ j)
     apply Subtype.ext
     show foldPerm i j (ψ y) = (σ : Equiv.Perm (Fin 11))
     rw [hy]
-    rw [foldPerm, if_pos σ.1.2]
+    rw [foldPerm, ite_eq_left σ.1.2]
   · intro y
     have hiff : φ y = 1 ↔
         ((φ y : ↥(a11TwoSetStab i j)) : Equiv.Perm (Fin 11)) = 1 := by

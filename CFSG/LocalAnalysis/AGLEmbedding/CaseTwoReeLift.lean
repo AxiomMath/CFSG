@@ -116,7 +116,7 @@ theorem D1CaseTwoData.card_inf_le (hd : D1CaseTwoData 3 P₃ M H R Rbar)
       Subgroup (H ⧸ OH)) := by
     by_contra hnc
     have h2 := two_le_pRank_of_isPGroup_not_isCyclic hp (by norm_num)
-      (Rbar.isPGroup'.to_le inf_le_left) hnc
+      (Rbar.isPGroup.to_le inf_le_left) hnc
     have h1 := hd.cfg.red.pRank_inf_centralizer_le_one_of_not_le hL hLX
     omega
   have hzZ : π z ∈ (Rbar : Subgroup (H ⧸ OH)) ⊓ Subgroup.centralizer (L : Set (H ⧸ OH)) :=
@@ -132,7 +132,7 @@ theorem D1CaseTwoData.card_inf_le (hd : D1CaseTwoData 3 P₃ M H R Rbar)
     have hxZ : π s ∈ (Rbar : Subgroup (H ⧸ OH)) ⊓ Subgroup.centralizer (L : Set (H ⧸ OH)) :=
       ⟨hSbR ⟨s, ⟨hsR, c, hcK, hcs⟩, rfl⟩, hsL⟩
     have hxp : IsPGroup 3 (Subgroup.zpowers (π s)) :=
-      Rbar.isPGroup'.to_le (Subgroup.zpowers_le.mpr hxZ.1)
+      Rbar.isPGroup.to_le (Subgroup.zpowers_le.mpr hxZ.1)
     obtain ⟨t, ht⟩ : ∃ t : Subgroup.zpowers (π s), orderOf t = 3 := by
       refine exists_prime_orderOf_dvd_card' 3 ?_
       rcases hxp.card_eq_or_dvd with h1 | h1

@@ -93,7 +93,7 @@ theorem card_le_finrank_of_normalizing {p : ℕ} [hp : Fact p.Prime] (hp2 : p �
       simpa [Polynomial.map_sub] using hdvdK
     obtain ⟨r, hr⟩ := hdvd1
     have h : aeval f (X - C 1 : (ZMod 2)[X]) = 0 := by rw [hr, map_mul, hμf, zero_mul]
-    simp only [map_sub, aeval_X, aeval_C, map_one, sub_eq_zero] at h
+    simp only [map_sub, aeval_X, map_one, sub_eq_zero] at h
     exact hf1 h
   obtain ⟨ζ₀, hζ₀, hζ₀1⟩ := hex
   have hζ₀p : ζ₀ ^ p = 1 := by
@@ -152,8 +152,8 @@ theorem two_pow_card_le_of_normalizing {p : ℕ} [hp : Fact p.Prime] (hp2 : p �
     apply Additive.toMul.injective
     rw [two_nsmul, toMul_add, toMul_zero]
     exact hE _
-  letI : Module (ZMod 2) (Additive E) := AddCommGroup.zmodModule h2
-  haveI : Module.Finite (ZMod 2) (Additive E) := Module.Finite.of_finite
+  let : Module (ZMod 2) (Additive E) := AddCommGroup.zmodModule h2
+  have : Module.Finite (ZMod 2) (Additive E) := Module.Finite.of_finite
   let lin : MulAut E →* Module.End (ZMod 2) (Additive E) :=
     { toFun := fun σ => AddMonoidHom.toZModLinearMap 2 (MonoidHom.toAdditive σ.toMonoidHom)
       map_one' := by ext v; rfl
@@ -186,7 +186,7 @@ theorem two_pow_card_le_card_frattini_quot_of_normalizing {A : Type} [Group A] [
     {n : A} (hnY : n ∈ normalizer (Y : Set A)) {k : ℕ} (hnz : n * z * n⁻¹ = z ^ k)
     (T : Finset (ZMod p)) (hT : ∀ x ∈ T, ∃ a b : ℕ, x = 2 ^ a * (k : ZMod p) ^ b) :
     2 ^ T.card ≤ Nat.card (↥Y ⧸ frattini ↥Y) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hsq := frattini_quot_mul_self_eq_one hY
   obtain ⟨φ, hφdef⟩ : ∃ φ, CFSG.Quasithin.H13.Ch4.L4316.conjFrattini Y ⟨z, hzY⟩ = φ :=
     ⟨_, rfl⟩
@@ -224,7 +224,7 @@ theorem two_pow_card_le_card_frattini_quot_of_normalizing {A : Type} [Group A] [
         rw [mul_inv_rev, inv_eq_of_mul_eq_one_right (hsq a), inv_eq_of_mul_eq_one_right (hsq b)]
   let _ : CommGroup (↥Y ⧸ frattini ↥Y) :=
     { (inferInstance : Group (↥Y ⧸ frattini ↥Y)) with mul_comm := hcomm }
-  haveI : Finite (↥Y ⧸ frattini ↥Y) := inferInstance
+  have : Finite (↥Y ⧸ frattini ↥Y) := inferInstance
   exact two_pow_card_le_of_normalizing hp2 hsq φ ψ hφpow hφ1 hψφ T hT
 
 theorem card_le_of_normalizing {A : Type} [Group A] [Finite A] (L K₀ : Subgroup A) {p : ℕ}
@@ -233,7 +233,7 @@ theorem card_le_of_normalizing {A : Type} [Group A] [Finite A] (L K₀ : Subgrou
     (hnz : n * z * n⁻¹ = z ^ k) {e m : ℕ} (hn : Nat.card L = 2 ^ e * m) (hm : Odd m)
     (T : Finset (ZMod p)) (hT : ∀ x ∈ T, ∃ a b : ℕ, x = 2 ^ a * (k : ZMod p) ^ b) :
     T.card ≤ e := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Y := pCoreOf 2 K₀ with hYdef
   have hYP : IsPGroup 2 Y := pCoreOf_isPGroup 2 K₀
   have hYL : Y ≤ L := (pCoreOf_le 2 K₀).trans hK₀L
@@ -343,7 +343,7 @@ theorem false_of_frattini_quot_sylow {A : Type} [Group A] [Finite A] (L : Subgro
     {Y : Subgroup A} (hY : IsPGroup 2 Y) (hYL : Y ≤ L) {e m : ℕ} (hn : Nat.card L = 2 ^ e * m)
     (hm : Odd m) (hbound : 2 ^ e ≤ Nat.card (↥Y ⧸ frattini ↥Y)) {g : A} (hgL : g ∈ L)
     (hg : orderOf g = 4) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨j, hj⟩ := hY.exists_card_eq
   have hdvd : 2 ^ j ∣ 2 ^ e * m := by
     rw [← hj, ← hn]
@@ -397,12 +397,12 @@ theorem false_of_frattini_quot_sylow {A : Type} [Group A] [Finite A] (L : Subgro
     omega
   obtain ⟨YS, hYS⟩ : ∃ YS : Sylow 2 ↥L, (YS : Subgroup ↥L) = Y.subgroupOf L :=
     ⟨IsPGroup.toSylow hLy hnd, rfl⟩
-  haveI : Finite (Sylow 2 ↥L) := Sylow.finite_of_finiteIndex YS
+  have : Finite (Sylow 2 ↥L) := Sylow.finite_of_finiteIndex YS
   obtain ⟨x, hxg⟩ : ∃ x : ↥L, (x : A) = g := ⟨⟨g, hgL⟩, rfl⟩
   have hxord : orderOf x = 4 := by
     rw [← Subgroup.orderOf_coe, hxg, hg]
   have hxz : IsPGroup 2 (Subgroup.zpowers x) :=
-    IsPGroup.of_card (n := 2) (by rw [Nat.card_zpowers, hxord] <;> norm_num)
+    IsPGroup.of_card (n := 2) (by rw [Nat.card_zpowers, hxord]; norm_num)
   obtain ⟨P, hP⟩ := IsPGroup.exists_le_sylow hxz
   have hxP : x ∈ (P : Subgroup ↥L) := hP (Subgroup.mem_zpowers x)
   obtain ⟨h, hh⟩ := MulAction.exists_smul_eq ↥L YS P
@@ -449,7 +449,7 @@ theorem row_of_normalizing_sylow {s : TauCeti.SporadicName} {p : ℕ} (X : Type)
     exact hsyl (hcop.dvd_of_dvd_mul_left hd)
   obtain ⟨n, hnz⟩ := exists_normalizing_of_model φ hp hsylG hz₀ hn₀ hz
   have hnK : n ∈ K := hN (mem_normalizer_zpowers_of_conj_pow hnz)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hYP : IsPGroup 2 (pCoreOf 2 K) := pCoreOf_isPGroup 2 K
   have hzY : z ∈ normalizer ((pCoreOf 2 K : Subgroup G) : Set G) :=
     localGroup_le_normalizer_pCoreOf 2 K hzK

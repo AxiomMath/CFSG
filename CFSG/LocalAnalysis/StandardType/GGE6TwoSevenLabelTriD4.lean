@@ -44,18 +44,18 @@ theorem ggHasLabel_triD4_of_mulEquiv_d4ThetaFixed
     {e : ℕ} (he : e = 1 ∨ e = 2) {X : Type} [Group X]
     (φ : X ≃* ↥(d4ThetaFixed Ω (iterateFrobenius Ω 2 1) e)) :
     GGHasLabel ⟨.triD4, 0, 1⟩ (X ⧸ Subgroup.center X) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K₀
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K₀
   let K := CFSG.RankThree.PartOne.KE6.cubicSubfield (Ω := Ω) 2 1
   have hKcard : Nat.card K = (2 ^ 1) ^ 3 := by
     dsimp only [K]
     rw [CFSG.RankThree.PartOne.KE6.natCard_cubicSubfield (Ω := Ω) (ℓ := 2) (f := 1) le_rfl]
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hKcard]; norm_num)
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hKcard]; norm_num)
   have halg : Algebra.IsAlgebraic K Ω := by
     dsimp only [K]
     exact CFSG.RankThree.PartOne.KE6.isAlgebraic_cubicSubfield (Ω := Ω) (K := K₀) (ℓ := 2)
       (f := 1) (by rw [hK₀]; norm_num)
-  haveI : IsAlgClosure K Ω := IsAlgClosure.mk inferInstance halg
+  have : IsAlgClosure K Ω := IsAlgClosure.mk inferInstance halg
   let σ : K ≃+* K := iterateFrobeniusEquiv K 2 1
   have hσ : ∀ c : K, σ c = c ^ 2 ^ 1 := fun c => by
     dsimp only [σ]

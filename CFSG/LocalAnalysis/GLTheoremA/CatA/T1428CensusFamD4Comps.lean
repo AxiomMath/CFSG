@@ -44,12 +44,12 @@ private theorem compsWith_notL2_adjointGroup_G2 {f : ℕ} (hf : 1 ≤ f) {F : Ty
     (hF : Nat.card F = 2 ^ f) {r : ℕ} (hr : Odd r) :
     CompsWith (NotL2 r) ↥(adjointGroup Tag.G2 F) := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (f := f) (by rw [← Nat.card_eq_fintype_card]; exact hF)
+  have : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := charP_of_card_eq_prime_pow (f := f) (by rw [← Nat.card_eq_fintype_card]; exact hF)
   by_cases h2 : Nat.card F = 2
   · obtain ⟨hDs, hDcard⟩ := ExcCopy.g2Two_derived_exc h2
-    haveI := hDs
+    have := hDs
     have hnc := KD264Lie.exists_ne_comm_commutator_adjointGroup_G2_two h2
     have hZ : Subgroup.center ↥(commutator ↥(adjointGroup .G2 F)) = ⊥ := b3Lie_center_eq_bot hnc
     refine compsWith_of_commutator (LieSemisimple.isQuasisimple_of_isSimpleGroup hDs hnc) ?_
@@ -65,7 +65,7 @@ private theorem compsWith_notL2_adjointGroup_G2 {f : ℕ} (hf : 1 ≤ f) {F : Ty
       omega
     have hperf := ExcCopy.isPerfect_adjointGroup .G2 F (fun _ => hF3)
     obtain ⟨hs, hnc⟩ := ExcCopy.isSimpleGroup_adjointGroup_of_perfect .G2 F hperf
-    haveI := hs
+    have := hs
     refine compsWith_of_simple (isComponentProperty_notL2 r) hnc ?_
     have hZ : Subgroup.center ↥(adjointGroup .G2 F) = ⊥ := center_adjointGroup_eq_bot
     let q : TauCeti.PrimePower := ⟨2, f, Nat.prime_two, hf⟩
@@ -91,9 +91,9 @@ private theorem notL2_projImage_slPi {π : Bool} {f : ℕ} {K : Type} [Field K] 
     (hK : Sec4.PiField π 2 f K) (hq2 : 2 < 2 ^ f) {r : ℕ} (hr : Odd r) :
     NotL2 r ↥(projImage (Sec4.slPi π 3 (2 ^ f) K)) := by
   classical
-  haveI := hK.finite
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨hK.prime⟩
+  have := hK.finite
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨hK.prime⟩
   have hf1 : 1 ≤ f := hK.one_le
   let g₀ : ↥(Sec4.slPi π 3 (2 ^ f) K) →* ↥(projImage (Sec4.slPi π 3 (2 ^ f) K)) :=
     (Matrix.ProjGenLinGroup.mk : GL (Fin 3) K →* _).subgroupMap (Sec4.slPi π 3 (2 ^ f) K)
@@ -103,7 +103,7 @@ private theorem notL2_projImage_slPi {π : Bool} {f : ℕ} {K : Type} [Field K] 
   cases π
   · have hKcard : Nat.card K = (2 ^ f) ^ 2 := hK.card
     have hKcard' : Fintype.card K = (2 ^ f) ^ 2 := by rw [← Nat.card_eq_fintype_card]; exact hKcard
-    haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := 2 * f) (by rw [hKcard', ← pow_mul, mul_comm])
+    have : CharP K 2 := charP_of_card_eq_prime_pow (f := 2 * f) (by rw [hKcard', ← pow_mul, mul_comm])
     have hmq : ((2 : ℕ) + 1, 2 ^ f) ≠ ((3 : ℕ), 2) := fun h => by
       have := (Prod.mk.inj h).2
       omega
@@ -127,16 +127,16 @@ private theorem compsWith_notL2_projImage_glPi {π : Bool} {f : ℕ} {K : Type} 
     (hK : Sec4.PiField π 2 f K) (hπ2 : π = true → 2 < 2 ^ f) {r : ℕ} (hr : Odd r) :
     CompsWith (NotL2 r) ↥(projImage (Sec4.glPi π 3 (2 ^ f) K)) := by
   classical
-  haveI := hK.finite
-  haveI : Fintype K := Fintype.ofFinite K
+  have := hK.finite
+  have : Fintype K := Fintype.ofFinite K
   have hp := hK.prime
-  haveI : Fact (Nat.Prime 2) := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨hp⟩
   intro J hJ
   by_cases hq2 : 2 < 2 ^ f
-  · haveI : Finite (Matrix.ProjGenLinGroup (Fin 3) K) :=
+  · have : Finite (Matrix.ProjGenLinGroup (Fin 3) K) :=
       Finite.of_surjective (Matrix.ProjGenLinGroup.mk : GL (Fin 3) K →* _)
         (QuotientGroup.mk'_surjective _)
-    haveI : Finite ↥(projImage (Sec4.glPi π 3 (2 ^ f) K)) := Subtype.finite
+    have : Finite ↥(projImage (Sec4.glPi π 3 (2 ^ f) K)) := Subtype.finite
     have hπ : π = false → UnitaryFieldData 2 f K := fun h => by subst h; exact hK.unitary
     have hR := Item8KFacts2Proof.perfectResidual_projImage_glPi_eq hK hq2
     have hSP : projImage (Sec4.slPi π 3 (2 ^ f) K) ≤ projImage (Sec4.glPi π 3 (2 ^ f) K) :=
@@ -147,7 +147,7 @@ private theorem compsWith_notL2_projImage_glPi {π : Bool} {f : ℕ} {K : Type} 
     have hperfS : Group.IsPerfect (projImage (Sec4.slPi π 3 (2 ^ f) K)) :=
       Sec13.isPerfect_projImage_slPi hK hq2
     have hsS := Item8KFacts2Proof.isSimpleGroup_projImage_slPi hK hq2
-    haveI := hsS
+    have := hsS
     have hqS : CFSG.IsQuasisimple ↥(projImage (Sec4.slPi π 3 (2 ^ f) K)) :=
       (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup
         (Item8KFacts2Proof.exists_ne_comm_of_isPerfect hperfS)).1
@@ -162,11 +162,11 @@ private theorem compsWith_notL2_projImage_glPi {π : Bool} {f : ℕ} {K : Type} 
       have h3 : 2 ≤ 2 ^ f := Nat.le_self_pow (by have := hK.one_le; omega) 2
       omega
     cases π
-    · haveI := Sec13.isSolvable_projImage_glPi_two hK h2
+    · have := Sec13.isSolvable_projImage_glPi_two hK h2
       exfalso
       obtain ⟨hp', hs⟩ := hJ.2.2
-      haveI := hs.toNontrivial
-      haveI : Nontrivial ↥J := (QuotientGroup.mk'_surjective (Subgroup.center ↥J)).nontrivial
+      have := hs.toNontrivial
+      have : Nontrivial ↥J := (QuotientGroup.mk'_surjective (Subgroup.center ↥J)).nontrivial
       exact absurd hp' (ne_of_lt (Group.IsSolvable.commutator_lt_top_of_nontrivial ↥J))
     · exact absurd (hπ2 rfl) hq2
 
@@ -177,7 +177,7 @@ theorem compsWith_notL2_triality_outer {f : ℕ} (hf : 1 ≤ f) {r : ℕ} (hr : 
     (hφ : φ ∉ (MulAut.conj : ↥(graphFixedRootGroup TwistTag.D4 K₃ Fr.toRingHom) →*
       MulAut ↥(graphFixedRootGroup TwistTag.D4 K₃ Fr.toRingHom)).range) :
     CompsWith (NotL2 r) ↥(fixSubgroup φ) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact compsWith_triality_outer (ℓ := 2) (f := f) (isComponentProperty_notL2 r)
     (fun h5 _ _ _ _ _ _ _ _ _ _ _ => absurd h5 (by norm_num))
     (fun hF => compsWith_notL2_adjointGroup_G2 hf hF hr)

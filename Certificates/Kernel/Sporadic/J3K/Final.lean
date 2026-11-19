@@ -620,14 +620,14 @@ theorem vW_tb {z k : Nat} (hz : z < 20520) (hk : k < 32) :
     · have hb : Nat.blt (z / 32) (nat_lit 641) = true := by
         rw [Nat.blt_eq]
         exact hc
-      rw [hb, if_pos hc]
+      rw [hb, ite_eq_left hc]
       rfl
     · have hb : Nat.blt (z / 32) (nat_lit 641) = false := by
         rw [Bool.eq_false_iff]
         intro h'
         rw [Nat.blt_eq] at h'
         exact hc h'
-      rw [hb, if_neg hc]
+      rw [hb, ite_eq_right hc]
       rfl
   rw [e]
   split_ifs with h
@@ -693,7 +693,7 @@ theorem j3hdK_of {n root cnt : Nat} {PTS POS PAR LAB : Nat → Nat}
   · have := h.cnt_le
     have := h.n_lt
     have : r32 POS z ≠ 4294967295 := by omega
-    simp [this, bAnd_eq, Nat.blt_eq, Nat.beq_eq, h1, h2]
+    simp [this, Nat.blt_eq, Nat.beq_eq, h1, h2]
 
 theorem sub_hd {l : Nat} (hl : l < 22) (h : subHd l = true) :
     tbfsHdK 20520 (REPJ l) (SCNTJ l) (SPTSJ l) (SPOSJ l) (SPARJ l) (SLABJ l) = true := by

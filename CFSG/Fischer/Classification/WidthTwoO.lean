@@ -126,7 +126,7 @@ theorem exists_three_pairwise_orthogonal_vectors {m : ℕ} (hm : 3 ≤ m)
     refine ⟨?_, ?_, ?_, ?_⟩
     · change QuadraticMap.polar Q (bs (Sum.inl i)) (bs (Sum.inl j)) = 0
       rw [hJ]
-      simp [Matrix.J, hij]
+      simp [Matrix.J]
     · change QuadraticMap.polar Q (bs (Sum.inl i)) (bs (Sum.inr j)) = 0
       rw [hJ]
       simp [Matrix.J, hij]
@@ -135,7 +135,7 @@ theorem exists_three_pairwise_orthogonal_vectors {m : ℕ} (hm : 3 ≤ m)
       simp [Matrix.J, hij]
     · change QuadraticMap.polar Q (bs (Sum.inr i)) (bs (Sum.inr j)) = 0
       rw [hJ]
-      simp [Matrix.J, hij]
+      simp [Matrix.J]
   have horth : ∀ i j : Fin m, i ≠ j → QuadraticMap.polar Q (u i) (u j) = 0 := by
     intro i j hij
     obtain ⟨hac, had, hbc, hbd⟩ := hcross i j hij

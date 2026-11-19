@@ -46,7 +46,7 @@ public theorem centralizer_card_coprime_two_of_normal_centerless_dihedral
   obtain ⟨t, htord⟩ := exists_prime_orderOf_dvd_card' (G := C) 2 hdivC
   have htne : t ≠ (1 : C) := by
     intro ht
-    have : (1 : ℕ) = 2 := by simpa [ht] using htord
+    have : (1 : ℕ) = 2 := by simp [ht] at htord
     omega
   have ht2C : t ^ 2 = (1 : C) := by
     have htpow := pow_orderOf_eq_one t
@@ -59,13 +59,13 @@ public theorem centralizer_card_coprime_two_of_normal_centerless_dihedral
   have htG2 : tG ^ 2 = (1 : G) := by
     simpa [tG] using congrArg (fun z : C => (z : G)) ht2C
   have htC : tG ∈ Subgroup.centralizer (H : Set G) := by
-    simpa [C, tG] using t.property
+    simp [C, tG]
   let P : Sylow 2 (↥H) := Classical.choice Sylow.nonempty
   let Pmap : Subgroup G := (P : Subgroup H).map H.subtype
   let T : Subgroup G := Subgroup.zpowers tG
   have hPmap : IsPGroup 2 Pmap := by
     simpa [Pmap] using
-      IsPGroup.map (p := 2) (H := (P : Subgroup H)) P.isPGroup' H.subtype
+      IsPGroup.map (p := 2) (H := (P : Subgroup H)) P.isPGroup H.subtype
   have hT : IsPGroup 2 T := by
     have hcard_dvd : Nat.card (Subgroup.zpowers tG) ∣ 2 := by
       simpa [Nat.card_zpowers] using (orderOf_dvd_of_pow_eq_one htG2)
@@ -100,7 +100,7 @@ public theorem centralizer_card_coprime_two_of_normal_centerless_dihedral
     let Dg : Subgroup G := H ⊓ (S : Subgroup G)
     have hDgH : Dg ≤ H := inf_le_left
     have hDgp : IsPGroup 2 Dg := by
-      have htmp := S.isPGroup'.to_inf_left (K := H)
+      have htmp := S.isPGroup.to_inf_left (K := H)
       rw [inf_comm] at htmp
       simpa [Dg] using htmp
     let Q : Subgroup H := Dg.subgroupOf H

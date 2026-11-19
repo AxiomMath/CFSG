@@ -45,7 +45,7 @@ theorem exists_central_involution [Finite G] {T : Subgroup G} (hT : IsPGroup 2 T
     intro h
     rw [h, orderOf_one] at hu2
     omega
-  haveI : Nontrivial ↥T := ⟨⟨u, hu⟩, 1, fun h => hu1 (Subtype.ext_iff.mp h)⟩
+  have : Nontrivial ↥T := ⟨⟨u, hu⟩, 1, fun h => hu1 (Subtype.ext_iff.mp h)⟩
   obtain ⟨w, hw2, hwc⟩ :=
     CFSG.GH74.GLS.C3.Layer1.PumpRigid.exists_central_involution_of_isPGroup_two (P := ↥T) hT
   refine ⟨(w : G), w.2, ?_, ?_⟩
@@ -58,8 +58,8 @@ theorem exists_mem_normalizer_sq_mem [Finite G] {T P : Subgroup G} (hT : IsPGrou
     (hPT : P ≤ T) (hne : P ≠ T) :
     ∃ g ∈ T, g ∈ normalizer (P : Set G) ∧ g ∉ P ∧ g * g ∈ P := by
   classical
-  haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
-  haveI : Group.IsNilpotent ↥T := IsPGroup.isNilpotent hT
+  have : Fact (Nat.Prime 2) := Nat.fact_prime_two
+  have : Group.IsNilpotent ↥T := IsPGroup.isNilpotent hT
   have hnc : NormalizerCondition ↥T := Group.normalizerCondition_of_isNilpotent
   set P' : Subgroup ↥T := P.subgroupOf T with hP'
   have hP'ne : P' ≠ ⊤ := by
@@ -185,7 +185,7 @@ theorem eight_le_card [Finite G] {P : Subgroup G} (hP : IsPGroup 2 P) (h4 : 4 �
     _ ≤ 2 ^ k := Nat.pow_le_pow_right (by norm_num) hk3
 
 theorem exists_involution_inf [Finite G] {P R R' : Subgroup G} (hP : IsPGroup 2 P)
-    (h8 : 8 ≤ Nat.card P) (hR : R ≤ P) (hR' : R' ≤ P) (hi : R.relIndex P = 2)
+    (h8 : 8 ≤ Nat.card P) (hR : R ≤ P) (_hR' : R' ≤ P) (hi : R.relIndex P = 2)
     (hi' : R'.relIndex P = 2) : ∃ w ∈ R ⊓ R', orderOf w = 2 := by
   set S : Subgroup G := R ⊓ R' with hS
   have hSP : S ≤ P := by

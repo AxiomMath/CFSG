@@ -78,7 +78,7 @@ theorem ggQ2d6l_modData {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {x :
     by_cases h : b = e 4
     · simp [jb, h]
     · have h5 : b = e 5 := hb45.resolve_left h
-      simp only [jb, h, if_false]
+      simp only [jb, h, ite_false]
       exact h5.symm
   have hgr : Set.range g = {n | n ≠ jb} := ggQ2d6l_range_g jb jc hjb hjc hne g rfl
   have hgi : Function.Injective g := ggQ2d6l_inj_g jb jc hjb hjc hne g rfl

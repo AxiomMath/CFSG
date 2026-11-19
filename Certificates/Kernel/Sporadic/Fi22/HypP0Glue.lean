@@ -46,7 +46,7 @@ theorem commute_of_commOK {P Q : ℕ} {g h : Equiv.Perm (Fin 3510)} (hP : PRep 3
   rw [e]
   exact prep_c hQ hP
 
-theorem eq_one_of_ppow {P : ℕ} {g : Equiv.Perm (Fin 3510)} (hP : PRep 3510 12 P g) {e : ℕ}
+theorem eq_one_of_ppow {P : ℕ} {g : Equiv.Perm (Fin 3510)} (_hP : PRep 3510 12 P g) {e : ℕ}
     (h : ppow P e = one) (hp : ∀ e, PRep 3510 12 (ppow P e) (g ^ e)) : g ^ e = 1 := by
   have h1 := hp e
   rw [h] at h1
@@ -212,7 +212,7 @@ theorem fourClassesLarge_C0
     intro i hi
     have := pA i (by omega)
     unfold letterP at this
-    rwa [if_pos (by rw [lA]; omega)] at this
+    rwa [ite_eq_left (by rw [lA]; omega)] at this
   have hcA : ∀ i < 3, ∀ j < 3, Commute (hval g₁ g₂ (Fi22P0aD.S.getD i ([], 0)))
       (hval g₁ g₂ (Fi22P0aD.S.getD j ([], 0))) := by
     have c01 := commute_of_commOK (hpA 0 (by norm_num)) (hpA 1 (by norm_num)) a01

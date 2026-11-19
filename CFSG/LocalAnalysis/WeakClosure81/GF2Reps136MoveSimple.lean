@@ -144,6 +144,7 @@ theorem w1369_sum_two_irr_unique {Q : Type} [CommGroup Q] {Λ : Subgroup (MulAut
   Z391.v2f_eq_of_le_sup hP hP' (fun φ hφ => hE φ hφ) hR hR'
     (hspan ▸ le_top) (hspan ▸ le_top) hRP hRP' hR'P hR'P'
 
+omit [Finite W] in
 theorem w1369_map_conj_self_of_sq_one {U : Subgroup W} {t : MulAut W} (ht : t * t = 1) :
     (U.map t.toMonoidHom).map t.toMonoidHom = U := by
   rw [Subgroup.map_map]
@@ -154,8 +155,9 @@ theorem w1369_map_conj_self_of_sq_one {U : Subgroup W} {t : MulAut W} (ht : t * 
     rfl
   rw [hcomp, Subgroup.map_id]
 
+omit [Finite W] in
 theorem w1369_move_stabPair {Y : Subgroup (MulAut W)} {t : MulAut W}
-    {L : Subgroup (MulAut W)} {I : Subgroup W} (S : Move136 Y t L I) :
+    {L : Subgroup (MulAut W)} {I : Subgroup W} (_S : Move136 Y t L I) :
     StabPair L (Wd L) (Cd L) := by
   have hWdstab : StableUnder L (Wd L) := by
     intro l hl w hw

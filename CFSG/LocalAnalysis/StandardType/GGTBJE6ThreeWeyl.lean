@@ -17,7 +17,7 @@ theorem e6Three_weylPoint
     (hker : ψ₀.ker ≤ Subgroup.center L') (hperf : commutator L' = ⊤)
     (hZ : Subgroup.center ↥C₀ = ⊥) (hker3 : ∀ z ∈ ψ₀.ker, z ^ 3 = 1)
     {A : Subgroup (MulAut L')} {κ : A →* Multiplicative (Fin Tag.E6.rank → ZMod 3)}
-    (hκinj : Function.Injective κ) {V : Set (Fin Tag.E6.rank → ZMod 3)}
+    (_hκinj : Function.Injective κ) {V : Set (Fin Tag.E6.rank → ZMod 3)}
     (hκV : ∀ x, Multiplicative.ofAdd x ∈ κ.range ↔ x ∈ V)
     {t : (Fin Tag.E6.rank → ZMod 3) → G}
     (htmul : ∀ x x', t (x + x') = t x * t x')

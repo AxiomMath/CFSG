@@ -50,7 +50,7 @@ theorem c23_false_of_v1_eq_bot (D : Data G) (hSg : UC6S846.SigmaStd D) (hx : Dat
   have hMs : D.M ≤ stabTil ⊥ V := le_stabTil hP.le_normalizer hP.le_normalizer₀
   rw [hv1, sup_bot_eq] at h1 h2
   unfold c23Omega
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   refine ⟨fun hmem => h1 ?_, fun hmem => h2 ?_⟩
   · exact (mem_preTil_iff_of_mem ⊥ V hV _ hwV).2 hmem
   · have h3 : w ∈ wSub ⊥ V hV (conjSubgroup L x) :=

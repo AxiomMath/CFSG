@@ -65,7 +65,7 @@ theorem isCoherentWith_spanHom (hSfin : S.Finite) (hS : S ⊆ Irr L) {χ₀ : L 
       (Submodule.subtype _) (fun χ => by simp)
       ((virtualChars G).subtype.comp (spanLinear hS w)) (fun χ => ?_) ?_ ?_ ?_ ?_ f g
     · change ((spanLinear hS w) ((spanBasis hS) χ) : G → ℂ) = (w χ : G → ℂ)
-      rw [spanLinear_apply_mem hS w ((spanBasis hS) χ).2 (by simpa using χ.2)]
+      rw [spanLinear_apply_mem hS w ((spanBasis hS) χ).2 (by simp)]
       congr 1
       exact Subtype.ext (by simp)
     · intro χ; exact cfInner_self_of_mem_Irr (hS χ.2)
@@ -370,7 +370,7 @@ theorem exists_isCoherentWith_swap {X : Set (L → ℂ)} (hXIrr : X ⊆ Irr L) (
   have hw1 : ∀ χ : X, (χ : L → ℂ) ≠ ξ₀ → (w χ : G → ℂ) = -coherentVal νX ⟨ξ₀, hξ₀⟩ := by
     intro χ hχ
     rw [hwdef]
-    simp only [hχ, if_false, coherentVal_apply]
+    simp only [hχ, ite_false, coherentVal_apply]
     simp
   have hON : ∀ χ ψ : X, cfInner (coherentVal νX χ) (coherentVal νX ψ) = if χ = ψ then 1 else 0 :=
     cfInner_coherentVal_coherentVal hXIrr hνX
@@ -379,22 +379,22 @@ theorem exists_isCoherentWith_swap {X : Set (L → ℂ)} (hXIrr : X ⊆ Irr L) (
     by_cases hχ : (χ : L → ℂ) = ξ₀ <;> by_cases hψ : (ψ : L → ℂ) = ξ₀
     · have hχe : χ = ⟨ξ₀, hξ₀⟩ := Subtype.ext hχ
       have hψe : ψ = ⟨ξ₀, hξ₀⟩ := Subtype.ext hψ
-      rw [hχe, hψe, hw0, cfInner_neg_left, cfInner_neg_right, hON, if_pos rfl]
+      rw [hχe, hψe, hw0, cfInner_neg_left, cfInner_neg_right, hON, ite_eq_left rfl]
       norm_num
     · have hχe : χ = ⟨ξ₀, hξ₀⟩ := Subtype.ext hχ
       rw [hχe, hw0, hw1 ψ hψ, cfInner_neg_left, cfInner_neg_right, hON,
-        if_neg (fun he : (⟨ξ₁, hξ₁⟩ : X) = ⟨ξ₀, hξ₀⟩ => hne (congrArg Subtype.val he)),
-        if_neg (fun he : (⟨ξ₀, hξ₀⟩ : X) = ψ => hψ (congrArg Subtype.val he.symm))]
+        ite_eq_right (fun he : (⟨ξ₁, hξ₁⟩ : X) = ⟨ξ₀, hξ₀⟩ => hne (congrArg Subtype.val he)),
+        ite_eq_right (fun he : (⟨ξ₀, hξ₀⟩ : X) = ψ => hψ (congrArg Subtype.val he.symm))]
       norm_num
     · have hψe : ψ = ⟨ξ₀, hξ₀⟩ := Subtype.ext hψ
       rw [hψe, hw0, hw1 χ hχ, cfInner_neg_left, cfInner_neg_right, hON,
-        if_neg (fun he : (⟨ξ₀, hξ₀⟩ : X) = ⟨ξ₁, hξ₁⟩ => hne (congrArg Subtype.val he.symm)),
-        if_neg (fun he : χ = ⟨ξ₀, hξ₀⟩ => hχ (congrArg Subtype.val he))]
+        ite_eq_right (fun he : (⟨ξ₀, hξ₀⟩ : X) = ⟨ξ₁, hξ₁⟩ => hne (congrArg Subtype.val he.symm)),
+        ite_eq_right (fun he : χ = ⟨ξ₀, hξ₀⟩ => hχ (congrArg Subtype.val he))]
       norm_num
     · have hχe : χ = χ₁ := huniq χ (fun he => hχ (congrArg Subtype.val he))
       have hψe : ψ = χ₁ := huniq ψ (fun he => hψ (congrArg Subtype.val he))
-      rw [hw1 χ hχ, hw1 ψ hψ, cfInner_neg_left, cfInner_neg_right, hON, if_pos rfl,
-        if_pos (hχe.trans hψe.symm)]
+      rw [hw1 χ hχ, hw1 ψ hψ, cfInner_neg_left, cfInner_neg_right, hON, ite_eq_left rfl,
+        ite_eq_left (hχe.trans hψe.symm)]
       norm_num
   refine ⟨spanHom hXIrr w, ?_, ?_, ?_⟩
   · refine isCoherentWith_spanHom hXfin hXIrr hξ₀ hdeg τ w hwON ?_

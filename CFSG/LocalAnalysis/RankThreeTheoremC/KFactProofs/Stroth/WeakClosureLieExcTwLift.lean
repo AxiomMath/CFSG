@@ -70,7 +70,7 @@ theorem zpowMatrix_smul_one {r : ℕ} (q : ℤ) (b : Fin r → Lˣ) :
   rw [zpowMatrix_apply, Finset.prod_eq_single j]
   · simp
   · intro i _ hi
-    simp [Matrix.smul_apply, Matrix.one_apply, hi]
+    simp [Matrix.smul_apply, hi]
   · intro h
     exact absurd (Finset.mem_univ _) h
 
@@ -198,6 +198,7 @@ theorem twActsAs_lift {t₁ : ModGL t.tag L} (ht₁ : t₁ ∈ torusGroup t.tag 
     TwActsAs (t₁ * canonicalRep (coxeterSystem t.tag) L u) u :=
   (twActsAs_canonicalRep u).torus_mul ht₁
 
+omit [IsAlgClosed L] in
 theorem lift_mem_monomialSubgroup {t₁ : ModGL t.tag L} (ht₁ : t₁ ∈ torusGroup t.tag L)
     (u : WeylGroup t.tag) :
     t₁ * canonicalRep (coxeterSystem t.tag) L u ∈ monomialSubgroup t.tag L :=

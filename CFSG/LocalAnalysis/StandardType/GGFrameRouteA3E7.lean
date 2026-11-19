@@ -40,7 +40,7 @@ private theorem a3e7_model
     ∃ U E : Subgroup (CFSG.Blueprint.Chevalley.adjointGroup .E7 K),
       U ≠ ⊥ ∧ IsPGroup 2 U ∧ E ≤ Subgroup.normalizer (U : Set _) ∧
       IsElemAbelian 3 E ∧ Nat.card E = 3 ^ 6 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let F : TableBExcTwo.OrthFrame .E7 6 := TableBExcTwo.frameE7
   let U₀ : Subgroup (CFSG.Blueprint.Chevalley.adjointGroup .E7 K) :=
     Subgroup.zpowers (TableBExcTwo.rootInv K F)
@@ -143,10 +143,10 @@ theorem exists_twoLocal_three_of_E7
   subst ht; subst hl; subst hn
   dsimp only [CFSG.Assembly.LargeEvenRawDatumLegacy] at hraw
   obtain ⟨K', hKfield, hKfin, hcard, hQ⟩ := hraw
-  letI : Field K' := hKfield
-  letI : Finite K' := hKfin
+  let : Field K' := hKfield
+  let : Finite K' := hKfin
   have hK2 : Nat.card K' = 2 := by rw [hcard]; norm_num
-  haveI : CharP K' 2 :=
+  have : CharP K' 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two le_rfl (by rw [pow_one]; exact hK2)
   obtain ⟨θ, -⟩ := hQ.2.2

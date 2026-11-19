@@ -637,7 +637,7 @@ theorem exists_sylowFacts_odd (hF1 : F1Odd) (hA2 : A2) (hA4 : A4) (hI : IsIBar K
     show ¬ 2 ∣ (((P : Subgroup ↥(spinJ₂ K)).map (spinJ₂ K).subtype).subgroupOf (spinJ₂ K)).index
     rw [e]
     exact P.not_dvd_index
-  exact ⟨_, _, sylowFacts_of_odd hF1 hA2 hA4 hI hp hp2 hK (map_subtype_le _) (P.isPGroup'.map _)
+  exact ⟨_, _, sylowFacts_of_odd hF1 hA2 hA4 hI hp hp2 hK (map_subtype_le _) (P.isPGroup.map _)
     hPi⟩
 
 end Sylow

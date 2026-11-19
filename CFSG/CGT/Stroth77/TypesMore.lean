@@ -16,14 +16,14 @@ section
 
 @[expose] def k (s : ℕ) : Fin 3 → ℕ := ![s + 1, s + 2, s + 2]
 
-@[expose] def ρM (s : ℕ) : IntMat :=
+@[expose] def ρM (_s : ℕ) : IntMat :=
   ofCols ![1, 0, 0] ![0, 0, 1] ![-2, -1, -1]
 @[expose] def uvA (s : ℕ) : Fin 3 → ℤ := ![2, 1, 2+(2 ^ (s + 1))]
 @[expose] def tM (s : ℕ) : IntMat :=
   ofCols ![1, 2, 0] ![0, -1+(2 ^ (s + 1)), 0] (ρM s *ᵥ uvA s)
 @[expose] def uvM (s : ℕ) : IntMat :=
   ofCols ![-3, -2, -2] (uvA s) (ρM s *ᵥ (tM s *ᵥ uvA s))
-@[expose] def uM (s : ℕ) : IntMat := uMat ![1, 0, 0] (0)
+@[expose] def uM (_s : ℕ) : IntMat := uMat ![1, 0, 0] (0)
 
 attribute [local simp] ρM uvA tM uvM uM uMat ofCols_apply Matrix.mul_apply
   Fin.sum_univ_three Matrix.mulVec dotProduct Matrix.one_apply k
@@ -38,11 +38,11 @@ theorem compat_t (s : ℕ) : Compat (k s) (tM s) :=
 
 theorem compat_u (s : ℕ) : Compat (k s) (uM s) :=
   Compat.of_witness (C := !![1, 0, 0; 0, 0, 1; 0, 1, 0]) (by
-    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1)
+    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 theorem compat_rho (s : ℕ) : Compat (k s) (ρM s) :=
   Compat.of_witness (C := !![1, 0, -4; 0, 0, -1; 0, 1, -1]) (by
-    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1)
+    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; ring1)
 
 theorem uv_sq (s : ℕ) :
     MatEq (k s) ((uvM s) * (uvM s)) (1) :=
@@ -62,17 +62,17 @@ theorem uv_comm_t (s : ℕ) :
 theorem rho_cube (s : ℕ) :
     MatEq (k s) ((ρM s) * ((ρM s) * (ρM s))) (1) :=
   MatEq.of_witness (W := 0) (by
-    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1)
+    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 theorem u_sq (s : ℕ) :
     MatEq (k s) ((uM s) * (uM s)) (1) :=
   MatEq.of_witness (W := 0) (by
-    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1)
+    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 theorem u_rho (s : ℕ) :
     MatEq (k s) ((ρM s) * ((uM s) * ((ρM s) * (uM s)))) (1) :=
   MatEq.of_witness (W := 0) (by
-    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1)
+    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 theorem uv_rho (s : ℕ) :
     MatEq (k s) ((ρM s) * (uvM s)) ((tM s) * (ρM s)) :=
@@ -102,62 +102,62 @@ theorem t_u (s : ℕ) :
 theorem uv_c (s : ℕ) :
     (action s).φuv Torus.c = (-3 : ℤ) • Torus.c + (-2 : ℤ) • Torus.a + (-2 : ℤ) • Torus.b := by
   refine (matAct_gen_of (uvM s) (compat_uv s) 0 (-3) (-2) (-2) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 theorem uv_a (s : ℕ) :
     (action s).φuv Torus.a = (2 : ℤ) • Torus.c + (1 : ℤ) • Torus.a + (2*(2 ^ s) + 2 : ℤ) • Torus.b := by
   refine (matAct_gen_of (uvM s) (compat_uv s) 1 (2) (1) (2*(2 ^ s) + 2) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; try ring1)
 
 theorem uv_b (s : ℕ) :
     (action s).φuv Torus.b = (2 : ℤ) • Torus.c + (4*(2 ^ s)^2 + 6*(2 ^ s) + 2 : ℤ) • Torus.a + (1 : ℤ) • Torus.b := by
   refine (matAct_gen_of (uvM s) (compat_uv s) 2 (2) (4*(2 ^ s)^2 + 6*(2 ^ s) + 2) (1) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; try ring1)
 
 theorem t_c (s : ℕ) :
     (action s).φt Torus.c = (1 : ℤ) • Torus.c + (2 : ℤ) • Torus.a := by
   refine (matAct_gen_of (tM s) (compat_t s) 0 (1) (2) (0) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; done) | module
 
 theorem t_a (s : ℕ) :
     (action s).φt Torus.a = (2*(2 ^ s) - 1 : ℤ) • Torus.a := by
   refine (matAct_gen_of (tM s) (compat_t s) 1 (0) (2*(2 ^ s) - 1) (0) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; all_goals ring1) | module
 
 theorem t_b (s : ℕ) :
     (action s).φt Torus.b = (-4*(2 ^ s) - 2 : ℤ) • Torus.c + (-2*(2 ^ s) - 2 : ℤ) • Torus.a + (-2*(2 ^ s) - 1 : ℤ) • Torus.b := by
   refine (matAct_gen_of (tM s) (compat_t s) 2 (-4*(2 ^ s) - 2) (-2*(2 ^ s) - 2) (-2*(2 ^ s) - 1) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; try ring1)
 
 theorem u_c (s : ℕ) :
     (action s).φu Torus.c = (1 : ℤ) • Torus.c := by
   refine (matAct_gen_of (uM s) (compat_u s) 0 (1) (0) (0) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; done) | module
 
 theorem u_a (s : ℕ) :
     (action s).φu Torus.a = (1 : ℤ) • Torus.b := by
   refine (matAct_gen_of (uM s) (compat_u s) 1 (0) (0) (1) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; done) | module
 
 theorem u_b (s : ℕ) :
     (action s).φu Torus.b = (1 : ℤ) • Torus.a := by
   refine (matAct_gen_of (uM s) (compat_u s) 2 (0) (1) (0) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; done) | module
 
 theorem rho_c (s : ℕ) :
     (action s).φρ Torus.c = (1 : ℤ) • Torus.c := by
   refine (matAct_gen_of (ρM s) (compat_rho s) 0 (1) (0) (0) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; done) | module
 
 theorem rho_a (s : ℕ) :
     (action s).φρ Torus.a = (1 : ℤ) • Torus.b := by
   refine (matAct_gen_of (ρM s) (compat_rho s) 1 (0) (0) (1) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; done) | module
 
 theorem rho_b (s : ℕ) :
     (action s).φρ Torus.b = (-2 : ℤ) • Torus.c + (-1 : ℤ) • Torus.a + (-1 : ℤ) • Torus.b := by
   refine (matAct_gen_of (ρM s) (compat_rho s) 2 (-2) (-1) (-1) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 end
 
@@ -169,9 +169,9 @@ section
 
 @[expose] def k (t : ℕ) : Fin 3 → ℕ := ![t + 2, t + 3, t + 3]
 
-@[expose] def ρM (t : ℕ) : IntMat :=
+@[expose] def ρM (_t : ℕ) : IntMat :=
   ofCols ![1, 0, 0] ![0, 0, 1] ![-2, -1, -1]
-@[expose] def uvA (t : ℕ) : Fin 3 → ℤ := ![2, 1, 2]
+@[expose] def uvA (_t : ℕ) : Fin 3 → ℤ := ![2, 1, 2]
 @[expose] def tM (t : ℕ) : IntMat :=
   ofCols ![1, 2, (2 ^ (t + 2))] ![0, -1, 0] (ρM t *ᵥ uvA t)
 @[expose] def uvM (t : ℕ) : IntMat :=
@@ -191,11 +191,11 @@ theorem compat_t (t : ℕ) : Compat (k t) (tM t) :=
 
 theorem compat_u (t : ℕ) : Compat (k t) (uM t) :=
   Compat.of_witness (C := !![2*(2 ^ t) + 1, 0, 0; 0, 0, 1; 0, 1, 0]) (by
-    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1)
+    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; ring1)
 
 theorem compat_rho (t : ℕ) : Compat (k t) (ρM t) :=
   Compat.of_witness (C := !![1, 0, -4; 0, 0, -1; 0, 1, -1]) (by
-    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1)
+    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; ring1)
 
 theorem uv_sq (t : ℕ) :
     MatEq (k t) ((uvM t) * (uvM t)) (1) :=
@@ -215,12 +215,12 @@ theorem uv_comm_t (t : ℕ) :
 theorem rho_cube (t : ℕ) :
     MatEq (k t) ((ρM t) * ((ρM t) * (ρM t))) (1) :=
   MatEq.of_witness (W := 0) (by
-    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1)
+    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 theorem u_sq (t : ℕ) :
     MatEq (k t) ((uM t) * (uM t)) (1) :=
   MatEq.of_witness (W := !![(2 ^ t) + 1, 0, 0; 0, 0, 0; 0, 0, 0]) (by
-    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1)
+    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; ring1)
 
 theorem u_rho (t : ℕ) :
     MatEq (k t) ((ρM t) * ((uM t) * ((ρM t) * (uM t)))) (1) :=
@@ -255,62 +255,62 @@ theorem t_u (t : ℕ) :
 theorem uv_c (t : ℕ) :
     (action t).φuv Torus.c = (-3 : ℤ) • Torus.c + (4*(2 ^ t) - 2 : ℤ) • Torus.a + (-2 : ℤ) • Torus.b := by
   refine (matAct_gen_of (uvM t) (compat_uv t) 0 (-3) (4*(2 ^ t) - 2) (-2) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; try ring1)
 
 theorem uv_a (t : ℕ) :
     (action t).φuv Torus.a = (2 : ℤ) • Torus.c + (1 : ℤ) • Torus.a + (2 : ℤ) • Torus.b := by
   refine (matAct_gen_of (uvM t) (compat_uv t) 1 (2) (1) (2) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 theorem uv_b (t : ℕ) :
     (action t).φuv Torus.b = (2 - 16*(2 ^ t) : ℤ) • Torus.c + (2 - 8*(2 ^ t) : ℤ) • Torus.a + (1 - 8*(2 ^ t) : ℤ) • Torus.b := by
   refine (matAct_gen_of (uvM t) (compat_uv t) 2 (2 - 16*(2 ^ t)) (2 - 8*(2 ^ t)) (1 - 8*(2 ^ t)) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; try ring1)
 
 theorem t_c (t : ℕ) :
     (action t).φt Torus.c = (1 : ℤ) • Torus.c + (2 : ℤ) • Torus.a + (4*(2 ^ t) : ℤ) • Torus.b := by
   refine (matAct_gen_of (tM t) (compat_t t) 0 (1) (2) (4*(2 ^ t)) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; try ring1)
 
 theorem t_a (t : ℕ) :
     (action t).φt Torus.a = (-1 : ℤ) • Torus.a := by
   refine (matAct_gen_of (tM t) (compat_t t) 1 (0) (-1) (0) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; done) | module
 
 theorem t_b (t : ℕ) :
     (action t).φt Torus.b = (-2 : ℤ) • Torus.c + (-2 : ℤ) • Torus.a + (-1 : ℤ) • Torus.b := by
   refine (matAct_gen_of (tM t) (compat_t t) 2 (-2) (-2) (-1) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 theorem u_c (t : ℕ) :
     (action t).φu Torus.c = (2*(2 ^ t) + 1 : ℤ) • Torus.c := by
   refine (matAct_gen_of (uM t) (compat_u t) 0 (2*(2 ^ t) + 1) (0) (0) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; all_goals ring1) | module
 
 theorem u_a (t : ℕ) :
     (action t).φu Torus.a = (1 : ℤ) • Torus.b := by
   refine (matAct_gen_of (uM t) (compat_u t) 1 (0) (0) (1) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; done) | module
 
 theorem u_b (t : ℕ) :
     (action t).φu Torus.b = (1 : ℤ) • Torus.a := by
   refine (matAct_gen_of (uM t) (compat_u t) 2 (0) (1) (0) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; done) | module
 
 theorem rho_c (t : ℕ) :
     (action t).φρ Torus.c = (1 : ℤ) • Torus.c := by
   refine (matAct_gen_of (ρM t) (compat_rho t) 0 (1) (0) (0) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; done) | module
 
 theorem rho_a (t : ℕ) :
     (action t).φρ Torus.a = (1 : ℤ) • Torus.b := by
   refine (matAct_gen_of (ρM t) (compat_rho t) 1 (0) (0) (1) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; done) | module
 
 theorem rho_b (t : ℕ) :
     (action t).φρ Torus.b = (-2 : ℤ) • Torus.c + (-1 : ℤ) • Torus.a + (-1 : ℤ) • Torus.b := by
   refine (matAct_gen_of (ρM t) (compat_rho t) 2 (-2) (-1) (-1) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 end
 
@@ -322,7 +322,7 @@ section
 
 @[expose] def k (t : ℕ) : Fin 3 → ℕ := ![t + 2, t + 3, t + 3]
 
-@[expose] def ρM (t : ℕ) : IntMat :=
+@[expose] def ρM (_t : ℕ) : IntMat :=
   ofCols ![1, 0, 0] ![0, 0, 1] ![-2, -1, -1]
 @[expose] def uvA (t : ℕ) : Fin 3 → ℤ := ![2, 1, 2+(2 ^ (t + 2))]
 @[expose] def tM (t : ℕ) : IntMat :=
@@ -344,11 +344,11 @@ theorem compat_t (t : ℕ) : Compat (k t) (tM t) :=
 
 theorem compat_u (t : ℕ) : Compat (k t) (uM t) :=
   Compat.of_witness (C := !![2*(2 ^ t) + 1, 0, 0; 0, 0, 1; 0, 1, 0]) (by
-    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1)
+    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; ring1)
 
 theorem compat_rho (t : ℕ) : Compat (k t) (ρM t) :=
   Compat.of_witness (C := !![1, 0, -4; 0, 0, -1; 0, 1, -1]) (by
-    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1)
+    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; ring1)
 
 theorem uv_sq (t : ℕ) :
     MatEq (k t) ((uvM t) * (uvM t)) (1) :=
@@ -368,12 +368,12 @@ theorem uv_comm_t (t : ℕ) :
 theorem rho_cube (t : ℕ) :
     MatEq (k t) ((ρM t) * ((ρM t) * (ρM t))) (1) :=
   MatEq.of_witness (W := 0) (by
-    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1)
+    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 theorem u_sq (t : ℕ) :
     MatEq (k t) ((uM t) * (uM t)) (1) :=
   MatEq.of_witness (W := !![(2 ^ t) + 1, 0, 0; 0, 0, 0; 0, 0, 0]) (by
-    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1)
+    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; ring1)
 
 theorem u_rho (t : ℕ) :
     MatEq (k t) ((ρM t) * ((uM t) * ((ρM t) * (uM t)))) (1) :=
@@ -408,62 +408,62 @@ theorem t_u (t : ℕ) :
 theorem uv_c (t : ℕ) :
     (action t).φuv Torus.c = (-3 : ℤ) • Torus.c + (4*(2 ^ t) - 2 : ℤ) • Torus.a + (-2 : ℤ) • Torus.b := by
   refine (matAct_gen_of (uvM t) (compat_uv t) 0 (-3) (4*(2 ^ t) - 2) (-2) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; try ring1)
 
 theorem uv_a (t : ℕ) :
     (action t).φuv Torus.a = (2 : ℤ) • Torus.c + (1 : ℤ) • Torus.a + (4*(2 ^ t) + 2 : ℤ) • Torus.b := by
   refine (matAct_gen_of (uvM t) (compat_uv t) 1 (2) (1) (4*(2 ^ t) + 2) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; try ring1)
 
 theorem uv_b (t : ℕ) :
     (action t).φuv Torus.b = (2 - 16*(2 ^ t) : ℤ) • Torus.c + (16*(2 ^ t)^2 + 4*(2 ^ t) + 2 : ℤ) • Torus.a + (1 - 8*(2 ^ t) : ℤ) • Torus.b := by
   refine (matAct_gen_of (uvM t) (compat_uv t) 2 (2 - 16*(2 ^ t)) (16*(2 ^ t)^2 + 4*(2 ^ t) + 2) (1 - 8*(2 ^ t)) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; try ring1)
 
 theorem t_c (t : ℕ) :
     (action t).φt Torus.c = (1 : ℤ) • Torus.c + (2 : ℤ) • Torus.a + (4*(2 ^ t) : ℤ) • Torus.b := by
   refine (matAct_gen_of (tM t) (compat_t t) 0 (1) (2) (4*(2 ^ t)) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; try ring1)
 
 theorem t_a (t : ℕ) :
     (action t).φt Torus.a = (4*(2 ^ t) - 1 : ℤ) • Torus.a := by
   refine (matAct_gen_of (tM t) (compat_t t) 1 (0) (4*(2 ^ t) - 1) (0) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; all_goals ring1) | module
 
 theorem t_b (t : ℕ) :
     (action t).φt Torus.b = (-8*(2 ^ t) - 2 : ℤ) • Torus.c + (-4*(2 ^ t) - 2 : ℤ) • Torus.a + (-4*(2 ^ t) - 1 : ℤ) • Torus.b := by
   refine (matAct_gen_of (tM t) (compat_t t) 2 (-8*(2 ^ t) - 2) (-4*(2 ^ t) - 2) (-4*(2 ^ t) - 1) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; try ring1)
 
 theorem u_c (t : ℕ) :
     (action t).φu Torus.c = (2*(2 ^ t) + 1 : ℤ) • Torus.c := by
   refine (matAct_gen_of (uM t) (compat_u t) 0 (2*(2 ^ t) + 1) (0) (0) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; all_goals ring1) | module
 
 theorem u_a (t : ℕ) :
     (action t).φu Torus.a = (1 : ℤ) • Torus.b := by
   refine (matAct_gen_of (uM t) (compat_u t) 1 (0) (0) (1) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; done) | module
 
 theorem u_b (t : ℕ) :
     (action t).φu Torus.b = (1 : ℤ) • Torus.a := by
   refine (matAct_gen_of (uM t) (compat_u t) 2 (0) (1) (0) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; done) | module
 
 theorem rho_c (t : ℕ) :
     (action t).φρ Torus.c = (1 : ℤ) • Torus.c := by
   refine (matAct_gen_of (ρM t) (compat_rho t) 0 (1) (0) (0) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; done) | module
 
 theorem rho_a (t : ℕ) :
     (action t).φρ Torus.a = (1 : ℤ) • Torus.b := by
   refine (matAct_gen_of (ρM t) (compat_rho t) 1 (0) (0) (1) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; done) | module
 
 theorem rho_b (t : ℕ) :
     (action t).φρ Torus.b = (-2 : ℤ) • Torus.c + (-1 : ℤ) • Torus.a + (-1 : ℤ) • Torus.b := by
   refine (matAct_gen_of (ρM t) (compat_rho t) 2 (-2) (-1) (-1) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 end
 
@@ -489,69 +489,69 @@ attribute [local simp] ρM uvA tM uvM uM uMat ofCols_apply Matrix.mul_apply
 
 theorem compat_uv (n : ℕ) : Compat (k n) uvM :=
   Compat.of_witness (C := !![-3, 4, 4; -1, 1, 2; -1, 2, 1]) (by
-    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1)
+    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 theorem compat_t (n : ℕ) : Compat (k n) tM :=
   Compat.of_witness (C := !![1, 0, -4; 1, -1, -2; 0, 0, -1]) (by
-    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1)
+    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 theorem compat_u (n : ℕ) : Compat (k n) uM :=
   Compat.of_witness (C := !![1, 0, 0; 0, 0, 1; 0, 1, 0]) (by
-    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1)
+    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 theorem compat_rho (n : ℕ) : Compat (k n) ρM :=
   Compat.of_witness (C := !![1, 0, -4; 0, 0, -1; 0, 1, -1]) (by
-    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1)
+    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 theorem uv_sq (n : ℕ) :
     MatEq (k n) (uvM * uvM) (1) :=
   MatEq.of_witness (W := 0) (by
-    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1)
+    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 theorem t_sq (n : ℕ) :
     MatEq (k n) (tM * tM) (1) :=
   MatEq.of_witness (W := 0) (by
-    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1)
+    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 theorem uv_comm_t (n : ℕ) :
     MatEq (k n) (tM * uvM) (uvM * tM) :=
   MatEq.of_witness (W := 0) (by
-    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1)
+    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 theorem rho_cube (n : ℕ) :
     MatEq (k n) (ρM * (ρM * ρM)) (1) :=
   MatEq.of_witness (W := 0) (by
-    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1)
+    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 theorem u_sq (n : ℕ) :
     MatEq (k n) (uM * uM) (1) :=
   MatEq.of_witness (W := 0) (by
-    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1)
+    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 theorem u_rho (n : ℕ) :
     MatEq (k n) (ρM * (uM * (ρM * uM))) (1) :=
   MatEq.of_witness (W := 0) (by
-    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1)
+    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 theorem uv_rho (n : ℕ) :
     MatEq (k n) (ρM * uvM) (tM * ρM) :=
   MatEq.of_witness (W := 0) (by
-    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1)
+    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 theorem t_rho (n : ℕ) :
     MatEq (k n) (ρM * tM) (tM * (uvM * ρM)) :=
   MatEq.of_witness (W := 0) (by
-    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1)
+    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 theorem uv_comm_u (n : ℕ) :
     MatEq (k n) (uM * uvM) (uvM * uM) :=
   MatEq.of_witness (W := 0) (by
-    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1)
+    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 theorem t_u (n : ℕ) :
     MatEq (k n) (uM * tM) (tM * (uvM * uM)) :=
   MatEq.of_witness (W := 0) (by
-    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1)
+    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 @[expose] def action (n : ℕ) : SigmaFourAction (k n) :=
   SigmaFourAction.ofMatEq uvM tM uM ρM
@@ -561,62 +561,62 @@ theorem t_u (n : ℕ) :
 theorem uv_c (n : ℕ) :
     (action n).φuv Torus.c = (-3 : ℤ) • Torus.c + (-1 : ℤ) • Torus.a + (-1 : ℤ) • Torus.b := by
   refine (matAct_gen_of uvM (compat_uv n) 0 (-3) (-1) (-1) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 theorem uv_a (n : ℕ) :
     (action n).φuv Torus.a = (4 : ℤ) • Torus.c + (1 : ℤ) • Torus.a + (2 : ℤ) • Torus.b := by
   refine (matAct_gen_of uvM (compat_uv n) 1 (4) (1) (2) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 theorem uv_b (n : ℕ) :
     (action n).φuv Torus.b = (4 : ℤ) • Torus.c + (2 : ℤ) • Torus.a + (1 : ℤ) • Torus.b := by
   refine (matAct_gen_of uvM (compat_uv n) 2 (4) (2) (1) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 theorem t_c (n : ℕ) :
     (action n).φt Torus.c = (1 : ℤ) • Torus.c + (1 : ℤ) • Torus.a := by
   refine (matAct_gen_of tM (compat_t n) 0 (1) (1) (0) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; done) | module
 
 theorem t_a (n : ℕ) :
     (action n).φt Torus.a = (-1 : ℤ) • Torus.a := by
   refine (matAct_gen_of tM (compat_t n) 1 (0) (-1) (0) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; done) | module
 
 theorem t_b (n : ℕ) :
     (action n).φt Torus.b = (-4 : ℤ) • Torus.c + (-2 : ℤ) • Torus.a + (-1 : ℤ) • Torus.b := by
   refine (matAct_gen_of tM (compat_t n) 2 (-4) (-2) (-1) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 theorem u_c (n : ℕ) :
     (action n).φu Torus.c = (1 : ℤ) • Torus.c := by
   refine (matAct_gen_of uM (compat_u n) 0 (1) (0) (0) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; done) | module
 
 theorem u_a (n : ℕ) :
     (action n).φu Torus.a = (1 : ℤ) • Torus.b := by
   refine (matAct_gen_of uM (compat_u n) 1 (0) (0) (1) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; done) | module
 
 theorem u_b (n : ℕ) :
     (action n).φu Torus.b = (1 : ℤ) • Torus.a := by
   refine (matAct_gen_of uM (compat_u n) 2 (0) (1) (0) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; done) | module
 
 theorem rho_c (n : ℕ) :
     (action n).φρ Torus.c = (1 : ℤ) • Torus.c := by
   refine (matAct_gen_of ρM (compat_rho n) 0 (1) (0) (0) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; done) | module
 
 theorem rho_a (n : ℕ) :
     (action n).φρ Torus.a = (1 : ℤ) • Torus.b := by
   refine (matAct_gen_of ρM (compat_rho n) 1 (0) (0) (1) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; done) | module
 
 theorem rho_b (n : ℕ) :
     (action n).φρ Torus.b = (-4 : ℤ) • Torus.c + (-1 : ℤ) • Torus.a + (-1 : ℤ) • Torus.b := by
   refine (matAct_gen_of ρM (compat_rho n) 2 (-4) (-1) (-1) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 end
 

@@ -17,7 +17,7 @@ theorem center_statedSp_eq_bot_of_charP_two {m : ℕ} {F : Type} [Field F] [Char
       statedSp_eq_GLSymplectic (n := m) (K := F)]
     exact center_GLSymplectic_eq (n := m) (K := F)
   rw [hcenter]
-  haveI : NeZero m := ⟨by omega⟩
+  have : NeZero m := ⟨by omega⟩
   exact CFSG.LocalAnalysis.ComponentInitial.UnitaryHigher.spScalars_eq_bot_of_charTwo
     (r := m) (K := F)
 
@@ -39,12 +39,12 @@ theorem exists_central_cover_sp_of_section
   classical
   let X := (TauCeti.CFSGIndex.lie
     (⟨TauCeti.LieTypeIndex.B m Q, hv⟩ : TauCeti.ValidLieTypeIndex)).Group
-  haveI : Fact (Nat.Prime Q.p) := ⟨Q.prime_p⟩
+  have : Fact (Nat.Prime Q.p) := ⟨Q.prime_p⟩
   let F := GaloisField Q.p Q.exponent
   have hcardF : Nat.card F = Q.card := by
     rw [GaloisField.card Q.p Q.exponent Q.exponent_pos.ne', TauCeti.PrimePower.card_def]
-  haveI : CharP F 2 := CharP.congr Q.p hQ
-  haveI : Finite F := inferInstance
+  have : CharP F 2 := CharP.congr Q.p hQ
+  have : Finite F := inferInstance
   obtain ⟨eB⟩ :=
     CFSG.Adapters.CatalogueFieldBridges.nonempty_mulEquiv_lie_B_of_statedProj
       (r := m) (q := Q) hv hQ hm hcardF

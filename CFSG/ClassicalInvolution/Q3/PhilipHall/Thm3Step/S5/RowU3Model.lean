@@ -187,7 +187,7 @@ theorem exists_u33_model
     have h := Subgroup.card_mul_index N
     rw [hN, hidx] at h
     omega
-  haveI : Finite X := Nat.finite_of_card_ne_zero (by rw [hXc]; norm_num)
+  have : Finite X := Nat.finite_of_card_ne_zero (by rw [hXc]; norm_num)
   set f : X →* ↥U33.QA.originalSubgroup := ψ.codRestrict _ hψA with hf
   have hfi : Function.Injective f := fun a b hab => by
     have h1 : (f a : Equiv.Perm (Fin 28)) = f b := congrArg Subtype.val hab

@@ -19,11 +19,13 @@ section Aux
 
 variable {G : Type} [Group G] [Finite G] {P L E K T : Subgroup G} {H : Finset Mat4}
 
+omit [Finite G] in
 theorem commSupK_le (h : A5Pre P L E K) (hTP : T ≤ P) {Y : Subgroup G} (hYE : Y ≤ E) :
     ⁅Y, T⁆ ⊔ K ≤ E :=
-  sup_le (Subgroup.commutator_le.mpr fun y hy t ht =>
+  sup_le (Subgroup.commutator_le.mpr fun _y hy _t ht =>
     ElemFrame.comm_right_mem h.norm_E (hTP ht) (hYE hy)) h.sec.1
 
+omit [Finite G] in
 theorem fixes_of_comm_mem {M : A5Model P L E K H} (h : A5Pre P L E K) (hTP : T ≤ P)
     (sd : SylowData M T) {e : G} (he : e ∈ E) (hall : ∀ t ∈ T, ⁅e, t⁆ ∈ K) :
     Multiplicative.toAdd (M.F.φ ⟨e, he⟩) ∈ fixSet (klein sd.x sd.y) := by
@@ -33,6 +35,7 @@ theorem fixes_of_comm_mem {M : A5Model P L E K H} (h : A5Pre P L E K) (hTP : T �
   obtain ⟨t, htT, rfl⟩ := sd.ofA a ha
   exact (comm_mem_K_iff h.norm_E (hTP htT) he).mp (hall t htT)
 
+omit [Finite G] in
 theorem comm_mem_of_fixes {M : A5Model P L E K H} (h : A5Pre P L E K) (hTP : T ≤ P)
     (sd : SylowData M T) {e : G} (he : e ∈ E)
     (hv : Multiplicative.toAdd (M.F.φ ⟨e, he⟩) ∈ fixSet (klein sd.x sd.y)) {t : G} (ht : t ∈ T) :
@@ -111,6 +114,7 @@ theorem m3_nat (hF : Certificates.A5GL42.Facts) (h : A5Pre P L E K) (hT : IsSylo
     rw [← hX] at hvC
     exact (mem_iff_img M.F hKC ⟨e, he⟩).mpr hvC
 
+omit [Finite G] in
 theorem m3_orth (hF : Certificates.A5GL42.Facts) (h : A5Pre P L E K) (hT : IsSylowTwoOf T L)
     (M : A5Model P L E K H) (sd : SylowData M T)
     (hA : OrthFacts H (klein sd.x sd.y) (commSet (klein sd.x sd.y) Finset.univ)

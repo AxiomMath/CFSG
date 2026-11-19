@@ -70,7 +70,7 @@ theorem false_of_dihedral (h11b : C19_11bTmp p f) (hd : Sec19DataT p f K z S W L
     rw [hζ2]
     intro hz
     have hmem : z ∈ W ⊓ sec19Y K z ⊓ oddCoreOf (sec19Y K z) := ⟨hzZ.mem, hz⟩
-    rw [S1916.inf_oddCoreOf_eq_bot (S.isPGroup'.to_le (inf_le_left.trans hd.hWS)) _,
+    rw [S1916.inf_oddCoreOf_eq_bot (S.isPGroup.to_le (inf_le_left.trans hd.hWS)) _,
       Subgroup.mem_bot] at hmem
     exact hzZ.ne_one hmem
   have hconj : ∀ d ∈ Subgroup.centralizer ({z} : Set G), d⁻¹ * q * d ∈ sec19Y K z ∧

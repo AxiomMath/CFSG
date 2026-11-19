@@ -109,7 +109,7 @@ theorem not_le_of_normalizer_inf_le {p : ℕ} [Fact p.Prime] (R : Sylow p X) {N 
     (hX₀ : X₀ ≠ ⊤) : ¬ N ≤ X₀ := by
   intro hNX
   have hR : CFSG.ABGLocalTools.IsSylowOf p (R : Subgroup X) ⊤ :=
-    CFSG.ABGLocalTools.isSylowOf_iff.mpr ⟨le_top, R.isPGroup', by
+    CFSG.ABGLocalTools.isSylowOf_iff.mpr ⟨le_top, R.isPGroup, by
       rw [Subgroup.relIndex_top_right]
       exact R.not_dvd_index⟩
   obtain ⟨S, hS⟩ := hR.inf_of_le_normalizer le_top (Subgroup.normalizer_eq_top N).ge
@@ -192,7 +192,7 @@ theorem D1Escape.reducedNongeneration {G : Type*} [Group G] [Finite G] {p : ℕ}
     rw [← glbPrimeCore_subgroupOf]
     exact glbPrimeCore_subgroupOf_le_inf h.primeCore_le
   have hRH : (R.subgroupOf H).map H.subtype = R := Subgroup.map_subgroupOf_eq_of_le h.le_H
-  have hRp : IsPGroup p (R.subgroupOf H) := hTR ▸ T.isPGroup'
+  have hRp : IsPGroup p (R.subgroupOf H) := hTR ▸ T.isPGroup
   refine ⟨T.mapSurjective (QuotientGroup.mk'_surjective _), by
     rw [Sylow.coe_mapSurjective, hTR], ⟨h.prime, h.ne_two, primeComplementCore_quotient_eq_bot p,
     ?_, ?_, ?_, ?_, fun x hx => h.pRank_quotient_inf_conj_le_two _ hO hOM hx⟩⟩

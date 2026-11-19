@@ -23,7 +23,7 @@ theorem nodeCowt_root (_hn : 2 ≤ n) (k : Fin n) :
   · rw [rootIdxD_of_lt n h, rootIdxD'_of_lt n h, rootSignD_of_lt n h]
     simp only [Bool.not_false, boolSign_true, one_mul]
     unfold nodeCowt
-    constructor <;> split_ifs <;> simp_all <;> omega
+    constructor <;> split_ifs <;> simp_all; omega
   · rw [rootSignD_of_not_lt n h]
     simp only [Bool.not_true, boolSign_false]
     unfold nodeCowt
@@ -63,7 +63,7 @@ theorem negRootD_not_stab (hn : 3 ≤ n) (k : Fin n) :
     have hc2 : ¬ (a = flagIdx (rootIdxD n k) false ∧ b = flagIdx (rootIdxD' n k) (!(!rootSignD n k))) := by
       rintro ⟨h2, -⟩
       have := congrArg (fun u : Fin n ⊕ Fin n => u) h2
-      cases hs : rootSignD n k <;> simp [hadef, flagIdx, hs] at h2 <;>
+      cases hs : rootSignD n k <;> simp [hadef, flagIdx, hs] at h2;
         exact absurd h2 (by
           have := rootIdxD_ne n (by omega) k
           intro h3

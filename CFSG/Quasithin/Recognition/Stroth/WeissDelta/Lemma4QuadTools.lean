@@ -184,6 +184,7 @@ private theorem mem_secondKernel_smul_iff (g : H) (z : V) (x : H) :
         _ = g • (g⁻¹ • w) := by rw [h]
         _ = w := smul_inv_smul g w
 
+omit [GraphAction H Γ] in
 private theorem mem_take_four_spec {p : GPath Γ 6} {u : H}
     (hu : u ∈ pathRootGroup H Γ (p.take 4 (by norm_num))) :
     u ∈ fixingSubgroup H (Γ.neighborSet (p 1)) ∧
@@ -203,6 +204,7 @@ private theorem mem_take_four_spec {p : GPath Γ 6} {u : H}
     exact (mem_pathRootGroup.mp hu) 3 (by norm_num) (by norm_num) w (by
       rwa [GPath.take_apply_of_le p 4 (by norm_num) (by norm_num : (3 : ℕ) ≤ 4)])
 
+omit [GraphAction H Γ] in
 private theorem mem_drop_two_spec {p : GPath Γ 6} {u : H}
     (hu : u ∈ pathRootGroup H Γ (p.drop 2 (by norm_num))) :
     u ∈ fixingSubgroup H (Γ.neighborSet (p 3)) ∧
@@ -222,6 +224,7 @@ private theorem mem_drop_two_spec {p : GPath Γ 6} {u : H}
     exact (mem_pathRootGroup.mp hu) 3 (by norm_num) (by norm_num) w (by
       rwa [GPath.drop_apply p 2 (by norm_num) (by norm_num : (3 : ℕ) ≤ 6 - 2)])
 
+omit [GraphAction H Γ] in
 private theorem mem_mid_four_iff {p : GPath Γ 6} {u : H} :
     u ∈ pathRootGroup H Γ ((p.drop 1 (by norm_num)).take 4 (by norm_num)) ↔
       u ∈ fixingSubgroup H (Γ.neighborSet (p 2)) ∧

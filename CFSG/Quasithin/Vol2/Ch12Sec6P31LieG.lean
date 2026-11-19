@@ -14,6 +14,7 @@ section CentralOdd
 
 variable {K : Type} [Group K] [Finite K] (Z : Subgroup K) [Z.Normal]
 
+omit [Finite K] in
 private theorem mem_of_pow_two_pow_of_mk'_mem {T : Subgroup K} (hT : IsPGroup 2 T)
     (hZ : Z ≤ Subgroup.center K) (hZodd : ¬ 2 ∣ Nat.card Z) {x : K} {m : ℕ}
     (hx : x ^ 2 ^ m = 1) (hπ : QuotientGroup.mk' Z x ∈ T.map (QuotientGroup.mk' Z)) :
@@ -58,6 +59,7 @@ private theorem card_comap_mk' (S : Subgroup (K ⧸ Z)) :
   rw [h1, h3, ← h2]
   ring
 
+omit [Finite K] in
 theorem normalizer_eq_comap_of_central_odd (hZ : Z ≤ Subgroup.center K) (hZodd : ¬ 2 ∣ Nat.card Z)
     {T : Subgroup K} (hT : IsPGroup 2 T) :
     Subgroup.normalizer (T : Set K) =
@@ -132,6 +134,7 @@ theorem card_normalizer_of_central_odd (hZ : Z ≤ Subgroup.center K) (hZodd : �
   rw [normalizer_eq_comap_of_central_odd Z hZ hZodd hT]
   exact card_comap_mk' Z _
 
+omit [Finite K] in
 theorem isSylowTwoOf_map_mk' {T : Subgroup K} (hT : IsSylowTwoOf T ⊤) :
     IsSylowTwoOf (T.map (QuotientGroup.mk' Z)) ⊤ := by
   obtain ⟨-, hT2, hTi⟩ := hT

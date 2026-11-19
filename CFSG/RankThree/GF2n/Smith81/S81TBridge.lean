@@ -29,24 +29,28 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   {φ : Lgen M (LB M Q B) →* (E' ≃ₗ[K] E')} {Γ : Subgroup (E' ≃ₗ[K] E')} {p₀ : E'}
   {U₀ : Subgroup (E' ≃ₗ[K] E')} {X : Subgroup G} {x : G}
 
+omit [Finite G] [Finite K] [CharP K 2] in
 theorem exists_lift_E (d : EUniData M Q Z B M₀ ψ φ Γ p₀ U₀) {g : E' ≃ₗ[K] E'} (hg : g ∈ Γ) :
     ∃ s : Lgen M (LB M Q B), φ s = g := by
   rw [← d.range] at hg
   obtain ⟨s, hs⟩ := hg
   exact ⟨s, hs⟩
 
+omit [Finite G] [Finite K] [CharP K 2] in
 theorem psi_T_E (d : EUniData M Q Z B M₀ ψ φ Γ p₀ U₀) {x : G} (hxL : x ∈ Lgen M (LB M Q B))
     (Tx : XAct M₀ x) {t : E' ≃ₗ[K] E'} (hφ : φ ⟨x, hxL⟩ = t) (e' : M₀.E) :
     ψ (Tx.T e') = t (ψ e') := by
   obtain ⟨y, hy, rfl⟩ := M₀.π_surj e'
   rw [← Tx.hπ y hy, d.equivariant ⟨x, hxL⟩ y hy, hφ]
 
+omit [Finite G] [Finite K] [CharP K 2] in
 theorem mem_Cs_iff_E (d : EUniData M Q Z B M₀ ψ φ Γ p₀ U₀) {x : G} (hxL : x ∈ Lgen M (LB M Q B))
     (Tx : XAct M₀ x) {t : E' ≃ₗ[K] E'} (hφ : φ ⟨x, hxL⟩ = t) {e' : M₀.E} :
     e' ∈ Cs Tx ↔ ψ e' ∈ CwE t := by
   rw [mem_Cs, ← ψ.injective.eq_iff, psi_T_E d hxL Tx hφ]
   exact Iff.rfl
 
+omit [Finite G] [Finite K] [CharP K 2] in
 theorem mem_Rs_iff_E (d : EUniData M Q Z B M₀ ψ φ Γ p₀ U₀) {x : G} (hxL : x ∈ Lgen M (LB M Q B))
     (Tx : XAct M₀ x) {t : E' ≃ₗ[K] E'} (hφ : φ ⟨x, hxL⟩ = t) {r : M₀.E} :
     r ∈ Rs Tx ↔ ψ r ∈ RwE t := by
@@ -62,6 +66,7 @@ theorem mem_Rs_iff_E (d : EUniData M Q Z B M₀ ψ φ Γ p₀ U₀) {x : G} (hxL
     rw [map_sub, psi_T_E d hxL Tx hφ, LinearEquiv.apply_symm_apply]
     exact hw.symm
 
+omit [Finite G] [Finite K] [CharP K 2] in
 theorem comm_mem_Q_of_lift_E (d : EUniData M Q Z B M₀ ψ φ Γ p₀ U₀) {x u : G}
     (hxL : x ∈ Lgen M (LB M Q B)) (hu : u ∈ Lgen M (LB M Q B)) {t g : E' ≃ₗ[K] E'}
     (hφx : φ ⟨x, hxL⟩ = t) (hφu : φ ⟨u, hu⟩ = g) (hcomm : g * t = t * g) : ⁅u, x⁆ ∈ Q := by
@@ -71,6 +76,7 @@ theorem comm_mem_Q_of_lift_E (d : EUniData M Q Z B M₀ ψ φ Γ p₀ U₀) {x u
   have := (d.ker _).mp h1
   simpa [commutatorElement_def] using this
 
+omit [Finite K] [CharP K 2] in
 theorem rootPt_of_orbit (d : EUniData M Q Z B M₀ ψ φ Γ p₀ U₀) (Hs : StrothHyp M Q Z) {v : E'}
     (hv0 : v ≠ 0) (hv : ∃ g ∈ Γ, ∃ c : K, v = c • g p₀) : RootPt M₀ (ψ.symm v) := by
   obtain ⟨g, hg, c, rfl⟩ := hv
@@ -107,6 +113,7 @@ theorem rootPt_of_orbit (d : EUniData M Q Z B M₀ ψ φ Γ p₀ U₀) (Hs : Str
     apply hv0
     rw [← hψa, (M₀.π_ker _ haQ).mpr haZ, map_zero]
 
+omit [Finite G] [Finite K] [CharP K 2] in
 theorem covC_transport_E (d : EUniData M Q Z B M₀ ψ φ Γ p₀ U₀) {x : G}
     (hxL : x ∈ Lgen M (LB M Q B)) (Tx : XAct M₀ x) {t : E' ≃ₗ[K] E'} (hφ : φ ⟨x, hxL⟩ = t)
     (hC : ∀ c ∈ CwE t, ∃ r ∈ RwE t, c - r ∈
@@ -143,6 +150,7 @@ theorem covC_transport_E (d : EUniData M Q Z B M₀ ψ φ Γ p₀ U₀) {x : G}
   rw [AddSubgroup.mem_sup]
   exact ⟨ψ.symm r, hr', c - ψ.symm r, h2 ▸ hz, by abel⟩
 
+omit [Finite K] [CharP K 2] in
 theorem P3_transport_E (hc : Ctx M Q Z B) (d : EUniData M Q Z B M₀ ψ φ Γ p₀ U₀) {x : G}
     (hxL : x ∈ Lgen M (LB M Q B)) (Tx : XAct M₀ x) {t : E' ≃ₗ[K] E'} (hφ : φ ⟨x, hxL⟩ = t)
     (U : Set (E' ≃ₗ[K] E')) (hUc : ∀ u ∈ U, u ∈ GcentE Γ t)
@@ -178,6 +186,7 @@ theorem P3_transport_E (hc : Ctx M Q Z B) (d : EUniData M Q Z B M₀ ψ φ Γ p�
     rw [hsu, hwe, h1] at h2
     exact h2.symm
 
+omit [Finite K] [CharP K 2] in
 theorem P2_transport_E (hc : Ctx M Q Z B) (d : EUniData M Q Z B M₀ ψ φ Γ p₀ U₀) {x : G}
     (hxL : x ∈ Lgen M (LB M Q B)) (Tx : XAct M₀ x) {t : E' ≃ₗ[K] E'} (hφ : φ ⟨x, hxL⟩ = t)
     (hP2 : ∀ S : AddSubgroup E', S ≠ ⊥ → (∀ s ∈ S, s ∈ RwE t) →
@@ -228,6 +237,7 @@ theorem P2_transport_E (hc : Ctx M Q Z B) (d : EUniData M Q Z B M₀ ψ φ Γ p�
   rw [hfv, LinearEquiv.symm_apply_apply] at hr
   exact hr
 
+omit [Finite K] in
 theorem e28_of_involK12 {β' : E' → E' → K} (hc : Ctx M Q Z B) (hD : GlobalModelData M Q Z γ M₀)
     (d : EUniData M Q Z B M₀ ψ φ Γ p₀ U₀) {lam : K}
     (hform : ∀ e f : M₀.E, M₀.B e f = lam * β' (ψ e) (ψ f)) (hs : Sit M Q Z X x)

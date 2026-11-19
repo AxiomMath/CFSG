@@ -45,12 +45,12 @@ private theorem actM_two_pow : ∀ (cs : List ℕ) (j : ℕ), actM cs (2 ^ j) = 
     cases j with
     | zero =>
       rw [pow_zero, actM]
-      rw [if_pos (by decide : (1 : ℕ) % 2 = 1), (by decide : (1 : ℕ) / 2 = 0),
+      rw [ite_eq_left (by decide : (1 : ℕ) % 2 = 1), (by decide : (1 : ℕ) / 2 = 0),
         actM_zero, Nat.xor_zero]
       simp [List.getD]
     | succ j =>
       rw [pow_succ, actM]
-      rw [Nat.mul_mod_left, if_neg (by decide : ¬ ((0 : ℕ) = 1)), Nat.zero_xor,
+      rw [Nat.mul_mod_left, ite_eq_right (by decide : ¬ ((0 : ℕ) = 1)), Nat.zero_xor,
         Nat.mul_div_cancel (2 ^ j) (by norm_num : 0 < 2), actM_two_pow cs j,
         List.getD_cons_succ]
 
@@ -318,7 +318,7 @@ theorem engine_rk_fixV (hD : D.good = true) (hA : ActsByMats c A D.cols) :
 
 theorem engine_rkIdx_fixV (hD : D.good = true) (hA : ActsByMats c A D.cols) :
     rkIdx (fixV A) = D.n - D.dU := by
-  haveI : Finite V := c.finite
+  have : Finite V := c.finite
   have h1 := rk_add_rkIdx (fixV A)
   rw [engine_rk_fixV hD hA, c.rk_eq] at h1
   omega

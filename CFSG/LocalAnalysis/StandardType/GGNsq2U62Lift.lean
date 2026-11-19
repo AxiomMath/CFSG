@@ -234,7 +234,7 @@ theorem exists_outer_order_three_of_u62 {K : Type} [Field K] [Finite K] [CharP K
       rw [show Matrix.scalar (Fin 6) c' = Matrix.diagonal (fun _ => c') from rfl] at h
       rw [Matrix.diagonal_mul_diagonal] at h
       have h2 := congrArg (fun M : Matrix (Fin 6) (Fin 6) K => M 0 0) h
-      simp only [Matrix.diagonal_apply, Matrix.one_apply_eq, if_true] at h2
+      simp only [Matrix.diagonal_apply, Matrix.one_apply_eq, ite_true] at h2
       rw [← h2, pow_succ]
     have hc_eq : c = 1 := by
       have hN_det1 : Matrix.GeneralLinearGroup.det N = c := by

@@ -81,7 +81,7 @@ theorem planeOK_of_exc_facts {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {A : Subgr
         exact hy
     have hset : {z : ↥G | (z : X) ∈ ({c | c ∈ cs} ∪ {y} : Set X)} = C ∪ {yG} := by
       ext z
-      simp only [Set.mem_setOf_eq, Set.mem_union, Set.mem_singleton_iff, hCdef, hyG,
+      simp only [Set.mem_ofPred_eq, Set.mem_union, Set.mem_singleton_iff, hCdef, hyG,
         Subtype.ext_iff]
     rw [eq_top_iff, ← hset]
     intro x _

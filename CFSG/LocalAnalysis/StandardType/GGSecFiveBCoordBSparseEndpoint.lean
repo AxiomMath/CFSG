@@ -315,7 +315,7 @@ theorem GGSecFiveRouteCfg.nbr_axis_of_bCoordSparse
   have hcfg : GGConfig p B Bs x L D J := hR.1.1
   obtain ⟨hp, -, hxBs, -, -⟩ := hcfg.tableB_facts
   have hp2 : p ≠ 2 := hcfg.1.2.2.2.2.2.1.2.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hxD : x ∈ D := hcfg.2.2.1.2.2.2.1
   obtain ⟨-, hyK, hyD, hyx, hx1⟩ := ggNbr_facts hcfg hnb
   have hx0 : ∀ k, k ≠ i0 → eta ⟨x, hxBs⟩ k = 1 := fun k hk =>

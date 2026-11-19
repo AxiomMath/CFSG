@@ -41,7 +41,7 @@ theorem diagU_one_one : diagU (K := K) 1 1 = 1 := by
   apply Units.ext
   rw [diagU_val, Units.val_one]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.diagonal_apply]
+  fin_cases i <;> fin_cases j <;> simp
 
 theorem Fdiag_scalar_one {x : GL (Fin 6) K} (hx : x ∈ Fdiag K) {c : K}
     (hxc : (x : Matrix (Fin 6) (Fin 6) K) = Matrix.scalar (Fin 6) c) : x = 1 := by

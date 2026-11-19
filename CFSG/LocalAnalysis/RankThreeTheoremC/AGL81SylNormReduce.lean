@@ -44,7 +44,7 @@ theorem exists_mulAut_of_sylAct {A : Type} [Group A] [Finite A] {P : Subgroup A}
   have hThatdef : That = (T.subgroupOf P).map (QuotientGroup.mk' (CFSG.pCore 2 ↥P)) := rfl
   let S : Subgroup Q := That.map e.toMonoidHom
   have hSdef : S = That.map e.toMonoidHom := rfl
-  haveI : Finite Q := Finite.of_surjective _ e.surjective
+  have : Finite Q := Finite.of_surjective _ e.surjective
   have hSp : IsPGroup 2 S := by
     have h1 : IsPGroup 2 (T.subgroupOf P) :=
       IsPGroup.of_equiv hT2 (Subgroup.subgroupOfEquivOfLe hTP).symm
@@ -77,7 +77,7 @@ theorem exists_mulAut_of_sylAct {A : Type} [Group A] [Finite A] {P : Subgroup A}
     exact Subgroup.map_mono hKα₀
   have hαcomp : α.toMonoidHom.comp e.toMonoidHom = e.toMonoidHom.comp αhat.toMonoidHom := by
     ext x
-    simp [hαdef, MulEquiv.trans_apply]
+    simp [hαdef]
   have hSmap : S.map α.toMonoidHom = (That.map αhat.toMonoidHom).map e.toMonoidHom := by
     rw [hSdef, Subgroup.map_map, hαcomp, ← Subgroup.map_map]
   have hSfix : S.map α.toMonoidHom = S := by

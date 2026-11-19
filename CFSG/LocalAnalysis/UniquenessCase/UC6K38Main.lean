@@ -24,7 +24,7 @@ theorem k38_of_star
   by_contra hneg
   push Not at hneg
   obtain ⟨⟨q, hq, hq2, h4⟩, h3, hno⟩ := hneg
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hqdvd : q ∣ Nat.card G := by
     have hne : {k | ∃ H : Subgroup G, IsTwoLocal H ∧ CFSG.Open.pRank q H = k}.Nonempty := by
       by_contra hemp
@@ -66,12 +66,12 @@ theorem k38_of_star
       hN1.trans_le (CFSG.SectionRank.le_pRank hq.one_lt le_rfl hY hYc)
     obtain ⟨S', hYS'⟩ := hY.isPGroup.exists_le_sylow
     have hS' : CFSG.ABGLocalTools.IsSylowOf q (S' : Subgroup G) ⊤ :=
-      (CFSG.ABGLocalTools.isSylowOf_iff).2 ⟨le_top, S'.isPGroup', by
+      (CFSG.ABGLocalTools.isSylowOf_iff).2 ⟨le_top, S'.isPGroup, by
         rw [Subgroup.relIndex_top_right]
         exact S'.not_dvd_index⟩
     obtain ⟨k, -, hk⟩ := hS.exists_mem_conj hS'
     set f : G →* G := (MulAut.conj k⁻¹).toMonoidHom with hf
-    have hfx : ∀ x, f x = k⁻¹ * x * k := fun x => by simp [hf, MulAut.conj_apply]
+    have hfx : ∀ x, f x = k⁻¹ * x * k := fun x => by simp [hf]
     have hYS : Y.map f ≤ S := by
       rintro _ ⟨y, hy, rfl⟩
       rw [hfx]

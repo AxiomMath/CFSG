@@ -55,13 +55,13 @@ theorem f0b_Y (hg : g ∈ gammaU) (m n : ℕ) : f0b (Y g m) (Y g n) = f0b m n :=
 
 theorem Y_theta_one (hu : ∀ x, g (theta0 x) = theta0 (g x)) {n : ℕ} (hn : n < 4096) :
     Y g (theta0N n) = thetaPow 1 (Y g n) := by
-  simp only [thetaPow, if_true]
+  simp only [thetaPow, ite_true]
   refine vecOf_inj (Y_lt _) (theta0N_lt (Y_lt _)) ?_
   rw [vecOf_Y, vecOf_theta0N hn, hu, vecOf_theta0N (Y_lt _), vecOf_Y]
 
 theorem Y_theta_two (ha : ∀ x, g (theta0 x) = theta0 (theta0 (g x))) {n : ℕ} (hn : n < 4096) :
     Y g (theta0N n) = thetaPow 2 (Y g n) := by
-  simp only [thetaPow, show (2 : ℕ) ≠ 1 by norm_num, if_false]
+  simp only [thetaPow, show (2 : ℕ) ≠ 1 by norm_num, ite_false]
   refine vecOf_inj (Y_lt _) (theta0N_lt (theta0N_lt (Y_lt _))) ?_
   rw [vecOf_Y, vecOf_theta0N hn, ha, vecOf_theta0N (theta0N_lt (Y_lt _)),
     vecOf_theta0N (Y_lt _), vecOf_Y]
@@ -123,7 +123,7 @@ theorem linOfRows_unit (r : Array ℕ) (j : Fin 12) :
   rw [linOfRows_apply, vecOf_two_pow, Finset.sum_eq_single j]
   · simp
   · intro k _ hkj
-    simp [Pi.single_apply, hkj]
+    simp [hkj]
   · simp
 
 section Complete
@@ -134,24 +134,28 @@ variable {D : List ℕ} (hD : ∀ d ∈ D, d < 4096) {g : V12 ≃ₗ[ZMod 2] V12
   (hDD : ∀ d ∈ spanOf D, g d - d = 0 ∨ g d - d = vecOf a0)
 include hD hg ha hperp hDD
 
+omit hD hg hperp hDD in
 theorem Y_a0 : Y g a0 = a0 := by
   rw [Y, ha]
   exact codeOf_vecOf (by norm_num [a0])
 
+omit hg ha hDD in
 theorem contains_Y_xor {n : ℕ} (hn : n < 4096) (hf : f0b n a0 = false) :
     (spanList D).contains (Y g n ^^^ n) = true := by
   have h0 : f0 (vecOf n) (vecOf a0) = 0 := by rw [f0_vecOf, hf]; rfl
   refine vec_sub_mem_span hD (xor_lt (Y_lt _) hn) (hperp _ h0) ?_
   rw [vecOf_xor, vecOf_Y, ← vec_sub_eq_add]
 
+omit hg ha hDD in
 theorem coset_mem {w tw : ℕ} (hw : w < 4096) (htw : tw < 4096) (hfw : f0b w a0 = false)
     (hftw : f0b tw a0 = false) :
     Y g w ∈ (spanList D).map (w ^^^ ·) ∧ (spanList D).contains (Y g tw ^^^ tw) = true :=
   ⟨List.mem_map.2 ⟨Y g w ^^^ w, (List.contains_iff_mem).1
-      (contains_Y_xor hD hg ha hperp hDD hw hfw), by
+      (contains_Y_xor hD hperp hw hfw), by
         rw [Nat.xor_comm (Y g w) w, ← Nat.xor_assoc, Nat.xor_self, Nat.zero_xor]⟩,
-    contains_Y_xor hD hg ha hperp hDD htw hftw⟩
+    contains_Y_xor hD hperp htw hftw⟩
 
+omit hDD in
 theorem cand_mem {e : ℕ} (he : e = 1 ∨ e = 2)
     (hY : ∀ n < 4096, Y g (theta0N n) = thetaPow e (Y g n)) :
     ∀ (i : ℕ) (hi : i < (ws.map (Y g)).length),
@@ -173,20 +177,20 @@ theorem cand_mem {e : ℕ} (he : e = 1 ∨ e = 2)
       List.getElem_cons_succ, List.getElem!_cons_zero, List.getElem!_cons_succ, zero_add,
       Nat.reduceAdd, List.mem_filter, theta0N, Nat.reduceShiftRight, Nat.reduceAnd, Nat.reduceXor,
       Nat.reduceOr, Nat.reduceShiftLeft, List.range_succ, List.range_zero, List.nil_append,
-      List.all_append, List.all_cons, List.all_nil, if_true, if_false, h1, h2, h3, h4, h5, h6, hq,
+      List.all_append, List.all_cons, List.all_nil, ite_true, ite_false, h1, h2, h3, h4, h5, h6, hq,
       hf, beq_self_eq_true, Bool.true_and, Bool.and_true, Bool.true_or, Bool.or_true,
       Nat.reduceBEq, decide_false, decide_true, Bool.false_or, and_true]
   case «0» =>
-    rw [show Y g 3072 = 3072 from Y_a0 hD hg ha hperp hDD]
+    rw [show Y g 3072 = 3072 from Y_a0 ha]
     exact List.mem_singleton_self _
-  case «1» => exact coset_mem hD hg ha hperp hDD (by norm_num) (by norm_num) (by decide) (by decide)
-  case «2» => exact coset_mem hD hg ha hperp hDD (by norm_num) (by norm_num) (by decide) (by decide)
-  case «3» => exact coset_mem hD hg ha hperp hDD (by norm_num) (by norm_num) (by decide) (by decide)
-  case «4» => exact coset_mem hD hg ha hperp hDD (by norm_num) (by norm_num) (by decide) (by decide)
+  case «1» => exact coset_mem hD hperp (by norm_num) (by norm_num) (by decide) (by decide)
+  case «2» => exact coset_mem hD hperp (by norm_num) (by norm_num) (by decide) (by decide)
+  case «3» => exact coset_mem hD hperp (by norm_num) (by norm_num) (by decide) (by decide)
+  case «4» => exact coset_mem hD hperp (by norm_num) (by norm_num) (by decide) (by decide)
   case «5» =>
     refine List.mem_map.2 ⟨Y g 16 ^^^ 16, ?_, by
       rw [Nat.xor_comm (Y g 16) 16, ← Nat.xor_assoc, Nat.xor_self, Nat.zero_xor]⟩
-    have hYa : Y g 3072 = 3072 := Y_a0 hD hg ha hperp hDD
+    have hYa : Y g 3072 = 3072 := Y_a0 ha
     rw [hYa] at h1
     simp only [perp5, List.mem_filter, List.mem_range, xor_lt (Y_lt _) (show 16 < 4096 by norm_num),
       true_and, Bool.and_eq_true, Bool.not_eq_true', beq_iff_eq, f0b_xor_left]
@@ -216,7 +220,7 @@ theorem mem_tdList : ∃ r ∈ tdList D, (∀ x ∈ r, x < 4096) ∧ ∀ x, g x 
     · exact ⟨2, Or.inr rfl, fun n hn => Y_theta_two hanti hn⟩
   have hleaf : ws.map (Y g) ∈ extDFS (candT (spanList D) (perp5 e) e) 6 [] := by
     have := mem_extDFS (candT (spanList D) (perp5 e) e) (ws.map (Y g)) []
-      (cand_mem hD hg ha hperp hDD he hY)
+      (cand_mem hD hg ha hperp he hY)
     simpa [ws] using this
   set r := rowsOfImgs (imgsOf e (ws.map (Y g))) with hr
   have himgs : imgsOf e (ws.map (Y g)) = basisW.map (Y g) := by
@@ -263,11 +267,11 @@ theorem mem_tdList : ∃ r ∈ tdList D, (∀ x ∈ r, x < 4096) ∧ ∀ x, g x 
       · right
         exact vecOf_inj (xor_lt (Y_lt _) hd4) (by norm_num [a0]) (by rw [hv, h0])
     · rw [happ u0 (by norm_num [u0])]
-      exact contains_Y_xor hD hg ha hperp hDD (by norm_num [u0]) (by decide)
+      exact contains_Y_xor hD hperp (by norm_num [u0]) (by decide)
   refine ⟨r, ?_, hr_lt, hlin⟩
   simp only [tdList, List.mem_flatMap, List.mem_filterMap]
   refine ⟨e, by rcases he with rfl | rfl <;> simp, ws.map (Y g), hleaf, ?_⟩
-  simp only [← hr, hleafOK, if_true]
+  simp only [← hr, hleafOK, ite_true]
 
 end Complete
 

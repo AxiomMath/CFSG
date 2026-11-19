@@ -108,7 +108,7 @@ private lemma fzrAuxPhi_sq (hcomm : ∀ x ∈ P, ∀ y ∈ P, x * y = y * x)
 private lemma fzrAuxPhi_surj (hpf : FzPFacts t tau rho E W Q T P) :
     ∀ c ∈ P, ∃ d ∈ P, fzrAuxPhi rho d = c := by
   have hcard : Nat.card ↥P = 64 := hpf.card_P
-  haveI : Finite ↥P := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite ↥P := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hinj : Function.Injective
       (fun p : ↥P => (⟨fzrAuxPhi rho p.1, fzrAuxPhi_mem hpf p.2⟩ : ↥P)) := by
     intro p q hpq
@@ -123,7 +123,7 @@ lemma fzr_a_exists_notE (hs : FzStr t tau lam rho Z E W Q R T)
   by_contra h
   push Not at h
   have hle : P ≤ E := fun x hx => h x hx
-  haveI : Finite ↥E := Nat.finite_of_card_ne_zero (by rw [hs.card_E]; norm_num)
+  have : Finite ↥E := Nat.finite_of_card_ne_zero (by rw [hs.card_E]; norm_num)
   have hinj : Function.Injective (fun p : ↥P => (⟨(p : G), hle p.2⟩ : ↥E)) := by
     intro p q hpq
     exact Subtype.ext (by
@@ -159,7 +159,7 @@ lemma fzr_a_ab_notE (hs : FzStr t tau lam rho Z E W Q R T)
   have h2 : fzrASig rho (fzrASig rho b) ∈ E := hs.rho_nrm_E _ hσbE
   exact haE (h3 ▸ h2)
 
-lemma fzr_a_haib_notE (hs : FzStr t tau lam rho Z E W Q R T)
+lemma fzr_a_haib_notE (_hs : FzStr t tau lam rho Z E W Q R T)
     (hpf : FzPFacts t tau rho E W Q T P) (h8 : FzZ8 Z E P)
     (hcomm : ∀ x ∈ P, ∀ y ∈ P, x * y = y * x) {a b : G} (haP : a ∈ P) (hbP : b ∈ P)
     (haE : a ∉ E) (hσa : fzrASig rho a = b) : a⁻¹ * b ∉ E := by

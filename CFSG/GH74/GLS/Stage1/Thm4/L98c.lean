@@ -51,6 +51,7 @@ theorem mem_sup_subgroupOf_of_mem (hK : K ≤ Cz z) {c : ↥(Cz z)} (hc : (c : G
   have : y = c := Subtype.ext hyc
   rwa [this] at hy
 
+omit [Finite G] in
 theorem toBar_mem_barOf_of_mem (hK : K ≤ Cz z) {c : ↥(Cz z)} (hc : (c : G) ∈ K ⊔ Oz z) :
     toBar z c ∈ barOf z K := by
   have h1 := mem_sup_subgroupOf_of_mem hK hc

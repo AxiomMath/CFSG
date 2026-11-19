@@ -92,7 +92,7 @@ theorem oppositeFixed_of_stronglyEmbedded {X : Type} [Group X] [Finite X]
     exact hQU hq'
   obtain ⟨U', hU'R, hU'U⟩ : ∃ U' : Sylow 2 X, (∀ α ∈ R, α • U' = U') ∧ U' ≠ U := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     have hfix : MulAction.fixedPoints R (Sylow 2 X) = {U} := by
       ext P
       simp only [MulAction.mem_fixedPoints, Set.mem_singleton_iff]
@@ -105,7 +105,7 @@ theorem oppositeFixed_of_stronglyEmbedded {X : Type} [Group X] [Finite X]
     have hdvd : p ∣ Nat.card (U : Subgroup X) := by
       have := (Nat.modEq_iff_dvd' (by omega)).mp hmod.symm
       rwa [Nat.add_sub_cancel] at this
-    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp U.isPGroup'
+    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp U.isPGroup
     rw [hk] at hdvd
     exact hp2 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).mp (hp.dvd_of_dvd_pow hdvd))
   have hCU : autCentralizer R ≤ Subgroup.normalizer ((U : Subgroup X) : Set X) := hCQ.trans hNQ

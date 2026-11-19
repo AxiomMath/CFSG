@@ -76,7 +76,7 @@ theorem f4_inner_of_cube_one
     (hβ : β ^ 3 = 1) :
     β ∈ (MulAut.conj : adjointGroup CFSG.LieType.Ree.ReeTag.F4.tag (GaloisField 2 2) →*
       MulAut (adjointGroup CFSG.LieType.Ree.ReeTag.F4.tag (GaloisField 2 2))).range := by
-  haveI : CharP (GaloisField 2 2) CFSG.LieType.Ree.ReeTag.F4.prime :=
+  have : CharP (GaloisField 2 2) CFSG.LieType.Ree.ReeTag.F4.prime :=
     (inferInstance : CharP (GaloisField 2 2) 2)
   have hKcard : Nat.card (GaloisField 2 2) = 2 ^ 2 := GaloisField.card 2 2 (by norm_num)
   obtain ⟨-, hB, ⟨Θ, hΘ, -, hker⟩, -⟩ :=
@@ -129,11 +129,11 @@ theorem e6_inner_of_cube_one (β : MulAut (adjointGroup Tag.E6 (ZMod 2))) (hβ :
     · refine ⟨g, Or.inl (MulEquiv.ext fun h => Subtype.ext ?_)⟩
       rw [hα h]
       simp only [MulAut.conj_apply, Subgroup.coe_mul, Subgroup.coe_inv, hε, exactQ_zero,
-        rootDiagUnit_one, hid, one_mul, mul_one, inv_one, mul_assoc]
+        rootDiagUnit_one, hid, mul_one, inv_one, mul_assoc]
     · refine ⟨g, Or.inr (MulEquiv.ext fun h => Subtype.ext ?_)⟩
       rw [hα h]
       simp only [MulAut.mul_apply, MulAut.conj_apply, Subgroup.coe_mul, Subgroup.coe_inv, hxQ,
-        hε, rootDiagUnit_one, hid, one_mul, mul_one, inv_one, mul_assoc]
+        hε, rootDiagUnit_one, hid, mul_one, inv_one, mul_assoc]
   set I : Subgroup (MulAut (adjointGroup Tag.E6 (ZMod 2))) :=
     (MulAut.conj : adjointGroup Tag.E6 (ZMod 2) →*
       MulAut (adjointGroup Tag.E6 (ZMod 2))).range with hI

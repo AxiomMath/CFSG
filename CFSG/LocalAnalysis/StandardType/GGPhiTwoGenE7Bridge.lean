@@ -57,7 +57,7 @@ namespace CFSG.StandardType.PhiTwoRootGen
 open CFSG.LieType.SeitzGeneration.ExcHigh
 
 theorem exists_mulEquiv_e7D6Group_rPlus
-    {K : Type} [Field K] [Finite K] [CharP K 2] (hK4 : 4 ≤ Nat.card K) :
+    {K : Type} [Field K] [Finite K] [CharP K 2] (_hK4 : 4 ≤ Nat.card K) :
     ∃ _θ : ↥(e7D6Group K) ≃* OrthRest.RPlus K 6, commutator ↥(e7D6Group K) = ⊤ ∧
       ∀ z : ↥(e7D6Group K), (∀ x : ↥(e7D6Group K), z * x = x * z) → z = 1 := by
   classical
@@ -87,7 +87,7 @@ theorem exists_mulEquiv_e7D6Group_rPlus
         (CFSG.Open.StatedOmega (CFSG.Open.StatedQuadPlus 6 K)) :=
       CFSG.LieType.Universal.Spin.isPerfect_statedOmega_quadPlus (K := K) (n := 6)
         (by norm_num)
-    haveI : Group.IsPerfect (CFSG.Open.StatedOmega (CFSG.Open.StatedQuadPlus 6 K)) := hperfS
+    have : Group.IsPerfect (CFSG.Open.StatedOmega (CFSG.Open.StatedQuadPlus 6 K)) := hperfS
     have hperfD : Group.IsPerfect ↥(e7D6Group K) :=
       Group.IsPerfect.ofSurjective
         (f := (θ.trans (rPlusEquivStatedOmega K 6)).symm.toMonoidHom)

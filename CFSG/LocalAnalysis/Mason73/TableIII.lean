@@ -95,10 +95,10 @@ theorem yT_pow (hn : 2 ≤ n) : yT n ^ 2 ^ (n - 1) = y1T (by omega) := by
   rw [yT, y1T, el_one_pow, el_eq_el_iff hn]
   have h2 := hh_add_hh (n := n) (by omega)
   refine ⟨rfl, isConst_of_eq_four 0 ?_ ?_ ?_ ?_⟩ <;>
-    simp only [Pi.sub_apply, Pi.smul_apply, hv, Matrix.cons_val, nsmul_eq_mul, Pi.mul_apply,
+    simp only [Pi.sub_apply, hv, Matrix.cons_val, nsmul_eq_mul, Pi.mul_apply,
       Pi.natCast_apply, Nat.cast_one,
       Nat.cast_zero, mul_one, mul_zero] <;>
-    first | ring1 | linear_combination h2 | linear_combination -h2
+    first | ring1 | linear_combination h2
 
 theorem uT_mul_w1T (hn : 3 ≤ n) : uT (n := n) (by omega) * w1T hn = uw1T hn := by
   rw [uT, w1T, uw1T, el_mul, el_eq_el_iff (by omega), pv_s23]
@@ -117,7 +117,7 @@ theorem two_mul_zL4 (hn : 2 ≤ n) : 2 * zL4 n = hh n := by
 
 theorem exists_eq_two_mul_or (x : ZMod (2 ^ n)) :
     ∃ k : ZMod (2 ^ n), x = 2 * k ∨ x = 2 * k + 1 := by
-  haveI : NeZero (2 ^ n) := ⟨by positivity⟩
+  have : NeZero (2 ^ n) := ⟨by positivity⟩
   refine ⟨((x.val / 2 : ℕ) : ZMod (2 ^ n)), ?_⟩
   have h := Nat.div_add_mod x.val 2
   rcases Nat.mod_two_eq_zero_or_one x.val with h0 | h1
@@ -221,7 +221,7 @@ theorem isConj_el_zP_uvT (hn : 3 ≤ n) {d : Fin 4 → ZMod (2 ^ n)} (hd : detSu
     refine isConst_of_eq_four (zL4 n - κ₂) ?_ ?_ ?_ ?_ <;>
       simp only [Pi.sub_apply, hv, Matrix.cons_val, Nat.cast_one, Nat.cast_zero, mul_one,
         mul_zero] <;> (try simp only [hd1, hd3, hd0, hh']) <;>
-      first | ring1 | linear_combination h4 | linear_combination -h4
+      first | ring1
 
 theorem isConj_el_zP_uvxyT (hn : 3 ≤ n) {d : Fin 4 → ZMod (2 ^ n)} (hd : detSum d zP)
     (h2 : el d zP hd * el d zP hd = 1) {k : ZMod (2 ^ n)} (hk : d 0 - d 2 = 2 * k + 1) :
@@ -245,7 +245,7 @@ theorem isConj_el_zP_uvxyT (hn : 3 ≤ n) {d : Fin 4 → ZMod (2 ^ n)} (hd : det
   · rw [pv_zP]
     refine isConst_of_eq_four (zL4 n - κ₂) ?_ ?_ ?_ ?_ <;>
       simp only [Pi.sub_apply, Matrix.cons_val] <;> (try simp only [hd1, hd3, hd0, hh']) <;>
-      first | ring1 | linear_combination h4 | linear_combination -h4
+      first | ring1
 
 theorem isConj_el_zP (hn : 3 ≤ n) {d : Fin 4 → ZMod (2 ^ n)} (hd : detSum d zP)
     (h2 : el d zP hd * el d zP hd = 1) :
@@ -283,9 +283,8 @@ theorem isConj_el_tP_tT (hn : 3 ≤ n) {d : Fin 4 → ZMod (2 ^ n)} (hd : detSum
     ring
   · rw [pv_tP]
     refine isConst_of_eq_four (-κ₂) ?_ ?_ ?_ ?_ <;>
-      simp only [Pi.sub_apply, hv, Matrix.cons_val, Nat.cast_one, Nat.cast_zero, mul_one,
-        mul_zero] <;> (try simp only [hd2, hd3, hd1]) <;>
-      first | ring1 | linear_combination h4 | linear_combination -h4
+      simp only [Pi.sub_apply, hv, Matrix.cons_val, Nat.cast_zero, mul_zero] <;> (try simp only [hd2, hd3, hd1]) <;>
+      first | ring1
 
 theorem isConj_el_tP_txT (hn : 3 ≤ n) {d : Fin 4 → ZMod (2 ^ n)} (hd : detSum d tP)
     (h2 : el d tP hd * el d tP hd = 1) {k : ZMod (2 ^ n)} (hk : d 1 - d 0 = 2 * k + 1) :
@@ -307,7 +306,7 @@ theorem isConj_el_tP_txT (hn : 3 ≤ n) {d : Fin 4 → ZMod (2 ^ n)} (hd : detSu
   · rw [pv_tP]
     refine isConst_of_eq_four (-κ₂) ?_ ?_ ?_ ?_ <;>
       simp only [Pi.sub_apply, Matrix.cons_val] <;> (try simp only [hd2, hd3, hd1]) <;>
-      first | ring1 | linear_combination h4 | linear_combination -h4
+      first | ring1
 
 theorem isConj_el_tP (hn : 3 ≤ n) {d : Fin 4 → ZMod (2 ^ n)} (hd : detSum d tP)
     (h2 : el d tP hd * el d tP hd = 1) :
@@ -417,17 +416,17 @@ theorem isConj_of_mem_A (hn : 3 ≤ n) {μ : L4Model n} (hA : μ ∈ A n) (h1 : 
   fin_cases a <;> fin_cases b <;> fin_cases c <;> simp only [Fin.zero_eta, Fin.mk_one] at h1 ⊢
   · exact absurd (omegaEl_zero hn) h1
   · right; right
-    rw [omegaEl, dif_neg (by decide)]
+    rw [omegaEl, dite_eq_right (by decide)]
     exact isConj_el_wv_w1T hn (by decide) detSum_zero_tzP (by decide)
   · right; right
-    rw [omegaEl, dif_neg (by decide)]
+    rw [omegaEl, dite_eq_right (by decide)]
     exact isConj_el_wv_w1T hn (by decide)
       (detSum_hv_even (n := n) (χ := ![0, 0, 0, 0]) (π := tP) (by omega) (by decide) (by decide))
       (by decide)
   · left
     rw [← zT_eq_omegaEl hn]
   · right; right
-    rw [omegaEl, dif_neg (by decide)]
+    rw [omegaEl, dite_eq_right (by decide)]
     exact isConj_el_wv_w1T hn (by decide)
       (detSum_hv_odd (n := n) (χ := ![0, 0, 1, 0]) (by omega) (sgnH_s01 (by omega)) (by decide))
       (by decide)

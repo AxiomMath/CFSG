@@ -32,17 +32,20 @@ theorem nine3_dcal_le_H0 (hc : Nine3Choice V T A K S X p g x) {D : Subgroup G}
         E3.conjSubgroup_mono_left h (nine3_V_le_H0 hc)
     _ = nineH0 V K g := hconj
 
+omit [Finite G] in
 private theorem nine3_conjSubgroup_iSup {ι : Sort*} (B : ι → Subgroup G) (g : G) :
     conjSubgroup (⨆ i, B i) g = ⨆ i, conjSubgroup (B i) g := by
   simp only [CFSG.Quasithin.conjSubgroup]
   exact Subgroup.map_iSup _ _
 
+omit [Finite G] in
 private theorem nine3_conjSubgroup_iSup₂ {ι : Sort*} (q : ι → Prop) (B : ι → Subgroup G)
     (g : G) :
     conjSubgroup (⨆ i, ⨆ (_ : q i), B i) g = ⨆ i, ⨆ (_ : q i), conjSubgroup (B i) g := by
   rw [nine3_conjSubgroup_iSup]
   exact iSup_congr fun i => nine3_conjSubgroup_iSup (fun _ : q i => B i) g
 
+omit [Finite G] in
 private theorem nine3_le_normalizer_nineH {k : G} (hk : k ∈ K) :
     k ∈ Subgroup.normalizer (nineH V K : Set G) := by
   rw [← conjSubgroup_eq_iff_mem_normalizer]
@@ -345,7 +348,7 @@ theorem nine3_fusionOddCoreOf_le_centralizer (h : Nine3T79Setup V T A K S X p g 
   set ρ : ↥V →* MulAut ↥Q :=
     (Subgroup.normalizerMonoidHom Q).comp (Subgroup.inclusion hVQ) with hρ
   set qsub : Subgroup ↥Q := (Subgroup.centralizer (V : Set G)).comap Q.subtype with hqsub
-  haveI : Fintype ↥V := Fintype.ofFinite _
+  have : Fintype ↥V := Fintype.ofFinite _
   have hVcard2 : 2 < Fintype.card ↥V := by
     rw [← Nat.card_eq_fintype_card]
     exact h.hc.core.hyp7.2.1

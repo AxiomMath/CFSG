@@ -176,7 +176,7 @@ theorem tabAll_eq (tab : Array (Array Nat)) (n : Nat) :
   simp only [← Array.all_toList, List.all_map, Function.comp_def]
 
 theorem fcHits_eq (ia : Array Nat) (n : Nat) : fcHits ia n = hitsL ia.toList n := by
-  simp [fcHits, hitsL, Array.contains_toList]
+  simp [fcHits, hitsL]
 
 theorem fcCover_eq (tab : Array (Array Nat)) (A B : List Nat) (n : Nat) :
     fcCover tab A B n = coverL (tab.toList.map Array.toList) A B n := by
@@ -202,7 +202,7 @@ theorem act_get (ms : Array (Array Nat)) (x : Nat) {v : Nat} (hv : v < 1024) :
     have h0 : ∀ l : List Nat, linL #[] v l = 0 := fun l => by
       induction l with
       | nil => rfl
-      | cons j l ih => simp [linL, ih]
+      | cons j l ih => simp [linL]
     rw [arr_getElem!]
     change ([] : List Nat).getD v 0 = linL #[] v (List.range 10)
     rw [h0]
@@ -251,12 +251,12 @@ theorem fcCheck_of_twin {cu cw ms : Array (Array Nat)} {fam : List (List Nat)}
     (h3 : fixOKL ms.toList (idxL ms.toList idColsK) fam = true) :
     fcCheck cu cw ms fam = true := by
   unfold fcCheck fcCore
-  simp only [fcExtOK_eq, fcCover_eq, tabAll_eq, fcFixOK_eq, fcHits_eq, ← Array.all_toList,
+  simp only [fcExtOK_eq, fcCover_eq, fcFixOK_eq, fcHits_eq, ← Array.all_toList,
     Array.toList_map, fcIdx_fun, idCols_eq]
   have hT' := tabAllL_fcMul hms hT
   rw [fcMul_eq hms, tabL_eq_tabK hms]
   simp only [fcRestL, Array.length_toList] at h1 h3
-  simp only [Array.length_toList, h2, h3, hT', Bool.and_true, Bool.true_and]
+  simp only [h2, h3, hT', Bool.and_true]
   simp only [Bool.and_eq_true] at h1 ⊢
   tauto
 
@@ -267,11 +267,11 @@ theorem axCheck_of_twin {ms : Array (Array Nat)} {qs : Array Bool} {fam : List (
     (h3 : axFixOKL ms.toList (fun k => qs[k]!) fam = true) :
     axCheck ms qs fam = true := by
   unfold axCheck axCore
-  simp only [fcExtOK_eq, tabAll_eq, axFixOK_eq, ← Array.all_toList, fcIdx_fun, idCols_eq]
+  simp only [fcExtOK_eq, axFixOK_eq, ← Array.all_toList, fcIdx_fun, idCols_eq]
   have hT' := tabAllL_fcMul hms hT
   rw [fcMul_eq hms, tabL_eq_tabK hms]
   simp only [axRestL, Array.length_toList] at h1
-  simp only [Array.length_toList, h2, h3, hT', Bool.and_true, Bool.true_and]
+  simp only [h2, h3, hT', Bool.and_true]
   simp only [Bool.and_eq_true] at h1 ⊢
   tauto
 

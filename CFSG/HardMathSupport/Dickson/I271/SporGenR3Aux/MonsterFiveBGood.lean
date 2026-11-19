@@ -65,9 +65,9 @@ theorem bOK
   by_cases hW : W.inv = true
   · refine Or.inl ?_
     have m1 : (rhsW W.v ++ W.c, W.c ++ W.u) ∈ bEqs W := by
-      unfold bEqs; rw [if_pos hW]; simp
+      unfold bEqs; rw [ite_eq_left hW]; simp
     have m2 : (tW ++ W.u ++ tW ++ W.u, []) ∈ bEqs W := by
-      unfold bEqs; rw [if_pos hW]; simp
+      unfold bEqs; rw [ite_eq_left hW]; simp
     have e1 := hall _ m1
     have e2 := hall _ m2
     simp only [gw_append, gw_nil, gw_tW] at e1 e2
@@ -80,7 +80,7 @@ theorem bOK
       (isConj_iff.2 ⟨(gw W.c)⁻¹, by group⟩) (inv_conj_alg hinv e1)
   · refine Or.inr ?_
     have m1 : (rhsW W.v ++ W.c, W.c ++ fiveGens[8]!) ∈ bEqs W := by
-      unfold bEqs; rw [if_neg hW]; simp
+      unfold bEqs; rw [ite_eq_right hW]; simp
     have e1 := hall _ m1
     simp only [gw_append] at e1
     have hx : xFiveB = gw fiveGens[8]! := rfl

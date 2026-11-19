@@ -29,9 +29,9 @@ section Tag
 
 variable {G : Type} [Group G] [Finite G]
 
-theorem ggTagFacts_E6 {n f : ℕ} (hadm : StatedLieAdmissible .E6 n 2 f)
-    (hrank : 3 ≤ bnRank .E6 n) : GGTagFacts .E6 n f := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+theorem ggTagFacts_E6 {n f : ℕ} (_hadm : StatedLieAdmissible .E6 n 2 f)
+    (_hrank : 3 ≤ bnRank .E6 n) : GGTagFacts .E6 n f := by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine ⟨?_, ggUniversalFacts_of_steinberg
     (n := e6Data_valid.nm (GaloisField 2 f))
     (H := e6Data_valid.torus (GaloisField 2 f)) ?_ ?_ ?_ ?_⟩
@@ -49,9 +49,9 @@ theorem ggSecFivePres_of_psi_E6 {p : ℕ} {B : Subgroup G} {x : G} {L D J : Subg
     (hrange : ψ.range = ggG0 p B x L D J) : GGSecFivePres p B x L D J .E6 n f :=
   ggSecFivePres_of_psi_of_tagFacts hadm hrank (ggTagFacts_E6 hadm hrank) ψ hker hrange
 
-theorem ggTagFacts_E7 {n f : ℕ} (hadm : StatedLieAdmissible .E7 n 2 f)
-    (hrank : 3 ≤ bnRank .E7 n) : GGTagFacts .E7 n f := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+theorem ggTagFacts_E7 {n f : ℕ} (_hadm : StatedLieAdmissible .E7 n 2 f)
+    (_hrank : 3 ≤ bnRank .E7 n) : GGTagFacts .E7 n f := by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine ⟨?_, ggUniversalFacts_of_steinberg
     (n := e7Data_valid.nm (GaloisField 2 f))
     (H := e7Data_valid.torus (GaloisField 2 f)) ?_ ?_ ?_ ?_⟩
@@ -70,8 +70,8 @@ theorem ggSecFivePres_of_psi_E7 {p : ℕ} {B : Subgroup G} {x : G} {L D J : Subg
   ggSecFivePres_of_psi_of_tagFacts hadm hrank (ggTagFacts_E7 hadm hrank) ψ hker hrange
 
 theorem ggTagFacts_twistedE6 {n f : ℕ} (hadm : StatedLieAdmissible .twistedE6 n 2 f)
-    (hrank : 3 ≤ bnRank .twistedE6 n) : GGTagFacts .twistedE6 n f := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    (_hrank : 3 ≤ bnRank .twistedE6 n) : GGTagFacts .twistedE6 n f := by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hf : 1 ≤ f := hadm.2.1
   have hθ : ∀ c, frobQ 2 f (frobQ 2 f c) = c := frobQ_frobQ 2 f hf
   refine ⟨?_, ggUniversalFacts_of_steinberg

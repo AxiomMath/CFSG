@@ -32,7 +32,7 @@ theorem odd_card_commutator_outer_of_psl_two_model {X : Type} [Group X] {m : ℕ
     (e.trans (projectiveSpecialLinearGroupEquivStatedProj 2 K).symm).trans
       (CFSG.RankThree.PartOne.KCRootAxis.slEquivPSL K).symm
   refine CFSG.ComponentClassification.RankTwoExceptional.odd_card_commutator_outer_of_equiv e' ?_
-  haveI : IsCyclic (Outer (CFSG.RankThree.PartOne.KCRootAxis.SL₂ K)) :=
+  have : IsCyclic (Outer (CFSG.RankThree.PartOne.KCRootAxis.SL₂ K)) :=
     CFSG.RankThree.PartOne.KCRootAxis.out_sl2_isCyclic
   let : CommGroup (Outer (CFSG.RankThree.PartOne.KCRootAxis.SL₂ K)) := IsCyclic.commGroup
   exact CFSG.ComponentClassification.RankTwoExceptional.odd_card_commutator_of_comm
@@ -104,8 +104,8 @@ theorem odd_card_commutator_outer_of_psl_two_seven {X : Type} [Group X]
   have hidx : (CFSG.ComponentClassification.OuterAutomorphisms.inner (PSL2 K)).index = 2 := by
     rw [hInn, h2, pgl2_psl2Range_index_eq_two K hodd]
   have hc2 : Nat.card (Outer (PSL2 K)) = 2 := hidx
-  haveI : Fact (Nat.Prime (Nat.card (Outer (PSL2 K)))) := ⟨by rw [hc2]; exact Nat.prime_two⟩
-  haveI : IsCyclic (Outer (PSL2 K)) := isCyclic_of_prime_card hc2
+  have : Fact (Nat.Prime (Nat.card (Outer (PSL2 K)))) := ⟨by rw [hc2]; exact Nat.prime_two⟩
+  have : IsCyclic (Outer (PSL2 K)) := isCyclic_of_prime_card hc2
   refine CFSG.ComponentClassification.RankTwoExceptional.odd_card_commutator_outer_of_equiv e' ?_
   let : CommGroup (Outer (PSL2 K)) := IsCyclic.commGroup
   exact CFSG.ComponentClassification.RankTwoExceptional.odd_card_commutator_of_comm
@@ -204,7 +204,7 @@ theorem outDerivedOdd_of_ffModuleTheorem
   have hJ : ⁅L, gnImg T (thompsonJ T)⁆ = L :=
     commutator_eq_of_ne_bot hQ (thompsonJ_le_normalizer_of_isComponentOf hX hL) hne
   have hff := CFSG.HardMathSupport.Meierfrankenfeld.AGL81.FF531.gn_ffConclusion hFF X T hX L hL hJ
-  haveI : Group.IsPerfect ↥L := ⟨hL.2.2.1⟩
+  have : Group.IsPerfect ↥L := ⟨hL.2.2.1⟩
   exact JOutOdd.odd_card_commutator_outer_of_ffConclusion hff
 
 theorem jOutCentral_of_ffOffender

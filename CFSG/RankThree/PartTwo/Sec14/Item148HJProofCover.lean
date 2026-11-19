@@ -234,7 +234,7 @@ theorem triple_cover_dichotomy (hX : Sec4.IsTripleCover X (alternatingGroup (Fin
         have hZ'p : IsPGroup 3 Z' := IsPGroup.of_card (n := 1) (by rw [hZ'3, pow_one])
         obtain ⟨S, hZ'S⟩ := hZ'p.exists_le_sylow
         have hS9 : Nat.card (S : Subgroup P) = 9 := by
-          obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp S.isPGroup'
+          obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp S.isPGroup
           have hidx := Subgroup.card_mul_index (S : Subgroup P)
           have hndvd := S.not_dvd_index
           rw [hk, hPcard] at hidx

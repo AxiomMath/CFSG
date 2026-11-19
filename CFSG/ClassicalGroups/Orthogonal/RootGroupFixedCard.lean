@@ -22,6 +22,7 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2] {V : Type uV} [AddCommGroup
   Q_f := by rw [map_smul_eq_sq, hu', mul_zero]
   polar_ef := by rw [polar_smul_right_eq, inv_mul_cancel₀ huu']
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
 theorem HypPair.ofSingular_Lom {u u' : V} (hu : Q u = 0) (hu' : Q u' = 0)
     (huu' : polar Q u u' ≠ 0) :
     Lom Q (HypPair.ofSingular hu hu' huu').f = Lom Q u' :=
@@ -48,6 +49,7 @@ theorem stroth_2_1_ii_omegaPlus {m : ℕ} (hm : 3 ≤ m) (h : IsPlus Q m) {M : T
 
 @[expose] def Gom.NonA2 (x : Gom Q) : Prop := ∃ y : V, polar Q y (x.app y) ≠ 0
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem exists_eichler_of_nonA2 {v : V} (hv : Q v = 0) {x : Gom Q} (hx : x ∈ Lom Q v)
     (hn : x.NonA2) : ∃ w, polar Q v w = 0 ∧ Q w ≠ 0 ∧ x = Eom Q v w := by
   obtain ⟨w, hw, hxw⟩ := mem_rootGroup.mp hx
@@ -61,6 +63,7 @@ theorem exists_eichler_of_nonA2 {v : V} (hv : Q v = 0) {x : Gom Q} (hx : x ∈ L
   show polar Q y (eichler Q v w y) = 0
   rw [this, hQw, zero_mul, sub_zero, CharTwo.two_eq_zero, zero_mul]
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem stroth_2_1_ii_omega_fixed (hQ : (polarBilin Q).Nondegenerate) {M : Type*}
     [AddCommGroup M] [Finite M] (h2 : ∀ x : M, x + x = 0) [DistribMulAction (Gom Q) M] {u u' : V}
     (hu : Q u = 0) (hu' : Q u' = 0) (huu' : polar Q u u' ≠ 0) {g : Gom Q} (hg : g.app u = u')

@@ -24,7 +24,7 @@ theorem quasisimple_centralizer_yMc
       Nonempty (↥(Subgroup.centralizer ({ζ} : Set MGriess)) ⧸
         Subgroup.center ↥(Subgroup.centralizer ({ζ} : Set MGriess)) ≃*
           CFSG.Blueprint.NativeSporadic.Fi24prime) := by
-  haveI := CFSG.Sporadic.Fi24.isSimpleGroup_J
+  have := CFSG.Sporadic.Fi24.isSimpleGroup_J
   have hcen : (coverHom (yMc hG) yJ h).ker ≤ Subgroup.center ↥(yMc hG).range := by
     intro d hd
     rw [Subgroup.mem_center_iff]

@@ -34,12 +34,12 @@ theorem stronglyEmbeddedSolvableQ_of_kFacts
     StronglyEmbeddedSolvableQ := by
   classical
   intro p hp hp5 X _ _ hX hO h2 N hN hcov
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   obtain ⟨hKs, hKnab, hKn, hKC⟩ := CFSG.RankThree.PartOne.Sec1511.spe_fstar hp hO hN
   set K := CFSG.generalizedFitting X with hKdef
-  haveI : K.Normal := hKn
-  haveI : IsSimpleGroup ↥K := hKs
+  have : K.Normal := hKn
+  have : IsSimpleGroup ↥K := hKs
   have hcat : CFSG.Open.IsCatalogGroup ↥K :=
     hX.isCatalogGroup_of_surjective K hKnab (MonoidHom.id _) Function.surjective_id
   have hK1 : K ≠ ⊥ := (Subgroup.nontrivial_iff_ne_bot K).1 inferInstance
@@ -50,12 +50,12 @@ theorem stronglyEmbeddedSolvableQ_of_kFacts
     exact h2
   have hΓ : CFSG.Open.rankThreeGamma 1 p (P : Subgroup X) ≠ ⊤ :=
     ne_top_of_le_ne_top hN.1
-      (CFSG.LocalAnalysis.UniquenessCase.UCK.glbCore_le_of_isStronglyPEmbedded hN P.isPGroup' hPN)
+      (CFSG.LocalAnalysis.UniquenessCase.UCK.glbCore_le_of_isStronglyPEmbedded hN P.isPGroup hPN)
   have hout : Group.IsSolvable (Outer ↥K) := hSch ↥K hKs hKnab hcat
   have hle : Subgroup.normalizer ((T : Subgroup ↥K) : Set ↥K) ≤ N.subgroupOf K := by
     rw [hT]
     exact normalizer_subgroupOf_le_of_isStronglyPEmbedded hN hPK
-      (P.isPGroup'.to_le inf_le_left) (inf_le_left.trans hPN) inf_le_right
+      (P.isPGroup.to_le inf_le_left) (inf_le_left.trans hPN) inf_le_right
   have hne : N.subgroupOf K ≠ ⊤ := fun h =>
     CFSG.LocalAnalysis.UniquenessCase.UCK.not_le_of_isStronglyPEmbedded hN P hPN hPK T hT
       (Subgroup.subgroupOf_eq_top.mp h)
@@ -133,7 +133,7 @@ theorem stronglyEmbeddedSolvableQ_of_kFacts
         intro h
         exact hcyc (h ▸ inferInstance)
       have hdvd : p ∣ Nat.card (T : Subgroup ↥K) := by
-        obtain ⟨k, hk⟩ := T.isPGroup'.exists_card_eq
+        obtain ⟨k, hk⟩ := T.isPGroup.exists_card_eq
         have hk0 : k ≠ 0 := by
           rintro rfl
           refine hTbot (Subgroup.card_eq_one.1 ?_)

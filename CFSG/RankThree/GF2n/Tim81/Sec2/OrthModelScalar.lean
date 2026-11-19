@@ -18,6 +18,7 @@ variable {F : Type} [Field F] [Fintype F] [CharP F 2] [Algebra (ZMod 2) F]
   {W : Type} [AddCommGroup W] [Module (ZMod 2) W] [Finite W]
   {ρ : Representation (ZMod 2) SL(2, F) W}
 
+omit [Fintype F] [Algebra (ZMod 2) F] in
 theorem smul_mem_hermA {l : ℕ} {μ : F} (hμ : μ ^ 2 ^ l = μ)
     {X : Matrix (Fin 2) (Fin 2) F} (hX : X ∈ hermA l F) :
     μ • X ∈ hermA l F := by
@@ -34,12 +35,14 @@ theorem smul_mem_hermA {l : ℕ} {μ : F} (hμ : μ ^ 2 ^ l = μ)
     simp
   map_add' X Y := by
     apply Subtype.ext
-    simp [add_smul]
+    simp
 
+omit [Fintype F] [Algebra (ZMod 2) F] in
 @[simp] theorem smulA_coe (μ : ↥(frobFixField l F)) (X : ↥(hermA l F)) :
     ((smulA (l := l) μ X : ↥(hermA l F)) : Matrix (Fin 2) (Fin 2) F) =
       (μ : F) • (X : Matrix (Fin 2) (Fin 2) F) := rfl
 
+omit [Algebra (ZMod 2) F] in
 theorem hermAct_smulA (μ : ↥(frobFixField l F)) (g : SL(2, F)) (X : ↥(hermA l F)) :
     hermAct l (sig_sig hF) g (smulA (l := l) μ X) =
       smulA (l := l) μ (hermAct l (sig_sig hF) g X) := by
@@ -57,6 +60,7 @@ theorem hermAct_smulA (μ : ↥(frobFixField l F)) (g : SL(2, F)) (X : ↥(hermA
           Matrix (Fin 2) (Fin 2) F) := by
         rw [smulA_coe, hermAct_coe, CFSG.Quasithin.B45Sp4.tw_apply]
 
+omit [Finite W] in
 theorem IsOrthModule.exists_scalars (hρ : IsOrthModule hF ρ) :
     ∃ 𝔰 : Set (W →+ W), (∀ s ∈ 𝔰, ∀ g w, s (ρ g w) = ρ g (s w)) ∧
       ∀ A : Subgroup SL(2, F), (∀ a ∈ A, a * a = 1) → Nat.card A = 2 ^ (2 * l) →

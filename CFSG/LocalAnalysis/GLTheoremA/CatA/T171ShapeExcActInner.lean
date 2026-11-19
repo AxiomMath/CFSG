@@ -44,7 +44,7 @@ theorem centerQuotientHom_mem_innAutDerived_innerKind
         Subgroup.center ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i)) := by
   classical
   obtain ⟨hs0, hs, hmin⟩ := outer_componentOrbitLength_spec S hT i
-  haveI : NeZero (componentOrbitLength S.ρ (componentRoots (rootCharHom a) i)) :=
+  have : NeZero (componentOrbitLength S.ρ (componentRoots (rootCharHom a) i)) :=
     ⟨hs0.ne'⟩
   have hinner := twistInner_of_twistKind_eq_innerT S rootAutIsWeyl_holds hT i hkind
   obtain ⟨σ, z, hσ, hzZ, hnorm, hz⟩ :=
@@ -72,8 +72,8 @@ theorem centerQuotientHom_mem_innAutDerived_innerKind_of_four_leT
   refine centerQuotientHom_mem_innAutDerived_innerKind S hT i hkind ?_ hyZ hyF hyStab
   intro σ hσ
   obtain ⟨r, e, hr, hchar, he, hq⟩ := exists_char_pow S
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : CharP L r := hchar
+  have : Fact r.Prime := ⟨hr⟩
+  have : CharP L r := hchar
   have hσ' : ∀ c : L, σ c = c ^
       (r ^ (e * componentOrbitLength S.ρ (componentRoots (rootCharHom a) i))) := by
     intro c
@@ -84,7 +84,7 @@ theorem centerQuotientHom_mem_innAutDerived_innerKind_of_four_leT
     exact hQ
   obtain ⟨t, ht⟩ := exists_unit_sq_ne_one (L := L) σ hσ'
     (Nat.mul_pos he hs0) hQ'
-  haveI : Group.IsPerfect ↥(componentRootSpan (fixSubfield σ) (rootCharHom a) i) :=
+  have : Group.IsPerfect ↥(componentRootSpan (fixSubfield σ) (rootCharHom a) i) :=
     isPerfect_componentRootSpan_of_sq_ne_one (K := fixSubfield σ) (χ := rootCharHom a) ht i
   rw [CQ_eq_map (χ := rootCharHom a) (i := i) σ]
   exact Group.IsPerfect.ofSurjective

@@ -94,8 +94,8 @@ theorem injective_normOmega_hom {m : ℕ} (hm : 1 ≤ m)
     (hκ : Function.Injective κ) (Ψ : normOmega E (m + 1) →* H)
     (hΨcast : ∀ a, Ψ (normOmegaCast E (Nat.le_succ m) a) = κ a) :
     Function.Injective Ψ := by
-  haveI : Finite F := Finite.of_injective (algebraMap F K) (algebraMap F K).injective
-  haveI : IsSimpleGroup ↥(normOmega E (m + 1)) := isSimpleGroup_normOmega E (by omega)
+  have : Finite F := Finite.of_injective (algebraMap F K) (algebraMap F K).injective
+  have : IsSimpleGroup ↥(normOmega E (m + 1)) := isSimpleGroup_normOmega E (by omega)
   have hker : Ψ.ker = ⊥ := by
     rcases Subgroup.Normal.eq_bot_or_eq_top Ψ.ker with h | h
     · exact h
@@ -105,7 +105,7 @@ theorem injective_normOmega_hom {m : ℕ} (hm : 1 ≤ m)
         ext a
         rw [← hΨcast a, hΨ1]
         exact MonoidHom.one_apply _
-      haveI : IsSimpleGroup ↥(normOmega E m) := isSimpleGroup_normOmega E (by omega)
+      have : IsSimpleGroup ↥(normOmega E m) := isSimpleGroup_normOmega E (by omega)
       have hsub : Subsingleton ↥(normOmega E m) := by
         refine ⟨fun a b => ?_⟩
         have ha : κ a = 1 := by rw [hκ1]; rfl

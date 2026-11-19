@@ -28,7 +28,7 @@ theorem ggTorusRootGenAvoidKG_unitarySplit
     · exfalso
       rw [hn0] at hK
       norm_num at hK
-      haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
+      have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
       have h1 : 1 < Nat.card K := Finite.one_lt_card
       omega
     · exact hn
@@ -42,7 +42,7 @@ theorem ggTorusRootGenAvoidKG_unitarySplit
       rw [← h2n]
       exact hpq
     exact Nat.two_not_dvd_two_mul_sub_one (n := 2 ^ (n - 1)) (by positivity) hdvd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rcases (show d = 3 ∨ 4 ≤ d by omega) with rfl | hd4
   ·
     exfalso
@@ -53,15 +53,15 @@ theorem ggTorusRootGenAvoidKG_unitarySplit
   ·
     obtain ⟨r', ε, h, ζ, τ, φ, hdr, hε, hζ, -, hτ, hφs, hφker, hkerp, hM, hτc⟩ :=
       exists_isCoverTorusModel hK hd4 hp hpq hψ hker hperf hA hAI hsc
-    haveI : Finite K := h.finite
+    have : Finite K := h.finite
     have hcard := card_eq_of_isCoverTorusModel hM hτc
     have h3r : p ^ 3 ≤ p ^ r' := by
       rw [← hcard]
       exact h3
     have hr3 : 3 ≤ r' := (Nat.pow_le_pow_iff_right hp.one_lt).mp h3r
-    haveI : Finite (hypSU h r' ε) := Subtype.finite
+    have : Finite (hypSU h r' ε) := Subtype.finite
     let ι : Type := Fin r' ⊕ {x : Fin r' × Fin r' // x.1 ≠ x.2}
-    haveI : Nonempty ι := ⟨Sum.inl ⟨0, by omega⟩⟩
+    have : Nonempty ι := ⟨Sum.inl ⟨0, by omega⟩⟩
     let w : ι → hypSU h r' ε :=
       Sum.elim (fun m => lineWeyl h ε m) (fun x => pairWeyl h ε x.1.1 x.1.2)
     let f : ι → (Fin r' → ZMod p) → Fin r' → ZMod p :=

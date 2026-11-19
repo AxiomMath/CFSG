@@ -42,6 +42,7 @@ section Extend
 variable {F : Type} [Field F] {σ : F ≃+* F} {n : ℕ} {ι : Type} [Fintype ι] [DecidableEq ι]
   {τ : ι → Fin n} (hτ : Function.Injective τ)
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem conjTr_extendMat (B : Matrix ι ι F) :
     conjTr σ (extendMat hτ B) = extendMat hτ ((B.map σ)ᵀ) := by
   unfold conjTr
@@ -57,6 +58,7 @@ theorem mem_range_rev_iff {r : ι → ι} (hr : ∀ i, τ (r i) = Fin.rev (τ i)
   · rintro ⟨i, rfl⟩
     exact ⟨r i, hr i⟩
 
+omit [DecidableEq ι] in
 theorem extendMat_mul_antidiag {r : ι → ι} (hr : ∀ i, τ (r i) = Fin.rev (τ i))
     (A : Matrix ι ι F) :
     extendMat hτ A * (antidiag n : Matrix (Fin n) (Fin n) F) =
@@ -93,7 +95,7 @@ variable {F : Type} [Field F] {σ : F ≃+* F} {n' n : ℕ} {τ : Fin n' → Fin
 theorem antidiag_mul_self : (antidiag n : Matrix (Fin n) (Fin n) F) * antidiag n = 1 := by
   ext x y
   rw [antidiag_mul_apply]
-  simp [antidiag, Matrix.one_apply, Fin.rev_eq_iff, eq_comm]
+  simp [antidiag, Matrix.one_apply, eq_comm]
 
 theorem antidiag_conj (M : Matrix (Fin n) (Fin n) F) :
     (antidiag n : Matrix (Fin n) (Fin n) F) * M * antidiag n = M.submatrix Fin.rev Fin.rev := by
@@ -174,7 +176,7 @@ theorem extendMat_one_add_single (a b : ι) (c : F) :
     rw [extendMat_apply_of_not_mem hφ _ h]
     have h0 : (Matrix.single (φ a) (φ b) c) x y = 0 := by
       rw [Matrix.single_apply]
-      rw [if_neg]
+      rw [ite_eq_right]
       rintro ⟨rfl, rfl⟩
       rcases h with h | h
       · exact h ⟨a, rfl⟩
@@ -204,13 +206,13 @@ theorem extendMat_rootMatrix (i j : Fin n') (c : F) :
       exact hxy hc
     rw [extendMat_apply_of_not_mem hτ _ h]
     have h1 : (Matrix.single (τ i) (τ j) c) x y = 0 := by
-      rw [Matrix.single_apply, if_neg]
+      rw [Matrix.single_apply, ite_eq_right]
       rintro ⟨rfl, rfl⟩
       rcases h with h | h
       · exact h ⟨i, rfl⟩
       · exact h ⟨j, rfl⟩
     have h2 : (Matrix.single (Fin.rev (τ j)) (Fin.rev (τ i)) (σ c)) x y = 0 := by
-      rw [Matrix.single_apply, if_neg]
+      rw [Matrix.single_apply, ite_eq_right]
       rintro ⟨rfl, rfl⟩
       rcases h with h | h
       · exact h ⟨Fin.rev j, hr j⟩
@@ -232,7 +234,7 @@ theorem extendMat_longRootMatrix (i : Fin n') (c : F) :
       exact hxy hc
     rw [extendMat_apply_of_not_mem hτ _ h]
     have h1 : (Matrix.single (τ i) (Fin.rev (τ i)) c) x y = 0 := by
-      rw [Matrix.single_apply, if_neg]
+      rw [Matrix.single_apply, ite_eq_right]
       rintro ⟨rfl, rfl⟩
       rcases h with h | h
       · exact h ⟨i, rfl⟩
@@ -256,19 +258,19 @@ theorem extendMat_heisenbergMatrix (i k : Fin n') (hk : Fin.rev k = k) (a b : F)
       exact hxy hc
     rw [extendMat_apply_of_not_mem hτ _ h]
     have h1 : (Matrix.single (τ i) (τ k) a) x y = 0 := by
-      rw [Matrix.single_apply, if_neg]
+      rw [Matrix.single_apply, ite_eq_right]
       rintro ⟨rfl, rfl⟩
       rcases h with h | h
       · exact h ⟨i, rfl⟩
       · exact h ⟨k, rfl⟩
     have h2 : (Matrix.single (τ k) (Fin.rev (τ i)) (σ a)) x y = 0 := by
-      rw [Matrix.single_apply, if_neg]
+      rw [Matrix.single_apply, ite_eq_right]
       rintro ⟨rfl, rfl⟩
       rcases h with h | h
       · exact h ⟨k, rfl⟩
       · exact h ⟨Fin.rev i, hr i⟩
     have h3 : (Matrix.single (τ i) (Fin.rev (τ i)) b) x y = 0 := by
-      rw [Matrix.single_apply, if_neg]
+      rw [Matrix.single_apply, ite_eq_right]
       rintro ⟨rfl, rfl⟩
       rcases h with h | h
       · exact h ⟨i, rfl⟩
@@ -288,6 +290,7 @@ include hφ in
 theorem rev_comp_injective : Function.Injective (Fin.rev ∘ φ) :=
   Fin.rev_injective.comp hφ
 
+omit [DecidableEq ι] in
 theorem mem_range_of_sub_one_ne (A : Matrix ι ι F) {x y : Fin n}
     (h : (extendMat hφ A - 1) x y ≠ 0) : x ∈ Set.range φ ∧ y ∈ Set.range φ := by
   by_contra hc
@@ -298,6 +301,7 @@ theorem mem_range_of_sub_one_ne (A : Matrix ι ι F) {x y : Fin n}
     exact hc hc'
   rw [Matrix.sub_apply, extendMat_apply_of_not_mem hφ A this, sub_self]
 
+omit [DecidableEq ι] in
 theorem sub_one_mul_sub_one_eq_zero {ψ : ι → Fin n} (hψ : Function.Injective ψ)
     (hd : ∀ i j, φ i ≠ ψ j) (A B : Matrix ι ι F) :
     (extendMat hφ A - 1) * (extendMat hψ B - 1) = 0 := by
@@ -312,6 +316,7 @@ theorem sub_one_mul_sub_one_eq_zero {ψ : ι → Fin n} (hψ : Function.Injectiv
       obtain ⟨⟨j, hj⟩, _⟩ := mem_range_of_sub_one_ne hψ B h2
       exact absurd (hi.trans hj.symm) (hd i j)
 
+omit [DecidableEq ι] in
 theorem extendMat_comm_of_disjoint {ψ : ι → Fin n} (hψ : Function.Injective ψ)
     (hd : ∀ i j, φ i ≠ ψ j) (A B : Matrix ι ι F) :
     extendMat hφ A * extendMat hψ B = extendMat hψ B * extendMat hφ A := by
@@ -334,6 +339,7 @@ variable {F : Type} [Field F] {σ : F ≃+* F} {n : ℕ} {ι : Type} [Fintype ι
   {a : ι → Fin n} (ha : Function.Injective a) (hd : ∀ i j, a i ≠ Fin.rev (a j))
 
 include hd in
+omit [DecidableEq ι] hd in
 theorem extendMat_mul_antidiag_two (A : Matrix ι ι F) :
     extendMat ha A * (antidiag n : Matrix (Fin n) (Fin n) F) =
       (antidiag n : Matrix (Fin n) (Fin n) F) *
@@ -361,7 +367,7 @@ theorem extendMat_mul_antidiag_two (A : Matrix ι ι F) :
         exact h' ⟨i, by simpa [Function.comp_def] using Fin.rev_injective hi⟩
       · right
         rintro ⟨i, hi⟩
-        exact h' ⟨i, by rw [← hi]; simp [Function.comp_def, Fin.rev_rev]⟩
+        exact h' ⟨i, by rw [← hi]; simp [Fin.rev_rev]⟩
     rw [extendMat_apply_of_not_mem ha A h', extendMat_apply_of_not_mem _ A h2]
     simp only [Matrix.one_apply, hiff]
 
@@ -403,7 +409,7 @@ theorem levMat_unitary (hσ : ∀ c, σ (σ c) = c) (g : Matrix.SpecialLinearGro
   set J : Matrix (Fin n) (Fin n) F := antidiag n with hJ
   have hc : ∀ P Q : Matrix ι ι F, e₁ P * e₂ Q = e₂ Q * e₁ P :=
     extendMat_comm_of_disjoint ha (rev_comp_injective ha) hd
-  have hJ1 : ∀ B : Matrix ι ι F, e₁ B * J = J * e₂ B := extendMat_mul_antidiag_two ha hd
+  have hJ1 : ∀ B : Matrix ι ι F, e₁ B * J = J * e₂ B := extendMat_mul_antidiag_two ha
   have hJ2 : ∀ B : Matrix ι ι F, J * e₁ B = e₂ B * J := by
     intro B
     have h := hJ1 B
@@ -499,7 +505,7 @@ theorem levMat_transvection {u v : ι} (hne : u ≠ v) (c : F) :
       have h2 : ¬ (v = u) := Ne.symm hne
       simp [h1, h2, map_neg]
     · have h' : ¬ (v = i ∧ u = j) := fun ⟨a, b⟩ => h ⟨b, a⟩
-      simp only [if_neg h, if_neg h', add_zero]
+      simp only [ite_eq_right h, ite_eq_right h', add_zero]
       by_cases h3 : j = i
       · simp [h3]
       · simp [h3, Ne.symm h3]

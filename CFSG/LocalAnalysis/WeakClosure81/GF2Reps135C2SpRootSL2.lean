@@ -127,7 +127,7 @@ theorem shortBlock_sl2Upper_mem_U {K : Type} [Field K] [Finite K] [CharP K 2] {n
   rw [mem_X_iff]
   exact ⟨c, by
     rw [CFSG.ClassicalInvolution.Models.SymplecticPairs.shortBlock_sl2Upper, simpleIdx,
-      dif_pos hk]⟩
+      dite_eq_left hk]⟩
 
 theorem shortBlock_sl2Lower_mem_L {K : Type} [Field K] [Finite K] [CharP K 2] {n : ℕ}
     {k : Fin n} (hk : k.val + 1 < n) (c : K) :

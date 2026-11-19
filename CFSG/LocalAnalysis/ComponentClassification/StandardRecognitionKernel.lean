@@ -32,7 +32,7 @@ theorem normal_cyclic_sylow_corefree_two_group (hcore : CFSG.oddCore H = ⊥) {R
     rw [hK, coe_bot, Set.mem_singleton_iff] at hk
     show k * s ∈ (S : Subgroup R)
     rwa [hk, one_mul]
-  have htop : IsPGroup 2 (⊤ : Subgroup R) := hStop ▸ S.isPGroup'
+  have htop : IsPGroup 2 (⊤ : Subgroup R) := hStop ▸ S.isPGroup
   refine ⟨by rw [hStop, ← MonoidHom.range_eq_map, range_subtype],
     isCyclic_of_surjective (S : Subgroup R).subtype fun x => ⟨⟨x, hStop ▸ mem_top x⟩, rfl⟩,
     htop.of_equiv topEquiv, fun P => ?_⟩
@@ -118,7 +118,7 @@ theorem standard_cyclic_local_centralizer_kernel {L : Subgroup G}
     rw [relIndex, hT, subgroupOf, comap_map_eq_self_of_injective (subtype_injective _)]
   have hTeq : T = centralizer (L : Set G) ⊓ H := by
     have h := eq_of_isCyclic_of_odd_relIndex hcore hRn (subgroupOf_mono H hTCH)
-      (S.isPGroup'.map _).comap_subtype
+      (S.isPGroup.map _).comap_subtype
       (((subgroupOfEquivOfLe hTH).trans
         (equivMapOfInjective _ _ (subtype_injective _)).symm).isCyclic.2 hS)
       (by
@@ -170,7 +170,7 @@ theorem standard_cyclic_local_centralizer_kernel_two_group {L : Subgroup G}
     standard_cyclic_local_centralizer_kernel hL S hS htS ht hcore
   have hT2 : IsPGroup 2
       ((S : Subgroup (centralizer (L : Set G))).map (centralizer (L : Set G)).subtype) :=
-    S.isPGroup'.map _
+    S.isPGroup.map _
   have hTc : IsCyclic
       ((S : Subgroup (centralizer (L : Set G))).map (centralizer (L : Set G)).subtype) :=
     isCyclic_of_surjective _ (MonoidHom.subgroupMap_surjective _ _)

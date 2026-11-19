@@ -83,7 +83,7 @@ private lemma wcgapel_map_eq_of_hA {F : Type} [Field F] {A : Subgroup (StatedSp 
     obtain ⟨u, hu, rfl⟩ := Subgroup.mem_map.mp hg
     exact ⟨(u : Matrix (Fin 2) (Fin 2) F) 0 1, wcgapel_lam_unitri hu⟩
 
-theorem sp4_emb_long {F : Type} [Field F] [Finite F] (hF : Nat.card F = 4)
+theorem sp4_emb_long {F : Type} [Field F] [Finite F] (_hF : Nat.card F = 4)
     {A : Subgroup (StatedSp 2 F)} (hA : ∀ g, g ∈ A ↔ ∃ b : F, g = sp4Z b 0) :
     Sp4Sl2Emb A := by
   refine ⟨lam (r := 2) (k := F) 0, lam_injective (r := 2) (k := F) 0,

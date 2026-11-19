@@ -115,7 +115,7 @@ theorem sol78Thm24_1CIT_of_citPart2 (h : CITPart2) : Sol78Thm24_1CIT := by
   have hTE : CFSG.Open.classicalInvolutionTightlyEmbedded J₀ :=
     (CFSG.ClassicalInvolution.tightlyEmbedded_iff_centralizer_le_normalizer hzJ hz hJle S₀
       hS₀).mpr hCN
-  haveI := hsimp
+  have := hsimp
   exact h H hnonab z hz J₀ hzJ hsub S₀ hS₀ hTE
 
 theorem card_eq_of_isSporadic_M11 {N : Type} [Group N]

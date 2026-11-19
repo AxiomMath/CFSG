@@ -13,7 +13,7 @@ open Matrix
 
 theorem Mt_quad (K : Type) [Field K] : Mt K * Mt K + Mt K + 1 = 0 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Mt, Matrix.mul_apply, Fin.sum_univ_two] <;> norm_num
+  fin_cases i <;> fin_cases j <;> simp [Mt]
 
 theorem aeval_quad_Mt (K : Type) [Field K] :
     Polynomial.aeval (Mt K) (KA7.quad K) = 0 := by
@@ -55,7 +55,7 @@ theorem ThetaP_mul {K : Type} [Field K]
     (X Y : Matrix (Fin 2) (Fin 2) (AdjoinRoot (KA7.quad K))) :
     ThetaP (X * Y) = ThetaP X * ThetaP Y := by
   ext p q
-  simp [ThetaP, Matrix.mul_apply, Fintype.sum_prod_type, map_sum, map_mul, Matrix.sum_apply]
+  simp [ThetaP, Matrix.mul_apply, Fintype.sum_prod_type, map_mul]
 
 theorem Theta_mul {K : Type} [Field K]
     (X Y : Matrix (Fin 2) (Fin 2) (AdjoinRoot (KA7.quad K))) :
@@ -104,13 +104,9 @@ theorem block_commute (K : Type) [Field K] (B : Matrix (Fin 2) (Fin 2) K)
   fin_cases i <;> fin_cases j <;>
     simp [Mt, Matrix.mul_apply, Fin.sum_univ_two] at h00 h01 h11 ⊢ <;>
     first
-    | rfl
     | linear_combination h00
     | linear_combination -h00
     | linear_combination h01
-    | linear_combination -h01
-    | linear_combination h11
-    | linear_combination -h11
 
 theorem phi_block (K : Type) [Field K] (B : Matrix (Fin 2) (Fin 2) K)
     (hB : B * Mt K = Mt K * B) :
@@ -140,8 +136,6 @@ theorem commutant_Theta (K : Type) [Field K] [Fact (Irreducible (KA7.quad K))]
       simp [Matrix.mul_apply, Fintype.sum_prod_type, Fin.sum_univ_two, ThetaP_root, Mt] at h ⊢ <;>
       first
       | linear_combination h
-      | linear_combination -h
-      | ring
   let Y : Matrix (Fin 2) (Fin 2) (AdjoinRoot (KA7.quad K)) := Matrix.of fun i j =>
     (Matrix.of fun k l : Fin 2 => C' (i, k) (j, l)) 0 0 • (1 : AdjoinRoot (KA7.quad K)) -
       (Matrix.of fun k l : Fin 2 => C' (i, k) (j, l)) 0 1 • AdjoinRoot.root (KA7.quad K)

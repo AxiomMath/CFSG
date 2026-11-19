@@ -28,7 +28,7 @@ theorem exists_conj_plane (hK : Nat.card K = 2 ^ (2 * a + 1)) (P : Plane5 K a)
   have hE'c : Nat.card P.Ψ.range = 5 ^ 2 := card_range_plane5 P
   have hE'pg : IsPGroup 5 ↥P.Ψ.range := IsPGroup.of_card hE'c
   obtain ⟨S, hS⟩ := hE'pg.exists_le_sylow
-  have h1 : IsPGroup 5 ↥(S : Subgroup (ReeTag.F4.reeGamma K a)) := S.isPGroup'
+  have h1 : IsPGroup 5 ↥(S : Subgroup (ReeTag.F4.reeGamma K a)) := S.isPGroup
   have h2 : ¬ 5 ∣ (S : Subgroup (ReeTag.F4.reeGamma K a)).index := S.not_dvd_index
   obtain ⟨φ⟩ := hsh (S : Subgroup (ReeTag.F4.reeGamma K a)) h1 h2
   have hFpg : IsPGroup 5 ↥F := IsPGroup.of_card hFc

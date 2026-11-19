@@ -42,7 +42,7 @@ theorem hE_spec {k : ℕ} (hk : k < orbE.c.pts.size) :
       NRep orbE.his[k]! (hE k)⁻¹ ∧
       NRep orbE.c.pts[k]! (hE k * (vE : NativeSporadic.Co1) * (hE k)⁻¹) := by
   have h := Classical.choose_spec (exists_hE k hk)
-  rw [show hE k = Classical.choose (exists_hE k hk) by rw [hE_def, dif_pos hk]]
+  rw [show hE k = Classical.choose (exists_hE k hk) by rw [hE_def, dite_eq_left hk]]
   refine ⟨closure_brayArr ▸ h.1, h.2.1, h.2.2.1, h.2.2.2⟩
 
 @[expose] noncomputable def xE (k : ℕ) : NativeSporadic.Co1 := hE k * gElt (repJ 1)

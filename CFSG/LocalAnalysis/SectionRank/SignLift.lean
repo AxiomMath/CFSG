@@ -42,9 +42,9 @@ theorem three_le_pRank_of_sign_lines [Finite G] (hp2 : p ≠ 2) (A : Subgroup G)
       ψ (Multiplicative.ofAdd (![-1, -1, 1] * Multiplicative.toAdd v))) :
     3 ≤ pRank p (⊤ : Subgroup G) := by
   have hs₀ : (![1, -1, -1] : Fin 3 → ZMod p) * ![1, -1, -1] = 1 := by
-    funext i; fin_cases i <;> simp <;> exact (neg_one_mul _).trans (neg_neg _)
+    funext i; fin_cases i <;> simp
   have hs₁ : (![-1, -1, 1] : Fin 3 → ZMod p) * ![-1, -1, 1] = 1 := by
-    funext i; fin_cases i <;> simp <;> exact (neg_one_mul _).trans (neg_neg _)
+    funext i; fin_cases i <;> simp
   set P : Subgroup G := ψ.range.comap ρ with hPdef
   have hmemP : ∀ x : G, x ∈ P ↔ ρ x ∈ ψ.range := fun x => Iff.rfl
   let ρP : P →* ψ.range := (ρ.comp P.subtype).codRestrict ψ.range fun x => x.2

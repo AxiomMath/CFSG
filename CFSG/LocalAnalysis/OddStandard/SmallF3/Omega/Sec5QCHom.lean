@@ -39,6 +39,7 @@ theorem sec5qc_ker_conj {φ : ↥L →* omegaGroup hQ} (hker : φ.ker = CFSG.odd
     exact MonoidHom.mem_ker.mp hmem
   simpa [sec5cdPhi_apply] using congrArg Subtype.val hone
 
+omit [Finite G] in
 theorem sec5qc_comm_mem_oddCoreIn {φ : ↥L →* omegaGroup hQ} (hker : φ.ker = CFSG.oddCore ↥L)
     {x : G} (hx : x ∈ normalizer (L : Set G)) {l : ↥L}
     (h : sec5cdPhi φ (L.normalizerMonoidHom ⟨x, hx⟩ l) = sec5cdPhi φ l) :
@@ -58,6 +59,7 @@ theorem sec5qc_comm_mem_oddCoreIn {φ : ↥L →* omegaGroup hQ} (hker : φ.ker 
   rw [← hcoe, oddCoreIn, CFSG.inSubgroup]
   exact Subgroup.mem_map_of_mem L.subtype hmem
 
+omit [Finite G] in
 theorem sec5qc_twoRes_lift {Δ : Type*} [Group Δ] {z : G} (hzL : z ∈ L) (f f' : ↥L →* Δ)
     (h : ∀ g : ↥L, Odd (orderOf g) → g * ⟨z, hzL⟩ = ⟨z, hzL⟩ * g → f' g = f g) :
     ∀ n ∈ twoRes (L ⊓ centralizer ({z} : Set G)), ∃ l : ↥L, (l : G) = n ∧ f' l = f l := by

@@ -27,12 +27,14 @@ theorem intCast_eq_of_emod_eq {z w : ℤ} (h : z % 2 = w % 2) : (z : K) = (w : K
     exact this
   exact sub_eq_zero.mp h0
 
+omit [CharP K 2] in
 theorem Bf_add_left
     (u v w : RootModule Tag.F4 K) :
     Bf K (u + v) w = Bf K u w + Bf K v w := by
   unfold Bf
   simp only [map_add, add_mul, Finset.sum_add_distrib]
 
+omit [CharP K 2] in
 theorem Bf_smul_left
     (c : K) (u w : RootModule Tag.F4 K) :
     Bf K (c • u) w = c * Bf K u w := by
@@ -44,12 +46,14 @@ theorem Bf_smul_left
   apply Finset.sum_congr rfl; intro q hq
   ring
 
+omit [CharP K 2] in
 theorem Bf_add_right
     (u v w : RootModule Tag.F4 K) :
     Bf K u (v + w) = Bf K u v + Bf K u w := by
   unfold Bf
   simp only [map_add, mul_add, Finset.sum_add_distrib]
 
+omit [CharP K 2] in
 theorem Bf_smul_right
     (c : K) (u w : RootModule Tag.F4 K) :
     Bf K u (c • w) = c * Bf K u w := by
@@ -61,6 +65,7 @@ theorem Bf_smul_right
   apply Finset.sum_congr rfl; intro q hq
   ring
 
+omit [CharP K 2] in
 theorem Bf_sum_left
     {ι : Type*} (s : Finset ι) (f : ι → RootModule Tag.F4 K)
     (w : RootModule Tag.F4 K) : Bf K (∑ i ∈ s, f i) w = ∑ i ∈ s, Bf K (f i) w := by
@@ -69,6 +74,7 @@ theorem Bf_sum_left
   | empty => simp [Bf]
   | insert a s ha ih => rw [Finset.sum_insert ha, Finset.sum_insert ha, Bf_add_left, ih]
 
+omit [CharP K 2] in
 theorem Bf_sum_right
     {ι : Type*} (s : Finset ι) (f : ι → RootModule Tag.F4 K)
     (u : RootModule Tag.F4 K) : Bf K u (∑ i ∈ s, f i) = ∑ i ∈ s, Bf K u (f i) := by
@@ -77,28 +83,31 @@ theorem Bf_sum_right
   | empty => simp [Bf]
   | insert a s ha ih => rw [Finset.sum_insert ha, Finset.sum_insert ha, Bf_add_right, ih]
 
+omit [CharP K 2] in
 theorem Bf_basis
     {p q : ℕ} (hp : p < 52) (hq : q < 52) :
     Bf K (posVec Tag.F4 K p) (posVec Tag.F4 K q) = (gramZ p q : K) := by
   unfold Bf
   rw [Finset.sum_eq_single p]
   · rw [Finset.sum_eq_single q]
-    · rw [posCoord_posVec (p := p) (q := p) (show p < dim Tag.F4 from hp), if_pos rfl,
-        posCoord_posVec (p := q) (q := q) (show q < dim Tag.F4 from hq), if_pos rfl,
+    · rw [posCoord_posVec (p := p) (q := p) (show p < dim Tag.F4 from hp), ite_eq_left rfl,
+        posCoord_posVec (p := q) (q := q) (show q < dim Tag.F4 from hq), ite_eq_left rfl,
         one_mul, mul_one]
     · intro b hb hne
-      rw [posCoord_posVec (p := b) (q := q) (show q < dim Tag.F4 from hq), if_neg hne, mul_zero]
+      rw [posCoord_posVec (p := b) (q := q) (show q < dim Tag.F4 from hq), ite_eq_right hne, mul_zero]
     · exact fun h => absurd (Finset.mem_range.2 hq) h
   · intro p' hp' hne
-    rw [posCoord_posVec (p := p') (q := p) (show p < dim Tag.F4 from hp), if_neg hne]
+    rw [posCoord_posVec (p := p') (q := p) (show p < dim Tag.F4 from hp), ite_eq_right hne]
     simp
   · exact fun h => absurd (Finset.mem_range.2 hp) h
 
+omit [CharP K 2] in
 theorem intCast_listSum (l : List ℤ) : ((l.sum : ℤ) : K) = (l.map (Int.cast : ℤ → K)).sum := by
   induction l with
   | nil => simp
   | cons x l ih => simp [ih, Int.cast_add]
 
+omit [CharP K 2] in
 theorem sum_gram_dense (a : ℕ) (v : List (ℕ × ℤ)) (hv : ∀ x ∈ v, x.1 < 52) :
     ∑ b ∈ Finset.range 52, (gramZ a b : K) * (coefAt b v : K) =
       (v.map fun x => (gramZ a x.1 : K) * (x.2 : K)).sum := by
@@ -125,12 +134,13 @@ theorem sum_gram_dense (a : ℕ) (v : List (ℕ × ℤ)) (hv : ∀ x ∈ v, x.1 
           rw [ih']
           congr 1
           rw [Finset.sum_eq_single x.1]
-          · rw [if_pos rfl]
-          · intro b hb hne; rw [if_neg (Ne.symm hne), Int.cast_zero, mul_zero]
+          · rw [ite_eq_left rfl]
+          · intro b hb hne; rw [ite_eq_right (Ne.symm hne), Int.cast_zero, mul_zero]
           · intro h; exact absurd (Finset.mem_range.2 hx) h
       _ = ((x :: v).map fun y => (gramZ a y.1 : K) * (y.2 : K)).sum := by
           rw [List.map_cons, List.sum_cons]
 
+omit [CharP K 2] in
 theorem Bf_posVec_vecOf
     {p : ℕ} (hp : p < 52) {v : List (ℕ × ℤ)}
     (hv : ValidVec Tag.F4 v) :
@@ -140,7 +150,7 @@ theorem Bf_posVec_vecOf
     unfold Bf
     rw [Finset.sum_eq_single p]
     · apply Finset.sum_congr rfl; intro b hb
-      rw [posCoord_posVec (p := p) (q := p) (show p < dim Tag.F4 from hp), if_pos rfl,
+      rw [posCoord_posVec (p := p) (q := p) (show p < dim Tag.F4 from hp), ite_eq_left rfl,
         one_mul, posCoord_vecOf b hv]
     · intro p' hp' hne
       simp [posCoord_posVec (p := p') (q := p) (show p < dim Tag.F4 from hp), hne]
@@ -154,6 +164,7 @@ theorem Bf_posVec_vecOf
   intro y hy
   rw [Function.comp_apply, Int.cast_mul]
 
+omit [CharP K 2] in
 theorem Bf_vecOf
     {u v : List (ℕ × ℤ)} (hu : ValidVec Tag.F4 u) (hv : ValidVec Tag.F4 v) :
     Bf K (vecOf Tag.F4 K u) (vecOf Tag.F4 K v) = (sparseB u v : K) := by
@@ -174,6 +185,7 @@ theorem Bf_vecOf
       _ = ((sparseB (x :: u) v : ℤ) : K) := by
           rw [sparseB_cons x u v]; push_cast; ring
 
+omit [CharP K 2] in
 theorem Bf_eq_of_basis
     (M : Module.End K (RootModule Tag.F4 K))
     (hM : ∀ p q, p < 52 → q < 52 →
@@ -205,6 +217,7 @@ noncomputable def f4GenCoeff (K : Type) [Field K] (g : ℕ) (c : K) : Module.End
     K) :=
   ∑ k ∈ Finset.range 4, c ^ k • coeffOp Tag.F4 K (f4GenY g) (f4GenI g) k
 
+omit [CharP K 2] in
 theorem f4GenCoeff_even
     (i : Fin Tag.F4.rank) (c : K) :
     f4GenCoeff K (2 * (i : ℕ)) c = xOp .F4 K i c := by
@@ -222,6 +235,7 @@ theorem f4GenCoeff_even
   simp only [Bool.false_eq_true, ↓reduceIte]
   exact (xOp_eq_sum_xCoeff i c).symm
 
+omit [CharP K 2] in
 theorem f4GenCoeff_odd
     (i : Fin Tag.F4.rank) (c : K) :
     f4GenCoeff K (2 * (i : ℕ) + 1) c = yOp .F4 K i c := by
@@ -239,6 +253,7 @@ theorem f4GenCoeff_odd
   simp only [↓reduceIte]
   exact (yOp_eq_sum_yCoeff i c).symm
 
+omit [CharP K 2] in
 theorem f4GenCoeff_posVec
     (g : ℕ) (hg : g < 8) (c : K) (p : ℕ) (hp : p < 52) :
     f4GenCoeff K g c (posVec Tag.F4 K p) =
@@ -259,6 +274,7 @@ theorem f4GenCoeff_posVec
         (validVec_single (show p < dim Tag.F4 from hp))).1,
       f4ColData_eq_coeffVec g hg k hk3 p]
 
+omit [CharP K 2] in
 theorem polyCoeff_regroup (g p q : ℕ) (c : K) :
     (∑ a ∈ Finset.range 4, ∑ b ∈ Finset.range 4,
         c ^ (a + b) * (sparseB (f4ColData g a p) (f4ColData g b q) : K))
@@ -270,8 +286,8 @@ theorem polyCoeff_regroup (g p q : ℕ) (c : K) :
           else 0) := by
     intro a b ha hb
     rw [Finset.sum_eq_single (a + b)]
-    · rw [if_pos rfl]
-    · intro d hd hne; rw [if_neg (fun h => hne h.symm)]
+    · rw [ite_eq_left rfl]
+    · intro d hd hne; rw [ite_eq_right (fun h => hne h.symm)]
     · intro h; exact absurd (Finset.mem_range.2 (by omega)) h
   calc (∑ a ∈ Finset.range 4, ∑ b ∈ Finset.range 4,
         c ^ (a + b) * (sparseB (f4ColData g a p) (f4ColData g b q) : K))
@@ -346,7 +362,7 @@ theorem f4GenCoeff_Bf_basis
 theorem f4GenCoeff_Bf
     (g : ℕ) (hg : g < 8) (c : K) (u w : RootModule Tag.F4 K) :
     Bf K (f4GenCoeff K g c u) (f4GenCoeff K g c w) = Bf K u w :=
-  Bf_eq_of_basis _ (fun p q hp hq =>
+  Bf_eq_of_basis _ (fun _p _q hp hq =>
     (f4GenCoeff_Bf_basis g hg c hp hq).trans (Bf_basis hp hq).symm) u w
 
 theorem xOp_Bf

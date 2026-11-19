@@ -80,7 +80,7 @@ theorem mul_inv_mem_V_of_pow (hn : 3 ≤ n) {b x₁ x₂ : G} (hb : b ∈ hF.V)
     rw [show (4 : ℕ) = 2 ^ 2 from rfl, ← pow_add]
     congr 1
     omega
-  rw [hF.vec_pow_two_pow_pred, h24, mul_nsmul, h4, nsmul_zero, hF.vec_zero]
+  rw [hF.vec_pow_two_pow_pred, h24, mul_nsmul, h4, nsmul_zero, CFSG.OddStandard.ONan76.AlperinFrame.vec_zero]
 
 theorem eq_of_sq_not_mem (hn : 2 ≤ n) {x w₁ w₂ : G} (hx : x ∈ hF.P) (hx2 : x * x ∉ hF.V)
     (hw₁ : w₁ ∈ hF.W (by omega)) (hw₂ : w₂ ∈ hF.W (by omega)) (h₁ : w₁ ≠ 1) (h₂ : w₂ ≠ 1)
@@ -97,7 +97,7 @@ theorem eq_of_sq_not_mem (hn : 2 ≤ n) {x w₁ w₂ : G} (hx : x ∈ hF.P) (hx2
     intro w hw hw1 hc
     obtain ⟨p, rfl⟩ := hF.exists_vec_of_mem_V hn1 ((hF.mem_W_iff hn1).1 hw).1
     have hp2 : p + p = 0 := (hF.vec_mem_W_iff hn1).1 hw
-    have hp0 : p ≠ 0 := fun h => hw1 (by rw [h, hF.vec_zero])
+    have hp0 : p ≠ 0 := fun h => hw1 (by rw [h, CFSG.OddStandard.ONan76.AlperinFrame.vec_zero])
     obtain ⟨hb', hc'⟩ := fix_order_four hi13 ((hF.comm_nf_vec_iff hn1 _ _ _ _).1 hc)
     obtain ⟨ha', -, -⟩ := two_mul_eq_zero_vec hn1 p hp2
     congr 1
@@ -126,8 +126,8 @@ theorem eq_sq_of_pair (hn : 2 ≤ n) {x₁ x₂ d w : G} (hx₁ : x₁ ∈ hF.P)
   obtain ⟨p, rfl⟩ := hF.exists_vec_of_mem_V hn1 hd
   obtain ⟨r, rfl⟩ := hF.exists_vec_of_mem_V hn1 ((hF.mem_W_iff hn1).1 hw).1
   have hr2 : r + r = 0 := (hF.vec_mem_W_iff hn1).1 hw
-  have hr0 : r ≠ 0 := fun h => hw1 (by rw [h, hF.vec_zero])
-  have hp2 : p + p ≠ 0 := fun h => hd2 (by rw [← hF.vec_add, h, hF.vec_zero])
+  have hr0 : r ≠ 0 := fun h => hw1 (by rw [h, CFSG.OddStandard.ONan76.AlperinFrame.vec_zero])
+  have hp2 : p + p ≠ 0 := fun h => hd2 (by rw [← hF.vec_add, h, CFSG.OddStandard.ONan76.AlperinFrame.vec_zero])
   have fp₁ := (hF.comm_nf_vec_iff hn1 _ _ _ _).1 hd₁
   have fp₂ := (hF.comm_nf_vec_iff hn1 _ _ _ _).1 hd₂
   have fr₁ := (hF.comm_nf_vec_iff hn1 _ _ _ _).1 hw₁
@@ -215,7 +215,7 @@ theorem inv_data (hn : 2 ≤ n) {j : G} (hj : j ∈ hF.P) (hjV : j ∉ hF.V) (hj
     obtain ⟨p, rfl, hp⟩ := hcoords h hh hc
     rw [hε, ← hF.vec_add]
     rcases hp with rfl | rfl | rfl | rfl
-    · exact Or.inl hF.vec_zero
+    · exact Or.inl CFSG.OddStandard.ONan76.AlperinFrame.vec_zero
     · exact Or.inr (Or.inl rfl)
     · exact Or.inr (Or.inr (Or.inl rfl))
     · exact Or.inr (Or.inr (Or.inr rfl))

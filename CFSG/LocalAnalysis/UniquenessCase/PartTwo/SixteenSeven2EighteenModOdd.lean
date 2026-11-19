@@ -146,6 +146,7 @@ theorem s16c167_three_le_rk_of_order_seven (hW : ∀ w : W, w ^ 2 = 1) {a : MulA
   · rw [h] at hdvd; norm_num at hdvd
   · rw [h] at hdvd; norm_num at hdvd
 
+omit [Finite W] in
 private lemma s16c167_map_pow_eq_of_map_eq {τ : MulAut W} {K : Subgroup W}
     (h : K.map τ.toMonoidHom = K) (j : ℕ) : K.map (τ ^ j).toMonoidHom = K := by
   induction j with
@@ -160,7 +161,7 @@ private lemma s16c167_map_pow_eq_of_map_eq {τ : MulAut W} {K : Subgroup W}
 
 theorem s16c167_two_rk_le_mQuot_of_inverts (hW : ∀ w : W, w ^ 2 = 1) {a t : MulAut W}
     {I : Subgroup W} (hodd : Odd (orderOf a)) (ht : t * t = 1) (hta : t * a * t = a⁻¹)
-    (hIa : I.map a.toMonoidHom = I) (hIt : I.map t.toMonoidHom = I)
+    (hIa : I.map a.toMonoidHom = I) (_hIt : I.map t.toMonoidHom = I)
     (hfix : I ⊓ fixV (Subgroup.zpowers a) = ⊥) :
     rk ↥I ≤ 2 * E3.mQuot I (I ⊓ fixV (Subgroup.zpowers t)) := by
   obtain ⟨k, hk⟩ := hodd

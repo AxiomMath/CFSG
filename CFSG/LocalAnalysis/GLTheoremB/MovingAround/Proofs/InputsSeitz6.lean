@@ -48,7 +48,7 @@ theorem seitzHyperGamma_eq_top_of_low (hP : SeitzQuasiAt 2) (hQ : SeitzQuasiAt 3
     (hE3 : Nat.card E ≤ p ^ 3)
     (hex : ¬ ExcIndex p d.1 ∨ (IsSixIndex d.1 ∧ E ≤ (MulAut.conj : K →* MulAut K).range)) :
     seitzHyperGamma p E = ⊤ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨k, hk⟩ := GL83.CompFam.exists_card_eq_pow hE
   have hk2 : 2 ≤ k := (Nat.pow_le_pow_iff_right hp.one_lt).1 (by rw [← hk]; exact hE2)
   have hk3 : k ≤ 3 := (Nat.pow_le_pow_iff_right hp.one_lt).1 (by rw [← hk]; exact hE3)
@@ -88,7 +88,7 @@ end Narrow
 theorem input23_10Faith_of_seitz (hP : SeitzQuasiAt 2) (hQ : SeitzQuasiAt 3) :
     InputsSeitz.Input23_10Faith := by
   intro p q hp hp5 hq hqp Y _ _ _ K B hK hB hBN hBC hcard hcard3 hlie hexc
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨d, hd, hdq⟩ := hlie
   have hdq' : d.1.characteristic = q := hdq
   have hpd : p ≠ d.1.characteristic := fun h => hqp (hdq'.symm.trans h.symm)
@@ -121,7 +121,7 @@ section CertThree
 theorem input23_10FaithThree_of_seitz (hP : SeitzQuasiAt 2) (hQ : SeitzQuasiAt 3) :
     Claims1116c.Input23_10FaithThree := by
   intro q hq hq2 hq3 Y _ _ _ K B hK hB hBN hBC hcard hcard3 hlie
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨d, hd, hdq⟩ := hlie
   have hdq' : d.1.characteristic = q := hdq
   have hpd : 3 ≠ d.1.characteristic := fun h => hq3 (hdq'.symm.trans h.symm)
@@ -131,7 +131,7 @@ theorem input23_10FaithThree_of_seitz (hP : SeitzQuasiAt 2) (hQ : SeitzQuasiAt 3
     rintro ⟨-, hL⟩
     obtain ⟨e⟩ := hd
     have hc := CFSG.HardMathSupport.Solomon.Coordinator.card_of_isLThreeFour hL
-    haveI : Finite (↥K ⧸ Subgroup.center ↥K) := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
+    have : Finite (↥K ⧸ Subgroup.center ↥K) := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
     exact Claims1116c.not_isChevSimple_of_card_bound (p := 3) hc (by norm_num) (by norm_num)
       (by simp only [Nat.primeFactorsList_ofNat]; decide +kernel) (by decide) (by decide)
       q hq hq2 hq3 (Or.inl ⟨TauCeti.CFSGIndex.lie d, hdq', ⟨e⟩⟩)

@@ -23,7 +23,7 @@ open CFSG.LargeExtraspecial.S14.SME (inv_eq_of_isConj commutator_mem mem_M_conj_
 
 variable {G : Type} [Group G]
 
-theorem levi_of_le_M_E8 [Finite G] (S : Setting G) (hw : S.width = 28)
+theorem levi_of_le_M_E8 [Finite G] (S : Setting G) (_hw : S.width = 28)
     (hU : LieModel S.Mbar .E7 0 2 1) {N : Subgroup G} (hNM : N ≤ S.M)
     (hN : LieModel ↥N .E7 0 2 1) (hNQ : ¬ N ≤ S.QG) :
     (∀ n ∈ N, n ∈ S.QG → n = 1) ∧ (toMbar S hNM).range = ⊤ := by

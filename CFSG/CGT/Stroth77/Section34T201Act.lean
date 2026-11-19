@@ -102,7 +102,7 @@ theorem IsAut1.shift {s : ℕ} (hk : ∀ i, s + 1 ≤ k i) {M : IntMat} (h : IsA
   have hij := Int.modEq_iff_dvd.mp (h i j)
   rw [Int.modEq_iff_dvd]
   simp only [omegaMat, Matrix.mul_apply, Matrix.diagonal_apply, mul_ite, mul_zero,
-    Finset.sum_ite_eq', Finset.mem_univ, if_true] at hij ⊢
+    Finset.sum_ite_eq', Finset.mem_univ, ite_true] at hij ⊢
   obtain ⟨c, hc⟩ := hij
   refine ⟨c, ?_⟩
   have e₁ : (2 : ℤ) ^ (k j - 1) = 2 ^ (k j - s - 1) * 2 ^ s := by
@@ -137,17 +137,20 @@ variable {G : Type} [Group G] [Finite G] {D : Subgroup G} {τ : StrothTypeIndex}
 
 variable {dD}
 
+omit [Finite G] in
 theorem Twist.congr {x f : G} {hx : x ∈ Subgroup.normalizer (D : Set G)}
     {hf : f ∈ Subgroup.normalizer (D : Set G)} {s s' : ℤ} (h : dD.Twist hx hf s)
     (hs : ∀ v : Torus τ.k, s • v = s' • v) : dD.Twist hx hf s' := fun v => by
   rw [h v, hs]
 
+omit [Finite G] in
 theorem Twist.mul {x f g : G} {hx : x ∈ Subgroup.normalizer (D : Set G)}
     {hf : f ∈ Subgroup.normalizer (D : Set G)} {hg : g ∈ Subgroup.normalizer (D : Set G)}
     {s s' : ℤ} (h₁ : dD.Twist hx hf s) (h₂ : dD.Twist hx hg s') :
     dD.Twist hx (mul_mem hf hg) (s * s') := fun v => by
   rw [dD.thetaT_mul hf hg, h₁, map_zsmul, h₂, smul_smul, mul_comm, dD.thetaT_mul hf hg]
 
+omit [Finite G] in
 theorem Twist.inv {x f : G} {hx : x ∈ Subgroup.normalizer (D : Set G)}
     {hf : f ∈ Subgroup.normalizer (D : Set G)} {s : ℤ} (h : dD.Twist hx hf s)
     (hs : ∀ v : Torus τ.k, (s * s) • v = v) : dD.Twist hx (inv_mem hf) s := fun v => by
@@ -157,6 +160,7 @@ theorem Twist.inv {x f : G} {hx : x ∈ Subgroup.normalizer (D : Set G)}
   rw [dD.thetaT_inv_thetaT, map_zsmul] at this
   rw [this, smul_smul, hs]
 
+omit [Finite G] in
 theorem twist_of_comm {x f : G} (hx : x ∈ Subgroup.normalizer (D : Set G))
     (hf : f ∈ Subgroup.normalizer (D : Set G))
     (hc : f⁻¹ * x * f * x⁻¹ ∈ Subgroup.normalizer (D : Set G)) {s : ℤ}
@@ -190,6 +194,7 @@ theorem thetaT_proj (hS : Local.Setting (F.S : Subgroup G) D) {g r : G}
   rw [← dD.thetaT_conj (hS.R_le_normalizer hr) hg, dD.thetaT_apply, dD.thetaT_apply,
     hS.proj_conj_D hg hr (dD.ofT_mem x)]
 
+omit [Finite G] in
 theorem thetaT_rel {x y z w : G} (hx : x ∈ Subgroup.normalizer (D : Set G))
     (hy : y ∈ Subgroup.normalizer (D : Set G)) (hz : z ∈ Subgroup.normalizer (D : Set G))
     (hw : w ∈ Subgroup.normalizer (D : Set G)) (h : x * y = z * w)
@@ -273,6 +278,7 @@ theorem twist_conj_u (h : F.IsD D dD) (hS : Local.Setting (F.S : Subgroup G) D) 
     simp only [map_zsmul, smul_smul]
     rw [r₄, mul_comm s₂]
 
+omit [Finite G] in
 theorem mem_or_mul_inv_mem_of_mem_sup {e : G} (heN : e ∈ Subgroup.normalizer (D : Set G))
     (he2 : e * e ∈ D) {x : G} (hx : x ∈ D ⊔ Subgroup.zpowers e) : x ∈ D ∨ x * e⁻¹ ∈ D := by
   have hconj : ∀ {d : G}, d ∈ D → e * d * e⁻¹ ∈ D := fun {d} hd => by

@@ -53,7 +53,7 @@ theorem ggAffine_false (hp2 : p ≠ 2) (hNT : GGNoTransvection p Bs) (D : GGRefl
       (fun i => (if i = j₀ then (1 : ZMod p) else 0) + (ggWordCoroot X w j₁ i : ZMod p)) hsum j₀
     have hcz : ((ggWordCoroot X w j₁ j₀ : ℤ) : ZMod p) = 0 := by
       rw [ggWordCoroot_apply_eq_zero hw hj₁, Int.cast_zero]
-    simp only [eq_self_iff_true, if_true, hcz, add_zero] at hc0
+    simp only [ite_true, hcz, add_zero] at hc0
     exact one_ne_zero hc0
   exact ggFalse_of_opposite_roots (ψ₁ := D.refl j₀) (ψ₂ := ψ₂) (x₁ := D.coroot j₀) (x₂ := x₂)
     (f₁ := D.root j₀) (f₂ := f₂) hp2 hNT ι (D.mem j₀) hψ₂ hfx₁ hfx₂ (D.lin j₀) hl₂ hf hx

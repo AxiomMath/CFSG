@@ -62,10 +62,10 @@ theorem wordOK_mem {A : Subgroup (Perm (Fin 8))} (hS : parS0 ≤ A) {allowed : L
     unfold letterOK at ha
     unfold letterVal
     rcases ha with ⟨h0, hs⟩ | ⟨h12, hj⟩
-    · rw [if_pos h0]
+    · rw [ite_eq_left h0]
       exact hS hs
     · have h0 : a.1 ≠ 0 := by omega
-      rw [if_neg h0]
+      rw [ite_eq_right h0]
       split_ifs
       · exact ht _ hj
       · exact A.inv_mem (ht _ hj)
@@ -177,7 +177,7 @@ theorem tau_mem_of_01 {A : Subgroup (Perm (Fin 8))} (hS : parS0 ≤ A) (h0 : tau
     (h1 : tau 1 ∈ A) {j : ℕ} (hj : j < 6) : tau j ∈ A := by
   have ht : ∀ i ∈ [0, 1], tau i ∈ A := by
     intro i hi
-    simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false] at hi
+    simp only [List.mem_cons, List.not_mem_nil, or_false] at hi
     rcases hi with rfl | rfl
     · exact h0
     · exact h1

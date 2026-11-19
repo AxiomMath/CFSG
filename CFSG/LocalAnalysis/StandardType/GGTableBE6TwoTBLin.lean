@@ -26,7 +26,7 @@ theorem sub_refl_eq_update (i : Fin 4) (v : V) :
     simp only [Pi.sub_apply, Pi.smul_apply, Pi.single_eq_same, smul_eq_mul, Function.update_self,
       reflFunE6Two_apply]
     exact key _
-  · simp [Pi.single_eq_of_ne hj, hj]
+  · simp [hj]
 
 theorem single_mem_of_ne_zero (G : AddSubgroup V) (i : Fin 4) {a : ZMod 3} (ha : a ≠ 0)
     (h : (Pi.single i a : V) ∈ G) (b : ZMod 3) : (Pi.single i b : V) ∈ G := by
@@ -72,7 +72,7 @@ theorem eq_bot_or_eq_top_of_invariant (G : AddSubgroup V)
         have key : ∀ a : ZMod 3, a - -a = 2 * a := by decide
         simp only [Pi.sub_apply, Function.update_self, Pi.single_eq_same]
         exact key _
-      · simp [hj, Pi.single_eq_of_ne hj]
+      · simp [hj]
     rw [e] at h1
     exact h1
   have h2 : (2 : ZMod 3) * v i ≠ 0 := by

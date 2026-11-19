@@ -68,7 +68,7 @@ theorem Mx_kElt (f : Bool × ℕ × ℕ) : Mx (kElt f) = rowsMatrix (kRows f) :=
       ← mul_assoc, map_mul, ih, cTab, rowsMatrix_mulT_frTable, Mx_cE hM]
 
 omit hM in
-theorem decodeF_codeF (e : Bool) {c i : ℕ} (hc : c < 4096) (hi : i < 3) :
+theorem decodeF_codeF (e : Bool) {c i : ℕ} (hc : c < 4096) (_hi : i < 3) :
     decodeF (codeF (e, c, i)) = (e, c, i) := by
   cases e <;> simp only [decodeF, codeF] <;> ext <;> simp <;> omega
 

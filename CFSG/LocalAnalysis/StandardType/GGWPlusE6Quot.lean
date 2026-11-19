@@ -24,7 +24,7 @@ theorem ggSolvQuotLeTwo_E6_three
       ((MulAut.conj : TableBExc.RecipeGroup .E6 K →* MulAut (TableBExc.RecipeGroup .E6 K)).range ⊓
         Subgroup.normalizer (Eb : Set (MulAut (TableBExc.RecipeGroup .E6 K))))
       (Subgroup.centralizer (Eb : Set (MulAut (TableBExc.RecipeGroup .E6 K)))) := by
-  haveI : Finite (TableBExc.RecipeGroup .E6 K) := TableBExc.finite_recipeGroup .E6 K
+  have : Finite (TableBExc.RecipeGroup .E6 K) := TableBExc.finite_recipeGroup .E6 K
   have hSCr : GGE6ThreeModelSCr (TableBExc.RecipeGroup .E6 K) (TableBExc.RecipeID .E6 K) :=
     E6ThreeModel.e6ThreeModel_holds_E (K := K) ggAbelianLift n hn hK h3
   have hmodel : GGE6ThreeWeylModel

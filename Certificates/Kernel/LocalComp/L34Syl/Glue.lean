@@ -147,7 +147,7 @@ theorem fP {k : Nat} (hk : k < 16) : memL 64 L34SyP.T (L34SyF.T k) = true ∧
 theorem hinv : (∀ k < 64, ((pts 42 6 64 L34SyP.T).map (invTab 42))[k]! =
       unpack 42 6 (L34SyP.T (iv k))) ∧
     invsOK 42 (pts 42 6 64 L34SyP.T) ((pts 42 6 64 L34SyP.T).map (invTab 42)) = true :=
-  invsOK_of_pcomp (size_pts 42 6 64 _) (fun k hk => pts_get' hk) fun k hk =>
+  invsOK_of_pcomp (size_pts 42 6 64 _) (fun _k hk => pts_get' hk) fun _k hk =>
     ⟨cP hk, cP (ptP hk).1, (ptP hk).2.1⟩
 
 theorem cen_eq {x : Nat} (hx : Cn x) :
@@ -201,12 +201,10 @@ theorem syl_true : l34SylCheck (enumBFS 42 gensS 20160).tabs = true := by
     exact memTab_of (parts.1 j hj)
   · rw [size_pts, CFSG.KS.BfsReplay.allBelow_iff]
     intro k hk
-    beta_reduce
     rw [pts_get' hk, fixPow_eq (cP hk)]
     exact (ptP hk).2.2.1
   · rw [size_pts, CFSG.KS.BfsReplay.allBelow_iff]
     intro k hk
-    beta_reduce
     rw [pts_get' hk, r3_eq]
     unfold conjTab
     rw [comp_unpack' cr (cP hk), comp_unpack' (canonK_pcomp cr (cP hk)) cr]
@@ -214,7 +212,6 @@ theorem syl_true : l34SylCheck (enumBFS 42 gensS 20160).tabs = true := by
   · exact hcen
   · rw [CFSG.KS.BfsReplay.allBelow_iff]
     intro k hk
-    beta_reduce
     obtain ⟨i, hi, hc, e⟩ := et_get hk hcen
     obtain ⟨t1, t2, t3, t4, t5, -, -⟩ := tailP hi hc
     have cx := cP hi
@@ -226,7 +223,6 @@ theorem syl_true : l34SylCheck (enumBFS 42 gensS 20160).tabs = true := by
       exact ((commPt_iff cx cr).1 t2).symm
     · rw [size_pts, anyBelow_iff]
       refine ⟨wa i, t3, ?_⟩
-      beta_reduce
       rw [anyBelow_iff]
       refine ⟨wb i, t4, ?_⟩
       have ca := cP t3
@@ -243,7 +239,6 @@ theorem syl_true : l34SylCheck (enumBFS 42 gensS 20160).tabs = true := by
       exact Nat.beq_refl _
   · rw [size_pts, CFSG.KS.BfsReplay.allBelow_iff]
     intro k hk
-    beta_reduce
     obtain ⟨f1, f2, f3⟩ := fP hk
     have cy := cF hk
     rw [pts_get' hk, Bool.and_eq_true, Bool.and_eq_true]
@@ -252,12 +247,10 @@ theorem syl_true : l34SylCheck (enumBFS 42 gensS 20160).tabs = true := by
       exact f2
     · rw [CFSG.KS.BfsReplay.allBelow_iff]
       intro l hl
-      beta_reduce
       rw [pts_get' hl, beq_iff_eq]
       exact (commPt_iff cy (cF hl)).1 (f3 l hl)
   · rw [CFSG.KS.BfsReplay.allBelow_iff]
     intro k hk
-    beta_reduce
     obtain ⟨i, hi, hc, e⟩ := et_get hk hcen
     rw [e]
     exact found_of_memL (tailP hi hc).2.2.2.2.2.1
@@ -274,7 +267,6 @@ theorem syl_true : l34SylCheck (enumBFS 42 gensS 20160).tabs = true := by
     exact ⟨size_unpack _, comp_inv_of_pcomp cn0 cn1 parts.2.2.2.1⟩
   · rw [hnI, hN, size_pts, CFSG.KS.BfsReplay.allBelow_iff]
     intro k hk
-    beta_reduce
     have cx := cP hk
     rw [pts_get' hk, Bool.and_eq_true]
     unfold conjTab
@@ -283,10 +275,8 @@ theorem syl_true : l34SylCheck (enumBFS 42 gensS 20160).tabs = true := by
     exact ⟨found_of_memL (ptP hk).2.2.2.2.1, found_of_memL (ptP hk).2.2.2.2.2.1⟩
   · rw [hnI, hN, CFSG.KS.BfsReplay.allBelow_iff]
     intro a ha
-    beta_reduce
     rw [CFSG.KS.BfsReplay.allBelow_iff]
     intro b hb
-    beta_reduce
     obtain ⟨i, hi, hc, e⟩ := et_get ha hcen
     obtain ⟨j, hj, hcj, e'⟩ := et_get hb hcen
     have cx := cP hi

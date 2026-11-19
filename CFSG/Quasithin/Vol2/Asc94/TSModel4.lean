@@ -77,7 +77,7 @@ private theorem entry_PN (P N : Mt) (hP00 : P 0 0 = 0)
     hNr 4 (by decide) j]
   simp
 
-private theorem not_comm_aux (N P : Mt) (hN : SuppIn SA N) (hP : SuppIn S1 P)
+private theorem not_comm_aux (N P : Mt) (hN : SuppIn SA N) (_hP : SuppIn S1 P)
     (hP00 : P 0 0 = 0) (hNP : N * P = 0) (hcomm : (1 + N) * (1 + P) = (1 + P) * (1 + N))
     (hN1 : ¬ SuppIn S1 N) (hP01 : P 0 1 ≠ 0) : False := by
   have hPN : P * N = 0 := by
@@ -179,8 +179,8 @@ theorem elemAbelian_le_A1_or_U1 {E : Subgroup Hc} (hE : CFSG.Open.IsElemAbelian 
   by_contra hcon
   have hA : ¬ E ≤ A1 := fun h => hcon (Or.inl h)
   have hU : ¬ E ≤ U1 := fun h => hcon (Or.inr h)
-  obtain ⟨x, hxE, hxA⟩ := SetLike.not_le_iff_exists.1 hA
-  obtain ⟨y, hyE, hyU⟩ := SetLike.not_le_iff_exists.1 hU
+  obtain ⟨x, hxE, hxA⟩ := IsConcreteLE.not_le_iff_exists.1 hA
+  obtain ⟨y, hyE, hyU⟩ := IsConcreteLE.not_le_iff_exists.1 hU
   have hxB : x ∈ (A1 : Set Hc) * (U1 : Set Hc) := by
     rw [← centralizer_B_eq]
     exact hEC hxE

@@ -25,7 +25,7 @@ theorem ordP5_spec {p : ℕ} {σ : Equiv.Perm (Fin 820)} (hp : PRep 820 10 p σ)
     rw [isId_of_prep hp] at h
     exact Bool.noConfusion h.1
   · have h2 := h.2
-    rw [show Nat.beq 5 3 = false by decide, cond_false] at h2
+    rw [show Nat.beq 5 3 = false by decide, Bool.cond_false] at h2
     have e := eq_one_of_isId (prep_pc hp (prep_pc hp (prep_pc hp (prep_pc hp hp)))) h2
     calc σ ^ 5 = σ ^ (1 + 1 + 1 + 1 + 1) := rfl
       _ = σ * (σ * (σ * (σ * σ))) := by simp only [pow_add, pow_one, mul_assoc]
@@ -39,7 +39,7 @@ theorem ordP3_spec {p : ℕ} {σ : Equiv.Perm (Fin 820)} (hp : PRep 820 10 p σ)
     rw [isId_of_prep hp] at h
     exact Bool.noConfusion h.1
   · have h2 := h.2
-    rw [show Nat.beq 3 3 = true by decide, cond_true] at h2
+    rw [show Nat.beq 3 3 = true by decide, _root_.Bool.cond_true] at h2
     have e := eq_one_of_isId (prep_pc hp (prep_pc hp hp)) h2
     calc σ ^ 3 = σ ^ (1 + 1 + 1) := rfl
       _ = σ * (σ * σ) := by simp only [pow_add, pow_one, mul_assoc]
@@ -65,7 +65,7 @@ theorem normOK_spec {CG CGI LG LT : ℕ → ℕ} {W : List ℕ} {NL : ℕ}
 
 theorem image_two {α : Type*} (f : ℕ → α) : f '' {k | k < 2} = {f 0, f 1} := by
   ext z
-  simp only [Set.mem_image, Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
+  simp only [Set.mem_image, Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
   constructor
   · rintro ⟨k, hk, rfl⟩
     interval_cases k
@@ -357,7 +357,7 @@ theorem prep_dgOK {k : ℕ} {ys : List ℕ} {y : Equiv.Perm (Fin 6)} {p : ℕ}
       rw [Nat.blt_eq]
       exact hin
     have he : x = Fin.castAdd 6 ⟨x, hin⟩ := rfl
-    rw [hb, cond_true]
+    rw [hb, _root_.Bool.cond_true]
     conv_rhs => rw [he]
     rw [pairHom_castAdd]
     exact (eK_apply hk ⟨x, hin⟩).symm
@@ -372,7 +372,7 @@ theorem prep_dgOK {k : ℕ} {ys : List ℕ} {y : Equiv.Perm (Fin 6)} {p : ℕ}
     have he : x = Fin.natAdd 820 ⟨(x : ℕ) - 820, hj⟩ :=
       Fin.ext (by simp only [Fin.val_natAdd]; omega)
     have hyv : ys.getD ((x : ℕ) - 820) 0 = (y ⟨(x : ℕ) - 820, hj⟩ : ℕ) := (hy ⟨_, hj⟩).symm
-    rw [hb, cond_false, hyv]
+    rw [hb, Bool.cond_false, hyv]
     conv_rhs => rw [he]
     rw [pairHom_natAdd]
 

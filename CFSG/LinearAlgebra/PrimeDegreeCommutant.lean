@@ -25,7 +25,7 @@ theorem finrank_commutant_eq_of_prime_of_cyclic_irreducible (hn : n.Prime)
     (hHcyc : IsCyclic H) :
     Module.finrank K (commutant H) = n := by
   classical
-  letI : Nonempty (Fin n) := ⟨⟨0, hn.pos⟩⟩
+  let : Nonempty (Fin n) := ⟨⟨0, hn.pos⟩⟩
   have hHOn : IsIrreducibleOn H := isIrreducibleOn_iff.mpr hHirr
   have hdvd : Module.finrank K (commutant H) ∣ n := by
     simpa [Fintype.card_fin] using finrank_commutant_dvd hHOn
@@ -54,8 +54,8 @@ theorem natCard_algEquiv_commutant_eq_of_prime_of_cyclic_irreducible (hn : n.Pri
     (hHcyc : IsCyclic H) :
     Nat.card (commutant H ≃ₐ[K] commutant H) = n := by
   classical
-  letI : Nonempty (Fin n) := ⟨⟨0, hn.pos⟩⟩
-  letI : Field (commutant H) := commutantField (isIrreducibleOn_iff.mpr hHirr)
+  let : Nonempty (Fin n) := ⟨⟨0, hn.pos⟩⟩
+  let : Field (commutant H) := commutantField (isIrreducibleOn_iff.mpr hHirr)
   let : Finite (Matrix (Fin n) (Fin n) K) := inferInstance
   let : Finite (commutant H) := inferInstance
   rw [IsGalois.card_aut_eq_finrank K (commutant H),

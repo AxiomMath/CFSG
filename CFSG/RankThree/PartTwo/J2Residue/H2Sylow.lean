@@ -91,9 +91,9 @@ theorem rho_letterP_inv (hρ : IsMRep ρ) (j : ℕ) (v : V12) :
     rfl
   · have e : (letterP j)⁻¹ = letterP j * letterP j := Subtype.ext (by
       rw [Subgroup.coe_inv, Subgroup.coe_mul]
-      simp only [letterP, letter, hj, if_false]
+      simp only [letterP, letter, hj, ite_false]
       exact gB_inv)
-    rw [e, map_mul, Module.End.mul_apply, hρ, hρ, Matrix.mulVec_mulVec, invColsJ, if_neg hj,
+    rw [e, map_mul, Module.End.mul_apply, hρ, hρ, Matrix.mulVec_mulVec, invColsJ, ite_eq_right hj,
       matOfCols_mulColsMat]
     simp [Mj, colsJ, hj]
 
@@ -167,7 +167,7 @@ theorem eq_of_gen {f f' : ↥S → ↥S → V} (hf : IsNormCoc σ f) (hf' : IsNo
     have := hf.add (hf'.smul (-1 : ZMod 2))
     convert this using 1
     funext s t
-    simp [sub_eq_add_neg, neg_smul, neg_eq_self_zmod2]
+    simp [sub_eq_add_neg, neg_eq_self_zmod2]
   funext s t
   have := eq_zero_of_gen σ hd (fun k hk t => by simp [hgen k hk t]) s t
   rwa [Pi.sub_apply, Pi.sub_apply, sub_eq_zero] at this

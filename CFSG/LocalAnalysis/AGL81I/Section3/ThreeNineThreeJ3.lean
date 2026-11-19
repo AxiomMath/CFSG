@@ -33,7 +33,7 @@ theorem false_of_threeNineHyp_J3
   have hOut : Nat.card (Outer ↥K) ≤ 2 :=
     CFSG.Sporadic.Schreier.outer_card_le_of_equiv CFSG.Sporadic.SmallOddCore.j3_outer_card_le
       (e.trans CFSG.Sporadic.Schreier.j3PermEquiv)
-  haveI : Finite (MulAut ↥K) :=
+  have : Finite (MulAut ↥K) :=
     Finite.of_injective (fun f : MulAut ↥K => (f : ↥K → ↥K)) fun f g hfg =>
       MulEquiv.ext (congrFun hfg)
   have hOut0 : 0 < Nat.card (Outer ↥K) := Nat.card_pos
@@ -60,7 +60,7 @@ theorem false_of_threeNineHyp_J3
     rw [hyd]
     exact Nat.Coprime.pow_right _ ((Nat.coprime_primes h.d_prime Nat.prime_two).mpr h.d_ne_two)
   have hzd : orderOf ((y : ↥K) ^ 2 ^ k) = d := by rw [hcop.orderOf_pow, hyd]
-  obtain ⟨n, hn⟩ := S.isPGroup' ⟨(y : ↥K) ^ 2 ^ k, hk⟩
+  obtain ⟨n, hn⟩ := S.isPGroup ⟨(y : ↥K) ^ 2 ^ k, hk⟩
   have hdvd : d ∣ 3 ^ n := by
     rw [← hzd]
     apply orderOf_dvd_of_pow_eq_one

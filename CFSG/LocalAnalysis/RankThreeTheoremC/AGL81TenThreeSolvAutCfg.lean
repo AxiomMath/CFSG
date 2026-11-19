@@ -130,9 +130,9 @@ private theorem card_dvd_24_of_subnormal_perm {m : ℕ} {X : Subgroup (Equiv.Per
       rw [Nat.card_eq_fintype_card, Fintype.card_perm, Fintype.card_fin]
       exact (Nat.factorial_dvd_factorial (by omega : m ≤ 4)).trans (by decide)
     exact h1.trans h2
-  · haveI : IsSimpleGroup (alternatingGroup (Fin m)) :=
+  · have : IsSimpleGroup (alternatingGroup (Fin m)) :=
       alternatingGroup.isSimpleGroup (by rw [Nat.card_fin]; omega)
-    haveI : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.mpr (by omega)
+    have : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.mpr (by omega)
     have hXA : IsSubnormal (X ⊓ alternatingGroup (Fin m)) (alternatingGroup (Fin m)) :=
       hX.inf_of_le le_top
     rcases hXA.eq_bot_or_eq_of_isSimpleGroup inferInstance with h | h
@@ -195,8 +195,8 @@ private theorem false_of_subnormal_perm_prod {r s : ℕ}
 private theorem false_of_four_le_pRank_barM {G : Type} [Group G] [Finite G] (hS : Setting G)
     {M : Subgroup G} (hM : IsTwoLocal M) {Y : Subgroup (↥M ⧸ CFSG.pCore 2 ↥M)}
     (h4 : 4 ≤ CFSG.Open.pRank 3 Y) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h1 := CFSG.SectionRank.pRank_mono (p := 3) (by norm_num) (le_top : Y ≤ ⊤)
   have h3 : ¬ 3 ∣ Nat.card (CFSG.pCore 2 ↥M) := by
     obtain ⟨k, hk⟩ := (CFSG.pCore_isPGroup (p := 2) (G := ↥M)).exists_card_eq
@@ -225,9 +225,9 @@ theorem agl81NoSUMemberCfg (hGA : CFSG.Open.GriessAllModelsStatement) (h93 : Asc
   rcases hshape with hS3 | ⟨F, hFf, hFfin, hF4, ⟨eI⟩⟩
   · exact hS3
   exfalso
-  letI : Field F := hFf
-  haveI : Finite F := hFfin
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Field F := hFf
+  have : Finite F := hFfin
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hT := hd.toTwoLocalPhaseThree' hS h984
   have hK : Open.IsKGroup ↥M := (hT.toTwoLocalPair.isKGroup_of_isKProper hS.kProper).1
   have hA : Asc81bHyp M (pCoreOf 2 H) := hT.asc81bHyp
@@ -251,7 +251,7 @@ theorem agl81NoSUMemberCfg (hGA : CFSG.Open.GriessAllModelsStatement) (h93 : Asc
   let eC : ↥T₀ ≃* ↥(StatedSU 3 2 F) := eT.symm.trans eI
   have hF4' : Nat.card F = (2 ^ 1) ^ 2 := by rw [hF4]; norm_num
   have := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (f := 2)
+  have : CharP F 2 := charP_of_card_eq_prime_pow (f := 2)
     (by rw [← Nat.card_eq_fintype_card, hF4]; norm_num)
   have hT216 : Nat.card T₀ = 216 := by
     rw [Nat.card_congr eC.toEquiv]
@@ -296,7 +296,7 @@ theorem agl81NoSUMemberCfg (hGA : CFSG.Open.GriessAllModelsStatement) (h93 : Asc
         simp only [TauCeti.LieTypeIndex.inStandardRange_iff] at hv
         omega
       obtain ⟨hsimp, h29⟩ := kFactSpTwoSimple_holds k d hk3 hd
-      haveI := hsimp
+      have := hsimp
       have hDs : IsSubnormal (T₀.map eP.toMonoidHom) ⊤ := by
         have := hTs.map eP.toMonoidHom
         rwa [Subgroup.map_top_of_surjective _ eP.surjective] at this

@@ -13,7 +13,7 @@ open Subgroup CFSG
 open CFSG.ASVolI.ChIJK (IsComponentIn)
 
 private theorem isSubnormal_subgroupOf_map_of_surjective {G G' : Type*} [Group G] [Group G']
-    (f : G →* G') (hf : Function.Surjective f) {L C : Subgroup G} (hLC : L ≤ C)
+    (f : G →* G') (_hf : Function.Surjective f) {L C : Subgroup G} (hLC : L ≤ C)
     (h : (L.subgroupOf C).IsSubnormal) :
     ((L.map f).subgroupOf (C.map f)).IsSubnormal := by
   let φ : C →* C.map f :=
@@ -103,7 +103,7 @@ private theorem normal_map_centralizer_subgroupOf_centralizer {Y : Type*} [Group
   exact hmapnorm
 
 theorem isComponentIn_map_quotient_center {Y : Type} [Group Y] [Finite Y]
-    (hY : CFSG.IsQuasisimple Y) {v : Y} {L : Subgroup Y}
+    (_hY : CFSG.IsQuasisimple Y) {v : Y} {L : Subgroup Y}
     (hL : IsComponentIn L (centralizer {v})) :
     IsComponentIn (L.map (QuotientGroup.mk' (center Y)))
         (centralizer {(QuotientGroup.mk v : Y ⧸ center Y)}) ∧

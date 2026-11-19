@@ -48,7 +48,7 @@ private theorem zq_exists_refl (hgen : ReflGen p A) (hirr : AbsIrred p A)
   simp only [not_exists, not_and] at h
   have hset : {t : U ≃ₗ[ZMod p] U | t ∈ A ∧ IsRefl p t} = ∅ := by
     ext t
-    simp only [Set.mem_setOf_eq, Set.mem_empty_iff_false, iff_false, not_and]
+    simp only [Set.mem_ofPred_eq, Set.mem_empty_iff_false, iff_false, not_and]
     exact h t
   have hbot : A = ⊥ := by
     rw [hgen, hset]
@@ -310,7 +310,7 @@ private theorem zq_reflImage_eq_conj (hone : OneClass p A)
     obtain ⟨t, ht, rfl⟩ := hx
     obtain ⟨g, hgA, hgt⟩ := hone (t₀ : U ≃ₗ[ZMod p] U) ht₀A
       (t : U ≃ₗ[ZMod p] U) t.2 ht₀ ht
-    rw [Set.mem_setOf_eq, isConj_iff]
+    rw [Set.mem_ofPred_eq, isConj_iff]
     refine ⟨mk ⟨g, hgA⟩, ?_⟩
     calc
       mk ⟨g, hgA⟩ * mk ⟨t₀, ht₀A⟩ * (mk ⟨g, hgA⟩)⁻¹
@@ -321,7 +321,7 @@ private theorem zq_reflImage_eq_conj (hone : OneClass p A)
         apply Subtype.ext
         simpa [Subgroup.coe_mul, Subgroup.coe_inv] using hgt.symm
   · intro hx
-    rw [Set.mem_setOf_eq, isConj_iff] at hx
+    rw [Set.mem_ofPred_eq, isConj_iff] at hx
     obtain ⟨c, hc⟩ := hx
     obtain ⟨g, rfl⟩ := QuotientGroup.mk_surjective c
     refine ⟨g * ⟨t₀, ht₀A⟩ * g⁻¹, ?_, ?_⟩

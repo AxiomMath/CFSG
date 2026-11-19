@@ -57,7 +57,7 @@ theorem fc_invol_two {H H₁ H₂ : Subgroup G} (hH : G23One H H₁ H₂) {z u :
 
 theorem fc_exists_sylow8 [Finite G] {X : Subgroup G} (hX : Nat.card X = 24) :
     ∃ Q : Subgroup G, Q ≤ X ∧ IsPGroup 2 Q ∧ Nat.card Q = 8 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨K, hK⟩ := Sylow.exists_subgroup_card_pow_prime (G := ↥X) 2 (n := 3)
     (by rw [hX]; norm_num)
   have hcard : Nat.card ↥(K.map X.subtype) = 8 := by
@@ -67,7 +67,7 @@ theorem fc_exists_sylow8 [Finite G] {X : Subgroup G} (hX : Nat.card X = 24) :
 
 theorem fc_mem_of_sylow8 [Finite G] {X Q : Subgroup G} {z : G} (hQX : Q ≤ X)
     (hQ : Nat.card Q = 8) (hinv : ∀ u ∈ X, u ^ 2 = 1 → u ≠ 1 → u = z) : z ∈ Q := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥Q) 2 (by rw [hQ]; norm_num)
   have h2 : (x : G) ^ 2 = 1 := by
     have := pow_orderOf_eq_one x
@@ -121,10 +121,10 @@ theorem fc_conj_sylow [Finite G] {K A B : Subgroup G} {n : ℕ}
     (hAn : Nat.card A = n) (hBn : Nat.card B = n)
     (hmax : ∀ R : Subgroup G, IsPGroup 2 R → R ≤ K → Nat.card R ≤ n) :
     ∃ c ∈ K, ∀ b ∈ B, c * b * c⁻¹ ∈ A := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨PA, hPA⟩ := fc_sylow_mk hA hAp hAn hmax
   obtain ⟨PB, hPB⟩ := fc_sylow_mk hB hBp hBn hmax
-  haveI : Finite (Sylow 2 K) := Finite.of_injective (fun P : Sylow 2 K => (P : Set K))
+  have : Finite (Sylow 2 K) := Finite.of_injective (fun P : Sylow 2 K => (P : Set K))
     (fun P Q h => SetLike.coe_injective h)
   obtain ⟨c, hc⟩ := MulAction.exists_smul_eq K PB PA
   have hsub : MulAut.conj c • (B.subgroupOf K) = A.subgroupOf K := by
@@ -220,7 +220,7 @@ theorem fc_mixed [Finite G] {H H₁ H₂ : Subgroup G} {e : Fin 6 → G}
     have := fc_map_conj_le (g := g) (Subgroup.zpowers_le.mpr hzy)
     rw [hg] at this
     exact this
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hord : orderOf (zOf e) = 2 := orderOf_eq_prime hz2 hz1
   have hcardz : Nat.card (Subgroup.zpowers (zOf e)) = 2 := by
     rw [Nat.card_zpowers, hord]

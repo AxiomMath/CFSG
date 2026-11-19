@@ -96,7 +96,7 @@ theorem isCenter_vec (hσ : IsUnitaryInvolution σ) (hζ : ζ ^ 2 + ζ + 1 = 0)
     by_cases h : a = b
     · subst h
       simp [hSD, hS a a]
-    · simp [hSD, Matrix.diagonal_apply, h, Ne.symm h]
+    · simp [hSD, h, Ne.symm h]
   have hQ : ∀ j, ∀ a b, σ (Qm σ ζ α S j b a) = Qm σ ζ α S j a b := fun j => Qm_herm σ hσi ζ α S j
   have hmD : F.Mel hσi hSDh hc hu ∈ H :=
     hY _ (F.Mmat_commute hσi F.actY (diag_comm ζ _) c u)
@@ -154,7 +154,7 @@ theorem orthoEmb_blk_eq {a b : Fin m} {μ μ' : K} {u u' : Fin m → K}
 theorem herm_pair {a b : Fin m} (hab : a ≠ b) (x y x' y' : K) :
     herm σ (Pi.single a x + Pi.single b y : Fin m → K) (Pi.single a x' + Pi.single b y') =
       σ x * x' + σ y * y' := by
-  simp only [herm_add_left, herm_add_right, herm_single_left, herm_single_right, Pi.add_apply,
+  simp only [herm_add_right, herm_single_right, Pi.add_apply,
     Pi.single_eq_same, Pi.single_eq_of_ne hab, Pi.single_eq_of_ne hab.symm]
   ring
 
@@ -199,7 +199,7 @@ theorem isCenter_pair (hσ : IsUnitaryInvolution σ) (hζ : ζ ^ 2 + ζ + 1 = 0)
     simp [hμ']
   have hiuu' : herm σ u u' ≠ 0 := by
     rw [hu, hu', hsm, hsm, herm_pair hab]
-    simp only [map_one, one_mul, mul_one]
+    simp only [map_one, mul_one]
     intro h
     have h1 : σ μ * μ' = σ μ * μ := by linear_combination h - hμ
     have h2 : μ' = μ := mul_left_cancel₀ ((map_ne_zero σ).mpr hμ0) h1
@@ -231,7 +231,7 @@ theorem isCenter_pair (hσ : IsUnitaryInvolution σ) (hζ : ζ ^ 2 + ζ + 1 = 0)
     have hξ : ξ₂ ≠ 0 := fun h => h0 (by rw [h, F.vec_zero_left])
     obtain ⟨j, hj⟩ : ∃ j, ξ₂ j ≠ 0 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hξ (funext hcon)
     refine ⟨F.vec (Pi.single j 1) u, memX' u _, ?_⟩
     rw [F.herm_vec_vec, herm_single_left]

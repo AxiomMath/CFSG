@@ -16,7 +16,7 @@ open scoped MatrixGroups
 
 private lemma commutator_range_eq_self_E07 {G H : Type} [Group G] [Group H] (f : G →* H)
     (hG : Group.IsPerfect G) : ⁅f.range, f.range⁆ = f.range := by
-  haveI : Group.IsPerfect G := hG
+  have : Group.IsPerfect G := hG
   exact Subgroup.isPerfect_iff.mp (Group.IsPerfect.range f)
 
 private lemma isSLn_range_E07 {K : Type} [Field K] [Finite K] {n : ℕ}

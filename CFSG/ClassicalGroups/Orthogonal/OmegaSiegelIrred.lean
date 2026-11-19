@@ -259,7 +259,7 @@ private theorem axis_le_of_three_le (hs : OmegaSetting QN Qf ρ)
     (hs.caseII_of_six_lt_finrank htop hF (by omega))]
   exact sup_le h1 h2
 
-omit [CharP K' 2] [Finite K'] [FiniteDimensional K' N] [Finite K] [FiniteDimensional K V] in
+omit [CharP K' 2] [Finite K'] [FiniteDimensional K' N] [Finite K] [FiniteDimensional K V] [CharP K 2] in
 private theorem movedSpace_rhoE_le_of_axis_le (hs : OmegaSetting QN Qf ρ) {e f p p' u v : N}
     (hF : MinusThreeFrame QN e f p p' u v) {U : Submodule K V}
     (hU : ∀ g x, x ∈ U → ρ g x ∈ U) (hW : 𝒲[e] ≤ U) (a w : N) :
@@ -292,7 +292,7 @@ private theorem movedSpace_rhoE_le_of_axis_le (hs : OmegaSetting QN Qf ρ) {e f 
     rw [this]
     exact U.zero_mem
 
-omit [CharP K' 2] [Finite K'] [FiniteDimensional K' N] [Finite K] [FiniteDimensional K V] in
+omit [CharP K' 2] [Finite K'] [FiniteDimensional K' N] [Finite K] [FiniteDimensional K V] [CharP K 2] in
 private theorem eq_top_of_axis_le (hs : OmegaSetting QN Qf ρ)
     (htop : commutatorSpace ρ.range = ⊤) {e f p p' u v : N}
     (hF : MinusThreeFrame QN e f p p' u v) {U : Submodule K V}

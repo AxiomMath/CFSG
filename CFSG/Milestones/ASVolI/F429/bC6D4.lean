@@ -41,10 +41,10 @@ theorem burnsideF429b_trialityD4_rank_le' {e : ℕ} (he : 1 ≤ e) (K : Type) [F
       (∀ x ∈ B, ∀ y ∈ B, x * y = y * x) → (∀ x ∈ B, x * x = 1) →
         Nat.card B ≤ 2 * (2 ^ e) ^ 5 := by
   have hK' : Nat.card K = 2 ^ (3 * e) := by rw [hK, ← pow_mul, mul_comm]
-  haveI : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     Nat.prime_two (by omega) hK'
   have hpc : ∀ c : K, c ^ ((2 ^ e) ^ 3) = c := fun c => by
-    haveI := Fintype.ofFinite K
+    have := Fintype.ofFinite K
     rw [← hK, Nat.card_eq_fintype_card, FiniteField.pow_card]
   have hcube : ∀ c, σ (σ (σ c)) = c := fun c => by
     rw [hσ, hσ, hσ, ← pow_mul, ← pow_mul]
@@ -53,7 +53,7 @@ theorem burnsideF429b_trialityD4_rank_le' {e : ℕ} (he : 1 ≤ e) (K : Type) [F
   have hσ3 : σ.toRingHom ^ 3 = 1 := by
     ext c
     simp only [pow_succ, pow_zero, one_mul, RingHom.mul_def, RingHom.comp_apply,
-      RingEquiv.toRingHom_eq_coe, RingHom.coe_coe, RingHom.id_apply]
+      RingEquiv.toRingHom_eq_coe, RingHom.coe_coe]
     exact hcube c
   have hσ3E : σ ^ 3 = 1 :=
     RingEquiv.ext fun c => by
@@ -67,11 +67,11 @@ theorem burnsideF429b_trialityD4_rank_le' {e : ℕ} (he : 1 ≤ e) (K : Type) [F
   have hK3 : Nat.card K = Nat.card (trialityFixedField K σ.toRingHom) ^ 3 := by
     rw [hkcard, hK]
   obtain ⟨D⟩ := exists_d4Syl K σ hσ3
-  haveI : Finite (graphFixedPosUnipotent TwistTag.D4 K σ.toRingHom) :=
+  have : Finite (graphFixedPosUnipotent TwistTag.D4 K σ.toRingHom) :=
     Finite.of_surjective _ D.bij.2
   obtain ⟨-, -, -, -, -, -, -, -, ⟨Psyl, hsyl⟩⟩ :=
     even_triality_positive_orbit_parametrization K σ hσ3
-  haveI : Finite (graphFixedRootGroup TwistTag.D4 K σ.toRingHom) :=
+  have : Finite (graphFixedRootGroup TwistTag.D4 K σ.toRingHom) :=
     Finite.of_injective (fun g => (g : ModGL TwistTag.D4.tag K)) Subtype.val_injective
   have hle : graphFixedPosUnipotent TwistTag.D4 K σ.toRingHom ≤
       graphFixedRootGroup TwistTag.D4 K σ.toRingHom :=
@@ -92,7 +92,7 @@ theorem burnsideF429b_D4_card_fixed_le {e : ℕ} (he : 1 ≤ e) {K : Type} [Fiel
     Nat.card B ≤ 2 * (2 ^ e) ^ 5 := by
   obtain ⟨-, hk, hres, -, hJle, hJ, -⟩ :=
     even_triality_canonical_field_full_centralizer he K hK σ hσ δ hδ
-  haveI : Finite (fixSubfield δ) := Subtype.finite
+  have : Finite (fixSubfield δ) := Subtype.finite
   let ι : graphFixedRootGroup TwistTag.D4 (fixSubfield δ) (fixSubfieldRestrict σ δ).toRingHom →*
       graphFixedRootGroup TwistTag.D4 K σ.toRingHom :=
     ((baseChangeGL (fixSubfield δ).subtype).comp
@@ -298,8 +298,8 @@ open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
 theorem burnsideF429b_c6_D4tw {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
     (hyp : HypF_4_4 .D4tw 2 f Gp M₁ M₂) (hf : 2 ≤ f) {T : Subgroup E}
     (hT : ChF.IsSylowOf 2 T (M₁ ⊓ M₂)) : burnsideF429_C6 .D4tw f Gp M₁ M₂ T := by
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   obtain ⟨K, fK, finK, cK, σ, hσ3', hf1, hK, hσq, Ψ, h1, h2⟩ :=
     burnsideF429b_D4_chart hyp.toHypF_4_4g
   have hσ' : ∀ c, σ c = c ^ (2 ^ f) := hσq
@@ -338,7 +338,7 @@ theorem burnsideF429b_c6_D4tw {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Sub
     exact Subgroup.map_mono hR₀U
   ·
     intro A hAT hAe hAS
-    obtain ⟨t, htA, htS⟩ := SetLike.not_le_iff_exists.1 hAS
+    obtain ⟨t, htA, htS⟩ := IsConcreteLE.not_le_iff_exists.1 hAS
     have hinvA : ∀ a ∈ A, a * a = 1 := fun a ha => by rw [← sq]; exact hAe.2 a ha
     have hcommA : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a := isMulCommutative_iff_of_setLike.mp hAe.1
     have hnotG : ∀ a ∈ A, a ∉ S → a ∉ Gp := fun a ha haS haG => haS (hmemS a (hAT ha) haG)

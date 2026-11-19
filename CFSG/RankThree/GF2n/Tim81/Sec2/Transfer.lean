@@ -18,7 +18,7 @@ theorem exists_fixedSub_sub_mem_of_odd_index
     {v : N} (hv : v ∈ fixedSub ρ S) :
     ∃ u ∈ fixedSub ρ ⊤, v - u ∈ N₀ := by
   classical
-  haveI : Fintype X := Fintype.ofFinite X
+  have : Fintype X := Fintype.ofFinite X
   let f : X ⧸ S → N :=
     Quotient.lift (s := QuotientGroup.leftRel S) (fun g : X => ρ g v) (by
       intro a b hab

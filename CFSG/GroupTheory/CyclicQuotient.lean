@@ -9,11 +9,11 @@ namespace CFSG
 theorem not_dvd_card_range_of_no_normal_index
     {Γ G : Type*} [Group Γ] [Finite Γ] [Group G]
     (δ : Γ →* G) [IsCyclic δ.range]
-    {n : ℕ} (hn : 0 < n)
+    {n : ℕ} (_hn : 0 < n)
     (hno : ∀ N : Subgroup Γ, N.Normal → N.index ≠ n) :
     ¬ n ∣ Nat.card δ.range := by
   intro hnrange
-  haveI : Finite δ.range :=
+  have : Finite δ.range :=
     Finite.of_surjective δ.rangeRestrict (MonoidHom.rangeRestrict_surjective δ)
   have hcard : Nat.card (Multiplicative (ZMod n)) = n := by
     rw [Nat.card_congr Multiplicative.toAdd, Nat.card_zmod]

@@ -109,7 +109,7 @@ theorem sylow_select {Q : Type*} [Group Q] [Finite G] (π : G →* Q) (hπ : Fun
     exact le_antisymm le_top ((P.mapSurjective hφ).maximal_isPGroup.2
       (hDq2'.of_equiv Subgroup.topEquiv.symm) le_top)
   set Pg : Subgroup G := (P : Subgroup ↥D).map D.subtype with hPg
-  have hPg2 : IsPGroup 2 Pg := P.isPGroup'.map _
+  have hPg2 : IsPGroup 2 Pg := P.isPGroup.map _
   have hπPg : Pg.map π = Dq := by
     have h1 : (P : Subgroup ↥D).map φ = ⊤ := hDqtop
     have h2 : Pg.map π = ((P : Subgroup ↥D).map φ).map Dq.subtype := by

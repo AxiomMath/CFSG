@@ -302,12 +302,12 @@ private theorem close16_eq_top_of_map_eq_top_of_ker_le {G H : Type*} [Group G] [
   exact N.mul_mem this hn
 
 private theorem close16_ptStab_opp : Opp 3 ptStab = ptStab := by
-  haveI : IsSimpleGroup SL3 := CFSG.ClassicalInvolution.Q3.TL4.isSimpleGroup_sl3Two
+  have : IsSimpleGroup SL3 := CFSG.ClassicalInvolution.Q3.TL4.isSimpleGroup_sl3Two
   have hE_le : close16_E ≤ close16_Tsub := close16_ker_le_Tsub
   have hNtop : close16_Tsub.map close16_blockHom = ⊤ := by
     have hNnormal : (close16_Tsub.map close16_blockHom).Normal :=
       close16_Tsub_normal.map close16_blockHom close16_blockHom_surjective
-    haveI : (close16_Tsub.map close16_blockHom).Normal := hNnormal
+    have : (close16_Tsub.map close16_blockHom).Normal := hNnormal
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (close16_Tsub.map close16_blockHom) with
       hbot | htop
     · exact absurd hbot (by

@@ -107,24 +107,24 @@ end IsChevTwoLayered
 
 theorem isChevTwoLayered_of_isSolvable [Group W] [Finite W] (h : Group.IsSolvable W) :
     IsChevTwoLayered W := by
-  haveI : Group.IsSolvable W := h
+  have : Group.IsSolvable W := h
   constructor
   · intro P hP
-    haveI : Group.IsPerfect ↥P := Subgroup.isPerfect_iff.mpr hP
-    haveI : Group.IsSolvable ↥P :=
+    have : Group.IsPerfect ↥P := Subgroup.isPerfect_iff.mpr hP
+    have : Group.IsSolvable ↥P :=
       Group.isSolvable_of_isSolvable_injective (f := P.subtype) P.subtype_injective
-    haveI : Subsingleton ↥P := by
+    have : Subsingleton ↥P := by
       by_contra hne
-      haveI : Nontrivial ↥P := not_subsingleton_iff_nontrivial.mp hne
+      have : Nontrivial ↥P := not_subsingleton_iff_nontrivial.mp hne
       exact Group.IsPerfect.not_isSolvable ↥P inferInstance
     rw [Subgroup.eq_bot_of_subsingleton P]
     exact bot_le
   · intro K hK
-    haveI : Group.IsPerfect ↥K :=
+    have : Group.IsPerfect ↥K :=
       Subgroup.isPerfect_iff.mpr
         (CFSG.LocalAnalysis.GLTheoremA.I142N.comm_self_eq_of_commutator_top hK.2.2.1)
-    haveI : Nontrivial ↥K := Quasisimple.nontrivial hK.2.2
-    haveI : Group.IsSolvable ↥K :=
+    have : Nontrivial ↥K := Quasisimple.nontrivial hK.2.2
+    have : Group.IsSolvable ↥K :=
       Group.isSolvable_of_isSolvable_injective (f := K.subtype) K.subtype_injective
     exact (Group.IsPerfect.not_isSolvable ↥K inferInstance).elim
 
@@ -142,10 +142,10 @@ theorem isChevTwoLayered_of_isQuasisimple [Group W] (hW : CFSG.Open.IsQuasisimpl
     rw [hlayer]
     exact le_top
   · intro K hK
-    haveI : Group.IsPerfect ↥K :=
+    have : Group.IsPerfect ↥K :=
       Subgroup.isPerfect_iff.mpr
         (CFSG.LocalAnalysis.GLTheoremA.I142N.comm_self_eq_of_commutator_top hK.2.2.1)
-    haveI : Nontrivial ↥K := Quasisimple.nontrivial hK.2.2
+    have : Nontrivial ↥K := Quasisimple.nontrivial hK.2.2
     rcases Quasisimple.perfect_subnormal_eq_bot_or_eq_top hW K hK.2.1 with hbot | htop'
     · exact absurd hbot ((Subgroup.nontrivial_iff_ne_bot K).mp inferInstance)
     · rw [htop']
@@ -156,7 +156,7 @@ theorem isChevTwoLayered_of_isQuasisimple [Group W] (hW : CFSG.Open.IsQuasisimpl
 theorem IsChevTwoLayered.of_normal_of_solvable_quotient [Group W] [Finite W] (N : Subgroup W)
     [N.Normal] (hN : IsChevTwoLayered ↥N) (hq : Group.IsSolvable (W ⧸ N)) :
     IsChevTwoLayered W := by
-  haveI : Group.IsSolvable (W ⧸ N) := hq
+  have : Group.IsSolvable (W ⧸ N) := hq
   have hNsub : CFSG.Open.IsSubnormal N ⊤ := by
     have h : (N.subgroupOf ⊤).Normal := Subgroup.Normal.subgroupOf ‹N.Normal› ⊤
     exact CFSG.Open.IsSubnormal.step le_top h (CFSG.Open.IsSubnormal.refl ⊤)
@@ -165,13 +165,13 @@ theorem IsChevTwoLayered.of_normal_of_solvable_quotient [Group W] [Finite W] (N 
     have hP' : ⁅P.map (QuotientGroup.mk' N), P.map (QuotientGroup.mk' N)⁆ =
         P.map (QuotientGroup.mk' N) := by
       rw [← Subgroup.map_commutator, hP]
-    haveI : Group.IsPerfect ↥(P.map (QuotientGroup.mk' N)) := Subgroup.isPerfect_iff.mpr hP'
-    haveI : Group.IsSolvable ↥(P.map (QuotientGroup.mk' N)) :=
+    have : Group.IsPerfect ↥(P.map (QuotientGroup.mk' N)) := Subgroup.isPerfect_iff.mpr hP'
+    have : Group.IsSolvable ↥(P.map (QuotientGroup.mk' N)) :=
       Group.isSolvable_of_isSolvable_injective (f := (P.map (QuotientGroup.mk' N)).subtype)
         (P.map (QuotientGroup.mk' N)).subtype_injective
-    haveI : Subsingleton ↥(P.map (QuotientGroup.mk' N)) := by
+    have : Subsingleton ↥(P.map (QuotientGroup.mk' N)) := by
       by_contra hne
-      haveI : Nontrivial ↥(P.map (QuotientGroup.mk' N)) :=
+      have : Nontrivial ↥(P.map (QuotientGroup.mk' N)) :=
         not_subsingleton_iff_nontrivial.mp hne
       exact Group.IsPerfect.not_isSolvable ↥(P.map (QuotientGroup.mk' N)) inferInstance
     have hbot : P.map (QuotientGroup.mk' N) = ⊥ :=
@@ -213,7 +213,7 @@ theorem IsChevTwoLayered.of_normal_of_solvable_quotient [Group W] [Finite W] (N 
 
 theorem IsChevTwoLayered.quotient [Group W] [Finite W] (h : IsChevTwoLayered W) (T : Subgroup W)
     [T.Normal] (hT : Group.IsSolvable ↥T) : IsChevTwoLayered (W ⧸ T) := by
-  haveI : Group.IsSolvable ↥T := hT
+  have : Group.IsSolvable ↥T := hT
   have hTsub : CFSG.Open.IsSubnormal T ⊤ := by
     have h' : (T.subgroupOf ⊤).Normal := Subgroup.Normal.subgroupOf ‹T.Normal› ⊤
     exact CFSG.Open.IsSubnormal.step le_top h' (CFSG.Open.IsSubnormal.refl ⊤)
@@ -252,7 +252,7 @@ theorem IsChevTwoLayered.quotient [Group W] [Finite W] (h : IsChevTwoLayered W) 
       refine ⟨⟨x, ?_⟩, Subtype.ext hx⟩
       rw [Subgroup.mem_comap, hx]
       exact y.2
-    haveI : Group.IsPerfect ↥(⊤ : Subgroup ↥Pbar) :=
+    have : Group.IsPerfect ↥(⊤ : Subgroup ↥Pbar) :=
       Group.IsPerfect.top_iff.mpr
         (Group.isPerfect_def.mpr
           (CFSG.LocalAnalysis.GLTheoremA.I142N.commutator_top_of_comm_self_eq hPbar))
@@ -318,7 +318,7 @@ theorem IsChevTwoLayered.quotient [Group W] [Finite W] (h : IsChevTwoLayered W) 
       exact absurd hbot ((Subgroup.nontrivial_iff_ne_bot Kbar).mp
         (Quasisimple.nontrivial hKbar.2.2))
     obtain ⟨K, hK, hKeq⟩ := hexists
-    haveI : Group.IsPerfect ↥K := Subgroup.isPerfect_iff.mpr
+    have : Group.IsPerfect ↥K := Subgroup.isPerfect_iff.mpr
       (CFSG.LocalAnalysis.GLTheoremA.I142N.comm_self_eq_of_commutator_top hK.2.2.1)
     have hq := h.2 K hK
     let f : ↥K →* ↥Kbar :=
@@ -353,10 +353,10 @@ theorem IsChevTwoLayered.prod [Group W] [Group W'] [Finite W] [Finite W']
     (h : IsChevTwoLayered W) (h' : IsChevTwoLayered W') : IsChevTwoLayered (W × W') := by
   let N₁ : Subgroup (W × W') := (⊤ : Subgroup W).prod ⊥
   let N₂ : Subgroup (W × W') := (⊥ : Subgroup W).prod ⊤
-  haveI hN₁ : N₁.Normal := by
+  have hN₁ : N₁.Normal := by
     change ((⊤ : Subgroup W).prod (⊥ : Subgroup W')).Normal
     exact Subgroup.prod_normal ⊤ ⊥
-  haveI hN₂ : N₂.Normal := by
+  have hN₂ : N₂.Normal := by
     change ((⊥ : Subgroup W).prod (⊤ : Subgroup W')).Normal
     exact Subgroup.prod_normal ⊥ ⊤
   have hinl_top : Subgroup.map (MonoidHom.inl W W') (⊤ : Subgroup W) = N₁ := by
@@ -480,7 +480,7 @@ theorem IsChevTwoLayered.prod [Group W] [Group W'] [Finite W] [Finite W']
       have hfker' : f.ker ≤ Subgroup.center ↥K := by
         intro x hx
         exact hfker x (MonoidHom.mem_ker.mp hx)
-      haveI : Group.IsPerfect ↥K := Subgroup.isPerfect_iff.mpr
+      have : Group.IsPerfect ↥K := Subgroup.isPerfect_iff.mpr
         (CFSG.LocalAnalysis.GLTheoremA.I142N.comm_self_eq_of_commutator_top hK.2.2.1)
       have hKfst : CFSG.Open.IsComponentOf (K.map (MonoidHom.fst W W')) ⊤ := by
         refine ⟨le_top, ?_, CFSG.LocalAnalysis.GLTheoremA.I142N.isQuasisimple_of_surjective f
@@ -512,7 +512,7 @@ theorem IsChevTwoLayered.prod [Group W] [Group W'] [Finite W] [Finite W']
         have hfker' : f.ker ≤ Subgroup.center ↥K := by
           intro x hx
           exact hfker x (MonoidHom.mem_ker.mp hx)
-        haveI : Group.IsPerfect ↥K := Subgroup.isPerfect_iff.mpr
+        have : Group.IsPerfect ↥K := Subgroup.isPerfect_iff.mpr
           (CFSG.LocalAnalysis.GLTheoremA.I142N.comm_self_eq_of_commutator_top hK.2.2.1)
         have hKsnd : CFSG.Open.IsComponentOf (K.map (MonoidHom.snd W W')) ⊤ := by
           refine ⟨le_top, ?_, CFSG.LocalAnalysis.GLTheoremA.I142N.isQuasisimple_of_surjective f

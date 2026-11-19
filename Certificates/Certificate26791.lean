@@ -19,7 +19,7 @@ theorem fyOK_true : fyOK = true := by
   simp only [List.all_cons, List.all_nil, fy_r3, fy_cc0, fy_cc1, fy_cc2, fy_cc3, fy_cr0, fy_cr1,
     fy_cr2, fy_cr3, fy_ca0, fy_ca1, fy_ca2, fy_ca3, fy_b0, fy_b1, fy_b2, fy_c02, fy_c03, fy_c13,
     fy_as, fy_ar, fy_l, fy_r, fy_c01, fy_c20, fy_c2t, Bool.and_self, Bool.not_false,
-    Bool.and_true, Nat.zero_add, Nat.reduceAdd]
+    Nat.zero_add, Nat.reduceAdd]
 
 open CFSG.EvenSporadicStandard.TwoHS in
 theorem certificate26791 : fyOK = true := fyOK_true

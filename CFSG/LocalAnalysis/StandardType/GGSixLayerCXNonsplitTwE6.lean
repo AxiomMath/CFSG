@@ -77,7 +77,7 @@ private theorem ggNonsplitDvdAt_twE6_ad_of_row {f p : ℕ} (hf : 1 ≤ f) (hp : 
     (hm : m = 3 ∨ m = 4 ∨ m = 6 ∨ m = 8 ∨ m = 12 ∨ m = 18)
     (hpf : (p : ℤ) ∣ (CFSG.RankThree.Chevalley.exhaustionPhi m).eval ((2 ^ f : ℕ) : ℤ)) :
     ExcNonsplit.GGNonsplitDvdAt ↥(TwE6Ad f) p := by
-  haveI : Finite (ModGL TwistTag.E6.tag (GaloisField 2 (2 * f))) := finite_modGL
+  have : Finite (ModGL TwistTag.E6.tag (GaloisField 2 (2 * f))) := finite_modGL
   obtain ⟨hKcard, hσapply, hring, -⟩ := twistedE6RootGroup_bridge f hf
   intro a ha X hX
   by_cases ha1 : a = 1
@@ -169,7 +169,7 @@ private theorem ggNonsplitCoreAt_twE6_ad_of_ten {f p : ℕ} (hf : 1 ≤ f) (hp :
     (hpf : (p : ℤ) ∣ (CFSG.RankThree.Chevalley.exhaustionPhi 10).eval ((2 ^ f : ℕ) : ℤ))
     (hpC : p ∣ Nat.card ↥(TwE6Ad f)) :
     ExcNonsplit.GGNonsplitCoreAt ↥(TwE6Ad f) p := by
-  haveI : Finite (ModGL TwistTag.E6.tag (GaloisField 2 (2 * f))) := finite_modGL
+  have : Finite (ModGL TwistTag.E6.tag (GaloisField 2 (2 * f))) := finite_modGL
   obtain ⟨hKcard, hσapply, hring, hgroup⟩ := twistedE6RootGroup_bridge f hf
   unfold twistedE6RootGroup at hgroup
   have hp2 : p ≠ 2 := by omega
@@ -209,7 +209,7 @@ private theorem ggNonsplitCoreAt_twE6_sc_of_ten {f p : ℕ} (hf : 1 ≤ f) (hp :
   obtain ⟨hKcard, hσapply, hring, hgroup⟩ := twistedE6RootGroup_bridge f hf
   unfold twistedE6RootGroup at hgroup
   obtain ⟨π, hπ, hker, -, -⟩ := LayerSixE.exists_model_twistedE6 hf
-  haveI : Finite ↥(e6Data_valid.minGroup (GaloisField 2 (2 * f))) :=
+  have : Finite ↥(e6Data_valid.minGroup (GaloisField 2 (2 * f))) :=
     CFSG.LieType.Steinberg.CentralExt.FieldFour.finite_minGroup' e6Data_valid
   have hp2 : p ≠ 2 := by omega
   have hp3 : p ≠ 3 := by omega
@@ -272,8 +272,8 @@ theorem ggTwE6NonsplitCoreInput_holds : GGTwE6NonsplitCoreInput := by
   have hp3' : 3 < p := by
     have h2 := hp.two_le
     omega
-  haveI : Finite (ModGL TwistTag.E6.tag (GaloisField 2 (2 * f))) := finite_modGL
-  haveI : Finite ↥(e6Data_valid.minGroup (GaloisField 2 (2 * f))) :=
+  have : Finite (ModGL TwistTag.E6.tag (GaloisField 2 (2 * f))) := finite_modGL
+  have : Finite ↥(e6Data_valid.minGroup (GaloisField 2 (2 * f))) :=
     CFSG.LieType.Steinberg.CentralExt.FieldFour.finite_minGroup' e6Data_valid
   obtain ⟨hKcard, hσapply, hring, hgroup⟩ := TwE6Nonsplit.twistedE6RootGroup_bridge f hf
   unfold twistedE6RootGroup at hgroup

@@ -12,9 +12,10 @@ open scoped commutatorElement
 
 variable {F : Type} [Field F] [CharP F 2] {σ : F ≃+* F}
 
+omit [CharP F 2] in
 theorem mem_Gcent_conj_iff (g t h : SUid σ 6) :
     h ∈ Gcent σ (g * t * g⁻¹) ↔ g⁻¹ * h * g ∈ Gcent σ t := by
-  simp only [Gcent, Set.mem_setOf_eq]
+  simp only [Gcent, Set.mem_ofPred_eq]
   constructor
   · intro H
     calc g⁻¹ * h * g * t = g⁻¹ * (h * (g * t * g⁻¹)) * g := by group
@@ -48,6 +49,7 @@ private theorem h79_Wact_conj_apply (g x : SUid σ 6) (w : Wform σ) :
     Wact σ (g * x * g⁻¹) (Wact σ g w) = Wact σ g (Wact σ x w) := by
   rw [h79_Wact_mul3, h79_Wact_inv_apply]
 
+omit [CharP F 2] in
 private theorem h79_conj_mem (g t x : SUid σ 6) (hx : x ∈ Gcent σ t) :
     g * x * g⁻¹ ∈ Gcent σ (g * t * g⁻¹) := by
   rw [mem_Gcent_conj_iff]
@@ -57,7 +59,7 @@ private theorem h79_conj_mem (g t x : SUid σ 6) (hx : x ∈ Gcent σ t) :
 
 theorem mem_Cw_conj_iff (g t : SUid σ 6) (c : Wform σ) :
     c ∈ Cw σ (g * t * g⁻¹) ↔ Wact σ g⁻¹ c ∈ Cw σ t := by
-  simp only [Cw, Set.mem_setOf_eq]
+  simp only [Cw, Set.mem_ofPred_eq]
   rw [h79_Wact_mul3]
   constructor
   · intro H
@@ -69,7 +71,7 @@ theorem mem_Cw_conj_iff (g t : SUid σ 6) (c : Wform σ) :
 
 theorem mem_Rw_conj_iff (g t : SUid σ 6) (r : Wform σ) :
     r ∈ Rw σ (g * t * g⁻¹) ↔ Wact σ g⁻¹ r ∈ Rw σ t := by
-  simp only [Rw, Set.mem_setOf_eq]
+  simp only [Rw, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨w, rfl⟩
     refine ⟨Wact σ g⁻¹ w, ?_⟩
@@ -83,6 +85,7 @@ theorem mem_Rw_conj_iff (g t : SUid σ 6) (r : Wform σ) :
     rw [h79_Wact_mul3, h79_Wact_inv_apply, ← hsub, ← hw₀,
       h79_Wact_apply_inv]
 
+omit [CharP F 2] in
 private theorem h79_closure_map (e : Wform σ ≃ₗ[Fσ σ] Wform σ) (T T' : Set (Wform σ))
     (hT : ∀ v ∈ T, e v ∈ AddSubgroup.closure T') {w : Wform σ}
     (hw : w ∈ AddSubgroup.closure T) : e w ∈ AddSubgroup.closure T' := by
@@ -232,11 +235,11 @@ private theorem h79_P2_conj (g t : SUid σ 6) (h : UInvolModel12 σ t) :
   · rw [Wact_apply]
     exact rho_mem_RootPt g.2 hpR
 
-theorem UInvolModel12.conj (hσ : IsUnitaryInvolution σ) (g : SUid σ 6) {t : SUid σ 6}
+theorem UInvolModel12.conj (_hσ : IsUnitaryInvolution σ) (g : SUid σ 6) {t : SUid σ 6}
     (h : UInvolModel12 σ t) : UInvolModel12 σ (g * t * g⁻¹) := by
   exact ⟨h79_covW_conj g t h, h79_covC_conj g t h, h79_P3_conj g t h, h79_P2_conj g t h⟩
 
-theorem UInvolModel3.conj (hσ : IsUnitaryInvolution σ) (g : SUid σ 6) {t : SUid σ 6}
+theorem UInvolModel3.conj (_hσ : IsUnitaryInvolution σ) (g : SUid σ 6) {t : SUid σ 6}
     (h : UInvolModel3 σ t) : UInvolModel3 σ (g * t * g⁻¹) := by
   refine ⟨?_, ?_⟩
   · intro c hc

@@ -18,7 +18,7 @@ open Matrix (SpecialLinearGroup)
 theorem exists_seedSetting {S H : Type} [Group S] [Group H] [Finite H] {ι : S →* H} (hG : InClassG S H ι) :
     ∃ (k : Type) (_ : Field k) (_ : Finite k) (_ : CharP k 2) (π : H →* SpecialLinearGroup (Fin 2) k)
       (T : Sylow 2 H), (T : Subgroup H) = ι.range ∧ SeedSetting (T : Subgroup H) π := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, -, K, hK, ⟨φ⟩, hsupp⟩ := hG.quotient
   obtain ⟨T, hT⟩ := inClassG_exists_sylow hG
   let ψ : H ⧸ K ≃* SpecialLinearGroup (Fin 2) (GaloisField 2 n) :=
@@ -46,10 +46,10 @@ theorem exists_seedSetting {S H : Type} [Group S] [Group H] [Finite H] {ι : S �
     rw [hker] at hYK
     exact hsupp Y (lt_top_iff_ne_top.mpr hY) hYK
 
-theorem seed_hnc {S H : Type} [Group S] [Group H] {ι : S →* H} (hι : Function.Injective ι)
+theorem seed_hnc {S H : Type} [Group S] [Group H] {ι : S →* H} (_hι : Function.Injective ι)
     (h : ⁅(⊤ : Subgroup H), (omegaOne 2 (Subgroup.center S)).map ι⁆ ≠ ⊥) :
     ⁅(⊤ : Subgroup H), quasithinOmegaOneCenter ι.range⁆ ≠ ⊥ := by
-  clear hι
+  clear _hι
   intro hbot
   refine h (eq_bot_iff.mpr ?_)
   rw [← hbot]
@@ -67,7 +67,7 @@ theorem seed_hJ {S H : Type} [Group S] [Finite S] [Group H] [Finite H] {ι : S �
     (hι : Function.Injective ι)
     (h : Subgroup.centralizer (elemThompsonCenterTorsion S 2 : Set S) = ⊤) :
     omegaOneCenterOf (thompsonJ ι.range) ≤ Subgroup.centralizer (ι.range : Set H) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let e : S ≃* ι.range := MonoidHom.ofInjective hι
   rw [← CFSG.Quasithin.elemThompsonCenterTorsion_map_subtype_eq_omegaOneCenterOf ι.range,
     ← CFSG.QuasithinUnique.Setup.Campbell.elemThompsonCenterTorsion_map_mulEquiv e 2]

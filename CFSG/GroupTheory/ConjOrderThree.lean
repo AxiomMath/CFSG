@@ -100,7 +100,7 @@ theorem exists_conj_of_order_three_of_mem_same_coset
   have hfinSylow : Finite (Sylow 3 K) :=
     Finite.of_injective (fun P : Sylow 3 K => (P : Set K)) fun P Q h => by
       exact Sylow.ext (SetLike.coe_injective h)
-  haveI := hfinSylow
+  have := hfinSylow
   obtain ⟨k, hk⟩ := MulAction.exists_smul_eq K hYsyl hXsyl
   have hyPY : (⟨y, hyK⟩ : K) ∈ (hYsyl : Subgroup K) := by
     change (⟨y, hyK⟩ : K) ∈ Y.subgroupOf K

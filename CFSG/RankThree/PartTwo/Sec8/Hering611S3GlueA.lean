@@ -14,6 +14,7 @@ open scoped Bracket
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem comm_of_imageSub_comm {K P V : Subgroup G}
     (hθ : ¬ 2 ∣ Nat.card (inSubgroup (aschbacherSolvableCore 3) K)) (hP2 : IsPGroup 2 P)
     (hVP : V ≤ P) (hPK : P ≤ K)
@@ -45,7 +46,7 @@ theorem eq_of_imageSub_eq {K A' B : Subgroup G}
   exact Subgroup.eq_of_le_of_card_ge hAB (by omega)
 
 theorem le_normalizer_of_image {K P Vi Vj : Subgroup G}
-    (hθ : ¬ 2 ∣ Nat.card (inSubgroup (aschbacherSolvableCore 3) K)) (hP2 : IsPGroup 2 P)
+    (_hθ : ¬ 2 ∣ Nat.card (inSubgroup (aschbacherSolvableCore 3) K)) (_hP2 : IsPGroup 2 P)
     (hPK : P ≤ K) (hViP : Vi ≤ P) (hVjP : Vj ≤ P)
     (hVi : P ⊓ preimageSub K (imageSub K Vi) ≤ Vi)
     (hnorm : imageSub K Vj ≤ Subgroup.normalizer
@@ -69,10 +70,10 @@ theorem le_normalizer_of_image {K P Vi Vj : Subgroup G}
 
 theorem exists_fixed_moved {K P : Subgroup G}
     (hθ : ¬ 2 ∣ Nat.card (inSubgroup (aschbacherSolvableCore 3) K)) (hP2 : IsPGroup 2 P)
-    (hPK : P ≤ K) {y : G} (hyN : y ∈ Subgroup.normalizer (K : Set G))
+    (_hPK : P ≤ K) {y : G} (hyN : y ∈ Subgroup.normalizer (K : Set G))
     (hyP : y ∈ Subgroup.normalizer (P : Set G)) {yb : K ⧸ aschbacherSolvableCore 3 K}
     (hyact : Sec12.thetaBarAct K ⟨y, hyN⟩ = MulAut.conj yb) {a : G} (haK : a ∈ K)
-    (haP : a ∈ Subgroup.normalizer (P : Set G)) {w : K ⧸ aschbacherSolvableCore 3 K}
+    (_haP : a ∈ Subgroup.normalizer (P : Set G)) {w : K ⧸ aschbacherSolvableCore 3 K}
     (hw : w ∈ imageSub K P) (hwy : yb * w * yb⁻¹ = w)
     (hwa : QuotientGroup.mk' (aschbacherSolvableCore 3 K) ⟨a, haK⟩ * w *
       (QuotientGroup.mk' (aschbacherSolvableCore 3 K) ⟨a, haK⟩)⁻¹ ≠ w) :

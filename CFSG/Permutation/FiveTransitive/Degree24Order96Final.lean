@@ -259,7 +259,7 @@ theorem five_point_stabilizer_card_ne_ninety_six
   let uP : P := u.1
   let R : Subgroup P := Subgroup.zpowers uP
   let F : Set X := MulAction.fixedPoints R X
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   let N : Subgroup P :=
     Subgroup.normalizer (R : Set P)
   let ρ : N →* Equiv.Perm F :=

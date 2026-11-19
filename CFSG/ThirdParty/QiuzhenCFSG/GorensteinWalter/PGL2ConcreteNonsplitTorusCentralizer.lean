@@ -68,7 +68,7 @@ private lemma two_ne_zero_of_odd_card (K : Type u) [Field K] [Finite K]
             have hsub : Subsingleton K := (ringChar.ringChar_eq_one (R := K)).mp hrc1
             exact not_subsingleton K hsub
   have hdvd_card : 2 ∣ Fintype.card K :=
-    (prime_dvd_char_iff_dvd_card (R := K) (p := 2)).mp (by simpa [hchar2])
+    (prime_dvd_char_iff_dvd_card (R := K) (p := 2)).mp (by simp [hchar2])
   have hprime_dvd : (2 : ℕ) ∣ Nat.card K := by
     simpa [Nat.card_eq_fintype_card] using hdvd_card
   exact hodd.not_two_dvd_nat hprime_dvd
@@ -89,7 +89,7 @@ private lemma quad_natDegree (K : Type u) [Field K] (lam : K) :
 private lemma emb_det (K : Type u) [Field K] (lam a b : K) :
     (!![a, b * lam; b, a] : Matrix (Fin 2) (Fin 2) K).det =
       a ^ 2 - b ^ 2 * lam := by
-  simp [Matrix.det_fin_two, pow_two, mul_comm, mul_left_comm, mul_assoc]
+  simp [Matrix.det_fin_two, pow_two, mul_comm, mul_left_comm]
 
 private lemma emb_mul (K : Type u) [Field K] (lam a b c d : K) :
     (!![a, b * lam; b, a] : Matrix (Fin 2) (Fin 2) K) *
@@ -152,7 +152,7 @@ public def pgl2ConcreteNonsplitTorus (K : Type u) [Field K] (lam : K) :
         ext i j
         fin_cases i <;> fin_cases j <;>
           simp [Matrix.mul_apply, Fin.sum_univ_two, d]
-        all_goals field_simp [d, hd] <;> ring
+        all_goals field_simp [d, hd]; ring
       exact (by
         simpa using Matrix.inv_eq_right_inv (A := (A : Matrix (Fin 2) (Fin 2) K))
           (B := !![a / d, (-b / d) * lam; -b / d, a / d]) hmul)
@@ -291,7 +291,7 @@ public theorem pgl2_concrete_nonsplit_torus_centralizer_data
     have h00 : (Algebra.leftMulMatrix b2 x) (0 : Fin 2) (0 : Fin 2) =
         (coord x).1 := by
       rw [Algebra.leftMulMatrix_eq_repr_mul, hb0]
-      simp [coord, hb0]
+      simp [coord]
     have h01 : (Algebra.leftMulMatrix b2 x) (0 : Fin 2) (1 : Fin 2) =
         (coord x).2 * lam := by
       rw [Algebra.leftMulMatrix_eq_repr_mul, hb1]
@@ -301,11 +301,11 @@ public theorem pgl2_concrete_nonsplit_torus_centralizer_data
       have hρlam : ρ * ρ = algebraMap K E lam := by simpa [pow_two] using hρ2
       rw [h1ρ, hρlam]
       rw [map_add, map_smul, map_smul]
-      simp [hreprρ_0, hrepr_algebraMap0, coord, mul_comm, mul_left_comm, mul_assoc]
+      simp [hreprρ_0, hrepr_algebraMap0, coord, mul_comm]
     have h10 : (Algebra.leftMulMatrix b2 x) (1 : Fin 2) (0 : Fin 2) =
         (coord x).2 := by
       rw [Algebra.leftMulMatrix_eq_repr_mul, hb0]
-      simp [coord, hb0]
+      simp [coord]
     have h11 : (Algebra.leftMulMatrix b2 x) (1 : Fin 2) (1 : Fin 2) =
         (coord x).1 := by
       rw [Algebra.leftMulMatrix_eq_repr_mul, hb1]
@@ -343,13 +343,13 @@ public theorem pgl2_concrete_nonsplit_torus_centralizer_data
     · change b2.repr (x * y) 0 =
         (coord x).1 * (coord y).1 + (coord x).2 * (coord y).2 * lam
       rw [hmv]
-      simp [coord, Matrix.mulVec, Fin.sum_univ_two, vecHead, vecTail,
-        mul_comm, mul_left_comm, mul_assoc] <;> ring
+      simp [coord, Matrix.mulVec, vecHead, vecTail,
+        mul_comm, mul_left_comm]
     · change b2.repr (x * y) 1 =
         (coord x).1 * (coord y).2 + (coord x).2 * (coord y).1
       rw [hmv]
-      simp [coord, Matrix.mulVec, Fin.sum_univ_two, vecHead, vecTail,
-        mul_comm, mul_left_comm, mul_assoc] <;> ring
+      simp [coord, Matrix.mulVec, vecHead, vecTail,
+        mul_comm]; ring
   have hnorm_ne (x : E) (hx0 : x ≠ 0) : Algebra.norm K x ≠ 0 :=
     (Algebra.norm_ne_zero_iff_of_basis b2).mpr hx0
   have hdet_ne (x : Eˣ) :
@@ -388,7 +388,7 @@ public theorem pgl2_concrete_nonsplit_torus_centralizer_data
           have h := congrArg Prod.snd (hcoord_mul (x : E) (y : E))
           simpa [coord] using h
         fin_cases i <;> fin_cases j <;>
-          simp [mulGL, emb, hrepr0, hrepr1, emb_mul] <;> ring }
+          simp [mulGL, emb, hrepr0, hrepr1] <;> ring }
   let torus : Eˣ →* PGL2 K := Matrix.ProjGenLinGroup.mk.comp mulHom
   let U : Subgroup (PGL2 K) := torus.range
   let : Fintype E := Fintype.ofEquiv (Fin 2 → K) b2.equivFun.toEquiv.symm
@@ -409,11 +409,11 @@ public theorem pgl2_concrete_nonsplit_torus_centralizer_data
         (b2.repr x 1) * lam := by
       exact congrArg (fun M : Matrix (Fin 2) (Fin 2) K => M 0 1) (hlm x)
     rw [hlm01] at heq
-    simp [emb, Matrix.GeneralLinearGroup.scalar] at heq
+    simp [Matrix.GeneralLinearGroup.scalar] at heq
     have hcoord1 : (b2.repr x 1) = 0 := heq.resolve_right hlam0
     refine ⟨b2.repr x 0, ?_⟩
     conv_rhs => rw [hx_basis x]
-    simp [hcoord1, Algebra.algebraMap_eq_smul_one, hrepr1_0, hrepr1_1]
+    simp [hcoord1, Algebra.algebraMap_eq_smul_one]
   have hscalar_inj : Function.Injective
       (Units.map (algebraMap K E).toMonoidHom) := by
     intro a b hab
@@ -531,7 +531,7 @@ public theorem pgl2_concrete_nonsplit_torus_centralizer_data
       have hcoordρ : coord ρ = (0, 1) := by
         rw [← hb1]
         simp [coord]
-      simp [u0, mulGL, emb, hcoordρ, coord, hreprρ_1]
+      simp [u0, mulGL, emb, hreprρ_1]
     rw [hM01'] at heq
     simp [Matrix.GeneralLinearGroup.scalar] at heq
     exact hlam0 heq.symm
@@ -589,7 +589,7 @@ public theorem pgl2_concrete_nonsplit_torus_centralizer_data
     have hxsc : (x : E) ∈ (algebraMap K E).range :=
       ⟨b2.repr (x : E) 0, by
         conv_rhs => rw [hx_basis (x : E)]
-        simp [hcoord1, Algebra.algebraMap_eq_smul_one, hrepr1_0, hrepr1_1]⟩
+        simp [hcoord1, Algebra.algebraMap_eq_smul_one]⟩
     rcases hxsc with ⟨b, hb⟩
     have hb_ne : b ≠ 0 := by
       intro hb0
@@ -644,7 +644,7 @@ public theorem pgl2_concrete_nonsplit_torus_centralizer_data
       apply Matrix.ext
       intro i j
       fin_cases i <;> fin_cases j <;>
-        simp [emb, Matrix.GeneralLinearGroup.scalar]
+        simp [Matrix.GeneralLinearGroup.scalar]
       all_goals
         first
         | left; ring
@@ -666,7 +666,7 @@ public theorem pgl2_concrete_nonsplit_torus_centralizer_data
           simp [A, mulGL, emb, a, b, Matrix.GeneralLinearGroup.scalar]
         all_goals
           first
-          | left; ring
+
           | ring
       rw [hscalar, Matrix.ProjGenLinGroup.mk_scalar]
     have hconjGL : wGL * mulGL x * wGL = A := by
@@ -719,7 +719,7 @@ public theorem pgl2_concrete_nonsplit_torus_centralizer_data
       have hcoordρ : coord ρ = (0, 1) := by
         rw [← hb1]
         simp [coord]
-      simp [u0, mulGL, emb, coord, hreprρ_0, hreprρ_1]
+      simp [u0, mulGL, emb, hreprρ_0, hreprρ_1]
     have h00 : b * (μ : K) = lam * c := by
       have heq := congrArg (fun M : GL (Fin 2) K =>
         ((M : Matrix (Fin 2) (Fin 2) K) 0 0)) hμ
@@ -759,7 +759,7 @@ public theorem pgl2_concrete_nonsplit_torus_centralizer_data
         _ = c * lam := by rw [h00]; ring
     have hAne : a ≠ 0 ∨ c ≠ 0 := by
       by_contra h
-      push_neg at h
+      push Not at h
       rcases h with ⟨ha0, hc0⟩
       have hb0 : b = 0 := by
         have hbμ : b * (μ : K) = 0 := by rw [h00, hc0]; simp
@@ -771,7 +771,7 @@ public theorem pgl2_concrete_nonsplit_torus_centralizer_data
       have hval : (A : Matrix (Fin 2) (Fin 2) K).det = a * d - b * c := by
         simp [a, b, c, d, Matrix.det_fin_two]
       rw [hval, ha0, hb0, hc0, hd0] at hdet
-      simpa using hdet
+      simp at hdet
     have hμsq : (μ : K) ^ 2 = 1 := by
       rcases hAne with ha | hc
       · exact mul_right_cancel₀ ha (by simpa [mul_comm] using hμsq_a)
@@ -792,7 +792,7 @@ public theorem pgl2_concrete_nonsplit_torus_centralizer_data
       have hA_torus : (A : Matrix (Fin 2) (Fin 2) K) = emb a c := by
         ext i j
         fin_cases i <;> fin_cases j <;>
-          simp [a, b, c, d, hb, hd, emb, mul_comm, mul_left_comm, mul_assoc]
+          simp [a, b, c, d, hb, hd, emb, mul_comm]
       have hdet : (emb a c).det ≠ 0 := by
         rw [← hA_torus]
         exact A.det_ne_zero
@@ -849,8 +849,7 @@ public theorem pgl2_concrete_nonsplit_torus_centralizer_data
           (wGL : Matrix (Fin 2) (Fin 2) K) * emb a (-c) := by
         ext i j
         fin_cases i <;> fin_cases j <;>
-          simp [a, b, c, d, hb, hd, wGL, emb, mul_comm, mul_left_comm,
-            mul_assoc]
+          simp [a, b, c, d, hb, hd, wGL, emb, mul_comm]
       have hdet : (emb a (-c)).det ≠ 0 := by
         have hdetA : (A : Matrix (Fin 2) (Fin 2) K).det ≠ 0 := A.det_ne_zero
         intro hzero
@@ -870,7 +869,7 @@ public theorem pgl2_concrete_nonsplit_torus_centralizer_data
         rw [hcoord_algebraMap a]
         have h1 : coord (-(c • ρ)) = (0, -c) := by
           rw [← hb1]
-          ext <;> simp [coord, hreprρ_0, hreprρ_1]
+          ext <;> simp [coord]
         simp [h1]
       have hrepr0 : b2.repr z 0 = a := by
         simpa [coord] using (congrArg Prod.fst hcoord_z)

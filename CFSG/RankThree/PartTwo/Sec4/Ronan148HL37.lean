@@ -88,7 +88,7 @@ theorem LSub_zero_fix {k : ℕ} (hk : k < 9) : ∃ w : Fin nPts, ∀ t ∈ LSubK
 
 theorem card_LSub_zero_map {k : ℕ} (hk : k < 9) :
     Nat.card ((LSubK 0 k).map phiJ) = 1876896 := by
-  haveI := isSimpleGroup_LSub (j := 0) (by norm_num) hk
+  have := isSimpleGroup_LSub (j := 0) (by norm_num) hk
   rw [CFSG.RankThree.PartTwo.Sec4.Census.Karpilovsky.Proving.card_map_of_isSimpleGroup phiJ ?_,
     card_LSub (by norm_num) hk]
   intro hle
@@ -118,7 +118,7 @@ theorem exists_noncomm_of_card' {Q : Type*} [Group Q] [Finite Q] [IsSimpleGroup 
   exact hc (IsSimpleGroup.prime_card (α := Q))
 
 theorem isPerfect_LSub_zero {k : ℕ} (hk : k < 9) : Group.IsPerfect (LSubK 0 k) := by
-  haveI := isSimpleGroup_LSub (j := 0) (by norm_num) hk
+  have := isSimpleGroup_LSub (j := 0) (by norm_num) hk
   apply isPerfect_of_isSimpleGroup'
   apply exists_noncomm_of_card'
   rw [card_LSub (by norm_num) hk]
@@ -128,7 +128,7 @@ theorem isPerfect_LSub_zero {k : ℕ} (hk : k < 9) : Group.IsPerfect (LSubK 0 k)
 theorem le_normalizer_or_eq_top_LSub_zero {k : ℕ} (hk : k < 9) {Y : Subgroup GM}
     (hY : LSubK 0 k ≤ Y) :
     Y ≤ Subgroup.normalizer (LSubK 0 k : Set GM) ∨ Y = ⊤ := by
-  haveI := isPerfect_LSub_zero hk
+  have := isPerfect_LSub_zero hk
   obtain ⟨w, hw⟩ := LSub_zero_fix hk
   exact le_normalizer_or_eq_top_of_vec (T := LSubK 0 k) (w := w) hw (card_LSub_zero_map hk) hY
 

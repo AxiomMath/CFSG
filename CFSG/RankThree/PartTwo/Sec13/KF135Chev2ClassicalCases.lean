@@ -28,7 +28,7 @@ theorem dvd_two_pow_add_one_iff {n p : ℕ} : p ∣ 2 ^ n + 1 ↔ ((2 ^ n : ℕ)
   rw [← ZMod.natCast_eq_zero_iff, Nat.cast_add, Nat.cast_one, add_eq_zero_iff_eq_neg]
 
 theorem neg_one_ne_one_zmod {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) : (-1 : ZMod p) ≠ 1 := by
-  haveI : Fact (1 < p) := ⟨hp.one_lt⟩
+  have : Fact (1 < p) := ⟨hp.one_lt⟩
   exact Ring.neg_one_ne_one_of_char_ne_two (by rw [ZMod.ringChar_zmod_n]; exact hp2)
 
 theorem not_dvd_three_of_seven_le {p : ℕ} (hp7 : 7 ≤ p) {m : ℕ} : ¬ p ∣ Nat.gcd 3 m :=
@@ -37,7 +37,7 @@ theorem not_dvd_three_of_seven_le {p : ℕ} (hp7 : 7 ≤ p) {m : ℕ} : ¬ p ∣
 theorem le_inner_of_card_outer {S T : Type} [Group S] [Finite S] [Group T] (e : S ≃* T) {p N : ℕ}
     (hout : Nat.card (Outer T) = N) (hp : p.Prime) (hN : ¬ p ∣ N) {P : Subgroup (MulAut S)}
     (hP : IsPGroup p P) : P ≤ (MulAut.conj : S →* MulAut S).range := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   apply CFSG.LieType.SeitzGeneration.le_inner_of_coprime_card_outer
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 hP
   rw [hk, Nat.card_congr (equivalence e).toEquiv, hout]
@@ -75,7 +75,7 @@ theorem two_le_localRank_projSL_three {n p : ℕ} (hn : 1 ≤ n) (hp : p.Prime) 
   let ε : projSL 3 K ≃* Matrix.ProjectiveSpecialLinearGroup (Fin 3) K :=
     (CFSG.PGLModel.projSLEquivStatedProj 3 K).trans
       (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 3 K).symm
-  haveI : Finite (Matrix.ProjectiveSpecialLinearGroup (Fin 3) K) := Finite.of_equiv _ ε.toEquiv
+  have : Finite (Matrix.ProjectiveSpecialLinearGroup (Fin 3) K) := Finite.of_equiv _ ε.toEquiv
   rwa [CFSG.RankThree.PartTwo.Census.localRank_eq_of_mulEquiv ε hp]
 
 theorem two_le_localRank_projSp_two {n p : ℕ} (hn : 1 ≤ n) (hp : p.Prime) (hp7 : 7 ≤ p)
@@ -110,7 +110,7 @@ theorem two_le_localRank_projSU_four_of_eq_neg_one {n p : ℕ} (hn : 1 ≤ n) (h
 
 theorem isMulCommutative_sylow_projSU_three {n p : ℕ} (hn : 1 ≤ n) (hp : p.Prime) (hp7 : 7 ≤ p)
     (Q : Sylow p (projSU 3 2 n)) : IsMulCommutative (Q : Subgroup (projSU 3 2 n)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set K := GaloisField 2 (2 * n)
   have hpK : ¬ p ∣ Nat.card K := by
     rw [card_galoisField_two (by omega)]
@@ -129,7 +129,7 @@ theorem isMulCommutative_sylow_projSU_three {n p : ℕ} (hn : 1 ≤ n) (hp : p.P
 theorem isMulCommutative_sylow_projSp_two {n p : ℕ} (hn : 2 ≤ n) (hp : p.Prime) (hp2 : p ≠ 2)
     (hx : ((2 ^ n : ℕ) : ZMod p) = -1) (Q : Sylow p (projSp 2 (GaloisField 2 n))) :
     IsMulCommutative (Q : Subgroup (projSp 2 (GaloisField 2 n))) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hd : p ∣ 2 ^ n + 1 := dvd_two_pow_add_one_iff.2 hx
   have hne := CFSG.RankThree.PartTwo.Sec13.F135Last.two_pow_ne_of_two_le' hn
   have hX := CFSG.RankThree.PartTwo.Sec13.F135Last.stated_of_lieModel (MulEquiv.refl _)
@@ -236,7 +236,7 @@ theorem false_of_kF135Hyp_projSU_three_of_not_e2 {n : ℕ} (hn : 1 ≤ n) (e : S
     exact KF135Chev2Exc.false_of_rankLE2_inner h hinn
       ((rankLE2_projSU_three hn hp hp2).of_mulEquiv e.symm)
       (fun Q => by
-        haveI : Fact p.Prime := ⟨hp⟩
+        have : Fact p.Prime := ⟨hp⟩
         exact CFSG.LocalAnalysis.RankFourTheoremC.isMulCommutative_sylow_of_mulEquiv e
           (isMulCommutative_sylow_projSU_three hn hp hp7) Q)
   · exact KF135Chev2Exc.false_of_rankLE1 h hout
@@ -270,7 +270,7 @@ theorem false_of_kF135Hyp_projSp_two_of_not_e2 {n : ℕ} (hn : 1 ≤ n)
     exact KF135Chev2Exc.false_of_rankLE2_inner h hinn
       ((rankLE2_projSp_two hp hp2 (natCast_ne_zero_galoisField hp hp2)).of_mulEquiv e.symm)
       (fun Q => by
-        haveI : Fact p.Prime := ⟨hp⟩
+        have : Fact p.Prime := ⟨hp⟩
         exact CFSG.LocalAnalysis.RankFourTheoremC.isMulCommutative_sylow_of_mulEquiv e
           (isMulCommutative_sylow_projSp_two hn2 hp hp2 h2) Q)
   · exact KF135Chev2Exc.false_of_rankLE1 h hout

@@ -56,6 +56,7 @@ theorem burnsideC56_conj_ne_of_not_comm {u v : G} (hne : u * v ≠ v * u) : v * 
   calc u * v = (v * u * v⁻¹) * v := by rw [h]
     _ = v * u := by group
 
+omit [Finite G] in
 theorem burnsideC56_exists_mem_diff {S M₀ : Subgroup G} (hSM : S ≤ M₀) (h2 : S.relIndex M₀ = 2) :
     ∃ x ∈ M₀, x ∉ S := by
   have hne : S ≠ M₀ := by
@@ -160,7 +161,7 @@ theorem burnsideC56_a3_perm_four_prod (hcs : burnsideC56_CS G T M H S L) (h3 : I
   have hDcomm : ∀ d ∈ H ⊓ Subgroup.centralizer (L : Set G),
       ∀ d' ∈ H ⊓ Subgroup.centralizer (L : Set G), d * d' = d' * d := by
     have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : IsCyclic ↥(H ⊓ Subgroup.centralizer (L : Set G)) := isCyclic_of_prime_card hD2
+    have : IsCyclic ↥(H ⊓ Subgroup.centralizer (L : Set G)) := isCyclic_of_prime_card hD2
     intro d hd' d' hd''
     have := (inferInstance : IsMulCommutative ↥(H ⊓ Subgroup.centralizer (L : Set G))).is_comm.comm
       ⟨d, hd'⟩ ⟨d', hd''⟩

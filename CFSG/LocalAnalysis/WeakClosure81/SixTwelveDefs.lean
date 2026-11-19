@@ -16,6 +16,7 @@ variable {G : Type} [Group G] [Finite G]
 @[expose] noncomputable def rStarMV (M V : Subgroup G) : ℕ∞ :=
   ⨅ U ∈ {U : Subgroup G | U ≤ V ∧ ¬ normalizer (U : Set G) ≤ M}, (E3.mQuot V U : ℕ∞)
 
+omit [Finite G] in
 theorem rStarMV_le {M V U : Subgroup G} (hUV : U ≤ V) (hN : ¬ normalizer (U : Set G) ≤ M) :
     rStarMV M V ≤ E3.mQuot V U :=
   iInf₂_le U ⟨hUV, hN⟩
@@ -44,6 +45,7 @@ structure Hyp612H3 (n : ℕ) (M V : Subgroup G) (g : G) : Prop extends Hyp612Sym
 structure Hyp612 (n : ℕ) (M V : Subgroup G) (g : G) : Prop extends Hyp612H3 n M V g where
   not_inCalO1 : ¬ InCalO 1 M ⊥ V g
 
+omit [Finite G] in
 theorem inCalO_swap {n : ℕ} {M V₀ V : Subgroup G} {g : G} (h : InCalO n M V₀ V g) :
     InCalO n (conjSubgroup M g) (conjSubgroup V₀ g) (conjSubgroup V g) g⁻¹ := by
   obtain ⟨hF, hD⟩ := h
@@ -51,6 +53,7 @@ theorem inCalO_swap {n : ℕ} {M V₀ V : Subgroup G} {g : G} (h : InCalO n M V�
     by simpa only [ODual, OFirst, conjSubgroup_conjSubgroup_inv, ne_eq,
       conjSubgroup_eq_bot_iff] using hF⟩
 
+omit [Finite G] in
 private theorem rStarMV_conjSubgroup_le (M V : Subgroup G) (g : G) :
     rStarMV (conjSubgroup M g) (conjSubgroup V g) ≤ rStarMV M V := by
   refine le_iInf₂ fun U hU => ?_
@@ -64,6 +67,7 @@ private theorem rStarMV_conjSubgroup_le (M V : Subgroup G) (g : G) :
   have hle := rStarMV_le (conjSubgroup_mono hUV g) h2
   rwa [E3.mQuot_conjSubgroup] at hle
 
+omit [Finite G] in
 theorem rStarMV_conjSubgroup (M V : Subgroup G) (g : G) :
     rStarMV (conjSubgroup M g) (conjSubgroup V g) = rStarMV M V := by
   refine le_antisymm (rStarMV_conjSubgroup_le M V g) ?_
@@ -74,6 +78,7 @@ namespace Hyp612Sym
 
 variable {n : ℕ} {M V : Subgroup G} {g : G}
 
+omit [Finite G] in
 theorem swap (h : Hyp612Sym n M V g) :
     Hyp612Sym n (conjSubgroup M g) (conjSubgroup V g) g⁻¹ := by
   have hi := inCalO_swap h.inCalO
@@ -95,28 +100,35 @@ theorem swap (h : Hyp612Sym n M V g) :
     rw [inf_comm] at hc
     exact h.mem_of_commutator_mem a ha haV w hw hc
 
+omit [Finite G] in
 theorem le_M (h : Hyp612Sym n M V g) : V ≤ M := by
   rw [← h.normalizer_eq]
   exact Subgroup.le_normalizer
 
+omit [Finite G] in
 theorem conjV_le_conjM (h : Hyp612Sym n M V g) : conjSubgroup V g ≤ conjSubgroup M g :=
   conjSubgroup_mono h.le_M g
 
+omit [Finite G] in
 theorem not_conjV_le_M (h : Hyp612Sym n M V g) : ¬ conjSubgroup V g ≤ M :=
   h.inCalO.1.1
 
+omit [Finite G] in
 theorem not_V_le_conjM (h : Hyp612Sym n M V g) : ¬ V ≤ conjSubgroup M g :=
   h.inCalO.2.1
 
+omit [Finite G] in
 theorem mQuot_U_le (h : Hyp612Sym n M V g) : E3.mQuot V (UOf M V g) ≤ n := by
   have h1 := h.inCalO.1.2.1
   unfold E3.mQuot at h1 ⊢
   unfold UOf
   rwa [Subgroup.inf_relIndex_left]
 
+omit [Finite G] in
 theorem NOf_eq_inf (h : Hyp612Sym n M V g) : NOf M V g = V ⊓ conjSubgroup V g :=
   NOf_eq M V g h.le_M
 
+omit [Finite G] in
 theorem normalizer_U_le (h : Hyp612Sym n M V g) :
     normalizer ((UOf M V g : Subgroup G) : Set G) ≤ M := by
   by_contra hN

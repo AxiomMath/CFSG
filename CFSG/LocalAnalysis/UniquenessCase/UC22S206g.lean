@@ -89,7 +89,7 @@ theorem uc22s206g_lift [Finite G] {L : Subgroup G} (α : ↥L →* alternatingGr
       x * y * x⁻¹ = y ^ 2 ∧ ∃ E : Subgroup Γ, E ≤ ρ.range ∧ CFSG.Open.IsElemAbelian 2 E ∧
         Nat.card E = 8 ∧ ρ y ∈ normalizer (E : Set Γ) ∧
           ∀ e ∈ E, ρ y * e * (ρ y)⁻¹ = e → e = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hk := ker_ptHom α hα hker (by norm_num) i
   have hinj := uc22s206gEmb_injective i
   refine uc22s206d_lift (ptHom α i) (ptHom_surjective α hα (by norm_num) i)
@@ -112,11 +112,11 @@ theorem uc22s206g_not_isSolvable [Finite G] {L M : Subgroup G}
     refine (ptCore_le_ptPre α i).trans ?_
     rw [← hLM]
     exact inf_le_right
-  haveI : Group.IsSolvable ↥(ptCore α i) :=
+  have : Group.IsSolvable ↥(ptCore α i) :=
     Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hKM)
-  haveI : Group.IsSolvable ↥(MulAction.stabilizer (alternatingGroup (Fin 9)) i) :=
+  have : Group.IsSolvable ↥(MulAction.stabilizer (alternatingGroup (Fin 9)) i) :=
     Group.isSolvable_of_surjective (ptHom_surjective α hα (by norm_num) i)
-  haveI := isSimpleGroup_stabilizer (n := 9) (by norm_num) i
+  have := isSimpleGroup_stabilizer (n := 9) (by norm_num) i
   have hcomm := (IsSimpleGroup.comm_iff_isSolvable
     (G := ↥(MulAction.stabilizer (alternatingGroup (Fin 9)) i))).mpr inferInstance
   apply uc22s206g_X0_Y0

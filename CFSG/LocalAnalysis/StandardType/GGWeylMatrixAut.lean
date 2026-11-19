@@ -71,7 +71,7 @@ private theorem autCheck_iff {n : ℕ} {N : CoxeterMatrix (Fin n)}
 
 private theorem isPathMatrix_A (n : ℕ) : IsPathMatrix (CoxeterMatrix.A n) := by
   intro i j hij
-  simp only [CoxeterMatrix.A, Matrix.of_apply, if_neg hij]
+  simp only [CoxeterMatrix.A, Matrix.of_apply, ite_eq_right hij]
   split_ifs with h
   · exact iff_of_true (by norm_num) (by omega)
   · exact iff_of_false (by norm_num) (by omega)
@@ -370,7 +370,7 @@ private theorem D_eq_zero_iff {n : ℕ} (hn : 4 ≤ n) {i j : Fin n} (hij : i �
     CartanMatrix.D n i j = 0 ↔ ¬ DAdj n i j := by
   unfold CartanMatrix.D
   simp only [Matrix.of_apply]
-  rw [if_neg hij, if_neg (by omega : ¬ n ≤ 2)]
+  rw [ite_eq_right hij, ite_eq_right (by omega : ¬ n ≤ 2)]
   unfold DAdj
   split_ifs with h1 h2 h3 h4
   · simp [h1]
@@ -381,7 +381,7 @@ private theorem D_eq_zero_iff {n : ℕ} (hn : 4 ≤ n) {i j : Fin n} (hij : i �
 
 private theorem D_adj_iff {n : ℕ} (hn : 4 ≤ n) {i j : Fin n} (hij : i ≠ j) :
     ggCoxeterMatrixD n i j ≠ 2 ↔ DAdj n i j := by
-  rw [ggCoxeterMatrixD_apply, if_neg hij]
+  rw [ggCoxeterMatrixD_apply, ite_eq_right hij]
   have hD := D_eq_zero_iff hn hij
   by_cases h : DAdj n i j
   · have hne : CartanMatrix.D n i j ≠ 0 := by

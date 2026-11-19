@@ -57,7 +57,7 @@ private lemma sz5e1_lcm_indicator {D : Type} [Group D] (P : Subgroup D) [Decidab
   subst hxy
   have hx2 : x * x = 1 := Subtype.ext (by simpa [pow_two] using hy)
   rw [hx2]
-  simp only [if_true, hx1, if_false]
+  simp only [ite_true, hx1, ite_false]
   decide
 
 private theorem sz5e1_lcm_form {D : Type} [Group D] [Finite D] (P : Subgroup D) [P.Normal]

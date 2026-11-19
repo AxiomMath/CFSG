@@ -21,6 +21,7 @@ open CFSG.RankThree.PartOne.SRC (sp4Emb sp4Emb0 sp4Invol0 sp4Emb_injective sp4Em
 variable {S : Type} [Group S] [Finite S] {p : ℕ} {P : Subgroup (MulAut S)} {x u : MulAut S}
   {V : Subgroup (MulAut S)}
 
+omit [Finite S] in
 theorem mem_inner_of_congr {T : Type*} [Group T] (ψ : S ≃* T) {y : MulAut S}
     (hy : MulAut.congr ψ y ∈ inner T) : y ∈ inner S := by
   rw [← inner_map_congr ψ] at hy
@@ -31,7 +32,7 @@ theorem psp4_hyp_false {r : ℕ} [Fact r.Prime] (hr3 : 3 < r)
     (φ : S ≃* projSp 2 (GaloisField r 1)) (h : KF135Hyp S p P x u V) : False := by
   set K := GaloisField r 1
   have hKc : Nat.card K = r ^ 1 := GaloisField.card r 1 one_ne_zero
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hKf : Fintype.card K = r := by rw [Fintype.card_eq_nat_card, hKc, pow_one]
   have hp : p.Prime := h.prime
   have hp7 := h.seven_le

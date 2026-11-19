@@ -31,7 +31,7 @@ theorem five_not_dvd_of_dvd_sq_add_one {q : ℕ} (h5 : 5 ∣ q * q + 1) : ¬ 5 �
 theorem orderOf_five_of_dvd_sq_add_one {q : ℕ} (h5 : 5 ∣ q * q + 1) :
     orderOf (q : ZMod 5) = 4 := by
   have hqm1 := five_sq_eq_neg_one h5
-  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨by norm_num⟩
   have hnot : ¬ (q : ZMod 5) ^ (2 : ℕ) ^ (1 : ℕ) = 1 := by
     rw [pow_one, hqm1]
     decide
@@ -47,7 +47,7 @@ theorem orderOf_five_of_dvd_sq_add_one {q : ℕ} (h5 : 5 ∣ q * q + 1) :
 theorem ordProj_five_pow_four_mul_sub_one {q n : ℕ} (hq : 2 ≤ q) (hQ : 5 ∣ q ^ 4 - 1)
     (hQ5 : ¬ 5 ∣ q ^ 4) (hn : n ≠ 0) :
     ordProj[5] (q ^ (4 * n) - 1) = ordProj[5] (q ^ 4 - 1) * ordProj[5] n := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hQ1 : 1 < q ^ 4 := Nat.one_lt_pow (by norm_num) (by omega)
   have hlift := padicValNat.pow_sub_pow (x := q ^ 4) (y := 1) (p := 5) (by decide : Odd 5)
     hQ1 hQ hQ5 hn
@@ -58,7 +58,7 @@ theorem ordProj_five_pow_four_mul_sub_one {q n : ℕ} (hq : 2 ≤ q) (hQ : 5 ∣
 
 theorem ordProj_five_four_sub_one_eq_sq_add_one {q : ℕ} (hq : 2 ≤ q) (h5 : 5 ∣ q * q + 1) :
     ordProj[5] (q ^ 4 - 1) = ordProj[5] (q * q + 1) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hq2le : 1 ≤ q ^ 2 := by
     have : 1 < q ^ 2 := Nat.one_lt_pow (by norm_num) (by omega)
     omega
@@ -86,7 +86,7 @@ theorem ordProj_five_four_sub_one_eq_sq_add_one {q : ℕ} (hq : 2 ≤ q) (h5 : 5
 theorem five_factors_prod {q : ℕ} (hq : 2 ≤ q) (h5 : 5 ∣ q * q + 1) :
     (([2, 8, 12, 14, 18, 20, 24, 30] : List ℕ).map fun d => ordProj[5] (q ^ d - 1)).prod =
       5 ^ (4 * (q * q + 1).factorization 5 + 1) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hpq : ¬ 5 ∣ q := five_not_dvd_of_dvd_sq_add_one h5
   have hq4le : 1 ≤ q ^ 4 := by
     have : 1 < q ^ 4 := Nat.one_lt_pow (by norm_num) (by omega)

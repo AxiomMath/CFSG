@@ -52,12 +52,12 @@ private def a6W : Subgroup (alternatingGroup (Fin 6)) where
   carrier := {x | x = 1 ∨ x = a6A ∨ x = a6B ∨ x = a6C}
   mul_mem' := by
     intro x y hx hy
-    simp only [Set.mem_setOf_eq] at *
+    simp only [Set.mem_ofPred_eq] at *
     rcases hx with rfl | rfl | rfl | rfl <;> rcases hy with rfl | rfl | rfl | rfl <;> decide
   one_mem' := Or.inl rfl
   inv_mem' := by
     intro x hx
-    simp only [Set.mem_setOf_eq] at *
+    simp only [Set.mem_ofPred_eq] at *
     rcases hx with rfl | rfl | rfl | rfl <;> decide
 
 private theorem a6W_card : Nat.card a6W = 4 := by
@@ -89,7 +89,7 @@ private theorem a6f_orderOf_dvd_sixty (σ : Equiv.Perm (Fin 6)) : orderOf σ ∣
 private theorem a6f_isElemAbelian_of_card_nine (H : Subgroup (alternatingGroup (Fin 6)))
     (hH : Nat.card H = 9) : IsElemAbelian 3 H := by
   have hcomm : IsMulCommutative H := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3) (by rw [hH]; norm_num)
   refine ⟨hcomm, ?_⟩
   intro x hx
@@ -124,7 +124,7 @@ private theorem a6f_isElemAbelian_map_iff {A B : Type} [Group A] [Group B] (p : 
       obtain ⟨b, hb, hby⟩ := Subgroup.mem_map.1 y.2
       apply Subtype.ext
       have hab : a * b = b * a := congrArg Subtype.val (hc.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
-      simp only [Subgroup.coe_mul, Submonoid.coe_mul]
+      simp only [Subgroup.coe_mul]
       rw [← hax, ← hby, ← map_mul, ← map_mul, hab]
     · obtain ⟨a, ha, hax⟩ := Subgroup.mem_map.1 hx'
       rw [← hax, ← map_pow, hx a ha, map_one]
@@ -326,14 +326,14 @@ private theorem a6f_lie_alt6 (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeInde
     (hq : q.card = 9) :
     Nonempty (TauCeti.ValidLieTypeIndex.Group ⟨TauCeti.LieTypeIndex.A 1 q, hv⟩ ≃*
       alternatingGroup (Fin 6)) := by
-  haveI : Fact (Nat.Prime q.p) := ⟨q.prime_p⟩
+  have : Fact (Nat.Prime q.p) := ⟨q.prime_p⟩
   obtain ⟨e1⟩ : Nonempty (TauCeti.ValidLieTypeIndex.Group ⟨TauCeti.LieTypeIndex.A 1 q, hv⟩ ≃*
       Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField q.p q.exponent)) :=
     ⟨CFSG.ClassicalModels.linearCatalogCandidateEquivPSL 1 q hv⟩
   have hcard : Nat.card (GaloisField q.p q.exponent) = 9 := by
     rw [GaloisField.card q.p q.exponent (Nat.pos_iff_ne_zero.1 q.exponent_pos)]
     rw [← hq, TauCeti.PrimePower.card_def]
-  haveI : Fintype (GaloisField q.p q.exponent) := Fintype.ofFinite _
+  have : Fintype (GaloisField q.p q.exponent) := Fintype.ofFinite _
   obtain ⟨e2⟩ :=
     CFSG.LocalAnalysis.ComponentInitial.unique_field_nine_projective_linear_alternating_six_isomorphism
       (GaloisField q.p q.exponent) (by rw [← Nat.card_eq_fintype_card]; exact hcard)
@@ -459,7 +459,7 @@ private theorem a6f_elemAbelian_of_sup {J : Type} [Group J] [Finite J]
     (S : Subgroup J) (hS : S ⊔ O = ⊤) :
     ∃ F : Subgroup J, F ≤ S ∧ IsElemAbelian 3 F ∧ Nat.card F = 3 ^ 2 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hgs : Function.Surjective (f.comp S.subtype) := by
     intro a
     obtain ⟨x, hx⟩ := hf a
@@ -514,7 +514,7 @@ private theorem a6f_elemAbelian_of_sup {J : Type} [Group J] [Finite J]
   exact ⟨P, hPS, a6f_elemAbelian_of_injOn 3 f P hinjOn hPab, hPcard⟩
 
 private theorem a6f_partB {G : Type} [Group G] [Finite G] {X J : Subgroup G}
-    (hJ : GLAPComponent 3 X J) (hA : catalogIs (PSimple 3 J) isA6) :
+    (_hJ : GLAPComponent 3 X J) (hA : catalogIs (PSimple 3 J) isA6) :
     Nat.card (Subgroup.center (PQuot 3 J)) = 1 → ∀ J₀ : Subgroup G, J₀ ≤ J →
       J₀ ⊔ GLAPPrimeCoreOf 3 J = J → ∃ F : Subgroup G, F ≤ J₀ ∧ IsElemAbelian 3 F ∧
         Nat.card F = 3 ^ 2 := by

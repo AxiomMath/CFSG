@@ -84,7 +84,7 @@ theorem sec12N_alt1 [Finite G] {t : G} {L S V : Subgroup G} (hbd : Sec10BData t 
     rw [Subgroup.index_bot,
       Nat.card_congr (Multiplicative.toAdd : Multiplicative (ZMod 2) ≃ ZMod 2)]
     exact Nat.card_zmod 2
-  haveI : (⊥ : Subgroup (Multiplicative (ZMod 2))).Normal := Subgroup.normal_bot
+  have : (⊥ : Subgroup (Multiplicative (ZMod 2))).Normal := Subgroup.normal_bot
   exact sec12N_of_hom f hfsurj hidx htN htr
 
 end CFSG.OddStandard.SmallF3.Omega

@@ -22,7 +22,7 @@ theorem exactCore_J2 (S : Type) [Group S] [Finite S]
     unfold ExactFin.ChainData.sub j2P
     congr 1
     ext g
-    simp only [Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
+    simp only [Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
     constructor
     · rintro ⟨i, hi, rfl⟩
       rw [hk] at hi
@@ -36,9 +36,9 @@ theorem exactCore_J2 (S : Type) [Group S] [Finite S]
       · exact ⟨1, by omega, by simp [j2Gen, j2StrongPerm, h1]⟩
   have e' : S ≃* (ExactFin.j2FC ()).ctx.chP.sub 315 :=
     (e.trans j2PermEquiv).trans (MulEquiv.subgroupCongr hsub.symm)
-  haveI hJ : IsSimpleGroup (Blueprint.NativeSporadic.Carrier .J2) :=
+  have hJ : IsSimpleGroup (Blueprint.NativeSporadic.Carrier .J2) :=
     CFSG.Sporadic.J2.isSimpleGroup_J2
-  haveI : IsSimpleGroup S := e.isSimpleGroup
+  have : IsSimpleGroup S := e.isSimpleGroup
   have hcard : Nat.card S = 604800 := by
     rw [Nat.card_congr e.toEquiv]
     exact CFSG.Sporadic.J2.card_J2
@@ -47,7 +47,7 @@ theorem exactCore_J2 (S : Type) [Group S] [Finite S]
     norm_num
   have hout : Nat.card (Outer S) ≤ 2 :=
     outer_card_le_of_equiv AT_J2_Schreier.1 e
-  haveI : Finite (MulAut S) := Finite.of_injective (fun f : MulAut S => (f : S → S))
+  have : Finite (MulAut S) := Finite.of_injective (fun f : MulAut S => (f : S → S))
     (fun f g h => MulEquiv.ext (congrFun h))
   have hout2 : (Nat.card (Outer S)).factorization 2 ≤ 1 :=
     ExactFin.factorization_two_le_one Nat.card_pos hout

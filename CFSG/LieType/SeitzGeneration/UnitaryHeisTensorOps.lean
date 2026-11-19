@@ -86,7 +86,7 @@ theorem herm_vec_vec (ξ ξ' : Fin 3 → K) (u u' : Fin m → K) :
   simp only [herm_smul_left, herm_sum_right, herm_smul_right, F.herm_vecw_vecw]
   rw [herm_def σ ξ ξ', Finset.sum_mul]
   refine Finset.sum_congr rfl fun k _ => ?_
-  simp only [mul_ite, mul_zero, Finset.sum_ite_eq, Finset.mem_univ, if_true]
+  simp only [mul_ite, mul_zero, Finset.sum_ite_eq, Finset.mem_univ, ite_true]
   ring
 
 @[expose] def rho (u : Fin m → K) (v : Fin n → K) : Fin 3 → K := fun l => herm σ (F.vecw l u) v
@@ -154,7 +154,7 @@ theorem Mmat_isometry (hσ : ∀ c, σ (σ c) = c) {S : Matrix (Fin 3) (Fin 3) K
   rw [h1, herm_right_vec F hσ, herm_left_vec]
   have key : ∑ k, σ ((S *ᵥ F.rho u v) k) * F.rho u w k =
       ∑ k, (S *ᵥ F.rho u w) k * σ (F.rho u v k) := by
-    simp only [mulVec, dotProduct, map_sum, map_mul, Finset.sum_mul, Finset.mul_sum]
+    simp only [mulVec, dotProduct, map_sum, map_mul, Finset.sum_mul]
     rw [Finset.sum_comm]
     refine Finset.sum_congr rfl fun k _ => Finset.sum_congr rfl fun l _ => ?_
     rw [hS k l]
@@ -262,7 +262,7 @@ theorem rho_act (hσ : ∀ c, σ (σ c) = c) {L : Matrix (Fin n) (Fin n) K}
   rw [← mulVec_mulVec, ← mulVec_mulVec, hL' l s, mulVec_sum, hr l s]
   simp only [mulVec_smul, hr]
   funext j
-  simp [Finset.sum_apply, mulVec, dotProduct, mul_comm]
+  simp [Finset.sum_apply, mulVec, dotProduct]
 
 theorem Mmat_commute (hσ : ∀ c, σ (σ c) = c) {L : Matrix (Fin n) (Fin n) K}
     {G S : Matrix (Fin 3) (Fin 3) K} (hL : F.FrameAct L G) (hSG : S * G = G * S) (c : K)
@@ -278,7 +278,7 @@ theorem Mmat_commute (hσ : ∀ c, σ (σ c) = c) {L : Matrix (Fin n) (Fin n) K}
 theorem actY : F.FrameAct Y (Zm ζ) := by
   intro k r
   rw [F.hY k r]
-  simp only [Zm_apply, ite_smul, zero_smul, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+  simp only [Zm_apply, ite_smul, zero_smul, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
 
 theorem actX : F.FrameAct X (Gj ζ α 0) := by
   intro k r

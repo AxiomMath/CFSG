@@ -78,6 +78,7 @@ variable {X R L : Subgroup G} {F : Type} [Field F] [Fintype F] [CharP F 2]
   (H : burnsideC135_H1 X R L α β βU)
 include H
 
+omit [CharP F 2] in
 theorem qc_conj_one {t q : G} (ht : t ∈ pCoreOf 2 X) (hq : q ∈ c134Q X L) :
     burnsideC135_qc β (t * q * t⁻¹) 1 = burnsideC135_qc β q 1 := by
   obtain ⟨μ, hμ⟩ := H.shear ht
@@ -86,6 +87,7 @@ theorem qc_conj_one {t q : G} (ht : t ∈ pCoreOf 2 X) (hq : q ∈ c134Q X L) :
   rw [burnsideC135_qc_of_mem hmem, burnsideC135_qc_of_mem hq]
   exact (hμ ⟨q, hq⟩ ⟨_, hmem⟩ rfl).2
 
+omit [CharP F 2] in
 theorem triv_of_shear {v : G} (hv : v ∈ pCoreOf 2 X)
     (h : ∀ (μ : F), (∀ (q q' : ↥(c134Q X L)), (q' : G) = v * q * v⁻¹ →
       Multiplicative.toAdd (β q') 0 =
@@ -134,6 +136,7 @@ theorem le_V_of_nontriv {v : G}
     simpa using this.symm
   exact H.le_V_of_shear hv hμ0 hμ ht htv
 
+omit [CharP F 2] in
 theorem coe_sup_WE : ((burnsideC135_Wc β 1 ⊔
     (pCoreOf 2 X ⊓ Subgroup.centralizer (c134Q X L : Set G)) : Subgroup G) : Set G) =
     (burnsideC135_Wc β 1 : Set G) *
@@ -141,6 +144,7 @@ theorem coe_sup_WE : ((burnsideC135_Wc β 1 ⊔
   Subgroup.coe_mul_of_right_le_normalizer_left _ _
     fun _ he => H.normW (pCoreOf_le 2 X he.1)
 
+omit [CharP F 2] in
 theorem triv_of_mem_sup {x : G} (hx : x ∈ burnsideC135_Wc β 1 ⊔
     (pCoreOf 2 X ⊓ Subgroup.centralizer (c134Q X L : Set G))) :
     ∀ q ∈ c134Q X L, x * q * x⁻¹ * q⁻¹ ∈ centerOf (c134Q X L) := by
@@ -174,8 +178,9 @@ theorem mem_sup_of_triv {v : G}
 
 theorem sup_le_V : burnsideC135_Wc β 1 ⊔ (pCoreOf 2 X ⊓ Subgroup.centralizer (c134Q X L : Set G)) ≤
     pCoreOf 2 X ⊓ Subgroup.centralizer (burnsideC135_Wc β 1 : Set G) :=
-  sup_le H.W₁_le_V H.E_le_V
+  sup_le H.W₁_le_V CFSG.ASVolI.burnsideC135_H1.E_le_V
 
+omit [Finite G] [Fintype F] [CharP F 2] H in
 theorem inf_WE_le : burnsideC135_Wc β 1 ⊓
     (pCoreOf 2 X ⊓ Subgroup.centralizer (c134Q X L : Set G)) ≤ centerOf (c134Q X L) :=
   fun _ h => ⟨burnsideC135_Wc_le 1 h.1, h.2.2⟩
@@ -201,7 +206,7 @@ theorem qc_eq_of_decomp {v q v' q' : G}
     rw [← e]
     exact (pCoreOf 2 X ⊓ Subgroup.centralizer (burnsideC135_Wc β 1 : Set G)).mul_mem
       ((pCoreOf 2 X ⊓ Subgroup.centralizer (burnsideC135_Wc β 1 : Set G)).inv_mem hv') hv
-  have hW := (H.mem_W₁_iff.mp (H.mem_W₁_of_commute hmemQ hmemV.2)).2
+  have hW := (CFSG.ASVolI.burnsideC135_H1.mem_W₁_iff.mp (H.mem_W₁_of_commute hmemQ hmemV.2)).2
   rw [burnsideC135_qc_mul hq' ((c134Q X L).inv_mem hq), burnsideC135_qc_inv hq] at hW
   have := congrArg (fun x => x + burnsideC135_qc β q 1) hW
   simp only [Pi.add_apply, Pi.neg_apply, neg_add_cancel_right, zero_add] at this
@@ -211,7 +216,7 @@ theorem proj_eq {t v q : G}
     (hv : v ∈ pCoreOf 2 X ⊓ Subgroup.centralizer (burnsideC135_Wc β 1 : Set G))
     (hq : q ∈ c134Q X L) (htvq : t = v * q) : H.proj t = burnsideC135_qc β q 1 := by
   have ht : t ∈ pCoreOf 2 X := htvq ▸ (pCoreOf 2 X).mul_mem hv.1 (H.Q_le hq)
-  rw [proj, dif_pos ht]
+  rw [proj, dite_eq_left ht]
   have hspec := Classical.choose_spec (H.exists_V_mul ht)
   have hspec3 := Classical.choose_spec hspec.2
   exact (H.qc_eq_of_decomp hv hq hspec.1 hspec3.1 (htvq.symm.trans hspec3.2)).symm
@@ -234,7 +239,7 @@ theorem proj_eq_zero_iff {t : G} (ht : t ∈ pCoreOf 2 X) :
   rw [H.proj_eq hv hq rfl]
   constructor
   · intro h
-    have hqW : q ∈ burnsideC135_Wc β 1 := H.mem_W₁_iff.mpr ⟨hq, h⟩
+    have hqW : q ∈ burnsideC135_Wc β 1 := CFSG.ASVolI.burnsideC135_H1.mem_W₁_iff.mpr ⟨hq, h⟩
     exact (pCoreOf 2 X ⊓ Subgroup.centralizer (burnsideC135_Wc β 1 : Set G)).mul_mem hv
       (H.W₁_le_V hqW)
   · intro h
@@ -243,7 +248,7 @@ theorem proj_eq_zero_iff {t : G} (ht : t ∈ pCoreOf 2 X) :
       rw [e]
       exact (pCoreOf 2 X ⊓ Subgroup.centralizer (burnsideC135_Wc β 1 : Set G)).mul_mem
         ((pCoreOf 2 X ⊓ Subgroup.centralizer (burnsideC135_Wc β 1 : Set G)).inv_mem hv) h
-    exact (H.mem_W₁_iff.mp (H.mem_W₁_of_commute hq hqV.2)).2
+    exact (CFSG.ASVolI.burnsideC135_H1.mem_W₁_iff.mp (H.mem_W₁_of_commute hq hqV.2)).2
 
 theorem proj_conj {A : Subgroup G} (hAX : A ≤ X) (a : ↥A) {t : G} (ht : t ∈ pCoreOf 2 X) :
     H.proj ((a : G) * t * (a : G)⁻¹) =

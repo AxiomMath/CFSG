@@ -34,9 +34,9 @@ variable {G : Type} [Group G] [Finite G]
 theorem exists_invariant_sylow_uc6 {r : ℕ} [Fact r.Prime] (p : ℕ) [Fact p.Prime] {U Z : Subgroup G}
     (hZU : Z ≤ normalizer (U : Set G)) (hZ : IsPGroup r Z) (hcop : ¬ r ∣ Nat.card U) :
     ∃ P : Subgroup G, IsSylowOf p P U ∧ Z ≤ normalizer (P : Set G) := by
-  letI := conjMDMA_uc6 hZU
+  let := conjMDMA_uc6 hZU
   obtain ⟨S₀⟩ := (inferInstance : Nonempty (Sylow p ↥U))
-  haveI : Finite (Sylow p ↥U) := inferInstance
+  have : Finite (Sylow p ↥U) := inferInstance
   have hdvd : Nat.card (Sylow p ↥U) ∣ Nat.card U := by
     rw [Sylow.card_eq_index_normalizer S₀]
     exact Subgroup.index_dvd_card _
@@ -75,11 +75,13 @@ variable {G : Type} [Group G] [Finite G]
     have h : Commute a y := ha.2.2 y hy
     exact (Commute.inv_left h).eq
 
+omit [Finite G] in
 theorem omegaCenter_le (p : ℕ) (P : Subgroup G) : omegaCenter p P ≤ P := fun _ hx => hx.1
 
+omit [Finite G] in
 theorem isElemAbelian_omegaCenter (p : ℕ) (P : Subgroup G) :
     CFSG.Open.IsElemAbelian p (omegaCenter p P) :=
-  ⟨⟨⟨fun a b => Subtype.ext (b.2.2.2 a a.2.1).symm⟩⟩, fun x hx => hx.2.1⟩
+  ⟨⟨⟨fun a b => Subtype.ext (b.2.2.2 a a.2.1).symm⟩⟩, fun _x hx => hx.2.1⟩
 
 theorem normalizer_le_normalizer_omegaCenter (p : ℕ) (P : Subgroup G) :
     normalizer (P : Set G) ≤ normalizer (omegaCenter p P : Set G) := by
@@ -101,8 +103,8 @@ theorem normalizer_le_normalizer_omegaCenter (p : ℕ) (P : Subgroup G) :
 
 theorem omegaCenter_ne_bot {p : ℕ} [Fact p.Prime] {P : Subgroup G} (hP : IsPGroup p P)
     (hP1 : P ≠ ⊥) : omegaCenter p P ≠ ⊥ := by
-  haveI : Nontrivial ↥P := (Subgroup.nontrivial_iff_ne_bot P).2 hP1
-  haveI : Nontrivial (Subgroup.center ↥P) := hP.center_nontrivial
+  have : Nontrivial ↥P := (Subgroup.nontrivial_iff_ne_bot P).2 hP1
+  have : Nontrivial (Subgroup.center ↥P) := hP.center_nontrivial
   have hcp : IsPGroup p (Subgroup.center ↥P) := hP.to_subgroup _
   obtain ⟨n, hn, hcard⟩ := (hcp.nontrivial_iff_card).1 inferInstance
   have hdvd : p ∣ Nat.card (Subgroup.center ↥P) := by
@@ -201,12 +203,12 @@ theorem k47_transport_two_uc6 (hK : UCK.K47) (hMg : CFSG.Open.IsKGroup Mg)
     (hfix : Nat.card ↥(Q₀ ⊓ centralizer (D : Set Mg)) ≤ 2) (Q : Subgroup Mg) (hQp : IsPGroup q Q)
     (hQab : IsMulCommutative ↥Q) (hDQ : D ≤ normalizer (Q : Set Mg)) (hcomm : ⁅D, Q⁆ = Q) :
     IsCyclic ↥Q := by
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : IsElementaryAbelian 2 (↥Q₀ ⧸ frattini ↥Q₀) :=
+  have : Fact r.Prime := ⟨hr⟩
+  have : IsElementaryAbelian 2 (↥Q₀ ⧸ frattini ↥Q₀) :=
     (CFSG.GroupTheory.frattini_elementary_quotient hQ₀).2.2.2.1
   set ρ := frattiniRep Q₀ with hρ
   set N : Subgroup Mg := ρ.ker with hN
-  haveI hNn : N.Normal := MonoidHom.normal_ker ρ
+  have hNn : N.Normal := MonoidHom.normal_ker ρ
   have hGK : CFSG.Open.IsKGroup (Mg ⧸ N) := hMg.quotient N
   set ρ' : Representation (ZMod 2) (Mg ⧸ N) (Additive (↥Q₀ ⧸ frattini ↥Q₀)) :=
     QuotientGroup.lift N ρ (fun x hx => hx) with hρ'
@@ -293,7 +295,7 @@ theorem k47_transport_two_uc6 (hK : UCK.K47) (hMg : CFSG.Open.IsKGroup Mg)
       exact inv_mul_eq_one.1 h4
     · rintro ⟨_, x, hx, rfl⟩
       exact ⟨⟨x, hx⟩, rfl⟩
-  haveI := hk
+  have := hk
   exact isCyclic_of_surjective (MulEquiv.ofBijective e he).symm.toMonoidHom
     (MulEquiv.surjective _)
 

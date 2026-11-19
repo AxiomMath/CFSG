@@ -24,10 +24,10 @@ theorem inner_of_twistedE6_of_not_dvd {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 �
     (h3 : ¬ 3 ∣ ℓ ^ f + 1) {x : MulAut (twistedE6RootGroup K σ)}
     (hx : x ∈ innAutDerived (twistedE6RootGroup K σ)) : x ∈ inner (twistedE6RootGroup K σ) := by
   classical
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
-  haveI : Finite (twistedE6RootGroup K σ) := Subtype.finite
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Finite (twistedE6RootGroup K σ) := Subtype.finite
   have hKf : Nat.card K = ℓ ^ (2 * f) := by rw [hK, ← pow_mul, mul_comm]
-  haveI : IsCyclic (RingAut K) := (card_ringAut_and_isCyclic hℓ K hKf).2
+  have : IsCyclic (RingAut K) := (card_ringAut_and_isCyclic hℓ K hKf).2
   obtain ⟨-, -, -, -, -, -, -, -, ⟨Θ, -, -, hker, -, -, -⟩, -⟩ :=
     twisted_E6_all_characteristic_exact_automorphism_normal_form hℓ hf K hK σ hσ
   have hinn : inner (twistedE6RootGroup K σ) ≤ Θ.ker := by
@@ -64,8 +64,8 @@ theorem kd264Y1OutE6_twisted (q : TauCeti.PrimePower)
     have := y1out_five_le_pRank_top_of_card_ge hE h243
     omega
   · obtain ⟨K, hfield, σ, hK, hσ, ⟨e⟩⟩ := exists_catEquiv_twistedE6 q hv
-    letI := hfield
-    haveI : Finite K := Nat.finite_of_card_ne_zero (by
+    let := hfield
+    have : Finite K := Nat.finite_of_card_ne_zero (by
       rw [hK]
       exact pow_ne_zero _ (pow_ne_zero _ q.prime_p.ne_zero))
     have h3' : ¬ 3 ∣ q.p ^ q.exponent + 1 := by

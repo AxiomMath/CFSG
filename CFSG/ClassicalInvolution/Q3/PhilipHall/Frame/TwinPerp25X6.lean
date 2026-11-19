@@ -30,7 +30,7 @@ section SqZ
 variable {G : Type} [Group G] [Finite G] [CoreLike G] {Ω : Set (Subgroup G)} {K K' W : Subgroup G}
   {S : Sylow 2 G} {R R' : Subgroup G} {z t u₁ u₂ : G}
 
-@[expose] def SqZLAt (hyp : Hyp25 Ω K K' W S R R' z t u₁ u₂) : Prop :=
+@[expose] def SqZLAt (_hyp : Hyp25 Ω K K' W S R R' z t u₁ u₂) : Prop :=
   ∀ {a : G}, a ∈ cA S R R' → a * a = 1 → a ≠ 1 → BadElt z a → ∀ {g x : G},
     g * z * g⁻¹ ∈ Subgroup.centralizer ({a} : Set G) → x ∈ Subgroup.centralizer ({a} : Set G) →
     x * x = g * z * g⁻¹ → ∃ h ∈ TwinDisc.coreLayer Ω a, h * z * h⁻¹ = g * z * g⁻¹
@@ -86,7 +86,7 @@ theorem goodFusion_of_placed (hyp : Hyp25 Ω K K' W S R R' z t u₁ u₂) (hQT :
   have hSz : (S : Subgroup G) ≤ Subgroup.centralizer ({z} : Set G) := fun s hs' =>
     Subgroup.mem_centralizer_singleton_iff.mpr (hzS s hs')
   have hT2 : IsPGroup 2 ((S : Subgroup G) ⊓ Subgroup.centralizer ({t₀} : Set G) : Subgroup G) :=
-    S.isPGroup'.to_le inf_le_left
+    S.isPGroup.to_le inf_le_left
   have hTH : (S : Subgroup G) ⊓ Subgroup.centralizer ({t₀} : Set G) ≤
       Subgroup.centralizer ({t₀} : Set G) ⊓ Subgroup.centralizer ({z} : Set G) :=
     le_inf inf_le_right (inf_le_left.trans hSz)
@@ -250,7 +250,7 @@ theorem goodFusion_of_placed (hyp : Hyp25 Ω K K' W S R R' z t u₁ u₂) (hQT :
   have he'triv := mem_trivialOnQuot_of_good hyp hQT hd'A hd'2 hd'1 hd'bad (hNA he'N) he'd'
     (hgood e' he'N he'1)
   have he'2 : IsPGroup 2 (Subgroup.zpowers e') :=
-    S.isPGroup'.to_le (Subgroup.zpowers_le.mpr (hNA he'N).1)
+    S.isPGroup.to_le (Subgroup.zpowers_le.mpr (hNA he'N).1)
   have he'z : e' * z = z * e' := hzS e' (hNA he'N).1
   have he't : e' * ((c⁻¹ * g) * z * (c⁻¹ * g)⁻¹) = ((c⁻¹ * g) * z * (c⁻¹ * g)⁻¹) * e' := by
     rw [ht'eq, he']

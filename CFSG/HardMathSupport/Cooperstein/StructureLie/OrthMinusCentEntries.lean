@@ -39,7 +39,7 @@ theorem comm_entries_long_mat {a b' : Fin (n - 1)} (hab : a ≠ b') (t : Bool)
   rw [Matrix.mul_apply, Matrix.mul_apply] at h
   simp only [mat_longRoot_apply (K := K) (b := b) (c := c) n hab true t 1, Bool.not_true, one_mul,
     mul_add, mul_sub, add_mul, sub_mul, Finset.sum_add_distrib, Finset.sum_sub_distrib, mul_ite,
-    ite_mul, mul_one, mul_zero, zero_mul, ite_and, Finset.sum_ite_eq, Finset.sum_ite_eq',
+    ite_mul, mul_one, mul_zero, zero_mul, Finset.sum_ite_eq, Finset.sum_ite_eq',
     Finset.mem_univ, ite_true] at h
   by_cases hxp : x = minusPos n a true <;> by_cases hxr : x = minusPos n b' t <;>
     by_cases hyr : y = minusPos n b' (!t) <;> by_cases hyp : y = minusPos n a false <;>
@@ -88,17 +88,17 @@ theorem shortMat_entry [CharP K 2] (a : Fin (n - 1)) (s : Bool) (u : Fin 2) (x y
     · show QuadraticMap.polar (quadMinus n K b c) (Pi.single y 1) (Pi.single (pl n 0) 1) = b * if y = pl n (1 - 0) then 1 else 0
       rw [show pl n 0 = .inr (.inr 0) from rfl, polar_quadMinus_single_inr_inr_zero, h2]
       by_cases hy : y = pl n 1
-      · subst hy; simp [pl, Pi.single_apply]
+      · subst hy; simp [pl]
       · have : (Pi.single y (1 : K) : SM n → K) (.inr (.inr 1)) = 0 := by
-          rw [Pi.single_apply, if_neg]; exact fun h => hy h.symm
-        rw [this]; simp only [pl, zero_mul, add_zero, zero_add, Fin.isValue]; simp; intro h; exact absurd h hy
+          rw [Pi.single_apply, ite_eq_right]; exact fun h => hy h.symm
+        rw [this]; simp only [pl, zero_mul, zero_add, Fin.isValue]; simp; intro h; exact absurd h hy
     · show QuadraticMap.polar (quadMinus n K b c) (Pi.single y 1) (Pi.single (pl n 1) 1) = b * if y = pl n (1 - 1) then 1 else 0
       rw [show pl n 1 = .inr (.inr 1) from rfl, polar_quadMinus_single_inr_inr_one, h2]
       by_cases hy : y = pl n 0
-      · subst hy; simp [pl, Pi.single_apply]
+      · subst hy; simp [pl]
       · have : (Pi.single y (1 : K) : SM n → K) (.inr (.inr 0)) = 0 := by
-          rw [Pi.single_apply, if_neg]; exact fun h => hy h.symm
-        rw [this]; simp only [pl, zero_mul, add_zero, zero_add, Fin.isValue]; simp; intro h; exact absurd h hy
+          rw [Pi.single_apply, ite_eq_right]; exact fun h => hy h.symm
+        rw [this]; simp only [pl, zero_mul, add_zero, Fin.isValue]; simp; intro h; exact absurd h hy
   have hN : planeNorm b c (Pi.single u (1 : K)) = planeN c u := by
     fin_cases u <;> simp [planeNorm, planeN]
   simp only [shortMat, Matrix.add_apply, Matrix.sub_apply, Matrix.one_apply, Matrix.vecMulVec_apply,
@@ -122,7 +122,7 @@ theorem comm_entries_short_mat (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) [Char
     Finset.mem_univ, ite_true] at h
   by_cases h1 : x = minusPos n a true <;> by_cases h2 : y = pl n (1 - u) <;>
     by_cases h3 : y = minusPos n a false <;> by_cases h4 : x = pl n u <;>
-    simp only [h1, h2, h3, h4, if_true, if_false, mul_ite, ite_mul, mul_one, mul_zero, zero_mul,
+    simp only [h1, h2, h3, h4, ite_true, ite_false, mul_ite, ite_mul, mul_one, mul_zero, zero_mul,
       one_mul, mul_add] at h ⊢ <;> linear_combination h
 
 end CFSG.HardMathSupport.Cooperstein.StructureLie

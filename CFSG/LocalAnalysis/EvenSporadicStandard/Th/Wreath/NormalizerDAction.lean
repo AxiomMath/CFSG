@@ -61,9 +61,9 @@ theorem ThCyc.normalizer_D_le_normalizer_A (H : ThCyc G L R t) (W : ThLocalIn L 
     rw [e]
     exact hsq
 
-private def hsqOf (H : ThCyc G L R t) (W : ThLocalIn L S A B z) (W2 : ThLocalIn2 B A Aa b)
-    (hD : DHyp A Aa t D) (h4 : ∀ d ∈ D, d ^ 4 = 1) : ∀ d ∈ D, d ^ 2 ∈ A :=
-  fun d hd => H.D_sq_mem_A_of_fourth W W2 hD h4 hd
+private theorem hsqOf (H : ThCyc G L R t) (W : ThLocalIn L S A B z) (W2 : ThLocalIn2 B A Aa b)
+    (hD : DHyp A Aa t D) (h4 : ∀ _d ∈ D, _d ^ 4 = 1) : ∀ _d ∈ D, _d ^ 2 ∈ A :=
+  fun _d hd => H.D_sq_mem_A_of_fourth W W2 hD h4 hd
 
 private noncomputable def psiPre (H : ThCyc G L R t) (W : ThLocalIn L S A B z)
     (W2 : ThLocalIn2 B A Aa b) (hD : DHyp A Aa t D) (h4 : ∀ d ∈ D, d ^ 4 = 1) (a : ↥A) : G :=
@@ -139,7 +139,7 @@ private theorem phiFun_one (H : ThCyc G L R t) (W : ThLocalIn L S A B z) (W2 : T
     Subtype.ext (psiPre_val H W W2 hD h4 a)
   rw [← ha, phiFun_spec H W W2 hD h4 (one_mem _) (psiPre_mem H W W2 hD h4 a)]
   apply Subtype.ext
-  simpa using psiPre_val H W W2 hD h4 a
+  simp
 
 private theorem phiFun_mul (H : ThCyc G L R t) (W : ThLocalIn L S A B z) (W2 : ThLocalIn2 B A Aa b)
     (hD : DHyp A Aa t D) (h4 : ∀ d ∈ D, d ^ 4 = 1) {g h : G} (hg : g ∈ normalizer (D : Set G))
@@ -496,17 +496,17 @@ private theorem phiN_surj (H : ThCyc G L R t) (W : ThLocalIn L S A B z) (W2 : Th
   have hfA : ∀ a ∈ A, f a ∈ A := by
     intro a ha
     dsimp [f]
-    rw [dif_pos ha]
+    rw [dite_eq_left ha]
     exact (φ ⟨a, ha⟩).2
   have hfmul : ∀ a ∈ A, ∀ b ∈ A, f (a * b) = f a * f b := by
     intro a ha b hb
     dsimp [f]
-    rw [dif_pos (A.mul_mem ha hb), dif_pos ha, dif_pos hb]
+    rw [dite_eq_left (A.mul_mem ha hb), dite_eq_left ha, dite_eq_left hb]
     exact congrArg (fun x : ↥A => (x : G)) (φ.map_mul ⟨a, ha⟩ ⟨b, hb⟩)
   have hfinj : ∀ a ∈ A, ∀ b ∈ A, f a = f b → a = b := by
     intro a ha b hb hab
     dsimp [f] at hab
-    rw [dif_pos ha, dif_pos hb] at hab
+    rw [dite_eq_left ha, dite_eq_left hb] at hab
     exact congrArg (fun x : ↥A => (x : G)) (φ.injective (Subtype.ext hab))
   obtain ⟨l, hlL, hl⟩ := W.surj f hfA hfmul hfinj
   have hlA : ∀ a ∈ A, l * a * l⁻¹ ∈ A := fun a ha => by
@@ -639,17 +639,17 @@ private theorem normalizer_D_eq_Q_sup_normInL (H : ThCyc G L R t) (W : ThLocalIn
     have hfA : ∀ a ∈ A, f a ∈ A := by
       intro a ha
       dsimp [f]
-      rw [dif_pos ha]
+      rw [dite_eq_left ha]
       exact (φ ⟨a, ha⟩).2
     have hfmul : ∀ a ∈ A, ∀ b ∈ A, f (a * b) = f a * f b := by
       intro a ha b hb
       dsimp [f]
-      rw [dif_pos (A.mul_mem ha hb), dif_pos ha, dif_pos hb]
+      rw [dite_eq_left (A.mul_mem ha hb), dite_eq_left ha, dite_eq_left hb]
       exact congrArg (fun x : ↥A => (x : G)) (φ.map_mul ⟨a, ha⟩ ⟨b, hb⟩)
     have hfinj : ∀ a ∈ A, ∀ b ∈ A, f a = f b → a = b := by
       intro a ha b hb hab
       dsimp [f] at hab
-      rw [dif_pos ha, dif_pos hb] at hab
+      rw [dite_eq_left ha, dite_eq_left hb] at hab
       exact congrArg (fun x : ↥A => (x : G)) (φ.injective (Subtype.ext hab))
     obtain ⟨l, hlL, hl⟩ := W.surj f hfA hfmul hfinj
     have hlA : ∀ a ∈ A, l * a * l⁻¹ ∈ A := fun a ha => by
@@ -708,7 +708,7 @@ private noncomputable def mulAutEquivGL4A (W : ThLocalIn L S A B z) :
 
 theorem ThLocalIn.isSimpleGroup_mulAut_A (W : ThLocalIn L S A B z) :
     IsSimpleGroup (MulAut ↥A) := by
-  haveI : IsSimpleGroup (GL (Fin 4) (ZMod 2)) :=
+  have : IsSimpleGroup (GL (Fin 4) (ZMod 2)) :=
     CFSG.LargeExtraspecial.S45Q.isSimpleGroup_GL_zmod_two (by norm_num)
   exact (mulAutEquivGL4A W).isSimpleGroup
 
@@ -741,8 +741,8 @@ private theorem normal_subgroup_dichotomy (H : ThCyc G L R t) (W : ThLocalIn L S
     obtain ⟨m', rfl⟩ := phiN_surj H W W2 hD h4 m
     refine Subgroup.mem_map.2 ⟨m' * n * m'⁻¹, hYnorm m' n hn, ?_⟩
     rw [map_mul, map_mul, map_inv]
-  haveI : IsSimpleGroup (MulAut ↥A) := ThLocalIn.isSimpleGroup_mulAut_A W
-  haveI := hnormal_image
+  have : IsSimpleGroup (MulAut ↥A) := ThLocalIn.isSimpleGroup_mulAut_A W
+  have := hnormal_image
   rcases Subgroup.Normal.eq_bot_or_eq_top
     (Subgroup.map (phiN H W W2 hD h4) Y) with hbot | htop
   · left
@@ -950,7 +950,7 @@ theorem ThCyc.conj_mul_inv_mem_A_of_mem_normalizer_D (H : ThCyc G L R t) (W : Th
       rw [hEq]
       exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe (inf_le_left : M ⊓ _ ≤ M)).toEquiv
     have hclass : Nat.card T * ccard = Nat.card ↥M := by
-      letI : Fintype ↥M := Fintype.ofFinite _
+      let : Fintype ↥M := Fintype.ofFinite _
       have h := MulAction.card_orbit_mul_card_stabilizer_eq_card_group (ConjAct ↥M) tM
       have h' : Nat.card T * Nat.card ↥(MulAction.stabilizer (ConjAct ↥M) tM) =
           Nat.card (ConjAct ↥M) := by

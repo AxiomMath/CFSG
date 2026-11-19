@@ -270,10 +270,10 @@ theorem exists_sylow_eq_map_P0 {G : Type} [Group G] [Finite G] (S : Setting G) (
       rw [lt_top_iff_ne_top]
       intro htop
       exact hne (le_antisymm (Subgroup.subgroupOf_eq_top.mp htop) hle)
-    have hnil : Group.IsNilpotent (T : Subgroup G) := T.isPGroup'.isNilpotent
+    have hnil : Group.IsNilpotent (T : Subgroup G) := T.isPGroup.isNilpotent
     have hnc : NormalizerCondition (T : Subgroup G) :=
       @Group.normalizerCondition_of_isNilpotent (T : Subgroup G) _ hnil
-    obtain ⟨x, hxN, hxP⟩ := SetLike.exists_of_lt (hnc (P'.subgroupOf (T : Subgroup G)) hltT)
+    obtain ⟨x, hxN, hxP⟩ := _root_.IsConcreteLE.exists_of_lt (hnc (P'.subgroupOf (T : Subgroup G)) hltT)
     have hxnormT : (x : G) ∈ Subgroup.normalizer (P' : Set G) := by
       have hx' : x ∈ (Subgroup.normalizer (P' : Set G)).subgroupOf (T : Subgroup G) := by
         rw [Subgroup.subgroupOf_normalizer_eq hle]
@@ -284,7 +284,7 @@ theorem exists_sylow_eq_map_P0 {G : Type} [Group G] [Finite G] (S : Setting G) (
     let H : Subgroup G := P' ⊔ Subgroup.zpowers (x : G)
     have hHT : H ≤ (T : Subgroup G) :=
       sup_le hle (Subgroup.zpowers_le.mpr hxT)
-    have hHp : IsPGroup 2 H := T.isPGroup'.to_le hHT
+    have hHp : IsPGroup 2 H := T.isPGroup.to_le hHT
     have hHM : H ≤ S.M := sup_le hP'leM (Subgroup.zpowers_le.mpr hxM)
     have hleH : P'M ≤ H.subgroupOf S.M := by
       intro y hy

@@ -95,7 +95,6 @@ theorem final3 (F : FanTree Γ G) (h40 : Fan40 F) (h51a : Fan51a F) (ℓ : Line 
   have h2 : (α + ((2 : ℕ) : ℤ)) = α + 2 := by norm_num
   try rw [h1] at hx₁
   rw [h1] at hx₁o
-  try rw [h2] at hx₂
   rw [h2] at hx₂o
   have hu_loc := P58.locTr_of_pow F hx₁.1 hx₁.2 hx₁o
   have hw_loc := P58.locTr_of_pow F hx₂.1 hx₂.2 hx₂o

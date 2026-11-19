@@ -73,7 +73,7 @@ theorem mem_or_mem_of_forall_mem_zpowers {G : Type*} [Group G] (hp : p.Prime)
 omit [CharP K 2] in
 theorem dvd_card_sq_sub_one (hp : p.Prime) (F : SevOm.Frame Q p E r)
     (hU : ∀ j, finrank K (F.U j) = 2) (k : Fin r) : p ∣ Nat.card K ^ 2 - 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h1 := F.dvd_card_sub_one k
   have h2 : Nat.card (F.U k) = Nat.card K ^ finrank K (F.U k) :=
     Module.natCard_eq_pow_finrank
@@ -93,7 +93,7 @@ theorem splitFour_false_of_mem_factor (hp : p.Prime) (hEΩ : E ≤ orthDerived Q
     {ψ' : SL(2, K) →* (fixedSpace (F.ι s) ≃ₗ[K] fixedSpace (F.ι s))}
     (hψ' : Function.Injective ψ') (hr' : ψ'.range = T')
     (hτT : fixRho hx ⟨F.ι (frameDelta k), hτ⟩ ∈ T) : False := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨a, ha⟩ :=
     CFSG.HardMathSupport.Seitz.Proving.exists_orderOf_eq_prime_SL2 hp
       (dvd_card_sq_sub_one hp F hU k)
@@ -155,7 +155,7 @@ theorem splitFour_one_coord_false (hQ : (polarBilin Q).Nondegenerate) (hp : p.Pr
     (hoddO : ∀ g ∈ TauCeti.QuadraticMap.orthogonalGroup (Q.comp (fixedSpace (F.ι s)).subtype),
       Odd (orderOf g) → g ∈ orthDerived (Q.comp (fixedSpace (F.ι s)).subtype)) :
     False := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hinf : T₁ ⊓ T₂ = ⊥ := splitFour_inf_eq_bot hcommT hψ₁ hr₁
   have hτ : F.ι (frameDelta k) ∈ supportedBlock Q (F.ι s) (X - 1) :=
     frameDelta_mem_supportedBlock hQ hp hp2 hEΩ F s hk

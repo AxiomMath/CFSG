@@ -207,7 +207,7 @@ theorem centralizes_pCore_of_odd [Finite G]
   obtain ⟨P, hP⟩ := hEK2.nonempty_fixed_point_of_prime_not_dvd_card (Sylow 2 Y) hcardSyl
   set P' : Subgroup G := (P : Subgroup Y).map Y.subtype with hP'def
   have hP'Y : P' ≤ Y := map_subtype_le _
-  have hP'2 : IsPGroup 2 P' := P.isPGroup'.map Y.subtype
+  have hP'2 : IsPGroup 2 P' := P.isPGroup.map Y.subtype
   have hEKP : ∀ e ∈ EK, ∀ p ∈ P', e * p * e⁻¹ ∈ P' := by
     rintro e he _ ⟨p, hp, rfl⟩
     have hfix : (⟨e, he⟩ : EK) • P = P := hP ⟨e, he⟩

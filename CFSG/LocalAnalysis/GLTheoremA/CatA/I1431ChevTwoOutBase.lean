@@ -165,7 +165,7 @@ theorem u42Layer_of_fixed_equiv {Y : Type} [Group Y] [Finite Y] (ψ : MulAut Y) 
     [Group X] (e : ↥(fixSubgroup ψ) ≃* X) (hs : IsSimpleGroup X)
     (hnab : ∃ a b : X, a * b ≠ b * a) {G : Prop} (hG : catalogIs X S9.isU4two → G) :
     U42Layer ψ G := by
-  haveI : IsSimpleGroup ↥(fixSubgroup ψ) := e.isSimpleGroup
+  have : IsSimpleGroup ↥(fixSubgroup ψ) := e.isSimpleGroup
   refine u42Layer_of_simple_normal_comm ψ (fixSubgroup ψ) le_rfl ?_ inferInstance ?_
     fun h => hG (catalogIs_of_mulEquiv e h)
   · refine Subgroup.commutator_le.2 fun a ha b hb => ?_
@@ -219,11 +219,11 @@ theorem u42Layer_of_equiv_normal_simple {Y R : Type} [Group Y] [Finite Y] [Group
     {G : Prop} (hG : catalogIs ↥S S9.isU4two → G) : U42Layer δ G := by
   set X := fixSubgroup δ with hX
   set S' : Subgroup ↥X := S.comap e.toMonoidHom with hS'
-  haveI : S'.Normal := Subgroup.normal_comap _
+  have : S'.Normal := Subgroup.normal_comap _
   set J : Subgroup Y := S'.map X.subtype with hJ
   have hJC : J ≤ X := Subgroup.map_subtype_le S'
   have hJsub : J.subgroupOf X = S' := Subgroup.comap_map_eq_self_of_injective X.subtype_injective S'
-  haveI : (J.subgroupOf X).Normal := by rw [hJsub]; infer_instance
+  have : (J.subgroupOf X).Normal := by rw [hJsub]; infer_instance
   have hsolX : Group.IsSolvable (↥X ⧸ J.subgroupOf X) := by
     refine CFSG.HardMathSupport.Dickson.Sec6.I923.TriD4Aux.isSolvable_quotient_of_eq' hJsub.symm ?_
     let f : (↥X ⧸ S') →* (R ⧸ S) := QuotientGroup.map S' S e.toMonoidHom (fun x hx => hx)
@@ -240,7 +240,7 @@ theorem u42Layer_of_equiv_normal_simple {Y R : Type} [Group Y] [Finite Y] [Group
     (Subgroup.equivMapOfInjective S' e.toMonoidHom e.injective).trans (MulEquiv.subgroupCongr hSS)
   let eJ : ↥J ≃* ↥S :=
     (Subgroup.equivMapOfInjective S' X.subtype X.subtype_injective).symm.trans eS'
-  haveI := hs
+  have := hs
   refine u42Sub_of_normal_simple X J hJC hsolX eJ.isSimpleGroup ?_ fun hT =>
     hG (catalogIs_of_mulEquiv eJ hT)
   obtain ⟨a, b, hab⟩ := hnab
@@ -257,7 +257,7 @@ theorem u42Layer_of_fixed_commutator_equiv {Y : Type} [Group Y] [Finite Y] (ψ :
       ((commutator ↥(fixSubgroup ψ)).equivMapOfInjective (fixSubgroup ψ).subtype
         (fixSubgroup ψ).subtype_injective).symm
   let e' : ↥⁅fixSubgroup ψ, fixSubgroup ψ⁆ ≃* X := eS.trans e
-  haveI : IsSimpleGroup ↥⁅fixSubgroup ψ, fixSubgroup ψ⁆ := e'.isSimpleGroup
+  have : IsSimpleGroup ↥⁅fixSubgroup ψ, fixSubgroup ψ⁆ := e'.isSimpleGroup
   refine u42Layer_of_simple_commutator ψ _ rfl inferInstance ?_ fun hT =>
     hG (catalogIs_of_mulEquiv e' hT)
   obtain ⟨a, b, hab⟩ := hnab
@@ -285,10 +285,10 @@ theorem u42Sub_of_commutator_solvable {Y : Type} [Group Y] [Finite Y] (D S : Sub
     calc A = ⁅A, A⁆ := hperf.symm
       _ ≤ ⁅D, D⁆ := Subgroup.commutator_mono hAD hAD
       _ ≤ S := hcomm
-  haveI : Group.IsSolvable ↥A :=
+  have : Group.IsSolvable ↥A :=
     Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hAS)
-  haveI : Group.IsPerfect ↥A := Subgroup.isPerfect_iff.mpr hperf
-  haveI : Nontrivial ↥A :=
+  have : Group.IsPerfect ↥A := Subgroup.isPerfect_iff.mpr hperf
+  have : Nontrivial ↥A :=
     (Subgroup.nontrivial_iff_ne_bot A).mpr (Lemma510Ns.glaPComponent_ne_bot hA)
   exact (Group.IsPerfect.not_isSolvable ↥A inferInstance).elim
 

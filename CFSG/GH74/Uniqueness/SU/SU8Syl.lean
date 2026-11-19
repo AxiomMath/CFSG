@@ -18,7 +18,7 @@ theorem Hyp20A.exists_syl (hyp : Hyp20A z S L A) :
     ∃ T : Subgroup G, IsSylowIn ⊤ T ∧ A ≤ T ∧
       ∀ a ∈ A, ∀ g : G, g⁻¹ * a * g ∈ T → g⁻¹ * a * g ∈ A := by
   obtain ⟨T, hAT, hcl⟩ := hyp.A_strongly_closed
-  refine ⟨(T : Subgroup G), ⟨le_top, T.isPGroup', ?_⟩, hAT, hcl⟩
+  refine ⟨(T : Subgroup G), ⟨le_top, T.isPGroup, ?_⟩, hAT, hcl⟩
   rw [Subgroup.relIndex_top_right]
   exact Nat.odd_iff.mpr (Nat.two_dvd_ne_zero.mp T.not_dvd_index)
 

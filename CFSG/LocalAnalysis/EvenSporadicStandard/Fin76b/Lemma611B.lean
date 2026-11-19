@@ -338,7 +338,7 @@ theorem E2_comm_cases {x y : G} (hx : x ∈ E2 E t) (hy : y ∈ E2 E t) (hxy : x
 theorem closure_E2_eq : Subgroup.closure (E2 E t) = E := by
   apply le_antisymm
   · rw [Subgroup.closure_le]
-    exact h.E2_sub
+    exact (CFSG.EvenSporadicStandard.Fin76b.Hyp69.E2_sub (t := t) (E := E))
   · obtain ⟨x₀, hx₀, y₀, hy₀, hxy⟩ := h.exists_anticomm_E2
     have ht : t ∈ Subgroup.closure (E2 E t) := by
       have hc := h.conf.econfig.comm x₀ hx₀.1 y₀ hy₀.1

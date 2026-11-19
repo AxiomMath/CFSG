@@ -143,7 +143,7 @@ theorem qcSingleFactor {a : H} {K J : Subgroup H} (hKs : IsSimpleGroup K) (hZ : 
   by_cases hd : ∃ d ∈ K, a⁻¹ * d * a ≠ d
   · exact Or.inr hd
   · left
-    push_neg at hd
+    push Not at hd
     have hKC : K ≤ centralizer ({a} : Set H) := fun d hd' => by
       rw [mem_centralizer_singleton_iff]
       calc d * a = a * (a⁻¹ * d * a) := by group
@@ -177,7 +177,7 @@ theorem quasi_layer_factor_of_le_pair {H : Type} [Group H] [Finite H]
     (CFSG.LocalAnalysis.SteinbergBV.OneOrTwoLayer.isSimpleGroup_of_isComponent hK hZK).1
   have hJq' : CFSG.IsQuasisimple ↥J :=
     (CFSG.ComponentClassification.AssemblyBPredicates.isQuasisimple_iff_native ↥J).1 hJq
-  haveI : Nontrivial J := CFSG.LocalCores.isQuasisimple_nontrivial hJq'
+  have : Nontrivial J := CFSG.LocalCores.isQuasisimple_nontrivial hJq'
   have hJa : J ≤ centralizer ({a} : Set H) := fun j hj =>
     mem_centralizer_singleton_iff.2 (mem_centralizer_iff.1 haJ j hj)
   have hJn' : centralizer ({a} : Set H) ≤ normalizer (J : Set H) :=

@@ -26,11 +26,11 @@ private theorem ffOutFFRankAutRed_le_pRank [Finite G] {H E : Subgroup G} (hle : 
 
 theorem ffRA_rank_of_aut [Finite G] {Y E : Subgroup G} (hY : IsQuasisimple Y)
     (hs : IsSimpleGroup (↥Y ⧸ oddCore ↥Y)) (hEN : E ≤ normalizer (Y : Set G))
-    (hE : CFSG.Open.IsElemAbelian 2 E) {b : ℕ}
+    (_hE : CFSG.Open.IsElemAbelian 2 E) {b : ℕ}
     (hbound : ∀ X : Subgroup (MulAut (↥Y ⧸ oddCore ↥Y)), (∀ x ∈ X, x * x = 1) →
       Nat.card X ≤ 2 ^ b) :
     CFSG.Open.pRank 2 E ≤ CFSG.Open.pRank 2 (E ⊓ centralizer (Y : Set G)) + b := by
-  haveI : (oddCore ↥Y).Characteristic := oddCore_characteristic_of ↥Y
+  have : (oddCore ↥Y).Characteristic := oddCore_characteristic_of ↥Y
   obtain ⟨E', hE'E, hE'el, hE'card⟩ : ∃ E' : Subgroup G, E' ≤ E ∧ CFSG.Open.IsElemAbelian 2 E' ∧
       Nat.card E' = 2 ^ CFSG.Open.pRank 2 E := by
     have hne : {k | ∃ E' : Subgroup G, E' ≤ E ∧ CFSG.Open.IsElemAbelian 2 E' ∧
@@ -78,12 +78,12 @@ theorem ffRA_rank_of_aut [Finite G] {Y E : Subgroup G} (hY : IsQuasisimple Y)
   omega
 
 theorem ffRA_card_autIn_le [Finite G] {Y U : Subgroup G} (hY : IsQuasisimple Y)
-    (hs : IsSimpleGroup (↥Y ⧸ oddCore ↥Y)) (hUN : U ≤ normalizer (Y : Set G))
+    (hs : IsSimpleGroup (↥Y ⧸ oddCore ↥Y)) (_hUN : U ≤ normalizer (Y : Set G))
     (hU : IsPGroup 2 U) (hab : ∀ a ∈ autIn U Y, ∀ c ∈ autIn U Y, a * c = c * a) {n : ℕ}
     (hbound : ∀ X : Subgroup (MulAut (↥Y ⧸ oddCore ↥Y)), IsPGroup 2 X → IsMulCommutative X →
       Nat.card X ≤ n) :
     Nat.card (autIn U Y) ≤ n := by
-  haveI : (oddCore ↥Y).Characteristic := oddCore_characteristic_of ↥Y
+  have : (oddCore ↥Y).Characteristic := oddCore_characteristic_of ↥Y
   have hΦ : Function.Injective (autQuot ↥Y (oddCore ↥Y)) := by
     rw [injective_iff_map_eq_one]
     intro α hα

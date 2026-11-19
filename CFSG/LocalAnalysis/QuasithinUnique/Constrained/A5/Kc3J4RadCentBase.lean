@@ -111,7 +111,7 @@ theorem blockRad_conditions_of_centralizer {X : Type} [Group X] [Finite X] {L : 
   obtain ⟨g, hgL, hg5, hg16⟩ := hg
   exact ⟨g, hgL, hg5, lt_of_lt_of_le hg16 (relIndex_inf_mono hUR g)⟩
 
-@[expose] def J4GlobalRadC : Prop :=
+def J4GlobalRadC : Prop :=
   ∀ L : Subgroup ↥J, D5Plus L → ⁅L, L⁆ = L →
     (∀ g : ↥J, ¬ L ≤ Hj.map (MulAut.conj g).toMonoidHom) →
     (¬ ∃ y : ↥J, orderOf y = 2 ∧ ∀ l ∈ L, l * y = y * l) →

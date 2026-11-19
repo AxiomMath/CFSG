@@ -25,12 +25,12 @@ theorem nParam_centralizer_le_one_of_psu3
     (e : L ≃* StatedProj (StatedSU 3 (p ^ f) K)) :
     E1.nParam (Subgroup.centralizer ({z} : Set G)) ≤ 1 := by
   classical
-  letI : Fact p.Prime := ⟨h.prime⟩
-  letI : CharP K p := h.charP
-  haveI : Finite K := h.finite
+  let : Fact p.Prime := ⟨h.prime⟩
+  let : CharP K p := h.charP
+  have : Finite K := h.finite
   let F : Type := LieType.Steinberg.fixedSubfield K p f
-  letI : Field F := inferInstance
-  letI : Finite F := inferInstance
+  let : Field F := inferInstance
+  let : Finite F := inferInstance
   obtain ⟨eSl⟩ := CFSG.ClassicalInvolution.Q3.TA3.Q5U3.nonempty_slPart_equiv h
   have hFcard : Nat.card F = p ^ f :=
     LieType.Steinberg.card_fixedSubfield (F := K) (p := p) (f := f) h.card_eq_sq
@@ -58,12 +58,12 @@ theorem nParam_centralizer_le_one_of_psu3_of_five_lt
     (e : L ≃* StatedProj (StatedSU 3 (p ^ f) K)) :
     E1.nParam (Subgroup.centralizer ({z} : Set G)) ≤ 1 := by
   classical
-  letI : Fact p.Prime := ⟨h.prime⟩
-  letI : CharP K p := h.charP
-  haveI : Finite K := h.finite
+  let : Fact p.Prime := ⟨h.prime⟩
+  let : CharP K p := h.charP
+  have : Finite K := h.finite
   let F : Type := LieType.Steinberg.fixedSubfield K p f
-  letI : Field F := inferInstance
-  letI : Finite F := inferInstance
+  let : Field F := inferInstance
+  let : Finite F := inferInstance
   obtain ⟨eSl⟩ := CFSG.ClassicalInvolution.Q3.TA3.Q5U3.nonempty_slPart_equiv h
   have hFcard : Nat.card F = p ^ f :=
     LieType.Steinberg.card_fixedSubfield (F := K) (p := p) (f := f) h.card_eq_sq

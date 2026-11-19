@@ -129,9 +129,9 @@ theorem get3_0 {α : Type} [Inhabited α] (x y z : α) : #[x, y, z][0]! = x := r
 theorem get3_1 {α : Type} [Inhabited α] (x y z : α) : #[x, y, z][1]! = y := rfl
 theorem get3_2 {α : Type} [Inhabited α] (x y z : α) : #[x, y, z][2]! = z := rfl
 
-theorem ex_0 (a : Nat) : ex a 0 = a / 16 := if_pos rfl
-theorem ex_1 (a : Nat) : ex a 1 = a / 4 % 4 := (if_neg (by decide)).trans (if_pos rfl)
-theorem ex_2 (a : Nat) : ex a 2 = a % 4 := (if_neg (by decide)).trans (if_neg (by decide))
+theorem ex_0 (a : Nat) : ex a 0 = a / 16 := ite_eq_left rfl
+theorem ex_1 (a : Nat) : ex a 1 = a / 4 % 4 := (ite_eq_right (by decide)).trans (ite_eq_left rfl)
+theorem ex_2 (a : Nat) : ex a 2 = a % 4 := (ite_eq_right (by decide)).trans (ite_eq_right (by decide))
 
 theorem good_cand {lwr : List (List Nat)} (hl : lwr.length = 3) (a : Nat) {j : Nat} (hj : j < 3) :
     Good (candImgs ((lwr.map (posArr nPts (wordArrs Data.MWords))).toArray) a)[j]!

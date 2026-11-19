@@ -16,10 +16,12 @@ section Lin3
 
 variable {F : Type} [Field F] [Finite F]
 
+omit [Finite F] in
 theorem units_pow_card_sub_one (α : Fˣ) : α ^ (Nat.card F - 1) = 1 := by
   rw [← Nat.card_units]
   exact pow_card_eq_one'
 
+omit [Finite F] in
 theorem coe_pow_apply_self {n : ℕ} {A : SpecialLinearGroup (Fin n) F}
     (hA : (A : Matrix (Fin n) (Fin n) F).IsUpperTriangular) (i : Fin n) (k : ℕ) :
     ((A ^ k : SpecialLinearGroup (Fin n) F) : Matrix (Fin n) (Fin n) F) i i =
@@ -50,6 +52,7 @@ theorem pow_card_sub_one_mem_projUnitriangular {g : projectiveSL 3 F}
   rw [← map_pow]
   exact Subgroup.mem_map_of_mem _ hAk
 
+omit [Finite F] in
 theorem sq_eq_one_of_central_projUnitriangular {z : projectiveSL 3 F}
     (hz : z ∈ projUnitriangular 3 F) (hc : ∀ y ∈ projUnitriangular 3 F, z * y = y * z) :
     z * z = 1 := by

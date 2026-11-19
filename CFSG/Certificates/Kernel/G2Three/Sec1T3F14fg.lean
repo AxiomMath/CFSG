@@ -58,7 +58,6 @@ theorem f14fg_E16_not_gen3 {Y : Type} [Group Y] [Finite Y] (hsq : ∀ y : Y, y *
         rw [Finset.coe_insert, Set.mem_insert_iff] at hy
         rcases hy with rfl | hy
         · right
-          change y * y ∈ Cs
           rw [hsq]
           exact Cs.one_mem
         · left
@@ -288,7 +287,7 @@ theorem f14fg_cenS_mset (X : ℕ) : ∀ gs : List ℕ, (∀ g ∈ gs, g < 128) �
     rw [e, cenE_mset hR _ (h g (by simp)),
       f14fg_cenS_mset X gs (fun g' hg' => h g' (by simp [hg']))]
     ext x
-    simp only [Set.mem_setOf_eq, List.mem_cons, forall_eq_or_imp]
+    simp only [Set.mem_ofPred_eq, List.mem_cons, forall_eq_or_imp]
     tauto
 
 theorem f14fg_sq_one_iff (K : ℕ) :
@@ -313,6 +312,7 @@ section Gen
 
 variable {Γ : Type} [Group Γ] [Finite Γ] {elt : ℕ → Γ} {P C V Q : ℕ}
 
+omit [Finite Γ] in
 theorem f14fg_gen4 {L OR RG N : ℕ} {G₀ : Subgroup Γ} (hR : RealT elt P C V Q)
     (hlat : (∀ k < N, ∃ K : Subgroup Γ, K ≤ G₀ ∧ RepM elt (latM L k) (K : Set Γ)) ∧
       ∀ K ≤ G₀, ∃ k < N, RepM elt (latM L k) (K : Set Γ))
@@ -346,6 +346,7 @@ section Frame
 
 variable {Γ : Type} [Group Γ] [Finite Γ] {fr : Frame Γ} {elt : ℕ → Γ} {P C V Q : ℕ}
 
+omit [Finite Γ] in
 theorem f14fg_gens (hg : ∀ s < 5, elt (s + 1) = sGen fr s) :
     elt 1 = fr.a₁ ∧ elt 2 = fr.b₁ ∧ elt 3 = fr.a₂ ∧ elt 4 = fr.b₂ ∧ elt 5 = fr.h₀ := by
   have h0 := hg 0 (by norm_num)
@@ -360,6 +361,7 @@ theorem f14fg_gens (hg : ∀ s < 5, elt (s + 1) = sGen fr s) :
   rw [sGen_four] at h4
   exact ⟨h0, h1, h2, h3, h4⟩
 
+omit [Finite Γ] in
 theorem f14fg_prods (hR : RealT elt P C V Q) (hg : ∀ s < 5, elt (s + 1) = sGen fr s) :
     elt (atR Q 2) = fr.z ∧ elt (mulE P 1 3) = fr.a₁ * fr.a₂ ∧
       elt (mulE P 2 4) = fr.b₁ * fr.b₂ ∧ elt (mulE P 1 4) = fr.a₁ * fr.b₂ ∧
@@ -376,12 +378,14 @@ theorem f14fg_prods (hR : RealT elt P C V Q) (hg : ∀ s < 5, elt (s + 1) = sGen
   · rw [mulE_elt hR (x := mulE P 1 2) (y := 3) (f13_mulE_lt _ _ _) (by norm_num),
       mulE_elt hR (x := 1) (y := 2) (by norm_num) (by norm_num), e1, e2, e3]
 
+omit [Finite Γ] in
 theorem f14fg_S_le : fr.S ≤ fr.Sσ := by
   unfold SFrame.S Frame.Sσ
   refine closure_mono fun x hx => ?_
   simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hx ⊢
   tauto
 
+omit [Finite Γ] in
 theorem f14fg_A_le : fr.A ≤ fr.S := by
   unfold SFrame.A SFrame.S
   refine closure_mono fun x hx => ?_
@@ -395,6 +399,7 @@ theorem f14fg_lt3 {a b c : ℕ} (ha : a < 128) (hb : b < 128) (hc : c < 128) :
   rcases hg with rfl | rfl | rfl
   exacts [ha, hb, hc]
 
+omit [Finite Γ] in
 theorem f14fg_clos3 (hR : RealT elt P C V Q) {a b c R : ℕ} (ha : a < 128) (hb : b < 128)
     (hc : c < 128) (h : closOK C [a, b, c] R = true) :
     mset elt (closK C [a, b, c] R) = (closure {elt a, elt b, elt c} : Set Γ) := by
@@ -402,6 +407,7 @@ theorem f14fg_clos3 (hR : RealT elt P C V Q) {a b c R : ℕ} (ha : a < 128) (hb 
   simp only [List.map_cons, List.map_nil]
   rw [f13_setOf_three]
 
+omit [Finite Γ] in
 theorem f14fg_S (hR : RealT elt P C V Q) (hg : ∀ s < 5, elt (s + 1) = sGen fr s) {R : ℕ}
     (h : closOK C [1, 2, 3, 4, 5] R = true) :
     mset elt (closK C [1, 2, 3, 4, 5] R) = (fr.S : Set Γ) := by
@@ -411,6 +417,7 @@ theorem f14fg_S (hR : RealT elt P C V Q) (hg : ∀ s < 5, elt (s + 1) = sGen fr 
   rw [f13_setOf_five]
   rfl
 
+omit [Finite Γ] in
 theorem f14fg_rep_eq {m : ℕ} {X Y : Subgroup Γ} (hX : RepM elt m (X : Set Γ))
     (hY : RepM elt m (Y : Set Γ)) : X = Y :=
   SetLike.coe_injective (hX.eq_mset.trans hY.eq_mset.symm)
@@ -596,6 +603,7 @@ theorem f14fg_nIf2_bit (a b : Bool) (k j : ℕ) :
   · simp
   · exact f14fg_nIf_bit b k j
 
+omit [Finite Γ] in
 theorem f14fg_subM_le (hR : RealT elt P C V Q) {L k X : ℕ} {K T : Subgroup Γ}
     (hK : RepM elt (latM L k) (K : Set Γ)) (hX : mset elt X = (T : Set Γ)) :
     subM (entL L k) X = true ↔ K ≤ T := by
@@ -610,6 +618,7 @@ theorem f14fg_subM_le (hR : RealT elt P C V Q) {L k X : ℕ} {K T : Subgroup Γ}
     rw [← SetLike.mem_coe, ← hX] at hx
     exact (mem_mset_iff hR.inj hi).1 hx
 
+omit [Finite Γ] in
 theorem f14fg_six {L N R : ℕ} {ws : List ℕ} (hR : RealT elt P C V Q)
     (hg : ∀ s < 5, elt (s + 1) = sGen fr s)
     (hlat : (∀ k < N, ∃ K : Subgroup Γ, K ≤ fr.Sσ ∧ RepM elt (latM L k) (K : Set Γ)) ∧
@@ -639,7 +648,7 @@ theorem f14fg_six {L N R : ℕ} {ws : List ℕ} (hR : RealT elt P C V Q)
     rw [cenE_mset hR _ (hlt _ _ _), hS, h24]
     ext x
     unfold SFrame.B centIn
-    simp only [Set.mem_setOf_eq, SetLike.mem_coe, Subgroup.mem_inf, mem_centralizer_iff]
+    simp only [Set.mem_ofPred_eq, SetLike.mem_coe, Subgroup.mem_inf, mem_centralizer_iff]
     constructor
     · rintro ⟨hx, hc⟩
       refine ⟨hx, fun y hy => (f14fg_comm_closure (s := {fr.b₁ * fr.b₂}) (x := x) ?_ y hy).symm⟩
@@ -657,7 +666,7 @@ theorem f14fg_six {L N R : ℕ} {ws : List ℕ} (hR : RealT elt P C V Q)
     rw [f14fg_cenS_mset hR _ _ hgB, hBm]
     ext x
     unfold cen
-    simp only [Set.mem_setOf_eq, SetLike.mem_coe, Subgroup.mem_inf, mem_centralizer_iff]
+    simp only [Set.mem_ofPred_eq, SetLike.mem_coe, Subgroup.mem_inf, mem_centralizer_iff]
     constructor
     · rintro ⟨hx, hc⟩
       refine ⟨hx, fun y hy => ?_⟩
@@ -690,7 +699,7 @@ theorem f14fg_six {L N R : ℕ} {ws : List ℕ} (hR : RealT elt P C V Q)
   rw [h14, h123, hz] at hY4
   let ent : ℕ → Subgroup Γ := fun k => if hk : k < N then (hlat.1 k hk).choose else ⊥
   have hentR : ∀ k (hk : k < N), RepM elt (latM L k) (ent k : Set Γ) := fun k hk => by
-    simp only [ent, dif_pos hk]
+    simp only [ent, dite_eq_left hk]
     exact (hlat.1 k hk).choose_spec.2
   have hent_of : ∀ k (hk : k < N) (K : Subgroup Γ), RepM elt (latM L k) (K : Set Γ) → K = ent k :=
     fun k hk K hK => f14fg_rep_eq hK (hentR k hk)

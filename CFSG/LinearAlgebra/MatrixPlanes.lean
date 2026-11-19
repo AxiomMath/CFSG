@@ -187,7 +187,7 @@ theorem scalar_pow_eq_one_of_conj_eq_scalar {X Y : GL (Fin n) F} {z b : Fˣ} {k 
       _ = GeneralLinearGroup.scalar (Fin n) (z ^ k) *
             GeneralLinearGroup.scalar (Fin n) b := by rw [hX]
   rw [← map_mul] at h1
-  haveI : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
+  have : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
   have h2 : b = z ^ k * b := generalLinearGroup_scalar_injective h1
   exact mul_right_cancel (by rw [← h2, one_mul])
 
@@ -255,7 +255,7 @@ theorem card_eq_mul_finrank_eigenspace_one {p : ℕ} (hp : p.Prime)
     (hXY : Y * X * Y⁻¹ = GeneralLinearGroup.scalar (Fin n) z * X) :
     n = p * Module.finrank F
       (Module.End.eigenspace (Matrix.toLin' (X : Matrix (Fin n) (Fin n) F)) 1) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set g : (Fin n → F) ≃ₗ[F] (Fin n → F) :=
     LinearMap.GeneralLinearGroup.generalLinearEquiv F (Fin n → F)
       (Matrix.GeneralLinearGroup.toLin X) with hg
@@ -307,13 +307,13 @@ theorem conj_eq_scalar_inv (hXY : Y * X * Y⁻¹ = GeneralLinearGroup.scalar (Fi
   rw [hXY', mul_assoc, mul_assoc, mul_inv_cancel, mul_one]
 
 theorem exists_basis_eq_pow_mulVec {p : ℕ} (hp : p.Prime) (hz : IsPrimitiveRoot (z : F) p)
-    (hX : X ^ p = 1) (hXY : Y * X * Y⁻¹ = GeneralLinearGroup.scalar (Fin n) z * X) (hn : n = p)
+    (_hX : X ^ p = 1) (hXY : Y * X * Y⁻¹ = GeneralLinearGroup.scalar (Fin n) z * X) (hn : n = p)
     {v : Fin n → F}
     (hv : v ∈ Module.End.eigenspace (Matrix.toLin' (X : Matrix (Fin n) (Fin n) F)) 1)
     (hv0 : v ≠ 0) :
     ∃ b : Basis (Fin p) F (Fin n → F), ∀ i : Fin p,
       b i = (Matrix.toLin' ((Y ^ i.val : GL (Fin n) F) : Matrix (Fin n) (Fin n) F)) v := by
-  haveI : Nonempty (Fin p) := ⟨⟨0, hp.pos⟩⟩
+  have : Nonempty (Fin p) := ⟨⟨0, hp.pos⟩⟩
   set w : Fin p → (Fin n → F) := fun i =>
     (Matrix.toLin' ((Y ^ i.val : GL (Fin n) F) : Matrix (Fin n) (Fin n) F)) v with hw
   have hwmem : ∀ i : Fin p,
@@ -366,7 +366,7 @@ theorem exists_eq_scalar_of_commute_of_conj_eq_scalar {p : ℕ} (hp : p.Prime)
   have hU0 : Module.End.eigenspace (Matrix.toLin' (X : Matrix (Fin n) (Fin n) F)) 1 ≠ ⊥ := by
     intro hbot
     rw [hbot] at hD1
-    simpa using hD1
+    simp at hD1
   obtain ⟨v, hv, hv0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hU0
   have hmatGX : (G : Matrix (Fin n) (Fin n) F) * (X : Matrix (Fin n) (Fin n) F) =
       (X : Matrix (Fin n) (Fin n) F) * (G : Matrix (Fin n) (Fin n) F) := by
@@ -432,9 +432,9 @@ theorem exists_eq_scalar_mul_pow_mul_pow {p : ℕ} (hp : p.Prime)
     (hGX : G * X * G⁻¹ = GeneralLinearGroup.scalar (Fin n) α * X)
     (hGY : G * Y * G⁻¹ = GeneralLinearGroup.scalar (Fin n) α' * Y) :
     ∃ (c : Fˣ) (i j : ℕ), G = GeneralLinearGroup.scalar (Fin n) c * X ^ i * Y ^ j := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hn0 : 0 < n := by rw [hn]; exact hp.pos
-  haveI : Nonempty (Fin n) := ⟨⟨0, hn0⟩⟩
+  have : Nonempty (Fin n) := ⟨⟨0, hn0⟩⟩
   have hsc1 : ∀ u : Fˣ, GeneralLinearGroup.scalar (Fin n) u = 1 → u = 1 :=
     fun _ hu => generalLinearGroup_scalar_injective (hu.trans (map_one _).symm)
   have hαp : α ^ p = 1 := by

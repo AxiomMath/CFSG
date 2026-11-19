@@ -70,7 +70,7 @@ theorem false_of_obstruction
   have h3' : 3 ≤ Module.finrank (ZMod 2) (Additive U) := by
     rw [← rk_eq_finrank_additive U]
     exact h3
-  haveI : IsSimpleGroup Mbar := hMbar ▸
+  have : IsSimpleGroup Mbar := hMbar ▸
     CFSG.LargeExtraspecial.S45Q.isSimpleGroup_top_of_three_le h3'
   have hKtop : K = Mbar := by
     rcases CFSG.Open.IsSubnormal.eq_bot_or_eq_of_isSimpleGroup hKsub inferInstance with h | h
@@ -87,13 +87,13 @@ theorem false_of_obstruction
   obtain ⟨y, -, hyU₀⟩ := Set.not_subset.mp hyU₀
   have hy0 : Additive.ofMul y ≠ 0 := by
     intro h
-    exact hyU₀ (by simpa [Additive.ofMul.injective h] using U₀.one_mem)
+    exact hyU₀ (by simp [Additive.ofMul.injective h])
   obtain ⟨φ, d, hφd, hgd⟩ :=
     CFSG.GroupTheory.GLnTwoSplitting.exists_transvection_apply_eq hx0 hy0
   have hmemK : LinearEquiv.transvection hφd ∈ K := by
     have htop : LinearEquiv.transvection hφd ∈
         (⊤ : Subgroup (Additive U ≃ₗ[ZMod 2] Additive U)) := Subgroup.mem_top _
-    simpa [hKtop, hMbar] using htop
+    simp [hKtop, hMbar]
   have hmem : Additive.toMul ((LinearEquiv.transvection hφd) (Additive.ofMul (x : U))) ∈ U₀ :=
     hN (LinearEquiv.transvection hφd) hmemK (x : U) hxU₀
   rw [hgd] at hmem
@@ -158,7 +158,7 @@ private theorem sup_span_eq_top_of_ker_eq
     have hzero : φ y + φ y * φ x = 0 := by
       rw [hφx, mul_one]
       exact CFSG.GroupTheory.GLnTwoSplitting.zmod_two_add_self (φ y)
-    simpa [map_add, map_smul, hzero] using hzero
+    simp [map_add, map_smul, hzero]
   have hdecomp : y = (y + φ y • x) + φ y • x := by
     have ha : φ y • x + φ y • x = 0 := by
       rw [← two_smul (ZMod 2) (φ y • x)]
@@ -172,7 +172,7 @@ private theorem le_axis_of_isInvariant
     {V : Type} [AddCommGroup V] [Module (ZMod 2) V]
     {Y : Subgroup (LinearMap.GeneralLinearGroup (ZMod 2) V)}
     {W : Submodule (ZMod 2) V} {φ : Dual (ZMod 2) V}
-    (hker : ∀ v, φ v = 0 ↔ v ∈ W) (hφ : φ ≠ 0)
+    (hker : ∀ v, φ v = 0 ↔ v ∈ W) (_hφ : φ ≠ 0)
     (hfull : ∀ a ∈ W, InG Y φ a)
     {X : Submodule (ZMod 2) V} (hX : IsGInvariant Y X) (hXlt : X ≠ ⊤) :
     X ≤ W := by
@@ -412,7 +412,7 @@ private theorem card_conj_inter_left_of_InCalO {U M : Subgroup G} {g : G}
     intro hbot
     refine hO.1.1 ?_
     rw [hbot]
-    simpa [CFSG.Quasithin.conjSubgroup] using (bot_le : (⊥ : Subgroup G) ≤ M)
+    simp [CFSG.Quasithin.conjSubgroup]
   have hrel : M.relIndex Ug = 2 := by
     rw [E3.relIndex_eq_two_pow hUgP M, hmE]
     norm_num
@@ -433,7 +433,7 @@ private theorem card_conj_inter_right_of_InCalO {U M : Subgroup G} {g : G}
     intro hbot
     refine hO.1.1 ?_
     rw [hbot]
-    simpa [CFSG.Quasithin.conjSubgroup] using (bot_le : (⊥ : Subgroup G) ≤ M)
+    simp [CFSG.Quasithin.conjSubgroup]
   have hrel : Mg.relIndex U = 2 := by
     rw [E3.relIndex_eq_two_pow (IsElemAbelian.isPGroup hU) Mg, hmW]
     norm_num
@@ -443,8 +443,9 @@ private theorem card_conj_inter_right_of_InCalO {U M : Subgroup G} {g : G}
     rw [h, hcardU, two_pow_rk_eq_two_mul hU hUne]
   exact Nat.eq_of_mul_eq_mul_left (by norm_num) h'
 
+omit [Finite G] in
 private theorem conj_inter_fixes_axis {U M : Subgroup G} {g : G}
-    (hUM : U ≤ M) (hMU : M ≤ Subgroup.normalizer (U : Set G))
+    (_hUM : U ≤ M) (hMU : M ≤ Subgroup.normalizer (U : Set G))
     (hTI : U ⊓ conjSubgroup U g = ⊥)
     {e w : G} (he : e ∈ conjSubgroup U g ⊓ M) (hw : w ∈ U ⊓ conjSubgroup M g) :
     e * w * e⁻¹ = w := by
@@ -483,6 +484,7 @@ private theorem conj_inter_fixes_axis {U M : Subgroup G} {g : G}
   calc e * w * e⁻¹ = (w * e) * e⁻¹ := by rw [h1]
     _ = w := by group
 
+omit [Finite G] in
 private theorem conj_inter_faithful {U M : Subgroup G} {g : G}
     (hO : InCalO 1 M ⊥ U g)
     (hC : ∀ e ∈ conjSubgroup U g ⊓ M, e ≠ 1 →

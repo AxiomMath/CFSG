@@ -45,7 +45,7 @@ theorem map_smul_add_smul_of_isometry {Q : QuadraticForm K V} {J : Module.End K 
     _ = (a * a - a * b + b * b) * Q v := by
         rw [QuadraticMap.map_smul, QuadraticMap.map_smul, hJ v, polar_smul_left,
           polar_smul_right, hp, smul_smul]
-        simp only [smul_eq_mul, neg_mul]
+        simp only [smul_eq_mul]
         ring
 
 omit [FiniteDimensional K V] in
@@ -97,6 +97,7 @@ theorem mul_factor_eq_zero {J : Module.End K V} (hJ2 : ∀ v, J (J v) = -v - J v
   simp
 
 omit [FiniteDimensional K V] in
+omit [AddCommGroup V] in
 private theorem range_pair_eq (a b : V) : Set.range ![a, b] = ({a, b} : Set V) := by
   ext y
   constructor
@@ -128,6 +129,7 @@ private theorem exists_le_finrank_eq_of_le (U : Submodule K V) {n : ℕ}
     exact x.2
   · rw [Submodule.finrank_map_subtype_eq, finrank_span_finset_eq_card hli, hs]
 
+omit [FiniteDimensional K V] in
 theorem quadratic_eq_zero_of_mem_ker_sub_smul {Q : QuadraticForm K V} {J : Module.End K V}
     (hJ : ∀ v, Q (J v) = Q v) {a : K} (ha : a * a ≠ 1) {u : V}
     (hu : u ∈ LinearMap.ker (J - a • (1 : Module.End K V))) : Q u = 0 := by
@@ -271,6 +273,7 @@ private noncomputable def polarPair (Q : QuadraticForm K V) (J : Module.End K V)
     Submodule K V :=
   LinearMap.ker (polarPairMap Q J s)
 
+omit [FiniteDimensional K V] in
 private theorem mem_polarPair {Q : QuadraticForm K V} {J : Module.End K V} {s u : V} :
     u ∈ polarPair Q J s ↔ polar Q u s = 0 ∧ polar Q u (J s) = 0 := by
   simp [polarPair, polarPairMap]
@@ -285,6 +288,7 @@ private theorem finrank_polarPair_ge (Q : QuadraticForm K V) (J : Module.End K V
   rw [polarPair]
   omega
 
+omit [FiniteDimensional K V] in
 private theorem map_mem_polarPair {Q : QuadraticForm K V} {J : Module.End K V}
     (hJ : ∀ v, Q (J v) = Q v) (hJ2 : ∀ v, J (J v) = -v - J v) {s u : V}
     (hu : u ∈ polarPair Q J s) : J u ∈ polarPair Q J s := by
@@ -303,6 +307,7 @@ private theorem map_mem_polarPair {Q : QuadraticForm K V} {J : Module.End K V}
     simpa using h1
   · exact h2
 
+omit [FiniteDimensional K V] in
 private theorem quadratic_eq_zero_of_mem_span_pair {Q : QuadraticForm K V} {J : Module.End K V}
     (hJ : ∀ v, Q (J v) = Q v) (hJ2 : ∀ v, J (J v) = -v - J v) {s : V} (hs : Q s = 0) :
     ∀ w ∈ Submodule.span K ({s, J s} : Set V), Q w = 0 := by
@@ -310,6 +315,7 @@ private theorem quadratic_eq_zero_of_mem_span_pair {Q : QuadraticForm K V} {J : 
   obtain ⟨a, b, rfl⟩ := Submodule.mem_span_pair.mp hw
   rw [map_smul_add_smul_of_isometry hJ hJ2, hs, mul_zero]
 
+omit [FiniteDimensional K V] in
 private theorem span_pair_le_polarPair {Q : QuadraticForm K V} {J : Module.End K V}
     (hJ : ∀ v, Q (J v) = Q v) (hJ2 : ∀ v, J (J v) = -v - J v) {s : V} (hsQ : Q s = 0) :
     Submodule.span K ({s, J s} : Set V) ≤ polarPair Q J s := by
@@ -343,8 +349,8 @@ private theorem exists_singular_mem_polarPair_not_mem [Finite K]
     rw [hCsup, show R ⊓ C = ⊥ from by rw [inf_comm, hCR], finrank_bot, add_zero,
       hRdim] at h
     omega
-  haveI : Fact (Nat.Prime (ringChar K)) := ⟨CharP.prime_ringChar K⟩
-  haveI : CharP K (ringChar K) := ringChar.charP K
+  have : Fact (Nat.Prime (ringChar K)) := ⟨CharP.prime_ringChar K⟩
+  have : CharP K (ringChar K) := ringChar.charP K
   obtain ⟨u, hu0, huQ⟩ :=
     CFSG.SeitzReduction.OmegaPilot.exists_ne_zero_map_eq_zero_of_three_le
       (p := ringChar K) (Q.comp C.subtype) (by omega)
@@ -356,6 +362,7 @@ private theorem exists_singular_mem_polarPair_not_mem [Finite K]
     exact hu0 (Subtype.ext hzero)
   · simpa [QuadraticMap.comp_apply] using huQ
 
+omit [FiniteDimensional K V] in
 private theorem map_mem_span_pair_of_mem {J : Module.End K V}
     (hJ2 : ∀ v, J (J v) = -v - J v) {v x : V}
     (hx : x ∈ Submodule.span K ({v, J v} : Set V)) :
@@ -368,6 +375,7 @@ private theorem map_mem_span_pair_of_mem {J : Module.End K V}
   exact Submodule.add_mem _ (Submodule.smul_mem _ _ (Submodule.subset_span (by simp)))
     (Submodule.smul_mem _ _ (Submodule.subset_span (by simp)))
 
+omit [FiniteDimensional K V] in
 private theorem polar_eq_zero_of_mem_span_pair_of_mem_polarPair {Q : QuadraticForm K V}
     {J : Module.End K V} (hJ : ∀ v, Q (J v) = Q v) (hJ2 : ∀ v, J (J v) = -v - J v)
     {s u : V} (hu : u ∈ polarPair Q J s) :
@@ -390,7 +398,7 @@ private theorem polar_eq_zero_of_mem_span_pair_of_mem_polarPair {Q : QuadraticFo
 
 private theorem disjoint_span_pair_of_mem_polarPair_not_mem {Q : QuadraticForm K V}
     {J : Module.End K V} (hJ2 : ∀ v, J (J v) = -v - J v)
-    (hnosplit : ∀ s : K, s ^ 2 + s + 1 ≠ 0) {s u : V} (hu : u ∈ polarPair Q J s)
+    (hnosplit : ∀ s : K, s ^ 2 + s + 1 ≠ 0) {s u : V} (_hu : u ∈ polarPair Q J s)
     (huR : u ∉ Submodule.span K ({s, J s} : Set V)) :
     Disjoint (Submodule.span K ({s, J s} : Set V))
       (Submodule.span K ({u, J u} : Set V)) := by
@@ -428,14 +436,14 @@ private theorem disjoint_span_pair_of_mem_polarPair_not_mem {Q : QuadraticForm K
     exact Submodule.subset_span (by simp)
   exact huR huR'
 
-theorem exists_totallySingular_of_isometry_nonsplit [Finite K] (hK : (3 : K) ≠ 0)
+theorem exists_totallySingular_of_isometry_nonsplit [Finite K] (_hK : (3 : K) ≠ 0)
     (Q : QuadraticForm K V) (J : Module.End K V) (hJ : ∀ v, Q (J v) = Q v)
     (hJ3 : J ^ 2 + J + 1 = 0)
     (hnosplit : ∀ s : K, s ^ 2 + s + 1 ≠ 0) (hdim : 8 ≤ Module.finrank K V) :
     ∃ W : Submodule K V, Module.finrank K W = 4 ∧ ∀ w ∈ W, Q w = 0 := by
   have hJ2 : ∀ v, J (J v) = -v - J v := apply_sq_add_self hJ3
-  haveI : Fact (Nat.Prime (ringChar K)) := ⟨CharP.prime_ringChar K⟩
-  haveI : CharP K (ringChar K) := ringChar.charP K
+  have : Fact (Nat.Prime (ringChar K)) := ⟨CharP.prime_ringChar K⟩
+  have : CharP K (ringChar K) := ringChar.charP K
   obtain ⟨s, hs0, hsQ⟩ :=
     CFSG.SeitzReduction.OmegaPilot.exists_ne_zero_map_eq_zero_of_three_le
       (p := ringChar K) Q (by omega)
@@ -507,13 +515,13 @@ private theorem proj_mul_self (hK : (3 : K) ≠ 0) {T : Module.End K V}
         rw [show (3⁻¹ : K) * 3⁻¹ * 3 = 3⁻¹ * (3⁻¹ * 3) by ring, h3inv, mul_one]
 
 omit [FiniteDimensional K V] in
-private theorem proj_mul_eq (hK : (3 : K) ≠ 0) {T : Module.End K V}
+private theorem proj_mul_eq (_hK : (3 : K) ≠ 0) {T : Module.End K V}
     (hT3v : ∀ v, T (T (T v)) = v) :
     proj T * T = proj T ∧ T * proj T = proj T := by
   constructor
   · ext v
     simp only [proj, pow_two, Module.End.mul_apply, LinearMap.add_apply, LinearMap.smul_apply,
-      Module.End.one_apply, map_add, map_smul]
+      Module.End.one_apply]
     simp only [hT3v]
     abel
   · ext v
@@ -529,11 +537,11 @@ private theorem proj_apply_fixed (hK : (3 : K) ≠ 0) {T : Module.End K V}
 
 omit [FiniteDimensional K V] in
 private theorem proj_sub_mem_range (hK : (3 : K) ≠ 0) {T : Module.End K V}
-    (hT3v : ∀ v, T (T (T v)) = v) (v : V) :
+    (_hT3v : ∀ v, T (T (T v)) = v) (v : V) :
     (1 - proj T) v ∈ LinearMap.range (T - 1) := by
   refine ⟨-((3⁻¹ : K) • (((2 : K) • (1 : Module.End K V) + T) v)), ?_⟩
   simp only [proj, pow_two, Module.End.mul_apply, LinearMap.sub_apply, LinearMap.add_apply,
-    LinearMap.smul_apply, Module.End.one_apply, map_add, map_smul, map_neg, one_smul]
+    LinearMap.smul_apply, Module.End.one_apply, map_add, map_smul, map_neg]
   have hc : (3⁻¹ : K) * 3 = 1 := inv_mul_cancel₀ hK
   calc -((3⁻¹ : K) • ((2 : K) • (T v - v) + (T (T v) - T v)))
       = (3⁻¹ : K) • (-((2 : K) • (T v - v) + (T (T v) - T v))) := by rw [smul_neg]
@@ -694,14 +702,14 @@ private theorem composite_poly_eq_zero {J Y Z e : Module.End K V}
     rw [show ((Z ^ 2 + Z + 1 : Module.End K V) * e) v = Z (Z x) + Z x + x by
         rw [Module.End.mul_apply, ← hx]
         simp only [pow_two, Module.End.mul_apply, LinearMap.add_apply,
-          Module.End.one_apply, map_add]] at h
+          Module.End.one_apply]] at h
     exact h
   have hYsum : Y (Y w) + Y w + w = 0 := by
     have h := congrArg (fun f : Module.End K V => f v) hYterm
     rw [show ((Y ^ 2 + Y + 1 : Module.End K V) * (1 - e)) v = Y (Y w) + Y w + w by
         rw [Module.End.mul_apply, ← hw]
         simp only [pow_two, Module.End.mul_apply, LinearMap.add_apply,
-          Module.End.one_apply, LinearMap.sub_apply, map_add, map_sub]] at h
+          Module.End.one_apply]] at h
     exact h
   rw [LinearMap.add_apply, LinearMap.add_apply, Module.End.one_apply, pow_two,
     Module.End.mul_apply, hJJw, hJvw]

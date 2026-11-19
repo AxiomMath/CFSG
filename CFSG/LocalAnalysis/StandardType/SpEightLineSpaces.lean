@@ -46,9 +46,9 @@ theorem spLineSpace_ne_bot_of_finrank_le_two_of_four_le {r : ℕ} {K : Type} [Fi
   classical
   intro hbot
   have D := exists_spPlaneDecomp_three h3 hcomm hexp hcard
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
-  haveI : Fintype E := Fintype.ofFinite E
-  haveI : Fintype {M : Subgroup ↥E // Nat.card M = 3} := Fintype.ofFinite _
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Fintype E := Fintype.ofFinite E
+  have : Fintype {M : Subgroup ↥E // Nat.card M = 3} := Fintype.ofFinite _
   have hP : CFSG.RankThree.PartOne.KCUnitaryPlane.IsPlane 3 ↥E :=
     ⟨Nat.prime_three, by rw [hcard]; norm_num, fun x => Subtype.ext (hexp x x.2)⟩
   have e := (LinearEquiv.ofBijective (DirectSum.coeLinearMap (spInnerSummand 3 E))

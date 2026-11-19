@@ -12,7 +12,7 @@ open CFSG.Assembly CFSG.Blueprint CFSG.Blueprint.Chevalley
 theorem ggE0ModelDataAt_E8
     (hS2 : ExcNoSuzukiReeAdj .E8) : GGE0ModelDataAt .E8 := by
   intro n f hadm hrank
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hZ : Subgroup.center (ggU .E8 n f).K = ⊥ :=
     CFSG.LieType.Chevalley.center_adjointGroup_eq_bot (τ := .E8) (K := GaloisField 2 f)
   refine ⟨(ggU .E8 n f).K, inferInstance, MonoidHom.id _,

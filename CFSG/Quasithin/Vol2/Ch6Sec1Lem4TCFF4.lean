@@ -89,9 +89,9 @@ theorem titsNotB55Fact_holds : FFStep.TitsNotB55Fact := by
         omega
       have hK2 : Nat.card K = 2 := hc.trans (by norm_num)
       have hSp : Nat.card (StatedSp 2 K) = 720 := by
-        rw [CFSG.LocalAnalysis.ComponentInitial.SymplecticFlag.card_statedSp_two K, hK2] <;>
+        rw [CFSG.LocalAnalysis.ComponentInitial.SymplecticFlag.card_statedSp_two K, hK2];
           norm_num
-      haveI : Finite ↥(StatedSp 2 K) := Nat.finite_of_card_ne_zero (by simp [hSp])
+      have : Finite ↥(StatedSp 2 K) := Nat.finite_of_card_ne_zero (by simp [hSp])
       have hcard := Subgroup.card_le_of_le (commutator_subgroup_le_self (StatedSp 2 K))
       rw [h1, hSp] at hcard
       omega
@@ -111,8 +111,8 @@ theorem titsNotB55Fact_holds : FFStep.TitsNotB55Fact := by
         have := one_le_of_card_eq_two_pow hc
         omega
       have hG : Nat.card (CFSG.Open.quasithinG2 K) = 12096 := by
-        rw [CFSG.Quasithin.Vol2.Ch11.SecC.O8.card_quasithinG2 hc, hc] <;> norm_num
-      haveI : Finite ↥(CFSG.Open.quasithinG2 K) := Nat.finite_of_card_ne_zero (by simp [hG])
+        rw [CFSG.Quasithin.Vol2.Ch11.SecC.O8.card_quasithinG2 hc, hc]; norm_num
+      have : Finite ↥(CFSG.Open.quasithinG2 K) := Nat.finite_of_card_ne_zero (by simp [hG])
       have hcard := Subgroup.card_le_of_le (commutator_subgroup_le_self (CFSG.Open.quasithinG2 K))
       rw [h1, hG] at hcard
       omega
@@ -125,7 +125,7 @@ theorem titsNotB55Fact_holds : FFStep.TitsNotB55Fact := by
     rw [nat_card_alternatingGroup, Nat.card_fin] at h1
     norm_num [Nat.factorial] at h1
   · have h360 : Nat.card (alternatingGroup (Fin 6)) = 360 := by
-      rw [nat_card_alternatingGroup, Nat.card_fin] <;> norm_num [Nat.factorial]
+      rw [nat_card_alternatingGroup, Nat.card_fin]; norm_num [Nat.factorial]
     have h1 := CFSG.Quasithin.Vol2.Ch11.SecC.O8.card_of_isHat h6 h360
     omega
   · obtain ⟨f⟩ := h7

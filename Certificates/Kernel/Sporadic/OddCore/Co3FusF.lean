@@ -276,7 +276,6 @@ theorem wits_ok : co3FusionWits.all (fun w => permOK 276 w.1 && invOK 276 w.1 (i
   have hk' := List.mem_range.1 hk
   obtain ⟨h1, h2, h3, h4, h5⟩ := wit_facts hk'
   rw [Function.comp_apply]
-  beta_reduce
   rw [Bool.and_eq_true, Bool.and_eq_true, fus_tab hk', invT_unpack (by norm_num) h2]
   refine ⟨⟨permOK_unpack h1 h2, invOK_unpack h1 h3 h2⟩, ?_⟩
   unfold co3Sift

@@ -43,16 +43,16 @@ theorem gj_zero_eq_companionMat [NeZero p] (ζ α : K) :
     simp only [PEquiv.toMatrix_apply, Equiv.toPEquiv_apply, Option.mem_def, Option.some.injEq,
       Equiv.symm_apply_eq, finRotate_eq_add_one_nonsplit]
   rw [HeisP.Gj_apply, companionMat]
-  simp only [Matrix.mul_diagonal, Matrix.of_apply]
+  simp only [Matrix.mul_diagonal]
   rw [hperm]
   have hiff : ((b : ℕ) + 1 = p) ↔ ((b : ℕ) = p - 1) :=
     ⟨fun h' => by omega, fun h' => by omega⟩
   by_cases hab : a = b + 1
-  · rw [if_pos hab, if_pos hab, zero_mul, pow_zero, one_mul, one_mul]
+  · rw [ite_eq_left hab, ite_eq_left hab, zero_mul, pow_zero, one_mul, one_mul]
     by_cases hbp : (b : ℕ) + 1 = p
-    · rw [if_pos hbp, if_pos (hiff.1 hbp)]
-    · rw [if_neg hbp, if_neg (fun h' => hbp (hiff.2 h'))]
-  · rw [if_neg hab, if_neg hab, zero_mul]
+    · rw [ite_eq_left hbp, ite_eq_left (hiff.1 hbp)]
+    · rw [ite_eq_right hbp, ite_eq_right (fun h' => hbp (hiff.2 h'))]
+  · rw [ite_eq_right hab, ite_eq_right hab, zero_mul]
 
 theorem heis_frame_unitary_alpha [Finite K] [Fact ℓ.Prime] [CharP K ℓ] [NeZero p]
     (h : UnitaryFieldData ℓ f K) (hp : p.Prime) (hp2 : p ≠ 2) (hpq : p ∣ ℓ ^ f + 1)
@@ -196,7 +196,7 @@ theorem eq_top_of_heis_pair_prime_nonsplit [Finite K] [Fact ℓ.Prime] [CharP K 
     (h1 : HeisTensor.Cent H (g₁ : Matrix (Fin p) (Fin p) K)) : H = ⊤ := by
   classical
   have hp2 : p ≠ 2 := by omega
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hα0 : α ≠ 0 := scalar_ne_zero_of_pow hg₁p
   have hαN : h.bar α * α = 1 := bar_mul_eq_one_of_scalar_pow h (by omega) hg₁ hg₁p
   have hg₁m : (g₁ : Matrix (Fin p) (Fin p) K) ^ p = α • 1 := by
@@ -392,7 +392,7 @@ theorem closure_eq_top_of_heis_pair [Finite K] [Fact ℓ.Prime] [CharP K ℓ]
         (g₁ : Matrix (Fin p) (Fin p) K) * ((g : GL (Fin p) K) : Matrix (Fin p) (Fin p) K) →
       g ∈ Subgroup.closure S) :
     Subgroup.closure S = ⊤ :=
-  closure_eq_top_of_cent h S hS₀ hS₁ (fun H h0 h1 =>
+  closure_eq_top_of_cent h S hS₀ hS₁ (fun _H h0 h1 =>
     eq_top_of_heis_pair_prime_nonsplit h hS hp hp5 hpq hg₀ hg₁ hζ hν0 hνN hα hg₀p hg₁p hcomm
       h0 h1)
 
@@ -412,13 +412,13 @@ theorem outer_heis_five_prime {ℓ f p : ℕ} {K : Type} [Field K]
       ((A : GL (Fin p) K) : Matrix (Fin p) (Fin p) K) =
         c • (((A : GL (Fin p) K) : Matrix (Fin p) (Fin p) K) *
           ((B : GL (Fin p) K) : Matrix (Fin p) (Fin p) K)))
-    (hc1 : c ≠ 1) (hcp : c ^ p = 1) (hprim : IsPrimitiveRoot c p) : PlaneGen E := by
+    (_hc1 : c ≠ 1) (hcp : c ^ p = 1) (hprim : IsPrimitiveRoot c p) : PlaneGen E := by
   classical
-  haveI : Finite K := h.finite
-  haveI : Fact ℓ.Prime := ⟨h.prime⟩
-  haveI : CharP K ℓ := h.charP
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Finite K := h.finite
+  have : Fact ℓ.Prime := ⟨h.prime⟩
+  have : CharP K ℓ := h.charP
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hn3 : 3 ≤ p := by omega
   have hp2 : p ≠ 2 := by omega
   have hn0 : 0 < p := by omega
@@ -516,10 +516,10 @@ theorem outer_heis_five_prime {ℓ f p : ℕ} {K : Type} [Field K]
 theorem unitaryOuterAbFive_holds : UnitaryOuterAbFive := by
   intro ℓ f n p K _ h hp5 hn4 hp hpq hpn E hE hc hD hout hab
   classical
-  haveI : Finite K := h.finite
-  haveI : Fact ℓ.Prime := ⟨h.prime⟩
-  haveI : CharP K ℓ := h.charP
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Finite K := h.finite
+  have : Fact ℓ.Prime := ⟨h.prime⟩
+  have : CharP K ℓ := h.charP
+  have : Fact p.Prime := ⟨hp⟩
   have hn3 : 3 ≤ n := by omega
   have hp2 : p ≠ 2 := by omega
   obtain ⟨e₁, he₁, e₂, he₂, he₂1, he₁₂⟩ := exists_independent_pair hp E hE.2 hc
@@ -577,11 +577,11 @@ theorem unitaryOuterHeisFive_of_singerU
     UnitaryOuterHeisFive := by
   intro ℓ f n p K _ h hp5 hn4 hp hp2 hpq hpn E hE hc hD hout hab
   classical
-  haveI : Finite K := h.finite
-  haveI : Fact ℓ.Prime := ⟨h.prime⟩
-  haveI : CharP K ℓ := h.charP
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Finite K := h.finite
+  have : Fact ℓ.Prime := ⟨h.prime⟩
+  have : CharP K ℓ := h.charP
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hn3 : 3 ≤ n := by omega
   have hn0 : 0 < n := by omega
   unfold DiagLiftsCommute at hab

@@ -198,7 +198,7 @@ theorem SecCond.exists_hyp59_of_sub (hc : h.SecCond y) (h₁ : Hyp52 ↥(h.secSu
     hc.fusionZStar_K_of_sub hK'', fusionZStar_J_of_sub hJ'', pPrimeCore_J_of_sub hJ'',
     hc.pPrimeCore_K_of_sub hK'', hconj, hinner, hc.T_of_sub h₁ hB₁ hT₁ hB' hT'⟩
 
-theorem SecCond.exists_isPComponent_centralizer_of_sub (hc : h.SecCond y)
+theorem SecCond.exists_isPComponent_centralizer_of_sub (_hc : h.SecCond y)
     (h' : Hyp59 (↥(h.secSubImg y) ⧸ pPrimeCore 2 ↥(h.secSubImg y))) {G' : Type*} [Group G']
     (e : ↥(generalizedFitting (↥(h.secSubImg y) ⧸ pPrimeCore 2 ↥(h.secSubImg y))) ≃* G') :
     ∃ M : Subgroup X, M ≤ centralizer (h.secB0 y : Set X) ∧
@@ -270,7 +270,7 @@ theorem SecCond.sectionData_of_sub (hc : h.SecCond y) (S' : Subgroup ↥(h.secSu
     · exact le_inf inf_le_left (le_inf (inf_le_left.trans hQS) inf_le_right)
   have hxP₁ : hc.subX ∈ S' ⊓ coreActionKernel (h.subJ y) := by
     refine inf_le_inf_right _ hSS' (?_ : hc.subX ∈ h.subS y ⊓ coreActionKernel (h.subJ y))
-    rw [hc.subS_inf_coreActionKernel]
+    rw [CFSG.ComponentClassification.GSThmB.Hyp52.SecCond.subS_inf_coreActionKernel]
     exact mem_map_of_mem _ (show (⟨y, hc.y_mem_G0⟩ : ↥(h.secG0 y)) ∈
       h.P.subgroupOf (h.secG0 y) from hc.mem_P)
   obtain ⟨h', eK, eJ, hOJ, hOK, hconj, hinner, eT⟩ :=

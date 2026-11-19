@@ -37,11 +37,11 @@ theorem p10_twE6_model_realization
           ∀ s, Multiplicative.toAdd (e (ggConjAut _ hα s)) =
             ε • TwE6NormThree.weylDual w (Multiplicative.toAdd (e s)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := charP_two_of_card (m := 1 * 2) (by rw [hK, pow_mul])
-  haveI : CharP (AlgebraicClosure F) 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := charP_two_of_card (m := 1 * 2) (by rw [hK, pow_mul])
+  have : CharP (AlgebraicClosure F) 2 :=
     charP_of_injective_algebraMap (algebraMap F (AlgebraicClosure F)).injective 2
-  haveI : IsAlgClosed (AlgebraicClosure F) := AlgebraicClosure.isAlgClosed F
+  have : IsAlgClosed (AlgebraicClosure F) := AlgebraicClosure.isAlgClosed F
   have h3 : 3 ∣ 2 ^ 1 + 1 := by norm_num
   have h30 : (3 : AlgebraicClosure F) ≠ 0 :=
     three_ne_zero_of_dvd_card_add_one (ℓ := 2) le_rfl h3

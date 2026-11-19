@@ -16,14 +16,14 @@ namespace Z6NA
 private theorem exists_mem_normalizer_sdiff {G : Type*} [Group G] [Finite G] {T Q : Subgroup G}
     (hQ : IsPGroup 2 Q) (hTQ : T ≤ Q) (hne : T ≠ Q) :
     ∃ p ∈ Q, p ∈ Subgroup.normalizer (T : Set G) ∧ p ∉ T := by
-  haveI : Group.IsNilpotent ↥Q := hQ.isNilpotent
+  have : Group.IsNilpotent ↥Q := hQ.isNilpotent
   have hlt : T.subgroupOf Q < ⊤ := by
     refine lt_top_iff_ne_top.mpr fun h => hne ?_
     refine le_antisymm hTQ fun x hx => ?_
     have : (⟨x, hx⟩ : ↥Q) ∈ T.subgroupOf Q := by rw [h]; exact Subgroup.mem_top _
     exact Subgroup.mem_subgroupOf.mp this
   have hnc := (Group.normalizerCondition_of_isNilpotent (G := ↥Q)) _ hlt
-  obtain ⟨s, hsN, hsT⟩ := SetLike.exists_of_lt hnc
+  obtain ⟨s, hsN, hsT⟩ := _root_.IsConcreteLE.exists_of_lt hnc
   refine ⟨s, s.2, ?_, fun h => hsT (Subgroup.mem_subgroupOf.mpr h)⟩
   have h1 : s ∈ (Subgroup.normalizer (T : Set G)).subgroupOf Q := by
     rw [Subgroup.subgroupOf_normalizer_eq hTQ]
@@ -169,7 +169,7 @@ private theorem exists_rho {G : Type*} [Group G] {A X : Subgroup G} (hAX : A ≤
         (Subgroup.normalizerMonoidHom A).ker := by
       ext n
       simp only [MonoidHom.mem_ker, MonoidHom.comp_apply, MulEquiv.toMonoidHom_eq_coe,
-        MonoidHom.coe_coe]
+        _root_.MonoidHom.coe_ofClass]
       exact map_eq_one_iff _ (MulAut.congr νA).injective
     rw [hker, Subgroup.normalizerMonoidHom_ker, hCA]
   · intro x hx
@@ -201,8 +201,8 @@ private theorem card_inf_ge {G : Type} [Group G] [Finite G] {A X : Subgroup G}
   set Y : Subgroup G := A ⊔ X with hY
   have hXY : X ≤ Y := le_sup_right
   have hYN : Y ≤ Subgroup.normalizer (A : Set G) := sup_le Subgroup.le_normalizer hXN
-  haveI := Subgroup.normal_subgroupOf_of_le_normalizer hAX
-  haveI := Subgroup.normal_subgroupOf_sup_of_le_normalizer hAX
+  have := Subgroup.normal_subgroupOf_of_le_normalizer hAX
+  have := Subgroup.normal_subgroupOf_sup_of_le_normalizer hAX
   have hi : Nat.card (A ⧸ X.subgroupOf A) = Nat.card (↥Y ⧸ X.subgroupOf Y) :=
     Nat.card_congr (QuotientGroup.quotientInfEquivProdNormalizerQuotient A X hAX).toEquiv
   have hXA : Nat.card (X.subgroupOf A) = Nat.card ↥(A ⊓ X) := by

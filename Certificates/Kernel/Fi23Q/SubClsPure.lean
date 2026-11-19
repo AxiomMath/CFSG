@@ -241,11 +241,11 @@ theorem cls_inC1 {D : Subgroup CFSG.Sporadic.Fi23.J} {c d : ℕ} (hc5 : Ok5 c) (
   by_cases h0 : Nat.beq d 0 = true
   · rw [Nat.eq_of_beq_eq_true h0, eps_zero]
     exact D.one_mem
-  rw [if_neg h0] at h
+  rw [ite_eq_right h0] at h
   by_cases h1 : Nat.beq d c = true
   · rw [Nat.eq_of_beq_eq_true h1]
     exact hcD
-  rw [if_neg h1] at h
+  rw [ite_eq_right h1] at h
   rw [Nat.eq_of_beq_eq_true h, eps_add hc5 hc5]
   exact D.mul_mem hcD hcD
 
@@ -341,11 +341,11 @@ theorem cls_hyper {D : Subgroup CFSG.Sporadic.Fi23.J} (hDS : D ≤ SubS) (hE : �
   have b4 := hb 4
   obtain ⟨F, hF⟩ : ∃ F : ℕ, F = (fv 0).val + 4 * ((fv 1).val + 4 * ((fv 2).val +
       4 * ((fv 3).val + 4 * (fv 4).val))) := ⟨_, rfl⟩
-  have d0 : dg F 0 = (fv 0).val := by rw [dg_eq, hF]; norm_num <;> omega
-  have d1 : dg F 1 = (fv 1).val := by rw [dg_eq, hF]; norm_num <;> omega
-  have d2 : dg F 2 = (fv 2).val := by rw [dg_eq, hF]; norm_num <;> omega
-  have d3 : dg F 3 = (fv 3).val := by rw [dg_eq, hF]; norm_num <;> omega
-  have d4 : dg F 4 = (fv 4).val := by rw [dg_eq, hF]; norm_num <;> omega
+  have d0 : dg F 0 = (fv 0).val := by rw [dg_eq, hF]; norm_num; omega
+  have d1 : dg F 1 = (fv 1).val := by rw [dg_eq, hF]; norm_num; omega
+  have d2 : dg F 2 = (fv 2).val := by rw [dg_eq, hF]; norm_num; omega
+  have d3 : dg F 3 = (fv 3).val := by rw [dg_eq, hF]; norm_num; omega
+  have d4 : dg F 4 = (fv 4).val := by rw [dg_eq, hF]; norm_num; omega
   have hFd : ∀ c : Fin 5, dg F c = (fv c).val := by
     intro c
     fin_cases c
@@ -409,7 +409,7 @@ theorem cls_hyper {D : Subgroup CFSG.Sporadic.Fi23.J} (hDS : D ≤ SubS) (hE : �
     have hm3 : m ≤ 3 := by
       have := Nat.le_of_dvd (by norm_num) h2
       omega
-    interval_cases m <;> first | omega | norm_num at h2
+    interval_cases m <;> first | omega
   have hWeq : W = (LinearMap.ker φ).toAddSubgroup :=
     AddSubgroup.eq_of_le_of_card_ge hWK (by rw [hKc, hWc])
   have hu : dgv (Nat.shiftRight (CFSG.KD.Fi23Q.npV.getD k 0) 8) ∈ W := by

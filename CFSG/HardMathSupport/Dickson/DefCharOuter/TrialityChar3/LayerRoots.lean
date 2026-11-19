@@ -81,6 +81,7 @@ variable {f : ℕ} (hf : 1 ≤ f) {K : Type} [Field K] [Finite K] [CharP K 3]
   (hK : Nat.card K = (3 ^ f) ^ 3) (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ (3 ^ f))
 include hf hK hσ
 
+omit hf [Finite K] [CharP K 3] hK hσ in
 theorem twistHom_pinnedX_of_fixedRoot {γ : Fin TwistTag.D4.tag.rank → ℤ}
     (hγ : IsRoot TwistTag.D4.tag γ) (hρ : permLattice TwistTag.D4.perm γ = γ) (c : K) :
     twistHom TwistTag.D4 K σ.toRingHom (pinnedX TwistTag.D4.tag K γ c) =
@@ -92,6 +93,7 @@ theorem twistHom_pinnedX_of_fixedRoot {γ : Fin TwistTag.D4.tag.rank → ℤ}
     pinnedX TwistTag.D4.tag K γ (σ c) from Units.ext (entrywise_pinnedX σ.toRingHom γ c)]
   exact diagramMap_conj_pinnedX_fixed hγ hρ (σ c)
 
+omit hf [Finite K] [CharP K 3] hK hσ in
 theorem pinnedX_mem_graphFixedPosUnipotent {γ : Fin TwistTag.D4.tag.rank → ℤ}
     (hγ : γ = rootB ∨ γ = rootC ∨ γ = rootD) {c : K} (hc : σ c = c) :
     pinnedX TwistTag.D4.tag K γ c ∈ graphFixedPosUnipotent TwistTag.D4 K σ.toRingHom := by
@@ -104,25 +106,28 @@ theorem pinnedX_mem_graphFixedPosUnipotent {γ : Fin TwistTag.D4.tag.rank → �
   refine Subgroup.mem_inf.2 ⟨pinnedX_mem_rootSpan
     (S := {α | IsRoot TwistTag.D4.tag α ∧ 0 < height α}) ⟨hr, hp⟩ c, ?_⟩
   refine (mem_twistedFixedGroup_iff_twistHom _ _ _).2 ⟨pinnedX_mem_adjointGroup γ c, ?_⟩
-  rw [twistHom_pinnedX_of_fixedRoot hf hK σ hσ hr hρ c, hc]
+  rw [twistHom_pinnedX_of_fixedRoot σ hr hρ c, hc]
 
 @[expose] noncomputable def longElt {γ : Fin TwistTag.D4.tag.rank → ℤ}
     (hγ : γ = rootB ∨ γ = rootC ∨ γ = rootD) (c : K) (hc : σ c = c) :
     graphFixedRootGroup TwistTag.D4 K σ.toRingHom :=
   ⟨pinnedX TwistTag.D4.tag K γ c,
     le_sup_left (a := graphFixedPosUnipotent TwistTag.D4 K σ.toRingHom)
-      (pinnedX_mem_graphFixedPosUnipotent hf hK σ hσ hγ hc)⟩
+      (pinnedX_mem_graphFixedPosUnipotent σ hγ hc)⟩
 
+omit hf [Finite K] [CharP K 3] hK hσ in
 theorem coe_longElt {γ : Fin TwistTag.D4.tag.rank → ℤ} (hγ : γ = rootB ∨ γ = rootC ∨ γ = rootD)
     (c : K) (hc : σ c = c) :
-    ((longElt hf hK σ hσ hγ c hc : graphFixedRootGroup TwistTag.D4 K σ.toRingHom) :
+    ((longElt σ hγ c hc : graphFixedRootGroup TwistTag.D4 K σ.toRingHom) :
       ModGL TwistTag.D4.tag K) = pinnedX TwistTag.D4.tag K γ c := rfl
 
+omit hf [Finite K] [CharP K 3] hK hσ in
 theorem longElt_zero {γ : Fin TwistTag.D4.tag.rank → ℤ} (hγ : γ = rootB ∨ γ = rootC ∨ γ = rootD)
-    (h0 : σ 0 = 0) : longElt hf hK σ hσ hγ 0 h0 = 1 := by
+    (h0 : σ 0 = 0) : longElt σ hγ 0 h0 = 1 := by
   apply Subtype.ext
   exact pinnedX_zero TwistTag.D4.tag K γ
 
+omit hf [CharP K 3] in
 theorem cocycleProd_eq_one_of_pow_three (u : graphFixedRootGroup TwistTag.D4 K σ.toRingHom)
     (hu : (MulAut.conj u * fieldActor (t := TwistTag.D4) σ σ) ^ 3 = 1) :
     cocycleProd (fieldActor (t := TwistTag.D4) σ σ) u = 1 := by
@@ -154,6 +159,7 @@ theorem cocycleProd_eq_one_of_pow_three (u : graphFixedRootGroup TwistTag.D4 K �
   rw [hbot, Subgroup.mem_bot] at hmem
   exact hmem
 
+omit hf [CharP K 3] hK hσ in
 theorem cocycleProd_eq_one_of_fixed_cube (m : graphFixedRootGroup TwistTag.D4 K σ.toRingHom)
     (hm : fieldActor (t := TwistTag.D4) σ σ m = m) (hm3 : m ^ 3 = 1) :
     cocycleProd (fieldActor (t := TwistTag.D4) σ σ) m = 1 := by
@@ -161,12 +167,13 @@ theorem cocycleProd_eq_one_of_fixed_cube (m : graphFixedRootGroup TwistTag.D4 K 
   rw [← pow_three']
   exact hm3
 
+omit hf [Finite K] [CharP K 3] hK hσ in
 theorem conj_mul_twisted (δ : MulAut (graphFixedRootGroup TwistTag.D4 K σ.toRingHom))
     (u w : graphFixedRootGroup TwistTag.D4 K σ.toRingHom) :
     MulAut.conj w⁻¹ * (MulAut.conj u * δ) * (MulAut.conj w⁻¹)⁻¹ =
       MulAut.conj (w⁻¹ * u * δ w) * δ := by
   rw [← map_inv MulAut.conj, inv_inv]
   ext x
-  simp only [MulAut.mul_apply, MulAut.conj_apply, map_mul, map_inv, inv_inv]
+  simp only [MulAut.mul_apply, MulAut.conj_apply, map_mul, map_inv]
 
 end CFSG.HardMathSupport.Dickson.DefCharOuter.TrialityChar3

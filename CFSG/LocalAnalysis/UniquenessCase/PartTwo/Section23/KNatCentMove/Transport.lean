@@ -20,11 +20,9 @@ theorem CentMove.mulVec {Γ : Subgroup (GL ι K)} {e₀ : ι → K} (h : CentMov
     CentMove Γ (((x : GL ι K) : Matrix ι ι K) *ᵥ e₀) := by
   intro u hu
   have hxx : ((x : GL ι K) : Matrix ι ι K) * ((x⁻¹ : GL ι K) : Matrix ι ι K) = 1 := by
-    simp only [← Units.val_mul, ← Subgroup.coe_mul Γ x x⁻¹, mul_inv_cancel, Subgroup.coe_one,
-      Units.val_one]
+    simp only [← Units.val_mul, mul_inv_cancel, Units.val_one]
   have hx'x : ((x⁻¹ : GL ι K) : Matrix ι ι K) * ((x : GL ι K) : Matrix ι ι K) = 1 := by
-    simp only [← Units.val_mul, ← Subgroup.coe_mul Γ x⁻¹ x, inv_mul_cancel, Subgroup.coe_one,
-      Units.val_one]
+    simp only [← Units.val_mul, inv_mul_cancel, Units.val_one]
   have hinj : ∀ {w₁ w₂ : ι → K}, ((x : GL ι K) : Matrix ι ι K) *ᵥ w₁ =
       ((x : GL ι K) : Matrix ι ι K) *ᵥ w₂ → w₁ = w₂ := by
     intro w₁ w₂ hw
@@ -122,10 +120,10 @@ private theorem mem_fixV_iff_coord {Γ : Subgroup (GL ι K)} {H : Subgroup (MulA
 theorem exists_fix_notMem_stabSub [Finite W] [Finite K] {Γ : Subgroup (GL ι K)}
     {H : Subgroup (MulAut W)} (hreal : (FFModel.nat Γ).Realizes H ⊤ ⊥) {e₀ : ι → K}
     (hline : KTabC.SylowFixedLine Γ e₀) (hmove : CentMove Γ e₀) {S : Subgroup (MulAut W)}
-    (hS : IsSylowIn 2 S H) {v : W} (hv1 : v ≠ 1) (hvS : v ∉ fixV S) :
+    (hS : IsSylowIn 2 S H) {v : W} (_hv1 : v ≠ 1) (hvS : v ∉ fixV S) :
     ∃ h ∈ H, h v = v ∧ h ∉ stabSub (fixV S) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨π, e, he⟩ := KTabC.exists_natEquiv hreal
   let S' : Sylow 2 ↥H := hS.toSylow
   have hS' : (S' : Subgroup ↥H) = S.subgroupOf H := IsSylowIn.coe_toSylow hS

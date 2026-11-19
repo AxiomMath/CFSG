@@ -26,12 +26,13 @@ open scoped Matrix
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {f : ℕ}
 
 
+omit [Finite F] [CharP F 2] in
 private theorem unitaryPlane_add_smul_add_smul {d : ℕ} {a b : Fin d → F} (α β γ δ ε : F) :
     α • a + β • b + γ • (δ • a + ε • b) = (α + γ * δ) • a + (β + γ * ε) • b := by
   module
 
 private theorem unitaryPlane_herm_b_plane {d : ℕ} {a b : Fin d → F}
-    (hF : Nat.card F = (2 ^ f) ^ 2) (ha : herm (unitaryInvolution F 2 f) a a = 0) (hb : herm
+    (hF : Nat.card F = (2 ^ f) ^ 2) (_ha : herm (unitaryInvolution F 2 f) a a = 0) (hb : herm
       (unitaryInvolution F 2 f) b b = 0)
     (hab : herm (unitaryInvolution F 2 f) a b = 1) (p r : F) : herm (unitaryInvolution F 2 f) b (p
       • a + r • b) = p := by
@@ -40,10 +41,10 @@ private theorem unitaryPlane_herm_b_plane {d : ℕ} {a b : Fin d → F}
   simp only [herm_add_right, herm_smul_right, hba, hb, mul_one, mul_zero, add_zero]
 
 private theorem unitaryPlane_herm_a_plane {d : ℕ} {a b : Fin d → F}
-    (ha : herm (unitaryInvolution F 2 f) a a = 0) (hb : herm (unitaryInvolution F 2 f) b b = 0)
+    (ha : herm (unitaryInvolution F 2 f) a a = 0) (_hb : herm (unitaryInvolution F 2 f) b b = 0)
       (hab : herm (unitaryInvolution F 2 f) a b = 1) (p r : F) :
     herm (unitaryInvolution F 2 f) a (p • a + r • b) = r := by
-  simp only [herm_add_right, herm_smul_right, ha, hab, mul_one, mul_zero, zero_add, add_zero]
+  simp only [herm_add_right, herm_smul_right, ha, hab, mul_one, mul_zero, zero_add]
 
 private theorem unitaryPlane_smul_add_smul_inj {d : ℕ} {a b : Fin d → F}
     (hF : Nat.card F = (2 ^ f) ^ 2) (ha : herm (unitaryInvolution F 2 f) a a = 0) (hb : herm
@@ -191,6 +192,7 @@ private theorem unitaryPlane_Phi_injective {d : ℕ} {a b : Fin d → F}
     simp
   exact inv_mul_eq_one.mp (unitaryPlane_planeSUN_injective hF ha hb hab h5)
 
+omit [Finite F] [CharP F 2] in
 private theorem unitaryPlane_smul_add_smul {d : ℕ} {a b : Fin d → F} (γ δ ε γ' δ' ε' : F) :
     γ • (δ • a + ε • b) + γ' • (δ' • a + ε' • b) =
       (γ * δ + γ' * δ') • a + (γ * ε + γ' * ε') • b := by
@@ -201,7 +203,7 @@ private noncomputable def unitaryPlane_tvMat (p r s : fixSub (unitaryInvolution 
   ⟨!![1 + s * p * r, s * p * p; s * r * r, 1 + s * p * r], by
     have h2 : (2 : ↥(fixSub (unitaryInvolution F 2 f))) = 0 := CharTwo.two_eq_zero
     rw [Matrix.det_fin_two]
-    simp only [Matrix.of_apply, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons]
+    simp only [Matrix.of_apply, Matrix.cons_val_zero, Matrix.cons_val_one]
     linear_combination (s * p * r) * h2⟩
 
 private theorem unitaryPlane_tvMat_entries (p r s : fixSub (unitaryInvolution F 2 f)) :
@@ -327,7 +329,7 @@ private theorem unitaryPlane_herm_plane_plane {d : ℕ} {a b : Fin d → F}
   have hv0 : (unitaryInvolution F 2 f) (v 0 : F) = (v 0 : F) := mem_fixSub.1 (v 0).2
   have hv1 : (unitaryInvolution F 2 f) (v 1 : F) = (v 1 : F) := mem_fixSub.1 (v 1).2
   simp only [herm_add_left, herm_add_right, herm_smul_left, herm_smul_right,
-    unitaryPlane_herm_b_plane hF ha hb hab, unitaryPlane_herm_a_plane ha hb hab, ha, hb, hab,
+    ha, hb, hab,
     hba, hv0, hv1]
   ring
 
@@ -674,7 +676,7 @@ private theorem unitaryPlane_coord_det_ne_zero {d : ℕ} {a b : Fin d → F}
         Fin 2 → fixSub (unitaryInvolution F 2 f)) 1 -
       v 1 * (![v 0 + lam * w 0, v 1 + lam * w 1] :
         Fin 2 → fixSub (unitaryInvolution F 2 f)) 0 ≠ 0 := by
-  simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons]
+  simp only [Matrix.cons_val_zero, Matrix.cons_val_one]
   have hmul : (v 0 : F) * ((v 1 : F) + (lam : F) * (w 1 : F)) -
       (v 1 : F) * ((v 0 : F) + (lam : F) * (w 0 : F)) =
       (lam : F) * herm (unitaryInvolution F 2 f) ((v 0 : F) • a + (v 1 : F) • b)
@@ -708,8 +710,7 @@ private theorem unitaryPlane_u2_mem {d : ℕ} {a b : Fin d → F}
       (![1, 0] : Fin 2 → fixSub (unitaryInvolution F 2 f)) := hBe.symm
   have hconj := unitaryPlane_conj hF ha hb hab B
     (![1, 0] : Fin 2 → fixSub (unitaryInvolution F 2 f)) v hBe' (c : F) (mem_fixSub.1 c.2)
-  simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
-    Subfield.coe_one, Subfield.coe_zero, one_smul, zero_smul, add_zero] at hconj
+  simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Subfield.coe_one, Subfield.coe_zero, one_smul, zero_smul, add_zero] at hconj
   rw [map_mul, map_mul, map_inv, unitaryPlane_Phi_u2, hconj]
   exact hzC (c : F) (mem_fixSub.1 c.2)
 
@@ -744,8 +745,7 @@ private theorem unitaryPlane_l2_mem {d : ℕ} {a b : Fin d → F}
   have hconj := unitaryPlane_conj hF ha hb hab B
     (![0, 1] : Fin 2 → fixSub (unitaryInvolution F 2 f)) (mu • wv) hBf' (c : F)
     (mem_fixSub.1 c.2)
-  simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
-    Subfield.coe_one, Subfield.coe_zero, one_smul, zero_smul, zero_add] at hconj
+  simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Subfield.coe_one, Subfield.coe_zero, one_smul, zero_smul, zero_add] at hconj
   simp only [Pi.smul_apply, smul_eq_mul] at hconj
   rw [← unitaryPlane_smul_vec wv mu, hwvz] at hconj
   rw [kFacts_suProjTv_smul_vec hF hwvi hs (mu : F)] at hconj
@@ -758,7 +758,7 @@ private theorem unitaryPlane_Phi_range_le_closure {d : ℕ} {a b : Fin d → F}
     (hF : Nat.card F = (2 ^ f) ^ 2) (ha : herm (unitaryInvolution F 2 f) a a = 0)
     (hb : herm (unitaryInvolution F 2 f) b b = 0)
     (hab : herm (unitaryInvolution F 2 f) a b = 1)
-    {v w : Fin 2 → fixSub (unitaryInvolution F 2 f)} (hv : v ≠ 0) (hw : w ≠ 0)
+    {v w : Fin 2 → fixSub (unitaryInvolution F 2 f)} (hv : v ≠ 0) (_hw : w ≠ 0)
     (hne : herm (unitaryInvolution F 2 f) ((v 0 : F) • a + (v 1 : F) • b)
       ((w 0 : F) • a + (w 1 : F) • b) ≠ 0) :
     (unitaryPlane_Phi hF ha hb hab).range ≤
@@ -819,7 +819,7 @@ private theorem unitaryPlane_closure_eq {d : ℕ} {a b : Fin d → F}
 
 private theorem unitaryPlane_card_fixSub (hF : Nat.card F = (2 ^ f) ^ 2) :
     Nat.card (fixSub (unitaryInvolution F 2 f)) = 2 ^ f := by
-  haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
+  have : Fact (Nat.Prime 2) := Nat.fact_prime_two
   have h := CFSG.LieType.Steinberg.card_fixedSubfield (F := F) (p := 2) (f := f) hF
   simpa [fixSub, CFSG.LieType.Steinberg.fixedSubfield] using h
 
@@ -880,8 +880,7 @@ private theorem unitaryPlane_involution_eq_tv {d : ℕ} {a b : Fin d → F}
     rw [mem_fixSub.1 c.2]; exact CharTwo.add_self_eq_zero _
   have hconj := unitaryPlane_conj hF ha hb hab B
     (![1, 0] : Fin 2 → fixSub (unitaryInvolution F 2 f)) w rfl (c : F) (mem_fixSub.1 c.2)
-  simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
-    Subfield.coe_one, Subfield.coe_zero, one_smul, zero_smul, add_zero] at hconj
+  simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Subfield.coe_one, Subfield.coe_zero, one_smul, zero_smul, add_zero] at hconj
   have hA : unitaryPlane_Phi hF ha hb hab A =
       kFactsSuProjTv hF d ((w 0 : F) • a + (w 1 : F) • b) (c : F) := by
     rw [hAB, map_mul, map_mul, map_inv, unitaryPlane_Phi_u2, hconj]
@@ -1166,9 +1165,9 @@ theorem exists_subgroup_of_isUnitaryTransvection {X : Type} [Group X]
         orderOf (x * y) = 2 ^ f + 1 := by
   obtain ⟨K, hKfield, hKfinite, hKchar, hK, φ, e₀, he₀0, he₀, hφs⟩ :=
     exists_mulEquiv_of_isUnitaryTransvection hZ hs
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
-  letI : CharP K 2 := hKchar
+  let : Field K := hKfield
+  let : Finite K := hKfinite
+  let : CharP K 2 := hKchar
   obtain ⟨b, hb, hab⟩ := exists_partner (isUnitaryInvolution_unitaryInvolution hK) he₀0 he₀
   have hclass : φ '' {x | IsConj s x} = unitaryPlane_S0 hK := by
     rw [CFSG.Fischer.image_setOf_isConj φ s, hφs,

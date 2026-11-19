@@ -121,7 +121,7 @@ theorem mat_rootU_eq {m : ℕ} (hm : 1 ≤ m) :
 theorem zero_ne_rev_zero (hm : 1 ≤ m) : (0 : Fin (m + 1)) ≠ Fin.rev 0 := by
   intro h
   have h' := congrArg Fin.val h
-  simp only [Fin.val_zero, Fin.val_rev, Fin.val_last] at h'
+  simp only [Fin.val_zero, Fin.val_rev] at h'
   omega
 
 @[expose] noncomputable def y0 (h : UnitaryFieldData 2 f K) (m : ℕ) : AutPSU.PJ h (m + 1) :=
@@ -132,7 +132,7 @@ theorem zero_ne_rev_zero (hm : 1 ≤ m) : (0 : Fin (m + 1)) ≠ Fin.rev 0 := by
 theorem y0_of_le (h : UnitaryFieldData 2 f K) {m : ℕ} (hm : 1 ≤ m) :
     y0 h m = AutPSU.projU h
       (AutPSU.lroot (unitaryInvolution K 2 f) (zero_ne_rev_zero hm)) :=
-  dif_pos hm
+  dite_eq_left hm
 
 @[expose] noncomputable def leviFull (h : UnitaryFieldData 2 f K) (m : ℕ) :
     Subgroup (AutPSU.PJ h (m + 1)) :=
@@ -151,9 +151,9 @@ theorem suR_of_le (h : UnitaryFieldData 2 f K) {m : ℕ} (hm : 1 ≤ m) :
     suR h m = ((LinFusion.ggTransPlacement hm).radical K).comap
       ((gramSUToSL h ((AutPSU.gramJ (m + 1) : GL (Fin (m + 1)) K) :
         Matrix (Fin (m + 1)) (Fin (m + 1)) K)).comp (AutPSU.suEquiv h).toMonoidHom) :=
-  dif_pos hm
+  dite_eq_left hm
 
-@[expose] noncomputable def suL (h : UnitaryFieldData 2 f K) (m : ℕ) :
+@[expose] noncomputable def suL (_h : UnitaryFieldData 2 f K) (m : ℕ) :
     Subgroup (SU (unitaryInvolution K 2 f) (m + 1)) :=
   if hm : 1 ≤ m then
     Subgroup.centralizer
@@ -170,7 +170,7 @@ theorem suL_of_le (h : UnitaryFieldData 2 f K) {m : ℕ} (hm : 1 ≤ m) :
         Set (SU (unitaryInvolution K 2 f) (m + 1))) ⊓
         Subgroup.centralizer ({(AutPSU.lroot (unitaryInvolution K 2 f)
           (zero_ne_rev_zero hm))} : Set (SU (unitaryInvolution K 2 f) (m + 1))) :=
-  dif_pos hm
+  dite_eq_left hm
 
 @[expose] noncomputable def radical (h : UnitaryFieldData 2 f K) (m : ℕ) :
     Subgroup (AutPSU.PJ h (m + 1)) :=
@@ -184,7 +184,7 @@ section Aux
 
 variable (h : UnitaryFieldData 2 f K)
 
-private noncomputable def slHom (m : ℕ) (hm : 1 ≤ m) :
+private noncomputable def slHom (m : ℕ) (_hm : 1 ≤ m) :
     SU (unitaryInvolution K 2 f) (m + 1) →* SpecialLinearGroup (Fin (m + 1)) K :=
   (gramSUToSL h ((AutPSU.gramJ (m + 1) : GL (Fin (m + 1)) K) :
     Matrix (Fin (m + 1)) (Fin (m + 1)) K)).comp (AutPSU.suEquiv h).toMonoidHom
@@ -318,7 +318,7 @@ private theorem col_of_commute_single {M : Matrix (Fin n) (Fin n) K} {a b : Fin 
     have hright : ((single a b (1 : K) : Matrix (Fin n) (Fin n) K) * M) i b = 0 :=
       Matrix.single_mul_apply_of_ne (1 : K) a b i b hi M
     rw [hleft, hright] at h'
-    rw [if_neg hi]
+    rw [ite_eq_right hi]
     exact h' 
 
 private theorem row_of_commute_single {M : Matrix (Fin n) (Fin n) K} {a b : Fin n}
@@ -366,9 +366,9 @@ private theorem suR_inf_suL_aux (k : ℕ) (hk : 2 ≤ k) :
     rw [hbb] at h
     by_cases hi : i = 0
     · subst i
-      rw [if_pos rfl] at h
+      rw [ite_eq_left rfl] at h
       simpa using h
-    · rw [if_neg hi] at h
+    · rw [ite_eq_right hi] at h
       simpa [hi] using h
   have hrowlast : ∀ j, mat (unitaryInvolution K 2 f) (k + 2) x (Fin.last (k + 1)) j =
       (1 : Matrix (Fin (k + 2)) (Fin (k + 2)) K) (Fin.last (k + 1)) j := by
@@ -379,9 +379,9 @@ private theorem suR_inf_suL_aux (k : ℕ) (hk : 2 ≤ k) :
     rw [h00] at h
     by_cases hj : j = Fin.last (k + 1)
     · subst j
-      rw [if_pos rfl] at h
+      rw [ite_eq_left rfl] at h
       simpa using h
-    · rw [if_neg hj] at h
+    · rw [ite_eq_right hj] at h
       rw [h]
       exact (Matrix.one_apply_ne (Ne.symm hj)).symm
   have hmat1 : mat (unitaryInvolution K 2 f) (k + 2) x = 1 := by
@@ -475,12 +475,12 @@ private theorem mem_suR_of_corner_aux (k : ℕ) (hm : 1 ≤ k + 1)
       (CFSG.LieType.Steinberg.CentralExt.SUOddFieldThree.mid a) (Fin.last (k + 1)) = 0 := by
     intro a
     rw [hcol]
-    rw [if_neg (CFSG.LieType.Steinberg.CentralExt.SUOddFieldThree.mid_ne_last a)]
+    rw [ite_eq_right (CFSG.LieType.Steinberg.CentralExt.SUOddFieldThree.mid_ne_last a)]
   have hrowlast : ∀ b : Fin k, mat (unitaryInvolution K 2 f) (k + 2) x 0
       (CFSG.LieType.Steinberg.CentralExt.SUOddFieldThree.mid b) = 0 := by
     intro b
     rw [hrow]
-    rw [if_neg (CFSG.LieType.Steinberg.CentralExt.SUOddFieldThree.mid_ne_zero b)]
+    rw [ite_eq_right (CFSG.LieType.Steinberg.CentralExt.SUOddFieldThree.mid_ne_zero b)]
   have hcoe := slHom_matrix_eq h (k + 1) hm x
   refine P.mem_radical.mpr fun i j hij => ?_
   change ((slHom h (k + 1) hm x : SpecialLinearGroup (Fin (k + 2)) K) :
@@ -492,8 +492,8 @@ private theorem mem_suR_of_corner_aux (k : ℕ) (hm : 1 ≤ k + 1)
     rw [hrow]
     by_cases hj : j = 0
     · subst j
-      rw [if_pos rfl, Matrix.one_apply_eq]
-    · rw [if_neg hj, Matrix.one_apply_ne (Ne.symm hj)]
+      rw [ite_eq_left rfl, Matrix.one_apply_eq]
+    · rw [ite_eq_right hj, Matrix.one_apply_ne (Ne.symm hj)]
   by_cases hil : i = Fin.last (k + 1)
   · subst i
     have hu0 : P.u 0 = Fin.last (k + 1) := by
@@ -515,7 +515,7 @@ private theorem mem_suR_of_corner_aux (k : ℕ) (hm : 1 ≤ k + 1)
         omega
     subst j
     rw [hcol]
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     rw [Matrix.one_apply_eq]
   · have hi_mid : i ∈ Set.range
         (CFSG.LieType.Steinberg.CentralExt.SUOddFieldThree.mid (m := k)) := by
@@ -590,6 +590,7 @@ theorem suRad_eq_suR (hk : 2 ≤ k) :
       simp [Matrix.one_apply,
         CFSG.LieType.Steinberg.CentralExt.SUOddFieldThree.mid_injective.eq_iff]
 
+omit [Finite K] [CharP K 2] in
 private theorem iotaMat_mul_single_last (B : Matrix (Fin k) (Fin k) K) :
     iotaMat (m := k) B *
       Matrix.single (0 : Fin (k + 2)) (Fin.last (k + 1)) (1 : K) =
@@ -602,17 +603,18 @@ private theorem iotaMat_mul_single_last (B : Matrix (Fin k) (Fin k) K) :
       · subst hi
         rw [iotaMat_isBlkOn (m := k) B 0 0
           (Or.inl (by rintro ⟨a, ha⟩; exact mid_ne_zero a ha))]
-        simp [Matrix.one_apply, Matrix.single_apply]
+        simp
       · rw [iotaMat_isBlkOn (m := k) B i 0
           (Or.inr (by rintro ⟨a, ha⟩; exact mid_ne_zero a ha))]
         have h0i : (0 : Fin (k + 2)) ≠ i := fun h => hi h.symm
-        simp [Matrix.one_apply, Matrix.single_apply, hi, h0i]
-    · simp [Matrix.single_apply, hj, Ne.symm hj]
+        simp [hi, h0i]
+    · simp [Ne.symm hj]
   · intro x _ hx
-    simp [Matrix.single_apply, hx, Ne.symm hx]
+    simp [Ne.symm hx]
   · intro hmem
     exact absurd (Finset.mem_univ _) hmem
 
+omit [Finite K] [CharP K 2] in
 private theorem single_last_mul_iotaMat (B : Matrix (Fin k) (Fin k) K) :
     Matrix.single (0 : Fin (k + 2)) (Fin.last (k + 1)) (1 : K) *
       iotaMat (m := k) B =
@@ -625,14 +627,14 @@ private theorem single_last_mul_iotaMat (B : Matrix (Fin k) (Fin k) K) :
       · subst hj
         rw [iotaMat_isBlkOn (m := k) B (Fin.last (k + 1)) (Fin.last (k + 1))
           (Or.inl (by rintro ⟨a, ha⟩; exact mid_ne_last a ha))]
-        simp [Matrix.one_apply, Matrix.single_apply]
+        simp
       · rw [iotaMat_isBlkOn (m := k) B (Fin.last (k + 1)) j
           (Or.inl (by rintro ⟨a, ha⟩; exact mid_ne_last a ha))]
-        simp [Matrix.one_apply, Matrix.single_apply, hj]
+        simp [Matrix.one_apply, Matrix.single_apply]
     · have h0i : (0 : Fin (k + 2)) ≠ i := fun h => hi h.symm
-      simp [Matrix.single_apply, h0i]
+      simp [h0i]
   · intro x _ hx
-    simp [Matrix.single_apply, hx, Ne.symm hx]
+    simp [Ne.symm hx]
   · intro hmem
     exact absurd (Finset.mem_univ _) hmem
 
@@ -662,6 +664,7 @@ section Isometry
 
 variable {σ : K ≃+* K}
 
+omit [Finite K] [CharP K 2] in
 private theorem isometry_submatrix_mid_of_row_zero (k : ℕ)
     (x : SU σ (k + 2)) (hrow : ∀ b : Fin k, mat σ (k + 2) x 0
       (CFSG.LieType.Steinberg.CentralExt.SUOddFieldThree.mid b) = 0) :
@@ -849,12 +852,12 @@ private theorem pCore_two_su_two_eq_bot (h : UnitaryFieldData 2 f K) :
     (CFSG.Quasithin.SimsG4.pCore_sl2_charTwo
       (F := CFSG.LieType.Steinberg.fixedSubfield K 2 f))
 
-private theorem odd_card_center_su (h : UnitaryFieldData 2 f K) {k : ℕ}
-    (hk : 3 ≤ k) (hkq : (k, 2 ^ f) ≠ (3, 2)) :
+private theorem odd_card_center_su (_h : UnitaryFieldData 2 f K) {k : ℕ}
+    (_hk : 3 ≤ k) (_hkq : (k, 2 ^ f) ≠ (3, 2)) :
     Odd (Nat.card (Subgroup.center (SU (unitaryInvolution K 2 f) k))) := by
   rw [← Nat.not_even_iff_odd]
   intro heven
-  haveI : Fintype (Subgroup.center (SU (unitaryInvolution K 2 f) k)) := Fintype.ofFinite _
+  have : Fintype (Subgroup.center (SU (unitaryInvolution K 2 f) k)) := Fintype.ofFinite _
   have h2dvd : 2 ∣ Nat.card (Subgroup.center (SU (unitaryInvolution K 2 f) k)) :=
     even_iff_two_dvd.mp heven
   rw [Nat.card_eq_fintype_card] at h2dvd
@@ -896,7 +899,7 @@ open CFSG.LieType.Steinberg.CentralExt.SUOddFieldThree (iotaHom)
 private theorem normal_coprime_eq_bot_of_heis {Q : Type} [Group Q] [Finite Q] {X P w F : Q}
     (H : HeisData Q X P w F) {N : Subgroup Q} (hN : N.Normal)
     (hcop : Nat.Coprime 3 (Nat.card N)) : N = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hR : (heisR X P).Normal := H.normal_R
   have hR27 : Nat.card (heisR X P) = 27 := H.card_R
   have hcop27 : Nat.Coprime (Nat.card N) 27 := by
@@ -1068,11 +1071,12 @@ section Det
 
 variable {k : ℕ}
 
+omit [Finite K] [CharP K 2] in
 private theorem det_eq_corner_sq_mul_mid {B : Matrix (Fin (k + 2)) (Fin (k + 2)) K}
     (hrow : ∀ j, B 0 j = if j = 0 then B (Fin.last (k + 1)) (Fin.last (k + 1)) else 0)
     (hcol : ∀ i, B i (Fin.last (k + 1)) =
       if i = Fin.last (k + 1) then B (Fin.last (k + 1)) (Fin.last (k + 1)) else 0)
-    (hcorner : B (Fin.last (k + 1)) (Fin.last (k + 1)) = B 0 0)
+    (_hcorner : B (Fin.last (k + 1)) (Fin.last (k + 1)) = B 0 0)
     (hlam0 : B (Fin.last (k + 1)) (Fin.last (k + 1)) ≠ 0) :
     B.det = (B (Fin.last (k + 1)) (Fin.last (k + 1))) ^ 2 *
       (B.submatrix (CFSG.LieType.Steinberg.CentralExt.SUOddFieldThree.mid (m := k))
@@ -1084,18 +1088,18 @@ private theorem det_eq_corner_sq_mul_mid {B : Matrix (Fin (k + 2)) (Fin (k + 2))
     rw [hy, Matrix.smul_apply, smul_eq_mul]
     by_cases hb : b = 0
     · subst hb
-      rw [hrow 0, if_pos rfl, Matrix.one_apply_eq]
+      rw [hrow 0, ite_eq_left rfl, Matrix.one_apply_eq]
       exact inv_mul_cancel₀ hlam0
-    · rw [hrow b, if_neg hb, Matrix.one_apply_ne (Ne.symm hb), mul_zero]
+    · rw [hrow b, ite_eq_right hb, Matrix.one_apply_ne (Ne.symm hb), mul_zero]
   have hycol : ∀ a, y a (Fin.last (k + 1)) =
       (1 : Matrix (Fin (k + 2)) (Fin (k + 2)) K) a (Fin.last (k + 1)) := by
     intro a
     rw [hy, Matrix.smul_apply, smul_eq_mul, hcol a]
     by_cases ha : a = Fin.last (k + 1)
     · subst ha
-      rw [if_pos rfl, Matrix.one_apply_eq]
+      rw [ite_eq_left rfl, Matrix.one_apply_eq]
       exact inv_mul_cancel₀ hlam0
-    · rw [if_neg ha, Matrix.one_apply_ne ha, mul_zero]
+    · rw [ite_eq_right ha, Matrix.one_apply_ne ha, mul_zero]
   have hdet := RootCentSU.det_eq_det_submatrix_mid hyrow hycol
   have hleft : y.det = (lam⁻¹) ^ (k + 2) * B.det := by
     rw [hy, Matrix.det_smul, Fintype.card_fin]
@@ -1134,6 +1138,7 @@ section CommuteEntries
 
 variable {k : ℕ}
 
+omit [Finite K] [CharP K 2] in
 private theorem commute_single_last_zero_of_row_col {B : Matrix (Fin (k + 2)) (Fin (k + 2)) K}
     (hrow : ∀ j, B 0 j = if j = 0 then B 0 0 else 0)
     (hcol : ∀ i, B i (Fin.last (k + 1)) = if i = Fin.last (k + 1) then B 0 0 else 0) :
@@ -1147,16 +1152,17 @@ private theorem commute_single_last_zero_of_row_col {B : Matrix (Fin (k + 2)) (F
     rw [Matrix.mul_single_apply_same, mul_one]
     by_cases hi : i = Fin.last (k + 1)
     · subst hi
-      rw [Matrix.single_mul_apply_same, one_mul, hcol (Fin.last (k + 1)), if_pos rfl,
-        hrow 0, if_pos rfl]
+      rw [Matrix.single_mul_apply_same, one_mul, hcol (Fin.last (k + 1)), ite_eq_left rfl,
+        hrow 0, ite_eq_left rfl]
     · rw [Matrix.single_mul_apply_of_ne (1 : K) (Fin.last (k + 1)) 0 i 0 hi, hcol i,
-        if_neg hi]
+        ite_eq_right hi]
   · rw [Matrix.mul_single_apply_of_ne (1 : K) (Fin.last (k + 1)) 0 i j hj]
     by_cases hi : i = Fin.last (k + 1)
     · subst hi
-      rw [Matrix.single_mul_apply_same, one_mul, hrow j, if_neg hj]
+      rw [Matrix.single_mul_apply_same, one_mul, hrow j, ite_eq_right hj]
     · rw [Matrix.single_mul_apply_of_ne (1 : K) (Fin.last (k + 1)) 0 i j hi]
 
+omit [Finite K] [CharP K 2] in
 private theorem commute_single_zero_last_of_col_row {B : Matrix (Fin (k + 2)) (Fin (k + 2)) K}
     (hcol : ∀ i, B i 0 = if i = 0 then B (Fin.last (k + 1)) (Fin.last (k + 1)) else 0)
     (hrow : ∀ j, B (Fin.last (k + 1)) j =
@@ -1171,14 +1177,14 @@ private theorem commute_single_zero_last_of_col_row {B : Matrix (Fin (k + 2)) (F
     rw [Matrix.mul_single_apply_same, mul_one]
     by_cases hi : i = 0
     · subst hi
-      rw [Matrix.single_mul_apply_same, one_mul, hcol 0, if_pos rfl,
-        hrow (Fin.last (k + 1)), if_pos rfl]
+      rw [Matrix.single_mul_apply_same, one_mul, hcol 0, ite_eq_left rfl,
+        hrow (Fin.last (k + 1)), ite_eq_left rfl]
     · rw [Matrix.single_mul_apply_of_ne (1 : K) 0 (Fin.last (k + 1)) i
-        (Fin.last (k + 1)) hi, hcol i, if_neg hi]
+        (Fin.last (k + 1)) hi, hcol i, ite_eq_right hi]
   · rw [Matrix.mul_single_apply_of_ne (1 : K) 0 (Fin.last (k + 1)) i j hj]
     by_cases hi : i = 0
     · subst hi
-      rw [Matrix.single_mul_apply_same, one_mul, hrow j, if_neg hj]
+      rw [Matrix.single_mul_apply_same, one_mul, hrow j, ite_eq_right hj]
     · rw [Matrix.single_mul_apply_of_ne (1 : K) 0 (Fin.last (k + 1)) i j hi]
 
 end CommuteEntries
@@ -1296,7 +1302,7 @@ theorem centralizer_rootU_eq_suR_sup_suL (k : ℕ) (hk : 2 ≤ k) :
         (CFSG.LieType.Steinberg.CentralExt.SUOddFieldThree.mid b) = 0 := by
       intro b
       rw [hrowx]
-      rw [if_neg (CFSG.LieType.Steinberg.CentralExt.SUOddFieldThree.mid_ne_zero b)]
+      rw [ite_eq_right (CFSG.LieType.Steinberg.CentralExt.SUOddFieldThree.mid_ne_zero b)]
     have hMunit : CFSG.LieType.Universal.Unitary.conjTr (unitaryInvolution K 2 f) M *
         antidiag k * M = antidiag k := by
       simpa [M] using isometry_submatrix_mid_of_row_zero k x hrow_zero
@@ -1338,8 +1344,8 @@ theorem centralizer_rootU_eq_suR_sup_suL (k : ℕ) (hk : 2 ≤ k) :
       rw [CFSG.LieType.Steinberg.CentralExt.SUOddFieldThree.iotaMat_isBlkOn M 0 j
         (Or.inl RootCentSU.zero_not_mem_range_mid)]
       by_cases hj : j = 0
-      · subst hj; rw [if_pos rfl]; simp
-      · rw [if_neg hj]; simp [Matrix.one_apply_ne (Ne.symm hj)]
+      · subst hj; rw [ite_eq_left rfl]; simp
+      · rw [ite_eq_right hj]; simp [Matrix.one_apply_ne (Ne.symm hj)]
     have hdcollast : ∀ i, ((d : GL (Fin (k + 2)) K) :
         Matrix (Fin (k + 2)) (Fin (k + 2)) K) i (Fin.last (k + 1)) =
         if i = Fin.last (k + 1) then lam else 0 := by
@@ -1349,7 +1355,7 @@ theorem centralizer_rootU_eq_suR_sup_suL (k : ℕ) (hk : 2 ≤ k) :
         (Fin.last (k + 1)) (Or.inr RootCentSU.last_not_mem_range_mid)]
       by_cases hi : i = Fin.last (k + 1)
       · subst hi; rw [htlast]; simp
-      · rw [if_neg hi]; simp [Matrix.one_apply_ne hi]
+      · rw [ite_eq_right hi]; simp [Matrix.one_apply_ne hi]
     have hdcol0 : ∀ i, ((d : GL (Fin (k + 2)) K) :
         Matrix (Fin (k + 2)) (Fin (k + 2)) K) i 0 = if i = 0 then lam else 0 := by
       intro i
@@ -1358,7 +1364,7 @@ theorem centralizer_rootU_eq_suR_sup_suL (k : ℕ) (hk : 2 ≤ k) :
         (Or.inr RootCentSU.zero_not_mem_range_mid)]
       by_cases hi : i = 0
       · subst hi; rw [ht0]; simp
-      · rw [if_neg hi]; simp [Matrix.one_apply_ne hi]
+      · rw [ite_eq_right hi]; simp [Matrix.one_apply_ne hi]
     have hdrowlast : ∀ j, ((d : GL (Fin (k + 2)) K) :
         Matrix (Fin (k + 2)) (Fin (k + 2)) K) (Fin.last (k + 1)) j =
         if j = Fin.last (k + 1) then lam else 0 := by
@@ -1369,7 +1375,7 @@ theorem centralizer_rootU_eq_suR_sup_suL (k : ℕ) (hk : 2 ≤ k) :
       rw [htlast]
       by_cases hj : j = Fin.last (k + 1)
       · subst hj; simp
-      · rw [if_neg hj]; simp [Matrix.one_apply_ne (Ne.symm hj)]
+      · rw [ite_eq_right hj]; simp [Matrix.one_apply_ne (Ne.symm hj)]
     have hdmid : ((d : GL (Fin (k + 2)) K) :
         Matrix (Fin (k + 2)) (Fin (k + 2)) K).submatrix
         (CFSG.LieType.Steinberg.CentralExt.SUOddFieldThree.mid (m := k))
@@ -1462,7 +1468,7 @@ theorem centralizer_rootU_eq_suR_sup_suL (k : ℕ) (hk : 2 ≤ k) :
         intro i
         rw [hdcol0 i]
         split_ifs with h
-        · simp [hdrow0 0, hdcollast (Fin.last (k + 1))]
+        · simp [hdcollast (Fin.last (k + 1))]
         · rfl
       have hrowlast' : ∀ j, ((d : GL (Fin (k + 2)) K) :
           Matrix (Fin (k + 2)) (Fin (k + 2)) K) (Fin.last (k + 1)) j =
@@ -1546,7 +1552,7 @@ theorem map_centralizer_of_involution {X G : Type*} [Group X] [Finite X] [Group 
     (hZc : π.ker ≤ Subgroup.center X) (hZ : Odd (Nat.card π.ker))
     {x : X} (hx2 : x * x = 1) :
     (Subgroup.centralizer {x}).map π = Subgroup.centralizer {π x} := by
-  haveI := MonoidHom.normal_ker π
+  have := MonoidHom.normal_ker π
   refine le_antisymm ?_ ?_
   · rintro _ ⟨u, hu, rfl⟩
     have hu' : u * x = x * u := by
@@ -1664,6 +1670,7 @@ section Targets
 
 variable {f m : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] in
 private theorem single_add_mul_self {n : ℕ} {a b : Fin n} (h : a ≠ b) :
     ((1 : Matrix (Fin n) (Fin n) K) + Matrix.single a b (1 : K)) *
       ((1 : Matrix (Fin n) (Fin n) K) + Matrix.single a b (1 : K)) = 1 := by
@@ -1677,6 +1684,7 @@ private theorem single_add_mul_self {n : ℕ} {a b : Fin n} (h : a ≠ b) :
     simp [Matrix.add_apply, CharTwo.add_self_eq_zero]
   rw [add_assoc, h2, add_zero]
 
+omit [Finite K] in
 private theorem lroot_mul_self {n : ℕ} {σ : K ≃+* K} {i : Fin n} (hi : i ≠ Fin.rev i) :
     AutPSU.lroot σ hi * AutPSU.lroot σ hi = 1 := by
   apply CFSG.LieType.Universal.Unitary.SUExtras.mat_injective
@@ -1915,7 +1923,7 @@ private theorem normal_twoSubgroup_leviFull_eq_bot (h : UnitaryFieldData 2 f K) 
         simpa [AutPSU.projU, QuotientGroup.eq_one_iff] using hxπ)
     exact Subgroup.mem_center_iff.mp hxcenter
       ((y : suL h (k + 1)) : SU (unitaryInvolution K 2 f) (k + 2))
-  haveI : Group.IsNilpotent H := hH2.isNilpotent
+  have : Group.IsNilpotent H := hH2.isNilpotent
   have hTnil : Group.IsNilpotent T :=
     Subgroup.isNilpotent_of_ker_le_center g hker_center
   let S : Subgroup T := CFSG.pCore 2 T

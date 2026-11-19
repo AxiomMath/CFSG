@@ -79,8 +79,8 @@ private lemma hdRo7DIrrAux_signChangeLin_involutive
     intro j
     rw [LinearMap.comp_apply, LinearMap.id_apply, hS j]
     by_cases hj : j ∈ T
-    · rw [if_pos hj, map_neg, hS j, if_pos hj, neg_neg]
-    · rw [if_neg hj, hS j, if_neg hj]
+    · rw [ite_eq_left hj, map_neg, hS j, ite_eq_left hj, neg_neg]
+    · rw [ite_eq_right hj, hS j, ite_eq_right hj]
   intro x
   have hx := congrArg (fun L : V →ₗ[ZMod 3] V => L x) hcomp
   simpa [LinearMap.comp_apply] using hx
@@ -196,7 +196,7 @@ private theorem hdRo7DIrrAux_signedSwap_reflData
   · intro hzero
     have h := congrArg (b.coord i) hzero
     rw [map_sub, map_smul, hdRo7SUReduceVAux_coord_basis b i i,
-      hdRo7SUReduceVAux_coord_basis b i j, if_pos rfl, if_neg hij, smul_zero, map_zero,
+      hdRo7SUReduceVAux_coord_basis b i j, ite_eq_left rfl, ite_eq_right hij, smul_zero, map_zero,
       sub_zero] at h
     exact one_ne_zero h
   · simp [hij, hε]
@@ -251,13 +251,13 @@ private theorem hdRo7DIrrAux_signedSwap_dsp
     rw [hdRo7DIrrAux_signedSwap_apply b hij hεsq]
     by_cases hki : k = i
     · subst hki
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       simp
     · by_cases hkj : k = j
       · subst hkj
-        rw [if_neg hki]
+        rw [ite_eq_right hki]
         simp
-      · rw [if_neg hki, if_neg hkj, Equiv.swap_apply_of_ne_of_ne hki hkj]
+      · rw [ite_eq_right hki, ite_eq_right hkj, Equiv.swap_apply_of_ne_of_ne hki hkj]
         simp [hki, hkj]
 
 private noncomputable def hdRo7DIrrAux_U
@@ -266,25 +266,25 @@ private noncomputable def hdRo7DIrrAux_U
 
 private lemma hdRo7DIrrAux_z_not_mem_U (b : Module.Basis (Fin (n + 1)) (ZMod 3) V) :
     b 0 ∉ hdRo7DIrrAux_U b := by
-  rw [hdRo7DIrrAux_U, LinearMap.mem_ker, hdRo7SUReduceVAux_coord_basis b 0 0, if_pos rfl]
+  rw [hdRo7DIrrAux_U, LinearMap.mem_ker, hdRo7SUReduceVAux_coord_basis b 0 0, ite_eq_left rfl]
   exact one_ne_zero
 
 private lemma hdRo7DIrrAux_diff_mem_U (b : Module.Basis (Fin (n + 1)) (ZMod 3) V)
     {i j : Fin (n + 1)} (hi : i ≠ 0) (hj : j ≠ 0) :
     b i - b j ∈ hdRo7DIrrAux_U b := by
   rw [hdRo7DIrrAux_U, LinearMap.mem_ker, map_sub, hdRo7SUReduceVAux_coord_basis b 0 i,
-    hdRo7SUReduceVAux_coord_basis b 0 j, if_neg (Ne.symm hi), if_neg (Ne.symm hj), sub_zero]
+    hdRo7SUReduceVAux_coord_basis b 0 j, ite_eq_right (Ne.symm hi), ite_eq_right (Ne.symm hj), sub_zero]
 
 private lemma hdRo7DIrrAux_sum_mem_U (b : Module.Basis (Fin (n + 1)) (ZMod 3) V)
     {i j : Fin (n + 1)} (hi : i ≠ 0) (hj : j ≠ 0) :
     b i + b j ∈ hdRo7DIrrAux_U b := by
   rw [hdRo7DIrrAux_U, LinearMap.mem_ker, map_add, hdRo7SUReduceVAux_coord_basis b 0 i,
-    hdRo7SUReduceVAux_coord_basis b 0 j, if_neg (Ne.symm hi), if_neg (Ne.symm hj), add_zero]
+    hdRo7SUReduceVAux_coord_basis b 0 j, ite_eq_right (Ne.symm hi), ite_eq_right (Ne.symm hj), add_zero]
 
 private lemma hdRo7DIrrAux_sub_smul_mem_U (b : Module.Basis (Fin (n + 1)) (ZMod 3) V)
     (v : V) : v - b.coord 0 v • b 0 ∈ hdRo7DIrrAux_U b := by
   rw [hdRo7DIrrAux_U, LinearMap.mem_ker, map_sub, map_smul,
-    hdRo7SUReduceVAux_coord_basis b 0 0, if_pos rfl]
+    hdRo7SUReduceVAux_coord_basis b 0 0, ite_eq_left rfl]
   simp
 
 private lemma hdRo7DIrrAux_dsp_mem_U
@@ -307,7 +307,7 @@ private lemma hdRo7DIrrAux_dsp_mem_U
     have hσi : σ i ≠ 0 := fun h => hi (σ.injective (by rw [h, hσ0]))
     refine Submodule.smul_mem _ _ ?_
     rw [hdRo7DIrrAux_U, LinearMap.mem_ker, map_smul,
-      hdRo7SUReduceVAux_coord_basis b 0 (σ i), if_neg (Ne.symm hσi)]
+      hdRo7SUReduceVAux_coord_basis b 0 (σ i), ite_eq_right (Ne.symm hσi)]
     simp
 
 private theorem hdRo7DIrrAux_fixed (b : Module.Basis (Fin (n + 1)) (ZMod 3) V)
@@ -326,7 +326,7 @@ private theorem hdRo7DIrrAux_fixed (b : Module.Basis (Fin (n + 1)) (ZMod 3) V)
     have hcoord := congrArg (b.coord i) hvk
     rw [hdRo7DIrrAux_coord_signChange] at hcoord
     have hiT : i ∈ ({i, k} : Finset (Fin (n + 1))) := by simp
-    rw [if_pos hiT] at hcoord
+    rw [ite_eq_left hiT] at hcoord
     have h2 : (2 : ZMod 3) * b.coord i v = 0 := by
       linear_combination -hcoord
     exact (mul_eq_zero.mp h2).resolve_left hdRo7DIrrAux_two_ne_zero
@@ -338,7 +338,7 @@ private theorem hdRo7DIrrAux_fixed (b : Module.Basis (Fin (n + 1)) (ZMod 3) V)
       simp
     · change b.coord l v = b.coord l ((b.coord 0) v • b 0)
       rw [hzero l hl, map_smul, hdRo7SUReduceVAux_coord_basis b l 0,
-        if_neg (fun h : l = 0 => hl h)]
+        ite_eq_right (fun h : l = 0 => hl h)]
       simp
   exact Submodule.mem_span_singleton.mpr ⟨b.coord 0 v, hv_eq.symm⟩
 
@@ -432,7 +432,7 @@ private theorem hdRo7DIrrAux_U_irred
           · subst hl; simp
           · change b.coord l w = b.coord l (b.coord 0 w • b 0)
             rw [h l hl, map_smul, hdRo7SUReduceVAux_coord_basis b l 0,
-              if_neg (fun hh : l = 0 => hl hh)]
+              ite_eq_right (fun hh : l = 0 => hl hh)]
             simp
         rw [hw_eq', hwcoord0, zero_smul]
       exact hw0 hw_eq
@@ -577,7 +577,7 @@ private theorem hdRo7DIrrAux_refl_root_mem_z
     · subst hl; simp
     · change b.coord l u = b.coord l (b.coord 0 u • b 0)
       rw [hzero l hl, map_smul, hdRo7SUReduceVAux_coord_basis b l 0,
-        if_neg (fun h : l = 0 => hl h)]
+        ite_eq_right (fun h : l = 0 => hl h)]
       simp
   exact Submodule.mem_span_singleton.mpr ⟨b.coord 0 u, hu_eq.symm⟩
 
@@ -613,7 +613,7 @@ private theorem hdRo7DIrrAux_refl_phi_kills
       rw [← hc, map_smul, LinearMap.sub_apply, smul_eq_mul]
       rw [hdRo7SUReduceVAux_coord_basis b i 0,
         hdRo7SUReduceVAux_coord_basis b j 0,
-        if_neg hi, if_neg hj0']
+        ite_eq_right hi, ite_eq_right hj0']
       ring
     have hψ' : b.coord i u - b.coord j u = 0 := by
       simpa [LinearMap.sub_apply] using hψ
@@ -624,7 +624,7 @@ private theorem hdRo7DIrrAux_refl_phi_kills
       rw [← hc, map_smul, LinearMap.add_apply, smul_eq_mul]
       rw [hdRo7SUReduceVAux_coord_basis b i 0,
         hdRo7SUReduceVAux_coord_basis b j 0,
-        if_neg hi, if_neg hj0']
+        ite_eq_right hi, ite_eq_right hj0']
       ring
     have hψ2' : b.coord i u + b.coord j u = 0 := by
       simpa [LinearMap.add_apply] using hψ2
@@ -701,7 +701,7 @@ private lemma hdRo7DIrrAux_c2sp_mem_U {t : V ≃ₗ[ZMod 3] V} (ht : C2SP 3 b t)
     have hσi : σ i ≠ 0 := fun h => hi (σ.injective (by rw [h, hσ0]))
     refine Submodule.smul_mem _ _ ?_
     rw [hdRo7DIrrAux_U, LinearMap.mem_ker, map_smul,
-      hdRo7SUReduceVAux_coord_basis b 0 (σ i), if_neg (Ne.symm hσi)]
+      hdRo7SUReduceVAux_coord_basis b 0 (σ i), ite_eq_right (Ne.symm hσi)]
     simp
 
 private theorem hdRo7DIrrAux_generator_dichotomy
@@ -1234,7 +1234,7 @@ private theorem hdRo7DIrrAux_commutant
     rw [map_neg, hdRo7DIrrAux_coord_signChange] at hcoord
     have hlT : l ∉ Tset := by
       simp [Tset, hli, Ne.symm hkl]
-    rw [if_neg hlT, one_mul] at hcoord
+    rw [ite_eq_right hlT, one_mul] at hcoord
     have h2 : (2 : ZMod 3) * b.coord l (T (b i)) = 0 := by
       linear_combination -hcoord
     exact (mul_eq_zero.mp h2).resolve_left hdRo7DIrrAux_two_ne_zero
@@ -1252,8 +1252,8 @@ private theorem hdRo7DIrrAux_commutant
         change b.coord l (T (b l)) =
           b.coord l (b.coord 0 (T (b l)) • b 0 + b.coord l (T (b l)) • b l)
         rw [map_add, map_smul, map_smul, hdRo7SUReduceVAux_coord_basis b l 0,
-          if_neg (fun h : l = 0 => hl0 h), hdRo7SUReduceVAux_coord_basis b l l,
-          if_pos rfl]
+          ite_eq_right (fun h : l = 0 => hl0 h), hdRo7SUReduceVAux_coord_basis b l l,
+          ite_eq_left rfl]
         simp
       · simpa [map_add, map_smul, hdRo7SUReduceVAux_coord_basis, hl0, hli,
           Module.Basis.coord_apply] using hsupp i hi l hl0 hli
@@ -1365,7 +1365,7 @@ private theorem hdRo7DIrrAux_commutant
       have hi0 : i0 ≠ 0 := by simp [i0]
       have hmemU : b i0 ∈ hdRo7DIrrAux_U b := by
         rw [hdRo7DIrrAux_U, LinearMap.mem_ker,
-          hdRo7SUReduceVAux_coord_basis b 0 i0, if_neg (Ne.symm hi0)]
+          hdRo7SUReduceVAux_coord_basis b 0 i0, ite_eq_right (Ne.symm hi0)]
       have hmemW : b i0 ∈ W := hUle hmemU
       rw [hbot, Submodule.mem_bot] at hmemW
       exact (b.ne_zero i0) hmemW

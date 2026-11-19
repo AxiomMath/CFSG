@@ -22,9 +22,9 @@ theorem sporKRest_cover_J2_5_carrier :
 
 private theorem ggSporKRestJ2_leaf {p : ℕ} (h : SporKRestCover p ↥J) :
     SporKRestCover p (TauCeti.CFSGIndex.sporadic .J2).Group := by
-  letI : Mul TauCeti.SporadicName.J2.Group := Monoid.toMul
-  letI : Group ↥J := J.toGroup
-  letI : Mul ↥J := Monoid.toMul
+  let : Mul TauCeti.SporadicName.J2.Group := Monoid.toMul
+  let : Group ↥J := J.toGroup
+  let : Mul ↥J := Monoid.toMul
   obtain ⟨e⟩ := CFSG.Sporadic.Bridge.J2.nonempty_mulEquiv
   have f : ↥J ≃* TauCeti.SporadicName.J2.Group :=
     (CFSG.Sporadic.J2.nativeEquiv.symm).trans e

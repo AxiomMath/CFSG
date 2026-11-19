@@ -22,13 +22,13 @@ theorem strictB_eq (y : Nat) (k : Nat → Bool) : strictB y k = k y := by
 theorem d27_eq (c : Nat) : d27 c = d27v c := by
   unfold d27 d27v
   by_cases h : c < 58
-  · rw [if_pos h, Nat.blt_eq.mpr h]
+  · rw [ite_eq_left h, Nat.blt_eq.mpr h]
     rfl
   · have : Nat.blt c 58 = false := by
       rw [Bool.eq_false_iff]
       intro h'
       exact h (Nat.blt_eq.mp h')
-    rw [if_neg h, this]
+    rw [ite_eq_right h, this]
     rfl
 
 theorem bitK_eq (M p : Nat) : bitK M p = if M.testBit p then 1 else 0 := by
@@ -41,14 +41,14 @@ theorem bitK_eq (M p : Nat) : bitK M p = if M.testBit p then 1 else 0 := by
   · simp only [h, decide_false, Bool.false_eq_true, ite_false]
     omega
 
-theorem beq_bit {M p t : Nat} (h : Nat.beq (bitK M p) t = true) (ht : t < 2) :
+theorem beq_bit {M p t : Nat} (h : Nat.beq (bitK M p) t = true) (_ht : t < 2) :
     M.testBit p = decide (t = 1) := by
   rw [Nat.beq_eq, bitK_eq] at h
   by_cases hb : M.testBit p
-  · rw [if_pos hb] at h
+  · rw [ite_eq_left hb] at h
     rw [hb, ← h]
     rfl
-  · rw [if_neg hb] at h
+  · rw [ite_eq_right hb] at h
     rw [Bool.eq_false_iff.mpr hb, ← h]
     rfl
 
@@ -163,10 +163,10 @@ theorem col27_sound {d N M : Nat} {cs : List Char} (hd : 0 < d) (hN : N = d * d)
   refine ⟨h1, h2, fun i j => ?_⟩
   unfold mat3
   by_cases hj : j.val = 0
-  · rw [if_pos hj, hj, Nat.add_zero]
+  · rw [ite_eq_left hj, hj, Nat.add_zero]
     obtain ⟨b1, b2⟩ := h3 i.val i.isLt
     rw [b1, b2, bv_tri (tri_lt _ _)]
-  · rw [if_neg hj]
+  · rw [ite_eq_right hj]
     have hK : ∀ u, (rep1 d d).testBit (d * i.val + j.val + u * 0) = false := by
       intro u
       rw [Nat.mul_zero, Nat.add_zero]
@@ -211,11 +211,11 @@ theorem row27_sound {d N M : Nat} {cs : List Char} (hN : N = d * d)
   refine ⟨h1, h2, fun i j => ?_⟩
   unfold mat3
   by_cases hi : i.val = 0
-  · rw [if_pos hi, hi, Nat.mul_zero, Nat.zero_add]
+  · rw [ite_eq_left hi, hi, Nat.mul_zero, Nat.zero_add]
     obtain ⟨b1, b2⟩ := h3 j.val j.isLt
     rw [Nat.one_mul] at b1 b2
     rw [b1, b2, bv_tri (tri_lt _ _)]
-  · rw [if_neg hi]
+  · rw [ite_eq_right hi]
     have hge : d ≤ d * i.val + j.val := by
       have := Nat.le_mul_of_pos_right d (Nat.pos_of_ne_zero hi)
       omega
@@ -269,9 +269,9 @@ theorem canon_of_planes {N z1 z2 : Nat} (h1 : z1 < 2 ^ N) (h2 : z2 < 2 ^ N)
   obtain ⟨hlt, hb⟩ := pack_bits h1 h2
   refine ⟨hlt, fun t ht => ?_⟩
   rw [hb] at ht ⊢
-  rw [if_neg (by omega), Nat.add_sub_cancel_left]
+  rw [ite_eq_right (by omega), Nat.add_sub_cancel_left]
   by_cases htN : t < N
-  · rw [if_pos htN] at ht
+  · rw [ite_eq_left htN] at ht
     have := hd t
     rw [ht] at this
     simpa using this
@@ -284,7 +284,7 @@ theorem mat3_planes {d N z1 z2 : Nat} (hN : N = d * d) (h1 : z1 < 2 ^ N) (h2 : z
   obtain ⟨-, hb⟩ := pack_bits h1 h2
   have hlt : d * i.val + j.val < N := hN ▸ idx_lt3 i.isLt j.isLt
   unfold mat3
-  rw [hb, hb, if_pos hlt, if_neg (by omega), Nat.add_sub_cancel_left]
+  rw [hb, hb, ite_eq_left hlt, ite_eq_right (by omega), Nat.add_sub_cancel_left]
 
 theorem canon_bits {N X : Nat} (hX : Canon3 N X) (t : Nat) :
     ((X &&& (2 ^ N - 1)).testBit t && (X >>> N).testBit t) = false := by
@@ -429,13 +429,13 @@ theorem colM3_sound {d N X t : Nat} (hd : 0 < d) (hN : N = d * d) (hX : Canon3 N
     rw [hbit, hbit, hlo (N + (d * i.val + j.val)) (by omega), Nat.add_sub_cancel_left,
       rep1_at hd i.isLt j.isLt]
     by_cases hj : j.val = 0
-    · rw [if_pos hj, hj]
+    · rw [ite_eq_left hj, hj]
       simp only [decide_true, Bool.and_true, Bool.or_true, Bool.true_or, Nat.add_zero,
         show N ≤ N + d * i.val by omega]
       congr 1
       · rw [Nat.add_comm]
       · rw [show t + (N + d * i.val) = N + (d * i.val + t) by omega]
-    · rw [if_neg hj]
+    · rw [ite_eq_right hj]
       simp [hj, show ¬ N ≤ d * i.val + j.val by omega]
       rfl
 

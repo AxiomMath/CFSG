@@ -71,7 +71,7 @@ theorem exists_conj_mem_T₂ [Finite G] (hT : quasithinIsSylowTwo T) (hM : quasi
   obtain ⟨ST, hST⟩ := hT'p.exists_le_sylow
   have hSTcard : Nat.card (ST : Subgroup ↥E.HH) ≤ 8 := by
     have h := E.card_le_8 hT hM (P := (ST : Subgroup ↥E.HH).map E.HH.subtype)
-      (ST.isPGroup'.map _) (Subgroup.map_subtype_le _)
+      (ST.isPGroup.map _) (Subgroup.map_subtype_le _)
     rwa [Subgroup.card_map_of_injective E.HH.subtype_injective] at h
   have hSTeq : T' = (ST : Subgroup ↥E.HH) :=
     Subgroup.eq_of_le_of_card_ge hST (by rw [hT'card]; exact hSTcard)

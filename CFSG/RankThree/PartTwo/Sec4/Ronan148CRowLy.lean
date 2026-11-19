@@ -25,7 +25,7 @@ section Certs
 
 theorem pPrimeCoreOf_ly (k : Blueprint.NativeSporadic.Carrier .Ly) (hk : orderOf k = 3) :
     pPrimeCoreOf 3 (centralizer ({k} : Set (Blueprint.NativeSporadic.Carrier .Ly))) = ⊥ := by
-  haveI : Finite (Blueprint.NativeSporadic.Carrier .Ly) := Nat.finite_of_card_ne_zero (by
+  have : Finite (Blueprint.NativeSporadic.Carrier .Ly) := Nat.finite_of_card_ne_zero (by
     show Nat.card Blueprint.NativeSporadic.Ly ≠ 0
     rw [CFSG.Sporadic.Ly.card_Ly]
     norm_num)

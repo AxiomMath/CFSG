@@ -58,7 +58,7 @@ theorem w183l312_NOf_eq_inf_centralizer {n : ℕ} {M V₀ V : Subgroup G} {g : G
     have huMg : u ∈ conjSubgroup M g := by
       rwa [hnormEq] at huNormVg
     have huU : u ∈ UOf M V g := Subgroup.mem_inf.mpr ⟨huV, huMg⟩
-    obtain ⟨x, hxVg, hxM⟩ := SetLike.not_le_iff_exists.mp h.inCalOStar.1.1.1
+    obtain ⟨x, hxVg, hxM⟩ := IsConcreteLE.not_le_iff_exists.mp h.inCalOStar.1.1.1
     have hxB : x ∉ BOf M V g := by
       intro hxB
       exact hxM (Subgroup.mem_inf.mp hxB).2
@@ -76,7 +76,7 @@ namespace Ctx188
 variable {D : Data G} {V₀ V H : Subgroup G} {i : ℕ}
 
 theorem w183l312_two_points (x : Ctx188 D V₀ V H i 3) (M : ModDataE H (eOmegaZ H D.T))
-    {L : Subgroup G} (hLH : L ≤ H) (hLn : H ≤ Subgroup.normalizer (L : Set G))
+    {L : Subgroup G} (hLH : L ≤ H) (_hLn : H ≤ Subgroup.normalizer (L : Set G))
     (hshape : IsL2 ↥(M.img L) 2) (hV1 : Gam183 V H (eOmegaZ H D.T) i 1)
     (hVL : IsSylowIn 2 (M.img V) (M.img L)) {h : G} (hhL : h ∈ L) (hhM : h ∉ D.M) :
     Nat.card ↥(M.img V) = 4 ∧

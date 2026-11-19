@@ -16,7 +16,7 @@ theorem exists_hom_GL_two {A : Subgroup X} (hAn : A.Normal)
     (hA : CFSG.Open.IsElemAbelian p A) (hAc : Nat.card A = p ^ 2) :
     ∃ ρ : X →* GL (Fin 2) (ZMod p), ρ.ker = centralizer (A : Set X) ∧
       ∀ x : X, ρ x = -1 → ∀ a ∈ A, x * a * x⁻¹ = a⁻¹ := by
-  haveI := hAn
+  have := hAn
   have hcomm : ∀ a b : A, a * b = b * a := isMulCommutative_iff.mp hA.1
   have hpow : ∀ a : A, a ^ p = 1 := fun a =>
     Subtype.ext (by simpa using hA.2 (a : X) a.2)
@@ -62,6 +62,7 @@ theorem mem_statedSL_of_pow_eq_one {u : GL (Fin 2) (ZMod p)} {k : ℕ}
   rw [h] at h2
   exact h2.symm
 
+omit [Finite X] in
 theorem map_closure_orderOf_eq_statedSL (ρ : X →* GL (Fin 2) (ZMod p))
     (hker : IsPGroup p ↥ρ.ker) (hV : ¬ IsPGroup p ↥(closure {x : X | orderOf x = p})) :
     (closure {x : X | orderOf x = p}).map ρ = CFSG.Open.StatedSL 2 (ZMod p) := by
@@ -77,7 +78,7 @@ theorem map_closure_orderOf_eq_statedSL (ρ : X →* GL (Fin 2) (ZMod p))
       · rw [h1]; exact Subgroup.one_mem _
       · exact Subgroup.subset_closure
           (show ρ x ∈ T from ⟨⟨x, hxS, rfl⟩, by simpa using h1⟩)
-    · exact Subgroup.closure_mono Set.diff_subset
+    · exact Subgroup.closure_mono Set.sdiff_subset
   have hTorder : ∀ g ∈ T, orderOf g = p := by
     rintro g ⟨⟨x, hxS, rfl⟩, hg1⟩
     have hxSp : orderOf x = p := hxS
@@ -105,6 +106,7 @@ theorem map_closure_orderOf_eq_statedSL (ρ : X →* GL (Fin 2) (ZMod p))
     exact IsPGroup.to_le (IsPGroup.comap_of_ker_isPGroup hTgrp ρ hker) hle
   · rw [hST, h]
 
+omit [Finite X] in
 theorem mem_closure_orderOf_of_pow_eq_one (ρ : X →* GL (Fin 2) (ZMod p))
     (hkerV : ρ.ker ≤ closure {x : X | orderOf x = p})
     (hρV : (closure {x : X | orderOf x = p}).map ρ = CFSG.Open.StatedSL 2 (ZMod p))
@@ -158,7 +160,7 @@ theorem commutator_statedSL_eq (hp5 : 5 ≤ p) :
       CFSG.Open.StatedSL 2 (ZMod p) := by
   rw [CFSG.Open.StatedAPI.statedSL_eq_range_toGL]
   have hcard : 4 ≤ Nat.card (ZMod p) := by rw [Nat.card_zmod]; omega
-  haveI := CFSG.ClassicalModels.specialLinear_isPerfect_two_of_four_le_card (ZMod p) hcard
+  have := CFSG.ClassicalModels.specialLinear_isPerfect_two_of_four_le_card (ZMod p) hcard
   exact Subgroup.isPerfect_iff.mp
     (Group.IsPerfect.range (f := Matrix.SpecialLinearGroup.toGL))
 

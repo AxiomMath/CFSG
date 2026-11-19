@@ -16,7 +16,7 @@ theorem sl3_hom_structure {F : Type} [Field F] [Finite F] {C : Type} [Group C] [
     ρ.ker ≤ Subgroup.center SL(3, F) ∧
       ∃ _ : ρ.range.Normal, Group.IsSolvable (C ⧸ ρ.range) := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hquasi' : CFSG.IsQuasisimple SL(3, F) :=
     CFSG.ComponentClassification.CatalogueBGeneralLinear.specialLinear_quasisimple 3 F
       (by norm_num) (Or.inl (by norm_num)) (Or.inl (by norm_num))
@@ -40,9 +40,9 @@ theorem sl3_hom_structure {F : Type} [Field F] [Finite F] {C : Type} [Group C] [
     nlinarith
   have hidx3 : ρ.range.index ≤ 3 := Nat.le_of_mul_le_mul_right h1 hpos
   have hidx0 : ρ.range.index ≠ 0 := Subgroup.index_ne_zero_of_finite
-  haveI : Group.IsPerfect SL(3, F) :=
+  have : Group.IsPerfect SL(3, F) :=
     CFSG.ClassicalModels.specialLinear_isPerfect_of_three_le (by norm_num)
-  haveI : Group.IsPerfect ρ.range := Group.IsPerfect.range ρ
+  have : Group.IsPerfect ρ.range := Group.IsPerfect.range ρ
   exact ⟨hker, normal_and_solvable_of_perfect_index_le_four inferInstance (by omega) hidx0⟩
 
 end CFSG.HardMathSupport.Solomon.Coordinator.LieComp

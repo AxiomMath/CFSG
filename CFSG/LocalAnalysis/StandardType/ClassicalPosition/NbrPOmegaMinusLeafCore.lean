@@ -193,7 +193,7 @@ theorem nbrpom_siegel_shortElm {ι F : Type} [Fintype ι] [DecidableEq ι] [Fiel
     [CharP F 2] (Q : QuadraticForm F (ι → F))
     (hnd : (QuadraticMap.polarBilin Q).Nondegenerate)
     (R' : Subgroup (spinGroup Q)) (a₁ a₂ : ι → F)
-    (ha₁ : a₁ ≠ 0) (ha₂ : a₂ ≠ 0) (hli : LinearIndependent F ![a₁, a₂])
+    (ha₁ : a₁ ≠ 0) (_ha₂ : a₂ ≠ 0) (hli : LinearIndependent F ![a₁, a₂])
     (hQ₁ : Q a₁ = 0) (hQ₂ : Q a₂ = 0)
     (horth : QuadraticMap.polar Q a₁ a₂ = 0)
     (hm : siegelGroup Q a₁ a₂ ≤ R'.map (Spin.spinAction Q)) :
@@ -534,7 +534,7 @@ lemma nbrpom_mem_glBlockCentralizer
 
 theorem nbrpom_blockDegree_selfDual
     (n f : ℕ) (S' : Set (GL (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2) (GaloisField 2 f)))
-    (hSU' : ∀ s ∈ S',
+    (_hSU' : ∀ s ∈ S',
       s ∈ (Spin.spinMatrix (Spin.quadMinus n (GaloisField 2 f)
         (minusCoeffs 2 f).1 (minusCoeffs 2 f).2)).range)
     (hS' : ∀ s ∈ S', ∀ s' ∈ S', Commute s s')
@@ -542,13 +542,13 @@ theorem nbrpom_blockDegree_selfDual
     (K' R' : Subgroup (ggU .POmegaMinus n f).K)
     (ε eK : Matrix (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2) (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2)
       (GaloisField 2 f))
-    (hε : IsPrimAdjIdemIn (RingHom.id (GaloisField 2 f))
+    (_hε : IsPrimAdjIdemIn (RingHom.id (GaloisField 2 f))
       (LinearMap.toMatrix₂' (GaloisField 2 f)
         (QuadraticMap.polarBilin (Spin.quadMinus n (GaloisField 2 f)
           (minusCoeffs 2 f).1 (minusCoeffs 2 f).2)))
       (Algebra.adjoin (GaloisField 2 f) (Units.val '' S')) ε)
     (heK : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S')) eK)
-    (heKε : eK * ε = eK)
+    (_heKε : eK * ε = eK)
     (hK'ε : IsComponentOf K' ⁅(glBlockCentralizer
         (Spin.spinMatrix (Spin.quadMinus n (GaloisField 2 f)
           (minusCoeffs 2 f).1 (minusCoeffs 2 f).2)) S' ε :
@@ -602,13 +602,13 @@ theorem nbrpom_blockDegree_dualPair
     (K' R' : Subgroup (ggU .POmegaMinus n f).K)
     (ε eK : Matrix (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2) (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2)
       (GaloisField 2 f))
-    (hε : IsPrimAdjIdemIn (RingHom.id (GaloisField 2 f))
+    (_hε : IsPrimAdjIdemIn (RingHom.id (GaloisField 2 f))
       (LinearMap.toMatrix₂' (GaloisField 2 f)
         (QuadraticMap.polarBilin (Spin.quadMinus n (GaloisField 2 f)
           (minusCoeffs 2 f).1 (minusCoeffs 2 f).2)))
       (Algebra.adjoin (GaloisField 2 f) (Units.val '' S')) ε)
     (heK : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S')) eK)
-    (heKε : eK * ε = eK)
+    (_heKε : eK * ε = eK)
     (hK'ε : IsComponentOf K' ⁅(glBlockCentralizer
         (Spin.spinMatrix (Spin.quadMinus n (GaloisField 2 f)
           (minusCoeffs 2 f).1 (minusCoeffs 2 f).2)) S' ε :
@@ -745,7 +745,7 @@ theorem nbrpom_hnm_minusFour
     (K' R' : Subgroup (ggU .POmegaMinus n f).K)
     (eK : Matrix (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2) (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2)
       (GaloisField 2 f))
-    (heK : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S')) eK)
+    (_heK : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S')) eK)
     (hK'e : IsComponentOf K' ⁅(glBlockCentralizer
         (Spin.spinMatrix (Spin.quadMinus n (GaloisField 2 f)
           (minusCoeffs 2 f).1 (minusCoeffs 2 f).2)) S' eK :
@@ -760,7 +760,7 @@ theorem nbrpom_hnm_minusFour
         (QuadraticMap.polarBilin (Spin.quadMinus n (GaloisField 2 f)
           (minusCoeffs 2 f).1 (minusCoeffs 2 f).2))) eK = eK)
     (a₁ a₂ : (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2) → GaloisField 2 f)
-    (ha₁ : a₁ ≠ 0) (ha₂ : a₂ ≠ 0) (hli : LinearIndependent (GaloisField 2 f) ![a₁, a₂])
+    (_ha₁ : a₁ ≠ 0) (_ha₂ : a₂ ≠ 0) (hli : LinearIndependent (GaloisField 2 f) ![a₁, a₂])
     (hQ₁ : (Spin.quadMinus n (GaloisField 2 f) (minusCoeffs 2 f).1 (minusCoeffs 2 f).2) a₁ = 0)
     (hQ₂ : (Spin.quadMinus n (GaloisField 2 f) (minusCoeffs 2 f).1 (minusCoeffs 2 f).2) a₂ = 0)
     (horth : QuadraticMap.polar (Spin.quadMinus n (GaloisField 2 f)
@@ -893,7 +893,7 @@ lemma nbrpom_L6
 
 lemma mem_sup_central {U : Type} [Group U] {K Z : Subgroup U}
     (hZ : Z ≤ Subgroup.center U) {x : U} : x ∈ K ⊔ Z ↔ ∃ k ∈ K, ∃ z ∈ Z, k * z = x := by
-  haveI : Z.Normal := Subgroup.normal_of_le_center hZ
+  have : Z.Normal := Subgroup.normal_of_le_center hZ
   exact Subgroup.mem_sup_of_normal_right
 
 lemma commutatorElement_mul_central_left {U : Type} [Group U]
@@ -925,7 +925,7 @@ lemma commutator_sup_central_le {U : Type} [Group U] {K Z : Subgroup U}
 
 lemma perfect_le_of_le_sup_center {U : Type} [Group U] {J K Z : Subgroup U}
     (hZ : Z ≤ Subgroup.center U) (hle : J ≤ K ⊔ Z) (hperf : commutator ↥J = ⊤) : J ≤ K := by
-  haveI : Z.Normal := Subgroup.normal_of_le_center hZ
+  have : Z.Normal := Subgroup.normal_of_le_center hZ
   have hmap2 : Subgroup.map (Subgroup.subtype J) (commutator ↥J) = ⁅J, J⁆ := by
     have hc : commutator ↥J = ⁅(⊤ : Subgroup ↥J), ⊤⁆ := rfl
     rw [hc, Subgroup.map_commutator]
@@ -1122,11 +1122,11 @@ lemma mul_e_eq_smul {ι F : Type} [Fintype ι] [DecidableEq ι] [Field F]
     {A : Subalgebra F (Matrix ι ι F)} {e : Matrix ι ι F} (he : IsPrimIdemIn A e)
     (hdeg : blockDegree A e < 2) : ∀ a ∈ A, ∃ c : F, a * e = c • e := by
   let M : Submodule F (Matrix ι ι F) := (Subalgebra.toSubmodule A).map (LinearMap.mulRight F e)
-  have heM : e ∈ M := ⟨1, by simpa using A.one_mem, by rw [LinearMap.mulRight_apply, one_mul]⟩
+  have heM : e ∈ M := ⟨1, by simp, by rw [LinearMap.mulRight_apply, one_mul]⟩
   have hne : (⟨e, heM⟩ : M) ≠ 0 := by
     intro h
     exact he.2.2.1 (by simpa using congrArg Subtype.val h)
-  haveI : Nontrivial M := ⟨⟨⟨e, heM⟩, 0, hne⟩⟩
+  have : Nontrivial M := ⟨⟨⟨e, heM⟩, 0, hne⟩⟩
   have hpos : 0 < Module.finrank F M := Module.finrank_pos_iff.mpr inferInstance
   have hlt : Module.finrank F M < 2 := hdeg
   have hfin : Module.finrank F M = 1 := by omega
@@ -1163,13 +1163,13 @@ lemma finrank_range_add_of_orth {ι F : Type*} [Fintype ι] [DecidableEq ι]
   have hp : LinearMap.range (Matrix.toLin' a) ≤ LinearMap.range (Matrix.toLin' (a + b)) := by
     rintro _ ⟨y, rfl⟩
     refine ⟨Matrix.toLin' a y, ?_⟩
-    simp only [Matrix.toLin'_apply, Matrix.add_mul, Matrix.add_mulVec, Matrix.mulVec_mulVec,
-      ha.eq, hba, Matrix.zero_mulVec, add_zero]
+    simp only [Matrix.toLin'_apply, Matrix.add_mul, Matrix.mulVec_mulVec,
+      ha.eq, hba, add_zero]
   have hq : LinearMap.range (Matrix.toLin' b) ≤ LinearMap.range (Matrix.toLin' (a + b)) := by
     rintro _ ⟨y, rfl⟩
     refine ⟨Matrix.toLin' b y, ?_⟩
-    simp only [Matrix.toLin'_apply, Matrix.add_mul, Matrix.add_mulVec, Matrix.mulVec_mulVec,
-      hb.eq, hab, Matrix.zero_mulVec, zero_add]
+    simp only [Matrix.toLin'_apply, Matrix.add_mul, Matrix.mulVec_mulVec,
+      hb.eq, hab, zero_add]
   have hsup : LinearMap.range (Matrix.toLin' (a + b)) =
       LinearMap.range (Matrix.toLin' a) ⊔ LinearMap.range (Matrix.toLin' b) := by
     refine le_antisymm ?_ (sup_le hp hq)

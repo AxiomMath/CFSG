@@ -14,8 +14,8 @@ theorem card_modEq_one_of_fpf {G : Type*} [Group G] [Finite G] {p : ℕ} (hp : p
     (hVinv' : ∀ y ∈ V, g⁻¹ * y * g ∈ V) (hfix : ∀ y ∈ V, g * y * g⁻¹ = y → y = 1) :
     Nat.card V ≡ 1 [MOD p] := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype ↥V := Fintype.ofFinite _
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype ↥V := Fintype.ofFinite _
   let f : Equiv.Perm G := MulAut.toPerm G (MulAut.conj g)
   have hf : ∀ x : G, f x = g * x * g⁻¹ := fun x => rfl
   have hiff : ∀ x : G, f x ∈ V ↔ x ∈ V := by
@@ -63,8 +63,8 @@ theorem noSig_of_rank {G : Type*} [Group G] [Finite G] {p : ℕ} (hp : p.Prime)
   classical
   intro T hTcop hET
   by_contra hTne
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CFSG.IsElementaryAbelian p E := hE.isElementaryAbelian
+  have : Fact p.Prime := ⟨hp⟩
+  have : CFSG.IsElementaryAbelian p E := hE.isElementaryAbelian
   have hTp : ¬ p ∣ Nat.card T := (Nat.Prime.coprime_iff_not_dvd hp).1 hTcop
   have hgen := le_iSup_centralizer_of_coprime (p := p) (A := E) (U := T) (by rw [hE2]) hTp hET
   obtain ⟨e, he, he1, hRne⟩ : ∃ e ∈ E, e ≠ 1 ∧
@@ -119,13 +119,13 @@ theorem noSig_of_rank {G : Type*} [Group G] [Finite G] {p : ℕ} (hp : p.Prime)
   have hqp : q ≠ p := by
     rintro rfl
     exact hTp (hqR.trans hRT)
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   set ψ : MulAut ↥R := R.normalizerMonoidHom ⟨g, hgN⟩ with hψ
   have hψp : ψ ^ p = 1 := by
     rw [hψ, ← map_pow]
     have : (⟨g, hgN⟩ : ↥(Subgroup.normalizer (R : Set G))) ^ p = 1 := Subtype.ext hgp
     rw [this, map_one]
-  haveI : Fintype (Sylow q ↥R) := Fintype.ofFinite _
+  have : Fintype (Sylow q ↥R) := Fintype.ofFinite _
   let ρ : MulAut ↥R →* Equiv.Perm (Sylow q ↥R) := MulAction.toPermHom (MulAut ↥R) (Sylow q ↥R)
   have hσ : (ρ ψ) ^ p ^ 1 = 1 := by rw [pow_one, ← map_pow, hψp, map_one]
   have hcardSyl : ¬ p ∣ Fintype.card (Sylow q ↥R) := by
@@ -282,11 +282,11 @@ theorem noSig_of_rank {G : Type*} [Group G] [Finite G] {p : ℕ} (hp : p.Prime)
     exact ((hVmem a).1 a.2).2.2 b (hVQ' b.2)
   have hVne : V ≠ ⊥ := by
     have hQpg : IsPGroup q ↥Q' := IsPGroup.of_card hQ'card
-    haveI : Nontrivial ↥Q' :=
+    have : Nontrivial ↥Q' :=
       Finite.one_lt_card_iff_nontrivial.1 (by
         rw [hQ'card]
         exact Nat.one_lt_pow hk.ne' hq.one_lt)
-    haveI : Nontrivial (Subgroup.center ↥Q') := hQpg.center_nontrivial
+    have : Nontrivial (Subgroup.center ↥Q') := hQpg.center_nontrivial
     have hcpg : IsPGroup q (Subgroup.center ↥Q') := hQpg.to_subgroup _
     obtain ⟨j, hj⟩ := hcpg.nontrivial_iff_card.1 inferInstance
     have hqdvd : q ∣ Nat.card (Subgroup.center ↥Q') := by

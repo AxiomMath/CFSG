@@ -18,22 +18,24 @@ variable {p : ℕ} {Y : Type} [Group Y] [Finite Y] {P : Subgroup Y} {x z : Y}
 @[expose] def Fixed (P : Subgroup Y) (C : ComponentIndex Y) : Prop :=
   ∀ g ∈ P, g ∈ normalizer (C.1 : Set Y)
 
+omit [Finite Y] in
 theorem comp_isSubnormal (C : ComponentIndex Y) : C.1.IsSubnormal := C.2.2
 
+omit [Finite Y] in
 theorem comp_isQuasisimple (C : ComponentIndex Y) : CFSG.Open.IsQuasisimple ↥C.1 :=
   ((CFSG.isComponent_iff_open C.1).1 C.2).2.2
 
 theorem Cfg.isSylowOf_inf_comp (h : Cfg p P x z) (C : ComponentIndex Y) :
     CFSG.ABGLocalTools.IsSylowOf p (P ⊓ C.1) C.1 := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   exact isSylowOf_inf_of_isSubnormal' h.sylow (comp_isSubnormal C)
 
 theorem Cfg.dvd_card_comp (h : Cfg p P x z) (C : ComponentIndex Y) : p ∣ Nat.card C.1 := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   exact CFSG.LocalAnalysis.RankFourTheoremC.Lemma213.dvd_card_comp h.core C
 
 theorem Cfg.inf_comp_ne_bot (h : Cfg p P x z) (C : ComponentIndex Y) : P ⊓ C.1 ≠ ⊥ := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   intro hbot
   have hcard := (h.isSylowOf_inf_comp C).card_eq
   rw [hbot, Subgroup.card_bot] at hcard
@@ -53,11 +55,12 @@ theorem comp_commute {C C' : ComponentIndex Y} (hne : C ≠ C') :
     ∀ a ∈ C.1, ∀ b ∈ C'.1, a * b = b * a := fun a ha b hb =>
   componentIndex_commute hne a b ha hb
 
+omit [Finite Y] in
 theorem isCyclic_subgroupOf_iff {A C : Subgroup Y} (hAC : A ≤ C) :
     IsCyclic ↥(A.subgroupOf C) ↔ IsCyclic ↥A :=
-  ⟨fun h => isCyclic_of_surjective (Subgroup.subgroupOfEquivOfLe hAC).toMonoidHom
+  ⟨fun _h => isCyclic_of_surjective (Subgroup.subgroupOfEquivOfLe hAC).toMonoidHom
       (Subgroup.subgroupOfEquivOfLe hAC).surjective,
-   fun h => isCyclic_of_surjective (Subgroup.subgroupOfEquivOfLe hAC).symm.toMonoidHom
+   fun _h => isCyclic_of_surjective (Subgroup.subgroupOfEquivOfLe hAC).symm.toMonoidHom
       (Subgroup.subgroupOfEquivOfLe hAC).symm.surjective⟩
 
 theorem Cfg.not_isCyclic_inf_comp (h : Cfg p P x z) (h610 : GL83.I_6_10_1)
@@ -108,7 +111,7 @@ theorem Cfg.comm_mem_sup (h : Cfg p P x z) {V V' : Subgroup Y} (hV : V ≤ P) (h
     cases i
     · exact h2 e he
     · exact h1 e he
-  · simpa using (zpowers z).one_mem
+  · simp
   · intro a b ha hb iha ihb
     exact h.comm_mul_mem (heP a (hE ▸ ha)) iha ihb
 
@@ -116,7 +119,7 @@ theorem Cfg.false_of_two_fixed (h : Cfg p P x z) (h64 : KFactCenterCyclicGeFive)
     (h610 : GL83.I_6_10_1) {C C' : ComponentIndex Y} (hne : C ≠ C') (hC : Fixed P C)
     (hC' : Fixed P C') : False := by
   have hp := h.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by have := h.five_le; omega
   have hzC := h.z_mem_comp_of_fixed hC
   have hzC' := h.z_mem_comp_of_fixed hC'

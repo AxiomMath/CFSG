@@ -64,7 +64,7 @@ theorem E27Config.false_of_torus_cover_amb (h : E27Config X K R T z) (hz : z ∈
     apply Subtype.ext
     have hc := hBab b hb _ hg
     have hx' : (x : N) = g⁻¹ * b * g := by
-      rw [← hbx]; simp [MulAut.conj_apply]
+      rw [← hbx]; simp
     show (x : N) * s = s * x
     rw [hx']
     have e1 : g⁻¹ * b * g * (s : N) = g⁻¹ * (b * (g * s * g⁻¹)) * g := by group
@@ -81,8 +81,8 @@ theorem E27Config.exists_conj_central (h : E27Config X K R T z)
     ∃ k : J, k * φ ⟨t, h.T_le_K ht⟩ * k⁻¹ ∈ (S₀ : Subgroup J) ∧
       ∀ s ∈ (S₀ : Subgroup J), s * (k * φ ⟨t, h.T_le_K ht⟩ * k⁻¹) =
         (k * φ ⟨t, h.T_le_K ht⟩ * k⁻¹) * s := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := h.normal
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := h.normal
   obtain ⟨S, hS⟩ := h.central t ht ht1
   have ht3 : t ^ 3 = 1 := h.elem.2 t (h.T_le_R ht)
   have hp : IsPGroup 3 (zpowers t) := by
@@ -133,7 +133,7 @@ theorem E27Config.false_of_central_T (h : E27Config X K R T z)
     (hC : ∀ c ∈ S₀, c ≠ 1 → (∀ s ∈ S₀, s * c = c * s) → f c ∈ C)
     (hno : ∀ a ∈ S₀, ∀ b ∈ S₀, a ^ 3 = 1 → b ^ 3 = 1 → a * b = b * a → a ≠ 1 →
       b ∉ zpowers a → ∃ i j : ℕ, a ^ i * b ^ j ≠ 1 ∧ f (a ^ i * b ^ j) ∉ C) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let S₀' : Sylow 3 J := Sylow.ofCard S₀ hS₀
   have hS₀' : (S₀' : Subgroup J) = S₀ := rfl
   have hTK : T ≤ K := h.T_le_K

@@ -147,7 +147,7 @@ theorem exists_lift_beta [Finite K] {y₀ : K} (hyc : y₀ ∈ center K) (hy3 : 
         rcases hx' with h | h
         · exact h
         · exact absurd (Fin.ext h) h6
-      simp [τΓ, h6, ε, h3, Function.update_of_ne h6]
+      simp [τΓ, h6, ε, h3]
   rw [hmapι]
   let n : Fin 7 → ℤ := fun i => if i = 0 ∨ i = 6 then 1 else 0
   let σ : Fin 7 → Γ := fun i => if i = 0 then 1 else if i = 6 then s0 else ε i
@@ -165,9 +165,9 @@ theorem exists_lift_beta [Finite K] {y₀ : K} (hyc : y₀ ∈ center K) (hy3 : 
     by_cases h0 : i = 0
     · simp [σ, h0, S.one_mem]
     · by_cases h6 : i = 6
-      · simp only [σ, h6, if_true, if_false, h0]
+      · simp only [σ, h6, ite_true]
         exact hs0
-      · simp only [σ, h0, h6, if_false]
+      · simp only [σ, h0, h6, ite_false]
         by_cases h3 : i.val ≤ 3
         · exact hεS i (by
             rcases Nat.eq_zero_or_pos i.val with h | h
@@ -190,7 +190,7 @@ theorem exists_lift_beta [Finite K] {y₀ : K} (hyc : y₀ ∈ center K) (hy3 : 
           · exact h
           · exact absurd (Fin.ext h) h6
         by_cases h0 : x.1 = 0
-        · simp [σ, h0, h6, hτ0, hκy]
+        · simp [σ, h0, hτ0, hκy]
         · simp [σ, h0, h6, hΦε x.1 h3]
     have : evalWord σ r ∈ zpowers y' ⊓ S := ⟨by rw [← hkerΦ]; exact hwΦ, hwS⟩
     rw [hinf] at this

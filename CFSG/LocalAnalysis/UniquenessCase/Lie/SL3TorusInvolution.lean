@@ -98,8 +98,8 @@ theorem uc22pwI3_involution_borel_action {X : Type} [Group X] [Finite X]
     rw [hαU] at h
     cases ε
     · simpa [uc22pwI3TorusMap, hpow] using h
-    · simp only [uc22pwI3TorusMap, if_true, map_mul, map_inv, hpow] at h
-      simpa only [if_true, map_mul, map_inv] using h
+    · simp only [uc22pwI3TorusMap, ite_true, map_mul, map_inv, hpow] at h
+      simpa only [ite_true, map_mul, map_inv] using h
   have dec : ∀ b ∈ normalizer ((U : Subgroup X) : Set X), b ^ r ∈ (U : Subgroup X) →
       ∃ d ∈ SpecialLinearGroup.diagonalTorus K 3, b * (α d)⁻¹ ∈ (U : Subgroup X) ∧
         (α d) ^ r = 1 := by

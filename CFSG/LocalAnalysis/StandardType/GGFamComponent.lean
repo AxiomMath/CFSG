@@ -16,8 +16,8 @@ private theorem famComp_ringChar_ne_of_pow_eq_one {p : ℕ} (hp : p.Prime) {τ :
     [Field L] {a : Fin τ.rank → Lˣ} (hap : ∀ i, a i ^ p = 1)
     (h1 : rootDiagUnit τ a ≠ 1) : ringChar L ≠ p := by
   intro hc
-  haveI : CharP L p := ringChar.of_eq hc
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : CharP L p := ringChar.of_eq hc
+  have : Fact p.Prime := ⟨hp⟩
   apply h1
   have ha : a = 1 := by
     funext j

@@ -77,7 +77,7 @@ theorem uc22pwr1_datum_suzuki [Finite K] (ha : 1 ≤ a) (hK : Nat.card K = 2 ^ (
     · exact mul_mem (mul_mem (Subgroup.mem_sup_left (hBN hb)) hW)
         (Subgroup.mem_sup_left (hBN (suzukiU_le_suzukiB a K hx)))
   · intro ψ hψ
-    haveI : CharP K 2 := uc22pwlie_charP_two hK
+    have : CharP K 2 := uc22pwlie_charP_two hK
     obtain ⟨g, σ, hψσ⟩ := CFSG.RankThree.PartTwo.KFacts.exists_conj_mul_szFieldAut ha hK ψ
     obtain ⟨i, hi⟩ := uc22pwlie_ringEquiv_pow σ
     have hσU1 : ∀ τ : RingAut K, ∀ x ∈ suzukiU a K,

@@ -33,7 +33,7 @@ theorem permQ_eq_one_of_normal {Q : Type*} [Group Q] (ψ : Q →* AE.AEQ 6)
     rw [← hay, TC.Thin.permQ_mkQ]
     exact Equiv.Perm.mem_alternatingGroup.mpr (AE.mem_aeSub.mp ha).2
   have hM2 : IsPGroup 2 M := (h2.map ψ).map _
-  haveI hnorm : (M.subgroupOf (alternatingGroup (Fin 6))).Normal := by
+  have hnorm : (M.subgroupOf (alternatingGroup (Fin 6))).Normal := by
     constructor
     intro m hm σ
     rw [Subgroup.mem_subgroupOf] at hm ⊢
@@ -49,7 +49,7 @@ theorem permQ_eq_one_of_normal {Q : Type*} [Group Q] (ψ : Q →* AE.AEQ 6)
     have hqσ : TC.Thin.permQ 6 (ψ q) = (σ : Equiv.Perm (Fin 6)) := by
       rw [hq, TC.Thin.permQ_mkQ]
     simp only [map_mul, map_inv, hqσ, hmy, Subgroup.coe_mul, Subgroup.coe_inv]
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
   have hxM : TC.Thin.permQ 6 (ψ x) ∈ M := ⟨ψ x, ⟨x, hx, rfl⟩, rfl⟩
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (M.subgroupOf (alternatingGroup (Fin 6))) with h | h
   · have hmem : (⟨_, hMA hxM⟩ : alternatingGroup (Fin 6)) ∈ M.subgroupOf (alternatingGroup (Fin 6)) :=
@@ -129,7 +129,7 @@ theorem p23E7AE6_proved : P23E7AE6 n := by
   set N : Subgroup (↥H ⧸ O) := (W.comap ι).map (QuotientGroup.mk' O) with hN
   have hW2 : IsPGroup 2 W := by
     obtain ⟨η, ⟨S₀, hη, -⟩, hWη⟩ := hc.std.hW
-    exact S₀.isPGroup'.to_le (hWη ▸ iSup₂_le fun U hU => (hη.1 hU).2)
+    exact S₀.isPGroup.to_le (hWη ▸ iSup₂_le fun U hU => (hη.1 hU).2)
   have hN2 : IsPGroup 2 N := (hW2.comap_of_injective ι hιinj).map _
   have hconj : ∀ x : ↥H, ι x ∈ Subgroup.normalizer (W : Set Y) → ∀ m ∈ N,
       QuotientGroup.mk' O x * m * (QuotientGroup.mk' O x)⁻¹ ∈ N := by

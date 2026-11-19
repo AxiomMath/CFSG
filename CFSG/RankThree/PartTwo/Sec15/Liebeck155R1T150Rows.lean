@@ -16,7 +16,7 @@ open CFSG.Assembly.RankThreeEven (projSL projSU)
 open CFSG.HardMathSupport.Solomon.Coordinator
 
 theorem k150Rows_of_families {J : Type} [Group J] (hF : K150Facts J) (hb : LieOrderBridge)
-    (hLSC : LieSemisimpleCent) (hLC : LieComp.LieComp) (h5 : 5 ∣ Nat.card J)
+    (hLSC : LieSemisimpleCent) (hLC : LieComp.LieCompAll) (h5 : 5 ∣ Nat.card J)
     (h7 : 7 ∣ Nat.card J)
     (one3 : ∀ e : ℕ, 1 ≤ e → RowAllOfK150 J (projSL 2 (GaloisField 3 e)))
     (five : ∀ n : ℕ, 5 ≤ n → n ≤ 12 → n ≠ 10 → RowAllOfK150 J (alternatingGroup (Fin n)))
@@ -98,7 +98,7 @@ theorem k150Rows_a7
   have hb : LieOrderBridge := HardMathSupport.Solomon.Coordinator.lieOrderBridge_holds
   have hLSC : LieSemisimpleCent :=
     HardMathSupport.Solomon.Coordinator.LieSemisimple.lieSemisimpleCent
-  have hLC : LieComp.LieComp := Sec4.Ronan148L.lieComp_holds
+  have hLC : LieComp.LieCompAll := Sec4.Ronan148L.lieComp_holds
   have hc := k150_card_alternating_seven
   have hF := k150Facts_a7 hb
   exact k150Rows_of_families hF hb hLSC hLC (by rw [hc]; norm_num) (by rw [hc]; norm_num)
@@ -118,7 +118,7 @@ theorem k150Rows_m22
   have hb : LieOrderBridge := HardMathSupport.Solomon.Coordinator.lieOrderBridge_holds
   have hLSC : LieSemisimpleCent :=
     HardMathSupport.Solomon.Coordinator.LieSemisimple.lieSemisimpleCent
-  have hLC : LieComp.LieComp := Sec4.Ronan148L.lieComp_holds
+  have hLC : LieComp.LieCompAll := Sec4.Ronan148L.lieComp_holds
   have hc : Nat.card Blueprint.NativeSporadic.M22 = 443520 := Sporadic.Mathieu.card_M22
   have hF := k150Facts_m22 hb
   have hgt : 362880 < Nat.card Blueprint.NativeSporadic.M22 := by rw [hc]; norm_num

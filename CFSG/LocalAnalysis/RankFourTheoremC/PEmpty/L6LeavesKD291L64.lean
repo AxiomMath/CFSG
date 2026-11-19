@@ -30,7 +30,7 @@ theorem not_dvd_card_outer_alternating {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) 
     have h2 : IsPGroup 2 (Outer L) :=
       CFSG.LieType.SteinbergBR.SmallAlt.isPGroup_outer_six.of_equiv
         (CFSG.ComponentClassification.OuterAutomorphisms.equivalence e).symm
-    haveI : Finite (Outer L) := inferInstance
+    have : Finite (Outer L) := inferInstance
     obtain ⟨k, hk⟩ := h2.exists_card_eq
     rw [hk] at hd
     have := (Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).1 (hp.dvd_of_dvd_pow hd)
@@ -44,7 +44,7 @@ theorem exists_index_of_outer (hΔ : KDInndiagP5) {p : ℕ} (hp : p.Prime) (hp5 
     (hn : ∃ a b : L, a * b ≠ b * a) (hc : IsCatalogGroup L) (hlu : ¬ IsLinearOrUnitaryAt p L)
     (hC : centralizer (L : Set Y) = ⊥) {x : Y} (hxL : x ∉ L) (hxo : orderOf x = p) :
     ∃ N : Subgroup Y, N.Normal ∧ N.index = p := by
-  haveI : Fact (Nat.Prime p) := ⟨hp⟩
+  have : Fact (Nat.Prime p) := ⟨hp⟩
   have hxp : IsPGroup p (zpowers x) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hxo, pow_one])
   obtain ⟨P, hP⟩ := hxp.exists_le_sylow
@@ -76,12 +76,12 @@ theorem inner_ident (hOut : SporadicOutOdd) (hR : SporadicCentralizerRank)
     exact hab (e.injective (by rw [map_mul, map_mul]; exact mul_comm _ _))
   | alternating n hn5 =>
     exfalso
-    haveI := hs
+    have := hs
     exact i294Alt_false hp hp5 L hn hn5 e hcen h3 hxL hxo hx2
   | sporadic s => exact (spor_false hOut hR hp hp5 L s e hcen h3 hxL hxo hx2).elim
   | lie m =>
     by_cases hch : m.1.characteristic = p
-    · haveI : Fact p.Prime := ⟨hp⟩
+    · have : Fact p.Prime := ⟨hp⟩
       have hp1 : 1 < p := hp.one_lt
       have hL3 := le_pRank_L_of_defChar hp hp5 L m hch e hcen (by norm_num : 3 ≤ 4) h3
       have hxo' : orderOf (⟨x, hxL⟩ : ↥L) = p := by
@@ -106,7 +106,7 @@ theorem kdL64I291_of_data (hMult : KDMultP5) (hGA : CFSG.Open.GriessAllModelsSta
     (hOuterLie : KD291OuterLie) (hOuterLin : KD291OuterLin) (hOuterUni : KD291OuterUni) :
     KDL64I291 := by
   intro p hprime hp5 Y _ _ hcat hcore L hL hLu h3 x hxo hxc
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   have hp1 : 1 < p := hprime.one_lt
   have hLn : L.Normal := I291.normal_of_unique hL hLu
   have hq : CFSG.Open.IsQuasisimple ↥L := hL.2.2
@@ -132,7 +132,7 @@ theorem kdL64I291_of_data (hMult : KDMultP5) (hGA : CFSG.Open.GriessAllModelsSta
     { prime := hprime
       five_le := hp5
       sylow := CFSG.ABGLocalTools.isSylowOf_iff.2
-        ⟨le_top, Q.isPGroup', by rw [Subgroup.relIndex_top_right]; exact Q.not_dvd_index⟩
+        ⟨le_top, Q.isPGroup, by rw [Subgroup.relIndex_top_right]; exact Q.not_dvd_index⟩
       x_mem := hxQ
       z_mem := hwQ
       x_pow := hxp1
@@ -166,7 +166,7 @@ theorem kdL64I291_of_data (hMult : KDMultP5) (hGA : CFSG.Open.GriessAllModelsSta
         have := hOuterLin p hprime hp5 Y L hq hZp n K hpn hpK e x hxo hin
         omega
     · obtain ⟨r, m, hr, hchar, -, hKr⟩ := exists_char_pow_card K
-      haveI : Fact r.Prime := ⟨hr⟩
+      have : Fact r.Prime := ⟨hr⟩
       obtain ⟨f, -, hqf⟩ : ∃ f ≤ m, q = r ^ f := by
         refine (Nat.dvd_prime_pow hr).1 ?_
         rw [← hKr, hKq]

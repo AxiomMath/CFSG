@@ -26,7 +26,7 @@ theorem omega_le_zpowers_of_not_le_weakCore
     (hCB : ∀ b ∈ B, b ∈ Subgroup.centralizer (K : Set X) → b ∈ Subgroup.zpowers z) :
     ∀ c ∈ K, c ∈ Subgroup.centralizer (K : Set X) → c ^ p = 1 → c ∈ Subgroup.zpowers z := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro c hcK hcc hcp
   by_contra hcz
   have hKsub : K.IsSubnormal := CFSG.Open.IsSubnormal.top_iff.mp hK.2.1

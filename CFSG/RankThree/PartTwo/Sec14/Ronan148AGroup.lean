@@ -24,7 +24,7 @@ theorem eq_of_le_sup_centralizer_of_three {J X Y A : Subgroup Γ} {e : Γ}
     (hF : ∀ w ∈ Y, w ∈ Subgroup.centralizer (A : Set Γ) → w ^ 3 = 1 →
       w ∈ Subgroup.zpowers e)
     (he : e ∈ J) : X = J := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set D : Subgroup Γ := X ⊓ Subgroup.centralizer (J : Set Γ)
   have hAD : A ≤ Subgroup.normalizer (D : Set Γ) := fun a ha =>
     CFSG.RankThree.PartTwo.Sec14.Ronan148N.mem_normalizer_inf148 (hAX ha)

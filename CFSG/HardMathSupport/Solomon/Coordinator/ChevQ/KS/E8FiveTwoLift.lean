@@ -145,7 +145,7 @@ theorem conjSLn_eq_of_smul {M : GL (Fin 5) L} {Y : SL(5, L)} {μ : L} (hμ : μ 
     rw [coe_conjSLn]
     have hc : (u : Matrix (Fin 5) (Fin 5) L) * (↑(Y * X * Y⁻¹) : Matrix (Fin 5) (Fin 5) L) =
         (↑(Y * X * Y⁻¹) : Matrix (Fin 5) (Fin 5) L) * (u : Matrix (Fin 5) (Fin 5) L) := by
-      simp only [u, Units.coe_map, Units.val_mk0, MonoidHom.coe_coe, Matrix.scalar_apply]
+      simp only [u, Units.coe_map, Units.val_mk0, _root_.MonoidHom.coe_ofClass, Matrix.scalar_apply]
       rw [← Matrix.smul_one_eq_diagonal, Matrix.smul_mul, Matrix.mul_smul, Matrix.one_mul,
         Matrix.mul_one]
     rw [hc, Matrix.mul_assoc, show (u : Matrix (Fin 5) (Fin 5) L) * ↑u⁻¹ = 1 from

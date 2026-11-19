@@ -43,6 +43,7 @@ private theorem map_posUnipotentExcept_stable (h : BorelQuotient D n H π M) (i 
   exact Subgroup.eq_of_le_of_card_ge hle
     (le_of_eq (Subgroup.card_map_of_injective (f := c.toMonoidHom) (K := W) c.injective).symm)
 
+omit [Finite Y] in
 private theorem rankOne_inf_posUnipotentExcept_eq_bot_of (h : BorelQuotient D n H π M) (i : Fin D.rank)
     (hN : ∀ N : Subgroup ↥(rankOne D.rootGroup i), N.Normal → IsPGroup 2 N → N = ⊥) :
     rankOne D.rootGroup i ⊓ posUnipotentExcept D i = ⊥ := by
@@ -85,8 +86,8 @@ theorem caseA (h : BorelQuotient D n H π M) (hZ : Subgroup.center Y = ⊥) (i :
     2 ≤ CFSG.Open.pRank p
       (((unipJ D {i}).map π).map (MulAut.conj : Y →* MulAut Y) ⊔ Subgroup.zpowers c) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI hWn := map_posUnipotentExcept_normal h i
+  have : Fact p.Prime := ⟨hp⟩
+  have hWn := map_posUnipotentExcept_normal h i
   have hinj : Function.Injective (MulAut.conj : Y →* MulAut Y) :=
     conj_injective_of_center_eq_bot hZ
   have hgood : NodeGood ↥(rankOne D.rootGroup i) p := nodeGood_of_rkKind h1 h2 hkind hp hp2 hpL

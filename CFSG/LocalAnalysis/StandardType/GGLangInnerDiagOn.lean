@@ -49,7 +49,7 @@ theorem ggInnerDiagOn_of_fieldAt {G : Type} [Group G] [Finite G] {X' : Subgroup 
     (hinn : ∃ k ∈ X', ∀ l ∈ X', a⁻¹ * l * a = k⁻¹ * l * k) :
     GGInnerDiagOn (Subgroup.zpowers a) X' := by
   obtain ⟨lab, -, hc, -, -, -, -, -, R, instR, hR, ⟨θ⟩⟩ := hQ
-  letI : Group R := instR
+  let : Group R := instR
   have hR2 : LieModel R (markTag lab) (markRank lab) 2 (markDeg lab) := by
     unfold MarkedModel at hR
     rwa [hc] at hR

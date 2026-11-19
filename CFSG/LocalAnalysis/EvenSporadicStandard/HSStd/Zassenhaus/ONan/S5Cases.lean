@@ -46,7 +46,7 @@ private lemma conj_centralizer_inf {Y : Type*} [Group Y] {N : Subgroup Y} (hN : 
   · refine le_trans (Subgroup.map_inf_le (H := N) (K := centralizer ({x} : Set Y))
         (f := (MulAut.conj g : Y →* Y))) ?_
     refine inf_le_inf (le_of_eq ?_) ?_
-    · haveI := hN
+    · have := hN
       exact Subgroup.Normal.map_conj_eq N g
     · calc (centralizer {x}).map (MulAut.conj g : Y →* Y)
           ≤ centralizer ((MulAut.conj g : Y →* Y) '' {x}) :=
@@ -63,7 +63,7 @@ private lemma conj_centralizer_inf {Y : Type*} [Group Y] {N : Subgroup Y} (hN : 
           show (MulEquiv.symm (MulAut.conj g)) y = (MulAut.conj g⁻¹) y
           rw [MulAut.conj_symm_apply, MulAut.conj_apply, inv_inv]
         rw [hsymm]
-        haveI := hN
+        have := hN
         exact Subgroup.Normal.map_conj_eq N g⁻¹
       · calc (centralizer ({g * x * g⁻¹} : Set Y)).map ((MulAut.conj g).symm : Y →* Y)
             ≤ centralizer (((MulAut.conj g).symm : Y →* Y) '' {g * x * g⁻¹}) :=
@@ -83,7 +83,7 @@ private lemma conj_centralizer_inf {Y : Type*} [Group Y] {N : Subgroup Y} (hN : 
 
 theorem threeA5OrS5_of_normal_z35 {M : Subgroup Z35} (hM : M.Normal) (h9 : 9 ∣ Nat.card M) :
     ThreeA5OrS5 ↥M := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hfac : (Nat.card Z35).factorization 3 = 2 := by
     rw [card_z35]
     have h1 : 3 ^ 2 ∣ 360 := by norm_num
@@ -107,7 +107,7 @@ theorem threeA5OrS5_of_normal_z35 {M : Subgroup Z35} (hM : M.Normal) (h9 : 9 ∣
     obtain ⟨T, hT⟩ := hzp.exists_le_sylow
     obtain ⟨g, hg⟩ := MulAction.exists_smul_eq Z35 S T
     have hTM : (T : Subgroup Z35) ≤ M := by
-      haveI := hM
+      have := hM
       rw [← hg, Sylow.coe_subgroup_smul, Subgroup.pointwise_smul_def]
       exact (Subgroup.map_mono hSM).trans_eq (Subgroup.Normal.map_conj_eq M g)
     exact hTM (hT (mem_zpowers y))
@@ -170,7 +170,7 @@ theorem factorization_three_of_le (h : Setting Y P) {N : Subgroup Y} (hPN : P �
 
 theorem threeA5OrS5_of_le (h : Setting Y P) {N : Subgroup Y} (hN : N.Normal) (hPN : P ≤ N)
     (x : ↥N) (hx : orderOf x = 3) : ThreeA5OrS5 ↥(centralizer ({x} : Set ↥N)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hxY : orderOf (x : Y) = 3 := by rw [orderOf_coe, hx]
   obtain ⟨g, hgP⟩ := exists_conj_mem_of_card_eq_pow (p := 3) (k := 2) (P := P)
       (by rw [h.card]; norm_num) (by simpa using h.not_dvd) hxY
@@ -233,7 +233,7 @@ theorem threeA5OrS5_of_le (h : Setting Y P) {N : Subgroup Y} (hN : N.Normal) (hP
     exact Or.inr ⟨ee.trans e5⟩
 
 theorem false_of_selfCentralizing (h : Setting Y P) {N : Subgroup Y} [N.Normal]
-    (hsol : Group.IsSolvable (Y ⧸ N)) {c : Y} (hcN : c ∈ N) (hc3 : orderOf c = 3)
+    (hsol : Group.IsSolvable (Y ⧸ N)) {c : Y} (_hcN : c ∈ N) (hc3 : orderOf c = 3)
     (hcC : N ⊓ centralizer ({c} : Set Y) = zpowers c) : False := by
   let C : Subgroup Y := centralizer ({c} : Set Y)
   have hcC' : c ∈ C := Subgroup.mem_centralizer_singleton_iff.mpr rfl
@@ -246,24 +246,24 @@ theorem false_of_selfCentralizing (h : Setting Y P) {N : Subgroup Y} [N.Normal]
     rw [← hcC, Subgroup.mem_inf]
     exact ⟨fun hN => ⟨hN, a.2⟩, fun h => h.1⟩
   have hzp_le : zpowers c ≤ C := by rw [Subgroup.zpowers_le]; exact hcC'
-  haveI : Group.IsSolvable ↥(zpowers c) := inferInstance
+  have : Group.IsSolvable ↥(zpowers c) := inferInstance
   have hker_sol : Group.IsSolvable ↥φ.ker := by
     rw [hker]
-    exact solvable_of_solvable_injective
+    exact Group.isSolvable_of_isSolvable_injective
       (f := (Subgroup.subgroupOfEquivOfLe hzp_le :
         ↥((zpowers c).subgroupOf C) →* ↥(zpowers c)))
       (Subgroup.subgroupOfEquivOfLe hzp_le).injective
   have hCsol : Group.IsSolvable ↥C := by
-    haveI := hker_sol
-    haveI : Group.IsSolvable (Y ⧸ N) := hsol
-    exact solvable_of_ker_le_range (φ.ker.subtype) φ
+    have := hker_sol
+    have : Group.IsSolvable (Y ⧸ N) := hsol
+    exact Group.isSolvable_of_ker_le_range (φ.ker.subtype) φ
       (le_of_eq (Subgroup.range_subtype φ.ker).symm)
   obtain ⟨e⟩ := h.centralizer_equiv hc3
   have hZsol : Group.IsSolvable Z35 := by
-    haveI := hCsol
-    exact solvable_of_surjective (f := (e : ↥C →* Z35)) e.surjective
-  haveI := hZsol
-  exact Equiv.Perm.fin_5_not_solvable (solvable_of_surjective
+    have := hCsol
+    exact Group.isSolvable_of_surjective (f := (e : ↥C →* Z35)) e.surjective
+  have := hZsol
+  exact Equiv.Perm.not_isSolvable_fin_5 (Group.isSolvable_of_surjective
     (f := MonoidHom.snd (Multiplicative (ZMod 3)) (Equiv.Perm (Fin 5)))
     (fun σ => ⟨(1, σ), rfl⟩))
 

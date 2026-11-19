@@ -49,7 +49,7 @@ theorem e9c7Free_statedSU {n q : ℕ} (hn : n = 4 ∨ n = 5) {F : Type} [Field F
     · rw [hF]; exact h7q2
     · rw [hF]; exact h7'
     · rw [hF]; exact h7q2p1
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have h3card : 3 ∣ Nat.card Fˣ := by
     rw [Nat.card_units, hF]
     have hq3mod : q ≡ 1 [MOD 3] := by simpa [Nat.ModEq] using hq3

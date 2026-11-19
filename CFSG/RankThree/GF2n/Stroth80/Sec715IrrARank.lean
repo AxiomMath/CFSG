@@ -11,6 +11,7 @@ open Module
 variable {K E : Type*} [Field K] [AddCommGroup E] [Module K E] [FiniteDimensional K E]
   {B : LinearMap.BilinForm K E} {V W : Submodule K E} {D : E →ₗ[K] E}
 
+omit [FiniteDimensional K E] in
 theorem orthogonal_range_sup_eq (hnd : B.Nondegenerate) (hW : W = B.orthogonal V)
     (hadj : ∀ x, ∀ w ∈ W, B (D x) w = -B x (D w)) :
     B.orthogonal (LinearMap.range D ⊔ V) = W ⊓ LinearMap.ker D := by

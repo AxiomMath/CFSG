@@ -33,7 +33,7 @@ theorem commute_of_orth_diff {α β : V4} (hα : IsRoot Tag.F4 α) (hβ : IsRoot
     have hαc := iform_self_cases noG2_F4 hα
     have hβc := iform_self_cases noG2_F4 hβ
     rw [iform_F4] at h4 hαc hβc
-    simp only [one_smul, iform_F4, ipF4_add_left, ipF4_add_right] at h4
+    simp only [one_smul, ipF4_add_left, ipF4_add_right] at h4
     rw [ipF4_comm β α, horth] at h4
     omega
   · rw [iform_F4, horth] at h
@@ -117,12 +117,12 @@ theorem diagSL3_mul_transvection (l : Fin 3 → Lˣ) (hl : l 0 * l 1 * l 2 = 1) 
   simp only [Matrix.add_apply, Matrix.diagonal_mul, Matrix.mul_diagonal, Matrix.single_apply]
   by_cases h : x = i ∧ y = j
   · obtain ⟨rfl, rfl⟩ := h
-    simp [Matrix.one_apply, hxy]
-  · rw [if_neg h, if_neg h]
+    simp [hxy]
+  · rw [ite_eq_right h, ite_eq_right h]
     by_cases hij : i = j
     · subst hij
-      simp [Matrix.one_apply]
-    · simp [Matrix.one_apply, hij]
+      simp
+    · simp [hij]
 
 theorem diagSL3_cube (κ : Fin 3 → Lˣ) (hκ : κ 0 * κ 1 * κ 2 = 1) (l : Fin 3 → Lˣ)
     (hl : l 0 * l 1 * l 2 = 1) (hlκ : ∀ i, l i = κ i ^ 3) :
@@ -225,7 +225,7 @@ theorem cube_identity (l0 l1 l2 : Lˣ) (h : l0 * l1 * l2 = 1) (A B : ℤ) :
 
 theorem rootChar_pow (a : Fin Tag.F4.rank → Lˣ) (n : ℕ) (v : V4) :
     rootChar (a ^ n) v = rootChar a v ^ n := by
-  simp only [rootChar, Pi.pow_apply, Finset.prod_pow]
+  simp only [rootChar, Pi.pow_apply]
   rw [← Finset.prod_pow]
   refine Finset.prod_congr rfl fun i _ => ?_
   rw [← zpow_natCast, ← zpow_natCast, ← zpow_mul, ← zpow_mul, mul_comm]

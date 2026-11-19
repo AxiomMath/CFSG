@@ -30,6 +30,7 @@ open CFSG.Open CFSG.Yardstones.Md0ec50421ce4 CFSG.LocalAnalysis.GLTheoremB
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem layer_centralizer_subgroupOf {L J : Subgroup G} {y : G} (hy : y ∈ L)
     (hJ : GLALayer (L ⊓ Subgroup.centralizer ({y} : Set G)) = J) :
     GLALayer (Subgroup.centralizer ({(⟨y, hy⟩ : L)} : Set L)) = J.subgroupOf L := by
@@ -38,6 +39,7 @@ theorem layer_centralizer_subgroupOf {L J : Subgroup G} {y : G} (hy : y ∈ L)
   rw [hJ] at h1
   rw [subgroupOf_eq_comap, h1, Subgroup.comap_map_eq_self_of_injective L.subtype_injective]
 
+omit [Finite G] in
 theorem layer_le_of_layer {L J : Subgroup G} {y : G}
     (hJ : GLALayer (L ⊓ Subgroup.centralizer ({y} : Set G)) = J) : J ≤ L := by
   rw [← hJ]

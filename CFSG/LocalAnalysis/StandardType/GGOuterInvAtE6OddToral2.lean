@@ -90,8 +90,8 @@ theorem exists_conj_le_torusGroup_E6_of_isPGroup {K : Type} [Field K] [Finite K]
     {p : ℕ} (hp : p.Prime) (hp7 : 7 ≤ p) (hpq : p ∣ Nat.card K - 1)
     {A : Subgroup (ModGL Tag.E6 K)} (hA : A ≤ adjointGroup Tag.E6 K) (hAp : IsPGroup p A) :
     ∃ g ∈ adjointGroup Tag.E6 K, ∀ x ∈ A, g * x * g⁻¹ ∈ torusGroup Tag.E6 K := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (ModGL Tag.E6 K) := CFSG.LieType.Chevalley.finite_modGL
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (ModGL Tag.E6 K) := CFSG.LieType.Chevalley.finite_modGL
   have hle : torusGroup Tag.E6 K ≤ adjointGroup Tag.E6 K :=
     CFSG.RankThree.PartOne.K128.torusGroup_le_adjointGroup'
   have hord : (Nat.card (adjointGroup Tag.E6 K)).factorization p =

@@ -86,9 +86,9 @@ theorem c25_RS_proved : C25_RS p f := by
   have hKK' : K' ≠ K := hs.hne
   obtain ⟨S, R, R', hWS, hR, hR', hRS, hR'S⟩ := T7D.exists_sylow_frame hs hW hzW
   have hRK : K ⊓ (S : Subgroup G) = R :=
-    hR.eq_of_le S.isPGroup'.to_inf_right inf_le_left (le_inf hR.1 hRS)
+    hR.eq_of_le S.isPGroup.to_inf_right inf_le_left (le_inf hR.1 hRS)
   have hRK' : K' ⊓ (S : Subgroup G) = R' :=
-    hR'.eq_of_le S.isPGroup'.to_inf_right inf_le_left (le_inf hR'.1 hR'S)
+    hR'.eq_of_le S.isPGroup.to_inf_right inf_le_left (le_inf hR'.1 hR'S)
   refine ⟨S, R, R', ⟨mem_RSet_of_isSylow2In hK hR, hR.1, hRS⟩,
     ⟨mem_RSet_of_isSylow2In hK' hR', hR'.1, hR'S⟩, ?_⟩
   intro X hX hXS

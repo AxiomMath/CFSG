@@ -329,12 +329,12 @@ private def k328r8g_perpE2 {F : Type} [Field F] (b c : F) :
   carrier := {x | polar (k328r8g_Q b c) (k328r8g_e 2) x = 0}
   add_mem' := by
     intro x y hx hy
-    simp only [Set.mem_setOf_eq] at hx hy ⊢
+    simp only [Set.mem_ofPred_eq] at hx hy ⊢
     rw [polar_add_right, hx, hy, add_zero]
-  zero_mem' := by simp only [Set.mem_setOf_eq, polar_zero_right]
+  zero_mem' := by simp only [Set.mem_ofPred_eq, polar_zero_right]
   smul_mem' := by
     intro a x hx
-    simp only [Set.mem_setOf_eq] at hx ⊢
+    simp only [Set.mem_ofPred_eq] at hx ⊢
     rw [polar_smul_right_eq, hx, mul_zero]
 
 private def k328r8g_perpF2 {F : Type} [Field F] (b c : F) :
@@ -342,12 +342,12 @@ private def k328r8g_perpF2 {F : Type} [Field F] (b c : F) :
   carrier := {x | polar (k328r8g_Q b c) (k328r8g_f 2) x = 0}
   add_mem' := by
     intro x y hx hy
-    simp only [Set.mem_setOf_eq] at hx hy ⊢
+    simp only [Set.mem_ofPred_eq] at hx hy ⊢
     rw [polar_add_right, hx, hy, add_zero]
-  zero_mem' := by simp only [Set.mem_setOf_eq, polar_zero_right]
+  zero_mem' := by simp only [Set.mem_ofPred_eq, polar_zero_right]
   smul_mem' := by
     intro a x hx
-    simp only [Set.mem_setOf_eq] at hx ⊢
+    simp only [Set.mem_ofPred_eq] at hx ⊢
     rw [polar_smul_right_eq, hx, mul_zero]
 
 private theorem k328r8g_A1_le_perpE2 {F : Type} [Field F] (b c : F) :
@@ -604,12 +604,12 @@ private def k328r8g_fixed {F : Type} [Field F]
   carrier := {x | s *ᵥ x = x}
   add_mem' := by
     intro x y hx hy
-    simp only [Set.mem_setOf_eq] at hx hy ⊢
+    simp only [Set.mem_ofPred_eq] at hx hy ⊢
     rw [Matrix.mulVec_add, hx, hy]
-  zero_mem' := by simp only [Set.mem_setOf_eq]; exact Matrix.mulVec_zero s
+  zero_mem' := by simp only [Set.mem_ofPred_eq]; exact Matrix.mulVec_zero s
   smul_mem' := by
     intro a x hx
-    simp only [Set.mem_setOf_eq] at hx ⊢
+    simp only [Set.mem_ofPred_eq] at hx ⊢
     rw [Matrix.mulVec_smul, hx]
 
 private theorem k328r8g_t0_fix_e2 {F : Type} [Field F] [Fintype F] [DecidableEq F] (_b _c : F)

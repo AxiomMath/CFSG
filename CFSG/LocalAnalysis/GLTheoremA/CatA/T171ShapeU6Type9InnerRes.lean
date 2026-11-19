@@ -23,9 +23,9 @@ theorem isBlockDiag_iff_commute {d : ℕ} (S : Finset (Fin d)) (M : Matrix (Fin 
     rw [blockComplProj, Matrix.mul_diagonal, Matrix.diagonal_mul]
     by_cases hi : i ∈ S <;> by_cases hj : j ∈ S
     · simp [hi, hj]
-    · simp only [hi, hj, if_true, if_false, mul_one, mul_zero, zero_mul, one_mul]
+    · simp only [hi, hj, ite_true, ite_false, mul_one, zero_mul]
       exact h i j (Or.inl ⟨hi, hj⟩)
-    · simp only [hi, hj, if_true, if_false, mul_one, mul_zero, zero_mul, one_mul]
+    · simp only [hi, hj, ite_true, ite_false, mul_zero, one_mul]
       exact (h i j (Or.inr ⟨hi, hj⟩)).symm
     · simp [hi, hj]
   · intro h i j hij

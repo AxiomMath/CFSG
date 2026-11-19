@@ -13,7 +13,7 @@ open CFSG.Monster.B.Co2 PkG CovK CFSG.ClassicalInvolution.Q3.PhilipHall.Frame.Sp
 
 set_option linter.unusedSectionVars false
 
-@[expose] abbrev RR (p : ℕ) (x : ↥ySub) : Prop := ResRep p (x : Equiv.Perm (Fin 240))
+abbrev RR (p : ℕ) (x : ↥ySub) : Prop := ResRep p (x : Equiv.Perm (Fin 240))
 
 theorem RR.mul {p q : ℕ} {x y : ↥ySub} (hp : RR p x) (hq : RR q y) :
     RR (PkG.comp 64 48 p q) (x * y) := ResRep.comp hp hq
@@ -169,12 +169,12 @@ theorem core_eq_RY_of_data {R : Subgroup ↥ySub}
   have pick : ∀ n : ℕ, ∃ gE ∈ R, RR (if n == 0 then IP.getD a (one 64 48) else IP.getD b (one 64 48)) gE := by
     intro n
     by_cases hn : (n == 0) = true
-    · exact ⟨i', hiR, by rw [if_pos hn]; exact hXa⟩
-    · exact ⟨j', hjR, by rw [if_neg hn]; exact hYb⟩
+    · exact ⟨i', hiR, by rw [ite_eq_left hn]; exact hXa⟩
+    · exact ⟨j', hjR, by rw [ite_eq_right hn]; exact hYb⟩
   rcases (by omega : r.getD 2 0 = 0 ∨ r.getD 2 0 = 1 ∨ 2 ≤ r.getD 2 0) with hk | hk | hk
   · exfalso
     have c0 : (r.getD 2 0 == 0) = true := by rw [hk]; rfl
-    rw [if_pos c0] at hok
+    rw [ite_eq_left c0] at hok
     have hne := bne_iff_ne.1 hok
     apply hne
     have h1 := RR.mul (RR.mul hYb hXa) hYib
@@ -182,7 +182,7 @@ theorem core_eq_RY_of_data {R : Subgroup ↥ySub}
     exact RR.unique h1 hXia
   · have c0 : ¬ (r.getD 2 0 == 0) = true := by rw [hk]; decide
     have c1 : (r.getD 2 0 == 1) = true := by rw [hk]; rfl
-    rw [if_neg c0, if_pos c1] at hok
+    rw [ite_eq_right c0, ite_eq_left c1] at hok
     simp only [Bool.and_eq_true] at hok
     obtain ⟨hx, hy⟩ := hok
     have hiRY : i' ∈ RY := mem_RY_of_L0 hiT hXa hx
@@ -197,7 +197,7 @@ theorem core_eq_RY_of_data {R : Subgroup ↥ySub}
   · exfalso
     have c0 : ¬ (r.getD 2 0 == 0) = true := by simp only [beq_iff_eq]; omega
     have c1 : ¬ (r.getD 2 0 == 1) = true := by simp only [beq_iff_eq]; omega
-    rw [if_neg c0, if_neg c1] at hok
+    rw [ite_eq_right c0, ite_eq_right c1] at hok
     simp only [Bool.and_eq_true] at hok
     obtain ⟨⟨⟨hA, -⟩, hC⟩, hD⟩ := hok
     have hlet : ∀ l ∈ r.drop 6, l < 6 := fun l hl => by

@@ -13,7 +13,7 @@ open Equiv Equiv.Perm
 theorem false_of_surjective_alt7 {W : Type} [Group W] [Finite W]
     (hcyc : ∀ P : Sylow 3 W, IsCyclic P) {f : W →* alternatingGroup (Fin 7)}
     (hf : Function.Surjective f) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hA : ∀ Q : Sylow 3 (alternatingGroup (Fin 7)), IsCyclic Q := fun Q =>
     CFSG.RankThree.PartTwo.Sec11.KS11LieProof.isCyclic_sylow_of_surjective f hf hcyc Q
   have hu : (c[0, 1, 2] : Perm (Fin 7)) ∈ alternatingGroup (Fin 7) := by

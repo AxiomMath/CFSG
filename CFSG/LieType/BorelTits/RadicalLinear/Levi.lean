@@ -40,12 +40,12 @@ theorem exists_levi_of_isQuasisimple (hK3 : Nat.card K ≠ 3) (π : SpecialLinea
   have hcomm : ∀ x y : leviX U, (∀ i, Psi i x = 1) → (∀ i, Psi i y = 1) →
       x * y = y * x := fun x y hx hy =>
     leviPsi_comm π U ℓ g hP hU hθ h3 x y hx hy
-  have hbad : ∀ i, ¬ good i → IsSolvable (Psi i).range := by
+  have hbad : ∀ i, ¬ good i → Group.IsSolvable (Psi i).range := by
     intro i hi
     have hm : 1 ≤ levelCount ℓ i := one_le_levelCount ℓ i
     have hcard : Fintype.card (Block ℓ (levels ℓ i)) = levelCount ℓ i :=
       card_subtype_eq_levelCount ℓ i
-    haveI : Group.IsSolvable (PGL (Block ℓ (levels ℓ i)) K) := by
+    have : Group.IsSolvable (PGL (Block ℓ (levels ℓ i)) K) := by
       by_cases h2 : 2 ≤ levelCount ℓ i
       · have hmn : levelCount ℓ i = 2 ∧ Nat.card K = 2 := by
           by_contra h

@@ -82,6 +82,7 @@ theorem baumCtx (hL2 : CharTwo L) : BaumCtx X T U L P where
     rw [h.hLC, ← pCoreOf_subgroupOf_eq h.hLX]
     exact pCoreOf_le_oTwoPhi _
 
+omit [Finite G] in
 theorem fixV_L : fixV (autI h.hU L) = ⊥ := by
   rw [eq_bot_iff]
   intro m hm
@@ -144,7 +145,7 @@ theorem hDE (hL2 : CharTwo L) {A₀ : Subgroup G} (hA₀ : IsMaxElemAbelian (pCo
     rw [burnsideC137_ψ_conv h.hs h.hU (ℓ i)]
     exact hℓ i
   set Y₀ := autI h.hU A₀ with hY₀
-  have hpieces := fun i => exists_Dpiece h.hU h.hXN h.hLX h.hRX h.hR2 hA2 hA₀ (ℓ i).2
+  have hpieces := fun i => exists_Dpiece h.hU h.hXN h.hLX h.hRX CFSG.ASVolI.burnsideC137_SCtx.hR2 hA2 hA₀ (ℓ i).2
   have hY0R : Y₀ ≤ autI h.hU (pCoreOf 2 P) := hRA.ge
   have hfixY : ∀ i, rkIdx (fixV (B1.conjAut (cs i) Y₀)) = 2 := by
     intro i

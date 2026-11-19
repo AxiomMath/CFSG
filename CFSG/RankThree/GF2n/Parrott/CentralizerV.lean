@@ -17,10 +17,12 @@ variable {G : Type} [Group G] [Finite G] {z : G}
 @[expose] noncomputable def centralizerJ (x : H z) : Subgroup (J z) :=
   (Subgroup.centralizer ({(x : G)} : Set G) ⊓ J z).subgroupOf (J z)
 
+omit [Finite G] in
 theorem mem_centralizerJ_iff {x : H z} {j : J z} :
     j ∈ centralizerJ x ↔ (j : G) * (x : G) = (x : G) * (j : G) := by
   simp [centralizerJ, Subgroup.mem_subgroupOf, Subgroup.mem_centralizer_singleton_iff]
 
+omit [Finite G] in
 theorem autFixedSubgroup_conjJ'_eq_centralizerJ (x : H z) :
     autFixedSubgroup (conjJ' z x) = centralizerJ x := by
   ext j
@@ -40,6 +42,7 @@ theorem autFixedSubgroup_conjJ'_eq_centralizerJ (x : H z) :
     rw [← h]
     simp
 
+omit [Finite G] in
 theorem conjV_eq_congr (h : Tim79a.ParrottHyp z) (x : H z) :
     conjV h x = MulAut.congr
       (QuotientGroup.quotientMulEquivOfEq
@@ -57,7 +60,7 @@ theorem autFixedSubgroup_congr {A B : Type*} [Group A] [Group B]
     rw [Subgroup.mem_map] at hy
     obtain ⟨a, ha, rfl⟩ := hy
     rw [mem_autFixedSubgroup] at ha ⊢
-    simpa [MulAut.congr_apply, MulEquiv.trans_apply, ha]
+    simp [MulAut.congr_apply, MulEquiv.trans_apply, ha]
   · intro hy
     rw [Subgroup.mem_map]
     refine ⟨e.symm y, ?_, by simp⟩
@@ -66,6 +69,7 @@ theorem autFixedSubgroup_congr {A B : Type*} [Group A] [Group B]
     have hy' := congrArg e.symm hy
     simpa [MulAut.congr_apply, MulEquiv.trans_apply] using hy'
 
+omit [Finite G] in
 theorem autFixedSubgroup_quotientAut_map_eq_autFixedSubgroup_conjV
     (h : Tim79a.ParrottHyp z) (x : H z) :
     (autFixedSubgroup (quotientAut (conjJ' z x))).map
@@ -75,6 +79,7 @@ theorem autFixedSubgroup_quotientAut_map_eq_autFixedSubgroup_conjV
   rw [conjV_eq_congr]
   rw [autFixedSubgroup_congr]
 
+omit [Finite G] in
 theorem card_autFixedSubgroup_quotientAut_eq_card_autFixedSubgroup_conjV
     (h : Tim79a.ParrottHyp z) (x : H z) :
     Nat.card (autFixedSubgroup (quotientAut (conjJ' z x))) =
@@ -84,6 +89,7 @@ theorem card_autFixedSubgroup_quotientAut_eq_card_autFixedSubgroup_conjV
   exact (QuotientGroup.quotientMulEquivOfEq
     (QuotientV.centerIn_subgroupOf_eq_center (z := z)).symm).injective
 
+omit [Finite G] in
 theorem card_autFixedSubgroup_conjV_eq_card_fixedBy
     (h : Tim79a.ParrottHyp z) (x : H z) :
     Nat.card (autFixedSubgroup (conjV h x)) =

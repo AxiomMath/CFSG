@@ -173,14 +173,12 @@ theorem profile4_t210 :
     show t + 4 - (t + 2) = 2 by omega]
   · refine ⟨⟨-2, ?_⟩, ⟨4 * 2 ^ t, ?_⟩, ⟨-2 * 2 ^ t + 1, ?_⟩,
       ⟨-16 * (2 ^ t) ^ 2 - 22 * 2 ^ t + 1, ?_⟩, ⟨-40 * (2 ^ t) ^ 2 - 16 * 2 ^ t, ?_⟩⟩ <;>
-    simp [Type210.uvM, Type210.uvA, Type210.tM, Type210.ρM, ofCols_apply, Matrix.mulVec,
-      dotProduct, Fin.sum_univ_three] <;> ring
+    simp [Type210.uvM, Type210.uvA, Type210.tM, Type210.ρM, ofCols_apply] <;> ring
   · refine ⟨⟨0, ?_⟩, ⟨-2 * 2 ^ t - 1, ?_⟩, ⟨4 * 2 ^ t, ?_⟩, ⟨2 * 2 ^ t - 1, ?_⟩,
       ⟨6 * 2 ^ t - 1, ?_⟩⟩ <;>
-    simp [Type210.tM, Type210.uvA, Type210.ρM, ofCols_apply, Matrix.mulVec, dotProduct,
-      Fin.sum_univ_three] <;> ring
+    simp [Type210.tM, Type210.uvA, Type210.ρM, ofCols_apply] <;> ring
   · refine ⟨⟨2 ^ t, ?_⟩, ⟨0, ?_⟩, ⟨0, ?_⟩, ⟨0, ?_⟩, ⟨0, ?_⟩⟩ <;>
-    simp [Type210.uM, uMat, ofCols_apply] <;> ring
+    simp [Type210.uM, uMat, ofCols_apply]
   · refine ⟨⟨0, ?_⟩, ⟨0, ?_⟩, ⟨0, ?_⟩, ⟨-1, ?_⟩, ⟨-1, ?_⟩⟩ <;>
     simp [Type210.ρM, ofCols_apply]
   · refine ⟨2 * 2 ^ t - 1, -1, ?_, ?_, ⟨2 ^ t - 1, ?_⟩, ⟨-1, ?_⟩⟩ <;>
@@ -216,49 +214,49 @@ theorem twist4_t210 :
       (by simp [t210_uv_eq, t211_uv_eq, Type210.uvM, Type211.uvM, ofCols_apply])
       (by simp [t210_uv_eq, t211_uv_eq, Type210.uvM, Type211.uvM, ofCols_apply])
   · refine matAct_gen_eq_add_tw _ _ 1 0 0 1 ?_ ?_ ?_ <;>
-      simp only [hK0, hK1, hK2, hK0', hK1', hK2', s0, s1, t210_uv_eq, t211_uv_eq]
+      simp only [hK0', hK1', hK2', s0, s1, t210_uv_eq, t211_uv_eq]
     · exact ⟨0, by simp [Type210.uvM, Type211.uvM, Type210.uvA, Type211.uvA, ofCols_apply]⟩
     · exact ⟨0, by simp [Type210.uvM, Type211.uvM, Type210.uvA, Type211.uvA, ofCols_apply]⟩
     · exact ⟨0, by
         simp [Type210.uvM, Type211.uvM, Type210.uvA, Type211.uvA, ofCols_apply]
         ring⟩
   · refine matAct_gen_eq_add_tw _ _ 2 0 1 0 ?_ ?_ ?_ <;>
-      simp only [hK0, hK1, hK2, hK0', hK1', hK2', s0, s1, t210_uv_eq, t211_uv_eq]
+      simp only [hK0', hK1', hK2', s0, s1, t210_uv_eq, t211_uv_eq]
     · exact ⟨12 * 2 ^ t, by
         simp [Type210.uvM, Type211.uvM, Type210.uvA, Type211.uvA, Type210.tM, Type211.tM,
-          Type210.ρM, Type211.ρM, ofCols_apply, Matrix.mulVec, dotProduct, Fin.sum_univ_three]
+          Type210.ρM, Type211.ρM, ofCols_apply]
         ring⟩
     · exact ⟨4 * 2 ^ t - 1, by
         simp [Type210.uvM, Type211.uvM, Type210.uvA, Type211.uvA, Type210.tM, Type211.tM,
-          Type210.ρM, Type211.ρM, ofCols_apply, Matrix.mulVec, dotProduct, Fin.sum_univ_three]
+          Type210.ρM, Type211.ρM, ofCols_apply]
         ring⟩
     · exact ⟨0, by
         simp [Type210.uvM, Type211.uvM, Type210.uvA, Type211.uvA, Type210.tM, Type211.tM,
-          Type210.ρM, Type211.ρM, ofCols_apply, Matrix.mulVec, dotProduct, Fin.sum_univ_three]
+          Type210.ρM, Type211.ρM, ofCols_apply]
         ring⟩
   · exact e0 _ _ 0 (by simp [t210_t_eq, t211_t_eq, Type210.tM, Type211.tM, ofCols_apply])
       (by simp [t210_t_eq, t211_t_eq, Type210.tM, Type211.tM, ofCols_apply])
       (by simp [t210_t_eq, t211_t_eq, Type210.tM, Type211.tM, ofCols_apply])
   · refine matAct_gen_eq_add_tw _ _ 1 0 1 0 ?_ ?_ ?_ <;>
-      simp only [hK0, hK1, hK2, hK0', hK1', hK2', s0, s1, t210_t_eq, t211_t_eq]
+      simp only [hK0', hK1', hK2', s0, s1, t210_t_eq, t211_t_eq]
     · exact ⟨0, by simp [Type210.tM, Type211.tM, ofCols_apply]⟩
     · exact ⟨0, by
         simp [Type210.tM, Type211.tM, ofCols_apply]
         ring⟩
     · exact ⟨0, by simp [Type210.tM, Type211.tM, ofCols_apply]⟩
   · refine matAct_gen_eq_add_tw _ _ 2 0 1 1 ?_ ?_ ?_ <;>
-      simp only [hK0, hK1, hK2, hK0', hK1', hK2', s0, s1, t210_t_eq, t211_t_eq]
+      simp only [hK0', hK1', hK2', s0, s1, t210_t_eq, t211_t_eq]
     · exact ⟨2, by
         simp [Type210.tM, Type211.tM, Type210.uvA, Type211.uvA, Type210.ρM, Type211.ρM,
-          ofCols_apply, Matrix.mulVec, dotProduct, Fin.sum_univ_three]
+          ofCols_apply]
         ring⟩
     · exact ⟨1, by
         simp [Type210.tM, Type211.tM, Type210.uvA, Type211.uvA, Type210.ρM, Type211.ρM,
-          ofCols_apply, Matrix.mulVec, dotProduct, Fin.sum_univ_three]
+          ofCols_apply]
         ring⟩
     · exact ⟨1, by
         simp [Type210.tM, Type211.tM, Type210.uvA, Type211.uvA, Type210.ρM, Type211.ρM,
-          ofCols_apply, Matrix.mulVec, dotProduct, Fin.sum_univ_three]
+          ofCols_apply]
         ring⟩
   · exact e0 _ _ 0 (by simp [t210_u_eq, t211_u_eq, Type210.uM, Type211.uM, uMat, ofCols_apply])
       (by simp [t210_u_eq, t211_u_eq, Type210.uM, Type211.uM, uMat, ofCols_apply])
@@ -302,14 +300,14 @@ theorem restrict_t111_t210 :
     fin_cases r <;> fin_cases c <;>
       simp [StrothTypeIndex.k, Type210.k, diag4, Matrix.mul_diagonal, Matrix.diagonal_mul,
         Type210.uvM, Type210.uvA, Type210.tM, Type210.ρM, Type111.uvM, Type111.uvA, Type111.tM,
-        Type111.ρM, ofCols_apply, Matrix.mulVec, dotProduct, Fin.sum_univ_three, pow_add,
+        Type111.ρM, ofCols_apply, pow_add,
         -mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;>
       ring1
   · intro r c
     fin_cases r <;> fin_cases c <;>
       simp [StrothTypeIndex.k, Type210.k, diag4, Matrix.mul_diagonal, Matrix.diagonal_mul,
         Type210.uvA, Type210.tM, Type210.ρM, Type111.uvA, Type111.tM, Type111.ρM, ofCols_apply,
-        Matrix.mulVec, dotProduct, Fin.sum_univ_three, pow_add, -mul_eq_zero,
+        pow_add, -mul_eq_zero,
         -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;>
       ring1
   · intro r c

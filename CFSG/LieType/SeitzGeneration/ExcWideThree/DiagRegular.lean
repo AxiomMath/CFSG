@@ -29,7 +29,7 @@ theorem e6InndiagGL_le_adjoint_of_cubes (K : Type) [Field K]
 theorem units_cube_of_not_dvd (K : Type) [Field K] [Finite K] (h : ¬ 3 ∣ Nat.card K - 1) :
     ∀ c : Kˣ, ∃ u : Kˣ, u ^ 3 = c := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcard : Nat.card Kˣ = Nat.card K - 1 := by
     rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card, Fintype.card_units]
   have hcop : Nat.Coprime (Nat.card Kˣ) 3 := by
@@ -48,7 +48,7 @@ theorem langGL_rootChar_frob_reg {K : Type} [Field K] [Finite K] {A : Subgroup (
     (v : Fin Tag.E6.rank → ℤ) : rootChar a (D.w • v) = rootChar a v ^ Nat.card K := by
   classical
   obtain ⟨e, he, hcard⟩ := card_eq_pow_ringChar K
-  haveI : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
+  have : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
   have hFrEq : D.Fr = iterateFrobenius (AlgebraicClosure K) (ringChar K) e :=
     RingHom.ext fun c => by rw [D.hFr c, iterateFrobenius_def, hcard]
   have hFrob : ∀ g : ModGL Tag.E6 (AlgebraicClosure K),
@@ -122,7 +122,7 @@ theorem langGL_kills_of_pair {K : Type} [Field K] [Finite K] {A : Subgroup (ModG
       baseChangeGL (algebraMap K (AlgebraicClosure K)) (D.c * y₁ * D.c⁻¹) * D.g0)
     (ha₂ : rootDiagUnit Tag.E6 (fun i => ω ^ k₂ i) = D.g0⁻¹ *
       baseChangeGL (algebraMap K (AlgebraicClosure K)) (D.c * y₂ * D.c⁻¹) * D.g0)
-    {α : Fin Tag.E6.rank → ℤ} (hα : IsRoot Tag.E6 α)
+    {α : Fin Tag.E6.rank → ℤ} (_hα : IsRoot Tag.E6 α)
     (h₁ : (3 : ℤ) ∣ ∑ i, α i * (k₁ i : ℤ)) (h₂ : (3 : ℤ) ∣ ∑ i, α i * (k₂ i : ℤ)) :
     D.Kills α := by
   have hr₁ : rootChar (fun i => ω ^ k₁ i) α = 1 := rootChar_eq_one_of_dvd hω3 (fun i => rfl) h₁
@@ -185,7 +185,7 @@ theorem e6DiagRegularOuter_of_dichotomy
   have hK2 : 2 ≤ Nat.card K := Finite.one_lt_card
   have hq : Nat.card K % 3 = 1 := by omega
   have hK4 : 4 ≤ Nat.card K := by omega
-  haveI : CFSG.IsElementaryAbelian 3 E := hEab
+  have : CFSG.IsElementaryAbelian 3 E := hEab
   have hAcard : Nat.card (e6PlanePre K E) = 3 ^ 2 := by rw [card_e6PlanePre K hK4 E hE, hcard]
   have hexp : ∀ y ∈ e6PlanePre K E, y ^ 3 = 1 := fun y hy =>
     pow_three_eq_one_of_mem_e6PlanePre K hK4 E hy

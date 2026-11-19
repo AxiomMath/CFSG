@@ -29,12 +29,12 @@ open Equiv Subgroup CFSG.ABGLocalTools CFSG.QuasithinUnique.Setup.X3E
   carrier := {x | ((x : Perm (Fin 6)) 4 = 4 ∧ (x : Perm (Fin 6)) 5 = 5) ∨
     ((x : Perm (Fin 6)) 4 = 5 ∧ (x : Perm (Fin 6)) 5 = 4)}
   mul_mem' {a b} ha hb := by
-    simp only [Set.mem_setOf_eq, Subgroup.coe_mul, Perm.mul_apply] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq, Subgroup.coe_mul, Perm.mul_apply] at ha hb ⊢
     rcases ha with ⟨ha4, ha5⟩ | ⟨ha4, ha5⟩ <;> rcases hb with ⟨hb4, hb5⟩ | ⟨hb4, hb5⟩ <;>
       simp [ha4, ha5, hb4, hb5]
   one_mem' := by simp
   inv_mem' {a} ha := by
-    simp only [Set.mem_setOf_eq, InvMemClass.coe_inv] at ha ⊢
+    simp only [Set.mem_ofPred_eq, InvMemClass.coe_inv] at ha ⊢
     rcases ha with ⟨ha4, ha5⟩ | ⟨ha4, ha5⟩
     · exact Or.inl ⟨Perm.inv_eq_iff_eq.2 ha4.symm, Perm.inv_eq_iff_eq.2 ha5.symm⟩
     · exact Or.inr ⟨Perm.inv_eq_iff_eq.2 ha5.symm, Perm.inv_eq_iff_eq.2 ha4.symm⟩

@@ -177,6 +177,7 @@ theorem pPrimeCoreOf_centralizer_mem_scriptQ {A B : Subgroup G} {LB : Subgroup G
     rw [Subgroup.mem_inf, Subgroup.mem_inf, ← Subgroup.mem_normalizer_iff.mp hgO x,
       ← Subgroup.mem_normalizer_iff.mp hgC x]
 
+omit [Finite G] in
 theorem le_pPrimeCoreOf_centralizer_of_scriptQZero {A B Q : Subgroup G}
     {LB : Subgroup G → Subgroup G} (hA : Late.IsE27 A) (hB : IsHyperplane A B)
     (hLB : LB B = ⊥) (hQ : Q ∈ scriptQZero A LB)

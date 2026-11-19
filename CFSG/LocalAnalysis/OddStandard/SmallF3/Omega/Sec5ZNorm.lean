@@ -57,7 +57,7 @@ theorem sec5z_conj_Q_le (hy : Sec5B59Hyp) (hU : Asc82FactPocketsUniq6) (h : Sec5
       twoCoreIn K₁ ⊔ twoCoreIn K₂ := by
     rw [Subgroup.map_sup]
     exact sup_le (hmap K₁ hk.pocket₁) (hmap K₂ hk.pocket₂)
-  exact hsup (Subgroup.mem_map.mpr ⟨x, hx, by simp [MulAut.conj_apply]⟩)
+  exact hsup (Subgroup.mem_map.mpr ⟨x, hx, by simp⟩)
 
 theorem sec5z_S_le_normalizer_Q (hy : Sec5B59Hyp) (hU : Asc82FactPocketsUniq6)
     (h : Sec5Ctx G t L S z) (hk : Sec510Pk G t L S z K₁ K₂) :

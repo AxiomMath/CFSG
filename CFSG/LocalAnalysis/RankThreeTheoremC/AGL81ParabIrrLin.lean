@@ -68,7 +68,7 @@ theorem parabIrr_of_projectiveSL
     (hNY : N ≤ Subgroup.normalizer (Y : Set A)) (hNP : N ≤ Subgroup.normalizer (P : Set A))
     (hNB : N ≤ Subgroup.normalizer (B : Set A)) (hirr : IrredOn N B) :
     ∀ b ∈ B, ∀ y ∈ Y, b * y = y * b := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hodd : Odd (Nat.card (Subgroup.center ↥Y)) :=
     odd_card_center_of_pCore_eq_bot (pCore_eq_bot_of_pCoreOf h2)
   obtain ⟨I, C, hI, hne'⟩ := exists_linCover hGA hY hodd hn e hpar

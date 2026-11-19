@@ -58,7 +58,7 @@ theorem isSimpleGroup_catalog_of_component (h31 : KFactThreeOne) (hKP : CFSG.Ope
     (hLX : ¬ L ≤ d1X0 p M N) :
     IsSimpleGroup L ∧ (∃ a b : L, a * b ≠ b * a) ∧ IsCatalogGroup L := by
   obtain ⟨⟨i, -, hi⟩, hZ⟩ := exists_threeOneIndex_of_component h31 hKP he hB hBN hNtop hL hLX
-  haveI hs : IsSimpleGroup L := isSimpleGroup_of_center_eq_bot hL hZ
+  have hs : IsSimpleGroup L := isSimpleGroup_of_center_eq_bot hL hZ
   refine ⟨hs, ?_, ⟨i, hi⟩⟩
   by_contra hab
   push Not at hab
@@ -85,7 +85,7 @@ theorem le_sup_centralizer_d1KBar_of_isPerfect (h31 : KFactThreeOne)
       ((d1KBar p M N : Subgroup (N ⧸ primeComplementCore (G := N) p)) :
         Set (N ⧸ primeComplementCore (G := N) p)) := by
   set Y := N ⧸ primeComplementCore (G := N) p
-  haveI hKn : (d1KBar p M N).Normal := d1KBar_normal_of_escape he hB hBN hK
+  have hKn : (d1KBar p M N).Normal := d1KBar_normal_of_escape he hB hBN hK
   have hout : ∀ L : Subgroup Y, IsComponentOf L ⊤ → ¬ L ≤ d1X0 p M N →
       Group.IsSolvable (CFSG.ComponentClassification.OuterAutomorphisms.Outer L) := by
     intro L hL hLX

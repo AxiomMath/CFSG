@@ -152,7 +152,7 @@ theorem isPGroup_Tstar (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V) :
 
 theorem isSylowIn_T_inf_L (c : Ctx23L D Ch) :
     CFSG.Quasithin.IsSylowIn 2 (D.T ⊓ c.L) c.L := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTG : CFSG.Quasithin.IsSylowIn 2 D.T ⊤ :=
     (CFSG.ABGLocalTools.isSylowOf_iff (p := 2)).1 D.sylowG
   have hTLT : CFSG.Quasithin.IsSylowIn 2 D.T (c.L ⊔ D.T) :=
@@ -165,7 +165,7 @@ theorem isSylowIn_T_inf_L (c : Ctx23L D Ch) :
 private theorem card_map_T_inf_L (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V) :
     Nat.card ((D.T.subgroupOf c.L).map (c.phiL hV)) =
       2 ^ (Nat.card ↥(c.H hV)).factorization 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let SL : Sylow 2 ↥c.L := (isSylowIn_T_inf_L c).toSylow
   let Q : Sylow 2 ↥(c.H hV) := SL.mapSurjective (c.phiL_surjective hV)
   have hP : ((D.T.subgroupOf c.L) : Subgroup ↥c.L).map (c.phiL hV) =
@@ -360,16 +360,16 @@ theorem fixedPointSubgroup_sylowStar_eq_Ztil (c : Ctx23L D Ch) (hV : IsElemAbeli
       MulAction.compHom (c.W hV)
         ((c.H hV).subtype.comp (c.sylowStar hV : Subgroup ↥(c.H hV)).subtype)
     fixedPointSubgroup ↥(c.sylowStar hV) (c.W hV) = c.Ztil hV := by
-  letI : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
+  let : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
     MulDistribMulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (c.W hV) :=
+  let : MulAction ↥(c.H hV) (c.W hV) :=
     MulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (Set (c.W hV)) := Set.mulActionSet
+  let : MulAction ↥(c.H hV) (Set (c.W hV)) := Set.mulActionSet
   have hmain := hA (c.W hV) (c.H hV) (CFSG.Open.pRank 2 D.Z) hnat (c.commutator_H_eq hV)
-  letI : MulDistribMulAction ↥(c.sylowStar hV) (c.W hV) :=
+  let : MulDistribMulAction ↥(c.sylowStar hV) (c.W hV) :=
     MulDistribMulAction.compHom (c.W hV)
       ((c.H hV).subtype.comp (c.sylowStar hV : Subgroup ↥(c.H hV)).subtype)
-  letI : MulAction ↥(c.sylowStar hV) (c.W hV) :=
+  let : MulAction ↥(c.sylowStar hV) (c.W hV) :=
     MulAction.compHom (c.W hV)
       ((c.H hV).subtype.comp (c.sylowStar hV : Subgroup ↥(c.H hV)).subtype)
   have hcard : Nat.card D.Z = 2 ^ CFSG.Open.pRank 2 D.Z :=
@@ -409,11 +409,11 @@ theorem phiL_mem_stabilizer_Ztil_iff (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V
     letI : MulAction ↥(c.H hV) (Set (c.W hV)) := Set.mulActionSet
     c.phiL hV x ∈ MulAction.stabilizer ↥(c.H hV)
       ((c.Ztil hV : Subgroup (c.W hV)) : Set (c.W hV)) ↔ (x : G) ∈ D.M := by
-  letI : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
+  let : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
     MulDistribMulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (c.W hV) :=
+  let : MulAction ↥(c.H hV) (c.W hV) :=
     MulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (Set (c.W hV)) := Set.mulActionSet
+  let : MulAction ↥(c.H hV) (Set (c.W hV)) := Set.mulActionSet
   have hNZ : Subgroup.normalizer (D.Z : Set G) = D.M := by
     have hUZ : D.U = D.Z := (h4 h1930 c).1
     rw [← hUZ]
@@ -441,9 +441,9 @@ theorem phiL_mem_fixingSubgroup_Ztil_iff (c : Ctx23L D Ch) (hV : IsElemAbelian 2
     c.phiL hV x ∈ fixingSubgroupOf ↥(c.H hV) (c.W hV)
       ((c.Ztil hV : Subgroup (c.W hV)) : Set (c.W hV)) ↔
       (x : G) ∈ Subgroup.centralizer (D.Z : Set G) := by
-  letI : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
+  let : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
     MulDistribMulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (c.W hV) :=
+  let : MulAction ↥(c.H hV) (c.W hV) :=
     MulAction.compHom (c.W hV) (c.H hV).subtype
   rw [fixingSubgroupOf, mem_fixingSubgroup_iff]
   constructor
@@ -464,8 +464,7 @@ theorem phiL_mem_fixingSubgroup_Ztil_iff (c : Ctx23L D Ch) (hV : IsElemAbelian 2
     have hxz : (x : G) * z * (x : G)⁻¹ = z := mul_inv_eq_one.mp h'
     have h3 := congrArg (· * (x : G)) hxz
     simpa [mul_assoc] using h3.symm
-  · intro hcent
-    intro y hy
+  · intro hcent y hy
     change y ∈ c.Ztil hV at hy
     rw [Ctx23L.Ztil, mem_imgTil] at hy
     obtain ⟨v, hvZ, rfl⟩ := hy

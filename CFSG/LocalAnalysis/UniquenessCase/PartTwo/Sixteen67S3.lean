@@ -118,7 +118,7 @@ theorem cube_mem_K (h : Cfg1667 M V W₁ W₂) (hg : InCalO 1 M ⊥ V g) {v i : 
     group
   have hxinv : x⁻¹ = i * v * i * v := by
     rw [hx2]
-    simp only [mul_inv_rev, inv_inv, hv', hi']
+    simp only [mul_inv_rev, hv', hi']
     group
   have hxiconj : x * i * x⁻¹ = (v * i) ^ 3 * v := by
     rw [hxinv, hx2]
@@ -261,7 +261,7 @@ theorem isQ8Q8S3_X (h : Cfg1667 M V W₁ W₂) (hg : InCalO 1 M ⊥ V g) :
   let X : Subgroup G := V ⊔ conjSubgroup V g
   have hKX : K ≤ X := K_le_X h
   have hXN : X ≤ normalizer (K : Set G) := X_le_normalizer_K h hg
-  haveI hN : (K.subgroupOf X).Normal := by
+  have hN : (K.subgroupOf X).Normal := by
     rw [Subgroup.normal_subgroupOf_iff_le_normalizer hKX]
     exact hXN
   refine ⟨K.subgroupOf X, hN, ?_, ?_⟩

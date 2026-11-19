@@ -53,8 +53,7 @@ theorem glA_apply_eq_smul_of_conj_eq_scalar_mul
   have hglA_scalar : (glA (Matrix.GeneralLinearGroup.scalar (Fin n) ζ) :
       Module.End K (Fin n → K)) = (ζ : K) • 1 := by
     ext v i
-    simp [glA, Matrix.GeneralLinearGroup.toLin, Matrix.toLin'_apply,
-      Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, Matrix.mulVec_diagonal]
+    simp [glA, Matrix.GeneralLinearGroup.toLin, Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, Matrix.mulVec_diagonal]
   let DlinG : LinearMap.GeneralLinearGroup K (Fin n → K) := glA D
   let MblinG : LinearMap.GeneralLinearGroup K (Fin n → K) := glA Mb
   let MbinvG : LinearMap.GeneralLinearGroup K (Fin n → K) := MblinG⁻¹

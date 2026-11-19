@@ -36,7 +36,7 @@ theorem maximalTwoLocalsContaining_eq_singleton {M J : Subgroup G}
     (huniq : ∀ M' : Subgroup G, CFSG.Open.GLBIsMaxTwoLocal M' → J ≤ M' → M' = M) :
     CFSG.maximalTwoLocalsContaining (J : Set G) = {M} := by
   ext M'
-  simp only [CFSG.maximalTwoLocalsContaining, Set.mem_setOf_eq, Set.mem_singleton_iff]
+  simp only [CFSG.maximalTwoLocalsContaining, Set.mem_ofPred_eq, Set.mem_singleton_iff]
   constructor
   · rintro ⟨hM', hJ⟩
     exact huniq M' (glbIsMaxTwoLocal_of_isMaximalTwoLocal hM') hJ

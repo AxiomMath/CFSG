@@ -120,9 +120,9 @@ theorem maskProd_rep (hn : n < 2 ^ 32) : ∀ {Ts : List Table} {x : Nat → Equi
     unfold bitSel
     rw [land_shiftRight_zero]
     by_cases hm : m % 2 = 1
-    · rw [if_pos hm, if_neg (by omega)]
+    · rw [ite_eq_left hm, ite_eq_right (by omega)]
       simpa using hx 0 (by simp)
-    · rw [if_neg hm, if_pos (by omega)]
+    · rw [ite_eq_right hm, ite_eq_left (by omega)]
       exact Rep.idT hn
 
 theorem inSp_of_mprod (hn : n < 2 ^ 32) {Ws : List Table} {x : Nat → Equiv.Perm (Fin n)}
@@ -211,9 +211,9 @@ theorem memPK_iff (hw : 0 < w) {S G : Nat} {y : Nat → Equiv.Perm (Fin n)}
         rw [hyc ⟨i, hi⟩, hG ⟨i, hi⟩, h]
     rw [e, Orb.bIf_eq]
     by_cases hb : Nat.beq (laneK (n * w) S c) G = true
-    · rw [if_pos hb]
+    · rw [ite_eq_left hb]
       exact ⟨fun _ => ⟨c, by omega, hc.1 hb⟩, fun _ => rfl⟩
-    · rw [if_neg hb, memPK_iff hw hG sG c (fun s hs => hy s (by omega))]
+    · rw [ite_eq_right hb, memPK_iff hw hG sG c (fun s hs => hy s (by omega))]
       constructor
       · rintro ⟨s, hs, hys⟩
         exact ⟨s, by omega, hys⟩
@@ -239,9 +239,9 @@ theorem maskPK_prep (hn : n < 2 ^ 32) {nw idn P mk : Nat} {x : Nat → Equiv.Per
     rw [e, Orb.strictN_eq, Orb.nIf_eq, mprod_succ]
     unfold bitSel
     by_cases hb : Nat.land (Nat.shiftRight mk c) 1 = 0
-    · rw [if_pos (by rw [hb]; rfl), if_pos hb, mul_one]
+    · rw [ite_eq_left (by rw [hb]; rfl), ite_eq_left hb, mul_one]
       exact ih
-    · rw [if_neg (by rw [Nat.beq_eq]; exact hb), if_neg hb]
+    · rw [ite_eq_right (by rw [Nat.beq_eq]; exact hb), ite_eq_right hb]
       exact prep_pcomp hn ih (hx c (by omega))
 
 theorem conjPK_prep (hn : n < 2 ^ 32) {nw T P y yi c : Nat} {t : Nat → Equiv.Perm (Fin n)}
@@ -290,13 +290,13 @@ theorem wordNK_prep (hn : n < 2 ^ 32) {idn : Nat} {S SI : Nat → Nat}
           q) := rfl
     rw [e, Orb.strictN_eq, Orb.nIf_eq]
     by_cases hl : l < 2
-    · rw [if_pos (by rw [Nat.blt_eq]; exact hl)]
+    · rw [ite_eq_left (by rw [Nat.blt_eq]; exact hl)]
       exact ⟨gs l * x, H.mul_mem (hH l hl) hx, prep_pcomp hn (hS l hl) hpx⟩
     · have hl4 : l < 4 := by
         have := h'.1
         rw [Nat.blt_eq] at this
         exact this
-      rw [if_neg (by rw [Nat.blt_eq]; exact hl)]
+      rw [ite_eq_right (by rw [Nat.blt_eq]; exact hl)]
       have hl2 : l - 2 < 2 := by omega
       exact ⟨(gs (l - 2))⁻¹ * x, H.mul_mem (H.inv_mem (hH (l - 2) hl2)) hx,
         prep_pcomp hn (hSI (l - 2) hl2) hpx⟩

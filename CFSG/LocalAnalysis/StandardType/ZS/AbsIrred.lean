@@ -122,7 +122,7 @@ theorem absIrred_of_reflGen {A : Subgroup (U ≃ₗ[ZMod p] U)} (hgen : ReflGen 
       rw [hgen]
       have hS : {t : U ≃ₗ[ZMod p] U | t ∈ A ∧ IsRefl p t} = ∅ := by
         ext t
-        simp only [Set.mem_setOf_eq, Set.mem_empty_iff_false]
+        simp only [Set.mem_ofPred_eq, Set.mem_empty_iff_false]
         exact ⟨fun h => hrefl ⟨t, h.1, h.2⟩, False.elim⟩
       rw [hS, Subgroup.closure_empty]
     have hall : ∀ W : Submodule (ZMod p) U, W = ⊥ ∨ W = ⊤ := fun W =>

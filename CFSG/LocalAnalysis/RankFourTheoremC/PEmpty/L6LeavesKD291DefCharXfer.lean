@@ -32,7 +32,7 @@ theorem card_mul_le_of_independent {p : ℕ} [hp : Fact p.Prime] {G : Type} [Gro
     intro a ha b hb
     have := hA.1.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩
     simpa using congrArg Subtype.val this
-  letI : CommGroup A :=
+  let : CommGroup A :=
     { (inferInstance : Group A) with mul_comm := fun a b => Subtype.ext (hAc _ a.2 _ b.2) }
   let x : A := ⟨a₁, h₁⟩
   let y : A := ⟨a₂, h₂⟩

@@ -21,6 +21,7 @@ open Matrix
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2]
 
+omit [Finite F] in
 theorem exists_form_of_involution' {τ : F} (hτ3 : τ ^ 3 = 1) (hτ1 : τ ≠ 1) {B : GL (Fin 3) F}
     {c : F} (hBm3 : (B : Matrix (Fin 3) (Fin 3) F) ^ 3 = c • (1 : Matrix (Fin 3) (Fin 3) F))
     (hBs : ∀ x : F, (B : Matrix (Fin 3) (Fin 3) F) ≠ x • (1 : Matrix (Fin 3) (Fin 3) F))
@@ -85,7 +86,7 @@ theorem odd_card_slCentralizer {τ : F} (hτ3 : τ ^ 3 = 1) (hτ1 : τ ≠ 1) {B
     (hBs : ∀ x : F, (B : Matrix (Fin 3) (Fin 3) F) ≠ x • (1 : Matrix (Fin 3) (Fin 3) F)) :
     Odd (Nat.card ((Subgroup.centralizer ({B} : Set (GL (Fin 3) F))).subgroupOf
       (CFSG.Open.StatedSL 3 F))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hev
   rw [Nat.not_odd_iff_even] at hev
   obtain ⟨t, ht⟩ := exists_prime_orderOf_dvd_card' 2 (even_iff_two_dvd.mp hev)
@@ -146,8 +147,8 @@ theorem simple_of_linear {n : ℕ} (hF : Nat.card F = 2 ^ n) (hn : Even n) (hn2 
     {K : Subgroup (projectiveSL 3 F)} (hKC : K ≤ Sec4.autFix (conjAut 3 F g))
     (hKq : IsQuasisimple K) (hKs : (K.subgroupOf (Sec4.autFix (conjAut 3 F g))).IsSubnormal) :
     IsSimpleGroup K ∧ Nat.card K = 2 ^ n * ((2 ^ n) ^ 2 - 1) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsPerfect K := hKq.1
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsPerfect K := hKq.1
   have hn1 : 1 ≤ n := by omega
   have h4 : 4 ≤ Nat.card F := by
     rw [hF]
@@ -224,7 +225,7 @@ theorem simple_of_linear {n : ℕ} (hF : Nat.card F = 2 ^ n) (hn : Even n) (hn2 
     exact Nat.not_odd_iff_even.mp hevC0
   obtain ⟨ψR⟩ := Sec21.SL3Lines.perfectResidual_centralizer_of_conj (y := g) (g := h⁻¹)
     (l := u * E0) (s := s1) (t := t2) hPi h4 hy hnc hev
-  haveI := isPerfect_commutator_comap K
+  have := isPerfect_commutator_comap K
   set K₁ : Subgroup (Matrix.SpecialLinearGroup (Fin 3) F) :=
     ⁅K.comap (LinearFlag.proj 3 F), K.comap (LinearFlag.proj 3 F)⁆ with hK₁
   have h1 : K₁.map (LinearFlag.proj 3 F) = K := map_proj_commutator_comap K
@@ -309,7 +310,7 @@ theorem good427_linear {n : ℕ} (hF : Nat.card F = 2 ^ n) (hn : Even n) (hn4 : 
     Good427 (Sec4.autFix (conjAut 3 F g)) := by
   intro K hKC hKq hKs hA5
   obtain ⟨hs, hcard⟩ := simple_of_linear hF hn (by omega) hα3 hα1 hKC hKq hKs
-  haveI := hs
+  have := hs
   exact not_isA5Type_of_simple (exists_ne_comm_of_isQuasisimple hKq)
     (by rw [hcard]; exact sl2_card_ne_sixty' hn4) hA5
 
@@ -334,12 +335,13 @@ theorem onFree_inner {n : ℕ} (hF : Nat.card F = 2 ^ n) (hn : Even n) (hn4 : 4 
   obtain ⟨hs, hcard⟩ := simple_of_linear hF hn (by omega) hB3 hB1 hKC hKq hKs
   exact ⟨hs, by rw [hcard]; exact sl2_card_ne_sixty' hn4⟩
 
+omit [CharP F 2] in
 theorem good427_field {n : ℕ} (hF : Nat.card F = 2 ^ n) (hn2 : 2 ≤ n)
     {α : MulAut (projectiveSL 3 F)} (hα3 : α ^ 3 = 1) (hD : α ∉ linearAutGroup 3 F) :
     Good427 (Sec4.autFix α) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro K hKC hKq hKs hA5
-  haveI : Group.IsPerfect K := hKq.1
+  have : Group.IsPerfect K := hKq.1
   have hnt : K ≠ ⊥ := ne_bot_of_isQuasisimple hKq
   obtain ⟨φ, hφ, H, hαH⟩ := linear_order_three_field_descent le_rfl α hα3 hD
   have hr : MulAut.congr (MulEquiv.refl (projectiveSL 3 F)) α = α := MulEquiv.ext fun x => rfl
@@ -348,7 +350,7 @@ theorem good427_field {n : ℕ} (hF : Nat.card F = 2 ^ n) (hn2 : 2 ≤ n)
     rw [congr_trans_mulAut, hr, hαH]
     group
   obtain ⟨a, ha⟩ := exists_card_eq_sixty_mul hA5
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3dvd : 3 ∣ Nat.card K := by
     rw [ha]
     exact Dvd.dvd.mul_right (by norm_num) _
@@ -370,8 +372,8 @@ theorem good427_field {n : ℕ} (hF : Nat.card F = 2 ^ n) (hn2 : 2 ≤ n)
   have hm : 1 ≤ m := by omega
   have hcube : Nat.card F = (2 ^ m) ^ 3 := by rw [hF, ← pow_mul, mul_comm]
   have hK₀ : Nat.card (fixedField φ) = 2 ^ m := card_fixedField_of_orderOf_eq_three hφ hcube
-  haveI := isSimpleGroup_projectiveSL_three (fixedField φ)
-  haveI : IsSimpleGroup K := eK.isSimpleGroup
+  have := isSimpleGroup_projectiveSL_three (fixedField φ)
+  have : IsSimpleGroup K := eK.isSimpleGroup
   obtain ⟨φ₁⟩ := nonempty_projSL_mulEquiv 3 (fixedField φ)
   have h8 : 2 ^ (3 * m) ∣ Nat.card K := by
     rw [Nat.card_congr (eK.trans φ₁.symm).toEquiv]
@@ -405,8 +407,8 @@ theorem center_or_odd_sl3
     Subgroup.center L = ⊥ ∨ ∀ x : L, x ^ 3 = 1 → x ∉ Subgroup.center L →
       Odd (Nat.card (Subgroup.centralizer ({x} : Set L))) := by
   set K := GaloisField 2 n with hKdef
-  haveI : Group.IsPerfect L := hL.1
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsPerfect L := hL.1
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hoddZ : Odd (Nat.card (Subgroup.center L)) := by
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hZ3
     rw [hk]
@@ -497,11 +499,11 @@ open CFSG.RankThree.PartTwo.KFacts CFSG.LocalAnalysis.ComponentInitial
 theorem rowOf427_sl3_even
     : ∀ n : ℕ, 4 ≤ n → Even n → RowOf427 (projSL 3 (GaloisField 2 n)) := by
   intro n hn4 hev S _ _ hs hna ⟨eSX⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hF : Nat.card (GaloisField 2 n) = 2 ^ n := GaloisField.card 2 n (by omega)
   obtain ⟨φ₀⟩ := nonempty_projSL_mulEquiv 3 (GaloisField 2 n)
   let τ : S ≃* projectiveSL 3 (GaloisField 2 n) := eSX.trans φ₀
-  haveI : Finite (projectiveSL 3 (GaloisField 2 n)) := Finite.of_equiv _ τ.toEquiv
+  have : Finite (projectiveSL 3 (GaloisField 2 n)) := Finite.of_equiv _ τ.toEquiv
   have hZ : Subgroup.center (projectiveSL 3 (GaloisField 2 n)) = ⊥ := by
     have hZS : Subgroup.center S = ⊥ := RonanK429.center_eq_bot_of_isSimpleGroup hs hna
     rw [eq_bot_iff]

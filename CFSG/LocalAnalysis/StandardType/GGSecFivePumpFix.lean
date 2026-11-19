@@ -18,7 +18,7 @@ private def depthD (k : ℕ) (i : Fin k) : ℕ := if i.val = k - 1 then k - 2 el
 private theorem hslD (k : ℕ) (i j : Fin k) (hij : i ≠ j) :
     CartanMatrix.D k i j = 0 ∨ CartanMatrix.D k i j = -1 := by
   rw [← cartanD_eq]
-  simp only [cartanD, Matrix.of_apply, if_neg hij]
+  simp only [cartanD, Matrix.of_apply, ite_eq_right hij]
   split_ifs <;> simp
 
 private theorem hparD (k : ℕ) (hk : 4 ≤ k) (i j : Fin k) (hij : i ≠ j) :
@@ -28,13 +28,13 @@ private theorem hparD (k : ℕ) (hk : 4 ≤ k) (i j : Fin k) (hij : i ≠ j) :
   obtain ⟨j, hj⟩ := j
   have hij' : i ≠ j := fun h => hij (Fin.ext h)
   rw [← cartanD_eq]
-  simp only [cartanD, Matrix.of_apply, parD, ne_eq, Fin.mk.injEq, if_neg hij']
+  simp only [cartanD, Matrix.of_apply, parD, ne_eq, Fin.mk.injEq, ite_eq_right hij']
   by_cases hc : i + 1 = j ∧ j + 1 < k ∨ j + 1 = i ∧ i + 1 < k ∨ i + 3 = k ∧ j + 1 = k ∨
       j + 3 = k ∧ i + 1 = k
-  · rw [if_pos hc]
+  · rw [ite_eq_left hc]
     refine iff_of_true rfl ?_
     split_ifs <;> omega
-  · rw [if_neg hc]
+  · rw [ite_eq_right hc]
     refine iff_of_false (by decide) ?_
     split_ifs <;> omega
 
@@ -58,10 +58,10 @@ theorem ggWeylD_eq_one_of_fixed {G : Type} [Group G] [Finite G] {p : ℕ} (hp : 
     {k : ℕ} (hk : 4 ≤ k) {A : Subgroup (MulAut ↥Bs)}
     (hW : GGWeylOfType p (ggCoxeterMatrixD k) A) (hind : ∀ ψ ∈ A, ψ ∈ ggInduced ⊤ Bs)
     (hcard : Nat.card Bs = p ^ k) {b : ↥Bs} (hb : ∀ ψ ∈ A, ψ b = b) : b = 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨V, _, _, ⟨ιV⟩⟩ := exists_ggLinData (p := p) hBs
-  haveI : Finite V := Finite.of_equiv _ (Additive.ofMul.trans ιV.toEquiv)
-  haveI : Module.Finite (ZMod p) V := Module.Finite.of_finite
+  have : Finite V := Finite.of_equiv _ (Additive.ofMul.trans ιV.toEquiv)
+  have : Module.Finite (ZMod p) V := Module.Finite.of_finite
   obtain ⟨e, h, α, hα, hrefl, hP⟩ := SpJoinRefl.exists_cartan_pairing_of_weylOfType hp2 hNT
     (ggIntCartan_D k) (hslD k) (parD k hk) ⟨0, by omega⟩ (depthD k) (hparD k hk) (hdepthD k hk)
     hW hind ιV

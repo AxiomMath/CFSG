@@ -60,7 +60,7 @@ theorem u_get : ∀ k < U.ng, uGens[k]! = unpack 182 8 (U.G k) := by
     have : uWords.length = 6 := rfl
     omega
   have e : uGens[k]! = tW (uWords.getD k []) := by
-    simp [uGens, getElem!_def, hl, List.getD_eq_getElem?_getD]
+    simp [uGens, hl, List.getD_eq_getElem?_getD]
   rw [e, tW]
   exact h.1
 

@@ -30,12 +30,12 @@ private theorem w16l_eq_of_mem_zpowers_card_two {Y : Type} [Group Y] {t x : Y}
     hzuniq ⟨t, Subgroup.mem_zpowers t⟩ (fun h => ht1 (congrArg Subtype.val h))
   exact congrArg Subtype.val (hx_eq.trans ht_eq.symm)
 
-theorem IsMinFam16.barSub_ne_top (h1 : W16One G) (h5 : W16Five G) (hS : Std15 G)
+theorem IsMinFam16.barSub_ne_top (h1 : W16One G) (_h5 : W16Five G) (hS : Std15 G)
     (h : Cex16 M V₀ V U S) (hH : IsMinFam16 M U S H) (hV : ¬ V ≤ pCoreOf 2 H)
     {X : Type} [Group X] {φ : ↥(CFSG.Quasithin.conjClosure V H) →* X}
     (hφ : SevenK.IsBarMap (CFSG.Quasithin.conjClosure V H) (iSub16 V H) φ) :
     SevenK.barSub (CFSG.Quasithin.conjClosure V H) φ V ≠ ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro htop
   have hI2 : IsPGroup 2 (iSub16 V H) :=
     CFSG.Open.IsElemAbelian.isPGroup (Cex16.isElemAbelian_iSub16 h1 hS h hH.1)
@@ -130,7 +130,7 @@ private theorem w16l_le_fusionOddCore {Y : Type*} [Group Y] {N : Subgroup Y} [N.
 
 private theorem w16l_odd_fusionOddCore (Y : Type*) [Group Y] [Finite Y] :
     Odd (Nat.card (fusionOddCore Y)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h : fusionOddCore Y = CFSG.pPrimeCore 2 Y := by
     unfold fusionOddCore CFSG.pPrimeCore
     congr 1
@@ -142,7 +142,7 @@ private theorem w16l_odd_fusionOddCore (Y : Type*) [Group Y] [Finite Y] :
 private theorem w16l_map_conj_normal_subgroupOf {Γ : Type} [Group Γ] {L N : Subgroup Γ}
     (hL : L.Normal) (hNL : N ≤ L) (hN : (N.subgroupOf L).Normal) (γ : Γ) :
     ((N.map (MulAut.conj γ).toMonoidHom).subgroupOf L).Normal := by
-  haveI : L.Normal := hL
+  have : L.Normal := hL
   have hNnorm : L ≤ Subgroup.normalizer (N : Set Γ) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNL).mp hN
   have hMle : N.map (MulAut.conj γ).toMonoidHom ≤ L := by
@@ -177,27 +177,27 @@ private theorem w16l_map_conj_normal_subgroupOf {Γ : Type} [Group Γ] {L N : Su
         l⁻¹ * (γ * n * γ⁻¹) * l
       group
 
-theorem IsMinFam16.exp_class_oddCore (h1 : W16One G) (h5 : W16Five G) (hS : Std15 G)
-    (h : Cex16 M V₀ V U S) (hH : IsMinFam16 M U S H) (hV : ¬ V ≤ pCoreOf 2 H)
+theorem IsMinFam16.exp_class_oddCore (_h1 : W16One G) (_h5 : W16Five G) (_hS : Std15 G)
+    (h : Cex16 M V₀ V U S) (hH : IsMinFam16 M U S H) (_hV : ¬ V ≤ pCoreOf 2 H)
     {X : Type} [Group X] {φ : ↥(CFSG.Quasithin.conjClosure V H) →* X}
     (hφ : SevenK.IsBarMap (CFSG.Quasithin.conjClosure V H) (iSub16 V H) φ)
     {t : X} (ht2 : t * t = 1)
     (hAt : SevenK.barSub (CFSG.Quasithin.conjClosure V H) φ V = Subgroup.zpowers t)
     (hA2 : Nat.card (SevenK.barSub (CFSG.Quasithin.conjClosure V H) φ V) = 2)
-    (hE : Subgroup.zpowers t ⊔ fusionOddCore X = ⊤) (hne : fusionOddCore X ≠ ⊥)
+    (_hE : Subgroup.zpowers t ⊔ fusionOddCore X = ⊤) (hne : fusionOddCore X ≠ ⊥)
     (hgen : fusionOddCore X ≤ ⁅fusionOddCore X, Subgroup.zpowers t⁆) :
     ∃ p : ℕ, p.Prime ∧ p ≠ 2 ∧ (∀ x ∈ fusionOddCore X, x ^ p = 1) ∧
       ∀ x ∈ fusionOddCore X, ∀ y ∈ fusionOddCore X, ∀ z ∈ fusionOddCore X,
         ⁅⁅x, y⁆, z⁆ = 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite ↥(CFSG.Quasithin.conjClosure V H) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite ↥(CFSG.Quasithin.conjClosure V H) :=
     Finite.of_injective (Subtype.val : ↥(CFSG.Quasithin.conjClosure V H) → G) Subtype.val_injective
-  haveI : Finite X := Finite.of_surjective φ hφ.surjective
+  have : Finite X := Finite.of_surjective φ hφ.surjective
   have hS_le_H : S ≤ H := hH.1.1
   have hI_le_H : iSub16 V H ≤ H :=
     (Cex16.iSub16_le_pCoreOf h hH.1).trans (CFSG.LieType.BorelTits.pCoreOf_le 2 H)
-  haveI : ((iSub16 V H).subgroupOf H).Normal := by
+  have : ((iSub16 V H).subgroupOf H).Normal := by
     rw [Subgroup.normal_subgroupOf_iff_le_normalizer hI_le_H]
     exact CFSG.Quasithin.le_normalizer_conjClosure (V ⊓ pCoreOf 2 H) H
   let Γ : Type := ↥H ⧸ ((iSub16 V H).subgroupOf H)
@@ -225,9 +225,9 @@ theorem IsMinFam16.exp_class_oddCore (h1 : W16One G) (h5 : W16Five G) (hS : Std1
     intro x1 x2 h
     obtain ⟨k1, rfl⟩ := hφ.surjective x1
     obtain ⟨k2, rfl⟩ := hφ.surjective x2
-    have h1 : ψ (inclK k1) = ψ (inclK k2) := by rw [← hι k1, ← hι k2]; exact h
+    have _h1 : ψ (inclK k1) = ψ (inclK k2) := by rw [← hι k1, ← hι k2]; exact h
     have h2 : ψ (inclK k1 * (inclK k2)⁻¹) = 1 := by
-      rw [map_mul, map_inv, h1, mul_inv_cancel]
+      rw [map_mul, map_inv, _h1, mul_inv_cancel]
     have hmem : ((inclK k1 * (inclK k2)⁻¹ : ↥H) : G) ∈ iSub16 V H := (hψker _).mp h2
     have h3 : φ (k1 * k2⁻¹) = 1 := by
       apply (hφ.ker_iff (k1 * k2⁻¹)).mpr
@@ -262,7 +262,7 @@ theorem IsMinFam16.exp_class_oddCore (h1 : W16One G) (h5 : W16Five G) (hS : Std1
   have hLnorm : (ι.range).Normal := by
     rw [hrange_eq]
     exact hKsub_normal.map ψ hψ_surj
-  haveI hLnormI : (ι.range).Normal := hLnorm
+  have hLnormI : (ι.range).Normal := hLnorm
   have hcardEΓ : Nat.card EΓ = Nat.card (fusionOddCore X) := by
     change Nat.card ((fusionOddCore X).map ι) = Nat.card (fusionOddCore X)
     exact Subgroup.card_map_of_injective hιinj
@@ -283,9 +283,9 @@ theorem IsMinFam16.exp_class_oddCore (h1 : W16One G) (h5 : W16Five G) (hS : Std1
       constructor
       · rintro ⟨x, hx, rfl⟩
         exact Subgroup.mem_map.mpr ⟨x, hx, rfl⟩
-      · intro h1
-        rw [Subgroup.mem_subgroupOf] at h1
-        obtain ⟨x, hx, hxγ⟩ := Subgroup.mem_map.mp h1
+      · intro _h1
+        rw [Subgroup.mem_subgroupOf] at _h1
+        obtain ⟨x, hx, hxγ⟩ := Subgroup.mem_map.mp _h1
         exact ⟨x, hx, Subtype.ext hxγ⟩
     rw [← hmap]
     exact (inferInstance : (fusionOddCore X).Normal).map (MonoidHom.rangeRestrict ι)
@@ -305,7 +305,7 @@ theorem IsMinFam16.exp_class_oddCore (h1 : W16One G) (h5 : W16Five G) (hS : Std1
         ext x; rfl
       rw [← hcomap]
       exact hsub.comap _
-    haveI : E'.Normal := hE'norm
+    have : E'.Normal := hE'norm
     have hE'odd : Odd (Nat.card E') := by
       have hc1 : Nat.card E' = Nat.card M := by
         rw [← Subgroup.card_map_of_injective (K := E') (f := ι) hιinj, hE'map]
@@ -367,7 +367,7 @@ theorem IsMinFam16.exp_class_oddCore (h1 : W16One G) (h5 : W16Five G) (hS : Std1
     exact ⟨k, by rw [← hι k, hk, heq]⟩
   have ht1 : t ≠ 1 := by
     intro ht
-    have h1 : Nat.card (SevenK.barSub (CFSG.Quasithin.conjClosure V H) φ V) = 1 := by
+    have _h1 : Nat.card (SevenK.barSub (CFSG.Quasithin.conjClosure V H) φ V) = 1 := by
       rw [hAt, ht, Subgroup.zpowers_one_eq_bot, Subgroup.card_bot]
     omega
   have hmin : ∀ Y : Subgroup Γ, Y ≤ EΓ → Y ≠ EΓ →
@@ -423,11 +423,11 @@ theorem IsMinFam16.exp_class_oddCore (h1 : W16One G) (h5 : W16Five G) (hS : Std1
         exact hAΓ ▸ Subgroup.mem_map.mpr ⟨φ (k * v * k⁻¹), hφx'A, rfl⟩
       have hcardz : Nat.card (Subgroup.zpowers (ι t)) = 2 := by
         rw [← hAΓ, Subgroup.card_map_of_injective hιinj, hA2]
-      have htΓ_ne : ι t ≠ 1 := fun h1 => ht1 (hιinj (by rw [h1, map_one]))
+      have htΓ_ne : ι t ≠ 1 := fun _h1 => ht1 (hιinj (by rw [_h1, map_one]))
       have hconj_ne : y * ι t * y⁻¹ ≠ 1 := by
-        intro h1
+        intro _h1
         apply htΓ_ne
-        have h2 := congrArg (fun z => y⁻¹ * z * y) h1
+        have h2 := congrArg (fun z => y⁻¹ * z * y) _h1
         simpa [mul_assoc] using h2
       have hconj_eq_t : y * ι t * y⁻¹ = ι t :=
         w16l_eq_of_mem_zpowers_card_two hcardz hmem hconj_ne
@@ -446,9 +446,9 @@ theorem IsMinFam16.exp_class_oddCore (h1 : W16One G) (h5 : W16Five G) (hS : Std1
         have hjj : j' = j := Subtype.ext hj'eq
         rwa [hjj] at hj'
       have hsup : P ⊔ Y = ⊤ := by
-        have h1 : ((P ⊔ Y).comap ψ).map ψ = ⊤ := by
+        have _h1 : ((P ⊔ Y).comap ψ).map ψ = ⊤ := by
           rw [hcomap, Subgroup.map_top_of_surjective ψ hψ_surj]
-        rwa [Subgroup.map_comap_eq_self_of_surjective hψ_surj] at h1
+        rwa [Subgroup.map_comap_eq_self_of_surjective hψ_surj] at _h1
       have hEY : EΓ ≤ Y := by
         intro e he
         have hePY : e ∈ (P ⊔ Y : Subgroup Γ) := by rw [hsup]; exact Subgroup.mem_top e
@@ -468,25 +468,25 @@ theorem IsMinFam16.exp_class_oddCore (h1 : W16One G) (h5 : W16Five G) (hS : Std1
           exact hy'Y
         exact heY
       exact hYne (le_antisymm hYle hEY)
-  haveI : Finite Γ := Finite.of_surjective ψ hψ_surj
-  haveI : EΓ.Normal := hEΓnorm
+  have : Finite Γ := Finite.of_surjective ψ hψ_surj
+  have : EΓ.Normal := hEΓnorm
   have htΓ2 : ι t * ι t = 1 := by rw [← map_mul, ht2, map_one]
   obtain ⟨p, hpp, hp2, -, hexp, hclass⟩ :=
     w162_exp_class_of_min (Γ := Γ) (N := EΓ) (P := P) hodd_EΓ hP2 htΓ2 hEΓne hEΓgen hmin
   refine ⟨p, hpp, hp2, ?_, ?_⟩
   · intro x hx
     have hxΓ : ι x ∈ EΓ := Subgroup.mem_map.mpr ⟨x, hx, rfl⟩
-    have h1 : (ι x) ^ p = 1 := hexp (ι x) hxΓ
-    have h2 : ι (x ^ p) = 1 := by rw [map_pow]; exact h1
+    have _h1 : (ι x) ^ p = 1 := hexp (ι x) hxΓ
+    have h2 : ι (x ^ p) = 1 := by rw [map_pow]; exact _h1
     exact hιinj (by rw [h2, map_one])
   · intro x hx y hy z hz
     have hxΓ : ι x ∈ EΓ := Subgroup.mem_map.mpr ⟨x, hx, rfl⟩
     have hyΓ : ι y ∈ EΓ := Subgroup.mem_map.mpr ⟨y, hy, rfl⟩
     have hzΓ : ι z ∈ EΓ := Subgroup.mem_map.mpr ⟨z, hz, rfl⟩
-    have h1 := hclass (ι x) hxΓ (ι y) hyΓ (ι z) hzΓ
+    have _h1 := hclass (ι x) hxΓ (ι y) hyΓ (ι z) hzΓ
     have h2 : ι ⁅⁅x, y⁆, z⁆ = 1 := by
       rw [map_commutatorElement, map_commutatorElement]
-      exact h1
+      exact _h1
     exact hιinj (by rw [h2, map_one])
 
 end CFSG.LocalAnalysis.WeakClosure81

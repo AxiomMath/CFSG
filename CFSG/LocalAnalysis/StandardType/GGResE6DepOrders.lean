@@ -58,7 +58,7 @@ private theorem l05nL4h_card_A5 {R : Type} [Group R] {lab : LargeEvenLabel}
     simpa using (CFSG.Timmesfeld.card_statedClassicalModel_two hc).2.1 rfl
 
 private theorem l05nL4h_card_E6 {R : Type} [Group R] {lab : LargeEvenLabel}
-    (hE : GGE6DepLabel lab) (hm : MarkedModel lab R) :
+    (_hE : GGE6DepLabel lab) (hm : MarkedModel lab R) :
     (lab.tag = .E6 → Nat.card R = CFSG.Open.ordE6 (2 ^ lab.n)) ∧
     (lab.tag = .twE6 → Nat.card R = CFSG.Open.ordTwistedE6 (2 ^ lab.n)) := by
   refine ⟨fun ht => ?_, fun ht => ?_⟩

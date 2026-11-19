@@ -70,7 +70,7 @@ theorem mem_inf_centralizer_of_isCyclic
   set Q := (T : Subgroup G) ⊓ K with hQdef
   have hW2 : 2 ∣ Nat.card W := by
     have : Nontrivial W := (Subgroup.nontrivial_iff_ne_bot W).mpr hWne
-    obtain ⟨k, hk⟩ := ((T.isPGroup').to_le (inf_le_left : W ≤ T)).exists_card_eq
+    obtain ⟨k, hk⟩ := ((T.isPGroup).to_le (inf_le_left : W ≤ T)).exists_card_eq
     rw [hk]
     have hk0 : k ≠ 0 := by
       rintro rfl
@@ -151,7 +151,7 @@ theorem mem_inf_centralizer_of_isCyclic
     intro hle
     set Q' := Q.map c.toMonoidHom with hQ'
     have hQ'K' : Q' ≤ K' := Subgroup.map_mono inf_le_right
-    have hQ'p : IsPGroup 2 Q' := (T.isPGroup'.to_le inf_le_left).map c.toMonoidHom
+    have hQ'p : IsPGroup 2 Q' := (T.isPGroup.to_le inf_le_left).map c.toMonoidHom
     obtain ⟨h, hh, hconj⟩ := exists_conj_le_sylow_of_isPGroup T hTH (hQ'K'.trans hK'H) hQ'p
     have hQ'card : 4 ≤ Nat.card Q' := by
       rw [hQ', Subgroup.card_map_of_injective c.injective]

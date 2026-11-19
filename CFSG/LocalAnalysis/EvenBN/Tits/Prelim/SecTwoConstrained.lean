@@ -702,7 +702,7 @@ theorem card_sylow [Finite X] [hQn : Q.Normal] (hQ2 : IsPGroup 2 Q)
   have : Fintype X := Fintype.ofFinite X
   obtain ⟨-, hcard16, -⟩ := d.sq_mem_W hQ2 hCQ
   set S := d.S with hSdef
-  have hS2 : IsPGroup 2 (S : Subgroup X) := S.isPGroup'
+  have hS2 : IsPGroup 2 (S : Subgroup X) := S.isPGroup
   have hQS : Q ≤ S := hQ2.le_sylow_of_normal S
   have htS : t ∈ (S : Subgroup X) := d.hRS SecTwoHyp.t_mem_R
   have htQ := d.t_not_mem_Q

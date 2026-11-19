@@ -118,10 +118,10 @@ theorem regs_eq (mul : Nat → Nat → Nat) (R : Int → Nat) (ONE : Nat) :
     rw [e, regs_eq mul R ONE us, List.map_cons]
 
 theorem getP_mem (Q : Nat × Nat → Prop) {d : Nat × Nat} (hd : Q d) :
-    ∀ (l : List (Nat × Nat)), (∀ x ∈ l, Q x) → ∀ i, Q (getP d l i)
+    ∀ (_l : List (Nat × Nat)), (∀ x ∈ _l, Q x) → ∀ i, Q (getP d _l i)
   | [], _, _ => hd
-  | x :: l, h, 0 => h x List.mem_cons_self
-  | x :: l, h, i + 1 => getP_mem Q hd l (fun y hy => h y (List.mem_cons_of_mem x hy)) i
+  | x :: _l, h, 0 => h x List.mem_cons_self
+  | x :: _l, h, i + 1 => getP_mem Q hd _l (fun y hy => h y (List.mem_cons_of_mem x hy)) i
 
 theorem goT_sound (mul : Nat → Nat → Nat) (b ONE : Nat) (L : List (Nat × Nat)) (P : Nat → Prop)
     (Q : Nat × Nat → Prop) (hb : P b) (hd : Q (ONE, ONE)) (hL : ∀ p ∈ L, Q p)

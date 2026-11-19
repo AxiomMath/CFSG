@@ -34,7 +34,7 @@ theorem uc22ine229_normalizer_le_of_thin_three_setup4 (hG3 : Gls3StronglyThreeEm
     (hq5 : 5 ≤ q) {X : Subgroup G} (hXY : X ≤ Y) (hXc : Nat.card X = q) :
     normalizer (X : Set G) ≤ (UC6.dataOfSetup4 hS hU S).M := by
   have hSg := UC6S846.sigmaStd_dataOfSetup4 hS hU S
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hsp := UC6S846.sp_of_mem_sig hSg (UC6S846.not_solvable_of_mem_calC hY) hp
   let k : Sec7Core4 G := .ofUnique hS hU S.M S.maxLocal 3 hp hsp
   have hp3 : k.p = 3 := rfl

@@ -169,7 +169,6 @@ theorem recPow_eq (g : Nat → Nat) : ∀ c, Nat.rec (motive := fun _ => Nat) 0
     rw [recPow_eq g c, Finset.sum_range_succ]
     change _ + 1 <<< (21 * g c) = _
     rw [Nat.one_shiftLeft]
-    try rfl
 
 theorem cntLeaf_eq (U : Nat → Nat) (b : Nat) :
     cntLeaf U b = ∑ r ∈ range (hnxC b), 2 ^ (21 * fldW (U b) (Nat.add (Nat.mul 76 r) 42) 4) := by

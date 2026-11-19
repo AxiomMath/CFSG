@@ -317,7 +317,7 @@ theorem G76_of'
       have hconj2 : ∀ s ∈ (S : Subgroup G), IsPGroup 2
           (Subgroup.zpowers ((n : G)⁻¹ * s * n)) := by
         intro s hs
-        obtain ⟨e, he⟩ := S.isPGroup' ⟨s, hs⟩
+        obtain ⟨e, he⟩ := S.isPGroup ⟨s, hs⟩
         apply G76.isPGroup_zpowers_of_pow_eq_one (e := e)
         have hs2 : s ^ 2 ^ e = 1 := by
           have := congrArg Subtype.val he

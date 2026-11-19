@@ -214,9 +214,9 @@ theorem rowFbar_fact_of_facts (hD : GroupData n A₀ pg gg sift)
     have hp₁ := CFSG.KC.BfsPairs.permOK_of_rep hl₁
     have hp₂ := CFSG.KC.BfsPairs.permOK_of_rep hl₂
     cases hout : r.row.outer
-    · simp only [rowFbarOK, hk, hout, Bool.false_eq_true, if_false] at hF
+    · simp only [rowFbarOK, hk, hout, Bool.false_eq_true, ite_false] at hF
       exact innerOK_fact hD hRF.rep hp₁ hp₂ hA hF
-    · simp only [rowFbarOK, hk, hout, if_true] at hF
+    · simp only [rowFbarOK, hk, hout, ite_true] at hF
       exact outerOK_fact_of_facts hD hRun hrows hp₁ hp₂ hA hF
 
 theorem fbar_of_facts {P : Type} [Group P] [Finite P] (M : AutModel P n)

@@ -39,13 +39,13 @@ theorem sylow_normal_of_outCommInner {X : Type*} [Group X] (h : OutCommInner X) 
 theorem sylow_normal_out_of_pRank3_le_one_of_simple
     (hSimple : SimpleOutCommInnerRankOne)
     {C : Type} [Group C] [Finite C] (hQ : CFSG.Open.IsQuasisimple C)
-    (hK : CFSG.Open.IsKGroup C) {p : ℕ} [Fact p.Prime] (hp : 5 ≤ p)
+    (hK : CFSG.Open.IsKGroup C) {p : ℕ} [Fact p.Prime] (_hp : 5 ≤ p)
     (h3 : CFSG.Open.pRank 3 (⊤ : Subgroup C) ≤ 1) :
     ∀ S : Sylow p (Out C), (S : Subgroup (Out C)).Normal := by
-  haveI : Group.IsPerfect C := Group.isPerfect_def.mpr hQ.1
+  have : Group.IsPerfect C := Group.isPerfect_def.mpr hQ.1
   have hsimple : IsSimpleGroup (C ⧸ Subgroup.center C) := hQ.2
   let Q := C ⧸ Subgroup.center C
-  haveI : IsSimpleGroup Q := hsimple
+  have : IsSimpleGroup Q := hsimple
   have hnab : ∃ a b : Q, a * b ≠ b * a :=
     CFSG.LocalAnalysis.RankThreeUC.S15.K7145Proof.quotient_center_nonabelian hQ
   let φ : ↥(⊤ : Subgroup C) →* Q :=
@@ -72,7 +72,7 @@ theorem sylow_normal_out_of_pRank3_le_one_of_simple
 section Certified
 
 theorem simpleOutCommInnerRankOne_holds : SimpleOutCommInnerRankOne :=
-  fun S _ _ hsimple hnab hcat hr => outCommInner_of_catalog hsimple hnab hcat hr
+  fun _S _ _ hsimple hnab hcat hr => outCommInner_of_catalog hsimple hnab hcat hr
 
 end Certified
 

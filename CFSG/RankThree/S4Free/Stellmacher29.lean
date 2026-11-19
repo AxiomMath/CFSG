@@ -73,7 +73,7 @@ theorem exists_comm_mem_of_pow_two_pow (hV : ∀ v : V, v ^ 2 = 1) {t : MulAut V
   rwa [show Nat.find hex = (Nat.find hex - 1) + 1 by omega, Function.iterate_succ_apply'] at this
 
 theorem forall_mem_of_pow_two_pow (hV : ∀ v : V, v ^ 2 = 1) {g : MulAut V} {U C : Subgroup V}
-    (hgU : g ∈ stabSub U) (hCU : C ≤ U) (hgC : ∀ c ∈ C, g c = c)
+    (hgU : g ∈ stabSub U) (_hCU : C ≤ U) (hgC : ∀ c ∈ C, g c = c)
     (hfpf : ∀ w ∈ U, g w * w⁻¹ ∈ C → w ∈ C) {k m : ℕ} (hm : Odd m)
     (hord : orderOf g = 2 ^ k * m) : ∀ w ∈ U, (g ^ 2 ^ k) w * w⁻¹ ∈ C → w ∈ C := by
   rcases Nat.eq_zero_or_pos k with rfl | hk
@@ -159,10 +159,12 @@ section Restrict
 
 variable [Finite V]
 
+omit [Finite V] in
 theorem mem_autSub_of_mem {X : Subgroup (MulAut V)} {U : Subgroup V} {g : MulAut V}
     (hg : g ∈ X) (hgU : g ∈ stabSub U) : resHom U ⟨g, hgU⟩ ∈ autSub X U :=
   mem_autSub.mpr ⟨⟨g, hgU⟩, hg, rfl⟩
 
+omit [Finite V] in
 theorem codimOn_autSub {B : Subgroup (MulAut V)} {U W : Subgroup V} (hB : B ≤ stabSub U)
     (hWU : W ≤ U) : codimOn (autSub B U) (W.subgroupOf U) = codimOn B W := by
   unfold codimOn mRel
@@ -173,6 +175,7 @@ theorem codimOn_autSub {B : Subgroup (MulAut V)} {U W : Subgroup V} (hB : B ≤ 
   congr 1
   rw [inf_comm U, inf_assoc, inf_eq_right.mpr hWU]
 
+omit [Finite V] in
 theorem autSub_inf_centSub {B : Subgroup (MulAut V)} {U W : Subgroup V} (hWU : W ≤ U) :
     autSub (B ⊓ centSub W) U = centSub (W.subgroupOf U) ⊓ autSub B U := by
   ext φ
@@ -210,6 +213,7 @@ theorem dimOn_autSub {B : Subgroup (MulAut V)} {U W : Subgroup V} (hB : B ≤ st
         (Nat.card ↥(centSub (W.subgroupOf U) ⊓ autSub B U) * Nat.card ↥(B ⊓ centSub U)) := by
       rw [h4]
 
+omit [Finite V] in
 theorem subgroupOf_le_fixV_autSub_iff {B : Subgroup (MulAut V)} {U W : Subgroup V}
     (hB : B ≤ stabSub U) (hWU : W ≤ U) : W.subgroupOf U ≤ fixV (autSub B U) ↔ W ≤ fixV B := by
   constructor
@@ -219,6 +223,7 @@ theorem subgroupOf_le_fixV_autSub_iff {B : Subgroup (MulAut V)} {U W : Subgroup 
   · intro h w hw
     exact mem_fixV_autSub.mpr fun g hg _ => h hw g hg
 
+omit [Finite V] in
 theorem elemAbOn_autSub_iff {B : Subgroup (MulAut V)} {U W : Subgroup V} (hB : B ≤ stabSub U)
     (hWU : W ≤ U) : ElemAbOn (autSub B U) (W.subgroupOf U) ↔ ElemAbOn B W := by
   constructor
@@ -238,7 +243,8 @@ theorem elemAbOn_autSub_iff {B : Subgroup (MulAut V)} {U W : Subgroup V} (hB : B
     · obtain ⟨a, ha, rfl⟩ := mem_autSub.mp hφ
       exact Subtype.ext (by simpa [resHom_apply] using h2 a ha w hw)
 
-theorem exists_le_autSub_eq {T : Subgroup (MulAut V)} {U : Subgroup V} (hT : T ≤ stabSub U)
+omit [Finite V] in
+theorem exists_le_autSub_eq {T : Subgroup (MulAut V)} {U : Subgroup V} (_hT : T ≤ stabSub U)
     {B' : Subgroup (MulAut U)} (hB' : B' ≤ autSub T U) :
     ∃ B : Subgroup (MulAut V), B ≤ T ∧ autSub B U = B' := by
   refine ⟨T ⊓ (B'.comap (resHom U)).map (stabSub U).subtype, inf_le_left, ?_⟩
@@ -316,11 +322,11 @@ theorem relIndex_le_two_of_forall {G : Type*} [Group G] {A A₀ : Subgroup G} {a
     | H b =>
       rcases h b b.2 with hb | hb
       · refine ⟨false, ?_⟩
-        simp only [Bool.false_eq_true, if_false]
+        simp only [Bool.false_eq_true, ite_false]
         rw [QuotientGroup.eq]
         simpa [Subgroup.mem_subgroupOf] using hb
       · refine ⟨true, ?_⟩
-        simp only [if_true]
+        simp only [ite_true]
         rw [QuotientGroup.eq]
         simpa [Subgroup.mem_subgroupOf] using hb
   calc Nat.card (↥A ⧸ A₀.subgroupOf A) ≤ Nat.card Bool := Nat.card_le_card_of_surjective _ hsurj
@@ -412,6 +418,7 @@ theorem IsL24.oTwo_le_inf (hL : IsL24 S M A L) (hS : IsPGroup 2 S) :
   calc (oTwo ↥L).map L.subtype ≤ (S.subgroupOf L).map L.subtype := Subgroup.map_mono hle
     _ = S ⊓ L := Subgroup.subgroupOf_map_subtype S L
 
+omit [Finite V] in
 theorem conj_mem_map_oTwo {l o : MulAut V} (hl : l ∈ L) (ho : o ∈ (oTwo ↥L).map L.subtype) :
     l * o * l⁻¹ ∈ (oTwo ↥L).map L.subtype := by
   obtain ⟨o', ho', rfl⟩ := ho
@@ -553,7 +560,7 @@ theorem commSub_zpowers_sup_eq [Finite V] (hV : ∀ v : V, v ^ 2 = 1) {y : MulAu
   exact eq_of_le_of_rk_le hV hle (by omega)
 
 theorem resHom_mem_normalizer {X : Subgroup (MulAut V)} {U : Subgroup V} {g : MulAut V}
-    (hgU : g ∈ stabSub U) (hX : X ≤ stabSub U)
+    (hgU : g ∈ stabSub U) (_hX : X ≤ stabSub U)
     (hg : g ∈ Subgroup.normalizer (X : Set (MulAut V))) :
     resHom U ⟨g, hgU⟩ ∈ Subgroup.normalizer (autSub X U : Set (MulAut U)) := by
   have key : ∀ (h : MulAut V) (hhU : h ∈ stabSub U),
@@ -813,7 +820,7 @@ theorem false_of_isL24 (hV : ∀ v : V, v ^ 2 = 1) {S M A L : Subgroup (MulAut V
     rw [mRel_eq_zero_iff (isPGroup_subgroup hV U)] at hC0
     exact hxM (hLM ⟨hxL, centSub_le_stabSub Z₀ fun z hz => (hC0 (hZU hz)).2 x hxL⟩)
   obtain ⟨r, t, hr, hr2', hodd, hAO⟩ := hL.exists_prime_pow hAel haA haO
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hA2 : IsPGroup 2 A := fun g => ⟨1, Subtype.ext (by simpa using hAel.2 g g.2)⟩
   have hidx : (A ⊓ (oTwo ↥L).map L.subtype).relIndex A ≤ 2 := by
     refine relIndex_le_two_of_forall haA fun b hb => ?_
@@ -1097,6 +1104,7 @@ theorem Setting29.restrict {𝒦 : HostClass} {H S : Subgroup (MulAut V)} {Z₀ 
     obtain ⟨w, hw, hwu⟩ := hle u.2
     rwa [show w = u from Subtype.ext hwu] at hw
 
+omit [Finite V] in
 theorem Setting29.mono {𝒦 : HostClass} {H S : Subgroup (MulAut V)} {Z₀ Z₁ : Subgroup V}
     (h : Setting29 𝒦 H S Z₀) (hZ : Z₀ ≤ Z₁) (hS : S ≤ stabSub Z₁) : Setting29 𝒦 H S Z₁ :=
   { h with
@@ -1160,9 +1168,11 @@ variable [Finite V]
 @[expose] def jSV (S : Subgroup (MulAut V)) : Subgroup (MulAut V) :=
   ⨆ (A : Subgroup (MulAut V)) (_ : IsMinOff0 S A), A
 
+omit [Finite V] in
 theorem le_jSV {S A : Subgroup (MulAut V)} (hA : IsMinOff0 S A) : A ≤ jSV S :=
   le_iSup₂ (f := fun A (_ : IsMinOff0 S A) => A) A hA
 
+omit [Finite V] in
 theorem le_fixV_jSV {S : Subgroup (MulAut V)} {Z : Subgroup V}
     (h : ∀ A, IsMinOff0 S A → Z ≤ fixV A) : Z ≤ fixV (jSV S) := by
   intro v hv g hg
@@ -1170,6 +1180,7 @@ theorem le_fixV_jSV {S : Subgroup (MulAut V)} {Z : Subgroup V}
     iSup₂_le fun A hA a ha => MulAction.mem_stabilizer_iff.mpr (h A hA hv a ha)
   exact MulAction.mem_stabilizer_iff.mp (hle hg)
 
+omit [Finite V] in
 theorem map_conj_map_conj_inv (g : MulAut V) (B : Subgroup (MulAut V)) :
     (B.map (MulAut.conj g⁻¹).toMonoidHom).map (MulAut.conj g).toMonoidHom = B := by
   rw [Subgroup.map_map]
@@ -1178,20 +1189,24 @@ theorem map_conj_map_conj_inv (g : MulAut V) (B : Subgroup (MulAut V)) :
     simp
   rw [this, Subgroup.map_id]
 
+omit [Finite V] in
 theorem map_conj_inv_map_conj (g : MulAut V) (B : Subgroup (MulAut V)) :
     (B.map (MulAut.conj g).toMonoidHom).map (MulAut.conj g⁻¹).toMonoidHom = B := by
   simpa using map_conj_map_conj_inv g⁻¹ B
 
+omit [Finite V] in
 theorem dimOn_map_conj_top (g : MulAut V) (B : Subgroup (MulAut V)) :
     dimOn (B.map (MulAut.conj g).toMonoidHom) ⊤ = dimOn B ⊤ := by
   have := dimOn_map_conj g B ⊤
   rwa [Subgroup.map_top_of_surjective _ g.surjective] at this
 
+omit [Finite V] in
 theorem codimOn_map_conj_top (g : MulAut V) (B : Subgroup (MulAut V)) :
     codimOn (B.map (MulAut.conj g).toMonoidHom) ⊤ = codimOn B ⊤ := by
   have := codimOn_map_conj g B ⊤
   rwa [Subgroup.map_top_of_surjective _ g.surjective] at this
 
+omit [Finite V] in
 theorem IsOff.map_conj {S B : Subgroup (MulAut V)} (h : IsOff S B ⊤) (g : MulAut V) :
     IsOff (S.map (MulAut.conj g).toMonoidHom) (B.map (MulAut.conj g).toMonoidHom) ⊤ := by
   refine ⟨Subgroup.map_mono h.1, fun hle => h.2.1 ?_, ?_⟩
@@ -1212,6 +1227,7 @@ theorem IsOff.map_conj {S B : Subgroup (MulAut V)} (h : IsOff S B ⊤) (g : MulA
       rw [conj_pow, hel.2 a ha]
       group
 
+omit [Finite V] in
 theorem IsMinOff.map_conj {S B : Subgroup (MulAut V)} (h : IsMinOff S B ⊤) (g : MulAut V) :
     IsMinOff (S.map (MulAut.conj g).toMonoidHom) (B.map (MulAut.conj g).toMonoidHom) ⊤ := by
   refine ⟨h.1.map_conj g, fun C hC => ?_⟩
@@ -1222,6 +1238,7 @@ theorem IsMinOff.map_conj {S B : Subgroup (MulAut V)} (h : IsMinOff S B ⊤) (g 
   rw [dimOn_map_conj_top, codimOn_map_conj_top]
   exact h1
 
+omit [Finite V] in
 theorem IsMinOff0.map_conj {S B : Subgroup (MulAut V)} (h : IsMinOff0 S B) (g : MulAut V) :
     IsMinOff0 (S.map (MulAut.conj g).toMonoidHom) (B.map (MulAut.conj g).toMonoidHom) := by
   refine ⟨h.1.map_conj g, fun C hC => ?_⟩
@@ -1236,6 +1253,7 @@ theorem IsMinOff0.map_conj {S B : Subgroup (MulAut V)} (h : IsMinOff0 S B) (g : 
   rw [e2] at h1
   exact h1
 
+omit [Finite V] in
 theorem map_conj_eq_of_mem_normalizer {S : Subgroup (MulAut V)} {g : MulAut V}
     (hg : g ∈ Subgroup.normalizer (S : Set (MulAut V))) : S.map (MulAut.conj g).toMonoidHom = S := by
   ext t
@@ -1248,6 +1266,7 @@ theorem map_conj_eq_of_mem_normalizer {S : Subgroup (MulAut V)} {g : MulAut V}
     rw [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
     group
 
+omit [Finite V] in
 theorem mem_normalizer_jSV {S : Subgroup (MulAut V)} {g : MulAut V}
     (hg : g ∈ Subgroup.normalizer (S : Set (MulAut V))) :
     g ∈ Subgroup.normalizer (jSV S : Set (MulAut V)) := by
@@ -1303,14 +1322,14 @@ theorem jSV_eq_of_le {S T : Subgroup (MulAut V)} (hS : IsPGroup 2 S) (hTS : T �
   · exact iSup₂_le fun A hA => le_jSV ((isMinOff0_iff_of_le hS hTS hT hA₀ A).mpr hA)
 
 theorem exists_mul_of_frattini {H S D : Subgroup (MulAut V)} (hSH : S ≤ H) (hS : IsPGroup 2 S)
-    (hSi : ¬ 2 ∣ S.relIndex H) (hDH : D ≤ H) (hDn : ∀ h ∈ H, ∀ d ∈ D, h * d * h⁻¹ ∈ D)
+    (hSi : ¬ 2 ∣ S.relIndex H) (_hDH : D ≤ H) (hDn : ∀ h ∈ H, ∀ d ∈ D, h * d * h⁻¹ ∈ D)
     {h : MulAut V} (hh : h ∈ H) :
     ∃ n ∈ H, n ∈ Subgroup.normalizer ((S ⊓ D : Subgroup (MulAut V)) : Set (MulAut V)) ∧
       ∃ d ∈ D, h = n * d := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set S' := S.subgroupOf H with hS'
   set D' := D.subgroupOf H with hD'
-  haveI hD'n : D'.Normal := ⟨fun d hd g => by
+  have hD'n : D'.Normal := ⟨fun d hd g => by
     rw [hD', Subgroup.mem_subgroupOf] at hd ⊢
     exact hDn g g.2 d hd⟩
   have hS'i : ¬ 2 ∣ S'.index := hSi
@@ -1350,7 +1369,7 @@ theorem exists_isMinOff0_not_mem {H S : Subgroup (MulAut V)} {Z₀ : Subgroup V}
   push Not at hcon
   let D : Subgroup (MulAut V) :=
     { carrier := {g | g ∈ H ∧ ∀ h ∈ H, h * g * h⁻¹ ∈ H ⊓ stabSub Z₀}
-      one_mem' := ⟨H.one_mem, fun h _ => by simp [Subgroup.one_mem]⟩
+      one_mem' := ⟨H.one_mem, fun h _ => by simp⟩
       mul_mem' := by
         rintro a b ⟨haH, ha⟩ ⟨hbH, hb⟩
         refine ⟨H.mul_mem haH hbH, fun h hh => ?_⟩
@@ -1503,7 +1522,7 @@ theorem ale_of_ale_aux {𝒦 : HostClass} (h24 : Hyp29.{u} 𝒦) (n : ℕ) :
         rw [hH₀] at this
         obtain ⟨k, hk, hkh⟩ := this
         rwa [show k = h from Subtype.ext hkh] at hk
-      obtain ⟨k, hkK, hkM⟩ := SetLike.exists_of_lt hK
+      obtain ⟨k, hkK, hkM⟩ := _root_.IsConcreteLE.exists_of_lt hK
       have hkZ : (k : MulAut V) ∉ stabSub Z₀ := fun h =>
         hkM (Subgroup.mem_subgroupOf.mpr ⟨k.2, h⟩)
       have hkH₀ : (k : MulAut V) ∈ H₀ := hH₀ ▸ ⟨k, hkK, rfl⟩

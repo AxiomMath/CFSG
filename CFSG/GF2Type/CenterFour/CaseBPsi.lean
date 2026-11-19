@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {z : G} {n : ℕ}
 
+omit [Finite G] in
 private theorem mul_self_eq_one_of_config (hC : Config z n) : z * z = 1 := by
   have h := pow_orderOf_eq_one z
   rwa [hC.orderOf_eq, sq] at h
@@ -124,7 +125,7 @@ theorem CaseB.dichotomy (hC : Config z n) {g : G}
       psi (g⁻¹ * z * g) q ∈ coreAt z ⊓ centralizer ({g⁻¹ * z * g} : Set G)
   · exact Or.inl hall
   right
-  push_neg at hall
+  push Not at hall
   obtain ⟨q₀, hq₀, hψ₀⟩ := hall
   have hsq₀ : psi (g⁻¹ * z * g) q₀ ^ 2 = z := by
     rcases hC.sq_eq _ (psi_mem_core hC hz₁ hH hq₀) with h | h

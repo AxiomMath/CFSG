@@ -78,7 +78,7 @@ private lemma three_dvd_sq_sub_one {q : ℕ} (hq : ¬ 3 ∣ q) : 3 ∣ q ^ 2 - 1
     have h := Nat.mod_lt q (by norm_num : 0 < 3)
     omega
   have h2 : q ^ 2 % 3 = 1 := by
-    rcases hq3 with h | h <;> rw [Nat.pow_mod, h] <;> norm_num
+    rcases hq3 with h | h <;> rw [Nat.pow_mod, h]
   have h1 : 1 ≤ q ^ 2 := Nat.one_le_pow 2 q (by omega)
   exact Nat.dvd_of_mod_eq_zero (by omega)
 
@@ -171,15 +171,15 @@ theorem exists_eq_conj_of_lieModel_G2 {L : Type} [Group L] [Finite L] {p f : ℕ
   have hf3 : ¬ 3 ∣ f := not_three_dvd_exponent_of_lieModel_G2 h h27
   obtain ⟨K, hKfield, hKfin, hKcard, ⟨e₀⟩⟩ :=
     CFSG.GH74.GLS.IVK.Proofs2.Ivk47.untwisted_of_lieModel_G2 h
-  letI := hKfield
-  letI := hKfin
+  let := hKfield
+  let := hKfin
   have hcen : Subgroup.center (adjointGroup Tag.G2 K) = ⊥ :=
     CFSG.LieType.Chevalley.center_adjointGroup_eq_bot
   let e : L ≃* adjointGroup Tag.G2 K :=
     e₀.trans ((QuotientGroup.quotientMulEquivOfEq hcen).trans QuotientGroup.quotientBot)
   let q : TauCeti.PrimePower := ⟨p, f, hp, by omega⟩
   have hqcard : Nat.card K = q.card := hKcard.trans (TauCeti.PrimePower.card_def q).symm
-  haveI : CharP K q.p := CFSG.ABGLocalTools.SL2Facts.charP_of_card_eq_prime_pow hp hKcard
+  have : CharP K q.p := CFSG.ABGLocalTools.SL2Facts.charP_of_card_eq_prime_pow hp hKcard
   obtain ⟨Q, hQgrp, hQcyc, Θ, hQdvd, hker⟩ :=
     CFSG.HardMathSupport.Timmesfeld.CrossChar.exists_hom_cyclic_G2 q
       (by simpa [q, TauCeti.PrimePower.card_def] using hp3) K hqcard

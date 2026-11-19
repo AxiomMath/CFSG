@@ -149,7 +149,7 @@ theorem card_fixO_sup_dGrp : Nat.card ↥(fixO ⊔ dGrp) = 128 := by
     exact normal_octFix octad0
   let K' : Subgroup ↥G := fixO.subgroupOf G
   let D' : Subgroup ↥G := dGrp.subgroupOf G
-  haveI : K'.Normal := hN
+  have : K'.Normal := hN
   have hprod : Nat.card ↥(K' ⊔ D') * Nat.card ↥(K' ⊓ D') =
       Nat.card ↥K' * Nat.card ↥D' := by
     have h1 := Subgroup.relIndex_mul_card (H := K') (K := D')
@@ -170,7 +170,7 @@ theorem card_fixO_sup_dGrp : Nat.card ↥(fixO ⊔ dGrp) = 128 := by
     Subgroup.ext fun _ => Iff.rfl
   have hKD_le : fixO ⊓ dGrp ≤ G := inf_le_left.trans hKG
   have hI : Nat.card ↥(fixO ⊓ dGrp) = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 2) := ⟨by norm_num⟩
     rw [inf_comm, dGrp_inf_fixO, Nat.card_zpowers,
       orderOf_eq_prime (p := 2) (by rw [pow_two, ← dPerm_one, dPerm_mul_self])
         (by decide +kernel)]

@@ -36,7 +36,7 @@ theorem Cbar_eq_bot_of_rank_one [Finite G] [IsSimpleGroup G] (hna : ∃ a b : G,
       α = 1 ∨ β = 1 ∨ α = β) : Cbar T T₁ S = ⊥ := by
   by_contra hne
   have hCS : Cbar T T₁ S ≤ (S : Subgroup G) := inf_le_left
-  have hC2 : IsPGroup 2 (Cbar T T₁ S) := S.isPGroup'.to_le hCS
+  have hC2 : IsPGroup 2 (Cbar T T₁ S) := S.isPGroup.to_le hCS
   have hNC : CFSG.DisconnectedInvolutionGraph.Helpers.NoCommutingDistinctInvolutions
       ↥(Cbar T T₁ S) := by
     intro first second hcomm
@@ -91,7 +91,7 @@ theorem Cbar_eq_bot_of_rank_one [Finite G] [IsSimpleGroup G] (hna : ∃ a b : G,
       comm_sStar_Cbar hd c.2
     have hfuse : ∀ g : G, ∀ z ∈ sStar T T₁, g⁻¹ * (c : G) ^ (orderOf (c : G) / 2) * g ≠ z := by
       intro g z hz h
-      obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 S.isPGroup') ⟨(c : G), hcS⟩
+      obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 S.isPGroup) ⟨(c : G), hcS⟩
       have hk' : orderOf (c : G) = 2 ^ k :=
         (Subgroup.orderOf_coe (⟨(c : G), hcS⟩ : (S : Subgroup G))).trans hk
       have hk1 : 1 ≤ k := by
@@ -135,7 +135,7 @@ theorem Cbar_eq_bot_of_rank_one [Finite G] [IsSimpleGroup G] (hna : ∃ a b : G,
       have hmem : t ∈ sStar T T₁ ⊓ Cbar T T₁ S := ⟨hts, htC⟩
       rw [D.sStar_inf_Cbar, Subgroup.mem_bot] at hmem
       exact ht1 hmem
-    obtain ⟨N, hN, hi⟩ := exists_index_two_of_cyclic_factor S.isPGroup' S.not_dvd_index hS.le hcS
+    obtain ⟨N, hN, hi⟩ := exists_index_two_of_cyclic_factor S.isPGroup S.not_dvd_index hS.le hcS
       hc1 hdec hinf hcomm hfuse
     exact false_of_index_two hna hN hi
   · exact false_of_quaternion_cbar hna h57 hconj D hS ϕ

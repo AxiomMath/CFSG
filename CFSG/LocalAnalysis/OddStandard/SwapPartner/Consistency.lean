@@ -23,10 +23,10 @@ private theorem coord_one_one (D : TwistData z ι ι₁ ε χ) {ρ : Perm (Fin 8
   obtain ⟨σ, hσ, hcard, hcoord⟩ := D.coord ρ hρ
   refine ⟨σ, hσ, ?_, ?_⟩
   · have h : Multiset.card σ.cycleType = Multiset.card ρ.cycleType + 0 := by
-      rw [hcard, hε, if_neg (by decide : ¬ ((1 : ℤˣ) = -1)), add_zero]
+      rw [hcard, hε, ite_eq_right (by decide : ¬ ((1 : ℤˣ) = -1)), add_zero]
     simpa using h
   · have h : ι (liftS8 ρ) = ι₁ σ := by
-      rw [hcoord, hχ, if_pos rfl, one_mul]
+      rw [hcoord, hχ, ite_eq_left rfl, one_mul]
     exact h
 
 private theorem coord_one_ne (D : TwistData z ι ι₁ ε χ) {ρ : Perm (Fin 8)}
@@ -37,10 +37,10 @@ private theorem coord_one_ne (D : TwistData z ι ι₁ ε χ) {ρ : Perm (Fin 8)
   obtain ⟨σ, hσ, hcard, hcoord⟩ := D.coord ρ hρ
   refine ⟨σ, hσ, ?_, ?_⟩
   · have h : Multiset.card σ.cycleType = Multiset.card ρ.cycleType + 0 := by
-      rw [hcard, hε, if_neg (by decide : ¬ ((1 : ℤˣ) = -1)), add_zero]
+      rw [hcard, hε, ite_eq_right (by decide : ¬ ((1 : ℤˣ) = -1)), add_zero]
     simpa using h
   · have h : ι (liftS8 ρ) = ι τ₀ * ι₁ σ := by
-      rw [hcoord, if_neg hχ]
+      rw [hcoord, ite_eq_right hχ]
     exact h
 
 private theorem coord_neg_one (D : TwistData z ι ι₁ ε χ) {ρ : Perm (Fin 8)}
@@ -50,10 +50,10 @@ private theorem coord_neg_one (D : TwistData z ι ι₁ ε χ) {ρ : Perm (Fin 8
   obtain ⟨σ, hσ, hcard, hcoord⟩ := D.coord ρ hρ
   refine ⟨σ, hσ, ?_, ?_⟩
   · have h : Multiset.card σ.cycleType = Multiset.card ρ.cycleType + 1 := by
-      rw [hcard, hε, if_pos rfl]
+      rw [hcard, hε, ite_eq_left rfl]
     exact h
   · have h : ι (liftS8 ρ) = ι₁ σ := by
-      rw [hcoord, hχ, if_pos rfl, one_mul]
+      rw [hcoord, hχ, ite_eq_left rfl, one_mul]
     exact h
 
 private theorem coord_neg_ne (D : TwistData z ι ι₁ ε χ) {ρ : Perm (Fin 8)}
@@ -64,13 +64,13 @@ private theorem coord_neg_ne (D : TwistData z ι ι₁ ε χ) {ρ : Perm (Fin 8)
   obtain ⟨σ, hσ, hcard, hcoord⟩ := D.coord ρ hρ
   refine ⟨σ, hσ, ?_, ?_⟩
   · have h : Multiset.card σ.cycleType = Multiset.card ρ.cycleType + 1 := by
-      rw [hcard, hε, if_pos rfl]
+      rw [hcard, hε, ite_eq_left rfl]
     exact h
   · have h : ι (liftS8 ρ) = ι τ₀ * ι₁ σ := by
-      rw [hcoord, if_neg hχ]
+      rw [hcoord, ite_eq_right hχ]
     exact h
 
-theorem eps_eq_sign (hC : CentData z ι) (hx : IsConj z (ι τ₀)) (hP1 : IsConj z (z * ι τ₀))
+theorem eps_eq_sign (hC : CentData z ι) (_hx : IsConj z (ι τ₀)) (hP1 : IsConj z (z * ι τ₀))
     (D : TwistData z ι ι₁ ε χ) : ε = sign := by
   rcases D.eps with hε1 | hεs
   · exfalso

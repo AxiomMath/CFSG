@@ -22,9 +22,9 @@ theorem characteristic_of_normal_card_two_of_iso {X : Type} [Group X] [Finite X]
     {N : Subgroup X} [hN : N.Normal] (hNcard : Nat.card N = 2)
     (e : X ⧸ N ≃* alternatingGroup (Fin 7)) : N.Characteristic := by
   classical
-  haveI hA7simple : IsSimpleGroup (alternatingGroup (Fin 7)) :=
+  have hA7simple : IsSimpleGroup (alternatingGroup (Fin 7)) :=
     alternatingGroup.isSimpleGroup (by rw [Nat.card_fin]; norm_num)
-  haveI hsimple : IsSimpleGroup (X ⧸ N) := e.isSimpleGroup
+  have hsimple : IsSimpleGroup (X ⧸ N) := e.isSimpleGroup
   refine Subgroup.characteristic_iff_map_eq.mpr fun α => ?_
   let M : Subgroup X := N.map α.toMonoidHom
   have hMnormal : M.Normal := hN.map α.toMonoidHom α.surjective
@@ -32,18 +32,18 @@ theorem characteristic_of_normal_card_two_of_iso {X : Type} [Group X] [Finite X]
     rw [show M = N.map α.toMonoidHom from rfl, Subgroup.card_map_of_injective α.injective,
       hNcard]
   have hM2 : IsPGroup 2 M := IsPGroup.of_card (n := 1) (by rw [hMcard]; norm_num)
-  letI : M.Normal := hMnormal
+  let : M.Normal := hMnormal
   let Mq : Subgroup (X ⧸ N) := M.map (QuotientGroup.mk' N)
   have hMqnormal : Mq.Normal :=
     hMnormal.map (QuotientGroup.mk' N) (QuotientGroup.mk'_surjective N)
-  letI : Mq.Normal := hMqnormal
+  let : Mq.Normal := hMqnormal
   have hMq2 : IsPGroup 2 Mq := hM2.map (QuotientGroup.mk' N)
   have hMqbot : Mq = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal Mq with h | h
     · exact h
     · exfalso
       rw [h] at hMq2
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hMq2
       have hquot : Nat.card (X ⧸ N) = 2520 := by
         rw [Nat.card_congr e.toEquiv, natCard_alternatingGroup_fin_seven]
@@ -60,17 +60,17 @@ theorem characteristic_of_normal_card_two_of_iso {X : Type} [Group X] [Finite X]
 
 theorem subsingleton_mulAut_of_card_two {N : Type} [Group N] [Finite N]
     (hNcard : Nat.card N = 2) : Subsingleton (MulAut N) := by
-  haveI hNcyc : IsCyclic N := isCyclic_of_prime_card (p := 2) (by rw [hNcard])
+  have hNcyc : IsCyclic N := isCyclic_of_prime_card (p := 2) (by rw [hNcard])
   have hAutN : Nat.card (MulAut N) = 1 := by
     rw [IsCyclic.card_mulAut, hNcard]
     norm_num
   obtain ⟨u⟩ := Nat.card_eq_one_iff_unique.mp hAutN
-  letI := u
+  let := u
   infer_instance
 
 theorem le_center_of_normal_card_two {X : Type} [Group X] [Finite X] {N : Subgroup X}
     [N.Normal] (hNcard : Nat.card N = 2) : N ≤ Subgroup.center X := by
-  haveI : Subsingleton (MulAut N) := subsingleton_mulAut_of_card_two hNcard
+  have : Subsingleton (MulAut N) := subsingleton_mulAut_of_card_two hNcard
   intro n hn
   rw [Subgroup.mem_center_iff]
   intro x
@@ -131,26 +131,26 @@ theorem mulAut_eq_one_of_odd_order_of_fixes_normal {X : Type} [Group X] [Finite 
 
 
 theorem dvd_card_of_threeTenCase2SmallType {X : Type} [Group X] [Finite X]
-    (hX : ThreeTenCase2SmallType X) {d : ℕ} (hd : d.Prime) (hd2 : d ≠ 2) (hd7 : d ≠ 7)
+    (hX : ThreeTenCase2SmallType X) {d : ℕ} (hd : d.Prime) (hd2 : d ≠ 2) (_hd7 : d ≠ 7)
     (hdvd : d ∣ Nat.card (MulAut X)) : d ∣ Nat.card X := by
   classical
   have hXcard : Nat.card X = 5040 := natCard_of_threeTenCase2SmallType hX
   obtain ⟨N, hNnorm, hBN, hAN, hns⟩ := hX
-  letI : N.Normal := hNnorm
+  let : N.Normal := hNnorm
   obtain ⟨e⟩ := hAN
   have hNcard : Nat.card N = 2 := hBN
   have hNchar : N.Characteristic :=
     characteristic_of_normal_card_two_of_iso hNcard e
-  letI : N.Characteristic := hNchar
+  let : N.Characteristic := hNchar
   have hNcenter : N ≤ Subgroup.center X := le_center_of_normal_card_two hNcard
-  haveI : Fact d.Prime := ⟨hd⟩
+  have : Fact d.Prime := ⟨hd⟩
   have hdodd : Odd d := hd.odd_of_ne_two hd2
   have hAutA7 : Nat.card (MulAut (alternatingGroup (Fin 7))) = 5040 :=
     CFSG.RankThree.PartTwo.KFacts.KS14.card_mulAut_alternatingGroup_seven
   have hdvdA7 : d ∣ Nat.card (MulAut (alternatingGroup (Fin 7))) := by
     by_contra hnot
     obtain ⟨α, hαd⟩ := exists_prime_orderOf_dvd_card' d hdvd
-    haveI : Subsingleton (MulAut N) := subsingleton_mulAut_of_card_two hNcard
+    have : Subsingleton (MulAut N) := subsingleton_mulAut_of_card_two hNcard
     have hfixN : ∀ n : N, α n = n := by
       intro n
       let αN : MulAut N :=
@@ -284,7 +284,7 @@ def c5A : alternatingGroup (Fin 7) := ⟨c5, Equiv.Perm.mem_alternatingGroup.mpr
 def r5A : alternatingGroup (Fin 7) := ⟨r5, Equiv.Perm.mem_alternatingGroup.mpr r5_sign⟩
 
 theorem orderOf_c5 : orderOf c5 = 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   exact orderOf_eq_prime c5_pow c5_ne_one
 
 theorem orderOf_c5A : orderOf c5A = 5 := by
@@ -292,7 +292,7 @@ theorem orderOf_c5A : orderOf c5A = 5 := by
       alternatingGroup (Fin 7)) from rfl, Subgroup.orderOf_mk, orderOf_c5]
 
 theorem orderOf_r5 : orderOf r5 = 4 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hnot : ¬ r5 ^ 2 ^ 1 = 1 := by
     rw [pow_one]
     exact r5_sq_ne_one
@@ -440,12 +440,12 @@ theorem card_normalizer_sylow_seven {X : Type} [Group X] [Finite X]
   classical
   have hXcard : Nat.card X = 5040 := natCard_of_threeTenCase2SmallType hX
   obtain ⟨N, hNnorm, hBN, hAN, hns⟩ := hX
-  letI : N.Normal := hNnorm
+  let : N.Normal := hNnorm
   obtain ⟨e⟩ := hAN
   have hNcard : Nat.card N = 2 := hBN
   have hNcenter : N ≤ Subgroup.center X := le_center_of_normal_card_two hNcard
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
-  haveI : Fact (IsPGroup 7 P) := ⟨hP.isPGroup⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (IsPGroup 7 P) := ⟨hP.isPGroup⟩
   have hPcard : Nat.card P = 7 := by
     have h := hP.card_eq
     rw [Subgroup.card_top, hXcard] at h
@@ -470,7 +470,7 @@ theorem card_normalizer_sylow_seven {X : Type} [Group X] [Finite X]
 theorem dvd_card_normalizer_of_card_nine (Q : Subgroup (alternatingGroup (Fin 7)))
     (hQ : Nat.card Q = 9) :
     36 ∣ Nat.card (Subgroup.normalizer (Q : Set (alternatingGroup (Fin 7)))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hfac3 : (Nat.card (alternatingGroup (Fin 7))).factorization 3 = 2 := by
     rw [CFSG.QuasithinUnique.L246.C123.card_A7,
       show (2520 : ℕ) = 3 ^ 2 * 280 by norm_num,
@@ -498,7 +498,7 @@ theorem dvd_card_normalizer_of_card_nine (Q : Subgroup (alternatingGroup (Fin 7)
 theorem dvd_card_normalizer_of_card_five (Q : Subgroup (alternatingGroup (Fin 7)))
     (hQ : Nat.card Q = 5) :
     20 ∣ Nat.card (Subgroup.normalizer (Q : Set (alternatingGroup (Fin 7)))) := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hfac5 : (Nat.card (alternatingGroup (Fin 7))).factorization 5 = 1 := by
     rw [CFSG.QuasithinUnique.L246.C123.card_A7]
     exact CFSG.QuasithinUnique.L246.C123.factorization_eq_one Nat.prime_five
@@ -528,12 +528,12 @@ theorem dvd_card_normalizer_sylow_three {X : Type} [Group X] [Finite X]
   classical
   have hXcard : Nat.card X = 5040 := natCard_of_threeTenCase2SmallType hX
   obtain ⟨N, hNnorm, hBN, hAN, hns⟩ := hX
-  letI : N.Normal := hNnorm
+  let : N.Normal := hNnorm
   obtain ⟨e⟩ := hAN
   have hNcard : Nat.card N = 2 := hBN
   have hNcenter : N ≤ Subgroup.center X := le_center_of_normal_card_two hNcard
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (IsPGroup 3 E) := ⟨hE.isPGroup⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (IsPGroup 3 E) := ⟨hE.isPGroup⟩
   have hfac3 : (5040 : ℕ).factorization 3 = 2 := by
     rw [show (5040 : ℕ) = 3 ^ 2 * 560 by norm_num,
       Nat.factorization_mul (by norm_num) (by norm_num),
@@ -570,12 +570,12 @@ theorem dvd_card_normalizer_sylow_five {X : Type} [Group X] [Finite X]
   classical
   have hXcard : Nat.card X = 5040 := natCard_of_threeTenCase2SmallType hX
   obtain ⟨N, hNnorm, hBN, hAN, hns⟩ := hX
-  letI : N.Normal := hNnorm
+  let : N.Normal := hNnorm
   obtain ⟨e⟩ := hAN
   have hNcard : Nat.card N = 2 := hBN
   have hNcenter : N ≤ Subgroup.center X := le_center_of_normal_card_two hNcard
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Fact (IsPGroup 5 E) := ⟨hE.isPGroup⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (IsPGroup 5 E) := ⟨hE.isPGroup⟩
   have hfac5 : (5040 : ℕ).factorization 5 = 1 :=
     CFSG.QuasithinUnique.L246.C123.factorization_eq_one Nat.prime_five
       (show 5040 = 5 * 1008 by norm_num) (by norm_num) (by norm_num)
@@ -607,7 +607,7 @@ theorem false_of_sylow_seven_card_normalizer {W : Type} [Group W] [Finite W]
     (hNP : Nat.card (Subgroup.normalizer (S : Set W)) = 42)
     (hWdiv : Nat.card W ∣ 5040) (hWlt : Nat.card W < 5040)
     {L : ℕ} (hL : L ∣ Nat.card W) (hLval : L = 504 ∨ L = 840) : False := by
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   have hmod := card_sylow_modEq_one 7 W
   have hcount := S.card_eq_index_normalizer
   rw [hcount, Subgroup.index_eq_card_div, hNP] at hmod
@@ -771,7 +771,7 @@ theorem threeTenCase2FiniteInput : ThreeTenCase2FiniteInput := by
               exact hd3 ((Nat.prime_dvd_prime_iff_eq hd Nat.prime_three).mp h3')
           · exact hd5 ((Nat.prime_dvd_prime_iff_eq hd Nat.prime_five).mp h5)
         · exact hd7 ((Nat.prime_dvd_prime_iff_eq hd Nat.prime_seven).mp h7)
-      haveI : Fact d.Prime := ⟨hd⟩
+      have : Fact d.Prime := ⟨hd⟩
       have hEcard : Nat.card E = 1 := by
         have h := hE.card_eq
         rw [Subgroup.card_top, hXcard,

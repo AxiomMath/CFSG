@@ -176,7 +176,7 @@ private lemma isPGroup_inf_sylow (p : ℕ) [Fact p.Prime] (S : Sylow p G) (H : S
     IsPGroup p ((S : Subgroup G) ⊓ H : Subgroup G) := by
   intro x
   let xs : ↥(S : Subgroup G) := ⟨(x : G), x.2.1⟩
-  rcases (S.isPGroup' xs) with ⟨n, hn⟩
+  rcases (S.isPGroup xs) with ⟨n, hn⟩
   refine ⟨n, ?_⟩
   apply Subtype.ext
   simpa [Subgroup.coe_pow] using congrArg Subtype.val hn

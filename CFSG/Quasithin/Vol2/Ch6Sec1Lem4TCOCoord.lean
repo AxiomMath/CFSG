@@ -17,10 +17,12 @@ variable {G : Type} [Group G] [Finite G] {T M L V : Subgroup G} {F : Type} [Fiel
     (ψ : ↥(autOn L V) ≃* SL(2, F)) : ↥L →* SL(2, F) :=
   ψ.toMonoidHom.comp (autHom hLV)
 
+omit [Finite G] in
 theorem coordHom_apply (hLV : L ≤ Subgroup.normalizer (V : Set G))
     (ψ : ↥(autOn L V) ≃* SL(2, F)) (ℓ : ↥L) :
     coordHom hLV ψ ℓ = ψ (autHom hLV ℓ) := rfl
 
+omit [Finite G] in
 theorem coordHom_eq_one_iff (hLV : L ≤ Subgroup.normalizer (V : Set G))
     (ψ : ↥(autOn L V) ≃* SL(2, F)) (ℓ : ↥L) :
     coordHom hLV ψ ℓ = 1 ↔ (ℓ : G) ∈ Subgroup.centralizer (V : Set G) := by
@@ -37,6 +39,7 @@ theorem coordHom_eq_one_iff (hLV : L ≤ Subgroup.normalizer (V : Set G))
       exact (conjAct_eq_one_iff_ch6 (W := V) ⟨(ℓ : G), hLV ℓ.2⟩).mpr h
     rw [coordHom_apply, h1, map_one]
 
+omit [Finite G] in
 theorem coordHom_mem_U0_iff (hLV : L ≤ Subgroup.normalizer (V : Set G))
     (ψ : ↥(autOn L V) ≃* SL(2, F))
     (hψ : ∀ x : ↥(autOn L V), (x : MulAut V) ∈ autOn (T ⊓ L) V ↔ ∃ b : F, ψ x = unipSL b)
@@ -53,6 +56,7 @@ theorem coordHom_mem_U0_iff (hLV : L ≤ Subgroup.normalizer (V : Set G))
     obtain ⟨b, hb⟩ := (hψ (autHom hLV ℓ)).mp hmem
     exact ⟨b, hb⟩
 
+omit [Finite G] in
 theorem coordHom_ker_mem (hLV : L ≤ Subgroup.normalizer (V : Set G))
     (ψ : ↥(autOn L V) ≃* SL(2, F))
     (hψ : ∀ x : ↥(autOn L V), (x : MulAut V) ∈ autOn (T ⊓ L) V ↔ ∃ b : F, ψ x = unipSL b)
@@ -62,6 +66,7 @@ theorem coordHom_ker_mem (hLV : L ≤ Subgroup.normalizer (V : Set G))
     rw [h]
     exact (CFSG.Quasithin.Vol2.Ch10.SecA.unipSL_zero (F := F)).symm⟩, ℓ.2⟩
 
+omit [Finite G] in
 theorem coordHom_mem_U0 (hLV : L ≤ Subgroup.normalizer (V : Set G))
     (ψ : ↥(autOn L V) ≃* SL(2, F))
     (hψ : ∀ x : ↥(autOn L V), (x : MulAut V) ∈ autOn (T ⊓ L) V ↔ ∃ b : F, ψ x = unipSL b)
@@ -72,6 +77,7 @@ theorem coordHom_mem_U0 (hLV : L ≤ Subgroup.normalizer (V : Set G))
     rw [hb, coe_unipSL]
     simp)
 
+omit [Finite G] in
 theorem coordHom_surjective (hLV : L ≤ Subgroup.normalizer (V : Set G))
     (ψ : ↥(autOn L V) ≃* SL(2, F)) : Function.Surjective (coordHom hLV ψ) := by
   intro g
@@ -82,6 +88,7 @@ theorem coordHom_surjective (hLV : L ≤ Subgroup.normalizer (V : Set G))
   have : autHom hLV ⟨(n : G), hn⟩ = x := Subtype.ext hxn
   rw [this, hx]
 
+omit [Finite G] in
 theorem exists_of_mem_U0 (hLV : L ≤ Subgroup.normalizer (V : Set G))
     (ψ : ↥(autOn L V) ≃* SL(2, F))
     (hψ : ∀ x : ↥(autOn L V), (x : MulAut V) ∈ autOn (T ⊓ L) V ↔ ∃ b : F, ψ x = unipSL b)
@@ -92,6 +99,7 @@ theorem exists_of_mem_U0 (hLV : L ≤ Subgroup.normalizer (V : Set G))
   obtain ⟨ℓ, hℓ⟩ := coordHom_surjective hLV ψ (unipSL b)
   exact ⟨ℓ, ⟨(coordHom_mem_U0_iff hLV ψ hψ hC ℓ).mp ⟨b, hℓ⟩, ℓ.2⟩, hℓ⟩
 
+omit [Finite G] in
 theorem coordHom_upper (hLV : L ≤ Subgroup.normalizer (V : Set G))
     (ψ : ↥(autOn L V) ≃* SL(2, F))
     (hψ : ∀ x : ↥(autOn L V), (x : MulAut V) ∈ autOn (T ⊓ L) V ↔ ∃ b : F, ψ x = unipSL b)

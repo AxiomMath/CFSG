@@ -36,11 +36,11 @@ private def linFix
   one_mem' := by intro u _; simp
   mul_mem' := by
     intro g h hg hh u hu
-    simp only [Set.mem_setOf_eq] at hg hh ⊢
+    simp only [Set.mem_ofPred_eq] at hg hh ⊢
     rw [LinearEquiv.mul_apply, hh u hu, hg u hu]
   inv_mem' := by
     intro g hg u hu
-    simp only [Set.mem_setOf_eq] at hg ⊢
+    simp only [Set.mem_ofPred_eq] at hg ⊢
     have h := hg u hu
     calc g⁻¹ u = g⁻¹ (g u) := by rw [h]
       _ = u := by simp
@@ -273,7 +273,7 @@ private lemma pi0_injective
     rw [Finset.sum_eq_single i]
     · simp
     · intro j _ hj
-      rw [if_neg (Ne.symm hj), zero_smul]
+      rw [ite_eq_right (Ne.symm hj), zero_smul]
     · intro hi; exact absurd (Finset.mem_univ i) hi
   rw [hΦ0] at heval
   simpa using heval

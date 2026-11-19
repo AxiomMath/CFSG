@@ -64,7 +64,7 @@ theorem isElemAbelian_inf_left {G : Type*} [Group G] {p : ℕ} {E : Subgroup G}
 theorem card_inf_innDiag_le [Finite K] (h : UnitaryFieldData ℓ f K) {p : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) (hpℓ : p ≠ ℓ) {E : Subgroup (MulAut (PU h))} (hE : IsElemAbelian p E) :
     Nat.card ↥(E ⊓ innDiag h) ≤ p ^ 2 := by
-  haveI : CharP K ℓ := h.charP
+  have : CharP K ℓ := h.charP
   have hF : (p : K) ≠ 0 := by
     intro h0
     rw [CharP.cast_eq_zero_iff K ℓ] at h0
@@ -96,9 +96,9 @@ private theorem finite_ringEquiv [Finite K] : Finite (K ≃+* K) :=
 theorem card_map_fieldFactor_le [Finite K] (h : UnitaryFieldData ℓ f K) (hℓ : ℓ ≠ 2) {p : ℕ}
     (hp : p.Prime) {E : Subgroup (MulAut (PU h))} (hE : IsElemAbelian p E) :
     Nat.card ↥(E.map (fieldFactor h hℓ)) ≤ p := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := CFSG.LocalAnalysis.GLTheoremA.FP.isCyclic_ringEquiv K
-  haveI : Finite (K ≃+* K) := finite_ringEquiv
+  have : Fact p.Prime := ⟨hp⟩
+  have := CFSG.LocalAnalysis.GLTheoremA.FP.isCyclic_ringEquiv K
+  have : Finite (K ≃+* K) := finite_ringEquiv
   refine CFSG.AGLEmbedding.card_le_of_isCyclic_of_pow_eq_one _ ?_
   rintro _ ⟨a, ha, rfl⟩
   rw [← map_pow, hE.2 a ha, map_one]
@@ -116,8 +116,8 @@ theorem dvd_add_one_of_le_card_inf_innDiag [Finite K] (h : UnitaryFieldData ℓ 
     (hE : IsElemAbelian p E) (hcard : p ^ 2 ≤ Nat.card ↥(E ⊓ innDiag h)) :
     p ∣ ℓ ^ f + 1 := by
   by_contra hnd
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact ℓ.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact ℓ.Prime := ⟨h.prime⟩
   set W := E ⊓ innDiag h with hWdef
   have hWel : IsElemAbelian p W := isElemAbelian_inf_left hE _
   have hWcard : Nat.card W = p ^ 2 := le_antisymm (card_inf_innDiag_le h hp hp2 hpℓ hE) hcard

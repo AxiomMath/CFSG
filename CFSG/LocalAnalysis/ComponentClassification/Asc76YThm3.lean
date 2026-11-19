@@ -687,7 +687,7 @@ theorem isSylowOf_top_of_sylow {L : Type*} [Group L] [Finite L] (Q : Sylow 2 L) 
     IsSylowOf 2 (Q : Subgroup L) ⊤ := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [isSylowOf_iff, Subgroup.relIndex_top_right]
-  exact ⟨le_top, Q.isPGroup', Q.not_dvd_index⟩
+  exact ⟨le_top, Q.isPGroup, Q.not_dvd_index⟩
 
 theorem asc76Theorem3Large_of_theorem5 (h5 : Asc76Theorem5) : Asc76Theorem3Large := by
   intro G _ _ K hK hgen hO R hR hRd hR4

@@ -30,7 +30,7 @@ theorem upA_of_plain {lab : GLALabel} {p : ℕ} (h : ¬ ((lab.tag = .D ∧ lab.r
     upA107 lab p = rk2Mult lab (rk2Ord p lab.n) + (if p ∣ lab.n then 1 else 0) := by
   unfold upA107
   have hb : ¬ (p = 3 ∧ ((lab.tag = .D ∧ lab.rank = 4) ∨ lab.tag = .triD4)) := fun h' => h h'.2
-  rw [if_neg hb, add_zero]
+  rw [ite_eq_right hb, add_zero]
 
 theorem rk2Ord_three_dvd_two (n : ℕ) : rk2Ord 3 n ∣ 2 := by
   unfold rk2Ord
@@ -44,7 +44,7 @@ theorem rk2Ord_three_le (n : ℕ) : rk2Ord 3 n ≤ 2 :=
 
 theorem bonus_zero_of_m0 {lab : GLALabel} {p : ℕ} (h3 : 3 ≤ rk2Ord p lab.n) :
     (if p = 3 ∧ ((lab.tag = .D ∧ lab.rank = 4) ∨ lab.tag = .triD4) then 1 else 0) = 0 := by
-  rw [if_neg]
+  rw [ite_eq_right]
   rintro ⟨hp3, -⟩
   subst hp3
   have := rk2Ord_three_le lab.n
@@ -54,7 +54,7 @@ theorem rk2Mult_BC_one {lab : GLALabel} (ht : lab.tag = .B ∨ lab.tag = .C) : r
   rcases ht with ht | ht <;> simp [rk2Mult, ht]
 
 theorem rk2Mult_BC_two {lab : GLALabel} (ht : lab.tag = .B ∨ lab.tag = .C) : rk2Mult lab 2 = lab.rank := by
-  rcases ht with ht | ht <;> simp [rk2Mult, ht] <;> omega
+  rcases ht with ht | ht <;> simp [rk2Mult, ht]
 
 theorem rk2Mult_D_one {lab : GLALabel} (ht : lab.tag = .D) : rk2Mult lab 1 = lab.rank := by
   simp [rk2Mult, ht]
@@ -133,7 +133,7 @@ theorem fam_B {lab : GLALabel} {p : ℕ} (hlab : GLAInLambda2 lab) (ht : lab.tag
     · obtain ⟨hn1, hsurv⟩ := hex
       have hl3 : lab.rank = 3 := by simp [ht] at hsurv; exact hsurv
       have he0 : (if p ∣ lab.n then 1 else 0) = 0 := by
-        rw [if_neg]; rw [hn1]; intro hd; exact hp.ne_one (Nat.dvd_one.1 hd)
+        rw [ite_eq_right]; rw [hn1]; intro hd; exact hp.ne_one (Nat.dvd_one.1 hd)
       rw [he0] at hA
       rw [hl3] at hr3
       omega

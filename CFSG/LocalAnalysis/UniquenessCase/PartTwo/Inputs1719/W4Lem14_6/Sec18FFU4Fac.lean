@@ -25,7 +25,7 @@ variable {H : Subgroup G} {Y Z : Submodule (ZMod 2) V}
 private lemma card_secMulImg_eq_two_pow [Finite G] [Finite V] {L B : Subgroup G} [IsSimpleGroup ↥L]
     {m : ℕ} (hBN : B ≤ Subgroup.normalizer (L : Set G))
     (hm : Nat.card ↥B = 2 ^ m * Nat.card ↥(B ⊓ Subgroup.centralizer (L : Set G)))
-    (hZY : Z ≤ Y) (hY : CFSG.HardMathSupport.Meierfrankenfeld.GeneralFF.IsInvariant ρ (L ⊔ B) Y) (hZ : CFSG.HardMathSupport.Meierfrankenfeld.GeneralFF.IsInvariant ρ (L ⊔ B) Z)
+    (_hZY : Z ≤ Y) (hY : CFSG.HardMathSupport.Meierfrankenfeld.GeneralFF.IsInvariant ρ (L ⊔ B) Y) (hZ : CFSG.HardMathSupport.Meierfrankenfeld.GeneralFF.IsInvariant ρ (L ⊔ B) Z)
     (hCB : ∀ b ∈ B, b ∈ Subgroup.centralizer (L : Set G) → ∀ y ∈ Y, ρ b y = y)
     (hnt : ∃ l ∈ L, ∃ y ∈ Y, ρ l y - y ∉ Z) :
     Nat.card ↥(secMulImg hY hZ B) = 2 ^ m := by
@@ -90,7 +90,7 @@ theorem isU4Group_of_mulEquiv {S : Type} [CommGroup S] {X : Type} [Group X]
 
 theorem u4_secNatural
     [Finite G] [Finite V]
-    {L B : Subgroup G} [IsSimpleGroup ↥L] {n : ℕ} (hn : 1 < n) (hU4 : IsU4 ↥L n)
+    {L B : Subgroup G} [IsSimpleGroup ↥L] {n : ℕ} (_hn : 1 < n) (hU4 : IsU4 ↥L n)
     (hBe : CFSG.IsElementaryAbelian 2 ↥B) (hBN : B ≤ Subgroup.normalizer (L : Set G))
     {m : ℕ} (hm1 : 1 ≤ m)
     (hm : Nat.card ↥B = 2 ^ m * Nat.card ↥(B ⊓ Subgroup.centralizer (L : Set G)))
@@ -229,7 +229,7 @@ theorem u4_factorBound
     · have hms1 : m = secCost ρ B Y Z + 1 := by omega
       have hs2 : 2 ≤ secCost ρ B Y Z := by
         by_contra hlt
-        push_neg at hlt
+        push Not at hlt
         have hs_eq1 : secCost ρ B Y Z = 1 := by omega
         have hBO4 := CFSG.LocalAnalysis.RankThreeUC.partBO4_stmt
           (S := Multiplicative (SecQ Y Z)) (n := n) (F := F) (b := b) (c := c) hS

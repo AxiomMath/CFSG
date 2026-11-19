@@ -146,7 +146,7 @@ theorem leaf_false_of_noOuterFFOffender {G : Type} [Group G] [Finite G] {Y S : S
   have hred := isTwoReducedIn_W315 hq hWL
   have hWn : (W315 ↥(Y ⊔ S)).Normal :=
     Subgroup.normalizer_eq_top_iff.mp (top_le_iff.mp hred.2.1)
-  haveI hCn : (Subgroup.centralizer (W315 ↥(Y ⊔ S) : Set ↥(Y ⊔ S))).Normal := inferInstance
+  have hCn : (Subgroup.centralizer (W315 ↥(Y ⊔ S) : Set ↥(Y ⊔ S))).Normal := inferInstance
   have hUC : Y ⊔ S ≤ Subgroup.normalizer
       (((Subgroup.centralizer (W315 ↥(Y ⊔ S) : Set ↥(Y ⊔ S))).map (Y ⊔ S).subtype : Subgroup G) :
         Set G) := le_normalizer_map_subtype_of_normal hCn

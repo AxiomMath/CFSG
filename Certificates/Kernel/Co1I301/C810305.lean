@@ -173,7 +173,7 @@ theorem r0_ofFn_getL (L : List Nat) (f : Nat → Array Nat) :
   apply Array.ext (by simp)
   intro i h1 h2
   simp only [Array.size_ofFn] at h1
-  simp [getL_eq, List.getElem?_eq_getElem h1]
+  simp [getL_eq]
 
 theorem r0Gens_eq : r0Gens () = CFSG.KS.SporSch.M24.gensArr 7 R0M := by
   have e : (List.range 6).map rRw = [rRw 0, rRw 1, rRw 2, rRw 3, rRw 4, rRw 5] := rfl
@@ -227,8 +227,8 @@ theorem cR_eq (i j : Fin 6) : (if cR i j = 1 then unpackR 24 AL else one) =
   have hc : ∀ i j : Fin 6, (cR i j = 1) ↔ (Nat.beq (cRN i.val j.val) 1 = true) := by decide
   rw [one_eq]
   by_cases h : cR i j = 1
-  · rw [if_pos h, (hc i j).1 h]
-  · rw [if_neg h, Bool.eq_false_iff.2 (fun h' => h ((hc i j).2 h'))]
+  · rw [ite_eq_left h, (hc i j).1 h]
+  · rw [ite_eq_right h, Bool.eq_false_iff.2 (fun h' => h ((hc i j).2 h'))]
 
 theorem c_r0 : chkR0 () = true := by
   have hgt := gtBFS_of_K kR0'.1

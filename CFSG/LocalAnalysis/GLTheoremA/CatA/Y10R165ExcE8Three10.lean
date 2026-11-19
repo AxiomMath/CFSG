@@ -25,7 +25,7 @@ private theorem pow_eq_one_of_zetaPow {L : Type} [Field L] {p : ℕ} [NeZero p] 
 theorem orderOf_rootDiagUnit_e8T3XColumn_zetaPow {L : Type} [Field L] {p : ℕ} [NeZero p]
     {ζ : Lˣ} (hζ : IsPrimitiveRoot ζ p) (hp : p.Prime) {ε : ℤ} {q : ZMod p} :
     orderOf (rootDiagUnit Tag.E8 (fun i => ζ ^ (e8T3XColumn ε q i).val)) = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine CFSG.ComponentClassification.CatFC.DS81.Ex.orderOf_rootDiagUnit_eq_prime_of_pow
     (τ := Tag.E8) (K := L) _ ?_ 3 ?_
   · intro i
@@ -37,7 +37,7 @@ theorem orderOf_rootDiagUnit_e8T3XColumn_zetaPow {L : Type} [Field L] {p : ℕ} 
 theorem orderOf_rootDiagUnit_e8T3ZColumn_zetaPow {L : Type} [Field L] {p : ℕ} [NeZero p]
     {ζ : Lˣ} (hζ : IsPrimitiveRoot ζ p) (hp : p.Prime) {ε : ℤ} {q : ZMod p} :
     orderOf (rootDiagUnit Tag.E8 (fun i => ζ ^ (e8T3ZColumn ε q i).val)) = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine CFSG.ComponentClassification.CatFC.DS81.Ex.orderOf_rootDiagUnit_eq_prime_of_pow
     (τ := Tag.E8) (K := L) _ ?_ 2 ?_
   · intro i

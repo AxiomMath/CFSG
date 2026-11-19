@@ -68,7 +68,7 @@ theorem e6_exists_conj_bmMono_sylow {K : Type} [Field K] [Finite K] (hK : 3 ∣ 
   have hQ : (Q₀ : Subgroup Y).map f = ⊤ :=
     le_antisymm le_top ((Q₀.mapSurjective hfs).maximal_isPGroup.le_of_ge hEp le_top)
   set P : Subgroup (hatGroup .E6 K) := (Q₀ : Subgroup Y).map Y.subtype with hP
-  have hP3 : IsPGroup 3 P := Q₀.isPGroup'.map _
+  have hP3 : IsPGroup 3 P := Q₀.isPGroup.map _
   have hPE : P.map (hatAut .E6 K) = E := by
     have hcomp : (hatAut .E6 K).comp Y.subtype = E.subtype.comp f := MonoidHom.ext fun _ => rfl
     rw [hP, Subgroup.map_map, hcomp, ← Subgroup.map_map, hQ, ← MonoidHom.range_eq_map,

@@ -24,7 +24,7 @@ theorem l34g_exists_e [Finite G] (hNF : Asc82FactNoncentralFixed) {x y : G} (hx 
   ·
     have hxN : x ∈ normalizer (I : Set G) := sec63P_conjugate_eq_iff.mp hfix
     obtain ⟨e, he, heord, hne⟩ := hNF G I hIF x hx hxN
-    simp only [not_forall, not_imp] at hne
+    simp only [not_forall] at hne
     obtain ⟨g, hgI, hge⟩ := hne
     exact ⟨e, g, heord, Subgroup.mem_centralizer_singleton_iff.mp he.2,
       Subgroup.mem_centralizer_singleton_iff.mp (hI.1 he.1),
@@ -39,7 +39,7 @@ theorem l34g_exists_e [Finite G] (hNF : Asc82FactNoncentralFixed) {x y : G} (hx 
       rw [← sec63P_conjugate_eq_iff]
       exact conjugate_eq_self_of_le_centralizer hI.1
     obtain ⟨a, ha, haord, hane⟩ := hNF G I hIF y hy hyN
-    simp only [not_forall, not_imp] at hane
+    simp only [not_forall] at hane
     obtain ⟨g, hgI, hag⟩ := hane
     have haa : a * a = 1 := sec63P_mul_self haord
     have hxx : x * x = 1 := sec63P_mul_self hx

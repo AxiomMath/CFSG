@@ -20,28 +20,31 @@ open CFSG.ComponentClassification.UnbalancedCatalog
 
 variable {Q : Type} [Group Q] [Finite Q] {L : Subgroup Q} {n : ℕ}
 
+omit [Finite Q] in
 private theorem conjNormal_injective_of_centralizer_eq_bot (hL : L.Normal)
     (hC : centralizer (L : Set Q) = ⊥) :
     Function.Injective (MulAut.conjNormal (H := L) : Q →* MulAut ↥L) := by
-  haveI := hL
+  have := hL
   rw [← MonoidHom.ker_eq_bot_iff, eq_bot_iff]
   intro q hq
   simpa [CFSG.BenderSuzuki.External.conjNormal_ker_eq_centralizer (H := L), hC] using hq
 
+omit [Finite Q] in
 private theorem conjNormal_mem_inner_of_mem [L.Normal] {a : Q} (ha : a ∈ L) :
     MulAut.conjNormal (H := L) a ∈ inner ↥L := by
   refine ⟨⟨a, ha⟩, ?_⟩
   ext x
   simp [MulAut.conj_apply, MulAut.conjNormal_apply]
 
+omit [Finite Q] in
 private theorem card_outer_eq_of_isSp4 (hn : 2 ≤ n) (hSp : IsSp4 ↥L n) :
     Nat.card (Outer ↥L) = 2 * n := by
   have hscm : StatedClassicalModel ↥L .PSp 2 2 n :=
     CFSG.Blueprint.LieModel.statedClassicalModel_of_ne_zero (by omega) hSp
   obtain ⟨-, K, hfield, hfin, hKcard, ⟨e⟩⟩ := hscm
-  letI : Field K := hfield
-  letI : Finite K := hfin
-  haveI : CharP K 2 :=
+  let : Field K := hfield
+  let : Finite K := hfin
+  have : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two (by omega) hKcard
   have hmain := (even_symplectic_two_exterior_square_automorphism (f := n) (K := K)
@@ -53,9 +56,10 @@ private theorem card_outer_eq_of_isSp4 (hn : 2 ≤ n) (hSp : IsSp4 ↥L n) :
         Nat.card_congr (CFSG.ComponentClassification.OuterAutomorphisms.equivalence e).toEquiv
     _ = 2 * n := hcardOutK
 
+omit [Finite Q] in
 private theorem isPGroup_quotient_of_sup_eq_top (hL : L.Normal) {T : Subgroup Q}
     (hT : IsSylowIn 2 T ⊤) (hLT : L ⊔ T = ⊤) : IsPGroup 2 (Q ⧸ L) := by
-  haveI := hL
+  have := hL
   let tMap : ↥T →* Q ⧸ L := (QuotientGroup.mk' L).comp T.subtype
   have hsurj : Function.Surjective tMap := by
     intro y
@@ -72,15 +76,16 @@ private theorem isPGroup_quotient_of_sup_eq_top (hL : L.Normal) {T : Subgroup Q}
     rw [hl1, one_mul]
   exact hT.isPGroup.of_surjective tMap hsurj
 
+omit [Finite Q] in
 theorem card_le_two_mul_card_inf (hn : 2 ≤ n) (hL : L.Normal) (hSp : IsSp4 ↥L n)
     (hC : centralizer (L : Set Q) = ⊥) {A : Subgroup Q} (hA : IsElemAbelian 2 A) :
     Nat.card ↥A ≤ 2 * Nat.card ↥(A ⊓ L) := by
-  haveI := hL
+  have := hL
   have hinj : Function.Injective (MulAut.conjNormal (H := L) : Q →* MulAut ↥L) :=
     conjNormal_injective_of_centralizer_eq_bot hL hC
   have hout : OutCyclic ↥L := outCyclic_of_sp4 hn (by
     exact CFSG.Blueprint.LieModel.statedClassicalModel_of_ne_zero (by omega) hSp)
-  haveI : IsCyclic (Outer ↥L) := hout.2
+  have : IsCyclic (Outer ↥L) := hout.2
   let c : Q →* MulAut ↥L := MulAut.conjNormal (H := L)
   let Λ : Subgroup (MulAut ↥L) := A.map c
   have hΛ : ∀ l ∈ Λ, l * l = 1 := by
@@ -107,7 +112,7 @@ theorem card_le_two_mul_card_inf (hn : 2 ≤ n) (hL : L.Normal) (hSp : IsSp4 ↥
 theorem index_le_two (hn : 2 ≤ n) (hL : L.Normal) (hSp : IsSp4 ↥L n)
     (hC : centralizer (L : Set Q) = ⊥) (hodd : Odd n) {T : Subgroup Q} (hT : IsSylowIn 2 T ⊤)
     (hLT : L ⊔ T = ⊤) : L.index ≤ 2 := by
-  haveI := hL
+  have := hL
   let c : Q →* MulAut ↥L := MulAut.conjNormal (H := L)
   let f : Q →* Outer ↥L := (QuotientGroup.mk' (inner ↥L)).comp c
   have hLker : L ≤ f.ker := by

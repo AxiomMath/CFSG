@@ -13,6 +13,7 @@ section AutBound
 
 variable {Y : Type} [Group Y] [Finite Y]
 
+omit [Finite Y] in
 theorem card_range_conj_eq (hZ : Subgroup.center Y = ⊥) :
     Nat.card (MulAut.conj : Y →* MulAut Y).range = Nat.card Y :=
   (Nat.card_congr (MonoidHom.ofInjective
@@ -23,7 +24,7 @@ theorem exists_conj_of_pow_three_of_card_le (hZ : Subgroup.center Y = ⊥)
     ∃ y : Y, α = MulAut.conj y := by
   classical
   set I : Subgroup (MulAut Y) := (MulAut.conj : Y →* MulAut Y).range with hI
-  haveI : I.Normal := CFSG.ComponentClassification.OuterAutomorphisms.inner_normal Y
+  have : I.Normal := CFSG.ComponentClassification.OuterAutomorphisms.inner_normal Y
   have hIcard : Nat.card I = Nat.card Y := card_range_conj_eq hZ
   have hYpos : 0 < Nat.card Y := Nat.card_pos
   have hfin : Finite (MulAut Y) :=
@@ -32,7 +33,7 @@ theorem exists_conj_of_pow_three_of_card_le (hZ : Subgroup.center Y = ⊥)
     have h := I.card_mul_index
     rw [hIcard] at h
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have : Nat.card Y * 3 ≤ Nat.card Y * I.index := Nat.mul_le_mul_left _ hcon
     omega
   have hidx0 : I.index ≠ 0 := Subgroup.index_ne_zero_of_finite
@@ -50,7 +51,7 @@ theorem exists_conj_of_pow_three_of_card_le (hZ : Subgroup.center Y = ⊥)
 
 theorem card_sylow_three_of_padicValNat {N : ℕ} (hY : Nat.card Y = N) (hN : padicValNat 3 N = 2)
     (P : Sylow 3 Y) : Nat.card P = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [P.card_eq_multiplicity, hY, Nat.factorization_def _ Nat.prime_three, hN]
   norm_num
 

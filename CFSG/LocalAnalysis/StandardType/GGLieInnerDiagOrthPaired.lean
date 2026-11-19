@@ -110,20 +110,20 @@ theorem ggLinearOn_orth_paired {K V : Type} [Field K] [Finite K] [CharP K 2] [Ad
     (J : Subgroup (orthDerived Q ⧸ (scalars K V).subgroupOf (orthDerived Q)))
     (hJq : CFSG.Open.IsQuasisimple ↥J)
     (hJeq : J = componentImage Q (x : V ≃ₗ[K] V) h)
-    (hJ : MulAut.conj (QuotientGroup.mk' (N := (scalars K V).subgroupOf (orthDerived Q)) y) ∈
+    (_hJ : MulAut.conj (QuotientGroup.mk' (N := (scalars K V).subgroupOf (orthDerived Q)) y) ∈
       CFSG.GroupActions.subgroupStabAut J) :
     GGLinearOn J
       (MulAut.conj (QuotientGroup.mk' (N := (scalars K V).subgroupOf (orthDerived Q)) y)) := by
   classical
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   let xe : V ≃ₗ[K] V := (x : V ≃ₗ[K] V)
   let F : Type := AdjoinRoot h
   let M : Type := primaryComponent xe.toLinearMap h
-  haveI : CharP (AdjoinRoot h) 2 :=
+  have : CharP (AdjoinRoot h) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AdjoinRoot h)).injective 2
-  haveI : Finite (AdjoinRoot h) := by
+  have : Finite (AdjoinRoot h) := by
     have hmon : h.Monic := (mem_primaryFactors.mp hh).2.1
-    haveI : Module.Finite K (AdjoinRoot h) := hmon.finite_adjoinRoot
+    have : Module.Finite K (AdjoinRoot h) := hmon.finite_adjoinRoot
     exact Module.finite_of_finite K
   have h4 : 4 ≤ Nat.card F := by
     have hlt := hx.p_lt_card_adjoinRoot Nat.prime_three hh hne1
@@ -132,7 +132,7 @@ theorem ggLinearOn_orth_paired {K V : Type} [Field K] [Finite K] [CharP K 2] [Ad
   have hleQ : specialBlock Q xe h ≤ TauCeti.QuadraticMap.orthogonalGroup Q := fun g hg =>
     (Subgroup.mem_inf.mp (specialBlock_le_isometryCentralizer (Q := Q) (x := xe) h hg)).1
   have hleOrth : specialBlock Q xe h ≤ orthDerived Q := by
-    haveI : Group.IsPerfect ↥(specialBlock Q xe h) := ⟨hq.1⟩
+    have : Group.IsPerfect ↥(specialBlock Q xe h) := ⟨hq.1⟩
     calc specialBlock Q xe h = ⁅specialBlock Q xe h, specialBlock Q xe h⁆ :=
           (Subgroup.commutator_eq_self).symm
       _ ≤ orthDerived Q := Subgroup.commutator_mono hleQ hleQ

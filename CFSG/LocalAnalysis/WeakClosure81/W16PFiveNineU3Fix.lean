@@ -22,13 +22,13 @@ theorem isPSUGp_quotient_center_of_surjective {X Q : Type} [Group X] [Group Q] {
     (hX : IsPSUGp (X ⧸ Subgroup.center X) 3 n) : IsPSUGp (Q ⧸ Subgroup.center Q) 3 n := by
   have hZquot : Subgroup.center (X ⧸ Subgroup.center X) = ⊥ := by
     obtain ⟨hsimple, hperfect⟩ := isSimpleGroup_isPerfect_of_isPSUGp_three hX
-    haveI := hsimple
-    haveI := hperfect
+    have := hsimple
+    have := hperfect
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
       (Subgroup.center (X ⧸ Subgroup.center X)) with h | h
     · exact h
     · exfalso
-      haveI : IsMulCommutative (X ⧸ Subgroup.center X) := Subgroup.center_eq_top_iff.mp h
+      have : IsMulCommutative (X ⧸ Subgroup.center X) := Subgroup.center_eq_top_iff.mp h
       exact Group.IsPerfect.not_isMulCommutative (X ⧸ Subgroup.center X) inferInstance
   have hZ : Subgroup.center Q = (Subgroup.center X).map θ := by
     refine le_antisymm ?_ (Subgroup.map_center_le_center hθ)
@@ -99,7 +99,7 @@ theorem Cex16.map_centralizer_iSub16_le_center (h1 : W16One G) (h5 : W16Five G) 
   have hNnormal : N.Normal :=
     Subgroup.Normal.map
       (Subgroup.normal_subgroupOf_of_le_normalizer hKcent) φ hφ.surjective
-  haveI : N.Normal := hNnormal
+  have : N.Normal := hNnormal
   have hXsimple : IsSimpleGroup (X ⧸ Subgroup.center X) :=
     (isSimpleGroup_isPerfect_of_isPSUGp_three hcase.2).1
   rcases CFSG.StandardType.GGOppRadSpU.le_center_or_eq_top_of_perfect hcase.1 hXsimple N with
@@ -165,9 +165,7 @@ theorem Cex16.isPSUGp_img_conjClosure (h1 : W16One G) (h5 : W16Five G) (hS : Std
   let θ : X →* ↥(D.img (conjClosure V H)) :=
     (MonoidHom.liftOfSurjective φ hφ.surjective) ⟨ρQ, hker_le⟩
   have hθφ : θ.comp φ = ρQ := by
-    simpa [θ, MonoidHom.liftOfSurjective] using
-      MonoidHom.liftOfRightInverse_comp (f := φ) (f_inv := Function.surjInv hφ.surjective)
-        (Function.rightInverse_surjInv hφ.surjective) ⟨ρQ, hker_le⟩
+    simp [θ, MonoidHom.liftOfSurjective]
   have hθ_surj : Function.Surjective θ := by
     intro y
     obtain ⟨k, hk⟩ := hρQ_surj y
@@ -208,7 +206,7 @@ theorem Cex16.rk_barSub_UAOf_img (h1 : W16One G) (h5 : W16Five G) (hS : Std15 G)
       (⊤ : Subgroup (VG (D.img H))) (vHat (D.img H))) ψ
       (UAOf (D.img H) (D.conjImgSpace V₀ V) (D.img V))) = n := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hVH : V ≤ H := h.V_le_S.trans hH.1.1
   have hKH : conjClosure V H ≤ H :=
     conjClosure_le fun k hk z hz => H.mul_mem (H.mul_mem hk (hVH hz)) (H.inv_mem hk)

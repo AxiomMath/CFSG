@@ -31,7 +31,7 @@ theorem eleven11_exists_model {M V Q U L X : Subgroup G}
         (∃ u : ↥(blockU L), (u : G) ∈ V ∧ Multiplicative.toAdd (ψ u) = w) ↔
           w ∈ p.submodule) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h78 : IsLTwoBlockType L 2 := (eleven11_blockType_two hd h8).1
   have hUΓ := deltaEleven_subset_gammaEleven M V hd.mem_delta
   have hLb := isBlockOfInX_of_mem_elevenBlocksB hd.setting hUΓ hd.mem_blocks
@@ -50,7 +50,7 @@ theorem eleven11_card_blockU {M V Q U L X : Subgroup G}
     (hd : Eleven11Data M V Q U L X) (h8 : Nat.card V = 8) :
     Nat.card (blockU L : Subgroup G) = 16 * Nat.card (blockZ L : Subgroup G) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨α, ψ, p, hαsurj, hαker, hψsurj, hψker, hψeq, hαS, hfix⟩ :=
     eleven11_exists_model hd h8
   have hcard := Subgroup.card_ker_mul_card_of_surjective (f := ψ) hψsurj
@@ -70,7 +70,7 @@ theorem eleven11_inf_centralizerModCore {M V Q U L X : Subgroup G}
     (hd : Eleven11Data M V Q U L X) (h8 : Nat.card V = 8) :
     (L ⊓ Q) ⊓ centralizerModCore L = oTwoIn L := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨α, ψ, p, hαsurj, hαker, hψsurj, hψker, hψeq, hαS, hfix⟩ :=
     eleven11_exists_model hd h8
   have hUΓ := deltaEleven_subset_gammaEleven M V hd.mem_delta
@@ -120,7 +120,7 @@ theorem eleven11_card_sylow {M V Q U L X : Subgroup G}
     (hd : Eleven11Data M V Q U L X) (h8 : Nat.card V = 8) :
     Nat.card (L ⊓ Q : Subgroup G) = 4 * Nat.card (oTwoIn L : Subgroup G) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨α, ψ, p, hαsurj, hαker, hψsurj, hψker, hψeq, hαS, hfix⟩ :=
     eleven11_exists_model hd h8
   have hUΓ := deltaEleven_subset_gammaEleven M V hd.mem_delta

@@ -20,11 +20,13 @@ theorem idx_cases (a : HypIndex 1 1) : a = ie ∨ a = iw ∨ a = jf := by
 theorem sum_hyp (g : HypIndex 1 1 → K) : ∑ a, g a = g ie + g iw + g jf := by
   simp [Fintype.sum_sum_type, add_assoc]
 
+omit [Field K] in
 theorem vec_ext {v u : HypIndex 1 1 → K} (he : v ie = u ie) (hw : v iw = u iw)
     (hf : v jf = u jf) : v = u := by
   funext a
   rcases idx_cases a with rfl | rfl | rfl <;> assumption
 
+omit [Field K] in
 theorem mat_ext {A B : Matrix (HypIndex 1 1) (HypIndex 1 1) K}
     (h : ∀ a b, (a = ie ∨ a = iw ∨ a = jf) → (b = ie ∨ b = iw ∨ b = jf) → A a b = B a b) :
     A = B := by
@@ -168,7 +170,7 @@ theorem sSU_mul_tau (h : UnitaryFieldData p f K) (x : Kˣ) :
   rw [tauMat, tauMat, sMat_mul_dg]
   congr 1
   simp only [Units.val_inv_eq_inv_val, Units.coe_map, RingHom.toMonoidHom_eq_coe,
-    MonoidHom.coe_coe, map_inv₀, h.bar_bar]
+    _root_.MonoidHom.coe_ofClass, map_inv₀, h.bar_bar]
   congr 1 <;> simp [mul_comm]
 
 theorem exists_omega (h : UnitaryFieldData p f K) (hq : p ^ f % 3 = 1) :
@@ -217,9 +219,11 @@ theorem coe_tau_omega :
       dg (ω : K) 1 ((ω : K) ^ 2) := by
   rw [coe_tau, tauMat, hωb, mul_inv_cancel₀ ω.ne_zero, omega_inv hω]
 
+omit hωb in
 theorem orderOf_tau_omega : orderOf (tau h ω) = 3 := by
   rw [orderOf_injective (tau h) (tau_injective h), hω]
 
+omit hω in
 theorem sSU_mul_tau_omega : sSU h * tau h ω = (tau h ω)⁻¹ * sSU h := by
   have hm : Units.map h.bar.toMonoidHom ω = ω := Units.ext hωb
   rw [sSU_mul_tau, hm, map_inv]

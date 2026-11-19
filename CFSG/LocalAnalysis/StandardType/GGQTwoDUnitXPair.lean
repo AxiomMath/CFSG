@@ -101,8 +101,8 @@ theorem ggQTwoDUnit_X_pair (hL1 : GGQTwoL1Input) (hEA : GGQTwoEdgeAmbientInput)
     exact hchart
   have hGalois : UnitaryBlockStandardPair (GaloisField 2 2) 2 1 (ggRankTwo Bs r r')
       (ggRankOne Bs r) (ggRankOne Bs r') := by
-    letI : Fintype F0 := Fintype.ofFinite F0
-    letI : Fintype (GaloisField 2 2) := Fintype.ofFinite _
+    let : Fintype F0 := Fintype.ofFinite F0
+    let : Fintype (GaloisField 2 2) := Fintype.ofFinite _
     exact ggPhanNSAPairAux_stdPair_congr_field (K := F0) (K' := GaloisField 2 2)
       (FiniteField.ringEquivOfCardEq (K := GaloisField 2 2) (K' := F0) (by
         rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card,
@@ -120,11 +120,13 @@ private noncomputable def qtwoDB21_lin (βL : Additive ↥Bs ≃+ DVec m) :
   @CFSG.StandardType.ggLin 3 Nat.fact_prime_three ↥Bs inferInstance (DVec m) inferInstance
     (inferInstance : Module (ZMod 3) (DVec m)) βL
 
+omit [Finite G] in
 private lemma qtwoDB21_lin_apply (βL : Additive ↥Bs ≃+ DVec m) (r : MulAut ↥Bs) (s : ↥Bs) :
     qtwoDB21_lin βL r (βL (Additive.ofMul s)) = βL (Additive.ofMul (r s)) :=
   @CFSG.StandardType.ggLin_apply_ofMul 3 Nat.fact_prime_three ↥Bs inferInstance (DVec m)
     inferInstance (inferInstance : Module (ZMod 3) (DVec m)) βL r s
 
+omit [Finite G] in
 private lemma qtwoDB21_lin_injective (βL : Additive ↥Bs ≃+ DVec m) :
     Function.Injective (qtwoDB21_lin βL) := by
   intro r r' h
@@ -132,16 +134,19 @@ private lemma qtwoDB21_lin_injective (βL : Additive ↥Bs ≃+ DVec m) :
   have h' := congrArg (fun T : DVec m ≃ₗ[ZMod 3] DVec m => T (βL (Additive.ofMul s))) h
   rwa [qtwoDB21_lin_apply, qtwoDB21_lin_apply] at h'
 
+omit [Finite G] in
 private lemma qtwoDB21_lin_conj (a r : MulAut ↥Bs) :
     qtwoDB21_lin βL (a * r * a⁻¹) =
       qtwoDB21_lin βL a * qtwoDB21_lin βL r * (qtwoDB21_lin βL a)⁻¹ := by
   simp only [map_mul, map_inv]
 
+omit [Finite G] in
 private lemma qtwoDB21_conj_comm {a r r' : MulAut ↥Bs} (h : r * r' = r' * r) :
     (a * r * a⁻¹) * (a * r' * a⁻¹) = (a * r' * a⁻¹) * (a * r * a⁻¹) := by
   rw [show (a * r * a⁻¹) * (a * r' * a⁻¹) = a * (r * r') * a⁻¹ by group,
     show (a * r' * a⁻¹) * (a * r * a⁻¹) = a * (r' * r) * a⁻¹ by group, h]
 
+omit [Finite G] in
 private lemma qtwoDB21_lin_conj_comm {a r r' : MulAut ↥Bs} (h : r * r' = r' * r) :
     qtwoDB21_lin βL (a * r * a⁻¹) * qtwoDB21_lin βL (a * r' * a⁻¹) =
       qtwoDB21_lin βL (a * r' * a⁻¹) * qtwoDB21_lin βL (a * r * a⁻¹) := by
@@ -150,6 +155,7 @@ private lemma qtwoDB21_lin_conj_comm {a r r' : MulAut ↥Bs} (h : r * r' = r' * 
     map_mul (qtwoDB21_lin βL) (a * r' * a⁻¹) (a * r * a⁻¹)] at h'
   exact h'
 
+omit [Finite G] in
 private lemma qtwoDB21_conj_ne {a r r' : MulAut ↥Bs} (h : r * r' ≠ r' * r) :
     (a * r * a⁻¹) * (a * r' * a⁻¹) ≠ (a * r' * a⁻¹) * (a * r * a⁻¹) := by
   intro hh
@@ -158,6 +164,7 @@ private lemma qtwoDB21_conj_ne {a r r' : MulAut ↥Bs} (h : r * r' ≠ r' * r) :
   rwa [show a⁻¹ * ((a * r * a⁻¹) * (a * r' * a⁻¹)) * a = r * r' by group,
     show a⁻¹ * ((a * r' * a⁻¹) * (a * r * a⁻¹)) * a = r' * r by group] at h'
 
+omit [Finite G] in
 private lemma qtwoDB21_lin_of_action {r : MulAut ↥Bs} {W : DVec m ≃ₗ[ZMod 3] DVec m}
     (h : ∀ s : ↥Bs, βL (Additive.ofMul (r s)) = W (βL (Additive.ofMul s))) :
     qtwoDB21_lin βL r = W := by
@@ -165,6 +172,7 @@ private lemma qtwoDB21_lin_of_action {r : MulAut ↥Bs} {W : DVec m ≃ₗ[ZMod 
   obtain ⟨s, rfl⟩ := βL.surjective v
   rw [← qtwoDB21_ofMul_toMul s, qtwoDB21_lin_apply, h]
 
+omit [Finite G] in
 private lemma qtwoDB21_perm_of_lin (hcoords : QTwoUnitCoords Bs x L 𝒦 M e e' ψ ε βL ω)
     {r : MulAut ↥Bs} {u v : Fin m} (hr : qtwoDB21_lin βL r = dTau m false u v) :
     r = ((ε (Equiv.swap u v) : ↥(ggAutomizer L Bs)) : MulAut ↥Bs) := by
@@ -172,6 +180,7 @@ private lemma qtwoDB21_perm_of_lin (hcoords : QTwoUnitCoords Bs x L 𝒦 M e e' 
   rw [hr, qtwoDB21_lin_of_action (fun s => hcoords.perm (Equiv.swap u v) s),
     qtwoDB21_dTau_false]
 
+omit [Finite G] in
 private lemma qtwoDB21_cox_of_perm (hcoords : QTwoUnitCoords Bs x L 𝒦 M e e' ψ ε βL ω)
     {u v : Fin m} (huv : u ≠ v) :
     ((ε (Equiv.swap u v) : ↥(ggAutomizer L Bs)) : MulAut ↥Bs) ∈ ggCoxRefl M e :=
@@ -278,19 +287,19 @@ private lemma qtwoDB21_sign_correction {ε₃ ε₄ : Bool} {y x z : Fin m}
   · exact ⟨1, (dEven m).one_mem, by simp, by simp, Or.inl rfl⟩
   · refine ⟨dSign m x y, qtwoDB21_dSign_mem_dEven m hyx.symm, ?_, ?_, Or.inr (Or.inr (Or.inr rfl))⟩
     · exact Sl.dSign_conj m (p := x) (q := y) (a := y) (b := x) hyx false false (by
-        rw [if_pos (Or.inr rfl), if_pos (Or.inl rfl)]; decide)
+        rw [ite_eq_left (Or.inr rfl), ite_eq_left (Or.inl rfl)]; decide)
     · exact Sl.dSign_conj m (p := x) (q := y) (a := x) (b := z) hxz true false (by
-        rw [if_pos (Or.inl rfl), if_neg (fun h => h.elim hxz.symm hyz.symm)]; decide)
+        rw [ite_eq_left (Or.inl rfl), ite_eq_right (fun h => h.elim hxz.symm hyz.symm)]; decide)
   · refine ⟨dSign m x z, qtwoDB21_dSign_mem_dEven m hxz, ?_, ?_, Or.inr (Or.inr (Or.inl rfl))⟩
     · exact Sl.dSign_conj m (p := x) (q := z) (a := y) (b := x) hyx true false (by
-        rw [if_neg (fun h => h.elim hyx hyz), if_pos (Or.inl rfl)]; decide)
+        rw [ite_eq_right (fun h => h.elim hyx hyz), ite_eq_left (Or.inl rfl)]; decide)
     · exact Sl.dSign_conj m (p := x) (q := z) (a := x) (b := z) hxz false false (by
-        rw [if_pos (Or.inl rfl), if_pos (Or.inr rfl)]; decide)
+        rw [ite_eq_left (Or.inl rfl), ite_eq_left (Or.inr rfl)]; decide)
   · refine ⟨dSign m y z, qtwoDB21_dSign_mem_dEven m hyz, ?_, ?_, Or.inr (Or.inl rfl)⟩
     · exact Sl.dSign_conj m (p := y) (q := z) (a := y) (b := x) hyx true false (by
-        rw [if_pos (Or.inl rfl), if_neg (fun h => h.elim hyx.symm hxz)]; decide)
+        rw [ite_eq_left (Or.inl rfl), ite_eq_right (fun h => h.elim hyx.symm hxz)]; decide)
     · exact Sl.dSign_conj m (p := y) (q := z) (a := x) (b := z) hxz true false (by
-        rw [if_neg (fun h => h.elim hyx.symm hxz), if_pos (Or.inr rfl)]; decide)
+        rw [ite_eq_right (fun h => h.elim hyx.symm hxz), ite_eq_left (Or.inr rfl)]; decide)
 
 theorem ggQTwoDUnit_X_far2 (hEA : GGQTwoEdgeAmbientInput)
     (hcfg : GGQTwoDCfg p B Bs x L D J 𝒦 M e) (hm : 7 ≤ m)

@@ -112,7 +112,7 @@ theorem trio_conj_form
     (hdisj : ∀ O ∈ Tr, ∀ O' ∈ Tr, O ≠ O' → Disjoint O O')
     (hcov : Tr.biUnion id = Finset.univ) (hst : ∀ g ∈ T, g • Tr = Tr) :
     ∃ h ∈ AutPerm, Tr = h • labTrio ∧ ∀ t ∈ T, h⁻¹ * t * h ∈ stabUTP := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨h₀, hh₀, hTr⟩ := trio_normal_form T hT Tr hcard hblk hdisj hcov hst
   obtain ⟨hcS, hSP, -⟩ := stab_facts
   set P : Subgroup (Equiv.Perm (Fin 24)) :=
@@ -130,7 +130,7 @@ theorem trio_conj_form
     (hmemP σ).2 ⟨stabUTP_le_autPerm (hQ₀S hσ), smul_labTrio (hSP (hQ₀S hσ))⟩
   set T₁ : Subgroup (Equiv.Perm (Fin 24)) := T.map (MulAut.conj h₀⁻¹).toMonoidHom with hT₁
   have hmemT₁ : ∀ t ∈ T, h₀⁻¹ * t * h₀ ∈ T₁ := fun t ht =>
-    ⟨t, ht, by simp [MulAut.conj_apply]⟩
+    ⟨t, ht, by simp⟩
   have hTcard : Nat.card ↥T = 2 ^ 10 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hT.1).toEquiv.symm, card_sylow_two hT,
       factor_AutPerm]
@@ -145,7 +145,7 @@ theorem trio_conj_form
         have h1 : t • Tr = Tr := hst t ht
         calc ((MulAut.conj h₀⁻¹).toMonoidHom t) • labTrio
             = h₀⁻¹ • (t • (h₀ • labTrio)) := by
-              simp [MulAut.conj_apply, mul_smul]
+              simp [mul_smul]
           _ = labTrio := by rw [← hTr, h1, hTr, inv_smul_smul]
       exact e
   have hPdvd : Nat.card ↥P ∣ Nat.card ↥AutPerm := Subgroup.card_dvd_of_le hPA

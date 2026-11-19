@@ -24,6 +24,7 @@ section Certs
 
 variable {p f : ℕ} {K : Type} [Field K] [Finite K] (h : UnitaryFieldData p f K)
 
+omit [Finite K] in
 theorem scalar_fin4_injective : Function.Injective
     (GeneralLinearGroup.scalar (Fin 4) : Kˣ →* GL (Fin 4) K) := by
   intro a b hab
@@ -31,6 +32,7 @@ theorem scalar_fin4_injective : Function.Injective
   apply Units.ext
   simpa [GeneralLinearGroup.coe_scalar, Matrix.scalar_apply] using this
 
+omit [Finite K] in
 theorem eq_one_of_mem_normOneScalars_of_pow_three {Z : Subgroup (gramSU h
     ((1 : GL (Fin 4) K) : Matrix (Fin 4) (Fin 4) K))} (hZ : Z = normOneScalars h
     (gramSU h ((1 : GL (Fin 4) K) : Matrix (Fin 4) (Fin 4) K)) 4)
@@ -61,7 +63,7 @@ theorem eq_bot_of_perfect_fixed_primeForm {ω : K} (hω : ω ^ 2 + ω + 1 = 0) (
   set S := gramSU h ((1 : GL (Fin 4) K) : Matrix (Fin 4) (Fin 4) K) with hS
   set Z := normOneScalars h S 4 with hZ
   have hZc : Z ≤ Subgroup.center S := (unitary_prime_form_automorphism_data h hC).2.2.2.2.2.1
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set D : Subgroup S := ⁅Y.comap (QuotientGroup.mk' Z), Y.comap (QuotientGroup.mk' Z)⁆ with hD
   have hDp : Group.IsPerfect D :=
     CFSG.RankThree.SubgroupLists.isPerfect_commutator_comap hZc Y
@@ -137,8 +139,8 @@ theorem eq_bot_of_perfect_fixed_primeForm {ω : K} (hω : ω ^ 2 + ω + 1 = 0) (
 
 theorem exists_cubeRoot_fixed (hp3 : p ≠ 3) (hq : p ^ f % 3 = 1) :
     ∃ ω : K, ω ^ 2 + ω + 1 = 0 ∧ h.bar ω = ω ∧ (3 : K) ≠ 0 := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
-  haveI : CharP K p := h.charP
+  have : Fact p.Prime := ⟨h.prime⟩
+  have : CharP K p := h.charP
   have hq3 : ¬ 3 ∣ p ^ f := by omega
   have hdvd : 3 ∣ Nat.card K - 1 := by
     rw [h.card, show 2 * f = f * 2 from mul_comm _ _, pow_mul]
@@ -165,13 +167,14 @@ theorem exists_cubeRoot_fixed (hp3 : p ≠ 3) (hq : p ^ f % 3 = 1) :
     rw [CharP.cast_eq_zero_iff K p] at h3'
     exact hp3 ((Nat.prime_dvd_prime_iff_eq h.prime Nat.prime_three).mp h3')
 
+omit [Finite K] in
 theorem exists_normalized_unitary (hq : p ^ f % 3 = 1)
     (A : primeFormUnitary h ((1 : GL (Fin 4) K) : Matrix (Fin 4) (Fin 4) K)) {c : Kˣ}
     (hc : h.norm (c : K) = 1)
     (hA : (A : GL (Fin 4) K) ^ 3 = GeneralLinearGroup.scalar (Fin 4) c) :
     ∃ B : primeFormUnitary h ((1 : GL (Fin 4) K) : Matrix (Fin 4) (Fin 4) K),
       primeFormConjHom h _ B = primeFormConjHom h _ A ∧ (B : GL (Fin 4) K) ^ 3 = 1 := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   have hc1 : c ^ (p ^ f + 1) = 1 := by
     apply Units.ext
     rw [Units.val_pow_eq_pow_val, Units.val_one, pow_succ]
@@ -207,7 +210,7 @@ theorem exists_normalized_unitary (hq : p ^ f % 3 = 1)
 theorem eq_one_of_pow_three_of_card_sq {K' : Type} [Field K'] [Finite K'] {p : ℕ} (hp : p.Prime)
     (hK : Nat.card K' = p ^ 2) (φ : K' ≃+* K') (hφ : φ ^ 3 = 1) : φ = 1 := by
   by_contra hne
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf φ = 3 := orderOf_eq_prime hφ hne
   have hcard := CFSG.GH74.GLS.IVK.fixedField_card_pow φ
   rw [hord, hK] at hcard
@@ -274,22 +277,22 @@ section Model
 open CFSG.Assembly.RankThreeEven (projSU)
 
 
-theorem threePrimeB3_projSU_four_prime {p : ℕ} [Fact p.Prime] (hp3 : 3 < p) (hq : p % 3 = 1) :
+theorem threePrimeB3_projSU_four_prime {p : ℕ} [Fact p.Prime] (_hp3 : 3 < p) (hq : p % 3 = 1) :
     ThreePrimeB3 (projSU 4 p 1) := by
   set K := GaloisField p (2 * 1) with hKdef
   have hU : UnitaryFieldData p 1 K := Sec4.unitaryFieldData_galoisField p 1 le_rfl
-  haveI := hU.finite
+  have := hU.finite
   have hC : IsPrimeFormGram (1 : GL (Fin 4) K) := Sec4.isPrimeFormGram_one_GL
   have hn : ¬ (4 = 3 ∧ p ^ 1 = 2) := fun h' => absurd h'.1 (by norm_num)
   obtain ⟨⟨e₃⟩, -⟩ := unitary_prime_form_full_semilinear_realization hU hC (by norm_num) hn
   let e : projSU 4 p 1 ≃* primeFormP hU ((1 : GL (Fin 4) K) : Matrix (Fin 4) (Fin 4) K) :=
     (Sec4.projSUEquivStatedProj 4 p 1).trans
       ((unitaryPSUEquiv hU (by norm_num)).symm.trans e₃.symm)
-  haveI : Finite (projSU 4 p 1) := inferInstance
-  haveI hsimple : IsSimpleGroup (projSU 4 p 1) :=
+  have : Finite (projSU 4 p 1) := inferInstance
+  have hsimple : IsSimpleGroup (projSU 4 p 1) :=
     CFSG.PGLModel.isSimpleGroup_projSU_of_admissible
       ⟨Fact.out, le_rfl, by norm_num, fun h' => by have := congrArg Prod.fst h'; simp at this⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' 3
     (Sec13.Res5Proof.three_dvd_card_projSU_four p 1)
   have hy3 : y ^ 3 = 1 := by

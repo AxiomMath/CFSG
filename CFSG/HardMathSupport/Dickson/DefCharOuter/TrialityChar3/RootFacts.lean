@@ -26,6 +26,7 @@ variable {f : ℕ} (hf : 1 ≤ f) {K : Type} [Field K] [Finite K] [CharP K 3]
   (hK : Nat.card K = (3 ^ f) ^ 3) (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ (3 ^ f))
 include hf hK hσ
 
+omit hf [Finite K] [CharP K 3] hK hσ in
 theorem commute_pinnedX_rootD_of_mem_posUnipotent {x : ModGL TwistTag.D4.tag K}
     (hx : x ∈ posUnipotent TwistTag.D4.tag K) (c : K) :
     Commute x (pinnedX TwistTag.D4.tag K rootD c) := by
@@ -59,6 +60,7 @@ theorem commute_pinnedX_rootD_of_mem_posUnipotent {x : ModGL TwistTag.D4.tag K}
     exact Subgroup.mem_centralizer_singleton_iff.2 (hgen α hαr hαp d).symm
   exact Subgroup.mem_centralizer_singleton_iff.1 (hle hx)
 
+omit hf [Finite K] [CharP K 3] hK hσ in
 theorem eq_rootB_or_rootC_or_rootD_of_fixed {γ : Fin TwistTag.D4.tag.rank → ℤ}
     (hγ : IsRoot TwistTag.D4.tag γ) (hpos : 0 < height γ)
     (hρ : permLattice TwistTag.D4.perm γ = γ) : γ = rootB ∨ γ = rootC ∨ γ = rootD := by

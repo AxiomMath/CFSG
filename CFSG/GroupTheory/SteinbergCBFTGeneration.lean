@@ -66,11 +66,11 @@ theorem ft_lemma_7_6 (hG : IsPSolvable p G) (P : Sylow p G) :
     sSup (ftS p (P : Subgroup G)) = ⊤ := by
   have hsep := isPiSeparable_of_isPSolvable hp.out hG
   have hPX : (P : Subgroup G) ≤ sSup (ftS p (P : Subgroup G)) := by
-    refine le_sSup (mem_ftS_of (q := p) le_rfl (hasPSeries_of_isPGroup P.isPGroup') ?_)
+    refine le_sSup (mem_ftS_of (q := p) le_rfl (hasPSeries_of_isPGroup P.isPGroup) ?_)
     intro r hr
     have hr' := Nat.prime_of_mem_primeFactors hr
     have := (Nat.prime_dvd_prime_iff_eq hr' hp.out).1
-    obtain ⟨k, hk⟩ := P.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := P.isPGroup.exists_card_eq
     rw [Nat.mem_primeFactors, hk] at hr
     rw [Finset.mem_insert, Finset.mem_singleton]
     exact Or.inl (this (hr'.dvd_of_dvd_pow hr.2.1))

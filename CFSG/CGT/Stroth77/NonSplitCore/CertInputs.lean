@@ -159,11 +159,11 @@ open Equiv Equiv.Perm CFSG.Permutation.SymmetricCoxeter
 
 @[expose] def corr : (Fin 15 → U4) →+ (Fin 5 → U4) := sparse corrL
 
-@[expose] def foxAll : (Fin 5 → U4) →+ (Fin 15 → U4) := Pi.addMonoidHom fun j => Ext.fox actC sw (rel j)
+@[expose] def foxAll : (Fin 5 → U4) →+ (Fin 15 → U4) := _root_.AddMonoidHom.pi fun j => Ext.fox actC sw (rel j)
 
 @[expose] def certLHS : (Fin 15 → U4) →+ (Fin 15 → U4) :=
   AddMonoidHom.id _ + foxAll.comp corr + ((smulAddHom (ZMod 2) (Fin 15 → U4)).flip titsVal).comp lamHom
 
-@[expose] def certRHS : (Fin 15 → U4) →+ (Fin 15 → U4) := (sparse certL).comp (Pi.addMonoidHom cycHom)
+@[expose] def certRHS : (Fin 15 → U4) →+ (Fin 15 → U4) := (sparse certL).comp (_root_.AddMonoidHom.pi cycHom)
 
 end CFSG.CGT.Stroth77.Core

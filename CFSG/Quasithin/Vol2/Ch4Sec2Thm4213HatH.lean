@@ -70,14 +70,14 @@ theorem heP0_le :
     heP0 ≤ heP ⊓ Subgroup.centralizer ({heGenPerm 0} : Set (Equiv.Perm (Fin 8330))) := by
   rw [heP0, Subgroup.closure_le]
   intro g hg
-  obtain ⟨w, hw, rfl⟩ := List.mem_map.1 (Set.mem_setOf_eq ▸ hg)
+  obtain ⟨w, hw, rfl⟩ := List.mem_map.1 (Set.mem_ofPred_eq ▸ hg)
   exact grp0_le (prod_mem_grp0 (p0Words_lt w hw))
 
 theorem heP1_le :
     heP1 ≤ heP ⊓ Subgroup.centralizer ({heT1P} : Set (Equiv.Perm (Fin 8330))) := by
   rw [heP1, Subgroup.closure_le]
   intro g hg
-  obtain ⟨w, hw, rfl⟩ := List.mem_map.1 (Set.mem_setOf_eq ▸ hg)
+  obtain ⟨w, hw, rfl⟩ := List.mem_map.1 (Set.mem_ofPred_eq ▸ hg)
   exact grp1_le (prod_mem_grp1 (p1Words_lt w hw))
 
 theorem heD0_mem :

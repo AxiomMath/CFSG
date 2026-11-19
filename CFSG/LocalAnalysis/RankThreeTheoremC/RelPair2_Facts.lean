@@ -34,7 +34,7 @@ theorem IsRelPairCandidate.not_hasPrimeConstraint (hS : Setting G) (hD1 : Theore
       rw [hn]
       exact ((Nat.coprime_primes hprime Nat.prime_two).mpr hodd).pow_right n
     exact ambient_prime_constraint_signalizer_le_core p hprime hodd H D A hcon
-      (P.isPGroup'.to_le hDP) hDH hcop hAH hDA hcontains
+      (P.isPGroup.to_le hDP) hDH hcop hAH hDA hcontains
   have hjoin := invariantTwoJoinIn_le_of_forall hall
   have hdvd : p ∣ Nat.card ((primeComplementCore (G := H) p).map H.subtype) :=
     hH.not_coprime.trans (Subgroup.card_dvd_of_le hjoin)
@@ -80,7 +80,7 @@ theorem IsOptimalRelPair.facts (hS : Setting G) (hD1 : TheoremD1 G) (hK : KFactL
   pRank_eq := hopt.pair.cand.pRank_eq_two hS hD1 hp hd.ext hd.not_le_normalizer hR h13
   normalizer_pCore := hopt.normalizer_pCoreOf_eq
   sylow := hopt.isSylowOf_pCoreOf (sigmaA_prime p hp) (sigmaA_odd p hp)
-    (P.isPGroup'.to_le hd.ext.obstruction.2.1)
+    (P.isPGroup.to_le hd.ext.obstruction.2.1)
   pCore_le := hopt.pCoreOf_le_V hd
   le_M := (hopt.invariantTwoMaximalWithin_H hd).1
   maximal := (hopt.invariantTwoMaximalWithin_H hd).2

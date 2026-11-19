@@ -140,7 +140,7 @@ theorem s0_le :
   dsimp only
   rcases Nat.lt_or_ge k 4 with h4 | h4
   · rw [s0Gens_get h4]
-    exact d4P_le_d4G (d4Q_le (subset_closure ⟨k, by rw [Set.mem_setOf_eq, d4QGens_size']; exact h4,
+    exact d4P_le_d4G (d4Q_le (subset_closure ⟨k, by rw [Set.mem_ofPred_eq, d4QGens_size']; exact h4,
       rfl⟩))
   · obtain rfl : k = 4 := by omega
     rw [s0Gens_get_four']

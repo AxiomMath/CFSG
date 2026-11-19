@@ -44,7 +44,7 @@ private theorem s16h_card_sec_of_l3Data [Finite W] {L : Subgroup (MulAut W)} {I 
   exact Nat.eq_of_mul_eq_mul_right hpos this
 
 private noncomputable def s16h_secEquivOfL3Data [Finite W] {L : Subgroup (MulAut W)}
-    {I Z : Subgroup W} (D : CFSG.Quasithin.L3Data L I Z) (hZI : Z ≤ I) :
+    {I Z : Subgroup W} (D : CFSG.Quasithin.L3Data L I Z) (_hZI : Z ≤ I) :
     Sec I Z ≃* Multiplicative CFSG.Quasithin.L3.Vec := by
   classical
   have hker : Z.subgroupOf I ≤ D.β.ker := by
@@ -110,7 +110,7 @@ private theorem s16h_iSup_ne_zero {α : Type*} [CompleteLattice α] (f : Fin 2 �
   · exact le_iSup_of_le 1 (le_iSup_of_le (by norm_num) le_rfl)
 
 private theorem s16h_img_inf_eq_bot [Finite W] {Z I J U : Subgroup W}
-    (hZI : Z ≤ I) (hZJ : Z ≤ J) (hIU : I ≤ U) (hJU : J ≤ U) (hinf : I ⊓ J ≤ Z) :
+    (_hZI : Z ≤ I) (hZJ : Z ≤ J) (_hIU : I ≤ U) (_hJU : J ≤ U) (hinf : I ⊓ J ≤ Z) :
     s16h_img Z I U ⊓ s16h_img Z J U = ⊥ := by
   classical
   rw [eq_bot_iff]
@@ -191,20 +191,20 @@ private theorem s16h_eq_of_mul_eq_mul {Q : Type*} [CommGroup Q] {A B : Subgroup 
 private theorem s16h_card_dvd_of_free {G X : Type*} [Group G] [Finite G] [MulAction G X] [Finite X]
     (hfree : ∀ g : G, g ≠ 1 → ∀ x : X, g • x ≠ x) : Nat.card G ∣ Nat.card X := by
   classical
-  haveI : Fintype G := Fintype.ofFinite G
-  haveI : Fintype X := Fintype.ofFinite X
+  have : Fintype G := Fintype.ofFinite G
+  have : Fintype X := Fintype.ofFinite X
   have hsum := MulAction.sum_card_fixedBy_eq_card_orbits_mul_card_group G X
   have hfixed : ∀ g : G, Fintype.card (MulAction.fixedBy X g) =
       if g = 1 then Fintype.card X else 0 := by
     intro g
     by_cases hg : g = 1
     · subst hg
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       have hone : MulAction.fixedBy X (1 : G) = Set.univ := by
         ext x
-        simp [MulAction.mem_fixedBy]
+        simp
       exact Fintype.card_congr ((Set.equivOfEq hone).trans (Equiv.Set.univ X))
-    · rw [if_neg hg]
+    · rw [ite_eq_right hg]
       have hempty : MulAction.fixedBy X g = ∅ := by
         ext x
         constructor
@@ -212,15 +212,15 @@ private theorem s16h_card_dvd_of_free {G X : Type*} [Group G] [Finite G] [MulAct
           exact (hfree g hg x ((MulAction.mem_fixedBy).mp hx)).elim
         · intro hx
           simp at hx
-      haveI : IsEmpty ↥(MulAction.fixedBy X g) := by
+      have : IsEmpty ↥(MulAction.fixedBy X g) := by
         refine ⟨fun x => ?_⟩
         have hx : (x : X) ∈ (∅ : Set X) := hempty ▸ x.2
-        simpa using hx
+        simp at hx
       exact Fintype.card_eq_zero_iff.mpr inferInstance
   rw [Finset.sum_congr rfl (fun g _ => hfixed g)] at hsum
   rw [Finset.sum_ite_eq' Finset.univ (1 : G) (fun _ => Fintype.card X)] at hsum
   rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card]
-  simp only [Finset.mem_univ, if_true] at hsum
+  simp only [Finset.mem_univ, ite_true] at hsum
   exact ⟨_, by rw [hsum, mul_comm]⟩
 
 theorem s16h_twoNat_covering [Finite W] {L : Subgroup (MulAut W)} {U Z : Subgroup W}
@@ -297,7 +297,7 @@ theorem s16h_twoNat_covering [Finite W] {L : Subgroup (MulAut W)} {U Z : Subgrou
     exact hdne hd1
   refine ⟨⟨((l0 : X₀) : MulAut W)⁻¹, L.inv_mem hl0L'⟩,
     ⟨((b0 : X₀) : MulAut W), hb0E'⟩, hbcent, ?_, ?_⟩
-  · simp only [hX₀]
+  · simp only
     exact (l0⁻¹ * b0 * l0).2
   · change (CFSG.Quasithin.B5.secHom X₀ hX₀U hX₀Z) (l0⁻¹ * b0 * l0) v = v
     exact h3

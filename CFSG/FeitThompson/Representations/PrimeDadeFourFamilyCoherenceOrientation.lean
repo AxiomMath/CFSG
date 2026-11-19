@@ -169,7 +169,7 @@ theorem isOrthonormalFamily_pair_union_image
     · exact hbu q
     · exact hua p
     · exact hub p
-    · rw [hu p q, if_neg (fun hc : p = q => hne (by rw [hc]))]
+    · rw [hu p q, ite_eq_right (fun hc : p = q => hne (by rw [hc]))]
 
 end Blocks
 

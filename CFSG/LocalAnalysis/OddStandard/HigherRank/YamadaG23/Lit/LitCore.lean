@@ -16,7 +16,7 @@ private lemma isPerfect_of_isSimpleGroup_of_not_comm {A : Type*} [Group A] (hA :
   rw [Group.isPerfect_def]
   rcases hA.eq_bot_or_eq_top_of_normal (commutator A) with h | h
   · exfalso
-    haveI : IsMulCommutative A := (commutator_eq_bot_iff A).mp h
+    have : IsMulCommutative A := (commutator_eq_bot_iff A).mp h
     exact hnc fun a b => mul_comm a b
   · exact h
 
@@ -25,7 +25,7 @@ private lemma center_eq_bot_of_isSimpleGroup_of_not_comm {A : Type*} [Group A]
   rcases hA.eq_bot_or_eq_top_of_normal (center A) with h | h
   · exact h
   · exfalso
-    haveI : IsMulCommutative A := center_eq_top_iff.mp h
+    have : IsMulCommutative A := center_eq_top_iff.mp h
     exact hnc fun a b => mul_comm a b
 
 private lemma map_symm_map_self {Y : Type*} [Group Y] (e : Y ≃* Y) (K : Subgroup Y) :
@@ -35,6 +35,7 @@ private lemma map_symm_map_self {Y : Type*} [Group Y] (e : Y ≃* Y) (K : Subgro
     ext x; simp
   rw [h, Subgroup.map_id]
 
+omit [Finite X] [Finite G] in
 theorem lit_H_hom {M : Subgroup G} (hMs : IsSimpleGroup ↥M)
     (hMn : ¬ ∀ a ∈ M, ∀ b ∈ M, a * b = b * a) {H : Subgroup X} (hHM : H.map π = M)
     (hcent : ∀ x ∈ H, ∀ y ∈ π.ker, x * y = y * x) :
@@ -80,6 +81,7 @@ theorem lit_H_hom {M : Subgroup G} (hMs : IsSimpleGroup ↥M)
       exact Subgroup.mem_bot.mp hmem
   exact ⟨ρ, hρsurj, hρcoe, hρker⟩
 
+omit [Finite X] [Finite G] in
 theorem lit_quasisimple {M : Subgroup G} (hMs : IsSimpleGroup ↥M)
     (hMn : ¬ ∀ a ∈ M, ∀ b ∈ M, a * b = b * a) {H : Subgroup X} (hH : ⁅H, H⁆ = H)
     (hHM : H.map π = M) (hcent : ∀ x ∈ H, ∀ y ∈ π.ker, x * y = y * x) :
@@ -91,7 +93,7 @@ theorem lit_quasisimple {M : Subgroup G} (hMs : IsSimpleGroup ↥M)
     (QuotientGroup.quotientMulEquivOfEq hρker.symm).trans e₁
   refine ⟨hHperf, ?_, ?_⟩
   · exact e.isSimpleGroup_congr.mpr hMs
-  · push_neg at hMn
+  · push Not at hMn
     obtain ⟨a, ha, b, hb, hab⟩ := hMn
     refine ⟨e.symm ⟨a, ha⟩, e.symm ⟨b, hb⟩, fun hcon => hab ?_⟩
     have hcon' : (⟨a, ha⟩ : ↥M) * ⟨b, hb⟩ = ⟨b, hb⟩ * ⟨a, ha⟩ := by
@@ -99,6 +101,7 @@ theorem lit_quasisimple {M : Subgroup G} (hMs : IsSimpleGroup ↥M)
       simpa using this
     exact congrArg Subtype.val hcon'
 
+omit [Finite X] [Finite G] in
 theorem lit_centralizer_H {M : Subgroup G} (hC : centralizer (M : Set G) = ⊥) {H : Subgroup X}
     (hHM : H.map π = M) (hcent : ∀ x ∈ H, ∀ y ∈ π.ker, x * y = y * x) :
     centralizer (H : Set X) = π.ker := by
@@ -118,17 +121,18 @@ theorem lit_centralizer_H {M : Subgroup G} (hC : centralizer (M : Set G) = ⊥) 
     intro x hx
     exact hcent x hx c (MonoidHom.mem_ker.mp hc)
 
+omit [Finite G] in
 theorem lit_perf_char (hπ : Function.Surjective π) (hsolv : Group.IsSolvable ↥π.ker)
     {M : Subgroup G} [M.Normal] (hMs : IsSimpleGroup ↥M)
     (hMn : ¬ ∀ a ∈ M, ∀ b ∈ M, a * b = b * a)
     (hmin : ∀ K : Subgroup G, K.Normal → K ≠ ⊥ → M ≤ K) :
     (litPerf (M.comap π)).Characteristic := by
-  haveI hπker_solv : Group.IsSolvable ↥π.ker := hsolv
-  haveI : Nontrivial ↥M := hMs.toNontrivial
+  have hπker_solv : Group.IsSolvable ↥π.ker := hsolv
+  have : Nontrivial ↥M := hMs.toNontrivial
   have hncM : ¬ ∀ a b : ↥M, a * b = b * a := by
     intro h
     exact hMn fun a ha b hb => congrArg Subtype.val (h ⟨a, ha⟩ ⟨b, hb⟩)
-  haveI : Group.IsPerfect ↥M := isPerfect_of_isSimpleGroup_of_not_comm hMs hncM
+  have : Group.IsPerfect ↥M := isPerfect_of_isSimpleGroup_of_not_comm hMs hncM
   have hMne : M ≠ ⊥ := (Subgroup.nontrivial_iff_ne_bot M).mp inferInstance
   have key : ∀ N : Subgroup X, N.Normal → Group.IsSolvable ↥N → N ≤ π.ker := by
     intro N hNn hNsolv
@@ -136,10 +140,10 @@ theorem lit_perf_char (hπ : Function.Surjective π) (hsolv : Group.IsSolvable �
     have hmapne : N.map π ≠ ⊥ := fun h => hNle ((Subgroup.map_eq_bot_iff N).mp h)
     have hmapn : (N.map π).Normal := hNn.map π hπ
     have hMle : M ≤ N.map π := hmin (N.map π) hmapn hmapne
-    haveI : Group.IsSolvable ↥N := hNsolv
-    haveI : Group.IsSolvable ↥(N.map π) :=
+    have : Group.IsSolvable ↥N := hNsolv
+    have : Group.IsSolvable ↥(N.map π) :=
       Group.isSolvable_of_surjective (MonoidHom.subgroupMap_surjective π N)
-    haveI : Group.IsSolvable ↥M :=
+    have : Group.IsSolvable ↥M :=
       Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hMle)
     exact (Group.IsPerfect.not_isSolvable ↥M) inferInstance
   have hPmap_solv : ∀ f : X ≃* X, Group.IsSolvable ↥(π.ker.map f.toMonoidHom) := fun f =>

@@ -387,7 +387,7 @@ theorem scalar_of_hall (N : Subgroup M) (hNsolv : Group.IsSolvable N) (hNodd : O
     obtain ⟨R⟩ := (inferInstance : Nonempty (Sylow ℓ A))
     set K := (R : Subgroup A).map A.subtype with hK
     have hKA : K ≤ A := Subgroup.map_subtype_le _
-    have hKp : IsPGroup ℓ K := R.isPGroup'.map A.subtype
+    have hKp : IsPGroup ℓ K := R.isPGroup.map A.subtype
     have hKinv : ∀ x ∈ K, s * x * s⁻¹ ∈ K := fun x hx => by rw [hAfix x (hKA hx)]; exact hx
     obtain ⟨P₁, hP₁, hP₁inv, hKP₁⟩ :=
       exists_invariant_sylow_le N hNsolv hNodd hsN hs hℓ K (hKA.trans hAN) hKp hKinv

@@ -24,8 +24,8 @@ theorem mem_family_of_isElemAbelian {G : Type*} [Group G] [Finite G] {S V : Subg
       by_cases hBV : B = V
       · rw [hBV]; exact hV
       · have hVBlt : V < B := lt_of_le_of_ne hVB (Ne.symm hBV)
-        haveI : Fintype G := Fintype.ofFinite G
-        haveI : Finite (Subgroup G) := Finite.of_injective _ SetLike.coe_injective
+        have : Fintype G := Fintype.ofFinite G
+        have : Finite (Subgroup G) := Finite.of_injective _ SetLike.coe_injective
         have hsne : ({C : Subgroup G | V ≤ C ∧ C < B} : Set (Subgroup G)).Nonempty :=
           ⟨V, le_rfl, hVBlt⟩
         obtain ⟨C, hCs, hCmax⟩ := (Set.toFinite _).exists_maximal hsne
@@ -34,7 +34,7 @@ theorem mem_family_of_isElemAbelian {G : Type*} [Group G] [Finite G] {S V : Subg
         have hCS : C ≤ S := hCB.trans hBS
         have hClt : Nat.card C < n := by
           rw [← hBn]; exact Subgroup.card_lt_of_lt hCBlt
-        haveI : IsMulCommutative B := hBe.1
+        have : IsMulCommutative B := hBe.1
         have hCe : CFSG.Open.IsElemAbelian 2 C := by
           constructor
           · refine ⟨⟨fun x y => ?_⟩⟩
@@ -45,7 +45,7 @@ theorem mem_family_of_isElemAbelian {G : Type*} [Group G] [Finite G] {S V : Subg
           · intro x hx
             exact hBe.2 x (hCB hx)
         have hCl : C ∈ 𝓛 := ih (Nat.card C) hClt C rfl hCS hCe hVC
-        obtain ⟨s, hsB, hsnC⟩ := SetLike.exists_of_lt hCBlt
+        obtain ⟨s, hsB, hsnC⟩ := _root_.IsConcreteLE.exists_of_lt hCBlt
         have hsS : s ∈ S := hBS hsB
         have hs2 : s ^ 2 = 1 := hBe.2 s hsB
         have hcomm : ∀ b ∈ C, s * b = b * s := by
@@ -65,7 +65,7 @@ theorem mem_family_of_isElemAbelian {G : Type*} [Group G] [Finite G] {S V : Subg
           exact hCD.symm ▸ hsD
         have hcardCDlt : Nat.card C < Nat.card D := Subgroup.card_lt_of_lt hCDlt
         have hdiv : Nat.card C ∣ Nat.card D := Subgroup.card_dvd_of_le hCDle
-        haveI : Nonempty C := ⟨⟨1, C.one_mem⟩⟩
+        have : Nonempty C := ⟨⟨1, C.one_mem⟩⟩
         have hposC : 0 < Nat.card C := Nat.card_pos
         obtain ⟨q, hq⟩ := exists_eq_mul_left_of_dvd hdiv
         have hq0 : q ≠ 0 := by

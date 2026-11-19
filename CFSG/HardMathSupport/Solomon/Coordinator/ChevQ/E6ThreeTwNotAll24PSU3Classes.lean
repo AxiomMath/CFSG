@@ -414,7 +414,7 @@ theorem twIsConj_mk_of_unitary (hF : UnitaryFieldData p n F) (h3 : 3 ∣ p ^ n +
   have hδ' : (δ : GL (Fin 3) F) * (x : GL (Fin 3) F) = (x : GL (Fin 3) F) * δ := hδ
   have hc : ((⟨G * δ, hGδ⟩ * x * ⟨G * δ, hGδ⟩⁻¹ : unitarySU p n F 3) : GL (Fin 3) F) =
       G * (x : GL (Fin 3) F) * G⁻¹ := by
-    simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_mk]
+    simp only [Subgroup.coe_mul, Subgroup.coe_inv]
     calc G * (δ : GL (Fin 3) F) * x * (G * δ)⁻¹ =
           G * ((δ : GL (Fin 3) F) * x) * (δ : GL (Fin 3) F)⁻¹ * G⁻¹ := by group
       _ = G * (x : GL (Fin 3) F) * G⁻¹ := by rw [hδ']; group
@@ -480,7 +480,7 @@ theorem twIsConj_mk_of_pow_three_eq (hF : UnitaryFieldData p n F) (h9 : 9 ∣ p 
     rw [← QuotientGroup.mk_mul, ← QuotientGroup.mk_inv, ← QuotientGroup.mk_mul]
     congr 1
     apply Subtype.ext
-    simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_mk]
+    simp only [Subgroup.coe_mul, Subgroup.coe_inv]
     rw [hgx, mul_inv_cancel_right]
   · exact twIsConj_mk_of_pow_three_eq_smul hF h9 hu hu3 hxu hyu
 

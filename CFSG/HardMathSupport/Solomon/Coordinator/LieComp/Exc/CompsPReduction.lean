@@ -26,7 +26,7 @@ section Excl
 
 
 theorem not_comp_eq_B4_F4_odd {p : ℕ} (hp2 : p % 2 = 1) {μ : Fin Tag.F4.rank → ℤ}
-    (hμ : kacF4.IsNormal p μ) {x : Option (Fin Tag.F4.rank)}
+    (_hμ : kacF4.IsNormal p μ) {x : Option (Fin Tag.F4.rank)}
     (hc : kacF4.comp p μ x = {y | nodeIdx y ∈ ([0, 1, 2, 3] : List ℕ)}) : False := by
   have hmem : ∀ y : Option (Fin Tag.F4.rank), nodeIdx y ∈ ([0, 1, 2, 3] : List ℕ) →
       kacF4.IsZ p μ y := fun y hy => by

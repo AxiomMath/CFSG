@@ -186,9 +186,9 @@ theorem kgLangS1E_cont_twE6_odd
   unfold CFSG.StandardType.LargeEvenRawDatum CFSG.Assembly.LargeEvenRecipeTwisted
   obtain ⟨K₁, hf₁, hfin₁, hK₁, hQ₁, hfc₁, hif₁, hpc₁⟩ := hraw
   refine ⟨K₁, hf₁, hfin₁, hK₁, hQ₁, ?_⟩
-  letI : Field K₁ := hf₁
-  letI : Finite K₁ := hfin₁
-  haveI : CharP K₁ 2 := charP_two_of_card (m := n * 2) (by rw [hK₁, pow_mul])
+  let : Field K₁ := hf₁
+  let : Finite K₁ := hfin₁
+  have : CharP K₁ 2 := charP_two_of_card (m := n * 2) (by rw [hK₁, pow_mul])
   have hn3 : 3 ≤ n := by
     have h1 : 1 ≤ n := hlab.1
     obtain ⟨a, ha⟩ : ∃ a, n = 2 * a + 1 := hodd
@@ -199,13 +199,13 @@ theorem kgLangS1E_cont_twE6_odd
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn3
   obtain ⟨hs, hna⟩ := TwE6Dvd.isSimpleGroup_recipeR hlab.1 hK₁
   let L : Type := AlgebraicClosure K₁
-  letI : Field L := inferInstanceAs (Field (AlgebraicClosure K₁))
-  letI : IsAlgClosed L := inferInstanceAs (IsAlgClosed (AlgebraicClosure K₁))
-  letI : Algebra K₁ L := inferInstanceAs (Algebra K₁ (AlgebraicClosure K₁))
-  haveI : IsAlgClosure K₁ L := inferInstanceAs (IsAlgClosure K₁ (AlgebraicClosure K₁))
-  haveI : Algebra.IsAlgebraic K₁ L :=
+  let : Field L := inferInstanceAs (Field (AlgebraicClosure K₁))
+  let : IsAlgClosed L := inferInstanceAs (IsAlgClosed (AlgebraicClosure K₁))
+  let : Algebra K₁ L := inferInstanceAs (Algebra K₁ (AlgebraicClosure K₁))
+  have : IsAlgClosure K₁ L := inferInstanceAs (IsAlgClosure K₁ (AlgebraicClosure K₁))
+  have : Algebra.IsAlgebraic K₁ L :=
     inferInstanceAs (Algebra.IsAlgebraic K₁ (AlgebraicClosure K₁))
-  haveI : CharP L 2 := charP_of_injective_algebraMap (algebraMap K₁ L).injective 2
+  have : CharP L 2 := charP_of_injective_algebraMap (algebraMap K₁ L).injective 2
   intro K _ _ θ hcomm A hA hAIF α₀ hα₀ hα₀I hcard2 ξ hξ hξI J₀ hJ₀ hTor
   obtain ⟨u, hu, f, hf, huf⟩ := hAIF ξ hξ
   have hufI : u * f ∉ kgLangS1EExcTwE6OddAux_I K₁ n := by rw [← huf]; exact hξI
@@ -222,7 +222,7 @@ theorem kgLangS1E_cont_twE6_odd
   let F₀ : ModGL TwistTag.E6.tag L →* ModGL TwistTag.E6.tag L :=
     frobTwistGL TwistTag.E6.tag L 2 eb (diagramMap TwistTag.E6 L)
   let G : Subgroup (ModGL TwistTag.E6.tag L) := ratPts TwistTag.E6.tag L (endPow F₀ 3)
-  haveI : Finite G := hfinB
+  have : Finite G := hfinB
   have hstab : ∀ g ∈ G, F₀ g ∈ G := by
     intro g hg
     refine ⟨hstab₀ g hg.1, ?_⟩

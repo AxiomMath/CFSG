@@ -194,7 +194,7 @@ theorem good_claim (hK : Nat.card K ≤ 243) :
   induction n using Nat.strong_induction_on with
   | _ n ih =>
   intro P hPn hP2 hPK hPZ
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have step1 : ∀ x ∈ P, Good K Z x → ∀ g ∈ P,
       conjS g (aOf K x) = aOf K x ∨
         ∀ a ∈ aOf K x, ∀ b ∈ conjS g (aOf K x), a * b = b * a := by
@@ -215,7 +215,7 @@ theorem good_claim (hK : Nat.card K ≤ 243) :
         apply htop
         exact le_antisymm hxP ((subgroupOf_eq_top.mp h))
       obtain ⟨M', hM'c, hHM'⟩ := (IsCoatomic.eq_top_or_exists_le_coatom H').resolve_left hH'top
-      haveI : Group.IsNilpotent ↥P := hP2.isNilpotent
+      have : Group.IsNilpotent ↥P := hP2.isNilpotent
       have hM'n : M'.Normal :=
         NormalizerCondition.normal_of_coatom M' Group.normalizerCondition_of_isNilpotent hM'c
       set M : Subgroup Y := M'.map P.subtype with hM

@@ -25,6 +25,7 @@ section Model
 variable {f : ℕ} {G : Type} [Group G] [Finite G]
 
 
+omit [Finite G] in
 private theorem exists_twE6_model (hf : 1 ≤ f) {ψ : twistedE6Group 2 f →* G}
     (hker : ψ.ker ≤ Subgroup.center (twistedE6Group 2 f))
     (hC : Subgroup.centralizer (ψ.range : Set G) = ⊥) :
@@ -75,7 +76,7 @@ private theorem exists_twE6_model (hf : 1 ≤ f) {ψ : twistedE6Group 2 f →* G
     have hzc := RootCentExc.map_mem_center_of_surjective hπ hz
     rw [hZ, Subgroup.mem_bot] at hzc
     exact hzc
-  haveI : ψ.ker.Normal := MonoidHom.normal_ker ψ
+  have : ψ.ker.Normal := MonoidHom.normal_ker ψ
   let eC : twistedE6RootGroup (GaloisField 2 (2 * f))
       (iterateFrobeniusEquiv (GaloisField 2 (2 * f)) 2 f) ≃*
       twistedE6Group 2 f ⧸ ψ.ker :=
@@ -162,6 +163,7 @@ private theorem exists_conj_pinnedX_one_torus {f : ℕ} {c : GaloisField 2 (2 * 
   simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one] at hconj
   exact ⟨h, hh, hconj⟩
 
+omit [Finite G] in
 private theorem exists_twE6_model_pinnedX (hf : 1 ≤ f) {ψ : twistedE6Group 2 f →* G}
     (hker : ψ.ker ≤ Subgroup.center (twistedE6Group 2 f))
     (hC : Subgroup.centralizer (ψ.range : Set G) = ⊥) {u x z : twistedE6Group 2 f}
@@ -174,7 +176,7 @@ private theorem exists_twE6_model_pinnedX (hf : 1 ≤ f) {ψ : twistedE6Group 2 
           (iterateFrobeniusEquiv (GaloisField 2 (2 * f)) 2 f) →* G)
       (π : twistedE6Group 2 f →* twistedE6RootGroup (GaloisField 2 (2 * f))
         (iterateFrobeniusEquiv (GaloisField 2 (2 * f)) 2 f))
-      (hmem : pinnedX TwistTag.E6.tag (GaloisField 2 (2 * f)) e6HighestRoot c ∈
+      (_hmem : pinnedX TwistTag.E6.tag (GaloisField 2 (2 * f)) e6HighestRoot c ∈
         graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * f))
           (iterateFrobeniusEquiv (GaloisField 2 (2 * f)) 2 f)),
       Function.Injective ψbar ∧ ψbar.range = ψ.range ∧ (∀ y, ψbar (π y) = ψ y) ∧
@@ -198,12 +200,12 @@ private theorem exists_twE6_model_pinnedX (hf : 1 ≤ f) {ψ : twistedE6Group 2 
         _ = 1 := by rw [h1]; group
     rw [hz1', mul_one, mul_inv_cancel, map_one] at hz1
     exact hz1 rfl
-  have hmem : pinnedX TwistTag.E6.tag (GaloisField 2 (2 * f)) e6HighestRoot c ∈
+  have _hmem : pinnedX TwistTag.E6.tag (GaloisField 2 (2 * f)) e6HighestRoot c ∈
       graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * f))
         (iterateFrobeniusEquiv (GaloisField 2 (2 * f)) 2 f) := by
     have h := (π (x⁻¹ * z * x)).2
     rwa [hπz] at h
-  exact ⟨ψbar, π, hmem, hψbar_inj, hψbar_range, hcomp, hπz, hc0⟩
+  exact ⟨ψbar, π, _hmem, hψbar_inj, hψbar_range, hcomp, hπz, hc0⟩
 
 private theorem exists_conj_pinnedX_one_of_model {f : ℕ} {c : GaloisField 2 (2 * f)}
     {π : twistedE6Group 2 f →* twistedE6RootGroup (GaloisField 2 (2 * f))
@@ -226,6 +228,7 @@ private theorem exists_conj_pinnedX_one_of_model {f : ℕ} {c : GaloisField 2 (2
   rw [Subgroup.coe_mul, Subgroup.coe_mul, Subgroup.coe_inv, hπz]
   exact hconj
 
+omit [Finite G] in
 private theorem psi_conj_eq {f : ℕ} {ψ : twistedE6Group 2 f →* G}
     {ψbar : twistedE6RootGroup (GaloisField 2 (2 * f))
       (iterateFrobeniusEquiv (GaloisField 2 (2 * f)) 2 f) →* G}
@@ -247,6 +250,7 @@ private theorem psi_conj_eq {f : ℕ} {ψ : twistedE6Group 2 f →* G}
   congr 1
   group
 
+omit [Finite G] in
 theorem pCoreOf_le_range_twE6_of_conj (hf : 1 ≤ f) (ψ : twistedE6Group 2 f →* G)
     (hker : ψ.ker ≤ Subgroup.center (twistedE6Group 2 f))
     (hC : Subgroup.centralizer (ψ.range : Set G) = ⊥) {u z : twistedE6Group 2 f}

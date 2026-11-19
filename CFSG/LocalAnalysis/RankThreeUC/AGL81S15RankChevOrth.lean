@@ -165,7 +165,7 @@ theorem rk_plus_arith {e l : ℕ} (he : 0 < e) (hl : 1 ≤ l) :
       else (if Even e then 2 * l else l) / e) =
     (if e ∣ 2 * l ∧ ¬ e ∣ l then 2 * l / e - 1 else l / (e / Nat.gcd e 2)) := by
   by_cases hc : e ∣ 2 * l ∧ ¬ e ∣ l
-  · rw [if_pos hc, if_pos hc]
+  · rw [ite_eq_left hc, ite_eq_left hc]
     obtain ⟨⟨k, hk⟩, hnel⟩ := hc
     have hev : Even e := by
       by_contra hodd
@@ -179,13 +179,13 @@ theorem rk_plus_arith {e l : ℕ} (he : 0 < e) (hl : 1 ≤ l) :
     have h2 : 2 * l / e = k := by rw [hk]; exact Nat.mul_div_cancel_left k he
     have h1 : (k - 1) * e = 2 * l - e := by
       rw [Nat.sub_one_mul, Nat.mul_comm, ← hk]
-    rw [if_pos hev, h2]
+    rw [ite_eq_left hev, h2]
     refine Nat.div_eq_of_lt_le ?_ ?_
     · rw [h1]; omega
     · have : (k - 1 + 1) * e = 2 * l := by
         rw [Nat.sub_add_cancel hk1, Nat.mul_comm, ← hk]
       rw [this]; omega
-  · rw [if_neg hc, if_neg hc]
+  · rw [ite_eq_right hc, ite_eq_right hc]
     exact sp_rank_arith e l
 
 theorem rk_minus_arith {e l : ℕ} (he : 0 < e) (hl : 1 ≤ l) :
@@ -193,7 +193,7 @@ theorem rk_minus_arith {e l : ℕ} (he : 0 < e) (hl : 1 ≤ l) :
       else (if Even e then 2 * l else l) / e) =
     l / (e / Nat.gcd e 2) - (if e ∣ l then 1 else 0) := by
   by_cases hd : e ∣ l
-  · rw [if_pos hd, if_pos hd]
+  · rw [ite_eq_left hd, ite_eq_left hd]
     obtain ⟨k, hk⟩ := hd
     have hk1 : 1 ≤ k := by
       rcases Nat.eq_zero_or_pos k with h | h
@@ -208,7 +208,7 @@ theorem rk_minus_arith {e l : ℕ} (he : 0 < e) (hl : 1 ≤ l) :
       have h3 : l / j = 2 * k := by
         rw [hk, hj, show (j + j) * k = j * (2 * k) by ring]
         exact Nat.mul_div_cancel_left _ hjpos
-      rw [if_pos ⟨j, hj⟩, hg, hej, h3]
+      rw [ite_eq_left ⟨j, hj⟩, hg, hej, h3]
       refine Nat.div_eq_of_lt_le ?_ ?_
       · have h1 : (2 * k - 1) * e = 2 * l - e := by
           have : (2 * k - 1) * e = 2 * k * e - e := Nat.sub_one_mul _ _
@@ -220,7 +220,7 @@ theorem rk_minus_arith {e l : ℕ} (he : 0 < e) (hl : 1 ≤ l) :
     · have hodd : Odd e := Nat.not_even_iff_odd.1 hev
       have hg : Nat.gcd e 2 = 1 := Nat.coprime_two_right.2 hodd
       have h3 : l / e = k := by rw [hk]; exact Nat.mul_div_cancel_left k he
-      rw [if_neg hev, hg, Nat.div_one, h3]
+      rw [ite_eq_right hev, hg, Nat.div_one, h3]
       refine Nat.div_eq_of_lt_le ?_ ?_
       · have h1 : (k - 1) * e = l - e := by
           rw [Nat.sub_one_mul, Nat.mul_comm, ← hk]
@@ -228,7 +228,7 @@ theorem rk_minus_arith {e l : ℕ} (he : 0 < e) (hl : 1 ≤ l) :
       · have h1 : (k - 1 + 1) * e = l := by
           rw [Nat.sub_add_cancel hk1, Nat.mul_comm, ← hk]
         rw [h1]; omega
-  · rw [if_neg hd, if_neg hd, Nat.sub_zero]
+  · rw [ite_eq_right hd, ite_eq_right hd, Nat.sub_zero]
     exact sp_rank_arith e l
 
 theorem dvd_pow_add_one_iff_weirE {p : ℕ} [hp : Fact p.Prime] (hp1 : Odd p) {K : Type} [Fintype K]
@@ -270,7 +270,7 @@ theorem pRank_orthogonal_even {p : ℕ} [hp : Fact p.Prime] (hp1 : Odd p) {K : T
   have hdim' : Module.finrank K (ι → K) = 2 * n := by
     rw [Module.finrank_fintype_fun_eq_card, hdim]
   by_cases hc : (p : ℤ) ∣ (Fintype.card K : ℤ) ^ n + ε
-  · rw [if_pos hc]
+  · rw [ite_eq_left hc]
     refine pRank_eq_of_sylow_sigmaModel p (one_le_weirA hpK) (fun S => ?_)
     obtain ⟨-, h2, h3⟩ := sylow_orthogonal_even hp1 hpK hn hdim' Q hQ hε S
     have hnd : ¬ (p : ℤ) ∣ (Fintype.card K : ℤ) ^ n - ε := h3.resolve_left (not_not.2 hc)
@@ -278,7 +278,7 @@ theorem pRank_orthogonal_even {p : ℕ} [hp : Fact p.Prime] (hp1 : Odd p) {K : T
     obtain ⟨φ⟩ := h2 hnd P'
     obtain ⟨ψ⟩ := sylow_Sp hp1 K hpK (n - 1) P'
     exact ⟨φ.trans ψ⟩
-  · rw [if_neg hc]
+  · rw [ite_eq_right hc]
     refine pRank_eq_of_sylow_sigmaModel p (one_le_weirA hpK) (fun S => ?_)
     obtain ⟨h1, -, -⟩ := sylow_orthogonal_even hp1 hpK hn hdim' Q hQ hε S
     obtain ⟨P'⟩ : Nonempty (Sylow p (StatedSp n K)) := inferInstance
@@ -290,7 +290,7 @@ theorem genericOrders_POmegaPlus_even {l p f : ℕ} (hp : p = 2) (hf : 1 ≤ f) 
     CFSG.Blueprint.Multiplier.genericOrders .POmegaPlus l p f = (1, 1) := by
   have hev : Even (p ^ f) := by rw [hp]; exact Nat.even_pow.2 ⟨even_two, by omega⟩
   unfold CFSG.Blueprint.Multiplier.genericOrders
-  simp only [hev, if_true]
+  simp only [hev, ite_true]
 
 end RankChevProof
 
@@ -302,7 +302,7 @@ theorem pRank_chev_D (hG : CFSG.Open.GriessAllModelsStatement) {K : Type} [Group
     (e : (K ⧸ Subgroup.center K) ≃* TauCeti.ValidLieTypeIndex.Group ⟨.D l Q, hv⟩)
     {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) :
     CFSG.Open.pRank r (⊤ : Subgroup K) = rkOmPlus l Q.card r := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hl4 : 4 ≤ l :=
     (TauCeti.LieTypeIndex.inStandardRange_iff (.D l Q)).1
       ((TauCeti.LieTypeIndex.valid_iff _).1 hv).1
@@ -320,10 +320,10 @@ theorem pRank_chev_D (hG : CFSG.Open.GriessAllModelsStatement) {K : Type} [Group
   have hrZ : ¬ r ∣ Nat.card (Subgroup.center K) :=
     not_dvd_of_dvd_two_pow hr hr2 (k := k) (by simpa using hdvd)
   obtain ⟨-, K', instF, instFin, hcard, ⟨φ⟩⟩ := hm
-  haveI : Fintype K' := Fintype.ofFinite K'
+  have : Fintype K' := Fintype.ofFinite K'
   have hKc : Fintype.card K' = 2 ^ Q.exponent := by
     rw [Fintype.card_eq_nat_card, hcard, hQ]
-  haveI : CharP K' 2 := CFSG.LargeExtraspecial.DW.charP_two_of_card_eq (f := Q.exponent)
+  have : CharP K' 2 := CFSG.LargeExtraspecial.DW.charP_two_of_card_eq (f := Q.exponent)
     (by rw [hcard, hQ])
   have hpK : ¬ r ∣ Fintype.card K' := by
     rw [hKc]
@@ -394,7 +394,7 @@ theorem pRank_chev_twistedD (hG : CFSG.Open.GriessAllModelsStatement) {K : Type}
     (e : (K ⧸ Subgroup.center K) ≃* TauCeti.ValidLieTypeIndex.Group ⟨.twistedD l Q, hv⟩)
     {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) :
     CFSG.Open.pRank r (⊤ : Subgroup K) = rkOmMinus l Q.card r := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hl4 : 4 ≤ l :=
     (TauCeti.LieTypeIndex.inStandardRange_iff (.twistedD l Q)).1
       ((TauCeti.LieTypeIndex.valid_iff _).1 hv).1
@@ -413,10 +413,10 @@ theorem pRank_chev_twistedD (hG : CFSG.Open.GriessAllModelsStatement) {K : Type}
   have hrZ : ¬ r ∣ Nat.card (Subgroup.center K) :=
     not_dvd_of_dvd_two_pow hr hr2 (k := k) (by simpa using hdvd)
   obtain ⟨-, K', instF, instFin, hcard, b, c, hirr, ⟨φ⟩⟩ := hm
-  haveI : Fintype K' := Fintype.ofFinite K'
+  have : Fintype K' := Fintype.ofFinite K'
   have hKc : Fintype.card K' = 2 ^ Q.exponent := by
     rw [Fintype.card_eq_nat_card, hcard, hQ]
-  haveI : CharP K' 2 := CFSG.LargeExtraspecial.DW.charP_two_of_card_eq (f := Q.exponent)
+  have : CharP K' 2 := CFSG.LargeExtraspecial.DW.charP_two_of_card_eq (f := Q.exponent)
     (by rw [hcard, hQ])
   have hpK : ¬ r ∣ Fintype.card K' := by
     rw [hKc]

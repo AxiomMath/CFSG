@@ -67,7 +67,7 @@ public theorem huppert_I_18_2_a_complements_conjugate_of_solvable_normal
   classical
   have hH_normalizes_N : H ≤ Subgroup.normalizer (N : Set G) :=
     Subgroup.le_normalizer_of_normal (H := N)
-  letI : MulDistribMulAction H N :=
+  let : MulDistribMulAction H N :=
     Subgroup.conjMulDistribMulActionOfLeNormalizer (G := G) H N hH_normalizes_N
   let q : G →* G ⧸ N := QuotientGroup.mk' N
   let eK : G ⧸ N ≃* K := hK.symm.QuotientMulEquiv
@@ -147,7 +147,7 @@ public theorem huppert_I_18_2_b_principal_cocycle_of_pgroup_operator
       c 1 = (c 1)⁻¹ * (c 1 * c 1) := by simp
       _ = (c 1)⁻¹ * c 1 := by rw [← h]
       _ = 1 := by simp
-  letI : MulAction A X :=
+  let : MulAction A X :=
     { smul := fun a x => c a * originalSmul a x
       one_smul := by
         intro x
@@ -197,7 +197,7 @@ public theorem huppert_I_18_2_b_principal_cocycle_of_solvable_operator
     refine Nat.strong_induction_on n ?_
     intro n ih A' X' _ _ _ _ _ _ hcardA hcop c' hc'
     by_cases hA_one : Nat.card A' = 1
-    · letI : Subsingleton A' := (Nat.card_eq_one_iff_unique.mp hA_one).1
+    · let : Subsingleton A' := (Nat.card_eq_one_iff_unique.mp hA_one).1
       have hc_one : c' 1 = 1 := by
         have h : c' 1 = c' 1 * c' 1 := by simpa using hc' 1 1
         calc
@@ -213,23 +213,23 @@ public theorem huppert_I_18_2_b_principal_cocycle_of_solvable_operator
           have hcard_one : Nat.card A' = 1 :=
             Nat.card_eq_one_iff_unique.mpr ⟨hsub, ⟨1⟩⟩
           exact hA_one hcard_one
-      letI : Nontrivial A' := hA_nontrivial
+      let : Nontrivial A' := hA_nontrivial
       obtain ⟨B, hBnormal, hBne, hBminimal⟩ :=
         exists_minimal_normal (G := A') (inferInstance : Group.IsSolvable A') hA_nontrivial
-      letI : B.Normal := hBnormal
-      letI : IsMinimalNormal B := by
+      let : B.Normal := hBnormal
+      let : IsMinimalNormal B := by
         refine ⟨?_⟩
         intro K hKnormal hKle
         by_cases hKbot : K = ⊥
         · exact Or.inl hKbot
         · exact Or.inr (hBminimal K hKnormal hKle hKbot)
       have hBsolvable : Group.IsSolvable B := inferInstance
-      letI : Group.IsSolvable B := hBsolvable
+      let : Group.IsSolvable B := hBsolvable
       obtain ⟨r, hrprime, hBelementary⟩ :=
         minimalNormal_solvable_exists_isElementaryAbelian (G := A') B
-      letI : Fact r.Prime := ⟨hrprime⟩
-      letI : IsElementaryAbelian r B := hBelementary
-      letI : Fact (IsPGroup r B) := ⟨IsElementaryAbelian.isPGroup r B⟩
+      let : Fact r.Prime := ⟨hrprime⟩
+      let : IsElementaryAbelian r B := hBelementary
+      let : Fact (IsPGroup r B) := ⟨IsElementaryAbelian.isPGroup r B⟩
       have hr_dvd_A : r ∣ Nat.card A' := by
         have hBp : IsPGroup r B := IsElementaryAbelian.isPGroup r B
         rcases hBp.exists_card_eq with ⟨k, hk⟩
@@ -297,8 +297,8 @@ public theorem huppert_I_18_2_b_principal_cocycle_of_solvable_operator
       have hquot_lt : Nat.card (A' ⧸ B) < n := by
         simpa [hcardA] using card_quotient_lt_of_ne_bot (G := A') B hBne
       have hsolvable_quotient : Group.IsSolvable (A' ⧸ B) := by infer_instance
-      letI : Group.IsSolvable (A' ⧸ B) := hsolvable_quotient
-      letI : MulDistribMulAction (A' ⧸ B) F := by
+      let : Group.IsSolvable (A' ⧸ B) := hsolvable_quotient
+      let : MulDistribMulAction (A' ⧸ B) F := by
         dsimp [F]
         infer_instance
       have hc1_eq_of_mk_eq {a b : A'} (h : (a : A' ⧸ B) = b) : c1 a = c1 b := by
@@ -356,13 +356,13 @@ public theorem huppert_I_18_2_b_complements_conjugate_of_solvable_quotient
     ∃ n : N, K = H.map (MulAut.conj (n : G)).toMonoidHom := by
   classical
   have hHsolvable : Group.IsSolvable H := by
-    letI : Group.IsSolvable (G ⧸ N) := hsolvable
+    let : Group.IsSolvable (G ⧸ N) := hsolvable
     exact Group.isSolvable_of_surjective
       (f := hH.symm.QuotientMulEquiv.toMonoidHom) hH.symm.QuotientMulEquiv.surjective
-  letI : Group.IsSolvable H := hHsolvable
+  let : Group.IsSolvable H := hHsolvable
   have hH_normalizes_N : H ≤ Subgroup.normalizer (N : Set G) :=
     Subgroup.le_normalizer_of_normal (H := N)
-  letI : MulDistribMulAction H N :=
+  let : MulDistribMulAction H N :=
     Subgroup.conjMulDistribMulActionOfLeNormalizer (G := G) H N hH_normalizes_N
   let q : G →* G ⧸ N := QuotientGroup.mk' N
   let eK : G ⧸ N ≃* K := hK.symm.QuotientMulEquiv

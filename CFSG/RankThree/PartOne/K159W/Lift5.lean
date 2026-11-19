@@ -36,7 +36,7 @@ theorem exists_lift_elemAbelian_conj {p : ℕ} (hp : p.Prime) {X P₁ : Subgroup
   have hQsT : (Qs : Subgroup ↥X) = T := hQs
   have hTsyl : IsSylowOf p T ⊤ := by
     refine ⟨le_top, ?_, ?_⟩
-    · rw [← hQsT]; exact Qs.isPGroup'
+    · rw [← hQsT]; exact Qs.isPGroup
     · rw [Subgroup.relIndex_top_right, ← hQsT]; exact Qs.not_dvd_index
   have hTp : IsPGroup p ↥T := hTsyl.2.1
   have hPbar : IsSylowOf p (T.map π) ⊤ := Sec1511.isSylowOf_map_mk' hTsyl

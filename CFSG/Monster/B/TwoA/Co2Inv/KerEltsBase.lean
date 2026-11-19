@@ -22,7 +22,7 @@ theorem xor_lt_two {a b : ℕ} (ha : a < 2) (hb : b < 2) : a ^^^ b < 2 :=
 theorem xor_lt_sixteen {a b : ℕ} (ha : a < 16) (hb : b < 16) : a ^^^ b < 16 :=
   Nat.xor_lt_two_pow (n := 4) ha hb
 
-@[expose] def affC (e l : ℕ) : C := if h : bvec 24 (affMask e l) ∈ C then ⟨_, h⟩ else 0
+def affC (e l : ℕ) : C := if h : bvec 24 (affMask e l) ∈ C then ⟨_, h⟩ else 0
 
 theorem coe_dC_eq : (dC : Fin 24 → ZMod 2) = bvec 24 255 := by decide +kernel
 
@@ -30,7 +30,7 @@ theorem dC_apply_eq_zero (i : Fin 24) : (dC : Fin 24 → ZMod 2) i = 0 ↔ ¬ (i
   rw [dC_apply]
   split_ifs with h <;> simp [h]
 
-@[expose] def Tperm : Subgroup AutPerm where
+def Tperm : Subgroup AutPerm where
   carrier := {p | ∀ i : Fin 24, (i : ℕ) < 8 → (p : Equiv.Perm (Fin 24)) i = i}
   one_mem' := fun _ _ => rfl
   mul_mem' {p q} hp hq i hi := by
@@ -77,7 +77,7 @@ theorem mk_monomial_eq {x y : C} {p q : AutPerm}
     have := gO_mul_PO_inj e
     exact ⟨Or.inr this.1, this.2⟩
 
-@[expose] def Agrp : Subgroup OLq where
+def Agrp : Subgroup OLq where
   carrier := {x | ∃ c : C, (c : Fin 24 → ZMod 2) ∈ CJc (dC : Fin 24 → ZMod 2) ∧
     x = QuotientGroup.mk (gO c)}
   one_mem' := ⟨0, Submodule.zero_mem _, by rw [gO_zero, QuotientGroup.mk_one]⟩
@@ -89,7 +89,7 @@ theorem mk_monomial_eq {x y : C} {p q : AutPerm}
     refine ⟨a, ha, ?_⟩
     rw [← QuotientGroup.mk_inv, inv_eq_of_mul_eq_one_right (gO_mul_self a)]
 
-@[expose] def Tgrp : Subgroup OLq where
+def Tgrp : Subgroup OLq where
   carrier := {x | ∃ p ∈ Tperm, x = QuotientGroup.mk (PO p)}
   one_mem' := ⟨1, Tperm.one_mem, by rw [PO_one, QuotientGroup.mk_one]⟩
   mul_mem' := by
@@ -99,6 +99,6 @@ theorem mk_monomial_eq {x y : C} {p q : AutPerm}
     rintro _ ⟨p, hp, rfl⟩
     exact ⟨p⁻¹, Tperm.inv_mem hp, by rw [PO_inv, QuotientGroup.mk_inv]⟩
 
-@[expose] def Qgrp : Subgroup OLq := Agrp ⊔ Tgrp
+def Qgrp : Subgroup OLq := Agrp ⊔ Tgrp
 
 end CFSG.Monster.B.TwoA.Co2Inv

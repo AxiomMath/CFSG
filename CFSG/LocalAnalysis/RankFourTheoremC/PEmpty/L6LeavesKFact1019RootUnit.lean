@@ -71,7 +71,7 @@ theorem uε_support (j : Fin 2) (i : Fin n) (h : uε u hn j i ≠ 0) : i.val < 4
     have := congrArg Fin.val e
     simp only at this
     omega
-  simp [uε, Pi.single_apply, h1, h2]
+  simp [uε, h1, h2]
 
 theorem uεbar_support (j : Fin 2) (i : Fin n) (h : uεbar σ u hn j i ≠ 0) : i.val < 4 := by
   by_contra hlt
@@ -85,7 +85,7 @@ theorem uεbar_support (j : Fin 2) (i : Fin n) (h : uεbar σ u hn j i ≠ 0) : 
     have := congrArg Fin.val e
     simp only at this
     omega
-  simp [uεbar, Pi.single_apply, h1, h2]
+  simp [uεbar, h1, h2]
 
 theorem diag_mul_uP (j k : Fin 2) :
     Matrix.diagonal (signVec (n := n) (F := K)) * uP σ u hn j k =
@@ -99,7 +99,7 @@ theorem diag_mul_uP (j k : Fin 2) :
   · simp [hb]
   have hi := uε_support hn j i ha
   have hi' := uεbar_support hn k i' hb
-  simp only [signVec, hi, hi', if_true]
+  simp only [signVec, hi, hi', ite_true]
   ring
 
 theorem diag_mul_uN (η : K) (v : K × K) :
@@ -260,7 +260,7 @@ theorem involution_typeTwistedA4 : InvolutionAt FamTwistedA4 := by
   subst hdq'
   have hchar' : p = q.p := by simpa using hchar
   subst hchar'
-  haveI : Fact q.p.Prime := ⟨hp⟩
+  have : Fact q.p.Prime := ⟨hp⟩
   obtain ⟨-, F, hF, hFfin, hcard, ⟨e'⟩⟩ :=
     CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA r q hv e
   obtain ⟨t, ht, E, hEc, hE, hcard'⟩ := exists_involution_statedSU (n := r + 1) (p := q.p)

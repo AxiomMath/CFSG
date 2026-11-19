@@ -15,12 +15,14 @@ open scoped Matrix
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V} {n : ℕ} {c : ZMod 3}
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma a6cFrameRep_eq_toMatrixAlgEquiv (fr : NFrame Q (Fin n) c) (γ : simGroup Q) :
     a6cFrameRep fr γ = LinearMap.toMatrixAlgEquiv fr.b (γ : V →ₗ[ZMod 3] V) := by
   ext i j
   rw [a6cFrameRep_apply, LinearMap.toMatrixAlgEquiv_apply]
   rfl
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma toLinAlgEquiv_equivFun (fr : NFrame Q (Fin n) c)
     (M : Matrix (Fin n) (Fin n) (ZMod 3)) (x : V) :
     fr.b.equivFun (Matrix.toLinAlgEquiv fr.b M x) = M *ᵥ fr.b.equivFun x := by
@@ -28,6 +30,7 @@ private lemma toLinAlgEquiv_equivFun (fr : NFrame Q (Fin n) c)
   simpa only [Module.Basis.equivFun_apply] using
     (Module.Basis.repr_sum_self fr.b (M *ᵥ fr.b.equivFun x))
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma equivFun_self_eq_single {e : Module.Basis (Fin n) (ZMod 3) V} (i : Fin n) :
     e.equivFun (e i) = Pi.single i (1 : ZMod 3) := by
   rw [Module.Basis.equivFun_apply, Module.Basis.repr_self, Finsupp.single_eq_pi_single]
@@ -43,6 +46,7 @@ private lemma sum_sq_mulVec (M : Matrix (Fin n) (Fin n) (ZMod 3)) (v : Fin n →
     ← Matrix.dotProduct_transpose_mulVec (A := M) (x := v) (y := M *ᵥ v),
     Matrix.mulVec_mulVec]
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma frame_polar_eq (fr : NFrame Q (Fin n) c) :
     ∀ x y : V, QuadraticMap.polar Q x y =
       fr.b.equivFun x ⬝ᵥ ((2 * c) • 1) *ᵥ fr.b.equivFun y := by
@@ -70,9 +74,9 @@ private lemma frame_polar_eq (fr : NFrame Q (Fin n) c) :
     by_cases hij : i = j
     · subst hij
       rw [QuadraticMap.polar_self, fr.norm]
-      simp [Matrix.smul_apply, Matrix.one_apply, smul_eq_mul]
+      simp [Matrix.smul_apply, smul_eq_mul]
     · rw [fr.orth i j hij]
-      simp [Matrix.smul_apply, Matrix.one_apply, hij]
+      simp [Matrix.smul_apply, hij]
   have hB : Bc = Matrix.toBilin' ((2 * c) • 1) := by
     rw [← Matrix.toBilin'_toMatrix' Bc, hmat]
   intro x y
@@ -81,6 +85,7 @@ private lemma frame_polar_eq (fr : NFrame Q (Fin n) c) :
       hsymm x, hsymm y]
   rw [h1, hB, Matrix.toBilin'_apply']
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma mul_transpose_mul_eq_smul (e : Module.Basis (Fin n) (ZMod 3) V)
     (J : Matrix (Fin n) (Fin n) (ZMod 3)) (μ : ZMod 3) (f : V →ₗ[ZMod 3] V)
     (M : Matrix (Fin n) (Fin n) (ZMod 3))
@@ -122,6 +127,7 @@ private lemma exists_unit_of_simMat {n : ℕ} {M : Matrix (Fin n) (Fin n) (ZMod 
     have h4 : Mᵀ * M = -1 := neg_eq_iff_eq_neg.mp h3
     simpa using h4
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem a6cFrameRep_sim (fr : NFrame Q (Fin n) c) (hc : c ≠ 0) (γ : simGroup Q) :
     A6CSimMat (a6cFrameRep fr γ) := by
   obtain ⟨lam, hlam⟩ := γ.2
@@ -164,7 +170,8 @@ theorem a6cFrameRep_sim (fr : NFrame Q (Fin n) c) (hc : c ≠ 0) (γ : simGroup 
     rw [Matrix.mul_neg] at h3
     exact Or.inr (neg_eq_iff_eq_neg.mp h3)
 
-theorem a6cFrameRep_surj (fr : NFrame Q (Fin n) c) (hc : c ≠ 0)
+omit [FiniteDimensional (ZMod 3) V] in
+theorem a6cFrameRep_surj (fr : NFrame Q (Fin n) c) (_hc : c ≠ 0)
     {M : Matrix (Fin n) (Fin n) (ZMod 3)} (hM : A6CSimMat M) :
     ∃ γ : simGroup Q, a6cFrameRep fr γ = M := by
   obtain ⟨ε, hε, hε'⟩ := exists_unit_of_simMat hM

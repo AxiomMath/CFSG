@@ -115,11 +115,13 @@ theorem psi_ex (hK : Nat.card K = (2 ^ n) ^ 2) (s : Fin 2) {x : G4 K n} (hx : x 
   obtain ⟨a, ha, h, hh, e⟩ := psi_form hK s hx hx1
   exact ⟨h, hh, a, ha, a, Xs_le_U s ha, e⟩
 
+omit [Finite K] [CharP K 2] in
 theorem y0Mat_zero (n : ℕ) : y0Mat n (0 : K) = 1 := by
   have hq : (2 : ℕ) ^ n ≠ 0 := pow_ne_zero n two_ne_zero
   ext i j
   fin_cases i <;> fin_cases j <;> simp [y0Mat, zero_pow hq]
 
+omit [Finite K] [CharP K 2] in
 theorem y1Mat_zero : y1Mat (0 : K) = 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [y1Mat]
@@ -132,7 +134,7 @@ theorem exists_y0 (hK : Nat.card K = (2 ^ n) ^ 2) {y : G4 K n} (hy : y ∈ Jconj
     ext a b
     rw [gm_entry_via_J, ht, gm_y0 hK]
     fin_cases a <;> fin_cases b <;>
-      simp [x0Mat, y0Mat, rev0, rev1, rev2, rev3, pow_pow_of_card hK]
+      simp [x0Mat, y0Mat, rev1, rev2, rev3, pow_pow_of_card hK]
   have hw0 : t ^ 2 ^ n ≠ 0 := by
     intro h0
     apply hy1
@@ -147,7 +149,7 @@ theorem exists_y1 (hK : Nat.card K = (2 ^ n) ^ 2) {y : G4 K n} (hy : y ∈ Jconj
     apply eq_of_gm_eq
     ext a b
     rw [gm_entry_via_J, ht, gm_y1 hK]
-    fin_cases a <;> fin_cases b <;> simp [x1Mat, y1Mat, rev0, rev1, rev2, rev3]
+    fin_cases a <;> fin_cases b <;> simp [x1Mat, y1Mat, rev1, rev2, rev3]
   have hw0 : (⟨t, htq⟩ : Fq K n) ≠ 0 := by
     intro h0
     apply hy1
@@ -179,7 +181,7 @@ theorem Hd_pow_card_sub_one {h : G4 K n} (hh : h ∈ Hd K n) : h ^ (Nat.card K -
   congr 1
   funext i
   have hne : d i ≠ 0 := by rw [← hdi]; exact Hd_diag_ne hh i
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   rw [Nat.card_eq_fintype_card]
   exact FiniteField.pow_card_sub_one_eq_one _ hne
 

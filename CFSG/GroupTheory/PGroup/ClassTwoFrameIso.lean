@@ -124,8 +124,8 @@ theorem eElt_indep_of_card {n : ℕ} {Q Z : Subgroup G} [Finite ↥Q] [(Z.subgro
     have hW : Nat.card (Z.subgroupOf Q) = Nat.card Z :=
       Nat.card_congr (Subgroup.subgroupOfEquivOfLe hZQ).toEquiv
     have hpos : 0 < Nat.card Z := by
-      haveI : Nonempty ↥Z := ⟨⟨1, Z.one_mem⟩⟩
-      haveI : Finite ↥Z :=
+      have : Nonempty ↥Z := ⟨⟨1, Z.one_mem⟩⟩
+      have : Finite ↥Z :=
         Finite.of_injective (Subgroup.inclusion hZQ) (Subgroup.inclusion_injective hZQ)
       exact Nat.card_pos
     have h1 := Subgroup.card_eq_card_quotient_mul_card_subgroup (Z.subgroupOf Q : Subgroup ↥Q)
@@ -167,7 +167,7 @@ theorem isEBasisOf_of_card {d : ℕ} {Z : Subgroup G} {z : Fin d → G} (hzZ : �
     (hgen : Z ≤ Subgroup.closure (Set.range z)) (hcard : Nat.card Z = 2 ^ d) :
     IsEBasisOf Z z := by
   classical
-  haveI : Finite ↥Z :=
+  have : Finite ↥Z :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; exact pow_ne_zero d (by decide))
   have hsurj : Function.Surjective (eEltHom hzZ hz2 hzz) := by
     intro y

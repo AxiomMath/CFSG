@@ -150,7 +150,7 @@ private theorem nbrPSU_lift_odd_scalar {F : Type} [Field F] [Finite F] [CharP F 
       ψ s d) :
     Odd (orderOf s) ∧ ∃ c : F, (s : Matrix (Fin n) (Fin n) F) ^ p =
       Matrix.scalar (Fin n) c := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hsp : IsGLLift (Unitary.SU (CFSG.LieType.BorelTits.unitaryInvolution F 2 f) n).subtype
       ψ (s ^ p) 1 := by
     have h := hs.pow p
@@ -297,12 +297,12 @@ private lemma nbrPSU_antidiag_transpose_map (n g : ℕ) :
   rw [hanti j i, hanti i j]
   by_cases h : i = j.rev
   · have h2 : j = i.rev := by rw [h, Fin.rev_rev]
-    rw [if_pos h, if_pos h2, map_one]
+    rw [ite_eq_left h, ite_eq_left h2, map_one]
   · have h2 : j ≠ i.rev := by
       intro h2
       apply h
       rw [h2, Fin.rev_rev]
-    rw [if_neg h, if_neg h2, map_zero]
+    rw [ite_eq_right h, ite_eq_right h2, map_zero]
 
 private lemma nbrPSU_unitaryTransvection_mem (n g : ℕ) {v : Fin n → nbrPSU_F g} (hv : v ≠ 0)
     (hviso : Matrix.vecMul (fun i => nbrPSU_sigma g (v i)) (Unitary.antidiag n) ⬝ᵥ v = 0) :
@@ -732,14 +732,14 @@ private lemma nbrPSU_l8_blockFieldEmbedding_of_mul
     fun a ha b hb => nbrPSU_adjoin_commute hS ha hb
   obtain ⟨Ke, hKeField, hKeAlg, hKefin, πe, hπe_surj, hπe_ker, hπe_fin⟩ :=
     exists_blockField (F := nbrPSU_F g) hS_e hodd_e hε
-  letI : Field Ke := hKeField
-  letI : Algebra (nbrPSU_F g) Ke := hKeAlg
-  letI : Finite Ke := hKefin
+  let : Field Ke := hKeField
+  let : Algebra (nbrPSU_F g) Ke := hKeAlg
+  let : Finite Ke := hKefin
   obtain ⟨KJ, hKJField, hKJAlg, hKJfin, πJ, hπJ_surj, hπJ_ker, hπJ_fin⟩ :=
     exists_blockField (F := nbrPSU_F g) hS hodd heJ
-  letI : Field KJ := hKJField
-  letI : Algebra (nbrPSU_F g) KJ := hKJAlg
-  letI : Finite KJ := hKJfin
+  let : Field KJ := hKJField
+  let : Algebra (nbrPSU_F g) KJ := hKJAlg
+  let : Finite KJ := hKJfin
   let φ : Algebra.adjoin (nbrPSU_F g) (Units.val '' S_e) →ₐ[nbrPSU_F g] KJ :=
     πJ.comp (Subalgebra.inclusion hAe_le)
   have hker_le : RingHom.ker πe ≤ RingHom.ker φ := by
@@ -940,7 +940,7 @@ private lemma nbrPSU_l8_le_of_map_le_of_quasisimple
     {U X : Type} [Group U] [Group X] (ψ : U →* X) (hψ : ψ.ker ≤ Subgroup.center U)
     {J' K' : Subgroup U} (hJ' : CFSG.Assembly.IsQuasisimple ↥J') (hle : J'.map ψ ≤ K'.map ψ) :
     J' ≤ K' := by
-  haveI : Group.IsPerfect ↥J' := Group.IsPerfect.mk hJ'.1
+  have : Group.IsPerfect ↥J' := Group.IsPerfect.mk hJ'.1
   have hperf : ⁅J', J'⁆ = J' := Subgroup.commutator_eq_self
   have hK'le : ⁅K', K'⁆ ≤ K' := by
     rw [Subgroup.commutator_le]
@@ -1002,7 +1002,7 @@ private lemma nbrPSU_l8_rootLiftKind
   have hR'map : R'.map ψ = R := by
     rw [hRsub]
     rfl
-  haveI : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
+  have : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
   have hroot : IsPGroup 2 ((ggU .PSU n (g + 1)).D.rootGroup β) :=
     CFSG.LieType.Steinberg.isPGroup_rootGroup
       (CFSG.LieType.BorelTits.unitaryInvolution_involutive hc)
@@ -1209,7 +1209,7 @@ private lemma nbrPSUx_blockDegree_eq_one {F : Type} [Field F] {n : ℕ}
   have hne : (⟨e, heM⟩ : M) ≠ 0 := by
     intro h
     exact he.2.2.1 (by simpa using congrArg Subtype.val h)
-  haveI : Nontrivial M := ⟨⟨⟨e, heM⟩, 0, hne⟩⟩
+  have : Nontrivial M := ⟨⟨⟨e, heM⟩, 0, hne⟩⟩
   have hpos : 0 < Module.finrank F M := Module.finrank_pos_iff.mpr inferInstance
   have hlt : Module.finrank F M < 2 := hdeg
   change Module.finrank F M = 1
@@ -1388,7 +1388,7 @@ private lemma nbrPSUx_selfDual_nbr
   have hxq : (c ^ (q + 1)) ^ q = c ^ (q + 1) := by
     rw [← pow_mul, show (q + 1) * q = q ^ 2 + q by ring, pow_add]
     have hcpow : c ^ (q ^ 2) = c := by
-      haveI : Fintype (nbrPSU_F g) := Fintype.ofFinite _
+      have : Fintype (nbrPSU_F g) := Fintype.ofFinite _
       have h1 : Fintype.card (nbrPSU_F g) = q ^ 2 := by
         rw [← Nat.card_eq_fintype_card]
         exact hc
@@ -1848,7 +1848,7 @@ private lemma nbrPSUx_rank_map {n : ℕ} {F : Type} [Field F] [Finite F]
     rw [← h1, ← h2]
     exact hcard
   have hF2 : 2 ≤ Nat.card F := by
-    haveI : Fintype F := Fintype.ofFinite F
+    have : Fintype F := Fintype.ofFinite F
     have h : 1 < Nat.card F := by
       rw [Nat.card_eq_fintype_card]
       exact Fintype.one_lt_card
@@ -2202,7 +2202,7 @@ private lemma nbrPSUx_K_self
   have hR'map : R'.map ψ = R := by
     rw [hRsub]
     rfl
-  haveI : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
+  have : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
   have hroot : IsPGroup 2 ((ggU .PSU n (g + 1)).D.rootGroup β) :=
     CFSG.LieType.Steinberg.isPGroup_rootGroup
       (CFSG.LieType.BorelTits.unitaryInvolution_involutive hc)

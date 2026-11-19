@@ -26,7 +26,7 @@ theorem frobeniusSchurIndicator_eq_cfInner_one_of_odd [Fintype G] (hodd : Odd (N
 theorem frobeniusSchurIndicator_eq_zero_of_ne_one_of_odd [Fintype G] (hodd : Odd (Nat.card G))
     {χ : G → ℂ} (hχ : χ ∈ Irr G) (hne : χ ≠ 1) : frobeniusSchurIndicator χ = 0 := by
   rw [frobeniusSchurIndicator_eq_cfInner_one_of_odd hodd,
-    cfInner_eq_ite_of_mem_Irr hχ one_mem_Irr, if_neg hne]
+    cfInner_eq_ite_of_mem_Irr hχ one_mem_Irr, ite_eq_right hne]
 
 theorem ne_conj_of_mem_Irr_of_ne_one_of_odd [Finite G] (hodd : Odd (Nat.card G))
     {χ : G → ℂ} (hχ : χ ∈ Irr G) (hne : χ ≠ 1) : χ ≠ fun g => conj (χ g) := by

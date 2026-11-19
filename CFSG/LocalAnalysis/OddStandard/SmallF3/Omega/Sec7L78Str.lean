@@ -127,7 +127,7 @@ theorem sec7l78_A_comm_sq [Finite G] (h36 : Asc82Lemma36) (h76 : Asc82Lemma76)
   have hpair : I.Pairwise Commute := by
     intro x hx y hy _
     exact sec7l78_gens_comm h36 h76 hP hc hx hy
-  haveI : IsMulCommutative (Subgroup.closure I) := Subgroup.isMulCommutative_closure hpair
+  have : IsMulCommutative (Subgroup.closure I) := Subgroup.isMulCommutative_closure hpair
   refine ⟨?_, ?_⟩
   · intro a ha b hb
     rw [hI] at ha hb
@@ -192,8 +192,8 @@ theorem sec7l78_s_cent_P [Finite G] {t : G} {L S : Subgroup G} {z g : G} {B : Su
       _ = (t * z) * x := by group
   · exact Subgroup.mem_centralizer_iff.mp h.2.1 x hx
 
-theorem sec7l78_A_cent_t [Finite G] (h76 : Asc82Lemma76) (h36 : Asc82Lemma36)
-    (hP : Asc82Tab6P) {t : G} {L S : Subgroup G} {z g : G} {B : Subgroup G}
+theorem sec7l78_A_cent_t [Finite G] (h76 : Asc82Lemma76) (_h36 : Asc82Lemma36)
+    (_hP : Asc82Tab6P) {t : G} {L S : Subgroup G} {z g : G} {B : Subgroup G}
     (hc : Sec7Choice G t L S z g B) :
     ∀ a ∈ ASub S B, a ∈ centralizer (L : Set G) → a = 1 ∨ a = t := by
   intro a ha haC

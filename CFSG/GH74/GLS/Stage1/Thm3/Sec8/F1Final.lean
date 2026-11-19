@@ -103,7 +103,7 @@ theorem final81b_thm (hII : II4_4_4_center) (hq : II4_4_quat) (hrec : Bg.B_recip
     · rw [← himg, CFSG.GH74.GLS.Stage2.Final.LayerFD.barOf_layerTimesSylow hS''Cen]
       exact sup_le_sup_right (CFSG.GH74.GLS.Stage2.Final.LayerFD.barOf_layer_le z') _
     · exact sup_le (CFSG.GH74.GLS.Stage2.Final.LayerFD.layer_le_oPrimeResidual _)
-        (CFSG.GH74.GLS.Stage2.Final.barOf_le_oPrimeResidual S''.isPGroup')
+        (CFSG.GH74.GLS.Stage2.Final.barOf_le_oPrimeResidual S''.isPGroup)
   refine ⟨(((MulEquiv.subgroupCongr hres).trans Ψ).trans eC).trans (MulEquiv.subgroupCongr hmres)⟩
 
 end CFSG.GH74.GLS.Stage1.Thm3.Sec8.F1

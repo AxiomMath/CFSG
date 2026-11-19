@@ -19,12 +19,12 @@ theorem exists_fix_of_invariant_pgroup {E : Subgroup (SUid σ 4)} (hP : IsPGroup
     (hFev : Even (Nat.card F)) (T : Submodule F (Fin 4 → F))
     (hT : ∀ a ∈ E, ∀ y ∈ T, a • y ∈ T) (hT0 : T ≠ ⊥) :
     ∃ y ∈ T, y ≠ 0 ∧ ∀ a ∈ E, a • y = y := by
-  letI : MulAction ↥E ↥T :=
+  let : MulAction ↥E ↥T :=
     { smul := fun a y => ⟨(a : SUid σ 4) • (y : Fin 4 → F), hT a a.2 y y.2⟩
       one_smul := fun y => Subtype.ext (one_smul _ _)
       mul_smul := fun a b y => Subtype.ext (mul_smul (a : SUid σ 4) (b : SUid σ 4) _) }
   have hev : Even (Nat.card ↥T) := by
-    haveI : Nontrivial ↥T := Submodule.nontrivial_iff_ne_bot.mpr hT0
+    have : Nontrivial ↥T := Submodule.nontrivial_iff_ne_bot.mpr hT0
     have hpos : 0 < Module.finrank F ↥T := Module.finrank_pos
     rw [Module.natCard_eq_pow_finrank (K := F) (V := ↥T)]
     exact Nat.even_pow.mpr ⟨hFev, by omega⟩
@@ -44,11 +44,11 @@ theorem exists_isotropic_fixed (hσ : IsUnitaryInvolution σ) (h2 : (2 : F) = 0)
     · simp only [herm, Fin.sum_univ_four]
       simp
       linear_combination hu
-  · push_neg at hE1
+  · push Not at hE1
     obtain ⟨g₀, hg₀E, hg₀⟩ := hE1
-    haveI : Nontrivial ↥E := ⟨⟨⟨g₀, hg₀E⟩, 1, fun h => hg₀ (congrArg Subtype.val h)⟩⟩
-    haveI : Nontrivial ↥(Subgroup.center ↥E) := hP.center_nontrivial
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Nontrivial ↥E := ⟨⟨⟨g₀, hg₀E⟩, 1, fun h => hg₀ (congrArg Subtype.val h)⟩⟩
+    have : Nontrivial ↥(Subgroup.center ↥E) := hP.center_nontrivial
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hPc : IsPGroup 2 ↥(Subgroup.center ↥E) := hP.to_subgroup _
     have hdvd : 2 ∣ Nat.card ↥(Subgroup.center ↥E) :=
       hPc.card_eq_or_dvd.resolve_left (Finite.one_lt_card (α := ↥(Subgroup.center ↥E))).ne'
@@ -131,12 +131,14 @@ def Q1 (w : Fin 4 → F) (hw : herm σ w w = 0) : Subgroup (SUid σ 4) where
       simpa using this
     · rw [herm_sub_right, hperp, sub_self]
 
+omit [Finite F] in
 theorem herm_perp_of_fix {w : Fin 4 → F} {h : SUid σ 4} (hh : h • w = w) (y : Fin 4 → F) :
     herm σ w (h • y) = herm σ w y := by
   have hhi : h⁻¹ • w = w := by rw [inv_smul_eq_iff]; exact hh.symm
   calc herm σ w (h • y) = herm σ (h⁻¹ • w) y := (herm_inv_smul_left h w y).symm
     _ = herm σ w y := by rw [hhi]
 
+omit [Finite F] in
 theorem Q1_conj {w : Fin 4 → F} {hw : herm σ w w = 0} {h : SUid σ 4} (hh : h • w = w)
     {q : SUid σ 4} (hq : q ∈ Q1 w hw) : h * q * h⁻¹ ∈ Q1 w hw := by
   have hhi : h⁻¹ • w = w := by rw [inv_smul_eq_iff]; exact hh.symm
@@ -153,6 +155,7 @@ theorem Q1_conj {w : Fin 4 → F} {hw : herm σ w w = 0} {h : SUid σ 4} (hh : h
     rw [e, herm_perp_of_fix hh]
     exact hq.2.2 _
 
+omit [Finite F] in
 theorem Q1_pow_four (h2 : (2 : F) = 0) {w : Fin 4 → F} {hw : herm σ w w = 0} {q : SUid σ 4}
     (hq : q ∈ Q1 w hw) : q * q * q * q = 1 := by
   refine ext_smul σ fun x => ?_
@@ -175,6 +178,7 @@ theorem Q1_pow_four (h2 : (2 : F) = 0) {w : Fin 4 → F} {hw : herm σ w w = 0} 
     _ = x := by rw [e3, e4]
     _ = (1 : SUid σ 4) • x := (one_smul _ _).symm
 
+omit [Finite F] in
 theorem fix_Q1_subset (hσ : IsUnitaryInvolution σ) (h2 : (2 : F) = 0) {w : Fin 4 → F}
     (hw0 : w ≠ 0) (hw : herm σ w w = 0) {y : Fin 4 → F} (hy : ∀ s ∈ Q1 w hw, s • y = y) :
     y ∈ Submodule.span F {w} := by
@@ -236,7 +240,7 @@ theorem fix_Q1_subset (hσ : IsUnitaryInvolution σ) (h2 : (2 : F) = 0) {w : Fin
 theorem le_of_isPGroup_of_le_normalizer' {G : Type*} [Group G] [Finite G] {T M N : Subgroup G}
     (hT : IsSylowOf 2 T M) (hNM : N ≤ M) (hMN : M ≤ Subgroup.normalizer (N : Set G))
     (hN : IsPGroup 2 ↥N) : N ≤ T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsup := hT.isPGroup.to_sup_of_normal_right' hN (hT.le.trans hMN)
   have h := hT.eq_of_le le_sup_left (sup_le hT.le hNM) hsup
   exact (le_sup_right : N ≤ T ⊔ N).trans h.le
@@ -250,7 +254,7 @@ theorem chief_model (hσ : IsUnitaryInvolution σ) (h2 : (2 : F) = 0) {n p : ℕ
   have hFev : Even (Nat.card F) := by
     rw [hF]
     exact Nat.even_pow.mpr ⟨Nat.even_pow.mpr ⟨even_two, by omega⟩, by norm_num⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨w, hw0, hw, hwfix⟩ := exists_isotropic_fixed hσ h2 hFev hE.isPGroup
   have hst : ∀ g ∈ E, g ∈ MulAction.stabilizer (SUid σ 4) w := fun g hg =>
     MulAction.mem_stabilizer_iff.mpr (hwfix g hg)

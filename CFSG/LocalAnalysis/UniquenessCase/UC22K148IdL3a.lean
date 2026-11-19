@@ -264,7 +264,7 @@ theorem card_le_four_of_inner (eV : ((Fin 3 → ZMod 2) ≃ₗ[ZMod 2] (Fin 3 �
     (hcen : Subgroup.center ↥𝓛 = ⊥) (hTe : CFSG.IsElementaryAbelian 2 ↥T)
     (hT : ∀ t ∈ T, ∃ x ∈ 𝓛, ∀ y ∈ 𝓛, t * y * t⁻¹ = x * y * x⁻¹)
     (hcT : ∀ t ∈ T, (∀ y ∈ 𝓛, t * y = y * t) → t = 1) : Nat.card ↥T ≤ 4 := by
-  haveI := hTe
+  have := hTe
   set f : ↥T →* ((Fin 3 → ZMod 2) ≃ₗ[ZMod 2] (Fin 3 → ZMod 2)) :=
     eV.symm.toMonoidHom.comp (innerHom hcen hT) with hf
   have hinj : Function.Injective f := by
@@ -298,7 +298,7 @@ theorem card_mul_card_fix_le_sixteen {W : Type*} [AddCommGroup W] [Module (ZMod 
     [FiniteDimensional (ZMod 2) W] (hW : finrank (ZMod 2) W = 3) {E₀ : Subgroup (W ≃ₗ[ZMod 2] W)}
     (hc : ∀ e ∈ E₀, ∀ e' ∈ E₀, e * e' = e' * e) (h2 : ∀ e ∈ E₀, e * e = 1) :
     Nat.card E₀ * Nat.card (CFSG.ASVolI.burnsideB49x_gl_fix E₀) ≤ 16 := by
-  haveI : Finite W := Module.finite_of_finite (ZMod 2)
+  have : Finite W := Module.finite_of_finite (ZMod 2)
   have hc1 := CFSG.ASVolI.burnsideB49x_gl_one_le_finrank_fix (by omega) h2
   have hbc := Submodule.finrank_mono (CFSG.ASVolI.burnsideB49x_gl_quad_of_codim hc h2 (by omega))
   have hc3 := Submodule.finrank_le (CFSG.ASVolI.burnsideB49x_gl_fix E₀)

@@ -188,7 +188,7 @@ theorem IsOptimalRelPair.exists_a7Frame {p : ℕ} {P : Sylow p G} {M D R T H V :
   subst hp3
   have hDH : D ≤ H := (le_sup_right : D ≤ relPairBase R T ⊔ D).trans hopt.pair.cand.base_le
   have hVH : V ≤ H := hfacts.maximal.1
-  have hDp : IsPGroup 3 D := P.isPGroup'.to_le hd.ext.obstruction.2.1
+  have hDp : IsPGroup 3 D := P.isPGroup.to_le hd.ext.obstruction.2.1
   have hDcard : Nat.card D = 9 := by
     have := (hd.ext.isElemAbelian_of_isMulCommutative Nat.prime_three hd.abelian).2
     simpa using this

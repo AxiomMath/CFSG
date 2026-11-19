@@ -42,7 +42,7 @@ section Base
 variable {m : ℕ} (hm : 3 ≤ m)
 
 theorem k_pos_t120 : ∀ i, 1 ≤ (StrothTypeIndex.t120 m hm).k i := by
-  intro i; fin_cases i <;> simp [StrothTypeIndex.k, Type120.k] <;> omega
+  intro i; fin_cases i <;> simp [StrothTypeIndex.k, Type120.k]; omega
 
 theorem k_two_le_t120 : ∀ i, 2 ≤ (StrothTypeIndex.t120 m hm).k i := by
   intro i; fin_cases i <;> simp [StrothTypeIndex.k, Type120.k] <;> omega
@@ -207,11 +207,9 @@ theorem restrict_uv_t120_t220_aux {G P : ℤ} (hP : 3 * G + 7 = 16 * P ^ 2)
   intro r c
   fin_cases r <;> fin_cases c <;>
     simp [Type220.k, diag4, Matrix.mul_diagonal, Matrix.diagonal_mul, Type220.uvM, Type220.uvA,
-      Type220.tM, Type220.ρM, Type220.uM, Type120.uvM, Type120.uvA, Type120.tM, Type120.ρM,
-      Type120.uM, uMat, ofCols_apply, Matrix.mulVec, dotProduct, Fin.sum_univ_three,
-      pow_add, hPs, -mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;>
+      Type220.tM, Type220.ρM, Type120.uvM, Type120.uvA, Type120.tM, Type120.ρM,
+      ofCols_apply, pow_add, hPs, -mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;>
     first
-    | ring1
     | linear_combination (-1376256*P^4 - 258048*G*P^2 - 48384*G^2 - 699392*P^2 - 244032*G
         - 306180) * hP
     | linear_combination (-24) * hP
@@ -233,12 +231,10 @@ theorem restrict_t_t120_t220_aux {G P : ℤ} (hP : 3 * G + 7 = 16 * P ^ 2)
       0, -384*P, -336*P]) ?_
   intro r c
   fin_cases r <;> fin_cases c <;>
-    simp [Type220.k, diag4, Matrix.mul_diagonal, Matrix.diagonal_mul, Type220.uvM, Type220.uvA,
-      Type220.tM, Type220.ρM, Type220.uM, Type120.uvM, Type120.uvA, Type120.tM, Type120.ρM,
-      Type120.uM, uMat, ofCols_apply, Matrix.mulVec, dotProduct, Fin.sum_univ_three,
-      pow_add, hPs, -mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;>
+    simp [Type220.k, diag4, Matrix.mul_diagonal, Matrix.diagonal_mul, Type220.uvA,
+      Type220.tM, Type220.ρM, Type120.uvA, Type120.tM, Type120.ρM,
+      ofCols_apply, pow_add, hPs, -mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;>
     first
-    | ring1
     | linear_combination (-24) * hP
     | linear_combination (-336) * hP
     | linear_combination (-384) * hP
@@ -258,12 +254,8 @@ theorem restrict_u_t120_t220_aux {G P : ℤ} (hP : 3 * G + 7 = 16 * P ^ 2)
       0, 0, 0]) ?_
   intro r c
   fin_cases r <;> fin_cases c <;>
-    simp [Type220.k, diag4, Matrix.mul_diagonal, Matrix.diagonal_mul, Type220.uvM, Type220.uvA,
-      Type220.tM, Type220.ρM, Type220.uM, Type120.uvM, Type120.uvA, Type120.tM, Type120.ρM,
-      Type120.uM, uMat, ofCols_apply, Matrix.mulVec, dotProduct, Fin.sum_univ_three,
-      pow_add, hPs, -mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;>
+    simp [Type220.k, diag4, Matrix.mul_diagonal, Matrix.diagonal_mul, Type220.uM, Type120.uM, uMat, ofCols_apply, pow_add, hPs, -mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;>
     first
-    | ring1
     | linear_combination (-48) * hP
 
 theorem restrict_ρ_t120_t220_aux : MatEq (Type220.k s) (Type220.ρM * diag4)
@@ -305,23 +297,23 @@ theorem profile4_t220 (hs : 1 ≤ s) :
   · refine ⟨?_, ?_, ?_, ?_, ?_⟩ <;>
     first
     | (apply odd_of_cast_two; simp [Type220.uvM, Type220.uvA, Type220.tM, Type220.ρM,
-        ofCols_apply, Matrix.mulVec, dotProduct, Fin.sum_univ_three, hi, hF, hG] <;> decide)
+        ofCols_apply, hi, hF]; try decide)
     | (apply even_of_cast_two; simp [Type220.uvM, Type220.uvA, Type220.tM, Type220.ρM,
-        ofCols_apply, Matrix.mulVec, dotProduct, Fin.sum_univ_three, hi, hF, hG] <;> decide)
+        ofCols_apply, hi, hF]; decide)
   · refine ⟨?_, ?_, ?_, ?_, ?_⟩ <;>
     first
     | (apply odd_of_cast_two; simp [Type220.tM, Type220.uvA, Type220.ρM, ofCols_apply,
-        Matrix.mulVec, dotProduct, Fin.sum_univ_three, hi, hF, hG] <;> decide)
+        hi]; decide)
     | (apply even_of_cast_two; simp [Type220.tM, Type220.uvA, Type220.ρM, ofCols_apply,
-        Matrix.mulVec, dotProduct, Fin.sum_univ_three, hi, hF, hG] <;> decide)
+        hi]; decide)
   · refine ⟨?_, ?_, ?_, ?_, ?_⟩ <;>
     first
-    | (apply odd_of_cast_two; simp [Type220.uM, uMat, ofCols_apply, hF] <;> decide)
-    | (apply even_of_cast_two; simp [Type220.uM, uMat, ofCols_apply, hF] <;> decide)
+    | (apply odd_of_cast_two; simp [Type220.uM, uMat, ofCols_apply])
+    | (apply even_of_cast_two; simp [Type220.uM, uMat, ofCols_apply])
   · refine ⟨?_, ?_, ?_, ?_, ?_⟩ <;>
     first
-    | (apply odd_of_cast_two; simp [Type220.ρM, ofCols_apply] <;> decide)
-    | (apply even_of_cast_two; simp [Type220.ρM, ofCols_apply] <;> decide)
+    | (apply odd_of_cast_two; simp [Type220.ρM, ofCols_apply])
+    | (apply even_of_cast_two; simp [Type220.ρM, ofCols_apply])
   · exact ⟨1, -1, by simp [Type220.uvM, ofCols_apply], by simp [Type220.uvM, ofCols_apply],
       by decide, by decide⟩
   · exact ⟨1, 2, by simp [Type220.tM, ofCols_apply], by simp [Type220.tM, ofCols_apply],
@@ -354,44 +346,44 @@ theorem twist4_t220 (hs : 1 ≤ s) :
       (by simp [t220_uv_eq, t221_uv_eq, Type220.uvM, Type221.uvM, ofCols_apply])
       (by simp [t220_uv_eq, t221_uv_eq, Type220.uvM, Type221.uvM, ofCols_apply])
   · refine matAct_gen_eq_add_tw _ _ 1 0 0 1 ?_ ?_ ?_ <;>
-      simp [hK0, hK1, hK2, hK0', hK1', hK2', t220_uv_eq, t221_uv_eq, Type220.uvM, Type221.uvM,
-        Type220.uvA, Type221.uvA, ofCols_apply] <;>
-      ring_nf <;> simp
+      simp [hK0', hK1', hK2', t220_uv_eq, t221_uv_eq, Type220.uvM, Type221.uvM,
+        Type220.uvA, Type221.uvA, ofCols_apply];
+      ring_nf; simp
   · refine matAct_gen_eq_add_tw _ _ 2 0 1 0 ?_ ?_ ?_ <;>
-      simp only [hK0, hK1, hK2, hK0', hK1', hK2', t220_uv_eq, t221_uv_eq]
+      simp only [hK0', hK1', hK2', t220_uv_eq, t221_uv_eq]
     · exact ⟨-2 * ι' * φ' - 10 * ι', by
         simp [Type220.uvM, Type221.uvM, Type220.uvA, Type221.uvA, Type220.tM, Type221.tM,
-          Type220.ρM, Type221.ρM, ofCols_apply, Matrix.mulVec, dotProduct, Fin.sum_univ_three]
+          Type220.ρM, Type221.ρM, ofCols_apply]
         ring⟩
     · exact ⟨-36 * γ' - 85 - 4 * 2 ^ s, by
         simp [Type220.uvM, Type221.uvM, Type220.uvA, Type221.uvA, Type220.tM, Type221.tM,
-          Type220.ρM, Type221.ρM, ofCols_apply, Matrix.mulVec, dotProduct, Fin.sum_univ_three]
+          Type220.ρM, Type221.ρM, ofCols_apply]
         rw [hi]
         ring⟩
     · exact ⟨0, by
         simp [Type220.uvM, Type221.uvM, Type220.uvA, Type221.uvA, Type220.tM, Type221.tM,
-          Type220.ρM, Type221.ρM, ofCols_apply, Matrix.mulVec, dotProduct, Fin.sum_univ_three]
+          Type220.ρM, Type221.ρM, ofCols_apply]
         ring⟩
   · exact e0 _ _ 0 (by simp [t220_t_eq, t221_t_eq, Type220.tM, Type221.tM, ofCols_apply])
       (by simp [t220_t_eq, t221_t_eq, Type220.tM, Type221.tM, ofCols_apply])
       (by simp [t220_t_eq, t221_t_eq, Type220.tM, Type221.tM, ofCols_apply])
   · refine matAct_gen_eq_add_tw _ _ 1 0 1 0 ?_ ?_ ?_ <;>
-      simp [hK0, hK1, hK2, hK0', hK1', hK2', t220_t_eq, t221_t_eq, Type220.tM, Type221.tM,
-        ofCols_apply] <;>
-      ring_nf <;> simp
+      simp [hK0', hK1', hK2', t220_t_eq, t221_t_eq, Type220.tM, Type221.tM,
+        ofCols_apply];
+      ring_nf; simp
   · refine matAct_gen_eq_add_tw _ _ 2 0 1 1 ?_ ?_ ?_ <;>
-      simp only [hK0, hK1, hK2, hK0', hK1', hK2', t220_t_eq, t221_t_eq]
+      simp only [hK0', hK1', hK2', t220_t_eq, t221_t_eq]
     · exact ⟨2, by
         simp [Type220.tM, Type221.tM, Type220.uvA, Type221.uvA, Type220.ρM, Type221.ρM,
-          ofCols_apply, Matrix.mulVec, dotProduct, Fin.sum_univ_three]
+          ofCols_apply]
         ring⟩
     · exact ⟨1, by
         simp [Type220.tM, Type221.tM, Type220.uvA, Type221.uvA, Type220.ρM, Type221.ρM,
-          ofCols_apply, Matrix.mulVec, dotProduct, Fin.sum_univ_three]
+          ofCols_apply]
         ring⟩
     · exact ⟨1, by
         simp [Type220.tM, Type221.tM, Type220.uvA, Type221.uvA, Type220.ρM, Type221.ρM,
-          ofCols_apply, Matrix.mulVec, dotProduct, Fin.sum_univ_three]
+          ofCols_apply]
         ring⟩
   · exact e0 _ _ 0 (by simp [t220_u_eq, t221_u_eq, Type220.uM, Type221.uM, uMat, ofCols_apply])
       (by simp [t220_u_eq, t221_u_eq, Type220.uM, Type221.uM, uMat, ofCols_apply])

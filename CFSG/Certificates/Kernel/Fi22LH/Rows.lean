@@ -53,7 +53,7 @@ theorem bi_surj (h : LHChecks D) {y : Nat} (hy : y < 3510) : ∃ x < 3510, ent D
   obtain ⟨x, hx⟩ := Finite.surjective_of_injective hf ⟨y, hy⟩
   exact ⟨x, x.2, congrArg Fin.val hx⟩
 
-theorem bi_be (hO : OrbOK) (h : LHChecks D) {y : Nat} (hy : y < 3510) :
+theorem bi_be (_hO : OrbOK) (h : LHChecks D) {y : Nat} (hy : y < 3510) :
     ent D.bi (ent D.be y) = y := by
   obtain ⟨x, hx, rfl⟩ := bi_surj h hy
   rw [(bi_spec h hx).2]
@@ -99,8 +99,8 @@ theorem row_succ (h : LHChecks D) {k : Nat} (hk : k < 3510) (hk0 : 0 < k) :
   have e := Nat.eq_of_beq_eq_true (allN_iff.1 hall x hx)
   rw [e]
   by_cases hl : ent D.ol k = 1
-  · rw [if_pos hl, beq_true hl]
-  · rw [if_neg hl, beq_false hl]
+  · rw [ite_eq_left hl, beq_true hl]
+  · rw [ite_eq_right hl, beq_false hl]
 
 theorem tr_congr {n : Nat} {t : Table} {f g : Nat → Nat} (h : TR n t f) (hfg : ∀ i < n, f i = g i) :
     TR n t g :=
@@ -119,10 +119,10 @@ theorem compT_TR' {n : Nat} {P Q : Table} {f g : Nat → Nat} (hP : TR n P f) (h
   exact hp1
 
 theorem alpha_TR (hO : OrbOK) (h : LHChecks D) : TR 3510 orbL.alpha (ent D.al) :=
-  ⟨hO.1, fun i hi => ⟨(ent_al hO h hi).1, (ent_al hO h hi).2.1⟩⟩
+  ⟨hO.1, fun _i hi => ⟨(ent_al hO h hi).1, (ent_al hO h hi).2.1⟩⟩
 
 theorem beta_TR (hO : OrbOK) (h : LHChecks D) : TR 3510 orbL.beta (ent D.be) :=
-  ⟨hO.2.1, fun i hi => ⟨(ent_be hO h hi).1, (ent_be hO h hi).2⟩⟩
+  ⟨hO.2.1, fun _i hi => ⟨(ent_be hO h hi).1, (ent_be hO h hi).2⟩⟩
 
 theorem genTables_neg2 : genTables orbL (-2) = invT 3510 orbL.beta := by
   unfold genTables
@@ -147,7 +147,7 @@ theorem cTab_TR (hO : OrbOK) (h : LHChecks D) :
   | _ k ih =>
     intro hk
     rcases Nat.eq_zero_or_pos k with rfl | hk0
-    · rw [cTab, dif_neg (by omega), row_zero h]
+    · rw [cTab, dite_eq_right (by omega), row_zero h]
       exact alpha_TR hO h
     · obtain ⟨-, -, a3, a4, -, -, -, a8⟩ := hO.2.2.2.2 k hk
       obtain ⟨hp, -⟩ := a8 hk0
@@ -156,16 +156,16 @@ theorem cTab_TR (hO : OrbOK) (h : LHChecks D) :
       rw [← h.op] at hp
       obtain ⟨-, hrow⟩ := row_succ h hk hk0
       have ihp := ih (ent D.op k) hp (by omega)
-      rw [cTab, dif_pos ⟨hk0, by rw [hpar]; exact hp⟩, hpar, hlab]
+      rw [cTab, dite_eq_left ⟨hk0, by rw [hpar]; exact hp⟩, hpar, hlab]
       by_cases hl : ent D.ol k = 1
-      · rw [if_pos (by rw [hl]; rfl)]
+      · rw [ite_eq_left (by rw [hl]; rfl)]
         refine tr_congr (compT_TR' (compT_TR' (alpha_TR hO h) ihp) (alpha_TR hO h)) ?_
         intro x hx
-        rw [hrow x hx, if_pos hl]
-      · rw [if_neg (by intro e; exact hl (beq_iff_eq.1 e))]
+        rw [hrow x hx, ite_eq_left hl]
+      · rw [ite_eq_right (by intro e; exact hl (beq_iff_eq.1 e))]
         refine tr_congr (compT_TR' (compT_TR' (beta_TR hO h) ihp) (binv_TR hO h)) ?_
         intro x hx
-        rw [hrow x hx, if_neg hl]
+        rw [hrow x hx, ite_eq_right hl]
 
 theorem tauAll_TR (hO : OrbOK) (h : LHChecks D) :
     ∀ k < 3510, TR 3510 (tauAll orbL)[k]! (ent (D.R k)) := by
@@ -187,7 +187,7 @@ theorem row_inj (hO : OrbOK) (h : LHChecks D) {k x y : Nat} (hk : k < 3510) (hx 
     · obtain ⟨hp, hrow⟩ := row_succ h hk hk0
       rw [hrow x hx, hrow y hy] at e
       by_cases hl : ent D.ol k = 1
-      · rw [if_pos hl, if_pos hl] at e
+      · rw [ite_eq_left hl, ite_eq_left hl] at e
         have ha := (ent_al hO h hx).2.1
         have hb := (ent_al hO h hy).2.1
         have e1 : ent (D.R (ent D.op k)) (ent D.al x) = ent (D.R (ent D.op k)) (ent D.al y) := by
@@ -195,7 +195,7 @@ theorem row_inj (hO : OrbOK) (h : LHChecks D) {k x y : Nat} (hk : k < 3510) (hx 
             ← (ent_al hO h (row_lt hO h (by omega) hb)).2.2, e]
         have e2 := ih _ hp (by omega) ha hb e1
         rw [← (ent_al hO h hx).2.2, ← (ent_al hO h hy).2.2, e2]
-      · rw [if_neg hl, if_neg hl] at e
+      · rw [ite_eq_right hl, ite_eq_right hl] at e
         have ha := (bi_spec h hx).1
         have hb := (bi_spec h hy).1
         have e1 := ent_be_inj hO h (row_lt hO h (by omega) ha) (row_lt hO h (by omega) hb) e

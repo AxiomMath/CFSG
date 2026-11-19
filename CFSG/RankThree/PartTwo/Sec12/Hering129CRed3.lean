@@ -69,8 +69,8 @@ theorem ker_fCfg (cfg : Cfg129 G A c L b a K S) :
     (QuotientGroup.eq_one_iff _).mp x.2
   let j : ↥φ.ker →* ↥(aschbacherSolvableCore 3 ↥L) := g.codRestrict _ hgθ
   have hj : Function.Injective j := fun x y h => hg (congrArg Subtype.val h)
-  haveI : Group.IsSolvable ↥(aschbacherSolvableCore 3 ↥L) := hθs
-  haveI : Group.IsSolvable ↥φ.ker := Group.isSolvable_of_isSolvable_injective hj
+  have : Group.IsSolvable ↥(aschbacherSolvableCore 3 ↥L) := hθs
+  have : Group.IsSolvable ↥φ.ker := Group.isSolvable_of_isSolvable_injective hj
   have hcardφ : Nat.card φ.ker ∣ Nat.card (aschbacherSolvableCore 3 ↥L) :=
     Subgroup.card_dvd_of_injective j hj
   let h : ↥φ.ker →* ↥(fCfg cfg).ker := (r.comp φ.ker.subtype).codRestrict _ (fun x => by

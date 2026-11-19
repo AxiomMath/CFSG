@@ -28,8 +28,8 @@ theorem y7c_schur_quot
     (e : Nonempty ((Q ⧸ Zb) ≃* Matrix.GeneralLinearGroup (Fin 3) (ZMod 2))) :
     Nat.card ↥(commutator Q ⊓ Zb) ∣ 2 := by
   obtain ⟨e⟩ := e
-  haveI : Group.IsPerfect (Matrix.GeneralLinearGroup (Fin 3) (ZMod 2)) := isPerfect_GL32
-  haveI : Group.IsPerfect (Q ⧸ Zb) :=
+  have : Group.IsPerfect (Matrix.GeneralLinearGroup (Fin 3) (ZMod 2)) := isPerfect_GL32
+  have : Group.IsPerfect (Q ⧸ Zb) :=
     Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
   let f : Q →* Q ⧸ Zb := QuotientGroup.mk' Zb
   have hf : Function.Surjective f := QuotientGroup.mk'_surjective Zb
@@ -75,8 +75,7 @@ theorem y7c_schur_quot
   have hφker : φ.ker = Zb.subgroupOf (commutator Q) := by
     rw [← hψker]
     ext x
-    simp only [MonoidHom.mem_ker, MonoidHom.coe_comp, Function.comp_apply,
-      MulEquiv.coe_toMonoidHom]
+    simp only [MonoidHom.mem_ker]
     exact MulEquiv.map_eq_one_iff e
   have hcenter : Subgroup.center ↥(commutator Q) = Zb.subgroupOf (commutator Q) := by
     refine le_antisymm ?_ ?_

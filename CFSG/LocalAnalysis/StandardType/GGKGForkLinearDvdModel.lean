@@ -367,11 +367,11 @@ private theorem ggKGTm_card_sumZero {d p : ℕ} {K : Type} [Field K] [Finite K]
     Nat.card ↥(sumZero d p) = p ^ (d - 1) := by
   obtain ⟨m, rfl⟩ : ∃ m, d = m + 1 := ⟨d - 1, by omega⟩
   obtain ⟨ζ, hζroot⟩ := hζ
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   let u : Kˣ := Units.mk0 ζ (hζroot.ne_zero hp.ne_zero)
   have hu : u ^ p = 1 := by
     ext
-    simp only [u, Units.val_pow_eq_pow_val, Units.val_one, Units.mk0_val]
+    simp only [u, Units.val_pow_eq_pow_val, Units.val_one]
     exact hζroot.pow_eq_one
   have hζu : IsPrimitiveRoot u p := IsPrimitiveRoot.coe_units_iff.mp hζroot
   have hord : orderOf u = p := hζu.eq_orderOf.symm
@@ -418,7 +418,7 @@ private theorem ggKGTm_S_eq_top_or_sumZero {d p : ℕ} {K : Type} [Field K] [Fin
     (hSge : p ^ (d - 1) ≤ Nat.card ↥(ggKGTm_S φ A u hu)) :
     ggKGTm_S φ A u hu = ⊤ ∨ ggKGTm_S φ A u hu = sumZero d p := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hd0 : 0 < d := by omega
   let S := ggKGTm_S φ A u hu
   by_cases htop : S = ⊤
@@ -669,14 +669,14 @@ theorem ggKGTAD_permModel {d p : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2
           (g : Fin d → Multiplicative (ZMod p)) = permAut π (f : Fin d → Multiplicative (ZMod p)) →
             ggConjAut A hn (Θ f) = Θ g := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hd0 : 0 < d := by omega
   obtain ⟨ζ, hζ⟩ := exists_isPrimitiveRoot (K := K) hp hpK
   let u : Kˣ := Units.mk0 ζ (hζ.ne_zero hp.ne_zero)
   have hu : u ^ p = 1 := by
     ext
-    simp only [u, Units.val_pow_eq_pow_val, Units.val_one, Units.mk0_val]
+    simp only [u, Units.val_pow_eq_pow_val, Units.val_one]
     exact hζ.pow_eq_one
   have hζu : IsPrimitiveRoot u p := IsPrimitiveRoot.coe_units_iff.mp hζ
   have hord : orderOf u = p := hζu.eq_orderOf.symm

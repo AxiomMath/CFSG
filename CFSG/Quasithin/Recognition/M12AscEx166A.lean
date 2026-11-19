@@ -80,7 +80,7 @@ theorem exists_sylow_eq [Finite X] (h : KleinCore (⊤ : Subgroup X) V z y) :
     ∃ P : Sylow 2 X, (P : Subgroup X) = V := by
   have hVp : IsPGroup 2 V := IsPGroup.of_card (n := 2) (by rw [h.V_card]; norm_num)
   obtain ⟨S0, hS0⟩ := hVp.exists_le_sylow
-  have hS0card : Nat.card (S0 : Subgroup X) ≤ 4 := h.syl _ le_top S0.isPGroup'
+  have hS0card : Nat.card (S0 : Subgroup X) ≤ 4 := h.syl _ le_top S0.isPGroup
   exact ⟨S0, (Subgroup.eq_of_le_of_card_ge hS0 (by rw [h.V_card]; exact hS0card)).symm⟩
 
 theorem sylow_facts [Finite X] (h : KleinCore (⊤ : Subgroup X) V z y) (S : Sylow 2 X) :

@@ -15,24 +15,28 @@ section Comp
 
 variable {S : Type} [Group S] [Finite S] {σ : MulAut S} {J : Subgroup ↥(fixedSubgroup σ)}
 
+omit [Finite S] in
 theorem U42Hyp.nonabelian (h : U42Hyp σ J) : ∃ x y : ↥J, x * y ≠ y * x := by
   by_contra hne
   push Not at hne
-  haveI := h.isSimpleGroup
-  letI : CommGroup ↥J := { (inferInstance : Group ↥J) with mul_comm := fun x y => hne x y }
+  have := h.isSimpleGroup
+  let : CommGroup ↥J := { (inferInstance : Group ↥J) with mul_comm := fun x y => hne x y }
   have hp := IsSimpleGroup.prime_card (α := ↥J)
   rw [h.card_J] at hp
   exact absurd hp (by norm_num)
 
+omit [Finite S] in
 theorem U42Hyp.isComponent (h : U42Hyp σ J) : CFSG.IsComponent J := by
-  haveI := h.isSimpleGroup
+  have := h.isSimpleGroup
   exact ⟨(CFSG.LocalCores.isQuasisimple_of_isSimpleGroup h.nonabelian).1,
     h.normal.isSubnormal⟩
 
+omit [Finite S] in
 theorem U42Hyp.center_eq_bot (h : U42Hyp σ J) : center ↥J = ⊥ := by
-  haveI := h.isSimpleGroup
+  have := h.isSimpleGroup
   exact (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup h.nonabelian).2
 
+omit [Finite S] in
 theorem U42Hyp.card_centerQuotient (h : U42Hyp σ J) : Nat.card (↥J ⧸ center ↥J) = 25920 := by
   rw [Nat.card_congr ((QuotientGroup.quotientMulEquivOfEq h.center_eq_bot).trans
     QuotientGroup.quotientBot).toEquiv, h.card_J]

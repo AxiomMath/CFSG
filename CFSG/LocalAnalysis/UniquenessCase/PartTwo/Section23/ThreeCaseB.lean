@@ -16,6 +16,7 @@ open scoped Pointwise commutatorElement
 variable {G : Type} [Group G] [Finite G]
 variable {D : Data G} {Ch : Choice2011 G}
 
+omit [Finite G] in
 theorem quasithin_conjClosure_eq (Z H : Subgroup G) :
     Quasithin.conjClosure Z H = conjClosure H Z := by
   rw [Quasithin.conjClosure, conjClosure]
@@ -38,6 +39,7 @@ theorem eSub_U_eq_W23_1 (c : Ctx23L D Ch) :
     quasithin_conjClosure_eq]
   rfl
 
+omit [Finite G] in
 private theorem mQuot_bot_autI_eq_rk {E A₀ : Subgroup G} (hE : IsElemAbelian 2 E)
     (hAN : A₀ ≤ normalizer (E : Set G))
     (hdisj : A₀ ⊓ Subgroup.centralizer (E : Set G) = ⊥) :
@@ -50,6 +52,7 @@ private theorem mQuot_bot_autI_eq_rk {E A₀ : Subgroup G} (hE : IsElemAbelian 2
   unfold rk
   rw [hcard]
 
+omit [Finite G] in
 private theorem fixV_eq_of_centralizer_eq {E A₀ : Subgroup G}
     (hE : IsElemAbelian 2 E) (hAN : A₀ ≤ normalizer (E : Set G))
     (hdisj : A₀ ⊓ Subgroup.centralizer (E : Set G) = ⊥)
@@ -94,6 +97,7 @@ private theorem fixV_eq_of_centralizer_eq {E A₀ : Subgroup G}
   rw [← hfix (g : G) hgA₀ hg1] at hmemg
   exact hmemg.2
 
+omit [Finite G] in
 private theorem mem_aSet_autI {H E A₀ : Subgroup G} (hE : IsElemAbelian 2 E)
     (hA₀ : IsElemAbelian 2 A₀) (hAH : A₀ ≤ H) (hAN : A₀ ≤ normalizer (E : Set G))
     (hdisj : A₀ ⊓ Subgroup.centralizer (E : Set G) = ⊥) (hbot : A₀ ≠ ⊥)
@@ -161,7 +165,7 @@ theorem exists_relIndex_eq_two_of_one_le_rk {V : Subgroup G} (hV : IsElemAbelian
   refine Nat.eq_of_mul_eq_mul_right hp ?_
   rw [hrel, ← pow_succ', Nat.sub_add_cancel (by omega)]
 
-theorem wClos_one_ne_bot (c : Ctx23L D Ch) (h2 : 2 ≤ rk ↥D.U) :
+theorem wClos_one_ne_bot (_c : Ctx23L D Ch) (h2 : 2 ≤ rk ↥D.U) :
     E3.wClos D.U 1 D.T ≠ ⊥ := by
   obtain ⟨A, hAU, hArel⟩ :=
     exists_relIndex_eq_two_of_one_le_rk (uCore_le_and_isElemAbelian D.standing.charTwo
@@ -198,9 +202,9 @@ theorem center_wClos_one_ne_bot (c : Ctx23L D Ch) (h2 : 2 ≤ rk ↥D.U) :
   have hWne : E3.wClos D.U 1 D.T ≠ ⊥ := wClos_one_ne_bot c h2
   have hW2 : IsPGroup 2 (E3.wClos D.U 1 D.T) :=
     D.sylowM.isPGroup.to_le (E3.wClos_le 1 D.T)
-  haveI : Nontrivial ↥(E3.wClos D.U 1 D.T) :=
+  have : Nontrivial ↥(E3.wClos D.U 1 D.T) :=
     (Subgroup.nontrivial_iff_ne_bot _).2 hWne
-  haveI := hW2.center_nontrivial
+  have := hW2.center_nontrivial
   obtain ⟨z, hz⟩ := exists_ne (1 : ↥(center ↥(E3.wClos D.U 1 D.T)))
   intro hbot
   have hzmem : ((z : ↥(E3.wClos D.U 1 D.T)) : G) ∈

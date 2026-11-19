@@ -15,8 +15,10 @@ variable {Q : Type} [Group Q] [Finite Q]
 @[expose] def ehat (c y w : Q) : Subgroup Q :=
   t113Y12 c y ⊔ Subgroup.zpowers (c⁻¹ * w * c)
 
+omit [Finite Q] in
 theorem Y12_le_ehat (c y w : Q) : t113Y12 c y ≤ ehat c y w := le_sup_left
 
+omit [Finite Q] in
 theorem ehat_central {c y w z : Q} (h1 : z * (c⁻¹ * y * c) = (c⁻¹ * y * c) * z)
     (h2 : z * ((c ^ 2)⁻¹ * y * c ^ 2) = ((c ^ 2)⁻¹ * y * c ^ 2) * z)
     (h3 : z * (c⁻¹ * w * c) = (c⁻¹ * w * c) * z) : ∀ e ∈ ehat c y w, z * e = e * z := by
@@ -29,6 +31,7 @@ theorem ehat_central {c y w z : Q} (h1 : z * (c⁻¹ * y * c) = (c⁻¹ * y * c)
     · exact h3.symm
   exact (Subgroup.mem_centralizer_singleton_iff.1 (hle he)).symm
 
+omit [Finite Q] in
 private theorem inf_zpowers_eq_bot {P : Subgroup Q} {g : Q} (hg : orderOf g = 3) (hgP : g ∉ P) :
     P ⊓ Subgroup.zpowers g = ⊥ := by
   rw [eq_bot_iff]

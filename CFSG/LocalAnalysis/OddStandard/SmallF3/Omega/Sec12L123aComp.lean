@@ -22,7 +22,7 @@ theorem sec123_mem_normalizer_of_conjugate_eq {K : Subgroup G} {c : G}
     · rintro ⟨k, hk, rfl⟩
       simpa [MulAut.conj_apply, mul_assoc] using hk
     · intro hx
-      exact ⟨c * x * c⁻¹, hx, by simp [MulAut.conj_apply, mul_assoc]⟩
+      exact ⟨c * x * c⁻¹, hx, by simp [mul_assoc]⟩
   rw [← hmem, h]
 
 theorem sec123_inFStar_of_isL29 {J : Subgroup G} (hq : IsQuasisimple ↥J) (h : IsL29 J) :

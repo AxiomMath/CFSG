@@ -90,10 +90,10 @@ theorem s16t_l4_mbar_direct (hS : S16tL4Setting D V₀ V L hV) :
     fun a ha b hb => (Subgroup.mem_centralizer_iff.mp (hKcent ha) b hb).symm
   have hcomm₀ : ∀ a ∈ kBar D.M V₀ V hV L, ∀ b ∈ L₀, a * b = b * a :=
     fun a ha b hb => (Subgroup.mem_centralizer_iff.mp (hKcent₀ ha) b hb).symm
-  haveI : IsSimpleGroup ↥(lBar V₀ V hV L) := s16t_l4_lbar_simple hS
+  have : IsSimpleGroup ↥(lBar V₀ V hV L) := s16t_l4_lbar_simple hS
   have hnotcomm : ¬ IsMulCommutative ↥(lBar V₀ V hV L) := by
     intro hc
-    haveI : IsMulCommutative ↥(lBar V₀ V hV L) := hc
+    have : IsMulCommutative ↥(lBar V₀ V hV L) := hc
     have hp : (Nat.card ↥(lBar V₀ V hV L)).Prime :=
       (Group.is_simple_iff_prime_card).mp inferInstance
     rw [s16t_l4_card_lbar hS] at hp
@@ -168,8 +168,8 @@ theorem s16t_l4_lbar_isAlt (hS : S16tL4Setting D V₀ V L hV) : IsAlt ↥(lBar V
 theorem s16t_l4_lbar_not_commutative (hS : S16tL4Setting D V₀ V L hV) :
     ¬ IsMulCommutative ↥(lBar V₀ V hV L) := by
   intro hc
-  haveI : IsSimpleGroup ↥(lBar V₀ V hV L) := s16t_l4_lbar_simple hS
-  haveI : IsMulCommutative ↥(lBar V₀ V hV L) := hc
+  have : IsSimpleGroup ↥(lBar V₀ V hV L) := s16t_l4_lbar_simple hS
+  have : IsMulCommutative ↥(lBar V₀ V hV L) := hc
   have hp : (Nat.card ↥(lBar V₀ V hV L)).Prime := (Group.is_simple_iff_prime_card).mp inferInstance
   rw [s16t_l4_card_lbar hS] at hp
   exact (by norm_num : ¬ Nat.Prime 20160) hp

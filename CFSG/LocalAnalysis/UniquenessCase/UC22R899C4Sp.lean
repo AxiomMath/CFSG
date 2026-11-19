@@ -43,8 +43,8 @@ theorem uc22r899c4_sp_of_scalar {D : Data G}
   have hrσ : r ∉ D.sig := fun h => hnot (UC6S846.sp_of_mem_sig hSg hns h)
   obtain ⟨hpp, hp2⟩ := D.sig_prime p hp
   have h76p := h76 p hp (UC6S846.sp_of_mem_sig hSg hns hp)
-  haveI : Fact p.Prime := ⟨hpp⟩
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact p.Prime := ⟨hpp⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hr2 : r ≠ 2 := uc22ine229_ne_two hs hrs
   have hr3 : r ≠ 3 := fun h =>
     CFSG.SignalizerFunctorTheorem.McBride.PSL2Even.not_three_dvd_pow_sub_one hs (h ▸ hrs)

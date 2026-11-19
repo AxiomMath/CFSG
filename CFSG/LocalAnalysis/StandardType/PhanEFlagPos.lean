@@ -28,7 +28,7 @@ private lemma q2cFP_permRk_succ (σ : Equiv.Perm (Fin n)) (k : Fin n) (j : ℕ) 
   classical
   unfold permRk
   by_cases h : (σ k).val < j
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     rw [show (Finset.univ.filter fun a : Fin n => a.val < k.val + 1 ∧ (σ a).val < j) =
         insert k (Finset.univ.filter fun a : Fin n => a.val < k.val ∧ (σ a).val < j) by
       ext a
@@ -40,7 +40,7 @@ private lemma q2cFP_permRk_succ (σ : Equiv.Perm (Fin n)) (k : Fin n) (j : ℕ) 
         have hlt : a.val < k.val + 1 ↔ a.val < k.val := by omega
         simp [ha, hlt]]
     rw [Finset.card_insert_of_notMem (by simp)]
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     rw [show (Finset.univ.filter fun a : Fin n => a.val < k.val + 1 ∧ (σ a).val < j) =
         (Finset.univ.filter fun a : Fin n => a.val < k.val ∧ (σ a).val < j) by
       ext a
@@ -50,7 +50,7 @@ private lemma q2cFP_permRk_succ (σ : Equiv.Perm (Fin n)) (k : Fin n) (j : ℕ) 
         simp [h]
       · have hv : a.val ≠ k.val := fun hv => ha (Fin.ext hv)
         have hlt : a.val < k.val + 1 ↔ a.val < k.val := by omega
-        simp [ha, hlt]]
+        simp [hlt]]
     omega
 
 theorem hasPos_unique {E F : FlagK K n} {σ τ : Equiv.Perm (Fin n)} (hσ : HasPos E F σ)
@@ -67,7 +67,7 @@ theorem hasPos_unique {E F : FlagK K n} {σ τ : Equiv.Perm (Fin n)} (hσ : HasP
     have hk0 := hperm k.val ((τ k).val) (by omega) (by omega)
     rw [q2cFP_permRk_succ σ k ((τ k).val),
       q2cFP_permRk_succ τ k ((τ k).val), hk0,
-      if_pos h, if_neg (lt_irrefl _)] at hk
+      ite_eq_left h, ite_eq_right (lt_irrefl _)] at hk
     omega
   have hlt2 : ¬ (τ k).val < (σ k).val := by
     intro h
@@ -75,7 +75,7 @@ theorem hasPos_unique {E F : FlagK K n} {σ τ : Equiv.Perm (Fin n)} (hσ : HasP
     have hk0 := hperm k.val ((σ k).val) (by omega) (by omega)
     rw [q2cFP_permRk_succ σ k ((σ k).val),
       q2cFP_permRk_succ τ k ((σ k).val), hk0,
-      if_neg (lt_irrefl _), if_pos h] at hk
+      ite_eq_right (lt_irrefl _), ite_eq_left h] at hk
     omega
   omega
 

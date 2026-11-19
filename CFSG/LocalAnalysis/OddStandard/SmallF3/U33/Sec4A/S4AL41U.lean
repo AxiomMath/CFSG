@@ -60,7 +60,7 @@ theorem l41_uy_normal (h : L41GPh11 t L S x₁ x₂ lam rho) {W' : Subgroup G}
     NormalIn (l41Y t x₁ x₂ rho) W' := by
   have hYV := l41_uy_Y_le_V h
   have hYW' : l41Y t x₁ x₂ rho ≤ W' := hYV.trans hVW'
-  haveI hchar := h.yfacts.char_Y
+  have hchar := h.yfacts.char_Y
   have hYVn : ((l41Y t x₁ x₂ rho).subgroupOf (l41V S t x₁ x₂)).Normal := inferInstance
   have hVN : ∀ k ∈ l41V S t x₁ x₂, ∀ y ∈ l41Y t x₁ x₂ rho,
       k * y * k⁻¹ ∈ l41Y t x₁ x₂ rho := fun k hk y hy =>
@@ -122,7 +122,7 @@ theorem l41_uy_normal (h : L41GPh11 t L S x₁ x₂ lam rho) {W' : Subgroup G}
 theorem l41_uy_odd_index (h : L41GPh11 t L S x₁ x₂ lam rho) :
     ¬ 2 ∣ (normalizer ((l41Y t x₁ x₂ rho : Subgroup G) : Set G)).index := by
   obtain ⟨𝒮, h𝒮⟩ := h.normalizerFacts.V_pGroup.exists_le_sylow
-  have hn := l41_uy_normal h (show IsPGroup 2 (𝒮 : Subgroup G) from 𝒮.isPGroup') h𝒮
+  have hn := l41_uy_normal h (show IsPGroup 2 (𝒮 : Subgroup G) from 𝒮.isPGroup) h𝒮
   have hle : (𝒮 : Subgroup G) ≤ normalizer ((l41Y t x₁ x₂ rho : Subgroup G) : Set G) :=
     fun g hg => mem_normalizer_of_conj_mem (fun y hy => hn.2 g hg y hy)
   exact fun h2 => 𝒮.not_dvd_index (h2.trans (Subgroup.index_dvd_of_le hle))

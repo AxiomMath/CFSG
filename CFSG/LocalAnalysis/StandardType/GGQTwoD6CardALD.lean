@@ -211,7 +211,7 @@ private lemma ggQ2d6l_neg_fixed (w : d6SumZero)
   change (w : Fin 6 → ZMod 3) ((Equiv.swap 0 1) j) = - (w : Fin 6 → ZMod 3) j at h
   by_cases hj0 : j = 0
   · subst hj0
-    simp [ggQ2d6l_e, ggQ2d6l_one_sub_zero]
+    simp [ggQ2d6l_e]
   · by_cases hj1 : j = 1
     · subst hj1
       have h0 := congrFun hw 0
@@ -476,7 +476,7 @@ private lemma ggQ2d6l_faithful (g : Equiv.Perm (Fin 6))
   change (↑(ggQ2d6l_diff i k) : Fin 6 → ZMod 3) (g.symm i) =
       (↑(ggQ2d6l_diff i k) : Fin 6 → ZMod 3) i at heval
   simp only [ggQ2d6l_diff, ggQ2d6l_e, Pi.sub_apply, Pi.single_apply] at heval
-  simp only [hsym_ne, Ne.symm hksymi, Ne.symm hki, if_false, if_true, zero_sub] at heval
+  simp only [hsym_ne, Ne.symm hksymi, Ne.symm hki, ite_false, ite_true, zero_sub] at heval
   exact absurd heval (by decide)
 
 private def ggQ2d6l_fixA {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
@@ -485,12 +485,12 @@ private def ggQ2d6l_fixA {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
   zero_mem' := by simp
   add_mem' := by
     intro x y hx hy
-    simp only [Set.mem_setOf_eq] at hx hy
-    simp only [Set.mem_setOf_eq, map_add, hx, hy]
+    simp only [Set.mem_ofPred_eq] at hx hy
+    simp only [Set.mem_ofPred_eq, map_add, hx, hy]
   neg_mem' := by
     intro x hx
-    simp only [Set.mem_setOf_eq] at hx
-    simp only [Set.mem_setOf_eq, map_neg, hx]
+    simp only [Set.mem_ofPred_eq] at hx
+    simp only [Set.mem_ofPred_eq, map_neg, hx]
 
 private def ggQ2d6l_negA {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
     (f : V ≃ₗ[ZMod 3] V) : AddSubgroup V where
@@ -498,12 +498,12 @@ private def ggQ2d6l_negA {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
   zero_mem' := by simp
   add_mem' := by
     intro x y hx hy
-    simp only [Set.mem_setOf_eq] at hx hy
-    simp only [Set.mem_setOf_eq, map_add, hx, hy, neg_add]
+    simp only [Set.mem_ofPred_eq] at hx hy
+    simp only [Set.mem_ofPred_eq, map_add, hx, hy, neg_add]
   neg_mem' := by
     intro x hx
-    simp only [Set.mem_setOf_eq] at hx
-    simp only [Set.mem_setOf_eq, map_neg, hx, neg_neg]
+    simp only [Set.mem_ofPred_eq] at hx
+    simp only [Set.mem_ofPred_eq, map_neg, hx, neg_neg]
 
 private lemma ggQ2d6l_sq_eq_one : ∀ a : ZMod 3, a * a = 1 → a = 1 ∨ a = -1 := by
   decide +kernel

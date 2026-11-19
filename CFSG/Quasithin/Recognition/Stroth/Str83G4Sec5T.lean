@@ -48,6 +48,7 @@ theorem str83G4_trivial_on_sup_right
   rw [e]
   exact (Q2 L1 L2 S).mul_mem hkl hconj
 
+omit [Finite G] in
 theorem str83G4Data_sup_le_bigB (d : Str83G4Data L1 L2 S) : d.D1 ⊔ d.D2 ≤ bigB L1 L2 S := by
   rw [d.hBsplit, sup_assoc]
   exact le_sup_right

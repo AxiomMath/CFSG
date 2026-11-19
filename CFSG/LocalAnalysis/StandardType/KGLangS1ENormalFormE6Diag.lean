@@ -59,8 +59,8 @@ private theorem kgLangS1ENormalFormE6DiagAux_normalForm
         (Ψ z : ModGL .E6 k) = g' * exactQ .E6 k ε *
           baseChangeGL (τ := .E6) β (z : ModGL .E6 K₀) *
             (exactQ .E6 k ε)⁻¹ * g'⁻¹ := by
-  letI : Fintype K₀ := Fintype.ofFinite K₀
-  letI : Fintype k := Fintype.ofFinite k
+  let : Fintype K₀ := Fintype.ofFinite K₀
+  let : Fintype k := Fintype.ofFinite k
   have hcardF : Fintype.card K₀ = Fintype.card k := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hK₀, hk]
   let φ₀ : K₀ ≃+* k := FiniteField.ringEquivOfCardEq hcardF

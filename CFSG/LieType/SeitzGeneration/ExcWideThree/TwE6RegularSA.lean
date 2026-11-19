@@ -126,8 +126,8 @@ theorem twE6InnerLineLongRoot_of_lie
     (hB : TwE6LiftBridge) (hL : TwE6InnerLineLie) : TwE6InnerLineLongRoot := by
   intro K _ _ σ q hK3 hσ hK E hE hEab hcard hnin D hreg
   classical
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
-  haveI : Finite (twistedE6RootGroup K σ) := Subtype.finite
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Finite (twistedE6RootGroup K σ) := Subtype.finite
   have h3 : 3 ∣ q + 1 := three_dvd_of_not_le_innerAut K σ q hσ hK E hE hnin
   have hK1 : 1 < Nat.card K := Finite.one_lt_card
   have hq2 : 2 ≤ q := by
@@ -135,7 +135,7 @@ theorem twE6InnerLineLongRoot_of_lie
     push Not at h
     interval_cases q <;> norm_num at hK <;> omega
   obtain ⟨hpr, f, hf1, hqf⟩ := twE6_exists_pow_ringChar_of_card_sq K q hK hq2
-  haveI : Fact (ringChar K).Prime := ⟨hpr⟩
+  have : Fact (ringChar K).Prime := ⟨hpr⟩
   obtain ⟨ω, hω⟩ := exists_primCubeRoot K hK3
   have hω' : IsPrimitiveRoot ω 3 := IsPrimitiveRoot.coe_units_iff.1 hω
   have hω3 : ω ^ 3 = 1 := hω'.pow_eq_one

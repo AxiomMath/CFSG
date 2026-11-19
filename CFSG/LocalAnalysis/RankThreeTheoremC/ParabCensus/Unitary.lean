@@ -22,7 +22,7 @@ theorem odd_relIndex_hypSU_hypUnitary (h : UnitaryFieldData 2 f K) (r ε : ℕ) 
     ((Nat.even_pow' (by have := h.one_le; omega)).2 even_two).add_one
   rcases Nat.eq_zero_or_pos (2 * r + ε) with hdim | hdim
   · obtain ⟨rfl, rfl⟩ : r = 0 ∧ ε = 0 := by omega
-    haveI : Subsingleton (GL (HypIndex 0 0) K) := inferInstance
+    have : Subsingleton (GL (HypIndex 0 0) K) := inferInstance
     rw [Subgroup.eq_bot_of_subsingleton (hypSU h 0 0),
       Subgroup.eq_bot_of_subsingleton (hypUnitary h 0 0), Subgroup.relIndex_bot_left,
       Subgroup.card_bot]
@@ -42,8 +42,8 @@ theorem uniLeviHom_none_mem_hypUnitary (h : UnitaryFieldData p f K) (hε : ε �
     LeviBlock.uniLeviHom h hε hI y none ∈ hypUnitary h s ε :=
   mem_hypUnitary.mpr (LeviBlock.resBlock_gram h hε (Finset.mem_coe.mpr hI.mem) y)
 
-theorem uniBlockSub_some_eq_bot_or_isWBlock (h : UnitaryFieldData 2 f K) (hε : ε ≤ 1)
-    {t s : ℕ} {I : Finset ℕ} (hI : LeviBlock.IsTopCut I t) (b : ↥I) :
+theorem uniBlockSub_some_eq_bot_or_isWBlock (h : UnitaryFieldData 2 f K) (_hε : ε ≤ 1)
+    {t s : ℕ} {I : Finset ℕ} (_hI : LeviBlock.IsTopCut I t) (b : ↥I) :
     LeviBlock.uniBlockSub (s := s) (ε := ε) h I (some b) = ⊥ ∨
       IsWBlock ↥(LeviBlock.uniBlockSub (s := s) (ε := ε) h I (some b)) := by
   have : Finite K := h.finite
@@ -57,13 +57,13 @@ theorem uniBlockSub_some_eq_bot_or_isWBlock (h : UnitaryFieldData 2 f K) (hε : 
 
 theorem hypSU_one_zero_two_isSymThree (h : UnitaryFieldData 2 1 K) :
     IsSymThreeOrSUThreeTwo ↥(hypSU h 1 0) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : CharP K 2 := h.charP
   have : Finite K := h.finite
   obtain ⟨F, hFfield, hFfin, hFcard, ⟨e⟩⟩ := LeviBlock.exists_hypSU_one_zero_mulEquiv h
-  letI : Field F := hFfield
-  haveI : Finite F := hFfin
-  letI : Fintype F := Fintype.ofFinite F
+  let : Field F := hFfield
+  have : Finite F := hFfin
+  let : Fintype F := Fintype.ofFinite F
   have hF : Nat.card F = 2 := by simpa using hFcard
   have : CharP F 2 := by
     apply charP_of_card_eq_prime_pow (f := 1)
@@ -80,21 +80,21 @@ theorem hypSU_one_one_two_isSUThreeTwo (h : UnitaryFieldData 2 1 K) :
   rw [h.card]
   norm_num
 
-theorem center_hypSU_one_zero_eq_bot (h : UnitaryFieldData 2 f K) (hf : 2 ≤ f) :
+theorem center_hypSU_one_zero_eq_bot (h : UnitaryFieldData 2 f K) (_hf : 2 ≤ f) :
     Subgroup.center (hypSU h 1 0) = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : CharP K 2 := h.charP
   have : Finite K := h.finite
   obtain ⟨F, hFfield, hFfin, hFcard, ⟨e⟩⟩ := LeviBlock.exists_hypSU_one_zero_mulEquiv h
-  letI : Field F := hFfield
-  haveI : Finite F := hFfin
-  letI : Fintype F := Fintype.ofFinite F
+  let : Field F := hFfield
+  have : Finite F := hFfin
+  let : Fintype F := Fintype.ofFinite F
   have : CharP F 2 := by
     apply charP_of_card_eq_prime_pow (f := f)
     rw [← Nat.card_eq_fintype_card]
     exact hFcard
   refine (Subgroup.eq_bot_iff_forall _).2 fun x hx => ?_
-  haveI : Subsingleton ↥(Subgroup.center (Matrix.SpecialLinearGroup (Fin 2) F)) := by
+  have : Subsingleton ↥(Subgroup.center (Matrix.SpecialLinearGroup (Fin 2) F)) := by
     rw [CFSG.Timmesfeld.RankOne.center_SL2_eq_bot F]
     infer_instance
   have h1 : (Subgroup.centerCongr e) (⟨x, hx⟩ : ↥(Subgroup.center (hypSU h 1 0))) =
@@ -105,10 +105,10 @@ theorem center_hypSU_one_zero_eq_bot (h : UnitaryFieldData 2 f K) (hf : 2 ≤ f)
     (Subgroup.centerCongr e).injective h1
   simpa using congrArg Subtype.val h2
 
-theorem center_hypSU_eq_hypScalars_of_three_le (h : UnitaryFieldData 2 f K) (hε : ε ≤ 1)
+theorem center_hypSU_eq_hypScalars_of_three_le (h : UnitaryFieldData 2 f K) (_hε : ε ≤ 1)
     {s : ℕ} (hm : 3 ≤ 2 * s + ε) (hmq : (2 * s + ε, 2 ^ f) ≠ (3, 2)) :
     Subgroup.center (hypSU h s ε) = hypScalars h s ε := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : CharP K 2 := h.charP
   have : Finite K := h.finite
   have hF : Nat.card K = (2 ^ f) ^ 2 := by rw [h.card, ← pow_mul, mul_comm]
@@ -128,13 +128,13 @@ theorem center_hypSU_eq_hypScalars_of_three_le (h : UnitaryFieldData 2 f K) (hε
 
 theorem hypSU_eq_bot_or_isWBlock (h : UnitaryFieldData 2 f K) (hε : ε ≤ 1) (s : ℕ) :
     hypSU h s ε = ⊥ ∨ IsWBlock ↥(hypSU h s ε) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : CharP K 2 := h.charP
   have : Finite K := h.finite
   have hodd : Odd (2 ^ f + 1) :=
     ((Nat.even_pow' (by have := h.one_le; omega)).2 even_two).add_one
   rcases Nat.eq_zero_or_pos s with rfl | hs
-  · haveI := LeviBlock.subsingleton_hypSU_zero h hε
+  · have := LeviBlock.subsingleton_hypSU_zero h hε
     exact Or.inl (Subgroup.eq_bot_of_subsingleton _)
   by_cases hm3 : 3 ≤ 2 * s + ε
   · by_cases hmq : (2 * s + ε, 2 ^ f) = (3, 2)
@@ -214,7 +214,7 @@ theorem hasLeviCensus_idxTwistedA {X : Type} [Group X] [Finite X] {L J : Subgrou
   obtain ⟨K, _, f, t, s, ε, hU, ρ, I, g, hε, hI, -, hρ, hZfib, hJ⟩ :=
     CFSG.AGLEmbedding.exists_uniFlag_dim_of_compParab hCP d hd eL
   have : Finite K := hU.finite
-  haveI : CharP K 2 := hU.charP
+  have : CharP K 2 := hU.charP
   let C := hypSU hU (t + s) ε
   let J' : Subgroup C := (J.subgroupOf L).comap ρ
   let e := LeviBlock.stabMulEquiv g hJ

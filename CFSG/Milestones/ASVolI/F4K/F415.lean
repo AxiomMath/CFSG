@@ -20,7 +20,7 @@ variable {α : RankTwoAmalgam.{0}} {Y : Type} [Group Y] {c : α.Completion Y}
 
 theorem burnsideF4k_asm_label {m : ℕ} (hm : 2 ≤ m) (hU : UniqueGeod c.graph m) {S : Set c.Γ}
     (hS : c.IsApartment m S) {x l : c.Γ} (hx : x ∈ S) (hl : l ∈ S) (hxl : c.graph.Adj x l) :
-    ∃ (z : ℕ → c.Γ) (hz : ∀ i, c.graph.Adj (z i) (z (i + 1))), (∀ i, z i ≠ z (i + 2)) ∧
+    ∃ (z : ℕ → c.Γ) (_hz : ∀ i, c.graph.Adj (z i) (z (i + 1))), (∀ i, z i ≠ z (i + 2)) ∧
       (∀ i, z (i + 2 * m) = z i) ∧ S = Set.range z ∧ z 0 = x ∧ z 1 = l := by
   have hΓ := connected_graph c
   have hc' : ∀ a b : c.Γ, c.graph.Adj a b → CosetGeom.vtype a ≠ CosetGeom.vtype b :=
@@ -59,7 +59,7 @@ section Orbit
 theorem burnsideF4k_asm_stabilizer_eq {V : Type} {Γ : SimpleGraph V} {H : Type} [Group H]
     [MulAction H V] [GraphAction H Γ] {n : ℕ} (q : GPath Γ n) :
     @MulAction.stabilizer H (GPath Γ n) _ (burnsideF4k_asm_pathAction Γ H n) q = q.stabPath := by
-  letI := burnsideF4k_asm_pathAction Γ H n
+  let := burnsideF4k_asm_pathAction Γ H n
   ext g
   rw [MulAction.mem_stabilizer_iff, GPath.mem_stabPath_iff]
   exact GPath.smul_eq_iff
@@ -147,7 +147,7 @@ theorem burnsideF4k_asm_card_stab_geods {α : RankTwoAmalgam.{0}} {Y : Type} [Gr
       ∃ g ∈ stv c a ⊓ stv c (q m), g • q₁ = q₂) :
     Nat.card ↥(stv c a ⊓ stv c (q m)) =
       Nat.card ↥(c.geods m a (q m)) * Nat.card ↥(q.stabPath : Subgroup c.G0) := by
-  letI := burnsideF4k_asm_pathAction c.graph c.G0 m
+  let := burnsideF4k_asm_pathAction c.graph c.G0 m
   have h := burnsideF4k_asm_card_trans (stv c a ⊓ stv c (q m)) (c.geods m a (q m))
     (fun h hh r hr => burnsideF4k_geods_smul hh hr) htr hq
   rw [burnsideF4k_asm_stabilizer_eq] at h
@@ -166,8 +166,8 @@ theorem burnsideF4k_asm_card_stabPath_eq (hF : F_4_6) (hyp : HypF_4_4 κ p f Gp 
     {q : GPath β.graph κ.m} (hq : q ∈ GPath.nbPaths β.graph β.xv κ.m)
     {q' : GPath β'.graph κ.m} (hq' : q' ∈ GPath.nbPaths β'.graph β'.xv κ.m) :
     Nat.card ↥(q.stabPath : Subgroup β.G0) = Nat.card ↥(q'.stabPath : Subgroup β'.G0) := by
-  haveI : Finite E := hyp.finite
-  haveI := burnsideF4b_finite_G1 M₁ M₂
+  have : Finite E := hyp.finite
+  have := burnsideF4b_finite_G1 M₁ M₂
   have h467 := (hF κ p f E Gp M₁ M₂ hyp Y β hβ (incl M₁ M₂) rfl).2.2.2.1
   have h467' := (hF κ p f E Gp M₁ M₂ hyp Y' β' hβ' (incl M₁ M₂) rfl).2.2.2.1
   obtain ⟨j, hj⟩ : ∃ j, κ.m = 2 * j + 2 := by
@@ -241,13 +241,13 @@ theorem burnsideF4k_asm_not_ii (hT : burnsideF4k_GrpTwoTrans) (hF : F_4_6) (h5 :
     (h2 : ∀ q₁ ∈ β.geods κ.m β.xv (q κ.m), ∀ q₂ ∈ β.geods κ.m β.xv (q κ.m), q₁ ≠ q₂ →
       ∀ r₁ ∈ β.geods κ.m β.xv (q κ.m), ∀ r₂ ∈ β.geods κ.m β.xv (q κ.m), r₁ ≠ r₂ →
         ∃ g ∈ stv β β.xv ⊓ stv β (q κ.m), g • q₁ = r₁ ∧ g • q₂ = r₂) : False := by
-  haveI : Finite E := hyp.finite
-  haveI := burnsideF4b_finite_G1 M₁ M₂
-  haveI := burnsideF4b_finite_G2 M₁ M₂
+  have : Finite E := hyp.finite
+  have := burnsideF4b_finite_G1 M₁ M₂
+  have := burnsideF4b_finite_G2 M₁ M₂
   have hAll : burnsideF4b_Facts46All :=
     burnsideF4b_Facts46All_of_F46 hF (burnsideF4b_parabolics_of_compat hcompat)
   have F := hAll κ p f E Gp M₁ M₂ hyp Y β hβ
-  haveI : Finite Y := burnsideF4b_finite_of_small F hs
+  have : Finite Y := burnsideF4b_finite_of_small F hs
   have Fι := hAll κ p f E Gp M₁ M₂ hyp _ (incl M₁ M₂) (incl_faithful M₁ M₂)
   have hsι : (incl M₁ M₂).IsSmall κ.m := burnsideF4b_IotaSmall_of hAll h5 κ p f E Gp M₁ M₂ hyp
   have hm := F.hm
@@ -282,8 +282,8 @@ theorem burnsideF4k_asm_not_ii (hT : burnsideF4k_GrpTwoTrans) (hF : F_4_6) (h5 :
       Nat.card ↥(stv β β.xv ⊓ stv β (q κ.m)) = 3 := by
     rw [hcardH, hn, hstab, ← hnι, ← hcardHι]
     exact hcardι
-  letI := burnsideF4k_asm_pathAction β.graph β.G0 κ.m
-  haveI : Finite ↥(β.geods κ.m β.xv (q κ.m)) := Nat.finite_of_card_ne_zero (by rw [hn]; omega)
+  let := burnsideF4k_asm_pathAction β.graph β.G0 κ.m
+  have : Finite ↥(β.geods κ.m β.xv (q κ.m)) := Nat.finite_of_card_ne_zero (by rw [hn]; omega)
   have hdvd := hT (stv β β.xv ⊓ stv β (q κ.m)) (β.geods κ.m β.xv (q κ.m)) inferInstance
     (Set.toFinite _) (by rw [hn]; omega) (fun h hh r hr => burnsideF4k_geods_smul hh hr) h2
   rw [hn] at hdvd
@@ -330,7 +330,7 @@ theorem burnsideF4k_asm_point_cases (hT : burnsideF4k_GrpTwoTrans) (hF : F_4_6) 
   · exact Or.inr ⟨hκG, hZ, htr, hc⟩
 
 theorem burnsideF4k_asm_swap_x (hD : burnsideF4k_GrpD10) (hF : F_4_6)
-    (hcompat : NativeChartCompatibilityGoal) (hyp : HypF_4_4 κ p f Gp M₁ M₂)
+    (_hcompat : NativeChartCompatibilityGoal) (hyp : HypF_4_4 κ p f Gp M₁ M₂)
     (hnG : ¬ (Gp = ⊤ ∧ κ = .G2d)) {Y : Type} [Group Y] (β : Cpl M₁ M₂ Y) (hβ : β.IsFaithful)
     {b : β.Γ} {A₁ A₂ : GPath β.graph κ.m} (h1 : A₁ ∈ β.geods κ.m β.xv b)
     (h2 : A₂ ∈ β.geods κ.m β.xv b) (hne : A₁ ≠ A₂) :
@@ -343,7 +343,7 @@ theorem burnsideF4k_asm_swap_x (hD : burnsideF4k_GrpD10) (hF : F_4_6)
   rcases hcase with huniq | ⟨-, htr2, -⟩ | ⟨-, -, ⟨e⟩, htr, hc, -⟩ | ⟨hG, -⟩
   · exact absurd (huniq A₂ h2.1 h2.2.1 h2.2.2) (Ne.symm hne)
   · exact htr2 A₁ h1 A₂ h2 hne A₂ h2 A₁ h1 (Ne.symm hne)
-  · letI := burnsideF4k_asm_pathAction β.graph β.G0 κ.m
+  · let := burnsideF4k_asm_pathAction β.graph β.G0 κ.m
     exact (hD (stv β β.xv ⊓ stv β b) ⟨e⟩ (β.geods κ.m β.xv b)
       (fun h hh r hr => burnsideF4k_geods_smul hh hr) htr hc).1 A₁ h1 A₂ h2 hne
   · exact absurd hG hnG
@@ -361,7 +361,7 @@ theorem burnsideF4k_asm_tits_two_fix (hD : burnsideF4k_GrpD10) (hT : burnsideF4k
   rcases burnsideF4k_asm_point_cases hT hF h5 hcompat hyp (Or.inl hκ) β hβ hs hA₁ with
     ⟨-, ⟨e⟩, htr, hc⟩ | ⟨hκG, -⟩
   · rw [hb] at e htr hc
-    letI := burnsideF4k_asm_pathAction β.graph β.G0 κ.m
+    let := burnsideF4k_asm_pathAction β.graph β.G0 κ.m
     exact (hD (stv β β.xv ⊓ stv β b) ⟨e⟩ (β.geods κ.m β.xv b)
       (fun h hh r hr => burnsideF4k_geods_smul hh hr) htr hc).2 A₁ h1 A₂ h2 hne g hg hg1 hg2
   · rw [hκ] at hκG
@@ -383,7 +383,7 @@ theorem burnsideF4k_asm_g2d_x (hZ : burnsideF4k_GrpZ3) (hT : burnsideF4k_GrpTwoT
   · rw [hκ] at hκT
     exact absurd hκT (by decide)
   · rw [hb] at e htr hc
-    letI := burnsideF4k_asm_pathAction β.graph β.G0 κ.m
+    let := burnsideF4k_asm_pathAction β.graph β.G0 κ.m
     exact hZ (stv β β.xv ⊓ stv β b) ⟨e⟩ (β.geods κ.m β.xv b)
       (fun h hh r hr => burnsideF4k_geods_smul hh hr) htr hc
 
@@ -531,11 +531,11 @@ theorem burnsideF4k_asm_F415_three (hA : burnsideF4k_PolyArcs) (hW : burnsideF4k
       (¬ ∃ g : β.G0, (fun w => g • w) '' S₁ = S₂) ∧
       Nat.card ↥{S : Set β.Γ | ∃ g : β.G0, (fun w => g • w) '' S₁ = S} =
         Nat.card ↥{S : Set β.Γ | ∃ g : β.G0, (fun w => g • w) '' S₂ = S} := by
-  haveI : Finite E := hyp.finite
-  haveI := burnsideF4b_finite_G1 M₁ M₂
-  haveI := burnsideF4b_finite_G2 M₁ M₂
+  have : Finite E := hyp.finite
+  have := burnsideF4b_finite_G1 M₁ M₂
+  have := burnsideF4b_finite_G2 M₁ M₂
   have F := burnsideF4a_facts46_of_compat hF hcompat hyp β hβ
-  haveI : Finite Y := burnsideF4b_finite_of_small F hs
+  have : Finite Y := burnsideF4b_finite_of_small F hs
   have hm := F.hm
   have hU := F.uniqueGeod
   have hΓ := connected_graph β
@@ -656,7 +656,7 @@ theorem burnsideF4k_asm_F415_three (hA : burnsideF4k_PolyArcs) (hW : burnsideF4k
         {S : Set β.Γ | ∃ g : β.G0, (fun w => g • w) '' S' = S} = MulAction.orbit β.G0 S' := by
       intro S'
       ext S
-      simp only [Set.mem_setOf_eq, MulAction.mem_orbit_iff]
+      simp only [Set.mem_ofPred_eq, MulAction.mem_orbit_iff]
       constructor
       · rintro ⟨g, hg⟩
         exact ⟨g, by rw [← hg, Set.image_smul]⟩
@@ -696,11 +696,11 @@ theorem burnsideF4k_asm_F415_four (hA : burnsideF4k_PolyArcs) (hR : burnsideF4k_
           Set.ncard {u : β.Γ | ∃ w ∈ setStab β S, w • β.lv = u} = 3 ∧
           Set.ncard {u : β.Γ | ∃ w ∈ setStab β S, w • c = u} = 3 := by
   intro S hS hx hl c hc hcS hcl
-  haveI : Finite E := hyp.finite
-  haveI := burnsideF4b_finite_G1 M₁ M₂
-  haveI := burnsideF4b_finite_G2 M₁ M₂
+  have : Finite E := hyp.finite
+  have := burnsideF4b_finite_G1 M₁ M₂
+  have := burnsideF4b_finite_G2 M₁ M₂
   have F := burnsideF4a_facts46_of_compat hF hcompat hyp β hβ
-  haveI : Finite Y := burnsideF4b_finite_of_small F hs
+  have : Finite Y := burnsideF4b_finite_of_small F hs
   have hm := F.hm
   have hU := F.uniqueGeod
   have hΓ := connected_graph β

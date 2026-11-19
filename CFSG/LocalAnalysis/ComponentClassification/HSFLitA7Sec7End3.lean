@@ -157,7 +157,7 @@ include hSP
 
 theorem exists_g' : ∃ g ∈ (P : Subgroup X), g ∉ C.S₂ ∧ g ∈ normalizer (C.S₂ : Set X) ∧
     g ^ 2 ∈ C.V ∧ ¬ g ^ 2 * C.F.yF * (g ^ 2)⁻¹ = C.F.yF := by
-  have hP2 := P.isPGroup'
+  have hP2 := P.isPGroup
   obtain ⟨g, hgP, hgS, hgN⟩ := C.exists_g P hSP
   obtain ⟨hk, hz⟩ := C.swap_of_not_mem hP2 hSP hgP hgN hgS
   have hg2 : g ^ 2 ∈ C.S₂ := by
@@ -197,7 +197,7 @@ end Transfer
 include C in
 theorem false_of_exc [IsSimpleGroup X] (hnab : ∃ a b : X, a * b ≠ b * a) : False := by
   obtain ⟨P, hSP⟩ := IsPGroup.exists_le_sylow C.isPGroup_S₂
-  have hP2 := P.isPGroup'
+  have hP2 := P.isPGroup
   obtain ⟨g, hgP, hgS, hgN, hg2V, hg2y⟩ := C.exists_g' P hSP
   obtain ⟨hk, hz⟩ := C.swap_of_not_mem hP2 hSP hgP hgN hgS
   have hPN := C.P_le_normalizer P hSP

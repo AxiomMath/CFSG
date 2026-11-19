@@ -21,9 +21,9 @@ private theorem rckRPhr_vecMul_single_rev {F : Type} [Field F] {n : ℕ} (a : Fi
   simp only [Pi.single_apply]
   by_cases h : i = Fin.rev a
   · have h' : Fin.rev i = a := by rw [h, Fin.rev_rev]
-    rw [if_pos h, if_pos h']
+    rw [ite_eq_left h, ite_eq_left h']
   · have h' : Fin.rev i ≠ a := fun hh => h (by rw [← hh, Fin.rev_rev])
-    rw [if_neg h, if_neg h']
+    rw [ite_eq_right h, ite_eq_right h']
 
 private theorem rckRPhr_single_dot_single {F : Type} [Field F] {ι : Type} [Fintype ι]
     [DecidableEq ι] (a b : ι) :
@@ -35,7 +35,7 @@ private theorem rckRPhr_single_dot_single {F : Type} [Field F] {ι : Type} [Fint
   · by_cases hab : a = b
     · subst hab
       simp
-    · rw [if_neg hab]
+    · rw [ite_eq_right hab]
       have hba : b ≠ a := fun h => hab h.symm
       simp [hba]
   · intro i _ hi
@@ -164,12 +164,12 @@ theorem exists_longRoot_transv_of_suModel {F₀ K W : Type} [Field F₀] [Finite
   have hv₀ : Matrix.vecMul (fun i => σ₀ (v₀ i)) J ⬝ᵥ v₀ = 0 := by
     rw [hσ₀v₀, show v₀ = Pi.single i₀ (1 : F₀) from rfl,
       rckRPhr_vecMul_single_rev (F := F₀) (n := m) i₀, rckRPhr_single_dot_single]
-    rw [if_neg hrev0]
+    rw [ite_eq_right hrev0]
   have hw₀ : Matrix.vecMul (fun i => σ₀ (w₀ i)) J ⬝ᵥ w₀ = 0 := by
     rw [hσ₀w₀, show w₀ = Pi.single (Fin.rev i₀) (1 : F₀) from rfl,
       rckRPhr_vecMul_single_rev (F := F₀) (n := m) (Fin.rev i₀), Fin.rev_rev,
       rckRPhr_single_dot_single]
-    rw [if_neg (Ne.symm hrev0)]
+    rw [ite_eq_right (Ne.symm hrev0)]
   have hvw₀ : Matrix.vecMul (fun i => σ₀ (v₀ i)) J ⬝ᵥ w₀ = 1 := by
     rw [hσ₀v₀, show v₀ = Pi.single i₀ (1 : F₀) from rfl,
       rckRPhr_vecMul_single_rev (F := F₀) (n := m) i₀, rckRPhr_single_dot_single]
@@ -201,7 +201,7 @@ theorem exists_longRoot_transv_of_suModel {F₀ K W : Type} [Field F₀] [Finite
       funext i
       simp
     rw [hz] at hvw₁
-    simpa using hvw₁
+    simp at hvw₁
   let v : W := e.symm (fun i => τ (v₁ i))
   have hev : e v = fun i => τ (v₁ i) := by
     simp [v]

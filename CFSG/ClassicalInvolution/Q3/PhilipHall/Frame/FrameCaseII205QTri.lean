@@ -96,7 +96,7 @@ theorem aEmpty_section_of_bar {K₀ : Subgroup Y} (hΩ : HypOmegaGen (CoreAssemb
 
 variable {R : Subgroup Y} {S : Sylow 2 R} {t : Y}
 
-theorem pair_mem_cFam {n : ℕ} (h : SecCoreHyp n R S t) (hRc : tightCore R = R) {c : Y}
+theorem pair_mem_cFam {n : ℕ} (_h : SecCoreHyp n R S t) (hRc : tightCore R = R) {c : Y}
     (hcm : c ∈ centralizerModOdd ⊤ R) {K' : Subgroup Y}
     (hK' : K' ∈ twinSet (CoreAssembly.conjClass (tightCore R)) (tightCore R))
     (hcK' : c ∈ Balance.Bootstrap.trivialOnQuot K') :

@@ -23,12 +23,12 @@ open Matrix CFSG.Open CFSG.MatrixModel
 theorem minusGram_mulVec_inl (m : ℕ) (K : Type) [Field K] (b c : K)
     (w : Fin m ⊕ Fin m ⊕ Fin 2 → K) (i : Fin m) :
     (minusGram m K b c *ᵥ w) (Sum.inl i) = w (Sum.inr (Sum.inl i)) := by
-  simp [Matrix.mulVec, dotProduct, minusGram, Fintype.sum_sum_type, Fin.sum_univ_two]
+  simp [Matrix.mulVec, dotProduct, minusGram, Fintype.sum_sum_type]
 
 theorem minusGram_mulVec_inr_inl (m : ℕ) (K : Type) [Field K] (b c : K)
     (w : Fin m ⊕ Fin m ⊕ Fin 2 → K) (i : Fin m) :
     (minusGram m K b c *ᵥ w) (Sum.inr (Sum.inl i)) = w (Sum.inl i) := by
-  simp [Matrix.mulVec, dotProduct, minusGram, Fintype.sum_sum_type, Fin.sum_univ_two]
+  simp [Matrix.mulVec, dotProduct, minusGram, Fintype.sum_sum_type]
 
 theorem minusGram_mulVec_uu (m : ℕ) (K : Type) [Field K] (b c : K)
     (w : Fin m ⊕ Fin m ⊕ Fin 2 → K) :
@@ -79,7 +79,7 @@ theorem transpose_mul_gram_mul_of_isometry {ι K : Type} [Fintype ι] [Decidable
   rw [hij, hB, ← Matrix.mulVec_add]
   simp only [hA]
   rw [← hB]
-  simp [Matrix.mulVec_single_one, single_dotProduct]
+  simp [single_dotProduct]
 
 theorem isometryCore_preserves {ι K : Type} [Fintype ι] [DecidableEq ι] [Field K]
     (Q : (ι → K) → K) {A : GL ι K} (hA : A ∈ CFSG.MatrixModel.isometryCore Q) :

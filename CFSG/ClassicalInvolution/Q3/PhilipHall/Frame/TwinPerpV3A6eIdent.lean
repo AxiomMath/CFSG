@@ -34,7 +34,7 @@ theorem aeIdent_mem_D [Finite Y] {P : Set (Subgroup Y)} (A : AEIdent P 8) {I : S
     ∀ x : ↥I, (x : Y) ∈ pCoreOf 2 I ↔
       permQ 8 ((A.φ.comp (Subgroup.inclusion hpI.symm.le)) x) = 1 := by
   subst hpI
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h1 : Function.Injective A.φ := (MonoidHom.ker_eq_bot_iff _).mp hker
   intro x
   show (x : Y) ∈ pCoreOf 2 (pSpan P) ↔ permQ 8 (A.φ x) = 1

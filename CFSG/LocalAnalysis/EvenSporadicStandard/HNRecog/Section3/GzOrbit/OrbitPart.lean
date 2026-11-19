@@ -10,7 +10,7 @@ open CFSG.EvenSporadicStandard.HNRecog
 
 theorem isConjOrbit_of_partition_compl {G : Type} [Group G] {K : Subgroup G} {N A T : Set G}
     {S : Fin 2 → Set G} (hS : IsOrbitPartition K N S) (h0 : Nat.card ↥(S 0) = 150)
-    (h1 : Nat.card ↥(S 1) = 120) (hA : IsConjOrbit K A) (hAN : A ⊆ N) (hAcard : Nat.card ↥A = 120)
+    (_h1 : Nat.card ↥(S 1) = 120) (hA : IsConjOrbit K A) (hAN : A ⊆ N) (hAcard : Nat.card ↥A = 120)
     (hT : ∀ k ∈ K, ∀ t ∈ T, k * t * k⁻¹ ∈ T) (hTN : T ⊆ N) (hTA : Disjoint T A)
     (hTne : T.Nonempty) : IsConjOrbit K T ∧ Nat.card ↥T = 150 := by
   obtain ⟨x, hx⟩ := hA.nonempty

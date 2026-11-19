@@ -36,16 +36,19 @@ theorem mem_inner_of_isPGroup_of_not_dvd_card_outer
 
 private abbrev O2sub (L : Subgroup G) : Subgroup ↥L := CFSG.pCore 2 ↥L
 
+omit [Finite G] in
 private theorem mem_O2sub_iff {L : Subgroup G} {x : ↥L} :
     x ∈ O2sub L ↔ (x : G) ∈ CFSG.Open.pCoreOf 2 L := by
   rw [CFSG.Open.pCoreOf]
   exact (Subgroup.mem_map_iff_mem (f := L.subtype) L.subtype_injective).symm
 
+omit [Finite G] in
 private theorem normalizerMonoidHom_apply_coe (L : Subgroup G)
     (n : Subgroup.normalizer (L : Set G)) (y : ↥L) :
     (((Subgroup.normalizerMonoidHom L) n) y : G) = (n : G) * (y : G) * (n : G)⁻¹ :=
   rfl
 
+omit [Finite G] in
 private theorem barAction_eq_one_iff' (L : Subgroup G)
     (n : Subgroup.normalizer (L : Set G)) :
     barAction L n = 1 ↔ ∀ y ∈ L, ⁅(n : G), y⁆ ∈ CFSG.Open.pCoreOf 2 L := by
@@ -68,6 +71,7 @@ private theorem barAction_eq_one_iff' (L : Subgroup G)
     simpa [commutatorElement_def, Subgroup.coe_div, normalizerMonoidHom_apply_coe,
       div_eq_mul_inv] using h (y : G) y.2
 
+omit [Finite G] in
 private theorem barAction_eq_of_inner' {L : Subgroup G} {x l : G}
     (hxN : x ∈ Subgroup.normalizer (L : Set G)) (hlL : l ∈ L)
     (h : ∀ y ∈ L, (x * y * x⁻¹) * (l * y * l⁻¹)⁻¹ ∈ CFSG.Open.pCoreOf 2 L) :
@@ -107,8 +111,8 @@ theorem exists_conj_of_not_dvd_outer
 
 theorem le_sup_centralizerBar_of_inner_prime
     {G : Type} [Group G] [Finite G] {P L Q X : Subgroup G} {r : ℕ} [Fact r.Prime]
-    (hQP : Q ≤ P) (hQL : Q ≤ L) (hQeq : Q = P ⊓ L)
-    (hQnormP : (Q.subgroupOf P).Normal)
+    (hQP : Q ≤ P) (hQL : Q ≤ L) (_hQeq : Q = P ⊓ L)
+    (_hQnormP : (Q.subgroupOf P).Normal)
     (hQ : CFSG.ABGLocalTools.IsSylowOf r Q L)
     (hPr : IsPGroup r P) (hPNL : P ≤ Subgroup.normalizer (L : Set G))
     (hX : X ≤ P)
@@ -116,9 +120,9 @@ theorem le_sup_centralizerBar_of_inner_prime
       (x * y * x⁻¹) * (l * y * l⁻¹)⁻¹ ∈ CFSG.Open.pCoreOf 2 L) :
     X ≤ Q ⊔ centralizerBar P L := by
   classical
-  haveI hHfin : Finite (↥L ⧸ O2sub L) :=
+  have hHfin : Finite (↥L ⧸ O2sub L) :=
     Finite.of_surjective (QuotientGroup.mk' (O2sub L)) (QuotientGroup.mk'_surjective (O2sub L))
-  haveI hAfin : Finite (MulAut (↥L ⧸ O2sub L)) :=
+  have hAfin : Finite (MulAut (↥L ⧸ O2sub L)) :=
     Finite.of_injective
       (fun f : MulAut (↥L ⧸ O2sub L) => (f : (↥L ⧸ O2sub L) → (↥L ⧸ O2sub L)))
       DFunLike.coe_injective
@@ -230,7 +234,7 @@ theorem star863_of_bar
   have hMnormL : M ≤ Subgroup.normalizer (L : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hLM).mp hLnorm
   have hSNL : S ≤ Subgroup.normalizer (L : Set G) := hS.le.trans hMnormL
-  haveI hCnorm : ((centralizerBar S L).subgroupOf S).Normal :=
+  have hCnorm : ((centralizerBar S L).subgroupOf S).Normal :=
     centralizerBar_normal hSNL
   have hxcent : ∀ x ∈ S, x ∈ Subgroup.centralizer (A : Set G) := by
     intro x hx
@@ -293,7 +297,7 @@ theorem false_of_abelian_sylow_of_bar
     (hΓ : CFSG.Open.rankThreeGamma 1 r E ≤ M) :
     False := by
   classical
-  letI : Fact r.Prime := ⟨hr⟩
+  let : Fact r.Prime := ⟨hr⟩
   have hZ := star863_of_bar hLM hLnorm hS hdecomp hSLab hSL
   have hEcenter : E ≤ S ⊓ Subgroup.centralizer (S : Set G) := by
     refine le_inf (hE.trans inf_le_left) ?_

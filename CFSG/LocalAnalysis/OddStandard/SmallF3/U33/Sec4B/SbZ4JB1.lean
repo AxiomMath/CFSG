@@ -16,32 +16,39 @@ namespace ZJBase
 variable (h : ZJBase Q Y V V' B ρ t τ l y z v₁ v₂)
 include h
 
+omit [Finite H] in
 private theorem V_le_Y : V ≤ Y := by
   rw [h.Y_eq]
   exact le_sup_left
 
+omit [Finite H] in
 private theorem V'_le_Y : V' ≤ Y := by
   rw [h.Y_eq]
   exact le_sup_right
 
+omit [Finite H] in
 private theorem Y_comm : ∀ a ∈ Y, ∀ b ∈ Y, a * b = b * a :=
   fun a ha b hb => h.Q_comm a (h.Y_le_Q ha) b (h.Y_le_Q hb)
 
+omit [Finite H] in
 private theorem Y_inv_self {u : H} (hu : u ∈ Y) : u⁻¹ = u :=
   inv_eq_of_mul_eq_one_right (h.Y_sq u hu)
 
+omit [Finite H] h in
 private theorem conj_eq_self {e u : H} (he : e ∈ centralizer (Y : Set H)) (hu : u ∈ Y) :
     e * u * e⁻¹ = u := by
   have hcomm : u * e = e * u := (mem_centralizer_iff.1 he) u hu
   rw [← hcomm]
   group
 
+omit [Finite H] in
 theorem Q_le_E : Q ≤ centralizer (Y : Set H) := by
   intro q hq
   rw [mem_centralizer_iff]
   intro u hu
   exact h.Q_comm u (h.Y_le_Q hu) q hq
 
+omit [Finite H] in
 theorem E_normal {g e : H} (he : e ∈ centralizer (Y : Set H)) :
     g * e * g⁻¹ ∈ centralizer (Y : Set H) := by
   rw [mem_centralizer_iff] at he ⊢
@@ -55,6 +62,7 @@ theorem E_normal {g e : H} (he : e ∈ centralizer (Y : Set H)) :
     _ = g * (e * (g⁻¹ * u * g)) * g⁻¹ := by rw [hc]
     _ = (g * e * g⁻¹) * u := by group
 
+omit [Finite H] in
 theorem E_comm_mem_Y {e q : H} (he : e ∈ centralizer (Y : Set H)) (hq : q ∈ Q) :
     e * q * e⁻¹ * q⁻¹ ∈ Y := by
   have ha : e * q * e⁻¹ ∈ Q := h.normal_Q e q hq
@@ -75,12 +83,13 @@ theorem E_comm_mem_Y {e q : H} (he : e ∈ centralizer (Y : Set H)) (hq : q ∈ 
     _ = (q * q) * (q⁻¹ * q⁻¹) := by rw [haa]
     _ = 1 := by group
 
+omit [Finite H] in
 theorem E_sq_mem_Q {e : H} (he : e ∈ centralizer (Y : Set H)) : e * e ∈ Q := by
   refine h.cent_Q (e * e) fun q hq => ?_
   set w : H := e * q * e⁻¹ * q⁻¹ with hwdef
   have hw : w ∈ Y := by rw [hwdef]; exact h.E_comm_mem_Y he hq
   have hwq : e * q * e⁻¹ = w * q := by rw [hwdef]; group
-  have hcw : e * w * e⁻¹ = w := h.conj_eq_self he hw
+  have hcw : e * w * e⁻¹ = w := ZJBase.conj_eq_self he hw
   have hww : w * w = 1 := h.Y_sq w hw
   have hkey : (e * e) * q * (e * e)⁻¹ = q := by
     calc (e * e) * q * (e * e)⁻¹ = e * (e * q * e⁻¹) * e⁻¹ := by group
@@ -92,6 +101,7 @@ theorem E_sq_mem_Q {e : H} (he : e ∈ centralizer (Y : Set H)) : e * e ∈ Q :=
   calc (e * e) * q = ((e * e) * q * (e * e)⁻¹) * (e * e) := by group
     _ = q * (e * e) := by rw [hkey]
 
+omit [Finite H] in
 theorem E_pow_eight {e : H} (he : e ∈ centralizer (Y : Set H)) : e ^ 8 = 1 := by
   have haQ : e * e ∈ Q := h.E_sq_mem_Q he
   have haY : (e * e) ^ 2 ∈ Y := h.V_le_Y (h.sq_mem_V (e * e) haQ)
@@ -103,6 +113,7 @@ theorem E_pow_eight {e : H} (he : e ∈ centralizer (Y : Set H)) : e ^ 8 = 1 := 
       _ = (e * e) ^ 2 * (e * e) ^ 2 := by simp only [pow_two]
   exact hpow.trans h1
 
+omit [Finite H] in
 theorem E_comm_mem_Q {e e' : H} (he : e ∈ centralizer (Y : Set H))
     (he' : e' ∈ centralizer (Y : Set H)) : e * e' * e⁻¹ * e'⁻¹ ∈ Q := by
   have hsame : ∀ q ∈ Q,
@@ -114,8 +125,8 @@ theorem E_comm_mem_Q {e e' : H} (he : e ∈ centralizer (Y : Set H))
     have hw' : w' ∈ Y := by rw [hw'def]; exact h.E_comm_mem_Y he' hq
     have hwq : e * q * e⁻¹ = w * q := by rw [hwdef]; group
     have hw'q : e' * q * e'⁻¹ = w' * q := by rw [hw'def]; group
-    have hce : e * w' * e⁻¹ = w' := h.conj_eq_self he hw'
-    have hce' : e' * w * e'⁻¹ = w := h.conj_eq_self he' hw
+    have hce : e * w' * e⁻¹ = w' := ZJBase.conj_eq_self he hw'
+    have hce' : e' * w * e'⁻¹ = w := ZJBase.conj_eq_self he' hw
     have hcommY : w * w' = w' * w := h.Y_comm _ hw _ hw'
     have h1 : (e * e') * q * (e * e')⁻¹ = (w' * w) * q := by
       calc (e * e') * q * (e * e')⁻¹ = e * (e' * q * e'⁻¹) * e⁻¹ := by group
@@ -144,12 +155,14 @@ theorem E_comm_mem_Q {e e' : H} (he : e ∈ centralizer (Y : Set H))
         group
     _ = q * (e * e' * e⁻¹ * e'⁻¹) := by rw [hkey]
 
+omit [Finite H] in
 theorem E_isPGroup : IsPGroup 2 (centralizer (Y : Set H)) := by
   intro g
   refine ⟨3, ?_⟩
   apply Subtype.ext
   simpa using h.E_pow_eight g.2
 
+omit [Finite H] in
 theorem tau_mem_E : τ ∈ centralizer (Y : Set H) := by
   rw [mem_centralizer_iff]
   intro u hu
@@ -158,6 +171,7 @@ theorem tau_mem_E : τ ∈ centralizer (Y : Set H) := by
   calc u * τ = (τ * u * τ⁻¹) * τ := by rw [htau]
     _ = τ * u := by group
 
+omit [Finite H] in
 theorem t_not_mem_E : t ∉ centralizer (Y : Set H) := by
   intro ht
   have hv₁V' : v₁ ∈ V' := by
@@ -169,6 +183,7 @@ theorem t_not_mem_E : t ∉ centralizer (Y : Set H) := by
   have hy : v₁ * y = v₁ := by rw [← h.t_v₁, h1]
   exact h.y_ne_one (mul_left_cancel (by rw [hy, mul_one]))
 
+omit [Finite H] in
 theorem tt_not_mem_E : t * τ ∉ centralizer (Y : Set H) := by
   intro ht
   apply h.t_not_mem_E

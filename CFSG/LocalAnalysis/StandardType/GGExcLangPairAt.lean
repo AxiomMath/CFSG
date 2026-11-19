@@ -304,7 +304,7 @@ private theorem isPGroup_closure_pair {G : Type*} [Group G] {p : ℕ} {a b : G} 
     · exact hab
     · exact hab.symm
     · exact Commute.refl _
-  haveI := Subgroup.isMulCommutative_closure hcomm
+  have := Subgroup.isMulCommutative_closure hcomm
   have key : ∀ x ∈ Subgroup.closure ({a, b} : Set G), x ^ p = 1 := by
     intro x hx
     induction hx using Subgroup.closure_induction with
@@ -326,7 +326,7 @@ theorem pair_of_sylowSetup
     (ha : a ^ p = 1) (hb : b ^ p = 1) (hab : a * b = b * a) :
     ∃ e' : C ≃* S.Γ, ((e' a : ModGL τ L) ∈ S.D.torus) ∧ ((e' b : ModGL τ L) ∈ S.D.torus) := by
   obtain ⟨S₀, hS₀⟩ := hsyl
-  haveI : Finite S.Γ := Finite.of_equiv C e.toEquiv
+  have : Finite S.Γ := Finite.of_equiv C e.toEquiv
   have hP := (isPGroup_closure_pair ha hb hab).map e.toMonoidHom
   obtain ⟨P, hP'⟩ := hP.exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq S.Γ P S₀
@@ -373,7 +373,7 @@ private theorem pow_eq_one_of_mem_closure_pair {G : Type*} [Group G] {p : ℕ} {
     · exact hab
     · exact hab.symm
     · exact Commute.refl _
-  haveI := Subgroup.isMulCommutative_closure hcomm
+  have := Subgroup.isMulCommutative_closure hcomm
   intro x hx
   induction hx using Subgroup.closure_induction with
   | mem x hx => rcases hx with rfl | rfl <;> assumption
@@ -398,11 +398,11 @@ theorem langPairAt_of_datum
         D.torus.map (MulAut.conj D.g0).toMonoidHom) :
     LangPairAt τ K p a b := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, hℓ, hf⟩ := FiniteField.card K (ringChar K)
-  haveI : Fact (ringChar K).Prime := ⟨hℓ⟩
-  haveI : CharP K (ringChar K) := ringChar.charP K
-  haveI : CharP (AlgebraicClosure K) (ringChar K) :=
+  have : Fact (ringChar K).Prime := ⟨hℓ⟩
+  have : CharP K (ringChar K) := ringChar.charP K
+  have : CharP (AlgebraicClosure K) (ringChar K) :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective _
   have hqK : Nat.card K = ringChar K ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hf
   have hτ' : (τ = .E6 ∧ d = 3) ∨ (τ = .E7 ∧ d = 2) ∨ (τ = .E8 ∧ d = 1) := Or.inr hτ
@@ -439,7 +439,7 @@ theorem langPairAt_E8_five
     {a b : adjointGroup Tag.E8 K} (ha : a ^ 5 = 1) (hb : b ^ 5 = 1) (hab : a * b = b * a) :
     LangPairAt Tag.E8 K 5 a b := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hperf : commutator ↥(adjointGroup Tag.E8 K) = ⊤ :=
     (CFSG.LieType.Steinberg.Adjoint.isQuasisimple_e8 K).1.commutator_eq_top
   set A : Subgroup (adjointGroup Tag.E8 K) := Subgroup.closure {a, b} with hAdef
@@ -493,7 +493,7 @@ theorem langPairAt_E8_five
     have hcyc : IsCyclic A := by
       rcases (show k = 0 ∨ k = 1 by omega) with rfl | rfl
       · rw [pow_zero] at hk
-        haveI : Subsingleton A := (Nat.card_eq_one_iff_unique.1 hk).1
+        have : Subsingleton A := (Nat.card_eq_one_iff_unique.1 hk).1
         infer_instance
       · rw [pow_one] at hk
         exact isCyclic_of_prime_card hk
@@ -505,14 +505,14 @@ theorem langPairAt_E8_five
       obtain ⟨n, hn⟩ := Subgroup.mem_zpowers_iff.1 (hg ⟨y, hy⟩)
       exact Subgroup.mem_zpowers_iff.2 ⟨n, by
         rw [hxdef, ← Subgroup.coe_zpow, hn]⟩
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     obtain ⟨f, hℓ, hf⟩ := FiniteField.card K (ringChar K)
-    haveI : Fact (ringChar K).Prime := ⟨hℓ⟩
-    haveI : CharP K (ringChar K) := ringChar.charP K
+    have : Fact (ringChar K).Prime := ⟨hℓ⟩
+    have : CharP K (ringChar K) := ringChar.charP K
     set ℓ := ringChar K with hℓdef
     have hqK : Nat.card K = ℓ ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hf
     set L := AlgebraicClosure K with hLdef
-    haveI : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective _
+    have : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective _
     have hFrL : ∀ c : L, iterateFrobenius L ℓ (f : ℕ) c = c ^ Nat.card K := fun c => by
       rw [hqK]; exact iterateFrobenius_def ℓ (f : ℕ) c
     have hℓp : ℓ ≠ 5 := fun h => hpK (by rw [hqK, h]; exact dvd_pow_self 5 f.ne_zero)
@@ -543,7 +543,7 @@ theorem langPairAt_E8_five
 private theorem exists_dvd_of_dvd_prod {p q N : ℕ} (hp : p.Prime) (hpq : ¬ p ∣ q) (ds : List ℕ)
     (h : p ∣ q ^ N * (ds.map fun d => q ^ d - 1).prod) :
     ∃ d ∈ ds, orderOf (q : ZMod p) ∣ d := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rcases (Nat.Prime.dvd_mul hp).1 h with h1 | h1
   · exact absurd (hp.dvd_of_dvd_pow h1) hpq
   · obtain ⟨x, hx, hpx⟩ := (Prime.dvd_prod_iff hp.prime).1 h1
@@ -566,7 +566,7 @@ private theorem five_le_of_not_dvd {p q : ℕ} (hp : p.Prime) (hpq : ¬ p ∣ q)
 
 private theorem orderOf_ne_one_two {p q : ℕ} (hp : p.Prime) (hq : 1 ≤ q) (h1 : ¬ p ∣ q - 1)
     (h2 : ¬ p ∣ q + 1) : orderOf (q : ZMod p) ≠ 1 ∧ orderOf (q : ZMod p) ≠ 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hn1 : (q : ZMod p) ≠ 1 := fun h => h1 ((ZMod.natCast_eq_zero_iff _ p).1 (by
     rw [Nat.cast_sub hq, Nat.cast_one, h, sub_self]))
   refine ⟨fun h => hn1 (orderOf_eq_one_iff.1 h), fun h => ?_⟩
@@ -583,7 +583,7 @@ theorem langPairAt_E7
     (hpK : ¬ p ∣ Nat.card K) (hq1 : ¬ p ∣ Nat.card K - 1) (hq2 : ¬ p ∣ Nat.card K + 1)
     {a b : adjointGroup Tag.E7 K} (ha : a ^ p = 1) (hb : b ^ p = 1) (hab : a * b = b * a)
     (ha1 : a ≠ 1) : LangPairAt Tag.E7 K p a b := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp5 := five_le_of_not_dvd hp hpK hq1 hq2
   have hpC : p ∣ Nat.card (adjointGroup Tag.E7 K) :=
     orderOf_eq_prime ha ha1 ▸ orderOf_dvd_natCard a
@@ -603,7 +603,6 @@ theorem langPairAt_E7
     | exact absurd he1 (by decide) | exact absurd he2 (by decide)
     | exact absurd hex (by decide)
     | exact pair (sylowSetup_E7 K hp hp5 hpK he (by decide))
-    | exact absurd (orderOf_natCast_ne_zero hp hpK) (by rw [he]; decide)
 
 open CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.KD291OL in
 theorem langPairAt_E8
@@ -611,7 +610,7 @@ theorem langPairAt_E8
     (hpK : ¬ p ∣ Nat.card K) (hq1 : ¬ p ∣ Nat.card K - 1) (hq2 : ¬ p ∣ Nat.card K + 1)
     {a b : adjointGroup Tag.E8 K} (ha : a ^ p = 1) (hb : b ^ p = 1) (hab : a * b = b * a)
     (ha1 : a ≠ 1) : LangPairAt Tag.E8 K p a b := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp5 := five_le_of_not_dvd hp hpK hq1 hq2
   rcases five_or_seven_le hp hp5 with rfl | hp7
   · exact langPairAt_E8_five hpK ha hb hab
@@ -633,6 +632,5 @@ theorem langPairAt_E8
     | exact absurd he1 (by decide) | exact absurd he2 (by decide)
     | exact absurd hex (by decide)
     | exact pair (sylowSetup_E8 K hp hp5 hpK he (fun _ => hp7) (by decide))
-    | exact absurd (orderOf_natCast_ne_zero hp hpK) (by rw [he]; decide)
 
 end CFSG.StandardType.LangPair

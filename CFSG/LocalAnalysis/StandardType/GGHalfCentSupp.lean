@@ -79,8 +79,8 @@ private theorem centSupp_rank_fromBlocks_le {e s r : ℕ} (C : Matrix (Fin e) (F
       · rw [Matrix.fromBlocks_apply₁₁, Matrix.blockDiagonal_apply]
         by_cases hij : i = j
         · subst hij
-          rw [if_pos rfl, hzero i hiT, Matrix.zero_apply, Pi.zero_apply]
-        · rw [if_neg hij, Pi.zero_apply]
+          rw [ite_eq_left rfl, hzero i hiT, Matrix.zero_apply, Pi.zero_apply]
+        · rw [ite_eq_right hij, Pi.zero_apply]
       · simp [Matrix.fromBlocks_apply₁₂]
     · rcases y with ⟨b', j'⟩ | c <;>
         simp [Matrix.fromBlocks_apply₂₁, Matrix.fromBlocks_apply₂₂]
@@ -106,7 +106,7 @@ private theorem centSupp_le_rank_fromBlocks {e s r : ℕ} (C : Matrix (Fin e) (F
     by_cases h : i = j
     · subst h
       simp only [Matrix.submatrix_apply, g, Matrix.fromBlocks_apply₁₁, Matrix.blockDiagonal_apply,
-        Matrix.sub_apply, Matrix.one_apply, Pi.sub_apply]
+        Matrix.sub_apply, Matrix.one_apply]
     · have h' : i.1 ≠ j.1 := fun hh => h (Subtype.ext hh)
       simp only [Matrix.submatrix_apply, g, Matrix.fromBlocks_apply₁₁, Matrix.blockDiagonal_apply,
         h, h']

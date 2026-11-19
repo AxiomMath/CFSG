@@ -64,7 +64,7 @@ theorem le_of_perfect_cover_sub [Finite G] (R N N₀ L : Subgroup G) (hNR : N �
           e ∈ Subgroup.normalizer (A : Set E)) → b ≤ Nat.card A → Y = ⊥)
     (hb : b ≤ Nat.card ((L.subgroupOf R).map φ)) : N ≤ N₀ := by
   classical
-  haveI hN₀normal : (N₀.subgroupOf R).Normal := ⟨fun n hn g => by
+  have hN₀normal : (N₀.subgroupOf R).Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     exact hN₀norm g g.2 n hn⟩
   have hgen' := iSup_conj_subtype_eq_top R L hLR hgen

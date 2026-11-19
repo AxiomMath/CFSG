@@ -31,6 +31,7 @@ variable {F : Type} [Field F] [Finite F] {m : ℕ}
 def e (i : Fin m) : Fin m ⊕ Fin m → F := Pi.single (Sum.inl i) 1
 def f (i : Fin m) : Fin m ⊕ Fin m → F := Pi.single (Sum.inr i) 1
 
+omit [Finite F] in
 lemma Q_update_inl (h2 : (2 : F) = 0) (v : Fin m ⊕ Fin m → F) (i : Fin m) (c : F) :
     ggFusionPlaneQuadratic F m (v + c • e (F := F) i) =
       ggFusionPlaneQuadratic F m v + c * (c + v (Sum.inr i)) := by
@@ -45,7 +46,7 @@ lemma Q_update_inl (h2 : (2 : F) = 0) (v : Fin m ⊕ Fin m → F) (i : Fin m) (c
       have h1 : (Sum.inl j : Fin m ⊕ Fin m) ≠ Sum.inl i := by simpa using hji
       have h2 : (Sum.inr j : Fin m ⊕ Fin m) ≠ Sum.inl i := by simp
       simp only [e, Pi.add_apply, Pi.smul_apply, Pi.single_eq_of_ne h1,
-        Pi.single_eq_of_ne h2, smul_eq_mul, add_zero]
+        Pi.single_eq_of_ne h2, smul_eq_mul]
       ring
     · intro hi
       simp at hi
@@ -55,6 +56,7 @@ lemma Q_update_inl (h2 : (2 : F) = 0) (v : Fin m ⊕ Fin m → F) (i : Fin m) (c
     _ = c * (c + v (Sum.inr i)) + ggFusionPlaneQuadratic F m v := by rw [h]
     _ = ggFusionPlaneQuadratic F m v + c * (c + v (Sum.inr i)) := by ring
 
+omit [Finite F] in
 lemma Q_update_inr (h2 : (2 : F) = 0) (v : Fin m ⊕ Fin m → F) (i : Fin m) (c : F) :
     ggFusionPlaneQuadratic F m (v + c • f (F := F) i) =
       ggFusionPlaneQuadratic F m v + c * (c + v (Sum.inl i)) := by
@@ -69,7 +71,7 @@ lemma Q_update_inr (h2 : (2 : F) = 0) (v : Fin m ⊕ Fin m → F) (i : Fin m) (c
       have h1 : (Sum.inr j : Fin m ⊕ Fin m) ≠ Sum.inr i := by simpa using hji
       have h2 : (Sum.inl j : Fin m ⊕ Fin m) ≠ Sum.inr i := by simp
       simp only [f, Pi.add_apply, Pi.smul_apply, Pi.single_eq_of_ne h1,
-        Pi.single_eq_of_ne h2, smul_eq_mul, add_zero]
+        Pi.single_eq_of_ne h2, smul_eq_mul]
       ring
     · intro hi
       simp at hi
@@ -94,6 +96,7 @@ noncomputable def tauGL (i j : Fin m) : GL (Fin m ⊕ Fin m) F :=
 
 variable {F m}
 
+omit [Finite F] in
 lemma aGL_mulVec (i : Fin m) (v : Fin m ⊕ Fin m → F) :
     Matrix.mulVec (aGL F m i : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) F) v =
       v + v (Sum.inr i) • e (F := F) i := by
@@ -107,6 +110,7 @@ lemma aGL_mulVec (i : Fin m) (v : Fin m ⊕ Fin m → F) :
     · simp [Matrix.transvection, Matrix.add_mulVec, Matrix.single_mulVec, hk]]
   simp [e, one_mul]
 
+omit [Finite F] in
 lemma bGL_mulVec (i : Fin m) (v : Fin m ⊕ Fin m → F) :
     Matrix.mulVec (bGL F m i : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) F) v =
       v + v (Sum.inl i) • f (F := F) i := by
@@ -130,6 +134,7 @@ namespace GGPlaneA
 
 variable {F : Type} [Field F] [Finite F] {m : ℕ}
 
+omit [Finite F] in
 lemma Q_comp_sumCongr (σ : Equiv.Perm (Fin m)) (v : Fin m ⊕ Fin m → F) :
     ggFusionPlaneQuadratic F m (v ∘ ⇑(Equiv.Perm.sumCongr σ σ)) =
       ggFusionPlaneQuadratic F m v := by
@@ -139,14 +144,14 @@ lemma Q_comp_sumCongr (σ : Equiv.Perm (Fin m)) (v : Fin m ⊕ Fin m → F) :
     v (Sum.inr i) ^ 2)
 
 lemma charP_two (hcard : Nat.card F = 2) : CharP F 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : Fintype F := Fintype.ofFinite F
   apply charP_of_card_eq_prime
   rw [← Nat.card_eq_fintype_card]
   exact hcard
 
 lemma two_eq_zero (hcard : Nat.card F = 2) : (2 : F) = 0 := by
-  haveI : CharP F 2 := charP_two hcard
+  have : CharP F 2 := charP_two hcard
   exact CharP.cast_eq_zero F 2
 
 lemma three_eq_one (hcard : Nat.card F = 2) : (3 : F) = 1 := by
@@ -157,7 +162,7 @@ lemma five_eq_one (hcard : Nat.card F = 2) : (5 : F) = 1 := by
 
 lemma aGL_mem (hcard : Nat.card F = 2) (i : Fin m) :
     aGL F m i ∈ LargeEvenOrthGroup (ggFusionPlaneQuadratic F m) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hchar : CharP F 2 := charP_two hcard
   have h2 : (2 : F) = 0 := two_eq_zero hcard
   refine TableBSymp.mem_orthGroup_of_isometry fun v => ?_
@@ -167,7 +172,7 @@ lemma aGL_mem (hcard : Nat.card F = 2) (i : Fin m) :
 
 lemma bGL_mem (hcard : Nat.card F = 2) (i : Fin m) :
     bGL F m i ∈ LargeEvenOrthGroup (ggFusionPlaneQuadratic F m) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hchar : CharP F 2 := charP_two hcard
   have h2 : (2 : F) = 0 := two_eq_zero hcard
   refine TableBSymp.mem_orthGroup_of_isometry fun v => ?_
@@ -177,7 +182,7 @@ lemma bGL_mem (hcard : Nat.card F = 2) (i : Fin m) :
 
 lemma tauGL_mem (hcard : Nat.card F = 2) (i j : Fin m) :
     tauGL F m i j ∈ LargeEvenOrthGroup (ggFusionPlaneQuadratic F m) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hchar : CharP F 2 := charP_two hcard
   refine TableBSymp.mem_orthGroup_of_isometry fun v => ?_
   rw [tauGL, TableBSymp.permutationGL_mulVec]
@@ -188,7 +193,7 @@ lemma tauGL_mem (hcard : Nat.card F = 2) (i j : Fin m) :
   exact Q_comp_sumCongr (Equiv.swap i j) v
 
 lemma aGL_sq (hcard : Nat.card F = 2) (i : Fin m) : aGL F m i * aGL F m i = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hchar : CharP F 2 := charP_two hcard
   have h2 : (2 : F) = 0 := two_eq_zero hcard
   apply Units.ext
@@ -203,7 +208,7 @@ lemma aGL_sq (hcard : Nat.card F = 2) (i : Fin m) : aGL F m i * aGL F m i = 1 :=
   simp
 
 lemma bGL_sq (hcard : Nat.card F = 2) (i : Fin m) : bGL F m i * bGL F m i = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hchar : CharP F 2 := charP_two hcard
   have h2 : (2 : F) = 0 := two_eq_zero hcard
   apply Units.ext
@@ -217,6 +222,7 @@ lemma bGL_sq (hcard : Nat.card F = 2) (i : Fin m) : bGL F m i * bGL F m i = 1 :=
     simp [Matrix.transvection]]
   simp
 
+omit [Finite F] in
 lemma tauGL_sq (i j : Fin m) : tauGL F m i j * tauGL F m i j = 1 := by
   have hπ : Equiv.Perm.sumCongr (Equiv.swap i j) (Equiv.swap i j) *
       Equiv.Perm.sumCongr (Equiv.swap i j) (Equiv.swap i j) = 1 := by
@@ -248,10 +254,12 @@ noncomputable def T (F : Type) [Field F] (m : ℕ) (i : Fin m) :
     (Fin m ⊕ Fin m → F) ≃ₗ[F] (Fin m ⊕ Fin m → F) :=
   CFSG.ClassicalGroups.Orthogonal.toLinEquiv (Fin m ⊕ Fin m) F (tGL F m i)
 
+omit [Finite F] in
 lemma A_apply (i : Fin m) (v : Fin m ⊕ Fin m → F) :
     A F m i v = v + v (Sum.inr i) • e (F := F) i := by
   rw [A, CFSG.ClassicalGroups.Orthogonal.toLinEquiv_apply, aGL_mulVec]
 
+omit [Finite F] in
 lemma B_apply (i : Fin m) (v : Fin m ⊕ Fin m → F) :
     B F m i v = v + v (Sum.inl i) • f (F := F) i := by
   rw [B, CFSG.ClassicalGroups.Orthogonal.toLinEquiv_apply, bGL_mulVec]
@@ -260,7 +268,7 @@ lemma T_eq (hcard : Nat.card F = 2) (i : Fin m) :
     T F m i = A F m i * B F m i * A F m i * B F m i := by
   have ha : (aGL F m i)⁻¹ = aGL F m i := inv_eq_of_mul_eq_one_right (aGL_sq hcard i)
   have hb : (bGL F m i)⁻¹ = bGL F m i := inv_eq_of_mul_eq_one_right (bGL_sq hcard i)
-  simp only [T, tGL, commutatorElement_def, A, B, ha, hb, map_mul, map_inv]
+  simp only [T, tGL, commutatorElement_def, A, B, ha, hb, map_mul]
 
 lemma T_apply (hcard : Nat.card F = 2) (i : Fin m) (v : Fin m ⊕ Fin m → F) :
     T F m i v = (v (Sum.inl i) + v (Sum.inr i)) • e (F := F) i +
@@ -271,7 +279,7 @@ lemma T_apply (hcard : Nat.card F = 2) (i : Fin m) (v : Fin m ⊕ Fin m → F) :
   simp only [LinearEquiv.mul_apply, A_apply, B_apply]
   ext j
   by_cases hj : j = Sum.inl i <;> by_cases hj2 : j = Sum.inr i <;>
-    simp [e, f, Pi.add_apply, Pi.smul_apply, Pi.single_apply, hj, hj2, Sum.inl_ne_inr,
+    simp [e, f, Pi.add_apply, Pi.smul_apply, hj, hj2, Sum.inl_ne_inr,
       Sum.inr_ne_inl]
   all_goals ring_nf; simp [h2, three_eq_one hcard, five_eq_one hcard]
 
@@ -288,6 +296,7 @@ noncomputable def E (F : Type) [Field F] (m : ℕ) (i : Fin m) :
   LinearMap.id + (LinearMap.proj (Sum.inl i)).smulRight (e (F := F) i) +
     (LinearMap.proj (Sum.inr i)).smulRight (f (F := F) i)
 
+omit [Finite F] in
 lemma E_apply (i : Fin m) (v : Fin m ⊕ Fin m → F) :
     E F m i v = v + v (Sum.inl i) • e (F := F) i + v (Sum.inr i) • f (F := F) i := by
   simp [E, LinearMap.smulRight_apply]
@@ -304,17 +313,17 @@ lemma T_sq_add_T_add_one_eq_E (hcard : Nat.card F = 2) (i : Fin m) :
   ext j
   rcases j with k | k <;> by_cases hk : k = i
   · subst k
-    simp [e, f, Pi.add_apply, Pi.smul_apply, Pi.single_apply]
+    simp [e, f, Pi.add_apply, Pi.smul_apply]
     ring_nf
     linear_combination (6 * v (Sum.inl i) + 3 * v (Sum.inr i)) * h2
-  · simp [e, f, Pi.add_apply, Pi.smul_apply, Pi.single_apply, hk]
+  · simp [e, f, Pi.add_apply, Pi.smul_apply, hk]
     ring_nf
     linear_combination (v (Sum.inl k)) * h2
   · subst k
-    simp [e, f, Pi.add_apply, Pi.smul_apply, Pi.single_apply]
+    simp [e, f, Pi.add_apply, Pi.smul_apply]
     ring_nf
     linear_combination (3 * v (Sum.inl i) + 3 * v (Sum.inr i)) * h2
-  · simp [e, f, Pi.add_apply, Pi.smul_apply, Pi.single_apply, hk]
+  · simp [e, f, Pi.add_apply, Pi.smul_apply, hk]
     ring_nf
     linear_combination (v (Sum.inr k)) * h2
 
@@ -330,17 +339,19 @@ noncomputable def tauLE (F : Type) [Field F] (m : ℕ) (i j : Fin m) :
     (Fin m ⊕ Fin m → F) ≃ₗ[F] (Fin m ⊕ Fin m → F) :=
   CFSG.ClassicalGroups.Orthogonal.toLinEquiv (Fin m ⊕ Fin m) F (tauGL F m i j)
 
+omit [Finite F] in
 lemma tauLE_apply (i j : Fin m) (v : Fin m ⊕ Fin m → F) :
     tauLE F m i j v = v ∘ ⇑(Equiv.Perm.sumCongr (Equiv.swap i j) (Equiv.swap i j))⁻¹ := by
   rw [tauLE, CFSG.ClassicalGroups.Orthogonal.toLinEquiv_apply, tauGL,
     TableBSymp.permutationGL_mulVec]
 
-lemma tauLE_sq (hcard : Nat.card F = 2) (i j : Fin m) :
+omit [Finite F] in
+lemma tauLE_sq (_hcard : Nat.card F = 2) (i j : Fin m) :
     tauLE F m i j * tauLE F m i j = 1 := by
   have h := tauGL_sq (F := F) (m := m) i j
   rw [tauLE, ← map_mul, h, map_one]
 
-lemma tauLE_coord_inr (hcard : Nat.card F = 2) {i j : Fin m} (hij : i ≠ j)
+lemma tauLE_coord_inr (hcard : Nat.card F = 2) {i j : Fin m} (_hij : i ≠ j)
     (v : Fin m ⊕ Fin m → F) :
     tauLE F m i j v (Sum.inr i) = v (Sum.inr j) := by
   have h2 : (2 : F) = 0 := two_eq_zero hcard
@@ -348,7 +359,7 @@ lemma tauLE_coord_inr (hcard : Nat.card F = 2) {i j : Fin m} (hij : i ≠ j)
   have hπ : (Equiv.Perm.sumCongr (Equiv.swap i j) (Equiv.swap i j))⁻¹ (Sum.inr i) =
       Sum.inr j := by
     rw [Equiv.Perm.sumCongr_inv, Equiv.swap_inv]
-    simp [Equiv.Perm.sumCongr_apply, Equiv.swap_apply_left]
+    simp [Equiv.swap_apply_left]
   rw [Function.comp_apply, hπ]
 
 noncomputable def S (F : Type) [Field F] (m : ℕ) (i j : Fin m) :
@@ -364,7 +375,7 @@ lemma S_eq (hcard : Nat.card F = 2) (i j : Fin m) :
   have ha : (aGL F m i)⁻¹ = aGL F m i := inv_eq_of_mul_eq_one_right (aGL_sq hcard i)
   have hτ : (tauGL F m i j)⁻¹ = tauGL F m i j :=
     inv_eq_of_mul_eq_one_right (tauGL_sq i j)
-  simp only [SL, S, commutatorElement_def, A, tauLE, ha, hτ, map_mul, map_inv]
+  simp only [SL, S, commutatorElement_def, A, tauLE, ha, hτ, map_mul]
 
 lemma SL_apply_of_supported (hcard : Nat.card F = 2) {i j : Fin m} (hij : i ≠ j)
     {v : Fin m ⊕ Fin m → F} (hv : ggFusionPlaneSupported m i v) :
@@ -401,15 +412,16 @@ lemma E_e (hcard : Nat.card F = 2) (i : Fin m) :
     E F m i (e (F := F) i) = 0 := by
   ext k
   by_cases hk : k = Sum.inl i <;>
-    simp [E_apply, e, Pi.single_apply, hk, one_add_one_eq_zero hcard]
+    simp [E_apply, e, hk, one_add_one_eq_zero hcard]
 
 lemma E_f (hcard : Nat.card F = 2) (i : Fin m) :
     E F m i (f (F := F) i) = 0 := by
   ext k
   by_cases hk : k = Sum.inr i <;>
-    simp [E_apply, f, Pi.single_apply, hk, one_add_one_eq_zero hcard]
+    simp [E_apply, f, hk, one_add_one_eq_zero hcard]
 
-lemma supported_of_E_eq_zero (hcard : Nat.card F = 2) {i : Fin m}
+omit [Finite F] in
+lemma supported_of_E_eq_zero (_hcard : Nat.card F = 2) {i : Fin m}
     {w : Fin m ⊕ Fin m → F} (hw : E F m i w = 0) :
     ggFusionPlaneSupported m i w := by
   intro j hj
@@ -436,15 +448,17 @@ lemma tGL_mem (hcard : Nat.card F = 2) (i : Fin m) :
       LargeEvenOrthGroup (ggFusionPlaneQuadratic F m)⁆ :=
   Subgroup.commutator_mem_commutator (aGL_mem hcard i) (bGL_mem hcard i)
 
+omit [Finite F] in
 lemma e_supported (i : Fin m) : ggFusionPlaneSupported m i (e (F := F) i) := by
   intro j hj
   constructor
   · have h1 : (Sum.inl j : Fin m ⊕ Fin m) ≠ Sum.inl i := by simpa using hj
     simp [e, Pi.single_eq_of_ne h1]
   · have h1 : (Sum.inr j : Fin m ⊕ Fin m) ≠ Sum.inl i := by simp
-    simp [e, Pi.single_eq_of_ne h1]
+    simp [e]
 
-lemma eq_smul_e_of_supported_of_inr_eq_zero (hcard : Nat.card F = 2) {i : Fin m}
+omit [Finite F] in
+lemma eq_smul_e_of_supported_of_inr_eq_zero (_hcard : Nat.card F = 2) {i : Fin m}
     {w : Fin m ⊕ Fin m → F} (hw : ggFusionPlaneSupported m i w)
     (h0 : w (Sum.inr i) = 0) :
     w = w (Sum.inl i) • e (F := F) i := by
@@ -455,12 +469,12 @@ lemma eq_smul_e_of_supported_of_inr_eq_zero (hcard : Nat.card F = 2) {i : Fin m}
       simp [e, Pi.single_eq_same]
     · have h1 : (Sum.inl k : Fin m ⊕ Fin m) ≠ Sum.inl i := by simpa using hk
       have h2 : (Sum.inl k : Fin m ⊕ Fin m) ≠ Sum.inr i := by simp
-      simp [e, Pi.single_eq_of_ne h1, Pi.single_eq_of_ne h2, (hw k hk).1]
+      simp [e, Pi.single_eq_of_ne h1, (hw k hk).1]
   · by_cases hk : k = i
     · subst hk
       simp [e, h0]
     · have h1 : (Sum.inr k : Fin m ⊕ Fin m) ≠ Sum.inl i := by simp
-      simp [e, Pi.single_eq_of_ne h1, (hw k hk).2]
+      simp [e, (hw k hk).2]
 
 lemma T_T_e (hcard : Nat.card F = 2) (i : Fin m) :
     T F m i (T F m i (e (F := F) i)) = f (F := F) i := by
@@ -469,11 +483,11 @@ lemma T_T_e (hcard : Nat.card F = 2) (i : Fin m) :
   ext k
   rcases k with k | k <;> by_cases hk : k = i
   · subst hk
-    simp [e, f, Pi.add_apply, Pi.smul_apply, Pi.single_apply, one_add_one_eq_zero hcard]
-  · simp [e, f, Pi.add_apply, Pi.smul_apply, Pi.single_apply, hk]
+    simp [e, f, Pi.add_apply, one_add_one_eq_zero hcard]
+  · simp [e, f, Pi.add_apply, Pi.smul_apply, hk]
   · subst hk
-    simp [e, f, Pi.add_apply, Pi.smul_apply, Pi.single_apply, one_add_one_eq_zero hcard]
-  · simp [e, f, Pi.add_apply, Pi.smul_apply, Pi.single_apply, hk]
+    simp [e, f, Pi.add_apply, one_add_one_eq_zero hcard]
+  · simp [e, f, Pi.add_apply, Pi.smul_apply, hk]
 
 end GGPlaneA
 end CFSG.StandardType
@@ -483,6 +497,7 @@ namespace GGPlaneA
 open CFSG.Assembly
 variable {F : Type} [Field F] [Finite F] {m : ℕ}
 
+omit [Finite F] in
 lemma e_ne_zero (i : Fin m) : e (F := F) i ≠ 0 := by
   intro h
   have := congrFun h (Sum.inl i)
@@ -494,7 +509,7 @@ theorem eq_one_of_commute_aux (hcard : Nat.card F = 2) (hm : 2 ≤ m)
         LargeEvenOrthGroup (ggFusionPlaneQuadratic F m)⁆, g * w = w * g) :
     g = 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2 : (2 : F) = 0 := two_eq_zero hcard
   let Ge : (Fin m ⊕ Fin m → F) ≃ₗ[F] (Fin m ⊕ Fin m → F) :=
     CFSG.ClassicalGroups.Orthogonal.toLinEquiv (Fin m ⊕ Fin m) F g
@@ -574,7 +589,7 @@ theorem eq_one_of_commute_aux (hcard : Nat.card F = 2) (hm : 2 ≤ m)
     have := congrArg (CFSG.ClassicalGroups.Orthogonal.toLinEquiv (Fin m ⊕ Fin m) F) h
     simpa [Ge, SL, S, map_mul] using this
   have h_e (i : Fin m) : Ge (e (F := F) i) = e (F := F) i := by
-    haveI : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.mpr hm
+    have : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.mpr hm
     obtain ⟨j, hji⟩ := exists_ne i
     have hSL_e : SL F m i j (e (F := F) i) = e (F := F) i := by
       rw [SL_apply_of_supported hcard hji.symm (e_supported i), A_apply]
@@ -591,7 +606,7 @@ theorem eq_one_of_commute_aux (hcard : Nat.card F = 2) (hm : 2 ≤ m)
     have h0 : Ge (e (F := F) i) (Sum.inr i) = 0 := by
       have hw := congrArg (fun w : Fin m ⊕ Fin m → F => w (Sum.inl i)) hAfix
       simp only [A_apply, Pi.add_apply, Pi.smul_apply, e, Pi.single_eq_same, smul_eq_mul,
-        mul_one, one_mul] at hw
+        mul_one] at hw
       have hw' : Ge (e (F := F) i) (Sum.inl i) + Ge (e (F := F) i) (Sum.inr i) =
           Ge (e (F := F) i) (Sum.inl i) + 0 := by simpa [e] using hw
       simpa using add_left_cancel hw'
@@ -600,7 +615,7 @@ theorem eq_one_of_commute_aux (hcard : Nat.card F = 2) (hm : 2 ≤ m)
       intro hc
       have hzero : Ge (e (F := F) i) = 0 := by
         rw [hw, hc, zero_smul]
-      have he0 : e (F := F) i = 0 := Ge.injective (by simpa [hzero])
+      have he0 : e (F := F) i = 0 := Ge.injective (by simp [hzero])
       exact e_ne_zero (F := F) i he0
     rcases CFSG.StandardType.OrthRest.eq_zero_or_eq_one_of_card_two hcard
       (Ge (e (F := F) i) (Sum.inl i)) with hc | hc

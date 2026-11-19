@@ -27,6 +27,7 @@ private theorem s16e_d5_K_inf_eq_bot (hfr : s16e_d5_Frame L K Z) {i j : Fin 4} (
       Subgroup.eq_of_le_of_card_ge hle (by rw [hfr.K_card j, hfr.K_card i])
     exact absurd (hfr.K_inj hEq2) hij
 
+omit [Finite W] in
 private theorem s16e_d5_gen_rel {φ : ↥L ≃* Multiplicative (Fin 2 → ZMod 3)} {m n : ℕ}
     (h : (φ.symm (Multiplicative.ofAdd (Pi.single (0 : Fin 2) (1 : ZMod 3)))) ^ m *
         (φ.symm (Multiplicative.ofAdd (Pi.single (1 : Fin 2) (1 : ZMod 3)))) ^ n = 1) :

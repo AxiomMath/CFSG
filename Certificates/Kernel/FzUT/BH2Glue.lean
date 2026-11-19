@@ -170,7 +170,7 @@ theorem fzbH2_of (c : Bool) : ∀ ψ, FzbIsEmb c 832 ψ → fzbW0 (ψ 1) ∧ fzb
   have hy1 := E.mem _ hX1
   have hSL : ∀ v, InC c 128 v → v ∈ h2SL := fun v hv => by
     have h := (allN_iff 1024 _).mp (ch441796_h2sl c) v hv.1
-    simp only [h2SLOK, bIf_eq, hv.2, Nat.beq_refl, if_true] at h
+    simp only [hv.2, Nat.beq_refl] at h
     exact (memL_iff _ _).mp h
   have PT : ∀ {φ : Nat → Nat}, EmbN c φ → ∀ {a b : Nat}, InC c 832 a → InC c 832 b → ∀ e o,
       pairT c a b e o = true → pairT c (φ a) (φ b) e o = true := fun E a b ha hb e o h => by
@@ -218,12 +218,12 @@ theorem fzbH2_of (c : Bool) : ∀ ψ, FzbIsEmb c 832 ψ → fzbW0 (ψ 1) ∧ fzb
   have hL2 : h2L2 c D (φ D.g1) (φ D.g2) = true := by
     unfold h2L2
     rw [OK E' hX2 _ ho2, PT0 E' hX2 _ hp02, PT E' hX1 hX2 _ _ hp12]
-  rw [bIf_eq, if_pos hL2] at hS2
+  rw [bIf_eq, ite_eq_left hL2] at hS2
   have hS3 := (allL_iff _ _).mp hS2 _ (hSL _ (E'.mem _ hXt))
   have hL3 : h2L3 c D (φ D.g1) (φ D.g2) (φ 128) = true := by
     unfold h2L3
     rw [OK E' hXt _ ho3, PT0 E' hXt _ hp03, PT E' hX1 hXt _ _ hp13, PT E' hX2 hXt _ _ hp23]
-  rw [bIf_eq, if_pos hL3] at hS3
+  rw [bIf_eq, ite_eq_left hL3] at hS3
   unfold h2Leaf at hS3
   have ev := fun w => evY_map E' hXu hX1 hX2 hXt w
   rw [E'.u] at ev
@@ -231,7 +231,7 @@ theorem fzbH2_of (c : Bool) : ∀ ψ, FzbIsEmb c 832 ψ → fzbW0 (ψ 1) ∧ fzb
       (evY c 128 (φ D.g1) (φ D.g2) (φ 128) D.rb) = true := by
     rw [(ev D.ra).2, (ev D.rb).2, B hrel]
     exact Nat.beq_refl _
-  rw [bIf_eq, if_pos hrel'] at hS3
+  rw [bIf_eq, ite_eq_left hrel'] at hS3
   obtain ⟨hz, ht⟩ := bAnd_true hS3
   rw [(ev D.w1).2, B hw1] at hz
   have back : ∀ x, InC c 832 x → fzbW0 (φ x) → fzbW0 (ψ x) := fun x hx hW => by

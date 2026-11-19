@@ -38,7 +38,7 @@ theorem spinDerivedHom_injective (K : Type) [Field K] [Finite K] [CharP K 2] :
   have hx' : x ∈ (spinAction (quadPlus 8 K)).ker := by
     rw [← spinDerivedHom_ker]; exact hx
   have hbot : (spinAction (quadPlus 8 K)).ker = ⊥ := by
-    haveI := isCentral_cliffordAlgebra_quadPlus K 8
+    have := isCentral_cliffordAlgebra_quadPlus K 8
     exact ker_spinAction_eq_bot_of_isCentral _ (CharP.cast_eq_zero K 2)
   rw [hbot, Subgroup.mem_bot] at hx'
   exact hx'
@@ -59,7 +59,7 @@ theorem spinDerivedHom_surjective (K : Type) [Field K] :
     spinGroup (quadPlus 8 K) ≃* ↥(orthDerived (quadPlus 8 K)) where
   toFun := spinDerivedHom K
   invFun y := Classical.choose (spinDerivedHom_surjective K y)
-  left_inv x := spinDerivedHom_injective K (Classical.choose_spec (spinDerivedHom_surjective K _))
+  left_inv _x := spinDerivedHom_injective K (Classical.choose_spec (spinDerivedHom_surjective K _))
   right_inv y := Classical.choose_spec (spinDerivedHom_surjective K y)
   map_mul' := map_mul _
 
@@ -127,7 +127,7 @@ theorem e8D8SpinHom_injective (K : Type) [Field K] [Finite K] [CharP K 2] :
     e8D8SpinHom_ker K (MonoidHom.mem_ker.mpr hx)
   have h2 := center_le_ker_spinAction_quadPlus (K := K) (by norm_num) h1
   have hbot : (spinAction (quadPlus 8 K)).ker = ⊥ := by
-    haveI := isCentral_cliffordAlgebra_quadPlus K 8
+    have := isCentral_cliffordAlgebra_quadPlus K 8
     exact ker_spinAction_eq_bot_of_isCentral _ (CharP.cast_eq_zero K 2)
   rw [hbot, Subgroup.mem_bot] at h2
   exact h2
@@ -159,7 +159,7 @@ theorem e8D8ChainHom_surjective (K : Type) [Field K] [Finite K] :
     spinGroup (quadPlus 8 K) ≃* ↥(⨆ k, e8D8Chain K k) where
   toFun := e8D8ChainHom K
   invFun y := Classical.choose (e8D8ChainHom_surjective K y)
-  left_inv x := e8D8ChainHom_injective K (Classical.choose_spec (e8D8ChainHom_surjective K _))
+  left_inv _x := e8D8ChainHom_injective K (Classical.choose_spec (e8D8ChainHom_surjective K _))
   right_inv y := Classical.choose_spec (e8D8ChainHom_surjective K y)
   map_mul' := map_mul _
 
@@ -279,7 +279,7 @@ private theorem four_le_rootIdxD {k : Fin 8} (hk : 4 ≤ (k : ℕ)) : 4 ≤ (roo
 private theorem four_le_rootIdxD' {k : Fin 8} (hk : 4 ≤ (k : ℕ)) : 4 ≤ (rootIdxD' 8 k : ℕ) := by
   unfold rootIdxD'
   split_ifs with h
-  · simp only [Fin.val_mk]; omega
+  · simp only; omega
   · simp
 
 private theorem rootD_mem_spinFixW2 {K : Type} [Field K] {k : Fin 8} (hk : 4 ≤ (k : ℕ))

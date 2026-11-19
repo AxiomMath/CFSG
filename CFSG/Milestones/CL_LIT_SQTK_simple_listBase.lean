@@ -9,7 +9,7 @@ namespace CFSG.Milestones
 
 open CFSG.Blueprint CFSG.Assembly.LowTwoRank CFSG.SectionRank
 
-@[expose] def SQTKSimpleList (S : Type) [Group S] : Prop :=
+def SQTKSimpleList (S : Type) [Group S] : Prop :=
   (∃ n : ℕ, 5 ≤ n ∧ n ≤ 8 ∧ Nonempty (S ≃* alternatingGroup (Fin n))) ∨
   (∃ p : ℕ, p.Prime ∧ p ≠ 2 ∧
     ((∃ f : ℕ, (f = 1 ∨ f = 2) ∧ StatedClassicalModel S .PSL 2 p f) ∨

@@ -68,7 +68,7 @@ theorem e189AE5Q8_proved : E189AE5Q8 := by
   have hRY2 : IsPGroup 2 ↥(R.subgroupOf Y) :=
     hRM₀.2.1.of_equiv (Subgroup.subgroupOfEquivOfLe hRY).symm
   obtain ⟨PY, hPY⟩ := hRY2.exists_le_sylow
-  have hPY2 : IsPGroup 2 ↥(PY.map Y.subtype) := PY.isPGroup'.map Y.subtype
+  have hPY2 : IsPGroup 2 ↥(PY.map Y.subtype) := PY.isPGroup.map Y.subtype
   obtain ⟨S₂, hS₂⟩ := hPY2.exists_le_sylow
   have hPYS₂ : ∀ y ∈ (PY : Subgroup ↥Y), (y : G) ∈ (S₂ : Subgroup G) := fun y hy =>
     hS₂ ⟨y, hy, rfl⟩

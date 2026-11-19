@@ -36,7 +36,7 @@ namespace CFSG.StandardType
 open CFSG.Assembly CFSG.Assembly.LowTwoRank CFSG.Blueprint CFSG.LieType.Universal
   CFSG.LieType.RootSystem CFSG.ClassicalInvolution.WeakCT CFSG.ClassicalInvolution.Phan
 
-private lemma ggPhanAMarked_le_three_A (m : ℕ) (i j : Fin m) (hij : i ≠ j) :
+private lemma ggPhanAMarked_le_three_A (m : ℕ) (i j : Fin m) (_hij : i ≠ j) :
     (CoxeterMatrix.A m).M i j ≤ 3 := by
   simp only [CoxeterMatrix.A, Matrix.of_apply]
   split_ifs <;> omega

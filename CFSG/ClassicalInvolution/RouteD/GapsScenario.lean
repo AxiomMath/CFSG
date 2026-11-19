@@ -219,7 +219,7 @@ theorem scenarioA
     · exact absurd rfl hij
   · intro i j hij
     fin_cases i <;> fin_cases j
-    all_goals first | exact absurd hij (by decide) | skip
+    all_goals try exact absurd hij (by decide)
     ·
       refine ⟨nd.J e, nd.w e, mxJ e hbe.symm (fun h => hbe' h.symm), nd.cl e, nd.ne_J hΩ hea₀,
         nd.ne_J hΩ hea₁, nd.commute_w h2 _ _, nd.commute_w h2 _ _, ?_⟩

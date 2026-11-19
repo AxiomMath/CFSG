@@ -16,6 +16,7 @@ variable [hN : ((J z).subgroupOf (H z)).Normal]
 
 variable (D : QuotientData (z := z) hN)
 
+omit hN [Finite G] in
 theorem card_centralizer_inf_J_subgroupOf (x : H z) :
     Nat.card ↥(Subgroup.centralizer ({x} : Set ↥(H z)) ⊓
       (J z).subgroupOf (H z)) =

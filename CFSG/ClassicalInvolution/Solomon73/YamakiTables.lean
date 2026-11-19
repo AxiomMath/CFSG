@@ -92,7 +92,7 @@ theorem mem_idxHhat {i : Fin 12} (hi : i.val ≤ 8 ∨ i = 10 ∨ i = 11) : i.va
 @[expose] def yword (w : List ℕ) : StatedSp 3 (ZMod 2) := (w.map ysp).prod
 
 theorem code_ysp {i : ℕ} (hi : i < 12) : code (ysp i) = (genA ())[i]! := by
-  rw [ysp, dif_pos hi, code_yamakiSp]
+  rw [ysp, dite_eq_left hi, code_yamakiSp]
 
 theorem code_yword {w : List ℕ} (hw : ∀ i ∈ w, i < 12) : code (yword w) = wordA (genA ()) w :=
   code_prod_map w fun i hi => (code_ysp (hw i hi)).symm
@@ -108,7 +108,7 @@ theorem yword_mem_X0 {w : List ℕ} (hw : ∀ i ∈ w, i ∈ idxX0) : yword w �
   refine Subgroup.list_prod_mem _ fun x hx => ?_
   obtain ⟨i, hi, rfl⟩ := List.mem_map.mp hx
   obtain ⟨h12, hi'⟩ := idxX0_spec (hw i hi)
-  rw [ysp, dif_pos h12]
+  rw [ysp, dite_eq_left h12]
   refine yamakiSp_mem_X0 ?_
   rcases hi' with h | rfl
   · exact Or.inl h
@@ -118,7 +118,7 @@ theorem yword_mem_N0 {w : List ℕ} (hw : ∀ i ∈ w, i ∈ idxN0) : yword w �
   refine Subgroup.list_prod_mem _ fun x hx => ?_
   obtain ⟨i, hi, rfl⟩ := List.mem_map.mp hx
   obtain ⟨h12, hi'⟩ := idxN0_spec (hw i hi)
-  rw [ysp, dif_pos h12]
+  rw [ysp, dite_eq_left h12]
   refine yamakiSp_mem_N0 ?_
   rcases hi' with h | rfl | rfl
   · exact Or.inl h
@@ -129,7 +129,7 @@ theorem yword_mem_Hhat {w : List ℕ} (hw : ∀ i ∈ w, i ∈ idxHhat) : yword 
   refine Subgroup.list_prod_mem _ fun x hx => ?_
   obtain ⟨i, hi, rfl⟩ := List.mem_map.mp hx
   obtain ⟨h12, hi'⟩ := idxHhat_spec (hw i hi)
-  rw [ysp, dif_pos h12]
+  rw [ysp, dite_eq_left h12]
   refine yamakiSp_mem_Hhat ?_
   rcases hi' with h | rfl | rfl
   · exact Or.inl h

@@ -66,7 +66,7 @@ theorem Lemma212ConfigGe.of_extremal {n : ℕ} (hS : ObstructionSetting G) {p : 
   have hDH : D ≤ H := hDP.trans hPH
   obtain ⟨hDe, hDc⟩ := hext.isElemAbelian_of_isMulCommutative hprime hDab
   obtain ⟨A, hAP, hA, hAc⟩ := hS.exists_elemAbelian_card_eq hp P
-  obtain ⟨-, z₀, -, hz₀1, -, hz₀p, hz₀u⟩ := isolatedPlane_structure hprime P.isPGroup'
+  obtain ⟨-, z₀, -, hz₀1, -, hz₀p, hz₀u⟩ := isolatedPlane_structure hprime P.isPGroup
     (hext.isIsolatedPlane_of_isMulCommutative hprime hDab) hAP
     ((CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian p A).2 hA) hAc
   have hzz₀ : z ∈ zpowers z₀ := hz₀u z (hDP hzD) hzc hzp

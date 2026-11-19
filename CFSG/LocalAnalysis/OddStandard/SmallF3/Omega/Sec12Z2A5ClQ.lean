@@ -21,7 +21,7 @@ theorem sec128_normal_perfect_typeK {Q : Type} [Group Q]
     · exact Or.inl ⟨hidx, h1⟩
     · exact Or.inr (Or.inl h1)
     · exact Or.inr (Or.inr (Or.inr h1))
-  · haveI := hEn
+  · have := hEn
     have hPE : P = E := benderL34_perfect_eq hEs hd hP hP1
     subst hPE
     exact Or.inr hT

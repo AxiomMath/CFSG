@@ -15,7 +15,7 @@ open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley CFSG.LieType
 private theorem le_of_isPGroup_two {G : Type*} [Group G] {C N P : Subgroup G} (hPC : P ≤ C)
     (hP2 : IsPGroup 2 ↥P) (hN : ∀ g ∈ C, (∃ k : ℕ, orderOf g = 2 ^ k) → g ∈ N) : P ≤ N := by
   intro g hg
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp hP2) ⟨g, hg⟩
   exact hN g (hPC hg) ⟨k, by rwa [Subgroup.orderOf_mk] at hk⟩
 
@@ -27,10 +27,10 @@ private theorem ne_bot_of_le {G : Type*} [Group G] {N P : Subgroup G} (hPN : P �
 private theorem not_isSolvable_of_isComponentOf {G : Type} [Group G] {C N : Subgroup G}
     (h : CFSG.RankThree.PartOne.IsComponentOf C N) (hsolv : Group.IsSolvable ↥C) (hne : N ≠ ⊥) :
     False := by
-  haveI : Group.IsPerfect ↥N := h.2.1.1
-  haveI : Nontrivial ↥N := (Subgroup.nontrivial_iff_ne_bot N).2 hne
-  haveI := hsolv
-  haveI : Group.IsSolvable ↥N :=
+  have : Group.IsPerfect ↥N := h.2.1.1
+  have : Nontrivial ↥N := (Subgroup.nontrivial_iff_ne_bot N).2 hne
+  have := hsolv
+  have : Group.IsSolvable ↥N :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion h.1)
       (Subgroup.inclusion_injective h.1)
   exact Group.IsPerfect.not_isSolvable ↥N inferInstance
@@ -68,11 +68,11 @@ theorem modelSel_reeGamma {K : Type} [Field K] [Finite K] [CharP K ReeTag.F4.pri
     (hp : p.Prime) (hp3 : 3 < p) (hpq : p ∣ 2 ^ (2 * a + 1) - 1) :
     DX.ModelSel p ↥(ReeTag.F4.reeGamma K a) := by
   classical
-  haveI : Finite (CFSG.Blueprint.Chevalley.ModGL ReeTag.F4.tag K) :=
+  have : Finite (CFSG.Blueprint.Chevalley.ModGL ReeTag.F4.tag K) :=
     CFSG.LieType.Chevalley.finite_modGL
-  haveI : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
+  have : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
   intro r hrp hr1 P hPC hP2 hPne
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hr : orderOf r = p := orderOf_eq_prime hrp hr1
   obtain ⟨N₁, hN₁C, hN₁two, hN₁uniq, hN₁comp⟩ :=
     CFSG.RankThree.PartOne.TCF.largeRee_component_data ha hK hp hp3 r hr

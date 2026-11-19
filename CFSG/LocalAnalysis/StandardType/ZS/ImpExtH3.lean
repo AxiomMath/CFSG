@@ -637,7 +637,7 @@ private theorem zs4h_orderOf_pij_mul (f : Module.Basis (Fin 4) (ZMod p) U) {lam 
       pijMat_mul_pijMat (by decide : (0 : Fin 4) ≠ 1) (1 : ZMod p) (lam : ZMod p)]
     congr 1
     funext k
-    fin_cases k <;> simp only [if_true, if_false, one_mul, inv_one, Fin.isValue,
+    fin_cases k <;> simp only [ite_true, ite_false, one_mul, inv_one, Fin.isValue,
       Fin.zero_eta, Fin.mk_one, Fin.reduceEq]
   rw [← orderOf_toMatrix f (a₁ * a₂), hmat, ← hlam, orderOf_eq_orderOf_iff]
   intro k
@@ -645,7 +645,7 @@ private theorem zs4h_orderOf_pij_mul (f : Module.Basis (Fin 4) (ZMod p) U) {lam 
   constructor
   · intro h
     have h0 := congrFun h 0
-    simp only [Pi.pow_apply, if_true] at h0
+    simp only [Pi.pow_apply, ite_true] at h0
     rw [inv_pow, inv_eq_one] at h0
     exact Units.ext h0
   · intro h
@@ -950,13 +950,13 @@ theorem toMatrix_centre_block (h : FourThreeData f lam a₁ a₂ a₃ a₄ K F) 
   have e11 : LinearMap.toMatrix f f z.toLinearMap 1 1 = -1 := by rw [← e00, hz00]
   rcases hij with hi | hj
   · fin_cases i <;> fin_cases j <;>
-      simp only [Fin.reduceFinMk, Fin.isValue, Fin.zero_eta, Fin.mk_one, if_true]
+      simp only [Fin.reduceFinMk, Fin.isValue, Fin.zero_eta, Fin.mk_one, ite_true]
     all_goals first
       | exact hz00 | exact e01 | exact e10 | exact e11
       | exact o02 | exact o12 | exact o03 | exact o13
       | (exfalso; simp at hi)
   · fin_cases j <;> fin_cases i <;>
-      simp only [Fin.reduceFinMk, Fin.isValue, Fin.zero_eta, Fin.mk_one, if_true]
+      simp only [Fin.reduceFinMk, Fin.isValue, Fin.zero_eta, Fin.mk_one, ite_true]
     all_goals first
       | exact hz00 | exact e01 | exact e10 | exact e11
       | exact o20 | exact o21 | exact o30 | exact o31
@@ -1002,7 +1002,7 @@ private theorem zs4h_toMatrix_a1a2 (h : FourThreeData f lam a₁ a₂ a₃ a₄ 
     pijMat_mul_pijMat (by decide : (0 : Fin 4) ≠ 1) (1 : ZMod p) (lam : ZMod p)]
   congr 1
   funext k
-  fin_cases k <;> simp only [if_true, if_false, one_mul, inv_one, Fin.isValue,
+  fin_cases k <;> simp only [ite_true, ite_false, one_mul, inv_one, Fin.isValue,
     Fin.zero_eta, Fin.mk_one, Fin.reduceEq]
 
 omit [Module.Finite (ZMod p) U] in
@@ -1014,7 +1014,7 @@ private theorem zs4h_toMatrix_a2a1 (h : FourThreeData f lam a₁ a₂ a₃ a₄ 
     pijMat_mul_pijMat (by decide : (0 : Fin 4) ≠ 1) (lam : ZMod p) (1 : ZMod p)]
   congr 1
   funext k
-  fin_cases k <;> simp only [if_true, if_false, mul_one, inv_one, Fin.isValue,
+  fin_cases k <;> simp only [ite_true, ite_false, mul_one, inv_one, Fin.isValue,
     Fin.zero_eta, Fin.mk_one, Fin.reduceEq]
 
 private lemma zs4h_diag_pij12 {l α : ZMod p} (hl : l ≠ 0) :
@@ -1485,14 +1485,14 @@ private lemma zs4h_rescale_pij {i j : Fin 4} (hi : i ≠ 3) (hj : j ≠ 3) {α :
   · subst hr
     by_cases hs : s = 3
     · subst hs
-      rw [zs4h_pij_row3 hi hj, if_pos rfl]
+      rw [zs4h_pij_row3 hi hj, ite_eq_left rfl]
       show ((c⁻¹ : (ZMod p)ˣ) : ZMod p) * 1 * (c : ZMod p) = 1
       rw [mul_one]
       exact c.inv_mul
-    · rw [zs4h_pij_row3 hi hj, if_neg hs, mul_zero, zero_mul]
+    · rw [zs4h_pij_row3 hi hj, ite_eq_right hs, mul_zero, zero_mul]
   · by_cases hs : s = 3
     · subst hs
-      rw [zs4h_pij_col3 hi hj, if_neg hr, mul_zero, zero_mul]
+      rw [zs4h_pij_col3 hi hj, ite_eq_right hr, mul_zero, zero_mul]
     · rw [hw r hr, hw s hs]
       simp
 
@@ -1568,7 +1568,7 @@ private lemma zs4h_fin_S4 {x u w τ ν : ZMod p} (hxν : x = 1 + ν) (hτν : τ
   subst hxν
   ext i j
   fin_cases i <;> fin_cases j <;> simp <;>
-    first | ring1 | linear_combination (-u) * hτν | linear_combination u * hτν |
+    first | linear_combination (-u) * hτν | linear_combination u * hτν |
       linear_combination (-1) * huwτ
 
 private lemma zs4h_fin_alt {s τ ν u w ζ : ZMod p} (hτ : τ = s - 2) (hss : s * s + s - 1 = 0)

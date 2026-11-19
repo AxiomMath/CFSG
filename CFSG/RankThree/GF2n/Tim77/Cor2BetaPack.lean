@@ -41,6 +41,7 @@ theorem cor2Beta_isCoveringOf_of_mulEquiv {P : ∀ (X : Type) [Group X], Prop}
     simpa using congrArg e this
   · exact hP _ _ (QuotientGroup.congr Z (Z.map e.toMonoidHom) e rfl) hQ
 
+omit [Finite G] in
 theorem cor2Beta_shape_target {Y : Subgroup G} (h : Cor2BetaShape Y) :
     ∃ (r : ℕ) (X : Fin r → Subgroup ↥Y), (∀ i, (X i).Normal) ∧
       (∀ i j, i ≠ j → ∀ x ∈ X i, ∀ y ∈ X j, x * y = y * x) ∧ ⨆ i, X i = ⊤ ∧
@@ -61,6 +62,7 @@ theorem cor2Beta_shape_target {Y : Subgroup G} (h : Cor2BetaShape Y) :
         (fun X Y _ _ e h => tim77Cor2BetaList_of_mulEquiv e h) e h1)
     · exact Or.inr (cor2Beta_hasNormalTwoComplement_of_mulEquiv e h1)
 
+omit [Finite G] in
 theorem cor2Beta_shape_of_family {Y : Subgroup G} {ι : Type} [Fintype ι] (X : ι → Subgroup G)
     (hle : ∀ i, X i ≤ Y) (hn : ∀ i, ((X i).subgroupOf Y).Normal)
     (hc : ∀ i j, i ≠ j → ∀ x ∈ X i, ∀ y ∈ X j, x * y = y * x) (hsup : ⨆ i, X i = Y)
@@ -75,6 +77,7 @@ theorem cor2Beta_shape_of_family {Y : Subgroup G} {ι : Type} [Fintype ι] (X : 
   · rw [← hsup]
     exact e.symm.iSup_comp (g := X)
 
+omit [Finite G] in
 theorem cor2Beta_le_normalizer_of_commute {A B : Subgroup G}
     (h : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a) : B ≤ normalizer (A : Set G) := by
   intro q hq
@@ -95,6 +98,7 @@ theorem cor2Beta_le_normalizer_of_commute {A B : Subgroup G}
     rw [h2]
     exact hx
 
+omit [Finite G] in
 theorem cor2Beta_shape_of_decomp_mul {H E Y Q Gs : Subgroup G} (hd : Cor2BetaDecomp H E Y)
     (hQ : ∀ q ∈ Q, ∀ h ∈ H, q * h = h * q) (hGs : Gs = H ⊔ Q)
     (hQc : HasNormalTwoComplement ↥Q) : Cor2BetaShape Gs := by
@@ -150,19 +154,19 @@ theorem cor2Beta_shape_of_decomp_mul {H E Y Q Gs : Subgroup G} (hd : Cor2BetaDec
 theorem cor2Beta_hasNormalTwoComplement_of_comm {Q : Subgroup G} [IsMulCommutative ↥Q] :
     HasNormalTwoComplement ↥Q := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let P : Sylow 2 ↥Q := default
-  haveI : (P : Subgroup ↥Q).Normal := inferInstance
+  have : (P : Subgroup ↥Q).Normal := inferInstance
   have hcop : Nat.Coprime (Nat.card (P : Subgroup ↥Q)) (P : Subgroup ↥Q).index :=
     P.card_coprime_index
   obtain ⟨O, hO⟩ := Subgroup.exists_right_complement'_of_coprime hcop
-  haveI : O.Normal := inferInstance
+  have : O.Normal := inferInstance
   have hidx : (P : Subgroup ↥Q).index = Nat.card O := hO.symm.index_eq_card
   have hidx' : O.index = Nat.card (P : Subgroup ↥Q) := hO.index_eq_card
   refine ⟨O, inferInstance, ?_, inferInstance, ?_⟩
   · rw [← hidx]
     exact Nat.not_even_iff_odd.mp (fun h => P.not_dvd_index (even_iff_two_dvd.mp h))
-  · obtain ⟨k, hk⟩ := P.isPGroup'.exists_card_eq
+  · obtain ⟨k, hk⟩ := P.isPGroup.exists_card_eq
     refine IsPGroup.of_card (n := k) ?_
     rw [← Subgroup.index_eq_card, hidx', hk]
 

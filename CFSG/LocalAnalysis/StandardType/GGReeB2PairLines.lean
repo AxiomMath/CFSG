@@ -180,7 +180,7 @@ private lemma nb_weight {K : Type} [Field K] [CharP K 2]
 
 private lemma fixed_of_snd_zero {K : Type} [Field K] [CharP K 2]
     [Fintype K] {m : ℕ} {Γ : Type} [Group Γ] (k : Type) [Field k] [Algebra K k] {W : Type}
-    [AddCommGroup W] [Module k W] (hK : Nat.card K = 2 ^ (2 * m + 1)) (𝔇 : SzPairDatum K m Γ)
+    [AddCommGroup W] [Module k W] (_hK : Nat.card K = 2 ^ (2 * m + 1)) (𝔇 : SzPairDatum K m Γ)
     (ρ : Representation k Γ W) {κ₁ : ZMod (2 ^ (2 * m + 1) - 1)} {w : W}
     (hw : w ∈ weightSpace (ρ.comp 𝔇.tau) (wchar (K := K) k κ₁ 0)) :
     ∀ l : Kˣ, ρ (𝔇.φ₂ (szD K m l)) w = w := by
@@ -207,7 +207,7 @@ private lemma fixed_of_ne {K : Type} [Field K] [CharP K 2]
   refine ⟨ρ 𝔇.na⁻¹ w, invertible (K := K) (W := W) k ρ 𝔇.na⁻¹ hw0, ?_⟩
   have hna := na_weight_aux (K := K) (W := W) k hK 𝔇 ρ hw
   have h2 : (sa m (κ₁, κ₂)).2 = 0 := by
-    simp only [sa, Nat.cast_pow]
+    simp only [sa]
     rw [h]
     ring
   rw [h2] at hna
@@ -233,7 +233,7 @@ private lemma exists_fixed_of_weight {K : Type} [Field K]
   rcases hl with h | h | h | h
   · exact fixed_of_eq (K := K) (W := W) k hK 𝔇 ρ (invertible (K := K) (W := W) k ρ 𝔇.na⁻¹ hw0)
       (na_weight_aux (K := K) (W := W) k hK 𝔇 ρ hw)
-      (by simp only [sa, Nat.cast_pow]; rw [h]; ring)
+      (by simp only [sa]; rw [h]; ring)
   · exact ⟨w, hw0, fixed_of_snd_zero (K := K) (W := W) k hK 𝔇 ρ (by simpa [h] using hw)⟩
   · exact fixed_of_eq (K := K) (W := W) k hK 𝔇 ρ hw0 hw h
   · exact fixed_of_ne (K := K) (W := W) k hK 𝔇 ρ hw0 hw h

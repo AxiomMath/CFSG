@@ -175,7 +175,7 @@ theorem exists_simple_representatives (hK : 4 ≤ Nat.card K) (hN : 4 ≤ N) :
           funext k
           have hab' : a₀ ≠ b₀ := ne_of_lt hab
           simp only [OmegaPilot.flipParam_apply, Finset.mem_singleton,
-            Function.comp_apply, simpleReflection, dif_neg hi, MulAut.mul_apply,
+            Function.comp_apply, simpleReflection, dite_eq_right hi, MulAut.mul_apply,
             SpCoord.sgnAut_apply, SpCoord.permAut_apply, Equiv.swap_inv,
             Function.update_apply]
           by_cases hka : k = a₀

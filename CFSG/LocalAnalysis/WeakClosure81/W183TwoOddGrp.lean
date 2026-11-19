@@ -14,7 +14,7 @@ theorem exists_oddClassGroup {Y : Type} [Group Y] [Finite Y] {a : Y} {Kk P : Sub
     (ha : orderOf a = 2)
     (h132 : ∀ c d : Y, IsConj a c → IsConj a d →
       c * d = d * c ∨ ∃ z ∈ Subgroup.closure ({c, d} : Set Y), d = z * c * z⁻¹)
-    (hpc : CFSG.pCore 2 Y = ⊥) (hPn : P.Normal) (h2q : ∀ y : Y, ∃ k : ℕ, y ^ 2 ^ k ∈ P)
+    (hpc : CFSG.pCore 2 Y = ⊥) (_hPn : P.Normal) (h2q : ∀ y : Y, ∃ k : ℕ, y ^ 2 ^ k ∈ P)
     (hle : ∀ N : Subgroup Y, N.Normal → ¬ N ≤ Kk → P ≤ N) (haK : a ∉ Kk) :
     ∃ (X₁ : Subgroup Y) (haX : a ∈ X₁), X₁ ≤ Subgroup.normalClosure ({a} : Set Y) ∧
       orderOf (⟨a, haX⟩ : ↥X₁) = 2 ∧ IsOddTransp {x : ↥X₁ | IsConj (⟨a, haX⟩ : ↥X₁) x} ∧

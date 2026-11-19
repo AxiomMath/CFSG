@@ -209,6 +209,7 @@ private theorem triple_conj_eq_self {Y : Type} [Group Y] {b : Y} (hb : b ^ 3 = 1
         group
     _ = x := by rw [hb, h2, one_mul, mul_one]
 
+omit [Finite G] in
 private theorem exists_mulAut_conj_barM {L : Subgroup G} {b : G} (hbM : b ∈ M)
     (hbN : b ∈ Subgroup.normalizer (L : Set G)) (hb3 : b ^ 3 = 1) :
     ∃ φ : MulAut ↥(barM M L), φ ^ 3 = 1 ∧ ∀ x : ↥(barM M L),
@@ -302,6 +303,7 @@ private noncomputable def blockAction (D : Subgroup G) (S : Set (Subgroup G))
     apply Subtype.ext
     exact (CFSG.GroupTheory.map_conj_map_conj (d : G) (e : G) L.1).symm
 
+omit [Finite G] in
 private theorem nat_card_set_three_le (A B C : Subgroup G) :
     Nat.card ↥({A, B, C} : Set (Subgroup G)) ≤ 3 := by
   rw [Nat.card_coe_set_eq]
@@ -358,6 +360,7 @@ private theorem blockAction_ker_card_ge {D : Subgroup G} {S : Set (Subgroup G)}
   have h2 := blockAction_range_card_le_three hS hDcard hScard
   interval_cases Nat.card ↥(blockAction D S hS).range <;> omega
 
+omit [Finite G] in
 private theorem blockAction_ker_normalizes {D : Subgroup G} {S : Set (Subgroup G)}
     (hS : ∀ d : ↥D, ∀ L ∈ S, L.map (MulAut.conj (d : G)).toMonoidHom ∈ S)
     {L : Subgroup G} (hL : L ∈ S) :
@@ -464,6 +467,7 @@ private theorem four_le_pRank_of_zpowers {Y : Type} [Group Y] [Finite Y] {z w₁
     _ ≤ CFSG.Open.pRank 3 (⊤ : Subgroup Y) :=
         CFSG.SectionRank.pRank_mono (p := 3) (by norm_num) le_top
 
+omit [Finite G] in
 private theorem barM_inf_barM_eq_bot {M A B : Subgroup G}
     (hc : barM M A ≤ Subgroup.centralizer (barM M B : Set _))
     (hZ : Subgroup.center ↥(barM M B) = ⊥) : barM M A ⊓ barM M B = ⊥ := by
@@ -474,6 +478,7 @@ private theorem barM_inf_barM_eq_bot {M A B : Subgroup G}
     _ = ⊥ := by
         rw [← CFSG.center_map_subtype_eq_inf_centralizer (barM M B), hZ, Subgroup.map_bot]
 
+omit [Finite G] in
 private theorem barM_sup_inf_barM_eq_bot {M A B C : Subgroup G}
     (hc : barM M A ⊔ barM M B ≤ Subgroup.centralizer (barM M C : Set _))
     (hZ : Subgroup.center ↥(barM M C) = ⊥) : (barM M A ⊔ barM M B) ⊓ barM M C = ⊥ := by
@@ -575,6 +580,7 @@ private theorem false_of_fixed_points (hc : TwelveSixKCtx G M p Q H d L₁ L₂ 
   have h3M : CFSG.Open.pRank 3 M ≤ 3 := hc.h3
   omega
 
+omit [Finite G] in
 private theorem orderOf_barM_eq_three {B : Subgroup G} (hBM : B ≤ M)
     (hBpow : ∀ x : ↥B, x ^ 3 = 1) {b : G} (hb : b ∈ B)
     (hzJ : QuotientGroup.mk' (CFSG.pCore 2 ↥M) ⟨b, hBM hb⟩ ∉ barM M (jSub M H)) :
@@ -626,7 +632,8 @@ private theorem mem_barM_jSub_of_mem (hc : TwelveSixKCtx G M p Q H d L₁ L₂ L
     (by rw [Subgroup.orderOf_coe, hw₂ord]) (by rw [Subgroup.orderOf_coe, hw₃ord])
     w₁.2 w₂.2 w₃.2 hzJ hw₁comm hw₂comm hw₃comm h12 h13 h23
 
-private theorem pow_eq_one_barM_of_forall {B : Subgroup G} (hBM : B ≤ M)
+omit [Finite G] in
+private theorem pow_eq_one_barM_of_forall {B : Subgroup G} (_hBM : B ≤ M)
     (h : ∀ x : ↥B, x ^ 3 = 1) : ∀ y : ↥(barM M B), y ^ 3 = 1 := by
   rintro ⟨x, hx⟩
   obtain ⟨y, hy, rfl⟩ := Subgroup.mem_map.mp hx

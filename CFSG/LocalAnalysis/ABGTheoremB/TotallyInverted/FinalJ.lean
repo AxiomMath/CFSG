@@ -127,7 +127,7 @@ theorem odd_q (hσ : σ.IsValid) : Odd σ.q := (hσ.p_prime.odd_of_ne_two hσ.p_
 theorem isSylowOf_S_N (hσ : σ.IsValid) : IsSylowOf 2 (σ.S : Subgroup G) σ.N := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [isSylowOf_iff]
-  refine ⟨σ.S_le_N hσ, σ.S.isPGroup', fun h => σ.S.not_dvd_index (h.trans ?_)⟩
+  refine ⟨σ.S_le_N hσ, σ.S.isPGroup, fun h => σ.S.not_dvd_index (h.trans ?_)⟩
   exact Subgroup.relIndex_dvd_index_of_le (σ.S_le_N hσ)
 
 theorem J_structure (hσ : σ.IsValid) (Δ : Data σ r) (hJ : Δ.J ⊓ σ.ON = ⊥) :
@@ -169,10 +169,10 @@ theorem J_structure (hσ : σ.IsValid) (Δ : Data σ r) (hJ : Δ.J ⊓ σ.ON = �
       have : (⟨g, hg.1⟩ : σ.S) ∈ W := hg
       rw [h, Subgroup.mem_bot] at this
       exact Subgroup.mem_bot.mpr (congrArg Subtype.val this)
-    have hnil : Group.IsNilpotent σ.S := σ.S.isPGroup'.isNilpotent
+    have hnil : Group.IsNilpotent σ.S := σ.S.isPGroup.isNilpotent
     have hWZ := Group.IsNilpotent.inf_center_ne_bot_of_normal hW1
     have hWZp : IsPGroup 2 (W ⊓ Subgroup.center σ.S : Subgroup σ.S) :=
-      σ.S.isPGroup'.to_subgroup _
+      σ.S.isPGroup.to_subgroup _
     have hdvd : 2 ∣ Nat.card (W ⊓ Subgroup.center σ.S : Subgroup σ.S) := by
       obtain ⟨k, hk⟩ := hWZp.exists_card_eq
       rcases k with _ | k

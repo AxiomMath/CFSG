@@ -61,7 +61,7 @@ theorem eq_of_orderOf_eq_two_of_perfect {β : C} (hβ : β ∈ center C) (hβ2 :
   have hxT' : (⟨x, hxJ⟩ : ↥J) ∈ (T : Subgroup ↥J) := hxT (mem_zpowers _)
   set T' : Subgroup C := (T : Subgroup ↥J).map J.subtype with hT'
   have hxT'' : x ∈ T' := ⟨⟨x, hxJ⟩, hxT', rfl⟩
-  obtain ⟨R, hTR⟩ := (T.isPGroup'.map J.subtype).exists_le_sylow
+  obtain ⟨R, hTR⟩ := (T.isPGroup.map J.subtype).exists_le_sylow
   obtain ⟨n, hn, ⟨e⟩⟩ := hSD R
   have hβR : β ∈ (R : Subgroup C) := by
     have : (zpowers β).Normal := normal_of_le_center (zpowers_le.mpr hβ)

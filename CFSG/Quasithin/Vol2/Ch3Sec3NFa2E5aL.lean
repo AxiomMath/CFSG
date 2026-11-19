@@ -18,7 +18,7 @@ theorem exists_alpha_model (h9 : Stmt3_3_9) (hGA : GriessAllModelsStatement)
     (e : ↥(autOn L (vPlus L T)) ≃* Matrix.SpecialLinearGroup (Fin 4) (ZMod 2))
     [IsMulCommutative ↥(vPlus L T)] (hmod : Mod3321Ext T L) :
     ∃ (α : ↥L →* SL4) (ρ : FLc.SLt 4 →* MulAut ↥(vPlus L T)) (Z₀ : Subgroup ↥(vPlus L T))
-      (Dm : FLc.VModel 4 ρ (commV (autOn L (vPlus L T))) Z₀
+      (_Dm : FLc.VModel 4 ρ (commV (autOn L (vPlus L T))) Z₀
         (Multiplicative (⋀[ZMod 2]^2 (Fin 4 → ZMod 2))) FLc.actW),
       Function.Surjective α ∧ α.ker = CFSG.pCore 2 ↥L ∧ ((T ⊓ L).subgroupOf L).map α = FLc.Ut 4 ∧
       L ⊓ Subgroup.centralizer (quasithinOmegaOneCenter T : Set G) = L3316.liftPre α P2 ∧
@@ -191,7 +191,7 @@ theorem e5_eq_zero_or_single (v : Fin 6 → ZMod 2) (hv : ∀ j, j ≠ k₀ → 
     by_cases hj : j = k₀
     · subst hj
       simp [h1]
-    · simp [hv j hj, Pi.single_apply, hj]
+    · simp [hv j hj, hj]
 
 end Generic
 
@@ -247,6 +247,7 @@ noncomputable def e5Phi (hLV : L ≤ Subgroup.normalizer (V : Set G))
       map_one' := rfl
       map_mul' := fun _ _ => rfl }
 
+omit [IsMulCommutative ↥V] in
 theorem e5_conj_mem (hLV : L ≤ Subgroup.normalizer (V : Set G)) (l : ↥L) {x : G}
     (hx : x ∈ ⁅V, L⁆) : (l : G) * x * (l : G)⁻¹ ∈ ⁅V, L⁆ :=
   (Subgroup.mem_normalizer_iff.1

@@ -58,7 +58,7 @@ theorem s_hs : ∀ i < CU43S.cnt,
   fun i hi => slK_spec sH i (Nat.zero_le _) (by omega) hi
 
 theorem closure_eq : sylEnum = hRec 820 10 CU43S.cnt CU43S.T CU43S.PL :=
-  (mulH_sound base.1 (fun j hj => (gen hj).2) s_tabs base.2.2.2.2.2 s_pe s_hs).1
+  (mulH_sound base.1 (fun _j hj => (gen hj).2) s_tabs base.2.2.2.2.2 s_pe s_hs).1
 
 theorem hT {i : Nat} (hi : i < 128) : canonK 820 10 (mask 10) (820 * 10) (CU43S.T i) = true :=
   penumPt_canon (s_pe i (by rw [hcnt]; exact hi))

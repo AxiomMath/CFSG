@@ -65,8 +65,8 @@ theorem core {X : Type} [Group X] {F : Type} [Field F] [Finite F]
     (hQ8 : 8 ≤ Nat.card Q) (y : MulAut X) (hy : y * y = 1)
     (hfix : ∀ s ∈ (Q : Subgroup X), y s = s) (hr : (autEquiv φ y).right = 1) :
     ∃ x : X, y = MulAut.conj x := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite X := Finite.of_equiv _ φ.symm.toEquiv
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite X := Finite.of_equiv _ φ.symm.toEquiv
   have hg2 : autEquiv φ y * autEquiv φ y = 1 := by rw [← map_mul, hy, map_one]
   have hk : autEquiv φ y ^ 2 ^ 1 = 1 := by rw [pow_one, sq]; exact hg2
   have hD8 : 8 ≤ Nat.card (sylowMap φ Q) := by rw [card_sylowMap]; exact hQ8
@@ -116,7 +116,7 @@ theorem eight_dvd_card_PSL2 {K : Type} [Field K] [Finite K] (hodd : IsOddPrimePo
 
 theorem eight_le_card_sylow {X : Type} [Group X] [Finite X] (Q : Sylow 2 X)
     (h8 : 8 ∣ Nat.card X) : 8 ≤ Nat.card Q := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [Sylow.card_eq_multiplicity]
   have hX : Nat.card X ≠ 0 := (Nat.card_pos).ne'
   have h3 : 3 ≤ (Nat.card X).factorization 2 :=
@@ -144,11 +144,11 @@ theorem eq_one_or_eq_of_card_two_mem {G : Type} [Group G] [Finite G] (H : Subgro
 
 theorem card_sylow_psl2 {F : Type} [Field F] [Finite F] (hodd : IsOddPrimePower (Nat.card F))
     (hq4 : Nat.card F % 4 = 1) (P : Sylow 2 (PSL2 F)) : Nat.card P = 2 ^ twoVal F := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [Sylow.card_eq_multiplicity, psl2_factorization_two hodd hq4]
 
 theorem neg_one_mem_zpowers_stdGen_sq {F : Type} [Field F] [Finite F]
-    (hodd : IsOddPrimePower (Nat.card F)) (h8 : 8 ≤ 2 ^ twoVal F) :
+    (_hodd : IsOddPrimePower (Nat.card F)) (h8 : 8 ≤ 2 ^ twoVal F) :
     (-1 : Fˣ) ∈ zpowers (stdGen F ^ 2) := by
   have htv : 3 ≤ twoVal F := by
     rcases Nat.lt_or_ge (twoVal F) 3 with h | h

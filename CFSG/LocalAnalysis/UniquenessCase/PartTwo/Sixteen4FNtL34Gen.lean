@@ -27,9 +27,11 @@ private noncomputable def w183_Pgl : GL (Fin 3) K :=
 private noncomputable def w183_Bgl (ω : K) : GL (Fin 3) K :=
   w183_glOfDet (w183_Bm ω) (w183_Bm_det ω)
 
+omit [Finite K] in
 private theorem w183_Pgl_val : (w183_Pgl (K := K) : Matrix (Fin 3) (Fin 3) K) = w183_Pm := by
   rw [w183_Pgl, w183_glOfDet]; rfl
 
+omit [Finite K] in
 private theorem w183_Bgl_val (ω : K) :
     (w183_Bgl ω : Matrix (Fin 3) (Fin 3) K) = w183_Bm ω := by
   rw [w183_Bgl, w183_glOfDet]; rfl
@@ -37,9 +39,11 @@ private theorem w183_Bgl_val (ω : K) :
 private def w183_tv (i j : Fin 3) (hij : i ≠ j) (c : K) : GL (Fin 3) K :=
   SpecialLinearGroup.toGL (SpecialLinearGroup.transvection hij c)
 
+omit [Finite K] [CharP K 2] in
 private theorem w183_tv_val (i j : Fin 3) (hij : i ≠ j) (c : K) :
     (w183_tv i j hij c : Matrix (Fin 3) (Fin 3) K) = Matrix.transvection i j c := rfl
 
+omit [Finite K] in
 private theorem w183_tv01_val (c : K) :
     (w183_tv 0 1 (by decide) c : Matrix (Fin 3) (Fin 3) K) =
       !![1, c, 0; 0, 1, 0; 0, 0, 1] := by
@@ -47,20 +51,24 @@ private theorem w183_tv01_val (c : K) :
   ext i j
   fin_cases i <;> fin_cases j <;> simp [Matrix.transvection]
 
+omit [Finite K] in
 private theorem w183_Pgl_cube : (w183_Pgl (K := K)) ^ 3 = 1 := by
   apply Units.ext
   rw [Units.val_pow_eq_pow_val, Units.val_one, w183_Pgl_val, w183_Pm_cube]
 
+omit [Finite K] in
 private theorem w183_Bgl_cube (ω : K) (hω : ω ^ 2 = ω + 1) : (w183_Bgl ω) ^ 3 = 1 := by
   apply Units.ext
   rw [Units.val_pow_eq_pow_val, Units.val_one, w183_Bgl_val, w183_Bm_cube ω hω]
 
+omit [Finite K] in
 private theorem w183_Pgl_inv : (w183_Pgl (K := K))⁻¹ = w183_Pgl (K := K) ^ 2 := by
   have h : w183_Pgl (K := K) ^ 2 * w183_Pgl (K := K) = 1 := by
     have := w183_Pgl_cube (K := K)
     rwa [pow_succ] at this
   exact inv_eq_of_mul_eq_one_left h
 
+omit [Finite K] in
 private theorem w183_Bgl_inv (ω : K) (hω : ω ^ 2 = ω + 1) :
     (w183_Bgl ω)⁻¹ = w183_Bgl ω ^ 2 := by
   have h : w183_Bgl ω ^ 2 * w183_Bgl ω = 1 := by
@@ -68,6 +76,7 @@ private theorem w183_Bgl_inv (ω : K) (hω : ω ^ 2 = ω + 1) :
     rwa [pow_succ] at this
   exact inv_eq_of_mul_eq_one_left h
 
+omit [Finite K] in
 private theorem w183_word_one (ω : K) (hω : ω ^ 2 = ω + 1) :
     w183_Bgl ω * ((w183_Pgl (K := K))⁻¹ * w183_Bgl ω * w183_Pgl (K := K) *
         (w183_Bgl ω)⁻¹) ^ 2 * ((w183_Pgl (K := K))⁻¹ * w183_Bgl ω) ^ 3 *
@@ -84,6 +93,7 @@ private theorem w183_word_one (ω : K) (hω : ω ^ 2 = ω + 1) :
   rw [w183_tv01_val]
   exact w183_word1mat ω hω
 
+omit [Finite K] in
 private theorem w183_word_omega (ω : K) (hω : ω ^ 2 = ω + 1) :
     w183_Bgl ω * (w183_Pgl (K := K) * (w183_Bgl ω)⁻¹) ^ 2 *
         ((w183_Pgl (K := K))⁻¹ * (w183_Bgl ω)⁻¹ * w183_Pgl (K := K) * w183_Bgl ω) ^ 2 *
@@ -103,13 +113,15 @@ private theorem w183_word_omega (ω : K) (hω : ω ^ 2 = ω + 1) :
       !![1, ω, 0; 0, 1, 0; 0, 0, 1] from w183_tv01_val ω]
   exact w183_word2mat ω hω
 
+omit [Finite K] [CharP K 2] in
 private theorem w183_tv_add (i j : Fin 3) (hij : i ≠ j) (a b : K) :
     w183_tv i j hij a * w183_tv i j hij b = w183_tv i j hij (a + b) := by
   apply Units.ext
   simp only [Units.val_mul, w183_tv_val]
   exact Matrix.transvection_mul_transvection_same i j hij a b
 
-private theorem w183_conj01 (ω : K) (hω : ω ^ 2 = ω + 1) (c : K) :
+omit [Finite K] in
+private theorem w183_conj01 (ω : K) (_hω : ω ^ 2 = ω + 1) (c : K) :
     w183_Pgl (K := K) * w183_tv 0 1 (by decide) c * (w183_Pgl (K := K))⁻¹ =
       w183_tv 2 0 (by decide) c := by
   rw [w183_Pgl_inv]
@@ -120,9 +132,9 @@ private theorem w183_conj01 (ω : K) (hω : ω ^ 2 = ω + 1) (c : K) :
   all_goals
     simp [Matrix.mul_apply, Fin.sum_univ_three, pow_succ, Matrix.one_apply, Matrix.transvection,
       Matrix.single_apply, Matrix.vecMul, dotProduct]
-    try ring_nf
 
-private theorem w183_conj20 (ω : K) (hω : ω ^ 2 = ω + 1) (c : K) :
+omit [Finite K] in
+private theorem w183_conj20 (ω : K) (_hω : ω ^ 2 = ω + 1) (c : K) :
     w183_Pgl (K := K) * w183_tv 2 0 (by decide) c * (w183_Pgl (K := K))⁻¹ =
       w183_tv 1 2 (by decide) c := by
   rw [w183_Pgl_inv]
@@ -133,20 +145,22 @@ private theorem w183_conj20 (ω : K) (hω : ω ^ 2 = ω + 1) (c : K) :
   all_goals
     simp [Matrix.mul_apply, Fin.sum_univ_three, pow_succ, Matrix.one_apply, Matrix.transvection,
       Matrix.single_apply, Matrix.vecMul, dotProduct]
-    try ring_nf
 
+omit [Finite K] [CharP K 2] in
 private theorem w183_comm201 (a b : K) :
     ⁅w183_tv 2 0 (by decide) a, w183_tv 0 1 (by decide) b⁆ =
       w183_tv 2 1 (by decide) (a * b) := by
   rw [w183_tv, w183_tv, w183_tv, ← map_commutatorElement,
     Matrix.SpecialLinearGroup.commutatorElement_transvection]
 
+omit [Finite K] [CharP K 2] in
 private theorem w183_comm012 (a b : K) :
     ⁅w183_tv 0 1 (by decide) a, w183_tv 1 2 (by decide) b⁆ =
       w183_tv 0 2 (by decide) (a * b) := by
   rw [w183_tv, w183_tv, w183_tv, ← map_commutatorElement,
     Matrix.SpecialLinearGroup.commutatorElement_transvection]
 
+omit [Finite K] [CharP K 2] in
 private theorem w183_comm120 (a b : K) :
     ⁅w183_tv 1 2 (by decide) a, w183_tv 2 0 (by decide) b⁆ =
       w183_tv 1 0 (by decide) (a * b) := by
@@ -298,12 +312,10 @@ theorem s16nt_l34_gen {K : Type} [Field K] [Finite K] [CharP K 2] (hK : Nat.card
   · change ((w183_Bgl ω : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) =
       !![1, 1, ω; 0, 1, 1; 0, 1, 0]
     rw [w183_Bgl_val]
-  · change (w183_P (K := K)) ^ 3 = 1
-    apply Subtype.ext
+  · apply Subtype.ext
     change (w183_Pgl (K := K)) ^ 3 = (1 : GL (Fin 3) K)
     exact w183_Pgl_cube
-  · change (w183_B ω) ^ 3 = 1
-    have hω' : ω ^ 2 = ω + 1 := by
+  · have hω' : ω ^ 2 = ω + 1 := by
       have h' : ω ^ 2 + (ω + 1) = 0 := by rwa [add_assoc] at hω
       exact (CharTwo.add_eq_zero).mp h'
     apply Subtype.ext

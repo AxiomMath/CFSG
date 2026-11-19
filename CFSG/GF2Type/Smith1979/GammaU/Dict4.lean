@@ -117,7 +117,7 @@ theorem theta0_mem_map_Vt (H : Hyp4 S g) {θ : S.O} (hθ : θ ∈ S.Mbar) {φ : 
     change φ _ = theta0 (φ v)
     rw [hc, hc, theta0_theta0_theta0]
 
-theorem vecOf_xor_eq {r : Array ℕ} (hr : ∀ x ∈ r, x < 4096) (m : ℕ) :
+theorem vecOf_xor_eq {r : Array ℕ} (_hr : ∀ x ∈ r, x < 4096) (m : ℕ) :
     vecOf (appN r m ^^^ m) = linOfRows r (vecOf m) + vecOf m := by
   rw [vecOf_xor, vecOf_appN]
 
@@ -217,7 +217,7 @@ theorem hasConfig_of_data {r : Array ℕ} (hr : r ∈ compOf i) {s : S.O}
           ↑(Ltr S ((h : G) * g) φ) ∪ {trEquiv φ (θ : S.Qt ≃ₗ[ZMod 2] S.Qt)}) := by
       have hA : f '' ↑(S.Lbar g) = {l | RowsSet (compOf i) l} := by
         ext l
-        simp only [Set.mem_image, Set.mem_setOf_eq, SetLike.mem_coe]
+        simp only [Set.mem_image, Set.mem_ofPred_eq, SetLike.mem_coe]
         rw [← hφ.frame, mem_Ltr]
         rfl
       have hB : f '' ↑(S.Lbar ((h : G) * g)) = ↑(Ltr S ((h : G) * g) φ) := by

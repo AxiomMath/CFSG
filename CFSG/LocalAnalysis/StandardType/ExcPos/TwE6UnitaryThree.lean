@@ -112,7 +112,7 @@ theorem exists_elemAbelian_three_pow_five_of_cube_eq_one
       have h4 : (2 ^ 2 : ℕ) ≡ 1 [MOD 3] := by norm_num [Nat.ModEq]
       exact h.trans h4
     exact hq2sq.symm.dvd'
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ζu, hζu⟩ := exists_prime_orderOf_dvd_card' (G := Kˣ) 3 (by rwa [Nat.card_units])
   have hζ : IsPrimitiveRoot (ζu : K) 3 :=
     IsPrimitiveRoot.coe_units_iff.mpr (IsPrimitiveRoot.iff_orderOf.mpr hζu)
@@ -163,7 +163,7 @@ theorem exists_elemAbelian_three_pow_five_of_cube_eq_one
     simp [Qm, Module.Basis.toMatrix_apply]
   have hQcol : ∀ j, Qm *ᵥ Pi.single j 1 = b' j := fun j => by
     ext i
-    simp [Matrix.mulVec_single_one, hQapply]
+    simp [hQapply]
   have hQ : (Qm.map hfd.bar)ᵀ * J * Qm = 1 := by
     ext i j
     have h1 := gramForm_mulVec hfd J Qm (Pi.single i 1) (Pi.single j 1)

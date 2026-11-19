@@ -24,7 +24,7 @@ theorem K5_card : Nat.card K5 = 60 := by
   rw [Subgroup.card_map_of_injective (Subgroup.subtype_injective _), a8Kb_card]
 
 theorem K5_simple : IsSimpleGroup K5 := by
-  haveI := a8Kb_simple
+  have := a8Kb_simple
   exact MulEquiv.isSimpleGroup (Subgroup.equivMapOfInjective a8Kb _
     (Subgroup.subtype_injective _)).symm
 
@@ -92,11 +92,11 @@ theorem centralizer_K5_cc (g : P8)
   S3A4K.key g h1 h2 h3
 
 theorem orderOf_cc : orderOf (m₁ * m₂) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact orderOf_eq_prime (by decide +kernel) (by decide +kernel)
 
 theorem orderOf_cc_sq : orderOf ((m₁ * m₂) ^ 2) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact orderOf_eq_prime (by decide +kernel) (by decide +kernel)
 
 theorem A6_O3'_centralizer_c (Y N : Subgroup P8)
@@ -109,7 +109,7 @@ theorem A6_O3'_centralizer_c (Y N : Subgroup P8)
     have h := hNn.conj_mem ⟨m, hN hm⟩ (Subgroup.mem_subgroupOf.2 hm) ⟨k, hk⟩
     have h' := Subgroup.mem_subgroupOf.1 h
     exact h'
-  haveI := K5_simple
+  have := K5_simple
   have hNK5 : ∀ m ∈ N, m ∈ K5 → m = 1 := by
     have hnorm : (N.subgroupOf K5).Normal := by
       refine ⟨fun n hn g => ?_⟩

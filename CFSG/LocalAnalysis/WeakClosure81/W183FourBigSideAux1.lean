@@ -22,16 +22,16 @@ theorem w183fourside_two_le_pRank_five_sp4 (hSp5 : FinSp44Noncyclic5) {X : Type}
     hP5 hncyc).trans (CFSG.SectionRank.pRank_mono (p := 5) (by norm_num) le_top)
 
 theorem w183fourside_nonab_of_simple_of_noncyclic {X : Type} [Group X] [Finite X]
-    (hs : IsSimpleGroup X) {P : Subgroup X} (hP : IsPGroup 5 P) (hnc : ¬ IsCyclic P) :
+    (hs : IsSimpleGroup X) {P : Subgroup X} (_hP : IsPGroup 5 P) (hnc : ¬ IsCyclic P) :
     ∃ a b : X, a * b ≠ b * a := by
   by_contra hnab
   have hcomm : IsMulCommutative X := ⟨⟨fun a b => by
     by_contra hab
     exact hnab ⟨a, b, hab⟩⟩⟩
-  letI : IsMulCommutative X := hcomm
+  let : IsMulCommutative X := hcomm
   have hp : (Nat.card X).Prime := CommGroup.is_simple_iff_prime_card.mp hs
-  haveI : Fact (Nat.card X).Prime := ⟨hp⟩
-  haveI : IsCyclic X := isCyclic_of_prime_card (p := Nat.card X) rfl
+  have : Fact (Nat.card X).Prime := ⟨hp⟩
+  have : IsCyclic X := isCyclic_of_prime_card (p := Nat.card X) rfl
   exact hnc (Subgroup.isCyclic P)
 
 private theorem w183fourside_inf_eq_bot_of_commute {Y : Type} [Group Y] {A₁ A₂ : Subgroup Y}
@@ -47,7 +47,7 @@ private theorem w183fourside_inf_eq_bot_of_commute {Y : Type} [Group Y] {A₁ A�
         simp only [Subgroup.coe_mul, Subgroup.coe_inv]
         rw [hgn]; group
       rw [he]; exact hn.2⟩
-  haveI := hNnormal
+  have := hNnormal
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal N with hbot | htop
   · rw [eq_bot_iff]
     intro x hx
@@ -67,9 +67,9 @@ theorem w183fourside_prod_layer_rank (hSp5 : FinSp44Noncyclic5) {S : Type} [Grou
     {A₁ A₂ : Subgroup S} (h₁ : IsSp4 ↥A₁ 2) (h₂ : IsSp4 ↥A₂ 2) (hn₁ : A₁.Normal)
     (hn₂ : A₂.Normal) (hcomm : ∀ a ∈ A₁, ∀ b ∈ A₂, a * b = b * a) (hgen : A₁ ⊔ A₂ = ⊤) :
     CFSG.layer S = ⊤ ∧ 4 ≤ CFSG.Open.pRank 5 (⊤ : Subgroup S) := by
-  haveI hsimple₁ : IsSimpleGroup ↥A₁ :=
+  have hsimple₁ : IsSimpleGroup ↥A₁ :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) h₁
-  haveI hsimple₂ : IsSimpleGroup ↥A₂ :=
+  have hsimple₂ : IsSimpleGroup ↥A₂ :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) h₂
   obtain ⟨P₁, hP₁, hnc₁⟩ := hSp5 ↥A₁ h₁
   obtain ⟨P₂, hP₂, hnc₂⟩ := hSp5 ↥A₂ h₂
@@ -159,19 +159,21 @@ theorem w183fourside_prod_layer_rank (hSp5 : FinSp44Noncyclic5) {S : Type} [Grou
       (by norm_num) hcomm' hpow' hcard f hf le_top
   exact ⟨hlayer, by omega⟩
 
+omit [Finite G] in
 theorem w183fourside_normal_subgroupOf {K H M : Subgroup G} (hK : (K.subgroupOf H).Normal)
     (hKM : K ≤ M) (hMH : M ≤ H) : (K.subgroupOf M).Normal := by
   rw [Subgroup.normal_subgroupOf_iff_le_normalizer hKM]
   exact hMH.trans ((Subgroup.normal_subgroupOf_iff_le_normalizer (hKM.trans hMH)).mp hK)
 
+omit [Finite G] in
 theorem w183fourside_isSp4_image_quotient {K H L : Subgroup G}
     (hKn : (K.subgroupOf H).Normal) (hLH : L ≤ H)
     (hQ : HasQuotShape L (K : Set G) (fun X _ => IsSp4 X 2)) :
     IsSp4 ↥((L.subgroupOf H).map (QuotientGroup.mk' (K.subgroupOf H))) 2 := by
   classical
-  haveI := hKn
+  have := hKn
   obtain ⟨X, hX, φ, hφs, hφk, hXU⟩ := hQ
-  letI : Group X := hX
+  let : Group X := hX
   let q := QuotientGroup.mk' (K.subgroupOf H)
   let A : Subgroup (↥H ⧸ (K.subgroupOf H)) := (L.subgroupOf H).map q
   let eL : ↥(L.subgroupOf H) ≃* ↥L := Subgroup.subgroupOfEquivOfLe hLH
@@ -272,7 +274,7 @@ theorem w183fourside_pRank_five_gt (h22 : Asch2_2One) (hSp5 : FinSp44Noncyclic5)
   by_contra hle
   have hKM : K ≤ L₁ ⊔ L₂ := h₁.2.1.trans le_sup_left
   have hMH : L₁ ⊔ L₂ ≤ H := sup_le h₁.2.2.1 h₂.2.2.1
-  haveI hN : (K.subgroupOf (L₁ ⊔ L₂)).Normal := w183fourside_normal_subgroupOf h₁.1 hKM hMH
+  have hN : (K.subgroupOf (L₁ ⊔ L₂)).Normal := w183fourside_normal_subgroupOf h₁.1 hKM hMH
   obtain ⟨hlayer, hrank⟩ := w183fourside_section hSp5 h₁ h₂ hne hQ₁ hQ₂
   have h3 := h22 G H 5 Nat.prime_five (by norm_num) hH (not_lt.mp hle) (L₁ ⊔ L₂) K hKM hMH
     hlayer

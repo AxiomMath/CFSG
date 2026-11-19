@@ -43,9 +43,9 @@ theorem exists_ne_one_fix_involution {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
   have hmem : ∀ β ∈ D, ∀ x ∈ T, β x ∈ T := fun β hβ x hx => by
     rw [← hDT β hβ]
     exact Subgroup.mem_map_of_mem _ hx
-  haveI : IsMulCommutative D := hD.1
+  have : IsMulCommutative D := hD.1
   let _ : CommGroup D := IsMulCommutative.instCommGroup
-  haveI : CFSG.IsElementaryAbelian p D :=
+  have : CFSG.IsElementaryAbelian p D :=
     { toIsMulCommutative := hD.1
       exponent_dvd_p := Monoid.exponent_dvd_of_forall_pow_eq_one fun x =>
         Subtype.ext (by simpa using hD.2 x x.2) }
@@ -57,20 +57,20 @@ theorem exists_ne_one_fix_involution {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     exact hp2 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).1 (hp.dvd_of_dvd_pow h))
   have htop := CFSG.SolvableSignalizer.iSup_fixedSubgroup_eq_top p hp α (by rw [hD2]) hcop
   by_contra hno
-  push_neg at hno
+  push Not at hno
   have hbot : ∀ a : D, a ≠ 1 → CFSG.SolvableSignalizer.fixedSubgroup α a = ⊥ := by
     intro a ha
     by_contra hne
     set F := CFSG.SolvableSignalizer.fixedSubgroup α a with hF
     have hF2 : IsPGroup 2 F := (hT2.to_subgroup F)
-    haveI : Nontrivial F := (Subgroup.nontrivial_iff_ne_bot F).2 hne
+    have : Nontrivial F := (Subgroup.nontrivial_iff_ne_bot F).2 hne
     have h2F : 2 ∣ Nat.card F := by
       obtain ⟨n, hn⟩ := hF2.exists_card_eq
       have h1 : 1 < Nat.card F := Finite.one_lt_card
       rw [hn] at h1 ⊢
       have : n ≠ 0 := by rintro rfl; simp at h1
       exact dvd_pow_self 2 this
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 2 h2F
     have hxfix : α a (x : T) = (x : T) := x.2
     have ho : orderOf ((x : T) : S) = 2 := by
@@ -154,7 +154,7 @@ theorem exists_perfect_fixSubgroup_of_commute_of_mul_self_eq_one [Finite k] [Cha
     ∃ Q : Subgroup (projectiveSL 3 k), Q ≤ fixSubgroup (LinearFlag.conjAut 3 k M) ∧
       ⁅Q, Q⁆ = Q ∧ 3 ∣ Nat.card Q := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ζ, hζ⟩ := exists_primitiveRoot_of_dvd Nat.prime_three h3
   obtain ⟨P, hP⟩ := exists_conj_diagonal_of_exponent_prime (n := 3) (p := 3) ⟨ζ, hζ⟩
     (Subgroup.zpowers M) (by
@@ -194,7 +194,7 @@ theorem exists_perfect_fixSubgroup_of_commute_of_mul_self_eq_one [Finite k] [Cha
     calc U = P⁻¹ * (P * U * P⁻¹) * P := by group
       _ = 1 := by rw [h1']; group
   · rw [Function.Injective] at hinj
-    push_neg at hinj
+    push Not at hinj
     obtain ⟨i, j, hij, hne⟩ := hinj
     exact exists_perfect_fixSubgroup_of_diagonal_eq (P := P) Nat.prime_three (by norm_num) h3 hM
       (fun r s hrs => by rw [hd]; exact Matrix.diagonal_apply_ne d hrs) hne hij
@@ -430,13 +430,13 @@ theorem lpEpsNoGoodTwoLocal_linear (q : TauCeti.PrimePower)
     (hv : (TauCeti.LieTypeIndex.A 2 q).Valid) (hq : q.p = 2) :
     HDesc.LpEpsNoGoodTwoLocal 3 ⟨.A 2 q, hv⟩ := by
   intro hlp D hD hD2 hDinn _ hno T hT2 hT hDT
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   let k := GaloisField q.p q.exponent
   have hcard : Nat.card k = q.card := by
     dsimp only [k]
     rw [GaloisField.card q.p q.exponent q.exponent_pos.ne']
     exact (TauCeti.PrimePower.card_def q).symm
-  haveI : CharP k 2 := CharP.congr q.p hq
+  have : CharP k 2 := CharP.congr q.p hq
   have h3 : 3 ∣ Nat.card k - 1 := by
     obtain ⟨q', ⟨hq', h⟩ | ⟨hq', -⟩⟩ := hlp
     · injection hq' with h1 h2

@@ -22,6 +22,7 @@ theorem mulAut_mul_conj_mul_inv {G : Type*} [Group G] (a : MulAut G) (g : G) :
 
 variable {r : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] in
 theorem eq_of_forall_conj_eq {g h : StatedSp r K} (hgh : ∀ x, g * x * g⁻¹ = h * x * h⁻¹) :
     g = h := by
   have hc : h⁻¹ * g ∈ Subgroup.center (StatedSp r K) := by

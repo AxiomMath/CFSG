@@ -56,7 +56,7 @@ theorem seitzHyperGamma_eq_top_of_inner_of
     (hinn : E ≤ (MulAut.conj : S →* MulAut S).range) : seitzHyperGamma p E = ⊤ := by
   have hZ := ChevQ.SeitzBridgeAux.center_eq_bot_of_simple hs hnab
   obtain ⟨-, hc, he⟩ := ChevQ.SeitzHyperGoodInAux.inn_data hs hnab e
-  haveI : (MulAut.conj : S →* MulAut S).range.Normal := inferInstance
+  have : (MulAut.conj : S →* MulAut S).range.Normal := inferInstance
   refine ChevQ.SeitzHyperGoodInAux.seitzHyperGamma_eq_top_of_hyperGen_inn hZ p ?_
   refine hyperGen_inner_of_scope hp hp2 hL d he hpd hlist hE hcard ?_
     (le_sup_of_le_left hinn) (by rw [hc, Subgroup.card_bot]; exact hp.not_dvd_one) hF

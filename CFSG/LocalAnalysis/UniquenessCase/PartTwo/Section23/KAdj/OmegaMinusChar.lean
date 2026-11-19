@@ -45,7 +45,7 @@ private theorem orthCoefMat_tailDiag_E14 {K : Type} [Field K] {A : Type} [AddCom
   by_cases hij : i = j
   · subst hij
     simp
-  · rw [if_neg hij]
+  · rw [ite_eq_right hij]
     have hne : (Sum.inl i : Fin r ⊕ Fin r) ≠ Sum.inl j := fun hh => hij (Sum.inl.inj hh)
     rw [Pi.single_eq_of_ne hne, mul_zero]
 
@@ -188,7 +188,7 @@ theorem omegaMinus_tailDiag_of_mem_hinf {K : Type} [Field K] [Finite K] [CharP K
     simpa using h01K
   · apply Units.ext
     simpa using h2K
-  · haveI : Group.IsSolvable ↥(TauCeti.QuadraticMap.orthogonalGroup
+  · have : Group.IsSolvable ↥(TauCeti.QuadraticMap.orthogonalGroup
         (quadTail (3 - ![0, 2, 3] (Fin.last 2)) (minusTailForm K b c))) :=
       isSolvable_orthogonalGroup_tail_E14 hirr (m := 3 - ![0, 2, 3] (Fin.last 2)) (by decide)
     have hres : orthResHom (minusTailForm K b c) orthCuts_tailQAlpha_E14 q = 1 := by

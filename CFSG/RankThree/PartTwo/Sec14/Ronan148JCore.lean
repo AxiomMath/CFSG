@@ -26,7 +26,7 @@ theorem img148_centPre148_eq {J : Subgroup G} :
     obtain ⟨g, hg, hgY, rfl⟩ := mem_img148_iff.mp hxY
     exact mem_img148_iff.mpr ⟨g, hg, Ronan148M.mem_centPre148_iff.mpr ⟨hgY, hxc⟩, rfl⟩
 
-theorem pPrimeCoreOf_centPre148_eq_of_isComponent (hAY : A ≤ Subgroup.normalizer (Y : Set G))
+theorem pPrimeCoreOf_centPre148_eq_of_isComponent (_hAY : A ≤ Subgroup.normalizer (Y : Set G))
     {J : Subgroup G} (hJY : J ≤ Y) (hJc : IsComponent (img148 A Y J))
     (h3 : 3 ∣ Nat.card (img148 A Y J)) :
     pPrimeCoreOf 3 (centPre148 A Y J) = pPrimeCoreOf 3 Y := by
@@ -58,7 +58,7 @@ theorem nonempty_img148_deltaZero_centPre148_equiv (hAY : A ≤ Subgroup.normali
     letI := ker148_normal (le_normalizer_centPre148 (J := J) hAY hAJ)
     Nonempty (↥(img148 A (centPre148 A Y J) (deltaZero A LB (centPre148 A Y J))) ≃*
       ↥(img148 A Y (deltaZero A LB (centPre148 A Y J)))) := by
-  haveI := ker148_normal (le_normalizer_centPre148 (J := J) hAY hAJ)
+  have := ker148_normal (le_normalizer_centPre148 (J := J) hAY hAJ)
   have hle : deltaZero A LB (centPre148 A Y J) ≤ centPre148 A Y J :=
     sSup_le fun _ hQ => hQ.2
   exact Ronan148M.nonempty_img148_centPre148_equiv

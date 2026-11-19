@@ -39,7 +39,7 @@ private theorem phiL_surjective (F : A10Frame c) : Function.Surjective F.phiL :=
   rw [hinc]
   exact hmy
 
-private theorem normal_subgroupOf_inf_centralizer (F : A10Frame c) {V : Subgroup G}
+private theorem normal_subgroupOf_inf_centralizer (_F : A10Frame c) {V : Subgroup G}
     (hMV : D.M ≤ Subgroup.normalizer (V : Set G)) :
     ((c.L ⊓ Subgroup.centralizer (V : Set G)).subgroupOf c.L).Normal := by
   let N : Subgroup G := c.L ⊓ Subgroup.centralizer (V : Set G)
@@ -107,7 +107,7 @@ private theorem map_subgroupOf_inf_centralizer_eq_top (F : A10Frame c) {V : Subg
         ⟨⟨(a : G), haL⟩, Subgroup.mem_subgroupOf.mpr ⟨haL, hAV haA⟩, rfl⟩
     rw [hbot] at hmem
     exact hfne (by simpa using hmem)
-  haveI : IsSimpleGroup (alternatingGroup (Fin 10)) :=
+  have : IsSimpleGroup (alternatingGroup (Fin 10)) :=
     alternatingGroup.isSimpleGroup (by norm_num)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal H with h | h
   · exact absurd h hHne

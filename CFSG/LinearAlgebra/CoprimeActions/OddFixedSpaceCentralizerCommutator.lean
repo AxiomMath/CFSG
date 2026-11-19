@@ -16,7 +16,7 @@ theorem centralizes {H : Type*} [Group H] [Finite H]
     (hfaith : ∀ r ∈ R, (∀ v, σ r v = v) → r = 1)
     (hB : ∀ b ∈ B, ∀ v : V, (∀ s ∈ S, σ s v = v) → σ b v = v) :
     B ≤ Subgroup.centralizer (R : Set H) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro b hb
   rw [Subgroup.mem_centralizer_iff]
   intro r hr

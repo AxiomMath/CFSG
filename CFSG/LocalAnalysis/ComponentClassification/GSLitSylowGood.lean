@@ -94,7 +94,7 @@ theorem exists_lt_of_not_sylow {Q Y : Subgroup G} (hQY : Q ≤ Y) (hQ : IsPGroup
     ∃ U : Subgroup G, U ≤ Y ∧ IsPGroup 2 U ∧ Q < U := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P₀, hP₀⟩ := (hQ.comap_subtype (K := Y)).exists_le_sylow
-  refine ⟨(P₀ : Subgroup Y).map Y.subtype, map_subtype_le _, P₀.isPGroup'.map _,
+  refine ⟨(P₀ : Subgroup Y).map Y.subtype, map_subtype_le _, P₀.isPGroup.map _,
     lt_of_le_of_ne ?_ ?_⟩
   · intro x hx
     exact ⟨⟨x, hQY hx⟩, hP₀ (show (⟨x, hQY hx⟩ : Y) ∈ Q.subgroupOf Y from hx), rfl⟩

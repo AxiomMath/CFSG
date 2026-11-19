@@ -20,7 +20,7 @@ open scoped commutatorElement Matrix
 section Det
 
 theorem det_one_sub_smul_ne_zero_of_pow_eq_smul {r : ℕ} (Y : Matrix (Fin r) (Fin r) ℤ) {n : ℕ}
-    (hn : n ≠ 0) {c : ℤ} (hY : Y ^ n = c • (1 : Matrix (Fin r) (Fin r) ℤ)) {θ : ℤ}
+    (_hn : n ≠ 0) {c : ℤ} (hY : Y ^ n = c • (1 : Matrix (Fin r) (Fin r) ℤ)) {θ : ℤ}
     (hθ : θ ^ n * c ≠ 1) : (1 - θ • Y).det ≠ 0 := by
   intro h
   obtain ⟨v, hv0, hv⟩ := Matrix.exists_mulVec_eq_zero_iff.2 h
@@ -69,7 +69,7 @@ theorem reeTuple_eq_zpowMatrix [CharP L 2] (b : Fin ReeTag.F4.tag.rank → Lˣ) 
     reeTuple a b = zpowMatrix ((2 ^ a : ℤ) • reeB) b := by
   funext k
   rw [zpowMatrix_apply, Finset.prod_eq_single (ReeTag.F4.perm k)]
-  · simp only [reeTuple, reeB, Matrix.smul_apply, Matrix.of_apply, if_true, smul_eq_mul]
+  · simp only [reeTuple, reeB, Matrix.smul_apply, Matrix.of_apply, ite_true, smul_eq_mul]
     rw [← zpow_natCast, ← relationExponent_eq_two_pow_mul]
   · intro i _ hi
     simp [reeB, hi]

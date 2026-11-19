@@ -13,10 +13,12 @@ open CFSG.ClassicalInvolution.Asc77 CFSG.ClassicalInvolution.Disconnected.AschTi
 
 variable {r : ℕ} {G : Type} [Group G] [Finite G] {Ω : Set (Subgroup G)}
 
+omit [Finite G] in
 private theorem inf_eq_of_isSylow2In {A Q S : Subgroup G} (hQ : IsSylow2In Q A) (hQS : Q ≤ S)
     (hS : IsPGroup 2 S) : A ⊓ S = Q :=
   hQ.eq_of_le (hS.to_le inf_le_right) inf_le_left (le_inf hQ.1 hQS)
 
+omit [Finite G] in
 private theorem mem_normalizer_of_isSylow2In {A Q S : Subgroup G} (hQ : IsSylow2In Q A)
     (hQS : Q ≤ S) (hS : IsPGroup 2 S) {v : G} (hvS : v ∈ S)
     (hvA : v ∈ Subgroup.normalizer (A : Set G)) : v ∈ Subgroup.normalizer (Q : Set G) := by
@@ -32,12 +34,14 @@ private theorem mem_normalizer_of_isSylow2In {A Q S : Subgroup G} (hQ : IsSylow2
     have := S.mul_mem (S.mul_mem (S.inv_mem hvS) h2) hvS
     rwa [show v⁻¹ * (v * w * v⁻¹) * v = w by group] at this
 
+omit [Finite G] in
 private theorem conj_mul_of_commute {d e w : G} (h : w * e = e * w) :
     d * e * w * (d * e)⁻¹ = d * w * d⁻¹ := by
   calc d * e * w * (d * e)⁻¹ = d * (e * w) * e⁻¹ * d⁻¹ := by group
     _ = d * (w * e) * e⁻¹ * d⁻¹ := by rw [h]
     _ = d * w * d⁻¹ := by group
 
+omit [Finite G] in
 private theorem mem_centralizer_of_conj_eq {Q : Subgroup G} {a c : G} (hac : a * c = c * a)
     (h : ∀ w ∈ Q, a * w * a⁻¹ = c * w * c⁻¹) : a * c⁻¹ ∈ Subgroup.centralizer (Q : Set G) := by
   rw [Subgroup.mem_centralizer_iff]
@@ -50,6 +54,7 @@ private theorem mem_centralizer_of_conj_eq {Q : Subgroup G} {a c : G} (hac : a *
     _ = c⁻¹ * a * w := by group
     _ = a * c⁻¹ * w := by rw [e2]
 
+omit [Finite G] in
 private theorem conjSub_inf_centralizer_singleton (g a : G) (B : Subgroup G) :
     conjSub g (B ⊓ Subgroup.centralizer ({a} : Set G)) =
       conjSub g B ⊓ Subgroup.centralizer ({g * a * g⁻¹} : Set G) := by
@@ -117,7 +122,7 @@ theorem mirror (h : Tri r Ω K J M t u) {W : Subgroup G} (hW2 : IsPGroup 2 W)
       t ∉ Subgroup.closure ({y, y₂} : Set G) ∧ u ∉ Subgroup.closure ({y, y₂} : Set G) ∧
       t * u ∉ Subgroup.closure ({y, y₂} : Set G) := by
   have hΩ := h.fam.hyp
-  haveI := hWab
+  have := hWab
   have hcomm : ∀ {a b : G}, a ∈ W → b ∈ W → a * b = b * a := fun ha hb =>
     setLike_mul_comm ha hb
   have key : ∀ {A : Subgroup G} {a : G}, IsUniqueInvolution A a → A ⊓ W ∈ USet Ω →
@@ -185,11 +190,11 @@ theorem no_double_triangle (hQ : QuatAutFacts r) (h : Tri r Ω K J M t u) (hr : 
     (ht : t ∉ Subgroup.closure ({y, y₂} : Set G)) (hu : u ∉ Subgroup.closure ({y, y₂} : Set G))
     (htu : t * u ∉ Subgroup.closure ({y, y₂} : Set G)) : False := by
   have hΩ := h.fam.hyp
-  have hS2 : IsPGroup 2 ↥(S' : Subgroup G) := S'.isPGroup'
+  have hS2 : IsPGroup 2 ↥(S' : Subgroup G) := S'.isPGroup
   have htS : t ∈ (S' : Subgroup G) := hE (Subgroup.subset_closure (by simp))
   have huS : u ∈ (S' : Subgroup G) := hE (Subgroup.subset_closure (by simp))
   obtain ⟨W, hWS, hWab, hW⟩ := exists_frameW hΩ S'
-  haveI := hWab
+  have := hWab
   have hcomm : ∀ {a b : G}, a ∈ W → b ∈ W → a * b = b * a := fun ha hb =>
     setLike_mul_comm ha hb
   have mem : ∀ {A : Subgroup G} {x : G}, A ⊓ W = Subgroup.zpowers x → x ∈ A ∧ x ∈ W :=
@@ -325,7 +330,7 @@ theorem no_type3_normalized (hQ : QuatAutFacts r) (h : Tri r Ω K J M t u) (hr :
   have hKS := two_lt_card_inf_of_sylow h.fam h.mem hs.syl_P hs.le_P
   have hJS := two_lt_card_inf_of_sylow h.fam hs.mem_J hs.syl_T hs.le_T
   obtain ⟨S', J', M', P', T', T'', y₂, hs', hE, hK, hJ, ht, hu, htu⟩ :=
-    h.mirror (S.isPGroup'.to_le hWS) hWab hL hy (hW L hL hLS) (hW K h.mem hKS)
+    h.mirror (S.isPGroup.to_le hWS) hWab hL hy (hW L hL hLS) (hW K h.mem hKS)
       (hW J hs.mem_J hJS) hyE
   exact h.no_double_triangle hQ hr hs' hE hK hJ ht hu htu
 
@@ -365,7 +370,7 @@ private theorem no_type3_std (hQ : QuatAutFacts r) (h : Tri r Ω K J M t u)
 theorem no_type3 (hQ : QuatAutFacts r) (h : Tri r Ω K J M t u) (hr : RigidEdge K J t u)
     {A B : Subgroup G} (hA : A ∈ Ω) (hB : B ∈ Ω) {a b : G} (ha : IsUniqueInvolution A a)
     (hb : IsUniqueInvolution B b) (hne : a ≠ b) {V : Subgroup G}
-    (hV : IsSylow2In V (B ⊓ Subgroup.centralizer ({a} : Set G))) (hbV : b ∈ V)
+    (hV : IsSylow2In V (B ⊓ Subgroup.centralizer ({a} : Set G))) (_hbV : b ∈ V)
     (hVU : V ∈ USet Ω) : False := by
   have hci := h.fam.hyp.conjInvariant
   obtain ⟨S, P, T, T', hs, hfc⟩ := h.exists_std_sylowTri

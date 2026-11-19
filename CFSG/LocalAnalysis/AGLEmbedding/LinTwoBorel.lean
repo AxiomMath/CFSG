@@ -42,7 +42,7 @@ theorem le_normalizer_sylow_inf {p : ℕ} [Fact p.Prime] (K : Subgroup Y) [K.Nor
     (Rb : Sylow p Y) {Y₀ : Subgroup Y} (hUY₀ : (Rb : Subgroup Y) ⊓ K ≤ Y₀)
     (hY₀K : Y₀ ⊓ K ≤ Subgroup.normalizer (((Rb : Subgroup Y) ⊓ K : Subgroup Y) : Set Y)) :
     Y₀ ≤ Subgroup.normalizer (((Rb : Subgroup Y) ⊓ K : Subgroup Y) : Set Y) := by
-  have hU : IsPGroup p ((Rb : Subgroup Y) ⊓ K : Subgroup Y) := Rb.isPGroup'.to_inf_left
+  have hU : IsPGroup p ((Rb : Subgroup Y) ⊓ K : Subgroup Y) := Rb.isPGroup.to_inf_left
   have hconj : ∀ y ∈ Y₀, ∀ u ∈ (Rb : Subgroup Y) ⊓ K, y * u * y⁻¹ ∈ (Rb : Subgroup Y) ⊓ K := by
     intro y hy u hu
     have hVK : ((Rb : Subgroup Y) ⊓ K).map (MulAut.conj y).toMonoidHom ≤ K := by

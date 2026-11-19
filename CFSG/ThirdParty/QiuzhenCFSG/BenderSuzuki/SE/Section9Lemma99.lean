@@ -114,7 +114,7 @@ public theorem lemma99_false_of_nineF
     simpa [K] using h43c.closure_eq_set
   have hKcomm : IsMulCommutative K :=
     lemma99_isMulCommutative_of_closure_eq_set hKset
-  letI : IsMulCommutative K := hKcomm
+  let : IsMulCommutative K := hKcomm
   have hRleE : R ≤ E := inf_le_left
   have hFleR : F ≤ R := by
     simpa [F] using Subgroup.map_subtype_le (fittingSubgroup R)
@@ -152,7 +152,7 @@ public theorem lemma99_false_of_nineF
       ((Subgroup.normal_subgroupOf_iff_le_normalizer hKE).mp hKnormalE)
   have hKFcomp :
       (K.subgroupOf (K ⊔ F)).IsComplement' (F.subgroupOf (K ⊔ F)) := by
-    letI : (K.subgroupOf (K ⊔ F)).Normal := hKnormalKF
+    let : (K.subgroupOf (K ⊔ F)).Normal := hKnormalKF
     exact isComplement'_of_disjoint_sup_eq_top_of_normal
       (K.subgroupOf (K ⊔ F)) (F.subgroupOf (K ⊔ F))
       hKFdisj (by
@@ -328,9 +328,9 @@ public theorem lemma99_exists_prime_sylow_order_p_subgroup
         P ≤ E ⊓ peterfalviV D t ∧
         PeterfalviCentralizersTrivial D t P := by
   classical
-  letI : Nontrivial E := (Subgroup.nontrivial_iff_ne_bot E).2 hEne
+  let : Nontrivial E := (Subgroup.nontrivial_iff_ne_bot E).2 hEne
   obtain ⟨p, hp, hpAb⟩ := lemma99_exists_prime_dvd_abelianization hEodd
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   obtain ⟨S, hScyclic, hSV, hStrivial⟩ := h95 p hp hpAb
   have hpE : p ∣ Nat.card E :=
     hpAb.trans (Subgroup.card_quotient_dvd_card
@@ -420,7 +420,7 @@ public theorem lemma99_pSubgroup_le_centralizer_fitting
   intro q
   let qNat : ℕ := q.1.1
   have hqPrime : qNat.Prime := Nat.prime_of_mem_primeFactors q.1.2
-  letI : Fact qNat.Prime := ⟨hqPrime⟩
+  let : Fact qNat.Prime := ⟨hqPrime⟩
   change P ≤ Subgroup.centralizer (pCore qNat R : Set R)
   by_cases hqp : qNat = p
   · simpa only [hqp] using
@@ -479,12 +479,12 @@ private theorem lemma99_all_sylow_cyclic_of_ambient_sylow
     exact congrArg (fun z : E => (z : X)) hxy
   intro Q
   let QE : Subgroup E := (Q : Subgroup R).map fRE
-  have hQEp : IsPGroup p QE := Q.isPGroup'.map fRE
+  have hQEp : IsPGroup p QE := Q.isPGroup.map fRE
   obtain ⟨S2, hQES2⟩ := hQEp.exists_le_sylow
   have hS2cyclic : IsCyclic (S2 : Subgroup E) :=
     (Sylow.equiv S2 S).isCyclic.mpr hScyclic
   have hQEsubCyclic : IsCyclic (QE.subgroupOf (S2 : Subgroup E)) := by
-    letI : IsCyclic (S2 : Subgroup E) := hS2cyclic
+    let : IsCyclic (S2 : Subgroup E) := hS2cyclic
     infer_instance
   have hQEcyclic : IsCyclic QE :=
     (Subgroup.subgroupOfEquivOfLe hQES2).isCyclic.mp hQEsubCyclic
@@ -569,7 +569,7 @@ private theorem lemma99_subgroupCentralizerIn_eq_bot
     (hPtrivial : PeterfalviCentralizersTrivial D t P) :
     subgroupCentralizerIn K P = ⊥ := by
   obtain ⟨g, hgP, hgnot⟩ :=
-    SetLike.exists_of_lt (bot_lt_iff_ne_bot.mpr hPne)
+    _root_.IsConcreteLE.exists_of_lt (bot_lt_iff_ne_bot.mpr hPne)
   have hgne : g ≠ 1 := by simpa using hgnot
   rw [Subgroup.eq_bot_iff_forall]
   intro k hk
@@ -591,8 +591,8 @@ private theorem lemma99_prime_not_dvd_card_of_fixedPointFree
     (hfix : subgroupCentralizerIn K U = ⊥) :
     ¬ q ∣ Nat.card K := by
   classical
-  letI : Fact q.Prime := ⟨hq⟩
-  letI : Subgroup.Normalizes U K := ⟨hUnormK⟩
+  let : Fact q.Prime := ⟨hq⟩
+  let : Subgroup.Normalizes U K := ⟨hUnormK⟩
   intro hqK
   have hone_fixed : (1 : K) ∈ MulAction.fixedPoints U K := by
     simp [MulAction.mem_fixedPoints]
@@ -641,7 +641,7 @@ private theorem lemma99_fitting_coprime_peterfalviK
   by_contra hcop
   obtain ⟨q, hq, hqF, hqK⟩ :=
     Nat.Prime.not_coprime_iff_dvd.mp hcop
-  letI : Fact q.Prime := ⟨hq⟩
+  let : Fact q.Prime := ⟨hq⟩
   let F0 : Subgroup R := fittingSubgroup R
   let Q : Sylow q F0 := default
   have hQne : (Q : Subgroup F0) ≠ ⊥ :=
@@ -653,8 +653,8 @@ private theorem lemma99_fitting_coprime_peterfalviK
     Sylow.characteristic_of_normal Q hQnormal
   let Q0 : Subgroup R := (Q : Subgroup F0).map F0.subtype
   have hQ0char : Q0.Characteristic := by
-    letI : F0.Characteristic := fittingSubgroup_characteristic
-    letI : (Q : Subgroup F0).Characteristic := hQchar
+    let : F0.Characteristic := fittingSubgroup_characteristic
+    let : (Q : Subgroup F0).Characteristic := hQchar
     simpa [Q0, F0] using
       characteristic_map_subtype_of_characteristic
         (G := R) F0 (Q : Subgroup F0)
@@ -685,7 +685,7 @@ private theorem lemma99_fitting_coprime_peterfalviK
       IsPGroup.map (p := q)
         (H := (Q : Subgroup F0).map F0.subtype)
         (IsPGroup.map (p := q) (H := (Q : Subgroup F0))
-          Q.isPGroup' F0.subtype)
+          Q.isPGroup F0.subtype)
         R.subtype
   have hfix : subgroupCentralizerIn K U = ⊥ := by
     rw [Subgroup.eq_bot_iff_forall]
@@ -726,14 +726,14 @@ private theorem lemma99_p_le_centralizer_mapped_pPrimeCore_fitting
   have hAleR : A ≤ R := by
     simpa [A] using Subgroup.map_subtype_le A0
   have hA0normal : A0.Normal := by
-    haveI : F0.Characteristic := fittingSubgroup_characteristic
-    haveI : (pPrimeCore p F0).Characteristic :=
+    have : F0.Characteristic := fittingSubgroup_characteristic
+    have : (pPrimeCore p F0).Characteristic :=
       pPrimeCore_characteristic (G := F0) (p := p)
     have hA0char : A0.Characteristic := by
       simpa [A0] using
         characteristic_map_subtype_of_characteristic (G := R) F0
           (pPrimeCore p F0)
-    letI : A0.Characteristic := hA0char
+    let : A0.Characteristic := hA0char
     exact inferInstance
   have hAnormalR : (A.subgroupOf R).Normal := by
     rw [show A.subgroupOf R = A0 by
@@ -753,7 +753,7 @@ private theorem lemma99_p_le_centralizer_mapped_pPrimeCore_fitting
     exact hp.ne_one (hPcard.symm.trans hcard1)
   have hSC : subgroupCentralizerIn K P = ⊥ :=
     lemma99_subgroupCentralizerIn_eq_bot hKset hPne hPtrivial
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   have hPp : IsPGroup p P := by
     apply IsPGroup.of_card (n := 1)
     simp [hPcard]
@@ -898,7 +898,7 @@ public theorem lemma99_first_nineF_fitting_center
       P ≤ F ∧
       P.subgroupOf F ≤ Subgroup.center F := by
   classical
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   let R : Subgroup X := E ⊓ peterfalviV D t
   let F : Subgroup X := (fittingSubgroup R).map R.subtype
   let A : Subgroup X :=
@@ -953,7 +953,7 @@ private theorem lemma99_fitting_quotient_commutative
     (hsolv : Group.IsSolvable R)
     (hFcyclic : IsCyclic (fittingSubgroup R)) :
     IsMulCommutative (R ⧸ fittingSubgroup R) := by
-  letI : IsCyclic (fittingSubgroup R) := hFcyclic
+  let : IsCyclic (fittingSubgroup R) := hFcyclic
   have hcent_eq :
       Subgroup.centralizer (fittingSubgroup R : Set R) = fittingSubgroup R := by
     apply le_antisymm
@@ -970,7 +970,7 @@ private theorem lemma99_fitting_quotient_commutative
       (mul_comm
         ((IsCyclic.mulAutMulEquiv (fittingSubgroup R)) alpha)
         ((IsCyclic.mulAutMulEquiv (fittingSubgroup R)) beta))
-  letI : IsMulCommutative (MulAut (fittingSubgroup R)) := hAutComm
+  let : IsMulCommutative (MulAut (fittingSubgroup R)) := hAutComm
   let equivRange :
       R ⧸ fittingSubgroup R ≃* phi.range :=
     (QuotientGroup.quotientMulEquivOfEq hker.symm).trans
@@ -984,7 +984,7 @@ private theorem lemma99_commutator_le_fitting_of_cyclic
     (hsolv : Group.IsSolvable R)
     (hFcyclic : IsCyclic (fittingSubgroup R)) :
     derivedSubgroup R ≤ fittingSubgroup R := by
-  letI : (fittingSubgroup R).Normal := inferInstance
+  let : (fittingSubgroup R).Normal := inferInstance
   simpa only [derivedSubgroup, derivedSeries_one] using
     (Subgroup.Normal.quotient_commutative_iff_commutator_le).mp
       (lemma99_fitting_quotient_commutative hsolv hFcyclic)
@@ -1004,7 +1004,7 @@ public theorem lemma99_derived_inf_le_of_factorization
   let KE : Subgroup E := K.subgroupOf E
   let RE : Subgroup E := R.subgroupOf E
   let FE : Subgroup E := F.subgroupOf E
-  letI : KE.Normal := by simpa [KE] using hKnormalE
+  let : KE.Normal := by simpa [KE] using hKnormalE
   have hREcommFE : ⁅RE, RE⁆ ≤ FE := by
     rw [← Subgroup.map_le_map_iff_of_injective E.subtype_injective]
     calc
@@ -1434,7 +1434,7 @@ private theorem lemma99_unique_order_p_subgroup_of_cyclic_sylows
     (IsPGroup.sylow_mem_fixedPoints_iff hPp).1 hSfixed
   let PS : Subgroup S := P.subgroupOf (S : Subgroup F)
   let QS : Subgroup S := Q.subgroupOf (S : Subgroup F)
-  haveI : IsCyclic S := hcyclic S
+  have : IsCyclic S := hcyclic S
   have hPS_card : Nat.card PS = p := by
     simpa [PS] using
       (natCard_subgroupOf_eq P (S : Subgroup F) hPS).trans hPcard
@@ -1458,7 +1458,7 @@ private theorem lemma99_coprime_card_of_not_le_central_prime_subgroup
     Nat.Coprime p (Nat.card H) := by
   apply (Fact.out : Nat.Prime p).coprime_iff_not_dvd.mpr
   intro hpdvd
-  letI : Fintype H := Fintype.ofFinite H
+  let : Fintype H := Fintype.ofFinite H
   obtain ⟨x, hxorder⟩ := exists_prime_orderOf_dvd_card p (by
     simpa [Nat.card_eq_fintype_card] using hpdvd)
   let Q : Subgroup F := Subgroup.zpowers (x : F)
@@ -1507,15 +1507,15 @@ public theorem lemma99_nilpotent_normalizer_eq_pPrimeCore
     rw [← htop] at hxTop
     exact hxTop
   have hOnil : Group.IsNilpotent O := by
-    letI : Group.IsNilpotent F := hFnil
+    let : Group.IsNilpotent F := hFnil
     infer_instance
-  letI : Group.IsNilpotent O := hOnil
+  let : Group.IsNilpotent O := hOnil
   have hHsub_lt_top : H.subgroupOf O < ⊤ :=
     lt_top_iff_ne_top.mpr hHsub_ne_top
   have hnormalizerGrow :
       H.subgroupOf O < Subgroup.normalizer (H.subgroupOf O : Set O) :=
     Group.normalizerCondition_of_isNilpotent (H.subgroupOf O) hHsub_lt_top
-  obtain ⟨x, hxNorm, hxNotH⟩ := SetLike.exists_of_lt hnormalizerGrow
+  obtain ⟨x, hxNorm, hxNotH⟩ := _root_.IsConcreteLE.exists_of_lt hnormalizerGrow
   have hxNormF :
       (x : F) ∈ Subgroup.normalizer (H : Set F) := by
     rw [Subgroup.mem_normalizer_iff]
@@ -1620,7 +1620,7 @@ public theorem lemma99_first_nineF
       (D := D) (E := E) (t := t) hEodd hEne (by
         intro q hq hqAb
         simpa [D] using h95 q hq hqAb)
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   have hPne : P ≠ ⊥ := by
     intro hPbot
     have hpOne : p = 1 := by
@@ -1644,7 +1644,7 @@ public theorem lemma99_first_nineF
   have hPnotH : ¬ P ≤ H := by
     intro hPH
     obtain ⟨g, hgP, hgnot⟩ :=
-      SetLike.exists_of_lt (bot_lt_iff_ne_bot.mpr hPne)
+      _root_.IsConcreteLE.exists_of_lt (bot_lt_iff_ne_bot.mpr hPne)
     have hgne : g ≠ 1 := by simpa using hgnot
     obtain ⟨q, hqI, hqCH, hqne⟩ := hHcentral
     have hqcomm : q * g = g * q :=
@@ -1740,7 +1740,7 @@ public theorem lemma99_fitting_cyclic_of_first_nineF
     simpa [K] using h43c.closure_eq_set
   have hKcomm : IsMulCommutative K :=
     lemma99_isMulCommutative_of_closure_eq_set hKset
-  letI : IsMulCommutative K := hKcomm
+  let : IsMulCommutative K := hKcomm
   have hRleE : R ≤ E := inf_le_left
   have hFleR : F ≤ R := by
     simpa [F] using Subgroup.map_subtype_le (fittingSubgroup R)
@@ -1781,7 +1781,7 @@ public theorem lemma99_fitting_cyclic_of_first_nineF
     hDodd.of_dvd_nat (Subgroup.card_dvd_of_le
       (hRleE.trans hED))
   have hRsolv : Group.IsSolvable R := odd_order_theorem R hRodd
-  letI : Group.IsSolvable R := hRsolv
+  let : Group.IsSolvable R := hRsolv
   have hFne : F ≠ ⊥ := by
     intro hFbot
     have hfitbot : fittingSubgroup R = ⊥ := by
@@ -1802,7 +1802,7 @@ public theorem lemma99_fitting_cyclic_of_first_nineF
       ((Subgroup.normal_subgroupOf_iff_le_normalizer hKE).mp hKnormalE)
   have hKFcomp :
       (K.subgroupOf (K ⊔ F)).IsComplement' (F.subgroupOf (K ⊔ F)) := by
-    letI : (K.subgroupOf (K ⊔ F)).Normal := hKnormalKF
+    let : (K.subgroupOf (K ⊔ F)).Normal := hKnormalKF
     exact isComplement'_of_disjoint_sup_eq_top_of_normal
       (K.subgroupOf (K ⊔ F)) (F.subgroupOf (K ⊔ F))
       (by
@@ -2001,7 +2001,7 @@ public theorem lemma_9_9
     hM ht htM d83 h84 hW hIne h96 h97 h98 ?_
       h911
   intro p hp hpAb
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   exact corollary_9_5_ambient_abelianization
     hM ht htM d83 h84 hW hpAb hIne h43b
 

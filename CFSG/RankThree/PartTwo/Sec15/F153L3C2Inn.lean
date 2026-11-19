@@ -11,6 +11,7 @@ open CFSG CFSG.GH74.GLS CFSG.RankThree.PartTwo.Sec14 CFSG.RankThree.PartTwo.Late
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem le_normalizer_of_conj_mem' {B T : Subgroup G}
     (h : ∀ g ∈ B, ∀ y ∈ T, g * y * g⁻¹ ∈ T) : B ≤ Subgroup.normalizer (T : Set G) := by
   intro g hg
@@ -22,6 +23,7 @@ theorem le_normalizer_of_conj_mem' {B T : Subgroup G}
     have := h g⁻¹ (B.inv_mem hg) _ hy
     simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem rho_conj_mem_innQ {Y : Subgroup G} {n a : ↥(Subgroup.normalizer (Y : Set G))}
     (h : rho Y n ∈ innQ Y) : rho Y (a * n * a⁻¹) ∈ innQ Y := by
   obtain ⟨q, hq⟩ := h
@@ -30,16 +32,17 @@ theorem rho_conj_mem_innQ {Y : Subgroup G} {n a : ↥(Subgroup.normalizer (Y : S
   ext z
   simp [MulAut.conj_apply]
 
+omit [Finite G] in
 theorem isElemAbelian_mono' {A B : Subgroup G} (hA : CFSG.Assembly.IsElemAbelian 3 A) (hBA : B ≤ A) :
     CFSG.Assembly.IsElemAbelian 3 B := by
   refine ⟨⟨⟨fun a b => ?_⟩⟩, fun x hx => hA.2 x (hBA hx)⟩
-  haveI := hA.1
+  have := hA.1
   exact Subtype.ext (setLike_mul_comm (hBA a.2) (hBA b.2))
 
 theorem inner_trivial_153 (hKF : KFactL3CentOdd) {f : ℕ} (hf : 1 ≤ f) {A Y S : Subgroup G}
     {LB : Subgroup G → Subgroup G} (hA : IsE27 A) (hLB : ∀ B, IsHyperplane A B → LB B = ⊥)
     (hSQ : S ∈ scriptQ A LB) (hS2 : IsPGroup 2 S) (hAY : A ≤ Subgroup.normalizer (Y : Set G))
-    (hSY : S ≤ Subgroup.normalizer (Y : Set G))
+    (_hSY : S ≤ Subgroup.normalizer (Y : Set G))
     (hq : CFSG.IsQuasisimple (↥Y ⧸ CFSG.pCore 2 ↥Y))
     (hε : IsLThreeEpsAt ((↥Y ⧸ CFSG.pCore 2 ↥Y) ⧸ Subgroup.center (↥Y ⧸ CFSG.pCore 2 ↥Y)) 2 f) :
     ∀ n : ↥(Subgroup.normalizer (Y : Set G)), (n : G) ∈ S → rho Y n ∈ innQ Y → rho Y n = 1 := by

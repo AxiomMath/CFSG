@@ -24,7 +24,7 @@ theorem upD42Chev2Out_l2_holds : UpD42Chev2Out
     have hm := CFSG.Models.lieModel_A 1 q hv e
     obtain ⟨-, K, _, _, hK, ⟨eK⟩⟩ :=
       hm.2.resolve_right (fun h => absurd h.1 (by norm_num))
-    haveI : Finite (StatedProj (StatedSL 2 K)) := Finite.of_equiv S eK.toEquiv
+    have : Finite (StatedProj (StatedSL 2 K)) := Finite.of_equiv S eK.toEquiv
     have hP := h.congr eK
     obtain ⟨hβ3, hβ1, I, hI, hID⟩ := id hP
     let β := MulAut.congr eK α
@@ -64,7 +64,7 @@ theorem upD42Chev2Out_l2_holds : UpD42Chev2Out
           · exact h0
         exact not_isD42Type_projectiveSL le_rfl hg1 hg (fun _ => h4)
           (IsCatalogLieIso.of_mulEquiv (statedProjEquiv 2 F₀) hD)
-      · haveI : Group.IsSolvable (StatedProj (StatedSL 2 F₀)) :=
+      · have : Group.IsSolvable (StatedProj (StatedSL 2 F₀)) :=
           l2fld_isSolvable_psl2_of_card_le_three (F := F₀) (by omega)
         exact hP.not_solvable_fixed
           (Group.isSolvable_of_isSolvable_injective (f := ψ0.toMonoidHom) ψ0.injective)

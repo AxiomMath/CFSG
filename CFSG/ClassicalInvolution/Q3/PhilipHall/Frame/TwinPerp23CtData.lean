@@ -47,7 +47,7 @@ theorem ct_data (hP : TL4.TightBelowRPlus 3 n) (hc : P23Cfg n Y R S t K' W u e g
     lc_twins_commute hP hc hno hα, hAe, hA'e, hAA'⟩
 
 theorem isSylow2In_self {J : Subgroup Y} (hJ : IsPGroup 2 ↥J) : IsSylow2In J J :=
-  ⟨le_rfl, hJ, fun V' hV' _ h => le_antisymm hV' h⟩
+  ⟨le_rfl, hJ, fun _V' hV' _ h => le_antisymm hV' h⟩
 
 theorem ct_htrans (hP : TL4.TightBelowRPlus 3 n) (hc : P23Cfg n Y R S t K' W u e g) (hno : SecNoExit R e)
     (hα : alphaOf (Subgroup.closure ({u, t} : Set Y)) = ⊥) :

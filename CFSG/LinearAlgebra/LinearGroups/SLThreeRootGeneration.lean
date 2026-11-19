@@ -33,8 +33,8 @@ private lemma mul_mem_closure_range_pow {r : K} {x y : K}
       obtain ⟨l, rfl⟩ := hy
       rw [← pow_add]
       exact AddSubgroup.subset_closure ⟨k + l, rfl⟩
-  | zero_left x hx => simpa using hx
-  | zero_right x hx => simpa using hx
+  | zero_left x hx => simp
+  | zero_right x hx => simp
   | add_left x y z hx hy hz ihx ihy =>
       simpa [add_mul] using AddSubgroup.add_mem _ ihx ihy
   | add_right x y z hx hy hz ihx ihy =>
@@ -105,7 +105,7 @@ theorem transvection_mem_of_diag {n : ℕ} {H : Subgroup (SpecialLinearGroup (Fi
     { carrier := {t : K | SpecialLinearGroup.transvection hij (s * t) ∈ H}
       zero_mem' := by
         change SpecialLinearGroup.transvection hij (s * 0) ∈ H
-        simpa using H.one_mem
+        simp
       add_mem' := by
         intro x y hx hy
         have hx' : SpecialLinearGroup.transvection hij (s * x) ∈ H := hx
@@ -157,7 +157,7 @@ theorem eq_top_of_transvection_one_of_diag [Fintype K]
     (H : Subgroup (SpecialLinearGroup (Fin 3) K))
     (hT : ∀ (i j : Fin 3) (hij : i ≠ j),
       SpecialLinearGroup.transvection hij (1 : K) ∈ H)
-    {lam : K} (hlam : lam ≠ 0)
+    {lam : K} (_hlam : lam ≠ 0)
     (D : SpecialLinearGroup (Fin 3) K)
     (hDcoe : (D : Matrix (Fin 3) (Fin 3) K) = diagonal ![lam, 1, lam⁻¹])
     (hD : D ∈ H)
@@ -312,7 +312,7 @@ private lemma diagonal_mul_unitriMat_mul (s a b : K) (hs : s ≠ 0) :
       unitriMat (s * a) (s * b) 0 := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [unitriMat, Matrix.mul_apply, Fin.sum_univ_three, Matrix.diagonal_apply, hs]
+    simp [unitriMat, Matrix.mul_apply, Matrix.diagonal_apply, hs]
   all_goals ring
 
 private lemma diag3_mul_unitri_mul_inv (s a b : K) (hs : s ≠ 0) :
@@ -399,7 +399,7 @@ theorem eq_top_of_unitary_elements [Fintype K] [CharP K 2]
   have hωne : ω ≠ 0 := by
     intro h
     rw [h] at hω
-    simpa using hω
+    simp at hω
   let d : Fin 3 → K := ![lam, 1, lam⁻¹]
   have hDcoe' : (D : Matrix (Fin 3) (Fin 3) K) = diagonal d := by
     simpa [d] using hDcoe
@@ -472,7 +472,7 @@ theorem eq_top_of_unitary_elements [Fintype K] [CharP K 2]
     intro s'
     by_cases hs' : s' = 0
     · subst hs'
-      simpa using H.one_mem
+      simp
     · have hs1 : s' * ω ^ 2 ≠ 0 := mul_ne_zero hs' (pow_ne_zero 2 hωne)
       let A : SpecialLinearGroup (Fin 3) K :=
         diag3 (s' * ω ^ 2) hs1 * V1 * (diag3 (s' * ω ^ 2) hs1)⁻¹
@@ -511,7 +511,7 @@ theorem eq_top_of_unitary_elements [Fintype K] [CharP K 2]
     intro s'
     by_cases hs' : s' = 0
     · subst hs'
-      simpa using H.one_mem
+      simp
     · have hs1 : s' * ω ≠ 0 := mul_ne_zero hs' hωne
       let A : SpecialLinearGroup (Fin 3) K :=
         diag3 (s' * ω) hs1 * V1 * (diag3 (s' * ω) hs1)⁻¹

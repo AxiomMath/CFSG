@@ -22,7 +22,7 @@ variable {K : Type*} [Group K] [Finite K] {p : ℕ} [Fact p.Prime]
 
 private theorem sup_commutator_le_ker_transferFocal (M : Sylow p K) :
     primeResidual p K ⊔ commutator K ≤ (M : Subgroup K).transferFocal.ker :=
-  sup_le (primeResidual_le_ker (M.isPGroup'.to_quotient _) _)
+  sup_le (primeResidual_le_ker (M.isPGroup.to_quotient _) _)
     (Abelianization.commutator_subset_ker _)
 
 private theorem index_ker_transferFocal (M : Sylow p K) :

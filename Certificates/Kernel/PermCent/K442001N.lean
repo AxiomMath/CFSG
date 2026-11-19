@@ -70,7 +70,7 @@ theorem k442001N : n7C = true := by
   have h4 := List.mem_filter.1 kN4
   have h5 := List.mem_filter.1 kN5
   have hc := coverC_of_count QP45 hQ _ _ 45 270 kN1 kN2 kN3 (by decide) h4.1 h5.1 h4.2 h5.2
-  simp only [n7C, hc, kM1, kM2, Bool.true_and, Bool.and_true]
+  simp only [n7C]
   decide +kernel
 
 end CFSG.Certificates.Kernel.PkCV.P45T

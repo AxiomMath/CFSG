@@ -23,7 +23,7 @@ section Exc
 theorem radRigid_of_untwistedChevalleyModel {S : Type} [Group S] {τ : Tag} (hrank : 2 ≤ τ.rank)
     {f : ℕ} (h : UntwistedChevalleyModel S τ (2 ^ f)) : RadRigid 2 S := by
   obtain ⟨K', _, hfin, hcard, ⟨e⟩⟩ := h
-  haveI : CharP K' 2 := charP_two_of_card_two_pow' hcard
+  have : CharP K' 2 := charP_two_of_card_two_pow' hcard
   have e' : S ≃* ↥(adjointGroup τ K') :=
     e.trans ((QuotientGroup.quotientMulEquivOfEq
       (center_adjointGroup_eq_bot (τ := τ) (K := K'))).trans QuotientGroup.quotientBot)

@@ -93,7 +93,7 @@ section Abstract
 variable {Y : Type} [Group Y] [Finite Y]
 
 theorem ae6M₀_le_preim {I D : Subgroup Y} {P : Set (Subgroup Y)} {t τ x : Y}
-    (SD : SData I D P t τ x) (htI : t ∈ I) (hτI : τ ∈ I) {X : Subgroup (AEQ 8)} (hX : X ≤ aeBar8)
+    (SD : SData I D P t τ x) (htI : t ∈ I) (hτI : τ ∈ I) {X : Subgroup (AEQ 8)} (_hX : X ≤ aeBar8)
     (hsix : ∀ δ ∈ six, ∀ h : δ.card = 4, ∀ c, memBar δ h c ≤ X) :
     ae6M₀ P t τ ≤ preim SD.pkg X := by
   refine iSup₂_le fun J hJ => ?_

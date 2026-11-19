@@ -12,6 +12,7 @@ open scoped CFSG.LocalAnalysis.GLTheoremA.Y10F.HypBlocks
 
 variable {n : ℕ} {F : Type} [Field F] [Finite F] (h : UnitaryFieldData 2 n F)
 
+omit [Finite F] in
 theorem sesqSpecialUnitaryGroupLE_eq_map {V : Type*} [AddCommGroup V] [Module F V]
     {σ : F →+* F} {B : V →ₛₗ[σ] V →ₗ[F] F} :
     sesqSpecialUnitaryGroupLE B =
@@ -32,6 +33,7 @@ theorem sesqSpecialUnitaryGroupLE_eq_map {V : Type*} [AddCommGroup V] [Module F 
     exact (mem_sesqSpecialUnitaryGroupLE (B := B)).mpr
       ⟨(mem_sesqUnitaryGroup (B := B)).mp hv'.1, by simpa using hv'.2⟩
 
+omit [Finite F] in
 theorem map_toLin_statedSU (N : ℕ) :
     (StatedSU N (2 ^ n) F).map
         (Matrix.GeneralLinearGroup.toLin (n := Fin N) (R := F)).toMonoidHom =
@@ -54,6 +56,7 @@ theorem map_toLin_statedSU (N : ℕ) :
       exact hg
     exact ⟨_, hM, MulEquiv.apply_symm_apply _ _⟩
 
+omit [Finite F] in
 theorem map_toLinGen_statedSU (N : ℕ) :
     (StatedSU N (2 ^ n) F).map
         (↑(Matrix.GeneralLinearGroup.toLin.trans
@@ -73,6 +76,7 @@ noncomputable def statedSUEquivSesqLE (N : ℕ) :
     (StatedSU N (2 ^ n) F)).trans
     (MulEquiv.subgroupCongr (map_toLinGen_statedSU h N))
 
+omit [Finite F] in
 theorem statedSUEquivSesqLE_apply (N : ℕ) (M : ↥(StatedSU N (2 ^ n) F)) :
     ((statedSUEquivSesqLE h N M : (Fin N → F) ≃ₗ[F] (Fin N → F)) :
         (Fin N → F) →ₗ[F] (Fin N → F)) =
@@ -82,6 +86,7 @@ theorem statedSUEquivSesqLE_apply (N : ℕ) (M : ↥(StatedSU N (2 ^ n) F)) :
     MulEquiv.coe_subgroupMap_apply]
   simp
 
+omit [Finite F] in
 theorem mulVecLin_scalar {N : ℕ} (a : F) :
     (Matrix.mulVecLin (Matrix.scalar (Fin N) a) : (Fin N → F) →ₗ[F] (Fin N → F)) =
       a • LinearMap.id := by
@@ -94,6 +99,7 @@ theorem mulVecLin_scalar {N : ℕ} (a : F) :
   rw [LinearMap.smul_apply, LinearMap.id_apply, Matrix.mulVecLin_apply, Matrix.smul_mulVec,
     Matrix.one_mulVec]
 
+omit [Finite F] in
 theorem exists_eq_smul_id_of_mem_statedScalars {N : ℕ} {M : ↥(StatedSU N (2 ^ n) F)}
     (hM : M ∈ (StatedScalars (Fin N) F).subgroupOf (StatedSU N (2 ^ n) F)) :
     ∃ c : Fˣ,
@@ -108,7 +114,7 @@ theorem exists_eq_smul_id_of_mem_statedScalars {N : ℕ} {M : ↥(StatedSU N (2 
 theorem two_le_orderOf_neg_two_pow {p n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hQ : ¬ p ∣ 2 ^ n + 1) :
     2 ≤ orderOf (-(2 ^ n) : ZMod p) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hx0 : (-(2 ^ n) : ZMod p) ≠ 0 := by
     intro h0
     have h2 : ((2 ^ n : ℕ) : ZMod p) = 0 := by

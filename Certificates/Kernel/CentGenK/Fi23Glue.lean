@@ -115,7 +115,7 @@ theorem fi23_cg_of_seeds (hφ : Function.Injective φ) {gA gB : G}
       simp only [Nat.reduceSub, pow_succ, pow_zero, one_mul, mul_assoc]
     · apply n1
       rw [c1, ← e5k]
-      simp only [Nat.reduceSub, pow_succ, pow_zero, one_mul, mul_assoc]
+      simp only [Nat.reduceSub, pow_succ, pow_zero, one_mul]
   have hmem : ∀ l, Nat.add r1 3 < l → r l ∈ Subgroup.closure ({r is1, r is2} : Set G) := by
     intro l hl
     have := slpG_mem (Subgroup.closure ({r is1, r is2} : Set G)) [is1, is2] (Nat.add r1 3) pb

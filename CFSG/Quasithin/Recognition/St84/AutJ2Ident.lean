@@ -22,7 +22,7 @@ theorem AutJ2LocalData.card_bigB [Finite G]
     (h1 : VS3 L1) (h2 : VA5 L2) (hD : AutJ2LocalData L1 L2 S) :
     Nat.card ↥(bigB L2 L1 S) = 768 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hR : Hyp111R L1 L2 S := hyp111R_of_vs3_va5 hF h1 h2
   have hB : bigB L2 L1 S = borelOf L2 S ⊔ S := by
     rw [bigB, CFSG.Quasithin.F112TitsSlice.borelOf_eq_vs3 hF.1.h1 h1]
@@ -95,7 +95,7 @@ private theorem autJ2_image_bigB_eq_inf [Finite G]
       AJ2L.rCtx.S.subgroupOf (AJ2L.rCtx.Y 2)) :
     Nonempty (↥(bigB L2 L1 S) ≃* ↥(AJ2L.rCtx.Y 2 ⊓ AJ2L.rCtx.Y 1)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hBP : bigB L2 L1 S ≤ L2 ⊔ bigB L2 L1 S := le_sup_right
   have hSB : S ≤ bigB L2 L1 S := le_sup_right
   have hcardB : Nat.card ↥(bigB L2 L1 S) = 768 :=
@@ -223,7 +223,7 @@ private theorem autJ2_exists_heisChart_aut [Finite G]
       β ∈ borelOf L2 S ∧ β ^ 3 = 1 ∧ ActsAs χ β βM ∧ t ∈ S ⊓ L2 ∧ ActsAs χ t τM ∧
         S ⊓ L2 ⊓ Subgroup.centralizer (pCoreOf 2 L1 : Set G) ≤ pCoreOf 2 L1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS1 : Nat.card ↥(S ⊓ L1) = 2 ^ 7 := autJ2_card_S_inf_L1 hF h1 hD
   obtain ⟨eL⟩ := (hD.autJ2Vertex hF h1 h2).model
   obtain ⟨eY⟩ := J2Model.nonempty_mulEquiv_Y3
@@ -255,7 +255,7 @@ private theorem autJ2_relIndex_pCoreOf_le_two [Finite G]
     (h1 : VS3 L1) (h2 : VA5 L2) (hD : AutJ2LocalData L1 L2 S) :
     (pCoreOf 2 L1).relIndex (pCoreOf 2 (L1 ⊔ bigB L2 L1 S)) ≤ 2 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS1 : Nat.card ↥(S ⊓ L1) = 2 ^ 7 := autJ2_card_S_inf_L1 hF h1 hD
   have hP1norm := autJ2_normalizer_left hF h1 h2
   have hSP1 := autJ2_isSylowTwoOf_parabolic_left hF h1 h2 hD
@@ -305,7 +305,7 @@ private theorem autJ2_central_involution_mem [Finite G]
     (hcent : ∀ g ∈ L1 ⊔ bigB L2 L1 S, g * c = c * g) (hc2 : c ^ 2 = 1) :
     c ∈ pCoreOf 2 L1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hR : Hyp111R L1 L2 S := hyp111R_of_vs3_va5 hF h1 h2
   have hSP1 := autJ2_isSylowTwoOf_parabolic_left hF h1 h2 hD
   have hSP1le : S ≤ L1 ⊔ bigB L2 L1 S := hSP1.1
@@ -348,7 +348,7 @@ theorem AutJ2LocalData.nonempty_mulEquiv_left [Finite G]
     (h1 : VS3 L1) (h2 : VA5 L2) (hD : AutJ2LocalData L1 L2 S) :
     Nonempty (↥(L1 ⊔ bigB L2 L1 S) ≃* Q1M ⋊[AJ'.subtype] ↥AJ') := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hR : Hyp111R L1 L2 S := hyp111R_of_vs3_va5 hF h1 h2
   have hP1norm := autJ2_normalizer_left hF h1 h2
   have hSP1le : S ≤ L1 ⊔ bigB L2 L1 S :=

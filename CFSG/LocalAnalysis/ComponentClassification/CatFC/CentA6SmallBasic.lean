@@ -17,19 +17,20 @@ theorem comm_of_card_le_four {G : Type*} [Group G] [Finite G] (h : Nat.card G �
   rcases hc with hc | hc | hc | hc
   · have : Subsingleton G := (Nat.card_eq_one_iff_unique.1 hc).1
     exact Subsingleton.elim _ _
-  · haveI : Fact (Nat.Prime (Nat.card G)) := ⟨by rw [hc]; exact Nat.prime_two⟩
-    haveI := isCyclic_of_prime_card (p := Nat.card G) rfl
+  · have : Fact (Nat.Prime (Nat.card G)) := ⟨by rw [hc]; exact Nat.prime_two⟩
+    have := isCyclic_of_prime_card (p := Nat.card G) rfl
     exact IsMulCommutative.is_comm.comm a b
-  · haveI : Fact (Nat.Prime (Nat.card G)) := ⟨by rw [hc]; exact Nat.prime_three⟩
-    haveI := isCyclic_of_prime_card (p := Nat.card G) rfl
+  · have : Fact (Nat.Prime (Nat.card G)) := ⟨by rw [hc]; exact Nat.prime_three⟩
+    have := isCyclic_of_prime_card (p := Nat.card G) rfl
     exact IsMulCommutative.is_comm.comm a b
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    exact IsPGroup.commutative_of_card_eq_prime_sq (p := 2) (by rw [hc]; norm_num) a b
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    exact (IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 2) (by rw [hc]; norm_num)).is_comm.comm a b
 
 section Small
 
 variable {S : Type} [Group S] [Finite S] {σ : MulAut S}
 
+omit [Finite S] in
 theorem quotient_card_le_four (D : Subgroup ↥(fixedSubgroup σ))
     (hD : Nonempty (↥D ≃* alternatingGroup (Fin 6))) (hC : Nat.card (fixedSubgroup σ) ≤ 1440) :
     Nat.card (↥(fixedSubgroup σ) ⧸ D) ≤ 4 := by
@@ -42,7 +43,7 @@ theorem quotient_card_le_four (D : Subgroup ↥(fixedSubgroup σ))
 theorem commutator_le_of_small (D : Subgroup ↥(fixedSubgroup σ)) (hDn : D.Normal)
     (hD : Nonempty (↥D ≃* alternatingGroup (Fin 6))) (hC : Nat.card (fixedSubgroup σ) ≤ 1440) :
     commutator ↥(fixedSubgroup σ) ≤ D := by
-  haveI := hDn
+  have := hDn
   have hcomm := comm_of_card_le_four (quotient_card_le_four D hD hC)
   have h1 : commutator ↥(fixedSubgroup σ) = ⁅(⊤ : Subgroup ↥(fixedSubgroup σ)), ⊤⁆ := rfl
   rw [h1, Subgroup.commutator_le]
@@ -64,8 +65,8 @@ theorem a6Hyp_of_small (D : Subgroup ↥(fixedSubgroup σ)) (hDn : D.Normal)
     _ ≤ D := h1
 
 theorem a6_commutator_eq_top : commutator (alternatingGroup (Fin 6)) = ⊤ := by
-  haveI := a6sq_simple
-  haveI : (commutator (alternatingGroup (Fin 6))).Normal := inferInstance
+  have := a6sq_simple
+  have : (commutator (alternatingGroup (Fin 6))).Normal := inferInstance
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (commutator (alternatingGroup (Fin 6))) with h | h
   · exfalso
     obtain ⟨a, b, hab⟩ := a6sq_nonab

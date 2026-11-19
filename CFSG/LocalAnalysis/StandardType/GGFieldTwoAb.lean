@@ -68,7 +68,7 @@ theorem ggFieldTwoL24_false {X : Type} [Group X] [Finite X] {A Ab : Subgroup (Mu
   have hperfJ : commutator ↥J = ⊤ := hlocCore.2.2.2.1.2.2.1
   have hAbab : IsElemAbelian 3 Ab := by
     obtain ⟨hc, hp⟩ := hlocCore.1
-    haveI : IsMulCommutative A := hc
+    have : IsMulCommutative A := hc
     refine ⟨⟨⟨fun u v => ?_⟩⟩, fun z hz => ?_⟩
     · apply Subtype.ext
       exact setLike_mul_comm (s := A) (hAbA u.2) (hAbA v.2)

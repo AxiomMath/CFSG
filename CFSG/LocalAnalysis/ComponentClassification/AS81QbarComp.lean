@@ -101,7 +101,7 @@ theorem isSylowOf_inf_component [Finite Y] (S : Sylow 2 Y) {K : Subgroup Y} (hK 
     IsSylowOf 2 ((S : Subgroup Y) ⊓ K) K := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS : IsSylowOf 2 (S : Subgroup Y) ⊤ :=
-    isSylowOf_iff.mpr ⟨le_top, S.isPGroup', by rw [relIndex_top_right]; exact S.not_dvd_index⟩
+    isSylowOf_iff.mpr ⟨le_top, S.isPGroup, by rw [relIndex_top_right]; exact S.not_dvd_index⟩
   have : (layer Y).Characteristic := layer_characteristic
   have hn : (layer Y).Normal := inferInstance
   have h1 : IsSylowOf 2 ((S : Subgroup Y) ⊓ layer Y) (layer Y) :=

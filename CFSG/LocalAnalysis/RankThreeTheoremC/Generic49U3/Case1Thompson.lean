@@ -11,11 +11,13 @@ open Subgroup CFSG.Open CFSG.Quasithin
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem thompsonJ_le_self (Y : Subgroup G) : thompsonJ Y ≤ Y :=
-  iSup₂_le fun A hA => hA.1
+  iSup₂_le fun _A hA => hA.1
 
+omit [Finite G] in
 theorem omegaOneCenter_le_self (Y : Subgroup G) : quasithinOmegaOneCenter Y ≤ Y :=
-  (Subgroup.closure_le _).2 fun z hz => hz.1.1
+  (Subgroup.closure_le _).2 fun _z hz => hz.1.1
 
 omit [Finite G] in
 private theorem case1_isElemAbelian_bot : IsElemAbelian 2 (⊥ : Subgroup G) :=
@@ -102,6 +104,7 @@ theorem omegaOneCenter_ne_bot_of_two_group {Y : Subgroup G} (hY : IsPGroup 2 Y) 
   rw [h, Subgroup.mem_bot] at hmem
   exact hg1 hmem
 
+omit [Finite G] in
 theorem normalizer_le_normalizer_omegaOneCenter (Y : Subgroup G) :
     normalizer (Y : Set G) ≤ normalizer (quasithinOmegaOneCenter Y : Set G) :=
   normalizer_le_normalizer_of_map_mulEquiv (F := quasithinOmegaOneCenter)
@@ -110,6 +113,7 @@ theorem normalizer_le_normalizer_omegaOneCenter (Y : Subgroup G) :
       rw [omegaOneCenterOf_eq, omegaOneCenterOf_eq] at h
       exact h) Y
 
+omit [Finite G] in
 theorem normalizer_le_normalizer_thompsonJ' (Y : Subgroup G) :
     normalizer (Y : Set G) ≤ normalizer (thompsonJ Y : Set G) :=
   CFSG.Quasithin.normalizer_le_normalizer_thompsonJ Y

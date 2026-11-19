@@ -35,11 +35,11 @@ theorem z0_mem_Pe11 (h07 : Node07 d) (h08 : Node08 d z₀) : z₀ ∈ Pe11 d := 
   rw [h08.2.2.2.1 y hy]
   exact mem_sup_right (subset_closure (by simp))
 
-theorem Pe11_le_P1 (h08 : Node08 d z₀) : Pe11 d ≤ P1 d := fun x hx =>
-  mem_inf.2 ⟨P11_le_P (Pe11_le_P11 h08 hx), mem_centralizer_iff.2 fun h hh =>
+theorem Pe11_le_P1 (h08 : Node08 d z₀) : Pe11 d ≤ P1 d := fun _x hx =>
+  mem_inf.2 ⟨P11_le_P (Pe11_le_P11 h08 hx), mem_centralizer_iff.2 fun _h hh =>
     elemAb_comm h08.2.2.2.2.1 hh hx⟩
 
-theorem F_le_P1 (h08 : Node08 d z₀) : d.F ≤ P1 d := fun x hx => Pe11_le_P1 h08 (h08.2.1 hx)
+theorem F_le_P1 (h08 : Node08 d z₀) : d.F ≤ P1 d := fun _x hx => Pe11_le_P1 h08 (h08.2.1 hx)
 
 theorem P1_le_P : P1 d ≤ d.s56P := fun _ hx => (mem_inf.1 hx).1
 
@@ -135,8 +135,8 @@ theorem sq_eq_one_of_inv (h49 : d.Thm49Statement) (hd : d.Hyp) (hz : d.S56Z0 z�
     (htp : d.t * p * d.t = p⁻¹) : p * p = 1 := by
   rcases h11.2.2.2.2.2.2 with ⟨hab, -⟩ | ⟨-, -, hFr⟩
   · exact elemAb_mul_self hab hp
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Fact (IsPGroup 2 ↥(P1 d)) := ⟨P1_isPGroup⟩
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (IsPGroup 2 ↥(P1 d)) := ⟨P1_isPGroup⟩
     have hsq : p * p ∈ d.s56U11 := by
       have h1 := CFSG.pth_power_mem_frattini_of_isPGroup (R := ↥(P1 d)) (p := 2) ⟨p, hp⟩
       have h2 : ((⟨p, hp⟩ : ↥(P1 d)) ^ 2 : ↥(P1 d)).1 ∈

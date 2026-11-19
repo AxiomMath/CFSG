@@ -14,7 +14,7 @@ theorem isometry_of_similitude_of_orderOf_three {W : Type} [AddCommGroup W] [Mod
     (hc : ∀ u v : W, B ((x : Module.End (ZMod 3) W) u) ((x : Module.End (ZMod 3) W) v) =
       c * B u v) :
     ∀ u v : W, B ((x : Module.End (ZMod 3) W) u) ((x : Module.End (ZMod 3) W) v) = B u v := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let f : Module.End (ZMod 3) W := x
   have hfpow : ∀ m : ℕ, ∀ u v : W, B ((f ^ m) u) ((f ^ m) v) = c ^ m * B u v := by
     intro m
@@ -74,12 +74,12 @@ private theorem exists_symp_hom_and_range {W : Type} [AddCommGroup W] [Module (Z
     (hbJ : BilinForm.toMatrix b B = Matrix.J (Fin 2) (ZMod 3)) :
     ∃ ψ : ↥H →* ↥(Matrix.symplecticGroup (Fin 2) (ZMod 3)),
       Function.Injective ψ ∧ oPPrimeHull 3 ψ.range = ψ.range := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (Module.End (ZMod 3) W) := by
-    haveI : Finite (W → W) := inferInstance
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (Module.End (ZMod 3) W) := by
+    have : Finite (W → W) := inferInstance
     exact Finite.of_injective (fun f : Module.End (ZMod 3) W => (f : W → W))
       (fun f g h => by ext x; exact congrFun h x)
-  haveI : Finite ↥H := inferInstance
+  have : Finite ↥H := inferInstance
   let e : (Module.End (ZMod 3) W)ˣ ≃* (W ≃ₗ[ZMod 3] W) :=
     LinearMap.GeneralLinearGroup.generalLinearEquiv (ZMod 3) W
   let ψ₁ : ↥H →* ↥(CFSG.ComponentClassification.CatalogueBAlternatingIsometry.isometryGroup B) :=
@@ -102,19 +102,19 @@ private theorem exists_symp_hom_and_range {W : Type} [AddCommGroup W] [Module (Z
 
 theorem sympListAt_three : SympListAt 3 := by
   intro W _ _ _ hdim B hnd halt H hH hsim
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hBne : B ≠ 0 := by
     intro hB0
     have hsub : Subsingleton W := ⟨fun u v => by
       have hu : u = 0 := hnd u (by simp [hB0])
       have hv : v = 0 := hnd v (by simp [hB0])
       rw [hu, hv]⟩
-    haveI : Subsingleton W := hsub
+    have : Subsingleton W := hsub
     have h0 : Module.finrank (ZMod 3) W = 0 := Module.finrank_zero_of_subsingleton
     omega
   have hBnd : B.Nondegenerate :=
     LinearMap.BilinForm.Nondegenerate.ofSeparatingLeft (show B.SeparatingLeft from hnd)
-  haveI : Finite W := (Module.finite_iff_finite (R := ZMod 3) (M := W)).mp (inferInstance)
+  have : Finite W := (Module.finite_iff_finite (R := ZMod 3) (M := W)).mp (inferInstance)
   obtain ⟨m, b, hdim', hbJ⟩ :=
     CFSG.ComponentClassification.CatalogueBAlternatingIsometry.exists_symplectic_basis
       B (show B.IsAlt from halt) hBnd

@@ -24,9 +24,9 @@ private theorem dite_pow_mem_eq (hk : (Nat.card L).Coprime k) (θ : K → ℂ) (
     (if h : z ^ k ∈ K then θ ⟨z ^ k, h⟩ else 0) =
       if h : z ∈ K then powOp k θ ⟨z, h⟩ else 0 := by
   by_cases hz : z ∈ K
-  · rw [dif_pos hz, dif_pos (K.pow_mem hz k), powOp_apply]
+  · rw [dite_eq_left hz, dite_eq_left (K.pow_mem hz k), powOp_apply]
     exact congrArg θ (Subtype.ext (SubmonoidClass.coe_pow ⟨z, hz⟩ k).symm)
-  · rw [dif_neg hz, dif_neg fun h => hz ((pow_mem_iff_of_coprime_natCard K hk z).1 h)]
+  · rw [dite_eq_right hz, dite_eq_right fun h => hz ((pow_mem_iff_of_coprime_natCard K hk z).1 h)]
 
 variable [Fintype L]
 

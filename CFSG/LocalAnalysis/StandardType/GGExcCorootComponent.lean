@@ -25,7 +25,7 @@ theorem exists_component_of_coroot (hcoroot : GGLatCorootExc) {G : Type} [Group 
     b ≠ 1 ∧ ∃ L₂ : Subgroup G, IsComponentOf L₂ (G₀ ⊓ Subgroup.centralizer {(b : G)}) ∧
       Nat.card (Bs ⊓ Subgroup.centralizer (L₂ : Set G) : Subgroup G) ≤ p ^ 2 := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hspan, hfix, hne, hO⟩ := hcoroot τ f hτ S π hS hπ p hp hp2 α hα hαπ
   have hb1 : b ≠ 1 := by
     intro hb_eq

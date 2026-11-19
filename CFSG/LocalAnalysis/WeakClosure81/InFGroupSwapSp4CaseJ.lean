@@ -16,6 +16,7 @@ open scoped commutatorElement
 variable {Q : Type} [Group Q] [Finite Q] {L T P₀ P₁ : Subgroup Q} {n : ℕ}
   {F : Type} [Field F] [Finite F] {w : F × F → Q}
 
+omit [Finite Q] in
 private theorem map_P₀_eq_of_mem_centralizer {A : Subgroup Q}
     (hY : ∀ t ∈ T, (∀ a ∈ A, t * a = a * t) → P₀.map (MulAut.conj t).toMonoidHom = P₀)
     {c : Q} (hcT : c ∈ T) (hcC : c ∈ Subgroup.centralizer (A : Set Q)) :
@@ -77,9 +78,10 @@ private theorem exists_pow_mem_perfectCore_sup_centralizer (h : Setting L T P₀
   obtain ⟨j', hj', hpow⟩ := CFSG.Quasithin.A4.exists_pow_mul_eq hj (hCnorm hc) (2 ^ k)
   exact ⟨k, by rw [hpow, hk', mul_one]; exact hj'⟩
 
+omit [Finite Q] in
 private theorem le_centralizer_inf_of_isElemAbelian {A : Subgroup Q} (hAT : A ≤ T)
     (hA2 : IsElemAbelian 2 A) : A ≤ T ⊓ Subgroup.centralizer (A : Set Q) :=
-  le_inf hAT fun a ha => Subgroup.mem_centralizer_iff.mpr fun b hb => hA2.comm hb ha
+  le_inf hAT fun _a ha => Subgroup.mem_centralizer_iff.mpr fun _b hb => hA2.comm hb ha
 
 private theorem pCoreOf_inf_perfectCore_le (h : Setting L T P₀ P₁ n w)
     {A : Subgroup Q}
@@ -218,7 +220,7 @@ private theorem isSylowTwoOf_perfectCore_sup_centralizer (h : Setting L T P₀ P
 
 private theorem pCoreOf_perfectCore_eq_inf_of_le_normalizer (h : Setting L T P₀ P₁ n w)
     {A : Subgroup Q}
-    (hY : ∀ t ∈ T, (∀ a ∈ A, t * a = a * t) → P₀.map (MulAut.conj t).toMonoidHom = P₀)
+    (_hY : ∀ t ∈ T, (∀ a ∈ A, t * a = a * t) → P₀.map (MulAut.conj t).toMonoidHom = P₀)
     {P : Subgroup Q} (hP : P = P₀ ∨ P = P₁)
     (hKnorm : perfectCore P ⊔ (T ⊓ Subgroup.centralizer (A : Set Q)) ≤
       Subgroup.normalizer ((T ⊓ L : Subgroup Q) : Set Q)) :

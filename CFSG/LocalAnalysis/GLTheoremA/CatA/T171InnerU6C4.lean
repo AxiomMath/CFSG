@@ -92,14 +92,14 @@ private theorem eq_one_of_skew_commute_of_card_four {d : Fin 6 → F4}
     have hwv : ∀ j : Blk d c, w j.1 = v j := by
       intro j
       simp only [w]
-      exact dif_pos j.2
+      exact dite_eq_left j.2
     have hw : M *ᵥ w = 0 := by
       funext i
       change ∑ k, M i k * w k = 0
       rw [sum_blk d c (fun k => M i k * w k) (by
         intro k hk
         simp only [w]
-        rw [dif_neg hk, mul_zero])]
+        rw [dite_eq_right hk, mul_zero])]
       by_cases hi : d i = t⁻¹ * c
       · have h0 : (∑ j : Blk d c, M i j.1 * v j) = 0 := congrFun hv ⟨i, hi⟩
         simpa only [hwv] using h0
@@ -130,14 +130,14 @@ private theorem blkM_mulVec_eq_zero {d : Fin 6 → F4} {M : Matrix (Fin 6) (Fin 
   have hwv : ∀ j : Blk d c, w j.1 = v j := by
     intro j
     simp only [w]
-    exact dif_pos j.2
+    exact dite_eq_left j.2
   have hw : M *ᵥ w = 0 := by
     funext i
     change ∑ k, M i k * w k = 0
     rw [sum_blk d c (fun k => M i k * w k) (by
       intro k hk
       simp only [w]
-      rw [dif_neg hk, mul_zero])]
+      rw [dite_eq_right hk, mul_zero])]
     by_cases hi : d i = c
     · have h0 : (∑ j : Blk d c, M i j.1 * v j) = 0 := congrFun hv ⟨i, hi⟩
       simpa only [hwv] using h0

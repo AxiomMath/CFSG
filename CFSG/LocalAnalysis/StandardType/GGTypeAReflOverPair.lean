@@ -28,7 +28,7 @@ theorem ggDichotomy_refined_of_dvd (hL : GGLBalanceInput) {p : ℕ}
   have hKP : KProper InCatalog G := hI.2.2.1
   have hp : p.Prime := hI.2.2.2.2.2.1.1
   have hS : LargeEvenSStar p B x L := hI.2.2.2.2.2.2.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hx1 : x ≠ 1 := hS.2.2.1
   have hBsabel : IsElemAbelian p Bs := hBsB.2.1
   have hcomm : ∀ a ∈ Bs, ∀ b ∈ Bs, a * b = b * a := fun a ha b hb =>
@@ -189,7 +189,7 @@ theorem ggWeylOfType_A_mul_pow_eq_one [Fact p.Prime] [Finite ↥Bs] (hp2 : p ≠
     subst hm0
     have hcard : Nat.card ↥A = 1 := by
       simpa using ggWeylOfType_A_card h
-    haveI : Subsingleton ↥A := (Nat.card_eq_one_iff_unique.mp hcard).1
+    have : Subsingleton ↥A := (Nat.card_eq_one_iff_unique.mp hcard).1
     have hc₁ : c₁ = 1 := by
       have h1 : (⟨c₁, h₁⟩ : ↥A) = 1 := Subsingleton.elim _ _
       exact congrArg Subtype.val h1
@@ -220,7 +220,7 @@ theorem ggRealizedRefl_mul_pow_eq_one [Finite G] (hL : GGLBalanceInput) {p : ℕ
   have hDJ : LargeEvenStdSub p B x L D J := hcfg.2.2
   have hp : p.Prime := hI.2.2.2.2.2.1.1
   have hp2 : p ≠ 2 := hI.2.2.2.2.2.1.2.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hBs : IsElemAbelian p Bs := hBsB.2.1
   have hJL : J ≤ L := (eq_of_le_of_stdSub hI hDJ hpJ).1
   rcases ggDichotomy_refined_of_dvd hL hcfg hInn hpJ hs hind hJC hpc with hJsL |

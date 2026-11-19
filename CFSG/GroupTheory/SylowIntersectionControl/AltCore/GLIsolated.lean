@@ -103,7 +103,7 @@ theorem not_isPIsolatedOver_GL_two {e : ℕ} (he : 3 ≤ e) :
   obtain ⟨S, hS⟩ :=
     (isPGroup_zpowers_of_pow_eq_one (p := 2) (x := tv h01) (tv_sq h01)).exists_le_sylow
   obtain ⟨g, hg⟩ := hM.exists_conj_ge (P := S)
-    ⟨le_top, S.isPGroup', by rw [relIndex_top_right]; exact S.not_dvd_index⟩
+    ⟨le_top, S.isPGroup, by rw [relIndex_top_right]; exact S.not_dvd_index⟩
   have hM' := hM.conj g
   have hQ : ∀ t ∈ conjSub g M, t ≠ 1 → t ^ 2 = 1 → ∀ s, Commute t s → s ∈ conjSub g M :=
     fun t ht ht1 ht2 s hts =>

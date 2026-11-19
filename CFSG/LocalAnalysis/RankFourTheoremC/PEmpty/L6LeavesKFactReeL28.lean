@@ -23,8 +23,8 @@ theorem exists_reeG2 {d : TauCeti.LieTypeIndex} (h : IsReeIndex d) : ∃ a, d = 
 theorem exists_mul_ne_of_card_504 {X : Type*} [Group X] [Finite X] [IsSimpleGroup X]
     (h : Nat.card X = 504) : ∃ a b : X, a * b ≠ b * a := by
   by_contra hcon
-  push_neg at hcon
-  letI : CommGroup X := { (inferInstance : Group X) with mul_comm := hcon }
+  push Not at hcon
+  let : CommGroup X := { (inferInstance : Group X) with mul_comm := hcon }
   have hprime := IsSimpleGroup.prime_card (α := X)
   rw [h] at hprime
   norm_num at hprime
@@ -49,7 +49,7 @@ theorem kFactReeL28_holds :
         Nat.prime_three (by omega) hK
     obtain ⟨e'⟩ := hiso a' K hfa hK hw
     have hK' : Nat.card K = 3 ^ (2 * a' + 1) := by rw [hK, hfa]
-    haveI : Finite (ReeTag.G2.reeGamma K a') := Finite.of_equiv ↥L e'.toEquiv
+    have : Finite (ReeTag.G2.reeGamma K a') := Finite.of_equiv ↥L e'.toEquiv
     obtain ⟨hC, h8⟩ := ReeL28.reeL28_cent ha hK'
     have hdata : ReeL28.ReeL28Data ↥(ReeTag.G2.reeGamma K a') := ⟨hC, h8, ReeL28.reeL28_sub h8⟩
     have hdataL : ReeL28.ReeL28Data ↥L := ReeL28.ReeL28Data.of_mulEquiv e'.symm hdata
@@ -88,7 +88,7 @@ theorem kFactReeL28_holds :
       have := Subgroup.le_normalizer_map L.subtype (Subgroup.mem_map_of_mem L.subtype hnN)
       rwa [hmap] at this
     ·
-      haveI := hHAs
+      have := hHAs
       have hsec := CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.L6LeavesNS.s622IsSimpleSection_comap
         (MonoidHom.id A) Function.surjective_id hHAs
         (ReeL28.exists_mul_ne_of_card_504 hHAcard)

@@ -19,7 +19,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem U4P.u81_exists_mem_bar {D : Data G} {L K : Subgroup G} {n p : ℕ} (u : U4P D L K n p) :
     ∃ z ∈ barImage D.M L, orderOf z = p := by
-  haveI : Fact p.Prime := ⟨u.prime_p⟩
+  have : Fact p.Prime := ⟨u.prime_p⟩
   obtain ⟨e, -⟩ := uc22p22l_barImage_equiv u.hL
   have hdvd : p ∣ Nat.card ↥(barImage D.M L) := by
     rw [← Nat.card_congr e.toEquiv]
@@ -81,7 +81,7 @@ theorem normalizer_pair_le (hb : U81BasisR D L K r B b) (u : U4P D L K n p) (hr 
     (h869 : F08.R869NS5 D) (hsp : IsStronglyPEmbedded p D.M)
     (hfour : 4 ≤ CFSG.Open.pRank p D.M) (i j : Fin 3) :
     normalizer ((closure {b i, b j} : Subgroup G) : Set G) ≤ D.M := by
-  haveI : Fact p.Prime := ⟨u.prime_p⟩
+  have : Fact p.Prime := ⟨u.prime_p⟩
   obtain ⟨k, hki, hkj⟩ : ∃ k : Fin 3, k ≠ i ∧ k ≠ j := by
     revert i j
     decide

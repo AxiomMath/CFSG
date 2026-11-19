@@ -66,7 +66,7 @@ theorem fiveForm_eq_zero_of_commute_fiveReflOf {k : ℕ} {ε : Bool}
   simp only [fiveReflOf_mulVec, Matrix.mulVec_sub, Matrix.mulVec_smul, fiveForm_comm k ε b a,
     mul_assoc] at h
   field_simp at h
-  simp only [smul_sub, sub_smul, smul_smul] at h
+  simp only [smul_sub, smul_smul] at h
   have h1 : (2 * fiveForm k ε a b / fiveForm k ε b b *
         (2 * fiveForm k ε a b / fiveForm k ε a a)) • a =
       (2 * (2 * fiveForm k ε a b / fiveForm k ε b b)) • b := by

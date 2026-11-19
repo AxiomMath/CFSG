@@ -25,10 +25,10 @@ theorem exists_mem_centralizer_of_fixed {Y M : Subgroup G} (hMY : M ≤ Y) {d : 
       ((⟨m', hMY m'.2⟩ : Y) : Y ⧸ aschbacherSolvableCore 3 Y) =
         ((⟨m, hMY hm⟩ : Y) : Y ⧸ aschbacherSolvableCore 3 Y) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set θ : Subgroup Y := aschbacherSolvableCore 3 Y with hθ
   set N : Subgroup M := θ.comap (Subgroup.inclusion hMY) with hN
-  haveI hNn : N.Normal := Subgroup.normal_comap _
+  have hNn : N.Normal := Subgroup.normal_comap _
   have hNcard : ¬ 3 ∣ Nat.card N := by
     have hle : N.map (Subgroup.inclusion hMY) ≤ θ := by
       rintro _ ⟨n, hn, rfl⟩

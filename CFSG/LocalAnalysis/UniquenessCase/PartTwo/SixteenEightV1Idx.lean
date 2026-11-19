@@ -25,8 +25,8 @@ theorem s16e_index_dvd_of_range {A B : Type*} [Group A] [Finite A] [Group B] (φ
   rw [inf_of_le_left (Subgroup.map_le_range φ C), h1] at h2
   obtain ⟨t, ht⟩ : Nat.card (Y.map φ) ∣ Nat.card (C.map φ) :=
     Subgroup.card_dvd_of_le (Subgroup.map_mono hYC)
-  haveI : Finite φ.range := Finite.of_surjective φ.rangeRestrict φ.rangeRestrict_surjective
-  haveI : Finite (Y.map φ) :=
+  have : Finite φ.range := Finite.of_surjective φ.rangeRestrict φ.rangeRestrict_surjective
+  have : Finite (Y.map φ) :=
     Finite.of_injective (Subgroup.inclusion (Subgroup.map_le_range φ Y))
       (Subgroup.inclusion_injective _)
   have hpos : 0 < Nat.card (Y.map φ) := Nat.card_pos
@@ -93,6 +93,7 @@ theorem s16e_relIndex_cent_v1_dvd (D : Data G) {V₀ V L : Subgroup G} (hV : IsE
   change C.index ∣ k
   exact s16e_index_dvd_of_range φ hker hYC (k := k) hk'
 
+omit [Finite G] in
 theorem s16e_exists_noncyclic_inf_of_relIndex_dvd {p : ℕ} (hp : p.Prime) {M C E : Subgroup G}
     (hCM : C ≤ M) (hN : M ≤ normalizer (C : Set G)) (hEM : E ≤ M)
     (hEel : IsElemAbelian p E) (hEcard : Nat.card E = p ^ 3) {k : ℕ}

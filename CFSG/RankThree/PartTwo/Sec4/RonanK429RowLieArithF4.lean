@@ -8,7 +8,7 @@ namespace CFSG.RankThree.PartTwo.Sec4.RonanK429Lie
 
 private theorem f4Arith_two_pow_eq {a b X Y : ℕ} (hX : Odd X) (hY : Odd Y)
     (h : 2 ^ a * X = 2 ^ b * Y) : a = b := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hX0 : X ≠ 0 := by obtain ⟨k, hk⟩ := hX; omega
   have hY0 : Y ≠ 0 := by obtain ⟨k, hk⟩ := hY; omega
   have hX2 : ¬ 2 ∣ X := by obtain ⟨k, hk⟩ := hX; omega

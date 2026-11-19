@@ -98,11 +98,13 @@ theorem inflatedIrr_eq_irrTrivialOn :
     congr 1
     exact (quotientRangeInlEquiv φ).symm_apply_eq.2 (quotientRangeInlEquiv_mk x).symm
 
+omit [Finite P] in
 theorem finite_inflatedIrr : (inflatedIrr φ).Finite := finite_Irr.image _
 
 noncomputable def inflatedIrrFinset (φ : U →* MulAut P) : Finset (P ⋊[φ] U → ℂ) :=
   finite_inflatedIrr.toFinset
 
+omit [Finite P] in
 @[simp] theorem mem_inflatedIrrFinset {f : P ⋊[φ] U → ℂ} :
     f ∈ inflatedIrrFinset φ ↔ f ∈ inflatedIrr φ := Set.Finite.mem_toFinset _
 
@@ -181,7 +183,7 @@ theorem notMem_inflatedIrr_of_mem_frobeniusInducedIrr
     indClassFun_kernelChar_mem_Irr hφ hl hl1
   have hrec := cfInner_indClassFun_eq_cfInner_resClassFun hχ hker
   rw [resClassFun_of_mem_inflatedIrr hmem,
-    cfInner_eq_ite_of_mem_Irr one_mem_Irr hker, if_neg (Ne.symm (kernelChar_ne_one hl1)),
+    cfInner_eq_ite_of_mem_Irr one_mem_Irr hker, ite_eq_right (Ne.symm (kernelChar_ne_one hl1)),
     cfInner_self_indClassFun_kernelChar hφ hl hl1] at hrec
   exact one_ne_zero hrec
 

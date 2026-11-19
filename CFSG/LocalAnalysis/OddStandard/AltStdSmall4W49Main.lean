@@ -104,6 +104,7 @@ abbrev ON (T : Subgroup G) : Subgroup (normalizer (T : Set G)) :=
     normalizer (T : Set G) ⧸ ON T :=
   ((eN he a b : normalizer (T : Set G)) : normalizer (T : Set G) ⧸ ON T)
 
+omit [Finite G] in
 theorem mem_oddCoreOf_of_mem_ON {x : normalizer (T : Set G)} (hx : x ∈ ON T) :
     (x : G) ∈ AltStdSec.oddCoreOf (normalizer (T : Set G)) :=
   ⟨x, hx, rfl⟩
@@ -118,9 +119,9 @@ theorem oddCoreOf_le_cent : AltStdSec.oddCoreOf (normalizer (T : Set G)) ≤
 
 include hH in
 theorem T_inf_oddCoreOf : T ⊓ AltStdSec.oddCoreOf (normalizer (T : Set G)) = ⊥ :=
-  inf_eq_bot_of_coprime (by
+  (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard (by
     rw [hH.n0.card_eq, show (64 : ℕ) = 2 ^ 6 by norm_num]
-    exact Nat.Coprime.pow_left 6 (coprime_card_oddCoreOf _))
+    exact Nat.Coprime.pow_left 6 (coprime_card_oddCoreOf _))))
 
 include hH in
 theorem eq_one_of_mem_T_of_mem_ON {x : normalizer (T : Set G)} (hxT : (x : G) ∈ T)
@@ -141,6 +142,7 @@ variable (he : PairCoords z T (kap θ c.hn8) (E θ c.hn8) e)
   (hcard : Nat.card (Hbar T) = 56448)
 
 include hH he in
+omit he in
 theorem card_hat (hcard : Nat.card (Hbar T) = 56448) :
     Nat.card (normalizer (T : Set G) ⧸ ON T) = 64 * 56448 := by
   have h1 := Subgroup.card_eq_card_quotient_mul_card_subgroup (ON T)
@@ -227,7 +229,7 @@ theorem hatData (hcard : Nat.card (Hbar T) = 56448) :
       exact hto.symm)
     rw [hgeq, QuotientGroup.mk_mul, (QuotientGroup.eq_one_iff o').2 ho', mul_one]
     rfl
-  card := card_hat c hH he hcard
+  card := card_hat c hH hcard
 
 abbrev DN (θ : L ≃* alternatingGroup (Fin n)) (hn : 8 ≤ n) (T : Subgroup G) :
     Subgroup (normalizer (T : Set G)) :=
@@ -275,7 +277,7 @@ theorem sq_not_dvd_1344 : ∀ p : ℕ, p.Prime → Odd p → ¬ p ^ 2 ∣ 1344 :
   have h1 : p ^ 2 ≤ 1344 := Nat.le_of_dvd (by norm_num) hdvd
   have h2 : p ≤ 36 := by nlinarith
   rw [Nat.odd_iff] at hpo
-  interval_cases p <;> first | omega | (exact absurd hp (by norm_num)) | (revert hdvd; decide)
+  interval_cases p <;> first | omega | (exact absurd hp (by norm_num))
 
 include hH he hsh in
 theorem exists_lift (hcard : Nat.card (Hbar T) = 56448) :
@@ -395,7 +397,7 @@ theorem mem_K1T_iff (x : G) :
     rfl
   · rintro ⟨a, rfl⟩
     refine ⟨?_, he.mem a 0⟩
-    have hι : iotaN he.mem a 0 ∈ K1 (iotaN he.mem) := hX.T1_le_K1 (hX.iota_mem_T1 a)
+    have hι : iotaN he.mem a 0 ∈ K1 (iotaN he.mem) := hX.T1_le_K1 (CFSG.OddStandard.AltStdSmall4.W49.HatData.iota_mem_T1 a)
     rw [← hQmap] at hι
     obtain ⟨q, hq, hqe⟩ := hι
     have ho : q⁻¹ * eN he.mem a 0 ∈ ON T := (QuotientGroup.eq).1 hqe

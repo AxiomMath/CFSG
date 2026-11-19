@@ -22,7 +22,7 @@ variable {S G' : Type} [Group S] [Group G']
 theorem Good425.of_map [Finite S] (f : S →* G') (hf : Function.Injective f) {C : Subgroup S}
     (h : Good425 (C.map f)) : Good425 C := by
   intro K hKC hKq hKs hT
-  haveI : Group.IsPerfect K := hKq.1
+  have : Group.IsPerfect K := hKq.1
   have eK : K ≃* K.map f := K.equivMapOfInjective f hf
   have hKq' : IsQuasisimple (K.map f) := CFSG.LocalCores.isQuasisimple_of_mulEquiv eK hKq
   refine h (K.map f) (Subgroup.map_mono hKC) hKq' ?_ (isType425_theta_congr eK hT)
@@ -33,7 +33,7 @@ theorem Good425.of_map [Finite S] (f : S →* G') (hf : Function.Injective f) {C
   have hmap := hKs.map hsurj
   have heq : (K.subgroupOf C).map (eC : C →* C.map f) = (K.map f).subgroupOf (C.map f) := by
     ext ⟨y, hy⟩
-    simp only [Subgroup.mem_map, Subgroup.mem_subgroupOf, MonoidHom.coe_coe]
+    simp only [Subgroup.mem_map, Subgroup.mem_subgroupOf, _root_.MonoidHom.coe_ofClass]
     constructor
     · rintro ⟨x, hxK, hxy⟩
       refine ⟨x, hxK, ?_⟩
@@ -102,7 +102,7 @@ variable {S : Type} [Group S] [Finite S]
 
 theorem theta_eq_bot_of_center_three {X : Type} [Group X] [Finite X] (hX : IsQuasisimple X)
     (hZ : IsPGroup 3 (Subgroup.center X)) : aschbacherSolvableCore 3 X = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hd : Nat.card (aschbacherSolvableCore 3 X) ∣ Nat.card (Subgroup.center X) :=
     Subgroup.card_dvd_of_le (aschbacherSolvableCore_le_center hX)
   obtain ⟨k, hk⟩ := hZ.exists_card_eq
@@ -133,13 +133,13 @@ theorem good425_of_selfCentralizing' {C R : Subgroup S} (hRC : R ≤ C)
     (hRn : ∀ g ∈ C, ∀ r ∈ R, g * r * g⁻¹ ∈ R) (hR3 : IsPGroup 3 R)
     (hcent : Subgroup.centralizer (R : Set S) ⊓ C ≤ R) : Good425 C := by
   intro K hKC hKq hKs hT
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Group.IsPerfect K := hKq.1
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Group.IsPerfect K := hKq.1
   set R' : Subgroup C := R.subgroupOf C
   have hR'n : R'.Normal := RonanK429H.normal_subgroupOf_of_forall_conj' hRn
   have hR'3 : IsPGroup 3 R' := hR3.of_equiv (Subgroup.subgroupOfEquivOfLe hRC).symm
   have hR's : Group.IsSolvable R' := by
-    haveI := hR'3.isNilpotent
+    have := hR'3.isNilpotent
     infer_instance
   have hK'c : IsComponent (K.subgroupOf C) :=
     ⟨CFSG.LocalCores.isQuasisimple_of_mulEquiv (Subgroup.subgroupOfEquivOfLe hKC).symm hKq, hKs⟩
@@ -157,14 +157,14 @@ theorem good425_of_selfCentralizing' {C R : Subgroup S} (hRC : R ≤ C)
     rw [hcomm, Subgroup.mem_bot, commutatorElement_eq_one_iff_mul_comm] at hmem
     exact (congrArg Subtype.val hmem).symm
   have hK3 : IsPGroup 3 K := hR3.to_le hKR
-  haveI := hK3.isNilpotent
-  haveI : Nontrivial K := CFSG.LocalCores.isQuasisimple_nontrivial hKq
+  have := hK3.isNilpotent
+  have : Nontrivial K := CFSG.LocalCores.isQuasisimple_nontrivial hKq
   exact Group.IsPerfect.not_isSolvable K inferInstance
 
 theorem good425_of_derived_le {C E : Subgroup S} (hder : ⁅C, C⁆ ≤ E) {M B : ℕ} (hM0 : 0 < M)
     (hB : M < B ^ 3) (hE : Nat.card E ∣ M) (hfree : typeOrders425 M B = []) : Good425 C := by
   intro K hKC hKq hKs hT
-  haveI : Group.IsPerfect K := hKq.1
+  have : Group.IsPerfect K := hKq.1
   have hKK : ⁅K, K⁆ = K := Subgroup.commutator_eq_self (H := K)
   have hKE : K ≤ E := by
     have h := Subgroup.commutator_mono hKC hKC
@@ -176,6 +176,7 @@ theorem good425_of_derived_le {C E : Subgroup S} (hder : ⁅C, C⁆ ≤ E) {M B 
   rw [hfree] at hmem
   exact List.not_mem_nil hmem
 
+omit [Finite S] in
 theorem noCC425_of_good425
     (h : ∀ s : S, orderOf s = 3 → Good425 (Subgroup.centralizer ({s} : Set S))) : NoCC425 S :=
   fun s K hc => h s hc.orderOf_eq K hc.le_centralizer hc.isQuasisimple hc.isSubnormal hc.isType

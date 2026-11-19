@@ -38,7 +38,7 @@ theorem l3syl_sq_eq_one {K : Type*} [Field K] [CharP K 2] {u : Matrix.SpecialLin
   rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_one]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_three, Matrix.one_apply, h10, h20, h21, h00, h11, h22] <;>
+    simp [Matrix.mul_apply, Fin.sum_univ_three, h10, h20, h21, h00, h11, h22] <;>
     first
       | exact hx _
       | linear_combination hx ((u : Matrix (Fin 3) (Fin 3) K) 0 2) + hab
@@ -54,8 +54,8 @@ theorem l3syl_upper_of_mul_eq {K : Type*} [Field K] {g u u' : Matrix.SpecialLine
   have e00 := congrFun (congrFun h 0) 0
   have e10 := congrFun (congrFun h 1) 0
   have e11 := congrFun (congrFun h 1) 1
-  simp only [Matrix.mul_apply, Fin.sum_univ_three, h10, h20, h21, h00, h11, h22, h'10, h'20,
-    h'21, h'00, h'11, h'22] at e00 e10 e11
+  simp only [Matrix.mul_apply, Fin.sum_univ_three, h10, h00, h11, h'10, h'20,
+    h'21, h'00, h'11] at e00 e10 e11
   have hg20 : (g : Matrix (Fin 3) (Fin 3) K) 2 0 = 0 := by
     have : (u : Matrix (Fin 3) (Fin 3) K) 1 2 * (g : Matrix (Fin 3) (Fin 3) K) 2 0 = 0 := by
       linear_combination (-1 : K) * e10
@@ -200,7 +200,7 @@ theorem l3syl_mem_map_conj_iff {H : Type*} [Group H] {S : Subgroup H} {k x : H} 
 theorem l3syl_mem_conj_smul_iff {H : Type*} [Group H] {S : Subgroup H} {g x : H} :
     x ∈ MulAut.conj g • S ↔ g⁻¹ * x * g ∈ S := by
   rw [Subgroup.mem_pointwise_smul_iff_inv_smul_mem]
-  simp [MulAut.conj_inv_apply]
+  simp
 
 theorem l3syl_reduce {H : Type*} [Group H] [Finite H] (Ū : Subgroup H) (S₀ : Sylow 2 H)
     (hS₀ : (S₀ : Subgroup H) = Ū)

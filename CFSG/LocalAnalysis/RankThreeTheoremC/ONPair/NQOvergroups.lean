@@ -255,11 +255,11 @@ theorem mulAut_comm_of_isCyclic {H : Type*} [Group H] [IsCyclic H] (σ τ : MulA
 
 theorem eq_bot_of_perfect_of_isPGroup_seven {G : Type*} [Group G] {R : Subgroup G} [Finite R]
     (hR : IsPGroup 7 R) (hperf : ⁅R, R⁆ = R) : R = ⊥ := by
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
-  haveI : Group.IsPerfect R := Subgroup.isPerfect_iff.2 hperf
-  haveI : Group.IsNilpotent R := hR.isNilpotent
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Group.IsPerfect R := Subgroup.isPerfect_iff.2 hperf
+  have : Group.IsNilpotent R := hR.isNilpotent
   by_contra hne
-  haveI : Nontrivial R := (Subgroup.nontrivial_iff_ne_bot R).2 hne
+  have : Nontrivial R := (Subgroup.nontrivial_iff_ne_bot R).2 hne
   exact (Group.IsPerfect.not_isNilpotent (G := ↥R)) ‹_›
 
 section Norm
@@ -580,7 +580,7 @@ theorem card_G2 :
 
 theorem noInvariantPlane_on7F0 : NoInvariantPlane (on7F 0) := by
   intro E hEF hE hNE
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   have hL := on7_sevenLine 0
   have hE2 : Nat.card E = 7 ^ 2 := by rw [hE]; norm_num
   have hEc : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a := by
@@ -669,7 +669,7 @@ theorem commutator_centralizer_le :
   have hL := on7_sevenLine 0
   set C := Subgroup.centralizer ({on7W 0} : Set Pv) with hC
   set F' := (on7F 0).subgroupOf C with hF'
-  haveI hFn : F'.Normal := ⟨fun f hf c => by
+  have hFn : F'.Normal := ⟨fun f hf c => by
     rw [hF', Subgroup.mem_subgroupOf] at hf ⊢
     simpa using hL.norm c c.2 f hf⟩
   have hcardQ : Nat.card (C ⧸ F') = 2 ^ 2 := by
@@ -678,7 +678,7 @@ theorem commutator_centralizer_le :
       card_centralizer_on7W] at h
     norm_num at h
     omega
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcomm := (IsPGroup.isMulCommutative_of_card_eq_prime_sq hcardQ).is_comm
   rw [Subgroup.commutator_le]
   intro a ha b hb
@@ -697,7 +697,7 @@ theorem eq_bot_of_perfect_le_normalizer {J : Subgroup Pv}
     hperf ▸ (Subgroup.commutator_mono hJ hJ).trans commutator_normalizer_le
   have hJF : J ≤ on7F 0 :=
     hperf ▸ (Subgroup.commutator_mono hJC hJC).trans commutator_centralizer_le
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   have hF7 : IsPGroup 7 (on7F 0) := IsPGroup.of_card (by rw [card_on7F0]; norm_num : Nat.card
     (on7F 0) = 7 ^ 3)
   exact eq_bot_of_perfect_of_isPGroup_seven (hF7.to_le hJF) hperf

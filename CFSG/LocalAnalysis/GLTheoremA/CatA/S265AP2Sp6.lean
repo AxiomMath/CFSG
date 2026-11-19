@@ -87,10 +87,10 @@ theorem sp6_eq_bot_of_normalized_two_subgroup {Ab T : Subgroup (StatedSp 3 (ZMod
     (hfix : ∀ s ∈ Ab, s ≠ 1 → Module.finrank (ZMod 2) (LinearMap.ker (spEnd s - 1)) ≤ 2)
     (hT : IsPGroup 2 T) (hAT : Ab ≤ Subgroup.normalizer (T : Set (StatedSp 3 (ZMod 2)))) :
     T = ⊥ := by
-  haveI : Finite (V₆ ≃ₗ[ZMod 2] V₆) :=
+  have : Finite (V₆ ≃ₗ[ZMod 2] V₆) :=
     Finite.of_injective (fun e : V₆ ≃ₗ[ZMod 2] V₆ => (e : V₆ → V₆))
       fun e e' h => LinearEquiv.ext (congrFun h)
-  haveI : Fintype ↥(Ab.map sp6Act) := Fintype.ofFinite _
+  have : Fintype ↥(Ab.map sp6Act) := Fintype.ofFinite _
   have hA9 : Nat.card ↥(Ab.map sp6Act) = 9 := by
     rw [Subgroup.card_map_of_injective sp6Act_injective, h9]
   have hB : InvariantBilin (Ab.map sp6Act) (spForm 3 (ZMod 2)) := fun a u v => by

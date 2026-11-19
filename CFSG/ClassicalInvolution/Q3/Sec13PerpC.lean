@@ -15,9 +15,10 @@ open CFSG.ClassicalInvolution.Q3.TC.Thin
 
 variable {G : Type} [Group G] [Finite G] {Ω : Set (Subgroup G)}
 
+omit [Finite G] in
 private theorem pc_mem_RSet (h2 : ∀ J ∈ Ω, IsPGroup 2 ↥J) {R : Subgroup G} (hR : R ∈ Ω) :
     R ∈ RSet Ω :=
-  mem_RSet_iff.mpr ⟨R, hR, le_rfl, h2 R hR, fun R' hR'R _ hle => le_antisymm hR'R hle⟩
+  mem_RSet_iff.mpr ⟨R, hR, le_rfl, h2 R hR, fun _R' hR'R _ hle => le_antisymm hR'R hle⟩
 
 private theorem pc_commutes_of_two_group (hΩ : HypOmegaGen Ω) (h2 : ∀ J ∈ Ω, IsPGroup 2 ↥J)
     {T : Subgroup G} (hT : IsPGroup 2 ↥T) {R R' : Subgroup G} (hR : R ∈ Ω) (hR' : R' ∈ Ω)
@@ -38,6 +39,7 @@ private theorem pc_not_disjoint {α β : Finset (Fin 5)} (hα : α.card = 4) (h�
   simp only [Fintype.card_fin] at h2
   omega
 
+omit [Finite G] in
 private theorem pc_same_set {L L' : Subgroup G} (hL : L ∈ P) (hL' : L' ∈ P)
     {α β : Finset (Fin 5)} {hα : α.card = 4} {hβ : β.card = 4} {b c : Bool}
     (hlab : (L.subgroupOf (pSpan P)).map I.φ = AE.memBar α hα b)
@@ -144,6 +146,7 @@ private theorem pc_twin_comm (hΩ : HypOmegaGen Ω) (h2 : ∀ J ∈ Ω, IsPGroup
     exact pc_memBar_ne α hα b (hlab.symm.trans hlab')
   exact pc_commutes_of_two_group hΩ h2 hT (hPΩ L hL) (hPΩ L' hL') hLT hL'T hne
 
+omit [Finite G] in
 private theorem pc_bit (hinj : ∀ L ∈ P, ∀ L' ∈ P,
       (L.subgroupOf (pSpan P)).map I.φ = (L'.subgroupOf (pSpan P)).map I.φ → L = L')
     {L L' : Subgroup G} (hL : L ∈ P) (hL' : L' ∈ P) (hne : L ≠ L')
@@ -156,6 +159,7 @@ private theorem pc_bit (hinj : ∀ L ∈ P, ∀ L' ∈ P,
   · rfl
   · exact absurd (hinj L hL L' hL' (hlab.trans hlab'.symm)) hne
 
+omit [Finite G] in
 private theorem pc_twin_labels (hinj : ∀ L ∈ P, ∀ L' ∈ P,
       (L.subgroupOf (pSpan P)).map I.φ = (L'.subgroupOf (pSpan P)).map I.φ → L = L')
     {L L' : Subgroup G} (hL : L ∈ P) (hL' : L' ∈ P) (hne : L ≠ L') (hc : Commutes L L')
@@ -169,6 +173,7 @@ private theorem pc_twin_labels (hinj : ∀ L ∈ P, ∀ L' ∈ P,
   rw [hcb] at hlab'
   exact hlab'
 
+omit [Finite G] in
 private theorem pc_no_three (hinj : ∀ L ∈ P, ∀ L' ∈ P,
       (L.subgroupOf (pSpan P)).map I.φ = (L'.subgroupOf (pSpan P)).map I.φ → L = L')
     {L₁ L₂ L₃ : Subgroup G} (h₁ : L₁ ∈ P) (h₂ : L₂ ∈ P) (h₃ : L₃ ∈ P)
@@ -191,6 +196,7 @@ private theorem pc_ncard_le_two (hinj : ∀ L ∈ P, ∀ L' ∈ P,
 
 end AELayer
 
+omit [Finite G] in
 private theorem pc_commutes_conj (n : G) {A B : Subgroup G} (hAB : Commutes A B) :
     Commutes (conjSub n A) (conjSub n B) := by
   intro x hx y hy
@@ -205,6 +211,7 @@ private theorem pc_commutes_conj (n : G) {A B : Subgroup G} (hAB : Commutes A B)
     _ = n * ((n⁻¹ * y * n) * (n⁻¹ * x * n)) * n⁻¹ := by rw [hc]
     _ = n * (n⁻¹ * y * n) * n⁻¹ * (n * (n⁻¹ * x * n) * n⁻¹) := by group
 
+omit [Finite G] in
 private theorem pc_normalizer_conj (n : G) {A B : Subgroup G}
     (hAB : B ≤ Subgroup.normalizer (A : Set G)) :
     conjSub n B ≤ Subgroup.normalizer ((conjSub n A : Subgroup G) : Set G) := by
@@ -219,6 +226,7 @@ private theorem pc_normalizer_conj (n : G) {A B : Subgroup G}
   rw [key]
   exact hbN (n⁻¹ * m * n)
 
+omit [Finite G] in
 private theorem pc_conj_fix {M : Subgroup G} {x : G} (hc : ∀ a ∈ M, a * x = x * a) :
     conjSub x M = M := by
   ext m
@@ -278,6 +286,7 @@ private theorem pc_dComp_conj (h2 : ∀ J ∈ Ω, IsPGroup 2 ↥J) (hΩ : HypOme
     {M X : Subgroup G} (hX : X ∈ dComp Ω M) : conjSub n X ∈ dComp Ω (conjSub n M) :=
   pc_rtg_conj h2 hΩ n hX
 
+omit [Finite G] in
 private theorem pc_mem_RSet_iff (h2 : ∀ J ∈ Ω, IsPGroup 2 ↥J) {R : Subgroup G} :
     R ∈ RSet Ω ↔ R ∈ Ω := by
   constructor
@@ -288,6 +297,7 @@ private theorem pc_mem_RSet_iff (h2 : ∀ J ∈ Ω, IsPGroup 2 ↥J) {R : Subgro
     exact hJ
   · exact pc_mem_RSet h2
 
+omit [Finite G] in
 private theorem pc_mem_DSet_iff (h2 : ∀ J ∈ Ω, IsPGroup 2 ↥J) {R W : Subgroup G} :
     R ∈ DSet Ω W ↔ R ∈ Ω ∧ R ≤ Subgroup.normalizer (W : Set G) := by
   constructor
@@ -296,6 +306,7 @@ private theorem pc_mem_DSet_iff (h2 : ∀ J ∈ Ω, IsPGroup 2 ↥J) {R W : Subg
   · rintro ⟨hR, hN⟩
     exact ⟨(pc_mem_RSet_iff h2).mpr hR, hN⟩
 
+omit [Finite G] in
 private theorem pc_dSet_conj (h2 : ∀ J ∈ Ω, IsPGroup 2 ↥J) (hΩ : HypOmegaGen Ω) (n : G)
     {R W : Subgroup G} (hR : R ∈ DSet Ω W) : conjSub n R ∈ DSet Ω (conjSub n W) := by
   obtain ⟨hRΩ, hN⟩ := (pc_mem_DSet_iff h2).mp hR
@@ -338,6 +349,7 @@ private theorem pc_kperp_dset_image (h2 : ∀ J ∈ Ω, IsPGroup 2 ↥J) (hΩ : 
     rw [conjSub_inv_conjSub] at hK' hD'
     exact ⟨conjSub n⁻¹ Y, ⟨hK', hD'⟩, conjSub_conjSub_inv n Y⟩
 
+omit [Finite G] in
 private theorem pc_dComp_subset {M X : Subgroup G} (hM : M ∈ Ω) (hX : X ∈ dComp Ω M) :
     X ∈ Ω := by
   have hX' : Relation.ReflTransGen (fun M N : Subgroup G => N ∈ Ω ∧ Disconnected.dAdj Ω M N)
@@ -347,11 +359,13 @@ private theorem pc_dComp_subset {M X : Subgroup G} (hM : M ∈ Ω) (hX : X ∈ d
   | refl => exact hM
   | @tail _ Z _ hstep _ => exact hstep.1
 
+omit [Finite G] in
 private theorem pc_dComp_of_omegaNbr {M X : Subgroup G} (hX : X ∈ omegaNbr Ω M) (hXΩ : X ∈ Ω) :
     X ∈ dComp Ω M :=
   (Relation.ReflTransGen.single ⟨hXΩ, Or.inl hX⟩ :
     Relation.ReflTransGen (fun M N : Subgroup G => N ∈ Ω ∧ Disconnected.dAdj Ω M N) M X)
 
+omit [Finite G] in
 private theorem pc_dComp_trans {M X Y : Subgroup G} (hX : X ∈ dComp Ω M)
     (hY : Y ∈ dComp Ω X) : Y ∈ dComp Ω M :=
   (Relation.ReflTransGen.trans hX hY :
@@ -375,16 +389,19 @@ section Setup
 
 variable {P₁ P₂ : Set (Subgroup G)} {K : Subgroup G} {g : G}
 
+omit [Finite G] in
 private theorem pc_P₁_mem_dComp (T : TCSetup Ω P₁ P₂ K g) {L : Subgroup G} (hL : L ∈ P₁) :
     L ∈ dComp Ω K := by
   rw [T.hdc]
   exact Or.inl hL
 
+omit [Finite G] in
 private theorem pc_P₂_mem_dComp (T : TCSetup Ω P₁ P₂ K g) {N : Subgroup G} (hN : N ∈ P₂) :
     N ∈ dComp Ω K := by
   rw [T.hdc]
   exact Or.inr hN
 
+omit [Finite G] in
 private theorem pc_P₁_Ω (T : TCSetup Ω P₁ P₂ K g) {L : Subgroup G} (hL : L ∈ P₁) : L ∈ Ω :=
   pc_dComp_subset T.hKΩ (pc_P₁_mem_dComp T hL)
 
@@ -399,9 +416,9 @@ private theorem pc_comm_mem (T : TCSetup Ω P₁ P₂ K g) {L X : Subgroup G} (h
     exact h2'
 
 private theorem pc_hinj (T : TCSetup Ω P₁ P₂ K g) :
-    ∀ L ∈ P₁, ∀ L' ∈ P₁,
-      (L.subgroupOf (pSpan P₁)).map T.I.φ = (L'.subgroupOf (pSpan P₁)).map T.I.φ → L = L' :=
-  pc_label_inj T.I T.h.thmD.hyp T.h.thmD.two (fun L hL => pc_P₁_Ω T hL)
+    ∀ _L ∈ P₁, ∀ L' ∈ P₁,
+      (_L.subgroupOf (pSpan P₁)).map T.I.φ = (L'.subgroupOf (pSpan P₁)).map T.I.φ → _L = L' :=
+  pc_label_inj T.I T.h.thmD.hyp T.h.thmD.two (fun _L hL => pc_P₁_Ω T hL)
     (AEIdent.isPGroup_ker T.I T.hodd)
 
 private theorem pc_twin_ex (T : TCSetup Ω P₁ P₂ K g) {L : Subgroup G} (hL : L ∈ P₁) :
@@ -459,7 +476,7 @@ private theorem pc_clique_wSet (h : EndHyp Ω) {C : Set (Subgroup G)} (hC : C �
   have h1 := Subgroup.relIndex_mul_card (R ⊓ (⨆ V ∈ η, V)) R'
   rw [inf_eq_left.mpr hUR', hrel, h.card_eq_eight hR'Ω] at h1
   have hU4 : Nat.card ↥(R ⊓ (⨆ V ∈ η, V)) = 4 := by omega
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' (G := ↥(R ⊓ (⨆ V ∈ η, V))) 2
     (by rw [hU4]; norm_num)
   have hy2 : y ^ 2 = 1 := by
@@ -526,6 +543,7 @@ private theorem pc_mtrans (h : EndHyp Ω) {W : Subgroup G} (hW : W ∈ WSet Ω) 
     Q3CL.Thompson.Ctx.exists_conj_of_rep c h.cls (h.not_dbarConnected hW) ρ σ
   exact ⟨m, hm, hmAB⟩
 
+omit [Finite G] in
 private theorem pc_comm_symm {A B : Subgroup G} (h : Commutes A B) : Commutes B A :=
   fun x hx y hy => (h y hy x hx).symm
 
@@ -670,6 +688,7 @@ section Star
 
 variable {P₁ P₂ : Set (Subgroup G)} {K : Subgroup G} {g : G}
 
+omit [Finite G] in
 private theorem pc_P₁_stable (T : TCSetup Ω P₁ P₂ K g) {x : G} (hx : x ∈ pSpan (P₁ ∪ P₂))
     {M : Subgroup G} (hM : M ∈ P₁) : conjSub x M ∈ P₁ := by
   let T₀ : Subgroup G :=
@@ -761,12 +780,13 @@ open Classical in
 private noncomputable def pcStar (K Ks A : Subgroup G) : Subgroup G :=
   if h : ∃ x : G, conjSub x K = A then conjSub (Classical.choose h) Ks else Ks
 
+omit [Finite G] in
 private theorem pcStar_eq {K Ks : Subgroup G}
     (hfix : ∀ n : G, conjSub n K = K → conjSub n Ks = Ks) {A : Subgroup G} {x : G}
     (hx : conjSub x K = A) : pcStar K Ks A = conjSub x Ks := by
   have hA : ∃ x' : G, conjSub x' K = A := ⟨x, hx⟩
   unfold pcStar
-  rw [dif_pos hA]
+  rw [dite_eq_left hA]
   have hx₀ : conjSub (Classical.choose hA) K = A := Classical.choose_spec hA
   set x₀ := Classical.choose hA with hx₀def
   have hn : conjSub (x₀⁻¹ * x) K = K := by
@@ -776,10 +796,12 @@ private theorem pcStar_eq {K Ks : Subgroup G}
     _ = conjSub (x₀ * (x₀⁻¹ * x)) Ks := (conjSub_mul _ _ _).symm
     _ = conjSub x Ks := by rw [mul_inv_cancel_left]
 
+omit [Finite G] in
 private theorem pcStar_K {K Ks : Subgroup G}
     (hfix : ∀ n : G, conjSub n K = K → conjSub n Ks = Ks) : pcStar K Ks K = Ks := by
   rw [pcStar_eq hfix (x := 1) (conjSub_one K), conjSub_one]
 
+omit [Finite G] in
 private theorem pcStar_conj {K Ks : Subgroup G}
     (hfix : ∀ n : G, conjSub n K = K → conjSub n Ks = Ks) (m : G) {A : Subgroup G} {x : G}
     (hx : conjSub x K = A) : pcStar K Ks (conjSub m A) = conjSub m (pcStar K Ks A) := by
@@ -791,7 +813,7 @@ variable {P₁ P₂ : Set (Subgroup G)} {K : Subgroup G} {g : G}
 
 private theorem pc_star_props (T : TCSetup Ω P₁ P₂ K g) {Ks : Subgroup G} (hKs : Ks ∈ P₁)
     (hKsne : Ks ≠ K) (hKsc : Commutes K Ks) :
-    (∀ n : G, conjSub n K = K → conjSub n Ks = Ks) := fun n hn =>
+    (∀ _n : G, conjSub _n K = K → conjSub _n Ks = Ks) := fun _n hn =>
   pc_fix_twin T hKs hKsne hKsc hn
 
 private theorem pc_star_Ω (T : TCSetup Ω P₁ P₂ K g) {Ks : Subgroup G} (hKs : Ks ∈ P₁)
@@ -828,7 +850,8 @@ section Invariant
 
 variable {P₁ P₂ : Set (Subgroup G)} {K : Subgroup G} {g : G}
 
-private theorem pc_vW_mem (h : EndHyp Ω) {W : Subgroup G} {A A' : Subgroup G}
+omit [Finite G] in
+private theorem pc_vW_mem (_h : EndHyp Ω) {W : Subgroup G} {A A' : Subgroup G}
     (hA : A ∈ DSet Ω W) (hA' : A' ∈ DSet Ω W) (hc : A' ∈ KPerp Ω A) {zA zs : G}
     (hzA : IsUniqueInvolution A zA) (hzs : IsUniqueInvolution A' zs) :
     zA * zs ∈ vW Ω W :=
@@ -1010,7 +1033,7 @@ private theorem pc_twin_prod (T : TCSetup Ω P₁ P₂ K g) {Ks : Subgroup G} (h
 end Global
 
 theorem caseB_aeCoverHyp (h : EndHyp Ω) {K J : Subgroup G} (hK : K ∈ Ω)
-    (hJ : J ∈ omegaNbr Ω K) (hne : KPerp Ω J ≠ KPerp Ω K) {P₁ P₂ : Set (Subgroup G)}
+    (_hJ : J ∈ omegaNbr Ω K) (_hne : KPerp Ω J ≠ KPerp Ω K) {P₁ P₂ : Set (Subgroup G)}
     (hP₁ : K ∈ P₁) (hdc : dComp Ω K = P₁ ∪ P₂) (hdisj : Disjoint P₁ P₂)
     (hcomm : ∀ L ∈ P₁, ∀ L' ∈ P₂, ∀ a ∈ L, ∀ b ∈ L', a * b = b * a)
     (hg : ∃ g : G, conjSub g K ∈ P₂ ∧ ∀ L : Subgroup G, L ∈ P₂ ↔ conjSub g⁻¹ L ∈ P₁)

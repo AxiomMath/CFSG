@@ -46,8 +46,8 @@ theorem ggSporK_pair_of_not_sq_dvd_card (s : TauCeti.SporadicName) (p : ℕ)
   intro W _ _ hW q H E i hi hyp hL hK he
   obtain ⟨rfl, rfl⟩ := hi
   obtain ⟨e⟩ := he
-  haveI : IsSimpleGroup ↥(CFSG.generalizedFitting W) := hyp.2.1.1
-  haveI : IsSimpleGroup (TauCeti.CFSGIndex.sporadic s).Group := e.symm.isSimpleGroup
+  have : IsSimpleGroup ↥(CFSG.generalizedFitting W) := hyp.2.1.1
+  have : IsSimpleGroup (TauCeti.CFSGIndex.sporadic s).Group := e.symm.isSimpleGroup
   have hnab : ∃ a b : (TauCeti.CFSGIndex.sporadic s).Group, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hyp.2.1.2.1
     exact ⟨e a, e b, fun h => hab (e.injective (by rw [map_mul, map_mul]; exact h))⟩

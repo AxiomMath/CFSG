@@ -68,7 +68,7 @@ theorem inner_stepC (hd : ∀ t < n, ∀ t' < n, T t = T t' → t = t') {h s : �
   rw [hy]
   rcases Nat.lt_or_eq_of_le hp1 with hlt | heq
   · have hin : E.index.contains (T (POS i)) = true := (e6 _).2 ⟨POS i, hlt, rfl⟩
-    rw [if_neg (by rw [hin]; decide), hold (Nat.ne_of_lt hlt)]
+    rw [ite_eq_right (by rw [hin]; decide), hold (Nat.ne_of_lt hlt)]
     exact ⟨e1, e2, e3, e4, e5, e6, e7⟩
   · have hout : E.index.contains (T (POS i)) = false := by
       cases hm : E.index.contains (T (POS i))
@@ -77,7 +77,7 @@ theorem inner_stepC (hd : ∀ t < n, ∀ t' < n, T t = T t' → t = t') {h s : �
         have := hd t (by omega) (POS i) hp2 he
         omega
     obtain ⟨hc1, hc2, hc3⟩ := hnew heq
-    rw [if_pos (by rw [hout]; decide), hc1]
+    rw [ite_eq_left (by rw [hout]; decide), hc1]
     have hc0 : 0 < C i := by omega
     refine ⟨by simp [e1], by simp [e2], by simp [e3], fun t ht => ?_, fun t ht ht0 => ?_,
       fun y => ?_, fun t ht => ?_⟩
@@ -122,7 +122,7 @@ theorem inner_stepC (hd : ∀ t < n, ∀ t' < n, T t = T t' → t = t') {h s : �
         rw [hne]
         exact e7 t ht
       · subst ht
-        rw [heq, beq_self_eq_true, if_pos rfl, e1]
+        rw [heq, beq_self_eq_true, ite_eq_left rfl, e1]
 
 theorem head_stepC (hd : ∀ t < n, ∀ t' < n, T t = T t' → t = t') {h : ℕ} (hh : h < n)
     (hS : ∀ i < n * gs.size, StepC gs gsInv T PA PB C POS n i) {E : Enum}
@@ -136,7 +136,7 @@ theorem head_stepC (hd : ∀ t < n, ∀ t' < n, T t = T t' → t = t') {h : ℕ}
       omega)).1
     rwa [Nat.mul_div_cancel _ hk] at this
   unfold outerC
-  rw [if_pos hlt, conjStep_eq, hE.2.2.2.1 h (by rw [← hE.1]; exact hlt)]
+  rw [ite_eq_left hlt, conjStep_eq, hE.2.2.2.1 h (by rw [← hE.1]; exact hlt)]
   have key : ∀ s ≤ gs.size, BInvE T PA PB (C (h * gs.size + s))
       ((List.range s).foldl (stepC gs gsInv (T h) h) E) := by
     intro s hs'
@@ -171,7 +171,7 @@ theorem init_invC {x : Array ℕ} (hT0 : T 0 = x) (hC0 : C 0 = 1) :
       rw [← h2, hT0]
   · have : t = 0 := by omega
     subst this
-    simp only [initC, Std.HashMap.getElem?_insert, hT0, beq_self_eq_true, if_true]
+    simp only [initC, Std.HashMap.getElem?_insert, hT0, beq_self_eq_true, ite_true]
 
 theorem foldl_idleC : ∀ (l : List ℕ) (E : Enum), (∀ q ∈ l, E.elems.size ≤ q) →
     l.foldl (outerC gs gsInv) E = E
@@ -180,11 +180,11 @@ theorem foldl_idleC : ∀ (l : List ℕ) (E : Enum), (∀ q ∈ l, E.elems.size 
     rw [List.foldl_cons]
     have e : outerC gs gsInv E q = E := by
       unfold outerC
-      rw [if_neg (by have := h q List.mem_cons_self; omega)]
+      rw [ite_eq_right (by have := h q List.mem_cons_self; omega)]
     rw [e]
     exact foldl_idleC l E fun q' hq' => h q' (List.mem_cons_of_mem q hq')
 
-theorem conjEnum_replay {x : Array ℕ} {fuel : ℕ} (hk : 0 < gs.size) (hn : 0 < n)
+theorem conjEnum_replay {x : Array ℕ} {fuel : ℕ} (hk : 0 < gs.size) (_hn : 0 < n)
     (hfuel : n ≤ fuel) (hT0 : T 0 = x) (hd : ∀ t < n, ∀ t' < n, T t = T t' → t = t')
     (hC0 : C 0 = 1) (hCn : C (n * gs.size) = n)
     (hS : ∀ i < n * gs.size, StepC gs gsInv T PA PB C POS n i) :

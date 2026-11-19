@@ -35,12 +35,13 @@ private theorem s16t3_isPGroup_of_sup_of_normal {A : Type*} [Group A] {p : ℕ}
   rw [pow_add p k m, pow_mul]
   exact hm'
 
+omit [Finite G] in
 private theorem s16t3_isPGroup_sup_subgroupOf {p : ℕ} {M H K : Subgroup G}
     (hHM : H ≤ M) (hKM : K ≤ M) (hHN : (H.subgroupOf M).Normal)
-    (hKN : (K.subgroupOf M).Normal) (hH : IsPGroup p ↥H) (hK : IsPGroup p ↥K) :
+    (_hKN : (K.subgroupOf M).Normal) (hH : IsPGroup p ↥H) (hK : IsPGroup p ↥K) :
     IsPGroup p ↥(H ⊔ K) := by
-  haveI := hHN
-  haveI := hKN
+  have := hHN
+  have := _hKN
   have hsup : (H.subgroupOf M) ⊔ (K.subgroupOf M) = (H ⊔ K).subgroupOf M :=
     (Subgroup.subgroupOf_sup hHM hKM).symm
   have h' : IsPGroup p ↥((H.subgroupOf M) ⊔ (K.subgroupOf M)) :=
@@ -49,12 +50,14 @@ private theorem s16t3_isPGroup_sup_subgroupOf {p : ℕ} {M H K : Subgroup G}
   rw [hsup] at h'
   exact h'.of_equiv (Subgroup.subgroupOfEquivOfLe (sup_le hHM hKM))
 
+omit [Finite G] in
 private theorem s16t3_barSub_sup {V₀ V : Subgroup G} {hV : IsElemAbelian 2 V} {X Y : Subgroup G}
     (hX : X ≤ stabTil V₀ V) (hY : Y ≤ stabTil V₀ V) :
     barSub V₀ V hV (X ⊔ Y) = barSub V₀ V hV X ⊔ barSub V₀ V hV Y := by
   unfold barSub
   rw [Subgroup.subgroupOf_sup hX hY, Subgroup.map_sup]
 
+omit [Finite G] in
 private theorem s16t3_map_subgroupOf_map_inclusion {A B Y : Subgroup G}
     (hYA : Y ≤ A) (hAB : A ≤ B) :
     (Y.subgroupOf A).map (Subgroup.inclusion hAB) = Y.subgroupOf B := by
@@ -79,7 +82,7 @@ theorem s16t3_exists_permuting_of_parabolic_two (h : S16gRowCtx D V₀ V L hV)
     (hJexp : ∀ x ∈ J, ∀ n : ℕ, x ^ 3 ^ n = 1 → x ^ 3 = 1) (ha : 2 ≤ a) :
     ∃ Y : Subgroup G, Y ≤ D.M ∧ IsPGroup 3 ↥Y ∧ Nat.card ↥Y = 3 ^ a ∧
       (∀ y ∈ Y, y ^ 3 = 1) ∧ ¬ IsCyclic ↥Y ∧ Permutes Y D.T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcovL : ∃ Y : Subgroup G, Y ≤ D.M ∧ (Y.subgroupOf D.M).Normal ∧
       barSub V₀ V hV Y = lBar V₀ V hV L ∧
       IsPGroup 2 ↥(Y ⊓ F11.CTilde D.M V₀ V) := h.cover_lBar hsimple hmult
@@ -100,8 +103,8 @@ theorem s16t3_exists_permuting_of_parabolic_two (h : S16gRowCtx D V₀ V L hV)
   have hSM : S ≤ D.M := sup_le hS0M D.sylowM.le
   have hSs : S ≤ stabTil V₀ V := hSM.trans hMst
   have hS0NDM : (S0.subgroupOf D.M).Normal := by
-    haveI : (YL.subgroupOf D.M).Normal := hYLN
-    haveI : (YK.subgroupOf D.M).Normal := hYKN
+    have : (YL.subgroupOf D.M).Normal := hYLN
+    have : (YK.subgroupOf D.M).Normal := hYKN
     rw [show S0 = YL ⊔ YK from rfl, Subgroup.subgroupOf_sup hYLM hYKM]
     infer_instance
   have hS0NS : (S0.subgroupOf S).Normal := by
@@ -115,15 +118,15 @@ theorem s16t3_exists_permuting_of_parabolic_two (h : S16gRowCtx D V₀ V L hV)
     rw [heq]
     refine s16t3_isPGroup_sup_subgroupOf (M := D.M)
       (inf_le_left.trans hYLM) (inf_le_left.trans hYKM) ?_ ?_ hYL2 hYK2
-    · haveI : (YL.subgroupOf D.M).Normal := hYLN
-      haveI : ((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal := hCTN
+    · have : (YL.subgroupOf D.M).Normal := hYLN
+      have : ((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal := hCTN
       have h : (YL ⊓ F11.CTilde D.M V₀ V).subgroupOf D.M =
           YL.subgroupOf D.M ⊓ (F11.CTilde D.M V₀ V).subgroupOf D.M :=
         Subgroup.comap_inf YL (F11.CTilde D.M V₀ V) D.M.subtype
       rw [h]
       infer_instance
-    · haveI : (YK.subgroupOf D.M).Normal := hYKN
-      haveI : ((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal := hCTN
+    · have : (YK.subgroupOf D.M).Normal := hYKN
+      have : ((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal := hCTN
       have h : (YK ⊓ F11.CTilde D.M V₀ V).subgroupOf D.M =
           YK.subgroupOf D.M ⊓ (F11.CTilde D.M V₀ V).subgroupOf D.M :=
         Subgroup.comap_inf YK (F11.CTilde D.M V₀ V) D.M.subtype
@@ -140,7 +143,7 @@ theorem s16t3_exists_permuting_of_parabolic_two (h : S16gRowCtx D V₀ V L hV)
       rwa [Subgroup.relIndex_top_right] at h2
     intro hdiv
     exact hodd (hdiv.trans hdvd)
-  haveI : (S0.subgroupOf S).Normal := hS0NS
+  have : (S0.subgroupOf S).Normal := hS0NS
   have hsup : S0.subgroupOf S ⊔ D.T.subgroupOf S = ⊤ := by
     rw [← Subgroup.subgroupOf_sup hS0S hDTS]
     exact Subgroup.subgroupOf_self S

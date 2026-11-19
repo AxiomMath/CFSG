@@ -94,8 +94,8 @@ theorem exists_inverted_of_conj_ne {G : Type*} [Group G] [Finite G] {R L : Subgr
     ∃ y ∈ R, y ≠ 1 ∧ α * y * α⁻¹ = y⁻¹ ∧
       ∀ ℓ ∈ L, ℓ * y * ℓ⁻¹ = y ∨ ℓ * y * ℓ⁻¹ = y⁻¹ := by
   classical
-  haveI : Fact (L ≤ Subgroup.normalizer (R : Set G)) := ⟨hLR⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (L ≤ Subgroup.normalizer (R : Set G)) := ⟨hLR⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let a : ↥L := ⟨α, hα⟩
   have ha1 : a ≠ 1 := by
     intro h
@@ -103,10 +103,10 @@ theorem exists_inverted_of_conj_ne {G : Type*} [Group G] [Finite G] {R L : Subgr
     have hα1 : α = 1 := by simpa [a] using congrArg Subtype.val h
     rw [hα1]
     group
-  haveI : Nontrivial ↥L := ⟨a, 1, ha1⟩
-  haveI : IsMulCommutative ↥L :=
+  have : Nontrivial ↥L := ⟨a, 1, ha1⟩
+  have : IsMulCommutative ↥L :=
     IsMulCommutative.of_comm fun l m => Subtype.ext (hLc l l.2 m m.2)
-  haveI : IsElementaryAbelian 2 ↥L := by
+  have : IsElementaryAbelian 2 ↥L := by
     refine { toIsMulCommutative := inferInstance, exponent_dvd_p := ?_ }
     refine Monoid.exponent_dvd_of_forall_pow_eq_one ?_
     intro l

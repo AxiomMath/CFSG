@@ -13,6 +13,7 @@ open Subgroup
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G}
   {x₁ x₂ lam rho tau om : G}
 
+omit [Finite G] in
 private lemma conj_three_eq_self {g x : G} (hg : g ^ 3 = 1) :
     g * (g * (g * x * g⁻¹) * g⁻¹) * g⁻¹ = x := by
   have h : g * (g * (g * x * g⁻¹) * g⁻¹) * g⁻¹ =
@@ -20,6 +21,7 @@ private lemma conj_three_eq_self {g x : G} (hg : g ^ 3 = 1) :
   rw [h, ← pow_three, hg]
   simp
 
+omit [Finite G] in
 private lemma conj_two_eq_self {g x : G} (hg : g * g = 1) :
     g * (g * x * g⁻¹) * g⁻¹ = x := by
   have h : g * (g * x * g⁻¹) * g⁻¹ = (g * g) * x * (g * g)⁻¹ := by group

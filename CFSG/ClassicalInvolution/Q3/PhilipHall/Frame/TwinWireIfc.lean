@@ -39,11 +39,11 @@ set_option linter.unusedSectionVars false
 theorem preludeOut_of_V₃ {n : ℕ} (hSp : TwinCentRes.ModelFactSp62)
     (hD4m : TwinCentRes.ModelFactD42) (hM12 : TwinCentRes.ModelFactM12)
     (hI : TwinConnInputsV₃ n) : TwinConnPreludeOut n :=
-  fun Y _ _ R S t h hconn => twinConn_preludeV₃ hSp hD4m hM12 hI h hconn
+  fun _Y _ _ _R _S _t h hconn => twinConn_preludeV₃ hSp hD4m hM12 hI h hconn
 
 theorem edgesOut_of_V₃ {n : ℕ} (hSp : TwinCentRes.ModelFactSp62)
     (hD4m : TwinCentRes.ModelFactD42) (hI : TwinConnInputsV₃ n) : TwinConnEdgesOut n :=
-  fun Y _ _ R S t h hZ => TwinConnV₃.autOddFreeOn_of_edges hSp hD4m hI h hZ
+  fun _Y _ _ _R _S _t h hZ => TwinConnV₃.autOddFreeOn_of_edges hSp hD4m hI h hZ
 
 end CFSG.ClassicalInvolution.Q3.PhilipHall.Frame
 

@@ -77,8 +77,8 @@ variable {G X : Type*} [Group G] [MulAction G X]
     (c₁₂ : Commute t₁ t₂) (c₁₃ : Commute t₁ t₃) (c₂₃ : Commute t₂ t₃) :
     Multiplicative (ZMod 3) × Multiplicative (ZMod 3) × Multiplicative (ZMod 3) →* G :=
   (powHom t₁ h₁).noncommCoprod
-    ((powHom t₂ h₂).noncommCoprod (powHom t₃ h₃) fun a b => c₂₃.pow_pow _ _)
-    fun a p => (c₁₂.pow_pow _ _).mul_right (c₁₃.pow_pow _ _)
+    ((powHom t₂ h₂).noncommCoprod (powHom t₃ h₃) fun _a _b => c₂₃.pow_pow _ _)
+    fun _a _p => (c₁₂.pow_pow _ _).mul_right (c₁₃.pow_pow _ _)
 
 theorem cubeHom_apply (t₁ t₂ t₃ : G) (h₁ : t₁ ^ 3 = 1) (h₂ : t₂ ^ 3 = 1) (h₃ : t₃ ^ 3 = 1)
     (c₁₂ : Commute t₁ t₂) (c₁₃ : Commute t₁ t₃) (c₂₃ : Commute t₂ t₃)

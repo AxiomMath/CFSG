@@ -131,16 +131,18 @@ theorem primeTIrow_principal_eq_sum_inflateLeft (hpc : IsPrimeCyclicTIHyp K W₁
     hpc.primeTIrow σ (principalIrr ↥W₂) = ∑ i : ↑(Irr ↥W₁), hpc.inflateLeft i := by
   rw [← hpc.indClassFun_primeTIres hσ, hpc.primeTIres_principal hσ, hpc.sum_inflateLeft]
 
+omit [K.Normal] in
 theorem cfInner_primeTIrow_principal_eq_zero (hpc : IsPrimeCyclicTIHyp K W₁ W₂)
     (hσ : IsCyclicTIIsometry (W₁ ⊔ W₂) W₁ W₂ σ) {χ : Lg → ℂ} (hχ : χ ∈ Irr Lg)
     (hχ1 : χ 1 ≠ 1) : cfInner (hpc.primeTIrow σ (principalIrr ↥W₂)) χ = 0 := by
   classical
   rw [primeTIrow_principal_eq_sum_inflateLeft hpc hσ, cfInner_sum_left]
   refine Finset.sum_eq_zero fun i _ => ?_
-  rw [cfInner_eq_ite_of_mem_Irr (hpc.inflateLeft_mem_Irr i) hχ, if_neg]
+  rw [cfInner_eq_ite_of_mem_Irr (hpc.inflateLeft_mem_Irr i) hχ, ite_eq_right]
   intro hc
   exact hχ1 (by rw [← hc, hpc.inflateLeft_one])
 
+omit [K.Normal] in
 theorem cfInner_primeTIrow_sub_sub_star (hpc : IsPrimeCyclicTIHyp K W₁ W₂)
     (hσ : IsCyclicTIIsometry (W₁ ⊔ W₂) W₁ W₂ σ) {ζ : Lg → ℂ} (hζ : ζ ∈ Irr Lg)
     (hζ1 : ζ 1 ≠ 1) (hζr : star ζ ≠ ζ) :
@@ -153,8 +155,8 @@ theorem cfInner_primeTIrow_sub_sub_star (hpc : IsPrimeCyclicTIHyp K W₁ W₂)
   rw [cfInner_sub_left, cfInner_sub_right, cfInner_sub_right,
     cfInner_primeTIrow_principal_eq_zero hpc hσ hζ hζ1,
     cfInner_primeTIrow_principal_eq_zero hpc hσ hstarIrr hstar1,
-    cfInner_eq_ite_of_mem_Irr hζ hζ, if_pos rfl,
-    cfInner_eq_ite_of_mem_Irr hζ hstarIrr, if_neg (Ne.symm hζr)]
+    cfInner_eq_ite_of_mem_Irr hζ hζ, ite_eq_left rfl,
+    cfInner_eq_ite_of_mem_Irr hζ hstarIrr, ite_eq_right (Ne.symm hζr)]
   ring
 
 theorem cfInner_dadeMap_primeTIrow_sub_dadeMap_sub_star {H : Type*} [Group H] [Fintype H]
@@ -301,8 +303,8 @@ theorem isOrthogonal_sub_sum_smul_prodCharEta (i : ↑(Irr ↥W1)) (j : ↑(Irr 
     fun k l => hW.cfInner_prodCharEta_pair hω k l
   rw [isOrthogonal_iff, cfInner_sub_left, cfInner_sum_left,
     Finset.sum_eq_single_of_mem (i, j) (Finset.mem_univ (i, j))
-      (fun k _ hk => by rw [cfInner_smul_left, hη k (i, j), if_neg hk, mul_zero]),
-    cfInner_smul_left, hη (i, j) (i, j), if_pos rfl, mul_one, sub_self]
+      (fun k _ hk => by rw [cfInner_smul_left, hη k (i, j), ite_eq_right hk, mul_zero]),
+    cfInner_smul_left, hη (i, j) (i, j), ite_eq_left rfl, mul_one, sub_self]
 
 include hW hω hψ hnorm hV h00 hq hp hpow hΔη hΔψ in
 open scoped Classical in
@@ -415,11 +417,13 @@ variable {L : Subgroup G} [Fintype ↥L] {Kn : Subgroup ↥L} [Kn.Normal] {Hd : 
 
 omit [Fintype G] [Fintype ↥W] [Kn.Normal] in
 include hSstar hζS in
+omit [Fintype ↥L] in
 theorem sub_star_mem_span_of_mem : ζ - star ζ ∈ Submodule.span ℤ S :=
   Submodule.sub_mem _ (Submodule.subset_span hζS) (Submodule.subset_span (hSstar _ hζS))
 
 omit [Fintype G] [Fintype ↥W] [Kn.Normal] in
 include hSstar hζS hζIrr in
+omit [Fintype ↥L] in
 theorem sub_star_mem_charSpanZero_of_mem : ζ - star ζ ∈ charSpanZero S := by
   refine mem_charSpanZero.2 ⟨sub_star_mem_span_of_mem hSstar hζS, ?_⟩
   have h := conj_apply_one_of_mem_Irr hζIrr
@@ -429,6 +433,7 @@ theorem sub_star_mem_charSpanZero_of_mem : ζ - star ζ ∈ charSpanZero S := by
 
 omit [Fintype G] [Fintype ↥W] in
 include hS hSstar hS0 hζS hζIrr in
+omit [Kn.Normal] in
 theorem sub_star_mem_dadeDomain_of_mem : ζ - star ζ ∈ dadeDomain L A0 :=
   mem_dadeDomain.2
     ⟨Submodule.sub_mem _

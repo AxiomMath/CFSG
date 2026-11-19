@@ -16,18 +16,21 @@ variable {θ : ↥(Nor L) →* Perm (Fin 8)}
 
 abbrev cmap (g : G) (V : Subgroup G) : Subgroup G := V.map (MulAut.conj g⁻¹).toMonoidHom
 
+omit [Finite G] in
 theorem mem_cmap {g : G} {V : Subgroup G} {w : G} :
     w ∈ cmap g V ↔ ∃ y ∈ V, g⁻¹ * y * g = w := by
   constructor
   · rintro ⟨y, hy, rfl⟩
-    exact ⟨y, hy, by simp [MulAut.conj_apply]⟩
+    exact ⟨y, hy, by simp⟩
   · rintro ⟨y, hy, rfl⟩
-    exact ⟨y, hy, by simp [MulAut.conj_apply]⟩
+    exact ⟨y, hy, by simp⟩
 
+omit [Finite G] in
 theorem conj_pow'' (g y : G) (n : ℕ) : (g⁻¹ * y * g) ^ n = g⁻¹ * y ^ n * g := by
   have := conj_pow (a := g⁻¹) (b := y) (i := n)
   simpa using this
 
+omit [Finite G] in
 theorem cmap_elt {g : G} {V : Subgroup G} (hV : ∀ w ∈ V, ∃ k : ℕ, w ^ 2 ^ k = 1) :
     ∀ w ∈ cmap g V, ∃ k : ℕ, w ^ 2 ^ k = 1 := by
   intro w hw
@@ -35,11 +38,13 @@ theorem cmap_elt {g : G} {V : Subgroup G} (hV : ∀ w ∈ V, ∃ k : ℕ, w ^ 2 
   obtain ⟨k, hk⟩ := hV y hy
   exact ⟨k, by rw [conj_pow'', hk]; group⟩
 
+omit [Finite G] in
 theorem isP_of_elt {V : Subgroup G} (hV : ∀ w ∈ V, ∃ k : ℕ, w ^ 2 ^ k = 1) : IsPGroup 2 V := by
   intro x
   obtain ⟨k, hk⟩ := hV x.1 x.2
   exact ⟨k, Subtype.ext (by simpa using hk)⟩
 
+omit [Finite G] in
 theorem T_elt {σ : G} {w : G} (hw : w ∈ Op 2 (Cen σ)) : ∃ k : ℕ, w ^ 2 ^ k = 1 := by
   obtain ⟨k, hk⟩ := (FF79.L41.Op_isPGroup (p := 2) (Cen σ)) ⟨w, hw⟩
   exact ⟨k, congrArg Subtype.val hk⟩
@@ -48,7 +53,7 @@ theorem claim_b (h : FF84Sec4 b L B K b₁ b₂) (hZ : Subgroup.center L = ⊥)
     (hX : Opp 3 (Cen b) = ⊥) (hθ : ThM L b₁ b₂ θ) {σ : G} (hσB : σ ∈ CenS B)
     (hσ2 : σ * σ = 1) (hσ1 : σ ≠ 1) :
     Op 2 (Cen σ) ⊓ Cen b ≤ Subgroup.zpowers σ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro v hv
   have := V_le h hZ hX hθ hσB hσ2 hσ1 (V := Op 2 (Cen σ) ⊓ Cen b)
     (fun w hw => T_elt hw.1) inf_le_right (inf_le_left.trans (FF79.L41.Op_le (p := 2) (Cen σ)))
@@ -63,7 +68,7 @@ theorem claim_b₁ (h : FF84Sec4 b L B K b₁ b₂) (hZ : Subgroup.center L = �
     (hX : Opp 3 (Cen b) = ⊥) (hθ : ThM L b₁ b₂ θ) {σ : G} (hσB : σ ∈ CenS B)
     (hσ2 : σ * σ = 1) (hσ1 : σ ≠ 1) :
     Op 2 (Cen σ) ⊓ Cen b₁ ≤ Subgroup.zpowers σ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, -, -, -, ⟨s, hsN, hsb, hsb₁, hsb₂⟩, -⟩ := h.mono
   have hs'b₁ : s⁻¹ * b₁ * s = b := by rw [← hsb]; group
   set σ' : G := s⁻¹ * σ * s with hσ'
@@ -124,7 +129,7 @@ theorem claim_bb₁ (h : FF84Sec4 b L B K b₁ b₂) (hZ : Subgroup.center L = �
     (hD : Cen (b * b₁) ≤ Nor (Subgroup.closure ({b, b₁} : Set G))) {σ : G} (hσB : σ ∈ CenS B)
     (hσ2 : σ * σ = 1) (hσ1 : σ ≠ 1) :
     Op 2 (Cen σ) ⊓ Cen (b * b₁) ≤ Subgroup.zpowers σ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hbσ : b ∈ Cen σ := Subgroup.mem_centralizer_singleton_iff.2
     (Subgroup.mem_centralizer_iff.1 hσB b (mem_b h))
   have hbc : b ∈ Cen (b * b₁) := B_le_cen_bb₁ h (mem_b h)
@@ -140,7 +145,7 @@ theorem claim_bb₁sq (h : FF84Sec4 b L B K b₁ b₂) (hZ : Subgroup.center L =
     (hD : Cen (b * b₁) ≤ Nor (Subgroup.closure ({b, b₁} : Set G))) {σ : G} (hσB : σ ∈ CenS B)
     (hσ2 : σ * σ = 1) (hσ1 : σ ≠ 1) :
     Op 2 (Cen σ) ⊓ Cen (b * b₁ ^ 2) ≤ Subgroup.zpowers σ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, -, -, ⟨i, hiN, hib, hib₁, hib₂⟩, ⟨s, hsN, hsb, hsb₁, hsb₂⟩, -⟩ := h.mono
   have hs'b : s⁻¹ * b * s = b₁ := by rw [← hsb₁]; group
   have hs'b₁ : s⁻¹ * b₁ * s = b := by rw [← hsb]; group
@@ -201,8 +206,8 @@ theorem no_inv_cenB (hA : A8Model L) (h : FF84Sec4 b L B K b₁ b₂)
     (hZ : Subgroup.center L = ⊥) (hX : Opp 3 (Cen b) = ⊥) (hY : Opp 3 (Cen (b * b₁)) = ⊥)
     (h41 : FF84_4_1) {σ : G} (hσB : σ ∈ CenS B) (hσ2 : σ * σ = 1) (hσ1 : σ ≠ 1) : False := by
   obtain ⟨θ, hθ⟩ := exists_thM hA h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := isElemAb_E h
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := isElemAb_E h
   have hD := S45_D_normalizes h41 h hY
   have hσo : orderOf σ = 2 := orderOf_eq_prime (by rw [pow_two]; exact hσ2) hσ1
   set T := Op 2 (Cen σ) with hT

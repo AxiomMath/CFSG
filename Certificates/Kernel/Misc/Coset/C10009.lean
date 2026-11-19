@@ -112,7 +112,7 @@ theorem perms :
     rw [CertificateChecks.KernelMisc.TitsText.titsDerivedArrs_get (by omega)]
     apply permOfArr_eq
     intro x
-    have hx := hb x.val (Nat.zero_le _) (by simpa using x.2)
+    have hx := hb x.val (Nat.zero_le _) (by simp)
     simp only [Act.andB_eq, Bool.and_eq_true] at hx
     rw [unpack, getElem!_ofFn_nat _ x.2]
     have hr := (hσ (e2 ⟨j, hj⟩) x).1

@@ -59,7 +59,7 @@ theorem isClassX_of_singular (P : D4Par n X σ) (hn : 2 ≤ n) (Ω : Type) [Fiel
   classical
   have hq2 : 2 < 2 ^ n :=
     lt_of_lt_of_le (by norm_num : 2 < 2 ^ 2) (Nat.pow_le_pow_right (by norm_num) hn)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hd3 : (rootDiagUnit TwistTag.D4.tag a) ^ 3 = 1 := hord ▸ pow_orderOf_eq_one _
   have hx3 : x ^ 3 = 1 := by
     apply threeSixEmb_injective X Ω σ
@@ -91,10 +91,10 @@ theorem exists_two_commuting_classX (P : D4Par n X σ) (hn : 2 ≤ n) :
     ∃ x₁ x₂ : C0 σ, IsClassX σ x₁ ∧ IsClassX σ x₂ ∧ x₁ * x₂ = x₂ * x₁ ∧
       x₂ ∉ Subgroup.zpowers x₁ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := P.charP
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := P.charP
   set L := AlgebraicClosure X with hL
-  haveI : CharP L 2 := charP_of_injective_algebraMap (algebraMap X L).injective 2
+  have : CharP L 2 := charP_of_injective_algebraMap (algebraMap X L).injective 2
   have hn1 : 1 ≤ n := P.one_le
   obtain ⟨ε, hε, hqε⟩ := exists_eps_two_pow n
   obtain ⟨d, hd⟩ : ∃ d : ℕ,
@@ -121,8 +121,8 @@ theorem exists_two_commuting_classX (P : D4Par n X σ) (hn : 2 ≤ n) :
     have h' : ((3 : ℕ) : L) = 0 := by exact_mod_cast h
     rw [CharP.cast_eq_zero_iff L 2] at h'
     exact absurd h' (by decide)
-  haveI : NeZero ((3 : ℕ) : L) := ⟨by exact_mod_cast h3L⟩
-  haveI : NeZero (3 : ℕ) := ⟨by norm_num⟩
+  have : NeZero ((3 : ℕ) : L) := ⟨by exact_mod_cast h3L⟩
+  have : NeZero (3 : ℕ) := ⟨by norm_num⟩
   obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.prim (M := L) (n := 3)
   have hμ : Nat.card (rootsOfUnity 3 L) = 3 := hζ.card_rootsOfUnity
   have hcardTp : Nat.card (threeSixTorsion L Fr ε 3) = 3 ^ 2 := by

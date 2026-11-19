@@ -57,16 +57,16 @@ theorem sum_qCount
       · subst x
         by_cases hgS : g c ∈ S
         · simp only [hz₂ hgS hg, zero_mul, hgS, not_true_eq_false, hc, true_and,
-            false_and, or_self, if_false, add_zero]
+            false_and, or_self, ite_false, add_zero]
         · have heq : Nat.card {t : T // v t c ≠ c ∧ v t (g c) ≠ g c} =
               Nat.card {t : T // v t (g c) ≠ g c} :=
             card_pred_congr _ _ (fun t => ⟨fun h => h.2, fun h => ⟨hmove t, h⟩⟩)
           rw [heq]
           simp only [hgS, not_false_eq_true, hc, not_true_eq_false, and_true,
-            false_and, or_false, if_true, if_false, add_zero]
+            false_and, or_false, ite_true, ite_false, add_zero]
           exact (by simpa only [D, a, mul_assoc] using congrArg (fun z : ℕ => z * (Fintype.card X - 4)) (hpoint (g c) hgS))
       · simp only [hz₁ hxS hxc, zero_mul, hxc, false_and, hxS, not_true_eq_false,
-          or_self, if_false, add_zero]
+          or_self, ite_false, add_zero]
     · by_cases hgS : g x ∈ S
       · by_cases hgc : g x = c
         · have heq : Nat.card {t : T // v t x ≠ x ∧ v t (g x) ≠ g x} =
@@ -75,14 +75,14 @@ theorem sum_qCount
           rw [heq]
           have hxc : x ≠ c := fun he => hxS (he ▸ hc)
           simp only [hxc, hxS, not_false_eq_true, hgc, hc, not_true_eq_false,
-            and_false, and_true, or_true, if_true, if_false, add_zero]
+            and_false, and_true, or_true, ite_true, ite_false, add_zero]
           exact (by simpa only [D, a, mul_assoc] using congrArg (fun z : ℕ => z * (Fintype.card X - 4)) (hpoint x hxS))
         · simp only [hz₂ hgS hgc, zero_mul, hgS, not_true_eq_false, and_false,
-            hgc, or_self, if_false, add_zero]
+            hgc, or_self, ite_false, add_zero]
       · have hxc : x ≠ c := fun he => hxS (he ▸ hc)
         have hgc : g x ≠ c := fun he => hgS (he ▸ hc)
-        simp only [hxc, false_and, hgc, and_false, or_self, if_false, hxS, hgS,
-          not_false_eq_true, and_self, if_true, zero_add]
+        simp only [hxc, false_and, hgc, and_false, or_self, ite_false, hxS, hgS,
+          not_false_eq_true, and_self, ite_true, zero_add]
         simpa only [D, b, mul_assoc] using hboth x (g x) hxS hgS hg.symm
   simp only [qCount_eq_filter]
   rw [FamilyCommutatorAverage.sum_card_filter, Finset.sum_mul]

@@ -148,7 +148,7 @@ theorem excres_component_eq_rational {τ : Tag} {L : Type} [Field L] [IsAlgClose
         (rationalComponent S.ρ S.Γ (rootCharHom a) i).comap ι :=
     Subgroup.isPerfect_iff.1 ⟨hGq.1⟩
   have hGne : (rationalComponent S.ρ S.Γ (rootCharHom a) i).comap ι ≠ ⊥ := by
-    haveI := CFSG.LocalCores.isQuasisimple_nontrivial (isQuasisimple_of_open_up34 hGq)
+    have := CFSG.LocalCores.isQuasisimple_nontrivial (isQuasisimple_of_open_up34 hGq)
     exact (Subgroup.nontrivial_iff_ne_bot _).1 this
   have hGeq : (rationalComponent S.ρ S.Γ (rootCharHom a) i).comap ι = K :=
     Lemma510Ns.eq_of_isSubnormal_of_quasisimple hK.2.2 hGsn hGp hGne

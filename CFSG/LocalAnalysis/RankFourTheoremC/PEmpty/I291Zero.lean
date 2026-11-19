@@ -17,13 +17,13 @@ section Generic
 
 theorem quasisimple_nontrivial {K : Type} [Group K] (hK : CFSG.Open.IsQuasisimple K) :
     Nontrivial K := by
-  haveI : Nontrivial (K ⧸ Subgroup.center K) := hK.2.toNontrivial
+  have : Nontrivial (K ⧸ Subgroup.center K) := hK.2.toNontrivial
   exact Function.Surjective.nontrivial (QuotientGroup.mk_surjective (s := Subgroup.center K))
 
 theorem normal_le_center_of_quasisimple {K : Type} [Group K] [Finite K]
     (hK : CFSG.Open.IsQuasisimple K) (N : Subgroup K) [N.Normal] (hN : N ≠ ⊤) :
     N ≤ Subgroup.center K := by
-  haveI : IsSimpleGroup (K ⧸ Subgroup.center K) := hK.2
+  have : IsSimpleGroup (K ⧸ Subgroup.center K) := hK.2
   have hNm : (N.map (QuotientGroup.mk' (Subgroup.center K))).Normal :=
     Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective _)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
@@ -74,8 +74,8 @@ theorem normal_le_center_of_quasisimple {K : Type} [Group K] [Finite K]
 theorem quasisimple_not_isPGroup {K : Type} [Group K] [Finite K] {p : ℕ} [Fact p.Prime]
     (hK : CFSG.Open.IsQuasisimple K) : ¬ IsPGroup p K := by
   intro hpg
-  haveI := quasisimple_nontrivial hK
-  haveI : Group.IsPerfect K := ⟨hK.1⟩
+  have := quasisimple_nontrivial hK
+  have : Group.IsPerfect K := ⟨hK.1⟩
   exact Group.IsPerfect.not_isNilpotent K hpg.isNilpotent
 
 theorem component_normal {Y : Type} [Group Y] [Finite Y] {L : Subgroup Y}
@@ -100,7 +100,7 @@ theorem exists_conj_mem_of_isSylowOf {Y : Type} [Group Y] [Finite Y] {p : ℕ} [
   obtain ⟨Q, hHQ⟩ := hH.exists_le_sylow
   have hQ : CFSG.ABGLocalTools.IsSylowOf p (Q : Subgroup Y) ⊤ :=
     CFSG.ABGLocalTools.isSylowOf_iff.2
-      ⟨le_top, Q.isPGroup', by rw [Subgroup.relIndex_top_right]; exact Q.not_dvd_index⟩
+      ⟨le_top, Q.isPGroup, by rw [Subgroup.relIndex_top_right]; exact Q.not_dvd_index⟩
   obtain ⟨k, -, hk⟩ := hP.exists_mem_conj hQ
   exact ⟨k, fun h hh => (hk h).1 (hHQ hh)⟩
 
@@ -108,7 +108,7 @@ theorem mem_zpowers_of_isCyclic {p : ℕ} {G : Type} [Group G] [Finite G] {S : S
     (hS : IsCyclic ↥S) {a b : G} (ha : a ∈ S) (hb : b ∈ S)
     (hao : Nat.card (Subgroup.zpowers a) = p) (hbo : Nat.card (Subgroup.zpowers b) = p) :
     a ∈ Subgroup.zpowers b := by
-  haveI := hS
+  have := hS
   have hza : Subgroup.zpowers a ≤ S := Subgroup.zpowers_le.2 ha
   have hzb : Subgroup.zpowers b ≤ S := Subgroup.zpowers_le.2 hb
   have heq : (Subgroup.zpowers a).subgroupOf S = (Subgroup.zpowers b).subgroupOf S := by
@@ -181,7 +181,7 @@ section Cfg
 variable {p : ℕ} {Y : Type} [Group Y] [Finite Y] {P : Subgroup Y} {x z : Y}
 
 theorem pCore_le_of_cfg (cfg : K62B.Cfg p P x z) : CFSG.pCore p Y ≤ P := by
-  haveI : Fact p.Prime := ⟨cfg.prime⟩
+  have : Fact p.Prime := ⟨cfg.prime⟩
   have hPn : IsPGroup p ↥(P ⊔ CFSG.pCore p Y) :=
     IsPGroup.to_sup_of_normal_right cfg.isPGroup CFSG.pCore_isPGroup
   have heq : P ⊔ CFSG.pCore p Y = P := cfg.sylow.eq_of_le le_sup_left le_top hPn
@@ -196,7 +196,7 @@ theorem zpowers_conj_eq (cfg : K62B.Cfg p P x z) :
 
 theorem z_mem_normal (cfg : K62B.Cfg p P x z) {N : Subgroup Y} (hNn : N.Normal) (hN : N ≠ ⊥) :
     z ∈ N := by
-  haveI : Fact p.Prime := ⟨cfg.prime⟩
+  have : Fact p.Prime := ⟨cfg.prime⟩
   have hdvd : p ∣ Nat.card ↥N := by
     by_contra hnd
     have hcop : p.Coprime (Nat.card ↥N) := (Nat.Prime.coprime_iff_not_dvd cfg.prime).2 hnd
@@ -253,7 +253,7 @@ theorem exists_subgroup_commutator_mem {Y : Type} [Group Y] {P C : Subgroup Y} (
         (x * a * x⁻¹ * a⁻¹) * (a * (x * b * x⁻¹ * b⁻¹) * a⁻¹) := by group
     rw [e, hC a ha _ hbc]
     exact C.mul_mem hac hbc
-  · exact ⟨P.one_mem, by simpa using C.one_mem⟩
+  · exact ⟨P.one_mem, by simp⟩
   · rintro a ⟨ha, hac⟩
     refine ⟨P.inv_mem ha, ?_⟩
     have e : x * a⁻¹ * x⁻¹ * a⁻¹⁻¹ = a⁻¹ * (x * a * x⁻¹ * a⁻¹)⁻¹ * a⁻¹⁻¹ := by group
@@ -277,7 +277,7 @@ theorem plane_not_central {p : ℕ} {Y : Type} [Group Y] [Finite Y] (hp : p.Prim
     (hcat : CFSG.AGLEmbedding.CatalogSimpleSections Y) {V : Subgroup Y}
     (hV : CFSG.LocalAnalysis.GLTheoremB.IsPPlane p V) (hVL : V ≤ L)
     (hcent : ∀ v ∈ V, ∀ h ∈ L, h * v = v * h) : False := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcatL : CFSG.Open.IsCatalogGroup (↥L ⧸ Subgroup.center ↥L) :=
     hcat.isCatalogGroup_center_quotient hL
   have hVc : V.subgroupOf L ≤ Subgroup.center ↥L := by
@@ -308,7 +308,7 @@ theorem kd291LinUniZero_holds : KD291LinUniZero := by
   intro p Y _ _ P x z L hL
   obtain ⟨data, hLcomp, huniq, -⟩ := hL
   have cfg : K62B.Cfg p P x z := data.cfg
-  haveI : Fact p.Prime := ⟨cfg.prime⟩
+  have : Fact p.Prime := ⟨cfg.prime⟩
   have hp5 : 5 ≤ p := cfg.five_le
   have hp2 : p ≠ 2 := by omega
   have hLq : CFSG.Open.IsQuasisimple ↥L := hLcomp.2.2
@@ -341,7 +341,7 @@ theorem kd291LinUniZero_holds : KD291LinUniZero := by
       exact ⟨k, Subtype.ext (by simpa using congrArg Subtype.val hk)⟩
     have hRLc : ∀ g ∈ CFSG.pCore p Y, g ∈ L → ∀ h ∈ L, g * h = h * g := by
       intro g hg hgL h hh
-      haveI : ((CFSG.pCore p Y).subgroupOf L).Normal := hRn.subgroupOf L
+      have : ((CFSG.pCore p Y).subgroupOf L).Normal := hRn.subgroupOf L
       have hNtop : (CFSG.pCore p Y).subgroupOf L ≠ ⊤ := by
         intro htop
         apply hLnR

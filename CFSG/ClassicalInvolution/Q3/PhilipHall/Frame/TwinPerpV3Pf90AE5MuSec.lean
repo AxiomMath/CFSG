@@ -17,11 +17,13 @@ open CFSG.ClassicalInvolution.Q3.PhilipHall.Frame.TwinThmE.Ae5Model
 
 variable {X : Type} [Group X] [Finite X] {Φ : Set (Subgroup X)}
 
+omit [Finite X] in
 theorem le_normalizer_of_commutes {K J : Subgroup X} (hc : ∀ x ∈ K, ∀ y ∈ J, x * y = y * x) :
     J ≤ Subgroup.normalizer (K : Set X) := fun y hy =>
   Subgroup.centralizer_le_normalizer _
     (Subgroup.mem_centralizer_iff.mpr fun h hh => hc h hh y hy)
 
+omit [Finite X] in
 theorem map_comm_of_comm (I : AEIdent Φ 5) {K J : Subgroup X}
     (hc : ∀ x ∈ K, ∀ y ∈ J, x * y = y * x) :
     ∀ x ∈ (K.subgroupOf (pSpan Φ)).map I.φ, ∀ y ∈ (J.subgroupOf (pSpan Φ)).map I.φ,
@@ -31,6 +33,7 @@ theorem map_comm_of_comm (I : AEIdent Φ 5) {K J : Subgroup X}
   congr 1
   exact Subtype.ext (hc k (Subgroup.mem_subgroupOf.mp hk) j (Subgroup.mem_subgroupOf.mp hj))
 
+omit [Finite X] in
 theorem eq_of_comm_labels (I : AEIdent Φ 5) {K J : Subgroup X} {α β : Finset (Fin 5)}
     {hα : α.card = 4} {hβ : β.card = 4} {b c : Bool}
     (hK : (K.subgroupOf (pSpan Φ)).map I.φ = memBar α hα b)

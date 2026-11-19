@@ -15,11 +15,12 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem s168e3_cov_quasi {V₀ V : Subgroup G} {hV : IsElemAbelian 2 V}
     {Kb : Subgroup (MulAut (Vtil V₀ V hV))}
     (hKs : IsSimpleGroup ↥Kb) (hKnc : ¬ IsMulCommutative ↥Kb) :
     CFSG.Open.IsQuasisimple ↥Kb := by
-  haveI : IsSimpleGroup ↥Kb := hKs
+  have : IsSimpleGroup ↥Kb := hKs
   have hperf : Group.IsPerfect ↥Kb :=
     TauCeti.IsSimpleGroup.isPerfect_of_not_isMulCommutative hKnc
   have hcenter : Subgroup.center ↥Kb = ⊥ :=
@@ -37,13 +38,14 @@ private theorem s168e3_cov_alt_mult
   have hcard : Nat.card (CFSG.RankThree.PerfectCover.hopfMultiplier
       (alternatingGroup (Fin n))) = 2 := by
     have h := (hSchur n (by omega)).2
-    rwa [if_neg (by omega : ¬ (n = 6 ∨ n = 7))] at h
+    rwa [ite_eq_right (by omega : ¬ (n = 6 ∨ n = 7))] at h
   refine ⟨1, ?_⟩
   rw [Nat.card_congr (CFSG.LieType.Steinberg.CentralExt.griessHopfMultiplierCongr e).toEquiv,
     Nat.card_congr (CFSG.RankThree.PerfectCover.hopfMultiplierEquivGriess
       (alternatingGroup (Fin n))).toEquiv]
   simpa using hcard
 
+omit [Finite G] in
 private theorem s168e3_cov_preBarSub_mono {M V₀ V : Subgroup G} {hV : IsElemAbelian 2 V}
     {Xbar Ybar : Subgroup (MulAut (Vtil V₀ V hV))} (h : Xbar ≤ Ybar) :
     preBarSub M V₀ V hV Xbar ≤ preBarSub M V₀ V hV Ybar := by
@@ -118,6 +120,7 @@ private theorem s168e3_cov_preBarSub_conj_mem {D : Data G} {V₀ V : Subgroup G}
       (hnorm (actTil_mem_barSub V₀ V hV (D.M.inv_mem hm) hmsi))
     exact (hmem (actTil V₀ V hV ⟨m * x * m⁻¹, hxs⟩)).1 hxXbar
 
+omit [Finite G] in
 private theorem s168e3_cov_layer_top_of_O2E_eq {Y : Subgroup G} (hYE : F11.O2E Y = Y) :
     CFSG.Open.rankThreeLayer (⊤ : Subgroup (Bar2 Y)) = ⊤ := by
   have hπ : Function.Surjective (QuotientGroup.mk' (CFSG.pCore 2 ↥Y)) :=
@@ -142,7 +145,7 @@ private theorem s168e3_cov_of_simple {D : Data G} {V₀ V L : Subgroup G} {hV : 
     (hmult : ∃ k : ℕ, Nat.card (CFSG.Open.griessHopfMultiplier ↥Kb) = 2 ^ k) :
     ∃ Y : Subgroup G, Y ≤ D.M ∧ (Y.subgroupOf D.M).Normal ∧ barSub V₀ V hV Y = Kb ∧
       IsPGroup 2 ↥(Y ⊓ F11.CTilde D.M V₀ V) := by
-  haveI : IsSimpleGroup ↥Kb := hKs
+  have : IsSimpleGroup ↥Kb := hKs
   have hKq : CFSG.Open.IsQuasisimple ↥Kb := s168e3_cov_quasi hKs hKnc
   have hcenterK : Subgroup.center ↥Kb = ⊥ :=
     TauCeti.IsSimpleGroup.center_eq_bot_of_not_isMulCommutative hKnc
@@ -159,7 +162,7 @@ private theorem s168e3_cov_of_simple {D : Data G} {V₀ V L : Subgroup G} {hV : 
   have hbarX : barSub V₀ V hV X = Kb := by
     rw [hXdef, barSub_preBarSub]
     exact inf_eq_left.2 hKM
-  haveI : ((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal :=
+  have : ((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal :=
     s15_Three_cTilde_normal hV hMs
   have hlayerim : rankThreeLayer (F11.barImage11 D.M V₀ V X) = F11.barImage11 D.M V₀ V X :=
     s168e3_cov_layer_barImage hMs hKM hX_le hbarX hKq
@@ -202,7 +205,7 @@ private theorem s168e3_cov_of_simple {D : Data G} {V₀ V L : Subgroup G} {hV : 
       exact ⟨hgY, hY_le hgY, hYs hgY, congrArg Subtype.val h1⟩
     · rintro ⟨-, -, h, h1⟩
       exact Subtype.ext h1
-  haveI : N.Normal := MonoidHom.normal_ker φ
+  have : N.Normal := MonoidHom.normal_ker φ
   have hNsolv : Group.IsSolvable ↥N := by
     rw [hNker]
     have hle : (Y ⊓ F11.CTilde D.M V₀ V).subgroupOf Y ≤ CFSG.solvableRadical ↥Y := by
@@ -210,7 +213,7 @@ private theorem s168e3_cov_of_simple {D : Data G} {V₀ V L : Subgroup G} {hV : 
       obtain ⟨z, hz, hzx⟩ := hY.2.2.2.2.1 (Subgroup.mem_subgroupOf.mp hx)
       have hzx' : z = x := Subtype.ext hzx
       exact hzx' ▸ hz
-    haveI := CFSG.SignalizerFunctorTheorem.Nonsolvable.isSolvable_solvableRadical (G := ↥Y)
+    have := CFSG.SignalizerFunctorTheorem.Nonsolvable.isSolvable_solvableRadical (G := ↥Y)
     exact Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hle)
       (Subgroup.inclusion_injective hle)
   have hperfY : Group.IsPerfect ↥Y := Subgroup.isPerfect_iff.mpr hY.2.1
@@ -257,7 +260,7 @@ private theorem s168e3_cov_of_simple {D : Data G} {V₀ V L : Subgroup G} {hV : 
       exact ⟨hgX, hX_le hgX, hXs hgX, congrArg Subtype.val h1⟩
     · rintro ⟨-, -, h, h1⟩
       exact Subtype.ext h1
-  haveI : IsSimpleGroup ↥(barSub V₀ V hV X) := by rw [hbarX]; exact hKs
+  have : IsSimpleGroup ↥(barSub V₀ V hV X) := by rw [hbarX]; exact hKs
   have hnc : ¬ IsMulCommutative ↥(barSub V₀ V hV X) := by rw [hbarX]; exact hKnc
   obtain ⟨hXC, hXab⟩ := close16_simple_of_hom hCX hnc φX hφX
     (by rw [hkerX, inf_eq_right.2 hCX])

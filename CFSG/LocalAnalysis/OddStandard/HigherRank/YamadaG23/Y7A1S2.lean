@@ -18,7 +18,7 @@ private lemma y7a_t_conj_A (h : Y7ACfg A C0 V a₁ b₁ a₂ b₂ z t d) {y : G}
   have hty : y * t = t * y := h.cfg.t_cent y hy
   rw [← hty, mul_assoc, y7a_t_sq h, mul_one]
 
-private lemma y7a_conj_zpow (h : Y7ACfg A C0 V a₁ b₁ a₂ b₂ z t d) {x : G}
+private lemma y7a_conj_zpow (_h : Y7ACfg A C0 V a₁ b₁ a₂ b₂ z t d) {x : G}
     (hxz : x * z * x⁻¹ = z) {a : G} (ha : a ∈ zpowers z) : x * a * x⁻¹ = a := by
   obtain ⟨i, rfl⟩ := Subgroup.mem_zpowers_iff.mp ha
   rw [← conj_zpow, hxz]
@@ -33,7 +33,7 @@ private lemma y7a_mem_z_of_sq_one (h : Y7ACfg A C0 V a₁ b₁ a₂ b₂ z t d) 
     · rcases h1 with h1 | h1
       · rw [h1]; exact Subgroup.one_mem _
       · rw [h1]; exact Subgroup.mem_zpowers z
-    · push_neg at h1
+    · push Not at h1
       exact absurd ((hneq h1.1 h1.2).symm.trans ha1) h.cfg.z_ne
   rcases hUW with hU | hW
   · exact key (y6q8_sq_U h.cfg.rel a hU).2

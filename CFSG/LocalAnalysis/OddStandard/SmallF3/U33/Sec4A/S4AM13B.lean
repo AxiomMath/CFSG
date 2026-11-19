@@ -26,7 +26,7 @@ theorem m13_relIndex_RF (h : L41GPh8 t L S x₁ x₂ lam rho) :
 theorem m13_abel_le (h : L41GPh10 t L S x₁ x₂ lam rho) {A : Subgroup G}
     (hAF : A ≤ l41F t x₁ x₂ rho) (hAc : IsMulCommutative ↥A)
     (hAR : ¬ A ≤ l41R t x₁ x₂ rho) : Nat.card A ≤ 32 := by
-  obtain ⟨a, haA, haR⟩ := SetLike.not_le_iff_exists.mp hAR
+  obtain ⟨a, haA, haR⟩ := IsConcreteLE.not_le_iff_exists.mp hAR
   rcases m13_mem_F h.toL41GPh8 (hAF haA) with h1 | ⟨k, hk, hak⟩
   · exact absurd h1 haR
   · have hle : A ⊓ l41R t x₁ x₂ rho ≤ baseGrp x₁ x₂ := by
@@ -92,6 +92,7 @@ theorem m13_normal_R (h : L41GPh10 t L S x₁ x₂ lam rho) :
   rw [m13_J0 h] at h1
   exact (Subgroup.mem_normalizer_iff.mp h1 k).mp hk
 
+omit [Finite G] in
 theorem m13_Y_le_R (t x₁ x₂ rho : G) : l41Y t x₁ x₂ rho ≤ l41R t x₁ x₂ rho :=
   (Subgroup.closure_le _).mpr fun _ hg => hg.1
 
@@ -158,6 +159,7 @@ theorem m13_cent_F (h : L41GPh10 t L S x₁ x₂ lam rho) :
   · intro b hb
     exact Subgroup.mem_centralizer_iff.mpr fun f hf => (m13_base_comm_F h hb hf).symm
 
+omit [Finite G] in
 theorem eq_one_of_mem_odd_of_mem_two_group {M : Subgroup G} {K : Subgroup ↥M}
     (hKodd : Odd (Nat.card K)) {c : ↥M} (hcK : c ∈ K) {Q : Subgroup G} {k : ℕ}
     (hQ : Nat.card Q = 2 ^ k) (hcQ : (c : G) ∈ Q) : c = 1 := by

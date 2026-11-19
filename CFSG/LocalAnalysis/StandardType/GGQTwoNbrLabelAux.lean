@@ -16,6 +16,7 @@ open CFSG.ComponentClassification.OuterAutomorphisms
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem qTwoNbrLabel_perfect_normalizer {S : ℕ → LargeEvenLabel → Prop} {p : ℕ}
     {Bs K : Subgroup G} (h : GGInnerDiagOnLabel S p Bs K) :
     commutator ↥K = ⊤ ∧ Bs ≤ Subgroup.normalizer (K : Set G) := by
@@ -46,8 +47,8 @@ theorem qTwoNbrLabel_lieModel {Bs K : Subgroup G}
   have hn : lab.n = 1 := hfield lab hΛ hhas
   obtain ⟨F, hF, hFfin, d, hcard, h4d, -, hQ'⟩ := ggNSLieN3A_esuRecipe hrow hhas
   obtain ⟨e⟩ := hQ'
-  letI := hF
-  letI := hFfin
+  let := hF
+  let := hFfin
   refine ⟨d, h4d, ?_⟩
   rw [hn] at hcard e
   exact qTwoNbrLabel_lieModel_of_su hcard h4d le_rfl e

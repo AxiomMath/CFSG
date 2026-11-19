@@ -104,7 +104,7 @@ theorem Z_lt_sylow (h : T6Ctx N u p) (h' : T6Ctx N.swap u p) {P : Subgroup G}
     have hE : Nat.card ↥((SM : Subgroup ↥M).map M.subtype) = p ^ (Nat.card ↥M).factorization p := by
       rw [Subgroup.card_map_of_injective M.subtype_injective, Sylow.card_eq_multiplicity SM]
     have hEC : (SM : Subgroup ↥M).map M.subtype ≤ C := (Subgroup.map_subtype_le _).trans inf_le_right
-    have := hmax _ hEC (SM.isPGroup'.map _)
+    have := hmax _ hEC (SM.isPGroup.map _)
     rw [hE, hs] at this
     exact (Nat.pow_le_pow_iff_right hp.one_lt).1 this
   have hfac : (Nat.card ↥B * Nat.card ↥(A ⊓ M)).factorization p =

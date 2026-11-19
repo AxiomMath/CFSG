@@ -15,7 +15,7 @@ theorem orth212C4_qU_add_smul {K ι : Type} [Field K] (qU : QuadraticForm K (ι 
     qU (a • u + b • u') = a * b * QuadraticMap.polar qU u u' := by
   rw [QuadraticMap.map_add (⇑qU) (a • u) (b • u'), QuadraticMap.map_smul, QuadraticMap.map_smul,
     hqu, hqu', QuadraticMap.polar_smul_left, QuadraticMap.polar_smul_right]
-  simp only [smul_zero, zero_add, add_zero, smul_eq_mul, mul_assoc, mul_zero]
+  simp only [zero_add, add_zero, smul_eq_mul, mul_assoc, mul_zero]
 
 theorem orth212C4_pure_pair {K ι : Type} [Field K] (qU : QuadraticForm K (ι → K))
     {c₀ c₁ c₀' c₁' d₀ d₁ : K} {u u' v : ι → K}

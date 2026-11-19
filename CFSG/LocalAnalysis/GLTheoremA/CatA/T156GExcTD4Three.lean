@@ -124,8 +124,8 @@ theorem fixAlt_of_fixSub_g2 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {R : Type} 
   rcases Nat.lt_or_ge m 2 with hlt | hge
   ·
     have hk2 : Nat.card k = 2 := by rw [hk, show m = 1 by omega]; norm_num
-    haveI : Fintype k := Fintype.ofFinite k
-    haveI : CharP k 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1)
+    have : Fintype k := Fintype.ofFinite k
+    have : CharP k 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1)
       (by rw [← Nat.card_eq_fintype_card, hk2]; norm_num)
     have hC : StatedClassicalModel ↥⁅adjointGroup Tag.G2 k, adjointGroup Tag.G2 k⁆ .PSU 3 3 1 := by
       rcases CFSG.Quasithin.EmptyFaithfulMultiple.g2TwoDerivedUnitaryTransport_holds k hk2 with
@@ -133,14 +133,14 @@ theorem fixAlt_of_fixSub_g2 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {R : Type} 
       · exact h
       all_goals exact absurd h0 (by norm_num)
     obtain ⟨-, K₃, _, _, hK₃, ⟨eU⟩⟩ := hC
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-    haveI : IsSimpleGroup (StatedProj (StatedSU 3 (3 ^ 1) K₃)) :=
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : IsSimpleGroup (StatedProj (StatedSU 3 (3 ^ 1) K₃)) :=
       CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU K₃ 3 1 hK₃ 3 le_rfl
         (by decide)
-    haveI : IsSimpleGroup ↥⁅adjointGroup Tag.G2 k, adjointGroup Tag.G2 k⁆ := eU.isSimpleGroup
-    haveI : Group.IsPerfect ↥(StatedSU 3 (3 ^ 1) K₃) :=
+    have : IsSimpleGroup ↥⁅adjointGroup Tag.G2 k, adjointGroup Tag.G2 k⁆ := eU.isSimpleGroup
+    have : Group.IsPerfect ↥(StatedSU 3 (3 ^ 1) K₃) :=
       CFSG.ClassicalGroups.Unitary.isPerfect_statedSU (p := 3) (f := 1) hK₃ le_rfl (by decide)
-    haveI : Group.IsPerfect (StatedProj (StatedSU 3 (3 ^ 1) K₃)) :=
+    have : Group.IsPerfect (StatedProj (StatedSU 3 (3 ^ 1) K₃)) :=
       Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' _) (QuotientGroup.mk'_surjective _)
     obtain ⟨a, b, hab⟩ := exists_mul_ne_of_isPerfect (StatedProj (StatedSU 3 (3 ^ 1) K₃))
     have hnaX : ∃ a b : ↥⁅adjointGroup Tag.G2 k, adjointGroup Tag.G2 k⁆, a * b ≠ b * a :=
@@ -181,7 +181,7 @@ theorem fixAlt_of_fixSub_g2 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {R : Type} 
       calc 3 ≤ 2 ^ 2 := by norm_num
         _ ≤ 2 ^ m := Nat.pow_le_pow_right (by norm_num) hge
     have hq := CFSG.LieType.Steinberg.Adjoint.isQuasisimple_g2_of_three_le_card k h3
-    haveI : Group.IsPerfect ↥(adjointGroup Tag.G2 k) := hq.1
+    have : Group.IsPerfect ↥(adjointGroup Tag.G2 k) := hq.1
     have hZk : Subgroup.center (adjointGroup Tag.G2 k) = ⊥ := center_adjointGroup_eq_bot
     have hPC : Group.IsPerfect ↥(ggFixSub f) :=
       Group.IsPerfect.ofSurjective (f := E.toMonoidHom) E.surjective
@@ -212,7 +212,7 @@ theorem geomBody_td4_three {n : ℕ} (hn : 1 ≤ n) (K : Type) [Field K] [Finite
         (LargeEvenTwistedH LargeEvenCartanD4 K LargeEvenRhoD4 n)) := by
   intro hS hna
   refine ⟨fun h => absurd ⟨rfl, rfl⟩ h, fun _ _ x hx3 hxni h2 => ?_⟩
-  haveI := hS
+  have := hS
   have hZ := center_eq_bot_of_simple_noncomm hna
   have hI : ∀ φ ∈ GGTriD4ID n K, φ ^ 3 = 1 →
       φ ∈ Set.range (MulAut.conj : GGTriD4R n K →* MulAut (GGTriD4R n K)) := by
@@ -224,8 +224,8 @@ theorem geomBody_td4_three {n : ℕ} (hn : 1 ≤ n) (K : Type) [Field K] [Finite
     unfold S10.twoPart
     rw [factorization_card_ggTriD4R hn hK,
       show (2 : ℕ) ^ (12 * n) = (2 ^ n) ^ 6 * (2 ^ n) ^ 6 by ring, Nat.sqrt_eq]
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := n * 3)
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := n * 3)
     (by rw [← Nat.card_eq_fintype_card, hK, pow_mul])
   set σ₀ := iterateFrobeniusEquiv K 2 n with hσdef
   have hσ₀ : ∀ c, σ₀ c = c ^ 2 ^ n := fun c => by

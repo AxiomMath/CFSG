@@ -39,7 +39,7 @@ public theorem exists_conjugate_with_sylow_centralizer
     hWp.of_equiv (Subgroup.subgroupOfEquivOfLe (H := W) (K := N) hW_le_N).symm
   obtain ⟨T, hW'_le_T⟩ := IsPGroup.exists_le_sylow (G := ↥N) (p := p) hW'p
   let T₁ : Subgroup G := T.map N.subtype
-  have hT₁p : IsPGroup p T₁ := IsPGroup.map (H := T) T.isPGroup' N.subtype
+  have hT₁p : IsPGroup p T₁ := IsPGroup.map (H := T) T.isPGroup N.subtype
   obtain ⟨S₁, hT₁_le_S₁⟩ := IsPGroup.exists_le_sylow (G := G) (p := p) hT₁p
   obtain ⟨y, hy⟩ := MulAction.exists_smul_eq G S S₁
   let x : G := (y : G)⁻¹
@@ -86,7 +86,7 @@ public theorem exists_conjugate_with_sylow_centralizer
       exact n.2
     have hQp : IsPGroup p (((S₁ : Subgroup G) ⊓ N).subgroupOf N) := by
       have hS1p : IsPGroup p (↥((S₁ : Subgroup G) ⊓ N)) :=
-        S₁.isPGroup'.to_inf_left
+        S₁.isPGroup.to_inf_left
       exact hS1p.of_equiv (Subgroup.subgroupOfEquivOfLe
         (H := (S₁ : Subgroup G) ⊓ N) (K := N) inf_le_right).symm
     have hT_subgroupOf : T ≤ ((S₁ : Subgroup G) ⊓ N).subgroupOf N := by

@@ -20,7 +20,7 @@ theorem key3_eq (a b c : Nat) : key3 a b c = a + 2 ^ 18 * b + 2 ^ 36 * c := by
   change a + (b * 262144 + c * 68719476736) = _
   omega
 
-theorem key3_inj {a b c r : Nat} (ha : a < 2 ^ 18) (hb : b < 2 ^ 18) (hc : c < 2 ^ 18)
+theorem key3_inj {a b c r : Nat} (ha : a < 2 ^ 18) (hb : b < 2 ^ 18) (_hc : c < 2 ^ 18)
     (h : key3 a b c = tK r) : a = tA r ∧ b = tB r ∧ c = tC r := by
   rw [key3_eq, tK_eq] at h
   rw [tA_eq, tB_eq, tC_eq]

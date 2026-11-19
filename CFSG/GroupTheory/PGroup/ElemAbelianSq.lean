@@ -15,9 +15,10 @@ open scoped Pointwise
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isElemAbelian_of_card_prime {r : ℕ} [Fact r.Prime] {X : Subgroup G}
     (hXcard : Nat.card X = r) : CFSG.Open.IsElemAbelian r X := by
-  haveI : IsCyclic X := isCyclic_of_prime_card (p := r) hXcard
+  have : IsCyclic X := isCyclic_of_prime_card (p := r) hXcard
   refine ⟨inferInstance, fun x hx => ?_⟩
   have h := pow_card_eq_one' (G := X) (x := ⟨x, hx⟩)
   rw [hXcard] at h
@@ -37,7 +38,7 @@ theorem exists_mem_orderOf_eq_of_one_le_pRank {p : ℕ} (hp : p.Prime) {H : Subg
   have hFbig : 1 < Nat.card F := by
     rw [hFcard]
     exact Nat.one_lt_pow (by omega) hp.one_lt
-  haveI : Nontrivial F := Finite.one_lt_card_iff_nontrivial.mp hFbig
+  have : Nontrivial F := Finite.one_lt_card_iff_nontrivial.mp hFbig
   obtain ⟨x₀, hx₀⟩ := exists_ne (1 : F)
   refine ⟨(x₀ : G), hFH x₀.2, ?_⟩
   have hx1 : (x₀ : G) ≠ 1 := fun h1 => hx₀ (Subtype.ext h1)
@@ -164,13 +165,13 @@ theorem exists_sylow_le_normalizer_of_isPGroup {p q : ℕ} (hp : p.Prime) (hq : 
     (hW : ¬ p ∣ Nat.card W) :
     ∃ S : Sylow q W, A ≤ Subgroup.normalizer (((S : Subgroup W).map W.subtype : Subgroup G) : Set G) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hcard : ¬ p ∣ Nat.card (Sylow q W) := by
     rintro h
     exact hW (h.trans ((default : Sylow q W).card_dvd_index.trans (Subgroup.index_dvd_card _)))
-  letI : MulDistribMulAction ↥A ↥W := Subgroup.conjMulDistribMulActionOfLeNormalizer A W hAW
-  letI : MulAction ↥A (Sylow q W) := Sylow.pointwiseMulAction
+  let : MulDistribMulAction ↥A ↥W := Subgroup.conjMulDistribMulActionOfLeNormalizer A W hAW
+  let : MulAction ↥A (Sylow q W) := Sylow.pointwiseMulAction
   obtain ⟨S, hS⟩ := hA.nonempty_fixed_point_of_prime_not_dvd_card (Sylow q W) hcard
   refine ⟨S, fun a ha => ?_⟩
   have hfix : (⟨a, ha⟩ : ↥A) • (S : Subgroup ↥W) = S := by

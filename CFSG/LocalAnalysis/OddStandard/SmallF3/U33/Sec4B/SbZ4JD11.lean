@@ -54,7 +54,7 @@ theorem comm_tau_mem_Cq_all {m₀ : H} (hm₀ : m₀ ∈ Mc) (hm₀Q : m₀ ∉ 
     intro a ha c hc
     have hcQ : c ∈ Q := hc.1
     have hcomm : a * c * a⁻¹ * c⁻¹ ∈ V :=
-      Mh_comm_Q h hMh (Mc_le_Mh h hMh hMc ha) hcQ
+      Mh_comm_Q h hMh (Mc_le_Mh hMc ha) hcQ
     have hcommC : a * c * a⁻¹ * c⁻¹ ∈ Cq := V_le_Cq h hcomm
     rw [show a * c * a⁻¹ = (a * c * a⁻¹ * c⁻¹) * c by group]
     exact Cq.mul_mem hcommC hc
@@ -134,7 +134,7 @@ theorem comm_tt_mem_V
   intro m hm
   let w : H := m * (t * τ) * m⁻¹ * (t * τ)⁻¹
   change w ∈ V
-  have hmMh : m ∈ Mh := Mc_le_Mh h hMh hMc hm
+  have hmMh : m ∈ Mh := Mc_le_Mh hMc hm
   have hss : (t * τ) * (t * τ) = 1 := by
     calc (t * τ) * (t * τ) = t * (τ * t) * τ := by group
       _ = t * (t * τ) * τ := by rw [← h.t_tau]
@@ -188,7 +188,7 @@ theorem comm_tt_mem_V
 theorem card_cent_tt_ge (hV : ∀ m ∈ Mc, m * (t * τ) * m⁻¹ * (t * τ)⁻¹ ∈ V) :
     64 ≤ Nat.card ↥(Mc ⊓ centralizer ({t * τ} : Set H)) := by
   have hG₀ : ∀ m ∈ Mc, ∀ v ∈ V, m * v * m⁻¹ = v :=
-    fun m hm v hv => Mh_cent_V h hMh (Mc_le_Mh h hMh hMc hm) hv
+    fun m hm v hv => Mh_cent_V h hMh (Mc_le_Mh hMc hm) hv
   obtain ⟨D, hDmem, hDcard⟩ := h.exists_comm_subgroup hG₀ (t * τ)
   have hDMc : D = Mc := by
     apply le_antisymm

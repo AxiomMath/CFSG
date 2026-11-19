@@ -25,6 +25,7 @@ section Levi
 variable {K : Type} [Field K] [CharP K 2]
 
 
+omit [CharP K 2] in
 theorem isChevTwoLayered_su6Levi_subgroupOf {f : ℕ} {k : Type} [Field k] [Algebra k K]
     (hf : 1 ≤ f) (hk : Nat.card k = 2 ^ f) (hK : Nat.card K = (2 ^ f) ^ 2)
     {σ : K →+* K} (hσ : ∀ c, σ c = c ^ 2 ^ f) :
@@ -50,7 +51,7 @@ theorem isChevTwoLayered_su6Levi_subgroupOf {f : ℕ} {k : Type} [Field k] [Alge
     CFSG.HardMathSupport.Solomon.Coordinator.LieComp.isChevSimple_of_lie
       ⟨.twistedA 5 q, hv⟩ (by rw [TauCeti.LieTypeIndex.characteristic_twistedA])
       (e.trans eCat.symm)
-  haveI : IsSimpleGroup (TwistedE6Pilot.su6Levi σ) :=
+  have : IsSimpleGroup (TwistedE6Pilot.su6Levi σ) :=
     TwistedE6Pilot.isSimpleGroup_su6Levi hf hk hK hσ
   have hnc : ∃ a b : TwistedE6Pilot.su6Levi σ, a * b ≠ b * a := by
     by_contra hc
@@ -82,7 +83,7 @@ theorem stdRepC_zero_typed [CharP K 2] (hf : 1 ≤ f) (hk : Nat.card k = 2 ^ f)
   have hQ2 : IsPGroup 2 ((tRadical σ).subgroupOf C₀) := by
     obtain ⟨-, hT⟩ := even_E6_graph_highest_root_normalizer f hf k K hk hK σ hσ
     obtain ⟨S, hS⟩ := hT.2.2.2.2.2.2.2.2.2.1
-    refine S.isPGroup'.to_le ?_
+    refine S.isPGroup.to_le ?_
     rw [hS]
     intro x hx
     rw [mem_subgroupOf] at hx ⊢

@@ -85,15 +85,12 @@ private noncomputable def l48a1_model {K : Type} [Field K] [Finite K] [CharP K 2
   surj := hφ's
   Act := fun a t => TypeANbrDvd.ActsDiag φ' a (fun i => (t i : K))
   act_one := by
-    change TypeANbrDvd.ActsDiag φ' 1 (fun i => ((1 : Fin (N + 1) → Kˣ) i : K))
     simpa using TypeANbrDvd.actsDiag_one (φ' := φ')
   act_mul := by
     intro a b t u ha hb
-    change TypeANbrDvd.ActsDiag φ' (a * b) (fun i => ((t * u) i : K))
     simpa only [Pi.mul_apply, Units.val_mul] using ha.mul hb
   act_inv := by
     intro a t ha
-    change TypeANbrDvd.ActsDiag φ' a⁻¹ (fun i => ((t⁻¹) i : K))
     simpa only [Pi.inv_apply, Units.val_inv_eq_inv_val] using ha.inv
   act_unique := by
     intro a b t ha hb
@@ -142,7 +139,7 @@ private noncomputable def l48a1_model {K : Type} [Field K] [Finite K] [CharP K 2
     refine ⟨c, fun i => ?_⟩
     apply Units.val_inj.mp
     have hii := congrFun (congrFun hc i) i
-    simp only [l48a1_dgm_apply, diagonal_apply_eq, scalar_apply, if_true] at hii
+    simp only [l48a1_dgm_apply, diagonal_apply_eq, scalar_apply] at hii
     exact hii
   Pm := fun σ => permSL σ
   act_perm := by
@@ -179,7 +176,7 @@ private noncomputable def l48a1_model {K : Type} [Field K] [Finite K] [CharP K 2
       rw [← det_diagonal, ← hc, g.2]
     have hc0 : c ≠ 0 := by
       intro h0
-      have h1 : (∏ _i : Fin (N + 1), (0 : K)) = 1 := by simpa [h0] using hprod
+      have h1 : (∏ _i : Fin (N + 1), (0 : K)) = 1 := by simp [h0] at hprod
       simp at h1
     obtain ⟨s, hs⟩ := l48a1_dgm_exists_of_diagonal (N := N)
       (v := fun i => c * (t i : K)) (fun i => mul_ne_zero hc0 (h.ne_zero i)) hc
@@ -230,7 +227,7 @@ private noncomputable def l48a1_model {K : Type} [Field K] [Finite K] [CharP K 2
       have hfun : (fun i => ((s : Fin (N + 1) → Kˣ) i : K)) = ggPairVec k l (ζ : K) := by
         funext i
         rw [hs, Pi.mul_apply, Pi.mulSingle_apply, Pi.mulSingle_apply, ggPairVec_apply]
-        split_ifs <;> simp_all [Units.val_mul, Units.val_inv_eq_inv_val]
+        split_ifs <;> simp_all [Units.val_inv_eq_inv_val]
       have hdgm : l48a1_dgm K N s = D := by
         apply Subtype.ext
         rw [l48a1_dgm_apply, hD, hfun]

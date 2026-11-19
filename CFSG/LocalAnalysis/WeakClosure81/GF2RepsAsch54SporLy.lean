@@ -92,9 +92,9 @@ theorem eq_one_of_commute_natPerm_four {τ : Equiv.Perm (Fin 11)} {p : ℕ} (hp 
       rw [Function.iterate_succ_apply', ih r]
       split_ifs with h
       · have hl := hpair_low _ (hlowpow n r h.1)
-        simp only [π, if_pos hl]
+        simp only [π, ite_eq_left hl]
         rw [hkey, pow_succ', Equiv.Perm.mul_apply]
-      · simp only [π, if_neg h]
+      · simp only [π, ite_eq_right h]
   have hπp : ∀ r, π^[p] r = r := by
     intro r
     rw [hπ p r]
@@ -106,7 +106,7 @@ theorem eq_one_of_commute_natPerm_four {τ : Equiv.Perm (Fin 11)} {p : ℕ} (hp 
       have : ({r : Fin 11 | r.val < 8 ∧ r.val % 2 = 0} : Set (Fin 11)) =
           ↑({0, 2, 4, 6} : Finset (Fin 11)) := by
         ext r
-        simp only [Set.mem_setOf_eq, Finset.coe_insert, Finset.coe_singleton, Set.mem_insert_iff,
+        simp only [Set.mem_ofPred_eq, Finset.coe_insert, Finset.coe_singleton, Set.mem_insert_iff,
           Set.mem_singleton_iff]
         revert r
         decide
@@ -115,8 +115,8 @@ theorem eq_one_of_commute_natPerm_four {τ : Equiv.Perm (Fin 11)} {p : ℕ} (hp 
       intro r hr
       have hr' : r.val < 8 ∧ r.val % 2 = 0 := hr
       show π r ∈ {r : Fin 11 | r.val < 8 ∧ r.val % 2 = 0}
-      rw [Set.mem_setOf_eq]
-      simp only [π, if_pos hr']
+      rw [Set.mem_ofPred_eq]
+      simp only [π, ite_eq_left hr']
       exact hpair_low _ (hlow r hr'.1))
   have hsame : ∀ u v : Fin 11, u.val < 8 → v.val < 8 → fbarPair u = fbarPair v →
       u = v ∨ u = natPerm 4 v := by unfold fbarPair; decide
@@ -124,7 +124,7 @@ theorem eq_one_of_commute_natPerm_four {τ : Equiv.Perm (Fin 11)} {p : ℕ} (hp 
     intro y hy
     have hr := hpair_low y hy
     have h := hfixπ (fbarPair y) hr
-    simp only [π, if_pos hr] at h
+    simp only [π, ite_eq_left hr] at h
     rw [hkey] at h
     exact hsame _ _ (hlow y hy) hy h
   have hsq : τ ^ 2 = 1 := by
@@ -325,7 +325,7 @@ theorem isSylowIn_lyS :
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine ⟨le_top, ?_, ?_⟩
   · rw [← lySylow_coe]
-    exact lySylow.isPGroup'
+    exact lySylow.isPGroup
   · rw [Subgroup.relIndex_top_right, ← lySylow_coe]
     exact lySylow.not_dvd_index
 

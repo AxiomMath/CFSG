@@ -18,7 +18,7 @@ theorem exists_minOver_of_node
     (i : Fin D.rank) :
     ∃ P : Subgroup K, borel D H ≤ P ∧ rankOne D.rootGroup i ≤ P ∧ P ≠ borel D H ∧
       ∀ Q : Subgroup K, borel D H ≤ Q → Q ≤ P → Q = borel D H ∨ Q = P := by
-  haveI := cartan_borel_weylN_normal hct hext
+  have := cartan_borel_weylN_normal hct hext
   have hBN := isBNPair_borel_weylN hct hext
   set B := borel D H with hB
   set N := weylN n H with hN
@@ -41,7 +41,7 @@ theorem exists_minOver_of_node
     have hnP : n i ∈ parabolic B N {s} := by
       rw [hBN.mem_parabolic_iff hJS]
       exact ⟨s, Subgroup.subset_closure rfl,
-        mem_dc_mk_iff.2 ⟨1, one_mem _, 1, one_mem _, by simp [hB]⟩⟩
+        mem_dc_mk_iff.2 ⟨1, one_mem _, 1, one_mem _, by simp⟩⟩
     intro g hg
     rcases hext.rankOne_bruhat i g hg with ⟨h, hh, u, hu, rfl⟩ | ⟨u, hu, h, hh, v, hv, rfl⟩
     · have hα : (Pi.single i 1 : Fin D.rank → ℤ) ∈ D.roots :=

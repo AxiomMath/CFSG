@@ -36,7 +36,7 @@ theorem outerCentData_entrywise_D4 [CharP K 3] {f : ℕ} (hf : 1 ≤ f) (hK : Na
     (hout : entrywiseAdjointAut Tag.D4 T ∉ innerAut (adjointGroup Tag.D4 K)) :
     OuterCentData 3 (entrywiseAdjointAut Tag.D4 T) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hM : ringChar K ≠ 2 := by rw [ringChar.eq K 3]; norm_num
   set β := entrywiseAdjointAut Tag.D4 T with hβ
   have hβ3 : β ^ 3 = 1 := by
@@ -80,8 +80,8 @@ theorem outerCentData_entrywise_D4 [CharP K 3] {f : ℕ} (hf : 1 ≤ f) (hK : Na
     simpa using Subgroup.mem_subgroupOf.1 h1
   let eJ : ↥J ≃* adjointGroup Tag.D4 (fixSubfield T) :=
     (Subgroup.subgroupOfEquivOfLe hJA).trans (fixedFieldImageEquiv T).symm
-  haveI := hs
-  haveI hJs : IsSimpleGroup ↥J := eJ.isSimpleGroup
+  have := hs
+  have hJs : IsSimpleGroup ↥J := eJ.isSimpleGroup
   have hncJ : ∃ x y : ↥J, x * y ≠ y * x := by
     obtain ⟨x, y, hxy⟩ := hnc
     exact ⟨eJ.symm x, eJ.symm y, fun h => hxy (by simpa using congrArg eJ h)⟩
@@ -142,7 +142,7 @@ theorem outerCentData_alphaOne [CharP K 3] {f : ℕ} (hf : 1 ≤ f) (hK : Nat.ca
     (hout : alphaOne σ ∉ innerAut (adjointGroup Tag.D4 K)) :
     OuterCentData 3 (alphaOne σ) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hM : ringChar K ≠ 2 := by rw [ringChar.eq K 3]; norm_num
   have hσσσ : ∀ c, σ (σ (σ c)) = c := fun c => by
     have h := congrArg (fun g : K ≃+* K => g c) hσ3
@@ -175,8 +175,8 @@ theorem outerCentData_alphaOne [CharP K 3] {f : ℕ} (hf : 1 ≤ f) (hK : Nat.ca
     (Subgroup.normal_subgroupOf_iff hJN).2 fun h k hh hk => hnormal' _ _ hh hk
   let eJ : ↥J ≃* graphFixedRootGroup TwistTag.D4 K σ.toRingHom :=
     Subgroup.subgroupOfEquivOfLe hC0A
-  haveI := hs
-  haveI hJs : IsSimpleGroup ↥J := eJ.isSimpleGroup
+  have := hs
+  have hJs : IsSimpleGroup ↥J := eJ.isSimpleGroup
   have hncJ : ∃ x y : ↥J, x * y ≠ y * x := by
     obtain ⟨x, y, hxy⟩ := hnc
     refine ⟨eJ.symm x, eJ.symm y, fun h => hxy ?_⟩

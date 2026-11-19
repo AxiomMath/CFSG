@@ -51,7 +51,7 @@ theorem phi3_A2_layer_equiv {K : Type} [Field K] [Finite K] [Algebra K Ω]
     (hvS : ∀ α ∈ S, e6T3W • α ∈ S) {w : WeylGroup Tag.E6}
     (hw : (w • ·) '' S = parabolicRoots Tag.E6 support13) :
     ∃ (Φ : SL(3, Ω) ≃* SL(3, Ω))
-      (e : ↥(rootSpan Tag.E6 Ω S ⊓ (phi3Theta Ω Fr).eqLocus (MonoidHom.id _)) ≃*
+      (_e : ↥(rootSpan Tag.E6 Ω S ⊓ (phi3Theta Ω Fr).eqLocus (MonoidHom.id _)) ≃*
         ↥(fixSubgroup Φ)) (H : SL(3, Ω)),
       (∀ X : SL(3, Ω), X ∈ fixSubgroup Φ ↔
         ∃ Y : SL(3, K), X = H * Matrix.SpecialLinearGroup.map (algebraMap K Ω) Y * H⁻¹) ∧
@@ -80,13 +80,13 @@ theorem phi3_A2_layer_equiv {K : Type} [Field K] [Finite K] [Algebra K Ω]
     exact ⟨e6T3W • α, hvS α hα, by simp [mul_smul]⟩
   obtain ⟨L, hL, hLT⟩ := weylMatrix_conj_e6T3W_mem_orbit w
   obtain ⟨π, hπ⟩ := exists_positive_of_conj hL hLT hT
-  have hθ : ∀ i j : Fin 3, i ≠ j → ∃ e : Ω, e * e = 1 ∧ ∀ c : Ω,
+  have hθ : ∀ i j : Fin 3, i ≠ j → ∃ _e : Ω, _e * _e = 1 ∧ ∀ c : Ω,
       phi3ThetaConj Ω Fr w (pinnedX Tag.E6 Ω (chainRoot chain13 i j) c) =
-        pinnedX Tag.E6 Ω (chainRoot chain13 (π i) (π j)) (e * Fr c) := by
+        pinnedX Tag.E6 Ω (chainRoot chain13 (π i) (π j)) (_e * Fr c) := by
     intro i j hij
-    obtain ⟨e, he, h⟩ := exists_conj_phi3Theta_pinnedX (Fr := Fr) w
+    obtain ⟨_e, he, h⟩ := exists_conj_phi3Theta_pinnedX (Fr := Fr) w
       (chainRoot13_mem_parabolicRoots hij).1
-    refine ⟨e, he, fun c => ?_⟩
+    refine ⟨_e, he, fun c => ?_⟩
     rw [h, hπ]
   obtain ⟨hmaps, Φ, hΦ₀, b, hΦt⟩ := exists_sl3_root_permuting_of_theta hFrs
     (phi3ThetaConj Ω Fr w) (phi3ThetaConj_injective w) π hθ
@@ -94,13 +94,13 @@ theorem phi3_A2_layer_equiv {K : Type} [Field K] [Finite K] [Algebra K Ω]
     sl3_root_permuting_frobenius_fixed_split hℓ hf hK π Φ b (fun i j hij t => by
       rw [hΦt, hFr])
   set P := rootSpan Tag.E6 Ω S ⊓ (phi3Theta Ω Fr).eqLocus (MonoidHom.id _) with hPdef
-  obtain ⟨e, -⟩ := exists_mulEquiv_fixSubgroup_gen (phi3Theta Ω Fr) (phi3ThetaConj Ω Fr w)
+  obtain ⟨_e, -⟩ := exists_mulEquiv_fixSubgroup_gen (phi3Theta Ω Fr) (phi3ThetaConj Ω Fr w)
     (phi3ThetaConj_conj w) hQ hmaps Φ hΦ₀
-  have hfinP : Finite ↥P := Finite.of_equiv _ e.symm.toEquiv
+  have hfinP : Finite ↥P := Finite.of_equiv _ _e.symm.toEquiv
   have hqsP : CFSG.IsQuasisimple ↥P :=
-    CFSG.LieType.Universal.Unitary.isQuasisimple_of_mulEquiv e.symm hqs
+    CFSG.LieType.Universal.Unitary.isQuasisimple_of_mulEquiv _e.symm hqs
   obtain ⟨g⟩ := nonempty_mulEquiv_fixSubgroup_SL3 Φ H' hH'
-  exact ⟨Φ, e, H', hH', hfinP, hqsP, ⟨e.trans g⟩, Nat.card_congr (e.trans g).toEquiv⟩
+  exact ⟨Φ, _e, H', hH', hfinP, hqsP, ⟨_e.trans g⟩, Nat.card_congr (_e.trans g).toEquiv⟩
 
 theorem phi3_A2_layer_equiv₂ {K : Type} [Field K] [Finite K] [Algebra K Ω]
     [IsAlgClosure K Ω] {ℓ f : ℕ} [Fact ℓ.Prime] [CharP Ω ℓ] (hf : 1 ≤ f)
@@ -109,7 +109,7 @@ theorem phi3_A2_layer_equiv₂ {K : Type} [Field K] [Finite K] [Algebra K Ω]
     (hvS : ∀ α ∈ S, e6T3W • α ∈ S) {w : WeylGroup Tag.E6}
     (hw : (w • ·) '' S = parabolicRoots Tag.E6 support56) :
     ∃ (Φ : SL(3, Ω) ≃* SL(3, Ω))
-      (e : ↥(rootSpan Tag.E6 Ω S ⊓ (phi3Theta Ω Fr).eqLocus (MonoidHom.id _)) ≃*
+      (_e : ↥(rootSpan Tag.E6 Ω S ⊓ (phi3Theta Ω Fr).eqLocus (MonoidHom.id _)) ≃*
         ↥(fixSubgroup Φ)) (H : SL(3, Ω)),
       (∀ X : SL(3, Ω), X ∈ fixSubgroup Φ ↔
         ∃ Y : SL(3, K), X = H * Matrix.SpecialLinearGroup.map (algebraMap K Ω) Y * H⁻¹) ∧
@@ -138,13 +138,13 @@ theorem phi3_A2_layer_equiv₂ {K : Type} [Field K] [Finite K] [Algebra K Ω]
     exact ⟨e6T3W • α, hvS α hα, by simp [mul_smul]⟩
   obtain ⟨L, hL, hLT⟩ := weylMatrix_conj_e6T3W_mem_orbit w
   obtain ⟨π, hπ⟩ := exists_positive_of_conj₂ hL hLT hT
-  have hθ : ∀ i j : Fin 3, i ≠ j → ∃ e : Ω, e * e = 1 ∧ ∀ c : Ω,
+  have hθ : ∀ i j : Fin 3, i ≠ j → ∃ _e : Ω, _e * _e = 1 ∧ ∀ c : Ω,
       phi3ThetaConj Ω Fr w (pinnedX Tag.E6 Ω (chainRoot chain56 i j) c) =
-        pinnedX Tag.E6 Ω (chainRoot chain56 (π i) (π j)) (e * Fr c) := by
+        pinnedX Tag.E6 Ω (chainRoot chain56 (π i) (π j)) (_e * Fr c) := by
     intro i j hij
-    obtain ⟨e, he, h⟩ := exists_conj_phi3Theta_pinnedX (Fr := Fr) w
+    obtain ⟨_e, he, h⟩ := exists_conj_phi3Theta_pinnedX (Fr := Fr) w
       (chainRoot56_mem_parabolicRoots hij).1
-    refine ⟨e, he, fun c => ?_⟩
+    refine ⟨_e, he, fun c => ?_⟩
     rw [h, hπ]
   obtain ⟨hmaps, Φ, hΦ₀, b, hΦt⟩ := exists_sl3_root_permuting_of_theta₂ hFrs
     (phi3ThetaConj Ω Fr w) (phi3ThetaConj_injective w) π hθ
@@ -152,12 +152,12 @@ theorem phi3_A2_layer_equiv₂ {K : Type} [Field K] [Finite K] [Algebra K Ω]
     sl3_root_permuting_frobenius_fixed_split hℓ hf hK π Φ b (fun i j hij t => by
       rw [hΦt, hFr])
   set P := rootSpan Tag.E6 Ω S ⊓ (phi3Theta Ω Fr).eqLocus (MonoidHom.id _) with hPdef
-  obtain ⟨e, -⟩ := exists_mulEquiv_fixSubgroup_gen₂ (phi3Theta Ω Fr) (phi3ThetaConj Ω Fr w)
+  obtain ⟨_e, -⟩ := exists_mulEquiv_fixSubgroup_gen₂ (phi3Theta Ω Fr) (phi3ThetaConj Ω Fr w)
     (phi3ThetaConj_conj w) hQ hmaps Φ hΦ₀
-  have hfinP : Finite ↥P := Finite.of_equiv _ e.symm.toEquiv
+  have hfinP : Finite ↥P := Finite.of_equiv _ _e.symm.toEquiv
   have hqsP : CFSG.IsQuasisimple ↥P :=
-    CFSG.LieType.Universal.Unitary.isQuasisimple_of_mulEquiv e.symm hqs
+    CFSG.LieType.Universal.Unitary.isQuasisimple_of_mulEquiv _e.symm hqs
   obtain ⟨g⟩ := nonempty_mulEquiv_fixSubgroup_SL3 Φ H' hH'
-  exact ⟨Φ, e, H', hH', hfinP, hqsP, ⟨e.trans g⟩, Nat.card_congr (e.trans g).toEquiv⟩
+  exact ⟨Φ, _e, H', hH', hfinP, hqsP, ⟨_e.trans g⟩, Nat.card_congr (_e.trans g).toEquiv⟩
 
 end CFSG.LocalAnalysis.GLTheoremA.Y10F.ExcE6Three

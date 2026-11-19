@@ -18,6 +18,7 @@ variable {G : Type} [Group G] [Finite G] {z : G}
 variable [hN : ((J z).subgroupOf (H z)).Normal]
 variable (D : QuotientData (z := z) hN)
 
+omit [Finite G] in
 private lemma mem_normalizer_of_pow_three_eq_one {K : Subgroup G} {g : G}
     (hg : g ^ 3 = 1) (h : ∀ k ∈ K, g * k * g⁻¹ ∈ K) :
     g ∈ Subgroup.normalizer (K : Set G) := by
@@ -37,6 +38,7 @@ private lemma mem_normalizer_of_pow_three_eq_one {K : Subgroup G} {g : G}
     rw [hggg] at h3'
     simpa using h3'
 
+omit [Finite G] in
 private lemma commute_of_commutator_mem_center {g k c : G}
     (hg : g ^ 3 = 1) (hc : c = ⁅g, k⁆) (hgc : Commute g c) (hc2 : c * c = 1) :
     Commute g k := by
@@ -65,6 +67,7 @@ private lemma commute_of_commutator_mem_center {g k c : G}
     g * k = (g * k * g⁻¹) * g := by group
     _ = k * g := by rw [h1]
 
+omit [Finite G] hN in
 private lemma mul_self_eq_one_of_mem_zpowers_of_order_two {c : G}
     (h : c ∈ Subgroup.zpowers z) (hz : orderOf z = 2) : c * c = 1 := by
   have hcard : Nat.card (Subgroup.zpowers z) = 2 := by

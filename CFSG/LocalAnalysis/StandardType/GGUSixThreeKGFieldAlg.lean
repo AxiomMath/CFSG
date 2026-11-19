@@ -122,7 +122,7 @@ theorem mono_pow_three {X Y Z : GL (Fin 6) K} {ζ l : Kˣ} (hζ : ζ ^ 3 = 1) (h
   rw [hcAZ.mul_pow 3, hB3, hA3, mul_one]
 
 theorem weyl_mono {X Y Z W : GL (Fin 6) K} (hWX : W * X = X * W) (hWZ : W * Z = Z * W)
-    (hWY : W * Y = Y * Z * W) (hXZ : X * Z = Z * X) (hYZ : Y * Z = Z * Y) (i j k : ℕ) :
+    (hWY : W * Y = Y * Z * W) (_hXZ : X * Z = Z * X) (hYZ : Y * Z = Z * Y) (i j k : ℕ) :
     W * (X ^ i * Y ^ j * Z ^ k) = (X ^ i * Y ^ j * Z ^ k) * Z ^ j * W := by
   have hWXi : W * X ^ i = X ^ i * W :=
     (Commute.pow_right (show Commute W X from hWX) i).eq

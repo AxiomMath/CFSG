@@ -221,7 +221,7 @@ theorem GGResHyp.not_splitUnitaryDvd_of_card_automizer_E6
     have h9 : 9 ≤ d := by omega
     have hU : 6 ≤ ggUnitaryTorusRank 3 d := by
       have h3d : 3 ∣ d := hdvd
-      simp only [ggUnitaryTorusRank, if_pos h3d]
+      simp only [ggUnitaryTorusRank, ite_eq_left h3d]
       omega
     exact GGResHyp.not_torusLift_six_of_card_bstar hH hX hperf θ hN hcardBs
       (ggTorusLift_mono Nat.prime_three hLift hU)

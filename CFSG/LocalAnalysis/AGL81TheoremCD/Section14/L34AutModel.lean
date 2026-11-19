@@ -20,11 +20,12 @@ open CFSG.Quasithin.Vol2.Ch11.SecS.C11P9A
 
 variable {K : Type} [Group K] [Finite K]
 
+omit [Finite K] in
 private theorem card_eq_20160_of_isPSL (hK : CFSG.Quasithin.IsPSL 3 2 2 K) :
     Nat.card K = 20160 := by
   obtain ⟨-, K₀, hF₀, hFin₀, hK₀card, ⟨e₀⟩⟩ := hK
-  letI : Field K₀ := hF₀
-  letI : Finite K₀ := hFin₀
+  let : Field K₀ := hF₀
+  let : Finite K₀ := hFin₀
   have hK₀ : Nat.card K₀ = 4 := by rw [hK₀card]; norm_num
   rw [Nat.card_congr (e₀.trans
     ((CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 3 K₀).symm.trans
@@ -37,7 +38,7 @@ private theorem card_eq_64_of_sylow_two {K : Type} [Group K] [Finite K]
     (hUfac : Nat.card U = 2 ^ (Nat.card Y).factorization 2)
     (hYdvd : Nat.card Y ∣ Nat.card K) (h64 : 64 ∣ Nat.card Y) : Nat.card U = 64 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h64fac : 6 ≤ (Nat.card Y).factorization 2 := by
     refine (Nat.prime_two.pow_dvd_iff_le_factorization (n := Nat.card Y) (k := 6)
       (Nat.card_pos (α := Y)).ne').1 ?_
@@ -63,12 +64,12 @@ private theorem exists_sylow_two_card_64 (hK : CFSG.Quasithin.IsPSL 3 2 2 K)
     ∃ U : Subgroup K, U ≤ Y ∧ IsPGroup 2 U ∧ Nat.card U = 64 ∧
       CFSG.QuasithinUnique.IsSylowTwoOf U ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcardK : Nat.card K = 20160 := card_eq_20160_of_isPSL hK
   obtain ⟨P⟩ := (Sylow.nonempty (p := 2) (G := ↥Y))
   let U : Subgroup K := P.map Y.subtype
   have hUY : U ≤ Y := Subgroup.map_subtype_le _
-  have hU2 : IsPGroup 2 U := P.isPGroup'.map Y.subtype
+  have hU2 : IsPGroup 2 U := P.isPGroup.map Y.subtype
   have hYdvd : Nat.card Y ∣ Nat.card K := by
     simpa using Subgroup.card_dvd_of_le (le_top : Y ≤ ⊤)
   have hUfac : Nat.card U = 2 ^ (Nat.card Y).factorization 2 := by
@@ -95,16 +96,16 @@ private theorem exists_sylow_two_card_64 (hK : CFSG.Quasithin.IsPSL 3 2 2 K)
 theorem l34_eq_top_of_dvd_card (hK : CFSG.Quasithin.IsPSL 3 2 2 K)
     {Y : Subgroup K} (h64 : 64 ∣ Nat.card Y) (h9 : 9 ∣ Nat.card Y) : Y = ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcardK : Nat.card K = 20160 := card_eq_20160_of_isPSL hK
   have hsimp : IsSimpleGroup K :=
     (CFSG.LieType.Simplicity.fam_PSL_simplicity K 3 2 2 hK).2
   obtain ⟨U, hUY, hU2, hUcard, hUtop⟩ := exists_sylow_two_card_64 hK h64
   obtain ⟨K', hF', hFin', hChar', φ, hK'card, -, hres, -⟩ :=
     CFSG.QuasithinUnique.Setup.X7a.even_rank_two_residual_linear hK hUtop
-  letI : Field K' := hF'
-  letI : Finite K' := hFin'
-  letI : CharP K' 2 := hChar'
+  let : Field K' := hF'
+  let : Finite K' := hFin'
+  let : CharP K' 2 := hChar'
   have hK' : Nat.card K' = 4 := by rw [hK'card]; norm_num
   let Pj : Fin 2 → Subgroup K := fun j => (parab34 K' j).map φ.symm.toMonoidHom
   have hres' : CFSG.QuasithinUnique.Setup.X6.ResidualOvergroupsAt K U Pj := hres
@@ -178,11 +179,11 @@ private theorem rho_half (A : GL (Fin 3) F4) : Half (rho A) := by
   rw [rho_apply]
   unfold rhoFun
   by_cases hi : i.val < 21
-  · rw [if_pos hi]
+  · rw [ite_eq_left hi]
     simp only
     have := vIdx_lt ((A : Matrix (Fin 3) (Fin 3) F4) *ᵥ vecOf i)
     omega
-  · rw [if_neg hi]
+  · rw [ite_eq_right hi]
     simp only
     have := vIdx_lt ((Matrix.transpose
       (((A⁻¹ : GL (Fin 3) F4) : Matrix (Fin 3) (Fin 3) F4))) *ᵥ vecOf i)
@@ -202,10 +203,10 @@ private theorem g6_swap : SwapHalf g₆ := by
   show (g6Fun i).val < 21 ↔ ¬ i.val < 21
   unfold g6Fun
   by_cases hi : i.val < 21
-  · rw [dif_pos hi]
+  · rw [dite_eq_left hi]
     simp only
     omega
-  · rw [dif_neg hi]
+  · rw [dite_eq_right hi]
     simp only
     omega
 
@@ -373,16 +374,16 @@ theorem exists_unitary_product_order_seven : ∃ g ∈ S,
     exact hne ((hx12.eq_iff TabRep.idTab).2 h12)
 
 private theorem l34_aut_exists_commuting_involution
-    {B' S₃' : Subgroup (Equiv.Perm (Fin 42))} (hB'R : B' ≤ R)
-    (hB'2 : IsPGroup 2 ↥B') (hS₃'S : S₃' ≤ S)
-    (hS₃'e : CFSG.Open.IsElemAbelian 3 S₃')
+    {B' S₃' : Subgroup (Equiv.Perm (Fin 42))} (_hB'R : B' ≤ R)
+    (hB'2 : IsPGroup 2 ↥B') (_hS₃'S : S₃' ≤ S)
+    (_hS₃'e : CFSG.Open.IsElemAbelian 3 S₃')
     (hgen : B' ⊓ S = ⨆ (member : ↥S₃') (_ : member ≠ 1),
       (B' ⊓ S) ⊓ Subgroup.centralizer ({(member : Equiv.Perm (Fin 42))} : Set _))
     (hDne : B' ⊓ S ≠ ⊥) :
     ∃ (e : ↥S₃') (d : Equiv.Perm (Fin 42)), e ≠ 1 ∧ d ≠ 1 ∧ d ∈ B' ∧ d ∈ S ∧
       d * d = 1 ∧ d * (e : Equiv.Perm (Fin 42)) = (e : Equiv.Perm (Fin 42)) * d := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let D : Subgroup (Equiv.Perm (Fin 42)) := B' ⊓ S
   have hD2 : IsPGroup 2 ↥D := hB'2.to_le inf_le_left
   have hgen' : D = ⨆ (member : ↥S₃') (_ : member ≠ 1),
@@ -425,8 +426,8 @@ private theorem l34_aut_commuting_involution_false
     (hd1 : d ≠ 1) (hdB : d ∈ B') (hdS : d ∈ S) (hd2 : d * d = 1)
     (hdcomm : d * (e : Equiv.Perm (Fin 42)) = (e : Equiv.Perm (Fin 42)) * d) : False := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hdord : orderOf d = 2 := orderOf_eq_prime hd2 hd1
   let y : ↥R := ⟨d, hB'R hdB⟩
   have hyord : orderOf y = 2 := by
@@ -472,8 +473,8 @@ private theorem l34_aut_inf_S_eq_bot
     (hS₃'e : CFSG.Open.IsElemAbelian 3 S₃')
     (hnorm : ∀ s ∈ S₃', ∀ b ∈ B', s * b * s⁻¹ ∈ B') : B' ⊓ S = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let D : Subgroup (Equiv.Perm (Fin 42)) := B' ⊓ S
   have hD2 : IsPGroup 2 ↥D := hB'2.to_le inf_le_left
   have hS₃'normB : S₃' ≤ Subgroup.normalizer (B' : Set (Equiv.Perm (Fin 42))) := by
@@ -517,7 +518,7 @@ private theorem l34_aut_involution_conj_r4
     {y : Equiv.Perm (Fin 42)} (hyB : y ∈ B') (hy1 : y ≠ 1) (hy2 : y * y = 1) :
     IsConj (⟨y, hB'R hyB⟩ : ↥R) r₄R := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hDbot := l34_aut_inf_S_eq_bot hB'R hB'2 hS₃'S hS₃'card hS₃'e hnorm
   have hcomm : ∀ s ∈ S₃', ∀ b ∈ B', s * b = b * s := by
     intro s hs b hb
@@ -653,7 +654,7 @@ private theorem l34_aut_card_le_two
     (hB'2 : IsPGroup 2 ↥B') (hS₃'S : S₃' ≤ S) (hS₃'card : Nat.card ↥S₃' = 9)
     (hS₃'e : CFSG.Open.IsElemAbelian 3 S₃')
     (hnorm : ∀ s ∈ S₃', ∀ b ∈ B', s * b * s⁻¹ ∈ B') : Nat.card ↥B' ≤ 2 :=
-  l34_aut_card_le_two_of_no_half hB'R (l34_aut_no_half hB'2 fun y hyB hy1 hy2 =>
+  l34_aut_card_le_two_of_no_half hB'R (l34_aut_no_half hB'2 fun _y hyB hy1 hy2 =>
     l34_aut_involution_swaps hB'R hB'2 hS₃'S hS₃'card hS₃'e hnorm hyB hy1 hy2)
 
 private theorem l34_aut_mem_conj_r4
@@ -667,7 +668,7 @@ private theorem l34_aut_mem_conj_r4
     (hBcard : Nat.card B ≤ 2) {b : MulAut K} (hb : b ∈ B) (hb1 : b ≠ 1) :
     ∃ c ∈ R, ((Θ b : ↥R) : Equiv.Perm (Fin 42)) = c * r₄ * c⁻¹ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hθb' : ((Θ b : ↥R) : Equiv.Perm (Fin 42)) ∈ B' := by
     rw [hBmap]
     exact Subgroup.mem_map_of_mem (R.subtype.comp Θ.toMonoidHom) hb
@@ -750,7 +751,7 @@ theorem l34_aut_two_subgroup {K : Type} [Group K] [Finite K]
     Nat.card B ≤ 2 ∧ ∀ b ∈ B, b ≠ 1 →
       ∃ g : K, (b * MulAut.conj g * b * (MulAut.conj g)⁻¹) ^ 12 ≠ 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨ψ, Θ, -, hΘconj⟩ := CFSG.Quasithin.QA13a.exists_autIso hK
   let θ : MulAut K →* Equiv.Perm (Fin 42) := R.subtype.comp Θ.toMonoidHom
   let ψ' : K →* Equiv.Perm (Fin 42) := S.subtype.comp ψ.toMonoidHom

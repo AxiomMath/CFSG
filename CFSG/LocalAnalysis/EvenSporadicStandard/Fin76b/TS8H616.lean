@@ -17,6 +17,7 @@ variable {G : Type} [Group G] [Finite G] {L : Subgroup G} {z t : G} {T E : Subgr
 
 include h
 
+omit h in
 theorem CMz_eq (hM : OuterMFacts E S z t) :
     normalizer ((S ⊔ E : Subgroup G) : Set G) ⊓ centralizer ({z} : Set G) =
       normalizer (E : Set G) ⊓ centralizer ({z} : Set G) := by
@@ -119,10 +120,10 @@ theorem normalizer_Q_cent_z_iff {α : G} (hα : AlphaSpec S z t α) (hF : EFacts
       g ∈ normalizer (E : Set G) ⊓ centralizer ({z} : Set G) := by
   constructor
   · rintro ⟨hg, hgz⟩
-    rw [← h.CMz_eq hM]
+    rw [← OHyp69.CMz_eq hM]
     exact ⟨h.cent_z_mem_normalizer hα hF hM hp hg hgz, mem_centralizer_singleton_iff.2 hgz⟩
   · intro hm
-    rw [← h.CMz_eq hM] at hm
+    rw [← OHyp69.CMz_eq hM] at hm
     obtain ⟨hmN, hmc⟩ := hm
     refine ⟨fun q => ⟨fun hq => h.QF_normal hα hmN hq, fun hq => ?_⟩,
       mem_centralizer_singleton_iff.1 hmc⟩

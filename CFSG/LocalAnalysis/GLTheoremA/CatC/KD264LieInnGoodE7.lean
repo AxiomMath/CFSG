@@ -189,7 +189,7 @@ section One
 
 
 theorem perfectCentralizerPlanes_adjointGroup_E7_one (K : Type) [Field K] [Finite K] {p : ℕ}
-    (hp : p.Prime) (hp2 : p ≠ 2) (hp3 : p ≠ 3) (hpK : ¬ p ∣ Nat.card K)
+    (hp : p.Prime) (hp2 : p ≠ 2) (hp3 : p ≠ 3) (_hpK : ¬ p ∣ Nat.card K)
     (h1 : orderOf ((Nat.card K : ℕ) : ZMod p) = 1) :
     PerfectCentralizerPlanes p (adjointGroup Tag.E7 K) := by
   have hp5 : 5 ≤ p := hp.five_le_of_ne_two_of_ne_three hp2 hp3
@@ -217,10 +217,10 @@ theorem perfectCentralizerPlanes_cat_E7 (q : TauCeti.PrimePower)
   classical
   obtain ⟨K, hF, hFin, hK, -, ⟨ε⟩⟩ :=
     exists_catEquiv_adjointGroup CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e7 q hv
-  letI : Field K := hF
-  letI : Finite K := hFin
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact p.Prime := ⟨hp⟩
+  let : Field K := hF
+  let : Finite K := hFin
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact p.Prime := ⟨hp⟩
   have hpK : ¬ p ∣ Nat.card K := by
     rw [hK]
     exact not_dvd_card_of_ne hp hpq
@@ -305,9 +305,9 @@ theorem innGoodAt_E7 (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeIndex.E7 q).
     InnGoodAt p (.E7 q) (Cat ⟨.E7 q, hv⟩) := by
   obtain ⟨K, hF, hFin, -, -, ⟨ε⟩⟩ :=
     exists_catEquiv_adjointGroup CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e7 q hv
-  letI : Field K := hF
-  letI : Finite K := hFin
-  haveI : Finite (Cat ⟨.E7 q, hv⟩) := Finite.of_equiv _ ε.symm.toEquiv
+  let : Field K := hF
+  let : Finite K := hFin
+  have : Finite (Cat ⟨.E7 q, hv⟩) := Finite.of_equiv _ ε.symm.toEquiv
   have hZ : Subgroup.center (Cat ⟨.E7 q, hv⟩) = ⊥ := by
     rw [← Subgroup.map_center_eq ε.symm, center_adjointGroup_eq_bot, Subgroup.map_bot]
   exact innGoodAt_of_outPNice hp hZ (outPNice_cat_E7 q hv hp hp2)

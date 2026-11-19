@@ -59,6 +59,7 @@ section Abstract
 
 variable {V : Type*} [AddCommGroup V] [Module (ZMod 2) V] [Module.Finite (ZMod 2) V]
 
+omit [Module.Finite (ZMod 2) V] in
 theorem apply_fixed_of_normalizes {M : Type*} [Group M] (ρ : M →* Module.End (ZMod 2) V)
     {E T : Subgroup M} (hN : ∀ e ∈ E, ∀ t ∈ T, e * t * e⁻¹ ∈ T) {e : M} (he : e ∈ E) {y : V}
     (hy : ∀ t : ↥T, ρ (t : M) y = y) (t : ↥T) : ρ (t : M) (ρ e y) = ρ e y := by
@@ -80,8 +81,8 @@ theorem card_mul_le_of_normalizes
     {E T : Subgroup M} (hcomm : ∀ a b : ↥E, a * b = b * a) (hE3 : ∀ e ∈ E, e ^ 3 = 1)
     (hT : IsPGroup 2 ↥T) (hN : ∀ e ∈ E, ∀ t ∈ T, e * t * e⁻¹ ∈ T) (hTne : T ≠ ⊥) :
     Nat.card E * Nat.card A ≤ 3 ^ (finrank (ZMod 2) V / 2 - 1) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  letI : CommGroup ↥E := { (inferInstance : Group ↥E) with mul_comm := hcomm }
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : CommGroup ↥E := { (inferInstance : Group ↥E) with mul_comm := hcomm }
   let ρE : ↥E →* Module.End (ZMod 2) V := ρ.comp E.subtype
   let τ : ↥T →* Module.End (ZMod 2) V := ρ.comp T.subtype
   let ρP : (↥E × A) →* Module.End (ZMod 2) V :=

@@ -106,7 +106,7 @@ theorem impSem_of_facts (hw1 : 0 < NFA → 2 ≤ ND → w 1 = x TL)
   have hI := InM_invR hPi (rFI_lt _) hR.pf
   refine ⟨hNm, hI, ?_⟩
   unfold FMeq at hFM
-  rw [hD, hJ, hDp, hw1 (by omega) hND2, uv, if_pos rfl, mul_one] at hFM
+  rw [hD, hJ, hDp, hw1 (by omega) hND2, uv, ite_eq_left rfl, mul_one] at hFM
   rw [rc_invR φ hPi (rFI_lt _) hR.pf, ← hνe rfl]
   have h2 : ν * (x TL * rc φ (rPi (rec FA shA wdA f))) = x TL := hFM.symm
   calc (x TL)⁻¹ * ν * x TL
@@ -135,7 +135,7 @@ theorem w_one_eq {nxf : ℕ → ℕ}
   have hD0 : rD (rec FB sh wd i) = 0 := by omega
   have := hwt i hi (by omega)
   rw [hDp, hD0, hw0, one_mul] at this
-  rw [this, uv, if_neg (by omega), hgm rfl, rc_one, inv_one, one_mul, mul_one]
+  rw [this, uv, ite_eq_right (by omega), hgm rfl, rc_one, inv_one, one_mul, mul_one]
 
 end Import
 
@@ -240,7 +240,7 @@ theorem orb_B : Orb (Mgrp D.ThB_LT D.ThB_LI D.ThB_TL D.ThB_VL D.ThB_NL)
   have hnormB : CFSG.KC.relsNorm D.ThB_RR D.ThB_NR = true := by
     rw [hc.b_nr]
     exact hc.b_norm
-  have hgom := gom_mem hC0 (fun _ _ => Subsingleton.elim _ _) hnormB himp hc.b_hdr hc.b_gom
+  have hgom := gom_mem hC0 himp hc.b_hdr hc.b_gom
   have hpsi := psi_sem hC0 (fun _ _ => Subsingleton.elim _ _) hnormB himp hc.b_hdr hc.b_psi
   have hinjO := sorted_inj hc.b_pts hc.b_cntpts
   have hinjT := sorted_inj hc.b_tsig hc.b_cnttsig
@@ -327,7 +327,7 @@ theorem main_core {G : Type*} [Group G] (xg : ℕ → G)
     rw [← hc.b_cntpts]
     exact sortedCount_lt _
   have hNO0 : 0 < D.ThB_NO := Nat.lt_of_le_of_lt (Nat.zero_le _) hc.b_i0
-  have hgomB := gom_mem hCB hrelsB hnormB himpB hc.b_hdr hc.b_gom
+  have hgomB := gom_mem hCB himpB hc.b_hdr hc.b_gom
   have hpsiB := psi_sem hCB hrelsB hnormB himpB hc.b_hdr hc.b_psi
   have hcov : DceS.runCover D.ThB_FB D.ThB_OB 5 1184 D.ThB_osh D.ThB_owd D.ThB_om D.ThB_NB
       D.ThB_sel D.ThB_NF D.ThB_NO D.ThB_AL D.cs13 1 = 1 + D.ThB_ND * 2 ^ 20 := by
@@ -387,7 +387,7 @@ theorem main_core {G : Type*} [Group G] (xg : ℕ → G)
     by_cases h7 : g < 7
     · exact Or.inl (Subgroup.subset_closure ⟨g, h7, rfl⟩)
     · have h8 : g = 7 := by
-        simp only [Set.mem_setOf_eq] at hg
+        simp only [Set.mem_ofPred_eq] at hg
         omega
       subst h8
       exact Or.inr (Or.inl (xl_u xg hLB).1.symm)

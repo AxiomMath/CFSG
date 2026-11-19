@@ -49,11 +49,11 @@ private theorem pCore_comm_zGroup (h9 : Perp9 Ω) {q : G} (hq : q ∈ pCore 2 G)
     obtain ⟨S, hLS⟩ := (h.thmD.two L hL).exists_le_sylow
     have hqS : q ∈ (S : Subgroup G) := CFSG.pCore_isPGroup.le_sylow_of_normal S hq
     exact Subgroup.mem_centralizer_singleton_iff.mpr
-      (h.commute_z_of_le h9 hL hu S.isPGroup' hLS hqS).symm
+      (h.commute_z_of_le h9 hL hu S.isPGroup hLS hqS).symm
   exact fun x hx => Subgroup.mem_centralizer_singleton_iff.mp (hle hx)
 
-theorem zGroup_comm (h9 : Perp9 Ω) : ∀ a ∈ zGroup Ω, ∀ b ∈ zGroup Ω, a * b = b * a :=
-  fun a ha b hb => h.pCore_comm_zGroup h9 (h.zGroup_le_pCore hb) a ha
+theorem zGroup_comm (h9 : Perp9 Ω) : ∀ a ∈ zGroup Ω, ∀ _b ∈ zGroup Ω, a * _b = _b * a :=
+  fun a ha _b hb => h.pCore_comm_zGroup h9 (h.zGroup_le_pCore hb) a ha
 
 theorem zGroup_mul_self (h9 : Perp9 Ω) : ∀ a ∈ zGroup Ω, a * a = 1 := by
   intro a ha

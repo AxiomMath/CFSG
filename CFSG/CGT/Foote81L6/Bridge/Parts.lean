@@ -13,7 +13,7 @@ open Subgroup
 @[expose] def toP {n : ℕ} (a : PHat n) : P n := if h : a.det = 0 then ⟨a, mem_P.2 h⟩ else 1
 
 theorem coe_toP {n : ℕ} {a : PHat n} (h : a.det = 0) : (toP a : PHat n) = a := by
-  rw [toP, dif_pos h]
+  rw [toP, dite_eq_left h]
 
 theorem πT_eq_one_of_coe_eq_cz {n : ℕ} {x : P n} (h : (x : PHat n) = Gen.cz n) : πT n x = 1 := by
   rw [πT_eq_one_iff]
@@ -93,7 +93,7 @@ theorem det_ωt (hn : 1 ≤ n) : (ωt n).det = 0 := by
 
 theorem det_aH (hn : 3 ≤ n) : (aH n).det = 0 := by
   rw [PHat.det, aH]
-  simp only [SD.det_mk, SD.det_one, zero_add, add_zero, par_qr hn]
+  simp only [SD.det_mk, SD.det_one, add_zero, par_qr hn]
 
 end Gen
 
@@ -143,20 +143,23 @@ theorem κ₀T_mul_κ₀T : κ₀T n * κ₀T n = 1 := by
   apply πT_eq_one_of_coe_eq_cz
   rw [Subgroup.coe_mul, coe_toP Gen.det_κ₀, Gen.κ₀_mul_κ₀ hn]
 
+omit hn in
 theorem κ₁T_mul_ρ₁T : κ₁T n * ρ₁T n = (ρ₁T n)⁻¹ * κ₁T n := by
   simp only [κ₁T, ρ₁T, ← map_mul, ← map_inv]
   congr 1
   apply Subtype.ext
   simp only [Subgroup.coe_mul, Subgroup.coe_inv, coe_toP Gen.det_κ₁, coe_toP Gen.det_ρ₁]
-  exact Gen.κ₁_mul_ρ₁ hn
+  exact Gen.κ₁_mul_ρ₁
 
+omit hn in
 theorem κ₁T_conj_ρ₁T : κ₁T n * ρ₁T n * (κ₁T n)⁻¹ = (ρ₁T n)⁻¹ := by
-  rw [κ₁T_mul_ρ₁T hn, mul_inv_cancel_right]
+  rw [κ₁T_mul_ρ₁T, mul_inv_cancel_right]
 
+omit hn in
 theorem κ₁T_mul_κ₁T : κ₁T n * κ₁T n = 1 := by
   rw [κ₁T, ← map_mul]
   apply πT_eq_one_of_coe_eq_cz
-  rw [Subgroup.coe_mul, coe_toP Gen.det_κ₁, Gen.κ₁_mul_κ₁ hn]
+  rw [Subgroup.coe_mul, coe_toP Gen.det_κ₁, Gen.κ₁_mul_κ₁]
 
 theorem ρ₀T_pow_hf : ρ₀T n ^ 2 ^ (n - 1) = 1 := by
   rw [ρ₀T, ← map_pow]
@@ -205,7 +208,7 @@ theorem ρ₀T_pow_qr_ne_one : ρ₀T n ^ 2 ^ (n - 2) ≠ 1 := by
 theorem ρ₁T_pow_qr_ne_one : ρ₁T n ^ 2 ^ (n - 2) ≠ 1 := by
   rw [ρ₁T, ← map_pow]
   apply πT_ne_one_of_x₂ hn
-  rw [Subgroup.coe_pow, coe_toP Gen.det_ρ₁, Gen.ρ₁_pow_qr hn]
+  rw [Subgroup.coe_pow, coe_toP Gen.det_ρ₁, Gen.ρ₁_pow_qr]
   rfl
 
 theorem orderOf_ρ₀T : orderOf (ρ₀T n) = 2 ^ (n - 1) := by
@@ -218,12 +221,13 @@ theorem orderOf_ρ₁T : orderOf (ρ₁T n) = 2 ^ (n - 1) := by
     (by rw [show n - 2 + 1 = n - 1 by omega]; exact ρ₁T_pow_hf hn)
   rwa [show n - 2 + 1 = n - 1 by omega] at h
 
+omit hn in
 theorem commute_ρ₀T_ρ₁T : Commute (ρ₀T n) (ρ₁T n) := by
   simp only [Commute, SemiconjBy, ρ₀T, ρ₁T, ← map_mul]
   congr 1
   apply Subtype.ext
   simp only [Subgroup.coe_mul, coe_toP Gen.det_ρ₀, coe_toP Gen.det_ρ₁]
-  exact Gen.ρ₀_mul_ρ₁ hn
+  exact Gen.ρ₀_mul_ρ₁
 
 theorem commute_κ₀T_κ₁T : Commute (κ₀T n) (κ₁T n) := by
   simp only [Commute, SemiconjBy, κ₀T, κ₁T, ← map_mul]
@@ -232,11 +236,12 @@ theorem commute_κ₀T_κ₁T : Commute (κ₀T n) (κ₁T n) := by
   simp only [Subgroup.coe_mul, coe_toP Gen.det_κ₀, coe_toP Gen.det_κ₁]
   exact Gen.κ₀_mul_κ₁ hn
 
+omit hn in
 theorem commute_ρ₀T_κ₁T : Commute (ρ₀T n) (κ₁T n) := by
   simp only [Commute, SemiconjBy, ρ₀T, κ₁T, ← map_mul]
   apply πT_eq_of_coe_eq_mul_cz
   simp only [Subgroup.coe_mul, coe_toP Gen.det_ρ₀, coe_toP Gen.det_κ₁]
-  exact Gen.ρ₀_mul_κ₁ hn
+  exact Gen.ρ₀_mul_κ₁
 
 theorem commute_κ₀T_ρ₁T : Commute (κ₀T n) (ρ₁T n) := by
   simp only [Commute, SemiconjBy, κ₀T, ρ₁T, ← map_mul]
@@ -244,14 +249,16 @@ theorem commute_κ₀T_ρ₁T : Commute (κ₀T n) (ρ₁T n) := by
   simp only [Subgroup.coe_mul, coe_toP Gen.det_κ₀, coe_toP Gen.det_ρ₁]
   exact Gen.κ₀_mul_ρ₁ hn
 
+omit hn in
 theorem tT_mul_tT : tT n * tT n = 1 := by
   rw [tT, ← map_mul, ← map_one (πT n)]
   congr 1
   apply Subtype.ext
-  rw [Subgroup.coe_mul, coe_toP Gen.det_t, Gen.t_mul_t hn]
+  rw [Subgroup.coe_mul, coe_toP Gen.det_t, Gen.t_mul_t]
   rfl
 
-theorem tT_inv : (tT n)⁻¹ = tT n := inv_eq_of_mul_eq_one_right (tT_mul_tT hn)
+omit hn in
+theorem tT_inv : (tT n)⁻¹ = tT n := inv_eq_of_mul_eq_one_right (tT_mul_tT (n := n))
 
 theorem tT_conj_ρ₀T : tT n * ρ₀T n * (tT n)⁻¹ = ρ₁T n := by
   rw [mul_inv_eq_iff_eq_mul]
@@ -270,19 +277,19 @@ theorem tT_conj_κ₀T : tT n * κ₀T n * (tT n)⁻¹ = κ₁T n := by
   exact Gen.t_mul_κ₀ hn
 
 theorem tT_conj_ρ₁T : tT n * ρ₁T n * (tT n)⁻¹ = ρ₀T n := by
-  rw [← tT_conj_ρ₀T hn, tT_inv hn]
+  rw [← tT_conj_ρ₀T hn, tT_inv (n := n)]
   simp only [← mul_assoc]
-  rw [tT_mul_tT hn, one_mul, mul_assoc, tT_mul_tT hn, mul_one]
+  rw [tT_mul_tT (n := n), one_mul, mul_assoc, tT_mul_tT (n := n), mul_one]
 
 theorem tT_conj_κ₁T : tT n * κ₁T n * (tT n)⁻¹ = κ₀T n := by
-  rw [← tT_conj_κ₀T hn, tT_inv hn]
+  rw [← tT_conj_κ₀T hn, tT_inv (n := n)]
   simp only [← mul_assoc]
-  rw [tT_mul_tT hn, one_mul, mul_assoc, tT_mul_tT hn, mul_one]
+  rw [tT_mul_tT (n := n), one_mul, mul_assoc, tT_mul_tT (n := n), mul_one]
 
 theorem sT_mul_sT : sT n * sT n = 1 := by
   rw [sT, ← map_mul]
   apply πT_eq_one_of_coe_eq_cz
-  rw [Subgroup.coe_mul, coe_toP (Gen.det_s hn), Gen.s_mul_s hn]
+  rw [Subgroup.coe_mul, coe_toP (Gen.det_s hn), Gen.s_mul_s]
 
 theorem sT_conj_ρ₀T : sT n * ρ₀T n * (sT n)⁻¹ = ρ₁T n ^ (θ n).val := by
   rw [mul_inv_eq_iff_eq_mul]
@@ -291,7 +298,7 @@ theorem sT_conj_ρ₀T : sT n * ρ₀T n * (sT n)⁻¹ = ρ₁T n ^ (θ n).val :
   apply Subtype.ext
   simp only [Subgroup.coe_mul, Subgroup.coe_pow, coe_toP (Gen.det_s hn), coe_toP Gen.det_ρ₀,
     coe_toP Gen.det_ρ₁]
-  exact Gen.s_mul_ρ₀ hn
+  exact Gen.s_mul_ρ₀
 
 theorem sT_conj_κ₀T : sT n * κ₀T n * (sT n)⁻¹ = κ₁T n * (ρ₁T n)⁻¹ ^ (1 + (qr n).val) := by
   rw [mul_inv_eq_iff_eq_mul]
@@ -326,7 +333,7 @@ theorem tT_conj_sT :
   simp only [tT, sT, ρ₀T, ρ₁T, ← map_mul, ← map_pow]
   apply πT_eq_of_coe_eq_mul_cz
   simp only [Subgroup.coe_mul, Subgroup.coe_pow, coe_toP (Gen.det_s hn), coe_toP Gen.det_t,
-    coe_toP Gen.det_ρ₀, coe_toP Gen.det_ρ₁, Gen.ρ₀_pow_qr hn, Gen.ρ₁_pow_qr hn]
+    coe_toP Gen.det_ρ₀, coe_toP Gen.det_ρ₁, Gen.ρ₀_pow_qr hn, Gen.ρ₁_pow_qr]
   rw [Gen.t_mul_s hn]
   simp only [mul_assoc]
   rw [← Gen.cz_comm (Gen.t n)]
@@ -338,18 +345,19 @@ theorem sAT_conj_rAT : sAT n * rAT n * (sAT n)⁻¹ = (rAT n)⁻¹ := by
     apply Subtype.ext
     simp only [Subgroup.coe_mul, Subgroup.coe_inv, coe_toP (Gen.det_sA (n := n) (by omega)),
       coe_toP Gen.det_rA]
-    exact Gen.sA_mul_rA hn
+    exact Gen.sA_mul_rA
   rw [h, mul_inv_cancel_right]
 
 theorem sAT_mul_sAT : sAT n * sAT n = 1 := by
   rw [sAT, ← map_mul]
   apply πT_eq_one_of_coe_eq_zF
-  rw [Subgroup.coe_mul, coe_toP (Gen.det_sA (n := n) (by omega)), Gen.sA_mul_sA hn]
+  rw [Subgroup.coe_mul, coe_toP (Gen.det_sA (n := n) (by omega)), Gen.sA_mul_sA]
 
+omit hn in
 theorem rAT_pow_qr : rAT n ^ 2 ^ (n - 2) = 1 := by
   rw [rAT, ← map_pow]
   apply πT_eq_one_of_coe_eq_zF
-  rw [Subgroup.coe_pow, coe_toP Gen.det_rA, Gen.rA_pow_qr hn]
+  rw [Subgroup.coe_pow, coe_toP Gen.det_rA, Gen.rA_pow_qr]
 
 theorem rAT_pow_half : rAT n ^ 2 ^ (n - 3) = aT n := by
   rw [rAT, aT, ← map_pow]
@@ -365,7 +373,7 @@ theorem aT_ne_one : aT n ≠ 1 := by
 theorem orderOf_rAT : orderOf (rAT n) = 2 ^ (n - 2) := by
   have h := orderOf_eq_prime_pow (p := 2) (n := n - 3)
     (by rw [rAT_pow_half hn]; exact aT_ne_one hn)
-    (by rw [show n - 3 + 1 = n - 2 by omega]; exact rAT_pow_qr hn)
+    (by rw [show n - 3 + 1 = n - 2 by omega]; exact rAT_pow_qr)
   rwa [show n - 3 + 1 = n - 2 by omega] at h
 
 theorem tT_conj_ωtT : tT n * ωtT n * (tT n)⁻¹ = (ωtT n)⁻¹ := by
@@ -374,14 +382,14 @@ theorem tT_conj_ωtT : tT n * ωtT n * (tT n)⁻¹ = (ωtT n)⁻¹ := by
   apply πT_eq_of_coe_eq_mul_zF
   simp only [Subgroup.coe_mul, Subgroup.coe_inv, coe_toP Gen.det_t,
     coe_toP (Gen.det_ωt (n := n) (by omega))]
-  rw [Gen.t_mul_ωt hn, mul_assoc, ← PHat.zF_comm (Gen.t n), ← mul_assoc]
+  rw [Gen.t_mul_ωt, mul_assoc, ← PHat.zF_comm (Gen.t n), ← mul_assoc]
 
 theorem ωtT_mul_ωtT : ωtT n * ωtT n = rAT n := by
   simp only [ωtT, rAT, ← map_mul]
   congr 1
   apply Subtype.ext
   rw [Subgroup.coe_mul, coe_toP (Gen.det_ωt (n := n) (by omega)), coe_toP Gen.det_rA,
-    Gen.ωt_mul_ωt hn]
+    Gen.ωt_mul_ωt]
 
 theorem ωtT_pow_hf : ωtT n ^ 2 ^ (n - 1) = 1 := by
   rw [ωtT, ← map_pow]
@@ -408,13 +416,14 @@ theorem sAT_eq : sAT n = ωtT n * ωtT n * tT n * ωtT n := by
     coe_toP (Gen.det_sA (n := n) (by omega)), coe_toP (Gen.det_ωt (n := n) (by omega)),
     coe_toP Gen.det_t, ← Gen.sA_mul_zF hn, mul_assoc, PHat.zF_mul_zF, mul_one]
 
+omit hn in
 theorem tT_conj_rAT : tT n * rAT n * (tT n)⁻¹ = (rAT n)⁻¹ := by
   rw [mul_inv_eq_iff_eq_mul]
   simp only [tT, rAT, ← map_mul, ← map_inv]
   congr 1
   apply Subtype.ext
   simp only [Subgroup.coe_mul, Subgroup.coe_inv, coe_toP Gen.det_t, coe_toP Gen.det_rA]
-  exact Gen.t_mul_rA hn
+  exact Gen.t_mul_rA
 
 theorem tT_conj_sAT : tT n * sAT n * (tT n)⁻¹ = rAT n ^ (2 ^ (n - 2) - 1) * sAT n := by
   rw [mul_inv_eq_iff_eq_mul]
@@ -423,7 +432,7 @@ theorem tT_conj_sAT : tT n * sAT n * (tT n)⁻¹ = rAT n ^ (2 ^ (n - 2) - 1) * s
   apply Subtype.ext
   simp only [Subgroup.coe_mul, Subgroup.coe_pow, coe_toP Gen.det_t, coe_toP Gen.det_rA,
     coe_toP (Gen.det_sA (n := n) (by omega))]
-  exact Gen.t_mul_sA hn
+  exact Gen.t_mul_sA
 
 end Relations
 
@@ -491,13 +500,13 @@ instance neZero_two_pow (k : ℕ) : NeZero (2 ^ k) := ⟨by positivity⟩
   dihedralLift _ (ρ₀T n) (κ₀T n) (ρ₀T_pow_hf hn) (κ₀T_mul_κ₀T hn) (κ₀T_conj_ρ₀T hn)
 
 @[expose] noncomputable def f₁ : DihedralGroup (2 ^ (n - 1)) →* TM n :=
-  dihedralLift _ (ρ₁T n) (κ₁T n) (ρ₁T_pow_hf hn) (κ₁T_mul_κ₁T hn) (κ₁T_conj_ρ₁T hn)
+  dihedralLift _ (ρ₁T n) (κ₁T n) (ρ₁T_pow_hf hn) (κ₁T_mul_κ₁T) (κ₁T_conj_ρ₁T)
 
 @[expose] noncomputable def fA : DihedralGroup (2 ^ (n - 2)) →* TM n :=
-  dihedralLift _ (rAT n) (sAT n) (rAT_pow_qr hn) (sAT_mul_sAT hn) (sAT_conj_rAT hn)
+  dihedralLift _ (rAT n) (sAT n) (rAT_pow_qr) (sAT_mul_sAT hn) (sAT_conj_rAT hn)
 
 @[expose] noncomputable def fAt : DihedralGroup (2 ^ (n - 1)) →* TM n :=
-  dihedralLift _ (ωtT n) (tT n) (ωtT_pow_hf hn) (tT_mul_tT hn) (tT_conj_ωtT hn)
+  dihedralLift _ (ωtT n) (tT n) (ωtT_pow_hf hn) (tT_mul_tT (n := n)) (tT_conj_ωtT hn)
 
 theorem f₀_injective : Function.Injective (f₀ hn) :=
   dihedralLift_injective _ _ _ _ _ _ (orderOf_ρ₀T hn)

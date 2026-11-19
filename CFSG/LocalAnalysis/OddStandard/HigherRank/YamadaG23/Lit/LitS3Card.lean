@@ -84,7 +84,7 @@ theorem lit_s3_not_le_T [Finite Γ] (h : LitGam Gh Zh Ah t)
     intro h2
     exact hSidx (h2.trans (Subgroup.index_map_dvd (H := S.subgroupOf N) hφsurj))
   have hcardS : Nat.card ((S.subgroupOf N).map φ) = 16 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨k, hk⟩ := hH2.exists_card_eq
     refine nat_eq_sixteen_of ?_ hHidx ⟨k, hk⟩
     rw [Subgroup.index_mul_card, Nat.card_perm, Nat.card_fin]

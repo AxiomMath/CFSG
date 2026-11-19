@@ -48,7 +48,7 @@ private theorem w183finSp44_rad_autOf_uMat {a b c d : Nat} (ha : a < 4) (hb : b 
   have hauto : autOf (uMat a b c d, 0) =
       MulAut.conj (toS4 (uMat a b c d, 0).1 (validB_symp hvalid)) *
         minorAut GF4 ^ (uMat a b c d, 0).2 := by
-    rw [autOf, dif_pos hvalid]
+    rw [autOf, dite_eq_left hvalid]
   have hto : toS4 (uMat a b c d, 0).1 (validB_symp hvalid) =
       uElt (GF4.ofNat' a) (GF4.ofNat' b) (GF4.ofNat' c) (GF4.ofNat' d) := by
     apply antiSp_ext

@@ -22,6 +22,7 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2]
 variable {p : ℕ} {E : Subgroup (adjointGroup .E6 K)}
 variable (F : ExcFrame .E6 K p E)
 
+omit [CharP K 2] in
 theorem F_w_eq_e6W0 (hlong : ExcIsLongest .E6 F.w) :
     F.w = CFSG.RankThree.Lattice.e6W0 := by
   have hgg : F.w = ggKGEp_w0 .E6 := ggKGEp_eq_w0_of_longest hlong
@@ -55,7 +56,7 @@ theorem exists_nativeRep (hlong : ExcIsLongest .E6 F.w)
   classical
   let L := AlgebraicClosure K
   obtain ⟨Fr, hFr, hΦ⟩ := F.frob
-  haveI : CharP L 2 := charP_of_injective_algebraMap
+  have : CharP L 2 := charP_of_injective_algebraMap
     (algebraMap K L).injective 2
   have hFr_bij : Function.Bijective Fr :=
     frobenius_bijective (k := K) (L := L) Fr hFr
@@ -124,13 +125,13 @@ theorem exists_nativeRep (hlong : ExcIsLongest .E6 F.w)
   have hXfin : Finite X := by
     apply finite_zpowers.2
     exact isOfFinOrder_iff_pow_eq_one.2 ⟨2, by norm_num, hy2⟩
-  haveI : Finite X := hXfin
+  have : Finite X := hXfin
   have hXC : X ≤ adjointGroup .E6 L := Subgroup.zpowers_le.2 hyC
   have hXF : ∀ x ∈ X, Units.map (entrywiseHom Fr) x = x := by
     intro x hx
     obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 hx
     rw [map_zpow, hyFix]
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hEven : Even (Nat.card K) := by
     rw [Nat.even_iff, Nat.card_eq_fintype_card]
     exact FiniteField.even_card_of_char_two (ringChar.eq K 2)
@@ -213,23 +214,25 @@ def pTupleFn (hp : p.Prime) (ζ : (AlgebraicClosure K)ˣ)
       rw [hd, pow_mul]
     _ = 1 := by rw [hζ, one_pow, one_pow]
 
+omit [Finite K] [CharP K 2] in
 theorem pTupleFn_one (hp : p.Prime) (ζ : (AlgebraicClosure K)ˣ)
     (hζ : ζ ^ p = 1) (hpq : p ∣ Nat.card K + 1) :
     pTupleFn (K := K) (p := p) hp ζ hζ hpq 0 = 1 := by
-  letI : NeZero p := ⟨hp.ne_zero⟩
+  let : NeZero p := ⟨hp.ne_zero⟩
   funext k
   apply Subtype.ext
   change TableBExc.E6Three.zetaVec ζ hζ (pCoord (p := p) 0) k = 1
   rw [TableBExc.E6Three.zetaVec_apply]
   simp [pCoord]
 
+omit [Finite K] [CharP K 2] in
 theorem pTupleFn_mul (hp : p.Prime) (ζ : (AlgebraicClosure K)ˣ)
     (hζ : ζ ^ p = 1) (hpq : p ∣ Nat.card K + 1)
     (s t : Fin Tag.F4.rank → ZMod p) :
     pTupleFn (K := K) (p := p) hp ζ hζ hpq (s + t) =
       pTupleFn (K := K) (p := p) hp ζ hζ hpq s *
         pTupleFn (K := K) (p := p) hp ζ hζ hpq t := by
-  letI : NeZero p := ⟨hp.ne_zero⟩
+  let : NeZero p := ⟨hp.ne_zero⟩
   funext k
   apply Subtype.ext
   change TableBExc.E6Three.zetaVec ζ hζ (pCoord (p := p) (s + t)) k =
@@ -241,11 +244,12 @@ theorem pTupleFn_mul (hp : p.Prime) (ζ : (AlgebraicClosure K)ˣ)
   rw [hsum, ExcFrames.zetaVec_add]
   rfl
 
+omit [Finite K] [CharP K 2] in
 theorem pTupleFn_pow (hp : p.Prime) (ζ : (AlgebraicClosure K)ˣ)
     (hζ : ζ ^ p = 1) (hpq : p ∣ Nat.card K + 1)
     (s : Fin Tag.F4.rank → ZMod p) :
     pTupleFn (K := K) (p := p) hp ζ hζ hpq s ^ p = 1 := by
-  letI : NeZero p := ⟨hp.ne_zero⟩
+  let : NeZero p := ⟨hp.ne_zero⟩
   funext k
   apply Subtype.ext
   change (ζ ^ (pCoord (p := p) s k).val) ^ p = 1
@@ -282,8 +286,9 @@ theorem pFrame_mem (hp : p.Prime) (ζ : (AlgebraicClosure K)ˣ)
     ((congrArg (E6RelativeLang.phi F hlong) (pTupleFn_pow hp ζ hζ hpq s.toAdd)).trans
       (map_one (E6RelativeLang.phi F hlong)))
 
+omit [Finite K] [CharP K 2] in
 theorem frameDiag_twE6SplitTheta_eq_pTuple (hp : p.Prime) [NeZero p]
-    (ζ : (AlgebraicClosure K)ˣ) (hζo : orderOf ζ = p) (hζ : ζ ^ p = 1)
+    (ζ : (AlgebraicClosure K)ˣ) (_hζo : orderOf ζ = p) (hζ : ζ ^ p = 1)
     (hpq : p ∣ Nat.card K + 1) (s : Fin Tag.F4.rank → ZMod p) :
     ExcFrames.frameDiag (τ := Tag.E6) ζ hζ (ExcFrames.twE6SplitTheta p s) =
       rootDiagUnit .E6 (E6RelativeLang.coordTuple (pTupleFn hp ζ hζ hpq s)) := by
@@ -319,8 +324,8 @@ theorem pFrame_injective (hp : p.Prime) (hp5 : 5 ≤ p) (ζ : (AlgebraicClosure 
     (hζo : orderOf ζ = p) (hζ : ζ ^ p = 1) (hpq : p ∣ Nat.card K + 1)
     (hlong : ExcIsLongest .E6 F.w) :
     Function.Injective (pFrame F hp ζ hζo hζ hpq hlong) := by
-  letI : Fact p.Prime := ⟨hp⟩
-  letI : NeZero p := ⟨hp.ne_zero⟩
+  let : Fact p.Prime := ⟨hp⟩
+  let : NeZero p := ⟨hp.ne_zero⟩
   intro s t hst
   have hst' : pFrame F hp ζ hζo hζ hpq hlong (Multiplicative.ofAdd s.toAdd) =
       pFrame F hp ζ hζo hζ hpq hlong (Multiplicative.ofAdd t.toAdd) := by
@@ -351,8 +356,8 @@ theorem pFrame_range (hp : p.Prime) (hp5 : 5 ≤ p) (ζ : (AlgebraicClosure K)ˣ
     (hζo : orderOf ζ = p) (hζ : ζ ^ p = 1) (hpq : p ∣ Nat.card K + 1)
     (hlong : ExcIsLongest .E6 F.w) :
     (pFrame F hp ζ hζo hζ hpq hlong).range = E := by
-  letI : Fact p.Prime := ⟨hp⟩
-  letI : NeZero p := ⟨hp.ne_zero⟩
+  let : Fact p.Prime := ⟨hp⟩
+  let : NeZero p := ⟨hp.ne_zero⟩
   apply le_antisymm
   · rintro _ ⟨s, rfl⟩
     exact pFrame_mem F hp ζ hζo hζ hpq hlong s
@@ -386,7 +391,7 @@ theorem pFrame_range (hp : p.Prime) (hp5 : 5 ≤ p) (ζ : (AlgebraicClosure K)ˣ
       E6RelativeLang.coordMap_injective hct
     rw [htuple]
 
-theorem nNative_frameConj (hp : p.Prime) (hp5 : 5 ≤ p)
+theorem nNative_frameConj (hp : p.Prime) (_hp5 : 5 ≤ p)
     (ζ : (AlgebraicClosure K)ˣ) (hζo : orderOf ζ = p) (hζ : ζ ^ p = 1)
     (hpq : p ∣ Nat.card K + 1) (hlong : ExcIsLongest .E6 F.w)
     (a : Fin Tag.F4.rank) (s : Fin Tag.F4.rank → ZMod p) :
@@ -394,8 +399,8 @@ theorem nNative_frameConj (hp : p.Prime) (hp5 : 5 ≤ p)
         (nNative F hlong a)⁻¹ =
       pFrame F hp ζ hζo hζ hpq hlong
         (Multiplicative.ofAdd (TableBExc.torusAct Tag.F4 p (simple Tag.F4 a) s)) := by
-  letI : Fact p.Prime := ⟨hp⟩
-  letI : NeZero p := ⟨hp.ne_zero⟩
+  let : Fact p.Prime := ⟨hp⟩
+  let : NeZero p := ⟨hp.ne_zero⟩
   apply Subtype.ext
   apply baseChangeGL_injective (algebraMap K (AlgebraicClosure K))
   rw [Subgroup.coe_mul, Subgroup.coe_mul, Subgroup.coe_inv, map_mul, map_mul, map_inv,
@@ -464,8 +469,8 @@ theorem normalizer_frame_action (hp : p.Prime) (hp5 : 5 ≤ p)
       g * pFrame F hp ζ hζo hζ hpq hlong (Multiplicative.ofAdd s) * g⁻¹ =
         pFrame F hp ζ hζo hζ hpq hlong
           (Multiplicative.ofAdd (TableBExc.torusAct Tag.F4 p u s)) := by
-  letI : Fact p.Prime := ⟨hp⟩
-  letI : NeZero p := ⟨hp.ne_zero⟩
+  let : Fact p.Prime := ⟨hp⟩
+  let : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨v, hvcent, hconj⟩ := ggKGExc_normalizer_weyl (hτ := Or.inl rfl)
     hp (by omega) (fun _ => hp5) F (Or.inr ⟨hpq, hlong⟩) hg
   have hvrel : v ∈ relWeylTwist TwistTag.E6 := by
@@ -536,9 +541,9 @@ theorem exists_markedWeyl_qplusLang (hp : p.Prime) (hp5 : 5 ≤ p)
               ggConjAut E (hnN j) := by
   classical
   let L := AlgebraicClosure K
-  letI : Fact p.Prime := ⟨hp⟩
-  letI : NeZero p := ⟨hp.ne_zero⟩
-  letI : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
+  let : Fact p.Prime := ⟨hp⟩
+  let : NeZero p := ⟨hp.ne_zero⟩
+  let : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
   obtain ⟨ζ, hζprim⟩ := CFSG.LieType.SeitzGeneration.exists_primitiveRoot_units
     (L := L) (ℓ := 2) (by norm_num) hp (by omega)
   have hζo : orderOf ζ = p := hζprim.eq_orderOf.symm

@@ -58,7 +58,7 @@ theorem D1CaseTwoDataBase.inf_X0_facts (hAut : KFactCycAut) (hS : KFactSeitzCyc)
       V ≤ (Rbar : Subgroup (H ⧸ primeComplementCore (G := H) p)) ⊓ L → V ≠ ⊥ →
         L ⊓ Subgroup.normalizer (V : Set (H ⧸ primeComplementCore (G := H) p)) ≤ X₀ :=
     fun V hV hV1 => (inf_le_inf_left L (normalizer_le_normalizer_of_isCyclic hp
-      (hd.cyclic L hL) (Rbar.isPGroup'.to_le inf_le_left) (Subgroup.zpowers_le.mpr ht)
+      (hd.cyclic L hL) (Rbar.isPGroup.to_le inf_le_left) (Subgroup.zpowers_le.mpr ht)
       (by rw [Nat.card_zpowers, htp]) hV hV1)).trans
       (hd.cfg.red.inf_normalizer_zpowers_le_of_aut (hAut _ _ _ _ hd.cfg.red hd.cfg.catalog)
           hd.cyclic hd.rank hL ht htp)

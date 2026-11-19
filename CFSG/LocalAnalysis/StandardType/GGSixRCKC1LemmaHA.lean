@@ -70,7 +70,7 @@ private theorem rckHA_cent_specialLinear (F : Type) [Field F] (m : ℕ) {β : Fi
     (Subgroup.mem_centralizer_singleton_iff.mp hk)
 
 theorem rck_lemmaHC_A
-    {m g : ℕ} (hg : 1 ≤ g) {β : Fin (ggU .PSL m g).D.rank → ℤ}
+    {m g : ℕ} (_hg : 1 ≤ g) {β : Fin (ggU .PSL m g).D.rank → ℤ}
     (hβ : GGLongRoot (ggU .PSL m g).D β) :
     RCKLemmaHCent (ggU .PSL m g) β := by
   cases m with

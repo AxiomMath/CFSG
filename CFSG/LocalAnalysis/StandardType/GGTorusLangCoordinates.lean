@@ -70,7 +70,7 @@ theorem exists_rootValue_equiv [Finite K] [CharP K 2] :
     exact (Nat.not_even_iff_odd.mpr hm) (even_iff_two_dvd.mpr h2)
   have : NeZero (Nat.card K + 1) := ⟨by omega⟩
   have : NeZero ((Nat.card K + 1 : ℕ) : AlgebraicClosure K) := ⟨hm0⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot (AlgebraicClosure K) (Nat.card K + 1)
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot (AlgebraicClosure K) (Nat.card K + 1)
   have hcard : Nat.card (rootsOfUnity (Nat.card K + 1) (AlgebraicClosure K)) = Nat.card K + 1 :=
     hζ.card_rootsOfUnity
   have hcyc : IsCyclic (rootsOfUnity (Nat.card K + 1) (AlgebraicClosure K)) :=

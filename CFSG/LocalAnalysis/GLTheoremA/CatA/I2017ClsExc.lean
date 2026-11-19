@@ -135,7 +135,7 @@ private theorem twE6_not_a8 {K : Type} [Field K] [Finite K] (σ : K ≃+* K) (hK
     natCast_ne_zero_algebraicClosure_of_ne Nat.prime_two Nat.prime_three hK2 (by decide)
   have hTame :=
     langSetup_hTame_of_prime S Nat.prime_three hpL (fun h' => absurd h' (by decide)) hT hap h1
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
   obtain ⟨i, hqi, hJR⟩ :=
     components_of_langSetup S Nat.prime_three ι hinj hrange (twistedE6InndiagConj K σ g)
       hconj hT hap h1 hTame hI
@@ -166,7 +166,7 @@ private theorem twE6Cat_not_a8 (hv : (TauCeti.LieTypeIndex.twistedE6 gfTwoPP).Va
     CFSG.LieType.SeitzGeneration.exists_catEquiv_twistedE6 gfTwoPP hv
   have hK4 : Nat.card K = 4 := hK.trans rfl
   have hσ2 : ∀ c, σ c = c ^ 2 := hσ
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK4]; norm_num)
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK4]; norm_num)
   obtain ⟨β', hβ'3, hβ'1, J', hJ', ⟨eJ'⟩⟩ := transport_a8 θ β hβ3 hβ1 hJc eJ
   exact twE6_not_a8 σ hK4 hσ2 β' hβ'3 hβ'1 hJ' eJ'
 

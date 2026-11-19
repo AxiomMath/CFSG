@@ -98,7 +98,7 @@ theorem omPlus_two_natural_of_not_separating (hF : Nat.card F = 2) {n : ℕ}
     by_cases hs : s.val = 0
     · obtain rfl : s = 0 := Fin.ext hs
       simp [hμ0]
-    · rw [hμz s hs, if_neg hs]
+    · rw [hμz s hs, ite_eq_right hs]
   rw [hμeq] at ht
   exact omPlus_two_natural_of_isCurtisType hF hn3 hρ ht
 

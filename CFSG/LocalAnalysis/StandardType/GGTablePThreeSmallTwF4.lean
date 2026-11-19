@@ -51,10 +51,10 @@ private theorem ggInndiagThreeRankTwo_twF4_recipe
       (LargeEvenCenterQuot (LargeEvenTwF4H a K))
       (LargeEvenChevIDImage LargeEvenCartanF4 K (LargeEvenTwF4H a K))
       (LargeEvenChevFieldImage LargeEvenCartanF4 K (LargeEvenTwF4H a K)) := by
-  haveI : CharP K ReeTag.F4.prime := charP_two_of_card hK
+  have : CharP K ReeTag.F4.prime := charP_two_of_card hK
   intro B hB hBI
   obtain ⟨e⟩ := TableBExcSmallRest.nonempty_twF4_equiv ha K hK
-  haveI : Finite (LargeEvenCenterQuot (LargeEvenTwF4H a K)) :=
+  have : Finite (LargeEvenCenterQuot (LargeEvenTwF4H a K)) :=
     Finite.of_equiv _ e.symm.toEquiv
   have hZ := TableBExcSmallRest.center_eq_bot_of_mulEquiv e
     (ReeTag.large_Ree_fixed_group_center_trivial a K hK)

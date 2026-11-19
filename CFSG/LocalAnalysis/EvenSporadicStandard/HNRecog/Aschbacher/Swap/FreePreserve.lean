@@ -72,15 +72,18 @@ private lemma arith_minus_one {k c : ℕ} (hkc : (k * c) % 5 = 4) (hc : c ≤ 5)
     ring
   simpa using ((ZMod.natCast_eq_natCast_iff' (k * (5 - c)) 1 5).mp hcast)
 
+omit [Finite V] in
 private lemma sigma_pair_mul (x y : A5) :
     σ (x, y) = σ (x, 1) * σ (1, y) := by
   rw [← map_mul, show (x, 1) * (1, y) = (x, y) from by ext <;> simp]
 
+omit [Finite V] in
 private lemma sigma_fst (n : ℕ) : σ (a₀ ^ n, 1) = (σ (a₀, 1)) ^ n := by
   rw [← map_pow]
   congr 1
   ext <;> simp
 
+omit [Finite V] in
 private lemma sigma_snd (n : ℕ) : σ (1, a₀ ^ n) = (σ (1, a₀)) ^ n := by
   rw [← map_pow]
   congr 1
@@ -90,12 +93,14 @@ private lemma a0_pow_five : a₀ ^ 5 = 1 := by
   have := pow_orderOf_eq_one a₀
   rwa [orderOf_a₀] at this
 
+omit [Finite V] in
 private lemma inv_eq_self_of_mul_self_eq_one {b : V ≃ₗ[ZMod 2] V} (hb : b * b = 1) :
     b⁻¹ = b := by
   calc b⁻¹ = (b * b) * b⁻¹ := by rw [hb, one_mul]
     _ = b * (b * b⁻¹) := by rw [mul_assoc]
     _ = b := by rw [mul_inv_cancel, mul_one]
 
+omit [Finite V] in
 theorem conj_beta_of_normalized (b : V ≃ₗ[ZMod 2] V) (hb : b * b = 1) {k k' : ℕ}
     (hkk' : (k * k') % 5 = 1) (hα : b * σ (a₀, 1) * b⁻¹ = σ (1, a₀ ^ k)) :
     b * σ (1, a₀) * b⁻¹ = σ (a₀ ^ k', 1) := by
@@ -126,12 +131,14 @@ theorem conj_beta_of_normalized (b : V ≃ₗ[ZMod 2] V) (hb : b * b = 1) {k k' 
   congr 1
   ext <;> simp
 
+omit [Finite V] in
 private lemma pow_apply_eq_self (z : V ≃ₗ[ZMod 2] V) {w : V} (hw : z w = w) (s : ℕ) :
     (z ^ s) w = w := by
   induction s with
   | zero => rfl
   | succ m ih => rw [pow_succ', LinearEquiv.mul_apply, ih, hw]
 
+omit [Finite V] in
 private lemma mem_of_conj {F : Submodule (ZMod 2) V} (b z : V ≃ₗ[ZMod 2] V) (s : ℕ)
     (hb : b * b = 1) (hzb : b * z * b⁻¹ = z ^ s)
     (hF : ∀ v, v ∈ F ↔ z v = v) :
@@ -149,6 +156,7 @@ private lemma mem_of_conj {F : Submodule (ZMod 2) V} (b z : V ≃ₗ[ZMod 2] V) 
   change z (b v) = b v
   rw [← LinearEquiv.mul_apply, hzbs, LinearEquiv.mul_apply, hzsv]
 
+omit [Finite V] in
 private lemma b_conj_z (b : V ≃ₗ[ZMod 2] V) (hb : b * b = 1) {k k' c d : ℕ}
     (hkk' : (k * k') % 5 = 1) (hα : b * σ (a₀, 1) * b⁻¹ = σ (1, a₀ ^ k))
     (hkc : (k * c) % 5 = 1 ∨ (k * c) % 5 = 4) (hd : d = c ∨ d = 5 - c) (hc : c ≤ 5) :
@@ -182,8 +190,9 @@ private lemma b_conj_z (b : V ≃ₗ[ZMod 2] V) (hb : b * b = 1) {k k' c d : ℕ
   rw [hzL, hzR]
   exact congrArg σ (Prod.ext hcomp rfl)
 
-private lemma commute_on_of_beta_eq {b : V ≃ₗ[ZMod 2] V} (hb : b * b = 1) {k k' e : ℕ}
-    (hkk' : (k * k') % 5 = 1) (hα : b * σ (a₀, 1) * b⁻¹ = σ (1, a₀ ^ k))
+omit [Finite V] in
+private lemma commute_on_of_beta_eq {b : V ≃ₗ[ZMod 2] V} (_hb : b * b = 1) {k k' e : ℕ}
+    (_hkk' : (k * k') % 5 = 1) (hα : b * σ (a₀, 1) * b⁻¹ = σ (1, a₀ ^ k))
     (hek : (e * k) % 5 = 1) {F : Submodule (ZMod 2) V}
     (hbF : ∀ v ∈ F, b v ∈ F) (hαF : ∀ v ∈ F, σ (a₀, 1) v ∈ F)
     (hβeq : ∀ v ∈ F, σ (1, a₀) v = (σ (a₀, 1) ^ e) v) :
@@ -288,7 +297,8 @@ private lemma eq_of_mul_mod_aux (b : V ≃ₗ[ZMod 2] V) (hb : b * b = 1) {k k' 
   change (b : V →ₗ[ZMod 2] V) v - v = 0 at h
   exact sub_eq_zero.mp h
 
-theorem EigenData.map_mem_of_mul_mod (hS : StdHyp σ) (hE : EigenData σ c Fp Fm)
+omit [Finite V] in
+theorem EigenData.map_mem_of_mul_mod (_hS : StdHyp σ) (hE : EigenData σ c Fp Fm)
     (b : V ≃ₗ[ZMod 2] V) (hb : b * b = 1) {k k' : ℕ} (hkk' : (k * k') % 5 = 1)
     (hα : b * σ (a₀, 1) * b⁻¹ = σ (1, a₀ ^ k))
     (hkc : (k * c) % 5 = 1 ∨ (k * c) % 5 = 4) :

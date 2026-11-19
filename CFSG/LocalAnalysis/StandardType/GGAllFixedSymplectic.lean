@@ -59,7 +59,7 @@ theorem ggFixedSubgroup_isSolvable_of_recipe_symplectic
     have h := CFSG.hasNormalPComplement_of_equiv p
       ((_root_.commutator ↥C).equivMapOfInjective C.subtype C.subtype_injective) hNPCC
     rwa [Subgroup.map_subtype_commutator C] at h
-  haveI : Group.IsSolvable ↥C :=
+  have : Group.IsSolvable ↥C :=
     isSolvable_statedSp_centralizer_of_hasNormalPComplement hp hp2 hpK hA hNPCamb
   have hsolv0 : Group.IsSolvable ↥C0 :=
     Group.isSolvable_of_isSolvable_injective (f := eC.toMonoidHom) eC.injective
@@ -83,15 +83,15 @@ theorem largeEvenLabelAll_symplectic_fullFixedSolvable
     · have h := hlab.2
       rw [htag] at h
       exact h.1
-  haveI : NeZero lab.rank := ⟨by omega⟩
+  have : NeZero lab.rank := ⟨by omega⟩
   have hrecipe : LargeEvenRecipeSymplectic lab.rank (2 ^ lab.n) false Q := by
     rcases htag with htag | htag <;> simpa only [LargeEvenRawDatum, htag] using hQ
   obtain ⟨K, fieldK, finiteK, hK, hQK⟩ := hrecipe
-  letI := fieldK
-  letI := finiteK
-  letI : Fintype K := Fintype.ofFinite K
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : CharP K 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
+  let := fieldK
+  let := finiteK
+  let : Fintype K := Fintype.ofFinite K
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : CharP K 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
   have hres : LargeEvenRecipeSymplectic lab.rank (2 ^ lab.n) false
       (fun R _ I F => Q R I F ∧
         ∀ E : Subgroup (MulAut R), (E : Set (MulAut R)) ⊆ I → IsPGroup p E →

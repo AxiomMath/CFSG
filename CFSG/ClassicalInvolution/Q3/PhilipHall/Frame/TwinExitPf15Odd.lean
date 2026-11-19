@@ -27,7 +27,7 @@ theorem not_isPGroup_two_sl2_three : ¬ IsPGroup 2 SL(2, ZMod 3) := by
   obtain ⟨x, hx, hne⟩ : ∃ x : SL(2, ZMod 3), x ^ 3 = 1 ∧ x ≠ 1 := by
     refine ⟨⟨!![1, 1; 0, 1], by simp [Matrix.det_fin_two]⟩, ?_, ?_⟩
     · ext i j
-      fin_cases i <;> fin_cases j <;> simp [pow_succ, Matrix.mul_apply, Fin.sum_univ_two] <;> decide
+      fin_cases i <;> fin_cases j <;> simp <;> decide
     · intro e
       have := congrArg (fun g : SL(2, ZMod 3) => (g : Matrix (Fin 2) (Fin 2) (ZMod 3)) 0 1) e
       simp at this
@@ -53,7 +53,7 @@ theorem q8Section_tight (hS : Q8Section X Φ) : ∀ K ∈ Φ, tightCore K = K :=
 theorem twinE4_of_exitSec_sec (hS : Q8Section X Φ)
     (htrans : ∀ K ∈ Φ, ∀ L ∈ Φ, ∃ g : X, conjSub g K = L)
     (hedge : ∃ M ∈ Φ, ∃ N : Subgroup X, N ∈ omegaNbr Φ M) {K : Subgroup X} (hK : K ∈ Φ) {z : X}
-    (hz : IsUniqueInvolution K z) (hno : ¬ TightInO2 z) {W : Subgroup X} (hKW : K ≤ W)
+    (hz : IsUniqueInvolution K z) (_hno : ¬ TightInO2 z) {W : Subgroup X} (hKW : K ≤ W)
     (hWs : IsSubnormal W ⊤) (hex : Thm4Twin.F2.ExitSec W K hKW z hz) : TwinE4 X := by
   have hWtop : W = ⊤ := ExitE4.eq_top_of_subnormal hS.gen htrans hK hWs rfl hKW
   have hΦ : Φ = CoreAssembly.conjClass K := by
@@ -118,7 +118,7 @@ theorem oddCentEdge_proved (n : ℕ) : OddCentEdge n := by
   · exact hall z hz.sq
 
 theorem nonTightTwin_proved (n : ℕ) : NonTightTwin n :=
-  fun X _ _ _ Φ hS hnt => absurd (q8Section_tight
+  fun _X _ _ _ _Φ hS hnt => absurd (q8Section_tight
     ⟨hS.hyp, hS.two, hS.q8, hS.oddFree, hS.aEmpty, hS.gen⟩) hnt
 
 theorem nonExactTwin_proved {n : ℕ} (hcit : CIT3Below n) (hP : TL4.TightBelowRPlus 3 n) :

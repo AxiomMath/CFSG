@@ -32,6 +32,7 @@ theorem sec5p510_tz_not_mem_zpowers (h : Sec510Ctx G t L S z r ρ B A φ) :
     rwa [mul_inv_cancel_right] at this
   exact sec5p510_t_not_mem_zpowers h ht
 
+omit [Finite G] in
 private theorem sec5p510_inv_mul_mem_E {E R : Subgroup G} (hrel : E.relIndex R = 2) {x y : G}
     (hx : x ∈ R) (hy : y ∈ R) (hxE : x ∉ E) (hyE : y ∉ E) : x⁻¹ * y ∈ E := by
   obtain ⟨c, -, hall⟩ := Subgroup.relIndex_eq_two_iff'.mp hrel
@@ -41,6 +42,7 @@ private theorem sec5p510_inv_mul_mem_E {E R : Subgroup G} (hrel : E.relIndex R =
   have e : (c * x)⁻¹ * (c * y) = x⁻¹ * y := by group
   rwa [e] at h3
 
+omit [Finite G] in
 private theorem sec5p510_sq_t_mul {c : G} (htc : t * c = c * t) (htt : t * t = 1) :
     (t * c) * (t * c) = c * c := by
   calc (t * c) * (t * c) = t * (c * t) * c := by simp only [mul_assoc]
@@ -48,11 +50,12 @@ private theorem sec5p510_sq_t_mul {c : G} (htc : t * c = c * t) (htt : t * t = 1
     _ = (t * t) * (c * c) := by simp only [mul_assoc]
     _ = c * c := by rw [htt, one_mul]
 
+omit [Finite G] in
 theorem sec5p510_exists_d0 {R E : Subgroup G} {x : G} (hxT : x ∈ sec5p510_T t z R)
     (hxE : x ∉ E) :
     ∃ d₀ ∈ conjClassIn (centralizer ({z} : Set G)) t, d₀ ∈ R ∧ d₀ ∉ E := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hTE : sec5p510_T t z R ≤ E := (Subgroup.closure_le _).mpr fun y hy => hcon y hy.1 hy.2
   exact hxE (hTE hxT)
 

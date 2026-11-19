@@ -66,7 +66,7 @@ theorem rot13_tv10 (m y z : F) (h : m * m - y * z = 1) (s : F) :
   simp only [Matrix.SpecialLinearGroup.coe_mul, coe_tv, coe_rot13]
   ext p q
   fin_cases p <;> fin_cases q <;> simp [Matrix.mul_apply, Matrix.single_apply, Fin.sum_univ_four]
-  all_goals first | ring1 | linear_combination (-s) * h
+  all_goals first | ring1
 
 theorem rot13_tv01 (m y z : F) (h : m * m - y * z = 1) (s : F) :
     rot13 m y z h * tv 0 1 (by decide) s = (tv 0 1 (by decide) (s * m) * tv 0 3 (by decide) (-(s * y))) * rot13 m y z h := by
@@ -105,14 +105,14 @@ theorem comm20_03 (a b : F) : tv 2 0 (by decide) a * tv 0 3 (by decide) b =
   apply Subtype.ext
   simp only [Matrix.SpecialLinearGroup.coe_mul, coe_tv]
   ext p q
-  fin_cases p <;> fin_cases q <;> simp [Matrix.mul_apply, Matrix.single_apply, Fin.sum_univ_four] <;> ring
+  fin_cases p <;> fin_cases q <;> simp [Matrix.mul_apply, Matrix.single_apply, Fin.sum_univ_four]
 
 theorem comm30_02 (a b : F) : tv 3 0 (by decide) a * tv 0 2 (by decide) b =
     tv 3 2 (by decide) (a * b) * (tv 0 2 (by decide) b * tv 3 0 (by decide) a) := by
   apply Subtype.ext
   simp only [Matrix.SpecialLinearGroup.coe_mul, coe_tv]
   ext p q
-  fin_cases p <;> fin_cases q <;> simp [Matrix.mul_apply, Matrix.single_apply, Fin.sum_univ_four] <;> ring
+  fin_cases p <;> fin_cases q <;> simp [Matrix.mul_apply, Matrix.single_apply, Fin.sum_univ_four]
 
 theorem wH_eq : (wH : SL(4, F)) = tv 0 1 (by decide) (-1) * tv 1 0 (by decide) 1 * tv 0 1 (by decide) (-1) := by
   apply Subtype.ext

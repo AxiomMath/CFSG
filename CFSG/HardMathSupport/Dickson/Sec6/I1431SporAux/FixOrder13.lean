@@ -15,7 +15,7 @@ theorem orderOf_conj_eq' {H : Type*} [Group H] (c x : H) : orderOf (c * x * c⁻
 section Fix
 
 theorem thirteen_mul_card_fix_le {Γ X : Type*} [Group Γ] [Finite Γ] [MulAction Γ X]
-    [MulAction.IsPretransitive Γ X] (x₀ : X) {t : Γ} (ht : orderOf t = 13) (htx : t • x₀ = x₀)
+    [MulAction.IsPretransitive Γ X] (x₀ : X) {t : Γ} (ht : orderOf t = 13) (_htx : t • x₀ = x₀)
     (hS : 13 * Nat.card {h : MulAction.stabilizer Γ x₀ // orderOf (h : Γ) = 13} ≤
       Nat.card (MulAction.stabilizer Γ x₀)) {c : ℕ}
     (hC : Nat.card (centralizer ({t} : Set Γ)) ≤ c) :

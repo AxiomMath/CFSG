@@ -24,6 +24,7 @@ open CFSG.Timmesfeld.Connectivity
 
 variable {G : Type} [Group G] [Finite G] {D : Set G}
 
+omit [Finite G] in
 theorem conj_pCore_not_mem_alpha_mem_D_and_commute (hC : HypothesisC D)
     {w v : G} (htri : IsTriangle D hC.d w v) {n : ℕ} (hn : Odd n)
     (hord : orderOf (hC.d * v * w) = 2 * n) {z : G} (hzdef : (hC.d * v * w) ^ n = z)

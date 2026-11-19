@@ -187,7 +187,7 @@ theorem nk_eq_one_of_mem_p_two {p : ℕ} [hp : Fact p.Prime] (hp2 : p ≠ 2) {X 
   exact orderOf_eq_one_iff.mp (Nat.dvd_one.mp h3)
 
 theorem nk_exists_elemAb_sq_of_two_kernel {p : ℕ} [hp : Fact p.Prime] (hp2 : p ≠ 2) {G : Type}
-    [Group G] [Finite G] (P Y : Subgroup G) (hY : IsPGroup 2 Y) (hYP : Y ≤ P)
+    [Group G] [Finite G] (P Y : Subgroup G) (hY : IsPGroup 2 Y) (_hYP : Y ≤ P)
     (hcomm : ∀ g ∈ P, ∀ h ∈ P, g * h * g⁻¹ * h⁻¹ ∈ Y)
     (hcube : ∀ g ∈ P, g ^ p ∈ Y) (hcard : Nat.card P = p ^ 2 * Nat.card Y) :
     ∃ F : Subgroup G, F ≤ P ∧ IsElemAbelian p F ∧ Nat.card F = p ^ 2 := by
@@ -279,7 +279,7 @@ theorem nk_mul_pow_central {A : Type} [Group A] {p : ℕ} (hp : p.Prime) (hp2 : 
 
 theorem nk_exists_elemAb_sq_of_cube {A : Type} [Group A] [Finite A] {p : ℕ} [hp : Fact p.Prime]
     (hp2 : p ≠ 2) (r : A) (hrp : orderOf r = p) (hrc : ∀ a : A, a * r = r * a)
-    (B : Subgroup A) (hrB : r ∈ B) (hB : Nat.card B = p ^ 3)
+    (B : Subgroup A) (_hrB : r ∈ B) (hB : Nat.card B = p ^ 3)
     (hcube : ∀ b ∈ B, b ^ p ∈ Subgroup.zpowers r)
     (hcomm : ∀ b ∈ B, ∀ c ∈ B, b * c * b⁻¹ * c⁻¹ ∈ Subgroup.zpowers r) :
     ∃ F : Subgroup A, IsElemAbelian p F ∧ Nat.card F = p ^ 2 := by
@@ -295,7 +295,7 @@ theorem nk_exists_elemAb_sq_of_cube {A : Type} [Group A] [Finite A] {p : ℕ} [h
     rw [hrp] at h1
     exact orderOf_dvd_iff_pow_eq_one.mp h1
   have hnorm : (Subgroup.zpowers r).Normal := CFSG.Quasithin.H13.normal_zpowers_of_central r hrc
-  haveI := hnorm
+  have := hnorm
   let φ : B →* A :=
     { toFun := fun b => (b : A) ^ p
       map_one' := by simp
@@ -351,7 +351,7 @@ theorem nk_exists_elemAb_sq_of_cube {A : Type} [Group A] [Finite A] {p : ℕ} [h
     · exact h
   set P : Subgroup A := Subgroup.zpowers r with hPdef
   set Q : Subgroup A := Subgroup.zpowers w with hQdef
-  haveI : P.Normal := hnorm
+  have : P.Normal := hnorm
   have hPc : IsMulCommutative ↥P := by
     refine ⟨⟨fun a b => Subtype.ext ?_⟩⟩
     obtain ⟨i, hi⟩ := Subgroup.mem_zpowers_iff.mp a.2
@@ -367,7 +367,7 @@ theorem nk_exists_elemAb_sq_of_cube {A : Type} [Group A] [Finite A] {p : ℕ} [h
     rw [← hi, ← hj]
     exact (Commute.zpow_zpow_self w i j).eq
   have hPQ : ∀ g ∈ P, ∀ q ∈ Q, g * q = q * g := fun g hg q _ => (hzcen g hg q).symm
-  haveI hFc : IsMulCommutative ↥(P ⊔ Q) :=
+  have hFc : IsMulCommutative ↥(P ⊔ Q) :=
     CFSG.Quasithin.H13.isMulCommutative_sup_of_commute hPc hQc hPQ
   have hPQint : ∀ x ∈ P, x ∈ Q → x = 1 := by
     intro x hxP hxQ
@@ -471,7 +471,7 @@ theorem nk_exists_elemAb_sq_of_central_kernel {p : ℕ} [hp : Fact p.Prime] (hp2
       rw [Subgroup.orderOf_coe, hx]
     have hrc : ∀ a : A, a * r = r * a := fun a => hcen r hrK a
     have hzN : Subgroup.zpowers r ≤ f.ker := Subgroup.zpowers_le.mpr hrK
-    haveI := CFSG.Quasithin.H13.normal_zpowers_of_central r hrc
+    have := CFSG.Quasithin.H13.normal_zpowers_of_central r hrc
     let f' : A ⧸ Subgroup.zpowers r →* V := QuotientGroup.lift (Subgroup.zpowers r) f hzN
     have hf'mk : ∀ a : A, f' (a : A ⧸ Subgroup.zpowers r) = f a := fun a => rfl
     have hf'surj : Function.Surjective f' := by
@@ -567,7 +567,7 @@ theorem nk_exists_elemAb_sq_of_quotient_meet {p : ℕ} [hp : Fact p.Prime] (hp2 
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     obtain ⟨hnY, hnK⟩ := hn
     exact ⟨hYn.conj_mem _ hnY g, K'.mul_mem (K'.mul_mem (hPK g.2) hnK) (K'.inv_mem (hPK g.2))⟩
-  haveI := hNn
+  have := hNn
   let φ : ↥P →* X ⧸ Y := (QuotientGroup.mk' Y).comp P.subtype
   have hφr : φ.range = E := by
     ext e

@@ -225,7 +225,7 @@ theorem mem_of_coset {H : Subgroup ↥(omegaMinusTwo 2)}
     exact hxr
   have he : γ = ⟨_, hw⟩ * g⁻¹ * (⟨x, hx⟩ : ↥(omegaMinusTwo 2))⁻¹ := by
     apply Subtype.ext
-    simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subtype.coe_mk]
+    simp only [Subgroup.coe_mul, Subgroup.coe_inv]
     group
   rw [he]
   exact H.mul_mem (H.mul_mem (hKH hwK) (H.inv_mem hg)) (H.inv_mem (hKH hxK))
@@ -339,7 +339,7 @@ theorem isCoatom_centralizer_rGL :
     have h := congrArg Units.val hγK
     rw [Units.val_mul, Units.val_mul, hγ₁] at h
     exact h
-  · obtain ⟨g, hgH, hgK⟩ := SetLike.exists_of_lt hKH
+  · obtain ⟨g, hgH, hgK⟩ := _root_.IsConcreteLE.exists_of_lt hKH
     obtain ⟨k, hk⟩ := Option.isSome_iff_exists.mp (lookup_glArr_isSome g)
     obtain ⟨hks, hke⟩ := Enum.lookup_spec hk
     have hc := hcos k hks
@@ -605,7 +605,7 @@ theorem isCoatom_of_conj
     (MulEquiv.ofBijective α hα).trans (MulAut.conj (⟨x, hx⟩ : ↥(omegaMinusTwo 2))⁻¹)
   have hφ : ∀ ℓ : ↥L, ((φ ℓ : ↥(omegaMinusTwo 2)) : GL6) = x⁻¹ * (α ℓ : GL6) * x := by
     intro ℓ
-    simp [φ, MulAut.conj_apply]
+    simp [φ]
   have hmem : ∀ ℓ : ↥L, ℓ ∈ (L ⊓ Subgroup.centralizer ({d} : Set (GLV V))).subgroupOf L ↔
       φ ℓ ∈ (Subgroup.centralizer ({rGL} : Set GL6)).subgroupOf (omegaMinusTwo 2) := by
     intro ℓ
@@ -636,7 +636,7 @@ open CFSG.Open CFSG.Quasithin.G11 CFSG.RankThree.PartTwo Matrix
 
 theorem basMaximal_omegaSix
     (V : Type) [AddCommGroup V] [Module (ZMod 2) V] [Finite V] (L : Subgroup (GLV V))
-    (hL : IsOmegaMinusModule L 2) (hf : FaithfulTildeV L) (hirr : HasIrrTildeV L)
+    (hL : IsOmegaMinusModule L 2) (hf : FaithfulTildeV L) (_hirr : HasIrrTildeV L)
     (d : GLV V) (hd : d ∈ Subgroup.normalizer (L : Set (GLV V))) (hd2 : orderOf d = 2)
     (htv : Module.finrank (ZMod 2) ↥(BAS.tvComm L d) =
       Module.finrank (ZMod 2) ↥(tildeVBot L) + 1) :

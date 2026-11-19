@@ -105,7 +105,7 @@ theorem images_t321 :
     (StrothTypeIndex.t321).action.φρ (gen (StrothTypeIndex.t321).k 2) =
         Torus.ofInt (Type321.k) ![4, -1, -1] := by
   refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩ <;>
-    exact (matAct_gen_ofInt_Idx2R _ _ _).trans (by congr 1 <;> decide)
+    exact (matAct_gen_ofInt_Idx2R _ _ _).trans (by congr 1)
 
 theorem images_t331 :
     (StrothTypeIndex.t331).action.φuv (gen (StrothTypeIndex.t331).k 0) =
@@ -133,7 +133,7 @@ theorem images_t331 :
     (StrothTypeIndex.t331).action.φρ (gen (StrothTypeIndex.t331).k 2) =
         Torus.ofInt (Type321.k) ![4, -1, -1] := by
   refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩ <;>
-    exact (matAct_gen_ofInt_Idx2R _ _ _).trans (by congr 1 <;> decide)
+    exact (matAct_gen_ofInt_Idx2R _ _ _).trans (by congr 1)
 
 theorem hasStrothTypeOver_t321_or_t331_of_noInvolutionsCentralizing_t111 {t : ℕ}
     (D : StrothTypeData B (StrothTypeIndex.t111 t))

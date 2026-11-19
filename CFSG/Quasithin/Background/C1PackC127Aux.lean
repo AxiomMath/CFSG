@@ -49,7 +49,7 @@ theorem a4Data_eq_of_invariant {X W D : Subgroup G} {c : G} (h : A4Data X W c) (
     have hf : Function.Injective f := by
       intro i j hij
       fin_cases i <;> fin_cases j <;> simp [f, Subtype.ext_iff] at hij ⊢
-      all_goals first | exact hd1' hij.symm | exact hd1' hij | exact he1 hij.symm | exact he1 hij |
+      all_goals first | exact hd1' hij.symm | exact hd1' hij | exact he1 hij.symm |
         exact hed hij.symm | exact hed hij
     calc 3 = Nat.card (Fin 3) := by simp
       _ ≤ Nat.card D := Nat.card_le_card_of_injective f hf

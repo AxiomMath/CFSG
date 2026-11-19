@@ -15,7 +15,7 @@ private theorem w16l_comap_fusionOddCore_eq {X Y : Type} [Group X] [Finite X]
     (hodd : Odd (Nat.card ψ.ker)) :
     (fusionOddCore Y).comap ψ = fusionOddCore X := by
   let H : Subgroup X := (fusionOddCore Y).comap ψ
-  haveI hHnormal : H.Normal := by
+  have hHnormal : H.Normal := by
     dsimp [H]; infer_instance
   have hHodd : Odd (Nat.card H) := by
     let f : ↥H →* Y := ψ.comp H.subtype
@@ -39,7 +39,7 @@ private theorem w16l_comap_fusionOddCore_eq {X Y : Type} [Group X] [Finite X]
   have hHle : H ≤ fusionOddCore X :=
     CFSG.EvenSporadicStandard.Fin76b.le_fusionOddCore hHodd
   have hOle : fusionOddCore X ≤ H := by
-    haveI : ((fusionOddCore X).map ψ).Normal :=
+    have : ((fusionOddCore X).map ψ).Normal :=
       Subgroup.Normal.map inferInstance ψ hψ
     have hodd' : Odd (Nat.card ((fusionOddCore X).map ψ)) :=
       Odd.of_dvd_nat (CFSG.EvenSporadicStandard.Fin76b.odd_natCard_fusionOddCore X)
@@ -72,11 +72,11 @@ variable {G : Type} [Group G] [Finite G] {V H T : Subgroup G} {X : Type} [Group 
 theorem ShapeData.kBarOddQuotShape (d : ShapeData V H T φ) {m : ℕ}
     (h : IsSymGp (X ⧸ fusionOddCore X) m) :
     KBarOddQuotShape V H T (fun Y _ => IsSymGp Y m) := by
-  haveI : Finite X := d.finite
+  have : Finite X := d.finite
   obtain ⟨Y, hYgrp, φ₀, ψ, hbar, hψsurj, _hcomp, hψker⟩ :=
     exists_central_quotient d.hyp83 d.eq_sup d.bar
-  letI := hYgrp
-  haveI : Finite Y := Finite.of_surjective φ₀ hbar.surjective
+  let := hYgrp
+  have : Finite Y := Finite.of_surjective φ₀ hbar.surjective
   have hoddψ : Odd (Nat.card ψ.ker) :=
     Odd.of_dvd_nat d.odd_card_center (Subgroup.card_dvd_of_le hψker)
   exact ⟨Y, hYgrp, φ₀, hbar,
@@ -84,7 +84,7 @@ theorem ShapeData.kBarOddQuotShape (d : ShapeData V H T φ) {m : ℕ}
 
 theorem ShapeData.noHyp85 (d : ShapeData V H T φ) (h : ¬ Hyp85Three' V H T) :
     NoHyp85 X (barSub (kGenIn V H) φ V) := by
-  haveI : Finite X := d.finite
+  have : Finite X := d.finite
   have hc := Hyp83.card_barSub_eq_two_pow_rankBarV d.hyp83 d.eq_sup d.bar
   unfold NoHyp85
   refine ⟨?_, ?_, ?_⟩

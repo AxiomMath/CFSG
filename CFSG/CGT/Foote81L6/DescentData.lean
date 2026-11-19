@@ -32,6 +32,7 @@ variable {G : Type*} [Group G] [Finite G] {T : Subgroup G} {k n : ℕ}
 
 local notation "ρ" => QuotientGroup.mk' (D.descM O)
 
+omit [Finite G] in
 theorem exists_conj_mul_a_of_involution {y : G} (hy : y ∈ D.A) (hy2 : orderOf y = 2)
     (hya : y ≠ D.a) : ∃ u ∈ D.A, u * y * u⁻¹ = y * D.a := by
   have hyy : y * y = 1 := by rw [← sq, ← hy2]; exact pow_orderOf_eq_one y
@@ -58,6 +59,7 @@ theorem exists_conj_mul_a_of_involution {y : G} (hy : y ∈ D.A) (hy2 : orderOf 
     exact congrArg Subtype.val this
 
 include hO in
+omit [Finite G] in
 theorem exists_lift_involution {xb : G ⧸ D.descM O} (hx : xb ∈ D.A.map ρ) (hx2 : orderOf xb = 2)
     (hxa : xb ≠ ρ D.a₀) : ∃ x ∈ D.A, ρ x = xb ∧ orderOf x = 2 ∧ x ≠ D.a := by
   obtain ⟨y, hy, rfl⟩ := hx
@@ -113,6 +115,7 @@ theorem exists_lift_involution {xb : G ⧸ D.descM O} (hx : xb ∈ D.A.map ρ) (
       cases this
 
 include hO in
+omit [Finite G] in
 theorem orderOf_mk_of_mem_B {x : G} (hx : x ∈ D.B) : orderOf (ρ x) = orderOf x := by
   have hinj : Function.Injective ((ρ).comp D.B.subtype) := by
     intro u v h
@@ -121,6 +124,7 @@ theorem orderOf_mk_of_mem_B {x : G} (hx : x ∈ D.B) : orderOf (ρ x) = orderOf 
   rw [Subgroup.orderOf_mk] at this
   exact this
 
+omit [Finite G] in
 theorem orderOf_mul_of_A_B {x r : G} (hx : x ∈ D.A) (hx2 : orderOf x = 2) (hr : r ∈ D.B)
     (hr2 : orderOf r = 2) : orderOf (x * r) = 2 ∧ orderOf (x * r * D.a) = 2 := by
   have hxx : x * x = 1 := by rw [← sq, ← hx2]; exact pow_orderOf_eq_one x
@@ -298,6 +302,7 @@ variable {G : Type*} [Group G] [Finite G] {T : Subgroup G} {k n : ℕ}
 local notation "ρ" => QuotientGroup.mk' (D.descM O)
 
 include hO in
+omit [Finite G] in
 theorem mk_ne_one_of_mem_T {x : G} (hx : x ∈ T) (hx1 : x ≠ 1) (hxa : x ≠ D.a) : ρ x ≠ 1 := by
   intro h
   have : x ∈ T ⊓ D.descM O := mem_inf.2 ⟨hx, (QuotientGroup.eq_one_iff _).1 h⟩
@@ -307,6 +312,7 @@ theorem mk_ne_one_of_mem_T {x : G} (hx : x ∈ T) (hx1 : x ≠ 1) (hxa : x ≠ D
   · exact hxa h1
 
 include hO in
+omit [Finite G] in
 theorem mem_of_mk_mem {X : Subgroup G} (hXT : X ≤ T) (haX : D.a ∈ X) {x : G} (hx : x ∈ T)
     (h : ρ x ∈ X.map ρ) : x ∈ X := by
   obtain ⟨y, hy, hxy⟩ := h
@@ -321,6 +327,7 @@ theorem mem_of_mk_mem {X : Subgroup G} (hXT : X ≤ T) (haX : D.a ∈ X) {x : G}
   · exact mul_mem hy haX
 
 include hO in
+omit [Finite G] in
 theorem stronglyInvolutionClosed_of_map {X : Subgroup G} (hXT : X ≤ T) (haX : D.a ∈ X)
     (haO : ∀ g : G, g * D.a * g⁻¹ * D.a⁻¹ ∈ O)
     (h : StronglyInvolutionClosed (X.map ρ) (T.map ρ)) : StronglyInvolutionClosed X T := by
@@ -343,6 +350,7 @@ theorem stronglyInvolutionClosed_of_map {X : Subgroup G} (hXT : X ≤ T) (haX : 
     exact D.mem_of_mk_mem hO hXT haX hg this
 
 include hO in
+omit [Finite G] in
 theorem Astar_descent : (D.descent hO).Astar = D.Astar.map ρ := by
   rw [Astar, Astar, MonoidHom.map_closure]
   congr 1

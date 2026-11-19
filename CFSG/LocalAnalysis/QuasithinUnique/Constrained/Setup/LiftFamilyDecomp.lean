@@ -112,6 +112,7 @@ theorem H_perm_I (ctx : FamilyCtx H T n F r Lc) {h : V ≃ₗ[ZMod 2] V} (hh : h
   rw [← commGL_conjSub]
   exact congrArg (fun X => commGL X ⊤) hj
 
+omit [Finite V] in
 theorem H_fix_C (ctx : FamilyCtx H T n F r Lc) {h : V ≃ₗ[ZMod 2] V} (hh : h ∈ H) {c : V}
     (hc : c ∈ fixGL (oddGen H)) : h c ∈ fixGL (oddGen H) :=
   (mem_fixSub_map_iff (MonoidHom.id (V ≃ₗ[ZMod 2] V)) (mem_normalizer_oddGen ctx hh) c).2 hc

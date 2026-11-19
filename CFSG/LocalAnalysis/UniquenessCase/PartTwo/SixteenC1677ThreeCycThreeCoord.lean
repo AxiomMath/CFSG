@@ -132,7 +132,7 @@ private lemma s168e3_cyc3_pow_eq_of_coord {Z₁ Z₂ : Subgroup W} (hZtop : Z₁
   · intro z hz
     rw [s168e3_cyc3_pow_fix hyfix₂ m z hz, hkfix₂ z hz]
 
-theorem s168e3_cyc3_coord [Finite W] (hW : ∀ w : W, w ^ 2 = 1) {A E : Subgroup (MulAut W)}
+theorem s168e3_cyc3_coord [Finite W] (_hW : ∀ w : W, w ^ 2 = 1) {A E : Subgroup (MulAut W)}
     {x y₂ : MulAut W} {Z₁ Z₂ : Subgroup W} (hEA : E ≤ A)
     (hEc : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a) (hE3 : ∀ a ∈ E, a ^ 3 = 1) (hxE : x ∈ E)
     (hy₂E : y₂ ∈ E) (hy₂ : y₂ ≠ 1) (hfpf : ∀ w : W, x w = w → w = 1)

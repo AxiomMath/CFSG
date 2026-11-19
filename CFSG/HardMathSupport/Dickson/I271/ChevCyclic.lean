@@ -17,7 +17,7 @@ theorem chevCyclicCase_of_kdata (hK65 : ∀ p : ℕ, p.Prime → p ≠ 2 → KD6
   have hHH := kdHallHigmanL2_holds
   intro X _ _ p K B hH hLie hcyc
   have hp := hH.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hin := hH.inducesInnerIn_of_cyclic (hK65 p hp hH.odd) hcyc
   obtain ⟨k, b₀, hb₀B, hb₀act, hkZ, hkp, hstar⟩ := hH.exists_gen hcyc hin
   have hq := hH.quasi
@@ -41,8 +41,8 @@ theorem chevCyclicCase_of_kdata (hK65 : ∀ p : ℕ, p.Prime → p ≠ 2 → KD6
     simpa using card_le_of_elemAbelian_of_unique hko hstar' hE
   let eS : (↥K ⧸ Subgroup.center ↥K) ≃* ↥K :=
     (QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot
-  haveI hsimpQ : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hq.2
-  haveI hsimp : IsSimpleGroup ↥K := eS.symm.isSimpleGroup
+  have hsimpQ : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hq.2
+  have hsimp : IsSimpleGroup ↥K := eS.symm.isSimpleGroup
   have hnc : ∃ a b : ↥K, a * b ≠ b * a := by
     obtain ⟨u, v, huv⟩ := exists_noncomm_of_isQuasisimple hq
     exact ⟨eS u, eS v, fun h => huv (eS.injective (by rw [map_mul, map_mul]; exact h))⟩

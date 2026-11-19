@@ -54,13 +54,13 @@ theorem ker_le_of_S5 [Finite G] (A B S R : Subgroup G) (hSB : S ≤ B)
       rw [MonoidHom.mem_ker]
       by_contra hfx
       exact h ⟨x, hx, hfx⟩
-    haveI hN'normal : (N.map f).Normal := hNnormal.map f hfs
+    have hN'normal : (N.map f).Normal := hNnormal.map f hfs
     have hN'ne : N.map f ≠ ⊥ := by
       intro h
       have hmem : f n ∈ N.map f := Subgroup.mem_map_of_mem f hnN
       rw [h, Subgroup.mem_bot] at hmem
       exact hnf hmem
-    haveI hN'triv : Nontrivial (N.map f) := (Subgroup.nontrivial_iff_ne_bot (N.map f)).mpr hN'ne
+    have hN'triv : Nontrivial (N.map f) := (Subgroup.nontrivial_iff_ne_bot (N.map f)).mpr hN'ne
     have hA5 : alternatingGroup (Fin 5) ≤ N.map f :=
       Equiv.Perm.alternatingGroup_le_of_normal (N := N.map f) (by simp) inferInstance
     have hdvd2 : (N.map f).index ∣ 2 := by

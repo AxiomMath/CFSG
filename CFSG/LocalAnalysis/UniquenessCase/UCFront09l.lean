@@ -40,6 +40,7 @@ end Defs
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem commutator_omega1_ne_bot {X Z D : Subgroup G} (hZ2 : IsPGroup 2 Z)
     (hZc : ∀ a ∈ Z, ∀ b ∈ Z, a * b = b * a) (hXZ : X ≤ normalizer (Z : Set G))
     (hXC : ¬ X ≤ centralizer (Z : Set G)) (hDX : D ≤ X) (hD : Nat.card D = 3)
@@ -58,6 +59,7 @@ theorem commutator_omega1_ne_bot {X Z D : Subgroup G} (hZ2 : IsPGroup 2 Z)
       (h (CFSG.Goldschmidt.GoldType.mem_omega1 ha (by rw [pow_two]; exact ha2))) b (hDx hb)
   exact mem_centralizer_iff.2 fun a ha => (hcomm a ha).symm
 
+omit [Finite G] in
 private theorem sq_eq_one_of_mem_omega1 {M X : Subgroup G} (hXM : X ≤ M) :
     ∀ v ∈ CFSG.Goldschmidt.Omega1 ⁅pCoreOf 2 M ⊓ centralizer (pCoreOf 2 M : Set G) ⊓ X, X⁆,
       v ^ 2 = 1 := by
@@ -70,6 +72,7 @@ private theorem sq_eq_one_of_mem_omega1 {M X : Subgroup G} (hXM : X ≤ M) :
     ⟨⟨fun b c => Subtype.ext (mem_centralizer_iff.1 (hZc (hV c.2)) _ (hV b.2))⟩⟩
     (fun t ht => ht.2) rfl
 
+omit [Finite G] in
 theorem sq_eq_one_of_mem_E9 {M X : Subgroup G} (hXM : X ≤ M) : ∀ a ∈ E9 M X, a ^ 2 = 1 :=
   fun a ha => sq_eq_one_of_mem_omega1 hXM a
     (le_normalizer_iff_commutator_le_left.1 ((normalizer_commutator_ge_right _ _).trans
@@ -78,7 +81,7 @@ theorem sq_eq_one_of_mem_E9 {M X : Subgroup G} (hXM : X ≤ M) : ∀ a ∈ E9 M 
 theorem E9_ne_bot {M L X : Subgroup G} (hLM : L ≤ M) (hXL : X ≤ L) (hcov : L = X ⊔ pCoreOf 2 L)
     (hA5 : IsAlt (Bar2 L) 5) (hX : Opp 3 X = X)
     (hZ : ⁅pCoreOf 2 M ⊓ centralizer (pCoreOf 2 M : Set G) ⊓ X, X⁆ ≠ ⊥) : E9 M X ≠ ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hXM := hXL.trans hLM
   obtain ⟨D, hDX, hD⟩ := exists_card_eq_three hXL hcov hA5
   exact commutator_omega1_ne_bot ((CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 M).to_le
@@ -111,11 +114,12 @@ theorem commutator_E9_eq {M L X : Subgroup G} (hLM : L ≤ M) (hXL : X ≤ L)
   rw [card_map_of_injective (MulAut.conj x).injective, hD] at h3
   exact orderOf_dvd_iff_pow_eq_one.1 h3
 
+omit [Finite G] in
 theorem le_normalizer_I9 (H : Subgroup G) : H ≤ normalizer (I9 H : Set G) :=
   CFSG.RankThree.GroupTheory.SteinbergBM.le_normalizer_inSubgroup_pPrimeCore 3 H
 
 theorem not_dvd_card_I9 (H : Subgroup G) : ¬ 3 ∣ Nat.card (I9 H) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).1
     (CFSG.RankThree.GroupTheory.SteinbergBM.coprime_card_inSubgroup_pPrimeCore H)
 
@@ -139,7 +143,7 @@ theorem relPPrimeCore_two_I9_le {M L X H : Subgroup G} (hLM : L ≤ M) (hXL : X 
     (hMX : UniqueMax M X)
     (hND : ∀ A : Subgroup G, A ≤ X → Nat.card A = 3 → normalizer (A : Set G) ≤ M)
     (hXH : X ≤ H) : CFSG.Open.relPPrimeCore 2 (I9 H) ≤ M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hXM : X ≤ M := hXL.trans hLM
   obtain ⟨D, hDX, hD⟩ := exists_card_eq_three hXL hcov hA5
   have hEZ := E9_le M X

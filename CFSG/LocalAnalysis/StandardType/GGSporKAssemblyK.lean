@@ -22,7 +22,7 @@ theorem ggSporK_pair_of_inputsAK_of_simple (s : TauCeti.SporadicName) (p : ℕ)
   have hKs : IsSimpleGroup (TauCeti.CFSGIndex.sporadic s).Group := by
     obtain ⟨rfl, rfl⟩ := hi
     obtain ⟨e⟩ := he
-    haveI : IsSimpleGroup ↥(CFSG.generalizedFitting W) := hyp.2.1.1
+    have : IsSimpleGroup ↥(CFSG.generalizedFitting W) := hyp.2.1.1
     exact e.symm.isSimpleGroup
   have hKk : CFSG.Open.IsKGroup (TauCeti.CFSGIndex.sporadic s).Group := by
     obtain ⟨rfl, rfl⟩ := hi

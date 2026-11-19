@@ -39,7 +39,7 @@ theorem fieldNine_SU {F : Type} [Field F] [Finite F] {q : ℕ} (hF : Nat.card F 
     rw [Matrix.diagonal_map (by simp [hq0.ne'])]
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.diagonal_apply, Matrix.mul_apply, Fin.sum_univ_three, ← pow_succ, hx, hy, hz]
+      simp [Matrix.diagonal_apply, Matrix.mul_apply, ← pow_succ, hx, hy, hz]
   have hstd : NineFix (StatedSU 3 q F) (GeneralLinearGroup.map (σ : F →+* F)) := by
     refine nineFix_of_mem hω ?_ ?_ σ
     · intro a b ha hb

@@ -68,7 +68,7 @@ theorem D1OneSmallData.rbar_le_sup_centralizer (hOut : KFactSmallOutPPrime)
   have hrN : r ∈ Subgroup.normalizer (K : Set (H ⧸ primeComplementCore (G := H) p)) :=
     hd.cfg.red.sylow_le_normalizer_component hd.comp hr
   set f : MulAut K := K.normalizerMonoidHom ⟨r, hrN⟩ with hf
-  obtain ⟨n, hn⟩ := Rbar.isPGroup' ⟨r, hr⟩
+  obtain ⟨n, hn⟩ := Rbar.isPGroup ⟨r, hr⟩
   have hrn : r ^ p ^ n = 1 := by simpa using congrArg Subtype.val hn
   have hfn : f ^ p ^ n = 1 := by
     have h1 : (⟨r, hrN⟩ : Subgroup.normalizer (K : Set _)) ^ p ^ n = 1 :=
@@ -124,7 +124,7 @@ theorem D1OneSmallData.card_le_and_decomp_of_b0_of_le_sup (hExp : KFactSmallSylo
     Subgroup.centralizer (K : Set (H ⧸ primeComplementCore (G := H) p)) with hY
   obtain ⟨z₀, hz₀R, hz₀K, hz₀p, hz₀c⟩ := hd.z
   have hKX₀ := (hd.cfg.red.rankOne_principle hd.comp hd.noncyclic hz₀R hz₀K hz₀p hz₀c).2
-  have hYp : IsPGroup p Y := Rbar.isPGroup'.to_le inf_le_left
+  have hYp : IsPGroup p Y := Rbar.isPGroup.to_le inf_le_left
   have hYcyc : IsCyclic Y := by
     by_contra hnc
     have h2 := two_le_pRank_of_isPGroup_not_isCyclic hp hp2 hYp hnc
@@ -138,7 +138,7 @@ theorem D1OneSmallData.card_le_and_decomp_of_b0_of_le_sup (hExp : KFactSmallSylo
     obtain ⟨T₁, -, hs, hnab, hc, hT₁nc, hΓ, -⟩ := hd.exists_sylow
     have hexp : ∀ t ∈ (Rbar : Subgroup (H ⧸ primeComplementCore (G := H) p)) ⊓ K, t ^ p = 1 := by
       intro t ht
-      obtain ⟨n, hn⟩ := Rbar.isPGroup' ⟨t, ht.1⟩
+      obtain ⟨n, hn⟩ := Rbar.isPGroup ⟨t, ht.1⟩
       have htn : t ^ p ^ n = 1 := by simpa using congrArg Subtype.val hn
       have hk1 : (⟨t, ht.2⟩ : K) ^ p ^ n = 1 := Subtype.ext (by rw [Subgroup.coe_pow]; exact htn)
       have h1 := hExp K hs hnab hc p hp hp2 T₁ hT₁nc hΓ hd.small ⟨t, ht.2⟩ ⟨n, hk1⟩
@@ -158,7 +158,7 @@ theorem D1OneSmallData.card_le_and_decomp_of_b0_of_le_sup (hExp : KFactSmallSylo
       exact Subgroup.mem_zpowers_iff.mpr ⟨j, by simpa using congrArg Subtype.val hj⟩
     have hoG : ∃ o ∈ R, o ^ N = z :=
       ⟨o', ho', by simpa using congrArg Subtype.val ho'z⟩
-    have hPR := eq_of_pow_mem_zpowers P.isPGroup' hd.cfg.ext.le_P hz.2.1
+    have hPR := eq_of_pow_mem_zpowers P.isPGroup hd.cfg.ext.le_P hz.2.1
       (hd.inf_centralizer_le_of_b0 hB0) hNG hoG
     have h4 := betaFour_all_sylows_rank_ge_four hd.cfg.loc.beta P
     rw [hPR, hd.pRank_R] at h4

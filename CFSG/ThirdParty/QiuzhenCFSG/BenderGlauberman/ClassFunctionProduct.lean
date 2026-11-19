@@ -303,6 +303,7 @@ public theorem exists_irr_constituent_of_character {G : Type u} [Group G] [Finty
   rw [hsp]
   exact_mod_cast hms
 
+omit [Fintype G] [Fintype H] in
 private theorem isConj_prod_iff (x y : G × H) :
     IsConj x y ↔ IsConj x.1 y.1 ∧ IsConj x.2 y.2 := by
   constructor

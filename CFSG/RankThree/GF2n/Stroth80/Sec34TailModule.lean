@@ -37,8 +37,8 @@ theorem exists_hom_restrict_submodule (L : Subgroup (E ≃ₗ[K] E)) (Z : Submod
     ∃ σ : L →* (Z ≃ₗ[K] Z), ∀ (ℓ : L) (z : Z), (σ ℓ z : E) = (ℓ : E ≃ₗ[K] E) z :=
   ⟨{ toFun := fun ℓ =>
         { toFun := fun z => ⟨(ℓ : E ≃ₗ[K] E) z, hZ _ ℓ.2 _ z.2⟩
-          map_add' := fun x y => Subtype.ext (map_add _ _ _)
-          map_smul' := fun a x => Subtype.ext (map_smul _ _ _)
+          map_add' := fun _x _y => Subtype.ext (map_add _ _ _)
+          map_smul' := fun _a _x => Subtype.ext (map_smul _ _ _)
           invFun := fun z => ⟨(ℓ : E ≃ₗ[K] E).symm z, hZ _ (L.inv_mem ℓ.2) _ z.2⟩
           left_inv := fun z => Subtype.ext ((ℓ : E ≃ₗ[K] E).symm_apply_apply z)
           right_inv := fun z => Subtype.ext ((ℓ : E ≃ₗ[K] E).apply_symm_apply z) }
@@ -134,7 +134,7 @@ theorem finrank_minimal_invariant_eq_two_pow (hSL2 : SL2ModuleDimStatement) {k :
     ∃ j : ℕ, 2 ≤ j ∧ finrank (GaloisField 2 k) Z = 2 ^ j := by
   obtain ⟨φ⟩ := hLiso
   obtain ⟨σ, hσ⟩ := exists_hom_restrict_submodule L Z hZL
-  haveI : Nontrivial Z := Submodule.nontrivial_iff_ne_bot.mpr hZ0
+  have : Nontrivial Z := Submodule.nontrivial_iff_ne_bot.mpr hZ0
   have hρ : ∀ ℓ : L, (σ.comp φ.symm.toMonoidHom) (φ ℓ) = σ ℓ := fun ℓ => by simp
   refine hSL2 k hk Z (σ.comp φ.symm.toMonoidHom) (fun W hW => ?_) ?_
   · have hWL : ∀ ℓ ∈ L, ∀ x ∈ W.map Z.subtype, ℓ x ∈ W.map Z.subtype := by
@@ -172,7 +172,7 @@ theorem exists_fixed_vector_of_sl2 (hSL2 : SL2ModuleDimStatement) {k : ℕ} (hk 
   have hfix : ∀ e : E, (∀ ℓ ∈ L, ℓ e = e) → e = 0 := fun e he => by
     by_contra h0
     exact hF ⟨e, h0, he⟩
-  haveI : Nontrivial E := Module.nontrivial_of_finrank_eq_succ hdim
+  have : Nontrivial E := Module.nontrivial_of_finrank_eq_succ hdim
   obtain ⟨X, -, hX0, hXL, hXmin⟩ :=
     exists_minimal_invariant_submodule L ⊤ top_ne_bot fun _ _ _ _ => Submodule.mem_top
   obtain ⟨j, hj, hXj⟩ :=
@@ -218,9 +218,9 @@ theorem stroth34_module_false (hSL2 : SL2ModuleDimStatement) {k : ℕ} (hk : 2 �
     (H : Subgroup (E ≃ₗ[GaloisField 2 k] E)) (hHQ : ∀ h ∈ H, ∀ e : E, Qf (h e) = Qf e)
     (hHchar : ∀ χ : H →* (GaloisField 2 k)ˣ, χ = 1)
     (L : Subgroup (E ≃ₗ[GaloisField 2 k] E)) (hLH : L ≤ H) (hLn : (L.subgroupOf H).Normal)
-    (hLsimple : IsSimpleGroup L)
+    (_hLsimple : IsSimpleGroup L)
     (hLiso : Nonempty (L ≃* Matrix.SpecialLinearGroup (Fin 2) (GaloisField 2 (2 * k))))
-    (b : E) (hb0 : b ≠ 0) (hbs : Qf b = 0)
+    (b : E) (_hb0 : b ≠ 0) (hbs : Qf b = 0)
     (hspan : Submodule.span (GaloisField 2 k)
       (Set.range fun ℓ : L => ((ℓ : E ≃ₗ[GaloisField 2 k] E)) b) = ⊤)
     (Λ : Subgroup (E ≃ₗ[GaloisField 2 k] E)) (hΛH : Λ ≤ H) (hΛb : ∀ t ∈ Λ, t b = b)

@@ -16,7 +16,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 variable {W : Type} [CommGroup W] [Finite W] {L : Subgroup (MulAut W)}
 
 theorem s16t3_card_irr_quot_of_sum_three (helem : ∀ w : W, w * w = 1)
-    (hq : CFSG.Open.IsQuasisimple ↥L) (hcomm : commSub ⊤ L = ⊤)
+    (hq : CFSG.Open.IsQuasisimple ↥L) (_hcomm : commSub ⊤ L = ⊤)
     (hsum : SumOfNatShape L (⊤ : Subgroup W) (fixV L) 3)
     (htrans : ∀ I₁ ∈ irrSet L, ∀ I₂ ∈ irrSet L,
       ∃ g ∈ Subgroup.normalizer (L : Set (MulAut W)), I₂ = I₁.map g.toMonoidHom) :

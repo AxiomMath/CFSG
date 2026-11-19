@@ -160,8 +160,7 @@ theorem r11 (s : ℤ) (hs : Even s) (t u : F.K) :
         F.X' (6 + s) (t * F.sigma u) := by
   obtain ⟨k, hk⟩ := hs
   have h := congrArg (MulAut.conj (F.rho ^ (k + 1))) (F.comm_X0_X5 t u)
-  simp only [map_commutatorElement, MulAut.conj_apply, map_mul, map_inv,
-    F.conj_rho_X, F.conj_rho_X'] at h
+  simp only [map_commutatorElement, MulAut.conj_apply, map_mul, F.conj_rho_X, F.conj_rho_X'] at h
   rwa [show (0 : ℤ) + 2 * (k + 1) = 2 + s by omega,
     show (5 : ℤ) + 2 * (k + 1) = 7 + s by omega,
     show (2 : ℤ) + 2 * (k + 1) = 4 + s by omega,
@@ -172,8 +171,7 @@ theorem r4 (s : ℤ) (hs : Even s) (t u : F.K) :
       F.X' (2 + s) (F.sigma t * u) * F.X (3 + s) (t * F.sigma u) *
         F.X' (4 + s) (t * F.sigma u * u) := by
   have h0 := congrArg (MulAut.conj F.a) (F.comm_X0_X5 u t)
-  simp only [map_commutatorElement, MulAut.conj_apply, map_mul, map_inv,
-    F.conj_a_X, F.conj_a_X' (by decide : Even (2 : ℤ)),
+  simp only [map_commutatorElement, MulAut.conj_apply, map_mul, F.conj_a_X, F.conj_a_X' (by decide : Even (2 : ℤ)),
     F.conj_a_X' (by decide : Even (4 : ℤ))] at h0
   norm_num at h0
   have h1 : ⁅F.X 5 t, F.X 10 u⁆ =
@@ -185,8 +183,7 @@ theorem r4 (s : ℤ) (hs : Even s) (t u : F.K) :
     group
   obtain ⟨k, hk⟩ := hs
   have h := congrArg (MulAut.conj (F.rho ^ (k - 2))) h1
-  simp only [map_commutatorElement, MulAut.conj_apply, map_mul, map_inv,
-    F.conj_rho_X, F.conj_rho_X'] at h
+  simp only [map_commutatorElement, MulAut.conj_apply, map_mul, F.conj_rho_X, F.conj_rho_X'] at h
   rw [show (5 : ℤ) + 2 * (k - 2) = 1 + s by omega,
     show (10 : ℤ) + 2 * (k - 2) = 6 + s by omega,
     show (6 : ℤ) + 2 * (k - 2) = 2 + s by omega,
@@ -198,7 +195,7 @@ private theorem conj_X1_X6 (y : F.K) :
     F.X 1 1 * F.X 6 y * (F.X 1 1)⁻¹ =
       F.X' 2 y * F.X 3 (F.sigma y) * F.X' 4 (F.sigma y * y) * F.X 6 y := by
   have h := F.r4 0 (by decide : Even (0 : ℤ)) 1 y
-  simp only [add_zero, mul_one, map_one, one_mul] at h
+  simp only [add_zero, map_one, one_mul] at h
   have h' : F.X 1 1 * F.X 6 y * (F.X 1 1)⁻¹ * (F.X 6 y)⁻¹ =
       F.X' 2 y * F.X 3 (F.sigma y) * F.X' 4 (F.sigma y * y) := by
     simpa [commutatorElement_def] using h
@@ -210,7 +207,7 @@ private theorem conj_X1_X6 (y : F.K) :
 private theorem conj_X1_Xp6 (z : F.K) :
     F.X 1 1 * F.X' 6 z * (F.X 1 1)⁻¹ = F.X' 4 z * F.X' 6 z := by
   have h := F.r3 0 (by decide : Even (0 : ℤ)) 1 z
-  simp only [add_zero, mul_one, map_one, one_mul] at h
+  simp only [add_zero, one_mul] at h
   have h' : F.X 1 1 * F.X' 6 z * (F.X 1 1)⁻¹ * (F.X' 6 z)⁻¹ = F.X' 4 z := by
     simpa [commutatorElement_def] using h
   calc

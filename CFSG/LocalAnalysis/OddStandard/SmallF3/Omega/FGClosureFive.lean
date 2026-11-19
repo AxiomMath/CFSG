@@ -22,7 +22,7 @@ theorem fg_simInGStar_of_odd (hQ : Q.Nondegenerate) (h0 : 0 < Module.finrank (ZM
     (hodd : ¬ Even (Module.finrank (ZMod 3) V)) (x : ProjSim Q) : SimInGStar x := by
   obtain ⟨γ, rfl⟩ := QuotientGroup.mk_surjective x
   have hidx := index_orthogonalGroup_subgroupOf_simGroup hQ h0
-  rw [if_neg hodd, Subgroup.index_eq_one] at hidx
+  rw [ite_eq_right hodd, Subgroup.index_eq_one] at hidx
   have hγ : (γ : V ≃ₗ[ZMod 3] V) ∈ TauCeti.QuadraticMap.orthogonalGroup Q := by
     have h : γ ∈ (TauCeti.QuadraticMap.orthogonalGroup Q).subgroupOf (simGroup Q) := by
       rw [hidx]
@@ -35,9 +35,9 @@ theorem fg_simInGStar_of_odd (hQ : Q.Nondegenerate) (h0 : 0 < Module.finrank (ZM
 theorem fg_closureFix_five (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V = 5)
     (hs : quadSign Q = 1) : ClosureFix ↥(omegaProj hQ) := by
   have h2 : 2 ≤ Module.finrank (ZMod 3) V := by omega
-  haveI : Finite (OGroup Q) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
-  haveI : Finite ↥(omegaGroup hQ) := Subtype.finite
-  haveI : Finite ↥(omegaProj hQ) :=
+  have : Finite (OGroup Q) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
+  have : Finite ↥(omegaGroup hQ) := Subtype.finite
+  have : Finite ↥(omegaProj hQ) :=
     Finite.of_surjective (omegaToProj hQ) (omegaToProj_surjective hQ)
   have hπ : piOrth Q ∉ omegaGroup hQ := by
     rw [piOrth_mem_omegaGroup_iff hQ, hdim]

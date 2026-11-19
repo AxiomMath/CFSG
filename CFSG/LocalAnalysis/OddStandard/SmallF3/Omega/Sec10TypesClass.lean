@@ -76,7 +76,7 @@ theorem isI4PlusIn_of_invCent
     (hy : InvCent 1152 y) : IsI4PlusIn QP45.originalSubgroup y := by
   have hB : InvCent 192 Pk.tB := rowB
   have h2 : orderOf y = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime (by rw [pow_two]; exact hy.2.1) hy.2.2.1
   obtain ⟨c, hc, hcov⟩ := Pk.exists_cover_pk hyP h2
   have hcA : c⁻¹ ∈ QA45.originalSubgroup := QA45.originalSubgroup.inv_mem (QP45_le_QA45 hc)

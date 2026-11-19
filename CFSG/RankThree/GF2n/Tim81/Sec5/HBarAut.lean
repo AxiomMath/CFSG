@@ -187,6 +187,7 @@ end Sec45Shape
 
 namespace Sec45Shape
 
+omit [Finite G] in
 private theorem hBarConj_congr {V H : Subgroup G} {b b' : G} (hbb' : b = b')
     (hbH : b ∈ Subgroup.normalizer (H : Set G))
     (hbK : b ∈ Subgroup.normalizer (kOf V H : Set G))
@@ -204,6 +205,7 @@ private theorem hBarConj_congr {V H : Subgroup G} {b b' : G} (hbb' : b = b')
         congrArg (piK V H) (Subtype.ext rfl)
     _ = hBarConj hb'H hb'K (piK V H z) := (hBarConj_piK hb'H hb'K z).symm
 
+omit [Finite G] in
 private theorem hBarConj_eq_one_of_eq_one {V H : Subgroup G} {b : G}
     (hbH : b ∈ Subgroup.normalizer (H : Set G))
     (hbK : b ∈ Subgroup.normalizer (kOf V H : Set G)) (hb : b = 1) :
@@ -297,6 +299,7 @@ private theorem hBarConjAut_fixes_sylow {M V H : Subgroup G} {A : Subgroup G} {x
             (conjSubgroup_le_of_le_of_mem hPc hx₂)]
       _ = (imgK V H (conjSubgroup x₂ (Pc M V))).map ψ.toMonoidHom := by rw [hP]
 
+omit [Finite G] in
 private theorem hBarConjAut_mul_self {V H : Subgroup G} {A : Subgroup G}
     {F : Type} [Field F] [Fintype F] [CharP F 2] (ψ : HBar V H ≃* SL(2, F))
     (hNH : ∀ a ∈ A, a ∈ Subgroup.normalizer (H : Set G))
@@ -315,6 +318,7 @@ private theorem hBarConjAut_mul_self {V H : Subgroup G} {A : Subgroup G}
             MulAut.congr ψ (hBarConj (hNH a ha) (hNK a ha)) from rfl, ← map_mul]
     _ = 1 := by rw [hbar, map_one]
 
+omit [Finite G] in
 private theorem hBarConjAut_comm {V H : Subgroup G} {A : Subgroup G}
     {F : Type} [Field F] [Fintype F] [CharP F 2] (ψ : HBar V H ≃* SL(2, F))
     (hNH : ∀ a ∈ A, a ∈ Subgroup.normalizer (H : Set G))
@@ -344,6 +348,7 @@ private theorem hBarConjAut_comm {V H : Subgroup G} {A : Subgroup G}
           show hBarConjAut ψ hNH hNK a ha =
             MulAut.congr ψ (hBarConj (hNH a ha) (hNK a ha)) from rfl, map_mul]
 
+omit [Finite G] in
 private theorem hBarConjAut_mul {V H : Subgroup G} {A : Subgroup G}
     {F : Type} [Field F] [Fintype F] [CharP F 2] (ψ : HBar V H ≃* SL(2, F))
     (hNH : ∀ a ∈ A, a ∈ Subgroup.normalizer (H : Set G))
@@ -383,7 +388,7 @@ private theorem exists_two_ne_one {G : Type} [Group G] [Finite G] {A : Subgroup 
     (hA : 2 < Nat.card A) :
     ∃ a₁ : ↥A, ∃ a₂ : ↥A, a₁ ≠ 1 ∧ a₂ ≠ 1 ∧ a₁ ≠ a₂ := by
   classical
-  letI : Fintype ↥A := Fintype.ofFinite ↥A
+  let : Fintype ↥A := Fintype.ofFinite ↥A
   have hcardA : 2 < Fintype.card ↥A := by
     rw [← Nat.card_eq_fintype_card]
     exact hA
@@ -442,9 +447,9 @@ private theorem exists_hBarConj_eq_one (h : RootHyp M V) (hS : Sec45Shape M V H 
     ∃ a ∈ A, a ≠ 1 ∧ ∀ x ∈ H, ⁅a, x⁆ ∈ kOf V H := by
   classical
   obtain ⟨F, hField, hFintype, hCharP, l, hl, ψ, hw⟩ := hS.shape
-  letI := hField
-  letI := hFintype
-  letI := hCharP
+  let := hField
+  let := hFintype
+  let := hCharP
   have hNK : ∀ a ∈ A, a ∈ Subgroup.normalizer (kOf V H : Set G) := fun a ha =>
     (mem_normalizer_of_fix_conj hA2 hAH hx₁ hA₁ ha).2
   have hNH : ∀ a ∈ A, a ∈ Subgroup.normalizer (H : Set G) :=
@@ -493,6 +498,7 @@ end Sec45Shape
 
 namespace Sec5Hyp
 
+omit [Finite G] in
 private theorem mem_centralizer_conj_of_commutator_eq_bot {c : G} {U : Subgroup G}
     (hUU' : ⁅U, conjSubgroup c V⁆ = ⊥) {u : G} (huU : u ∈ U) :
     u ∈ Subgroup.centralizer (conjSubgroup c V : Set G) := by
@@ -543,6 +549,7 @@ private theorem commutator_mem_kOf_of_mem_sigmaSet (h : RootHyp M V) {c : G}
     rwa [Subgroup.commutator_comm]
   exact (hCV ▸ hle hmem').2
 
+omit [Finite G] in
 private theorem exists_pow_two_pow_eq_one_of_mem_sigmaSet (h : RootHyp M V) {U : Subgroup G}
     (hU : U ∈ sigmaSet M V) {u : G} (huU : u ∈ U) : ∃ k : ℕ, u ^ 2 ^ k = 1 := by
   obtain ⟨g, hUeq, -⟩ := hU
@@ -661,6 +668,7 @@ variable {hl : Fintype.card F = 2 ^ (2 * l)} {ψ : HBar V H ≃* SL(2, F)}
 variable (hs : QuotMod.Hyp H (kOf V H) (Tim79a.xOf V H))
 variable [((Tim79a.xOf V H).subgroupOf (kOf V H)).Normal] [Module (ZMod 2) (SecMod hs)]
 
+omit [Fintype F] [CharP F 2] in
 private theorem subSec_le_fixedSub_repSec_Pc (h : RootHyp M V) (hS : Sec45Shape M V H h₀) :
     subSec hs ((Pc M V ⊓ kOf V H) ⊔ Tim79a.xOf V H) ≤
       fixedSub (repSec hs hs.comm SL(2, F) ψ) ((imgK V H (Pc M V)).map ψ.toMonoidHom) := by
@@ -688,6 +696,7 @@ private theorem subSec_le_fixedSub_repSec_Pc (h : RootHyp M V) (hS : Sec45Shape 
     rw [← hS.inf_Pc_xOf_eq_commutator h] at hmem
     exact hmem.2
 
+omit [Fintype F] [CharP F 2] in
 private theorem subSec_le_fixedSub_repSec_conj (h : RootHyp M V) (hS : Sec45Shape M V H h₀)
     {y : G} (hyH : y ∈ H) :
     subSec hs ((conjSubgroup y (Pc M V) ⊓ kOf V H) ⊔ Tim79a.xOf V H) ≤

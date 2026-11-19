@@ -31,7 +31,7 @@ theorem exists_of_le {p : ℕ} [hp : Fact p.Prime] {R : Type} [Group R] [Finite 
     {N W : Subgroup R} (hW : W.Normal) (hWN : W ≤ N) (hcard : p ^ 2 ≤ Nat.card W)
     (hexp : ∀ x ∈ W, x ^ p = 1) :
     ∃ U : Subgroup R, U.Normal ∧ U ≤ N ∧ Nat.card U = p ^ 2 ∧ ∀ x ∈ U, x ^ p = 1 := by
-  haveI : Fact (IsPGroup p R) := ⟨hR⟩
+  have : Fact (IsPGroup p R) := ⟨hR⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 (hR.to_subgroup W)
   have hk2 : 2 ≤ k := by
     rw [hk] at hcard
@@ -71,7 +71,7 @@ theorem exists_of_preimage {p : ℕ} [hp : Fact p.Prime] (hp2 : p ≠ 2) {R : Ty
     ring
   have hUcomm : ∀ u ∈ Ubar, ∀ v ∈ Ubar, u * v = v * u := by
     intro u hu v hv
-    have := IsPGroup.commutative_of_card_eq_prime_sq hUc ⟨u, hu⟩ ⟨v, hv⟩
+    have := (IsPGroup.isMulCommutative_of_card_eq_prime_sq hUc).is_comm.comm ⟨u, hu⟩ ⟨v, hv⟩
     exact congrArg Subtype.val this
   have hcommZ : ∀ x ∈ T, ∀ y ∈ T, x * y * x⁻¹ * y⁻¹ ∈ Z := by
     intro x hx y hy
@@ -80,7 +80,7 @@ theorem exists_of_preimage {p : ℕ} [hp : Fact p.Prime] (hp2 : p ≠ 2) {R : Ty
       group
     exact (QuotientGroup.eq_one_iff _).1 this
   have hTp : IsPGroup p ↥T := hR.to_subgroup T
-  haveI : Fact (IsPGroup p ↥T) := ⟨hTp⟩
+  have : Fact (IsPGroup p ↥T) := ⟨hTp⟩
   have hZT_cen : ∀ t : ↥T, (t : R) ∈ Z → t ∈ Subgroup.center ↥T := by
     intro t ht
     rw [Subgroup.mem_center_iff]
@@ -229,7 +229,7 @@ theorem exists_of_cyclic {p : ℕ} [hp : Fact p.Prime] {R : Type} [Group R] [Fin
       intro x hx
       obtain ⟨k, hk⟩ := hdec x hx
       simpa using hk
-    haveI : IsCyclic ↥Z := isCyclic_of_prime_card hZc
+    have : IsCyclic ↥Z := isCyclic_of_prime_card hZc
     exact Subgroup.isCyclic_of_le hN1
   set u : R := g ^ (p ^ (m - 1)) with hu
   have hup : u ^ p = 1 := by
@@ -269,14 +269,14 @@ theorem exists_normal_plane {p : ℕ} [hp : Fact p.Prime] (hp2 : p ≠ 2) (n : �
   induction n using Nat.strong_induction_on with
   | _ n ih =>
   intro R _ _ hR N hN hNn hNc
-  haveI : Fact (IsPGroup p R) := ⟨hR⟩
-  haveI : N.Normal := hN
+  have : Fact (IsPGroup p R) := ⟨hR⟩
+  have : N.Normal := hN
   have hNbot : N ≠ ⊥ := by
     rintro rfl
     exact hNc (by infer_instance)
   obtain ⟨Z, hZn, hZN, hZc, hZcen⟩ :=
     CFSG.exists_central_normal_subgroup_card_eq_prime_of_nontrivial_normal (p := p) N hNbot
-  haveI : Z.Normal := hZn
+  have : Z.Normal := hZn
   set q : R →* R ⧸ Z := QuotientGroup.mk' Z with hq
   by_cases hbarc : IsCyclic (N.map q)
   · exact exists_of_cyclic hR hN hNc hZN hZc hZcen hbarc
@@ -294,7 +294,7 @@ end Plane
 
 theorem input31_5_holds : Claims1112.Input31_5 := by
   intro G _ _ p hp hp2 R Q hR hQR hQn hQc
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hc : ¬ IsCyclic ↥(Q.subgroupOf R) := fun h =>
     hQc ((MulEquiv.isCyclic (Subgroup.subgroupOfEquivOfLe hQR)).1 h)
   obtain ⟨U, hUn, hUQ, hUc, hUexp⟩ := exists_normal_plane hp2 _ ↥R hR (Q.subgroupOf R) hQn rfl hc
@@ -306,7 +306,7 @@ theorem input31_5_holds : Claims1112.Input31_5 := by
       (Subgroup.equivMapOfInjective U R.subtype R.subtype_injective).symm
     apply e.injective
     rw [map_mul, map_mul]
-    exact IsPGroup.commutative_of_card_eq_prime_sq hUc _ _
+    exact (IsPGroup.isMulCommutative_of_card_eq_prime_sq hUc).is_comm.comm _ _
   · rintro _ ⟨u, hu, rfl⟩
     simpa using congrArg Subtype.val (hUexp u hu)
   · rw [Subgroup.card_map_of_injective R.subtype_injective, hUc]
@@ -347,7 +347,7 @@ theorem mem_scalars_of_commute {K : Type} [Field K] (hK : Nat.card K = 4)
     {P : Subgroup (Matrix.SpecialLinearGroup (Fin 3) K)} (hZP : scalars 3 K ≤ P)
     (hP : Nat.card P = 27) {y : Matrix.SpecialLinearGroup (Fin 3) K}
     (hy : ∀ x ∈ P, y * x = x * y) : y ∈ scalars 3 K := by
-  haveI := CFSG.LocalAnalysis.ComponentInitial.LinearFieldFour.finite_of_card_eq_four hK
+  have := CFSG.LocalAnalysis.ComponentInitial.LinearFieldFour.finite_of_card_eq_four hK
   set E := P.map (proj 3 K) with hE
   have hker : (proj 3 K).ker ≤ P := by rw [ker_proj]; exact hZP
   have hcomap : E.comap (proj 3 K) = P := Subgroup.comap_map_eq_self hker
@@ -389,7 +389,7 @@ theorem exists_normalizer_conj_sl {K : Type} [Field K] (hK : Nat.card K = 4)
     (hU' : Nat.card U' = 9) :
     ∃ n ∈ Subgroup.normalizer (P : Set (Matrix.SpecialLinearGroup (Fin 3) K)),
       ∀ z, z ∈ U ↔ n * z * n⁻¹ ∈ U' := by
-  haveI := CFSG.LocalAnalysis.ComponentInitial.LinearFieldFour.finite_of_card_eq_four hK
+  have := CFSG.LocalAnalysis.ComponentInitial.LinearFieldFour.finite_of_card_eq_four hK
   set E := P.map (proj 3 K) with hE
   have hE9 : Nat.card E = 9 := card_map_proj hK hZP hP
   have hZU := scalars_le_of_card_eq_nine hK hU
@@ -489,7 +489,7 @@ theorem inputSL34SylowCent_holds : Claims1112.InputSL34SylowCent := by
 
 theorem inputSL34PlaneTransitive_holds : Claims1112.InputSL34PlaneTransitive := by
   intro G _ _ J S hSL hS U U' hUS hU'S hU hU'
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hSJ : S ≤ J := hS.1
   have hS3 : IsPGroup 3 ↥S := hS.2.1
   set π : ↥J →* CFSG.HardMathSupport.Solomon.LocalBalance.barOf 3 J :=
@@ -615,7 +615,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem sylow_facts_sl {J S : Subgroup G} (hSL : IsSLThreeFour (barOf 3 J)) (hS : IsSylowIn 3 J S) :
     Nat.card S = 27 ∧ (∀ x ∈ S, x ^ 3 = 1) ∧ ∃ x ∈ S, ∃ y ∈ S, x * y ≠ y * x := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hSJ : S ≤ J := hS.1
   have hS3 : IsPGroup 3 ↥S := hS.2.1
   set π : ↥J →* barOf 3 J := QuotientGroup.mk' (GLAPPrimeCore 3 ↥J) with hπ
@@ -660,7 +660,7 @@ theorem sylow_facts_sl {J S : Subgroup G} (hSL : IsSLThreeFour (barOf 3 J)) (hS 
 
 theorem card_centerOf_eq_three {P : Subgroup G} (hP : Nat.card P = 27) (hexp : ∀ x ∈ P, x ^ 3 = 1)
     (hnc : ∃ x ∈ P, ∃ y ∈ P, x * y ≠ y * x) : Nat.card (centerOf P) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3 : IsPGroup 3 ↥P := IsPGroup.of_card (n := 3) (by rw [hP]; norm_num)
   have hnc' : ¬ IsMulCommutative ↥P := by
     rintro ⟨⟨hcomm⟩⟩
@@ -673,13 +673,13 @@ theorem card_centerOf_eq_three {P : Subgroup G} (hP : Nat.card P = 27) (hexp : �
 
 theorem exists_le_card_nine {P : Subgroup G} (hP : Nat.card P = 27) (hexp : ∀ x ∈ P, x ^ 3 = 1) :
     ∃ U : Subgroup G, U ≤ P ∧ IsElemAbelian 3 U ∧ Nat.card U = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨U', hU'⟩ := Sylow.exists_subgroup_card_pow_prime (G := ↥P) 3 (n := 2)
     (by rw [hP]; norm_num)
   have hc : Nat.card ↥(U'.map P.subtype) = 3 ^ 2 := by
     rw [Subgroup.card_map_of_injective P.subtype_injective, hU']
   refine ⟨U'.map P.subtype, Subgroup.map_subtype_le U', ⟨⟨⟨fun x y => ?_⟩⟩, ?_⟩, ?_⟩
-  · exact IsPGroup.commutative_of_card_eq_prime_sq hc x y
+  · exact (IsPGroup.isMulCommutative_of_card_eq_prime_sq hc).is_comm.comm x y
   · rintro _ ⟨u, -, rfl⟩
     exact hexp _ u.2
   · rw [hc]
@@ -694,7 +694,7 @@ theorem four_le_pRank {X T J₁ J₂ J₃ : Subgroup G} (hT : IsPGroup 3 ↥T)
     (hP₃ : Nat.card ↥(T ⊓ J₃) = 27 ∧ (∀ x ∈ T ⊓ J₃, x ^ 3 = 1) ∧
       ∃ x ∈ T ⊓ J₃, ∃ y ∈ T ⊓ J₃, x * y ≠ y * x) :
     4 ≤ CFSG.Open.pRank 3 T := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hc : ∀ {Ki Kj : Subgroup G}, GLAPComponent 3 X Ki → GLAPComponent 3 X Kj → Ki ≠ Kj →
       ∀ r ∈ T ⊓ Ki, ∀ s ∈ T ⊓ Kj, r * s = s * r := fun hi hj hne r hr s hs =>
     CFSG.HardMathSupport.Solomon.UniquenessMaximal.comm_of_inf hT hi hj hne hr hs
@@ -747,7 +747,7 @@ theorem four_le_pRank {X T J₁ J₂ J₃ : Subgroup G} (hT : IsPGroup 3 ↥T)
 
 theorem le_of_frattini {X N P M : Subgroup G} (hXN : ∀ g ∈ X, ∀ n ∈ N, g * n * g⁻¹ ∈ N)
     (hP : IsSylowIn 3 N P) (hNM : N ≤ M) (hPM : Subgroup.normalizer (P : Set G) ≤ M) : X ≤ M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro g hg
   have hR : GLBConj g⁻¹ P ≤ N := by
     intro r hr
@@ -779,7 +779,7 @@ theorem le_of_normalizes_component (h104v : Lemma104_vStatement) {m : ℕ}
     {H : Subgroup G} (hRH : IsSylowIn 3 H R) {J : Subgroup G} (hJH : J ≤ H)
     (hHN : H ≤ Subgroup.normalizer (J : Set G)) (hJSL : IsSLThreeFour (barOf 3 J)) (hJM : J ≤ M) :
     H ≤ M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hJnorm : ∀ y ∈ H, ∀ n ∈ J, y * n * y⁻¹ ∈ J := fun y hy n hn =>
     (Subgroup.mem_normalizer_iff.1 (hHN hy) n).1 hn
   have hSsyl : IsSylowIn 3 J (R ⊓ J) := Claims1112.isSylowIn_inf_of_normal hRH hJH hJnorm
@@ -791,7 +791,7 @@ theorem le_of_normalizes_component (h104v : Lemma104_vStatement) {m : ℕ}
       (Subgroup.mem_normalizer_iff.1 (hHN (hRH.1 g.2)) n).1 hnJ⟩⟩
   have hnc : ¬ IsCyclic ↥(R ⊓ J) := by
     intro hcyc
-    letI : CommGroup ↥(R ⊓ J) := IsCyclic.commGroup
+    let : CommGroup ↥(R ⊓ J) := IsCyclic.commGroup
     exact hxy (congrArg Subtype.val (mul_comm (⟨x₀, hx₀⟩ : ↥(R ⊓ J)) ⟨y₀, hy₀⟩))
   obtain ⟨U, hUS, hU, hUN⟩ := input31_5_holds G 3 Nat.prime_three (by norm_num) R (R ⊓ J)
     hRH.2.1 inf_le_left hSnorm hnc
@@ -847,6 +847,7 @@ theorem le_of_normalizes_component (h104v : Lemma104_vStatement) {m : ℕ}
   rw [hgeq]
   exact M.mul_mem (M.mul_mem (hJM hjJ) (hJM hxJ)) (M.inv_mem (hNU hnU))
 
+omit [Finite G] in
 theorem mem_of_mul_self_mem {H : Subgroup G} {x : G} (hx : ∃ k : ℕ, orderOf x = 3 ^ k)
     (h : x * x ∈ H) : x ∈ H := by
   obtain ⟨k, hk⟩ := hx
@@ -862,7 +863,7 @@ end P2Many
 theorem lemma1111P2Many_of_inputs (h1110 : Lemma1110Statement) (h119 : Lemma119Statement) :
     Claims1112.Lemma1111P2Many := by
   intro G _ _ m B M E A a K h hSL R hR hER e he he1 J hJ hJSL hJN
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hsc := lemma104_ii_holds h.toCex117Base.toSec11.toSec10Fails h.pair
   have hRtop : IsSylowIn 3 ⊤ R :=
     (lemma104_iv_holds h.toCex117Base.toSec11.toSec10Fails h.pair (h119 h).1 hR).2.2

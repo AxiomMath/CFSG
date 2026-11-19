@@ -172,7 +172,7 @@ theorem conj_mul_conj {n : Nat} (a b x : Equiv.Perm (Fin n)) :
     a * b * x * (a * b)⁻¹ = a * (b * x * b⁻¹) * a⁻¹ := by
   group
 
-@[expose] instance conjMA {n : Nat} (G : Subgroup (Equiv.Perm (Fin n))) :
+instance conjMA {n : Nat} (G : Subgroup (Equiv.Perm (Fin n))) :
     MulAction G (ConjPerm n) where
   smul g x := toCP ((g : Equiv.Perm (Fin n)) * ofCP x * (g : Equiv.Perm (Fin n))⁻¹)
   one_smul x := by

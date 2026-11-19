@@ -229,9 +229,9 @@ theorem ggNbrLSideRSExc_u4 :
       ggNbrLSideRSExcU4_formQ τ x y = 0 := by
     intro k l hkl
     exact ggNbrLSideRSExcU4_formQ_span_orthogonal τ (hrootorth k l hkl)
-  haveI : ∀ k : Fin s, Module.Finite ℚ (W k) := fun k =>
+  have : ∀ k : Fin s, Module.Finite ℚ (W k) := fun k =>
     FiniteDimensional.finiteDimensional_submodule (W k)
-  haveI : ∀ k : Fin s, Module.Free ℚ (W k) := fun k => Module.Free.of_divisionRing ℚ (W k)
+  have : ∀ k : Fin s, Module.Free ℚ (W k) := fun k => Module.Free.of_divisionRing ℚ (W k)
   have hbound : ∑ k : Fin s, Module.finrank ℚ (W k) ≤ τ.rank := by
     calc ∑ k : Fin s, Module.finrank ℚ (W k)
         ≤ Module.finrank ℚ (Fin τ.rank → ℚ) :=

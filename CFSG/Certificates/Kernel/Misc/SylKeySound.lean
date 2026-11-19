@@ -30,9 +30,9 @@ theorem cdF_eq (f : Nat → Nat) : cdF f = enc 4 f 12 := by
 
 theorem fd_cd (σ : Equiv.Perm (Fin 12)) {i : Nat} (hi : i < 12) :
     fd 4 (cd σ) i = σ ⟨i, hi⟩ := by
-  rw [cd, cdF_eq, fd_enc _ hi, dif_pos hi]
+  rw [cd, cdF_eq, fd_enc _ hi, dite_eq_left hi]
   intro j hj
-  rw [dif_pos hj]
+  rw [dite_eq_left hj]
   exact (σ _).2.trans (by norm_num)
 
 theorem cd_inj {σ τ : Equiv.Perm (Fin 12)} (h : cd σ = cd τ) : σ = τ := by
@@ -48,7 +48,7 @@ theorem mulK_cd (σ τ : Equiv.Perm (Fin 12)) : mulK (cd σ) (cd τ) = cd (σ * 
   rw [h1, h2]
   apply enc_congr
   intro i hi
-  rw [dif_pos hi, rd_eq, rd_eq, fd_cd τ hi, fd_cd σ (τ _).2, Equiv.Perm.mul_apply]
+  rw [dite_eq_left hi, rd_eq, rd_eq, fd_cd τ hi, fd_cd σ (τ _).2, Equiv.Perm.mul_apply]
 
 theorem idK_eq : cd 1 = idK := by decide +kernel
 

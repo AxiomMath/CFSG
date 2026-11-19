@@ -940,7 +940,7 @@ private theorem coset_pair_card_four_of_odd_fiber
           apply Subtype.ext
           exact z.2.symm
         right_inv := by intro z; cases z; rfl }
-    simpa using (Nat.card_congr e)
+    simp
   have hLeaf : Nat.card Leaf = 3 := by
     let : Fintype (cosetFiber c y) := Fintype.ofFinite _
     let : Fintype Leaf := Fintype.ofFinite _
@@ -948,7 +948,7 @@ private theorem coset_pair_card_four_of_odd_fiber
       (p := fun z : cosetFiber c y => z = sF)
     have hnat : Nat.card Leaf = Nat.card (cosetFiber c y) -
         Nat.card {z : cosetFiber c y // z = sF} := by
-      simpa [Leaf, Nat.card_eq_fintype_card] using hcompl
+      simp [Leaf, Nat.card_eq_fintype_card]
     rw [hnat, hFib, hOne]
   calc
     Nat.card (cosetCommPair c y) = Nat.card (Bool × Leaf) := Nat.card_congr E
@@ -978,11 +978,11 @@ public theorem firstCase_klein_coset_pair_card_eq
   have hbn : n ≤ 4 := by simpa [n] using hbound
   by_cases h2 : n = 2
   · rw [← hn, h2]
-    simp [h2]
+    simp
     exact coset_pair_card_two c hy hyH (by simpa [n] using h2)
   · by_cases h4 : n = 4
     · rw [← hn, h4]
-      simp [h2, h4]
+      simp
       have hge : 4 ≤ Nat.card {x : G // x ∈ invertedElements c.Hhat y} := by
         omega
       obtain ⟨s, x, hsI, hsD, hsy, hfib⟩ :=
@@ -1011,7 +1011,7 @@ public theorem firstCase_klein_coset_pair_card_eq
             rw [hyeq]
             exact c.Hhat.mul_mem (c.Hhat.inv_mem
               ((inf_le_left : c.Hhat ⊓ conjugateSubgroup c.Hhat y ≤ c.Hhat) hsD))
-              (by simpa [h] using c.Hhat.one_mem)
+              (by simp [h])
           · rw [pow_two]
             have hs2' : s * s = 1 := by simpa [pow_two] using hsI.2
             have hy2' : y * y = 1 := by simpa [pow_two] using hy.2
@@ -1058,13 +1058,9 @@ public theorem firstCase_klein_coset_pair_card_eq
           have hfw : cosetFiber c w ≃ cosetFiber c y := by
             refine {
               toFun := fun z => ⟨z.1, z.2.1, by
-                change cosetInvolution_proj c.Hhat (z : G) =
-                  cosetInvolution_proj c.Hhat y
                 rw [← hcos]
                 exact z.2.2⟩
               invFun := fun z => ⟨z.1, z.2.1, by
-                change cosetInvolution_proj c.Hhat (z : G) =
-                  cosetInvolution_proj c.Hhat w
                 rw [hcos]
                 exact z.2.2⟩
               left_inv := by intro z; rfl

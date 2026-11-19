@@ -161,7 +161,7 @@ theorem K_simple60 (hA : A8Model L) (h : FF84Sec4 b L B K b₁ b₂)
 theorem CY_b₂_trivial (hA : A8Model L) (h : FF84Sec4 b L B K b₁ b₂)
     (hX : Opp 3 (Cen b) = ⊥) (hodd : Odd (Nat.card (Opp 3 (Cen (b * b₁))))) :
     Opp 3 (Cen (b * b₁)) ⊓ Cen b₂ = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨-, -, -, -, -, ⟨n, hnN, hnb, hnb₁, hnb₂⟩⟩ := h.mono
   set Y := Opp 3 (Cen (b * b₁)) with hY
   have hb₁L : b₁ ∈ L := (Subgroup.mem_inf.1 h.hb₁).2
@@ -251,7 +251,7 @@ theorem CY_b₂_trivial (hA : A8Model L) (h : FF84Sec4 b L B K b₁ b₂)
 theorem S44_Y_trivial (hH : LemmaH) (hA : A8Model L)
     (h : FF84Sec4 b L B K b₁ b₂) (hZ : Subgroup.center L = ⊥) (hX : Opp 3 (Cen b) = ⊥)
     (hodd : Odd (Nat.card (Opp 3 (Cen (b * b₁))))) : Opp 3 (Cen (b * b₁)) = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hK60, hKs⟩ := K_simple60 hA h hZ
   set Y := Opp 3 (Cen (b * b₁)) with hY
   have hCY := CY_b₂_trivial hA h hX hodd

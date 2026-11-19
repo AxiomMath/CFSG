@@ -86,7 +86,7 @@ theorem mem_sup_centralizer_of_innerDiagMarking (hRig : CFSG.StandardType.GGLabe
   have htag : (⟨.twD, n, k⟩ : CFSG.Assembly.LargeEvenLabel).tag = .twD := rfl
   have hrank : (⟨.twD, n, k⟩ : CFSG.Assembly.LargeEvenLabel).rank = n := rfl
   unfold CFSG.Assembly.LargeEvenRawDatum at hraw
-  simp only [htag, hrank, hr2, hr3, ↓reduceIte] at hraw
+  simp only [hr2, hr3, ↓reduceIte] at hraw
   unfold CFSG.Assembly.LargeEvenRecipeOmegaMinus at hraw
   obtain ⟨K, hKf, hKfin, hcardK, bK, cK, hbcK, hQ'⟩ := hraw
   obtain ⟨-, -, θ, hN, hall⟩ := hQ'

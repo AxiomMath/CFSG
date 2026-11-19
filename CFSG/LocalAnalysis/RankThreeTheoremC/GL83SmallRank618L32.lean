@@ -49,7 +49,7 @@ private theorem l32_false_of_card_forty_two_or_eighty_four {R : Type*} [Group R]
     [IsSimpleGroup R] (h : Nat.card R = 42 ∨ Nat.card R = 84) : False := by
   have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨P⟩ : Nonempty (Sylow 7 R) := inferInstance
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup'
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup
   have hmul : Nat.card P * (P : Subgroup R).index = Nat.card R := Subgroup.card_mul_index _
   have hidx : ¬ 7 ∣ (P : Subgroup R).index := P.not_dvd_index
   have hk3 : k < 3 := by

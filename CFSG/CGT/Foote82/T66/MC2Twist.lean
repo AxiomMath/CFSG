@@ -15,6 +15,7 @@ open CFSG.Open CFSG.Quasithin.G11 Equiv
 
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 
+omit [Finite V] in
 theorem cfix_conj (g x : GLV V) :
     cfix (g * x * g⁻¹) = (cfix x).map (g : V →ₗ[ZMod 2] V) := by
   ext v
@@ -29,6 +30,7 @@ theorem cfix_conj (g x : GLV V) :
     rw [mem_cfix] at hu
     rw [g.symm_apply_apply, hu]
 
+omit [Finite V] in
 theorem cfix_le_of_fpf {L : Subgroup (GLV V)} (x y : ↥L)
     (hx : ∀ v, (x : GLV V) ((x : GLV V) ((x : GLV V) v)) = v)
     (hxy : (x : GLV V) * y = y * x) (hy : ∀ q, rhoT L y q = q → q = 0) :
@@ -93,7 +95,7 @@ theorem twist_false {G L : Subgroup (GLV V)} {m : ℕ} (hm : 9 ≤ m)
     (h₀ : hd.jL ℓ₀ = c3 a b c) (h₁ : hd.jL ℓ₁ = c3 d e f)
     (hf₀ : ∀ q, rhoT L ℓ₀ q = q → q = 0) (hf₁ : ∀ q, rhoT L ℓ₁ q = q → q = 0) : False := by
   have hn' := hn
-  simp only [List.nodup_cons, List.mem_cons, List.mem_singleton, not_or, List.not_mem_nil,
+  simp only [List.nodup_cons, List.mem_cons, not_or, List.not_mem_nil,
     not_false_eq_true, List.nodup_nil, and_true] at hn'
   obtain ⟨⟨hab, hac, -, -, -⟩, ⟨hbc, -, -, -⟩, -, ⟨hde, hdf⟩, hef⟩ := hn'
   have hcomm : ℓ₀ * ℓ₁ = ℓ₁ * ℓ₀ := hd.jL_injective (by
@@ -160,7 +162,7 @@ theorem twist_false {G L : Subgroup (GLV V)} {m : ℕ} (hm : 9 ≤ m)
       have h1 := hzw 1
       have h2 := hzw 2
       simp only [Finset.mem_insert, Finset.mem_singleton, not_or] at h0 h1 h2
-      simp only [List.nodup_cons, List.mem_cons, List.mem_singleton, not_or, List.not_mem_nil,
+      simp only [List.nodup_cons, List.mem_cons, not_or, List.not_mem_nil,
         not_false_eq_true, List.nodup_nil, and_true] at hw ⊢
       refine ⟨⟨hw.1.1, hw.1.2, ?_, ?_, ?_⟩, ⟨hw.2, ?_, ?_, ?_⟩, ⟨?_, ?_, ?_⟩, ⟨hz01, hz02⟩, hz12⟩
       all_goals first
@@ -187,7 +189,7 @@ theorem twist_false {G L : Subgroup (GLV V)} {m : ℕ} (hm : 9 ≤ m)
       change iota ψ g' * hd.jL ℓ₀ * (iota ψ g')⁻¹ = _
       rw [h₀, conj_c3]
     have hdist : [iota ψ g' a, iota ψ g' b, iota ψ g' c].Nodup := by
-      simp only [List.nodup_cons, List.mem_cons, List.mem_singleton, not_or, List.not_mem_nil,
+      simp only [List.nodup_cons, List.mem_cons, not_or, List.not_mem_nil,
         not_false_eq_true, List.nodup_nil, and_true]
       exact ⟨⟨fun h => hab ((iota ψ g').injective h), fun h => hac ((iota ψ g').injective h)⟩,
         fun h => hbc ((iota ψ g').injective h)⟩

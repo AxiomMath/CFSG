@@ -34,9 +34,11 @@ structure Conf62 (G S L K : Subgroup (GLV V)) : Prop where
 abbrev frat (K : Subgroup (GLV V)) : Subgroup (GLV V) :=
   (frattini ↥K).map K.subtype
 
+omit [Finite V] in
 theorem frat_le (K : Subgroup (GLV V)) : frat K ≤ K :=
   Subgroup.map_subtype_le _
 
+omit [Finite V] in
 private theorem conj_mem_frat {K : Subgroup (GLV V)} {g : GLV V}
     (hg : g ∈ Subgroup.normalizer (K : Set (GLV V))) {h : GLV V} (hh : h ∈ frat K) :
     g * h * g⁻¹ ∈ frat K := by
@@ -50,6 +52,7 @@ private theorem conj_mem_frat {K : Subgroup (GLV V)} {g : GLV V}
     exact this
   exact ⟨φ k, hmem, hφk⟩
 
+omit [Finite V] in
 theorem normalizer_le_normalizer_frat (K : Subgroup (GLV V)) :
     Subgroup.normalizer (K : Set (GLV V)) ≤ Subgroup.normalizer (frat K : Set (GLV V)) := by
   intro g hg
@@ -64,7 +67,7 @@ theorem normalizer_le_normalizer_frat (K : Subgroup (GLV V)) :
 
 theorem commutator_le_frat {p : ℕ} [Fact p.Prime] {K : Subgroup (GLV V)} (hK : IsPGroup p K) :
     ⁅K, K⁆ ≤ frat K := by
-  haveI : Fact (IsPGroup p ↥K) := ⟨hK⟩
+  have : Fact (IsPGroup p ↥K) := ⟨hK⟩
   rw [Subgroup.commutator_le]
   intro a ha b hb
   set a' : ↥K := ⟨a, ha⟩
@@ -76,10 +79,10 @@ theorem commutator_le_frat {p : ℕ} [Fact p.Prime] {K : Subgroup (GLV V)} (hK :
 
 theorem pow_mem_frat {p : ℕ} [Fact p.Prime] {K : Subgroup (GLV V)} (hK : IsPGroup p K)
     {k : GLV V} (hk : k ∈ K) : k ^ p ∈ frat K := by
-  haveI : Fact (IsPGroup p ↥K) := ⟨hK⟩
+  have : Fact (IsPGroup p ↥K) := ⟨hK⟩
   exact ⟨(⟨k, hk⟩ : ↥K) ^ p, CFSG.pth_power_mem_frattini_of_isPGroup (p := p) (R := ↥K) _, rfl⟩
 
-theorem frat_lt {p : ℕ} [Fact p.Prime] {K : Subgroup (GLV V)} (hK : IsPGroup p K) (hne : K ≠ ⊥) :
+theorem frat_lt {p : ℕ} [Fact p.Prime] {K : Subgroup (GLV V)} (_hK : IsPGroup p K) (hne : K ≠ ⊥) :
     frat K < K := by
   refine lt_of_le_of_ne (frat_le K) fun h => hne ?_
   have htop : frattini ↥K = ⊤ := by
@@ -105,6 +108,7 @@ theorem eq_of_sup_frat {H K : Subgroup (GLV V)} (hHK : H ≤ K) (h : H ⊔ frat 
   have : (⟨x, hx⟩ : ↥K) ∈ H.subgroupOf K := by rw [htop]; exact Subgroup.mem_top _
   exact this
 
+omit [Finite V] in
 private theorem commSub_eq_commSpace_top (K : Subgroup (GLV V)) :
     CFSG.SignalizerFunctorTheorem.Quadratic.commSub K = commSpace K ⊤ := by
   unfold CFSG.SignalizerFunctorTheorem.Quadratic.commSub commSpace
@@ -116,6 +120,7 @@ private theorem commSub_eq_commSpace_top (K : Subgroup (GLV V)) :
   · rintro ⟨x, hx, u, -, rfl⟩
     exact ⟨x, hx, u, rfl⟩
 
+omit [Finite V] in
 private theorem neg_eq_self_of_zmod_two (v : V) : -v = v := by
   have hvv : v + v = 0 := by
     have h2v : (2 : ZMod 2) • v = 0 := by
@@ -124,6 +129,7 @@ private theorem neg_eq_self_of_zmod_two (v : V) : -v = v := by
     rwa [two_smul] at h2v
   exact neg_eq_of_add_eq_zero_right hvv
 
+omit [Finite V] in
 private theorem sub_eq_add_of_zmod_two (u v : V) : u - v = u + v := by
   rw [sub_eq_add_neg, neg_eq_self_of_zmod_two]
 
@@ -135,12 +141,12 @@ theorem isCompl_fixedSpace_commSpace {K : Subgroup (GLV V)} (hK : Odd (Nat.card 
   exact h
 
 theorem exists_eq_sub_of_inverts {B : Subgroup (GLV V)} {s : GLV V} {W : Submodule (ZMod 2) V}
-    (hB : Odd (Nat.card B)) (hab : ∀ a ∈ B, ∀ b ∈ B, a * b = b * a) (hs : s ^ 2 = 1)
-    (hinv : ∀ b ∈ B, s * b * s⁻¹ = b⁻¹) (hWB : Invariant B W) (hWs : ∀ w ∈ W, s w ∈ W)
+    (hB : Odd (Nat.card B)) (_hab : ∀ a ∈ B, ∀ b ∈ B, a * b = b * a) (_hs : s ^ 2 = 1)
+    (hinv : ∀ b ∈ B, s * b * s⁻¹ = b⁻¹) (hWB : Invariant B W) (_hWs : ∀ w ∈ W, s w ∈ W)
     (hfix : fixedSpace B ⊓ W = ⊥) : ∀ w ∈ W, s w = w → ∃ u ∈ W, w = s u - u := by
   intro w hw hsw
   classical
-  haveI : Fintype B := Fintype.ofFinite B
+  have : Fintype B := Fintype.ofFinite B
   obtain ⟨ι, hι⟩ := Countable.exists_injective_nat ↥B
   have hne : ∀ b : B, b ≠ 1 → b ≠ b⁻¹ := by
     intro b hb1 hbb
@@ -201,7 +207,7 @@ theorem exists_eq_sub_of_inverts {B : Subgroup (GLV V)} {s : GLV V} {W : Submodu
   have hall : ∑ b : B, (g' b + g b + (if b = 1 then w else 0)) = 0 :=
     (Finset.sum_congr rfl fun b _ => hpt b).trans hsum
   rw [Finset.sum_add_distrib, Finset.sum_add_distrib] at hall
-  simp only [Finset.sum_ite_eq', Finset.mem_univ, if_true] at hall
+  simp only [Finset.sum_ite_eq', Finset.mem_univ, ite_true] at hall
   rw [hsu, sub_eq_add_of_zmod_two]
   have h3 : ∑ b, g' b + ∑ b, g b = -w := eq_neg_of_add_eq_zero_left hall
   rw [h3, neg_eq_self_of_zmod_two]
@@ -245,13 +251,13 @@ theorem iSup_fixedSpace_eq_top {E : Subgroup (GLV V)} {p : ℕ} (hp : p.Prime) (
     (hab : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a) (hexp : ∀ e ∈ E, e ^ p = 1)
     (hcard : Nat.card E = p ^ 2) :
     ⨆ (H : Subgroup (GLV V)) (_ : H ≤ E) (_ : Nat.card H = p), fixedSpace H = ⊤ := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  letI : CommGroup ↥E :=
+  have : Fact p.Prime := ⟨hp⟩
+  let : CommGroup ↥E :=
     { (inferInstance : Group ↥E) with mul_comm := fun a b => Subtype.ext (hab a a.2 b b.2) }
   have hodd : Odd (Nat.card ↥E) := by
     rw [hcard]
     exact (hp.odd_of_ne_two hp2).pow
-  haveI : NeZero ((Nat.card ↥E : ℕ) : ZMod 2) :=
+  have : NeZero ((Nat.card ↥E : ℕ) : ZMod 2) :=
     ⟨fun h => (Nat.not_even_iff_odd.2 hodd) (ZMod.natCast_eq_zero_iff_even.1 h)⟩
   let ρ : Representation (ZMod 2) ↥E V :=
     (LinearEquiv.automorphismGroup.toLinearMapMonoidHom (R := ZMod 2) (M := V)).comp E.subtype
@@ -286,6 +292,7 @@ theorem iSup_fixedSpace_eq_top {E : Subgroup (GLV V)} {p : ℕ} (hp : p.Prime) (
       exact (hρ x v).symm.trans (hkF x hx v hv)
     exact hFH.trans (le_iSup_of_le _ (le_iSup_of_le hHE (le_iSup_of_le hHc le_rfl)))
 
+omit [Finite V] in
 private theorem commSpace_commSpace_of_perfect {L : Subgroup (GLV V)} (hperf : ⁅L, L⁆ = L)
     {X : Submodule (ZMod 2) V} (hX : Invariant L X) :
     commSpace L (commSpace L X) = commSpace L X := by
@@ -326,6 +333,7 @@ private theorem commSpace_commSpace_of_perfect {L : Subgroup (GLV V)} (hperf : �
   rw [hperf] at hcomm
   exact commSpace_le_iff.2 fun l hl v hv => (hcomm hl).2 v hv
 
+omit [Finite V] in
 private theorem trivial_of_commSpace_le_fixedSpace {L : Subgroup (GLV V)} (hperf : ⁅L, L⁆ = L)
     {X : Submodule (ZMod 2) V} (hX : Invariant L X) (h : commSpace L X ≤ fixedSpace L) :
     ∀ l ∈ L, ∀ x ∈ X, l x = x := by
@@ -334,6 +342,7 @@ private theorem trivial_of_commSpace_le_fixedSpace {L : Subgroup (GLV V)} (hperf
   rw [commSpace_commSpace_of_perfect hperf hX] at h0
   exact commSpace_eq_bot_iff.1 h0
 
+omit [Finite V] in
 theorem trivial_on_summand {L : Subgroup (GLV V)} (hperf : ⁅L, L⁆ = L) (hirr : HasIrrTildeV L)
     {X Y : Submodule (ZMod 2) V} (hXY : IsCompl X Y) (hX : Invariant L X) (hY : Invariant L Y) :
     (∀ l ∈ L, ∀ x ∈ X, l x = x) ∨ (∀ l ∈ L, ∀ y ∈ Y, l y = y) := by
@@ -371,6 +380,7 @@ theorem trivial_on_summand {L : Subgroup (GLV V)} (hperf : ⁅L, L⁆ = L) (hirr
     rw [hXY.inf_eq_bot, Submodule.mem_bot, sub_eq_zero] at h4
     exact h4
 
+omit [Finite V] in
 theorem fixes_of_commutator {K L : Subgroup (GLV V)} {X : Submodule (ZMod 2) V}
     (hKX : Invariant K X) (hL : ∀ l ∈ L, ∀ x ∈ X, l x = x) :
     ∀ g ∈ ⁅K, L⁆, ∀ x ∈ X, g x = x := by
@@ -406,8 +416,8 @@ theorem Setup6.commutator_eq_bot_of_le_centralizer {G S L K : Subgroup (GLV V)}
     have hLK' : L ≤ K := CFSG.LocalCores.le_of_subgroupOf_le hLA h1
     have hoddL : Odd (Nat.card L) := hK.of_dvd_nat (Subgroup.card_dvd_of_le hLK')
     have hq : CFSG.Open.IsQuasisimple ↥L := h.component.2.2
-    haveI : Nontrivial ↥L := nontrivial_of_isQuasisimple hq
-    haveI : Group.IsPerfect ↥L := Group.isPerfect_def.2 hq.1
+    have : Nontrivial ↥L := nontrivial_of_isQuasisimple hq
+    have : Group.IsPerfect ↥L := Group.isPerfect_def.2 hq.1
     exact Group.IsPerfect.not_isSolvable ↥L (CFSG.FeitThompson.isSolvable_of_odd_natCard _ hoddL)
   · have h2 := CFSG.LocalCores.commutator_inf_eq_bot_of_subgroupOf hLA h1
     rw [inf_of_le_left hKA] at h2

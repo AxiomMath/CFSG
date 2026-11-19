@@ -141,12 +141,12 @@ theorem nodeK_ex : ∀ k < 39, ∃ g : ↥GA, matK (TS k) = ιK g := by
         have e1 : refK [9, 10, 11] 3 12 (Nat.land (Nat.shiftRight (getL 0 CS.W l) 1) 1048575) =
             12 + (Nat.land (Nat.shiftRight (getL 0 CS.W l) 1) 1048575 - 3) := by
           unfold refK
-          rw [nrec_eq, if_neg (by rw [Nat.blt_eq]; omega)]
+          rw [nrec_eq, ite_eq_right (by rw [Nat.blt_eq]; omega)]
           rfl
         have e2 : refK [9, 10, 11] 3 12 (Nat.shiftRight (getL 0 CS.W l) 21) =
             9 + Nat.shiftRight (getL 0 CS.W l) 21 := by
           unfold refK
-          rw [nrec_eq, if_pos (by rw [Nat.blt_eq]; omega)]
+          rw [nrec_eq, ite_eq_left (by rw [Nat.blt_eq]; omega)]
           generalize Nat.shiftRight (getL 0 CS.W l) 21 = j at hj ⊢
           interval_cases j <;> rfl
         rw [e1, e2] at e
@@ -164,7 +164,7 @@ theorem nodeK_ex : ∀ k < 39, ∃ g : ↥GA, matK (TS k) = ιK g := by
 
 theorem matK_nodeK {k : Nat} (h : k < 39) : matK (TS k) = ιK (nodeK k) := by
   unfold nodeK
-  rw [dif_pos h]
+  rw [dite_eq_left h]
   exact (nodeK_ex k h).choose_spec
 
 theorem nodeK_eq {k : Nat} (hk : k < 39) (g : ↥GA)

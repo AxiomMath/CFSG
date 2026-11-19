@@ -33,6 +33,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   {K : Type} [Field K] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ}
   {ψ : M₀.E ≃ₗ[K] Cube K} {φ : Lgen M (LB M Q B) →* (Cube K ≃ₗ[K] Cube K)}
 
+omit [Finite G] in
 theorem exists_comm_eq_of_mem_Q (hg : GlobalModelData M Q Z γ M₀) {a : G} (haQ : a ∈ Q)
     (haZ : a ∉ Z) {z₀ : G} (hz₀ : z₀ ∈ Z) : ∃ q ∈ Q, ⁅q, a⁆ = z₀ := by
   have R := hg.reg

@@ -81,7 +81,7 @@ theorem exists_two_subgroup_not_le_theta
     rw [hT₀, Subgroup.map_map, Subgroup.map_map]
     rfl
   refine ⟨T₀, ⟨⟨mem_scriptQ_of_le hQ.1 hT₀Q hAT₀, hT₀Q.trans hQX⟩,
-    (isPiSubgroup_piOf_iff Nat.prime_two _).mpr (S.isPGroup'.map _)⟩, fun hT₀θ => ?_⟩
+    (isPiSubgroup_piOf_iff Nat.prime_two _).mpr (S.isPGroup.map _)⟩, fun hT₀θ => ?_⟩
   set f : Q →* ↥X ⧸ θ := π.comp (Subgroup.inclusion hQX) with hf
   have hfS : (S : Subgroup Q).map f.rangeRestrict = ⊥ := by
     rw [eq_bot_iff]

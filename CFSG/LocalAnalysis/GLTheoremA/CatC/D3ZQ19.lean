@@ -65,7 +65,7 @@ theorem single_mem_layer_one {k : Fin Tag.D4.rank} (hk : k = 0 ∨ k = 1 ∨ k =
 theorem rootChar_single_J2 (b : Fin Tag.D4.rank → Kˣ) (h2 : b 2 = 1) {k : Fin Tag.D4.rank}
     (hk : k = 0 ∨ k = 1 ∨ k = 3) : rootChar b (Pi.single k 1) = b k := by
   rw [rootChar_J2 b h2]
-  rcases hk with rfl | rfl | rfl <;> simp [Pi.single_apply]
+  rcases hk with rfl | rfl | rfl <;> simp
 
 theorem eq_one_or_neg_one_of_inv (b : Fin Tag.D4.rank → Kˣ) (h2 : b 2 = 1)
     (hinv : ∀ z : Lyr (isLayer_degSeries (K := K) (J := ({2} : Set (Fin Tag.D4.rank)))

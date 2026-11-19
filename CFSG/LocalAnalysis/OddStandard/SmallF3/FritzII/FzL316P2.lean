@@ -11,6 +11,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private lemma fzl_mem_normalizer_of_conj {Q : Subgroup G} {x : G}
     (hx : ∀ q ∈ Q, x * q * x⁻¹ ∈ Q) (hx3 : x ^ 3 = 1) :
     x ∈ Subgroup.normalizer (Q : Set G) := by
@@ -27,6 +28,7 @@ private lemma fzl_mem_normalizer_of_conj {Q : Subgroup G} {x : G}
     group
   rwa [hx'] at h3
 
+omit [Finite G] in
 private lemma fzl_zpow_conj_mem {Q : Subgroup G} {x : G}
     (hx : ∀ q ∈ Q, x * q * x⁻¹ ∈ Q) (hx3 : x ^ 3 = 1) (k : ℤ) :
     ∀ q ∈ Q, x ^ k * q * (x ^ k)⁻¹ ∈ Q := by
@@ -36,6 +38,7 @@ private lemma fzl_zpow_conj_mem {Q : Subgroup G} {x : G}
   intro q hq
   exact (Subgroup.mem_set_normalizer_iff.mp hkmem q).mp hq
 
+omit [Finite G] in
 private lemma fzl_Q_map_conj_eq {Q T : Subgroup G} {x : G} (hx : x ∈ T)
     (hnrm : ∀ g ∈ T, ∀ q ∈ Q, g * q * g⁻¹ ∈ Q) :
     Q.map (MulAut.conj x) = Q := by
@@ -48,6 +51,7 @@ private lemma fzl_Q_map_conj_eq {Q T : Subgroup G} {x : G} (hx : x ∈ T)
     · change x * (x⁻¹ * y * x⁻¹⁻¹) * x⁻¹ = y
       group
 
+omit [Finite G] in
 private lemma fzl_D_map_conj_tau {rho tau : G} (h : tau * rho = rho * tau) :
     (zpowers rho).map (MulAut.conj tau) = zpowers rho := by
   rw [MonoidHom.map_zpowers]
@@ -56,6 +60,7 @@ private lemma fzl_D_map_conj_tau {rho tau : G} (h : tau * rho = rho * tau) :
     rw [h]; group
   rw [hconj]
 
+omit [Finite G] in
 private lemma fzl_D_map_conj_lam {rho lam : G} (h : lam * rho * lam⁻¹ = rho⁻¹) :
     (zpowers rho).map (MulAut.conj lam) = zpowers rho := by
   rw [MonoidHom.map_zpowers]
@@ -64,6 +69,7 @@ private lemma fzl_D_map_conj_lam {rho lam : G} (h : lam * rho * lam⁻¹ = rho�
     exact h
   rw [hconj, Subgroup.zpowers_inv]
 
+omit [Finite G] in
 private lemma fzl_mem_normalizer_P_of_maps {Q D P : Subgroup G} {x : G} (hPd : P = ⁅Q, D⁆)
     (hQx : Q.map (MulAut.conj x) = Q) (hDx : D.map (MulAut.conj x) = D) :
     x ∈ Subgroup.normalizer (P : Set G) := by

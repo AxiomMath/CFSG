@@ -16,11 +16,12 @@ open CFSG.RankThree.GF2n.Tim81.Sec4
 
 variable {a : ℕ} {F : Type} [Field F] [Fintype F] [CharP F 2]
 
+omit [CharP F 2] in
 private theorem nonempty_ringEquiv_of_card_eq (hF : Fintype.card F = 2 ^ (2 * a + 1)) :
     Nonempty (F ≃+* GaloisField 2 (2 * a + 1)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite F := Finite.of_fintype F
-  haveI : Finite (GaloisField 2 (2 * a + 1)) := inferInstance
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite F := Finite.of_fintype F
+  have : Finite (GaloisField 2 (2 * a + 1)) := inferInstance
   refine CFSG.Blueprint.EvenSource.nonempty_ringEquiv_of_card_eq F _ ?_
   have hF' : Nat.card F = 2 ^ (2 * a + 1) := by
     rw [Nat.card_eq_fintype_card]; exact hF

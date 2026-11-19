@@ -24,6 +24,7 @@ theorem card_of_isU4two {S : Type} [Group S] (h : catalogIs S S9.isU4two) : Nat.
 
 variable {G : Type} [Group G] [Finite G] {X L I : Subgroup G} {d : G}
 
+omit [Finite G] in
 theorem gamma_fixed_of_mem (hd : d ∈ Subgroup.normalizer (L : Set G)) (e : PQuot 3 L ≃* SU4)
     (γ : MulAut SU4) (hγ : ∀ q : PQuot 3 L, γ (e q) = e (barAut L d hd q))
     (x : ↥L) (hx : (x : G) ∈ Subgroup.centralizer ({d} : Set G)) :
@@ -43,8 +44,8 @@ theorem false_of_inner_ne_one (hd : d ∈ Subgroup.normalizer (L : Set G)) (e : 
     {g : SU4} (hg : MulAut.conj g = γ) (hg3 : g ^ 3 = 1) (hg1 : g ≠ 1)
     (hI : GLAPComponent 3 (L ⊓ Subgroup.centralizer ({d} : Set G)) I)
     (hIcat : catalogIs (PSimple 3 I) S9.isU4two) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hIL : I ≤ L := hI.1.trans inf_le_left
   have hIC : I ≤ Subgroup.centralizer ({d} : Set G) := hI.1.trans inf_le_right
   let ψ : ↥I →* SU4 := (piOf L e).comp (Subgroup.inclusion hIL)
@@ -102,8 +103,8 @@ theorem false_of_inner_eq_one (hd : d ∈ Subgroup.normalizer (L : Set G)) (hd3 
     (e : PQuot 3 L ≃* SU4) (γ : MulAut SU4) (hγ : ∀ q : PQuot 3 L, γ (e q) = e (barAut L d hd q))
     (hγ1 : γ = 1) (hI : GLAPComponent 3 (L ⊓ Subgroup.centralizer ({d} : Set G)) I)
     (hIcat : catalogIs (PSimple 3 I) S9.isU4two) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := isSimpleGroup_SU4
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := isSimpleGroup_SU4
   set Y : Subgroup G := L ⊓ Subgroup.centralizer ({d} : Set G) with hY
   have hYL : Y ≤ L := inf_le_left
   let π : ↥Y →* SU4 := (piOf L e).comp (Subgroup.inclusion hYL)
@@ -130,7 +131,7 @@ theorem false_of_inner_eq_one (hd : d ∈ Subgroup.normalizer (L : Set G)) (hd3 
   have hC : GLAPPrimeCore 3 SU4 = ⊥ :=
     pPrimeCore_eq_bot_of_simple (by rw [card_SU4]; norm_num)
   have hS : CFSG.Open.IsQuasisimple ↥(⊤ : Subgroup SU4) := by
-    haveI : IsSimpleGroup ↥(⊤ : Subgroup SU4) := Subgroup.topEquiv.isSimpleGroup
+    have : IsSimpleGroup ↥(⊤ : Subgroup SU4) := Subgroup.topEquiv.isSimpleGroup
     refine isQuasisimple_of_simple_nonabelian ?_
     intro hcomm
     obtain ⟨a, b, hab⟩ := exists_noncomm_SU4

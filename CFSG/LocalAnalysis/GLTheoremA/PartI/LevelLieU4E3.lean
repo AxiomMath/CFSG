@@ -113,7 +113,7 @@ theorem W0_le_centralizer_c211 (ζ : K) (hζ : IsPrimitiveRoot ζ 3) :
     intro i j hij
     have hcase : i = 2 ∨ i = 3 ∨ j = 2 ∨ j = 3 := by
       fin_cases i <;> fin_cases j <;> simp_all
-    rw [W0_entry x h2 h3 i j hcase, if_neg]
+    rw [W0_entry x h2 h3 i j hcase, ite_eq_right]
     rintro rfl
     exact hij rfl
   ext i j
@@ -189,18 +189,18 @@ theorem goodCent_c211 (ζ : K) (hζ : IsPrimitiveRoot ζ 3) : GoodCent (c211 ζ 
       rw [smul_single_eq, Pi.single_apply]
       by_cases hk : k = 2
       · subst hk
-        rw [e2, if_pos rfl]
-      · rw [entry_zero_of_mem_centralizer hd hxC (hk2 k hk), if_neg hk]
+        rw [e2, ite_eq_left rfl]
+      · rw [entry_zero_of_mem_centralizer hd hxC (hk2 k hk), ite_eq_right hk]
     · funext k
       rw [smul_single_eq, Pi.single_apply]
       by_cases hk : k = 3
       · subst hk
-        rw [e3, if_pos rfl]
-      · rw [entry_zero_of_mem_centralizer hd hxC (hk3 k hk), if_neg hk]
+        rw [e3, ite_eq_left rfl]
+      · rw [entry_zero_of_mem_centralizer hd hxC (hk3 k hk), ite_eq_right hk]
   have hsub : CFSG.Open.IsSubnormal I W0 := by
     have h := hI.2.1.inf_of_le (W0_le_centralizer_c211 ζ hζ)
     rwa [inf_eq_left.2 hIW0] at h
-  haveI := isSimpleGroup_W0
+  have := isSimpleGroup_W0
   rcases CFSG.Open.IsSubnormal.eq_bot_or_eq_of_isSimpleGroup hsub isSimpleGroup_W0 with h | h
   · exact absurd h (glaPComponent_ne_bot' hI)
   · rw [h]

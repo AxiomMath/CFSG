@@ -170,7 +170,7 @@ theorem card_inf_mul_card_inf_le
       (T : Subgroup G) ⊓ J ≤ (T : Subgroup G) ⊓ Subgroup.centralizer (L : Set G) :=
     fun hJ hJL => inf_le_inf_left _ (le_centralizer_of_isComponentOf_ne hJ hL hJL)
   have hdisj : Disjoint ((T : Subgroup G) ⊓ J₁) ((T : Subgroup G) ⊓ J₂) := by
-    rw [disjoint_iff, eq_bot_iff, ← inf_inf_eq_bot T.isPGroup' hQ₁]
+    rw [disjoint_iff, eq_bot_iff, ← inf_inf_eq_bot T.isPGroup hQ₁]
     exact le_inf (inf_le_right.trans (inf_le_inf_left _
       (le_centralizer_of_isComponentOf_ne hJ₂ hJ₁ (Ne.symm h12)))) inf_le_left
   have hcomm : (T : Subgroup G) ⊓ J₂ ≤ Subgroup.normalizer

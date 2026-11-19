@@ -94,7 +94,7 @@ theorem semidirect_aut (N K : Subgroup G) [hNn : N.Normal]
       hN _ hc _ (δ p.2).2
     calc Φ (x * y) = ((p.1 : G) * ((p.2 : G) * (q.1 : G) * (p.2 : G)⁻¹)) * (δ (p.2 * q.2) : G) *
           ((p.2 : G) * (q.2 : G)) := by
-          rw [hΦ, hr] <;> rfl
+          rw [hΦ, hr]; rfl
       _ = ((p.1 : G) * ((p.2 : G) * (q.1 : G) * (p.2 : G)⁻¹)) *
           ((δ p.2 : G) * ((p.2 : G) * (δ q.2 : G) * (p.2 : G)⁻¹)) * ((p.2 : G) * (q.2 : G)) := by
           rw [hδ p.2 q.2]

@@ -87,20 +87,20 @@ theorem lieSEight_charP_two {K : Type} [Field K] [Finite K] (hK : Nat.card K = 8
 theorem lieSEight_sp8_outer {K : Type} [Field K] [Finite K] (hK : Nat.card K = 8)
     {ψ : MulAut (StatedProj (StatedSp 4 K))} (hψ3 : ψ ^ 3 = 1) (hninn : ¬ IsInnerAut ψ) :
     LieSEightWitIn (fixSub ψ) := by
-  haveI : CharP K 2 := lieSEight_charP_two hK
+  have : CharP K 2 := lieSEight_charP_two hK
   obtain ⟨γ, σ, hσ, hψ⟩ := CFSG.HardMathSupport.Dickson.Sec6.Up34Chev2.psp_field_descent
     (r := 4) (by norm_num) (p := 2) (f := 3) Nat.prime_two (by norm_num)
     (by rw [hK]; norm_num) hψ3 hninn
   have hσ3 : σ ^ 3 = 1 := hσ ▸ pow_orderOf_eq_one σ
   obtain ⟨e₀⟩ := CFSG.LocalAnalysis.GLTheoremA.Y10GFldSympComp.nonempty_fixSubgroup_fieldAut_equiv
     (m := 4) (p := 3) (by decide) hσ3
-  haveI : Finite (descentField σ) := inferInstance
+  have : Finite (descentField σ) := inferInstance
   have h2K : (2 : K) = 0 := by exact_mod_cast CharP.cast_eq_zero K 2
   have h2 : (2 : descentField σ) = 0 := by
     apply (descentField σ).subtype.injective
     rw [map_ofNat, map_zero]
     exact h2K
-  haveI : CharP (descentField σ) 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
+  have : CharP (descentField σ) 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
   have hW : LieSEightWit27 ↥(fixSub (fieldAut 4 K σ)) :=
     LieSEightWit27.of_injective e₀.symm.toMonoidHom e₀.symm.injective
       (lieSEight_wit27_statedProj_of_charP_two _)

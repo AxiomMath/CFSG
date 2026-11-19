@@ -116,7 +116,7 @@ private theorem exists_twoGroup (h : Conf684 A c L Y) {w : G}
   exact ⟨a, g, haA, haz, hgX, hP₁ne, hP₂ne, mem_scriptQ_sup h hwA haA haz hgX, hP2grp⟩
 
 private theorem mem_normalizer_inf_of_map_conj_eq (h : Conf684 A c L Y) {v w : G}
-    (hwA : w ∈ Subgroup.normalizer (A : Set G)) (hwL : w ∈ L) (hvX : v ∈ xA A)
+    (hwA : w ∈ Subgroup.normalizer (A : Set G)) (_hwL : w ∈ L) (hvX : v ∈ xA A)
     (hY : Y.map (MulAut.conj (v * w)).toMonoidHom = Y) :
     w ∈ Subgroup.normalizer ((Y ⊓ L : Subgroup G) : Set G) := by
   set J : Subgroup G := Y ⊓ L with hJ

@@ -22,8 +22,8 @@ variable {E : Type} [CommGroup E] [Finite E] {V : Type} [AddCommGroup V] [Module
 
 theorem nrmAll_eq_nrmOp_top_uc6 (σ : E →* Module.End (ZMod 2) V) :
     nrmAll σ = nrmOp σ ⊤ := by
-  haveI : Fintype E := Fintype.ofFinite E
-  haveI : Fintype ↥(⊤ : Subgroup E) := Fintype.ofFinite _
+  have : Fintype E := Fintype.ofFinite E
+  have : Fintype ↥(⊤ : Subgroup E) := Fintype.ofFinite _
   rw [nrmAll_eq_sum_uc6, nrmOp_eq_sum_uc6]
   exact (Fintype.sum_equiv (Subgroup.topEquiv (G := E)).toEquiv (fun s : ↥(⊤ : Subgroup E) => σ (s : E))
     (fun e : E => σ e) (fun s => rfl)).symm
@@ -58,7 +58,7 @@ theorem σ_comm_nrmAll_uc6 (σ : E →* Module.End (ZMod 2) V) (g : E) (v : V) :
 theorem T_comm_nrmAll_uc6 (σ : E →* Module.End (ZMod 2) V) (T : Module.End (ZMod 2) V)
     (α : MulAut E) (hTα : ∀ e, T * σ e = σ (α e) * T) (v : V) :
     nrmAll σ (T v) = T (nrmAll σ v) := by
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype E := Fintype.ofFinite E
   rw [nrmAll_eq_sum_uc6]
   simp only [LinearMap.sum_apply]
   have h : ∀ e : E, σ (α e) (T v) = T (σ e v) := fun e => by
@@ -72,8 +72,8 @@ theorem T_comm_nrmAll_uc6 (σ : E →* Module.End (ZMod 2) V) (T : Module.End (Z
 theorem decomposition_uc6 (σ : E →* Module.End (ZMod 2) V) {q : ℕ} (hq : q.Prime)
     (hexp : ∀ e : E, e ^ q = 1) (hE : Odd (Nat.card E)) {v : V} (hv : nrmAll σ v = 0) :
     v ∈ ⨆ K : {K : Subgroup E // K.index = q}, Wsp σ K.1 := by
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : NeZero (Nat.card E : ZMod 2) := ⟨by
+  have : Fact q.Prime := ⟨hq⟩
+  have : NeZero (Nat.card E : ZMod 2) := ⟨by
     intro h
     have := (ZMod.natCast_eq_zero_iff (Nat.card E) 2).1 h
     exact (Nat.not_even_iff_odd.2 hE) (even_iff_two_dvd.2 this)⟩
@@ -107,6 +107,7 @@ theorem decomposition_uc6 (σ : E →* Module.End (ZMod 2) V) {q : ℕ} (hq : q.
   have := hle (Submodule.mem_map_of_mem (f := P) (Submodule.mem_top (x := v)))
   rwa [hPv] at this
 
+omit [Finite E] in
 theorem odd_card_hyp_uc6 {q : ℕ} (hE : Odd (Nat.card E)) {K : Subgroup E} (hK : K.index = q) :
     Odd (Nat.card K) := by
   have h := Subgroup.card_mul_index K
@@ -137,6 +138,7 @@ theorem exists_second_uc6 (σ : E →* Module.End (ZMod 2) V) (hE : Odd (Nat.car
       rfl
     rw [← this, h0, map_zero]
 
+omit [Finite E] in
 theorem exists_pow_pow_eq_uc6 (α : MulAut E) {r : ℕ} (hr : r.Prime) (hαr : α ^ r = 1) {i : ℕ}
     (hi0 : 0 < i) (hir : i < r) : ∃ j : ℕ, (α ^ i) ^ j = α := by
   have hcop : Nat.Coprime i r :=
@@ -145,6 +147,7 @@ theorem exists_pow_pow_eq_uc6 (α : MulAut E) {r : ℕ} (hr : r.Prime) (hαr : �
   refine ⟨j, ?_⟩
   rw [← pow_mul, pow_eq_pow_mod (i * j) hαr, hj.2, pow_one]
 
+omit [Finite E] in
 theorem exists_not_mem_pow_uc6 (α : MulAut E) {r : ℕ} (hr : r.Prime) (hαr : α ^ r = 1)
     {K : Subgroup E} (hK : ∃ k ∈ K, α k ∉ K) {i : ℕ} (hi0 : 0 < i) (hir : i < r) :
     ∃ k ∈ K, (α ^ i) k ∉ K := by
@@ -167,7 +170,7 @@ theorem regular_case_uc6 (σ : E →* Module.End (ZMod 2) V) (hE : Odd (Nat.card
     (hr : r.Prime) (α : MulAut E) (hαr : α ^ r = 1) (hTα : ∀ e, T * σ e = σ (α e) * T)
     {K : Subgroup E} (hK : K.index = q) (hKns : ∃ k ∈ K, α k ∉ K) {v : V} (hv : v ∈ Wsp σ K)
     (hv0 : v ≠ 0) : (∑ i ∈ Finset.range r, T ^ i) v ≠ 0 := by
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype E := Fintype.ofFinite E
   have hKodd : Odd (Nat.card K) := odd_card_hyp_uc6 hE hK
   have hTi : ∀ j : ℕ, nrmAll σ ((T ^ j) v) = 0 := by
     intro j
@@ -197,7 +200,7 @@ theorem fixed_case_uc6 (σ : E →* Module.End (ZMod 2) V) (hE : Odd (Nat.card E
     (hfix : ∀ i, 0 < i → i < r → ∀ y, (α ^ i) y = y → y = 1)
     {K : Subgroup E} (hKst : ∀ k ∈ K, α k ∈ K) (hne : Wsp σ K ≠ ⊥) :
     ∃ a ∈ Wsp σ K, a ≠ 0 ∧ T a = a := by
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype E := Fintype.ofFinite E
   have hsurj : ∀ s ∈ K, ∃ e ∈ K, α e = s := by
     let f : ↥K → ↥K := fun k => ⟨α k, hKst k k.2⟩
     have hinj : Function.Injective f := fun a b h =>
@@ -256,7 +259,7 @@ theorem exists_two_fixed_core_uc6 (σ : E →* Module.End (ZMod 2) V) (hσ : Fun
     intro w
     have := congrArg (fun f : Module.End (ZMod 2) V => f w) (T_mul_sum_uc6 T r hTr)
     simpa using this
-  haveI : Nontrivial E := Finite.one_lt_card_iff_nontrivial.1 (lt_trans hq.one_lt hbig)
+  have : Nontrivial E := Finite.one_lt_card_iff_nontrivial.1 (lt_trans hq.one_lt hbig)
   obtain ⟨e, he1⟩ : ∃ e : E, e ≠ 1 := exists_ne 1
   have hσe : σ e ≠ 1 := fun h => he1 (hσ (by rw [h, map_one]))
   obtain ⟨v, hv⟩ : ∃ v, σ e v ≠ v := by
@@ -331,7 +334,7 @@ theorem exists_two_fixed_core_uc6 (σ : E →* Module.End (ZMod 2) V) (hσ : Fun
   refine hC a₁ a₂ ha₁0 ha₂0 ?_ hTa₁ hTa₂
   intro heq
   obtain ⟨y, hyK₂, hyK₁⟩ := exists_mem_diff_uc6 hq K₁.2 K₂.2 (fun h => hne12 (Subtype.ext h))
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype E := Fintype.ofFinite E
   have h0 : nrmOp σ K₁.1 a₁ = 0 :=
     nrmOp_eq_zero_of_fixed_uc6 σ hq hq2 hexp K₁.1 K₁.2 hyK₁ (u := a₁)
       (by rw [heq]; exact ha₂.2 y hyK₂) ha₁.1

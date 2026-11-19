@@ -18,7 +18,7 @@ variable {n p : ℕ} {K : Type} [Field K]
 
 theorem ggSCWeylIrredTwoU4_hypSU (h : UnitaryFieldData 2 n K) (hp : p.Prime) (hp2 : p ≠ 2)
     (hpq : p ∣ 2 ^ n - 1) : GGSCWeylIrredTwoLU4 p (hypSU h 2 0) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro E hE h2 _
   obtain ⟨ζ, hζ⟩ := exists_primitiveRoot_of_dvd_two_pow_sub_one h hp hpq
   have hbar : h.bar ζ = ζ := bar_eq_self_of_pow_eq_one h hpq hζ.pow_eq_one
@@ -81,8 +81,8 @@ theorem recipeUnitary_rowPlainTwoU4 (hn : 1 ≤ n) (hp : p.Prime) (hp2 : p ≠ 2
     LargeEvenRecipeUnitary 4 (2 ^ n) fun R _ I F => Q R I F ∧ (GGTorusLift p 0 R ∧
       (IsSimpleGroup R → (∃ a b : R, a * b ≠ b * a) → GGTorusNoLineTwo p R I)) := by
   obtain ⟨K', _, _, hK, hQ'⟩ := hQ
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K' 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := n) hK
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K' 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := n) hK
   exact ⟨K', inferInstance, inferInstance, hK, hQ',
     TypeA.ggTorusLift_zero (two_dvd_card_statedProj_statedSU (d := 4) (f := n) (K := K')
       (by norm_num)),

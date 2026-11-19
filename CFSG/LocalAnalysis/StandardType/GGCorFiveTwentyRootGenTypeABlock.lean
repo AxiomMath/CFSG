@@ -290,7 +290,7 @@ theorem iSup_coordBlockSL_pairs (hd : 3 ≤ d) (i₀ j₀ : Fin d) :
       exact S.mul_mem (hSmem him hne_im (diag2n_mem_coordBlockSL him (by simp) (by simp) hc))
         (hSmem hmj hne_mj (diag2n_mem_coordBlockSL hmj (by simp) (by simp) hc))
     · exact hSmem hij hne (diag2n_mem_coordBlockSL hij (by simp) (by simp) hc)
-  haveI : Nontrivial (Fin d) := Fin.nontrivial_iff_two_le.mpr (by omega)
+  have : Nontrivial (Fin d) := Fin.nontrivial_iff_two_le.mpr (by omega)
   rw [Subgroup.eq_top_iff']
   intro M
   exact Matrix.SpecialLinearGroup.diagonal_transvection_induction' (fun x => x ∈ S) M
@@ -353,7 +353,8 @@ theorem coordBlockSL_erase_sup_eq_top (hd : 3 ≤ d) {i j : Fin d} (hij : i ≠ 
   · exact (hmono hsub).trans le_sup_right
 
 omit [Finite K] in
-theorem map_conj_permSL_coordBlockSL_erase [CharP K 2] {i j : Fin d} (hij : i ≠ j) :
+omit [CharP K 2] in
+theorem map_conj_permSL_coordBlockSL_erase [CharP K 2] {i j : Fin d} (_hij : i ≠ j) :
     (coordBlockSL K (Finset.univ.erase i)).map
       (MulAut.conj (permSL (Equiv.swap i j))).toMonoidHom =
       coordBlockSL K (Finset.univ.erase j) := by
@@ -421,6 +422,7 @@ theorem map_conj_permSL_coordBlockSL_erase [CharP K 2] {i j : Fin d} (hij : i �
       group
 
 omit [Finite K] in
+omit [CharP K 2] in
 theorem coordBlockSL_erase_sup_conj_eq_top [CharP K 2] (hd : 3 ≤ d) {i j : Fin d}
     (hij : i ≠ j) :
     coordBlockSL K (Finset.univ.erase i) ⊔
@@ -620,7 +622,7 @@ theorem dvd_card_coordBlockSL_pair (hp : p.Prime) (hpK : p ∣ Nat.card K - 1) (
     obtain ⟨m, hm⟩ := exists_notMem_pair hd i j
     exact hD1_ne_one (eq_one_of_mem_coordBlockSL_of_mem_scalars hm hD1_mem (hφker D₁ h))
   have hD1φ_pow : (φ D₁) ^ p = 1 := by rw [← map_pow, hD1_pow, map_one]
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hmem : φ D₁ ∈ (coordBlockSL K ({i, j} : Finset (Fin d))).map φ := ⟨D₁, hD1_mem, rfl⟩
   have hdvd := Subgroup.orderOf_dvd_natCard _ hmem
   rwa [orderOf_eq_prime hD1φ_pow hφD1_ne] at hdvd

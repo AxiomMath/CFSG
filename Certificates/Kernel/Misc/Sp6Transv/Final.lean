@@ -16,7 +16,7 @@ open CertificateChecks.KernelMisc.Sp6Transv
 
 variable {z : Fin 3 → H6} {t s f0 f2 : H6} {q : Fin 5 → H6}
 
-theorem welt_eq (z : Fin 3 → H6) (t : H6) {a b c j : ℕ} (ha : a < 3) (hb : b < 3) (hc : c < 3)
+theorem welt_eq (z : Fin 3 → H6) (t : H6) {a b c j : ℕ} (_ha : a < 3) (hb : b < 3) (hc : c < 3)
     (hj : j < 3) : welt z t (27 * a + 9 * b + 3 * c + j) = z 0 ^ a * z 1 ^ b * z 2 ^ c * t ^ j := by
   have e1 : Nat.div (27 * a + 9 * b + 3 * c + j) 27 = a := by
     change (27 * a + 9 * b + 3 * c + j) / 27 = a

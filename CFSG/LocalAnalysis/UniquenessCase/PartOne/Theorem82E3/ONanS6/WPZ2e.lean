@@ -21,15 +21,15 @@ variable {G : Type} [Group G] [Finite G]
 variable {D : Data G}
 variable (c : Ctx82E3 D) {P A : Subgroup G} {a : G}
 
-abbrev CM (c : Ctx82E3 D) (a : G) : Subgroup G :=
+abbrev CM (_c : Ctx82E3 D) (a : G) : Subgroup G :=
   D.M ⊓ Subgroup.centralizer ({a} : Set G)
 
 theorem not_isCyclic_of_card_nine_exp_three {E : Type} [Group E] [Finite E]
     (hE : ∀ x : E, x ^ 3 = 1) (hcard : Nat.card E = 9) : ¬ IsCyclic E := by
   classical
   intro hcyc
-  haveI := hcyc
-  haveI : Fintype E := Fintype.ofFinite E
+  have := hcyc
+  have : Fintype E := Fintype.ofFinite E
   have hset : (Finset.univ.filter (fun a : E => a ^ 3 = 1)) = Finset.univ := by
     apply Finset.filter_true_of_mem
     intro x _
@@ -40,10 +40,10 @@ theorem not_isCyclic_of_card_nine_exp_three {E : Type} [Group E] [Finite E]
   omega
 
 theorem psl3_section_data {S : Type} [Group S] [Finite S] {p f : ℕ}
-    (hmodel : StatedClassicalModel S .PSL 3 p f) (hp3 : p ≠ 3)
+    (hmodel : StatedClassicalModel S .PSL 3 p f) (_hp3 : p ≠ 3)
     (hmod : p ^ f % 3 = 1) (hq : 3 ≤ p ^ f) :
     (∃ Q : Sylow 3 S, ¬ IsCyclic (Q : Subgroup S)) ∧ ¬ IsAlt S 5 ∧ ¬ IsAlt S 6 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hmem : (StatedLieTag.PSL : StatedLieTag) ∈ CFSG.Blueprint.classicalTags := by decide
   have hLie : LieModel S .PSL 3 p f := Or.inl ⟨hmem, hmodel⟩
   have hdvd : 3 ∣ p ^ f - 1 := by
@@ -80,10 +80,10 @@ theorem psl3_section_data {S : Type} [Group S] [Finite S] {p f : ℕ}
     omega
 
 theorem psu3_section_data {S : Type} [Group S] [Finite S] {p f : ℕ}
-    (hmodel : StatedClassicalModel S .PSU 3 p f) (hp3 : p ≠ 3)
+    (hmodel : StatedClassicalModel S .PSU 3 p f) (_hp3 : p ≠ 3)
     (hmod : p ^ f % 3 = 2) (hq : 3 ≤ p ^ f) :
     (∃ Q : Sylow 3 S, ¬ IsCyclic (Q : Subgroup S)) ∧ ¬ IsAlt S 5 ∧ ¬ IsAlt S 6 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hmem : (StatedLieTag.PSU : StatedLieTag) ∈ CFSG.Blueprint.classicalTags := by decide
   have hLie : LieModel S .PSU 3 p f := Or.inl ⟨hmem, hmodel⟩
   have hdvd : 3 ∣ p ^ f + 1 := by

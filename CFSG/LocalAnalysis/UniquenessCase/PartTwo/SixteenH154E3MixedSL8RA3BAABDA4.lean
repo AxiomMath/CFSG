@@ -19,7 +19,7 @@ open scoped commutatorElement Pointwise
 variable {G : Type} [Group G] [Finite G]
 
 theorem s16h_sl28_normalizer_index_two
-    (D : Data G) (S : s16h_Std D) {V L : Subgroup G} (h : Setting16 D ⊥ V L)
+    (D : Data G) (_S : s16h_Std D) {V L : Subgroup G} (h : Setting16 D ⊥ V L)
     (hs2 : s15 D.M ⊥ V h.hyp151.isElemAbelian L = 2)
     {x : G} (hxM : x ∈ D.M) (hxn : x ∉ nBar D.M ⊥ V h.hyp151.isElemAbelian L) :
     Mbar D.M ⊥ V h.hyp151.isElemAbelian ≤
@@ -44,7 +44,7 @@ theorem s16h_sl28_normalizer_index_two
       exact hBL
     exact hxn ((s15_Infra_mem_nBar_iff h.hyp151.hyp125 hV hxM).2 hc)
   refine ⟨?_, ?_⟩
-  · letI : MulAction ↥Mb (Subgroup (MulAut (Vtil ⊥ V hV))) :=
+  · let : MulAction ↥Mb (Subgroup (MulAut (Vtil ⊥ V hV))) :=
       MulAction.compHom (Subgroup (MulAut (Vtil ⊥ V hV)))
         ((MulAut.conj : MulAut (Vtil ⊥ V hV) →* MulAut (MulAut (Vtil ⊥ V hV))).comp
           Mb.subtype)

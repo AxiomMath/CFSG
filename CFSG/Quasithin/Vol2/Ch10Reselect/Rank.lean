@@ -13,6 +13,7 @@ open scoped IsMulCommutative
 
 variable {G : Type} [Group G] [Finite G] {T L I : Subgroup G}
 
+omit [Finite G] in
 theorem isPGroup_zpowers_of_orderOf_eq {r : ℕ} {z : G} (hz : orderOf z = r) :
     IsPGroup r (Subgroup.zpowers z) := by
   intro ⟨g, hg⟩
@@ -22,6 +23,7 @@ theorem isPGroup_zpowers_of_orderOf_eq {r : ℕ} {z : G} (hz : orderOf z = r) :
   rw [← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast, ← hz, pow_orderOf_eq_one,
     one_zpow]
 
+omit [Finite G] in
 theorem commute_of_mem_closure_pair {a z x : G} (hxa : x * a = a * x) (hxz : x * z = z * x)
     {y : G} (hy : y ∈ Subgroup.closure ({a, z} : Set G)) : x * y = y * x := by
   induction hy using Subgroup.closure_induction with
@@ -40,6 +42,7 @@ theorem commute_of_mem_closure_pair {a z x : G} (hxa : x * a = a * x) (hxz : x *
         _ = y⁻¹ * x := by group
     exact this
 
+omit [Finite G] in
 theorem isPGroup_closure_pair {r : ℕ} {a z : G} (ha : orderOf a = r) (hz : orderOf z = r)
     (h : a * z = z * a) : IsPGroup r (Subgroup.closure ({a, z} : Set G)) := by
   have hmain : ∀ g ∈ Subgroup.closure ({a, z} : Set G),
@@ -71,6 +74,7 @@ theorem isPGroup_closure_pair {r : ℕ} {a z : G} (ha : orderOf a = r) (hz : ord
   intro ⟨g, hg⟩
   exact ⟨1, Subtype.ext (by simpa using (hmain g hg).1)⟩
 
+omit [Finite G] in
 theorem eq_one_of_mem_isPGroup_two {X : Subgroup G} (hX : IsPGroup 2 X) {x : G} (hx : x ∈ X)
     {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) (hxr : x ^ r = 1) : x = 1 := by
   obtain ⟨k, hk⟩ := hX ⟨x, hx⟩

@@ -54,7 +54,7 @@ theorem exists_phi4 [Finite k] :
         · exact h11
         · exact absurd hi (by decide)
       comm := fun i j hij a b => by
-        fin_cases i <;> fin_cases j <;> first | exact absurd hij (by decide) | skip
+        fin_cases i <;> fin_cases j <;> try exact absurd hij (by decide)
         exact (commute_e6Rank1 (a := nd 2) (b := nd 4) (by decide) (by decide) a b).eq }
   obtain ⟨Φ, hΦ, -⟩ := exists_hom_of_ctFamily F
   exact ⟨Φ, hΦ 0, hΦ 1, hΦ 2⟩
@@ -114,7 +114,7 @@ theorem eq_blockSL2_torus_of_scalar4 (ω η₂ η₃ : kˣ) (h2 : (η₂ : k) = 
     simp [Matrix.mul_apply, Fin.sum_univ_four, coe_torusHom, Matrix.scalar_apply,
       Units.val_inv_eq_inv_val, h2, h3]
   all_goals field_simp
-  all_goals first | ring1 | linear_combination h4
+  all_goals linear_combination h4
 
 theorem phi4_injective [Finite k] {Φ : SL(4, k) →* e6Data_valid.minGroup k}
     (h0 : Φ.comp (blockSL2 k 3 0) = e6Rank1 k (nd 2))

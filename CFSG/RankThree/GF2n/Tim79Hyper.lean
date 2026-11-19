@@ -231,7 +231,7 @@ theorem Hyp79.exists_hyperbolic_quadModel (H : Hyp79 M V Q) {g : G} (hgV : conjS
     rw [hKcard]
     exact h.symm
   have hsq : (a ^ (Nat.card (GaloisField 2 n) / 2)) ^ 2 = a := by
-    haveI : Fintype (GaloisField 2 n) := Fintype.ofFinite _
+    have : Fintype (GaloisField 2 n) := Fintype.ofFinite _
     have h2 : Fintype.card (GaloisField 2 n) % 2 = 0 :=
       FiniteField.even_card_iff_char_two.mp (ringChar.eq (GaloisField 2 n) 2)
     rw [← pow_mul, Nat.card_eq_fintype_card, Nat.div_mul_cancel (Nat.dvd_of_mod_eq_zero h2)]

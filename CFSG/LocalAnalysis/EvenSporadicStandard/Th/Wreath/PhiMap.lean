@@ -22,6 +22,7 @@ noncomputable def phiQ (hD : DHyp A Aa t D) (Q : Subgroup G) (c : G) :
     AddMonoid.End (VSub hD) :=
   AbelianSub.endOf _ _ (phiFun Q c)
 
+omit [Finite G] in
 private theorem phiFun_eq_of_sq_eq (hD : DHyp A Aa t D) (hQ : QHyp L A D t Q) {c : G}
     (hc : c ∈ normalizer (Q : Set G) ⊓ centralizer (omega1 D hD.comm : Set G))
     {q q' : G} (hq : q ∈ Q) (hq' : q' ∈ Q) (h : q ^ 2 = q' ^ 2) :
@@ -45,6 +46,7 @@ private theorem phiFun_eq_of_sq_eq (hD : DHyp A Aa t D) (hQ : QHyp L A D t Q) {c
       = q'⁻¹ * (r⁻¹ * c * r) * q' * c⁻¹ := by group
     _ = q'⁻¹ * c * q' * c⁻¹ := by rw [hval]
 
+omit [Finite G] in
 private theorem phiFun_sq (hD : DHyp A Aa t D) (hQ : QHyp L A D t Q) {c : G}
     (hc : c ∈ normalizer (Q : Set G) ⊓ centralizer (omega1 D hD.comm : Set G))
     {q : G} (hq : q ∈ Q) : phiFun Q c (q ^ 2) = q⁻¹ * c * q * c⁻¹ := by
@@ -54,6 +56,7 @@ private theorem phiFun_sq (hD : DHyp A Aa t D) (hQ : QHyp L A D t Q) {c : G}
   · exact phiFun_eq_of_sq_eq hD hQ hc (Classical.choose_spec h).1 hq (Classical.choose_spec h).2
   · exact absurd ⟨q, hq, rfl⟩ h
 
+omit [Finite G] in
 private theorem phiFun_mem_sq (hD : DHyp A Aa t D) (hQ : QHyp L A D t Q)
     (hq4 : ∀ q ∈ Q, q ^ 4 = 1) {c : G}
     (hc : c ∈ normalizer (Q : Set G) ⊓ centralizer (omega1 D hD.comm : Set G))
@@ -81,6 +84,7 @@ private theorem phiFun_mem_sq (hD : DHyp A Aa t D) (hQ : QHyp L A D t Q)
       ⟨hQ.mem_of_sq_eq_one _ hψQ hψ2, hψ2⟩
   simpa only [mul_assoc] using hψV
 
+omit [Finite G] in
 private theorem phiFun_mem (hD : DHyp A Aa t D) (hQ : QHyp L A D t Q)
     (hq4 : ∀ q ∈ Q, q ^ 4 = 1) (hsq : ∀ v ∈ omega1 D hD.comm, ∃ q ∈ Q, q ^ 2 = v)
     {c : G} (hc : c ∈ normalizer (Q : Set G) ⊓ centralizer (omega1 D hD.comm : Set G))
@@ -89,6 +93,7 @@ private theorem phiFun_mem (hD : DHyp A Aa t D) (hQ : QHyp L A D t Q)
   rw [phiFun_sq hD hQ hc hq]
   exact phiFun_mem_sq hD hQ hq4 hc hq
 
+omit [Finite G] in
 private theorem phiFun_mul_sq_comp (hD : DHyp A Aa t D) (hQ : QHyp L A D t Q)
     (hq4 : ∀ q ∈ Q, q ^ 4 = 1) {c : G}
     (hc : c ∈ normalizer (Q : Set G) ⊓ centralizer (omega1 D hD.comm : Set G))
@@ -113,6 +118,7 @@ private theorem phiFun_mul_sq_comp (hD : DHyp A Aa t D) (hQ : QHyp L A D t Q)
             _ = r⁻¹ * (r * (q⁻¹ * c * q * c⁻¹)) := by rw [hcomm.eq]
             _ = q⁻¹ * c * q * c⁻¹ := by group]
 
+omit [Finite G] in
 private theorem phiFun_mul_sq (hD : DHyp A Aa t D) (hQ : QHyp L A D t Q)
     (hq4 : ∀ q ∈ Q, q ^ 4 = 1) {c c' : G}
     (hc : c ∈ normalizer (Q : Set G) ⊓ centralizer (omega1 D hD.comm : Set G))
@@ -133,6 +139,7 @@ private theorem phiFun_mul_sq (hD : DHyp A Aa t D) (hQ : QHyp L A D t Q)
     _ = q⁻¹ * (c * q * c⁻¹) * (c * (q⁻¹ * c' * q * c'⁻¹) * c⁻¹) := by group
     _ = (q⁻¹ * c * q * c⁻¹) * (q⁻¹ * c' * q * c'⁻¹) := by rw [hcψ']; group
 
+omit [Finite G] in
 private theorem phiFun_mul (hD : DHyp A Aa t D) (hQ : QHyp L A D t Q)
     (hq4 : ∀ q ∈ Q, q ^ 4 = 1) (hsq : ∀ v ∈ omega1 D hD.comm, ∃ q ∈ Q, q ^ 2 = v)
     {c : G} (hc : c ∈ normalizer (Q : Set G) ⊓ centralizer (omega1 D hD.comm : Set G))
@@ -146,6 +153,7 @@ private theorem phiFun_mul (hD : DHyp A Aa t D) (hQ : QHyp L A D t Q)
     phiFun_sq hD hQ hc hq, phiFun_sq hD hQ hc hr]
   exact phiFun_mul_sq_comp hD hQ hq4 hc hq hr
 
+omit [Finite G] in
 theorem QHyp.mem_normalizer_omega1 (hD : DHyp A Aa t D) (hQ : QHyp L A D t Q) {n : G}
     (hn : n ∈ normalizer (Q : Set G)) :
     n ∈ normalizer (omega1 D hD.comm : Set G) := by
@@ -173,6 +181,7 @@ theorem QHyp.mem_normalizer_omega1 (hD : DHyp A Aa t D) (hQ : QHyp L A D t Q) {n
     exact CFSG.EvenSporadicStandard.ThStd.mem_omega1_iff.2
       ⟨hQ.mem_of_sq_eq_one _ hnq hsq, hsq⟩
 
+omit [Finite G] in
 theorem QHyp.val_phiQ_apply (hD : DHyp A Aa t D) (hQ : QHyp L A D t Q)
     (hq4 : ∀ q ∈ Q, q ^ 4 = 1) (hsq : ∀ v ∈ omega1 D hD.comm, ∃ q ∈ Q, q ^ 2 = v)
     {c : G} (hc : c ∈ normalizer (Q : Set G) ⊓ centralizer (omega1 D hD.comm : Set G))
@@ -185,6 +194,7 @@ theorem QHyp.val_phiQ_apply (hD : DHyp A Aa t D) (hQ : QHyp L A D t Q)
     fun v hv w hw => phiFun_mul hD hQ hq4 hsq hc hv hw
   rw [phiQ, AbelianSub.val_endOf_apply hf hm x, hx, phiFun_sq hD hQ hc hq]
 
+omit [Finite G] in
 private theorem mem_omega1_sq (hD : DHyp A Aa t D) (hQ : QHyp L A D t Q)
     (hq4 : ∀ q ∈ Q, q ^ 4 = 1) {q : G} (hq : q ∈ Q) :
     q ^ 2 ∈ omega1 D hD.comm := by
@@ -193,6 +203,7 @@ private theorem mem_omega1_sq (hD : DHyp A Aa t D) (hQ : QHyp L A D t Q)
       rw [← pow_mul]; norm_num; exact hq4 q hq)
   · rw [← pow_mul]; norm_num; exact hq4 q hq
 
+omit [Finite G] in
 theorem QHyp.phiQ_mul (hD : DHyp A Aa t D) (hQ : QHyp L A D t Q)
     (hq4 : ∀ q ∈ Q, q ^ 4 = 1) (hsq : ∀ v ∈ omega1 D hD.comm, ∃ q ∈ Q, q ^ 2 = v)
     {c c' : G} (hc : c ∈ normalizer (Q : Set G) ⊓ centralizer (omega1 D hD.comm : Set G))
@@ -210,6 +221,7 @@ theorem QHyp.phiQ_mul (hD : DHyp A Aa t D) (hQ : QHyp L A D t Q)
     QHyp.val_phiQ_apply hD hQ hq4 hsq hc' hq x hx.symm]
   exact phiFun_mul_sq hD hQ hq4 hc hc' hq
 
+omit [Finite G] in
 theorem QHyp.phiQ_eq_zero_iff (hD : DHyp A Aa t D) (hQ : QHyp L A D t Q)
     (hq4 : ∀ q ∈ Q, q ^ 4 = 1) (hsq : ∀ v ∈ omega1 D hD.comm, ∃ q ∈ Q, q ^ 2 = v)
     {c : G} (hc : c ∈ normalizer (Q : Set G) ⊓ centralizer (omega1 D hD.comm : Set G)) :
@@ -238,8 +250,9 @@ theorem QHyp.phiQ_eq_zero_iff (hD : DHyp A Aa t D) (hQ : QHyp L A D t Q)
     rw [hψ]
     rfl
 
+omit [Finite G] in
 theorem QHyp.conj_mem_NV (hD : DHyp A Aa t D) (hQ : QHyp L A D t Q)
-    (hq4 : ∀ q ∈ Q, q ^ 4 = 1) (hsq : ∀ v ∈ omega1 D hD.comm, ∃ q ∈ Q, q ^ 2 = v)
+    (_hq4 : ∀ q ∈ Q, q ^ 4 = 1) (_hsq : ∀ v ∈ omega1 D hD.comm, ∃ q ∈ Q, q ^ 2 = v)
     {n c : G} (hn : n ∈ normalizer (Q : Set G))
     (hc : c ∈ normalizer (Q : Set G) ⊓ centralizer (omega1 D hD.comm : Set G)) :
     n * c * n⁻¹ ∈ normalizer (Q : Set G) ⊓ centralizer (omega1 D hD.comm : Set G) := by
@@ -259,6 +272,7 @@ theorem QHyp.conj_mem_NV (hD : DHyp A Aa t D) (hQ : QHyp L A D t Q)
       _ = n * (c * (n⁻¹ * v * n)) * n⁻¹ := by rw [hcv]
       _ = (n * c * n⁻¹) * v := by group
 
+omit [Finite G] in
 theorem QHyp.phiQ_conj (hD : DHyp A Aa t D) (hQ : QHyp L A D t Q)
     (hq4 : ∀ q ∈ Q, q ^ 4 = 1) (hsq : ∀ v ∈ omega1 D hD.comm, ∃ q ∈ Q, q ^ 2 = v)
     {n c : G} (hn : n ∈ normalizer (Q : Set G))
@@ -278,6 +292,7 @@ theorem QHyp.phiQ_conj (hD : DHyp A Aa t D) (hQ : QHyp L A D t Q)
     val_vConj_apply hD hnV, QHyp.val_phiQ_apply hD hQ hq4 hsq hc hq x hx.symm]
   group
 
+omit [Finite G] in
 theorem ThCyc.b_mem_NV (W : ThLocalIn L S A B z) (W2 : ThLocalIn2 B A Aa b)
     (hD : DHyp A Aa t D) (hb : ∀ d ∈ D, b * d * b⁻¹ = d⁻¹) (hQ : QHyp L A D t Q) :
     b ∈ normalizer (Q : Set G) ⊓ centralizer (omega1 D hD.comm : Set G) := by
@@ -389,6 +404,7 @@ private theorem nsmul_eq_self_of_odd {M : Type*} [AddMonoid M] (h2 : ∀ x : M, 
   rcases hn with ⟨t, rfl⟩
   rw [add_nsmul, mul_nsmul, two_nsmul, h2, nsmul_zero, zero_add, one_nsmul]
 
+omit [Finite G] in
 private theorem phiQ_pow (hD : DHyp A Aa t D) (hQ : QHyp L A D t Q)
     (hq4 : ∀ q ∈ Q, q ^ 4 = 1) (hsq : ∀ v ∈ omega1 D hD.comm, ∃ q ∈ Q, q ^ 2 = v)
     {c : G} (hc : c ∈ normalizer (Q : Set G) ⊓ centralizer (omega1 D hD.comm : Set G))
@@ -403,6 +419,7 @@ private theorem phiQ_pow (hD : DHyp A Aa t D) (hQ : QHyp L A D t Q)
       rw [pow_succ, QHyp.phiQ_mul hD hQ hq4 hsq (Subgroup.pow_mem _ hc n) hc, ih,
         succ_nsmul]
 
+omit [Finite G] in
 private theorem phiQ_eq_zero_of_odd_order (hD : DHyp A Aa t D) (hQ : QHyp L A D t Q)
     (hq4 : ∀ q ∈ Q, q ^ 4 = 1) (hsq : ∀ v ∈ omega1 D hD.comm, ∃ q ∈ Q, q ^ 2 = v)
     {c : G} (hc : c ∈ normalizer (Q : Set G) ⊓ centralizer (omega1 D hD.comm : Set G))
@@ -567,6 +584,7 @@ theorem ThCyc.phiQ_ne_of_not_mem_K1 (H : ThCyc G L R t) (W : ThLocalIn L S A B z
       exact (ThCyc.K1 H W W2 hD h4).mul_mem hebK1
         ((ThCyc.K1 H W W2 hD h4).inv_mem hbK1))
 
+omit [Finite G] in
 private theorem phiQ_conj_eq (hD : DHyp A Aa t D) (hQ : QHyp L A D t Q)
     (hq4 : ∀ q ∈ Q, q ^ 4 = 1) (hsq : ∀ v ∈ omega1 D hD.comm, ∃ q ∈ Q, q ^ 2 = v)
     {n c : G} (hn : n ∈ normalizer (Q : Set G))
@@ -583,7 +601,7 @@ private theorem phiQ_conj_eq (hD : DHyp A Aa t D) (hQ : QHyp L A D t Q)
           rw [QHyp.phiQ_conj hD hQ hq4 hsq hn hc]
 
 private theorem phiQ_b_conj_eq (H : ThCyc G L R t) (W : ThLocalIn L S A B z)
-    (W2 : ThLocalIn2 B A Aa b) (hD : DHyp A Aa t D) (h4 : ∀ d ∈ D, d ^ 4 = 1)
+    (W2 : ThLocalIn2 B A Aa b) (hD : DHyp A Aa t D) (_h4 : ∀ d ∈ D, d ^ 4 = 1)
     (hb : ∀ d ∈ D, b * d * b⁻¹ = d⁻¹) (hQ : QHyp L A D t Q)
     (hq4 : ∀ q ∈ Q, q ^ 4 = 1) (hsq : ∀ v ∈ omega1 D hD.comm, ∃ q ∈ Q, q ^ 2 = v)
     {n : G} (hn : n ∈ L ⊓ normalizer (A : Set G)) : phiQ hD Q (n * b * n⁻¹) = phiQ hD Q b := by
@@ -633,6 +651,7 @@ private theorem phiQ_b_conj_eq (H : ThCyc G L R t) (W : ThLocalIn L S A B z)
       QHyp.phiQ_eq_zero_of_mem_centralizer_D hD hQ hq4 hsq ha₀NV ha₀D
     rw [← hy_eq, QHyp.phiQ_mul hD hQ hq4 hsq ha₀NV hbNV, hzero, zero_add]
 
+omit [Finite G] in
 private theorem B_le_Hn (W : ThLocalIn L S A B z) : B ≤ L ⊓ normalizer (A : Set G) := by
   intro x hx
   refine ⟨W.B_le hx, mem_normalizer_iff.2 fun a => ⟨?_, ?_⟩⟩
@@ -680,8 +699,8 @@ private theorem vConj_phiQ_b_eq (H : ThCyc G L R t) (W : ThLocalIn L S A B z)
   rw [← phiQ_conj_eq hD hQ hq4 hsq hnQ hbNV]
   exact phiQ_b_conj_eq H W W2 hD h4 hb hQ hq4 hsq hn
 
-private theorem phiQ_b_ne_zero (H : ThCyc G L R t) (W : ThLocalIn L S A B z)
-    (W2 : ThLocalIn2 B A Aa b) (hD : DHyp A Aa t D) (h4 : ∀ d ∈ D, d ^ 4 = 1)
+private theorem phiQ_b_ne_zero (_H : ThCyc G L R t) (W : ThLocalIn L S A B z)
+    (W2 : ThLocalIn2 B A Aa b) (hD : DHyp A Aa t D) (_h4 : ∀ d ∈ D, d ^ 4 = 1)
     (hb : ∀ d ∈ D, b * d * b⁻¹ = d⁻¹) (hQ : QHyp L A D t Q)
     (hq4 : ∀ q ∈ Q, q ^ 4 = 1) (hsq : ∀ v ∈ omega1 D hD.comm, ∃ q ∈ Q, q ^ 2 = v) :
     phiQ hD Q b ≠ 0 := by
@@ -760,11 +779,12 @@ private noncomputable def swapVal (hD : DHyp A Aa t D) (Q : Subgroup G) (e : G)
   classical
   exact if vConj hD (n : G) * phiQ hD Q e * vConj hD (n : G)⁻¹ = phiQ hD Q e then 0 else 1
 
+omit [Finite G] in
 private theorem swapVal_eq_zero_of (hD : DHyp A Aa t D) (Q : Subgroup G) (e : G)
     {n : ↥(L ⊓ normalizer (A : Set G))}
     (h : vConj hD (n : G) * phiQ hD Q e * vConj hD (n : G)⁻¹ = phiQ hD Q e) :
     swapVal hD Q e n = 0 := by
-  rw [swapVal, if_pos h]
+  rw [swapVal, ite_eq_left h]
 
 private theorem swapVal_eq_one_of (H : ThCyc G L R t) (W : ThLocalIn L S A B z)
     (W2 : ThLocalIn2 B A Aa b) (hD : DHyp A Aa t D) (h4 : ∀ d ∈ D, d ^ 4 = 1)
@@ -776,7 +796,7 @@ private theorem swapVal_eq_one_of (H : ThCyc G L R t) (W : ThLocalIn L S A B z)
   have hne : vConj hD (n : G) * phiQ hD Q e * vConj hD (n : G)⁻¹ ≠ phiQ hD Q e := by
     intro h'
     exact phiQ_b_add_e_ne_e H W W2 hD h4 hb hQ hq4 hsq (h.symm.trans h')
-  rw [swapVal, if_neg hne]
+  rw [swapVal, ite_eq_right hne]
 
 private theorem swapVal_cases (H : ThCyc G L R t) (W : ThLocalIn L S A B z)
     (W2 : ThLocalIn2 B A Aa b) (hD : DHyp A Aa t D) (h4 : ∀ d ∈ D, d ^ 4 = 1)
@@ -932,7 +952,7 @@ theorem ThCyc.vConj_commute_phiQ (H : ThCyc G L R t) (W : ThLocalIn L S A B z)
     have hzero : swapVal hD Q e ⟨n, hn⟩ = 0 := by
       simpa [swapHom] using congrArg Multiplicative.toAdd hx
     by_contra hne
-    have hone : swapVal hD Q e ⟨n, hn⟩ = 1 := by rw [swapVal, if_neg hne]
+    have hone : swapVal hD Q e ⟨n, hn⟩ = 1 := by rw [swapVal, ite_eq_right hne]
     rw [hzero] at hone
     exact zero_ne_one hone
   have hnb : vConj hD n * phiQ hD Q b = phiQ hD Q b * vConj hD n := by

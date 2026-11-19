@@ -33,7 +33,7 @@ theorem quot_ker_semireg (hK46 : UCK.K46Semireg) {r : ℕ} [Fact r.Prime] (hr2 :
         (fun V _ => CFSG.GH74.Uniqueness.SU.SU5.IsQ8D8 (⊤ : Subgroup V))
         (fun Y _ => CFSG.Quasithin.IsAlt 5 Y) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hN3 := not_three_dvd_card_ker ρ hE9 hD3 hfix
   obtain ⟨d₀, hd₀⟩ := exists_prime_orderOf_dvd_card' 3 (hD3 ▸ dvd_rfl : 3 ∣ Nat.card D)
   have hd₀1 : (d₀ : Q) ≠ 1 := fun h => by
@@ -70,13 +70,13 @@ theorem quot_ker_semireg (hK46 : UCK.K46Semireg) {r : ℕ} [Fact r.Prime] (hr2 :
     exact CFSG.SectionRank.le_pRank (p := 3) (H := ⊤) (E := D.map π) (by norm_num) le_top
       (CFSG.GroupTheory.isElemAbelian_of_card_prime hDb3) (k := 1) (by rw [hDb3, pow_one])
   have hperfb : commutator (Q ⧸ ρ.ker) = ⊤ := by
-    haveI : Group.IsPerfect Q := ⟨hQperf⟩
+    have : Group.IsPerfect Q := ⟨hQperf⟩
     exact Group.IsPerfect.commutator_eq_top
   have hKb : CFSG.Open.IsKGroup (Q ⧸ ρ.ker) := hQK.quotient ρ.ker
   have hfixAb : ∀ (p : ℕ) (Ā : Subgroup (Q ⧸ ρ.ker)), p.Prime → p ≠ 2 →
       Nat.card Ā = p → fixV (kerRepresentation ρ) Ā = ⊥ := by
     intro p Ā hp hp2 hcard
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     let B : Subgroup Q := Ā.comap π
     have hBcard : p ∣ Nat.card B := by
       have hmap : B.map π = Ā := Subgroup.map_comap_eq_self_of_surjective hπ Ā

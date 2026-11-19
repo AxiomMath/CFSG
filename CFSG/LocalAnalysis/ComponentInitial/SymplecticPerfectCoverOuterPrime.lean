@@ -308,7 +308,7 @@ theorem perfect_symplectic_central_quotient_outer_prime_control {p f r : ℕ} (h
     have := outer_isCyclic_of_isPGroup hp hf hK hr hℓ hℓ2 (hV.map ι)
     exact isCyclic_of_surjective (V.equivMapOfInjective ι hι).symm (MulEquiv.surjective _)
   have hcard := outer_card_dvd hp hf hK hr
-  refine ⟨fun ℓ hℓ hℓ2 S => hcyc ℓ hℓ hℓ2 S S.isPGroup', fun ℓ hℓ hℓ2 => ?_,
+  refine ⟨fun ℓ hℓ hℓ2 S => hcyc ℓ hℓ hℓ2 S S.isPGroup, fun ℓ hℓ hℓ2 => ?_,
     (Subgroup.card_dvd_of_injective ι hι).trans hcard.1,
     fun hr3 => (Subgroup.card_dvd_of_injective ι hι).trans (hcard.2 hr3), fun hr3 heven => ?_⟩
   ·

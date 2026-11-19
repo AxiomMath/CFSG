@@ -19,6 +19,7 @@ section Basics
 
 variable {X : Type} [Group X] [Finite X] {p : ℕ}
 
+omit [Finite X] in
 theorem elem_mul_comm {B : Subgroup X} (hB : IsElemAbelian p B) {a b : X} (ha : a ∈ B)
     (hb : b ∈ B) : a * b = b * a := by
   have h := hB.1.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩
@@ -26,13 +27,14 @@ theorem elem_mul_comm {B : Subgroup X} (hB : IsElemAbelian p B) {a b : X} (ha : 
 
 theorem card_eq_pow_pRank (hp : p.Prime) {B : Subgroup X} (hB : IsElemAbelian p B) :
     Nat.card B = p ^ CFSG.Open.pRank p B := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨k, hk⟩ := (CFSG.Open.IsElemAbelian.isPGroup hB).exists_card_eq
   have h1 : k ≤ CFSG.Open.pRank p B := CFSG.SectionRank.le_pRank hp.one_lt le_rfl hB hk
   have h2 : CFSG.Open.pRank p B ≤ k :=
     CFSG.SectionRank.pRank_le hp.one_lt fun E hEB _ => hk ▸ Subgroup.card_le_of_le hEB
   rw [hk, le_antisymm h1 h2]
 
+omit [Finite X] in
 theorem le_centralizer_of_le {E U : Subgroup X} (hE : IsElemAbelian p E) (hUE : U ≤ E) :
     E ≤ Subgroup.centralizer (U : Set X) := by
   intro e he
@@ -62,7 +64,7 @@ theorem isKConnectedIn_self (hp : p.Prime) {E : Subgroup X} (hE : IsElemAbelian 
 
 theorem isKConnectedIn_of_inter (hp : p.Prime) {E A : Subgroup X} (hE : IsElemAbelian p E)
     (hA : IsElemAbelian p A) (h3 : 3 ≤ CFSG.Open.pRank p (E ⊓ A)) : IsKConnectedIn p 3 ⊤ E A := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hI : IsElemAbelian p (E ⊓ A) := CFSG.Open.IsElemAbelian.mono hE inf_le_left
   have hIc : Nat.card (E ⊓ A : Subgroup X) = p ^ CFSG.Open.pRank p (E ⊓ A) := card_eq_pow_pRank hp hI
   obtain ⟨U₀, hU₀⟩ := Sylow.exists_subgroup_card_pow_prime p (G := ↥(E ⊓ A)) (n := 3)
@@ -172,10 +174,12 @@ section Layer
 
 variable {X : Type} [Group X] [Finite X] {p : ℕ}
 
+omit [Finite X] in
 theorem le_glaLayer_top {K : Subgroup X} (hK : IsComponentOf K ⊤) :
     K ≤ GLALayer (⊤ : Subgroup X) :=
   le_sSup hK
 
+omit [Finite X] in
 theorem inf_centralizer_ne_bot {E A K : Subgroup X} (hK : IsComponentOf K ⊤)
     (hc : Subgroup.centralizer ((GLALayer (⊤ : Subgroup X) : Subgroup X) : Set X) ⊓ (E ⊓ A) ≠ ⊥) :
     E ⊓ Subgroup.centralizer (K : Set X) ≠ ⊥ := by
@@ -211,6 +215,7 @@ section AbelianSylow
 
 variable {X : Type} [Group X] [Finite X] {p : ℕ}
 
+omit [Finite X] in
 theorem isElemAbelian_sup_of_commute {H₁ H₂ : Subgroup X} (h₁ : IsElemAbelian p H₁)
     (h₂ : IsElemAbelian p H₂) (hc : ∀ x ∈ H₁, ∀ y ∈ H₂, x * y = y * x) :
     IsElemAbelian p (H₁ ⊔ H₂) := by
@@ -227,11 +232,13 @@ theorem isElemAbelian_sup_of_commute {H₁ H₂ : Subgroup X} (h₁ : IsElemAbel
   · obtain ⟨x, hx, y, hy, rfl⟩ := (GL83.CompFam.mem_sup_of_commute hc).1 hz
     rw [(show Commute x y from hc x hx y hy).mul_pow, h₁.2 x hx, h₂.2 y hy, one_mul]
 
+omit [Finite X] in
 theorem isElemAbelian_zpowers' {k : X} (hk : k ^ p = 1) : IsElemAbelian p (Subgroup.zpowers k) := by
   refine ⟨inferInstance, fun x hx => ?_⟩
   obtain ⟨n, rfl⟩ := Subgroup.mem_zpowers_iff.1 hx
   rw [← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast, hk, one_zpow]
 
+omit [Finite X] in
 theorem inf_centralizer_self_eq_bot {K : Subgroup X} (hZ : Subgroup.center ↥K = ⊥) :
     K ⊓ Subgroup.centralizer (K : Set X) = ⊥ := by
   rw [Subgroup.eq_bot_iff_forall]
@@ -251,11 +258,12 @@ theorem innerAut_normal_local (Y : Type*) [Group Y] : (innerAut Y).Normal := by
   ext z
   simp [MulAut.conj_apply]
 
+omit [Finite X] in
 theorem exists_inner_of_not_dvd [Fact p.Prime] {K : Subgroup X}
     (hOut : ¬ p ∣ (innerAut ↥K).index) {e : X} (heN : e ∈ Subgroup.normalizer (K : Set X))
     (hep : e ^ p = 1) : ∃ k ∈ K, ∀ x ∈ K, e * x * e⁻¹ = k * x * k⁻¹ := by
   have hp := (Fact.out : p.Prime)
-  haveI : (innerAut ↥K).Normal := innerAut_normal_local ↥K
+  have : (innerAut ↥K).Normal := innerAut_normal_local ↥K
   set σ : MulAut ↥K := K.normalizerMonoidHom ⟨e, heN⟩ with hσ
   have hσp : σ ^ p = 1 := by
     rw [hσ, ← map_pow]
@@ -278,6 +286,7 @@ theorem exists_inner_of_not_dvd [Fact p.Prime] {K : Subgroup X}
   rw [hσ] at h
   exact h.symm
 
+omit [Finite X] in
 theorem eq_inf_sup_inf_of_inner [Fact p.Prime] {E K : Subgroup X} (hE : IsSCp p ⊤ E)
     (hEN : E ≤ Subgroup.normalizer (K : Set X)) (hZ : K ⊓ Subgroup.centralizer (K : Set X) = ⊥)
     (hinner : ∀ e ∈ E, ∃ k ∈ K, ∀ x ∈ K, e * x * e⁻¹ = k * x * k⁻¹) :
@@ -356,11 +365,11 @@ theorem mem_of_pow_eq_one_of_maximal [Fact p.Prime] {C Q : Subgroup X} (hQ : IsP
     intro h0
     rw [h0, Subgroup.card_bot] at hCc
     exact hp.one_lt.ne hCc
-  haveI : Nontrivial ↥Q := by
+  have : Nontrivial ↥Q := by
     obtain ⟨⟨c, hc⟩, hc1⟩ := Subgroup.ne_bot_iff_exists_ne_one.1 hCne
     refine ⟨⟨⟨c, hCQ hc⟩, 1, fun h => hc1 (Subtype.ext ?_)⟩⟩
     simpa using congrArg Subtype.val h
-  haveI := hQ.center_nontrivial
+  have := hQ.center_nontrivial
   have hZp : IsPGroup p ↥(Subgroup.center ↥Q) := hQ.to_subgroup _
   obtain ⟨n, hn⟩ := hZp.exists_card_eq
   have hn0 : n ≠ 0 := by
@@ -565,7 +574,7 @@ theorem five_le_of_prime {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hp3 : p ≠ 3
 
 theorem input27_3_of_core (h : Input27_3Core) : Input27_3 := by
   intro p hp hp2 X _ _ hXK hO K hK hKh E A hE hA hEA hEAp hr hc
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hKc : IsComponentOf K ⊤ :=
     CFSG.HardMathSupport.Timmesfeld.ComponentBalance.i116n_isComponentOf_of_glaPComponent hO hK
   have hE3 : 3 ≤ CFSG.Open.pRank p E := three_le_pRank_of_scp hp hE hA hEA hr
@@ -607,7 +616,7 @@ theorem input27_3_of_core (h : Input27_3Core) : Input27_3 := by
 
 theorem input27_4_of_core (h : Input27_4Core) : Prop115.Input27_4 := by
   intro p hp hp2 X _ _ hXK hO K hK hKh E A hE hA hEA hEAp hr hc
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hKc : IsComponentOf K ⊤ :=
     CFSG.HardMathSupport.Timmesfeld.ComponentBalance.i116n_isComponentOf_of_glaPComponent hO hK
   have hE3 : 3 ≤ CFSG.Open.pRank p E := three_le_pRank_of_scp hp hE hA hEA hr
@@ -658,6 +667,7 @@ section Gamma
 
 variable {X : Type} [Group X] [Finite X] {p : ℕ}
 
+omit [Finite X] in
 theorem le_normalizer_of_le {B U : Subgroup X} (hB : IsElemAbelian p B) (hUB : U ≤ B) :
     B ≤ Subgroup.normalizer (U : Set X) := by
   intro b hb
@@ -676,6 +686,7 @@ theorem le_normalizer_of_le {B U : Subgroup X} (hB : IsElemAbelian p B) (hUB : U
     rw [e2]
     exact hh
 
+omit [Finite X] in
 theorem le_normalizer_iSup' {ι : Sort*} {H : Subgroup X} (K : ι → Subgroup X)
     (h : ∀ i, H ≤ Subgroup.normalizer (K i : Set X)) :
     H ≤ Subgroup.normalizer ((⨆ i, K i : Subgroup X) : Set X) := by
@@ -695,6 +706,7 @@ theorem le_normalizer_iSup' {ι : Sort*} {H : Subgroup X} (K : ι → Subgroup X
   rwa [e] at h1
 
 
+omit [Finite X] in
 theorem isElemAbelian_subgroupOf {B : Subgroup X} (hB : IsElemAbelian p B) (H : Subgroup X) :
     IsElemAbelian p (B.subgroupOf H) := by
   refine ⟨⟨⟨fun a b => Subtype.ext (Subtype.ext ?_)⟩⟩, fun x hx => Subtype.ext ?_⟩
@@ -759,6 +771,7 @@ section I2711
 
 variable {X : Type} [Group X] [Finite X] {p : ℕ}
 
+omit [Finite X] in
 theorem normal_subgroupOf_sup {L B : Subgroup X} (hBN : B ≤ Subgroup.normalizer (L : Set X)) :
     (L.subgroupOf (L ⊔ B)).Normal := by
   have h := Subgroup.normal_subgroupOf_sup_of_le_normalizer (H := B) (N := L) hBN
@@ -774,7 +787,7 @@ theorem eq_gammaTwoIn_of_input2319 (h2319 : Lemma1315b.Input23_19) (hp : p.Prime
       (∃ q : ℕ, q.Prime ∧ q ≠ p ∧ IsChevSimple q (↥L ⧸ Subgroup.center ↥L)) ∨
       (∀ A : Subgroup (MulAut ↥L), IsElemAbelian p A → CFSG.Open.pRank p A ≤ 2)) :
     L = Lemma138.gammaTwoIn p B L := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hBp : IsPGroup p ↥B := CFSG.Open.IsElemAbelian.isPGroup hB
   have hKY : CFSG.Open.IsKGroup ↥(L ⊔ B) :=
     CFSG.LocalAnalysis.GLTheoremA.chevTools_isKGroup_sup hp
@@ -910,6 +923,7 @@ section I275
 
 variable {X : Type} [Group X] [Finite X] {p : ℕ}
 
+omit [Finite X] in
 theorem kStar_eq_of_le_normalizer {B K : Subgroup X} (hN : B ≤ Subgroup.normalizer (K : Set X)) :
     (⨆ b ∈ B, GLBConj b K) = K := by
   refine le_antisymm (iSup₂_le fun b hb => le_of_eq (gLBConj_eq_of_mem_normalizer (hN hb))) ?_
@@ -981,7 +995,7 @@ theorem kStar_le_iSup_centralizer [Fact p.Prime] {B K : Subgroup X} (hB : IsElem
 
 theorem input27_5_of_core (h : Input27_5Core) : Claims1245b.Input27_5 := by
   intro X _ _ hXK hO K hK B hB hB9 S hS hBS hSN hnc hcond
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_cases hN : B ≤ Subgroup.normalizer (K : Set X)
   · have hKs : (⨆ b ∈ B, GLBConj b K) = K := kStar_eq_of_le_normalizer hN
     rw [hKs] at hSN hnc ⊢

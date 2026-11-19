@@ -33,14 +33,14 @@ theorem triple_mul {x₀ x₁ x₂ : K → G} (h0 : ∀ a b, x₀ (a + b) = x₀
 theorem mem_of_orbit (M : Subgroup G) (α : MulAut G) (hM : ∀ g, α g = g → g ∈ M)
     {x₀ x₁ x₂ : K → G} (h0 : ∀ a b, x₀ (a + b) = x₀ a * x₀ b)
     (h1 : ∀ a b, x₁ (a + b) = x₁ a * x₁ b) (h2 : ∀ a b, x₂ (a + b) = x₂ a * x₂ b)
-    (z0 : x₀ 0 = 1) (z1 : x₁ 0 = 1) (z2 : x₂ 0 = 1)
+    (_z0 : x₀ 0 = 1) (z1 : x₁ 0 = 1) (z2 : x₂ 0 = 1)
     (c01 : ∀ a b, Commute (x₀ a) (x₁ b)) (c02 : ∀ a b, Commute (x₀ a) (x₂ b))
     (c12 : ∀ a b, Commute (x₁ a) (x₂ b)) {κ₀ κ₁ κ₂ : K}
     (hα0 : ∀ c, α (x₀ c) = x₁ (κ₀ * c)) (hα1 : ∀ c, α (x₁ c) = x₂ (κ₁ * c))
     (hα2 : ∀ c, α (x₂ c) = x₀ (κ₂ * c)) (hκ : κ₂ * κ₁ * κ₀ = 1)
     {d : G} (hd : d ∈ M) {μ₀ μ₁ μ₂ : K} (hd0 : ∀ c, d * x₀ c * d⁻¹ = x₀ (μ₀ * c))
     (hd1 : ∀ c, d * x₁ c * d⁻¹ = x₁ (μ₁ * c)) (hd2 : ∀ c, d * x₂ c * d⁻¹ = x₂ (μ₂ * c))
-    (h01 : μ₀ ≠ μ₁) (h02 : μ₀ ≠ μ₂) (h12 : μ₁ ≠ μ₂) (c : K) : x₀ c ∈ M := by
+    (h01 : μ₀ ≠ μ₁) (h02 : μ₀ ≠ μ₂) (_h12 : μ₁ ≠ μ₂) (c : K) : x₀ c ∈ M := by
   set u : K → G := fun a => x₀ a * x₁ (κ₀ * a) * x₂ (κ₁ * κ₀ * a) with hu
   have hufix : ∀ a, α (u a) = u a := by
     intro a

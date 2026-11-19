@@ -35,23 +35,23 @@ theorem d4_group_facts {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f) (K' : Typ
       commutator ↥(graphFixedRootGroup TwistTag.D4 K' σ.toRingHom) = ⊤ ∧
       Subgroup.center ↥(graphFixedRootGroup TwistTag.D4 K' σ.toRingHom) = ⊥ := by
   classical
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   obtain ⟨r, hr, hσ'⟩ : ∃ r : ℕ, (r = 1 ∨ r = 2) ∧ ∀ c, σ.toRingHom c = c ^ ((ℓ ^ f) ^ r) := by
     rcases hσ with h | h
     · exact ⟨1, Or.inl rfl, fun c => by simpa using h c⟩
     · exact ⟨2, Or.inr rfl, fun c => h c⟩
-  haveI : Finite K' := Nat.finite_of_card_ne_zero (by
+  have : Finite K' := Nat.finite_of_card_ne_zero (by
     rw [hK]
     exact pow_ne_zero _ (pow_ne_zero _ hℓ.ne_zero))
-  haveI : Finite (Module.End K' (RootModule TwistTag.D4.tag K')) := Module.finite_of_finite K'
-  haveI : Finite (ModGL TwistTag.D4.tag K') :=
+  have : Finite (Module.End K' (RootModule TwistTag.D4.tag K')) := Module.finite_of_finite K'
+  have : Finite (ModGL TwistTag.D4.tag K') :=
     Finite.of_injective (Units.val : ModGL TwistTag.D4.tag K' →
       Module.End K' (RootModule TwistTag.D4.tag K')) Units.val_injective
   have hord := (triality_both_orientations_exact_finite_order ℓ f hℓ hf K' hK r hr σ.toRingHom hσ').1
-  haveI : Fintype K' := Fintype.ofFinite K'
-  haveI : CharP K' ℓ := charP_of_card_eq_prime_pow (f := f * 3)
+  have : Fintype K' := Fintype.ofFinite K'
+  have : CharP K' ℓ := charP_of_card_eq_prime_pow (f := f * 3)
     (by rw [← Nat.card_eq_fintype_card, hK, ← pow_mul])
-  haveI : CharP (AlgebraicClosure K') ℓ :=
+  have : CharP (AlgebraicClosure K') ℓ :=
     charP_of_injective_algebraMap (algebraMap K' (AlgebraicClosure K')).injective ℓ
   have hsimple := triality_both_field_orientations_simple_full_ambient_fixed_group ℓ f hℓ hf K' hK
     (AlgebraicClosure K') r hr σ.toRingHom hσ' (iterateFrobenius (AlgebraicClosure K') ℓ f)
@@ -181,7 +181,7 @@ theorem e8Twelve_S₁_eq : TwClass.e8Twelve.S₁ =
     (fun γ => e8v1 • γ) '' parabolicRoots Tag.E8 (d4Nodes Tag.E8) := by
   rw [e8Twelve_S₁_list, d4_S₂_eq]
   ext r
-  simp only [Set.mem_image, Set.mem_setOf_eq, e8v1_smul]
+  simp only [Set.mem_image, Set.mem_ofPred_eq, e8v1_smul]
   rw [← d4_img, List.mem_map]
 
 theorem frame_equiv_of_equiv {τ : Tag} {K : Type} [Field K] [Finite K] {w : WeylGroup τ}
@@ -191,8 +191,8 @@ theorem frame_equiv_of_equiv {τ : Tag} {K : Type} [Field K] [Finite K] {w : Wey
         P ≤ (adjEmb τ K D.L).range)
     {G : Type} [Group G] [Finite G] [Group.IsPerfect G]
     (e : ↥(fixedRootGroup D S) ≃* G) : Nonempty (↥(D.frame S) ≃* G) := by
-  haveI : Finite ↥(fixedRootGroup D S) := Finite.of_equiv G e.symm.toEquiv
-  haveI : Group.IsPerfect ↥(fixedRootGroup D S) :=
+  have : Finite ↥(fixedRootGroup D S) := Finite.of_equiv G e.symm.toEquiv
+  have : Group.IsPerfect ↥(fixedRootGroup D S) :=
     Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
   obtain ⟨e'⟩ := frame_equiv_fixed D S hrat inferInstance (Subgroup.isPerfect_iff.1 inferInstance)
   exact ⟨e'.trans e⟩
@@ -207,9 +207,9 @@ theorem e8Twelve_frames_aux (K : Type) [Field K] [Finite K] (w : WeylGroup Tag.E
         ((fun γ => e8v1 • γ) '' parabolicRoots Tag.E8 (d4Nodes Tag.E8)))) = 1 := by
   classical
   obtain ⟨ℓ, f, hℓ, hf, hk⟩ := exists_prime_pow_card K
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
-  haveI : CharP D.L ℓ := charP_langLevi D hℓ hk
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+  have : CharP D.L ℓ := charP_langLevi D hℓ hk
   have hFr : D.Fr = iterateFrobenius D.L ℓ f :=
     RingHom.ext fun c => by rw [D.hFr, hk, iterateFrobenius_def]
   set n : ModGL Tag.E8 D.L := canonicalRep (coxeterSystem Tag.E8) D.L w with hn
@@ -237,8 +237,8 @@ theorem e8Twelve_frames_aux (K : Type) [Field K] [Finite K] (w : WeylGroup Tag.E
     (Or.inr (Or.inl rfl)) (Or.inr (Or.inr rfl)) n hnm hact₂
     (fixedRootGroup D (parabolicRoots Tag.E8 (d4Nodes Tag.E8))) hP₂
   obtain ⟨hfin₂, hcard₂, hcomm₂, hcent₂⟩ := d4_group_facts hℓ hf K₂ hK₂ σ₂ hσ₂
-  haveI := hfin₂
-  haveI : Group.IsPerfect ↥(graphFixedRootGroup TwistTag.D4 K₂ σ₂.toRingHom) :=
+  have := hfin₂
+  have : Group.IsPerfect ↥(graphFixedRootGroup TwistTag.D4 K₂ σ₂.toRingHom) :=
     Group.isPerfect_def.2 hcomm₂
   obtain ⟨x₂⟩ := frame_equiv_of_equiv D _ hrat e₂
   have hP₁ : fixedRootGroup D ((fun γ => e8v1 • γ) '' parabolicRoots Tag.E8 (d4Nodes Tag.E8)) =
@@ -263,8 +263,8 @@ theorem e8Twelve_frames_aux (K : Type) [Field K] [Finite K] (w : WeylGroup Tag.E
     (Or.inr (Or.inl rfl)) (Or.inr (Or.inr rfl)) n hnm hcert₁
     (fixedRootGroup D ((fun γ => e8v1 • γ) '' parabolicRoots Tag.E8 (d4Nodes Tag.E8))) hP₁
   obtain ⟨hfin₁, hcard₁, hcomm₁, hcent₁⟩ := d4_group_facts hℓ hf K₁ hK₁ σ₁ hσ₁
-  haveI := hfin₁
-  haveI : Group.IsPerfect ↥(graphFixedRootGroup TwistTag.D4 K₁ σ₁.toRingHom) :=
+  have := hfin₁
+  have : Group.IsPerfect ↥(graphFixedRootGroup TwistTag.D4 K₁ σ₁.toRingHom) :=
     Group.isPerfect_def.2 hcomm₁
   obtain ⟨x₁⟩ := frame_equiv_of_equiv D _ hrat e₁
   refine ⟨?_, ?_, ?_⟩

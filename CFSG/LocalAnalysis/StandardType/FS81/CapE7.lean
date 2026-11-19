@@ -191,7 +191,7 @@ private theorem sylow_three_cyclic_of_le_centralizer {G : Type} [Group G] [Finit
     (hD_le_CK : D ≤ Subgroup.centralizer (K : Set G)) (P : Sylow 3 ↥D) :
     IsCyclic ↥(P : Subgroup ↥D) := by
   let PD : Subgroup ↥D := (P : Subgroup ↥D)
-  have hPD_p : IsPGroup 3 ↥(PD.map D.subtype) := P.isPGroup'.map D.subtype
+  have hPD_p : IsPGroup 3 ↥(PD.map D.subtype) := P.isPGroup.map D.subtype
   have hPD_le_CK : PD.map D.subtype ≤ Subgroup.centralizer (K : Set G) := by
     rintro _ ⟨x, hx, rfl⟩
     exact hD_le_CK x.2
@@ -217,7 +217,7 @@ private theorem exists_generator_order_of_nine_dvd {G : Type} [Group G] [Finite 
   have hdPord : orderOf dP = Nat.card ↥PD := by
     rw [← Nat.card_zpowers (dP),
       show Subgroup.zpowers dP = ⊤ from top_unique (fun x _ => hdPgen x), Subgroup.card_top]
-  obtain ⟨k, hk⟩ := P.isPGroup'.exists_card_eq
+  obtain ⟨k, hk⟩ := P.isPGroup.exists_card_eq
   have h9PD : 3 ^ 2 ∣ Nat.card ↥PD := by
     have hDcard : Nat.card ↥D = Nat.card ↥PD * PD.index := PD.card_mul_index.symm
     have h3 : ¬ 3 ∣ PD.index := P.not_dvd_index

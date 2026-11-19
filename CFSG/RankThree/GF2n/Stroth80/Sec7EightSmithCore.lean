@@ -32,7 +32,7 @@ theorem sec7_wild_pre (h310chi : Stroth310ChiStatement) (h71 : Stroth71Statement
       conjSubgroup (g * t * g⁻¹) (LB M Q B) = LB M Q B ∧
       (∀ y ∈ conjSubgroup g (Vt M (LB M Q B) B Z t), y ∈ Wt Q (Vt M (LB M Q B) B Z t)) := by
   classical
-  haveI : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
+  have : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
   have ht : t ∈ LB M Q B := hs.toSec5.mem
   have htM : t ∈ M := hc.LB_le_M ht
   have htZ0 : t ∈ Z0 := IsCentrePre.mem_of_mem_LB (hc := hc) ht hZ0
@@ -96,7 +96,7 @@ theorem step76EightSmithCore_of (h34 : Stroth34Statement) (hRoot : Stroth310Root
     Step76EightSmithCoreStatement := by
   intro G _ _ M Q Z B hc n t hs hno h4 Z0 hZ0 f hfL hfc g hgM hΓ hwild a ha
   classical
-  haveI : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
+  have : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
   have ht : t ∈ LB M Q B := hs.toSec5.mem
   have htM : t ∈ M := hc.LB_le_M ht
   have hVQ : Vt M (LB M Q B) B Z t ≤ Q := hc.Vt_le_Q t
@@ -114,10 +114,10 @@ theorem step76EightSmithCore_of (h34 : Stroth34Statement) (hRoot : Stroth310Root
     rwa [hUtv] at h2
   obtain ⟨K, fK, finK, γ, M₀, ρ, b₀, hS, ψ, hψ, hrange, hW, hinj, hA5, hA6⟩ :=
     sec7_A0 h34 h310chi hZc hZV hZcard hc hs hZ0
-  haveI hchar : CharP K 2 := by
+  have hchar : CharP K 2 := by
     obtain ⟨e, -, he, -⟩ := hc.hyp.cp
     exact charP_two_of_card_eq_two_pow (hS.card.trans he)
-  haveI : Finite M₀.E := Module.finite_of_finite K
+  have : Finite M₀.E := Module.finite_of_finite K
   have hK2 : 2 ≤ Nat.card K := Finite.one_lt_card
   have hZK : Nat.card Z = Nat.card K := hS.card.symm
   obtain ⟨hf, hr⟩ := sec7_model_form M₀
@@ -213,8 +213,8 @@ theorem step76EightSmithCore_of (h34 : Stroth34Statement) (hRoot : Stroth310Root
     hZV G M Q Z B hc n t hs Z0 hZ0 t htZ0 hs.toSec5.notQ
   obtain ⟨K', fK', finK', hchar', hKK', φ, u, hφ, hkerφ, hu, hu0, hL, hnorm⟩ :=
     sec7_point_data h34 hRoot hc hs.toSec5 h4
-  haveI := Fintype.ofFinite K
-  haveI := Fintype.ofFinite K'
+  have := Fintype.ofFinite K
+  have := Fintype.ofFinite K'
   have hcardKK' : Fintype.card K = Fintype.card K' := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hKK', hZK]
   let θ : K ≃+* K' := FiniteField.ringEquivOfCardEq hcardKK'

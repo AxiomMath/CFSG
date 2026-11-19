@@ -60,7 +60,7 @@ theorem ker_toMbar (S : Setting G) : (toMbar S).ker = S.Q :=
 
 theorem pCore_three_Mbar_eq (S : Setting G) (hO : Nat.card (timmesfeldOddCore S.Mbar) = 3) :
     CFSG.pCore 3 S.Mbar = timmesfeldOddCore S.Mbar := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   apply le_antisymm
   · refine S5.le_timmesfeldOddCore CFSG.pCore_normal ?_
     obtain ⟨k, hk⟩ := (CFSG.pCore_isPGroup (p := 3) (G := S.Mbar)).exists_card_eq
@@ -100,13 +100,13 @@ theorem parrottShape_of_data (S : Setting G) (hw : S.width = 6) (E Ob : Subgroup
     (hZ : (center E).map E.subtype = Ob)
     (hX : CFSG.Open.StatedClassicalModel (E ⧸ center E) .PSU 4 3 1)
     (hi : E.index = 2) : TwoFi22.ParrottShape S.M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsurj : Function.Surjective (toMbar S) := toMbar_surjective S
   have hO2 : TwoFi22.O2In S.M = S.Q.map S.M.subtype := by
     rw [Reifart.O2In_eq, ← S.Q_eq_pCore]
   have hO23 : TwoFi22.O23In S.M = (Ob.comap (toMbar S)).map S.M.subtype := by
     rw [Reifart.O23In_eq]
-    haveI : (CFSG.pCore 2 ↥S.M).Normal := CFSG.pCore_normal
+    have : (CFSG.pCore 2 ↥S.M).Normal := CFSG.pCore_normal
     exact congrArg (Subgroup.map S.M.subtype)
       (comap_pCore_three_eq S hOb (T := CFSG.pCore 2 ↥S.M) S.Q_eq_pCore.symm)
   have hObE : Ob ≤ E := hZ ▸ map_subtype_le _
@@ -128,7 +128,7 @@ theorem parrottShape_of_data (S : Setting G) (hw : S.width = 6) (E Ob : Subgroup
         π₀ k = 1 ↔ ((k : S.M)) ∈ Ob.comap (toMbar S) :=
     ⟨(QuotientGroup.mk' (center E)).comp ((toMbar S).subgroupComap E),
       (QuotientGroup.mk'_surjective _).comp
-        (MonoidHom.subgroupComap_surjective_of_surjective _ _ hsurj),
+        (_root_.MonoidHom.subgroupComap_surjective _ _ hsurj),
       fun k => (QuotientGroup.eq_one_iff (N := center E) _).trans (hcen _)⟩
   unfold TwoFi22.ParrottShape
   refine ⟨?_, ?_, ?_, (E.comap (toMbar S)).map S.M.subtype, map_subtype_le _, ?_, ?_, ?_,
@@ -208,7 +208,7 @@ theorem caseINotTwoCentral_of_U43 (hCE : CentralExtInput.{0}) (hS : SchreierFor 
   have hM : S.M ≠ ⊤ := M_ne_top_of_isSimpleGroup S
   have hperf : PerfectInLayer S := fun P hPM hP => perfect_le_layer_map hS hK hM hq hodd hPM hP
   obtain ⟨h1, h2, h3, h4⟩ := E_numerics hCE H hNo C ht ht1 hVQ hΩ hN h6 hodd hperf hΔ
-  haveI : IsSimpleGroup (timmesfeldLayer S.Mbar ⧸ center (timmesfeldLayer S.Mbar)) := hq.2
+  have : IsSimpleGroup (timmesfeldLayer S.Mbar ⧸ center (timmesfeldLayer S.Mbar)) := hq.2
   have hfilter := hF (inCatalog_layer_quotient hK hM hq)
     (Helpers.quasisimple_central_quotient_nonabelian _ hq) h2 h1 h3 h4
   have hmodel : CFSG.Open.StatedClassicalModel

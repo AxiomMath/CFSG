@@ -148,20 +148,20 @@ theorem cjK_spec {x xi : Nat} {σ : Equiv.Perm (Fin 21)} (hx : IsP x σ) (hxi : 
     ∃ c ∈ conjs qList σ, ∃ p₁ p₂ p₃, IsF (ap3 p₁ p₂ p₃) c ∧ κ p₁ p₂ p₃ = true := by
   unfold cjK at h
   by_cases h0 : k = 0
-  · rw [if_pos h0] at h
+  · rw [ite_eq_left h0] at h
     have e := isF_ap3 isP_oneN isP_oneN isP_oneN
     rw [one_mul, one_mul] at e
     exact ⟨1, List.mem_cons_self, _, _, _, e, h⟩
-  rw [if_neg h0, forceD_eq, forceD_eq] at h
+  rw [ite_eq_right h0, forceD_eq, forceD_eq] at h
   obtain ⟨q, hq, h1, h2⟩ := qN_spec ((k - 1) / 2)
   by_cases h3 : (k - 1) % 2 = 0
-  · rw [if_pos h3] at h
+  · rw [ite_eq_left h3] at h
     refine ⟨tab (q * σ * q⁻¹), List.mem_cons_of_mem _ (List.mem_flatMap.2 ⟨q, hq, ?_⟩),
       _, _, _, ?_, h⟩
     · exact List.mem_cons_self
     · rw [tab_eq, mul_assoc]
       exact isF_ap3 h1 hx h2
-  · rw [if_neg h3] at h
+  · rw [ite_eq_right h3] at h
     refine ⟨tab (q * σ⁻¹ * q⁻¹), List.mem_cons_of_mem _ (List.mem_flatMap.2 ⟨q, hq, ?_⟩),
       _, _, _, ?_, h⟩
     · exact List.mem_cons_of_mem _ List.mem_cons_self
@@ -173,11 +173,8 @@ theorem tripN_sound {x xi : Nat} {σ : Equiv.Perm (Fin 21)} (hx : IsP x σ) (hxi
     wordOK qList σ = true := by
   rw [tripN] at h
   obtain ⟨a, ha, a₁, a₂, a₃, hA, h⟩ := cjK_spec hx hxi t.1 h
-  beta_reduce at h
   obtain ⟨b, hb, b₁, b₂, b₃, hB, h⟩ := cjK_spec hx hxi t.2.1 h
-  beta_reduce at h
   obtain ⟨c, hc, c₁, c₂, c₃, hC, h⟩ := cjK_spec hx hxi t.2.2 h
-  beta_reduce at h
   rw [Bool.and_eq_true] at h
   have hy : IsF (yN x a₁ a₂ a₃ b₁ b₂ b₃ c₁ c₂ c₃) (σ * (a * (b * c))) := by
     have e := isF_comp (isF_of_isP hx) (isF_comp hA (isF_comp hB hC))

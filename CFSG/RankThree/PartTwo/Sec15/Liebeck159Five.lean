@@ -23,6 +23,7 @@ variable {G : Type} [Group G] [Finite G]
 
 section Certs
 
+omit [Finite G] in
 private theorem exists_sylow_ge {p : ℕ} [Fact p.Prime] {K P : Subgroup G} (hPK : P ≤ K)
     (hP : IsPGroup p P) : ∃ R : Subgroup G, CFSG.ABGLocalTools.IsSylowOf p R K ∧ P ≤ R := by
   obtain ⟨Q, hQ⟩ := (hP.comap_subtype (K := K)).exists_le_sylow
@@ -133,7 +134,7 @@ theorem step159FiveR_of (h134 : Item134) (h48 : Sec4.Item4_8) (h138 : Item138N)
     eq_deltaZero_of_eq_delta' h134 CFSG.Sporadic.J2.isSimpleGroup_J2 h48
       Sec4.Sporadic.rank3II_4_15 (KFacts.KS14.center_nativeJ2_eq_bot Sec4.Sporadic.rank3II_4_15)
       h14 hAJ hJ4.2.1 hJ4.2.2.1
-  letI := ker148_normal hAJ
+  let := ker148_normal hAJ
   obtain ⟨c, hcA, L, n, m, hΩc, hL, hn, hm, hX, hsplit, -, hfield, hLε, -, K, hKLJ, hKn, -, -⟩ := h5
   exact false_of_case148Five_data h138 h41 ctx hw hJ hJΔ0 hwJ hcA hΩc hL hn hm hX hsplit hfield
     hLε hKLJ hKn

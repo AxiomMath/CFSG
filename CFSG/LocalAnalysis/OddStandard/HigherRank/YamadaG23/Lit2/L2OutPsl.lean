@@ -64,7 +64,7 @@ theorem l2out_psl_fixed {S : Type} [Group S] {p f : ℕ} (hp : p.Prime) (hodd : 
         · exact exists_fixed_perfect_even_conjAut_dualAut_of_transpose_eq_neg hK2 h4 hn3 A hA
       · exact exists_fixed_perfect_even_conjAut_fieldAut_dualAut hp hp2 hf hcard hn3 A σ hσ hα'
   refine ⟨P.map e.symm.toMonoidHom, ?_, ?_, ?_⟩
-  · haveI := hP
+  · have := hP
     exact Group.IsPerfect.map e.symm.toMonoidHom
   · rw [Subgroup.card_map_of_injective e.symm.injective]
     exact heven

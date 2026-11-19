@@ -85,7 +85,7 @@ theorem gl12_exists_pSubgroup_map_eq {X : Type*} [Group X] [Finite X] (K : Subgr
     Sylow.coe_mapSurjective hf P0
   have htop : ((P0.mapSurjective hf : Sylow p Q) : Subgroup Q) = ⊤ :=
     (P0.mapSurjective hf).maximal_isPGroup.eq_of_le (hQ.of_equiv Subgroup.topEquiv.symm) le_top
-  refine ⟨(P0 : Subgroup W).map W.subtype, P0.isPGroup'.map W.subtype, ?_⟩
+  refine ⟨(P0 : Subgroup W).map W.subtype, P0.isPGroup.map W.subtype, ?_⟩
   ext q
   constructor
   · rintro ⟨t, ht, rfl⟩
@@ -316,7 +316,7 @@ theorem gl12Sec_card_le {S X : Type} [Group S] [Group X] [Finite X] {n : ℕ} (h
     exact Subtype.ext (by simpa using this)⟩
   obtain ⟨C, π, hC, hπ⟩ := gl12_exists_surj_from_gl ρ K hker e E hEp
   obtain ⟨hcomm, htors⟩ := gl12_pSubgroup_comm_and_torsion hp7 hn C hC
-  letI : CommGroup C := { (inferInstance : Group C) with mul_comm := fun a b => hcomm.is_comm.comm a b }
+  let : CommGroup C := { (inferInstance : Group C) with mul_comm := fun a b => hcomm.is_comm.comm a b }
   let π' : C →* E := π.codRestrict E (fun c => by rw [← hπ]; exact ⟨c, rfl⟩)
   have hπ' : Function.Surjective π' := by
     intro x

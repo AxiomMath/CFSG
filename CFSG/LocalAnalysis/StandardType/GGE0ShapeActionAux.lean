@@ -110,9 +110,9 @@ theorem shapeAct_largeEvenMarking_chevSt
     (hperf : commutator ↥J = ⊤) {t : StatedLieTag} {n f : ℕ}
     (hLM : CFSG.Blueprint.LieModel (↥J ⧸ Subgroup.center ↥J) t n 2 f)
     (htB2 : t ≠ .twistedB2) (htF4 : t ≠ .twistedF4) (htTits : t ≠ .Tits) :
-    LargeEvenMarking ↥J (fun lab _ _ _ _ _ => GGChevStTag lab) :=
+    LargeEvenMarking ↥J (fun _lab _ _ _ _ _ => GGChevStTag _lab) :=
   largeEvenMarking_mono
-    (fun lab _ _ _ _ _ h => shapeAct_chevStTag_of_markTag h.1 htB2 htF4 htTits)
+    (fun _lab _ _ _ _ _ h => shapeAct_chevStTag_of_markTag h.1 htB2 htF4 htTits)
     (CFSG.StandardType.largeEvenMarking_of_lieModel_centerQuot hperf hLM)
 
 theorem shapeAct_innDiagOn

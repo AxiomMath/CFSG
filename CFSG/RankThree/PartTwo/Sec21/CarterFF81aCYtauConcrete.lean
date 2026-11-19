@@ -31,7 +31,7 @@ theorem FF81Hyp.CYtau_eq_one
     (hb₁B : b₁ ∈ Subgroup.closure ({b, b₁, b₂, b₃} : Set G))
     (hb₂B : b₂ ∈ Subgroup.closure ({b, b₁, b₂, b₃} : Set G))
     (hb₃B : b₃ ∈ Subgroup.closure ({b, b₁, b₂, b₃} : Set G))
-    (hτN : τ ∈ Nor (Subgroup.closure ({b, b₁, b₂, b₃} : Set G)))
+    (_hτN : τ ∈ Nor (Subgroup.closure ({b, b₁, b₂, b₃} : Set G)))
     {t₁ s c : MulAut ↥(Subgroup.closure ({b, b₁, b₂, b₃} : Set G))}
     (ht₁X : t₁ ∈ FF81X (Subgroup.closure ({b, b₁, b₂, b₃} : Set G)))
     (hsX : s ∈ FF81X (Subgroup.closure ({b, b₁, b₂, b₃} : Set G)))
@@ -84,7 +84,7 @@ theorem FF81Hyp.CYtau_eq_one
     have hdvd : orderOf g ∣ Nat.card ↥(oddCore ↥X) :=
       Subgroup.orderOf_dvd_natCard (oddCore X) hgY
     exact Odd.of_dvd_nat (CFSG.ABGLocalTools.odd_card_oddCore (H := ↥X)) hdvd
-  haveI : IsElementaryAbelian 3 ↥B := hE4.1
+  have : IsElementaryAbelian 3 ↥B := hE4.1
   have h3 : ∀ x : ↥B, x ^ 3 = 1 :=
     Monoid.exponent_dvd_iff_forall_pow_eq_one.mp
       (IsElementaryAbelian.exponent_dvd_p 3 ↥B)

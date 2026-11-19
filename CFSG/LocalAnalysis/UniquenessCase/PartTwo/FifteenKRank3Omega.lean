@@ -22,8 +22,8 @@ theorem s15k_om6_model {X : Type} [Group X] (h : IsOmegaMinus X 6 1) :
   obtain ⟨-, K, _, _, b, c, hK, hirr, ⟨e⟩⟩ := h
   have hK2 : Nat.card K = 2 := by simpa using hK
   have : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime (by rw [← Nat.card_eq_fintype_card, hK2])
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime (by rw [← Nat.card_eq_fintype_card, hK2])
   obtain ⟨F, _, _, hF, ⟨e'⟩⟩ :=
     CFSG.RankThree.GF2n.Stroth80.exists_statedOmega_quadMinus_three_mulEquiv
       (K := K) (b := b) (c := c) (f := 1) hK hirr
@@ -142,7 +142,7 @@ theorem s15k_om6_conj_diag {F : Type} [Field F] (hU : UnitaryFieldData 2 1 F)
 theorem s15k_om6_torus {F : Type} [Field F] (hU : UnitaryFieldData 2 1 F) :
     IsElemAbelian 3 ((torusSU 3 4 F).subgroupOf (unitarySU 2 1 F 4)) ∧
       Nat.card ((torusSU 3 4 F).subgroupOf (unitarySU 2 1 F 4)) = 27 := by
-  haveI := hU.finite
+  have := hU.finite
   have h3 : 3 ∣ 2 ^ 1 + 1 := by norm_num
   have hle : torusSU 3 4 F ≤ unitarySU 2 1 F 4 := torusSU_le_unitarySU hU h3
   have hζ : ∃ ζ : Fˣ, IsPrimitiveRoot ζ 3 := by
@@ -171,9 +171,9 @@ theorem s15k_om6_conj_torus {F : Type} [Field F] (hU : UnitaryFieldData 2 1 F)
 theorem s15k_om6_card_le {X : Type} [Group X] (hX : IsOmegaMinus X 6 1) (E : Subgroup X)
     (hE : IsElemAbelian 3 E) : Nat.card E ≤ 27 := by
   obtain ⟨F, _, hU, ⟨e⟩⟩ := s15k_om6_model hX
-  haveI := hU.finite
+  have := hU.finite
   obtain ⟨-, hT⟩ := s15k_om6_torus hU
-  haveI : Finite ((torusSU 3 4 F).subgroupOf (unitarySU 2 1 F 4)) :=
+  have : Finite ((torusSU 3 4 F).subgroupOf (unitarySU 2 1 F 4)) :=
     Nat.finite_of_card_ne_zero (by rw [hT]; norm_num)
   have hE' : IsElemAbelian 3 (E.map e.toMonoidHom) := hE.map _
   obtain ⟨s, hs⟩ := s15k_om6_conj_torus hU _ hE'
@@ -199,10 +199,10 @@ theorem s15k_om6_conj_into {X : Type} [Group X] (hX : IsOmegaMinus X 6 1) (A B :
     (hA : IsElemAbelian 3 A) (hAc : Nat.card A = 27) (hB : IsElemAbelian 3 B) :
     ∃ x : X, B.map (MulAut.conj x).toMonoidHom ≤ A := by
   obtain ⟨F, _, hU, ⟨e⟩⟩ := s15k_om6_model hX
-  haveI := hU.finite
+  have := hU.finite
   obtain ⟨-, hT⟩ := s15k_om6_torus hU
   set T := (torusSU 3 4 F).subgroupOf (unitarySU 2 1 F 4) with hTdef
-  haveI : Finite T := Nat.finite_of_card_ne_zero (by rw [hT]; norm_num)
+  have : Finite T := Nat.finite_of_card_ne_zero (by rw [hT]; norm_num)
   obtain ⟨sA, hsA⟩ := s15k_om6_conj_torus hU (A.map e.toMonoidHom) (hA.map _)
   obtain ⟨sB, hsB⟩ := s15k_om6_conj_torus hU (B.map e.toMonoidHom) (hB.map _)
   have hAT : (A.map e.toMonoidHom).map (MulAut.conj sA).toMonoidHom = T := by

@@ -21,14 +21,14 @@ variable {c : Ctx812E G} (t : CaseTwoTransitive c)
 
 private theorem exists_ne_one_Z : ∃ z : G, z ∈ t.Z ∧ z ≠ 1 := by
   have hcard : Nat.card t.Z = 3 := t.card_Z
-  haveI : Nontrivial ↥t.Z :=
+  have : Nontrivial ↥t.Z :=
     Finite.one_lt_card_iff_nontrivial.mp (by rw [hcard]; norm_num)
   obtain ⟨z, hz⟩ := exists_ne (1 : ↥t.Z)
   exact ⟨z, z.2, fun h => hz (Subtype.ext h)⟩
 
 private theorem eq_zpowers_of_mem_Z {z : G} (hzZ : z ∈ t.Z) (hz1 : z ≠ 1) :
     t.Z = Subgroup.zpowers z := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine (Subgroup.eq_of_le_of_card_ge (Subgroup.zpowers_le.mpr hzZ) ?_).symm
   rw [Nat.card_zpowers,
     orderOf_eq_prime (t.d.isElemAbelian_AA.2 z (t.Z_le_AA hzZ)) hz1, t.card_Z]
@@ -38,7 +38,7 @@ theorem conj_y_not_mem_AA (hOut : PerfectAutInner) {p : ℕ}
     (hZ : Subgroup.centralizer (t.Z : Set G) ≤ c.S.M) (g : G) :
     g * t.y * g⁻¹ ∉ t.d.AA := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro hxAA
   let x : G := g * t.y * g⁻¹
   have hxAA' : x ∈ t.d.AA := hxAA
@@ -86,7 +86,7 @@ theorem conj_y_not_mem_AA (hOut : PerfectAutInner) {p : ℕ}
   have hz3 : z ^ 3 = 1 := t.d.isElemAbelian_AA.2 z hzA
   have hgz3 : (g * z * g⁻¹) ^ 3 = 1 := by
     have hconj : (g * z * g⁻¹) ^ 3 = g * z ^ 3 * g⁻¹ := by
-      simpa using conj_pow (a := g) (b := z) (i := 3)
+      simp
     rw [hconj, hz3]
     group
   have hgzP : IsPGroup 3 (Subgroup.zpowers (g * z * g⁻¹)) :=
@@ -200,7 +200,7 @@ theorem normalizer_inf_centralizer_y_le (hOut : PerfectAutInner) {p : ℕ}
     Subgroup.normalizer ((t.P ⊓ Subgroup.centralizer ({t.y} : Set G) : Subgroup G) : Set G) ≤
       c.S.M := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro g hg
   obtain ⟨z, hzZ, hz1⟩ := t.exists_ne_one_Z
   have hzA : z ∈ t.d.AA := t.Z_le_AA hzZ
@@ -218,7 +218,7 @@ theorem normalizer_inf_centralizer_y_le (hOut : PerfectAutInner) {p : ℕ}
   have hz3 : z ^ 3 = 1 := t.d.isElemAbelian_AA.2 z hzA
   have hu3 : u ^ 3 = 1 := by
     have hconj : u ^ 3 = g * z ^ 3 * g⁻¹ := by
-      simpa [u] using conj_pow (a := g) (b := z) (i := 3)
+      simp [u]
     rw [hconj, hz3]
     group
   have huS : u ∈ t.d.S := by
@@ -253,7 +253,7 @@ theorem isSylowOf_inf_centralizer_y_centralizer (hOut : PerfectAutInner) {p : �
     (hZ : Subgroup.centralizer (t.Z : Set G) ≤ c.S.M) :
     CFSG.ABGLocalTools.IsSylowOf 3 (t.P ⊓ Subgroup.centralizer ({t.y} : Set G))
       (Subgroup.centralizer ({t.y} : Set G)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine CFSG.ABGLocalTools.isSylowOf_of_normalizer_inf_le
     (H := c.S.M) (M := Subgroup.centralizer ({t.y} : Set G))
     t.isSylowOf_inf_centralizer_y ?_

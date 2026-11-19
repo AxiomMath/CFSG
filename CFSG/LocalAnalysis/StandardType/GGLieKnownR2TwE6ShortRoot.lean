@@ -160,14 +160,14 @@ private theorem l10sw3_inner_range
   have hkerπ0 : φ.ker ≤ π0.ker :=
     hker.trans (le_of_eq
       (CFSG.SeitzReduction.F4Pilot.ker_twistedIsogenyC (by omega) hK θ hσ).symm)
-  haveI : Finite ((ggU .twistedE6 n f).K) := by
+  have : Finite ((ggU .twistedE6 n f).K) := by
     change Finite (fixedGroup k θ)
     infer_instance
-  haveI : Group.IsPerfect ((ggU .twistedE6 n f).K) := by
+  have : Group.IsPerfect ((ggU .twistedE6 n f).K) := by
     change Group.IsPerfect (fixedGroup k θ)
     exact fixedGroup_isPerfect_of_four_le_card (k := k) (θ := θ) hθ hk4
-  haveI : Finite ↥φ.range := Finite.of_surjective φ.rangeRestrict φ.rangeRestrict_surjective
-  haveI : Group.IsPerfect ↥φ.range := Group.IsPerfect.range (f := φ)
+  have : Finite ↥φ.range := Finite.of_surjective φ.rangeRestrict φ.rangeRestrict_surjective
+  have : Group.IsPerfect ↥φ.range := Group.IsPerfect.range (f := φ)
   let π' : ↥φ.range →* graphFixedRootGroup TwistTag.E6 k θ :=
     (QuotientGroup.lift φ.ker π0 hkerπ0).comp
       (QuotientGroup.quotientKerEquivRange φ).symm.toMonoidHom

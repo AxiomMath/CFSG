@@ -21,6 +21,7 @@ variable {p : ℕ} {B Bs : Subgroup G} {x : G} {L D J : Subgroup G} {𝒦 : Fins
   {e' : Fin m ≃ ι} {F0 : Type} [Field F0] [Finite F0] [CharP F0 2] {ψ : Su F0 2 1 m →* G}
   {ε : Equiv.Perm (Fin m) ≃* ↥(ggAutomizer L Bs)} {βL : Additive ↥Bs ≃+ DVec m} {ω : F0ˣ}
 
+omit [Finite F0] [CharP F0 2] in
 theorem qtwoDB12_pow_val_ne (hω : orderOf ω = 3) {a b : ZMod 3} (h : a ≠ b) :
     ω ^ a.val ≠ ω ^ b.val := by
   intro hab
@@ -34,8 +35,8 @@ theorem qtwoDB12_permMatrix_apply {K : Type} [Field K] {n : ℕ}
   change σ.toPEquiv.toMatrix i j = if j = σ i then 1 else 0
   rw [PEquiv.toMatrix_apply, Equiv.toPEquiv_apply]
   by_cases h : j = σ i
-  · rw [if_pos (by simpa using h.symm), if_pos h]
-  · rw [if_neg (by simpa [eq_comm] using h), if_neg h]
+  · rw [ite_eq_left (by simpa using h.symm), ite_eq_left h]
+  · rw [ite_eq_right (by simpa [eq_comm] using h), ite_eq_right h]
 
 theorem qtwoDB12_swap_apply_of_notMem {n : ℕ} {a b x : Fin n}
     (hx : x ∉ ({a, b} : Finset (Fin n))) : Equiv.swap a b x = x := by
@@ -43,7 +44,7 @@ theorem qtwoDB12_swap_apply_of_notMem {n : ℕ} {a b x : Fin n}
   exact Equiv.swap_apply_of_ne_of_ne hx.1 hx.2
 
 theorem qtwoDB12_permSU_mem_coordBlockSU {K : Type} [Field K] [Finite K] [CharP K 2]
-    {n : ℕ} {a b : Fin n} (hab : a ≠ b) :
+    {n : ℕ} {a b : Fin n} (_hab : a ≠ b) :
     ggPermSU (K := K) (f := 1) (Equiv.swap a b) ∈
       coordBlockSU K 2 1 ({a, b} : Finset (Fin n)) := by
   rw [mem_coordBlockSU_iff]
@@ -69,8 +70,8 @@ theorem qtwoDB12_permSU_mem_coordBlockSU {K : Type} [Field K] [Finite K] [CharP 
         · exact hq'' hq'
       · exact (qtwoDB12_swap_apply_of_notMem hq').symm
   by_cases h : p = q
-  · rw [if_pos (hiff.mpr h), if_pos h]
-  · rw [if_neg (fun hh => h (hiff.mp hh)), if_neg h]
+  · rw [ite_eq_left (hiff.mpr h), ite_eq_left h]
+  · rw [ite_eq_right (fun hh => h (hiff.mp hh)), ite_eq_right h]
 
 theorem qtwoDB12_eq_one_of_mem_center_coordBlockSU {K : Type} [Field K] [Finite K]
     [CharP K 2] (hK : Nat.card K = 4) {n : ℕ} (hn : 3 ≤ n) {J : Finset (Fin n)} {c : Fin n}
@@ -82,7 +83,7 @@ theorem qtwoDB12_eq_one_of_mem_center_coordBlockSU {K : Type} [Field K] [Finite 
       (f := 1) hK') hn hz
   have h1 : ((z : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) c c = 1 := by
     rw [(mem_coordBlockSU_iff (K := K) (p := 2) (f := 1) (J := J)).mp hzJ c c (Or.inl hc),
-      if_pos rfl]
+      ite_eq_left rfl]
   have h2 := CFSG.ClassicalInvolution.Phan.scalar_eq_one_of_apply_eq_one hu h1
   exact Subtype.ext (Units.ext h2)
 

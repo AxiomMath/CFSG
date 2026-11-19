@@ -44,7 +44,7 @@ private theorem fix_f5X_pow : ∀ n : Fin 5, n ≠ 0 → ∀ a b c d : ZMod 5,
 private theorem card_le_of_crd_mem (hR : Rel x h q z) {B : Subgroup G} (hBQ : B ≤ Q q)
     {W : Submodule (ZMod 5) (Fin 4 → ZMod 5)} (hW : ∀ b ∈ B, crd q z b ∈ W) :
     Nat.card B ≤ 5 * 5 ^ finrank (ZMod 5) W := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   set f := hR.commData.coordHom.comp (inclusion hBQ)
   have hker : Nat.card f.ker ≤ 5 := by
     have hz : ∀ b : f.ker, ((b : B) : G) ∈ zpowers z := fun b => by
@@ -69,10 +69,11 @@ private theorem card_le_of_crd_mem (hR : Rel x h q z) {B : Subgroup G} (hBQ : B 
   rw [← Subgroup.card_ker_mul_card_range f]
   exact Nat.mul_le_mul hker hrange
 
+omit [Finite G] in
 private theorem finrank_span_crd_le (hR : Rel x h q z) {B : Subgroup G} (hBQ : B ≤ Q q)
     (hB : ∀ a ∈ B, ∀ b ∈ B, a * b = b * a) :
     finrank (ZMod 5) (Submodule.span (ZMod 5) (crd q z '' (B : Set G))) ≤ 2 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hnd := LinearMap.BilinForm.nondegenerate_toBilin'_of_det_ne_zero' f5M
     (by rw [f5M_det]; decide)
   have hle : Submodule.span (ZMod 5) (crd q z '' (B : Set G)) ≤
@@ -94,7 +95,7 @@ private theorem finrank_span_crd_le (hR : Rel x h q z) {B : Subgroup G} (hBQ : B
 
 private theorem card_le_card_inf_mul (hR : Rel x h q z) {T : Subgroup G} (hTP : T ≤ P x q) :
     Nat.card T ≤ Nat.card ↥(T ⊓ Q q) * 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hX5 : orderOf f5XU = 5 := orderOf_eq_prime f5XU_pow_five f5XU_ne_one
   have hX : ∀ a ∈ T, ∃ n < 5, A q z a = f5X ^ n ∧ (n = 0 → a ∈ Q q) := fun a ha => by
     obtain ⟨n, hn, u, hu, rfl⟩ := exists_eq_pow_mul hR (hTP ha)
@@ -137,7 +138,7 @@ private theorem card_le_of_le_P (hR : Rel x h q z) {T : Subgroup G} (hTP : T ≤
       _ ≤ 5 * 5 ^ 2 := Nat.mul_le_mul_left 5
           (Nat.pow_le_pow_right (by norm_num) (finrank_span_crd_le hR hTQ hT))
       _ = 5 ^ 3 := by norm_num
-  · obtain ⟨y, hyT, hyQ⟩ := SetLike.not_le_iff_exists.1 hTQ
+  · obtain ⟨y, hyT, hyQ⟩ := IsConcreteLE.not_le_iff_exists.1 hTQ
     obtain ⟨n, hn5, u, hu, hy⟩ := exists_eq_pow_mul hR (hTP hyT)
     have hn0 : n ≠ 0 := by
       rintro rfl
@@ -164,8 +165,8 @@ private theorem card_le_of_le_P (hR : Rel x h q z) {T : Subgroup G} (hTP : T ≤
 private theorem card_le_of_isElemAbelian (hR : Rel x h q z)
     (h5 : (Nat.card G).factorization 5 = 6) {E : Subgroup G} (hE : IsElemAbelian 5 E) :
     Nat.card E ≤ 5 ^ 3 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI := hE.1
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have := hE.1
   obtain ⟨S, hS⟩ := hR.P_sylow h5
   have hEp : IsPGroup 5 E := fun g => ⟨1, by
     rw [pow_one]

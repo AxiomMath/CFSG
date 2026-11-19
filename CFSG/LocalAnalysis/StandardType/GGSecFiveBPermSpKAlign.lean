@@ -72,9 +72,9 @@ private theorem align_signedPerm_single {p N : ℕ} (π : Equiv.Perm (Fin N))
   have hiff : π.symm k = i ↔ k = π i := Equiv.symm_apply_eq π
   rw [Pi.single_apply, Pi.single_apply]
   by_cases h : k = π i
-  · rw [if_pos h, if_pos (hiff.2 h)]
+  · rw [ite_eq_left h, ite_eq_left (hiff.2 h)]
     rw [hiff.2 h, mul_one]
-  · rw [if_neg h, if_neg (fun hh => h (hiff.1 hh)), mul_zero]
+  · rw [ite_eq_right h, ite_eq_right (fun hh => h (hiff.1 hh)), mul_zero]
 
 private theorem align_two_ne_zero_zmod {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) :
     (2 : ZMod p) ≠ 0 := by
@@ -861,15 +861,15 @@ private theorem exists_align_aux {p r : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) (hr 
   have hcoef : ∀ k, γ (κe.symm k) = (if γ (κe.symm k) = γ 0 then 1 else -1) * γ 0 := by
     intro k
     by_cases h : γ (κe.symm k) = γ 0
-    · rw [if_pos h, one_mul]
+    · rw [ite_eq_left h, one_mul]
       exact h
-    · rw [if_neg h, neg_one_mul]
+    · rw [ite_eq_right h, neg_one_mul]
       exact (hγpm 0 (κe.symm k)).resolve_left h
   refine ⟨π', hπ0, γ 0, hγ 0, fun k => if γ (κe.symm k) = γ 0 then 1 else -1, fun k => ?_,
     fun x k => ?_⟩
   · by_cases h : γ (κe.symm k) = γ 0
-    · exact Or.inl (if_pos h)
-    · exact Or.inr (if_neg h)
+    · exact Or.inl (ite_eq_left h)
+    · exact Or.inr (ite_eq_right h)
   · show toAdd (T x k) = (if γ (κe.symm k) = γ 0 then 1 else -1) * γ 0 * toAdd (x (π' k.succ))
     rw [← hcoef k, toAdd_T_sum T x k, Finset.sum_eq_single (π' k.succ)]
     · rw [hπs k, hcol k, mul_comm]

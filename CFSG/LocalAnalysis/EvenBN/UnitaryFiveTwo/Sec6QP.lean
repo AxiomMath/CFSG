@@ -23,8 +23,7 @@ theorem transvection_fin2_eq_lowerSL (c : F4) :
     Matrix.SpecialLinearGroup.transvection (one_ne_zero : (1 : Fin 2) ≠ 0) c = lowerSL c := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.SpecialLinearGroup.transvection_coe, lowerSL, Matrix.one_apply,
-      Matrix.single_apply]
+    simp [Matrix.SpecialLinearGroup.transvection_coe, lowerSL]
 
 theorem mem_rootSL_lower (k : Fin 3) {x : SL(4, F4)} (hx : x ∈ rootSL F4 k.succ k.castSucc) :
     ∃ a : F4, x = blockSL2 F4 3 k (lowerSL a) := by
@@ -64,7 +63,7 @@ theorem gam_lower_entries {φ : SL(4, F4) →* G} (hφ : Function.Injective φ) 
   simp [lowerSL]
 
 theorem gam_lower_nontrivial {φ : SL(4, F4) →* G} (hφ : Function.Injective φ) (k : Fin 3) :
-    ∃ (g : G) (hg : g ∈ (rootSL F4 k.succ k.castSucc).map φ) (hgΓ : g ∈ gam φ k),
+    ∃ (g : G) (_hg : g ∈ (rootSL F4 k.succ k.castSucc).map φ) (hgΓ : g ∈ gam φ k),
       gamEquiv hφ k ⟨g, hgΓ⟩ ≠ 1 := by
   refine ⟨φ (blockSL2 F4 3 k (lowerSL 1)), ⟨_, blockSL2_lowerSL_mem_rootSL k 1, rfl⟩,
     mem_gam.2 ⟨_, rfl⟩, ?_⟩
@@ -210,7 +209,7 @@ theorem exists_quad_pkg (h : d.Hyp) (hK : d.KLinear)
   have hΓ₂N : Γ₂ ≤ N := le_of_gen_conj (hU₂MY.trans hMY_N) hv₁N hgen₂ hconj₂
   have hΓ₁' : Γ₁ ≤ ModSplit.normDY d.D₂ d.Y := le_inf hΓ₁N hΓ₁Y
   have hΓ₂' : Γ₂ ≤ ModSplit.normDY d.D₂ d.Y := le_inf hΓ₂N hΓ₂Y
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hMY2 : IsPGroup 2 ↥(d.M ⊔ d.Y) := IsPGroup.of_card (n := 12) (h.card_M_sup_Y hK)
   have hp₁ : IsPGroup 2 ↥U₁ := hMY2.to_le hU₁MY
   have hp₂ : IsPGroup 2 ↥U₂ := hMY2.to_le hU₂MY

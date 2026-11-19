@@ -61,7 +61,7 @@ theorem exists_theta (c : OuterS16Ctx G L z t T E Q x B β S) :
   swap
   · exact hθ
   exfalso
-  haveI := hNn
+  have := hNn
   have hcfg := c.hyp.outerE.cfg
   obtain ⟨s, hsS, hs8⟩ := c.exists_order_eight
   have hsK : s ∈ centralizer ({β} : Set G) :=

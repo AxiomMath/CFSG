@@ -163,7 +163,7 @@ private theorem ggKGLn_monomial_data {K : Type} [Field K] [Fintype K] {L : Type}
     ∃ (π : Equiv.Perm (Fin s)) (ε : Fin s → ZMod p), (∀ i, ε i = 1 ∨ ε i = -1) ∧
       ∀ f f', (∀ x, H (T f x) = T f' (H x)) → ∀ i, toAdd (f' (π i)) = ε i * toAdd (f i) := by
   classical
-  haveI : Fact (1 < p) := ⟨(Fact.out : p.Prime).one_lt⟩
+  have : Fact (1 < p) := ⟨(Fact.out : p.Prime).one_lt⟩
   have hζp : ζ ^ p = 1 := hζo.pow_eq_one
   choose α hα using hH
   have hinj := ggKGLn_T_injective hζo T hT
@@ -414,13 +414,13 @@ theorem ggKGLn_signedEltSC_specialLinear {K : Type} [Field K] [Finite K] {d p : 
     (hpq : p ∣ Nat.card K + 1) :
     GGTorusSignedEltSC p (Matrix.SpecialLinearGroup (Fin d) K) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : Nonempty K := ⟨0⟩
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : Nonempty K := ⟨0⟩
+  have : Fintype K := Fintype.ofFinite K
   have hpK' : ¬ p ∣ Nat.card K - 1 := SpNS.not_dvd_card_sub_one hp hp2 hpq
   obtain ⟨g, hg, hgd⟩ := ggKGLn_exists_irreducible_dvd_cyclotomic (K := K) hp
-  haveI : Fact (Irreducible g) := ⟨hg⟩
+  have : Fact (Irreducible g) := ⟨hg⟩
   have hζo := CoordSL.root_isPrimitiveRoot (g := g) hp hpK0 hgd
   have hCdet : (CoordSL.rootMat g).det = 1 := CoordSL.det_rootMat hp hpK' hpK0 hgd
   have hCp : (CoordSL.rootMat g) ^ p = 1 := CoordSL.rootMat_pow_eq_one hp hpK0 hgd
@@ -500,7 +500,7 @@ theorem ggKGLn_signedEltSC_specialLinear {K : Type} [Field K] [Finite K] {d p : 
     have hdim : 0 < (CoordSL.rootPB g).dim := by
       rw [CoordSL.rootPB, AdjoinRoot.powerBasis_dim]
       exact hg.natDegree_pos
-    haveI : Nonempty (Fin (CoordSL.rootPB g).dim) := ⟨⟨0, hdim⟩⟩
+    have : Nonempty (Fin (CoordSL.rootPB g).dim) := ⟨⟨0, hdim⟩⟩
     have h3 : ∀ j : Fin s, (CoordSL.rootMat g) ^ ((toAdd (f j)).val) = 1 := by
       intro j
       ext a b
@@ -518,7 +518,7 @@ theorem ggKGLn_signedEltSC_specialLinear {K : Type} [Field K] [Finite K] {d p : 
         ((toAdd (f j)).val) h (1 : K)
       rw [h3 j] at hu
       have hu' : IsUnit (0 : Matrix (Fin (CoordSL.rootPB g).dim) (Fin (CoordSL.rootPB g).dim) K) := by
-        simpa using hu
+        simp at hu
       exact not_isUnit_zero hu'
     apply Multiplicative.toAdd.injective
     rw [Pi.one_apply, toAdd_one, ← ZMod.natCast_zmod_val (toAdd (f j))]
@@ -545,7 +545,7 @@ theorem ggKGLn_signedEltSC_specialLinear {K : Type} [Field K] [Finite K] {d p : 
       (ZMod.natCast_eq_zero_iff (Nat.card K + 1) p).mpr hpq
     have hcast : (Nat.card K : ZMod p) + 1 = 0 := by simpa using hzero
     have hu0 : (Nat.card K : ZMod p) = -1 := add_eq_zero_iff_eq_neg.mp hcast
-    simp [Units.val_neg, Units.val_one, hu0]
+    simp [Units.val_neg, Units.val_one]
     rw [← Nat.card_eq_fintype_card]
     exact hu0.symm
   refine ⟨s, τ, hτinj, hτE, ?_, ?_, ?_⟩
@@ -556,7 +556,7 @@ theorem ggKGLn_signedEltSC_specialLinear {K : Type} [Field K] [Finite K] {d p : 
       intro l
       by_cases hl : l = i₀
       · subst hl; simpa [η, Function.update_self] using hneg
-      · simpa [η, Function.update_of_ne hl] using hone
+      · simp [η, Function.update_of_ne hl]
     obtain ⟨w, -, hw⟩ := CoordSL.exists_move_mem g
       (MonoidHom.id (Matrix.SpecialLinearGroup (Fin d) K)) A₀ ε hCdet hCp hζp hrange
       (Equiv.refl (Fin s)) η hη
@@ -650,7 +650,7 @@ theorem ggKGLn_signedEltSC_specialLinear {K : Type} [Field K] [Finite K] {d p : 
       have hHapp : ∀ y, H y = (CoordSL.frameCoords (g := g) ε).symm
           ((g₁ : Matrix (Fin d) (Fin d) K) *ᵥ (CoordSL.frameCoords (g := g) ε) y) := by
         intro y
-        simp only [H, LinearEquiv.trans_apply, LinearEquiv.coe_coe, hgl]
+        simp only [H, LinearEquiv.trans_apply, hgl]
       rw [hHapp (T f (x1, x2)), hHapp (x1, x2)]
       apply (CoordSL.frameCoords (g := g) ε).injective
       rw [LinearEquiv.apply_symm_apply,

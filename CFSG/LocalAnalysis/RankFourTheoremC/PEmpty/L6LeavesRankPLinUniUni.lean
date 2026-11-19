@@ -22,7 +22,7 @@ theorem exists_lift_unitary {K' : Type} [Group K'] [Finite F] {q f n : ℕ} [Fac
     (hcen : ∀ s ∈ (S : Subgroup K'), z * s = s * z) :
     ∃ A : StatedSU n q F, A ^ f = 1 ∧ ψ A = z := by
   classical
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   have hp : f.Prime := Fact.out
   have hFq : Fintype.card F = q ^ 2 := by rwa [← Nat.card_eq_fintype_card]
   have hq2 : 2 ≤ q := two_le_of_card_eq_sq hFq

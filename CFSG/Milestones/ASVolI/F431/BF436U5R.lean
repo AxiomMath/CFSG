@@ -72,8 +72,8 @@ theorem burnsideF4m_F436U5_of (ha : burnsideF4m_F436U5_A) (hb : burnsideF4m_F436
     burnsideF4m_F436U5 := by
   intro f E _ Gp M₁ M₂ Y _ β M _ ε z hyp hf1 chart Tb hTb fb hfbT hgraph hconj
   subst hf1
-  haveI := hyp.finite_M
-  haveI := hyp.amalgam.finite
+  have := hyp.finite_M
+  have := hyp.amalgam.finite
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨r, hrT, ⟨g, hg⟩, v, t, x, hv, ht, hx, hv2, ht3, hvv, htv, hw3, hw1⟩ :=
     hb E Gp M₁ M₂ hyp.amalgam Tb hTb (fb : E) hfbT hgraph

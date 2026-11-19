@@ -12,7 +12,7 @@ namespace CFSG.OddStandard.SmallF3.HarrisU33.Outside
 open CFSG.GH74.GLS.Bg.TwoGroups
 
 @[expose] def GHII23List : Prop :=
-  ∀ (P : Type) [Group P] (ι : P →* MulAut (E2 4)), Function.Injective ι → ¬ IsSolvable P →
+  ∀ (P : Type) [Group P] (ι : P →* MulAut (E2 4)), Function.Injective ι → ¬ Group.IsSolvable P →
     O2 (⊤ : Subgroup P) = ⊥ →
       Nonempty (P ≃* alternatingGroup (Fin 8)) ∨ Nonempty (P ≃* alternatingGroup (Fin 7)) ∨
       Nonempty (P ≃* Equiv.Perm (Fin 6)) ∨ Nonempty (P ≃* alternatingGroup (Fin 6)) ∨

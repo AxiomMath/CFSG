@@ -33,9 +33,9 @@ private lemma spUCited_flag_two_eq (hr : 2 ≤ r) {v : Fin r ⊕ Fin r → K}
         have hz := hv2 j hj2
         have h0 : j ≠ (⟨0, by omega⟩ : Fin r) := fun h => hj0 (by rw [h])
         have h1 : j ≠ (⟨1, by omega⟩ : Fin r) := fun h => hj1 (by rw [h])
-        simp [Pi.single_apply, h0, h1, hz]
+        simp [h0, h1, hz]
   · have hz := hv1 j
-    simp [Pi.single_apply, hz]
+    simp [hz]
 
 private lemma spUCited_spEnd_mem_flag {g : ↥(StatedSp r K)} {i : ℕ}
     (hg : g ∈ stabilizer r K (flag r K i)) {v : Fin r ⊕ Fin r → K}
@@ -57,7 +57,7 @@ theorem spUCited_mem_unipotent_of_sub_mem {y : ↥(StatedSp r K)} (hy : y ∈ bo
     have hcalc : (spEnd y (Pi.single (Sum.inl j) (1 : K)) -
           (Pi.single (Sum.inl j) (1 : K) : Fin r ⊕ Fin r → K)) (Sum.inl j) = A j j - 1 := by
       rw [Pi.sub_apply, spEnd_apply, hg, Matrix.mulVec_single_one, Matrix.col_apply]
-      simp [blockMat, Matrix.fromBlocks_apply₁₁, Pi.single_apply]
+      simp [blockMat, Matrix.fromBlocks_apply₁₁]
     rw [hcalc] at hcoord
     exact sub_eq_zero.mp hcoord
   exact mem_unipotent.mpr ⟨A, C, ⟨hA, hdiag⟩, hC, hg⟩

@@ -425,7 +425,7 @@ theorem centralizer_le_range_gen
     rw [hP₀def]
     rintro y ⟨s, ⟨s', -, rfl⟩, rfl⟩
     exact ⟨(hCiff _).2 s'.2, ⟨_, rfl⟩⟩
-  have hP₀2 : IsPGroup 2 P₀ := hP₀def ▸ (P.isPGroup'.map _).map Φ
+  have hP₀2 : IsPGroup 2 P₀ := hP₀def ▸ (P.isPGroup.map _).map Φ
   have hP₀max : ∀ Q : Subgroup G, Q ≤ C ⊓ Φ.range → IsPGroup 2 Q → P₀ ≤ Q → Q = P₀ := by
     intro Q hQ hQ2 hPQ
     have hQ'2 : IsPGroup 2 ((Q.comap Φ).subgroupOf (Subgroup.centralizer {t})) :=
@@ -466,7 +466,7 @@ theorem centralizer_le_range_gen
   obtain ⟨T, hT⟩ := hP₀C.exists_le_sylow
   have hTeq : (T : Subgroup C) = P₀.subgroupOf C := by
     have h := hmaxY ((T : Subgroup C).map C.subtype) (Subgroup.map_subtype_le _)
-      (T.isPGroup'.map _) (fun y hy => ⟨⟨y, (hP₀le hy).1⟩, hT (Subgroup.mem_subgroupOf.2 hy), rfl⟩)
+      (T.isPGroup.map _) (fun y hy => ⟨⟨y, (hP₀le hy).1⟩, hT (Subgroup.mem_subgroupOf.2 hy), rfl⟩)
     refine le_antisymm (fun y hy => ?_) hT
     rw [Subgroup.mem_subgroupOf, ← h]
     exact ⟨y, hy, rfl⟩

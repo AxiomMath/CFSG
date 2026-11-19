@@ -94,7 +94,7 @@ theorem card_lifts_le (S : GSetting p q₀ d k D K ψ E) {x₀ : GL (Fin d) k} (
     Nat.card {x : GL (Fin d) k // S.IsLift x} ≤
       p * Nat.card {x : GL (Fin d) k //
         S.IsLift x ∧ Matrix.GeneralLinearGroup.map S.τ.toRingHom x = x} := by
-  haveI : NeZero p := ⟨S.hp.ne_zero⟩
+  have : NeZero p := ⟨S.hp.ne_zero⟩
   have hlog : ∀ x : {x : GL (Fin d) k // S.IsLift x}, ∃ i : Fin p,
       Matrix.GeneralLinearGroup.map S.τ.toRingHom x.1 =
         Matrix.GeneralLinearGroup.scalar (Fin d) (ζ ^ (i : ℕ)) * x.1 := by

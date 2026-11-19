@@ -19,7 +19,7 @@ theorem four_le_pRank_of_commute {X : Type} [Group X] [Finite X] {E : Subgroup X
     intro a ha b hb
     obtain ⟨j, rfl⟩ := Subgroup.mem_zpowers_iff.1 hb
     exact ((show Commute a c from hcomm a ha).zpow_right j).eq
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨m, hm⟩ := hS.isPGroup.exists_card_eq
   have hm4 : 4 ≤ m := by
     by_contra hlt
@@ -123,17 +123,17 @@ theorem isSylowOf_inf_inner {X : Type} [Group X] [Finite X] (L : Subgroup X) [L.
       ((P : Subgroup X).map (MulAut.conjNormal (H := L)) ⊓
         (MulAut.conj : ↥L →* MulAut ↥L).range)
       (MulAut.conj : ↥L →* MulAut ↥L).range := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set c : X →* MulAut ↥L := MulAut.conjNormal (H := L) with hc
   have hSyl : CFSG.ABGLocalTools.IsSylowOf 3 ((P : Subgroup X).map c) c.range := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    refine ⟨Subgroup.map_le_range c _, (P.isPGroup').map c, ?_⟩
+    refine ⟨Subgroup.map_le_range c _, (P.isPGroup).map c, ?_⟩
     rw [MonoidHom.range_eq_map, Subgroup.relIndex_map_map, top_sup_eq, Subgroup.relIndex_top_right]
     exact fun h => P.not_dvd_index (h.trans (Subgroup.index_dvd_of_le le_sup_left))
   have hInn : (MulAut.conj : ↥L →* MulAut ↥L).range ≤ c.range := by
     rintro _ ⟨l, rfl⟩
     exact ⟨(l : X), MulAut.conjNormal_val (H := L) (h := l)⟩
-  haveI : ((MulAut.conj : ↥L →* MulAut ↥L).range).Normal :=
+  have : ((MulAut.conj : ↥L →* MulAut ↥L).range).Normal :=
     CFSG.ComponentClassification.OuterAutomorphisms.inner_normal ↥L
   exact hSyl.inf_of_le_normalizer hInn Subgroup.le_normalizer_of_normal
 
@@ -145,7 +145,7 @@ theorem k4143_of_k2
         ¬ R ≤ (MulAut.conj : L →* MulAut L).range → 4 ≤ CFSG.Open.pRank 3 R) :
     K4143 := by
   intro X _ _ L hn hq hZ hshape h3L h3X
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine (Subgroup.closure_le L).2 ?_
   rintro x ⟨-, k, hk⟩
   have hxk : x ^ 3 ^ k = 1 := hk ▸ pow_orderOf_eq_one x
@@ -157,7 +157,7 @@ theorem k4143_of_k2
   set c : X →* MulAut ↥L := MulAut.conjNormal (H := L) with hc
   have hinj : ∀ z ∈ (P : Subgroup X), c z = 1 → z = 1 := by
     intro z hz hz1
-    obtain ⟨j, hj⟩ := P.isPGroup' ⟨z, hz⟩
+    obtain ⟨j, hj⟩ := P.isPGroup ⟨z, hz⟩
     have hzj : z ^ 3 ^ j = 1 := congrArg Subtype.val hj
     exact eq_one_of_mem_centralizer_of_pow_three_pow hZ h3L.ge h3X.le
       ((conjNormal_eq_one_iff_mem_centralizer L).1 hz1) hzj
@@ -169,7 +169,7 @@ theorem k4143_of_k2
     refine hxL (mem_of_mem_sup_centralizer hZ h3L.ge h3X.le ?_ hxk)
     rw [hxeq]
     exact Subgroup.mul_mem_sup l.2 hcen
-  have h4 := H ↥L hshape hZ ((P : Subgroup X).map c) ((P.isPGroup').map c)
+  have h4 := H ↥L hshape hZ ((P : Subgroup X).map c) ((P.isPGroup).map c)
     (isSylowOf_inf_inner L P) hnle
   rw [pRank_map_of_injOn (by norm_num) c (P : Subgroup X) hinj] at h4
   have h5 : CFSG.Open.pRank 3 (P : Subgroup X) ≤ CFSG.Open.pRank 3 (⊤ : Subgroup X) :=

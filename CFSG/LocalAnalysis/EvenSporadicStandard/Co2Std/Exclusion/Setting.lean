@@ -65,7 +65,7 @@ private theorem exists_iso {G : Type} [Group G] [Finite G] {L : Subgroup G} {z t
   let hSL'sylow : Sylow 2 Co2 := ⟨SL', hSL'p, fun {R} hR hle => (hSL'max R hR hle).le⟩
   let hT0sylow : Sylow 2 Co2 := ⟨T0, hT0p, fun {_R} hR hT0R => (hT0max _ hR hT0R).le⟩
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (Sylow 2 Co2) :=
+  have : Finite (Sylow 2 Co2) :=
     Finite.of_injective (fun P : Sylow 2 Co2 => (P : Subgroup Co2))
       (fun _ _ hPQ => Sylow.ext hPQ)
   obtain ⟨k, hk⟩ := MulAction.exists_smul_eq (M := Co2) hSL'sylow hT0sylow
@@ -170,7 +170,7 @@ theorem exists_hyp
     {G : Type} [Group G] [Finite G] {L : Subgroup G} (h : StdHyp G L) (hL : IsSporadic L .Co2) :
     ∃ (A T : Subgroup G) (z t : G), Hyp G L A T z t := by
   classical
-  haveI := h.simple
+  have := h.simple
   have hZ : center L = ⊥ := center_eq_bot_of_isSporadic hL
   have hq : IsSporadic (L ⧸ center L) .Co2 := isSporadic_quotient_of_center_eq_bot hZ hL
   have hfull := HypOne.Co2.fullRowData_of_isSporadic hq

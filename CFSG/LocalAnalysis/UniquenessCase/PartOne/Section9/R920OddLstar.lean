@@ -85,14 +85,14 @@ theorem nonempty_lbar9_mulEquiv (S : Slice D L D₃ Y H q) {E : Subgroup G}
     (MulEquiv.subgroupCongr himg).toMonoidHom.comp (ψ.subgroupMap (barImage H (F09.L9 Y H)))
   have hφ : Function.Surjective φ :=
     (MulEquiv.subgroupCongr himg).surjective.comp (ψ.subgroupMap_surjective _)
-  haveI : IsSimpleGroup (F09.Lbar9 Y H) := S.isSimpleGroup_Lbar9 hyp
+  have : IsSimpleGroup (F09.Lbar9 Y H) := S.isSimpleGroup_Lbar9 hyp
   have hcen : Subgroup.center (F09.Lbar9 Y H) = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center (F09.Lbar9 Y H)) with h | h
     · exact h
     · exfalso
-      haveI : Group.IsPerfect (F09.Lbar9 Y H) := Subgroup.isPerfect_iff.mpr (by
+      have : Group.IsPerfect (F09.Lbar9 Y H) := Subgroup.isPerfect_iff.mpr (by
         rw [F09.img9, ← Subgroup.map_commutator, hPP])
-      haveI : IsMulCommutative (F09.Lbar9 Y H) := ⟨⟨fun a b =>
+      have : IsMulCommutative (F09.Lbar9 Y H) := ⟨⟨fun a b =>
         Subgroup.mem_center_iff.mp ((Subgroup.eq_top_iff' _).mp h b) a⟩⟩
       exact Group.IsPerfect.not_isMulCommutative (G := F09.Lbar9 Y H) inferInstance
   have hker : φ.ker = Subgroup.center ↥(barImage H (F09.L9 Y H)) := by
@@ -131,8 +131,8 @@ theorem isQuasisimple_barImage_L9 (S : Slice D L D₃ Y H q) {E : Subgroup G}
     (hyp : F09.Hyp91 D Y H E) (hI : F09.I9 H ≤ D.M) :
     CFSG.Open.IsQuasisimple ↥(barImage H (F09.L9 Y H)) := by
   obtain ⟨e⟩ := S.nonempty_lbar9_mulEquiv hyp hI
-  haveI := S.isSimpleGroup_Lbar9 hyp
-  haveI : Group.IsPerfect ↥(barImage H (F09.L9 Y H)) := Subgroup.isPerfect_iff.mpr (by
+  have := S.isSimpleGroup_Lbar9 hyp
+  have : Group.IsPerfect ↥(barImage H (F09.L9 Y H)) := Subgroup.isPerfect_iff.mpr (by
     rw [barImage, ← Subgroup.map_commutator, S.commutator_subgroupOf_L9 hyp])
   exact ⟨Group.IsPerfect.commutator_eq_top, e.symm.isSimpleGroup⟩
 

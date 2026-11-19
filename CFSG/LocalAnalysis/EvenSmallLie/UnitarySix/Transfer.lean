@@ -682,7 +682,7 @@ theorem solomon_wong_one_of_index [Finite G] (hG : ∀ K : Subgroup G, K.index �
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨x, hxS, hxM₁, hmin⟩ := exists_min_order hM₁ P
   exact exists_conj_relIndex_le_two_of_min (fun K hK => absurd hK (hG K)) hM₁ hM₁M
-    (P.isPGroup'.map _) (Subgroup.map_subtype_le _) hAS hxS hAc hA4 (hAn x hxS) hNA hsyl hxM₁ hmin
+    (P.isPGroup.map _) (Subgroup.map_subtype_le _) hAS hxS hAc hA4 (hAn x hxS) hNA hsyl hxM₁ hmin
 
 theorem solomon_wong_two_of_index [Finite G] (hG : ∀ K : Subgroup G, K.index ≠ 2)
     {M M₁ A : Subgroup G} (P : Sylow 2 M) (hAS : A ≤ (P : Subgroup M).map M.subtype)
@@ -692,7 +692,7 @@ theorem solomon_wong_two_of_index [Finite G] (hG : ∀ K : Subgroup G, K.index �
     e ∈ M₁ :=
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   mem_of_sq_eq_one hG hM₁ hM₁M (hAS.trans (Subgroup.map_subtype_le _))
-    ((P.isPGroup'.map _).to_le hAS) hAc hNA hsyl heA he
+    ((P.isPGroup.map _).to_le hAS) hAc hNA hsyl heA he
 
 theorem relIndex_ne_two_of_rank [Finite G] (hG : ∀ K : Subgroup G, K.index ≠ 2)
     {E : Subgroup G} (hE2 : ∀ e ∈ E, e ^ 2 = 1)

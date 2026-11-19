@@ -369,7 +369,7 @@ theorem witCheck_of {N Z W : ℕ → ℕ} {m nz : ℕ}
       !n0List.any fun n => five (mulC x n)) = false := by
     intro x hx
     rcases List.mem_append.1 hx with hxG | hxC
-    · simp [List.contains_iff_mem, hxG]
+    · simp [hxG]
     · obtain ⟨t, ht, hxt⟩ := List.mem_flatMap.1 hxC
       obtain ⟨c, hc, hfc⟩ := hwit t (List.mem_range.1 ht) x hxt
       have : (n0List.any fun n => five (mulC x n)) = true := List.any_eq_true.2 ⟨c, hc, hfc⟩

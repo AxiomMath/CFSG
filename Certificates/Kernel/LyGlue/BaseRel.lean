@@ -66,15 +66,15 @@ theorem prodP_uE (h : Ly0.tabCheck = true) :
     refine congrArg (· * CFSG.Sporadic.Th.wordG (wordLetter Ly0.uG) w) ?_
     have hwl : wordLetter Ly0.uG l = Ly0.uG (l.toNat - 1) := by
       unfold wordLetter
-      rw [if_pos hl.1]
+      rw [ite_eq_left hl.1]
     rw [hwl, Ly0.uG_def]
     by_cases h1 : l = 1
     · subst h1
-      rw [if_pos rfl, prodP_single, baseP_one]
+      rw [ite_eq_left rfl, prodP_single, baseP_one]
       change Ly0.cG = Ly0.wG Ly0.gens0 Ly0.wordU1
       rw [show Ly0.wordU1 = [1] by decide +kernel, Ly0.wG_cons, Ly0.wG_nil, mul_one,
         Ly0.letterG_pos _ (by norm_num), show ((1 : ℤ) - 1).toNat = 0 from rfl, Ly0.gens0_zero]
-    · rw [if_neg h1]
+    · rw [ite_eq_right h1]
       exact prodP_cdE h _ (uWords_range (by omega))
 
 theorem baseP_mem (k : Nat) : baseP k ∈ Ly0.B0 := by
@@ -189,10 +189,10 @@ theorem prodP_uEs (h : Ly0.tabCheck = true) :
     refine congrArg (· * CFSG.Sporadic.Th.wordG (wordLetter Ly0.uG) w) ?_
     unfold wordLetter
     by_cases hp : 0 < l
-    · rw [if_pos hp, if_pos hp, Ly0.uG_def]
+    · rw [ite_eq_left hp, ite_eq_left hp, Ly0.uG_def]
       exact prodP_cdE h _ (uWords_range (by omega))
     · have hk : (-l).toNat - 1 < 4 := by omega
-      rw [if_neg hp, if_neg hp, Ly0.uG_def,
+      rw [ite_eq_right hp, ite_eq_right hp, Ly0.uG_def,
         ← Ly0.wG_invW Ly0.gens0 (fun l' hl' => (uWords_range hk l' hl').1)]
       refine prodP_cdE h _ (fun l' hl' => ?_)
       simp only [McLMultiplier.invW, List.mem_reverse, List.mem_map] at hl'
@@ -215,10 +215,10 @@ theorem prodP_txE (h : Ly0.tabCheck = true) :
     refine congrArg (· * CFSG.Sporadic.Th.wordG (wordLetter Glue.txG) w) ?_
     unfold wordLetter Glue.txG
     by_cases hp : 0 < l
-    · rw [if_pos hp, if_pos hp]
+    · rw [ite_eq_left hp, ite_eq_left hp]
       exact prodP_cdE h _ (Glue.txWords_getD_range (by omega))
     · have hk : (-l).toNat - 1 < 4 := by omega
-      rw [if_neg hp, if_neg hp,
+      rw [ite_eq_right hp, ite_eq_right hp,
         ← Ly0.wG_invW Ly0.gens0 (fun l' hl' => (Glue.txWords_getD_range hk l' hl').1)]
       refine prodP_cdE h _ (fun l' hl' => ?_)
       simp only [McLMultiplier.invW, List.mem_reverse, List.mem_map] at hl'
@@ -240,9 +240,9 @@ theorem prodP_cdInv (h : Ly0.tabCheck = true) :
     · subst h2
       have hdi : Ly0.dG⁻¹ = Ly0.dG * Ly0.dG :=
         inv_eq_of_mul_eq_one_right (by rw [← pow_three]; exact d3 h)
-      rw [if_pos rfl, baseP_two, hdi]
+      rw [ite_eq_left rfl, baseP_two, hdi]
       simp [prodP, baseP_two]
-    · rw [if_neg h2, prodP_single]
+    · rw [ite_eq_right h2, prodP_single]
       by_cases h1 : k = 1
       · subst h1
         rw [baseP_one]

@@ -18,6 +18,7 @@ section Generic
 
 variable {T : Type} [CommGroup T] [Finite T]
 
+omit [Finite T] in
 private theorem s16c1610_eq_one_of_fix_summands {ι : Type} {Y : ι → Subgroup T}
     (hsup : ⨆ i, Y i = ⊤) {x : MulAut T} (h : ∀ i, ∀ v ∈ Y i, x v = v) : x = 1 := by
   have hle : (⨆ i, Y i) ≤ fixV (Subgroup.zpowers x) :=
@@ -99,7 +100,7 @@ theorem s16c1610_two_lt_mParam_of_case4_seven (hT : ∀ t : T, t ^ 2 = 1)
   split_ifs with hev
   · set S : Set ℕ := {n | ∃ t ∈ X, orderOf t = 2 ∧ n = rkIdx (fixV (Subgroup.zpowers t))} with hS'
     have hne : S.Nonempty := by
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥X) 2 (even_iff_two_dvd.1 hev)
       exact ⟨_, (x : MulAut T), x.2, by rw [Subgroup.orderOf_coe]; exact hx, rfl⟩
     obtain ⟨t, htX, ht2, hn⟩ := Nat.sInf_mem hne

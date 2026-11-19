@@ -234,13 +234,13 @@ theorem exists_sylow_inf_centralizer [Finite G] {R R' A : Subgroup G} {S : Sylow
     ∃ S' : Sylow 2 G, R ≤ (S' : Subgroup G) ∧ R' ≤ (S' : Subgroup G) ∧
       IsSylow2In ((S' : Subgroup G) ⊓ Subgroup.centralizer (A : Set G))
         (Subgroup.centralizer (A : Set G)) := by
-  have hRR' : IsPGroup 2 ↥(R ⊔ R') := S.isPGroup'.to_le (sup_le hRS hR'S)
+  have hRR' : IsPGroup 2 ↥(R ⊔ R') := S.isPGroup.to_le (sup_le hRS hR'S)
   obtain ⟨P, hP, hRRP⟩ := IsSylow2In.exists_ge hRR' hRA
   obtain ⟨S', hPS'⟩ := IsPGroup.exists_le_sylow hP.2.1
   refine ⟨S', le_sup_left.trans (hRRP.trans hPS'), le_sup_right.trans (hRRP.trans hPS'), ?_⟩
   have hle : P ≤ (S' : Subgroup G) ⊓ Subgroup.centralizer (A : Set G) := le_inf hPS' hP.1
   have hp2 : IsPGroup 2 ↥((S' : Subgroup G) ⊓ Subgroup.centralizer (A : Set G)) :=
-    S'.isPGroup'.to_le inf_le_left
+    S'.isPGroup.to_le inf_le_left
   have heq := hP.eq_of_le hp2 inf_le_right hle
   rw [heq]
   exact hP

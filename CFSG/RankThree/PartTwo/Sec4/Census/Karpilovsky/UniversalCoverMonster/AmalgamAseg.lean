@@ -20,7 +20,7 @@ theorem coprime_of_lt {n p : ℕ} (hp : p.Prime) (hn : n ≠ 0) (hnp : n < p) : 
 
 theorem kernelTrivialAt_of_asegAmalgam {V : Type*} {Γ : SimpleGraph V} {G : Type} [Group G]
     [Finite G] [MulAction G V] {a y z : G} (D : TitsData Γ G Bool) {p : ℕ} [hpp : Fact p.Prime]
-    (hp2 : p ≠ 2) (ha : a * a = 1) (a1 : a ≠ 1) (y1 : y ≠ 1) (hne : a ≠ y)
+    (hp2 : p ≠ 2) (ha : a * a = 1) (_a1 : a ≠ 1) (_y1 : y ≠ 1) (hne : a ≠ y)
     (hXv : D.Xv = Subgroup.centralizer ({a} : Set G))
     (hXe : ∀ g, g ∈ D.Xe ↔ (g * a * g⁻¹ = a ∧ g * y * g⁻¹ = y) ∨
       (g * a * g⁻¹ = y ∧ g * y * g⁻¹ = a))

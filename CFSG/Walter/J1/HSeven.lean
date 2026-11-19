@@ -119,7 +119,7 @@ include h in
 theorem card_sylow_seven_H (Q : Sylow 2 G)
     (P : Sylow 7 (Subgroup.normalizer ((Q : Subgroup G) : Set G))) : Nat.card P = 7 := by
   have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  obtain ⟨k, hk⟩ := P.isPGroup'.exists_card_eq
+  obtain ⟨k, hk⟩ := P.isPGroup.exists_card_eq
   have h1 : 7 ^ k ∣ 168 := by
     rw [← hk, ← h.card_normalizer_sylow'' Q]
     exact Subgroup.card_subgroup_dvd_card _
@@ -270,7 +270,7 @@ theorem ncard_normalizer_three (Q : Sylow 2 G) {y : G}
         apply hxP
         have hZ : IsPGroup 7 (Subgroup.zpowers x) :=
           IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, h0, pow_one])
-        have hR := IsPGroup.to_sup_of_normal_left' P.isPGroup' hZ ((Subgroup.zpowers_le).mpr hxN)
+        have hR := IsPGroup.to_sup_of_normal_left' P.isPGroup hZ ((Subgroup.zpowers_le).mpr hxN)
         have heq := P.maximal_isPGroup.eq_of_ge hR le_sup_left
         rw [← heq]
         exact Subgroup.mem_sup_right (Subgroup.mem_zpowers x)

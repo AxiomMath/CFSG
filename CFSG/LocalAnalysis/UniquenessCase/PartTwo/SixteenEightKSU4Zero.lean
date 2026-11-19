@@ -17,19 +17,19 @@ variable {G : Type} [Group G] [Finite G] {D : Data G} {V₀ V L : Subgroup G}
   {hV : IsElemAbelian 2 V}
 
 theorem s16k_false_of_su4_zero (h : S16gRowCtx D V₀ V L hV)
-    (hGA : CFSG.Open.GriessAllModelsStatement)
-    (hSU : IsSUn ↥(lBar V₀ V hV L) 4 1)
+    (_hGA : CFSG.Open.GriessAllModelsStatement)
+    (_hSU : IsSUn ↥(lBar V₀ V hV L) 4 1)
     (hN : NatSUn (lBar V₀ V hV L) (commSub ⊤ (lBar V₀ V hV L))
       (commSub ⊤ (lBar V₀ V hV L) ⊓ fixV (lBar V₀ V hV L)) 4 1)
     (hσ : 3 ∈ D.sig) (hrk : 4 ≤ CFSG.Open.pRank 3 (Mbar D.M V₀ V hV))
     (hZ : fixV (lBar V₀ V hV L) = ⊥) : False := by
   classical
   obtain ⟨K, hKfield, hKfin, hKcard, hR⟩ := hN
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
+  let : Field K := hKfield
+  let : Finite K := hKfin
   have hK4 : Nat.card K = 4 := by simpa using hKcard
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 :=
     CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := 1)
       (by rw [hK4]; norm_num)
   let σ : K ≃+* K := CFSG.LieType.BorelTits.unitaryInvolution K 2 1

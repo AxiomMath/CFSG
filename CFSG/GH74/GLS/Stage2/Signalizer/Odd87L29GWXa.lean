@@ -37,7 +37,7 @@ theorem hasDihedralSylowTwo_of_cyclic_or_dihedral {M : Type} [Group M] [Finite M
   have hd : IsDihedral ↥S :=
     (hS S).resolve_left fun hc => hns (isSolvable_of_cyclic_sylow_two S hc)
   obtain ⟨_, k, -, hk, ⟨e⟩⟩ := hd
-  obtain ⟨a, ha⟩ := S.isPGroup'.exists_card_eq
+  obtain ⟨a, ha⟩ := S.isPGroup.exists_card_eq
   have hcard : 2 ^ a = 2 * k := by
     rw [← ha]
     exact (Nat.card_congr e.toEquiv).trans DihedralGroup.nat_card

@@ -189,7 +189,7 @@ private theorem g4u3_su3_borel (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2) :
   have hσ := unitaryInvolution_involutive hK
   obtain ⟨ζ, hζ⟩ := exists_traceZero_ne_zero hK
   have hσn : ∀ c : K, unitaryInvolution K 2 n c = c ^ 2 ^ n := unitaryInvolution_apply K 2 n
-  haveI := uc22pwsu3H_cyclic (σ := unitaryInvolution K 2 n)
+  have := uc22pwsu3H_cyclic (σ := unitaryInvolution K 2 n)
   obtain ⟨g₀, hg₀⟩ := IsCyclic.exists_generator (α := uc22pwsu3H (unitaryInvolution K 2 n))
   have hg : orderOf (g₀ : SU (unitaryInvolution K 2 n) 3) = (2 ^ n - 1) * (2 ^ n + 1) := by
     rw [Subgroup.orderOf_coe, orderOf_eq_card_of_forall_mem_zpowers hg₀,
@@ -207,7 +207,7 @@ private theorem g4u3_su3_borel (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2) :
       rw [← pow_mul, mul_comm, ← hg, pow_orderOf_eq_one]
     obtain ⟨τ, hτ⟩ := exists_mat_eq_diagonal_of_mem_levelTorus_three ht
     have h1 : (τ : K) ^ (2 ^ n - 1) = 1 := uc22pwsu3_entry_pow_eq_one ht (by simp [hτ]) htpow
-    exact uc22pwsu3_levelWeyl_conj hσ hζ τ.ne_zero hτ (uc22pwsu3_sigma_eq_of_pow hσ hσn h1)
+    exact uc22pwsu3_levelWeyl_conj hσ hζ τ.ne_zero hτ (uc22pwsu3_sigma_eq_of_pow hσn h1)
 
 end Model
 
@@ -215,7 +215,7 @@ theorem cartanAt_of_isU3 {Y : Type} [Group Y] [Finite Y] {n : ℕ} (hn : 2 ≤ n
     ∃ U : Subgroup Y, CFSG.ABGLocalTools.IsSylowOf 2 U ⊤ ∧
       CartanAt U n (Multiplicative (ZMod (2 ^ n - 1))) := by
   obtain ⟨-, K, _, _, hK, ⟨e⟩⟩ := CFSG.Blueprint.LieModel.statedClassicalModel h (by decide)
-  haveI : CharP K 2 := uc22pwlie_charP_two (n := 2 * n) (by rw [hK, ← pow_mul, mul_comm])
+  have : CharP K 2 := uc22pwlie_charP_two (n := 2 * n) (by rw [hK, ← pow_mul, mul_comm])
   have hn1 : 1 ≤ n := by omega
   obtain ⟨α, hα, hαc, hαk⟩ := g4u3_exists_cover hK e
   obtain ⟨g, w, hgN, hdec, hg, hw2, hwinv⟩ := g4u3_su3_borel hn1 hK

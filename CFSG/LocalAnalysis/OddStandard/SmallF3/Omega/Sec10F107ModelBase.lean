@@ -50,10 +50,10 @@ theorem stepL_mem {H : Subgroup P45} {«gens» : List P45} (hg : ∀ g ∈ «gen
   exact outer S hS S hS
 
 theorem closeL_mem {H : Subgroup P45} {«gens» : List P45} (hg : ∀ g ∈ «gens», g ∈ H) :
-    ∀ (n : ℕ) (S : List P45), (∀ s ∈ S, s ∈ H) →
-      ∀ x ∈ Certificates.OmegaF1051.closeL «gens» n S, x ∈ H
+    ∀ (n : ℕ) (_S : List P45), (∀ s ∈ _S, s ∈ H) →
+      ∀ x ∈ Certificates.OmegaF1051.closeL «gens» n _S, x ∈ H
   | 0, _, hS => hS
-  | n + 1, S, hS => closeL_mem hg n _ (stepL_mem hg hS)
+  | n + 1, _S, hS => closeL_mem hg n _ (stepL_mem hg hS)
 
 structure Model107 (T B2 : Subgroup P45) (y2 : P45) : Prop where
   le : B2 ≤ T

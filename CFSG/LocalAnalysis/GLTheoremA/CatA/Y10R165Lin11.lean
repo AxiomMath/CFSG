@@ -18,7 +18,7 @@ theorem card_sup_zpowers_eq_prime_sq {G : Type} [Group G] [Finite G] (hp : p.Pri
     (hcomm : ∀ x ∈ Subgroup.zpowers a, ∀ y ∈ Subgroup.zpowers b, x * y = y * x)
     (hba : b ∉ Subgroup.zpowers a) :
     Nat.card ↥(Subgroup.zpowers a ⊔ Subgroup.zpowers b) = p ^ 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hLa : Nat.card ↥(Subgroup.zpowers a) = p := by
     rw [Nat.card_zpowers]
     exact orderOf_eq_prime ha ha1
@@ -50,7 +50,7 @@ theorem card_sup_zpowers_eq_prime_sq {G : Type} [Group G] [Finite G] (hp : p.Pri
 theorem eq_one_of_mem_center_of_fixed {g : SpecialLinearGroup F V}
     (hg : g ∈ Subgroup.center (SpecialLinearGroup F V)) {v : V} (hv : v ≠ 0)
     (hfix : (g : V ≃ₗ[F] V) v = v) : g = 1 := by
-  haveI : Module.Free F V := Module.Free.of_divisionRing F V
+  have : Module.Free F V := Module.Free.of_divisionRing F V
   rw [SpecialLinearGroup.mem_center_iff] at hg
   obtain ⟨r, -, hr⟩ := hg
   have hrv : (g : V ≃ₗ[F] V) v = r • v := by
@@ -71,6 +71,7 @@ theorem eq_one_of_mem_center_of_fixed {g : SpecialLinearGroup F V}
     simpa using h
   rw [hu, hr1, one_smul]
 
+omit [FiniteDimensional F V] in
 theorem blockEnd_notMem_zpowers (A : Subgroup (V ≃ₗ[F] V)) [Fintype A] (hp : p.Prime)
     (hpF : (p : F) ≠ 0) (hA : IsElemAbelian p A)
     (t : HypBlocks.Hyperplane A p → ↥A) (ht : ∀ D, t D ∉ D.1)

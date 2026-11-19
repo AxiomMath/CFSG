@@ -37,8 +37,8 @@ theorem exists_sylow_normalizer_of_trans (F Zs : Subgroup K) (hZF : Zs ≤ F)
     (P : Sylow 2 K) (hP : P.toSubgroup ≤ Subgroup.normalizer (F : Set K)) :
     ∃ P' : Sylow 2 K, P'.toSubgroup ≤ Subgroup.normalizer (Zs : Set K) := by
   classical
-  letI : MulAction P.toSubgroup {a : K // a ∈ F ∧ a ≠ 1} := conjActionOnNontrivial F _ hP
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : MulAction P.toSubgroup {a : K // a ∈ F ∧ a ≠ 1} := conjActionOnNontrivial F _ hP
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hpg : IsPGroup 2 ↥F := fun x => ⟨1, by
     apply Subtype.ext
     simpa using hF x x.2⟩
@@ -58,7 +58,7 @@ theorem exists_sylow_normalizer_of_trans (F Zs : Subgroup K) (hZF : Zs ≤ F)
         left_inv := fun a => rfl
         right_inv := fun x => rfl }
     rw [Nat.card_congr e]
-    haveI : Fintype ↥F := Fintype.ofFinite _
+    have : Fintype ↥F := Fintype.ofFinite _
     rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card, Fintype.card_subtype_compl,
       Fintype.card_subtype_eq]
   have hnot : ¬ 2 ∣ Nat.card {a : K // a ∈ F ∧ a ≠ 1} := by
@@ -66,7 +66,7 @@ theorem exists_sylow_normalizer_of_trans (F Zs : Subgroup K) (hZF : Zs ≤ F)
     have hpos : 0 < Nat.card ↥F := Nat.card_pos
     obtain ⟨r, hr⟩ := hcardF
     omega
-  have hmod := (P.isPGroup').card_modEq_card_fixedPoints {a : K // a ∈ F ∧ a ≠ 1}
+  have hmod := (P.isPGroup).card_modEq_card_fixedPoints {a : K // a ∈ F ∧ a ≠ 1}
   have hfix : 0 < Nat.card ↑(MulAction.fixedPoints P.toSubgroup {a : K // a ∈ F ∧ a ≠ 1}) := by
     by_contra h0
     have h0' : Nat.card ↑(MulAction.fixedPoints P.toSubgroup {a : K // a ∈ F ∧ a ≠ 1}) = 0 := by
@@ -83,7 +83,7 @@ theorem exists_sylow_normalizer_of_trans (F Zs : Subgroup K) (hZF : Zs ≤ F)
   obtain ⟨y, hy, rfl⟩ := Subgroup.mem_smul_pointwise_iff_exists _ _ _ |>.mp hx
   apply hTI _ s hs hs1
   have e1 : (MulAut.conj k⁻¹ • y : K) = k⁻¹ * y * k := by
-    simp [MulAut.smul_def, MulAut.conj_apply]
+    simp [MulAut.smul_def]
   rw [e1]
   have e2 : k⁻¹ * y * k * s * (k⁻¹ * y * k)⁻¹ = k⁻¹ * (y * (k * s * k⁻¹) * y⁻¹) * k := by group
   rw [e2, hka, hfixed ⟨y, hy⟩]

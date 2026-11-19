@@ -41,6 +41,7 @@ private theorem s16h_e3_l3_inf_inv {L : Subgroup (MulAut W)} {A B : Subgroup W}
   intro l hl x hx
   exact ⟨hA l hl x hx.1, hB l hl x hx.2⟩
 
+omit [Finite W] in
 theorem s16h_e3_l3_mem_of_comm_mem {L : Subgroup (MulAut W)} {I Z : Subgroup W}
     (hI : BinaryNaturalSL L I Z 3 1) {x : W} (hx : x ∈ I) (hxl : ∀ l ∈ L, l x * x⁻¹ ∈ Z) :
     x ∈ Z := by
@@ -71,6 +72,7 @@ theorem s16h_e3_l3_mem_of_comm_mem {L : Subgroup (MulAut W)} {I Z : Subgroup W}
     exact hγ h4
   exact (D.ker_β ⟨x, hx⟩).mp key
 
+omit [Finite W] in
 theorem s16h_e3_l3_eq_of_not_le_fixV {L : Subgroup (MulAut W)} {J : Subgroup W}
     (hJ : BinaryNaturalSL L J (J ⊓ fixV L) 3 1) (hJc : commSub J L = J) {Y : Subgroup W}
     (hYJ : Y ≤ J) (hYinv : ∀ l ∈ L, ∀ y ∈ Y, l y ∈ Y) (hY : ¬ Y ≤ J ⊓ fixV L) :

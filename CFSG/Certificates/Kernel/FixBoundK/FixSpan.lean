@@ -195,9 +195,9 @@ theorem length_le_finrank_of_dualS {V : Submodule (ZMod 2) C} {ws fs : List Nat}
     rw [h2] at h0
     have h3 : ∑ j : Fin ws.length, g j • L i ((w j : V) : C) = g i := by
       rw [Finset.sum_eq_single i]
-      · rw [hLi i i, if_pos rfl, smul_eq_mul, mul_one]
+      · rw [hLi i i, ite_eq_left rfl, smul_eq_mul, mul_one]
       · intro j _ hji
-        rw [hLi i j, if_neg (Ne.symm hji), smul_zero]
+        rw [hLi i j, ite_eq_right (Ne.symm hji), smul_zero]
       · intro h
         exact absurd (Finset.mem_univ i) h
     rw [h3] at h0
@@ -217,18 +217,18 @@ theorem dot_actM (g : Nat) : ∀ (B : List Nat) (x : Nat),
         if x.testBit 0 = true then bvec 24 g ⬝ᵥ bvec 24 b else 0 := by
       rw [Nat.testBit_zero]
       by_cases hx : x % 2 = 1
-      · rw [if_pos hx, if_pos (decide_eq_true hx)]
-      · rw [if_neg hx, if_neg (fun h => hx (of_decide_eq_true h)), bvec_zero, dotProduct_zero]
+      · rw [ite_eq_left hx, ite_eq_left (decide_eq_true hx)]
+      · rw [ite_eq_right hx, ite_eq_right (fun h => hx (of_decide_eq_true h)), bvec_zero, dotProduct_zero]
     rw [hA, add_comm]
 
 theorem dot_actS_dual {B gs : List Nat} (hd : dualS B gs 0 = true) {i : Nat} (hi : i < B.length)
     (x : Nat) : bvec 24 (gs.getD i 0) ⬝ᵥ bvec 24 (actS B x) = if x.testBit i then 1 else 0 := by
   obtain ⟨-, hdd⟩ := dualS_spec hd
   rw [actS_eq, dot_actM, Finset.sum_eq_single i]
-  · rw [← par24_and_cast, hdd i hi i hi, if_pos rfl]
+  · rw [← par24_and_cast, hdd i hi i hi, ite_eq_left rfl]
     simp
   · intro t ht hti
-    rw [← par24_and_cast, hdd i hi t (Finset.mem_range.1 ht), if_neg (Ne.symm hti)]
+    rw [← par24_and_cast, hdd i hi t (Finset.mem_range.1 ht), ite_eq_right (Ne.symm hti)]
     simp
   · intro h
     exact absurd (Finset.mem_range.2 hi) h
@@ -424,7 +424,7 @@ theorem fixModΩ_cover {gens : List (List Nat)} {B gs ys : List Nat} {yfT : List
     · subst hst
       simp
     · have hne : (t : Nat) ≠ s := fun h => hst (Fin.ext h.symm)
-      simp [hne, Pi.single_apply, hst]
+      simp [hne, hst]
   have hrange : LinearMap.range Φ = ⊤ := by
     rw [LinearMap.range_eq_top]
     intro v

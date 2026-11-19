@@ -89,7 +89,7 @@ theorem burnsideC56_tr_irr_fwd {L : Subgroup A}
   intro W hZW hWU hLW
   rw [burnsideC56_tr_blockU hf] at hWU ⊢
   rw [burnsideC56_tr_blockZ hf] at hZW ⊢
-  have hW := burnsideC56_tr_eq_map_comap hf hWU
+  have hW := burnsideC56_tr_eq_map_comap hWU
   rw [← hW] at hZW hWU hLW ⊢
   rw [Subgroup.map_le_map_iff_of_injective hf] at hZW hWU
   have hLW₀ : L ≤ Subgroup.normalizer ((W.comap f : Subgroup A) : Set A) := by

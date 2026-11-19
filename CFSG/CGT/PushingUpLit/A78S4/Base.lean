@@ -186,6 +186,7 @@ theorem card_CN_swap {a : G} (haZ : cj a Z = Z₂) :
   rw [Nat.card_prod, P.card_Z hZ, P.card_N hZ, two_mul, pow_add] at h1
   exact Nat.le_of_mul_le_mul_right h1 (by positivity)
 
+omit P hZ in
 theorem inf_normalizer_V (hsyl₁ : IsSylowOf 2 T (Subgroup.normalizer (V : Set G))) {S : Subgroup G}
     (hTS : T ≤ S) (hS : IsPGroup 2 S) : S ⊓ Subgroup.normalizer (V : Set G) = T := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
@@ -198,8 +199,9 @@ variable (hsyl₁ : IsSylowOf 2 T (Subgroup.normalizer (V : Set G)))
 
 include hsyl₁ hTS hS
 
+omit P hZ in
 theorem mem_T_of_cj_V {r : G} (hr : r ∈ S) (hrV : cj r V = V) : r ∈ T := by
-  rw [← P.inf_normalizer_V hZ hsyl₁ hTS hS]
+  rw [← CFSG.CGT.PushingUpLit.A78S4.S4Pair.inf_normalizer_V hsyl₁ hTS hS]
   exact ⟨hr, mem_normalizer_of_cj hrV⟩
 
 omit hsyl₁ hTS hS in
@@ -227,7 +229,7 @@ theorem swap_of_mem_R {r : G} (hr : r ∈ S) (hrT : ∀ t ∈ T, r * t * r⁻¹ 
     cj r V = W ∧ cj r W = V := by
   have hV : cj r V = W := by
     rcases P.cj_V_of_normalizes hZ hrT V (Or.inl rfl) with h | h
-    · exact absurd (P.mem_T_of_cj_V hZ hsyl₁ hTS hS hr h) hrT'
+    · exact absurd (CFSG.CGT.PushingUpLit.A78S4.S4Pair.mem_T_of_cj_V hsyl₁ hTS hS hr h) hrT'
     · exact h
   refine ⟨hV, ?_⟩
   rcases P.cj_V_of_normalizes hZ hrT W (Or.inr rfl) with h | h
@@ -236,7 +238,7 @@ theorem swap_of_mem_R {r : G} (hr : r ∈ S) (hrT : ∀ t ∈ T, r * t * r⁻¹ 
 
 theorem mul_mem_T_of_R {x a : G} (hx : x ∈ S) (hxT : ∀ t ∈ T, x * t * x⁻¹ ∈ T) (hxT' : x ∉ T)
     (ha : a ∈ S) (haT : ∀ t ∈ T, a * t * a⁻¹ ∈ T) (haT' : a ∉ T) : x * a ∈ T := by
-  refine P.mem_T_of_cj_V hZ hsyl₁ hTS hS (mul_mem hx ha) ?_
+  refine CFSG.CGT.PushingUpLit.A78S4.S4Pair.mem_T_of_cj_V hsyl₁ hTS hS (mul_mem hx ha) ?_
   rw [← cj_cj, (P.swap_of_mem_R hZ hsyl₁ hTS hS ha haT haT').1,
     (P.swap_of_mem_R hZ hsyl₁ hTS hS hx hxT hxT').2]
 
@@ -320,7 +322,7 @@ theorem mem_normalizer_T {n : G} (hn : n ∈ S)
       omega
   rcases hAR V (Or.inl rfl) with hV | hV
   · intro t ht
-    have hnT := P.mem_T_of_cj_V hZ hsyl₁ hTS hS hn hV
+    have hnT := CFSG.CGT.PushingUpLit.A78S4.S4Pair.mem_T_of_cj_V hsyl₁ hTS hS hn hV
     exact mul_mem (mul_mem hnT ht) (inv_mem hnT)
   · have hW : cj n W = V := by
       rcases hAR W (Or.inr rfl) with h | h
@@ -329,7 +331,7 @@ theorem mem_normalizer_T {n : G} (hn : n ∈ S)
     have hW' : cj n⁻¹ V = W := by
       rw [← hW, cj_cj, inv_mul_cancel, cj_eq_self_of_mem (Subgroup.one_mem _)]
     intro t ht
-    refine P.mem_T_of_cj_V hZ hsyl₁ hTS hS (mul_mem (mul_mem hn (hTS ht)) (inv_mem hn)) ?_
+    refine CFSG.CGT.PushingUpLit.A78S4.S4Pair.mem_T_of_cj_V hsyl₁ hTS hS (mul_mem (mul_mem hn (hTS ht)) (inv_mem hn)) ?_
     rw [← cj_cj, ← cj_cj, hW', cj_eq_of_mem_normalizer_set (P.side₂.T_le_V ht), hW]
 
 theorem le_normalizer_T : ∀ s ∈ S, ∀ t ∈ T, s * t * s⁻¹ ∈ T := by
@@ -417,8 +419,8 @@ theorem sp4Base (hsyl₁ : IsSylowOf 2 T (Subgroup.normalizer (V : Set G)))
       sq_mem := ?_
       inv_mem := fun x hx hxx => P.side₁.jst.involution_mem hx hxx
       cent_S := ?_
-      S_inf_M := P.inf_normalizer_V hZ hsyl₁ hTS hSp
-      S_inf_M₂ := P.symm.inf_normalizer_V (P.Z₂_ne_bot hZ) hsyl₂ hTS hSp
+      S_inf_M := CFSG.CGT.PushingUpLit.A78S4.S4Pair.inf_normalizer_V hsyl₁ hTS hSp
+      S_inf_M₂ := CFSG.CGT.PushingUpLit.A78S4.S4Pair.inf_normalizer_V hsyl₂ hTS hSp
       T_norm := fun t ht =>
         ⟨cj_eq_of_mem_normalizer_set (P.side₁.T_le_V ht),
           cj_eq_of_mem_normalizer_set (P.side₂.T_le_V ht)⟩

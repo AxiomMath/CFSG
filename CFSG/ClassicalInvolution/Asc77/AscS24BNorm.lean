@@ -71,7 +71,7 @@ theorem not_alt_two {S₀ : Sylow 2 G} (hWS₀ : W ≤ (S₀ : Subgroup G))
       rw [C.card_K_inf_W] at this
       exact this
     exact C.D.F.hne₁ (C.hK.trans (hst.hyp.eq_of_le_of_le hst.mem C.D.F.ρ₃.hK
-      (S₀.isPGroup'.to_inf_right) h4 inf_le_left hle))
+      (S₀.isPGroup.to_inf_right) h4 inf_le_left hle))
   have hcomm := l6_7_proved p f hst.odd hst.five G Ω hst.hyp S₀ _ hK1 _ hJ1 inf_le_right
     inf_le_right hne
   have hab : ρa.r * ρb.r = ρb.r * ρa.r :=
@@ -153,7 +153,7 @@ theorem conjSub_K_mem {y : G} (hy : y ∈ (S : Subgroup G)) :
     rwa [conjSub_eq_self_of_mem hy] at h
   have hL : conjSub y K ∈ Ω := hΩ.conjInvariant y K hst.mem
   have hTL : conjSub y R ≤ conjSub y K := conjSub_mono C.hd.hR.2.1
-  have hT2 : IsPGroup 2 ↥(conjSub y R) := S.isPGroup'.to_le hTS
+  have hT2 : IsPGroup 2 ↥(conjSub y R) := S.isPGroup.to_le hTS
   have h8 : Nat.card ↥(conjSub y R) = 8 := by
     rw [← C.h8]
     exact Nat.card_congr (Subgroup.equivMapOfInjective R (MulAut.conj y).toMonoidHom

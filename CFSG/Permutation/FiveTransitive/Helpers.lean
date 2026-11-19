@@ -10,7 +10,7 @@ public import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
 public import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
 public import Mathlib.Combinatorics.Enumerative.DyckWord
 public import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.Data.NNRat.Floor
 public import Mathlib.Data.Nat.Choose.Multinomial
 public import Mathlib.Geometry.Euclidean.Volume.Basic
@@ -1366,7 +1366,7 @@ theorem inf_stabilizer_subsingleton_of_not_alternating14
     Finite.one_lt_card_iff_nontrivial.mpr hM
   obtain ⟨p, hp, hpdvd⟩ :=
     Nat.exists_prime_and_dvd (n := Nat.card M) (by omega)
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   obtain ⟨u, hu⟩ := exists_prime_orderOf_dvd_card' p hpdvd
   let g : Equiv.Perm X := (((u : M) : K) : P)
   have hgorder : orderOf g = p := by
@@ -1446,7 +1446,7 @@ theorem prime_dvd_five_point_stabilizer_eq_two_or_three_of_not_alternating14
     p = 2 ∨ p = 3 := by
   classical
   let K : Subgroup P := fixingSubgroup P s
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   obtain ⟨u, hu⟩ := exists_prime_orderOf_dvd_card' p hpdvd
   let g : Equiv.Perm X := ((u : K) : P)
   have hgorder : orderOf g = p := by
@@ -1486,7 +1486,7 @@ private theorem not_card_eq_five_tuple_mul_small_two_power_of_card_thirteen
   classical
   rcases hk with rfl | rfl | rfl | rfl
   all_goals
-    letI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+    let : Fact (Nat.Prime 13) := ⟨by norm_num⟩
     let S : Sylow 13 P := Sylow.nonempty.some
     have hScard : Nat.card S = 13 := by
       rw [S.card_eq_multiplicity, hPcard]
@@ -1496,8 +1496,8 @@ private theorem not_card_eq_five_tuple_mul_small_two_power_of_card_thirteen
         Finsupp.single_eq_same,
         Nat.factorization_eq_zero_of_not_dvd (by norm_num)]
       norm_num
-    letI : IsCyclic S := isCyclic_of_prime_card hScard
-    letI : IsMulCommutative S := IsCyclic.isMulCommutative
+    let : IsCyclic S := isCyclic_of_prime_card hScard
+    let : IsMulCommutative S := IsCyclic.isMulCommutative
     obtain ⟨u, hu⟩ := IsCyclic.exists_ofOrder_eq_natCard (α := S)
     have huorder : orderOf u = 13 := hu.trans hScard
     let g : Equiv.Perm X := (u : P)
@@ -1584,7 +1584,7 @@ private theorem not_card_eq_five_tuple_mul_small_two_power_of_card_thirteen
         (Subgroup.centralizer_le_normalizer (S : Set P))
     have hCindex := C.index_mul_card
     rw [hCcard, hPcard, ← hrel] at hCindex
-    letI :
+    let :
         C.IsFiniteRelIndex (Subgroup.normalizer (S : Set P)) :=
       Subgroup.isFiniteRelIndex_of_finiteIndex
     have hrpos :
@@ -1617,7 +1617,7 @@ private theorem card_eq_factorial_of_five_transitive_of_card_le_six
     refine ⟨⟨φ g, ⟨g, rfl⟩⟩, ?_⟩
     ext i
     exact hg i
-  letI : MulAction.IsMultiplyPretransitive P X 5 := hP5
+  let : MulAction.IsMultiplyPretransitive P X 5 := hP5
   have hdegree : Nat.card X - 1 ≤ 5 := by
     rw [Nat.card_eq_fintype_card]
     omega
@@ -1723,7 +1723,7 @@ theorem alternatingGroup_le_of_five_transitive_of_card_eq_nine
     refine ⟨g, ?_⟩
     ext i
     exact hg i
-  letI : MulAction.IsMultiplyPretransitive P X 5 := hP5
+  let : MulAction.IsMultiplyPretransitive P X 5 := hP5
   obtain ⟨s, _, hs⟩ := Set.exists_subset_card_eq
     (s := (Set.univ : Set X)) (n := 4) (by
       rw [Set.ncard_univ, Nat.card_eq_fintype_card, hcard]
@@ -1742,10 +1742,10 @@ theorem alternatingGroup_le_of_five_transitive_of_card_eq_nine
         (fixingSubgroup P s) (SubMulAction.ofFixingSubgroup P s) 1 :=
     SubMulAction.ofFixingSubgroup.isMultiplyPretransitive
       (m := 1) (n := 5) P s (by omega)
-  letI : MulAction.IsPretransitive
+  let : MulAction.IsPretransitive
       (fixingSubgroup P s) (SubMulAction.ofFixingSubgroup P s) :=
     MulAction.is_one_pretransitive_iff.mp hH1
-  letI : Nonempty (SubMulAction.ofFixingSubgroup P s) :=
+  let : Nonempty (SubMulAction.ofFixingSubgroup P s) :=
     Finite.card_pos_iff.mp (by omega)
   let y : SubMulAction.ofFixingSubgroup P s := Classical.choice inferInstance
   have hindex := MulAction.index_stabilizer_of_transitive (fixingSubgroup P s) y
@@ -1754,7 +1754,7 @@ theorem alternatingGroup_le_of_five_transitive_of_card_eq_nine
   rw [hindex] at hstabCard
   have hdvd : 5 ∣ Nat.card (fixingSubgroup P s) :=
     ⟨Nat.card (MulAction.stabilizer (fixingSubgroup P s) y), hstabCard.symm⟩
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨u, hu⟩ := exists_prime_orderOf_dvd_card' 5 hdvd
   let g : Equiv.Perm X := ((u : fixingSubgroup P s) : P)
   have hgorder : orderOf g = 5 := by
@@ -1838,7 +1838,7 @@ theorem alternatingGroup_le_of_five_transitive_of_card_eq_ten
     calc
       Nat.card P = 30240 * Nat.card (fixingSubgroup P s) := hPcard.symm
       _ = 7 * (4320 * Nat.card (fixingSubgroup P s)) := by ring
-  letI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨u, hu⟩ := exists_prime_orderOf_dvd_card' 7 hdvd
   let g : Equiv.Perm X := (u : P)
   have hgP : g ∈ P := u.prop
@@ -1955,7 +1955,7 @@ theorem alternatingGroup_le_of_five_transitive_of_card_eq_eleven
     calc
       Nat.card P = 55440 * Nat.card (fixingSubgroup P s) := hPcard.symm
       _ = 7 * (7920 * Nat.card (fixingSubgroup P s)) := by ring
-  letI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨u, hu⟩ := exists_prime_orderOf_dvd_card' 7 hdvd
   let g : Equiv.Perm X := (u : P)
   have hgP : g ∈ P := u.prop
@@ -2045,7 +2045,7 @@ theorem card_classification_of_alternatingGroup_le
   classical
   let φ : G →* Equiv.Perm X := MulAction.toPermHom G X
   let P : Subgroup (Equiv.Perm X) := φ.range
-  letI : Nontrivial X := Fintype.one_lt_card_iff_nontrivial.mp (by omega)
+  let : Nontrivial X := Fintype.one_lt_card_iff_nontrivial.mp (by omega)
   have hPindex : P.index ≤ 2 := by
     calc
       P.index ≤ (alternatingGroup X).index := Subgroup.index_antitone hAlt
@@ -2114,7 +2114,7 @@ theorem classification_of_five_transitive_of_card_eq_twelve
       Finite.one_lt_card_iff_nontrivial.mpr hK
     obtain ⟨p, hp, hpdvd⟩ :=
       Nat.exists_prime_and_dvd (n := Nat.card (fixingSubgroup P s)) (by omega)
-    letI : Fact p.Prime := ⟨hp⟩
+    let : Fact p.Prime := ⟨hp⟩
     obtain ⟨u, hu⟩ :=
       exists_prime_orderOf_dvd_card' p hpdvd
     let g : Equiv.Perm X := ((u : fixingSubgroup P s) : P)
@@ -2226,7 +2226,7 @@ theorem classification_of_five_transitive_of_card_eq_twelve
       hfull | hhalf
     · exact Or.inl hfull
     · exact Or.inr (Or.inl hhalf)
-  · haveI : Subsingleton (fixingSubgroup P s) :=
+  · have : Subsingleton (fixingSubgroup P s) :=
       not_nontrivial_iff_subsingleton.mp hK
     have hKcard : Nat.card (fixingSubgroup P s) = 1 :=
       Nat.card_eq_one_iff_unique.mpr ⟨inferInstance, inferInstance⟩
@@ -2287,7 +2287,7 @@ theorem classification_of_five_transitive_of_card_eq_thirteen
       change Nat.card ↥(sᶜ : Set X) = 8
       rw [Nat.card_coe_set_eq]
       exact hcomplement
-    letI : Nonempty Y := Finite.card_pos_iff.mp (by omega)
+    let : Nonempty Y := Finite.card_pos_iff.mp (by omega)
     let y : Y := Classical.choice inferInstance
     let L : Subgroup K := MulAction.stabilizer K y
     have hLsubsingleton : Subsingleton L := by
@@ -2297,7 +2297,7 @@ theorem classification_of_five_transitive_of_card_eq_thirteen
         Finite.one_lt_card_iff_nontrivial.mpr hL
       obtain ⟨p, hp, hpdvd⟩ :=
         Nat.exists_prime_and_dvd (n := Nat.card L) (by omega)
-      letI : Fact p.Prime := ⟨hp⟩
+      let : Fact p.Prime := ⟨hp⟩
       obtain ⟨u, hu⟩ := exists_prime_orderOf_dvd_card' p hpdvd
       let g : Equiv.Perm X := (((u : L) : K) : P)
       have hgorder : orderOf g = p := by
@@ -2339,7 +2339,7 @@ theorem classification_of_five_transitive_of_card_eq_thirteen
         omega
       exact hAlt (alternatingGroup_le_of_prime_order_support_le_seven13
         X P hcard h5P hgP hp hgorder hsuppCard)
-    letI : Subsingleton L := hLsubsingleton
+    let : Subsingleton L := hLsubsingleton
     have hLcard : Nat.card L = 1 :=
       Nat.card_eq_one_iff_unique.mpr ⟨inferInstance, inferInstance⟩
     have hLindex : L.index = Nat.card K := by
@@ -2359,7 +2359,7 @@ theorem classification_of_five_transitive_of_card_eq_thirteen
     have hprimeDivTwo :
         ∀ {p : ℕ}, p.Prime → p ∣ Nat.card K → p = 2 := by
       intro p hp hpdvd
-      letI : Fact p.Prime := ⟨hp⟩
+      let : Fact p.Prime := ⟨hp⟩
       obtain ⟨u, hu⟩ := exists_prime_orderOf_dvd_card' p hpdvd
       let g : Equiv.Perm X := ((u : K) : P)
       have hgorder : orderOf g = p := by
@@ -2445,7 +2445,7 @@ private theorem classification_of_five_transitive_of_card_le_seven
   · exact Or.inl (card_eq_factorial_of_five_transitive_of_card_le_six
       G X hcard hcard_six h5)
   have hcard_eq : Fintype.card X = 7 := by omega
-  letI : Nontrivial X := Fintype.one_lt_card_iff_nontrivial.mp (by omega)
+  let : Nontrivial X := Fintype.one_lt_card_iff_nontrivial.mp (by omega)
   let φ : G →* Equiv.Perm X := MulAction.toPermHom G X
   let P : Subgroup (Equiv.Perm X) := φ.range
   have hP5 : MulAction.IsMultiplyPretransitive P X 5 := by

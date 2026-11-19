@@ -13,15 +13,15 @@ variable {W : Type} [CommGroup W] [Finite W]
 theorem s16h_e3_l3_two_commSub_rank_ge_four
     (hW : ∀ w : W, w ^ 2 = 1)
     {A L : Subgroup (MulAut W)} {t : MulAut W}
-    (ht : t ∈ A) (ht2 : t ^ 2 = 1) (ht1 : t ≠ 1)
-    (htr : rk ↥(commSub ⊤ (Subgroup.zpowers t)) ≤ 3)
-    (hconc : Conc4_136W A t L)
-    (hcomp : IsComponentOf L A)
-    (hthin : ∀ q : ℕ, q.Prime → q ≠ 2 → CFSG.Open.pRank q L ≤ 1)
-    (hZ : commSub ⊤ L ⊓ fixV L ≠ ⊥)
+    (_ht : t ∈ A) (_ht2 : t ^ 2 = 1) (_ht1 : t ≠ 1)
+    (_htr : rk ↥(commSub ⊤ (Subgroup.zpowers t)) ≤ 3)
+    (_hconc : Conc4_136W A t L)
+    (_hcomp : IsComponentOf L A)
+    (_hthin : ∀ q : ℕ, q.Prime → q ≠ 2 → CFSG.Open.pRank q L ≤ 1)
+    (_hZ : commSub ⊤ L ⊓ fixV L ≠ ⊥)
     (hL3 : s16h_H5L3Sum L (commSub ⊤ L) (commSub ⊤ L ⊓ fixV L) 2)
     (hd2 : rk ↥(commSub ⊤ L ⊓ fixV L) = 2)
-    {τ : MulAut W} (hτ : τ ∈ A) (hτ2 : τ ^ 2 = 1) (hτ1 : τ ≠ 1)
+    {τ : MulAut W} (_hτ : τ ∈ A) (hτ2 : τ ^ 2 = 1) (_hτ1 : τ ≠ 1)
     (hτN : τ ∈ normalizer (L : Set (MulAut W)))
     (hτC : τ ∉ centSub (commSub ⊤ L)) :
     4 ≤ rk ↥(commSub (commSub ⊤ L) (Subgroup.zpowers τ)) := by

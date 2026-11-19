@@ -87,7 +87,7 @@ theorem conj_eq_of_pow_three_eq_one {g a : G} {n : ℕ} (hg : g ^ 3 ^ n = 1) (ha
     have h2 : a ^ (k ^ 3 ^ n) = a ^ 1 := by rw [pow_one]; exact h1.symm
     rw [pow_eq_pow_iff_modEq, ha] at h2
     exact h2
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hz : ((k : ZMod 3)) ^ 3 ^ n = 1 := by
     have := (ZMod.natCast_eq_natCast_iff' _ _ _).mpr hmod
     push_cast at this
@@ -249,10 +249,10 @@ theorem core_of_leaf [Finite G] {T H H₁ H₂ M : Subgroup G} {e : Fin 6 → G}
     {M₁ M₂ Pb Np Nm : Subgroup G}
     (h : Setup G T H H₁ H₂ M e) (hF : HFacts H H₁ H₂ e) (hO : OneClass e)
     (hL : Local3 e H H₁ H₂ M₁ M₂ Pb Np Nm) (hPb : Nat.card Pb = 27)
-    (ha₁ : IsElemAbelian 3 M₁) (ha₂ : IsElemAbelian 3 M₂) :
+    (ha₁ : IsElemAbelian 3 M₁) (_ha₂ : IsElemAbelian 3 M₂) :
     Core (e 0) (e 2) (e 4) (zOf e) H H₁ H₂ M₁ M₂ Pb := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hone := h.ctx.one
   have hH1 : H₁ ≤ H := hone.le_one
   have hH2 : H₂ ≤ H := hone.le_two
@@ -606,7 +606,7 @@ theorem mem_wOne (C : Core a b t z H H₁ H₂ M₁ M₂ Pb) {x : G} :
   rw [Subgroup.mem_inf, mem_vMinus, Subgroup.mem_centralizer_singleton_iff]
 
 theorem wOne_le_M₁ (C : Core a b t z H H₁ H₂ M₁ M₂ Pb) : wOne C ≤ M₁ :=
-  fun x hx => ((mem_wOne C).mp hx).1.1
+  fun _x hx => ((mem_wOne C).mp hx).1.1
 
 theorem Core.cube_of_zpowers (C : Core a b t z H H₁ H₂ M₁ M₂ Pb) {x : G}
     (hx : x ∈ Subgroup.zpowers a) : x ^ 3 = 1 := by
@@ -680,7 +680,7 @@ theorem Core.M₁_cent_b_eq (C : Core a b t z H H₁ H₂ M₁ M₂ Pb) :
 
 theorem Core.card_wOne [Finite G] (C : Core a b t z H H₁ H₂ M₁ M₂ Pb) :
     Nat.card ↥(wOne C) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcard : Nat.card ↥(M₁ ⊓ Subgroup.centralizer {b}) = 9 := C.card_M₁_cent_b
   rw [C.M₁_cent_b_eq, sup_comm] at hcard
   have hdisj : wOne C ⊓ Subgroup.zpowers a = ⊥ := by
@@ -728,10 +728,10 @@ theorem Core.t_wOne (C : Core a b t z H H₁ H₂ M₁ M₂ Pb) {x : G} (hx : x 
 
 theorem Core.exists_t' [Finite G] (C : Core a b t z H H₁ H₂ M₁ M₂ Pb) :
     ∃ t' : G, (t' = t ∨ t' = t * z) ∧ ∀ w ∈ wOne C, t' * w * t'⁻¹ = w := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨w₀, hw₀, hw₀1⟩ : ∃ w ∈ wOne C, w ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hbot : wOne C = ⊥ := eq_bot_iff.mpr (fun x hx => (Subgroup.mem_bot).mpr (hcon x hx))
     have h3 := C.card_wOne
     rw [hbot, Subgroup.card_bot] at h3
@@ -784,7 +784,7 @@ theorem Core.exists_t' [Finite G] (C : Core a b t z H H₁ H₂ M₁ M₂ Pb) :
 
 theorem zpowers_eq_of_mem_of_ne_one [Finite G] {x y : G} (hy : y ^ 3 = 1)
     (hx : x ∈ Subgroup.zpowers y) (hx1 : x ≠ 1) : Subgroup.zpowers x = Subgroup.zpowers y := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hy1 : y ≠ 1 := by
     rintro rfl
     apply hx1
@@ -851,7 +851,7 @@ theorem Core.b_mem_norm_M₁ (C : Core a b t z H H₁ H₂ M₁ M₂ Pb) :
     exact C.M₁_conjC b⁻¹ hbinv _ hh
 
 theorem Core.zpow_b_norm_M₁ (C : Core a b t z H H₁ H₂ M₁ M₂ Pb) :
-    ∀ g ∈ Subgroup.zpowers b, ∀ x ∈ M₁, g * x * g⁻¹ ∈ M₁ := fun g hg x hx =>
+    ∀ _g ∈ Subgroup.zpowers b, ∀ x ∈ M₁, _g * x * _g⁻¹ ∈ M₁ := fun _g hg x hx =>
   (Subgroup.mem_normalizer_iff.mp (Subgroup.zpowers_le.mpr C.b_mem_norm_M₁ hg) x).mp hx
 
 theorem Core.M₁_inf_zpowers_b [Finite G] (C : Core a b t z H H₁ H₂ M₁ M₂ Pb) :
@@ -981,7 +981,7 @@ theorem Core.Pb_le_M₂a (C : Core a b t z H H₁ H₂ M₁ M₂ Pb) :
 theorem Core.exists_w0 [Finite G] (C : Core a b t z H H₁ H₂ M₁ M₂ Pb) :
     ∃ w₀ ∈ wOne C, w₀ ≠ 1 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hbot : wOne C = ⊥ := eq_bot_iff.mpr (fun x hx => (Subgroup.mem_bot).mpr (hcon x hx))
   have h3 := C.card_wOne
   rw [hbot, Subgroup.card_bot] at h3

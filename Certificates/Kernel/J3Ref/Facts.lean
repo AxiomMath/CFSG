@@ -72,7 +72,7 @@ theorem allTbls_eq : allTbls = (List.range 16).map fun i => tab (tbP i) := by
     clsTbl_tab (by norm_num), tbl_unpack (by norm_num), tbl_unpack (by norm_num),
     tbl_unpack (by norm_num), tbl_unpack (by norm_num), tbl_unpack (by norm_num),
     tbl_unpack (by norm_num)]
-  simp only [List.range_succ, List.range_zero, List.nil_append, List.map_append, List.map_cons,
+  simp only [List.range_succ, List.range_zero, List.nil_append, List.map_cons,
     List.map_nil, List.cons_append]
   rw [tbP_zero, tbP_cls (k := 0) (by norm_num), tbP_cls (k := 1) (by norm_num),
     tbP_cls (k := 2) (by norm_num), tbP_cls (k := 3) (by norm_num), tbP_cls (k := 4) (by norm_num),
@@ -360,7 +360,7 @@ theorem eb_true : ebasisOK 6156 eB = true := by
         cases e : Nat.beq c 0
         · rfl
         · exact absurd (Nat.eq_of_beq_eq_true e) hc
-      rw [if_neg (by rw [e]; decide)]
+      rw [ite_eq_right (by rw [e]; decide)]
       have e' : (c == 0) = false := by simpa using hc
       rw [e', Bool.false_or]
       congr 1

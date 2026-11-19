@@ -152,7 +152,6 @@ theorem pow_eight_of_commute_fourMat [Finite K] (h3 : Nat.card K = 3) (k : Fin 3
   have hg : (fourMat K k).map f = fourMat (ZMod 3) k := by
     ext i j
     fin_cases k <;> fin_cases i <;> fin_cases j <;> simp
-    all_goals rw [map_neg, map_one]; decide
   have hP' := congrArg (fun M : Matrix (Fin 2) (Fin 2) K => M.map f) hP
   simp only [Matrix.map_mul, hg] at hP'
   have hdet' : (P.map f).det ≠ 0 := by

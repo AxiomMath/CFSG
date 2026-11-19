@@ -15,8 +15,8 @@ variable {G : Type} [Group G] [Finite G]
 theorem uc22p20i_isSolvable_quotient_sup (L T : Subgroup G) (hTn : T ≤ normalizer (L : Set G))
     (hT : IsPGroup 2 T) [hNn : (L.subgroupOf (L ⊔ T)).Normal] :
     Group.IsSolvable (↥(L ⊔ T) ⧸ L.subgroupOf (L ⊔ T)) := by
-  haveI : Group.IsNilpotent ↥T := hT.isNilpotent
-  haveI : Group.IsSolvable ↥T := inferInstance
+  have : Group.IsNilpotent ↥T := hT.isNilpotent
+  have : Group.IsSolvable ↥T := inferInstance
   have hsurj : Function.Surjective
       ((QuotientGroup.mk' (L.subgroupOf (L ⊔ T))).comp
         (Subgroup.inclusion (le_sup_right : T ≤ L ⊔ T))) := by
@@ -34,7 +34,7 @@ theorem uc22p20i_isSolvable_quotient_sup (L T : Subgroup G) (hTn : T ≤ normali
 theorem uc22p20i_normalizer_le_M (D : Data G) (hB : ListBNonabelian) (h1930 : H1930 D)
     {L : Subgroup G} (hL : L ∈ calL D.T D.M) :
     normalizer ((D.T ⊓ L : Subgroup G) : Set G) ⊓ (L ⊔ D.T) ≤ D.M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hH : L ⊔ D.T ∈ hSet D.T D.M := hL.2.2.1
   have hTL : D.T ≤ normalizer (L : Set G) := hL.1
   have hLH : L ≤ L ⊔ D.T := le_sup_left
@@ -56,7 +56,7 @@ theorem uc22p20i_normalizer_le_M (D : Data G) (hB : ListBNonabelian) (h1930 : H1
         simpa [mul_assoc] using (Subgroup.mem_normalizer_iff.1 (hTL ht) x).2 hxL
   have hTY : D.T ≤ Y := le_inf hTN hTH
   refine uc22p20b_le_M_of_solvable D hB h1930 hH hTY inf_le_right ?_
-  haveI hNn : (L.subgroupOf (L ⊔ D.T)).Normal :=
+  have hNn : (L.subgroupOf (L ⊔ D.T)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hLH).2 (sup_le Subgroup.le_normalizer hTL)
   have hsylH : CFSG.ABGLocalTools.IsSylowOf 2 D.T (L ⊔ D.T) := D.sylowG.of_le hTH le_top
   have hT₀ : IsPGroup 2 (D.T.subgroupOf (L ⊔ D.T)) := D.sylowM.isPGroup.comap_subtype
@@ -80,12 +80,12 @@ theorem uc22p20i_normalizer_le_M (D : Data G) (hB : ListBNonabelian) (h1930 : H1
     intro a b hab
     apply Subtype.ext
     exact congrArg (fun z => ((z : ↥(L ⊔ D.T)) : G)) (congrArg Subtype.val hab)
-  haveI := hsolv
+  have := hsolv
   exact Group.isSolvable_of_isSolvable_injective (f := φ) hφ
 
 theorem uc22p20i_pCoreOf_le (D : Data G) {L : Subgroup G} (hL : L ∈ calL D.T D.M) :
     pCoreOf 2 L ≤ D.T ⊓ L := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTL : D.T ≤ normalizer (L : Set G) := hL.1
   have hH : L ⊔ D.T ∈ hSet D.T D.M := hL.2.2.1
   have hLH : L ≤ L ⊔ D.T := le_sup_left
@@ -103,7 +103,7 @@ theorem uc22p20i_pCoreOf_le (D : Data G) {L : Subgroup G} (hL : L ∈ calL D.T D
       have hl' : t⁻¹ * l * t ∈ L := by
         simpa using (Subgroup.mem_normalizer_iff.1 (hTL (D.T.inv_mem ht)) l).1 hl
       refine ⟨(t⁻¹ * l * t) * y * (t⁻¹ * l * t)⁻¹, uc22p20b_conj_mem_pCoreOf_self hl' hy, ?_⟩
-      simp only [MulAut.conj_apply, MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe]
+      simp only [MulAut.conj_apply, MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass]
       group
     exact uc22p20b_le_pCoreOf hmapL hmap2 hmapn ⟨x, hx, rfl⟩
   have hLTn : ∀ k ∈ L ⊔ D.T, ∀ x ∈ pCoreOf 2 L, k * x * k⁻¹ ∈ pCoreOf 2 L := by
@@ -120,8 +120,8 @@ theorem uc22p20i_pCoreOf_le (D : Data G) {L : Subgroup G} (hL : L ∈ calL D.T D
 
 theorem uc22p20i_pRank_bar2_le (D : Data G) {L : Subgroup G} {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) :
     CFSG.Open.pRank p (⊤ : Subgroup (Bar2 L)) ≤ CFSG.Open.pRank p (L ⊔ D.T) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hN : ¬ p ∣ Nat.card (CFSG.pCore 2 ↥L) := by
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp (CFSG.pCore_isPGroup (p := 2) (G := ↥L))
     rw [hk]
@@ -134,7 +134,7 @@ theorem uc22p20i_pRank_bar2_le (D : Data G) {L : Subgroup G} {p : ℕ} (hp : p.P
 
 theorem uc22p20i_isSylowOf_inf (D : Data G) {L : Subgroup G} (hL : L ∈ calL D.T D.M) :
     CFSG.ABGLocalTools.IsSylowOf 2 (D.T ⊓ L) L := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hLH : L ≤ L ⊔ D.T := le_sup_left
   have hsylH : CFSG.ABGLocalTools.IsSylowOf 2 D.T (L ⊔ D.T) := D.sylowG.of_le le_sup_right le_top
   exact hsylH.inf_of_le_normalizer hLH (sup_le Subgroup.le_normalizer hL.1)
@@ -149,7 +149,7 @@ theorem uc22p20i_sylowBar_isPGroup (D : Data G) {L : Subgroup G} :
 
 theorem uc22p20i_sylowBar_index (D : Data G) {L : Subgroup G} (hL : L ∈ calL D.T D.M) :
     ¬ 2 ∣ (uc22p20iSylowBar D L).index := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hker : (QuotientGroup.mk' (CFSG.pCore 2 ↥L)).ker ≤ (D.T ⊓ L).subgroupOf L := by
     rw [QuotientGroup.ker_mk']
     intro x hx
@@ -212,7 +212,7 @@ theorem uc22p20i_pRank_borel_le (D : Data G) (hB : ListBNonabelian) (h1930 : H19
     {L : Subgroup G} (hL : L ∈ calL D.T D.M) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) :
     CFSG.Open.pRank p (normalizer ((uc22p20iSylowBar D L : Subgroup (Bar2 L)) : Set (Bar2 L))) ≤
       CFSG.Open.pRank p ((L ⊔ D.T) ⊓ D.M) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set π : ↥L →* Bar2 L := QuotientGroup.mk' (CFSG.pCore 2 ↥L) with hπ
   have hsurj : Function.Surjective π := QuotientGroup.mk'_surjective _
   have hk : ¬ p ∣ Nat.card π.ker := by
@@ -256,7 +256,7 @@ theorem uc22p20i_listB_of_mulEquiv {X Y : Type} [Group X] [Group Y] (e : X ≃* 
 
 theorem uc22p20i_listB (D : Data G) (hB : ListBNonabelian) (h1930 : H1930 D) {L : Subgroup G}
     (hL : L ∈ calL D.T D.M) : ∃ C ∈ CFSG.Quasithin.cComp L, Asc1930ListB (BarInf C) := by
-  haveI : Finite (Subgroup G) := Finite.of_injective _ SetLike.coe_injective
+  have : Finite (Subgroup G) := Finite.of_injective _ SetLike.coe_injective
   obtain ⟨hTL, -, hH, K, hK, hLK⟩ := hL
   have hKc : K ∈ CFSG.Quasithin.cComp L := uc22p20e_cComp_of_calC hK
   have hLH : L ≤ L ⊔ D.T := le_sup_left
@@ -268,8 +268,8 @@ theorem uc22p20i_listB (D : Data G) (hB : ListBNonabelian) (h1930 : H1930 D) {L 
     have h := uc22p20b_sSup_cComp_orb hKH (le_sup_right : D.T ≤ L ⊔ D.T)
     have hLo : uc22p20bOrb D.T K = L := hLK.symm
     rwa [hLo] at h
-  haveI : Group.IsNilpotent ↥D.T := D.sylowM.isPGroup.isNilpotent
-  haveI : Group.IsSolvable ↥D.T := inferInstance
+  have : Group.IsNilpotent ↥D.T := D.sylowM.isPGroup.isNilpotent
+  have : Group.IsSolvable ↥D.T := inferInstance
   obtain ⟨Λ, _, hcf, hlistB⟩ := (h1930 _ hH).1
   obtain ⟨a, b, hab⟩ := hB Λ hlistB
   obtain ⟨C, hC, ⟨e⟩⟩ := uc22p20b_compFactorsOfCComp (G := G) L D.T hTL inferInstance hspan Λ hcf
@@ -282,7 +282,7 @@ theorem uc22p20i_not_le_M (D : Data G) {L : Subgroup G} (hL : L ∈ calL D.T D.M
 theorem uc22p20i_inf_parabolic (D : Data G) (hB : ListBNonabelian) (h1930 : H1930 D)
     {L : Subgroup G} (hL : L ∈ calL D.T D.M) :
     ParabolicOf L (D.M ⊓ L) ∧ D.T ≤ normalizer ((D.M ⊓ L : Subgroup G) : Set G) ∧ ¬ L ≤ D.M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine ⟨⟨(uc22p20i_pCoreOf_le D hL).trans (inf_le_inf_right L D.sylowM.le), inf_le_right, ?_⟩,
     ?_, uc22p20i_not_le_M D hL⟩
   · refine ⟨(uc22p20i_sylowBar_isPGroup D).toSylow (uc22p20i_sylowBar_index D hL), ?_⟩

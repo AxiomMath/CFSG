@@ -33,12 +33,12 @@ theorem IsMaxFrame.lineOf_eq_of_not_isSmallFrame (h : TransvectionHyp H Δ)
     (hF : IsMaxFrame Δ P Q) {j k : Fin r} (hjk : j ≠ k) (hns : ¬ IsSmallFrame Δ P Q j) :
     lineOf Δ (P j) (Q j) = insert (Q j) ((fun b => conjSub (P j) b) '' (Q j : Set H)) := by
   classical
-  haveI : Finite H := h.finite
+  have : Finite H := h.finite
   have hΔ := h.cls
   have hiso : NoIsolated Δ := hΔ.noIsolated h.points h.rank
   have hthick := thickLines_of_meetsLines hΔ h.center hML
-  letI : Fintype ↥(rankTwoResidue Δ P Q j k) := Fintype.ofFinite _
-  haveI : Nonempty ↥(rankTwoResidue Δ P Q j k) :=
+  let : Fintype ↥(rankTwoResidue Δ P Q j k) := Fintype.ofFinite _
+  have : Nonempty ↥(rankTwoResidue Δ P Q j k) :=
     ⟨⟨P j, hF.toIsFrame.memP_rankTwoResidue_left j k⟩⟩
   obtain ⟨s, t, hs2, ht2, hO⟩ :=
     (hF.isThickQuadrangle_residueAdj hΔ h.points hML hthick hjk).exists_order
@@ -89,7 +89,7 @@ theorem lineOf_eq_of_opposite (h : TransvectionHyp H Δ) (hML : MeetsLines Δ)
     (hAB : Opposite A B) :
     lineOf Δ A B = insert B ((fun b => conjSub A b) '' (B : Set H)) ∧
       ∀ Y ∈ lineOf Δ A B, Y ≤ A ⊔ B := by
-  haveI : Finite H := h.finite
+  have : Finite H := h.finite
   obtain ⟨n, hn, P, Q, hF, hPA, hQB⟩ := exists_isMaxFrame_last h hML hA hB hAB
   have hjk : Fin.last n ≠ (0 : Fin (n + 1)) :=
     Fin.ne_of_val_ne (by rw [Fin.val_last, Fin.val_zero]; omega)

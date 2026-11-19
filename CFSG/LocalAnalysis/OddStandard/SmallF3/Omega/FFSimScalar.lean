@@ -30,6 +30,7 @@ private theorem ff_zmod3_two_nonzero (a c e : ZMod 3) (ha : a ≠ 0) (hc : c ≠
           | exact Or.inl rfl
           | exact Or.inr rfl
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ff_eigen_star {γ : V ≃ₗ[ZMod 3] V}
     (hγ : ∀ u : V, Q u ≠ 0 → ∃ c : ZMod 3, γ u = c • u) {x y : V} (hx : Q x ≠ 0) (hy : Q y ≠ 0)
     {a b : ZMod 3} (hxa : γ x = a • x) (hyb : γ y = b • y) (hab : a ≠ b) :
@@ -132,7 +133,7 @@ theorem ff_eigen_star {γ : V ≃ₗ[ZMod 3] V}
 theorem ff_eigen_const (hQ : Q.Nondegenerate) (h4 : 4 ≤ Module.finrank (ZMod 3) V)
     (γ : V ≃ₗ[ZMod 3] V) (hγ : ∀ u : V, Q u ≠ 0 → ∃ c : ZMod 3, γ u = c • u) :
     ∃ c : ZMod 3, ∀ u : V, Q u ≠ 0 → γ u = c • u := by
-  haveI : Nontrivial V := Module.nontrivial_of_finrank_pos (R := ZMod 3) (by omega)
+  have : Nontrivial V := Module.nontrivial_of_finrank_pos (R := ZMod 3) (by omega)
   obtain ⟨u0, hu0u⟩ := hQ.exists_isUnit
   have hu0 : Q u0 ≠ 0 := hu0u.ne_zero
   obtain ⟨c, hc⟩ := hγ u0 hu0

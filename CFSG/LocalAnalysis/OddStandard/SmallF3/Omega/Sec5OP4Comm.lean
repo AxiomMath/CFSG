@@ -49,8 +49,8 @@ theorem sec5op4_comm_le_ker {X : Type}
     simp
   ·
     obtain ⟨F, hF, hFin, h5, h8, ⟨e⟩, P, hP⟩ := sec5g_caseII_field (A := A) hII
-    letI := hF
-    letI := hFin
+    let := hF
+    let := hFin
     exact l2aut_commutator_acts_trivially e h5 h8 P ρ fun d hd x hx =>
       hfix d hd x (by rwa [← hP])
 

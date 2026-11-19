@@ -33,7 +33,7 @@ theorem exists_cls_data_of_qsnl {Ω : Type} [Group Ω] [Finite Ω] {S B T : Subg
       IsComponentOf J (fixSubgroup β) ∧ Subgroup.center ↥J = ⊥ ∧
       Nat.card J = ordTwistedA 4 (2 ^ e) ∧ 5 ∣ 2 ^ e + 1 ∧ ¬ 25 ∣ 2 ^ e + 1 := by
   have cfg := h.cfg
-  haveI hSn : S.Normal := cfg.normal
+  have hSn : S.Normal := cfg.normal
   have hnorm : ∀ g : Ω, g ∈ Subgroup.normalizer (S : Set Ω) := fun g => by
     rw [Subgroup.normalizer_eq_top_iff.2 hSn]
     exact Subgroup.mem_top g

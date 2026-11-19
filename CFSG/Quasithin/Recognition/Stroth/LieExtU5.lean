@@ -70,7 +70,7 @@ private theorem closure_twoElements_eq_top_of_isSimpleGroup_even {Y : Type} [Gro
     Subgroup.closure {x : Y | ∃ k : ℕ, x ^ 2 ^ k = 1} = ⊤ := by
   let K : Subgroup Y := Subgroup.closure {x : Y | ∃ k : ℕ, x ^ 2 ^ k = 1}
   have hKnormal : K.Normal := closure_twoElements_normal Y
-  haveI : K.Normal := hKnormal
+  have : K.Normal := hKnormal
   have hKne : K ≠ ⊥ := by
     obtain ⟨x, hx2⟩ := exists_orderOf_eq_two_of_even_card heven
     have hxK : x ∈ K :=
@@ -89,7 +89,7 @@ theorem closure_twoElements_eq_top_of_perfect_odd_center {Y : Type} [Group Y] [F
     Subgroup.closure {x : Y | ∃ k : ℕ, x ^ 2 ^ k = 1} = ⊤ := by
   let K : Subgroup Y := Subgroup.closure {x : Y | ∃ k : ℕ, x ^ 2 ^ k = 1}
   have hKnormal : K.Normal := closure_twoElements_normal Y
-  haveI : K.Normal := hKnormal
+  have : K.Normal := hKnormal
   obtain ⟨x, hx2⟩ := exists_orderOf_eq_two_of_even_card heven
   have hxK : x ∈ K :=
     Subgroup.subset_closure ⟨1, by simpa [hx2] using pow_orderOf_eq_one x⟩
@@ -101,8 +101,8 @@ theorem closure_twoElements_eq_top_of_perfect_odd_center {Y : Type} [Group Y] [F
       Subgroup.card_dvd_of_le hzp
     rw [Nat.card_zpowers, hx2] at hdvd
     exact hZodd.not_two_dvd_nat hdvd
-  haveI : (Subgroup.center Y).Normal := inferInstance
-  haveI : (K ⊔ Subgroup.center Y).Normal := inferInstance
+  have : (Subgroup.center Y).Normal := inferInstance
+  have : (K ⊔ Subgroup.center Y).Normal := inferInstance
   have himage_ne : (K ⊔ Subgroup.center Y).map (QuotientGroup.mk' (Subgroup.center Y)) ≠ ⊥ := by
     intro hbot
     have hle : K ⊔ Subgroup.center Y ≤ Subgroup.center Y := by
@@ -174,13 +174,13 @@ private theorem even_card_statedSU_three {k : ℕ} (hk : 2 ≤ k) {F : Type} [Fi
 private theorem closure_twoElements_eq_top_statedSU_three {k : ℕ} (hk : 2 ≤ k) {F : Type}
     [Field F] [Finite F] (hF : Nat.card F = (2 ^ k) ^ 2) :
     Subgroup.closure {x : StatedSU 3 (2 ^ k) F | ∃ j : ℕ, x ^ 2 ^ j = 1} = ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hk1 : 1 ≤ k := by omega
   have hnq := ne_three_two_of_two_le hk
   obtain ⟨hq, hZ⟩ :=
     CFSG.LieType.Universal.Unitary.isQuasisimple_statedSU_of_card (p := 2) (f := k) (n := 3)
       hF le_rfl hnq
-  haveI : Finite (StatedSU 3 (2 ^ k) F) := inferInstance
+  have : Finite (StatedSU 3 (2 ^ k) F) := inferInstance
   have hZodd : Odd (Nat.card (Subgroup.center (StatedSU 3 (2 ^ k) F))) := by
     rw [hZ, (CFSG.LinearGroups.unitary_scalar_kernel Nat.prime_two hF (n := 3)
       (by norm_num)).2.2]
@@ -191,9 +191,9 @@ private theorem closure_twoElements_eq_top_statedSU_three {k : ℕ} (hk : 2 ≤ 
 private theorem closure_twoElements_eq_top_statedProj_three {k : ℕ} (hk : 2 ≤ k) {F : Type}
     [Field F] [Finite F] (hF : Nat.card F = (2 ^ k) ^ 2) :
     Subgroup.closure {x : StatedProj (StatedSU 3 (2 ^ k) F) | ∃ j : ℕ, x ^ 2 ^ j = 1} = ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hnq := ne_three_two_of_two_le hk
-  haveI : Finite (StatedProj (StatedSU 3 (2 ^ k) F)) := inferInstance
+  have : Finite (StatedProj (StatedSU 3 (2 ^ k) F)) := inferInstance
   exact closure_twoElements_eq_top_of_isSimpleGroup_even
     (CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU F 2 k hF 3
       le_rfl hnq)
@@ -245,12 +245,12 @@ theorem psu5_model_facts {D : Type} [Group D] {k : ℕ} (hk : 2 ≤ k)
     · omega
     · exact hne2 h.symm
   obtain ⟨-, K, hKfield, hKfinite, -, ⟨e⟩⟩ := hD'
-  letI : Field K := hKfield
-  haveI : Finite K := hKfinite
+  let : Field K := hKfield
+  have : Finite K := hKfinite
   have hZ : Subgroup.center D = ⊥ :=
     CFSG.Quasithin.H13.FiveNorm.center_eq_bot_of_card_not_prime hnotprime
   have hfinD : Finite D := Finite.of_equiv _ e.symm.toEquiv
-  haveI : Finite D := hfinD
+  have : Finite D := hfinD
   have hTcard : ∀ T : Subgroup D, IsSylowTwoOf T ⊤ → Nat.card T = (2 ^ k) ^ 10 := by
     intro T hT
     have h := CFSG.Quasithin.H13.FiveNorm.card_eq_of_isSylowTwoOf_top (W := D) hT hfac'
@@ -270,7 +270,7 @@ theorem isAmalgamOfGroup_psu5_of_ext {G : Type} [Group G]
     IsAmalgamOfGroup (f112Amalgam L1 L2 S) (IsLieOverTwo .PSU 5 k) := by
   classical
   obtain ⟨hfinD, hZ, hTcard⟩ := psu5_model_facts hk hD
-  haveI : Finite D := hfinD
+  have : Finite D := hfinD
   have hL1' := eq_top_of_normal_odd_index_of_u3 hk hFc hU3
   have hL2' := eq_top_of_normal_odd_index_of_isL2Quot (by omega : 2 ≤ 2 * k) hL2
   have hS' : ∀ T : Subgroup D, IsSylowTwoOf T ⊤ → Nat.card S = Nat.card T :=

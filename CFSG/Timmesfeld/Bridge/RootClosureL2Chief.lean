@@ -618,7 +618,7 @@ theorem false (h1 : PSL2SylowCoordStmt) (h2 : L2TorusIrredStmt) (h3 : NaturalCom
     rw [← hφ, ← hψA, Subgroup.map_map]
     exact congrArg (fun f => (A.subgroupOf R).map f) (MonoidHom.ext fun _ => rfl)
   have hVS : V ≤ (S : Subgroup K) := hS ▸ le_sup_right
-  have : Group.IsNilpotent ↥(S : Subgroup K) := S.isPGroup'.isNilpotent
+  have : Group.IsNilpotent ↥(S : Subgroup K) := S.isPGroup.isNilpotent
   have : (V.subgroupOf (S : Subgroup K)).Normal := hVn.subgroupOf _
   have hne' : V.subgroupOf (S : Subgroup K) ≠ ⊥ := by
     intro h0

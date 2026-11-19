@@ -77,17 +77,17 @@ theorem l2_symp_basis {G J : Type} [Group G] [Group J] (π : G →* J)
   classical
   have hAB := hE.1
   have hpowA : ∀ x : ↥A, x ^ 2 = 1 := fun x => hAB.2 x (Subgroup.mem_top x)
-  haveI : IsMulCommutative ↥A := by
+  have : IsMulCommutative ↥A := by
     rw [isMulCommutative_iff]
     intro a b
-    haveI : IsMulCommutative ↥(⊤ : Subgroup ↥A) := hAB.1
+    have : IsMulCommutative ↥(⊤ : Subgroup ↥A) := hAB.1
     have h := mul_comm' (⟨a, Subgroup.mem_top a⟩ : ↥(⊤ : Subgroup ↥A))
       (⟨b, Subgroup.mem_top b⟩ : ↥(⊤ : Subgroup ↥A))
     simpa using congrArg Subtype.val h
-  haveI : IsElementaryAbelian 2 ↥A :=
+  have : IsElementaryAbelian 2 ↥A :=
     { toIsMulCommutative := inferInstance
       exponent_dvd_p := Monoid.exponent_dvd_of_forall_pow_eq_one hpowA }
-  haveI : Finite ↥A := Nat.finite_of_card_ne_zero (by rw [hE.2]; decide)
+  have : Finite ↥A := Nat.finite_of_card_ne_zero (by rw [hE.2]; decide)
   let lift : ↥A → G := fun u => Classical.choose (hπ u)
   have hlift : ∀ u : ↥A, π (lift u) = (u : J) := fun u => Classical.choose_spec (hπ u)
   have hmem : ∀ u : ↥A, π (lift u) ∈ A := fun u => by
@@ -105,12 +105,12 @@ theorem l2_symp_basis {G J : Type} [Group G] [Group J] (π : G →* J)
     constructor
     · intro h
       rcases hcomm (lift u) (lift v) (hmem u) (hmem v) with h1 | hm
-      · rw [hbdef u v, if_pos h1] at h
+      · rw [hbdef u v, ite_eq_left h1] at h
         exact absurd h (zero_ne_one : (0 : ZMod 2) ≠ 1)
       · exact hm
     · intro hm
       rw [hbdef u v]
-      exact if_neg (by rw [hm]; exact hm1)
+      exact ite_eq_right (by rw [hm]; exact hm1)
   have hb_zero : ∀ u v : ↥A, b u v = 0 ↔ ⁅lift u, lift v⁆ = 1 := by
     intro u v
     constructor
@@ -118,12 +118,12 @@ theorem l2_symp_basis {G J : Type} [Group G] [Group J] (π : G →* J)
       by_contra hne
       have h1 : b u v = 1 := by
         rw [hbdef u v]
-        exact if_neg hne
+        exact ite_eq_right hne
       rw [h1] at h
       exact one_ne_zero h
     · intro h1
       rw [hbdef u v]
-      exact if_pos h1
+      exact ite_eq_left h1
   have hb1 : ∀ u v t : ↥A, b (u * v) t = b u t + b v t := by
     intro u v t
     have hwell : ⁅lift (u * v), lift t⁆ = ⁅lift u * lift v, lift t⁆ :=
@@ -178,7 +178,7 @@ theorem l2_symp_basis {G J : Type} [Group G] [Group J] (π : G →* J)
       rw [h1, hy]
     have hv1 : b u v = 1 := by
       rw [hbdef u v]
-      exact if_neg (by rw [hv]; exact hm1)
+      exact ite_eq_right (by rw [hv]; exact hm1)
     have h0 := hu v
     rw [hv1] at h0
     exact one_ne_zero h0

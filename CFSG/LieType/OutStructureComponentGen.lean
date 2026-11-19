@@ -267,7 +267,7 @@ private theorem component_le_of_forall_centralizer_le [Finite Y] {p : ℕ} (hp :
         rw [Nat.card_zpowers, hEc] at h1
         have h2 : orderOf x ≤ p := Nat.le_of_dvd hp.pos (orderOf_dvd_of_pow_eq_one (hE.2 x hxE))
         nlinarith [hp.two_le]
-      obtain ⟨y, hyE, hyx⟩ := SetLike.not_le_iff_exists.mp hnle
+      obtain ⟨y, hyE, hyx⟩ := IsConcreteLE.not_le_iff_exists.mp hnle
       have hyxpow : ∀ j : ℕ, 0 < j → j < p → y ^ j ∉ Subgroup.zpowers x := fun j hj0 hjp hmem =>
         hyx (mem_of_pow_mem_of_prime hp (hE.2 y hyE) hj0 hjp hmem)
       have hxy : ∀ i j : ℕ, i < p → j < p → (i ≠ 0 ∨ j ≠ 0) →

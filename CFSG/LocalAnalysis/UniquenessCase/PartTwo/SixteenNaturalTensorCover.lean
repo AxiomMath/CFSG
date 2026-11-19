@@ -291,8 +291,7 @@ theorem exists_unique_tensor_cover_of_finrank_H1_le_one
   have hFB : ∀ g u,
       F (TensorProduct.map (ρE g) LinearMap.id u) = ρW g (F u) := by
     intro g u
-    induction u using TensorProduct.induction_on with
-    | zero => simp
+    induction u using TensorProduct.inductionOn with
     | add u v hu hv => simp only [map_add, hu, hv]
     | tmul e x =>
         rw [TensorProduct.map_tmul, LinearMap.id_apply, hF_tmul, hF_tmul, hE g e, map_add]
@@ -303,8 +302,7 @@ theorem exists_unique_tensor_cover_of_finrank_H1_le_one
   let f : W →ₗ[ZMod 2] Z ⧸ R := π.comp r'
   have hπL : ∀ g p, π (L g p) = 0 := by
     intro g p
-    induction p using TensorProduct.induction_on with
-    | zero => simp
+    induction p using TensorProduct.inductionOn with
     | add p₁ p₂ h₁ h₂ => simp [map_add, h₁, h₂]
     | tmul q x =>
         rw [hL_tmul]
@@ -507,8 +505,7 @@ theorem exists_tensor_equiv_of_irreducible_multiplicity
         TensorProduct.lid_tmul]
   have hqFβ : ∀ u, qW (F u) = (β u).2 := by
     intro u
-    induction u using TensorProduct.induction_on with
-    | zero => simp
+    induction u using TensorProduct.inductionOn with
     | add u v hu hv => simp [map_add, hu, hv]
     | tmul e x => rw [hqF e x, hβ_tmul]
   have hFinj : Function.Injective F := by

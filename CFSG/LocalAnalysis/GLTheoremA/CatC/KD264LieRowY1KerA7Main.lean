@@ -55,9 +55,9 @@ theorem H0_inj {x : Matrix.SpecialLinearGroup (Fin 7) K} (hx : x ∈ (H0 (K := K
       simp
     · have hi6 : (i : ℕ) ≠ 6 := fun h => hi (Fin.ext h)
       by_cases h3 : (i : ℕ) < 3
-      · simp [h3, Pi.single_apply, hi]
+      · simp [h3, hi]
       · have : (i : ℕ) ≠ 6 := hi6
-        simp [h3, Pi.single_apply, hi]
+        simp [h3, hi]
   have hfix := hxH.2 _ hD
   rw [← hrx] at hfix
   have hcoord := congrFun hfix 6
@@ -86,7 +86,7 @@ theorem commute_of_pi {x y : Matrix.SpecialLinearGroup (Fin 7) K} (hy : y ^ 3 = 
     simp [mul_assoc]
   have hpow : (x * y * x⁻¹) ^ 3 = 1 := by
     have e : (x * y * x⁻¹) ^ 3 = x * y ^ 3 * x⁻¹ := by
-      simp only [pow_succ, pow_zero, one_mul, mul_assoc, mul_inv_cancel_left, inv_mul_cancel_left]
+      simp only [pow_succ, pow_zero, one_mul, mul_assoc, inv_mul_cancel_left]
     rw [e, hy]
     simp
   have h5 : c ^ 3 * y ^ 3 = 1 := by
@@ -168,11 +168,11 @@ def kerSub {G : Type} [Group G] {L : Type} [Field L] (c : G → L) (hcmul : ∀ 
   carrier := {x | c x = 1}
   mul_mem' := fun {a b} ha hb => by
     show c (a * b) = 1
-    rw [hcmul, Set.mem_setOf_eq.mp ha, Set.mem_setOf_eq.mp hb, one_mul]
+    rw [hcmul, Set.mem_ofPred_eq.mp ha, Set.mem_ofPred_eq.mp hb, one_mul]
   one_mem' := hc1
   inv_mem' := fun {a} ha => by
     show c a⁻¹ = 1
-    rw [hcinv, Set.mem_setOf_eq.mp ha, inv_one]
+    rw [hcinv, Set.mem_ofPred_eq.mp ha, inv_one]
 
 theorem nine_ne_zero_of_three_ne {F : Type} [Field F] (h3 : (3 : F) ≠ 0) :
     ((9 : ℕ) : F) ≠ 0 := by
@@ -217,15 +217,15 @@ theorem kerConcl_PSL7 [Finite K] (hnr : ∀ x : K, x ^ 2 + x + 1 ≠ 0)
     (hE : CFSG.Open.IsElemAbelian 3 E) (hc : Nat.card E = 27) :
     CFSG.LocalAnalysis.GLTheoremA.KD264LieA4.KerConcl E := by
   obtain ⟨P, hPE, hcomm, hpow, hPcard⟩ := lift_of_elemAbelian7 hE hc
-  haveI hirr : Fact (Irreducible (quad K)) := ⟨quad_irreducible hnr⟩
+  have hirr : Fact (Irreducible (quad K)) := ⟨quad_irreducible hnr⟩
   have hζ : IsPrimitiveRoot (zetaQ K) 3 := prim_root_quad hnr
   have hmonic : (quad K).Monic := by
     unfold quad
     monicity!
-  haveI : Module.Finite K (AdjoinRoot (quad K)) := Polynomial.Monic.finite_adjoinRoot hmonic
-  haveI : Finite (AdjoinRoot (quad K)) := Module.finite_of_finite K
-  haveI : Finite (Matrix.SpecialLinearGroup (Fin 7) K) := inferInstance
-  haveI : Fintype P := Fintype.ofFinite P
+  have : Module.Finite K (AdjoinRoot (quad K)) := Polynomial.Monic.finite_adjoinRoot hmonic
+  have : Finite (AdjoinRoot (quad K)) := Module.finite_of_finite K
+  have : Finite (Matrix.SpecialLinearGroup (Fin 7) K) := inferInstance
+  have : Fintype P := Fintype.ofFinite P
   obtain ⟨A, hoff, hmul, hpowd, hsymmD, hfaith⟩ :=
     diag_eigen hζ (sigmaQuad K) (sigmaQuad_zeta K) (sigmaQuad_sigmaQuad K) P hcomm hpow
   have hPcardF : Fintype.card P = 27 := by

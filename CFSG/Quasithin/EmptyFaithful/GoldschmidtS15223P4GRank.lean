@@ -74,7 +74,7 @@ theorem exists_mem_inf_of_rank {I W E : Subgroup G} (hrank : CFSG.Open.pRank 3 I
     simp at h3T
   have hT3 : IsPGroup 3 ↥T := by
     rw [hT']
-    exact (T'.isPGroup').map W.subtype
+    exact (T'.isPGroup).map W.subtype
   have hP3 : IsPGroup 3 ↥(T ⊔ E) := IsPGroup.to_sup_of_normal_left' hT3 hE3 hET
   have hPnorm : T ⊔ E ≤ Subgroup.normalizer (T : Set G) := sup_le Subgroup.le_normalizer hET
   have hnormal : (T.subgroupOf (T ⊔ E)).Normal :=

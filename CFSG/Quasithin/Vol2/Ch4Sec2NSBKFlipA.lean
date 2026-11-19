@@ -16,28 +16,34 @@ variable {G : Type} [Group G] [Finite G] {T M L Mm I H K : Subgroup G} {m k j : 
 @[expose] noncomputable def wZ (D : StdData G T L I K m k (m + 1) j) (z : G) : Fin j → ZMod 2 :=
   fun i => coG D z i (Fin.last m)
 
+omit [Finite G] in
 theorem wZ_mul (D : StdData G T L I K m k (m + 1) j) {x y : G} (hx : x ∈ uZero I K)
     (hy : y ∈ uZero I K) : wZ D (x * y) = wZ D x + wZ D y := by
   funext i
   simp [wZ, coG_mul D hx hy]
 
+omit [Finite G] in
 theorem wZ_inv (D : StdData G T L I K m k (m + 1) j) {x : G} (hx : x ∈ uZero I K) :
     wZ D x⁻¹ = wZ D x := by
   funext i
   simp [wZ, coG_inv D hx]
 
+omit [Finite G] in
 theorem wZ_one (D : StdData G T L I K m k (m + 1) j) : wZ D 1 = 0 := by
   funext i
   simp [wZ, coG_one D]
 
 variable (D : StdData G T L I K m k (m + 1) j) (hj : 0 < j)
 
+omit [Finite G] in
 theorem wZ_zZero : wZ D (zZero D hj) (⟨0, hj⟩ : Fin j) = 1 := by
   simp [wZ, coG_zZero D hj]
 
+omit [Finite G] in
 private theorem one_of_coG_zero_nsbkfa {c : G} (hc : c ∈ uZero I K) (h : coG D c = 0) : c = 1 :=
   coG_injOn D hc (one_mem _) (by rw [h, coG_one D])
 
+omit [Finite G] in
 theorem flip_identity (F : RForm D) {g : G} (h1 : ∀ u ∈ uZero I K, g⁻¹ * u * g ∈ pCoreOf 2 I)
     (h2 : ∀ u ∈ uZero I K, g * u * g⁻¹ ∈ pCoreOf 2 I) {u v : G} (hu : u ∈ uZero I K)
     (hv : v ∈ uZero I K) :
@@ -82,6 +88,7 @@ theorem flip_identity (F : RForm D) {g : G} (h1 : ∀ u ∈ uZero I K, g⁻¹ * 
     revert x y
     decide
 
+omit [Finite G] in
 private theorem conj_eq_one_iff_nsbkfa {c g : G} : g * c * g⁻¹ = 1 ↔ c = 1 := by
   constructor
   · intro h
@@ -92,6 +99,7 @@ private theorem conj_eq_one_iff_nsbkfa {c g : G} : g * c * g⁻¹ = 1 ↔ c = 1 
     rw [h]
     group
 
+omit [Finite G] in
 theorem wZ_eq_zero_iff (F : RForm D) {g : G} (h1 : ∀ u ∈ uZero I K, g⁻¹ * u * g ∈ pCoreOf 2 I)
     (h2 : ∀ u ∈ uZero I K, g * u * g⁻¹ ∈ pCoreOf 2 I)
     (hA' : ∃ u ∈ uZero I K, arOf D hj (g * u * g⁻¹) ≠ 0) {v : G} (hv : v ∈ uZero I K) :
@@ -119,6 +127,7 @@ theorem wZ_eq_zero_iff (F : RForm D) {g : G} (h1 : ∀ u ∈ uZero I K, g⁻¹ *
     · exact absurd h hne
     · exact h
 
+omit [Finite G] in
 theorem wZ_eq_zero_iff' (F : RForm D) {g : G} (h1 : ∀ u ∈ uZero I K, g⁻¹ * u * g ∈ pCoreOf 2 I)
     (h2 : ∀ u ∈ uZero I K, g * u * g⁻¹ ∈ pCoreOf 2 I)
     (hA : ∃ v ∈ uZero I K, arOf D hj (g⁻¹ * v * g) ≠ 0) {u : G} (hu : u ∈ uZero I K) :

@@ -257,7 +257,7 @@ theorem mem_trackPar (i : ℤ) :
       show 2 * j / 2 = j by omega, zpow_neg, inv_inv]
     exact (T.refl_aux j).1
   · have hpar : trackPar P₁ P₂ (2 * j + 1) = P₂ := by
-      simp [trackPar, Int.even_add_one]
+      simp [trackPar]
     rw [hpar, trackElt, trackElt, show -(2 * j + 1) / 2 = -(j + 1) by omega,
       show (2 * j + 1) / 2 = j by omega, zpow_neg, inv_inv]
     exact (T.refl_aux j).2
@@ -360,11 +360,11 @@ theorem rightDrop_eq (a : ℤ) (m : ℕ) :
     (qv Q₁ Q₂ x₁ x₂ (a + m)).relIndex (win Q₁ Q₂ x₁ x₂ a (a + m - 1)) =
       if Even (a + m) then dropS Q₁ Q₂ x₁ x₂ m else dropL Q₁ Q₂ x₁ x₂ m := by
   obtain ⟨k, hk | hk⟩ := Int.even_or_odd' (a + m)
-  · rw [if_pos (show Even (a + (m : ℤ)) from ⟨k, by omega⟩), dropS,
+  · rw [ite_eq_left (show Even (a + (m : ℤ)) from ⟨k, by omega⟩), dropS,
       relIndex_shift k (j := 0) (a := -m) (b := -1),
       T.relIndex_refl₁ hQ₁ hQ₂ (j' := 0) (a' := 1) (b' := m) (j := 0) (a := -m) (b := -1)]
     all_goals omega
-  · rw [if_neg (Int.not_even_iff_odd.mpr ⟨k, hk⟩), dropL,
+  · rw [ite_eq_right (Int.not_even_iff_odd.mpr ⟨k, hk⟩), dropL,
       relIndex_shift k (j := 1) (a := 1 - m) (b := 0)]
     all_goals omega
 
@@ -372,10 +372,10 @@ theorem leftDrop_eq (b : ℤ) (m : ℕ) :
     (qv Q₁ Q₂ x₁ x₂ (b - m)).relIndex (win Q₁ Q₂ x₁ x₂ (b - m + 1) b) =
       if Even (b - m) then dropS Q₁ Q₂ x₁ x₂ m else dropL Q₁ Q₂ x₁ x₂ m := by
   obtain ⟨k, hk | hk⟩ := Int.even_or_odd' (b - m)
-  · rw [if_pos (show Even (b - (m : ℤ)) from ⟨k, by omega⟩), dropS,
+  · rw [ite_eq_left (show Even (b - (m : ℤ)) from ⟨k, by omega⟩), dropS,
       relIndex_shift k (j := 0) (a := 1) (b := m)]
     all_goals omega
-  · rw [if_neg (Int.not_even_iff_odd.mpr ⟨k, hk⟩), dropL,
+  · rw [ite_eq_right (Int.not_even_iff_odd.mpr ⟨k, hk⟩), dropL,
       relIndex_shift k (j := 1) (a := 2) (b := m + 1),
       T.relIndex_refl₂ hQ₁ hQ₂ (j' := 1) (a' := 1 - m) (b' := 0) (j := 1) (a := 2) (b := m + 1)]
     all_goals omega

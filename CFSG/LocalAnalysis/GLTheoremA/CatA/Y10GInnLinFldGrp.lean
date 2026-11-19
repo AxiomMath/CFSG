@@ -69,7 +69,7 @@ theorem isSimpleGroup_statedProj_of_three_le {d : ℕ} (hd : 3 ≤ d) (F : Type)
 
 theorem isPerfect_statedProj_of_three_le {d : ℕ} (hd : 3 ≤ d) (F : Type) [Field F] :
     Group.IsPerfect (StatedProj (StatedSL d F)) := by
-  haveI : Group.IsPerfect (StatedSL d F) := CFSG.Open.StatedAPI.isPerfect_statedSL_of_three_le hd F
+  have : Group.IsPerfect (StatedSL d F) := CFSG.Open.StatedAPI.isPerfect_statedSL_of_three_le hd F
   exact Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' _) (QuotientGroup.mk'_surjective _)
 
 theorem nonempty_quotCenter_equiv {X Q : Type*} [Group X] [Group Q] [IsSimpleGroup X] [Group.IsPerfect X]
@@ -117,8 +117,8 @@ theorem exists_scalar_of_conj_mod_scalar {d : ℕ} (hd : 3 ≤ d) (N : GL (Fin d
       _ = Matrix.GeneralLinearGroup.scalar (Fin d) (ψ x * ψ y) * (x * y) := by rw [map_mul]
   let Φ : slGL (Fin d) K →* Kˣ :=
     MonoidHom.mk' (fun x => ψ x) (fun x y => hmul x x.2 y y.2)
-  haveI hperf : Group.IsPerfect ↥(slGL (Fin d) K) := by
-    haveI : Group.IsPerfect ↥(StatedSL d K) := CFSG.Open.StatedAPI.isPerfect_statedSL_of_three_le hd K
+  have hperf : Group.IsPerfect ↥(slGL (Fin d) K) := by
+    have : Group.IsPerfect ↥(StatedSL d K) := CFSG.Open.StatedAPI.isPerfect_statedSL_of_three_le hd K
     have hS : slGL (Fin d) K = StatedSL d K := (CFSG.Open.StatedAPI.statedSL_eq_ker_det d K).symm
     exact Group.IsPerfect.ofSurjective (f := (MulEquiv.subgroupCongr hS).symm.toMonoidHom)
       (MulEquiv.subgroupCongr hS).symm.surjective

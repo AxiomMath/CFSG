@@ -11,22 +11,27 @@ open scoped commutatorElement
 
 variable {A : Type} [Group A] [Finite A] {V K : Subgroup A} {c : A}
 
+omit [Finite A] in
 theorem inv_eq_self_of_mem (hV : IsElemAbelian 2 V) {x : A} (hx : x ∈ V) : x⁻¹ = x := by
   have h := hV.2 x hx
   rw [pow_two] at h
   exact (eq_inv_of_mul_eq_one_left h).symm
 
+omit [Finite A] in
 theorem comm_of_mem (hV : IsElemAbelian 2 V) {x y : A} (hx : x ∈ V) (hy : y ∈ V) :
     x * y = y * x :=
   CFSG.Quasithin.B2F.isElemAbelian_comm hV hx hy
 
+omit [Finite A] in
 theorem conj_eq_of_comm {g x : A} (h : x * g = g * x) : g * x * g⁻¹ = x := by
   rw [← h, mul_inv_cancel_right]
 
+omit [Finite A] in
 theorem comm_of_conj_eq {g x : A} (h : g * x * g⁻¹ = x) : x * g = g * x := by
   calc x * g = (g * x * g⁻¹) * g := by rw [h]
     _ = g * x := by group
 
+omit [Finite A] in
 theorem le_normalizer_fixed (hKV : K ≤ normalizer (V : Set A))
     (hcK : ∀ k ∈ K, c * k * c⁻¹ * k⁻¹ ∈ centralizer (V : Set A)) :
     K ≤ normalizer ((V ⊓ centralizer ({c} : Set A) : Subgroup A) : Set A) := by
@@ -45,6 +50,7 @@ theorem le_normalizer_fixed (hKV : K ≤ normalizer (V : Set A))
       _ = k * u * k⁻¹ := by group
   exact comm_of_conj_eq h1
 
+omit [Finite A] in
 theorem commutator_mem_fixed (hV : IsElemAbelian 2 V) (hcV : c ∈ normalizer (V : Set A))
     (hc2 : c * c ∈ centralizer (V : Set A)) {v : A} (hv : v ∈ V) :
     c * v * c⁻¹ * v⁻¹ ∈ V ⊓ centralizer ({c} : Set A) := by
@@ -71,6 +77,7 @@ variable (hV : IsElemAbelian 2 V) (hKV : K ≤ normalizer (V : Set A))
   (hKU : K ≤ centralizer ((V ⊓ centralizer ({c} : Set A) : Subgroup A) : Set A))
 
 include hV hKV hcV hcK hc2 hKU in
+omit [Finite A] in
 theorem commutator_mem_fixed_of_le {k v : A} (hk : k ∈ K) (hv : v ∈ V) :
     k * v * k⁻¹ * v⁻¹ ∈ V ⊓ centralizer ({c} : Set A) := by
   have hkv : k * v * k⁻¹ ∈ V := (mem_normalizer_iff.mp (hKV hk) v).mp hv
@@ -103,6 +110,7 @@ theorem commutator_mem_fixed_of_le {k v : A} (hk : k ∈ K) (hv : v ∈ V) :
   exact comm_of_conj_eq h1
 
 include hV hKV hcV hcK hc2 hKU in
+omit [Finite A] in
 theorem commutator_mem_centralizer_of_le {k h : A} (hk : k ∈ K) (hh : h ∈ K) :
     k * h * k⁻¹ * h⁻¹ ∈ centralizer (V : Set A) := by
   have key : ∀ v ∈ V, (k * h) * v * (k * h)⁻¹ = (h * k) * v * (h * k)⁻¹ := by
@@ -137,6 +145,7 @@ theorem commutator_mem_centralizer_of_le {k h : A} (hk : k ∈ K) (hh : h ∈ K)
 
 end Abelian
 
+omit [Finite A] in
 theorem not_le_centralizer_fixed (hV : IsElemAbelian 2 V) (hKV : K ≤ normalizer (V : Set A))
     (hcV : c ∈ normalizer (V : Set A))
     (hcK : ∀ k ∈ K, c * k * c⁻¹ * k⁻¹ ∈ centralizer (V : Set A))

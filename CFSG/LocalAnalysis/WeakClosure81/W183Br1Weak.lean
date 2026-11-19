@@ -14,6 +14,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem w183_normalizer_le_normalizer_centralizer (X : Subgroup G) :
     Subgroup.normalizer (X : Set G) ≤
       Subgroup.normalizer (Subgroup.centralizer (X : Set G) : Set G) :=
@@ -21,6 +22,7 @@ private theorem w183_normalizer_le_normalizer_centralizer (X : Subgroup G) :
     (K := Subgroup.normalizer (X : Set G))
     (Subgroup.centralizer_le_normalizer (X : Set G))
 
+omit [Finite G] in
 private theorem w183_mem_sup_of_le_normalizer {A C : Subgroup G}
     (hAC : A ≤ Subgroup.normalizer (C : Set G)) {x : G} :
     x ∈ A ⊔ C ↔ ∃ a ∈ A, ∃ c ∈ C, a * c = x := by

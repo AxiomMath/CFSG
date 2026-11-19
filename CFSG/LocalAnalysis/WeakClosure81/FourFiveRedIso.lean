@@ -216,8 +216,6 @@ theorem fourFive_autQuot_equiv_subgroupOf {Q : Type} [Group Q] {T J U : Subgroup
   have e_apply : ∀ x : ↥A,
       ((e x : ↥(F12.autNL (T.subgroupOf U) (J.subgroupOf U))) : Q) = ((x : ↥A) : Q) := by
     intro x
-    change (((e x : ↥(F12.autNL (T.subgroupOf U) (J.subgroupOf U))) : ↥U) : Q) =
-      ((x : ↥A) : Q)
     dsimp only [e]
     rw [MulEquiv.trans_apply, MulEquiv.subgroupCongr_symm_apply]
     rfl

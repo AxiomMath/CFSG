@@ -54,7 +54,7 @@ theorem injective_isometryPairs_conj (hd : 0 < d) (hQ : (polarBilin Q).Nondegene
   intro g hg
   obtain ⟨h1, a, ha⟩ := hker g.val hg
   obtain ⟨v, hv⟩ : ∃ v, Q v ≠ 0 := by
-    haveI : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
+    have : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
     by_contra h
     push Not at h
     obtain ⟨v, hv⟩ := exists_ne (0 : Fin d → F)
@@ -193,7 +193,7 @@ theorem exists_semilin_of_mem_E {F : Type} [Field F] [Finite F] [CharP F 2] {d :
       rw [hA]
       exact matrixConjugation_vector (lift b).val.val A.val w
     have heq : (⟨_, hmem⟩ : orthDerived Q) = x := by
-      haveI : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
+      have : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
       apply piOrth_injective hQ
       rw [← hact b x _ hx', hBx b]
     have h := hx' (coordinateSemilinearMap (lift b).val.val v)

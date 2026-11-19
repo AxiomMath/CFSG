@@ -38,7 +38,7 @@ theorem sylow_eq_bot_of_le_center {E : Type*} [Group E] [Finite E] [Group.IsPerf
     Subgroup.commutator_eq_bot_iff_le_centralizer.mpr
       (hT.trans (Subgroup.center_le_centralizer _))
   have := (CFSG.ShultStronglyClosedTI.MiscAlgebra.central_sylow_transfer_derived T _ hT
-    T.isPGroup').1
+    T.isPGroup).1
   rwa [hcomm, le_bot_iff] at this
 
 theorem eq_bot_of_isSubnormal_of_isPiSubgroup {π : Set Nat.Primes} (hcore : CFSG.piCore π H = ⊥)

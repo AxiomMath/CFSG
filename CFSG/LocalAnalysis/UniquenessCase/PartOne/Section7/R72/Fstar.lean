@@ -54,11 +54,11 @@ theorem config_of_sec7Hyp (k : Sec7Core4 G) {D : Data G} {H : Subgroup G}
 
 theorem generalizedFitting_le_imageModK (k : Sec7Core4 G) {H : Subgroup G} (hH : k.Config H) :
     CFSG.generalizedFitting (QuotK7 k.p H) ≤ ImageModK k.p H (Opp k.p H) := by
-  haveI : Fact k.p.Prime := ⟨k.prime⟩
+  have : Fact k.p.Prime := ⟨k.prime⟩
   rw [imageModK_opp_eq_pElementSubgroup k.prime H]
   obtain ⟨hs, -, -, -⟩ := k.isSimpleGroup_generalizedFitting_quotient hH
-  haveI := hs
-  haveI : (pElementSubgroup k.p (⊤ : Subgroup (QuotK7 k.p H))).Normal :=
+  have := hs
+  have : (pElementSubgroup k.p (⊤ : Subgroup (QuotK7 k.p H))).Normal :=
     pElementSubgroup_top_normal k.p
   obtain ⟨z, hz⟩ :=
     exists_prime_orderOf_dvd_card' k.p (k.dvd_card_generalizedFitting_quotient hH)
@@ -85,7 +85,7 @@ theorem forall_pow_mem_of_forall_mem_N (k : Sec7Core4 G) {H : Subgroup G} (hH : 
     ∀ (x : QuotK7 k.p H) (n : ℕ), x ^ k.p ^ n = 1 →
       x ∈ CFSG.generalizedFitting (QuotK7 k.p H) := by
   intro x n hx
-  haveI : Fact k.p.Prime := ⟨k.prime⟩
+  have : Fact k.p.Prime := ⟨k.prime⟩
   obtain ⟨-, -, hFn, -⟩ := k.isSimpleGroup_generalizedFitting_quotient hH
   have hzp : ∀ y : QuotK7 k.p H, y ^ k.p ^ n = 1 → IsPGroup k.p (Subgroup.zpowers y) := by
     intro y hy
@@ -94,11 +94,11 @@ theorem forall_pow_mem_of_forall_mem_N (k : Sec7Core4 G) {H : Subgroup G} (hH : 
   obtain ⟨P, hP⟩ := (hzp x hx).exists_le_sylow
   obtain ⟨g, hg⟩ := (k.isStronglyPEmbedded_map_quotient_pPrimeCore hH).exists_conj_ge
     (P := (P : Subgroup (QuotK7 k.p H)))
-    ⟨le_top, P.isPGroup', by rw [Subgroup.relIndex_top_right]; exact P.not_dvd_index⟩
+    ⟨le_top, P.isPGroup, by rw [Subgroup.relIndex_top_right]; exact P.not_dvd_index⟩
   have hgx := CFSG.RankThree.PartOne.StrongP.mem_conjSub_iff.mp
     (hg (hP (Subgroup.mem_zpowers x)))
   have hpow : (g⁻¹ * x * g) ^ k.p ^ n = 1 := by
-    have he : g⁻¹ * x * g = MulAut.conj g⁻¹ x := by simp [MulAut.conj_apply]
+    have he : g⁻¹ * x * g = MulAut.conj g⁻¹ x := by simp
     rw [he, ← map_pow, hx, map_one]
   have hF := hFn.conj_mem _ (h _ hgx (hzp _ hpow)) g
   have he : g * (g⁻¹ * x * g) * g⁻¹ = x := by group
@@ -119,12 +119,12 @@ theorem imageModK_opp_eq_generalizedFitting (k : Sec7Core4 G) {H : Subgroup G}
 theorem imageModK_opp_eq_top (k : Sec7Core4 G) {H : Subgroup G} (hH : k.Config H)
     (h : ∃ n : ℕ, (CFSG.generalizedFitting (QuotK7 k.p H)).index = k.p ^ n) :
     ImageModK k.p H (Opp k.p H) = ⊤ := by
-  haveI : Fact k.p.Prime := ⟨k.prime⟩
+  have : Fact k.p.Prime := ⟨k.prime⟩
   obtain ⟨n, hn⟩ := h
   obtain ⟨S⟩ : Nonempty (Sylow k.p (QuotK7 k.p H)) := inferInstance
   have hS : (S : Subgroup (QuotK7 k.p H)) ≤ ImageModK k.p H (Opp k.p H) := by
     rw [imageModK_opp_eq_pElementSubgroup k.prime H]
-    exact CFSG.le_pElementSubgroup_of_isPGroup k.prime S.isPGroup' le_top
+    exact CFSG.le_pElementSubgroup_of_isPGroup k.prime S.isPGroup le_top
   have h1 : (ImageModK k.p H (Opp k.p H)).index ∣ k.p ^ n := by
     rw [← hn]
     exact Subgroup.index_dvd_of_le (generalizedFitting_le_imageModK k hH)
@@ -186,10 +186,12 @@ theorem r72Shape_of_mulEquiv {p : ℕ} {X Y : Type} [Group X] [Group Y] (e : X �
     exact Or.inr (Or.inr (Or.inr (Or.inl ⟨hp, Or.inr (Or.inr (Or.inr ⟨e.symm.trans φ⟩))⟩)))
   · exact Or.inr (Or.inr (Or.inr (Or.inr ⟨hp, hS _ h⟩)))
 
+omit [Finite G] in
 theorem r72Shape_lkQuot7_of_eq {p : ℕ} {H : Subgroup G} {L : Subgroup (QuotK7 p H)}
     (hL : ImageModK p H (Opp p H) = L) (h : R72Shape p ↥L) : R72Shape p (LKQuot7 p H) :=
   r72Shape_of_mulEquiv (MulEquiv.subgroupCongr hL).symm h
 
+omit [Finite G] in
 theorem r72Shape_lkQuot7_of_eq_top {p : ℕ} {H : Subgroup G}
     (hL : ImageModK p H (Opp p H) = ⊤) (h : R72Shape p (QuotK7 p H)) :
     R72Shape p (LKQuot7 p H) :=

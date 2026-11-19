@@ -30,7 +30,7 @@ private theorem sbidx2_card_le {G : Type} [Group G] [Finite G] {m : ℕ} (hm5 : 
     (hm6 : m ≠ 6) (N : Subgroup G) [N.Normal] (e : N ≃* alternatingGroup (Fin m))
     (hO2 : CFSG.pCore 2 G = ⊥) (hpow : ∀ g : G, ∃ k : ℕ, g ^ 2 ^ k ∈ N) :
     Nat.card G ≤ 2 * Nat.card N := by
-  haveI : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.mpr (by omega)
+  have : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.mpr (by omega)
   have hcen : ∀ z : N, (∀ n : N, n * z = z * n) → z = 1 := by
     intro z hz
     have h1 : e z ∈ Subgroup.center (alternatingGroup (Fin m)) := by
@@ -69,7 +69,7 @@ private theorem sbidx2_card_le {G : Type} [Group G] [Finite G] {m : ℕ} (hm5 : 
   have hinj : Function.Injective (((MulAut.congr e).toMonoidHom).comp
       (MulAut.conjNormal : G →* MulAut N)) := (MulAut.congr e).injective.comp hconj
   have hbij := CFSG.GroupTheory.AutAlternating.aut_alternatingGroup_bijective_conj m hm5 hm6
-  haveI : Finite (MulAut (alternatingGroup (Fin m))) := Finite.of_surjective _ hbij.2
+  have : Finite (MulAut (alternatingGroup (Fin m))) := Finite.of_surjective _ hbij.2
   calc Nat.card G ≤ Nat.card (MulAut (alternatingGroup (Fin m))) :=
         Nat.card_le_card_of_injective _ hinj
     _ = Nat.card (Equiv.Perm (Fin m)) := (Nat.card_congr (Equiv.ofBijective _ hbij)).symm
@@ -87,7 +87,7 @@ private theorem sbidx2_index_le_two {G : Type} [Group G] [Finite G] {m : ℕ} (h
 theorem sup_normal_of_equiv_alt {m : ℕ} (hm : m = 5 ∨ m = 7)
     (e : ↥(oResidual 2 (X ⧸ CFSG.pCore 2 X)) ≃* alternatingGroup (Fin m)) (S : Subgroup X) :
     (S ⊔ oResidual 2 X ⊔ CFSG.pCore 2 X).Normal := by
-  haveI : (oResidual 2 (X ⧸ CFSG.pCore 2 X)).Normal :=
+  have : (oResidual 2 (X ⧸ CFSG.pCore 2 X)).Normal :=
     Stage1.Thm6.Prod.oResidual_normal 2 _
   have hidx : (oResidual 2 (X ⧸ CFSG.pCore 2 X)).index ≤ 2 :=
     sbidx2_index_le_two (by omega) (by omega) _ e

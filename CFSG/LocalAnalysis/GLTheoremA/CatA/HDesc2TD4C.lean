@@ -54,7 +54,7 @@ theorem cof_ge {t : StatedLieTag} (ht : t = .PSL ∨ t = .PSU) {n q : ℕ} (hn :
   · simpa [cofE, lieOrderCofactor] using hprod
   · have h2 : ∏ i ∈ Finset.Icc 2 n, (q ^ i - 1) ≤
         ∏ i ∈ Finset.Icc 2 n, (if Even i then q ^ i - 1 else q ^ i + 1) :=
-      Finset.prod_le_prod' (fun i _ => by split_ifs <;> omega)
+      prod_le_prod (fun i _ => by split_ifs <;> omega)
     calc 15 ^ (n - 1) * q ^ (cofE .PSU n) ≤ 16 ^ (n - 1) * ∏ i ∈ Finset.Icc 2 n, (q ^ i - 1) := by
           simpa [cofE] using hprod
       _ ≤ 16 ^ (n - 1) * lieOrderCofactor .PSU n q := Nat.mul_le_mul_left _ (by

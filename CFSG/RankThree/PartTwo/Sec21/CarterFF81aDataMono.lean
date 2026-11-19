@@ -79,7 +79,7 @@ theorem FF81Hyp.exists_Data_Mono (h : FF81Hyp b L) (hT : KF_Sp6Torus)
     have hz : (Pi.single (0 : Fin 3) (1 : ZMod 3) : Fin 3 → ZMod 3) = 0 := by
       simpa using congrArg Multiplicative.toAdd h0
     have hcoord := congrFun hz 0
-    simpa using hcoord
+    simp at hcoord
   have hmove : ∃ σ : MulAut ↥(Subgroup.closure ({b, b₁, b₂, b₃} : Set G)),
       σ ∈ FF81X (Subgroup.closure ({b, b₁, b₂, b₃} : Set G)) ∧
       σ ⟨b, Subgroup.subset_closure (by simp)⟩ ∉
@@ -485,15 +485,15 @@ theorem FF81Hyp.exists_Data_Mono (h : FF81Hyp b L) (hT : KF_Sp6Torus)
       norm_num
     rw [hBeq, h27] at h81
     norm_num at h81
-  haveI hB_ea : IsElementaryAbelian 3 ↥B := hE4.1
-  haveI hB_comm : IsMulCommutative ↥B := hE4.1.toIsMulCommutative
+  have hB_ea : IsElementaryAbelian 3 ↥B := hE4.1
+  have hB_comm : IsMulCommutative ↥B := hE4.1.toIsMulCommutative
   have hBab : ∀ x ∈ B, ∀ y ∈ B, x * y = y * x := by
     intro x hx y hy
     exact congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : ↥B) (⟨y, hy⟩ : ↥B))
   have hB3 : ∀ x ∈ B, x ^ 3 = 1 :=
     fun x hx => CFSG.elemPow_eq_one_of_isElementaryAbelian (p := 3) x hx
-  haveI hB₁_ea : IsElementaryAbelian 3 ↥B₁ := hE.1
-  haveI hB₁_comm : IsMulCommutative ↥B₁ := hE.1.toIsMulCommutative
+  have hB₁_ea : IsElementaryAbelian 3 ↥B₁ := hE.1
+  have hB₁_comm : IsMulCommutative ↥B₁ := hE.1.toIsMulCommutative
   have hB₁3 : ∀ x ∈ B₁, x ^ 3 = 1 :=
     fun x hx => CFSG.elemPow_eq_one_of_isElementaryAbelian (p := 3) x hx
   have hBcard : Nat.card B = 81 := by
@@ -543,7 +543,6 @@ theorem FF81Hyp.exists_Data_Mono (h : FF81Hyp b L) (hT : KF_Sp6Torus)
     have hτinv_sub : ∀ w : ↥B, w ∈ B₁.subgroupOf B → τX w = w⁻¹ := by
       intro w hw
       apply Subtype.ext
-      change ((τX w : ↥B) : G) = ((w⁻¹ : ↥B) : G)
       rw [show τX = Subgroup.normalizerMonoidHom (H := B) ⟨τ, hτN⟩ from rfl,
         Subgroup.normalizerMonoidHom_apply_apply_coe]
       exact hτinv_G w (Subgroup.mem_subgroupOf.mp hw)
@@ -628,7 +627,7 @@ theorem FF81Hyp.exists_Data_Mono (h : FF81Hyp b L) (hT : KF_Sp6Torus)
         rw [← hny]
         exact Subgroup.normalizerMonoidHom_apply_apply_coe B ny bB
       have h2 : ((bB ^ n₀ * x₀B : ↥B) : G) = b ^ n₀ * x₀ := by
-        simp [bB, x₀B, Subgroup.coe_pow, Subgroup.coe_mul]
+        simp [bB, x₀B]
       rw [h1, h2]
       exact hybG
     have hyib' : y⁻¹ bB = bB ^ n₁ * x₁B := by
@@ -637,7 +636,7 @@ theorem FF81Hyp.exists_Data_Mono (h : FF81Hyp b L) (hT : KF_Sp6Torus)
         rw [← hny_inv]
         exact Subgroup.normalizerMonoidHom_apply_apply_coe B ny⁻¹ bB
       have h2 : ((bB ^ n₁ * x₁B : ↥B) : G) = b ^ n₁ * x₁ := by
-        simp [bB, x₁B, Subgroup.coe_pow, Subgroup.coe_mul]
+        simp [bB, x₁B]
       rw [h1, h2]
       exact hyibG
     have hn₀ne : n₀ ≠ 0 := by

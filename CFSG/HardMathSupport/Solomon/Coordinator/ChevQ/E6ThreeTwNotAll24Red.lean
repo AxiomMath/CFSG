@@ -42,7 +42,7 @@ theorem ker_inv_sub_one {F V : Type*} [Field F] [AddCommGroup V] [Module F V]
 
 theorem eq_or_eq_inv_of_mem_zpowers {G : Type*} [Group G] {c f : G} (hc3 : c ^ 3 = 1)
     (hc1 : c ≠ 1) (hf : f ∈ Subgroup.zpowers c) (hf1 : f ≠ 1) : f = c ∨ f = c⁻¹ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 hf
   have ho : orderOf c = 3 := orderOf_eq_prime hc3 hc1
   have hk : c ^ k = c ^ (k % 3) := by

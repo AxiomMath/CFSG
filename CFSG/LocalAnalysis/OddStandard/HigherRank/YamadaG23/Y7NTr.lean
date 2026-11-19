@@ -17,6 +17,7 @@ variable {G : Type} [Group G] [Finite G]
   ∀ y ∈ X, y ^ 2 = 1 →
     ∃ E : Subgroup G, E ≤ X ∧ IsElemAbelian 2 E ∧ n ≤ Nat.card E ∧ y ∈ E
 
+omit [Finite G] in
 theorem RankFacts.elemCover {X : Subgroup G} (h : RankFacts X) : ElemCover 8 X := by
   intro y hy hy2
   obtain ⟨E, hEX, hE, hcard, hyE⟩ := h.cover y hy hy2
@@ -27,7 +28,7 @@ private lemma isElemAbelian_map_iff' {Γ₁ Γ₂ : Type} [Group Γ₁] [Group �
     IsElemAbelian p (E.map f) ↔ IsElemAbelian p E := by
   constructor
   · intro h
-    haveI : IsMulCommutative (E.map f) := h.1
+    have : IsMulCommutative (E.map f) := h.1
     refine ⟨IsMulCommutative.of_setLike_mul_comm ?_, ?_⟩
     · intro a ha b hb
       apply hf
@@ -37,11 +38,12 @@ private lemma isElemAbelian_map_iff' {Γ₁ Γ₂ : Type} [Group Γ₁] [Group �
       apply hf
       simpa using h.2 (f x) (show f x ∈ E.map f from ⟨x, hx, rfl⟩)
   · intro h
-    haveI : IsMulCommutative E := h.1
+    have : IsMulCommutative E := h.1
     refine ⟨inferInstance, ?_⟩
     rintro y ⟨x, hx, rfl⟩
     simpa using congrArg f (h.2 x hx)
 
+omit [Finite G] in
 private lemma transport_rank' {X Y : Subgroup G} (e : ↥X ≃* ↥Y) {E : Subgroup G} (hE : E ≤ X) :
     ∃ E' : Subgroup G, E' ≤ Y ∧ Nat.card E' = Nat.card E ∧
       (IsElemAbelian 2 E' ↔ IsElemAbelian 2 E) ∧
@@ -74,6 +76,7 @@ private lemma transport_rank' {X Y : Subgroup G} (e : ↥X ≃* ↥Y) {E : Subgr
     rw [← hzy, ← hwz]
     rfl
 
+omit [Finite G] in
 theorem ElemCover.of_mulEquiv {X Y : Subgroup G} {n : ℕ} (e : ↥X ≃* ↥Y) (h : ElemCover n X) :
     ElemCover n Y := by
   intro y hy hy2
@@ -98,11 +101,13 @@ theorem ElemCover.of_mulEquiv {X Y : Subgroup G} {n : ℕ} (e : ↥X ≃* ↥Y) 
     have hmem := hfwd (x : G) x.2 hxmem
     rwa [hcoe] at hmem
 
+omit [Finite G] in
 theorem ElemCover.conj {X : Subgroup G} {n : ℕ} (c : G) (h : ElemCover n X) :
     ElemCover n (conjSub c X) :=
   ElemCover.of_mulEquiv
     (Subgroup.equivMapOfInjective X (MulAut.conj c).toMonoidHom (MulAut.conj c).injective) h
 
+omit [Finite G] in
 theorem ElemCover.prod {P X Y : Subgroup G} {n m : ℕ} (h : IsInternalDirect P X Y)
     (hX : ElemCover n X) (hY : ElemCover m Y) : ElemCover (n * m) P := by
   obtain ⟨hsup, hinf, hcomm⟩ := h

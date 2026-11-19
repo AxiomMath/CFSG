@@ -54,13 +54,13 @@ theorem co_eq_of_lt {i : Nat} (hi : i < 6) {c : Nat} :
   interval_cases i <;> rfl
 
 theorem fi22F4_mod (a : Nat) : fi22F4 (a % 4) = fi22F4 a := by
-  simp [fi22F4, Nat.mod_mod]
+  simp [fi22F4]
 
 theorem addC_mod (a b : Nat) : addC (a % 4) (b % 4) = addC a b := by
-  simp [addC, Nat.mod_mod]
+  simp [addC]
 
 theorem mulC_mod (a b : Nat) : mulC (a % 4) (b % 4) = mulC a b := by
-  simp [mulC, Nat.mod_mod]
+  simp [mulC]
 
 private theorem add_aux : ∀ x < 4, ∀ y < 4, fi22F4 x + fi22F4 y = fi22F4 (addC x y) := by
   decide
@@ -196,21 +196,21 @@ theorem norm_dec (c : Nat) : fi22Normalize (dec c) = dec (normC c) := by
           · by_cases h5 : co c 5 = 0
             · simp [h0, h1, h2, h3, h4, h5]
             · simp only [h0, h1, h2, h3, h4, h5, ne_eq, not_true_eq_false, not_false_eq_true,
-                decide_false, decide_true, if_true, if_false]
+                decide_false, decide_true, ite_true, ite_false]
               exact hs 5 5 rfl
           · simp only [h0, h1, h2, h3, h4, ne_eq, not_true_eq_false, not_false_eq_true,
-              decide_false, decide_true, if_true, if_false]
+              decide_false, decide_true, ite_true, ite_false]
             exact hs 4 4 rfl
         · simp only [h0, h1, h2, h3, ne_eq, not_true_eq_false, not_false_eq_true,
-            decide_false, decide_true, if_true, if_false]
+            decide_false, decide_true, ite_true, ite_false]
           exact hs 3 3 rfl
       · simp only [h0, h1, h2, ne_eq, not_true_eq_false, not_false_eq_true,
-          decide_false, decide_true, if_true, if_false]
+          decide_false, decide_true, ite_true, ite_false]
         exact hs 2 2 rfl
     · simp only [h0, h1, ne_eq, not_true_eq_false, not_false_eq_true,
-        decide_false, decide_true, if_true, if_false]
+        decide_false, decide_true, ite_true, ite_false]
       exact hs 1 1 rfl
-  · simp only [h0, ne_eq, not_false_eq_true, decide_true, if_true]
+  · simp only [h0, ne_eq, not_false_eq_true, decide_true, ite_true]
     exact hs 0 0 rfl
 
 theorem normC_lt {c : Nat} (hc : c < 4096) : normC c < 4096 := by

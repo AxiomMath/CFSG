@@ -33,16 +33,16 @@ private theorem normal_zpowers_of_comm {G : Type*} [Group G] {c : G}
 
 private theorem comm_self_of_alt6 {H : Type*} [Group H] (A : Subgroup H)
     (e : ↥A ≃* alternatingGroup (Fin 6)) : ⁅A, A⁆ = A := by
-  haveI : Group.IsPerfect (alternatingGroup (Fin 6)) :=
+  have : Group.IsPerfect (alternatingGroup (Fin 6)) :=
     Group.isPerfect_def.2 (commutator_alternatingGroup_eq_top (by simp))
-  haveI : Group.IsPerfect ↥A :=
+  have : Group.IsPerfect ↥A :=
     Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
   exact Subgroup.commutator_eq_self
 
 open scoped commutatorElement in
 private theorem commutator_sup_zpowers_le {G : Type*} [Group G] (A : Subgroup G) {c : G}
     (hc : ∀ g : G, g * c = c * g) : ⁅A ⊔ Subgroup.zpowers c, A ⊔ Subgroup.zpowers c⁆ ≤ A := by
-  haveI := normal_zpowers_of_comm hc
+  have := normal_zpowers_of_comm hc
   rw [Subgroup.commutator_le]
   intro x hx y hy
   obtain ⟨a, ha, w, hw, rfl⟩ := Subgroup.mem_sup_of_normal_right.1 hx
@@ -65,7 +65,7 @@ private theorem normal_of_alt6_index_two {G : Type*} [Group G] (A : Subgroup G) 
     (hc : ∀ g : G, g * c = c * g) (eA : ↥A ≃* alternatingGroup (Fin 6))
     (hidx : (A ⊔ Subgroup.zpowers c).index = 2) : A.Normal := by
   have hP : (A ⊔ Subgroup.zpowers c).Normal := Subgroup.normal_of_index_eq_two hidx
-  haveI := normal_zpowers_of_comm hc
+  have := normal_zpowers_of_comm hc
   have hle : ⁅A ⊔ Subgroup.zpowers c, A ⊔ Subgroup.zpowers c⁆ ≤ A :=
     commutator_sup_zpowers_le A hc
   have hge : A ≤ ⁅A ⊔ Subgroup.zpowers c, A ⊔ Subgroup.zpowers c⁆ := by
@@ -77,7 +77,7 @@ private theorem normal_of_alt6_index_two {G : Type*} [Group G] (A : Subgroup G) 
 
 private theorem eq_one_or_of_mem_zpowers {G : Type*} [Group G] {c : G} (hc2 : c ^ 2 = 1)
     (hc1 : c ≠ 1) {w : G} (hw : w ∈ Subgroup.zpowers c) : w = 1 ∨ w = c := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hord : orderOf c = 2 := orderOf_eq_prime hc2 hc1
   obtain ⟨m, rfl⟩ := Subgroup.mem_zpowers_iff.1 hw
   have h := zpow_mod_orderOf c m
@@ -90,7 +90,7 @@ private theorem eq_one_or_of_mem_zpowers {G : Type*} [Group G] {c : G} (hc2 : c 
 private theorem card_sup_zpowers_of_comm {G : Type*} [Group G] (A : Subgroup G) {c : G}
     (hc : ∀ g : G, g * c = c * g) (hc2 : c ^ 2 = 1) (hcA : c ∉ A) :
     Nat.card ↥(A ⊔ Subgroup.zpowers c) = 2 * Nat.card A := by
-  haveI := normal_zpowers_of_comm hc
+  have := normal_zpowers_of_comm hc
   have hc1 : c ≠ 1 := fun h => hcA (by rw [h]; exact A.one_mem)
   have hmem : ∀ (a : ↥A) (b : Bool), (a : G) * cond b c 1 ∈ A ⊔ Subgroup.zpowers c := by
     intro a b
@@ -105,21 +105,21 @@ private theorem card_sup_zpowers_of_comm {G : Type*} [Group G] (A : Subgroup G) 
     rintro ⟨a, b⟩ ⟨a', b'⟩ h
     have h' : (a : G) * cond b c 1 = (a' : G) * cond b' c 1 := congrArg Subtype.val h
     cases b <;> cases b'
-    · simp only [cond_false, mul_one] at h'
+    · simp only [Bool.cond_false, mul_one] at h'
       exact Prod.ext (Subtype.ext h') rfl
     · exfalso
-      simp only [cond_false, cond_true, mul_one] at h'
+      simp only [Bool.cond_false, _root_.Bool.cond_true, mul_one] at h'
       apply hcA
       have hc' : c = (a' : G)⁻¹ * (a : G) := by rw [h']; group
       rw [hc']
       exact A.mul_mem (A.inv_mem a'.2) a.2
     · exfalso
-      simp only [cond_false, cond_true, mul_one] at h'
+      simp only [Bool.cond_false, _root_.Bool.cond_true, mul_one] at h'
       apply hcA
       have hc' : c = (a : G)⁻¹ * (a' : G) := by rw [← h']; group
       rw [hc']
       exact A.mul_mem (A.inv_mem a.2) a'.2
-    · simp only [cond_true] at h'
+    · simp only [_root_.Bool.cond_true] at h'
       exact Prod.ext (Subtype.ext (mul_right_cancel h')) rfl
   have hsurj : Function.Surjective f := by
     rintro ⟨x, hx⟩
@@ -168,7 +168,7 @@ theorem m10_unpack {K : Type} [Group K] [Finite K] {z : K} (hz : orderOf z = 2)
   have hkey : ∀ x : ↥C, q x ∈ Ab ⊔ Subgroup.zpowers (q z') →
       x ∈ Ab.comap q ⊔ Subgroup.zpowers z' := by
     intro x hx
-    haveI := normal_zpowers_of_comm hqc
+    have := normal_zpowers_of_comm hqc
     obtain ⟨a, ha, w, hw, hax⟩ := Subgroup.mem_sup_of_normal_right.1 hx
     obtain ⟨a', rfl⟩ := hqsurj a
     obtain ⟨m, rfl⟩ := Subgroup.mem_zpowers_iff.1 hw

@@ -111,7 +111,7 @@ theorem not_commute_comm_omegaSL_WSL (ω : K) (hω : ω ^ 3 = 1) (hω1 : ω ≠ 
     rintro rfl
     norm_num at hω
   have h' : ω * (ω - 1) = 0 := by
-    first | linear_combination -h | linear_combination h
+    first | linear_combination -h
   rcases mul_eq_zero.1 h' with h0 | h1
   · exact hω0 h0
   · exact hω1 (sub_eq_zero.1 h1)

@@ -66,11 +66,11 @@ theorem e9Move_gl5 : E9Move (GL (Fin 5) (ZMod 2)) :=
   e9Move_of_sylow factorization_card_GL5 gl5_e9.2 gl5_move
 
 theorem rankTwo_gl5 : RankTwoData (GL (Fin 5) (ZMod 2)) := by
-  haveI : Finite (projSL 5 (GaloisField 2 1)) := Finite.of_equiv _ gl5EquivProjSL.toEquiv
+  have : Finite (projSL 5 (GaloisField 2 1)) := Finite.of_equiv _ gl5EquivProjSL.toEquiv
   refine ⟨cubeInner_of_mulEquiv gl5EquivProjSL (cubeInner_of_not_three_dvd_card_outer
     (Item434SmallTwoOther.not_three_dvd_card_outer_projSL_gf2 (by norm_num))),
     fun E hE => ?_, ⟨E9, gl5_e9⟩⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : IsPGroup 3 E := fun g => ⟨1, by rw [pow_one]; exact Subtype.ext (hE.2 _ g.2)⟩
   obtain ⟨k, hk⟩ := hp.exists_card_eq
   have hd : 3 ^ k ∣ Nat.card (GL (Fin 5) (ZMod 2)) := hk ▸ Subgroup.card_subgroup_dvd_card E
@@ -100,7 +100,7 @@ section Row
 
 theorem rowOf427_l52
     : RowOf427 (projSL 5 (GaloisField 2 1)) := by
-  haveI : Finite (projSL 5 (GaloisField 2 1)) := Finite.of_equiv _ gl5EquivProjSL.toEquiv
+  have : Finite (projSL 5 (GaloisField 2 1)) := Finite.of_equiv _ gl5EquivProjSL.toEquiv
   have hcard : Nat.card (projSL 5 (GaloisField 2 1)) = 9999360 := by
     rw [← Nat.card_congr gl5EquivProjSL.toEquiv, card_gl5]
   refine rowOf427_of_e9Move ?_ (RankTwoData.of_mulEquiv gl5EquivProjSL.symm rankTwo_gl5)

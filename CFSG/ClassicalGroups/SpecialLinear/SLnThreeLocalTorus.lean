@@ -133,7 +133,7 @@ theorem two_le_pRank_centralizer_range_of_dvd_sub_one [Finite K] (hn : n = 6 ∨
   · rw [Ne, scalarSL_mulVec_vecOfBlk_iff]
     intro h
     have := h 2 0
-    simp [Pi.single_apply] at this
+    simp at this
     exact ht1 this
 
 private noncomputable def cubeRootPoly (K : Type) [Field K] : K[X] := X ^ 2 + X + 1
@@ -150,7 +150,7 @@ private theorem cubeRootPoly_ne_zero : cubeRootPoly K ≠ 0 := by
 
 private theorem blockS_sq_add : blockS K * blockS K + blockS K + 1 = 0 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [blockS_mul_self, blockS]
+  fin_cases i <;> fin_cases j <;> simp [blockS]
 
 private noncomputable def cubeRootRho (K : Type) [Field K] :
     AdjoinRoot (cubeRootPoly K) →+* Matrix (Fin 2) (Fin 2) K :=
@@ -194,7 +194,7 @@ private theorem irreducible_cubeRootPoly [Finite K] (hq : Nat.card K % 3 = 2) :
       have hx1 : x = 1 := congrArg Units.val h
       rw [hx1] at hx
       exact h3 (by linear_combination hx)
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hord : orderOf u = 3 := orderOf_eq_prime hu3 hu1
     have hdvd : 3 ∣ Nat.card Kˣ := hord ▸ orderOf_dvd_natCard u
     rw [Nat.card_units] at hdvd
@@ -219,9 +219,9 @@ private theorem exists_orderOf_commute_blockS [Finite K] (hq : Nat.card K % 3 = 
     [Fact p.Prime] (hp : p ∣ Nat.card K + 1) :
     ∃ T : Matrix.SpecialLinearGroup (Fin 2) K,
       orderOf T = p ∧ Commute (Matrix.SpecialLinearGroup.toGL T) (blockSGL K) := by
-  haveI : Fact (Irreducible (cubeRootPoly K)) := ⟨irreducible_cubeRootPoly hq⟩
+  have : Fact (Irreducible (cubeRootPoly K)) := ⟨irreducible_cubeRootPoly hq⟩
   have hK : 2 ≤ Nat.card K := by omega
-  haveI : Finite (AdjoinRoot (cubeRootPoly K)) :=
+  have : Finite (AdjoinRoot (cubeRootPoly K)) :=
     Nat.finite_of_card_ne_zero (by rw [natCard_adjoinRoot]; positivity)
   let ρ := cubeRootRho K
   let u : (AdjoinRoot (cubeRootPoly K))ˣ →* GL (Fin 2) K := Units.map ρ.toMonoidHom
@@ -303,7 +303,7 @@ private theorem lastMat_one (hn : n = 6 ∨ n = 7) : lastMat hn (1 : K) = 1 := b
 
 private theorem det_lastMat (hn : n = 6 ∨ n = 7) (z : K) :
     (lastMat hn z).det = z ^ (n - 6) := by
-  simp [lastMat, Matrix.det_reindex_self, Matrix.det_fromBlocks_zero₂₁]
+  simp [lastMat, Matrix.det_fromBlocks_zero₂₁]
 
 private theorem embMat_mul_lastMat (hn : n = 6 ∨ n = 7) (X : Matrix Blk Blk K) (z : K) :
     embMat hn X * lastMat hn z = lastMat hn z * embMat hn X := by

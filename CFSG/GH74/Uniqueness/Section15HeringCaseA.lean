@@ -121,7 +121,7 @@ theorem exists_stabilizer_conj {p : ℕ} [Fact p.Prime]
       _ = g * (x * z) * g⁻¹ := by rw [this]
       _ = g * x * g⁻¹ * (g * z * g⁻¹) := by group
   have hzp : IsPGroup p (zpowers z) :=
-    R.isPGroup'.to_le ((zpowers_le (H := (R : Subgroup G))).mpr hzR)
+    R.isPGroup.to_le ((zpowers_le (H := (R : Subgroup G))).mpr hzR)
   have hgzp : IsPGroup p (zpowers (g * z * g⁻¹)) := by
     have : zpowers (g * z * g⁻¹) = (zpowers z).map (MulAut.conj g).toMonoidHom := by
       rw [MonoidHom.map_zpowers]
@@ -212,7 +212,7 @@ theorem exists_sylow_central {H : Subgroup G} (hKH : K ≤ H)
   obtain ⟨Q, hQ⟩ := hγp'.exists_le_sylow
   have hSQ : S.subgroupOf H ≤ Q := hSp.le_sylow_of_normal Q
   set R₀ : Subgroup G := (Q : Subgroup H).map H.subtype with hR₀
-  have hR₀p : IsPGroup p R₀ := Q.isPGroup'.map H.subtype
+  have hR₀p : IsPGroup p R₀ := Q.isPGroup.map H.subtype
   have hR₀i : ¬ p ∣ R₀.index := by
     rw [hR₀, Subgroup.index_map_subtype]
     intro hdvd
@@ -231,7 +231,7 @@ theorem exists_sylow_central {H : Subgroup G} (hKH : K ≤ H)
   refine ⟨R, hRH, ?_, hSR, ?_⟩
   · rw [hRc]
     exact ⟨⟨γ, hγH⟩, hQ (mem_zpowers _), rfl⟩
-  have hRp : IsPGroup p (R : Subgroup G) := R.isPGroup'
+  have hRp : IsPGroup p (R : Subgroup G) := R.isPGroup
   have : Group.IsNilpotent (R : Subgroup G) := hRp.isNilpotent
   have hNn : (S.subgroupOf R).Normal := by
     rw [Subgroup.normal_subgroupOf_iff hSR]

@@ -32,9 +32,7 @@ theorem Zs_card : Nat.card ↥c.Zs = 4 := by
   rw [Set.ncard_insert_of_notMem, Set.ncard_insert_of_notMem, Set.ncard_insert_of_notMem,
     Set.ncard_singleton]
   all_goals first
-    | exact Set.toFinite _
-    | simp [f01, f02, f03, f12, f13, f23, f01.symm, f02.symm, f03.symm, f12.symm, f13.symm,
-        f23.symm]
+    | simp [f01, f02, f03, f12, f13, f23]
 
 theorem comm_Qs_mem {q q' : G} (hq : q ∈ c.Qs) (hq' : q' ∈ c.Qs) :
     q * q' * q⁻¹ * q'⁻¹ ∈ c.Zs := by

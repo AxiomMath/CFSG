@@ -149,9 +149,8 @@ theorem pglF11Of_facts {D : PGLData} (h0 : pglF11Of D = true) {u : ℕ} (hu : u 
   have hi' := hAll i hi
   have hn := pglF11Of_size_eq h0 (Array.mem_iff_getElem.mpr ⟨i, hi, rfl⟩)
   simp only [cList] at hn hi'
-  rw [if_pos (by simpa [beq_iff_eq] using hn)] at hi'
-  simp only [Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq, List.all_eq_true,
-    Array.all_eq_true] at hi'
+  rw [ite_eq_left (by simpa [beq_iff_eq] using hn)] at hi'
+  simp only [Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq, List.all_eq_true] at hi'
   obtain ⟨⟨⟨⟨⟨⟨⟨⟨h1, h2⟩, h3⟩, h4⟩, h5⟩, ⟨h6a, h6b⟩⟩, h7⟩, h8⟩, h9⟩ := hi'
   have h6b' : ∀ k, k < cN D D.outers[i] →
       Code.mul (cList D D.outers[i])[k]! (cInvC D D.outers[i])[k]! = Code.one :=
@@ -191,7 +190,7 @@ theorem pglF11Of_facts {D : PGLData} (h0 : pglF11Of D = true) {u : ℕ} (hu : u 
             normalizesMask ((cConjC D D.outers[i])[x]!) mask
               (cN D D.outers[i]) = true) :=
       ⟨⟨⟨hbit, hclosed⟩, hpow⟩, fun x hx => hnorm x (List.mem_range.mp hx)⟩
-    rw [if_pos hguard] at h
+    rw [ite_eq_left hguard] at h
     exact (List.all_eq_true.mp h) k (List.mem_range.mpr hk)
   exact ⟨hn, h1, h2, h3, h4, h5, h6a, h6b', h7', h8', h9'⟩
 
@@ -243,7 +242,7 @@ theorem pglF11_sound_of (hK : EnumCert kPGLGens (pglData ()).elems.toList)
   constructor
   · exact hcardCg
   · intro N hNle hNorm hP2
-    haveI : Finite (V₀ ≃ₗ[ZMod 2] V₀) := finite_linearEquiv
+    have : Finite (V₀ ≃ₗ[ZMod 2] V₀) := finite_linearEquiv
     have hcardN_dvd : Nat.card N ∣ 12 := by
       have h := Subgroup.card_dvd_of_le hNle
       rwa [hcardCg] at h
@@ -464,7 +463,7 @@ theorem pglF10Of_facts {D : PGLData} (h0 : pglF10Of D = true) {e : ℕ} (he : e 
   have hi := h e he
   have h16 := pglF10Of_size_eq h0 he
   simp only [fList, stabList] at h16 hi
-  rw [if_pos (by simpa [beq_iff_eq] using h16)] at hi
+  rw [ite_eq_left (by simpa [beq_iff_eq] using h16)] at hi
   simp only [Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq, List.all_eq_true] at hi
   obtain ⟨⟨⟨⟨⟨hset, hone_lt⟩, hone_eq⟩, hmexact⟩, hcexact⟩, hmask⟩ := hi
   refine ⟨⟨hset, hone_lt⟩, hone_eq, ?_, ?_, ?_⟩
@@ -479,8 +478,8 @@ theorem pglF10Of_facts {D : PGLData} (h0 : pglF10Of D = true) {e : ℕ} (he : e 
     have h := hmask mask (List.mem_range.mpr hm_lt)
     have hguard : (mask.testBit (fOneIdx D e) = true ∧ 4 ≤ bitCount (fN D e) mask) ∧
         maskAllTrue (fIsInv D e) mask (fN D e) = true := ⟨⟨hbit, hfour⟩, hinv⟩
-    rw [if_pos hguard] at h
-    rw [if_pos hclosed] at h
+    rw [ite_eq_left hguard] at h
+    rw [ite_eq_left hclosed] at h
     exact h
 
 theorem fBadCent_any (D : PGLData) (e : ℕ) (p : ℕ → Bool) :
@@ -494,12 +493,12 @@ theorem fBadCent_any (D : PGLData) (e : ℕ) (p : ℕ → Bool) :
   simp only [List.mem_range, Bool.and_eq_true, Bool.not_eq_true']
 
 theorem pglF10_sound_of (hK : EnumCert kPGLGens (pglData ()).elems.toList)
-    (hK0 : EnumCert kPGL0Gens (pglData ()).elems0.toList) (h : pglFactsCheck () = true) :
+    (_hK0 : EnumCert kPGL0Gens (pglData ()).elems0.toList) (h : pglFactsCheck () = true) :
     ∀ e : V₀, e ≠ 0 → qModel false e = 0 → e ∉ VPlus → e ∉ VStar →
       ∀ L, ¬ CensusCond false KPGL L e := by
   intro e he0 hq0 hVP hVS L hCensus
   classical
-  haveI : Finite (V₀ ≃ₗ[ZMod 2] V₀) := finite_linearEquiv
+  have : Finite (V₀ ≃ₗ[ZMod 2] V₀) := finite_linearEquiv
   let D := pglData ()
   obtain ⟨ec, hec_lt, hec_eq⟩ := exists_vec e
   have hec_ne : ec ≠ 0 := by
@@ -574,7 +573,7 @@ theorem pglF10_sound_of (hK : EnumCert kPGLGens (pglData ()).elems.toList)
     apply hK.eq_of_code_eq (hLK x.2) (hLK y.2)
     rw [← hidx_eq x, ← hidx_eq y, hxy']
   have hcardS : Nat.card L ≤ S.card := by
-    haveI : Fintype ↥L := Fintype.ofFinite _
+    have : Fintype ↥L := Fintype.ofFinite _
     have hc := Fintype.card_le_of_injective f hf_inj
     rw [Nat.card_eq_fintype_card]
     simpa only [Fintype.card_coe] using hc
@@ -670,8 +669,7 @@ theorem pglF10_sound_of (hK : EnumCert kPGLGens (pglData ()).elems.toList)
     have hy_lt : ((fConj D ec)[hh]!)[i]! < fN D ec :=
       Finset.mem_range.mp (hS_sub hy_inS)
     have hcex := hcexact hh hhh i hi_lt
-    simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq,
-      Bool.not_eq_true'] at hcex
+    simp only at hcex
     obtain ⟨yEl, hyCodeEq⟩ := (Finset.mem_filter.mp hy_inS).2
     rcases hcex with ⟨-, hzEq⟩ | ⟨hy_eqn, -⟩
     · have hyz : hK.code (yEl : V₀ ≃ₗ[ZMod 2] V₀) =
@@ -709,8 +707,7 @@ theorem pglF10_sound_of (hK : EnumCert kPGLGens (pglData ()).elems.toList)
     have hzC : hK.code (hK.elem (D.elems[hh]!) * x * (hK.elem (D.elems[hh]!))⁻¹) ∈
         fList D ec := code_mem_fList ⟨_, hzgL⟩
     have hcex := hcexact hh hhh i hi_lt
-    simp only [Bool.or_eq_true, Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq,
-      Bool.not_eq_true'] at hcex
+    simp only at hcex
     rcases hcex with ⟨hy_lt, hy_eq⟩ | ⟨hy_eqn, hy_notmem⟩
     · refine Finset.mem_filter.mpr ⟨Finset.mem_range.mpr hy_lt,
         ⟨⟨hK.elem (D.elems[hh]!) * x * (hK.elem (D.elems[hh]!))⁻¹, hzgL⟩, ?_⟩⟩

@@ -71,6 +71,7 @@ section CharTwo
 
 variable {n : ℕ} {F : Type} [Field F] [CharP F 2]
 
+omit [CharP F 2] in
 theorem spForm_eq_zero_of_param {a u : Fin n ⊕ Fin n → F} {g : StatedSp n F}
     (hg : g ∈ spRad a) {c : F}
     (h : ∀ x, SpExtras.mat n F g *ᵥ x = x + spForm a x • u +
@@ -182,6 +183,7 @@ section Conjugation
 
 variable {n : ℕ} {F : Type} [Field F] [CharP F 2]
 
+omit [CharP F 2] in
 theorem mat_conj_mulVec_of_param_smul {a w : Fin n ⊕ Fin n → F} {l ν : F}
     {x g : StatedSp n F}
     (hx : ∀ v, SpExtras.mat n F x *ᵥ v = v + spForm a v • w + spForm w v • a +
@@ -205,6 +207,7 @@ theorem mat_conj_mulVec_of_param_smul {a w : Fin n ⊕ Fin n → F} {l ν : F}
   rw [smul_smul, mul_comm (spForm a v) ν]
   abel
 
+omit [CharP F 2] in
 theorem mat_conj_mulVec_of_line_param {a w : Fin n ⊕ Fin n → F} {μ c ν : F}
     {x g : StatedSp n F}
     (hx : ∀ v, SpExtras.mat n F x *ᵥ v = v + spForm a v • (μ • w) + spForm (μ • w) v • a +
@@ -250,6 +253,7 @@ section FixedVectors
 
 variable {n : ℕ} {F : Type} [Field F] [CharP F 2]
 
+omit [CharP F 2] in
 theorem spRad_mulVec_eq_self_iff {a u x : Fin n ⊕ Fin n → F} {g : StatedSp n F} {c : F}
     (ha : a ≠ 0) (hparam : ∀ y, SpExtras.mat n F g *ᵥ y = y + spForm a y • u +
       spForm u y • a + (c * spForm a y) • a) (hx : spForm a x = 0) :
@@ -287,15 +291,15 @@ theorem exists_sup_eq_spRadLine [Finite F] {a : Fin n ⊕ Fin n → F} (ha : a �
       SpExtras.mat n F d₀ *ᵥ x = x → ∀ d ∈ D, SpExtras.mat n F d *ᵥ x = x) :
     ∃ w, spForm a w = 0 ∧ (∀ μ : F, w ≠ μ • a) ∧ D ⊔ T = spRadLine a w := by
   have hF2 : 1 < Nat.card F := by
-    haveI : Fintype F := Fintype.ofFinite F
+    have : Fintype F := Fintype.ofFinite F
     rw [Nat.card_eq_fintype_card]
     exact Fintype.one_lt_card
-  haveI : Finite ↥D := Nat.finite_of_card_ne_zero
+  have : Finite ↥D := Nat.finite_of_card_ne_zero
     (by rw [hcard]; exact Nat.card_ne_zero.mpr ⟨⟨0⟩, inferInstance⟩)
   have hDne : D ≠ ⊥ := by
     rw [← Subgroup.one_lt_card_iff_ne_bot, hcard]
     exact hF2
-  haveI : Nontrivial ↥D := (Subgroup.nontrivial_iff_ne_bot D).2 hDne
+  have : Nontrivial ↥D := (Subgroup.nontrivial_iff_ne_bot D).2 hDne
   obtain ⟨d₀, hd₀D, hd₀1⟩ := Subgroup.exists_ne_one_of_nontrivial D
   obtain ⟨u₀, hu₀, c₀, hu₀param⟩ := exists_spRad_param ha (hD hd₀D)
   have hwa : ∀ μ : F, u₀ ≠ μ • a := by
@@ -332,7 +336,7 @@ theorem exists_sup_eq_spRadLine [Finite F] {a : Fin n ⊕ Fin n → F} (ha : a �
     exact h.trans (pow_two (Nat.card F)).symm
   have hlinecard : Nat.card ↥(spRadLine a u₀) = Nat.card F ^ 2 :=
     spRadLine_card ha hu₀ hwa
-  haveI : Finite ↥(spRadLine a u₀) := Nat.finite_of_card_ne_zero
+  have : Finite ↥(spRadLine a u₀) := Nat.finite_of_card_ne_zero
     (by rw [hlinecard]; exact pow_ne_zero 2 (Nat.card_ne_zero.mpr ⟨⟨0⟩, inferInstance⟩))
   exact ⟨u₀, hu₀, hwa,
     Subgroup.eq_of_le_of_card_ge hle (le_of_eq (hlinecard.trans hsupcard.symm))⟩
@@ -425,6 +429,7 @@ variable {n : ℕ} {F : Type} [Field F] [CharP F 2]
     Submodule F (Fin n ⊕ Fin n → F) :=
   Submodule.span F ({a} ∪ Set.range (fun g : N => SpExtras.mat n F (g : StatedSp n F) *ᵥ w))
 
+omit [CharP F 2] in
 theorem spForm_mat_mulVec_eq_zero_of_mem_spLine {a w : Fin n ⊕ Fin n → F}
     (hw : spForm a w = 0) {g : StatedSp n F} (hg : g ∈ spLine a) :
     spForm a (SpExtras.mat n F g *ᵥ w) = 0 := by
@@ -438,11 +443,12 @@ theorem spTau_smul_a_mem {a : Fin n ⊕ Fin n → F} {T : Subgroup (StatedSp n F
     spTau a (r • a) c h ∈ T :=
   (hT.1 _).2 ⟨c, mat_eq_spTrans_of_param (spTau_mulVec a (r • a) c h) rfl⟩
 
-theorem spTau_mem_spRadLine {a w : Fin n ⊕ Fin n → F} (hw : spForm a w = 0) {μ c : F}
+theorem spTau_mem_spRadLine {a w : Fin n ⊕ Fin n → F} (_hw : spForm a w = 0) {μ c : F}
     (h : spForm a (μ • w) = 0) : spTau a (μ • w) c h ∈ spRadLine a w :=
   mem_spRadLine.2 ⟨spTau_mem a (μ • w) c h, μ, c,
     fun x => spTau_mulVec a (μ • w) c h x⟩
 
+omit [CharP F 2] in
 theorem spRadSpan_le_ker {a w : Fin n ⊕ Fin n → F} (hw : spForm a w = 0)
     {N : Subgroup (StatedSp n F)} (hN : N ≤ spLine a) :
     spRadSpan a w N ≤ LinearMap.ker (spFormL a) := by
@@ -454,14 +460,17 @@ theorem spRadSpan_le_ker {a w : Fin n ⊕ Fin n → F} (hw : spForm a w = 0)
     exact LinearMap.mem_ker.2 (spForm_self a)
   · exact LinearMap.mem_ker.2 (spForm_mat_mulVec_eq_zero_of_mem_spLine hw (hN g.2))
 
+omit [CharP F 2] in
 theorem a_mem_spRadSpan (a w : Fin n ⊕ Fin n → F) (N : Subgroup (StatedSp n F)) :
     a ∈ spRadSpan a w N :=
   Submodule.subset_span (Set.mem_union_left _ (Set.mem_singleton a))
 
+omit [CharP F 2] in
 theorem mat_mulVec_mem_spRadSpan (a w : Fin n ⊕ Fin n → F) (N : Subgroup (StatedSp n F))
     (g : N) : SpExtras.mat n F (g : StatedSp n F) *ᵥ w ∈ spRadSpan a w N :=
   Submodule.subset_span (Set.mem_union_right _ (Set.mem_range_self g))
 
+omit [CharP F 2] in
 theorem map_mulVec_mem_spRadSpan {a w : Fin n ⊕ Fin n → F} {N : Subgroup (StatedSp n F)}
     {b : StatedSp n F} (hb : b ∈ N)
     (hba : SpExtras.mat n F b *ᵥ a ∈ spRadSpan a w N) :
@@ -692,7 +701,7 @@ theorem exists_span_eq_ker [Finite F] {a w : Fin n ⊕ Fin n → F} (ha : a ≠ 
     change Module.finrank F (spRadSpan a w N) = (2 * n - 2) + 1
     rw [hU, finrank_ker_spFormL ha]
     omega
-  haveI : FiniteDimensional F (Submodule.span F ({a} ∪ Set.range v)) := inferInstance
+  have : FiniteDimensional F (Submodule.span F ({a} ∪ Set.range v)) := inferInstance
   obtain ⟨s, hs⟩ := CFSG.LinearAlgebra.exists_fin_span_union_eq
     (K := F) (V := Fin n ⊕ Fin n → F) (ι := N) ha v hm
   refine ⟨fun i => (s i : StatedSp n F), fun i => (s i).2, ?_⟩

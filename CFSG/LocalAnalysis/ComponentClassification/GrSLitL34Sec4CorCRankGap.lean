@@ -50,7 +50,7 @@ theorem rank_gap_of_bound {a : X} (ha : orderOf a = 2) {J : Subgroup X}
   have hQLQJ := hrank hdeq
   obtain ⟨P₀, hP₀⟩ := hSsyl
   have hS2 : IsPGroup 2 S := by
-    have h1 : IsPGroup 2 ((P₀ : Subgroup HJ).map HJ.subtype) := P₀.isPGroup'.map HJ.subtype
+    have h1 : IsPGroup 2 ((P₀ : Subgroup HJ).map HJ.subtype) := P₀.isPGroup.map HJ.subtype
     rwa [hP₀, map_subgroupOf_eq_of_le hSH] at h1
   have haP : a ∈ P := mem_inf_coreActionKernel_of_sylow ha hJa ⟨P₀, hP₀⟩
   have haT : a ∈ T := mem_inf.mpr ⟨haP, mem_centralizer_singleton_iff.mpr hab⟩

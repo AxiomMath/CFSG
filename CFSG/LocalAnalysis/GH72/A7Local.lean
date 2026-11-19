@@ -37,7 +37,7 @@ theorem aSeven_exists_card_eq_three_forall_odd_mem {v : A₇} (hv : orderOf v = 
     exact absurd hv (by norm_num)
   have hvi : BenderSuzuki.PFAppendixIII.IsInvolution v :=
     ⟨hv1, by rw [← hv]; exact pow_orderOf_eq_one v⟩
-  haveI : IsSimpleGroup A₇ := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup A₇ := alternatingGroup.isSimpleGroup (by simp)
   have h4 : 4 < Nat.card A₇ := by rw [CFSG.ABGDGroups.card_alternatingGroup_fin_seven]; norm_num
   have hti : BenderSuzuki.PFAppendixIII.IsInvolution CFSG.GorensteinWalter.a7t :=
     ⟨by decide +kernel, by decide +kernel⟩
@@ -48,7 +48,7 @@ theorem aSeven_exists_card_eq_three_forall_odd_mem {v : A₇} (hv : orderOf v = 
   have hat : CFSG.GorensteinWalter.a7a * CFSG.GorensteinWalter.a7t =
       CFSG.GorensteinWalter.a7t * CFSG.GorensteinWalter.a7a := by decide +kernel
   have ha3 : orderOf CFSG.GorensteinWalter.a7a = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact orderOf_eq_prime (by decide +kernel) (by decide +kernel)
   refine ⟨(zpowers CFSG.GorensteinWalter.a7a).map (MulAut.conj g⁻¹).toMonoidHom, ?_, ?_, ?_⟩
   · rintro _ ⟨y, hy, rfl⟩
@@ -111,7 +111,7 @@ theorem exists_card_eq_three_forall_odd_mem_of_aSeven {X : Type*}
   have hft : f (e ⟨a, haL⟩) = a := by simp [f]
   have ht : orderOf (e ⟨a, haL⟩) = 2 := by rw [MulEquiv.orderOf_eq, Subgroup.orderOf_mk]; exact ha
   obtain ⟨U, hU, hUc, hodd⟩ := aSeven_exists_card_eq_three_forall_odd_mem ht
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hUcyc : IsCyclic U := isCyclic_of_prime_card hUc
   obtain ⟨h1, -, h3⟩ := exists_isCyclic_forall_odd_mem_map f hf hU hUcyc hodd
   rw [hfr, hft] at h1 h3
@@ -119,6 +119,7 @@ theorem exists_card_eq_three_forall_odd_mem_of_aSeven {X : Type*}
 
 variable {X : Type*} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem pow_two_eq_one_of_isKleinFour {V : Subgroup X} (hV : IsKleinFour V) (v : V) :
     v ^ 2 = 1 := by
   have h := Monoid.pow_exponent_eq_one v
@@ -159,7 +160,7 @@ theorem isCyclic_and_exists_le_centralizer_of_aSeven
   by_cases hne : ∃ v : V, v ≠ 1 ∧ K ⊓ centralizer ({(v : X)} : Set X) ≠ ⊥
   · obtain ⟨v, hv1, hvK⟩ := hne
     obtain ⟨Uv, hUvle, hUvc, hKUv⟩ := hU v hv1
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hfull : ∀ (w : V) (U : Subgroup X), Nat.card U = 3 →
         K ⊓ centralizer ({(w : X)} : Set X) ≤ U → K ⊓ centralizer ({(w : X)} : Set X) ≠ ⊥ →
         K ⊓ centralizer ({(w : X)} : Set X) = U := fun w U hUc hle hne => by
@@ -181,9 +182,9 @@ theorem isCyclic_and_exists_le_centralizer_of_aSeven
       have hKw := hfull w Uw hUwc hKUw hwK
       have hUwK : Uw ≤ K := hKw ▸ inf_le_left
       have heq : Uw.subgroupOf K = Uv.subgroupOf K := by
-        haveI : Finite (Uw.subgroupOf K) := Nat.finite_of_card_ne_zero (by
+        have : Finite (Uw.subgroupOf K) := Nat.finite_of_card_ne_zero (by
           rw [Nat.card_congr (subgroupOfEquivOfLe hUwK).toEquiv, hUwc]; norm_num)
-        haveI : Finite (Uv.subgroupOf K) := Nat.finite_of_card_ne_zero (by
+        have : Finite (Uv.subgroupOf K) := Nat.finite_of_card_ne_zero (by
           rw [Nat.card_congr (subgroupOfEquivOfLe hUvK).toEquiv, hUvc]; norm_num)
         rw [IsCyclic.subgroup_eq_iff_card_eq, Nat.card_congr (subgroupOfEquivOfLe hUwK).toEquiv,
           Nat.card_congr (subgroupOfEquivOfLe hUvK).toEquiv, hUwc, hUvc]
@@ -202,7 +203,7 @@ theorem card_eq_three_and_isMaxInvIn_of_aSeven {J V : Subgroup X}
     (e : J ≃* A₇) (hV : IsKleinFour V) (hVJ : V ≤ J) {U : Subgroup X} (hUJ : U ≤ J)
     (hU : Odd (Nat.card U)) (hUV : U ≤ centralizer (V : Set X)) (hU1 : U ≠ ⊥) :
     Nat.card U = 3 ∧ IsMaxInvIn 3 V J U := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hbound : ∀ w ∈ V, w ≠ 1 → ∀ R : Subgroup X, R ≤ J ⊓ centralizer ({w} : Set X) →
       Odd (Nat.card R) → Nat.card R ∣ 3 := fun w hw hw1 R hR hRodd => by
     have hw2 : orderOf w = 2 := orderOf_eq_prime (sq_eq_one_of_mem_kleinFour hV hw) hw1
@@ -260,7 +261,7 @@ theorem eq_bot_of_isSylowOf_le_centralizer_aSeven {X : Type} [Group X]
       (mem_centralizer_iff.mp (hSU (hVS hw)) u hu).symm
   obtain ⟨hU3, -⟩ := card_eq_three_and_isMaxInvIn_of_aSeven e hV hVJ hUJ hU hUV hU1
   obtain ⟨u, hu, hu1⟩ := (Subgroup.bot_or_exists_ne_one U).resolve_left hU1
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hu3 : orderOf u = 3 := by
     have hdvd : orderOf u ∣ 3 := hU3 ▸ Subgroup.orderOf_dvd_natCard U hu
     rcases (Nat.dvd_prime Nat.prime_three).mp hdvd with h | h

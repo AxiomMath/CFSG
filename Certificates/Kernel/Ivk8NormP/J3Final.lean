@@ -138,7 +138,7 @@ theorem oN_strictMono : StrictMono fun i : Fin 80 => oN i := by
   · simpa [Fin.val_succ] using h
 
 @[expose] noncomputable def o : Fin 80 ↪ Fin 6156 :=
-  ⟨fun i => ⟨oN i, oN_lt i⟩, fun a b h => oN_strictMono.injective (congrArg Fin.val h)⟩
+  ⟨fun i => ⟨oN i, oN_lt i⟩, fun _a _b h => oN_strictMono.injective (congrArg Fin.val h)⟩
 
 theorem res_spec {X : ℕ} {g : Equiv.Perm (Fin 6156)} (hX : PRep 6156 X g) {σ : VP 80}
     (h : resOK 13 j3O 80 X σ = true) : ∀ i, g (o i) = o (pkp σ i) := by
@@ -164,7 +164,7 @@ theorem j3Fr2_length : j3Fr2.length = 3 := rfl
 
 theorem resHom_eq_ρ {g : Equiv.Perm (Fin 6156)} (hg : g ∈ resStab o) :
     resHom o ⟨g, hg⟩ = ρ g := by
-  rw [ρ, dif_pos hg]
+  rw [ρ, dite_eq_left hg]
 
 theorem ρ_mul {g h : Equiv.Perm (Fin 6156)} (hg : g ∈ resStab o) (hh : h ∈ resStab o) :
     ρ (g * h) = ρ g * ρ h := by
@@ -301,7 +301,7 @@ theorem j3_noP
       unfold Q
       rw [certificate_originalSubgroup, closure_le]
       rintro _ hz
-      simp only [Set.mem_setOf_eq, List.map_map, List.mem_map, Function.comp_apply] at hz
+      simp only [Set.mem_ofPred_eq, List.map_map, List.mem_map, Function.comp_apply] at hz
       obtain ⟨w, -, rfl⟩ := hz
       refine ⟨⟨_, hKS (hw w).1⟩, (hw w).1, ?_⟩
       rw [resHom_eq_ρ, (hw w).2, pkp_evV]

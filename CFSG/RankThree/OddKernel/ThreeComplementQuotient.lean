@@ -127,7 +127,7 @@ theorem pRank_le_three_of_surjective {p : ℕ} (hp : p.Prime) (hp3 : 3 < p) {M L
       ((MonoidHom.domRestrict_range _ _).trans (Sylow.coe_mapSurjective hψ P₀).symm))
   rw [← (pRank_sylow (P₀.mapSurjective hψ)).2, pRank_eq_open_pRank_top,
     ← pRank_top_eq_of_mulEquiv hp.one_lt e, ← pRank_eq_open_pRank_top]
-  exact rank_two_large_prime_quotient_pRank_le_three hp hp3 P₀.isPGroup' hP₀rank _
+  exact rank_two_large_prime_quotient_pRank_le_three hp hp3 P₀.isPGroup hP₀rank _
 
 theorem pRank_normalizer_le_localRank {G : Type*} [Group G] [Finite G] {p : ℕ} (hp : 1 < p)
     {T : Subgroup G} (hT0 : T ≠ ⊥) (hT2 : IsPGroup 2 T) :
@@ -147,7 +147,7 @@ theorem localRank_quotient_le_three {G : Type*} [Group G] [Finite G] {p : ℕ} (
   obtain ⟨T', hT'⟩ : ∃ T' : Subgroup G, T' = (T : Subgroup (U.comap (QuotientGroup.mk' N))).map
       (U.comap (QuotientGroup.mk' N)).subtype := ⟨_, rfl⟩
   rw [← hT'] at hmapT hnorm
-  have hT'2 : IsPGroup 2 T' := hT' ▸ T.isPGroup'.map _
+  have hT'2 : IsPGroup 2 T' := hT' ▸ T.isPGroup.map _
   have hT'0 : T' ≠ ⊥ := fun h => hU0 (by rw [← hmapT, h, Subgroup.map_bot])
   let ψ := ((QuotientGroup.mk' N).domRestrict (normalizer (T' : Set G))).codRestrict
       (normalizer (U : Set (G ⧸ N))) (fun x => hnorm ▸ mem_map_of_mem _ x.2)

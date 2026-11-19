@@ -16,6 +16,7 @@ open scoped commutatorElement Matrix
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem sec8_conj_Vone {g : G} {Q V B' C' : Subgroup G} (hQ : conjSubgroup g Q = Q)
     (hV : conjSubgroup g V = V) :
     conjSubgroup g (Vone Q B' C' V) = Vone Q (conjSubgroup g B') (conjSubgroup g C') V := by
@@ -193,8 +194,8 @@ theorem sec8_canon_exists_h (h34 : Stroth34Statement) (hRoot : Stroth310RootStat
   obtain ⟨m, hm2, hmSp⟩ := hs.sp
   obtain ⟨K, fK, finK, hchar, φ, hn, ψ, u, u', hpts, hhyp, hBiff, hψ, -⟩ :=
     sec8_natdata h34 hRoot hs hr hmSp
-  haveI := hn
-  haveI := hchar
+  have := hn
+  have := hchar
   have hgVeq : conjSubgroup g (Vt M (LB M Q B) B Z t) = Vt M (LB M Q B) B Z t :=
     sec8_conjSubgroup_eq_of_mem_normalizer hgV
   have hBV : B ≤ Vt M (LB M Q B) B Z t := hc.B_le_Vt ht

@@ -15,6 +15,7 @@ open CFSG.QuasithinUnique.Lin2 (IsHallTwoPrimeOf ActsRegularlyOn nonIdentity)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem exists_pow_mul_eq {N : Subgroup G} {n d : G} (hn : n ∈ N)
     (hd : d ∈ Subgroup.normalizer (N : Set G)) (m : ℕ) :
     ∃ n' ∈ N, (n * d) ^ m = n' * d ^ m := by
@@ -26,12 +27,13 @@ private theorem exists_pow_mul_eq {N : Subgroup G} {n d : G} (hn : n ∈ N)
     rw [pow_succ', h, pow_succ']
     group
 
+omit [Finite G] in
 theorem le_of_le_sup_of_oResidualTwo_eq_top {L N D : Subgroup G} (hres : oResidualTwo ↥L = ⊤)
     (hD : IsPGroup 2 ↥D) (hDN : D ≤ Subgroup.normalizer (N : Set G)) (hL : L ≤ N ⊔ D) :
     L ≤ N := by
   have hLN : L ≤ Subgroup.normalizer (N : Set G) :=
     hL.trans (sup_le Subgroup.le_normalizer hDN)
-  haveI : (N.subgroupOf L).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hLN
+  have : (N.subgroupOf L).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hLN
   have htop : N.subgroupOf L = ⊤ := by
     refine (oResidualTwo_eq_top_iff.1 hres) _ inferInstance fun g => ?_
     have hg : (g : G) ∈ ((N ⊔ D : Subgroup G) : Set G) := hL g.2
@@ -49,11 +51,13 @@ theorem le_of_le_sup_of_oResidualTwo_eq_top {L N D : Subgroup G} (hres : oResidu
   have : (⟨l, hl⟩ : ↥L) ∈ N.subgroupOf L := by rw [htop]; trivial
   exact this
 
+omit [Finite G] in
 private theorem mem_conj_smul_iff_aux {g z : G} {Y : Subgroup G} :
     z ∈ MulAut.conj g • Y ↔ g⁻¹ * z * g ∈ Y := by
   rw [Subgroup.mem_pointwise_smul_iff_inv_smul_mem, ← map_inv, MulAut.smul_def,
     MulAut.conj_apply, inv_inv]
 
+omit [Finite G] in
 private theorem conj_mem_sup_of_mem {A B C : Subgroup G} {y : G}
     (hA : ∀ a ∈ A, y * a * y⁻¹ ∈ C) (hB : ∀ b ∈ B, y * b * y⁻¹ ∈ C) :
     ∀ n ∈ A ⊔ B, y * n * y⁻¹ ∈ C := by
@@ -73,7 +77,7 @@ theorem eleven11_le_join_conj {M V Q U L X : Subgroup G}
     (hxD : ¬ MulAut.conj x • blockU L ≤ centralizerModCore L) :
     ∃ k ∈ L, L ≤ (MulAut.conj x • blockU L) ⊔ (MulAut.conj (k * x) • blockU L) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨α, ψ, p, hαsurj, hαker, -, -, -, hαS, -⟩ := eleven11_exists_model hd h8
   have hUΓ := deltaEleven_subset_gammaEleven M V hd.mem_delta
   have hLb := isBlockOfInX_of_mem_elevenBlocksB hd.setting hUΓ hd.mem_blocks

@@ -102,26 +102,27 @@ theorem pkMat_letV_code {g : ℕ} (hg : g < 8) (b : Bool) :
   rw [letV_eq]
   cases b
   · have e1 : (2 * g + if false = true then 0 else 1) % 2 = 1 := by
-      simp only [Bool.false_eq_true, if_false]
+      simp only [Bool.false_eq_true, ite_false]
       omega
     have e2 : (2 * g + if false = true then 0 else 1) / 2 = g := by
-      simp only [Bool.false_eq_true, if_false]
+      simp only [Bool.false_eq_true, ite_false]
       omega
-    rw [if_pos e1, e2, ← hxi g hg]
+    rw [ite_eq_left e1, e2, ← hxi g hg]
     rfl
   · have e1 : ¬ (2 * g + if true = true then 0 else 1) % 2 = 1 := by
-      simp only [if_true]
+      simp only [ite_true]
       omega
     have e2 : (2 * g + if true = true then 0 else 1) / 2 = g := by
-      simp only [if_true]
+      simp only [ite_true]
       omega
-    rw [if_neg e1, e2, ← hx g hg]
+    rw [ite_eq_right e1, e2, ← hx g hg]
     rfl
 
+omit hx hxi in
 theorem wordProd_take_succ (r : List (ℕ × Bool)) {n : ℕ} (hn : n < r.length) :
     wordProd x (r.take (n + 1)) =
       wordProd x (r.take n) * (if (r[n]'hn).2 then x (r[n]'hn).1 else (x (r[n]'hn).1)⁻¹) := by
-  rw [List.take_succ, List.getElem?_eq_getElem hn]
+  rw [List.take_add_one, List.getElem?_eq_getElem hn]
   simp only [wordProd, List.map_append, List.prod_append, Option.toList_some, List.map_cons,
     List.map_nil, List.prod_cons, List.prod_nil, mul_one]
 
@@ -149,7 +150,7 @@ theorem wordProd_eq_one (hk : constsOK c rm tm0 tm1 tm2 tm3 tm4 tm5 tm6 tm7 up d
       have hlt : n < r.length := by omega
       show pkMat (mulB c rm _ _) = _
       rw [pkMat_mulB hk, ih (by omega), he2 n hlt,
-        pkMat_letV_code x hx hxi (hl _ (List.getElem_mem hlt)), wordProd_take_succ x hx hxi r hlt,
+        pkMat_letV_code x hx hxi (hl _ (List.getElem_mem hlt)), wordProd_take_succ x r hlt,
         mat_mul]
   have h := key r.length le_rfl
   rw [List.take_length, ← hONE, pkMat_one hk] at h
@@ -188,6 +189,7 @@ section Words
 variable (hk : constsOK c rm tm0 tm1 tm2 tm3 tm4 tm5 tm6 tm7 up dg ONE = true)
 include hk
 
+omit hk in
 theorem pkMat_wordG (a b : J) {A B Bi : ℕ} (hA : 𝕄 a = pkMat A) (hB : 𝕄 b = pkMat B)
     (hA2 : pkMat A * pkMat A = 1) (hBi : pkMat B * pkMat Bi = 1) {w : List ℤ}
     (hw : CFSG.Sporadic.Th.lettersOK w = true) :

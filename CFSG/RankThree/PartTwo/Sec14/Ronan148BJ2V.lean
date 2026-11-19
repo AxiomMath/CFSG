@@ -172,7 +172,7 @@ theorem repF_x : RepF (ev cx) xJ := repF_of_rep rep_x okL_x
 
 theorem tJ_eq_one {i : ℕ} (hi : 18 ≤ i) : tJ i = 1 := by
   unfold tJ
-  rw [dif_neg (by omega)]
+  rw [dite_eq_right (by omega)]
 
 theorem tJ_facts {j : ℕ} (hj : j < 6) :
     tJ (3 * j) ≠ 1 ∧ tJ (3 * j + 1) ≠ 1 ∧ tJ (3 * j) ≠ tJ (3 * j + 1) ∧
@@ -334,7 +334,7 @@ theorem closure_sgOf (j : ℕ) : closure {x | x ∈ sgOf j} = Ej 0 ⊔ VJ j := b
   apply le_antisymm
   · rw [closure_le]
     intro g hg
-    simp only [sgOf, List.mem_cons, List.not_mem_nil, or_false, Set.mem_setOf_eq] at hg
+    simp only [sgOf, List.mem_cons, List.not_mem_nil, or_false, Set.mem_ofPred_eq] at hg
     rcases hg with rfl | rfl | rfl | rfl
     · exact mem_sup_left zJ_mem_E0
     · exact mem_sup_left xJ_mem_E0

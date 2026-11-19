@@ -72,6 +72,7 @@ private theorem inf_zpowers_eq_bot_of_card_center {B : Subgroup G}
   have h1 : orderOf x ∣ 1 := hg ▸ Nat.dvd_gcd h2 h3
   exact orderOf_eq_one_iff.mp (Nat.dvd_one.mp h1)
 
+omit [Finite G] in
 private theorem mul_self_commute_of_mem_J (hJ : IsExtraspecial2 (J z))
     (hcomm : ⁅J z, J z⁆ = Subgroup.zpowers z) {q b : G} (hq : q ∈ J z) (hb : b ∈ H z) :
     q * q * b = b * (q * q) := by

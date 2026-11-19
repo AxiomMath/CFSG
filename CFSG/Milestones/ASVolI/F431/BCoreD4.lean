@@ -139,7 +139,7 @@ theorem burnsideF4m_D4_chart {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subg
   have hσ' : ∀ c, σ c = c ^ (2 ^ f) := hσ
   have hσ3 : ∀ c, σ (σ (σ c)) = c := ringEquiv_cube_apply_eq hK hσ'
   have hK3 : Nat.card K = 2 ^ (3 * f) := by rw [hK, ← pow_mul, mul_comm]
-  haveI hCharP : CharP K 2 :=
+  have hCharP : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
       (by omega) hK3
   have hchar : ringChar K = 2 := ringChar.eq K 2
@@ -173,7 +173,7 @@ theorem burnsideF4m_core12_D4 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Sub
     (∀ x ∈ centerOf (perfectCore M₁), x ≠ 1 → x * x = 1 → x ∈ ctr (oPPrime 2 (Gp ⊓ M₁))) ∧
     (∀ x ∈ centerOf (perfectCore M₂), x ≠ 1 → x * x = 1 →
       GLKind.D4tw = .Sp4 ∧ x ∈ ctr (oPPrime 2 (Gp ⊓ M₂))) := by
-  haveI := hyp.normal
+  have := hyp.normal
   obtain ⟨K, fK, finK, cK, σ, hσ3, hf1, hK, hσq, Ψ, h1, h2⟩ :=
     burnsideF4m_D4_chart hyp.toHypF_4_4g
   have hc : ∀ a b : E, ⁅a, b⁆ ∈ Gp := burnsideF4m_commutator_mem_of_out hyp.centralizer_trivial

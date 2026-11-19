@@ -13,6 +13,7 @@ open CFSG.Quasithin.Ch3E213M
 variable {G : Type} [Group G] [Finite G] {X T M V K : Subgroup G} {k : Type} [Field k] [Finite k]
   [CharP k 2]
 
+omit [Finite G] in
 theorem exists_coordEmb_conj (D : Sp4Data X T M V K k) (hker : kerIn M X = ⊥) (hMX : M ≤ X)
     (hKX : K ≤ X) :
     ∃ φ : antiSp k →* G, Function.Injective φ ∧ φ.range = K ∧

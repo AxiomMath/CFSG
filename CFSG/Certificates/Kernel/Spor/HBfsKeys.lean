@@ -134,6 +134,7 @@ theorem five_of_tree {cap f : Nat} (hcap : 5 ≤ cap) (h : FiveTree key st k f [
   refine five_of_tree_aux (by omega) hcap hinj hcl htr f 1 Nat.one_pos hpos ?_
   simpa [hr] using h
 
+omit [Inhabited α] in
 theorem FiveTree.map {α' β β' : Type} {keyA : α' → β'} {stA : Nat → α' → α'} {Good : α' → Prop}
     {key' : α → β} {g : β → β'} (hg : Function.Injective g) (φ : α' → α)
     (hst : ∀ l < k, ∀ x, Good x → Good (stA l x) ∧ φ (stA l x) = st l (φ x))

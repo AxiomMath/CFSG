@@ -254,13 +254,13 @@ private noncomputable def pairBit {V : Type*} [One V] (u : V) : ZMod 2 :=
 
 private theorem pairBit_one {V : Type*} [One V] : pairBit (1 : V) = 0 := by
   unfold pairBit
-  rw [if_pos rfl]
+  rw [ite_eq_left rfl]
 
 private theorem pairBit_eq_zero {V : Type*} [One V] (u : V) : pairBit u = 0 ↔ u = 1 := by
   unfold pairBit
   by_cases h : u = 1
   · simp [h]
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     exact ⟨fun hc => absurd hc (by decide), fun hc => absurd hc h⟩
 
 open scoped Classical in
@@ -272,7 +272,7 @@ private theorem transvPr_eq_pairBit {V : Type*} [CommGroup V] {Γ : Subgroup S24
     (ρ : ↥Γ →* MulAut V) {x : V} {k : S24} (h : k ∈ Γ) :
     transvPr ρ x k = pairBit (ρ ⟨k, h⟩ x * x⁻¹) := by
   unfold transvPr
-  rw [dif_pos h]
+  rw [dite_eq_left h]
   rfl
 
 theorem isDualOfConj_of_transv {V : Type*} [CommGroup V] {Γ : Subgroup S24} (ρ : ↥Γ →* MulAut V)
@@ -324,7 +324,7 @@ theorem isDualOfConj_of_transv {V : Type*} [CommGroup V] {Γ : Subgroup S24} (ρ
     intro k x x' hx hx'
     rw [map_mul, mul_inv_rev]
     ac_rfl
-  have hc1 : pairBit c = 1 := by unfold pairBit; rw [if_neg hc]
+  have hc1 : pairBit c = 1 := by unfold pairBit; rw [ite_eq_right hc]
   have pairBit_add : ∀ u ∈ B, ∀ v ∈ B, pairBit (u * v) = pairBit u + pairBit v := by
     intro u hu v hv
     rcases (hB u).1 hu with rfl | rfl <;> rcases (hB v).1 hv with rfl | rfl

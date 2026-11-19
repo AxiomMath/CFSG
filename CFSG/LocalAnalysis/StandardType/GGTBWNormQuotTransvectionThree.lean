@@ -26,6 +26,7 @@ theorem roots_charpoly_of_conjMatrix_eq_diagonal (A x : GL ι K) {w : ι → K}
       (Finset.univ.val.map w).map (fun a => X - C a) by rw [Multiset.map_map]; rfl,
     Polynomial.roots_multiset_prod_X_sub_C]
 
+omit [DecidableEq ι] [Field K] in
 theorem map_univ_eq_nsmul_of_block {β : Type*} [Fintype β] [DecidableEq β] {n : ℕ}
     (block : ι → β) (hsize : ∀ b, Fintype.card {i // block i = b} = n) (r : β → ι)
     (hr : ∀ b, block (r b) = b) (f : ι → K) (hf : ∀ i j, block i = block j → f i = f j) :
@@ -146,8 +147,8 @@ theorem exists_threeBlock_invariant [Finite K] [Nonempty ι] (hpK : 3 ∣ Nat.ca
       rw [← Finset.prod_const, Finset.prod_filter]
       refine Finset.prod_congr rfl fun b _ => ?_
       rcases hval b with h | h
-      · rw [h, if_neg (Ne.symm hζ)]
-      · rw [h, if_pos rfl]
+      · rw [h, ite_eq_right (Ne.symm hζ)]
+      · rw [h, ite_eq_left rfl]
     have hk1 : 0 < (Finset.univ.filter fun b => dg z (r b) = ζ).card :=
       Finset.card_pos.mpr ⟨b₁, by simp [hb₁]⟩
     have hk2 : (Finset.univ.filter fun b => dg z (r b) = ζ).card < 3 := by
@@ -189,7 +190,7 @@ theorem false_of_transvection_three (hc : IsScalarQuot c S) [Nonempty κ] [Finit
     (hψ : Function.Surjective ψ) (hker : ψ.ker ≤ Subgroup.center L') (hperf : commutator L' = ⊤)
     (hA : IsElemAbelian 3 A) (hAI : ∀ a ∈ A, ∃ M : N, ∀ l : L', c M (ψ l) = ψ (a l))
     {x₀ : N} (hx₀ : c x₀ ∈ TypeA.inducedSub ψ A) {l₀ : Kˣ}
-    (hx₀p : (x₀ : GL κ K) ^ 3 = GeneralLinearGroup.scalar κ l₀) (hl₀ : ∀ μ : Kˣ, μ ^ 3 ≠ l₀)
+    (_hx₀p : (x₀ : GL κ K) ^ 3 = GeneralLinearGroup.scalar κ l₀) (_hl₀ : ∀ μ : Kˣ, μ ^ 3 ≠ l₀)
     (E : S)
     (hEN : ∀ x ∈ TypeA.inducedSub ψ A,
       c (Subgroup.inclusion hc.le E) * x * (c (Subgroup.inclusion hc.le E))⁻¹ ∈
@@ -339,7 +340,7 @@ theorem false_of_transvection_three (hc : IsScalarQuot c S) [Nonempty κ] [Finit
     have hspec := Classical.choose_spec (hlift3 a ha)
     show (if ha' : jA a = 1 then σ ((Classical.choose (hlift3 a ha') : N) : GL κ K) else 1) =
       σ z
-    rw [dif_pos ha]
+    rw [dite_eq_left ha]
     exact hσwd z _ (hz ▸ hBX a) hz3 hspec.2 (hspec.1.trans hz.symm)
   have hσ1 : σ 1 = 1 := by
     have h1X : c 1 ∈ X := by rw [map_one]; exact X.one_mem

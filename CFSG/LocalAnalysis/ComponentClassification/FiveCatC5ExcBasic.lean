@@ -114,7 +114,7 @@ theorem noLitA5_of_slComponentForm {K : Type} [Field K] [Finite K] (hK2 : ringCh
       have h8 := (eight_dvd_card_sl2 hK2).trans hdvd
       rw [hcard] at h8
       omega
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' 2 h2
     exact ⟨(z : ↥L), z.2, by rw [Subgroup.orderOf_coe]; exact hz⟩
 
@@ -165,7 +165,7 @@ theorem fivePump_char5_of_oddLieA5For
   intro S _ _ hs hna ⟨n, f, hm⟩ σ P hP hZ eP _
   exfalso
   have hadm : StatedLieAdmissible t n 5 f := hm.admissible
-  haveI : IsSimpleGroup S := hs
+  have : IsSimpleGroup S := hs
   have hQ : FixedTwoComponentsQuasisimple S :=
     fixedTwoComponentsQuasisimple_of_oddLieType hna
       ⟨t, n, 5, f, Nat.prime_five, by norm_num, hadm, hm⟩

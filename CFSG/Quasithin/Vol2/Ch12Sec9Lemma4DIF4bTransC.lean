@@ -99,7 +99,7 @@ theorem part_c_of_MTS {W : Type} [AddCommGroup W] [Module (ZMod 2) W] [Finite W]
     (stabS S).relIndex Ω = 15 ∧
     Nat.card (pCoreOf 2 (stabS S ⊓ Ω)) = 8 ∧
     ∀ γ ∈ stabS S ⊓ Ω, (∀ s ∈ S, γ s = s) ↔ γ ∈ pCoreOf 2 (stabS S ⊓ Ω) := by
-  haveI : FiniteDimensional (ZMod 2) W := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) W := Module.Finite.of_finite
   obtain ⟨b, _hb1, _hb2, _hb3, hb5, hbS⟩ := exists_witt_basis_of_MTS q B hq hB hdim S hS3 hSs
   let e : W ≃ₗ[ZMod 2] Model.VM := b.equivFun
   have he : ∀ v, Model.qM (e v) = q v := by

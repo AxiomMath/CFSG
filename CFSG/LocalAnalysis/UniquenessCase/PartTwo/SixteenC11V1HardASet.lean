@@ -12,7 +12,7 @@ open CFSG.Quasithin Subgroup
 
 private theorem s16c11_v1_rkIdx_prod_self {G : Type*} [Group G] [Finite G]
     (S : Subgroup G) : rkIdx (S.prod S) = 2 * rkIdx S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   unfold rkIdx
   rw [Subgroup.index_prod]
   rw [padicValNat.mul (Subgroup.index_ne_zero_of_finite (H := S))

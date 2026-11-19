@@ -47,7 +47,7 @@ private noncomputable def q2cFNX3_A1 (c : FlagK K 3 × FlagK K 2) :
 private theorem q2cFNX3_jShift21_eq_nat (u : Fin 2 → K) :
     jShift21 K f u = blkIn 3 [0, 1, 3] 1 (sgv K f 2 u) := by
   funext k
-  fin_cases k <;> simp [jShift21, blkIn, sgv, sgv_apply, Nat.not_succ_le_zero]
+  fin_cases k <;> simp [jShift21, blkIn, sgv]
     <;> congr 1
 
 private theorem q2cFNX3_jShift21_eq (u : Fin 2 → K) :
@@ -57,8 +57,8 @@ private theorem q2cFNX3_jShift21_eq (u : Fin 2 → K) :
 private theorem q2cFNX3_jShift21Inv_eq_nat (v : Fin 3 → K) :
     jShift21Inv K f v = sgv K f 2 (blkOut 3 [0, 1, 3] 1 v) := by
   funext k
-  fin_cases k <;> simp [jShift21Inv, blkOut, sgv, sgv_apply, Nat.not_succ_le_zero]
-    <;> congr 1
+  fin_cases k <;> simp [jShift21Inv, blkOut, sgv]
+
 
 private theorem q2cFNX3_jShift21Inv_eq (v : Fin 3 → K) :
     jShift21Inv K f v = sgv K f 2 (q2cFNX3_o1 v) :=
@@ -68,7 +68,7 @@ private theorem q2cFNX3_jShift21Inv_i1_nat (w : Fin 2 → K) :
     jShift21Inv K f (blkIn 3 [0, 1, 3] 1 w) = sgv K f 2 w := by
   funext k
   fin_cases k <;>
-    simp [jShift21Inv, blkIn, blkOut, sgv, sgv_apply, Nat.not_succ_le_zero]
+    simp [jShift21Inv, blkIn, sgv]
     <;> congr 1
 
 private theorem q2cFNX3_jShift21Inv_i1 (w : Fin 2 → K) :
@@ -85,6 +85,7 @@ private theorem q2cFNX3_jShift21Inv_eq_zero {v : Fin 3 → K} (hv : v ∈ Vsub 3
   funext k
   fin_cases k <;> simp [jShift21Inv, hv 1 (by norm_num), hv 2 (by norm_num)]
 
+omit [Finite K] [CharP K 2] in
 private theorem q2cFNX3_E2_eq {x : FlagK K 3} (hx : x ∈ refSet K 3 [0, 1, 3]) :
     x.E 2 = Vsub 3 1 ⊔ (q2cFNX3_A2 x).map q2cFNX3_i1 := by
   obtain ⟨h1, h2⟩ := refSet_E_mem_interval q2cFA2_isCut_013 hx (b := 1) (by decide)
@@ -95,6 +96,7 @@ private theorem q2cFNX3_E2_eq {x : FlagK K 3} (hx : x ∈ refSet K 3 [0, 1, 3]) 
   rw [h2'', h2'] at h
   exact h
 
+omit [Finite K] [CharP K 2] in
 private theorem q2cFNX3_flagAct_E2 {g : GL (Fin 3) K} (hg : StabV 3 [0, 1, 3] g)
     {x : FlagK K 3} (hx : x ∈ refSet K 3 [0, 1, 3]) :
     (flagAct g x).E 2 = Vsub 3 1 ⊔ ((q2cFNX3_A2 x).map (q2cFNX3_m1 g)).map q2cFNX3_i1 := by
@@ -104,6 +106,7 @@ private theorem q2cFNX3_flagAct_E2 {g : GL (Fin 3) K} (hg : StabV 3 [0, 1, 3] g)
   rw [h2'', h2'] at h
   exact h
 
+omit [Finite K] [CharP K 2] in
 private theorem q2cFNX3_A2_flagAct {g : GL (Fin 3) K} (hg : StabV 3 [0, 1, 3] g)
     {x : FlagK K 3} (hx : x ∈ refSet K 3 [0, 1, 3]) :
     q2cFNX3_A2 (flagAct g x) = (q2cFNX3_A2 x).map (q2cFNX3_m1 g) := by
@@ -114,7 +117,7 @@ private theorem q2cFNX3_psi_mem (hK : Nat.card K = (2 ^ f) ^ 2)
     {c : FlagK K 3 × FlagK K 2} (hc : c.1 ∈ refSet K 3 [0, 1, 3]) :
     (psiA2A1 hK c).1 ∈ refSet K 3 [0, 1, 3] := by
   unfold psiA2A1
-  rw [dif_pos hc]
+  rw [dite_eq_left hc]
   exact (Classical.choose_spec (exists_psiA2A1 hK hc)).1
 
 private theorem q2cFNX3_psi_fst_E2 (hK : Nat.card K = (2 ^ f) ^ 2)
@@ -122,7 +125,7 @@ private theorem q2cFNX3_psi_fst_E2 (hK : Nat.card K = (2 ^ f) ^ 2)
     (psiA2A1 hK c).1.E 2 = Vsub 3 1 ⊔ (sgS K f 2 (q2cFNX3_A1 c)).map q2cFNX3_i1 := by
   have h := (Classical.choose_spec (exists_psiA2A1 hK hc)).2.1
   unfold psiA2A1
-  rw [dif_pos hc, h]
+  rw [dite_eq_left hc, h]
   congr 1
   have hset : jShift21 K f '' (c.2.E 1 : Set (Fin 2 → K)) =
       q2cFNX3_i1 '' (sgv K f 2 '' (c.2.E 1 : Set (Fin 2 → K))) := by
@@ -151,7 +154,7 @@ private theorem q2cFNX3_psi_snd_E1 (hK : Nat.card K = (2 ^ f) ^ 2)
     (psiA2A1 hK c).2.E 1 = sgS K f 2 (q2cFNX3_A2 c.1) := by
   have h := (Classical.choose_spec (exists_psiA2A1 hK hc)).2.2
   unfold psiA2A1
-  rw [dif_pos hc, h]
+  rw [dite_eq_left hc, h]
   have hset : jShift21Inv K f '' (c.1.E 2 : Set (Fin 3 → K)) =
       sgv K f 2 '' (q2cFNX3_A2 c.1 : Set (Fin 2 → K)) := by
     rw [q2cFNX3_E2_eq hc]
@@ -241,7 +244,7 @@ theorem exists_normalForm_psiA2A1 (hK : Nat.card K = (2 ^ f) ^ 2) {M₁ : GL (Fi
     if h : b = 1 then h ▸ (LinearEquiv.ofBijective D hDbij).symm else LinearEquiv.refl K _
   obtain ⟨e₁, he₁, he₁Act⟩ := exists_blockDiag hd Ef
   have hEf1 : Ef 1 = (LinearEquiv.ofBijective D hDbij).symm := by
-    simp only [Ef, dif_pos rfl]
+    simp only [Ef, dite_eq_left rfl]
   have hm_e : q2cFNX3_m1 e₁ = (Ef 1).toLinearMap :=
     q2cFNX_blkMat_eq_of_act hd he₁Act hb1
   have hm_inv : q2cFNX3_m1 e₁⁻¹ = D := by

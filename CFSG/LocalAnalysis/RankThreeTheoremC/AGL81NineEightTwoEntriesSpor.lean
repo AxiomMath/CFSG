@@ -22,7 +22,7 @@ theorem kFactNineThreeNoTwoAt_of_aut {p : ℕ} {i : TauCeti.CFSGIndex}
           V = ⊥) :
     KFactNineThreeNoTwoAt p i := by
   intro X _ _ K hK hiso _ T S hS hTS
-  haveI := hK
+  have := hK
   exact Hyp111.le_centralizer_of_aut (T := (T : Subgroup K).map K.subtype)
     (Subgroup.map_subtype_le _) (fun V hV hN => h K hiso T V hV fun t ht => hN t ⟨t, ht, rfl⟩)
     hS hTS
@@ -41,7 +41,7 @@ open CFSG.LocalAnalysis.RankThreeTheoremC.M11Model CFSG.Blueprint in
 theorem kFactNineThreeNoTwoAt_m11 :
     KFactNineThreeNoTwoAt 3 (.sporadic .M11) := by
   refine kFactNineThreeNoTwoAt_of_aut fun K _ _ hK T V hV hTV => ?_
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e⟩ := hK
   obtain ⟨eC⟩ := CFSG.Sporadic.Bridge.M11.nonempty_mulEquiv
   obtain ⟨Φ, hΦ⟩ := exists_mulEquiv_map_eq_sylow (e.trans eC.symm)
@@ -52,7 +52,7 @@ theorem kFactNineThreeNoTwoAt_m11 :
     ext a
     simp [hψ, MulAut.conj_apply]
   have hcen : Subgroup.center NativeSporadic.M11 = ⊥ := by
-    haveI : IsSimpleGroup NativeSporadic.M11 := CFSG.Sporadic.Mathieu.fam_m11_simplicity.2.2
+    have : IsSimpleGroup NativeSporadic.M11 := CFSG.Sporadic.Mathieu.fam_m11_simplicity.2.2
     exact CFSG.RankThree.PartTwo.Sec4.Item434Spor.center_eq_bot_of_simple
       (by rw [CFSG.Sporadic.Mathieu.card_M11]; norm_num)
   have hinj := CFSG.RankThree.PartTwo.Sec4.Item434Kit.conj_injective_of_center_eq_bot hcen

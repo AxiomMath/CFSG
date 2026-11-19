@@ -20,15 +20,15 @@ namespace Mz614
 
 variable {G : Type} [Group G] [Finite G]
 
-theorem c623_of_L2 (hK : UCK.K323) (m : Mz614 G) (h67 : R6_7 (dataOfSetup4 m.hS m.hU m.S))
+theorem c623_of_L2 (hK : UCK.K323) (m : Mz614 G) (_h67 : R6_7 (dataOfSetup4 m.hS m.hU m.S))
     (h69 : R6_9 (dataOfSetup4 m.hS m.hU m.S)) (h620 : m.C620)
     (hL : LieModel ↥m.L .PSL 2 m.r 2) : m.C623 := by
   classical
   by_contra hne
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   obtain ⟨F, _, _, e, -, hFq⟩ :=
     CFSG.GH74.GLS.EvenSelP.exists_l2Field_of_lieModel' m.hr m.d.odd hL
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hodd : Odd (Nat.card F) := by
     rw [hFq]
     exact (m.hr.odd_of_ne_two m.d.odd).pow
@@ -145,7 +145,7 @@ theorem c623_of_L2 (hK : UCK.K323) (m : Mz614 G) (h67 : R6_7 (dataOfSetup4 m.hS 
     rw [← m.Z_comm_L hzZ (ψ (d : PSL(2, F))).2]
     group
   have hXcyc : IsCyclic X := by
-    haveI := splitTorus_isCyclic (F := F)
+    have := splitTorus_isCyclic (F := F)
     exact isCyclic_of_surjective τ.rangeRestrict τ.rangeRestrict_surjective
   have hXcard : Nat.card X = (m.r ^ 2 - 1) / 2 := by
     rw [hX, MonoidHom.range_eq_map, Subgroup.card_map_of_injective hτinj, Subgroup.card_top,

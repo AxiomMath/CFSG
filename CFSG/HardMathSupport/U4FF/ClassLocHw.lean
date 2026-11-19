@@ -81,11 +81,11 @@ theorem ambDF_mulVec_hw {i j : Fin 4} (hij : i < j) {r : ℕ}
 
 variable {k : Type*} [Field k] [CharP k 2]
 
-theorem locMat_upper_fix {i j : Fin 4} (hij : i ≠ j) (hlt : i < j) (t : k) :
+theorem locMat_upper_fix {_i _j : Fin 4} (hij : _i ≠ _j) (hlt : _i < _j) (t : k) :
     (locSpec a b c h1).locMat k (Matrix.SpecialLinearGroup.transvection hij t) *ᵥ yloc a b c h1 k =
       yloc a b c h1 k :=
   LocSpec.locMat_fixes (locSpec a b c h1) (Pi_mulVec_hw a b c h1)
-    (fun i j hij r hr hr1 => ambDF_mulVec_hw a b c h1 hij hr hr1) hij hlt t
+    (fun _i _j hij _r hr hr1 => ambDF_mulVec_hw a b c h1 hij hr hr1) hij hlt t
 
 theorem yloc_eq_map :
     yloc a b c h1 k = fun x => f2 k (((locSpec a b c h1).Pm *ᵥ hwVec (fsOf a b c)) x) := by

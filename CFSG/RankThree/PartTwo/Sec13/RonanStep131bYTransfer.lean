@@ -88,8 +88,8 @@ theorem maximal_subgroupOf_of_le {G : Type} [Group G] {A C : Subgroup G}
 
 theorem list463_map_subtype {G : Type} [Group G] [Finite G] (C : Subgroup G) {L' : Subgroup C}
     (h : List463 L') : List463 (L'.map C.subtype) := by
-  haveI : (solvableRadical L').Normal := Subgroup.normal_sSup _ fun _ hN => hN.1
-  haveI : (solvableRadical (L'.map C.subtype)).Normal :=
+  have : (solvableRadical L').Normal := Subgroup.normal_sSup _ fun _ hN => hN.1
+  have : (solvableRadical (L'.map C.subtype)).Normal :=
     Subgroup.normal_sSup _ fun _ hN => hN.1
   let e : L' ≃* L'.map C.subtype := L'.equivMapOfInjective C.subtype C.subtype_injective
   have hrad : (solvableRadical L').map e.toMonoidHom = solvableRadical (L'.map C.subtype) :=

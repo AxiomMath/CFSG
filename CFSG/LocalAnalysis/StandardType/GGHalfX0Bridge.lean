@@ -53,7 +53,7 @@ private theorem gf2_eq_zero_or_one (x : GaloisField 2 1) : x = 0 ∨ x = 1 := by
   classical
   have hF : Nat.card (GaloisField 2 1) = 2 := by
     simpa using GaloisField.card 2 1 (by norm_num)
-  haveI : Fintype (GaloisField 2 1) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 1) := Fintype.ofFinite _
   have h2 : Fintype.card (GaloisField 2 1) = 2 := by
     rw [← Nat.card_eq_fintype_card]; exact hF
   have hc : ({(0 : GaloisField 2 1), 1} : Finset (GaloisField 2 1)).card = 2 :=
@@ -159,7 +159,7 @@ theorem ggHalfVecBits_single (a : Fin 27) :
     ggHalfVecBits (Finsupp.single a 1) = 2 ^ (a : ℕ) := by
   classical
   unfold ggHalfVecBits
-  rw [Finsupp.support_single_ne_zero _ one_ne_zero, Finset.sum_singleton]
+  rw [Finsupp.support_single _ one_ne_zero, Finset.sum_singleton]
 
 private theorem ggHalfVecBits_smul (c : GaloisField 2 1) (w : Fin 27 →₀ GaloisField 2 1) :
     ggHalfVecBits (c • w) = if bitOf c then ggHalfVecBits w else 0 := by
@@ -204,7 +204,7 @@ theorem ggHalfVecBits_ofBits {m : ℕ} (hm : m < 2 ^ 27) :
   · let a : Fin 27 := ⟨j, hj⟩
     have han : j = (a : ℕ) := rfl
     rw [han, testBit_ggHalfVecBits, ggHalfVecOfBits_apply]
-    cases hb : m.testBit (a : ℕ) <;> simp [hb, bitOf]
+    cases hb : m.testBit (a : ℕ) <;> simp [bitOf]
   · have hpow : 2 ^ 27 ≤ 2 ^ j := Nat.pow_le_pow_right (by norm_num) (by omega)
     have h1 : (ggHalfVecBits (ggHalfVecOfBits m)).testBit j = false :=
       Nat.testBit_lt_two_pow (lt_of_lt_of_le (ggHalfVecBits_lt _) hpow)
@@ -246,10 +246,10 @@ private theorem testBit_ggHalfApplyBits (A : List ℕ) (v j : ℕ) :
   congr 1
   apply List.map_congr_left
   intro i _
-  cases hv : v.testBit i <;> simp [hv, zero_testBit]
+  cases hv : v.testBit i <;> simp
 
 private theorem ggHalfApplyBits_zero (A : List ℕ) : ggHalfApplyBits A 0 = 0 := by
-  simp [ggHalfApplyBits, zero_testBit]
+  simp [ggHalfApplyBits]
 
 private theorem foldl_range_false (g : ℕ → Bool) (n : ℕ) (h : ∀ i < n, g i = false) :
     (List.range n).foldl (fun acc i => acc ^^ g i) false = false := by
@@ -267,11 +267,11 @@ private theorem foldl_range_ite (b : Bool) (j n : ℕ) (hj : j < n) :
   | succ n ih =>
     rw [List.range_succ, List.foldl_append, List.foldl_cons, List.foldl_nil]
     by_cases hjn : j < n
-    · rw [ih hjn, if_neg (by omega)]; simp
+    · rw [ih hjn, ite_eq_right (by omega)]; simp
     · have hje : j = n := by omega
       subst hje
       rw [foldl_range_false (fun i => if i = j then b else false) j
-        (fun i hi => by rw [if_neg (by omega)])]
+        (fun i hi => by rw [ite_eq_right (by omega)])]
       simp
 
 private theorem ggHalfApplyBits_two_pow (A : List ℕ) {j : ℕ} (hj : j < 27) :
@@ -301,7 +301,7 @@ private theorem foldl_xor_eq (l : List Bool) (x : Bool) :
   | nil => simp
   | cons a t ih =>
     rw [List.foldl_cons, ih (x ^^ a), List.foldl_cons, ih (false ^^ a)]
-    simp [Bool.xor_assoc, Bool.xor_left_comm, Bool.xor_comm]
+    simp [Bool.xor_left_comm, Bool.xor_comm]
 
 private theorem foldl_map_xor_false (l : List ℕ) (f g : ℕ → Bool) :
     (l.map (fun i => f i ^^ g i)).foldl (fun a b => a ^^ b) false =
@@ -315,7 +315,7 @@ private theorem foldl_map_xor_false (l : List ℕ) (f g : ℕ → Bool) :
     simp only [Bool.false_xor]
     rw [foldl_xor_eq (List.map (fun i => f i ^^ g i) t) (f a ^^ g a),
       foldl_xor_eq (List.map f t) (f a), foldl_xor_eq (List.map g t) (g a), ih]
-    simp [Bool.xor_assoc, Bool.xor_left_comm, Bool.xor_comm]
+    simp [Bool.xor_left_comm]
 
 theorem ggHalfApplyBits_xor (A : List ℕ) (u v : ℕ) :
     ggHalfApplyBits A (u ^^^ v) = ggHalfApplyBits A u ^^^ ggHalfApplyBits A v := by
@@ -454,7 +454,7 @@ private theorem ggE6Endo_xm
 
 private theorem ggHalfMulBits_root
     (A : List ℕ) {k : ℕ}
-    (hk : k < 72) :
+    (_hk : k < 72) :
     ggHalfMulBits A (ggHalfRootBits k) = ggHalfMulRoot A k := by
   classical
   rw [ggHalfRootBits_finRange, ggHalfMulRoot_finRange]
@@ -469,8 +469,8 @@ private theorem ggHalfMulBits_root
       rcases hwf with h0 | ⟨h2, hlt⟩
       · omega
       · exact hlt
-    rw [if_pos hc, ggHalfApplyBits_two_pow (A := A) hlt, if_pos hc]
-  · rw [if_neg hc, ggHalfApplyBits_zero, if_neg hc]; simp
+    rw [ite_eq_left hc, ggHalfApplyBits_two_pow (A := A) hlt, ite_eq_left hc]
+  · rw [ite_eq_right hc, ggHalfApplyBits_zero, ite_eq_right hc]; simp
 
 theorem ggE6Bits_x
     {k : ℕ} (hk : k < 72) :
@@ -487,9 +487,9 @@ theorem ggE6Bits_x
       rcases e6Data_valid.wf_op k a a.2 with h0 | ⟨h2, hlt⟩
       · omega
       · exact hlt
-    rw [ggHalfVecBits_digVec _ hc hlt, if_pos hc]
+    rw [ggHalfVecBits_digVec _ hc hlt, ite_eq_left hc]
   · rw [digVec_of_lt_two (R := GaloisField 2 1) (d := 27) (by omega),
-      ggHalfVecBits_zero, if_neg hc]
+      ggHalfVecBits_zero, ite_eq_right hc]
 
 theorem ggE6Bits_mulRoot
     (g : GGE6Two) {k : ℕ}

@@ -148,12 +148,12 @@ theorem twistKind_ennola_D5 {K : Type} [Field K] {q : ℕ}
   have hn40 : (componentRoots (rootCharHom (twE6omega1Tuple ζ)) i).ncard = 40 := by
     rw [hΨ]; exact twE6D5_ncard
   unfold twistKind
-  rw [hlen, if_neg hni]
-  rw [if_neg (by
+  rw [hlen, ite_eq_right hni]
+  rw [ite_eq_right (by
     rintro (⟨h6, -⟩ | ⟨h4, -, -⟩)
     · omega
     · omega)]
-  rw [if_pos]
+  rw [ite_eq_left]
   refine ⟨by omega, ?_⟩
   rw [hn40, hc5]
 
@@ -166,6 +166,7 @@ variable {ℓ f : ℕ} [Fact ℓ.Prime] {K : Type} [Field K] [Finite K]
   {σ : K →+* K} {Ω : Type} [Field Ω] [Algebra K Ω] [IsAlgClosure K Ω] [CharP Ω ℓ]
   {Fr : Ω →+* Ω}
 
+omit [Finite K] in
 theorem twE6C_equiv_cgrp (hℓ : ℓ.Prime) (hf : 1 ≤ f) (hK : Nat.card K = (ℓ ^ f) ^ 2)
     (hσ : ∀ c, σ c = c ^ (ℓ ^ f)) (hFr : ∀ c, Fr c = c ^ (ℓ ^ f)) :
     Nonempty (↥⁅thetaFixed Fr, thetaFixed Fr⁆ ≃* ↥(Cgrp K σ Ω)) := by

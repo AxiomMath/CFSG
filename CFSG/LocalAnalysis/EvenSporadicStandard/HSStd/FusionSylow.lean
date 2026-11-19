@@ -36,7 +36,7 @@ theorem _root_.CFSG.EvenSporadicStandard.StdHyp.exists_normalizer_conj_of_fusion
     mem_centralizer_singleton_iff.2 (mem_centralizer_iff.1 ht l hl)
   set A : Subgroup G := (R : Subgroup L).map L.subtype with hAdef
   have hA : IsPGroup 2 A :=
-    (R.isPGroup').of_equiv (Subgroup.equivMapOfInjective _ L.subtype L.subtype_injective)
+    (R.isPGroup).of_equiv (Subgroup.equivMapOfInjective _ L.subtype L.subtype_injective)
   have hB : IsPGroup 2 (zpowers t) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, ht2, pow_one])
   have hAL : A ≤ L := Subgroup.map_subtype_le _
@@ -55,7 +55,7 @@ theorem _root_.CFSG.EvenSporadicStandard.StdHyp.exists_normalizer_conj_of_fusion
     (centralizer ({t} : Set G)).subtype with hSdef
   have hSM : S ≤ centralizer ({t} : Set G) := Subgroup.map_subtype_le _
   have hS2 : IsPGroup 2 S :=
-    S₀.isPGroup'.of_equiv (Subgroup.equivMapOfInjective _ _ (Subgroup.subtype_injective _))
+    S₀.isPGroup.of_equiv (Subgroup.equivMapOfInjective _ _ (Subgroup.subtype_injective _))
   have hSrel : ¬ 2 ∣ S.relIndex (centralizer ({t} : Set G)) := by
     have hsub : S.subgroupOf (centralizer ({t} : Set G)) =
         (S₀ : Subgroup (centralizer ({t} : Set G))) :=

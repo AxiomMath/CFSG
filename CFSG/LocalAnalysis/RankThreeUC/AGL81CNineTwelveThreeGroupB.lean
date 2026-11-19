@@ -29,7 +29,7 @@ theorem mem_of_pow_three_eq_one_of_le_center (hR : IsPGroup 3 R)
   have hxE : x ∈ E := Subgroup.subset_closure (Or.inr (by simp))
   have hDE : D < E := lt_iff_le_not_ge.mpr ⟨hDle, fun h => hxD (h hxE)⟩
   have hcardDE : Nat.card D < Nat.card E := Subgroup.card_lt_of_lt hDE
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hpair : S.Pairwise Commute := by
     intro a ha b hb _
     rcases ha with haD | hax
@@ -40,7 +40,7 @@ theorem mem_of_pow_three_eq_one_of_le_center (hR : IsPGroup 3 R)
       · exact Subgroup.mem_center_iff.mp (hDc hbD) x
       · rw [Set.mem_singleton_iff] at hbx
         exact hbx ▸ Commute.refl x
-  haveI hEcomm : IsMulCommutative ↥E := isMulCommutative_closure hpair
+  have hEcomm : IsMulCommutative ↥E := isMulCommutative_closure hpair
   have hEexp : ∀ y ∈ E, y ^ 3 = 1 := by
     intro y hy
     refine Subgroup.closure_induction (p := fun z _ => z ^ 3 = 1) ?_ ?_ ?_ ?_ hy
@@ -77,7 +77,7 @@ theorem mem_of_pow_three_eq_one_of_extraspecial (hR : IsPGroup 3 R)
     (hDcomm : ⁅D, (⊤ : Subgroup R)⁆ ≤ D ⊓ centralizer (D : Set R))
     (hD : CFSG.IsExtraspecialPGroup 3 ↥D) (hcard : Nat.card D = 3 ^ 5) {x : R}
     (hx : x ^ 3 = 1) : x ∈ D := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hxD
   let S : Set R := (D : Set R) ∪ {x}
   let E : Subgroup R := closure S
@@ -86,7 +86,7 @@ theorem mem_of_pow_three_eq_one_of_extraspecial (hR : IsPGroup 3 R)
   have hxE : x ∈ E := Subgroup.subset_closure (Or.inr (by simp))
   have hDE : D < E := lt_iff_le_not_ge.mpr ⟨hDle, fun h => hxD (h hxE)⟩
   have hcardDE : Nat.card D < Nat.card E := Subgroup.card_lt_of_lt hDE
-  haveI hZn : Z.Normal := by
+  have hZn : Z.Normal := by
     change (D ⊓ centralizer (D : Set R)).Normal
     infer_instance
   have hZeq : (Subgroup.center ↥D).map D.subtype = Z := by
@@ -105,7 +105,7 @@ theorem mem_of_pow_three_eq_one_of_extraspecial (hR : IsPGroup 3 R)
       exact Submonoid.mem_centralizer_iff.mp hzC g g.2
   have hZcard : Nat.card Z = 3 := by
     rw [← hZeq, Subgroup.card_map_of_injective D.subtype_injective, hD.2.2.2]
-  haveI hnil : Group.IsNilpotent R := hR.isNilpotent
+  have hnil : Group.IsNilpotent R := hR.isNilpotent
   have hZleC : Z ≤ Subgroup.center R := by
     have hZne : Z ≠ ⊥ := by
       intro h
@@ -156,7 +156,7 @@ theorem mem_of_pow_three_eq_one_of_extraspecial (hR : IsPGroup 3 R)
   have hcommE : ∀ a ∈ E, ∀ b ∈ E, ⁅a, b⁆ ∈ Z := by
     intro a ha b hb
     have h1 : ⁅π a, π b⁆ = 1 := by
-      haveI := hmapcomm
+      have := hmapcomm
       exact commutatorElement_eq_one_iff_mul_comm.mpr
         (congrArg Subtype.val (mul_comm' (⟨π a, Subgroup.mem_map_of_mem π ha⟩ : ↥(E.map π))
           (⟨π b, Subgroup.mem_map_of_mem π hb⟩ : ↥(E.map π))))
@@ -199,7 +199,7 @@ theorem mem_of_pow_three_eq_one_of_extraspecial (hR : IsPGroup 3 R)
   have hbounds := CFSG.RankThree.PartTwo.class_two_small_rank_order_bounds (p := 3) (P := ↥E)
     (hR.to_subgroup E) hexp hclass
   have hquot : CFSG.pRank 3 (↥E ⧸ commutator ↥E) ≤ 4 := hbounds.2.2 hrkE
-  haveI hCnorm : (commutator ↥E).Normal := by
+  have hCnorm : (commutator ↥E).Normal := by
     rw [_root_.commutator_def]
     infer_instance
   have hCmap : (commutator ↥E).map E.subtype ≤ Z := by

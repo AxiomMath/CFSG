@@ -15,7 +15,7 @@ open CFSG CFSG.Assembly
 
 section Main
 
-theorem not_halfSplit_of_markedModel_linTwo {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
+theorem not_halfSplit_of_markedModel_linTwo {p : ℕ} (_hp : p.Prime) (_hp2 : p ≠ 2)
     {lab : LargeEvenLabel} (ht : lab.tag = .A) (hl : lab.rank = 2)
     (h13 : ¬ (lab.n = 1 ∧ p = 3)) (hq1 : ¬ p ∣ 2 ^ lab.n - 1)
     {X : Type} [Group X] (hX : MarkedModel lab X) {lab' : LargeEvenLabel}

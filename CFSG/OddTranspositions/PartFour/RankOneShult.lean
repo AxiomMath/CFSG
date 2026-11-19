@@ -71,11 +71,11 @@ private theorem rankOneShult_normal_le_stabilizer {X Ω : Type*} [Group X] [Fini
     (hFsemi : ∀ f ∈ F, ∀ β : Ω, f • β = β → β ≠ α → f = 1) :
     N ≤ stabilizer X α := by
   classical
-  haveI : N.Normal := hN
+  have : N.Normal := hN
   have hFN : F ≤ Subgroup.normalizer (N : Set X) := by
     rw [Subgroup.normalizer_eq_top N]
     exact le_top
-  haveI : F.Normalizes N := ⟨hFN⟩
+  have : F.Normalizes N := ⟨hFN⟩
   have hFcomm : ∀ a ∈ F, ∀ b ∈ F, Commute a b := by
     intro a ha b hb
     have hab : a * b ∈ F := F.mul_mem ha hb
@@ -86,7 +86,7 @@ private theorem rankOneShult_normal_le_stabilizer {X Ω : Type*} [Group X] [Fini
       _ = b * a := by
           rw [inv_eq_of_mul_eq_one_right (hF2 a ha),
             inv_eq_of_mul_eq_one_right (hF2 b hb)]
-  haveI : CFSG.IsElementaryAbelian 2 F :=
+  have : CFSG.IsElementaryAbelian 2 F :=
     CFSG.IsElementaryAbelian.two_of_forall_mul_self hFcomm hF2
   have hgen := CFSG.SolvableHall.coprime_centralizer_generation (p := 2) (A := F) (H := N)
     (by simpa using hF4) hNodd.not_two_dvd_nat
@@ -106,7 +106,7 @@ theorem false_of_central_involution_of_semiregular {X Ω : Type} [Group X] [Fini
     (hF4 : 4 ≤ Nat.card F) (hFsemi : ∀ f ∈ F, ∀ β : Ω, f • β = β → β ≠ α → f = 1) :
     False := by
   classical
-  haveI : Fintype X := Fintype.ofFinite X
+  have : Fintype X := Fintype.ofFinite X
   have hiso := rankOneShult_isolated hzα hzc hzfix
   obtain ⟨N, hN, hNodd, hNmem⟩ := CFSG.ZStar.glauberman_zStar X z hz1 hz2 hiso
   have hNα : N ≤ stabilizer X α :=
@@ -153,11 +153,11 @@ private theorem rankOneShult_exists_ne_point {X Ω : Type*} [Group X] [MulAction
 
 private theorem rankOneShult_card_F_add_one_le {X Ω : Type*} [Group X] [Finite X]
     [MulAction X Ω] [Finite Ω] {α β : Ω} {F : Subgroup X} (hβne : β ≠ α)
-    (hFα : F ≤ stabilizer X α) (hF2 : ∀ f ∈ F, f * f = 1)
+    (hFα : F ≤ stabilizer X α) (_hF2 : ∀ f ∈ F, f * f = 1)
     (hFsemi : ∀ f ∈ F, ∀ ω : Ω, f • ω = ω → ω ≠ α → f = 1) :
     Nat.card F + 1 ≤ Nat.card Ω := by
   classical
-  haveI : Nonempty Ω := ⟨α⟩
+  have : Nonempty Ω := ⟨α⟩
   have hinj : Function.Injective (fun f : F => f • β) := by
     intro f f' h
     let c : F := f'⁻¹ * f
@@ -188,7 +188,7 @@ private theorem rankOneShult_card_F_add_one_le {X Ω : Type*} [Group X] [Finite 
   omega
 
 private theorem rankOneShult_ne_bot_of_orbit {X Ω : Type*} [Group X] [MulAction X Ω]
-    {α β : Ω} {P : Subgroup X} {m : ℕ} (hm3 : 3 ≤ m) (hβne : β ≠ α)
+    {α β : Ω} {P : Subgroup X} {m : ℕ} (hm3 : 3 ≤ m) (_hβne : β ≠ α)
     (horb : m ≤ (orbit P β).ncard) : P ≠ ⊥ := by
   intro hbot
   have hsing : orbit P β = {β} := by
@@ -218,8 +218,8 @@ private theorem rankOneShult_exists_central_involution {X : Type*} [Group X] [Fi
     {P : Subgroup X} (hPne : P ≠ ⊥) (hP2 : IsPGroup 2 P) :
     ∃ z : X, z ∈ P ∧ z ≠ 1 ∧ z * z = 1 ∧ ∀ y ∈ P, Commute z y := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Nontrivial P := (Subgroup.nontrivial_iff_ne_bot P).mpr hPne
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Nontrivial P := (Subgroup.nontrivial_iff_ne_bot P).mpr hPne
   have hZ2 : IsPGroup 2 (Subgroup.center P) := hP2.to_subgroup (Subgroup.center P)
   have hZnt : Nontrivial (Subgroup.center P) := hP2.center_nontrivial
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hZ2
@@ -318,7 +318,7 @@ private theorem rankOneShult_centralInvolutions_normalized {X Ω : Type*} [Group
 private theorem rankOneShult_false_of_small {X Ω : Type} [Group X] [Finite X]
     [MulAction X Ω] [IsPretransitive X Ω] {α : Ω} {z : X} (hΩ : ∃ β : Ω, β ≠ α)
     (hzα : z ∈ stabilizer X α) (hz1 : z ≠ 1) (hz2 : z * z = 1) {Y₀ : Subgroup X}
-    (hzY : z ∈ Y₀) (hYα : Y₀ ≤ stabilizer X α)
+    (hzY : z ∈ Y₀) (_hYα : Y₀ ≤ stabilizer X α)
     (hYN : stabilizer X α ≤ normalizer (Y₀ : Set X))
     (hYexp : ∀ y ∈ Y₀, y * y = 1)
     (hYsemi : ∀ y ∈ Y₀, ∀ β : Ω, y • β = β → β ≠ α → y = 1)
@@ -405,7 +405,7 @@ theorem exists_card_eq_two_pow_add_one_of_lt_sq {X Ω : Type} [Group X]
     (hF4 : 4 ≤ Nat.card F) (hFsemi : ∀ f ∈ F, ∀ β : Ω, f • β = β → β ≠ α → f = 1) :
     ∃ e : ℕ, Nat.card Ω = 2 ^ e + 1 := by
   classical
-  haveI : Nonempty Ω := ⟨α⟩
+  have : Nonempty Ω := ⟨α⟩
   obtain ⟨β, hβne⟩ := rankOneShult_exists_ne_point (Ω := Ω) (α := α) hF4
   have hFcard : Nat.card F + 1 ≤ Nat.card Ω :=
     rankOneShult_card_F_add_one_le hβne hFα hF2 hFsemi
@@ -423,11 +423,11 @@ theorem exists_card_eq_two_pow_add_one_of_lt_sq {X Ω : Type} [Group X]
   have hYsemi := CFSG.GroupTheory.ONan.semiregular_of_isPGroup_of_commute h2 hYα hYN
     (hP2.to_le fun y hy => (rankOneShult_mem_centralInvolutions.mp hy).1) hPα
     (fun x hx y hy => ((rankOneShult_mem_centralInvolutions.mp hy).2.1 x hx).symm) horb hlt
-  haveI : MulAction.IsMultiplyPretransitive X Ω 2 := by
+  have : MulAction.IsMultiplyPretransitive X Ω 2 := by
     rw [MulAction.is_two_pretransitive_iff]
     intro a b c d hab hcd
     exact h2 a b c d hab hcd
-  haveI : IsPretransitive X Ω := MulAction.isPretransitive_of_is_two_pretransitive
+  have : IsPretransitive X Ω := MulAction.isPretransitive_of_is_two_pretransitive
   by_cases hY4 : 4 ≤ Nat.card Y₀
   · exact card_eq_two_pow_add_one_of_semiregular hYα hYN hYexp hY4 hYsemi
   · exact (rankOneShult_false_of_small (X := X) (Ω := Ω) (α := α) (z := z) (Y₀ := Y₀) (F := F)
@@ -447,8 +447,8 @@ theorem exists_card_eq_two_pow_add_one_of_lt_sq' {X : Type*} [Group X]
   let X' : Subgroup (Equiv.Perm Ω) := (MulAction.toPermHom X Ω).range
   let P' : Subgroup X' := P.map (MulAction.toPermHom X Ω).rangeRestrict
   let F' : Subgroup X' := F.map (MulAction.toPermHom X Ω).rangeRestrict
-  haveI : Finite X' := inferInstance
-  haveI : FaithfulSMul X' Ω := inferInstance
+  have : Finite X' := inferInstance
+  have : FaithfulSMul X' Ω := inferInstance
   have h2' : ∀ a b c d : Ω, a ≠ b → c ≠ d → ∃ g : X', g • a = c ∧ g • b = d := by
     intro a b c d hab hcd
     obtain ⟨g, hg1, hg2⟩ := h2 a b c d hab hcd

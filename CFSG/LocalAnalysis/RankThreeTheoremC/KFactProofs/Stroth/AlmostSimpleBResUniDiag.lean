@@ -28,7 +28,7 @@ theorem inner_le_primeFormD {n : ℕ} :
 theorem dvd_of_mem_primeFormD_not_inner {n p : ℕ} (hp : p.Prime)
     {a : MulAut (primeFormP hU (idCn n K))} (haD : a ∈ primeFormD hU (idCn n K))
     (hai : a ∉ inner (primeFormP hU (idCn n K))) (hap : a ^ p = 1) : p ∣ ℓ ^ f + 1 := by
-  haveI : (inner (primeFormP hU (idCn n K))).Normal := inner_normal _
+  have : (inner (primeFormP hU (idCn n K))).Normal := inner_normal _
   have hIDle := inner_le_primeFormD hU (n := n)
   by_contra hq
   apply hai

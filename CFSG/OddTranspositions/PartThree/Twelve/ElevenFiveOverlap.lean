@@ -67,7 +67,7 @@ theorem mem_commSet_iff_of_fiveLocalModel {D : Set G} {v : G} {k : ℕ} {ε π :
         Matrix (Fin (k + 1)) (Fin (k + 1)) (ZMod 5)) *ᵥ a = a := by
   obtain ⟨b, hb0, _hbπ, hby⟩ := exists_axis_of_fiveLocalModel cv hy
   have hL : y ∈ commSet D u ↔ Commute y u ∧ y ≠ u := by
-    simp only [commSet, Set.mem_setOf_eq, hy.1, true_and]
+    simp only [commSet, Set.mem_ofPred_eq, hy.1, true_and]
   rw [hL]
   have hcomm : Commute y u ↔ Commute (fiveReflOf k ε b) (fiveReflOf k ε a) := by
     have h1 : Commute y u ↔ Commute (⟨y, Subgroup.subset_closure hy⟩ :

@@ -86,20 +86,21 @@ theorem rho_zf [DecidableEq Ω] {i₀ j₀ : Ω} (hij : i₀ ≠ j₀) (k a : Ω
     rho C k (C.zf a) = if a = k then 1 else C.cm i₀ j₀ := by
   by_cases hak : a = k
   · subst hak
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     unfold rho
     group
-  · rw [if_neg hak]
+  · rw [ite_eq_right hak]
     exact C.cm_const hij (fun h => hak h.symm)
 
 omit C in
+omit [Finite G] in
 theorem bit_mul {z0 : G} (hz0 : z0 ≠ 1) (hz2 : z0 * z0 = 1) {u w : G} (hu : u = 1 ∨ u = z0)
     (hw : w = 1 ∨ w = z0) : bit (u * w) = xor (bit u) (bit w) := by
   classical
   unfold bit
   rcases hu with rfl | rfl <;> rcases hw with rfl | rfl <;> simp [hz0, hz2]
 
-theorem pattern [Fintype Ω] [DecidableEq Ω] {i₀ j₀ : Ω} (hij₀ : i₀ ≠ j₀) {a' : G} (ha'S : a' ∈ S)
+theorem pattern [Fintype Ω] [DecidableEq Ω] {i₀ j₀ : Ω} (hij₀ : i₀ ≠ j₀) {a' : G} (_ha'S : a' ∈ S)
     {σ : Ω → Ω} {c : Ω → G} (hcZ : ∀ i, c i ∈ Zs)
     (hcE : ∀ i, a' * C.zf i * a'⁻¹ = C.zf (σ i) * c i) {i j : Ω}
     (hv : a' * (C.zf i * C.zf j) * a'⁻¹ * (C.zf i * C.zf j)⁻¹ ∈ conjClosure Zs L2) :
@@ -144,7 +145,7 @@ theorem pattern [Fintype Ω] [DecidableEq Ω] {i₀ j₀ : Ω} (hij₀ : i₀ �
       have hc' : (C.zf C.D.pt)⁻¹ * v ∈ Zs := h1
       have : rho C k v = z0 := by
         rw [hv', rho_mul C k (C.zf_mem_U _) (F112J2.Zs_le_vBeta K1 L2 S Zs hc'),
-          rho_central C k hc', mul_one, rho_zf C hij₀ k, if_neg (fun h => hk h.symm)]
+          rho_central C k hc', mul_one, rho_zf C hij₀ k, ite_eq_right (fun h => hk h.symm)]
       simp [bit, this, hz01]
   obtain ⟨f, hfk⟩ := hf
   refine ⟨f, fun k hk => ?_⟩

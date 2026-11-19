@@ -19,7 +19,7 @@ theorem modO2_parabolic {j : ℕ} (hj : 1 ≤ j) (hjn : j < n) :
       Equiv.Perm (Fin 3)) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨U₀, hU₀⟩ := exists_sylow_unitriangular (K := ZMod 2) 2 (n := n) (by omega)
-  have hU2 : IsPGroup 2 (unitriangular n (ZMod 2)) := hU₀ ▸ U₀.isPGroup'
+  have hU2 : IsPGroup 2 (unitriangular n (ZMod 2)) := hU₀ ▸ U₀.isPGroup
   refine KG1291S.modO2_perm3_of_index_three
     (BinaryParabolic.unitriangular_le_flagStabilizer _) hU2
     (BinaryParabolic.relIndex_parabolic hj hjn) fun hle => ?_

@@ -26,6 +26,7 @@ noncomputable def e6QTwoSixConjOnQuot
     (g : ↥L) : MulAut (LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1))) :=
   (MulAut.congr θ) (e6QTwoQuotCenterAutHom ↥L (MulAut.conj g))
 
+omit [Finite G] [Finite K] in
 theorem e6QTwoSixConjOnQuot_mk
     (θ : L ⧸ Subgroup.center L ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))
     (g l : ↥L) :
@@ -41,6 +42,7 @@ noncomputable def e6QTwoSixPermPre (hK : Nat.card K = 4) {Q : GL (Fin 6) K}
   Classical.choose (QuotientGroup.mk'_surjective (Subgroup.center ↥L)
     (θ.symm (frameMk (USixTwo.fieldDataFour hK) Q hQ (USixTwo.permGLSU hK τ))))
 
+omit [Finite G] [Finite K] in
 theorem e6QTwoSixPermPre_spec (hK : Nat.card K = 4) {Q : GL (Fin 6) K}
     (hQ : Q ∈ primeFormUnitary (USixTwo.fieldDataFour hK) (idGram K 6))
     (θ : L ⧸ Subgroup.center L ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))
@@ -54,6 +56,7 @@ theorem e6QTwoSixPermPre_spec (hK : Nat.card K = 4) {Q : GL (Fin 6) K}
       (θ.symm (frameMk (USixTwo.fieldDataFour hK) Q hQ (USixTwo.permGLSU hK τ)))),
     MulEquiv.apply_symm_apply]
 
+omit [Finite G] [Finite K] in
 theorem e6QTwoSixConjOnQuot_permPre (hK : Nat.card K = 4) {Q : GL (Fin 6) K}
     (hQ : Q ∈ primeFormUnitary (USixTwo.fieldDataFour hK) (idGram K 6))
     (θ : L ⧸ Subgroup.center L ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))
@@ -64,6 +67,7 @@ theorem e6QTwoSixConjOnQuot_permPre (hK : Nat.card K = 4) {Q : GL (Fin 6) K}
     e6QTwoSixPermPre_spec hK hQ θ τ]
   rfl
 
+omit [Finite G] [Finite K] in
 theorem e6QTwoSixFrameAction_conj
     (θ : L ⧸ Subgroup.center L ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))
     (hNL : Bs ≤ Subgroup.normalizer (L : Set G)) {g : G} (hgL : g ∈ L)
@@ -89,6 +93,7 @@ theorem e6QTwoSixFrameAction_conj
   have hw : e6QTwoSixConjOnQuot θ ⟨g, hgL⟩ = Φ (MulAut.conj (⟨g, hgL⟩ : ↥L)) := rfl
   rw [hβ, hβb, hw, hconj, map_mul, map_mul, map_inv]
 
+omit [Finite G] [Finite K] in
 theorem e6QTwoSixFrameAction_ker_eq
     (θ : L ⧸ Subgroup.center L ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))
     (hNL : Bs ≤ Subgroup.normalizer (L : Set G)) (hperf : commutator ↥L = ⊤)
@@ -96,6 +101,7 @@ theorem e6QTwoSixFrameAction_ker_eq
     (e6QTwoSixFrameAction hNL θ).ker = (Subgroup.zpowers x).subgroupOf Bs := by
   rw [e6QTwoSixFrameAction_ker hNL θ hperf, hBL]
 
+omit [Finite G] [Finite K] in
 theorem e6QTwoSixFrameAction_eq_one_iff (θ : L ⧸ Subgroup.center L ≃*
     LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))
     (hNL : Bs ≤ Subgroup.normalizer (L : Set G)) (hperf : commutator ↥L = ⊤)
@@ -107,6 +113,7 @@ theorem e6QTwoSixFrameAction_eq_one_iff (θ : L ⧸ Subgroup.center L ≃*
 variable {G : Type} [Group G] [Finite G] {K : Type} [Field K] [Finite K]
 variable {Bs L : Subgroup G} {x : G}
 
+omit [Finite G] in
 theorem e6QTwoSixNormalizesCenter
     {Bs L : Subgroup G}
     (hNL : Bs ≤ Subgroup.normalizer (L : Set G)) :
@@ -172,7 +179,7 @@ theorem e6QTwoSixSylowIndex
   have hPle : (P : Subgroup ↥Z) ≤ (Bs ⊓ Z).subgroupOf Z := by
     intro z hz
     rw [Subgroup.mem_subgroupOf]
-    obtain ⟨k, hk⟩ := (P.isPGroup'.exists_orderOf_dvd_pow (⟨z, hz⟩ : ↥P))
+    obtain ⟨k, hk⟩ := (P.isPGroup.exists_orderOf_dvd_pow (⟨z, hz⟩ : ↥P))
     have hzk : (z : G) ^ 3 ^ k = 1 := by
       have h1 : orderOf (z : ↥Z) ∣ 3 ^ k := by
         rw [← Subgroup.orderOf_mk (H := (P : Subgroup ↥Z)) z hz]

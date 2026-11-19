@@ -12,7 +12,7 @@ open scoped Matrix
 
 variable {F0 : Type} [Field F0] [Finite F0] [CharP F0 2]
 
-theorem qtwoDB3_borelTits (hF0 : Nat.card F0 = 4) {m : ℕ} (hm : 2 ≤ m)
+theorem qtwoDB3_borelTits (hF0 : Nat.card F0 = 4) {m : ℕ} (_hm : 2 ≤ m)
     (Dh : Subgroup (Fin m → F0ˣ)) (hdist : ∀ i j : Fin m, i ≠ j → ∃ c ∈ Dh, c i ≠ c j)
     (U : Subgroup (GL (Fin m) F0)) (hU1 : U ≠ ⊥) (hU2 : IsPGroup 2 U)
     (hUu : ∀ u ∈ U, CFSG.LieType.Universal.Unitary.conjTr

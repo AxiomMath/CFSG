@@ -33,6 +33,7 @@ variable {K : Type} [Field K] [Finite K] {G : Type} [Group G]
 @[expose] def GGActsDiagonally {p f : ℕ} [Fact p.Prime] [CharP K p] {n : ℕ} (ψ : Su K p f n →* G) (Bs : Subgroup G) : Prop :=
   ∀ b ∈ Bs, ∃ g : GL (Fin n) K, ggIsDiagMat g ∧ GGInducesUnitary (p := p) (f := f) ψ b g
 
+omit [Finite K] in
 theorem ggNSPos_det_permMatrix [CharP K 2] {n : ℕ} (σ : Equiv.Perm (Fin n)) : (σ.permMatrix K).det = 1 := by
   rw [Matrix.det_permutation]
   rcases Int.units_eq_one_or (Equiv.Perm.sign σ) with h | h <;> rw [h]

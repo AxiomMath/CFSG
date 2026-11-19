@@ -109,7 +109,7 @@ private theorem s1667_e4_card_eq_four {V : Subgroup Hh} (hV : IsElemAbelian 2 V)
     exact (Nat.pow_le_pow_iff_right (by norm_num : 1 < 2)).mp h2
   have hj2 : j = 2 := by omega
   have h4 : (2 : ℕ) ^ 2 = 4 := by norm_num
-  simpa [hj, hj2] using h4
+  simp [hj, hj2]
 
 private theorem s1667_e4_card_eq_two {V X : Subgroup Hh} (hV : IsElemAbelian 2 V)
     (hcardV : Nat.card V = 4) (hXV : X ≤ V) (hXne : X ≠ ⊥) (hXVne : X ≠ V) :
@@ -144,7 +144,7 @@ private theorem s1667_e4_card_eq_two {V X : Subgroup Hh} (hV : IsElemAbelian 2 V
     norm_num
   have hj1 : j = 1 := by omega
   have h2' : (2 : ℕ) ^ 1 = 2 := by norm_num
-  simpa [hj, hj1] using h2'
+  simp [hj, hj1]
 
 theorem centralizes_or_fixedPointFree {V₀ : Subgroup Hh} (hV₀ : IsElemAbelian 2 V₀)
     (hcard : Nat.card V₀ ≤ 4) {c : Hh} (hc : orderOf c = 3)
@@ -178,7 +178,7 @@ theorem centralizes_or_fixedPointFree {V₀ : Subgroup Hh} (hV₀ : IsElemAbelia
       exact this)
     have hcard3 : 3 ≤ Nat.card V₀ := by
       classical
-      haveI : Fintype ↥V₀ := Fintype.ofFinite ↥V₀
+      have : Fintype ↥V₀ := Fintype.ofFinite ↥V₀
       let a : ↥V₀ := ⟨1, V₀.one_mem⟩
       let b : ↥V₀ := ⟨w, hw⟩
       let d : ↥V₀ := ⟨c * w * c⁻¹, hcwV₀⟩
@@ -250,7 +250,7 @@ theorem eq_bot_of_invariant_of_fixedPointFree {V₀ X : Subgroup Hh} (hV₀ : Is
 theorem exists_commutator_eq {V₀ : Subgroup Hh} (hV₀ : IsElemAbelian 2 V₀) {c : Hh}
     (hn : c ∈ normalizer (V₀ : Set Hh)) (hfix : V₀ ⊓ centralizer ({c} : Set Hh) = ⊥) :
     ∀ w ∈ V₀, ∃ e ∈ V₀, c * e * c⁻¹ * e⁻¹ = w := by
-  haveI : IsMulCommutative ↥V₀ := hV₀.1
+  have : IsMulCommutative ↥V₀ := hV₀.1
   intro w hw
   let κ : ↥V₀ →* ↥V₀ :=
     MonoidHom.mk' (fun e => ⟨c * (e : Hh) * c⁻¹,

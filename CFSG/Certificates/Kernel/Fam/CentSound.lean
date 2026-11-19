@@ -133,12 +133,12 @@ private theorem colOf_pk {w d : Nat} (hd : 0 < d) (v : Nat) :
   refine Finset.sum_congr rfl fun i _ => ?_
   rw [Finset.sum_eq_single 0]
   · obtain ⟨e1, e2⟩ := dm_eq (d := d) (i := i) (j := 0) hd
-    rw [e1, e2, if_pos rfl, Nat.add_zero]
+    rw [e1, e2, ite_eq_left rfl, Nat.add_zero]
     congr 2
     ring
   · intro j hj hj0
     obtain ⟨-, e2⟩ := dm_eq (d := d) (i := i) (j := j) (Finset.mem_range.1 hj)
-    rw [e2, if_neg hj0, Nat.zero_mul]
+    rw [e2, ite_eq_right hj0, Nat.zero_mul]
   · intro h
     exact absurd (Finset.mem_range.2 hd) h
 

@@ -19,8 +19,8 @@ theorem sylow_mem_smul_iff {ℓ : ℕ} {G : Type*} [Group G] {g x : G} {P : Sylo
 theorem sylow_exists_smul_eq_of_le {ℓ : ℕ} [Fact ℓ.Prime] {G : Type*} [Group G] [Finite G]
     {H : Subgroup G} {P Q : Sylow ℓ G} (hP : (P : Subgroup G) ≤ H) (hQ : (Q : Subgroup G) ≤ H) :
     ∃ c ∈ H, c • P = Q := by
-  haveI : Finite (Sylow ℓ G) := Sylow.finite_of_finiteIndex P
-  haveI : Finite (Sylow ℓ H) := Sylow.instFiniteSubtypeMemSubgroup H
+  have : Finite (Sylow ℓ G) := Sylow.finite_of_finiteIndex P
+  have : Finite (Sylow ℓ H) := Sylow.instFiniteSubtypeMemSubgroup H
   obtain ⟨c, hc⟩ := MulAction.exists_smul_eq (↥H) (P.subtype hP) (Q.subtype hQ)
   refine ⟨(c : G), c.2, ?_⟩
   have hcP : ((c : G) • P : Sylow ℓ G) ≤ H := Sylow.smul_le hP c
@@ -38,7 +38,7 @@ theorem SylowAutBoundAll.of_sylow {ℓ m : ℕ} [Fact ℓ.Prime] {G : Type*} [Gr
     (hN : ∀ u ∈ Subgroup.normalizer ((P : Subgroup G) : Set G),
       u ^ m ∈ Subgroup.centralizer ((P : Subgroup G) : Set G)) :
     SylowAutBoundAll ℓ m G := by
-  haveI : Finite (Sylow ℓ G) := Sylow.finite_of_finiteIndex P
+  have : Finite (Sylow ℓ G) := Sylow.finite_of_finiteIndex P
   intro Q
   obtain ⟨g, rfl⟩ := MulAction.exists_smul_eq G P Q
   refine ⟨fun x hx y hy => ?_, fun u hu => ?_⟩
@@ -218,7 +218,7 @@ theorem SylowAutBoundAll.of_injective {ℓ m : ℕ} [Fact ℓ.Prime] {G H : Type
     [Finite G] [Group H] [Finite H] (f : G →* H) (hf : Function.Injective f)
     (h : SylowAutBoundAll ℓ m H) : SylowAutBoundAll ℓ m G := by
   intro P
-  obtain ⟨hR1, hR2⟩ := SylowAutBoundAll.of_isPGroup h (IsPGroup.map P.isPGroup' f)
+  obtain ⟨hR1, hR2⟩ := SylowAutBoundAll.of_isPGroup h (IsPGroup.map P.isPGroup f)
   refine ⟨fun x hx y hy => hf ?_, fun u hu => ?_⟩
   · rw [map_mul, map_mul]
     exact hR1 (f x) (Subgroup.mem_map.2 ⟨x, hx, rfl⟩) (f y) (Subgroup.mem_map.2 ⟨y, hy, rfl⟩)
@@ -232,7 +232,7 @@ theorem SylowAutBoundAll.of_injective {ℓ m : ℕ} [Fact ℓ.Prime] {G H : Type
 theorem SylowAutBoundAll.of_surjective {ℓ m : ℕ} [Fact ℓ.Prime] {G N : Type*} [Group G]
     [Finite G] [Group N] (f : G →* N) (hf : Function.Surjective f)
     (h : SylowAutBoundAll ℓ m G) : SylowAutBoundAll ℓ m N := by
-  haveI : Finite N := Finite.of_surjective f hf
+  have : Finite N := Finite.of_surjective f hf
   intro Pb
   obtain ⟨P, hPb⟩ : ∃ P : Sylow ℓ G, (P : Subgroup G).map f = (Pb : Subgroup N) := by
     obtain ⟨P, hP⟩ := Sylow.mapSurjective_surjective hf ℓ Pb
@@ -307,7 +307,7 @@ theorem SylowAutBoundAll.of_abelian_index {ℓ m : ℕ} [Fact ℓ.Prime] {G : Ty
     SylowAutBoundAll ℓ m G := by
   obtain ⟨S⟩ : Nonempty (Sylow ℓ D) := inferInstance
   have hS1 : IsPGroup ℓ ((S : Subgroup D).map D.subtype) :=
-    IsPGroup.map (Sylow.isPGroup' S) D.subtype
+    IsPGroup.map (Sylow.isPGroup S) D.subtype
   have hS2 : ¬ ℓ ∣ ((S : Subgroup D).map D.subtype).index := by
     rw [Subgroup.index_map_subtype]
     intro hdvd

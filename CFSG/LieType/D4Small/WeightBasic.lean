@@ -15,6 +15,7 @@ theorem add_self_eq_zero (K : Type*) [Field K] [CharP K 2] {X : Type*} [AddCommG
 variable {G : Type*} [Group G] {K : Type*} [Field K] [Finite K] [CharP K 2]
   (D : D4Datum G K) {X : Type*} [AddCommGroup X] [Module K X] (ρ : Representation K G X)
 
+omit [Finite K] [CharP K 2] in
 theorem forall_mem_of_rootElt {M : Submodule K X}
     (hM : ∀ α, IsD4Root α → ∀ c : K, ∀ x ∈ M, ρ (D.x α c) x ∈ M) :
     ∀ g : G, ∀ x ∈ M, ρ g x ∈ M := by
@@ -42,8 +43,8 @@ theorem eq_zero_of_mem_wtSpace_of_mem_wtSpace {a b : Fin 4 → ZMod (Nat.card K�
     {x : X} (ha : x ∈ D.wtSpace ρ a) (hb : x ∈ D.wtSpace ρ b) : x = 0 := by
   have h1 := wtProj_of_mem D ρ (a := a) ha
   have h2 := wtProj_of_mem D ρ (a := a) hb
-  rw [if_pos rfl] at h1
-  rw [if_neg hab] at h2
+  rw [ite_eq_left rfl] at h1
+  rw [ite_eq_right hab] at h2
   rw [← h1, h2]
 
 theorem eq_zero_of_add_mem {a b : Fin 4 → ZMod (Nat.card Kˣ)} (hab : a ≠ b) {x y : X}
@@ -55,6 +56,7 @@ theorem eq_zero_of_add_mem {a b : Fin 4 → ZMod (Nat.card Kˣ)} (hab : a ≠ b)
 
 variable {D ρ} {C : Finset (Fin 4 → ZMod (Nat.card Kˣ))}
 
+omit [Finite K] [CharP K 2] in
 theorem eq_zero_of_mem_wtSpace_of_not_mem (hCw : ∀ a, a ∈ C ↔ D.wtSpace ρ a ≠ ⊥)
     {a : Fin 4 → ZMod (Nat.card Kˣ)} (ha : a ∉ C) {x : X} (hx : x ∈ D.wtSpace ρ a) : x = 0 := by
   have hbot : D.wtSpace ρ a = ⊥ := by
@@ -63,6 +65,7 @@ theorem eq_zero_of_mem_wtSpace_of_not_mem (hCw : ∀ a, a ∈ C ↔ D.wtSpace ρ
   rw [hbot] at hx
   exact (Submodule.mem_bot K).mp hx
 
+omit [CharP K 2] in
 theorem rootOp_apply_eq_zero (hCw : ∀ a, a ∈ C ↔ D.wtSpace ρ a ≠ ⊥) {α : Fin 4 → ℤ}
     (hα : IsD4Root α) {a : Fin 4 → ZMod (Nat.card Kˣ)} {x : X} (hx : x ∈ D.wtSpace ρ a) {k : ℕ}
     (hk : a + (k : ZMod (Nat.card Kˣ)) • castW (Nat.card Kˣ) α ∉ C) : rootOp D ρ α k x = 0 :=

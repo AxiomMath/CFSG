@@ -21,16 +21,16 @@ theorem hol_exists (T : Subgroup (Perm Ω)) (z : Perm Ω) (o : Ω)
     ∃ Y : Subgroup (Perm Ω), T ≤ Y ∧ Y ≤ normalizer (T : Set (Perm Ω)) ∧ z ∈ Y ∧
       S622IsSimpleSection Y T ∧ 3 ∣ T.relIndex Y := by
   classical
-  letI : CommGroup ↥T :=
+  let : CommGroup ↥T :=
     { (inferInstance : Group ↥T) with mul_comm := fun a b => Subtype.ext (hcomm a a.2 b b.2) }
   have h2 : ∀ x : Additive ↥T, (2 : ℕ) • x = 0 := fun x => by
     apply Additive.toMul.injective
     rw [two_nsmul, toMul_add, toMul_zero]
     exact Subtype.ext (hsq _ (Additive.toMul x).2)
-  letI : Module (ZMod 2) (Additive ↥T) := AddCommGroup.zmodModule h2
-  haveI : Finite (Additive ↥T) := inferInstance
+  let : Module (ZMod 2) (Additive ↥T) := AddCommGroup.zmodModule h2
+  have : Finite (Additive ↥T) := inferInstance
   have hrank : 3 ≤ finrank (ZMod 2) (Additive ↥T) := by
-    haveI : FiniteDimensional (ZMod 2) (Additive ↥T) := Module.finite_iff_finite.mpr inferInstance
+    have : FiniteDimensional (ZMod 2) (Additive ↥T) := Module.finite_iff_finite.mpr inferInstance
     have h := Module.natCard_eq_pow_finrank (K := ZMod 2) (V := Additive ↥T)
     rw [Nat.card_zmod, Nat.card_congr (Additive.toMul : Additive ↥T ≃ ↥T)] at h
     by_contra hlt

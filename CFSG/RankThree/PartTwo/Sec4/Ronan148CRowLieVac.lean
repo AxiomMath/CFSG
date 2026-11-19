@@ -86,7 +86,7 @@ theorem rowSOf148_four_Sp (p : ℕ) [Fact p.Prime] (hp : 3 < p) :
   refine rowSOf148_of_autNoE27 fun S _ _ hs hna ⟨φ⟩ => ?_
   have hadm : StatedLieAdmissible .PSp 2 p 1 :=
     ⟨Fact.out, le_rfl, le_rfl, fun h => by simp at h; omega⟩
-  haveI : Finite (projSp 2 (GaloisField p 1)) := Finite.of_equiv _ φ.toEquiv
+  have : Finite (projSp 2 (GaloisField p 1)) := Finite.of_equiv _ φ.toEquiv
   have hX : LieModel (projSp 2 (GaloisField p 1)) .PSp 2 p 1 :=
     Or.inl ⟨by decide, CFSG.PGLModel.statedClassicalModel_of_mulEquiv_projSp hadm (MulEquiv.refl _)⟩
   have hcen : Subgroup.center (projSp 2 (GaloisField p 1)) = ⊥ :=
@@ -101,12 +101,12 @@ theorem rowSOf148_four_Sp (p : ℕ) [Fact p.Prime] (hp : 3 < p) :
   have := (h3.trans h2)
   omega
 
-theorem rowSOf148_four_SL_of_mod_two (p : ℕ) [Fact p.Prime] (hp : 3 < p) (hp3 : p % 3 = 2) :
+theorem rowSOf148_four_SL_of_mod_two (p : ℕ) [Fact p.Prime] (_hp : 3 < p) (hp3 : p % 3 = 2) :
     RowSOf148 (projSL 4 (GaloisField p 1)) := by
   refine rowSOf148_of_autNoE27 fun S _ _ hs hna ⟨φ⟩ => ?_
   have hadm : StatedLieAdmissible .PSL 4 p 1 :=
     ⟨Fact.out, le_rfl, by norm_num, fun h => by simp at h, fun h => by simp at h⟩
-  haveI : Finite (projSL 4 (GaloisField p 1)) := Finite.of_equiv _ φ.toEquiv
+  have : Finite (projSL 4 (GaloisField p 1)) := Finite.of_equiv _ φ.toEquiv
   have hX : LieModel (projSL 4 (GaloisField p 1)) .PSL 4 p 1 :=
     Or.inl ⟨by decide, CFSG.PGLModel.statedClassicalModel_of_mulEquiv_projSL hadm (MulEquiv.refl _)⟩
   have hcen : Subgroup.center (projSL 4 (GaloisField p 1)) = ⊥ :=
@@ -122,12 +122,12 @@ theorem rowSOf148_four_SL_of_mod_two (p : ℕ) [Fact p.Prime] (hp : 3 < p) (hp3 
   have := (h3.trans h2)
   omega
 
-theorem rowSOf148_four_SU_of_mod_one (p : ℕ) [Fact p.Prime] (hp : 3 < p) (hp3 : p % 3 = 1) :
+theorem rowSOf148_four_SU_of_mod_one (p : ℕ) [Fact p.Prime] (_hp : 3 < p) (hp3 : p % 3 = 1) :
     RowSOf148 (projSU 4 p 1) := by
   refine rowSOf148_of_autNoE27 fun S _ _ hs hna ⟨φ⟩ => ?_
   have hadm : StatedLieAdmissible .PSU 4 p 1 :=
     ⟨Fact.out, le_rfl, by norm_num, fun h => by simp at h⟩
-  haveI : Finite (projSU 4 p 1) := Finite.of_equiv _ φ.toEquiv
+  have : Finite (projSU 4 p 1) := Finite.of_equiv _ φ.toEquiv
   have hX : LieModel (projSU 4 p 1) .PSU 4 p 1 :=
     Or.inl ⟨by decide, CFSG.PGLModel.statedClassicalModel_of_mulEquiv_projSU hadm (MulEquiv.refl _)⟩
   have hcen : Subgroup.center (projSU 4 p 1) = ⊥ :=
@@ -182,19 +182,19 @@ theorem rowSOf148_seven_Sz : ∀ (m : ℕ) (hm : (TauCeti.LieTypeIndex.suzuki m)
       (2 * m + 1) (Census.suzukiModel_of_index m hm)).1.1
     exact isCyclic_of_surjective (equivalence e).symm.toMonoidHom (equivalence e).symm.surjective
   intro A hA
-  haveI : IsCyclic (Outer (TauCeti.CFSGIndex.lie ⟨.suzuki m, hm⟩).Group) := by
+  have : IsCyclic (Outer (TauCeti.CFSGIndex.lie ⟨.suzuki m, hm⟩).Group) := by
     obtain ⟨h, -⟩ := CFSG.LieType.Suzuki.Suzuki_model_and_perfect_cover_outer_cyclicity.{0} _ 2
       (2 * m + 1) (Census.suzukiModel_of_index m hm)
     exact h.1
-  haveI hcyc : IsCyclic (Outer S) :=
+  have hcyc : IsCyclic (Outer S) :=
     isCyclic_of_surjective (equivalence e).symm.toMonoidHom (equivalence e).symm.surjective
-  haveI : (inner S).Normal := CFSG.ComponentClassification.OuterAutomorphisms.inner_normal S
+  have : (inner S).Normal := CFSG.ComponentClassification.OuterAutomorphisms.inner_normal S
   have hInn : Nat.card (inner S) ∣ Nat.card S := by
     have h1 := Subgroup.card_map_dvd (⊤ : Subgroup S) (MulAut.conj : S →* MulAut S)
     rw [← MonoidHom.range_eq_map, Subgroup.card_top] at h1
     exact h1
   have hAI : A ⊓ inner S = ⊥ := by
-    refine Subgroup.inf_eq_bot_of_coprime ?_
+    refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
     rw [hA.2, show (27 : ℕ) = 3 ^ 3 by norm_num]
     exact Nat.Coprime.pow_left _ (Nat.Coprime.coprime_dvd_right hInn
       ((Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mpr h3))
@@ -205,7 +205,7 @@ theorem rowSOf148_seven_Sz : ∀ (m : ℕ) (hm : (TauCeti.LieTypeIndex.suzuki m)
     have h2 : (a : MulAut S) ∈ A ⊓ inner S := ⟨a.2, h1⟩
     rw [hAI, Subgroup.mem_bot] at h2
     exact Subtype.ext h2
-  haveI hcycA : IsCyclic A :=
+  have hcycA : IsCyclic A :=
     isCyclic_of_surjective (MonoidHom.ofInjective hinj).symm.toMonoidHom
       (MonoidHom.ofInjective hinj).symm.surjective
   obtain ⟨g, hg⟩ := hcycA.exists_generator

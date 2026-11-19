@@ -79,8 +79,8 @@ theorem splitLiftUnitaryNotThreeDvd_holds :
   rcases hsplit with ⟨hA, _⟩ | htw
   · rw [htag] at hA; cases hA
   · obtain ⟨_, K, hKf, hKfin, h, M, hMN, hM3, hMgu, θ, hθ, hI⟩ := htw
-    letI : Field K := hKf
-    letI : Finite K := hKfin
+    let : Field K := hKf
+    let : Finite K := hKfin
     let S : Subgroup (GL (Fin (lab.rank + 1)) K) := unitarySU 2 lab.n K (lab.rank + 1)
     have hMN' : M ∈ Subgroup.normalizer (S : Set (GL (Fin (lab.rank + 1)) K)) := hMN
     obtain ⟨hp, hp2, he1, hep, hφe, hJcomp, hn2, hJlabel, hae, hφa, haJ, houter⟩ := hsetup
@@ -161,7 +161,7 @@ theorem splitLiftUnitaryNotThreeDvd_holds :
     have hJlabel0 : GGHasLabel (⟨.A, 1, 3⟩ : LargeEvenLabel)
         (J.map ψ' ⧸ Subgroup.center (J.map ψ')) :=
       ggHasLabel_of_mulEquiv eQ hJlabel
-    haveI hsimple : IsSimpleGroup (J.map ψ' ⧸ Subgroup.center (J.map ψ')) := hJ'.2.2.2
+    have hsimple : IsSimpleGroup (J.map ψ' ⧸ Subgroup.center (J.map ψ')) := hJ'.2.2.2
     rcases TCJ.tcjUni_component_psu_fixed
       CFSG.LocalAnalysis.GLTheoremA.Y10GInnUni.uniScalar_holds
       h.isUnitaryInvolution_barEquiv.invol
@@ -183,8 +183,8 @@ theorem splitLiftUnitaryNotThreeDvd_holds :
       ⟨a', dd, E, hE, hEf, τ', hτ', ha2, hτ'Q, hcardE, ⟨φ⟩⟩ |
       ⟨b, ee, E, hE, hEf, hb2, hcardE, ⟨φ⟩⟩
     ·
-      letI : Field E := hE
-      letI : Finite E := hEf
+      let : Field E := hE
+      let : Finite E := hEf
       have hτ'm : ∀ x : E, τ' x = x ^ 2 ^ (lab.n * dd) := by
         intro x
         rw [pow_mul]
@@ -211,8 +211,8 @@ theorem splitLiftUnitaryNotThreeDvd_holds :
           ggLabelRigidInput_holds _ _ _ hlamA hlamC hJlabel0 hlabC
         exact ltrcu4_ggLabelIso_typeA_twA_false hiso
     ·
-      letI : Field E := hE
-      letI : Finite E := hEf
+      let : Field E := hE
+      let : Finite E := hEf
       have hcardm : Nat.card E = 2 ^ (lab.n * (2 * ee)) := by
         rw [pow_mul]
         exact hcardE

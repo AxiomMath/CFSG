@@ -119,7 +119,7 @@ theorem exists_killed_invariant [Module.Finite K V] {ι : Type*} {f : ι → Mod
 theorem commonKernel_ne_bot [Module.Finite K V] (L : Submodule K (Module.End K V))
     (hcomm : ∀ f ∈ L, ∀ g ∈ L, f * g = g * f)
     (hnil : ∀ f ∈ L, IsNilpotent f) (hV : Nontrivial V) : commonKernel L ≠ ⊥ := by
-  haveI := hV
+  have := hV
   obtain ⟨Z, -, hZne, hZk⟩ := exists_killed_invariant
     (f := fun f : L => (f : Module.End K V))
     (fun f g => hcomm f.val f.2 g.val g.2) (fun f => hnil f.val f.2)
@@ -165,7 +165,7 @@ theorem exists_dual_annihilating [Module.Finite K V] (L : Submodule K (Module.En
     ∃ mu : Module.Dual K V, mu ≠ 0 ∧ imageSpan L ≤ LinearMap.ker mu ∧
       commonKernel L ≤ LinearMap.ker mu := by
   classical
-  haveI : Module.Finite K (Module.Dual K V) := Module.dual_finite
+  have : Module.Finite K (Module.Dual K V) := Module.dual_finite
   let A : L → Module.End K (Module.Dual K V) := fun f => (f : Module.End K V).dualMap
   have hAcomm : ∀ i j, A i * A j = A j * A i := by
     intro i j
@@ -189,7 +189,7 @@ theorem exists_dual_annihilating [Module.Finite K V] (L : Submodule K (Module.En
   let I : Submodule K (Module.Dual K V) := ⨆ f : L, LinearMap.range (A f)
   have hIne : I ≠ ⊥ := by
     obtain ⟨f, hfL, hfne⟩ := Submodule.ne_bot_iff L |>.mp hL
-    haveI : Nontrivial V := by
+    have : Nontrivial V := by
       obtain ⟨v, hv⟩ : ∃ v, f v ≠ 0 := by
         by_contra h
         simp only [not_exists, ne_eq, not_not] at h

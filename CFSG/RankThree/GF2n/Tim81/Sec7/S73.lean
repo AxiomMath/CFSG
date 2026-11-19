@@ -40,7 +40,7 @@ theorem Sec7Hyp.exists_unitary_barY (hS : Sec7Hyp M V n f) (hT : Theorem1Below (
   subst hff
   have hSUm : IsSUImage (generalizedFitting (YBar h)) (barRoots h V) f m hS.one_le
       (Nat.le_trans (Nat.le_add_left 2 2) hm) := ⟨Φ, hker.le, hrange.trans hnc, hclass⟩
-  haveI : (generalizedFitting (YBar h)).Normal := by rw [← hnc]; infer_instance
+  have : (generalizedFitting (YBar h)).Normal := by rw [← hnc]; infer_instance
   have h4 : 4 ≤ Nat.card (barY h V) := by
     rw [hE.card_barY_self]
     exact hE.root.four_le_card
@@ -59,7 +59,7 @@ theorem Sec7Hyp.stmt73 (hS : Sec7Hyp M V n f) (hT : Theorem1Below (Nat.card G))
   have hHyp := hE.hyp_barY hS.toSec6Hyp hD h72 h73a h73g hOY
   obtain ⟨hnc, Φ, hrange, hker, hSU⟩ :=
     hS.exists_unitary_barY hT h72 h73a h73g hD hOY
-  haveI : (generalizedFitting (YBar h)).Normal := by rw [← hnc]; infer_instance
+  have : (generalizedFitting (YBar h)).Normal := by rw [← hnc]; infer_instance
   have h4 : 4 ≤ Nat.card (barY h V) := by
     rw [hE.card_barY_self]
     exact hE.root.four_le_card
@@ -82,6 +82,6 @@ theorem Sec7Hyp.stmt73_of_holt (hS : Sec7Hyp M V n f) (hT : Theorem1Below (Nat.c
     (h72 : Sec7.Stmt72 M V n f) (h73a : Sec7.Stmt73alpha M V) (h73g : Sec7.Stmt73gamma M V)
     (hHolt : CFSG.Holt.H78.HoltTheorem1) : Sec7.Stmt73 M V n f :=
   hS.stmt73 hT h72 h73a h73g
-    (fun A B h hD => hS.oddCore_yOf hHolt h72 h73a h73g (hS.stmt73delta h72) hD)
+    (fun _A _B _h hD => hS.oddCore_yOf hHolt h72 h73a h73g (hS.stmt73delta h72) hD)
 
 end CFSG.RankThree.GF2n.Tim81

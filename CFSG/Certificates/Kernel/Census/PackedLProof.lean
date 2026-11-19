@@ -66,7 +66,7 @@ theorem pmask_cons (b : Nat) (bs : List Nat) (m : Nat) :
       if m.testBit 0 then pc n w b (pmask n w ⟨bs⟩ (m / 2)) else pmask n w ⟨bs⟩ (m / 2) := by
   unfold pmask pprod
   simp only [List.size_toArray, List.length_cons, List.range_succ_eq_map, List.filter_cons,
-    List.filter_map, List.map_map]
+    List.filter_map]
   have hg : ∀ k, (⟨b :: bs⟩ : Array Nat)[k + 1]! = (⟨bs⟩ : Array Nat)[k]! := fun k => by
     simp only [getElem!_eq_toList_getDL, List.getD_cons_succ]
   have h0 : (⟨b :: bs⟩ : Array Nat)[0]! = b := by

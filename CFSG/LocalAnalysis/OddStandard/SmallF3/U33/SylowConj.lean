@@ -35,7 +35,7 @@ theorem exists_conj_mem_sylow {G : Type*} [Group G] (Γ Q : Subgroup G) [Finite 
     rw [Nat.card_zpowers]
     simpa using orderOf_dvd_of_pow_eq_one hg'pow
   obtain ⟨R, hR⟩ := IsPGroup.exists_le_sylow hP
-  haveI : Finite (Sylow p Γ) := Sylow.finite_of_finiteIndex S
+  have : Finite (Sylow p Γ) := Sylow.finite_of_finiteIndex S
   obtain ⟨c', hc'⟩ := MulAction.exists_smul_eq Γ S R
   have hg'R : g' ∈ (R : Subgroup Γ) := hR (Subgroup.mem_zpowers g')
   have hg'mem : g' ∈ MulAut.conj c' • (S : Subgroup Γ) := by

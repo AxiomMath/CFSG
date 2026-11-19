@@ -55,7 +55,7 @@ theorem exists_lift_two (Q : Subgroup (G ⧸ oddCore G)) (hQ : IsPGroup 2 Q) :
   obtain ⟨P, hP⟩ :=
     CFSG.SignalizerFunctor.Helpers.surjective_pgroup_sylow_lift 2 Nat.prime_two πN hπN hQ
   set R := (P : Subgroup N).map N.subtype with hR
-  have hR2 : IsPGroup 2 R := P.isPGroup'.map N.subtype
+  have hR2 : IsPGroup 2 R := P.isPGroup.map N.subtype
   have hRQ : R.map π = Q := by
     apply le_antisymm
     · rintro _ ⟨_, ⟨x, -, rfl⟩, rfl⟩

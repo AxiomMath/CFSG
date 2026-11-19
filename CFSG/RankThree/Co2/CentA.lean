@@ -75,7 +75,7 @@ theorem exists_normalizer_conj_of_weakly_closed {X : Type*} [Group X] [Finite X]
     calc g * a * g⁻¹ * (g * w * g⁻¹) = g * (a * w) * g⁻¹ := by group
       _ = g * (w * a) * g⁻¹ := by rw [this]
       _ = g * w * g⁻¹ * (g * a * g⁻¹) := by group
-  have hWp : IsPGroup p W := S.isPGroup'.to_le hWS
+  have hWp : IsPGroup p W := S.isPGroup.to_le hWS
   have hWp' : IsPGroup p (W.subgroupOf C) := hWp.comap_of_injective C.subtype C.subtype_injective
   set Wg : Subgroup X := W.map (MulAut.conj g).toMonoidHom
   have hWgp' : IsPGroup p (Wg.subgroupOf C) :=
@@ -83,7 +83,7 @@ theorem exists_normalizer_conj_of_weakly_closed {X : Type*} [Group X] [Finite X]
   obtain ⟨Q₁, hQ₁⟩ := hWp'.exists_le_sylow
   obtain ⟨Q₂, hQ₂⟩ := hWgp'.exists_le_sylow
   obtain ⟨c, hc⟩ := MulAction.exists_smul_eq C Q₂ Q₁
-  have hQp : IsPGroup p ((Q₁ : Subgroup C).map C.subtype) := Q₁.isPGroup'.map C.subtype
+  have hQp : IsPGroup p ((Q₁ : Subgroup C).map C.subtype) := Q₁.isPGroup.map C.subtype
   obtain ⟨R, hR⟩ := hQp.exists_le_sylow
   obtain ⟨r, hr⟩ := MulAction.exists_smul_eq X R S
   have hWR : ∀ a ∈ W, a ∈ (R : Subgroup X) := fun a ha =>
@@ -156,7 +156,7 @@ theorem z_mem_IG : h.z ∈ h.IG :=
   Subgroup.mem_centralizer_singleton_iff.2
     (Subgroup.mem_centralizer_singleton_iff.1 h.aG_mem_H).symm
 
-theorem WG_le_X0G : h.WG ≤ h.X0G := fun x hx =>
+theorem WG_le_X0G : h.WG ≤ h.X0G := fun _x hx =>
   Subgroup.mem_inf.2 ⟨h.liftG_le_H _ hx, h.liftG_le_centralizer W_le_C1 hx⟩
 
 theorem z_mem_WG : h.z ∈ h.WG := by
@@ -356,7 +356,7 @@ theorem isConj_aG_z_mul : IsConj h.aG (h.z * h.aG) := by
     · exact h1
 
 theorem card_sylow_I : Nat.card (h.S0G.subgroupOf h.IG) = 2 ^ (Nat.card h.IG).factorization 2 := by
-  haveI := h.finite
+  have := h.finite
   have hS0I : h.S0G ≤ h.IG := fun x hx => (Subgroup.mem_inf.1 (h.S0G_le_X0G hx)).2
   set zI : h.IG := ⟨h.z, h.z_mem_IG⟩
   have hcent : (Subgroup.centralizer ({zI} : Set h.IG)).map h.IG.subtype = h.X0G := by
@@ -493,7 +493,7 @@ abbrev NWG : Subgroup G := h.IG ⊓ Subgroup.normalizer (h.WG : Set G)
 
 theorem exists_normalizer_conj_z {w : G} (hwW : w ∈ h.WG) (hwX : w ∈ h.X0G)
     (hz : IsConj h.z w) (ha : IsConj h.aG (w * h.aG)) : ∃ n ∈ h.NWG, n * h.z * n⁻¹ = w := by
-  haveI := h.finite
+  have := h.finite
   obtain ⟨i, hi, hiz⟩ := h.exists_conj_of_typeAB hwX hz ha
   have hS0I : h.S0G ≤ h.IG := fun x hx => (Subgroup.mem_inf.1 (h.S0G_le_X0G hx)).2
   have hWI : h.WG ≤ h.IG := fun x hx => (Subgroup.mem_inf.1 (h.WG_le_X0G hx)).2
@@ -578,8 +578,8 @@ theorem card_typeAB_WG :
   rw [h.typeABG_iff hx, e]
 
 theorem card_normalizer_WG : Nat.card h.NWG = 41287680 := by
-  haveI := h.finite
-  letI := conjActG h.NWG
+  have := h.finite
+  let := conjActG h.NWG
   have hX0N : h.X0G ≤ h.NWG := fun x hx =>
     Subgroup.mem_inf.2 ⟨(Subgroup.mem_inf.1 hx).2, h.X0G_le_normalizer hx⟩
   have horb : MulAction.orbit h.NWG h.z =

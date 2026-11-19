@@ -35,7 +35,7 @@ theorem layerUnitaryModel_of_model {n : ℕ} (hn1 : 1 ≤ n) (hq2 : 2 < 2 ^ n) (
     (hx : threeSixEmb X Ω σ x = g * rootDiagUnit TwistTag.D4.tag a * g⁻¹) :
     LayerUnitaryModel σ n x := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hℓ3 : (2 : ℕ) ≠ 3 := by decide
   have hε : (-1 : ℤ) = 1 ∨ (-1 : ℤ) = -1 := Or.inr rfl
   have hq0 : 2 ^ n ≠ 0 := pow_ne_zero _ (by norm_num)
@@ -50,7 +50,7 @@ theorem layerUnitaryModel_of_model {n : ℕ} (hn1 : 1 ≤ n) (hq2 : 2 < 2 ^ n) (
   obtain ⟨s, hs, hΦfix, hact⟩ := layer_embedding_of_model Nat.prime_two hℓ3 hn1 σ hK hσ Ω Fr hFr
     g hgG hFg a hord v hv x hx hε hFrs hstab hD
   obtain ⟨hcl, h₀⟩ := setup_k₀ (Ω := Ω) Nat.prime_two hn1 hK hσ
-  haveI := hcl
+  have := hcl
   set k₀ := RingHom.eqLocusField σ.toRingHom (RingHom.id X) with hk₀
   obtain ⟨π, b, hb⟩ := threeSix_phi_unitary Fr hFrs v hstab
   obtain ⟨-, ⟨H₀, hH₀⟩, -⟩ :=

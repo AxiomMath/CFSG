@@ -32,12 +32,12 @@ theorem mC_zero : mC 0 = 1 := by
 theorem mG_even (j : ℕ) : mG (2 * j) = mC j * mA * (mC j)⁻¹ := by
   have h1 : 2 * j / 2 = j := by omega
   have h2 : 2 * j % 2 = 0 := by omega
-  simp only [mG, h1, h2, if_true]
+  simp only [mG, h1, h2, ite_true]
 
 theorem mG_odd (j : ℕ) : mG (2 * j + 1) = mC j * mB * (mC j)⁻¹ := by
   have h1 : (2 * j + 1) / 2 = j := by omega
   have h2 : (2 * j + 1) % 2 = 1 := by omega
-  simp only [mG, h1, h2, one_ne_zero, if_false]
+  simp only [mG, h1, h2, one_ne_zero, ite_false]
 
 theorem mG_zero : mG 0 = mA := by
   decide +kernel
@@ -57,7 +57,7 @@ theorem model_check :
     by_cases hjk : j = k
     · simp [hjk]
     · have hn := hD j hj k hk hjk
-      simp [hjk, hn]
+      simp [hn]
   · simp only [partnerOK, Bool.and_eq_true, decide_eq_true_eq, bne_iff_ne, ne_eq]
     exact ⟨⟨hE.1, hE.2.1⟩, hE.2.2⟩
   · simp only [y3OK, Bool.and_eq_true, decide_eq_true_eq, List.all_eq_true]

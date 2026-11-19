@@ -144,13 +144,13 @@ theorem r19_1At_of_final
     {V₀ V : Subgroup G} {p : ℕ} {L : Subgroup G} (h : Hyp19 D V₀ V p L)
     (h42 : S17.R17_42At D V₀ V) (h641 : S17.R17_64_1At D V₀ V) (h642 : S17.R17_64_2At D V₀ V)
     (h643 : S17.R17_64_3At D V₀ V) (h68 : S17.R17_68At D V₀ V)
-    (h8 : ∀ K (hK : Ctx19_1 D V₀ V p L K), R19_8At D V₀ V p L K hK)
+    (h8 : ∀ _K (hK : Ctx19_1 D V₀ V p L _K), R19_8At D V₀ V p L _K hK)
     (hSg : UC6S846.SigmaStd D)
-    (h3 : ∀ K (hK : Ctx19_1 D V₀ V p L K), R19_3At D V₀ V p L K hK)
-    (h4 : ∀ K (hK : Ctx19_1 D V₀ V p L K), R19_4At D V₀ V p L K hK) :
+    (h3 : ∀ _K (hK : Ctx19_1 D V₀ V p L _K), R19_3At D V₀ V p L _K hK)
+    (h4 : ∀ _K (hK : Ctx19_1 D V₀ V p L _K), R19_4At D V₀ V p L _K hK) :
     R19_1At D V₀ V p L h :=
   r19_1At_of D h (fun hs => r19_glue_2At_of D h h42 h641 h642 h643 h68 hs) h8 hSg h3 h4
-    (fun K hK => gap19_1_minShapeAt_of D hK h68
+    (fun _K hK => gap19_1_minShapeAt_of D hK h68
       (fun h82 h84 => not_isU3_of_ctx19_1 D hx h61 h127 h1214 h128 hMin h36 hK h82 h84))
 
 end Certified

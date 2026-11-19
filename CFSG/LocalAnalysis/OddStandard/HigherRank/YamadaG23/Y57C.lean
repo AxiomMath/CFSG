@@ -21,6 +21,7 @@ private theorem y57_t_sq_pow (c : Ctx5 G L) : c.s.t ^ 2 = 1 := by
   rw [pow_two]
   exact y57_t_sq c
 
+omit [Finite G] in
 private theorem y57_zpow_eq_one_or {x y : G} (hy2 : y ^ 2 = 1) (hx : x ∈ zpowers y) :
     x = 1 ∨ x = y := by
   obtain ⟨m, rfl⟩ := Subgroup.mem_zpowers_iff.mp hx

@@ -17,7 +17,7 @@ theorem genPlaneTwADvd_holds : GenPlaneTwADvd := by
   obtain ⟨d, hv⟩ := d
   change d = .twistedA r q at hdq
   subst hdq
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   obtain ⟨⟨hℓ, hf, hn3, -⟩, K, _, _, hK, ⟨eT⟩⟩ :=
     CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA r q hv e
   have h : UnitaryFieldData q.p q.exponent K := ⟨hℓ, hf, by rw [hK, ← pow_mul, mul_comm]⟩

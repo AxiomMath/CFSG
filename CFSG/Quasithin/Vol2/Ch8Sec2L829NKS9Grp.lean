@@ -40,7 +40,7 @@ theorem nk_s9_group_data (hL32 : NKLeafL32)
     (hres : L32Residual H T (H ⊓ M) K)
     (hVT : V ≤ T) (hVe : IsElemAbelian 2 V) (hVJ : ¬ V ≤ kerIn (H ⊓ M) H)
     (hP7 : H ⊓ M ≤ Subgroup.normalizer (V : Set G))
-    (hKG : K ≤ Subgroup.closure {x : G | ∃ h ∈ H, ∃ v ∈ V, x = h * v * h⁻¹}) :
+    (_hKG : K ≤ Subgroup.closure {x : G | ∃ h ∈ H, ∃ v ∈ V, x = h * v * h⁻¹}) :
     ∃ v ∈ V, K ≤ Subgroup.closure {x : G | ∃ k ∈ K, x = k * v * k⁻¹} ∧
       ∃ Q : Subgroup G, Q ≤ K ∧ (∀ q ∈ Q, ∃ m : ℕ, q ^ 2 ^ m = 1) ∧
         (∀ q ∈ Q, ∀ x ∈ K, x * q * x⁻¹ ∈ Q) ∧ (∀ q ∈ Q, v * q * v⁻¹ ∈ Q) ∧

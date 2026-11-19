@@ -119,7 +119,7 @@ private theorem bmDPU_map_single {g k : ℕ} (p : Fin (k + 1)) :
 
 private theorem bmDPU_std_dotProduct {g k : ℕ} (p q : Fin (k + 1)) :
     (Pi.single p (1 : PSUF g)) ⬝ᵥ (Pi.single q (1 : PSUF g)) = if p = q then 1 else 0 := by
-  simp [dotProduct, Pi.single_apply, Finset.sum_ite_eq', eq_comm]
+  simp [dotProduct, Pi.single_apply, eq_comm]
 
 private theorem bmDPU_vecMul_adj {n g k : ℕ}
     (M : Matrix (Fin n) (Fin (k + 1)) (PSUF g)) (u : Fin (k + 1) → PSUF g)
@@ -570,9 +570,9 @@ private lemma bmDPU_anti_symm {F : Type} [Field F] (r : ℕ) :
   simp only [Matrix.transpose_apply, Unitary.antidiag, Matrix.of_apply]
   by_cases h : i = Fin.rev j
   · have h' : j = Fin.rev i := by rw [h, Fin.rev_rev]
-    rw [if_pos h, if_pos h']
+    rw [ite_eq_left h, ite_eq_left h']
   · have h' : j ≠ Fin.rev i := fun hh => h (by rw [hh, Fin.rev_rev])
-    rw [if_neg h, if_neg h']
+    rw [ite_eq_right h, ite_eq_right h']
 
 private lemma bmDPU_anti_vecMul {F : Type} [Field F] {r : ℕ} (v : Fin r → F) :
     Matrix.vecMul v (Unitary.antidiag r) =

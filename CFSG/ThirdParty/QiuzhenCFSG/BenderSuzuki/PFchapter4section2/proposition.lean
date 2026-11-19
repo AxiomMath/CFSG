@@ -141,7 +141,7 @@ private theorem isZGroup_of_fixedPointFree_quotient
   have hDnormQ : D ≤ Subgroup.normalizer Q :=
     hDleH.trans
       ((Subgroup.normal_subgroupOf_iff_le_normalizer hQleH).1 hQnormal)
-  letI : MulDistribMulAction D Q :=
+  let : MulDistribMulAction D Q :=
     Subgroup.conjMulDistribMulActionOfLeNormalizer (G := G) D Q hDnormQ
   let Q0Q : Subgroup Q := Q0.subgroupOf Q
   have hQ0Qnormal : Q0Q.Normal := by
@@ -165,7 +165,7 @@ private theorem isZGroup_of_fixedPointFree_quotient
           _ = q⁻¹ * (q * (q * y * q⁻¹)) := by rw [hcomm]
           _ = q * y * q⁻¹ := by group
       rwa [hy_eq]
-  letI : Q0Q.Normal := hQ0Qnormal
+  let : Q0Q.Normal := hQ0Qnormal
   have hQ0Qinv : IsInvariant D Q Q0Q := by
     refine ⟨?_⟩
     have hforward : ∀ (d : D) (q : Q), q ∈ Q0Q → d • q ∈ Q0Q := by
@@ -179,9 +179,9 @@ private theorem isZGroup_of_fixedPointFree_quotient
     · intro hdq
       have hinv : d⁻¹ • (d • q) ∈ Q0Q := hforward d⁻¹ (d • q) hdq
       simpa using hinv
-  letI : MulAction.QuotientAction D Q0Q :=
+  let : MulAction.QuotientAction D Q0Q :=
     quotientAction_of_isInvariant (A := D) (G := Q) Q0Q hQ0Qinv
-  letI : MulDistribMulAction D (Q ⧸ Q0Q) :=
+  let : MulDistribMulAction D (Q ⧸ Q0Q) :=
     quotientMulDistribMulAction (A := D) (G := Q) Q0Q hQ0Qinv
   let rho : D →* MulAut (Q ⧸ Q0Q) :=
     MulDistribMulAction.toMulAut D (Q ⧸ Q0Q)
@@ -241,7 +241,7 @@ private theorem isZGroup_of_fixedPointFree_quotient
   have hZA : IsZGroup A := by
     refine ⟨?_⟩
     intro p hp P
-    letI : Fact p.Prime := ⟨hp⟩
+    let : Fact p.Prime := ⟨hp⟩
     by_cases hp2 : p = 2
     · subst p
       have hPodd : Odd (Nat.card P) :=
@@ -256,7 +256,7 @@ private theorem isZGroup_of_fixedPointFree_quotient
       exact @isCyclic_of_subsingleton P _
         (Nat.card_eq_one_iff_unique.mp hPcard).1
     · exact hclass.1 p hp2 P
-  letI : IsZGroup A := hZA
+  let : IsZGroup A := hZA
   exact IsZGroup.of_injective (f := eA.toMonoidHom) eA.injective
 
 set_option maxHeartbeats 1000000 in
@@ -365,10 +365,10 @@ public theorem proposition
       hfinrank, hcardF, hthetaOdd, hsigmaF, hsigmaFrob, hK1, hW1ne,
       hW1norm, hW1inv, hphiThetaOne, hphiThetaNe, hcoordMul, hrho,
       hrho1, hmodelS, hmodelKW, hmapK, hmapW, hsCoord⟩
-  letI : Field E := hEField
-  letI : Finite E := hEFinite
-  letI : CharP E 2 := hEChar
-  letI : Group S1 := hS1Group
+  let : Field E := hEField
+  let : Finite E := hEFinite
+  let : CharP E 2 := hEChar
+  let : Group S1 := hS1Group
   have hphi_zero_left : ∀ x : E, phi 0 x = 0 := by
     intro x
     by_cases htheta : theta = 1
@@ -2004,7 +2004,7 @@ public theorem proposition
       have hdH : (d : G) ∈ H := hsec.hA.A1.D_le_H d.property
       exact H.mul_mem
         (H.mul_mem (H.inv_mem (H.inv_mem hdH)) hqH) (H.inv_mem hdH)
-  letI : IsZGroup D :=
+  let : IsZGroup D :=
     isZGroup_of_fixedPointFree_quotient H D Q Q0
       hsec.hA.A1.D_le_H hsec.hA.A1.Q_le_H hQ_normal_in_H hsec.Q0_le_Q
       hQ0_commutes_Q hQ0_stable_D hsec.hA.A1.D_odd hD_fixed_point_free
@@ -2013,7 +2013,7 @@ public theorem proposition
     rw [hsec.V_eq]
     exact inf_le_left
   have hW_le_D : W ≤ D := hsec.W_le_V.trans hV_le_D
-  letI : (W.subgroupOf D).Normal :=
+  let : (W.subgroupOf D).Normal :=
     _root_.CFSG.BenderSuzuki.PFchapter1section2.peterfalvi_chapter1_section2_proposition_3_appendixI_input_W_normal_D
         H D Q K V W t hsec.hA.A1 hsec.K_def hsec.V_eq hsec.W_le_V
         hsec.W_eq hV_le_D
@@ -2172,12 +2172,12 @@ public theorem proposition
           _ = q⁻¹ * (q * (q * y * q⁻¹)) := by rw [hcomm]
           _ = q * y * q⁻¹ := by group
       rwa [hy_eq]
-  letI : Q0Q.Normal := hQ0Q_normal
+  let : Q0Q.Normal := hQ0Q_normal
   have hD_normalizes_Q : D ≤ Subgroup.normalizer Q :=
     hsec.hA.A1.D_le_H.trans
       ((Subgroup.normal_subgroupOf_iff_le_normalizer hsec.hA.A1.Q_le_H).1
         hQ_normal_in_H)
-  letI : MulDistribMulAction D Q :=
+  let : MulDistribMulAction D Q :=
     Subgroup.conjMulDistribMulActionOfLeNormalizer (G := G) D Q hD_normalizes_Q
   have hD_smul_coe : ∀ (d : D) (q : Q),
       ((d • q : Q) : G) = (d : G) * (q : G) * (d : G)⁻¹ := by
@@ -2198,9 +2198,9 @@ public theorem proposition
     · intro hdq
       have hinv : d⁻¹ • (d • q) ∈ Q0Q := hforward d⁻¹ (d • q) hdq
       simpa using hinv
-  letI : MulAction.QuotientAction D Q0Q :=
+  let : MulAction.QuotientAction D Q0Q :=
     quotientAction_of_isInvariant (A := D) (G := Q) Q0Q hQ0Q_invariant
-  letI : MulDistribMulAction D (Q ⧸ Q0Q) :=
+  let : MulDistribMulAction D (Q ⧸ Q0Q) :=
     quotientMulDistribMulAction (A := D) (G := Q) Q0Q hQ0Q_invariant
   have hquotient_card : Nat.card (Q ⧸ Q0Q) = Nat.card Q0 ^ 2 := by
     have hcardQ := natCard_eq_cube_of_isSuzukiTwoTypeB H Q Q0 S
@@ -2393,7 +2393,7 @@ public theorem proposition
       _ = n := Nat.card_fin n
   have hcardQuotientNontrivial :
       Nat.card QuotientNontrivial = Nat.card (Q ⧸ Q0Q) - 1 := by
-    letI := Fintype.ofFinite (Q ⧸ Q0Q)
+    let := Fintype.ofFinite (Q ⧸ Q0Q)
     simp [QuotientNontrivial, Nat.card_eq_fintype_card,
       Fintype.card_subtype_compl]
   have horbit_card : n * ((Nat.card Q0 - 1) * m) = Nat.card Q0 ^ 2 - 1 := by
@@ -2652,7 +2652,7 @@ public theorem proposition
         (hJ_bounds j).1 (hJ_bounds j).2 (hJ_bounds l).1 (hJ_bounds l).2
       apply hcenter_injective
       exact congrArg (fun q : Fiber => (q : G)) hjl
-    letI : Fintype J := by
+    let : Fintype J := by
       dsimp [J]
       infer_instance
     have hcardJ : Nat.card J = m - 1 := by
@@ -3881,7 +3881,7 @@ public theorem proposition
         cases a <;> cases b <;>
           simp [candidateFiber, candidateCoord] at hv ⊢
         all_goals exact hcenter_injective hv
-      letI : Fintype J := by
+      let : Fintype J := by
         dsimp [J]
         infer_instance
       have hcardJ : Nat.card J = m - 1 := by

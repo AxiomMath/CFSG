@@ -14,10 +14,10 @@ theorem outCycAt_primeFormP {ℓ f n : ℕ} {K : Type} [Field K] (h : UnitaryFie
     (hn : 3 ≤ n) (hq : ¬(n = 3 ∧ ℓ ^ f = 2)) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) :
     OutCycAt p (primeFormP h ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K)) := by
   classical
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   let T := primeFormP h ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K)
-  haveI : Finite T := inferInstance
-  haveI : IsCyclic (RingAut K) :=
+  have : Finite T := inferInstance
+  have : IsCyclic (RingAut K) :=
     (card_ringAut_and_isCyclic h.prime K h.card).2
   let E : Subgroup (MulAut T) := ⊤
   have hE : ∀ α : MulAut T, α ^ p = 1 → α ∈ E := fun _ _ => by simp [E]

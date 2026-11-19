@@ -191,7 +191,7 @@ theorem exists_conj_eq_E0_of_le {F : Subgroup Pm} (hFP : F ≤ gP3) (hF9 : Nat.c
     omega
   have hy3 := h3 y hyF
   have hxy : x * y = y * x := congrArg Subtype.val
-    (IsPGroup.commutative_of_card_eq_prime_sq (p := 3) (G := F) (by rw [hF9]; norm_num)
+    ((IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3) (G := F) (by rw [hF9]; norm_num)).is_comm.comm
       ⟨x, hxF⟩ ⟨y, hyF⟩)
   have hy1 : y ≠ 1 := fun h => hyx (h ▸ Subgroup.one_mem _)
   have hyx1 : y ≠ x := fun h => hyx (h ▸ Subgroup.mem_zpowers x)

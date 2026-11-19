@@ -22,19 +22,19 @@ theorem exists_max_normalized (K R : Subgroup Γ) (hR : IsPGroup 2 R)
     ∃ S : Subgroup Γ, S ≤ K ∧ IsPGroup 2 S ∧ R ⊓ K ≤ S ∧
       (∀ r ∈ R, ∀ s ∈ S, r * s * r⁻¹ ∈ S) ∧
       ∀ Q : Subgroup Γ, Q ≤ K → IsPGroup 2 Q → Nat.card Q ≤ Nat.card S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set M : Subgroup Γ := R ⊔ K with hM
   have hRM : R ≤ M := le_sup_left
   have hKM : K ≤ M := le_sup_right
   have hMN : M ≤ Subgroup.normalizer (K : Set Γ) := sup_le hRK Subgroup.le_normalizer
-  haveI hKn : (K.subgroupOf M).Normal :=
+  have hKn : (K.subgroupOf M).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hKM).2 hMN
   have hR' : IsPGroup 2 (R.subgroupOf M) := hR.comap_subtype
   obtain ⟨P, hP⟩ := hR'.exists_le_sylow
   refine ⟨((P : Subgroup ↥M) ⊓ K.subgroupOf M).map M.subtype, ?_, ?_, ?_, ?_, ?_⟩
   · rintro _ ⟨x, ⟨-, hx⟩, rfl⟩
     exact Subgroup.mem_subgroupOf.1 hx
-  · exact (P.isPGroup'.to_inf_left).map M.subtype
+  · exact (P.isPGroup.to_inf_left).map M.subtype
   · rintro x ⟨hxR, hxK⟩
     exact ⟨⟨x, hRM hxR⟩, ⟨hP (Subgroup.mem_subgroupOf.2 hxR), Subgroup.mem_subgroupOf.2 hxK⟩,
       rfl⟩
@@ -66,7 +66,7 @@ theorem exists_conj_of_max {K S₁ S₂ : Subgroup Γ} (h₁K : S₁ ≤ K) (h�
     (h₂K : S₂ ≤ K) (h₂ : IsPGroup 2 S₂)
     (h₂max : ∀ Q : Subgroup Γ, Q ≤ K → IsPGroup 2 Q → Nat.card Q ≤ Nat.card S₂) :
     ∃ c ∈ K, ∀ x : Γ, x ∈ S₂ ↔ c⁻¹ * x * c ∈ S₁ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have key : ∀ S : Subgroup Γ, S ≤ K → IsPGroup 2 S →
       (∀ Q : Subgroup Γ, Q ≤ K → IsPGroup 2 Q → Nat.card Q ≤ Nat.card S) →
       ∃ P : Sylow 2 ↥K, (P : Subgroup ↥K) = S.subgroupOf K := by
@@ -75,7 +75,7 @@ theorem exists_conj_of_max {K S₁ S₂ : Subgroup Γ} (h₁K : S₁ ≤ K) (h�
     obtain ⟨P, hP⟩ := hS'.exists_le_sylow
     refine ⟨P, (Subgroup.eq_of_le_of_card_ge hP ?_).symm⟩
     have h1 := hmax ((P : Subgroup ↥K).map K.subtype) (Subgroup.map_subtype_le _)
-      (P.isPGroup'.map _)
+      (P.isPGroup.map _)
     rw [Subgroup.card_map_of_injective K.subtype_injective] at h1
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hSK).toEquiv]
     exact h1
@@ -150,13 +150,14 @@ theorem shift2_two : (shift2 (m + 6) 2 : Fin (m + 6 + 2)) = 4 := Fin.ext (by
 theorem shift2_three : (shift2 (m + 6) 3 : Fin (m + 6 + 2)) = 5 := Fin.ext (by
   rw [shift2_val]; rfl)
 
+omit [Finite V] in
 theorem yy_eq_pe_iota2 : yy ψ = pe ψ (iota2 (m + 6) (swap 0 1)) := by
   rw [iota2_swap, shift2_zero, shift2_one]; rfl
 
 theorem Hyp.yy_mem_N (h : Hyp G L z v H₁ m ψ) : yy ψ ∈ NN G L := by
   rw [yy_eq_pe_iota2]; exact h.pe_iota2_mem_N _
 
-theorem Hyp.N_le_normalizer_K (h : Hyp G L z v H₁ m ψ) :
+theorem Hyp.N_le_normalizer_K (_h : Hyp G L z v H₁ m ψ) :
     NN G L ≤ Subgroup.normalizer ((KK G L : Subgroup (GLV V)) : Set (GLV V)) := by
   intro x hx
   rw [Subgroup.mem_normalizer_iff]
@@ -181,6 +182,7 @@ theorem Hyp.N_le_normalizer_K (h : Hyp G L z v H₁ m ψ) :
 @[expose] noncomputable def tt (ψ : ↥H₁ ≃* Equiv.Perm (Fin (m + 6 + 2))) : GLV V :=
   pe ψ (iota2 (m + 6) (swap 0 1 * swap 2 3))
 
+omit [Finite V] in
 theorem tt_eq : tt ψ = pe ψ (swap 2 3 * swap 4 5) := by
   rw [tt, map_mul, iota2_swap, iota2_swap, shift2_zero, shift2_one, shift2_two, shift2_three]
 
@@ -192,6 +194,7 @@ theorem ne23' : (2 : Fin (m + 6)) ≠ 3 := Fin.ne_of_val_ne (show (2 : ℕ) ≠ 
 theorem dt_mem_alt : swap (0 : Fin (m + 6)) 1 * swap 2 3 ∈ alternatingGroup (Fin (m + 6)) := by
   rw [Equiv.Perm.mem_alternatingGroup, map_mul, sign_swap ne01', sign_swap ne23']; rfl
 
+omit [Finite V] in
 theorem tt_eq_jL : tt ψ = jL ψ ⟨_, dt_mem_alt (m := m)⟩ := rfl
 
 theorem Hyp.tt_mem_L (h : Hyp G L z v H₁ m ψ) : tt ψ ∈ L := by
@@ -239,7 +242,7 @@ theorem Hyp.yy_orderOf (h : Hyp G L z v H₁ m ψ) : orderOf (yy ψ) = 2 := by
 theorem Hyp.exists_sBad (h : Hyp G L z v H₁ m ψ)
     (hbig : ∃ Q : Subgroup (GLV V), Q ≤ KK G L ∧ IsPGroup 2 Q ∧ 2 < Nat.card Q) :
     ∃ S, SBad G L z ψ S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set R : Subgroup (GLV V) := Subgroup.zpowers z ⊔ Subgroup.zpowers (yy ψ) with hR
   have hR2 : IsPGroup 2 R := by
     refine IsPGroup.to_sup_of_normal_right'

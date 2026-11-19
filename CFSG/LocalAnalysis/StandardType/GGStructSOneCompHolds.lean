@@ -27,8 +27,8 @@ open CFSG.Assembly
     ∀ P : Subgroup X, P ≤ Subgroup.centralizer (A : Set X) ⊓ G₀ → ⁅P, P⁆ = P →
       P ≤ LargeEvenLayer (Subgroup.centralizer (A : Set X) ⊓ G₀)
 
-theorem s1Setup {X : Type} [Group X] [Finite X] {p : ℕ} {G₀ A : Subgroup X} (hp : p.Prime)
-    (hp2 : p ≠ 2) (hG₀ : IsSimpleGroup ↥G₀) (hA : IsElemAbelian p A)
+theorem s1Setup {X : Type} [Group X] [Finite X] {p : ℕ} {G₀ A : Subgroup X} (_hp : p.Prime)
+    (_hp2 : p ≠ 2) (hG₀ : IsSimpleGroup ↥G₀) (hA : IsElemAbelian p A)
     (hAN : A ≤ Subgroup.normalizer (G₀ : Set X))
     (hM : LargeEvenMarking ↥G₀ (fun _ _ _ I _ θ => ∀ a ∈ A, ∃ φ ∈ I,
       LargeEvenInduces θ (fun l l' => (l' : X) = a⁻¹ * l * a) φ)) :
@@ -36,7 +36,7 @@ theorem s1Setup {X : Type} [Group X] [Finite X] {p : ℕ} {G₀ A : Subgroup X} 
       ∃ E : Subgroup (MulAut ↥G₀), IsElemAbelian p E ∧
         (CFSG.LocalAnalysis.GLTheoremA.I142.centFix E).map G₀.subtype =
           Subgroup.centralizer (A : Set X) ⊓ G₀ := by
-  haveI := hG₀
+  have := hG₀
   have hnc : ∃ a b : ↥G₀, a * b ≠ b * a := by
     by_contra h
     push Not at h
@@ -94,7 +94,7 @@ theorem s1Setup {X : Type} [Group X] [Finite X] {p : ℕ} {G₀ A : Subgroup X} 
 theorem ggStructSOnePerf_holds : GGStructSOnePerf := by
   intro X _ _ p G₀ A hp hp2 hG₀ hA hAN hM P hPY hPperf
   obtain ⟨hnc, hchevG₀, E, hEel, hYeq⟩ := s1Setup hp hp2 hG₀ hA hAN hM
-  haveI := hG₀
+  have := hG₀
   have hPG0 : P ≤ G₀ := hPY.trans inf_le_right
   have hP₀perf : ⁅P.subgroupOf G₀, P.subgroupOf G₀⁆ = P.subgroupOf G₀ := by
     apply Subgroup.map_injective G₀.subtype_injective
@@ -126,7 +126,7 @@ theorem ggStructSOnePerf_holds : GGStructSOnePerf := by
 theorem ggStructSOneComp_holds : GGStructSOneComp := by
   intro X _ _ p G₀ A hp hp2 hG₀ hA hAN hM C hC
   obtain ⟨hnc, hchevG₀, E, hEel, hYeq⟩ := s1Setup hp hp2 hG₀ hA hAN hM
-  haveI := hG₀
+  have := hG₀
   have hCG0 : C ≤ G₀ := hC.1.trans inf_le_right
   have hcompC₀ : CFSG.Open.IsComponentOf (C.subgroupOf G₀)
       (CFSG.LocalAnalysis.GLTheoremA.I142.centFix E) := by

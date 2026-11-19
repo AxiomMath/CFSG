@@ -28,7 +28,7 @@ theorem s265e_data {Ω : Type} [Group Ω] [Finite Ω] {S B T : Subgroup Ω} {x :
       (LieModel (↥J ⧸ Subgroup.center ↥J) .twistedB2 0 2 5 ∨
         LieModel (↥J ⧸ Subgroup.center ↥J) .Tits 0 2 1) := by
   have cfg := h.cfg
-  haveI hSn : S.Normal := cfg.normal
+  have hSn : S.Normal := cfg.normal
   have hnorm : ∀ g : Ω, g ∈ Subgroup.normalizer (S : Set Ω) := fun g => by
     rw [Subgroup.normalizer_eq_top_iff.2 hSn]
     exact Subgroup.mem_top g

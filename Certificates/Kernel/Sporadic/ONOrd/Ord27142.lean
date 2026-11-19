@@ -16,7 +16,7 @@ open CFSG.EvenSporadicStandard.Induction CertificateChecks.KernelSpor.ON8
 theorem lin_codeK (c : Nat) : L (codeK c) := by
   unfold codeK
   cases Nat.beq c 0 <;> cases Nat.beq c 1 <;> cases Nat.beq c 2 <;>
-    first | exact lin_fA | exact lin_fAI | exact lin_fB | exact lin_fBI
+    first | exact lin_fA | exact lin_fB | exact lin_fBI
 
 theorem lin_word : ∀ w : List Nat, L fun x => w.foldr codeK x
   | [] => Lin.id
@@ -35,15 +35,15 @@ theorem rd_code (c : Nat) : Rd (nPts ()) (onCodeTab a ai b bi c) (codeK c) := by
   by_cases h0 : c = 0
   · subst h0
     exact ha
-  rw [if_neg h0]
+  rw [ite_eq_right h0]
   by_cases h1 : c = 1
   · subst h1
     exact hai
-  rw [if_neg h1]
+  rw [ite_eq_right h1]
   by_cases h2 : c = 2
   · subst h2
     exact hb
-  rw [if_neg h2]
+  rw [ite_eq_right h2]
   have e : codeK c = fBI := by
     funext x
     unfold codeK

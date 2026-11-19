@@ -15,6 +15,7 @@ open Subgroup CFSG.Blueprint
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {z r : G}
   {B A K₁ K₂ : Subgroup G} {h : G}
 
+omit [Finite G] in
 private lemma sec5b517_all_sup (K₁ K₂ : Subgroup G) (h : G) :
     Sec5B517All (Kfam5 K₁ K₂ h) =
       (K₁ ⊔ K₂) ⊔ (CFSG.conjugate K₁ h ⊔ CFSG.conjugate K₂ h) := by

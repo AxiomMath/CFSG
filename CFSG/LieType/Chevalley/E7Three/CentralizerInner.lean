@@ -24,7 +24,7 @@ theorem exists_sl2_conj_of_intertwiner [IsAlgClosed K] {ψ : SL(2, K) → SL(2, 
     {B : Matrix (Fin 2) (Fin 2) K} (hB : B.det ≠ 0)
     (h : ∀ X : SL(2, K), (ψ X : Matrix (Fin 2) (Fin 2) K) * B = B * X) :
     ∃ A : SL(2, K), ∀ X, ψ X = A * X * A⁻¹ := by
-  obtain ⟨r, hr⟩ := IsAlgClosed.exists_eq_mul_self B.det
+  obtain ⟨r, hr⟩ := IsAlgClosed.isSquare B.det
   have hr0 : r ≠ 0 := by
     rintro rfl
     exact hB (by rw [hr, mul_zero])
@@ -46,10 +46,10 @@ theorem det_ne_zero_of_intertwiner {ψ : SL(2, K) → SL(2, K)} {B : Matrix (Fin
       rw [Matrix.mulVec_mulVec, h, ← Matrix.mulVec_mulVec, hw, Matrix.mulVec_zero]
     have eu : ![w 1, 0] = ((uSL 1 : SL(2, K)) : Matrix (Fin 2) (Fin 2) K) *ᵥ w - w := by
       ext i
-      fin_cases i <;> simp [uSL, Matrix.mulVec, dotProduct, Fin.sum_univ_two]
+      fin_cases i <;> simp [uSL, dotProduct, Fin.sum_univ_two]
     have el : ![0, w 0] = ((vSL 1 : SL(2, K)) : Matrix (Fin 2) (Fin 2) K) *ᵥ w - w := by
       ext i
-      fin_cases i <;> simp [vSL, Matrix.mulVec, dotProduct, Fin.sum_univ_two]
+      fin_cases i <;> simp [vSL, dotProduct, Fin.sum_univ_two]
     rw [eu, el, Matrix.mulVec_sub, Matrix.mulVec_sub, hu, hl, hw, sub_zero]
     exact ⟨rfl, rfl⟩
   have hB0 : B *ᵥ ![1, 0] = 0 → B *ᵥ ![0, 1] = 0 → B = 0 := by
@@ -81,16 +81,19 @@ theorem det_ne_zero_of_intertwiner {ψ : SL(2, K) → SL(2, K)} {B : Matrix (Fin
 
 variable [CharP K 2]
 
+omit [CharP K 2] in
 theorem mul_kronecker_one_apply (N : Matrix (Fin 2 × Fin 3) (Fin 2 × Fin 3) K)
     (X : Matrix (Fin 2) (Fin 2) K) (i k : Fin 2) (a c : Fin 3) :
     (N * (X ⊗ₖ (1 : Matrix (Fin 3) (Fin 3) K))) (i, a) (k, c) = ∑ j, N (i, a) (j, c) * X j k := by
   simp [Matrix.mul_apply, Fintype.sum_prod_type, Matrix.kroneckerMap_apply, Matrix.one_apply]
 
+omit [CharP K 2] in
 theorem kronecker_one_mul_apply (N : Matrix (Fin 2 × Fin 3) (Fin 2 × Fin 3) K)
     (X : Matrix (Fin 2) (Fin 2) K) (i k : Fin 2) (a c : Fin 3) :
     ((X ⊗ₖ (1 : Matrix (Fin 3) (Fin 3) K)) * N) (i, a) (k, c) = ∑ j, X i j * N (j, a) (k, c) := by
   simp [Matrix.mul_apply, Fintype.sum_prod_type, Matrix.kroneckerMap_apply, Matrix.one_apply]
 
+omit [CharP K 2] in
 theorem exists_sl2_conj_of_kronSL2 [IsAlgClosed K] (Y : SL(6, K)) (ψ : SL(2, K) → SL(2, K))
     (h : ∀ X, Y * kronSL2 K X * Y⁻¹ = kronSL2 K (ψ X)) :
     ∃ A : SL(2, K), ∀ X, ψ X = A * X * A⁻¹ := by
@@ -130,8 +133,10 @@ theorem exists_sl2_conj_of_kronSL2 [IsAlgClosed K] (Y : SL(6, K)) (ψ : SL(2, K)
   exact exists_sl2_conj_of_intertwiner (det_ne_zero_of_intertwiner hne (hslice a c))
     fun X => (hslice a c X).symm
 
+omit [CharP K 2] in
 theorem HSL_inv_eq (r : Kˣ) : (HSL r : SL(2, K))⁻¹ = HSL r⁻¹ := ((diagSL2 K).map_inv r).symm
 
+omit [CharP K 2] in
 theorem coe_HSL_conj (r : Kˣ) (x : SL(2, K)) :
     ((HSL r * x * (HSL r)⁻¹ : SL(2, K)) : Matrix (Fin 2) (Fin 2) K) =
       !![(x : Matrix (Fin 2) (Fin 2) K) 0 0, (r : K) ^ 2 * (x : Matrix (Fin 2) (Fin 2) K) 0 1;
@@ -145,12 +150,14 @@ theorem coe_HSL_conj (r : Kˣ) (x : SL(2, K)) :
   ext i j
   fin_cases i <;> fin_cases j <;> simp <;> field_simp
 
+omit [CharP K 2] in
 theorem HSL_conj_uSL_eq (r : Kˣ) (t : K) : HSL r * uSL t * (HSL r)⁻¹ = uSL ((r : K) ^ 2 * t) := by
   apply Subtype.ext
   rw [coe_HSL_conj]
   ext i j
   fin_cases i <;> fin_cases j <;> simp [uSL]
 
+omit [CharP K 2] in
 theorem HSL_conj_vSL_eq (r : Kˣ) (t : K) :
     HSL r * vSL t * (HSL r)⁻¹ = vSL ((r : K)⁻¹ ^ 2 * t) := by
   apply Subtype.ext
@@ -158,6 +165,7 @@ theorem HSL_conj_vSL_eq (r : Kˣ) (t : K) :
   ext i j
   fin_cases i <;> fin_cases j <;> simp [vSL]
 
+omit [CharP K 2] in
 theorem cube_root_values [IsAlgClosed K] {ζ : Kˣ} (hζ : IsPrimitiveRoot ζ 3) :
     (ζ : K) ≠ 0 ∧ (ζ : K) ≠ 1 ∧ (ζ : K) ^ 2 ≠ 0 ∧ (ζ : K) ^ 2 ≠ 1 ∧ (ζ : K) ≠ (ζ : K) ^ 2 ∧
       ∃ t : K, t ≠ 0 ∧ t ≠ 1 ∧ t ^ 2 + t + 1 ≠ 0 := by
@@ -185,6 +193,7 @@ theorem cube_root_values [IsAlgClosed K] {ζ : Kˣ} (hζ : IsPrimitiveRoot ζ 3)
     obtain ⟨h0, h1, h2, h3⟩ := ht
     exact ⟨t, h0, h1, fun h => (hroot t h).elim h2 h3⟩
 
+omit [CharP K 2] in
 theorem exists_unit_sq [IsAlgClosed K] {t : K} (ht : t ≠ 0) : ∃ r : Kˣ, (r : K) ^ 2 = t := by
   obtain ⟨z, hz⟩ := IsAlgClosed.exists_pow_nat_eq t (by norm_num : 0 < 2)
   have hz0 : z ≠ 0 := by
@@ -362,7 +371,7 @@ theorem exists_sl2_conj_of_fix_HSL [IsAlgClosed K] {ζ : Kˣ} (hζ : IsPrimitive
   · have hmap : (Matrix.SpecialLinearGroup.map ((RingEquiv.refl K) : K →+* K) X :
         Matrix (Fin 2) (Fin 2) K) = X := by
       ext i j
-      simp [Matrix.SpecialLinearGroup.map_apply_coe]
+      simp
     rw [hMψ X, hmap, Matrix.mul_assoc, M.inv_mul, Matrix.mul_one]
 
 theorem mem_normalizer_centralizer_of_mem_normalizer {G : Type*} [Group G] {E : Subgroup G}
@@ -391,9 +400,11 @@ theorem mem_normalizer_centralizer_of_mem_normalizer {G : Type*} [Group G] {E : 
 @[expose] def IsInnerOnCubeSL2 (g : ModGL .E7 K) : Prop :=
   ∃ M : SL(2, K), ∀ X : SL(2, K), g * cubeSL2 K X * g⁻¹ = cubeSL2 K (M * X * M⁻¹)
 
+omit [CharP K 2] in
 theorem isInnerOnCubeSL2_one : IsInnerOnCubeSL2 (1 : ModGL .E7 K) :=
   ⟨1, fun X => by simp⟩
 
+omit [CharP K 2] in
 theorem IsInnerOnCubeSL2.mul {g g' : ModGL .E7 K} (hg : IsInnerOnCubeSL2 g)
     (hg' : IsInnerOnCubeSL2 g') : IsInnerOnCubeSL2 (g * g') := by
   obtain ⟨M, hM⟩ := hg
@@ -404,6 +415,7 @@ theorem IsInnerOnCubeSL2.mul {g g' : ModGL .E7 K} (hg : IsInnerOnCubeSL2 g)
   congr 1
   group
 
+omit [CharP K 2] in
 theorem IsInnerOnCubeSL2.inv {g : ModGL .E7 K} (hg : IsInnerOnCubeSL2 g) :
     IsInnerOnCubeSL2 g⁻¹ := by
   obtain ⟨M, hM⟩ := hg

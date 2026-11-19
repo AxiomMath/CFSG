@@ -63,6 +63,7 @@ section Model
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem exists_model_component {L : Subgroup G} {c : G} (hcL : c ∈ L)
     {K : Subgroup (L ⊓ Subgroup.centralizer {c} : Subgroup G)} (hK : IsComponent K)
     {K' : Subgroup G} (hK' : K' = K.map (L ⊓ Subgroup.centralizer {c}).subtype) (hcK : c ∈ K')

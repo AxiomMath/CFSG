@@ -100,6 +100,7 @@ theorem inCatalog_of_smithThreeConcl
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isSylowIn_of_centralizer_eq {A : Subgroup G} (hA : IsPGroup 2 A)
     (hC : Subgroup.centralizer (A : Set G) = A) :
     IsSylowIn 2 (Subgroup.centralizer (A : Set G)) A := by

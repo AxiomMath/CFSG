@@ -44,7 +44,7 @@ public theorem secondCase_invertedElements_le_component
     (c : CentralizerSetup G) (w : SecondCaseWitness c)
     (d : SecondCaseComponentData w)
     (SM : Sylow 2 (↥w.M))
-    (hSMcent : ((SM : Subgroup w.M).map w.M.subtype) ≤
+    (_hSMcent : ((SM : Subgroup w.M).map w.M.subtype) ≤
       Subgroup.centralizer ({c.t} : Set G))
     (SE : Sylow 2 (↥d.E))
     (hSEamb : (SE : Subgroup d.E).map d.E.subtype =

@@ -95,14 +95,14 @@ private theorem CFSG.section16_hasAbelianSylowRankAtMostTwo_of_section15
   have hU_rank : groupRank U ≤ 2 :=
     section16_groupRank_U_le_two_of_section15 (G := G) hM hKU
   intro p P
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   have hPcomm : IsMulCommutative (P : Subgroup U) :=
     section12_sylow_abelian_of_sigma_compl_nilpotent_subgroup
       (G := G) (M := M) (K := U) (p := p.val)
       hM hKU.2.2.2.1.1 hUπ P
   exact ⟨hPcomm,
     (generatorRank_le_groupRank_of_isPGroup_abelian_subgroup
-      (R := U) (q := p.val) (A := (P : Subgroup U)) P.isPGroup' hPcomm).trans
+      (R := U) (q := p.val) (A := (P : Subgroup U)) P.isPGroup hPcomm).trans
         hU_rank⟩
 
 omit [Finite G] [IsMinCE G] in
@@ -139,7 +139,7 @@ private theorem CFSG.section16_setCommutative_hatMsigma_of_section15
   classical
   have hcomm : IsMulCommutative (section15GeneratedMsigmaCentralizers M U) :=
     lemma_15_1_d hM hKU
-  letI : IsMulCommutative (section15GeneratedMsigmaCentralizers M U) := hcomm
+  let : IsMulCommutative (section15GeneratedMsigmaCentralizers M U) := hcomm
   intro x hx y hy
   exact setLike_mul_comm
     (s := section15GeneratedMsigmaCentralizers M U)
@@ -651,7 +651,7 @@ private theorem CFSG.section16_ASet_diff_msigma_u_mem_hat
       xσ = sσ⁻¹ * x0σ * sσ := by
         simp [x0σ, mul_assoc]
       _ = 1 := by rw [hx0_one]; simp
-  haveI : Sσ.Normal := by
+  have : Sσ.Normal := by
     simpa [Sσ] using (section10MsigmaSubgroup_normal (M := M))
   rcases section16_exists_conj_mem_centralizer_of_coprime_conj
       (K := Sσ) (g := uM) hcop_uS (x := x0σ) (y := sσ) hfixedClass with
@@ -700,7 +700,7 @@ public theorem CFSG.section16_ASet_diff_msigma_conj_U_hat_of_coprime
     section16_ASet_diff_msigma_u_mem_hat
       (G := G) (M := M) (K := K) (U := U) hM hKU ha huU hsSigma ha_eq
   let Sσ : Subgroup M := section10MsigmaSubgroup M
-  haveI : Sσ.Normal := by
+  have : Sσ.Normal := by
     simpa [Sσ] using (section10MsigmaSubgroup_normal (M := M))
   have huM : u ∈ M := hKU.2.2.2.1.1 huU
   have hsM : s ∈ M := section16_msigma_le (G := G) M hsSigma
@@ -834,7 +834,7 @@ public theorem CFSG.section16_ASet_diff_msigma_exists_prime_compl_zpow
   rcases section16_ASet_diff_msigma_product_decomp (G := G) ha with
     ⟨u, s, huU, hsSigma, hu_ne, ha_eq⟩
   let Sσ : Subgroup M := section10MsigmaSubgroup M
-  haveI : Sσ.Normal := by
+  have : Sσ.Normal := by
     simpa [Sσ] using (section10MsigmaSubgroup_normal (M := M))
   let qM : M →* M ⧸ Sσ := QuotientGroup.mk' Sσ
   have haM : a ∈ M := ha.1.1.1
@@ -901,7 +901,7 @@ public theorem CFSG.section16_ASet_diff_msigma_exists_prime_compl_zpow
     exact hUHall.p_in_pi_of_p_dvd_card q' (by simpa [q'] using hqdivUsub)
   have hqdivA : q ∣ Nat.card A :=
     hqdivAmap.trans (Subgroup.card_map_dvd (H := A) qM)
-  haveI : Fact q.Prime := ⟨hqprime⟩
+  have : Fact q.Prime := ⟨hqprime⟩
   rcases exists_prime_orderOf_dvd_card' (G := A) q hqdivA with ⟨zA, hzA_order⟩
   rcases Subgroup.mem_zpowers_iff.mp zA.property with ⟨n, hzA_eq⟩
   refine ⟨n, q', ?_, hqcompl⟩

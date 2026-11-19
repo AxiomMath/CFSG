@@ -20,14 +20,14 @@ open CFSG.Sporadic.Fi24 (J)
 
 theorem isSolvable_centralizer_dJ_inf_normalizer :
     Group.IsSolvable ↥(Subgroup.centralizer ({dJ} : Set J) ⊓ Subgroup.normalizer (RJ : Set J)) := by
-  haveI := isSolvable_centralizer_dJ_inf card_fi24P_inf_centralizer_psi
+  have := isSolvable_centralizer_dJ_inf card_fi24P_inf_centralizer_psi
   exact Group.isSolvable_of_isSolvable_injective
     (Subgroup.inclusion_injective (inf_le_inf le_rfl normalizer_RJ_le))
 
 theorem isSolvable_centralizer_dJ_inf_centralizer :
     Group.IsSolvable ↥(Subgroup.centralizer ({dJ} : Set J) ⊓
       Subgroup.centralizer (centerOf (rowR0Of dJ RJ) : Set J)) := by
-  haveI := isSolvable_centralizer_dJ_inf card_fi24P_inf_centralizer_psi
+  have := isSolvable_centralizer_dJ_inf card_fi24P_inf_centralizer_psi
   have hle : Subgroup.centralizer (centerOf (rowR0Of dJ RJ) : Set J) ≤ fi24C := by
     refine Subgroup.centralizer_le ?_
     rw [Set.singleton_subset_iff]

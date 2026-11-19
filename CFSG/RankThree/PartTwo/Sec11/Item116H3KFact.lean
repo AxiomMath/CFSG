@@ -73,15 +73,15 @@ theorem exists_fixed_on_fibre {H : Type*} [Group H] [Finite H] (N : Subgroup H)
         invFun := fun s => ⟨y0⁻¹ * s.1, QuotientGroup.eq.mp s.2.symm⟩
         left_inv := fun t => Subtype.ext (by simp)
         right_inv := fun s => Subtype.ext (by simp) }
-  letI hdec : DecidableEq (Fibre N y0) := Classical.decEq _
-  letI : Fintype (Fibre N y0) := Fintype.ofFinite _
-  letI hdp : DecidablePred (fun x : Fibre N y0 => x ∈ Function.fixedPoints f) :=
+  let hdec : DecidableEq (Fibre N y0) := Classical.decEq _
+  let : Fintype (Fibre N y0) := Fintype.ofFinite _
+  let hdp : DecidablePred (fun x : Fibre N y0 => x ∈ Function.fixedPoints f) :=
     fun x => @Function.fixedPoints.decidable _ hdec f x
-  letI : Fintype (Function.fixedPoints f) := Subtype.fintype _
+  let : Fintype (Function.fixedPoints f) := Subtype.fintype _
   have hfix : ∃ s : Fibre N y0, f s = s := by
     by_contra hno
-    push_neg at hno
-    haveI : IsEmpty (Function.fixedPoints f) := ⟨fun x => hno x.1 x.2⟩
+    push Not at hno
+    have : IsEmpty (Function.fixedPoints f) := ⟨fun x => hno x.1 x.2⟩
     have h0 : Nat.card (Function.fixedPoints f) = 0 := Nat.card_of_isEmpty
     have hmod := Equiv.Perm.card_fixedPoints_modEq (α := Fibre N y0) (f := f) (p := 3) (n := 1)
       (by simpa using hf3)
@@ -104,7 +104,7 @@ theorem k4_map_eq_one_of_solvable_normal {P X : Type} [Group P] [Group X] (π : 
       rw [hπK]
       exact s.2
     exact Subgroup.mem_map.mp h
-  haveI : ((N.map π).subgroupOf S).Normal :=
+  have : ((N.map π).subgroupOf S).Normal :=
     ⟨fun t ht g => by
       rw [Subgroup.mem_subgroupOf] at ht ⊢
       simp only [Subgroup.coe_mul, Subgroup.coe_inv]
@@ -348,7 +348,7 @@ theorem sec11K_inf_thetaCent_le {L : Subgroup G} {a : G}
     intro n
     subst hπdef
     rfl
-  haveI := k4_isSolvable_thetaCent a
+  have := k4_isSolvable_thetaCent a
   have hNmem : ∀ n : L, n ∈ ((sec11K L a).subgroupOf L) ⊓ (thetaCent a).subgroupOf L ↔
       ((n : G) ∈ sec11K L a ∧ (n : G) ∈ thetaCent a) := fun n => by
     rw [Subgroup.mem_inf, Subgroup.mem_subgroupOf, Subgroup.mem_subgroupOf]
@@ -367,7 +367,7 @@ theorem sec11K_inf_thetaCent_le {L : Subgroup G} {a : G}
     intro y hy
     obtain ⟨n, hn, rfl⟩ := Subgroup.mem_map.mp hy
     exact ((hNmem n).mp hn).2
-  haveI : Group.IsSolvable ↥(((sec11K L a).subgroupOf L) ⊓ (thetaCent a).subgroupOf L) :=
+  have : Group.IsSolvable ↥(((sec11K L a).subgroupOf L) ⊓ (thetaCent a).subgroupOf L) :=
     k4_isSolvable_of_map_le L (thetaCent a) _ hNθ
   have hxN : x' ∈ ((sec11K L a).subgroupOf L) ⊓ (thetaCent a).subgroupOf L :=
     (hNmem x').mpr ⟨hxK, hxθ⟩
@@ -545,7 +545,7 @@ theorem pRankData_of_simpleFixedRank {L : Subgroup G} {a : G}
     obtain ⟨q, -, rfl⟩ := Subgroup.mem_map.mp hu
     exact Subgroup.mem_inf.mpr ⟨hKY (hqsec q),
       (Subgroup.mem_inf.mp (k4_sec11K_le L a (hqsec q))).2⟩
-  have hUp : IsPGroup r (Q.toSubgroup.map g1) := Q.isPGroup'.map g1
+  have hUp : IsPGroup r (Q.toSubgroup.map g1) := Q.isPGroup.map g1
   unfold PRankData
   refine ⟨Q.toSubgroup.map g1, ψ, hUle, hUp, hψsurj, ?_, ?_⟩
   · intro u hu

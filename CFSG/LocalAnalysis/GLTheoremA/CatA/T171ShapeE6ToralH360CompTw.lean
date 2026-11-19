@@ -21,11 +21,11 @@ open scoped Pointwise
 
 
 theorem nonempty_twE6ToralLangComp (n : ℕ) (K : Type) [Field K] [Finite K] (hn : 1 ≤ n)
-    (hKcard : Nat.card K = (2 ^ n) ^ 2) (h3 : 3 ∣ 2 ^ n + 1)
+    (hKcard : Nat.card K = (2 ^ n) ^ 2) (_h3 : 3 ∣ 2 ^ n + 1)
     (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ 2 ^ n)
     (ε : ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom) ≃* TwE6Delta.RecipeR K n)
     (wd wb : ↥(RecipeExcLang.twInndiagGroup K σ)) (hwd3 : wd ^ 3 = 1) (hwd1 : wd ≠ 1)
-    (hwb3 : wb ^ 3 = 1)
+    (_hwb3 : wb ^ 3 = 1)
     (Fr : AlgebraicClosure K →+* AlgebraicClosure K) (hFr : ∀ c, Fr c = c ^ 2 ^ n)
     (g : ModGL Tag.E6 (AlgebraicClosure K))
     (hg : g ∈ adjointGroup Tag.E6 (AlgebraicClosure K))
@@ -42,7 +42,7 @@ theorem nonempty_twE6ToralLangComp (n : ℕ) (K : Type) [Field K] [Finite K] (hn
     (hnorm : ∀ x ∈ Kc, TwE6Transport.recipeConj σ ε wb x ∈ Kc) :
     ∃ (S : LangSetup Tag.E6 (AlgebraicClosure K) 5)
       (a : Fin Tag.E6.rank → (AlgebraicClosure K)ˣ)
-      (D : T171ToralLangComp n K S a (TwE6Delta.RecipeR K n)
+      (_D : T171ToralLangComp n K S a (TwE6Delta.RecipeR K n)
         (TwE6Transport.recipeConj σ ε wb).toMonoidHom Kc hnorm),
       S.D.q = 2 ^ n ∧ rootDiagUnit Tag.E6 a ∈ S.D.torus ∧ (∀ j, a j ^ 3 = 1) ∧
       rootDiagUnit Tag.E6 a ^ 3 = 1 ∧ rootDiagUnit Tag.E6 a ≠ 1 ∧
@@ -52,8 +52,8 @@ theorem nonempty_twE6ToralLangComp (n : ℕ) (K : Type) [Field K] [Finite K] (hn
   let L := AlgebraicClosure K
   let bc : ModGL TwistTag.E6.tag K →* ModGL Tag.E6 L :=
     baseChangeGL (τ := Tag.E6) (algebraMap K L)
-  haveI hcharK : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hKcard, pow_mul])
-  haveI hcharL : CharP L 2 :=
+  have hcharK : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hKcard, pow_mul])
+  have hcharL : CharP L 2 :=
     charP_of_injective_algebraMap (algebraMap K L).injective 2
   have hn0' : TwistedDiag.n0 L = canonicalRep (coxeterSystem Tag.E6) L twE6W0 := rfl
   have hgLang : twistE6 L Fr g = g * canonicalRep (coxeterSystem Tag.E6) L twE6W0 := by
@@ -61,31 +61,31 @@ theorem nonempty_twE6ToralLangComp (n : ℕ) (K : Type) [Field K] [Finite K] (hn
     rw [show TwistedDiag.n0 L = canonicalRep (coxeterSystem Tag.E6) L twE6W0 from rfl] at h
     calc twistE6 L Fr g = g * (g⁻¹ * twistE6 L Fr g) := by group
       _ = g * canonicalRep (coxeterSystem Tag.E6) L twE6W0 := by rw [h]
-  let D : LangDatum Tag.E6 L :=
+  let _D : LangDatum Tag.E6 L :=
     LangDatum.ofTwist TwistTag.E6 Fr (2 ^ n) hFr twE6W0 hg hgLang
-  have hDq : D.q = 2 ^ n := rfl
-  have hDΦ : D.Φ = twistE6 L Fr := rfl
-  have hfin : Finite D.model :=
-    finite_model_twistedE6 Nat.prime_two hn hKcard hσ hFr D hDΦ
-  have hΓ : D.Γ = ((twistedE6RootGroup K σ).map (bc)).map
-      (MulAut.conj D.g0⁻¹).toMonoidHom :=
-    Γ_eq_map_twistedE6RootGroup Nat.prime_two hn hKcard hσ hFr D hDΦ
+  have hDq : _D.q = 2 ^ n := rfl
+  have hDΦ : _D.Φ = twistE6 L Fr := rfl
+  have hfin : Finite _D.model :=
+    finite_model_twistedE6 Nat.prime_two hn hKcard hσ hFr _D hDΦ
+  have hΓ : _D.Γ = ((twistedE6RootGroup K σ).map (bc)).map
+      (MulAut.conj _D.g0⁻¹).toMonoidHom :=
+    Γ_eq_map_twistedE6RootGroup Nat.prime_two hn hKcard hσ hFr _D hDΦ
   obtain ⟨-, -, hder, -⟩ :=
     twisted_E6_full_rational_fixed_group_order Nat.prime_two hn K hKcard σ.toRingHom hσ L Fr hFr
-  obtain ⟨ρ, hρ⟩ := frobeniusOnRoots_proved Tag.E6 L D
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  have hqpow : IsPrimePow D.q ∧ ((D.q : ℕ) : L) = 0 := by
+  obtain ⟨ρ, hρ⟩ := frobeniusOnRoots_proved Tag.E6 L _D
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hqpow : IsPrimePow _D.q ∧ ((_D.q : ℕ) : L) = 0 := by
     constructor
     · rw [hDq]
       exact Nat.prime_two.isPrimePow.pow (by omega)
     · rw [hDq]
       exact (CharP.cast_eq_zero_iff L 2 (2 ^ n)).2 (dvd_pow_self 2 (by omega))
-  have hpq : ¬ 5 ∣ D.q := by
+  have hpq : ¬ 5 ∣ _D.q := by
     rw [hDq]
     intro h5
     exact absurd (Nat.Prime.dvd_of_dvd_pow Nat.prime_five h5) (by norm_num)
   let S : LangSetup Tag.E6 L 5 :=
-    D.toSetup 5 ρ hρ Nat.prime_five (Or.inl (by norm_num)) hqpow hpq hfin
+    _D.toSetup 5 ρ hρ Nat.prime_five (Or.inl (by norm_num)) hqpow hpq hfin
   have hg0 : S.D.g0 = g := rfl
   let uWd : ModGL Tag.E6 L := bc (wd : ModGL TwistTag.E6.tag K)
   let uWb : ModGL Tag.E6 L := bc (wb : ModGL TwistTag.E6.tag K)
@@ -202,7 +202,7 @@ theorem nonempty_twE6ToralLangComp (n : ℕ) (K : Type) [Field K] [Finite K] (hn
       ← MonoidHom.range_eq_map]
     exact Subgroup.range_subtype _
   have hιLang_range : ιLang.range = S.Γ := by
-    change ιLang.range = D.Γ
+    change ιLang.range = _D.Γ
     rw [show ιLang = (MulAut.conj S.D.g0⁻¹).toMonoidHom.comp ι₀ from rfl,
       MonoidHom.range_comp, hι₀_range]
     exact hΓ.symm

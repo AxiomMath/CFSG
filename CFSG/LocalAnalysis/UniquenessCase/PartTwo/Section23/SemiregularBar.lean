@@ -23,8 +23,8 @@ theorem exists_pow_eq_one_commute_of_commute_bar {M : Subgroup G} {b : ↥M}
     ∃ z : ↥M, z * b = b * z ∧ z ^ q = 1 ∧ z ≠ 1 ∧
       QuotientGroup.mk' (CFSG.pCore 2 ↥M) z ∈ Subgroup.zpowers x := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact q.Prime := ⟨hq⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let N : Subgroup ↥M := CFSG.pCore 2 ↥M
   have hNnormal : N.Normal := CFSG.pCore_normal
   have hN2 : IsPGroup 2 ↥N := CFSG.pCore_isPGroup
@@ -39,7 +39,7 @@ theorem exists_pow_eq_one_commute_of_commute_bar {M : Subgroup G} {b : ↥M}
     change (QuotientGroup.mk' N) ⁅y, b ^ j⁆ = 1
     rw [map_commutatorElement, map_zpow, hy, commutatorElement_eq_one_iff_mul_comm]
     exact (Commute.zpow_right hxb.symm j).eq
-  haveI : Group.IsNilpotent ↥N := hN2.isNilpotent
+  have : Group.IsNilpotent ↥N := hN2.isNilpotent
   obtain ⟨y', -, hy'comm, hy'N⟩ :=
     CFSG.GroupTheory.exists_mem_centralizer_of_commutator_mem (X := ⊤) (N := N)
       (R := Subgroup.zpowers b) le_top (Subgroup.Normal.subgroupOf hNnormal ⊤)
@@ -75,8 +75,8 @@ theorem exists_pow_eq_one_commute_of_commute_bar {M : Subgroup G} {b : ↥M}
 theorem natCard_barPreimage_coprime {M : Subgroup G} {Y : Subgroup (Bar2 M)} {q p : ℕ}
     (hYq : IsPGroup q ↥Y) (hp : p.Prime) (hq : q.Prime) (hpq : p ≠ q) (hp2 : p ≠ 2) :
     Nat.Coprime p (Nat.card ↥(barPreimage M Y)) := by
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact q.Prime := ⟨hq⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [uc22p22u_card_barPreimage M Y]
   obtain ⟨k, hk⟩ := (uc22p21c_isPGroup_pCoreOf M).exists_card_eq
   obtain ⟨l, hl⟩ := hYq.exists_card_eq
@@ -88,7 +88,7 @@ theorem natCard_barPreimage_coprime {M : Subgroup G} {Y : Subgroup (Bar2 M)} {q 
 theorem barPreimage_le_relPPrimeCore {M : Subgroup G} {Y : Subgroup (Bar2 M)} {q p : ℕ}
     (hY : Y.Normal) (hYq : IsPGroup q ↥Y) (hp : p.Prime) (hq : q.Prime) (hpq : p ≠ q)
     (hp2 : p ≠ 2) : barPreimage M Y ≤ CFSG.Open.relPPrimeCore p M := by
-  haveI : Y.Normal := hY
+  have : Y.Normal := hY
   change barPreimage M Y ≤
     sSup {N : Subgroup G | N ≤ M ∧ (N.subgroupOf M).Normal ∧ Nat.Coprime p (Nat.card N)}
   refine le_sSup ⟨uc22p21c_barPreimage_le M Y, ?_,
@@ -108,8 +108,8 @@ theorem mem_uniqueSet_of_le_barPreimage (c : Ctx23L D Ch) (h1930 : H1930 D)
     (hDcl : ⁅⁅Dbar, Dbar⁆, Dbar⁆ = ⊥) {X : Subgroup G} (hXne : X ≠ ⊥) (hXq : IsPGroup q ↥X)
     (hXP : X ≤ barPreimage D.M Dbar) : X ∈ uniqueSet D.M := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Dbar.Normal := hDn
+  have : Fact q.Prime := ⟨hq⟩
+  have : Dbar.Normal := hDn
   have hpp : p.Prime := (D.sig_prime p hp).1
   have hp2 : p ≠ 2 := (D.sig_prime p hp).2
   have hpq : p ≠ q := fun h => hqsig (h ▸ hp)
@@ -152,7 +152,7 @@ theorem exists_zpowers_of_commute_bar (c : Ctx23L D Ch) {b : ↥D.M} (hb : (b : 
       Subgroup.zpowers (z : G) ≠ ⊥ ∧ IsPGroup q (Subgroup.zpowers (z : G)) ∧
       Subgroup.zpowers (z : G) ≤ D.M ⊓ Subgroup.centralizer ({(b : G)} : Set G) := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hboddG : Odd (orderOf (b : G)) := uc22p21d_odd_orderOf_of_mem_calB1 c.hB0 (c.hle hb)
   have hbodd : Odd (orderOf b) := by simpa only [Subgroup.orderOf_coe] using hboddG
   obtain ⟨z, hzb, hzq, hzne, hzmem⟩ :=
@@ -199,7 +199,7 @@ theorem pCore_inf_centralizer_bar_eq_bot_of_mem_sig (h1930 : H1930 D) (h54 : S23
     CFSG.pCore q (Bar2 D.M) ⊓ Subgroup.centralizer
       ({QuotientGroup.mk' (CFSG.pCore 2 ↥D.M) b} : Set (Bar2 D.M)) = ⊥ := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   refine le_antisymm ?_ bot_le
   intro x hx
   rw [Subgroup.mem_bot]
@@ -235,7 +235,7 @@ theorem eq_one_of_commute_bar (h1930 : H1930 D) (h54 : S23_5_4 D Ch) (h6 : S23_6
   by_cases hqsig : q ∈ D.sig
   · exact eq_one_of_commute_bar_of_mem_sig c h1930 h54 h6 hb hbZ hq hq2 hqsig
       (hDexp x hx) hxb
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   by_contra hx1
   obtain ⟨z, hzmem, hXne, hXq, hXle⟩ :=
     exists_zpowers_of_commute_bar c hb hq hq2 hx1 (hDexp x hx) hxb

@@ -21,10 +21,12 @@ variable {K : Type} [Field K] [CharP K 2]
 
 @[expose] noncomputable def h3 (K : Type) [Field K] : K[X] := X ^ 2 + X + 1
 
+omit [CharP K 2] in
 theorem h3_monic : (h3 K).Monic := by
   unfold h3
   monicity!
 
+omit [CharP K 2] in
 theorem h3_natDegree : (h3 K).natDegree = 2 := by
   unfold h3
   compute_degree!
@@ -37,6 +39,7 @@ theorem h3_irreducible (hK : Nat.card K = 2) [Finite K] : Irreducible (h3 K) := 
   · simp [h3, IsRoot] at ha
   · simp [h3, IsRoot, h11] at ha
 
+omit [CharP K 2] in
 theorem h3_ne_X_sub_one : h3 K ≠ X - 1 := by
   intro h
   have := congrArg natDegree h
@@ -44,6 +47,7 @@ theorem h3_ne_X_sub_one : h3 K ≠ X - 1 := by
   have h2 : (X - 1 : K[X]).natDegree = 1 := by compute_degree!
   omega
 
+omit [CharP K 2] in
 theorem h3_reciprocal : KCOrthogonal.reciprocalPolynomial (h3 K) = h3 K := by
   have h0 : (h3 K).coeff 0 = 1 := by simp [h3]
   unfold KCOrthogonal.reciprocalPolynomial
@@ -62,6 +66,7 @@ theorem h3_reciprocal : KCOrthogonal.reciprocalPolynomial (h3 K) = h3 K := by
   rw [e1, e2]
   ring
 
+omit [CharP K 2] in
 theorem aeval_h3 {V : Type*} [AddCommGroup V] [Module K V] (A : Module.End K V) :
     aeval A (h3 K) = A ^ 2 + A + 1 := by
   simp [h3]
@@ -120,6 +125,7 @@ section Pull
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {m : ℕ}
 
 open CFSG.RankThree.PartOne.KCSpIsotypic in
+omit [Finite K] [CharP K 2] in
 theorem spPull_isQuasisimple_of_four_le {x : StatedSp m K}
     (blocks : SpPrimaryBlocks 2 1 3 x (proj m K x)) {h : primaryFactors (spEnd x)}
     (hne : (h : Polynomial K) ≠ Polynomial.X - 1)
@@ -182,14 +188,15 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2] {m : ℕ}
 open CFSG.RankThree.PartOne.KCSpIsotypic
 
 theorem card_adjoinRoot_h3 (hK : Nat.card K = 2) : Nat.card (AdjoinRoot (h3 K)) = 4 := by
-  haveI : Fact (Irreducible (h3 K)) := ⟨h3_irreducible hK⟩
-  haveI : Module.Finite K (AdjoinRoot (h3 K)) := (AdjoinRoot.powerBasis h3_monic.ne_zero).finite
+  have : Fact (Irreducible (h3 K)) := ⟨h3_irreducible hK⟩
+  have : Module.Finite K (AdjoinRoot (h3 K)) := (AdjoinRoot.powerBasis h3_monic.ne_zero).finite
   have h1 : finrank K (AdjoinRoot (h3 K)) = 2 := by
     rw [(AdjoinRoot.powerBasis h3_monic.ne_zero).finrank, AdjoinRoot.powerBasis_dim, h3_natDegree]
   rw [Module.natCard_eq_pow_finrank (K := K), hK, h1]
   norm_num
 
-theorem pull_fix_ker (hK : Nat.card K = 2) {x q : StatedSp m K}
+omit [Finite K] [CharP K 2] in
+theorem pull_fix_ker (_hK : Nat.card K = 2) {x q : StatedSp m K}
     (blocks : SpPrimaryBlocks 2 1 3 x (proj m K x)) (hq : q ∈ spPull x (h3 K)) :
     ∀ v ∈ LinearMap.ker (spEnd x - 1), spEnd q v = v := by
   intro v hv
@@ -209,6 +216,7 @@ theorem pull_fix_ker (hK : Nat.card K = 2) {x q : StatedSp m K}
   exact hq''.2 (Polynomial.X - 1) hmem
     (fun h => h3_ne_X_sub_one (Set.mem_singleton_iff.mp h).symm) v (hVp ▸ hv)
 
+omit [Finite K] in
 theorem commute_of_fix_pull (hK : Nat.card K = 2) {x b q : StatedSp m K} (hx3 : x ^ 3 = 1)
     (blocks : SpPrimaryBlocks 2 1 3 x (proj m K x)) (hbx : b * x = x * b)
     (hb : ∀ w ∈ LinearMap.range (spEnd x - 1), spEnd b w = w) (hq : q ∈ spPull x (h3 K)) :
@@ -239,7 +247,7 @@ theorem card_le_three_mul_inf_pull (hK : Nat.card K = 2) {Ã : Subgroup (StatedS
     (hfix : ∀ b ∈ Ã, ∀ u ∈ LinearMap.ker (spEnd x - 1), spEnd b u = u) :
     Nat.card Ã ≤ 3 * Nat.card (Ã ⊓ spPull x (h3 K) : Subgroup (StatedSp m K)) := by
   classical
-  haveI := finite_statedSp_group (K := K) (m := m)
+  have := finite_statedSp_group (K := K) (m := m)
   have hx3 : x ^ 3 = 1 := hÃ.2 x hx
   let ε : Ã →* gl_centralizer (spLin m K x) :=
     { toFun := fun b => ⟨spLin m K b, mem_gl_centralizer.mpr
@@ -263,9 +271,9 @@ theorem card_le_three_mul_inf_pull (hK : Nat.card K = 2) {Ã : Subgroup (StatedS
       rw [hbot, Submodule.mem_bot] at hv
       rw [hv, map_zero]
   have hrange : Nat.card δ.range ≤ 3 := by
-    haveI : Fact (Irreducible (h3 K)) := ⟨h3_irreducible hK⟩
-    haveI : Module.Finite K (AdjoinRoot (h3 K)) := (AdjoinRoot.powerBasis h3_monic.ne_zero).finite
-    haveI : Finite (AdjoinRoot (h3 K)) := Module.finite_of_finite K
+    have : Fact (Irreducible (h3 K)) := ⟨h3_irreducible hK⟩
+    have : Module.Finite K (AdjoinRoot (h3 K)) := (AdjoinRoot.powerBasis h3_monic.ne_zero).finite
+    have : Finite (AdjoinRoot (h3 K)) := Module.finite_of_finite K
     have h1 : Nat.card δ.range ≤ Nat.card (AdjoinRoot (h3 K))ˣ :=
       Subgroup.card_le_card_group δ.range
     rw [Nat.card_units, card_adjoinRoot_h3 hK] at h1
@@ -301,8 +309,8 @@ theorem coreII (hK : Nat.card K = 2) (hm : 5 ≤ m) {Ã : Subgroup (StatedSp m K
       ((∃ b ∈ Ã, b ∉ Subgroup.zpowers x ∧ ∀ q ∈ Q, b * q = q * b) ∨
         3 ^ 3 ≤ Nat.card (Ã ⊓ Q : Subgroup (StatedSp m K))) := by
   classical
-  haveI := finite_statedSp_group (K := K) (m := m)
-  haveI := finite_units_end (K := K) (V := Fin m ⊕ Fin m → K)
+  have := finite_statedSp_group (K := K) (m := m)
+  have := finite_units_end (K := K) (V := Fin m ⊕ Fin m → K)
   have hx3 : x ^ 3 = 1 := hÃ.2 x hx
   set Xg : Subgroup (Module.End K (Fin m ⊕ Fin m → K))ˣ := Ã.map (spLin m K) with hXg
   have hXiso := isoSetup_map hÃ
@@ -326,7 +334,7 @@ theorem coreII (hK : Nat.card K = 2) (hm : 5 ≤ m) {Ã : Subgroup (StatedSp m K
   have hbx : ∀ b ∈ Ã, b * x = x * b := fun b hb => TableB.IsElemAbelian.comm hÃ hb hx
   have hh3 := h3_mem_primaryFactors hK hx3 hx1
   have hmult : 4 ≤ primaryMultiplicity (spEnd x) (h3 K) := by
-    haveI : Fact (Irreducible (h3 K)) := ⟨h3_irreducible hK⟩
+    have : Fact (Irreducible (h3 K)) := ⟨h3_irreducible hK⟩
     have h1 := finrank_primaryComponent (spEnd x) (h3 K)
     rw [h3_natDegree] at h1
     have h1' : finrank K (primaryComponent (spEnd x) (h3 K)) =

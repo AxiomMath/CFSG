@@ -78,7 +78,7 @@ open scoped Classical in
 def rhoP (x : Equiv.Perm (Fin 245520)) : Equiv.Perm (Fin 120) :=
   if h : x ∈ onM then rhoM ⟨x, h⟩ else 1
 
-theorem rhoP_of {x : Equiv.Perm (Fin 245520)} (h : x ∈ onM) : rhoP x = rhoM ⟨x, h⟩ := dif_pos h
+theorem rhoP_of {x : Equiv.Perm (Fin 245520)} (h : x ∈ onM) : rhoP x = rhoM ⟨x, h⟩ := dite_eq_left h
 
 theorem bpos {k i : Nat} (hk : k < 120) (hi : i < 2) :
     bPos[(Data.quotientBlocks[k]!)[i]!]! = k := by
@@ -108,7 +108,7 @@ theorem pw_blocks : Blocks OPW.D onM rhoP where
       apply Set.smul_mem_smul_set
       rw [onBsets_eq_pair k.isLt]
       exact Or.inl rfl
-    rw [onBsets_eq_pair (rhoM ⟨m, hm⟩ k).isLt, Set.mem_setOf_eq] at hx
+    rw [onBsets_eq_pair (rhoM ⟨m, hm⟩ k).isLt, Set.mem_ofPred_eq] at hx
     have e : ∀ h, (⟨blk OPW.D k 0, h⟩ : Fin 245520) = ⟨_, (blocks_wf k.isLt).2.1⟩ :=
       fun _ => Fin.ext (blkE k.isLt (by omega))
     rw [e, rhoP_of hm, blkE (rhoM ⟨m, hm⟩ k).isLt (by omega),

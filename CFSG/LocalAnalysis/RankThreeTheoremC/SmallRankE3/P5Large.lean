@@ -51,7 +51,7 @@ private theorem fail614G_fusionIsSylowIn (hS : Setting G) {p : ℕ} {P : Sylow p
     fusionIsSylowIn 2 T (GLBPrimeCore p M) := by
   have hp : p.Prime := sigmaA_prime p hsit.mem_sigmaA
   have hp2 : p ≠ 2 := sigmaA_odd p hsit.mem_sigmaA
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set B : Subgroup G := zpowers x ⊔ zpowers z
   set D : Subgroup G := GLBPrimeCore p M
   have hpl : SmallRankPlane p (P : Subgroup G) x z := SmallRankPlane.of_situation hS hsit hx hz
@@ -88,7 +88,7 @@ theorem fail614G_exists_conj_le_normalizer (hS : Setting G) {p : ℕ} {P : Sylow
     ∃ g : G, g ∈ M ∧
       (P : Subgroup G).map (MulAut.conj g).toMonoidHom ≤ normalizer (T : Set G) := by
   have hp : p.Prime := sigmaA_prime p hsit.mem_sigmaA
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set D : Subgroup G := GLBPrimeCore p M
   have hTD : fusionIsSylowIn 2 T D := fail614G_fusionIsSylowIn hS hsit hα hx hz hT
   have hPM : (P : Subgroup G) ≤ M :=
@@ -103,7 +103,7 @@ theorem fail614G_exists_conj_le_normalizer (hS : Setting G) {p : ℕ} {P : Sylow
     rw [normalizer_eq_top_iff.mpr inferInstance]
     exact le_top
   obtain ⟨S, hSsyl, -, hPS⟩ := CFSG.Goldschmidt.G310.exists_invariant_sylow_containing
-    hp Nat.prime_two P.isPGroup' hDp hPD bot_le hbot2 hPbot
+    hp Nat.prime_two P.isPGroup hDp hPD bot_le hbot2 hPbot
   obtain ⟨c, hc, hTc⟩ := CFSG.Goldschmidt.G310.exists_conj_of_invariant_sylows
     hp Nat.prime_two hbotp hDp bot_le hSsyl hTD bot_le bot_le
   refine ⟨c, CFSG.AGLEmbedding.glbPrimeCore_le p M (mem_inf.mp hc).1, ?_⟩
@@ -195,7 +195,7 @@ theorem fail614GIsMax_top (hS : Setting G) (hD1 : TheoremD1 G) {p : ℕ} {P : Sy
   obtain ⟨-, hR2, hBR⟩ := hR
   by_contra hne
   have hlt : T < R := lt_of_le_of_ne hTR (Ne.symm hne)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨y, hyR, hyN, hyT⟩ := fail614G_exists_mem_normalizer_not_mem hR2 hlt
   set L : Subgroup G := normalizer (T : Set G)
   have hL : IsTwoLocal L := ⟨T, hT1, hT2, rfl⟩
@@ -218,7 +218,7 @@ theorem fail614GIsMax_self (hS : Setting G) (hD1 : TheoremD1 G) {p : ℕ} {P : S
     (hnr : Fail614NormalizerRankGen p P M (zpowers x ⊔ zpowers z)) {H S : Subgroup G}
     (h : Prop614Extremal M (zpowers x ⊔ zpowers z) H S) :
     IsMaxTwoInvariantIn (zpowers x ⊔ zpowers z) H S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨⟨hSHM, hS2, hBS⟩, hSmax⟩ := h.pair.isMax
   refine ⟨⟨hSHM.trans inf_le_left, hS2, hBS⟩, fun R hR hSR => ?_⟩
   by_contra hRS
@@ -248,7 +248,7 @@ theorem fail614G_normalizer_le_of_characteristic (hS : Setting G) (hD1 : Theorem
     (h2 : S₀ ≠ ⊥) (h3 : (S₀.subgroupOf S).Characteristic) :
     normalizer (S₀ : Set G) ≤ M := by
   have hp : p.Prime := sigmaA_prime p hsit.mem_sigmaA
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨⟨hSHM, hS2, hBS⟩, -⟩ := h.pair.isMax
   have hNN := fail614G_normalizer_le_normalizer h1 h3
   have hH₁ : IsTwoLocal (normalizer (S₀ : Set G)) := ⟨S₀, h2, hS2.to_le h1, rfl⟩
@@ -277,7 +277,7 @@ theorem fail614G_le_of_plane_le (hS : Setting G) {p : ℕ} {P : Sylow p G}
     (hBP : B ≤ (P : Subgroup G)) (hBC : centralizer (B : Set G) ≤ M) {Q : Subgroup G}
     (hQ : IsPGroup p Q) (hBQ : B ≤ Q) : Q ≤ M := by
   have hp : p.Prime := sigmaA_prime p hsit.mem_sigmaA
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hPM : (P : Subgroup G) ≤ M :=
     (sylow_le_of_isCoreMaxLocal hS hsit.mem_sigmaA hsit.isCoreMaxLocal).1
   obtain ⟨m, hm⟩ := pGroup_conjugate_into_sylow_within_overgroup p hp P ⊤ le_top Q hQ le_top
@@ -312,7 +312,7 @@ theorem fail614G_pRank_le_two (hS : Setting G) (hD1 : TheoremD1 G) {p : ℕ} {P 
     (hx : SmallRankPoint P M x) (hz : SmallRankCentral P z) {H S : Subgroup G}
     (h : Prop614Pair M (zpowers x ⊔ zpowers z) H S) : CFSG.Open.pRank p H ≤ 2 := by
   have hp : p.Prime := sigmaA_prime p hsit.mem_sigmaA
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpl := SmallRankPlane.of_situation hS hsit hx hz
   have hB3 : IsPGroup p ↥(zpowers x ⊔ zpowers z) := IsPGroup.of_card (n := 2) hpl.card_eq
   have hBP : zpowers x ⊔ zpowers z ≤ (P : Subgroup G) := hpl.isIsolatedPlane.1

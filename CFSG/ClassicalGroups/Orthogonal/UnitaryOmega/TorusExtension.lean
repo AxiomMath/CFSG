@@ -92,6 +92,7 @@ private theorem torusExt_castLinSucc_eq_snocPair {m : ℕ}
     torusExt_castLinSucc g w =
       torusExt_snocPair (g (w.1, Fin.init w.2)) (w.2 (Fin.last m)) := rfl
 
+omit [Finite K] [CharP K 2] in
 private theorem torusExt_castLin_succ {m : ℕ}
     (g : ((F × F) × (Fin m → K)) →ₗ[F] ((F × F) × (Fin m → K)))
     (w : (F × F) × (Fin (m + 1) → K)) :
@@ -318,6 +319,7 @@ private theorem torusExt_hat_coord {m : ℕ}
     rw [torusExt_hat_snd_castSucc, hScoord i (w.1, Fin.init w.2)]
     rfl
 
+omit [Finite K] [CharP K 2] in
 private theorem torusExt_hat_castLin {m : ℕ}
     (S : ((F × F) × (Fin m → K)) ≃+ ((F × F) × (Fin m → K))) (t : K ≃+ K)
     (g : ((F × F) × (Fin m → K)) →ₗ[F] ((F × F) × (Fin m → K)))

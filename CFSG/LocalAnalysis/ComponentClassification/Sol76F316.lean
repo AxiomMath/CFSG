@@ -190,7 +190,7 @@ theorem false_of_semisimple_family
       g ∈ Subgroup.normalizer (D : Set G))
     (hH : Subgroup.normalizer (D : Set G) ≠ ⊤)
     (hrank : ∀ i, 2 ≤ CFSG.pRank 2 (aschbacherThm5Preimage D (Abar i))) : False := by
-  rcases Open.aschbacher_component_type_theorem_five G D r (by omega) Abar hdistinct hsemisimple
+  rcases Thm.aschbacher_component_type_theorem_five G D r (by omega) Abar hdistinct hsemisimple
     hcomm hgen hperm hi hii hH with h | ⟨-, hrank'⟩
   · omega
   · have h3 := (hrank' ⟨0, by omega⟩ ⟨1, by omega⟩ (by simp)).2.1

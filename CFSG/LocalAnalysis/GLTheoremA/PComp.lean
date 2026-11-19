@@ -50,8 +50,8 @@ theorem le_center_of_normal_of_isQuasisimple (hQ : CFSG.Open.IsQuasisimple Q) {M
     (hM : M.Normal) (hne : M ≠ ⊤) : M ≤ Subgroup.center Q := by
   set π := QuotientGroup.mk' (Subgroup.center Q) with hπ
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective _
-  haveI : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hQ.2
-  haveI : (M.map π).Normal := hM.map π hπs
+  have : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hQ.2
+  have : (M.map π).Normal := hM.map π hπs
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (M.map π) with h | h
   · rw [Subgroup.map_eq_bot_iff, QuotientGroup.ker_mk'] at h
     exact h
@@ -142,6 +142,7 @@ theorem glaPLayer_of_isQuasisimple {p : ℕ} {Y : Subgroup G}
   rw [hlayer]
   exact ⟨hI, hall, hIbar⟩
 
+omit [Finite G] in
 theorem sup_glaPPrimeCoreOf_eq_of_barX_eq_top {p : ℕ} {Y I : Subgroup G} (hIY : I ≤ Y)
     (h : barX p Y I = ⊤) : I ⊔ GLAPPrimeCoreOf p Y = Y := by
   apply le_antisymm (sup_le hIY (Subgroup.map_subtype_le _))
@@ -151,6 +152,7 @@ theorem sup_glaPPrimeCoreOf_eq_of_barX_eq_top {p : ℕ} {Y I : Subgroup G} (hIY 
   rw [this]
   exact Subgroup.mul_mem _ (Subgroup.mem_sup_left hi) (Subgroup.mem_sup_right hiy)
 
+omit [Finite G] in
 theorem le_normalizer_of_unique_glaPComponent {p : ℕ} {Y I : Subgroup G}
     (hI : GLAPComponent p Y I) (hall : ∀ J : Subgroup G, GLAPComponent p Y J → J = I) :
     Y ≤ Subgroup.normalizer (I : Set G) := by
@@ -164,9 +166,9 @@ theorem mem_of_isPGroup_of_sup_eq {p : ℕ} (hp : p.Prime) {Y I N : Subgroup G}
     (hIY : I ≤ Y) (hYI : Y ≤ Subgroup.normalizer (I : Set G)) (hN : ¬ p ∣ Nat.card N)
     (hsup : I ⊔ N = Y) {y : G} (hy : y ∈ Y) (hyp : IsPGroup p (Subgroup.zpowers y)) :
     y ∈ I := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set I' := I.subgroupOf Y with hI'
-  haveI : I'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hIY).2 hYI
+  have : I'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hIY).2 hYI
   have hNY : N ≤ Y := hsup ▸ le_sup_right
   have h1 := card_sup_mul_card_inf_of_le_normalizer (A := I) (B := N) (hNY.trans hYI)
   rw [hsup] at h1
@@ -240,7 +242,7 @@ theorem inf_centralizer_sup_eq_of_centMod {p : ℕ} (hp : p.Prime) {L : Subgroup
     (ha : IsPGroup p (Subgroup.zpowers a)) (hCM : CentMod p L a) :
     (L ⊓ Subgroup.centralizer ({a} : Set G)) ⊔ GLAPPrimeCoreOf p L = L := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set O := GLAPPrimeCoreOf p L with hO
   set P := Subgroup.zpowers a with hP
   have hPC : P ≤ centModSubgroup p L := Subgroup.zpowers_le.2 (centMod_iff.1 hCM)
@@ -257,7 +259,7 @@ theorem inf_centralizer_sup_eq_of_centMod {p : ℕ} (hp : p.Prime) {L : Subgroup
       group
     rw [h3]
     exact O.mul_mem h1 h2
-  letI act : MulAction P O :=
+  let act : MulAction P O :=
     { smul := fun g o => ⟨l⁻¹ * ((g : G) * (l * (o : G)) * (g : G)⁻¹), hmem g g.2 o o.2⟩
       one_smul := fun o => Subtype.ext (show l⁻¹ * (((1 : P) : G) * (l * (o : G)) *
           ((1 : P) : G)⁻¹) = (o : G) by simp)
@@ -285,7 +287,7 @@ theorem cover_facts {p : ℕ} (hp : p.Prime) {I K : Subgroup G} (hIK : I ≤ K)
     (hsup : I ⊔ GLAPPrimeCoreOf p K = K) :
     GLAPPrimeCoreOf p I = I ⊓ GLAPPrimeCoreOf p K ∧ Nonempty (PQuot p I ≃* PQuot p K) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set f : ↥I →* PQuot p K :=
     (QuotientGroup.mk' (GLAPPrimeCore p ↥K)).comp (Subgroup.inclusion hIK) with hf
   have hIO : I ≤ Subgroup.normalizer (GLAPPrimeCoreOf p K : Set G) :=

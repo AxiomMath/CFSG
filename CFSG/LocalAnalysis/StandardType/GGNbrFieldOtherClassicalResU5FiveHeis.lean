@@ -177,7 +177,7 @@ theorem exists_frame_of_comm_U5Five (h : UnitaryFieldData 2 m k) (hk : Nat.card 
         α = TableB.projConj (unitarySU 2 m k 5) ⟨M, TableBUE.gu_subset_normalizer h hM⟩ := by
   classical
   have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Finite (MulAut (LargeEvenProj (unitarySU 2 m k 5))) :=
+  have : Finite (MulAut (LargeEvenProj (unitarySU 2 m k 5))) :=
     Finite.of_injective (fun φ : MulAut (LargeEvenProj (unitarySU 2 m k 5)) =>
       (φ : LargeEvenProj (unitarySU 2 m k 5) → LargeEvenProj (unitarySU 2 m k 5)))
       DFunLike.coe_injective
@@ -405,8 +405,7 @@ theorem card_ge_of_frame_U5Five (h : UnitaryFieldData 2 m k) (hk : Nat.card k = 
     have e0 := hcoord 0
     have e1 := hcoord 1
     have e2 := hcoord 2
-    simp only [huvec, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
-      Matrix.head_cons] at e0 e1 e2
+    simp only [huvec, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two] at e0 e1 e2
     exact Prod.ext (hinj _ _ e0.symm) (Prod.ext (hinj _ _ e1.symm) (hinj _ _ e2.symm))
   have hcardF := Nat.card_le_card_of_injective F hF
   simpa [Nat.card_eq_fintype_card] using hcardF
@@ -457,11 +456,11 @@ theorem exists_reg_of_heis_U5Five (h : UnitaryFieldData 2 m k) (hk : Nat.card k 
     ∃ φ ∈ ggRegSetU5Five k m, ∀ l : L', φ (ψ l) = ψ (a₀ l) := by
   classical
   have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Finite (MulAut (LargeEvenProj (unitarySU 2 m k 5))) :=
+  have : Finite (MulAut (LargeEvenProj (unitarySU 2 m k 5))) :=
     Finite.of_injective (fun φ : MulAut (LargeEvenProj (unitarySU 2 m k 5)) =>
       (φ : LargeEvenProj (unitarySU 2 m k 5) → LargeEvenProj (unitarySU 2 m k 5)))
       DFunLike.coe_injective
-  haveI : Finite (MulAut L') :=
+  have : Finite (MulAut L') :=
     Finite.of_injective (fun φ : MulAut L' => (φ : L' → L')) DFunLike.coe_injective
   have hdq : ((5 : ℕ), 2 ^ m) ≠ (3, 2) := fun he => by
     have := congrArg Prod.fst he

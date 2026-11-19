@@ -52,7 +52,7 @@ theorem commutator_mem_pPrimeCoreOf_of_glaPComponent {p : ℕ} {X L N : Subgroup
   have hJc : CFSG.IsComponent (barX p X L) := (CFSG.isComponent_iff_open _).2 hbar
   have hNb : ((N.subgroupOf X).map π).Normal := hNn.map π hπ
   have hNsol : Group.IsSolvable ↥(N.subgroupOf X) := by
-    haveI := hNs
+    have := hNs
     exact Group.isSolvable_of_isSolvable_injective
       (f := (Subgroup.subgroupOfEquivOfLe hNX).toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hNX).injective
@@ -80,6 +80,7 @@ section Layer0
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem false_of_glaPComponent_of_solvable {p : ℕ} {X L : Subgroup G} (hL : GLAPComponent p X L)
     (hsolL : Group.IsSolvable ↥(L.subgroupOf X)) : False := by
   classical
@@ -115,12 +116,13 @@ theorem false_of_glaPComponent_of_pPrime_eq_one {p : ℕ} [Fact p.Prime] {X L : 
     exact hq.ne_one hxo.symm
   refine false_of_glaPComponent_of_solvable hL ?_
   have hpg : IsPGroup p ↥(L.subgroupOf X) := hLp.of_equiv (Subgroup.subgroupOfEquivOfLe hLX).symm
-  haveI := hpg.isNilpotent
+  have := hpg.isNilpotent
   infer_instance
 
+omit [Finite G] in
 theorem false_of_glaPComponent_of_comm {p : ℕ} {X L : Subgroup G}
     (hL : GLAPComponent p X L) (hc : ∀ a b : G, a * b = b * a) : False := by
-  refine false_of_glaPComponent_of_solvable hL (isSolvable_of_comm fun a b => ?_)
+  refine false_of_glaPComponent_of_solvable hL (_root_.Group.isSolvable_of_comm fun a b => ?_)
   apply Subtype.ext
   apply Subtype.ext
   exact hc _ _
@@ -153,7 +155,7 @@ theorem gLAPLayer_centralizer_eq_bot {p : ℕ} [Fact p.Prime] {R : Subgroup G} (
     · simpa using X.mul_mem (X.mul_mem x.2 hy.2) (X.inv_mem x.2)
   have hVp : IsPGroup p V := hRp.to_le inf_le_left
   have hVs : Group.IsSolvable V := by
-    haveI := hVp.isNilpotent
+    have := hVp.isNilpotent
     infer_instance
   have hcommV : ∀ a ∈ L, ∀ b ∈ V, a * b = b * a := by
     intro a ha b hb
@@ -255,7 +257,7 @@ theorem gLAPLayer_centralizer_eq_bot_of_framework {p : ℕ} [Fact p.Prime]
     have hxg : (x : G) * g = g * x := (Subgroup.mem_centralizer_singleton_iff.1 x.2)
     simpa using hMconj x hxg y hy
   have hMs : Group.IsSolvable M := by
-    haveI := hMp.isNilpotent
+    have := hMp.isNilpotent
     infer_instance
   refine le_bot_iff.1 (sSup_le fun L hL => ?_)
   exfalso

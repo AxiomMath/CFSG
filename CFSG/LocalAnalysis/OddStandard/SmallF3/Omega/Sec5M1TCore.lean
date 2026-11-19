@@ -14,6 +14,7 @@ open Subgroup
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem sec5m1t_aux_simAct_conj (g : OGroup Q) (y : simGroup Q) (t : OGroup Q) :
     simAct Q ((orthToSim Q g)⁻¹ * y * orthToSim Q g) t =
       g⁻¹ * simAct Q y (g * t * g⁻¹) * g := by

@@ -19,7 +19,7 @@ variable {G : Type} [Group G] [Finite G] {S : Setting G} {g : G}
 
 theorem isComponentOf_layer (hq : CFSG.Open.IsQuasisimple (timmesfeldLayer S.Mbar)) :
     CFSG.Open.IsComponentOf ((timmesfeldLayer S.Mbar).map S.Mbar.subtype) S.Mbar := by
-  haveI : (timmesfeldLayer S.Mbar).Normal := CFSG.ComponentClassification.Layer.normal S.Mbar
+  have : (timmesfeldLayer S.Mbar).Normal := CFSG.ComponentClassification.Layer.normal S.Mbar
   exact isComponentOf_map_subtype ⟨le_top,
     CFSG.ClassicalInvolution.isSubnormal_of_normal_subgroupOf le_top inferInstance, hq⟩
 
@@ -40,7 +40,7 @@ noncomputable def compAtLayer (hq : CFSG.Open.IsQuasisimple (timmesfeldLayer S.M
   X := (timmesfeldLayer S.Mbar).map S.Mbar.subtype
   t := l
   isComponentOf := isComponentOf_layer hq
-  norm h := (S.Lbar_le_Mbar _).trans (Mbar_le_normalizer_layer S)
+  norm _h := (S.Lbar_le_Mbar _).trans (Mbar_le_normalizer_layer S)
   mem_Lbar := hl
   ne_one := hl1
   comm x hx := (hlE x hx).symm
@@ -96,8 +96,8 @@ theorem card_RmodN_eq_sixty (H : Hyp4 S g) (C : Cons311 S g) {t : S.O} (ht : t �
     (h4 : finrank (ZMod 2) (Vt S g t) = 4) (hns : ¬ Group.IsSolvable (RmodN S g t)) :
     Nat.card (RmodN S g t) = 60 := by
   obtain ⟨Q, hQ, -, hR, -, -⟩ := hΩ.exists_form
-  haveI : Finite (Vt S g t ≃ₗ[ZMod 2] Vt S g t) := finite_linearEquiv_of_finite
-  haveI : Nontrivial (Vt S g t) := Module.nontrivial_of_finrank_pos (R := ZMod 2) (by omega)
+  have : Finite (Vt S g t ≃ₗ[ZMod 2] Vt S g t) := finite_linearEquiv_of_finite
+  have : Nontrivial (Vt S g t) := Module.nontrivial_of_finrank_pos (R := ZMod 2) (by omega)
   have hidx := Subgroup.relIndex_mul_card (omegaGroup Q hQ)
     (TauCeti.QuadraticMap.orthogonalGroup Q)
   rw [inf_eq_left.mpr (omegaGroup_le Q hQ), relIndex_omegaGroup] at hidx
@@ -134,7 +134,7 @@ theorem layer_data (A : CompAt S g) (hCE : CentralExtInput.{0}) (hIrr : S5.Irr S
       4 ≤ Nat.card (S.Lbar g ⊓ A.X : Subgroup S.O) ∧
       ∀ s ∈ S.Lbar g, s ∈ A.X ∨ s * A.t ∈ A.X := by
   have Q := S45Q.hyp45Q H C
-  haveI : Finite (Vt S g A.t ≃ₗ[ZMod 2] Vt S g A.t) := finite_linearEquiv_of_finite
+  have : Finite (Vt S g A.t ≃ₗ[ZMod 2] Vt S g A.t) := finite_linearEquiv_of_finite
   obtain ⟨hVQ, hΩ, h4⟩ := exists_omega A hIrr hw H hNo C
   obtain ⟨hKR, hLmod⟩ := imgR_eq_RmodN A hIrr hw H hNo C hVQ
   have hns : ¬ Group.IsSolvable (RmodN S g A.t) := fun hsol =>

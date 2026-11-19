@@ -210,6 +210,7 @@ section Fixed
 
 variable [Finite K] [CharP K 2] {j : ℕ}
 
+omit [Finite K] [CharP K 2] in
 theorem fixF_data (hj : 1 ≤ j) (hK : Nat.card K = (2 ^ j) ^ 2) (σ : K ≃+* K)
     (hσ : Odd (orderOf σ)) :
     j = j / orderOf σ * orderOf σ ∧ 1 ≤ j / orderOf σ ∧
@@ -233,11 +234,13 @@ theorem fixF_data (hj : 1 ≤ j) (hK : Nat.card K = (2 ^ j) ^ 2) (σ : K ≃+* K
     · exact h0
   · rw [hj'eq, card_fixF, hcard, hee', pow_mul']
 
+omit [CharP K 2] in
 theorem charP_fixF (hj : 1 ≤ j) (hK : Nat.card K = (2 ^ j) ^ 2) (σ : K ≃+* K)
     (hσ : Odd (orderOf σ)) : CharP (fixF σ) 2 :=
   CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq (f := 2 * (j / orderOf σ))
     (by rw [(fixF_data hj hK σ hσ).2.2, ← pow_mul, mul_comm])
 
+omit [CharP K 2] in
 theorem fixF_pow (hj : 1 ≤ j) (hK : Nat.card K = (2 ^ j) ^ 2) (σ : K ≃+* K)
     (hσ : Odd (orderOf σ)) (b : fixF σ) : (b : K) ^ 2 ^ j = (b : K) ^ 2 ^ (j / orderOf σ) := by
   obtain ⟨hjr, -, hk⟩ := fixF_data hj hK σ hσ
@@ -258,7 +261,7 @@ variable [Finite K] [CharP K 2] {j : ℕ}
   toFun A := ⟨Matrix.GeneralLinearGroup.map (fixF σ).subtype A.1,
     (FR.su_hiff hj hK σ hσ A.1).2 A.2⟩
   map_one' := Subtype.ext (map_one _)
-  map_mul' A B := Subtype.ext (map_mul _ _ _)
+  map_mul' _A _B := Subtype.ext (map_mul _ _ _)
 
 theorem coe_subfieldInclusion (hj : 1 ≤ j) (hK : Nat.card K = (2 ^ j) ^ 2) (σ : K ≃+* K)
     (hσ : Odd (orderOf σ)) (A : LargeEvenSUGroup (Fin d) (fixF σ) (2 ^ (j / orderOf σ))) :
@@ -277,7 +280,7 @@ theorem ker_subfieldHom (hd : 1 ≤ d) (hj : 1 ≤ j) (hK : Nat.card K = (2 ^ j)
     (subfieldHom (d := d) hj hK σ hσ).ker =
       (LargeEvenScalars (Fin d) (fixF σ)).subgroupOf
         (LargeEvenSUGroup (Fin d) (fixF σ) (2 ^ (j / orderOf σ))) := by
-  haveI : Nonempty (Fin d) := ⟨⟨0, by omega⟩⟩
+  have : Nonempty (Fin d) := ⟨⟨0, by omega⟩⟩
   unfold subfieldHom
   rw [← MonoidHom.comap_ker (LargeEvenProjMk (LargeEvenSUGroup (Fin d) K (2 ^ j)))
     (subfieldInclusion hj hK σ hσ), QuotientGroup.ker_mk']
@@ -291,8 +294,8 @@ theorem range_subfieldHom (hd : 3 ≤ d) (hj : 1 ≤ j) (hK : Nat.card K = (2 ^ 
     {f : MulAut (LargeEvenProj (LargeEvenSUGroup (Fin d) K (2 ^ j)))} (hf : Induced (2 ^ j) σ f) :
     (subfieldHom hj hK σ hσ).range = ggFixDer f := by
   classical
-  haveI : Nonempty (Fin d) := ⟨⟨0, by omega⟩⟩
-  haveI : CharP (fixF σ) 2 := charP_fixF hj hK σ hσ
+  have : Nonempty (Fin d) := ⟨⟨0, by omega⟩⟩
+  have : CharP (fixF σ) 2 := charP_fixF hj hK σ hσ
   let H : Subgroup (GL (Fin d) K) := LargeEvenSUGroup (Fin d) K (2 ^ j)
   let π : H →* LargeEvenProj H := LargeEvenProjMk H
   let ρ : MulAut H := matAct H (suMapStable d K (2 ^ j)) σ
@@ -336,7 +339,7 @@ theorem range_subfieldHom (hd : 3 ≤ d) (hj : 1 ≤ j) (hK : Nat.card K = (2 ^ 
   obtain ⟨hDT, hcomm, -⟩ := FR.subfield_core ((LargeEvenScalars (Fin d) K).subgroupOf H)
     hZc hZodd ρ f hmem
   obtain ⟨-, -, hk⟩ := fixF_data hj hK σ hσ
-  haveI hperf : Group.IsPerfect ↥(LargeEvenSUGroup (Fin d) (fixF σ) (2 ^ (j / orderOf σ))) :=
+  have hperf : Group.IsPerfect ↥(LargeEvenSUGroup (Fin d) (fixF σ) (2 ^ (j / orderOf σ))) :=
     Subgroup.isPerfect_iff.2 (commutator_su hk hd hdq)
   have hDperf : Group.IsPerfect ↥D := by
     have h1 : Group.IsPerfect ↥((subfieldHom (d := d) hj hK σ hσ).range) :=
@@ -347,7 +350,7 @@ theorem range_subfieldHom (hd : 3 ≤ d) (hj : 1 ≤ j) (hK : Nat.card K = (2 ^ 
   unfold ggFixDer
   rw [hT]
   refine le_antisymm ?_ hcomm
-  · haveI := hDperf
+  · have := hDperf
     rw [← Subgroup.commutator_eq_self (H := D)]
     exact Subgroup.commutator_mono hDT hDT
 

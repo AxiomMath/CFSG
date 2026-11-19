@@ -106,7 +106,7 @@ private lemma ggJSt3_isSemisimple {ι K : Type} [Fintype ι] [DecidableEq ι] [F
   refine Module.End.isSemisimple_of_squarefree_aeval_eq_zero
     (p := (Polynomial.X : Polynomial (AlgebraicClosure K)) ^ n - 1) ?_ ?_
   · exact (Polynomial.X_pow_sub_one_separable_iff.mpr hn).squarefree
-  · simpa [Polynomial.aeval_X, hfpow]
+  · simp [Polynomial.aeval_X, hfpow]
 
 private lemma ggJSt3_eigDim_eq_rootMultiplicity {ι K : Type} [Fintype ι] [DecidableEq ι]
     [Field K] (M : Matrix ι ι K) (n : ℕ) (hn : (n : AlgebraicClosure K) ≠ 0)
@@ -136,7 +136,7 @@ private lemma ggJSt3_blockExp_eq_polyExp {ι K : Type} [Fintype ι] [DecidableEq
       ((M.charpoly).map (algebraMap K (AlgebraicClosure K))) := by
   classical
   rw [blockExp, ggJSt3_polyExp]
-  simp only [Bool.false_eq_true, if_false]
+  simp only [Bool.false_eq_true, ite_false]
   congr 1
   · rw [ggJSt3_eigDim_eq_rootMultiplicity M n hn hM 1]
   · congr 1
@@ -323,13 +323,13 @@ private noncomputable def ggJSt3_fixedGL_equiv {ι K : Type} [Fintype ι] [Decid
     apply Subtype.ext
     simp only [ggJSt3_descendGL, Matrix.GeneralLinearGroup.val_mkOfDetNeZero,
       Subgroup.coe_mul, Units.val_mul, ggJSt3_descendMatrix, Matrix.mul_apply,
-      map_sum, map_mul, Subtype.coe_mk]
+      Subtype.coe_mk]
     push_cast
     rfl
 
 private lemma ggJSt3_cancel_conj {ι : Type} [Fintype ι] [DecidableEq ι] {K : Type} [Field K]
     (U X Y : Matrix ι ι K) (hU : IsUnit U.det) (h : Uᵀ * X * U = Uᵀ * Y * U) : X = Y := by
-  haveI := Matrix.invertibleOfIsUnitDet U hU
+  have := Matrix.invertibleOfIsUnitDet U hU
   have h1 : Uᵀ * X = Uᵀ * Y := (Matrix.mul_left_inj_of_invertible (A := U)).mp h
   exact (Matrix.mul_right_inj_of_invertible (A := Uᵀ)).mp h1
 
@@ -354,7 +354,7 @@ private lemma ggJSt3_form_fixed {n : ℕ} {K : Type} [Field K] (σ : K ≃+* K)
   have hσJ : J.map σ.toRingHom = J := by
     ext i j
     rcases i with i | i <;> rcases j with j | j <;>
-      simp [hJ, Matrix.fromBlocks, Matrix.one_apply, apply_ite ⇑σ.toRingHom, map_one, map_zero]
+      simp [hJ, Matrix.fromBlocks, Matrix.one_apply, map_zero]
   have hQσmul : Q.map σ.toRingHom * Pm = 1 := by
     have h : (P⁻¹ : GL (Fin n ⊕ Fin n) K).map σ.toRingHom * P.map σ.toRingHom = 1 := by
       rw [← map_mul, inv_mul_cancel, map_one]
@@ -422,7 +422,7 @@ private lemma ggJSt3_matrix_of_basis {n : ℕ} {F : Type} [Field F] [CharP F 2]
   set P : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F := Matrix.of fun r c => β c r with hP
   have hcol : ∀ c, P *ᵥ Pi.single c 1 = β c := fun c => by
     ext r
-    simp [hP, Matrix.mulVec_single_one]
+    simp [hP]
   ext x y
   have h1 := hb x y
   rw [← hcol x, ← hcol y] at h1
@@ -534,7 +534,7 @@ private lemma ggJSt3_conj_gram {n : ℕ} {K : Type} [Field K]
           noncomm_ring
       _ = Qᵀ * (g : Matrix _ _ K)ᵀ * J * (g : Matrix _ _ K) * Q := by
           rw [h1, hQP]
-          simp only [Matrix.mul_one, Matrix.one_mul]
+          simp only [Matrix.mul_one]
       _ = Qᵀ * ((g : Matrix _ _ K)ᵀ * J * (g : Matrix _ _ K)) * Q := by noncomm_ring
   rw [hL, h]
 
@@ -577,7 +577,7 @@ private lemma ggJSt3_conj_gram_C {n : ℕ} {F : Type} [Field F]
           noncomm_ring
       _ = Cmᵀ * (X : Matrix _ _ F)ᵀ * J₀ * (X : Matrix _ _ F) * Cm := by
           rw [h1, hCmCi]
-          simp only [Matrix.mul_one, Matrix.one_mul]
+          simp only [Matrix.mul_one]
       _ = Cmᵀ * ((X : Matrix _ _ F)ᵀ * J₀ * (X : Matrix _ _ F)) * Cm := by noncomm_ring
   rw [hL, hX]
 
@@ -658,7 +658,7 @@ private lemma ggJSt3_statedSp_eq_gramIsometry {n : ℕ} {K : Type} [Field K] :
 
 private lemma ggJSt3_cast_orderOf_ne_zero {K : Type} [Field K] [CharP K 2] {n : ℕ}
     (h : Odd n) : (n : AlgebraicClosure K) ≠ 0 := by
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   intro h0
   have h2 : (2 : ℕ) ∣ n := (CharP.cast_eq_zero_iff (AlgebraicClosure K) 2 n).mp h0
@@ -728,7 +728,7 @@ private lemma ggJSt3_conj_gram_C_inv {n : ℕ} {F : Type} [Field F]
           noncomm_ring
       _ = Ciᵀ * (X : Matrix _ _ F)ᵀ * Fm * (X : Matrix _ _ F) * Ci := by
           rw [h1, hCiCm]
-          simp only [Matrix.mul_one, Matrix.one_mul]
+          simp only [Matrix.mul_one]
       _ = Ciᵀ * ((X : Matrix _ _ F)ᵀ * Fm * (X : Matrix _ _ F)) * Ci := by noncomm_ring
   rw [hL, hX]
 
@@ -775,7 +775,7 @@ private lemma ggJSt3_conj_P_inv_gram {n : ℕ} {K : Type} [Field K]
           noncomm_ring
       _ = Pmᵀ * (x : Matrix _ _ K)ᵀ * J' * (x : Matrix _ _ K) * Pm := by
           rw [h1, hPQ]
-          simp only [Matrix.mul_one, Matrix.one_mul]
+          simp only [Matrix.mul_one]
       _ = Pmᵀ * ((x : Matrix _ _ K)ᵀ * J' * (x : Matrix _ _ K)) * Pm := by noncomm_ring
   rw [hL, h]
 
@@ -793,7 +793,7 @@ theorem descent_centralizer_Sp {K : Type} [Field K] [Fintype K] [CharP K 2] {n :
       blockExp false (b : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K) =
         blockExp false (b₀ : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K₀) := by
   classical
-  haveI : Finite K := Finite.of_fintype K
+  have : Finite K := Finite.of_fintype K
   obtain ⟨P, hP⟩ := ggJSt3_hilbert90 σ hσ hσ2 A hAA
   let J : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K := fromBlocks 0 1 (-1) 0
   let Q : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K :=
@@ -806,7 +806,7 @@ theorem descent_centralizer_Sp {K : Type} [Field K] [Fintype K] [CharP K 2] {n :
     have h := ggJSt3_form_fixed σ P A (by simpa [J] using hAJ) hP
     simpa [J, Q, J'] using h
   let K₀ : Subfield K := fixedField K σ
-  haveI : Fintype ↥K₀ := Fintype.ofFinite ↥K₀
+  have : Fintype ↥K₀ := Fintype.ofFinite ↥K₀
   let J₀ : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) ↥K₀ :=
     ggJSt3_descendMatrix σ J' (fun i j => congrFun (congrFun hJ'map i) j)
   have hJ₀map : J₀.map (algebraMap ↥K₀ K) = J' := ggJSt3_descendMatrix_map σ J' _

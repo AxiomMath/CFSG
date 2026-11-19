@@ -11,6 +11,7 @@ open CFSG CFSG.RankThree.PartTwo.Sec21
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem m42_card_pair2_le {e f : G} (he : orderOf e = 2) (hf : orderOf f = 2) (hc : Commute e f) :
     Nat.card (Subgroup.closure ({e, f} : Set G)) ≤ 4 := by
   let g : Fin 2 × Fin 2 → G := fun p => e ^ (p.1 : ℕ) * f ^ (p.2 : ℕ)
@@ -85,21 +86,25 @@ theorem m42_card_pair2 {e f : G} (he : orderOf e = 2) (hf : orderOf f = 2) (hc :
     simpa using this
   omega
 
+omit [Finite G] in
 theorem m42_Op_isPGroup (p : ℕ) [Fact p.Prime] (M : Subgroup G) : IsPGroup p (Op p M) :=
   (CFSG.pCore_isPGroup (p := p) (G := ↥M)).map M.subtype
 
+omit [Finite G] in
 theorem m42_Op_le (p : ℕ) (M : Subgroup G) : Op p M ≤ M := Subgroup.map_subtype_le _
 
+omit [Finite G] in
 theorem m42_Op_conj_mem {p : ℕ} {M : Subgroup G} {g z : G} (hg : g ∈ M) (hz : z ∈ Op p M) :
     g * z * g⁻¹ ∈ Op p M := by
   obtain ⟨z', hz', rfl⟩ := Subgroup.mem_map.mp hz
   refine Subgroup.mem_map.mpr ⟨⟨g, hg⟩ * z' * ⟨g, hg⟩⁻¹, ?_, by simp⟩
   exact (CFSG.pCore_normal (p := p) (G := ↥M)).conj_mem z' hz' ⟨g, hg⟩
 
+omit [Finite G] in
 theorem m42_le_Op {p : ℕ} {M P : Subgroup G} (hPM : P ≤ M) (hP : IsPGroup p P)
     (hn : ∀ m ∈ M, ∀ x ∈ P, m * x * m⁻¹ ∈ P) : P ≤ Op p M := by
   let P' : Subgroup ↥M := P.subgroupOf M
-  haveI : P'.Normal := ⟨fun n hn' g => by
+  have : P'.Normal := ⟨fun n hn' g => by
     rw [Subgroup.mem_subgroupOf] at hn' ⊢
     simpa using hn g.1 g.2 n hn'⟩
   have hp : IsPGroup p P' := hP.comap_subtype
@@ -107,9 +112,10 @@ theorem m42_le_Op {p : ℕ} {M P : Subgroup G} (hPM : P ≤ M) (hP : IsPGroup p 
   intro x hx
   exact Subgroup.mem_map.mpr ⟨⟨x, hPM hx⟩, hle hx, rfl⟩
 
+omit [Finite G] in
 theorem m42_char2 (hc : IsCharacteristicPType G 2) {U : Subgroup G} (hU : IsPGroup 2 U)
     (hne : U ≠ ⊥) : ∀ g ∈ Nor U, (∀ v ∈ Op 2 (Nor U), v * g = g * v) → g ∈ Op 2 (Nor U) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hloc : IsPLocal 2 (Nor U) := ⟨U, hne, hU, rfl⟩
   have := hc _ hloc
   intro g hg hcomm
@@ -143,6 +149,7 @@ theorem m42_conj_sylow (p : ℕ) [Fact p.Prime] {M P Q : Subgroup G} (hP : P ≤
     exact Subgroup.mem_subgroupOf.mp this
   · rw [Subgroup.card_map_of_injective (MulAut.conj g.1).injective, hcP, hcQ]
 
+omit [Finite G] in
 theorem m42_comm_le {Z Y : Subgroup G} {β : G} (hβ : β ∈ Z) (hc : ∀ z ∈ Z, β * z = z * β)
     (hYZ : Y ≤ Z) (hdec : ∀ z ∈ Z, ∃ i : ℤ, ∃ y ∈ Y, z = β ^ i * y) : ⁅Z, Z⁆ ≤ Y := by
   rw [Subgroup.commutator_le]
@@ -179,6 +186,7 @@ theorem m42_comm_le {Z Y : Subgroup G} {β : G} (hβ : β ∈ Z) (hc : ∀ z ∈
   rw [this]
   exact Y.mul_mem (Y.mul_mem (Y.mul_mem hy hy') (Y.inv_mem hy)) (Y.inv_mem hy')
 
+omit [Finite G] in
 theorem m42_Lay_le_Lay {Z Y : Subgroup G} (hYZ : Y ≤ Z) (h : Lay Z ≤ Y) : Lay Z ≤ Lay Y := by
   have hcomp : ∀ C : Subgroup ↥Z, CFSG.IsComponent C → C.map Z.subtype ≤ Lay Y := by
     intro C hC
@@ -188,6 +196,7 @@ theorem m42_Lay_le_Lay {Z Y : Subgroup G} (hYZ : Y ≤ Z) (h : Lay Z ≤ Y) : La
     sSup_le fun C hC => fun x hx => hcomp C hC ⟨x, hx, rfl⟩
   exact (Subgroup.map_mono this).trans (Subgroup.map_comap_le _ _)
 
+omit [Finite G] in
 theorem m42_zpowers_two {x : G} (hx : x * x = 1) : ∀ z ∈ Subgroup.zpowers x, z = 1 ∨ z = x := by
   intro z hz
   obtain ⟨i, rfl⟩ := Subgroup.mem_zpowers_iff.mp hz

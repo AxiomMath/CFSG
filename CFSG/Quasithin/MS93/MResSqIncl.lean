@@ -75,7 +75,7 @@ theorem incl_of_sq {G : Type} [Group G] [Finite G] {M T L : Subgroup G}
 
 open CFSG.Quasithin.H13.A5.C45 in
 theorem incl_of_case4Corr_of_sq {G : Type} [Group G] [Finite G] {M T L : Subgroup G}
-    (h32 : S32) (h36 : S36) (h37 : S37) (h18 : S18) (h38 : S38) (h43 : S43) (h44 : S44)
+    (_h32 : S32) (h36 : S36) (_h37 : S37) (h18 : S18) (h38 : S38) (h43 : S43) (h44 : S44)
     (h14 : MS14AS) (hSQ : SQTKQuot) (hQ2a : S45Q2a) (h46 : S46Two) (h512 : S512) (h7 : S7Two)
     (h : PUHyp M T L) (hL : NotSL3Big L) (hS : NoSp4Quot L) (hsq : C134SqCond T L)
     (hc : C134CorrLocal.IsC134Case4Corr M T L) :

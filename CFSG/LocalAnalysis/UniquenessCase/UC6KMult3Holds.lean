@@ -10,7 +10,7 @@ namespace CFSG.LocalAnalysis.UniquenessCase.UCK
 theorem catalog_of_quasisimple_uc6 {J : Type} [Group J] [Finite J] (hq : CFSG.Open.IsQuasisimple J)
     (hK : CFSG.Open.IsKGroup (J ⧸ Subgroup.center J)) :
     CFSG.Open.IsCatalogGroup (J ⧸ Subgroup.center J) := by
-  haveI : IsSimpleGroup (J ⧸ Subgroup.center J) := hq.2
+  have : IsSimpleGroup (J ⧸ Subgroup.center J) := hq.2
   exact hK.isCatalogGroup_of_surjective ⊤
     (CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian J hq)
     (Subgroup.topEquiv (G := J ⧸ Subgroup.center J)).toMonoidHom
@@ -22,7 +22,7 @@ section
 theorem kMult3_holds : KMult3 := by
   intro J _ _ hq hK hZ hrk T hT hΩ
   by_contra hne
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hdvd : 3 ∣ Nat.card (Subgroup.center J) := by
     obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 hZ
     have hk0 : k ≠ 0 := by

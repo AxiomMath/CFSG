@@ -13,7 +13,7 @@ open CFSG
 namespace CFSG.BenderSuzuki
 namespace Converse
 
-open PFchapter1section1 PFAppendixIII Matrix MatrixGroups
+open PFchapter1section1 PFAppendixIII Matrix _root_.CFSG.BenderSuzuki.MatrixGroups
 open scoped LinearAlgebra.Projectivization Matrix
 
 universe u
@@ -40,7 +40,7 @@ public theorem uconj_involutive (k : ℕ) (hk : k ≠ 0) :
   intro x
   rw [uconj_apply, uconj_apply, ← pow_mul, ← pow_add]
   have hcard : Nat.card (UField k) = 2 ^ (2 * k) := GaloisField.card 2 (2 * k) (by omega)
-  haveI : Fintype (UField k) := Fintype.ofFinite _
+  have : Fintype (UField k) := Fintype.ofFinite _
   have h : Fintype.card (UField k) = 2 ^ (2 * k) := by
     rw [← Nat.card_eq_fintype_card]; exact hcard
   have := FiniteField.pow_card x
@@ -56,7 +56,7 @@ open Polynomial in
 public theorem card_fixed_UField (k : ℕ) (hk : k ≠ 0) :
     Nat.card {x : UField k // uconj k x = x} = 2 ^ k := by
   classical
-  haveI : Fintype (UField k) := Fintype.ofFinite _
+  have : Fintype (UField k) := Fintype.ofFinite _
   have hq1 : 1 < 2 ^ k := Nat.one_lt_two_pow hk
   have hcardK : Fintype.card (UField k) = (2 ^ k) ^ 2 := by
     rw [← Nat.card_eq_fintype_card]; exact card_UField k hk
@@ -133,11 +133,11 @@ variable {K : Type u} [Field K] [Finite K]
 /-- A finite field of order a power of two has characteristic two. -/
 public theorem charP_two_of_card {n : ℕ} (_hn : n ≠ 0) (hcard : Nat.card K = 2 ^ n) :
     CharP K 2 := by
-  haveI : Fintype K := Fintype.ofFinite _
+  have : Fintype K := Fintype.ofFinite _
   obtain ⟨p, hp⟩ := CharP.exists K
-  haveI := hp
+  have := hp
   have hprime : Nat.Prime p := CharP.char_is_prime K p
-  haveI : Fact (Nat.Prime p) := ⟨hprime⟩
+  have : Fact (Nat.Prime p) := ⟨hprime⟩
   obtain ⟨m, -, hcardp⟩ := FiniteField.card K p
   have hcard' : Fintype.card K = 2 ^ n := by rw [← Nat.card_eq_fintype_card]; exact hcard
   have hpd : p ∣ 2 ^ n := by
@@ -387,7 +387,7 @@ public theorem hypothesisA_psu3_general
   have hn2 : 2 ≤ n := by
     by_contra hcon
     interval_cases n <;> simp_all
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     charP_two_of_card (n := 2 * n) (by omega) (by rw [hKcard, ← pow_mul]; ring_nf)
   have hq4 : (4 : ℕ) ≤ 2 ^ n := by
     calc (4 : ℕ) = 2 ^ 2 := by norm_num
@@ -402,7 +402,7 @@ public theorem hypothesisA_psu3_general
     rw [hrho g z ⟨M, hM⟩ hMg]
     exact (happly g z ⟨M, hM⟩ hMg).symm
   subst hEq
-  letI act : MulAction (ProjectiveSpecialUnitaryMatrixGroup J) (psuOmega J) :=
+  let act : MulAction (ProjectiveSpecialUnitaryMatrixGroup J) (psuOmega J) :=
     MulAction.compHom _ rho
   have hsmul : ∀ (g : ProjectiveSpecialUnitaryMatrixGroup J) (x : psuOmega J),
       g • x = rho g x := fun _ _ => rfl
@@ -435,7 +435,7 @@ public theorem hypothesisA_psu3_general
       Equiv.Perm.one_apply, hg₀] at h2
     exact h2.symm
   -- an involution in `R`, conjugated out of the stabilizer
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hReven : 2 ∣ Nat.card R := by
     rw [hRcard, ← pow_mul]
     exact dvd_pow_self 2 (by omega)
@@ -543,7 +543,7 @@ public theorem hypothesisA_psu3_general
       obtain ⟨r, hr, d, hd, hud⟩ := hfact (u : ProjectiveSpecialUnitaryMatrixGroup J) u.2
       exact ⟨⟨r, hRle hr⟩, hr, ⟨d, hDleU hd⟩, hd, Subtype.ext hud.symm⟩
     have hcompl := Subgroup.isComplement'_of_disjoint_and_mul_eq_univ hdisj' hmul'
-    have hc := hcompl.card_mul
+    have hc := hcompl.card_mul_card
     rwa [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hRle).toEquiv,
       Nat.card_congr (Subgroup.subgroupOfEquivOfLe hDleU).toEquiv] at hc
   have hgcddvd : Nat.gcd (2 ^ n + 1) 3 ∣ (2 ^ n) ^ 2 - 1 := by

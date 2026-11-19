@@ -74,7 +74,7 @@ theorem exists_p_element_of_component {Y : Type} [Group Y] [Finite Y] (D : Sylow
       ∃ u ∈ (D : Subgroup Y) ⊓ J, d * u * d⁻¹ ≠ u := by
   have hT : CFSG.ABGLocalTools.IsSylowOf 2 (D : Subgroup Y) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    exact ⟨le_top, D.isPGroup', by rw [Subgroup.relIndex_top_right]; exact D.not_dvd_index⟩
+    exact ⟨le_top, D.isPGroup, by rw [Subgroup.relIndex_top_right]; exact D.not_dvd_index⟩
   obtain ⟨S, hS⟩ := hT.inf_of_le_normalizer (N := J) le_top
     (by rw [Subgroup.normalizer_eq_top])
   let U : Sylow 2 PSL(2, GaloisField 2 f) :=

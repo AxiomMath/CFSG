@@ -141,7 +141,7 @@ private lemma l05nDB_toZ_basis {p N : ℕ} (k : Fin N) :
   by_cases h : j = k
   · subst h; simp
   · have hne : j.val ≠ k.val := fun hh => h (Fin.ext hh)
-    rw [if_neg hne, if_neg h]
+    rw [ite_eq_right hne, ite_eq_right h]
     simp
 
 private lemma l05nDB_dot_of_valid {p N : ℕ} [Fact p.Prime] {q : GGDepANPair}
@@ -156,7 +156,7 @@ private lemma l05nDB_gs_length (p N : ℕ) (news : List GGDepANPair) :
   simp [ggTWDGenList]
 
 private lemma l05nDB_gs_getD {p N : ℕ} {news : List GGDepANPair} {g : ℕ} (hN : 1 ≤ N)
-    (hg : g < N - 1 + news.length) :
+    (_hg : g < N - 1 + news.length) :
     (ggTWDGenList p N news).getD g ([], []) = ggTWDGen p N news g := by
   rw [ggTWDGenList]
   by_cases h : g + 1 < N
@@ -164,13 +164,13 @@ private lemma l05nDB_gs_getD {p N : ℕ} {news : List GGDepANPair} {g : ℕ} (hN
         (List.range (N - 1))).length := by
       rw [List.length_map, List.length_range]; omega
     rw [List.getD_append _ _ _ _ hg', List.getD_eq_getElem _ _ hg']
-    simp only [List.getElem_map, List.getElem_range, ggTWDGen, if_pos h]
+    simp only [List.getElem_map, List.getElem_range, ggTWDGen, ite_eq_left h]
   · have hle : (List.map (fun g => (ggDepANH p N g, ggDepANA p N g))
         (List.range (N - 1))).length ≤ g := by
       rw [List.length_map, List.length_range]; omega
     rw [List.getD_append_right _ _ _ _ hle, List.length_map, List.length_range]
     have hidx : g - (N - 1) = g + 1 - N := by omega
-    rw [hidx, ggTWDGen, if_neg h]
+    rw [hidx, ggTWDGen, ite_eq_right h]
 
 private lemma l05nDB_gs_valid {p N : ℕ} [Fact p.Prime] (hN : 5 ≤ N) {news : List GGDepANPair}
     (hnews : ∀ q ∈ news, GGTWDValid p N q) {g : ℕ}
@@ -351,7 +351,7 @@ private def l05nDB_stepW (p N : ℕ) (gs : List GGDepANPair)
     List (Module.End (ZMod p) (GGDepAE p N)) :=
   acc ++ [ggTWDRflOf p N (gs.getD e.2 ([], [])) * acc.getD e.1 1]
 
-private def l05nDB_stepV (p N : ℕ) (gs : List GGDepANPair)
+private def l05nDB_stepV (p _N : ℕ) (gs : List GGDepANPair)
     (acc : List (List ℕ)) (e : ℕ × ℕ) : List (List ℕ) :=
   acc ++ [ggTWDRefVec p (gs.getD e.2 ([], [])) (acc.getD e.1 [])]
 

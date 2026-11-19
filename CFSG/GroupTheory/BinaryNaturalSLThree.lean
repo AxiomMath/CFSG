@@ -25,8 +25,8 @@ private theorem exists_coordinates_three {W : Type} [CommGroup W]
               Multiplicative.toAdd (e w)) := by
   classical
   obtain ⟨K, hKfield, hKfin, hKcard, π, hreal⟩ := hH
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
+  let : Field K := hKfield
+  let : Finite K := hKfin
   obtain ⟨E, hE⟩ := G64.RealizesVia.exists_secEquiv
     (D := FFModel.nat (StatedSL 3 K)) rfl hreal
   let e : W ≃* Multiplicative (Fin 3 → K) :=
@@ -56,7 +56,7 @@ private theorem isSylowTwoOf_map_of_sylow {W : Type} [CommGroup W]
     {H : Subgroup (MulAut W)} [Finite ↥H]
     (S : Sylow 2 ↥H) :
     CFSG.QuasithinUnique.IsSylowTwoOf (S.map H.subtype) H := by
-  refine ⟨?_, S.isPGroup'.map H.subtype, ?_⟩
+  refine ⟨?_, S.isPGroup.map H.subtype, ?_⟩
   · intro p hp
     obtain ⟨s, -, rfl⟩ := Subgroup.mem_map.mp hp
     exact s.2
@@ -79,11 +79,11 @@ theorem mem_of_fixed_sylow_three {W : Type} [CommGroup W] [Finite W]
     {w : W} (hw : ∀ s ∈ (S : Subgroup ↥H), (s : MulAut W) w = w) : w ∈ Y := by
   classical
   obtain ⟨K, hKfield, hKfin, hKcard, π, e, hreal, -, hact⟩ := exists_coordinates_three hH
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
-  haveI : CharP K 2 :=
+  let : Field K := hKfield
+  let : Finite K := hKfin
+  have : CharP K 2 :=
     CFSG.Quasithin.Vol2.KGNat.charP_two_of_card (by omega) hKcard
-  haveI : Finite ↥H := Finite.of_surjective π hreal.1
+  have : Finite ↥H := Finite.of_surjective π hreal.1
   have hW2 : ∀ w : W, w ^ 2 = 1 := by
     intro w
     refine e.map_eq_one_iff.mp ?_
@@ -201,7 +201,7 @@ private theorem exists_fixed_vector {W : Type} [CommGroup W] [Finite W]
     rw [hY]
     calc 1 < 2 ^ 2 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn
-  letI : Fintype Y := Fintype.ofFinite Y
+  let : Fintype Y := Fintype.ofFinite Y
   have hYgt' : 1 < Fintype.card Y := by
     rwa [Nat.card_eq_fintype_card] at hYgt
   obtain ⟨y, hyne⟩ := Fintype.exists_ne_of_one_lt_card hYgt' (1 : Y)
@@ -281,8 +281,8 @@ private theorem exists_linear_of_semilinear {W : Type} [CommGroup W]
           (g' : Matrix (Fin 3) (Fin 3) K) *ᵥ coordAddEquiv e f v) :
     ∃ L : (Fin 3 → K) ≃ₗ[K] (Fin 3 → K),
       ∀ x : Fin 3 → K, L x = coordAddEquiv e f x := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 :=
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 :=
     CFSG.Quasithin.Vol2.KGNat.charP_two_of_card (by omega) hKcard
   have hFcard : Fintype.card K = 2 ^ n := by
     rwa [Nat.card_eq_fintype_card] at hKcard
@@ -369,8 +369,8 @@ theorem mem_of_normalizes_three {W : Type} [CommGroup W] [Finite W]
     (hfix : ∀ y ∈ Y, f y = y) : f ∈ H := by
   classical
   obtain ⟨K, hKfield, hKfin, hKcard, π, e, hreal, hπ, hact⟩ := exists_coordinates_three hH
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
+  let : Field K := hKfield
+  let : Finite K := hKfin
   obtain ⟨L, hLapply, hLdet⟩ :=
     exists_linear_det_one hH hn S hYS hY hKcard hπ hact hnorm hf2 hfix
   let M : Matrix (Fin 3) (Fin 3) K := LinearMap.toMatrix' L.toLinearMap

@@ -33,7 +33,7 @@ theorem sevenTorsion_eq (hab : ∀ x ∈ Q, ∀ y ∈ Q, x * y = y * x)
 
 theorem orderOf_symm_eq_three {φ : L ≃* GL (Fin 3) (ZMod 2)} {u : GL (Fin 3) (ZMod 2)}
     (h1 : u ^ 3 = 1) (h2 : u ≠ 1) : orderOf (φ.symm u) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [MulEquiv.orderOf_eq]
   exact orderOf_eq_prime h1 h2
 
@@ -41,14 +41,14 @@ theorem nBase_abelian [Finite G] (h : NHyp Q L b) (hab : ∀ x ∈ Q, ∀ y ∈ 
     (hmin : NLeast Q L) : Q ≤ Subgroup.centralizer (L : Set G) := by
   by_contra hnot
   obtain ⟨φ⟩ := h.iso
-  haveI : Finite L := Finite.of_equiv _ φ.symm.toEquiv
-  haveI : IsSimpleGroup L := by
-    haveI := CFSG.ComponentClassification.GHarris.isSimpleGroup_GL32_gh
+  have : Finite L := Finite.of_equiv _ φ.symm.toEquiv
+  have : IsSimpleGroup L := by
+    have := CFSG.ComponentClassification.GHarris.isSimpleGroup_GL32_gh
     exact φ.isSimpleGroup
   have hZ := inf_centralizer_eq_bot hab hmin hnot
-  letI : CommGroup Q := { (inferInstance : Group Q) with
+  let : CommGroup Q := { (inferInstance : Group Q) with
     mul_comm := fun x y => Subtype.ext (hab x x.2 y y.2) }
-  letI act : DistribMulAction L (Additive Q) :=
+  let act : DistribMulAction L (Additive Q) :=
     { smul := fun l a => Additive.ofMul
         (⟨l * (Additive.toMul a : Q) * l⁻¹, conj_mem_of_normalizes h.normalizes l.2
           (Additive.toMul a).2⟩ : Q)

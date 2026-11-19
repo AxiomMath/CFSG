@@ -67,7 +67,7 @@ theorem exists_hom_centralizer_z (hP : Nat.card ↥P1408 = 177408000) :
     have h := Subgroup.card_ker_mul_card_range φ
     rw [hX, hrange'] at h
     omega
-  haveI : Finite ↥φ.ker := Nat.finite_of_card_ne_zero (by rw [hcardK]; norm_num)
+  have : Finite ↥φ.ker := Nat.finite_of_card_ne_zero (by rw [hcardK]; norm_num)
   have hNK : (closure (elemW '' {w | w ∈ nWords1})).subgroupOf
       (closure (elemW '' {w | w ∈ blkData1.gens})) ≤ φ.ker := by
     intro n hn
@@ -82,7 +82,7 @@ theorem exists_hom_centralizer_z (hP : Nat.card ↥P1408 = 177408000) :
   have hcardPerm : Nat.card (Equiv.Perm (Fin 5)) = 120 := by
     rw [Nat.card_perm, Nat.card_fin]
     norm_num
-  haveI : Finite ↥φ.range := Nat.finite_of_card_ne_zero (by rw [hrange']; norm_num)
+  have : Finite ↥φ.range := Nat.finite_of_card_ne_zero (by rw [hrange']; norm_num)
   have hrange_top : φ.range = ⊤ := by
     refine Subgroup.eq_top_of_card_eq (G := Equiv.Perm (Fin 5)) (H := φ.range) ?_
     rw [hrange', hcardPerm]

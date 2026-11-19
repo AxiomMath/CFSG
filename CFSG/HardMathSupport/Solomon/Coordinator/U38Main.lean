@@ -26,10 +26,10 @@ theorem u38_uω_ne_one {ω : K} (hω : ω ^ 2 + ω + 1 = 0) : uω hω ≠ 1 := f
   u38_omega_ne_one h hω (by have := congrArg Units.val e; simpa [uω] using this)
 
 theorem u38_heis {ω : K} (hω : ω ^ 2 + ω + 1 = 0) {g : MulAut (primeFormP h (idGram K 3))}
-    (hgA : g * ρ (uA h hω) = ρ (uA h hω) * g) (hgP : g * ρ (uP h hω) = ρ (uP h hω) * g)
+    (hgA : g * ρ (uA h hω) = ρ (uA h hω) * g) (hgP : g * ρ (uP h) = ρ (uP h) * g)
     (hcop : Nat.Coprime 3 (orderOf g)) : g = 1 :=
   eq_one_of_commute_heisenberg h (u38_uω_pow_three hω) (u38_uω_ne_one h hω) (uA_mul_uP h hω)
-    (rho_uA_pow_three h hω) (rho_uP_pow_three h hω) (rho_uA_comm_uP h hω) hgA hgP hcop
+    (rho_uA_pow_three h hω) (rho_uP_pow_three h) (rho_uA_comm_uP h hω) hgA hgP hcop
 
 theorem u38_E₀_le_inner {ω : K} (hω : ω ^ 2 + ω + 1 = 0) :
     E₀ h hω ≤ innerAut (primeFormP h (idGram K 3)) := by
@@ -84,7 +84,7 @@ theorem oPrimeCore_centralizer_outer_eq_bot {x : MulAut (primeFormP h (idGram K 
       · rw [Set.mem_singleton_iff] at hy
         rw [hy]
         exact Subgroup.mem_centralizer_singleton_iff.2
-          (u38_fieldHom_comm h (uP h hω) (fun i j => by
+          (u38_fieldHom_comm h (uP h) (fun i j => by
             rw [coe_uP]; exact u38_sigma_mP σ i j)).symm
     exact Subgroup.mem_centralizer_singleton_iff.1 (hle he)
   set E := (E₀ h hω).map (MulAut.conj c).toMonoidHom with hE

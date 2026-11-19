@@ -102,14 +102,14 @@ theorem rhoBar_apply_aVec_of_mem_Lbar (S : Setting z E F) {a : G} (haQ : a ∈ Q
 
 theorem qS_aVec_eq_zero (S : Setting z E F) {a : G} (haQ : a ∈ Q z) (hconj : IsConj z a) :
     qS S (aVec S haQ) = 0 := by
-  letI : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
+  let : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
   exact (q_eq_zero_iff S ⟨a, haQ⟩).mpr (sq_eq_one_of_isConj S hconj)
 
 theorem mem_QaInterImage_CQ_of_polar_aVec_eq_zero (S : Setting z E F) {a : G}
     (haQ : a ∈ Q z) {v : Additive (QbarOf S)}
     (hv : QuadraticMap.polar (qS S) v (aVec S haQ) = 0) :
     v ∈ QaInterImage S (Q z ⊓ Subgroup.centralizer ({a} : Set G)) := by
-  letI : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
+  let : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
   have hB : (qS S).polarBilin (aVec S haQ) v = 0 := by
     rw [QuadraticMap.polarBilin_apply_apply]
     exact (QuadraticMap.polar_comm (qS S) (aVec S haQ) v).trans hv

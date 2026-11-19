@@ -225,7 +225,7 @@ theorem exists_prime_dvd_not_dvd_index [Finite G] (n : ℕ) (hn : 2 ≤ n) (S : 
   have hP'N : P' ≤ involutionCentralizer n S e :=
     hP'B.trans (hBR.trans (Subgroup.map_subtype_le _))
   have hPp : IsPGroup ℓ (P'.comap (involutionCentralizer n S e).subtype) :=
-    (P.isPGroup'.map B.subtype).comap_of_injective _ Subtype.val_injective
+    (P.isPGroup.map B.subtype).comap_of_injective _ Subtype.val_injective
   obtain ⟨Q₀, hQ₀⟩ := hPp.exists_le_sylow
   have hPQ : P' ≤ (Q₀ : Subgroup (involutionCentralizer n S e)).map
       (involutionCentralizer n S e).subtype := fun g hg => ⟨⟨g, hP'N hg⟩, hQ₀ hg, rfl⟩
@@ -452,7 +452,7 @@ theorem lift_inf_sylow
     sylow_le_involutionCentralizer n hn S e
   have hS2 : ∀ g ∈ (S : Subgroup G), ∃ k : ℕ, g ^ 2 ^ k = 1 := by
     intro g hg
-    obtain ⟨k, hk⟩ := S.isPGroup' ⟨g, hg⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨g, hg⟩
     exact ⟨k, by simpa using congrArg Subtype.val hk⟩
   have hR1 : ∀ r : involutionCentralizer n S e, r ∈ R → ∀ k : ℕ, r ^ 2 ^ k = 1 → r = 1 := by
     intro r hr k hk
@@ -664,7 +664,7 @@ theorem lift_sylow_complement [Finite G] (n : ℕ) (hn : 2 ≤ n) (S : Sylow 2 G
     have hg' : g ∈ (JS : Set (involutionCentralizer n S e)) := hgJS
     rw [hset] at hg'
     obtain ⟨j, hj, s, hs, rfl⟩ := Set.mem_mul.mp hg'
-    obtain ⟨k, hk⟩ := (centralizerSylow n hn S e).isPGroup' ⟨s, hs⟩
+    obtain ⟨k, hk⟩ := (centralizerSylow n hn S e).isPGroup ⟨s, hs⟩
     have hk' : s ^ 2 ^ k = 1 := by simpa using congrArg Subtype.val hk
     set ψ := QuotientGroup.mk' J with hψ
     have hψj : ψ j = 1 := (QuotientGroup.eq_one_iff _).mpr hj

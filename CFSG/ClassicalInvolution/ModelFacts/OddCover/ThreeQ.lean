@@ -39,7 +39,7 @@ theorem statedSL_three_noCover_odd {p f : ℕ} [hp : Fact p.Prime] (hK : Nat.car
     (fun Cp => sylow_eq_bot_of_not_dvd Cp hnd) ?_ ?_
   · intro r hr _ hrp hre
     obtain ⟨Q⟩ := (inferInstance : Nonempty (Sylow r (StatedSL 3 K)))
-    exact ⟨Q, isCyclic_of_isPGroup_of_le_GL_three (hrq r hr.out hrp) hre Q.isPGroup'⟩
+    exact ⟨Q, isCyclic_of_isPGroup_of_le_GL_three (hrq r hr.out hrp) hre Q.isPGroup⟩
   · intro r hr hr2 hrp hre
     obtain ⟨N, hNmap, hNinj, hNcard⟩ :=
       lifted_monomial_subgroup monomialData_statedSL π hπ hC hodd
@@ -90,10 +90,10 @@ theorem statedSU_three_isCyclic_sylow (hK : Nat.card K = (p ^ f) ^ 2) {r : ℕ} 
           omega] at this
       exact hr2 ((Nat.prime_dvd_prime_iff_eq hr.out Nat.prime_two).1 h2)
     refine isCyclic_of_isPGroup_of_card_eq_mul (Z := Z) (m := (p ^ f) ^ 3 * ((p ^ f) ^ 3 + 1)) ?_
-      hm P.isPGroup'
+      hm P.isPGroup
     rw [hZ, card_statedSU_three hK]
     ring
-  · refine isCyclic_of_isPGroup_of_le_GL_three ?_ ?_ P.isPGroup'
+  · refine isCyclic_of_isPGroup_of_le_GL_three ?_ ?_ P.isPGroup
     · rw [hK]
       exact fun h => hrq (hr.out.dvd_of_dvd_pow h)
     · rw [hK]

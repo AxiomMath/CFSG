@@ -48,8 +48,7 @@ theorem I106T1430At_of_facts (G : Type) [Group G] [Finite G]
       apply Subtype.ext
       show y⁻¹ * (y⁻¹ * (y⁻¹ * (z : G) * y) * y) * y = z
       have h2 : y⁻¹ * (y⁻¹ * (y⁻¹ * (z : G) * y) * y) * y = (y ^ 3)⁻¹ * (z : G) * y ^ 3 := by
-        simp only [pow_succ, pow_zero, one_mul, mul_assoc, mul_inv_rev, inv_mul_cancel_left,
-          mul_inv_cancel_left, inv_inv]
+        simp only [pow_succ, pow_zero, one_mul, mul_assoc, mul_inv_rev]
       rw [h2, hy3, inv_one, one_mul, mul_one]
     have hα3 : ∀ z, α (α (α z)) = z := by
       intro z

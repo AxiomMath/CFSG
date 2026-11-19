@@ -50,8 +50,8 @@ theorem parabolicRadicalRoots_123 :
     parabolicRadicalRoots ReeTag.F4.tag {i | i ≠ 0} =
       {α | IsRoot ReeTag.F4.tag α ∧ (0 < height α ∧ α 0 ≠ 0)} := by
   ext α
-  simp only [parabolicRadicalRoots, parabolicPosRoots, parabolicRoots, Set.mem_diff,
-    Set.mem_setOf_eq, Set.mem_inter_iff, not_and, not_not]
+  simp only [parabolicRadicalRoots, parabolicPosRoots, parabolicRoots, Set.mem_sdiff,
+    Set.mem_ofPred_eq, Set.mem_inter_iff, not_and, not_not]
   constructor
   · rintro ⟨⟨h1, h2⟩, h3⟩
     exact ⟨h1, h2, fun h0 => h3 ⟨h1, fun i hi => by rwa [show i = 0 by simpa using hi]⟩ h1 h2⟩

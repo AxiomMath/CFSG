@@ -17,6 +17,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem mem_normalizer_inf_aux {x : G} {P Q : Subgroup G}
     (hP : x ∈ normalizer (P : Set G)) (hQ : x ∈ normalizer (Q : Set G)) :
     x ∈ normalizer ((P ⊓ Q : Subgroup G) : Set G) := by
@@ -25,6 +26,7 @@ private theorem mem_normalizer_inf_aux {x : G} {P Q : Subgroup G}
   rw [Subgroup.mem_inf, Subgroup.mem_inf, Subgroup.mem_normalizer_iff.1 hP y,
     Subgroup.mem_normalizer_iff.1 hQ y]
 
+omit [Finite G] in
 private theorem conjSub_inv_eq_conjSubgroup (t : G) (A : Subgroup G) :
     A1b.conjSub t⁻¹ A = conjSubgroup A t := by
   ext x

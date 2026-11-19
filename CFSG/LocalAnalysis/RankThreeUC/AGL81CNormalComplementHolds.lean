@@ -17,9 +17,9 @@ open CFSG.LargeExtraspecial.S8
 
 theorem kFactNormalComplement_holds : KFactNormalComplement := by
   intro X _ _ hX J hJ hJnorm q hq hq2 hqJ
-  haveI : J.Normal := hJnorm
+  have : J.Normal := hJnorm
   let S := ↥J ⧸ Subgroup.center ↥J
-  haveI hSsimple : IsSimpleGroup S := hJ.1.2.1
+  have hSsimple : IsSimpleGroup S := hJ.1.2.1
   have hnonab : ∃ a b : S, a * b ≠ b * a := hJ.1.2.2
   have hcat : CFSG.Open.IsCatalogGroup S :=
     CFSG.Open.IsKGroup.isCatalogGroup_of_surjective hX J hnonab
@@ -36,13 +36,13 @@ theorem kFactNormalComplement_holds : KFactNormalComplement := by
   let φ : X →* Outer S := conjOuterCenterQuot J
   have hJperf : ⁅J, J⁆ = J := Subgroup.isPerfect_iff.mp hJ.1.1
   obtain ⟨K₀, hK₀norm, hK₀cop, hK₀q⟩ := hout
-  haveI : K₀.Normal := hK₀norm
+  have : K₀.Normal := hK₀norm
   let H : Subgroup X := J ⊔ Subgroup.centralizer (J : Set X)
-  haveI : (Subgroup.centralizer (J : Set X)).Normal := Subgroup.normal_centralizer
+  have : (Subgroup.centralizer (J : Set X)).Normal := Subgroup.normal_centralizer
   have hHnorm : H.Normal := by
     dsimp only [H]
     exact Subgroup.sup_normal J _
-  haveI : H.Normal := hHnorm
+  have : H.Normal := hHnorm
   have hker_le : φ.ker ≤ H := by
     intro x hx
     exact mem_sup_centralizer_of_conjOuterCenterQuot_eq_one J hJperf
@@ -51,12 +51,12 @@ theorem kFactNormalComplement_holds : KFactNormalComplement := by
   have hN₀norm : N₀.Normal := by
     dsimp only [N₀]
     exact Subgroup.Normal.comap hK₀norm φ
-  haveI : N₀.Normal := hN₀norm
+  have : N₀.Normal := hN₀norm
   let N : Subgroup X := N₀ ⊔ H
   have hNnorm : N.Normal := by
     dsimp only [N]
     exact Subgroup.sup_normal N₀ H
-  haveI : N.Normal := hNnorm
+  have : N.Normal := hNnorm
   have hHN : H ≤ N := by
     dsimp only [N]
     exact le_sup_right
@@ -87,7 +87,7 @@ theorem kFactNormalComplement_holds : KFactNormalComplement := by
         (QuotientGroup.map N₀ K₀ φ (le_rfl : N₀ ≤ K₀.comap φ)) := by
       apply (MonoidHom.ker_eq_bot_iff _).mp
       rw [QuotientGroup.ker_map]
-      simpa [N₀] using QuotientGroup.map_mk'_self N₀
+      simp [N₀]
     have hN₀q : IsPGroup q (X ⧸ N₀) :=
       IsPGroup.of_injective hK₀q
         (QuotientGroup.map N₀ K₀ φ (le_rfl : N₀ ≤ K₀.comap φ)) hφbar

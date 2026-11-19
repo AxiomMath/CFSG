@@ -175,7 +175,7 @@ theorem r1f_W_surj {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime] (hp3
 theorem r1_rank_transfer {G : Type} [Group G] [Finite G] {L : Subgroup G} {p : ℕ} [Fact p.Prime]
     {C : Subgroup (CFSG.pCore p L)} (hcrit : Crit135 L p C)
     [IsElementaryAbelian p (↥(dOf L p C) ⧸ frattini ↥(dOf L p C))]
-    (hLN : L ≤ Subgroup.normalizer ((dOf L p C : Subgroup G) : Set G)) {z : L} (hz2 : z * z = 1)
+    (hLN : L ≤ Subgroup.normalizer ((dOf L p C : Subgroup G) : Set G)) {z : L} (_hz2 : z * z = 1)
     (h4 : 4 ≤ Module.finrank (ZMod p) (Module.End.eigenspace
       (frattiniLinN p (dOf L p C) ⟨(z : G), hLN z.2⟩) (-1 : ZMod p))) :
     4 ≤ CFSG.pRank p (↥(dPrime L p C (z : G)) ⧸ frattini ↥(dPrime L p C (z : G))) := by
@@ -190,7 +190,7 @@ theorem r1_rank_transfer {G : Type} [Group G] [Finite G] {L : Subgroup G} {p : �
       exact dPrime_exp hcrit hz (x : G) x.2)
   have hfr : frattini ↥(dPrime L p C (z : G)) = commutator ↥(dPrime L p C (z : G)) :=
     CFSG.RankThree.PartTwo.frattini_eq_commutator hD'p hexp
-  haveI hEA' : IsElementaryAbelian p (↥(dPrime L p C (z : G)) ⧸ frattini ↥(dPrime L p C (z : G))) :=
+  have hEA' : IsElementaryAbelian p (↥(dPrime L p C (z : G)) ⧸ frattini ↥(dPrime L p C (z : G))) :=
     (CFSG.GroupTheory.frattini_elementary_quotient hD'p).2.2.2.1
   set zN : Subgroup.normalizer ((dOf L p C : Subgroup G) : Set G) := ⟨(z : G), hLN z.2⟩ with hzN
   set W := Module.End.eigenspace (frattiniLinN p (dOf L p C) zN) (-1 : ZMod p) with hW
@@ -217,7 +217,7 @@ theorem r1_rank_transfer {G : Type} [Group G] [Finite G] {L : Subgroup G} {p : �
 theorem r1_cu_transfer {G : Type} [Group G] [Finite G] {L : Subgroup G} {p : ℕ} [Fact p.Prime]
     {C : Subgroup (CFSG.pCore p L)} (hcrit : Crit135 L p C)
     [IsElementaryAbelian p (↥(dOf L p C) ⧸ frattini ↥(dOf L p C))]
-    (hLN : L ≤ Subgroup.normalizer ((dOf L p C : Subgroup G) : Set G)) {z : L} (hz2 : z * z = 1)
+    (hLN : L ≤ Subgroup.normalizer ((dOf L p C : Subgroup G) : Set G)) {z : L} (_hz2 : z * z = 1)
     {u : G} (huN : u ∈ Subgroup.normalizer ((dOf L p C : Subgroup G) : Set G))
     (hu2 : u * u = 1) (huz : u * (z : G) = (z : G) * u)
     (h2 : 2 ≤ Module.finrank (ZMod p) (↥(Module.End.eigenspace
@@ -239,7 +239,7 @@ theorem r1_cu_transfer {G : Type} [Group G] [Finite G] {L : Subgroup G} {p : ℕ
       exact dPrime_exp hcrit hz (x : G) x.2)
   have hfr : frattini ↥(dPrime L p C (z : G)) = commutator ↥(dPrime L p C (z : G)) :=
     CFSG.RankThree.PartTwo.frattini_eq_commutator hD'p hexp
-  haveI hEA' : IsElementaryAbelian p (↥(dPrime L p C (z : G)) ⧸ frattini ↥(dPrime L p C (z : G))) :=
+  have hEA' : IsElementaryAbelian p (↥(dPrime L p C (z : G)) ⧸ frattini ↥(dPrime L p C (z : G))) :=
     (CFSG.GroupTheory.frattini_elementary_quotient hD'p).2.2.2.1
   set zN : Subgroup.normalizer ((dOf L p C : Subgroup G) : Set G) := ⟨(z : G), hLN z.2⟩ with hzN
   set tN : Subgroup.normalizer ((dOf L p C : Subgroup G) : Set G) := ⟨u, huN⟩ with htN

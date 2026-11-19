@@ -31,7 +31,7 @@ theorem nonempty_projectiveSL_three_mulEquiv_catalogue {k : Type} [Field k] [Fin
       q.card = 7 ∧
         Nonempty (projectiveSL 3 k ≃*
           (TauCeti.CFSGIndex.lie ⟨.A 1 q, hv⟩).Group) := by
-  haveI : Fintype k := Fintype.ofFinite k
+  have : Fintype k := Fintype.ofFinite k
   have hk2 : Fintype.card k = Fintype.card (ZMod 2) := by
     rw [← Nat.card_eq_fintype_card, hk]
     simp
@@ -68,7 +68,7 @@ theorem nonempty_psl2_mulEquiv_alternating_five {k : Type} [Field k] [Finite k]
     rcases hk with h | h
     · exact CFSG.ClassicalModels.projectiveSpecialLinear_two_card_of_card_four k h
     · exact CFSG.ClassicalModels.projectiveSpecialLinear_two_card_of_card_five k h
-  haveI : IsSimpleGroup (PSL2 k) := Matrix.ProjectiveSpecialLinearGroup.rank_two_simple
+  have : IsSimpleGroup (PSL2 k) := Matrix.ProjectiveSpecialLinearGroup.rank_two_simple
     (by rcases hk with h | h <;> omega)
   obtain ⟨e⟩ := CFSG.QuasithinUnique.nonempty_mulEquiv_alternatingGroup_five_of_card_sixty h60
   exact ⟨e⟩
@@ -76,7 +76,7 @@ theorem nonempty_psl2_mulEquiv_alternating_five {k : Type} [Field k] [Finite k]
 theorem nonempty_psl2_nine_mulEquiv_alternating_six {k : Type} [Field k] [Finite k]
     (hk : Nat.card k = 9) :
     Nonempty (PSL2 k ≃* alternatingGroup (Fin 6)) := by
-  haveI : Fintype k := Fintype.ofFinite k
+  have : Fintype k := Fintype.ofFinite k
   exact unique_field_nine_projective_linear_alternating_six_isomorphism k
     (by rwa [← Nat.card_eq_fintype_card])
 

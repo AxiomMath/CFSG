@@ -50,7 +50,7 @@ theorem false_of_elemAbelian_quot {A L : Subgroup G} {c : G} (h : Sec14Std G A c
     CFSG.SignalizerFunctor.Helpers.normalized_subgroup_invariant_sylow_nontrivial 3 2
       Nat.prime_three Nat.prime_two P D hP.isPGroup hPD hcop h2
   set S' : Subgroup G := ((S : Subgroup D).map D.subtype).map C.subtype
-  have hS'2 : IsPGroup 2 S' := (S.isPGroup'.map D.subtype).map C.subtype
+  have hS'2 : IsPGroup 2 S' := (S.isPGroup.map D.subtype).map C.subtype
   have hS'1 : S' ≠ ⊥ := fun h0 =>
     hS0 ((Subgroup.map_eq_bot_iff_of_injective _ C.subtype_injective).mp h0)
   have hFS : P.map C.subtype ≤ Subgroup.normalizer (S' : Set G) :=

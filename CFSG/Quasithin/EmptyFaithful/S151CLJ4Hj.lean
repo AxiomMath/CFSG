@@ -96,7 +96,7 @@ theorem p0_isPGroup :
   let P : Sylow 2 ↥J := Sylow.ofCard P0 (by rw [card_P0 hM j4Facts, card_J_factorization j4Facts])
   have hP : (P : Subgroup ↥J) = P0 := Sylow.coe_ofCard _ _
   rw [← hP]
-  exact P.isPGroup'
+  exact P.isPGroup
 
 theorem p0_index_odd :
     ¬ 2 ∣ P0.index := by

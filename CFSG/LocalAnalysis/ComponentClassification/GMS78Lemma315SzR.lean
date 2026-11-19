@@ -334,7 +334,7 @@ theorem sq_mem_gmsV
       obtain ⟨S, hRS, z, hzS, hzN, hzR⟩ :=
         exists_mem_normalizer_of_not_isSylowOf hS.isR.isPGroup hnot
       have hP : IsPGroup 2 (R ⊔ zpowers z : Subgroup G) :=
-        S.isPGroup'.to_le (sup_le hRS (zpowers_le.mpr hzS))
+        S.isPGroup.to_le (sup_le hRS (zpowers_le.mpr hzS))
       have heq := hS.isSylowOf_normalizer.eq_of_le le_sup_left
         (sup_le hS.isR.le_normalizer_gmsV (zpowers_le.mpr (hNR hzN))) hP
       exact hzR (heq ▸ mem_sup_right (mem_zpowers z))

@@ -63,7 +63,7 @@ theorem sec34GammaStatement_holds : Sec34GammaStatement := by
   have hPQ : P ≤ Q := hc.P_le_Q
   obtain ⟨C, hC⟩ : ∃ C : Subgroup G, ∀ c, c ∈ C ↔ c ∈ Q ∧ (∀ w ∈ wOf V H, c * w = w * c) ∧
       (∀ x ∈ xOf V H, ⁅x, c⁆ ∈ wOf V H) ∧ (∀ p ∈ P, ⁅p, c⁆ ∈ V ⊓ wOf V H) := by
-    refine ⟨⟨⟨⟨setOf fun c => c ∈ Q ∧ (∀ w ∈ wOf V H, c * w = w * c) ∧
+    refine ⟨⟨⟨⟨_root_.Set.ofPred fun c => c ∈ Q ∧ (∀ w ∈ wOf V H, c * w = w * c) ∧
         (∀ x ∈ xOf V H, ⁅x, c⁆ ∈ wOf V H) ∧ (∀ p ∈ P, ⁅p, c⁆ ∈ V ⊓ wOf V H), ?_⟩, ?_⟩, ?_⟩,
       fun c => Iff.rfl⟩
     · rintro c d ⟨hcQ, hcW, hcX, hcA⟩ ⟨hdQ, hdW, hdX, hdA⟩
@@ -106,7 +106,7 @@ theorem sec34GammaStatement_holds : Sec34GammaStatement := by
   intro q hq
   by_cases hQP : ∀ y ∈ Q, y ∈ P
   · exact Subgroup.mem_sup_left (hQP q hq)
-  push_neg at hQP
+  push Not at hQP
   obtain ⟨x, hxQ, hxP⟩ := hQP
   obtain ⟨b, hb⟩ := exists_spForm_eq_one ha
   obtain ⟨r, hrP, hr⟩ := exists_P_conj_of_comm_mem h11a h11b h11c cfg hb

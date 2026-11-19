@@ -23,7 +23,7 @@ noncomputable instance instDecCanon36 (p : Nat) : Decidable (Canon 36 p) :=
 
 theorem cvOfNat_val (s : CV 36) : cvOfNat s.1 = s := by
   unfold cvOfNat
-  rw [dif_pos s.2]
+  rw [dite_eq_left s.2]
 
 @[expose] noncomputable def layR : List (CV 36) := layNs.map cvOfNat
 

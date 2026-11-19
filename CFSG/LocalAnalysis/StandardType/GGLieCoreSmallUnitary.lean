@@ -89,7 +89,7 @@ private theorem frameRoots_eq_a2Roots_of_apply
   have e21 : σ 2 1 = -σ 1 2 := hneg 1 2
   have e20 : σ 2 0 = -σ 0 2 := hneg 0 2
   ext r
-  simp only [frameRoots, a2Roots, Set.mem_setOf_eq, Set.mem_insert_iff,
+  simp only [frameRoots, a2Roots, Set.mem_ofPred_eq, Set.mem_insert_iff,
     Set.mem_singleton_iff]
   constructor
   · rintro ⟨i, j, hij, rfl⟩

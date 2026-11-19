@@ -12,7 +12,7 @@ open CFSG CFSG.Assembly
   ((c = 0 ∨ c + 1 = k) ∧ (m = 3 ∨ m = 4)) ∨ (3 ≤ k ∧ (c = 1 ∨ c + 2 = k) ∧ m = 3) ∨
     (5 ≤ k ∧ k ≤ 7 ∧ (c = 2 ∨ c + 3 = k) ∧ m = 3)
 
-@[expose] instance (k c m : ℕ) : Decidable (GGTWPosCoxK k c m) := by
+instance (k c m : ℕ) : Decidable (GGTWPosCoxK k c m) := by
   unfold GGTWPosCoxK; infer_instance
 
 @[expose] def GGTWPosCox (N : ℕ) (pos : GGTWPos) (c m : ℕ) : Prop :=
@@ -28,7 +28,7 @@ open CFSG CFSG.Assembly
       (∀ j, j ≠ c0 → X t' (f j) = 2) ∧
       (X t t' = 3 ∨ (X t t' = 4 ∧ X t' (f c0) = 3 ∧ (c0.val = 0 ∨ c0.val + 1 = k))))
 
-@[expose] instance {n k : ℕ} (X : CoxeterMatrix (Fin n)) (f : Fin k → Fin n) (t t' : Fin n) :
+instance {n k : ℕ} (X : CoxeterMatrix (Fin n)) (f : Fin k → Fin n) (t t' : Fin n) :
     Decidable (GGTWExt2Fin X f t t') := by
   unfold GGTWExt2Fin; infer_instance
 
@@ -50,14 +50,14 @@ private lemma ggTW_A_succ_castSucc {k : ℕ} (i j : Fin k) :
   · subst hij
     simp
   · have hne : i.castSucc ≠ j.castSucc := fun h => hij (Fin.castSucc_injective k h)
-    rw [if_neg hne, if_neg hij]
+    rw [ite_eq_right hne, ite_eq_right hij]
     have hc : ((j.castSucc : Fin (k + 1)).val + 1 = (i.castSucc : Fin (k + 1)).val ∨
         (i.castSucc : Fin (k + 1)).val + 1 = (j.castSucc : Fin (k + 1)).val) ↔
         (j.val + 1 = i.val ∨ i.val + 1 = j.val) := by
       simp [Fin.val_castSucc]
     by_cases h : j.val + 1 = i.val ∨ i.val + 1 = j.val
-    · rw [if_pos (hc.mpr h), if_pos h]
-    · rw [if_neg (fun h' => h (hc.mp h')), if_neg h]
+    · rw [ite_eq_left (hc.mpr h), ite_eq_left h]
+    · rw [ite_eq_right (fun h' => h (hc.mp h')), ite_eq_right h]
 
 private lemma ggTW_A_last {k : ℕ} (i : Fin k) :
     CoxeterMatrix.A (k + 1) i.castSucc (Fin.last k) =
@@ -69,15 +69,15 @@ private lemma ggTW_A_last {k : ℕ} (i : Fin k) :
     have := congrArg Fin.val h
     simp [Fin.val_castSucc, Fin.val_last] at this
     omega
-  rw [if_neg hne]
+  rw [ite_eq_right hne]
   have hc : ((Fin.last k : Fin (k + 1)).val + 1 = (i.castSucc : Fin (k + 1)).val ∨
       (i.castSucc : Fin (k + 1)).val + 1 = (Fin.last k : Fin (k + 1)).val) ↔
       i.val + 1 = k := by
     simp [Fin.val_castSucc, Fin.val_last]
     omega
   by_cases h : i.val + 1 = k
-  · rw [if_pos (hc.mpr h), if_pos h]
-  · rw [if_neg (fun h' => h (hc.mp h')), if_neg h]
+  · rw [ite_eq_left (hc.mpr h), ite_eq_left h]
+  · rw [ite_eq_right (fun h' => h (hc.mp h')), ite_eq_right h]
 
 theorem ggTWChain_mem_chainsF {n k : ℕ} {X : CoxeterMatrix (Fin n)} {f : Fin k → Fin n}
     (hf : GGTWChain X f) : f ∈ ggTWChainsF X k := by
@@ -103,7 +103,7 @@ theorem ggTWChain_mem_chainsF {n k : ℕ} {X : CoxeterMatrix (Fin n)} {f : Fin k
     refine ⟨g, ih hg, ?_⟩
     rw [List.mem_filterMap]
     refine ⟨v, List.mem_finRange v, ?_⟩
-    rw [if_pos hv]
+    rw [ite_eq_left hv]
     have hginit : g = Fin.init f := rfl
     rw [hginit]
     exact congrArg some (Fin.snoc_init_self f)
@@ -137,12 +137,12 @@ private lemma ggTW_A_shift {n m : ℕ} (off : ℕ) (i j : Fin m)
   · subst hij
     simp
   · have hne : i.val + off ≠ j.val + off := by omega
-    rw [if_neg hne, if_neg hij]
+    rw [ite_eq_right hne, ite_eq_right hij]
     have hc : ((j.val + off) + 1 = i.val + off ∨ (i.val + off) + 1 = j.val + off) ↔
         (j.val + 1 = i.val ∨ i.val + 1 = j.val) := by omega
     by_cases h : j.val + 1 = i.val ∨ i.val + 1 = j.val
-    · rw [if_pos (hc.mpr h), if_pos h]
-    · rw [if_neg (fun h' => h (hc.mp h')), if_neg h]
+    · rw [ite_eq_left (hc.mpr h), ite_eq_left h]
+    · rw [ite_eq_right (fun h' => h (hc.mp h')), ite_eq_right h]
 
 private lemma ggTWExt2Cox_transfer {N : ℕ} (pos : GGTWPos) {Λa : Type}
     (hΛa : Nat.card Λa = 2) {X : CoxeterMatrix (Fin (N - 1))} (hX : GGTWExt2All X)

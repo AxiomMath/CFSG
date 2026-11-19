@@ -35,6 +35,7 @@ structure E23FourFacts8 : Prop where
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem acts_inv {S : Setting G} {φ : S.Qt ≃ₗ[ZMod 2] (Fin e7Data.d →₀ ZMod 2)} {g : G}
     {T : ↥(adjointGroup .E7 (ZMod 2))} (hgM : g ∈ S.M) (hg : Acts S φ g T)
     (hT : ∀ v, e7Rep56 (ZMod 2) T (e7Rep56 (ZMod 2) T v) = v) : Acts S φ g⁻¹ T := by
@@ -45,17 +46,20 @@ theorem acts_inv {S : Setting G} {φ : S.Qt ≃ₗ[ZMod 2] (Fin e7Data.d →₀ 
   rw [show g * (g⁻¹ * u * g) * g⁻¹ = u by group] at h1
   rw [h1, hT, inv_inv]
 
+omit [Finite G] in
 theorem acts_one_of_mem_QG {S : Setting G} {φ : S.Qt ≃ₗ[ZMod 2] (Fin e7Data.d →₀ ZMod 2)}
     {q : G} (hq : q ∈ S.QG) : Acts S φ q 1 := by
   intro u hu
   rw [cl_conj_of_mem_QG' hq hu, rep_one_apply]
 
+omit [Finite G] in
 theorem acts_mul_of_mem_QG {S : Setting G} {φ : S.Qt ≃ₗ[ZMod 2] (Fin e7Data.d →₀ ZMod 2)}
     {q m : G} {T : ↥(adjointGroup .E7 (ZMod 2))} (hq : q ∈ S.QG) (hmM : m ∈ S.M)
     (hm : Acts S φ m T) : Acts S φ (q * m) T := by
   have := (acts_one_of_mem_QG (φ := φ) hq).mul hmM hm
   rwa [one_mul] at this
 
+omit [Finite G] in
 theorem acts_conj_of_comm {S : Setting G} {φ : S.Qt ≃ₗ[ZMod 2] (Fin e7Data.d →₀ ZMod 2)}
     {g m : G} {T H : ↥(adjointGroup .E7 (ZMod 2))} (hgM : g ∈ S.M) (hmM : m ∈ S.M)
     (hg : Acts S φ g T) (hm : Acts S φ m H) (hHH : H * H = 1) (hc : H * T = T * H) :
@@ -82,7 +86,7 @@ theorem exists_centralizer_word (hF : E23FourFacts8) (h34b : SmithE8E34b) [IsSim
   induction l with
   | nil =>
     intro _
-    exact ⟨1, S.M.one_mem, by simp, fun u hu => by simp [rep_one_apply]⟩
+    exact ⟨1, S.M.one_mem, by simp, fun u hu => by simp⟩
   | cons s l ih =>
     intro hw'
     obtain ⟨m₀, hm₀M, hm₀x, hm₀⟩ := ih (fun s' hs' => hw' s' (List.mem_cons_of_mem _ hs'))

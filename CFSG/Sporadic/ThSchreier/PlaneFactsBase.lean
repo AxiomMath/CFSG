@@ -27,7 +27,7 @@ namespace CFSG.Sporadic.ThSchreier
 
 open CFSG.Sporadic.Th CFSG.Sporadic.Th.Native CFSG.Sporadic.Th.Max3 Pointwise
 
-@[expose] def CanonRows (P : Set RowV) (m₁ m₂ : ℕ) : Prop :=
+def CanonRows (P : Set RowV) (m₁ m₂ : ℕ) : Prop :=
   ∃ m₃ : ℕ, 0 < m₁ ∧ m₁ < m₂ ∧ m₂ < m₃ ∧ m₃ < 2 ^ 248 ∧
     toRow (rowOfNat m₃) = toRow (rowOfNat m₁) + toRow (rowOfNat m₂) ∧
     P = {0, toRow (rowOfNat m₁), toRow (rowOfNat m₂), toRow (rowOfNat m₃)}

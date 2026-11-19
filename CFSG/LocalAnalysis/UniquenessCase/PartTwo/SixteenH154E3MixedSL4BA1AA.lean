@@ -29,7 +29,7 @@ private theorem s16h_sl4_natNorm_lin_dvd {K : Type} [Field K] [Finite K]
     (hD : IsElemAbelian q D) :
     D ≤ linSub (ι := Fin 2) (K := K) ∧ Nat.card D ∣ 180 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hΓ : HasScalarCommutant (CFSG.Assembly.LowTwoRank.StatedSL 2 K) :=
     hasScalarCommutant_statedSL (K := K) (by norm_num)
   have hAut : Nat.card (K ≃+* K) = 2 := by
@@ -88,7 +88,7 @@ theorem s16h_sl4_natNorm_elemAbelian_one {K : Type} [Field K] [Finite K]
     (hD : IsElemAbelian q D) :
     Nat.card D ≤ q := by
   obtain ⟨-, hdiv⟩ := s16h_sl4_natNorm_lin_dvd hK hq hq2 hDN hD
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hpg : IsPGroup q D := CFSG.Open.IsElemAbelian.isPGroup hD
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hpg
   rw [hk] at hdiv ⊢
@@ -115,6 +115,7 @@ theorem s16h_sl4_natNorm_elemAbelian_one {K : Type} [Field K] [Finite K]
       norm_num at h25
     rw [hq5, hk1, pow_one]
 
+omit [Finite W] in
 private theorem s16h_sl4_stab_commSub {L : Subgroup (MulAut W)} {g : MulAut W}
     (hg : g ∈ normalizer (L : Set (MulAut W))) :
     g ∈ stabSub (commSub ⊤ L) := by
@@ -142,8 +143,8 @@ theorem s16h_sl4_row_block_bound_one {A L : Subgroup (MulAut W)} {t : MulAut W}
   intro E hE hEab
   obtain ⟨K, hKf, hKfin, hKcard, D, hDN, hDab, hcard⟩ :=
     s16h_H5_row_SL2_four_bridge hc hrow hq hq2 hE hEab
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   have hDle : Nat.card D ≤ q :=
     s16h_sl4_natNorm_elemAbelian_one hKcard hq hq2 hq3 hDN hDab
   rw [hcard] at hDle

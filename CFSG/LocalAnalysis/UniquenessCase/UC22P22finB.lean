@@ -16,10 +16,12 @@ variable {G : Type} [Group G] [Finite G]
 
 namespace P22fin
 
+omit [Finite G] in
 theorem mbarImage_sup {M V K K' : Subgroup G} (hK : K ≤ M) (hK' : K' ≤ M) :
     mbarImage M V (K ⊔ K') = mbarImage M V K ⊔ mbarImage M V K' := by
   rw [mbarImage, mbarImage, mbarImage, Subgroup.subgroupOf_sup hK hK', Subgroup.map_sup]
 
+omit [Finite G] in
 theorem mbarImage_conj {M V K : Subgroup G} {t : G} (ht : t ∈ M) (hK : K ≤ M) :
     mbarImage M V (K.map (MulAut.conj t).toMonoidHom) =
       (mbarImage M V K).map
@@ -55,7 +57,7 @@ theorem commute_mbarImage_of_ne (D : Data G) {V : Subgroup G} (hVU : V ≤ D.U)
     (CFSG.LocalCores.distinct_components_commute (UC6S846.isComponent_image hsn hqs)
       (UC6S846.isComponent_image hsn' hqs')).resolve_left hne''
   have hO2 : CFSG.pCore 2 ↥D.M ≤ (kerAct D.M V).normalCore := by
-    haveI := kerAct_normal D.M V hVM
+    have := kerAct_normal D.M V hVM
     rw [Subgroup.normalCore_eq_self]
     intro z hz
     rw [kerAct, Subgroup.mem_subgroupOf, Subgroup.mem_centralizer_iff]
@@ -80,7 +82,7 @@ theorem exists_elemAbelian_mbar (D : Data G) (h61 : UC6.R6_1 D) {V : Subgroup G}
     {k : ℕ} (hk : k + 1 ≤ CFSG.Open.pRank p D.M) :
     ∃ E : Subgroup (MBar D.M V), IsElemAbelian p E ∧ p ^ k ≤ Nat.card E := by
   have hpP : p.Prime := (D.sig_prime p hp).1
-  haveI : Fact p.Prime := ⟨hpP⟩
+  have : Fact p.Prime := ⟨hpP⟩
   obtain ⟨E₀, hEM, hEel, hEcard⟩ := CFSG.SectionRank.exists_pRank hpP.one_lt D.M
   have hAel : IsElemAbelian p (E₀ ⊓ centralizer (V : Set G)) :=
     uc22p22n_isElemAbelian_of_le inf_le_left hEel
@@ -102,7 +104,7 @@ theorem exists_elemAbelian_mbar (D : Data G) (h61 : UC6.R6_1 D) {V : Subgroup G}
     have hmem : x ∈ P ⊓ (E₀ ⊓ centralizer (V : Set G)) := ⟨hx.1, hPE hx.1, hx.2⟩
     rw [hPA] at hmem
     exact hmem
-  haveI : (kerAct D.M V).Normal := kerAct_normal D.M V hV.2.2.1
+  have : (kerAct D.M V).Normal := kerAct_normal D.M V hV.2.2.1
   let φ : ↥P →* MBar D.M V :=
     (QuotientGroup.mk' (kerAct D.M V).normalCore).comp (Subgroup.inclusion hPM)
   have hinj : Function.Injective φ := by
@@ -134,7 +136,7 @@ theorem card_le_sq_of_mbar_eq_pElementSubgroup (D : Data G) {V : Subgroup G} (hV
     (hX : mbarImage D.M V (K ⊔ K.map (MulAut.conj t).toMonoidHom) =
       CFSG.RankThree.PartOne.pElementSubgroup p (⊤ : Subgroup (MBar D.M V)))
     {E : Subgroup (MBar D.M V)} (hEel : IsElemAbelian p E) : Nat.card E ≤ p ^ 2 := by
-  haveI : Fact p.Prime := ⟨hpP⟩
+  have : Fact p.Prime := ⟨hpP⟩
   have hKM : K ≤ D.M := hK.1.le
   have hMt : D.M.map (MulAut.conj t).toMonoidHom = D.M :=
     UC6S846.mem_normalizer_iff_map_conj.1 (Subgroup.le_normalizer htM)
@@ -161,8 +163,8 @@ theorem card_le_sq_of_mbar_eq_pElementSubgroup (D : Data G) {V : Subgroup G} (hV
     rw [← mbarImage_sup hKM hK'.1.le, hX]
     exact le_pElementSubgroup_of_elemAbelian hpP hEel
   exact card_le_sq_of_commute hcomm hi
-    (fun S => P22y.isCyclic_of_isPGroup_of_isL2Ev hL2 hpP hp2 _ S.isPGroup')
-    (fun S => P22y.isCyclic_of_isPGroup_of_isL2Ev hL2' hpP hp2 _ S.isPGroup') hEel hEle
+    (fun S => P22y.isCyclic_of_isPGroup_of_isL2Ev hL2 hpP hp2 _ S.isPGroup)
+    (fun S => P22y.isCyclic_of_isPGroup_of_isL2Ev hL2' hpP hp2 _ S.isPGroup) hEel hEle
 
 end P22fin
 

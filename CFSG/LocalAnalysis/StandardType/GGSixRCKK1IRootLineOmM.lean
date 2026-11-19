@@ -15,7 +15,7 @@ private theorem rckRLomm_longCoroot_self {n : ℕ} {i j : Fin n} (hij : i ≠ j)
     longCoroot i j s t i s + longCoroot i j s t j t = 2 := by
   simp [longCoroot, hij, hij.symm]
 
-private theorem rckRLomm_scalars_of_long {n : ℕ} (hn : 4 ≤ n) {K : Type} [Field K] [Finite K]
+private theorem rckRLomm_scalars_of_long {n : ℕ} (_hn : 4 ≤ n) {K : Type} [Field K] [Finite K]
     [CharP K 2] {b c : K} (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0)
     {β : Fin (n - 1) → ℤ} {i j : Fin (n - 1)} (hij : i ≠ j) (s t : Bool)
     (hcoord : toStdB (n - 1) β = Pi.single i (boolSign s) + Pi.single j (boolSign t)) :
@@ -67,7 +67,7 @@ private theorem rckRLomm_scalars_of_long {n : ℕ} (hn : 4 ≤ n) {K : Type} [Fi
 theorem rckK1I_rootLine_POmegaMinus
     {n f : ℕ} (hadm : StatedLieAdmissible .POmegaMinus n 2 f) :
     0 < (ggU .POmegaMinus n f).D.rank ∧ RCKRootLineAll (ggU .POmegaMinus n f) f := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hn : 4 ≤ n := hadm.2.2
   have hf : 1 ≤ f := hadm.2.1
   have hcard : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)

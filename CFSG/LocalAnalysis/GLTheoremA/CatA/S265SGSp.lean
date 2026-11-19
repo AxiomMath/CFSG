@@ -54,7 +54,7 @@ private theorem false_of_spModel_four_le {Ω : Type} [Group Ω] [Finite Ω] {S B
     (hdN : d ∈ Subgroup.normalizer (S : Set Ω)) {g : StatedSp ℓ F}
     (hg : MulAut.congr Φ (chevAut 3 S ⟨d, hdN⟩) = MulAut.conj (SymplecticFlag.proj ℓ F g)) :
     False := by
-  haveI : NeZero ℓ := ⟨by omega⟩
+  have : NeZero ℓ := ⟨by omega⟩
   have hP := UnitaryHigher.proj_bijective_of_charTwo (r := ℓ) (K := F)
   set ρ : StatedSp ℓ F →* MulAut (StatedProj (StatedSp ℓ F)) :=
     MulAut.conj.comp (SymplecticFlag.proj ℓ F)
@@ -86,8 +86,8 @@ private theorem false_of_spModel_four_le {Ω : Type} [Group Ω] [Finite Ω] {S B
     rw [hF]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn
-  haveI := CFSG.RankThree.PartOne.SEITZ6.isSimpleGroup_SL2 h4
-  haveI : IsSimpleGroup f.range := eA.symm.isSimpleGroup
+  have := CFSG.RankThree.PartOne.SEITZ6.isSimpleGroup_SL2 h4
+  have : IsSimpleGroup f.range := eA.symm.isSimpleGroup
   have hAnc : ∃ a b : f.range, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := CFSG.RankThree.PartOne.CTP.exists_noncomm_sl2 F
     exact ⟨eA a, eA b, fun h' => hab (eA.injective (by rw [map_mul, map_mul, h']))⟩

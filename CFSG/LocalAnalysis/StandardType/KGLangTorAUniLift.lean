@@ -41,8 +41,8 @@ theorem kgLangTorA_gu_scalar_mul {d n : ℕ} {F : Type} [Field F] [Finite F]
     (hF : Nat.card F = (2 ^ n) ^ 2) {B : GL (Fin d) F}
     (hB : B ∈ LargeEvenGUSet (Fin d) F (2 ^ n)) (c : Fˣ) :
     Matrix.GeneralLinearGroup.scalar (Fin d) c * B ∈ LargeEvenGUSet (Fin d) F (2 ^ n) := by
-  haveI : CharP F 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := n) hF
-  haveI : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := n) hF
+  have : Fintype F := Fintype.ofFinite F
   obtain ⟨μ, hμ0, hμq, hμ⟩ := hB
   refine ⟨(c : F) ^ (2 ^ n + 1) * μ, ?_, ?_, ?_⟩
   · exact mul_ne_zero (pow_ne_zero _ c.ne_zero) hμ0
@@ -135,10 +135,10 @@ theorem kgLangTorA_uni_field {d n p : ℕ} {F : Type} [Field F] [Finite F]
     exact hgg'.symm
 
 private def kgLangTorAUniAux_smap {d n : ℕ} {F : Type} [Field F]
-    (h : UnitaryFieldData 2 n F) (σ : F ≃+* F)
+    (_h : UnitaryFieldData 2 n F) (σ : F ≃+* F)
     (g : LargeEvenSUGroup (Fin d) F (2 ^ n)) : LargeEvenSUGroup (Fin d) F (2 ^ n) :=
   ⟨Matrix.GeneralLinearGroup.map (σ : F →+* F) (g : GL (Fin d) F),
-    GGL45TG.SU.map_mem_su h σ g.2⟩
+    GGL45TG.SU.map_mem_su σ g.2⟩
 
 private theorem kgLangTorAUniAux_smap_map {d n : ℕ} {F : Type} [Field F]
     (h : UnitaryFieldData 2 n F) (σ : F ≃+* F)
@@ -177,11 +177,6 @@ private theorem kgLangTorAUniAux_conj_field {d n : ℕ} {F : Type} [Field F]
   ext y
   induction y using QuotientGroup.induction_on with
   | H g =>
-    change (f₀ * TableB.projConj (LargeEvenSUGroup (Fin d) F (2 ^ n)) ⟨B, hBnorm⟩)
-        (↑g : LargeEvenProj (LargeEvenSUGroup (Fin d) F (2 ^ n))) =
-      (TableB.projConj (LargeEvenSUGroup (Fin d) F (2 ^ n))
-        ⟨Matrix.GeneralLinearGroup.map (σ : F →+* F) B, hσBnorm⟩ * f₀)
-        (↑g : LargeEvenProj (LargeEvenSUGroup (Fin d) F (2 ^ n)))
     have hL : (f₀ * TableB.projConj (LargeEvenSUGroup (Fin d) F (2 ^ n)) ⟨B, hBnorm⟩)
         (↑g : LargeEvenProj (LargeEvenSUGroup (Fin d) F (2 ^ n))) =
         ↑(kgLangTorAUniAux_smap h σ (Subgroup.normalizerMonoidHom _ ⟨B, hBnorm⟩ g) :
@@ -290,7 +285,7 @@ theorem kgLangTorA_uni_descend {d n p : ℕ} {F : Type} [Field F] [Finite F]
   rcases isEmpty_or_nonempty (Fin d) with hempty | hne
   · exact ⟨1, one_ne_zero, one_pow _,
       Matrix.ext fun i _ => isEmptyElim i⟩
-  · haveI : Nonempty (Fin d) := hne
+  · have : Nonempty (Fin d) := hne
     obtain ⟨μ, hμ0, hμq, hμ⟩ := hB
     have hBmat : (B : Matrix (Fin d) (Fin d) F).map (σ : F →+* F) =
         (B : Matrix (Fin d) (Fin d) F) := by

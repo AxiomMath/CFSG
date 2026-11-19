@@ -73,7 +73,7 @@ theorem a7_gen_A5_aux {V₄ : Subgroup ↥(alternatingGroup (Fin 7))} (hV₄ : I
         by_cases ha : a = x ∨ a = y ∨ a = z
         · right; exact (hfix a).2 ha u hu
         · left
-          push_neg at ha
+          push Not at ha
           rw [Perm.mul_apply, swap_apply_of_ne_of_ne ha.1 ha.2.2, swap_apply_of_ne_of_ne ha.1 ha.2.1]
       have h1 : c * u = u * c := Subtype.ext hd.commute.eq
       rw [h1, mul_inv_cancel_right]
@@ -132,7 +132,7 @@ theorem a7_gen_A5_aux {V₄ : Subgroup ↥(alternatingGroup (Fin 7))} (hV₄ : I
       refine ⟨g, hBH hgB, ?_⟩
       show (swap x p * swap x a) x = a
       rw [Perm.mul_apply, swap_apply_left, swap_apply_of_ne_of_ne hax (fun h => hpa h.symm)]
-    haveI : MulAction.IsPretransitive H (Fin 7) := by
+    have : MulAction.IsPretransitive H (Fin 7) := by
       refine ⟨fun a b => ?_⟩
       obtain ⟨g₁, hg₁, hg₁x⟩ := hxorb a
       obtain ⟨g₂, hg₂, hg₂x⟩ := hxorb b
@@ -141,7 +141,7 @@ theorem a7_gen_A5_aux {V₄ : Subgroup ↥(alternatingGroup (Fin 7))} (hV₄ : I
       have e2 : g₂ • x = b := hg₂x
       show (g₂ * g₁⁻¹) • a = b
       rw [mul_smul, inv_smul_eq_iff.2 e1.symm, e2]
-    haveI : MulAction.IsPreprimitive H (Fin 7) :=
+    have : MulAction.IsPreprimitive H (Fin 7) :=
       MulAction.IsPreprimitive.of_prime_card
         (by rw [Nat.card_eq_fintype_card, Fintype.card_fin]; norm_num)
     exact eq_top_of_isPreprimitive_of_isThreeCycle_mem H h3 hcH

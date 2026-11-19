@@ -68,7 +68,7 @@ theorem subOf_eq_of_mem (q : G) (hq : q ∈ E) : subOf E a hE σ V q = act (σ �
   classical
   have h : ev E a q = q := by
     unfold ev
-    rw [if_pos hq]
+    rw [ite_eq_left hq]
   have e : (⟨ev E a q, ev_mem hE q⟩ : E) = ⟨q, hq⟩ := Subtype.ext h
   unfold subOf
   rw [e]
@@ -103,9 +103,9 @@ theorem ev_mul {e q : G} (he : e ∈ E) : ev E a (q * e) = ev E a q * e := by
   classical
   unfold ev
   by_cases hq : q ∈ E
-  · rw [if_pos (E.mul_mem hq he), if_pos hq]
+  · rw [ite_eq_left (E.mul_mem hq he), ite_eq_left hq]
   · have : q * e ∉ E := fun h => hq (by simpa using E.mul_mem h (E.inv_mem he))
-    rw [if_neg this, if_neg hq, mul_assoc]
+    rw [ite_eq_right this, ite_eq_right hq, mul_assoc]
 
 theorem subOf_mul (q : G) (e : E) :
     subOf E a hE σ V (q * e) = act (σ e)⁻¹ (subOf E a hE σ V q) := by

@@ -81,6 +81,7 @@ theorem exists_involution_centralizer_of_suzukiModel
   calc a * (s : G) = a * (s : G) * a⁻¹ * a := by group
     _ = s * a := by rw [hfix']
 
+omit [Finite G] in
 theorem three_dvd_card_of_m22 {L' : Subgroup G}
     (φ : ↥L' ⧸ aschbacherSolvableCore 3 ↥L' ≃* CFSG.Blueprint.NativeSporadic.M22) :
     3 ∣ Nat.card L' := by

@@ -17,7 +17,7 @@ theorem fz410x_fz410_fusb_card_le_64
     (D : Fz410Set t L S T x₁ x₂ lam rho tau s Z E W Q R P) {K : Subgroup G}
     (hpK : IsPGroup 2 K) (hKH : K ≤ invCent t)
     (hKcentZ : K ≤ Subgroup.centralizer (Z : Set G)) : Nat.card K ≤ 64 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let S_H : Sylow 2 ↥(invCent t) :=
     (D.ctx.isPGroup.comap_subtype).toSylow (by
       simpa [Subgroup.relIndex] using D.ctx.relIndex_odd)

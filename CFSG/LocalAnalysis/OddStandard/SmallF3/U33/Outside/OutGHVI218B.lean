@@ -31,7 +31,7 @@ theorem FpfNonab.sup_normal (h : FpfNonab S ρ) {x : S} (hx : orderOf x = 4) :
   rw [hEq]
   exact (zpowers x ⊔ zpowers (ρ x)).mul_mem hmem ha
 
-theorem FpfNonab.sup_invariant (h : FpfNonab S ρ) {x : S} (hx : orderOf x = 4) :
+theorem FpfNonab.sup_invariant (h : FpfNonab S ρ) {x : S} (_hx : orderOf x = 4) :
     ∀ a ∈ zpowers x ⊔ zpowers (ρ x), ρ a ∈ zpowers x ⊔ zpowers (ρ x) := by
   have hmap : (zpowers x ⊔ zpowers (ρ x)).map ρ.toMonoidHom ≤
       zpowers x ⊔ zpowers (ρ x) := by
@@ -58,7 +58,7 @@ theorem FpfNonab.centralizer_sup (h : FpfNonab S ρ) {x : S} (hx : orderOf x = 4
       zpowers x ⊔ zpowers (ρ x) := by
   let A : Subgroup S := zpowers x ⊔ zpowers (ρ x)
   let C : Subgroup S := centralizer (A : Set S)
-  haveI hAcomm : IsMulCommutative ↥A := by
+  have hAcomm : IsMulCommutative ↥A := by
     obtain ⟨e⟩ := h.sup_equiv hx
     exact IsMulCommutative.of_comm fun a b => e.injective (by
       rw [map_mul, map_mul, mul_comm])

@@ -521,7 +521,7 @@ private theorem exists_twoLocal_data
   exact ⟨N, Q, U, hN2, hQ2, rfl, hAQ, hUV, hUne, hLU, hrel, hCY_N⟩
 
 private theorem le_centralizer_pCoreOf_three (F : A10Frame c) (hF : A10Facts F)
-    {B V W : Subgroup G} (hBA : B ≤ F.A) (hB3 : Nat.card B = 3) (hB9 : F.deg B = 9)
+    {B V W : Subgroup G} (hBA : B ≤ F.A) (_hB3 : Nat.card B = 3) (_hB9 : F.deg B = 9)
     (hO : CFSG.Open.pCoreOf 2 (Subgroup.centralizer (B : Set G)) = ⊥)
     (hV : UC22.InCalV D.M V) (hWV : W ≤ V)
     (hWH : W ≤ Subgroup.centralizer (B : Set G)) :
@@ -583,7 +583,7 @@ private theorem le_centralizer_pCoreOf_large (F : A10Frame c) (hF : A10Facts F)
     W ≤ Subgroup.centralizer
       (CFSG.Open.pCoreOf p (Subgroup.centralizer (B : Set G)) : Set G) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let H : Subgroup G := Subgroup.centralizer (B : Set G)
   let X : Subgroup G := CFSG.Open.pCoreOf p H
   have hXH : X ≤ H := CFSG.LieType.BorelTits.pCoreOf_le p H

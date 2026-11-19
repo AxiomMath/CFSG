@@ -29,9 +29,9 @@ theorem contradiction (hG : Sec4Glob G) : False := by
   have hℰidx : ¬ 2 ∣ ℰ.index := by
     simpa only [Subgroup.relIndex_top_right] using hℰsyl.2.2
   have htV : t ∈ ctxVN t tau x₁ x₂ lam rho :=
-    hw.toCtx4Z.E8_le_ctxVN (Subgroup.subset_closure (by simp))
+    CFSG.OddStandard.SmallF3.HarrisU33.Ctx4Z.E8_le_ctxVN (Subgroup.subset_closure (by simp))
   have hlamV : lam ∈ ctxVN t tau x₁ x₂ lam rho :=
-    hw.toCtx4Z.E8_le_ctxVN (Subgroup.subset_closure (by simp))
+    CFSG.OddStandard.SmallF3.HarrisU33.Ctx4Z.E8_le_ctxVN (Subgroup.subset_closure (by simp))
   have htℰ : t ∈ ℰ := hVℰ htV
   have hlamℰ : lam ∈ ℰ := hVℰ hlamV
   have ht2 : t * t = 1 := hw.t_mul_self
@@ -53,7 +53,7 @@ theorem contradiction (hG : Sec4Glob G) : False := by
     have hconj : lam * x₁ ^ 2 * lam⁻¹ = x₁ ^ 2 := by
       rw [← hcommv]; group
     exact hw.y_ne_x₂_sq (hconj.symm.trans hw.nGood.lam_conj_y)
-  haveI : IsSimpleGroup G := hG.simple
+  have : IsSimpleGroup G := hG.simple
   obtain ⟨w, hwM₁, -, -⟩ :=
     Outside.H74_of_simple hnab hℰ hℰidx hM₁le hM₁idx htℰ htM₁ ht2
   have hu2 : (w * t * w⁻¹) * (w * t * w⁻¹) = 1 := by

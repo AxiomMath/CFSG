@@ -64,7 +64,7 @@ theorem co2_phi_pow_notMem_zpowers {a b : Fin 4 → ZMod 3}
 
 theorem listRow_co2P :
     ListRow ↥co2P := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨rA, hrA⟩ : ∃ r : ↥co2P, (r : Equiv.Perm (Fin 2300)) = co2XA :=
     ⟨⟨co2XA, co2CaseA_spec.2.2.1⟩, rfl⟩
   obtain ⟨rB, hrB⟩ : ∃ r : ↥co2P, (r : Equiv.Perm (Fin 2300)) = co2XB :=
@@ -152,13 +152,13 @@ end Fusion
 
 theorem listRow_co2 :
     ListRow NativeSporadic.Co2 := by
-  haveI : Finite NativeSporadic.Co2 :=
+  have : Finite NativeSporadic.Co2 :=
     Finite.of_equiv _ CFSG.Sporadic.Co2Cert.co2PermEquiv.symm.toEquiv
   exact ListRow.of_mulEquiv CFSG.Sporadic.Co2Cert.co2PermEquiv.symm listRow_co2P
 
 theorem outerRow_co2 :
     OuterRow NativeSporadic.Co2 := by
-  haveI : Finite NativeSporadic.Co2 :=
+  have : Finite NativeSporadic.Co2 :=
     Finite.of_equiv _ CFSG.Sporadic.Co2Cert.co2PermEquiv.symm.toEquiv
   refine outerRow_of_not_three_dvd_outer ?_
   have h1 : Nat.card (Outer NativeSporadic.Co2) = 1 :=
@@ -168,7 +168,7 @@ theorem outerRow_co2 :
 
 theorem row_carrier_co2 :
     RowOf (NativeSporadic.Carrier .Co2) := by
-  haveI : Finite NativeSporadic.Co2 :=
+  have : Finite NativeSporadic.Co2 :=
     Finite.of_equiv _ CFSG.Sporadic.Co2Cert.co2PermEquiv.symm.toEquiv
   intro S _ _ _ _ ⟨e⟩
   exact GoodRow.of_mulEquiv (S := NativeSporadic.Co2) e.symm ⟨listRow_co2, outerRow_co2⟩

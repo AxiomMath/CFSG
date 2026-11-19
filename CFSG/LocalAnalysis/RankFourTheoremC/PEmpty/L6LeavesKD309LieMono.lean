@@ -27,13 +27,13 @@ open CFSG.LocalAnalysis.RankThreeUC.S15.ACore
 theorem kd309LieMono_of_model (hM : KD309MonoModel) : KD309LieMono := by
   intro Y _ _ P x z hpl L hL hLu h29 hPcard
   obtain ⟨Φ, hΦ, hcard, hdft⟩ := hM Y P x z hpl L hL hLu h29 hPcard
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   set O : Subgroup Y := primeComplementCore (G := Y) 5 with hO
   have hOcop : ¬ 5 ∣ Nat.card O :=
     (Nat.Prime.coprime_iff_not_dvd Nat.prime_five).mp (primeComplementCore_coprime 5)
   set π : Y →* Y ⧸ O := QuotientGroup.mk' O with hπ
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective O
-  have hpP : IsPGroup 5 (P : Subgroup Y) := P.isPGroup'
+  have hpP : IsPGroup 5 (P : Subgroup Y) := P.isPGroup
   have inj : ∀ a ∈ (P : Subgroup Y), ∀ b ∈ (P : Subgroup Y), π a = π b → a = b :=
     inj_of_pgroup O hOcop hpP
   obtain ⟨hxP, hzP, hx5, hz5, hx1, hz1⟩ := I291P65.plane_facts hpl.prime hpl.plane

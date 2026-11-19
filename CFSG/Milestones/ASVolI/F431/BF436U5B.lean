@@ -96,7 +96,7 @@ theorem burnsideF4m_u5_T_frob (sigma : mk.field →+* mk.field) (hsig : ∀ p, s
         (1 : Matrix (Fin 5) (Fin 5) mk.field).submatrix id fullPosEquiv := by
     ext i a
     simp only [burnsideF4m_hypR, Matrix.submatrix_apply, Matrix.mul_apply, Matrix.one_apply, id,
-      mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+      mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
   have hPQ : (1 : Matrix (Fin 5) (Fin 5) mk.field).submatrix id
       (fullPosEquiv : HypIndex 2 1 ≃ Fin (2 * 2 + 1)) *
       (1 : Matrix (Fin 5) (Fin 5) mk.field).submatrix

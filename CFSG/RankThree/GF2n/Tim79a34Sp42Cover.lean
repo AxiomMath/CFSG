@@ -101,7 +101,7 @@ theorem frobNine_mul_self : frobNine * frobNine = 1 := by
   ext x
   change frobNine (frobNine x) = x
   rw [frobNine_apply, frobNine_apply, ← pow_mul]
-  letI : Fintype GF9 := Fintype.ofFinite GF9
+  let : Fintype GF9 := Fintype.ofFinite GF9
   have hcard : Fintype.card GF9 = 9 := by
     rw [← Nat.card_eq_fintype_card, GaloisField.card 3 2 (by norm_num)]
     norm_num
@@ -151,7 +151,7 @@ theorem frobSL_mul_self : frobSL * frobSL = 1 := by
   change frobNine (frobNine ((x : Matrix (Fin 2) (Fin 2) GF9) i j)) =
     (x : Matrix (Fin 2) (Fin 2) GF9) i j
   rw [frobNine_apply, frobNine_apply, ← pow_mul]
-  letI : Fintype GF9 := Fintype.ofFinite GF9
+  let : Fintype GF9 := Fintype.ofFinite GF9
   have hcard : Fintype.card GF9 = 9 := by
     rw [← Nat.card_eq_fintype_card, GaloisField.card 3 2 (by norm_num)]
     norm_num
@@ -178,8 +178,8 @@ instance : Finite CoverSp42 :=
   Finite.of_equiv (SL2Nine × Multiplicative (ZMod 2)) SemidirectProduct.equivProd.symm
 
 theorem frobNine_ne_one : frobNine ≠ 1 := by
-  letI : Fintype GF9 := Fintype.ofFinite GF9
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fintype GF9 := Fintype.ofFinite GF9
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcard : Fintype.card GF9 = 3 ^ 2 := by
     rw [← Nat.card_eq_fintype_card, GaloisField.card 3 2 (by norm_num)]
   obtain ⟨-, σ, hσne, hσpow⟩ :=
@@ -383,7 +383,6 @@ theorem card_center_SL2Nine : Nat.card (Subgroup.center SL2Nine) = 2 := by
 
 theorem card_CoverSp42 : Nat.card CoverSp42 = 1440 := by
   rw [SemidirectProduct.card, card_SL2Nine]
-  congr 1
   rw [Nat.card_congr (Multiplicative.toAdd : Multiplicative (ZMod 2) ≃ ZMod 2),
     Nat.card_eq_fintype_card, ZMod.card]
 

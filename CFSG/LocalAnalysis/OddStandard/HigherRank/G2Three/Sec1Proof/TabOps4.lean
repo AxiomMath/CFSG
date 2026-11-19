@@ -13,7 +13,7 @@ open scoped commutatorElement
 variable {Γ : Type} [Group Γ] {D : TabData} {elt : ℕ → Γ}
 
 private theorem has_setIfInBounds {D : TabData} (acc : BSet) (hacc : acc.size = D.n) {k i : ℕ}
-    (hk : k < D.n) (hi : i < D.n) :
+    (_hk : k < D.n) (hi : i < D.n) :
     BSet.has (acc.set! k true) i = true ↔ acc.has i = true ∨ k = i := by
   have hilt : i < acc.size := by omega
   rw [BSet.has, Array.set!_eq_setIfInBounds, Array.getD_eq_getD_getElem?]

@@ -41,7 +41,7 @@ theorem gLAPPrimeCoreOf_eq_bot_of_not_mem_linearAutGroup
   have hgx : c⁻¹ * x * c = f := by
     rw [hxH]
     group
-  haveI : (innerAut (projectiveSL 3 K)).Normal := ys03_innerAut_normal _
+  have : (innerAut (projectiveSL 3 K)).Normal := ys03_innerAut_normal _
   have hZ : Subgroup.center (projectiveSL 3 K) = ⊥ :=
     CFSG.RankThree.RegularUnipotent.center_projectiveSL_eq_bot (n := 3) (k := K) (by norm_num)
   have hcoreF : GLAPPrimeCoreOf 3 (innerAut (projectiveSL 3 K) ⊓
@@ -96,9 +96,9 @@ theorem gLAPPrimeCoreOf_eq_bot_of_not_mem_psuConj_range
     GLAPPrimeCoreOf 3 (innerAut (unitaryPSU h 3) ⊓
       Subgroup.centralizer ({x} : Set (MulAut (unitaryPSU h 3)))) = ⊥ := by
   classical
-  haveI : Finite K := h.finite
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Finite (unitaryPSU h 3) := inferInstance
+  have : Finite K := h.finite
+  have : Fintype K := Fintype.ofFinite K
+  have : Finite (unitaryPSU h 3) := inferInstance
   have hq2 : 2 < 2 ^ n := by
     calc 2 = 2 ^ 1 := by norm_num
       _ < 2 ^ n := Nat.pow_lt_pow_right (by norm_num) hn1
@@ -111,7 +111,7 @@ theorem gLAPPrimeCoreOf_eq_bot_of_not_mem_psuConj_range
   have hgx : c⁻¹ * x * c = f := by
     rw [hxH]
     group
-  haveI : (innerAut (unitaryPSU h 3)).Normal := ys03_innerAut_normal _
+  have : (innerAut (unitaryPSU h 3)).Normal := ys03_innerAut_normal _
   have hZ : Subgroup.center (unitaryPSU h 3) = ⊥ :=
     center_unitaryPSU_three_eq_bot h hq2
   have hcoreF : GLAPPrimeCoreOf 3 (innerAut (unitaryPSU h 3) ⊓

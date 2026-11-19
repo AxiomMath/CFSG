@@ -107,7 +107,7 @@ theorem cSide_exists_fixed_of_pGroup {V : Type} [AddCommGroup V] [Module (ZMod 2
       mul_smul := fun h₁ h₂ v => by
         change ρ (h₁ * h₂) v = ρ h₁ (ρ h₂ v)
         rw [map_mul, LinearEquiv.mul_apply] }
-  letI : MulAction H V := act
+  let : MulAction H V := act
   have hfixed : (0 : V) ∈ MulAction.fixedPoints H V := fun h => map_zero (ρ h)
   obtain ⟨b, hb, hb0⟩ := hH.exists_fixed_point_of_prime_dvd_card_of_fixed_point V hdvd hfixed
   exact ⟨b, hb0.symm, fun h => hb h⟩

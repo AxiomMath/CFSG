@@ -237,7 +237,7 @@ theorem HeisData.phi_mul (hd : HeisData σ x₁ x₂ x₃ x₄ c) (x y : VG c) :
           _ = _ := by simp only [mul_assoc]
     _ = _ := by simp only [mul_assoc]
 
-theorem HeisData.phi_one (hd : HeisData σ x₁ x₂ x₃ x₄ c) : phi σ x₁ x₂ x₃ x₄ (1 : VG c) = 1 := by
+theorem HeisData.phi_one (_hd : HeisData σ x₁ x₂ x₃ x₄ c) : phi σ x₁ x₂ x₃ x₄ (1 : VG c) = 1 := by
   simp [phi, VG.one_def, zpw_zero]
 
 @[expose] def HeisData.hom (hd : HeisData σ x₁ x₂ x₃ x₄ c) : VG c →* G where
@@ -555,7 +555,7 @@ theorem indep (h : VHc σ a b z M w₁ w₂) {p q : ZMod 3} (hpq : zpw w₁ p * 
   rw [zpw_zero, mul_one] at hpq
   exact ⟨zpw_eq_one (h.exp3 _ h.w₁_mem) h.w₁_ne hpq, rfl⟩
 
-theorem phi_eq (h : VHc σ a b z M w₁ w₂) {c : ZMod 3} (hd : HeisData σ w₁ w₂ (cj b w₁) (cj b w₂) c)
+theorem phi_eq (_h : VHc σ a b z M w₁ w₂) {c : ZMod 3} (hd : HeisData σ w₁ w₂ (cj b w₁) (cj b w₂) c)
     (x : VG c) :
     phi σ w₁ w₂ (cj b w₁) (cj b w₂) x =
       zpw σ x.s * ((zpw w₁ x.p₁ * zpw w₂ x.p₂) * cj b (zpw w₁ x.p₃ * zpw w₂ x.p₄)) := by

@@ -68,7 +68,7 @@ theorem card_le_of_faithful [Finite K] (G : Subgroup (GL (Fin n) K)) (hG : IsEle
     rw [e1, e2] at h
     exact h
   have hE : IsElemAbelian 3 (restrictHom G W hW).range := by
-    haveI := hG.1
+    have := hG.1
     refine ⟨⟨⟨fun a b => ?_⟩⟩, fun x hx => ?_⟩
     · obtain ⟨a', ha⟩ := a.2
       obtain ⟨b', hb⟩ := b.2
@@ -79,11 +79,11 @@ theorem card_le_of_faithful [Finite K] (G : Subgroup (GL (Fin n) K)) (hG : IsEle
       rw [← map_pow]
       have h3 : x' ^ 3 = 1 := Subtype.ext (by rw [Subgroup.coe_pow]; exact hG.2 x' x'.2)
       rw [h3, map_one]
-  haveI : Finite G := inferInstance
-  haveI : Finite (restrictHom G W hW).range :=
+  have : Finite G := inferInstance
+  have : Finite (restrictHom G W hW).range :=
     Finite.of_equiv _ (MonoidHom.ofInjective hinj).toEquiv
-  haveI : Fintype (restrictHom G W hW).range := Fintype.ofFinite _
-  haveI : FiniteDimensional (ZMod 2) W := Module.Finite.of_finite
+  have : Fintype (restrictHom G W hW).range := Fintype.ofFinite _
+  have : FiniteDimensional (ZMod 2) W := Module.Finite.of_finite
   have h1 := CFSG.LocalAnalysis.GLTheoremA.KD264Lie.X1Sp.card_le_three_pow_half
     (restrictHom G W hW).range hE
   have h2 : Nat.card G = Nat.card (restrictHom G W hW).range :=
@@ -106,6 +106,7 @@ private def fixSpace (B : GL (Fin n) K) : Submodule (ZMod 2) (Fin n → K) where
     change (B : Matrix (Fin n) (Fin n) K) *ᵥ (c • v) = c • v
     rw [Matrix.mulVec_smul, show (B : Matrix (Fin n) (Fin n) K) *ᵥ v = v from hv]
 
+omit [Algebra (ZMod 2) K] in
 theorem eq_one_of_mulVec {g : GL (Fin n) K}
     (h : ∀ v, (g : Matrix (Fin n) (Fin n) K) *ᵥ v = v) : g = 1 := by
   apply Units.ext
@@ -159,7 +160,7 @@ theorem card_le_of_commute_involution [Finite K] (G : Subgroup (GL (Fin n) K))
     calc g = g ^ 3 * (g * g)⁻¹ := by group
       _ = 1 := by rw [hg3, hg2, inv_one, one_mul]
   have hlt : finrank (ZMod 2) (fixSpace B) < finrank (ZMod 2) (Fin n → K) := by
-    haveI : FiniteDimensional (ZMod 2) (Fin n → K) := Module.Finite.of_finite
+    have : FiniteDimensional (ZMod 2) (Fin n → K) := Module.Finite.of_finite
     apply Submodule.finrank_lt
     intro htop
     apply hB1

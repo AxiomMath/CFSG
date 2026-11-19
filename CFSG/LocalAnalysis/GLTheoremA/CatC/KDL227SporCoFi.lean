@@ -63,7 +63,7 @@ theorem kdl227Row_Fi24 (hOut : CFSG.HardMathSupport.Timmesfeld.Coordinator.Spora
     (hOrd : CFSG.HardMathSupport.Solomon.Coordinator.SporadicOrdersTable)
     (hfs : Finite (Carrier .Fi24Prime) ∧ IsSimpleGroup (Carrier .Fi24Prime)) :
     KDL227SporRow .Fi24Prime := by
-  haveI := hfs.1
+  have := hfs.1
   exact kdl227Row_of_carrier hOut hbr hOrd hfs
     (by simp only [CFSG.HardMathSupport.Solomon.Coordinator.sporOrd, CFSG.Open.orderFi24Prime]; norm_num)
     (noL227At_of_centShape CFSG.HardMathSupport.Dickson.I271.leafShape_Fi24_three
@@ -79,7 +79,7 @@ theorem kdl227Row_Co1 (hOut : CFSG.HardMathSupport.Timmesfeld.Coordinator.Sporad
     (hOrd : CFSG.HardMathSupport.Solomon.Coordinator.SporadicOrdersTable)
     (hfs : Finite (Carrier .Co1) ∧ IsSimpleGroup (Carrier .Co1)) :
     KDL227SporRow .Co1 := by
-  haveI := hfs.1
+  have := hfs.1
   exact kdl227Row_of_carrier hOut hbr hOrd hfs
     (by simp only [CFSG.HardMathSupport.Solomon.Coordinator.sporOrd, CFSG.Open.orderCo1]; norm_num)
     (noL227At_of_centShapeRk (CFSG.HardMathSupport.Dickson.I271.TabCo1.centShapeRk_Co1_three hbr

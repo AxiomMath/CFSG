@@ -93,7 +93,7 @@ theorem semilinD4EightAut_fixed {F : Type} [Field F] [Finite F] [CharP F 2] {d :
     (hγ : ∀ y, (γ y : ProjOrthDerived Q) = β y) :
     SemilinD4EightAut ↥(fixedComponentImage Q (x : (Fin d → F) ≃ₗ[F] (Fin d → F))) γ := by
   classical
-  haveI : NeZero d := ⟨hd.ne'⟩
+  have : NeZero d := ⟨hd.ne'⟩
   have hpl : (3 : ℕ) ≠ ringChar F := by
     rw [ringChar.eq F 2]
     norm_num
@@ -158,7 +158,7 @@ theorem semilinD4EightAut_of_inner {G : ∀ (S : Type) [Group S], MulAut S → P
     · exact Or.inr h
   obtain ⟨F, _, _, _, Q, e, hFc, hQ, hT, hV, htop, -⟩ := exists_coords_of_model hcase hM
   have hd : 0 < 2 * n := by omega
-  haveI : NeZero (2 * n) := ⟨hd.ne'⟩
+  have : NeZero (2 * n) := ⟨hd.ne'⟩
   have hS := CFSG.RankThree.PartOne.KCOrthogonalD4.conj_injective_projOrthDerived Q hQ hT
   have hat : uniAut e ⟨a, hBK haB⟩ = MulAut.conj (e s) := by
     show MulAut.congr e (actHom K ⟨a, hBK haB⟩) = _
@@ -198,7 +198,7 @@ theorem semilinD4EightAut_of_inner {G : ∀ (S : Type) [Group S], MulAut S → P
     norm_num
   have hxo := oddOrderIsometry_of_orthDerived Nat.prime_three hpl hQ x hx3
   have hWn := hxo.polarBilin_fixed_nondegenerate
-  haveI : Nontrivial ↥(fixedSpace (x : (Fin (2 * n) → F) ≃ₗ[F] (Fin (2 * n) → F))) :=
+  have : Nontrivial ↥(fixedSpace (x : (Fin (2 * n) → F) ≃ₗ[F] (Fin (2 * n) → F))) :=
     Module.nontrivial_of_finrank_pos (R := F) (by rw [hW8]; norm_num)
   have hZW := center_orthDerived_eq_bot hWn
     (exists_threeSingular_of_dim _ hWn (m := 4) (by norm_num) (by rw [hW8]))

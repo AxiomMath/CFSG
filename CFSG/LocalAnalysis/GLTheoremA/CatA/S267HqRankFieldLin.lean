@@ -32,7 +32,7 @@ private theorem lt_of_primitive {p ℓ m : ℕ} (hp : p.Prime) (hℓ : ℓ.Prime
     (hprim : ∀ k : ℕ, 0 < k → k < m → ¬ ℓ ∣ p ^ k - 1) : m < ℓ := by
   by_contra hle
   push Not at hle
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have ha : (p : ZMod ℓ) ≠ 0 := by
     rw [Ne, ZMod.natCast_eq_zero_iff]
     exact fun h => hℓp ((Nat.prime_dvd_prime_iff_eq hℓ hp).1 h)
@@ -52,6 +52,7 @@ section Field
 
 variable {K : Type} [Field K] [Fintype K]
 
+omit [Fintype K] in
 private theorem psl_lowBlock_injective {p : ℕ} [Fact p.Prime] [CharP K p] :
     Function.Injective ((QuotientGroup.mk' (center SL(4, K))).comp
       (CFSG.RankThree.PartTwo.Census.lowBlockSL 4 K p)) := by
@@ -127,7 +128,7 @@ theorem six_le_pRank_of_surj_PSL4 {p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
       _ ≤ p ^ f := Nat.pow_le_pow_right hp.pos hf
   obtain ⟨hnt, hsimple, -⟩ := CFSG.LinearGroups.linear_projective_simple (K := K) (n := 4)
     (by norm_num) (Or.inl (by norm_num))
-  haveI := hsimple
+  have := hsimple
   obtain ⟨hperf, ⟨eM⟩⟩ :=
     CFSG.LieType.Steinberg.CentralExt.SLClosed.psl_hopfMultiplier (k := K) (n := 4) (by norm_num)
       hK5
@@ -147,15 +148,17 @@ theorem six_le_pRank_of_surj_PSL4 {p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (fun i hi1 hi2 => hprim i (by omega) (by norm_num at hi2; omega))
   exact le_pRank_of_surj_crit hnc hp hp2 hcen hinv φ hφ
 
+omit [Fintype K] in
 private theorem cornerMat_injective {k n : ℕ} (hk : k ≤ n) :
     Function.Injective (CFSG.SeitzReduction.LinearPilot.cornerMat (K := K) hk) := by
   intro A B h
   ext i j
   have := congrFun (congrFun h ⟨i, by omega⟩) ⟨j, by omega⟩
   rwa [CFSG.SeitzReduction.LinearPilot.cornerMat_apply,
-    CFSG.SeitzReduction.LinearPilot.cornerMat_apply, dif_pos (show _ ∧ _ from ⟨i.2, j.2⟩),
-    dif_pos (show _ ∧ _ from ⟨i.2, j.2⟩)] at this
+    CFSG.SeitzReduction.LinearPilot.cornerMat_apply, dite_eq_left (show _ ∧ _ from ⟨i.2, j.2⟩),
+    dite_eq_left (show _ ∧ _ from ⟨i.2, j.2⟩)] at this
 
+omit [Fintype K] in
 private theorem proj_cornerSL_injective {k n : ℕ} (hk : k ≤ n) (hlt : k < n) :
     Function.Injective ((QuotientGroup.mk' (center (SpecialLinearGroup (Fin n) K))).comp
       (CFSG.SeitzReduction.LinearPilot.cornerSL (K := K) hk)) := by
@@ -166,7 +169,7 @@ private theorem proj_cornerSL_injective {k n : ℕ} (hk : k ≤ n) (hlt : k < n)
   have hs := SpecialLinearGroup.scalar_eq_self_of_mem_center hc (⟨n - 1, by omega⟩ : Fin n)
   have hentry : CFSG.SeitzReduction.LinearPilot.cornerMat (K := K) hk (A : Matrix (Fin k) (Fin k) K)
       ⟨n - 1, by omega⟩ ⟨n - 1, by omega⟩ = 1 := by
-    rw [CFSG.SeitzReduction.LinearPilot.cornerMat_apply, dif_neg (by simp only; omega),
+    rw [CFSG.SeitzReduction.LinearPilot.cornerMat_apply, dite_eq_right (by simp only; omega),
       one_apply_eq]
   rw [CFSG.SeitzReduction.LinearPilot.coe_cornerSL, hentry, map_one] at hs
   have hA1 : (A : Matrix (Fin k) (Fin k) K) = 1 :=
@@ -224,8 +227,8 @@ theorem six_le_twoLocalRank_A_field {n : ℕ} (hn : 4 ≤ n) (Q : TauCeti.PrimeP
     (hv : (TauCeti.LieTypeIndex.A n Q).Valid) (hq2 : Q.p ≠ 2) (hr : 3 ≤ Q.exponent)
     {X : Type} [Group X] [Finite X] (φ : X →* (TauCeti.CFSGIndex.lie ⟨.A n Q, hv⟩).Group)
     (hφ : Function.Surjective φ) : 6 ≤ GLATwoLocalRank Q.p X := by
-  haveI : Fact Q.p.Prime := ⟨Q.prime_p⟩
-  letI : Fintype (GaloisField Q.p Q.exponent) := Fintype.ofFinite _
+  have : Fact Q.p.Prime := ⟨Q.prime_p⟩
+  let : Fintype (GaloisField Q.p Q.exponent) := Fintype.ofFinite _
   have hK : Fintype.card (GaloisField Q.p Q.exponent) = Q.p ^ Q.exponent := by
     rw [Fintype.card_eq_nat_card, GaloisField.card _ _ Q.exponent_pos.ne']
   let e := CFSG.ClassicalModels.linearCatalogCandidateEquivPSL n Q hv

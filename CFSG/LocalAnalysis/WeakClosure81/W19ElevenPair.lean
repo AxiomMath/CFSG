@@ -13,11 +13,13 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem conjSubgroup_sup_aux (A B : Subgroup G) (t : G) :
     conjSubgroup (A ⊔ B) t = conjSubgroup A t ⊔ conjSubgroup B t := by
   unfold conjSubgroup
   exact Subgroup.map_sup _ _ _
 
+omit [Finite G] in
 theorem pairSub_conjSubgroup_conj (A : Subgroup G) (k t : G) :
     pairSub (conjSubgroup A t) (t⁻¹ * k * t) = conjSubgroup (pairSub A k) t := by
   unfold pairSub
@@ -39,7 +41,7 @@ theorem exists_normalized (c : MinCex193 D V₀ V p X) (h162 : W3Thm162Gt2 G)
     ∃ (g' : G) (K' : Subgroup G) (k' : G), Conf196 D V X g' K' ∧ k' ∈ K' ∧
       X ⊓ K' = X ⊓ K ∧ ¬ IsPGroup 2 ↥(pairSub (conjSubgroup V g') k') ∧
       X ⊓ K ≤ pairSub (conjSubgroup V g') k' := by
-  haveI : Fact p.Prime := ⟨c.hyp.prime⟩
+  have : Fact p.Prime := ⟨c.hyp.prime⟩
   set Q := pCoreOf 2 (X ⊔ D.T) with hQ
   set L := pairSub (conjSubgroup V g) k with hLdef
   have hLK : L ≤ K := hc.pairSub_le_K c hk

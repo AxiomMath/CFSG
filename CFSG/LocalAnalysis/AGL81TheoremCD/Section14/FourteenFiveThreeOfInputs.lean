@@ -34,7 +34,7 @@ theorem fourteenFiveThreeAt_of_inputs (h1 : NineFourTwoSigmaGen) (h2 : NineTwelv
     have h := congrArg Subtype.val (pow_card_eq_one' (x := (⟨a, haA⟩ : A)))
     simpa [hA3] using h
   have hord3 : orderOf a = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact orderOf_eq_prime ha_pow ha1
   have haQ : a ∈ Q := hAQ haA
   have haKM : a ∈ kSub 3 M H ⊓ M := c.Q_le haQ

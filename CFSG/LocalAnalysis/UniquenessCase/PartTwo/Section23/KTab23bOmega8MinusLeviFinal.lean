@@ -20,7 +20,7 @@ theorem omegaMinus8Natural_holds (K : Type) [Field K] [Finite K] (b c : K) (m : 
     rw [hm0, pow_zero] at hK
     have h1 : 1 < Nat.card K := Finite.one_lt_card
     omega
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     ringChar.of_eq
       (CFSG.ClassicalGroups.Orthogonal.ringChar_eq_of_card_eq Nat.prime_two hm hK)
   exact O8Levi.omegaMinus8Natural_of_t3H hirr (O8Levi.omegaMinus8Line_t3H hirr hK)

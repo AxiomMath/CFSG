@@ -12,6 +12,7 @@ section ThreePart
 
 variable {H : Type} [Group H] [Finite H]
 
+omit [Finite H] in
 theorem conj_three_distinct {L : Subgroup H} {g : H} (hg : ∃ n : ℕ, g ^ 3 ^ n = 1)
     (hgL : g ∉ normalizer (L : Set H)) :
     L.map (MulAut.conj g).toMonoidHom ≠ L ∧
@@ -59,6 +60,7 @@ theorem conj_three_distinct {L : Subgroup H} {g : H} (hg : ∃ n : ℕ, g ^ 3 ^ 
       _ = a * b * ((c * a') * b') * c' := by rw [e2]
       _ = a * b * c * (a' * b' * c') := by simp only [mul_assoc]
 
+omit [Finite H] in
 theorem mem_center_of_eq_inv_mul {L₁ : Subgroup H} (a : ↥L₁) (x y : H)
     (hx : ∀ l ∈ L₁, l * x = x * l) (hy : ∀ l ∈ L₁, l * y = y * l)
     (h : (a : H) = (x * y)⁻¹) : a ∈ Subgroup.center ↥L₁ := by
@@ -69,15 +71,15 @@ theorem mem_center_of_eq_inv_mul {L₁ : Subgroup H} (a : ↥L₁) (x y : H)
   rw [h]
   exact ((Commute.mul_right (hx l l.2) (hy l l.2)).inv_right).eq
 
-theorem not_nine_dvd_card_component_quotient (hH : primeComplementCore (G := H) 3 = ⊥)
+theorem not_nine_dvd_card_component_quotient (_hH : primeComplementCore (G := H) 3 = ⊥)
     (S : Sylow 3 H) (hSW : Nonempty ((S : Subgroup H) ≃* W3)) {L : Subgroup H}
     (hL : IsComponentOf L ⊤) (hnot : ¬ (S : Subgroup H) ≤ normalizer (L : Set H)) :
     ¬ 9 ∣ Nat.card (↥L ⧸ Subgroup.center ↥L) := by
   intro h9
   obtain ⟨e⟩ := hSW
-  obtain ⟨g, hgS, hgL⟩ := SetLike.not_le_iff_exists.mp hnot
+  obtain ⟨g, hgS, hgL⟩ := IsConcreteLE.not_le_iff_exists.mp hnot
   have hg3 : ∃ n : ℕ, g ^ 3 ^ n = 1 := by
-    obtain ⟨n, hn⟩ := S.isPGroup' (⟨g, hgS⟩ : (S : Subgroup H))
+    obtain ⟨n, hn⟩ := S.isPGroup (⟨g, hgS⟩ : (S : Subgroup H))
     exact ⟨n, congrArg Subtype.val hn⟩
   obtain ⟨hne12, hne13, hne23⟩ := conj_three_distinct hg3 hgL
   set L₂ := L.map (MulAut.conj g).toMonoidHom with hL₂
@@ -138,7 +140,7 @@ theorem not_nine_dvd_card_component_quotient (hH : primeComplementCore (G := H) 
   have hrdvd : Nat.card Ψ.range ∣ Nat.card H := Subgroup.card_subgroup_dvd_card _
   have hS81 : Nat.card (S : Subgroup H) = 81 := by
     rw [Nat.card_congr e.toEquiv]; exact CFSG.RankThree.PartTwo.Sec11.card_wreath
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hSmul := Sylow.card_eq_multiplicity S
   have hfac : (Nat.card H).factorization 3 = 4 := by
     have h : (3 : ℕ) ^ (Nat.card H).factorization 3 = 3 ^ 4 := by

@@ -136,9 +136,6 @@ theorem Pair.mod_three_eq_zero_of_affine {i j : ℕ} (h : (d * e) ^ i * (d * z) 
     simp only [pow_zero, pow_one, hx2, hy2, one_mul, mul_one, inv_eq_one] at h ⊢
   all_goals first
     | trivial
-    | exact absurd h hx1
-    | exact absurd h hy1
-    | exact absurd h hxy1
     | exact absurd (mul_inv_eq_one.1 h) hxy
     | exact absurd (inv_mul_eq_one.1 h) hxy
     | exact absurd (mul_eq_one_comm.1 (inv_eq_one.1 (by rw [mul_inv_rev]; exact h))) hxy1

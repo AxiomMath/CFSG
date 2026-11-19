@@ -39,7 +39,7 @@ theorem five_six_perm (hR : R3_1) {n : ℕ} (hn : 4 < n) {K T : Subgroup (Perm (
       hpow hodd, α, by rw [hM, hMα]⟩
   · exact (false_of_not_nine_dvd (seven_le_of_nonempty_mulEquiv_alternatingGroup le_rfl e7) hA
       hMΓ hΓ3 hpow (not_nine_dvd_card_of_isL3 hL)).elim
-  · haveI := hEn
+  · have := hEn
     have hn7 : 7 ≤ n := by
       rcases e89 with e | e
       · exact seven_le_of_nonempty_mulEquiv_alternatingGroup (by norm_num) e

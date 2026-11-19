@@ -22,7 +22,7 @@ theorem lieSTwoAt_B (hGA : CFSG.Open.GriessAllModelsStatement) (hLO : LieOrderBr
   have hr := (TauCeti.LieTypeIndex.inStandardRange_iff _).1 hrange.1
   simp only [] at hr
   rcases (show n = 3 ∨ n = 4 ∨ 5 ≤ n by omega) with rfl | rfl | h5
-  · haveI : IsSimpleGroup (Y ⧸ Subgroup.center Y) := hY.2
+  · have : IsSimpleGroup (Y ⧸ Subgroup.center Y) := hY.2
     have hn := CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian Y hY
     have hcard : Nat.card (Y ⧸ Subgroup.center Y) = 1451520 := by
       rw [hLO ⟨_, hv⟩ _ ⟨e⟩]

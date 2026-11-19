@@ -64,7 +64,7 @@ private theorem w183finExistsTwoNeOne {G : Type*} [Group G] (E : Subgroup G)
   have hfin : Finite E := Nat.finite_of_card_ne_zero (by omega)
   have h3 : Nat.card (E : Set G) = Nat.card E := rfl
   have h2 : 1 < ((E : Set G) \ {1}).ncard := by
-    rw [Set.ncard_diff_singleton_of_mem E.one_mem, ← Nat.card_coe_set_eq]
+    rw [Set.ncard_sdiff_singleton_of_mem E.one_mem, ← Nat.card_coe_set_eq]
     omega
   obtain ⟨x, y, hx, hy, hxy⟩ := (Set.one_lt_ncard_iff (Set.toFinite _)).1 h2
   exact ⟨x, hx.1, y, hy.1, hx.2, hy.2, hxy⟩
@@ -151,7 +151,7 @@ private theorem w183finPairGenL28Gen : ∀ (Y : Type) [Group Y], IsL2 Y 3 → �
     IsElemAbelian 2 P₁ → IsElemAbelian 2 P₂ → Nat.card P₁ = 8 → Nat.card P₂ = 8 → P₁ ≠ P₂ →
     ∀ E F : Subgroup Y, E ≤ P₁ → F ≤ P₂ → 4 ≤ Nat.card E → 4 ≤ Nat.card F → E ⊔ F = ⊤ := by
   intro Y _ hY P₁ P₂ h₁ h₂ c₁ c₂ hne E F hE hF hE4 hF4
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e⟩ := CFSG.GH74.KGroups.PSL2.psl2_equiv_of_lieModel (F := GF8) 2 3 (by norm_num)
     (by rw [w183finCardGF8]; norm_num) hY
   let φ : Y ≃* SL(2, GF8) := e.trans pslMulEquivSL
@@ -270,7 +270,7 @@ private theorem w183finPairGenL28Odd : ∀ (Y : Type) [Group Y], IsL2 Y 3 → �
     IsElemAbelian 2 P₁ → IsElemAbelian 2 P₂ → Nat.card P₁ = 8 → Nat.card P₂ = 8 → P₁ ≠ P₂ →
     ∀ a ∈ P₁, ∀ b ∈ P₂, a ≠ 1 → b ≠ 1 → Odd (orderOf (a * b)) := by
   intro Y _ hY P₁ P₂ h₁ h₂ c₁ c₂ hne a ha b hb ha1 hb1
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e⟩ := CFSG.GH74.KGroups.PSL2.psl2_equiv_of_lieModel (F := GF8) 2 3 (by norm_num)
     (by rw [w183finCardGF8]; norm_num) hY
   let φ : Y ≃* SL(2, GF8) := e.trans pslMulEquivSL

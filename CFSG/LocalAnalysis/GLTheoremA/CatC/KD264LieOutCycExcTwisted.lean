@@ -27,8 +27,8 @@ private theorem outCycAt_cat_twistedE6 {q : TauCeti.PrimePower}
     (hv : (TauCeti.LieTypeIndex.twistedE6 q).Valid) {p : ℕ} (hp : p.Prime) :
     OutCycAt p (Cat ⟨.twistedE6 q, hv⟩) := by
   obtain ⟨K, hfield, σ, hK, hσ, ⟨e⟩⟩ := exists_catEquiv_twistedE6 q hv
-  letI : Field K := hfield
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by
+  let : Field K := hfield
+  have : Finite K := Nat.finite_of_card_ne_zero (by
     rw [hK]
     exact pow_ne_zero _ (pow_ne_zero _ q.prime_p.ne_zero))
   have hKq : Nat.card K = q.card ^ 2 := by
@@ -42,12 +42,12 @@ private theorem outCycAt_cat_twistedE6 {q : TauCeti.PrimePower}
   have hKf : Nat.card K = q.p ^ (2 * q.exponent) := by
     rw [hK, ← pow_mul, mul_comm]
   have hring := card_ringAut_and_isCyclic q.prime_p K hKf
-  haveI : Finite (RingAut K) := Nat.finite_of_card_ne_zero (by
+  have : Finite (RingAut K) := Nat.finite_of_card_ne_zero (by
     rw [hring.1]
     exact Nat.mul_ne_zero (by norm_num) q.exponent_pos.ne')
-  haveI : IsCyclic (RingAut K) := hring.2
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
-  haveI : Finite (twistedE6RootGroup K σ) := Subtype.finite
+  have : IsCyclic (RingAut K) := hring.2
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Finite (twistedE6RootGroup K σ) := Subtype.finite
   obtain ⟨-, -, -, -, -, -, -, -, ⟨Θ, -, -, hker, -, -, -⟩, -⟩ :=
     twisted_E6_all_characteristic_exact_automorphism_normal_form q.prime_p q.exponent_pos K hK σ hσ
   refine outCycAt_of_mulEquiv e.symm (outCycAt_of_cyclic hp (E := ⊤)
@@ -65,25 +65,25 @@ theorem lieOutCyc_excTwisted : LieOutCyc isExcTwistedIdx := by
   | twistedE6 q => exact outCycAt_cat_twistedE6 hd hp
   | suzuki m =>
     have hmodel : SuzukiModel (Cat ⟨.suzuki m, hd⟩) 2 (2 * m + 1) := suzukiModel_cat hd
-    haveI : Finite (Cat ⟨.suzuki m, hd⟩) :=
+    have : Finite (Cat ⟨.suzuki m, hd⟩) :=
       CFSG.LieType.Simplicity.fam_suzuki_finiteness _ 2 (2 * m + 1) hmodel
     exact outCycAt_of_outPChain hp (OutPNice.toChain (outPNice_Suzuki hp hmodel))
   | reeG2 m =>
     have hmodel : ReeTitsModel (Cat ⟨.reeG2 m, hd⟩) .twistedG2 3 (2 * m + 1) :=
       reeTitsModel_reeG2 m ⟨hd, ⟨MulEquiv.refl _⟩⟩
-    haveI : Finite (Cat ⟨.reeG2 m, hd⟩) :=
+    have : Finite (Cat ⟨.reeG2 m, hd⟩) :=
       CFSG.LieType.Simplicity.fam_ree_tits_finiteness _ .twistedG2 3 (2 * m + 1) hmodel
     exact outCycAt_of_outPChain hp
       (OutPNice.toChain (CFSG.RankThree.PartOne.AUTSL.outPNice_twistedG2 hp hmodel))
   | reeF4 m =>
     have hmodel : ReeTitsModel (Cat ⟨.reeF4 m, hd⟩) .twistedF4 2 (2 * m + 1) :=
       reeTitsModel_cat_reeF4 hd
-    haveI : Finite (Cat ⟨.reeF4 m, hd⟩) :=
+    have : Finite (Cat ⟨.reeF4 m, hd⟩) :=
       CFSG.LieType.Simplicity.fam_ree_tits_finiteness _ .twistedF4 2 (2 * m + 1) hmodel
     exact outCycAt_of_outPChain hp (OutPNice.toChain (outPNice_twistedF4 hp hmodel))
   | tits =>
     have hT := card_cat_tits_outer hd
-    haveI : Finite (Cat ⟨.tits, hd⟩) := Nat.finite_of_card_ne_zero (by rw [hT.1]; norm_num)
+    have : Finite (Cat ⟨.tits, hd⟩) := Nat.finite_of_card_ne_zero (by rw [hT.1]; norm_num)
     have hout : ¬ p ∣ Nat.card (Outer (Cat ⟨.tits, hd⟩)) := by
       rw [hT.2]
       exact fun h => hp2 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).mp h)

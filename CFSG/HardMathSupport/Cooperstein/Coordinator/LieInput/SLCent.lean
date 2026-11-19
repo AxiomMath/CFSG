@@ -90,7 +90,7 @@ theorem toStd_rootVec {a b : Fin (m + 1)} (hab : a.val < b.val) :
     toStd m (rootVec a b) = Pi.single a 1 - Pi.single b 1 := by
   funext p
   simp only [toStd, rootVec, Pi.sub_apply, Pi.single_apply, Fin.ext_iff]
-  split_ifs <;> first | omega | simp_all <;> omega
+  split_ifs <;> first | omega
 
 theorem transvection_mem_leviRad (I : Set (Fin m)) {a b : Fin (m + 1)} (hab : a ≠ b)
     (hsep : SepBlk I a b) (c : F) :
@@ -118,7 +118,7 @@ section Matrix
 
 variable {m : ℕ} {F : Type} [Field F]
 
-theorem entries_of_comm_transvection {N : ℕ} {a b : Fin N} (hab : a ≠ b)
+theorem entries_of_comm_transvection {N : ℕ} {a b : Fin N} (_hab : a ≠ b)
     (k : Matrix (Fin N) (Fin N) F)
     (h : k * Matrix.transvection a b (1 : F) = Matrix.transvection a b 1 * k) :
     (∀ i, i ≠ a → k i a = 0) ∧ (∀ j, j ≠ b → k b j = 0) ∧ k a a = k b b := by
@@ -189,18 +189,18 @@ theorem exists_mem_leviRad_of_supported {I : Set (Fin m)} (hI : I ≠ Set.univ)
         refine Finset.sum_eq_zero fun l _ => ?_
         by_cases hl : l = pq.2
         · subst hl; simp [hrow jj]
-        · simp [Matrix.single_apply, Ne.symm hl]
+        · simp [Ne.symm hl]
       have hins : partialMat Y (insert pq Q) =
           partialMat Y Q + Matrix.single pq.1 pq.2 (Y pq.1 pq.2) := by
         ext i jj
         by_cases h : (i, jj) = pq
         · subst h
-          simp [partialMat, hpq, Matrix.single_apply]
+          simp [partialMat, hpq]
         · have h' : ¬ (pq.1 = i ∧ pq.2 = jj) := fun ⟨e1, e2⟩ => h (Prod.ext e1.symm e2.symm)
           have hmem : (i, jj) ∈ insert pq Q ↔ (i, jj) ∈ Q := by simp [Finset.mem_insert, h]
           by_cases hq' : (i, jj) ∈ Q
-          · simp [partialMat, hq', hmem.mpr hq', Matrix.single_apply, h']
-          · simp [partialMat, hq', mt hmem.mp hq', Matrix.single_apply, h']
+          · simp [partialMat, hq', h']
+          · simp [partialMat, hq', h']
             exact fun e => absurd e h
       rw [hins, Matrix.transvection, add_mul, one_mul, mul_add, mul_one, hz]
       abel

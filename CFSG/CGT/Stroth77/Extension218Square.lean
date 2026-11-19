@@ -10,6 +10,7 @@ open Matrix
 
 variable {S : Type*} [Group S] [Finite S]
 
+omit [Finite S] in
 private theorem square_section_of_rho {τ : StrothTypeIndex} {B : Subgroup S}
     (D : StrothTypeData B τ) (e : ℤ) (hk1 : 1 ≤ τ.k 1) (hk2 : 1 ≤ τ.k 2)
     (hρ : ∀ i j l : ℤ, τ.action.φρ (i • gen τ.k 0 + j • gen τ.k 1 + l • gen τ.k 2) =
@@ -78,10 +79,10 @@ private theorem exists_square_root_c_of_section {τ : StrothTypeIndex} {B C S' :
     (hH : NoInvolutionsCentralizing S' B) (hCS : C ≤ S') :
     ∃ d : S, d ∈ C ∧ d ∉ B ∧ d * d = (D.c : S) := by
   classical
-  letI : CommGroup C :=
+  let : CommGroup C :=
     { (inferInstance : Group C) with mul_comm := comm_of_le_centralizer_of_type D hBC hC hrel }
   have hlt : B < C := lt_of_relIndex hBC hrel
-  obtain ⟨d, hdC, hdB⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨d, hdC, hdB⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   have hindex : (B.subgroupOf C).index = 2 := index_two_of_relIndex hBC hrel
   let dC : C := ⟨d, hdC⟩
   have hd2B : d * d ∈ B := by
@@ -110,7 +111,7 @@ private theorem exists_square_root_c_of_section {τ : StrothTypeIndex} {B C S' :
       have hmem : dC ∈ B.subgroupOf C := by
         rw [hd_eq]
         exact (B.subgroupOf C).mul_mem (by simpa [Subgroup.mem_subgroupOf] using hz)
-          (by simpa [Subgroup.mem_subgroupOf, bC] using b.2)
+          (by simp [Subgroup.mem_subgroupOf, bC])
       exact hdB (by simpa [Subgroup.mem_subgroupOf] using hmem)
     exact hzB (hH (zC : S) (hCS zC.2) hz2 (hC zC.2))
   have hr : SquareIn B ((conjBy D.ρ_mem xB * xB⁻¹ : B) : S) := by
@@ -222,6 +223,7 @@ theorem rho_apply_gens_t221 (s : ℕ) (hs : 1 ≤ s) (i j l : ℤ) :
   rw [h00, h01, h02, h10, h11, h12, h20, h21, h22]
   congr 2 <;> ring_nf
 
+omit [Finite S] in
 theorem square_section_t221 {s : ℕ} {hs : 1 ≤ s} {B : Subgroup S}
     (D : StrothTypeData B (StrothTypeIndex.t221 s hs)) (x : B)
     (hr : SquareIn B ((conjBy D.ρ_mem x * x⁻¹ : B) : S)) :
@@ -261,6 +263,7 @@ theorem rho_apply_gens_t131 (m : ℕ) (hm : 3 ≤ m) (i j l : ℤ) :
   rw [h00, h01, h02, h10, h11, h12, h20, h21, h22]
   congr 2 <;> ring_nf
 
+omit [Finite S] in
 theorem square_section_t131 {m : ℕ} {hm : 3 ≤ m} {B : Subgroup S}
     (D : StrothTypeData B (StrothTypeIndex.t131 m hm)) (x : B)
     (hr : SquareIn B ((conjBy D.ρ_mem x * x⁻¹ : B) : S)) :

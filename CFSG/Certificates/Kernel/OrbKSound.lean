@@ -197,7 +197,7 @@ theorem mvK_eq (p n : Nat) (v M : List Nat) :
   | 0, o => by simp [mvK_zero]
   | k + 1, o => by
     have e : (M.drop o).drop n = M.drop (o + n) := by
-      rw [List.drop_drop] <;> rw [Nat.add_comm]
+      rw [List.drop_drop]
     rw [mvK_succ, e, mvK_eq p n v M k (o + n), List.range_succ_eq_map, List.map_cons, List.map_map,
       Nat.mul_zero, Nat.add_zero]
     congr 1

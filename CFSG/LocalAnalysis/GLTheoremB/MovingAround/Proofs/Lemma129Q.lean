@@ -11,15 +11,15 @@ open CFSG.Open
 private theorem exists_endo_zpowers {A : Type*} [Group A] [IsMulCommutative A]
     (hA : Nat.card A = 9) (h3 : ∀ a : A, a ^ 3 = 1) {y : A} (hy : y ≠ 1) :
     ∃ θ : A →* A, (∀ a, θ a ∈ Subgroup.zpowers y) ∧ θ y = 1 ∧ ∃ a, θ a ≠ 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf y = 3 := orderOf_eq_prime (h3 y) hy
   have hN : Nat.card (Subgroup.zpowers y) = 3 := by rw [Nat.card_zpowers, hord]
   have hQ : Nat.card (A ⧸ Subgroup.zpowers y) = 3 := by
     have := Subgroup.card_eq_card_quotient_mul_card_subgroup (Subgroup.zpowers y)
     rw [hA, hN] at this
     omega
-  haveI : IsCyclic (A ⧸ Subgroup.zpowers y) := isCyclic_of_prime_card hQ
-  haveI : IsCyclic (Subgroup.zpowers y) := isCyclic_of_prime_card hN
+  have : IsCyclic (A ⧸ Subgroup.zpowers y) := isCyclic_of_prime_card hQ
+  have : IsCyclic (Subgroup.zpowers y) := isCyclic_of_prime_card hN
   let ψ : (A ⧸ Subgroup.zpowers y) ≃* Subgroup.zpowers y :=
     mulEquivOfCyclicCardEq (hQ.trans hN.symm)
   refine ⟨(Subgroup.zpowers y).subtype.comp (ψ.toMonoidHom.comp (QuotientGroup.mk' _)),
@@ -27,8 +27,8 @@ private theorem exists_endo_zpowers {A : Type*} [Group A] [IsMulCommutative A]
   · have : (QuotientGroup.mk y : A ⧸ Subgroup.zpowers y) = 1 :=
       (QuotientGroup.eq_one_iff y).2 (Subgroup.mem_zpowers y)
     simp [this]
-  · haveI : Finite (A ⧸ Subgroup.zpowers y) := Nat.finite_of_card_ne_zero (by omega)
-    haveI : Nontrivial (A ⧸ Subgroup.zpowers y) :=
+  · have : Finite (A ⧸ Subgroup.zpowers y) := Nat.finite_of_card_ne_zero (by omega)
+    have : Nontrivial (A ⧸ Subgroup.zpowers y) :=
       Finite.one_lt_card_iff_nontrivial.1 (by omega)
     obtain ⟨q, hq⟩ := exists_ne (1 : A ⧸ Subgroup.zpowers y)
     obtain ⟨a, rfl⟩ := QuotientGroup.mk_surjective q
@@ -43,7 +43,7 @@ private theorem exists_shear {A : Type*} [Group A] (θ : A →* A)
     { toFun := fun a => a * (θ a)⁻¹
       invFun := fun a => a * θ a
       left_inv := fun a => by simp [map_mul, map_inv, hθ]
-      right_inv := fun a => by simp [map_mul, map_inv, hθ] }
+      right_inv := fun a => by simp [map_mul, hθ] }
   have hm : ∀ a, m a = a * (θ a)⁻¹ := fun _ => rfl
   have hθm : ∀ a, θ (m a) = θ a := fun a => by simp [hm, hθ]
   refine ⟨m, hm, ?_⟩
@@ -157,18 +157,18 @@ private theorem shear_mul {A : Type*} [Group A] [IsMulCommutative A] (θ : A →
   rw [map_mul, mul_inv_rev]
   simp only [mul_comm, mul_left_comm, mul_assoc]
 
-theorem permB (Ω₀ : Set (Fin 13)) (hΩ₀ : Ω₀.ncard = 4)
+theorem permB (Ω₀ : Set (Fin 13)) (_hΩ₀ : Ω₀.ncard = 4)
     (F' : Subgroup (Equiv.Perm (Fin 13))) (hFel : IsElemAbelian 3 F') (hFcard : Nat.card F' = 9)
     (hFfix : ∀ g ∈ F', ∀ j ∈ Ω₀, g j = j)
     (htrans : ∀ j k : Fin 13, j ∉ Ω₀ → k ∉ Ω₀ → ∃! g : Equiv.Perm (Fin 13), g ∈ F' ∧ g j = k)
     {y : Equiv.Perm (Fin 13)} (hy : y ∈ F') (hy1 : y ≠ 1)
-    {σ : Equiv.Perm (Fin 13)} (hσ : σ.IsThreeCycle) (hσsupp : ∀ j, j ∉ Ω₀ → σ j = j) :
+    {σ : Equiv.Perm (Fin 13)} (_hσ : σ.IsThreeCycle) (hσsupp : ∀ j, j ∉ Ω₀ → σ j = j) :
     ∃ x : Equiv.Perm (Fin 13), x ∈ alternatingGroup (Fin 13) ∧ x ≠ 1 ∧ x ^ 3 = 1 ∧
       (∀ j ∈ Ω₀, x j = j) ∧
       (∀ g ∈ F' ⊔ Subgroup.zpowers σ, x * g * x⁻¹ * g⁻¹ ∈ Subgroup.zpowers y) ∧
       ∃ c c' : Fin 13, c ∉ Ω₀ ∧ c' ∉ Ω₀ ∧ c ≠ c' ∧ x c = c ∧ x c' = c' := by
   classical
-  haveI : IsMulCommutative F' := hFel.1
+  have : IsMulCommutative F' := hFel.1
   have hpres : ∀ g ∈ F', ∀ j, j ∉ Ω₀ → g j ∉ Ω₀ := fun g hg j hj hgj =>
     hj (g.injective (hFfix g hg _ hgj) ▸ hgj)
   have hfree : ∀ g ∈ F', ∀ j, j ∉ Ω₀ → g j = j → g = 1 := by
@@ -361,7 +361,7 @@ theorem permD {Ω₀ : Set (Fin 13)} {ρ : Equiv.Perm (Fin 13)} (hρ : ∀ j, j 
       by_cases hx1 : x = ρ ω <;> by_cases hx2 : x = ω <;> by_cases hx3 : x = c <;>
         by_cases hx4 : x = c' <;>
         simp [hx1, hx2, hx3, hx4, hωc, hωc', hac, hac', hρω, hcc', hωc.symm, hωc'.symm, hac.symm,
-          hac'.symm, hρω.symm, hcc'.symm] <;> grind
+          hac'.symm, hρω.symm, hcc'.symm]
     have hcomm : (Equiv.swap ω c * Equiv.swap ω c') * ρ * (Equiv.swap ω c * Equiv.swap ω c')⁻¹ *
         ρ⁻¹ = Equiv.swap (ρ ω) c' * Equiv.swap (ρ ω) ω := by
       calc (Equiv.swap ω c * Equiv.swap ω c') * ρ * (Equiv.swap ω c * Equiv.swap ω c')⁻¹ * ρ⁻¹

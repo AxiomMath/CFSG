@@ -53,9 +53,9 @@ private theorem tau_mul_planeIdem_of_vanishes {S : Finset (Fin t)} {u : PlaneRaw
     congr 1
     funext j
     by_cases hj : j ∈ S
-    · rw [if_pos hj, hu j hj, ofAdd_zero, map_one]
+    · rw [ite_eq_left hj, hu j hj, ofAdd_zero, map_one]
       simp
-    · rw [if_neg hj, Matrix.mul_zero]
+    · rw [ite_eq_right hj, Matrix.mul_zero]
   refine ⟨?_, ?_, ?_, ?_⟩ <;> simp [hblock]
 
 private theorem planeIdem_mul_tau_of_vanishes {S : Finset (Fin t)} {u : PlaneRaw.V t}
@@ -72,9 +72,9 @@ private theorem planeIdem_mul_tau_of_vanishes {S : Finset (Fin t)} {u : PlaneRaw
     congr 1
     funext j
     by_cases hj : j ∈ S
-    · rw [if_pos hj, hu j hj, ofAdd_zero, map_one]
+    · rw [ite_eq_left hj, hu j hj, ofAdd_zero, map_one]
       simp
-    · rw [if_neg hj, Matrix.zero_mul]
+    · rw [ite_eq_right hj, Matrix.zero_mul]
   refine ⟨?_, ?_, ?_, ?_⟩ <;> simp [hblock]
 
 private theorem commute_tau_of_mem_levi_lin {S : Finset (Fin t)} {u : PlaneRaw.V t}

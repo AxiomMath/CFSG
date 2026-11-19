@@ -219,7 +219,7 @@ private theorem card_le_Hp_three : 48 ≤ Nat.card ↥(Hp 3) := by
       have := (sum_ite_inj (hinl i)).2
       simpa [hσ] using this
     exact Prod.ext hσ hs
-  haveI : Fintype ↥(Hp 3) := Fintype.ofFinite _
+  have : Fintype ↥(Hp 3) := Fintype.ofFinite _
   have h := Fintype.card_le_of_injective f hinj
   simp only [Fintype.card_prod, Fintype.card_perm, Fintype.card_fun, Fintype.card_fin,
     Fintype.card_bool] at h

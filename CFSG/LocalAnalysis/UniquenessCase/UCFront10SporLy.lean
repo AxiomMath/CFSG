@@ -129,7 +129,7 @@ section Centralizer
 
 theorem ly_k105In_centralizer : K105In (centralizer {lyz}) lyS := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  have hS : IsSylowTwoOf lyS ⊤ := ⟨le_top, lySylow.isPGroup', by
+  have hS : IsSylowTwoOf lyS ⊤ := ⟨le_top, lySylow.isPGroup, by
     change ¬ 2 ∣ lyS.relIndex ⊤
     rw [Subgroup.relIndex_top_right]
     exact lySylow.not_dvd_index⟩
@@ -233,7 +233,7 @@ theorem ly_oddLocal (p : ℕ) (hp : p.Prime) (hp5 : 5 ≤ p) (A : Subgroup J)
         exact (mul_inv_eq_iff_eq_mul.1 (hgA a ha)).symm
       rw [h] at hgK
       exact hg1 ((Subgroup.mk_eq_one _).1 (Subgroup.mem_bot.1 hgK))
-    have : Group.IsNilpotent ↥lyS := lySylow.isPGroup'.isNilpotent
+    have : Group.IsNilpotent ↥lyS := lySylow.isPGroup.isNilpotent
     have hKZ := Group.IsNilpotent.inf_center_ne_bot_of_normal hK1
     rw [center_lyS] at hKZ
     obtain ⟨x, hx, hx1⟩ := (Subgroup.bot_or_exists_ne_one _).resolve_left hKZ
@@ -499,7 +499,7 @@ theorem ly_oddLocal (p : ℕ) (hp : p.Prime) (hp5 : 5 ≤ p) (A : Subgroup J)
 
 theorem k105SporAt_Ly : K105SporAt .Ly := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  have hS : IsSylowTwoOf lyS ⊤ := ⟨le_top, lySylow.isPGroup', by
+  have hS : IsSylowTwoOf lyS ⊤ := ⟨le_top, lySylow.isPGroup, by
     change ¬ 2 ∣ lyS.relIndex ⊤
     rw [Subgroup.relIndex_top_right]
     exact lySylow.not_dvd_index⟩

@@ -13,9 +13,11 @@ open scoped Pointwise
 
 variable {A : Type} [Group A] [Finite A] {X K R P : Subgroup A}
 
+omit [Finite A] in
 theorem CampbellHyp.pCore_X_le_R (h : CampbellHyp X K R P) : pCoreOf 2 X ≤ R :=
   pCoreOf_le_of_odd_index h.R_two h.R_le h.R_sylow
 
+omit [Finite A] in
 theorem CampbellHyp.R_sylow_P (h : CampbellHyp X K R P) : ¬ 2 ∣ (R.subgroupOf P).index := by
   intro h2
   apply h.R_sylow
@@ -24,14 +26,17 @@ theorem CampbellHyp.R_sylow_P (h : CampbellHyp X K R P) : ¬ 2 ∣ (R.subgroupOf
   rw [← hmul]
   exact Dvd.dvd.mul_right h2 _
 
+omit [Finite A] in
 theorem CampbellHyp.pCore_P_le_R (h : CampbellHyp X K R P) : pCoreOf 2 P ≤ R :=
   pCoreOf_le_of_odd_index h.R_two h.R_le_P h.R_sylow_P
 
+omit [Finite A] in
 theorem CampbellHyp.pCore_X_le_pCore_P (h : CampbellHyp X K R P) :
     pCoreOf 2 X ≤ pCoreOf 2 P :=
   le_pCoreOf_of_normalizes (isPGroup_pCoreOf X) (h.pCore_X_le_R.trans h.R_le_P)
     (h.P_le.trans (normalizer_pCoreOf X))
 
+omit [Finite A] in
 theorem CampbellHyp.P_lt_X (h : CampbellHyp X K R P) : P < X := by
   refine lt_of_le_of_ne h.P_le ?_
   rintro rfl
@@ -39,6 +44,7 @@ theorem CampbellHyp.P_lt_X (h : CampbellHyp X K R P) : P < X := by
   rw [Subgroup.subgroupOf_self, Subgroup.index_top] at h7
   omega
 
+omit [Finite A] in
 theorem hypPCore_conj_pCoreOf {x : A} (hx : x ∈ normalizer (K : Set A)) {n : A}
     (hn : n ∈ pCoreOf 2 K) : x * n * x⁻¹ ∈ pCoreOf 2 K := by
   have hxK : ∀ k : A, k ∈ K ↔ x * k * x⁻¹ ∈ K := mem_normalizer_iff.1 hx
@@ -56,6 +62,7 @@ theorem hypPCore_conj_pCoreOf {x : A} (hx : x ∈ normalizer (K : Set A)) {n : A
     exact Subgroup.mem_map_of_mem _ hn'
   exact Subgroup.mem_map.2 ⟨φ n', hφ, rfl⟩
 
+omit [Finite A] in
 theorem hypPCore_normalizer_pCoreOf {Y : Subgroup A} (hY : Y ≤ normalizer (K : Set A)) :
     Y ≤ normalizer (pCoreOf 2 K : Set A) := by
   intro x hx
@@ -63,6 +70,7 @@ theorem hypPCore_normalizer_pCoreOf {Y : Subgroup A} (hY : Y ≤ normalizer (K :
   have := hypPCore_conj_pCoreOf (hY (Y.inv_mem hx)) hn
   simpa [mul_assoc] using this
 
+omit [Finite A] in
 theorem CampbellHyp.pCoreOf_K (h : CampbellHyp X K R P) : pCoreOf 2 K = K ⊓ pCoreOf 2 X := by
   apply le_antisymm
   · refine le_inf (pCoreOf_le_self K) ?_
@@ -72,6 +80,7 @@ theorem CampbellHyp.pCoreOf_K (h : CampbellHyp X K R P) : pCoreOf 2 K = K ⊓ pC
     exact le_trans (le_inf Subgroup.le_normalizer (h.K_le.trans (normalizer_pCoreOf X)))
       Subgroup.inf_normalizer_le_normalizer_inf
 
+omit [Finite A] in
 theorem CampbellHyp.pCore_K_eq (h : CampbellHyp X K R P) :
     CFSG.pCore 2 ↥K = (pCoreOf 2 X).comap K.subtype := by
   ext k
@@ -88,6 +97,7 @@ theorem CampbellHyp.pCore_K_eq (h : CampbellHyp X K R P) :
     have hkk' : k' = k := Subtype.ext hkk
     rwa [hkk'] at hk''
 
+omit [Finite A] in
 theorem CampbellHyp.mem_X_iff (h : CampbellHyp X K R P) {g : A} :
     g ∈ X ↔ ∃ k ∈ K, ∃ o ∈ pCoreOf 2 X, g = k * o := by
   constructor
@@ -102,6 +112,7 @@ theorem CampbellHyp.mem_X_iff (h : CampbellHyp X K R P) {g : A} :
   · rintro ⟨k, hk, o, ho, rfl⟩
     exact X.mul_mem (h.K_le hk) (pCoreOf_le_self X ho)
 
+omit [Finite A] in
 theorem CampbellHyp.X_eq_mul (h : CampbellHyp X K R P) :
     (X : Set A) = (K : Set A) * (pCoreOf 2 P : Set A) := by
   ext g
@@ -120,6 +131,7 @@ open scoped Pointwise
 
 variable {A : Type} [Group A] [Finite A] {X K R P : Subgroup A}
 
+omit [Finite A] in
 theorem CampbellHyp.card_quot (h : CampbellHyp X K R P) :
     Nat.card (↥K ⧸ CFSG.pCore 2 ↥K) = 168 := by
   obtain ⟨f, hf, hker⟩ := h.quot
@@ -131,11 +143,12 @@ theorem CampbellHyp.card_quot (h : CampbellHyp X K R P) :
   rw [← hker', Nat.card_congr (QuotientGroup.quotientKerEquivOfSurjective f hf).toEquiv]
   exact CFSG.ComponentClassification.GHarris.card_GL32_gh
 
+omit [Finite A] in
 theorem CampbellHyp.exists_psi (h : CampbellHyp X K R P) :
     ∃ ψ : ↥X →* GL32, Function.Surjective ψ ∧ ψ.ker = (pCoreOf 2 X).subgroupOf X := by
   obtain ⟨f, hf, hker⟩ := h.quot
   have hle : pCoreOf 2 X ≤ X := pCoreOf_le_self X
-  haveI hN : ((pCoreOf 2 X).subgroupOf X).Normal :=
+  have hN : ((pCoreOf 2 X).subgroupOf X).Normal :=
     (normal_subgroupOf_iff_le_normalizer hle).2 (normalizer_pCoreOf X)
   let g : ↥K →* ↥X ⧸ (pCoreOf 2 X).subgroupOf X :=
     (QuotientGroup.mk' _).comp (Subgroup.inclusion h.K_le)
@@ -163,6 +176,7 @@ theorem CampbellHyp.exists_psi (h : CampbellHyp X K R P) :
     rw [MonoidHom.mem_ker, MonoidHom.comp_apply]
     simp
 
+omit [Finite A] in
 theorem CampbellHyp.card_X (h : CampbellHyp X K R P) :
     Nat.card ↥X = Nat.card ↥(pCoreOf 2 X) * 168 := by
   obtain ⟨ψ, hψ, hψker⟩ := h.exists_psi

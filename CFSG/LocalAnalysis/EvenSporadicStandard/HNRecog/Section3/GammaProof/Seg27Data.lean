@@ -10,6 +10,7 @@ open CFSG.EvenSporadicStandard.HNRecog
 
 variable {G : Type} [Group G] [Finite G] {a z : G}
 
+omit [Finite G] in
 theorem gamma_seg27_data (H : GammaHyps a z) {b y c₀ : G} (hb : IsConj a b)
     (hc₀ : c₀ ∈ orb6A a b) (h3 : (b * c₀) ^ 3 = y) :
     IsShapeZ2TimesSym 5 ↥(Gxy b c₀) ∧
@@ -24,6 +25,7 @@ theorem gamma_seg27_data (H : GammaHyps a z) {b y c₀ : G} (hb : IsConj a b)
   have hShape := (H.hT5 b z hb (IsConj.refl z)).shape_6A c₀ hc₀'
   exact ⟨hShape, hSix.1, hSix.2.1, hSix.2.2.1, hSix.2.2.2⟩
 
+omit [Finite G] in
 theorem gamma_seg27_fill (H : GammaHyps a z) {b y : G} (hb : IsConj a b) (hy : y ∈ orb2A a b) :
     (∃ c₀ ∈ orb6A a b, (b * c₀) ^ 3 = y) ∧ (∃ c₁ ∈ orb6A a y, (y * c₁) ^ 3 = b) ∧
       ∃ L : Subgroup G, L ≤ Gxy b y ∧ IsShapeZ2TimesSym 6 ↥L := by

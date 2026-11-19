@@ -13,7 +13,7 @@ open CFSG.Open CFSG.LocalAnalysis.GLTheoremB CFSG.HardMathSupport.Solomon.LocalB
 theorem lieComp_of_classical
     (hb : LieOrderBridge) (hQ : YS08.LieQ.LieQConstrainedInner 3)
     (hD4 : D4OuterExport) (hExc : LieCompOn .exceptional) (hSRT : LieCompOn .suzukiReeTits) :
-    LieComp :=
+    LieCompAll :=
   lieComp_of_families fun F => by
     cases F
     · exact lieCompOn_linearUnitary hb hQ

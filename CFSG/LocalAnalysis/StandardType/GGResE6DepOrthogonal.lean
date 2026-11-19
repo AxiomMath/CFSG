@@ -89,7 +89,7 @@ theorem GGResHyp.not_orthogonal_of_card_automizer_E6_upto_seven
     rcases htag with ht | ht
     · subst ht
       dsimp only [LargeEvenRawDatum] at hQ ⊢
-      rw [if_neg (by omega : l ≠ 3)] at hQ ⊢
+      rw [ite_eq_right (by omega : l ≠ 3)] at hQ ⊢
       obtain ⟨E, _, _, hE, hQ⟩ := hQ
       have : CharP E 2 := charP_two_of_card hE
       obtain ⟨hZ, hcp⟩ := OrthNs.center_data_omegaPlus (K := E) Nat.prime_three
@@ -110,7 +110,7 @@ theorem GGResHyp.not_orthogonal_of_card_automizer_E6_upto_seven
         (fun _ h => h), hT⟩
     · subst ht
       dsimp only [LargeEvenRawDatum] at hQ ⊢
-      rw [if_neg (by omega : l ≠ 2), if_neg (by omega : l ≠ 3)] at hQ ⊢
+      rw [ite_eq_right (by omega : l ≠ 2), ite_eq_right (by omega : l ≠ 3)] at hQ ⊢
       obtain ⟨E, _, _, hE, b, c, hbc, hQ⟩ := hQ
       have : CharP E 2 := charP_two_of_card hE
       obtain ⟨hZ, hcp⟩ := OrthExc.center_data_omegaMinus (K := E) Nat.prime_three

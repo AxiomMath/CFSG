@@ -117,6 +117,6 @@ theorem lemma1_one {r e f : ℕ} (hr : 2 ≤ r) (hre : r < e) (hef : e ≤ f) (y
     rw [h1, eX_symm_ιY, mul_assoc]
     congr 1
     show ((1 : DihedralGroup (2 ^ (2 - 1))), a, b) = _
-    simp [Prod.ext_iff]
+    simp
 
 end CFSG.CGT.Foote81L6

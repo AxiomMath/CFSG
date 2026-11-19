@@ -13,11 +13,11 @@ variable {V W : Type*} [CommGroup V] [CommGroup W]
 
 private theorem congrHom_mul_inv (e : V ≃* W) (g : MulAut V) (y : V) :
     congrHom e g (e y) * (e y)⁻¹ = e.toMonoidHom (g y * y⁻¹) := by
-  simp [congrHom_apply]
+  simp
 
 private theorem congrHom_mul_inv_mul_inv (e : V ≃* W) (g : MulAut V) (y c : V) :
     congrHom e g (e y) * (e y)⁻¹ * (e c)⁻¹ = e.toMonoidHom (g y * y⁻¹ * c⁻¹) := by
-  simp [congrHom_apply]
+  simp
 
 private theorem congrHom_conj (e : V ≃* W) (h g : MulAut V) :
     congrHom e (h * g * h⁻¹) = congrHom e h * congrHom e g * (congrHom e h)⁻¹ := by
@@ -25,7 +25,7 @@ private theorem congrHom_conj (e : V ≃* W) (h g : MulAut V) :
 
 private theorem congrHom_apply_apply (e : V ≃* W) (h : MulAut V) (c : V) :
     congrHom e h (e c) = e (h c) := by
-  simp [congrHom_apply]
+  simp
 
 private theorem mulAut_congr_apply (e : V ≃* W) (a : MulAut V) (w : W) :
     (MulAut.congr e) a w = e (a (e.symm w)) := rfl
@@ -40,14 +40,14 @@ private theorem isActsInv_actsOnModule_map_iff (e : V ≃* W) (G : Subgroup (Mul
     have hres := h (fun w : W => congrHom e y w)
       ⟨congrHom e y, Subgroup.mem_map.mpr ⟨y, hy, rfl⟩, rfl⟩ (e x)
       (Subgroup.mem_map.mpr ⟨x, hx, rfl⟩)
-    rw [show congrHom e y (e x) = e (y x) by simp [congrHom_apply]] at hres
+    rw [show congrHom e y (e x) = e (y x) by simp] at hres
     exact (Subgroup.mem_map_iff_mem (f := e.toMonoidHom) e.injective).mp hres
   · intro h f hf x hx
     obtain ⟨y, hy, rfl⟩ := hf
     obtain ⟨g, hg, rfl⟩ := Subgroup.mem_map.mp hy
     obtain ⟨x₀, hx₀, rfl⟩ := Subgroup.mem_map.mp hx
     exact Subgroup.mem_map.mpr ⟨g x₀, h (fun v => g v) ⟨g, hg, rfl⟩ x₀ hx₀,
-      by simp [congrHom_apply]⟩
+      by simp⟩
 
 private theorem forall_map_iff (e : V ≃* W) (G : Subgroup (MulAut V)) (X : Subgroup V) :
     (∀ g ∈ G.map (congrHom e), ∀ x ∈ X.map e.toMonoidHom, g x ∈ X.map e.toMonoidHom) ↔
@@ -56,12 +56,12 @@ private theorem forall_map_iff (e : V ≃* W) (G : Subgroup (MulAut V)) (X : Sub
   · intro h g hg x hx
     have hres := h (congrHom e g) (Subgroup.mem_map.mpr ⟨g, hg, rfl⟩) (e x)
       (Subgroup.mem_map.mpr ⟨x, hx, rfl⟩)
-    rw [show congrHom e g (e x) = e (g x) by simp [congrHom_apply]] at hres
+    rw [show congrHom e g (e x) = e (g x) by simp] at hres
     exact (Subgroup.mem_map_iff_mem (f := e.toMonoidHom) e.injective).mp hres
   · intro h g' hg' x hx
     obtain ⟨g, hg, rfl⟩ := Subgroup.mem_map.mp hg'
     obtain ⟨x₀, hx₀, rfl⟩ := Subgroup.mem_map.mp hx
-    exact Subgroup.mem_map.mpr ⟨g x₀, h g hg x₀ hx₀, by simp [congrHom_apply]⟩
+    exact Subgroup.mem_map.mpr ⟨g x₀, h g hg x₀ hx₀, by simp⟩
 
 private theorem isTranspAxis_map (e : V ≃* W) (g : MulAut V) (U Z : Subgroup V) (c : V) :
     IsTranspAxis (congrHom e g) (U.map e.toMonoidHom) (Z.map e.toMonoidHom) (e c) ↔
@@ -188,10 +188,10 @@ theorem commV_map_congrHom (e : V ≃* W) (X : Subgroup (MulAut V)) :
   · rintro ⟨x', hx', v', rfl⟩
     obtain ⟨x, hx, rfl⟩ := Subgroup.mem_map.mp hx'
     refine ⟨x (e.symm v') * (e.symm v')⁻¹, ⟨x, hx, e.symm v', rfl⟩, ?_⟩
-    simp only [map_mul, map_inv, congrHom_apply, e.symm_apply_apply, e.apply_symm_apply, MulEquiv.coe_toMonoidHom, mulAut_congr_apply]
+    simp only [map_mul, map_inv, e.apply_symm_apply, MulEquiv.coe_toMonoidHom, mulAut_congr_apply]
   · rintro ⟨w₀, ⟨x, hx, v, rfl⟩, rfl⟩
     refine ⟨congrHom e x, Subgroup.mem_map.mpr ⟨x, hx, rfl⟩, e v, ?_⟩
-    simp only [map_mul, map_inv, congrHom_apply, e.symm_apply_apply, MulEquiv.coe_toMonoidHom, mulAut_congr_apply]
+    simp only [map_mul, map_inv, e.symm_apply_apply, MulEquiv.coe_toMonoidHom, mulAut_congr_apply]
 
 theorem commOn_map_congrHom (e : V ≃* W) (U : Subgroup V) (X : Subgroup (MulAut V)) :
     commOn (U.map e.toMonoidHom) (X.map (congrHom e)) = (commOn U X).map e.toMonoidHom := by
@@ -204,11 +204,11 @@ theorem commOn_map_congrHom (e : V ≃* W) (U : Subgroup V) (X : Subgroup (MulAu
     obtain ⟨a, ha, rfl⟩ := Subgroup.mem_map.mp ha'
     obtain ⟨w, hw, rfl⟩ := Subgroup.mem_map.mp hw'
     refine ⟨a w * w⁻¹, ⟨a, ha, w, hw, rfl⟩, ?_⟩
-    simp only [map_mul, map_inv, congrHom_apply, e.symm_apply_apply, e.apply_symm_apply, MulEquiv.coe_toMonoidHom, mulAut_congr_apply]
+    simp only [map_mul, map_inv, e.symm_apply_apply, MulEquiv.coe_toMonoidHom, mulAut_congr_apply]
   · rintro ⟨u₀, ⟨a, ha, w, hw, rfl⟩, rfl⟩
     refine ⟨congrHom e a, Subgroup.mem_map.mpr ⟨a, ha, rfl⟩, e w,
       Subgroup.mem_map.mpr ⟨w, hw, rfl⟩, ?_⟩
-    simp only [map_mul, map_inv, congrHom_apply, e.symm_apply_apply, MulEquiv.coe_toMonoidHom, mulAut_congr_apply]
+    simp only [map_mul, map_inv, e.symm_apply_apply, MulEquiv.coe_toMonoidHom, mulAut_congr_apply]
 
 theorem isChiefFactorUnder_map (e : V ≃* W) (G : Subgroup (MulAut V)) (X Y : Subgroup V) :
     IsChiefFactorUnder (actsOnModule (G.map (congrHom e))) (X.map e.toMonoidHom)

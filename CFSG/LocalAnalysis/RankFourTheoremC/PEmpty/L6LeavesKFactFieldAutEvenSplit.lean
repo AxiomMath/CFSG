@@ -42,11 +42,11 @@ open CFSG.ComponentClassification.CatLeaf (lieOrderNumerator lieOrderDivisor)
 theorem overgroupLocalWhen_of_twoLocalWhen (hOver : CFSG.Quasithin.AsLieTwoOvergroups)
     {t : StatedLieTag} {P : ℕ → ℕ → Prop} (h : TwoLocalWhen t P) : OvergroupLocalWhen t P := by
   intro K _ _ hs hab n f f₀ p hP hadm hmodel ht hp hp5 hpK hdiv hf
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : IsSimpleGroup K := hs
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsSimpleGroup K := hs
   obtain ⟨r, hr, hloc⟩ := h K hs hab n f f₀ p hP hadm hmodel ht hp hp5 hpK hdiv hf
   refine ⟨r, hr, fun T Y hT hTY hY => ?_⟩
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hOverK : CFSG.QuasithinUnique.Bridge.Over.Overgroups K :=
     hOver K hs (Or.inl ⟨t, n, f, hadm, hmodel⟩)
   have hchar : CFSG.QuasithinUnique.CharTwo Y := hOverK T Y (isSylowTwoOf_of_isSylowOf hT) hTY hY

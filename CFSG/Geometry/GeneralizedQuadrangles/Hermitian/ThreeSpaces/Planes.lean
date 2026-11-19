@@ -14,7 +14,7 @@ universe u
 variable {V : Type u} {Γ : SimpleGraph V} [Fintype V] [DecidableRel Γ.Adj]
   {c : Γ.Coloring (Fin 2)} {q : ℕ}
 
-private theorem neighborSet_subset_of_two_mem (hΓ : IsThasQuadrangle Γ c q) {E : Set V}
+private theorem neighborSet_subset_of_two_mem (_hΓ : IsThasQuadrangle Γ c q) {E : Set V}
     (hF : IsFullSubquadrangle c E q) {L a b : V} (haL : Γ.Adj L a) (hbL : Γ.Adj L b)
     (haE : a ∈ E) (hbE : b ∈ E) (hab : a ≠ b) : Γ.neighborSet L ⊆ E := by
   have hL1 : c L = 1 := color_eq_one_of_adj_of_color_eq_zero (hF.1 a haE) haL.symm
@@ -129,11 +129,11 @@ private theorem exists_opposite_pair_of_mem (hΓ : IsThasQuadrangle Γ c q) {E :
   have hL11 : c L1 = 1 := color_eq_one_of_adj_of_color_eq_zero hu0 huL1
   have hL21 : c L2 = 1 := color_eq_one_of_adj_of_color_eq_zero hu0 huL2
   have hN1 : 1 < (Γ.neighborSet L1).ncard := by
-    rw [SimpleGraph.ncard_neighborSet, hΓ.deg L1, if_neg (by rw [hL11]; decide)]
+    rw [SimpleGraph.ncard_neighborSet, hΓ.deg L1, ite_eq_right (by rw [hL11]; decide)]
     nlinarith [hq]
   obtain ⟨x, hxN1, hxu⟩ := Set.exists_ne_of_one_lt_ncard hN1 u
   have hN2 : 1 < (Γ.neighborSet L2).ncard := by
-    rw [SimpleGraph.ncard_neighborSet, hΓ.deg L2, if_neg (by rw [hL21]; decide)]
+    rw [SimpleGraph.ncard_neighborSet, hΓ.deg L2, ite_eq_right (by rw [hL21]; decide)]
     nlinarith [hq]
   obtain ⟨y, hyN2, hyu⟩ := Set.exists_ne_of_one_lt_ncard hN2 u
   have hxE : x ∈ E := hL1full hxN1
@@ -153,7 +153,8 @@ private theorem exists_opposite_pair_of_mem (hΓ : IsThasQuadrangle Γ c q) {E :
   refine ⟨x, y, hxE, hyE, hxy, ?_⟩
   exact ⟨by rw [SimpleGraph.dist_comm]; exact hux, by rw [SimpleGraph.dist_comm]; exact huy⟩
 
-private theorem mem_E_of_mem_val_image {E : Set V} (hF : IsFullSubquadrangle c E q)
+omit [DecidableRel Γ.Adj] [Fintype V] in
+private theorem mem_E_of_mem_val_image {E : Set V} (_hF : IsFullSubquadrangle c E q)
     {X : Set (subquadrangleSet Γ c E)} {v : V}
     (hv : v ∈ Subtype.val '' X) (hv0 : c v = 0) : v ∈ E := by
   obtain ⟨a, -, rfl⟩ := hv

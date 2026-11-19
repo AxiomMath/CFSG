@@ -90,7 +90,7 @@ theorem isSPLBlockType_of_le_inf (D : D1SPLPairData p P M H R Rbar K z) {L : Sub
   have hUL : U ≤ L := by
     rintro _ ⟨_, ⟨q, -, rfl⟩, rfl⟩
     exact Subgroup.mem_subgroupOf.mp q.2
-  have hUp : IsPGroup p U := (Q.isPGroup'.map _).map _
+  have hUp : IsPGroup p U := (Q.isPGroup.map _).map _
   have : IsCyclic U := D.data.isCyclic_of_le_d1PlusCore (hUL.trans hLN) hUp
   let e : (Q : Subgroup ↥(L.subgroupOf M)) ≃* U :=
     ((Q : Subgroup _).equivMapOfInjective _ (L.subgroupOf M).subtype_injective).trans

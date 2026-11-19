@@ -71,7 +71,7 @@ theorem card_normalizer_le (u : G) :
     if h : ∃ n, f n = q then h.choose else 1
   have hr : ∀ n, f (r (f n)) = f n := fun n => by
     have h : ∃ m, f m = f n := ⟨n, rfl⟩
-    simp only [r, dif_pos h]
+    simp only [r, dite_eq_left h]
     exact h.choose_spec
   have hcen : ∀ a b : (normalizer (zpowers u : Set G)), f a = f b →
       ((a : G)⁻¹ * b) ∈ centralizer {u} := fun a b h => by
@@ -89,6 +89,7 @@ theorem card_normalizer_le (u : G) :
     exact Subtype.ext (mul_left_cancel h2)
   exact (Nat.card_le_card_of_injective F hF).trans_eq (Nat.card_prod _ _)
 
+omit [Finite G] in
 theorem not_dvd_card_orbit {p : ℕ} {u : G} (hu : orderOf u = p) (hG : ¬ p ^ 2 ∣ Nat.card G)
     {x : α} (hx : u • x = x) : ¬ p ∣ Nat.card (orbit G x) := by
   intro hd

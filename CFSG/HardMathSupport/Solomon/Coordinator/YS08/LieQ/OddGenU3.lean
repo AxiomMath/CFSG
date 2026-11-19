@@ -128,7 +128,7 @@ theorem u3_aut_eq_one_of_fix (hp : p ≠ 2) {z : MulAut (hypPSU h 1 1)}
 theorem sylowRigid_hypPSU_three (hp : p ≠ 2) [Finite (hypPSU h 1 1)] :
     SylowRigid p (hypPSU h 1 1) := by
   have hpp : p.Prime := h.prime
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   obtain ⟨-, -, -, -, ⟨SP, hSP⟩, -, -⟩ := unitary_order_and_Sylow h (r := 1) (ε := 1) le_rfl le_rfl
   refine SylowRigid.of_one SP fun z hz hcop => u3_aut_eq_one_of_fix hp hcop fun g hg => ?_
   refine hz _ ?_
@@ -149,7 +149,7 @@ theorem sylowRigid_of_PSU_three (hq2 : q ≠ 2) {f : ℕ} {S : Type} [Group S] [
   have hh : UnitaryFieldData q f K := ⟨Fact.out, hf, by rw [hcard, ← pow_mul, mul_comm]⟩
   obtain ⟨R, hR⟩ := exists_isHypTransport (r := 1) (ε := 1) hh
   let e' : hypPSU hh 1 1 ≃* S := (hypPSUEquivStatedProj hh hR (by norm_num)).trans e.symm
-  haveI : Finite (hypPSU hh 1 1) := Finite.of_equiv S e'.symm.toEquiv
+  have : Finite (hypPSU hh 1 1) := Finite.of_equiv S e'.symm.toEquiv
   exact (sylowRigid_hypPSU_three (h := hh) hq2).of_mulEquiv e'
 
 end Model

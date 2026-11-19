@@ -245,6 +245,7 @@ theorem OddSetup.not_mem_QB_of_dual {V V' : Subgroup G} (S : OddSetup M Q Z B V 
     have : b ∈ V ⊓ V' := ⟨hbV, h1⟩
     rwa [S.int] at this
 
+omit [Finite G] in
 theorem c4_core {V V' : Subgroup G} (S : OddSetup M Q Z B V V') {g x z' : G} (hxQ : x ∉ Q)
     (hx'Q : g⁻¹ * x * g ∈ Q) (hx'1 : g⁻¹ * x * g ≠ 1) (hz''Q : g⁻¹ * z' * g ∈ Q)
     (hz''Z : g⁻¹ * z' * g ∉ Z) (hz''V : g⁻¹ * z' * g ∈ V)

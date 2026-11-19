@@ -14,7 +14,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem pGroupExtraspecialOmegaOne : PGroupExtraspecialOmegaOne G := by
   intro p hp _ Y C hY hY2 hCY hR2 x hx hxp
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp1 := hp.one_lt
   have hYn : Y ≤ normalizer (C : Set G) :=
     (Subgroup.le_centralizer_iff.mp hCY).trans (Subgroup.centralizer_le_normalizer _)

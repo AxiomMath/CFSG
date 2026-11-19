@@ -15,7 +15,8 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMo
   ∀ u w : V, B u w = 0 → ((ρ u = u ∧ ρ w = -w) ∨ (ρ u = -u ∧ ρ w = w)) →
     ∀ x, c (fgEichler B u w x) = fgEichler B u w (c x)
 
-theorem fg_exists_pair_ne (hB : B.Nondegenerate) (hsymm : ∀ x y, B x y = B y x)
+omit [FiniteDimensional (ZMod 3) V] in
+theorem fg_exists_pair_ne (hB : B.Nondegenerate) (_hsymm : ∀ x y, B x y = B y x)
     (hρ2 : ∀ v, ρ (ρ v) = v) (hρB : ∀ x y, B (ρ x) (ρ y) = -B x y) {w : V}
     (hw : w ∈ fgMinus ρ) (hw0 : w ≠ 0) : ∃ y ∈ fgPlus ρ, B w y ≠ 0 := by
   have hcompl := fg_isCompl_plus_minus (ρ := ρ) hρ2
@@ -34,7 +35,7 @@ theorem fg_exists_pair_ne (hB : B.Nondegenerate) (hsymm : ∀ x y, B x y = B y x
 
 theorem fg_exists_orth_pair (hB : B.Nondegenerate) (hsymm : ∀ x y, B x y = B y x)
     (hρ2 : ∀ v, ρ (ρ v) = v) (hρB : ∀ x y, B (ρ x) (ρ y) = -B x y)
-    (hdim : Module.finrank (ZMod 3) V = 6) {u x : V} (hu : u ∈ fgPlus ρ) (hx : x ∈ fgPlus ρ) :
+    (hdim : Module.finrank (ZMod 3) V = 6) {u x : V} (_hu : u ∈ fgPlus ρ) (_hx : x ∈ fgPlus ρ) :
     ∃ w ∈ fgMinus ρ, w ≠ 0 ∧ B u w = 0 ∧ B x w = 0 := by
   have hfm : Module.finrank (ZMod 3) (fgMinus ρ) = 3 :=
     (fg_finrank_plus_minus hB hsymm hρ2 hρB hdim).2
@@ -56,6 +57,7 @@ theorem fg_exists_orth_pair (hB : B.Nondegenerate) (hsymm : ∀ x y, B x y = B y
   intro h
   exact hw0 (Subtype.ext h)
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma fg_mem_plus_of_forall (hB : B.Nondegenerate) (hsymm : ∀ x y, B x y = B y x)
     (hρ2 : ∀ v, ρ (ρ v) = v) (hρB : ∀ x y, B (ρ x) (ρ y) = -B x y)
     {z : V} (hz : ∀ y ∈ fgPlus ρ, B z y = 0) : z ∈ fgPlus ρ := by
@@ -78,7 +80,7 @@ private lemma fg_mem_plus_of_forall (hB : B.Nondegenerate) (hsymm : ∀ x y, B x
 
 private lemma fg_exists_plus_orth (hB : B.Nondegenerate) (hsymm : ∀ x y, B x y = B y x)
     (hρ2 : ∀ v, ρ (ρ v) = v) (hρB : ∀ x y, B (ρ x) (ρ y) = -B x y)
-    (hdim : Module.finrank (ZMod 3) V = 6) {w : V} (hw : w ∈ fgMinus ρ) :
+    (hdim : Module.finrank (ZMod 3) V = 6) {w : V} (_hw : w ∈ fgMinus ρ) :
     ∃ u ∈ fgPlus ρ, u ≠ 0 ∧ B u w = 0 := by
   have hfp : Module.finrank (ZMod 3) (fgPlus ρ) = 3 :=
     (fg_finrank_plus_minus hB hsymm hρ2 hρB hdim).1
@@ -94,7 +96,8 @@ private lemma fg_exists_plus_orth (hB : B.Nondegenerate) (hsymm : ∀ x y, B x y
   · have h : f u = 0 := LinearMap.mem_ker.mp hu
     simpa [f] using h
 
-private lemma fg_exists_minus_pair_ne (hB : B.Nondegenerate) (hsymm : ∀ x y, B x y = B y x)
+omit [FiniteDimensional (ZMod 3) V] in
+private lemma fg_exists_minus_pair_ne (hB : B.Nondegenerate) (_hsymm : ∀ x y, B x y = B y x)
     (hρ2 : ∀ v, ρ (ρ v) = v) (hρB : ∀ x y, B (ρ x) (ρ y) = -B x y)
     {u : V} (hu : u ∈ fgPlus ρ) (hu0 : u ≠ 0) : ∃ x ∈ fgMinus ρ, B u x ≠ 0 := by
   have hcompl := fg_isCompl_plus_minus (ρ := ρ) hρ2
@@ -111,6 +114,7 @@ private lemma fg_exists_minus_pair_ne (hB : B.Nondegenerate) (hsymm : ∀ x y, B
   rw [← hab, map_add, fg_plus_isotropic hρB hu ha, zero_add] at hz
   exact hz
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma fg_block_eq (hsymm : ∀ x y, B x y = B y x)
     (hρB : ∀ x y, B (ρ x) (ρ y) = -B x y)
     {c : V →ₗ[ZMod 3] V} (hc : FGEichlerComm B ρ c)
@@ -214,6 +218,7 @@ theorem fg_scalar_minus (hB : B.Nondegenerate) (hsymm : ∀ x y, B x y = B y x)
     simpa [f] using h
   exact hx'
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma fgPlus_neg : fgPlus (-ρ) = fgMinus ρ := by
   unfold fgPlus fgMinus
   have h : -ρ - LinearMap.id = -(ρ + LinearMap.id) := by
@@ -223,6 +228,7 @@ private lemma fgPlus_neg : fgPlus (-ρ) = fgMinus ρ := by
     abel
   rw [h, LinearMap.ker_neg]
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma fgMinus_neg : fgMinus (-ρ) = fgPlus ρ := by
   unfold fgMinus fgPlus
   have h : -ρ + LinearMap.id = -(ρ - LinearMap.id) := by
@@ -232,6 +238,7 @@ private lemma fgMinus_neg : fgMinus (-ρ) = fgPlus ρ := by
     abel
   rw [h, LinearMap.ker_neg]
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma fgEichlerComm_neg {c : V →ₗ[ZMod 3] V} (hc : FGEichlerComm B ρ c) :
     FGEichlerComm B (-ρ) c := by
   intro u w huw h

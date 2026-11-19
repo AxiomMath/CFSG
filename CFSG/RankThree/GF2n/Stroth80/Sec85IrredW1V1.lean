@@ -37,8 +37,8 @@ theorem sec8_irred_W1V1 (h34 : Stroth34Statement) (hRoot : Stroth310RootStatemen
     · exact ⟨4, Or.inr ⟨h1, rfl⟩, h2⟩
   have hm2 : 2 ≤ m := by omega
   obtain ⟨K, fK, finK, hchar, φ, hn, ψ, u, u', hpts, -⟩ := sec8_natdata h34 hRoot hs hr hmSp
-  haveI := hn
-  haveI := hchar
+  have := hn
+  have := hchar
   have hInv := fun ρ hρ => sec8InvStatement_holds G M Q Z B hc n t hs r hr ρ hρ
   have hP : ∀ ρ ∈ Rt M (LB M Q B) t, ∀ y ∈ Sec8W1 M Q Z B t r,
       ρ * y * ρ⁻¹ ∈ Sec8W1 M Q Z B t r :=

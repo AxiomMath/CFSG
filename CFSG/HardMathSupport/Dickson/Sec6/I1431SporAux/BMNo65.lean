@@ -29,8 +29,8 @@ theorem commute_conj_of_commute {a b : G} (h : a * b = b * a) (c : G) :
 theorem exists_fixed_of_prime [Finite G] {p : ℕ} (hp : p.Prime) {a : G} (ha : orderOf a = p)
     {F : Set G} (hF : ∀ g ∈ zpowers a, ∀ s ∈ F, g * s * g⁻¹ ∈ F) (hdvd : ¬ p ∣ F.ncard) :
     ∃ s ∈ F, a * s = s * a := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  letI : MulAction (zpowers a) F := conjAction (zpowers a) F hF
+  have : Fact p.Prime := ⟨hp⟩
+  let : MulAction (zpowers a) F := conjAction (zpowers a) F hF
   have hP : IsPGroup p (zpowers a) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, ha, pow_one])
   have hcard : ¬ p ∣ Nat.card F := by rwa [Nat.card_coe_set_eq]
@@ -108,7 +108,7 @@ section BabyMonster
 
 theorem noOrder65_B : NoOrder 65 NativeSporadic.B := by
   intro g hg
-  haveI hfin : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
+  have hfin : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
   have hp2 : ¬ 13 ^ 2 ∣ Nat.card NativeSporadic.B := by
     rw [CFSG.RankThree.OddKernel.card_B_eq]
     norm_num

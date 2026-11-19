@@ -100,7 +100,7 @@ theorem levTwoS3f4_partOf_eq
     partOf kacF4 (D : Set (Option (Fin (Tag.rank Tag.F4)))) (l : ℤ) =
       ↑(levTwoS3f4_patSet (levTwoS3f4_maskOf D) l) := by
   ext β
-  rw [partOf, Set.mem_setOf_eq]
+  rw [partOf, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨hroot, hnorm⟩
     have hβ : IsRoot Tag.F4 β := hroot.1

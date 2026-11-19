@@ -83,7 +83,7 @@ theorem key_of_cx {K K' : Subgroup G} {z : G}
     have hR'syl : IsSylow2In F.ρ'.R K' := by rw [← hρ'K]; exact F.ρ'.hRK
     have hc2 : Commutes F.ρ.R F.ρ'.R :=
       CFSG.ClassicalInvolution.Q8P.Asc77.HypOmegaMod.commutes_of_twin_of_isPGroup hΩ hK hK' hKK'.symm hz hz' (hρK ▸ F.ρ.hRK.1)
-        (hρ'K ▸ F.ρ'.hRK.1) (S.isPGroup'.to_le (sup_le hρS hρ'S))
+        (hρ'K ▸ F.ρ'.hRK.1) (S.isPGroup.to_le (sup_le hρS hρ'S))
     have hCx' : ∀ x ∈ F.ρ.R, ∀ y ∈ F.ρ'.R, x ∈ W₁ → y ∈ W₁ → orderOf x = 4 → orderOf y = 4 →
         Subgroup.centralizer ({x * y} : Set G) ≤ H :=
       hCx F.ρ.R F.ρ'.R hRsyl hR'syl hc2

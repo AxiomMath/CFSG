@@ -51,7 +51,7 @@ theorem exists_centConfig_of_kfact {X : Type} [Group X] [Finite X] {D E : Subgro
   have hπ : π = false → UnitaryFieldData p f K := fun h => by subst h; exact hK.unitary
   have hq' : π = false → ModThree false (p ^ f) := fun h => by subst h; exact hq
   have hperf := Sec13.isPerfect_projImage_slPi hK hq2
-  haveI hsimp := Sec8.Item8KFacts2Proof.isSimpleGroup_projImage_slPi hK hq2
+  have hsimp := Sec8.Item8KFacts2Proof.isSimpleGroup_projImage_slPi hK hq2
   have hMq : CFSG.IsQuasisimple (projImage (slPi π 3 (p ^ f) K)) :=
     (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup
       (Sec8.Item8KFacts2Proof.exists_ne_comm_of_isPerfect hperf)).1

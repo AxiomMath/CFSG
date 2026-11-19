@@ -15,6 +15,7 @@ variable {G : Type} [Group G] [Finite G] {n p : ℕ} {M L V : Subgroup G}
 
 namespace OutT
 
+omit [Finite G] in
 theorem act_mul (d : O6NatData G n L V) (hMV : M ≤ normalizer (V : Set G)) {m m' : G} (hm : m ∈ M)
     (hm' : m' ∈ M) (hmm' : m * m' ∈ M) (x : Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2 → d.F) :
     d.act (m * m') (hMV hmm') x = d.act m (hMV hm) (d.act m' (hMV hm') x) := by
@@ -26,6 +27,7 @@ theorem act_mul (d : O6NatData G n L V) (hMV : M ≤ normalizer (V : Set G)) {m 
   rw [O6NatData.rho_apply, O6NatData.rho_apply, O6NatData.rho_apply] at h2
   exact h2
 
+omit [Finite G] in
 theorem act_eq_of_mem_centralizer (d : O6NatData G n L V) (hMV : M ≤ normalizer (V : Set G))
     {m : G} (hm : m ∈ M) (hc : m ∈ centralizer (V : Set G))
     (x : Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2 → d.F) : d.act m (hMV hm) x = x := by
@@ -69,6 +71,7 @@ theorem act_eq_of_mem_centralizer (d : O6NatData G n L V) (hMV : M ≤ normalize
         d.act a.1 (hMV (hAM a.2)) (d.act b.1 (hMV (hAM b.2)) x)
       exact act_mul d hMV (hAM a.2) (hAM b.2) (hAM (a * b).2) x)
 
+omit [Finite G] in
 theorem linHom_apply (d : O6NatData G n L V) (hMV : M ≤ normalizer (V : Set G)) {A : Subgroup G}
     (hAM : A ≤ M) (hL : LinAct d hMV A hAM) (a : ↥A)
     (x : Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2 → d.F) :
@@ -82,6 +85,7 @@ theorem linHom_apply (d : O6NatData G n L V) (hMV : M ≤ normalizer (V : Set G)
   rfl
 
 
+omit [Finite G] in
 theorem act_involution (d : O6NatData G n L V) (hMV : M ≤ normalizer (V : Set G)) {a : G}
     (ha : a ∈ M) (haa : a * a = 1) (x : Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2 → d.F) :
     d.act a (hMV ha) (d.act a (hMV ha) x) = x := by
@@ -93,11 +97,12 @@ theorem act_involution (d : O6NatData G n L V) (hMV : M ≤ normalizer (V : Set 
   simp only [Equiv.Perm.mul_apply, Equiv.Perm.one_apply] at h'
   exact h'
 
+omit [Finite G] in
 theorem act_smul_of_involution (d : O6NatData G n L V) (hn : 1 ≤ n) (hLM : L ≤ M)
     (hML : M ≤ normalizer (L : Set G)) (hMV : M ≤ normalizer (V : Set G)) {a : G} (ha : a ∈ M)
     (haa : a * a = 1) (c : d.F) (x : Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2 → d.F) :
     d.act a (hMV ha) (c • x) = c • d.act a (hMV ha) x := by
-  haveI := d.charP hn
+  have := d.charP hn
   obtain ⟨θ, hθ⟩ := d.act_semilinear hn hLM hML hMV ha
   by_cases hθid : θ = RingHom.id d.F
   · rw [hθ c x, hθid]
@@ -109,15 +114,16 @@ theorem act_smul_of_involution (d : O6NatData G n L V) (hn : 1 ≤ n) (hLM : L �
 
 end OutT
 
+omit [Finite G] in
 theorem O6NatData.outer_rank (d : O6NatData G n L V) (hn : 1 ≤ n) (hLM : L ≤ M)
     (hML : M ≤ normalizer (L : Set G)) (hMV : M ≤ normalizer (V : Set G)) {A : Subgroup G}
     (hAM : A ≤ M) (hA : IsElemAbelian 2 A) (hAL : ¬ A ≤ L ⊔ (M ⊓ centralizer (V : Set G))) :
     (A ⊓ (M ⊓ centralizer (V : Set G))).relIndex A ≤ 2 ^ (3 * n + 1) := by
-  haveI := d.charP hn
+  have := d.charP hn
   have hsq : ∀ {a : G}, a ∈ A → a * a = 1 := fun {a} ha => by
     rw [← pow_two]
     exact hA.2 a ha
-  haveI := hA.1
+  have := hA.1
   have hL : OutT.LinAct d hMV A hAM := fun a ha c x =>
     OutT.act_smul_of_involution d hn hLM hML hMV (hAM ha) (hsq ha) c x
   set lin := OutT.linHom d hMV hAM hL with hlin
@@ -154,7 +160,7 @@ theorem O6NatData.outer_rank (d : O6NatData G n L V) (hn : 1 ≤ n) (hLM : L ≤
     exact hh'
   have hEnot : ¬ E ≤ StatedOmega (StatedQuadMinus 3 d.F d.b d.c) := by
     intro hle
-    obtain ⟨a, haA, haLC⟩ := SetLike.not_le_iff_exists.mp hAL
+    obtain ⟨a, haA, haLC⟩ := IsConcreteLE.not_le_iff_exists.mp hAL
     have hgΩ : lin ⟨a, haA⟩ ∈ StatedOmega (StatedQuadMinus 3 d.F d.b d.c) :=
       hle ⟨⟨a, haA⟩, rfl⟩
     obtain ⟨l, hl⟩ := d.ε_surj ⟨_, hgΩ⟩

@@ -84,7 +84,7 @@ theorem delta_le_nWK {A M X : Subgroup G}
 
 theorem a_le_nWK {A X K Y M T : Subgroup G} (hC : Ctx155 A X K Y M T) :
     A ≤ nWK (w155 A M X) (pPrimeCoreOf 3 M) :=
-  le_nWK (fun a ha => hC.mem_m.2 (le_sup_left (b := Y) ha)) (le_normalizer_delta M)
+  le_nWK (fun _a ha => hC.mem_m.2 (le_sup_left (b := Y) ha)) (le_normalizer_delta M)
     (Sylow155B1.le_normalizer_x hC)
 
 section Kernel

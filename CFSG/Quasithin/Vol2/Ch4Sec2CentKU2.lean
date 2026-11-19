@@ -25,7 +25,7 @@ private theorem card_eq_sq_of_naturalSection_CentKU2 {A V Z : Subgroup G} {N : S
     rw [← MonoidHom.ker_eq_bot_iff, hβker, hZ, Subgroup.bot_subgroupOf]
   rw [Nat.card_congr (MulEquiv.ofBijective β ⟨hinj, hβ⟩).toEquiv]
   show Nat.card (Fin 2 → F) = Fintype.card F ^ 2
-  simp [Nat.card_fun, Nat.card_eq_fintype_card]
+  simp [Nat.card_eq_fintype_card]
 
 omit [Finite G] in
 private theorem card_eq_sixteen_of_altNaturalSection_CentKU2 {A V Z : Subgroup G}
@@ -38,7 +38,7 @@ private theorem card_eq_sixteen_of_altNaturalSection_CentKU2 {A V Z : Subgroup G
   show Nat.card (AltHeart 5) = 16
   rw [← Nat.card_congr (Equiv.ofBijective _
     (CFSG.Quasithin.altHeart_mk_bijective (by decide : Odd 5)))]
-  rw [CFSG.HardMathSupport.Cooperstein.Proving.card_evenWeight 5 (by norm_num)] <;> norm_num
+  rw [CFSG.HardMathSupport.Cooperstein.Proving.card_evenWeight 5 (by norm_num)]; norm_num
 
 omit [Finite G] in
 private theorem psl2_order_strictMono_CentKU2 {a b : ℕ} (hab : a < b) :
@@ -103,7 +103,7 @@ theorem isC134Case2_of_conf (s : Setting28 T M L Mm I H K n)
       obtain ⟨-, halt⟩ := hB
       have hV' := card_eq_sixteen_of_altNaturalSection_CentKU2 halt hV
       rw [s.hVcard] at hV'
-      have h2 : 2 ^ (4 * n) = 2 ^ 4 := by rw [hV'] <;> norm_num
+      have h2 : 2 ^ (4 * n) = 2 ^ 4 := by rw [hV']; norm_num
       have h3 : 4 * n = 4 := Nat.pow_right_injective (le_refl 2) h2
       exfalso
       omega

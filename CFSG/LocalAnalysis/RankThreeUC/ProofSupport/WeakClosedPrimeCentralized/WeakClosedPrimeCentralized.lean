@@ -24,10 +24,10 @@ theorem centralizes {G : Type*} [Group G] [Finite G] {p : ℕ} (hp : p.Prime)
     have heq := hweak g hle
     have : x ∈ conjSubgroup P₀ g := by rw [heq]; exact hx
     rwa [mem_conjSubgroup_iff] at this
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Group.IsNilpotent P := hP.isNilpotent
+  have : Fact p.Prime := ⟨hp⟩
+  have : Group.IsNilpotent P := hP.isNilpotent
   let Q : Subgroup P := P₀.subgroupOf P
-  haveI : Q.Normal := ⟨fun x hx g => by
+  have : Q.Normal := ⟨fun x hx g => by
     have := hconj g g.2 x (by simpa [Q, Subgroup.mem_subgroupOf] using hx)
     simpa [Q, Subgroup.mem_subgroupOf] using this⟩
   have hQ : Q ≠ ⊥ := by

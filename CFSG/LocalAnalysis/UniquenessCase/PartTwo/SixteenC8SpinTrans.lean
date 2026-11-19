@@ -31,13 +31,13 @@ private theorem sixteenC8SpinTrans_zmod2_eq_one {t : ZMod 2} (h : t ≠ 0) : t =
 private theorem sixteenC8SpinTrans_frameE_ne_zero (k : Fin 4) : frameE (ZMod 2) k ≠ 0 := by
   intro h
   have h1 := polar_frameE_frameF (K := ZMod 2) k k
-  rw [h, polar_zero_left, if_pos rfl] at h1
+  rw [h, polar_zero_left, ite_eq_left rfl] at h1
   exact zero_ne_one h1
 
 private theorem sixteenC8SpinTrans_frameF_ne_zero (k : Fin 4) : frameF (ZMod 2) k ≠ 0 := by
   intro h
   have h1 := polar_frameF_frameE (K := ZMod 2) k k
-  rw [h, polar_zero_left, if_pos rfl] at h1
+  rw [h, polar_zero_left, ite_eq_left rfl] at h1
   exact zero_ne_one h1
 
 set_option maxRecDepth 100000 in
@@ -141,7 +141,7 @@ private theorem sixteenC8SpinTrans_exists_singular_orthogonal (v : Fin (2 * 4) �
         sixteenC8SpinTrans_zmod2_eq_one (fun hk => hcon ⟨k, hk⟩)
       have hzero : ∑ k : Fin 4, coordX (ZMod 2) v k = 0 := by
         rw [Finset.sum_congr rfl (fun k _ => hx1 k)]
-        simp only [Finset.sum_const, Finset.card_univ, Fintype.card_fin, smul_eq_mul, mul_one]
+        simp only [Finset.sum_const, Finset.card_univ, Fintype.card_fin]
         decide
       rw [hzero] at hsum
       exact zero_ne_one hsum
@@ -283,16 +283,16 @@ private noncomputable def sixteenC8SpinTrans_zeroOrSing :
   left_inv x := by
     by_cases h : (x : Fin (2 * 4) → ZMod 2) = 0
     · dsimp only
-      rw [dif_pos h]
+      rw [dite_eq_left h]
       exact Subtype.ext h.symm
     · dsimp only
-      rw [dif_neg h]
+      rw [dite_eq_right h]
   right_inv y := by
     rcases y with z | u
     · dsimp only
-      rw [dif_neg z.2.1]
+      rw [dite_eq_right z.2.1]
     · dsimp only
-      rw [dif_pos (rfl : (0 : Fin (2 * 4) → ZMod 2) = 0)]
+      rw [dite_eq_left (rfl : (0 : Fin (2 * 4) → ZMod 2) = 0)]
 
 private theorem sixteenC8SpinTrans_card_singular :
     Nat.card {v : Fin (2 * 4) → ZMod 2 //
@@ -332,7 +332,7 @@ private theorem sixteenC8SpinTrans_card_nonsing_spinW :
     coordinateQuadPlus 4 (ZMod 2) w ≠ 0} = 120
   exact sixteenC8SpinTrans_card_nonsing
 
-private noncomputable def sixteenC8SpinTrans_ptCentEquiv {w : SpinW} (hw : spinQ w ≠ 0) :
+private noncomputable def sixteenC8SpinTrans_ptCentEquiv {w : SpinW} (_hw : spinQ w ≠ 0) :
     ↥(MulAction.stabilizer ↥spinH w) ≃* ↥(ptCent spinH w) :=
   let S : Subgroup (MulAut SpinW) := MulAction.stabilizer (MulAut SpinW) w
   let e3 : ↥(S.subgroupOf spinH) ≃* ↥(MulAction.stabilizer ↥spinH w) :=

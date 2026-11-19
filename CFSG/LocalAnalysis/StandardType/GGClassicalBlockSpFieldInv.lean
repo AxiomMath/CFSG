@@ -133,7 +133,7 @@ theorem isMulCommutative_centralizer_of_fieldInv_Sp {K : Type} [Field K] [Fintyp
     intro x _ y _
     apply Units.ext
     exact Subsingleton.elim _ _
-  · letI : Algebra (ZMod 2) K := ZMod.algebra K 2
+  · let : Algebra (ZMod 2) K := ZMod.algebra K 2
     have hσ2 : ∀ x : K, σ (σ x) = x := ggJSa1_sigma_sq σ A hinv hn
     have hAA : A * A.map σ.toRingHom = 1 := ggJSa1_AA σ A hA hinv hσ2 hn
     have hfix' : ∀ g ∈ (Subgroup.centralizer {b}).comap (StatedSp n K).subtype,
@@ -145,10 +145,10 @@ theorem isMulCommutative_centralizer_of_fieldInv_Sp {K : Type} [Field K] [Fintyp
       exact hfix (g : GL (Fin n ⊕ Fin n) K) hgGL
     obtain ⟨K₀, hK₀field, hK₀fin, hK₀char, b₀, hb₀, hodd₀, hcard, hIso, hblockExp⟩ :=
       descent_centralizer_Sp σ hσ hσ2 A hA hAA b hb hodd hfix'
-    letI : Field K₀ := hK₀field
-    letI : Fintype K₀ := hK₀fin
-    letI : CharP K₀ 2 := hK₀char
-    letI : Algebra (ZMod 2) K₀ := ZMod.algebra K₀ 2
+    let : Field K₀ := hK₀field
+    let : Fintype K₀ := hK₀fin
+    let : CharP K₀ 2 := hK₀char
+    let : Algebra (ZMod 2) K₀ := ZMod.algebra K₀ 2
     obtain ⟨e⟩ := hIso
     have hfK : Fintype.card K = 2 ^ Module.finrank (ZMod 2) K :=
       (FiniteField.pow_finrank_eq_card 2 K).symm

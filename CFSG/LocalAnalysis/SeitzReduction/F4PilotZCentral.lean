@@ -22,10 +22,10 @@ theorem card_le_two_of_normal_of_oddCore_eq_bot (hO : oddCore Q = ⊥) {C : Subg
   obtain ⟨S⟩ : Nonempty (Sylow 2 C) := inferInstance
   have hScard : Nat.card S ≤ 2 := by
     rw [← card_map_of_injective C.subtype_injective]
-    exact h2 _ (S.isPGroup'.map _) (map_subtype_le _)
+    exact h2 _ (S.isPGroup.map _) (map_subtype_le _)
   have hScyc : IsCyclic (S : Subgroup C) := by
     refine isCyclic_of_card_dvd_prime (p := 2) ?_
-    obtain ⟨k, hk⟩ := S.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := S.isPGroup.exists_card_eq
     rw [hk] at hScard ⊢
     rcases k with _ | _ | k
     · exact one_dvd _

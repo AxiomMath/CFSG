@@ -47,7 +47,7 @@ private lemma commute_E_zpowers_t_of_center (h : Ctx t L S x₁ x₂ lam rho tau
   exact (hta.symm.zpow_right k).eq
 
 private lemma conj_mem_sup_zpowers_of_center (h : Ctx t L S x₁ x₂ lam rho tau)
-    (h43 : twoCore t = zpowers t) {𝒮 E : Subgroup G} (hS𝒮 : S ≤ 𝒮) (hE𝒮 : E ≤ 𝒮)
+    (h43 : twoCore t = zpowers t) {𝒮 E : Subgroup G} (_hS𝒮 : S ≤ 𝒮) (hE𝒮 : E ≤ 𝒮)
     (hEn : (E.subgroupOf 𝒮).Normal) (hES : E ≤ S) {Es : Subgroup G}
     (hEs : Es = E ⊔ zpowers t) (hcl : closure {t, (x₁ * x₂) ^ 2} ≤ Es)
     {β : G} (hβ : β ∈ ctxS1 S 𝒮) : ∀ x, x ∈ Es → β * x * β⁻¹ ∈ Es := by

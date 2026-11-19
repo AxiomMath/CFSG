@@ -60,7 +60,7 @@ private theorem conjE_conj_mul {G : Type*} [Group G] {E : Subgroup G} (a b : G) 
 
 private theorem kcard_le {G : Type*} [Group G] {E : Subgroup G} [Finite E] (T : Subgroup G)
     (g : G) : kcard E T g ≤ Nat.card E := by
-  haveI : Finite ↥(conjE E g) :=
+  have : Finite ↥(conjE E g) :=
     ((Set.toFinite (E : Set G)).image (MulAut.conj g).toMonoidHom).to_subtype
   rw [kcard_def]
   calc Nat.card ↥(conjE E g ⊓ T) ≤ Nat.card ↥(conjE E g) := Subgroup.card_le_of_le inf_le_left
@@ -163,7 +163,7 @@ private theorem exists_conj_le_modelHomE6
     {A : Subgroup (WeylGroup .E6)}
     (hA3 : ∀ a ∈ A, a ^ 3 = 1) :
     ∃ w, A.map (MulAut.conj w).toMonoidHom ≤ modelHomE6.range := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hP : IsPGroup 3 A := by
     rw [IsPGroup.iff_orderOf]
     intro a
@@ -531,12 +531,12 @@ private theorem exists_z_of_maximal
         z * (h * y * h⁻¹) * z⁻¹ = h * y * h⁻¹ ∧
         (∀ x ∈ conjE (conjE E g) h, z * x * z⁻¹ ∈ monomialSubgroup .E6 L) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hEggSub : ((conjE E g ⊓ torusGroup .E6 L : Subgroup (ModGL .E6 L)) : Set (ModGL .E6 L)) ⊆
       (conjE E g : Set (ModGL .E6 L)) := fun _ hx => hx.1
-  haveI : Finite ↥(conjE E g ⊓ torusGroup .E6 L) :=
+  have : Finite ↥(conjE E g ⊓ torusGroup .E6 L) :=
     ((hEfin.image (MulAut.conj g).toMonoidHom).subset hEggSub).to_subtype
-  letI : Fintype ↥(conjE E g ⊓ torusGroup .E6 L) :=
+  let : Fintype ↥(conjE E g ⊓ torusGroup .E6 L) :=
     Fintype.ofFinite ↥(conjE E g ⊓ torusGroup .E6 L)
   obtain ⟨a, h, ha, hhG, hhcomm, hhyT⟩ :=
     exists_toral_conj hℓ hEab hyEgg hyN hweyl
@@ -585,7 +585,7 @@ private theorem no_gE6_of_maximal
   obtain ⟨hzhgG, hzhgN⟩ := mul_mul_mem_and_conjE_le_monomialSubgroup hzG hhG hgG hzB
   have hzhgSub : ((conjE E (z * h * g) ⊓ torusGroup .E6 L : Subgroup (ModGL .E6 L)) :
         Set (ModGL .E6 L)) ⊆ (conjE E (z * h * g) : Set (ModGL .E6 L)) := fun _ hx => hx.1
-  haveI : Finite ↥(conjE E (z * h * g) ⊓ torusGroup .E6 L) :=
+  have : Finite ↥(conjE E (z * h * g) ⊓ torusGroup .E6 L) :=
     ((hEfin.image (MulAut.conj (z * h * g)).toMonoidHom).subset hzhgSub).to_subtype
   have hcardlt : Nat.card ↥(conjE E g ⊓ torusGroup .E6 L) <
       Nat.card ↥(conjE E (z * h * g) ⊓ torusGroup .E6 L) :=
@@ -673,8 +673,8 @@ private theorem exists_maximal_monomial_conj
       ∀ g' ∈ adjointGroup .E6 L, conjE E g' ≤ monomialSubgroup .E6 L →
         kcard E (torusGroup .E6 L) g' ≤ kcard E (torusGroup .E6 L) g := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite E := hEfin.to_subtype
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite E := hEfin.to_subtype
   obtain ⟨c, hcG, hcN⟩ :=
     CFSG.HardMathSupport.Timmesfeld.CrossChar.exists_conj_le_monomial_bar
       (τ := .E6) (p := 3) hℓ halg hE hEfin (fun x hx => hEab.2 x hx)

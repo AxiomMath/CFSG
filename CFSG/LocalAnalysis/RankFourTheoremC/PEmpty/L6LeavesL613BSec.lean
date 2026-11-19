@@ -41,7 +41,7 @@ theorem card_dvd_pi_aux {ι : Type} [Finite ι] [DecidableEq ι] {C : ι → Typ
       have hd := L613.IsSecOf.card_dvd hsec
       rwa [Subgroup.card_top] at hd
     · have hKtop : g.ker.map ψ = ⊤ := by
-        haveI : (g.ker.map ψ).Normal := Subgroup.Normal.map inferInstance ψ hψ
+        have : (g.ker.map ψ).Normal := Subgroup.Normal.map inferInstance ψ hψ
         rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (g.ker.map ψ) with hb | ht
         · exfalso
           apply hK
@@ -73,7 +73,7 @@ theorem card_dvd_pi_of_isSecOf {ι : Type} [Finite ι] {C : ι → Type} [∀ i,
     (he : Function.Injective e) {S : Type} [Group S] [IsSimpleGroup S] {U : Subgroup Q}
     (hU : L613.IsSecOf U S) : ∃ i, Nat.card S ∣ Nat.card (C i) := by
   classical
-  haveI : Fintype ι := Fintype.ofFinite ι
+  have : Fintype ι := Fintype.ofFinite ι
   obtain ⟨H, -, ψ, hψ⟩ := hU
   obtain ⟨i, -, hi⟩ := card_dvd_pi_aux (S := S) Finset.univ ↥H (e.comp H.subtype)
     (he.comp H.subtype_injective) ψ hψ (fun _ i hi => absurd (Finset.mem_univ i) hi)
@@ -85,12 +85,12 @@ theorem card_dvd_component_of_simple_quotient {Y K : Type} [Group Y] [Finite Y] 
     (hzD : z ∉ D) (hzL : F z ∈ CFSG.layer K) :
     ∃ C : ComponentIndex K, Nat.card (Y ⧸ D) ∣ Nat.card C.1 := by
   classical
-  haveI hLn : (CFSG.layer K).Normal := ⟨fun n hn g => conj_mem_layer g hn⟩
+  have hLn : (CFSG.layer K).Normal := ⟨fun n hn g => conj_mem_layer g hn⟩
   let φ : Y →* Y ⧸ D := QuotientGroup.mk' D
   have hφs : Function.Surjective φ := QuotientGroup.mk'_surjective D
   let T : Subgroup Y := (CFSG.layer K).comap F
-  haveI hTn : T.Normal := Subgroup.Normal.comap hLn F
-  haveI hφT : (T.map φ).Normal := Subgroup.Normal.map hTn φ hφs
+  have hTn : T.Normal := Subgroup.Normal.comap hLn F
+  have hφT : (T.map φ).Normal := Subgroup.Normal.map hTn φ hφs
   have hzT : z ∈ T := hzL
   have htop : T.map φ = ⊤ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (T.map φ) with hb | ht

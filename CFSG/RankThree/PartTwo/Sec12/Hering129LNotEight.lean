@@ -37,7 +37,7 @@ theorem psl28ProperSolvable_holds : Psl28ProperSolvable := by
   have hs := CFSG.SignalizerFunctorTheorem.CatalogBridge.proper_subgroup_solvable_psl2_even
     (p := 3) Nat.prime_three (by decide) _ hne
   have e' := H.equivMapOfInjective e.toMonoidHom e.injective
-  haveI := hs
+  have := hs
   exact Group.isSolvable_of_isSolvable_injective (f := e'.toMonoidHom) e'.injective
 
 end Dickson
@@ -60,7 +60,7 @@ theorem isSolvable_of_isSLThreePiAt_two {X : Type} [Group X] (h : Sec4.IsSLThree
       CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow (a := 3) (b := 3)
         Nat.prime_two Nat.prime_three (by norm_num)
         (by rw [← Nat.card_eq_fintype_card, hc]; norm_num)
-    haveI := hsolv
+    have := hsolv
     exact Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective
 
 end SU2
@@ -75,8 +75,8 @@ theorem not_isSolvable_imageModTheta {Y X : Subgroup G} (hXY : X ≤ Y)
   intro hs
   set φ := Sec8.Item87Res2Proof.toQuot hXY with hφ
   have hrange : φ.range = Sec8.imageModTheta Y X := Sec8.Item87Res2Proof.range_toQuot hXY
-  haveI hs' : Group.IsSolvable ↥φ.range := by rw [hrange]; exact hs
-  haveI h1 : Group.IsSolvable (↥X ⧸ φ.ker) :=
+  have hs' : Group.IsSolvable ↥φ.range := by rw [hrange]; exact hs
+  have h1 : Group.IsSolvable (↥X ⧸ φ.ker) :=
     Group.isSolvable_of_isSolvable_injective (QuotientGroup.quotientKerEquivRange φ).injective
   have hker : φ.ker ≤ aschbacherSolvableCore 3 ↥X := Sec8.Item87Res2Proof.ker_toQuot_le hXY
   let ψ : (↥X ⧸ φ.ker) →* (↥X ⧸ aschbacherSolvableCore 3 ↥X) :=
@@ -85,11 +85,11 @@ theorem not_isSolvable_imageModTheta {Y X : Subgroup G} (hXY : X ≤ Y)
     intro y
     obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective y
     exact ⟨(x : ↥X ⧸ φ.ker), rfl⟩
-  haveI h2 : Group.IsSolvable (↥X ⧸ aschbacherSolvableCore 3 ↥X) :=
+  have h2 : Group.IsSolvable (↥X ⧸ aschbacherSolvableCore 3 ↥X) :=
     Group.isSolvable_of_surjective hψ
-  haveI : Nontrivial (↥X ⧸ aschbacherSolvableCore 3 ↥X) :=
+  have : Nontrivial (↥X ⧸ aschbacherSolvableCore 3 ↥X) :=
     CFSG.LocalCores.isQuasisimple_nontrivial hq
-  haveI : Group.IsPerfect (↥X ⧸ aschbacherSolvableCore 3 ↥X) := hq.1
+  have : Group.IsPerfect (↥X ⧸ aschbacherSolvableCore 3 ↥X) := hq.1
   exact Group.IsPerfect.not_isSolvable _ h2
 
 section Cert
@@ -139,9 +139,9 @@ theorem gap129YNotEightField_of (hKK : Gap129KFKStrong) (hP8 : Psl28ProperSolvab
         obtain ⟨y', hy', hyy'⟩ := this
         have : y' = y := e.injective hyy'
         exact this ▸ hy'
-      haveI hs := hP8 _ hmap
+      have hs := hP8 _ hmap
       let eC := C.equivMapOfInjective e.toMonoidHom e.injective
-      haveI hCs : Group.IsSolvable ↥C :=
+      have hCs : Group.IsSolvable ↥C :=
         Group.isSolvable_of_isSolvable_injective (f := eC.toMonoidHom) eC.injective
       exact hns (Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hle))
     have hfix : ∀ y, Sec4.thetaQuotMulAut Y (Sec4.compAction Y ⟨b, hbN⟩) y = y := fun y =>
@@ -157,7 +157,7 @@ theorem gap129YNotEightField_of (hKK : Gap129KFKStrong) (hP8 : Psl28ProperSolvab
     have h8 : (8 : ℕ) = 2 ^ (3 * 1) := by norm_num
     rw [h8] at hSL
     have hC := KFacts.isSLThreePiAt_barCentralizer_of_field (n := 1) le_rfl hSL hb3 (Or.inl hfield)
-    haveI hCs : Group.IsSolvable ↥(Sec8.barCentralizer (Subgroup.zpowers b) Y) :=
+    have hCs : Group.IsSolvable ↥(Sec8.barCentralizer (Subgroup.zpowers b) Y) :=
       isSolvable_of_isSLThreePiAt_two (by simpa using hC)
     exact hns (Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hle))
 

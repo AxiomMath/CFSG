@@ -21,8 +21,8 @@ theorem odFamily_linear {K : Type} [Field K] [Finite K] {p n : ℕ} (hp : p.Prim
       (GeneralLinearGroup.scalar (Fin n) : Kˣ →* GL (Fin n) K).range := by
   have hn5 : 5 ≤ n := hp5.trans (Nat.le_of_dvd hn0 hpn)
   have hn3 : 3 ≤ n := by omega
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hp2 : p ≠ 2 := by omega
   have key : ∀ B : GL (Fin n) K,
       B ^ p ∈ (GeneralLinearGroup.scalar (Fin n) : Kˣ →* GL (Fin n) K).range →
@@ -141,8 +141,8 @@ theorem od_linear_false {p n : ℕ} [hpp : Fact p.Prime] (hp5 : 5 ≤ p) {X : Ty
   have hn0 : 0 < n := by
     rcases Nat.eq_zero_or_pos n with rfl | hn0
     · obtain ⟨a, b, hab⟩ := hnab
-      haveI : Nontrivial L := ⟨⟨a, b, fun h => hab (by rw [h])⟩⟩
-      haveI : Subsingleton (StatedProj (StatedSL 0 K)) := inferInstance
+      have : Nontrivial L := ⟨⟨a, b, fun h => hab (by rw [h])⟩⟩
+      have : Subsingleton (StatedProj (StatedSL 0 K)) := inferInstance
       exact absurd e.injective.subsingleton (not_subsingleton _)
     · exact hn0
   let e' : L ≃* projectiveSL n K := e.trans (l212in_projectiveSLEquivStated n K).symm

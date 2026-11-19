@@ -64,7 +64,7 @@ theorem LiftHyp.locHyp (h : LiftHyp O L A n i e) :
       have := congrArg Subtype.val hgg
       simpa using this
     have hssO : s * s ∈ O := (QuotientGroup.eq_one_iff _).mp hss1
-    obtain ⟨k, hk⟩ := S.isPGroup' ⟨s, hs.1⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨s, hs.1⟩
     have hk' : (s * s) ^ (2 ^ k) = 1 := by
       have := congrArg Subtype.val hk
       simp only [Subgroup.coe_pow, OneMemClass.coe_one] at this

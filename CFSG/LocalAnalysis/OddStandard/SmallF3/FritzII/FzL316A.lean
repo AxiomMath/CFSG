@@ -53,7 +53,7 @@ theorem fzl_phi_map {G' : Type} [Group G'] (f : G →* G') (H : Subgroup G) :
   rw [Subgroup.map_sup, Subgroup.map_commutator, MonoidHom.map_closure, Set.image_image]
   congr 2
   ext x
-  simp [Set.mem_image, Subgroup.mem_map, map_pow]
+  simp [Set.mem_image, map_pow]
 
 private theorem fzl_map_eq_self {T S : Subgroup G} (h : FzCanon T S) (α : G ≃* G)
     (hα : ∀ g, g ∈ T ↔ α g ∈ T) : S.map α.toMonoidHom = S := by
@@ -131,17 +131,17 @@ theorem fzl_sylow_of_normalizer_le [Finite G] {N T : Subgroup G} (hTN : T ≤ N)
   obtain ⟨P, hTP⟩ := hT.exists_le_sylow (p := 2)
   have hPT : (P : Subgroup G) = T := by
     by_contra hne
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     let H : Subgroup (P : Subgroup G) := T.subgroupOf P
     have hHtop : H ≠ ⊤ := by
       intro htop
       exact hne (le_antisymm (Subgroup.subgroupOf_eq_top.mp htop) hTP)
     have hHlt : H < ⊤ := lt_top_iff_ne_top.mpr hHtop
-    haveI hfin : Finite (P : Subgroup G) := inferInstance
-    haveI hnil : Group.IsNilpotent (P : Subgroup G) := P.isPGroup'.isNilpotent
+    have hfin : Finite (P : Subgroup G) := inferInstance
+    have hnil : Group.IsNilpotent (P : Subgroup G) := P.isPGroup.isNilpotent
     have hnc : NormalizerCondition (P : Subgroup G) :=
       Group.normalizerCondition_of_isNilpotent
-    obtain ⟨x, hxN, hxH⟩ := SetLike.exists_of_lt (hnc H hHlt)
+    obtain ⟨x, hxN, hxH⟩ := _root_.IsConcreteLE.exists_of_lt (hnc H hHlt)
     have hxN' : ∀ y : (P : Subgroup G), y ∈ H ↔ x * y * x⁻¹ ∈ H :=
       Subgroup.mem_normalizer_iff.mp hxN
     let g : G := x
@@ -168,7 +168,7 @@ theorem fzl_sylow_of_normalizer_le [Finite G] {N T : Subgroup G} (hTN : T ≤ N)
     have hTM : T ≤ M := le_inf hTP hTN
     have hMN : M ≤ N := inf_le_right
     have hMP : M ≤ P := inf_le_left
-    have hM2 : IsPGroup 2 M := P.isPGroup'.to_le hMP
+    have hM2 : IsPGroup 2 M := P.isPGroup.to_le hMP
     obtain ⟨k, hk⟩ := hM2.exists_card_eq
     have hcard : T.relIndex M ∣ 2 ^ k := hk ▸ Subgroup.relIndex_dvd_card (H := T) (K := M)
     have hidx_dvd : T.relIndex M ∣ T.relIndex N :=

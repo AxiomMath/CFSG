@@ -18,8 +18,8 @@ open CFSG.HardMathSupport.Solomon.Coordinator (fixSubgroup)
 open CFSG.LocalAnalysis.GLTheoremA.Y10GField (InnDiagKind)
 
 private theorem i167CS_data_aux1 {K : Type} [Field K] [Finite K] {N : ℕ}
-    (hN : 1 ≤ N) (hcard : Nat.card K = 2 ^ N) : (2 : K) = 0 := by
-  haveI := Fintype.ofFinite K
+    (_hN : 1 ≤ N) (hcard : Nat.card K = 2 ^ N) : (2 : K) = 0 := by
+  have := Fintype.ofFinite K
   obtain ⟨q, hq, k, hqp, hqcard⟩ := FiniteField.card' K
   have hc2 := hcard
   rw [Nat.card_eq_fintype_card, hqcard] at hc2

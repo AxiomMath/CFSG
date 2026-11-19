@@ -40,7 +40,7 @@ private theorem le_ker_of_ne_top {J T : Type*} [Group J] [Group T]
     (hres : ∀ (N : Subgroup J) [N.Normal], IsPGroup 2 (J ⧸ N) → N = ⊤)
     (α : J →* T) (hα : Function.Surjective α) (hP : CFSG.pCore 2 J ≤ α.ker)
     (hZ : Subgroup.center T = ⊥) (C : Subgroup J) [C.Normal] (hC : C ≠ ⊤) : C ≤ α.ker := by
-  haveI hCn : (C.map (QuotientGroup.mk' (CFSG.pCore 2 J))).Normal :=
+  have hCn : (C.map (QuotientGroup.mk' (CFSG.pCore 2 J))).Normal :=
     Subgroup.Normal.map ‹_› _ (QuotientGroup.mk'_surjective _)
   rcases normal_le_center_or_eq_top hq (C.map (QuotientGroup.mk' (CFSG.pCore 2 J))) with h | h
   · intro c hc
@@ -117,9 +117,11 @@ private structure Ctx (J₁ J₂ X : Subgroup G) : Prop where
   leX : J₁ ≤ X
   hU : blockU J₁ = ⁅blockQ J₂, J₁⁆
 
+omit [Finite G] in
 private theorem Ctx.blockU_le (c : Ctx J₁ J₂ X) : blockU J₁ ≤ blockU J₂ :=
   TildeULin.blockU_le_blockU c.le c.hU
 
+omit [Finite G] in
 private theorem conj_mem_blockU_of_mem {A : Subgroup G} {x : G} (hx : x ∈ A) {w : G}
     (hw : w ∈ blockU A) : x * w * x⁻¹ ∈ blockU A :=
   (Subgroup.mem_normalizer_iff.mp (Subgroup.normalizer_commutator_ge_right (blockQ A) A hx) w).mp hw
@@ -127,6 +129,7 @@ private theorem conj_mem_blockU_of_mem {A : Subgroup G} {x : G} (hx : x ∈ A) {
 private noncomputable def ρ₁ (hJ₁X : J₁ ≤ X) : ↥J₁ →* GLV V :=
   lin.ρ.comp (Subgroup.inclusion hJ₁X)
 
+omit [Finite G] [Finite V] in
 private theorem mem_img_iff (hJ₁X : J₁ ≤ X) (k : GLV V) :
     k ∈ lin.img J₁ ↔ ∃ j : ↥J₁, lin.ρ (Subgroup.inclusion hJ₁X j) = k := by
   constructor
@@ -138,14 +141,17 @@ private theorem mem_img_iff (hJ₁X : J₁ ≤ X) (k : GLV V) :
 private noncomputable def ρ₁' (hJ₁X : J₁ ≤ X) : ↥J₁ →* ↥(lin.img J₁) :=
   (lin.ρ₁ hJ₁X).codRestrict (lin.img J₁) fun j => (lin.mem_img_iff hJ₁X _).mpr ⟨j, rfl⟩
 
+omit [Finite G] [Finite V] in
 private theorem ρ₁'_surjective (hJ₁X : J₁ ≤ X) : Function.Surjective (lin.ρ₁' hJ₁X) := by
   rintro ⟨k, hk⟩
   obtain ⟨j, rfl⟩ := (lin.mem_img_iff hJ₁X k).mp hk
   exact ⟨j, rfl⟩
 
+omit [Finite G] [Finite V] in
 private theorem ker_ρ₁' (hJ₁X : J₁ ≤ X) : (lin.ρ₁' hJ₁X).ker = (lin.ρ₁ hJ₁X).ker :=
   MonoidHom.ker_codRestrict _ _ _
 
+omit [Finite G] [Finite V] in
 private theorem ker_ρ₁_ne_top (hJ₁X : J₁ ≤ X) (hirr : HasIrrTildeV (lin.img J₁)) :
     (lin.ρ₁ hJ₁X).ker ≠ ⊤ := by
   intro htop
@@ -161,21 +167,25 @@ private theorem ker_ρ₁_ne_top (hJ₁X : J₁ ≤ X) (hirr : HasIrrTildeV (lin
   rw [hcomm] at hlt
   exact not_lt_bot hlt
 
+omit [Finite V] in
 private theorem vec_mem_commSpace (c : Ctx J₁ J₂ X) (u : ↥(blockU J₂)) (hu : (u : G) ∈ blockU J₁) :
     lin.vec u ∈ commSpace (lin.img J₁) ⊤ := by
   rw [lin.commSpace_img_eq c.h2 c.h1 c.leX c.le c.hU]
   exact Submodule.subset_span ⟨u, hu, rfl⟩
 
+omit [Finite V] in
 private theorem exists_vec_eq (c : Ctx J₁ J₂ X) (w : V) (hw : w ∈ commSpace (lin.img J₁) ⊤) :
     ∃ u : ↥(blockU J₂), (u : G) ∈ blockU J₁ ∧ lin.vec u = w := by
   rw [lin.commSpace_img_eq c.h2 c.h1 c.leX c.le c.hU] at hw
   exact (lin.mem_vecImg_iff c.blockU_le w).mp hw
 
+omit [Finite G] [Finite V] in
 private theorem vec_one : lin.vec (1 : ↥(blockU J₂)) = 0 := by
   show Multiplicative.toAdd (lin.π 1) = 0
   rw [map_one]
   rfl
 
+omit [Finite V] in
 private theorem mem_blockZ_iff (c : Ctx J₁ J₂ X) (u : ↥(blockU J₂)) (hu : (u : G) ∈ blockU J₁) :
     (u : G) ∈ blockZ J₁ ↔ lin.vec u ∈ fixedSpace (lin.img J₁) := by
   rw [← lin.vec_mem_tildeVBot_iff c.h2 c.h1 c.leX c.le c.hU u hu]
@@ -192,10 +202,12 @@ private noncomputable def uHom (c : Ctx J₁ J₂ X) :
     refine congrArg Multiplicative.ofAdd (Subtype.ext ?_)
     exact lin.vec_mul (Subgroup.inclusion c.blockU_le u) (Subgroup.inclusion c.blockU_le v)
 
+omit [Finite V] in
 private theorem uHom_apply (c : Ctx J₁ J₂ X) (u : ↥(blockU J₁)) :
     ((Multiplicative.toAdd (lin.uHom c u) : ↥(commSpace (lin.img J₁) ⊤)) : V) =
       lin.vec (Subgroup.inclusion c.blockU_le u) := rfl
 
+omit [Finite V] in
 private theorem uHom_surjective (c : Ctx J₁ J₂ X) : Function.Surjective (lin.uHom c) := by
   intro w
   obtain ⟨u, hu, hw⟩ := lin.exists_vec_eq c (Multiplicative.toAdd w : ↥(commSpace (lin.img J₁) ⊤))
@@ -205,6 +217,7 @@ private theorem uHom_surjective (c : Ctx J₁ J₂ X) : Function.Surjective (lin
   apply Subtype.ext
   exact hw
 
+omit [Finite V] in
 private theorem mem_blockZ_of_uHom_eq_one (c : Ctx J₁ J₂ X) (u : ↥(blockU J₁))
     (hu : lin.uHom c u = 1) : (u : G) ∈ blockZ J₁ := by
   have h0 : lin.vec (Subgroup.inclusion c.blockU_le u) = 0 :=
@@ -212,6 +225,7 @@ private theorem mem_blockZ_of_uHom_eq_one (c : Ctx J₁ J₂ X) (u : ↥(blockU 
   exact (lin.mem_blockZ_iff c (Subgroup.inclusion c.blockU_le u) u.2).mpr
     (by rw [h0]; exact Submodule.zero_mem _)
 
+omit [Finite V] in
 private theorem tildeVWitness_of_blockWitness (c : Ctx J₁ J₂ X) {T M : Type} [Group T]
     [AddGroup M] (R : T → M → M → Prop) (α : ↥J₁ →* T) (hα : Function.Surjective α)
     (hαk : (lin.ρ₁ c.leX).ker ≤ α.ker) (β : ↥(blockU J₁) →* Multiplicative M)
@@ -289,6 +303,7 @@ private theorem tildeVWitness_of_blockWitness (c : Ctx J₁ J₂ X) {T M : Type}
     rw [hα', hβw, hβw', hβv]
     exact hR j u v rfl
 
+omit [Finite G] [Finite V] in
 private theorem exists_surjective_of_ker_le (c : Ctx J₁ J₂ X) {T : Type} [Group T]
     (α : ↥J₁ →* T) (hα : Function.Surjective α) (hαk : (lin.ρ₁ c.leX).ker ≤ α.ker) :
     ∃ α' : ↥(lin.img J₁) →* T, Function.Surjective α' := by
@@ -298,6 +313,7 @@ private theorem exists_surjective_of_ker_le (c : Ctx J₁ J₂ X) {T : Type} [Gr
   obtain ⟨j, rfl⟩ := hα t
   exact ⟨lin.ρ₁' c.leX j, MonoidHom.liftOfRightInverse_comp_apply _ _ _ _ j⟩
 
+omit [Finite V] in
 private theorem ker_le_of_blockWitness (c : Ctx J₁ J₂ X) {T M : Type} [Group T] [AddGroup M]
     (R : T → M → M → Prop) (hfaith : ∀ g : T, (∀ a : M, R g a a) → g = 1)
     (α : ↥J₁ →* T) (β : ↥(blockU J₁) →* Multiplicative M) (hβ : Function.Surjective β)
@@ -323,6 +339,7 @@ private theorem ker_le_of_blockWitness (c : Ctx J₁ J₂ X) {T M : Type} [Group
   have := hR x u v rfl
   rwa [hβvu, hu, toAdd_ofAdd] at this
 
+omit [Finite G] [Finite V] in
 private theorem ker_le_of_center_bot (c : Ctx J₁ J₂ X) (hirr : HasIrrTildeV (lin.img J₁))
     {T : Type} [Group T] (α : ↥J₁ →* T) (hα : Function.Surjective α)
     (hP : CFSG.pCore 2 ↥J₁ ≤ α.ker) (hZ : Subgroup.center T = ⊥) :
@@ -334,7 +351,7 @@ private theorem finrank_tildeV_img (c : Ctx J₁ J₂ X) {k : ℕ}
     (hk : CFSG.pRank 2 (tildeU J₁) = k) :
     Module.finrank (ZMod 2) (TildeV (lin.img J₁)) = k := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := isElementaryAbelian_tildeU c.h1
+  have := isElementaryAbelian_tildeU c.h1
   obtain ⟨n, hn⟩ := (CFSG.IsElementaryAbelian.isPGroup 2 (tildeU J₁)).exists_card_eq
   have hnk : n = k := (CFSG.pRank_eq_of_card_eq_pow one_lt_two hn).symm.trans hk
   let q : Submodule (ZMod 2) ↥(commSpace (lin.img J₁) ⊤) :=
@@ -367,6 +384,7 @@ private theorem finrank_tildeV_img (c : Ctx J₁ J₂ X) {k : ℕ}
   rw [← hnk]
   exact (Nat.pow_right_injective le_rfl hcard).symm
 
+omit [Finite V] in
 theorem isAltNaturalModule_img (h1 : IsFooteBlock J₁ J₁) (h2 : IsFooteBlock J₂ J₂)
     (hJ₁J₂ : J₁ ≤ J₂) (hJ₁X : J₁ ≤ X) (hU : blockU J₁ = ⁅blockQ J₂, J₁⁆) {n : ℕ} (hn : 6 ≤ n)
     (hA : IsAltNaturalType J₁ n) : IsAltNaturalModule (lin.img J₁) n := by
@@ -391,6 +409,7 @@ theorem isA7FourModule_img (h1 : IsFooteBlock J₁ J₁) (h2 : IsFooteBlock J₂
     (alternatingGroup.center_eq_bot (by simp))
   exact ⟨lin.exists_surjective_of_ker_le c α hα hker, lin.finrank_tildeV_img c hr⟩
 
+omit [Finite V] in
 theorem isOmegaPlusModule_img (h1 : IsFooteBlock J₁ J₁) (h2 : IsFooteBlock J₂ J₂)
     (hJ₁J₂ : J₁ ≤ J₂) (hJ₁X : J₁ ≤ X) (hU : blockU J₁ = ⁅blockQ J₂, J₁⁆) {m : ℕ}
     (hA : IsOmegaPlusType J₁ m) : IsOmegaPlusModule (lin.img J₁) m := by
@@ -403,6 +422,7 @@ theorem isOmegaPlusModule_img (h1 : IsFooteBlock J₁ J₁) (h2 : IsFooteBlock J
     (fun g hg => Subtype.ext (matrix_faithful _ fun a => hg a)) α β hβ hβk hR
   exact lin.tildeVWitness_of_blockWitness c R α hα hker β hβ hβk hR
 
+omit [Finite V] in
 theorem isOmegaMinusModule_img (h1 : IsFooteBlock J₁ J₁) (h2 : IsFooteBlock J₂ J₂)
     (hJ₁J₂ : J₁ ≤ J₂) (hJ₁X : J₁ ≤ X) (hU : blockU J₁ = ⁅blockQ J₂, J₁⁆) {m : ℕ}
     (hA : IsOmegaMinusType J₁ m) : IsOmegaMinusModule (lin.img J₁) m := by

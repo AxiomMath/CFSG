@@ -51,6 +51,7 @@ private lemma p12a_fourGrp_le_L (h : Ctx0 t L S x₁ x₂ lam rho) : fourGrp x�
   · exact (p12a_y_z_mem_L h).1
   · exact (p12a_y_z_mem_L h).2
 
+omit [Finite G] in
 private lemma p12a_ctxN_le_ctxX (t tau x₁ x₂ : G) :
     ctxN tau x₁ x₂ ≤ ctxX t tau x₁ x₂ := by
   rw [ctxN, ctxX]
@@ -62,6 +63,7 @@ private lemma p12a_ctxN_le_ctxX (t tau x₁ x₂ : G) :
   · exact Subgroup.subset_closure (by simp)
   · exact Subgroup.subset_closure (by simp)
 
+omit [Finite G] in
 private lemma p12a_mul_t_mul_t (t x y : G) (ht2 : t * t = 1) (hxt : x * t = t * x) :
     (t * x) * (t * y) = x * y := by
   calc (t * x) * (t * y) = ((t * x) * t) * y := by rw [← mul_assoc]
@@ -70,20 +72,24 @@ private lemma p12a_mul_t_mul_t (t x y : G) (ht2 : t * t = 1) (hxt : x * t = t * 
     _ = ((t * t) * x) * y := by rw [← mul_assoc t t x]
     _ = x * y := by rw [ht2, one_mul]
 
+omit [Finite G] in
 private lemma p12a_mul_mul_comm (t x y : G) (h : t * x = x * t) :
     t * (x * y) = x * (t * y) := by
   calc t * (x * y) = (t * x) * y := by rw [mul_assoc]
     _ = (x * t) * y := by rw [h]
     _ = x * (t * y) := by rw [mul_assoc]
 
+omit [Finite G] in
 private lemma p12a_mem_of_mem_pCoreOf {H : Subgroup G} {x : G}
     (hx : x ∈ CFSG.Open.pCoreOf 2 H) : x ∈ H :=
   Subgroup.map_subtype_le (CFSG.pCore 2 H) hx
 
+omit [Finite G] in
 private lemma p12a_wreath_x1_sq (h : WreathRel x₁ x₂ lam) : x₁ ^ 2 * x₁ ^ 2 = 1 := by
   have h4 : x₁ ^ 4 = 1 := by simpa [h.ord_x₁] using pow_orderOf_eq_one x₁
   rw [← pow_two, ← pow_mul, show (2 : ℕ) * 2 = 4 from rfl, h4]
 
+omit [Finite G] in
 private lemma p12a_wreath_x1x2_sq (h : WreathRel x₁ x₂ lam) :
     (x₁ * x₂) ^ 2 * (x₁ * x₂) ^ 2 = 1 := by
   have h4 : (x₁ * x₂) ^ 4 = 1 := by
@@ -109,6 +115,7 @@ private lemma p12a_tau_inv_x1x2 (hc : Ctx4 t L S x₁ x₂ lam rho tau) :
     _ = x₁⁻¹ * x₂⁻¹ := by rw [hc.tau_x₁, hc.tau_x₂]
     _ = (x₁ * x₂)⁻¹ := by rw [mul_inv_rev, h12]
 
+omit [Finite G] in
 private lemma p12a_conj_sq_eq_self (a tau : G) (hinv : tau * a * tau⁻¹ = a⁻¹)
     (h4 : a ^ 4 = 1) : tau * a ^ 2 * tau⁻¹ = a ^ 2 := by
   have hconj : tau * a ^ 2 * tau⁻¹ = (tau * a * tau⁻¹) ^ 2 := conj_pow.symm

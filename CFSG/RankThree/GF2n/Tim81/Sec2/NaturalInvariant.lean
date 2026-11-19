@@ -13,6 +13,7 @@ open scoped MatrixGroups
 variable {F : Type} [Field F] [Fintype F] [CharP F 2]
   {W : Type} [AddCommGroup W] [Module (ZMod 2) W]
 
+omit [Fintype F] [CharP F 2] in
 private theorem m4_fixedSub_iff_rootLine {ρ : Representation (ZMod 2) SL(2, F) W}
     {φ : W ≃+ (Fin 2 → F)}
     (hφ : ∀ g w, φ (ρ g w) = (g : Matrix (Fin 2) (Fin 2) F).mulVec (φ w))
@@ -33,6 +34,7 @@ private theorem m4_fixedSub_iff_rootLine {ρ : Representation (ZMod 2) SL(2, F) 
     simpa [smul_eq_mulVec'] using
       fixed_of_conj_mem x g ((hx g).mp hg) (φ w) hw
 
+omit [Fintype F] [CharP F 2] in
 private theorem m4_conj_normalizer {A : Subgroup SL(2, F)} {x : SL(2, F)}
     (hx : ∀ g, g ∈ A ↔ x⁻¹ * g * x ∈ (upperSylow (F := F) : Subgroup (SL(2, F))))
     {t : SL(2, F)}
@@ -53,18 +55,21 @@ private theorem m4_conj_normalizer {A : Subgroup SL(2, F)} {x : SL(2, F)}
     rw [hconj] at h1
     exact (hx g).mpr ((Subgroup.mem_normalizer_iff.mp ht (x⁻¹ * g * x)).mpr h1)
 
+omit [Fintype F] [CharP F 2] in
 private theorem m4_tMat_smul_apply_one (c : F) (hc : c ≠ 0) (v : Fin 2 → F) :
     (tMat c hc • v) 1 = c⁻¹ * v 1 := by
   have hv : v = ![v 0, v 1] := by
     ext i
     fin_cases i <;> simp
   rw [hv, smul_eq_mulVec', tMat_coe]
-  simp [Matrix.mulVec, Fin.sum_univ_two, hc]
+  simp [Matrix.mulVec]
 
+omit [Fintype F] [CharP F 2] in
 private theorem m4_smul_conj_single (x : SL(2, F)) (a : F) :
     x⁻¹ • (a • (x • (Pi.single 0 1 : Fin 2 → F))) = a • (Pi.single 0 1 : Fin 2 → F) := by
   rw [smul_eq_mulVec', Matrix.mulVec_smul, ← smul_eq_mulVec', inv_smul_smul]
 
+omit [Fintype F] [CharP F 2] in
 private theorem m4s_line_mem {ρ : Representation (ZMod 2) SL(2, F) W}
     {A : Subgroup SL(2, F)} {x : SL(2, F)} {φ : W ≃+ (Fin 2 → F)}
     {U : Submodule (ZMod 2) W} {ψ : W →+ (Fin 2 → F)}
@@ -80,6 +85,7 @@ private theorem m4s_line_mem {ρ : Representation (ZMod 2) SL(2, F) W}
     ⟨φ.symm (a • (x • (Pi.single 0 1 : Fin 2 → F))), le_of_lt hlt hmem, ?_⟩
   rw [hψ, AddEquiv.apply_symm_apply, m4_smul_conj_single]
 
+omit [CharP F 2] in
 private theorem m4s_tMat_mem [Algebra (ZMod 2) F]
     {ρ : Representation (ZMod 2) SL(2, F) W}
     {A : Subgroup SL(2, F)} {x : SL(2, F)} {φ : W ≃+ (Fin 2 → F)}
@@ -100,9 +106,9 @@ private theorem m4s_tMat_mem [Algebra (ZMod 2) F]
   rw [← huw]
   show ψ (ρ (x * tMat c hc * x⁻¹) u) = tMat c hc • ψ u
   rw [hψ, hφ, ← smul_eq_mulVec', hψ]
-  change x⁻¹ • ((x * tMat c hc * x⁻¹) • φ u) = tMat c hc • (x⁻¹ • φ u)
   rw [mul_smul, mul_smul, inv_smul_smul]
 
+omit [Fintype F] [CharP F 2] in
 private theorem m4s_exists_ne_zero {ρ : Representation (ZMod 2) SL(2, F) W}
     {A : Subgroup SL(2, F)} {x : SL(2, F)} {φ : W ≃+ (Fin 2 → F)}
     {U : Submodule (ZMod 2) W} {ψ : W →+ (Fin 2 → F)}
@@ -125,6 +131,7 @@ private theorem m4s_exists_ne_zero {ρ : Representation (ZMod 2) SL(2, F) W}
   rw [hφu, hv, smul_eq_mulVec', Matrix.mulVec_smul, ← smul_eq_mulVec']
   exact Submodule.smul_mem _ _ (smul_single_mem_rootLine x)
 
+omit [Fintype F] [CharP F 2] in
 private theorem m4s_eq_top_of_line_and_tMat {V : AddSubgroup (Fin 2 → F)}
     (hline : ∀ a : F, a • (Pi.single 0 1 : Fin 2 → F) ∈ V)
     (hV : ∀ (c : F) (hc : c ≠ 0), ∀ v ∈ V, tMat c hc • v ∈ V)
@@ -164,7 +171,7 @@ theorem IsNaturalModule.eq_top_of_normalizer_invariant
     (hU : ∀ n ∈ Subgroup.normalizer (A : Set (SL(2, F))), ∀ w ∈ U, ρ n w ∈ U)
     (hlt : fixedSub ρ A < U) : U = ⊤ := by
   classical
-  letI : Algebra (ZMod 2) F := ZMod.algebra F 2
+  let : Algebra (ZMod 2) F := ZMod.algebra F 2
   obtain ⟨φ, hφ⟩ := hρ
   obtain ⟨x, hx⟩ := eq_conj_rootGroup A hA2 hA
   let ψ : W →+ (Fin 2 → F) :=

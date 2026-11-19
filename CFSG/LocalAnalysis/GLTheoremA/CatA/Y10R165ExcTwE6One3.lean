@@ -125,8 +125,8 @@ theorem not_dvd_card_center_of_rk2Ord_one {k : Type} [Field k] [Finite k] {f p :
 theorem pRank_fixedGroup_eq_four {f p : ℕ} (hf : 1 ≤ f) (hp : p.Prime) (hp5 : 5 ≤ p)
     (he : orderOf (((2 ^ f : ℕ)) : ZMod p) = 1) :
     CFSG.Open.pRank p (⊤ : Subgroup ↥(fixedGroup (GaloisField 2 (2 * f)) (frobQ 2 f))) = 4 := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let k := GaloisField 2 (2 * f)
   let θ : k →+* k := frobQ 2 f
   have hk : Nat.card k = (2 ^ f) ^ 2 := by
@@ -187,7 +187,7 @@ theorem card_eq_pow_four_of_maximal_rank {f p : ℕ} (hf : 1 ≤ f) (hp : p.Prim
         _ = 4 := pRank_fixedGroup_eq_four hf hp hp5 he
     · rw [← pRank_fixedGroup_eq_four hf hp hp5 he]
       exact hmax
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨k, hk⟩ := GL83.CompFam.exists_card_eq_pow (p := p) hA
   have hk4 : k = 4 := by
     have h := pRank_elemAbelian_eq hp hA hk

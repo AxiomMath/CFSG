@@ -14,6 +14,7 @@ open CFSG.ClassicalInvolution.Q3.PhilipHall.Frame
 
 variable {G : Type} [Group G] [Finite G] {r : ℕ} {Ω P : Set (Subgroup G)} {E : Subgroup G}
 
+omit [Finite G] in
 theorem E8Struct.toTop {X : Subgroup G} (hE : E8Struct X E) :
     E8Struct (⊤ : Subgroup ↥X) (E.subgroupOf X) where
   le := le_top
@@ -71,6 +72,7 @@ namespace SecHyp
 variable (hP : SecHyp 3 Ω P) (hE : E8Struct (pSpan P) E)
 include hP hE
 
+omit [Finite G] in
 theorem e8_inv_mem {L : Subgroup G} (hL : L ∈ P) {u : G} (hu : IsUniqueInvolution L u) :
     u ∈ E := by
   obtain ⟨Q, hQX, hQn, hQ2, huQ⟩ := hP.e2 L hL u hu

@@ -93,7 +93,7 @@ theorem mem_range_heartRep_six
     intro σ hσ v
     show q (E (q.symm (altAct σ v))) = altAct σ (q (E (q.symm v)))
     rw [hqρ', hEcomm σ hσ, hqρ]
-  haveI : Nontrivial (sumZero 6 ⧸ onesLine 6) :=
+  have : Nontrivial (sumZero 6 ⧸ onesLine 6) :=
     Module.nontrivial_of_finrank_pos (R := ZMod 2) (by rw [finrank_heart_six]; norm_num)
   have hTsurj : ∀ x, ∃ x', Tl x' = x := fun x => ⟨((T⁻¹ : LinearMap.GeneralLinearGroup (ZMod 2)
     (sumZero 6 ⧸ onesLine 6)) : (sumZero 6 ⧸ onesLine 6) →ₗ[ZMod 2] (sumZero 6 ⧸ onesLine 6)) x, by

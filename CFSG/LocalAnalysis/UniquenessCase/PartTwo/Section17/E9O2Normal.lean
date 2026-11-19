@@ -104,10 +104,10 @@ theorem e9O2Normal_of_mulEquiv {M : Subgroup G} {A : Type} [Group A] {l f : ℕ}
     (eF : ↥(genFittingFStar (Bar2 M)) ≃*
       A × (Multiplicative (ZMod 3) × Multiplicative (ZMod 3))) : E9O2Normal M := by
   have hfinA : Finite A := by
-    haveI : Finite (A × E9) :=
+    have : Finite (A × E9) :=
       Finite.of_injective (fun x : A × E9 => eF.symm x) eF.symm.injective
     exact Finite.of_injective (fun a : A => (a, (1 : E9))) (fun a b h => by simpa using h)
-  haveI := hfinA
+  have := hfinA
   set F : Subgroup (Bar2 M) := CFSG.Open.genFittingFStar (Bar2 M) with hFdef
   have hFnormal : F.Normal := CFSG.ClassicalInvolution.genFittingFStar_normal (Bar2 M)
   have hcentA : Subgroup.center A = ⊥ := center_eq_bot_of_lieModel_psl2 hLieA
@@ -130,7 +130,7 @@ theorem e9O2Normal_of_mulEquiv {M : Subgroup G} {A : Type} [Group A] {l f : ℕ}
       hKdef.symm le_top
     exact Subgroup.Normal.mk fun n hn g =>
       (Subgroup.normal_subgroupOf_iff le_top).mp h n g hn trivial
-  haveI : (CFSG.pCore 2 ↥M).Normal := CFSG.pCore_normal
+  have : (CFSG.pCore 2 ↥M).Normal := CFSG.pCore_normal
   have hK3 : IsPGroup 3 ↥K := by
     refine IsPGroup.iff_card.mpr ⟨2, ?_⟩
     rw [hKcard]

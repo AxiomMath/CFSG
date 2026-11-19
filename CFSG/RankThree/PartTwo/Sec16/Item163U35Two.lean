@@ -30,7 +30,7 @@ private theorem exists_eq_conj_of_fix_of_card_nine {E : Subgroup Res3U35.PU5}
     intro y hy
     have hyE : g⁻¹ * y * g ∈ E := by
       rw [hg (g⁻¹ * y * g)]
-      convert hy using 1 <;> group
+      convert hy using 1; group
     have h1 := hσ _ hyE
     change MulAut.conj (MulAut.conj g) σ y = y
     simp only [MulAut.mul_apply, MulAut.inv_apply, MulAut.conj_apply, MulAut.conj_symm_apply]
@@ -49,7 +49,7 @@ private theorem exists_eq_conj_of_fix_of_card_nine {E : Subgroup Res3U35.PU5}
     (by rw [← hBτ]; exact hβfix _ (by simpa using Res3U35.mem_E0 0 1))
   have hge : g⁻¹ * e * g ∈ E := by
     rw [hg (g⁻¹ * e * g)]
-    convert he using 1 <;> group
+    convert he using 1; group
   refine ⟨g⁻¹ * e * g, hge, ?_⟩
   have hβe' : β = MulAut.conj e := hBτ.trans hβe
   have hβeq : β = (MulAut.conj g) * σ * (MulAut.conj g)⁻¹ := MulAut.conj_apply _ _
@@ -66,12 +66,12 @@ theorem exists_eq_conj_of_fix (h : Conf684 A c L Y) (σ : MulAut ↥L)
   obtain ⟨hLs, -, -, -, -, hT9, -, -⟩ :=
     Res163U35Facts.facts h.sec15R h.mem_y h.case3
   obtain ⟨inst5, ⟨φU⟩⟩ := h.case3.1
-  haveI := inst5
+  have := inst5
   have hUcard : Nat.card ↥(projSU 3 5 1) = 126000 := by
     rw [Nat.card_congr (Res3U35.equivPU).toEquiv, Res3U35.card_PU5]
-  haveI : Finite ↥(projSU 3 5 1) :=
+  have : Finite ↥(projSU 3 5 1) :=
     Nat.finite_of_card_ne_zero (by rw [hUcard]; norm_num)
-  haveI : Nontrivial ↥(projSU 3 5 1) :=
+  have : Nontrivial ↥(projSU 3 5 1) :=
     Finite.one_lt_card_iff_nontrivial.mp (by rw [hUcard]; norm_num)
   obtain ⟨ψL⟩ := Res163.nonempty_mulEquiv_of_isSimpleGroup hLs φU
   let ψ : ↥L ≃* Res3U35.PU5 := ψL.trans Res3U35.equivPU
@@ -98,7 +98,6 @@ theorem exists_eq_conj_of_fix (h : Conf684 A c L Y) (σ : MulAut ↥L)
     rw [show ((ψ.symm e : ↥L) : G) = (x : G) from congrArg Subtype.val ht]
     exact (Subgroup.mem_inf.mp (Subgroup.mem_subgroupOf.mp hxE)).1
   · apply (MulAut.congr ψ).injective
-    change MulAut.congr ψ σ = MulAut.congr ψ (MulAut.conj (ψ.symm e))
     have hcj : MulAut.congr ψ (MulAut.conj (ψ.symm e)) = MulAut.conj e := by
       have h1 : ψ (ψ.symm e) = e := MulEquiv.apply_symm_apply ψ e
       rw [← h1]
@@ -111,7 +110,7 @@ private theorem eq_one_of_mem_inf_centralizer (h : Conf684 A c L Y) {R : Subgrou
     (hR2 : IsPGroup 2 R) (hRc : R ≤ Subgroup.centralizer ({c} : Set G))
     {r : G} (hrR : r ∈ R) (hrCE : r ∈ Subgroup.centralizer ((A ⊓ L : Subgroup G) : Set G)) :
     r = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hrN : r ∈ Subgroup.normalizer (L : Set G) :=
     Proof1613.centralizer_le_normalizer_L h.sec15R.toSec14Std (hRc hrR)
   have hσfix : ∀ l : ↥L, (l : G) ∈ A → (L.normalizerMonoidHom ⟨r, hrN⟩) l = l := by
@@ -177,7 +176,7 @@ private theorem eq_one_of_mem_inf_centralizer (h : Conf684 A c L Y) {R : Subgrou
 theorem le_of_le_centralizer (h : Conf684 A c L Y) {R : Subgroup G} (hR2 : IsPGroup 2 R)
     (hRc : R ≤ Subgroup.centralizer ({c} : Set G))
     (hAR : A ⊓ L ≤ Subgroup.normalizer (R : Set G)) : R ≤ L := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hE3 : IsPGroup 3 ↥(A ⊓ L) := fun x => ⟨1, Subtype.ext (by
     have h1 := h.sec15R.toSec13Data.isElemAbelian.2 (x : G) (Subgroup.mem_inf.mp x.2).1
     simpa using h1)⟩
@@ -214,23 +213,25 @@ private theorem exists_model_equiv (h : Conf684 A c L Y) :
   obtain ⟨hLs, -, -, -, -, hT9, -, -⟩ :=
     Res163U35Facts.facts h.sec15R h.mem_y h.case3
   obtain ⟨inst5, ⟨φU⟩⟩ := h.case3.1
-  haveI := inst5
+  have := inst5
   have hUcard : Nat.card ↥(projSU 3 5 1) = 126000 := by
     rw [Nat.card_congr (Res3U35.equivPU).toEquiv, Res3U35.card_PU5]
-  haveI : Finite ↥(projSU 3 5 1) :=
+  have : Finite ↥(projSU 3 5 1) :=
     Nat.finite_of_card_ne_zero (by rw [hUcard]; norm_num)
-  haveI : Nontrivial ↥(projSU 3 5 1) :=
+  have : Nontrivial ↥(projSU 3 5 1) :=
     Finite.one_lt_card_iff_nontrivial.mp (by rw [hUcard]; norm_num)
   obtain ⟨ψ⟩ := Res163.nonempty_mulEquiv_of_isSimpleGroup hLs φU
   refine ⟨ψ, ?_⟩
   rw [Subgroup.card_map_of_injective ψ.injective,
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe inf_le_right).toEquiv, hT9]
 
+omit [Finite G] in
 private theorem card_map_subgroupOf {ψ : ↥L ≃* ↥(projSU 3 5 1)} {U : Subgroup G}
     (hUL : U ≤ L) : Nat.card ((U.subgroupOf L).map ψ.toMonoidHom) = Nat.card U := by
   rw [Subgroup.card_map_of_injective ψ.injective,
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hUL).toEquiv]
 
+omit [Finite G] in
 private theorem subgroupOf_le_normalizer {T V : Subgroup G} (hVL : V ≤ L)
     (hTV : T ≤ Subgroup.normalizer (V : Set G)) :
     T.subgroupOf L ≤ Subgroup.normalizer (V.subgroupOf L) := by
@@ -238,6 +239,7 @@ private theorem subgroupOf_le_normalizer {T V : Subgroup G} (hVL : V ≤ L)
   intro x hx
   exact hTV hx
 
+omit [Finite G] in
 private theorem map_subgroupOf_le_normalizer {ψ : ↥L ≃* ↥(projSU 3 5 1)} {T V : Subgroup G}
     (hVL : V ≤ L) (hTV : T ≤ Subgroup.normalizer (V : Set G)) :
     (T.subgroupOf L).map ψ.toMonoidHom ≤
@@ -245,6 +247,7 @@ private theorem map_subgroupOf_le_normalizer {ψ : ↥L ≃* ↥(projSU 3 5 1)} 
   (Subgroup.map_mono (subgroupOf_le_normalizer hVL hTV)).trans
     (Subgroup.le_normalizer_map ψ.toMonoidHom)
 
+omit [Finite G] in
 private theorem eq_of_map_subgroupOf_eq {ψ : ↥L ≃* ↥(projSU 3 5 1)} {U₁ U₂ : Subgroup G}
     (h₁ : U₁ ≤ L) (h₂ : U₂ ≤ L)
     (h : (U₁.subgroupOf L).map ψ.toMonoidHom = (U₂.subgroupOf L).map ψ.toMonoidHom) :
@@ -349,6 +352,7 @@ theorem nonempty_sup_mulEquiv (h : Conf684 A c L Y) (hK2 : KFacts.KS163U35KleinG
   exact ⟨((Subgroup.subgroupOfEquivOfLe (sup_le hV₁L hV₂L)).symm.trans
     (Subgroup.equivMapOfInjective _ _ ψ.injective)).trans (hsup'.symm ▸ e)⟩
 
+omit [Finite G] in
 private theorem card_sup_of_inf_eq_bot {A B : Subgroup G}
     (hAB : A ≤ Subgroup.normalizer (B : Set G)) (hbot : A ⊓ B = ⊥) :
     Nat.card (A ⊔ B : Subgroup G) = Nat.card A * Nat.card B := by
@@ -370,9 +374,9 @@ theorem eq_of_le_normalizer (h : Conf684 A c L Y) {J₁ J₂ : Subgroup G} (hJ�
   have hcardJ₂ : Nat.card J₂ = 2520 := by
     obtain ⟨e⟩ := hJ₂
     rw [Nat.card_congr e.toEquiv, hcardA7]
-  haveI : IsSimpleGroup (alternatingGroup (Fin 7)) :=
+  have : IsSimpleGroup (alternatingGroup (Fin 7)) :=
     alternatingGroup.isSimpleGroup (by norm_num)
-  haveI : IsSimpleGroup ↥J₁ := by
+  have : IsSimpleGroup ↥J₁ := by
     obtain ⟨e⟩ := hJ₁
     exact e.isSimpleGroup
   have hnorm : ((J₁ ⊓ J₂).subgroupOf J₁).Normal := by
@@ -382,7 +386,7 @@ theorem eq_of_le_normalizer (h : Conf684 A c L Y) {J₁ J₂ : Subgroup G} (hJ�
       simp only [Subgroup.mem_subgroupOf, Subgroup.mem_inf]
       exact ⟨fun hx => ⟨x.2, hx⟩, fun hx => hx.2⟩
     rwa [hsub] at h1
-  haveI := hnorm
+  have := hnorm
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((J₁ ⊓ J₂).subgroupOf J₁) with hbot | htop
   · exfalso
     have hinf : J₁ ⊓ J₂ = ⊥ := by

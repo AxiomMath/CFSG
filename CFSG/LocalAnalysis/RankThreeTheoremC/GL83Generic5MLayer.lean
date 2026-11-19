@@ -160,7 +160,7 @@ variable {G : Type} [Group G] [Finite G] {p : ℕ} {P : Sylow p G} {M : Subgroup
 
 theorem isSylowOf_of_sylow_le_of_le [Fact p.Prime] (Q : Sylow p G) {K : Subgroup G}
     (hQK : (Q : Subgroup G) ≤ K) : IsSylowOf p (Q : Subgroup G) K :=
-  isSylowOf_iff.mpr ⟨hQK, Q.isPGroup', fun h =>
+  isSylowOf_iff.mpr ⟨hQK, Q.isPGroup, fun h =>
     Q.not_dvd_index (h.trans (relIndex_dvd_index_of_le hQK))⟩
 
 omit [Finite G] in
@@ -178,7 +178,7 @@ theorem gen5_dichotomy_N (hG : Gen5Global G) (hl : Gen5Local G p P M x) {N : Sub
   set U := gen5U (P : Subgroup G) x
   set Z := centralizer ((gen5L x : Subgroup G) : Set G)
   have hUP : U ≤ P := inf_le_left
-  obtain ⟨Q, hQN, hUQ⟩ := exists_isSylowOf_ge_of_le hUN (P.isPGroup'.to_le hUP)
+  obtain ⟨Q, hQN, hUQ⟩ := exists_isSylowOf_ge_of_le hUN (P.isPGroup.to_le hUP)
   by_cases hQU : Q = U
   · exact Or.inl (hQU ▸ hQN)
   right
@@ -213,7 +213,7 @@ theorem gen5_dichotomy_N (hG : Gen5Global G) (hl : Gen5Local G p P M x) {N : Sub
     rw [mul_one, mul_inv_cancel] at hc
     rw [(inv_mul_eq_one.mp hc.symm).symm] at hqU
     exact hqU hu
-  obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp (P.isPGroup'.to_le (zpowers_le.mpr hz.1))
+  obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp (P.isPGroup.to_le (zpowers_le.mpr hz.1))
   have hn0 : n ≠ 0 := by
     rintro rfl
     rw [pow_zero, Nat.card_zpowers, orderOf_eq_one_iff] at hn

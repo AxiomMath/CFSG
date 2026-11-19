@@ -159,14 +159,14 @@ theorem exists_symm (α : Perm (Fin 4)) :
       have e : (MulAut.conj y).toMonoidHom (aF s w₀ w₁ x i) =
           aF s w₀ w₁ x (α i) *
             ((aF s w₀ w₁ x (α i))⁻¹ * (y * aF s w₀ w₁ x i * y⁻¹)) := by
-        simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply]
+        simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply]
         group
       rw [e]
       exact mul_mem (Subgroup.mem_sup_left (haA _))
         (Subgroup.mem_sup_right (F.ratio_mem_N0 α hyM hyC hyρ i))
     intro a ha
     have h := hle ha
-    rwa [Subgroup.mem_comap, MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe,
+    rwa [Subgroup.mem_comap, MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass,
       MulAut.conj_apply] at h
   obtain ⟨n, hn, -, hfix⟩ := exists_mul_normalizes_of_odd hA2 Z.N0_odd
     (fun a ha => C_le_normalizer_N0 Z (hAC ha)) (C_le_normalizer_N0 Z hyC) hyA

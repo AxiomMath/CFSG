@@ -53,7 +53,7 @@ theorem Hyp.filt (H : Hyp z t s f0 f2 q) : ∀ x : H6, x * z 0 = z 0 * x → x *
   intro x h0 h2 hsq h1 hz1
   have hx0 : x ∈ Subgroup.centralizer ({z 0} : Set H6) := by
     rw [Subgroup.mem_centralizer_singleton_iff]
-    first | exact h0 | exact h0.symm
+    first | exact h0
   obtain ⟨i, hi, ei⟩ := H.code_C hx0
   have hf := filt_all i hi
   unfold filtAt at hf
@@ -61,7 +61,7 @@ theorem Hyp.filt (H : Hyp z t s f0 f2 q) : ∀ x : H6, x * z 0 = z 0 * x → x *
   have hxi : x⁻¹ = x := inv_eq_of_mul_eq_one_right hsq
   have c1 : commF (enc6 x) (KS 3) = true := by
     rw [← H.ez2, commF_iff, Subgroup.mem_centralizer_singleton_iff]
-    first | exact h2 | exact h2.symm
+    first | exact h2
   have c2 : Nat.beq (MULF (enc6 x) (enc6 x)) ONE = true := by
     rw [← emul, hsq, enc_one]
     exact Nat.beq_refl _

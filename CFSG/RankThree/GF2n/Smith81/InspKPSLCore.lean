@@ -33,18 +33,17 @@ theorem card_pCoreOf_centralizer_mulEquiv {P Y : Type*} [Group P] [Group Y] (e :
 theorem isTransvection_transvection {n : ℕ} {F : Type} [Field F] {i j : Fin n} (hij : i ≠ j)
     {c : F} (hc : c ≠ 0) : IsTransvection (SpecialLinearGroup.transvection hij c) := by
   refine CFSG.CGT.T75P.isTransvection_of_apply _ (c • LinearMap.proj j) (Pi.single i 1) ?_ ?_ ?_
-  · simp [Pi.single_apply, hij.symm]
+  · simp [hij.symm]
   · intro x
     ext l
-    simp [SpecialLinearGroup.transvection_coe, Matrix.add_mulVec, Matrix.mulVec_single,
-      Pi.single_apply]
+    simp [SpecialLinearGroup.transvection_coe, Matrix.add_mulVec, Pi.single_apply]
     by_cases hl : l = i
     · subst hl
       simp [Matrix.mulVec, dotProduct, Matrix.single_apply]
-    · simp [Matrix.mulVec, dotProduct, Matrix.single_apply, hl, Ne.symm hl]
+    · simp [Matrix.mulVec, dotProduct, hl, Ne.symm hl]
   · intro h
     have := congrArg (fun g : SpecialLinearGroup (Fin n) F => (g : Matrix (Fin n) (Fin n) F) i j) h
-    simp [SpecialLinearGroup.transvection_coe, Matrix.one_apply, hij] at this
+    simp [SpecialLinearGroup.transvection_coe, hij] at this
     exact hc this
 
 

@@ -39,7 +39,7 @@ theorem exists_sylow_le_of_isPGroup {p : ℕ} (hp : p.Prime) {H T : Subgroup G} 
   obtain ⟨Q', hQ'⟩ := hT'.exists_le_sylow
   refine ⟨(Q' : Subgroup H).map H.subtype,
     fun b hb => ⟨⟨b, hTH hb⟩, hQ' (mem_subgroupOf.mpr hb), rfl⟩, map_subtype_le _,
-    Q'.isPGroup'.map H.subtype, ?_⟩
+    Q'.isPGroup.map H.subtype, ?_⟩
   have hQ : ((Q' : Subgroup H).map H.subtype).subgroupOf H = Q' := by
     rw [Subgroup.subgroupOf, comap_map_eq_self_of_injective H.subtype_injective]
   rw [hQ]

@@ -34,6 +34,7 @@ theorem NoTwoAut.of_mulEquiv {p : ℕ} {G H : Type*} [Group G] [Group H] (e : G 
 variable {S : Type} [Group S] [Finite S] {p : ℕ} {P : Subgroup (MulAut S)} {x u : MulAut S}
   {V : Subgroup (MulAut S)}
 
+omit [Finite S] in
 theorem mul_conj_mul_inv (σ : MulAut S) (g : S) :
     σ * MulAut.conj g * σ⁻¹ = MulAut.conj (σ g) := by
   apply MulEquiv.ext
@@ -58,7 +59,7 @@ theorem conj_injective (h : KF135Hyp S p P x u V) :
       intro y
       rw [MulAut.conj_apply, MulAut.one_apply, ← hg y, mul_inv_cancel_right]
   rw [hker]
-  haveI := h.simple
+  have := h.simple
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center S) with hc | hc
   · exact hc
   · exfalso

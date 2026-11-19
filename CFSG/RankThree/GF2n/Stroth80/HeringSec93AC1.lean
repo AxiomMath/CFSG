@@ -15,6 +15,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
 namespace HS9
 
+omit [Finite G] in
 theorem Q_le_conj_LB (hc : Ctx M Q Z B) {h : G} (hh : h ∈ M) :
     Q ≤ conjSubgroup h (LB M Q B) :=
   calc Q = conjSubgroup h Q := (hc.conj_Q_eq hh).symm
@@ -77,7 +78,7 @@ theorem exists_swap_of_line (h34 : Stroth34Statement) {hc : Ctx M Q Z B} {n : �
     (hs : Sec5Hyp hc n t) {h : G} (hh : h ∈ M)
     (hne : LB M Q B ≠ conjSubgroup h (LB M Q B)) (hline : LineGeom M Q Z B h) :
     ∃ w ∈ Xhat M Q B h, conjSubgroup w (LB M Q B) = conjSubgroup h (LB M Q B) := by
-  obtain ⟨g, hgL', hgN⟩ := SetLike.not_le_iff_exists.mp (not_conj_le_normalizer h34 hs hh hne)
+  obtain ⟨g, hgL', hgN⟩ := IsConcreteLE.not_le_iff_exists.mp (not_conj_le_normalizer h34 hs hh hne)
   have hgL : conjSubgroup g (LB M Q B) ≠ LB M Q B := fun e =>
     hgN (conjSubgroup_eq_self_iff.mp e)
   have hLconj : LB M Q (conjSubgroup h B) = conjSubgroup h (LB M Q B) := hc.LB_conj hh

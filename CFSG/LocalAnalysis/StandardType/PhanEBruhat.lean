@@ -295,11 +295,11 @@ theorem isBruhatPartition_bruhatCell
     (hext : SteinbergExtras D n H) :
     IsBruhatPartition (coxeterMatrix D.isFiniteType).toCoxeterSystem (borel D H)
       (bruhatCell hct) where
-  doubleCoset w := ⟨nrep hct w, q2nPE_cell_eq_mul hct w⟩
+  doubleCoset _w := ⟨nrep hct _w, q2nPE_cell_eq_mul hct _w⟩
   partition g := existsUnique_mem_bruhatCell hct hext g
   one := bruhatCell_one hct
-  inv w := q2nPE_inv_cell hct hext w
-  mul_of_length_add w i h := q2nPE_cell_mul_simple_add hct hext h
-  mul_of_length_sub w i h := q2nPE_cell_mul_simple_sub hct hext h
+  inv _w := q2nPE_inv_cell hct hext _w
+  mul_of_length_add _w _i h := q2nPE_cell_mul_simple_add hct hext h
+  mul_of_length_sub _w _i h := q2nPE_cell_mul_simple_sub hct hext h
 
 end CFSG.ClassicalInvolution.Phan.PhanE

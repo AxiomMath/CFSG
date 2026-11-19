@@ -51,11 +51,11 @@ theorem str83G4_z1_eq_inf_centralizer
   have hZ2ea : IsElemAbelian 2 (Z2 L1 L2 S) := isElemAbelian_z2
   have hE : IsElemAbelian 2 (Ch3z.chiefMod ⊥ (Z2 L1 L2 S)) :=
     isElemAbelian_chiefMod_bot hZ2ea
-  letI : CommGroup (Ch3z.chiefMod ⊥ (Z2 L1 L2 S)) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ (Z2 L1 L2 S))) := l2ChiefSectionModule hE
+  let : CommGroup (Ch3z.chiefMod ⊥ (Z2 L1 L2 S)) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ (Z2 L1 L2 S))) := l2ChiefSectionModule hE
   let hEV := CFSG.Quasithin.isElemAbelian_chiefMod hstep hVH hVea.isPGroup
-  letI : CommGroup (Ch3z.chiefMod ⊥ V) := l2ChiefSectionCommGroup hEV
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ V)) := l2ChiefSectionModule hEV
+  let : CommGroup (Ch3z.chiefMod ⊥ V) := l2ChiefSectionCommGroup hEV
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ V)) := l2ChiefSectionModule hEV
   have hO : pCoreOf 2 (L2 ⊔ S) ≤
       centralizerMod (⊥ : Subgroup G) (L2 ⊔ S) (Z2 L1 L2 S) := by
     intro x hx

@@ -35,7 +35,7 @@ theorem exists_conj_zpowers_fieldAut_of_card_seven {K : Type} [Field K] [Finite 
     ∃ (h : MulAut (projectiveSL 3 K)) (σ : K ≃+* K), orderOf σ = 7 ∧
       Nat.card K = Nat.card (semilinearFixedSubfield σ) ^ 7 ∧
       W = (Subgroup.zpowers (fieldAut 3 K σ)).map (MulAut.conj h).toMonoidHom := by
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   have hcyc : IsCyclic ↥W := isCyclic_of_prime_card hW
   obtain ⟨g, hg⟩ := hcyc.exists_generator
   have hordg : orderOf g = 7 := by
@@ -71,8 +71,8 @@ theorem exists_conj_zpowers_fieldAut_of_card_seven {K : Type} [Field K] [Finite 
       exact (orderOf_map_dvd (MulAut.conj : projectiveSL 3 K →* MulAut (projectiveSL 3 K)) t)
         |>.trans (orderOf_dvd_natCard t)
     exact h7 hdvd
-  letI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K (ringChar K) := ringChar.charP K
+  let : Fintype K := Fintype.ofFinite K
+  have : CharP K (ringChar K) := ringChar.charP K
   obtain ⟨f, hℓ, hcardf⟩ := FiniteField.card K (ringChar K)
   have hf : 1 ≤ (f : ℕ) := f.pos
   have hK : Nat.card K = ringChar K ^ (f : ℕ) := by

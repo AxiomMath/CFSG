@@ -37,7 +37,7 @@ theorem largeEvenLabelAll_torusGenTableB_uFour_of_two_le
   have hcov : UnitaryCoverAt lab.n 4 K := unitaryCoverAt_of_even hK hn ⟨2, rfl⟩ le_rfl
   have hL : GGTorusLift p (3 - 1) (LargeEvenProj (LargeEvenSUGroup (Fin 4) K (2 ^ lab.n))) := by
     have h := ggTorusLift_unitary (p := p) (d := 4) hK (by omega) (by norm_num) (by simp) hp hpn
-    rwa [ggUnitaryTorusRank, if_neg hp4] at h
+    rwa [ggUnitaryTorusRank, ite_eq_right hp4] at h
   exact ggTorusGenTableB_of_rk (r := 3) hp (by norm_num) hL
     (ggTorusGenTableBRk_PSU_coprime hK (by omega) (by norm_num) hp hpn hp4 hcov)
 

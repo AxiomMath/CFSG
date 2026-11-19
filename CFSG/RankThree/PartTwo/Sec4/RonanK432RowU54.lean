@@ -101,7 +101,7 @@ theorem outerRow_u54 [Finite (projSU 5 2 2)] : OuterRow (projSU 5 2 2) :=
 
 theorem row_u54 : RowOf (projSU 5 2 2) := by
   intro S _ _ _ _ ⟨e⟩
-  haveI : Finite (projSU 5 2 2) := Item434SmallTwoOther.UTools.finite_projSU_gf16 5
+  have : Finite (projSU 5 2 2) := Item434SmallTwoOther.UTools.finite_projSU_gf16 5
   exact GoodRow.of_mulEquiv e.symm ⟨listRow_u54, outerRow_u54⟩
 
 end CFSG.RankThree.PartTwo.Sec4.RonanK432

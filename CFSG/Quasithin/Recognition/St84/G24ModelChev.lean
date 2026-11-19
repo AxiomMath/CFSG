@@ -115,8 +115,7 @@ private theorem hY_eq (i : Fin 2) :
   have homega : F4.ω⁻¹ = F4.ω * F4.ω := rfl
   simp only [hY, torusElt, Subtype.coe_mk]
   rw [hneg1]
-  simp only [nY, xY, yY, Subgroup.coe_mul, Units.val_mul, coe_torusElt,
-    weylElt_eq_xUnit_mul, xUnit, yUnit, omegaU, inv_one, Units.val_one,
+  simp only [nY, xY, yY, Subgroup.coe_mul, Units.val_mul, weylElt_eq_xUnit_mul, xUnit, yUnit, omegaU, inv_one, Units.val_one,
     Units.val_inv_eq_inv_val, homega, CharTwo.neg_eq]
 
 private theorem T0_le_B0 : T0 ≤ B0 := posUnipotentSub_le_borelSub

@@ -46,7 +46,7 @@ private theorem seventeen_two_three_commutator_le_centralizer {D : Data G} {V A 
     ((Subgroup.normal_subgroupOf_iff_le_normalizer (sup_le hDM hO2)).1 hnormal)
   rw [barSub_sup_pCoreOf_eq_of_hyp125 hV hDM] at hnorm
   have hodd : Odd (Nat.card (barSub ⊥ V hVe Dsub)) := by
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hDbarp : IsPGroup p (barSub ⊥ V hVe Dsub) :=
       (hDp.comap_subtype (K := stabTil ⊥ V)).map (actTil ⊥ V hVe)
     obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 hDbarp
@@ -69,8 +69,8 @@ private theorem seventeen_two_three_C_H_isPGroup {D : Data G} {V Dsub : Subgroup
     (hDp : IsPGroup p Dsub) (hperm : Permutes Dsub D.T)
     (hDsubC : Dsub ⊓ centralizer (V : Set G) = ⊥) :
     IsPGroup 2 ↥((Dsub ⊔ D.T) ⊓ centralizer (V : Set G)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hVe : IsElemAbelian 2 V := hV.isElemAbelian
   have hMst : D.M ≤ stabTil ⊥ V :=
     le_stabTil hV.pairFacts.le_normalizer hV.pairFacts.le_normalizer₀
@@ -83,7 +83,7 @@ private theorem seventeen_two_three_C_H_isPGroup {D : Data G} {V Dsub : Subgroup
       (Nat.card ↥((Dsub ⊔ D.T) ⊓ centralizer (V : Set G))) with ⟨k, hk⟩ | ⟨q, hq, hqdvd, hqodd⟩
   · exact (IsPGroup.iff_card (p := 2)).2 ⟨k, hk⟩
   · exfalso
-    haveI : Fact q.Prime := ⟨hq⟩
+    have : Fact q.Prime := ⟨hq⟩
     obtain ⟨y, hyord⟩ := exists_prime_orderOf_dvd_card' q hqdvd
     have hyC : (y : G) ∈ centralizer (V : Set G) := y.2.2
     obtain ⟨d, hdD, t, htT, hdt⟩ := uc22p2214_mem_sup_of_permutes hperm y.2.1
@@ -174,7 +174,7 @@ private theorem seventeen_two_three_le_normalizer_wClos {D : Data G} {V Dsub : S
       ((Subgroup.normal_subgroupOf_iff_le_normalizer hR_le_H).2 hRnormH)
       (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 H)
   have hCHnormal : ((H ⊓ centralizer (V : Set G)).subgroupOf H).Normal := by
-    haveI : ((centralizer (V : Set G)).subgroupOf D.M).Normal :=
+    have : ((centralizer (V : Set G)).subgroupOf D.M).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer (centralizer_le_of_inCalV D hV.inCalV)).2
         (hV.pairFacts.le_normalizer.trans (CFSG.BenderSuzuki.normalizer_le_normalizer_centralizer V))
     have h := Subgroup.inf_subgroupOf_inf_normal_of_left (A := D.M)

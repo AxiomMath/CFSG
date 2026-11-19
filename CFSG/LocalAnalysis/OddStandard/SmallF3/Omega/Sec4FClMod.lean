@@ -23,9 +23,9 @@ theorem sec4FCl_model (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V =
   obtain ⟨w, hwD, hw2, hwt, hwX⟩ := sec4FCl_exists_wt hQ hdim hσ htt ht6
   refine ⟨w, sec4FClXt_isComponentIn hQ htt ht6, sec4FClXt_oddCore hQ htt ht6,
     sec4FClXt_lieModel hQ htt ht6, hwD, hw2, hwt, ?_⟩
-  haveI : Finite (OGroup Q) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
+  have : Finite (OGroup Q) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
   set D : Subgroup (OGroup Q) := Sec4FDDt hQ t with hD
-  haveI : Finite D := inferInstance
+  have : Finite D := inferInstance
   have hXD : sec4FClXt hQ htt ≤ D := by rw [hD]; exact sec4FClXt_le_dt hQ htt ht6
   set N : Subgroup D := (sec4FClXt hQ htt).subgroupOf D with hN
   set w' : D := ⟨w, hwD⟩ with hw'

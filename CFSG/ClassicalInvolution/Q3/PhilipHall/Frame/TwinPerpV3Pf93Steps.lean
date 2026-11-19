@@ -187,7 +187,7 @@ theorem oddCent_eq_bot_of_thmE (hE : TwinThmE.TwinThmEP n) (hcit : CIT3Below n)
   exact TwinConnT.classicalOddCore_eq_bot_of_oddCoreIn (hN ▸ le_bot_iff.mp hle)
 
 set_option maxHeartbeats 1600000 in
-theorem v3LiftsEN_of_hodd (hSp : ModelFactSp62) (hD4 : ModelFactD42) (h4 : Thm4RTwinBelow 3 n)
+theorem v3LiftsEN_of_hodd (_hSp : ModelFactSp62) (_hD4 : ModelFactD42) (_h4 : Thm4RTwinBelow 3 n)
     (hPb : CFSG.ClassicalInvolution.Q3.TL4.TightBelowRPlus 3 n) (hB : V3Hyp51B n) :
     ∀ (Y : Type) [Group Y] [Finite Y] (R : Subgroup Y) (S : Sylow 2 R) (t : Y)
       (K K' K₃ : Subgroup Y) (u₁ u₂ u₃ : Y), V3Std n Y R S t K K' K₃ u₁ u₂ u₃ →

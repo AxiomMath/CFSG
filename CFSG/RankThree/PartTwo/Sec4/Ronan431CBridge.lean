@@ -26,14 +26,14 @@ theorem nonempty_projSL_equiv_lieA {r f : ℕ} (hf : 1 ≤ f)
     (hv : (TauCeti.LieTypeIndex.A r ⟨2, f, Nat.prime_two, hf⟩).Valid) :
     Nonempty (projSL (r + 1) (GaloisField 2 f) ≃*
       (TauCeti.CFSGIndex.lie ⟨.A r ⟨2, f, Nat.prime_two, hf⟩, hv⟩).Group) := by
-  haveI : Fact (Nat.Prime (⟨2, f, Nat.prime_two, hf⟩ : TauCeti.PrimePower).p) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime (⟨2, f, Nat.prime_two, hf⟩ : TauCeti.PrimePower).p) := ⟨Nat.prime_two⟩
   exact ⟨(CFSG.RankThree.PartTwo.Census.typeAGroupEquivProjSL r _ hv).symm⟩
 
 theorem nonempty_projSU_equiv_lieTwistedA {r f : ℕ} (hf : 1 ≤ f)
     (hv : (TauCeti.LieTypeIndex.twistedA r ⟨2, f, Nat.prime_two, hf⟩).Valid) :
     Nonempty (projSU (r + 1) 2 f ≃*
       (TauCeti.CFSGIndex.lie ⟨.twistedA r ⟨2, f, Nat.prime_two, hf⟩, hv⟩).Group) := by
-  haveI : Fact (Nat.Prime (⟨2, f, Nat.prime_two, hf⟩ : TauCeti.PrimePower).p) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime (⟨2, f, Nat.prime_two, hf⟩ : TauCeti.PrimePower).p) := ⟨Nat.prime_two⟩
   exact ⟨(CFSG.RankThree.PartTwo.Census.typeTwistedAGroupEquivProjSU r _ hv).symm⟩
 
 theorem nonempty_projSp_two_equiv_lieB2 {f : ℕ} (hf : 1 ≤ f)

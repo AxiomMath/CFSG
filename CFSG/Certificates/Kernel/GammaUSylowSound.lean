@@ -18,10 +18,10 @@ theorem minN_eq_min (a b : Nat) : minN a b = min a b := by
   unfold minN
   cases hb : Nat.ble a b
   · have : ¬ a ≤ b := fun h => by simp [Nat.ble_eq_true_of_le h] at hb
-    simp only [cond_false]
+    simp only [Bool.cond_false]
     omega
   · have : a ≤ b := Nat.le_of_ble_eq_true hb
-    simp only [cond_true]
+    simp only [_root_.Bool.cond_true]
     omega
 
 theorem keyK_eq_min (z : Nat) : keyK z =
@@ -137,10 +137,10 @@ theorem conjStep_spec {x : Nat} {e : List Nat} (h : conjStep SP SI Y ZP DP n x e
           (letV SP SI (e.getD 1 0)))) := by
   unfold conjStep at h
   cases hd : Nat.beq (fld DP x) 0
-  · rw [hd, cond_false] at h
+  · rw [hd, Bool.cond_false] at h
     simp only [Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq, nthD_eq] at h
     exact Or.inr ⟨h.1.1.1, h.1.1.2, h.1.2, h.2⟩
-  · rw [hd, cond_true, Nat.beq_eq] at h
+  · rw [hd, _root_.Bool.cond_true, Nat.beq_eq] at h
     exact Or.inl ⟨Nat.eq_of_beq_eq_true hd, h⟩
 
 theorem strict_of_succ {g : Nat → Nat} (h : ∀ x, x + 1 < n → g x < g (x + 1)) :
@@ -169,12 +169,12 @@ theorem letter (hC : ChainHyp SP SI T O PS B TL WD TR R k 2 m) {l : Nat} (hl : l
   unfold letG letV
   by_cases h2 : l < 2
   · have hb : Nat.blt l 2 = true := by simp [Nat.blt_eq, h2]
-    rw [hb, cond_true, cond_true]
+    rw [hb, _root_.Bool.cond_true, _root_.Bool.cond_true]
     exact gen l h2
   · have hb : Nat.blt l 2 = false := by
       rw [Bool.eq_false_iff, ne_eq, Nat.blt_eq]
       exact h2
-    rw [hb, cond_false, cond_false]
+    rw [hb, Bool.cond_false, Bool.cond_false]
     obtain ⟨U, hU, h1, h2⟩ := gen (l - 2) (by omega)
     exact ⟨U⁻¹, Subgroup.inv_mem _ hU, h2, by rw [inv_inv]; exact h1⟩
 

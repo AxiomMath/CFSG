@@ -20,8 +20,8 @@ theorem br3MasterOne_holds : Br3MasterOne := by
   by_cases hrk : ∀ D ∈ Γ, 3 ≤ mRank D
   · exact br3_false_of_one rows hB hL hshape.symm hrk hne
   ·
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Finite (LGL 2 V) :=
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Finite (LGL 2 V) :=
       Finite.of_injective (fun e : LGL 2 V => fun v : V => e v)
         (fun e f h => LinearEquiv.ext (congrFun h))
     rw [not_forall] at hrk

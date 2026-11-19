@@ -29,22 +29,27 @@ namespace K3Frame
 
 variable (fr : K3Frame R) (hR : R.Nondegenerate)
 
+omit [FiniteDimensional (ZMod 3) W] in
 theorem polar_uz : polar R fr.u fr.z = 0 := (QuadraticMap.polar_comm R fr.u fr.z).trans fr.hzu
 
+omit [FiniteDimensional (ZMod 3) W] in
 theorem polar_vz : polar R fr.v fr.z = 0 := (QuadraticMap.polar_comm R fr.v fr.z).trans fr.hzv
 
+omit [FiniteDimensional (ZMod 3) W] in
 theorem hau : R (fr.u + fr.z) ≠ 0 := by
   rw [CFSG.RankThree.OrthogonalInvolutions.map_add_eq, fr.polar_uz, add_zero, fr.hz]
   intro h
   have h2 : (2 : ZMod 3) * R fr.u = 0 := by rw [two_mul]; exact h
   exact fr.hne ((mul_eq_zero.mp h2).resolve_left (by decide))
 
+omit [FiniteDimensional (ZMod 3) W] in
 theorem hbv : R (fr.v + fr.z) ≠ 0 := by
   rw [CFSG.RankThree.OrthogonalInvolutions.map_add_eq, fr.polar_vz, add_zero, ← fr.huv', fr.hz]
   intro h
   have h2 : (2 : ZMod 3) * R fr.u = 0 := by rw [two_mul]; exact h
   exact fr.hne ((mul_eq_zero.mp h2).resolve_left (by decide))
 
+omit [FiniteDimensional (ZMod 3) W] in
 theorem hau_hbv : R (fr.u + fr.z) = R (fr.v + fr.z) := by
   rw [CFSG.RankThree.OrthogonalInvolutions.map_add_eq,
     CFSG.RankThree.OrthogonalInvolutions.map_add_eq, fr.polar_uz, fr.polar_vz, add_zero,
@@ -53,12 +58,14 @@ theorem hau_hbv : R (fr.u + fr.z) = R (fr.v + fr.z) := by
 @[expose] noncomputable def sig : OGroup R :=
   k3Sig fr.z fr.u fr.v fr.hau fr.hbv
 
+omit [FiniteDimensional (ZMod 3) W] in
 theorem sig_cube (hdW : Module.finrank (ZMod 3) W = 3) : fr.sig ^ 3 = 1 :=
   k3_sig_cube fr.z fr.u fr.v hdW fr.hzu fr.hzv fr.huv fr.hz fr.huv' fr.hne fr.hau fr.hbv
 
 theorem sig_mem : fr.sig ∈ omegaGroup hR :=
   reflOf_mul_reflOf_mem_omegaGroup hR _ _ fr.hau fr.hbv fr.hau_hbv
 
+omit [FiniteDimensional (ZMod 3) W] in
 theorem sig_apply_v : ((fr.sig : OGroup R) : W ≃ₗ[ZMod 3] W) fr.v = fr.u :=
   (k3Sig_actions fr.z fr.u fr.v fr.hzu fr.hzv fr.huv fr.hz fr.huv' fr.hne fr.hau fr.hbv).2.2
 

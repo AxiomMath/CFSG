@@ -17,7 +17,7 @@ theorem exists3_psl_projectiveSL {K : Type} [Field K] [Finite K] {n : ℕ} (hn :
     (hdiag : ¬ 3 ∣ Nat.gcd n (Nat.card K - 1)) : Exists3 (projectiveSL n K) := by
   intro hφ
   obtain ⟨φ, hφinn, k, hφk⟩ := hφ
-  haveI : Finite (MulAut (projectiveSL n K)) :=
+  have : Finite (MulAut (projectiveSL n K)) :=
     CFSG.LocalAnalysis.ComponentInitial.ProjectivePlane.finite_mulAut_projectiveSL n
   obtain ⟨hgenTop, -⟩ := automorphism_generation (K := K) hn
   obtain ⟨hID, -, -, -, -, -, -, hidx, -, -⟩ := standard_outer_quotients (K := K) (n := n)
@@ -49,12 +49,12 @@ theorem exists3_psl_projectiveSL {K : Type} [Field K] [Finite K] {n : ℕ} (hn :
       rw [map_inv, ← hC, mul_inv_cancel]
     exact hσne (inv_eq_one.mp (eq_one_of_conjAut_mul_fieldAut_eq_one hn C σ⁻¹ h1).1)
 
-theorem exists3_psl {X : Type} [Group X] [Finite X] {n r f : ℕ} (hn : 3 ≤ n) (hr : r.Prime)
+theorem exists3_psl {X : Type} [Group X] [Finite X] {n r f : ℕ} (hn : 3 ≤ n) (_hr : r.Prime)
     (h : LieModel X .PSL n r f) (h3 : ¬ 3 ∣ Nat.gcd n (r ^ f - 1)) : Exists3 X := by
   obtain ⟨K, hK, hKfin, hcard, ⟨e⟩⟩ :=
     CFSG.LocalAnalysis.ComponentInitial.LinearCover.exists_mulEquiv_projectiveSL_of_lieModel h
-  letI := hK
-  letI := hKfin
+  let := hK
+  let := hKfin
   have hdiag : ¬ 3 ∣ Nat.gcd n (Nat.card K - 1) := by rwa [hcard]
   exact exists3_of_mulEquiv e (exists3_psl_projectiveSL hn hdiag)
 

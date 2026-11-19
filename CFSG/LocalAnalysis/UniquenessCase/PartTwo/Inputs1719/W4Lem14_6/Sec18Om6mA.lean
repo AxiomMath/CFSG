@@ -17,7 +17,7 @@ open scoped commutatorElement Pointwise
 
 theorem k146Om6mA_holds : K146Om6mA := by
   intro U _ _ hU N S n hSN hSnorm hn hNat
-  haveI : (S.subgroupOf N).Normal := hSnorm
+  have : (S.subgroupOf N).Normal := hSnorm
   have hNle : N ≤ Subgroup.normalizer (S : Set (MulAut U)) :=
     Subgroup.le_normalizer_of_normal_subgroupOf hSN
   have hbound : E3.aParam N ≤ 2 * n := by

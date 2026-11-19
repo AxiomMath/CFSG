@@ -103,7 +103,7 @@ private lemma latPerm_single {N : ℕ} (π : Equiv.Perm (Fin N)) {k : Fin N} (hk
   by_cases h : i = k
   · rw [hiff.mpr h, h]
   · have h' : π.symm i ≠ k := fun hh => h (hiff.mp hh)
-    rw [if_neg h', if_neg h]
+    rw [ite_eq_right h', ite_eq_right h]
 
 private lemma latLinked_symm {N : ℕ} {S : Matrix (Fin N) (Fin N) ℤ} {Φ : Set (Fin N → ℤ)}
     {α β : Fin N → ℤ} (h : latLinked S Φ α β) : latLinked S Φ β α :=
@@ -127,7 +127,7 @@ private lemma latLinked_of_reflTransGen {N : ℕ} {α : Type*} (S : Matrix (Fin 
 
 private lemma latLinked_iff_mem {N : ℕ} {S : Matrix (Fin N) (Fin N) ℤ} {Φ : Set (Fin N → ℤ)}
     {α β : Fin N → ℤ} (h : latLinked S Φ α β) : (α ∈ Φ ↔ β ∈ Φ) := by
-  letI : IsEquiv (Fin N → ℤ) (fun x y => x ∈ Φ ↔ y ∈ Φ) :=
+  let : IsEquiv (Fin N → ℤ) (fun x y => x ∈ Φ ↔ y ∈ Φ) :=
     { refl := fun x => Iff.rfl
       symm := fun _ _ h => h.symm
       trans := fun _ _ _ h1 h2 => h1.trans h2 }
@@ -248,10 +248,10 @@ private lemma eq_of_sameCycle_of_invariant {N : ℕ} {p : ℕ} {f : Equiv.Perm (
   rw [← hn]
   exact apply_pow_eq_of_invariant hg n x
 
-theorem latAdmPlane_of_latPlane (Δ : UniversalRootDatum U') (hΔ : Δ.divisible = ∅)
+theorem latAdmPlane_of_latPlane (Δ : UniversalRootDatum U') (_hΔ : Δ.divisible = ∅)
     (S : Matrix (Fin Δ.rank) (Fin Δ.rank) ℤ) (hS : IsRootGram Δ S)
-    (π : Equiv.Perm (Fin Δ.rank)) (hπ : IsDiagAut Δ π) (hplane : LatPlane Δ π)
-    (p : ℕ) (hp : p.Prime) (hp2 : p ≠ 2) (q2 : Prop)
+    (π : Equiv.Perm (Fin Δ.rank)) (_hπ : IsDiagAut Δ π) (hplane : LatPlane Δ π)
+    (p : ℕ) (hp : p.Prime) (_hp2 : p ≠ 2) (q2 : Prop)
     (hspan : ∀ i, (fun m => if π.SameCycle i m then (1 : ZMod p) else 0) ∈ LatCorootSpan Δ p) :
     LatAdmPlane Δ S p q2 π := by
   classical
@@ -267,16 +267,16 @@ theorem latAdmPlane_of_latPlane (Δ : UniversalRootDatum U') (hΔ : Δ.divisible
     intro m; simp only [f2, Equiv.Perm.sameCycle_apply_right]
   have hf1i : f1 i = 1 := by
     simp only [f1]
-    rw [if_pos (Equiv.Perm.SameCycle.refl π i)]
+    rw [ite_eq_left (Equiv.Perm.SameCycle.refl π i)]
   have hf2i : f2 i = 0 := by
     simp only [f2]
-    rw [if_neg (fun h => hij h.symm)]
+    rw [ite_eq_right (fun h => hij h.symm)]
   have hf1j : f1 j = 0 := by
     simp only [f1]
-    rw [if_neg hij]
+    rw [ite_eq_right hij]
   have hf2j : f2 j = 1 := by
     simp only [f2]
-    rw [if_pos (Equiv.Perm.SameCycle.refl π j)]
+    rw [ite_eq_left (Equiv.Perm.SameCycle.refl π j)]
   have hindep : ∀ a b : ZMod p, a • f1 + b • f2 = 0 → a = 0 ∧ b = 0 := by
     intro a b hab
     have hai := congrFun hab i
@@ -287,11 +287,11 @@ theorem latAdmPlane_of_latPlane (Δ : UniversalRootDatum U') (hΔ : Δ.divisible
   have hfke : latChar p f1 (e k) = 0 := by
     change latChar p f1 (Pi.single k 1) = 0
     rw [latChar_single]
-    simp only [f1]; rw [if_neg hik]
+    simp only [f1]; rw [ite_eq_right hik]
   have hfke2 : latChar p f2 (e k) = 0 := by
     change latChar p f2 (Pi.single k 1) = 0
     rw [latChar_single]
-    simp only [f2]; rw [if_neg hjk]
+    simp only [f2]; rw [ite_eq_right hjk]
   have hek_mem : e k ∈ Δ.roots := by
     change Pi.single k 1 ∈ Δ.roots
     exact (isCTRootSystem Δ.isFiniteType Δ.divisible).single_mem k
@@ -306,8 +306,8 @@ theorem latAdmPlane_of_latPlane (Δ : UniversalRootDatum U') (hΔ : Δ.divisible
   have hfC : ∀ m ∈ C, f m = 0 := by
     intro m hm
     simp only [f, Pi.add_apply, Pi.smul_apply]
-    rw [show f1 m = 0 from by simp only [f1]; rw [if_neg hm.1],
-      show f2 m = 0 from by simp only [f2]; rw [if_neg hm.2]]
+    rw [show f1 m = 0 from by simp only [f1]; rw [ite_eq_right hm.1],
+      show f2 m = 0 from by simp only [f2]; rw [ite_eq_right hm.2]]
     simp
   have hfke' : latChar p f (e k) = 0 := by
     change latChar p f (Pi.single k 1) = 0
@@ -451,7 +451,7 @@ theorem latAdmPlane_of_latPlane (Δ : UniversalRootDatum U') (hΔ : Δ.divisible
     rcases hlast with h3 | ⟨m, m', hne, hm, hm', hbond⟩
     · have h3C : 3 ≤ C.ncard := h3
       obtain ⟨a0, b0, ha0, hb0, hne0⟩ := hCtwo
-      haveI : Nontrivial C := ⟨⟨⟨a0, ha0⟩, ⟨b0, hb0⟩, fun h => hne0 (congrArg Subtype.val h)⟩⟩
+      have : Nontrivial C := ⟨⟨⟨a0, ha0⟩, ⟨b0, hb0⟩, fun h => hne0 (congrArg Subtype.val h)⟩⟩
       obtain ⟨u, hu⟩ := hconn.preconnected.exists_adj_of_nontrivial ⟨a0, ha0⟩
       have hune : a0 ≠ u.1 := hu.1
       have hcart : Δ.cartan a0 u.1 ≠ 0 := by
@@ -534,7 +534,7 @@ theorem latAdmPlane_of_latPlane (Δ : UniversalRootDatum U') (hΔ : Δ.divisible
       · exact single_ne_neg_single a0 b0 h
     · exact absurd (hncard ▸ h8) (by norm_num)
   refine ⟨O, hO_isComp, hnotSolv, ?_⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   let φ : {g : Fin Δ.rank → ZMod p //
       (∀ i, g (π i) = g i) ∧ ∀ β ∈ O, latChar p g β = 0} → ZMod p × ZMod p :=
     fun g => (g.1 i, g.1 j)

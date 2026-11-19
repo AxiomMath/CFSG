@@ -205,7 +205,7 @@ theorem exists_coroot_comb
   exact key z f
 
 theorem shift_of_inv_empty
-    {τ : Tag} (hT : KacBox τ) (K : KacPt τ) {z : WeylGroup τ}
+    {τ : Tag} (_hT : KacBox τ) (K : KacPt τ) {z : WeylGroup τ}
     (hz : z ∈ K.stab) (h : K.inv z = ∅) {γ : Fin τ.rank → ℤ} (hγ : IsRoot τ γ)
     (hpos : 0 < height γ) :
     (K.shift z γ = 0 ∧ 0 < height (z • γ)) ∨ (K.shift z γ = 1 ∧ height (z • γ) < 0) := by

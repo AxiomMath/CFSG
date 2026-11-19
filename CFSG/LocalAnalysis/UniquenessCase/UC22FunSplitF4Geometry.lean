@@ -353,7 +353,7 @@ theorem mem_torus_mul_rankOne_of_commutes_other_f4
   have hmem := CFSG.RankThree.PartOne.KE8F.mem_torus_mul_rootSpan_of_commute_fam
     T hstab hS hSn (by rw [hkernel]) hy hcomm
   have heq : rootSpan .F4 F S = rootRankOneGroup .F4 F (orthRoot k) := by
-    have hs : S = {orthRoot k, -orthRoot k} := by ext γ; simp only [S, Set.mem_setOf_eq,
+    have hs : S = {orthRoot k, -orthRoot k} := by ext γ; simp only [S, Set.mem_ofPred_eq,
       Set.mem_insert_iff, Set.mem_singleton_iff]
     rw [hs, rootSpan, iSup_insert, iSup_singleton]
     exact (exceptional_Lang_root_rank_one_torus_transport .F4 F (isRoot_orthRoot k)).1.symm

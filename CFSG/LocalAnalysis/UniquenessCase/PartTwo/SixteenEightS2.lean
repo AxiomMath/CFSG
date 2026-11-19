@@ -92,6 +92,7 @@ theorem s16e_odd_card_of_elemAbelianOfRank {X : Type} [Group X] {p r : ℕ} [NeZ
   rw [s16c167_card_isElemAbelianOfRank hE]
   exact hp.pow
 
+omit [Finite G] in
 theorem s16e_one_le_of_elemAbelianOfRank {V₀ V : Subgroup G} {hV : IsElemAbelian 2 V}
     {L : Subgroup G} {p r : ℕ} [NeZero p] (hL : barSub V₀ V hV L ≠ ⊥)
     (hE : IsElemAbelianOfRank p r ↥(lBar V₀ V hV L)) : 1 ≤ r := by

@@ -92,20 +92,20 @@ theorem cp_step {k : ℕ} (hk : k < 31671) (hk0 : k ≠ 0) :
   have hpN : tb G 91 k < 31671 := by omega
   have e : (phiX (labW k) ⟨tb G 91 k, hpN⟩).val = k := by
     by_cases hl : tb G 92 k = 1
-    · rw [labW, if_pos hl, phiX_wα _ hpN, hA hl]
-    · rw [labW, if_neg hl, phiX_wβ _ hpN, hB hl]
+    · rw [labW, ite_eq_left hl, phiX_wα _ hpN, hA hl]
+    · rw [labW, ite_eq_right hl, phiX_wβ _ hpN, hB hl]
   rw [← cp_eqv _ hpN, e]
 
 theorem cp_step_a {k : ℕ} (hk : k < 31671) (hk0 : k ≠ 0)
     (hl : tb G 92 k = 1) {x : ℕ} (hx : x < 31671) :
     (cp k ⟨x, hx⟩).val = tb G 39 (cp (tb G 91 k) ⟨tb G 39 x, rng 39 (by norm_num) x hx⟩).val := by
-  rw [cp_step hk hk0, labW, if_pos hl, Equiv.Perm.mul_apply, Equiv.Perm.mul_apply,
+  rw [cp_step hk hk0, labW, ite_eq_left hl, Equiv.Perm.mul_apply, Equiv.Perm.mul_apply,
     acts_apply acts_alpha_inv hx, phiX_wα _ (Fin.isLt _)]
 
 theorem cp_step_b {k : ℕ} (hk : k < 31671) (hk0 : k ≠ 0)
     (hl : tb G 92 k ≠ 1) {x : ℕ} (hx : x < 31671) :
     (cp k ⟨x, hx⟩).val = tb G 40 (cp (tb G 91 k) ⟨tb G 41 x, rng 41 (by norm_num) x hx⟩).val := by
-  rw [cp_step hk hk0, labW, if_neg hl, Equiv.Perm.mul_apply, Equiv.Perm.mul_apply,
+  rw [cp_step hk hk0, labW, ite_eq_right hl, Equiv.Perm.mul_apply, Equiv.Perm.mul_apply,
     acts_apply acts_beta_inv hx, phiX_wβ _ (Fin.isLt _)]
 
 theorem cJ_fuel : ∀ f k, k < f → k < 31671 → ∀ x (hx : x < 31671),
@@ -118,14 +118,14 @@ theorem cJ_fuel : ∀ f k, k < f → k < 31671 → ∀ x (hx : x < 31671),
     rw [uF_succ, uInvF_succ]
     by_cases h0 : k = 0
     · subst h0
-      rw [if_pos rfl, if_pos rfl, cp_zero]
+      rw [ite_eq_left rfl, ite_eq_left rfl, cp_zero]
       exact (phiX_wD x hx).symm
-    · rw [if_neg h0, if_neg h0]
+    · rw [ite_eq_right h0, ite_eq_right h0]
       have hp := (tr_pt hk h0).1
       by_cases hl : tb G 92 k = 1
-      · rw [if_pos hl, if_pos hl, cp_step_a hk h0 hl hx,
+      · rw [ite_eq_left hl, ite_eq_left hl, cp_step_a hk h0 hl hx,
           ih _ (by omega) (by omega) _ (rng 39 (by norm_num) x hx)]
-      · rw [if_neg hl, if_neg hl, cp_step_b hk h0 hl hx,
+      · rw [ite_eq_right hl, ite_eq_right hl, cp_step_b hk h0 hl hx,
           ih _ (by omega) (by omega) _ (rng 41 (by norm_num) x hx)]
 
 theorem cJ_cp {k x : ℕ} (hk : k < 31671) (hx : x < 31671) :
@@ -139,10 +139,10 @@ theorem cJ_lt {k x : ℕ} (hk : k < 31671) (hx : x < 31671) :
   exact Fin.isLt _
 
 theorem rep_alpha : CFSG.Sporadic.Th.Rep 31671 orbLit.alpha (phiX wα) :=
-  rep_of_acts phiX_wα fun i hi => ap_tabOf 39 hi
+  rep_of_acts phiX_wα fun _i hi => ap_tabOf 39 hi
 
 theorem rep_beta : CFSG.Sporadic.Th.Rep 31671 orbLit.beta (phiX wβ) :=
-  rep_of_acts phiX_wβ fun i hi => ap_tabOf 40 hi
+  rep_of_acts phiX_wβ fun _i hi => ap_tabOf 40 hi
 
 theorem rep_dWord (w : List ℕ) :
     CFSG.Sporadic.Th.Rep 31671 (w.foldr (fun x T => compT 31671 (if x = 0 then orbLit.alpha else orbLit.beta) T)
@@ -204,10 +204,10 @@ theorem treeAct_cp : ∀ k < 31671, ∀ m (hm : m < 31671),
       rw [dite_eq_left ⟨Nat.pos_of_ne_zero h0, by rw [epar]; exact hp⟩, epar, elb]
       by_cases hl : tb G 92 k = 1
       · have hb : (tb G 92 k == 1) = true := by rw [hl]; rfl
-        rw [if_pos hb, cp_step_a hk h0 hl hm, ea m hm,
+        rw [ite_eq_left hb, cp_step_a hk h0 hl hm, ea m hm,
           ih _ hp (by omega) _ (rng 39 (by norm_num) m hm), ea _ (Fin.isLt _)]
       · have hb : (tb G 92 k == 1) = false := Bool.eq_false_iff.2 fun e => hl (beq_iff_eq.1 e)
-        rw [if_neg (by rw [hb]; decide), cp_step_b hk h0 hl hm, bi_ap hm,
+        rw [ite_eq_right (by rw [hb]; decide), cp_step_b hk h0 hl hm, bi_ap hm,
           ih _ hp (by omega) _ (rng 41 (by norm_num) m hm), eb _ (Fin.isLt _)]
 
 end
@@ -218,7 +218,7 @@ theorem gs6_card : Nat.card (Gs T23 (bF hn BB) 6) = 1 := by
   have hle : ((List.range 6).map CNT).prod ≤
       ∏ l ∈ Finset.range 6, (MulAction.orbit (Gs T23 (bF hn BB) l) (bF hn BB l)).ncard := by
     rw [prod_range_map]
-    refine Finset.prod_le_prod' fun l hl => ?_
+    refine Finset.prod_le_prod fun l hl => ?_
     have hl' := Finset.mem_range.1 hl
     rw [← dSet_card chain_hyp hn hl', ← Set.ncard_coe_finset]
     exact Set.ncard_le_ncard (dSet_sub_orbit chain_hyp hn hl') (Set.toFinite _)

@@ -22,7 +22,7 @@ variable [Finite Gh]
 
 theorem k108_le_normalizer_of_inf {S T Y : Subgroup Gh} (hSn : S.Normal) (hT : IsSylowOf 2 T ⊤) (hTS : T ≤ S)
     (hTY : T ≤ Y) (h : Y ⊓ S ≤ normalizer (T : Set Gh)) : Y ≤ normalizer (T : Set Gh) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro y hy
   set P := T.map (MulAut.conj y).toMonoidHom
   have hPYS : P ≤ Y ⊓ S := by
@@ -43,7 +43,7 @@ theorem k108_le_normalizer_of_inf {S T Y : Subgroup Gh} (hSn : S.Normal) (hT : I
 theorem k108_inf_le_normalizer_of_bt {F : (S : Type) → [Group S] → Prop} (hBT : K108BT F) {S T H : Subgroup Gh}
     (hS : IsSimpleGroup ↥S) (hnab : ∃ a b : ↥S, a * b ≠ b * a) (hF : F ↥S) (hT : IsSylowOf 2 T ⊤) (hTS : T ≤ S)
     (hTH : T ≤ H) (hH : Group.IsSolvable ↥H) : H ⊓ S ≤ normalizer (T : Set Gh) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hT' : IsSylowOf 2 (T.subgroupOf S) ⊤ := by
     refine (isSylowOf_map_subtype_iff S).1 ?_
     rw [subgroupOf_map_subtype, inf_eq_left.2 hTS, ← MonoidHom.range_eq_map, range_subtype]
@@ -54,7 +54,7 @@ theorem k108_inf_le_normalizer_of_bt {F : (S : Type) → [Group S] → Prop} (hB
       map_mul' := fun _ _ => rfl }
   have hf : Function.Injective f := fun x y hxy =>
     Subtype.ext (Subtype.ext (congrArg (fun z : ↥H => (z : Gh)) hxy))
-  haveI := hH
+  have := hH
   have h := hBT ↥S hS hnab hF (T.subgroupOf S) hT' (H.subgroupOf S) (fun x hx => hTH hx)
     (Group.isSolvable_of_isSolvable_injective hf)
   rw [← subgroupOf_normalizer_eq hTS] at h
@@ -65,8 +65,8 @@ theorem k108RowH_of_rowX {F : (S : Type) → [Group S] → Prop}
     K108RowH F := by
   intro Gh _ _ S hSn hS hnab hC hF T B hB hSB X M hXB hX hXodd hTM hXM hstar
   obtain ⟨hT, hBab, hBodd, hperm, -⟩ := hB
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := hSn
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hSn
   have hTS : T ≤ S :=
     CFSG.Semidihedral.Principal.le_of_le_sup_of_odd S B T (hSB ▸ le_top) hT.isPGroup hBodd
   have hBN : B ≤ normalizer (T : Set Gh) :=

@@ -116,12 +116,12 @@ private theorem s48e_eq_of_fixes (i : ℤ) {A B : Subgroup G} {q : ℕ}
     have hmem : v ∈ X.K ⊓ X.edgeSylow i := ⟨hvKi.1, X.Q_le_edgeSylow_left i hvQ⟩
     rw [X.K_inf_edgeSylow i] at hmem
     exact hmem
-  haveI : Finite ↥X.K := finite_of_le_stabilizer X.hyp (H := X.K) (X.K_le_Gi 0)
-  haveI : Finite ↥A :=
+  have : Finite ↥X.K := finite_of_le_stabilizer X.hyp (H := X.K) (X.K_le_Gi 0)
+  have : Finite ↥A :=
     Finite.of_injective (Subgroup.inclusion hA) (Subgroup.inclusion_injective _)
-  haveI : Finite ↥B :=
+  have : Finite ↥B :=
     Finite.of_injective (Subgroup.inclusion hB) (Subgroup.inclusion_injective _)
-  haveI : Finite ↥(A ⊔ B) :=
+  have : Finite ↥(A ⊔ B) :=
     Finite.of_injective (Subgroup.inclusion hABK) (Subgroup.inclusion_injective _)
   have hle := CFSG.card_mul_card_le_of_inf_eq_bot (G := G) (A := X.K) (D := A ⊔ B)
     (D' := X.Ki i) hABK inf_le_left hdisj
@@ -334,8 +334,8 @@ private theorem natPre_Q_zero_Vk_zero (C : X.Comm48 s r d)
     simpa [Setup.QA, inf_comm] using (X.Q_quot C.hyp.char C.hyp.sing (Nat.le_of_succ_le C.hyp.five_le) 0).2.2.1
   have hq0 : IsL2Quot (X.n 0) (oTwoQuot ↥(X.L 0)) :=
     (X.hyp.isLocL2_oTwoPrime (X.vert 0)).quot
-  haveI : Finite ↥(X.Q 0) := finite_of_le_stabilizer X.hyp (H := X.Q 0) (X.Q_le_Gi 0)
-  haveI : Finite ↥(X.Vk 0) := Finite.of_injective
+  have : Finite ↥(X.Q 0) := finite_of_le_stabilizer X.hyp (H := X.Q 0) (X.Q_le_Gi 0)
+  have : Finite ↥(X.Vk 0) := Finite.of_injective
     (Subgroup.inclusion ((show X.Vk 0 ≤ X.Q 0 from hV0le.trans inf_le_left)))
     (Subgroup.inclusion_injective _)
   obtain ⟨k, hkKi, hk1, hkord, -⟩ := X.exists_generator_Ki 0 (C.hyp.two_le_n 0)
@@ -382,8 +382,8 @@ private theorem natPre_Vk_zero_Z_zero (C : X.Comm48 s r d)
     exact hcommV0
   have hq0 : IsL2Quot (X.n 0) (oTwoQuot ↥(X.L 0)) :=
     (X.hyp.isLocL2_oTwoPrime (X.vert 0)).quot
-  haveI : Finite ↥(X.Q 0) := finite_of_le_stabilizer X.hyp (H := X.Q 0) (X.Q_le_Gi 0)
-  haveI : Finite ↥(X.Vk 0) := Finite.of_injective
+  have : Finite ↥(X.Q 0) := finite_of_le_stabilizer X.hyp (H := X.Q 0) (X.Q_le_Gi 0)
+  have : Finite ↥(X.Vk 0) := Finite.of_injective
     (Subgroup.inclusion ((show X.Vk 0 ≤ X.Q 0 from hV0le.trans inf_le_left)))
     (Subgroup.inclusion_injective _)
   obtain ⟨k, hkKi, hk1, hkord, -⟩ := X.exists_generator_Ki 0 (C.hyp.two_le_n 0)
@@ -421,7 +421,7 @@ theorem commutator_Q_zero_le_Z_zero (C : X.Comm48 s r d)
     exact hcommV0
   have hEpre := natPre_Q_zero_Vk_zero C hH
   have hVpre := natPre_Vk_zero_Z_zero C hH
-  haveI : Finite ↥(X.Gi 0) := X.hyp.finite_stab (X.vert 0)
+  have : Finite ↥(X.Gi 0) := X.hyp.finite_stab (X.vert 0)
   exact comm_le_of_natPre (C.hyp.two_le_n 0) hEpre hVpre hnat hnatV0 hcommQ
     (le_of_eq hcommV0')
 
@@ -445,7 +445,7 @@ private theorem Q_zero_inf_centralizer_Vk_zero (C : X.Comm48 s r d)
   have hVleC : X.Vk 0 ≤ (X.Q 0 ⊓ Subgroup.centralizer (X.Vk 0 : Set G) : Subgroup G) := by
     intro v hv
     refine Subgroup.mem_inf.mpr ⟨hV0le.trans inf_le_left hv, ?_⟩
-    haveI : IsMulCommutative ↥(X.Vk 0) := hV0ab.1
+    have : IsMulCommutative ↥(X.Vk 0) := hV0ab.1
     exact Subgroup.le_centralizer (X.Vk 0) hv
   rcases hnat.irred (X.Q 0 ⊓ Subgroup.centralizer (X.Vk 0 : Set G)) hVleC inf_le_left
       ((X.L_le_Gi 0).trans hCnorm) with hC | hC
@@ -672,8 +672,8 @@ private theorem PQ_eq_Vk_zero_sup_WQ (C : X.Comm48 s r d)
   obtain ⟨-, hV0card, -, hV0le, -⟩ := X.s48_8 C hH
   obtain ⟨hcardP, hcardsup⟩ := PQ_card_eq_and_sup_card_eq C hH
   have hWleQ1 : X.WQ ≤ X.Q 1 := WQ_le_Q_one C
-  haveI : Finite ↥(X.Gi 0) := X.hyp.finite_stab (X.vert 0)
-  haveI : Finite ↥(X.PQ) :=
+  have : Finite ↥(X.Gi 0) := X.hyp.finite_stab (X.vert 0)
+  have : Finite ↥(X.PQ) :=
     Finite.of_injective
       (Subgroup.inclusion ((show X.PQ ≤ X.Q 0 from inf_le_left).trans (X.Q_le_Gi 0)))
       (Subgroup.inclusion_injective _)
@@ -725,19 +725,19 @@ private theorem WQ_comm (C : X.Comm48 s r d)
   have hbot : ⁅X.WQ, X.WQ⁆ = ⊥ := by
     rw [eq_bot_iff]
     exact (le_inf hWW0 hWW2).trans (le_of_eq hZ0Z2)
-  haveI : IsMulCommutative ↥(X.WQ) :=
+  have : IsMulCommutative ↥(X.WQ) :=
     Subgroup.le_centralizer_iff_isMulCommutative.mp
       (Subgroup.commutator_eq_bot_iff_le_centralizer.mp hbot)
   intro a ha b hb
   exact congrArg Subtype.val (mul_comm' ⟨a, ha⟩ ⟨b, hb⟩)
 
 private theorem sup_commutator_Q1_lt (C : X.Comm48 s r d)
-    (hH : X.ZQ d ≤ X.Q ((d : ℤ) + 2)) {Y : Subgroup G}
+    (_hH : X.ZQ d ≤ X.Q ((d : ℤ) + 2)) {Y : Subgroup G}
     (hZY : X.Z 1 ≤ Y) (hYW : Y ≤ X.WQ)
     (hNY : X.L 1 ≤ Subgroup.normalizer (Y : Set G)) (hYne : Y ≠ X.Z 1) :
     X.Z 1 ⊔ ⁅Y, X.Q 1⁆ < Y := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQ1eq : pCoreOf 2 (X.L 1) = X.Q 1 :=
     (X.hyp.isLocL2_oTwoPrime (X.vert 1)).pCoreOf_eq
   have hQ1L : X.Q 1 ≤ X.L 1 := Q_one_le_L_one (X := X)
@@ -766,12 +766,12 @@ private theorem sup_commutator_Q1_lt (C : X.Comm48 s r d)
     rw [Subgroup.subgroupOf_map_subtype, Subgroup.subgroupOf_map_subtype,
       inf_eq_left.mpr hZ1Q1, inf_eq_left.mpr hYQ1] at h
     exact h.symm
-  haveI hYnorm : (Y.subgroupOf (X.Q 1)).Normal :=
+  have hYnorm : (Y.subgroupOf (X.Q 1)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hYQ1norm
-  haveI hZnorm : ((X.Z 1).subgroupOf (X.Q 1)).Normal :=
+  have hZnorm : ((X.Z 1).subgroupOf (X.Q 1)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hZ1Q1norm
-  haveI : Finite ↥(X.Gi 1) := X.hyp.finite_stab (X.vert 1)
-  haveI : Finite ↥(X.Q 1) :=
+  have : Finite ↥(X.Gi 1) := X.hyp.finite_stab (X.vert 1)
+  have : Finite ↥(X.Q 1) :=
     Finite.of_injective (Subgroup.inclusion (X.Q_le_Gi 1)) (Subgroup.inclusion_injective _)
   have hlt := CFSG.GroupTheory.commutator_sup_lt_of_isPGroup
     (p := 2) (G := ↥(X.Q 1)) (X := Y.subgroupOf (X.Q 1))
@@ -791,7 +791,7 @@ private theorem sup_commutator_Q1_lt (C : X.Comm48 s r d)
 private theorem sup_closure_sq_lt {Y V : Subgroup G} [Finite ↥Y]
     (hY2 : IsPGroup 2 ↥Y) (hVlt : V < Y) :
     V ⊔ Subgroup.closure {y ^ 2 | y ∈ Y} < Y := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hVY : V ≤ Y := hVlt.le
   have hVtopne : V.subgroupOf Y ≠ (⊤ : Subgroup ↥Y) := by
     intro heq
@@ -818,8 +818,8 @@ private theorem sup_closure_sq_lt {Y V : Subgroup G} [Finite ↥Y]
   rw [hset] at hmap
   simpa using hmap
 
-private theorem L_one_le_normalizer_sup_commutator (C : X.Comm48 s r d)
-    (hH : X.ZQ d ≤ X.Q ((d : ℤ) + 2)) {Y : Subgroup G}
+private theorem L_one_le_normalizer_sup_commutator (_C : X.Comm48 s r d)
+    (_hH : X.ZQ d ≤ X.Q ((d : ℤ) + 2)) {Y : Subgroup G}
     (hNY : X.L 1 ≤ Subgroup.normalizer (Y : Set G)) :
     X.L 1 ≤ Subgroup.normalizer ((X.Z 1 ⊔ ⁅Y, X.Q 1⁆ : Subgroup G) : Set G) := by
   have hQ1eq : pCoreOf 2 (X.L 1) = X.Q 1 :=
@@ -849,7 +849,7 @@ private theorem commutator_le_of_le_sup_sq (C : X.Comm48 s r d)
     obtain ⟨e, he⟩ := hY2.exists_card_eq
     rw [he]
     exact hKi1odd.coprime_two_right.pow_right e
-  haveI : Group.IsNilpotent ↥Y := hY2.isNilpotent
+  have : Group.IsNilpotent ↥Y := hY2.isNilpotent
   have hdec := CFSG.GroupTheory.le_commutator_sup_inf_centralizer_of_coprime_of_finite
     (R := Y) (A := X.Ki 1) hAK hcop (inferInstance : Group.IsSolvable ↥Y)
   have hYle : Y ≤ Y2 ⊔ (Y ⊓ Subgroup.centralizer (X.Ki 1 : Set G)) :=
@@ -873,8 +873,8 @@ private theorem commutator_le_of_le_sup_sq (C : X.Comm48 s r d)
   rw [e]
   exact hIY2 (Subgroup.commutator_mem_commutator ha hk)
 
-private theorem small_section_data (C : X.Comm48 s r d)
-    (hH : X.ZQ d ≤ X.Q ((d : ℤ) + 2)) {Y V Y2 : Subgroup G}
+private theorem small_section_data (_C : X.Comm48 s r d)
+    (_hH : X.ZQ d ≤ X.Q ((d : ℤ) + 2)) {Y V Y2 : Subgroup G}
     (hYQ1 : Y ≤ X.Q 1) (hY2Y : Y2 ≤ Y)
     (hVdef : V = X.Z 1 ⊔ ⁅Y, X.Q 1⁆)
     (hY2def : Y2 = V ⊔ Subgroup.closure {y ^ 2 | y ∈ Y})
@@ -920,7 +920,7 @@ private theorem small_section_data (C : X.Comm48 s r d)
 private theorem false_of_small_section (C : X.Comm48 s r d)
     (hH : X.ZQ d ≤ X.Q ((d : ℤ) + 2)) {Y V Y2 : Subgroup G} [Finite ↥Y]
     (hYQ1 : Y ≤ X.Q 1) (hYW : Y ≤ X.WQ)
-    (hZY2 : X.Z 1 ≤ Y2) (hY2Y : Y2 ≤ Y) (hY2W : Y2 ≤ X.WQ)
+    (hZY2 : X.Z 1 ≤ Y2) (hY2Y : Y2 ≤ Y) (_hY2W : Y2 ≤ X.WQ)
     (hVdef : V = X.Z 1 ⊔ ⁅Y, X.Q 1⁆)
     (hY2def : Y2 = V ⊔ Subgroup.closure {y ^ 2 | y ∈ Y})
     (hNY : X.L 1 ≤ Subgroup.normalizer (Y : Set G))
@@ -929,7 +929,7 @@ private theorem false_of_small_section (C : X.Comm48 s r d)
   classical
   obtain ⟨hnt, hsec, hL, hQ⟩ :=
     small_section_data C hH hYQ1 hY2Y hVdef hY2def hNY hNY2 hcommY
-  haveI : Finite ↥(X.L 1) :=
+  have : Finite ↥(X.L 1) :=
     finite_of_le_stabilizer X.hyp (H := X.L 1) (X.L_le_Gi 1)
   have hquot : IsL2Quot (X.n 1) (oTwoQuot ↥(X.L 1)) :=
     (X.hyp.isLocL2_oTwoPrime (X.vert 1)).quot
@@ -937,9 +937,9 @@ private theorem false_of_small_section (C : X.Comm48 s r d)
   have hF4 := two_pow_le_relIndex_of_nontrivial_of_le
     (L := X.L 1) (V := Y) (Z := Y2) (m := X.n 1)
     (by have := C.hyp.two_le_n 1; omega) hquot hVL hsec hL hQ hnt
-  haveI : Finite ↥Y2 :=
+  have : Finite ↥Y2 :=
     Finite.of_injective (Subgroup.inclusion hY2Y) (Subgroup.inclusion_injective _)
-  haveI : Finite ↥(X.WQ) :=
+  have : Finite ↥(X.WQ) :=
     finite_of_le_stabilizer X.hyp (H := X.WQ) ((inf_le_left : X.WQ ≤ X.Q 0).trans (X.Q_le_Gi 0))
   have hrel_le : Y2.relIndex Y ≤ (X.Z 1).relIndex X.WQ := by
     have h1 := Subgroup.relIndex_mul_relIndex (X.Z 1) Y2 Y hZY2 hY2Y
@@ -967,7 +967,7 @@ private theorem commutator_WQ_Ki_one_le_Z_one (C : X.Comm48 s r d)
   classical
   have hZ1leW : X.Z 1 ≤ X.WQ := Z_one_le_WQ C hH
   have hL1normW : X.L 1 ≤ Subgroup.normalizer (X.WQ : Set G) := L_one_le_normalizer_WQ C hH
-  haveI : Finite ↥(X.Ki 1) :=
+  have : Finite ↥(X.Ki 1) :=
     finite_of_le_stabilizer X.hyp (H := X.Ki 1)
       ((inf_le_right : X.Ki 1 ≤ X.L 1).trans (X.L_le_Gi 1))
   have key : ∀ m, ∀ Y : Subgroup G, X.Z 1 ≤ Y → Y ≤ X.WQ →
@@ -988,7 +988,7 @@ private theorem commutator_WQ_Ki_one_le_Z_one (C : X.Comm48 s r d)
             (L_one_le_normalizer_Z_one (X := X))
         exact (Subgroup.commutator_mono le_rfl (inf_le_right : X.Ki 1 ≤ X.L 1)).trans hZL
       have hYQ1 : Y ≤ X.Q 1 := hYW.trans (WQ_le_Q_one C)
-      haveI : Finite ↥Y :=
+      have : Finite ↥Y :=
         finite_of_le_stabilizer X.hyp (H := Y) (hYQ1.trans (X.Q_le_Gi 1))
       have hY2 : IsPGroup 2 ↥Y :=
         ((pCoreOf_isPGroup' (X.Gi 0)).to_le (hYW.trans inf_le_left))
@@ -1134,7 +1134,7 @@ private theorem Z_neg_two_inf_centralizer_Ki_one (C : X.Comm48 s r d)
 private theorem K_le_normalizer_PQ : X.K ≤ Subgroup.normalizer (X.PQ : Set G) :=
   (le_inf (X.K_le_Gi 0) (X.K_le_Gi 1)).trans X.inf_Gi_le_normalizer_inf_Q
 
-private theorem PQ_commute_Z_one : ∀ x ∈ X.PQ, ∀ c ∈ X.Z 1, x * c = c * x := fun x hx c hc =>
+private theorem PQ_commute_Z_one : ∀ x ∈ X.PQ, ∀ _c ∈ X.Z 1, x * _c = _c * x := fun x hx _c hc =>
   Subgroup.mem_centralizer_iff.mp (Subgroup.mem_inf.mp (X.Z_le_center 1 hc)).2 x hx.2
 
 private theorem PQ_le_normalizer_Z_zero : X.PQ ≤ Subgroup.normalizer (X.Z 0 : Set G) :=
@@ -1179,8 +1179,8 @@ private theorem YQ_inf_Vk_zero_le_relCent (C : X.Comm48 s r d)
   obtain ⟨-, h41, -, h40, -, hnot40, -⟩ := s48e_Z_four C hH
   have hKZ : ∀ i : ℤ, X.K ≤ Subgroup.normalizer (X.Z i : Set G) := fun i g hg =>
     mem_normalizer_iff_conjSub.mpr (X.Z_normal i g (X.K_le_Gi i hg))
-  haveI : Finite ↥(X.Gi 0) := X.hyp.finite_stab (X.vert 0)
-  haveI : Finite ↥X.PQ :=
+  have : Finite ↥(X.Gi 0) := X.hyp.finite_stab (X.vert 0)
+  have : Finite ↥X.PQ :=
     Finite.of_injective
       (Subgroup.inclusion ((show X.PQ ≤ X.Q 0 from inf_le_left).trans (X.Q_le_Gi 0)))
       (Subgroup.inclusion_injective _)
@@ -1220,9 +1220,9 @@ private theorem YQ_inf_Vk_zero_eq_Z_one (C : X.Comm48 s r d)
   have hRle : relCent (X.Vk 0) (X.Z 0) (X.edgeSylow 0) ≤ X.PQ := fun x hx => by
     obtain ⟨hxV, -, -⟩ := hx
     exact hV0le hxV
-  haveI : Finite ↥X.PQ :=
+  have : Finite ↥X.PQ :=
     finite_of_le_stabilizer X.hyp (H := X.PQ) (inf_le_left.trans (X.Q_le_Gi 0))
-  haveI : Finite ↥(relCent (X.Vk 0) (X.Z 0) (X.edgeSylow 0)) :=
+  have : Finite ↥(relCent (X.Vk 0) (X.Z 0) (X.edgeSylow 0)) :=
     Finite.of_injective (Subgroup.inclusion hRle) (Subgroup.inclusion_injective _)
   have hSylL : IsSylowTwoOf (X.edgeSylow 0) (X.L 0) := X.isSylowTwoOf_edgeSylow_L 0
   have hRcard : Nat.card ↥(relCent (X.Vk 0) (X.Z 0) (X.edgeSylow 0)) = 2 ^ (2 * X.n 0) := by
@@ -1250,8 +1250,8 @@ private theorem YQ_sup_Vk_zero_eq_PQ (C : X.Comm48 s r d)
   have hYle : X.YQ ≤ X.PQ := YQ_le_PQ
   have hV0normY : X.Vk 0 ≤ Subgroup.normalizer (X.YQ : Set G) :=
     hV0le.trans (PQ_le_normalizer_YQ C hH)
-  haveI : Finite ↥(X.Gi 0) := X.hyp.finite_stab (X.vert 0)
-  haveI : Finite ↥X.PQ :=
+  have : Finite ↥(X.Gi 0) := X.hyp.finite_stab (X.vert 0)
+  have : Finite ↥X.PQ :=
     Finite.of_injective
       (Subgroup.inclusion ((show X.PQ ≤ X.Q 0 from inf_le_left).trans (X.Q_le_Gi 0)))
       (Subgroup.inclusion_injective _)
@@ -1404,8 +1404,8 @@ private theorem YQ_eq_WQ (C : X.Comm48 s r d)
     rw [inf_comm, hYVinf] at h1
     rw [hVinfW] at h2
     rw [← h1, ← h2, hrYW]
-  haveI : Finite ↥(X.Gi 0) := X.hyp.finite_stab (X.vert 0)
-  haveI : Finite ↥X.WQ :=
+  have : Finite ↥(X.Gi 0) := X.hyp.finite_stab (X.vert 0)
+  have : Finite ↥X.WQ :=
     Finite.of_injective (Subgroup.inclusion ((inf_le_left : X.WQ ≤ X.Q 0).trans (X.Q_le_Gi 0)))
       (Subgroup.inclusion_injective _)
   exact Subgroup.eq_of_le_of_card_ge (YQ_le_WQ C hH) hcYW.ge
@@ -1468,8 +1468,8 @@ private theorem s48e_false_of_le (C : X.Comm48 s r d)
   have hWZ1 : X.WQ ≤ X.Z 1 := by
     rw [← hV2inf]
     exact le_inf hWV2 inf_le_left
-  haveI : Finite ↥(X.Gi 1) := X.hyp.finite_stab (X.vert 1)
-  haveI : Finite ↥(X.Z 1) :=
+  have : Finite ↥(X.Gi 1) := X.hyp.finite_stab (X.vert 1)
+  have : Finite ↥(X.Z 1) :=
     Finite.of_injective (Subgroup.inclusion (X.Z_le_Gi 1)) (Subgroup.inclusion_injective _)
   have hc := Subgroup.card_le_of_le hWZ1
   rw [card_WQ C hH, hZ1card] at hc
@@ -1588,8 +1588,8 @@ private theorem s48e_isNatSecOf_Q_zero_Vk_zero (C : X.Comm48 s r d)
     (hα : Function.Surjective α) (hker : α.ker = (X.Q 0).subgroupOf (X.L 0))
     (hF : Nat.card (GaloisField 2 (X.n 0)) = 2 ^ X.n 0) :
     CFSG.Quasithin.F112R.St84.IsNatSecOf (X.L 0) (X.Q 0) (X.Vk 0) α := by
-  haveI : Finite ↥(X.Gi 0) := X.hyp.finite_stab (X.vert 0)
-  haveI : Fintype (GaloisField 2 (X.n 0)) := Fintype.ofFinite _
+  have : Finite ↥(X.Gi 0) := X.hyp.finite_stab (X.vert 0)
+  have : Fintype (GaloisField 2 (X.n 0)) := Fintype.ofFinite _
   have hF' : Fintype.card (GaloisField 2 (X.n 0)) = 2 ^ X.n 0 := by
     rw [← Nat.card_eq_fintype_card]
     exact hF
@@ -1610,8 +1610,8 @@ private theorem s48e_isNatSecOf_Vk_zero_Z_zero (C : X.Comm48 s r d)
     (hα : Function.Surjective α) (hker : α.ker = (X.Q 0).subgroupOf (X.L 0))
     (hF : Nat.card (GaloisField 2 (X.n 0)) = 2 ^ X.n 0) :
     CFSG.Quasithin.F112R.St84.IsNatSecOf (X.L 0) (X.Vk 0) (X.Z 0) α := by
-  haveI : Finite ↥(X.Gi 0) := X.hyp.finite_stab (X.vert 0)
-  haveI : Fintype (GaloisField 2 (X.n 0)) := Fintype.ofFinite _
+  have : Finite ↥(X.Gi 0) := X.hyp.finite_stab (X.vert 0)
+  have : Fintype (GaloisField 2 (X.n 0)) := Fintype.ofFinite _
   have hF' : Fintype.card (GaloisField 2 (X.n 0)) = 2 ^ X.n 0 := by
     rw [← Nat.card_eq_fintype_card]
     exact hF
@@ -1627,8 +1627,8 @@ private theorem s48e_isNatSecOf_Vk_zero_Z_zero (C : X.Comm48 s r d)
   exact NatPre.isNatSecOf (C.hyp.two_le_n 0) hF' hα hker' (natPre_Vk_zero_Z_zero C hH)
     (hV0le.trans (inf_le_left.trans (X.Q_le_Gi 0))) hT (le_of_eq hline.symm)
 
-private theorem s48e_torus_diag (C : X.Comm48 s r d)
-    (hH : X.ZQ d ≤ X.Q ((d : ℤ) + 2))
+private theorem s48e_torus_diag (_C : X.Comm48 s r d)
+    (_hH : X.ZQ d ≤ X.Q ((d : ℤ) + 2))
     {α : ↥(X.L 0) →* Matrix.SpecialLinearGroup (Fin 2) (GaloisField 2 (X.n 0))}
     (hker : α.ker = (X.Q 0).subgroupOf (X.L 0))
     (hU : (X.S.subgroupOf (X.L 0)).map α =
@@ -1637,11 +1637,11 @@ private theorem s48e_torus_diag (C : X.Comm48 s r d)
     ∀ c : GaloisField 2 (X.n 0), c ≠ 0 → ∃ k : ↥(X.L 0), (k : G) ∈ X.Ki 0 ∧
       (α k : Matrix (Fin 2) (Fin 2) (GaloisField 2 (X.n 0))) 0 0 = c ∧
       (α k : Matrix (Fin 2) (Fin 2) (GaloisField 2 (X.n 0))) 1 0 = 0 := by
-  haveI : Fintype (GaloisField 2 (X.n 0)) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 (X.n 0)) := Fintype.ofFinite _
   have hF' : Fintype.card (GaloisField 2 (X.n 0)) = 2 ^ X.n 0 := by
     rw [← Nat.card_eq_fintype_card]
     exact hF
-  haveI : Finite ↥(X.L 0) := finite_of_le_stabilizer X.hyp (H := X.L 0) (X.L_le_Gi 0)
+  have : Finite ↥(X.L 0) := finite_of_le_stabilizer X.hyp (H := X.L 0) (X.L_le_Gi 0)
   have hTQ : X.Ki 0 ⊓ X.Q 0 = ⊥ := by
     refine le_bot_iff.mp ?_
     calc X.Ki 0 ⊓ X.Q 0 ≤ X.K ⊓ X.Q 0 := inf_le_inf inf_le_left le_rfl
@@ -1682,7 +1682,7 @@ private theorem s48e_exists_mul_commutator_mem_Z_zero (C : X.Comm48 s r d)
       CFSG.Timmesfeld.upperUnipotent (GaloisField 2 (X.n 0)))
     (hF : Nat.card (GaloisField 2 (X.n 0)) = 2 ^ X.n 0) :
     ∀ x ∈ X.PQ, ∃ v ∈ X.Vk 0, ∀ a ∈ X.Z 4, ⁅x * v, a⁆ ∈ X.Z 0 := by
-  haveI : Fintype (GaloisField 2 (X.n 0)) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 (X.n 0)) := Fintype.ofFinite _
   have hF' : Fintype.card (GaloisField 2 (X.n 0)) = 2 ^ X.n 0 := by
     rw [← Nat.card_eq_fintype_card]
     exact hF

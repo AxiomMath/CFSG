@@ -99,7 +99,7 @@ theorem survPOmegaMinus_holds :
     obtain ⟨b, c, hirr, ⟨φ⟩⟩ := CFSG.RankThree.PartOne.projOmegaMinus_of_statedClassicalModel h
     let ψ : Y ≃* CFSG.PGLModel.projOmegaMinus 3 (GaloisField 2 2) b c :=
       (mulEquivQuotientCenterOfEqBot hZ).trans φ
-    haveI : Finite (CFSG.PGLModel.projOmegaMinus 3 (GaloisField 2 2) b c) :=
+    have : Finite (CFSG.PGLModel.projOmegaMinus 3 (GaloisField 2 2) b c) :=
       Finite.of_equiv Y ψ.toEquiv
     obtain ⟨r, hr, hr3, hloc⟩ :=
       CFSG.RankThree.PartTwo.KFacts.KS21LocalRank.exists_le_localRank_projOmegaMinus_four hirr

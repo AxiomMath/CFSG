@@ -151,7 +151,7 @@ theorem exists_orthonormal_eigenbasis (hσ : IsUnitaryInvolution σ)
       have hu0 : ∀ i, σ (u i) ≠ 0 := by
         intro i h0
         have h1 := hS (b i) (b i)
-        rw [hu i, herm_smul_left, herm_smul_right, hb i i, if_pos rfl, h0, zero_mul] at h1
+        rw [hu i, herm_smul_left, herm_smul_right, hb i i, ite_eq_left rfl, h0, zero_mul] at h1
         exact zero_ne_one h1
       have hWst : ∀ x ∈ perp σ b, S x ∈ perp σ b := by
         intro x hx j
@@ -204,7 +204,7 @@ theorem exists_prime_pow_of_card_sq {K : Type} [Field K] [Finite K] {q : ℕ}
 
 theorem exists_isPrimitiveRoot_three {K : Type} [Field K] [Finite K] (h : 3 ∣ Nat.card Kˣ) :
     ∃ ζ : K, IsPrimitiveRoot ζ 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ζu, hζu⟩ := exists_prime_orderOf_dvd_card' (G := Kˣ) 3 h
   exact ⟨(ζu : K), IsPrimitiveRoot.coe_units_iff.mpr (hζu ▸ IsPrimitiveRoot.orderOf ζu)⟩
 

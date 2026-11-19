@@ -113,7 +113,7 @@ theorem exists_T3 : ∃ T₃ : Subgroup G, IsSylow2In T₃ C.D.F.ρ₃.K ∧ C.D
   have hx₃H : C.D.x₃ ∈ H₁ := ⟨C.x₃_mem_J, hx₃N⟩
   have hQS : Q ≤ (S : Subgroup G) :=
     sup_le (C.Dg_le_A.trans C.A_le_S) (Subgroup.zpowers_le.mpr (C.hd.hWS C.D.x₃_mem))
-  have hQ2 : IsPGroup 2 ↥Q := S.isPGroup'.to_le hQS
+  have hQ2 : IsPGroup 2 ↥Q := S.isPGroup.to_le hQS
   have hDH : C.Dg ≤ Subgroup.normalizer (H₁ : Set G) := by
     intro d hd
     have hdA := C.Dg_le_A hd
@@ -266,7 +266,7 @@ theorem mem_W_of_mem_P_A {a : G} (haP : a ∈ (S : Subgroup G) ⊓ MGrp Ω W) (h
     exact h
   have hmem := (Thompson.piG_eq_one_iff haN).mp hpa
   exact Thompson.mem_of_isPGroup_of_mem_sup_OCW (Thompson.isPGroup_of_mem_WSet C.hd.hW)
-    (S.isPGroup'.to_le (Subgroup.zpowers_le.mpr haS)) hmem
+    (S.isPGroup.to_le (Subgroup.zpowers_le.mpr haS)) hmem
 
 theorem eq_one_or_eq_z_of_mem_W {w : G} (hw : w ∈ W)
     (hr : C.D.F.ρ.r * w * C.D.F.ρ.r⁻¹ = w) (ht : C.D.F.ρ'.r * w * C.D.F.ρ'.r⁻¹ = w) :

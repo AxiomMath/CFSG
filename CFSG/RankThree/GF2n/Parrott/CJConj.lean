@@ -14,6 +14,7 @@ open CFSG.ComponentClassification.CatFactsSmall.PSp43
 
 variable (D : QuotientData (z := z) hN)
 
+omit [Finite G] in
 theorem card_CJ_conj (g σ : ↥(H z)) :
     Nat.card (CJ z ((g : G) * (σ : G) * (g : G)⁻¹)) = Nat.card (CJ z (σ : G)) := by
   have h : CJ z ((g : G) * (σ : G) * (g : G)⁻¹) =

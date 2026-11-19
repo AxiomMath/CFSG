@@ -27,6 +27,7 @@ variable {G : Type} [Group G] [Finite G] {p : ℕ} {P : Sylow p G} {M : Subgroup
 @[expose] def IsMaxFInvariantIn (f : ℕ) (B X F : Subgroup G) : Prop :=
   IsFInvariantIn f B X F ∧ ∀ F' : Subgroup G, IsFInvariantIn f B X F' → F ≤ F' → F' = F
 
+omit [Finite G] in
 theorem isMaxFInvariantIn_two_iff {B X F : Subgroup G} :
     IsMaxFInvariantIn 2 B X F ↔ IsMaxTwoInvariantIn B X F := Iff.rfl
 
@@ -35,7 +36,7 @@ theorem fusionIsSylowIn_of_isMax (hS : Situation G p P M) (hx : Point P M x) (hz
     {F : Subgroup G} (hF : IsMaxFInvariantIn f (zpowers x ⊔ zpowers z) M F) :
     fusionIsSylowIn f F (GLBPrimeCore p M) := by
   have hprime := hS.prime
-  haveI : Fact f.Prime := ⟨hf⟩
+  have : Fact f.Prime := ⟨hf⟩
   set B : Subgroup G := zpowers x ⊔ zpowers z
   set D : Subgroup G := GLBPrimeCore p M
   have hpl : SmallRankPlane p (P : Subgroup G) x z := plane_of_central hS hx hz
@@ -67,7 +68,7 @@ theorem exists_conj_le_normalizer_of_isMaxF (hS : Situation G p P M) (hx : Point
     ∃ g : G, g ∈ M ∧
       (P : Subgroup G).map (MulAut.conj g).toMonoidHom ≤ normalizer (F : Set G) := by
   have hprime := hS.prime
-  haveI : Fact f.Prime := ⟨hf⟩
+  have : Fact f.Prime := ⟨hf⟩
   set D : Subgroup G := GLBPrimeCore p M
   have hFD := fusionIsSylowIn_of_isMax hS hx hz hcon hf hfp hF
   have hD3 : ¬ p ∣ Nat.card D := (Nat.Prime.coprime_iff_not_dvd hprime).mp
@@ -80,7 +81,7 @@ theorem exists_conj_le_normalizer_of_isMaxF (hS : Situation G p P M) (hx : Point
     rw [normalizer_eq_top_iff.mpr inferInstance]
     exact le_top
   obtain ⟨S, hSsyl, -, hPS⟩ := CFSG.Goldschmidt.G310.exists_invariant_sylow_containing
-    hprime hf P.isPGroup' hD3 hPD bot_le hbotf hPbot
+    hprime hf P.isPGroup hD3 hPD bot_le hbotf hPbot
   obtain ⟨c, hc, hFc⟩ := CFSG.Goldschmidt.G310.exists_conj_of_invariant_sylows
     hprime hf hbotp hD3 bot_le hSsyl hFD bot_le bot_le
   refine ⟨c, CFSG.AGLEmbedding.glbPrimeCore_le p M (mem_inf.mp hc).1, ?_⟩
@@ -174,7 +175,7 @@ theorem isMax_top_of_isMax (hS : Situation G p P M)
   obtain ⟨-, hR2, hBR⟩ := hR
   by_contra hne
   have hlt : T < R := lt_of_le_of_ne hTR (Ne.symm hne)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨y, hyR, hyN, hyT⟩ := exists_mem_normalizer_not_mem hR2 hlt
   set L : Subgroup G := normalizer (T : Set G)
   have hL : IsTwoLocal L := ⟨T, hT1, hT2, rfl⟩
@@ -196,7 +197,7 @@ theorem isMax_self (hS : Situation G p P M)
     (hnr : NormalizerRank p P M (zpowers x ⊔ zpowers z)) {H S : Subgroup G}
     (h : Prop614Extremal M (zpowers x ⊔ zpowers z) H S) :
     IsMaxTwoInvariantIn (zpowers x ⊔ zpowers z) H S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨⟨hSHM, hS2, hBS⟩, hSmax⟩ := h.pair.isMax
   refine ⟨⟨hSHM.trans inf_le_left, hS2, hBS⟩, fun R hR hSR => ?_⟩
   by_contra hRS
@@ -224,7 +225,7 @@ theorem normalizer_le_of_characteristic (hS : Situation G p P M)
     (h : Prop614Extremal M (zpowers x ⊔ zpowers z) H S) {S₀ : Subgroup G} (h1 : S₀ ≤ S)
     (h2 : S₀ ≠ ⊥) (h3 : (S₀.subgroupOf S).Characteristic) :
     normalizer (S₀ : Set G) ≤ M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨⟨hSHM, hS2, hBS⟩, -⟩ := h.pair.isMax
   have hNN := normalizer_le_normalizer_of_characteristic h1 h3
   have hH₁ : IsTwoLocal (normalizer (S₀ : Set G)) := ⟨S₀, h2, hS2.to_le h1, rfl⟩
@@ -251,7 +252,7 @@ theorem normalizer_le_of_characteristic (hS : Situation G p P M)
 theorem pRank_le_two (hS : Situation G p P M) (hx : Point P M x) (hz : Central P z)
     {H S : Subgroup G} (h : Prop614Pair M (zpowers x ⊔ zpowers z) H S) : Open.pRank p H ≤ 2 := by
   have hprime := hS.prime
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   have hpl := plane_of_central hS hx hz
   have hB3 : IsPGroup p ↥(zpowers x ⊔ zpowers z) := IsPGroup.of_card (n := 2) hpl.card_eq
   have hBP : zpowers x ⊔ zpowers z ≤ (P : Subgroup G) := hpl.isIsolatedPlane.1

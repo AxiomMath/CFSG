@@ -20,7 +20,7 @@ variable {M N : Subgroup G}
 
 private theorem sylow_three_not_commutative {L : Type} [Group L] [Finite L]
     [Group.IsPerfect L] (hZcard : Nat.card (Subgroup.center L) = 3)
-    (R : Sylow 3 L) (hRcard : Nat.card ↥(R : Subgroup L) = 27) :
+    (R : Sylow 3 L) (_hRcard : Nat.card ↥(R : Subgroup L) = 27) :
     ∃ r ∈ (R : Subgroup L), ∃ s ∈ (R : Subgroup L), r * s ≠ s * r := by
   by_contra h
   push Not at h
@@ -228,7 +228,7 @@ private theorem inf_oTwoZStar_le_center {J' S' : Subgroup G}
   classical
   let q : ↥J' →* threeStar J' := QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥J')
   have hSO : S'.subgroupOf J' ⊓ CFSG.pPrimeCore 3 ↥J' = ⊥ := by
-    refine Subgroup.inf_eq_bot_of_coprime ?_
+    refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
     obtain ⟨n, hn⟩ := (hS'.isPGroup.comap_subtype (K := J')).exists_card_eq
     have hn' : Nat.card ↥(S'.subgroupOf J') = 3 ^ n := hn
     rw [hn']
@@ -289,7 +289,7 @@ private theorem inf_oTwoZStar_eq_center {J' S' : Subgroup G}
 private theorem card_sylow_three {J' S' : Subgroup G}
     (htype : IsSL34Star J' ∨ Is3A6Star J')
     (hS' : CFSG.ABGLocalTools.IsSylowOf 3 S' J') : Nat.card S' = 27 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcardL : Nat.card (threeStar J') = 60480 ∨ Nat.card (threeStar J') = 1080 := by
     rcases htype with hSL | hA6
     · exact Or.inl (IsSL34Star.card_threeStar hSL)
@@ -322,9 +322,9 @@ private theorem pow_three_eq_one_of_component
     (hS' : CFSG.ABGLocalTools.IsSylowOf 3 S' J') (hcardS' : Nat.card S' = 27) :
     ∀ x ∈ S', x ^ 3 = 1 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hq := hJ'.isQuasisimple
-  haveI : Group.IsPerfect (threeStar J') := hq.1
+  have : Group.IsPerfect (threeStar J') := hq.1
   have hZcard : Nat.card (Subgroup.center (threeStar J')) = 3 := by
     rcases htype with hSL | hA6
     · exact hSL.2
@@ -369,9 +369,9 @@ private theorem not_commutative_and_center_le_image {J' S' : Subgroup G}
       Subgroup.center (threeStar J') ≤
         (S'.subgroupOf J').map (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥J')) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hq := hJ'.isQuasisimple
-  haveI : Group.IsPerfect (threeStar J') := hq.1
+  have : Group.IsPerfect (threeStar J') := hq.1
   have hZcard : Nat.card (Subgroup.center (threeStar J')) = 3 := by
     rcases htype with hSL | hA6
     · exact hSL.2
@@ -431,7 +431,7 @@ theorem IsKComp.sylow_three_structure
       S' ⊓ oTwoZStar J' = (Subgroup.center ↥S').map S'.subtype ∧
       Nat.card ↥((Subgroup.center ↥S').map S'.subtype) = 3 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hZcard : Nat.card (Subgroup.center (threeStar J')) = 3 := by
     rcases htype with hSL | hA6
     · exact hSL.2

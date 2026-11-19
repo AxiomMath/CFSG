@@ -86,7 +86,7 @@ theorem twE6SCTorusInput_nonsplit
       rw [show ((y⁻¹ * x * y : twistedE6RootGroup K σ) : ModGL TwistTag.E6.tag K) =
           (y : ModGL TwistTag.E6.tag K)⁻¹ * (x : ModGL TwistTag.E6.tag K) *
             (y : ModGL TwistTag.E6.tag K) by
-        simp [Subgroup.coe_mul, Subgroup.coe_inv]]
+        simp [Subgroup.coe_mul]]
       rw [map_mul, map_mul, map_inv]
     have hconj : g0'⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K))
           (x : ModGL TwistTag.E6.tag K) * g0' =

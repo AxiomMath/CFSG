@@ -32,10 +32,10 @@ theorem residual_of_violation (hI : Phase1Inputs) (hL : Leaves1) :
 
 theorem hypA2_of_smallF3Cyclic (hI : Phase1Inputs) (hL : Leaves1) (G : Type) [Group G]
     [Finite G] (L : Subgroup G) (h : SmallF3Cyclic G L) (hcat : ¬ Catalog G)
-    (hres : NoResidualA2 G) : HypA2 G := by
+    (hres : NoResidualA2 G) : CFSG.OddStandard.SmallF3.HypA2 G := by
   intro x y X K hcfg hX
   by_contra hK
-  haveI := h.simple
+  have := h.simple
   exact hres x y X K hcfg hX
     (residual_of_violation hI hL G h.nonab h.kProper hcat h.balanced x y hcfg.ox hcfg.oy
       hcfg.comm X K hcfg.X_le hcfg.X_comp hcfg.K_le hcfg.K_comp hcfg.X_le_KK hX hK)

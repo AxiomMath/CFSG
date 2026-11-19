@@ -20,7 +20,7 @@ open CFSG.Open CFSG.ComponentClassification.OuterAutomorphisms CFSG.HardMathSupp
 
 theorem charP_two_of_card_eight {K : Type} [Field K] [Finite K] (hK : Nat.card K = 8) :
     CharP K 2 := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   obtain ⟨p, hchar, n, hp, hcard⟩ := FiniteField.card' K
   have hpn : p ^ (n : ℕ) = 2 ^ 3 := by
     rw [← hcard, ← Nat.card_eq_fintype_card, hK]
@@ -46,8 +46,8 @@ variable {n : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
 
 theorem sp_quot_cyclic (hn : 3 ≤ n) :
     IsCyclic (MulAut (StatedProj (StatedSp n K)) ⧸ inner (StatedProj (StatedSp n K))) := by
-  haveI : (inner (StatedProj (StatedSp n K))).Normal := inner_normal _
-  haveI := CFSG.ComponentClassification.CatalogueSchreierLinearTwo.fieldAut_isCyclic K
+  have : (inner (StatedProj (StatedSp n K))).Normal := inner_normal _
+  have := CFSG.ComponentClassification.CatalogueSchreierLinearTwo.fieldAut_isCyclic K
   have hsurj : Function.Surjective
       ((QuotientGroup.mk' (inner (StatedProj (StatedSp n K)))).comp (fieldAut n K)) := by
     intro q
@@ -62,8 +62,8 @@ theorem sp_quot_cyclic (hn : 3 ≤ n) :
 
 theorem sp_innAutDerived_eq_inner (hn : 3 ≤ n) :
     innAutDerived (StatedProj (StatedSp n K)) = inner (StatedProj (StatedSp n K)) := by
-  haveI : (inner (StatedProj (StatedSp n K))).Normal := inner_normal _
-  haveI := sp_quot_cyclic (n := n) (K := K) hn
+  have : (inner (StatedProj (StatedSp n K))).Normal := inner_normal _
+  have := sp_quot_cyclic (n := n) (K := K) hn
   apply le_antisymm
   · refine sup_le le_rfl ?_
     rw [commutator_def, Subgroup.commutator_le]
@@ -77,8 +77,8 @@ theorem sp_innAutDerived_eq_inner (hn : 3 ≤ n) :
   · exact inner_le_innAutDerived _
 
 theorem sp_outCyc (hn : 3 ≤ n) : OutCycAt 3 (StatedProj (StatedSp n K)) := by
-  haveI : (inner (StatedProj (StatedSp n K))).Normal := inner_normal _
-  haveI := sp_quot_cyclic (n := n) (K := K) hn
+  have : (inner (StatedProj (StatedSp n K))).Normal := inner_normal _
+  have := sp_quot_cyclic (n := n) (K := K) hn
   refine outCycAt_of_cyclic Nat.prime_three ⊤ (fun _ _ => Subgroup.mem_top _)
     ((QuotientGroup.mk' (inner (StatedProj (StatedSp n K)))).comp
       (⊤ : Subgroup (MulAut (StatedProj (StatedSp n K)))).subtype) ?_
@@ -87,9 +87,10 @@ theorem sp_outCyc (hn : 3 ≤ n) : OutCycAt 3 (StatedProj (StatedSp n K)) := by
     (QuotientGroup.eq_one_iff _).1 hx
   exact inner_le_innAutDerived _ hx'
 
+omit [Finite K] in
 theorem center_sp_eq_bot (hn : 3 ≤ n) :
     Subgroup.center (StatedProj (StatedSp n K)) = ⊥ := by
-  haveI : NeZero n := ⟨by omega⟩
+  have : NeZero n := ⟨by omega⟩
   let e : StatedSp n K ≃* StatedProj (StatedSp n K) :=
     MulEquiv.ofBijective (proj n K)
       ⟨CFSG.StandardType.AutPSp.proj_injective, proj_surjective (r := n) (K := K)⟩
@@ -106,7 +107,7 @@ theorem exists_descent_sp {n : ℕ} (hn : 3 ≤ n) {K : Type} [Field K] [Finite 
     ∃ ι : ↥(TauCeti.BilinForm.isometryGroup (stdForm n)) →* StatedProj (StatedSp n K),
       Function.Injective ι ∧ (∀ v, b (ι v) = ι v) ∧ (∀ x, b x = x → x ∈ ι.range) := by
   classical
-  haveI hchar : CharP K 2 := charP_two_of_card_eight hK
+  have hchar : CharP K 2 := charP_two_of_card_eight hK
   have hK' : Nat.card K = 2 ^ 3 := by rw [hK]; norm_num
   have hpdvd : 3 ∣ Nat.card (StatedProj (StatedSp n K)) := by
     have hr : 1 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup (StatedSp n K)) := by
@@ -119,7 +120,7 @@ theorem exists_descent_sp {n : ℕ} (hn : 3 ≤ n) {K : Type} [Field K] [Finite 
       have h2 : Nat.card E ∣ Nat.card (StatedSp n K) := Subgroup.card_subgroup_dvd_card E
       rw [hE, pow_one] at h2
       exact h2
-    haveI : NeZero n := ⟨by omega⟩
+    have : NeZero n := ⟨by omega⟩
     have e : StatedSp n K ≃* StatedProj (StatedSp n K) :=
       MulEquiv.ofBijective (proj n K)
         ⟨CFSG.StandardType.AutPSp.proj_injective, proj_surjective (r := n) (K := K)⟩
@@ -134,17 +135,17 @@ theorem exists_descent_sp {n : ℕ} (hn : 3 ≤ n) {K : Type} [Field K] [Finite 
   have hcard2 : Nat.card (descentField σ) = 2 := by
     rw [hcard]
     norm_num
-  haveI : Finite (descentField σ) := inferInstance
+  have : Finite (descentField σ) := inferInstance
   obtain ⟨e₀⟩ := exists_ringEquiv_zmod2 (descentField σ) hcard2
   obtain ⟨stdIso⟩ := exists_stdIso n
-  haveI : NeZero n := ⟨by omega⟩
+  have : NeZero n := ⟨by omega⟩
   let φ : StatedSp n (descentField σ) ≃* StatedSp n (ZMod 2) := spFieldEquiv e₀ n
   let ι₁ : ↥(TauCeti.BilinForm.isometryGroup (stdForm n)) →* StatedProj (StatedSp n K) :=
     (subfieldSpProj n (descentField σ)).comp ((proj n (descentField σ)).comp
       (φ.symm.toMonoidHom.comp stdIso.symm.toMonoidHom))
   have hproj_inj : Function.Injective (proj n (descentField σ)) := by
-    haveI : Fintype (descentField σ) := Fintype.ofFinite _
-    haveI : CharP (descentField σ) 2 :=
+    have : Fintype (descentField σ) := Fintype.ofFinite _
+    have : CharP (descentField σ) 2 :=
       charP_of_card_eq_prime (by rw [← Nat.card_eq_fintype_card]; exact hcard2)
     exact CFSG.StandardType.AutPSp.proj_injective
   have hι₁inj : Function.Injective ι₁ := fun a b hab =>

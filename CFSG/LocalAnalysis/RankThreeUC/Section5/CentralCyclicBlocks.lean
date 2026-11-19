@@ -15,9 +15,9 @@ variable {G : Type} [Group G] [Finite G] {p : ℕ} {P T B : Subgroup G} {e : ℕ
 @[expose] def toSubgroup (hc : BinaryActionRankCounterexample G p P T B e ρ) (W : Submodule (ZMod p) (Space hc)) :
     Subgroup ↥P where
   carrier := {x | Space.mk hc x ∈ W}
-  mul_mem' := fun {a b} ha hb => W.add_mem ha hb
+  mul_mem' := fun {_a _b} ha hb => W.add_mem ha hb
   one_mem' := W.zero_mem
-  inv_mem' := fun {a} ha => W.neg_mem ha
+  inv_mem' := fun {_a} ha => W.neg_mem ha
 
 theorem mem_toSubgroup (hc : BinaryActionRankCounterexample G p P T B e ρ) (W : Submodule (ZMod p) (Space hc))
     (x : ↥P) : x ∈ toSubgroup hc W ↔ Space.mk hc x ∈ W := Iff.rfl
@@ -38,11 +38,11 @@ theorem toSubgroup_map (hc : BinaryActionRankCounterexample G p P T B e ρ) (W :
 theorem isCyclic_toSubgroup (hc : BinaryActionRankCounterexample G p P T B e ρ)
     (W : Submodule (ZMod p) (Space hc)) (hW : Module.finrank (ZMod p) W ≤ 1) :
     IsCyclic (toSubgroup hc W) := by
-  haveI : Fact p.Prime := ⟨prime hc⟩
+  have : Fact p.Prime := ⟨prime hc⟩
   rcases Nat.le_one_iff_eq_zero_or_eq_one.mp hW with h0 | h1
   · have : W = ⊥ := Submodule.finrank_eq_zero.mp h0
     subst this
-    haveI : Subsingleton (toSubgroup hc (⊥ : Submodule (ZMod p) (Space hc))) := by
+    have : Subsingleton (toSubgroup hc (⊥ : Submodule (ZMod p) (Space hc))) := by
       refine ⟨fun a b => Subtype.ext ?_⟩
       have ha : Space.mk hc a.1 = 0 := (Submodule.mem_bot (ZMod p)).mp a.2
       have hb : Space.mk hc b.1 = 0 := (Submodule.mem_bot (ZMod p)).mp b.2
@@ -57,7 +57,7 @@ theorem isCyclic_toSubgroup (hc : BinaryActionRankCounterexample G p P T B e ρ)
 theorem closure_eq_top (hc : BinaryActionRankCounterexample G p P T B e ρ) {I : Type}
     (W : I → Submodule (ZMod p) (Space hc)) (hW : (⨆ i, W i) = ⊤) :
     Subgroup.closure {x : ↥P | ∃ i, x ∈ toSubgroup hc (W i)} = ⊤ := by
-  haveI : Fact p.Prime := ⟨prime hc⟩
+  have : Fact p.Prime := ⟨prime hc⟩
   set S := Subgroup.closure {x : ↥P | ∃ i, x ∈ toSubgroup hc (W i)} with hS
   let S' : AddSubgroup (Space hc) :=
     { carrier := {v | v.val ∈ S}
@@ -78,10 +78,10 @@ theorem blocks (hc : BinaryActionRankCounterexample G p P T B e ρ) (hr : IsPrim
       Subgroup.closure {x : ↥P | ∃ i, x ∈ E i} = ⊤ ∧
       ∀ φ ∈ T.map (conjOnP P hc.faithfulBinaryIrreducibleAction.normal), ∀ i, (E i).map φ.toMonoidHom = E i := by
   have he : Odd e := (PrimeB.prime_order hc hr).2.2.1
-  haveI : Fact p.Prime := ⟨prime hc⟩
+  have : Fact p.Prime := ⟨prime hc⟩
   have hdec := CentralBinaryDecomposition.decomposition hc he hXne
-  haveI : Finite (BinaryRepresentations.hyperplanes 2 (X hc)) := by
-    haveI : Finite (MulAut ↥P) := inferInstance
+  have : Finite (BinaryRepresentations.hyperplanes 2 (X hc)) := by
+    have : Finite (MulAut ↥P) := inferInstance
     infer_instance
   refine ⟨BinaryRepresentations.hyperplanes 2 (X hc), inferInstance, fun K => toSubgroup hc (E hc K.val), ?_,
     closure_eq_top hc _ hdec.2, ?_⟩

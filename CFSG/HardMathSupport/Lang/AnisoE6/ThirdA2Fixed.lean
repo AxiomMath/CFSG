@@ -48,8 +48,7 @@ theorem xyUnit_mem_fixed_of_orbitWord_eq (j : Fin Tag.F4.rank) (i : Fin Tag.E6.r
     yUnit Tag.E6 K i c ∈ twistedFixedGroup TwistTag.E6 K (RingHom.id K) := by
   have hx := f4OrbitXUnit_mem (K := K) j c
   have hy := f4OrbitYUnit_mem (K := K) j c
-  simp only [f4OrbitXUnit, f4OrbitYUnit, h, List.map_cons, List.map_nil, List.prod_cons,
-    List.prod_nil, mul_one] at hx hy
+  simp only [f4OrbitXUnit, f4OrbitYUnit, h] at hx hy
   exact ⟨hx, hy⟩
 
 theorem orbitWord_f4_zero : TwistTag.E6.orbitWord (f4FoldedIndex ⟨0, by decide⟩) =
@@ -118,7 +117,7 @@ theorem conj_uWord_mem {b : ModGL Tag.E6 K} (hb : b ∈ subsystemGroup Tag.E6 K 
         exact Subgroup.subset_closure ⟨_, Or.inl rfl, _, Or.inr rfl⟩
       · rw [ey, uWord_smul_e2, pinnedX_neg_single]
         exact Subgroup.subset_closure ⟨_, Or.inr rfl, _, Or.inr rfl⟩
-  | one => simpa using one_mem _
+  | one => simp
   | mul x y _ _ hx hy =>
     have e : nElt Tag.E6 K uWord * (x * y) * (nElt Tag.E6 K uWord)⁻¹ =
         (nElt Tag.E6 K uWord * x * (nElt Tag.E6 K uWord)⁻¹) *
@@ -167,7 +166,7 @@ theorem baseChangeGL_mem_subsystemGroup {τ : Tag} {J : Set (Fin τ.rank)} {b : 
       exact Subgroup.subset_closure ⟨i, hi, _, Or.inl rfl⟩
     · rw [baseChangeGL_yUnit]
       exact Subgroup.subset_closure ⟨i, hi, _, Or.inr rfl⟩
-  | one => simpa using one_mem _
+  | one => simp
   | mul x y _ _ hx hy => simpa using mul_mem hx hy
   | inv x _ hx => simpa using inv_mem hx
 

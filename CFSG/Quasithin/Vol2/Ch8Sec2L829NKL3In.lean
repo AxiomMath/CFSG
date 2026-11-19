@@ -21,9 +21,9 @@ theorem uIn_of_mulEquiv {X Y : Type} [Group X] [Group Y] (e : X ≃* Y) (h : UIn
     rw [h1, e.orderOf_eq]
     exact hord
 
-theorem charP_two_of_card {K : Type} [Field K] [Finite K] {n : ℕ} (hn : 0 < n)
+theorem charP_two_of_card {K : Type} [Field K] [Finite K] {n : ℕ} (_hn : 0 < n)
     (hK : Nat.card K = 2 ^ n) : CharP K 2 := by
-  letI := Fintype.ofFinite K
+  let := Fintype.ofFinite K
   obtain ⟨p, hp, m, hpp, hcard⟩ := FiniteField.card' (K := K)
   have hdvd : p ∣ 2 ^ n := by
     rw [← hK, Nat.card_eq_fintype_card, hcard]
@@ -127,13 +127,13 @@ theorem exists_unit_of_sq_zero {N : Matrix (Fin 3) (Fin 3) K} (hsq : N * N = 0) 
     have h1 := finrank_span_singleton (K := K) he3
     rw [heq] at h1
     omega
-  obtain ⟨e2, he2K, he2u⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨e2, he2K, he2u⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   have he2 : N *ᵥ e2 = 0 := (hkey e2).1 he2K
   have hmv : ∀ v : Fin 3 → K, (Matrix.of fun i j => ![u, e2, e3] j i) *ᵥ v =
       v 0 • u + v 1 • e2 + v 2 • e3 := by
     intro v
     funext i
-    simp [Matrix.mulVec, dotProduct, Fin.sum_univ_three] <;> ring
+    simp [Matrix.mulVec, dotProduct, Fin.sum_univ_three]; ring
   refine ⟨Matrix.of fun i j => ![u, e2, e3] j i, ?_, ?_⟩
   · rw [isUnit_iff_ne_zero]
     intro hdet
@@ -176,10 +176,10 @@ theorem exists_unit_of_sq_zero {N : Matrix (Fin 3) (Fin 3) K} (hsq : N * N = 0) 
       exact h
     · have h := congrFun he2 i
       simp [Matrix.mulVec, dotProduct, Fin.sum_univ_three, nkE, Matrix.mul_apply] at h ⊢
-      first | exact h | exact h.symm | linarith
+      first | exact h
     · have h := congrFun hu i
       simp [Matrix.mulVec, dotProduct, Fin.sum_univ_three, nkE, Matrix.mul_apply] at h ⊢
-      first | exact h | exact h.symm | linarith
+      exact h.symm
 
 theorem nkJ_mul_self (K : Type) [Field K] [CharP K 2] :
     (1 + nkE K) * (1 + nkE K) = (1 : Matrix (Fin 3) (Fin 3) K) := by
@@ -215,7 +215,7 @@ theorem nkC_mul_nkJGL_comm (K : Type) [Field K] [CharP K 2] (d : Kˣ) :
   show diagonal ![1, (d : K), 1] * (1 + nkE K) = (1 + nkE K) * diagonal ![1, (d : K), 1]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [nkE, Matrix.mul_apply, Fin.sum_univ_three, diagonal_apply]
+    simp [nkE, Matrix.mul_apply, diagonal_apply]
 
 theorem exists_conj_nkJGL {K : Type} [Field K] [CharP K 2] (t : GL (Fin 3) K)
     (ht : t * t = 1) (ht1 : t ≠ 1) :
@@ -317,7 +317,7 @@ theorem nkD_mul (K : Type) [Field K] (a b : Kˣ) : nkD K (a * b) = nkD K a * nkD
   rw [diagonal_mul_diagonal]
   congr 1
   funext i
-  fin_cases i <;> simp [mul_inv, mul_comm]
+  fin_cases i <;> simp [mul_comm]
 
 @[expose] def nkDHom (K : Type) [Field K] : Kˣ →* GL (Fin 3) K :=
   MonoidHom.mk' (nkD K) (nkD_mul K)
@@ -360,7 +360,7 @@ theorem nkZ_det (K : Type) [Field K] [CharP K 2] : Matrix.GeneralLinearGroup.det
   rw [Matrix.det_fin_three]
   simp [CharTwo.neg_eq]
 
-theorem sl3_uin_order {K : Type} [Field K] [Finite K] [CharP K 2] {n : ℕ} (hn : Odd n)
+theorem sl3_uin_order {K : Type} [Field K] [Finite K] [CharP K 2] {n : ℕ} (_hn : Odd n)
     (h3 : 3 ≤ n) (hK : Nat.card K = 2 ^ n) :
     ∃ z g : ↥(StatedSL 3 K), orderOf z = 2 ∧ 6 ≤ orderOf (z * (g⁻¹ * z * g)) := by
   obtain ⟨a, ha⟩ := IsCyclic.exists_ofOrder_eq_natCard (α := Kˣ)

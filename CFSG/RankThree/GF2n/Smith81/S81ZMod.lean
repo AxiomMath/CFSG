@@ -21,10 +21,12 @@ variable {K : Type} [Field K] [CharP K 2] {T : Type} [CommGroup T] {ι : Type}
 noncomputable def charHom (χ : T →* Kˣ) : MonoidAlgebra ℤ T →+* K :=
   (MonoidAlgebra.lift ℤ K T ((Units.coeHom K).comp χ)).toRingHom
 
+omit [CharP K 2] in
 theorem charHom_single (χ : T →* Kˣ) (t : T) :
     charHom χ (MonoidAlgebra.single t 1) = ((χ t : Kˣ) : K) := by
   simp [charHom]
 
+omit [CharP K 2] in
 theorem charHom_surjective (χ : T →* Kˣ) (hχ : Function.Surjective χ) :
     Function.Surjective (charHom χ) := by
   intro x
@@ -35,6 +37,7 @@ theorem charHom_surjective (χ : T →* Kˣ) (hχ : Function.Surjective χ) :
     rw [charHom_single, ht]
     rfl
 
+omit [CharP K 2] in
 theorem exists_ringEquiv_of_ker_eq (χ ψ : T →* Kˣ) (hχ : Function.Surjective χ)
     (hψ : Function.Surjective ψ) (h : RingHom.ker (charHom χ) = RingHom.ker (charHom ψ)) :
     ∃ σ : K ≃+* K, ∀ t, σ ((χ t : Kˣ) : K) = (ψ t : Kˣ) := by
@@ -53,11 +56,11 @@ theorem intCast_eq_ite (b : ℤ) : ((b : ℤ) : K) = if Even b then 0 else 1 := 
   rcases Int.even_or_odd' b with ⟨k, hk | hk⟩
   · subst hk
     have : Even (2 * k) := even_two_mul k
-    rw [if_pos this, Int.cast_mul]
+    rw [ite_eq_left this, Int.cast_mul]
     simp [CharTwo.two_eq_zero]
   · subst hk
-    have : ¬ Even (2 * k + 1) := by simpa using Int.not_even_two_mul_add_one k
-    rw [if_neg this, Int.cast_add, Int.cast_mul]
+    have : ¬ Even (2 * k + 1) := by simp
+    rw [ite_eq_right this, Int.cast_add, Int.cast_mul]
     simp [CharTwo.two_eq_zero]
 
 theorem charHom_eq_sum (χ : T →* Kˣ) (x : MonoidAlgebra ℤ T) :
@@ -131,7 +134,7 @@ theorem eq_coordSub (χ : ι → T →* Kˣ) (hsurj : ∀ i, Function.Surjective
         simp only [← Finset.sum_mul, hF j]
         by_cases hj : j = i
         · subst hj; simp
-        · simp [Pi.single_apply, hj]
+        · simp [hj]
       by_cases hy : y = 0
       · simp [hy]
       · obtain ⟨t, ht⟩ := hsurj i (Units.mk0 (y / c' i) (div_ne_zero hy hc'i))
@@ -142,7 +145,7 @@ theorem eq_coordSub (χ : ι → T →* Kˣ) (hsurj : ∀ i, Function.Surjective
         · subst hj
           simp only [Pi.single_eq_same, ht, Units.val_mk0]
           field_simp
-        · simp [Pi.single_apply, hj]
+        · simp [hj]
     have : c = ∑ i, Pi.single i (c i) := by
       funext j
       simp [Finset.sum_apply, Pi.single_apply]
@@ -156,6 +159,7 @@ theorem eq_coordSub (χ : ι → T →* Kˣ) (hsurj : ∀ i, Function.Surjective
       obtain ⟨-, c', hc'S, hc'i⟩ := Finset.mem_filter.1 hiA
       exact hsingle i ⟨c', hc'S, hc'i⟩ (c i)
 
+omit [CharP K 2] in
 theorem card_coordSub [Finite K] (A : Finset ι) :
     Nat.card (coordSub K A) = Nat.card K ^ A.card := by
   classical

@@ -236,12 +236,12 @@ theorem exists_mulEquiv_statedSp_of_isLabel {K : Type} [Group K] [Finite K] {N n
   obtain ⟨-, -, hM⟩ := quasisimple_markedModel_of_isLabel hK
   have hM' : CFSG.Blueprint.LieModel (K ⧸ Subgroup.center K) .PSp N 2 n := hM
   obtain ⟨-, F, hfield, hfinite, hcard, ⟨e⟩⟩ := hM'.statedClassicalModel (by decide)
-  letI : Field F := hfield
-  letI : Finite F := hfinite
-  haveI : Fintype F := Fintype.ofFinite F
+  let : Field F := hfield
+  let : Finite F := hfinite
+  have : Fintype F := Fintype.ofFinite F
   have hcard' : Fintype.card F = 2 ^ n := by rwa [← Nat.card_eq_fintype_card]
   have hchar : CharP F 2 := charP_of_card_eq_prime_pow hcard'
-  letI : CharP F 2 := hchar
+  let : CharP F 2 := hchar
   have hbot : (StatedScalars (Fin N ⊕ Fin N) F).subgroupOf (StatedSp N F) = ⊥ :=
     CFSG.Open.StatedAPI.statedScalars_subgroupOf_statedSp_eq_bot
   let eZ : K ≃* K ⧸ Subgroup.center K :=
@@ -280,9 +280,9 @@ theorem i166On_famB_of_transport
   rw [hlab_eq] at hlab
   obtain ⟨F, hfield, hfinite, hchar, hcard, ⟨e⟩⟩ :=
     exists_mulEquiv_statedSp_of_isLabel (N := m + 1) (n := lab.n) hlab hZ
-  letI : Field F := hfield
-  letI : Finite F := hfinite
-  letI : CharP F 2 := hchar
+  let : Field F := hfield
+  let : Finite F := hfinite
+  let : CharP F 2 := hchar
   have hF4 : 4 ≤ Nat.card F := by
     rw [hcard]
     calc 4 = 2 ^ 2 := by norm_num
@@ -297,7 +297,7 @@ theorem i166On_famB_of_transport
     intro h
     subst h
     exact (Nat.not_even_iff_odd.mpr hoddF) (even_iff_two_dvd.mpr hqdvd)
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hqdvd' : q ∣ Nat.card Fˣ := by rwa [Nat.card_units]
   obtain ⟨ζ, hζ⟩ := exists_prime_orderOf_dvd_card' (G := Fˣ) q hqdvd'
   exact htr e (exists_concl166S_statedSp (F := F) (p := p) (m := m) (n := lab.n)

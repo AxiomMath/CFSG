@@ -172,12 +172,12 @@ variable (F : FusionOut z)
 theorem exists_compl : ∃ L : Subgroup ↥(Subgroup.normalizer (F.A : Set G)),
     F.A.subgroupOf (Subgroup.normalizer (F.A : Set G)) ⊓ L = ⊥ ∧
       F.A.subgroupOf (Subgroup.normalizer (F.A : Set G)) ⊔ L = ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hAN : F.A ≤ Subgroup.normalizer (F.A : Set G) := Subgroup.le_normalizer
   have hTN := T_le_normalizer F
-  haveI : (F.A.subgroupOf (Subgroup.normalizer (F.A : Set G))).Normal :=
+  have : (F.A.subgroupOf (Subgroup.normalizer (F.A : Set G))).Normal :=
     Subgroup.normal_in_normalizer
-  haveI : IsMulCommutative ↥(F.A.subgroupOf (Subgroup.normalizer (F.A : Set G))) :=
+  have : IsMulCommutative ↥(F.A.subgroupOf (Subgroup.normalizer (F.A : Set G))) :=
     ⟨⟨fun x y => Subtype.ext (Subtype.ext (A_comm F _ x.2 _ y.2))⟩⟩
   have hV2 : IsPGroup 2 ↥(F.A.subgroupOf (Subgroup.normalizer (F.A : Set G))) := by
     refine IsPGroup.of_card (n := 6) ?_
@@ -296,7 +296,7 @@ theorem aN_mul (n m : ↥(Subgroup.normalizer (F.A : Set G))) :
     aN D (n * m) = conjA n (aN D m) * aN D n := by
   apply Subtype.ext
   simp only [coe_aN, conjA, MonoidHom.coe_mk, OneHom.coe_mk, Subgroup.coe_mul, map_mul,
-    mul_inv_rev, Subgroup.coe_inv]
+    mul_inv_rev]
   group
 
 @[expose] noncomputable def psi : ↥(Subgroup.normalizer (F.A : Set G)) →* Wr 7 where
@@ -421,9 +421,9 @@ theorem exists_nu : ∃ ν : ↥(Subgroup.normalizer (F.A : Set G)) ≃* ↥N0,
     refine IsPGroup.of_card (n := 6) ?_
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hAN).toEquiv, card_A F]
     norm_num
-  haveI : (F.A.subgroupOf N).Normal := Subgroup.normal_in_normalizer
+  have : (F.A.subgroupOf N).Normal := Subgroup.normal_in_normalizer
   have himgA : (F.A.subgroupOf N).map ν₀.toMonoidHom = A0.subgroupOf N0 := by
-    haveI : ((F.A.subgroupOf N).map ν₀.toMonoidHom).Normal :=
+    have : ((F.A.subgroupOf N).map ν₀.toMonoidHom).Normal :=
       Subgroup.Normal.map inferInstance _ ν₀.surjective
     refine Subgroup.eq_of_le_of_card_ge (le_A0_subgroupOf inferInstance (hA2.map _)) ?_
     rw [Subgroup.card_map_of_injective ν₀.injective,
@@ -482,7 +482,7 @@ theorem exists_nu : ∃ ν : ↥(Subgroup.normalizer (F.A : Set G)) ≃* ↥N0,
     have h1' : orbN0 alpha = {1} := by
       rw [← hz2]
       ext w
-      simp only [orbN0, Set.mem_setOf_eq, Set.mem_singleton_iff, OneMemClass.coe_one, mul_one,
+      simp only [orbN0, Set.mem_ofPred_eq, Set.mem_singleton_iff, OneMemClass.coe_one, mul_one,
         mul_inv_cancel]
       exact ⟨fun ⟨_, _, h⟩ => h.symm, fun h => ⟨1, N0.one_mem, h.symm⟩⟩
     rw [h1', Set.ncard_singleton] at h7
@@ -490,7 +490,7 @@ theorem exists_nu : ∃ ν : ↥(Subgroup.normalizer (F.A : Set G)) ≃* ↥N0,
   obtain ⟨m, hm, hmα⟩ := mem_orbN0_alpha_of (hmemA0 z (z_mem_A F)) hz1 hcard hcl
   refine ⟨ν₀.trans (MulAut.conj (⟨m, hm⟩ : ↥N0)⁻¹), ?_⟩
   show ((⟨m, hm⟩ : ↥N0)⁻¹ * ν₀ zN * (⟨m, hm⟩ : ↥N0)⁻¹⁻¹ : StatedSp 3 (ZMod 2)) = alpha
-  simp only [Subgroup.coe_mul, Subgroup.coe_inv, inv_inv]
+  simp only [Subgroup.coe_inv, inv_inv]
   rw [← hmα]
   group
 

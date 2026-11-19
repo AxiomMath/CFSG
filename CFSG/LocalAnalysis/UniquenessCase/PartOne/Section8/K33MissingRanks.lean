@@ -51,8 +51,8 @@ theorem pRank_three_eq_two_of_lieModel_PSU_three_of_mod_two {p f : ℕ}
     (hq3 : p ^ f % 3 = 2) (h : LieModel X .PSU 3 p f) :
     CFSG.Open.pRank 3 (⊤ : Subgroup X) = 2 := by
   obtain ⟨hadm, K, hKfield, hKfin, hK, ⟨e⟩⟩ := h.statedClassicalModel (by decide)
-  letI := hKfield
-  letI := hKfin
+  let := hKfield
+  let := hKfin
   have hf : 1 ≤ f := hadm.2.1
   have hq1 : 1 ≤ p ^ f := Nat.one_le_pow f p hadm.1.pos
   have h3q : 3 ∣ p ^ f + 1 := by
@@ -75,8 +75,8 @@ theorem pRank_three_eq_two_of_lieModel_PSL_four_of_mod_two {p f : ℕ}
     CFSG.Open.pRank 3 (⊤ : Subgroup X) = 2 := by
   have hC : StatedClassicalModel X .PSL 4 p f := h.statedClassicalModel (by decide)
   obtain ⟨-, K, hKfield, hKfin, hK, ⟨e⟩⟩ := hC
-  letI := hKfield
-  letI := hKfin
+  let := hKfield
+  let := hKfin
   have h3q : 3 ∣ p ^ f + 1 := by
     refine ⟨p ^ f / 3 + 1, ?_⟩
     have hdm := Nat.div_add_mod (p ^ f) 3
@@ -100,8 +100,8 @@ theorem pRank_three_eq_two_of_lieModel_PSL_five_of_mod_two {p f : ℕ}
     CFSG.Open.pRank 3 (⊤ : Subgroup X) = 2 := by
   have hC : StatedClassicalModel X .PSL 5 p f := h.statedClassicalModel (by decide)
   obtain ⟨-, K, hKfield, hKfin, hK, ⟨e⟩⟩ := hC
-  letI := hKfield
-  letI := hKfin
+  let := hKfield
+  let := hKfin
   have h3q : 3 ∣ p ^ f + 1 := by
     refine ⟨p ^ f / 3 + 1, ?_⟩
     have hdm := Nat.div_add_mod (p ^ f) 3
@@ -125,8 +125,8 @@ theorem pRank_three_eq_two_of_lieModel_PSU_four_of_mod_one {p f : ℕ}
     CFSG.Open.pRank 3 (⊤ : Subgroup X) = 2 := by
   have hC : StatedClassicalModel X .PSU 4 p f := h.statedClassicalModel (by decide)
   obtain ⟨hadm, K, hKfield, hKfin, hK, ⟨e⟩⟩ := hC
-  letI := hKfield
-  letI := hKfin
+  let := hKfield
+  let := hKfin
   have hf : 1 ≤ f := hadm.2.1
   have h3q : 3 ∣ p ^ f - 1 := by
     refine ⟨p ^ f / 3, ?_⟩
@@ -153,8 +153,8 @@ theorem pRank_three_eq_two_of_lieModel_PSU_five_of_mod_one {p f : ℕ}
     CFSG.Open.pRank 3 (⊤ : Subgroup X) = 2 := by
   have hC : StatedClassicalModel X .PSU 5 p f := h.statedClassicalModel (by decide)
   obtain ⟨hadm, K, hKfield, hKfin, hK, ⟨e⟩⟩ := hC
-  letI := hKfield
-  letI := hKfin
+  let := hKfield
+  let := hKfin
   have hf : 1 ≤ f := hadm.2.1
   have h3q : 3 ∣ p ^ f - 1 := by
     refine ⟨p ^ f / 3, ?_⟩

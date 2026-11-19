@@ -99,7 +99,7 @@ theorem rckIIpAt_excFive_classicalModelIDAt_of_model
   have hD_le_A : D ≤ A := hDB1.trans hB1A
   have hKG0 : K ≤ G₀ := hKcomp.1.trans inf_le_left
   have hKperf : commutator ↥K = ⊤ := hKcomp.2.2.1
-  haveI : Group.IsPerfect ↥K := ⟨hKperf⟩
+  have : Group.IsPerfect ↥K := ⟨hKperf⟩
 
   obtain ⟨η, E', S, a, i, hηker, _, _, hE'torus, _, _, hE'1, _, hrootMem, hrd1, hap, _,
     hi_eq, hi_qs⟩ := rckIIpAt_excFive_lang_component ht hrow hcfg0
@@ -159,7 +159,7 @@ theorem rckIIpAt_excFive_classicalModelIDAt_of_model
   have hnotG2 : langTag t ≠ .G2 := by
     rcases langTag_five t with h | h | h | h <;> rw [h] <;> simp
   have hG2guard : langTag t = .G2 → 4 ≤ S.D.q := fun h => absurd h hnotG2
-  haveI : CharP GGL 2 := inferInstance
+  have : CharP GGL 2 := inferInstance
   have haPow : a ^ p = 1 := by
     funext j
     simpa using hap j
@@ -169,7 +169,7 @@ theorem rckIIpAt_excFive_classicalModelIDAt_of_model
   have hMark0 := CFSG.StandardType.Legacy.largeEvenMarking_of_lieModel_centerQuot hKperf hLM
   obtain ⟨_, lab, hlab, hraw⟩ := hMark0
   obtain ⟨R, instR, I, F, hQ⟩ := CFSG.StandardType.largeEvenRawDatum_exists hraw
-  haveI := instR
+  have := instR
   obtain ⟨hs, hna, θ, htag, hrank, hchar, hdeg⟩ := hQ
   have hstits : s ≠ .Tits := by
     rintro rfl
@@ -376,7 +376,7 @@ theorem exists_orthogonal_two_innerDiag_presentation
       ψ.range = K ∧ ψ.ker ≤ Subgroup.center (ggU s m 1).K ∧
         ∀ b ∈ B, GGPsiInnerDiag (ggU s m 1).D ψ b := by
   classical
-  haveI : Finite ↥K := Subtype.finite
+  have : Finite ↥K := Subtype.finite
   have hspos : GGPosTag s := by
     rcases hshape with ⟨rfl, _⟩ | ⟨rfl, _⟩ <;> simp [GGPosTag]
   have hcover := CFSG.StandardType.LieOddCover.ggLieOddCover_holds

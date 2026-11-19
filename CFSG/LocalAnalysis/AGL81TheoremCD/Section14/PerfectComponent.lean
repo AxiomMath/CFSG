@@ -11,7 +11,7 @@ namespace CFSG.LocalAnalysis.AGL81TheoremCD.Section14
 open CFSG.Open Subgroup
 
 theorem perfect_le_layer_sup_centralizer {X : Type} [Group X] [Finite X] {P : Subgroup X}
-    (hP : ⁅P, P⁆ = P)
+    (_hP : ⁅P, P⁆ = P)
     (hcomp : ∀ C : Subgroup X, CFSG.IsComponent C →
       P ≤ C ⊔ Subgroup.centralizer (C : Set X)) :
     P ≤ CFSG.layer X ⊔ Subgroup.centralizer (CFSG.layer X : Set X) := by

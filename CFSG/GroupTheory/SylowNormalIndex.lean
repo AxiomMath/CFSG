@@ -11,9 +11,10 @@ open Subgroup
 variable {G : Type*} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
   {R M N : Subgroup G}
 
+omit [Finite G] in
 theorem le_of_isPGroup_of_not_dvd_relIndex (hR : IsPGroup p R) (hRM : R ≤ M) (hNM : N ≤ M)
     (hMN : M ≤ normalizer (N : Set G)) (h : ¬ p ∣ N.relIndex M) : R ≤ N := by
-  haveI : (N.subgroupOf M).Normal :=
+  have : (N.subgroupOf M).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNM).mpr hMN
   have hNidx : N.relIndex M = Nat.card (↥M ⧸ N.subgroupOf M) := by
     show (N.subgroupOf M).index = _

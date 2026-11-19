@@ -100,7 +100,7 @@ private theorem exists_fixed_sylow [Finite G] {K P : Subgroup G} (hP : IsPGroup 
     ∃ S : Sylow 2 K, ∀ p ∈ P, ∀ s : K, s ∈ S →
       p * (s : G) * p⁻¹ ∈ (S : Subgroup K).map K.subtype := by
   let φ : P →* MulAut K := (normAct K).comp (Subgroup.inclusion hPK)
-  letI : MulDistribMulAction P K := MulDistribMulAction.compHom K φ
+  let : MulDistribMulAction P K := MulDistribMulAction.compHom K φ
   obtain ⟨S, hS⟩ := hP.nonempty_fixed_point_of_prime_not_dvd_card (Sylow 2 K)
     (not_dvd_card_sylow 2 K)
   refine ⟨S, fun p hp s hs => ?_⟩
@@ -116,7 +116,7 @@ private theorem exists_conj_eq_of_sylow [Finite G] {T O : Subgroup G}
     ∃ o ∈ O, (S : Subgroup ↥(T ⊔ O)).map (T ⊔ O).subtype = conjSub o T := by
   obtain ⟨a, ha⟩ := hT.exists_card_eq
   have hOT : O ⊓ T = ⊥ :=
-    inf_eq_bot_of_coprime (by rw [ha]; exact (Nat.Coprime.pow_left a hO).symm)
+    (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard (by rw [ha]; exact (Nat.Coprime.pow_left a hO).symm)))
   have hcard : Nat.card ↥(T ⊔ O) = Nat.card T * Nat.card O := by
     rw [sup_comm, card_sup_of_inf_eq_bot hTN hOT, mul_comm]
   have hTK : T ≤ T ⊔ O := le_sup_left

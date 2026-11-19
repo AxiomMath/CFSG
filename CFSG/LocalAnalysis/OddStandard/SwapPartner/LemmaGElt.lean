@@ -43,7 +43,7 @@ private theorem conj_E_pow {g z : G} {ι : Perm (Fin 10) →* G}
               ← conj_pow (i := j) (a := g) (b := ι τ₀)]
     _ = (ι τ₀) ^ i * z ^ j := by rw [hz, hx]
 
-private theorem conj_mem_CEgrp {g : G} (hC : CentData z ι)
+private theorem conj_mem_CEgrp {g : G} (_hC : CentData z ι)
     (hz : g * z * g⁻¹ = ι τ₀) (hx : g * ι τ₀ * g⁻¹ = z)
     {c : G} (hc : c ∈ CEgrp z ι) : g * c * g⁻¹ ∈ CEgrp z ι := by
   have hcz : c * z = z * c := mem_centralizer_singleton_iff.1 (mem_inf.1 hc).1
@@ -113,7 +113,7 @@ private theorem eq_z_or_eq_x1_of_mem_Egrp_of_isConj (hC : CentData z ι)
     w = z ∨ w = ι τ₀ := by
   obtain ⟨i, j, rfl⟩ := (mem_Egrp_iff hC).1 hw
   fin_cases i <;> fin_cases j <;>
-    simp only [Fin.val_zero, Fin.val_one, pow_zero, pow_one, one_mul, mul_one] at hc
+    simp only [pow_zero, pow_one, one_mul, mul_one] at hc
   · exact absurd (isConj_one_left.mp hc) (centData_ne_one hC)
   · exact Or.inr (by simp)
   · exact Or.inl (by simp)
@@ -166,7 +166,7 @@ theorem GElt.of_swap_of_comm_A (hC : CentData z ι) (hz : g * z * g⁻¹ = ι τ
     exact key.symm
   have hsq : g * g = 1 ∨ g * g = z * ι τ₀ := by
     fin_cases i <;> fin_cases j <;>
-      simp only [Fin.val_zero, Fin.val_one, pow_zero, pow_one, one_mul, mul_one] at hEq hij ⊢
+      simp only [pow_zero, pow_one, one_mul, mul_one] at hEq hij ⊢
     · exact Or.inl hij
     · exact absurd hEq (hC.ne_z τ₀)
     · exact absurd hEq.symm (hC.ne_z τ₀)
@@ -245,7 +245,7 @@ theorem GElt.of_swap_of_comm_A (hC : CentData z ι) (hz : g * z * g⁻¹ = ι τ
       rw [conj_E_pow hz hx (i:ℕ) (j:ℕ)] at key
       exact key.symm
     fin_cases i <;> fin_cases j <;>
-      simp only [Fin.val_zero, Fin.val_one, pow_zero, pow_one, one_mul, mul_one] at hEq hij ⊢
+      simp only [pow_zero, pow_one, one_mul, mul_one] at hEq hij ⊢
     · exact Or.inl hij
     · exact absurd hEq (hC.ne_z τ₀)
     · exact absurd hEq.symm (hC.ne_z τ₀)
@@ -253,10 +253,10 @@ theorem GElt.of_swap_of_comm_A (hC : CentData z ι) (hz : g * z * g⁻¹ = ι τ
   refine ⟨hz, hx, hA, hsq, e₀, he0cases, ?_⟩
   intro ρ
   by_cases hsign : sign ρ = 1
-  · rw [if_pos hsign, mul_one]
+  · rw [ite_eq_left hsign, mul_one]
     rw [hA ρ (Equiv.Perm.mem_alternatingGroup.2 hsign)]
     group
-  · rw [if_neg hsign]
+  · rw [ite_eq_right hsign]
     have hsignneg : sign ρ = -1 := by
       rcases Int.units_eq_one_or (sign ρ) with h1 | h1
       · exact absurd h1 hsign
@@ -362,7 +362,7 @@ theorem GElt.pairOrder_eq_N10_one_iff (hC : CentData z ι) (hg : GElt z ι g) :
     obtain ⟨e₀, he₀, hform⟩ := hg.e₀
     have hgd : g * ι (swap 0 1) * g⁻¹ = ι (swap 0 1) * e₀ := by
       have h := hform r₁'
-      rw [if_neg (by rw [sign_r₁']; decide), liftS8_r₁'] at h
+      rw [ite_eq_right (by rw [sign_r₁']; decide), liftS8_r₁'] at h
       simpa only [r₁] using h
     have hpair' : pairOrder z (ι (swap 0 1) * e₀) = N10 1 := by
       have hc := pairOrder_conj g (ι τ₀) (ι (liftS8 r₁'))
@@ -408,7 +408,7 @@ theorem GElt.pairOrder_eq_N10_two_iff (hC : CentData z ι) (hg : GElt z ι g) :
     obtain ⟨e₀, he₀, hform⟩ := hg.e₀
     have hgd : g * ι (swap 0 1) * g⁻¹ = ι (swap 0 1) * e₀ := by
       have h := hform r₁'
-      rw [if_neg (by rw [sign_r₁']; decide), liftS8_r₁'] at h
+      rw [ite_eq_right (by rw [sign_r₁']; decide), liftS8_r₁'] at h
       simpa only [r₁] using h
     have hpair' : pairOrder z (ι (swap 0 1) * e₀) = N10 2 := by
       have hc := pairOrder_conj g (ι τ₀) (ι (liftS8 r₁'))
@@ -432,7 +432,7 @@ theorem GElt.pairOrder_eq_N10_two_iff (hC : CentData z ι) (hg : GElt z ι g) :
   · intro hform
     have hgd : g * ι (swap 0 1) * g⁻¹ = ι (swap 0 1) * (z * ι τ₀) := by
       have h := hform r₁'
-      rw [if_neg (by rw [sign_r₁']; decide), liftS8_r₁'] at h
+      rw [ite_eq_right (by rw [sign_r₁']; decide), liftS8_r₁'] at h
       simpa only [r₁] using h
     have hdx2 : ι (swap 0 1) * (z * ι τ₀) = z * ι ((swap 0 1 : Perm (Fin 10)) * τ₀) := by
       calc ι (swap 0 1) * (z * ι τ₀) = (ι (swap 0 1) * z) * ι τ₀ := by group

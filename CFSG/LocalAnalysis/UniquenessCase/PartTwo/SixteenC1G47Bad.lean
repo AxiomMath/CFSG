@@ -15,6 +15,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem s16c1_G47_le_hConjClosure (z : G) (U : Subgroup G) : U ≤ hConjClosure z U := by
   rw [hConjClosure]
   exact le_iSup_of_le ⟨1, one_mem _⟩ (le_of_eq (conjSubgroup_one U).symm)
@@ -147,7 +148,7 @@ theorem s16c1_G47_stab_mem_M (D : Data G) {V₀ V L : Subgroup G} {hV : IsElemAb
     (conjSubgroup_eq_iff_mem_normalizer (A := V₀) (g := h)).1 hconj
   rwa [normalizer_eq_of_inCalV D (s16c1_inCalV0_of_sect16 hS hne).1] at hnorm
 
-theorem s16c1_G47_alpha (D : Data G) {V₀ V L : Subgroup G} {hV : IsElemAbelian 2 V}
+theorem s16c1_G47_alpha (D : Data G) {V₀ V _L : Subgroup G} {hV : IsElemAbelian 2 V}
     {x : IntMod V hV} {a : G} (haE : a ∈ eTwo D V₀ x.val)
     (hCa : centralizer ({a} : Set G) ≤ D.M) (hch : Chosen1647 D V₀ V x.val) :
     ∃ w ∈ V, ∃ e ∈ eTwo D V₀ x.val, w * e * w⁻¹ ≠ e := by

@@ -1,7 +1,7 @@
 module
 
 public import Mathlib.Algebra.Group.Defs
-public import Mathlib.Data.Finite.Defs
+public import Mathlib.Basic.Finite.Defs
 
 public import CFSG.ThirdParty.QiuzhenCFSG.GorensteinWalter.Section3.CyclicTwoCoreNormalizer
 
@@ -65,7 +65,7 @@ private theorem firstCase_normalizer_H_eq_H
 different from both `1` and `t`. -/
 public theorem kleinFour_exists_mem_ne_one_ne_t
     {G : Type u} [Group G]
-    {V : Subgroup G} (hV : IsKleinFour V) {t : G} (htV : t ∈ V)
+    {V : Subgroup G} (hV : IsKleinFour V) {t : G} (_htV : t ∈ V)
     (ht1 : t ≠ 1) :
     ∃ y : G, y ∈ V ∧ y ≠ 1 ∧ y ≠ t := by
   classical

@@ -72,7 +72,7 @@ theorem card_realized_normalizer_twD7Quot_lt {G : Type} [Group G] [Finite G] {bâ
       rw [Equiv.swap_apply_of_ne_of_ne (Fin.succ_ne_zero _) (Fin.succ_succ_ne_one k),
         B.pr_b_succ_succ_twD7Quot] at h
       have hs : (tSign k.succ).val = 1 := by
-        rw [show tSign k.succ = 1 from if_neg (Fin.succ_ne_zero k)]
+        rw [show tSign k.succ = 1 from ite_eq_right (Fin.succ_ne_zero k)]
         rfl
       rw [h, Equiv.Perm.one_apply, hs, pow_one]
   have hsub : B.twD7Quot.realized

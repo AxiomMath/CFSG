@@ -212,7 +212,7 @@ private theorem isQ8D8Type_sq_center {X : Type} [Group X] {Q E : Subgroup X} {x 
 private theorem isQ8D8Type_relations {X : Type} [Group X] {Q E : Subgroup X}
     {eQ : ↥Q ≃* QuaternionGroup 2} {eE : ↥E ≃* DihedralGroup 4}
     (hcomm : ∀ q ∈ Q, ∀ e ∈ E, q * e = e * q) (hsup : Q ⊔ E = ⊤)
-    (hcardQE : Nat.card ↥(Q ⊓ E) = 2) {x y : ↥Q} {u v : ↥E}
+    (_hcardQE : Nat.card ↥(Q ⊓ E) = 2) {x y : ↥Q} {u v : ↥E}
     (hx : eQ x = QuaternionGroup.a 1) (hy : eQ y = QuaternionGroup.xa 0)
     (hu : eE u = DihedralGroup.sr 0) (hv : eE v = DihedralGroup.sr 1)
     (hzE : (x : X) * (x : X) ∈ E) :
@@ -300,7 +300,7 @@ theorem nonempty_mulEquiv_QD32_of_isQ8D8Type {X : Type} [Group X] (hX : IsQ8D8Ty
     (hcard : Nat.card X = 32) : Nonempty (X ≃* CFSG.RankThree.GroupTheory.QD32) := by
   classical
   obtain ⟨Q, E, ⟨eQ⟩, ⟨eE⟩, hcomm, hsup, hcardQE⟩ := hX
-  haveI : Finite X := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite X := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hzE : ((eQ.symm (QuaternionGroup.a 1) : ↥Q) : X) *
       ((eQ.symm (QuaternionGroup.a 1) : ↥Q) : X) ∈ E :=
     (Subgroup.mem_inf.mp (isQ8D8Type_sq_mem_inf (eQ := eQ) hcardQE)).2
@@ -332,7 +332,7 @@ private theorem card_ker_conjNormal_le_two [Fact (Nat.Prime 5)]
     Nat.card ↥(MulAut.conjNormal (G := ↥G) (H := CFSG.pCore 2 ↥G)).ker ≤ 2 := by
   classical
   let φ : ↥G →* MulAut ↥(CFSG.pCore 2 ↥G) := MulAut.conjNormal
-  haveI : Finite ↥G := inferInstance
+  have : Finite ↥G := inferInstance
   have hcomm_ker : ∀ u : ↥φ.ker, ∀ q ∈ CFSG.pCore 2 ↥G, (u : ↥G) * q = q * (u : ↥G) := by
     intro u q hq
     have h1 : (φ (u : ↥G)) ⟨q, hq⟩ = ⟨q, hq⟩ := by
@@ -353,12 +353,12 @@ private theorem card_ker_conjNormal_le_two [Fact (Nat.Prime 5)]
     by_cases h1 : ((a : ↥G) : GL (Fin 2 ⊕ Fin 2) (ZMod 5)) = 1
     · have hb1 : ((b : ↥G) : GL (Fin 2 ⊕ Fin 2) (ZMod 5)) = 1 := by
         by_contra hb2
-        rw [if_pos h1, if_neg hb2] at hab
+        rw [ite_eq_left h1, ite_eq_right hb2] at hab
         exact absurd hab (by decide)
       exact Subtype.val_injective (h1.trans hb1.symm)
     · have ha1 : ((a : ↥G) : GL (Fin 2 ⊕ Fin 2) (ZMod 5)) = -1 := ha.resolve_left h1
       by_cases hb1 : ((b : ↥G) : GL (Fin 2 ⊕ Fin 2) (ZMod 5)) = 1
-      · rw [if_pos hb1, if_neg h1] at hab
+      · rw [ite_eq_left hb1, ite_eq_right h1] at hab
         exact absurd hab (by decide)
       · have hb2 : ((b : ↥G) : GL (Fin 2 ⊕ Fin 2) (ZMod 5)) = -1 := hb.resolve_left hb1
         exact Subtype.val_injective (ha1.trans hb2.symm)
@@ -372,7 +372,7 @@ private theorem dvd_card_of_pCore_two_isQ8D8Type [Fact (Nat.Prime 5)]
       (g : GL (Fin 2 ⊕ Fin 2) (ZMod 5)) = 1 ∨ (g : GL (Fin 2 ⊕ Fin 2) (ZMod 5)) = -1) :
     Nat.card ↥G ∣ 2 ^ 7 * 3 * 5 := by
   classical
-  haveI : Finite ↥G := inferInstance
+  have : Finite ↥G := inferInstance
   let Q : Subgroup ↥G := CFSG.pCore 2 ↥G
   have hQcard : Nat.card ↥Q = 32 := hcard
   have hQis : IsQ8D8Type ↥Q := hQ
@@ -387,7 +387,7 @@ private theorem dvd_card_of_pCore_two_isQ8D8Type [Fact (Nat.Prime 5)]
   have hdvd_ker : Nat.card ↥φ.ker ∣ 2 := by
     have hpos : 0 < Nat.card ↥φ.ker := Nat.card_pos
     rcases (by omega : Nat.card ↥φ.ker = 1 ∨ Nat.card ↥φ.ker = 2) with h | h <;>
-      rw [h] <;> norm_num
+      rw [h]; norm_num
   have hdvd_range : Nat.card ↥φ.range ∣ 2 ^ 7 * 3 * 5 := by
     have h1 : Nat.card ↥φ.range ∣ Nat.card (MulAut ↥Q) := Subgroup.card_subgroup_dvd_card _
     obtain ⟨e⟩ := nonempty_mulEquiv_QD32_of_isQ8D8Type hQis hQcard
@@ -475,9 +475,9 @@ private theorem nontrivial_quot_pCore_two [Fact (Nat.Prime 5)]
   classical
   let Q : Subgroup ↥G := CFSG.pCore 2 ↥G
   have hQcard : Nat.card ↥Q = 32 := hcard
-  haveI : Finite ↥G := inferInstance
+  have : Finite ↥G := inferInstance
   by_contra h
-  haveI : Subsingleton (↥G ⧸ Q) := not_nontrivial_iff_subsingleton.mp h
+  have : Subsingleton (↥G ⧸ Q) := not_nontrivial_iff_subsingleton.mp h
   have hgenG : Subgroup.closure {x : ↥G | ∃ k : ℕ, orderOf x = 5 ^ k} = ⊤ := by
     have h := oPPrimeHull_top_of_eq (p := 5) (G := GL (Fin 2 ⊕ Fin 2) (ZMod 5))
       (H := G) hG
@@ -539,14 +539,14 @@ private theorem not_exists_normal_complement_pCore_two [Fact (Nat.Prime 5)]
   classical
   let Q : Subgroup ↥G := CFSG.pCore 2 ↥G
   have hQcard : Nat.card ↥Q = 32 := hcard
-  haveI : Finite ↥G := inferInstance
+  have : Finite ↥G := inferInstance
   have hgenG : Subgroup.closure {x : ↥G | ∃ k : ℕ, orderOf x = 5 ^ k} = ⊤ := by
     have h := oPPrimeHull_top_of_eq (p := 5) (G := GL (Fin 2 ⊕ Fin 2) (ZMod 5))
       (H := G) hG
     simpa [oPPrimeHull] using h
   rintro ⟨K, hKn, hinf, hsupK⟩
-  haveI : Q.Normal := CFSG.pCore_normal
-  haveI : K.Normal := hKn
+  have : Q.Normal := CFSG.pCore_normal
+  have : K.Normal := hKn
   let fK : ↥Q →* (↥G ⧸ K) := (QuotientGroup.mk' K).comp Q.subtype
   have hfbij : Function.Bijective fK :=
     bijective_quot_of_inf_eq_bot_of_sup_eq_top hinf hsupK
@@ -591,7 +591,7 @@ theorem isExtNotation_of_pCore_two_isQ8D8Type {p : ℕ} [Fact p.Prime] (hp : p =
   have hQcard : Nat.card ↥Q = 32 := hcard
   have hQis : IsQ8D8Type ↥Q := hQ
   have hQnormal : Q.Normal := CFSG.pCore_normal
-  haveI : Finite ↥G := inferInstance
+  have : Finite ↥G := inferInstance
   have hdvdG : Nat.card ↥G ∣ 2 ^ 7 * 3 * 5 :=
     dvd_card_of_pCore_two_isQ8D8Type hGS hQ hcard hC
   have hdvd_quot : Nat.card (↥G ⧸ Q) ∣ 60 := dvd_card_quot_pCore_two hdvdG hcard
@@ -600,7 +600,7 @@ theorem isExtNotation_of_pCore_two_isQ8D8Type {p : ℕ} [Fact p.Prime] (hp : p =
   have hntriv : Nontrivial (↥G ⧸ Q) := nontrivial_quot_pCore_two hG hcard
   have hcompl : ¬ ∃ K : Subgroup ↥G, K.Normal ∧ Q ⊓ K = ⊥ ∧ Q ⊔ K = ⊤ :=
     not_exists_normal_complement_pCore_two hG hcard
-  haveI := hntriv
+  have := hntriv
   rcases alt_five_or_card_five hdvd_quot hgenQuot with h | h
   · exact Or.inl ⟨Q, hQnormal, hQis, h, hcompl⟩
   · exact Or.inr ⟨Q, hQnormal, hQis, h, hcompl⟩

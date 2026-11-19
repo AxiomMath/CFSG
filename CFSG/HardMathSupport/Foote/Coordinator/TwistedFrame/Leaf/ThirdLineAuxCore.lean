@@ -121,13 +121,13 @@ theorem not_isSolvable_of_quasisimple {G : Type*} [Group G] (h : CFSG.IsQuasisim
   exact Group.IsPerfect.not_isSolvable G
 
 theorem not_isSolvable_of_embedding {D G : Type*} [Group D] [Group G] (ψ : D →* G)
-    (hψ : Function.Injective ψ) {P : Subgroup G} (hP : CFSG.IsQuasisimple ↥P)
+    (_hψ : Function.Injective ψ) {P : Subgroup G} (hP : CFSG.IsQuasisimple ↥P)
     (hle : P ≤ ψ.range) : ¬ Group.IsSolvable D := by
   intro hD
   have hr : Group.IsSolvable ↥ψ.range :=
     Group.isSolvable_of_surjective (f := ψ.rangeRestrict) ψ.rangeRestrict_surjective
   have hP' : Group.IsSolvable ↥P :=
-    solvable_of_solvable_injective (f := Subgroup.inclusion hle) (Subgroup.inclusion_injective hle)
+    Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hle) (Subgroup.inclusion_injective hle)
   exact not_isSolvable_of_quasisimple hP hP'
 
 theorem twThirdLine_of_kernel {τ : Tag} {K : Type} [Field K] [Finite K] {L : Type} [Field L]
@@ -261,8 +261,8 @@ theorem exists_char_pow (K : Type) [Field K] [Finite K] :
     ∃ (ℓ f : ℕ) (_ : Fact ℓ.Prime) (_ : CharP K ℓ), 1 ≤ f ∧ Nat.card K = ℓ ^ f := by
   obtain ⟨ℓ, hℓ⟩ := CharP.exists K
   have hprime : ℓ.Prime := CharP.char_is_prime K ℓ
-  haveI : Fact ℓ.Prime := ⟨hprime⟩
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fact ℓ.Prime := ⟨hprime⟩
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, -, hn⟩ := FiniteField.card K ℓ
   refine ⟨ℓ, (n : ℕ), inferInstance, hℓ, n.pos, ?_⟩
   rw [Nat.card_eq_fintype_card, hn]

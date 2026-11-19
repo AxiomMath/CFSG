@@ -52,7 +52,7 @@ theorem pRank_three_eq_two_of_isSpor_M12
     (h : IsSpor X .M12) :
     CFSG.Open.pRank 3 (⊤ : Subgroup X) = 2 := by
   obtain ⟨e⟩ := h
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier .M12) := Finite.of_equiv X e.toEquiv
+  have : Finite (CFSG.Blueprint.NativeSporadic.Carrier .M12) := Finite.of_equiv X e.toEquiv
   have hcardX : Nat.card X = 95040 := by
     rw [Nat.card_congr e.toEquiv]
     exact CFSG.Sporadic.Mathieu.card_M12
@@ -72,7 +72,7 @@ theorem pRank_three_eq_two_of_isSpor_J4
     (h : IsSpor X .J4) :
     CFSG.Open.pRank 3 (⊤ : Subgroup X) = 2 := by
   obtain ⟨e⟩ := h
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier .J4) := Finite.of_equiv X e.toEquiv
+  have : Finite (CFSG.Blueprint.NativeSporadic.Carrier .J4) := Finite.of_equiv X e.toEquiv
   have hcardX : Nat.card X = 86775571046077562880 := by
     rw [Nat.card_congr e.toEquiv]
     exact CFSG.Sporadic.J4.card_J4
@@ -90,12 +90,12 @@ theorem pRank_three_eq_two_of_isSpor_J4
 
 theorem pRank_three_eq_two_of_lieModel_PSL_three_three_one
     (h : LieModel X .PSL 3 3 1) : CFSG.Open.pRank 3 (⊤ : Subgroup X) = 2 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine le_antisymm ?_ (two_le_pRank_three_of_lieModel_PSL_three_three_one h)
   have hcl := LieModel.statedClassicalModel h (by decide)
   obtain ⟨K, hKfield, hKfin, hKcard, ⟨eX⟩⟩ := hcl.2
-  letI := hKfield
-  letI := hKfin
+  let := hKfield
+  let := hKfin
   have hK : Nat.card K = 3 := by rw [hKcard]; norm_num
   have hPSL : CFSG.Open.pRank 3 (⊤ : Subgroup (Matrix.ProjectiveSpecialLinearGroup (Fin 3) K)) ≤ 2 := by
     have h1 : CFSG.Open.pRank 3 (⊤ : Subgroup (Matrix.ProjectiveSpecialLinearGroup (Fin 3) K)) =
@@ -111,15 +111,15 @@ theorem pRank_three_eq_two_of_lieModel_PSL_three_three_one
 
 theorem pRank_three_eq_two_of_lieModel_PSU_three_three_one
     (h : LieModel X .PSU 3 3 1) : CFSG.Open.pRank 3 (⊤ : Subgroup X) = 2 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine le_antisymm ?_ (two_le_pRank_three_of_lieModel_PSU_three_three_one h)
   have hcl := LieModel.statedClassicalModel h (by decide)
   obtain ⟨K, hKfield, hKfin, hKcard, ⟨eX⟩⟩ := hcl.2
-  letI := hKfield
-  letI := hKfin
-  haveI : Fintype K := Fintype.ofFinite K
+  let := hKfield
+  let := hKfin
+  have : Fintype K := Fintype.ofFinite K
   have hK : Nat.card K = 9 := by rw [hKcard]; norm_num
-  haveI : CharP K 3 := charP_of_card_eq_prime_pow (p := 3) (f := 2)
+  have : CharP K 3 := charP_of_card_eq_prime_pow (p := 3) (f := 2)
     (by rw [← Nat.card_eq_fintype_card, hK]; norm_num)
   have hStated : CFSG.Open.pRank 3 (⊤ : Subgroup (StatedProj (StatedSU 3 3 K))) ≤ 2 := by
     have hF' : Nat.card K = (3 ^ 1) ^ 2 := by rw [hK]; norm_num

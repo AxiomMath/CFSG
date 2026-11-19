@@ -38,7 +38,7 @@ theorem burnsideF45_excKind_Tits : burnsideF45_ExcKind .Tits := by
   subst hp2
   subst hf1
   have hGp : Gp = ⊤ := hyp.canonical (Or.inr rfl)
-  haveI : Finite E := hyp.finite
+  have : Finite E := hyp.finite
   have hp : Nat.Prime 2 := Nat.prime_two
   have hm : 3 ≤ GLKind.Tits.m := burnsideF45_three_le_m _
   have hP := burnsideF45_parabolics hyp.toHypF_4_4g

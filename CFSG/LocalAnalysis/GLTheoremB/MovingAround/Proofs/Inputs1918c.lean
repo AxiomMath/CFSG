@@ -21,10 +21,10 @@ theorem twoCentral_of_isQuasisimple {F : Type*} [Group F] [Finite F] (hF : CFSG.
     TwoCentral F := by
   intro S hS h2
   obtain ⟨-, hsimple, a, b, hab⟩ := hF
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let π : F →* F ⧸ Subgroup.center F := QuotientGroup.mk' (Subgroup.center F)
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective _
-  haveI : (S.map π).Normal := hS.map π hπs
+  have : (S.map π).Normal := hS.map π hπs
   rcases hsimple.eq_bot_or_eq_top_of_normal (S.map π) with hbot | htop
   · intro s hs
     have h1 : π s ∈ S.map π := Subgroup.mem_map_of_mem π hs
@@ -37,7 +37,7 @@ theorem twoCentral_of_isQuasisimple {F : Type*} [Group F] [Finite F] (hF : CFSG.
       obtain ⟨s, hs, rfl⟩ := hg
       obtain ⟨k, hk⟩ := h2 ⟨s, hs⟩
       exact ⟨k, by rw [← map_pow]; exact (congrArg (fun u : S => π u) hk).trans (map_one π)⟩
-    haveI := hsimple.toNontrivial
+    have := hsimple.toNontrivial
     have hZ := hP.center_nontrivial
     rcases hsimple.eq_bot_or_eq_top_of_normal (Subgroup.center (F ⧸ Subgroup.center F))
       with h0 | h1
@@ -100,7 +100,7 @@ theorem twoCentral_of_iSup {F : Subgroup G} {ι : Sort*} (L : ι → Subgroup G)
   have hS'2 : IsPGroup 2 ↥S' := h2.map F.subtype
   have hcomm : ∀ s ∈ S', ∀ i, ∀ l ∈ L i, s * l = l * s := by
     intro s hs i
-    haveI := hfin i
+    have := hfin i
     refine commute_of_twoCentral (hLq i).1 (twoCentral_of_isQuasisimple (hLq i)) hS'2
       (fun l hl s' hs' => ?_) (fun s' hs' l hl => ?_) s hs
     · obtain ⟨t, ht, rfl⟩ := hs'
@@ -145,7 +145,7 @@ theorem exists_component {ι : Type*} [Finite ι] [DecidableEq ι] (H : ι → S
       by_cases hi : i = i₀
       · subst hi
         simp
-      · simp [Pi.mulSingle_apply, hi, Function.update_of_ne hi]
+      · simp [hi]
     conv_lhs => rw [hc]
     rw [map_mul, hΦ, Subgroup.noncommPiCoprod_mulSingle]
   · intro m hm
@@ -476,7 +476,7 @@ theorem conj_mem_pCoreOf_inf {G : Type*} [Group G] {M N : Subgroup G}
       have := hN m⁻¹ (inv_mem hm) c (Subgroup.mem_inf.mp hc).2
       rwa [inv_inv] at this
     refine ⟨(m⁻¹ * c * m) * s * (m⁻¹ * c * m)⁻¹, conj_mem_pCoreOf hc' hs, ?_⟩
-    simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply]
+    simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply]
     group
   have hS2 : IsPGroup 2 ↥S := (isPGroup_pCoreOf 2 (M ⊓ N)).map _
   have hle := le_pCoreOf hSle hSn hS2
@@ -557,7 +557,7 @@ theorem orth_commute (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {p : ℕ} 
         have hRn : R.Normal := hPn'.map ψ hψs
         have hnWR : nW ∈ R := ⟨⟨n, hnM⟩, Subgroup.mem_subgroupOf.mpr hn, rfl⟩
         have hyWF : yW ∈ commutator ↥O := by
-          haveI : Fact p.Prime := ⟨hp⟩
+          have : Fact p.Prime := ⟨hp⟩
           by_cases h1 : yW = 1
           · rw [h1]; exact one_mem _
           · exact hprime yW p hp hp3 (orderOf_eq_prime hyWp h1)
@@ -565,7 +565,7 @@ theorem orth_commute (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {p : ℕ} 
           (fun r _ f hf => (inferInstance : (commutator ↥O).Normal).conj_mem f hf r) nW hnWR yW hyWF
   ·
     have hirr : Irreducible a := irreducible_of_mem_primaryFactors ha
-    haveI : Fact (Irreducible a) := ⟨hirr⟩
+    have : Fact (Irreducible a) := ⟨hirr⟩
     set γn := centralizerGL x a ⟨n, hnC⟩ with hγn
     set γy := centralizerGL x a ⟨y, hyC⟩ with hγy
     suffices hc : (γy : Module.End (AdjoinRoot a) (primaryComponent x.toLinearMap a)) * γn =
@@ -829,7 +829,7 @@ theorem innerStepAt_of_isLieOverField
         (S ≃* (TauCeti.CFSGIndex.lie ⟨.E8 q, hv⟩).Group) → Inputs1918.InnerStepAt p S)
     {S : Type} [Group S] [Finite S] (hS : IsSimpleGroup S)
     (hlie : Prop1116Design.IsLieOverField 3 S) : Inputs1918.InnerStepAt p S := by
-  haveI := hS
+  have := hS
   obtain ⟨idx, ⟨e⟩, hfo⟩ := hlie
   rcases (Subgroup.center S).normal_of_characteristic.eq_bot_or_eq_top with hZ | hZ
   swap

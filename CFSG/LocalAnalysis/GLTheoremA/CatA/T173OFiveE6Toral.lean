@@ -21,6 +21,7 @@ open CFSG.LocalAnalysis.GLTheoremA CFSG.LocalAnalysis.GLTheoremA.T173
 variable {Ω : Type} [Group Ω] [Finite Ω] {S B N D K : Subgroup Ω} {x : Ω}
 variable {F : Type} [Field F] [Finite F] [CharP F 2]
 
+omit [Finite F] [CharP F 2] in
 private theorem conjSL_diagUnitOne_sl2Diag (a γ : Fˣ) :
     conjSL (diagUnitOne a) (sl2Diag γ) = sl2Diag γ := by
   apply Subtype.ext
@@ -29,6 +30,7 @@ private theorem conjSL_diagUnitOne_sl2Diag (a γ : Fˣ) :
   fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two]
   all_goals field_simp
 
+omit [Finite F] [CharP F 2] in
 private theorem conjSL_diagUnitOne_sl2Upper (a : Fˣ) (c : F) :
     conjSL (diagUnitOne a) (CFSG.RankThree.CentralCover.sl2Upper c) =
       CFSG.RankThree.CentralCover.sl2Upper ((a : F) * c) := by
@@ -38,6 +40,7 @@ private theorem conjSL_diagUnitOne_sl2Upper (a : Fˣ) (c : F) :
   ext i j
   fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two]
 
+omit [CharP F 2] in
 private theorem exists_conj_hom_of_diag
     (hcfg : Cfg173 3 S B N D K x) (hq : 4 ≤ Nat.card F)
     (M : S172DModel S B (adjointGroup Tag.E6 F) (hatGroup Tag.E6 F))
@@ -51,7 +54,7 @@ private theorem exists_conj_hom_of_diag
       (∀ A, ((φ A : ↥S) : Ω) = (b : Ω) * ((ψ A : ↥S) : Ω) * (b : Ω)⁻¹) ∧
       φ = ψ.comp (conjSL (diagUnitOne (rootChar c (Pi.single i 1)))) := by
   classical
-  haveI hperf : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) F) :=
+  have hperf : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) F) :=
     CFSG.ClassicalModels.specialLinear_isPerfect_two_of_four_le_card F hq
   let δ : Matrix.SpecialLinearGroup (Fin 2) F →* Matrix.SpecialLinearGroup (Fin 2) F :=
     conjSL (diagUnitOne (rootChar c (Pi.single i 1)))
@@ -95,6 +98,7 @@ private theorem exists_conj_hom_of_diag
   rw [hconj, hroot]
   exact (hψ (δ A)).symm
 
+omit [Finite F] [CharP F 2] in
 private theorem eq_sl2Diag_of_diagonal {g : SL2 F} {γ : Fˣ}
     (hg : (g : Matrix (Fin 2) (Fin 2) F) =
       Matrix.diagonal ![(γ : F), ((γ⁻¹ : Fˣ) : F)]) : g = sl2Diag γ := by
@@ -107,10 +111,12 @@ private noncomputable def upperLift
     (ψ : Matrix.SpecialLinearGroup (Fin 2) F →* ↥S) : Subgroup Ω :=
   (sl2UpperGroup F).map ((S.subtype).comp ψ)
 
+omit [Finite Ω] [Finite F] in
 private theorem isPGroup_upperLift (ψ : Matrix.SpecialLinearGroup (Fin 2) F →* ↥S) :
     IsPGroup 2 (upperLift (S := S) ψ) :=
   (isPGroup_sl2UpperGroup (K := F)).map ((S.subtype).comp ψ)
 
+omit [Finite Ω] [Finite F] [CharP F 2] in
 private theorem upperLift_ne_bot {ψ : Matrix.SpecialLinearGroup (Fin 2) F →* ↥S}
     (hinj : Function.Injective ψ) : upperLift (S := S) ψ ≠ ⊥ := by
   have hinj' : Function.Injective ((S.subtype).comp ψ) := by
@@ -120,6 +126,7 @@ private theorem upperLift_ne_bot {ψ : Matrix.SpecialLinearGroup (Fin 2) F →* 
   rw [Ne, Subgroup.map_eq_bot_iff_of_injective _ hinj']
   exact sl2UpperGroup_ne_bot
 
+omit [Finite Ω] [Finite F] [CharP F 2] in
 private theorem conj_upperLift (ψ : Matrix.SpecialLinearGroup (Fin 2) F →* ↥S)
     (h u : Matrix.SpecialLinearGroup (Fin 2) F) :
     ((ψ h : ↥S) : Ω) * ((ψ u : ↥S) : Ω) * (((ψ h : ↥S)) : Ω)⁻¹ =
@@ -128,6 +135,7 @@ private theorem conj_upperLift (ψ : Matrix.SpecialLinearGroup (Fin 2) F →* �
     rw [← map_inv, ← map_mul, ← map_mul]
   rw [← Subgroup.coe_inv, ← Subgroup.coe_mul, ← Subgroup.coe_mul, h1]
 
+omit [Finite Ω] [Finite F] in
 private theorem injective_lift
     (M : S172DModel S B (adjointGroup Tag.E6 F) (hatGroup Tag.E6 F))
     (i : Fin Tag.E6.rank) (ψ : Matrix.SpecialLinearGroup (Fin 2) F →* ↥S)
@@ -139,6 +147,7 @@ private theorem injective_lift
     ((M.π z : ↥(adjointGroup Tag.E6 F)) : ModGL Tag.E6 F)) hAA'
   simpa [hψ] using h
 
+omit [CharP F 2] in
 private theorem mem_B_map_upper
     (hcfg : Cfg173 3 S B N D K x) (hq : 4 ≤ Nat.card F)
     (M : S172DModel S B (adjointGroup Tag.E6 F) (hatGroup Tag.E6 F))
@@ -166,6 +175,7 @@ private theorem mem_B_map_upper
     (b : Ω) * ((ψ u : ↥S) : Ω) * (b : Ω)⁻¹
   rw [← hφu, hφcoe u]
 
+omit [Finite Ω] [Finite F] [CharP F 2] in
 private theorem le_normalizer_upper_of_mem_B {ψ : Matrix.SpecialLinearGroup (Fin 2) F →* ↥S}
     (hBmap : ∀ b ∈ B, ∀ z ∈ upperLift (S := S) ψ,
       (b : Ω) * z * (b : Ω)⁻¹ ∈ upperLift (S := S) ψ) :
@@ -179,13 +189,14 @@ private theorem le_normalizer_upper_of_mem_B {ψ : Matrix.SpecialLinearGroup (Fi
     group
   rwa [heq] at h
 
+omit [Finite F] [CharP F 2] in
 private theorem mem_normalizer_upper_lift
-    (hcfg : Cfg173 3 S B N D K x) (hq : 4 ≤ Nat.card F)
+    (_hcfg : Cfg173 3 S B N D K x) (_hq : 4 ≤ Nat.card F)
     (M : S172DModel S B (adjointGroup Tag.E6 F) (hatGroup Tag.E6 F))
     (i : Fin Tag.E6.rank) (ψ : Matrix.SpecialLinearGroup (Fin 2) F →* ↥S)
-    (hψ : ∀ g, ((M.π (ψ g) : ↥(adjointGroup Tag.E6 F)) : ModGL Tag.E6 F) =
+    (_hψ : ∀ g, ((M.π (ψ g) : ↥(adjointGroup Tag.E6 F)) : ModGL Tag.E6 F) =
       simpleRootSL2 Tag.E6 F i g)
-    (hdiag : ∀ a ∈ M.barB, ∃ c : Fin Tag.E6.rank → Fˣ, (∀ i, c i ^ 3 = 1) ∧
+    (_hdiag : ∀ a ∈ M.barB, ∃ c : Fin Tag.E6.rank → Fˣ, (∀ i, c i ^ 3 = 1) ∧
       a = rootDiagUnit Tag.E6 c)
     {γ : Fˣ} {g : Matrix.SpecialLinearGroup (Fin 2) F} (hgdiag : g = sl2Diag γ) :
     ((ψ g : ↥S) : Ω) ∈ Subgroup.normalizer (upperLift (S := S) ψ : Set Ω) := by
@@ -214,6 +225,7 @@ private theorem mem_normalizer_upper_lift
       ((((ψ g : ↥S)) : Ω)⁻¹)⁻¹ = z := by group
   rwa [heq] at h
 
+omit [CharP F 2] in
 private theorem commute_lift_of_diag
     (hcfg : Cfg173 3 S B N D K x) (hq : 4 ≤ Nat.card F)
     (M : S172DModel S B (adjointGroup Tag.E6 F) (hatGroup Tag.E6 F))

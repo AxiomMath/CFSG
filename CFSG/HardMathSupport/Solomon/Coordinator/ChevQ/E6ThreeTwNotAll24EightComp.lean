@@ -41,7 +41,7 @@ theorem component_le_hyperGamma_of_l2Eight [Finite X] (E : Subgroup (MulAut X))
     (hnot : ∀ g ∈ E, ∀ s ∈ J, orderOf s = 9 → g s ≠ s ^ 4 ∧ g s ≠ s ^ 7) :
     J ≤ seitzHyperGamma 3 E := by
   classical
-  haveI : Finite (MulAut X) := inferInstance
+  have : Finite (MulAut X) := inferInstance
   set ρ := restrictAut E J hJE with hρ
   obtain ⟨H, hHE, hHrel, hHJ⟩ : ∃ H : Subgroup (MulAut X), H ≤ E ∧ H.relIndex E = 3 ∧
       ∀ g ∈ H, ∀ x ∈ J, g x = x := by

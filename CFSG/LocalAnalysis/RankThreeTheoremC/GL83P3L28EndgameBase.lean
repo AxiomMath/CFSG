@@ -27,12 +27,15 @@ namespace FData
 
 variable [Finite Y] {F U : Subgroup Y} {x : Y}
 
+omit [Finite Y] in
 theorem U_comm (h : FData F U x) {a b : Y} (ha : a ∈ U) (hb : b ∈ U) : a * b = b * a := by
   have := h.U_elem.1
   exact setLike_mul_comm (s := U) ha hb
 
+omit [Finite Y] in
 theorem x_pow (h : FData F U x) : x ^ 3 = 1 := h.U_elem.2 x h.x_mem
 
+omit [Finite Y] in
 theorem orderOf_x (h : FData F U x) : orderOf x = 3 := orderOf_eq_prime h.x_pow h.x_ne
 
 theorem exists_u (h : FData F U x) : ∃ u ∈ U, u ∉ zpowers x := by
@@ -49,6 +52,7 @@ theorem exists_not_mem (h : FData F U x) : ∃ t ∈ F, t ∉ U := by
   rw [h.card_F, h.U_card] at h2
   norm_num at h2
 
+omit [Finite Y] in
 theorem pow_ne_one (h : FData F U x) {t : Y} (ht : t ∈ F) (htU : t ∉ U) : t ^ 3 ≠ 1 :=
   fun h3 => htU (h.omega t ht h3)
 
@@ -74,13 +78,13 @@ theorem card_central_le (h : FData F U x) {S : Subgroup Y} (hSF : S ≤ F)
     interval_cases i
     · norm_num at h1; omega
     · norm_num at h1; omega
-    · haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    · have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       exact isCyclic_of_prime_card (p := 3) (by omega)
     · have h1' : Nat.card (↥F ⧸ center ↥F) = 1 := by omega
-      haveI : Subsingleton (↥F ⧸ center ↥F) := (Nat.card_eq_one_iff_unique.mp h1').1
+      have : Subsingleton (↥F ⧸ center ↥F) := (Nat.card_eq_one_iff_unique.mp h1').1
       infer_instance
-  exact h.nonab (IsMulCommutative.of_comm (commutative_of_cyclic_center_quotient
-    (QuotientGroup.mk' (center ↥F)) (by rw [QuotientGroup.ker_mk'])))
+  exact h.nonab (IsMulCommutative.of_comm ((MonoidHom.isMulCommutative_of_isCyclic_of_ker_le_center
+    (QuotientGroup.mk' (center ↥F)) (by rw [QuotientGroup.ker_mk'])).is_comm.comm))
 
 theorem false_of_central (h : FData F U x) {a b : Y} (ha : a ∈ U) (hb : b ∈ U) (ha1 : a ≠ 1)
     (hba : b ∉ zpowers a) (hac : ∀ f ∈ F, f * a = a * f) (hbc : ∀ f ∈ F, f * b = b * f) :
@@ -134,6 +138,7 @@ theorem not_comm (h : FData F U x) {u t : Y} (hu : u ∈ U) (hux : u ∉ zpowers
     exact mem_centralizer_singleton_iff.mp (this hf)
   exact h.false_of_central h.x_mem hu h.x_ne hux h.x_cent hcent
 
+omit [Finite Y] in
 theorem exists_pow_order_three {b : Y} (hb1 : b ≠ 1) {n : ℕ} (hb : b ^ 3 ^ n = 1) :
     ∃ m : ℕ, b ^ m ≠ 1 ∧ (b ^ m) ^ 3 = 1 := by
   induction n with
@@ -146,9 +151,9 @@ theorem exists_pow_order_three {b : Y} (hb1 : b ≠ 1) {n : ℕ} (hb : b ^ 3 ^ n
 theorem exists_central (hF : IsPGroup 3 F) {A : Subgroup Y} (hAF : A ≤ F)
     (hAn : ∀ f ∈ F, ∀ a ∈ A, f * a * f⁻¹ ∈ A) (hne : A ≠ ⊥) :
     ∃ z ∈ A, z ≠ 1 ∧ z ^ 3 = 1 ∧ ∀ f ∈ F, f * z = z * f := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Group.IsNilpotent F := hF.isNilpotent
-  haveI : (A.subgroupOf F).Normal :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Group.IsNilpotent F := hF.isNilpotent
+  have : (A.subgroupOf F).Normal :=
     ⟨fun a ha f => by
       rw [mem_subgroupOf] at ha ⊢
       exact hAn f f.2 a ha⟩
@@ -195,14 +200,14 @@ namespace EndData
 variable {F U M₁ N R : Subgroup Y} {x : Y}
 
 theorem exists_sylow (hd : EndData F U M₁ N R x) : ∃ S : Sylow 3 Y, (S : Subgroup Y) = F := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨-, hp, hidx⟩ := isSylowOf_iff.mp hd.sylow
   rw [Subgroup.relIndex_top_right] at hidx
   exact ⟨hp.toSylow hidx, rfl⟩
 
 theorem card_elem_le (hd : EndData F U M₁ N R x) {E : Subgroup Y} (hE : IsElemAbelian 3 E) :
     Nat.card E ≤ 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hEp : IsPGroup 3 E := elementary_isPGroup 3 E hE
   obtain ⟨k, -, hk⟩ := GL83P3L28Aux.exists_mem_conj_le_sylow hd.sylow le_top hEp
   have hmem : ∀ y : E, k⁻¹ * (y : Y) * k ∈ U := fun y => by
@@ -232,6 +237,7 @@ theorem pRank_le_two (hd : EndData F U M₁ N R x) :
     Nat.pow_le_pow_right (by norm_num) hlt
   omega
 
+omit [Finite Y] in
 theorem comm_mem_inf (hd : EndData F U M₁ N R x) {A : Subgroup Y} [A.Normal] {n e : Y}
     (hn : n ∈ N) (he : e ∈ M₁) (heA : e ∈ A) : n * e * n⁻¹ * e⁻¹ ∈ N ⊓ A := by
   refine ⟨?_, ?_⟩
@@ -244,7 +250,7 @@ theorem comm_mem_inf (hd : EndData F U M₁ N R x) {A : Subgroup Y} [A.Normal] {
 theorem eq_bot_of_noComponent (hd : EndData F U M₁ N R x)
     (hcore : primeComplementCore (G := Y) 3 = ⊥) (hno : ∀ K : Subgroup Y, ¬ IsComponentOf K ⊤) :
     N = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨S, hS⟩ := hd.exists_sylow
   have hlay : CFSG.layer Y = ⊥ := CFSG.LocalCores.layer_eq_bot_of_forall
     (fun K hK => hno K ((CFSG.isComponent_iff_open K).mp hK))
@@ -269,11 +275,12 @@ theorem eq_bot_of_noComponent (hd : EndData F U M₁ N R x)
   have := hbot ▸ (mem_inf.mpr ⟨hC hnC, hn⟩ : n ∈ CFSG.pCore 3 Y ⊓ N)
   exact this
 
+omit [Finite Y] in
 theorem eq_bot_of_cover (hd : EndData F U M₁ N R x) {K : Subgroup Y} [K.Normal]
     (hKs : IsSimpleGroup K) (h3K : 3 ∣ Nat.card K) (hKM : K ≤ M₁)
     (hCK : centralizer (K : Set Y) = ⊥) : N = ⊥ := by
   have hA : N ⊓ K = ⊥ := by
-    haveI : ((N ⊓ K).subgroupOf K).Normal := ⟨fun a ha k => by
+    have : ((N ⊓ K).subgroupOf K).Normal := ⟨fun a ha k => by
       rw [mem_subgroupOf] at ha ⊢
       exact ⟨hd.N_norm k (hKM k.2) a ha.1, K.mul_mem (K.mul_mem k.2 a.2) (K.inv_mem k.2)⟩⟩
     rcases hKs.eq_bot_or_eq_top_of_normal ((N ⊓ K).subgroupOf K) with h | h

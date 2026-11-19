@@ -38,7 +38,7 @@ theorem i141U9Rank_holds : I141U9Rank := by
         simpa [rho2318, d] using hrho
       omega
     · exfalso
-      simpa [h8] using hP
+      simp [h8] at hP
   | _ => exact hP.elim
 
 end

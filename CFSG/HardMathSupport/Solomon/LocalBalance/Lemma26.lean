@@ -1094,7 +1094,7 @@ theorem pRank_le_of_central_bar {b x : G} (hx : x ∈ Subgroup.centralizer ({b} 
     have hmap : Ehat.map π = E' := Subgroup.map_comap_eq_self_of_surjective hπs E'
     have := Subgroup.card_map_dvd (H := Ehat) π
     rwa [hmap] at this
-  obtain ⟨n, hn⟩ := (P.isPGroup').exists_card_eq
+  obtain ⟨n, hn⟩ := (P.isPGroup).exists_card_eq
   have hkn : k ≤ n := by
     rw [hn] at hdvd
     exact (Nat.pow_dvd_pow_iff_le_right (by norm_num)).1 hdvd
@@ -1103,7 +1103,7 @@ theorem pRank_le_of_central_bar {b x : G} (hx : x ∈ Subgroup.centralizer ({b} 
   have hι : Function.Injective ι := C.subtype_injective.comp Ehat.subtype_injective
   have hfP : ∀ p ∈ (P : Subgroup ↥Ehat), f p = 1 → p = 1 := by
     intro p hp hf1
-    obtain ⟨a, ha⟩ := P.isPGroup' ⟨p, hp⟩
+    obtain ⟨a, ha⟩ := P.isPGroup ⟨p, hp⟩
     have ha' : ι p ^ (3 ^ a) = 1 := by
       rw [← map_pow]
       have : p ^ (3 ^ a) = 1 := congrArg Subtype.val ha

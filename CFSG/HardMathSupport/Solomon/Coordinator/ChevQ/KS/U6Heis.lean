@@ -145,8 +145,8 @@ theorem torusUnitary_mem_specialBlock (h : UnitaryFieldData 2 3 K0)
 theorem isPerfect_blockSU_map (h : UnitaryFieldData 2 3 K0) (A : primeFormUnitary h (idGram K0 6))
     (hA3 : (A : GL (Fin 6) K0) ^ 3 = 1) {d : K0} (hd : 2 ≤ eigMult (A : GL (Fin 6) K0) d) :
     Group.IsPerfect ↥((blockSU h A d).map (gramSUToUnitary h (idGram K0 6))) := by
-  haveI := h.finite
-  haveI : Finite (GL (Fin 6) K0) :=
+  have := h.finite
+  have : Finite (GL (Fin 6) K0) :=
     Finite.of_injective (fun g : GL (Fin 6) K0 => (g : Matrix (Fin 6) (Fin 6) K0))
       Units.val_injective
   obtain ⟨hd3, i, hi⟩ := U6Comps.exists_goodIdx h A hA3 hd
@@ -234,8 +234,8 @@ theorem scalar_of_conj_fixes_block (h : UnitaryFieldData 2 3 K0)
     (hfix : ∀ t ∈ U6Comps.blockImage h A d, primeFormConjHom h (idGram K0 6) M t = t) :
     ∃ c : K0, ∀ v : Fin 6 → K0, U6Comps.xlin h A v = d • v →
       ((M : GL (Fin 6) K0) : Matrix (Fin 6) (Fin 6) K0) *ᵥ v = c • v := by
-  haveI := h.finite
-  haveI : Finite (GL (Fin 6) K0) :=
+  have := h.finite
+  have : Finite (GL (Fin 6) K0) :=
     Finite.of_injective (fun g : GL (Fin 6) K0 => (g : Matrix (Fin 6) (Fin 6) K0))
       Units.val_injective
   obtain ⟨hd3, i, hi⟩ := U6Comps.exists_goodIdx h A hA3 hd
@@ -313,9 +313,9 @@ theorem exists_conj_uFieldAut {S : Type} [Group S] {φ : MulAut S} (hφ : FieldA
       δ * MulAut.congr e φ * δ⁻¹ = uFieldAut h (by norm_num) σ := by
   classical
   obtain ⟨K', fK', hfin', e', σ', γ', hcard', hσ'1, -, hent⟩ := hφ
-  haveI := h.finite
-  haveI : Fintype K' := Fintype.ofFinite K'
-  haveI : Fintype K0 := Fintype.ofFinite K0
+  have := h.finite
+  have : Fintype K' := Fintype.ofFinite K'
+  have : Fintype K0 := Fintype.ofFinite K0
   have hKK : Fintype.card K' = Fintype.card K0 := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hcard', h.card_eq_sq]
   let eK : K' ≃+* K0 := FiniteField.ringEquivOfCardEq hKK
@@ -400,7 +400,7 @@ theorem three_dvd_of_heis_scalar {κ : K0ˣ} (hκ3 : κ ^ 3 = 1) (hκ1 : κ ≠ 
   have hR1 : g₁ * G * g₁⁻¹ = ks ^ k * G := by
     have e2 : g₁ * g₂ ^ k * g₁⁻¹ = (g₁ * g₂ * g₁⁻¹) ^ k := by
       have := map_zpow (MulAut.conj g₁) g₂ k
-      simpa [MulAut.conj_apply] using this
+      simp
     calc g₁ * G * g₁⁻¹ = (g₁ * g₁ ^ j) * g₂ ^ k * g₁⁻¹ := by rw [hGdef]; group
       _ = (g₁ ^ j * g₁) * g₂ ^ k * g₁⁻¹ := by rw [(Commute.self_zpow g₁ j).eq]
       _ = g₁ ^ j * (g₁ * g₂ ^ k * g₁⁻¹) := by group
@@ -412,7 +412,7 @@ theorem three_dvd_of_heis_scalar {κ : K0ˣ} (hκ3 : κ ^ 3 = 1) (hκ1 : κ ≠ 
   have hR2 : g₂ * G * g₂⁻¹ = (ks⁻¹) ^ j * G := by
     have e2 : g₂ * g₁ ^ j * g₂⁻¹ = (g₂ * g₁ * g₂⁻¹) ^ j := by
       have := map_zpow (MulAut.conj g₂) g₁ j
-      simpa [MulAut.conj_apply] using this
+      simp
     have hc : Commute ((ks⁻¹) ^ j) g₁ := ((hk1 g₁).inv_left).zpow_left j
     calc g₂ * G * g₂⁻¹ = (g₂ * g₁ ^ j * g₂⁻¹) * (g₂ * g₂ ^ k * g₂⁻¹) := by rw [hGdef]; group
       _ = (g₂ * g₁ ^ j * g₂⁻¹) * g₂ ^ k := by
@@ -458,7 +458,7 @@ theorem three_dvd_of_heis_scalar {κ : K0ˣ} (hκ3 : κ ^ 3 = 1) (hκ1 : κ ≠ 
   have hj : (κ⁻¹) ^ j = 1 := by
     refine key g₂ ((κ⁻¹) ^ j) h₂A ?_
     rw [hR2, hks, map_zpow, map_inv]
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf κ = 3 := orderOf_eq_prime hκ3 hκ1
   have hj' : κ ^ j = 1 := by
     rw [_root_.inv_zpow, inv_eq_one] at hj
@@ -479,7 +479,7 @@ theorem autImageRankThree_of_card_ge [Finite X] {B J : Subgroup X}
     (hBel : CFSG.Open.IsElemAbelian 3 B) (h27 : 27 ≤ Nat.card (autImage B J)) :
     KSF4SU3.AutImageRankThree B J := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hAel : CFSG.Open.IsElemAbelian 3 (autImage B J) := by
     have h1 : CFSG.Open.IsElemAbelian 3 (B ⊓ Subgroup.normalizer (J : Set X)) :=
       CFSG.Open.IsElemAbelian.mono hBel inf_le_left
@@ -504,7 +504,7 @@ section Fix
 
 variable {X : Type} [Group X]
 
-theorem congr_actHom_fixes_image {K J : Subgroup X} (hJK : J ≤ K) {w : X}
+theorem congr_actHom_fixes_image {K J : Subgroup X} (_hJK : J ≤ K) {w : X}
     (hwN : w ∈ Subgroup.normalizer (K : Set X)) (hwC : w ∈ Subgroup.centralizer (J : Set X))
     {G : Type} [Group G] (ε : (↥K ⧸ Subgroup.center ↥K) ≃* G) :
     ∀ t ∈ ((J.subgroupOf K).map (QuotientGroup.mk' (Subgroup.center ↥K))).map
@@ -600,7 +600,7 @@ theorem key_lemma {K J B : Subgroup X} (hJK : J ≤ K) (hperf : ⁅J, J⁆ = J)
     rw [hψw] at h2
     simp only [map_mul, map_zpow, hψx, hM₁, hM₂, fieldFactor_conj, _root_.one_zpow, mul_one] at h2
     exact h2
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf σ = 3 := orderOf_eq_prime hσ3 hσ1
   have h3i : (3 : ℤ) ∣ i := by
     have := (orderOf_dvd_iff_zpow_eq_one (G := K0 ≃+* K0)).2 hσi
@@ -713,7 +713,7 @@ open scoped commutatorElement
 variable {K0 : Type} [Field K0]
 
 theorem u6_heis_rank_three [Fintype K0] {X : Type} [Group X] [Finite X] {K B : Subgroup X}
-    (hK : CFSG.Open.IsComponentOf K ⊤) (hBel : CFSG.Open.IsElemAbelian 3 B)
+    (_hK : CFSG.Open.IsComponentOf K ⊤) (hBel : CFSG.Open.IsElemAbelian 3 B)
     (hBN : B ≤ Subgroup.normalizer (K : Set X)) (h : UnitaryFieldData 2 3 K0)
     (e : (↥K ⧸ Subgroup.center ↥K) ≃* StatedProj (StatedSU 6 (2 ^ 3) K0)) {x y b₁ b₂ : X}
     (hx : x ∈ B) (hFx : FieldAutU 6 (↥K ⧸ Subgroup.center ↥K) (actHom K ⟨x, hBN hx⟩))
@@ -795,7 +795,7 @@ theorem u6_heis_rank_three [Fintype K0] {X : Type} [Group X] [Finite X] {K B : S
         (3 : ℤ) ∣ i ∧ (3 : ℤ) ∣ j ∧ (3 : ℤ) ∣ k := fun i j k hwJ hw =>
     key_lemma hJK hperf hBN hBel hx hb₁ hb₂ h ε A hA3 hd3 hLd hσ1 hσ3 hψx hψ₁ hψ₂ hM₁A hM₂A
       hκ3 hκ1 hκcomm i j k hwJ hw
-  haveI : IsMulCommutative ↥B := hBel.1
+  have : IsMulCommutative ↥B := hBel.1
   let φ : ↥B →* MulAut (↥J ⧸ Subgroup.center ↥J) :=
     (actHom J).comp (Subgroup.inclusion hBJ)
   let wB : ℤ → ℤ → ℤ → ↥B := fun i j k => ⟨x, hx⟩ ^ i * ⟨b₁, hb₁⟩ ^ j * ⟨b₂, hb₂⟩ ^ k

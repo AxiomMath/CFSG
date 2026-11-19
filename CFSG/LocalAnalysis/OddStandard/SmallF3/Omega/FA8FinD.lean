@@ -62,7 +62,7 @@ theorem asc82FactQCentOrd6_of (hS : Asc82SchurU43) : Asc82FactQCentOrd6 := by
     rw [← hcardP]
     exact Subgroup.card_dvd_of_le hle'
   refine ⟨hdvd, fun h8 => ?_⟩
-  haveI : Finite ↥(fgIotaP (FGSplit.comm hQ hztt)).range :=
+  have : Finite ↥(fgIotaP (FGSplit.comm hQ hztt)).range :=
     Nat.finite_of_card_ne_zero (by rw [hcardP]; norm_num)
   have heq : (fgThetaR hQ h6 e hYN).range = (fgIotaP (FGSplit.comm hQ hztt)).range :=
     Subgroup.eq_of_le_of_card_ge hle' (by rw [h8, hcardP])

@@ -29,7 +29,7 @@ theorem good427_co2 (x : Equiv.Perm (Fin 2300)) (hx : x ∈ co2P) (hxo : orderOf
       (IsPGroup.of_card (n := 5) (by rw [hcard]; norm_num)) hcent)
   · obtain ⟨h3, -, -, hcard, hLC, hLn, hcent, hrels⟩ := co2CaseB_spec
     obtain ⟨eL⟩ := nonempty_mulEquiv_QP45_of_rels uvGen hrels hcard
-    haveI : IsSimpleGroup Lsub := isSimpleGroup_of_equiv_QP45 eL
+    have : IsSimpleGroup Lsub := isSimpleGroup_of_equiv_QP45 eL
     exact Good427.conj hk h3 he (good427_of_simpleNormal' hLC hLn
       (nonabelian_of_equiv_QP45 eL) (by rw [hcard]; norm_num) hcent)
 

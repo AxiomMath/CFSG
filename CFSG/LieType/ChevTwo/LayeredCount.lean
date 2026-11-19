@@ -67,15 +67,15 @@ theorem IsChevTwoLayeredBy.mulEquiv_iff [Group W] [Group W'] {o : List ℕ} (e :
 
 theorem isChevTwoLayeredBy_of_isSolvable [Group W] [Finite W] (h : Group.IsSolvable W)
     (o : List ℕ) : IsChevTwoLayeredBy W o := by
-  haveI : Group.IsSolvable W := h
+  have : Group.IsSolvable W := h
   refine ⟨isChevTwoLayered_of_isSolvable h, fun N => ?_⟩
   have hempty : compOrdSet W N = ∅ := by
     rw [Set.eq_empty_iff_forall_notMem]
     intro K hK
     rw [mem_compOrdSet] at hK
-    haveI : Group.IsPerfect ↥K := ⟨hK.1.2.2.1⟩
-    haveI : Nontrivial ↥K := Quasisimple.nontrivial hK.1.2.2
-    haveI : Group.IsSolvable ↥K :=
+    have : Group.IsPerfect ↥K := ⟨hK.1.2.2.1⟩
+    have : Nontrivial ↥K := Quasisimple.nontrivial hK.1.2.2
+    have : Group.IsSolvable ↥K :=
       Group.isSolvable_of_isSolvable_injective (f := K.subtype) K.subtype_injective
     exact Group.IsPerfect.not_isSolvable ↥K inferInstance
   rw [hempty, Set.ncard_empty]
@@ -90,10 +90,10 @@ theorem isChevTwoLayeredBy_of_isQuasisimple [Group W] (hW : CFSG.Open.IsQuasisim
       CFSG.Open.IsQuasisimple.of_mulEquiv (Subgroup.topEquiv (G := W)) hW⟩
   have hcomp_top : ∀ K : Subgroup W, CFSG.Open.IsComponentOf K ⊤ → K = ⊤ := by
     intro K hK
-    haveI : Group.IsPerfect ↥K := ⟨hK.2.2.1⟩
+    have : Group.IsPerfect ↥K := ⟨hK.2.2.1⟩
     rcases Quasisimple.perfect_subnormal_eq_bot_or_eq_top hW K hK.2.1 with hbot | htop'
     · exfalso
-      haveI : Nontrivial ↥K := Quasisimple.nontrivial hK.2.2
+      have : Nontrivial ↥K := Quasisimple.nontrivial hK.2.2
       exact (Subgroup.nontrivial_iff_ne_bot K).mp inferInstance hbot
     · exact htop'
   have hnat : Nat.card (↥(⊤ : Subgroup W) ⧸ Subgroup.center ↥(⊤ : Subgroup W)) =
@@ -133,7 +133,7 @@ theorem isChevTwoLayeredBy_of_isQuasisimple [Group W] (hW : CFSG.Open.IsQuasisim
 theorem IsChevTwoLayeredBy.of_normal_of_solvable_quotient [Group W] [Finite W] (N : Subgroup W)
     [N.Normal] {o : List ℕ} (hN : IsChevTwoLayeredBy ↥N o)
     (hq : Group.IsSolvable (W ⧸ N)) : IsChevTwoLayeredBy W o := by
-  haveI : Group.IsSolvable (W ⧸ N) := hq
+  have : Group.IsSolvable (W ⧸ N) := hq
   refine ⟨IsChevTwoLayered.of_normal_of_solvable_quotient N hN.1 hq, fun n => ?_⟩
   have hbound : (compOrdSet W n).ncard ≤ (compOrdSet ↥N n).ncard := by
     have hinj : Set.InjOn (fun K : Subgroup W => K.subgroupOf N) (compOrdSet W n) := by
@@ -175,7 +175,7 @@ private theorem exists_component_quotient [Group W] [Finite W] (T : Subgroup W) 
     ∃ K : Subgroup W, CFSG.Open.IsComponentOf K ⊤ ∧ Kbar = K.map (QuotientGroup.mk' T) ∧
       Nat.card (↥K ⧸ Subgroup.center ↥K) =
         Nat.card (↥Kbar ⧸ Subgroup.center ↥Kbar) := by
-  haveI : Group.IsSolvable ↥T := hT
+  have : Group.IsSolvable ↥T := hT
   have hTsub : CFSG.Open.IsSubnormal T ⊤ := by
     have h' : (T.subgroupOf ⊤).Normal := Subgroup.Normal.subgroupOf ‹T.Normal› ⊤
     exact CFSG.Open.IsSubnormal.step le_top h' (CFSG.Open.IsSubnormal.refl ⊤)
@@ -214,7 +214,7 @@ private theorem exists_component_quotient [Group W] [Finite W] (T : Subgroup W) 
       refine ⟨⟨x, ?_⟩, Subtype.ext hx⟩
       rw [Subgroup.mem_comap, hx]
       exact y.2
-    haveI : Group.IsPerfect ↥(⊤ : Subgroup ↥Pbar) :=
+    have : Group.IsPerfect ↥(⊤ : Subgroup ↥Pbar) :=
       Group.IsPerfect.top_iff.mpr
         (Group.isPerfect_def.mpr
           (CFSG.LocalAnalysis.GLTheoremA.I142N.commutator_top_of_comm_self_eq hPbar))
@@ -273,7 +273,7 @@ private theorem exists_component_quotient [Group W] [Finite W] (T : Subgroup W) 
       (Quasisimple.nontrivial hKbar.2.2))
   obtain ⟨K, hK, hKeq⟩ := hexists
   refine ⟨K, hK, hKeq, ?_⟩
-  haveI : Group.IsPerfect ↥K := Subgroup.isPerfect_iff.mpr
+  have : Group.IsPerfect ↥K := Subgroup.isPerfect_iff.mpr
     (CFSG.LocalAnalysis.GLTheoremA.I142N.comm_self_eq_of_commutator_top hK.2.2.1)
   let f : ↥K →* ↥Kbar :=
     { toFun := fun x => ⟨QuotientGroup.mk' T x.1, hKeq ▸ Subgroup.mem_map_of_mem _ x.2⟩
@@ -349,8 +349,8 @@ theorem IsChevTwoLayeredBy.of_commute_sup [Group W] [Finite W] (K₁ K₂ : Subg
       calc b * a * b⁻¹ = a * b * b⁻¹ := by rw [(hc b hb a ha).eq]
         _ = a := by simp
     rwa [hconj]
-  haveI := hK₁n
-  haveI := hK₂n
+  have := hK₁n
+  have := hK₂n
   have hcen : (K₁ ⊓ K₂ : Subgroup W) ≤ Subgroup.center W := by
     have h1 : (K₁ ⊓ K₂ : Subgroup W) ≤ Subgroup.centralizer (K₁ : Set W) := by
       intro x hx
@@ -446,7 +446,7 @@ theorem IsChevTwoLayeredBy.quotient_of_sup_eq_top [Group W] [Finite W] {L Q : Su
     intro a b hab
     have h : (a.1 : W) = (b.1 : W) := congrArg (fun z : ↥Q => (z : W)) hab
     exact Subtype.ext (Subtype.ext h)
-  haveI : Group.IsSolvable ↥Q := hQ
+  have : Group.IsSolvable ↥Q := hQ
   have hker_solv : Group.IsSolvable ↥φ.ker :=
     Group.isSolvable_of_isSolvable_injective (f := ψ) hψ
   exact IsChevTwoLayeredBy.of_surjective φ hφ hker_solv hL

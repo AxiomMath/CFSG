@@ -25,15 +25,15 @@ theorem lt_letC {a b ai bi : Nat} {ga gb : Equiv.Perm (Fin n)} (ha : PRep n w a 
   unfold CFSG.KC.Enum.lt letC
   simp only [PK.nIf_eq]
   by_cases h0 : Nat.beq c 0 = true
-  · rw [if_pos h0, if_pos h0]
+  · rw [ite_eq_left h0, ite_eq_left h0]
     exact ha ⟨q, hq⟩
   by_cases h1 : Nat.beq c 1 = true
-  · rw [if_neg h0, if_pos h1, if_neg h0, if_pos h1]
+  · rw [ite_eq_right h0, ite_eq_left h1, ite_eq_right h0, ite_eq_left h1]
     exact hb ⟨q, hq⟩
   by_cases h2 : Nat.beq c 2 = true
-  · rw [if_neg h0, if_neg h1, if_pos h2, if_neg h0, if_neg h1, if_pos h2]
+  · rw [ite_eq_right h0, ite_eq_right h1, ite_eq_left h2, ite_eq_right h0, ite_eq_right h1, ite_eq_left h2]
     exact hai ⟨q, hq⟩
-  · rw [if_neg h0, if_neg h1, if_neg h2, if_neg h0, if_neg h1, if_neg h2]
+  · rw [ite_eq_right h0, ite_eq_right h1, ite_eq_right h2, ite_eq_right h0, ite_eq_right h1, ite_eq_right h2]
     exact hbi ⟨q, hq⟩
 
 theorem foldN_letC {a b ai bi W : Nat} {ga gb : Equiv.Perm (Fin n)} (ha : PRep n w a ga)

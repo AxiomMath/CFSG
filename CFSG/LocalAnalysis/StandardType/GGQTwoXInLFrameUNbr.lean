@@ -423,7 +423,7 @@ theorem ggQTwoXInLU_nbr {n : ℕ} {K : Type} [Field K] [Finite K]
         · rw [hi1, h1]
           simp
         · by_cases hi0 : i = 0
-          · rw [hi0, hf0m, if_neg h01]
+          · rw [hi0, hf0m, ite_eq_right h01]
           · have hfi : f i = f 0 := by
               have h := ggQTUn_coord_add hn3 hn6 hconst hsum i hi0 hi1
               rwa [h1, add_zero] at h
@@ -458,10 +458,10 @@ theorem ggQTwoXInLU_nbr {n : ℕ} {K : Type} [Field K] [Finite K]
         funext i
         by_cases hi1 : i = 1
         · rw [hi1, h1]
-          simp only [if_true]
+          simp only [ite_true]
           exact neg_zero
         · by_cases hi0 : i = 0
-          · rw [hi0, hf0p, if_neg h01]
+          · rw [hi0, hf0p, ite_eq_right h01]
           · have hfi : f i = f 0 := by
               have h := ggQTUn_coord_add hn3 hn6 hconst hsum i hi0 hi1
               rwa [h1, add_zero] at h

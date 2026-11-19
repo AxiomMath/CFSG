@@ -68,7 +68,7 @@ theorem SG.exists_simple_centralizer_omPlus {K : Type} [Field K] [Finite K] {n m
     ∃ Y ≤ X, d ∈ Y ∧ Nat.card Y = 3 ^ 2 ∧ ∃ A : Subgroup (OrthRest.RPlus K m),
       A ≤ Subgroup.centralizer (Y : Set (OrthRest.RPlus K m)) ∧ IsSimpleGroup A ∧
       (∃ a b : A, a * b ≠ b * a) ∧ 3 ∣ Nat.card A := by
-  haveI := charP_two_of_card hK
+  have := charP_two_of_card hK
   exact exists_simple_centralizer_of_equiv (hK ▸ four_le_two_pow hn)
     (TableBOrth.nondegenerate_qPlusForm m) (OrthTorus.rPlusEquiv K hm) hX hcard hd
 
@@ -79,7 +79,7 @@ theorem SG.exists_simple_centralizer_omMinus {K : Type} [Field K] [Finite K] {n 
     ∃ Y ≤ X, d ∈ Y ∧ Nat.card Y = 3 ^ 2 ∧ ∃ A : Subgroup (OrthRest.RMinus K m b c),
       A ≤ Subgroup.centralizer (Y : Set (OrthRest.RMinus K m b c)) ∧ IsSimpleGroup A ∧
       (∃ a b : A, a * b ≠ b * a) ∧ 3 ∣ Nat.card A := by
-  haveI := charP_two_of_card hK
+  have := charP_two_of_card hK
   exact exists_simple_centralizer_of_equiv (hK ▸ four_le_two_pow hn)
     (TableBOrth.nondegenerate_qMinusForm m hirr) (OrthTorus.rMinusEquiv K m b c) hX hcard hd
 

@@ -14,7 +14,7 @@ theorem exists_odd_radical {G : Type} [Group G] [Finite G] {n : ℕ} {b : G} {L 
       Subgroup.centralizer ({b} : Set G) ⊓ Subgroup.centralizer (L : Set G) ≤
         R ⊔ Subgroup.zpowers b := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let Cb : Subgroup G := Subgroup.centralizer ({b} : Set G)
   let CL : Subgroup G := Subgroup.centralizer (L : Set G)
   let D : Subgroup G := Cb ⊓ CL
@@ -44,14 +44,14 @@ theorem exists_odd_radical {G : Type} [Group G] [Finite G] {n : ℕ} {b : G} {L 
         group
       rw [hval]
       exact hn⟩
-  haveI : (Z.subgroupOf D).Normal := hZn
+  have : (Z.subgroupOf D).Normal := hZn
   have hZpg' : IsPGroup 3 (Z.subgroupOf D) :=
     hZpg.of_equiv (Subgroup.subgroupOfEquivOfLe hZle).symm
   obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow 3 ↥D))
   have hZP : Z.subgroupOf D ≤ (P : Subgroup ↥D) :=
     IsPGroup.le_sylow_of_normal (N := Z.subgroupOf D) hZpg' P
   have hPpg : IsPGroup 3 ((P : Subgroup ↥D).map D.subtype) :=
-    P.isPGroup'.map D.subtype
+    P.isPGroup.map D.subtype
   have hPmap : (P : Subgroup ↥D).map D.subtype = Z := by
     refine hloc.syl _ ?_ ?_ hPpg ?_
     · rintro _ ⟨y, -, rfl⟩

@@ -74,7 +74,7 @@ variable {G : Type} [Group G] [Finite G]
 
 @[expose] def S21_1 (D : Data G) (Ch : Choice2011 G) : Prop :=
   H1930 D → ∀ _ : Ctx21 D Ch, ∀ X : Subgroup G, (Nat.card X).Prime → Nat.card X ≠ 2 →
-    IsSolvable ↥(X ⊔ D.T) → (∃ A : Subgroup G, IsHallOddIn A (X ⊔ D.T) ∧ IsMulCommutative A) →
+    Group.IsSolvable ↥(X ⊔ D.T) → (∃ A : Subgroup G, IsHallOddIn A (X ⊔ D.T) ∧ IsMulCommutative A) →
     (∀ p ∈ piSet (X ⊔ D.T), p ≠ 2 → CFSG.Open.pRank p (X ⊔ D.T) ≤ 2) →
     X ∈ uniqueSet D.M →
       calMOf (X ⊔ D.T) = {D.M} ∧ ¬ X ≤ normalizer (D.T : Set G)

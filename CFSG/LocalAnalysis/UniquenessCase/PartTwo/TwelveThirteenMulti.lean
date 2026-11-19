@@ -12,6 +12,7 @@ open Equiv Equiv.Perm Subgroup CFSG.Open
 
 variable {K : Type} [Group K] [Finite K]
 
+omit [Finite K] in
 theorem card_sup_dvd_of_commute {A B : Subgroup K} (hAB : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a) :
     Nat.card (A ⊔ B : Subgroup K) ∣ Nat.card A * Nat.card B := by
   have hc : ∀ (a : A) (b : B), Commute (A.subtype a) (B.subtype b) := fun a b => hAB a a.2 b b.2
@@ -20,6 +21,7 @@ theorem card_sup_dvd_of_commute {A B : Subgroup K} (hAB : ∀ a ∈ A, ∀ b ∈
   rw [← hrange, ← Nat.card_prod]
   exact Subgroup.card_range_dvd _
 
+omit [Finite K] in
 theorem card_sup_of_commute {A B : Subgroup K} (hAB : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a)
     (hinf : A ⊓ B = ⊥) : Nat.card (A ⊔ B : Subgroup K) = Nat.card A * Nat.card B := by
   have hc : ∀ (a : A) (b : B), Commute (A.subtype a) (B.subtype b) := fun a b => hAB a a.2 b b.2
@@ -39,7 +41,7 @@ theorem isElemAbelian_of_le_sup_of_commute {A B : Subgroup K}
     (hB : ∀ P : Subgroup K, P ≤ B → IsPGroup 3 P → IsElemAbelian 3 P) :
     ∀ P : Subgroup K, P ≤ A ⊔ B → IsPGroup 3 P → IsElemAbelian 3 P := by
   intro P hP hP3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hc : ∀ (a : A) (b : B), Commute (A.subtype a) (B.subtype b) := fun a b => hAB a a.2 b b.2
   set φ : A × B →* K := MonoidHom.noncommCoprod A.subtype B.subtype hc with hφ
   have hrange : φ.range = A ⊔ B := by
@@ -104,7 +106,7 @@ theorem isElemAbelian_of_le_sup_of_commute {A B : Subgroup K}
 private theorem isQuasisimple_alternatingGroup {n : ℕ} (hn : 5 ≤ n) :
     CFSG.Open.IsQuasisimple (alternatingGroup (Fin n)) := by
   have hcard : 5 ≤ Nat.card (Fin n) := by rw [Nat.card_eq_fintype_card, Fintype.card_fin]; exact hn
-  haveI : IsSimpleGroup (alternatingGroup (Fin n)) := alternatingGroup.isSimpleGroup hcard
+  have : IsSimpleGroup (alternatingGroup (Fin n)) := alternatingGroup.isSimpleGroup hcard
   have hc : center (alternatingGroup (Fin n)) = ⊥ := alternatingGroup.center_eq_bot (by omega)
   let eq : alternatingGroup (Fin n) ⧸ center (alternatingGroup (Fin n)) ≃*
       alternatingGroup (Fin n) := (QuotientGroup.quotientMulEquivOfEq hc).trans
@@ -122,6 +124,7 @@ private theorem isQuasisimple_alternatingGroup {n : ℕ} (hn : 5 ≤ n) :
     exact bot_ne_top (hc.symm.trans htop)
   · exact h
 
+omit [Finite K] in
 theorem isComponentOf_of_mulEquiv {X : Subgroup K} {n : ℕ} (hn : 5 ≤ n)
     (hXsn : CFSG.Open.IsSubnormal X ⊤) (e : X ≃* alternatingGroup (Fin n)) :
     IsComponentOf X ⊤ := by
@@ -145,6 +148,7 @@ theorem commute_of_map_conj_ne {X : Subgroup K} {n : ℕ} (hn : 5 ≤ n)
   rw [h1, mem_bot] at hxy
   exact commutatorElement_eq_one_iff_mul_comm.1 hxy
 
+omit [Finite K] in
 private theorem map_conj_mul (H : Subgroup K) (g h : K) :
     (H.map (MulAut.conj h).toMonoidHom).map (MulAut.conj g).toMonoidHom =
       H.map (MulAut.conj (g * h)).toMonoidHom := by
@@ -153,6 +157,7 @@ private theorem map_conj_mul (H : Subgroup K) (g h : K) :
   ext x
   simp [mul_assoc]
 
+omit [Finite K] in
 private theorem map_conj_one (H : Subgroup K) : H.map (MulAut.conj (1 : K)).toMonoidHom = H := by
   ext x
   simp
@@ -175,6 +180,7 @@ private theorem map_conj_eq_iff (H : Subgroup K) (g : K) :
       · simpa [mul_assoc] using hx
       · simp [mul_assoc]
 
+omit [Finite K] in
 private theorem isElemAbelian_comap {f : K →* K} (hf : Function.Injective f) {p : ℕ}
     {P : Subgroup K} (hP : IsElemAbelian p P) : IsElemAbelian p (P.comap f) := by
   refine ⟨⟨⟨fun a b => Subtype.ext (hf ?_)⟩⟩, fun x hx => hf ?_⟩
@@ -287,7 +293,7 @@ theorem exists_subgroup_of_not_le_normalizer {X T : Subgroup K} {n : ℕ} (hn : 
       rw [← map_le_iff_le_comap, hcdef, map_conj_mul, ← hcdef]
       exact Finset.le_sup ((hmemFs _).2 (T.mul_mem hs ((hmemFs t).1 ht)))
     exact mem_normalizer_fintype fun h hh => hle hh
-  · obtain ⟨t, htT, htN⟩ := SetLike.not_le_iff_exists.1 hTX
+  · obtain ⟨t, htT, htN⟩ := IsConcreteLE.not_le_iff_exists.1 hTX
     have hXt : X.map (MulAut.conj t).toMonoidHom ≠ X := fun h =>
       htN ((map_conj_eq_iff X t).1 h)
     have hcomm := commute_of_map_conj_ne (by omega) hXsn e (g := 1) (h := t)

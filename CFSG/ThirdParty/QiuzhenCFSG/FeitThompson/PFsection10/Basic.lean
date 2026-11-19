@@ -838,7 +838,7 @@ public theorem linearCharacter_eq_one_of_fixed_by_fixedPointFree
     (hχfix : ∀ q : Q, χ (a • q) = χ q) :
     χ = 1 := by
   classical
-  letI : CommGroup Q := IsMulCommutative.instCommGroup
+  let : CommGroup Q := IsMulCommutative.instCommGroup
   let φ : Q → Q := fun q => (a • q) * q⁻¹
   have hφinj : Function.Injective φ := by
     intro x y hxy
@@ -1125,7 +1125,7 @@ public theorem exists_irreducibleCharacterOnGroup_separates_ne_one_sec10
   classical
   rcases Theory.Character.second_orthogonality (G := Q) with
     ⟨ι, hι, χ, hχ, horth⟩
-  letI : Fintype ι := hι
+  let : Fintype ι := hι
   by_contra hnone
   push Not at hnone
   have hvalues : ∀ i : ι,
@@ -1221,7 +1221,7 @@ public theorem exists_irreducibleCharacterOnGroup_kernel_not_subgroup_kernel_of_
           Section1.subgroupInKernel' θ (Z.subgroupOf H) := by
   classical
   have hnot : ¬ A ≤ Z := hZA_lt.not_ge
-  rw [SetLike.le_def] at hnot
+  rw [_root_.IsConcreteLE.le_iff] at hnot
   push Not at hnot
   rcases hnot with ⟨a, haA, haZ⟩
   let q : L →* L ⧸ Z := QuotientGroup.mk' Z
@@ -4099,7 +4099,7 @@ public theorem tauOne_xi_orthogonal_omega_of_hypothesis_10_4_data
     (h : hypothesis_10_4_data M MF W1 W2 V W A A0 S τ τ₁ ξ i0 j0 μ δSign ω σ d n δ) :
     ∀ i j, Section1.scalarProduct G (τ₁ ξ) (σ (ω i j)) = 0 := by
   classical
-  letI : Fintype M := Fintype.ofFinite M
+  let : Fintype M := Fintype.ofFinite M
   intro i j
   rcases hypothesis_10_4_a_of_hypothesis_10_4_data h with
     ⟨_h10, _hNotation, hξS, hξIrr, _hξDegree, _hUniform⟩
@@ -4981,8 +4981,8 @@ public theorem typeVReduction_kernelQuotient_linearCharacter_card_eq_sq
   classical
   let Q := derivedSubgroup M ⧸
     (H'.subgroupOf M).subgroupOf (derivedSubgroup M)
-  letI : CommGroup Q := IsMulCommutative.instCommGroup
-  haveI : HasEnoughRootsOfUnity ℂ (Monoid.exponent Q) :=
+  let : CommGroup Q := IsMulCommutative.instCommGroup
+  have : HasEnoughRootsOfUnity ℂ (Monoid.exponent Q) :=
     Section1.complex_hasEnoughRootsOfUnity (Monoid.exponent Q)
   have hchars : Nat.card (Q →* ℂˣ) = Nat.card Q := by
     exact CommGroup.card_monoidHom_of_hasEnoughRootsOfUnity Q ℂ
@@ -5190,8 +5190,8 @@ public theorem typeVReduction_exists_source_degree_prime_family_count
   rcases Theory.Character.exists_completeIrreducibleCharacterFamily_sum_degree_normSq
       (G := derivedSubgroup M) with
     ⟨ι, hι, χrep, hχrep, hsum⟩
-  letI : Fintype ι := hι
-  letI : DecidableEq ι := Classical.decEq ι
+  let : Fintype ι := hι
+  let : DecidableEq ι := Classical.decEq ι
   let χ : ι → Section1.ClassFunction (derivedSubgroup M) :=
     fun i => Section1.ofConjClassFunction (χrep i)
   have hχbook : ∀ i, Section1.IsBookIrreducibleCharacter (χ i) := by
@@ -5348,7 +5348,7 @@ public theorem typePDefinitionData_secondDerivedQuotient_fixedPointSubgroup_zpow
   have hNinv : IsInvariant A (derivedSubgroup M) N := by
     exact isInvariant_of_characteristic (A := A) (G := derivedSubgroup M) N
   let _ : IsInvariant A (derivedSubgroup M) N := hNinv
-  letI : MulDistribMulAction A (derivedSubgroup M ⧸ N) :=
+  let : MulDistribMulAction A (derivedSubgroup M ⧸ N) :=
     quotientMulDistribMulAction (A := A) (G := derivedSubgroup M) N hNinv
   have hfixQuot :
       fixedPointSubgroup A (derivedSubgroup M ⧸ N) =
@@ -5463,7 +5463,7 @@ public theorem typePDefinitionData_secondDerivedQuotient_fixed_eq_one_of_W1_ne_o
     exact isInvariant_of_characteristic (A := W1.subgroupOf M)
       (G := derivedSubgroup M) N
   let _ : IsInvariant (W1.subgroupOf M) (derivedSubgroup M) N := hNinvW1
-  letI : MulDistribMulAction (W1.subgroupOf M) (derivedSubgroup M ⧸ N) :=
+  let : MulDistribMulAction (W1.subgroupOf M) (derivedSubgroup M ⧸ N) :=
     quotientMulDistribMulAction (A := W1.subgroupOf M)
       (G := derivedSubgroup M) N hNinvW1
   intro q
@@ -5473,7 +5473,7 @@ public theorem typePDefinitionData_secondDerivedQuotient_fixed_eq_one_of_W1_ne_o
   have hNinvA : IsInvariant A (derivedSubgroup M) N := by
     exact isInvariant_of_characteristic (A := A) (G := derivedSubgroup M) N
   let _ : IsInvariant A (derivedSubgroup M) N := hNinvA
-  letI : MulDistribMulAction A (derivedSubgroup M ⧸ N) :=
+  let : MulDistribMulAction A (derivedSubgroup M ⧸ N) :=
     quotientMulDistribMulAction (A := A) (G := derivedSubgroup M) N hNinvA
   have hgenFix :
       (⟨(a : M), Subgroup.mem_zpowers (a : M)⟩ : A) •
@@ -5552,7 +5552,7 @@ public theorem typePDefinitionData_inducedCF_secondDerivedQuotient_isIrreducible
     exact isInvariant_of_characteristic (A := W1.subgroupOf M)
       (G := derivedSubgroup M) N
   let _ : IsInvariant (W1.subgroupOf M) (derivedSubgroup M) N := hNinvW1
-  letI : MulDistribMulAction (W1.subgroupOf M) (derivedSubgroup M ⧸ N) :=
+  let : MulDistribMulAction (W1.subgroupOf M) (derivedSubgroup M ⧸ N) :=
     quotientMulDistribMulAction (A := W1.subgroupOf M)
       (G := derivedSubgroup M) N hNinvW1
   have hcomm : IsMulCommutative (derivedSubgroup M ⧸ N) := by
@@ -5651,7 +5651,7 @@ public theorem nonidentityOrbitQuotient_card_mul_eq_sub_one
       Nat.card G - 1 := by
   classical
   let α := {g : G // g ≠ 1}
-  letI : MulAction A α := nonidentitySubMulAction A G
+  let : MulAction A α := nonidentitySubMulAction A G
   have hstab : ∀ x : α, MulAction.stabilizer A x = ⊥ := by
     intro x
     rw [eq_bot_iff]
@@ -5666,11 +5666,11 @@ public theorem nonidentityOrbitQuotient_card_mul_eq_sub_one
     have hfix : a • (x : G) = (x : G) := congrArg Subtype.val hax
     exact x.2 (hfree a ha_ne (x : G) hfix)
   let Ω := Quotient (MulAction.orbitRel A α)
-  letI : Fintype Ω := Fintype.ofFinite Ω
+  let : Fintype Ω := Fintype.ofFinite Ω
   have hcard_equiv := Nat.card_congr (MulAction.selfEquivOrbitsQuotientProd hstab)
   have hcardα : Nat.card α = Nat.card G - 1 := by
-    letI : Fintype G := Fintype.ofFinite G
-    letI : Fintype α := Fintype.ofFinite α
+    let : Fintype G := Fintype.ofFinite G
+    let : Fintype α := Fintype.ofFinite α
     rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card]
     change Fintype.card {g : G // g ≠ 1} = Fintype.card G - 1
     simp
@@ -5692,7 +5692,7 @@ public theorem nonidentityOrbitQuotient_card_eq_div
       (Nat.card G - 1) / Nat.card A := by
   classical
   let α := {g : G // g ≠ 1}
-  letI : MulAction A α := nonidentitySubMulAction A G
+  let : MulAction A α := nonidentitySubMulAction A G
   have hstab : ∀ x : α, MulAction.stabilizer A x = ⊥ := by
     intro x
     rw [eq_bot_iff]
@@ -5707,11 +5707,11 @@ public theorem nonidentityOrbitQuotient_card_eq_div
     have hfix : a • (x : G) = (x : G) := congrArg Subtype.val hax
     exact x.2 (hfree a ha_ne (x : G) hfix)
   let Ω := Quotient (MulAction.orbitRel A α)
-  letI : Fintype Ω := Fintype.ofFinite Ω
+  let : Fintype Ω := Fintype.ofFinite Ω
   have hcard_equiv := Nat.card_congr (MulAction.selfEquivOrbitsQuotientProd hstab)
   have hcardα : Nat.card α = Nat.card G - 1 := by
-    letI : Fintype G := Fintype.ofFinite G
-    letI : Fintype α := Fintype.ofFinite α
+    let : Fintype G := Fintype.ofFinite G
+    let : Fintype α := Fintype.ofFinite α
     rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card]
     change Fintype.card {g : G // g ≠ 1} = Fintype.card G - 1
     simp
@@ -5746,7 +5746,7 @@ public theorem quotientCharacterInflation_conjugate_kernel_eq
     rfl
   have hq : (y : K ⧸ A.subgroupOf K) =
       ((x : K) : K ⧸ A.subgroupOf K) := by
-    letI : CommGroup (K ⧸ A.subgroupOf K) := IsMulCommutative.instCommGroup
+    let : CommGroup (K ⧸ A.subgroupOf K) := IsMulCommutative.instCommGroup
     rw [hy]
     change QuotientGroup.mk' (A.subgroupOf K) (k * x * k⁻¹) =
       QuotientGroup.mk' (A.subgroupOf K) x
@@ -5771,9 +5771,9 @@ public theorem quotientCharacterInflation_smul_eq_conjugateOnNormal
           (Section1.quotientCharacterInflation A K ψ) ((r⁻¹ : R) : L) := by
   classical
   let _ : IsInvariant R K (A.subgroupOf K) := hInv
-  letI : MulDistribMulAction R (K ⧸ A.subgroupOf K) :=
+  let : MulDistribMulAction R (K ⧸ A.subgroupOf K) :=
     quotientMulDistribMulAction (A := R) (G := K) (A.subgroupOf K) hInv
-  letI : MulDistribMulAction R ((K ⧸ A.subgroupOf K) →* ℂˣ) :=
+  let : MulDistribMulAction R ((K ⧸ A.subgroupOf K) →* ℂˣ) :=
     characterGroupContragredientMulDistribMulAction R (K ⧸ A.subgroupOf K)
   intro r ψ
   ext x
@@ -5800,9 +5800,9 @@ public theorem inducedCF_quotientCharacterInflation_smul_eq
         Section1.inducedCF K (Section1.quotientCharacterInflation A K ψ) := by
   classical
   let _ : IsInvariant R K (A.subgroupOf K) := hInv
-  letI : MulDistribMulAction R (K ⧸ A.subgroupOf K) :=
+  let : MulDistribMulAction R (K ⧸ A.subgroupOf K) :=
     quotientMulDistribMulAction (A := R) (G := K) (A.subgroupOf K) hInv
-  letI : MulDistribMulAction R ((K ⧸ A.subgroupOf K) →* ℂˣ) :=
+  let : MulDistribMulAction R ((K ⧸ A.subgroupOf K) →* ℂˣ) :=
     characterGroupContragredientMulDistribMulAction R (K ⧸ A.subgroupOf K)
   intro r ψ
   have htheta := quotientCharacterInflation_smul_eq_conjugateOnNormal
@@ -5839,11 +5839,11 @@ public theorem inducedCF_quotientCharacterInflation_eq_of_orbitRel
           Section1.inducedCF K (Section1.quotientCharacterInflation A K η.1) := by
   classical
   let _ : IsInvariant R K (A.subgroupOf K) := hInv
-  letI : MulDistribMulAction R (K ⧸ A.subgroupOf K) :=
+  let : MulDistribMulAction R (K ⧸ A.subgroupOf K) :=
     quotientMulDistribMulAction (A := R) (G := K) (A.subgroupOf K) hInv
-  letI : MulDistribMulAction R ((K ⧸ A.subgroupOf K) →* ℂˣ) :=
+  let : MulDistribMulAction R ((K ⧸ A.subgroupOf K) →* ℂˣ) :=
     characterGroupContragredientMulDistribMulAction R (K ⧸ A.subgroupOf K)
-  letI : MulAction R {ψ : (K ⧸ A.subgroupOf K) →* ℂˣ // ψ ≠ 1} :=
+  let : MulAction R {ψ : (K ⧸ A.subgroupOf K) →* ℂˣ // ψ ≠ 1} :=
     nonidentitySubMulAction R ((K ⧸ A.subgroupOf K) →* ℂˣ)
   intro ψ η hrel
   rw [MulAction.orbitRel_apply] at hrel
@@ -5879,11 +5879,11 @@ public theorem orbitRel_of_inducedCF_quotientCharacterInflation_eq
   classical
   let _ : IsMulCommutative (K ⧸ A.subgroupOf K) := hComm
   let _ : IsInvariant R K (A.subgroupOf K) := hInv
-  letI : MulDistribMulAction R (K ⧸ A.subgroupOf K) :=
+  let : MulDistribMulAction R (K ⧸ A.subgroupOf K) :=
     quotientMulDistribMulAction (A := R) (G := K) (A.subgroupOf K) hInv
-  letI : MulDistribMulAction R ((K ⧸ A.subgroupOf K) →* ℂˣ) :=
+  let : MulDistribMulAction R ((K ⧸ A.subgroupOf K) →* ℂˣ) :=
     characterGroupContragredientMulDistribMulAction R (K ⧸ A.subgroupOf K)
-  letI : MulAction R {ψ : (K ⧸ A.subgroupOf K) →* ℂˣ // ψ ≠ 1} :=
+  let : MulAction R {ψ : (K ⧸ A.subgroupOf K) →* ℂˣ // ψ ≠ 1} :=
     nonidentitySubMulAction R ((K ⧸ A.subgroupOf K) →* ℂˣ)
   intro ψ η hInd
   rcases Section6.quotientCharacterInflation_isIrreducibleCharacterOnGroup A K ψ.1 with
@@ -6017,11 +6017,11 @@ public theorem inducedKernelFamily_card_eq_nonidentityOrbitQuotient
   let _ : (A.subgroupOf K).Normal := (inferInstance : A.Normal).subgroupOf K
   let _ : IsMulCommutative (K ⧸ A.subgroupOf K) := hcomm
   let _ : IsInvariant R K (A.subgroupOf K) := hInv
-  letI : MulDistribMulAction R (K ⧸ A.subgroupOf K) :=
+  let : MulDistribMulAction R (K ⧸ A.subgroupOf K) :=
     quotientMulDistribMulAction (A := R) (G := K) (A.subgroupOf K) hInv
-  letI : MulDistribMulAction R ((K ⧸ A.subgroupOf K) →* ℂˣ) :=
+  let : MulDistribMulAction R ((K ⧸ A.subgroupOf K) →* ℂˣ) :=
     characterGroupContragredientMulDistribMulAction R (K ⧸ A.subgroupOf K)
-  letI : MulAction R {ψ : (K ⧸ A.subgroupOf K) →* ℂˣ // ψ ≠ 1} :=
+  let : MulAction R {ψ : (K ⧸ A.subgroupOf K) →* ℂˣ // ψ ≠ 1} :=
     nonidentitySubMulAction R ((K ⧸ A.subgroupOf K) →* ℂˣ)
   let β : Type u := {χ : Section1.ClassFunction L // χ ∈ SA}
   let f : nonidentityOrbitQuotient R ((K ⧸ A.subgroupOf K) →* ℂˣ) → β :=
@@ -6244,10 +6244,10 @@ public theorem typeVReduction_quotientCharacterInflation_smul_eq_conjugateOnNorm
     exact isInvariant_of_characteristic (A := W1.subgroupOf M)
       (G := derivedSubgroup M) N
   let _ : IsInvariant (W1.subgroupOf M) (derivedSubgroup M) N := hNinvW1
-  letI : MulDistribMulAction (W1.subgroupOf M) (derivedSubgroup M ⧸ N) :=
+  let : MulDistribMulAction (W1.subgroupOf M) (derivedSubgroup M ⧸ N) :=
     quotientMulDistribMulAction (A := W1.subgroupOf M)
       (G := derivedSubgroup M) N hNinvW1
-  letI : MulDistribMulAction (W1.subgroupOf M)
+  let : MulDistribMulAction (W1.subgroupOf M)
       ((derivedSubgroup M ⧸ N) →* ℂˣ) :=
     characterGroupContragredientMulDistribMulAction (W1.subgroupOf M)
       (derivedSubgroup M ⧸ N)
@@ -6316,10 +6316,10 @@ public theorem typeVReduction_inducedCF_quotientCharacterInflation_smul_eq
     exact isInvariant_of_characteristic (A := W1.subgroupOf M)
       (G := derivedSubgroup M) N
   let _ : IsInvariant (W1.subgroupOf M) (derivedSubgroup M) N := hNinvW1
-  letI : MulDistribMulAction (W1.subgroupOf M) (derivedSubgroup M ⧸ N) :=
+  let : MulDistribMulAction (W1.subgroupOf M) (derivedSubgroup M ⧸ N) :=
     quotientMulDistribMulAction (A := W1.subgroupOf M)
       (G := derivedSubgroup M) N hNinvW1
-  letI : MulDistribMulAction (W1.subgroupOf M)
+  let : MulDistribMulAction (W1.subgroupOf M)
       ((derivedSubgroup M ⧸ N) →* ℂˣ) :=
     characterGroupContragredientMulDistribMulAction (W1.subgroupOf M)
       (derivedSubgroup M ⧸ N)
@@ -6413,14 +6413,14 @@ public theorem typeVReduction_inducedCF_quotientCharacterInflation_eq_of_orbitRe
     exact isInvariant_of_characteristic (A := W1.subgroupOf M)
       (G := derivedSubgroup M) N
   let _ : IsInvariant (W1.subgroupOf M) (derivedSubgroup M) N := hNinvW1
-  letI : MulDistribMulAction (W1.subgroupOf M) (derivedSubgroup M ⧸ N) :=
+  let : MulDistribMulAction (W1.subgroupOf M) (derivedSubgroup M ⧸ N) :=
     quotientMulDistribMulAction (A := W1.subgroupOf M)
       (G := derivedSubgroup M) N hNinvW1
-  letI : MulDistribMulAction (W1.subgroupOf M)
+  let : MulDistribMulAction (W1.subgroupOf M)
       ((derivedSubgroup M ⧸ N) →* ℂˣ) :=
     characterGroupContragredientMulDistribMulAction (W1.subgroupOf M)
       (derivedSubgroup M ⧸ N)
-  letI : MulAction (W1.subgroupOf M)
+  let : MulAction (W1.subgroupOf M)
       {ψ : (derivedSubgroup M ⧸ N) →* ℂˣ // ψ ≠ 1} :=
     nonidentitySubMulAction (W1.subgroupOf M)
       ((derivedSubgroup M ⧸ N) →* ℂˣ)

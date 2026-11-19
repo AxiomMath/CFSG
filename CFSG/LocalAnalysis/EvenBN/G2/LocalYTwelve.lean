@@ -72,7 +72,7 @@ theorem false_of_simple_of_sylow (hW : CFSG.Walter.WalterOrderForm) {X : Type} [
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2X : 2 ∣ Nat.card X := even_iff_two_dvd.mp (CFSG.Walter.even_card_of_isSimpleGroup hnab)
   have h2A : 2 ∣ Nat.card (A : Subgroup X) :=
-    A.isPGroup'.card_eq_or_dvd.resolve_left fun h =>
+    A.isPGroup.card_eq_or_dvd.resolve_left fun h =>
       A.ne_bot_of_dvd_card h2X (Subgroup.card_eq_one.mp h)
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := (A : Subgroup X)) 2 h2A
   have hz2 : (z : X) ^ 2 = 1 := by
@@ -175,7 +175,7 @@ theorem layer_eq_bot_of_sylow (hW : CFSG.Walter.WalterOrderForm) {X : Type} [Gro
       calc x * (k⁻¹ * u) = k⁻¹ * (k * x * k⁻¹) * u := by group
         _ = k⁻¹ * (u * x * u⁻¹) * u := by rw [hk x hx]
         _ = k⁻¹ * u * x := by group
-    obtain ⟨a, ha⟩ := (IsPGroup.iff_orderOf.mp P.isPGroup') ⟨u, hu⟩
+    obtain ⟨a, ha⟩ := (IsPGroup.iff_orderOf.mp P.isPGroup) ⟨u, hu⟩
     have hupow : u ^ (2 ^ a) = 1 := by
       have h := pow_orderOf_eq_one (⟨u, hu⟩ : (P : Subgroup X))
       rw [ha] at h
@@ -262,7 +262,7 @@ theorem pPrimeCore_sup_sylow_normal (hW : CFSG.Walter.WalterOrderForm) {X : Type
   have hO : CFSG.pPrimeCore 2 (X ⧸ O) = ⊥ := CFSG.pPrimeCore_quotient_eq_bot Nat.prime_two
   have hPO : ∀ x ∈ (P : Subgroup X), x ∈ O → x = 1 := by
     have hcop : Nat.Coprime (Nat.card (P : Subgroup X)) (Nat.card O) := by
-      obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup'
+      obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup
       rw [hk]
       exact (CFSG.pPrimeCore_coprime_card).pow_left k
     intro x hxP hxO
@@ -334,7 +334,7 @@ theorem false_of_simple_inf_sylow (hW : CFSG.Walter.WalterOrderForm) {X : Type} 
     rwa [_root_.commutator_def, map_commutator, ← MonoidHom.range_eq_map, range_subtype] at h2
   have hzO : z ∈ O := hMM (commutator_mono hJM hJM (hJJ.symm ▸ hzJ))
   have hcop : Nat.Coprime (Nat.card (P : Subgroup X)) (Nat.card O) := by
-    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup'
+    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup
     rw [hk]
     exact (CFSG.pPrimeCore_coprime_card).pow_left k
   exact hz1 ((mem_bot).mp ((Subgroup.disjoint_of_coprime_natCard hcop).le_bot ⟨hzP, hzO⟩))

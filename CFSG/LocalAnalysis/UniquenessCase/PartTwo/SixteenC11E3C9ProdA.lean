@@ -23,6 +23,7 @@ theorem s1611e3_relIndex_map_dvd {G₁ G₂ : Type*} [Group G₁] [Group G₂] (
   exact Subgroup.index_dvd_of_le fun k hk =>
     Subgroup.mem_comap.mpr (Subgroup.mem_map.mpr ⟨k, hk, rfl⟩)
 
+omit [Finite G] in
 theorem s1611e3_barSub_sylow {M T V₀ V : Subgroup G} {hV : IsElemAbelian 2 V}
     (hM : M ≤ stabTil V₀ V) (hT : IsSylowIn 2 T M) :
     IsSylowIn 2 (barSub V₀ V hV T) (barSub V₀ V hV M) := by

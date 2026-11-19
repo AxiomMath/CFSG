@@ -127,7 +127,7 @@ theorem le_or_inf_le_center_of_statedSL {E L N : Subgroup Y} [N.Normal]
       abel
     have hZN : Subgroup.center E ≤ N.subgroupOf E := by
       have hp : p.Prime := Fact.out
-      haveI : Finite (Subgroup.center E) :=
+      have : Finite (Subgroup.center E) :=
         Nat.finite_of_card_ne_zero (by rw [hEZ]; exact hp.ne_zero)
       have hZc : Subgroup.zpowers (⟨c, hcZ⟩ : Subgroup.center E) = ⊤ := by
         have hcard : Nat.card (Subgroup.center E) = p := hEZ
@@ -228,10 +228,10 @@ theorem le_of_klingen [Finite Y] {K : Subgroup Y} [K.Normal]
         _ = C.map π := by
           rw [show K.map π = ⊥ from (Subgroup.map_eq_bot_iff _).mpr (by
             rw [QuotientGroup.ker_mk']), bot_sup_eq]
-    haveI : IsCyclic C := hC
-    haveI hcycC : IsCyclic (C.map π) :=
+    have : IsCyclic C := hC
+    have hcycC : IsCyclic (C.map π) :=
       isCyclic_of_surjective (π.subgroupMap C) (π.subgroupMap_surjective C)
-    haveI hcycE : IsCyclic (E.map π) :=
+    have hcycE : IsCyclic (E.map π) :=
       isCyclic_of_surjective (Subgroup.subgroupOfEquivOfLe hEC).toMonoidHom
         (Subgroup.subgroupOfEquivOfLe hEC).surjective
     have hle : Nat.card (E.map π) ≤ p := by

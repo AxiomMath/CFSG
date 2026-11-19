@@ -37,12 +37,14 @@ private noncomputable def barConj (K : Subgroup G) :
     ↥(Subgroup.normalizer (K : Set G)) →* MulAut (↥K ⧸ CFSG.pCore 2 ↥K) :=
   (pCoreQuotAut ↥K).comp K.normalizerMonoidHom
 
+omit [Finite G] in
 private theorem barConj_mk (K : Subgroup G)
     (y : ↥(Subgroup.normalizer (K : Set G))) (k : ↥K) :
     barConj K y (QuotientGroup.mk k) =
       QuotientGroup.mk (⟨(y : G) * k * (y : G)⁻¹, (y.2 k).mp k.2⟩ : ↥K) :=
   rfl
 
+omit [Finite G] in
 private theorem coe_mem_pCoreOf_iff {K : Subgroup G} (x : ↥K) :
     (x : G) ∈ pCoreOf 2 K ↔ x ∈ CFSG.pCore 2 ↥K := by
   constructor
@@ -51,6 +53,7 @@ private theorem coe_mem_pCoreOf_iff {K : Subgroup G} (x : ↥K) :
   · intro hx
     exact ⟨x, hx, rfl⟩
 
+omit [Finite G] in
 private theorem le_normalizer_kSub (hKH : ((kSub p M H).subgroupOf H).Normal) :
     H ≤ Subgroup.normalizer (kSub p M H : Set G) :=
   (Subgroup.normal_subgroupOf_iff_le_normalizer
@@ -61,6 +64,7 @@ noncomputable def kbarConj (hKH : ((kSub p M H).subgroupOf H).Normal) :
   (barConj (kSub p M H)).comp
     (Subgroup.inclusion (le_normalizer_kSub hKH))
 
+omit [Finite G] in
 theorem kbarConj_mk (hKH : ((kSub p M H).subgroupOf H).Normal) (y : ↥H)
     (k : ↥(kSub p M H)) :
     kbarConj hKH y (QuotientGroup.mk k) =
@@ -73,6 +77,7 @@ theorem kbarConj_mk (hKH : ((kSub p M H).subgroupOf H).Normal) (y : ↥H)
           ↥(kSub p M H)) := by
   exact barConj_mk (kSub p M H) (Subgroup.inclusion _ y) k
 
+omit [Finite G] in
 private theorem mem_xSub_iff {p : ℕ} {M H : Subgroup G} {z : G} (hz : z ∈ H) :
     z ∈ xSub p M H ↔
       QuotientGroup.mk' (primeComplementCore (G := ↥H) p) ⟨z, hz⟩ ∈
@@ -91,6 +96,7 @@ private theorem mem_xSub_iff {p : ℕ} {M H : Subgroup G} {z : G} (hz : z ∈ H)
   rw [Subgroup.mem_comap] at h2
   exact h2.symm
 
+omit [Finite G] in
 private theorem commutator_mem_pCoreOf_of_mem_ker
     (hKH : ((kSub p M H).subgroupOf H).Normal) {y : ↥H}
     (hy : y ∈ (kbarConj hKH).ker) (k : ↥(kSub p M H)) :
@@ -259,7 +265,7 @@ theorem TwelveCtx.index_sup_le_two (h : TwelveCtx G M p Q H)
   let XH : Subgroup ↥H := X.subgroupOf H
   let KXH : Subgroup ↥H := (K ⊔ X).subgroupOf H
   have hXHnormal : XH.Normal := xSub_subgroupOf_normal_of_kSub_normal hKH
-  haveI : XH.Normal := hXHnormal
+  have : XH.Normal := hXHnormal
   have hker : (kbarConj hKH).ker = XH := TwelveCtx.ker_kbarConj h hKH hK hZ
   let φ : (↥H ⧸ XH) →* MulAut (modTwoCore K) :=
     QuotientGroup.lift XH (kbarConj hKH) (le_of_eq hker.symm)
@@ -275,7 +281,7 @@ theorem TwelveCtx.index_sup_le_two (h : TwelveCtx G M p Q H)
       _ ≤ 2 * Nat.card (modTwoCore K) := hAut
       _ = 2 * XH.relIndex KXH := by rw [hcard]
   have hmul : XH.relIndex KXH * KXH.index = XH.index := Subgroup.relIndex_mul_index hXleKX
-  haveI : Nonempty (modTwoCore K) := ⟨QuotientGroup.mk (1 : ↥K)⟩
+  have : Nonempty (modTwoCore K) := ⟨QuotientGroup.mk (1 : ↥K)⟩
   have hrelpos : 0 < XH.relIndex KXH := by
     rw [hcard]
     exact Nat.card_pos

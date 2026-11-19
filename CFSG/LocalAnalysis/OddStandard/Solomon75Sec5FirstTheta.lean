@@ -20,6 +20,7 @@ section OddCore
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem odd_card_sup_of_le_normalizer' {H N : Subgroup G}
     (hHN : H ≤ normalizer (N : Set G)) (hH : Odd (Nat.card H)) (hN : Odd (Nat.card N)) :
     Odd (Nat.card (H ⊔ N : Subgroup G)) := by
@@ -163,12 +164,14 @@ section Theta
 
 variable {G : Type} [Group G] [Finite G] {V : Subgroup G}
 
+omit [Finite G] in
 theorem theta_le_cen_of_le {b : G} (hVb : V ≤ centralizer ({b} : Set G)) :
     theta V b ≤ cen b := by
   have hS : ⁅oddCoreOf (cen b), V⁆ ≤ oddCoreOf (cen b) :=
     commutator_le_of_normalizing _ _ (fun x hx => le_normalizer_oddCoreOf (cen b) (hVb hx))
   exact sup_le (hS.trans (oddCoreOf_le _)) inf_le_right
 
+omit [Finite G] in
 theorem normalizer_theta_of_le {E : Subgroup G} {b : G} (hEb : E ≤ cen b)
     (hEV : E ≤ centralizer (V : Set G)) : E ≤ normalizer ((theta V b : Subgroup G) : Set G) := by
   intro x hx
@@ -198,6 +201,7 @@ theorem odd_card_theta_of_le {b : G} (hVb : V ≤ cen b) : Odd (Nat.card (theta 
     exact hodS.mul hodN
   exact (Nat.odd_mul.mp this).1
 
+omit [Finite G] in
 theorem comm_theta_le_of_le {b : G} (hVb : V ≤ cen b) :
     ⁅theta V b, V⁆ ≤ ⁅oddCoreOf (cen b), V⁆ := by
   have hAS : V ≤ normalizer ((⁅oddCoreOf (cen b), V⁆ : Subgroup G) : Set G) :=
@@ -384,6 +388,7 @@ theorem mem_normalizer_comp_of_mem_cen (h : Sec5Data X n z (zpowers z) S) {A : S
     rw [hcy]
     group
 
+omit [Finite X] in
 theorem conj_mem_NA' {D A : Subgroup X} {y c : X} (hyD : y ∈ normalizer (D : Set X))
     (hyA : y ∈ normalizer (A : Set X)) (hc : c ∈ NA D A) : y * c * y⁻¹ ∈ NA D A := by
   obtain ⟨⟨hcA, hcO, hcom⟩, hcD⟩ := mem_NA.1 hc
@@ -402,6 +407,7 @@ theorem conj_mem_NA' {D A : Subgroup X} {y c : X} (hyD : y ∈ normalizer (D : S
     exact (Subgroup.mem_normalizer_iff.1 hyO _).1 (hcom _ ha')
   · exact (Subgroup.mem_normalizer_iff.1 hyD c).1 hcD
 
+omit [Finite X] in
 theorem mem_normalizer_NA {D A : Subgroup X} {y : X} (hyD : y ∈ normalizer (D : Set X))
     (hyA : y ∈ normalizer (A : Set X)) : y ∈ normalizer ((NA D A : Subgroup X) : Set X) := by
   rw [Subgroup.mem_normalizer_iff]

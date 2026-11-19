@@ -17,7 +17,7 @@ theorem twE6_model_simple {G : Type} [Group G] {p f : ℕ}
     (h : ChevalleyExceptionalModel G .twistedE6 p f) :
     IsSimpleGroup G ∧ ∃ a b : G, a * b ≠ b * a := by
   obtain ⟨hnt, hs⟩ := CFSG.LieType.Simplicity.fam_2e6_simplicity G p f h
-  haveI := hnt
+  have := hnt
   obtain ⟨⟨hp, hf, -⟩, K, _, _, hK, σ, hσ, ⟨e⟩⟩ := h
   have hK2 : Nat.card K = (p ^ f) ^ 2 := hK
   have hθ : ∀ c, σ (σ c) = c := fun c => by

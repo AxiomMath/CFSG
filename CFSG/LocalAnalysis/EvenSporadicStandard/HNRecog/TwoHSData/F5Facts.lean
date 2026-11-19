@@ -28,9 +28,9 @@ theorem center_eq_zpowers_of_isF5Centralizer {H : Type} [Group H] {E : Subgroup 
     have h1 : (f z : E) = (f w : E) := Subtype.ext_iff.mp hzw
     have h2 : (f z : H) = (f w : H) := congrArg (fun x : E => (x : H)) h1
     exact Subtype.ext h2
-  haveI hFinE : Finite (center E) :=
+  have hFinE : Finite (center E) :=
     Nat.finite_of_card_ne_zero (by rw [h.card_center]; norm_num)
-  haveI hFinH : Finite (center H) := Finite.of_injective f hf
+  have hFinH : Finite (center H) := Finite.of_injective f hf
   have hcard : Nat.card (center H) ≤ 2 := by
     calc Nat.card (center H) ≤ Nat.card (center E) := Nat.card_le_card_of_injective f hf
       _ = 2 := h.card_center
@@ -52,8 +52,8 @@ theorem commutator_eq_of_isF5Centralizer {H : Type} [Group H] {E : Subgroup H}
       _ ≤ ⁅(⊤ : Subgroup H), ⊤⁆ := Subgroup.commutator_mono le_top le_top
       _ = commutator H := rfl
   have hcomm_le : commutator H ≤ E := by
-    haveI : E.Normal := h.normal
-    haveI : IsCyclic (H ⧸ E) := isCyclic_of_prime_card (p := 2) (by
+    have : E.Normal := h.normal
+    have : IsCyclic (H ⧸ E) := isCyclic_of_prime_card (p := 2) (by
       rw [show Nat.card (H ⧸ E) = E.index from rfl, h.index_eq_two])
     exact Subgroup.Normal.quotient_commutative_iff_commutator_le.mp inferInstance
   exact le_antisymm hcomm_le hE_le

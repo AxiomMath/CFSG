@@ -194,7 +194,7 @@ theorem eq_one_of_mem_normalizer_sylow_of_finrank_le_two (hodd : Odd (Nat.card K
       rwa [h3'] at h3
     have hodd_g2 : Odd (orderOf (g ^ 2)) := hg.of_dvd_nat (orderOf_pow_dvd (x := g) 2)
     have hg2 : g ^ 2 = 1 := by
-      obtain ⟨k, hk⟩ := (T.isPGroup').exists_orderOf_dvd_pow ⟨g ^ 2, hmemT⟩
+      obtain ⟨k, hk⟩ := (T.isPGroup).exists_orderOf_dvd_pow ⟨g ^ 2, hmemT⟩
       rw [orderOf_mk] at hk
       have hcop : Nat.Coprime (orderOf (g ^ 2)) (2 ^ k) :=
         hodd_g2.coprime_two_right.pow_right k

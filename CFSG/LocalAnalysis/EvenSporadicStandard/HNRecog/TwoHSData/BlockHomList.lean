@@ -48,7 +48,7 @@ theorem exists_blockHom_list {α : Type*} {k : ℕ} (gs : List (Equiv.Perm α))
     have hex : ∃ i : Fin gs.length, gs.get i = g := List.mem_iff_get.mp hg
     have hpi_eq : pi g = ps.get (Fin.cast hlen (Classical.choose hex)) := by
       dsimp only [pi]
-      rw [dif_pos hex]
+      rw [dite_eq_left hex]
     rw [hpi_eq]
     have hrel := hget (Classical.choose hex) p
     rw [Classical.choose_spec hex] at hrel
@@ -59,7 +59,7 @@ theorem exists_blockHom_list {α : Type*} {k : ℕ} (gs : List (Equiv.Perm α))
       have hex : ∃ i : Fin gs.length, gs.get i = g := List.mem_iff_get.mp hg
       have hpi_eq : pi g = ps.get (Fin.cast hlen (Classical.choose hex)) := by
         dsimp only [pi]
-        rw [dif_pos hex]
+        rw [dite_eq_left hex]
       rw [hpi_eq]
       exact List.get_mem ps _
     · intro y hy
@@ -70,7 +70,7 @@ theorem exists_blockHom_list {α : Type*} {k : ℕ} (gs : List (Equiv.Perm α))
       have hpi_eq : pi (gs.get (Fin.cast hlen.symm j))
           = ps.get (Fin.cast hlen (Classical.choose hex)) := by
         dsimp only [pi]
-        rw [dif_pos hex]
+        rw [dite_eq_left hex]
       rw [hpi_eq, ← hj]
       apply label_perm_unique_list blk hsurj (x := gs.get (Fin.cast hlen.symm j))
       · intro p

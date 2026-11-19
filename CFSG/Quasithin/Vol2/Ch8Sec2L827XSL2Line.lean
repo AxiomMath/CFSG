@@ -69,8 +69,8 @@ theorem three_le_index_lineStab [Finite E] (hE : Module.finrank F E = 2)
           intro g h
           ext
           simp [Matrix.mul_apply, Fin.sum_univ_two, hcol h] }
-    haveI : Group.IsPerfect cHom.range := Group.IsPerfect.range cHom
-    haveI : Subsingleton cHom.range := inferInstance
+    have : Group.IsPerfect cHom.range := Group.IsPerfect.range cHom
+    have : Subsingleton cHom.range := inferInstance
     have hc1 : ∀ g : Λ, matHom b (g : E ≃ₗ[F] E) 0 0 = 1 := by
       intro g
       have h := congrArg Subtype.val
@@ -85,18 +85,18 @@ theorem three_le_index_lineStab [Finite E] (hE : Module.finrank F E = 2)
         (matHom_apply_entry b (g : E ≃ₗ[F] E) i 0).symm
       rw [key]
       fin_cases i
-      · simp [hc1 g, Module.Basis.repr_self, Finsupp.single_apply]
-      · simp [hcol g, Module.Basis.repr_self, Finsupp.single_apply]
+      · simp [hc1 g, Module.Basis.repr_self]
+      · simp [hcol g, Module.Basis.repr_self]
     obtain ⟨hcomm, -⟩ := fixing_comm_card_dvd (F := F) (E := E) b Λ.subtype Subtype.val_injective
       (fun g => det_eq_one_of_isPerfect Λ g) hfix
-    haveI := hcomm
+    have := hcomm
     exact hns inferInstance
   ·
-    haveI : (lineStab Λ hx).Normal := Subgroup.normal_of_index_eq_two h2
-    haveI : IsCyclic (Λ ⧸ lineStab Λ hx) := by
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : (lineStab Λ hx).Normal := Subgroup.normal_of_index_eq_two h2
+    have : IsCyclic (Λ ⧸ lineStab Λ hx) := by
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       exact isCyclic_of_prime_card (by rw [hcard_quot, h2])
-    haveI : IsMulCommutative (Λ ⧸ lineStab Λ hx) := inferInstance
+    have : IsMulCommutative (Λ ⧸ lineStab Λ hx) := inferInstance
     have hsub : Subsingleton (Λ ⧸ lineStab Λ hx) :=
       Group.IsPerfect.subsingleton_of_isMulCommutative
     have hle := Finite.card_le_one_iff_subsingleton.mpr hsub
@@ -176,7 +176,7 @@ theorem line_bound [Finite E] (hE : Module.finrank F E = 2)
     have hs' : (s' : E ≃ₗ[F] E) x = x := MulAction.mem_stabilizer_iff.mp s'.2
     have hyy : y = y' := by
       have e1 := congrArg (fun u : Λ => (u : E ≃ₗ[F] E) x) h2
-      simp only [Subgroup.coe_mul, LinearEquiv.coe_coe, LinearEquiv.mul_apply] at e1
+      simp only [Subgroup.coe_mul, LinearEquiv.mul_apply] at e1
       have hy1 : ((sec y : Λ) : E ≃ₗ[F] E) x = y := hsec y hy.1
       have hy2 : ((sec y' : Λ) : E ≃ₗ[F] E) x = y' := hsec y' hy'.1
       rw [hs, hs', hy1, hy2] at e1

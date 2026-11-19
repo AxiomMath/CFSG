@@ -20,6 +20,7 @@ variable {F W : Type} [Field F] [Finite F] [CharP F 2] [AddCommGroup W] [Module 
 @[expose] noncomputable def pairSpan (P : HypPair Q) : Submodule F W :=
   Submodule.span F {P.e, P.f}
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F W] in
 private theorem pairSpan_orthogonal {P P' : HypPair Q} (h : P.Orth P') :
     pairSpan P ≤ perp Q (pairSpan P') := by
   intro x hx
@@ -33,9 +34,10 @@ private theorem pairSpan_orthogonal {P P' : HypPair Q} (h : P.Orth P') :
   have h3 : polar Q P'.f P.e = 0 := by rw [polar_comm]; exact h.ef
   have h4 : polar Q P'.f P.f = 0 := by rw [polar_comm]; exact h.ff
   simp only [polar_add_left, polar_add_right, polar_smul_left_eq, polar_smul_right_eq,
-    h.ee, h.ef, h.fe, h.ff, h1, h2, h3, h4]
+    h1, h2, h3, h4]
   ring
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F W] in
 theorem perp_anti {U V : Submodule F W} (h : U ≤ V) :
     perp Q V ≤ perp Q U := by
   intro x hx
@@ -46,6 +48,7 @@ theorem perp_anti {U V : Submodule F W} (h : U ≤ V) :
 @[expose] noncomputable def blockSpan (P P' : HypPair Q) : Submodule F W :=
   pairSpan P ⊔ pairSpan P'
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F W] in
 theorem blockSpan_orthogonal {P₀ P₁ R₀ R₁ : HypPair Q}
     (h00 : P₀.Orth R₀) (h01 : P₀.Orth R₁) (h10 : P₁.Orth R₀) (h11 : P₁.Orth R₁) :
     blockSpan P₀ P₁ ≤ perp Q (blockSpan R₀ R₁) := by
@@ -69,6 +72,7 @@ theorem blockSpan_orthogonal {P₀ P₁ R₀ R₁ : HypPair Q}
       mem_perp.mp (pairSpan_orthogonal h11 hx) d hd, add_zero]
   exact sup_le hP₀ hP₁
 
+omit [Finite F] [FiniteDimensional F W] [CharP F 2] in
 theorem plusPlaneA_subset (P P' : HypPair Q) (h : P.Orth P') (c : F)
     (hc : ∀ s t : F, s ^ 2 + s * t + c * t ^ 2 = 0 → s = 0 ∧ t = 0) :
     (plusPlaneA P P' h c hc).A ≤ blockSpan P P' := by
@@ -85,6 +89,7 @@ theorem plusPlaneA_subset (P P' : HypPair Q) (h : P.Orth P') (c : F)
     exact ⟨β * c, β, by module⟩
   · module
 
+omit [Finite F] [FiniteDimensional F W] [CharP F 2] in
 theorem plusPlaneB_subset (P P' : HypPair Q) (h : P.Orth P') (c : F)
     (hc : ∀ s t : F, s ^ 2 + s * t + c * t ^ 2 = 0 → s = 0 ∧ t = 0) :
     (plusPlaneB P P' h c hc).A ≤ blockSpan P P' := by

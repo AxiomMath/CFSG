@@ -23,7 +23,7 @@ theorem a6_4217K : a6Check (elemsV A6.QP) (elemsV A6.QA) = true := by
   rw [← map_cOf_ev sList, ← map_cOf_ev p1List, eq_ev_cOf z0]
   simp only [List.all_map, List.any_map, Function.comp_def, ev_pow', ev_mul', ev_inv',
     one_eq_ev, decide_ev_eq, decide_mem_map_ev, nodup_map_ev, List.length_map, ne_eq,
-    decide_not, Bool.decide_and, conj_fast, comm_fast, sq_fast, pow_fast]
+    decide_not, comm_fast, sq_fast, pow_fast]
   decide +kernel
 
 end CertificateChecks.KernelKGroupsE

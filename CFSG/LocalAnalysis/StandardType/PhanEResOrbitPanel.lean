@@ -15,6 +15,7 @@ open Matrix Module CFSG.LieType.Steinberg.CentralExt.SLClosed CFSG.Monster.B.Geo
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {m : ℕ} {d : List ℕ}
 
+omit [Finite K] [CharP K 2] in
 private theorem plo_Vsub_succ (j : Fin (m + 1)) :
     Vsub (K := K) (m + 1) (j.val + 1) = Vsub (K := K) (m + 1) j.val ⊔
       Submodule.span K {(Pi.single j (1 : K) : Fin (m + 1) → K)} := by
@@ -22,7 +23,7 @@ private theorem plo_Vsub_succ (j : Fin (m + 1)) :
   refine Submodule.eq_of_le_of_finrank_eq ?_ ?_
   · refine sup_le (Vsub_mono (Nat.le_succ j.val)) (Submodule.span_le.mpr ?_)
     rintro _ rfl i hi
-    rw [Pi.single_apply, if_neg (by intro h; rw [h] at hi; omega)]
+    rw [Pi.single_apply, ite_eq_right (by intro h; rw [h] at hi; omega)]
   · have huV : (Pi.single j (1 : K) : Fin (m + 1) → K) ∉ Vsub (K := K) (m + 1) j.val := by
       intro h
       have h1 := h j (le_refl j.val)
@@ -32,11 +33,13 @@ private theorem plo_Vsub_succ (j : Fin (m + 1)) :
       finrank_Vsub (K := K) (n := m + 1) (by omega),
       finrank_Vsub (K := K) (n := m + 1) (by omega)]
 
+omit [Finite K] [CharP K 2] in
 private theorem plo_span_singleton_smul_eq {r : K} (hr : r ≠ 0) (x : Fin (m + 1) → K) :
     Submodule.span K {r • x} = Submodule.span K {x} := by
   simpa using Submodule.span_singleton_smul_eq (R := K) (M := Fin (m + 1) → K)
     (isUnit_iff_ne_zero.mpr hr) x
 
+omit [Finite K] [CharP K 2] in
 private theorem plo_tv_glLin (i : Fin m) (c : K) (v : Fin (m + 1) → K) :
     glLin (SpecialLinearGroup.toGL (tv K i.succ i.castSucc c)) v =
       v + (c * v i.castSucc) • (Pi.single i.succ (1 : K) : Fin (m + 1) → K) := by
@@ -50,6 +53,7 @@ private theorem plo_tv_glLin (i : Fin m) (c : K) (v : Fin (m + 1) → K) :
   rw [tv_of_ne hpq, SpecialLinearGroup.transvection_coe, Matrix.add_mulVec, Matrix.one_mulVec,
     Matrix.single_mulVec_eq]
 
+omit [Finite K] [CharP K 2] in
 private theorem plo_tv_stab (i : Fin m) (c : K) {j : ℕ} (hj : j ≠ i.val + 1) :
     (Vsub (K := K) (m + 1) j).map
         (glLin (SpecialLinearGroup.toGL (tv K i.succ i.castSucc c))).toLinearMap =
@@ -72,6 +76,7 @@ private theorem plo_tv_stab (i : Fin m) (c : K) {j : ℕ} (hj : j ≠ i.val + 1)
     simp [hvp]
   · rw [Pi.single_eq_of_ne (i := i.succ) (i' := r) hrq, mul_zero]
 
+omit [Finite K] [CharP K 2] in
 private theorem plo_tv_map_succ (i : Fin m) (c : K) :
     (Vsub (K := K) (m + 1) (i.val + 1)).map
         (glLin (SpecialLinearGroup.toGL (tv K i.succ i.castSucc c))).toLinearMap =
@@ -97,6 +102,7 @@ private theorem plo_tv_map_succ (i : Fin m) (c : K) :
 private noncomputable def plo_swap (i : Fin m) : SpecialLinearGroup (Fin (m + 1)) K :=
   tv K i.castSucc i.succ 1 * tv K i.succ i.castSucc 1 * tv K i.castSucc i.succ 1
 
+omit [Finite K] [CharP K 2] in
 private theorem plo_swap_mem (i : Fin m) :
     plo_swap (K := K) i ∈ Subgroup.closure {A : SpecialLinearGroup (Fin (m + 1)) K |
         ∃ c : K, A = tv K i.castSucc i.succ c ∨ A = tv K i.succ i.castSucc c} := by
@@ -105,6 +111,7 @@ private theorem plo_swap_mem (i : Fin m) :
   · exact Subgroup.subset_closure ⟨1, Or.inr rfl⟩
   · exact Subgroup.subset_closure ⟨1, Or.inl rfl⟩
 
+omit [Finite K] in
 private theorem plo_swap_matrix (i : Fin m) :
     (plo_swap (K := K) i : Matrix (Fin (m + 1)) (Fin (m + 1)) K) =
       weylMatrix (R := K) i.castSucc i.succ := by
@@ -121,23 +128,26 @@ private theorem plo_swap_matrix (i : Fin m) :
     (coe_transvection_mul_transvection_mul_transvection (R := K) (a := i.castSucc)
       (b := i.succ) hpq)
 
+omit [Finite K] in
 private theorem plo_weylSign_eq_one (s t : Fin (m + 1)) : weylSign (R := K) s t = 1 := by
   have h : weylSign (R := K) s t * weylSign (R := K) s t = 1 := weylSign_mul_self s t
   rcases (mul_self_eq_one_iff.mp h) with h1 | h1
   · exact h1
   · rw [h1, CharTwo.neg_eq]
 
+omit [Finite K] [CharP K 2] in
 private theorem plo_signedPerm_mulVec (π : Equiv.Perm (Fin (m + 1))) (ε : Fin (m + 1) → K)
     (v : Fin (m + 1) → K) :
     (signedPerm π ε) *ᵥ v = fun r => ε (π.symm r) * v (π.symm r) := by
   funext r
   rw [Matrix.mulVec, dotProduct, Finset.sum_eq_single (π.symm r)]
-  · rw [signedPerm_apply, Equiv.apply_symm_apply, if_pos rfl]
+  · rw [signedPerm_apply, Equiv.apply_symm_apply, ite_eq_left rfl]
   · intro s _ hs
-    rw [signedPerm_apply, if_neg (fun h => hs (by rw [h, Equiv.symm_apply_apply]))]
+    rw [signedPerm_apply, ite_eq_right (fun h => hs (by rw [h, Equiv.symm_apply_apply]))]
     simp
   · intro h; exact absurd (Finset.mem_univ _) h
 
+omit [Finite K] in
 private theorem plo_weylMatrix_mulVec (a b : Fin (m + 1)) (v : Fin (m + 1) → K) :
     (weylMatrix (R := K) a b) *ᵥ v = fun r => v (Equiv.swap a b r) := by
   rw [weylMatrix, plo_signedPerm_mulVec]
@@ -145,6 +155,7 @@ private theorem plo_weylMatrix_mulVec (a b : Fin (m + 1)) (v : Fin (m + 1) → K
   have hsymm : (Equiv.swap a b).symm = Equiv.swap a b := rfl
   rw [hsymm, plo_weylSign_eq_one, one_mul]
 
+omit [Finite K] in
 private theorem plo_swap_glLin (i : Fin m) (v : Fin (m + 1) → K) :
     glLin (SpecialLinearGroup.toGL (plo_swap (K := K) i)) v =
       fun r => v (Equiv.swap i.castSucc i.succ r) := by
@@ -152,6 +163,7 @@ private theorem plo_swap_glLin (i : Fin m) (v : Fin (m + 1) → K) :
   change (plo_swap (K := K) i : Matrix (Fin (m + 1)) (Fin (m + 1)) K) *ᵥ v = _
   rw [plo_swap_matrix, plo_weylMatrix_mulVec]
 
+omit [Finite K] in
 private theorem plo_swap_stab (i : Fin m) {j : ℕ} (hj : j ≠ i.val + 1) :
     (Vsub (K := K) (m + 1) j).map
         (glLin (SpecialLinearGroup.toGL (plo_swap (K := K) i))).toLinearMap =
@@ -176,6 +188,7 @@ private theorem plo_swap_stab (i : Fin m) {j : ℕ} (hj : j ≠ i.val + 1) :
       omega
     · rwa [Equiv.swap_apply_of_ne_of_ne hrp hrq]
 
+omit [Finite K] in
 private theorem plo_swap_map_succ (i : Fin m) :
     (Vsub (K := K) (m + 1) (i.val + 1)).map
         (glLin (SpecialLinearGroup.toGL (plo_swap (K := K) i))).toLinearMap =
@@ -206,11 +219,13 @@ private theorem plo_swap_map_succ (i : Fin m) :
   rw [hVs, Submodule.map_sup,
     plo_swap_stab i (j := i.val) (by omega), Submodule.map_span, himg]
 
+omit [Finite K] [CharP K 2] in
 private theorem plo_flagAct_std_E (g : GL (Fin (m + 1)) K) (j : ℕ) :
     (flagAct g (stdFlag K (m + 1))).E j = (Vsub (K := K) (m + 1) j).map (glLin g).toLinearMap := by
   rw [flagAct, flagMap_E]
   rfl
 
+omit [Finite K] in
 theorem exists_sl2_of_adj (i : Fin m) {y : FlagK K (m + 1)}
     (h : (flagSys K m).adj i (stdFlag K (m + 1)) y) :
     ∃ B ∈ Subgroup.closure {A : SpecialLinearGroup (Fin (m + 1)) K |

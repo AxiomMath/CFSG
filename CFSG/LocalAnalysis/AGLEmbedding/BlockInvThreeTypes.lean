@@ -49,7 +49,7 @@ theorem invThree_sp (hP2 : KFactParabolicThreeInv) (k : ℕ) (d : TauCeti.ValidL
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨T⟩ : Nonempty (Sylow 2 Y) := inferInstance
   have hT : IsSylowTwoOf (T : Subgroup Y) ⊤ := by
-    refine ⟨le_top, T.isPGroup', ?_⟩
+    refine ⟨le_top, T.isPGroup, ?_⟩
     rw [show ((T : Subgroup Y).subgroupOf ⊤).index = (T : Subgroup Y).index from
       Subgroup.relIndex_top_right _]
     exact T.not_dvd_index
@@ -62,7 +62,7 @@ theorem invThree_sp (hP2 : KFactParabolicThreeInv) (k : ℕ) (d : TauCeti.ValidL
     rw [hb, Subgroup.index_bot]
     exact dvd_trans (dvd_pow_self 2 (by norm_num)) h29
   · have hY2 : IsPGroup 2 Y := by
-      have h2 := T.isPGroup'
+      have h2 := T.isPGroup
       rw [ht] at h2
       exact h2.of_equiv Subgroup.topEquiv
     have : Group.IsPerfect Y := Group.isPerfect_def.mpr hperf

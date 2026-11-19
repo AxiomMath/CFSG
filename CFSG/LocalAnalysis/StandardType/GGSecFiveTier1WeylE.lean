@@ -16,27 +16,27 @@ open CFSG.Timmesfeld
 
 theorem coxeterMatrixE6_eq_two (i j : Fin 6) (hij : i ≠ j) (h1 : ¬ edgeE 6 i j)
     (h2 : ¬ edgeE 6 j i) : (CoxeterMatrix.E₆ : CoxeterMatrix (Fin 6)).M i j = 2 := by
-  fin_cases i <;> fin_cases j <;> simp_all [edgeE, CoxeterMatrix.E₆] <;> rfl
+  fin_cases i <;> fin_cases j <;> simp_all [edgeE, CoxeterMatrix.E₆]
 
 theorem coxeterMatrixE6_eq_three (i j : Fin 6) (h : edgeE 6 i j) :
     (CoxeterMatrix.E₆ : CoxeterMatrix (Fin 6)).M i j = 3 := by
-  fin_cases i <;> fin_cases j <;> simp_all [edgeE, CoxeterMatrix.E₆] <;> rfl
+  fin_cases i <;> fin_cases j <;> simp_all [edgeE, CoxeterMatrix.E₆]
 
 theorem coxeterMatrixE7_eq_two (i j : Fin 7) (hij : i ≠ j) (h1 : ¬ edgeE 7 i j)
     (h2 : ¬ edgeE 7 j i) : (CoxeterMatrix.E₇ : CoxeterMatrix (Fin 7)).M i j = 2 := by
-  fin_cases i <;> fin_cases j <;> simp_all [edgeE, CoxeterMatrix.E₇] <;> rfl
+  fin_cases i <;> fin_cases j <;> simp_all [edgeE, CoxeterMatrix.E₇]
 
 theorem coxeterMatrixE7_eq_three (i j : Fin 7) (h : edgeE 7 i j) :
     (CoxeterMatrix.E₇ : CoxeterMatrix (Fin 7)).M i j = 3 := by
-  fin_cases i <;> fin_cases j <;> simp_all [edgeE, CoxeterMatrix.E₇] <;> rfl
+  fin_cases i <;> fin_cases j <;> simp_all [edgeE, CoxeterMatrix.E₇]
 
 theorem coxeterMatrixE8_eq_two (i j : Fin 8) (hij : i ≠ j) (h1 : ¬ edgeE 8 i j)
     (h2 : ¬ edgeE 8 j i) : (CoxeterMatrix.E₈ : CoxeterMatrix (Fin 8)).M i j = 2 := by
-  fin_cases i <;> fin_cases j <;> simp_all [edgeE, CoxeterMatrix.E₈] <;> rfl
+  fin_cases i <;> fin_cases j <;> simp_all [edgeE, CoxeterMatrix.E₈]
 
 theorem coxeterMatrixE8_eq_three (i j : Fin 8) (h : edgeE 8 i j) :
     (CoxeterMatrix.E₈ : CoxeterMatrix (Fin 8)).M i j = 3 := by
-  fin_cases i <;> fin_cases j <;> simp_all [edgeE, CoxeterMatrix.E₈] <;> rfl
+  fin_cases i <;> fin_cases j <;> simp_all [edgeE, CoxeterMatrix.E₈]
 
 theorem GGIsWeylMatrixE.isWeylMatrix {ι : Type} {M : CoxeterMatrix ι} (h : GGIsWeylMatrixE M) :
     GGIsWeylMatrix M := by

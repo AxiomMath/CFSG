@@ -96,6 +96,7 @@ theorem card_comap_of_le_range {X Y : Type*} [Group X] [Group Y] [Finite X] (f :
   · apply Subtype.ext
     exact y.2
 
+omit [Finite G] in
 theorem card_ker_noncommCoprod_dvd {A B : Subgroup G}
     (hcomm : ∀ x ∈ A, ∀ y ∈ B, Commute x y) :
     Nat.card (A.subtype.noncommCoprod B.subtype (fun a b => hcomm a a.2 b b.2)).ker ∣
@@ -133,6 +134,7 @@ theorem card_ker_noncommCoprod_dvd {A B : Subgroup G}
   rw [hcard]
   exact Subgroup.card_subgroup_dvd_card ψ.range
 
+omit [Finite G] in
 theorem not_dvd_card_ker_noncommCoprod {p : ℕ} {A B : Subgroup G}
     (hcomm : ∀ x ∈ A, ∀ y ∈ B, Commute x y) (hinf : ¬ p ∣ Nat.card ↥(A ⊓ B)) :
     ¬ p ∣ Nat.card (A.subtype.noncommCoprod B.subtype (fun a b => hcomm a a.2 b b.2)).ker :=
@@ -144,7 +146,7 @@ theorem card_le_pow_add_of_le_sup_of_not_dvd_inf {p : ℕ} (hp : p.Prime) {A B :
     (hB : ∀ F : Subgroup B, IsElemAbelian p F → Nat.card F ≤ p ^ k₂)
     {E : Subgroup G} (hE : E ≤ A ⊔ B) (hEel : IsElemAbelian p E) :
     Nat.card E ≤ p ^ (k₁ + k₂) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let Φ : ↥A × ↥B →* G := A.subtype.noncommCoprod B.subtype (fun x y => hcomm x x.2 y y.2)
   have hΦapply : ∀ x : ↥A × ↥B, Φ x = (x.1 : G) * (x.2 : G) := fun _ => rfl
   have hΦrange : Φ.range = A ⊔ B :=

@@ -45,7 +45,7 @@ theorem le_innAut_of_card_outer_le_two {Y : Type} [Group Y] [Finite Y] [Group.Is
 
 theorem card_outer_alternatingGroup_le_two {n : ℕ} (hn : 5 ≤ n) (hn6 : n ≠ 6) :
     Nat.card (Outer (alternatingGroup (Fin n))) ≤ 2 := by
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
   have hbij := CFSG.GroupTheory.AutAlternating.aut_alternatingGroup_bijective_conj n hn hn6
   have hle : (alternatingGroup (Fin n)).map
       (MulAut.conjNormal (H := alternatingGroup (Fin n))) ≤ innAut (alternatingGroup (Fin n)) := by
@@ -132,7 +132,7 @@ theorem card_outer_le_two_of_isJ3 {S : Type} [Group S] (h : IsSpor S .J3) :
 
 theorem k2_of_k1 (h1 : K1) (hLie : K2Lie) : K2 := by
   intro Y _ _ hq hcat hZ hr3 hnO hnL R hR hSyl hnin
-  haveI : Group.IsPerfect Y := hq.1
+  have : Group.IsPerfect Y := hq.1
   have hqo : CFSG.Open.IsQuasisimple Y := ⟨Group.isPerfect_def.mp hq.1, hq.2.1⟩
   have hr3o : CFSG.Open.pRank 3 (⊤ : Subgroup Y) = 3 := by
     rw [← CFSG.SectionRank.pRank_coe_eq_openPRank]

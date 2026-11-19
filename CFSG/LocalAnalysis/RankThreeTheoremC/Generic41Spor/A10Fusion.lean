@@ -26,13 +26,13 @@ theorem typeSE_a10 : TypeSE IsA10Type 5 := by
   exact ⟨Or.inr (Or.inr (Or.inl ⟨le_rfl, ⟨e⟩⟩)),
     TauCeti.CFSGIndex.alternating 10 hn, ⟨e.trans (MulEquiv.refl _)⟩⟩
 
-theorem a10_fusion_core (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLocal G)
-    (hSig : SignalizerTwoGroupKFact) (hX : A10Facts) (hXe : A10Ext)
+theorem a10_fusion_core (hS : Setting G) (hD1 : TheoremD1 G) (_hU0 : FullCoreLocal G)
+    (hSig : SignalizerTwoGroupKFact) (hX : A10Facts) (_hXe : A10Ext)
     (hc : PointConfig IsA10Type G 5 P M x J) {Q : Type} [Group Q] [Finite Q] (ψ : ↥J →* Q)
     (hψ : Function.Surjective ψ) (hker : ψ.ker = (rankThreePrimeCore 5 J).subgroupOf J)
     (hQ : IsA10Type 5 Q) : A10StageB P x J ψ := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hp : (5 : ℕ).Prime := by norm_num
   have hx1 : x ≠ 1 := hc.generic.2.1.2.1
   have hxp : x ^ 5 = 1 := hc.generic.2.1.2.2.1
@@ -47,7 +47,7 @@ theorem a10_fusion_core (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLoca
     Subgroup.mem_centralizer_singleton_iff.mp hs.2
   have hxT : x ∉ u3T P x J := fun h => hxJ (hTJ h)
   have hxS : x ∈ u3S P x := ⟨hc.generic.1, Subgroup.mem_centralizer_singleton_iff.mpr rfl⟩
-  haveI : IsMulCommutative (u3T P x J) := hTel.1
+  have : IsMulCommutative (u3T P x J) := hTel.1
   obtain ⟨S', hS'1, hS'2, hinj, hlift⟩ := plane_quotient_data hc ψ hψ hker
   have hline : ∀ (s t : G) (hs : s ∈ u3T P x J) (ht : t ∈ u3T P x J),
       ψ ⟨s, hTJ hs⟩ ∈ Subgroup.zpowers (ψ ⟨t, hTJ ht⟩) ↔ s ∈ Subgroup.zpowers t := by
@@ -203,7 +203,7 @@ theorem a10_fusion_core (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLoca
       exact (Subgroup.mem_normalizer_iff.mp hyN a).mp (hAS ha)
     let f : Function.End ↥Df := fun A =>
       ⟨A.1.map (MulAut.conj y).toMonoidHom, (hmemDf _).2 (hyD _ ((hmemDf _).1 A.2))⟩
-    obtain ⟨m, hm⟩ := P.isPGroup' ⟨y, hyP⟩
+    obtain ⟨m, hm⟩ := P.isPGroup ⟨y, hyP⟩
     have hym : y ^ (5 ^ m) = 1 := by
       have := congrArg Subtype.val hm
       simpa using this

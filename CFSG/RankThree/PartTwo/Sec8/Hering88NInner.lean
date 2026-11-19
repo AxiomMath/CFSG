@@ -24,6 +24,7 @@ theorem card_projSL_two_eight : Nat.card (projSL 2 (GaloisField 2 3)) = 504 := b
 
 variable {Q : Type} [Group Q] [Finite Q]
 
+omit [Finite Q] in
 theorem card_inSubgroup_perfectResidual_of_isoGTwoEven_one {R : Subgroup Q}
     (h : IsoGTwoEven R 1) : Nat.card (inSubgroup perfectResidual R) = 6048 := by
   have h2 := card_eq_two_mul_card_inSubgroup_perfectResidual_of_isoGTwoEven_one h

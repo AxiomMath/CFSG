@@ -38,10 +38,10 @@ theorem pmatA_mul (a : Array ℕ) (M : Matrix (Fin 24) (Fin 24) ℚ) :
   split_ifs with h
   · rw [Finset.sum_eq_single (fin24 a[(i : ℕ)]!)]
     · simp only [pmatA, Matrix.of_apply]
-      rw [if_pos (by rw [fin24_val, Nat.mod_eq_of_lt h]), one_mul]
+      rw [ite_eq_left (by rw [fin24_val, Nat.mod_eq_of_lt h]), one_mul]
     · intro j _ hj
       simp only [pmatA, Matrix.of_apply]
-      rw [if_neg, zero_mul]
+      rw [ite_eq_right, zero_mul]
       intro hh
       apply hj
       apply Fin.ext
@@ -51,7 +51,7 @@ theorem pmatA_mul (a : Array ℕ) (M : Matrix (Fin 24) (Fin 24) ℚ) :
   · apply Finset.sum_eq_zero
     intro j _
     simp only [pmatA, Matrix.of_apply]
-    rw [if_neg, zero_mul]
+    rw [ite_eq_right, zero_mul]
     intro hh
     exact h (by rw [hh]; exact j.isLt)
 
@@ -71,10 +71,10 @@ theorem mul_pmatA (M : Matrix (Fin 24) (Fin 24) ℚ) {a : Array ℕ} (ha : invOK
   have hk := inv_facts ha k
   rw [Finset.sum_eq_single (fin24 a[(k : ℕ)]!)]
   · simp only [pmatA, Matrix.of_apply]
-    rw [if_pos (by rw [fin24_val, Nat.mod_eq_of_lt hk.1, hk.2]), mul_one]
+    rw [ite_eq_left (by rw [fin24_val, Nat.mod_eq_of_lt hk.1, hk.2]), mul_one]
   · intro j _ hj
     simp only [pmatA, Matrix.of_apply]
-    rw [if_neg, mul_zero]
+    rw [ite_eq_right, mul_zero]
     intro hh
     apply hj
     apply Fin.ext

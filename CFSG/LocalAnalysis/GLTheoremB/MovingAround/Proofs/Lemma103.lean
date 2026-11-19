@@ -15,17 +15,20 @@ section Helpers
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isElemAbelian_of_le' {p : ℕ} {E D : Subgroup G} (hE : CFSG.Open.IsElemAbelian p E)
     (hDE : D ≤ E) : CFSG.Open.IsElemAbelian p D := by
   refine ⟨⟨⟨fun a b => Subtype.ext ?_⟩⟩, fun x hx => hE.2 x (hDE hx)⟩
   simpa using congrArg Subtype.val (hE.1.is_comm.comm ⟨a.1, hDE a.2⟩ ⟨b.1, hDE b.2⟩)
 
+omit [Finite G] in
 theorem isPGroup_of_isElemAbelian' {p : ℕ} {D : Subgroup G}
     (hD : CFSG.Open.IsElemAbelian p D) : IsPGroup p ↥D := by
   rw [isPGroup_iff_pow_pow_eq_one]
   intro g
   exact ⟨1, Subtype.ext (by simpa using hD.2 g.1 g.2)⟩
 
+omit [Finite G] in
 theorem le_centralizer_of_comm' {p : ℕ} {X D : Subgroup G} (hX : CFSG.Open.IsElemAbelian p X)
     (hDX : D ≤ X) : X ≤ Subgroup.centralizer (D : Set G) := by
   intro x hx
@@ -54,7 +57,7 @@ theorem exists_conj_le_pGroup' {p : ℕ} [Fact p.Prime] {K X Y : Subgroup G}
   obtain ⟨T, hT⟩ := (IsPGroup.of_equiv hY (Subgroup.subgroupOfEquivOfLe hYK).symm :
     IsPGroup p ↥(Y.subgroupOf K)).exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq ↥K T Q
-  refine ⟨((g⁻¹ : K) : G), (g⁻¹).2, (Q : Subgroup K).map K.subtype, Q.isPGroup'.map K.subtype,
+  refine ⟨((g⁻¹ : K) : G), (g⁻¹).2, (Q : Subgroup K).map K.subtype, Q.isPGroup.map K.subtype,
     Subgroup.map_subtype_le _, ?_, ?_⟩
   · intro y hy
     exact Subgroup.mem_map.2 ⟨⟨y, hXK hy⟩, hQ (Subgroup.mem_subgroupOf.2 hy), rfl⟩
@@ -92,7 +95,7 @@ theorem lemma103_of_inputs (hI : Input31_8) (h101i : Lemma101_iStatement) :
     Lemma103Statement := by
   intro G _ _ m p B M h
   have hp : p.Prime := h.standing.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hB : inD p M B := lemma101_ii_holds h
   obtain ⟨F, hFs, hFn⟩ := h.notStar
   have hF : inDp p M F := ⟨hFs, hFn⟩

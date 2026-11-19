@@ -134,7 +134,7 @@ theorem monomial_closure_split {ζ : K} (hζ : IsPrimitiveRoot ζ 5) (ρ : SL(5,
     rw [hφA] at this
     calc y * ρ A = y * ρ A * y⁻¹ * y := by group
       _ = ρ A * y := by rw [this]
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have htop : H₀ = ⊤ := torusFourierGen_of_prime (p := 5) (F := K)
     (by norm_num) ζ hζ H₀ hH₀diag hH₀four
   intro A
@@ -302,7 +302,7 @@ theorem monomial_closure_singer [Finite K] (h5 : 5 ∣ Nat.card K - 1) (ρ : SL(
     rw [hφA] at this
     calc y * ρ A = y * ρ A * y⁻¹ * y := by group
       _ = ρ A * y := by rw [this]
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have htop : H₀ = ⊤ :=
     singerTorusGen_of_prime (p := 5) (F := K) (by norm_num) h5 cu hns H₀ hH₀diag hH₀comm
   intro A
@@ -631,7 +631,7 @@ theorem griessTA_exp_injective (hζ : IsPrimitiveRoot ζ 5) (a : Fin Tag.E8.rank
 
 theorem griessCubeT_card (hζ : IsPrimitiveRoot ζ 5) (a : Fin Tag.E8.rank → Kˣ) :
     Nat.card (griessCubeT hζ a) = 5 ^ 3 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   rw [griessCubeT_eq]
   exact closure_triple_facts (griessZA_comm_XA hζ) (griessZA_comm_YTA hζ a)
     (griessXA_comm_YTA hζ a) (griessZA_pow hζ) (griessXA_pow hζ) (griessYTA_pow a)
@@ -650,7 +650,7 @@ theorem griessT_hyperplanes (hζ : IsPrimitiveRoot ζ 5) (a : Fin Tag.E8.rank �
         griessCubeT hζ a ∧
       (Subgroup.closure ({griessXA hζ, griessYTA K a} : Set (adjointGroup Tag.E8 K))).relIndex
         (griessCubeT hζ a) = 5) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hE := griessCubeT_card hζ a
   rw [griessCubeT_eq] at hE ⊢
   obtain ⟨i1, i2, i3⟩ := pair_injective_of_triple (by norm_num : 0 < 5)

@@ -17,6 +17,7 @@ section Split
 
 variable {x : Module.End F (Fin n → F)} {e : F}
 
+omit [Fact (1 < p)] in
 theorem commute_eigProj (a : Module.End F (Fin n → F)) (j : ZMod p) {y : Module.End F (Fin n → F)}
     (hay : Commute a y) : Commute (eigProj ψ a j) y := by
   unfold eigProj
@@ -35,6 +36,7 @@ theorem apply_of_mem_range_eigProj (he : e ≠ 0) (ha : (e⁻¹ • x) ^ p = 1) 
   have h2 : x w = e • (e⁻¹ • x w) := by rw [smul_smul, mul_inv_cancel₀ he, one_smul]
   rw [h2, this, smul_smul]
 
+omit [Fact (1 < p)] in
 theorem exists_ne_zero_of_dim (j : ZMod p) {a : Module.End F (Fin n → F)}
     (hdim : 2 ≤ finrank F (LinearMap.range (eigProj ψ a j))) :
     ∃ v ∈ LinearMap.range (eigProj ψ a j), v ≠ 0 := by
@@ -57,7 +59,7 @@ theorem mem_primaryFactors_split {a : Module.End F (Fin n → F)} (hax : e⁻¹ 
     sub_self]
 
 theorem primaryProjection_split {a : Module.End F (Fin n → F)} (hax : e⁻¹ • x = a) [FiniteDimensional F (Fin n → F)] (hpF : (p : F) ≠ 0)
-    (he : e ≠ 0) (hψ : ψ.IsPrimitive) (ha : a ^ p = 1)
+    (he : e ≠ 0) (_hψ : ψ.IsPrimitive) (ha : a ^ p = 1)
     (hsq : Squarefree (minpoly F x))
     (hdim : ∀ j, 2 ≤ finrank F (LinearMap.range (eigProj ψ a j))) (j : ZMod p) :
     primaryProjection x (X - C (e * ψ j)) = eigProj ψ a j := by

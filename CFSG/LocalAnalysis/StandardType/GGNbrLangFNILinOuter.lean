@@ -11,7 +11,7 @@ open CFSG CFSG.Assembly CFSG.LocalAnalysis.ComponentInitial
 
 private theorem l02qfno_ringEquiv_eq_one_of_card_prime {F : Type} [Field F] [Finite F] {p : ℕ}
     [Fact p.Prime] (h : Nat.card F = p) (σ : F ≃+* F) : σ = 1 := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hc : Fintype.card F = p := by rw [← Nat.card_eq_fintype_card]; exact h
   let e : ZMod p ≃+* F := ZMod.ringEquivOfPrime F Fact.out hc
   have hcomp : σ.toRingHom.comp e.toRingHom = e.toRingHom := RingHom.ext_zmod _ _
@@ -22,18 +22,18 @@ private theorem l02qfno_ringEquiv_eq_one_of_card_prime {F : Type} [Field F] [Fin
 
 private theorem l02qfno_subsingleton_ringEquiv_of_card_le_three {F : Type} [Field F] [Finite F]
     (h : Nat.card F ≤ 3) : Subsingleton (F ≃+* F) := by
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Nontrivial F := inferInstance
+  have : Fintype F := Fintype.ofFinite F
+  have : Nontrivial F := inferInstance
   have hmin : 2 ≤ Nat.card F := by
     rw [Nat.card_eq_fintype_card]
     exact Fintype.one_lt_card
   have hcases : Nat.card F = 2 ∨ Nat.card F = 3 := by omega
   rcases hcases with h2 | h3
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact ⟨fun σ τ => by
       rw [l02qfno_ringEquiv_eq_one_of_card_prime h2 σ,
         l02qfno_ringEquiv_eq_one_of_card_prime h2 τ]⟩
-  · haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  · have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact ⟨fun σ τ => by
       rw [l02qfno_ringEquiv_eq_one_of_card_prime h3 σ,
         l02qfno_ringEquiv_eq_one_of_card_prime h3 τ]⟩
@@ -59,7 +59,7 @@ theorem fniLin_not_inner {m : ℕ} (hm : 2 ≤ m) {D : Type} [Field D] [Finite D
       RecipeFieldLinear.eq_one_of_conjAut_mul_fieldAut_eq_one' hm hpar (A⁻¹ * B) τ hone
     exact hτ hτ1
   · simp only [not_or, not_le] at hpar
-    haveI : Subsingleton (D ≃+* D) :=
+    have : Subsingleton (D ≃+* D) :=
       l02qfno_subsingleton_ringEquiv_of_card_le_three (by omega)
     exact hτ (Subsingleton.elim τ 1)
 

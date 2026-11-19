@@ -115,8 +115,8 @@ theorem rClosure_graphFixed_threeSix (q : PrimePower) (K : Type) [Field K] [Fini
     Subgroup.closure {k | ∃ x ∈ E, x ≠ 1 ∧ Commute k x ∧ ∃ n : ℕ, k ^ q.p ^ n = 1} = ⊤ := by
   have hv := LieTypeIndex.valid_trialityD4 q
   obtain ⟨e⟩ := CFSG.LieType.SeitzGeneration.ExcHigh.c0_iso_cat_trialityD4 q hv K hK σ hσ
-  haveI := (CFSG.LieType.SeitzGeneration.finite_isSimpleGroup_cat_trialityD4 hv).2
-  haveI : IsSimpleGroup (graphFixedRootGroup TwistTag.D4 K σ.toRingHom) :=
+  have := (CFSG.LieType.SeitzGeneration.finite_isSimpleGroup_cat_trialityD4 hv).2
+  have : IsSimpleGroup (graphFixedRootGroup TwistTag.D4 K σ.toRingHom) :=
     MulEquiv.isSimpleGroup e
   have hK' : Nat.card K = (q.p ^ q.exponent) ^ 3 := by
     rw [hK, PrimePower.card_def]
@@ -159,7 +159,7 @@ private theorem exists_rFrame_adjoint {τ : Tag} {K : Type} [Field K] [Finite K]
         ∃ x ∈ V₂, x ≠ 1 ∧ g * x = x * g} ∧
       ∀ H P : Subgroup ↥(adjointGroup τ K), Y₁ ⊔ Y₂ ≤ H → P ≤ H →
         CFSG.Open.IsQuasisimple ↥P → o ^ 2 < Nat.card ↥P → H = ⊤ := by
-  haveI : Finite (ModGL τ K) := finite_modGL
+  have : Finite (ModGL τ K) := finite_modGL
   have hr₁ := range_inclusion_comp_symm h₁ χ₁
   have hr₂ := range_inclusion_comp_symm h₂ χ₂
   have hsup := sup_subgroupOf_adjoint h₁ h₂ hc
@@ -189,7 +189,7 @@ private theorem exists_rFrame_adjoint {τ : Tag} {K : Type} [Field K] [Finite K]
     exact hb₂
 
 theorem exists_rFrame_E8 (q : PrimePower) (K : Type) [Field K] [Finite K]
-    (hK : Nat.card K = q.card) {p e : ℕ} (hp : p.Prime) (hp7 : 7 ≤ p) (hpq : p ≠ q.p)
+    (hK : Nat.card K = q.card) {p e : ℕ} (hp : p.Prime) (hp7 : 7 ≤ p) (_hpq : p ≠ q.p)
     (he3 : e = 3 ∨ e = 6) (he : orderOf ((q.card : ℕ) : ZMod p) = e) :
     ∃ V₁ V₂ X₁ X₂ : Subgroup (adjointGroup Tag.E8 K),
       IsElemAbelian p V₁ ∧ IsElemAbelian p V₂ ∧ Nat.card V₁ = p ^ 2 ∧ Nat.card V₂ = p ^ 2 ∧
@@ -201,7 +201,7 @@ theorem exists_rFrame_E8 (q : PrimePower) (K : Type) [Field K] [Finite K]
         ∃ x ∈ V₂, x ≠ 1 ∧ g * x = x * g} ∧
       ∀ H P : Subgroup (adjointGroup Tag.E8 K), X₁ ⊔ X₂ ≤ H → P ≤ H →
         CFSG.Open.IsQuasisimple ↥P → ordTrialityD4 q.card ^ 2 < Nat.card ↥P → H = ⊤ := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hk : Nat.card K = q.p ^ q.exponent := hK.trans (PrimePower.card_def q)
   obtain ⟨D⟩ := exists_langLevi TwClass.e8Twelve.tag K TwClass.e8Twelve.w
     (TwClass.w_theta TwClass.e8Twelve)

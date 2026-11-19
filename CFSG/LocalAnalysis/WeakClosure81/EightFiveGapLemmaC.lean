@@ -22,6 +22,7 @@ private theorem eq_one_of_sq_eq_one_of_odd_card {Z : Type} [Group Z] [Finite Z]
   rw [hk, pow_succ, pow_mul, hz2, one_pow, one_mul] at h1
   exact h1
 
+omit [Finite Y] in
 theorem exists_involution_lift (hodd : Odd (Nat.card ψ.ker)) {σ : Perm (Fin (n + 1))}
     (hσ : σ * σ = 1) {a : Y} (ha : ψ a = σ) : ∃ s : Y, s * s = 1 ∧ ψ s = σ := by
   have haa : a * a ∈ ψ.ker := by
@@ -54,6 +55,7 @@ theorem pow_eq_one_of_mem_ker (hker : ψ.ker ≤ Subgroup.center Y) (hodd : Odd 
     exact inv_mul_cancel _
   exact congrArg Subtype.val (eq_one_of_sq_eq_one_of_odd_card hodd hzz)
 
+omit [Finite Y] in
 private theorem braid_iff_pow_three {s t : Y} (hs : s * s = 1) (ht : t * t = 1) :
     s * t * s = t * s * t ↔ (s * t) ^ 3 = 1 := by
   have hs' : s⁻¹ = s := inv_eq_of_mul_eq_one_right hs
@@ -70,6 +72,7 @@ private theorem braid_iff_pow_three {s t : Y} (hs : s * s = 1) (ht : t * t = 1) 
     calc s * t * s = (t * s * t)⁻¹ := eq_inv_of_mul_eq_one_left h
       _ = t * s * t := by simp only [mul_inv_rev, hs', ht', mul_assoc]
 
+omit [Finite Y] in
 private theorem comm_iff_pow_two {s t : Y} (hs : s * s = 1) (ht : t * t = 1) :
     s * t = t * s ↔ (s * t) ^ 2 = 1 := by
   have hs' : s⁻¹ = s := inv_eq_of_mul_eq_one_right hs

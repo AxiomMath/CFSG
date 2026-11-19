@@ -23,7 +23,7 @@ private theorem g0_not_isCyclic_of_isElemAbelian_card {R : Type} [Group R] {E : 
     {k : ℕ} (hE : IsElemAbelian 3 E) (hcard : Nat.card E = 3 ^ k) (hk : 2 ≤ k) :
     ¬ IsCyclic E := by
   intro hcyc
-  haveI : IsCyclic E := hcyc
+  have : IsCyclic E := hcyc
   obtain ⟨g, hg⟩ := IsCyclic.exists_ofOrder_eq_natCard (α := E)
   have hg3 : g ^ 3 = 1 := Subtype.ext (by simpa using hE.2 (g : R) g.2)
   have hdvd : orderOf g ∣ 3 := orderOf_dvd_iff_pow_eq_one.mpr hg3

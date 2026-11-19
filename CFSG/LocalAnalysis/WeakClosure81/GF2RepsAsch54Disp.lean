@@ -30,7 +30,7 @@ theorem asch54_almostSimple (hC2 : Asch54Chev2) (hAl : Asch54Alt) (hSp : Asch54S
       ⟨p, hp, hp2, h3, h1⟩ | ⟨hM0, hsh⟩
     · exact Or.inr (Or.inl ⟨p, hp, hp2, h3, h1, hO⟩)
     · exact Or.inr (Or.inr ⟨M, hM, hMax, hM0, hsh⟩)
-  haveI := hLs
+  have := hLs
   have hcat : CFSG.Open.IsCatalogGroup ↥L :=
     (hK.of_injective L.subtype L.subtype_injective).isCatalogGroup_of_surjective ⊤ hnab
       (Subgroup.subtype ⊤) (fun x => ⟨⟨x, trivial⟩, rfl⟩)

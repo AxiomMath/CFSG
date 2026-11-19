@@ -276,7 +276,7 @@ theorem le_sup_normalizer {S : Sylow 2 G} {A X M : Subgroup G} (hAS : A ≤ S)
     (hXM : X ≤ Subgroup.normalizer (M : Set G)) (hAM : A ≤ M) :
     X ≤ M ⊔ Subgroup.normalizer (A : Set G) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  have hA2 : IsPGroup 2 A := S.isPGroup'.to_le hAS
+  have hA2 : IsPGroup 2 A := S.isPGroup.to_le hAS
   obtain ⟨PX, hPX⟩ := (hA2.comap_subtype (K := X)).exists_le_sylow
   have hMn : (M.subgroupOf X).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hMX).mpr hXM
@@ -293,7 +293,7 @@ theorem le_sup_normalizer {S : Sylow 2 G} {A X M : Subgroup G} (hAS : A ≤ S)
   have hhA : (h : G) ∈ Subgroup.normalizer (A : Set G) := by
     refine mem_normalizer_of_conj_le hcl (T := ((PX : Subgroup X) ⊓ M.subgroupOf X).map X.subtype)
       (fun a ha => ⟨⟨a, hAX ha⟩, ⟨hPX (show (⟨a, hAX ha⟩ : X) ∈ A.comap X.subtype from ha),
-        hAM ha⟩, rfl⟩) ((PX.isPGroup'.to_le inf_le_left).map _) fun a ha => ?_
+        hAM ha⟩, rfl⟩) ((PX.isPGroup.to_le inf_le_left).map _) fun a ha => ?_
     have h1 : (⟨a, hAX ha⟩ : X) ∈ (PX : Subgroup X) ⊓ M.subgroupOf X :=
       ⟨hPX (show (⟨a, hAX ha⟩ : X) ∈ A.comap X.subtype from ha), hAM ha⟩
     exact ⟨_, (Subgroup.mem_normalizer_iff.mp hh _).mp h1, rfl⟩

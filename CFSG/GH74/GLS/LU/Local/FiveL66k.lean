@@ -32,6 +32,7 @@ theorem ModelPic.no_inv_G (pic : ModelPic z t u K₁ K₂ ht hu z' S' K₁' K₂
   have h2 := congrArg (pull ψ) h
   rwa [pull_push ψ hR, pull_bot] at h2
 
+omit [Finite G] in
 theorem ModelPic.inf_cent_eq_bot (pic : ModelPic z t u K₁ K₂ ht hu z' S' K₁' K₂' t' u' ψ)
     (b66 : Five66W z t u K₁ K₂ H w₁) (hNH : ∀ n ∈ NN z u, cjL n H = H) {Y : Subgroup G}
     (hYo : ∀ y ∈ Y, ¬ 2 ∣ orderOf y ∧ ¬ 5 ∣ orderOf y) (hYH : ∀ h ∈ H, cjL h Y = Y) {g s : G}

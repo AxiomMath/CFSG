@@ -76,7 +76,7 @@ private theorem exists_two_ne_one {A : Subgroup (MulAut K)} (hA : IsElemAbelian 
     have : Nat.card A = 2 := by rw [← h, hcard]
     omega
   obtain ⟨β, hβA, hβnot⟩ :=
-    (SetLike.lt_iff_le_and_exists.mp (lt_of_le_of_ne (Subgroup.zpowers_le.mpr hαA) hne')).2
+    (IsConcreteLE.lt_iff_le_and_exists.mp (lt_of_le_of_ne (Subgroup.zpowers_le.mpr hαA) hne')).2
   refine ⟨α, β, hαA, hβA, hα2, hA.2 β hβA, hα1, ?_, ?_⟩
   · intro hβ1
     exact hβnot (hβ1 ▸ Subgroup.one_mem (Subgroup.zpowers α))
@@ -321,7 +321,7 @@ theorem innAut_le_gammaRk_one_of_card_eight (hF : L2Field F) (e : K ≃* L2 F)
     have h1 : A ⊓ innAut K = A := inf_eq_left.mpr hAle
     have h2 : Nat.card ↥(A ⊓ innAut K) = 8 := by rw [h1, h8]
     omega
-  obtain ⟨α, hαA, hαout⟩ := SetLike.not_le_iff_exists.mp hnotle
+  obtain ⟨α, hαA, hαout⟩ := IsConcreteLE.not_le_iff_exists.mp hnotle
   have hα1 : α ≠ 1 := fun h => hαout (h ▸ Subgroup.one_mem (innAut K))
   have hα2 : α ^ 2 = 1 := hA.2 α hαA
   obtain ⟨f, hf, hq⟩ := CFSG.ABGLocalTools.card_eq_ringChar_pow (F := F)
@@ -341,7 +341,7 @@ theorem innAut_le_gammaRk_one_of_card_eight (hF : L2Field F) (e : K ≃* L2 F)
     rw [h, h8] at hcardα
     omega
   obtain ⟨β, hβA, hβnot⟩ :=
-    (SetLike.lt_iff_le_and_exists.mp (lt_of_le_of_ne (Subgroup.zpowers_le.mpr hαA) hne')).2
+    (IsConcreteLE.lt_iff_le_and_exists.mp (lt_of_le_of_ne (Subgroup.zpowers_le.mpr hαA) hne')).2
   have hβ1 : β ≠ 1 := fun h => hβnot (h ▸ Subgroup.one_mem (Subgroup.zpowers α))
   have hβ2 : β ^ 2 = 1 := hA.2 β hβA
   have hαβ : α * β = β * α := hcommA α hαA β hβA

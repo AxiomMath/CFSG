@@ -182,13 +182,13 @@ theorem card_eq_mul_of_setMul {H K C : Subgroup G} (h : setMul H K = (C : Set G)
 
 theorem op_two_inf_eq_bot {x : G} {M : Subgroup G} (hM : StatedClassicalModel M .PSp 3 2 1)
     (hMc : M ≤ Cen x) : Op 2 (Cen x) ⊓ M = ⊥ := by
-  haveI : IsSimpleGroup ↥M := CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel hM
+  have : IsSimpleGroup ↥M := CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel hM
   have hN : ((Op 2 (Cen x) ⊓ M).subgroupOf M).Normal := ⟨fun n hn m => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     refine ⟨?_, M.mul_mem (M.mul_mem m.2 hn.2) (M.inv_mem m.2)⟩
     have := Op_conj_mem (p := 2) (H := Cen x) (hMc m.2) hn.1
     simpa using this⟩
-  haveI := hN
+  have := hN
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((Op 2 (Cen x) ⊓ M).subgroupOf M) with h | h
   · rw [eq_bot_iff]
     intro y hy
@@ -199,7 +199,7 @@ theorem op_two_inf_eq_bot {x : G} {M : Subgroup G} (hM : StatedClassicalModel M 
     have hle : M ≤ Op 2 (Cen x) := fun y hy => by
       have : (⟨y, hy⟩ : ↥M) ∈ (Op 2 (Cen x) ⊓ M).subgroupOf M := by rw [h]; trivial
       exact this.1
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hp : IsPGroup 2 ↥M :=
       (Op_isPGroup (p := 2) (Cen x)).of_injective (Subgroup.inclusion hle)
         (Subgroup.inclusion_injective hle)

@@ -41,7 +41,7 @@ private theorem lieModel_bar2_of_barInf_native (hN : uc22p20rNativeGriess) {M L 
   obtain ⟨e₁⟩ := uc22p21k_barInf_equiv_of_center_bot hq hc
   exact LieModel.of_mulEquiv e₁ hM
 
-theorem seventeen_fifty (D : Data G) (V₀ V : Subgroup G) (hV : Hyp125 D V₀ V)
+theorem seventeen_fifty (D : Data G) (V₀ V : Subgroup G) (_hV : Hyp125 D V₀ V)
     (h17_31 : R17_31At D V₀ V) (h17_32 : R17_32At D V₀ V)
     (h17_43 : R17_43At D V₀ V) (h17_46 : R17_46At D V₀ V)
     (h17_47 : R17_47At D V₀ V) (h17_48 : R17_48At D V₀ V)

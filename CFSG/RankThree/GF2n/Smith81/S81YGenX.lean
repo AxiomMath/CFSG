@@ -24,6 +24,7 @@ variable [Finite G] {M Q Z B : Subgroup G} {K : Type} [Field K]
   {Γ : Subgroup (V ≃ₗ[K] V)} {p₀ : V} {U₀ : Subgroup (V ≃ₗ[K] V)}
   {IsRt : (V ≃ₗ[K] V) → Prop} {z : G}
 
+omit [Finite K] [CharP K 2] in
 theorem GDat.xdata_gen (Dt : GDat M Q Z B K γ M₀ ψ φ Γ p₀ U₀ IsRt z) {x : G} (hxc : IsConj z x)
     (hxM : x ∈ M) (hxQ : x ∉ Q) {r : V ≃ₗ[K] V} (hr : IsRt r) (hx : Acts φ x r) :
     ∃ (X : Subgroup G) (_ : Sit M Q Z X x) (Tx : XAct M₀ x), CaseII Q Z x ∧
@@ -45,6 +46,7 @@ theorem GDat.xdata_gen (Dt : GDat M Q Z B K γ M₀ ψ φ Γ p₀ U₀ IsRt z) {
       exact ⟨w, by simpa using hw.symm⟩
   exact ⟨X, hs, Tx, Dt.caseII x hxc hxM hxQ r hx hr, hRs⟩
 
+omit [Finite K] in
 theorem conj_of_acts_eq_gen (Dt : GDat M Q Z B K γ M₀ ψ φ Γ p₀ U₀ IsRt z) {x₁ y : G}
     (hx₁c : IsConj z x₁) (hx₁M : x₁ ∈ M) (hx₁Q : x₁ ∉ Q) (hyc : IsConj z y) (hyM : y ∈ M)
     (hyQ : y ∉ Q) {r : V ≃ₗ[K] V} (hr : IsRt r) (hx₁ : Acts φ x₁ r) (hy : Acts φ y r) :

@@ -49,7 +49,7 @@ theorem card_fixSub_subRep (X : Subgroup G) :
 
 theorem mem_calP_subRep_iff (A : Subgroup G) :
     A ∈ calP (subRep ρ W hW) ↔ A ≠ ⊥ ∧ IsElemAbelian 2 A ∧ IsBestOffenderOn ρ A W := by
-  simp only [calP, Set.mem_setOf_eq, IsBestOffender, IsBestOffenderOn, card_fixSub_subRep hW]
+  simp only [calP, Set.mem_ofPred_eq, IsBestOffender, IsBestOffenderOn, card_fixSub_subRep hW]
   exact and_congr_right fun _ =>
     ⟨fun ⟨hE, h⟩ => ⟨hE, SubAux.isElemAbelianOn_of_isElemAbelian hE W, h⟩,
       fun ⟨hE, _, h⟩ => ⟨hE, h⟩⟩

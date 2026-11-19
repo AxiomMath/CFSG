@@ -16,14 +16,14 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
 theorem stroth54Statement_of_hcomm (h34 : Stroth34Statement) (hRoot : Stroth310RootStatement)
     (h51 : Stroth51Statement)
-    (hcomm : ∀ (G : Type) [Group G] [Finite G] (M Q Z B : Subgroup G) (hc : Ctx M Q Z B)
-      (n : ℕ) (t : G) (m : ℕ), Sec5Hyp hc n t → 2 ≤ m → SpMNat hc t m →
-      Nat.card ↥(hc.CN t) = Nat.card Q * Nat.card Z →
-      ∀ s ∈ Rt M (LB M Q B) t,
-        ∀ x ∈ Wt Q (Vt M (LB M Q B) B Z t), ⁅s, x⁆ ∈ Vt M (LB M Q B) B Z t) :
+    (hcomm : ∀ (_G : Type) [Group _G] [Finite _G] (_M _Q _Z _B : Subgroup _G) (hc : Ctx _M _Q _Z _B)
+      (_n : ℕ) (_t : _G) (_m : ℕ), Sec5Hyp hc _n _t → 2 ≤ _m → SpMNat hc _t _m →
+      Nat.card ↥(hc.CN _t) = Nat.card _Q * Nat.card _Z →
+      ∀ s ∈ Rt _M (LB _M _Q _B) _t,
+        ∀ x ∈ Wt _Q (Vt _M (LB _M _Q _B) _B _Z _t), ⁅s, x⁆ ∈ Vt _M (LB _M _Q _B) _B _Z _t) :
     Stroth54Statement :=
   stroth54Statement_of_contra h34 hRoot h51 hcomm
-    (fun G _ _ M Q Z B hc n t m hs hm hV hN =>
+    (fun _G _ _ _M _Q _Z _B hc _n _t _m hs hm hV hN =>
       stroth54FC_hNW_of h34 hRoot h51 hc hs hm hV hN)
 
 

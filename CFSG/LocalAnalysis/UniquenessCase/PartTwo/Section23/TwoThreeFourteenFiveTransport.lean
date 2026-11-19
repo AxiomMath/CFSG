@@ -25,12 +25,14 @@ def intModIncl {A W : Subgroup G} (hA : IsElemAbelian 2 A) (hW : IsElemAbelian 2
   map_one' := IntMod.val_injective rfl
   map_mul' _ _ := IntMod.val_injective rfl
 
+omit [Finite G] in
 private theorem mkTil_bot_injective {V : Subgroup G} (hV : IsElemAbelian 2 V) :
     Function.Injective (mkTil (⊥ : Subgroup G) V hV) := by
   intro x y h
   rw [mkTil_eq_iff] at h
   exact IntMod.val_injective (mul_inv_eq_one.1 (Subgroup.mem_bot.1 h))
 
+omit [Finite G] in
 private theorem modNull_bot {V : Subgroup G} (hV : IsElemAbelian 2 V) :
     modNull (⊥ : Subgroup G) V hV = ⊥ := by
   rw [modNull, intSub, Subgroup.bot_subgroupOf]
@@ -50,6 +52,7 @@ noncomputable def tilBotEquiv {V : Subgroup G} (hV : IsElemAbelian 2 V) :
     QuotientGroup.quotientBot.symm.trans
       (QuotientGroup.quotientMulEquivOfEq (modNull_bot hV).symm)
 
+omit [Finite G] in
 theorem tilBotEquiv_apply {V : Subgroup G} (hV : IsElemAbelian 2 V) (x : ↥V) :
     tilBotEquiv hV x = mkTil (⊥ : Subgroup G) V hV (IntMod.mk hV x) := by
   have h0 : (intModEquiv hV).symm x = IntMod.mk hV x := rfl
@@ -58,10 +61,11 @@ theorem tilBotEquiv_apply {V : Subgroup G} (hV : IsElemAbelian 2 V) (x : ↥V) :
   rfl
 
 noncomputable def imgTilEquiv {A W : Subgroup G} (hA : IsElemAbelian 2 A)
-    (hWA : W ≤ A) : ↥(W.subgroupOf A) ≃* ↥(imgTil (⊥ : Subgroup G) A hA W) :=
+    (_hWA : W ≤ A) : ↥(W.subgroupOf A) ≃* ↥(imgTil (⊥ : Subgroup G) A hA W) :=
   Subgroup.equivMapOfInjective (W.subgroupOf A) (mkTil (⊥ : Subgroup G) A hA)
     (mkTil_bot_injective hA)
 
+omit [Finite G] in
 theorem imgTilEquiv_apply {A W : Subgroup G} (hA : IsElemAbelian 2 A)
     (hWA : W ≤ A) (y : ↥(W.subgroupOf A)) :
     imgTilEquiv hA hWA y =
@@ -75,6 +79,7 @@ noncomputable def restrictEquiv {A W : Subgroup G} (hA : IsElemAbelian 2 A)
   (imgTilEquiv hA hWA).symm.trans
     ((Subgroup.subgroupOfEquivOfLe hWA).trans (tilBotEquiv hW))
 
+omit [Finite G] in
 theorem restrictEquiv_apply {A W : Subgroup G} (hA : IsElemAbelian 2 A)
     (hW : IsElemAbelian 2 W) (hWA : W ≤ A) (y : ↥(W.subgroupOf A)) :
     restrictEquiv hA hW hWA
@@ -89,6 +94,7 @@ theorem restrictEquiv_apply {A W : Subgroup G} (hA : IsElemAbelian 2 A)
     exact (imgTilEquiv_apply hA hWA y).symm
   rw [restrictEquiv, MulEquiv.trans_apply, MulEquiv.trans_apply, h1, tilBotEquiv_apply]
 
+omit [Finite G] in
 theorem restrictEquiv_symm_apply {A W : Subgroup G} (hA : IsElemAbelian 2 A)
     (hW : IsElemAbelian 2 W) (hWA : W ≤ A) (x : IntMod W hW) :
     (restrictEquiv hA hW hWA).symm (mkTil (⊥ : Subgroup G) W hW x) =
@@ -102,8 +108,9 @@ theorem restrictEquiv_symm_apply {A W : Subgroup G} (hA : IsElemAbelian 2 A)
     (⟨intModIncl hA hW hWA x, x.val_mem⟩ : ↥(W.subgroupOf A))]
   exact congrArg (mkTil (⊥ : Subgroup G) W hW) (IntMod.val_injective rfl)
 
+omit [Finite G] in
 theorem actTil_mem_stabSub_imgTil {A W : Subgroup G} (hA : IsElemAbelian 2 A)
-    (hW : IsElemAbelian 2 W) (hWA : W ≤ A) {g : G}
+    (_hW : IsElemAbelian 2 W) (_hWA : W ≤ A) {g : G}
     (hgA : g ∈ stabTil (⊥ : Subgroup G) A) (hgW : g ∈ stabTil (⊥ : Subgroup G) W) :
     actTil (⊥ : Subgroup G) A hA ⟨g, hgA⟩ ∈ stabSub (imgTil (⊥ : Subgroup G) A hA W) := by
   rw [mem_stabSub]
@@ -137,6 +144,7 @@ theorem actTil_mem_stabSub_imgTil {A W : Subgroup G} (hA : IsElemAbelian 2 A)
     rwa [heq] at hmem
   · exact forward hgA hgW
 
+omit [Finite G] in
 theorem congrHom_restrictEquiv_actTil {A W : Subgroup G} (hA : IsElemAbelian 2 A)
     (hW : IsElemAbelian 2 W) (hWA : W ≤ A) {g : G}
     (hgA : g ∈ stabTil (⊥ : Subgroup G) A) (hgW : g ∈ stabTil (⊥ : Subgroup G) W)
@@ -178,12 +186,14 @@ theorem congrHom_restrictEquiv_actTil {A W : Subgroup G} (hA : IsElemAbelian 2 A
   simp [intModIncl]
   rfl
 
+omit [Finite G] in
 private theorem mem_stabTil_bot_of_le_normalizer {A H : Subgroup G}
     (hHA : H ≤ Subgroup.normalizer (A : Set G)) {g : G} (hg : g ∈ H) :
     g ∈ stabTil (⊥ : Subgroup G) A :=
   Subgroup.mem_inf.mpr
     ⟨hHA hg, by rw [Subgroup.normalizer_eq_top]; exact Subgroup.mem_top g⟩
 
+omit [Finite G] in
 theorem Mbar_eq_autSub_map {A W H : Subgroup G} (hA : IsElemAbelian 2 A)
     (hW : IsElemAbelian 2 W) (hWA : W ≤ A)
     (hHA : H ≤ Subgroup.normalizer (A : Set G))
@@ -201,7 +211,7 @@ theorem Mbar_eq_autSub_map {A W H : Subgroup G} (hA : IsElemAbelian 2 A)
     have hgA : (gW : G) ∈ stabTil (⊥ : Subgroup G) A :=
       mem_stabTil_bot_of_le_normalizer hHA hgH
     have hgW : (gW : G) ∈ stabTil (⊥ : Subgroup G) W := by
-      simpa using (mem_stabTil_bot_of_le_normalizer hHW hgH)
+      simp
     have hgstab : actTil (⊥ : Subgroup G) A hA ⟨(gW : G), hgA⟩ ∈
         stabSub (imgTil (⊥ : Subgroup G) A hA W) :=
       actTil_mem_stabSub_imgTil hA hW hWA hgA hgW
@@ -236,6 +246,7 @@ theorem Mbar_eq_autSub_map {A W H : Subgroup G} (hA : IsElemAbelian 2 A)
     refine (mem_barSub (⊥ : Subgroup G) W hW H φ).2 ⟨⟨(g : G), hgW⟩, hgH, ?_⟩
     rw [← hnat, ← hgAeq, hgAres, hψφ]
 
+omit [Finite G] in
 theorem barSub_sup {A H₁ H₂ : Subgroup G} (hA : IsElemAbelian 2 A)
     (hH₁ : H₁ ≤ stabTil (⊥ : Subgroup G) A) (hH₂ : H₂ ≤ stabTil (⊥ : Subgroup G) A) :
     barSub (⊥ : Subgroup G) A hA (H₁ ⊔ H₂) =
@@ -243,6 +254,7 @@ theorem barSub_sup {A H₁ H₂ : Subgroup G} (hA : IsElemAbelian 2 A)
   unfold barSub
   rw [Subgroup.subgroupOf_sup hH₁ hH₂, Subgroup.map_sup]
 
+omit [Finite G] in
 theorem Mbar_sup_eq_autSub_map {A W H₁ H₂ : Subgroup G} (hA : IsElemAbelian 2 A)
     (hW : IsElemAbelian 2 W) (hWA : W ≤ A)
     (hH₁A : H₁ ≤ Subgroup.normalizer (A : Set G))

@@ -72,7 +72,7 @@ theorem tOne_decomp (hK : Nat.card K = 2 ^ (2 * a + 1)) {x : ↥(ReeTag.F4.reeGa
     (hxt : (x : ModGL ReeTag.F4.tag K) * sylowL a K 1 = sylowL a K 1 * x) :
     ∃ q ∈ tKernel K a, ∃ r ∈ rankOneGroupOne K a,
       q * r = (x : ModGL ReeTag.F4.tag K) ∧ Nat.Coprime (orderOf r) 2 := by
-  haveI : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
+  have : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
   have hxC : (x : ModGL ReeTag.F4.tag K) ∈ centralizerT K a := by
     rw [← reeGamma_inf_centralizer_tOne_eq hK]
     refine Subgroup.mem_inf.2 ⟨x.2, ?_⟩
@@ -118,7 +118,7 @@ theorem tOne_decomp (hK : Nat.card K = 2 ^ (2 * a + 1)) {x : ↥(ReeTag.F4.reeGa
   rwa [Subgroup.orderOf_coe]
 
 theorem reeLIOddAt_one (hK : Nat.card K = 2 ^ (2 * a + 1)) : ReeLIOddAt K a ⟨1, by decide⟩ := by
-  haveI : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
+  have : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
   intro x hxo hx
   have hV : sylowL a K 1 ∈ ReeTag.F4.reeFixedOrbitComplementUnipotent K a ⟨1, by decide⟩ :=
     (blocks_mem hK 0 0 0 0 0 0 1).2.2.2.2.2.2.2

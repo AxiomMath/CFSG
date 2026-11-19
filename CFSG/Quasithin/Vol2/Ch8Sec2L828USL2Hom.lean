@@ -38,7 +38,7 @@ theorem ob5_sl_hom [Group.IsPerfect K] (b : Module.Basis (Fin 2) F M) (φ : K �
       rfl
     rw [h1]
     have h2 := hδ κ
-    simp only [δ, MonoidHom.comp_apply, Units.coe_map, MonoidHom.coe_coe] at h2
+    simp only [δ, MonoidHom.comp_apply] at h2
     have h3 : ((LinearMap.det : (M →ₗ[F] M) →* F) ((φ κ : (M →ₗ[F] M)ˣ) : M →ₗ[F] M)) = 1 := by
       have := congrArg Units.val h2
       simpa using this
@@ -50,7 +50,7 @@ theorem ob5_sl_hom [Group.IsPerfect K] (b : Module.Basis (Fin 2) F M) (φ : K �
     simp [ob5mat]
   · intro κ κ'
     apply Subtype.ext
-    simp only [ob5mat, map_mul, Units.val_mul, Subgroup.coe_mul]
+    simp only [ob5mat, map_mul, Units.val_mul]
     rfl
 
 end SLHom

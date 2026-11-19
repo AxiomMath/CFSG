@@ -174,7 +174,6 @@ theorem false_of_large_component [Finite G] (w : G) (X Q L : Subgroup G) (n m : 
       simp only [Subgroup.coe_mul]
       first
         | exact hjw
-        | exact hjw.symm
     rw [hZ, Subgroup.mem_bot] at hwZ
     have hw1 : w = 1 := congrArg Subtype.val hwZ
     rw [hw1, orderOf_one] at hw3

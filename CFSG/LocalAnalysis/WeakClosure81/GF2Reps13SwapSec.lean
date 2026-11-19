@@ -31,7 +31,7 @@ theorem map_resAut_subgroupOf (U₂ U₁ : Subgroup W) (g : ↥(secStabAll U₂ 
     have : (g.1 (((resAut U₂ ⟨g.1, g.2.1⟩).symm x : ↥U₂) : W)) = (x : W) := by
       have := congrArg (fun z : ↥U₂ => (z : W))
         ((resAut U₂ ⟨g.1, g.2.1⟩).apply_symm_apply x)
-      simpa [resAut] using this
+      simp [resAut]
     rw [this]
     exact hx
 

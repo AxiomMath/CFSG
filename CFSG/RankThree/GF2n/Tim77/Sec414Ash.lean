@@ -178,7 +178,7 @@ theorem sec414_bender_quotient
     (QuotientGroup.eq_one_iff _).mp hx1
   have hle : Subgroup.zpowers (QuotientGroup.mk' (CFSG.pCore 2 U) x) ≤
       Subgroup.center (U ⧸ CFSG.pCore 2 U) := Subgroup.zpowers_le.mpr hz
-  haveI hnorm := Subgroup.normal_of_le_center hle
+  have hnorm := Subgroup.normal_of_le_center hle
   have hp : IsPGroup 2 (Subgroup.zpowers (QuotientGroup.mk' (CFSG.pCore 2 U) x)) := by
     have := hx.map (QuotientGroup.mk' (CFSG.pCore 2 U))
     rwa [MonoidHom.map_zpowers] at this

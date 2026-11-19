@@ -63,6 +63,7 @@ theorem blk_eq_of_sameCycle {e : Perm α} {x y : α} (h : e.SameCycle x y) : blk
   simp only [mem_blk]
   exact ⟨fun h' => h.symm.trans h', fun h' => h.trans h'⟩
 
+omit [Fintype α] [DecidableEq α] in
 theorem sameCycle_apply_of_commute {f σ : Perm α} (h : Commute f σ) {x y : α}
     (hxy : f.SameCycle x y) : f.SameCycle (σ x) (σ y) := by
   obtain ⟨i, rfl⟩ := hxy
@@ -110,6 +111,7 @@ theorem pow_apply_mem_support_of_commute {e f : Perm α} (hfe : Commute f e) {y 
   have : (e ^ j) (f y) = (e ^ j) y := by rw [← mul_apply, ← (hfe.pow_right j).eq, mul_apply, h]
   exact (e ^ j).injective this
 
+omit [Fintype α] [DecidableEq α] in
 theorem pow_mod_apply {e : Perm α} {r : ℕ} (her : e ^ r = 1) (m : ℕ) (z : α) :
     (e ^ (m % r)) z = (e ^ m) z := by
   conv_rhs => rw [← Nat.div_add_mod m r, pow_add, pow_mul, her, one_pow, one_mul]
@@ -135,6 +137,7 @@ theorem mapsTo_blk_of_shift {e f : Perm α} {r : ℕ} (hr : r.Prime) (her : e ^ 
   intro z hz
   exact mem_blk.2 (hey.trans (sameCycle_apply_of_commute hfe (mem_blk.1 hz)))
 
+omit [Fintype α] [DecidableEq α] in
 theorem shift_of_sameCycle {e f : Perm α} {r : ℕ} (her : e ^ r = 1) (hfe : Commute f e) {y : α}
     {i j : ℕ} (hi : i < r) (hj : j < r) (hij : i ≠ j)
     (h : f.SameCycle ((e ^ i) y) ((e ^ j) y)) : ∃ d, 0 < d ∧ d < r ∧ f.SameCycle y ((e ^ d) y) := by
@@ -360,7 +363,7 @@ theorem balance_of_fullCycle {e : Perm α} (hc : e.IsCycle) (hs : e.support = un
   have hinj : Set.InjOn (fun w => w * e * w⁻¹) (B : Set (Perm α)) := by
     intro w hw w' hw' h'
     have h : w * e * w⁻¹ = w' * e * w'⁻¹ := h'
-    simp only [hBdef, coe_filter, mem_univ, true_and, Set.mem_setOf_eq] at hw hw'
+    simp only [hBdef, coe_filter, mem_univ, true_and, Set.mem_ofPred_eq] at hw hw'
     set u := w'⁻¹ * w
     have hu : Commute u e := by
       change w'⁻¹ * w * e = e * (w'⁻¹ * w)

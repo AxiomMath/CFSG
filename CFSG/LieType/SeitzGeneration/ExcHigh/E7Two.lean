@@ -76,7 +76,7 @@ theorem closure_centralizers_spinPlus_plane {K : Type} [Field K] [Finite K] {p :
   have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   have hn3 : 3 ≤ r := by omega
-  haveI : NeZero r := ⟨by omega⟩
+  have : NeZero r := ⟨by omega⟩
   have : Nonempty (Fin r ⊕ Fin r) := ⟨Sum.inl ⟨0, by omega⟩⟩
   have : Finite (spinGroup (quadPlus r K)) :=
     CFSG.ClassicalInvolution.ModelFacts.finite_spinGroup_of_ker _ coe_ker_spinMatrix_quadPlus
@@ -597,7 +597,7 @@ theorem seitzExcHighE7Two_of_ge_eleven : SeitzExcHighE7TwoGeEleven :=
 
 theorem seitzExcHighE7Two_of_ge_eleven_of_lt
     (h : SeitzExcHighE7TwoLtEleven) : SeitzExcHighE7Two :=
-  SeitzExcHighForAt.union (fun d p _ _ hQ => (Nat.lt_or_ge p 11).elim (fun h' => Or.inr ⟨h', hQ⟩)
+  SeitzExcHighForAt.union (fun _d p _ _ hQ => (Nat.lt_or_ge p 11).elim (fun h' => Or.inr ⟨h', hQ⟩)
     (fun h' => Or.inl ⟨h', hQ⟩)) seitzExcHighE7Two_of_ge_eleven h
 
 theorem seitzExcHighE7TwoLtEleven_of_sylow (h : E7TwoSylowLow) : SeitzExcHighE7TwoLtEleven :=

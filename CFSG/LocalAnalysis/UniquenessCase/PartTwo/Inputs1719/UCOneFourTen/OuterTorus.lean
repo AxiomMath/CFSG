@@ -238,14 +238,14 @@ private theorem diagAntiSp_apply_one_one {F : Type} [Field F] (lam : Fˣ) :
 
 private theorem suzukiD_apply_zero_zero {F : Type} [Field F] {m : ℕ} (μ : Fˣ) :
     Blueprint.suzukiD m μ 0 0 = (μ : F) ^ (1 + 2 ^ m) := by
-  rw [Blueprint.suzukiD, Matrix.diagonal_apply, if_pos rfl]
+  rw [Blueprint.suzukiD, Matrix.diagonal_apply, ite_eq_left rfl]
   simp only [Matrix.cons_val_zero]
   have hcast : (1 + (2 ^ m : ℤ)) = ((1 + 2 ^ m : ℕ) : ℤ) := by push_cast; ring
   rw [Units.val_zpow_eq_zpow_val, hcast, zpow_natCast]
 
 private theorem suzukiD_apply_one_one {F : Type} [Field F] {m : ℕ} (μ : Fˣ) :
     Blueprint.suzukiD m μ 1 1 = (μ : F) ^ 2 ^ m := by
-  rw [Blueprint.suzukiD, Matrix.diagonal_apply, if_pos rfl]
+  rw [Blueprint.suzukiD, Matrix.diagonal_apply, ite_eq_left rfl]
   simp only [Matrix.cons_val_one, Matrix.cons_val_zero]
   rw [Units.val_zpow_eq_zpow_val]
   have hcast : ((2 : ℤ) ^ m) = ((2 ^ m : ℕ) : ℤ) := (Nat.cast_pow 2 m).symm

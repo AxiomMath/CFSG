@@ -132,7 +132,7 @@ theorem exists_vanishing [Finite G] (hp2 : p ≠ 2) (hNT : GGNoTransvection p Bs
     (htc : ∀ φ ∈ ggAutNormalClosure L J Bs, t * φ = φ * t) :
     ∃ (y : T.V) (f : Module.Dual (ZMod p) T.V) (hfy : f y = 2),
       ggLin (p := p) T.model t = reflection hfy ∧ ∀ k, f (T.coroot k) = 0 := by
-  haveI : Finite T.V := Finite.of_equiv ↥Bs (Additive.ofMul.trans T.model.toEquiv)
+  have : Finite T.V := Finite.of_equiv ↥Bs (Additive.ofMul.trans T.model.toEquiv)
   obtain ⟨y, f, hfy, hty⟩ := exists_of_ggIsReflection T.model ht
   have hLt : ggLin (p := p) T.model t = reflection hfy := ggLin_eq_reflection T.model hfy hty
   refine ⟨y, f, hfy, hLt, fun k => ?_⟩
@@ -200,7 +200,7 @@ theorem unique [Finite G] (hp2 : p ≠ 2) (hNT : GGNoTransvection p Bs)
   obtain ⟨y', g, hgy, hLt', hg⟩ := T.exists_vanishing hp2 hNT ht' htA' htc'
   obtain ⟨hyy, hfg⟩ := ggReflection_linearIndependent_of_noTransvection hp2 hNT T.model
     (mem_ggAutomizer_iff.mp htA) (mem_ggAutomizer_iff.mp htA') hne hfy hgy hLt hLt'
-  haveI : Finite T.V := Finite.of_equiv ↥Bs (Additive.ofMul.trans T.model.toEquiv)
+  have : Finite T.V := Finite.of_equiv ↥Bs (Additive.ofMul.trans T.model.toEquiv)
   rcases T.tbHyp with hcodim | hline
   · exact not_linearIndependent_pair_of_vanishing_of_codim_le _ hcodim
       (fun _ => apply_eq_zero_of_mem_span_range hf) (fun _ => apply_eq_zero_of_mem_span_range hg)
@@ -241,7 +241,7 @@ theorem ggExcReflInput_of_tb (hTB : GGExcReflTBInput) : GGExcReflInput := by
   intro G _ _ p B Bs x L D J hHyp hq hN hW
   have hp : p.Prime := hHyp.1.1.2.2.2.2.2.1.1
   have hp2 : p ≠ 2 := hHyp.1.1.2.2.2.2.2.1.2.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hJL : ggAutomizer J Bs ≤ ggAutomizer L Bs :=
     ggAutomizer_mono Bs (hHyp.1.2.2.1.2.2.2.2.2.1.1.trans inf_le_left)
   obtain ⟨T⟩ := hTB G p B Bs x L D J hHyp hq hN hW

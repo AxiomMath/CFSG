@@ -11,7 +11,7 @@ namespace CFSG.Sporadic.Co1.Module.CoTwo
 open CFSG.Blueprint CFSG.Sporadic.SmallF2 CFSG.Sporadic.SmallF2.Native
   CFSG.Sporadic.Co1.OddNative CFSG.Sporadic.Co1.CoTwoNative Matrix
 
-@[expose] def progA : List (List (ℕ × ℕ)) :=
+def progA : List (List (ℕ × ℕ)) :=
 [
   [(1, 2), (0, 1), (1, 2), (0, 1), (1, 1), (0, 1), (1, 2), (0, 1), (1, 2), (0, 1), (1, 1),
     (0, 1), (1, 1), (0, 1), (1, 1), (0, 1), (1, 2), (0, 1), (1, 2), (0, 1), (1, 1), (0, 1),
@@ -46,13 +46,13 @@ open CFSG.Blueprint CFSG.Sporadic.SmallF2 CFSG.Sporadic.SmallF2.Native
   [(20, 19)],
   [(21, 1), (22, 1), (19, 1), (20, 1)]]
 
-@[expose] def initRowsA : Array (Array ℕ) := #[dat.rowsA, dat.rowsB]
+def initRowsA : Array (Array ℕ) := #[dat.rowsA, dat.rowsB]
 
-@[expose] def regsRowsA : Array (Array ℕ) := runRows initRowsA progA
+def regsRowsA : Array (Array ℕ) := runRows initRowsA progA
 
-@[expose] def rrA (i : ℕ) : Array ℕ := regsRowsA[i]?.getD (idRows 24)
+def rrA (i : ℕ) : Array ℕ := regsRowsA[i]?.getD (idRows 24)
 
-@[expose] def progS : List (List (ℕ × ℕ)) :=
+def progS : List (List (ℕ × ℕ)) :=
 [
   [(1, 4), (0, 11), (1, 6), (0, 5), (1, 1)],
   [(0, 9), (1, 4), (2, 3), (0, 11), (2, 2)],
@@ -69,15 +69,15 @@ open CFSG.Blueprint CFSG.Sporadic.SmallF2 CFSG.Sporadic.SmallF2.Native
   [(9, 1), (6, 2), (8, 3), (5, 4), (8, 3), (3, 6), (8, 3), (5, 4), (1, 6), (0, 10), (7, 2),
     (6, 2), (1, 3)]]
 
-@[expose] def initRowsS : Array (Array ℕ) := #[rrA 13, rrA 18]
+def initRowsS : Array (Array ℕ) := #[rrA 13, rrA 18]
 
-@[expose] def regsRowsS : Array (Array ℕ) := runRows initRowsS progS
+def regsRowsS : Array (Array ℕ) := runRows initRowsS progS
 
-@[expose] def rrS (i : ℕ) : Array ℕ := regsRowsS[i]?.getD (idRows 24)
+def rrS (i : ℕ) : Array ℕ := regsRowsS[i]?.getD (idRows 24)
 
-@[expose] def baseS : List ℕ :=
+def baseS : List ℕ :=
   [12545053, 14887792, 7268220, 12571739, 4035488, 3503328, 16500514, 14979871]
 
-@[expose] def y₀code : ℕ := 359217
+def y₀code : ℕ := 359217
 
 end CFSG.Sporadic.Co1.Module.CoTwo

@@ -53,9 +53,9 @@ theorem rankOne_not_solvable_spinMinus {n : ℕ} {F : Type} [Field F] [Finite F]
   by_cases hk : i.val + 1 < n - 1
   · exact rankOne_not_solvable_of_hasSL2Node hF4 (hasSL2Node_spinMinus_long hirr hk)
   have := fact_shortField hirr
-  haveI : Group.IsPerfect (rankOne (minusDatum n hirr).rootGroup i) :=
+  have : Group.IsPerfect (rankOne (minusDatum n hirr).rootGroup i) :=
     Subgroup.isPerfect_iff.2 ((rankOneNode_spinMinus_short hirr hk).perfect hF4)
-  haveI : Nontrivial (rankOne (minusDatum n hirr).rootGroup i) := by
+  have : Nontrivial (rankOne (minusDatum n hirr).rootGroup i) := by
     refine (Subgroup.nontrivial_iff_ne_bot _).2 fun hbot => ?_
     have hx : (shortRels n hirr i).x 1 ∈ rankOne (minusDatum n hirr).rootGroup i :=
       Subgroup.mem_sup_left ((mem_minusRootGroup_single_iff hirr hk _).2 ⟨1, rfl⟩)

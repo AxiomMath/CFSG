@@ -70,7 +70,7 @@ theorem false_of_sl2_hom {E : Type*} [Field E] [Finite E] (hE : ringChar E = 3)
     have hZ : Subgroup.center SL(2, E) = ⊤ := by
       rw [eq_top_iff, ← hq.1.commutator_eq_top]
       exact hcomm.trans hker
-    haveI := hq.2.1.toNontrivial
+    have := hq.2.1.toNontrivial
     obtain ⟨u, hu⟩ := exists_ne (1 : SL(2, E) ⧸ Subgroup.center SL(2, E))
     obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective u
     exact hu ((QuotientGroup.eq_one_iff x).2 (hZ ▸ Subgroup.mem_top x))
@@ -122,7 +122,7 @@ theorem noL33_rationalComponent_inner (hL3 : ringChar L = 3) (hq9 : 9 ≤ S.D.q)
   have : NeZero s := ⟨hs0.ne'⟩
   obtain ⟨σ, z, hσ, hnorm, hz⟩ := exists_untwistT S hT i hs0 hinner
   obtain ⟨r, e, hr, hchar, he, hq⟩ := exists_char_pow S
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hσ' : ∀ c, σ c = c ^ (r ^ (e * s)) := fun c => by rw [hσ, hq, ← pow_mul]
   have hQ9 : 9 ≤ r ^ (e * s) := by
     calc 9 ≤ S.D.q := hq9
@@ -190,8 +190,8 @@ theorem noL33_of_split_frame (hL3 : ringChar L = 3) (hq9 : 9 ≤ S.D.q)
   classical
   obtain ⟨hs0, -, -⟩ := outer_componentOrbitLength_spec S hT i
   obtain ⟨r, e, hr, hchar, he, hq⟩ := exists_char_pow S
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : CharP L r := hchar
+  have : Fact r.Prime := ⟨hr⟩
+  have : CharP L r := hchar
   obtain ⟨σQ, hσc, f, hf1, hfker, hf2⟩ :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieComp.split_exists_hom S hT i hν hψ hΨ π hπ hr
       hchar he hq
@@ -235,8 +235,8 @@ theorem noL33_of_unitary_frame (hL3 : ringChar L = 3) (hq9 : 9 ≤ S.D.q)
   classical
   obtain ⟨hs0, -, -⟩ := outer_componentOrbitLength_spec S hT i
   obtain ⟨r, e, hr, hchar, he, hq⟩ := exists_char_pow S
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : CharP L r := hchar
+  have : Fact r.Prime := ⟨hr⟩
+  have : CharP L r := hchar
   set s := componentOrbitLength S.ρ (componentRoots (rootCharHom a) i) with hsdef
   have hes : 0 < e * s := Nat.mul_pos he hs0
   have hr3 : r = 3 := by rw [← hL3]; exact (ringChar.eq L r).symm
@@ -435,8 +435,8 @@ theorem exists_untwist_root (hτ : SimplyLacedTag τ) (hT : rootDiagUnit τ a �
   classical
   have hθr : IsRoot τ θ := isRoot_of_mem_componentRoots hθ
   obtain ⟨r, e, hr, hchar, he, hq⟩ := exists_char_pow S
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : CharP L r := hchar
+  have : Fact r.Prime := ⟨hr⟩
+  have : CharP L r := hchar
   obtain ⟨σ, hσ⟩ := exists_ringEquiv_frob (L := L) r (e * s)
   have hσc : ∀ c, σ c = c ^ (S.D.q ^ s) := by
     intro c
@@ -500,7 +500,7 @@ theorem noL33_rationalComponent_simplyLaced (hτ : SimplyLacedTag τ) (hL3 : rin
   classical
   obtain ⟨hs0, hs, hmin⟩ := outer_componentOrbitLength_spec S hT i
   set s := componentOrbitLength S.ρ (componentRoots (rootCharHom a) i) with hsdef
-  haveI : NeZero s := ⟨hs0.ne'⟩
+  have : NeZero s := ⟨hs0.ne'⟩
   obtain ⟨θ, hθ⟩ := exists_mem_componentRoots i
   have hθr : IsRoot τ θ := isRoot_of_mem_componentRoots hθ
   have hneg : -θ ∈ componentRoots (rootCharHom a) i :=
@@ -511,8 +511,8 @@ theorem noL33_rationalComponent_simplyLaced (hτ : SimplyLacedTag τ) (hL3 : rin
   obtain ⟨w, hw, hwθ⟩ := exists_weyl_smul_eq_of_mem_componentRoots hτ hθ hρθ
   obtain ⟨σ, z, hσ, hnorm, hz⟩ := exists_untwist_root S hτ hT i hs0 hθ hw hwθ.symm
   obtain ⟨r, e, hr, hchar, he, hq⟩ := exists_char_pow S
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : CharP L r := hchar
+  have : Fact r.Prime := ⟨hr⟩
+  have : CharP L r := hchar
   have hσ' : ∀ c, σ c = c ^ (r ^ (e * s)) := fun c => by rw [hσ, hq, ← pow_mul]
   have hQ9 : 9 ≤ r ^ (e * s) := by
     calc 9 ≤ S.D.q := hq9

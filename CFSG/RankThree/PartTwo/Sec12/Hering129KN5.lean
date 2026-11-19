@@ -36,7 +36,7 @@ theorem of_matrix {π : Bool} {p f : ℕ} (hK : Sec4.PiField π p f K) {τ : K} 
 end Hering129KN5
 
 theorem exists_negPerm {K : Type} [Field K] {p f : ℕ} {π : Bool} (hK : Sec4.PiField π p f K)
-    (hq : Sec4.ModThree π (p ^ f)) {τ : K} (hτ : τ ^ 3 = 1) (hτ1 : τ ≠ 1) {a b c e : Kˣ}
+    (_hq : Sec4.ModThree π (p ^ f)) {τ : K} (hτ : τ ^ 3 = 1) (_hτ1 : τ ≠ 1) {a b c e : Kˣ}
     (hshape : (a = e ∧ b = 1 ∧ c = 1) ∨ (a = 1 ∧ b = e ∧ c = 1) ∨ (a = 1 ∧ b = 1 ∧ c = e)) :
     ∃ t : GL (Fin 3) K, t ∈ Sec4.slPi π 3 (p ^ f) K ∧ t * t = 1 ∧
       t * Sec4.diagUnits a b c = Sec4.diagUnits a b c * t ∧
@@ -55,7 +55,7 @@ theorem exists_negPerm {K : Type} [Field K] {p f : ℕ} {π : Bool} (hK : Sec4.P
     · ext i j; fin_cases i <;> fin_cases j <;> simp
     · intro φ; ext i j; fin_cases i <;> fin_cases j <;> simp
     · ext i j; fin_cases i <;> fin_cases j <;> simp [mul_apply, Fin.sum_univ_three]
-    · ext i j; fin_cases i <;> fin_cases j <;> simp [mul_apply, Fin.sum_univ_three, h2, h3, h3', h4]
+    · ext i j; fin_cases i <;> fin_cases j <;> simp [mul_apply, Fin.sum_univ_three, h3', h4]
   ·
     refine Hering129KN5.of_matrix hK hτ !![0, 0, -1; 0, -1, 0; -1, 0, 0] ?_ ?_ ?_ ?_ ?_
       ⟨τ, τ ^ 2, h3, h3'⟩ ?_
@@ -64,7 +64,7 @@ theorem exists_negPerm {K : Type} [Field K] {p f : ℕ} {π : Bool} (hK : Sec4.P
     · ext i j; fin_cases i <;> fin_cases j <;> simp
     · intro φ; ext i j; fin_cases i <;> fin_cases j <;> simp
     · ext i j; fin_cases i <;> fin_cases j <;> simp [mul_apply, Fin.sum_univ_three]
-    · ext i j; fin_cases i <;> fin_cases j <;> simp [mul_apply, Fin.sum_univ_three, h2, h3, h3', h4]
+    · ext i j; fin_cases i <;> fin_cases j <;> simp [mul_apply, Fin.sum_univ_three, h2, h3]
   ·
     refine Hering129KN5.of_matrix hK hτ !![0, -1, 0; -1, 0, 0; 0, 0, -1] ?_ ?_ ?_ ?_ ?_ 1 ?_
     · ext i j; fin_cases i <;> fin_cases j <;> simp [mul_apply, Fin.sum_univ_three]

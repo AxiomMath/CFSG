@@ -88,7 +88,7 @@ theorem oddLieA6TwoComponent_holds :
       | H y =>
         rw [← map_mul, ← map_mul, ← QuotientGroup.mk_mul, ← QuotientGroup.mk_mul]
         exact congrArg (fun t => e (QuotientGroup.mk t)) (Subtype.ext (Subtype.ext (hna _ _)))
-  haveI hsimp : IsSimpleGroup S := by
+  have hsimp : IsSimpleGroup S := by
     obtain ⟨t, n, p, f, -, -, -, hm⟩ := hodd
     exact CFSG.Timmesfeld.isSimpleGroup_of_lieModel hm
   have hσσ : σ * σ = 1 := by rw [← sq, ← hσ, pow_orderOf_eq_one]

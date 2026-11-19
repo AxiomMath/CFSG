@@ -24,7 +24,7 @@ variable (D : L4Data K n)
   toFun z := D.ζ ^ (Multiplicative.toAdd z).val
   map_one' := by simp
   map_mul' a b := by
-    haveI : NeZero (2 ^ n) := ⟨by positivity⟩
+    have : NeZero (2 ^ n) := ⟨by positivity⟩
     have key : ∀ k : ℕ, D.ζ ^ (k % 2 ^ n) = D.ζ ^ k := fun k => by
       rw [← D.orderOf_ζ, pow_mod_orderOf]
     simp only [toAdd_mul]
@@ -81,19 +81,19 @@ theorem embed_injective : Function.Injective D.embed := by
   have hπ : ∀ j, (a.right : Perm (Fin 4)) j = j := by
     intro j
     have h := hent ((a.right : Perm (Fin 4)) j) j
-    rw [embed_apply_apply, if_pos rfl] at h
+    rw [embed_apply_apply, ite_eq_left rfl] at h
     by_contra hne
-    rw [if_neg hne] at h
+    rw [ite_eq_right hne] at h
     exact pow_ne_zero _ (Units.ne_zero D.ζ) h
   have hr : a.right = 1 := Subtype.ext (Equiv.ext hπ)
   have hd : ∀ i, Multiplicative.toAdd a.left i = 0 := by
     intro i
     have h := hent i i
-    rw [embed_apply_apply, if_pos (hπ i).symm, if_pos rfl] at h
+    rw [embed_apply_apply, ite_eq_left (hπ i).symm, ite_eq_left rfl] at h
     have h1 : D.ζ ^ (Multiplicative.toAdd a.left i).val = 1 := Units.ext (by
       rw [Units.val_pow_eq_pow_val, h, Units.val_one])
     rw [← orderOf_dvd_iff_pow_eq_one, D.orderOf_ζ] at h1
-    haveI : NeZero (2 ^ n) := ⟨by positivity⟩
+    have : NeZero (2 ^ n) := ⟨by positivity⟩
     have hlt := ZMod.val_lt (Multiplicative.toAdd a.left i)
     have h0 : (Multiplicative.toAdd a.left i).val = 0 := Nat.eq_zero_of_dvd_of_lt h1 hlt
     exact (ZMod.val_eq_zero _).mp h0
@@ -119,7 +119,7 @@ theorem zeta_pow_two_pow_pred (hn : 1 ≤ n) : (D.ζ : K) ^ (2 ^ (n - 1)) = -1 :
 theorem chi_signZ (hn : 1 ≤ n) (u : ℤˣ) : ((D.chi (signZ n u) : Kˣ) : K) = ((u : ℤ) : K) := by
   rcases Int.units_eq_one_or u with rfl | rfl
   · rw [signZ_one, map_one, Units.val_one, Units.val_one, Int.cast_one]
-  · haveI : NeZero (2 ^ n) := ⟨by positivity⟩
+  · have : NeZero (2 ^ n) := ⟨by positivity⟩
     have hval : ((2 ^ (n - 1) : ℕ) : ZMod (2 ^ n)).val = 2 ^ (n - 1) :=
       ZMod.val_natCast_of_lt (Nat.pow_lt_pow_right (by norm_num) (by omega))
     rw [signZ_neg_one, chi_apply, toAdd_ofAdd, hval, Units.val_pow_eq_pow_val,

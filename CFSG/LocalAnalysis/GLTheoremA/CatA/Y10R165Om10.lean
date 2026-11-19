@@ -34,7 +34,7 @@ theorem exists_block_representation [Fintype ↥(orthImage Ã)]
   classical
   have hpF : (p : F) ≠ 0 := cast_prime_ne_zero hp hp2
   have hAe : IsElemAbelian p (orthImage Ã) := isElemAbelian_orthImage hÃe
-  haveI : IsMulCommutative ↥(orthImage Ã) := hAe.1
+  have : IsMulCommutative ↥(orthImage Ã) := hAe.1
   obtain ⟨t, ht⟩ := HypBlocks.exists_blockRep (orthImage Ã) hp
   have hQinv : ∀ a : ↥(orthImage Ã), ∀ v : V, Q ((a : V ≃ₗ[F] V) v) = Q v :=
     fun a => quadratic_orthImage (Ã := Ã) a
@@ -64,7 +64,7 @@ theorem exists_blocks_setup [Fintype ↥(orthImage Ã)]
       (CFSG.LocalAnalysis.GLTheoremA.rk2Ord p n = 2 ∧ ∃ ℓ : ℕ,
         Module.finrank F V = 2 * ℓ ∧ Odd ℓ ∧ 5 ≤ ℓ ∧
         ℓ - 1 ≤ CFSG.Open.pRank p Ã))
-    (hÃe : IsElemAbelian p Ã) (hÃ3 : 3 ≤ CFSG.Open.pRank p Ã)
+    (_hÃe : IsElemAbelian p Ã) (_hÃ3 : 3 ≤ CFSG.Open.pRank p Ã)
     (hpF : (p : F) ≠ 0) (hAe : IsElemAbelian p (orthImage Ã))
     (hQinv : ∀ a : ↥(orthImage Ã), ∀ v : V, Q ((a : V ≃ₗ[F] V) v) = Q v)
     (hB : ∀ a : ↥(orthImage Ã), ∀ u v : V,
@@ -191,7 +191,7 @@ theorem exists_pComponent [Fintype ↥(orthImage Ã)]
       GLAPComponent p (Subgroup.centralizer (DK : Set ↥(orthDerived Q))) J ∧
       Ã ≤ Subgroup.normalizer (J : Set ↥(orthDerived Q)) := by
   classical
-  haveI : IsMulCommutative ↥(orthImage Ã) := hAe.1
+  have : IsMulCommutative ↥(orthImage Ã) := hAe.1
   set xD : V ≃ₗ[F] V := blockEnd (orthImage Ã) hp hpF hAe t ht D with hxDdef
   set xE : V ≃ₗ[F] V := blockEnd (orthImage Ã) hp hpF hAe t ht E with hxEdef
   let xDK : ↥(orthDerived Q) := ⟨xD, hxDH⟩

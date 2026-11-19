@@ -111,8 +111,8 @@ private theorem coordBlockSL_le_centralizer_diag {d : ℕ} {F : Type} [Field F]
     · by_cases hjI : j ∈ I
       · rw [(hI.choose_spec i).mp hiI, (hI.choose_spec j).mp hjI]
         exact mul_comm _ _
-      · rw [mem_coordBlockSL_iff.mp hg i j (Or.inr hjI), if_neg hij, zero_mul, mul_zero]
-    · rw [mem_coordBlockSL_iff.mp hg i j (Or.inl hiI), if_neg hij, zero_mul, mul_zero]
+      · rw [mem_coordBlockSL_iff.mp hg i j (Or.inr hjI), ite_eq_right hij, zero_mul, mul_zero]
+    · rw [mem_coordBlockSL_iff.mp hg i j (Or.inl hiI), ite_eq_right hij, zero_mul, mul_zero]
 
 private theorem entry_eq_zero_of_commute_diag {d : ℕ} {F : Type} [Field F]
     {a g : Matrix.SpecialLinearGroup (Fin d) F}
@@ -191,8 +191,8 @@ private theorem isComponentOf_coordBlockSL_centralizer_diag {d : ℕ} {F : Type}
 theorem lin_block_component {p n d : ℕ} {F : Type} [Field F] [Finite F] (h : LinArith p n d F)
     {a : ↥(LinSL d F)}
     (hdiag : ∀ i j : Fin d, i ≠ j → ((a : GL (Fin d) F) : Matrix (Fin d) (Fin d) F) i j = 0)
-    (ha1 : LinMk d F a ≠ 1)
-    (hC : ∀ g : ↥(LinSL d F),
+    (_ha1 : LinMk d F a ≠ 1)
+    (_hC : ∀ g : ↥(LinSL d F),
       LinMk d F g ∈ Subgroup.centralizer ({LinMk d F a} : Set (LinPSL d F)) →
         (g : GL (Fin d) F) * a = a * g)
     {I : Finset (Fin d)} (hI : LinLevelSet (a : GL (Fin d) F) I) (hcard : 2 ≤ I.card) :
@@ -239,7 +239,7 @@ theorem lin_block_component {p n d : ℕ} {F : Type} [Field F] [Finite F] (h : L
   have hδ : ∀ y : Matrix.SpecialLinearGroup (Fin d) F,
       Ψ a₀ * Ψ (1 * y * 1⁻¹) * (Ψ a₀)⁻¹ = Ψ (1 * (MulAut.conj a₀) y * 1⁻¹) := by
     intro y
-    simpa [MulAut.conj_apply] using hδ' y
+    simp [MulAut.conj_apply]
   have hker : Ψ.ker ≤ Subgroup.center (Matrix.SpecialLinearGroup (Fin d) F) :=
     linMk_comp_ker_le_center d F
   have hmain := CFSG.ClassicalInvolution.Balance.isComponentOf_map_centralizer

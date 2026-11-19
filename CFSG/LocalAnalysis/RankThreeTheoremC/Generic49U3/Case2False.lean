@@ -30,7 +30,7 @@ private theorem false_x_pow_p (h : Case2Data p P T D F x) : x ^ p = 1 := by
 
 private theorem false_D_comm (h : Case2Data p P T D F x) {d d' : Y} (hd : d ∈ D) (hd' : d' ∈ D) :
     d * d' = d' * d := by
-  haveI := h.pdata.D_cyc
+  have := h.pdata.D_cyc
   exact congrArg Subtype.val (mul_comm' (⟨d, hd⟩ : D) ⟨d', hd'⟩)
 
 private theorem false_P_commutator_mem (h : Case2Data p P T D F x) {a b : Y} (ha : a ∈ P) (hb : b ∈ P) :
@@ -51,7 +51,7 @@ private theorem false_P_commutator_mem (h : Case2Data p P T D F x) {a b : Y} (ha
 
 private theorem false_exists_not_mem_zOf (h : Case2Data p P T D F x) : ∃ t ∈ T, t ∉ zOf T := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   refine h.pdata.T_nonab (isMulCommutative_iff.2 fun a b => ?_)
   have hz : (a : Y) ∈ T ⊓ centralizer (T : Set Y) := hcon a a.2
   exact Subtype.ext (mem_centralizer_iff.1 hz.2 b b.2).symm
@@ -70,7 +70,7 @@ private theorem false_exists_psi (h : Case2Data p P T D F x) {L : Subgroup Y} (h
       ψ.range = (Q : Subgroup X) ∧
       ∀ g : X, (zpowers (ψ ⟨x, h.false_x_mem_P⟩)).map (MulAut.conj g).toMonoidHom ≤ (Q : Subgroup X) →
         (zpowers (ψ ⟨x, h.false_x_mem_P⟩)).map (MulAut.conj g).toMonoidHom = zpowers (ψ ⟨x, h.false_x_mem_P⟩) := by
-  haveI := h.fact
+  have := h.fact
   obtain ⟨X, hG, hF, π, K, Q, hπ⟩ :=
     exists_almostSimple h.core h.catalog hL h.sylow (h.P_le_normalizer hL)
   have hPL : P ≤ L ⊔ P := le_sup_right
@@ -108,7 +108,7 @@ private theorem false_exists_psi (h : Case2Data p P T D F x) {L : Subgroup Y} (h
 
 theorem false_of_abelian (h : Case2Data p P T D F x) (hK : KFactWeakClosureRank2)
     {L : Subgroup Y} (hL : IsComponentOf L ⊤) (hC : P ⊓ centralizer (L : Set Y) = zOf T) : False := by
-  haveI := h.fact
+  have := h.fact
   obtain ⟨X, _, _, K, Q, ψ, hKn, hKs, hKnab, hKcat, hKc, hKdvd, hKsup, hker, hrange, hwc⟩ :=
     h.false_exists_psi hL
   have hker' : ∀ a : ↥P, ψ a = 1 ↔ (a : Y) ∈ zOf T := by
@@ -184,7 +184,7 @@ theorem false_of_abelian (h : Case2Data p P T D F x) (hK : KFactWeakClosureRank2
 
 theorem false_of_faithful (h : Case2Data p P T D F x) (h123 : KFactWeakClosureHeis)
     {L : Subgroup Y} (hL : IsComponentOf L ⊤) (hC : P ⊓ centralizer (L : Set Y) = ⊥) : False := by
-  haveI := h.fact
+  have := h.fact
   obtain ⟨X, _, _, K, Q, ψ, hKn, hKs, hKnab, hKcat, hKc, hKdvd, hKsup, hker, hrange, hwc⟩ :=
     h.false_exists_psi hL
   have hinj : Function.Injective ψ := by
@@ -212,8 +212,8 @@ theorem false_of_faithful (h : Case2Data p P T D F x) (h123 : KFactWeakClosureHe
     intro q
     simp only [hQ₁, Subgroup.mem_map, Subgroup.mem_subgroupOf]
   have hcyc : IsCyclic ↥Q₀ := by
-    haveI := h.pdata.D_cyc
-    haveI : IsCyclic ↥(D.subgroupOf P) :=
+    have := h.pdata.D_cyc
+    have : IsCyclic ↥(D.subgroupOf P) :=
       isCyclic_of_surjective (Subgroup.subgroupOfEquivOfLe h.pdata.D_le).symm
         (Subgroup.subgroupOfEquivOfLe h.pdata.D_le).symm.surjective
     exact isCyclic_of_surjective (ψ.subgroupMap (D.subgroupOf P))

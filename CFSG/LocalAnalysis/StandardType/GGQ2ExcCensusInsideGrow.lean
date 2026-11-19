@@ -62,7 +62,7 @@ private theorem imgN_fold_testBit (u : Root m) (c : ℕ) :
     intro x
     rw [Nat.fold_succ]
     by_cases hc : c.testBit n = true
-    · rw [if_pos hc, Nat.testBit_lor, Bool.or_eq_true, ih, Nat.one_shiftLeft,
+    · rw [ite_eq_left hc, Nat.testBit_lor, Bool.or_eq_true, ih, Nat.one_shiftLeft,
         Nat.testBit_two_pow, decide_eq_true_eq]
       constructor
       · rintro (⟨s, hs, hcs, hrt⟩ | hrt)
@@ -72,7 +72,7 @@ private theorem imgN_fold_testBit (u : Root m) (c : ℕ) :
         rcases Nat.lt_succ_iff_lt_or_eq.mp hs with hs' | rfl
         · exact Or.inl ⟨s, hs', hcs, hrt⟩
         · exact Or.inr hrt
-    · rw [if_neg hc, ih]
+    · rw [ite_eq_right hc, ih]
       constructor
       · rintro ⟨s, hs, hcs, hrt⟩
         exact ⟨s, by omega, hcs, hrt⟩
@@ -152,7 +152,7 @@ private theorem closN_fold_testBit {c : ℕ} (t : ℕ) :
     intro hn
     rw [Nat.fold_succ]
     by_cases hcond : Chk.subN c (T.zm[n]!) = true
-    · rw [if_pos hcond, Nat.testBit_and, Bool.and_eq_true, ih (by omega)]
+    · rw [ite_eq_left hcond, Nat.testBit_and, Bool.and_eq_true, ih (by omega)]
       constructor
       · rintro ⟨⟨ht, hall⟩, hbit⟩
         refine ⟨ht, ?_⟩
@@ -165,7 +165,7 @@ private theorem closN_fold_testBit {c : ℕ} (t : ℕ) :
         · intro v hv hsub
           exact hall v (by omega) hsub
         · exact hall n (Nat.lt_succ_self n) hcond
-    · rw [if_neg hcond, ih (by omega)]
+    · rw [ite_eq_right hcond, ih (by omega)]
       constructor
       · rintro ⟨ht, hall⟩
         refine ⟨ht, ?_⟩
@@ -216,9 +216,9 @@ private theorem growN_fold_mono {c' S : ℕ} :
     intro x hx
     rw [Nat.fold_succ]
     by_cases hbit : S.testBit n = true
-    · rw [if_pos hbit, Nat.testBit_lor, ih x hx]
+    · rw [ite_eq_left hbit, Nat.testBit_lor, ih x hx]
       rfl
-    · rw [if_neg hbit]
+    · rw [ite_eq_right hbit]
       exact ih x hx
 
 private theorem growN_mono {c' S x : ℕ} (hS : S.testBit x = true) :

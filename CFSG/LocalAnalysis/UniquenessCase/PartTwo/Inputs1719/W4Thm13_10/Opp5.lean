@@ -143,11 +143,11 @@ theorem opp_five_eq_sup {W : Type} [CommGroup W] [Finite W]
     have hdvd : 5 ∣ Nat.card ↥M := by rw [hcard]; norm_num
     obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' 5 hdvd
     have hMleOppM : M ≤ Opp 5 M := by
-      haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
-      haveI : IsSimpleGroup ↥M := MulEquiv.isSimpleGroup e
+      have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
+      have : IsSimpleGroup ↥M := MulEquiv.isSimpleGroup e
       let O : Subgroup ↥M := (Opp 5 M).subgroupOf M
       have hOn : O.Normal := CFSG.LocalAnalysis.UniquenessCase.UC22.F09.normal_opp_subgroupOf 5 M
-      haveI : O.Normal := hOn
+      have : O.Normal := hOn
       have hgO : g ∈ O := by
         rw [Subgroup.mem_subgroupOf]
         exact Subgroup.subset_closure ⟨g.2, 1, by rw [pow_one, Subgroup.orderOf_coe]; exact hg⟩

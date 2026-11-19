@@ -20,7 +20,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem exists_orderOf_eq_two_of_isElementaryAbelian {E : Subgroup G}
     (hE : IsElementaryAbelian 2 ↥E) (hE2 : 2 ≤ Nat.card E) : ∃ a ∈ E, orderOf a = 2 := by
-  haveI := hE
+  have := hE
   have hnt : Nontrivial ↥E := Finite.one_lt_card_iff_nontrivial.mp (by omega)
   obtain ⟨⟨a, haE⟩, ha1⟩ := exists_ne (1 : ↥E)
   refine ⟨a, haE, ?_⟩
@@ -63,7 +63,7 @@ theorem sup_oddCoreIn_ambientCanonicalLift {H K : Subgroup G}
     Subgroup.mem_map_of_mem H.subtype hxker
   have hconjH : ∀ (g : ↥H) (y : G), y ∈ FooteLit.oddCoreIn H →
       (g : G) * y * (g : G)⁻¹ ∈ FooteLit.oddCoreIn H := by
-    haveI : (pPrimeCore 2 ↥H).Normal := CFSG.pPrimeCore_normal
+    have : (pPrimeCore 2 ↥H).Normal := CFSG.pPrimeCore_normal
     intro g y hy
     obtain ⟨yH, hyH, rfl⟩ := Subgroup.mem_map.mp hy
     exact Subgroup.mem_map_of_mem H.subtype (Subgroup.Normal.conj_mem inferInstance yH hyH g)
@@ -78,7 +78,7 @@ theorem sup_oddCoreIn_ambientCanonicalLift {H K : Subgroup G}
       have h1 := hconjH ⟨h, hh⟩⁻¹ (h * y * h⁻¹) hy
       have h2 : (↑(⟨h, hh⟩⁻¹ : ↥H) : G) * (h * y * h⁻¹) *
           (↑(⟨h, hh⟩⁻¹ : ↥H) : G)⁻¹ = y := by
-        simp only [Subgroup.coe_inv, Subgroup.coe_mk, inv_inv]
+        simp only [Subgroup.coe_inv, inv_inv]
         group
       rwa [h2] at h1
   have hNJodd : Odd (Nat.card ↥(ambientCanonicalLift H A ⊓ FooteLit.oddCoreIn H)) :=
@@ -104,7 +104,7 @@ theorem three_le_pRank_centralizer_map_fixedShadowAt {H K E : Subgroup G} (hKH :
       (QuotientGroup.mk' (pPrimeCore 2 ↥H)) : Subgroup (↥H ⧸ pPrimeCore 2 ↥H)) :
         Set (↥H ⧸ pPrimeCore 2 ↥H))) := by
   classical
-  haveI hEinst : IsElementaryAbelian 2 ↥E := hE
+  have hEinst : IsElementaryAbelian 2 ↥E := hE
   let π : ↥H →* (↥H ⧸ pPrimeCore 2 ↥H) := QuotientGroup.mk' (pPrimeCore 2 ↥H)
   let Ka : Subgroup G := fixedShadowAt K (a : G)
   let W : Subgroup ↥H := Ka.subgroupOf H
@@ -336,7 +336,7 @@ private theorem marked_inf_coreActionKernel_le_oddCoreIn {T : Type} [Group T] [I
   have hQ : CFSG.IsQuasisimple (↥K ⧸ pPrimeCore 2 ↥K) := hK.2.quotient_quasisimple hFam
   have hZ : Subgroup.center (↥K ⧸ pPrimeCore 2 ↥K) = ⊥ := by
     obtain ⟨e⟩ := hK.2.2.1
-    haveI hQs : IsSimpleGroup (↥K ⧸ pPrimeCore 2 ↥K) := e.isSimpleGroup
+    have hQs : IsSimpleGroup (↥K ⧸ pPrimeCore 2 ↥K) := e.isSimpleGroup
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
       (Subgroup.center (↥K ⧸ pPrimeCore 2 ↥K)) with h | h
     · exact h
@@ -356,7 +356,7 @@ theorem exists_isElementaryAbelian_le_base {T : Type} [Group T] [IsSimpleGroup T
     ∃ E : Subgroup G, E ≤ base N ∧ E ≤ UnbalancedLayer.coreActionKernel K ∧
       IsElementaryAbelian 2 ↥E ∧ 8 ≤ Nat.card E := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hfour : ∀ J ∈ markedComponents 𝓢 T N, ∃ V : Subgroup G, V ≤ J ∧ IsKleinFour ↥V := by
     intro J hJ
     obtain ⟨e⟩ := hJ.2.2.1
@@ -376,9 +376,9 @@ theorem exists_isElementaryAbelian_le_base {T : Type} [Group T] [IsSimpleGroup T
         IsElementaryAbelian 2 ↥E ∧ 8 ≤ Nat.card E := by
     intro V v hV hv2 hv_notin hVcent hVbase hvbase hVK hvK
     have hvpow : v ^ 2 = 1 := by rw [← hv2]; exact pow_orderOf_eq_one v
-    haveI hVea : IsElementaryAbelian 2 ↥V :=
+    have hVea : IsElementaryAbelian 2 ↥V :=
       (CFSG.ComponentClassification.Sol76.Sig.isElemAbelian_of_isKleinFour hV).isElementaryAbelian
-    haveI hzpea : IsElementaryAbelian 2 ↥(Subgroup.zpowers v) :=
+    have hzpea : IsElementaryAbelian 2 ↥(Subgroup.zpowers v) :=
       IsElementaryAbelian.zpowers_of_pow_eq_one (p := 2) (x := v) hvpow
     have hcV : V ≤ Subgroup.centralizer (Subgroup.zpowers v : Set G) := by
       rw [Subgroup.le_centralizer_iff]
@@ -423,9 +423,9 @@ theorem exists_isElementaryAbelian_le_base {T : Type} [Group T] [IsSimpleGroup T
       (Set.one_lt_ncard (Set.toFinite _)).mp
         (by
           have hdiff : (markedComponents 𝓢 T N \ {K}).ncard =
-              (markedComponents 𝓢 T N).ncard - 1 := Set.ncard_diff_singleton_of_mem hK
+              (markedComponents 𝓢 T N).ncard - 1 := Set.ncard_sdiff_singleton_of_mem hK
           omega : 1 < (markedComponents 𝓢 T N \ {K}).ncard)
-    rw [Set.mem_diff, Set.mem_singleton_iff] at hK₁ hK₂
+    rw [Set.mem_sdiff, Set.mem_singleton_iff] at hK₁ hK₂
     obtain ⟨hK₁d, hK₁ne⟩ := hK₁
     obtain ⟨hK₂d, hK₂ne⟩ := hK₂
     obtain ⟨V, hVK₁, hV⟩ := hfour K₁ hK₁d
@@ -443,12 +443,12 @@ theorem exists_isElementaryAbelian_le_base {T : Type} [Group T] [IsSimpleGroup T
       by_contra hodd
       have hodd' : Odd (Nat.card (↥K₂ ⧸ pPrimeCore 2 ↥K₂)) := Nat.not_even_iff_odd.mp hodd
       have hsolv : Group.IsSolvable (↥K₂ ⧸ pPrimeCore 2 ↥K₂) := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hodd'
-      haveI hperf : Group.IsPerfect (↥K₂ ⧸ pPrimeCore 2 ↥K₂) := hqK₂.1
-      haveI hnt : Nontrivial (↥K₂ ⧸ pPrimeCore 2 ↥K₂) :=
+      have hperf : Group.IsPerfect (↥K₂ ⧸ pPrimeCore 2 ↥K₂) := hqK₂.1
+      have hnt : Nontrivial (↥K₂ ⧸ pPrimeCore 2 ↥K₂) :=
         CFSG.LocalCores.isQuasisimple_nontrivial hqK₂
       exact Group.IsPerfect.not_isSolvable _ hsolv
     have hK₂even : Even (Nat.card ↥K₂) := by
-      haveI : (pPrimeCore 2 ↥K₂).Normal := CFSG.pPrimeCore_normal
+      have : (pPrimeCore 2 ↥K₂).Normal := CFSG.pPrimeCore_normal
       rw [Subgroup.card_eq_card_quotient_mul_card_subgroup (pPrimeCore 2 ↥K₂)]
       obtain ⟨m, hm⟩ := hQeven
       exact ⟨m * Nat.card (pPrimeCore 2 ↥K₂), by rw [hm]; ring⟩
@@ -464,7 +464,7 @@ theorem exists_isElementaryAbelian_le_base {T : Type} [Group T] [IsSimpleGroup T
       exact (Nat.not_even_iff_odd.mpr hsup) hK₂even
     have hFeven : Even (Nat.card ↥(fixedShadow K₂ V)) := Nat.not_odd_iff_even.mp hFodd_contra
     obtain ⟨v, hvF, hv2⟩ : ∃ v ∈ fixedShadow K₂ V, orderOf v = 2 := by
-      haveI : Fintype ↥(fixedShadow K₂ V) := Fintype.ofFinite _
+      have : Fintype ↥(fixedShadow K₂ V) := Fintype.ofFinite _
       obtain ⟨v, hv⟩ := exists_prime_orderOf_dvd_card
         (G := ↥(fixedShadow K₂ V)) 2
         (by rw [← Nat.card_eq_fintype_card]; exact even_iff_two_dvd.mp hFeven)
@@ -492,7 +492,7 @@ theorem exists_isElementaryAbelian_le_base {T : Type} [Group T] [IsSimpleGroup T
       Set.exists_ne_of_one_lt_ncard (by omega : 1 < (markedComponents 𝓢 T N).ncard) K
     obtain ⟨z, hzK, hz2⟩ : ∃ z ∈ baseKernel 𝓢 T N, orderOf z = 2 := by
       have h2 : 2 ∣ Nat.card ↥(baseKernel 𝓢 T N) := even_iff_two_dvd.mp heven
-      haveI : Fintype ↥(baseKernel 𝓢 T N) := Fintype.ofFinite _
+      have : Fintype ↥(baseKernel 𝓢 T N) := Fintype.ofFinite _
       obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card
         (G := ↥(baseKernel 𝓢 T N)) 2
         (by rw [← Nat.card_eq_fintype_card]; exact even_iff_two_dvd.mp heven)

@@ -234,9 +234,9 @@ theorem s16k_sl_two_equiv {n : ℕ} (hn : 3 ≤ n) {X : Type} [Group X] [Finite 
           (FFModel.nat (StatedSL n K₂)) π₁ π₂) := by
   classical
   obtain ⟨K', hK'field, hK'fin, hK'card, ⟨eX⟩⟩ := hX
-  haveI : Fintype K₁ := Fintype.ofFinite K₁
-  haveI : Fintype K₂ := Fintype.ofFinite K₂
-  haveI : Fintype K' := Fintype.ofFinite K'
+  have : Fintype K₁ := Fintype.ofFinite K₁
+  have : Fintype K₂ := Fintype.ofFinite K₂
+  have : Fintype K' := Fintype.ofFinite K'
   have hK' : Nat.card K' = 2 := by simpa using hK'card
   let e₁ : K₁ ≃+* ZMod 2 := FiniteField.ringEquivOfCardEq (by
     rw [Fintype.card_eq_nat_card, Fintype.card_eq_nat_card, h₁, Nat.card_zmod])

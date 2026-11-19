@@ -22,10 +22,10 @@ open scoped MatrixGroups commutatorElement
 
 theorem ggTwE6A3LayerInput_holds : GGTwE6A3LayerInput := by
   intro n hn h3 K _ _ σ hK hσ Fr hFr v hv g0 hg0C hg0 α β hα hβ hαβ ζ hζ hζ1 ta hta tb htb hta' htb'
-  haveI : CharP K 2 := CFSG.StandardType.charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP K 2 := CFSG.StandardType.charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hζo : orderOf ζ = 3 := orderOf_eq_prime hζ hζ1
   set L := AlgebraicClosure K with hL
   set D := LangDatum.ofTwist TwistTag.E6 Fr (2 ^ n) hFr v hg0C hg0 with hD
@@ -74,9 +74,9 @@ theorem ggTwE6A3LayerInput_holds : GGTwE6A3LayerInput := by
     (twThetaHom_injective g0).comp (Subgroup.subtype_injective _)
   have hrange : Θ.range = D.Γ := range_twThetaHom_eq_Γ hn hK hσ Fr hFr v g0 hg0C hg0
   have hdα : rootDiagUnit TwistTag.E6.tag (zetaVec ζ hζ (kgExpVec α)) = twThetaHom g0 ta := by
-    rw [twThetaHom_apply, hta', corootTuple_eq_zetaVec_kg ζ hζ α] <;> rfl
+    rw [twThetaHom_apply, hta', corootTuple_eq_zetaVec_kg ζ hζ α]; rfl
   have hdβ : rootDiagUnit TwistTag.E6.tag (zetaVec ζ hζ (kgExpVec β)) = twThetaHom g0 tb := by
-    rw [twThetaHom_apply, htb', corootTuple_eq_zetaVec_kg ζ hζ β] <;> rfl
+    rw [twThetaHom_apply, htb', corootTuple_eq_zetaVec_kg ζ hζ β]; rfl
   have key : ∀ (t : ModGL TwistTag.E6.tag K) (a : Fin Tag.E6.rank → Lˣ),
       rootDiagUnit TwistTag.E6.tag a = twThetaHom g0 t → ∀ c : ModGL TwistTag.E6.tag K,
         (rootDiagUnit TwistTag.E6.tag a * twThetaHom g0 c * (rootDiagUnit TwistTag.E6.tag a)⁻¹ =

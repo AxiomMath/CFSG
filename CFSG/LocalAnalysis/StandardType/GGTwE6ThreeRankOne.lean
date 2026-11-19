@@ -32,7 +32,7 @@ theorem nonempty_ggOTwoPrime_mulEquiv_sl2_of_map_eq {U V : Type} [Group U] [Fini
   classical
   obtain ⟨e⟩ := hD
   let Q : Subgroup U := ggOTwoPrime C
-  haveI : Finite ↥Q := Finite.of_injective Q.subtype Q.subtype_injective
+  have : Finite ↥Q := Finite.of_injective Q.subtype Q.subtype_injective
   let f₀ : ↥Q →* ↥D := (π.comp Q.subtype).codRestrict D fun x =>
     le_of_eq hmap (Subgroup.mem_map_of_mem (K := ggOTwoPrime C) π x.2)
   have hf₀ : Function.Surjective f₀ := by
@@ -155,14 +155,14 @@ theorem exists_ggOTwoPrime_ggHypCent_mulEquiv_sl2_twE6Three {n : ℕ} (hn : 3 �
       OneMemClass.coe_eq_one]
   have hπc : π.ker ≤ Subgroup.center L' := by rw [hπker]; exact hTB.2.1
   have hπo : Odd (Nat.card π.ker) := by rw [hπker]; exact hodd
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
     (by rw [Fintype.card_eq_nat_card, hK, ← pow_mul, mul_comm])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have hcard : Nat.card ↥(ggKGTj_F F.Fr F.fr_eq) = 2 ^ n := ggKGTj_card_F hK hσ F.Fr F.fr_eq
-  haveI : Finite ↥(ggKGTj_F F.Fr F.fr_eq) :=
+  have : Finite ↥(ggKGTj_F F.Fr F.fr_eq) :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; positivity)
   obtain ⟨e₁⟩ := nonempty_ggKGTwJ_mulEquiv_SL2 hK hσ F hv hγ
   have h8 : 2 ^ 3 ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn
@@ -342,7 +342,7 @@ theorem ggRk1ConclEx_of_twE6Three_nbr (hRig : GGLabelRigidInput) (hRk : GGTwE6Th
     (hcfg : GGConfig p B Bs x L D J) {X : Subgroup G} (hX : X = L ∨ ∃ y : G, GGNbr p B x D J y X)
     (hnsX : ¬ GGSplitLie p X) (hp3 : p = 3)
     (hmark : GGInnerDiagOnLabel (fun p lab => ggRowP_ETwE6 p lab ∧ 2 ≤ lab.n) p Bs X) :
-    ∀ r ∈ ggAutomizer X Bs, GGIsReflection p r → GGRk1ConclEx p Bs X r := fun r hrA hrR =>
+    ∀ _r ∈ ggAutomizer X Bs, GGIsReflection p _r → GGRk1ConclEx p Bs X _r := fun _r hrA hrR =>
   ggRk1ConclEx_of_twE6Three_iso hRig hnsX hrA hrR
     (exists_ggRankOneIn_mulEquiv_sl2_of_twE6Three_nbr hRk hcfg hp3 hX hmark hrA hrR)
 

@@ -107,7 +107,7 @@ theorem isLocallyOTwoBalanced_mono (p k : ℕ) {K : Type*} [Group K] {A A' : Sub
   fun D hD => h D ⟨hD.1.trans hA, hD.2⟩
 
 theorem isElemAbelian_map_of_injective {p : ℕ} {M N : Type*} [Group M] [Group N] {S : Subgroup M}
-    (f : M →* N) (hf : Function.Injective f) (h : IsElemAbelian p S) :
+    (f : M →* N) (_hf : Function.Injective f) (h : IsElemAbelian p S) :
     IsElemAbelian p (S.map f) := by
   obtain ⟨hc, hx⟩ := h
   refine ⟨?_, ?_⟩
@@ -150,6 +150,7 @@ theorem coprime_card_of_forall_orderOf_ne {p : ℕ} [hp : Fact p.Prime] {S : Sub
   rw [← Subgroup.orderOf_coe] at hy
   exact hy
 
+omit [Finite G] in
 theorem orderOf_ne_of_coprime_card {p : ℕ} (hp : p.Prime) {S : Subgroup G} {x : G} (hx : x ∈ S)
     (hS : Nat.Coprime p (Nat.card S)) : orderOf x ≠ p := by
   intro h
@@ -164,6 +165,7 @@ noncomputable def barOfHom {p : ℕ} [Fact p.Prime] {H J : Subgroup G} (hJH : J 
   (QuotientGroup.mk' (GLAPPrimeCore p ↥(barX p H J))).comp (barHom p hJH)
 
 open CFSG.HardMathSupport.Timmesfeld.Balance in
+omit [Finite G] in
 theorem barOfHom_surjective {p : ℕ} [Fact p.Prime] {H J : Subgroup G} (hJH : J ≤ H) :
     Function.Surjective (barOfHom (p := p) hJH) :=
   (QuotientGroup.mk'_surjective _).comp (barHom_surjective p hJH)
@@ -231,6 +233,7 @@ theorem ker_barOfHom {p : ℕ} [hp : Fact p.Prime] {H J : Subgroup G} (hJH : J �
       exact le_sSup ⟨hnorm, hcop⟩
     exact hN ⟨x, hx, rfl⟩
 
+omit [Finite G] in
 theorem barX_conj_mem {p : ℕ} [Fact p.Prime] {H J : Subgroup G} {g : G} (hgH : g ∈ H)
     (hgJ : g ∈ Subgroup.normalizer (J : Set G)) (z : ↥H ⧸ GLAPPrimeCore p ↥H)
     (hz : z ∈ barX p H J) :
@@ -246,6 +249,7 @@ theorem barX_conj_mem {p : ℕ} [Fact p.Prime] {H J : Subgroup G} {g : G} (hgH :
       simp
     rw [e, QuotientGroup.mk_mul, QuotientGroup.mk_mul, QuotientGroup.mk_inv]
 
+omit [Finite G] in
 theorem mk_mem_normalizer_barX {p : ℕ} [Fact p.Prime] {H J : Subgroup G} {g : G} (hgH : g ∈ H)
     (hgJ : g ∈ Subgroup.normalizer (J : Set G)) :
     (QuotientGroup.mk (⟨g, hgH⟩ : ↥H) : ↥H ⧸ GLAPPrimeCore p ↥H) ∈
@@ -327,10 +331,10 @@ end BarOfIso
 
 
 @[expose] def Ident : Prop :=
-  ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A : Subgroup G} (h : Sec11 G m p B M E A)
-    {a e : G} (ha : a ∈ A) (ha1 : a ≠ 1) (he : e ∈ E ⊓ A) (he1 : e ≠ 1) {J : Subgroup G}
-    (hJ : GLAPComponent p (Cg2 e a) J) {K : Subgroup G} (hK : GLAPComponent p (Cg e) K)
-    (hJK : (⨆ g ∈ GLAPLayer p (Cg e), GLBConj g J) ≤ ⨆ g ∈ A, GLBConj g K) (haC : a ∈ Cg e),
+  ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A : Subgroup G} (_h : Sec11 G m p B M E A)
+    {a e : G} (_ha : a ∈ A) (_ha1 : a ≠ 1) (_he : e ∈ E ⊓ A) (_he1 : e ≠ 1) {J : Subgroup G}
+    (_hJ : GLAPComponent p (Cg2 e a) J) {K : Subgroup G} (_hK : GLAPComponent p (Cg e) K)
+    (_hJK : (⨆ g ∈ GLAPLayer p (Cg e), GLBConj g J) ≤ ⨆ g ∈ A, GLBConj g K) (haC : a ∈ Cg e),
     GLAPComponent p
       (GLAPLayer p ((⨆ g ∈ barX p (Cg e) A, GLBConj g (barX p (Cg e) K)) ⊓
         Subgroup.centralizer ({QuotientGroup.mk' (GLAPPrimeCore p ↥(Cg e)) (⟨a, haC⟩ : ↥(Cg e))} :
@@ -348,8 +352,8 @@ theorem prop115_of_inputs (hI18 : Prop115.Input18_3Gen) (hI27 : Prop115.Input27_
   obtain ⟨hnot_J, hnot_D⟩ := hcon
   have hS : GLStanding G m p := h.standing
   have hp : p.Prime := hS.prime
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsSimpleGroup G := hS.simple
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsSimpleGroup G := hS.simple
   have hp2 : p ≠ 2 := hS.ne_two
 
   have hE𝒟 : inD p M E := h.pair.1.1

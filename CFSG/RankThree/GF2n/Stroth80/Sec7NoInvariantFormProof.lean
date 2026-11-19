@@ -32,7 +32,7 @@ theorem noInvariantForm_frame_hom {K : Type} [Field K] [Finite K] [CharP K 2]
     intro y hy a
     rw [ker_viaMatrix] at hy
     exact hker y hy a
-  letI : DistribMulAction (Gom (quadPlus 3 K)) Y := descendAction _ hΦ hk
+  let : DistribMulAction (Gom (quadPlus 3 K)) Y := descendAction _ hΦ hk
   have hsm : ∀ (z : R) (a : Y),
       viaMatrix (StatedOmega (StatedQuadPlus 3 K)) E.equiv φ hφ z • a = z • a := fun z a =>
     descendAction_smul _ hΦ hk z a

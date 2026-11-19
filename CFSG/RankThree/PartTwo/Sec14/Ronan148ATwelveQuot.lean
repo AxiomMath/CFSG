@@ -39,6 +39,7 @@ section Group
 
 variable {Q : Type} [Group Q] [Finite Q]
 
+omit [Finite Q] in
 theorem false_of_commuting_twoLocal_quot (hQ : NoE81TwoLocal Q) {J T E₁ E₂ : Subgroup Q}
     (hT : T ≠ ⊥) (hT2 : IsPGroup 2 T) (hTJ : T ≤ J) (hE₁J : E₁ ≤ J)
     (hE₁T : E₁ ≤ Subgroup.normalizer (T : Set Q)) (hE₁ : CFSG.Open.IsElemAbelian 3 E₁)
@@ -164,6 +165,7 @@ theorem map_conj_eq_of_tripleCover_ON_quot
     (CFSG.SectionRank.isElemAbelian_map hE _) hFJ hF hFZ ?_ x
   rw [Subgroup.card_map_of_injective hinj, hEc, hFc]
 
+omit [Finite Q] in
 theorem normal_of_forall_map_conj_eq {J : Subgroup Q}
     (h : ∀ x : Q, J.map (MulAut.conj x).toMonoidHom = J) : J.Normal := by
   refine ⟨fun n hn g => ?_⟩
@@ -176,7 +178,7 @@ theorem card_outer_dvd_four_of_tripleCover_ON
     {X : Type*} [Group X]
     (hX : Sec4.IsTripleCover X CFSG.Blueprint.NativeSporadic.ON) (hXp : Group.IsPerfect X) :
     Nat.card (CFSG.ComponentClassification.OuterAutomorphisms.Outer X) ∣ 4 := by
-  haveI := hXp
+  have := hXp
   obtain ⟨-, ⟨e⟩⟩ := hX
   have hinj := CFSG.ComponentClassification.OuterAutomorphisms.centerQuotient_outer_injective X
   set f := (CFSG.ComponentClassification.OuterAutomorphisms.equivalence e).toMonoidHom.comp
@@ -210,6 +212,7 @@ section Count
 
 variable {R : Type} [Group R] [Finite R]
 
+omit [Finite R] in
 theorem card_subgroupOf_dvd {X W : Subgroup R} : Nat.card (W.subgroupOf X) ∣ Nat.card W := by
   let f : ↥(W.subgroupOf X) →* ↥W :=
     { toFun := fun x => ⟨((x : X) : R), Subgroup.mem_subgroupOf.mp x.2⟩
@@ -219,6 +222,7 @@ theorem card_subgroupOf_dvd {X W : Subgroup R} : Nat.card (W.subgroupOf X) ∣ N
     apply Subtype.ext; apply Subtype.ext
     exact congrArg (fun z : ↥W => (z : R)) hxy
 
+omit [Finite R] in
 theorem commutator_mem_of_mul_mem {X V W : Subgroup R} (hXW : X ≤ Subgroup.normalizer (W : Set R))
     (hXV : ⁅X, V⁆ ≤ W) {x v : R} (hv : v ∈ V) (hxv : x * v ∈ W) {x₁ : R} (hx₁ : x₁ ∈ X) :
     x₁ * x * x₁⁻¹ * x⁻¹ ∈ W := by
@@ -233,6 +237,7 @@ theorem commutator_mem_of_mul_mem {X V W : Subgroup R} (hXW : X ≤ Subgroup.nor
   rw [e]
   exact W.mul_mem (W.mul_mem h1 h2) (W.inv_mem hxv)
 
+omit [Finite R] in
 theorem map_eq_one_of_commutator_mem {X W : Subgroup R} (hXW : X ≤ Subgroup.normalizer (W : Set R))
     (hW3 : ¬ 3 ∣ Nat.card W) {S : Type} [Group S] [Finite S] (hS : IsSimpleGroup S)
     (h3S : 3 ∣ Nat.card S) (hSab : ∃ a b : S, a * b ≠ b * a) (f : ↥X →* S)
@@ -244,7 +249,7 @@ theorem map_eq_one_of_commutator_mem {X W : Subgroup R} (hXW : X ≤ Subgroup.no
     simpa using (Subgroup.mem_normalizer_iff.mp (hXW g.2) n).mp hn
   have hmapN : ((W.subgroupOf X).map f).Normal := hnorm.map f hf
   have hbot : (W.subgroupOf X).map f = ⊥ := by
-    haveI := hmapN
+    have := hmapN
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((W.subgroupOf X).map f) with h | h
     · exact h
     · exfalso
@@ -285,7 +290,7 @@ theorem card_mul_card_dvd_of_commutator_le {X V W : Subgroup R}
   set Nm := Subgroup.normalizer (W : Set R) with hNm
   set H := X ⊔ V ⊔ W with hH
   have hHN : H ≤ Nm := sup_le (sup_le hXW hVW) Subgroup.le_normalizer
-  haveI hWn : (W.subgroupOf Nm).Normal := Subgroup.normal_in_normalizer
+  have hWn : (W.subgroupOf Nm).Normal := Subgroup.normal_in_normalizer
   set π := QuotientGroup.mk' (W.subgroupOf Nm) with hπ
   have hπW : ∀ y : ↥Nm, π y = 1 ↔ (y : R) ∈ W := fun y => by
     rw [hπ, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf]

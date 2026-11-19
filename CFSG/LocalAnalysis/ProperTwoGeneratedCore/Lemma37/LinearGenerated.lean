@@ -47,7 +47,7 @@ theorem isSolvable_normalizer_sylow {X : Type*} [Group X] [Finite X] (P : Sylow 
   set P' := (P : Subgroup X).subgroupOf N
   have : P'.Normal := Subgroup.normal_in_normalizer
   have h2 : IsPGroup 2 P' := fun g => by
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨((g : N) : X), g.2⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨((g : N) : X), g.2⟩
     refine ⟨k, Subtype.ext (Subtype.ext ?_)⟩
     simpa using congrArg Subtype.val hk
   have : Group.IsNilpotent P' := h2.isNilpotent

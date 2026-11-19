@@ -37,7 +37,7 @@ theorem pCoreOf_eq_of_sylow {P : Type} [Group P] [Finite P] {p : ℕ} [Fact p.Pr
     (hle : N ≤ Subgroup.normalizer (U : Set P)) : CFSG.Open.pCoreOf p N = U := by
   have hUp : IsPGroup p U := by
     rw [← hS]
-    exact S.isPGroup'
+    exact S.isPGroup
   apply le_antisymm
   · have hQ : IsPGroup p (CFSG.Open.pCoreOf p N) := CFSG.LieType.BorelTits.pCoreOf_isPGroup p N
     have hQN := CFSG.LieType.BorelTits.pCoreOf_le p N

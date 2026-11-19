@@ -35,7 +35,7 @@ theorem mRun_flag {g0 g1 : Perm Pt} {extra : Nat} {prog : List Instr}
         rw [getElem!_pos _ r (by rw [hsize]; omega), Array.getElem_append_right (by omega)]
         simp
       rw [e]
-      simp only [regsG, if_neg (by omega : r ≠ 0), if_neg (by omega : r ≠ 1)]
+      simp only [regsG, ite_eq_right (by omega : r ≠ 0), ite_eq_right (by omega : r ≠ 1)]
       exact Rep.idT hn
   have hprog' : ∀ ins ∈ prog, instrRegsLt regsT.size ins := by
     rw [hsize]

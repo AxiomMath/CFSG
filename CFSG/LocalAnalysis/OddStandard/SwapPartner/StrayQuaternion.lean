@@ -12,9 +12,9 @@ theorem false_of_quaternion_sylow_of_simple {L : Type*} [Group L] [Finite L]
     (hL : IsSimpleGroup L) (hnab : ∃ x y : L, x * y ≠ y * x) (T : Sylow 2 L) {n : ℕ}
     (hn : 3 ≤ n) (e : Nonempty (↥(T : Subgroup L) ≃* QuaternionGroup (2 ^ (n - 2)))) :
     False := by
-  haveI : IsSimpleGroup L := hL
+  have : IsSimpleGroup L := hL
   have hNpos : 0 < 2 ^ (n - 2) := pow_pos (by norm_num) _
-  haveI : NeZero (2 ^ (n - 2)) := ⟨hNpos.ne'⟩
+  have : NeZero (2 ^ (n - 2)) := ⟨hNpos.ne'⟩
   have hcard : Nat.card ↥(T : Subgroup L) = 4 * 2 ^ (n - 2) := by
     obtain ⟨e'⟩ := e
     calc Nat.card ↥(T : Subgroup L)
@@ -34,7 +34,7 @@ theorem false_of_quaternion_sylow_of_simple {L : Type*} [Group L] [Finite L]
   have hmem := CFSG.Milestones.brauer_suzuki n hn T e t ht_mem ht_ord
   have hodd : CFSG.oddCore L = ⊥ := by
     refine eq_bot_iff.mpr (sSup_le fun N ⟨hN, hNodd⟩ => ?_)
-    haveI := hN
+    have := hN
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal N with h | h
     · exact h.le
     · subst h

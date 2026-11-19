@@ -15,7 +15,7 @@ theorem p10g_E6_ambient
     (hBs : IsElemAbelian 3 Bs) (hcard : Nat.card Bs = 3 ^ n) (hn : 7 ≤ n) (hz : z ∈ Bs)
     (hz1 : z ≠ 1) (hN : Bs ≤ Subgroup.normalizer (K : Set G))
     (hker : Bs ⊓ Subgroup.centralizer (K : Set G) = Subgroup.zpowers z)
-    (hBstar : ∀ g ∈ Subgroup.centralizer (Bs : Set G), g ^ 3 = 1 → g ∈ Bs)
+    (_hBstar : ∀ g ∈ Subgroup.centralizer (Bs : Set G), g ^ 3 = 1 → g ∈ Bs)
     (hK : GGInnerDiagOnLabel (fun _ lab => lab.tag = .E6 ∧ lab.n = 1) 3 Bs K) : False := by
   obtain ⟨hperf, lab, _, hraw⟩ := hK
   obtain ⟨R, _, I, Fd, hQ⟩ := CFSG.StandardType.largeEvenRawDatum_exists hraw

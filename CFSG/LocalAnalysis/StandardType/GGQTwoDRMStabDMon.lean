@@ -29,7 +29,7 @@ private lemma p9uRMDM_mem_U_iff {m : ℕ} {i₀ : Fin m} (v : DVec m) :
       rw [Submodule.span_le]
       rintro x ⟨p, hp, rfl⟩
       rw [SetLike.mem_coe, LinearMap.mem_ker, LinearMap.proj_apply]
-      rw [dBasis, Pi.basisFun_apply, Pi.single_apply, if_neg (Ne.symm hp)]
+      rw [dBasis, Pi.basisFun_apply, Pi.single_apply, ite_eq_right (Ne.symm hp)]
     have h := hker hv
     rwa [LinearMap.mem_ker, LinearMap.proj_apply] at h
   · intro hv
@@ -68,12 +68,12 @@ private lemma p9uRMDM_coord_fix {m : ℕ} {i₀ : Fin m} {w : DVec m ≃ₗ[ZMod
     have h := congrFun (hact i₀) i₀
     rw [hwfix] at h
     simp only [Pi.smul_apply, dBasis, Pi.basisFun_apply, Pi.single_apply] at h
-    rw [if_neg (fun hh : i₀ = σ i₀ => hσ hh.symm), smul_zero] at h
+    rw [ite_eq_right (fun hh : i₀ = σ i₀ => hσ hh.symm), smul_zero] at h
     exact absurd h (by decide)
   have hc0 : c i₀ = 1 := by
     have h := congrFun (hact i₀) i₀
     rw [hwfix, hσ0] at h
-    simp only [Pi.smul_apply, dBasis, Pi.basisFun_apply, Pi.single_eq_same, mul_one] at h
+    simp only [Pi.smul_apply, dBasis, Pi.basisFun_apply, Pi.single_eq_same] at h
     simpa using h.symm
   have hfun : (LinearMap.proj i₀ : DVec m →ₗ[ZMod 3] ZMod 3).comp w.toLinearMap =
       LinearMap.proj i₀ := by
@@ -86,8 +86,8 @@ private lemma p9uRMDM_coord_fix {m : ℕ} {i₀ : Fin m} {w : DVec m ≃ₗ[ZMod
       simp
     · have hσj : σ j ≠ i₀ := fun h => hj (σ.injective (h.trans hσ0.symm))
       simp only [Pi.smul_apply, dBasis, Pi.basisFun_apply, Pi.single_apply]
-      rw [if_neg (fun h : i₀ = σ j => hσj h.symm), smul_zero,
-        if_neg (fun h : i₀ = j => hj h.symm)]
+      rw [ite_eq_right (fun h : i₀ = σ j => hσj h.symm), smul_zero,
+        ite_eq_right (fun h : i₀ = j => hj h.symm)]
   have h := congrArg (fun (f : DVec m →ₗ[ZMod 3] ZMod 3) => f v) hfun
   change (w v) i₀ = v i₀
   simpa only [LinearMap.comp_apply, LinearMap.proj_apply, LinearEquiv.coe_toLinearMap] using h
@@ -111,9 +111,9 @@ private lemma p9uRMDM_U_eq_comm (m : ℕ) (i₀ : Fin m) (hm : 3 ≤ m) :
         show (if true then (-1 : ZMod 3) else 1) = -1 from by decide,
         show (if false then (-1 : ZMod 3) else 1) = 1 from by decide]
       funext i
-      simp only [Pi.add_apply, Pi.sub_apply, Pi.neg_apply, Pi.smul_apply, dBasis,
+      simp only [Pi.add_apply, Pi.sub_apply, Pi.neg_apply, dBasis,
         Pi.basisFun_apply, Pi.single_apply, neg_one_smul, one_smul]
-      split_ifs <;> simp_all <;> decide +kernel
+      split_ifs <;> simp_all; decide +kernel
     rw [hmem]
     refine Submodule.add_mem _ ?_ ?_
     · exact Submodule.subset_span
@@ -126,7 +126,7 @@ private lemma p9uRMDM_U_eq_comm (m : ℕ) (i₀ : Fin m) (hm : 3 ≤ m) :
       rw [Pi.sub_apply, p9uRMDM_coord_fix hw v, sub_self])
 
 private lemma p9uRMDM_map_U {m : ℕ} (hm : 3 ≤ m) {i₀ : Fin m}
-    {a : DVec m ≃ₗ[ZMod 3] DVec m} (hfix : a (dBasis m i₀) = dBasis m i₀)
+    {a : DVec m ≃ₗ[ZMod 3] DVec m} (_hfix : a (dBasis m i₀) = dBasis m i₀)
     (hnorm : ∀ w ∈ dEvenStab m (dBasis m i₀), a * w * a⁻¹ ∈ dEvenStab m (dBasis m i₀)) :
     Submodule.map (a : DVec m →ₗ[ZMod 3] DVec m) (p9uRMDM_U m i₀) = p9uRMDM_U m i₀ := by
   have hle : Submodule.map (a : DVec m →ₗ[ZMod 3] DVec m) (p9uRMDM_U m i₀) ≤
@@ -158,11 +158,11 @@ private noncomputable def p9uRMDM_lift {n : ℕ} (i₀ : Fin (n + 1))
   fun k => if hk : k = i₀ then 1 else u ((finSuccAboveEquiv i₀).symm ⟨k, hk⟩)
 private lemma p9uRMDM_lift_self {n : ℕ} (i₀ : Fin (n + 1)) (u : Fin n → (ZMod 3)ˣ) :
     p9uRMDM_lift i₀ u i₀ = 1 :=
-  dif_pos rfl
+  dite_eq_left rfl
 private lemma p9uRMDM_lift_succAbove {n : ℕ} (i₀ : Fin (n + 1))
     (u : Fin n → (ZMod 3)ˣ) (l : Fin n) :
     p9uRMDM_lift i₀ u (i₀.succAbove l) = u l := by
-  rw [p9uRMDM_lift, dif_neg (Fin.succAbove_ne i₀ l)]
+  rw [p9uRMDM_lift, dite_eq_right (Fin.succAbove_ne i₀ l)]
   congr 1
   rw [show (⟨i₀.succAbove l, Fin.succAbove_ne i₀ l⟩ : {i : Fin (n + 1) // i ≠ i₀}) =
       finSuccAboveEquiv i₀ l from Subtype.ext rfl, Equiv.symm_apply_apply]
@@ -180,27 +180,27 @@ private noncomputable def p9uRMDM_liftVal {n : ℕ} (i₀ : Fin (n + 1))
   fun k => if hk : k = i₀ then 1 else t ((finSuccAboveEquiv i₀).symm ⟨k, hk⟩)
 private lemma p9uRMDM_liftVal_self {n : ℕ} (i₀ : Fin (n + 1)) (t : Fin n → ZMod 3) :
     p9uRMDM_liftVal i₀ t i₀ = 1 :=
-  dif_pos rfl
+  dite_eq_left rfl
 private lemma p9uRMDM_liftVal_succAbove {n : ℕ} (i₀ : Fin (n + 1))
     (t : Fin n → ZMod 3) (l : Fin n) :
     p9uRMDM_liftVal i₀ t (i₀.succAbove l) = t l := by
-  rw [p9uRMDM_liftVal, dif_neg (Fin.succAbove_ne i₀ l)]
+  rw [p9uRMDM_liftVal, dite_eq_right (Fin.succAbove_ne i₀ l)]
   congr 1
   rw [show (⟨i₀.succAbove l, Fin.succAbove_ne i₀ l⟩ : {i : Fin (n + 1) // i ≠ i₀}) =
       finSuccAboveEquiv i₀ l from Subtype.ext rfl, Equiv.symm_apply_apply]
 private lemma p9uRMDM_unitOfSign_val {x : ZMod 3} (hx : x = 1 ∨ x = -1) :
     (((if x = -1 then (-1 : (ZMod 3)ˣ) else 1) : (ZMod 3)ˣ) : ZMod 3) = x := by
   rcases hx with h | h
-  · rw [h, if_neg (by decide : ¬ ((1 : ZMod 3) = -1))]
+  · rw [h, ite_eq_right (by decide : ¬ ((1 : ZMod 3) = -1))]
     rfl
-  · rw [h, if_pos rfl]
+  · rw [h, ite_eq_left rfl]
     rfl
 private lemma p9uRMDM_unitOfSign_or (x : ZMod 3) :
     (((if x = -1 then (-1 : (ZMod 3)ˣ) else 1) : (ZMod 3)ˣ) : ZMod 3) = 1 ∨
       (((if x = -1 then (-1 : (ZMod 3)ˣ) else 1) : (ZMod 3)ˣ) : ZMod 3) = -1 := by
   by_cases h : x = -1
-  · right; rw [if_pos h]; rfl
-  · left; rw [if_neg h]; rfl
+  · right; rw [ite_eq_left h]; rfl
+  · left; rw [ite_eq_right h]; rfl
 private noncomputable def p9uRMDM_monEquiv {n : ℕ} (i₀ : Fin (n + 1))
     (σ : Equiv.Perm (Fin n)) (u : Fin n → (ZMod 3)ˣ) :
     DVec (n + 1) ≃ₗ[ZMod 3] DVec (n + 1) :=
@@ -234,7 +234,7 @@ private lemma p9uRMDM_sigma_fix {m : ℕ} {i₀ : Fin m} {σ : Equiv.Perm (Fin m
   · exfalso
     have h1 := congrFun h i₀
     simp only [Pi.smul_apply, smul_eq_mul, dBasis, Pi.basisFun_apply, Pi.single_apply] at h1
-    rw [if_neg (fun hh : i₀ = σ i₀ => hσ hh.symm)] at h1
+    rw [ite_eq_right (fun hh : i₀ = σ i₀ => hσ hh.symm)] at h1
     simp at h1
 private lemma p9uRMDM_sum_repr {n : ℕ} {i₀ : Fin (n + 1)} {v : DVec (n + 1)}
     (hv : v i₀ = 0) :
@@ -254,7 +254,7 @@ theorem qtwoDRMStab_D_monomial {m : ℕ} (hm : 6 ≤ m) (i₀ : Fin m)
   classical
   obtain ⟨n, rfl⟩ : ∃ n, m = n + 1 := ⟨m - 1, by omega⟩
   have hn : 5 ≤ n := by omega
-  haveI : Fintype (DVec (n + 1) ≃ₗ[ZMod 3] DVec (n + 1)) :=
+  have : Fintype (DVec (n + 1) ≃ₗ[ZMod 3] DVec (n + 1)) :=
     Fintype.ofInjective (fun e : DVec (n + 1) ≃ₗ[ZMod 3] DVec (n + 1) =>
       (e : DVec (n + 1) → DVec (n + 1))) (fun _ _ h => LinearEquiv.ext (congrFun h))
   have hfix' : a (dBasis (n + 1) i₀) = dBasis (n + 1) i₀ := by
@@ -285,7 +285,7 @@ theorem qtwoDRMStab_D_monomial {m : ℕ} (hm : 6 ≤ m) (i₀ : Fin m)
       intro u v huv
       apply Subtype.ext
       have h := congrArg Subtype.val huv
-      simp only [Subtype.coe_mk] at h
+      simp only at h
       exact mul_right_cancel (mul_left_cancel h)
     obtain ⟨u, hu⟩ := Finite.surjective_of_injective hinj ⟨w, hw⟩
     have hval : a * u.1 * a⁻¹ = w := congrArg Subtype.val hu
@@ -325,7 +325,7 @@ theorem qtwoDRMStab_D_monomial {m : ℕ} (hm : 6 ≤ m) (i₀ : Fin m)
     change (∑ j, P j l * a.symm ((dBasis (n + 1) (i₀.succAbove j))) (i₀.succAbove k)) =
       if k = l then 1 else 0
     rw [h]
-    simp [dBasis, Pi.single_apply, Fin.succAbove_right_inj]
+    simp [dBasis, Pi.single_apply]
   have hconj : ∀ (σ : Equiv.Perm (Fin n)) (t : Fin n → ZMod 3), IsSign t →
       ∏ i, t i = 1 →
       ∃ (σ' : Equiv.Perm (Fin n)) (t' : Fin n → ZMod 3), IsSign t' ∧ ∏ i, t' i = 1 ∧
@@ -342,7 +342,7 @@ theorem qtwoDRMStab_D_monomial {m : ℕ} (hm : 6 ≤ m) (i₀ : Fin m)
         change ((p9uRMDM_lift i₀ u k : ZMod 3) = 1 ∨ (p9uRMDM_lift i₀ u k : ZMod 3) = -1)
         by_cases hk : k = i₀
         · subst hk; rw [p9uRMDM_lift_self]; exact Or.inl rfl
-        · rw [p9uRMDM_lift, dif_neg hk]
+        · rw [p9uRMDM_lift, dite_eq_right hk]
           exact p9uRMDM_unitOfSign_or _
       · change (∏ k, (p9uRMDM_lift i₀ u k : ZMod 3)) = 1
         rw [p9uRMDM_prod_lift i₀ u t hu]
@@ -398,7 +398,7 @@ theorem qtwoDRMStab_D_monomial {m : ℕ} (hm : 6 ≤ m) (i₀ : Fin m)
       rw [spMat]
       simp only [dBasis, Pi.basisFun_apply, Pi.single_apply, Fin.succAbove_right_inj]
       by_cases h : k = σ j
-      · simp [h, mul_comm, mul_assoc]
+      · simp [h, mul_comm]
       · simp [h]
     have hB : ∀ k l, (P * spMat σ' t') k l =
         (a ((a⁻¹ * p9uRMDM_monEquiv i₀ σ u * a)
@@ -407,7 +407,7 @@ theorem qtwoDRMStab_D_monomial {m : ℕ} (hm : 6 ≤ m) (i₀ : Fin m)
       rw [Matrix.mul_apply, hactw (i₀.succAbove l), hσ' l, map_smul, Pi.smul_apply,
         smul_eq_mul]
       rw [Finset.sum_eq_single (σ' l)]
-      · rw [spMat, if_pos rfl]
+      · rw [spMat, ite_eq_left rfl]
         change (a (dBasis (n + 1) (i₀.succAbove (σ' l)))) (i₀.succAbove k) * t' l =
           t' l * (a (dBasis (n + 1) (i₀.succAbove (σ' l)))) (i₀.succAbove k)
         ring
@@ -438,9 +438,9 @@ theorem qtwoDRMStab_D_monomial {m : ℕ} (hm : 6 ≤ m) (i₀ : Fin m)
     intro l
     rw [hPcol l, hPσ₁]
     rw [Finset.sum_eq_single (σ₁ l)]
-    · rw [spMat, if_pos rfl]
+    · rw [spMat, ite_eq_left rfl]
     · intro j _ hj
-      rw [spMat, if_neg hj]
+      rw [spMat, ite_eq_right hj]
       simp
     · intro hmem
       exact absurd (Finset.mem_univ (σ₁ l)) hmem
@@ -449,7 +449,7 @@ theorem qtwoDRMStab_D_monomial {m : ℕ} (hm : 6 ≤ m) (i₀ : Fin m)
   · intro k
     by_cases hk : k = i₀
     · subst hk; rw [p9uRMDM_liftVal_self]; exact Or.inl rfl
-    · rw [p9uRMDM_liftVal, dif_neg hk]
+    · rw [p9uRMDM_liftVal, dite_eq_right hk]
       exact ht₁ _
   · intro k
     by_cases hk : k = i₀

@@ -44,7 +44,7 @@ theorem ggTorusTorW_lin_label {p n l : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (h3 :
   have hE : ggTorEnn p ⟨.A, l, n⟩ = 0 := by
     unfold ggTorEnn
     dsimp only
-    rw [if_neg]
+    rw [ite_eq_right]
     intro h
     have h2 : p ∣ (2 ^ n + 1) - (2 ^ n - 1) := Nat.dvd_sub h hM'
     have h3 : (2 ^ n + 1) - (2 ^ n - 1) = 2 := by
@@ -71,7 +71,7 @@ theorem ggTorusTorW_uni_label
   have hE : ggTorEnn p ⟨.twA, l, n⟩ = 1 := by
     unfold ggTorEnn
     dsimp only
-    rw [if_pos hpq]
+    rw [ite_eq_left hpq]
   have hn : 1 ≤ n := hlab.1
   intro Q hQ
   dsimp only [LargeEvenRawDatum] at hQ ⊢

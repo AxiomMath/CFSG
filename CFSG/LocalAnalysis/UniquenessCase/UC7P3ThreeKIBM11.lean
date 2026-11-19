@@ -77,7 +77,7 @@ theorem coverActsTriviallyOnSmall_m11Row {X : Type} [Group X] {K Q S : Subgroup 
       S = Subgroup.closure {a, b})
     (hC : S ⊓ Subgroup.centralizer (Q : Set X) = ⊥) (hirr : ActsIrr S Q) :
     CoverActsTriviallyOnSmall 3 ↥K := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨a, haS, b, -, ha8, -, hba, hSab⟩ := hab
   have hQ1 : Q ≠ ⊥ := by
     rintro rfl

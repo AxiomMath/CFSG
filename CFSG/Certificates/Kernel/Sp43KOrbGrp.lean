@@ -165,7 +165,7 @@ theorem case_join {a b x g g' h₁ h₂ : ℕ} {w₁ w₂ : List (ℕ × ℕ)} (
       intro h hh
       unfold conjT
       rw [ofT_mulT (inG_mulT hg' hh) hg, ofT_mulT hg' hh, hginv]
-      simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply, inv_inv]
+      simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply, inv_inv]
     rw [sub2T, MonoidHom.map_closure, Subgroup.closure_le]
     rintro _ ⟨y, hy, rfl⟩
     rcases hy with rfl | rfl

@@ -27,7 +27,7 @@ theorem uc22ine229u3e9_exists_elemAbelian_sq {H W : Type} [Group H] [Finite H] [
     (f : H →* W) (hf : Function.Surjective f) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hW : 2 ≤ CFSG.Open.pRank p (⊤ : Subgroup W)) :
     ∃ E : Subgroup H, IsElemAbelian p E ∧ Nat.card E = p ^ 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨P⟩ : Nonempty (Sylow p H) := inferInstance
   have h1 := (CFSG.SectionRank.pRank_sylow (P.mapSurjective hf)).1
   have h2 : ((P.mapSurjective hf : Sylow p W) : Subgroup W) = (P : Subgroup H).map f := rfl
@@ -49,7 +49,7 @@ theorem uc22ine229u3e9_exists_E {Y : Subgroup G} {n : ℕ} (hX : IsSU3 (Bar2 Y) 
       Nat.card X' = 3 ∧
       ∀ x : ↥Y, (x : G) ∈ X' → (QuotientGroup.mk x : Bar2 Y) ∈ center (Bar2 Y) → x = 1 := by
   have hp3 : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp3⟩
+  have : Fact (Nat.Prime 3) := ⟨hp3⟩
   let π : ↥Y →* Bar2 Y := QuotientGroup.mk' (CFSG.pCore 2 ↥Y)
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective _
   have hker : IsPGroup 2 π.ker := by

@@ -47,13 +47,13 @@ theorem GGResHyp.prime_dvd_card_J_of_five_le_card_bstar
   have hp2 : p ≠ 2 := hH.1.1.2.2.2.2.2.1.2.1
   have hICopy := hH.1.1
   obtain ⟨hsimple, hnabG, hKP, -, -, hβ, hS, hst⟩ := hICopy
-  letI : IsSimpleGroup G := hsimple
+  let : IsSimpleGroup G := hsimple
   have hcomp : CFSG.Assembly.IsComponentOf J (L ⊓ Subgroup.centralizer (D : Set G)) :=
     hH.1.2.2.1.2.2.2.2.2.1
   have hJq : CFSG.Open.IsQuasisimple J :=
     (CFSG.Assembly.isComponentOf_iff_open.mp hcomp).2.2
-  letI : Group.IsPerfect J := ⟨hJq.1⟩
-  letI : IsSimpleGroup (J ⧸ Subgroup.center J) := hJq.2
+  let : Group.IsPerfect J := ⟨hJq.1⟩
+  let : IsSimpleGroup (J ⧸ Subgroup.center J) := hJq.2
   have hnab : ∃ a b : J ⧸ Subgroup.center J, a * b ≠ b * a :=
     CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian J hJq
   have hJL : J ≤ L := hcomp.1.trans inf_le_left
@@ -79,7 +79,7 @@ theorem GGResHyp.prime_dvd_card_J_of_five_le_card_bstar
     · intro a ha
       obtain ⟨b, rfl⟩ := ha
       rw [← map_pow, show b ^ p = 1 from Subtype.ext (hBs.2 _ b.2), map_one]
-  letI : IsElementaryAbelian p f.range := hEA.isElementaryAbelian
+  let : IsElementaryAbelian p f.range := hEA.isElementaryAbelian
   by_contra hnp
   have hAut : Nat.card f.range ≤ p := card_elemAbelian_aut_le_prime_of_not_dvd hnab hcat hp hp2 hnp f.range
   have hmul := NbrU63.card_range_ggGamma_mul_card_inf hH.Bs_le_normalizer_J

@@ -286,7 +286,7 @@ private theorem aSeven_fixed_invariant_oddP_subgroup_centralized
         have hdvd := Subgroup.card_dvd_of_le hle
         rw [hPnine, hAcard] at hdvd
         norm_num at hdvd
-      obtain ⟨x, hxP, hxA⟩ := SetLike.not_le_iff_exists.mp hPnotA
+      obtain ⟨x, hxP, hxA⟩ := IsConcreteLE.not_le_iff_exists.mp hPnotA
       have hxne : x ≠ 1 := by
         intro hxone
         subst x

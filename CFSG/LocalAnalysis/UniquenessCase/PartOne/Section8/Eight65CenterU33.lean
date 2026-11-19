@@ -19,7 +19,7 @@ private theorem card_inf_centralizer_Psub :
         (CFSG.SignalizerFunctorTheorem.NonLocalExc.Psub :
           Set (Equiv.Perm (Fin 28)))) = 3 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let P : Subgroup (Equiv.Perm (Fin 28)) :=
     Subgroup.closure {CFSG.GH74.KGroups.U33.pa, CFSG.GH74.KGroups.U33.pb}
   let A : Subgroup (Equiv.Perm (Fin 28)) :=
@@ -57,7 +57,7 @@ private theorem card_inf_centralizer_Psub :
       congrArg Subtype.val (mul_comm' (⟨x, hxQ⟩ : ↥Q) ⟨y, hyQ⟩)
     have h1 : x * y * x⁻¹ * y⁻¹ = 1 := by rw [hcommxy]; group
     exact hz1 (hxyz.trans h1)
-  haveI : Nontrivial ↥Q :=
+  have : Nontrivial ↥Q :=
     Finite.one_lt_card_iff_nontrivial.mp (by rw [hQcard]; norm_num)
   have hQgroup : IsPGroup 3 ↥Q := IsPGroup.of_card (n := 3) (by rw [hQcard]; norm_num)
   have hxexists : ∃ x : ↥Q, x ∉ Subgroup.center ↥Q := by
@@ -73,7 +73,7 @@ private theorem card_inf_centralizer_Psub :
   have hx1 : (xQ : Equiv.Perm (Fin 28)) ≠ 1 := fun h => hx1Q (Subtype.ext h)
   have hx3 : (xQ : Equiv.Perm (Fin 28)) ^ 3 = 1 := hQexp _ hxQ
   have hxQ3 : xQ ^ 3 = 1 := Subtype.ext (by simpa using hx3)
-  haveI hnt : Nontrivial ↥(Subgroup.center ↥Q) := hQgroup.center_nontrivial
+  have hnt : Nontrivial ↥(Subgroup.center ↥Q) := hQgroup.center_nontrivial
   obtain ⟨zC, hzC1⟩ := exists_ne (1 : ↥(Subgroup.center ↥Q))
   let zQ : ↥Q := zC.1
   have hzcenter : zQ ∈ Subgroup.center ↥Q := zC.2
@@ -122,7 +122,7 @@ private theorem card_inf_centralizer_Psub :
         refine mul_right_cancel₀ (by norm_num : (9 : ℕ) ≠ 0) ?_
         rw [show (3 * 9 : ℕ) = 27 by norm_num]
         simpa using h.symm
-      haveI : IsCyclic (↥Q ⧸ Subgroup.center ↥Q) := isCyclic_of_prime_card hquot
+      have : IsCyclic (↥Q ⧸ Subgroup.center ↥Q) := isCyclic_of_prime_card hquot
       exact hQnonab (isMulCommutative_of_isCyclic_quotient_center_self ↥Q)
     · exfalso
       apply hZne_top
@@ -303,7 +303,7 @@ theorem u33_card_centralizer_sylow_three
       ((Q : Subgroup ↥(CFSG.GH74.KGroups.U33.QP.originalSubgroup)) :
         Set ↥(CFSG.GH74.KGroups.U33.QP.originalSubgroup))) = 3 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let P : Subgroup (Equiv.Perm (Fin 28)) := CFSG.GH74.KGroups.U33.QP.originalSubgroup
   have hPcard : Nat.card P = 6048 := by
     rw [show P = CFSG.GH74.KGroups.U33.QP.originalSubgroup from rfl]
@@ -318,7 +318,7 @@ theorem u33_card_centralizer_sylow_three
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hPsub_le).toEquiv]
     exact CFSG.SignalizerFunctorTheorem.NonLocalExc.card_Psub
   have hQsub_p : IsPGroup 3 Qsub := IsPGroup.of_card (n := 3) (by rw [hQsub_card]; norm_num)
-  haveI : Finite ↥Qsub := Nat.finite_of_card_ne_zero (by rw [hQsub_card]; norm_num)
+  have : Finite ↥Qsub := Nat.finite_of_card_ne_zero (by rw [hQsub_card]; norm_num)
   have hQsub_index : ¬ 3 ∣ Qsub.index := by
     rw [Subgroup.index_eq_card_div, hQsub_card, hPcard]
     norm_num
@@ -367,9 +367,9 @@ theorem u33_centralizer_sylow_three
     (P : Sylow 3 X) :
     Nat.card (Subgroup.centralizer ((P : Subgroup X) : Set X)) = 3 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e⟩ := CFSG.GH74.KGroups.U33.equiv_of_lieModel hX
-  haveI : Finite X := Finite.of_equiv _ e.toEquiv.symm
+  have : Finite X := Finite.of_equiv _ e.toEquiv.symm
   let P' : Sylow 3 ↥(CFSG.GH74.KGroups.U33.QP.originalSubgroup) :=
     Sylow.mapSurjective (f := e.toMonoidHom) e.surjective P
   have hP' : (P' : Subgroup ↥(CFSG.GH74.KGroups.U33.QP.originalSubgroup)) =
@@ -407,7 +407,7 @@ theorem u33_aut_centralizer_sylow_three
     ∃ g ∈ Q, φ = MulAut.conj g := by
   classical
   obtain ⟨e⟩ := CFSG.GH74.KGroups.U33.equiv_of_lieModel hX
-  haveI : Finite X := Finite.of_equiv _ e.toEquiv.symm
+  have : Finite X := Finite.of_equiv _ e.toEquiv.symm
   rcases eq_or_ne φ 1 with h1 | h1
   · refine ⟨1, Q.one_mem, ?_⟩
     rw [h1]

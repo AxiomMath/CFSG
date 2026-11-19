@@ -15,6 +15,7 @@ open CFSG.RankThree.OrthogonalInvolutions Module
 variable {V : Type*} [AddCommGroup V] [Module (ZMod 2) V] [FiniteDimensional (ZMod 2) V]
   {q : QuadraticForm (ZMod 2) V}
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem apply_apply_add_apply_add_self_eq_zero {ω : V ≃ₗ[ZMod 2] V} (hω3 : orderOf ω = 3)
     {u : V} (hu : u ∈ commSpace ω) : ω (ω u) + ω u + u = 0 := by
   have h : ω ^ 3 = 1 := by rw [← hω3]; exact pow_orderOf_eq_one ω
@@ -25,6 +26,7 @@ theorem apply_apply_add_apply_add_self_eq_zero {ω : V ≃ₗ[ZMod 2] V} (hω3 :
     fun u hu => AS35QCo.apply_mem_commSpace (rfl) hu
   exact AS35QCo.sq_add_add_eq_zero h hUinv hfree hu
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem apply_apply_eq_add_apply {ω : V ≃ₗ[ZMod 2] V} (hω3 : orderOf ω = 3)
     {u : V} (hu : u ∈ commSpace ω) : ω (ω u) = u + ω u := by
   have h := apply_apply_add_apply_add_self_eq_zero hω3 hu
@@ -33,6 +35,7 @@ theorem apply_apply_eq_add_apply {ω : V ≃ₗ[ZMod 2] V} (hω3 : orderOf ω = 
   rw [neg_add, AS35QCo.neg_eq_self', AS35QCo.neg_eq_self', add_comm] at h2
   exact h2
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem finrank_span_apply_eq_two {ω : V ≃ₗ[ZMod 2] V} (hω3 : orderOf ω = 3)
     {u : V} (hu : u ∈ commSpace ω) (hu0 : u ≠ 0) :
     finrank (ZMod 2) (Submodule.span (ZMod 2) {u, ω u}) = 2 := by
@@ -62,6 +65,7 @@ theorem finrank_span_apply_eq_two {ω : V ≃ₗ[ZMod 2] V} (hω3 : orderOf ω =
       exact huω
   rw [← Matrix.range_cons_cons_empty u (ω u) ![], finrank_span_eq_card hli, Fintype.card_fin]
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem quadraticForm_eq_zero_of_mem_span_pair {ω : V ≃ₗ[ZMod 2] V}
     (hωq : ∀ v, q (ω v) = q v) (hω3 : orderOf ω = 3) {c : V}
     (hc : c ∈ commSpace ω) (hqc : q c = 0) {x : V}
@@ -74,6 +78,7 @@ theorem quadraticForm_eq_zero_of_mem_span_pair {ω : V ≃ₗ[ZMod 2] V}
   rcases h01 a with rfl | rfl <;> rcases h01 b with rfl | rfl <;>
     simp [hqc, hqωc, hqcω]
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem span_pair_le_orthogonal {ω : V ≃ₗ[ZMod 2] V}
     (hωq : ∀ v, q (ω v) = q v) (hω3 : orderOf ω = 3) {c : V}
     (hc : c ∈ commSpace ω) (hqc : q c = 0) :
@@ -180,6 +185,7 @@ theorem orthogonal_span_pair_inf_eq {ω : V ≃ₗ[ZMod 2] V} (hq : q.polarBilin
     · exact AS35QCo.apply_mem_commSpace rfl hc
   exact (Submodule.eq_of_le_of_finrank_eq hle (by rw [hdim, hdimℓ])).symm
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem map_omega_le_span_pair {ω : V ≃ₗ[ZMod 2] V} (hω3 : orderOf ω = 3)
     {x : V} (hx : x ∈ commSpace ω) :
     Submodule.map (ω : V →ₗ[ZMod 2] V) (Submodule.span (ZMod 2) {x, ω x}) ≤
@@ -446,8 +452,8 @@ theorem card_centralizer_le_two {ω : V ≃ₗ[ZMod 2] V} (hq : q.polarBilin.Non
     (hfix : ∀ p ∈ P, p c = c) :
     Nat.card ↥(P ⊓ Subgroup.centralizer ({ω} : Set (V ≃ₗ[ZMod 2] V))) ≤ 2 := by
   classical
-  haveI : Finite V := Module.finite_of_finite (ZMod 2)
-  haveI : Finite (V ≃ₗ[ZMod 2] V) :=
+  have : Finite V := Module.finite_of_finite (ZMod 2)
+  have : Finite (V ≃ₗ[ZMod 2] V) :=
     Finite.of_injective (fun g : V ≃ₗ[ZMod 2] V => (g : V → V)) DFunLike.coe_injective
   let P₀ := P ⊓ Subgroup.centralizer ({ω} : Set (V ≃ₗ[ZMod 2] V))
   let ℓ := Submodule.span (ZMod 2) {c, ω c}
@@ -456,7 +462,7 @@ theorem card_centralizer_le_two {ω : V ≃ₗ[ZMod 2] V} (hq : q.polarBilin.Non
     have := Submodule.finrank_mono h
     have hℓdim : finrank (ZMod 2) ℓ = 2 := finrank_span_apply_eq_two hω3 hc hc0
     omega
-  obtain ⟨u₀, hu₀, hu₀not⟩ := SetLike.not_le_iff_exists.mp hnotle
+  obtain ⟨u₀, hu₀, hu₀not⟩ := IsConcreteLE.not_le_iff_exists.mp hnotle
   let L : Submodule (ZMod 2) V := ℓ ⊓ LinearMap.ker (q.polarBilin u₀)
   have hLdim : finrank (ZMod 2) L ≤ 1 :=
     finrank_span_pair_inf_ker_le_one hq hωq hω3 h4 hc hc0 hqc hu₀ hu₀not
@@ -492,8 +498,8 @@ theorem exists_injective_to_bool_prod_centralizer {ω : V ≃ₗ[ZMod 2] V}
     ∃ f : P → Bool × ↥(P ⊓ Subgroup.centralizer ({ω} : Set (V ≃ₗ[ZMod 2] V))),
       Function.Injective f := by
   classical
-  haveI : Finite V := Module.finite_of_finite (ZMod 2)
-  haveI : Finite (V ≃ₗ[ZMod 2] V) :=
+  have : Finite V := Module.finite_of_finite (ZMod 2)
+  have : Finite (V ≃ₗ[ZMod 2] V) :=
     Finite.of_injective (fun g : V ≃ₗ[ZMod 2] V => (g : V → V)) DFunLike.coe_injective
   let P₀ := P ⊓ Subgroup.centralizer ({ω} : Set (V ≃ₗ[ZMod 2] V))
   have hconv : ∀ p ∈ P, ¬ p * ω * p⁻¹ = ω → p * ω * p⁻¹ = ω⁻¹ := by
@@ -535,15 +541,15 @@ theorem exists_injective_to_bool_prod_centralizer {ω : V ≃ₗ[ZMod 2] V}
     by_cases hp : (p : V ≃ₗ[ZMod 2] V) * ω * (p : V ≃ₗ[ZMod 2] V)⁻¹ = ω
     · have hr : (r : V ≃ₗ[ZMod 2] V) * ω * (r : V ≃ₗ[ZMod 2] V)⁻¹ = ω := by
         by_contra hr
-        rw [dif_pos hp, dif_neg hr] at hbool
+        rw [dite_eq_left hp, dite_eq_right hr] at hbool
         simp at hbool
-      rw [dif_pos hp, dif_pos hr] at hval
+      rw [dite_eq_left hp, dite_eq_left hr] at hval
       exact Subtype.ext (by simpa using hval)
     · have hr : ¬(r : V ≃ₗ[ZMod 2] V) * ω * (r : V ≃ₗ[ZMod 2] V)⁻¹ = ω := by
         intro hr
-        rw [dif_neg hp, dif_pos hr] at hbool
+        rw [dite_eq_right hp, dite_eq_left hr] at hbool
         simp at hbool
-      rw [dif_neg hp, dif_neg hr] at hval
+      rw [dite_eq_right hp, dite_eq_right hr] at hval
       have hval' : p₁⁻¹ * (p : V ≃ₗ[ZMod 2] V) =
           p₁⁻¹ * (r : V ≃ₗ[ZMod 2] V) := by simpa using hval
       exact Subtype.ext (mul_left_cancel hval')
@@ -554,8 +560,8 @@ theorem card_le_two_mul_card_centralizer {ω : V ≃ₗ[ZMod 2] V}
     (hnorm : ∀ p ∈ P, p * ω * p⁻¹ = ω ∨ p * ω * p⁻¹ = ω⁻¹) :
     Nat.card P ≤ 2 * Nat.card ↥(P ⊓ Subgroup.centralizer ({ω} : Set (V ≃ₗ[ZMod 2] V))) := by
   classical
-  haveI : Finite V := Module.finite_of_finite (ZMod 2)
-  haveI : Finite (V ≃ₗ[ZMod 2] V) :=
+  have : Finite V := Module.finite_of_finite (ZMod 2)
+  have : Finite (V ≃ₗ[ZMod 2] V) :=
     Finite.of_injective (fun g : V ≃ₗ[ZMod 2] V => (g : V → V)) DFunLike.coe_injective
   let P₀ := P ⊓ Subgroup.centralizer ({ω} : Set (V ≃ₗ[ZMod 2] V))
   by_cases hex : ∃ p₁ ∈ P, p₁ * ω * p₁⁻¹ = ω⁻¹

@@ -16,9 +16,9 @@ theorem row_on (hOut : CFSG.HardMathSupport.Timmesfeld.Coordinator.SporadicOuter
     (hbr : CFSG.HardMathSupport.Timmesfeld.Tables.Census.SporadicBridges) : I1431SporRow .ONan := by
   have hc : Nat.card (CFSG.Blueprint.NativeSporadic.Carrier .ONan) = 460815505920 :=
     CFSG.Sporadic.ON.card_ON
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier .ONan) :=
+  have : Finite (CFSG.Blueprint.NativeSporadic.Carrier .ONan) :=
     Finite.of_equiv _ CFSG.ONSchreier.onEquivPv.symm.toEquiv
-  haveI : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .ONan) :=
+  have : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .ONan) :=
     CFSG.Sporadic.ON.isSimpleGroup_ON
   refine row_of_centShapeRk (s := .ONan) hOut (hbr .ONan).some
     (CFSG.LocalAnalysis.GLTheoremA.S8.HNRows.exists_noncomm_of_simple (by rw [hc]; norm_num))
@@ -32,9 +32,9 @@ theorem row_mcl (hOut : CFSG.HardMathSupport.Timmesfeld.Coordinator.SporadicOute
     (hbr : CFSG.HardMathSupport.Timmesfeld.Tables.Census.SporadicBridges) : I1431SporRow .McL := by
   have hc : Nat.card (CFSG.Blueprint.NativeSporadic.Carrier .McL) = 898128000 :=
     CFSG.Sporadic.McL.card_McL
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier .McL) :=
+  have : Finite (CFSG.Blueprint.NativeSporadic.Carrier .McL) :=
     Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
-  haveI : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .McL) :=
+  have : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .McL) :=
     CFSG.Sporadic.McL.isSimpleGroup_McL
   have hsh := CFSG.HardMathSupport.Dickson.I271.mcl_constrainedShape_three
     CFSG.HardMathSupport.Timmesfeld.SporadicBalance.oPrimeCoreTrivialAt_McL

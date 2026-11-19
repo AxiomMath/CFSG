@@ -331,6 +331,7 @@ private theorem exists_line {F : Type} [Field F] [Finite F] {n : ℕ}
   exact hsub u hu
 
 
+omit [Finite G] in
 private theorem coord_inv {F : Type} [Field F] {n : ℕ} {ρ : ↥(Lgen M (LB M Q B)) →* GL (Fin n) F}
     {ψ₁ ψ₂ : G → Fin n → F} (hP : CoordProps (Lgen M (LB M Q B)) Q Z V₁ V₂ ρ ψ₁ ψ₂)
     {v : G} (hv : v ∈ V₁) : ψ₁ v⁻¹ = -ψ₁ v := by
@@ -343,6 +344,7 @@ private theorem coord_inv {F : Type} [Field F] {n : ℕ} {ρ : ↥(Lgen M (LB M 
   calc ψ₁ v⁻¹ = -ψ₁ v + (ψ₁ v + ψ₁ v⁻¹) := by abel
     _ = -ψ₁ v := by rw [h1.symm, add_zero]
 
+omit [Finite G] in
 private theorem mem_sup_of_coord {F : Type} [Field F] {n : ℕ}
     {ρ : ↥(Lgen M (LB M Q B)) →* GL (Fin n) F}
     {ψ₁ ψ₂ : G → Fin n → F} (hP : CoordProps (Lgen M (LB M Q B)) Q Z V₁ V₂ ρ ψ₁ ψ₂)
@@ -488,7 +490,7 @@ private theorem exists_mu_of_card {F : Type} [Field F] [Finite F] (h : 3 ≤ Nat
 
 private theorem exists_lift_coord {F : Type} [Field F] [Finite F] {n : ℕ}
     {ρ : ↥(Lgen M (LB M Q B)) →* GL (Fin n) F} {ψ₁ ψ₂ : G → Fin n → F}
-    (hc : Ctx M Q Z B) (hS : LinSetup M Q Z B n V₁ V₂) (hn : 3 ≤ n)
+    (hc : Ctx M Q Z B) (hS : LinSetup M Q Z B n V₁ V₂) (_hn : 3 ≤ n)
     (hP : CoordProps (Lgen M (LB M Q B)) Q Z V₁ V₂ ρ ψ₁ ψ₂)
     (hY : Ctx M Q Z Y) (hYV : Y ≤ V₁) {c : Fin n → F}
     (hYline : ∀ u ∈ Y ⊔ Z, ψ₁ u ∈ Submodule.span F {c})

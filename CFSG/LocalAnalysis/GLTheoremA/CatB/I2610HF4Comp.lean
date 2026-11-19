@@ -14,7 +14,7 @@ open scoped commutatorElement
 private theorem card_of_f42CompType {Q : Type} [Group Q] (h : F42CompType Q) :
     Nat.card Q = 1451520 := by
   obtain ⟨F, _, _, hF, ⟨e⟩⟩ := h
-  haveI : CharP F 2 :=
+  have : CharP F 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
       (le_refl 1) (by rw [hF]; norm_num)
   have hZ := center_statedSp_eq_bot_of_charP_two (K := F) 3
@@ -31,11 +31,11 @@ theorem eq_of_isComponentOf_fixSubgroup_conj {K : Type} [Field K] [Finite K]
     (h₁ : CFSG.Open.IsComponentOf L₁ (fixSubgroup (MulAut.conj x)))
     (h₂ : CFSG.Open.IsComponentOf L₂ (fixSubgroup (MulAut.conj x))) : L₁ = L₂ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := 1)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := 1)
     (by rw [← Nat.card_eq_fintype_card, hK]; norm_num)
-  haveI : Finite ↥(adjointGroup Tag.F4 K) := by
+  have : Finite ↥(adjointGroup Tag.F4 K) := by
     have : Finite (Module.End K (RootModule Tag.F4 K)) := Module.finite_of_finite K
     infer_instance
   by_contra hne
@@ -92,11 +92,11 @@ theorem exists_component_of_perfect_le {K : Type} [Field K] [Finite K] (hK : Nat
         ∀ ω : MulAut ↥(adjointGroup Tag.F4 K), ω * MulAut.conj x = MulAut.conj x * ω →
           L.map ω.toMonoidHom = L := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := 1)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := 1)
     (by rw [← Nat.card_eq_fintype_card, hK]; norm_num)
-  haveI : Finite ↥(adjointGroup Tag.F4 K) := by
+  have : Finite ↥(adjointGroup Tag.F4 K) := by
     have : Finite (Module.End K (RootModule Tag.F4 K)) := Module.finite_of_finite K
     infer_instance
   set C : Subgroup ↥(adjointGroup Tag.F4 K) := fixSubgroup (MulAut.conj x) with hC

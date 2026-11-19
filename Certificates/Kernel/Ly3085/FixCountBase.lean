@@ -42,10 +42,10 @@ theorem cls_of_sClass {X : ℕ} (hX : LCanon 11 7 7 X) :
   rw [sClass_cls hX]
   norm_num only
   refine ⟨fun h => ?_, fun h => ?_, fun h => ?_, fun h => ?_⟩
-  · split_ifs at h with h0 h1 h2 h3 <;> first | omega | exact h0
-  · split_ifs at h with h0 h1 h2 h3 <;> first | omega | exact h1
-  · split_ifs at h with h0 h1 h2 h3 <;> first | omega | exact h2
-  · split_ifs at h with h0 h1 h2 h3 <;> first | omega | exact h3
+  · split_ifs at h with h0 h1 h2 h3 <;> first | omega
+  · split_ifs at h with h0 h1 h2 h3 <;> first | omega
+  · split_ifs at h with h0 h1 h2 h3 <;> first | omega
+  · split_ifs at h with h0 h1 h2 h3 <;> first | omega
 
 theorem class_facts
     [LySeed] :

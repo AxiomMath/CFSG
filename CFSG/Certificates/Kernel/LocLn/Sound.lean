@@ -254,7 +254,7 @@ theorem beq_one_rec {α : Sort _} (x : ℕ) (u v : α) :
   · subst h
     rfl
   · have hb : Nat.beq x 1 = false := Bool.eq_false_iff.2 fun e => h (Nat.eq_of_beq_eq_true e)
-    rw [hb, if_neg h]
+    rw [hb, ite_eq_right h]
 
 theorem mulN_eq (K : Kit) (P Q : ℕ) : mulN K P Q =
     mk K (mulH K (hA K P) (if eps K P = 1 then hB K Q else hA K Q))
@@ -263,10 +263,10 @@ theorem mulN_eq (K : Kit) (P Q : ℕ) : mulN K P Q =
   simp only [CFSG.KC.Pack.strictN_eq]
   rw [beq_one_rec]
   by_cases h : eps K P = 1
-  · rw [if_pos h, if_pos h, if_pos h]
+  · rw [ite_eq_left h, ite_eq_left h, ite_eq_left h]
     congr 1
     exact Nat.and_one_is_mod _
-  · rw [if_neg h, if_neg h, if_neg h]
+  · rw [ite_eq_right h, ite_eq_right h, ite_eq_right h]
     congr 1
     exact Nat.and_one_is_mod _
 
@@ -280,9 +280,9 @@ theorem eltMul_lt {n : ℕ} (x y : Array ℕ) : ∀ k < 2 * (n * n), (eltMul n x
   intro k hk
   rw [eltMul_get (by omega)]
   by_cases h1 : k < n * n
-  · rw [if_pos h1]
+  · rw [ite_eq_left h1]
     exact Nat.mod_lt _ (by norm_num)
-  · rw [if_neg h1, if_pos hk]
+  · rw [ite_eq_right h1, ite_eq_left hk]
     exact Nat.mod_lt _ (by norm_num)
 
 theorem mul_dec {K : Kit} (hK : kitOK K = true) {n P Q : ℕ} (hn : K.n = n) (hP : Cd K P)
@@ -307,14 +307,14 @@ theorem mul_dec {K : Kit} (hK : kitOK K = true) {n P Q : ℕ} (hn : K.n = n) (hP
     simp only [mA_dec F, mB_dec F]
     rw [hA_mk F la lb, m1, eE_dec F hP]
     by_cases h : eps K P = 1
-    · rw [if_pos h, if_pos h]
-    · rw [if_neg h, if_neg h]
+    · rw [ite_eq_left h, ite_eq_left h]
+    · rw [ite_eq_right h, ite_eq_right h]
   · rw [mB_eltMul (ZMod 3) hn0, mulN_eq]
     simp only [mA_dec F, mB_dec F]
     rw [hB_mk F la lb, m2, eE_dec F hP]
     by_cases h : eps K P = 1
-    · rw [if_pos h, if_pos h]
-    · rw [if_neg h, if_neg h]
+    · rw [ite_eq_left h, ite_eq_left h]
+    · rw [ite_eq_right h, ite_eq_right h]
 
 @[expose] def tau (n t : ℕ) : ℕ := n * (t % n) + t / n
 
@@ -450,23 +450,23 @@ theorem inv_dec {K : Kit} (hK : kitOK K = true) {n P : ℕ} (hn : K.n = n) (hP :
   · rw [mA_eltInv (ZMod 3) hn0, invN_eq, eE_dec F hP]
     simp only [mA_dec F, mB_dec F]
     by_cases h : eps K P = 1
-    · rw [if_pos h, if_pos h, hA_mk F la lb, ordMat_trH F]
-    · rw [if_neg h, if_neg h, hA_mk F lb la, ordMat_trH F]
+    · rw [ite_eq_left h, ite_eq_left h, hA_mk F la lb, ordMat_trH F]
+    · rw [ite_eq_right h, ite_eq_right h, hA_mk F lb la, ordMat_trH F]
   · rw [mB_eltInv (ZMod 3) hn0, invN_eq, eE_dec F hP]
     simp only [mA_dec F, mB_dec F]
     by_cases h : eps K P = 1
-    · rw [if_pos h, if_pos h, hB_mk F la lb, ordMat_trH F]
-    · rw [if_neg h, if_neg h, hB_mk F lb la, ordMat_trH F]
+    · rw [ite_eq_left h, ite_eq_left h, hB_mk F la lb, ordMat_trH F]
+    · rw [ite_eq_right h, ite_eq_right h, hB_mk F lb la, ordMat_trH F]
   · intro k hk
     rw [eltInv_get (by omega)]
     rcases Nat.lt_or_ge k (K.n * K.n) with h1 | h1
     · have hd' : k / K.n < K.n := Nat.div_lt_of_lt_mul h1
-      rw [if_pos h1]
+      rw [ite_eq_left h1]
       split
       · exact eA_lt hx (Nat.mod_lt _ hn0) hd'
       · exact eB_lt hx (Nat.mod_lt _ hn0) hd'
     · have hd' : (k - K.n * K.n) / K.n < K.n := Nat.div_lt_of_lt_mul (by omega)
-      rw [if_neg (by omega), if_pos hk]
+      rw [ite_eq_right (by omega), ite_eq_left hk]
       split
       · exact eB_lt hx (Nat.mod_lt _ hn0) hd'
       · exact eA_lt hx (Nat.mod_lt _ hn0) hd'
@@ -565,11 +565,11 @@ theorem one_dec {K : Kit} (hK : kitOK K = true) {n : ℕ} (hn : K.n = n) :
     exact cd_mk F c1 c1 (by norm_num)
   refine ⟨?_, hR⟩
   apply arr_ext F.pos size_eltOne (dec_size _ _) ?_ (dec_lt F hR)
-  · rw [dec_last F hR, eltOne_get (by omega), if_neg (lt_irrefl _), one_mk F, eps_mk F l1 l1]
+  · rw [dec_last F hR, eltOne_get (by omega), ite_eq_right (lt_irrefl _), one_mk F, eps_mk F l1 l1]
   · rw [mA_eltOne (ZMod 3) F.pos, mA_dec F, one_mk F, hA_mk F l1 l1, o1]
   · rw [mB_eltOne (ZMod 3) F.pos, mB_dec F, one_mk F, hB_mk F l1 l1, o1]
   · intro k hk
-    rw [eltOne_get (by omega), if_pos hk]
+    rw [eltOne_get (by omega), ite_eq_left hk]
     split_ifs <;> norm_num
 
 theorem mone_dec {K : Kit} (hK : kitOK K = true) {n : ℕ} (hn : K.n = n) :
@@ -583,12 +583,12 @@ theorem mone_dec {K : Kit} (hK : kitOK K = true) {n : ℕ} (hn : K.n = n) :
     exact cd_mk F c1 c1 (by norm_num)
   refine ⟨?_, hR⟩
   apply arr_ext F.pos size_eltMinusOne (dec_size _ _) ?_ (dec_lt F hR)
-  · rw [dec_last F hR, eltMinusOne_get (by omega), if_neg (lt_irrefl _), mone_mk F,
+  · rw [dec_last F hR, eltMinusOne_get (by omega), ite_eq_right (lt_irrefl _), mone_mk F,
       eps_mk F l1 l1]
   · rw [mA_eltMinusOne (ZMod 3) F.pos, mA_dec F, mone_mk F, hA_mk F l1 l1, o1]
   · rw [mB_eltMinusOne (ZMod 3) F.pos, mB_dec F, mone_mk F, hB_mk F l1 l1, o1]
   · intro k hk
-    rw [eltMinusOne_get (by omega), if_pos hk]
+    rw [eltMinusOne_get (by omega), ite_eq_left hk]
     split_ifs <;> norm_num
 
 theorem canonK_inj {K : Kit} (F : KitF K) {X Y : ℕ} (hX : Canon 3 K.n 8 X)
@@ -623,14 +623,14 @@ theorem eq_dec {K : Kit} (hK : kitOK K = true) {n P Q : ℕ} (hn : K.n = n) (hP 
       rfl
     · have e := canonK_inj F hP.1 cn (h2.trans on.symm)
       by_cases h3 : Nat.beq (hA K P) (hA K Q) = true
-      · rw [if_pos h3]
-      · rw [if_neg h3, e]
+      · rw [ite_eq_left h3]
+      · rw [ite_eq_right h3, e]
         exact Nat.beq_refl _
   · intro h2
     by_cases h3 : Nat.beq (hA K P) (hA K Q) = true
     · left
       rw [beq_true_iff.1 h3]
-    · rw [if_neg h3] at h2
+    · rw [ite_eq_right h3] at h2
       right
       rw [beq_true_iff.1 h2, on]
 
@@ -649,7 +649,6 @@ theorem horner {N : ℕ} (f : ℕ → ℕ) : ∀ m ≤ N, Nat.rec (motive := fun
     have e : N - (m + 1) = N - 1 - m := by omega
     have e2 : N - 1 - m + 1 = N - m := by omega
     rw [e, List.range'_succ, List.map_cons, Nat.ofDigits_cons, e2]
-    push_cast
     ring
 
 theorem b3N_eq (K : Kit) (X : ℕ) :
@@ -734,11 +733,11 @@ theorem scan_eq {N : ℕ} (f : ℕ → ℕ) : ∀ m ≤ N, Nat.rec (motive := fu
     have e2 : N - 1 - m + 1 = N - m := by omega
     rw [e, List.range'_succ, fzL_cons, e2]
     by_cases h0 : f (N - 1 - m) = 0
-    · rw [if_pos h0, h0]
+    · rw [ite_eq_left h0, h0]
       rfl
     · have hb : Nat.beq (f (N - 1 - m)) 0 = false :=
         Bool.eq_false_iff.2 fun e => h0 (Nat.eq_of_beq_eq_true e)
-      rw [if_neg h0, hb]
+      rw [ite_eq_right h0, hb]
 
 theorem fnzN_eq (K : Kit) (P : ℕ) : fnzN K P = fzL (lane 8 P) (List.range (K.n * K.n)) := by
   rw [List.range_eq_range', ← Nat.sub_self (K.n * K.n), ← scan_eq (lane 8 P) _ le_rfl]
@@ -781,11 +780,11 @@ theorem norm_dec {K : Kit} (hK : kitOK K = true) {n P : ℕ} (hn : K.n = n) (hP 
   by_cases h : fnzN K P = 2
   · have hb : (fnzN K P == 2) = true := by rw [h]; rfl
     have hb' : Nat.beq (fnzN K P) 2 = true := by rw [h]; rfl
-    rw [if_pos hb, hb', m1]
+    rw [ite_eq_left hb, hb', m1]
     exact ⟨e1, c1⟩
   · have hb : (fnzN K P == 2) = false := by simp [h]
     have hb' : Nat.beq (fnzN K P) 2 = false := Bool.eq_false_iff.2 fun e => h (Nat.eq_of_beq_eq_true e)
-    rw [if_neg (by rw [hb]; exact Bool.false_ne_true), hb']
+    rw [ite_eq_right (by rw [hb]; exact Bool.false_ne_true), hb']
     exact ⟨rfl, hP⟩
 
 theorem act_dec {K : Kit} (hK : kitOK K = true) {n G P k : ℕ} (hn : K.n = n)
@@ -826,9 +825,9 @@ theorem valid_dec {K : Kit} (hK : kitOK K = true) {n P : ℕ} (hn : K.n = n)
   · rw [dec_last F hP]
     exact hP.2.2
   · by_cases h3 : eE K.n (dec K.n P) = 1
-    · rw [if_pos h3, if_pos h3] at eA'
+    · rw [ite_eq_left h3, ite_eq_left h3] at eA'
       exact eA'
-    · rw [if_neg h3, if_neg h3] at eA'
+    · rw [ite_eq_right h3, ite_eq_right h3] at eA'
       exact eA'
 
 theorem powN_succ (K : Kit) (P m : ℕ) : powN K P (m + 1) = mulN K (powN K P m) P := by
@@ -1100,7 +1099,7 @@ theorem repN_sound {K : Kit} (hK : kitOK K = true) {n : ℕ} (hn : K.n = n)
   unfold repOK
   rw [← hx, ← ht, ← hg1, ← hg2] at *
   simp only [V1, V2, V3, V4, hf1, hf2, he1, he2, hc1, hc2, hwa, hwb, hma, hmb, P1, P2, P3, P4,
-    Bool.and_true, Bool.true_and, Bool.not_false]
+    Bool.and_true, Bool.not_false]
 
 theorem ptN_spec {K : Kit} {m N : ℕ} {G T : ℕ → ℕ} {E : ℕ → ℕ → ℕ} {PA LA SO SOI : ℕ → ℕ}
     {i : ℕ} (h : ptN K m N G T E PA LA SO SOI i = true) :

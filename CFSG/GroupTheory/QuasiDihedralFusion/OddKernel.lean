@@ -104,7 +104,7 @@ theorem exists_sylow_map_eq (hφ : Function.Surjective φ) (S' : Sylow 2 B) :
 theorem nonempty_sylow_equiv_map (hφ : Function.Surjective φ) (hker : Odd (Nat.card φ.ker))
     (S : Sylow 2 A) : Nonempty ((S : Subgroup A) ≃* (S.mapSurjective hφ : Sylow 2 B)) := by
   have : Finite B := Finite.of_surjective φ hφ
-  exact ⟨(equivMapOfIsPGroup φ hker S S.isPGroup').trans
+  exact ⟨(equivMapOfIsPGroup φ hker S S.isPGroup).trans
     (MulEquiv.subgroupCongr (Sylow.coe_mapSurjective hφ S).symm)⟩
 
 theorem sylow_types_iff (hφ : Function.Surjective φ) (hker : Odd (Nat.card φ.ker))
@@ -120,7 +120,7 @@ theorem sylow_types_iff (hφ : Function.Surjective φ) (hker : Odd (Nat.card φ.
   · intro h S'
     obtain ⟨S, hS⟩ := exists_sylow_map_eq φ hφ S'
     obtain ⟨e⟩ := h S
-    exact ⟨((equivMapOfIsPGroup φ hker S S.isPGroup').trans
+    exact ⟨((equivMapOfIsPGroup φ hker S S.isPGroup).trans
       (MulEquiv.subgroupCongr hS)).symm.trans e⟩
 
 theorem hasSemidihedralSylow_iff_of_oddKernel (hφ : Function.Surjective φ)
@@ -166,7 +166,7 @@ theorem hasDihedralSylowTwo_iff_of_oddKernel (hφ : Function.Surjective φ)
   · intro hA S'
     obtain ⟨S, hS⟩ := exists_sylow_map_eq φ hφ S'
     obtain ⟨m, hm, ⟨e⟩⟩ := hA S
-    exact ⟨m, hm, ⟨((equivMapOfIsPGroup φ hker S S.isPGroup').trans
+    exact ⟨m, hm, ⟨((equivMapOfIsPGroup φ hker S S.isPGroup).trans
       (MulEquiv.subgroupCongr hS)).symm.trans e⟩⟩
 
 theorem hasGeneralizedQuaternionSylow_iff_of_oddKernel (hφ : Function.Surjective φ)
@@ -181,7 +181,7 @@ theorem hasGeneralizedQuaternionSylow_iff_of_oddKernel (hφ : Function.Surjectiv
   · intro hA S'
     obtain ⟨S, hS⟩ := exists_sylow_map_eq φ hφ S'
     obtain ⟨k, hk, ⟨e⟩⟩ := hA S
-    exact ⟨k, hk, ⟨((equivMapOfIsPGroup φ hker S S.isPGroup').trans
+    exact ⟨k, hk, ⟨((equivMapOfIsPGroup φ hker S S.isPGroup).trans
       (MulEquiv.subgroupCongr hS)).symm.trans e⟩⟩
 
 theorem abelianSylow_iff_of_oddKernel (hφ : Function.Surjective φ)
@@ -194,7 +194,7 @@ theorem abelianSylow_iff_of_oddKernel (hφ : Function.Surjective φ)
     exact isMulCommutative_of_mulEquiv e'.symm (hB _)
   · intro hA S'
     obtain ⟨S, hS⟩ := exists_sylow_map_eq φ hφ S'
-    exact isMulCommutative_of_mulEquiv ((equivMapOfIsPGroup φ hker S S.isPGroup').trans
+    exact isMulCommutative_of_mulEquiv ((equivMapOfIsPGroup φ hker S S.isPGroup).trans
       (MulEquiv.subgroupCongr hS)) (hA S)
 
 theorem noIndexTwo_iff_of_oddKernel (hφ : Function.Surjective φ)

@@ -17,7 +17,7 @@ namespace OctFrame
 
 variable {T : TitsSystem G 8} (F : OctFrame T)
 
-theorem mu_X_one {t : F.K} (ht : t ≠ 0) : T.mu 1 (F.X 1 t) = F.alpha t * F.a := by
+theorem mu_X_one {t : F.K} (_ht : t ≠ 0) : T.mu 1 (F.X 1 t) = F.alpha t * F.a := by
   rw [show F.X 1 t = t.val by rw [F.X_of_odd (by decide), F.xo_one]]
   rw [show F.alpha t = T.mu 1 t.val * F.a from rfl, mul_assoc, F.a_mul_self, mul_one]
 
@@ -576,7 +576,7 @@ theorem nu'_X_even {j : ℤ} (hj : Even j) {t : F.K} (ht : t ≠ 0) :
   rw [key, ← hconj]
   group
 
-theorem c12 (s : ℤ) (hs : Even s) (t u : F.K) :
+theorem c12 (s : ℤ) (_hs : Even s) (t u : F.K) :
     F.X (1 + s) t * F.X (2 + s) u = F.X (2 + s) u * F.X (1 + s) t := by
   have hy : F.X (2 + s) u ∈ T.U ((1 + s) + 1) := by
     rw [show (1 + s) + 1 = 2 + s by ring]
@@ -619,7 +619,7 @@ theorem c15 (s : ℤ) (hs : Even s) (t u : F.K) :
     exact F.X_mem (5 + s) u
   exact T.comm_odd_add_four F.hT ho (F.X_mem (1 + s) t) hy
 
-theorem c23 (s : ℤ) (hs : Even s) (t u : F.K) :
+theorem c23 (s : ℤ) (_hs : Even s) (t u : F.K) :
     F.X (2 + s) t * F.X (3 + s) u = F.X (3 + s) u * F.X (2 + s) t := by
   have hy : F.X (3 + s) u ∈ T.U ((2 + s) + 1) := by
     rw [show (2 + s) + 1 = 3 + s by ring]

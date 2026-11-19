@@ -11,9 +11,10 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 variable {G : Type} [Group G] [Finite G] {D : Data G} {V₀ V L : Subgroup G}
   {hV : IsElemAbelian 2 V}
 
+omit [Finite G] in
 theorem s16k_transport_fix_ord_quot {Q : Type} [CommGroup Q] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {q : Vtil V₀ V hV →* Q} {ρ : ↥(lBar V₀ V hV L) →* MulAut Q}
-    (hqs : Function.Surjective q) (hqk : ∀ x : Vtil V₀ V hV, q x = 1 ↔ x ∈ fixV (lBar V₀ V hV L))
+    (_hqs : Function.Surjective q) (hqk : ∀ x : Vtil V₀ V hV, q x = 1 ↔ x ∈ fixV (lBar V₀ V hV L))
     (hρ : Function.Injective ρ)
     (heq : ∀ (l : ↥(lBar V₀ V hV L)) (x : Vtil V₀ V hV),
       q ((l : MulAut (Vtil V₀ V hV)) x) = ρ l (q x))
@@ -50,6 +51,7 @@ theorem s16k_transport_fix_ord_quot {Q : Type} [CommGroup Q] {p : ℕ} (hp : p.P
       exact s16g_apply_eq_of_odd hW hodd (pow_orderOf_eq_one _)
         (fun z hz => (mem_fixV.1 hz) (l : MulAut (Vtil V₀ V hV)) l.2) hZmem
 
+omit [Finite G] in
 private theorem s16k_nc_lift {Q : Type} [CommGroup Q] {p : ℕ} {ρ : ↥(lBar V₀ V hV L) →* MulAut Q}
     (hρ : Function.Injective ρ) {B₀ : Subgroup (MulAut Q)} (hB₀range : B₀ ≤ ρ.range)
     (hB₀p : IsPGroup p B₀) (hB₀nc : ¬ IsCyclic ↥B₀) :
@@ -78,7 +80,7 @@ private theorem s16k_nc_lift {Q : Type} [CommGroup Q] {p : ℕ} {ρ : ↥(lBar V
 theorem s16k_transport_fix_nc_quot {Q : Type} [CommGroup Q] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hLM : lBar V₀ V hV L ≤ Mbar D.M V₀ V hV)
     {q : Vtil V₀ V hV →* Q} {ρ : ↥(lBar V₀ V hV L) →* MulAut Q}
-    (hqs : Function.Surjective q) (hqk : ∀ x : Vtil V₀ V hV, q x = 1 ↔ x ∈ fixV (lBar V₀ V hV L))
+    (_hqs : Function.Surjective q) (hqk : ∀ x : Vtil V₀ V hV, q x = 1 ↔ x ∈ fixV (lBar V₀ V hV L))
     (hρ : Function.Injective ρ)
     (heq : ∀ (l : ↥(lBar V₀ V hV L)) (x : Vtil V₀ V hV),
       q ((l : MulAut (Vtil V₀ V hV)) x) = ρ l (q x))
@@ -104,7 +106,7 @@ theorem s16k_transport_fix_nc_quot {Q : Type} [CommGroup Q] {p : ℕ} (hp : p.Pr
       (p := p) hρ hB₀range hB₀p hB₀nc
     refine ⟨B, hBsub.trans hLM, hBp, hBnc, fun b hb => ?_⟩
     obtain ⟨l, hlB₀, hl_eq⟩ := hBrep b hb
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     obtain ⟨k, hk⟩ := hBp.exists_orderOf_eq_pow (⟨b, hb⟩ : ↥B)
     have hborder : Odd (orderOf b) := by
       have h1 : orderOf b = p ^ k := by rw [← Subgroup.orderOf_mk b hb, hk]

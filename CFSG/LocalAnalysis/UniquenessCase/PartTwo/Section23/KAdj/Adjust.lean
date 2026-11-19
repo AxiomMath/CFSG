@@ -16,7 +16,7 @@ theorem exists_mulEquiv_map_sylow_eq {G₁ G₂ : Type*} [Group G₁] [Group G�
     (hS : (S : Subgroup G₂) ≤ Q.map φ₀.toMonoidHom) :
     ∃ φ : G₁ ≃* G₂, (U : Subgroup G₁).map φ.toMonoidHom = S ∧
       Q.map φ.toMonoidHom = Q.map φ₀.toMonoidHom := by
-  haveI : Finite G₂ := Finite.of_surjective φ₀ φ₀.surjective
+  have : Finite G₂ := Finite.of_surjective φ₀ φ₀.surjective
   let V : Sylow p G₁ :=
     S.mapSurjective (f := φ₀.symm.toMonoidHom) φ₀.symm.surjective
   have hVcoe : (V : Subgroup G₁) = S.map φ₀.symm.toMonoidHom := rfl
@@ -24,13 +24,13 @@ theorem exists_mulEquiv_map_sylow_eq {G₁ G₂ : Type*} [Group G₁] [Group G�
     rw [hVcoe, Subgroup.map_le_iff_le_comap,
       Subgroup.comap_equiv_eq_map_symm' φ₀.symm Q]
     simpa using hS
-  haveI : Finite (Sylow p Q) := Sylow.finite_of_finiteIndex (U.subtype hU)
+  have : Finite (Sylow p Q) := Sylow.finite_of_finiteIndex (U.subtype hU)
   obtain ⟨y, hy⟩ := MulAction.exists_smul_eq Q (U.subtype hU) (V.subtype hVle)
   rw [Sylow.smul_subtype] at hy
   have hUV : (y : G₁) • U = V := Sylow.subtype_injective hy
   have hUs : (U : Subgroup G₁).map (MulAut.conj (y : G₁)).toMonoidHom =
       (((y : G₁) • U : Sylow p G₁) : Subgroup G₁) := by
-    rw [Sylow.coe_subgroup_smul, Subgroup.pointwise_smul_def] <;> rfl
+    rw [Sylow.coe_subgroup_smul, Subgroup.pointwise_smul_def]; rfl
   have hconj : Q.map (MulAut.conj (y : G₁)).toMonoidHom = Q :=
     Subgroup.mem_normalizer_iff_map_conj_eq.mp (Subgroup.le_normalizer y.2)
   have htrans : ((MulAut.conj (y : G₁)).trans φ₀).toMonoidHom =
@@ -51,10 +51,10 @@ theorem exists_mulEquiv_map_sylow_eq {G₁ G₂ : Type*} [Group G₁] [Group G�
 theorem sylow_le_pointStab {W : Type} [CommGroup W] (H : Subgroup (MulAut W)) (S : Sylow 2 ↥H) :
     (S : Subgroup ↥H) ≤ KTabD.pointStab H S := by
   intro s hs
-  letI : MulDistribMulAction ↥H W := MulDistribMulAction.compHom W H.subtype
-  letI : MulAction ↥H W := MulAction.compHom W H.subtype
-  letI : MulAction ↥H (Set W) := Set.mulActionSet
-  letI : MulDistribMulAction ↥S W :=
+  let : MulDistribMulAction ↥H W := MulDistribMulAction.compHom W H.subtype
+  let : MulAction ↥H W := MulAction.compHom W H.subtype
+  let : MulAction ↥H (Set W) := Set.mulActionSet
+  let : MulDistribMulAction ↥S W :=
     MulDistribMulAction.compHom W (H.subtype.comp (S : Subgroup ↥H).subtype)
   show s ∈ MulAction.stabilizer ↥H
     ((CFSG.fixedPointSubgroup ↥S W : Subgroup W) : Set W)

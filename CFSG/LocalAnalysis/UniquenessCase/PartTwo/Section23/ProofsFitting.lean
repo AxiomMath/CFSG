@@ -80,7 +80,7 @@ open CFSG.LocalAnalysis.UniquenessCase.UC6 in
 private theorem uc22s2343_T_eq_sup (D : Data G) {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2)
     {Q0 : Subgroup G} (hQ0 : CFSG.ABGLocalTools.IsSylowOf q Q0 (uc22s2343_Pq D q)) :
     D.T = pCoreOf 2 D.M ⊔ (D.T ⊓ Subgroup.normalizer (Q0 : Set G)) := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hPqM : uc22s2343_Pq D q ≤ D.M := uc22s2343_Pq_le_M D q
   have hPqNorm : D.M ≤ Subgroup.normalizer ((uc22s2343_Pq D q : Subgroup G) : Set G) :=
     uc22s2343_Pq_normalizes D q
@@ -173,7 +173,7 @@ private theorem uc22s2343_coprime_card_Pq (D : Data G) {q p : ℕ} (hq : q.Prime
     Nat.Coprime p (Nat.card ↥(uc22s2343_Pq D q)) := by
   rw [Nat.Prime.coprime_iff_not_dvd hp]
   intro hdvd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨x, hxord⟩ := exists_prime_orderOf_dvd_card' p hdvd
   have hPqM : uc22s2343_Pq D q ≤ D.M := uc22s2343_Pq_le_M D q
   let φ : ↥(uc22s2343_Pq D q) →* Bar2 D.M :=
@@ -185,7 +185,7 @@ private theorem uc22s2343_coprime_card_Pq (D : Data G) {q p : ℕ} (hq : q.Prime
     rw [← hxord]
     have := orderOf_map_dvd φ x
     simpa [z] using this
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 (CFSG.pCore_isPGroup (p := q) (G := Bar2 D.M))) z
   have hzord' : orderOf z = q ^ k := hk
   have hqk_dvd_p : q ^ k ∣ p := hzord' ▸ hzord
@@ -218,7 +218,7 @@ private theorem uc22s2343_pCore_sig_eq_bot (D : Data G) (Ch : Choice2011 G)
     (h42 : S23_42 D Ch) (h72s : S23_7_2_sig D Ch) (h1930 : H1930 D) (c : Ctx23L D Ch)
     {q : ℕ} (hq : q.Prime) (hqsig : q ∈ D.sig) : CFSG.pCore q (Bar2 D.M) = ⊥ := by
   by_contra hne
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hq2 : q ≠ 2 := (D.sig_prime q hqsig).2
   obtain ⟨Q0, hQ0⟩ := CFSG.ABGLocalTools.exists_isSylowOf q (uc22s2343_Pq D q)
   have hbar : barImage D.M Q0 = CFSG.pCore q (Bar2 D.M) :=
@@ -236,9 +236,9 @@ private theorem uc22s2343_pCore_sig_eq_bot (D : Data G) (Ch : Choice2011 G)
   have hWexp : ∀ x ∈ W, x ^ q = 1 := fun x hx => hx.2.1
   have hWcomm : ⁅⁅W, W⁆, W⁆ = ⊥ := by
     have hle : W ≤ Subgroup.centralizer (W : Set G) := by
-      haveI : IsMulCommutative ↥W :=
+      have : IsMulCommutative ↥W :=
         (CFSG.LocalAnalysis.UniquenessCase.UC6.isElemAbelian_omegaCenter q Q0).1
-      letI : CommGroup ↥W := IsMulCommutative.instCommGroup
+      let : CommGroup ↥W := IsMulCommutative.instCommGroup
       intro x hx
       rw [Subgroup.mem_centralizer_iff]
       intro y hy
@@ -261,14 +261,14 @@ private theorem uc22s2343_sylow_cyclic_of_not_sig (D : Data G) (Ch : Choice2011 
     {Q0 : Subgroup G} (hQ0 : CFSG.ABGLocalTools.IsSylowOf q Q0 (uc22s2343_Pq D q)) :
     IsCyclic ↥Q0 := by
   by_contra hcyc
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨Q, hQle, hQne, hQncyc, hQexp, hQcomm, hQnorm⟩ :=
     CFSG.GroupTheory.exists_noncyclic_exponent_classTwo_normalized hq2 hQ0.isPGroup hcyc
   obtain ⟨p, hp_sig⟩ := hsig
   have hp : p.Prime := (D.sig_prime p hp_sig).1
   have hp2 : p ≠ 2 := (D.sig_prime p hp_sig).2
   have hpq : p ≠ q := fun h => hqnot (h ▸ hp_sig)
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hPqM : uc22s2343_Pq D q ≤ D.M := uc22s2343_Pq_le_M D q
   have hPqN : ((uc22s2343_Pq D q).subgroupOf D.M).Normal := uc22s2343_Pq_normal D q
   have hPqRel : uc22s2343_Pq D q ≤ relPPrimeCore p D.M := by
@@ -305,7 +305,7 @@ private theorem uc22s2343_pCore_cyclic (D : Data G) (Ch : Choice2011 G)
   · by_cases hrsig : r ∈ D.sig
     · rw [uc22s2343_pCore_sig_eq_bot D Ch h42 h72s h1930 c hr hrsig]
       infer_instance
-    · haveI : Fact r.Prime := ⟨hr⟩
+    · have : Fact r.Prime := ⟨hr⟩
       by_cases hbot : CFSG.pCore r (Bar2 D.M) = ⊥
       · rw [hbot]
         infer_instance
@@ -330,15 +330,15 @@ private theorem uc22s2343_fitting_cyclic (D : Data G) (Ch : Choice2011 G)
   have hZ : IsZGroup ↥F := by
     rw [isZGroup_iff]
     intro r hr P
-    haveI : Fact r.Prime := ⟨hr⟩
+    have : Fact r.Prime := ⟨hr⟩
     have hPmap_le : ((P : Subgroup ↥F).map F.subtype) ≤ CFSG.pCore r (Bar2 D.M) :=
       Sylow.map_le_pCore (inferInstance : F.Normal) (inferInstance : Group.IsNilpotent ↥F) r P
-    haveI : IsCyclic ↥(CFSG.pCore r (Bar2 D.M)) :=
+    have : IsCyclic ↥(CFSG.pCore r (Bar2 D.M)) :=
       uc22s2343_pCore_cyclic D Ch h42 h72 h72s h1930 c hsig r hr
     have hcyc_map : IsCyclic ↥((P : Subgroup ↥F).map F.subtype) := isCyclic_of_le hPmap_le
     exact (MulEquiv.isCyclic
       (Subgroup.equivMapOfInjective (P : Subgroup ↥F) F.subtype F.subtype_injective)).mpr hcyc_map
-  haveI : IsZGroup ↥F := hZ
+  have : IsZGroup ↥F := hZ
   exact inferInstance
 
 private theorem uc22s2343_sig_not_dvd_fitting (D : Data G) (Ch : Choice2011 G)
@@ -347,7 +347,7 @@ private theorem uc22s2343_sig_not_dvd_fitting (D : Data G) (Ch : Choice2011 G)
   intro p hp_sig hdvd
   let F := CFSG.fittingSubgroup (Bar2 D.M)
   have hp : p.Prime := (D.sig_prime p hp_sig).1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hbot : CFSG.pCore p (Bar2 D.M) = ⊥ :=
     uc22s2343_pCore_sig_eq_bot D Ch h42 h72s h1930 c hp hp_sig
   have hfac : 0 < (Nat.card ↥F).factorization p :=

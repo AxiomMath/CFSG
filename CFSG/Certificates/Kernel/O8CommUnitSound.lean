@@ -44,7 +44,7 @@ theorem testBit_mul_spread {w : ℕ} (hw : w < 2 ^ 12) : ∀ x : ℕ,
     intro j
     rw [Nat.testBit_two_pow_mul_add _ hb, hy]
     by_cases hj : j < 12
-    · rw [if_pos hj]
+    · rw [ite_eq_left hj]
       rcases Nat.eq_zero_or_pos j with rfl | hj0
       · simp [Nat.testBit_zero]
       · have h1 : x.testBit j = false := by
@@ -57,7 +57,7 @@ theorem testBit_mul_spread {w : ℕ} (hw : w < 2 ^ 12) : ∀ x : ℕ,
         have h2 : (x % 2).testBit j = false :=
           Nat.testBit_lt_two_pow (lt_of_lt_of_le (Nat.mod_lt _ (by norm_num)) h2')
         rw [h1, h2]
-    · rw [if_neg hj, show 12 + (j - 12) = j by omega]
+    · rw [ite_eq_right hj, show 12 + (j - 12) = j by omega]
   have hylt : x >>> 12 < x := by
     rw [Nat.shiftRight_eq_div_pow]
     exact Nat.div_lt_self hx0 (by norm_num)
@@ -73,9 +73,9 @@ theorem testBit_mul_spread {w : ℕ} (hw : w < 2 ^ 12) : ∀ x : ℕ,
   conv_rhs => rw [hsplit, Nat.testBit_two_pow_mul_add _ hb]
   by_cases hp : p < 12
   · have hq : 12 * (p / 12) = 0 := by omega
-    rw [if_pos hp, hq, if_pos (by norm_num), Nat.mod_eq_of_lt hp]
+    rw [ite_eq_left hp, hq, ite_eq_left (by norm_num), Nat.mod_eq_of_lt hp]
     rcases Nat.mod_two_eq_zero_or_one x with h | h <;> simp [h]
-  · rw [if_neg hp, ih _ hylt hyx, if_neg (by omega),
+  · rw [ite_eq_right hp, ih _ hylt hyx, ite_eq_right (by omega),
       show 12 * ((p - 12) / 12) = 12 * (p / 12) - 12 by omega,
       show (p - 12) % 12 = p % 12 by omega]
 
@@ -101,12 +101,12 @@ theorem mulK_row_right (a : ℕ) {l w : ℕ} (hl : l < 12) (hw : w < 2 ^ 12) :
       rw [this]
       by_cases hkl : k = l
       · subst hkl
-        rw [if_neg (by omega), show 12 * k + p % 12 - 12 * k = p % 12 by omega]
+        rw [ite_eq_right (by omega), show 12 * k + p % 12 - 12 * k = p % 12 by omega]
         simp
       · by_cases hlt : k < l
-        · rw [if_pos (by omega), Nat.zero_testBit]
+        · rw [ite_eq_left (by omega), Nat.zero_testBit]
           simp [hkl]
-        · rw [if_neg (by omega), Nat.testBit_lt_two_pow (lt_of_lt_of_le hw
+        · rw [ite_eq_right (by omega), Nat.testBit_lt_two_pow (lt_of_lt_of_le hw
             (Nat.pow_le_pow_right (by norm_num) (by omega)))]
           simp [hkl]
     rw [Finset.sum_eq_single ⟨l, hl⟩ (fun k _ hk => by
@@ -145,7 +145,7 @@ theorem mulK_col_left (b : ℕ) {i u : ℕ} (hi : i < 12) (hu : u &&& low12 = u)
       rw [this]
       by_cases hki : k = i
       · subst hki
-        rw [if_neg (by omega), show 12 * (p / 12) + k - k = 12 * (p / 12) by omega]
+        rw [ite_eq_right (by omega), show 12 * (p / 12) + k - k = 12 * (p / 12) by omega]
         simp
       · split_ifs with hq
         · simp [hki]

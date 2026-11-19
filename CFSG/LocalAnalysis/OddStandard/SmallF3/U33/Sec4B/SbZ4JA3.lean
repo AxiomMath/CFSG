@@ -10,6 +10,7 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau : G}
 
+omit [Finite G] in
 theorem z4j_subgroupOf_closure {K : Subgroup G} (S : Set ↥K) :
     (closure (Subtype.val '' S : Set G)).subgroupOf K = closure S := by
   have hmap : (closure S).map K.subtype = closure (Subtype.val '' S : Set G) := by
@@ -75,7 +76,7 @@ theorem z4j_y_ne_z : hz.z4jY ≠ hz.z4jZ := by
 
 theorem z4j_l_y : hz.z4iLam * hz.z4jY * hz.z4iLam⁻¹ = hz.z4jY * hz.z4jZ := by
   apply Subtype.ext
-  simp only [Subgroup.coe_mul, Subgroup.coe_inv, z4jY, z4jZ, z4iLam, Subtype.coe_mk]
+  simp only [Subgroup.coe_mul, Subgroup.coe_inv, z4jY, z4jZ, z4iLam]
   rw [← hz.x₂_sq, ← conj_pow, hz.wreath.conj_x₁]
 
 theorem z4j_l_z : hz.z4iLam * hz.z4jZ * hz.z4iLam⁻¹ = hz.z4jZ := by
@@ -141,7 +142,7 @@ theorem z4j_t_v₂ (hV : Ctx4ZV t tau x₁ x₂ lam rho V' v₁ v₂)
     hz.z4iT * hz.z4jV hv₂ * hz.z4iT⁻¹ = hz.z4jV hv₂ * (hz.z4jY * hz.z4jZ) := by
   obtain ⟨-, -, -, -, -, -, -, -, -, -, -, -, ht₂, -, -⟩ := hV
   apply Subtype.ext
-  simp only [Subgroup.coe_mul, Subgroup.coe_inv, z4iT, z4jV, z4jY, z4jZ, Subtype.coe_mk]
+  simp only [Subgroup.coe_mul, Subgroup.coe_inv, z4iT, z4jV, z4jY, z4jZ]
   rw [ht₂, hz.x₂_sq]
 
 theorem z4j_lt_v₁ (hV : Ctx4ZV t tau x₁ x₂ lam rho V' v₁ v₂)

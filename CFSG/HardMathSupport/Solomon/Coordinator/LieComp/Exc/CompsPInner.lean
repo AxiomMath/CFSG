@@ -47,8 +47,8 @@ theorem lieCompsExport_of_langSetupP {p : ℕ} (hres : ExcRationalLieTypesP p) (
     rwa [hℓ] at this
   refine ⟨hlayer, fun K hK => ?_⟩
   obtain ⟨R, eK, hq, hty⟩ := hdata hK
-  haveI : Finite ↥K := Subtype.finite
-  haveI : Finite ↥R := Finite.of_equiv _ eK.toEquiv
+  have : Finite ↥K := Subtype.finite
+  have : Finite ↥R := Finite.of_equiv _ eK.toEquiv
   refine ⟨↥R, inferInstance, inferInstance, ⟨hq.1.commutator_eq_top, hty.chev, hty.centre⟩,
     eK.symm.toMonoidHom, eK.symm.surjective, ?_⟩
   intro x hx
@@ -90,10 +90,10 @@ theorem lieCompsExport_inner_twE6P {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hlayer : PerfectInLayer (twistedE6InndiagConj K σ h)) :
     LieCompsExport ℓ (twistedE6InndiagConj K σ h) := by
   classical
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by
+  have : Finite K := Nat.finite_of_card_ne_zero (by
     rw [hK]
     exact pow_ne_zero _ (pow_ne_zero _ hℓ.ne_zero))
-  haveI : Finite ↥(twistedE6RootGroup K σ) := Subtype.finite
+  have : Finite ↥(twistedE6RootGroup K σ) := Subtype.finite
   have hAC : ringChar (AlgebraicClosure K) = ℓ := by
     rw [ringChar_algebraicClosure]
     exact ringChar_eq_of_card_eq_pow (n := f * 2) hℓ (by omega) (by rw [hK, ← pow_mul])
@@ -115,10 +115,10 @@ theorem lieCompsExport_inner_triD4P {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (x : ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom)) (hxp : x ^ p = 1) (hx1 : x ≠ 1)
     (hlayer : PerfectInLayer (MulAut.conj x)) : LieCompsExport ℓ (MulAut.conj x) := by
   classical
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by
+  have : Finite K := Nat.finite_of_card_ne_zero (by
     rw [hK]
     exact pow_ne_zero _ (pow_ne_zero _ hℓ.ne_zero))
-  haveI : Finite ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := Subtype.finite
+  have : Finite ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := Subtype.finite
   have hAC : ringChar (AlgebraicClosure K) = ℓ := by
     rw [ringChar_algebraicClosure]
     exact ringChar_eq_of_card_eq_pow (n := f * 3) hℓ (by omega) (by rw [hK, ← pow_mul])

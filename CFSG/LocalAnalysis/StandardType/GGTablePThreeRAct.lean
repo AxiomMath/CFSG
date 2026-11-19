@@ -11,7 +11,7 @@ open CFSG CFSG.Assembly
 private theorem mulAut_eq_of_perfect_of_mem_center {X : Type*} [Group X] (a : MulAut X)
     (J : Subgroup X) (hJ : commutator J = ⊤)
     (h : ∀ j ∈ J, j⁻¹ * a j ∈ Subgroup.center X) : ∀ j ∈ J, a j = j := by
-  haveI : Group.IsPerfect J := ⟨hJ⟩
+  have : Group.IsPerfect J := ⟨hJ⟩
   let f : J → Subgroup.center X := fun j => ⟨(j : X)⁻¹ * a (j : X), h j j.2⟩
   have hf_one : f 1 = 1 := by
     apply Subtype.ext
@@ -23,7 +23,7 @@ private theorem mulAut_eq_of_perfect_of_mem_center {X : Type*} [Group X] (a : Mu
     have hpq : (q : X)⁻¹ * ((p : X)⁻¹ * a (p : X))
         = ((p : X)⁻¹ * a (p : X)) * (q : X)⁻¹ :=
       (Subgroup.mem_center_iff.mp hp) (q : X)⁻¹
-    simp only [f, Subgroup.coe_mul, map_mul, mul_inv_rev, Subtype.coe_mk]
+    simp only [f, Subgroup.coe_mul, map_mul, mul_inv_rev]
     calc ((q : X)⁻¹ * (p : X)⁻¹) * (a (p : X) * a (q : X))
         = (q : X)⁻¹ * (((p : X)⁻¹ * a (p : X)) * a (q : X)) := by group
       _ = ((q : X)⁻¹ * ((p : X)⁻¹ * a (p : X))) * a (q : X) := by group
@@ -31,9 +31,9 @@ private theorem mulAut_eq_of_perfect_of_mem_center {X : Type*} [Group X] (a : Mu
       _ = ((p : X)⁻¹ * a (p : X)) * ((q : X)⁻¹ * a (q : X)) := by group
   let φ : J →* Subgroup.center X :=
     { toFun := f, map_one' := hf_one, map_mul' := hf_mul }
-  haveI hperf : Group.IsPerfect φ.range := Group.IsPerfect.range (f := φ)
-  haveI hcomm : IsMulCommutative φ.range := inferInstance
-  haveI : Subsingleton φ.range :=
+  have hperf : Group.IsPerfect φ.range := Group.IsPerfect.range (f := φ)
+  have hcomm : IsMulCommutative φ.range := inferInstance
+  have : Subsingleton φ.range :=
     Group.IsPerfect.subsingleton_of_isMulCommutative (G := φ.range)
   have hbot : φ.range = ⊥ := by
     rw [Subgroup.eq_bot_iff_forall]

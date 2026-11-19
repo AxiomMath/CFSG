@@ -33,7 +33,7 @@ theorem card_closure_of_rawChainOK_tabRep {n : ℕ} (hn : 1 ≤ n) {O S : Array 
     unfold RawSchreierDatum.originalSubgroup
     congr 1
     ext g
-    rw [Set.mem_ofPred_eq, Set.mem_setOf_eq, RawSchreierDatum.mem_ofArrays_original]
+    rw [Set.mem_ofPred_eq, Set.mem_ofPred_eq, RawSchreierDatum.mem_ofArrays_original]
     constructor
     · rintro ⟨i, hi, rfl⟩
       exact ⟨i, hi, (hpe i hi).symm⟩

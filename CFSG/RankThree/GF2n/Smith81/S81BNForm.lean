@@ -36,6 +36,7 @@ private theorem lgen_le_H0' (hc : Ctx M Q Z B) : Lgen M (LB M Q B) ≤ H0 M Z :=
     _ = m * ((m⁻¹ * x * m) * (m⁻¹ * z * m)) * m⁻¹ := by rw [hcomm]
     _ = x * z := by group
 
+omit [Finite G] [Finite K] in
 theorem ActsOnQtAs.isometry (hg : GlobalModelData M Q Z γ M₀) {m : G}
     {T : Cube K ≃ₗ[K] Cube K} (hm : m ∈ H0 M Z) (h : ActsOnQtAs ψ m T) (u v : Cube K) :
     M₀.B (ψ.symm (T u)) (ψ.symm (T v)) = M₀.B (ψ.symm u) (ψ.symm v) := by

@@ -155,9 +155,9 @@ theorem false_of_bender (hC : Counterexample G D r Abar)
   set R : Subgroup G := (S : Subgroup G) ⊓ KG with hR
   have hRH : R ≤ Subgroup.normalizer (D : Set G) := inf_le_left.trans hSH
   have hRN : R ≤ N := inf_le_right.trans (Subgroup.map_subtype_le K)
-  have hR2 : IsPGroup 2 R := S.isPGroup'.to_inf_left
+  have hR2 : IsPGroup 2 R := S.isPGroup.to_inf_left
   have hSyl : IsSylowOf 2 (S : Subgroup G) ⊤ := isSylowOf_iff.mpr
-    ⟨le_top, S.isPGroup', by rw [Subgroup.relIndex_top_right]; exact S.not_dvd_index⟩
+    ⟨le_top, S.isPGroup, by rw [Subgroup.relIndex_top_right]; exact S.not_dvd_index⟩
   have hRK : IsSylowOf 2 R KG := hSyl.inf_of_le_normalizer le_top (by
     rw [Subgroup.normalizer_eq_top_iff.mpr inferInstance])
   have hRmap : (R.subgroupOf N).map N.subtype = R := by

@@ -34,7 +34,7 @@ private theorem binaryRep_isIrreducible {W V : Type} [CommGroup W] [AddCommGroup
     [Module (ZMod 2) V] (θ : W ≃* Multiplicative V) (L : Subgroup (MulAut W))
     (hirr : X1.IsIrrOn L) : (binaryRep θ L).IsIrreducible := by
   rw [isIrreducible_iff]
-  haveI : Nontrivial W := hirr.1
+  have : Nontrivial W := hirr.1
   have hVnt : Nontrivial V := by
     obtain ⟨x, hx⟩ := exists_ne (1 : W)
     exact ⟨⟨Multiplicative.toAdd (θ x), 0, fun h => hx (θ.injective (by simpa using h))⟩⟩
@@ -87,20 +87,20 @@ private theorem exists_coordinates_of_irreducible
       1 ≤ δ ∧ 1 ≤ m ∧ Nat.card k = 2 ^ δ ∧ Nat.card V = 2 ^ (δ * m) ∧
         r.IsIrreducible ∧ Function.Injective r ∧ ∀ g v, e (ρ g v) = r g (e v) := by
   classical
-  haveI : Fact ρ.IsIrreducible := ⟨hρ⟩
+  have : Fact ρ.IsIrreducible := ⟨hρ⟩
   have hnt : Nontrivial V := ((isIrreducible_iff ρ).mp hρ).1
-  haveI : Nontrivial V := hnt
+  have : Nontrivial V := hnt
   have hDchar : CharP (EndRing ρ) 2 :=
     charP_of_injective_algebraMap (algebraMap (ZMod 2) (EndRing ρ)).injective 2
-  haveI hDfin : Finite (EndRing ρ) := finite_endRing ρ
-  haveI : Fintype (EndRing ρ) := Fintype.ofFinite _
+  have hDfin : Finite (EndRing ρ) := finite_endRing ρ
+  have : Fintype (EndRing ρ) := Fintype.ofFinite _
   obtain ⟨δp, -, hδp⟩ := FiniteField.card (EndRing ρ) 2
   let δ : ℕ := (δp : ℕ)
   have hDcard : Nat.card (EndRing ρ) = 2 ^ δ := by
     rw [Nat.card_eq_fintype_card]
     exact hδp
   have hδ : 1 ≤ δ := δp.pos
-  haveI : Module.Finite (EndRing ρ) V := Module.Finite.of_finite
+  have : Module.Finite (EndRing ρ) V := Module.Finite.of_finite
   let m : ℕ := Module.finrank (EndRing ρ) V
   let b : Module.Basis (Fin m) (EndRing ρ) V := Module.finBasis (EndRing ρ) V
   have hm1 : 1 ≤ m := Module.finrank_pos
@@ -143,14 +143,14 @@ private theorem exists_coordinates_of_irreducible
 
 theorem exists_moduleCoordinates
     {W : Type} [CommGroup W] [Finite W] (hW : ∀ w : W, w * w = 1)
-    {L : Subgroup (MulAut W)} (hperf : Group.IsPerfect ↥L) (hL : L ≠ ⊥) (hirr : X1.IsIrrOn L) :
+    {L : Subgroup (MulAut W)} (_hperf : Group.IsPerfect ↥L) (_hL : L ≠ ⊥) (hirr : X1.IsIrrOn L) :
     ∃ (δ m : ℕ) (k : Type) (_ : Field k) (_ : Finite k) (_ : CharP k 2)
       (c : ModuleCoordinates W L k m),
       1 ≤ δ ∧ 1 ≤ m ∧ Nat.card k = 2 ^ δ ∧ Nat.card W = 2 ^ (δ * m) ∧
         c.rep.IsIrreducible ∧ Function.Injective c.rep := by
   classical
   obtain ⟨V, _, _, _, ⟨θ⟩⟩ := Layer.Actor.exists_binModel_of_binary (V := W) hW
-  haveI : Finite V := Finite.of_equiv W (θ.toEquiv.trans Multiplicative.toAdd)
+  have : Finite V := Finite.of_equiv W (θ.toEquiv.trans Multiplicative.toAdd)
   have hρirr : (binaryRep θ L).IsIrreducible := binaryRep_isIrreducible θ L hirr
   have hρinj : Function.Injective (binaryRep θ L) := by
     intro s s' h
@@ -162,8 +162,8 @@ theorem exists_moduleCoordinates
     exact congrArg (fun φ : Module.End (ZMod 2) V => φ v) h
   obtain ⟨δ, m, k, hk_field, hk_fin, hk_char, r, e, hδ, hm1, hkcard, hVcard, hr_irr, hr_inj,
     he⟩ := exists_coordinates_of_irreducible (binaryRep θ L) hρirr hρinj
-  letI : Field k := hk_field
-  letI : Finite k := hk_fin
+  let : Field k := hk_field
+  let : Finite k := hk_fin
   let coord : W ≃* Multiplicative (Fin m → k) := θ.trans (AddEquiv.toMultiplicative e)
   have hcoord_apply : ∀ (s : ↥L) (w : W),
       coord ((s : MulAut W) w) =
@@ -223,7 +223,7 @@ theorem exists_intertwiner_of_card_eq_two
     ∃ B : Module.End k (Fin m → k), IsUnit B ∧
       ∀ s : ↥L, B * c.rep s = c.rep (X1.conjAut L hb s) * B := by
   classical
-  haveI : Fintype k := Fintype.ofFinite k
+  have : Fintype k := Fintype.ofFinite k
   have hcases : ∀ x : k, x = 0 ∨ x = 1 := by
     have hx2 : Fintype.card k = 2 := by rw [← Nat.card_eq_fintype_card]; exact hk
     have h01 : (0 : k) ≠ 1 := zero_ne_one
@@ -247,7 +247,7 @@ theorem exists_intertwiner_of_card_eq_two
       map_smul' := by
         intro x v
         rcases hcases x with rfl | rfl <;> simp [hψ] }
-  have hBunit : IsUnit B := (Module.End.isUnit_iff B).2 (by simpa [B] using ψ.bijective)
+  have hBunit : IsUnit B := (Module.End.isUnit_iff B).2 (by simp [B])
   refine ⟨B, hBunit, fun s => ?_⟩
   apply LinearMap.ext
   intro v

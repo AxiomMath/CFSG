@@ -197,7 +197,7 @@ theorem altS_exists_rank_four_config {Y : Type*} [Group Y] [Finite Y]
         omega
     have hcard := Nat.card_le_card_of_injective F hF
     have h81 : Nat.card (Fin 3 × Fin 3 × Fin 3 × Fin 3) = 3 ^ 4 := by
-      simp [Nat.card_prod]
+      simp
     rwa [h81] at hcard
 
 end CFSG.LocalAnalysis.GLTheoremA.H1431c

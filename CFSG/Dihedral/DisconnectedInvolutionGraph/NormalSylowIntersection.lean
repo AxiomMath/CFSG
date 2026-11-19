@@ -46,10 +46,10 @@ theorem normal_subgroup_sylow_intersection (prime : ℕ) [Fact (Nat.Prime prime)
     ∃ relative : Sylow prime normal, (relative : Subgroup normal) =
       (sylow : Subgroup G).subgroupOf normal := by
   let intersection := (sylow : Subgroup G).subgroupOf normal
-  have hintersectionP : IsPGroup prime intersection := sylow.isPGroup'.comap_subtype
+  have hintersectionP : IsPGroup prime intersection := sylow.isPGroup.comap_subtype
   obtain ⟨relative, hrelative⟩ := hintersectionP.exists_le_sylow
   let mapped := (relative : Subgroup normal).map normal.subtype
-  have hmappedP : IsPGroup prime mapped := relative.isPGroup'.map normal.subtype
+  have hmappedP : IsPGroup prime mapped := relative.isPGroup.map normal.subtype
   obtain ⟨overgroup, hovergroup⟩ := hmappedP.exists_le_sylow
   obtain ⟨actor, hactor⟩ := MulAction.exists_smul_eq G overgroup sylow
   have hconjugateSylow : (overgroup : Subgroup G).map (MulAut.conj actor).toMonoidHom =

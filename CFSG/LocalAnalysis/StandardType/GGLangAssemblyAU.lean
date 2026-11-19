@@ -20,10 +20,10 @@ private theorem asmAU_isRoot_of_mem_familyOrbit
     {τ : Tag} {L : Type} [Field L] [IsAlgClosed L]
     {p₀ : ℕ} (S : LangSetup τ L p₀)
     {ι : Type} (a : ι → Fin τ.rank → Lˣ)
-    (i : KernelComponent (Pi.monoidHom fun u : ι => rootCharHom (a u)))
+    (i : KernelComponent (_root_.MonoidHom.pi fun u : ι => rootCharHom (a u)))
     {γ : Fin τ.rank → ℤ}
     (hγ : γ ∈ {γ : Fin τ.rank → ℤ | ∃ (k : ℕ) (δ : Fin τ.rank → ℤ),
-      δ ∈ componentRoots (Pi.monoidHom fun u : ι => rootCharHom (a u)) i ∧
+      δ ∈ componentRoots (_root_.MonoidHom.pi fun u : ι => rootCharHom (a u)) i ∧
         γ = (S.ρ : (Fin τ.rank → ℤ) → (Fin τ.rank → ℤ))^[k] δ}) :
     IsRoot τ γ := by
   obtain ⟨k, δ, hδ, rfl⟩ := hγ
@@ -62,7 +62,7 @@ theorem ggClauseAU_of_langData
     hpL (↥Us) (fun u : Us => B.a u.1) (fun u => B.a_torus u.1)
     (fun u j => ggLang_a_pow_eq_one B u.1 j) R hR
   let Tfam : Set (Fin B.τ.rank → ℤ) := {γ : Fin B.τ.rank → ℤ | ∃ (k : ℕ) (δ : Fin B.τ.rank → ℤ),
-      δ ∈ componentRoots (Pi.monoidHom fun u : Us => rootCharHom (B.a u.1)) i ∧
+      δ ∈ componentRoots (_root_.MonoidHom.pi fun u : Us => rootCharHom (B.a u.1)) i ∧
         γ = (B.setup.ρ : (Fin B.τ.rank → ℤ) → (Fin B.τ.rank → ℤ))^[k] δ}
   have hRrootSpan : R ≤ rootSpan B.τ L Tfam := hRi
   let O : Set (Fin (ggU (absTag t) 6 f).D.rank → ℤ) := ggLangReidx B.rank_eq ⁻¹' Tfam

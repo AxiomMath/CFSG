@@ -17,7 +17,7 @@ section Prime3
 variable {Y : Type} [Group Y] [Finite Y]
 
 theorem false_of_o8p2 (hR : Rank23At Y) {K B : Subgroup Y} (h : KHyp 3 K B)
-    (hc : Nat.card ↥(B ⊓ Subgroup.centralizer (K : Set Y)) < 3 ^ 3)
+    (_hc : Nat.card ↥(B ⊓ Subgroup.centralizer (K : Set Y)) < 3 ^ 3)
     (hcat : catalogIs (↥K ⧸ Subgroup.center ↥K) S9.isD4two) : False := by
   have hlist : catalogIs (↥K ⧸ Subgroup.center ↥K) S9.isList94 := by
     obtain ⟨i, hi, e⟩ := hcat

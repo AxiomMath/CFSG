@@ -37,7 +37,7 @@ theorem nonempty_frobModel (hY : CFSG.Blueprint.LieModel ↥Y .PSp 2 2 2) (ht2 :
   classical
   obtain ⟨⟨-, hf1, -, -⟩, K, _, _, hKcard, ⟨θ⟩⟩ :=
     CFSG.GH74.statedClassicalModel_of_lieModel (by norm_num) hY
-  haveI hch : CharP K 2 := finite_field_prime_power_characteristic Nat.prime_two hf1 hKcard
+  have hch : CharP K 2 := finite_field_prime_power_characteristic Nat.prime_two hf1 hKcard
   obtain ⟨Fr, hFr, hord, hzp, -, -⟩ :=
     finite_field_automorphism_fixed_field_cardinality Nat.prime_two hf1 hKcard
   have hK4 : Nat.card K = 4 := by rw [hKcard]; norm_num

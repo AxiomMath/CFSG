@@ -112,7 +112,7 @@ theorem kfO8_rho1_one : kfO8_rho1 1 = 1 := by
   ext i j
   simp [kfO8_rho1, hypVec, Matrix.one_apply, Pi.single_apply]
 
-theorem kfO8_rho1_mul {g h : 𝕍 ≃ₗ[𝔽₂] 𝕍} (hg : g ∈ kfO8Gam) (hh : h ∈ kfO8Gam) :
+theorem kfO8_rho1_mul {g h : 𝕍 ≃ₗ[𝔽₂] 𝕍} (_hg : g ∈ kfO8Gam) (hh : h ∈ kfO8Gam) :
     kfO8_rho1 (g * h) = kfO8_rho1 g * kfO8_rho1 h := by
   ext i j
   have h1 := kfO8_Gam_apply_mem hh (kfO8_hypVec_mem_flag j)
@@ -132,7 +132,7 @@ theorem kfO8_rho1_mul {g h : 𝕍 ≃ₗ[𝔽₂] 𝕍} (hg : g ∈ kfO8Gam) (hh
 
 theorem kfO8_rho2_one : kfO8_rho2 1 = 1 := by
   ext k l
-  simp [kfO8_rho2, Matrix.one_apply, Pi.single_apply, eq_comm]
+  simp [kfO8_rho2, Matrix.one_apply, Pi.single_apply]
 
 theorem kfO8_Gam_snd_apply {g : 𝕍 ≃ₗ[𝔽₂] 𝕍} (hg : g ∈ kfO8Gam) {v : 𝕍}
     (hvp : ∀ i, v.1 (Sum.inr i) = 0) :
@@ -142,15 +142,15 @@ theorem kfO8_Gam_snd_apply {g : 𝕍 ≃ₗ[𝔽₂] 𝕍} (hg : g ∈ kfO8Gam) 
   have hexp : ((0 : Fin 3 ⊕ Fin 3 → 𝔽₂), v.2) =
       ∑ m : Fin 2, v.2 m • ((0 : Fin 3 ⊕ Fin 3 → 𝔽₂),
         (Pi.single m (1 : 𝔽₂) : Fin 2 → 𝔽₂)) := by
-    refine Prod.ext (by simp [Prod.fst_sum]) ?_
+    refine Prod.ext (by simp) ?_
     funext c
-    fin_cases c <;> simp [Prod.snd_sum, Finset.sum_apply, Pi.single_apply]
+    fin_cases c <;> simp
   have hgF : (g (v.1, 0)).2 = 0 := (kfO8_mem_flag.1 (kfO8_Gam_apply_mem hg hvF)).2
   have h0 : g v = g (v.1, 0) + ∑ m : Fin 2, v.2 m • g (0, Pi.single m 1) := by
     conv_lhs => rw [hsplit, map_add, hexp, map_sum]
     simp only [map_smul]
   rw [h0]
-  simp [Prod.snd_add, Prod.snd_sum, hgF]
+  simp [Prod.snd_add, hgF]
 
 theorem kfO8_rho2_mul {g h : 𝕍 ≃ₗ[𝔽₂] 𝕍} (hg : g ∈ kfO8Gam) (hh : h ∈ kfO8Gam) :
     kfO8_rho2 (g * h) = kfO8_rho2 g * kfO8_rho2 h := by
@@ -182,7 +182,7 @@ theorem kfO8_eq_one_of_rho_eq_one {e : 𝕍 ≃ₗ[𝔽₂] 𝕍} (he : e ∈ kf
       have := congrFun (congrFun (congrArg (fun M => M) h1) l) j
       simpa [kfO8_rho1, Matrix.one_apply] using this
     simp only [hc]
-    simp [hypVec, Prod.fst_sum, Prod.snd_sum]
+    simp [hypVec]
   have hF : ∀ f ∈ kfO8Flag, e f = f := by
     intro f hf
     conv_lhs => rw [kfO8_flag_expand hf]
@@ -250,8 +250,8 @@ theorem kfO8_invariant_eq {G : Type*} [Group G] {E K : Subgroup G} (hKE : K ≤ 
     (hinv : ∀ e ∈ E, t ^ 2 * e * (t ^ 2)⁻¹ = e⁻¹) (hK : ∀ k ∈ K, t * k * t⁻¹ ∈ K)
     (hK1 : K ≠ ⊥) : K = E := by
   by_contra hne
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hE9]; norm_num)
-  haveI : Finite K :=
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hE9]; norm_num)
+  have : Finite K :=
     Finite.of_injective (Subgroup.inclusion hKE) (Subgroup.inclusion_injective hKE)
   have hdvd : Nat.card K ∣ 3 ^ 2 := by
     have := hE9 ▸ Subgroup.card_dvd_of_le hKE
@@ -283,7 +283,7 @@ theorem kfO8_invariant_eq {G : Type*} [Group G] {E K : Subgroup G} (hKE : K ≤ 
     rw [this, ← hn]
     have hc : t * k ^ n * t⁻¹ = (t * k * t⁻¹) ^ n := by
       have := map_zpow (MulAut.conj t) k n
-      simpa [MulAut.conj_apply] using this
+      simp
     rw [hc, ← hn, ← zpow_mul]
   have h1 : k ^ (n * n) = k⁻¹ := by rw [← hsq]; exact hinv k hkE
   have h2 : k ^ (n * n + 1) = 1 := by rw [zpow_add_one, h1, inv_mul_cancel]
@@ -295,7 +295,7 @@ theorem kfO8_invariant_eq {G : Type*} [Group G] {E K : Subgroup G} (hKE : K ≤ 
 
 theorem kfO8_card_GL (n : ℕ) :
     Nat.card (Matrix.GeneralLinearGroup (Fin n) 𝔽₂) = ∏ i : Fin n, (2 ^ n - 2 ^ (i : ℕ)) := by
-  haveI : Fintype 𝔽₂ := Fintype.ofFinite _
+  have : Fintype 𝔽₂ := Fintype.ofFinite _
   have hq : Fintype.card 𝔽₂ = 2 := by
     rw [← Nat.card_eq_fintype_card, GaloisField.card 2 1 one_ne_zero]; simp
   rw [Matrix.card_GL_field, hq]
@@ -327,7 +327,7 @@ theorem kfO8_layer (E : Subgroup (𝕍 ≃ₗ[𝔽₂] 𝕍)) (hEΓ : E ≤ kfO8
     (hE9 : Nat.card E = 9) (t : 𝕍 ≃ₗ[𝔽₂] 𝕍) (htΓ : t ∈ kfO8Gam)
     (htN : ∀ e ∈ E, t * e * t⁻¹ ∈ E) (hinv : ∀ e ∈ E, t ^ 2 * e * (t ^ 2)⁻¹ = e⁻¹) :
     False := by
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hE9]; norm_num)
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hE9]; norm_num)
   let r1 : E →* Matrix.GeneralLinearGroup (Fin 3) 𝔽₂ :=
     (kfO8_rho1Hom.comp (Subgroup.inclusion hEΓ)).toHomUnits
   let r2 : E →* Matrix.GeneralLinearGroup (Fin 2) 𝔽₂ :=

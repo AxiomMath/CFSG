@@ -128,7 +128,7 @@ theorem inSubgroup_pPrimeCore_normalClosureIn_eq_pCoreOf (h1812 : Item181_2) (h1
   have hO2 : IsPGroup 2 O := CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 L
   have hodd : ∀ q : ℕ, q.Prime → q ≠ 2 → ¬ q ∣ Nat.card X := by
     intro q hq hq2 hqd
-    haveI : Fact q.Prime := ⟨hq⟩
+    have : Fact q.Prime := ⟨hq⟩
     have hq3 : q ≠ 3 := fun h3 => hX3 (h3 ▸ hqd)
     obtain ⟨x₀, hx₀⟩ := exists_prime_orderOf_dvd_card' (G := X) q hqd
     have hy₀X : (x₀ : G) ∈ X := x₀.2

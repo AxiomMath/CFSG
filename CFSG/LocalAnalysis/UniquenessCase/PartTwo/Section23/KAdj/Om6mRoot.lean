@@ -145,6 +145,7 @@ open CFSG.LocalAnalysis.UniquenessCase.PartTwo (IsSLn)
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {b c : K}
 
+omit [Field K] [Finite K] [CharP K 2] in
 private lemma four_le_sq_card_D10 (hK2 : 2 ≤ Nat.card K) :
     4 ≤ Nat.card K ^ 2 := by
   calc (4 : ℕ) = 2 ^ 2 := by norm_num
@@ -170,7 +171,7 @@ private lemma isPerfect_om6mX_D10 (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
     Group.IsPerfect ↥(om6mX b c) := by
   obtain ⟨F, _, _, h4, ⟨eX⟩⟩ := exists_equiv_sl2_om6mX_D10 (b := b) (c := c) hirr
   have hq := isQuasisimple_sl2_D10 F h4
-  haveI : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) F) :=
+  have : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) F) :=
     Group.isPerfect_def.mpr hq.1
   exact Group.IsPerfect.ofSurjective (f := eX.symm.toMonoidHom) eX.symm.surjective
 
@@ -178,13 +179,14 @@ private lemma nontrivial_om6mX_D10 (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
     Nontrivial ↥(om6mX b c) := by
   obtain ⟨F, _, _, h4, ⟨eX⟩⟩ := exists_equiv_sl2_om6mX_D10 (b := b) (c := c) hirr
   have hq := isQuasisimple_sl2_D10 F h4
-  haveI : Nontrivial (Matrix.SpecialLinearGroup (Fin 2) F ⧸ Subgroup.center _) :=
+  have : Nontrivial (Matrix.SpecialLinearGroup (Fin 2) F ⧸ Subgroup.center _) :=
     hq.2.toNontrivial
-  haveI : Nontrivial (Matrix.SpecialLinearGroup (Fin 2) F) :=
+  have : Nontrivial (Matrix.SpecialLinearGroup (Fin 2) F) :=
     (QuotientGroup.mk_surjective (s := Subgroup.center _)).nontrivial
   exact Function.Injective.nontrivial eX.symm.injective
 
-private lemma om6mX_le_orthParab_D10 (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
+omit [Finite K] [CharP K 2] in
+private lemma om6mX_le_orthParab_D10 (_hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
     om6mX b c ≤ orthParab 2 (minusTailForm K b c) ![0, 1] := by
   intro x hx
   obtain ⟨B, _hB, hBx⟩ := Subgroup.mem_map.mp (Subgroup.mem_subgroupOf.mp hx)
@@ -224,10 +226,10 @@ theorem om6m_commutator_om6mX (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
 theorem om6m_not_isPGroup_om6mX (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
     ¬ IsPGroup 2 ↥(om6mX b c) := by
   intro hp
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hnil : Group.IsNilpotent ↥(om6mX b c) := hp.isNilpotent
-  haveI : Group.IsPerfect ↥(om6mX b c) := isPerfect_om6mX_D10 hirr
-  haveI : Nontrivial ↥(om6mX b c) := nontrivial_om6mX_D10 hirr
+  have : Group.IsPerfect ↥(om6mX b c) := isPerfect_om6mX_D10 hirr
+  have : Nontrivial ↥(om6mX b c) := nontrivial_om6mX_D10 hirr
   exact Group.IsPerfect.not_isNilpotent ↥(om6mX b c) hnil
 
 theorem om6m_isQuasisimple_bar2_hinf_orthParab (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :

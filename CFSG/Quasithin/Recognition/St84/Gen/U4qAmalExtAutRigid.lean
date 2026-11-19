@@ -180,7 +180,7 @@ theorem eq_one_of_forall_fix_inf_parP_u4 (hm : 2 ≤ m) (α : MulAut ↥(parP h)
       obtain ⟨c, -, hvc⟩ := hv
       apply hypSU_ext h
       rw [coe_mul_hypSU, hvc, sMat_mul]
-      simp only [add_zero, map_zero, zero_mul, CharTwo.add_self_eq_zero]
+      simp only [map_zero, zero_mul, CharTwo.add_self_eq_zero]
       rw [sMat_zero_u4]
       rfl)
     (fun p hp v hv => conj_mem_zRad_of_mem_normalizer h p (parP_le_normalizer_radQ h hp) v hv)

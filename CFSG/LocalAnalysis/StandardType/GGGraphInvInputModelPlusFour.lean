@@ -337,7 +337,7 @@ private theorem ggOmW6dB_card_dvd_six_of_decomp {Q : Type} [Group Q]
     · exact mul_mem
         (Subgroup.le_normalizer (show x ^ k ∈ A from Subgroup.npow_mem_zpowers x k))
         hy_norm
-  haveI : A.Normal := hnormal
+  have : A.Normal := hnormal
   have hA3 : Nat.card A ∣ 3 := by
     rw [hA, Nat.card_zpowers]
     exact orderOf_dvd_iff_pow_eq_one.mpr hx
@@ -380,7 +380,7 @@ private theorem ggOmW6dB_index_le_two_of_card_quotient {C : Type} [Group C] [Fin
   have hT2 : IsPGroup 2 (S.map f) := hS.map f
   have hTdvd : Nat.card (S.map f) ∣ 6 :=
     dvd_trans (Subgroup.card_subgroup_dvd_card _) hI
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := hT2.exists_card_eq
   have hpow : 2 ^ n ∣ 6 := by rw [← hn]; exact hTdvd
   have hnle : n ≤ 1 := by
@@ -403,7 +403,7 @@ private theorem ggOmW6dB_GGOutTwoPartLeTwo_of_triality {C : Type} [Group C] [Fin
       ∃ c : MulAut C, (c = 1 ∨ c = ρ) ∧ α = ι * (θ ^ k * c)) :
     GGOutTwoPartLeTwo C := by
   set I : Subgroup (MulAut C) := (MulAut.conj : C →* MulAut C).range with hI
-  haveI : I.Normal := CFSG.ComponentClassification.OuterAutomorphisms.inner_normal C
+  have : I.Normal := CFSG.ComponentClassification.OuterAutomorphisms.inner_normal C
   have hρinv : ρ⁻¹ = ρ := inv_eq_of_mul_eq_one_right hρ2
   let x : MulAut C ⧸ I := QuotientGroup.mk' I θ
   let y : MulAut C ⧸ I := QuotientGroup.mk' I ρ

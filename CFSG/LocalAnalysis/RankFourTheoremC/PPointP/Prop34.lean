@@ -240,7 +240,7 @@ theorem le_centralizer_p {p : ℕ} [hp : Fact p.Prime] (hp5 : 5 ≤ p)
   have hxQ : x ∈ (P : Subgroup G) ⊓ centralizer ({x} : Set G) :=
     ⟨h.mem, mem_centralizer_singleton_iff.2 rfl⟩
   have hQP : (P : Subgroup G) ⊓ centralizer ({x} : Set G) ≤ (P : Subgroup G) := inf_le_left
-  have hPQ := eq_of_isPGroup_of_le_of_normalizer P.isPGroup' hQP (fun g hgP hgN => by
+  have hPQ := eq_of_isPGroup_of_le_of_normalizer P.isPGroup hQP (fun g hgP hgN => by
     refine ⟨hgP, ?_⟩
     set L : Subgroup G := (zpowers x).map (MulAut.conj g).toMonoidHom with hL
     have hLQ : L ≤ (P : Subgroup G) ⊓ centralizer ({x} : Set G) := by
@@ -254,7 +254,7 @@ theorem le_centralizer_p {p : ℕ} [hp : Fact p.Prime] (hp5 : 5 ≤ p)
     have hmem : g * x * g⁻¹ ∈ zpowers x := by
       rw [← hLx]
       exact ⟨x, mem_zpowers x, rfl⟩
-    obtain ⟨j, hj⟩ := P.isPGroup' ⟨g, hgP⟩
+    obtain ⟨j, hj⟩ := P.isPGroup ⟨g, hgP⟩
     have hgj : g ^ (p ^ j) = 1 := by simpa using congrArg Subtype.val hj
     show g ∈ centralizer ({x} : Set G)
     rw [mem_centralizer_singleton_iff]

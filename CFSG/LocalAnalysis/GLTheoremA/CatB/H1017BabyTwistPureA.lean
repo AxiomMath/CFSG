@@ -15,8 +15,8 @@ open CFSG.Open CFSG.Blueprint CFSG.Monster.GMS CFSG.HardMathSupport.Timmesfeld.S
 
 theorem babyNoPureFourAt_zero : BabyNoPureFourAt 0 := by
   intro t ht D hDt hD hDcard
-  haveI : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hr : BabyInv 0 (BThreeFi23.phiB (CFSG.Sporadic.Fi23.conjPt 770)) :=
     babyInv_zero_map_of_isConj_d _ BThreeFi23.phiB_injective
       ((CFSG.Sporadic.Fi23.isConj_d_iff _).2 ⟨⟨770, by norm_num⟩, rfl⟩)

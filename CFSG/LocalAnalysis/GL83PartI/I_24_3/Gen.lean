@@ -49,13 +49,13 @@ theorem exists_central_mul_mem_normalizer
     {K : Subgroup X} {f z k : X}
     (hfN : f ∈ Subgroup.normalizer (K : Set X)) (hfp : f ^ p = 1)
     (hzK : z ∈ K) (hzc : z ∈ Subgroup.centralizer (K : Set X)) (hzp : orderOf z = p)
-    (hfz : f * z = z * f)
+    (_hfz : f * z = z * f)
     (hΩ : ∀ c ∈ K, c ∈ Subgroup.centralizer (K : Set X) → c ^ p = 1 → c ∈ Subgroup.zpowers z)
     (hk : k ∈ K) (hζ : f * k * f⁻¹ * k⁻¹ ∈ Subgroup.centralizer (K : Set X)) :
     ∃ c ∈ K, c ∈ Subgroup.centralizer (K : Set X) ∧
       k * c ∈ Subgroup.normalizer
         ((Subgroup.zpowers f ⊔ Subgroup.zpowers z : Subgroup X) : Set X) := by
-  clear hfz
+  clear _hfz
   obtain ⟨Z, hZ⟩ : ∃ Z : Subgroup X, Z = K ⊓ centralizer (K : Set X) := ⟨_, rfl⟩
   have hZmem : ∀ x, x ∈ Z ↔ x ∈ K ∧ x ∈ centralizer (K : Set X) := fun x => by
     rw [hZ]
@@ -65,7 +65,7 @@ theorem exists_central_mul_mem_normalizer
   have hfZ : ∀ c ∈ Z, f * c * f⁻¹ ∈ Z := fun c hc => by
     rw [hZmem] at hc ⊢
     exact ⟨(mem_normalizer_iff.1 hfN c).1 hc.1, Gen.conj_mem_centralizer hfN hc.2⟩
-  letI : CommGroup Z := Gen.commGroupOfCommute Z hZcomm
+  let : CommGroup Z := Gen.commGroupOfCommute Z hZcomm
   obtain ⟨t, ht_apply⟩ : ∃ t : Monoid.End Z, ∀ c : Z, ((t c : Z) : X) = f * c * f⁻¹ := by
     let t₀ : Z →* Z :=
       { toFun := fun c => ⟨f * c * f⁻¹, hfZ c c.2⟩

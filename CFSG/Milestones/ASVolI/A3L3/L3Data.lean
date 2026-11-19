@@ -58,14 +58,14 @@ theorem burnsideA315y_l3_charP [Finite F] {p : ℕ} [Fact p.Prime] (hF : Nat.car
 
 theorem burnsideA315y_l3_exists_xy [Finite F] {p : ℕ} [Fact p.Prime] (hF : Nat.card F = p) :
     ∃ x y : F, x ^ 2 + y ^ 2 = -1 := by
-  haveI := burnsideA315y_l3_charP hF
+  have := burnsideA315y_l3_charP hF
   obtain ⟨a, b, hab⟩ := ZMod.sq_add_sq p (-1)
   refine ⟨ZMod.castHom (dvd_refl p) F a, ZMod.castHom (dvd_refl p) F b, ?_⟩
   rw [← map_pow, ← map_pow, ← map_add, hab, map_neg, map_one]
 
 theorem burnsideA315y_l3_two_ne [Finite F] {p : ℕ} [Fact p.Prime] (hF : Nat.card F = p)
     (hp2 : p ≠ 2) : (2 : F) ≠ 0 := by
-  haveI := burnsideA315y_l3_charP hF
+  have := burnsideA315y_l3_charP hF
   intro h
   have h' : ((2 : ℕ) : F) = 0 := by exact_mod_cast h
   rw [CharP.cast_eq_zero_iff F p] at h'

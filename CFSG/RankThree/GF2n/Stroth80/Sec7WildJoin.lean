@@ -86,7 +86,7 @@ theorem sec7_wild_join (h52a : Stroth52aStatement) (hA : Sec7AExistsStatement)
         rw [e]
         exact P.mul_mem (P.mul_mem (hVP h1) (hSP _ hw')) (hVP h3)
       · exact hVP ((Subgroup.mem_normalizer_iff.mp hrN y).mp hy)
-    | one => simpa using P.one_mem
+    | one => simp
     | mul a b _ _ ha hb =>
       have e : r * (a * b) * r⁻¹ = (r * a * r⁻¹) * (r * b * r⁻¹) := by group
       rw [e]

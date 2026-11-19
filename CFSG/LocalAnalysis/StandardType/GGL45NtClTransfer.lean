@@ -225,7 +225,7 @@ theorem coreConcl_transfer {p : ℕ} (hp : p.Prime) {R : Type} [Group R] (I : Se
 private lemma isElemAbelian_map_mulEquiv {G G' : Type*} [Group G] [Group G'] {p : ℕ}
     {E : Subgroup G} (hE : IsElemAbelian p E) (f : G ≃* G') :
     IsElemAbelian p (E.map (f : G →* G')) := by
-  haveI := hE.1
+  have := hE.1
   refine ⟨⟨⟨fun a b => ?_⟩⟩, fun y hy => ?_⟩
   · obtain ⟨x, hx, hax⟩ := Subgroup.mem_map.1 a.2
     obtain ⟨z, hz, hbz⟩ := Subgroup.mem_map.1 b.2
@@ -267,7 +267,7 @@ theorem ntCore_of_mulEquiv {p : ℕ} {R Γ : Type} [Group R] [Group Γ] (Θ : R 
     (h : GGL45NtCore p Γ ((MulAut.congr Θ) '' I) ((MulAut.congr Θ) '' F)) :
     GGL45NtCore p R I F := by
   intro hRsimple hRnonab Ebar f' hEab hcard hEbarI hf'p hconj hcomm hSat
-  haveI : IsSimpleGroup R := hRsimple
+  have : IsSimpleGroup R := hRsimple
   let ψ : MulAut R ≃* MulAut Γ := MulAut.congr Θ
   have hΓsimple : IsSimpleGroup Γ := MulEquiv.isSimpleGroup Θ.symm
   have hΓnonab : ∃ a b : Γ, a * b ≠ b * a := by

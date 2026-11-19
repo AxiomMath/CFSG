@@ -15,6 +15,7 @@ open Module
 variable {k V : Type} [Field k] [Finite k] [CharP k 2] [AddCommGroup V] [Module k V]
   [Module.Finite k V]
 
+omit [Finite k] [CharP k 2] [Module.Finite k V] in
 private lemma equivFun_toLin_apply {N : ℕ} (b : Module.Basis (Fin N) k V)
     (M : Matrix (Fin N) (Fin N) k) (x : V) :
     b.equivFun (Matrix.toLin b b M x) = M *ᵥ b.equivFun x := by
@@ -29,7 +30,7 @@ private theorem matrix_cocycle_coboundary {N : ℕ} (hN : 4 ≤ N)
     ∃ a : Fin N → k, ∀ g : Matrix.SpecialLinearGroup (Fin N) k,
       c g = (g : Matrix (Fin N) (Fin N) k) *ᵥ a - a := by
   classical
-  haveI : Fintype k := Fintype.ofFinite k
+  have : Fintype k := Fintype.ofFinite k
   obtain ⟨n, hnprime, hcard⟩ := FiniteField.card k 2
   have hpos : 0 < (n : ℕ) := n.pos
   rcases lt_or_ge (n : ℕ) 2 with hn | hn
@@ -127,6 +128,7 @@ private theorem matrix_cocycle_coboundary {N : ℕ} (hN : 4 ≤ N)
     calc (4 : ℕ) = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ (n : ℕ) := pow_le_pow_right' (by norm_num) hn
 
+omit [Module.Finite k V] in
 private theorem exists_eq_sub_of_cocycle_natural_aux {N : ℕ} (b : Module.Basis (Fin N) k V)
     (hN : 4 ≤ N) (c : SpecialLinearGroup k V → V)
     (hc : ∀ g h : SpecialLinearGroup k V, c (g * h) = c g + g (c h)) :
@@ -174,6 +176,7 @@ theorem exists_eq_sub_of_cocycle_natural (hV : 4 ≤ Module.finrank k V)
     ∃ a : V, ∀ g : SpecialLinearGroup k V, c g = g a - a :=
   exists_eq_sub_of_cocycle_natural_aux (Module.finBasis k V) hV c hc
 
+omit [Finite k] [CharP k 2] [Module.Finite k V] in
 private lemma dualBasis_equivFun_comp {N : ℕ} (b : Module.Basis (Fin N) k V)
     (u : V ≃ₗ[k] V) (f : Module.Dual k V) :
     b.dualBasis.equivFun (f ∘ₗ u.toLinearMap) =
@@ -184,6 +187,7 @@ private lemma dualBasis_equivFun_comp {N : ℕ} (b : Module.Basis (Fin N) k V)
       (Module.Dual.transpose (R := k) u.toLinearMap) f,
     LinearMap.toMatrix_transpose, Basis.equivFun_apply b.dualBasis f]
 
+omit [Finite k] [CharP k 2] in
 private lemma transpose_mul' {N : ℕ} (A B : Matrix.SpecialLinearGroup (Fin N) k) :
     Matrix.SpecialLinearGroup.transpose (A * B) =
       Matrix.SpecialLinearGroup.transpose B * Matrix.SpecialLinearGroup.transpose A := by
@@ -192,12 +196,14 @@ private lemma transpose_mul' {N : ℕ} (A B : Matrix.SpecialLinearGroup (Fin N) 
     (B : Matrix (Fin N) (Fin N) k)ᵀ * (A : Matrix (Fin N) (Fin N) k)ᵀ
   rw [Matrix.transpose_mul]
 
+omit [Finite k] [CharP k 2] in
 private lemma transpose_one' {N : ℕ} :
     Matrix.SpecialLinearGroup.transpose (1 : Matrix.SpecialLinearGroup (Fin N) k) = 1 := by
   apply Subtype.ext
   change ((1 : Matrix (Fin N) (Fin N) k))ᵀ = 1
   rw [Matrix.transpose_one]
 
+omit [Finite k] [CharP k 2] in
 private lemma transpose_inv' {N : ℕ} (A : Matrix.SpecialLinearGroup (Fin N) k) :
     Matrix.SpecialLinearGroup.transpose A⁻¹ =
       (Matrix.SpecialLinearGroup.transpose A)⁻¹ := by
@@ -206,6 +212,7 @@ private lemma transpose_inv' {N : ℕ} (A : Matrix.SpecialLinearGroup (Fin N) k)
     rw [← transpose_mul', inv_mul_cancel, transpose_one']
   exact eq_inv_of_mul_eq_one_right h
 
+omit [Finite k] [CharP k 2] in
 private lemma transpose_transpose' {N : ℕ} (A : Matrix.SpecialLinearGroup (Fin N) k) :
     Matrix.SpecialLinearGroup.transpose (Matrix.SpecialLinearGroup.transpose A) = A := by
   apply Subtype.ext
@@ -225,10 +232,9 @@ private noncomputable def inverseTransposeEquiv {N : ℕ} :
       (Matrix.SpecialLinearGroup.transpose M⁻¹)⁻¹ = M
     rw [transpose_inv', transpose_transpose', inv_inv]
   map_mul' M M' := by
-    change Matrix.SpecialLinearGroup.transpose (M * M')⁻¹ =
-      Matrix.SpecialLinearGroup.transpose M⁻¹ * Matrix.SpecialLinearGroup.transpose M'⁻¹
     rw [_root_.mul_inv_rev, transpose_mul']
 
+omit [Finite k] [CharP k 2] in
 private lemma inverseTransposeEquiv_coe {N : ℕ} (M : Matrix.SpecialLinearGroup (Fin N) k) :
     ((inverseTransposeEquiv (k := k) (N := N) M : Matrix.SpecialLinearGroup (Fin N) k) :
       Matrix (Fin N) (Fin N) k) =

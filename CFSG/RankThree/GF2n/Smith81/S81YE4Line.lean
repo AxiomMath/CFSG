@@ -37,7 +37,7 @@ theorem UL_fix_a0 [CharP K 2] {u : (Module.End K (V K))ˣ} (hu : u ∈ UL K) :
   | mem x hx =>
     obtain ⟨β, hβ, hzero, hpos, c, rfl⟩ := hx
     rw [e7Data_valid.xu_apply, rootOp_single (K := K) hβ,
-      if_neg (pr_a0_ne_neg_one hβ hzero hpos), smul_zero, add_zero]
+      ite_eq_right (pr_a0_ne_neg_one hβ hzero hpos), smul_zero, add_zero]
   | one => rw [Units.val_one, Module.End.one_apply]
   | mul x y _ _ hx hy => rw [Units.val_mul, Module.End.mul_apply, hy, hx]
   | inv x _ hx =>
@@ -117,7 +117,7 @@ theorem e4V_lineNF [CharP K 2] {g : G7 K} (hg : g ∈ LG K) {c : K} (hc : c ≠ 
   have hv0 : (Finsupp.single (a0 : Fin e7Data.d) 1 : V K) ∈ V0 K := by
     rw [mem_V0]
     intro b hb
-    rw [Finsupp.single_apply, if_neg]
+    rw [Finsupp.single_apply, ite_eq_right]
     intro h
     exact hb (h ▸ a0.2)
   have hgV0 : act7 (u * t * nW K w * b₂) (Finsupp.single (a0 : Fin e7Data.d) 1) ∈ V0 K :=

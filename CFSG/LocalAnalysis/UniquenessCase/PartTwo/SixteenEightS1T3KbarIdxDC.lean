@@ -228,7 +228,7 @@ theorem s16t3_normIdx_altDn {n : ℕ} (hn : 5 ≤ n) {L : Subgroup (MulAut W)} {
     show (MulAut.congr ψ (gL (π γ))) (ψ (QuotientGroup.mk u)) =
       s16t3_altActHom n (γ : Equiv.Perm (Fin n)) (ψ (QuotientGroup.mk u))
     simp only [MulAut.congr_apply, MulEquiv.trans_apply, MulEquiv.symm_apply_apply,
-      s16t3_altActHom_apply, toAdd_ofAdd]
+      s16t3_altActHom_apply]
     rw [← hψ_eq γ u, ofAdd_toAdd]
   have hmap : (⊤ : Subgroup ↥L).map gL' =
       (⊤ : Subgroup ↥(alternatingGroup (Fin n))).map actA := by

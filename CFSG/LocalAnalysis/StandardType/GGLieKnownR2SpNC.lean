@@ -144,11 +144,11 @@ private theorem l10ss2_longIndex {n : ℕ} {F : Type} [Field F]
   · exact ⟨i, Or.inl hr⟩
   · exact ⟨i, Or.inr hr⟩
   · have h := hev i
-    simp [stdVec, Pi.single_apply, hij] at h
+    simp [stdVec, hij] at h
   · have h := hev i
-    simp [stdVec, Pi.single_apply, hij.ne] at h
+    simp [stdVec, hij.ne] at h
   · have h := hev i
-    simp [stdVec, Pi.single_apply, hij.ne] at h
+    simp [stdVec, hij.ne] at h
 
 private theorem l10ss2_spForm_single_single {n : ℕ} {F : Type} [Field F] [CharP F 2]
     (b c : Fin n ⊕ Fin n) :
@@ -220,19 +220,19 @@ private theorem l10ss2_sel_sel {n : ℕ} {F : Type} [Field F] [CharP F 2]
     CFSG.Timmesfeld.ARS.CaseM.spForm (l10ss2_sel (F := F) i j) (l10ss2_sel (F := F) i k) = 0 := by
   unfold l10ss2_sel
   by_cases hj : j = i
-  · rw [if_pos hj]
+  · rw [ite_eq_left hj]
     by_cases hk : k = i
-    · rw [if_pos hk]
+    · rw [ite_eq_left hk]
       exact l10ss2_spForm_inl_inl j k
-    · rw [if_neg hk]
+    · rw [ite_eq_right hk]
       have hik : ¬ i = k := fun h => hk h.symm
-      simp only [l10ss2_spForm_inl_inr, hj, hik, if_false, sub_self, ZeroHomClass.map_zero]
-  · rw [if_neg hj]
+      simp only [l10ss2_spForm_inl_inr, hj, hik, ite_false]
+  · rw [ite_eq_right hj]
     by_cases hk : k = i
-    · rw [if_pos hk]
+    · rw [ite_eq_left hk]
       have hjk : ¬ j = k := fun h => hj (h.trans hk)
-      simp only [l10ss2_spForm_inr_inl, hjk, if_false]
-    · rw [if_neg hk]
+      simp only [l10ss2_spForm_inr_inl, hjk, ite_false]
+    · rw [ite_eq_right hk]
       exact l10ss2_spForm_inr_inr j k
 
 private theorem l10ss2_sel'_sel' {n : ℕ} {F : Type} [Field F] [CharP F 2]
@@ -241,28 +241,27 @@ private theorem l10ss2_sel'_sel' {n : ℕ} {F : Type} [Field F] [CharP F 2]
       0 := by
   unfold l10ss2_sel'
   by_cases hj : j = i
-  · rw [if_pos hj]
+  · rw [ite_eq_left hj]
     by_cases hk : k = i
-    · rw [if_pos hk]
+    · rw [ite_eq_left hk]
       exact l10ss2_spForm_inr_inr j k
-    · rw [if_neg hk]
+    · rw [ite_eq_right hk]
       have hik : ¬ i = k := fun h => hk h.symm
       simp only [l10ss2_spForm_inr_inl, l10ss2_spForm_inr_inr,
         CFSG.Timmesfeld.Transvection.ModelRank.spForm_add_right,
-        CFSG.Timmesfeld.ARS.CaseM.spForm_self, hj, hik, if_false, add_zero]
-  · rw [if_neg hj]
+        hj, hik, ite_false, add_zero]
+  · rw [ite_eq_right hj]
     by_cases hk : k = i
-    · rw [if_pos hk]
+    · rw [ite_eq_left hk]
       have hjk : ¬ j = k := fun h => hj (h.trans hk)
       simp only [l10ss2_spForm_inl_inr, l10ss2_spForm_inr_inr,
         CFSG.Timmesfeld.Transvection.ModelRank.spForm_add_left,
-        CFSG.Timmesfeld.Transvection.ModelRank.spForm_add_right,
-        CFSG.Timmesfeld.ARS.CaseM.spForm_self, hjk, if_false, add_zero, zero_add]
-    · rw [if_neg hk]
+        hjk, ite_false, add_zero]
+    · rw [ite_eq_right hk]
       simp only [l10ss2_spForm_inl_inl, l10ss2_spForm_inl_inr, l10ss2_spForm_inr_inl,
         l10ss2_spForm_inr_inr, CFSG.Timmesfeld.Transvection.ModelRank.spForm_add_left,
         CFSG.Timmesfeld.Transvection.ModelRank.spForm_add_right,
-        CFSG.Timmesfeld.ARS.CaseM.spForm_self, hj, hk, CharTwo.add_self_eq_zero, add_zero,
+        CharTwo.add_self_eq_zero, add_zero,
         zero_add]
 
 private theorem l10ss2_sel_sel' {n : ℕ} {F : Type} [Field F] [CharP F 2]
@@ -271,30 +270,29 @@ private theorem l10ss2_sel_sel' {n : ℕ} {F : Type} [Field F] [CharP F 2]
       if j = k then 1 else 0 := by
   unfold l10ss2_sel l10ss2_sel'
   by_cases hj : j = i
-  · rw [if_pos hj]
+  · rw [ite_eq_left hj]
     by_cases hk : k = i
-    · rw [if_pos hk]
-      simp only [l10ss2_spForm_inl_inr, hj, hk, if_true]
-    · rw [if_neg hk]
+    · rw [ite_eq_left hk]
+      simp only [l10ss2_spForm_inl_inr, hj, hk, ite_true]
+    · rw [ite_eq_right hk]
       have hik : ¬ i = k := fun h => hk h.symm
       simp only [l10ss2_spForm_inl_inl, l10ss2_spForm_inl_inr,
         CFSG.Timmesfeld.Transvection.ModelRank.spForm_add_right,
-        CFSG.Timmesfeld.ARS.CaseM.spForm_self, hj, hik, if_false, add_zero]
-  · rw [if_neg hj]
+        hj, hik, ite_false, add_zero]
+  · rw [ite_eq_right hj]
     by_cases hk : k = i
-    · rw [if_pos hk]
+    · rw [ite_eq_left hk]
       have hjk : ¬ j = k := fun h => hj (h.trans hk)
-      simp only [l10ss2_spForm_inr_inr, hjk, if_false]
-    · rw [if_neg hk]
+      simp only [l10ss2_spForm_inr_inr, hjk, ite_false]
+    · rw [ite_eq_right hk]
       by_cases hjk : j = k
-      · rw [if_pos hjk]
+      · rw [ite_eq_left hjk]
+        simp only [l10ss2_spForm_inr_inl, CFSG.Timmesfeld.Transvection.ModelRank.spForm_add_right,
+          CFSG.Timmesfeld.ARS.CaseM.spForm_self, hjk, ite_true, add_zero]
+      · rw [ite_eq_right hjk]
         simp only [l10ss2_spForm_inr_inl, l10ss2_spForm_inr_inr,
           CFSG.Timmesfeld.Transvection.ModelRank.spForm_add_right,
-          CFSG.Timmesfeld.ARS.CaseM.spForm_self, hjk, if_true, add_zero]
-      · rw [if_neg hjk]
-        simp only [l10ss2_spForm_inr_inl, l10ss2_spForm_inr_inr,
-          CFSG.Timmesfeld.Transvection.ModelRank.spForm_add_right,
-          CFSG.Timmesfeld.ARS.CaseM.spForm_self, hjk, if_false, add_zero]
+          hjk, ite_false, add_zero]
 
 private theorem l10ss2_exists_h {n : ℕ} {F : Type} [Field F] [CharP F 2] (i : Fin n) :
     ∃ h : ↥(StatedSp n F), ∀ j : Fin n,
@@ -313,10 +311,10 @@ private theorem l10ss2_h_plane {n : ℕ} {F : Type} [Field F] {i : Fin n} {h : �
   refine ⟨?_, ?_⟩
   · rw [(hh i).1]
     unfold l10ss2_sel
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
   · rw [(hh i).2]
     unfold l10ss2_sel'
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
 
 private theorem l10ss2_h_off {n : ℕ} {F : Type} [Field F] {i : Fin n} {h : ↥(StatedSp n F)}
     (hh : ∀ j : Fin n,
@@ -329,10 +327,10 @@ private theorem l10ss2_h_off {n : ℕ} {F : Type} [Field F] {i : Fin n} {h : ↥
   refine ⟨?_, ?_⟩
   · rw [(hh j).1]
     unfold l10ss2_sel
-    rw [if_neg hj]
+    rw [ite_eq_right hj]
   · rw [(hh j).2]
     unfold l10ss2_sel'
-    rw [if_neg hj]
+    rw [ite_eq_right hj]
 
 private theorem l10ss2_h_ne_one {n : ℕ} {F : Type} [Field F] {i : Fin n}
     {h : ↥(StatedSp n F)}
@@ -414,21 +412,21 @@ private theorem l10ss2_h_mulVec_inl {n : ℕ} {F : Type} [Field F] {i : Fin n}
     rcases a with k | k
     · rw [l10ss2_mat_apply_eq (hh k).1]
       by_cases hk : k = i
-      · subst hk; simp [l10ss2_sel, Pi.single_apply, hj, eq_comm]
-      · simp [l10ss2_sel, hk, Pi.single_apply, Sum.inl_ne_inr, Sum.inr_ne_inl, eq_comm]
+      · subst hk; simp [l10ss2_sel, hj]
+      · simp [l10ss2_sel, hk, Sum.inl_ne_inr]
     · rw [l10ss2_mat_apply_eq (hh k).2]
       by_cases hk : k = i
-      · subst hk; simp [l10ss2_sel', Pi.single_apply, hj, eq_comm]
+      · subst hk; simp [l10ss2_sel', hj, eq_comm]
       · by_cases hkj : k = j
-        · subst hkj; simp [l10ss2_sel', hk, Pi.single_apply, eq_comm]
-        · simp [l10ss2_sel', hk, hkj, Pi.single_apply, Sum.inl_ne_inr, Sum.inr_ne_inl, eq_comm]
+        · subst hkj; simp [l10ss2_sel', hk]
+        · simp [l10ss2_sel', hk, Pi.single_apply, Sum.inl_ne_inr, eq_comm]
   rw [Matrix.mulVec, dotProduct, Finset.sum_eq_single (Sum.inr j)]
   · rw [hcol (Sum.inr j)]; simp
   · intro a _ ha
     rw [hcol a]
     by_cases haj : a = Sum.inr j
     · exact absurd haj ha
-    · rw [if_neg haj, zero_mul]
+    · rw [ite_eq_right haj, zero_mul]
   · intro hmem; exact absurd (Finset.mem_univ _) hmem
 
 private theorem l10ss2_h_mulVec_inr {n : ℕ} {F : Type} [Field F] {i : Fin n}
@@ -445,16 +443,16 @@ private theorem l10ss2_h_mulVec_inr {n : ℕ} {F : Type} [Field F] {i : Fin n}
     rcases a with k | k
     · rw [l10ss2_mat_apply_eq (hh k).1]
       by_cases hk : k = i
-      · subst hk; simp [l10ss2_sel, Pi.single_apply, hj, eq_comm]
+      · subst hk; simp [l10ss2_sel, hj, eq_comm]
       · by_cases hkj : k = j
-        · subst hkj; simp [l10ss2_sel, hk, Pi.single_apply, eq_comm]
-        · simp [l10ss2_sel, hk, hkj, Pi.single_apply, Sum.inl_ne_inr, Sum.inr_ne_inl, eq_comm]
+        · subst hkj; simp [l10ss2_sel, hk]
+        · simp [l10ss2_sel, hk, Pi.single_apply, Sum.inl_ne_inr, eq_comm]
     · rw [l10ss2_mat_apply_eq (hh k).2]
       by_cases hk : k = i
-      · subst hk; simp [l10ss2_sel', Pi.single_apply, hj, eq_comm]
+      · subst hk; simp [l10ss2_sel', hj, eq_comm]
       · by_cases hkj : k = j
-        · subst hkj; simp [l10ss2_sel', hk, Pi.single_apply, eq_comm]
-        · simp [l10ss2_sel', hk, hkj, Pi.single_apply, Sum.inl_ne_inr, Sum.inr_ne_inl, eq_comm]
+        · subst hkj; simp [l10ss2_sel', hk, eq_comm]
+        · simp [l10ss2_sel', hk, Pi.single_apply, Sum.inl_ne_inr, eq_comm]
   rw [Matrix.mulVec, dotProduct]
   rw [Finset.sum_eq_add (Sum.inl j) (Sum.inr j) (by simp)]
   · rw [hcol (Sum.inl j), hcol (Sum.inr j)]; simp
@@ -464,7 +462,7 @@ private theorem l10ss2_h_mulVec_inr {n : ℕ} {F : Type} [Field F] {i : Fin n}
     · exact absurd ha1 ha.1
     · by_cases ha2 : a = Sum.inr j
       · exact absurd ha2 ha.2
-      · rw [if_neg ha1, if_neg ha2, add_zero, zero_mul]
+      · rw [ite_eq_right ha1, ite_eq_right ha2, add_zero, zero_mul]
   · intro h; exact absurd (Finset.mem_univ _) h
   · intro h; exact absurd (Finset.mem_univ _) h
 
@@ -501,14 +499,14 @@ private theorem l10ss2_spForm_inl {n : ℕ} {F : Type} [Field F] (i : Fin n)
     CFSG.Timmesfeld.ARS.CaseM.spForm (Pi.single (Sum.inl i) (1 : F)) x = x (Sum.inr i) := by
   rw [CFSG.Timmesfeld.ARS.CaseM.spForm, single_dotProduct, one_mul, Matrix.mulVec, dotProduct,
     Finset.sum_eq_single (Sum.inr i)]
-  · simp [CFSG.Timmesfeld.ARS.CaseM.spGram, Matrix.fromBlocks, Matrix.one_apply]
+  · simp [CFSG.Timmesfeld.ARS.CaseM.spGram, Matrix.fromBlocks]
   · intro a _ ha
     rcases a with k | k
     · simp [CFSG.Timmesfeld.ARS.CaseM.spGram, Matrix.fromBlocks]
     · have hk : k ≠ i := fun h => ha (by rw [h])
       have hik : i ≠ k := fun h => hk h.symm
       rw [CFSG.Timmesfeld.ARS.CaseM.spGram, Matrix.fromBlocks_apply₁₂, Matrix.one_apply,
-        if_neg hik, zero_mul]
+        ite_eq_right hik, zero_mul]
   · intro h; exact absurd (Finset.mem_univ _) h
 
 private theorem l10ss2_spForm_inr {n : ℕ} {F : Type} [Field F] [CharP F 2] (i : Fin n)
@@ -516,14 +514,14 @@ private theorem l10ss2_spForm_inr {n : ℕ} {F : Type} [Field F] [CharP F 2] (i 
     CFSG.Timmesfeld.ARS.CaseM.spForm (Pi.single (Sum.inr i) (1 : F)) x = x (Sum.inl i) := by
   rw [CFSG.Timmesfeld.ARS.CaseM.spForm, single_dotProduct, one_mul, Matrix.mulVec, dotProduct,
     Finset.sum_eq_single (Sum.inl i)]
-  · simp [CFSG.Timmesfeld.ARS.CaseM.spGram, Matrix.fromBlocks, Matrix.one_apply, CharTwo.neg_eq]
+  · simp [CFSG.Timmesfeld.ARS.CaseM.spGram, Matrix.fromBlocks, CharTwo.neg_eq]
   · intro a _ ha
     rcases a with k | k
     · have hk : k ≠ i := fun h => ha (by rw [h])
       have hik : i ≠ k := fun h => hk h.symm
       have hz : CFSG.Timmesfeld.ARS.CaseM.spGram n F (Sum.inr i) (Sum.inl k) = 0 := by
         rw [CFSG.Timmesfeld.ARS.CaseM.spGram]
-        simp [Matrix.fromBlocks, Matrix.one_apply, Matrix.neg_apply, if_neg hik]
+        simp [Matrix.fromBlocks, Matrix.one_apply, Matrix.neg_apply, ite_eq_right hik]
       rw [hz, zero_mul]
     · simp [CFSG.Timmesfeld.ARS.CaseM.spGram, Matrix.fromBlocks]
   · intro h; exact absurd (Finset.mem_univ _) h
@@ -803,7 +801,7 @@ private theorem l10ss2b_spJ_mulVec_single {n : ℕ} {F : Type} [Field F] [CharP 
   ext k
   rcases b with i | i <;> rcases k with k | k <;>
     simp [Matrix.mulVec, dotProduct, Pi.single_apply, spJ, Matrix.fromBlocks,
-      Fintype.sum_sum_type, Matrix.one_apply, CharTwo.neg_eq, eq_comm]
+      Matrix.one_apply, CharTwo.neg_eq, eq_comm]
 
 private theorem l10ss2b_add_self {n : ℕ} {F : Type} [Field F] [CharP F 2]
     (v : Fin n ⊕ Fin n → F) : v + v = 0 := by
@@ -862,18 +860,15 @@ private theorem l10ss2b_exists_h {n : ℕ} {F : Type} [Field F] [CharP F 2]
     module
   refine ⟨s₂ * s₁, hformula, ?_, ?_, ?_, ?_⟩
   · rw [hformula a₁]
-    simp only [hB_b1a1, hB_b2a1, hB_a2a1, hB_a1a1, hB_a2a1, one_smul, zero_smul, add_zero,
-      zero_add]
+    simp only [hB_b1a1, hB_b2a1, hB_a1a1, hB_a2a1, one_smul, zero_smul, add_zero]
     rw [← add_assoc, l10ss2b_add_self, zero_add]
   · rw [hformula a₂]
-    simp only [hB_b1a2, hB_b2a2, hB_a2a2, hB_a1a2, hB_a2a2, one_smul, zero_smul, add_zero,
-      zero_add]
+    simp only [hB_b1a2, hB_b2a2, hB_a1a2, hB_a2a2, one_smul, zero_smul, add_zero]
     exact add_comm a₂ a₁
   · rw [hformula b₁]
-    simp only [hB_b1b1, hB_b2b1, hB_a2b1, hB_a1b1, hB_a2b1, one_smul, zero_smul, add_zero,
-      zero_add]
+    simp only [hB_b1b1, hB_b2b1, hB_a1b1, hB_a2b1, one_smul, zero_smul, add_zero]
   · rw [hformula b₂]
-    simp only [hB_b1b2, hB_b2b2, hB_a2b2, hB_a1b2, hB_a2b2, one_smul, zero_smul, add_zero,
+    simp only [hB_b1b2, hB_b2b2, hB_a1b2, hB_a2b2, one_smul, zero_smul, add_zero,
       zero_add]
     rw [add_comm b₂ b₁, add_assoc, l10ss2b_add_self, add_zero]
 
@@ -947,7 +942,7 @@ private theorem l10ss2b_perp_eq {n : ℕ} {F : Type} [Field F] [CharP F 2]
     intro w hw
     obtain ⟨c, d, rfl⟩ := Submodule.mem_span_pair.mp hw
     simp only [(spForm n F).add_left, (spForm n F).smul_left, (spForm n F).β_sub_right, hb,
-      (spForm n F).add_right, (spForm n F).smul_right, hB_a1b1, hB_a2b2, hB_a1a2, hB_a2b1,
+      (spForm n F).add_right, (spForm n F).smul_right, hB_a1b1, hB_a2b2, hB_a2b1,
       hB_a1b2, l10ss2b_sigma]
     ring
 
@@ -1094,7 +1089,7 @@ private theorem l10ss2b_fix_short {n : ℕ} {F : Type} [Field F] [CharP F 2]
     have hval : natRep (StatedSp n F) h v - v =
         (spForm n F).β b₁ v • (a₁ + a₂) + (spForm n F).β b₂ v • a₁ := by
       rw [hh v, hv1, hv2]
-      simp only [zero_smul, zero_add, add_zero]
+      simp only [zero_smul, add_zero]
       abel
     rw [hval]
     exact Submodule.add_mem _ (Submodule.smul_mem _ _ (Submodule.add_mem _ ha₁ ha₂))
@@ -1106,7 +1101,7 @@ private theorem l10ss2b_fix_short {n : ℕ} {F : Type} [Field F] [CharP F 2]
     have hz3 : (spForm n F).β b₁ z = 0 := hz b₁ (Submodule.subset_span (by simp))
     have hz4 : (spForm n F).β b₂ z = 0 := hz b₂ (Submodule.subset_span (by simp))
     rw [hh z]
-    simp only [hz1, hz2, hz3, hz4, zero_smul, zero_add, add_zero]
+    simp only [hz1, hz2, hz3, hz4, zero_smul, add_zero]
   have hnoFixY : ∀ u ∈ Y, natRep (StatedSp n F) h u = u → u = 0 := by
     intro u hu hueq
     have hu1 : (spForm n F).β a₁ u = 0 := by
@@ -1116,7 +1111,7 @@ private theorem l10ss2b_fix_short {n : ℕ} {F : Type} [Field F] [CharP F 2]
     have hmod : (spForm n F).β b₁ u • (a₁ + a₂) + (spForm n F).β b₂ u • a₁ = 0 := by
       have hthis := congrArg (fun w => w - u) hueq
       rw [hh u, hu1, hu2] at hthis
-      simp only [zero_smul, zero_add, add_zero] at hthis
+      simp only [zero_smul, add_zero] at hthis
       abel_nf at hthis
       exact hthis
     have hb1u : (spForm n F).β b₁ u = 0 := by
@@ -1127,7 +1122,7 @@ private theorem l10ss2b_fix_short {n : ℕ} {F : Type} [Field F] [CharP F 2]
     have hb2u : (spForm n F).β b₂ u = 0 := by
       have h := congrArg (fun w => (spForm n F).β b₁ w) hmod
       simp only [(spForm n F).add_right, (spForm n F).smul_right, hB_b1a1, hB_b1a2,
-        (spForm n F).β_zero_right, hb1u, mul_zero, mul_one, add_zero, zero_add] at h
+        (spForm n F).β_zero_right, hb1u, mul_one, add_zero, zero_add] at h
       exact h
     obtain ⟨α, β, rfl⟩ := Submodule.mem_span_pair.mp hu
     have hα : α = 0 := by
@@ -1138,7 +1133,7 @@ private theorem l10ss2b_fix_short {n : ℕ} {F : Type} [Field F] [CharP F 2]
     have hβ : β = 0 := by
       have h : (spForm n F).β b₂ (α • a₁ + β • a₂) = 0 := hb2u
       simp only [(spForm n F).add_right, (spForm n F).smul_right, hB_b2a1, hB_b2a2,
-        mul_zero, mul_one, add_zero, zero_add] at h
+        mul_zero, mul_one, zero_add] at h
       exact h
     rw [hα, hβ, zero_smul, zero_smul, add_zero]
   have hTVperp : ∀ v, T v ∈ (spForm n F).perp Y := by
@@ -1169,7 +1164,7 @@ private theorem l10ss2b_fix_short {n : ℕ} {F : Type} [Field F] [CharP F 2]
     have hval : natRep (StatedSp n F) h u =
         u + (spForm n F).β b₁ u • (a₁ + a₂) + (spForm n F).β b₂ u • a₁ := by
       rw [hh u, hu1, hu2]
-      simp only [zero_smul, zero_add, add_zero]
+      simp only [zero_smul, add_zero]
     rw [hval]
     exact Submodule.add_mem _ (Submodule.add_mem _ hu
       (Submodule.smul_mem _ _ (Submodule.add_mem _ ha₁ ha₂)))
@@ -1254,20 +1249,20 @@ private theorem l10ss2b_fix_short {n : ℕ} {F : Type} [Field F] [CharP F 2]
     have h := congrArg (fun w => (spForm n F).β b₁ w) hframe₂
     rw [← hpq, hHrs] at h
     simp only [(spForm n F).add_right, (spForm n F).smul_right, hB_b1a1, hB_b1a2,
-      mul_one, mul_zero, add_zero, zero_add] at h
+      mul_one, mul_zero, add_zero] at h
     exact h.symm
   have hq_eq_rs : q = r + s := by
     have h := congrArg (fun w => (spForm n F).β b₂ w) hframe₂
     rw [← hpq, hHrs] at h
     simp only [(spForm n F).add_right, (spForm n F).smul_right, hB_b2a1, hB_b2a2,
-      mul_zero, mul_one, add_zero, zero_add] at h
+      mul_zero, mul_one, zero_add] at h
     exact h
   have hp_add_r : p + r = q := by
     have h := congrArg (fun w => (spForm n F).β b₁ w) hframe₁
     rw [hHpq] at h
     rw [← hpq, ← hrs] at h
     simp only [(spForm n F).add_right, (spForm n F).smul_right, hB_b1a1, hB_b1a2,
-      mul_one, mul_zero, add_zero, zero_add] at h
+      mul_one, mul_zero, add_zero] at h
     exact h
   have hq_eq_r : q = r := by
     have h := hself b₁ b₂
@@ -1345,7 +1340,7 @@ private theorem l10ss2b_vecMulVec_single_single {ι F : Type} [Field F] [Decidab
   ext a b
   change (Pi.single i c : ι → F) a * (Pi.single j d : ι → F) b = Matrix.single i j (c * d) a b
   simp only [Pi.single_apply, Matrix.single_apply]
-  split_ifs <;> simp_all [mul_zero, zero_mul, mul_one]
+  split_ifs <;> simp_all [mul_zero, zero_mul]
 
 private theorem l10ss2b_rootGroup_eq_spAltSiegel {n : ℕ} {F : Type} [Field F]
     {β : Fin (Symplectic.rootDatum n F).rank → ℤ} {r : RootSubgroupIndex n}
@@ -1407,7 +1402,7 @@ private theorem l10ss2b_short_case {n : ℕ} {F : Type} [Field F] [Finite F] [Ch
     have hv2 : (spForm n F).β a₂ v = 0 := hv a₂ (Submodule.subset_span (by simp))
     have hv3 : (spForm n F).β b₁ v = 0 := hv b₁ (Submodule.subset_span (by simp))
     have hv4 : (spForm n F).β b₂ v = 0 := hv b₂ (Submodule.subset_span (by simp))
-    simp only [hv1, hv2, hv3, hv4, zero_smul, zero_add, add_zero]
+    simp only [hv1, hv2, hv3, hv4, zero_smul, add_zero]
   have hord : orderOf h = 3 := l10ss2b_order hp hW hha₁ hha₂ hhb₁ hhb₂ hfixZ
   have hYmaps : ∀ u ∈ Submodule.span F ({a₁, a₂} : Set _),
       natRep (StatedSp n F) h u ∈ Submodule.span F ({a₁, a₂} : Set _) := by
@@ -1417,7 +1412,7 @@ private theorem l10ss2b_short_case {n : ℕ} {F : Type} [Field F] [Finite F] [Ch
     have hu2 : (spForm n F).β a₂ u = 0 := by
       rw [l10ss2b_beta_symm]; exact (hW (Submodule.subset_span (by simp))) u hu
     rw [hh u, hu1, hu2]
-    simp only [zero_smul, zero_add, add_zero]
+    simp only [zero_smul, add_zero]
     exact Submodule.add_mem _ (Submodule.add_mem _ hu
       (Submodule.smul_mem _ _ (Submodule.add_mem _ (Submodule.subset_span (by simp))
         (Submodule.subset_span (by simp)))))
@@ -1553,8 +1548,8 @@ private theorem l10ss2_noCentral {n : ℕ} {F : Type} [Field F] [Finite F]
     (u : ↥(StatedSp n F)) :
     GGRootNoCentralAt (⊤ : Subgroup ↥(StatedSp n F))
       (((Symplectic.rootDatum n F).rootGroup β).map (MulAut.conj u).toMonoidHom) := by
-  haveI : Finite ↥(StatedSp n F) := by
-    haveI : Fintype F := Fintype.ofFinite F
+  have : Finite ↥(StatedSp n F) := by
+    have : Fintype F := Fintype.ofFinite F
     infer_instance
   obtain ⟨hhN', hfix'⟩ := l10ss2_fpf_map (MulAut.conj u) hhN hfix
   refine noCentral_of_fixedPoint (X := ↥(StatedSp n F)) (K := ⊤)

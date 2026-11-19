@@ -134,8 +134,8 @@ theorem cyclicCommutantAction_mem_ker_iff (hn : n.Prime) {G H : Subgroup (GL (Fi
     g ∈ (cyclicCommutantAction (G := G) (H := H) hHn).ker ↔
       ((g : G) : GL (Fin n) K) ∈ Subgroup.centralizer (H : Set (GL (Fin n) K)) := by
   classical
-  letI : Nonempty (Fin n) := ⟨⟨0, hn.pos⟩⟩
-  letI : Field (commutant H) := commutantField (isIrreducibleOn_iff.mpr hHirr)
+  let : Nonempty (Fin n) := ⟨⟨0, hn.pos⟩⟩
+  let : Field (commutant H) := commutantField (isIrreducibleOn_iff.mpr hHirr)
   constructor
   · intro hg
     rw [Subgroup.mem_centralizer_iff]
@@ -233,11 +233,11 @@ theorem cyclicCentralizer_subgroupOf_normal (hn : n.Prime) {G H : Subgroup (GL (
 theorem isCyclic_cyclicCentralizer_subgroupOf (hn : n.Prime) {G H : Subgroup (GL (Fin n) K)}
     (hHirr : IsIrreducibleMatrixRep H.subtype) :
     IsCyclic ((Subgroup.centralizer (H : Set (GL (Fin n) K))).subgroupOf G) := by
-  letI : Nonempty (Fin n) := ⟨⟨0, hn.pos⟩⟩
-  letI : Field (commutant H) := commutantField (isIrreducibleOn_iff.mpr hHirr)
-  letI : Finite (commutant H) := inferInstance
-  haveI : Finite (commutant H)ˣ := inferInstance
-  haveI : IsCyclic (commutant H)ˣ := inferInstance
+  let : Nonempty (Fin n) := ⟨⟨0, hn.pos⟩⟩
+  let : Field (commutant H) := commutantField (isIrreducibleOn_iff.mpr hHirr)
+  let : Finite (commutant H) := inferInstance
+  have : Finite (commutant H)ˣ := inferInstance
+  have : IsCyclic (commutant H)ˣ := inferInstance
   exact isCyclic_of_injective (cyclicCentralizerToCommutantUnits (G := G) (H := H))
     (cyclicCentralizerToCommutantUnits_injective (G := G) (H := H))
 
@@ -245,9 +245,9 @@ theorem card_cyclicCentralizer_subgroupOf_dvd (hn : n.Prime) {G H : Subgroup (GL
     (hHcyc : IsCyclic H) (hHirr : IsIrreducibleMatrixRep H.subtype) :
     Nat.card ((Subgroup.centralizer (H : Set (GL (Fin n) K))).subgroupOf G) ∣
       Nat.card K ^ n - 1 := by
-  letI : Nonempty (Fin n) := ⟨⟨0, hn.pos⟩⟩
-  letI : Field (commutant H) := commutantField (isIrreducibleOn_iff.mpr hHirr)
-  letI : Finite (commutant H) := inferInstance
+  let : Nonempty (Fin n) := ⟨⟨0, hn.pos⟩⟩
+  let : Field (commutant H) := commutantField (isIrreducibleOn_iff.mpr hHirr)
+  let : Finite (commutant H) := inferInstance
   have h := Subgroup.card_dvd_of_injective (cyclicCentralizerToCommutantUnits (G := G) (H := H))
     (cyclicCentralizerToCommutantUnits_injective (G := G) (H := H))
   rwa [Nat.card_units (commutant H),
@@ -273,7 +273,7 @@ theorem card_dvd_prime_mul_commutant_units (hn : n.Prime) {G H : Subgroup (GL (F
   simpa [Nat.mul_comm] using Nat.mul_dvd_mul hcard hidx
 
 theorem cyclic_centralizer_structure_of_cyclic_irreducible_normal (hn : n.Prime)
-    {G H : Subgroup (GL (Fin n) K)} (hHG : H ≤ G)
+    {G H : Subgroup (GL (Fin n) K)} (_hHG : H ≤ G)
     (hHn : ∀ g ∈ G, ∀ x ∈ H, g * x * g⁻¹ ∈ H)
     (hHcyc : IsCyclic H) (hHirr : IsIrreducibleMatrixRep H.subtype) :
     let Kc := (Subgroup.centralizer (H : Set (GL (Fin n) K))).subgroupOf G

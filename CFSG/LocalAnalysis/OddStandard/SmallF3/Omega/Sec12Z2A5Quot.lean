@@ -104,7 +104,7 @@ private theorem z2a5_quot_fusion_forward [Finite Y] (h : Z2A5Hyp Y τ)
     exact Subgroup.mem_bot.mp h3
   have hune : u ≠ 1 := fun hu1 => hy_ne (by rw [← hu_eq, hu1, map_one])
   have horder_u : orderOf u = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime (by rw [pow_two]; exact hu2) hune
   have hp2 : orderOf (g0 * τ * g0⁻¹) = 2 := by
     rw [← MulAut.conj_apply, MulEquiv.orderOf_eq, hτ2]

@@ -22,10 +22,10 @@ theorem s16ae_exists_index_two_ge {W : Type*} [CommGroup W] [Finite W]
     {A H : Subgroup (MulAut W)} (hA : IsElemAbelian2 A) (hHA : H < A) :
     ∃ B : Subgroup (MulAut W), H ≤ B ∧ B ≤ A ∧ E3.mQuot A B = 1 := by
   classical
-  haveI : Finite (MulAut W) := MulEquiv.finite_left
+  have : Finite (MulAut W) := MulEquiv.finite_left
   have hp : IsPGroup 2 ↥A := E3.isPGroup_of_isElemAbelian2 hA
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsNilpotent ↥A := hp.isNilpotent
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsNilpotent ↥A := hp.isNilpotent
   have hlt : H.subgroupOf A < ⊤ := by
     rw [lt_top_iff_ne_top]
     intro htop

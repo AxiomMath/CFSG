@@ -12,13 +12,13 @@ open CFSG.LocalAnalysis.RankThreeTheoremC.Generic49U3 (u3S u3T u3K0)
 
 variable {G : Type} [Group G] [Finite G] {P : Sylow 5 G} {M : Subgroup G} {x : G} {J : Subgroup G}
 
-theorem sz32_torus_elt (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLocal G)
-    (hSz' : Sz32OpenFacts) (hdata : Sz32DataFacts)
+theorem sz32_torus_elt (_hS : Setting G) (_hD1 : TheoremD1 G) (_hU0 : FullCoreLocal G)
+    (hSz' : Sz32OpenFacts) (_hdata : Sz32DataFacts)
     (hc : PointConfig IsSz32Type G 5 P M x J) {a c y : G} (hA : Sz32QDecomp P x J a c y) :
     ∃ n ∈ J, n * a ^ 5 * n⁻¹ = (a ^ 5) ^ 2 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨Q, _, ψ, hψ, hker, hQ⟩ := hc.typ
-  haveI : Finite Q := Finite.of_surjective _ hψ
+  have : Finite Q := Finite.of_surjective _ hψ
   obtain ⟨Tsyl, hTsyl, hTinj⟩ := sps_sylow_data hc.generic hc.le_cent hc.cent_le ψ hker
   obtain ⟨Tb, hTb⟩ : ∃ Tb : Sylow 5 Q, (Tb : Subgroup Q) = (Tsyl : Subgroup ↥J).map ψ :=
     ⟨Tsyl.mapSurjective hψ, Sylow.coe_mapSurjective hψ Tsyl⟩
@@ -56,7 +56,7 @@ theorem sz32_torus_elt (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLocal
   have hnorm : ψ n₀ ∈ Subgroup.normalizer (((Tsyl : Subgroup ↥J).map ψ : Subgroup Q) : Set Q) := by
     rw [hn₀, ← hTb]
     exact hnb
-  obtain ⟨n, hn, hψn⟩ := typeII_frattini_ker ψ hkcop Tsyl.isPGroup' hnorm
+  obtain ⟨n, hn, hψn⟩ := typeII_frattini_ker ψ hkcop Tsyl.isPGroup hnorm
   have hnea : n * ea * n⁻¹ ∈ (Tsyl : Subgroup ↥J) :=
     (Subgroup.mem_normalizer_iff.mp hn ea).mp heaTsyl
   have hψeq : ψ (n * ea * n⁻¹) = ψ (ea ^ 2) := by

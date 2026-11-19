@@ -73,7 +73,7 @@ theorem reachable_unbalancing_triple_central_sylow_maximality {a₀ x₀ : G} {J
     have hS2 : IsPGroup 2 S := by
       obtain ⟨P₀, hP₀⟩ := hSsyl
       have h1 : IsPGroup 2 ((P₀ : Subgroup _).map
-          (centralizer ({a} : Set G) ⊓ normalizer (J : Set G)).subtype) := P₀.isPGroup'.map _
+          (centralizer ({a} : Set G) ⊓ normalizer (J : Set G)).subtype) := P₀.isPGroup.map _
       rwa [hP₀, map_subgroupOf_eq_of_le hSH] at h1
     have hP2 : IsPGroup 2 ↥(S ⊓ (centralizer ({a} : Set G) ⊓ normalizer (J : Set G) ⊓
         coreActionKernel J)) := hS2.to_le inf_le_left

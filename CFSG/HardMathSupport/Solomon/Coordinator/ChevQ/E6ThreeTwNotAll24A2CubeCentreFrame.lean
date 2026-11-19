@@ -43,7 +43,7 @@ theorem chainExp_pair {τ : Tag} {x y : Fin τ.rank → ℤ} (hx : iform x x = 2
     (j : Fin τ.rank) :
     chainExp ![x, y] 2 j = iform x (Pi.single j 1) + 2 * iform y (Pi.single j 1) := by
   simp only [chainExp, Fin.sum_univ_two, Fin.val_zero, Fin.val_one, Matrix.cons_val_zero,
-    Matrix.cons_val_one, Matrix.head_cons, corootPair_eq_iform hx, corootPair_eq_iform hy]
+    Matrix.cons_val_one, corootPair_eq_iform hx, corootPair_eq_iform hy]
   norm_num
 
 theorem exists_sign_three_dvd {τ : Tag} {γ₁ γ₂ x y : Fin τ.rank → ℤ}

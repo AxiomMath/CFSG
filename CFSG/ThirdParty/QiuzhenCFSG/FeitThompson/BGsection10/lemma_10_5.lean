@@ -49,7 +49,7 @@ public theorem CFSG.section10_generatorRank_at_least_two_of_elementaryAbelian_ca
     {p : ℕ} [Fact p.Prime] {A : Type*} [Group A] [Finite A]
     [IsElementaryAbelian p A] (hA : Nat.card A = p ^ 2) :
     2 ≤ generatorRank A := by
-  letI : CommGroup A := IsMulCommutative.instCommGroup
+  let : CommGroup A := IsMulCommutative.instCommGroup
   have hcard_dvd : Nat.card A ∣ p ^ Group.rank A := by
     simpa using card_dvd_exponent_pow_rank' (G := A) (n := p) (fun a =>
       Monoid.exponent_dvd_iff_forall_pow_eq_one.mp
@@ -65,7 +65,7 @@ private theorem CFSG.section10_two_le_primeRank_of_elementaryAbelian_card_p_sq_p
     {A : Subgroup R} (hAcard : Nat.card A = p ^ 2)
     (hAelem : IsElementaryAbelian p A) :
     2 ≤ primeRank p R := by
-  letI : IsElementaryAbelian p A := hAelem
+  let : IsElementaryAbelian p A := hAelem
   have hAgen : 2 ≤ generatorRank A :=
     section10_generatorRank_at_least_two_of_elementaryAbelian_card_p_sq_pre
       (p := p) (A := A) hAcard
@@ -84,9 +84,9 @@ public theorem CFSG.section10_sylow_isCyclic_of_primeRank_le_one
     (hpodd : p.val ≠ 2) (hrank : primeRank p.val M ≤ 1) :
     IsCyclic P := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   by_contra hPnoncyc
-  haveI : Fact (IsPGroup p.val P) := ⟨P.isPGroup'⟩
+  have : Fact (IsPGroup p.val P) := ⟨P.isPGroup⟩
   obtain ⟨E, _hEnorm, hEcard, hEelem⟩ :=
     lemma_4_5_a (R := P) (p := p.val) hpodd hPnoncyc
   let EM : Subgroup M := E.map (P : Subgroup M).subtype
@@ -97,7 +97,7 @@ public theorem CFSG.section10_sylow_isCyclic_of_primeRank_le_one
           (K := E) (f := (P : Subgroup M).subtype) (P : Subgroup M).subtype_injective
       _ = p.val ^ 2 := hEcard
   have hEMelem : IsElementaryAbelian p.val EM := by
-    letI : IsElementaryAbelian p.val E := hEelem
+    let : IsElementaryAbelian p.val E := hEelem
     simpa [EM] using
       section10_isElementaryAbelian_map_pre
         (G := P) (p := p.val) (A := E) (G' := M) (P : Subgroup M).subtype
@@ -194,11 +194,11 @@ public theorem CFSG.section10_omega1Z_isElementaryAbelian_pre
       (Subgroup.center R).subtype)
   let Ωc : Subgroup (Subgroup.center R) := omega₁ (G := Subgroup.center R) (p := p)
   have hΩcelem : IsElementaryAbelian p Ωc := by
-    letI : IsMulCommutative (Subgroup.center R) := inferInstance
+    let : IsMulCommutative (Subgroup.center R) := inferInstance
     simpa [Ωc] using
       section10_omega1_isElementaryAbelian_of_commutative_pre
         (p := p) (Subgroup.center R)
-  letI : IsElementaryAbelian p Ωc := hΩcelem
+  let : IsElementaryAbelian p Ωc := hΩcelem
   refine
     { toIsMulCommutative := by
         simpa [Ωc] using
@@ -231,10 +231,10 @@ public theorem CFSG.section10_omega1Z_characteristic_pre
   let ZR : Subgroup R := Subgroup.center R
   let Ωc : Subgroup ZR := omega₁ (G := ZR) (p := p)
   have hZchar : ZR.Characteristic := Subgroup.centerCharacteristic
-  letI : ZR.Characteristic := hZchar
+  let : ZR.Characteristic := hZchar
   have hΩchar : Ωc.Characteristic := by
     simpa [Ωc] using omega₁_characteristic (G := ZR) (p := p)
-  letI : Ωc.Characteristic := hΩchar
+  let : Ωc.Characteristic := hΩchar
   simpa [Ω₁Z, ZR, Ωc] using
     characteristic_map_subtype_of_characteristic (G := R) ZR Ωc
 
@@ -244,7 +244,7 @@ private theorem CFSG.section10_isElementaryAbelian_of_prime_card_isCyclic_pre
     {H : Type*} [Group H] [Finite H] [IsCyclic H]
     (hcard : Nat.card H = p) :
     IsElementaryAbelian p H := by
-  letI : CommGroup H := IsCyclic.commGroup
+  let : CommGroup H := IsCyclic.commGroup
   refine
     { toIsMulCommutative := { is_comm := ⟨mul_comm⟩ }
       exponent_dvd_p := ?_ }
@@ -320,7 +320,7 @@ private theorem CFSG.section10_exists_rank_two_elementary_over_prime_order
     (hXcard : Nat.card X = p.val) (hNX : Subgroup.normalizer (X : Set G) ≤ M) :
     ∃ A : Subgroup G, X ≤ A ∧ A ∈ elementaryAbelianSubgroupsOfRank p.val 2 G := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   have hXM : X ≤ M := Subgroup.le_normalizer.trans hNX
   have hXp : IsPGroup p.val X := by
     exact IsPGroup.of_card (p := p.val) (G := X) (n := 1) (by simp [hXcard])
@@ -345,11 +345,11 @@ private theorem CFSG.section10_exists_rank_two_elementary_over_prime_order
   have hPGne : PG ≠ ⊥ := by
     intro hPGbot
     exact hXne <| le_bot_iff.mp <| hXPG.trans (le_of_eq hPGbot)
-  letI : Nontrivial PG := (Subgroup.nontrivial_iff_ne_bot PG).2 hPGne
+  let : Nontrivial PG := (Subgroup.nontrivial_iff_ne_bot PG).2 hPGne
   have hPGp : IsPGroup p.val PG := by
     change IsPGroup p.val ((P : Subgroup M).map M.subtype)
     simpa using
-      IsPGroup.map (p := p.val) (H := (P : Subgroup M)) P.isPGroup' M.subtype
+      IsPGroup.map (p := p.val) (H := (P : Subgroup M)) P.isPGroup M.subtype
   let Z : Subgroup G := section10OmegaOneCenter p PG
   have hZ_ne_bot : Z ≠ ⊥ := by
     have hZ_nontrivial : Nontrivial (Subgroup.center PG) := hPGp.center_nontrivial
@@ -378,7 +378,7 @@ private theorem CFSG.section10_exists_rank_two_elementary_over_prime_order
         have hzsub : (⟨z, hZX hz⟩ : X) ∈ Z.subgroupOf X := hz
         have hzbot : (⟨z, hZX hz⟩ : X) ∈ (⊥ : Subgroup X) := by simpa [hbot] using hzsub
         simpa using congrArg Subtype.val (Subgroup.mem_bot.mp hzbot)
-      haveI : Fact (Nat.card X).Prime := ⟨by simpa [hXcard] using p.property⟩
+      have : Fact (Nat.card X).Prime := ⟨by simpa [hXcard] using p.property⟩
       rcases Subgroup.eq_bot_or_eq_top_of_prime_card (Z.subgroupOf X) with hbot | htop
       · exact False.elim (hZsub_ne_bot hbot)
       · intro x hx
@@ -388,7 +388,7 @@ private theorem CFSG.section10_exists_rank_two_elementary_over_prime_order
         exact hxsub
     have hΩchar : (Ω₁Z p.val PG).Characteristic :=
       section10_omega1Z_characteristic_pre p.val PG
-    letI : (Ω₁Z p.val PG).Characteristic := hΩchar
+    let : (Ω₁Z p.val PG).Characteristic := hΩchar
     have hnormPG_le_normZ :
         Subgroup.normalizer (PG : Set G) ≤ Subgroup.normalizer (Z : Set G) := by
       have hnorm :=
@@ -419,7 +419,7 @@ private theorem CFSG.section10_exists_rank_two_elementary_over_prime_order
   have hΩelem : IsElementaryAbelian p.val (Ω₁Z p.val PG) :=
     section10_omega1Z_isElementaryAbelian_pre (p := p.val) PG
   have hzpow : zPG ^ p.val = 1 := by
-    letI : IsElementaryAbelian p.val (Ω₁Z p.val PG) := hΩelem
+    let : IsElementaryAbelian p.val (Ω₁Z p.val PG) := hΩelem
     exact elemPow_eq_one_of_isElementaryAbelian zPG hzΩ
   have hScard : Nat.card S = p.val := by
     calc
@@ -442,12 +442,12 @@ private theorem CFSG.section10_exists_rank_two_elementary_over_prime_order
     simpa [XPG, hXcard] using natCard_subgroupOf_eq X PG hXPG
   have hXPGelem : IsElementaryAbelian p.val XPG := by
     have hcyc : IsCyclic XPG := isCyclic_of_prime_card hXPGcard
-    letI : IsCyclic XPG := hcyc
+    let : IsCyclic XPG := hcyc
     exact section10_isElementaryAbelian_of_prime_card_isCyclic_pre
       (p := p.val) (H := XPG) hXPGcard
   have hSelem : IsElementaryAbelian p.val S := by
     have hcyc : IsCyclic S := isCyclic_of_prime_card hScard
-    letI : IsCyclic S := hcyc
+    let : IsCyclic S := hcyc
     exact section10_isElementaryAbelian_of_prime_card_isCyclic_pre
       (p := p.val) (H := S) hScard
   have hdisj : Disjoint S XPG := by
@@ -459,7 +459,7 @@ private theorem CFSG.section10_exists_rank_two_elementary_over_prime_order
       have hysub : (⟨y, hyS⟩ : S) ∈ XPG.subgroupOf S := hyX
       have hybot : (⟨y, hyS⟩ : S) ∈ (⊥ : Subgroup S) := by simpa [hbot] using hysub
       exact hyne (by simpa using congrArg Subtype.val (Subgroup.mem_bot.mp hybot))
-    haveI : Fact (Nat.card S).Prime := ⟨by simpa [hScard] using p.property⟩
+    have : Fact (Nat.card S).Prime := ⟨by simpa [hScard] using p.property⟩
     rcases Subgroup.eq_bot_or_eq_top_of_prime_card (XPG.subgroupOf S) with hbot | htop
     · exact False.elim (hXsub_ne_bot hbot)
     · have hzS : zPG ∈ S := Subgroup.mem_zpowers zPG
@@ -474,15 +474,15 @@ private theorem CFSG.section10_exists_rank_two_elementary_over_prime_order
     exact (Subgroup.le_centralizer_iff).mp
       (hS_le_center.trans (Subgroup.center_le_centralizer (XPG : Set PG)))
   have hA0elem : IsElementaryAbelian p.val A0 := by
-    letI : IsElementaryAbelian p.val S := hSelem
-    letI : IsElementaryAbelian p.val XPG := hXPGelem
+    let : IsElementaryAbelian p.val S := hSelem
+    let : IsElementaryAbelian p.val XPG := hXPGelem
     simpa [A0] using
       section10_isElementaryAbelian_sup_of_le_centralizer_pre
         (p := p.val) (E := S) (C := XPG) hX_le_centS
   have hA0card : Nat.card A0 = p.val ^ 2 := by
     have hcomp :
         (S.subgroupOf A0).IsComplement' (XPG.subgroupOf A0) := by
-      letI : S.Normal := hSnormal
+      let : S.Normal := hSnormal
       refine Subgroup.isComplement'_of_disjoint_and_mul_eq_univ ?_ ?_
       · rw [Subgroup.disjoint_def]
         intro y hyS hyX
@@ -498,7 +498,7 @@ private theorem CFSG.section10_exists_rank_two_elementary_over_prime_order
         refine ⟨(sA : A0), sA.2, (xA : A0), xA.2, ?_⟩
         apply Subtype.ext
         simpa using hsx
-    have hmul := hcomp.card_mul
+    have hmul := hcomp.card_mul_card
     rw [natCard_subgroupOf_eq S A0 le_sup_left,
       natCard_subgroupOf_eq XPG A0 le_sup_right, hScard, hXPGcard] at hmul
     simpa [A0, pow_two] using hmul.symm
@@ -509,7 +509,7 @@ private theorem CFSG.section10_exists_rank_two_elementary_over_prime_order
         exact Subgroup.card_map_of_injective (K := A0) (f := PG.subtype) PG.subtype_injective
       _ = p.val ^ 2 := hA0card
   have hAelem : IsElementaryAbelian p.val A := by
-    letI : IsElementaryAbelian p.val A0 := hA0elem
+    let : IsElementaryAbelian p.val A0 := hA0elem
     simpa [A] using
       section10_isElementaryAbelian_map_pre
         (G := PG) (p := p.val) (A := A0) (G' := G) PG.subtype
@@ -527,7 +527,7 @@ private theorem CFSG.section10_primeRank_eq_two_of_prime_order_normalizer_le_not
     (hXcard : Nat.card X = p.val) (hNX : Subgroup.normalizer (X : Set G) ≤ M) :
     primeRank p.val M = 2 := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   rcases section10_prime_mem_and_rank_le_two_of_not_sigma_prime_order
       (G := G) hM hpσ hXcard hNX with
     ⟨hpM, hrank_le_two⟩
@@ -560,9 +560,9 @@ private theorem CFSG.section10_primeRank_eq_two_of_prime_order_normalizer_le_not
       exact e.isCyclic.1 hPcyc
     let XPG : Subgroup PG := X.subgroupOf PG
     have hXPGchar : XPG.Characteristic := by
-      letI : IsCyclic PG := hPGcyc
+      let : IsCyclic PG := hPGcyc
       exact section10_characteristic_of_subgroup_of_isCyclic_pre (K := XPG)
-    letI : XPG.Characteristic := hXPGchar
+    let : XPG.Characteristic := hXPGchar
     have hnormPG_le_normX :
         Subgroup.normalizer (PG : Set G) ≤ Subgroup.normalizer (X : Set G) := by
       have hnorm :=

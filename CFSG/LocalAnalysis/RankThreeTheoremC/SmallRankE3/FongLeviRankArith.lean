@@ -13,7 +13,7 @@ theorem two_pow_two_mul_add_one_mod_three (j : ℕ) : 2 ^ (2 * j + 1) % 3 = 2 :=
   | zero => norm_num
   | succ j ih =>
     have e : 2 ^ (2 * (j + 1) + 1) = 2 ^ (2 * j + 1) * 4 := by ring
-    rw [e, Nat.mul_mod, ih] <;> norm_num
+    rw [e, Nat.mul_mod, ih]
 
 theorem two_pow_two_mul_add_one_mod_five (j : ℕ) :
     2 ^ (2 * j + 1) % 5 = 2 ∨ 2 ^ (2 * j + 1) % 5 = 3 := by
@@ -60,20 +60,20 @@ theorem exists_prime_dvd_two_pow_add_one_ne_five {f : ℕ} (hf : Even f) (hf4 : 
   obtain ⟨a, ha⟩ : ∃ a, 2 ^ f + 1 = 5 ^ a := ⟨_, hpow⟩
   have h8 : 2 ^ f % 8 = 0 := by
     obtain ⟨m, hm⟩ : ∃ m, f = m + 3 := ⟨f - 3, by omega⟩
-    rw [hm, pow_add, Nat.mul_mod] <;> norm_num
+    rw [hm, pow_add, Nat.mul_mod]; norm_num
   have h3 : 2 ^ f % 3 = 1 := by
     obtain ⟨m, hm⟩ := hf
-    rw [hm, ← two_mul, pow_mul, Nat.pow_mod] <;> norm_num
+    rw [hm, ← two_mul, pow_mul, Nat.pow_mod]; norm_num
   rcases Nat.even_or_odd a with ⟨b, hb⟩ | ⟨b, hb⟩
   ·
     have h5 : 5 ^ a = 25 ^ b := by
-      rw [hb, ← two_mul, pow_mul] <;> norm_num
+      rw [hb, ← two_mul, pow_mul]; norm_num
     have h25 : 25 ^ b % 3 = 1 := by
-      rw [Nat.pow_mod] <;> norm_num
+      rw [Nat.pow_mod]; norm_num
     omega
   ·
     have h5 : 5 ^ a % 8 = 5 := by
-      rw [hb, pow_succ, pow_mul, Nat.mul_mod, Nat.pow_mod] <;> norm_num
+      rw [hb, pow_succ, pow_mul, Nat.mul_mod, Nat.pow_mod]; norm_num
     omega
 
 theorem scalar_pow_five_eq_one_of_le {K : Type} [Field K]

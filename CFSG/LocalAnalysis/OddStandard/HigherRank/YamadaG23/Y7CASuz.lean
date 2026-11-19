@@ -12,8 +12,8 @@ open Subgroup
 theorem y7c_two_group_cent_two {W : Type} [Group W] [Finite W] (hW : IsPGroup 2 W) {t : W}
     (ht1 : t ≠ 1) (hc : Nat.card ↥(centralizer ({t} : Set W)) ≤ 2) : Nat.card W ≤ 2 := by
   classical
-  haveI : Nontrivial W := ⟨⟨t, 1, ht1⟩⟩
-  haveI : Nontrivial ↥(center W) := hW.center_nontrivial
+  have : Nontrivial W := ⟨⟨t, 1, ht1⟩⟩
+  have : Nontrivial ↥(center W) := hW.center_nontrivial
   have hZle : center W ≤ centralizer ({t} : Set W) := by
     intro x hx
     rw [mem_centralizer_iff]
@@ -45,14 +45,14 @@ theorem y7c_two_group_cent_two {W : Type} [Group W] [Finite W] (hW : IsPGroup 2 
 theorem y7c_suzuki_le_four {W : Type} [Group W] [Finite W] (hW : IsPGroup 2 W) {t : W}
     (ht : t ^ 2 = 1) (ht1 : t ≠ 1) (hc : Nat.card ↥(centralizer ({t} : Set W)) ≤ 4)
     {E : Subgroup W} (hE : ∀ y ∈ E, y * y = 1) : Nat.card E ≤ 4 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hord : orderOf t = 2 := orderOf_eq_prime ht ht1
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card (p := 2)).mp (hW.to_subgroup (centralizer ({t} : Set W)))
   have htC : t ∈ centralizer ({t} : Set W) := mem_centralizer_iff.mpr (fun y hy => by
     rw [Set.mem_singleton_iff] at hy
     rw [hy])
   have hCnt : 1 < Nat.card ↥(centralizer ({t} : Set W)) := by
-    haveI : Nontrivial ↥(centralizer ({t} : Set W)) := ⟨⟨⟨t, htC⟩, 1, fun h => ht1 (by
+    have : Nontrivial ↥(centralizer ({t} : Set W)) := ⟨⟨⟨t, htC⟩, 1, fun h => ht1 (by
       simpa using congrArg Subtype.val h)⟩⟩
     exact Finite.one_lt_card
   have hk1 : 1 ≤ k := by

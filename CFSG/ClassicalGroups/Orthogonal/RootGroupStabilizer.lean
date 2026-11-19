@@ -171,6 +171,7 @@ theorem exists_nonsingular_of_finrank {N : Submodule K V} (hN : Module.finrank K
   · exact ⟨m₁, hm₁, h1, m₂, hm₂, h12⟩
 
 omit hQ in
+omit [FiniteDimensional K V] in
 theorem eichler_diff_mem {u : V} {X : Submodule K V}
     (hXinv : ∀ s ∈ pointStabilizer Q u, ∀ x ∈ X, s.app x ∈ X) {x : V} (hx : x ∈ X) {a w : V}
     (ha : Q a = 0) (haw : polar Q a w = 0) (hua : polar Q u a = 0) (huw : polar Q u w = 0) :
@@ -309,7 +310,7 @@ end Orth
 theorem Lom_eq_pCoreOf_pointStabilizer [FiniteDimensional K V] [Finite K] [CharP K 2]
     (hQ : (polarBilin Q).Nondegenerate) (h5 : 5 ≤ Module.finrank K V) {u : V} (hu : u ≠ 0)
     (hQu : Q u = 0) : Lom Q u = pCoreOf 2 (pointStabilizer Q u) := by
-  haveI : Finite V := Module.finite_of_finite K
+  have : Finite V := Module.finite_of_finite K
   refine eq_pCoreOf_of_section (isLinearAction_Gom Q) (L := Submodule.span K {u})
     (P := LinearMap.BilinForm.orthogonal (polarBilin Q) (Submodule.span K {u})) hu
     (fun s hs => hs) (Lom_le_pointStabilizer u)

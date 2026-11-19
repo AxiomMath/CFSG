@@ -169,7 +169,7 @@ theorem card_mapSurjective_mk_eq [Finite G] {K : Subgroup G} (R₁ : Sylow 2 ↥
   have hinj : Function.Injective (ρ.comp (R₁ : Subgroup K).subtype) := by
     rw [← MonoidHom.ker_eq_bot_iff, eq_bot_iff]
     intro a ha
-    exact Subtype.ext (eq_one_of_mk_eq_one_of_isPGroup R₁.isPGroup' a.2 ha)
+    exact Subtype.ext (eq_one_of_mk_eq_one_of_isPGroup R₁.isPGroup a.2 ha)
   have hr : (ρ.comp (R₁ : Subgroup K).subtype).range =
       ((R₁.mapSurjective (QuotientGroup.mk'_surjective (pPrimeCore 2 K)) :
         Sylow 2 (K ⧸ pPrimeCore 2 K)) : Subgroup (K ⧸ pPrimeCore 2 K)) := by

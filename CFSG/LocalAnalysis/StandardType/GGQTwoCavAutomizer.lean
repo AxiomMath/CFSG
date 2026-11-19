@@ -31,8 +31,8 @@ theorem four_dvd_original_automizer_of_full_label
   obtain ⟨K, instF, instFin, σ, hK, hσ, Fr, hFr, θ, hN, g, T, ι, b, i,
     hι, hrange, hq, hAlg, hρ, hb, hb1, hTb, hQ, hi, hιval, hg, hgn, hSlang, hScard⟩ :=
     exists_original_rational_component hS hp3 hq2 htag hmark hidx (by norm_num)
-  letI : Field K := instF
-  letI : Finite K := instFin
+  let : Field K := instF
+  let : Finite K := instFin
   have hY : (ggBeta L θ hN).range = TwE6DD2.langCube (n := 1) le_rfl hK σ hσ Fr hFr g := by
     apply Subgroup.eq_of_le_of_card_ge hSlang
     rw [hScard, TwE6DD2.card_langCube (n := 1) le_rfl hK σ hσ Fr hFr
@@ -63,8 +63,8 @@ theorem four_dvd_original_automizer_of_heart_label
   obtain ⟨K, instF, instFin, σ, hK, hσ, Fr, hFr, θ, hN, g, T, ι, b, i,
     hι, hrange, hq, hAlg, hρ, hb, hb1, hTb, hQ, hi, hιval, hg, hgn, hSlang, hScard⟩ :=
     exists_original_rational_component hS hp3 hq2 htag hmark hidx le_rfl
-  letI : Field K := instF
-  letI : Finite K := instFin
+  let : Field K := instF
+  let : Finite K := instFin
   have hSS : LargeEvenSStar p B x L := hS.1.1.1.2.2.2.2.2.2.1
   have hxC : x ∈ Subgroup.centralizer (L : Set G) :=
     mem_centralizer_of_le_centralizer hSS.2.2.2.1.1

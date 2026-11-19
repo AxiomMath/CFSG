@@ -12,15 +12,16 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem pCoreOf_le_inf {T L : Subgroup G} (hTL : CFSG.Quasithin.IsSylowIn 2 (T ⊓ L) L) :
     pCoreOf 2 L ≤ T ⊓ L := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact CFSG.Quasithin.pCoreOf_le_of_isSylowIn hTL
 
 theorem exists_sylow_barImage {T L : Subgroup G} (hTL : CFSG.Quasithin.IsSylowIn 2 (T ⊓ L) L) :
     ∃ S : Sylow 2 (Bar2 L), (S : Subgroup (Bar2 L)) = barImage L (T ⊓ L) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine ⟨hTL.toSylow.mapSurjective (QuotientGroup.mk'_surjective _), ?_⟩
   rw [Sylow.coe_mapSurjective, CFSG.Quasithin.IsSylowIn.coe_toSylow, barImage]
 
+omit [Finite G] in
 theorem commutator_bar2_eq_top {L : Subgroup G} (hperf : ⁅L, L⁆ = L) :
     _root_.commutator (Bar2 L) = ⊤ := by
   have htopL : (⊤ : Subgroup ↥L).map L.subtype = L := by
@@ -36,6 +37,7 @@ theorem commutator_bar2_eq_top {L : Subgroup G} (hperf : ⁅L, L⁆ = L) :
       Subgroup.map_top_of_surjective _ hsurj, _root_.commutator_def]
   rw [← hmap, hL, Subgroup.map_top_of_surjective _ hsurj]
 
+omit [Finite G] in
 theorem mk_mem_barImage_iff {L J : Subgroup G} (hOJ : pCoreOf 2 L ≤ J) (l : ↥L) :
     (QuotientGroup.mk l : Bar2 L) ∈ barImage L J ↔ (l : G) ∈ J := by
   have hOsub : CFSG.pCore 2 ↥L ≤ J.subgroupOf L := fun y hy =>
@@ -44,6 +46,7 @@ theorem mk_mem_barImage_iff {L J : Subgroup G} (hOJ : pCoreOf 2 L ≤ J) (l : �
   rw [← QuotientGroup.mk'_apply (N := CFSG.pCore 2 ↥L) l, ← Subgroup.mem_comap,
     QuotientGroup.comap_map_mk', sup_eq_right.mpr hOsub, Subgroup.mem_subgroupOf]
 
+omit [Finite G] in
 theorem barImage_le_barImage_iff {L J K : Subgroup G} (hOJ : pCoreOf 2 L ≤ J) (hKL : K ≤ L) :
     barImage L K ≤ barImage L J ↔ K ≤ J := by
   constructor

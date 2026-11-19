@@ -32,10 +32,10 @@ theorem exists_involution_centralizing_of_dim28 {K : Type} [Field K] [Finite K]
     ∃ t ∈ fixedPoints (Subgroup.zpowers (twistedE6InndiagConj K σ h)),
       t ∈ Subgroup.centralizer (J : Set (twistedE6RootGroup K σ)) ∧ t * t = 1 ∧ t ≠ 1 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := 2)
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := 2)
     (by rw [← Nat.card_eq_fintype_card, hK]; norm_num)
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have hK3 : ringChar K ≠ 3 := by rw [ringChar.eq K 2]; decide
   obtain ⟨D⟩ := nonempty_twE6LineLang K σ 2 hK3 hσ (by rw [hK]; norm_num) le_rfl h hh1 hh3

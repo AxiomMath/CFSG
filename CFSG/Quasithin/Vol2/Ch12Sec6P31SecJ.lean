@@ -38,7 +38,7 @@ theorem exists_surj_sup [(A.subgroupOf (A ⊔ B)).Normal] :
 
 theorem AllNS.sup_of_normalizes {S : Type} [Group S] (hB : B ≤ Subgroup.normalizer (A : Set G))
     (hA : AllNS S ↥A) (hB' : AllNS S ↥B) : AllNS S ↥(A ⊔ B) := by
-  haveI := normal_subgroupOf_sup A B hB
+  have := normal_subgroupOf_sup A B hB
   refine AllNS.of_split (A.subgroupOf (A ⊔ B)) ?_ ?_
   · exact AllNS.of_mulEquiv (Subgroup.subgroupOfEquivOfLe le_sup_left).symm hA
   · obtain ⟨f, hf⟩ := exists_surj_sup A B
@@ -46,7 +46,7 @@ theorem AllNS.sup_of_normalizes {S : Type} [Group S] (hB : B ≤ Subgroup.normal
 
 theorem isSolvable_sup_of_normalizes (hB : B ≤ Subgroup.normalizer (A : Set G))
     (hA : Group.IsSolvable ↥A) (hB' : Group.IsSolvable ↥B) : Group.IsSolvable ↥(A ⊔ B) := by
-  haveI := normal_subgroupOf_sup A B hB
+  have := normal_subgroupOf_sup A B hB
   obtain ⟨f, hf⟩ := exists_surj_sup A B
   have h1 : Group.IsSolvable (↥(A ⊔ B) ⧸ A.subgroupOf (A ⊔ B)) :=
     Group.isSolvable_of_surjective hf
@@ -85,9 +85,9 @@ variable {S : Type} [Group S]
 theorem AllNS.of_surjective_solvable_ker {Q Q' : Type} [Group Q] [Group Q'] (φ : Q →* Q')
     (hφ : Function.Surjective φ) (hker : Group.IsSolvable ↥φ.ker) (h : AllNS S Q') :
     AllNS S Q := by
-  haveI : φ.ker.Normal := φ.normal_ker
+  have : φ.ker.Normal := φ.normal_ker
   refine AllNS.of_split φ.ker ?_ ?_
-  · haveI := hker
+  · have := hker
     exact AllNS.of_solvable
   · exact AllNS.of_mulEquiv (QuotientGroup.quotientKerEquivOfSurjective φ hφ).symm h
 

@@ -11,7 +11,7 @@ open CFSG.EvenSporadicStandard.HNRecog
 
 theorem y4a_orbit_size {G : Type} [Group G] [Finite G] {Y M : Subgroup G}
     (ψ : ↥Y →* alternatingGroup (Fin 5)) (hψ : Function.Surjective ψ)
-    (hker : ∀ l : ↥Y, ψ l = 1 ↔ (l : G) ∈ M) (hMY : M ≤ Y)
+    (hker : ∀ l : ↥Y, ψ l = 1 ↔ (l : G) ∈ M) (_hMY : M ≤ Y)
     (hMab : ∀ m₁ ∈ M, ∀ m₂ ∈ M, m₁ * m₂ = m₂ * m₁) {c : G} (hc : c ∈ M) :
     Y ≤ Gx c ∨ 5 * Nat.card ↥(Y ⊓ Gx c) ≤ Nat.card ↥Y := by
   classical
@@ -87,13 +87,13 @@ theorem y4a_isConjOrbit_B {G : Type} [Group G] [Finite G] {Y M : Subgroup G} {A 
     rw [hOeqB] at hO
     exact hO
   · exfalso
-    push_neg at hcase
+    push Not at hcase
     set F : Subgroup G := M ⊓ Subgroup.centralizer (Y : Set G) with hF
     have hFset : (F : Set G) = insert 1 B := by
       ext m
       constructor
       · intro hm
-        simp only [hF, Subgroup.mem_inf] at hm
+        simp only [hF] at hm
         obtain ⟨hmM, hmC⟩ := hm
         by_cases hm1 : m = 1
         · rw [hm1]; exact Set.mem_insert _ _

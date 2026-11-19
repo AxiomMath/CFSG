@@ -48,8 +48,8 @@ theorem subfieldFixedGroup_le_derivedImage_of_odd (h2 : (2 : K) ≠ 0)
     subfieldFixedGroup k Q₀ Q ≤ subfieldDerivedImage k hext := by
   classical
   have : Finite k := Finite.of_injective (algebraMap k K) (algebraMap k K).injective
-  letI : Invertible (2 : K) := invertibleOfNonzero h2
-  letI : Invertible (2 : k) := invertibleOfNonzero (two_ne_zero_of_subfield k h2)
+  let : Invertible (2 : K) := invertibleOfNonzero h2
+  let : Invertible (2 : k) := invertibleOfNonzero (two_ne_zero_of_subfield k h2)
   have hnd₀' : Q₀.Nondegenerate := QuadraticMap.nondegenerate_polar_iff.mp hnd₀
   have hnd' : Q.Nondegenerate := QuadraticMap.nondegenerate_polar_iff.mp hnd
   rintro _ ⟨y, hy, rfl⟩

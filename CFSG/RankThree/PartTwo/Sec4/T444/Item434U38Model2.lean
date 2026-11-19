@@ -21,7 +21,7 @@ theorem vec3_exists_smul_normV3 {w : Fin 3 → GF64} (hw : w ≠ 0) :
     ∃ r : GF64, r • w = normV3 (w 0) (w 1) (w 2) := by
   have hne : w 0 ≠ 0 ∨ w 1 ≠ 0 ∨ w 2 ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hw (funext fun i => by fin_cases i <;> simp [hcon.1, hcon.2.1, hcon.2.2])
   unfold normV3
   split_ifs with h1 h2
@@ -61,20 +61,20 @@ theorem genElt_matrix (k : Fin 7) :
   unfold genElt
   by_cases h : k.val < 6
   · refine ⟨hermitianUnipotentGL J64 (rootCoord64 ⟨k.val, h⟩), ?_, ?_⟩
-    · rw [dif_pos h]
+    · rw [dite_eq_left h]
       exact CFSG.UnitaryThreeRecognition.Model.coe_root J64 J64_form _
-    · rw [hermitianUnipotentGL_val, genMat, dif_pos h]
+    · rw [hermitianUnipotentGL_val, genMat, dite_eq_left h]
       funext i j
       fin_cases i <;> fin_cases j <;>
-        simp [hermitianUnipotentMatrix, rootMat, rootCoord64, J64_conj] <;> rfl
+        simp [hermitianUnipotentMatrix, rootMat, rootCoord64, J64_conj]; rfl
   · refine ⟨hermitianWeylGL, ?_, ?_⟩
-    · rw [dif_neg h]
+    · rw [dite_eq_right h]
       exact CFSG.UnitaryThreeRecognition.Model.coe_weyl J64 J64_form
     · have hz : ((hermitianWeylGL (K := GF64) : GL (Fin 3) GF64) : Matrix (Fin 3) (Fin 3) GF64) =
           hermitianWeylMatrix (K := GF64) := rfl
-      rw [hz, genMat, dif_neg h]
+      rw [hz, genMat, dite_eq_right h]
       funext i j
-      fin_cases i <;> fin_cases j <;> simp [hermitianWeylMatrix, weylMat] <;> rfl
+      fin_cases i <;> fin_cases j <;> simp [hermitianWeylMatrix, weylMat]; rfl
 
 theorem genElt_smul_symm (k : Fin 7) (j : Fin 513) :
     ptsE (genElt k • ptsE.symm j) = CFSG.Monster.B.Co2.permOfArr 513 gensO[k.val]! j := by

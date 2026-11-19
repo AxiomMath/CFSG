@@ -66,7 +66,7 @@ theorem inf_pCoreOf_centralizer_eq_bot [Finite G] [Finite K] (hS : LocalSetting 
     {t : G} (htL : t ∈ Subgroup.centralizer (L : Set G)) :
     L ⊓ pCoreOf 2 (Subgroup.centralizer {t}) = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set C : Subgroup G := Subgroup.centralizer ({t} : Set G) with hC
   set T : Subgroup G := pCoreOf 2 C with hT
   have hLC : L ≤ C := by
@@ -81,8 +81,8 @@ theorem inf_pCoreOf_centralizer_eq_bot [Finite G] [Finite K] (hS : LocalSetting 
     rw [Subgroup.normal_subgroupOf_iff_le_normalizer inf_le_left]
     exact (le_inf Subgroup.le_normalizer hLT).trans
       (Subgroup.inf_normalizer_le_normalizer_inf (H := L) (K := T))
-  haveI : IsSimpleGroup L := isSimpleGroup_L hS
-  haveI := hInfNorm
+  have : IsSimpleGroup L := isSimpleGroup_L hS
+  have := hInfNorm
   rcases Subgroup.Normal.eq_bot_or_eq_top ((L ⊓ T).subgroupOf L) with hbot | htop
   · have hdisj : Disjoint (L ⊓ T) L := Subgroup.subgroupOf_eq_bot.mp hbot
     have hbot2 : (L ⊓ T) ⊓ L = ⊥ := disjoint_iff.mp hdisj
@@ -115,7 +115,7 @@ theorem pCoreOf_centralizer_inf_centralizer_eq [Finite G] [Finite K] (hG : IsCha
     pCoreOf 2 (Subgroup.centralizer {t}) ⊓ Subgroup.centralizer {n * b * n⁻¹} =
       pCoreOf 2 (L.map (MulAut.conj n : G →* G) ⊓ Subgroup.centralizer {t}) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set e : G := n * b * n⁻¹ with he
   set M : Subgroup G := L.map (MulAut.conj n : G →* G) with hM
   set C : Subgroup G := Subgroup.centralizer ({t} : Set G) with hC
@@ -258,7 +258,7 @@ theorem isExtraspecialPGroup_pCoreOf_centralizer [Finite G] [Finite K] (hG : IsC
         (L ⊓ Subgroup.normalizer (Bs : Set G)) ⊔ Subgroup.centralizer (Bs : Set G)) :
     IsExtraspecialPGroup 2 ↥(pCoreOf 2 (Subgroup.centralizer {t})) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn, hnL, hnφ, htA⟩ := hnA
   set e : G := n * b * n⁻¹ with he
   set M : Subgroup G := L.map (MulAut.conj n : G →* G) with hM
@@ -412,7 +412,7 @@ theorem isExtraspecialPGroup_pCoreOf_centralizer [Finite G] [Finite K] (hG : IsC
       have hcard := Subgroup.card_le_of_le hQle_zt
       rw [hQcard, Nat.card_zpowers, ht2] at hcard
       norm_num at hcard
-  haveI : Fact (IsPGroup 2 ↥T) := ⟨hT2⟩
+  have : Fact (IsPGroup 2 ↥T) := ⟨hT2⟩
   have hcomm_le_frattini : _root_.commutator ↥T ≤ frattini ↥T :=
     CFSG.commutator_le_frattini_of_isPGroup (R := ↥T) (p := 2)
   have hTderiv_le_Φ : ⁅T, T⁆ ≤ Φ := by

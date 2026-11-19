@@ -55,7 +55,7 @@ private theorem commSub_top_eq_top_and_conc4_136W_of_normal_isPOnePlusTwo
   have hconj : conjSubs A (commSub ⊤ H) = {⊤} := by
     rw [hfull]
     ext X
-    simp only [conjSubs, Set.mem_setOf_eq, Set.mem_singleton_iff]
+    simp only [conjSubs, Set.mem_ofPred_eq, Set.mem_singleton_iff]
     constructor
     · rintro ⟨g, -, rfl⟩
       exact Subgroup.map_top_of_surjective _ g.surjective

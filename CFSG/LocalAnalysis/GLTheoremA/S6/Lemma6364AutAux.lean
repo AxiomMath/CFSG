@@ -14,6 +14,7 @@ namespace L6364
 
 variable {G : Type} [Group G] [Finite G] {p : ℕ}
 
+omit [Finite G] in
 private theorem centralizerQuot_eq_centModSubgroup (p : ℕ) (L : Subgroup G) :
     CFSG.HardMathSupport.Solomon.LocalBalance.centralizerQuot L (GLAPPrimeCoreOf p L) =
       centModSubgroup p L := by
@@ -63,7 +64,7 @@ theorem exists_elemAbelian_aut {L B : Subgroup G} (hB : IsElemAbelian p B)
     rw [hkercard] at hpos h1
     rw [hB'card] at h1
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have : Nat.card ↥(B ⊓ centModSubgroup p L) * Nat.card φ.range <
         Nat.card ↥(B ⊓ centModSubgroup p L) * p ^ k := Nat.mul_lt_mul_of_pos_left hlt hpos
     nlinarith

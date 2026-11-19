@@ -43,7 +43,7 @@ structure IsCubeRootBlock (s : SL(2, K)) : Prop where
 
 theorem exists_sq_sub_mul_add_sq_eq_neg_one [Finite K] (h3 : (3 : K) ≠ 0) :
     ∃ a b : K, a ^ 2 - a * b + b ^ 2 = -1 := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   by_cases h2 : (2 : K) = 0
   · exact ⟨1, 0, by linear_combination h2⟩
   · have hchar : ringChar K ≠ 2 := by
@@ -78,7 +78,7 @@ theorem isCubeRootBlock_cubeRootBlock [Finite K] (h3 : (3 : K) ≠ 0) :
   refine ⟨h3, ?_, ⟨t, ?_⟩, ⟨![1, 0], ?_⟩⟩
   · ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [cubeRootBlock, sq, Matrix.mul_apply, Fin.sum_univ_two]
+      simp [cubeRootBlock, sq]
   · apply Subtype.ext
     rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_mul,
       Matrix.SpecialLinearGroup.coe_pow, ht]
@@ -108,7 +108,7 @@ theorem isCubeRootBlock_cubeRootDiag (h3 : (3 : K) ≠ 0) {ω : Kˣ}
   refine ⟨h3, ?_, ⟨w, ?_⟩, ⟨![1, 1], ?_⟩⟩
   · ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [cubeRootDiag, sq, Matrix.mul_apply, Fin.sum_univ_two, hinv]
+      simp [cubeRootDiag, sq, hinv]
     · linear_combination hω
     · linear_combination hω + (ω : K) * hω3
   · apply Subtype.ext
@@ -123,7 +123,7 @@ theorem isCubeRootBlock_cubeRootDiag (h3 : (3 : K) ≠ 0) {ω : Kˣ}
 
 theorem exists_unit_sq_add_self_add_one_iff [Finite K] (h3 : (3 : K) ≠ 0) :
     (∃ ω : Kˣ, (ω : K) ^ 2 + ω + 1 = 0) ↔ Nat.card K % 3 = 1 := by
-  haveI := Nat.fact_prime_three
+  have := Nat.fact_prime_three
   have hq : 2 ≤ Nat.card K := Finite.one_lt_card
   constructor
   · rintro ⟨ω, hω⟩
@@ -172,14 +172,14 @@ theorem cubeRootBlockStd_eq_cubeRootDiag [Finite K] (h3 : (3 : K) ≠ 0)
     (exists_unit_sq_add_self_add_one_iff h3).mpr hq
   refine ⟨h.choose, h.choose_spec, ?_⟩
   unfold cubeRootBlockStd
-  rw [dif_pos h]
+  rw [dite_eq_left h]
 
 theorem cubeRootBlockStd_eq_cubeRootBlock [Finite K] (h3 : (3 : K) ≠ 0)
     (hq : ¬ Nat.card K % 3 = 1) : cubeRootBlockStd K = cubeRootBlock K := by
   have h : ¬ ∃ ω : Kˣ, (ω : K) ^ 2 + ω + 1 = 0 := fun h =>
     hq ((exists_unit_sq_add_self_add_one_iff h3).mp h)
   unfold cubeRootBlockStd
-  rw [dif_neg h]
+  rw [dite_eq_right h]
 
 theorem exists_proportional_of_minors {p q r t a b c d v0 v1 : K}
     (E00 : q * c = b * r) (E01 : b * (p - t) = (a - d) * q) (E10 : c * (p - t) = (a - d) * r)
@@ -243,7 +243,7 @@ theorem ne_one (hs : IsCubeRootBlock s) : s ≠ 1 := by
     _ = 0 := h3
 
 theorem orderOf_eq_three (hs : IsCubeRootBlock s) : orderOf s = 3 := by
-  haveI := Nat.fact_prime_three
+  have := Nat.fact_prime_three
   exact orderOf_eq_prime hs.pow_three hs.ne_one
 
 theorem pow_val_eq_one_iff (hs : IsCubeRootBlock s) (x : ZMod 3) : s ^ x.val = 1 ↔ x = 0 := by
@@ -375,7 +375,7 @@ theorem det_smul_one_add_smul (hs : IsCubeRootBlock s) (x y : K) :
 
 theorem not_three_dvd_card [Finite K] (hs : IsCubeRootBlock s) : ¬ 3 ∣ Nat.card K := by
   intro h
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   obtain ⟨p, hchar, n, hp, hcard⟩ := FiniteField.card' K
   rw [Nat.card_eq_fintype_card, hcard] at h
   have h3p : 3 ∣ p := Nat.Prime.dvd_of_dvd_pow Nat.prime_three h
@@ -385,12 +385,12 @@ theorem not_three_dvd_card [Finite K] (hs : IsCubeRootBlock s) : ¬ 3 ∣ Nat.ca
   rw [hp3] at h0
   exact_mod_cast h0
 
-theorem smul_one_add_smul_pow_card [Finite K] (hs : IsCubeRootBlock s) (x y : K) :
+theorem smul_one_add_smul_pow_card [Finite K] (_hs : IsCubeRootBlock s) (x y : K) :
     (x • (1 : Matrix (Fin 2) (Fin 2) K) + y • (s : Matrix (Fin 2) (Fin 2) K)) ^ Nat.card K =
       x • (1 : Matrix (Fin 2) (Fin 2) K) + y • (s : Matrix (Fin 2) (Fin 2) K) ^ Nat.card K := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   obtain ⟨p, hchar, n, hp, hcard⟩ := FiniteField.card' K
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hx : x ^ Fintype.card K = x := FiniteField.pow_card x
   have hy : y ^ Fintype.card K = y := FiniteField.pow_card y
   rw [Nat.card_eq_fintype_card]
@@ -415,7 +415,7 @@ theorem pow_pi_eq_one [Finite K] (hs : IsCubeRootBlock s) {z : SL(2, K)}
       ((s ^ (Nat.card K % 3) : SL(2, K)) : Matrix (Fin 2) (Fin 2) K) := by
     rw [← Matrix.SpecialLinearGroup.coe_pow, pow_eq_pow_mod _ hs3]
   by_cases h : Nat.card K % 3 = 1
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     rw [h, pow_one] at hspow
     rw [hspow, ← hxy] at hq
     have hzq : z ^ Nat.card K = z := by
@@ -425,7 +425,7 @@ theorem pow_pi_eq_one [Finite K] (hs : IsCubeRootBlock s) {z : SL(2, K)}
     have : z ^ (Nat.card K - 1) * z = 1 * z := by
       rw [← pow_succ, Nat.sub_add_cancel hq1, one_mul, hzq]
     exact mul_right_cancel this
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     have h2 : Nat.card K % 3 = 2 := by omega
     rw [h2] at hspow
     rw [hspow] at hq

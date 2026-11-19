@@ -14,6 +14,7 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
   {VA : Subgroup (LGL 2 V) → Submodule (ZMod 2) V} {𝒢 : Set (Subgroup (LGL 2 V))}
   {Zs : Submodule (ZMod 2) V} {m i₀ : ℕ} {δ : Subgroup (LGL 2 V) → ℕ}
 
+omit [Finite V] in
 private theorem w183b2_perm_cj_self_iff (h : Br2TwoComp Y T L₁ L₂) {y : LGL 2 V} (hy : y ∈ Y) :
     cj y L₁ = L₁ ↔ cj y L₂ = L₂ := by
   constructor
@@ -26,12 +27,14 @@ private theorem w183b2_perm_cj_self_iff (h : Br2TwoComp Y T L₁ L₂) {y : LGL 
     · exact h1
     · exact absurd (hyL.symm.trans h2) h.ne.symm
 
+omit [Finite V] in
 private theorem w183b2_perm_cj_swap (h : Br2TwoComp Y T L₁ L₂) {y : LGL 2 V} (hy : y ∈ Y)
     (hyL : cj y L₁ = L₂) : cj y L₂ = L₁ := by
   rcases h.perm y hy with ⟨h1, -⟩ | ⟨-, h2⟩
   · exact absurd (h1 ▸ hyL) h.ne
   · exact h2
 
+omit [Finite V] in
 private theorem w183b2_cj_centralizer (x : LGL 2 V) (A : Subgroup (LGL 2 V)) :
     cj x (Subgroup.centralizer (A : Set (LGL 2 V))) =
       Subgroup.centralizer (cj x A : Set (LGL 2 V)) := by
@@ -64,6 +67,7 @@ private theorem w183b2_cj_centralizer (x : LGL 2 V) (A : Subgroup (LGL 2 V)) :
     · change x * (x⁻¹ * y * x) * x⁻¹ = y
       group
 
+omit [Finite V] in
 private theorem w183b2_le_normalizer_of_comm {A B : Subgroup (LGL 2 V)}
     (h : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a) :
     A ≤ Subgroup.normalizer (B : Set (LGL 2 V)) := by
@@ -72,6 +76,7 @@ private theorem w183b2_le_normalizer_of_comm {A B : Subgroup (LGL 2 V)}
   rw [h a ha b hb, mul_assoc, mul_inv_cancel, mul_one]
   exact hb
 
+omit [Finite V] in
 theorem Br2TwoComp.core₁ (h : Br2TwoComp Y T L₁ L₂) :
     SimpleCore (Y ⊓ Subgroup.centralizer (L₂ : Set (LGL 2 V))) L₁ := by
   refine ⟨?_, ?_, h.simple₁, h.nonab₁, ?_⟩
@@ -89,6 +94,7 @@ theorem Br2TwoComp.core₁ (h : Br2TwoComp Y T L₁ L₂) :
   · intro y hy hl
     exact h.cent y hy.1 hl fun b hb => (Subgroup.mem_centralizer_iff.mp hy.2 b hb).symm
 
+omit [Finite V] in
 theorem Br2TwoComp.core₂ (h : Br2TwoComp Y T L₁ L₂) :
     SimpleCore (Y ⊓ Subgroup.centralizer (L₁ : Set (LGL 2 V))) L₂ := by
   refine ⟨?_, ?_, h.simple₂, h.nonab₂, ?_⟩
@@ -106,6 +112,7 @@ theorem Br2TwoComp.core₂ (h : Br2TwoComp Y T L₁ L₂) :
   · intro y hy hl
     exact h.cent y hy.1 (fun b hb => (Subgroup.mem_centralizer_iff.mp hy.2 b hb).symm) hl
 
+omit [Finite V] in
 theorem Br2TwoComp.comm_X (h : Br2TwoComp Y T L₁ L₂) {a b : LGL 2 V}
     (ha : a ∈ Y ⊓ Subgroup.centralizer (L₂ : Set (LGL 2 V)))
     (hb : b ∈ Y ⊓ Subgroup.centralizer (L₁ : Set (LGL 2 V))) : a * b = b * a := by
@@ -172,6 +179,7 @@ theorem Br2TwoComp.comm_X (h : Br2TwoComp Y T L₁ L₂) {a b : LGL 2 V}
     _ = 1 * (b * a) := by rw [h1]
     _ = b * a := by group
 
+omit [Finite V] in
 theorem Br2TwoComp.inf_X (h : Br2TwoComp Y T L₁ L₂) :
     (Y ⊓ Subgroup.centralizer (L₂ : Set (LGL 2 V))) ⊓
       (Y ⊓ Subgroup.centralizer (L₁ : Set (LGL 2 V))) = ⊥ := by
@@ -182,6 +190,7 @@ theorem Br2TwoComp.inf_X (h : Br2TwoComp Y T L₁ L₂) :
     (fun l hl => (Subgroup.mem_centralizer_iff.mp hy.2.2 l hl).symm)
     (fun l hl => (Subgroup.mem_centralizer_iff.mp hy.1.2 l hl).symm)
 
+omit [Finite V] in
 theorem Br2TwoComp.cj_X (h : Br2TwoComp Y T L₁ L₂) (hT : T ≤ Y) {x : LGL 2 V} (hx : x ∈ T)
     (hxL : cj x L₁ = L₂) :
     cj x (Y ⊓ Subgroup.centralizer (L₂ : Set (LGL 2 V))) =
@@ -249,6 +258,7 @@ theorem w183b2_isSylowIn_inf_X₁ (hT : IsSylowIn 2 T Y) (h : Br2TwoComp Y T L�
     rw [inf_assoc, inf_eq_right.2 hX₁N]
   rwa [hEq] at hSylX₁
 
+omit [Finite V] in
 theorem w183b2_exists_type_one {i : ℕ} (hc : Assumption131 Y Γ VA i) (hT : T ≤ Y)
     (h : Br2TwoComp Y T L₁ L₂)
     (hone : ∀ D ∈ Γ, D ≤ Subgroup.centralizer (L₁ : Set (LGL 2 V)) ∨
@@ -298,7 +308,7 @@ theorem w183b2_false_of_swap (hc : Br1Base Y Γ VA T 𝒢 Zs m i₀ δ) (hL : Br
   have hSyl : IsSylowIn 2 (T ⊓ X₁) X₁ := w183b2_isSylowIn_inf_X₁ hc.sylow hL
   obtain ⟨D₀, hD₀mem, hD₀X₁⟩ := w183b2_exists_type_one hc.h131 hTY hL hone hne
   have hD₀card : 8 ≤ Nat.card D₀ := by
-    haveI : Nonempty ↥D₀ := (OneMemClass.coe_nonempty D₀).to_subtype
+    have : Nonempty ↥D₀ := (OneMemClass.coe_nonempty D₀).to_subtype
     have h := hrk D₀ hD₀mem
     dsimp only [mRank] at h
     have h2 : 2 ^ 3 ≤ Nat.card D₀ := Nat.pow_le_of_le_log Nat.card_pos.ne' h
@@ -343,14 +353,14 @@ theorem w183b2_false_of_swap (hc : Br1Base Y Γ VA T 𝒢 Zs m i₀ δ) (hL : Br
   rw [hL.inf_X] at hle
   exact hc.h131.ne_bot D hDmem (le_bot_iff.mp hle)
 
-theorem w183b2_sp44_not_one_sided {i : ℕ} (hc : Assumption131 Y Γ VA i) (hT : T ≤ Y)
+theorem w183b2_sp44_not_one_sided {i : ℕ} (_hc : Assumption131 Y Γ VA i) (_hT : T ≤ Y)
     (h : Br2TwoComp Y T L₁ L₂) (hsp : IsSp4 ↥L₁ 2) (hSp5 : FinSp44Noncyclic5)
     (h5 : ∀ D ∈ Γ, ∀ P : Subgroup (LGL 2 V),
       IsSylowIn 5 P (Y ⊓ Subgroup.normalizer (D : Set (LGL 2 V))) → IsCyclic ↥P)
     {D : Subgroup (LGL 2 V)} (hD : D ∈ Γ)
     (hone : D ≤ Subgroup.centralizer (L₁ : Set (LGL 2 V)) ∨
       D ≤ Subgroup.centralizer (L₂ : Set (LGL 2 V))) : False := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   rcases hone with hC₁ | hC₂
   · obtain ⟨P₀, hP₀g, hP₀nc⟩ := hSp5 ↥L₁ hsp
     let P : Subgroup (LGL 2 V) := P₀.map L₁.subtype
@@ -362,7 +372,7 @@ theorem w183b2_sp44_not_one_sided {i : ℕ} (hc : Assumption131 Y Γ VA i) (hT :
       exact Subgroup.mem_centralizer_iff.mp (hC₁ hd) a ((Subgroup.map_subtype_le P₀) ha)
     obtain ⟨S, hSyl, hPS⟩ := exists_isSylowIn_ge 5 hPle hPg
     have hScyc : IsCyclic ↥S := h5 D hD S hSyl
-    haveI : IsCyclic ↥S := hScyc
+    have : IsCyclic ↥S := hScyc
     have hPcyc : IsCyclic ↥P := Subgroup.isCyclic_of_le hPS
     exact hP₀nc ((Subgroup.equivMapOfInjective P₀ L₁.subtype L₁.subtype_injective).isCyclic.mpr
       hPcyc)
@@ -381,7 +391,7 @@ theorem w183b2_sp44_not_one_sided {i : ℕ} (hc : Assumption131 Y Γ VA i) (hT :
       exact Subgroup.mem_centralizer_iff.mp (hC₂ hd) a ((Subgroup.map_subtype_le P₀) ha)
     obtain ⟨S, hSyl, hPS⟩ := exists_isSylowIn_ge 5 hPle hPg
     have hScyc : IsCyclic ↥S := h5 D hD S hSyl
-    haveI : IsCyclic ↥S := hScyc
+    have : IsCyclic ↥S := hScyc
     have hPcyc : IsCyclic ↥P := Subgroup.isCyclic_of_le hPS
     exact hP₀nc ((Subgroup.equivMapOfInjective P₀ L₂.subtype L₂.subtype_injective).isCyclic.mpr
       hPcyc)

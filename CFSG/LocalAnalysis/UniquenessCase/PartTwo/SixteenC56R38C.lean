@@ -122,7 +122,7 @@ theorem exists_elemAbelian_of_singular_fixed {m : ℕ} (hSK : Nat.card S.K = 2 ^
       (∀ x ∈ E, ∀ y ∈ E, x * y = y * x) ∧ (∀ x ∈ E, x ^ (2 ^ m - 1) = 1) ∧
       Nat.card E = (2 ^ m - 1) ^ 3 := by
   classical
-  letI : Fintype S.K := Fintype.ofFinite S.K
+  let : Fintype S.K := Fintype.ofFinite S.K
   have hq1 : Nat.card S.K - 1 = 2 ^ m - 1 := by rw [hSK]
   obtain ⟨A, c, hAa, hAq, hAQ, hAfix⟩ :=
     S.exists_matrix_of_singular_fixed ha (by rw [hq1]; exact haq) he1 hfix

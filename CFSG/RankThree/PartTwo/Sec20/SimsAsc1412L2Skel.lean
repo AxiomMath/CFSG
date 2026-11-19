@@ -107,7 +107,7 @@ theorem normal_omegaG_jG_one_of_relIndex_le_two (hS2 : IsPGroup 2 S)
     apply hEnn
     rw [Sec3.omegaG_jG_one_eq_bot_of_pRank_le (by omega)]
     exact Subgroup.normal_bot
-  obtain ⟨t, htA, htQ⟩ := SetLike.not_le_iff_exists.mp hAQ
+  obtain ⟨t, htA, htQ⟩ := IsConcreteLE.not_le_iff_exists.mp hAQ
   have h2 : Q.relIndex A = 2 := by
     have h1 : Q.relIndex A ≠ 1 := fun h => hAQ (Subgroup.relIndex_eq_one.mp h)
     have h0 := Sec3.relIndex_ne_zero_of_finite Q A
@@ -132,6 +132,7 @@ theorem normal_omegaG_jG_one_of_relIndex_le_two (hS2 : IsPGroup 2 S)
   have h5 := Sec3.relIndex_centralizer_le_two hQS hA hAQ' htA
   omega
 
+omit [Finite X] in
 theorem omegaG_pTwo_normal (hQS : CFSG.pCore 2 X ≤ S) :
     (Sec3.omegaG (pTwo S (CFSG.pCore 2 X))).Normal :=
   ⟨fun w hw g => Sec3.conj_mem_omegaG
@@ -317,7 +318,7 @@ theorem two_fourChar_normal_of_relIndex_le_four
     have hVn := Sec3.omegaG_normal hQn
     have h2i : 2 ^ i ≤ 2 := (Nat.pow_le_pow_right (by norm_num) hi).trans (by norm_num)
     rcases relIndex_le_two_or_eq_four (hp2 B hB.1) (hidx B hB.1 hB.2.1) with h2 | h4
-    · obtain ⟨t, htB, htQ⟩ := SetLike.not_le_iff_exists.mp hBQ
+    · obtain ⟨t, htB, htQ⟩ := IsConcreteLE.not_le_iff_exists.mp hBQ
       have h5 := hNS _ hVn (Sec3.isElemTwo_omegaG _) hnc t (hB.1 htB) htQ (hB.2.1.2 t htB)
       have h6 := relIndex_centralizer_omegaG_le_of_famG hQS hB htB
       have h7 : 2 ^ i * Q.relIndex B ≤ 2 * 2 := Nat.mul_le_mul h2i h2
@@ -364,7 +365,7 @@ theorem two_fourChar_normal_of_relIndex_le_four
           refine normal_omegaG_jG_two_of_centralizes hS2 hCQ hQS hL hSL hA₂ inf_le_right ?_
           by_contra hnc
           push Not at hnc
-          obtain ⟨t, htA, htQ⟩ := SetLike.not_le_iff_exists.mp hAQ
+          obtain ⟨t, htA, htQ⟩ := IsConcreteLE.not_le_iff_exists.mp hAQ
           have h5 := hNS _ (omegaG_pTwo_normal hQS) (Sec3.isElemTwo_omegaG _) hnc t (hA.1 htA)
             htQ (hA.2.1.2 t htA)
           have h6 := relIndex_centralizer_omegaG_pTwo_le_four (Q := CFSG.pCore 2 X) hQS hA hA₂

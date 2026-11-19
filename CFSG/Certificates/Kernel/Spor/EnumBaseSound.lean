@@ -78,7 +78,7 @@ theorem sliceK_spec {N L S : Nat} {f : Nat → Bool} (hL : 0 < L) (hN : N ≤ L 
   have hs : i / L < S := (Nat.div_lt_iff_lt_mul hL).2 (by rw [Nat.mul_comm]; omega)
   have h1 := allN_spec (h (i / L) hs) (i % L) (Nat.mod_lt _ hL)
   have e : Nat.add (Nat.mul L (i / L)) (i % L) = i := Nat.div_add_mod i L
-  rw [strictB_eq, e, bIf_eq, if_pos (by rw [blt_eq]; exact decide_eq_true hi)] at h1
+  rw [strictB_eq, e, bIf_eq, ite_eq_left (by rw [blt_eq]; exact decide_eq_true hi)] at h1
   exact h1
 
 theorem recK_spec {n w m ng : Nat} {G T PL : Nat → Nat} {k : Nat}
@@ -91,10 +91,10 @@ theorem recK_spec {n w m ng : Nat} {G T PL : Nat → Nat} {k : Nat}
   refine ⟨fun hk => ?_, fun hk => ?_⟩
   · subst hk
     have e : Nat.beq 0 0 = true := rfl
-    rw [e, if_pos rfl] at h
+    rw [e, ite_eq_left rfl] at h
     exact Nat.eq_of_beq_eq_true h
   · have e : Nat.beq k 0 = false := by rw [beq_eq]; simpa using hk
-    rw [e, if_neg Bool.false_ne_true] at h
+    rw [e, ite_eq_right Bool.false_ne_true] at h
     simp only [strictB_eq, bAnd_eq, Bool.and_eq_true] at h
     exact ⟨Nat.blt_eq.mp h.1, Nat.blt_eq.mp h.2.1, Nat.eq_of_beq_eq_true h.2.2⟩
 
@@ -130,24 +130,24 @@ theorem classPtK_spec {w m : Nat} {ps : List Nat} {ng N : Nat}
   refine ⟨Nat.blt_eq.mp h1, Nat.eq_of_beq_eq_true h2, Nat.eq_of_beq_eq_true h3, fun hj => ?_,
     fun g hg => ?_⟩
   · have e : Nat.beq j 0 = false := by rw [beq_eq]; simpa using hj
-    rw [bIf_eq, e, if_neg Bool.false_ne_true] at h4
-    simp only [strictB_eq, bAnd_eq, Bool.and_eq_true] at h4
+    rw [bIf_eq, e, ite_eq_right Bool.false_ne_true] at h4
+    simp only [Bool.and_eq_true] at h4
     obtain ⟨a1, a2, a3, a4⟩ := h4
     refine ⟨Nat.blt_eq.mp a1, Nat.blt_eq.mp a2, conj3K_spec a3, fun hc => ?_⟩
-    rw [bIf_eq, if_pos (Nat.blt_eq.mpr hc)] at a4
+    rw [bIf_eq, ite_eq_left (Nat.blt_eq.mpr hc)] at a4
     exact a4
   · have hq := allN_spec h5 g hg
-    simp only [strictB_eq, bAnd_eq, Bool.and_eq_true] at hq
+    simp only [Bool.and_eq_true] at hq
     obtain ⟨a1, a2, a3⟩ := hq
     refine ⟨Nat.blt_eq.mp a1, conj3K_spec a2, ?_⟩
     by_cases e : FQ ((o + j) * ng + g) = 0
     · exact Or.inl e
     · have e' : Nat.beq (FQ ((o + j) * ng + g)) 0 = false := by rw [beq_eq]; simpa using e
-      rw [bIf_eq, e', if_neg Bool.false_ne_true, bIf_eq] at a3
+      rw [bIf_eq, e', ite_eq_right Bool.false_ne_true, bIf_eq] at a3
       right
       cases hl : lexLtK j g (FP (o + FQ ((o + j) * ng + g))) (FG (o + FQ ((o + j) * ng + g)))
       · rfl
-      · rw [hl, if_pos rfl] at a3
+      · rw [hl, ite_eq_left rfl] at a3
         exact absurd a3 Bool.false_ne_true
 
 theorem classK_spec {w m : Nat} {ps : List Nat} {ng N : Nat}
@@ -167,7 +167,7 @@ theorem coverK_spec {w m : Nat} {ps : List Nat} {nc : Nat} {T FL CO MK PIX : Nat
     (h : coverK w m ps nc T FL CO MK PIX k = true) (hs : sqFixK w m ps (T k) = true) :
     MK k < nc ∧ PIX k < CO (MK k + 1) - CO (MK k) ∧ FL (CO (MK k) + PIX k) = k := by
   unfold coverK at h
-  rw [bIf_eq, if_pos hs] at h
+  rw [bIf_eq, ite_eq_left hs] at h
   simp only [strictB_eq, bAnd_eq, Bool.and_eq_true, blt_eq, beq_eq, decide_eq_true_eq] at h
   exact ⟨h.1, h.2.1, h.2.2⟩
 

@@ -202,7 +202,7 @@ theorem localStructure (hS2 : O2Structure) (T : Sylow 2 X) (hT : IsT (T : Subgro
       ∀ g ∈ N, (∀ q ∈ Q, g * q * g⁻¹ = q) ∨
         ((∀ q ∈ Q, g * q * g⁻¹ = q → q = 1) ∧ ∀ q ∈ Q, g ^ 3 * q * (g ^ 3)⁻¹ = q)) := by
   have hTH : (T : Subgroup X) ≤ nzr Q := le_nzr_of_normalizes hQn
-  have hQ2 : IsPGroup 2 Q := T.isPGroup'.to_le hQT
+  have hQ2 : IsPGroup 2 Q := T.isPGroup.to_le hQT
   have hconcl := concl_quotN hS2 T hT hQ1 hQT hQn
   unfold Concl at hconcl
   obtain ⟨-, h1 | h2⟩ := hconcl

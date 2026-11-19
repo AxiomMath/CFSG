@@ -11,6 +11,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem c23_barSub_conj_equiv {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) {x : G}
     (hx : x ∈ stabTil V₀ V) (L : Subgroup G) :
     Nonempty (↥(barSub V₀ V hV (conjSubgroup L x)) ≃* ↥(barSub V₀ V hV L)) := by

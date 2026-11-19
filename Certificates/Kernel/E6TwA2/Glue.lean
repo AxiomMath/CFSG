@@ -62,11 +62,11 @@ theorem planeOK_charAct (i : ℕ) {x y z : Fin Tag.E6.rank → ZMod 3}
     simp only [kerS, triPairing_triReflect]
   · exact h
 
-theorem planeOK_foldl : ∀ (w : List ℕ) (x y z : Fin Tag.E6.rank → ZMod 3),
-    PlaneOK (kerS (w.foldl charAct x) (w.foldl charAct y) (w.foldl charAct z)) →
-      PlaneOK (kerS x y z)
+theorem planeOK_foldl : ∀ (w : List ℕ) (_x _y _z : Fin Tag.E6.rank → ZMod 3),
+    PlaneOK (kerS (w.foldl charAct _x) (w.foldl charAct _y) (w.foldl charAct _z)) →
+      PlaneOK (kerS _x _y _z)
   | [], _, _, _, h => h
-  | i :: w, x, y, z, h => planeOK_charAct i (planeOK_foldl w _ _ _ h)
+  | i :: w, _x, _y, _z, h => planeOK_charAct i (planeOK_foldl w _ _ _ h)
 
 theorem triPairing_single' (b : Fin Tag.E6.rank → ZMod 3) (j : Fin Tag.E6.rank) :
     triPairing b (Pi.single j 1) = b j := by

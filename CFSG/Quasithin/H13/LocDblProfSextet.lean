@@ -79,7 +79,7 @@ theorem card_blocks {F : Subgroup Γ} (h : ∀ p : Fin 24, (orbitSet F p).card =
   rw [Finset.sum_const, smul_eq_mul] at h3
   omega
 
-def blockKernel (F Y : Subgroup Γ) (hnorm : Y ≤ Subgroup.normalizer (F : Set Γ)) : Subgroup ↥Y where
+def blockKernel (F Y : Subgroup Γ) (_hnorm : Y ≤ Subgroup.normalizer (F : Set Γ)) : Subgroup ↥Y where
   carrier := {y | ∀ p : Fin 24, (y : Γ) • p ∈ orbitSet F p}
   mul_mem' := by
     intro a b ha hb p
@@ -141,8 +141,8 @@ theorem blockKernel_ne_top [Finite Γ] {F Y : Subgroup Γ}
 
 theorem eq_one_of_isPGroup_three_two {G : Type*} [Group G] {A K : Subgroup G} (hA : IsPGroup 3 A)
     (hK : IsPGroup 2 K) {y : G} (hyA : y ∈ A) (hyK : y ∈ K) : y = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 hA) ⟨y, hyA⟩
   obtain ⟨l, hl⟩ := (IsPGroup.iff_orderOf.1 hK) ⟨y, hyK⟩
   rw [Subgroup.orderOf_mk] at hk hl
@@ -198,7 +198,7 @@ theorem sextet_count {F : Subgroup Γ} (hb4 : ∀ p : Fin 24, (orbitSet F p).car
     have hσ : (MulAction.toPerm x : Equiv.Perm (Fin 24)) ^ 3 = 1 := by
       have : (MulAction.toPermHom Γ (Fin 24) x) ^ 3 = 1 := by rw [← map_pow, hx3, map_one]
       exact this
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hmod := card_filter_fix_modEq (MulAction.toPerm x : Equiv.Perm (Fin 24))
       (orbitSet F p) hs 3 hσ
     have hle : t (orbitSet F p) ≤ 4 := hcard ▸ Finset.card_filter_le _ _
@@ -242,7 +242,7 @@ theorem sextet_count {F : Subgroup Γ} (hb4 : ∀ p : Fin 24, (orbitSet F p).car
   · right; norm_num
 
 private theorem factorization_three_eq {j : ℕ} : (360 * 2 ^ j).factorization 3 = 2 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hn : 360 * 2 ^ j ≠ 0 := by positivity
   have h1 : 3 ^ 2 ∣ 360 * 2 ^ j := Dvd.dvd.mul_right (by norm_num) _
   have h2 : ¬ 3 ^ (2 + 1) ∣ 360 * 2 ^ j := by
@@ -265,19 +265,19 @@ theorem false_of_sextet [Finite Γ] {Y F : Subgroup Γ} (hnorm : Y ≤ Subgroup.
   classical
   have hb4 := card_orbitSet_of_ptsOfSize h4
   have h9 : 9 ∣ Nat.card Y := by rw [hY]; exact Dvd.dvd.mul_right (by norm_num) _
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI hK0n := blockKernel_normal F Y hnorm
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hK0n := blockKernel_normal F Y hnorm
   have hK02 : IsPGroup 2 (blockKernel F Y hnorm) :=
     hnormal2 _ hK0n (blockKernel_ne_top hnorm h9 hnormal2 hnofix hb4)
   obtain ⟨A⟩ : Nonempty (Sylow 3 ↥Y) := inferInstance
   have hAcard : Nat.card (A : Subgroup ↥Y) = 3 ^ 2 := by
     rw [A.card_eq_multiplicity, hY, factorization_three_eq]
   have hAcomm : ∀ a b : ↥(A : Subgroup ↥Y), a * b = b * a :=
-    IsPGroup.commutative_of_card_eq_prime_sq hAcard
+    (IsPGroup.isMulCommutative_of_card_eq_prime_sq hAcard).is_comm.comm
   let φA : ↥(A : Subgroup ↥Y) →* Γ := Y.subtype.comp (A : Subgroup ↥Y).subtype
   have hφinj : Function.Injective φA :=
     Y.subtype_injective.comp (A : Subgroup ↥Y).subtype_injective
-  letI : MulAction ↥(A : Subgroup ↥Y) (Finset (Fin 24)) := MulAction.compHom _ φA
+  let : MulAction ↥(A : Subgroup ↥Y) (Finset (Fin 24)) := MulAction.compHom _ φA
   have hφA : ∀ (a : ↥(A : Subgroup ↥Y)) (B : Finset (Fin 24)), a • B = (φA a) • B :=
     fun a B => rfl
   have hmemY : ∀ a : ↥(A : Subgroup ↥Y), φA a ∈ Y := fun a => (a : ↥Y).2
@@ -296,7 +296,7 @@ theorem false_of_sextet [Finite Γ] {Y F : Subgroup Γ} (hnorm : Y ≤ Subgroup.
       have h2 := self_mem_orbitSet F (φA a • p)
       rw [h1] at h2
       exact h2
-    have h1 : (a : ↥Y) = 1 := eq_one_of_isPGroup_three_two A.isPGroup' hK02 a.2 hK
+    have h1 : (a : ↥Y) = 1 := eq_one_of_isPGroup_three_two A.isPGroup hK02 a.2 hK
     exact Subtype.ext h1
   obtain ⟨x, hx1, hx3, S, hSsub, hS3, hSfix, htrans⟩ :=
     exists_fixing_element_of_abelian_nine (A := ↥(A : Subgroup ↥Y)) (Ω := Finset (Fin 24))

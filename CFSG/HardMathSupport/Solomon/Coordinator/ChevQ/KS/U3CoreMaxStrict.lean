@@ -72,13 +72,12 @@ theorem regFlag_exists_of_dCheck {d Z : M3 Q8}
     exact List.all_eq_true.1 hD y hy
   unfold KSU38R.dCheckOne at h1
   have h2 := forallUnitary_sound h1 hZe hZu
-  simp only [hZ3, hZs, hcm, hp1, hp2, Bool.not_true, Bool.false_or, Bool.or_false,
-    Bool.not_false] at h2
+  simp only [hZ3, hZs, hcm, hp1, hp2, Bool.not_true, Bool.false_or, Bool.or_false] at h2
   obtain ⟨j, hj, hreg⟩ := List.any_eq_true.1 h2
   exact ⟨j, List.mem_range.1 hj, hreg⟩
 
 theorem exists_regular_of_commMod (h : UnitaryFieldData 2 3 F)
-    {ι : Q8 →+* F} (hι : Function.Surjective ι) {d Z : M3 Q8}
+    {ι : Q8 →+* F} (_hι : Function.Surjective ι) {d Z : M3 Q8}
     (hd : d ∈ (u38Table.drop 3).map (·.Y)) (hdu : unitaryOk d = true)
     (hZu : unitaryOk Z = true) (hZe : entriesL4 Z = true)
     (hZ3 : isScalar (Z * Z * Z) = true) (hZs : isScalar Z = false)
@@ -267,8 +266,8 @@ theorem witness_suConj_eq_self_of_commutes (h : UnitaryFieldData 2 3 F) {ι : Q8
   rw [coe_suConj, Subgroup.coe_inv, hm, mul_inv_cancel_right]
 
 theorem exists_witness (h : UnitaryFieldData 2 3 F)
-    {σ : F ≃+* F} (hσ : orderOf σ = 3) {ι : Q8 →+* F} (hι : Function.Surjective ι)
-    (hωι : IsPrimitiveRoot (ι w0) 3) (hσω : σ (ι w0) = ι w0) :
+    {σ : F ≃+* F} (_hσ : orderOf σ = 3) {ι : Q8 →+* F} (hι : Function.Surjective ι)
+    (_hωι : IsPrimitiveRoot (ι w0) 3) (hσω : σ (ι w0) = ι w0) :
     ∃ e : unitarySU 2 3 F 3, e ^ 3 = 1 ∧ suField h σ e = e ∧ MulAut.conj e ≠ 1 ∧
       ∀ (R : M3 Q8) (hRu : unitaryOk R = true), R ∈ u38Table.map (·.Y) →
         (∃ z ∈ Subgroup.center (unitarySU 2 3 F 3), suConj h (toIsom h ι R hRu) e = e * z) ∧
@@ -477,7 +476,7 @@ theorem exists_regular_of_rankTwo {σ : F ≃+* F}
     ⟨_, rfl⟩
   have hψapp : ∀ x, ψ x = γ⁻¹ * x * γ := by
     intro x
-    simp [hψdef, MulAut.conj_apply]
+    simp [hψdef]
   have hψinj : Function.Injective ψ := ψ.injective
   have hψcR : ψ a₁ = cR := by rw [hψapp, ha₁eq]; group
   have ha₂f : a₂ * suField h σ = suField h σ * a₂ := hA.comm ha₂.1 hf
@@ -549,7 +548,7 @@ theorem exists_fixed_of_cyclic {σ : F ≃+* F}
         MulAut.conj e ∉ Subgroup.zpowers (suConj h (toIsom h ι R hRu)) ∧
         (R ∈ (u38Table.drop 3).map (·.Y) → suConj h (toIsom h ι R hRu) e = e))
     (G : unitaryIsom3 h) (hγf : suField h σ * suConj h G = suConj h G * suField h σ)
-    {a₁ : MulAut (unitarySU 2 3 F 3)} (ha₁ : a₁ ∈ A)
+    {a₁ : MulAut (unitarySU 2 3 F 3)} (_ha₁ : a₁ ∈ A)
     (ha₁eq : a₁ = suConj h G * suConj h (toIsom h ι R hRu) * (suConj h G)⁻¹)
     (hcyc : ∀ a₂ ∈ A ⊓ (suConj h).range, a₂ ∈ Subgroup.zpowers a₁) :
     ∃ e' : unitarySU 2 3 F 3, e' ^ 3 = 1 ∧

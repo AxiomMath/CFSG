@@ -178,7 +178,7 @@ theorem mat7_valsArr_mem :
       · obtain ⟨u, hu, e⟩ := ih _ h.1 (by omega)
         refine ⟨u⁻¹, G7.inv_mem hu, ?_⟩
         have hinv := dag_inv k hk h1
-        rw [dag_local k hk, if_neg h0, if_pos h1, getD_valsArr (by omega)] at hinv
+        rw [dag_local k hk, ite_eq_right h0, ite_eq_left h1, getD_valsArr (by omega)] at hinv
         rw [getD_valsArr (by omega)]
         have e2 := congrArg mat7 hinv
         rw [mat7_mul7, mat7_id7, ← e] at e2

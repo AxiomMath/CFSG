@@ -40,14 +40,14 @@ theorem eleven_nine_oTwoIn_le_Q {M V Q U L : Subgroup G} (hset : Setting11 M V Q
     (hU : U ∈ gammaEleven M V)
     (hL : IsBlockOfInX (Subgroup.centralizer (U : Set G)) L) :
     oTwoIn L ≤ Q := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set H : Subgroup G := Subgroup.centralizer (U : Set G) with hH
   have hQH : Q ≤ H := (hset.sylowQ.1.trans inf_le_right).trans (Subgroup.centralizer_le hU.1)
   have hQsyl : CFSG.RankThree.PartOne.IsSylowOf 2 Q H :=
     eleven_nine_sylowQ_centralizer hset hU
   obtain ⟨T', hT'⟩ := sylow_of_isSylowOf hQsyl
   have hpc : (pCore 2 ↥H) ≤ (T' : Subgroup ↥H) := by
-    haveI : (pCore 2 ↥H).Normal := pCore_normal
+    have : (pCore 2 ↥H).Normal := pCore_normal
     exact IsPGroup.le_sylow_of_normal pCore_isPGroup T'
   have hoTwoH : oTwoIn H ≤ Q := by
     calc oTwoIn H = (pCore 2 ↥H).map H.subtype := oTwoIn_eq_map H
@@ -55,6 +55,7 @@ theorem eleven_nine_oTwoIn_le_Q {M V Q U L : Subgroup G} (hset : Setting11 M V Q
       _ = Q := by rw [hT', Subgroup.map_subgroupOf_eq_of_le hQH]
   exact (CGT6.oTwoIn_le_of_isSubnormal hL.1 hL.2.1).trans hoTwoH
 
+omit [Finite G] in
 private theorem eleven_nine_V_le_centralizer {M V Q U : Subgroup G} (hset : Setting11 M V Q)
     (hU : U ∈ gammaEleven M V) :
     V ≤ Subgroup.centralizer (U : Set G) := by
@@ -66,21 +67,21 @@ private theorem eleven_nine_V_le_centralizer {M V Q U : Subgroup G} (hset : Sett
 private theorem eleven_nine_oTwoIn_centralizer_le_Q {M V Q U : Subgroup G}
     (hset : Setting11 M V Q) (hU : U ∈ gammaEleven M V) :
     oTwoIn (Subgroup.centralizer (U : Set G)) ≤ Q := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set H : Subgroup G := Subgroup.centralizer (U : Set G) with hH
   have hQH : Q ≤ H := (hset.sylowQ.1.trans inf_le_right).trans (Subgroup.centralizer_le hU.1)
   obtain ⟨T', hT'⟩ := sylow_of_isSylowOf (eleven_nine_sylowQ_centralizer hset hU)
   have hpc : (pCore 2 ↥H) ≤ (T' : Subgroup ↥H) := by
-    haveI : (pCore 2 ↥H).Normal := pCore_normal
+    have : (pCore 2 ↥H).Normal := pCore_normal
     exact IsPGroup.le_sylow_of_normal pCore_isPGroup T'
   calc oTwoIn H = (pCore 2 ↥H).map H.subtype := oTwoIn_eq_map H
     _ ≤ (T' : Subgroup ↥H).map H.subtype := Subgroup.map_mono hpc
     _ = Q := by rw [hT', Subgroup.map_subgroupOf_eq_of_le hQH]
 
 theorem eleven_nine_V_le_Q {M V Q U : Subgroup G} (hset : Setting11 M V Q)
-    (hU : U ∈ gammaEleven M V) :
+    (_hU : U ∈ gammaEleven M V) :
     V ≤ Q := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hV2 : IsPGroup 2 V := B2F.isPGroup_of_isElemAbelian hset.isElemAbelian
   have hQ2 : IsPGroup 2 Q := hset.sylowQ.2.1
   have hQCV : Q ≤ Subgroup.centralizer (V : Set G) := hset.sylowQ.1.trans inf_le_right
@@ -97,11 +98,13 @@ theorem eleven_nine_V_le_Q {M V Q U : Subgroup G} (hset : Setting11 M V Q)
   have heq := eq_of_isSylowOf_of_isPGroup_le hset.sylowQ le_sup_left hPK hP2
   exact le_sup_right.trans_eq heq
 
+omit [Finite G] in
 private theorem eleven_nine_conjugate_iSup {ι : Sort*} (A : ι → Subgroup G) (g : G) :
     conjugate (⨆ i, A i) g = ⨆ i, conjugate (A i) g := by
   simp only [conjugate]
   rw [Subgroup.map_iSup]
 
+omit [Finite G] in
 theorem eleven_nine_mem_normalizer_of_conjugate_eq {H : Subgroup G} {g : G}
     (h : conjugate H g = H) : g ∈ Subgroup.normalizer (H : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -112,19 +115,22 @@ private def eleven_nineX (Q L : Subgroup G) : Subgroup G := ⨆ q : Q, conjugate
 
 private def eleven_nineK (Q L : Subgroup G) : Subgroup G := eleven_nineX Q L ⊔ Q
 
+omit [Finite G] in
 private theorem eleven_nine_L_le_X (Q L : Subgroup G) : L ≤ eleven_nineX Q L := by
   have h1 : conjugate L (1 : G) = L := by
     ext x
-    simp [conjugate, MulAut.conj_apply]
+    simp [conjugate]
   rw [eleven_nineX]
   have h := le_iSup (fun q : Q => conjugate L (q : G)) (⟨1, one_mem Q⟩ : Q)
   rwa [h1] at h
 
+omit [Finite G] in
 private theorem eleven_nine_X_le {H Q L : Subgroup G}
     (h : ∀ q : Q, conjugate L (q : G) ≤ H) : eleven_nineX Q L ≤ H := by
   rw [eleven_nineX]
   exact iSup_le h
 
+omit [Finite G] in
 private theorem eleven_nine_conjugate_X (Q L : Subgroup G) {g : G} (hg : g ∈ Q) :
     conjugate (eleven_nineX Q L) g = eleven_nineX Q L := by
   rw [eleven_nineX, eleven_nine_conjugate_iSup]
@@ -138,15 +144,18 @@ private theorem eleven_nine_conjugate_X (Q L : Subgroup G) {g : G} (hg : g ∈ Q
     rw [CFSG.GroupTheory.conjugate_conjugate] at h
     simpa [mul_assoc] using h
 
+omit [Finite G] in
 private theorem eleven_nine_Q_le_normalizer_X (Q L : Subgroup G) :
     Q ≤ Subgroup.normalizer (eleven_nineX Q L : Set G) :=
-  fun g hg => eleven_nine_mem_normalizer_of_conjugate_eq (eleven_nine_conjugate_X Q L hg)
+  fun _g hg => eleven_nine_mem_normalizer_of_conjugate_eq (eleven_nine_conjugate_X Q L hg)
 
+omit [Finite G] in
 private theorem eleven_nine_X_normal_K (Q L : Subgroup G) :
     ((eleven_nineX Q L).subgroupOf (eleven_nineX Q L ⊔ Q)).Normal := by
   rw [Subgroup.normal_subgroupOf_iff_le_normalizer le_sup_left]
   exact sup_le Subgroup.le_normalizer (eleven_nine_Q_le_normalizer_X Q L)
 
+omit [Finite G] in
 private theorem eleven_nine_isSylowOf_of_le {Q H K : Subgroup G}
     (hQ : CFSG.RankThree.PartOne.IsSylowOf 2 Q H) (hQK : Q ≤ K) (hKH : K ≤ H) :
     CFSG.RankThree.PartOne.IsSylowOf 2 Q K := by
@@ -155,10 +164,11 @@ private theorem eleven_nine_isSylowOf_of_le {Q H K : Subgroup G}
   have hd : 2 ∣ Q.relIndex K * K.relIndex H := dvd_mul_of_dvd_left h2 _
   exact hQ.2.2 (Subgroup.relIndex_mul_relIndex Q K H hQK hKH ▸ hd)
 
+omit [Finite G] in
 private theorem eleven_nine_isCharacteristicP_of_le {H K : Subgroup G} (hKH : K ≤ H)
     (hHchar : IsCharacteristicP 2 ↥H) (hO : oTwoIn H ≤ K) :
     IsCharacteristicP 2 ↥K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let K' : Subgroup ↥H := K.subgroupOf H
   have hK'char : IsCharacteristicP 2 ↥K' := by
     change Subgroup.centralizer (pCore 2 ↥K' : Set ↥K') ≤ pCore 2 ↥K'
@@ -184,10 +194,12 @@ private theorem eleven_nine_conjSub_eq_conjugate {X : Type*} [Group X] (H : Subg
   ext x
   simp [A1b.conjSub, conjugate, MulAut.conj_apply]
 
+omit [Finite G] in
 private theorem eleven_nine_conjugate_one (L : Subgroup G) : conjugate L (1 : G) = L := by
   ext x
-  simp [conjugate, MulAut.conj_apply]
+  simp [conjugate]
 
+omit [Finite G] in
 private theorem eleven_nine_K_pow_mem_X (Q L : Subgroup G) (hQ2 : IsPGroup 2 Q) :
     ∀ g ∈ eleven_nineK Q L, ∃ k : ℕ, g ^ 2 ^ k ∈ eleven_nineX Q L := by
   intro g hg
@@ -209,7 +221,7 @@ private theorem eleven_nine_K_pow_mem_X (Q L : Subgroup G) (hQ2 : IsPGroup 2 Q) 
     · rw [← hqxb]; group
 
 private theorem eleven_nine_K_core_bound {M V Q U L : Subgroup G} (hset : Setting11 M V Q)
-    (hU : U ∈ gammaEleven M V) (hL : IsBlockOfInX (Subgroup.centralizer (U : Set G)) L) :
+    (hU : U ∈ gammaEleven M V) (_hL : IsBlockOfInX (Subgroup.centralizer (U : Set G)) L) :
     ∀ T : Sylow 2 ↥(eleven_nineK Q L),
       (T : Subgroup ↥(eleven_nineK Q L)) = Q.subgroupOf (eleven_nineK Q L) →
       characteristicCoreStar (T : Subgroup ↥(eleven_nineK Q L)) ≤
@@ -221,7 +233,7 @@ private theorem eleven_nine_K_core_bound {M V Q U L : Subgroup G} (hset : Settin
   have hC : Subgroup.centralizer (omegaOneCenterIn Q : Set G) ⊓ (eleven_nineK Q L) ≤ M := by
     refine (inf_le_left.trans
       (Subgroup.centralizer_le_normalizer (omegaOneCenterIn Q : Set G))).trans ?_
-    haveI : ((omegaOneCenterIn Q).subgroupOf Q).Characteristic :=
+    have : ((omegaOneCenterIn Q).subgroupOf Q).Characteristic :=
       characteristic_omegaOneCenterIn Q
     have hω0 : omegaOneCenterIn Q ≠ ⊥ := omegaOneCenterIn_ne_bot hQ2 hQne
     have hω2 : IsPGroup 2 (omegaOneCenterIn Q) := hQ2.to_le (omegaOneCenterIn_le Q)
@@ -241,7 +253,7 @@ private theorem eleven_nine_K_core_bound {M V Q U L : Subgroup G} (hset : Settin
     refine inf_le_left.trans ?_
     have hBQ : B ≤ Q := hBS.trans (inf_le_left : pushingUpS Q ≤ Q)
     have h1 : Subgroup.normalizer (Q : Set G) ≤ Subgroup.normalizer (pushingUpS Q : Set G) := by
-      haveI : ((pushingUpS Q).subgroupOf Q).Characteristic := characteristic_pushingUpS Q
+      have : ((pushingUpS Q).subgroupOf Q).Characteristic := characteristic_pushingUpS Q
       have hmap : ((pushingUpS Q).subgroupOf Q).map Q.subtype = pushingUpS Q :=
         Subgroup.map_subgroupOf_eq_of_le (inf_le_left : pushingUpS Q ≤ Q)
       have h := CFSG.LieType.BorelTits.normalizer_le_normalizer_map_of_characteristic
@@ -249,7 +261,7 @@ private theorem eleven_nine_K_core_bound {M V Q U L : Subgroup G} (hset : Settin
       rwa [hmap] at h
     have h2 : Subgroup.normalizer (pushingUpS Q : Set G) ≤
         Subgroup.normalizer (B : Set G) := by
-      haveI : (B.subgroupOf (pushingUpS Q)).Characteristic := hBc
+      have : (B.subgroupOf (pushingUpS Q)).Characteristic := hBc
       have hmap : (B.subgroupOf (pushingUpS Q)).map (pushingUpS Q).subtype = B :=
         Subgroup.map_subgroupOf_eq_of_le hBS
       have h := CFSG.LieType.BorelTits.normalizer_le_normalizer_map_of_characteristic
@@ -262,7 +274,7 @@ theorem eleven_nine_V_le_centralizerModCore {M V Q U L : Subgroup G} {n : ℕ}
     (hset : Setting11 M V Q) (hU : U ∈ gammaEleven M V)
     (hL : IsBlockOfInX (Subgroup.centralizer (U : Set G)) L) (h78 : IsLTwoBlockType L n) :
     V ≤ centralizerModCore L := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hHchar : IsCharacteristicP 2 ↥(Subgroup.centralizer (U : Set G)) :=
     eleven_e hset.charTwo hU.2.1
       ((B2F.isPGroup_of_isElemAbelian hset.isElemAbelian).to_le hU.1)
@@ -331,7 +343,7 @@ theorem eleven_nine_one {M V Q U L : Subgroup G} {n : ℕ}
         Subgroup.normalizer ((S : Subgroup (↥L ⧸ CFSG.pCore 2 ↥L)) :
           Set (↥L ⧸ CFSG.pCore 2 ↥L)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set H : Subgroup G := Subgroup.centralizer (U : Set G) with hH
   have hQH : Q ≤ H := (hset.sylowQ.1.trans inf_le_right).trans (Subgroup.centralizer_le hU.1)
   have hQH_syl : CFSG.RankThree.PartOne.IsSylowOf 2 Q H :=
@@ -484,7 +496,7 @@ theorem eleven_nine_one {M V Q U L : Subgroup G} {n : ℕ}
             L.subgroupOf (eleven_nineK Q L) = (Q ⊓ L).subgroupOf (eleven_nineK Q L) := by
           rw [hTK]
           ext y
-          simp [Subgroup.mem_subgroupOf, and_comm]
+          simp [Subgroup.mem_subgroupOf]
         have hmem : (⟨x, hxK⟩ : ↥(eleven_nineK Q L)) ∈
             Subgroup.normalizer ((Q ⊓ L).subgroupOf (eleven_nineK Q L)) := by
           rw [← Subgroup.subgroupOf_normalizer_eq (H := Q ⊓ L) (N := eleven_nineK Q L)
@@ -505,7 +517,7 @@ theorem eleven_nine_one {M V Q U L : Subgroup G} {n : ℕ}
           ∃ α : ↥L →* Matrix.SpecialLinearGroup (Fin 2) F, Function.Surjective α ∧
             α.ker = CFSG.pCore 2 ↥L := by
         obtain ⟨φ, -, -⟩ := h78.2.1
-        letI : Fintype (GaloisField 2 n) := Fintype.ofFinite (GaloisField 2 n)
+        let : Fintype (GaloisField 2 n) := Fintype.ofFinite (GaloisField 2 n)
         refine ⟨GaloisField 2 n, inferInstance, inferInstance, n, ?_,
           Nat.lt_trans Nat.zero_lt_one h78.1, ?_⟩
         · rw [← Nat.card_eq_fintype_card, GaloisField.card 2 n
@@ -525,7 +537,7 @@ theorem eleven_nine_one {M V Q U L : Subgroup G} {n : ℕ}
   let π : ↥L →* (↥L ⧸ CFSG.pCore 2 ↥L) := QuotientGroup.mk' (CFSG.pCore 2 ↥L)
   obtain ⟨S₀, hS₀⟩ := sylow_of_isSylowOf hSa
   have hpc_le : CFSG.pCore 2 ↥L ≤ S₀ := by
-    haveI : (CFSG.pCore 2 ↥L).Normal := pCore_normal
+    have : (CFSG.pCore 2 ↥L).Normal := pCore_normal
     exact IsPGroup.le_sylow_of_normal pCore_isPGroup S₀
   have hS'map : CFSG.RankThree.PartOne.IsSylowOf 2 ((S₀ : Subgroup ↥L).map π) ⊤ := by
     have hP := CFSG.CGT.PushingUpLit.Glue.isSylowOf_top S₀
@@ -567,6 +579,7 @@ theorem eleven_nine_one {M V Q U L : Subgroup G} {n : ℕ}
       = (Subgroup.normalizer (S₀ : Subgroup ↥L)).map π := by rw [hN]
     _ = Subgroup.normalizer (S' : Set (↥L ⧸ CFSG.pCore 2 ↥L)) := hnorm.symm
 
+omit [Finite G] in
 private theorem eleven_nine_map_normalizer_eq {G' : Type*} [Group G'] {f : G →* G'}
     (hf : Function.Surjective f) {H : Subgroup G} (hker : f.ker ≤ H) :
     (Subgroup.normalizer (H : Set G)).map f =
@@ -585,9 +598,10 @@ theorem eleven_nine_ker_eq {X : Subgroup G} {n : ℕ} (hshort : IsShortGroup ↥
     α.ker = (oTwoIn X).subgroupOf X := by
   rw [hαker, CGT6.inf_centralizer_blockU_eq_SL hshort hnat]
 
+omit [Finite G] in
 private theorem eleven_nine_oTwoIn_inf_eq_bot {L D : Subgroup G} (hodd : Odd (Nat.card D)) :
     oTwoIn L ⊓ D = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [eq_bot_iff]
   intro y hy
   obtain ⟨hyO, hyD⟩ := Subgroup.mem_inf.mp hy
@@ -606,10 +620,10 @@ theorem eleven_nine_root_point {M V Q U L : Subgroup G} {n : ℕ}
     (hL : IsBlockOfInX (Subgroup.centralizer (U : Set G)) L) (hLM : ¬ L ≤ M)
     (h78 : IsLTwoBlockType L n)
     {α : ↥L →* Matrix.SpecialLinearGroup (Fin 2) (GaloisField 2 n)}
-    (hαsurj : Function.Surjective α) (hαker : α.ker = (oTwoIn L).subgroupOf L) :
+    (hαsurj : Function.Surjective α) (_hαker : α.ker = (oTwoIn L).subgroupOf L) :
     ∃ p : Projectivization (GaloisField 2 n) (Fin 2 → GaloisField 2 n),
       ((L ⊓ Q).subgroupOf L).map α = rootGrp p := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hn1 : 1 ≤ n := le_of_lt h78.1
   have hFcard : Nat.card (GaloisField 2 n) = 2 ^ n :=
     GaloisField.card 2 n (Nat.ne_of_gt (Nat.lt_trans Nat.zero_lt_one h78.1))
@@ -623,7 +637,7 @@ theorem eleven_nine_root_point {M V Q U L : Subgroup G} {n : ℕ}
     rw [hPL]
   have hPScardF : Nat.card (PS : Subgroup (Matrix.SpecialLinearGroup (Fin 2) (GaloisField 2 n))) =
       Nat.card (GaloisField 2 n) := by
-    haveI : Fintype (GaloisField 2 n) := Fintype.ofFinite _
+    have : Fintype (GaloisField 2 n) := Fintype.ofFinite _
     rw [Sylow.card_eq_multiplicity]
     rw [factorization_card_sl2_prime (p := 2) hn1
       (by rw [← Nat.card_eq_fintype_card]; exact hFcard)]
@@ -672,7 +686,7 @@ theorem eleven_nine_card_hall
     (h78 : IsLTwoBlockType L n) (hD : IsHallTwoPrimeOf D (L ⊓ M)) :
     Nat.card D = 2 ^ n - 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨α, -, hαsurj, hαker, -, -, -⟩ := CGT6.isNatSL_blockU hL.2.2.1 h78.2.1
   have hαker' : α.ker = (oTwoIn L).subgroupOf L := eleven_nine_ker_eq hL.2.2.1 h78.2.1 hαker
   obtain ⟨p, hαS⟩ := eleven_nine_root_point hset hU hL hLM h78 hαsurj hαker'
@@ -693,7 +707,7 @@ theorem eleven_nine_card_hall
     rw [hαker']
     intro x hx
     exact Subgroup.mem_subgroupOf.mpr (hO2LB (Subgroup.mem_subgroupOf.mp hx))
-  haveI : Fintype (GaloisField 2 n) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 n) := Fintype.ofFinite _
   have hSL2card : Nat.card (Matrix.SpecialLinearGroup (Fin 2) (GaloisField 2 n)) =
       Nat.card (GaloisField 2 n) * (Nat.card (GaloisField 2 n) ^ 2 - 1) :=
     CFSG.GorensteinWalter.sl2_card_formula (GaloisField 2 n)
@@ -750,7 +764,7 @@ theorem eleven_nine_isCyclic_hall
     (h78 : IsLTwoBlockType L n) (hD : IsHallTwoPrimeOf D (L ⊓ M)) :
     IsCyclic ↥D := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨α, -, hαsurj, hαker, -⟩ := CGT6.isNatSL_blockU hL.2.2.1 h78.2.1
   have hαker' : α.ker = (oTwoIn L).subgroupOf L := eleven_nine_ker_eq hL.2.2.1 h78.2.1 hαker
   obtain ⟨p, hαS⟩ := eleven_nine_root_point hset hU hL hLM h78 hαsurj hαker'
@@ -815,7 +829,7 @@ theorem eleven_nine_blockU_centralizer_eq_blockZ
     (h78 : IsLTwoBlockType L n) (hD : IsHallTwoPrimeOf D (L ⊓ M)) :
     blockU L ⊓ Subgroup.centralizer (D : Set G) = blockZ L := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨α, ψ, hαsurj, hαker, hψsurj, hψker, hψeq⟩ := CGT6.isNatSL_blockU hL.2.2.1 h78.2.1
   have hαker' : α.ker = (oTwoIn L).subgroupOf L := eleven_nine_ker_eq hL.2.2.1 h78.2.1 hαker
   have hψker' : ψ.ker = (blockZ L).subgroupOf (blockU L) := hψker
@@ -915,7 +929,7 @@ section Gaschutz
 variable {M V Q U L : Subgroup G} {n : ℕ}
 
 private theorem eleven_nine_gaschutz_hWc (hL : IsBlockOfInX (Subgroup.centralizer (U : Set G)) L)
-    (h78 : IsLTwoBlockType L n) {v : G}
+    (_h78 : IsLTwoBlockType L n) {v : G}
     (hvU : v ∈ Subgroup.centralizer (blockU L : Set G)) :
     ∀ a ∈ (blockU L ⊔ Subgroup.zpowers v : Subgroup G),
       ∀ b ∈ (blockU L ⊔ Subgroup.zpowers v : Subgroup G), a * b = b * a := by
@@ -939,6 +953,7 @@ private theorem eleven_nine_gaschutz_hWc (hL : IsBlockOfInX (Subgroup.centralize
   intro a ha b hb
   exact (Subgroup.mem_centralizer_iff.mp (hWle ha) b hb).symm
 
+omit [Finite G] in
 private theorem eleven_nine_gaschutz_hWe {L : Subgroup G} (v : G) :
     ∀ w ∈ (blockU L ⊔ Subgroup.zpowers v : Subgroup G),
       w ^ Nat.card (blockU L ⊔ Subgroup.zpowers v : Subgroup G) = 1 := by
@@ -1058,7 +1073,7 @@ theorem eleven_nine_inf_centralizer_hall
     (h78 : IsLTwoBlockType L n) (hD : IsHallTwoPrimeOf D (L ⊓ M)) :
     V ⊓ Subgroup.centralizer (D : Set G) = V ⊓ Subgroup.centralizer (L : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine le_antisymm ?_ ?_
   · rintro v ⟨hvV, hvC⟩
     refine Subgroup.mem_inf.mpr ⟨hvV, ?_⟩
@@ -1195,7 +1210,7 @@ theorem eleven_nine_eq_sup_inf_blockU
     (h78 : IsLTwoBlockType L n) (hD : IsHallTwoPrimeOf D (L ⊓ M)) :
     V = (V ⊓ Subgroup.centralizer (L : Set G)) ⊔ (V ⊓ blockU L) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hVcm : V ≤ centralizerModCore L := eleven_nine_V_le_centralizerModCore hset hU hL h78
   have hVcomm : ∀ v' ∈ V, ∀ l ∈ L, v' * l * v'⁻¹ * l⁻¹ ∈ blockU L := fun v' hv' l hl =>
     ((ThmOne.mem_centralizerModCore_iff_blockU hL.2.2.1.residual_eq).mp (hVcm hv')).2 l hl
@@ -1208,7 +1223,7 @@ theorem eleven_nine_eq_sup_inf_blockU
       ((Nat.Prime.coprime_iff_not_dvd Nat.prime_two).mpr hD.2.1.not_two_dvd_nat).symm
   have hAR : D ≤ Subgroup.normalizer (V : Set G) :=
     hD.1.trans (inf_le_right.trans hset.normal)
-  have hsolv : Group.IsSolvable ↥V := isSolvable_of_comm (fun a b =>
+  have hsolv : Group.IsSolvable ↥V := _root_.Group.isSolvable_of_comm (fun a b =>
     Subtype.ext (B2F.isElemAbelian_comm hset.isElemAbelian a.2 b.2))
   have hcomm_le : ⁅V, D⁆ ≤ V ⊓ blockU L := by
     refine le_inf ?_ ?_
@@ -1253,7 +1268,7 @@ theorem eleven_nine_fixed_line
         (∃ u : ↥(blockU L), (u : G) ∈ V ∧ Multiplicative.toAdd (ψ u) = w) ↔
           w ∈ p.submodule) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hαker' : α.ker = (oTwoIn L).subgroupOf L := eleven_nine_ker_eq hL.2.2.1 h78.2.1 hαker
   have hψker' : ψ.ker = (blockZ L).subgroupOf (blockU L) := hψker
   have hBmap := eleven_nine_borel_image hset hU hL hLM h78 hαsurj hαker' hαS
@@ -1301,8 +1316,8 @@ theorem eleven_nine_fixed_line
   have hcardU : Nat.card (GaloisField 2 n)ˣ = 2 ^ n - 1 := by
     rw [Nat.card_units, hFcard]
   have hχsurj : Function.Surjective (eleven_nine_sl2_scalarHom hαD_le) := by
-    haveI : Fintype D' := Fintype.ofFinite _
-    haveI : Fintype (GaloisField 2 n)ˣ := Fintype.ofFinite _
+    have : Fintype D' := Fintype.ofFinite _
+    have : Fintype (GaloisField 2 n)ˣ := Fintype.ofFinite _
     have hcard : Fintype.card D' = Fintype.card (GaloisField 2 n)ˣ := by
       rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hcardD', hcardD, hcardU]
     exact (Finite.injective_iff_surjective_of_equiv (Fintype.equivOfCardEq hcard)).mp hχinj
@@ -1343,7 +1358,7 @@ theorem eleven_nine_fixed_line
     exact (smul_eq_self_iff_mem_of_mem_rootGrp t.2 ht_ne _).mp h3
   let S_line : AddSubgroup (Fin 2 → GaloisField 2 n) :=
     { carrier := {w | ∃ u : ↥(blockU L), (u : G) ∈ V ∧ Multiplicative.toAdd (ψ u) = w}
-      zero_mem' := ⟨1, by simpa using Subgroup.one_mem V, by simp⟩
+      zero_mem' := ⟨1, by simp, by simp⟩
       add_mem' := by
         rintro a b ⟨u, huV, rfl⟩ ⟨v, hvV, rfl⟩
         exact ⟨u * v, V.mul_mem huV hvV, by rw [map_mul, toAdd_mul]⟩
@@ -1429,7 +1444,7 @@ theorem eleven_nine_blockU_inf_centralizer_sylow
     blockU L ⊓ Subgroup.centralizer ((L ⊓ Q : Subgroup G) : Set G) =
       (V ⊓ blockU L) ⊔ blockZ L := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨α, ψ, hαsurj, hαker, hψsurj, hψker, hψeq⟩ := CGT6.isNatSL_blockU hL.2.2.1 h78.2.1
   have hαker' : α.ker = (oTwoIn L).subgroupOf L := eleven_nine_ker_eq hL.2.2.1 h78.2.1 hαker
   obtain ⟨p, hαS⟩ := eleven_nine_root_point hset hU hL hLM h78 hαsurj hαker'
@@ -1474,7 +1489,7 @@ theorem eleven_nine_card_commutator_hall
     (h78 : IsLTwoBlockType L n) (hD : IsHallTwoPrimeOf D (L ⊓ M)) :
     Nat.card (⁅V, D⁆ : Subgroup G) = 2 ^ n := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨α, ψ, hαsurj, hαker, hψsurj, hψker, hψeq⟩ := CGT6.isNatSL_blockU hL.2.2.1 h78.2.1
   have hαker' : α.ker = (oTwoIn L).subgroupOf L := eleven_nine_ker_eq hL.2.2.1 h78.2.1 hαker
   have hψker' : ψ.ker = (blockZ L).subgroupOf (blockU L) := hψker
@@ -1620,7 +1635,7 @@ theorem eleven_nine_commutator_inf_blockZ_eq_bot
     (h78 : IsLTwoBlockType L n) (hD : IsHallTwoPrimeOf D (L ⊓ M)) :
     ⁅V, D⁆ ⊓ blockZ L = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hVpg : IsPGroup 2 V := B2F.isPGroup_of_isElemAbelian hset.isElemAbelian
   set N : Subgroup G := V ⊓ blockU L with hN
   have hNleV : N ≤ V := by rw [hN]; exact inf_le_left
@@ -1710,7 +1725,7 @@ theorem eleven_nine_commutator_hall_inf_centralizer
     (h78 : IsLTwoBlockType L n) (hD : IsHallTwoPrimeOf D (L ⊓ M)) :
     ∀ d ∈ D, d ≠ 1 → ⁅V, D⁆ ⊓ Subgroup.centralizer ({d} : Set G) = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨α, ψ, hαsurj, hαker, hψsurj, hψker, hψeq⟩ := CGT6.isNatSL_blockU hL.2.2.1 h78.2.1
   have hαker' : α.ker = (oTwoIn L).subgroupOf L := eleven_nine_ker_eq hL.2.2.1 h78.2.1 hαker
   have hψker' : ψ.ker = (blockZ L).subgroupOf (blockU L) := hψker
@@ -1854,7 +1869,7 @@ theorem eleven_nine_exists_hall
     (h78 : IsLTwoBlockType L n) :
     ∃ X : Subgroup G, IsHallTwoPrimeOf X (L ⊓ M) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨⟨hS, hBeq⟩, -⟩ := eleven_nine_one hset hU hL hLM h78
   have hSB : L ⊓ Q ≤ L ⊓ M :=
     le_inf inf_le_left (inf_le_right.trans (hset.sylowQ.1.trans inf_le_left))
@@ -1862,7 +1877,7 @@ theorem eleven_nine_exists_hall
     hBeq.le.trans inf_le_right
   have hNnormal : ((L ⊓ Q).subgroupOf (L ⊓ M)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hSB).mpr hBM
-  haveI := hNnormal
+  have := hNnormal
   have hS2 : IsPGroup 2 ↥(L ⊓ Q) := hset.sylowQ.2.1.to_le inf_le_right
   have hodd : ¬ 2 ∣ ((L ⊓ Q).subgroupOf (L ⊓ M)).index := by
     intro hd

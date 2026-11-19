@@ -87,7 +87,7 @@ private theorem exists_order_three_mem_inf_of_isSylowOf {X : Type} [Group X] [Fi
     {K S : Subgroup X} (hS : CFSG.ABGLocalTools.IsSylowOf 3 S ⊤)
     (hKsub : K.IsSubnormal) (h3K : 3 ∣ Nat.card K) :
     ∃ a ∈ S ⊓ K, orderOf a = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hSK : CFSG.ABGLocalTools.IsSylowOf 3 (S ⊓ K) K :=
     CFSG.RankThree.PartTwo.Sec10.IsSylowOf.inf_of_isSubnormal hS hKsub
   have hcard : Nat.card ↥(S ⊓ K) = 3 ^ (Nat.card K).factorization 3 := hSK.card_eq
@@ -194,12 +194,12 @@ private theorem four_order_three_independent {X : Type} [Group X] [Finite X]
     {K₁ K₂ K₃ K₄ : Subgroup X}
     (hK₁ : CFSG.IsPComponent p K₁) (hK₂ : CFSG.IsPComponent p K₂)
     (hK₃ : CFSG.IsPComponent p K₃) (hK₄ : CFSG.IsPComponent p K₄)
-    (hrank₁ : CFSG.Open.pRank 3 K₁ = 1) (hrank₂ : CFSG.Open.pRank 3 K₂ = 1)
+    (_hrank₁ : CFSG.Open.pRank 3 K₁ = 1) (hrank₂ : CFSG.Open.pRank 3 K₂ = 1)
     (hrank₃ : CFSG.Open.pRank 3 K₃ = 1) (hrank₄ : CFSG.Open.pRank 3 K₄ = 1)
     (hne₁₂ : K₁ ≠ K₂) (hne₁₃ : K₁ ≠ K₃) (hne₁₄ : K₁ ≠ K₄)
     (hne₂₃ : K₂ ≠ K₃) (hne₂₄ : K₂ ≠ K₄) (hne₃₄ : K₃ ≠ K₄)
     {a₁ a₂ a₃ a₄ : X} (ha₁ : a₁ ∈ K₁) (ha₂ : a₂ ∈ K₂) (ha₃ : a₃ ∈ K₃) (ha₄ : a₄ ∈ K₄)
-    (ho₁ : orderOf a₁ = 3) (ho₂ : orderOf a₂ = 3) (ho₃ : orderOf a₃ = 3)
+    (_ho₁ : orderOf a₁ = 3) (ho₂ : orderOf a₂ = 3) (ho₃ : orderOf a₃ = 3)
     (ho₄ : orderOf a₄ = 3) :
     a₂ ∉ Subgroup.zpowers a₁ ∧
       a₃ ∉ Subgroup.zpowers a₁ ⊔ Subgroup.zpowers a₂ ∧
@@ -335,7 +335,7 @@ theorem mem_normalizer_two_of_odd (h : P812Hyp G M p L₁ L₂)
     let Ssub : Subgroup ↥M := S
     have hSsyl : CFSG.ABGLocalTools.IsSylowOf 3 Ssub ⊤ := by
       rw [CFSG.ABGLocalTools.isSylowOf_iff, Subgroup.relIndex_top_right]
-      exact ⟨le_top, S.isPGroup', S.not_dvd_index⟩
+      exact ⟨le_top, S.isPGroup, S.not_dvd_index⟩
     obtain ⟨a₁, a₂, a₃, a₄, ha₁, ha₂, ha₃, ha₄, ho₁, ho₂, ho₃, ho₄,
       hc₁₂, hc₁₃, hc₁₄, hc₂₃, hc₂₄, hc₃₄⟩ :=
       exists_four_order_three_commuting h.prime hSch h.comp₁ h.comp₂ hK₃ hK₄

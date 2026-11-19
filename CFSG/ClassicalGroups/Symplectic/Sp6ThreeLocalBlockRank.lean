@@ -30,7 +30,7 @@ theorem six_ne_zero_of_five_le {r : ℕ} [CharP K r] (h5 : 5 ≤ r) (h3 : (3 : K
 theorem one_le_pRank_of_mem_of_orderOf_eq {G : Type*} [Group G] [Finite G] {p : ℕ}
     (hp : p.Prime) {H : Subgroup G} {x : G} (hx : x ∈ H) (hxp : orderOf x = p) :
     1 ≤ CFSG.Open.pRank p H := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hcard : Nat.card (Subgroup.zpowers x) = p := by rw [Nat.card_zpowers, hxp]
   exact CFSG.SectionRank.le_pRank hp.one_lt (Subgroup.zpowers_le.mpr hx)
     (CFSG.GroupTheory.isElemAbelian_of_card_prime hcard) (by simp [hcard])
@@ -39,7 +39,7 @@ theorem two_le_pRank_of_block_mulSingle [Finite K] {p : ℕ} (hp : p.Prime) {z :
     (hz : orderOf z = p) {i j : Fin 3} (hij : i ≠ j) {H : Subgroup (StatedSp 3 K)}
     (hi : block (Pi.mulSingle i z) ∈ H) (hj : block (Pi.mulSingle j z) ∈ H) :
     2 ≤ CFSG.Open.pRank p H := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hc : Commute (block (Pi.mulSingle i z)) (block (Pi.mulSingle j z)) :=
     (Pi.mulSingle_commute (f := fun _ : Fin 3 => SL(2, K)) hij z z).map block
   have hn : (block (Pi.mulSingle j z)) ∉ Subgroup.zpowers (block (Pi.mulSingle i z)) := by
@@ -54,7 +54,7 @@ theorem two_le_pRank_of_block_mulSingle [Finite K] {p : ℕ} (hp : p.Prime) {z :
   exact CFSG.GroupTheory.two_le_pRank_of_commute hi hj
     (by rw [orderOf_block_mulSingle, hz]) (by rw [orderOf_block_mulSingle, hz]) hc hn
 
-theorem orderOf_unipotent_one [Finite K] {r : ℕ} (hr : r.Prime) [CharP K r] :
+theorem orderOf_unipotent_one [Finite K] {r : ℕ} (_hr : r.Prime) [CharP K r] :
     orderOf (CFSG.SL2MinimalFaithful.unipotent (1 : K)) = r := by
   have h1 : CFSG.SL2MinimalFaithful.unipotent (1 : K) =
       CFSG.SL2MinimalFaithful.unipotentHom (Multiplicative.ofAdd (1 : K)) := rfl

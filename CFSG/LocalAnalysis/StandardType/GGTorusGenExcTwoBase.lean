@@ -34,7 +34,7 @@ theorem smul_eq_neg_of_langFrame_two
           ((ι₀ (Multiplicative.ofAdd s) : adjointGroup τ K) : ModGL τ K) =
         g0 * ExcFrames.frameDiag ζ hζ s * g0⁻¹)
     (u : Fin τ.rank → ℤ) : w • u = -u := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hw3 := PhiTwoRootGen.torusAct_eq_neg_of_langFrame (by rw [hK])
     (isUnit_det_symmetrizedCartan_three hτ) hFr hg0 hζo hζ hbase
   have hroot : ∀ i, w • (Pi.single i 1 : Fin τ.rank → ℤ) = -Pi.single i 1 := fun i =>

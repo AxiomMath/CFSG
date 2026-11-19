@@ -15,6 +15,7 @@ section Row28SylowPair
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem exists_sylow_central_pair_aux1 {H : Subgroup X} (hH : IsPGroup 3 H) {x : X} (hx : x ∈ H) :
     ∃ k : ℕ, orderOf x = 3 ^ k := by
   obtain ⟨k, hk⟩ := hH ⟨x, hx⟩
@@ -25,7 +26,7 @@ theorem exists_sylow_central_pair_aux1 {H : Subgroup X} (hH : IsPGroup 3 H) {x :
 theorem exists_sylow_central_pair_aux2 {Q Q' K : Subgroup X}
     (hQ : CFSG.ABGLocalTools.IsSylowOf 3 Q K) (hQ' : CFSG.ABGLocalTools.IsSylowOf 3 Q' K) :
     ∃ k ∈ K, Q' = conjSub k Q := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨S, hS⟩ := hQ.exists_sylow_eq_subgroupOf
   obtain ⟨S', hS'⟩ := hQ'.exists_sylow_eq_subgroupOf
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq (↥K) S S'
@@ -48,9 +49,9 @@ theorem exists_sylow_central_pair_aux2 {Q Q' K : Subgroup X}
 theorem exists_sylow_central_pair_aux3 {P N : Subgroup X} (hP : IsPGroup 3 P) (hNP : N ≤ P)
     (hN : N ≠ ⊥) (hnorm : ∀ y ∈ P, ∀ n ∈ N, y * n * y⁻¹ ∈ N) :
     ∃ b ∈ N, orderOf b = 3 ∧ ∀ y ∈ P, b * y = y * b := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Group.IsNilpotent ↥P := hP.isNilpotent
-  haveI hNn : (N.subgroupOf P).Normal := ⟨fun n hn g => by
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Group.IsNilpotent ↥P := hP.isNilpotent
+  have hNn : (N.subgroupOf P).Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     exact hnorm g g.2 n hn⟩
   have hN' : N.subgroupOf P ≠ ⊥ := by
@@ -95,6 +96,7 @@ theorem exists_sylow_central_pair_aux4 {P A : Subgroup X} (hP : IsPGroup 3 P) (h
   obtain ⟨n, rfl⟩ := Subgroup.mem_zpowers_iff.mp ha
   exact Commute.zpow_left (hbc y hy) n
 
+omit [Finite X] in
 theorem exists_sylow_central_pair_aux5 {H : Subgroup X} (hH : Nat.card H = 3) {x : X}
     (hx : x ∈ H) : x ^ 3 = 1 := by
   have h := pow_card_eq_one' (G := ↥H) (x := (⟨x, hx⟩ : ↥H))

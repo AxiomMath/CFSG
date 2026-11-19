@@ -94,7 +94,7 @@ theorem exists_embedding_of_isSwap {β : Type*} [DecidableEq β] [Fintype β] {n
         hne_fin (c + 1) (d + 1) (by omega) (by omega) (by omega)
       have h6 : finTrunc n d ≠ finTrunc n (d + 1) :=
         hne_fin d (d + 1) (by omega) (by omega) (by omega)
-      simpa [h1, h2, h3, h4, h5, h6]
+      simp [h1, h2, h3, h4, h5, h6]
     have hdisj : (Equiv.swap (finTrunc n c) (finTrunc n (c + 1))).Disjoint
         (Equiv.swap (finTrunc n d) (finTrunc n (d + 1))) :=
       Equiv.Perm.disjoint_swap_swap hnd
@@ -126,7 +126,6 @@ theorem exists_embedding_of_isSwap {β : Type*} [DecidableEq β] [Fintype β] {n
   have hg₂ : ∀ σ x, x ∉ Set.range ι → g σ x = x := by
     intro σ x hx
     rw [show g σ = σ.viaEmbedding ιe from Equiv.Perm.viaEmbeddingHom_apply σ ιe]
-    change (σ.viaEmbedding ιe) x = x
     exact Equiv.Perm.viaEmbedding_apply_of_notMem σ ιe x hx
   have hfg : f = g := by
     refine MonoidHom.eq_of_eqOn_denseM (Equiv.Perm.mclosure_swap_castSucc_succ n) ?_

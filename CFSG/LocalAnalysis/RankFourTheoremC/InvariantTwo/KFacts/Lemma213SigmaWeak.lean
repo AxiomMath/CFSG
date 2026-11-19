@@ -18,7 +18,7 @@ theorem fixes_of_normalizes_conj {p : ℕ} (hp : p.Prime) {S : Type} [Group S] [
     (hAcop : p.Coprime (Nat.card A))
     (hAnorm : MulAut.conj x ∈ normalizer (A : Set (MulAut S))) : ∀ a ∈ A, a x = x := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨V, f, hf⟩ := hinv
   have hfinj := injective_of_surjective_perm hp hdvd f hf
   let e : V ≃* S := MulEquiv.ofBijective f ⟨hfinj, hf⟩
@@ -87,7 +87,7 @@ theorem caseB_central (R : Red n p K P z D)
     ∀ T : Subgroup K, p.Coprime (Nat.card T) → D ≤ normalizer (T : Set K) →
       T ≤ centralizer ({z} : Set K) := by
   intro T hT hDT
-  haveI := R.fact
+  have := R.fact
   have hcard := R.card_comp hw hmove
   have hTY : T ≤ (actHom K).ker := by
     have hbot : T.map (actHom K) = ⊥ := by
@@ -104,7 +104,7 @@ theorem caseB_central (R : Red n p K P z D)
   have hfix : ∀ t ∈ T, ∀ C : ComponentIndex K, t * R.zc C * t⁻¹ = R.zc C := by
     intro t ht C
     obtain ⟨hsimple, hnonab⟩ := R.isSimpleGroup_comp C
-    haveI := hsimple
+    have := hsimple
     have hTN : T ≤ normalizer (C.1 : Set K) := hTY.trans (ker_actHom_le_normalizer C)
     let H : Subgroup (normalizer (C.1 : Set K)) := T.subgroupOf (normalizer (C.1 : Set K))
     let A : Subgroup (MulAut C.1) := H.map C.1.normalizerMonoidHom

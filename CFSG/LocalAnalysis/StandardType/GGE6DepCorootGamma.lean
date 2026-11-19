@@ -30,6 +30,7 @@ private theorem gg6D2_isReflection_ne_one {p : ℕ} (hp : p.Prime) {Bs : Subgrou
     simpa using this
   exact hp.ne_one (Nat.eq_of_mul_eq_mul_left hpos h2)
 
+omit [Finite G] in
 private theorem gg6D2_overGamma_unique {Bs X : Subgroup G}
     {hN : Bs ≤ Subgroup.normalizer (X : Set G)}
     {c : MulAut ↥Bs} {a a' : MulAut ↥(ggGamma X hN).range}
@@ -39,6 +40,7 @@ private theorem gg6D2_overGamma_unique {Bs X : Subgroup G}
   obtain ⟨b, rfl⟩ := MonoidHom.rangeRestrict_surjective (ggGamma X hN) w
   rw [← h b, ← h' b]
 
+omit [Finite G] in
 private theorem gg6D2_mem_zpowers_of_rangeRestrict {Bs L : Subgroup G} {x : G}
     {hBsN : Bs ≤ Subgroup.normalizer (L : Set G)}
     (hker : Bs ⊓ Subgroup.centralizer (L : Set G) = Subgroup.zpowers x)

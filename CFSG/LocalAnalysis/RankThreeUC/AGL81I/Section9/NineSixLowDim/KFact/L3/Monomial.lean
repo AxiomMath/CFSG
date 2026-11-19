@@ -34,7 +34,7 @@ private noncomputable def lineMap (L : Fin 3 → Submodule F (Fin 3 → F)) (g :
 
 private theorem translate_lineMap {g : GL (Fin 3) F} {i : Fin 3}
     (h : ∃ j, translate g (L i) = L j) : translate g (L i) = L (lineMap L g i) := by
-  rw [lineMap, dif_pos h]
+  rw [lineMap, dite_eq_left h]
   exact h.choose_spec
 
 private theorem lineMap_mul (hinj : Function.Injective L) {g h : GL (Fin 3) F}

@@ -17,7 +17,7 @@ namespace OddCoreLiftSC
 
 private theorem odd_card_fusionOddCore (X : Type) [Group X] [Finite X] :
     Odd (Nat.card (fusionOddCore X)) := by
-  haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
+  have : Fact (Nat.Prime 2) := Nat.fact_prime_two
   have h : fusionOddCore X = CFSG.pPrimeCore 2 X := by
     unfold fusionOddCore CFSG.pPrimeCore
     congr 1
@@ -43,7 +43,7 @@ private theorem eq_one_of_mul_self {X : Type} [Group X] [Finite X] {u : X}
 private theorem fusionOddCore_eq_comap {A B : Type} [Group A] [Group B] [Finite A] (f : A →* B)
     (hf : Function.Surjective f) (hk : Odd (Nat.card f.ker)) :
     fusionOddCore A = (fusionOddCore B).comap f := by
-  haveI : Finite B := Finite.of_surjective f hf
+  have : Finite B := Finite.of_surjective f hf
   apply le_antisymm
   · rw [← Subgroup.map_le_iff_le_comap]
     exact le_fusionOddCore ((fusionOddCore_normal A).map f hf)

@@ -136,7 +136,7 @@ private theorem exists_isPGroup_noncomm_of_sl2 [Finite H] (X : Subgroup H) {F : 
     rw [map_pow, map_one, Subgroup.coe_pow, ← hx, ← map_pow]
     have h1 : x ^ 2 = 1 := Subtype.ext (by simpa using h)
     rw [h1, map_one, Subgroup.coe_one]
-  refine ⟨(S' : Subgroup X).map X.subtype, Subgroup.map_subtype_le _, S'.isPGroup'.map _,
+  refine ⟨(S' : Subgroup X).map X.subtype, Subgroup.map_subtype_le _, S'.isPGroup.map _,
     a, ⟨a, ha, rfl⟩, b, ⟨b, hb, rfl⟩, hsq a _ hau (by decide), hsq b _ hbv (by decide), ?_⟩
   intro h
   have h1 : a * b = b * a := Subtype.ext (by simpa using h)

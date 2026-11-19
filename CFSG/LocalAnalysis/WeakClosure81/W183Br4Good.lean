@@ -25,9 +25,9 @@ private theorem w183br4_center_eq_bot_of_simple_perfect {S : Type} [Group S]
   rcases hS.eq_bot_or_eq_top_of_normal (Subgroup.center S) with h | h
   · exact h
   · exfalso
-    haveI : IsMulCommutative S := Subgroup.center_eq_top_iff.mp h
-    haveI : Group.IsPerfect S := hperf
-    haveI : Subsingleton S := inferInstance
+    have : IsMulCommutative S := Subgroup.center_eq_top_iff.mp h
+    have : Group.IsPerfect S := hperf
+    have : Subsingleton S := inferInstance
     exact (not_subsingleton S) inferInstance
 
 private theorem w183br4_exceptionalOrders_psl_three {s f : ℕ} (hs2 : s ≠ 2) :
@@ -43,7 +43,7 @@ private theorem w183br4_exceptionalOrders_psp_two (p : ℕ) :
 private theorem w183br4_exists_e9_of_two_le_pRank {X : Type} [Group X] [Finite X]
     (h : 2 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup X)) :
     ∃ E : Subgroup X, IsElemAbelian 3 E ∧ Nat.card E = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨E, -, hE, hcard⟩ :=
     CFSG.SectionRank.exists_pRank (p := 3) (by norm_num) (⊤ : Subgroup X)
   obtain ⟨D, hD⟩ := Sylow.exists_subgroup_card_pow_prime 3 (G := E) (n := 2)
@@ -81,11 +81,11 @@ private theorem w183br4_good_of_table
   refine ⟨hsimp, hE9, ?_⟩
   intro J _ _ Z _ hZc hZp hperf hiso
   obtain ⟨e⟩ := hiso
-  haveI : Finite X := Finite.of_equiv (J ⧸ Z) e.toEquiv
-  haveI hperfJ : Group.IsPerfect J := by
+  have : Finite X := Finite.of_equiv (J ⧸ Z) e.toEquiv
+  have hperfJ : Group.IsPerfect J := by
     rw [Group.isPerfect_def, _root_.commutator_def]
     exact hperf
-  haveI hperfX : Group.IsPerfect X :=
+  have hperfX : Group.IsPerfect X :=
     Group.IsPerfect.ofSurjective (f := e.toMonoidHom.comp (QuotientGroup.mk' Z))
       (e.surjective.comp (QuotientGroup.mk'_surjective Z))
   have hcenterX : Subgroup.center X = ⊥ :=
@@ -111,7 +111,7 @@ private theorem w183br4_good_of_table
     (CFSG.RankThree.PartTwo.Sec21.Item221Proof.card_center_dvd_table hGA hperfJ
       ((QuotientGroup.quotientMulEquivOfEq hZeq.symm).trans e) hm).trans hdvd
   have hZdvd : Nat.card ↥Z ∣ 2 := by rwa [hZeq]
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hZp
   have hZ1 : Nat.card ↥Z = 1 := by
     have h3k : 3 ^ k ∣ 2 := by rw [← hk]; exact hZdvd
@@ -133,7 +133,7 @@ theorem nonabelian (h : Br4Good A) : ∃ a b : A, a * b ≠ b * a := by
   have hcomm : ∀ a b : A, a * b = b * a := fun a b => by
     by_contra hne
     exact hc ⟨a, b, hne⟩
-  haveI : IsMulCommutative A := ⟨⟨hcomm⟩⟩
+  have : IsMulCommutative A := ⟨⟨hcomm⟩⟩
   have hprime : (Nat.card A).Prime := (Group.is_simple_iff_prime_card).mp h.1
   obtain ⟨E, hE, hEcard⟩ := h.2.1
   have h9 : 9 ∣ Nat.card A := by
@@ -152,7 +152,7 @@ theorem three_dvd [Finite A] (h : Br4Good A) : 3 ∣ Nat.card A := by
   exact (by norm_num : 3 ∣ 9).trans h9
 
 theorem of_mulEquiv (e : A ≃* B) (h : Br4Good A) : Br4Good B := by
-  haveI : IsSimpleGroup A := h.1
+  have : IsSimpleGroup A := h.1
   refine ⟨e.symm.isSimpleGroup, ?_, ?_⟩
   · obtain ⟨E, hE, hEcard⟩ := h.2.1
     exact ⟨E.map e.toMonoidHom, IsElemAbelian.map hE e.toMonoidHom, by
@@ -169,7 +169,7 @@ theorem br4Good_of_shapeIV
   rcases h with hL | ⟨p, hp, hp5, hL⟩
   ·
     have hSCM : StatedClassicalModel X .PSL 3 3 1 := hL.statedClassicalModel (by decide)
-    haveI : Finite X := CFSG.LieType.Simplicity.finite_of_statedClassicalModel hSCM
+    have : Finite X := CFSG.LieType.Simplicity.finite_of_statedClassicalModel hSCM
     refine w183br4_good_of_table hGA
       (CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hL) ?_ ?_
     · exact w183br4_exists_e9_of_two_le_pRank
@@ -180,11 +180,11 @@ theorem br4Good_of_shapeIV
       have hexc : CFSG.Blueprint.Multiplier.exceptionalOrders .PSL 3 3 1 = (1, 1) :=
         w183br4_exceptionalOrders_psl_three (by norm_num)
       rw [hgen, hexc]
-      simp only [Prod.fst, Prod.snd, mul_one, one_mul]
+      simp only [mul_one]
       norm_num
   ·
     have hSCM : StatedClassicalModel X .PSp 2 p 1 := hL.statedClassicalModel (by decide)
-    haveI : Finite X := CFSG.LieType.Simplicity.finite_of_statedClassicalModel hSCM
+    have : Finite X := CFSG.LieType.Simplicity.finite_of_statedClassicalModel hSCM
     refine w183br4_good_of_table hGA
       (CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hL) ?_ ?_
     · exact w183br4_exists_e9_of_two_le_pRank (w183br4_two_le_pRank_psp hL)
@@ -194,7 +194,7 @@ theorem br4Good_of_shapeIV
       have hexc : CFSG.Blueprint.Multiplier.exceptionalOrders .PSp 2 p 1 = (1, 1) :=
         w183br4_exceptionalOrders_psp_two p
       rw [hgen, hexc]
-      simp only [Prod.fst, Prod.snd, mul_one, one_mul]
+      simp only [mul_one]
       exact Nat.gcd_dvd_left 2 (p ^ 1 - 1)
 
 end CFSG.LocalAnalysis.WeakClosure81

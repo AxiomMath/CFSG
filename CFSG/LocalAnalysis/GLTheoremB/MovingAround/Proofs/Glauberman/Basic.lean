@@ -95,7 +95,7 @@ variable {G : Type*} [Group G] {p : ℕ}
 
 theorem IsSylowOf.of_sylow [Fact p.Prime] [Finite G] (S : Sylow p G) {H : Subgroup G}
     (hSH : (S : Subgroup G) ≤ H) : IsSylowOf p H S :=
-  ⟨hSH, S.isPGroup', fun h => S.not_dvd_index (h.trans (relIndex_dvd_index_of_le hSH))⟩
+  ⟨hSH, S.isPGroup, fun h => S.not_dvd_index (h.trans (relIndex_dvd_index_of_le hSH))⟩
 
 theorem IsSylowOf.top [Fact p.Prime] [Finite G] (S : Sylow p G) : IsSylowOf p ⊤ (S : Subgroup G) :=
   IsSylowOf.of_sylow S le_top
@@ -123,7 +123,7 @@ theorem map_subgroupOf_eq {H T : Subgroup G} (hTH : T ≤ H) : (T.subgroupOf H).
 
 theorem isSylowOf_map [Fact p.Prime] [Finite G] {H : Subgroup G} (T : Sylow p ↥H) :
     IsSylowOf p H ((T : Subgroup ↥H).map H.subtype) := by
-  refine ⟨map_subtype_le _, T.isPGroup'.map _, ?_⟩
+  refine ⟨map_subtype_le _, T.isPGroup.map _, ?_⟩
   have e : ((T : Subgroup ↥H).map H.subtype).relIndex H = (T : Subgroup ↥H).index := by
     rw [relIndex, Subgroup.subgroupOf, Subgroup.comap_map_eq_self_of_injective H.subtype_injective]
   rw [e]

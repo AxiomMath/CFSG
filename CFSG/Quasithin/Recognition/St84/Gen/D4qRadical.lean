@@ -46,9 +46,9 @@ theorem isSpecialPow_d4Q0 {K : Type} [Field K] [Finite K] (σ : K ≃+* K) {f : 
   have hQ : Q0 σ = d4Vr K σ := radical_eq_simpleComplement σ.toRingHom fa0 supp_fa0
   rw [hQ]
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hchar : CharP K 2 := charP_two_of_std (K := K) hf hK
-  haveI hfin : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hchar : CharP K 2 := charP_two_of_std (K := K) hf hK
+  have hfin : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
   have hσ : ∀ c, σ (σ (σ c)) = c := sigma_cube σ hK hσq
   have hcardQ : Nat.card ↥(d4Vr K σ) = (2 ^ f) ^ 9 := card_Qg σ hf hK hσq
   have hP : IsPGroup 2 ↥(d4Vr K σ) := by
@@ -80,7 +80,7 @@ theorem isSpecialPow_d4Q0 {K : Type} [Field K] [Finite K] (σ : K ≃+* K) {f : 
     rw [hcenter, Subgroup.mem_subgroupOf]
     simpa only [Subgroup.coe_pow, pow_two, Subgroup.coe_mul] using sq_mem_Zg σ hσ y.2
   have hfr : frattini ↥(d4Vr K σ) = Subgroup.center ↥(d4Vr K σ) := by
-    haveI : Fact (IsPGroup 2 ↥(d4Vr K σ)) := ⟨hP⟩
+    have : Fact (IsPGroup 2 ↥(d4Vr K σ)) := ⟨hP⟩
     rw [CFSG.frattini_eq_closure_commutator_union_powers (R := ↥(d4Vr K σ)) (p := 2)]
     refine le_antisymm ?_ ?_
     · rw [Subgroup.closure_le]
@@ -98,7 +98,7 @@ theorem isSpecialPow_d4Q0 {K : Type} [Field K] [Finite K] (σ : K ≃+* K) {f : 
     rw [pow_two, hh, ← x6_eq_vmk]
     exact d4x₆_mul_self K h
   refine ⟨⟨hP, Or.inr ⟨hcomm, hfr, hZpow⟩⟩, ?_, ?_⟩
-  · simpa [hcardQ]
+  · simp [hcardQ]
   · rw [hcenter]
     calc Nat.card ↥((d4Zz K σ).subgroupOf (d4Vr K σ))
         = Nat.card ↥(d4Zz K σ) :=
@@ -112,7 +112,7 @@ theorem card_d4Q1 {K : Type} [Field K] [Finite K] (σ : K ≃+* K) {f : ℕ} (hf
     radical_eq_simpleComplement σ.toRingHom fa1 supp_fa1
   rw [hQ1]
   classical
-  haveI hfin : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
+  have hfin : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
   have hUcard : Nat.card ↥(graphFixedPosUnipotent TwistTag.D4 K σ.toRingHom) =
       (2 ^ f) ^ 12 := card_U σ hf hK hσq
   have hLa : Nat.card (orbitField TwistTag.D4 K σ.toRingHom fa1) = 2 ^ f := by

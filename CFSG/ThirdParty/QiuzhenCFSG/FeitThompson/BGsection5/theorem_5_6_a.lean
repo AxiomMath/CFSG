@@ -40,7 +40,7 @@ public theorem CFSG.sylow_le_Op_p'p_of_hasPLengthOne
     intro x hx
     refine Subgroup.subset_closure ?_
     have hxP : IsPElement (p := p) (⟨x, hx⟩ : S) :=
-      (IsPGroup.iff_orderOf (p := p) (G := S)).1 S.isPGroup' ⟨x, hx⟩
+      (IsPGroup.iff_orderOf (p := p) (G := S)).1 S.isPGroup ⟨x, hx⟩
     rcases hxP with ⟨n, hn⟩
     refine ⟨n, ?_⟩
     calc

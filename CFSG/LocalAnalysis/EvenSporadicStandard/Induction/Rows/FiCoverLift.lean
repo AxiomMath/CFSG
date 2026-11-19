@@ -226,7 +226,7 @@ theorem exists_squareFacts_of_bar [Finite X] (hodd : Odd (Nat.card (center X)))
   set S : Subgroup X := (Q : Subgroup P).map P.subtype with hS
   have hSP : S ≤ P := Subgroup.map_subtype_le _
   have hSK : S ≤ K := hSP.trans inf_le_left
-  have hSp : IsPGroup 2 S := Q.isPGroup'.map P.subtype
+  have hSp : IsPGroup 2 S := Q.isPGroup.map P.subtype
   have hbarP : bar P = Sb := by
     apply le_antisymm
     · rintro _ ⟨p, hp, rfl⟩

@@ -46,8 +46,8 @@ theorem bodyL_eq (g1 g2 : Table) (h : Nat) (b : LS) :
     bodyL g1 g2 h b = letterL g2 (2 <<< 30) h (ap b.2.1 h) (letterL g1 (1 <<< 30) h (ap b.2.1 h) b) := by
   unfold bodyL letterL ap
   by_cases c1 : (b.1[(g1[(b.2.1[h]!).toNat]!).toNat]! == none32) = true
-  · simp only [if_pos c1]
-  · simp only [if_neg c1]
+  · simp only [ite_eq_left c1]
+  · simp only [ite_eq_right c1]
 
 @[expose] def initL (n root : Nat) : LS :=
   ((Array.replicate n none32).set! root 0, #[UInt32.ofNat root], #[0])
@@ -72,12 +72,12 @@ theorem forIn_range'_breakL {β : Type} (f : Nat → β → β) (c : Nat → β 
   | k + 1, s, b => by
     rw [List.range'_succ, List.forIn_cons, List.foldl_cons]
     by_cases hc : c s b
-    · simp only [hc, if_true, pure_bind]
+    · simp only [hc, ite_true, pure_bind]
       exact forIn_range'_breakL f c hmono k (s + 1) (f s b)
-    · simp only [hc, if_false, pure_bind]
+    · simp only [hc, ite_false, pure_bind]
       refine (foldl_fixedL _ b _ fun h hh => ?_).symm
       rw [List.mem_range'_1] at hh
-      exact if_neg (hmono s h b (by omega) hc)
+      exact ite_eq_right (hmono s h b (by omega) hc)
 
 theorem ite_pure_yieldL {β : Type} (c : Prop) [Decidable c] (a b : β) :
     (if c then (pure (ForInStep.yield a) : Id (ForInStep β)) else pure (ForInStep.yield b)) =
@@ -90,8 +90,8 @@ theorem localBFS_eq_foldl (n root : Nat) (g1 g2 : Table) :
     localBFS n root g1 g2 = finalL ((List.range n).foldl (stepL g1 g2) (initL n root)) := by
   unfold localBFS
   simp only [Id.run, Std.Legacy.Range.forIn_eq_forIn_range', Std.Legacy.Range.size,
-    ite_pure_yieldL, List.forIn_pure_yield_eq_foldl, Nat.sub_zero,
-    Nat.add_sub_cancel, Nat.div_one, pure_bind, bind_pure, Prod.eta]
+    ite_pure_yieldL, Nat.sub_zero,
+    Nat.add_sub_cancel, Nat.div_one, Prod.eta]
   rw [List.range_eq_range']
   exact congrArg finalL (forIn_range'_breakL (β := LS) (fun h b => bodyL g1 g2 h b)
     (fun h b => h < b.2.1.size) (fun h h' b hh hc hc' => hc (by omega)) n 0 (initL n root))
@@ -138,11 +138,11 @@ theorem letterL_rel {n : Nat} (hn : n < 2 ^ 32) {g : Table} {F : Nat → Nat →
   rw [hg]
   by_cases hmem : F l p ∈ s.pts
   · have hne : b.1[F l p]! ≠ none32 () := by
-      rw [hv, if_pos hmem]
+      rw [hv, ite_eq_left hmem]
       exact ofNat_ne_none32L (by have := List.idxOf_lt_length_of_mem hmem; omega)
-    rw [if_pos hmem, if_neg (by simpa using hne)]
+    rw [ite_eq_left hmem, ite_eq_right (by simpa using hne)]
     exact hs
-  · rw [if_neg hmem, hv, if_neg hmem, if_pos (by simp)]
+  · rw [ite_eq_right hmem, hv, ite_eq_right hmem, ite_eq_left (by simp)]
     have hsz : b.2.1.size = s.pts.length := by rw [hs.pts]; simp
     refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
     · rw [Array.size_set!]
@@ -157,13 +157,13 @@ theorem letterL_rel {n : Nat} (hn : n < 2 ^ 32) {g : Table} {F : Nat → Nat →
     · intro x hx
       by_cases e : x = F l p
       · subst e
-        rw [Array.getElem!_set!_self _ _ _ (by rw [hs.size]; exact hq), hsz, if_pos (by simp),
-          List.idxOf_append, if_neg hmem]
+        rw [Array.getElem!_set!_self _ _ _ (by rw [hs.size]; exact hq), hsz, ite_eq_left (by simp),
+          List.idxOf_append, ite_eq_right hmem]
         simp
       · rw [Array.getElem!_set!_ne _ _ _ _ (Ne.symm e), hs.pos x hx]
         by_cases hx' : x ∈ s.pts
-        · rw [if_pos hx', if_pos (List.mem_append_left _ hx'), List.idxOf_append, if_pos hx']
-        · rw [if_neg hx', if_neg]
+        · rw [ite_eq_left hx', ite_eq_left (List.mem_append_left _ hx'), List.idxOf_append, ite_eq_left hx']
+        · rw [ite_eq_right hx', ite_eq_right]
           simp [hx', e]
     · rw [List.nodup_append]
       refine ⟨hs.nodup, by simp, ?_⟩
@@ -195,7 +195,7 @@ theorem stepL_rel {n : Nat} (hn : n < 2 ^ 32) {g1 g2 : Table}
   unfold BS.step stepL
   have hsz : b.2.1.size = s.pts.length := by rw [hs.pts]; simp
   by_cases hh : h < s.pts.length
-  · rw [if_pos hh, if_pos (hsz ▸ hh), bodyL_eq]
+  · rw [ite_eq_left hh, ite_eq_left (hsz ▸ hh), bodyL_eq]
     have hap : ap b.2.1 h = s.pts.getD h 0 := by
       rw [hs.pts]
       exact ap_mapOfNatL hn hs.lt hh
@@ -206,7 +206,7 @@ theorem stepL_rel {n : Nat} (hn : n < 2 ^ 32) {g1 g2 : Table}
     have e2 : ap g2 (s.pts.getD h 0) = lF g1 g2 2 (s.pts.getD h 0) := by simp [lF]
     have r1 := letterL_rel (l := 1) (h := h) hn hs e1 (by rw [← e1]; exact h1 _ hp)
     exact letterL_rel (l := 2) (h := h) hn r1 e2 (by rw [← e2]; exact h2 _ hp)
-  · rw [if_neg hh, if_neg (by omega)]
+  · rw [ite_eq_right hh, ite_eq_right (by omega)]
     exact hs
 
 theorem initL_rel {n root : Nat} (hr : root < n) : RelL n ⟨[root], [0], [0]⟩ (initL n root) := by
@@ -286,7 +286,7 @@ theorem treeCheck_of {n : Nat} (hn : n < 2 ^ 30) (h0 : 0 < n) {g1 g2 : Table}
     exact ap_mapOfNatL hn32 hok.lt (by omega)
   have hpos : ∀ x < n, ap b.1 x = s.pts.idxOf x := fun x hx => by
     unfold ap
-    rw [hrel.pos x hx, if_pos (hmem x hx), toNat_ofNat_ltL]
+    rw [hrel.pos x hx, ite_eq_left (hmem x hx), toNat_ofNat_ltL]
     have := List.idxOf_lt_length_of_mem (hmem x hx)
     omega
   have hpl : ∀ k < n, ((b.2.2)[k]!).toNat = s.par.getD k 0 ||| (s.lab.getD k 0 <<< 30) := by

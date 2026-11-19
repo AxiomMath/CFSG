@@ -410,7 +410,7 @@ private theorem mem_movedSpace_of_inf_eq_bot {A B : Submodule K V} {U Vv : V ≃
   rw [hz']
   exact (movedSpace U).neg_mem (sub_mem_movedSpace _ _)
 
-omit [Finite K'] [FiniteDimensional K' N] [Finite K] [FiniteDimensional K V] in
+omit [Finite K'] [FiniteDimensional K' N] [Finite K] [FiniteDimensional K V] [CharP K 2] in
 private theorem rootAxis_map_le {e f w w' : N} {α : K'} (hα : α ≠ 0) (he : QN e = 0)
     (hf : QN f = 0) (hw : QN w = 0) (hw' : QN w' = 0) (hef : polar QN e f = 1)
     (hww' : polar QN w w' = 1) (hwe : polar QN w e = 0) (hwf : polar QN w f = 0)
@@ -909,7 +909,7 @@ private theorem OmegaSetting.exists_elementary_apply_frame (hs : OmegaSetting QN
     (hF.e_sing.trans ha.symm)
   exact ⟨⟨g, hg⟩, hge⟩
 
-omit [CharP K' 2] [Finite K'] [FiniteDimensional K' N] [Finite K] [FiniteDimensional K V] in
+omit [CharP K' 2] [Finite K'] [FiniteDimensional K' N] [Finite K] [FiniteDimensional K V] [CharP K 2] in
 private theorem iSup_movedSpace_rhoE_apply (g : ↥(elementaryGroup QN)) (a : N) :
     ⨆ (w : N) (_ : polar QN ((g : N ≃ₗ[K'] N) a) w = 0),
         movedSpace (rhoE ρ ((g : N ≃ₗ[K'] N) a) w) =

@@ -48,7 +48,7 @@ theorem k78_range_filter_map (l : List ℕ) (f : ℕ → Bool) :
   | cons x l ih =>
     simp only [List.getD_eq_getElem?_getD] at ih
     cases hx : f x <;>
-      simp [List.range_succ_eq_map, List.filter_cons, hx, List.filter_map, Function.comp_def,
+      simp [List.range_succ_eq_map, hx, List.filter_map, Function.comp_def,
         List.map_map, ih]
 
 theorem k78_getD_mem {E : List ℕ} {p : ℕ} (hp : p < E.length) : E.getD p 0 ∈ E := by
@@ -201,6 +201,7 @@ variable {E : List ℕ} [Fact (T24s2.check = true)]
 
 theorem k78_n (H : Packed T24s2 E) : T24s2.n = E.length := n_eq H
 
+omit [Fact (T24s2.check = true)] in
 theorem k78_tArr (H : Packed T24s2 E) {p : ℕ} (hp : p < E.length) :
     tArr p = unpk (E.getD p 0) :=
   elems_get H hp
@@ -221,6 +222,7 @@ theorem k78_dzIdx (H : Packed T24s2 E) :
   rw [k78_tArr H (List.mem_range.1 hp), k78_act]
   rfl
 
+omit [Fact (T24s2.check = true)] in
 theorem k78_idx_map (H : Packed T24s2 E) (f : ℕ → Bool) :
     ((List.range E.length).filter fun p => f (E.getD p 0)).map tArr = (E.filter f).map unpk := by
   rw [← k78_range_filter_map E f, List.map_map]
@@ -228,10 +230,12 @@ theorem k78_idx_map (H : Packed T24s2 E) (f : ℕ → Bool) :
   rw [List.mem_filter, List.mem_range] at hp
   exact k78_tArr H hp.1
 
+omit [Fact (T24s2.check = true)] in
 theorem k78_vpF (H : Packed T24s2 E) {f : ℕ → Bool} {e : ℕ} (he : e ∈ E.filter f) :
     vpK e = true :=
   H.vp e (List.mem_filter.1 he).1
 
+omit [Fact (T24s2.check = true)] in
 theorem k78_elems_contains (H : Packed T24s2 E) {q : ℕ} (hq : vpK q = true) :
     T24s2.elems.contains (unpk q) = (k78tree E).mem q := by
   rw [k78tree_mem, ← k78_contains H.vp hq]
@@ -328,6 +332,7 @@ theorem classOK_of_K (H : Packed T24s2 E) (h : classK E = true) : classOK () = t
     refine ⟨xg, hxg, ?_⟩
     rw [beq_iff_eq, ← hpe, ← hxe, (k78_pkOK (hw xg hxg).2).1]
 
+omit [Fact (T24s2.check = true)] in
 theorem k78_modOKx_def (ax : Array ℕ) (dz : List (Array ℕ)) : modOKx ax dz =
     ((dz.filter fun p => quadPair p ax).all [idArr, ax, z0Arr, arrMul ax z0Arr].contains &&
     [idArr, ax, z0Arr, arrMul ax z0Arr].all (dz.filter fun p => quadPair p ax).contains &&
@@ -337,6 +342,7 @@ theorem k78_modOKx_def (ax : Array ℕ) (dz : List (Array ℕ)) : modOKx ax dz =
       actC11 ax w == w && actC11 z0Arr w == w) &&
     indep6 (dmasks ax ++ dmasks z0Arr) && indep6 (vzMasks () ++ dmasks ax)) := rfl
 
+omit [Fact (T24s2.check = true)] in
 theorem k78_quadL (ax az : Array ℕ) (L : List (Array ℕ)) :
     ((List.range 2048).all fun m => L.all fun y =>
       let w := actC11 y m ^^^ m
@@ -346,12 +352,15 @@ theorem k78_quadL (ax az : Array ℕ) (L : List (Array ℕ)) :
   exact ⟨fun h y hy => ⟨fun m hm => (h m hm y hy).1, fun m hm => (h m hm y hy).2⟩,
     fun h m hm y hy => ⟨(h y hy).1 m hm, (h y hy).2 m hm⟩⟩
 
+omit [Fact (T24s2.check = true)] in
 theorem k78_indep6 {c : List ℕ} (h : k78indep6 c = true) : indep6 c = true := by
   simp only [k78indep6, indep6, Bool.and_eq_true] at h ⊢
   exact ⟨⟨h.1.1, decide_eq_true (CFSG.Decide.nodup_of_bitsetNodup_nat h.1.2)⟩, h.2⟩
 
+omit [Fact (T24s2.check = true)] in
 theorem k78_dmasks (a : Array ℕ) : dmasks a = k78dm (actC11 a) := rfl
 
+omit [Fact (T24s2.check = true)] in
 theorem k78_modOKx {D : List ℕ} (hD : ∀ d ∈ D, vpK d = true) {e : ℕ} (he : vpK e = true)
     (hz : unpk k78z0 = z0Arr) (hzv : vpK k78z0 = true)
     (h : modxK (vzMasks ()) k78z0c ((List.range 2048).filter fun m => actM k78z0c m == m) D

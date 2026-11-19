@@ -20,7 +20,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem sixNineAt_of_R6_9 {D : UC22.Data G} (h69 : R6_9 D) (hsub : D.sig ⊆ D.sig1) {r : ℕ}
     (hr : r.Prime) (hr2 : r ≠ 2) {X : Subgroup G} (hXM : X ≤ D.M) (hX : IsPGroup r X)
     (hexp : ∀ x ∈ X, x ^ r = 1) (hcl : ⁅⁅X, X⁆, X⁆ = ⊥) : UC6R77.SixNineAt D.M X r := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   intro E hEM hEel hEcard hΓ x hxX ⟨y, hyX, hxy⟩ hEN
   by_contra hN
   have hx1 : x ≠ 1 := by
@@ -51,8 +51,8 @@ theorem r77E4_dataOfSetup4 (hSE : StronglyEmbeddedFive) (hS : Standing4 G)
     (hU : uniqueFourUnique G) (S : Setup4 G) (h3 : 3 ∉ uniqueFourBeta G)
     (h69 : R6_9 (dataOfSetup4 hS hU S)) : UC22.F07.R77E4 (dataOfSetup4 hS hU S) := by
   intro hsub p hp _ hsp r hr hr2 hrσ X hXM hX hnc hexp hcl h3'
-  haveI : Fact p.Prime := ⟨((dataOfSetup4 hS hU S).sig_prime p hp).1⟩
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact p.Prime := ⟨((dataOfSetup4 hS hU S).sig_prime p hp).1⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hpr : p ≠ r := fun h => hrσ (h ▸ hp)
   have hrank : CFSG.Open.pRank r X ≤ 3 :=
     (CFSG.SectionRank.pRank_mono hr.one_lt hXM).trans

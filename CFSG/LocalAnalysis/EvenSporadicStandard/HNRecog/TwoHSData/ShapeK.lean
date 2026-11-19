@@ -37,18 +37,18 @@ theorem isShapeK_of_data {G : Type*} [Group G] (K N Zc Q E : Subgroup G) (x y c 
     rw [MonoidHom.mem_ker]
     have hnN : (n : G) ∈ N := Subgroup.mem_subgroupOf.mp hn
     simpa using hNker (n : G) hnN
-  haveI : Finite ↥φ.ker := Nat.finite_of_card_ne_zero (by rw [hcard_ker]; norm_num)
+  have : Finite ↥φ.ker := Nat.finite_of_card_ne_zero (by rw [hcard_ker]; norm_num)
   have hN'eq : N' = φ.ker :=
     Subgroup.eq_of_le_of_card_ge hN'le (by rw [hcard_ker, hN'card])
   have hN'Normal : N'.Normal := by rw [hN'eq]; infer_instance
   have hcardPerm : Nat.card (Equiv.Perm (Fin 5)) = 120 := by
     rw [Nat.card_perm, Nat.card_fin]; norm_num
-  haveI : Finite ↥φ.range := Nat.finite_of_card_ne_zero (by rw [hrange]; norm_num)
+  have : Finite ↥φ.range := Nat.finite_of_card_ne_zero (by rw [hrange]; norm_num)
   have hrange_top : φ.range = ⊤ :=
     Subgroup.eq_top_of_card_eq (G := Equiv.Perm (Fin 5)) (H := φ.range)
       (by rw [hrange, hcardPerm])
   have hsurj : Function.Surjective φ := MonoidHom.range_eq_top.mp hrange_top
-  haveI : N'.Normal := hN'Normal
+  have : N'.Normal := hN'Normal
   have hisoQ : Nonempty (↥K ⧸ N' ≃* Equiv.Perm (Fin 5)) :=
     ⟨(QuotientGroup.quotientMulEquivOfEq hN'eq).trans
       (QuotientGroup.quotientKerEquivOfSurjective φ hsurj)⟩

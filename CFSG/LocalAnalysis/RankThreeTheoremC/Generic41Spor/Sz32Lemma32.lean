@@ -30,7 +30,7 @@ private theorem sz32_l32_comm_ker {C' Q : Type} [Group C'] [Group Q] [Finite Q]
     (hkcard : Nat.card (ρ.comp E.subtype).ker = 5) (hF2 : IsPGroup 2 F)
     (hEF : ∀ e ∈ E, ∀ f ∈ F, e * f * e⁻¹ ∈ F) :
     ∀ e ∈ E, ∀ f ∈ F, ρ (e * f * e⁻¹ * f⁻¹) = 1 := by
-  haveI : Finite (MulAut Q) :=
+  have : Finite (MulAut Q) :=
     Finite.of_injective (fun f : MulAut Q => (f : Q → Q)) DFunLike.coe_injective
   let c : Q →* MulAut Q := MulAut.conj
   have hcinj : Function.Injective c := by
@@ -70,7 +70,7 @@ private theorem sz32_l32_comm_ker {C' Q : Type} [Group C'] [Group Q] [Finite Q]
     rw [hZ, Subgroup.mem_bot, inv_mul_eq_one] at hcen
     simpa using hcen
   let eK : Q ≃* Kin := MonoidHom.ofInjective hcinj
-  haveI hKs : IsSimpleGroup Kin := eK.symm.isSimpleGroup
+  have hKs : IsSimpleGroup Kin := eK.symm.isSimpleGroup
   have hQnonab : ∃ a b : Q, a * b ≠ b * a := by
     by_contra hcon
     push Not at hcon
@@ -137,7 +137,7 @@ private theorem sz32_l32_plane {X : Type} [Group X] [Finite X] {Q : Subgroup X} 
     (h : Sz32QPres Q a c y x) :
     ∃ A : Subgroup X, IsElemAbelian 5 A ∧ Nat.card A = 5 ^ 2 ∧ A ≤ Q ∧
       ∀ s ∈ Q, ∀ t ∈ A, s * t = t * s := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have ha25 : a ^ 25 = 1 := by rw [← h.ord_a]; exact pow_orderOf_eq_one a
   have he5 : (a ^ 5) ^ 5 = 1 := by rw [← pow_mul]; exact ha25
   have he1 : a ^ 5 ≠ 1 := by
@@ -218,7 +218,7 @@ private theorem sz32_l32_stepA (hc : PointConfig IsSz32Type G 5 P M x J) {E : Su
     (hEQ : E ≤ u3S P x) (hE : IsElemAbelian 5 E) (hE3 : 5 ^ 3 ≤ Nat.card E) :
     x ∈ E ∧ Nat.card E = 5 ^ 3 := by
   have hp : (5 : ℕ).Prime := by norm_num
-  haveI : Fact (Nat.Prime 5) := ⟨hp⟩
+  have : Fact (Nat.Prime 5) := ⟨hp⟩
   have hxp : x ^ 5 = 1 := hc.generic.2.1.2.2.1
   have hrank3 : CFSG.Open.pRank 5 (u3S P x) = 3 := hc.generic.2.2.2
   have hSC : u3S P x ≤ Subgroup.centralizer ({x} : Set G) := inf_le_right
@@ -289,7 +289,7 @@ private theorem sz32_l32_ker_E (hc : PointConfig IsSz32Type G 5 P M x J) {a c y 
     (hA : Sz32QDecomp P x J a c y) {E : Subgroup G} (hEQ : E ≤ u3S P x)
     (hE : IsElemAbelian 5 E) {g : G} (hg : g ∈ E) :
     g ∈ u3K0 5 x J ↔ g ∈ Subgroup.zpowers x := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   constructor
   · intro h
     have h1 : g ∈ Subgroup.zpowers c := hA.QC g (hEQ hg) h
@@ -313,23 +313,23 @@ private theorem sz32_l32_two_elt_eq_one {X : Type*} [Group X] {N : Subgroup X} (
     exact (dvd_pow_self 2 hj0).trans h2
 
 theorem sz32_lemma32 (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLocal G)
-    (hSig : SignalizerTwoGroupKFact) (hSz : Sz32Facts) (hdata : Sz32DataFacts)
+    (hSig : SignalizerTwoGroupKFact) (_hSz : Sz32Facts) (_hdata : Sz32DataFacts)
     (hc : PointConfig IsSz32Type G 5 P M x J) {a c y : G} (hA : Sz32QDecomp P x J a c y) :
     Lemma32Data 5 P x := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   refine ⟨sz32_l32_plane hA.pres, ?_⟩
   intro E F hEQ hE hE3 hF2 hFC hEF a ha f hf
   obtain ⟨hxE, hEcard⟩ := sz32_l32_stepA hc hEQ hE hE3
   set C : Subgroup G := Subgroup.centralizer ({x} : Set G) with hC
   have hEC : E ≤ C := hEQ.trans inf_le_right
   obtain ⟨Q, hQg, ψ, hψ, hker, hQ⟩ := hc.typ
-  haveI : Finite Q := Finite.of_surjective ψ hψ
+  have : Finite Q := Finite.of_surjective ψ hψ
   obtain ⟨ρ, hρ⟩ := sps_exists_action (p := 5) hc.cent_le ψ hψ hker
   have hiff := sz32_l32_rho_iff hc.cent_le ψ hψ hker ρ hρ
   have hOJ : rankThreePrimeCore 5 J ≤ J := CFSG.AGLEmbedding.glbPrimeCore_le 5 J
   have hQZ : Subgroup.center Q = ⊥ :=
     u3main_center_bot hOJ hc.perfect hc.lt hc.minimal ψ hψ hker
-  haveI hQsimple : IsSimpleGroup Q := u3_isSimple_quot hOJ hc.lt hc.minimal ψ hψ hker
+  have hQsimple : IsSimpleGroup Q := u3_isSimple_quot hOJ hc.lt hc.minimal ψ hψ hker
   let E' : Subgroup C := E.subgroupOf C
   let F' : Subgroup C := F.subgroupOf C
   have hE'el : IsElemAbelian 5 E' := hE.subgroupOf C

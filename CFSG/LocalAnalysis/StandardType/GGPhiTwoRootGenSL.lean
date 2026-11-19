@@ -49,7 +49,7 @@ private theorem exists_twisted_rootSL2_fixed_canonicalRep
           rootSL2 τ (AlgebraicClosure K) β B ↔
         B ∈ (Matrix.SpecialLinearGroup.map (algebraMap K (AlgebraicClosure K))).range.map
           (CFSG.RankThree.Classical.conjSL P) := by
-  haveI : IsAlgClosed (AlgebraicClosure K) := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed (AlgebraicClosure K) := IsAlgClosure.isAlgClosed K
   obtain ⟨ω, hω, rfl⟩ := (coxeterSystem τ).exists_isReduced w
   have hm : canonicalRep (coxeterSystem τ) (AlgebraicClosure K)
         ((coxeterSystem τ).wordProd ω) =
@@ -232,7 +232,7 @@ private theorem exists_mem_phiTwoComp_of_mem_conjSL
   set X : Subgroup (ModGL τ (AlgebraicClosure K)) :=
     (SK.map (rootSL2 τ (AlgebraicClosure K) β)).map (MulAut.conj g0).toMonoidHom with hX
   have hSKfin : Finite SK := by
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     exact Finite.of_equiv (SL2 K) ((MonoidHom.ofInjective specialLinearMap_injective).trans
       (Subgroup.equivMapOfInjective _ _ (conjSL_injective P))).toEquiv
   have hSKmap : Finite (SK.map (rootSL2 τ (AlgebraicClosure K) β)) :=
@@ -343,7 +343,7 @@ private theorem map_conj_canonicalRep_rootReflection
     Units.map (entrywiseHom Fr)
         (g0 * canonicalRep (coxeterSystem τ) (AlgebraicClosure K) (rootReflection β) * g0⁻¹) =
       g0 * canonicalRep (coxeterSystem τ) (AlgebraicClosure K) (rootReflection β) * g0⁻¹ := by
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   rw [map_conj_mul_canonicalRep (K := K) hg0, units_map_entrywiseHom_canonicalRep]
   have hv : w * rootReflection β * w⁻¹ = rootReflection β := by
@@ -441,7 +441,7 @@ theorem exists_phiTwoWeyl
       baseChangeGL (algebraMap K (AlgebraicClosure K)) ((n : adjointGroup τ K) : ModGL τ K) =
         g0 * canonicalRep (coxeterSystem τ) (AlgebraicClosure K) (rootReflection β) * g0⁻¹ := by
   classical
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   set nv := canonicalRep (coxeterSystem τ) (AlgebraicClosure K) (rootReflection β) with hnv
   set g := g0 * nv * g0⁻¹ with hg

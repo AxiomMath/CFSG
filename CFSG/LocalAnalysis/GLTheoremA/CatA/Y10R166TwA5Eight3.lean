@@ -64,7 +64,7 @@ theorem twA5Hom_scalarParam_mem (a : rootsOfUnity 3 F) :
     rw [coe_diagSU,
       twA5Entries_scalar (F := F) (a := (a : Fˣ)) (mem_rootsOfUnity_three_val (F := F))]
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [Matrix.diagonal_apply, Matrix.scalar_apply]
+    fin_cases i <;> fin_cases j <;> simp [Matrix.scalar_apply]
 
 theorem twA5ScalarParam_injective : Function.Injective (twA5ScalarParam (F := F)) := by
   intro a b hab
@@ -77,7 +77,7 @@ theorem card_unitaryScalars_six : Nat.card (unitaryScalars h 6) = 3 := by
 
 theorem card_ker_twA5Proj (hcard : Nat.card F = 64) :
     Nat.card ((unitaryProj h 6).ker.comap (twA5Hom h)) = 3 := by
-  letI : Finite F := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  let : Finite F := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   let φ : twA5Param (F := F) →* unitaryPSU h 6 := (unitaryProj h 6).comp (twA5Hom h)
   have hker : φ.ker = (unitaryProj h 6).ker.comap (twA5Hom h) := rfl
   rw [← hker]
@@ -156,7 +156,7 @@ theorem twA5Param_pow_three (x : twA5Param (F := F)) :
     rw [← mul_assoc]; exact h4F
   refine ⟨a, ?_⟩
   apply Subtype.ext
-  ext <;> simp [twA5ScalarParam, a, h2F', h3F', h4F', pow_succ, pow_two, mul_assoc]
+  ext <;> simp [a, h2F', h3F', h4F', pow_succ, mul_assoc]
 
 theorem twA5Hom_pow_three_mem (x : twA5Param (F := F)) :
     (twA5Hom h x) ^ 3 ∈ unitaryScalars h 6 := by
@@ -164,7 +164,7 @@ theorem twA5Hom_pow_three_mem (x : twA5Param (F := F)) :
   rw [← map_pow, ha]
   exact twA5Hom_scalarParam_mem h a
 
-theorem twA5Bar_isElemAbelian (hcard : Nat.card F = 64) :
+theorem twA5Bar_isElemAbelian (_hcard : Nat.card F = 64) :
     IsElemAbelian 3 ((twA5Hom h).range.map (unitaryProj h 6)) := by
   refine ⟨⟨⟨fun x y => ?_⟩⟩, ?_⟩
   · obtain ⟨a, ha, hx⟩ := Subgroup.mem_map.1 x.2

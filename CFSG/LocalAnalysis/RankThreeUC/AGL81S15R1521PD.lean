@@ -20,7 +20,7 @@ theorem false_of_A_le_sup_cMHat {T R A L : Subgroup X} (hA : AConfig T R A) (hL 
     (hr3 : CFSG.Open.pRank 3 (⊤ : Subgroup X) ≤ 3) (hAL : A ⊓ L = ⊥) (hle : A ≤ L ⊔ cMHat L) :
     False := by
   have _ := hL
-  haveI := hLn
+  have := hLn
   have h3 : (3 : ℕ).Prime := Nat.prime_three
   have h32 : (3 : ℕ) ≠ 2 := by norm_num
   have h31 : 1 < 3 := by norm_num
@@ -201,8 +201,8 @@ theorem exists_k21dData_aux_pushdown {G H : Type} [Group G] [Group H] (ρ : G �
       ⟨hx, hy⟩
     rw [hmaxQ] at hxR
     exact ⟨x, hxR, rfl⟩
-  · haveI := hsolv
-    haveI : Group.IsSolvable ↥((Subgroup.normalizer (R : Set G)).map ρ) :=
+  · have := hsolv
+    have : Group.IsSolvable ↥((Subgroup.normalizer (R : Set G)).map ρ) :=
       Group.isSolvable_of_surjective (ρ.subgroupMap_surjective _)
     have hsub : N₀.map ρ ⊓ Subgroup.normalizer ((R.map ρ : Subgroup H) : Set H) ≤
         (Subgroup.normalizer (R : Set G)).map ρ := by
@@ -220,12 +220,13 @@ theorem exists_k21dData_aux_R_le {T R A : Subgroup X} (hA : AConfig T R A)
   rw [hA.core]
   exact CFSG.QuasithinUnique.EscapingLocal.pCoreOf_le_of_isSylowTwoOf h3
 
+omit [Finite X] in
 theorem exists_k21dData_aux_ker {L T : Subgroup X} (hLn : L.Normal) (hT2 : IsPGroup 2 T)
     (hZ : Subgroup.center ↥(barO2 L) = ⊥) {x : X} (hx : x ∈ L ⊔ T)
     (hxc : QuotientGroup.mk' (CFSG.pCore 2 X) x ∈
       Subgroup.centralizer ((barO2 L : Subgroup (X ⧸ CFSG.pCore 2 X)) : Set (X ⧸ CFSG.pCore 2 X))) :
     ∃ j : ℕ, x ^ 2 ^ j = 1 := by
-  haveI := hLn
+  have := hLn
   let q : X →* X ⧸ L := QuotientGroup.mk' L
   have hqx : q x ∈ T.map q := by
     have h1 : q x ∈ (L ⊔ T).map q := ⟨x, hx, rfl⟩
@@ -259,7 +260,7 @@ theorem exists_k21dData {T R A L : Subgroup X} (hA : AConfig T R A)
     (hZ : Subgroup.center ↥(barO2 L) = ⊥) (hAL : A ≤ L) (hnc : ⁅barO2 L, barO2 A⁆ ≠ ⊥) :
     ∃ N T' R' E : Subgroup (MulAut ↥(barO2 L)), K21dData ↥(barO2 L) N T' R' E := by
   have _ := hL
-  haveI : (L.map (QuotientGroup.mk' (CFSG.pCore 2 X))).Normal :=
+  have : (L.map (QuotientGroup.mk' (CFSG.pCore 2 X))).Normal :=
     Subgroup.Normal.map hLn _ (QuotientGroup.mk'_surjective _)
   set π : X →* X ⧸ CFSG.pCore 2 X := QuotientGroup.mk' (CFSG.pCore 2 X)
   set ρ : X →* MulAut ↥(L.map π) :=

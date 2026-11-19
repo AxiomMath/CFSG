@@ -24,6 +24,7 @@ theorem cartanD_eq_zero (hn : 4 ≤ n) (a c : Fin n) (hac : a.val < c.val)
       (a.val + 3 = n ∧ c.val + 1 = n) ∨ (c.val + 3 = n ∧ a.val + 1 = n)) := by omega
   simp [h1, h2]
 
+omit [CharP F 2] in
 theorem spin_card_rankOne (hF : Nat.card F = 2) (hn : 3 ≤ n) [Finite (spinGroup (quadPlus n F))]
     (k : Fin n) : Nat.card (rankOne (plusDatum n F hn).rootGroup k) = 6 := by
   obtain ⟨φ, hφ, hx, hy⟩ := SpinPlus.rankOne (K := F) hn k

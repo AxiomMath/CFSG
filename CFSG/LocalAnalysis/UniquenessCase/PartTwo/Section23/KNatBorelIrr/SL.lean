@@ -78,7 +78,7 @@ theorem coe_slRootAlpha_torusSL {k : ℕ} (hk : 2 ≤ k) {K : Type} [Field K] (c
   by_cases ha2 : a < 2
   · by_cases hb2 : b < 2
     · rw [CFSG.ClassicalInvolution.Phan.blockMat_apply,
-        dif_pos (show (0 ≤ a ∧ a < 0 + 2) ∧ (0 ≤ b ∧ b < 0 + 2) from
+        dite_eq_left (show (0 ≤ a ∧ a < 0 + 2) ∧ (0 ≤ b ∧ b < 0 + 2) from
           ⟨⟨Nat.zero_le _, by omega⟩, ⟨Nat.zero_le _, by omega⟩⟩)]
       interval_cases a <;> interval_cases b <;>
         simp [torusSL, slTorusDiag, Units.val_inv_eq_inv_val]
@@ -89,7 +89,7 @@ theorem coe_slRootAlpha_torusSL {k : ℕ} (hk : 2 ≤ k) {K : Type} [Field K] (c
       rw [CFSG.ClassicalInvolution.Phan.blockMat_apply_of_not_mem_right
           ((torusSL c : SL(2, K)) : Matrix (Fin 2) (Fin 2) K) ⟨a, ha⟩
           (show ¬ (0 ≤ b ∧ b < 0 + 2) from by omega),
-        Matrix.one_apply_ne hne, if_neg hne]
+        Matrix.one_apply_ne hne, ite_eq_right hne]
   · have ha0 : a ≠ 0 := by omega
     have ha1 : a ≠ 1 := by omega
     rw [CFSG.ClassicalInvolution.Phan.blockMat_apply_of_not_mem_left

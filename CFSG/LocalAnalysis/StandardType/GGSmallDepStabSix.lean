@@ -26,17 +26,17 @@ theorem ggSmallDep_false_of_stab_six {U : Type} [AddCommGroup U] [Module (ZMod 3
     (hA : (∀ g, g ∈ A ↔ ZS.IsIsom 3 Q g) ∨
       ∃ c : ZMod 3, c ≠ 0 ∧ A = Subgroup.closure (ZS.ClassRefl 3 Q c))
     {x : U} (hx : x ≠ 0) {H : Subgroup (U ≃ₗ[ZMod 3] U)}
-    (hH : H ≤ A ⊓ MulAction.stabilizer (U ≃ₗ[ZMod 3] U) x) {z : ℕ}
+    (_hH : H ≤ A ⊓ MulAction.stabilizer (U ≃ₗ[ZMod 3] U) x) {z : ℕ}
     (hHw : GGWeylTypeData 5 (Nat.card ↥H) z)
     (hstab : Nat.card ↥(A ⊓ MulAction.stabilizer (U ≃ₗ[ZMod 3] U) x) ≤ 12 * Nat.card ↥H) :
     False := by
   have hdim : Module.finrank (ZMod 3) U = 2 * 3 := by omega
   have h5 : 5 ≤ Module.finrank (ZMod 3) U := by omega
-  haveI : Finite U := Module.finite_of_finite (ZMod 3)
-  haveI : Finite (U ≃ₗ[ZMod 3] U) :=
+  have : Finite U := Module.finite_of_finite (ZMod 3)
+  have : Finite (U ≃ₗ[ZMod 3] U) :=
     Finite.of_injective (fun e : U ≃ₗ[ZMod 3] U => (e : U → U))
       fun _ _ h => LinearEquiv.ext (congrFun h)
-  haveI : Finite ↥(TauCeti.QuadraticMap.orthogonalGroup Q) := Subtype.finite
+  have : Finite ↥(TauCeti.QuadraticMap.orthogonalGroup Q) := Subtype.finite
   have hHcard : Nat.card ↥H ≤ 3840 := ggSmallDepWeylFive_card_le hHw
   have hAx_le : Nat.card ↥(A ⊓ MulAction.stabilizer (U ≃ₗ[ZMod 3] U) x) ≤ 46080 := by
     omega
@@ -90,7 +90,7 @@ theorem ggSmallDep_false_of_stab_six {U : Type} [AddCommGroup U] [Module (ZMod 3
         omega
     · obtain ⟨W, hWdim, hWQ, hWcard⟩ :=
         ZS.exists_perp_natCard_isIsom_le (p := 3) (by norm_num) hQ hQx
-      haveI : Module.Finite (ZMod 3) W := inferInstance
+      have : Module.Finite (ZMod 3) W := inferInstance
       have hW5 : Module.finrank (ZMod 3) W = 2 * 2 + 1 := by omega
       have hWord := ZS.natCard_isIsom_of_finrank_eq_odd (p := 3) (by norm_num)
         (n := 2) hW5 hWQ

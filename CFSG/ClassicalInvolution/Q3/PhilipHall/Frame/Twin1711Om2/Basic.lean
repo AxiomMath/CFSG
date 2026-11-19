@@ -159,7 +159,7 @@ theorem rep_genE {i : ℕ} (hi : i < 8) : Rep 480 (genY (reflTab ()))[i]! (phi (
       List.getElem_range]
   have e : phi (genE i) = phiP (omLift i) ((yE i : WP) : Equiv.Perm (Fin 240)) := by
     unfold genE
-    rw [dif_pos hi]
+    rw [dite_eq_left hi]
     rfl
   rw [hg, e]
   exact rep_phiP (Om1.rep_wA (omWords_lt hi)) (Om1.rep_wpE (bo2_yW_ok hi)) (bo2_size_wA _ _)
@@ -181,12 +181,12 @@ private theorem bo2_rep_letter {l : ℕ} (hl : l < 16) :
     Rep 480 (lettersY (reflTab ()))[l]! (phi (letE l)) := by
   have hsz : (genY (reflTab ())).size = 8 := by simp [genY]
   by_cases h : l < 8
-  · rw [letE, if_pos h]
+  · rw [letE, ite_eq_left h]
     unfold lettersY
     rw [bo2_getElem!_append_left (by omega)]
     exact rep_genE h
   · have hl8 : l - 8 < 8 := by omega
-    rw [letE, if_neg h, map_inv]
+    rw [letE, ite_eq_right h, map_inv]
     have hperm : permOfArr 480 (genY (reflTab ()))[l - 8]! = phi (genE (l - 8)) :=
       CFSG.RankThree.Native.permOfArr_eq_of_rep (rep_genE hl8)
     have hinv := CFSG.RankThree.Native.rep_inv_of_validA (bo2_genY_valid hl8)
@@ -242,7 +242,7 @@ theorem enumSizeY_spec {ws : List (List ℕ)} (hws : ∀ w ∈ ws, wordYOK w = t
     rw [closureY, MonoidHom.map_closure]
     congr 1
     ext g
-    simp only [Set.mem_image, Set.mem_setOf_eq, permsA, List.size_toArray, List.length_map]
+    simp only [Set.mem_image, Set.mem_ofPred_eq, permsA, List.size_toArray, List.length_map]
     constructor
     · rintro ⟨_, ⟨w, hw, rfl⟩, rfl⟩
       obtain ⟨k, hk, rfl⟩ := List.getElem_of_mem hw

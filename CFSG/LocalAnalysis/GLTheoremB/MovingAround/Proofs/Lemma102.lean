@@ -11,7 +11,7 @@ open CFSG.HardMathSupport.Solomon.Coordinator (IsEkIn)
 
 theorem lemma102_holds : Lemma102Statement := by
   intro G _ _ m p B M h Q _hQM _hQ k hk hne hsub
-  haveI : Fact p.Prime := ⟨h.standing.prime⟩
+  have : Fact p.Prime := ⟨h.standing.prime⟩
   intro x hx
   obtain ⟨E0, hE0⟩ := hne
   obtain ⟨D, hDE0, hDel, hDcard⟩ :=

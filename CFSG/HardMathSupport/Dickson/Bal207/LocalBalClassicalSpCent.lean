@@ -125,7 +125,7 @@ theorem noNormalPPrime_three_centralizer_statedSp_eight (hK : Nat.card K = 8) (h
   classical
   have blocks := spBlocks_three_eight hK hr hx3 hx1
   obtain ⟨hcomm, hind, hsup⟩ := blocks.directProduct
-  haveI : Finite (reciprocalOrbits (spEnd x)) := ((Finset.finite_toSet _).image _).to_subtype
+  have : Finite (reciprocalOrbits (spEnd x)) := ((Finset.finite_toSet _).image _).to_subtype
   rw [← hsup]
   refine W2.noNormalPPrime_iSup (fun i j hij a b ha hb => ?_) hind (fun i => ?_)
   · exact hcomm i.1 i.2 j.1 j.2 (fun h => hij (Subtype.ext h)) a ha b hb
@@ -133,6 +133,7 @@ theorem noNormalPPrime_three_centralizer_statedSp_eight (hK : Nat.card K = 8) (h
     obtain ⟨h, hh, rfl⟩ := hO
     exact noNormalPPrime_spSupported_orbit_eight hK hr hx3 hx1 ⟨h, hh⟩
 
+omit [Finite K] in
 theorem proj_injective_of_charP_two [CharP K 2] (r : ℕ) : Function.Injective (proj r K) := by
   have hker : (proj r K).ker = ⊥ :=
     eq_bot_iff.2 ((CFSG.RankThree.PartOne.KCSpFull.ker_proj_le_center).trans

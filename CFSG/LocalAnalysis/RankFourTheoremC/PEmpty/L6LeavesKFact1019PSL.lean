@@ -148,7 +148,7 @@ theorem tSL_mul_self (hn : 4 ≤ n) : tSL (F := F) hn * tSL hn = 1 := by
 theorem signVec_mul_blockN (a : Fin 4 → F) (i j : Fin n) :
     signVec (n := n) (F := F) i * blockN a i j = blockN a i j * signVec (n := n) (F := F) j := by
   simp only [blockN, signVec]
-  split_ifs <;> first | (exfalso; omega) | ring1 | simp
+  split_ifs <;> first | (exfalso; omega) | ring1
 
 theorem tSL_mul_uSL (hn : 4 ≤ n) (a : Fin 4 → F) : tSL (F := F) hn * uSL a = uSL a * tSL hn := by
   apply Subtype.ext

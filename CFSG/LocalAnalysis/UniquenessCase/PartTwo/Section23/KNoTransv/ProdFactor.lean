@@ -65,7 +65,7 @@ private theorem isPerfect_ker_snd [IsSimpleGroup S₀]
     TauCeti.IsSimpleGroup.isPerfect_of_not_isMulCommutative fun hc => by
       obtain ⟨a, b, hab⟩ := hS
       exact hab (hc.is_comm.comm a b)
-  letI : Group.IsPerfect S₀ := hSperf
+  let : Group.IsPerfect S₀ := hSperf
   let f : S₀ →* S₀ × S₀ := (MonoidHom.id S₀).prod (1 : S₀ →* S₀)
   have hrange : f.range = (MonoidHom.snd S₀ S₀).ker := by
     ext x
@@ -82,7 +82,7 @@ private theorem isPerfect_ker_snd [IsSimpleGroup S₀]
       · simp [f]
       · simpa [f] using hx2.symm
   have hperfRange : Group.IsPerfect ↥f.range := Group.IsPerfect.range f
-  letI := hperfRange
+  let := hperfRange
   exact Group.IsPerfect.ofSurjective (f := (MulEquiv.subgroupCongr hrange).toMonoidHom)
     (MulEquiv.subgroupCongr hrange).surjective
 
@@ -93,7 +93,7 @@ private theorem isPerfect_ker_fst [IsSimpleGroup S₀]
     TauCeti.IsSimpleGroup.isPerfect_of_not_isMulCommutative fun hc => by
       obtain ⟨a, b, hab⟩ := hS
       exact hab (hc.is_comm.comm a b)
-  letI : Group.IsPerfect S₀ := hSperf
+  let : Group.IsPerfect S₀ := hSperf
   let f : S₀ →* S₀ × S₀ := (1 : S₀ →* S₀).prod (MonoidHom.id S₀)
   have hrange : f.range = (MonoidHom.fst S₀ S₀).ker := by
     ext x
@@ -110,7 +110,7 @@ private theorem isPerfect_ker_fst [IsSimpleGroup S₀]
       · simpa [f] using hx1.symm
       · simp [f]
   have hperfRange : Group.IsPerfect ↥f.range := Group.IsPerfect.range f
-  letI := hperfRange
+  let := hperfRange
   exact Group.IsPerfect.ofSurjective (f := (MulEquiv.subgroupCongr hrange).toMonoidHom)
     (MulEquiv.subgroupCongr hrange).surjective
 
@@ -121,7 +121,7 @@ private theorem exists_mul_of_mem_prodFst [IsSimpleGroup S₀]
       ∃ z ∈ g.ker, x = y * z := by
   have hL : ⁅(MonoidHom.snd S₀ S₀).ker, (MonoidHom.snd S₀ S₀).ker⁆ =
       (MonoidHom.snd S₀ S₀).ker := by
-    haveI := isPerfect_ker_snd hS
+    have := isPerfect_ker_snd hS
     exact Subgroup.commutator_eq_self
   have hK : (prodFst g).subgroupOf H = ((MonoidHom.snd S₀ S₀).ker).comap g := by
     rw [prodFst_subgroupOf_eq, MonoidHom.comap_ker]
@@ -136,7 +136,7 @@ private theorem exists_mul_of_mem_prodSnd [IsSimpleGroup S₀]
       ∃ z ∈ g.ker, x = y * z := by
   have hL : ⁅(MonoidHom.fst S₀ S₀).ker, (MonoidHom.fst S₀ S₀).ker⁆ =
       (MonoidHom.fst S₀ S₀).ker := by
-    haveI := isPerfect_ker_fst hS
+    have := isPerfect_ker_fst hS
     exact Subgroup.commutator_eq_self
   have hK : (prodSnd g).subgroupOf H = ((MonoidHom.fst S₀ S₀).ker).comap g := by
     rw [prodSnd_subgroupOf_eq, MonoidHom.comap_ker]
@@ -150,7 +150,7 @@ theorem commutator_commutator_prodFst [IsSimpleGroup S₀] (hS : ∃ a b : S₀,
   let K : Subgroup ↥H := (prodFst g).subgroupOf H
   have hL : ⁅(MonoidHom.snd S₀ S₀).ker, (MonoidHom.snd S₀ S₀).ker⁆ =
       (MonoidHom.snd S₀ S₀).ker := by
-    haveI := isPerfect_ker_snd hS
+    have := isPerfect_ker_snd hS
     exact Subgroup.commutator_eq_self
   have hperfH : Group.IsPerfect ↥⁅K, K⁆ := by
     change Group.IsPerfect
@@ -161,10 +161,10 @@ theorem commutator_commutator_prodFst [IsSimpleGroup S₀] (hS : ∃ a b : S₀,
     change (⁅(prodFst g).subgroupOf H, (prodFst g).subgroupOf H⁆).map H.subtype = _
     rw [Subgroup.map_commutator, Subgroup.map_subgroupOf_eq_of_le (prodFst_le g)]
   have hperfG : Group.IsPerfect ↥⁅prodFst g, prodFst g⁆ := by
-    haveI := hperfH
+    have := hperfH
     rw [← hmap]
     exact Group.IsPerfect.map (H := ⁅K, K⁆) (H.subtype : ↥H →* G)
-  letI := hperfG
+  let := hperfG
   exact Subgroup.commutator_eq_self
 
 theorem commutator_commutator_prodSnd [IsSimpleGroup S₀] (hS : ∃ a b : S₀, a * b ≠ b * a)
@@ -173,7 +173,7 @@ theorem commutator_commutator_prodSnd [IsSimpleGroup S₀] (hS : ∃ a b : S₀,
   let K : Subgroup ↥H := (prodSnd g).subgroupOf H
   have hL : ⁅(MonoidHom.fst S₀ S₀).ker, (MonoidHom.fst S₀ S₀).ker⁆ =
       (MonoidHom.fst S₀ S₀).ker := by
-    haveI := isPerfect_ker_fst hS
+    have := isPerfect_ker_fst hS
     exact Subgroup.commutator_eq_self
   have hperfH : Group.IsPerfect ↥⁅K, K⁆ := by
     change Group.IsPerfect
@@ -184,10 +184,10 @@ theorem commutator_commutator_prodSnd [IsSimpleGroup S₀] (hS : ∃ a b : S₀,
     change (⁅(prodSnd g).subgroupOf H, (prodSnd g).subgroupOf H⁆).map H.subtype = _
     rw [Subgroup.map_commutator, Subgroup.map_subgroupOf_eq_of_le (prodSnd_le g)]
   have hperfG : Group.IsPerfect ↥⁅prodSnd g, prodSnd g⁆ := by
-    haveI := hperfH
+    have := hperfH
     rw [← hmap]
     exact Group.IsPerfect.map (H := ⁅K, K⁆) (H.subtype : ↥H →* G)
-  letI := hperfG
+  let := hperfG
   exact Subgroup.commutator_eq_self
 
 theorem exists_hom_prodFst [IsSimpleGroup S₀] (hS : ∃ a b : S₀, a * b ≠ b * a)
@@ -203,7 +203,7 @@ theorem exists_hom_prodFst [IsSimpleGroup S₀] (hS : ∃ a b : S₀, a * b ≠ 
     rw [Subgroup.map_commutator, Subgroup.map_subgroupOf_eq_of_le (prodFst_le g)]
   have hL : ⁅(MonoidHom.snd S₀ S₀).ker, (MonoidHom.snd S₀ S₀).ker⁆ =
       (MonoidHom.snd S₀ S₀).ker := by
-    haveI := isPerfect_ker_snd hS
+    have := isPerfect_ker_snd hS
     exact Subgroup.commutator_eq_self
   have hmapKer : K'.map g = (MonoidHom.snd S₀ S₀).ker := by
     change (⁅(prodFst g).subgroupOf H, (prodFst g).subgroupOf H⁆).map g = _
@@ -265,7 +265,7 @@ theorem exists_hom_prodSnd [IsSimpleGroup S₀] (hS : ∃ a b : S₀, a * b ≠ 
     rw [Subgroup.map_commutator, Subgroup.map_subgroupOf_eq_of_le (prodSnd_le g)]
   have hL : ⁅(MonoidHom.fst S₀ S₀).ker, (MonoidHom.fst S₀ S₀).ker⁆ =
       (MonoidHom.fst S₀ S₀).ker := by
-    haveI := isPerfect_ker_fst hS
+    have := isPerfect_ker_fst hS
     exact Subgroup.commutator_eq_self
   have hmapKer : K'.map g = (MonoidHom.fst S₀ S₀).ker := by
     change (⁅(prodSnd g).subgroupOf H, (prodSnd g).subgroupOf H⁆).map g = _
@@ -379,7 +379,7 @@ theorem le_sup_commutator [IsSimpleGroup S₀] (hS : ∃ a b : S₀, a * b ≠ b
     rw [CFSG.GroupTheory.PerfectCover.commutatorElement_mul_mul_of_mem_center
       (hker hz₁) (hker hz₂)]
     exact (Subgroup.commutator_le_self L) (Subgroup.commutator_mem_commutator hl₁ hl₂)
-  haveI : Group.IsPerfect ↥H := Subgroup.isPerfect_iff.mpr hH
+  have : Group.IsPerfect ↥H := Subgroup.isPerfect_iff.mpr hH
   have htopL : (⊤ : Subgroup ↥H) ≤ L := by
     have htop : (⊤ : Subgroup ↥H) = ⁅(⊤ : Subgroup ↥H), (⊤ : Subgroup ↥H)⁆ := by
       rw [← commutator_def]

@@ -150,7 +150,7 @@ theorem omegaPlus_field_pComponent {m n p : ℕ} (hm4 : 4 ≤ m) (hn1 : 1 ≤ n)
     {J : Subgroup S} (hJ : GLAPComponent p (fixSubgroup α) J) :
     p ∣ n ∧ StatedClassicalModel (↥J ⧸ Subgroup.center ↥J) .POmegaPlus m 2 (n / p) := by
   have hm3 : 3 ≤ m := by omega
-  haveI : CharP K 2 := CFSG.StandardType.charP_two_of_card hK
+  have : CharP K 2 := CFSG.StandardType.charP_two_of_card hK
   obtain ⟨σ, ψ, hσ, hψ⟩ := FOC.exists_congr_eq_fieldAutT hm3 hp hp2 hs hna e hi hf hcongr hout hα
   obtain ⟨hpn, k, hk, SS⟩ := FOC.exists_subfieldSetup_plus hm3 hn1 hp hp2 hK hσ
   obtain ⟨eJ⟩ := pComponent_quotCenter_equiv SS ψ hψ hJ

@@ -438,11 +438,11 @@ theorem dom_ok' : trDomOK orbLit (dTable orbLit) (genTables orbLit (-2)) (pOf (p
   have eD : DW[f]! = domWit orbLit (dTable orbLit) (genTables orbLit (-2)) (cData ()) f := by
     rw [getElem!_pos _ f (by simpa using hf), Array.getElem_ofFn]
     dsimp only
-    rw [if_neg hb]
+    rw [ite_eq_right hb]
   have eN : NW[f]! = ncWit orbLit (dTable orbLit) (genTables orbLit (-2)) (cData ()) f := by
     rw [getElem!_pos _ f (by simpa using hf), Array.getElem_ofFn]
     dsimp only
-    rw [if_neg hb]
+    rw [ite_eq_right hb]
   rw [eD, eN]
   simp only [Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq, bne_iff_ne, ne_eq]
   have n1lt := cData_lt _ n1

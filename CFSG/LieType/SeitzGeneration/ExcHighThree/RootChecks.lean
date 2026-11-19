@@ -180,11 +180,11 @@ theorem coverAux_spec (full j : ℕ) : ∀ (Hs : List ℕ) (acc : ℕ), coverAux
         Nat.testBit acc t = true ∨ (Nat.testBit H j = true ∧ Nat.testBit H t = true) := by
       intro t ht
       by_cases hj : Nat.testBit H j = true
-      · simp only [hj, if_true, Nat.testBit_or, Bool.or_eq_true] at ht
+      · simp only [hj, ite_true, Nat.testBit_or, Bool.or_eq_true] at ht
         rcases ht with h | h
         · exact Or.inl h
         · exact Or.inr ⟨hj, h⟩
-      · simp only [hj, if_false] at ht
+      · simp only [hj] at ht
         exact Or.inl ht
     by_cases hf : ((if Nat.testBit H j then acc ||| H else acc) == full) = true
     · have hq : (if Nat.testBit H j then acc ||| H else acc) = full := beq_iff_eq.1 hf
@@ -335,28 +335,28 @@ theorem e7_planeKilled (k₁ k₂ : Fin Tag.E7.rank → ℕ)
     (h : ∃ i, ¬ 3 ∣ k₁ i) :
     ∃ α : Fin Tag.E7.rank → ℤ, IsRoot .E7 α ∧ (3 : ℤ) ∣ ∑ i, α i * (k₁ i : ℤ) ∧
       (3 : ℤ) ∣ ∑ i, α i * (k₂ i : ℤ) :=
-  exists_root_kills .E7 (posRoots e7ArtifactRoots) (fun a ha => (List.mem_filter.1 ha).1)
+  exists_root_kills .E7 (posRoots e7ArtifactRoots) (fun _a ha => (List.mem_filter.1 ha).1)
     e7_allPairsKilled k₁ k₂ h
 
 theorem e8_planeKilled (k₁ k₂ : Fin Tag.E8.rank → ℕ)
     (h : ∃ i, ¬ 3 ∣ k₁ i) :
     ∃ α : Fin Tag.E8.rank → ℤ, IsRoot .E8 α ∧ (3 : ℤ) ∣ ∑ i, α i * (k₁ i : ℤ) ∧
       (3 : ℤ) ∣ ∑ i, α i * (k₂ i : ℤ) :=
-  exists_root_kills .E8 (posRoots e8ArtifactRoots) (fun a ha => (List.mem_filter.1 ha).1)
+  exists_root_kills .E8 (posRoots e8ArtifactRoots) (fun _a ha => (List.mem_filter.1 ha).1)
     e8_allPairsKilled k₁ k₂ h
 
 theorem f4_regular_threeA {v u : List ℕ} (hv : v.length = 4) (hu : u.length = 4)
     (hv3 : ∀ x ∈ v, x < 3) (hu3 : ∀ x ∈ u, x < 3) (hv0 : ∃ x ∈ v, x ≠ 0)
-    (hreg : ∀ a ∈ f4ArtifactRoots, ¬ (rootDot a v % 3 = 0 ∧ rootDot a u % 3 = 0)) :
-    (f4ArtifactRoots.filter fun a => rootDot a v % 3 = 0).length = 12 :=
-  regKill_sound (fun a ha => length_of_mem_artifactRoots (τ := .F4) ha) f4_regKill hv hu hv3 hu3 hv0
+    (hreg : ∀ _a ∈ f4ArtifactRoots, ¬ (rootDot _a v % 3 = 0 ∧ rootDot _a u % 3 = 0)) :
+    (f4ArtifactRoots.filter fun _a => rootDot _a v % 3 = 0).length = 12 :=
+  regKill_sound (fun _a ha => length_of_mem_artifactRoots (τ := .F4) ha) f4_regKill hv hu hv3 hu3 hv0
     hreg
 
 theorem e6_regular_threeA {v u : List ℕ} (hv : v.length = 6) (hu : u.length = 6)
     (hv3 : ∀ x ∈ v, x < 3) (hu3 : ∀ x ∈ u, x < 3) (hv0 : ∃ x ∈ v, x ≠ 0)
-    (hreg : ∀ a ∈ e6ArtifactRoots, ¬ (rootDot a v % 3 = 0 ∧ rootDot a u % 3 = 0)) :
-    (e6ArtifactRoots.filter fun a => rootDot a v % 3 = 0).length = 18 :=
-  regKill_sound (fun a ha => length_of_mem_artifactRoots (τ := .E6) ha) e6_regKill hv hu hv3 hu3 hv0
+    (hreg : ∀ _a ∈ e6ArtifactRoots, ¬ (rootDot _a v % 3 = 0 ∧ rootDot _a u % 3 = 0)) :
+    (e6ArtifactRoots.filter fun _a => rootDot _a v % 3 = 0).length = 18 :=
+  regKill_sound (fun _a ha => length_of_mem_artifactRoots (τ := .E6) ha) e6_regKill hv hu hv3 hu3 hv0
     hreg
 
 theorem f4_hasRegular : ∃ v u : List ℕ, v.length = 4 ∧ u.length = 4 ∧ (∀ x ∈ v, x < 3) ∧

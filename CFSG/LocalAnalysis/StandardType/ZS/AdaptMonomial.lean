@@ -347,7 +347,7 @@ private lemma monomial_epsB (hp : p ≠ 2) {ℓ : ℕ} (hℓ : ℓ - 1 < ℓ) {u
     by_cases hi_last : k = ⟨ℓ - 1, hℓ⟩
     · rw [hi_last] at *
       refine ⟨⟨ℓ - 1, hℓ⟩, -1, ?_⟩
-      rw [if_pos rfl, one_smul, u_last_eq (p := p) hp hℓ u]
+      rw [ite_eq_left rfl, one_smul, u_last_eq (p := p) hp hℓ u]
       rw [zmod_two_smul, zmod_neg_one_smul]
       abel_nf
     · have hklt : k.val < ℓ - 1 := by
@@ -355,19 +355,19 @@ private lemma monomial_epsB (hp : p ≠ 2) {ℓ : ℕ} (hℓ : ℓ - 1 < ℓ) {u
           intro h; exact hi_last (Fin.ext h)
         omega
       refine ⟨⟨k.val + 1, by omega⟩, 1, ?_⟩
-      rw [if_pos rfl, one_smul, u_eq_epsB_sub (p := p) hℓ u k hklt]
+      rw [ite_eq_left rfl, one_smul, u_eq_epsB_sub (p := p) hℓ u k hklt]
       simp only [one_smul]
       abel_nf
   · by_cases hik1 : i.val + 1 = k.val
     · refine ⟨i, 1, ?_⟩
-      rw [if_neg hik, if_pos hik1, one_smul]
+      rw [ite_eq_right hik, ite_eq_left hik1, one_smul]
       have hk_eq : k = ⟨i.val + 1, by omega⟩ := by ext; simp only; omega
       have hilt : i.val < ℓ - 1 := by omega
       rw [hk_eq, u_eq_epsB_sub (p := p) hℓ u i hilt]
       rw [zmod_neg_one_smul]
       abel_nf
     · refine ⟨k, 1, ?_⟩
-      rw [if_neg hik, if_neg hik1, one_smul]
+      rw [ite_eq_right hik, ite_eq_right hik1, one_smul]
       simp
 
 private lemma span_epsB (hp : p ≠ 2) {ℓ : ℕ} (hℓ : ℓ - 1 < ℓ) (u : Fin ℓ → U)
@@ -579,10 +579,10 @@ private lemma cartanD_phi_w_last {ℓ : ℕ} (hp : p ≠ 2) (hℓ : 4 ≤ ℓ) (
     rw [cartanD_row_int hℓ last sndlast hlast hsndlast j hj]
     rw [cartanB_row_int hℓ last sndlast hlast hsndlast j hj]
     by_cases hjs : j = sndlast
-    · rw [if_pos hjs, if_pos hjs]
+    · rw [ite_eq_left hjs, ite_eq_left hjs]
       push_cast
       exact zmod_inv_two_smul_neg_two hp
-    · rw [if_neg hjs, if_neg hjs]
+    · rw [ite_eq_right hjs, ite_eq_right hjs]
       push_cast
       rw [smul_zero]
 

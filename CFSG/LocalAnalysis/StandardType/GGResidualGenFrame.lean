@@ -117,9 +117,9 @@ theorem GGExcPhanPayloadOf.le_iSup_rankOne {n : ℕ} {N : CoxeterMatrix (Fin n)}
     X ≤ ⨆ r : MulAut ↥Bs, ⨆ (_ : r ∈ ggAutomizer X Bs), ⨆ (_ : GGIsReflection p r),
       ggRankOneIn X Bs r := by
   obtain ⟨f, hq, hXc, s, hs, F, hFf, hFfin, hFc, hF, hiso, hcomm, hpair⟩ := h
-  letI : Field F := hFf
-  letI : Finite F := hFfin
-  haveI : CharP F 2 := hFc
+  let : Field F := hFf
+  let : Finite F := hFfin
+  have : CharP F 2 := hFc
   have hW := ggWeakPhanSL_subgroupOf (H := ⨆ i, ggRankOneIn X Bs (s i)) (Equiv.refl (Fin n))
     (ggBCDE_reindex_refl N).symm hq F hF (fun i => ggRankOneIn X Bs (s i)) hiso hcomm hpair rfl
   have hYc : IsCentralQuotientOf (lieUniversal t 0 2 f Nat.prime_two) ↥(⨆ i, ggRankOneIn X Bs (s i)) :=

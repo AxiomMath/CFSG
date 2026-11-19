@@ -98,7 +98,7 @@ theorem respects_all (hSP : S ≤ P) (hS : fusionStronglyClosed (S : Set G) P) (
     have e : S ⊓ A = S ⊓ normalizer (S₀ : Set G) := by
       rw [hAdef, ← inf_assoc, inf_eq_left.mpr hSP]
     rw [e]
-    exact Subgroup.card_lt_of_lt (lt_inf_normalizer (P.isPGroup'.to_le hSP) hlt)
+    exact Subgroup.card_lt_of_lt (lt_inf_normalizer (P.isPGroup.to_le hSP) hlt)
   have hconjA := respects_conj_of_le P hSP hS hS1 hR
     (fun S₁ h1 _ h3 => hlarger S₁ h1 (by omega)) inf_le_left hmA hyA
   have hS₀y1 : conjSub y S₀ ≠ ⊥ := by

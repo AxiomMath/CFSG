@@ -23,7 +23,7 @@ theorem Om6Par.main (D : Om6Par Q t) {xg xy : simGroup Q} {c : (ZMod 3)ˣ}
     (hR : ∀ u : OGroup Q, simAct Q xg u ∈ D.R ↔ u ∈ D.R)
     (hy : ∀ u ∈ D.L ⊔ D.R, simAct Q xy u = u) (hy2 : xy * xy ∈ piSim Q) (hy1 : xy ∉ piSim Q)
     (hyt : xy * orthToSim Q t ∉ piSim Q) :
-    Xor' (∃ u ∈ D.L, ¬ (simAct Q xg⁻¹ u * u⁻¹) ^ 4 = 1)
+    Xor (∃ u ∈ D.L, ¬ (simAct Q xg⁻¹ u * u⁻¹) ^ 4 = 1)
         (∃ u ∈ D.R, ¬ (simAct Q xg⁻¹ u * u⁻¹) ^ 4 = 1) ↔
       (xy⁻¹ * (xg⁻¹ * xy * xg) ∉ piSim Q ∧
         (xy * orthToSim Q t)⁻¹ * (xg⁻¹ * xy * xg) ∉ piSim Q) := by
@@ -35,6 +35,7 @@ theorem Om6Par.main (D : Om6Par Q t) {xg xy : simGroup Q} {c : (ZMod 3)ˣ}
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G} {hQ : Q.Nondegenerate}
   {φ : ↥L →* omegaGroup hQ}
 
+omit [Finite G] in
 theorem om6par_case (hφ : IsCoverMap L φ) (hinj : Function.Injective φ) {z : G} (hzL : z ∈ L)
     (D : Om6Par Q ((φ ⟨z, hzL⟩ : omegaGroup hQ) : OGroup Q)) {K₁ K₂ : Subgroup G}
     (hK₁ : K₁ ≤ L) (hK₂ : K₂ ≤ L) (h₁ : (K₁.subgroupOf L).map (om6par_embed φ) = D.L)
@@ -43,7 +44,7 @@ theorem om6par_case (hφ : IsCoverMap L φ) (hinj : Function.Injective φ) {z : 
     (hxy : CoverAct L φ y xy) (hyK : K₁ ⊔ K₂ ≤ centralizer ({y} : Set G))
     (hy2 : y * y ∈ centralizer (L : Set G)) (hy1 : y ∉ centralizer (L : Set G))
     (hyz : y * z ∉ centralizer (L : Set G)) :
-    (Xor' (∃ k ∈ K₁, g⁻¹ * k * g * k⁻¹ ∉ twoCoreIn K₁)
+    (Xor (∃ k ∈ K₁, g⁻¹ * k * g * k⁻¹ ∉ twoCoreIn K₁)
         (∃ k ∈ K₂, g⁻¹ * k * g * k⁻¹ ∉ twoCoreIn K₂) ↔
       (y⁻¹ * (g⁻¹ * y * g) ∉ centralizer (L : Set G) ∧
         (y * z)⁻¹ * (g⁻¹ * y * g) ∉ centralizer (L : Set G))) := by
@@ -65,9 +66,9 @@ theorem om6par_case (hφ : IsCoverMap L φ) (hinj : Function.Injective φ) {z : 
 theorem asc82FactOm6Par_of (hS : Asc82SchurU43) : Asc82FactOm6Par := by
   intro G _ _ L z K₁ K₂ hL hodd hz2 hK₁ hK₂ hne _ hsup g y hg hgK₁ hgK₂ hy hyK hy2 hy1 hyz
   obtain ⟨V, i1, i2, i3, Q, hQ, φ, hφ⟩ := t5_exists_cover hS hL
-  letI := i1
-  letI := i2
-  letI := i3
+  let := i1
+  let := i2
+  let := i3
   have hinj : Function.Injective φ := by
     rw [← MonoidHom.ker_eq_bot_iff, hφ.ker_eq]
     exact (Subgroup.map_eq_bot_iff_of_injective _ L.subtype_injective).mp hodd

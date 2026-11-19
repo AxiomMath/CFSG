@@ -30,12 +30,12 @@ theorem core_types (h4 : FF79Sec4 b J B b₁ b₂) (P Q : G → Prop)
   have hβR : b₁ * b₂ ∈ B ⊓ J := (B ⊓ J).mul_mem h4.hb₁ h4.hb₂
   have hβ1 : b₁ * b₂ ≠ 1 := fun h => by
     have := hB.crd_eq (p := (0, 1, 1)) (q := (0, 0, 0))
-      (by rw [hB.crd_zero]; simpa [crd] using h)
+      (by rw [CFSG.RankThree.PartTwo.Sec21.FF79.BGen.crd_zero]; simpa [crd] using h)
     simp only at this
     omega
   have hb₂1 : b₂ ≠ 1 := fun h => by
     have := hB.crd_eq (p := (0, 0, 1)) (q := (0, 0, 0))
-      (by rw [hB.crd_zero]; simpa [crd] using h)
+      (by rw [CFSG.RankThree.PartTwo.Sec21.FF79.BGen.crd_zero]; simpa [crd] using h)
     simp only at this
     omega
   refine ⟨hQβ, ?_, ?_⟩
@@ -64,7 +64,7 @@ theorem ff79_4_2KLor_of_JL5 (hJ5 : FF79_JL5) (h41 : FF79_4_1) : FF79_4_2KLor := 
   have hB := bgen_of_sec4 h4
   have hb₁1 : b₁ ≠ 1 := fun h => by
     have := hB.crd_eq (p := (0, 1, 0)) (q := (0, 0, 0))
-      (by rw [hB.crd_zero]; simpa [crd] using h)
+      (by rw [CFSG.RankThree.PartTwo.Sec21.FF79.BGen.crd_zero]; simpa [crd] using h)
     simp only at this
     omega
   have hA4 : {x | x ∈ B ⊓ J ∧ x ≠ 1 ∧ IsLnq 2 2 2 (Lay (J ⊓ Cen x))}.ncard = 4 := by

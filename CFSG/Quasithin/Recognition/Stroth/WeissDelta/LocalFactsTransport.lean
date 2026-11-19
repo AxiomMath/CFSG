@@ -37,6 +37,7 @@ private theorem subgroupOf_closure {G : Type*} [Group G] {K : Subgroup G} {S : S
   rw [← Subgroup.comap_subtype, ← hmap,
     Subgroup.comap_map_eq_self_of_injective K.subtype_injective]
 
+omit [GraphAction H Γ] in
 theorem compatibleQuotient_ker {z : V} {X : Type} [Group X]
     [MulAction X {w : V // Γ.Adj z w}] [FaithfulSMul X {w : V // Γ.Adj z w}]
     (π : ↥(MulAction.stabilizer H z) →* X)
@@ -68,6 +69,7 @@ theorem compatibleQuotient_ker {z : V} {X : Type} [Group X]
       _ = (w : V) := hxw
       _ = (((1 : X) • w : {w : V // Γ.Adj z w}) : V) := by simp
 
+omit [GraphAction H Γ] in
 theorem compatibleQuotient_perfectResidual [Finite H] {z : V} {X : Type} [Group X] [Finite X]
     [MulAction X {w : V // Γ.Adj z w}] {N : Subgroup X}
     (π : ↥(MulAction.stabilizer H z) →* X) (hπ : Function.Surjective π)
@@ -81,6 +83,7 @@ theorem compatibleQuotient_perfectResidual [Finite H] {z : V} {X : Type} [Group 
     exact CFSG.RankThreeCoreUniqueness.Helpers.finite_perfectResidual_map_eq π hπ
   rw [hmap, h.perfectResidual_eq]
 
+omit [GraphAction H Γ] in
 theorem compatibleQuotient_relIndex {z : V} {X : Type} [Group X]
     (π : ↥(MulAction.stabilizer H z) →* X)
     (hker : π.ker = (fixingSubgroup H (Γ.neighborSet z)).subgroupOf
@@ -93,6 +96,7 @@ theorem compatibleQuotient_relIndex {z : V} {X : Type} [Group X]
   rw [← Subgroup.relIndex_subgroupOf (H := F) hK, ← hker]
   exact Subgroup.relIndex_ker (K.subgroupOf Gz) π
 
+omit [GraphAction H Γ] in
 theorem compatibleQuotient_socleAt [Finite H] {z : V} {X : Type} [Group X] [Finite X]
     [MulAction X {w : V // Γ.Adj z w}] [FaithfulSMul X {w : V // Γ.Adj z w}]
     {N : Subgroup X}
@@ -119,6 +123,7 @@ theorem compatibleQuotient_socleAt [Finite H] {z : V} {X : Type} [Group X] [Fini
   rw [hSzsub, Subgroup.map_sup, hperf, hfixmap]
   simp
 
+omit [GraphAction H Γ] in
 theorem compatibleQuotient_socTorus [Finite H] {z : V} {X : Type} [Group X] [Finite X]
     [MulAction X {w : V // Γ.Adj z w}] [FaithfulSMul X {w : V // Γ.Adj z w}]
     {N : Subgroup X}
@@ -345,7 +350,7 @@ theorem localFacts_of_rankOneLocal [Finite H] {z : V} {X : Type} [Group X] [Fini
     have hbA : b ∈ A := by
       simpa [b] using A.pow_mem haA k
     have hbodd : Odd (orderOf b) := by
-      have hcoe : b = ((a ^ k : Gz) : H) := by simp [b, Subgroup.coe_pow]
+      have hcoe : b = ((a ^ k : Gz) : H) := by simp [b]
       rw [hcoe, Subgroup.orderOf_coe]
       exact hkodd
     refine ⟨b, hbA, hbodd, ?_⟩
@@ -366,7 +371,7 @@ theorem localFacts_of_rankOneLocal [Finite H] {z : V} {X : Type} [Group X] [Fini
       have : (((a ^ k : Gz) : H)) ∈ Gz := (a ^ k : Gz).2
       simpa [b, Subgroup.coe_pow] using this
     let bGz : Gz := ⟨b, hbGz⟩
-    have hbGz_eq : bGz = a ^ k := Subtype.ext (by simp [bGz, b, Subgroup.coe_pow])
+    have hbGz_eq : bGz = a ^ k := Subtype.ext (by simp [bGz, b])
     have hbpi : π bGz = gen := by
       rw [hbGz_eq, hkimg, ha_eq]
     have hjt : π (bGz ^ j) = π tGz := by
@@ -379,7 +384,7 @@ theorem localFacts_of_rankOneLocal [Finite H] {z : V} {X : Type} [Group X] [Fini
         rwa [← hker]
       exact Subgroup.mem_subgroupOf.mp hmem
     have ht_eq : t = (((bGz ^ j : Gz) : H)) * (((bGz ^ j)⁻¹ * tGz : Gz) : H) := by
-      simp [mul_assoc, tGz]
+      simp [tGz]
     rw [ht_eq]
     refine Subgroup.mul_mem_sup ?_ hfF
     have hbGzj : ((bGz ^ j : Gz) : H) = b ^ j := by simp [bGz]

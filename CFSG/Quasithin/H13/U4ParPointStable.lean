@@ -14,8 +14,8 @@ variable {m : ℕ} {K : Type} [Field K] (h : UnitaryFieldData 2 m K)
 
 theorem two_dvd_card_modO2_perfectCore_parP (hm : 2 ≤ m) :
     2 ∣ Nat.card (CFSG.Quasithin.ModO2 (perfectCore (parP h))) := by
-  haveI := h.finite
-  haveI : Finite h.fixedField := Subtype.finite
+  have := h.finite
+  have : Finite h.fixedField := Subtype.finite
   rw [Nat.card_congr (modO2PerfectCoreParPEquivSL2 h hm).toEquiv,
     Nat.card_congr (CFSG.Assembly.LowTwoRank.specialLinearGroupEquivStatedSL 2
       h.fixedField).toEquiv,
@@ -26,8 +26,8 @@ theorem two_dvd_card_modO2_perfectCore_parP (hm : 2 ≤ m) :
 
 theorem lieModel_modO2_perfectCore_parP (hm : 2 ≤ m) :
     CFSG.Blueprint.LieModel (CFSG.Quasithin.ModO2 (perfectCore (parP h))) .PSL 2 2 m := by
-  haveI := h.finite
-  haveI : Finite h.fixedField := Subtype.finite
+  have := h.finite
+  have : Finite h.fixedField := Subtype.finite
   have hcard : Nat.card h.fixedField = 2 ^ m := h.card_fixedField
   have e : CFSG.Quasithin.ModO2 (perfectCore (parP h)) ≃*
       CFSG.Open.StatedProj (CFSG.Open.StatedSL 2 h.fixedField) :=

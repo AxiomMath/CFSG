@@ -45,7 +45,7 @@ private theorem nmh_spMat_congr {k : ℕ} {σ τ : Equiv.Perm (Fin k)} {s t : Fi
   rw [h1, h2]
 
 theorem nm_spMat_inj {k : ℕ} {σ τ : Equiv.Perm (Fin k)} {s t : Fin k → ZMod 3} (hs : IsSign s)
-    (ht : IsSign t) (h : spMat σ s = spMat τ t) : σ = τ ∧ s = t := by
+    (_ht : IsSign t) (h : spMat σ s = spMat τ t) : σ = τ ∧ s = t := by
   have hval : ∀ j, σ j = τ j ∧ t j = s j := by
     intro j
     have hentry := congrFun (congrFun h (σ j)) j
@@ -119,16 +119,16 @@ theorem nmSgn_mul_self (A : Finset (Fin 8)) : nmSgn A * nmSgn A = 1 := by
   rw [nmSgn, Matrix.diagonal_mul_diagonal, ← Matrix.diagonal_one]
   congr 1
   funext i
-  by_cases h : i ∈ A <;> simp [h] <;> decide
+  by_cases h : i ∈ A <;> simp [h]
 
 theorem nmSgn_mulVec (A : Finset (Fin 8)) (v : Coords 8) :
     nmSgn A *ᵥ v = fun i => if i ∈ A then -v i else v i := by
   funext i
   rw [nmSgn, Matrix.mulVec_diagonal]
   by_cases h : i ∈ A
-  · rw [if_pos h, if_pos h]
+  · rw [ite_eq_left h, ite_eq_left h]
     exact neg_one_mul (v i)
-  · rw [if_neg h, if_neg h, one_mul]
+  · rw [ite_eq_right h, ite_eq_right h, one_mul]
 
 theorem nmSgn_mulVec_single_of_mem {C : Finset (Fin 8)} {i : Fin 8} (hi : i ∈ C) :
     nmSgn C *ᵥ Pi.single i 1 = -Pi.single i 1 := by
@@ -137,11 +137,11 @@ theorem nmSgn_mulVec_single_of_mem {C : Finset (Fin 8)} {i : Fin 8} (hi : i ∈ 
   change (if j ∈ C then -Pi.single i 1 j else Pi.single i 1 j) = -Pi.single i 1 j
   by_cases hj : j = i
   · subst hj
-    rw [if_pos hi]
+    rw [ite_eq_left hi]
   · rw [Pi.single_eq_of_ne hj]
     by_cases hjC : j ∈ C
-    · rw [if_pos hjC]
-    · rw [if_neg hjC]
+    · rw [ite_eq_left hjC]
+    · rw [ite_eq_right hjC]
       exact neg_zero.symm
 
 theorem nmSgn_mulVec_single_of_notMem {C : Finset (Fin 8)} {i : Fin 8} (hi : i ∉ C) :
@@ -150,11 +150,11 @@ theorem nmSgn_mulVec_single_of_notMem {C : Finset (Fin 8)} {i : Fin 8} (hi : i �
   rw [nmSgn_mulVec]
   change (if j ∈ C then -Pi.single i 1 j else Pi.single i 1 j) = Pi.single i 1 j
   by_cases hj : j ∈ C
-  · rw [if_pos hj]
+  · rw [ite_eq_left hj]
     have hji : j ≠ i := fun h => hi (h ▸ hj)
     rw [Pi.single_eq_of_ne hji]
     exact neg_zero
-  · rw [if_neg hj]
+  · rw [ite_eq_right hj]
 
 theorem nmSgn_mem_nmF {A : Finset (Fin 8)} (h : Even A.card) : nmSgn A ∈ nmF := by
   have hs : IsSign (fun i : Fin 8 => if i ∈ A then (-1 : ZMod 3) else 1) := by
@@ -202,7 +202,7 @@ theorem nmSgn_mul {A B : Finset (Fin 8)} :
   congr 1
   funext i
   by_cases hA : i ∈ A <;> by_cases hB : i ∈ B <;>
-    simp [hA, hB, Finset.mem_symmDiff] <;> decide
+    simp [hA, hB, Finset.mem_symmDiff]
 
 theorem evenAll0_subset_nmFK : evenAll0 7 ⊆ nmFK := by
   rintro A ⟨σ, s, hs, ⟨hσ, hps⟩, rfl⟩

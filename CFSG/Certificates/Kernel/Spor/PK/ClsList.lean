@@ -37,28 +37,28 @@ theorem bpos_sound {nw S c x : Nat} : ∀ {d lo hi : Nat}, hi ≤ c →
     intro lo hi _ hlt
     rw [bpos_zero] at hlt ⊢
     by_cases h : lo < hi ∧ blk S nw (mask nw) lo = x
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       exact h.2
-    · rw [if_neg h] at hlt
+    · rw [ite_eq_right h] at hlt
       exact absurd hlt (Nat.lt_irrefl c)
   | succ d ih =>
     intro lo hi hhi hlt
     rw [bpos_succ] at hlt ⊢
     by_cases hle : hi ≤ lo + 1
-    · rw [if_pos hle] at hlt ⊢
+    · rw [ite_eq_left hle] at hlt ⊢
       by_cases h : lo < hi ∧ blk S nw (mask nw) lo = x
-      · rw [if_pos h]
+      · rw [ite_eq_left h]
         exact h.2
-      · rw [if_neg h] at hlt
+      · rw [ite_eq_right h] at hlt
         exact absurd hlt (Nat.lt_irrefl c)
-    · rw [if_neg hle] at hlt ⊢
+    · rw [ite_eq_right hle] at hlt ⊢
       have hmid : (lo + hi) >>> 1 ≤ hi := by
         rw [Nat.shiftRight_eq_div_pow]
         omega
       by_cases hx : x < blk S nw (mask nw) ((lo + hi) >>> 1)
-      · rw [if_pos hx] at hlt ⊢
+      · rw [ite_eq_left hx] at hlt ⊢
         exact ih (Nat.le_trans hmid hhi) hlt
-      · rw [if_neg hx] at hlt ⊢
+      · rw [ite_eq_right hx] at hlt ⊢
         exact ih hhi hlt
 
 theorem bmem_sound {nw S c x : Nat} (h : bmem nw (mask nw) S c x = true) :
@@ -183,7 +183,7 @@ private theorem fold_spec (c : Nat) (q : Nat → Nat) (f : Nat → Nat → Nat)
     generalize (List.range j).foldl f 0 = M at ih ⊢
     rw [hf]
     by_cases hcond : q j < c ∧ M.testBit (q j) = false
-    · rw [if_pos hcond]
+    · rw [ite_eq_left hcond]
       intro hc
       rw [testBit_or_shiftLeft, Bool.or_eq_false_iff] at hc
       obtain ⟨hlt, hinj, hbits⟩ := ih hc.1
@@ -215,7 +215,7 @@ private theorem fold_spec (c : Nat) (q : Nat → Nat) (f : Nat → Nat → Nat)
           rcases Nat.lt_succ_iff_lt_or_eq.1 hk with hk | rfl
           · exact Or.inl ⟨k, hk, hki⟩
           · exact Or.inr hki
-    · rw [if_neg hcond]
+    · rw [ite_eq_right hcond]
       intro hc
       rw [testBit_or_shiftLeft, Bool.or_eq_false_iff] at hc
       simp at hc
@@ -250,9 +250,9 @@ private theorem fold_pos {c S : Nat} (x : Nat → Nat)
   refine (fun key => ⟨key.1, key.2.1⟩)
     (fold_spec c (fun k => bpos 44 17592186044415 S c (x k) 32 0 c) _ ?_ c hfin)
   intro M k
-  simp only [strictN_eq, nIf_eq, bAnd_eq, bIf_eq, hasBit_eq, Bool.and_eq_true, Nat.blt_eq]
+  simp only [strictN_eq, nIf_eq, bIf_eq, hasBit_eq, Nat.blt_eq]
   generalize bpos 44 17592186044415 S c (x k) 32 0 c = q
-  by_cases h1 : q < c <;> by_cases h2 : M.testBit q = true <;> simp [h1, h2] <;> rfl
+  by_cases h1 : q < c <;> by_cases h2 : M.testBit q = true <;> simp [h1, h2]
 
 theorem clsOK_spec {A Ai B Bi mx cap R Bl S c : Nat} {P Lb : List Nat}
     (h : clsOK 11 4 15 44 17592186044415 A Ai B Bi mx cap R Bl P Lb S c = true) :
@@ -280,9 +280,9 @@ theorem clsOK_spec {A Ai B Bi mx cap R Bl S c : Nat} {P Lb : List Nat}
     obtain ⟨hp, hl, he⟩ := h1
     refine ⟨nget P k, hp, ?_⟩
     by_cases hl0 : nget Lb k = 0
-    · rw [if_pos hl0] at he
+    · rw [ite_eq_left hl0] at he
       exact Or.inl he
-    · rw [if_neg hl0] at he
+    · rw [ite_eq_right hl0] at he
       exact Or.inr he
   · obtain ⟨hlt, hinj⟩ := fold_pos (fun k => blk Bl 44 17592186044415 k) hfold
     exact perm_map_of_inj hlt hinj fun k hk => bpos44_sound (hlt k hk)

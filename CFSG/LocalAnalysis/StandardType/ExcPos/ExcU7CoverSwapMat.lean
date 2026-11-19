@@ -38,6 +38,7 @@ section Mat
 
 variable {L : Type} [Field L] [CharP L 2]
 
+omit [CharP L 2] in
 private theorem excU7Cover_mul_transvection_01_45 (c c' : L) :
     ((Matrix.SpecialLinearGroup.transvection (show (0 : Fin 6) ≠ 1 by decide) c *
         Matrix.SpecialLinearGroup.transvection (show (4 : Fin 6) ≠ 5 by decide) c' :
@@ -50,6 +51,7 @@ private theorem excU7Cover_mul_transvection_01_45 (c c' : L) :
     Matrix.single_mul_single_of_ne _ _ _ _ (by decide : (1 : Fin 6) ≠ 4)]
   abel
 
+omit [CharP L 2] in
 theorem excU7Cover_frob_self (σ : L ≃+* L) (g : SL(6, L))
     (hg : ((g : Matrix (Fin 6) (Fin 6) L).map σ)ᵀ * (g : Matrix (Fin 6) (Fin 6) L) = antidiag 6) :
     ∃ J : SL(6, L), (J : Matrix (Fin 6) (Fin 6) L) = antidiag 6 ∧
@@ -76,6 +78,7 @@ theorem excU7Cover_frob_self (σ : L ≃+* L) (g : SL(6, L))
     rw [← Matrix.mul_assoc, hMinv, Matrix.one_mul]
   · group
 
+omit [CharP L 2] in
 theorem excU7Cover_J_conj_10 (J : SL(6, L)) (hJ : (J : Matrix (Fin 6) (Fin 6) L) = antidiag 6)
     (s : L) :
     J * Matrix.SpecialLinearGroup.transvection (show (1 : Fin 6) ≠ 0 by decide) s * J⁻¹ =
@@ -94,6 +97,7 @@ theorem excU7Cover_J_conj_10 (J : SL(6, L)) (hJ : (J : Matrix (Fin 6) (Fin 6) L)
     show (Fin.rev (1 : Fin 6)) = 4 by decide,
     show (Fin.rev (0 : Fin 6)) = 5 by decide]
 
+omit [CharP L 2] in
 theorem excU7Cover_J_conj_54 (J : SL(6, L)) (hJ : (J : Matrix (Fin 6) (Fin 6) L) = antidiag 6)
     (s : L) :
     J * Matrix.SpecialLinearGroup.transvection (show (5 : Fin 6) ≠ 4 by decide) s * J⁻¹ =
@@ -162,12 +166,14 @@ theorem excU7Cover_frob_conj_45 (σ : L ≃+* L) (g J : SL(6, L))
             (show (0 : Fin 6) ≠ 1 by decide) (σ t) * g⁻¹ := by
           rw [CharTwo.neg_eq]
 
+omit [CharP L 2] in
 theorem excU7Cover_commute_01_45 (s t : L) :
     Commute (Matrix.SpecialLinearGroup.transvection (show (0 : Fin 6) ≠ 1 by decide) s)
       (Matrix.SpecialLinearGroup.transvection (show (4 : Fin 6) ≠ 5 by decide) t) := by
   exact Matrix.SpecialLinearGroup.commute_transvection (i := 0) (j := 1) (k := 4) (l := 5)
     (by decide) (by decide) (by decide) (by decide) s t
 
+omit [CharP L 2] in
 theorem excU7Cover_mat_split (g X : SL(6, L)) (c c' : L)
     (hX : (X : Matrix (Fin 6) (Fin 6) L) =
       (g : Matrix (Fin 6) (Fin 6) L) *

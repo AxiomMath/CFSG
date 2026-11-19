@@ -85,7 +85,7 @@ theorem sylowCentralizingAutInner_sl2 {n : ℕ} (hcard : Nat.card F = 2 ^ n) :
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q, hQ⟩ := IsPGroup.exists_le_sylow (isPGroup_elation_range (F := F))
   have hQs : IsSylowTwoOf (Q : Subgroup SL(2, F)) ⊤ :=
-    isSylowTwoOf_top_iff.mpr ⟨Q.isPGroup', Q.not_dvd_index⟩
+    isSylowTwoOf_top_iff.mpr ⟨Q.isPGroup, Q.not_dvd_index⟩
   refine sylowCentralizingAutInner_of_sylow _ hQs fun β hβ => ?_
   obtain ⟨a, ha⟩ := (gammaToMulAut_bijective_of_card (F := F) hcard).2 β
   have hfix : ∀ t : F, a.left * sl2Elation (a.right t) * a.left⁻¹ = sl2Elation t := by

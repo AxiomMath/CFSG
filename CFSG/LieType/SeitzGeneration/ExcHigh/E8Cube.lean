@@ -57,7 +57,7 @@ theorem planeGen_of_frame_E8 {q : PrimePower} (hv : (LieTypeIndex.E8 q).Valid) {
     rw [card_sup_eq_mul_of_commute_disjoint hcomm hdisj, hV₁c, hV₂c]
     ring
   obtain ⟨P, hlayer, hQS, hPbig⟩ := hlay (V₁ ⊔ V₂) hVel hVc
-  haveI : Finite (Cat ⟨.E8 q, hv⟩) :=
+  have : Finite (Cat ⟨.E8 q, hv⟩) :=
     (CFSG.HardMathSupport.Timmesfeld.CrossChar.finite_isSimpleGroup_cat_E8 hv).1
   have hXlt : Nat.card ↥(X₁ ⊔ X₂) < Nat.card ↥P := by
     have h1 := natCard_sup_le_mul_of_commute hXc

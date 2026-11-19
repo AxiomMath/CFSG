@@ -100,7 +100,7 @@ theorem mul_colMat {A : Matrix (Fin 2) (Fin 2) F} (hA : A.det = 1) (v : Fin 2 �
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [colMat, compMat, Matrix.mul_apply, Fin.sum_univ_two, Matrix.mulVec, dotProduct] <;>
-    first | ring1 | linear_combination e0 | linear_combination e1
+    first | linear_combination e0 | linear_combination e1
 
 theorem exists_colMat_det_ne_zero {A : Matrix (Fin 2) (Fin 2) F} (hA : A.det = 1)
     (hA1 : A ≠ 1) : ∃ v : Fin 2 → F, (colMat A v).det ≠ 0 := by

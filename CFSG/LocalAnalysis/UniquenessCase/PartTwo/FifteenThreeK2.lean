@@ -22,14 +22,14 @@ private theorem k2_not_forall_comm_of_isQuasisimple {A : Type} [Group A] [Finite
     (hA : CFSG.Open.IsQuasisimple A) : ¬ ∀ a b : A, a * b = b * a := by
   rintro hc
   obtain ⟨-, hsimple⟩ := hA
-  haveI := hsimple
+  have := hsimple
   have hcenter : Subgroup.center A = ⊤ := by
     rw [eq_top_iff]
     intro z _
     rw [Subgroup.mem_center_iff]
     intro y
     exact (hc z y).symm
-  haveI : Subsingleton (A ⧸ Subgroup.center A) := QuotientGroup.subsingleton_iff.mpr hcenter
+  have : Subsingleton (A ⧸ Subgroup.center A) := QuotientGroup.subsingleton_iff.mpr hcenter
   obtain ⟨a, b, hab⟩ := (inferInstance : Nontrivial (A ⧸ Subgroup.center A)).exists_pair_ne
   exact hab (Subsingleton.elim a b)
 
@@ -108,14 +108,14 @@ private theorem s15_Three_component_eq {A : Type} [Group A] [Finite A]
   exact (k2_not_forall_comm_of_isQuasisimple hB.2.2) hcommB'
 
 private theorem s15_Three_solvable_normal_le_center {Q : Type} [Group Q] [Finite Q]
-    (hQ : CFSG.Open.IsQuasisimple Q) (N : Subgroup Q) (hN : N.Normal) (hs : IsSolvable ↥N) :
+    (hQ : CFSG.Open.IsQuasisimple Q) (N : Subgroup Q) (hN : N.Normal) (hs : Group.IsSolvable ↥N) :
     N ≤ Subgroup.center Q := by
   obtain ⟨hperf, hsimple⟩ := hQ
-  haveI := hsimple
+  have := hsimple
   let π := QuotientGroup.mk' (Subgroup.center Q)
   have hNbar_normal : (N.map π).Normal := hN.map π (QuotientGroup.mk'_surjective _)
-  have hNbar_solv : IsSolvable ↥(N.map π) := by
-    haveI : Group.IsSolvable ↥N := hs
+  have hNbar_solv : Group.IsSolvable ↥(N.map π) := by
+    have : Group.IsSolvable ↥N := hs
     let m : ↥N →* ↥(N.map π) :=
       (π.comp N.subtype).codRestrict (N.map π) (fun x => Subgroup.mem_map_of_mem π x.2)
     have hm : Function.Surjective m := by
@@ -123,11 +123,11 @@ private theorem s15_Three_solvable_normal_le_center {Q : Type} [Group Q] [Finite
       obtain ⟨x, hx, rfl⟩ := Subgroup.mem_map.1 hz
       exact ⟨⟨x, hx⟩, rfl⟩
     exact Group.isSolvable_of_surjective (f := m) hm
-  haveI := hNbar_normal
+  have := hNbar_normal
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (N.map π) with h | h
   · rw [Subgroup.map_eq_bot_iff] at h
     rwa [QuotientGroup.ker_mk'] at h
-  · haveI : Group.IsSolvable ↥(⊤ : Subgroup (Q ⧸ Subgroup.center Q)) := h ▸ hNbar_solv
+  · have : Group.IsSolvable ↥(⊤ : Subgroup (Q ⧸ Subgroup.center Q)) := h ▸ hNbar_solv
     have hQZsolv : Group.IsSolvable (Q ⧸ Subgroup.center Q) :=
       Group.isSolvable_of_surjective (f := (Subgroup.topEquiv).toMonoidHom)
         (MulEquiv.surjective _)
@@ -160,6 +160,7 @@ private theorem s15_Three_quot_center_iso {Q T : Type} [Group Q] [Group T] (π :
   refine ⟨(QuotientGroup.quotientMulEquivOfEq hker_eq.symm).trans
     (QuotientGroup.quotientKerEquivOfSurjective π hπ)⟩
 
+omit [Finite G] in
 private theorem s15_Three_barLift_exists (hV : IsElemAbelian 2 V) {Y : Subgroup G}
     (hY : Y ≤ stabTil V₀ V) (h2 : barSub V₀ V hV (pCoreOf 2 Y) = ⊥) :
     ∃ ψ : Bar2 Y →* MulAut (Vtil V₀ V hV),
@@ -177,6 +178,7 @@ private theorem s15_Three_barLift_exists (hV : IsElemAbelian 2 V) {Y : Subgroup 
   intro y
   rfl
 
+omit [Finite G] in
 private theorem s15_Three_barSub_comap_map (hV : IsElemAbelian 2 V) {Y : Subgroup G}
     (hY : Y ≤ stabTil V₀ V) (ψ : Bar2 Y →* MulAut (Vtil V₀ V hV))
     (hψ : ∀ y : ↥Y, ψ (QuotientGroup.mk y) = actTil V₀ V hV ⟨y, hY y.2⟩)
@@ -200,11 +202,11 @@ private theorem s15_Three_barSub_comap_map (hV : IsElemAbelian 2 V) {Y : Subgrou
     · refine Subgroup.mem_map.2 ⟨y, ?_, rfl⟩
       rw [Subgroup.mem_comap, hy]
       exact hc
-    · change actTil V₀ V hV ⟨(y : G), hY y.2⟩ = ψ c
-      rw [← hy]
+    · rw [← hy]
       change actTil V₀ V hV ⟨(y : G), hY y.2⟩ = ψ (QuotientGroup.mk y)
       rw [hψ y]
 
+omit [Finite G] in
 private theorem k2_layer_top_of_O2E_eq {Y : Subgroup G} (hYE : F11.O2E Y = Y) :
     CFSG.Open.rankThreeLayer (⊤ : Subgroup (Bar2 Y)) = ⊤ := by
   have hπ : Function.Surjective (QuotientGroup.mk' (CFSG.pCore 2 ↥Y)) :=
@@ -237,7 +239,7 @@ private theorem k2_map_component_eq_bot_or_isComponentOf {D : Data G} {V₀ V K�
         rintro ⟨z, hz⟩
         obtain ⟨c, hc, rfl⟩ := Subgroup.mem_map.1 hz
         exact ⟨⟨c, hc⟩, rfl⟩
-      haveI : Nontrivial ↥(C.map ψ) := (Subgroup.nontrivial_iff_ne_bot _).2 hCbot
+      have : Nontrivial ↥(C.map ψ) := (Subgroup.nontrivial_iff_ne_bot _).2 hCbot
       exact uc22br4_isQuasisimple_of_surjective hC.2.2 f hf
     refine ⟨?_, ?_, hqC⟩
     · rw [← hXbar]
@@ -338,11 +340,11 @@ theorem s15_Three_cover_iso (hV : IsElemAbelian 2 V) (hMs : D.M ≤ stabTil V₀
     (hYC : Y ⊓ F11.CTilde D.M V₀ V ≤ OInf Y)
     (hYM : Y ≤ D.M) (h2 : barSub V₀ V hV (pCoreOf 2 Y) = ⊥)
     (hKq : CFSG.Open.IsQuasisimple (Bar2 K))
-    (hT : CFSG.Open.IsQuasisimple ↥(barSub V₀ V hV K₀))
+    (_hT : CFSG.Open.IsQuasisimple ↥(barSub V₀ V hV K₀))
     (hZ : Subgroup.center ↥(barSub V₀ V hV K₀) = ⊥)
     (hKT : barSub V₀ V hV K = barSub V₀ V hV K₀) :
     Nonempty ((Bar2 K ⧸ Subgroup.center (Bar2 K)) ≃* ↥(barSub V₀ V hV K₀)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hMnorm : D.M ≤ Subgroup.normalizer (V : Set G) := hMs.trans (stabTil_le_normalizer V₀ V)
   have hKstab : K ≤ stabTil V₀ V := hKY.trans (hYM.trans hMs)
   let φ : ↥K →* ↥(barSub V₀ V hV K₀) :=
@@ -371,7 +373,7 @@ theorem s15_Three_cover_iso (hV : IsElemAbelian 2 V) (hMs : D.M ≤ stabTil V₀
       rw [show (⟨(x : G), hKstab x.2⟩ : ↥(stabTil V₀ V)) =
         (⟨(x : G), h⟩ : ↥(stabTil V₀ V)) from Subtype.ext rfl]
       exact hh
-  have hkerSolv : IsSolvable ↥φ.ker := by
+  have hkerSolv : Group.IsSolvable ↥φ.ker := by
     rw [hker]
     have hmap : (((K ⊓ F11.CTilde D.M V₀ V).subgroupOf K).map K.subtype) ≤ OInf Y := by
       rintro z ⟨x, hx, rfl⟩
@@ -381,9 +383,9 @@ theorem s15_Three_cover_iso (hV : IsElemAbelian 2 V) (hMs : D.M ≤ stabTil V₀
     let g : ↥((K ⊓ F11.CTilde D.M V₀ V).subgroupOf K) →* ↥(OInf Y) :=
       ((K.subtype.comp (Subgroup.subtype _))).codRestrict (OInf Y)
         (fun x => hmap ⟨x, x.2, rfl⟩)
-    haveI hRad : Group.IsSolvable ↥(CFSG.solvableRadical ↥Y) :=
+    have hRad : Group.IsSolvable ↥(CFSG.solvableRadical ↥Y) :=
       CFSG.SignalizerFunctorTheorem.Nonsolvable.isSolvable_solvableRadical
-    haveI : Group.IsSolvable ↥(OInf Y) := by
+    have : Group.IsSolvable ↥(OInf Y) := by
       unfold OInf
       exact Group.isSolvable_of_surjective
         (f := ((CFSG.solvableRadical ↥Y).equivMapOfInjective Y.subtype
@@ -409,9 +411,9 @@ theorem s15_Three_cover_iso (hV : IsElemAbelian 2 V) (hMs : D.M ≤ stabTil V₀
     exact ⟨QuotientGroup.mk x, rfl⟩
   have hker' : φ'.ker = (φ.ker).map (QuotientGroup.mk' (CFSG.pCore 2 ↥K)) :=
     QuotientGroup.ker_lift (N := CFSG.pCore 2 ↥K) φ hpCore
-  have hsoln' : IsSolvable ↥φ'.ker := by
+  have hsoln' : Group.IsSolvable ↥φ'.ker := by
     rw [hker']
-    haveI : Group.IsSolvable ↥φ.ker := hkerSolv
+    have : Group.IsSolvable ↥φ.ker := hkerSolv
     let m : ↥φ.ker →* ↥((φ.ker).map (QuotientGroup.mk' (CFSG.pCore 2 ↥K))) :=
       ((QuotientGroup.mk' (CFSG.pCore 2 ↥K)).comp φ.ker.subtype).codRestrict _
         (fun x => Subgroup.mem_map_of_mem _ x.2)
@@ -435,7 +437,7 @@ theorem s15_Three_cover_K (hSimple : RSimple153) (h127 : R127 D) (h119 : F11.R11
     (Z := commSub ⊤ (barSub (v1Sub D.M V₀ V hV L) V hV K₀)) hperf
   have hMs : D.M ≤ stabTil V₀ V :=
     le_stabTil h.hyp125.pairFacts.le_normalizer h.hyp125.pairFacts.le_normalizer₀
-  haveI := s15_Three_cTilde_normal (D := D) hV hMs
+  have := s15_Three_cTilde_normal (D := D) hV hMs
   obtain ⟨X, Y, hCTX, hXM, hXnorm, hXbar, hYX, -, hYrest⟩ :=
     s15_Three_Y119 hSimple h127 h119 h1217 h hV hshape hperf
   obtain ⟨hY119, -⟩ := hYrest
@@ -472,7 +474,6 @@ theorem s15_Three_cover_K (hSimple : RSimple153) (h127 : R127 D) (h119 : F11.R11
         obtain ⟨y, hy, hyc⟩ := Subgroup.mem_map.1 hc
         have hyK : (y : G) ∈ K := (Subgroup.mem_subgroupOf).1 hy
         refine (mem_barSub V₀ V hV K (ψ c)).2 ⟨⟨(y : G), hYKstab y.2⟩, hyK, ?_⟩
-        change actTil V₀ V hV ⟨(y : G), hYKstab y.2⟩ = ψ c
         rw [← hyc]
         change actTil V₀ V hV ⟨(y : G), hYKstab y.2⟩ = ψ (QuotientGroup.mk y)
         rw [hψ y]

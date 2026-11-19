@@ -34,7 +34,7 @@ theorem isElemAbelian_comap_of_le_lift {K C : Type} [Group K] [Finite K] [Group 
       rw [← hka_da, map_mul, MonoidHom.mem_ker.mp hka, one_mul]
     have hpb : π db = π b := by
       rw [← hkb_db, map_mul, MonoidHom.mem_ker.mp hkb, one_mul]
-    haveI hBcomm : IsMulCommutative ↥B := hB.1
+    have hBcomm : IsMulCommutative ↥B := hB.1
     have hcommB : π da * π db = π db * π da := by
       rw [hpa, hpb]
       exact congrArg Subtype.val
@@ -92,7 +92,7 @@ theorem comap_le_normalizer_of_lift_twoGroup {K C : Type} [Group K] [Finite K] [
     (hS2 : IsPGroup 2 ↥S) (hSY : Subgroup.comap π Y = S ⊔ π.ker) :
     Subgroup.comap π B ≤ Subgroup.normalizer (S : Set K) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have key : ∀ b ∈ Subgroup.comap π B, ∀ x ∈ S, b * x * b⁻¹ ∈ S := by
     intro b hb x hx
     have hbN : π b ∈ Subgroup.normalizer (Y : Set C) := hBY hb
@@ -184,7 +184,7 @@ theorem exists_center_eq_zpowers_of_card_three {X : Type} [Group X] [Finite X]
     (h3 : Nat.card (Subgroup.center X) = 3) :
     ∃ z : X, z ∈ Subgroup.center X ∧ orderOf z = 3 ∧ Subgroup.center X = Subgroup.zpowers z := by
   classical
-  haveI : Finite ↥(Subgroup.center X) := Subtype.finite
+  have : Finite ↥(Subgroup.center X) := Subtype.finite
   have hnt : Nontrivial ↥(Subgroup.center X) :=
     Finite.one_lt_card_iff_nontrivial.mp (by rw [h3]; norm_num)
   obtain ⟨z, hz1⟩ := exists_ne (1 : ↥(Subgroup.center X))
@@ -236,11 +236,11 @@ theorem card_closure_lift_triple {K C : Type} [Group K] [Finite K] [Group C] (π
 theorem exists_unit_orderOf_three_algebraicClosure (F : Type) [Field F] [Finite F] {n : ℕ}
     (hF : Nat.card F = (2 ^ n) ^ 2) :
     ∃ ω : (AlgebraicClosure F)ˣ, ω ^ 3 = 1 ∧ ω ≠ 1 ∧ orderOf ω = 3 := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hcard2 : Nat.card F = 2 ^ (n * 2) := by rw [hF, pow_mul]
   have hcardF : Fintype.card F = 2 ^ (n * 2) := by
     rw [← Nat.card_eq_fintype_card, hcard2]
-  haveI hcharF : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := n * 2) hcardF
+  have hcharF : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := n * 2) hcardF
   let Ω := AlgebraicClosure F
   have h3 : ((3 : ℕ) : Ω) ≠ 0 := by
     have h2 : ((2 : ℕ) : Ω) = 0 := CharP.cast_eq_zero Ω 2

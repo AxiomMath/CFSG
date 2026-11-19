@@ -69,7 +69,7 @@ theorem tableIII_card_base (hI : TwoHSInterface) [Finite G] {a z a' : G} (h : Is
   have hbase : tab3Base a z a' = S \ ({a', a' * z} : Set G) := by
     ext c
     rw [hSdef]
-    simp only [tab3Base, Set.mem_setOf_eq, Set.mem_sdiff, Set.mem_insert_iff,
+    simp only [tab3Base, Set.mem_ofPred_eq, Set.mem_sdiff, Set.mem_insert_iff,
       Set.mem_singleton_iff, ne_eq, not_or]
     tauto
   have hpair : (S \ ({a', a' * z} : Set G)).ncard = S.ncard - 2 :=
@@ -79,15 +79,14 @@ theorem tableIII_card_base (hI : TwoHSInterface) [Finite G] {a z a' : G} (h : Is
 theorem tableIII_subset {a z a' : G} (i : Fin 3) : tab3Set a z a' i ⊆ tab3Base a z a' := by
   intro c hc
   fin_cases i <;>
-    simp only [tab3Set, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
-      Matrix.head_cons, Matrix.tail_cons, Set.mem_setOf_eq] at hc <;>
+    simp only [tab3Set] at hc <;>
     exact hc.1
 
 theorem tableIII_cover {a z a' : G} (h : IsF5Type a z) (hF1 : Vert Fusion1Facts a z)
     (hF2 : Vert Fusion2Facts a z) (ha'Q : a' ∈ Qz z) (ha' : IsConj a a') :
     ∀ c ∈ tab3Base a z a', ∃ i, c ∈ tab3Set a z a' i := by
   intro c hc
-  simp only [tab3Base, Set.mem_setOf_eq] at hc
+  simp only [tab3Base, Set.mem_ofPred_eq] at hc
   obtain ⟨hcQ, hcA, hca', hcaz⟩ := hc
   have ha'2 : a' ^ 2 = 1 := t3_pow_two_eq_one_of_isConj h.orderOf_a ha'
   have hc2 : c ^ 2 = 1 := t3_pow_two_eq_one_of_isConj h.orderOf_a hcA
@@ -112,10 +111,10 @@ theorem tableIII_cover {a z a' : G} (h : IsF5Type a z) (hF1 : Vert Fusion1Facts 
       rw [mul_assoc, ← hcommute]
     rcases isConj_of_commute hF1 hF2 ha' hty ht2 ht1 with h0 | h1
     · refine ⟨0, ?_⟩
-      simp only [tab3Set, Matrix.cons_val_zero, Set.mem_setOf_eq]
+      simp only [tab3Set, Matrix.cons_val_zero, Set.mem_ofPred_eq]
       exact ⟨⟨hcQ, hcA, hca', hcaz⟩, h0⟩
     · refine ⟨1, ?_⟩
-      simp only [tab3Set, Matrix.cons_val_one, Matrix.head_cons, Set.mem_setOf_eq]
+      simp only [tab3Set, Matrix.cons_val_one]
       exact ⟨⟨hcQ, hcA, hca', hcaz⟩, h1⟩
   · have hsq : (a' * c) ^ 2 = z := by
       rw [pow_two]
@@ -125,7 +124,7 @@ theorem tableIII_cover {a z a' : G} (h : IsF5Type a z) (hF1 : Vert Fusion1Facts 
         _ = z := hcommz
     refine ⟨2, ?_⟩
     simp only [tab3Set, Matrix.cons_val_two, Matrix.tail_cons, Matrix.head_cons,
-      Set.mem_setOf_eq]
+      Set.mem_ofPred_eq]
     exact ⟨⟨hcQ, hcA, hca', hcaz⟩, hsq⟩
 
 theorem tableIII_disjoint (hI : TwoHSInterface) {a z a' : G} (h : IsF5Type a z) (i j : Fin 3)
@@ -143,8 +142,7 @@ theorem tableIII_disjoint (hI : TwoHSInterface) {a z a' : G} (h : IsF5Type a z) 
   rw [Set.disjoint_left]
   intro c hi hj
   fin_cases i <;> fin_cases j <;>
-    simp only [tab3Set, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
-      Matrix.head_cons, Matrix.tail_cons, Set.mem_setOf_eq] at hi hj
+    simp only [tab3Set] at hi hj
   · exact absurd rfl hij
   · exact hnot (hi.2.trans hj.2.symm)
   · have h2 := hAc _ hi.2
@@ -176,10 +174,10 @@ theorem tableIII_conj_mem {a z a' : G} (i : Fin 3) {k : G} (hk : k ∈ Gxy a' z)
     have := congrArg (fun t => k⁻¹ * t) hkz
     simpa [mul_assoc] using this
   have hc' : c ∈ tab3Base a z a' := tableIII_subset i hc
-  simp only [tab3Base, Set.mem_setOf_eq] at hc'
+  simp only [tab3Base, Set.mem_ofPred_eq] at hc'
   obtain ⟨hcQ, hcA, hca', hcaz⟩ := hc'
   have hbase : k * c * k⁻¹ ∈ tab3Base a z a' := by
-    simp only [tab3Base, Set.mem_setOf_eq]
+    simp only [tab3Base, Set.mem_ofPred_eq]
     refine ⟨tableIII_conj_mem_Qz (mem_Gxy.mp hk).2 hcQ, ?_, ?_, ?_⟩
     · exact hcA.trans (isConj_iff.2 ⟨k, rfl⟩)
     · intro h
@@ -200,14 +198,13 @@ theorem tableIII_conj_mem {a z a' : G} (i : Fin 3) {k : G} (hk : k ∈ Gxy a' z)
   have hrowB : ∀ t : G, IsConj z t → IsConj z (k * t * k⁻¹) := fun t ht =>
     ht.trans (isConj_iff.2 ⟨k, rfl⟩)
   fin_cases i <;>
-    simp only [tab3Set, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
-      Matrix.head_cons, Matrix.tail_cons, Set.mem_setOf_eq] at hc
+    simp only [tab3Set] at hc
   · exact ⟨hbase, by rw [heqA]; exact hrowA _ hc.2⟩
   · exact ⟨hbase, by rw [heqA]; exact hrowB _ hc.2⟩
   · exact ⟨hbase, by
       rw [heqA]
       have hpow : (k * (a' * c) * k⁻¹) ^ 2 = k * (a' * c) ^ 2 * k⁻¹ := by
-        simpa [MulAut.conj_apply] using (map_pow (MulAut.conj k) (a' * c) 2).symm
+        simp
       rw [hpow, hc.2, hfixZ]⟩
 
 theorem tableIII_set0_eq (hI : TwoHSInterface) {a z a' : G} (h : IsF5Type a z)
@@ -226,9 +223,9 @@ theorem tableIII_set0_eq (hI : TwoHSInterface) {a z a' : G} (h : IsF5Type a z)
   ext c
   constructor
   · intro hc
-    simp only [tab3Set, Matrix.cons_val_zero, Set.mem_setOf_eq] at hc
+    simp only [tab3Set, Matrix.cons_val_zero, Set.mem_ofPred_eq] at hc
     obtain ⟨hcBase, hrow⟩ := hc
-    simp only [tab3Base, Set.mem_setOf_eq] at hcBase
+    simp only [tab3Base, Set.mem_ofPred_eq] at hcBase
     obtain ⟨hcQ, hcA, hca', hcaz⟩ := hcBase
     have hsQ : a' * c ∈ Qz z := (Qz z).mul_mem ha'Q hcQ
     have hsz : a' * c ≠ z := by
@@ -243,10 +240,10 @@ theorem tableIII_set0_eq (hI : TwoHSInterface) {a z a' : G} (h : IsF5Type a z)
       isConj_mul_of_mem_Qz h.cent_z h.orderOf_z hord_s hsz hsQ
     have heq : (a' * z) * c = (a' * c) * z := by
       rw [mul_assoc, ← hcz, ← mul_assoc]
-    simp only [orb2A, Set.mem_setOf_eq, Set.mem_inter_iff]
+    simp only [orb2A, Set.mem_ofPred_eq, Set.mem_inter_iff]
     exact ⟨⟨hcA, hrow⟩, ⟨hcA, by rw [heq]; exact hrow.trans hsmul⟩⟩
   · intro hc
-    simp only [orb2A, Set.mem_setOf_eq, Set.mem_inter_iff] at hc
+    simp only [orb2A, Set.mem_ofPred_eq, Set.mem_inter_iff] at hc
     obtain ⟨⟨hcA, hrow⟩, ⟨-, hrow2⟩⟩ := hc
     have hcQ : c ∈ Qz z := hX.o1_mem c ⟨⟨hcA, hrow⟩, ⟨hcA, hrow2⟩⟩
     have hca' : c ≠ a' := by
@@ -257,8 +254,8 @@ theorem tableIII_set0_eq (hI : TwoHSInterface) {a z a' : G} (h : IsF5Type a z)
       intro h
       have h1 : (a' * z) * c = 1 := by rw [h, ← pow_two, haz2]
       exact ha1 (isConj_one_left.mp (by rwa [h1] at hrow2))
-    simp only [tab3Set, Matrix.cons_val_zero, Set.mem_setOf_eq, tab3Base,
-      Set.mem_setOf_eq]
+    simp only [tab3Set, Matrix.cons_val_zero, Set.mem_ofPred_eq, tab3Base,
+      Set.mem_ofPred_eq]
     exact ⟨⟨hcQ, hcA, hca', hcaz⟩, hrow⟩
 
 end CFSG.EvenSporadicStandard.HNRecog.Section3

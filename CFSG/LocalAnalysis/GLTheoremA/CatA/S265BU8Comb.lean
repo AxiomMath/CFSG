@@ -46,7 +46,7 @@ theorem exists_common_trivial [Finite E] {φ ψ : E → K} (hφ : ∀ X Y, φ (X
       (map_mul_inv_of_eq hψ hψ3 h2)
   have hle : Nat.card E ≤ 9 := calc
     Nat.card E ≤ Nat.card (↥S × ↥S) := Nat.card_le_card_of_injective F hF
-    _ = S.card * S.card := by simp [Nat.card_prod]
+    _ = S.card * S.card := by simp
     _ ≤ 3 * 3 := Nat.mul_le_mul hS hS
     _ = 9 := by norm_num
   omega

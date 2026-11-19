@@ -124,7 +124,7 @@ theorem d2_eq : ∀ c : ZMod 3, (⟨0, 2, 0, 2, 0⟩ : VG c) = (g₁ * g₃)⁻�
 
 theorem card_VG (c : ZMod 3) : Nat.card (VG c) = 243 := by
   rw [Nat.card_congr equivProd]
-  simp [Nat.card_prod, Nat.card_zmod]
+  simp
 
 end VG
 

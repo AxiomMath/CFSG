@@ -217,7 +217,7 @@ theorem mem_adjointGroup_of_classZero {K : Type} [Field K] [Finite K] (hq : Nat.
   set L := AlgebraicClosure K with hL
   set ι : K →+* L := algebraMap K L with hι
   obtain ⟨e, he, hcard⟩ := card_eq_pow_ringChar K
-  haveI hpf : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
+  have hpf : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
   have hω3 : ω ^ 3 = 1 := Units.ext (by simpa using hω.pow_eq_one)
   set y' : ModGL Tag.E6 K := D.c * y * D.c⁻¹ with hy'
   suffices hadj : y' ∈ adjointGroup Tag.E6 K by
@@ -243,7 +243,7 @@ theorem mem_adjointGroup_of_classZero {K : Type} [Field K] [Finite K] (hq : Nat.
   obtain ⟨Eg, hEg⟩ := exists_finset_descent D.hg0C
   obtain ⟨K₃, hK₃, hSK₃, hιK₃⟩ := exists_finite_subfield_of_finset (K := K)
     (Eg ∪ (Finset.univ.image fun i : Fin Tag.E6.rank => ((v i : Lˣ) : L)) ∪ {(ω : L)})
-  haveI : Finite K₃ := hK₃
+  have : Finite K₃ := hK₃
   have hgK : (Eg : Set L) ⊆ K₃ := fun x hx =>
     hSK₃ (Finset.mem_coe.2 (Finset.mem_union_left _ (Finset.mem_union_left _ hx)))
   have hvK : ∀ i, ((v i : Lˣ) : L) ∈ K₃ := fun i =>
@@ -259,8 +259,8 @@ theorem mem_adjointGroup_of_classZero {K : Type} [Field K] [Finite K] (hq : Nat.
       Units.ext rfl⟩
   obtain ⟨ι₃, hιι⟩ : ∃ ι₃ : K →+* K₃, K₃.subtype.comp ι₃ = ι :=
     ⟨ι.codRestrict K₃ hιK, RingHom.ext fun x => rfl⟩
-  haveI : CharP L (ringChar K) := charP_of_injective_algebraMap ι.injective _
-  haveI : CharP K₃ (ringChar K) := Subfield.charP K₃ (ringChar K)
+  have : CharP L (ringChar K) := charP_of_injective_algebraMap ι.injective _
+  have : CharP K₃ (ringChar K) := Subfield.charP K₃ (ringChar K)
   obtain ⟨φ, hφdef⟩ : ∃ φ : K₃ →+* K₃, φ = iterateFrobenius K₃ (ringChar K) e := ⟨_, rfl⟩
   have hφq : ∀ c : K₃, φ c = c ^ Nat.card K := fun c => by
     rw [hφdef, iterateFrobenius_def, hcard]

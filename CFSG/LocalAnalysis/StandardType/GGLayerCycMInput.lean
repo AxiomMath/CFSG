@@ -16,7 +16,7 @@ open CFSG.Assembly
 @[expose] def GGLieLayerInputOn (S : LargeEvenLabel → Prop) : Prop :=
   ∀ (p : ℕ) (lab : LargeEvenLabel), p.Prime → p ≠ 2 → LargeEvenInLambda2 lab →
     LargeEvenSplit p lab → S lab →
-      LargeEvenLabelAll lab fun R _ I _ => ∀ φ ∈ I, LayerCycM.GGLayerLieTwo p φ
+      LargeEvenLabelAll lab fun _R _ I _ => ∀ φ ∈ I, LayerCycM.GGLayerLieTwo p φ
 
 theorem GGLieLayerInputOn.mono {S S' : LargeEvenLabel → Prop} (h : GGLieLayerInputOn S)
     (hS : ∀ lab, S' lab → S lab) : GGLieLayerInputOn S' :=
@@ -57,7 +57,7 @@ theorem ggLayerInnerModelOn_triD4_of_lieLayer (hG : CFSG.Open.GriessAllModelsSta
   dsimp only [LargeEvenRawDatum] at hQ' ⊢
   obtain ⟨K, i1, i2, hK, hq, hP⟩ := hQ'
   refine ⟨K, i1, i2, hK, hq, fun _ _ r => ?_⟩
-  haveI := (finite_ggPSections_recipe_triD4 hn K hK hp hp2).1
+  have := (finite_ggPSections_recipe_triD4 hn K hK hp hp2).1
   exact LayerCycM.ggModelLayerCyclic_of_layerLieTwo hG hp hp2
     (hP _ (conj_mem_largeEvenChevIDImage _ _ _ r))
 
@@ -81,7 +81,7 @@ theorem ggLayerInnerModelOn_twF4_of_lieLayer (hG : CFSG.Open.GriessAllModelsStat
   dsimp only [LargeEvenRawDatum] at hQ' ⊢
   obtain ⟨K, i1, i2, hK, hq, hP⟩ := hQ'
   refine ⟨K, i1, i2, hK, hq, fun _ _ r => ?_⟩
-  haveI := (finite_ggPSections_recipe_twF4 ha K hK hp hp2).1
+  have := (finite_ggPSections_recipe_twF4 ha K hK hp hp2).1
   exact LayerCycM.ggModelLayerCyclic_of_layerLieTwo hG hp hp2
     (hP _ (conj_mem_largeEvenChevIDImage _ _ _ r))
 

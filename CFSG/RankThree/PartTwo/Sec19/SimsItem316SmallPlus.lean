@@ -181,13 +181,13 @@ theorem plusOne_type (g : GL (Fin 1 ⊕ Fin 1) (ZMod 2))
   carrier := {w | w (Sum.inl 1) = w (Sum.inl 0) + w (Sum.inr 0) ∧
     w (Sum.inr 1) = w (Sum.inl 0) + w (Sum.inr 0)}
   add_mem' {a b} ha hb := by
-    simp only [Set.mem_setOf_eq, Pi.add_apply] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq, Pi.add_apply] at ha hb ⊢
     refine ⟨?_, ?_⟩
     · rw [ha.1, hb.1]; ring
     · rw [ha.2, hb.2]; ring
   zero_mem' := by simp
   neg_mem' {a} ha := by
-    simp only [Set.mem_setOf_eq, Pi.neg_apply] at ha ⊢
+    simp only [Set.mem_ofPred_eq, Pi.neg_apply] at ha ⊢
     refine ⟨?_, ?_⟩
     · rw [ha.1]; ring
     · rw [ha.2]; ring

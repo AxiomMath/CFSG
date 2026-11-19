@@ -243,7 +243,7 @@ theorem rk_comap_quotMod [Finite Q] {H : Subgroup Γ} {P : Subgroup Q}
       exact J.one_mem)] at h1
   omega
 
-theorem isIrrSec_comap_quotMod {H Λ : Subgroup Γ} (hΛH : Λ ≤ H) {P : Subgroup Q}
+theorem isIrrSec_comap_quotMod {H Λ : Subgroup Γ} (_hΛH : Λ ≤ H) {P : Subgroup Q}
     (hP : ∀ g : ↥H, ∀ x ∈ P, g • x ∈ P) {Y Z : Subgroup (QuotMod P hP)}
     (h : XMod.IsIrrSec ↥(Λ.subgroupOf H) Y Z) :
     XMod.IsIrrSec ↥Λ (Y.comap (QuotMod.mk P hP)) (Z.comap (QuotMod.mk P hP)) := by

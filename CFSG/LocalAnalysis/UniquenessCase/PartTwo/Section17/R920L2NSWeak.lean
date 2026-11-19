@@ -23,7 +23,7 @@ private theorem isCyclic_sylow_three_of_isL2 {L : Subgroup G} {n : ℕ}
     rw [CFSG.Foundations.SteinbergCA.pRank_coe_eq_open_pRank Nat.prime_three L]
     exact le_of_eq (pRank_three_eq_one_of_isL2 hL2)
   refine UCK.K31.isCyclic_of_isPGroup_pRank_le_one Nat.prime_three
-    (by norm_num) T.isPGroup' (le_trans ?_ hrank)
+    (by norm_num) T.isPGroup (le_trans ?_ hrank)
   rw [CFSG.Foundations.SteinbergCA.pRank_coe_eq_open_pRank Nat.prime_three,
     CFSG.SectionRank.pRank_eq_open_pRank_top]
   exact CFSG.RankThreeCoreUniqueness.Helpers.pRank_mono 3 (by norm_num) le_top
@@ -33,7 +33,7 @@ private theorem map_conj_L_ne_of_isL2 {L : Subgroup G} {n : ℕ} (hL2 : IsL2 (Ba
     {h : G} (hhP : E.map (MulAut.conj h).toMonoidHom ≤ P)
     (hne : E.map (MulAut.conj h).toMonoidHom ≠ E) :
     L.map (MulAut.conj h).toMonoidHom ≠ L := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro hL
   apply hne
   have hE'L : E.map (MulAut.conj h).toMonoidHom ≤ L := hL ▸ Subgroup.map_mono hEL
@@ -46,7 +46,7 @@ private theorem map_conj_L_ne_of_isL2 {L : Subgroup G} {n : ℕ} (hL2 : IsL2 (Ba
     hT (Subgroup.mem_subgroupOf.2 ⟨hEP hx, hEL hx⟩)
   have hE₂ : (E.map (MulAut.conj h).toMonoidHom).subgroupOf L ≤ (T : Subgroup ↥L) := fun x hx =>
     hT (Subgroup.mem_subgroupOf.2 ⟨hhP hx, hE'L hx⟩)
-  haveI : IsCyclic ↥(T : Subgroup ↥L) := isCyclic_sylow_three_of_isL2 hL2 T
+  have : IsCyclic ↥(T : Subgroup ↥L) := isCyclic_sylow_three_of_isL2 hL2 T
   have hcard : Nat.card ((E.map (MulAut.conj h).toMonoidHom).subgroupOf L) =
       Nat.card (E.subgroupOf L) := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hE'L).toEquiv,
@@ -96,14 +96,14 @@ private theorem false_of_kf7Use_of_isL2 {D : Data G} (hKF7 : KF7Use D)
       ((H ⊓ D.M).subgroupOf H).map (QuotientGroup.mk' (CFSG.pPrimeCore p ↥H)) :=
     Subgroup.map_mono (Subgroup.comap_mono (le_inf hLH hLM))
   rcases hKF with hsolv | ⟨-, hquot⟩
-  · haveI : Group.IsSolvable ↥(((H ⊓ D.M).subgroupOf H).map
+  · have : Group.IsSolvable ↥(((H ⊓ D.M).subgroupOf H).map
         (QuotientGroup.mk' (CFSG.pPrimeCore p ↥H))) := hsolv
-    haveI : Group.IsSolvable ↥(((L.subgroupOf H).map
+    have : Group.IsSolvable ↥(((L.subgroupOf H).map
         (QuotientGroup.mk' (CFSG.pPrimeCore p ↥H)))) :=
       Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hle)
         (Subgroup.inclusion_injective hle)
-    exact uc22p22a_qs_not_solvable hL.2.2 (solvable_of_surjective hf)
-  · haveI : Group.IsPerfect (Bar2 L) := Group.isPerfect_def.mpr hL.2.2.1
+    exact uc22p22a_qs_not_solvable hL.2.2 (Group.isSolvable_of_surjective hf)
+  · have : Group.IsPerfect (Bar2 L) := Group.isPerfect_def.mpr hL.2.2.1
     obtain ⟨P, hPperf, hPmap⟩ := exists_perfect_map_eq_top f hf
     let M' := ((L.subgroupOf H).map (QuotientGroup.mk' (CFSG.pPrimeCore p ↥H)))
     let e := P.equivMapOfInjective M'.subtype M'.subtype_injective
@@ -154,7 +154,7 @@ theorem map_conj_eq_of_le_of_isL2 {D : Data G} (h82 : F08.R82 D) (hSg : UC6S846.
     rw [← hx]
     exact orderOf_injective (MulAut.conj h).toMonoidHom (MulAut.conj h).injective x
   have hc : Subgroup.center (Bar2 L) = ⊥ := by
-    haveI : IsSimpleGroup (Bar2 L) := isSimpleGroup_bar2_of_isL2_or_isSz (Or.inl hL2)
+    have : IsSimpleGroup (Bar2 L) := isSimpleGroup_bar2_of_isL2_or_isSz (Or.inl hL2)
     exact uc22p21k_center_eq_bot hL.2.2
   have hrank : 2 ≤ CFSG.Open.pRank p (H ⊓ D.M) :=
     two_le_pRank_of_pair hpp hp2 hL hL'C hLne.symm hc

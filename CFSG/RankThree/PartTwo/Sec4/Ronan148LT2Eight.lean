@@ -182,7 +182,7 @@ theorem noCC425_of_lie_at' {S : Type} [Group S] [Finite S] (hs : IsSimpleGroup S
       hcc.isType
 
 theorem kT2_eight_SU6 : RowOf425 (projSU 6 2 1) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hv : (LieTypeIndex.twistedA 5 ⟨2, 1, Fact.out, Nat.one_pos⟩).Valid :=
     valid_twistedA (by norm_num) (by omega)
   refine rowOf425_of_noCC fun S _ _ hs hna ⟨e⟩ => ?_
@@ -207,7 +207,7 @@ theorem kT2_eight_SU6 : RowOf425 (projSU 6 2 1) := by
       obtain ⟨hx3, hx1⟩ := pow_three_and_ne_one φ hs3
       have hα3 : MulAut.conj (φ s) ^ 3 = 1 := by rw [← map_pow, hx3, map_one]
       have hZ : Subgroup.center Item434SmallTwoIVU62.P6 = ⊥ := by
-        haveI : IsSimpleGroup Item434SmallTwoIVU62.P6 := (MulEquiv.isSimpleGroup_congr φ).1 hs
+        have : IsSimpleGroup Item434SmallTwoIVU62.P6 := (MulEquiv.isSimpleGroup_congr φ).1 hs
         obtain ⟨a, b, hab⟩ := hna
         exact b3Lie_center_eq_bot ⟨φ a, φ b, fun h => hab (φ.injective (by
           rw [map_mul, map_mul, h]))⟩

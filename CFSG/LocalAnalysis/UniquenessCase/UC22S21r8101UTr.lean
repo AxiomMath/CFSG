@@ -21,6 +21,7 @@ section Generic
 
 variable {Q : Type} [Group Q] [Finite Q]
 
+omit [Finite Q] in
 theorem u81_not_swap {F₀ F₁ : Subgroup Q} (hinf : F₀ ⊓ F₁ = ⊥) (hbot : F₀ ≠ ⊥) {x : Q}
     (hN : x ∈ normalizer (F₀ : Set Q)) (hs : ∀ f ∈ F₀, x * f * x⁻¹ ∈ F₁) : False := by
   obtain ⟨f, hf, hf1⟩ := (Subgroup.bot_or_exists_ne_one F₀).resolve_left hbot
@@ -83,7 +84,7 @@ theorem u81_inner_of_transfer {F₀ F₁ : Subgroup Q} [IsMulCommutative (Outer 
         CFSG.ComponentClassification.OuterAutomorphisms.inner ↥F₀ := MonoidHom.mem_range.2 ⟨_, rfl⟩
     change Abelianization.of (QuotientGroup.mk' _ (F₀.normalizerMonoidHom ⟨e, heN⟩)) = 1
     rw [h5, QuotientGroup.mk'_apply, (QuotientGroup.eq_one_iff _).2 h6, map_one]
-  haveI : Fintype (Q ⧸ N) := Fintype.ofFinite _
+  have : Fintype (Q ⧸ N) := Fintype.ofFinite _
   have hV : φ.transfer e = 1 := Abelianization.commutator_subset_ker φ.transfer he
   rw [CFSG.LocalAnalysis.GLTheoremB.MovingAround.GlaubermanB.transfer_eq_prod_of_conj_mem φ e hg,
     Fintype.prod_eq_single (t : Q ⧸ N) ?_] at hV
@@ -116,21 +117,21 @@ theorem u81_inner_right (u : U4X D L K n) {e : Bar2 D.M}
     (h₀ : ∃ x₀ ∈ barImage D.M L, ∀ f ∈ barImage D.M L, e * f * e⁻¹ = x₀ * f * x₀⁻¹) :
     ∃ x₁ ∈ barImage D.M K, ∀ f ∈ barImage D.M K, e * f * e⁻¹ = x₁ * f * x₁⁻¹ := by
   obtain ⟨-, hinf, -⟩ := u4x_bar_structure u.hL u.hK u.hne u.hset u.shape
-  haveI : IsMulCommutative (Outer ↥(barImage D.M L)) := by
+  have : IsMulCommutative (Outer ↥(barImage D.M L)) := by
     rcases (Nat.dvd_prime u.prime_n).1 (u81_card_outer_dvd (u4x_shape_barImage u.hL u.shape))
       with h1 | hn
-    · haveI : Subsingleton (Outer ↥(barImage D.M L)) := (Nat.card_eq_one_iff_unique.1 h1).1
+    · have : Subsingleton (Outer ↥(barImage D.M L)) := (Nat.card_eq_one_iff_unique.1 h1).1
       exact ⟨⟨fun a b => Subsingleton.elim _ _⟩⟩
-    · haveI : Fact n.Prime := ⟨u.prime_n⟩
-      haveI := isCyclic_of_prime_card hn
+    · have : Fact n.Prime := ⟨u.prime_n⟩
+      have := isCyclic_of_prime_card hn
       infer_instance
   have hbot : barImage D.M L ≠ ⊥ := by
     obtain ⟨e, -⟩ := uc22p22l_barImage_equiv u.hL
-    haveI : IsSimpleGroup (Bar2 L) := by
+    have : IsSimpleGroup (Bar2 L) := by
       rcases u.shape with h | h
       · exact CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) h
       · exact CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_twistedB2 h
-    haveI : Nontrivial ↥(barImage D.M L) := e.symm.toEquiv.nontrivial
+    have : Nontrivial ↥(barImage D.M L) := e.symm.toEquiv.nontrivial
     exact (Subgroup.nontrivial_iff_ne_bot _).1 inferInstance
   have hcases : ∀ x : Bar2 D.M,
       (x ∈ normalizer (barImage D.M L : Set (Bar2 D.M)) ∧

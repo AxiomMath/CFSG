@@ -110,13 +110,13 @@ theorem normal_sup_of_outer {L : Type*} [Group L] (K : Subgroup X) [K.Normal]
     have e' : x = (k : X) * ((k : X)⁻¹ * x) := by group
     rw [e']
     exact Subgroup.mul_mem_sup k.2 hc
-  obtain ⟨S, hS⟩ := (R.isPGroup'.map ψ).exists_le_sylow
+  obtain ⟨S, hS⟩ := (R.isPGroup.map ψ).exists_le_sylow
   have := hOut S
   have heq : K ⊔ (R : Subgroup X) = (R : Subgroup X) ⊔ ψ.ker :=
     le_antisymm (sup_le (hKker.trans le_sup_right) le_sup_left)
       (sup_le le_sup_right (hker.trans (sup_le le_sup_left (hCR.trans le_sup_right))))
   rw [heq]
-  exact normal_sup_ker_of_le_normal ψ R S.isPGroup' hS
+  exact normal_sup_ker_of_le_normal ψ R S.isPGroup hS
 
 end Normal
 

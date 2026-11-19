@@ -90,7 +90,7 @@ theorem ggStdPosLevi_commute {K : Type*} [Group K] {D : UniversalRootDatum K}
     have h2 := congrArg (fun M : Matrix.SpecialLinearGroup (Fin 2) k =>
       (M : Matrix (Fin 2) (Fin 2) k) 1 0) (hΦ (key 1))
     simp only [PsiDiag.coe_sl2Lower, Matrix.of_apply, Matrix.cons_val_one, Matrix.cons_val_zero,
-      Matrix.head_cons, mul_one] at h2
+      mul_one] at h2
     exact mul_left_cancel₀ (Units.ne_zero _) (h2.trans (mul_comm _ _))
   have h1 : (μ₁ : k) = 1 := CharTwo.sq_injective (show (μ₁ : k) ^ 2 = 1 ^ 2 by
     rw [one_pow, sq]

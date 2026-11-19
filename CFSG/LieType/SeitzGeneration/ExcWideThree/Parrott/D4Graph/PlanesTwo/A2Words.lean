@@ -110,6 +110,7 @@ theorem r_mem (hK : Nat.card K = 2) : wordG K rW ∈ fixedSubgroup (gammaP K (uS
   exact Subgroup.mul_mem _ (Subgroup.mul_mem _ (q_mem hK) (d_mem hK))
     (Subgroup.inv_mem _ (q_mem hK))
 
+omit [Finite K] in
 theorem y₀_eq : wordG K y0W = sl2At K ⟨2, by decide⟩ (uSL 1 * vSL 1) :=
   sl2At_uv_eq_wordG.2.2.1.symm
 

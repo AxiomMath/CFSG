@@ -77,7 +77,7 @@ theorem factorization_three_51840 : (51840 : ℕ).factorization 3 = 4 := by
 theorem pRank_mulAut_le_three_u42 {K : Type} [Group K] [Finite K]
     (h : CFSG.Blueprint.LieModel K .PSU 4 2 1) (hnab : ∃ a b : K, a * b ≠ b * a)
     [IsSimpleGroup K] : CFSG.Open.pRank 3 (⊤ : Subgroup (MulAut K)) ≤ 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hAut, -⟩ := CFSG.EvenSporadicStandard.M22Std.card_mulAut_of_lieModel_psu42 h
   obtain ⟨g, hg⟩ := exists_orderOf_nine_of_lieModel_psu42 h
   have hZ : Subgroup.center K = ⊥ := GL83.I713.center_eq_bot_of_simple hnab
@@ -95,7 +95,7 @@ theorem pRank_mulAut_le_three_u42 {K : Type} [Group K] [Finite K]
     rw [hZ] at hxZ
     exact hxZ
   have hg' : orderOf (MulAut.conj g) = 9 := by rw [orderOf_injective _ hinj, hg]
-  haveI : Finite (MulAut K) := Nat.finite_of_card_ne_zero (by rw [hAut]; norm_num)
+  have : Finite (MulAut K) := Nat.finite_of_card_ne_zero (by rw [hAut]; norm_num)
   refine CFSG.SectionRank.pRank_le (p := 3) (by norm_num) fun E _ hE => ?_
   have hEp : IsPGroup 3 E := fun x => ⟨1, Subtype.ext (by simpa using hE.2 x x.2)⟩
   obtain ⟨k, hk⟩ := hEp.exists_card_eq
@@ -119,7 +119,7 @@ theorem pRank_mulAut_le_three_u42 {K : Type} [Group K] [Finite K]
 theorem at_twistedA_three_two {q : TauCeti.PrimePower}
     (hv : (TauCeti.LieTypeIndex.twistedA 3 q).Valid) (hq : q.card = 2) :
     Inputs295c.Outer295At ⟨.twistedA 3 q, hv⟩ ∧ Inputs295c.Inner295At ⟨.twistedA 3 q, hv⟩ :=
-  Inputs295c.at_of_pRank_mulAut_le fun K _ _ hs hnab ⟨e⟩ =>
+  Inputs295c.at_of_pRank_mulAut_le fun _K _ _ hs hnab ⟨e⟩ =>
     haveI := hs
     pRank_mulAut_le_three_u42 (lieModel_psu42_of_equiv hv hq e) hnab
 
@@ -135,6 +135,7 @@ open CFSG.AGLEmbeddingD2.Tits.OrdinaryProofs.QuasisimpleSolvableNormal
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem uSL_one_ne_one : CFSG.LieType.Chevalley.uSL (1 : K) ≠ 1 := by
   intro h
   have h1 := congrArg (fun A : SL2 K => (A : Matrix (Fin 2) (Fin 2) K) 0 1) h
@@ -163,13 +164,14 @@ theorem five_le_ringChar (h2 : ringChar K ≠ 2) (h3 : ringChar K ≠ 3) : 5 ≤
 theorem not_isMulCommutative_of_simple {G : Type} [Group G] (hs : IsSimpleGroup G)
     (h9 : 9 ∣ Nat.card G) : ¬ IsMulCommutative G := by
   intro hc
-  letI : CommGroup G := { (inferInstance : Group G) with mul_comm := hc.is_comm.comm }
+  let : CommGroup G := { (inferInstance : Group G) with mul_comm := hc.is_comm.comm }
   have hp : (Nat.card G).Prime := IsSimpleGroup.prime_card
   rcases hp.eq_one_or_self_of_dvd 9 h9 with h | h
   · norm_num at h
   · rw [← h] at hp
     norm_num at hp
 
+omit [Finite K] in
 theorem map_uSL (τ : K →+* K) (c : K) :
     Matrix.SpecialLinearGroup.map τ (CFSG.LieType.Chevalley.uSL c) =
       CFSG.LieType.Chevalley.uSL (τ c) := by
@@ -178,6 +180,7 @@ theorem map_uSL (τ : K →+* K) (c : K) :
   ext i j
   fin_cases i <;> fin_cases j <;> simp [CFSG.LieType.Chevalley.uSL, RingHom.mapMatrix_apply]
 
+omit [Finite K] in
 theorem map_vSL (τ : K →+* K) (c : K) :
     Matrix.SpecialLinearGroup.map τ (CFSG.LieType.Chevalley.vSL c) =
       CFSG.LieType.Chevalley.vSL (τ c) := by
@@ -201,6 +204,7 @@ open CFSG.AGLEmbeddingD2.Tits.OrdinaryProofs.QuasisimpleSolvableNormal
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem sl2At_injective (i : Fin Tag.D4.rank) : Function.Injective (sl2At K i) := by
   intro A B h
   apply CFSG.RankThree.Chevalley.rootSL2_injective_of_field (τ := Tag.D4) (K := K)
@@ -282,7 +286,7 @@ theorem not_isPSolvable_fixedSubgroup_graphType (hK3 : ringChar K ≠ 3) (hK4 : 
     rw [h, fixedSubgroup_inv]
     exact not_isPSolvable_fixedSubgroup_gammaP hK4 B
 
-theorem not_isPSolvable_fixedSubgroup_field (hK3 : ringChar K ≠ 3)
+theorem not_isPSolvable_fixedSubgroup_field (_hK3 : ringChar K ≠ 3)
     {α : MulAut ↥(adjointGroup Tag.D4 K)} (hα3 : α ^ 3 = 1) (g : adjointGroup Tag.D4 K)
     (a : Fin Tag.D4.rank → Kˣ) {σ : K ≃+* K} (hσ3 : σ ^ 3 = 1) (hσ1 : σ ≠ 1)
     (hα : α = MulAut.conj g * (exactNormalAut Tag.D4 K a σ 0 * d4Graph K 0)) :
@@ -407,7 +411,7 @@ theorem not_isPSolvable_fixedSubgroup_d4Twist (hK4 : 4 ≤ Nat.card K) (τ : K �
   rw [e0, e1, e3, ← hm, hm3, mul_assoc, ← (c03 A (m (m A))).eq, ← mul_assoc,
     ← (c01 A (m A)).eq]
 
-theorem not_isPSolvable_fixedSubgroup_graphField (hK3 : ringChar K ≠ 3)
+theorem not_isPSolvable_fixedSubgroup_graphField (_hK3 : ringChar K ≠ 3)
     {β : MulAut ↥(adjointGroup Tag.D4 K)} (hβ3 : β ^ 3 = 1) (g : adjointGroup Tag.D4 K)
     (a : Fin Tag.D4.rank → Kˣ) {σ : K ≃+* K} {ε : ℕ} (hεlt : ε < 3) (hε0 : ε ≠ 0)
     (hσ3 : σ ^ 3 = 1) (hσ1 : σ ≠ 1)

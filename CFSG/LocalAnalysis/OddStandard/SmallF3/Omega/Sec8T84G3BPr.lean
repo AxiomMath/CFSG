@@ -14,7 +14,7 @@ variable {G : Type} [Group G]
 theorem sec8t84g3b_pow3_mul {Q : Subgroup G} {z1 z2 : G} (h1 : z1 ∈ Q) (h2 : z2 ∈ Q)
     (hz1 : z1 ^ 3 ∈ oddCoreIn Q) (hz2 : z2 ^ 3 ∈ oddCoreIn Q)
     (hc : z1 * z2 * z1⁻¹ * z2⁻¹ ∈ oddCoreIn Q) : (z1 * z2) ^ 3 ∈ oddCoreIn Q := by
-  haveI : ((oddCoreIn Q).subgroupOf Q).Normal :=
+  have : ((oddCoreIn Q).subgroupOf Q).Normal :=
     ⟨fun x hx g => CFSG.ClassicalInvolution.Balance.conj_mem_oddCoreIn g.2 hx⟩
   let π : ↥Q →* ↥Q ⧸ (oddCoreIn Q).subgroupOf Q := QuotientGroup.mk' _
   have key : ∀ x : ↥Q, π x = 1 ↔ (x : G) ∈ oddCoreIn Q := fun x => QuotientGroup.eq_one_iff x

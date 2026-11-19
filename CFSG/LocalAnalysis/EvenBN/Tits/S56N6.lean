@@ -25,7 +25,7 @@ theorem s56_card_O (d : Data G) : Nat.card ↥(d.s56O) = 4 := by
   have e11 : (d.s56U11 : Set G).ncard = 4 := by
     rw [← Nat.card_coe_set_eq]; exact s56_card_U11 d
   have h1 : (d.s56O).ncard = 4 := by
-    rw [h, Set.ncard_diff hsub (Set.toFinite _), e10, e11]
+    rw [h, Set.ncard_sdiff hsub (Set.toFinite _), e10, e11]
   rw [Nat.card_coe_set_eq]
   exact h1
 
@@ -107,7 +107,7 @@ theorem Hyp.s56_N_quot_P10_equiv (h49 : d.Thm49Statement) (hd : d.Hyp) :
     ∃ _ : (d.s56P10.subgroupOf d.N).Normal,
       Nonempty (↥d.N ⧸ d.s56P10.subgroupOf d.N ≃* Equiv.Perm (Fin 4)) := by
   have hker := hd.s56Opermhom_ker h49
-  haveI hNormal : (d.s56P10.subgroupOf d.N).Normal := hker ▸ (hd.s56Opermhom h49).normal_ker
+  have hNormal : (d.s56P10.subgroupOf d.N).Normal := hker ▸ (hd.s56Opermhom h49).normal_ker
   refine ⟨hNormal, ?_⟩
   have hcard := Subgroup.card_ker_mul_card_range (hd.s56Opermhom h49)
   rw [hker, Nat.card_congr (subgroupOfEquivOfLe (s56_P10_le_N d)).toEquiv] at hcard

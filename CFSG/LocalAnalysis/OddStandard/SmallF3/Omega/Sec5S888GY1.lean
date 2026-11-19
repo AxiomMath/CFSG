@@ -99,7 +99,7 @@ private theorem gy_construction_aux {Y : Type} [Group Y] [Finite Y] {P : Sylow 2
     have h := rightConjugate_le_normalizer (hV2R.trans hRN) k⁻¹
     rwa [hV'def, rightConjugate_rightConjugate_inv] at h
   obtain ⟨n, hnN, R', hR'p, hPR', hnR'⟩ := exists_conj_le_of_isPGroup
-    (isPGroup_rightConjugate (isPGroup_rightConjugate hV2p a) k⁻¹) P.isPGroup' hstep
+    (isPGroup_rightConjugate (isPGroup_rightConjugate hV2p a) k⁻¹) P.isPGroup hstep
     hV.le_normalizer
   have hR'P : R' = P := le_antisymm (P.maximal_isPGroup.2 hR'p hPR') hPR'
   rw [hR'P, rightConjugate_mul, rightConjugate_mul, ← mul_assoc] at hnR'

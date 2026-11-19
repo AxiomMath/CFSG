@@ -135,7 +135,7 @@ theorem conjSub_R_eq_of_mem_normalizer (hyp : Hyp25 Ω K K' W S R R' z t u₁ u�
     have hR'K : R' ≤ K := by
       rw [← h, ← hsK']
       exact conjSub_mono hyp.hR.2.1
-    have hR'2 : IsPGroup 2 R' := S.isPGroup'.to_le hyp.hR'.2.2
+    have hR'2 : IsPGroup 2 R' := S.isPGroup.to_le hyp.hR'.2.2
     have h1 := hΩ.card_le_two_of_le_inf hs.stand.mem hs.hK'.1 hs.hne.symm hR'2 hR'K hyp.hR'.2.1
     have h2 := (hΩ.isQuatSub_of_mem_RSet hyp.hR'.1).eight_le
     omega
@@ -151,7 +151,7 @@ theorem conjSub_R'_eq_of_mem_normalizer (hyp : Hyp25 Ω K K' W S R R' z t u₁ u
     have hRK' : R ≤ K' := by
       rw [← h, ← hsK']
       exact conjSub_mono hyp.hR'.2.1
-    have hR2 : IsPGroup 2 R := S.isPGroup'.to_le hyp.hR.2.2
+    have hR2 : IsPGroup 2 R := S.isPGroup.to_le hyp.hR.2.2
     have h1 := hΩ.card_le_two_of_le_inf hs.stand.mem hs.hK'.1 hs.hne.symm hR2 hyp.hR.2.1 hRK'
     have h2 := (hΩ.isQuatSub_of_mem_RSet hyp.hR.1).eight_le
     omega
@@ -166,11 +166,11 @@ theorem conj_mem_Csub (hyp : Hyp25 Ω K K' W S R R' z t u₁ u₂) {a c : G}
   refine ⟨hcaS, ?_⟩
   have hR : R ≤ Subgroup.centralizer ({c * a * c⁻¹} : Set G) := fun r hr =>
     Subgroup.mem_centralizer_singleton_iff.mpr
-      (comm_of_normalizes_of_trivialOnQuot (S.isPGroup'.to_le hyp.hR.2.2) hyp.hR.2.1 h1
+      (comm_of_normalizes_of_trivialOnQuot (S.isPGroup.to_le hyp.hR.2.2) hyp.hR.2.1 h1
         (conjSub_R_eq_of_mem_normalizer hyp hcaS h1.1) hr).symm
   have hR' : R' ≤ Subgroup.centralizer ({c * a * c⁻¹} : Set G) := fun r hr =>
     Subgroup.mem_centralizer_singleton_iff.mpr
-      (comm_of_normalizes_of_trivialOnQuot (S.isPGroup'.to_le hyp.hR'.2.2) hyp.hR'.2.1 h2
+      (comm_of_normalizes_of_trivialOnQuot (S.isPGroup.to_le hyp.hR'.2.2) hyp.hR'.2.1 h2
         (conjSub_R'_eq_of_mem_normalizer hyp hcaS h2.1) hr).symm
   exact Subgroup.mem_centralizer_iff.mpr fun x hx =>
     Subgroup.mem_centralizer_singleton_iff.mp (sup_le hR hR' hx)

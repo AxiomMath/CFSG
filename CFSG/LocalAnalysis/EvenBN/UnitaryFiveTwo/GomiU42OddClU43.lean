@@ -40,10 +40,10 @@ theorem u42_detU_pow_four {K : Type} [Field K] (h : UnitaryFieldData 3 1 K)
 
 theorem gomiU42NoU43 : GomiU42NoU43 := by
   intro X _ _ J D E a h hm
-  haveI := h.normal
+  have := h.normal
   have hadm : StatedLieAdmissible .PSU 4 3 1 := hm.admissible
   obtain ⟨K, _, hK, ⟨e⟩⟩ := nonempty_mulEquiv_primeFormP_of_lieModel' hadm hm
-  haveI : Finite K := hK.finite
+  have : Finite K := hK.finite
   have hC : IsPrimeFormGram (1 : GL (Fin 4) K) := isPrimeFormGram_one
   have hq : ¬((4 : ℕ) = 3 ∧ 3 ^ 1 = 2) := by norm_num
   have hn : 3 ≤ 4 := by norm_num

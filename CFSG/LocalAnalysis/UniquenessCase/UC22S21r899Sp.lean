@@ -22,6 +22,7 @@ open CFSG.LocalAnalysis.UniquenessCase.PartOne.Section7 (Conclusion76)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem uc22s21r899_shape_of_mem {M L K : Subgroup G} (hK : K ∈ conjSetOf M L) {n : ℕ}
     (hLS : IsL2 (Bar2 L) n ∨ IsSz (Bar2 L) n) : IsL2 (Bar2 K) n ∨ IsSz (Bar2 K) n := by
   obtain ⟨g, -, rfl⟩ := hK
@@ -29,6 +30,7 @@ theorem uc22s21r899_shape_of_mem {M L K : Subgroup G} (hK : K ∈ conjSetOf M L)
   exact hLS.imp (fun h => CFSG.Blueprint.LieModel.of_mulEquiv e h)
     (fun h => CFSG.Blueprint.LieModel.of_mulEquiv e h)
 
+omit [Finite G] in
 theorem uc22s21r899_isL2_of_mem {M L K : Subgroup G} (hK : K ∈ conjSetOf M L) {n : ℕ}
     (h : IsL2 (Bar2 L) n) : IsL2 (Bar2 K) n := by
   obtain ⟨g, -, rfl⟩ := hK
@@ -39,7 +41,7 @@ theorem uc22s21r899_center_bot {M L K : Subgroup G} (hL : L ∈ calC M) (hK : K 
     {n : ℕ} (hLS : IsL2 (Bar2 L) n ∨ IsSz (Bar2 L) n) : center (Bar2 K) = ⊥ := by
   rcases uc22s21r899_shape_of_mem hK hLS with hX | hX
   · exact uc22p22g_center_bot hX
-  · haveI := CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_twistedB2 hX
+  · have := CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_twistedB2 hX
     exact uc22p21k_center_eq_bot (uc22p2214_calC_of_mem_conjSetOf hL hK).2.2
 
 theorem uc22s21r899_sp_of_lift {D : Data G}
@@ -61,8 +63,8 @@ theorem uc22s21r899_sp_of_lift {D : Data G}
   have hrσ : r ∉ D.sig := fun h => hnot (UC6S846.sp_of_mem_sig hSg hns h)
   obtain ⟨hpp, hp2⟩ := D.sig_prime p hp
   have h76p := h76 p hp (UC6S846.sp_of_mem_sig hSg hns hp)
-  haveI : Fact p.Prime := ⟨hpp⟩
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact p.Prime := ⟨hpp⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hr2 : r ≠ 2 := uc22ine229_ne_two hs hrs
   have hr3 : r ≠ 3 := fun h =>
     CFSG.SignalizerFunctorTheorem.McBride.PSL2Even.not_three_dvd_pow_sub_one hs (h ▸ hrs)

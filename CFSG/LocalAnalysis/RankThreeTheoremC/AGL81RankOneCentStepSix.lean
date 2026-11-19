@@ -51,9 +51,11 @@ variable {X : Type} [Group X] [Finite X]
     change a * ((x : X) * y) * a⁻¹ = a * x * a⁻¹ * (a * y * a⁻¹)
     group)
 
+omit [Finite X] in
 theorem conjOn_apply (Y : Subgroup X) {a : X} (ha : a ∈ Subgroup.normalizer (Y : Set X))
     (y : Y) : ((conjOn Y ha y : Y) : X) = a * y * a⁻¹ := rfl
 
+omit [Finite X] in
 theorem conjOn_pow (Y : Subgroup X) {a : X} (ha : a ∈ Subgroup.normalizer (Y : Set X))
     (n : ℕ) (y : Y) : (((conjOn Y ha ^ n) y : Y) : X) = a ^ n * y * (a ^ n)⁻¹ := by
   induction n with

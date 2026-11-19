@@ -15,10 +15,10 @@ variable {G : Type} [Group G] [Finite G] {T L V : Subgroup G} (S : Setting4 G T 
 include S
 
 theorem X13820_of_hat (hhat : IsHatA6 L) : S.X13820 = l1plus T L V := by
-  rw [Setting4.X13820, if_pos hhat]
+  rw [Setting4.X13820, ite_eq_left hhat]
 
 theorem X13820_of_not_hat (hhat : ¬ IsHatA6 L) : S.X13820 = S.L1 := by
-  rw [Setting4.X13820, if_neg hhat]
+  rw [Setting4.X13820, ite_eq_right hhat]
   rfl
 
 theorem plusData_X13820 : S14.PlusData S S.X13820 := by

@@ -49,7 +49,7 @@ theorem inS_of_pumpUpLT (hC : ClosureLeaves) {G : Type} [Group G] [Finite G] (hG
       exact (by decide : (1 : ℕ) ≠ 2) hx'
     have hS : Catalog (↥K' ⧸ center ↥K') :=
       catalog_quotient_center_of_isComponentIn hG.kProper hCne hcomp
-    haveI : IsSimpleGroup (↥K' ⧸ center ↥K') := hK'q.2.1
+    have : IsSimpleGroup (↥K' ⧸ center ↥K') := hK'q.2.1
     have hKP : InS (↥P ⧸ center ↥P) := (inS_congr e).1 hK
     have hcard : Nat.card (↥K ⧸ center ↥K) = Nat.card (↥P ⧸ center ↥P) :=
       Nat.card_congr e.toEquiv

@@ -21,7 +21,7 @@ theorem exists_noncyclic_le_centralizer {M V₀ V : Subgroup G} (hV : IsElemAbel
     (hEw : ∀ x ∈ E, x (mkTil V₀ V hV (IntMod.mk hV ⟨w, hw⟩)) =
       mkTil V₀ V hV (IntMod.mk hV ⟨w, hw⟩)) :
     ∃ P : Subgroup G, P ≤ M ⊓ centralizer ({w} : Set G) ∧ IsPGroup p ↥P ∧ ¬ IsCyclic ↥P := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨X, hX, hXp, hXc⟩ := s16c167_exists_pSub_lift hV hEM hEp hEc
   refine ⟨X, le_inf (fun x hx => ((mem_preBarSub M V₀ V hV E).1 (hX hx)).1) ?_, hXp, hXc⟩
   refine Om8Lift.le_centralizer_of_conj_mem hp hXp hV₀ ?_

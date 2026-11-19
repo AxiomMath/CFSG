@@ -18,12 +18,14 @@ open CosetGeom (graph stab ballStab nbrs sphere vtype γ₀ γ₁ Vv)
 
 variable {G₀ G₁ G₂ T Z : Subgroup G} [Finite G]
 
+omit [Finite G] in
 theorem stab_le_centralizer_Vv (hc : CritAmalgam G₀ G₁ G₂ T Z) {γ : CosetGeom G₀ G₁ G₂}
     (hγ : vtype γ = false) : stab γ ≤ Subgroup.centralizer (Vv Z γ : Set G) := by
   obtain ⟨g, rfl⟩ := CosetGeom.exists_smul_eq_γ₀ hγ
   rw [Zv_smul_γ₀ hc, CosetGeom.stab_smul, hc.stab_γ₀_eq, conjSub_centralizer]
   exact conjSub_mono _ hc.centralizes
 
+omit [Finite G] in
 theorem stab_sup_stab_eq (hc : CritAmalgam G₀ G₁ G₂ T Z) {γ δ : CosetGeom G₀ G₁ G₂}
     (hγ : vtype γ = false) (hδ : δ ∈ nbrs γ) : stab γ ⊔ stab δ = G₀ := by
   obtain ⟨g, rfl, rfl⟩ := exists_edge_conj hγ hδ
@@ -31,6 +33,7 @@ theorem stab_sup_stab_eq (hc : CritAmalgam G₀ G₁ G₂ T Z) {γ δ : CosetGeo
     ← hc.amalgam.gen]
   exact conjSub_eq_of_mem_normalizer (Subgroup.le_normalizer g.2)
 
+omit [Finite G] in
 theorem lemma73_1 (hc : CritAmalgam G₀ G₁ G₂ T Z) {δ : CosetGeom G₀ G₁ G₂}
     (hδ : vtype δ = true) :
     stab δ ⊓ Subgroup.centralizer (Vv Z δ : Set G) = ballStab 1 δ := by
@@ -67,15 +70,18 @@ theorem lemma73_1 (hc : CritAmalgam G₀ G₁ G₂ T Z) {δ : CosetGeom G₀ G�
     rw [Subgroup.mem_centralizer_iff] at this
     exact (this n rfl).symm
 
+omit [Finite G] in
 theorem ballStab_le_centralizer_Vv (hc : CritAmalgam G₀ G₁ G₂ T Z) {δ : CosetGeom G₀ G₁ G₂}
     (hδ : vtype δ = true) : ballStab 1 δ ≤ Subgroup.centralizer (Vv Z δ : Set G) := by
   rw [← lemma73_1 hc hδ]; exact inf_le_right
 
+omit [Finite G] in
 theorem mem_ballStab_of_centralizes (hc : CritAmalgam G₀ G₁ G₂ T Z) {δ : CosetGeom G₀ G₁ G₂}
     (hδ : vtype δ = true) {g : G} (hg : g ∈ stab δ)
     (hgc : g ∈ Subgroup.centralizer (Vv Z δ : Set G)) : g ∈ ballStab 1 δ := by
   rw [← lemma73_1 hc hδ]; exact ⟨hg, hgc⟩
 
+omit [Finite G] in
 theorem lemma73_2 (hc : CritAmalgam G₀ G₁ G₂ T Z) {δ : CosetGeom G₀ G₁ G₂} (hδ : vtype δ = true)
     {p : ℕ} {X : Subgroup G} (h : IsLocalReg δ p X) {γ γ' : CosetGeom G₀ G₁ G₂}
     (hγ : γ ∈ nbrs δ) (hγ' : γ' ∈ nbrs δ) (hne : γ ≠ γ') : Vv Z γ ≠ Vv Z γ' := by
@@ -107,7 +113,7 @@ theorem lemma73_2 (hc : CritAmalgam G₀ G₁ G₂ T Z) {δ : CosetGeom G₀ G�
       (sup_le (hNM.trans Subgroup.le_normalizer) ((Subgroup.zpowers_le).mpr haM))
   have hδM : stab δ ≤ Subgroup.normalizer ((stab γ ⊓ stab δ : Subgroup G) : Set G) := by
     intro g hg
-    obtain ⟨x, hx, m, hm, rfl⟩ := h.exists_mul hG hg hγ
+    obtain ⟨x, hx, m, hm, rfl⟩ := h.exists_mul hg hγ
     refine Subgroup.mul_mem _ (hXM hx) (Subgroup.le_normalizer ?_)
     rw [inf_comm]; exact hm
   have hMN : stab γ ⊓ stab δ ≤ ballStab 1 δ := by
@@ -146,7 +152,7 @@ theorem lemma73_3 (hc : CritAmalgam G₀ G₁ G₂ T Z) {δ : CosetGeom G₀ G�
     subst hh'
     exact hxy.symm
   have hδC : stab δ ≤ Subgroup.centralizer ({y} : Set G) :=
-    (h.le_sup_zpowers hG hγ hx hxN).trans
+    (h.le_sup_zpowers hγ hx hxN).trans
       (sup_le (inf_le_right.trans fun s hs => hyγ s hs) ((Subgroup.zpowers_le).mpr hxC))
   have hG0 : G₀ ≤ Subgroup.centralizer ({y} : Set G) := by
     rw [← stab_sup_stab_eq hc hγt (CosetGeom.mem_nbrs_symm hγ)]

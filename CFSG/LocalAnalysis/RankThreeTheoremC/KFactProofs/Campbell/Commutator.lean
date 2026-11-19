@@ -12,10 +12,12 @@ open scoped Pointwise commutatorElement
 
 variable {A : Type} [Group A] [Finite A] {X K R P : Subgroup A}
 
+omit [Finite A] in
 theorem CampbellHyp.normalizer_W (h : CampbellHyp X K R P) :
     X ≤ normalizer (omegaCenter (K ⊓ pCoreOf 2 X) : Set A) :=
   normalizer_omegaCenter (normalizer_inf_of_normalizes h.K_normal (normalizer_pCoreOf X))
 
+omit [Finite A] in
 theorem CampbellHyp.commutator_W_le (h : CampbellHyp X K R P) :
     ⁅omegaCenter (K ⊓ pCoreOf 2 X), K⁆ ≤ omegaCenter (K ⊓ pCoreOf 2 X) := by
   rw [Subgroup.commutator_le]
@@ -30,6 +32,7 @@ theorem CampbellHyp.commutator_W_le (h : CampbellHyp X K R P) :
   exact (omegaCenter (K ⊓ pCoreOf 2 X)).mul_mem hw
     ((omegaCenter (K ⊓ pCoreOf 2 X)).inv_mem h1)
 
+omit [Finite A] in
 theorem wFacts_Q_le_inf (h : CampbellHyp X K R P) :
     CFSG.Quasithin.c134Q X K ≤ K ⊓ pCoreOf 2 X := by
   unfold CFSG.Quasithin.c134Q
@@ -50,6 +53,7 @@ theorem wFacts_Q_le_inf (h : CampbellHyp X K R P) :
     rw [h2]
     exact (pCoreOf 2 X).mul_mem ho h1
 
+omit [Finite A] in
 theorem CampbellHyp.commutator_W_le_center_Q (h : CampbellHyp X K R P) :
     ⁅omegaCenter (K ⊓ pCoreOf 2 X), K⁆ ≤
       CFSG.Quasithin.centerOf (CFSG.Quasithin.c134Q X K) := by
@@ -66,6 +70,7 @@ theorem CampbellHyp.commutator_W_le_center_Q (h : CampbellHyp X K R P) :
   unfold CFSG.Quasithin.centerOf
   exact Subgroup.mem_inf.2 ⟨hQ, hcent⟩
 
+omit [Finite A] in
 theorem CampbellHyp.normalizer_B0 (h : CampbellHyp X K R P) :
     X ≤ normalizer ((⁅omegaCenter (K ⊓ pCoreOf 2 X), K⁆ : Subgroup A) : Set A) :=
   normalizer_commutator_of_normalizes h.normalizer_W h.K_normal
@@ -77,6 +82,7 @@ open scoped Pointwise commutatorElement
 
 variable {A : Type} [Group A] [Finite A] {X K R P : Subgroup A}
 
+omit [Finite A] in
 theorem commW_mem_pCore (h : CampbellHyp X K R P) {z : A} (hz : z ∈ omegaCenter R) :
     z ∈ pCoreOf 2 X ∧ ∀ q ∈ pCoreOf 2 X, q * z = z * q := by
   obtain ⟨hzR, hzC, -⟩ := mem_omegaCenter.1 hz
@@ -84,6 +90,7 @@ theorem commW_mem_pCore (h : CampbellHyp X K R P) {z : A} (hz : z ∈ omegaCente
     (hzC q (h.pCore_X_le_R hq)).symm
   exact ⟨h.charTwo ⟨h.R_le hzR, Subgroup.mem_centralizer_iff.2 hcomm⟩, hcomm⟩
 
+omit [Finite A] in
 theorem commW_conj_mem (h : CampbellHyp X K R P) {z k : A} (hz : z ∈ omegaCenter R)
     (hk : k ∈ X) :
     k * z * k⁻¹ ∈ pCoreOf 2 X ∧ ∀ q ∈ pCoreOf 2 X, q * (k * z * k⁻¹) = (k * z * k⁻¹) * q := by
@@ -96,6 +103,7 @@ theorem commW_conj_mem (h : CampbellHyp X K R P) {z k : A} (hz : z ∈ omegaCent
     _ = k * (z * (k⁻¹ * q * k)) * k⁻¹ := by rw [hcomm]
     _ = (k * z * k⁻¹) * q := by group
 
+omit [Finite A] in
 theorem commW_c_mem_W (h : CampbellHyp X K R P) {z k : A} (hz : z ∈ omegaCenter R)
     (hk : k ∈ K) : z⁻¹ * (k * z * k⁻¹) ∈ omegaCenter (K ⊓ pCoreOf 2 X) := by
   have hzR : z ∈ R := omegaCenter_le R hz

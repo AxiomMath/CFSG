@@ -26,13 +26,13 @@ theorem exists_langSetup_of_tcPlane
       (∃ w : WeylGroup τ, S.D.n = canonicalRep (coxeterSystem τ) (AlgebraicClosure K) w) ∧
       Function.Injective ι ∧ ι.range = S.Γ ∧ ∀ x ∈ E, ι x ∈ S.D.torus := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hτ' : τ = .G2 ∨ τ = .F4 ∨ τ = .E6 ∨ τ = .E7 ∨ τ = .E8 := by
     rcases hτ with h | h | h | h <;> simp [h]
   have hperf : commutator ↥(adjointGroup τ K) = ⊤ := by
     rcases hτ with h | h | h | h <;> exact single_edge_perfect τ K (by simp [h])
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_two_of_finite_field_card_two_pow hK
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_two_of_finite_field_card_two_pow hK
   have hf1 : 1 ≤ f := by
     by_contra h
     have h0 : f = 0 := by omega
@@ -40,7 +40,7 @@ theorem exists_langSetup_of_tcPlane
     have := Finite.one_lt_card (α := K)
     omega
   set L := AlgebraicClosure K with hLdef
-  haveI : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
+  have : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
   set ι₁ : K →+* L := algebraMap K L with hι₁
   have hFr : ∀ c : L, iterateFrobenius L 2 f c = c ^ (2 ^ f) := fun c =>
     iterateFrobenius_def 2 f c

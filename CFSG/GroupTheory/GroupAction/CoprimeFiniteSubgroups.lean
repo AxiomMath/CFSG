@@ -14,7 +14,7 @@ theorem le_commutator_sup_inf_centralizer_of_coprime_of_finite {R A : Subgroup G
     [Finite ↥R] [Finite ↥A] (hAR : A ≤ Subgroup.normalizer (R : Set G))
     (hcop : Nat.Coprime (Nat.card A) (Nat.card R)) (hsolv : Group.IsSolvable R) :
     R ≤ ⁅R, A⁆ ⊔ R ⊓ Subgroup.centralizer (A : Set G) := by
-  haveI : Fact (A ≤ Subgroup.normalizer (R : Set G)) := ⟨hAR⟩
+  have : Fact (A ≤ Subgroup.normalizer (R : Set G)) := ⟨hAR⟩
   have hsup := CFSG.fixedPointSubgroup_sup_commutatorAction_eq_top_of_solvable_coprime
     (A := ↥A) (G := ↥R) hsolv hcop
   have hcommMap : (CFSG.commutatorAction (A := ↥A) (G := ↥R)).map R.subtype = ⁅R, A⁆ :=

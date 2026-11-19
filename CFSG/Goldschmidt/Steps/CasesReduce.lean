@@ -13,7 +13,7 @@ theorem propH_compType_of_cases (h7 : S_G7) (h8 : S_G8) : S_propH_compType := by
   obtain ⟨-, hU4, -, -, -, -⟩ := N31 G hnab S A U hAS hAab hAcl hUA hUmin
   by_cases h8U : 8 ≤ Nat.card U
   · exact h7 G hnab hIH hcomp hrank hnoSE S hSnab A U hAS hAab hAcl hUA hUmin h8U
-  · have hUp : IsPGroup 2 U := (S.isPGroup').to_le hUmin.1
+  · have hUp : IsPGroup 2 U := (S.isPGroup).to_le hUmin.1
     obtain ⟨e, he⟩ := hUp.exists_card_eq
     have he2 : e = 2 := by
       rw [he] at hU4 h8U

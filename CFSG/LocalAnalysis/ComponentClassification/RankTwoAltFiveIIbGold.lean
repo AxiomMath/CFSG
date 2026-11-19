@@ -54,7 +54,7 @@ theorem goldschmidt_of_normal (hGold : Asc76X.GoldschmidtTheoremA) {X : Subgroup
     rw [hπdef, Asc76X.conjQuot_mk] at h1
     exact ⟨⟨g * m * g⁻¹, hMn.conj_mem m m.2 g⟩, h1, rfl⟩
   have hQ₀bot : Q₀ = ⊥ := by
-    have hQ₀2 : IsPGroup 2 Q₀ := (S.isPGroup').to_le (hQ₀W.trans hWS)
+    have hQ₀2 : IsPGroup 2 Q₀ := (S.isPGroup).to_le (hQ₀W.trans hWS)
     have hQX : Q₀ ⊓ X = ⊥ := by
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Q₀.subgroupOf X) with h1 | h1
       · rw [eq_bot_iff]

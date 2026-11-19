@@ -77,7 +77,7 @@ theorem ncard_fix_c1 : {v : Fin 24 → ZMod 2 | co1Act c1 v = v}.ncard = 2 ^ 8 :
   have h3 : {v : Fin 24 → ZMod 2 | co1Act c1 v = v} =
       {v : Fin 24 → ZMod 2 | ∀ M ∈ [c1Rows ()], rowsMatrix 24 M *ᵥ v = v} := by
     ext v
-    simp only [Set.mem_setOf_eq, List.mem_singleton, forall_eq, Odd.co1Act_eq_mulVec, mat_c1]
+    simp only [Set.mem_ofPred_eq, List.mem_singleton, forall_eq, Odd.co1Act_eq_mulVec, mat_c1]
   rw [h3, h2]
   exact h
 

@@ -52,7 +52,7 @@ theorem nonempty_mulEquiv_alternating_five {A : Type*} [Group A] (ψ : A →* Eq
     omega
   have hrange_eq : ψ.range = alternatingGroup (Fin 5) :=
     Equiv.Perm.eq_alternatingGroup_of_index_eq_two hidx
-  haveI : Finite A := Nat.finite_of_card_ne_zero (by rw [hA]; norm_num)
+  have : Finite A := Nat.finite_of_card_ne_zero (by rw [hA]; norm_num)
   have hbij : Function.Bijective ψ.rangeRestrict :=
     (Nat.bijective_iff_surjective_and_card ψ.rangeRestrict).mpr
       ⟨ψ.rangeRestrict_surjective, by rw [hA, hψ]⟩

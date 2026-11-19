@@ -16,6 +16,7 @@ open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem mem_fixSubgroup_d4Graph_one_iff {x : adjointGroup Tag.D4 K} :
     x ∈ fixSubgroup (d4Graph K 1) ↔
       (x : ModGL Tag.D4 K) ∈ twistedFixedGroup TwistTag.D4 K (RingHom.id K) := by
@@ -43,6 +44,7 @@ theorem mem_fixSubgroup_d4Graph_one_iff {x : adjointGroup Tag.D4 K} :
   map_one' := rfl
   map_mul' _ _ := rfl
 
+omit [Finite K] in
 theorem fixSubgroupToTwisted_bijective :
     Function.Bijective (fixSubgroupToTwisted (K := K)) :=
   ⟨fun a b h => by
@@ -91,6 +93,7 @@ theorem conj_pow_two_eq_iff {M : Type*} [Group M] (P X : M) (hP : P ^ 3 = 1) :
       _ = P ^ 3 * X * P ^ 3 := by group
       _ = X := by rw [hP]; group
 
+omit [Finite K] in
 theorem fixSubgroup_d4Graph_two : fixSubgroup (d4Graph K 2) = fixSubgroup (d4Graph K 1) := by
   have hP3 : d4P K ^ 3 = 1 := diagramMap_pow_order TwistTag.D4 K
   ext x
@@ -102,6 +105,7 @@ section G2
 
 variable {S : Type*} [Group S] {k : Type} [Field k] [Finite k]
 
+omit [Finite k] in
 theorem perfectInLayer_of_mulEquiv_g2_of_three_le (β : MulAut S) (hk : 3 ≤ Nat.card k)
     (e : ↥(fixSubgroup β) ≃* ↥(adjointGroup Tag.G2 k)) : PerfectInLayer β :=
   perfectInLayer_of_isQuasisimple_fixSubgroup _

@@ -39,7 +39,7 @@ theorem exists_irreducible_target {N : Type} [AddCommGroup N] [Module (ZMod 2) N
         exact Submodule.subset_span ⟨ρN g a, ρV g v, (hfv g a v).symm⟩
       exact hle hx⟩
   have hmem : ∀ a v, f a v ∈ W₀.toSubmodule := fun a v => Submodule.subset_span ⟨a, v, rfl⟩
-  haveI : Nontrivial W₀.toSubmodule := by
+  have : Nontrivial W₀.toSubmodule := by
     obtain ⟨a, ha⟩ := exists_ne (0 : N)
     have hfa : f a ≠ 0 := fun h => ha (hinj (h.trans (map_zero f).symm))
     obtain ⟨v, hv⟩ : ∃ v, f a v ≠ 0 := by

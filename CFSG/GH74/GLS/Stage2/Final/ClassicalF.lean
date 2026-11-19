@@ -99,7 +99,7 @@ theorem stageFiveClassical_of_l4F (hMC : ModelCenter) (hEC : ECInter) (hMD : Mod
   have hS₁G : CFSG.ABGLocalTools.IsSylowOf 2 (S₁ : Subgroup Gs) ⊤ := by
     have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    refine ⟨le_top, S₁.isPGroup', ?_⟩
+    refine ⟨le_top, S₁.isPGroup, ?_⟩
     rw [Subgroup.relIndex_top_right]
     exact S₁.not_dvd_index
   have hS₁C' : CFSG.ABGLocalTools.IsSylowOf 2 (S₁ : Subgroup Gs) (Cen z₁) := hS₁G.of_le hS₁C le_top
@@ -131,7 +131,7 @@ theorem stageFiveClassical_of_l4F (hMC : ModelCenter) (hEC : ECInter) (hMD : Mod
     rw [layerSBar_eq_sup, LayerFD.barOf_layerTimesSylow hctx.S_le_Cen, hlift]
   have hB'' : barOf z₁ (layerTimesSylow z₁ (S₁ : Subgroup Gs)) =
       Stage1.Thm3.Sec8.layerSBar z₁ (S₁ : Subgroup Gs) := by
-    rw [layerSBar_eq_sup, layer_sup_barOf_eq_of_barOf_eq S₁.isPGroup' hS₁C hB', hB']
+    rw [layerSBar_eq_sup, layer_sup_barOf_eq_of_barOf_eq S₁.isPGroup hS₁C hB', hB']
   obtain ⟨ψ, hψS, hψf⟩ := compatIso_of_bar hctx.S_le_Cen hS₁C hN hB hN' hB'' φ hφ hone
     (fun u v _ _ hu hv => hone' u v hu hv)
   have hcenS := center_eq_zpowers_of_equiv (le_sup_right : S ≤ layerTimesSylow z S)

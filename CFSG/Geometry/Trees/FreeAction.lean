@@ -192,7 +192,7 @@ private lemma exists_treeOfReps (hT : T.IsTree)
     [Finite (MulAction.orbitRel.Quotient F V)] :
     ∃ Y : Finset V, IsTreeOfReps (F := F) (T := T) Y := by
   classical
-  haveI : Fintype (MulAction.orbitRel.Quotient F V) :=
+  have : Fintype (MulAction.orbitRel.Quotient F V) :=
     Fintype.ofFinite (MulAction.orbitRel.Quotient F V)
   let v0 : V := Classical.choice hT.connected.nonempty
   let Y0 : Finset V := {v0}
@@ -513,7 +513,7 @@ private lemma treeOfReps_reachable_of_gen_edge {Y : Finset V}
     (hY : IsTreeOfReps (F := F) (T := T) Y)
     (hfree : ∀ (f : F) (v : V), f • v = v → f = 1)
     {s : F} (hs : s ∈ Gen (F := F) (T := T) Y) {a b : V} (ha : a ∈ Y) (hb : b ∈ Y)
-    (hedge : T.Adj a (s • b)) {y : V} (hy : y ∈ Y) :
+    (_hedge : T.Adj a (s • b)) {y : V} (hy : y ∈ Y) :
     (T.deleteEdges {s(a, s • b)}).Reachable a y := by
   classical
   obtain ⟨p, hp⟩ := hY.connected a ha y hy
@@ -527,8 +527,8 @@ private lemma smul_treeOfReps_reachable_of_gen_edge {Y : Finset V}
     (hadj : ∀ (f : F) (a b : V), T.Adj (f • a) (f • b) ↔ T.Adj a b)
     (hY : IsTreeOfReps (F := F) (T := T) Y)
     (hfree : ∀ (f : F) (v : V), f • v = v → f = 1)
-    {s : F} (hs : s ∈ Gen (F := F) (T := T) Y) {a b : V} (ha : a ∈ Y) (hb : b ∈ Y)
-    (hedge : T.Adj a (s • b)) {y1 y2 : V} (hy1 : y1 ∈ Y) (hy2 : y2 ∈ Y) :
+    {s : F} (hs : s ∈ Gen (F := F) (T := T) Y) {a b : V} (ha : a ∈ Y) (_hb : b ∈ Y)
+    (_hedge : T.Adj a (s • b)) {y1 y2 : V} (hy1 : y1 ∈ Y) (hy2 : y2 ∈ Y) :
     (T.deleteEdges {s(a, s • b)}).Reachable (s • y1) (s • y2) := by
   classical
   obtain ⟨p, hp⟩ := hY.connected y1 hy1 y2 hy2
@@ -707,7 +707,7 @@ private lemma reducedSigned_of_no_adjacent {α : Type u} :
           rcases c with ⟨r, d⟩
           cases b <;> cases d <;> simp_all
         exact h [] a.1 a.2 l (by simp [hc])
-      · exact h (a :: L₂) x b L₃ (by simpa [hEq])
+      · exact h (a :: L₂) x b L₃ (by simp [hEq])
 
 private def signedToF {α : Type u} (toF : α → F) (L : List (α × Bool)) : List F :=
   L.map fun e => cond e.2 (toF e.1) (toF e.1)⁻¹
@@ -726,7 +726,7 @@ private lemma reduced_signedToF {α : Type u} {toF : α → F}
           rcases a with ⟨q, b⟩
           rcases c with ⟨r, d⟩
           cases b <;> cases d <;>
-            simp only [signedToF, List.map_cons, cond_true, cond_false, inv_inv] at hac ⊢
+            simp only [_root_.Bool.cond_true, Bool.cond_false, inv_inv] at hac ⊢
           · intro h
             exact hne r q (by simpa using congrArg Inv.inv h)
           · intro h
@@ -797,7 +797,7 @@ private lemma freeGroup_lift_invRep_injective {Y : Finset V} (hT : T.IsTree)
     (hadj : ∀ (f : F) (a b : V), T.Adj (f • a) (f • b) ↔ T.Adj a b)
     (hY : IsTreeOfReps (F := F) (T := T) Y)
     (hfree : ∀ (f : F) (v : V), f • v = v → f = 1)
-    (hinv : ∀ (f : F) (a b : V), T.Adj a b → f • a = b → f • b ≠ a)
+    (_hinv : ∀ (f : F) (a b : V), T.Adj a b → f • a = b → f • b ≠ a)
     (hinvGen : ∀ s ∈ Gen (F := F) (T := T) Y, s⁻¹ ≠ s) :
     Function.Injective
       (FreeGroup.lift (fun q : InvQuot (Gen (F := F) (T := T) Y) =>
@@ -897,7 +897,7 @@ theorem residuallyFinite_of_free_action (hT : T.IsTree)
   classical
   have hfreeGrp := isFreeGroup_of_free_action hT hadj hfree hinv
   obtain ⟨ι, ⟨b⟩⟩ := hfreeGrp.nonempty_basis
-  letI : Group.ResiduallyFinite (FreeGroup ι) := FreeGroup.instResiduallyFinite
+  let : Group.ResiduallyFinite (FreeGroup ι) := FreeGroup.instResiduallyFinite
   rw [Group.residuallyFinite_iff_exists_finiteIndex]
   intro f hf
   have hfb : b.repr f ≠ 1 := by
@@ -914,7 +914,7 @@ theorem exists_normal_finiteIndex_le_of_residuallyFinite {G : Type*} [Group G]
     (R : Set G) (hR : R.Finite) (hRF : R ⊆ F) (h1 : (1 : G) ∉ R) :
     ∃ N : Subgroup G, N.Normal ∧ N.FiniteIndex ∧ N ≤ F ∧ ∀ r ∈ R, r ∉ N := by
   classical
-  haveI : Finite R := hR.to_subtype
+  have : Finite R := hR.to_subtype
   have hex : ∀ r : R, ∃ H : Subgroup F, H.FiniteIndex ∧ (⟨(r : G), hRF r.2⟩ : F) ∉ H := by
     intro r
     have hr1 : (⟨(r : G), hRF r.2⟩ : F) ≠ 1 := by

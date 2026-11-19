@@ -14,7 +14,7 @@ variable {S : Type} [Group S]
 
 theorem aor_l12_end [Finite S] (hS : IsPGroup 2 S) {t u : S} (h : L12Main S t u)
     (P : Subgroup S) : ∃ s : Finset S, s.card ≤ 3 ∧ Subgroup.closure (s : Set S) = P := by
-  haveI hUnorm : (Subgroup.zpowers u).Normal := aor_l12_normal hS h
+  have hUnorm : (Subgroup.zpowers u).Normal := aor_l12_normal hS h
   let U : Subgroup S := Subgroup.zpowers u
   let Q := S ⧸ U
   let tbar : Q := (t : Q)
@@ -46,7 +46,7 @@ theorem aor_l12_end [Finite S] (hS : IsPGroup 2 S) {t u : S} (h : L12Main S t u)
         exact hA
       have hle : Nat.card Q ≤ 2 ^ 2 := by rw [hcardQ]; norm_num
       exact aor_gen_of_card_le (k := 2) hle H
-    · haveI : NeZero (2 ^ m) := ⟨pow_ne_zero m two_ne_zero⟩
+    · have : NeZero (2 ^ m) := ⟨pow_ne_zero m two_ne_zero⟩
       exact CFSG.GF2Type.Aschbacher1976Common.twoGen_of_mulEquiv e
         (CFSG.GF2Type.Aschbacher1976Common.twoGen_dihedral (2 ^ m)) H
     · exact CFSG.GF2Type.Aschbacher1976Common.twoGen_of_mulEquiv e
@@ -58,7 +58,7 @@ theorem aor_l12_end [Finite S] (hS : IsPGroup 2 S) {t u : S} (h : L12Main S t u)
         have hmap := map_pow (QuotientGroup.mk' U) t 2
         rw [ht2, map_one] at hmap
         exact hmap.symm
-      haveI : NeZero (2 ^ m) := ⟨pow_ne_zero m two_ne_zero⟩
+      have : NeZero (2 ^ m) := ⟨pow_ne_zero m two_ne_zero⟩
       have hx : (e tbar) ^ 2 = 1 := by
         rw [← map_pow, htbar2, map_one]
       have hcentral : ∀ y : QuaternionGroup (2 ^ m), e tbar * y = y * e tbar :=

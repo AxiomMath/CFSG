@@ -17,9 +17,11 @@ structure RPData (E : Subgroup G) (t z : G) : Prop where
   card_RE : Nat.card ↥(Rg t z ⊓ E) = 2 ^ 7
   P_decomp : ∀ p ∈ Pg E z, ∃ r ∈ Rg t z, ∃ e ∈ E, p = r * e
 
+omit [Finite G] in
 theorem E_comm (c : Core1 E t z) : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a :=
   sq_eq_one_comm c.m24.E_sq
 
+omit [Finite G] in
 theorem E_le_K (c : Core1 E t z) : E ≤ Kg t z := by
   intro e he
   rw [mem_Kg]
@@ -41,7 +43,7 @@ theorem card_sup_mul_card_inf_of_le_normalizer {X : Type*} [Group X] {A B : Subg
   set N := normalizer (A : Set X)
   have hAN : A ≤ N := le_normalizer
   have hN : (A.subgroupOf N).Normal := normal_in_normalizer
-  haveI : (A.subgroupOf N).Normal := hN
+  have : (A.subgroupOf N).Normal := hN
   have h := card_sup_mul_card_inf_of_normal (A := A.subgroupOf N) (B := B.subgroupOf N)
   have hc : ∀ Y : Subgroup X, Y ≤ N → Nat.card (Y.subgroupOf N) = Nat.card Y := fun Y hY =>
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hY).toEquiv
@@ -81,7 +83,7 @@ theorem mem_sup_of_le_normalizer {X : Type*} [Group X] {R E : Subgroup X}
 theorem le_of_normal_two_of_factorization {X : Type*} [Group X] [Finite X] {R H : Subgroup X}
     (hR : IsPGroup 2 R) (hRn : R.Normal)
     (hfac : (Nat.card H).factorization 2 = (Nat.card X).factorization 2) : R ≤ H := by
-  haveI : R.Normal := hRn
+  have : R.Normal := hRn
   let P : Sylow 2 H := default
   have hPcard : Nat.card ↥(P : Subgroup H) = 2 ^ (Nat.card X).factorization 2 := by
     rw [Sylow.card_eq_multiplicity, hfac]

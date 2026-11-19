@@ -142,7 +142,7 @@ theorem exists_pow_three_not_mem_centralizer {M X : Subgroup G} (hXM : X ∈ the
     have ha : a = 1 := Subtype.ext (hWbot _ a.2)
     have hb : b = 1 := Subtype.ext (hWbot _ b.2)
     exact hab (by rw [ha, hb])
-  haveI : Group.IsPerfect ↥(Y'.map π) := hWq.1
+  have : Group.IsPerfect ↥(Y'.map π) := hWq.1
   obtain ⟨f, hf3, hfc⟩ :=
     CFSG.Quasithin.Vol2.Ch11.SecS.KF.exists_pow_eq_one_not_mem_center (p := 3) (by norm_num) h3W
   refine ⟨f, f.2, by simpa using congrArg Subtype.val hf3, fun hfC => hfc ?_⟩
@@ -227,7 +227,7 @@ theorem exists_three_of_four_le_index {H : Type*} [Group H] [Finite H] {K : Subg
     ∃ v₁ v₂ v₃ : H, v₁ ∉ K ∧ v₂ ∉ K ∧ v₃ ∉ K ∧ v₁⁻¹ * v₂ ∉ K ∧ v₁⁻¹ * v₃ ∉ K ∧
       v₂⁻¹ * v₃ ∉ K := by
   classical
-  haveI : Fintype (H ⧸ K) := Fintype.ofFinite _
+  have : Fintype (H ⧸ K) := Fintype.ofFinite _
   obtain ⟨e⟩ : Nonempty (Fin 4 ↪ H ⧸ K) := Function.Embedding.nonempty_of_card_le (by
     rw [Fintype.card_fin, ← Nat.card_eq_fintype_card]
     exact h4)
@@ -317,7 +317,7 @@ theorem le_normalizer_of_invariant {A : Subgroup G} {c : G} {L : Subgroup G}
   · exact false_of_index_two hA hAM hXM hAX hX3 hZ hVM hV3 hAV h2
   · have h4 : 4 ≤ ((Subgroup.normalizer (X : Set G)).subgroupOf V).index := by omega
     obtain ⟨v₁, v₂, v₃, h1K, h2K, h3K, h12K, h13K, h23K⟩ := exists_three_of_four_le_index h4
-    simp only [Subgroup.mem_subgroupOf, Subgroup.coe_mul, Subgroup.coe_inv] at h1K h2K h3K
+    simp only [Subgroup.mem_subgroupOf] at h1K h2K h3K
     simp only [Subgroup.mem_subgroupOf, Subgroup.coe_mul, Subgroup.coe_inv] at h12K h13K h23K
     exact false_of_four_conj h hM hXM hX3 (g₁ := ⟨v₁, hVM v₁.2⟩) (g₂ := ⟨v₂, hVM v₂.2⟩)
       (g₃ := ⟨v₃, hVM v₃.2⟩) h1K h2K h3K h12K h13K h23K

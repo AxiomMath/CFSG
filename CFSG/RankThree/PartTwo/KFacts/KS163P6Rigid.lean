@@ -167,8 +167,8 @@ theorem rigid_of_j2 {L : Type} [Group L] [Finite L]
 
 theorem ks163P6Norm_alternating_seven {L : Type} [Group L] [Finite L]
     (hL : Nonempty (L ≃* alternatingGroup (Fin 7))) (E : Subgroup L)
-    (hE : CFSG.Open.IsElemAbelian 3 E) (hE9 : Nat.card E = 9) (D : Subgroup L)
-    (hD : IsMaxInvTwo E D) :
+    (_hE : CFSG.Open.IsElemAbelian 3 E) (hE9 : Nat.card E = 9) (D : Subgroup L)
+    (_hD : IsMaxInvTwo E D) :
     ∀ σ : MulAut L, (∀ e ∈ E, σ e = e) → Nat.Coprime (orderOf σ) 3 →
       D.map σ.toMonoidHom = D := by
   intro σ hfix hcop
@@ -177,8 +177,8 @@ theorem ks163P6Norm_alternating_seven {L : Type} [Group L] [Finite L]
 
 theorem ks163P6Norm_m22 {L : Type} [Group L] [Finite L]
     (hL : Nonempty (L ≃* CFSG.Blueprint.NativeSporadic.M22)) (E : Subgroup L)
-    (hE : CFSG.Open.IsElemAbelian 3 E) (hE9 : Nat.card E = 9) (D : Subgroup L)
-    (hD : IsMaxInvTwo E D) :
+    (_hE : CFSG.Open.IsElemAbelian 3 E) (hE9 : Nat.card E = 9) (D : Subgroup L)
+    (_hD : IsMaxInvTwo E D) :
     ∀ σ : MulAut L, (∀ e ∈ E, σ e = e) → Nat.Coprime (orderOf σ) 3 →
       D.map σ.toMonoidHom = D := by
   intro σ hfix hcop
@@ -187,8 +187,8 @@ theorem ks163P6Norm_m22 {L : Type} [Group L] [Finite L]
 
 theorem ks163P6Norm_j2 {L : Type} [Group L] [Finite L]
     (hL : Nonempty (L ≃* CFSG.Blueprint.NativeSporadic.J2)) (E : Subgroup L)
-    (hE : CFSG.Open.IsElemAbelian 3 E) (hE9 : Nat.card E = 9) (D : Subgroup L)
-    (hD : IsMaxInvTwo E D) :
+    (_hE : CFSG.Open.IsElemAbelian 3 E) (hE9 : Nat.card E = 9) (D : Subgroup L)
+    (_hD : IsMaxInvTwo E D) :
     ∀ σ : MulAut L, (∀ e ∈ E, σ e = e) → Nat.Coprime (orderOf σ) 3 →
       D.map σ.toMonoidHom = D := by
   intro σ hfix hcop
@@ -269,7 +269,7 @@ theorem ks163P6Norm_of_l3
   · exact ks163P6Norm_alternating_seven hA7 E hE hE9 D hD σ hfix hcop
   · exact ks163P6Norm_m22 hM22 E hE hE9 D hD σ hfix hcop
   · exact ks163P6Norm_j2 hJ2 E hE hE9 D hD σ hfix hcop
-  · letI : Fact p.Prime := hp
+  · let : Fact p.Prime := hp
     exact h L p e hp2 he1 hiso hmod E hE hE9 D hD σ hfix hcop
 
 theorem ks163P6Cent_of_l3
@@ -279,7 +279,7 @@ theorem ks163P6Cent_of_l3
   · exact ks163P6Cent_alternating_seven hA7 E hE hE9 D hD T hT hDT hcent hET
   · exact ks163P6Cent_m22 hM22 E hE hE9 D hD T hT hDT hcent hET
   · exact ks163P6Cent_j2 hJ2 E hE hE9 D hD T hT hDT hcent hET
-  · letI : Fact p.Prime := hp
+  · let : Fact p.Prime := hp
     exact h L p e hp2 he1 hiso hmod E hE hE9 D hD T hT hDT hcent hET
 
 end CFSG.RankThree.PartTwo.KFacts

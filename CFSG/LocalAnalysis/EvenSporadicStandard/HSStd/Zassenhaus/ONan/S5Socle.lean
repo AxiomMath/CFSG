@@ -15,6 +15,7 @@ namespace Setting
 
 variable {Y : Type*} [Group Y] [Finite Y] {P : Subgroup Y}
 
+omit [Finite Y] in
 private lemma map_conj_map_conj (J : Subgroup Y) (g h : Y) :
     (J.map (MulAut.conj g).toMonoidHom).map (MulAut.conj h).toMonoidHom =
       J.map (MulAut.conj (h * g)).toMonoidHom := by
@@ -27,6 +28,7 @@ private lemma exists_mul_ne_of_not_isMulCommutative {H : Type*} [Mul H]
   push Not at hcon
   exact h (isMulCommutative_iff.mpr hcon)
 
+omit [Finite Y] in
 private lemma exists_mem_mul_ne_of_not_isMulCommutative {J : Subgroup Y}
     (h : ¬ IsMulCommutative J) : ∃ x ∈ J, ∃ y ∈ J, x * y ≠ y * x := by
   obtain ⟨a, b, hab⟩ := exists_mul_ne_of_not_isMulCommutative h
@@ -55,7 +57,7 @@ theorem three_dvd_of_mem_lcalOf (h : Setting Y P) {J : Subgroup Y} (hJ : J ∈ l
     ⟨fun n hn a => hD.conj_mem (hconj a) hn⟩
   have hMcop : Nat.Coprime 3 (Nat.card M) := by
     obtain ⟨e, -⟩ := hD.exists_mulEquiv
-    haveI : Fintype S := Fintype.ofFinite S
+    have : Fintype S := Fintype.ofFinite S
     have hcard : Nat.card M = ∏ K : S, Nat.card (K : Subgroup Y) := by
       rw [← Nat.card_congr e.toEquiv, Nat.card_pi]
     rw [hcard]
@@ -64,11 +66,11 @@ theorem three_dvd_of_mem_lcalOf (h : Setting Y P) {J : Subgroup Y} (hJ : J ∈ l
     rw [hg, Subgroup.card_map_of_injective (MulAut.conj g).injective]
     exact hJcop
   have hMbot : M = ⊥ := h.eq_bot_of_normal_of_coprime hMnormal hMcop
-  have hJS : J ∈ S := ⟨1, by ext x; simp [MulAut.conj_apply]⟩
+  have hJS : J ∈ S := ⟨1, by ext x; simp⟩
   have hJbot : J = ⊥ := by
     rw [eq_bot_iff]
     exact (hD.le hJS).trans (le_of_eq hMbot)
-  haveI : Subsingleton J := by rw [hJbot]; infer_instance
+  have : Subsingleton J := by rw [hJbot]; infer_instance
   exact hJnc (isMulCommutative_iff.mpr fun a b => Subsingleton.elim (a * b) (b * a))
 
 theorem lcalOf_subsingleton (h : Setting Y P) {J₁ J₂ : Subgroup Y} (h₁ : J₁ ∈ lcalOf Y)
@@ -80,10 +82,10 @@ theorem lcalOf_subsingleton (h : Setting Y P) {J₁ J₂ : Subgroup Y} (h₁ : J
   have h3₁ : 3 ∣ Nat.card J₁ := three_dvd_of_mem_lcalOf h h₁
   have h3₂ : 3 ∣ Nat.card J₂ := three_dvd_of_mem_lcalOf h h₂
   obtain ⟨x₁N, hx₁N⟩ : ∃ x : J₁, orderOf x = 3 := by
-    haveI : Fintype J₁ := Fintype.ofFinite J₁
+    have : Fintype J₁ := Fintype.ofFinite J₁
     exact exists_prime_orderOf_dvd_card (G := J₁) 3 (by rwa [Nat.card_eq_fintype_card] at h3₁)
   obtain ⟨x₂N, hx₂N⟩ : ∃ x : J₂, orderOf x = 3 := by
-    haveI : Fintype J₂ := Fintype.ofFinite J₂
+    have : Fintype J₂ := Fintype.ofFinite J₂
     exact exists_prime_orderOf_dvd_card (G := J₂) 3 (by rwa [Nat.card_eq_fintype_card] at h3₂)
   have hx₁ : orderOf (x₁N : Y) = 3 := by rw [Subgroup.orderOf_coe, hx₁N]
   have hx₂ : orderOf (x₂N : Y) = 3 := by rw [Subgroup.orderOf_coe, hx₂N]
@@ -244,8 +246,8 @@ theorem lcalOf_subsingleton (h : Setting Y P) {J₁ J₂ : Subgroup Y} (h₁ : J
       simp only [pow_two]; group
     rw [heq]
     exact mul_mem (mul_mem (hsqg (g * n)) (inv_mem hn)) (hsqg g⁻¹)
-  haveI : H.Normal := hHnormal
-  haveI : IsSimpleGroup K := hKsimple
+  have : H.Normal := hHnormal
+  have : IsSimpleGroup K := hKsimple
   have hKnorm1 : K ≤ Subgroup.normalizer (J₁ : Set Y) := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal H with hHbot | hHtop
     · exfalso
@@ -382,9 +384,9 @@ theorem exists_simple_normal (h : Setting Y P) :
     rw [← (isDirectProduct_lcalOf_layer hsol).sSup_eq, hsingle, sSup_singleton]
   have hJnc : ∃ x ∈ J, ∃ y ∈ J, x * y ≠ y * x :=
     exists_mem_mul_ne_of_not_isMulCommutative hJ.2.2
-  haveI : IsSimpleGroup J := hJ.2.1
+  have : IsSimpleGroup J := hJ.2.1
   refine ⟨CFSG.layer Y, ?_, ?_, ?_, ?_, ?_⟩
-  · haveI : (CFSG.layer Y).Characteristic := CFSG.LocalCores.layer_characteristic
+  · have : (CFSG.layer Y).Characteristic := CFSG.LocalCores.layer_characteristic
     infer_instance
   · rw [hNeq]; exact hJ.2.1
   · rw [hNeq]; exact hJnc
@@ -420,7 +422,7 @@ theorem le_or_selfCentralizing (h : Setting Y P) {N : Subgroup Y} (hN : N.Normal
   · exact Or.inl hPN
   · right
     obtain ⟨xN, hxN⟩ : ∃ x : N, orderOf x = 3 := by
-      haveI : Fintype N := Fintype.ofFinite N
+      have : Fintype N := Fintype.ofFinite N
       exact exists_prime_orderOf_dvd_card (G := N) 3 (by rwa [Nat.card_eq_fintype_card] at h3)
     have hxNY : orderOf (xN : Y) = 3 := by rw [Subgroup.orderOf_coe, hxN]
     obtain ⟨g, hgP⟩ := CFSG.EvenSporadicStandard.HSStd.Zassenhaus.ONan.exists_conj_mem_of_card_eq_pow

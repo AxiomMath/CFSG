@@ -550,7 +550,7 @@ theorem caseA_w1Hyp (X : Setup Γ G) (A : X.CaseA) : X.CaseAW1Hyp := by
 
 theorem odd_orderOf_of_mem_Ki (X : Setup Γ G) {i : ℤ} {k : G} (hk : k ∈ X.Ki i) :
     Odd (orderOf k) := by
-  haveI : Finite ↥X.K := finite_of_le_stabilizer X.hyp (X.K_le_Gi 0)
+  have : Finite ↥X.K := finite_of_le_stabilizer X.hyp (X.K_le_Gi 0)
   exact Odd.of_dvd_nat X.odd_card_K (Subgroup.orderOf_dvd_natCard X.K hk.1)
 
 private theorem Q_inf_Q_le_D_sup_Z_one_of_solvable (X : Setup Γ G)
@@ -562,8 +562,8 @@ private theorem Q_inf_Q_le_D_sup_Z_one_of_solvable (X : Setup Γ G)
   set A1 : Subgroup G := X.Q 0 ⊓ X.Q 2 with hA1
   have hA1Gi : A1 ≤ X.Gi 1 := hA1Q1.trans (X.Q_le_Gi 1)
   have hA1p : IsPGroup 2 A1 := (pCoreOf_isPGroup' (X.Gi 1)).to_le hA1Q1
-  haveI : Finite ↥A1 := finite_of_le_stabilizer X.hyp hA1Gi
-  haveI : Finite ↥(X.Ki 1) :=
+  have : Finite ↥A1 := finite_of_le_stabilizer X.hyp hA1Gi
+  have : Finite ↥(X.Ki 1) :=
     finite_of_le_stabilizer X.hyp (inf_le_right.trans (X.L_le_Gi 1))
   have hn1 : 1 ≤ X.n 1 := (X.hyp.valency (X.vert 1)).1
   have hKiodd : Odd (Nat.card ↥(X.Ki 1)) := by
@@ -646,9 +646,9 @@ private theorem D_card_eq (X : Setup Γ G) (A : X.CaseA)
   have hdisj : Disjoint D (X.Z 1) := by
     rw [disjoint_iff]
     exact hDZ1
-  haveI : Finite ↥D :=
+  have : Finite ↥D :=
     finite_of_le_stabilizer X.hyp (inf_le_left.trans (X.Q_le_Gi 1))
-  haveI : Finite ↥(X.Z 1) :=
+  have : Finite ↥(X.Z 1) :=
     finite_of_le_stabilizer X.hyp ((X.Z_le_Q 1).trans (X.Q_le_Gi 1))
   have hsupcard : Nat.card ↥(D ⊔ X.Z 1) = Nat.card ↥D * Nat.card ↥(X.Z 1) :=
     CFSG.GorensteinWalter.card_sup_eq_mul_of_disjoint_of_le_normalizer
@@ -889,7 +889,7 @@ private theorem commutator_le_of_central_elemAbelian {A Z D : Subgroup G}
     have hzazb : ⁅za, zb⁆ = 1 := commutatorElement_eq_one_iff_mul_comm.mpr h2
     have hzadb : ⁅za, db⁆ = 1 := commutatorElement_eq_one_iff_mul_comm.mpr h3
     rw [hdazb, hzazb, hzadb]
-    simp [h2, h6, h7, mul_assoc]
+    simp [h6, h7, mul_assoc]
   rw [hcomm_eq]
   exact hcommD
 
@@ -949,9 +949,9 @@ private theorem inf_Z_one_ne_bot_of_le_Q (X : Setup Γ G) {N : Subgroup G} (hN :
   set S : Subgroup G := X.edgeSylow 1 with hS
   have hNS : N ≤ S := hNQ.trans (X.Q_le_edgeSylow_left 1)
   have hSGi : S ≤ X.Gi 1 := (X.isSylowTwoOf_edgeSylow 1).1.trans inf_le_left
-  haveI : (N.subgroupOf S).Normal :=
+  have : (N.subgroupOf S).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (hSGi.trans hGN)
-  haveI : Finite ↥S := finite_of_le_stabilizer X.hyp hSGi
+  have : Finite ↥S := finite_of_le_stabilizer X.hyp hSGi
   have hNne : N.subgroupOf S ≠ ⊥ := by
     intro hbot
     apply hN
@@ -994,9 +994,9 @@ private theorem A1_elem_of_decomp (X : Setup Γ G) (A : X.CaseA)
       (X.Z_le_Q_of_lt A.b₁ (j := 2) (by norm_num))
   have hDle : D ≤ A1 := by rw [hA1eq]; exact le_sup_left
   have hA1p : IsPGroup 2 A1 := (pCoreOf_isPGroup' (X.Gi 1)).to_le hAQ1
-  haveI : Finite ↥A1 :=
+  have : Finite ↥A1 :=
     finite_of_le_stabilizer X.hyp (hAQ1.trans (X.Q_le_Gi 1))
-  haveI : Fact (IsPGroup 2 ↥A1) := ⟨hA1p⟩
+  have : Fact (IsPGroup 2 ↥A1) := ⟨hA1p⟩
   have hcentZ : ∀ z ∈ X.Z 1, ∀ a ∈ A1, z * a = a * z := by
     intro z hz a ha
     have hza : z ∈ Subgroup.centralizer (X.Q 1 : Set G) :=
@@ -1032,7 +1032,7 @@ private theorem A1_elem_of_decomp (X : Setup Γ G) (A : X.CaseA)
         (CFSG.BenderSuzuki.External.hkt_normalizer_le_normalizer_map_subtype_of_characteristic
           A1 (frattini ↥A1))
     exact X.inf_Z_one_ne_bot_of_le_Q hPne (hP_le_D.trans (hDle.trans hAQ1)) hGN hPZ
-  haveI hEA : CFSG.IsElementaryAbelian 2 ↥A1 :=
+  have hEA : CFSG.IsElementaryAbelian 2 ↥A1 :=
     (CFSG.frattini_eq_bot_iff_isElementaryAbelian (R := ↥A1) (p := 2)).mp hfr_bot
   exact ⟨inferInstance, fun x hx => elemPow_eq_one_of_isElementaryAbelian x hx⟩
 
@@ -1073,8 +1073,8 @@ private theorem A1_eq_D_sup_Z1 (X : Setup Γ G) (A : X.CaseA) (W : X.CaseAW1Hyp)
     exact (Subgroup.commutator_mono le_rfl hK1O2).trans h5b2
   have hA1solv : Group.IsSolvable ↥A1 := by
     have hA1p : IsPGroup 2 A1 := (pCoreOf_isPGroup' (X.Gi 1)).to_le hA1Q1
-    haveI : Finite ↥A1 := finite_of_le_stabilizer X.hyp (hA1Q1.trans (X.Q_le_Gi 1))
-    haveI : Group.IsNilpotent ↥A1 := hA1p.isNilpotent
+    have : Finite ↥A1 := finite_of_le_stabilizer X.hyp (hA1Q1.trans (X.Q_le_Gi 1))
+    have : Group.IsNilpotent ↥A1 := hA1p.isNilpotent
     infer_instance
   have hA1le : A1 ≤ D ⊔ X.Z 1 :=
     X.Q_inf_Q_le_D_sup_Z_one_of_solvable hKA1 hA1Q1 hA1solv

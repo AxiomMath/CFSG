@@ -66,7 +66,7 @@ theorem GGE6ThreeData.closure_coboundary (h : GGE6ThreeData Z A Φ T w) {n : L'}
     exact h.coboundary i
   · intro a _
     constructor
-    · simpa using T.one_mem
+    · simp
     · simp
   · intro x y hx hy hPx hPy a ha
     have hzy : y * (a y)⁻¹ ∈ T := (hPy a ha).1
@@ -144,8 +144,8 @@ theorem GGE6ThreeData.closure_act (h : GGE6ThreeData Z A Φ T w) {n : L'}
           (a2 : MulAut L') * (MulAut.conj x)⁻¹ :=
         mul_left_cancel (by simpa only [mul_assoc] using h12')
       exact mul_right_cancel hstep
-    haveI : Finite (MulAut L') := MulEquiv.finite_left
-    haveI : Finite A := Subtype.finite
+    have : Finite (MulAut L') := MulEquiv.finite_left
+    have : Finite A := Subtype.finite
     have hsurj : Function.Surjective f := Finite.surjective_of_injective hf
     refine ⟨u⁻¹, fun a => ?_⟩
     obtain ⟨a', ha'⟩ := hsurj a

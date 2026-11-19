@@ -17,7 +17,7 @@ namespace Data
 variable {G : Type} [Group G] [Finite G] {f : ℕ} {K : Type} [Field K]
   {h : UnitaryFieldData 2 f K} {d : Data G h}
 
-theorem sec3101A1_of_hyp (hp : d.CaseHyp) (k : d.Know93) (h2 : d.Sec3_10_two)
+theorem sec3101A1_of_hyp (hp : d.CaseHyp) (k : d.Know93) (_h2 : d.Sec3_10_two)
     (S : Subgroup G) (hS : IsSylowOf 2 S d.L₂) (hP : d.P ≤ S) (hO : d.Sec3101Orders S) :
     d.Sec3101A1 S := by
   obtain ⟨hZ, -, hD, hF, -⟩ := k.s9_2 S hS hP

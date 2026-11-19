@@ -8,8 +8,8 @@ public section
 namespace CFSG.RankThree.GF2n.Stroth80
 
 theorem sup_ker_eq_top_of_solvable {R S T : Type} [Group R] [Group S] [Group T]
-    [IsSimpleGroup S] (hS : ¬ IsSolvable S) (π : R →* S) (hπ : Function.Surjective π)
-    (ψ : R →* T) (hT : IsSolvable T) : ψ.ker ⊔ π.ker = ⊤ := by
+    [IsSimpleGroup S] (hS : ¬ Group.IsSolvable S) (π : R →* S) (hπ : Function.Surjective π)
+    (ψ : R →* T) (hT : Group.IsSolvable T) : ψ.ker ⊔ π.ker = ⊤ := by
   have hT' : Group.IsSolvable T := hT
   have hN : (ψ.ker.map π).Normal := Subgroup.Normal.map (inferInstance : ψ.ker.Normal) π hπ
   rcases Subgroup.Normal.eq_bot_or_eq_top (ψ.ker.map π) with h | h
@@ -39,10 +39,10 @@ theorem sup_ker_eq_top_of_solvable {R S T : Type} [Group R] [Group S] [Group T]
     rwa [mul_inv_cancel_left] at hmul
 
 theorem not_isSolvable_of_simple_of_dvd {S : Type} [Group S] [Finite S] [IsSimpleGroup S]
-    (h : 16 ∣ Nat.card S) : ¬ IsSolvable S := by
+    (h : 16 ∣ Nat.card S) : ¬ Group.IsSolvable S := by
   intro hS
   have hcomm : ∀ a b : S, a * b = b * a := IsSimpleGroup.comm_iff_isSolvable.mpr hS
-  letI : CommGroup S := { ‹Group S› with mul_comm := hcomm }
+  let : CommGroup S := { ‹Group S› with mul_comm := hcomm }
   have hp : (Nat.card S).Prime := IsSimpleGroup.prime_card
   have h2 : 2 ∣ Nat.card S := by omega
   rcases hp.eq_one_or_self_of_dvd 2 h2 with h3 | h3

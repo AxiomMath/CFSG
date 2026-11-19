@@ -96,7 +96,7 @@ private lemma ggQ2xXLg2_xV_pow {G : Type} [Group G] {p : ℕ} [Fact p.Prime]
     {Bs : Subgroup G} {x y : G} {D L J K : Subgroup G} (M : GGQTwoModel p Bs x y D L J K)
     (c : ZMod p) :
     c • M.xV = M.model (Additive.ofMul ((⟨x, M.hx⟩ : ↥Bs) ^ (c.val : ℤ))) := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   rw [GGQTwoModel.xV]
   conv_lhs => rw [← ZMod.natCast_zmod_val c]
   rw [Nat.cast_smul_eq_nsmul, ← ggQ2xXLg2_nsmul_model M c.val ⟨x, M.hx⟩, ← ofMul_pow,
@@ -140,7 +140,7 @@ private theorem ggQ2xXL_scalar_mod_x {G : Type} [Group G] [Finite G] {p : ℕ} [
     (hspan : M.xV ∈ Submodule.span (ZMod p) (Set.range fun i : {k // k ≠ M.a} => M.coroot i))
     (hdim : Module.finrank (ZMod p) M.V ≤ Fintype.card {k // k ≠ M.a} + 1)
     (h4 : 4 ≤ Module.finrank (ZMod p) M.V) (hTF : TransvectionFree M.linGroup)
-    {φ : MulAut ↥Bs} (hφ : φ ∈ ggAutomizer ⊤ Bs)
+    {φ : MulAut ↥Bs} (_hφ : φ ∈ ggAutomizer ⊤ Bs)
     (hφN : φ ∈ Subgroup.normalizer (ggAutomizer L Bs : Set (MulAut ↥Bs)))
     (hφx : φ ⟨x, M.hx⟩ ∈ Subgroup.zpowers (⟨x, M.hx⟩ : ↥Bs)) :
     ∃ ψ ∈ ggAutomizer L Bs, ∃ ε : ℤ, (ε = 1 ∨ ε = -1) ∧
@@ -192,7 +192,7 @@ private theorem ggQ2xXL_finish {G : Type} [Group G] [Finite G] {p : ℕ} (hLB : 
     (hS : GGQTwoSetting p B Bs x L D J) (hAJ : ggAutomizer J Bs ≠ ⊥)
     (hK1 : GGQTwoK1 p B Bs x D J) {y : G} {K : Subgroup G} (hnb : GGNbr p B x D J y K)
     (hx : x ∈ Bs) (hy : y ∈ Bs) {φ ψ : MulAut ↥Bs} (hφ : φ ∈ ggAutomizer ⊤ Bs)
-    (hψ : ψ ∈ ggAutomizer L Bs) {ε : ℤ} (hε : ε = 1 ∨ ε = -1)
+    (hψ : ψ ∈ ggAutomizer L Bs) {ε : ℤ} (_hε : ε = 1 ∨ ε = -1)
     (hscal : ∀ b : ↥Bs, ∃ n : ℤ, ((φ * ψ) b : ↥Bs) = b ^ ε * (⟨x, hx⟩ : ↥Bs) ^ n) :
     φ ∈ ggAutomizer (Subgroup.normalizer (ggG0 p B x L D J : Set G)) Bs := by
   obtain ⟨g, -, hgBs, hφg⟩ := mem_ggAutomizer_iff.mp hφ
@@ -225,7 +225,7 @@ private theorem ggQ2xXL_finish {G : Type} [Group G] [Finite G] {p : ℕ} (hLB : 
     exact D.mul_mem (Subgroup.zpow_mem D hymem ε) (Subgroup.zpow_mem D hxmem n)
   let E : Subgroup G :=
     { carrier := {d : G | (g * k) * d * (g * k)⁻¹ ∈ D}
-      one_mem' := by simpa using D.one_mem
+      one_mem' := by simp
       mul_mem' := by
         intro a b ha hb
         change (g * k) * (a * b) * (g * k)⁻¹ ∈ D
@@ -309,7 +309,7 @@ private theorem ggQ2xXL_model_case {G : Type} [Group G] [Finite G] {p : ℕ} [Fa
       Additive.ofMul.injective (by simpa using h0)
     exact hxne (Subtype.ext_iff.mp h1)
   have hTF : TransvectionFree M.linGroup := ggQ2_transvectionFree M hS.1.2.2.2.1
-  haveI : Finite M.V := Finite.of_equiv (Additive ↥Bs) M.model.toEquiv
+  have : Finite M.V := Finite.of_equiv (Additive ↥Bs) M.model.toEquiv
   have hcard : Nat.card ↥Bs = p ^ Module.finrank (ZMod p) M.V := by
     calc Nat.card ↥Bs = Nat.card (Additive ↥Bs) := rfl
       _ = Nat.card M.V := Nat.card_congr M.model.toEquiv
@@ -329,7 +329,7 @@ theorem ggQ2_gammaXInL_holds (hLN : GGLNoncyclicInput) (hLB : GGLBalanceInput)
     (h1x : GGQTwoXInLNbrModelInput) (h5 : GGQTwoCentralizerInput) (h8 : GGQTwoXInLDatum)
     (hnode : GGQ2TwoNodeInput) : GGQ2GammaXInLInput := by
   intro G _ _ p B Bs x L D J hS hp hI1 hxL u hu
-  haveI : Fact p.Prime := ⟨hS.1.1.tableB_facts.1⟩
+  have : Fact p.Prime := ⟨hS.1.1.tableB_facts.1⟩
   by_cases hrow : ∃ (y : G) (K : Subgroup G),
       GGNbr p B x D J y K ∧ GGQTwoTwoNodeRowAt p K J ∧ y ∉ K
   · obtain ⟨y, K, hnb, hKrow, hy⟩ := hrow

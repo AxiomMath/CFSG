@@ -47,7 +47,7 @@ theorem ggExcAdjLayerCycNonToralInput_of_recipe (hG : CFSG.Open.GriessAllModelsS
           Q R I F ∧ ∀ φ ∈ I, LayerCycM.GGLayerLieTwo p φ) :
     GGExcAdjLayerCycNonToralInput τ n₀ b := by
   intro K _ _ n hn hK p hp hp2 hs _ x _ _
-  haveI : Finite (adjointGroup τ K) := CFSG.LieType.Chevalley.generated_group_finite τ K
+  have : Finite (adjointGroup τ K) := CFSG.LieType.Chevalley.generated_group_finite τ K
   exact LayerCycM.ggModelLayerCyclic_of_layerLieTwo hG hp hp2
     (ggLayerLieTwo_adjointGroup_of_recipe (hall n p hn hp hp2 hs) K hK x)
 
@@ -58,7 +58,7 @@ theorem ggE6AdjLayerCycNonToralInput_of_recipe (hG : CFSG.Open.GriessAllModelsSt
           Q R I F ∧ ∀ φ ∈ I, LayerCycM.GGLayerLieTwo p φ) :
     GGE6AdjLayerCycNonToralInput := by
   intro K _ _ n hn hK p hp hp2 hs _ _ x _ _
-  haveI : Finite (adjointGroup .E6 K) := CFSG.LieType.Chevalley.generated_group_finite .E6 K
+  have : Finite (adjointGroup .E6 K) := CFSG.LieType.Chevalley.generated_group_finite .E6 K
   exact LayerCycM.ggModelLayerCyclic_of_layerLieTwo hG hp hp2
     (ggLayerLieTwo_adjointGroup_of_recipe (hall n p hn hp hp2 hs) K hK x)
 

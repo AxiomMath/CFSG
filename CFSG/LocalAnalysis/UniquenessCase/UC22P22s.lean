@@ -46,6 +46,7 @@ theorem exists_pow_eq_mul {N : Subgroup G} {n s : G} (hn : n ∈ N) (hs : s ∈ 
     rw [pow_succ, he, pow_succ]
     group
 
+omit [Finite G] in
 theorem exists_two_pow_mem_of_mem_sup {N S : Subgroup G} (hS : IsPGroup 2 S)
     (hSN : S ≤ normalizer (N : Set G)) {h : G} (hh : h ∈ N ⊔ S) : ∃ k : ℕ, h ^ (2 ^ k) ∈ N := by
   obtain ⟨n, hn, s, hs, rfl⟩ := exists_mul_of_mem_sup hSN hh
@@ -135,7 +136,7 @@ theorem uc22p22s_centralizer_pCore_sup_le {M N Ni S : Subgroup G}
     (hQN : CFSG.Open.pCoreOf 2 M ⊓ N ≤ Ni) (hS : IsPGroup 2 S) (hSM : S ≤ M)
     (hSNi : S ≤ normalizer (Ni : Set G)) :
     (Ni ⊔ S) ⊓ centralizer (CFSG.Open.pCoreOf 2 (Ni ⊔ S) : Set G) ≤ CFSG.Open.pCoreOf 2 (Ni ⊔ S) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Q : Subgroup G := CFSG.Open.pCoreOf 2 M with hQdef
   set H : Subgroup G := Ni ⊔ S with hHdef
   set P : Subgroup G := CFSG.Open.pCoreOf 2 H with hPdef

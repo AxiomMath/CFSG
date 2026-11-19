@@ -83,7 +83,7 @@ theorem pRank_map_eq_of_kernel {p : ℕ} (hp : p.Prime) {H H' : Type*} [Group H]
     [Group H'] [Finite H'] (f : H →* H') (A : Subgroup H)
     (hY : ¬ p ∣ Nat.card ↥(A ⊓ f.ker)) :
     CFSG.Open.pRank p (A.map f) = CFSG.Open.pRank p A := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp1 : 1 < p := hp.one_lt
   have hker : ∀ (E : Subgroup H), E ≤ A → ∀ k : ℕ, Nat.card E = p ^ k → E ⊓ f.ker = ⊥ := by
     intro E hEA k hk
@@ -174,7 +174,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem one_le_pRank_of_dvd {p : ℕ} (hp : p.Prime) {H : Subgroup G} (h : p ∣ Nat.card ↥H) :
     1 ≤ CFSG.Open.pRank p H := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥H) p h
   have hxG : orderOf (x : G) = p := (orderOf_injective H.subtype H.subtype_injective x).trans hx
   have hxp : (x : G) ^ p = 1 := by rw [← hxG]; exact pow_orderOf_eq_one _
@@ -196,7 +196,7 @@ theorem one_le_pRank_of_dvd {p : ℕ} (hp : p.Prime) {H : Subgroup G} (h : p ∣
 
 theorem pRank_barX_eq {p : ℕ} (hp : p.Prime) {N K : Subgroup G} (hKN : K ≤ N) :
     CFSG.Open.pRank p (barX p N K) = CFSG.Open.pRank p K := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hk : (QuotientGroup.mk' (GLAPPrimeCore p ↥N)).ker = GLAPPrimeCore p ↥N :=
     QuotientGroup.ker_mk' _
   have hY : ∀ A : Subgroup ↥N, ¬ p ∣ Nat.card ↥(A ⊓ (QuotientGroup.mk' (GLAPPrimeCore p ↥N)).ker) := by
@@ -213,6 +213,7 @@ theorem pRank_barX_eq {p : ℕ} (hp : p.Prime) {N K : Subgroup G} (hKN : K ≤ N
       Subgroup.subgroupOf_map_subtype, inf_of_le_left hKN]
   exact h1.trans h2
 
+omit [Finite G] in
 theorem mk_mem_barX' {p : ℕ} {X K : Subgroup G} (hKX : K ≤ X) {x : G} (hx : x ∈ K) :
     (QuotientGroup.mk' (GLAPPrimeCore p ↥X) (⟨x, hKX hx⟩ : ↥X)) ∈ barX p X K :=
   Subgroup.mem_map.2 ⟨⟨x, hKX hx⟩, Subgroup.mem_subgroupOf.2 hx, rfl⟩
@@ -234,7 +235,7 @@ theorem eq_one_of_centralizes_simple {H : Type*} [Group H] [IsSimpleGroup H]
 theorem gLAPPrimeCoreOf_le_of_simple {p : ℕ} (hp : p.Prime) {N K : Subgroup G} (hKN : K ≤ N)
     (hsimp : IsSimpleGroup ↥(barX p N K)) (hdvd : p ∣ Nat.card ↥(barX p N K)) :
     GLAPPrimeCoreOf p K ≤ GLAPPrimeCoreOf p N := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hPK : GLAPPrimeCoreOf p K ≤ K := by
     intro x hx
     exact ((mem_gLAPPrimeCoreOf_iff p K x).1 hx).1
@@ -284,7 +285,8 @@ theorem gLAPPrimeCoreOf_le_of_simple {p : ℕ} (hp : p.Prime) {N K : Subgroup G}
       exact h.trans hdvdP
     exact not_dvd_card_glaPPrimeCoreOf hp K hdvdP'
 
-theorem centBar_barX_commute {p : ℕ} (hp : p.Prime) {N K B : Subgroup G} (hKN : K ≤ N)
+omit [Finite G] in
+theorem centBar_barX_commute {p : ℕ} (_hp : p.Prime) {N K B : Subgroup G} (_hKN : K ≤ N)
     (hOK : GLAPPrimeCoreOf p K ≤ GLAPPrimeCoreOf p N) {c : G} (hc : c ∈ centBar p B K)
     (hcN : c ∈ N) :
     ∀ y ∈ barX p N K, y * QuotientGroup.mk' (GLAPPrimeCore p ↥N) (⟨c, hcN⟩ : ↥N) =
@@ -332,6 +334,7 @@ theorem centBar_barX_commute {p : ℕ} (hp : p.Prime) {N K B : Subgroup G} (hKN 
     _ = QuotientGroup.mk' (GLAPPrimeCore p ↥N) (⟨(γ : G), hcN⟩ : ↥N) *
           QuotientGroup.mk' (GLAPPrimeCore p ↥N) k := by rw [hone', inv_one, one_mul]
 
+omit [Finite G] in
 theorem barX_centBar_mem_centralizer {p : ℕ} (hp : p.Prime) {N K B : Subgroup G} (hKN : K ≤ N)
     (hOK : GLAPPrimeCoreOf p K ≤ GLAPPrimeCoreOf p N) (hC : centBar p B K ≤ N) :
     barX p N (centBar p B K) ≤
@@ -342,6 +345,7 @@ theorem barX_centBar_mem_centralizer {p : ℕ} (hp : p.Prime) {N K B : Subgroup 
   intro h hh
   exact centBar_barX_commute hp hKN hOK hcC (hC hcC) h hh
 
+omit [Finite G] in
 theorem isElemAbelian_mono {p : ℕ} {E F : Subgroup G} (hEF : E ≤ F) (hF : IsElemAbelian p F) :
     IsElemAbelian p E := by
   have hcomm : ∀ a b : ↥E, a * b = b * a := by
@@ -351,14 +355,17 @@ theorem isElemAbelian_mono {p : ℕ} {E F : Subgroup G} (hEF : E ≤ F) (hF : Is
     exact congrArg (fun x : ↥F => (x : G)) this
   exact ⟨⟨⟨hcomm⟩⟩, fun x hx => hF.2 x (hEF hx)⟩
 
+omit [Finite G] in
 theorem isPGroup_of_isElemAbelian {p : ℕ} {E : Subgroup G} (hE : IsElemAbelian p E) :
     IsPGroup p ↥E := fun g => ⟨1, by rw [pow_one]; exact Subtype.ext (hE.2 g.1 g.2)⟩
 
+omit [Finite G] in
 theorem barX_sup_of_le {p : ℕ} {N X Y : Subgroup G} (hX : X ≤ N) (hY : Y ≤ N) :
     barX p N (X ⊔ Y) = barX p N X ⊔ barX p N Y := by
   unfold barX
   rw [Subgroup.subgroupOf_sup hX hY, Subgroup.map_sup]
 
+omit [Finite G] in
 theorem conj_mem_barX {p : ℕ} {N K : Subgroup G} (hKN : K ≤ N) {b : G} (hb : b ∈ N)
     (hbK : b ∈ Subgroup.normalizer (K : Set G)) {h : ↥N ⧸ GLAPPrimeCore p ↥N}
     (hh : h ∈ barX p N K) :
@@ -376,6 +383,7 @@ theorem conj_mem_barX {p : ℕ} {N K : Subgroup G} (hKN : K ≤ N) {b : G} (hb :
   rw [e]
   exact mk_mem_barX' (p := p) (X := N) (K := K) hKN hbk
 
+omit [Finite G] in
 theorem barX_mem_normalizer {p : ℕ} {N K : Subgroup G} (hKN : K ≤ N) {b : G} (hb : b ∈ N)
     (hbK : b ∈ Subgroup.normalizer (K : Set G)) :
     QuotientGroup.mk' (GLAPPrimeCore p ↥N) (⟨b, hb⟩ : ↥N) ∈
@@ -414,7 +422,7 @@ theorem barX_transfer {p : ℕ} (hp : p.Prime) {N K B : Subgroup G} (hKN : K ≤
       (barX p N B ⊓ Subgroup.centralizer (barX p N K : Set (↥N ⧸ GLAPPrimeCore p ↥N))) = ⊥ ∧
     barX p N B ⊓ barX p N K = barX p N (B ⊓ K) ∧
     CFSG.Open.pRank p (barX p N B ⊓ barX p N K) = CFSG.Open.pRank p (barX p N K) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hCB : centBar p B K ≤ B := fun c hc => (Sec13d.mem_centBar_iff.1 hc).1
   have hCN : centBar p B K ≤ N := hCB.trans hBN
   have hRN : B ⊓ K ≤ N := inf_le_left.trans hBN
@@ -653,7 +661,7 @@ theorem kt_types {X : Type} [Group X] [Finite X] {p : ℕ} (hp : p.Prime) (hp2 :
         rcases (Nat.dvd_prime Nat.prime_three).1 hdvd3 with h | h
         · omega
         · exact h
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       have hcyc : IsCyclic ↥Kt := isCyclic_of_prime_card hK3
       exact hnc inferInstance
   ·
@@ -691,7 +699,7 @@ theorem dvd_card_of_one_le_pRank {p : ℕ} (hp : p.Prime) {H : Subgroup G}
 theorem dvd_card_kt {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {X : Type} [Group X] [Finite X]
     {Jt Kt : Subgroup X} (hKeq : Kt = ⁅Jt, Jt⁆) (hdvd : p ∣ Nat.card ↥Jt) {j : ℕ}
     (hj : Subgroup.index (commutator ↥Jt) = 2 ^ j) : p ∣ Nat.card ↥Kt := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcard : Nat.card ↥(commutator ↥Jt) = Nat.card ↥Kt :=
     Nat.card_congr (((eqv_commutator Jt).some.trans (MulEquiv.subgroupCongr hKeq.symm)).toEquiv)
   have hmul : Subgroup.index (commutator ↥Jt) * Nat.card ↥(commutator ↥Jt) = Nat.card ↥Jt :=
@@ -702,6 +710,7 @@ theorem dvd_card_kt {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {X : Type} [Group X
   · exact absurd ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).1 (hp.dvd_of_dvd_pow h)) hp2
   · exact h
 
+omit [Finite G] in
 theorem normalizer_normalizer_fwd {T : Subgroup G} {g y : G}
     (hg : g ∈ Subgroup.normalizer (T : Set G)) (hy : y ∈ Subgroup.normalizer (T : Set G)) :
     g * y * g⁻¹ ∈ Subgroup.normalizer (T : Set G) := by
@@ -714,6 +723,7 @@ theorem normalizer_normalizer_fwd {T : Subgroup G} {g y : G}
   have e3 : g * (g⁻¹ * t * g) * g⁻¹ = t := by group
   rw [e1, ← hg1, ← hy1, hg1 (g⁻¹ * t * g), e3]
 
+omit [Finite G] in
 theorem mem_normalizer_normalizer_of {T : Subgroup G} {g : G}
     (hg : g ∈ Subgroup.normalizer (T : Set G)) :
     g ∈ Subgroup.normalizer ((Subgroup.normalizer (T : Set G) : Subgroup G) : Set G) := by
@@ -735,33 +745,33 @@ theorem lemma137_iv_of_inputs (hL133 : Lemma133Statement) (hL137i : Lemma137_iSt
     (hL137ii : Lemma137_ii_iiiStatement) (hPi : InputPiCenter) (hAb : InputAbIdx2)
     (hNo7 : Lemma137_noA7Statement) (hI : InputI2710) (hOm : InputOmegaTwoPerfect) :
     ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A : Subgroup G} {D T : Subgroup G}
-      (h : Sec13 G m p B M E A D T) {L : Subgroup G}
-      (hL : GLAPComponent p (Istar p M D) L) (hL1 : 3 < p ∨ 2 ≤ CFSG.Open.pRank p L),
+      (_h : Sec13 G m p B M E A D T) {L : Subgroup G}
+      (_hL : GLAPComponent p (Istar p M D) L) (_hL1 : 3 < p ∨ 2 ≤ CFSG.Open.pRank p L),
       (∃ F : Subgroup G, F ≤ B ∧ Nat.card B ≤ p ^ 2 * Nat.card F ∧
         GLAPLayer p (barX p (Nof T) (derivedInf (Nof T ⊓ L)) ⊓
           Subgroup.centralizer ((barX p (Nof T) F : Subgroup (↥(Nof T) ⧸ GLAPPrimeCore p ↥(Nof T))) :
             Set (↥(Nof T) ⧸ GLAPPrimeCore p ↥(Nof T)))) ≠ ⊥) := by
-  intro G _ _ m p B M E A D T h L hL hL1
-  have hS : GLStanding G m p := h.standing
+  intro G _ _ m p B M E A D T _h L _hL _hL1
+  have hS : GLStanding G m p := _h.standing
   have hp : p.Prime := hS.prime
   have hp2 : p ≠ 2 := hS.ne_two
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp1 : 1 < p := hp.one_lt
-  have hBel : IsElemAbelian p B := h.bOne.1.1
+  have hBel : IsElemAbelian p B := _h.bOne.1.1
   have hBp : IsPGroup p ↥B := isPGroup_of_isElemAbelian hBel
-  have hBN : B ≤ Nof T := hL137i h
-  have hcardB : Nat.card B = p ^ m := hS.card_eq h.bOne
+  have hBN : B ≤ Nof T := hL137i _h
+  have hcardB : Nat.card B = p ^ m := hS.card_eq _h.bOne
   have hm4 : 4 ≤ m := hS.four_le
-  have h133 := (hL133 h).2 L hL
+  have h133 := (hL133 _h).2 L _hL
   have hPiL : IsPiGroup p (↥L ⧸ CFSG.pCore 2 ↥L) := h133.1.2.1
   have hnhL : ¬ IsHatSeven (↥L ⧸ CFSG.pCore 2 ↥L) := h133.1.2.2
   have hBL : B ≤ Subgroup.normalizer (L : Set G) := h133.2.1
   have hrankBL : CFSG.Open.pRank p (B ⊓ L) = CFSG.Open.pRank p L := h133.2.2.2.2
-  have h137 := hL137ii h hL hL1
+  have h137 := hL137ii _h _hL _hL1
   have hKeq := h137.1
   have hsimp : IsSimpleGroup ↥(barX p (Nof T) (derivedInf (Nof T ⊓ L))) := h137.2.1
   have hnc := h137.2.2.1
-  have hv := (lemma137_v_of_inputs hL133 hL137i hL137ii hPi hAb hNo7) h hL hL1
+  have hv := (lemma137_v_of_inputs hL133 hL137i hL137ii hPi hAb hNo7) _h _hL _hL1
   have hBdec := hv.2.1
   have hrankK := hv.2.2
   have hΩ : ∀ (ε : Bool) (n : ℕ), IsOmegaTwo ε (n + 1) (↥L ⧸ CFSG.pCore 2 ↥L) →
@@ -781,9 +791,9 @@ theorem lemma137_iv_of_inputs (hL133 : Lemma133Statement) (hL137i : Lemma137_iSt
     · exact Or.inl ((h137.2.2.2.2 k hX).1 hc)
     · exact Or.inr ((h137.2.2.2.2 k hX).2 hc)
   obtain ⟨j, hj⟩ := Sec13d.index_pow_two_of_piType hPi hAb hp hp2 hPiL hnhL
-    (fun h3 => hNo7 h hL h3) hΩ hA
+    (fun h3 => hNo7 _h _hL h3) hΩ hA
   have hLnt : Nontrivial (↥L ⧸ CFSG.pCore 2 ↥L) := by
-    haveI := hPiL.1.2
+    have := hPiL.1.2
     exact Function.Surjective.nontrivial
       (f := QuotientGroup.mk (s := Subgroup.center (↥L ⧸ CFSG.pCore 2 ↥L)))
       QuotientGroup.mk_surjective
@@ -818,8 +828,8 @@ theorem lemma137_iv_of_inputs (hL133 : Lemma133Statement) (hL137i : Lemma137_iSt
       rcases hΩ ε n hΩX' with h1 | ⟨e1⟩
       · exact Or.inr (Or.inr (Or.inr ⟨ε, n, hn, h1, hfp⟩))
       · exact Or.inr (Or.inr (Or.inl ⟨ε, n, hn, hfp, e1⟩))
-    · exact absurd ⟨hY.symm.trans e⟩ (hNo7 h hL h3)
-  haveI : IsSimpleGroup ↥(barX p (Nof T) (derivedInf (Nof T ⊓ L))) := hsimp
+    · exact absurd ⟨hY.symm.trans e⟩ (hNo7 _h _hL h3)
+  have : IsSimpleGroup ↥(barX p (Nof T) (derivedInf (Nof T ⊓ L))) := hsimp
   have hKt := type2710_of_fp (kt_types hp hp2 hOm hKeq hnc hdvdJt hJtTypes)
   have hKN : derivedInf (Nof T ⊓ L) ≤ Nof T := (Sec13d.derivedInf_le _).trans inf_le_left
   have hdvdKt : p ∣ Nat.card ↥(barX p (Nof T) (derivedInf (Nof T ⊓ L))) :=

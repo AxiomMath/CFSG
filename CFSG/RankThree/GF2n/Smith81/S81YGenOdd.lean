@@ -23,6 +23,7 @@ variable [Finite G] {M Q Z B : Subgroup G} {K : Type} [Field K]
   {IsRt : (V ≃ₗ[K] V) → Prop} {z : G}
 
 
+omit [Finite K] in
 theorem odd_orderOf_mul_gen (Dt : GDat M Q Z B K γ M₀ ψ φ Γ p₀ U₀ IsRt z) {x y : G}
     (hxc : IsConj z x) (hxM : x ∈ M) (hxQ : x ∉ Q) (hyc : IsConj z y) (hyM : y ∈ M)
     (hyQ : y ∉ Q) {r s : V ≃ₗ[K] V} (hr : IsRt r) (hs : IsRt s) (hx : Acts φ x r)

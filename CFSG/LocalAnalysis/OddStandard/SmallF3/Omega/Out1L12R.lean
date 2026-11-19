@@ -215,7 +215,7 @@ theorem aor_l12_card_of_square {S : Type} [Group S] [Finite S] (hS : IsPGroup 2 
           _ = t * n := by rw [htconj]
     have hle : L12R t ≤ L12N t := Subgroup.le_normalizer
     have hRN : L12N t = L12R t := le_antisymm hNR hle
-    haveI : Group.IsNilpotent S := hS.isNilpotent
+    have : Group.IsNilpotent S := hS.isNilpotent
     have htop : L12R t = ⊤ :=
       (normalizerCondition_iff_only_full_group_self_normalizing.mp
         (Group.normalizerCondition_of_isNilpotent (G := S))) (L12R t) hRN

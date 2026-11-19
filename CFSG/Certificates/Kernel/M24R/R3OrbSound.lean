@@ -112,7 +112,7 @@ theorem orbOK_spec {F : Nat → Nat} {n : Nat} (h : orbOK F n = true) :
     · exact e3
   · intro h3
     dsimp only at h3
-    simp only [andB_eqO, Bool.and_eq_true, Nat.beq_eq] at h3
+    simp only [Bool.and_eq_true, Nat.beq_eq] at h3
     exact Or.inl ⟨Nat.eq_of_beq_eq_true hr, h3⟩
 
 @[expose] noncomputable def oWord (F : Nat → Nat) : Nat → Nat → N0Word
@@ -188,7 +188,7 @@ theorem foldl24_inj : ∀ l l' : List Nat, l.length = l'.length → (∀ d ∈ l
 
 theorem map_ap_tabP {p : Nat} (hp : PP 24 5 p) :
     (List.range 24).map (ap (tabP 24 5 p)) = (List.range 24).map (pg 5 (mask 5) p) :=
-  List.map_congr_left fun i hi => ap_tabP' hp (List.mem_range.1 hi)
+  List.map_congr_left fun _i hi => ap_tabP' hp (List.mem_range.1 hi)
 
 theorem tupKey_inj {a b : Fin 4 → Nat} (ha : ∀ j, PP 24 5 (a j)) (hb : ∀ j, PP 24 5 (b j))
     (h : tupKey ((List.finRange 4).map fun j => tabP 24 5 (a j)) =

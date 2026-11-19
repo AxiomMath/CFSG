@@ -26,8 +26,8 @@ namespace Up34Chev2
 
 theorem three_ne_zero_of_card_two_pow {K : Type} [Field K] [Finite K] {f : ℕ} (hf : 1 ≤ f)
     (hK : Nat.card K = 2 ^ f) : (3 : K) ≠ 0 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := finite_field_prime_power_characteristic Nat.prime_two hf hK
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := finite_field_prime_power_characteristic Nat.prime_two hf hK
   have h2 : (2 : K) = 0 := by exact_mod_cast CharP.cast_eq_zero K 2
   intro h3
   have h1 : (1 : K) = 0 := by linear_combination h3 - h2
@@ -43,7 +43,7 @@ theorem up34_projectiveSL3_diag_no_pumpup {K : Type} [Field K] [Finite K] (h3 : 
     {ψ : MulAut (projectiveSL 3 K)} (hψ : ψ ∈ linearAutGroup 3 K) :
     ¬ Up34Pumpup (projectiveSL 3 K) ψ := by
   intro hp
-  haveI : IsSimpleGroup (projectiveSL 3 K) :=
+  have : IsSimpleGroup (projectiveSL 3 K) :=
     CFSG.RankThree.PartOne.KCLinearSubfield.isSimpleGroup_projectiveSL (n := 3) (K := K) le_rfl
   have hnab : ∃ a b : projectiveSL 3 K, a * b ≠ b * a := by
     have h1 := CFSG.RankThree.PartOne.KCLinearSubfield.not_commutative_projectiveSL (n := 3)
@@ -105,12 +105,12 @@ theorem up34_primeFormD_three_no_pumpup {f : ℕ} {K : Type} [Field K]
     {ψ : MulAut (primeFormP h ((1 : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K))}
     (hψ : ψ ∈ primeFormD h ((1 : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K)) :
     ¬ Up34Pumpup (primeFormP h ((1 : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K)) ψ := by
-  haveI := h.finite
+  have := h.finite
   obtain ⟨A, rfl⟩ := hψ
   have hA := mem_unitaryIsom3_of_mem_primeFormUnitary h A
   intro hp
-  haveI : Finite (unitaryPSU h 3) := inferInstance
-  haveI : Finite (primeFormP h ((1 : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K)) :=
+  have : Finite (unitaryPSU h 3) := inferInstance
+  have : Finite (primeFormP h ((1 : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K)) :=
     Finite.of_equiv _ (CFSG.LocalAnalysis.unitaryPSUEquivPrimeFormOne h 3).toEquiv
   have hp' := hp.of_congr (CFSG.LocalAnalysis.unitaryPSUEquivPrimeFormOne h 3).symm
   rw [congr_symm_primeFormConjHom h A hA] at hp'
@@ -141,7 +141,7 @@ theorem up34C2Inn_a2 : Up34Chev2Inn FamA2 := by
       (lieModel_classical_iff (by decide)).mp hm
     obtain ⟨hadm, K, _, _, hK, ⟨e0⟩⟩ := hC
     let e' : S ≃* projectiveSL 3 K := e0.trans (statedProjEquiv 3 K)
-    haveI : Finite (projectiveSL 3 K) := Finite.of_equiv S e'.toEquiv
+    have : Finite (projectiveSL 3 K) := Finite.of_equiv S e'.toEquiv
     have hxD : MulAut.congr e' (MulAut.conj x) ∈ linearAutGroup 3 K := by
       have : MulAut.congr e' (MulAut.conj x) = MulAut.conj (e' x) := by
         refine MulEquiv.ext fun y => ?_
@@ -168,8 +168,8 @@ theorem up34C2Inn_twA2 : Up34Chev2Inn FamTwA2 := by
     have hadm := statedLieAdmissible_twistedA hv
     rw [hq2] at hm hadm
     obtain ⟨K, _, h, ⟨e1⟩⟩ := exists_psu_model hadm hm
-    haveI := h.finite
-    haveI : Finite (primeFormP h ((1 : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K)) :=
+    have := h.finite
+    have : Finite (primeFormP h ((1 : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K)) :=
       Finite.of_equiv S e1.toEquiv
     have hq : 2 < 2 ^ q.exponent :=
       two_lt_two_pow_of_ne q.exponent_pos fun h2 => hadm.2.2.2 (by rw [h2])

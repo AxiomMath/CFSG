@@ -53,7 +53,7 @@ theorem isPGroup_sup_of_q16Q16 {G : Type*} [Group G] {x y x' y' : G} (h : Q16Q16
 
 theorem noQ16Q16_of_sylow {G : Type*} [Group G] [Finite G] {P : Subgroup G} (hP : IsPGroup 2 P)
     (hidx : ¬ 2 ∣ P.index) (h : NoQ16Q16 P) : NoQ16Q16 G := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro x y x' y' hq
   obtain ⟨T, hT⟩ := (isPGroup_sup_of_q16Q16 hq).exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq G (hP.toSylow hidx) T

@@ -59,7 +59,7 @@ theorem twentyFive_dvd_two_pow_add_one {f : ℕ} (h : 5 ∣ 2 ^ (5 * f) + 1) :
 theorem center_statedSU_five_ne_bot {E : Type} [Field E] [Finite E] {g : ℕ}
     (hE : Nat.card E = (2 ^ g) ^ 2) (h5 : 5 ∣ 2 ^ g + 1) :
     Subgroup.center ↥(StatedSU 5 (2 ^ g) E) ≠ ⊥ := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hcard : 5 ∣ Nat.card Eˣ := by
     have h1 : 1 ≤ 2 ^ g := Nat.one_le_two_pow
     have h2 : 1 ≤ (2 ^ g) ^ 2 := Nat.one_le_pow _ _ h1

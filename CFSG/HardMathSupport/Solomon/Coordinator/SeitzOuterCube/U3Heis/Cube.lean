@@ -190,6 +190,7 @@ section Orbit
 
 variable [Finite F] {σ : F ≃+* F} {lam ω : Fˣ} {D X : unitaryIsom3 h}
 
+omit [Finite F] in
 theorem smul_eq_apply' (b : MulAut (unitaryPSU h 3)) (x : unitaryPSU h 3) : b • x = b x := rfl
 
 theorem mem_hyperFixU_of_orbit (hh : HeisHypU h σ lam ω D X) {x : unitaryPSU h 3}

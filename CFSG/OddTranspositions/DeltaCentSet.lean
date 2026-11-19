@@ -11,9 +11,11 @@ open CFSG.Timmesfeld CFSG.Timmesfeld.Bridge CFSG.Timmesfeld.Bridge.Asc72
 
 variable {G : Type} [Group G] [Finite G] {D : Set G}
 
+omit [Finite G] in
 theorem Delta_eq_centSet (z : G) : Delta D z = centSet D z :=
   Set.ext fun _ => mem_Delta_iff
 
+omit [Finite G] in
 theorem thirdK_eq_localGroup (z : G) : thirdK D z = localGroup D z :=
   congrArg Subgroup.closure (Delta_eq_centSet z)
 

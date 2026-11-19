@@ -81,7 +81,8 @@ theorem hfus_of_isConj_mem {E : Subgroup K} (hEH : E ≤ H w) (hE2 : IsElemAbeli
   calc g * k⁻¹ * w * (g * k⁻¹)⁻¹ = g * (k⁻¹ * w * k) * g⁻¹ := by group
     _ = g * w * g⁻¹ := by rw [hkw]
 
-theorem hgen_of_hfus (hw : orderOf w = 2) {E : Subgroup K} (hEH : E ≤ H w) (hwE : w ∈ E)
+omit [Finite K] in
+theorem hgen_of_hfus (hw : orderOf w = 2) {E : Subgroup K} (_hEH : E ≤ H w) (_hwE : w ∈ E)
     (hJ : ∀ j ∈ J w, j ∉ Subgroup.zpowers w → ¬ IsConj w j)
     (hgen1 : ∀ e ∈ E, e ∉ J w →
       Subgroup.closure ({w} ∪ {y : K | ∃ n ∈ Subgroup.normalizer (E : Set K) ⊓ H w,

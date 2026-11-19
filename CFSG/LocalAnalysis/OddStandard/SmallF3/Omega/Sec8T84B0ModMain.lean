@@ -95,9 +95,6 @@ private theorem t84b_frame_comm_mat (F : Frame E B hBE u hfix A hAu) {h k : MulA
       (X * Y) *ᵥ Multiplicative.toAdd (F.eB b) := by
     intro b
     rw [hres_eq b]
-    change Multiplicative.toAdd
-        (F.eB (resB hBE u hfix h hhu (resB hBE u hfix k hku b))) =
-      (X * Y) *ᵥ Multiplicative.toAdd (F.eB b)
     rw [hXB (resB hBE u hfix k hku b), hYB b, Matrix.mulVec_mulVec]
   exact Frame.matrix_unique F (k * h) hkuh (Y * X) (X * Y) hA hB
 

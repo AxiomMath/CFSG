@@ -33,11 +33,11 @@ theorem s2019FixCentralizes_omega_plus_of_mem_E {G : Type} [Group G] {n q f : �
     (Or.inr (Or.inl rfl)) n q f hG K hK e
   have h2 := two_ne_zero_of_card_eq_pow hq hq2 hK
   set e' := coordinatePlusWitnessEquiv K e
-  haveI : Finite G := Finite.of_equiv _ e.toEquiv.symm
-  haveI : Finite (matrixProjectiveDerived (coordinateQuadPlus n K)) := Finite.of_equiv _ e'.toEquiv
+  have : Finite G := Finite.of_equiv _ e.toEquiv.symm
+  have : Finite (matrixProjectiveDerived (coordinateQuadPlus n K)) := Finite.of_equiv _ e'.toEquiv
   have hβ' : MulAut.congr e' β ^ p = 1 := by rw [← map_pow, hβ, map_one]
   have hD := not_mem_D_of_not_inner hgates hp hp2 e' β hβ hnot
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hord : orderOf (MulAut.congr e' β) = p := orderOf_eq_prime hβ' fun h => hD (h ▸ one_mem _)
   refine s2019FixCentralizes_of_congr hp e' β ?_
   have hdesc := orthogonal_prime_semilinear_actual_fixed_form_descent' G .POmegaPlus

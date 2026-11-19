@@ -117,7 +117,7 @@ theorem card_le (h : GGRCSSThreeSetting G₀ r Q S T) {P : Subgroup G}
   have hrm : D.relIndex P * Nat.card ↥(P ⊓ D) = Nat.card ↥P := by
     have h := Subgroup.relIndex_mul_card (H := D) (K := P)
     rwa [inf_comm] at h
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card (p := 3) (G := ↥P)).mp hP3
   have hdiv : D.relIndex P ∣ Nat.card ↥P := ⟨Nat.card ↥(P ⊓ D), hrm.symm⟩
   rw [hk] at hdiv
@@ -138,7 +138,7 @@ theorem card_le (h : GGRCSSThreeSetting G₀ r Q S T) {P : Subgroup G}
 theorem exists_mem_of_elemAbelian (h : GGRCSSThreeSetting G₀ r Q S T) {E : Subgroup G}
     (hE : IsElemAbelian 3 E) (hE9 : 9 ≤ Nat.card E)
     (hEX : E ≤ G₀ ⊓ Subgroup.centralizer {r}) : ∃ e ∈ E, e ∈ Q ⊔ T ∧ orderOf e = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hP3 : IsPGroup 3 E := by
     rw [IsPGroup.iff_orderOf]
     intro x

@@ -26,7 +26,7 @@ theorem linearIndependent_zmod_of_not_sq_dvd_det_gram {k n : Type*} [Fintype k] 
     (h : ¬ (p : ℤ) ^ 2 ∣ (v * B * v.transpose).det) :
     LinearIndependent (ZMod p) fun i => (v.map (Int.cast : ℤ → ZMod p)) i := by
   classical
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   set w : k → n → ZMod p := fun i => (v.map (Int.cast : ℤ → ZMod p)) i with hw
   by_contra hli
   obtain ⟨g, hg, j, hgj⟩ := Fintype.not_linearIndependent_iff.mp hli

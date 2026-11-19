@@ -27,9 +27,9 @@ theorem asc82OmegaPlusOuter_of_autInvolutions (h : Asc82OmegaPlusAutInvolutions)
     Asc82OmegaPlusOuter := by
   intro G _ _ Y hY s hs hsN hsout
   obtain ⟨V, i1, i2, i3, Q, hQ, hdim, hσ, ⟨e⟩⟩ := isOmegaStar_of_lieModel_plus hY.2
-  letI := i1
-  letI := i2
-  letI := i3
+  let := i1
+  let := i2
+  let := i3
   have hρ := oddCentralCover_quotient_oddCore hY.1.1 e
   have hss : s * s = 1 := by
     rw [← pow_two]

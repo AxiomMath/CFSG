@@ -118,7 +118,7 @@ theorem one_add_colSupportMat_eq_embedSucc {b : Fin (m+3) → F}
   rcases Fin.eq_zero_or_eq_succ i with rfl | ⟨i, rfl⟩
   · rcases Fin.eq_zero_or_eq_succ j with rfl | ⟨j, rfl⟩
     · simp only [Matrix.add_apply, colSupportMat_apply, embedSuccMat,
-        fromBlocksFirst_apply_zero_zero, Matrix.one_apply_eq, Ne.symm hl0, if_false,
+        fromBlocksFirst_apply_zero_zero, Matrix.one_apply_eq, Ne.symm hl0, ite_false,
         add_zero]
     · simp only [Matrix.add_apply, colSupportMat_apply, embedSuccMat,
         fromBlocksFirst_apply_zero_succ, Fin.succ_eq_last_succ, Matrix.one_apply]
@@ -126,7 +126,7 @@ theorem one_add_colSupportMat_eq_embedSucc {b : Fin (m+3) → F}
   · rcases Fin.eq_zero_or_eq_succ j with rfl | ⟨j, rfl⟩
     · simp only [Matrix.add_apply, colSupportMat_apply, embedSuccMat,
         fromBlocksFirst_apply_succ_zero, Matrix.one_apply, Fin.succ_ne_zero, Ne.symm hl0,
-        if_false, add_zero, Matrix.zero_apply]
+        ite_false, add_zero, Matrix.zero_apply]
     · simp only [Matrix.add_apply, colSupportMat_apply, embedSuccMat,
         fromBlocksFirst_apply_succ_succ, Fin.succ_eq_last_succ, Matrix.one_apply,
         Fin.succ_inj]

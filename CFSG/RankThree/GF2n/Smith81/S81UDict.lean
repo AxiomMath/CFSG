@@ -15,24 +15,27 @@ variable {F : Type} [Field F] [CharP F 2] {σ : F ≃+* F}
 
 @[expose] noncomputable def projW (σ : F ≃+* F) (τ : F) (η : Cube F) : Cube F := τ • η + theta σ (τ • η)
 
+omit [CharP F 2] in
 theorem projW_add (τ : F) (η η' : Cube F) : projW σ τ (η + η') = projW σ τ η + projW σ τ η' := by
   unfold projW
   rw [smul_add, map_add]
   abel
 
+omit [CharP F 2] in
 theorem projW_mem_Wsub (hσ : ∀ c, σ (σ c) = c) (τ : F) (η : Cube F) : projW σ τ η ∈ Wsub σ := by
   rw [mem_Wsub_iff]
   unfold projW
   rw [map_add, theta_theta hσ]
   exact add_comm _ _
 
+omit [CharP F 2] in
 theorem projW_of_mem {τ : F} (hτ : τ + σ τ = 1) {w : Cube F} (hw : w ∈ Wsub σ) :
     projW σ τ w = w := by
   rw [mem_Wsub_iff] at hw
   unfold projW
   rw [theta_smul, hw, ← add_smul, hτ, one_smul]
 
-theorem projW_rho (hσ : ∀ c, σ (σ c) = c) (τ : F) {g : GL (Fin 6) F} (hg : g ∈ SUid σ 6) (η : Cube F) :
+theorem projW_rho (_hσ : ∀ c, σ (σ c) = c) (τ : F) {g : GL (Fin 6) F} (hg : g ∈ SUid σ 6) (η : Cube F) :
     projW σ τ (rho F g η) = rho F g (projW σ τ η) := by
   unfold projW
   rw [← map_smul (rho F g) τ η, theta_rho hg, map_add]
@@ -45,7 +48,7 @@ private theorem h61_sub_eq_add (x y : Cube F) : x - y = x + y := by
 
 theorem mem_Rw_iff (hσ : IsUnitaryInvolution σ) (t : SUid σ 6) (r : Wform σ) :
     r ∈ Rw σ t ↔ ∃ η : Cube F, (r : Cube F) = rho F (t : GL (Fin 6) F) η - η := by
-  simp only [Rw, Set.mem_setOf_eq]
+  simp only [Rw, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨w, rfl⟩
     refine ⟨(w : Cube F), ?_⟩
@@ -64,7 +67,7 @@ theorem mem_Rw_iff (hσ : IsUnitaryInvolution σ) (t : SUid σ 6) (r : Wform σ)
 
 theorem mem_Cw_iff (t : SUid σ 6) (c : Wform σ) :
     c ∈ Cw σ t ↔ rho F (t : GL (Fin 6) F) (c : Cube F) = c := by
-  simp only [Cw, Set.mem_setOf_eq]
+  simp only [Cw, Set.mem_ofPred_eq]
   constructor
   · intro h
     rw [← Wact_apply t c, h]
@@ -78,20 +81,21 @@ theorem CR_of_F (hσ : IsUnitaryInvolution σ) (t : SUid σ 6)
   intro c hc
   exact (mem_Rw_iff hσ t c).mpr (h (c : Cube F) ((mem_Cw_iff t c).mp hc))
 
-theorem beta_ne_of_root (hσ : IsUnitaryInvolution σ) (t : SUid σ 6) (p : Wform σ)
+theorem beta_ne_of_root (_hσ : IsUnitaryInvolution σ) (t : SUid σ 6) (p : Wform σ)
     (hp : (p : Cube F) ∈ RootPt σ) (hβ : beta F (rho F (t : GL (Fin 6) F) (p : Cube F)) (p : Cube F) ≠ 0) :
     ∃ p₁ p₂ : Wform σ, (p₁ : Cube F) ∈ RootPt σ ∧ (p₂ : Cube F) ∈ RootPt σ ∧
       p₁ + p₂ ∈ Rw σ t ∧ beta F (p₁ : Cube F) (p₂ : Cube F) ≠ 0 := by
   refine ⟨Wact σ t p, p, ?_, hp, ?_, ?_⟩
   · rw [Wact_apply t p]
     exact rho_mem_RootPt t.2 hp
-  · simp only [Rw, Set.mem_setOf_eq]
+  · simp only [Rw, Set.mem_ofPred_eq]
     refine ⟨p, ?_⟩
     apply Subtype.ext
     rw [Submodule.coe_add, Submodule.coe_sub, Wact_apply t p, h61_sub_eq_add]
   · rw [Wact_apply t p]
     exact hβ
 
+omit [CharP F 2] in
 theorem eq_top_of_rho_frame_cubeBasis_mem (Sf : GL (Fin 6) F) (X : Submodule F (Cube F))
     (h : ∀ I : Set.powersetCard (Fin 6) 3, rho F Sf (cubeBasis F I) ∈ X) : X = ⊤ := by
   rw [eq_top_iff]
@@ -108,10 +112,12 @@ theorem eq_top_of_rho_frame_cubeBasis_mem (Sf : GL (Fin 6) F) (X : Submodule F (
   rw [map_smul (rho F Sf)]
   exact X.smul_mem _ (h I)
 
+omit [CharP F 2] in
 private theorem h70_mem_Wform (hσ : IsUnitaryInvolution σ) (τ : F) (η : Cube F) :
     projW σ τ η ∈ Wform σ :=
   mem_Wform_iff.mpr (projW_mem_Wsub hσ.invol τ η)
 
+omit [CharP F 2] in
 private theorem h70_projW_zero (τ : F) : projW σ τ (0 : Cube F) = 0 := by
   unfold projW
   simp

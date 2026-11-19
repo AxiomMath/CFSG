@@ -57,7 +57,7 @@ theorem isSylow2In_W_centralizer [IsSimpleGroup G] (hDT : Sec19DataT p f K z S W
     IsSylow2In W (sec19X K z ⊓ Subgroup.centralizer ({u} : Set G)) := by
   have hd := hDT.toSec19Data
   refine ⟨le_inf (S1911.le_sec19X hd) fun w hw => Subgroup.mem_centralizer_singleton_iff.mpr
-      (S1911.comm_of_mem hd w hw u huW), S.isPGroup'.to_le hd.hWS, fun P hP hP2 hWP => ?_⟩
+      (S1911.comm_of_mem hd w hw u huW), S.isPGroup.to_le hd.hWS, fun P hP hP2 hWP => ?_⟩
   exact eq_W_of_le_centralizer hDT h1 huW hu2 hu1 huz hP2 (hP.trans inf_le_left)
     (hP.trans inf_le_right) hWP
 

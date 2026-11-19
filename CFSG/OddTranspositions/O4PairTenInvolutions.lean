@@ -26,70 +26,70 @@ private def f25tDecEq (a b : F25t) : Decidable (a = b) :=
   ⟨!![⟨0, 0⟩, ⟨0, 1⟩; ⟨0, 3⟩, ⟨0, 0⟩], by
     rw [Matrix.det_fin_two, sub_eq_add_neg]
     apply F25t.ext <;>
-      simp [mul25_def, add25_def, neg25_def, one25_def] <;>
+      simp [mul25_def, add25_def, neg25_def, one25_def];
       decide⟩
 
 @[expose] def X1 : Matrix.SpecialLinearGroup (Fin 2) F25t :=
   ⟨!![⟨0, 0⟩, ⟨0, 2⟩; ⟨0, 4⟩, ⟨0, 0⟩], by
     rw [Matrix.det_fin_two, sub_eq_add_neg]
     apply F25t.ext <;>
-      simp [mul25_def, add25_def, neg25_def, one25_def] <;>
+      simp [mul25_def, add25_def, neg25_def, one25_def];
       decide⟩
 
 @[expose] def X2 : Matrix.SpecialLinearGroup (Fin 2) F25t :=
   ⟨!![⟨0, 1⟩, ⟨0, 1⟩; ⟨0, 2⟩, ⟨0, 4⟩], by
     rw [Matrix.det_fin_two, sub_eq_add_neg]
     apply F25t.ext <;>
-      simp [mul25_def, add25_def, neg25_def, one25_def] <;>
+      simp [mul25_def, add25_def, neg25_def, one25_def];
       decide⟩
 
 @[expose] def X3 : Matrix.SpecialLinearGroup (Fin 2) F25t :=
   ⟨!![⟨0, 1⟩, ⟨0, 2⟩; ⟨0, 1⟩, ⟨0, 4⟩], by
     rw [Matrix.det_fin_two, sub_eq_add_neg]
     apply F25t.ext <;>
-      simp [mul25_def, add25_def, neg25_def, one25_def] <;>
+      simp [mul25_def, add25_def, neg25_def, one25_def];
       decide⟩
 
 @[expose] def X4 : Matrix.SpecialLinearGroup (Fin 2) F25t :=
   ⟨!![⟨0, 1⟩, ⟨0, 3⟩; ⟨0, 4⟩, ⟨0, 4⟩], by
     rw [Matrix.det_fin_two, sub_eq_add_neg]
     apply F25t.ext <;>
-      simp [mul25_def, add25_def, neg25_def, one25_def] <;>
+      simp [mul25_def, add25_def, neg25_def, one25_def];
       decide⟩
 
 @[expose] def X5 : Matrix.SpecialLinearGroup (Fin 2) F25t :=
   ⟨!![⟨0, 1⟩, ⟨0, 4⟩; ⟨0, 3⟩, ⟨0, 4⟩], by
     rw [Matrix.det_fin_two, sub_eq_add_neg]
     apply F25t.ext <;>
-      simp [mul25_def, add25_def, neg25_def, one25_def] <;>
+      simp [mul25_def, add25_def, neg25_def, one25_def];
       decide⟩
 
 @[expose] def X6 : Matrix.SpecialLinearGroup (Fin 2) F25t :=
   ⟨!![⟨0, 2⟩, ⟨0, 1⟩; ⟨0, 4⟩, ⟨0, 3⟩], by
     rw [Matrix.det_fin_two, sub_eq_add_neg]
     apply F25t.ext <;>
-      simp [mul25_def, add25_def, neg25_def, one25_def] <;>
+      simp [mul25_def, add25_def, neg25_def, one25_def];
       decide⟩
 
 @[expose] def X7 : Matrix.SpecialLinearGroup (Fin 2) F25t :=
   ⟨!![⟨0, 2⟩, ⟨0, 2⟩; ⟨0, 2⟩, ⟨0, 3⟩], by
     rw [Matrix.det_fin_two, sub_eq_add_neg]
     apply F25t.ext <;>
-      simp [mul25_def, add25_def, neg25_def, one25_def] <;>
+      simp [mul25_def, add25_def, neg25_def, one25_def];
       decide⟩
 
 @[expose] def X8 : Matrix.SpecialLinearGroup (Fin 2) F25t :=
   ⟨!![⟨0, 2⟩, ⟨0, 3⟩; ⟨0, 3⟩, ⟨0, 3⟩], by
     rw [Matrix.det_fin_two, sub_eq_add_neg]
     apply F25t.ext <;>
-      simp [mul25_def, add25_def, neg25_def, one25_def] <;>
+      simp [mul25_def, add25_def, neg25_def, one25_def];
       decide⟩
 
 @[expose] def X9 : Matrix.SpecialLinearGroup (Fin 2) F25t :=
   ⟨!![⟨0, 2⟩, ⟨0, 4⟩; ⟨0, 1⟩, ⟨0, 3⟩], by
     rw [Matrix.det_fin_two, sub_eq_add_neg]
     apply F25t.ext <;>
-      simp [mul25_def, add25_def, neg25_def, one25_def] <;>
+      simp [mul25_def, add25_def, neg25_def, one25_def];
       decide⟩
 
 @[expose] def X (i : Fin 10) : Matrix.SpecialLinearGroup (Fin 2) F25t :=
@@ -99,14 +99,14 @@ private def f25tDecEq (a b : F25t) : Decidable (a = b) :=
   ⟨!![⟨0, 1⟩, ⟨2, 0⟩; ⟨1, 0⟩, ⟨0, 1⟩], by
     rw [Matrix.det_fin_two, sub_eq_add_neg]
     apply F25t.ext <;>
-      simp [mul25_def, add25_def, neg25_def, one25_def] <;>
+      simp [mul25_def, add25_def, neg25_def, one25_def];
       decide⟩
 
 @[expose] def P1 : Matrix.SpecialLinearGroup (Fin 2) F25t :=
   ⟨!![⟨0, 1⟩, ⟨1, 0⟩; ⟨2, 0⟩, ⟨0, 1⟩], by
     rw [Matrix.det_fin_two, sub_eq_add_neg]
     apply F25t.ext <;>
-      simp [mul25_def, add25_def, neg25_def, one25_def] <;>
+      simp [mul25_def, add25_def, neg25_def, one25_def];
       decide⟩
 
 @[expose] def P2 : Matrix.SpecialLinearGroup (Fin 2) F25t :=
@@ -120,21 +120,21 @@ private def f25tDecEq (a b : F25t) : Decidable (a = b) :=
   ⟨!![⟨0, 1⟩, ⟨1, 0⟩; ⟨2, 2⟩, ⟨2, 1⟩], by
     rw [Matrix.det_fin_two, sub_eq_add_neg]
     apply F25t.ext <;>
-      simp [mul25_def, add25_def, neg25_def, one25_def] <;>
+      simp [mul25_def, add25_def, neg25_def, one25_def];
       decide⟩
 
 @[expose] def P4 : Matrix.SpecialLinearGroup (Fin 2) F25t :=
   ⟨!![⟨0, 1⟩, ⟨1, 0⟩; ⟨2, 3⟩, ⟨3, 1⟩], by
     rw [Matrix.det_fin_two, sub_eq_add_neg]
     apply F25t.ext <;>
-      simp [mul25_def, add25_def, neg25_def, one25_def] <;>
+      simp [mul25_def, add25_def, neg25_def, one25_def];
       decide⟩
 
 @[expose] def P5 : Matrix.SpecialLinearGroup (Fin 2) F25t :=
   ⟨!![⟨0, 1⟩, ⟨2, 0⟩; ⟨1, 1⟩, ⟨2, 1⟩], by
     rw [Matrix.det_fin_two, sub_eq_add_neg]
     apply F25t.ext <;>
-      simp [mul25_def, add25_def, neg25_def, one25_def] <;>
+      simp [mul25_def, add25_def, neg25_def, one25_def];
       decide⟩
 
 @[expose] def P6 : Matrix.SpecialLinearGroup (Fin 2) F25t :=
@@ -148,14 +148,14 @@ private def f25tDecEq (a b : F25t) : Decidable (a = b) :=
   ⟨!![⟨0, 1⟩, ⟨1, 0⟩; ⟨2, 4⟩, ⟨4, 1⟩], by
     rw [Matrix.det_fin_two, sub_eq_add_neg]
     apply F25t.ext <;>
-      simp [mul25_def, add25_def, neg25_def, one25_def] <;>
+      simp [mul25_def, add25_def, neg25_def, one25_def];
       decide⟩
 
 @[expose] def P8 : Matrix.SpecialLinearGroup (Fin 2) F25t :=
   ⟨!![⟨0, 1⟩, ⟨1, 0⟩; ⟨2, 1⟩, ⟨1, 1⟩], by
     rw [Matrix.det_fin_two, sub_eq_add_neg]
     apply F25t.ext <;>
-      simp [mul25_def, add25_def, neg25_def, one25_def] <;>
+      simp [mul25_def, add25_def, neg25_def, one25_def];
       decide⟩
 
 @[expose] def P9 : Matrix.SpecialLinearGroup (Fin 2) F25t :=
@@ -191,19 +191,19 @@ private def frob25tExplicit : F25t ≃+* F25t where
     | mk a b =>
       cases y with
       | mk c d =>
-        apply F25t.ext <;> simp [add25_def, neg25_def] <;> ring
+        apply F25t.ext <;> simp [add25_def]; ring
   map_mul' x y := by
     cases x with
     | mk a b =>
       cases y with
       | mk c d =>
-        apply F25t.ext <;> simp [mul25_def, neg25_def] <;> ring
+        apply F25t.ext <;> simp [mul25_def]; ring
 
 private theorem frob25tExplicit_ne_one : frob25tExplicit ≠ 1 := by
   intro h
   have h1 := congrArg (fun e : F25t ≃+* F25t => e ⟨0, 1⟩) h
   simp [frob25tExplicit] at h1
-  letI : DecidableEq F25t := f25tDecEq
+  let : DecidableEq F25t := f25tDecEq
   exact absurd h1 (by decide)
 
 private theorem frob25t_eq_frob25tExplicit : frob25t = frob25tExplicit := by
@@ -260,7 +260,7 @@ theorem x_fixed (i : Fin 10) :
 
 theorem X_eq_or_neg_eq_imp_eq (i j : Fin 10) :
     (X j = X i ∨ X j = -X i) → i = j := by
-  letI : DecidableEq F25t := f25tDecEq
+  let : DecidableEq F25t := f25tDecEq
   fin_cases i <;> fin_cases j <;> decide
 
 theorem x_injective : Function.Injective x := by
@@ -273,7 +273,7 @@ theorem X_mul_pow_eq_pm_one (i j : Fin 10) :
       X i * X j * (X i * X j) = 1 ∨ X i * X j * (X i * X j) = -1 ∨
       X i * X j * (X i * X j) * (X i * X j) = 1 ∨
       X i * X j * (X i * X j) * (X i * X j) = -1 := by
-  letI : DecidableEq F25t := f25tDecEq
+  let : DecidableEq F25t := f25tDecEq
   fin_cases i <;> fin_cases j <;> decide
 
 theorem orderOf_mk_mem_of_pow_eq_pm_one {M : Matrix.SpecialLinearGroup (Fin 2) F25t}

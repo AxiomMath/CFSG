@@ -31,7 +31,7 @@ theorem vecMulL_cons (r : Nat) (R : List Nat) (v : Nat) :
       rw [Nat.testBit_zero]
       simp [h]
     rw [h0, hb]
-    simp <;> rfl
+    simp; rfl
   · have h0 : Nat.land v 1 = 1 := by
       change v &&& 1 = 1
       rw [Nat.and_one_is_mod, h]
@@ -39,7 +39,7 @@ theorem vecMulL_cons (r : Nat) (R : List Nat) (v : Nat) :
       rw [Nat.testBit_zero]
       simp [h]
     rw [h0, hb]
-    simp <;> rfl
+    simp
 
 private def stepN (R : List Nat) (v acc j : Nat) : Nat :=
   if v.testBit j then acc ^^^ (R[j]?.getD 0) else acc

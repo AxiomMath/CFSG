@@ -24,7 +24,7 @@ theorem isSymNatural_swap :
     ((pairActN 5).comp ρ).codRestrict _ hmem
   have hinj : Function.Injective ρ' := fun σ τ h =>
     hρinj (pairActN_injective (congrArg Subtype.val h))
-  haveI : Finite (MulAut (PairN 5)) :=
+  have : Finite (MulAut (PairN 5)) :=
     Finite.of_injective (fun f : MulAut (PairN 5) => (f : PairN 5 → PairN 5))
       DFunLike.coe_injective
   have hperm : Nat.card (Equiv.Perm (Fin 6)) = 720 := by

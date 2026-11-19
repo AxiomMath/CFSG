@@ -19,7 +19,7 @@ theorem not_isComponentOf_ggFix_diag_two (hKd : UnitaryFieldData 2 1 K)
     (J : Subgroup (LargeEvenProj (unitarySU 2 1 K 6))) :
     ¬ IsComponentOf J (ggFix (TableB.projConj (unitarySU 2 1 K 6) ⟨diagHom 6 τ, hD⟩)) := by
   classical
-  haveI : Finite K := hKd.finite
+  have : Finite K := hKd.finite
   intro hE
   set ē : GL (Fin 6) K ⧸ LargeEvenScalars (Fin 6) K := QuotientGroup.mk (diagHom 6 τ) with hē
   have hJ := isComponentOf_map_of_injective (reducedToPGL K 1 6) reducedToPGL_injective hE
@@ -39,11 +39,11 @@ theorem not_isComponentOf_ggFix_diag_two (hKd : UnitaryFieldData 2 1 K)
     hb i _ fun j => by simp [LinTorus.mem_diagClass]
   have hcls1 : 1 ≤ (LinTorus.diagClass {ē} (fun _ => τ) i).card :=
     Finset.card_pos.mpr ⟨i, LinTorus.self_mem_diagClass _ _ i⟩
-  haveI hBs : Group.IsSolvable ↥((TableBUE.blockSU (K := K) (n := 1)
+  have hBs : Group.IsSolvable ↥((TableBUE.blockSU (K := K) (n := 1)
       (LinTorus.diagClass {ē} (fun _ => τ) i)).map (suToPGL K 1 6)) :=
     WitSU.isSolvable_map_blockSU_two_one hKd (suToPGL K 1 6) hcls1 hcls
   exact isQuasisimple_not_isSolvable hJ.2.2
-    (solvable_of_solvable_injective (Subgroup.inclusion_injective hi))
+    (Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hi))
 
 section Abstract
 
@@ -112,7 +112,7 @@ theorem not_isComponentOf_ggFix_of_heis_two [Finite K] (hKd : UnitaryFieldData 2
   obtain ⟨x, y, z, hxN, hyN, hzN, ζ, hxu, hyu, hzu, hxA, hyA, hzA, hx3, hy3, hz3, hζ3, hζ1, hxy,
     hxz, hyz, hzs⟩ := hheis
   intro a ha ha1
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hζ : IsPrimitiveRoot ζ 3 := by
     have := IsPrimitiveRoot.orderOf ζ
     rwa [orderOf_eq_prime hζ3 hζ1] at this

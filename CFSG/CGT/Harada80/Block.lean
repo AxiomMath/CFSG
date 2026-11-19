@@ -13,6 +13,7 @@ open scoped commutatorElement
 variable {G : Type} [Group G] [Finite G] {M J : Subgroup G} {m : ℕ} (S : Setting G M J m)
 include S
 
+omit [Finite G] S in
 theorem blockQ_le : blockQ J ≤ J :=
   CFSG.RankThreeCoreUniqueness.Helpers.pCoreOf_le 2 J
 
@@ -25,6 +26,7 @@ theorem blockU_comm {a b : G} (ha : a ∈ blockU J) (hb : b ∈ blockU J) : a * 
   have h := S.elemU.1.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩
   simpa using congrArg Subtype.val h
 
+omit [Finite G] S in
 theorem commutator_mem_blockU {g p : G} (hg : g ∈ J) (hp : p ∈ blockQ J) :
     g * p * g⁻¹ * p⁻¹ ∈ blockU J := by
   have h : p * g * p⁻¹ * g⁻¹ ∈ blockU J := by
@@ -285,7 +287,7 @@ theorem blockQ_comm (hZ : blockZ J = ⊥) {a b : G} (ha : a ∈ blockQ J) (hb : 
   let c : G := a * b * a⁻¹ * b⁻¹
   have hAB : ⁅a, b⁆ ∈ blockU J := by
     change ⁅a, b⁆ ∈ ⁅blockQ J, J⁆
-    exact Subgroup.commutator_mem_commutator ha (blockQ_le S hb)
+    exact Subgroup.commutator_mem_commutator ha (blockQ_le hb)
   have hcA : c ∈ blockU J := by
     simpa [c, commutatorElement_def] using hAB
   have hcC : c ∈ Subgroup.centralizer (J : Set G) := by
@@ -293,8 +295,8 @@ theorem blockQ_comm (hZ : blockZ J = ⊥) {a b : G} (ha : a ∈ blockQ J) (hb : 
     intro g hg
     let u : G := g * a * g⁻¹ * a⁻¹
     let v : G := g * b * g⁻¹ * b⁻¹
-    have hu : u ∈ blockU J := commutator_mem_blockU S hg ha
-    have hv : v ∈ blockU J := commutator_mem_blockU S hg hb
+    have hu : u ∈ blockU J := commutator_mem_blockU hg ha
+    have hv : v ∈ blockU J := commutator_mem_blockU hg hb
     have hua : u * a = a * u := (blockQ_comm_blockU S ha hu).symm
     have hub : u * b = b * u := (blockQ_comm_blockU S hb hu).symm
     have hva : a * v = v * a := blockQ_comm_blockU S ha hv
@@ -356,6 +358,7 @@ theorem exists_mul_of_mem_blockQ (hH1 : H1Natural m) (hZ : blockZ J = ⊥) {p : 
     calc p = v * p * v⁻¹ := hcomm.symm
       _ = (v * p) * v⁻¹ := by group
 
+omit [Finite G] S in
 theorem blockQ_inf_centralizer_inf_blockU (hZ : blockZ J = ⊥) :
     blockQ J ⊓ Subgroup.centralizer (J : Set G) ⊓ blockU J = ⊥ := by
   rw [eq_bot_iff]
@@ -401,7 +404,7 @@ private theorem conjCocycle_mem_blockU_of_centralizer (hH1 : H1Natural m)
   exact CFSG.CGT.Hall82.conjCocycle_mul_mem_of_perfect (L := J) (V := blockU J)
     (D := D) (x := x) hLV inf_le_right
     (fun a ha b hb => blockQ_comm S hZ ha.1 hb.1)
-    (by simpa [D] using blockQ_inf_centralizer_inf_blockU S hZ)
+    (by simpa [D] using blockQ_inf_centralizer_inf_blockU hZ)
     (fun d hd v hv => blockQ_comm_blockU S hd.1 hv) S.perfect hδ' g hg
 
 theorem conj_eq_of_centralizer (hH1 : H1Natural m) (hZ : blockZ J = ⊥) {x : G} (hx : x ∈ M)
@@ -410,7 +413,7 @@ theorem conj_eq_of_centralizer (hH1 : H1Natural m) (hZ : blockZ J = ⊥) {x : G}
   let D : Subgroup G := blockQ J ⊓ Subgroup.centralizer (J : Set G)
   obtain ⟨c, hc, v, hv, hp_eq⟩ := exists_mul_of_mem_blockQ S hH1 hZ hp
   have hδA : CFSG.CGT.Hall82.conjCocycle x p ∈ blockU J :=
-    conjCocycle_mem_blockU_of_centralizer S hH1 hZ hx hxA (blockQ_le S hp)
+    conjCocycle_mem_blockU_of_centralizer S hH1 hZ hx hxA (blockQ_le hp)
   have hδD : CFSG.CGT.Hall82.conjCocycle x p ∈ D := by
     have hcQ : x * c * x⁻¹ ∈ blockQ J := conj_mem_blockQ S hx hc.1
     have hcC : x * c * x⁻¹ ∈ Subgroup.centralizer (J : Set G) :=
@@ -430,7 +433,7 @@ theorem conj_eq_of_centralizer (hH1 : H1Natural m) (hZ : blockZ J = ⊥) {x : G}
     Subgroup.mem_inf.mpr ⟨hδD, hδA⟩
   have hδ1 : CFSG.CGT.Hall82.conjCocycle x p = 1 := by
     have h := hδbot
-    rw [show D ⊓ blockU J = ⊥ from blockQ_inf_centralizer_inf_blockU S hZ] at h
+    rw [show D ⊓ blockU J = ⊥ from blockQ_inf_centralizer_inf_blockU hZ] at h
     exact Subgroup.mem_bot.mp h
   calc x * p * x⁻¹ = CFSG.CGT.Hall82.conjCocycle x p * p := by
         simp only [CFSG.CGT.Hall82.conjCocycle]
@@ -441,8 +444,8 @@ theorem exists_mul_mem_centralizer_of_centralizer (hH1 : H1Natural m) (hZ : bloc
     {x : G} (hx : x ∈ M) (hxA : ∀ v ∈ blockU J, x * v * x⁻¹ = v) :
     ∃ v ∈ blockU J, v * x ∈ Subgroup.centralizer (J : Set G) :=
   exists_mul_mem_centralizer S hH1 hZ
-    (fun g hg => conjCocycle_mem_blockU_of_centralizer S hH1 hZ hx hxA hg)
-    (fun p hp => conj_eq_of_centralizer S hH1 hZ hx hxA hp)
+    (fun _g hg => conjCocycle_mem_blockU_of_centralizer S hH1 hZ hx hxA hg)
+    (fun _p hp => conj_eq_of_centralizer S hH1 hZ hx hxA hp)
 
 private theorem le_normalizer_blockU_inf_centralizer {x : G}
     (hxJ : ∀ g ∈ J, x * g * x⁻¹ * g⁻¹ ∈ blockQ J) :
@@ -500,7 +503,7 @@ private theorem exists_ne_one_mem_blockU_centralizer_zpowers (hZ : blockZ J = �
     Subgroup.zpowers_le.mpr hxN
   set P : Subgroup G := blockU J ⊔ Subgroup.zpowers x with hP
   have hP2 : IsPGroup 2 P := IsPGroup.to_sup_of_normal_left' hA2 hX2 hXA
-  haveI : Group.IsNilpotent ↥P := hP2.isNilpotent
+  have : Group.IsNilpotent ↥P := hP2.isNilpotent
   have hAP : blockU J ≤ P := le_sup_left
   have hXP : Subgroup.zpowers x ≤ P := le_sup_right
   have hN : ((blockU J).subgroupOf P).Normal := by

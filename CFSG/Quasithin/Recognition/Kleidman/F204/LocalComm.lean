@@ -22,6 +22,7 @@ theorem P2_le_sup_Q2 (F : Frame L1 L2 S D X) : P2 L1 L2 S ≤ L2 ⊔ Q2 L1 L2 S 
       ((le_sup_right : Q2 L1 L2 S ≤ L2 ⊔ Q2 L1 L2 S) hq)
   exact sup_le le_sup_left hB
 
+omit [Finite G] in
 theorem exists_mul_P2 (F : Frame L1 L2 S D X) {x : G} (hx : x ∈ P2 L1 L2 S) :
     ∃ l ∈ L2, ∃ q ∈ Q2 L1 L2 S, x = l * q := by
   have hL : L2 ≤ Subgroup.normalizer (Q2 L1 L2 S : Set G) :=

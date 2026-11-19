@@ -108,13 +108,13 @@ theorem ggCommonJRowLinTwo_hsign {d m : ℕ} (hd : d = 2 * m ∨ d = 2 * m + 1) 
       (fun _ => rfl) (fun j x => by
         by_cases hj : j = i
         · subst hj
-          simp only [if_true, Equiv.Perm.coe_one, id_eq]
+          simp only [ite_true, Equiv.Perm.coe_one, id_eq]
           exact hfrob2 x
         · simp [hj])
     refine ⟨L, hL, fun t => hLt t _ (fun j => ?_)⟩
     by_cases hj : j = i
     · subst hj
-      simp only [if_true, Equiv.Perm.coe_one, id_eq, hfrob, signV_self]
+      simp only [ite_true, Equiv.Perm.coe_one, id_eq, hfrob, signV_self]
       exact root_pow_neg hζ (t j)
     · simp [hj, signV_of_ne hj]
   have hsw : ∀ i j : Fin m, ∃ L : GL (Fin d) F2, L * L = 1 ∧ ∀ t : Fin m → ZMod 3,

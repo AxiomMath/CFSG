@@ -61,7 +61,7 @@ theorem twoResidual_Y : twoResidual Y = Y := by
   rw [CFSG.Quasithin.F6.twoResidual_eq_oTwoUpper, ← c.hY.perf]
 
 theorem twoResidual_H : twoResidual (burnsideC121_H X T Y) = Y := by
-  rw [c.H_eq]
+  rw [(CFSG.ASVolI.burnsideC121_YCtx.H_eq (X := X) (R := R) (T := T) (Y := Y))]
   refine le_antisymm (twoResidual_le_of_isTwoQuotient le_sup_left
     (sup_le Subgroup.le_normalizer c.P_le_normalizer)
     (B6.isTwoQuotient_of_sup_eq c.P_pGroup (sup_le Subgroup.le_normalizer c.P_le_normalizer)
@@ -70,11 +70,12 @@ theorem twoResidual_H : twoResidual (burnsideC121_H X T Y) = Y := by
   rwa [c.twoResidual_Y] at this
 
 theorem charTwo_H : CharTwo (burnsideC121_H X T Y) :=
-  C126.A5.charTwo_of_pCore_le c.charTwo (c.Q_le_P.trans c.P_le_H) c.H_le_X
+  C126.A5.charTwo_of_pCore_le c.charTwo ((CFSG.ASVolI.burnsideC121_YCtx.Q_le_P (X := X) (R := R) (T := T) (Y := Y)).trans (CFSG.ASVolI.burnsideC121_YCtx.P_le_H (X := X) (R := R) (T := T) (Y := Y))) c.H_le_X
 
+omit [Finite Ω] in
 theorem isSubnormal_Y_H : IsSubnormal Y (burnsideC121_H X T Y) :=
-  IsSubnormal.step c.Y_le_H
-    ((Subgroup.normal_subgroupOf_iff_le_normalizer c.Y_le_H).mpr c.H_le_normalizer)
+  IsSubnormal.step CFSG.ASVolI.burnsideC121_YCtx.Y_le_H
+    ((Subgroup.normal_subgroupOf_iff_le_normalizer CFSG.ASVolI.burnsideC121_YCtx.Y_le_H).mpr c.H_le_normalizer)
     (IsSubnormal.refl _)
 
 theorem commutator_S_eq (hJ : ⁅Y, thompsonJ R⁆ = Y) : ⁅Y, baum T⁆ = Y := by
@@ -97,13 +98,14 @@ theorem b610 (h610 : B_6_10) (hn : 2 ≤ n) (hYS : ¬ Y ≤ Subgroup.normalizer 
     at h2
   exact ⟨h2, h3 c.twoResidual_Y⟩
 
+omit c in
 theorem isSolvable_Y (hn : n = 1) : Group.IsSolvable ↥Y := by
   have h3 : Nat.card D.α.range = 3 := by
     rw [D.αr]; exact burnsideC121_card_commutator_sl2_two (by rw [D.card, hn]; rfl)
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcyc : IsCyclic ↥D.α.range := isCyclic_of_prime_card h3
   have : Group.IsSolvable ↥D.α.range := by
-    letI := hcyc.commGroup
+    let := hcyc.commGroup
     infer_instance
   have hO : Group.IsSolvable ↥((pCoreOf 2 Y).subgroupOf Y) := by
     have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
@@ -111,26 +113,26 @@ theorem isSolvable_Y (hn : n = 1) : Group.IsSolvable ↥Y := by
       (pCoreOf_isPGroup 2 Y).of_equiv (Subgroup.subgroupOfEquivOfLe (pCoreOf_le 2 Y)).symm
     have := hp.isNilpotent
     infer_instance
-  exact solvable_of_ker_le_range ((pCoreOf 2 Y).subgroupOf Y).subtype D.α.rangeRestrict
+  exact Group.isSolvable_of_ker_le_range ((pCoreOf 2 Y).subgroupOf Y).subtype D.α.rangeRestrict
     (by rw [MonoidHom.ker_rangeRestrict, D.αk, Subgroup.range_subtype])
 
 theorem card_H (hn : n = 1) :
     Nat.card (burnsideC121_H X T Y) = 3 * Nat.card (burnsideC121_P X R T Y) := by
-  rw [c.H_eq]
+  rw [(CFSG.ASVolI.burnsideC121_YCtx.H_eq (X := X) (R := R) (T := T) (Y := Y))]
   have h1 := C126.A5.card_sup_mul_card_inf_of_le_normalizer c.P_le_normalizer
   have hYP : Y ⊓ burnsideC121_P X R T Y = pCoreOf 2 Y := by
     rw [inf_comm, c.P_inf_Y, c.RY_eq_pCore D hn]
   rw [hYP] at h1
   have h2 := Subgroup.relIndex_mul_card (pCoreOf 2 Y) Y
-  rw [inf_eq_left.2 (pCoreOf_le 2 Y), c.relIndex_pCore_three D hn] at h2
+  rw [inf_eq_left.2 (pCoreOf_le 2 Y), CFSG.ASVolI.burnsideC121_YCtx.relIndex_pCore_three D hn] at h2
   have hpos : 0 < Nat.card ↥(pCoreOf 2 Y) := Nat.card_pos
   apply Nat.eq_of_mul_eq_mul_right hpos
   rw [h1, ← h2]
   ring
 
 theorem isSolvable_H (hn : n = 1) : Group.IsSolvable ↥(burnsideC121_H X T Y) := by
-  rw [c.H_eq]
-  exact F1.isSolvable_sup_of_le_normalizer (c.isSolvable_Y D hn)
+  rw [(CFSG.ASVolI.burnsideC121_YCtx.H_eq (X := X) (R := R) (T := T) (Y := Y))]
+  exact F1.isSolvable_sup_of_le_normalizer (CFSG.ASVolI.burnsideC121_YCtx.isSolvable_Y D hn)
     (F1.isSolvable_of_isPGroup_two c.P_pGroup) c.P_le_normalizer
 
 theorem pRank_H (hn : n = 1) :

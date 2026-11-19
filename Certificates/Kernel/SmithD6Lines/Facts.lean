@@ -124,7 +124,7 @@ theorem six_le {s : Σ _ : Nat, Nat} (hs : s ∈ tsP) :
     simp [L6, hba, Ne.symm hba, hca, Ne.symm hca, hcb, Ne.symm hcb]
   have hsub : L6.toFinset ⊆ tsP.filter fun t => kap t = kap ⟨a, b⟩ := by
     intro t ht
-    simp only [L6, List.mem_toFinset, List.mem_cons, List.mem_singleton, List.not_mem_nil,
+    simp only [L6, List.mem_toFinset, List.mem_cons, List.not_mem_nil,
       or_false] at ht
     rw [Finset.mem_filter]
     rcases ht with rfl | rfl | rfl | rfl | rfl | rfl

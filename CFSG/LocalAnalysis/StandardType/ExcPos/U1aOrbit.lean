@@ -102,7 +102,7 @@ theorem componentOrbitLength_eq_one {t : StatedLieTag} (ht : t = .E6 ∨ t = .E7
     h28notA6, h29notField, h30, h31⟩ := h
   have hτ : langTag t = .E6 ∨ langTag t = .E7 ∨ langTag t = .E8 := by
     rcases ht with rfl | rfl | rfl <;> simp [langTag]
-  haveI : CharP GGL 2 := inferInstance
+  have : CharP GGL 2 := inferInstance
   obtain ⟨S, hSD, hSρ⟩ := exists_langSetup_of_datum F.Δ F.ρ F.frob F.finite F.one_le_f F.q_eq
   let a : Fin 2 → Fin (langTag t).rank → GGLˣ := ![F.coord x, F.coord F.d]
   have hxmem : x ∈ D := u1aD_x_mem F
@@ -205,10 +205,10 @@ theorem componentOrbitLength_eq_one {t : StatedLieTag} (ht : t = .E6 ∨ t = .E7
       apply Subtype.ext
       exact (congrArg Subtype.val
         (Subgroup.mem_center_iff.1 (hJcenter a) ⟨b, hJG0 b.2⟩)).symm
-    haveI : IsMulCommutative ↥J := IsMulCommutative.of_comm hcommJ
-    haveI : Group.IsPerfect ↥J := hJqs.1
-    haveI : Nontrivial (↥J ⧸ Subgroup.center ↥J) := hJqs.2.1.toNontrivial
-    haveI : Nontrivial ↥J :=
+    have : IsMulCommutative ↥J := IsMulCommutative.of_comm hcommJ
+    have : Group.IsPerfect ↥J := hJqs.1
+    have : Nontrivial (↥J ⧸ Subgroup.center ↥J) := hJqs.2.1.toNontrivial
+    have : Nontrivial ↥J :=
       (QuotientGroup.mk_surjective (s := Subgroup.center ↥J)).nontrivial
     exact (Group.IsPerfect.not_isMulCommutative ↥J) inferInstance
   have hKq : CFSG.IsQuasisimple ↥K :=
@@ -243,7 +243,7 @@ theorem componentOrbitLength_eq_one {t : StatedLieTag} (ht : t = .E6 ∨ t = .E7
     rw [← hnf]
     exact hlabn
   obtain ⟨-, hchar, -, R, instR, hR, ⟨eR⟩⟩ := hlab
-  letI : Group R := instR
+  let : Group R := instR
   let t' : StatedLieTag := markTag lab
   let m : ℕ := markRank lab
   let f' : ℕ := markDeg lab

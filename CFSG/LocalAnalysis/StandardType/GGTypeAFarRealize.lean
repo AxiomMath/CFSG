@@ -208,8 +208,8 @@ theorem slPerm_mem_blockSpecialLinear_pair {F : Type} [Field F] {m : ℕ} (h2 : 
     rw [hπj]
     by_cases hij' : i = j
     · subst hij'
-      rw [if_pos rfl, Matrix.one_apply_eq]
-    · rw [if_neg hij', Matrix.one_apply_ne hij']
+      rw [ite_eq_left rfl, Matrix.one_apply_eq]
+    · rw [ite_eq_right hij', Matrix.one_apply_ne hij']
   · by_cases hj : j ∈ ({a, b} : Finset (Fin m))
     · have hπj : Equiv.swap a b j ∈ ({a, b} : Finset (Fin m)) := by
         rcases Finset.mem_insert.mp hj with rfl | hj'
@@ -218,7 +218,7 @@ theorem slPerm_mem_blockSpecialLinear_pair {F : Type} [Field F] {m : ℕ} (h2 : 
           simp
       have hne1 : i ≠ Equiv.swap a b j := fun h => hi (h ▸ hπj)
       have hne2 : i ≠ j := fun h => hi (h ▸ hj)
-      rw [if_neg hne1, Matrix.one_apply_ne hne2]
+      rw [ite_eq_right hne1, Matrix.one_apply_ne hne2]
     · have hπj : Equiv.swap a b j = j := by
         rw [Equiv.swap_apply_of_ne_of_ne]
         · exact fun h => hj (by rw [h]; simp)
@@ -226,8 +226,8 @@ theorem slPerm_mem_blockSpecialLinear_pair {F : Type} [Field F] {m : ℕ} (h2 : 
       rw [hπj]
       by_cases hij' : i = j
       · subst hij'
-        rw [if_pos rfl, Matrix.one_apply_eq]
-      · rw [if_neg hij', Matrix.one_apply_ne hij']
+        rw [ite_eq_left rfl, Matrix.one_apply_eq]
+      · rw [ite_eq_right hij', Matrix.one_apply_ne hij']
 
 theorem blockSpecialLinear_eq_coordBlockSL {F : Type} [Field F] {m : ℕ}
     (I : Finset (Fin m)) :
@@ -259,7 +259,7 @@ theorem GGFarCtx.natCard_ne_two [Finite F] (hC : GGFarCtx p Bs φ₁ φ₂ x y) 
     Nat.card F ≠ 2 := by
   obtain ⟨τ, hτ, -⟩ := hC.exists_rootOfUnity
   intro h2
-  haveI : Finite Fˣ := inferInstance
+  have : Finite Fˣ := inferInstance
   have hcard : Nat.card Fˣ = 1 := by
     rw [Nat.card_units, h2]
   have hsub : Subsingleton Fˣ :=
@@ -271,7 +271,7 @@ private theorem exists_notMemPair_of_three {n : ℕ} (hn : 3 ≤ n) (a b : Fin (
   exists_notMem_pair (by omega) a b
 
 theorem GGFarCtx.permAut₁_swap_fix_imp_lamHom [Finite F] (hC : GGFarCtx p Bs φ₁ φ₂ x y)
-    {a b : Fin (n + 1)} (hab : a ≠ b) {u : ↥Bs}
+    {a b : Fin (n + 1)} (_hab : a ≠ b) {u : ↥Bs}
     (hfix : hC.permAut₁ (Equiv.swap a b) u = u) : hC.lamHom a b u = 1 := by
   classical
   have hn : 3 ≤ n := hC.three_le
@@ -305,8 +305,8 @@ theorem GGFarCtx.permAut₁_swap_fix_imp_lamHom [Finite F] (hC : GGFarCtx p Bs �
 theorem GGFarCtx.permAut₁_swap_fix_iff_ker [Finite ↥Bs] [Finite F]
     (hC : GGFarCtx p Bs φ₁ φ₂ x y) {a b : Fin (n + 1)} (hab : a ≠ b) (u : ↥Bs) :
     hC.permAut₁ (Equiv.swap a b) u = u ↔ hC.lamHom a b u = 1 := by
-  haveI : Finite ↥(hC.lamHom a b).ker := Subtype.finite
-  haveI : Finite ↥(ggFix (hC.permAut₁ (Equiv.swap a b))) := Subtype.finite
+  have : Finite ↥(hC.lamHom a b).ker := Subtype.finite
+  have : Finite ↥(ggFix (hC.permAut₁ (Equiv.swap a b))) := Subtype.finite
   constructor
   · exact hC.permAut₁_swap_fix_imp_lamHom hab
   · intro hlam
@@ -425,7 +425,7 @@ theorem GGFarCtx.isComponentOf_block_fix [Finite G] [Finite F] (hC : GGFarCtx p 
         (ggFixG Bs (hC.permAut₁ (Equiv.swap a b)) : Set G)) := by
   classical
   have hn : 3 ≤ n := hC.three_le
-  haveI : CharP F 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero hC.two
+  have : CharP F 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero hC.two
   let Et : Subgroup G := ggFixG Bs (hC.permAut₁ (Equiv.swap a b))
   have hEtBs : ∀ c : ↥Et, (c : G) ∈ Bs := fun c =>
     Subgroup.map_subtype_le (ggFix (hC.permAut₁ (Equiv.swap a b))) c.2
@@ -494,8 +494,8 @@ theorem GGFarCtx.realize_permAut₁_swap [Finite G] [Finite F]
     p ∣ Nat.card ((blockSpecialLinear ({a, b} : Finset (Fin (n + 1)))).map φ₁) := by
   classical
   have hn : 3 ≤ n := hC.three_le
-  haveI : CharP F 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero hC.two
-  haveI : Fact p.Prime := ⟨hC.prime⟩
+  have : CharP F 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero hC.two
+  have : Fact p.Prime := ⟨hC.prime⟩
   let t : MulAut ↥Bs := hC.permAut₁ (Equiv.swap a b)
   let Et : Subgroup G := ggFixG Bs t
   let C : Subgroup G := Subgroup.centralizer (Et : Set G)
@@ -550,7 +550,7 @@ theorem GGFarCtx.exists_noncyclic_pSubgroup (hC : GGFarCtx p Bs φ₁ φ₂ x y)
     ∃ S : Subgroup G, S ≤ φ₁.range ∧ IsPGroup p S ∧ ¬ IsCyclic S := by
   classical
   have hn : 3 ≤ n := hC.three_le
-  haveI : Fact p.Prime := ⟨hC.prime⟩
+  have : Fact p.Prime := ⟨hC.prime⟩
   obtain ⟨τ, hτ, hτp⟩ := hC.exists_rootOfUnity
   let i0 : Fin (n + 1) := ⟨0, by omega⟩
   let i1 : Fin (n + 1) := ⟨1, by omega⟩
@@ -717,7 +717,7 @@ theorem GGFarCtx.exists_noncyclic_pSubgroup (hC : GGFarCtx p Bs φ₁ φ₂ x y)
     rw [Subgroup.map_top] at hmap
     simpa [S] using hmap
   · intro hcyc
-    haveI : IsCyclic ↥S := hcyc
+    have : IsCyclic ↥S := hcyc
     let u₁' : ↥S := ⟨u₁, hu₁S⟩
     let u₂' : ↥S := ⟨u₂, hu₂S⟩
     have hu₁'p : u₁' ^ p = 1 := Subtype.ext (by simpa [u₁'] using hu₁p)
@@ -728,9 +728,9 @@ theorem GGFarCtx.exists_noncyclic_pSubgroup (hC : GGFarCtx p Bs φ₁ φ₂ x y)
     have hu₂'ne : u₂' ≠ 1 := by
       intro h
       exact hu₂ne (by simpa [u₂'] using congrArg Subtype.val h)
-    haveI : Finite (Subgroup.zpowers u₁') := IsOfFinOrder.finite_zpowers
+    have : Finite (Subgroup.zpowers u₁') := IsOfFinOrder.finite_zpowers
       (isOfFinOrder_iff_pow_eq_one.mpr ⟨p, hC.prime.pos, hu₁'p⟩)
-    haveI : Finite (Subgroup.zpowers u₂') := IsOfFinOrder.finite_zpowers
+    have : Finite (Subgroup.zpowers u₂') := IsOfFinOrder.finite_zpowers
       (isOfFinOrder_iff_pow_eq_one.mpr ⟨p, hC.prime.pos, hu₂'p⟩)
     have hord₁' : orderOf u₁' = p := by
       rw [show u₁' = (⟨u₁, hu₁S⟩ : ↥S) from rfl, Subgroup.orderOf_mk, hord₁]

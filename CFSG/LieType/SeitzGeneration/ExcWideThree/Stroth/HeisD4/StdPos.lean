@@ -87,7 +87,7 @@ theorem triPairing_e6Shift_wBeta : triPairing stdChar (e6Shift wBeta) ≠ 0 := b
     refine e6Shift_eq_of_three_smul ?_
     rw [wBeta, ← wordAct_eq_smul]
     funext i
-    simp only [Pi.smul_apply, smul_eq_mul, Pi.sub_apply]
+    simp only [Pi.sub_apply]
     exact wBeta_shift_check i
   rw [this]
   exact stdChar_shift_wBeta_check
@@ -107,7 +107,7 @@ theorem mem_parabolicRoots_d4Support_iff' {α : Fin Tag.E6.rank → ℤ} :
     α ∈ parabolicRoots Tag.E6 d4Support ↔ IsRoot Tag.E6 α ∧ α 0 = 0 ∧ α 5 = 0 := by
   refine and_congr_right fun _ => ⟨fun h => ⟨h 0 (by simp [d4Support]), h 5 (by simp [d4Support])⟩,
     fun ⟨h0, h5⟩ i hi => ?_⟩
-  rw [d4Support, Set.mem_setOf_eq, not_and_or, not_not, not_not] at hi
+  rw [d4Support, Set.mem_ofPred_eq, not_and_or, not_not, not_not] at hi
   rcases hi with rfl | rfl
   · exact h0
   · exact h5

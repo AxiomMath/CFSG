@@ -62,11 +62,11 @@ private theorem ennolaExc_canonLabel_eq_of_component_top (hRig : GGLabelRigidInp
     (hJp : CFSG.Open.IsComponentOf J (⊤ : Subgroup S)) :
     canonLabel labK = canonLabel labJ := by
   have hnt : Nontrivial ↥J := by
-    haveI : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := hJp.2.2.2
+    have : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := hJp.2.2.2
     exact Function.Surjective.nontrivial (QuotientGroup.mk_surjective (s := Subgroup.center ↥J))
   have hne : J ≠ ⊥ := (Subgroup.nontrivial_iff_ne_bot J).mp hnt
   have htop : J = ⊤ := by
-    haveI : IsSimpleGroup ↥(⊤ : Subgroup S) := Subgroup.topEquiv.isSimpleGroup
+    have : IsSimpleGroup ↥(⊤ : Subgroup S) := Subgroup.topEquiv.isSimpleGroup
     exact CFSG.LocalAnalysis.GLTheoremA.AltDown.eq_of_isSubnormal_of_isSimpleGroup hJp.2.1 hne
   have e : ↥J ≃* S := (MulEquiv.subgroupCongr htop).trans Subgroup.topEquiv
   have hJ' : HasLabel S (fun l : GLALabel => l = labJ) :=
@@ -158,8 +158,8 @@ theorem innDiagAllEnnolaExc_of_inputs
     canonLabel_n_eq_self hlamK fun h => by simp [FamExc, h] at hFam
   have ht := ennolaExc_tag_of_fam_row hFam hrow
   have hq := hasLabel_isQuasisimple hK
-  haveI := hq.2
-  haveI hS : IsSimpleGroup S := (CanonInn.quotCenterEquivOfBot hcen).symm.isSimpleGroup
+  have := hq.2
+  have hS : IsSimpleGroup S := (CanonInn.quotCenterEquivOfBot hcen).symm.isSimpleGroup
   by_cases hα1 : α = 1
   · subst hα1
     have hfix : fixSubgroup (1 : MulAut S) = ⊤ := by

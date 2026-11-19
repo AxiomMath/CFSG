@@ -128,6 +128,7 @@ theorem false_of_sq_normalizes_two {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {E V
   rw [Subgroup.mem_centralizer_singleton_iff, ← hn]
   exact (hey.zpow_right n).eq
 
+omit [Finite X] in
 theorem elemAbelian_of_le {p : ℕ} {E F : Subgroup X} (hE : IsElemAbelian p E) (hFE : F ≤ E) :
     IsElemAbelian p F :=
   ⟨⟨⟨fun a b => Subtype.ext (by

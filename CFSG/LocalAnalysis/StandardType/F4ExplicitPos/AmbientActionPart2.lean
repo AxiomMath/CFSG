@@ -15,6 +15,7 @@ section F4Equations
 open CFSG.StandardType.F4ExplicitPos.BaseChange
 variable {K L : Type} {X : Type*} [Field K] [Field L] [Algebra K L] [Finite K] [Group X] [Finite X]
 
+omit [Finite K] [Finite X] in
 theorem psi_betaF4_action (ψ : adjointGroup .F4 K →* X) (G0 B1 : Subgroup X)
     (hG0 : ψ.range = G0) (hker : ψ.ker ≤ Subgroup.center (adjointGroup .F4 K))
     (hcenter : Subgroup.center (adjointGroup .F4 K) = ⊥)
@@ -26,6 +27,7 @@ theorem psi_betaF4_action (ψ : adjointGroup .F4 K →* X) (G0 B1 : Subgroup X)
       (b : X) * ψ u * (b : X)⁻¹ :=
   psi_beta_action ψ G0 B1 hG0 hker hcenter hBN hinner b u
 
+omit [Finite K] [Finite X] in
 theorem betaF4_ker (ψ : adjointGroup .F4 K →* X) (G0 B1 : Subgroup X)
     (hG0 : ψ.range = G0) (hker : ψ.ker ≤ Subgroup.center (adjointGroup .F4 K))
     (hcenter : Subgroup.center (adjointGroup .F4 K) = ⊥)
@@ -35,6 +37,7 @@ theorem betaF4_ker (ψ : adjointGroup .F4 K →* X) (G0 B1 : Subgroup X)
       (Subgroup.centralizer (G0 : Set X)).subgroupOf B1 :=
   beta_ker ψ G0 B1 hG0 hker hcenter hBN hinner
 
+omit [Finite X] [Finite K] in
 theorem thetaF4_ker
     (ψ : adjointGroup .F4 K →* X) (G0 B1 : Subgroup X)
     (hG0 : ψ.range = G0) (hker : ψ.ker ≤ Subgroup.center (adjointGroup .F4 K))
@@ -49,6 +52,7 @@ theorem thetaF4_ker
       (map_one (jF4 : adjointGroup .F4 K →* adjointGroup .F4 L)).symm]
   exact (jF4_injective).eq_iff
 
+omit [Finite K] [Finite X] in
 theorem iotaF4_normalizer
     (ψ : adjointGroup .F4 K →* X) (G0 B1 : Subgroup X)
     (hG0 : ψ.range = G0) (hker : ψ.ker ≤ Subgroup.center (adjointGroup .F4 K))
@@ -84,6 +88,7 @@ theorem iotaF4_normalizer
       rw [← MulAut.conj_apply, beta_conj]]
   rw [map_mul, map_mul, map_inv]
 
+omit [Finite X] in
 theorem frobF4_iotaF4
     (Fr : L →+* L) (hFr : ∀ c, Fr c = c ^ Nat.card K)
     (ψ : adjointGroup .F4 K →* X) (G0 : Subgroup X) (hG0 : ψ.range = G0)
@@ -95,6 +100,7 @@ theorem frobF4_iotaF4
   rw [iotaF4, MonoidHom.comp_apply]
   exact frobF4_jF4 Fr hFr _
 
+omit [Finite X] in
 theorem frobF4_thetaF4
     (Fr : L →+* L) (hFr : ∀ c, Fr c = c ^ Nat.card K)
     (ψ : adjointGroup .F4 K →* X) (G0 B1 : Subgroup X) (hG0 : ψ.range = G0)
@@ -109,6 +115,7 @@ theorem frobF4_thetaF4
   rw [thetaF4, MonoidHom.comp_apply]
   exact frobF4_jF4 Fr hFr _
 
+omit [Finite X] [Finite K] in
 theorem thetaD_ker_eq
     (ψ : adjointGroup .F4 K →* X) (G0 B1 : Subgroup X)
     (hG0 : ψ.range = G0) (hker : ψ.ker ≤ Subgroup.center (adjointGroup .F4 K))
@@ -128,6 +135,7 @@ theorem thetaD_ker_eq
   rw [beta_eq_one_iff]
   rfl
 
+omit [Finite X] [Finite K] in
 theorem theta_image_card
     (ψ : adjointGroup .F4 K →* X) (G0 B1 : Subgroup X)
     (hG0 : ψ.range = G0) (hker : ψ.ker ≤ Subgroup.center (adjointGroup .F4 K))
@@ -145,6 +153,7 @@ theorem theta_image_card
     MonoidHom.range_comp, Subgroup.inclusion_range, Nat.mul_comm] at hcard
   exact hcard
 
+omit [Finite K] in
 theorem thetaD_image_card_le
     (ψ : adjointGroup .F4 K →* X) (G0 B1 : Subgroup X)
     (hG0 : ψ.range = G0) (hker : ψ.ker ≤ Subgroup.center (adjointGroup .F4 K))
@@ -185,6 +194,7 @@ open BaseChange CFSG.StandardType CFSG.StandardType.ClassicalPosition
 variable {K Lf X : Type} [Field K] [Finite K] [CharP K 2] [Field Lf] [Algebra K Lf] [Group X]
     [Finite X]
 
+omit [Finite X] in
 theorem f4_hinner
     {ψ : adjointGroup .F4 K →* X} {G0 B1 : Subgroup X}
     (hG0 : ψ.range = G0) (hker : ψ.ker ≤ Subgroup.center (adjointGroup .F4 K))

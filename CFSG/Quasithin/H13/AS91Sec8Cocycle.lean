@@ -61,7 +61,7 @@ theorem cocycle_odd_index {K A : Type*} [Group K] [Finite K] [CommGroup A] [Fini
     show E' (k₀ • ((z : K) : K ⧸ T)) = e k₀ * ρ k₀ (E' ((z : K) : K ⧸ T))
     have hsm : k₀ • ((z : K) : K ⧸ T) = ((k₀ * z : K) : K ⧸ T) := rfl
     rw [hsm, hE', hE', hcoc]
-  haveI : Fintype (K ⧸ T) := Fintype.ofFinite _
+  have : Fintype (K ⧸ T) := Fintype.ofFinite _
   have hcard : Fintype.card (K ⧸ T) = T.index := by
     rw [Subgroup.index_eq_card, Nat.card_eq_fintype_card]
   obtain ⟨w, hw⟩ : ∃ w : A, w = ∏ q : K ⧸ T, E' q := ⟨_, rfl⟩

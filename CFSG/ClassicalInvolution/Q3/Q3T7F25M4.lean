@@ -240,7 +240,7 @@ theorem false_of_fusion_gen (U : Set G) (hG : ∀ f : G →* Multiplicative (ZMo
     charOfIndexTwo_apply_of_not_mem hidx (fun h => hyB (Subgroup.mem_subgroupOf.mp h))
   have hord : ∀ b : G, b ∈ H → ∃ m : ℕ, orderOf b = 2 ^ m := by
     intro b hb
-    have := (IsPGroup.iff_orderOf (p := 2) (G := ↥H)).mp S.isPGroup' ⟨b, hb⟩
+    have := (IsPGroup.iff_orderOf (p := 2) (G := ↥H)).mp S.isPGroup ⟨b, hb⟩
     obtain ⟨m, hm⟩ := this
     exact ⟨m, by simpa using hm⟩
   have hc : (Multiplicative.ofAdd (1 : ZMod 2)) ^ 2 = 1 := by decide
@@ -337,7 +337,7 @@ omit h h11 in
 theorem exists_orderOf_eq {S : Sylow 2 G} {a : G} (ha : a ∈ (S : Subgroup G)) :
     ∃ e : ℕ, orderOf a = 2 ^ e := by
   obtain ⟨m, hm⟩ := (IsPGroup.iff_orderOf (p := 2) (G := ↥(S : Subgroup G))).mp
-    S.isPGroup' ⟨a, ha⟩
+    S.isPGroup ⟨a, ha⟩
   exact ⟨m, by simpa using hm⟩
 omit h11 in
 
@@ -547,7 +547,7 @@ theorem data_of_normalizes {g : G} (hg : g * z * g⁻¹ = t) (ht2 : t * t = 1)
   have hRS : R ≤ (S : Subgroup G) := hyp.hR.2.2
   have hR'S : R' ≤ (S : Subgroup G) := hyp.hR'.2.2
   have hc : Commutes R R' := hΩ.commutes_of_twin_of_isPGroup hK hK' hKK'.symm hz hz'
-    (hRsyl.1) (hR'syl.1) (S.isPGroup'.to_le (sup_le hRS hR'S))
+    (hRsyl.1) (hR'syl.1) (S.isPGroup.to_le (sup_le hRS hR'S))
   have hRq : IsQuatSub R := hΩ.isQuatSub_of_mem_RSet hyp.hR.1
   have hR'q : IsQuatSub R' := hΩ.isQuatSub_of_mem_RSet hyp.hR'.1
   have hzR : IsUniqueInvolution R z :=

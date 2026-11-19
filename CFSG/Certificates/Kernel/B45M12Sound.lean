@@ -79,7 +79,7 @@ theorem length_trStep : ∀ (rs : List ℕ) (c : ℕ), (trStep rs c).length = rs
 theorem getD_trStep : ∀ (rs : List ℕ) (c : ℕ) {i : ℕ}, i < rs.length →
     (trStep rs c).getD i 0 = 2 * rs.getD i 0 + c / 2 ^ i % 2
   | [], _, _, h => absurd h (Nat.not_lt_zero _)
-  | r :: rs, c, 0, _ => by simp [trStep, List.getD_cons_zero]
+  | r :: rs, c, 0, _ => by simp [trStep]
   | r :: rs, c, i + 1, h => by
     rw [trStep, List.getD_cons_succ, List.getD_cons_succ,
       getD_trStep rs (c / 2) (by simpa using h), Nat.div_div_eq_div_mul, Nat.pow_succ',
@@ -248,6 +248,7 @@ theorem getD_reverse_of_lt {β : Type} (l : List β) (d d' : β) {i : ℕ} (h : 
   rw [List.getD_eq_getElem _ _ (by simpa using h), List.getD_eq_getElem _ _ (by omega),
     List.getElem_reverse]
 
+omit [Field F] in
 theorem spinR_spec {n : ℕ} (dec : α → Fin n → F) (f : ℕ → α → α)
     (g : Bool → Vector F n → Vector F n) (v : α) (u : Vector F n) (hv : dec v = fun i => u[i])
     (hfg : ∀ z x (y : Vector F n), dec x = (fun i => y[i]) →
@@ -277,9 +278,9 @@ theorem spinR_spec {n : ℕ} (dec : α → Fin n → F) (f : ℕ → α → α)
         intro i hi
         rw [getD_push, hs]
         by_cases hik : i = k
-        · rw [if_pos hik, hik, Nat.add_sub_cancel, Nat.sub_self, List.getD_cons_zero]
+        · rw [ite_eq_left hik, hik, Nat.add_sub_cancel, Nat.sub_self, List.getD_cons_zero]
           exact hfg _ _ _ hx
-        · rw [if_neg hik]
+        · rw [ite_eq_right hik]
           have e' : k + 1 - 1 - i = (k - 1 - i) + 1 := by omega
           rw [e', List.getD_cons_succ]
           exact h i (by omega))
@@ -289,6 +290,7 @@ theorem spinR_spec {n : ℕ} (dec : α → Fin n → F) (f : ℕ → α → α)
     rw [e1]
     exact ⟨h1, h2, h3⟩
 
+omit [Field F] in
 theorem colMat_spin {n : ℕ} (dec : α → Fin n → F) (d₀ : α) (f : ℕ → α → α)
     (g : Bool → Vector F n → Vector F n) (v : α) (u : Vector F n) (hv : dec v = fun i => u[i])
     (hfg : ∀ z x (y : Vector F n), dec x = (fun i => y[i]) →
@@ -307,10 +309,12 @@ theorem colMat_spin {n : ℕ} (dec : α → Fin n → F) (d₀ : α) (f : ℕ �
   rw [getD_reverse_of_lt _ d₀ v hj, h1]
   exact this
 
+omit [Field F] in
 theorem untab_colTab_apply {n : ℕ} (vs : Array (Vector F n)) (u : Vector F n) (i j : Fin n) :
     untab (colTab vs u) i j = (vs.getD j u)[i] := by
   simp [colTab, untab]
 
+omit [Field F] in
 theorem untab_rowTab_apply {n : ℕ} (ws : Array (Vector F n)) (u : Vector F n) (i j : Fin n) :
     untab (rowTab ws u) i j = (ws.getD i u)[j] := by
   simp [rowTab, untab]
@@ -364,9 +368,9 @@ theorem bvec_sumT {n : ℕ} {Ma Mb : Vector (Vector (ZMod 2) n) n} {Ha Hb : List
     congr 1
     rcases Nat.mod_two_eq_zero_or_one t.2 with h | h
     · have hc : (t.2 : ZMod 2) = 0 := by rw [← ZMod.natCast_mod, h, Nat.cast_zero]
-      rw [if_neg (by omega), bvec_zero, hc, zero_smul]
+      rw [ite_eq_right (by omega), bvec_zero, hc, zero_smul]
     · have hc : (t.2 : ZMod 2) = 1 := by rw [← ZMod.natCast_mod, h, Nat.cast_one]
-      rw [if_pos h, hw, hc, one_smul]
+      rw [ite_eq_left h, hw, hc, one_smul]
 
 theorem maskMat_spinM {n : ℕ} {Ma Mb : Vector (Vector (ZMod 2) n) n} {Ga Gb : List ℕ}
     (hact : ∀ z x, bvec n (actM (genM Ga Gb z) x) = untab (genT Ma Mb (z == 2)) *ᵥ bvec n x)
@@ -539,10 +543,10 @@ theorem pairMat_idF4 (n : ℕ) : pairMat n n (idF4 n) = 1 := by
   simp only [pairMat, Matrix.of_apply, pent, hj, Nat.testBit_two_pow, Nat.zero_testBit]
   by_cases h : i = j
   · subst h
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     exact FieldFour.ext (decide_eq_true rfl) rfl
   · have : (j : ℕ) ≠ i := fun h' => h (Fin.ext h'.symm)
-    rw [if_neg h]
+    rw [ite_eq_right h]
     exact FieldFour.ext (decide_eq_false this) rfl
 
 theorem getD_mod_of_eqF4 {m : ℕ} : ∀ {X Y : List (ℕ × ℕ)}, eqF4 m X Y = true → ∀ j,
@@ -630,7 +634,7 @@ theorem pairMat_ofF2 (m n : ℕ) (X : List ℕ) :
     cases X[j]? <;> rfl
   simp only [pairMat, Matrix.of_apply, Matrix.map_apply, maskMat_apply, hg, pent,
     Nat.zero_testBit]
-  cases (X.getD j 0).testBit i <;> first | rfl | decide
+  cases (X.getD j 0).testBit i <;> first | rfl
 
 theorem pairMat_frobF4 (m n : ℕ) (X : List (ℕ × ℕ)) :
     pairMat m n (frobF4 X) = (pairMat m n X).map frob := by
@@ -666,7 +670,7 @@ theorem testBit_planes : ∀ (k r j : ℕ), j < k →
       testBit_bit_succ' (Nat.mod_lt _ (by norm_num)), ih.1, ih.2]
     have e : r / 4 = r / 2 ^ 2 := rfl
     rw [e, Nat.testBit_div_two_pow, Nat.testBit_div_two_pow]
-    constructor <;> congr 1 <;> omega
+    constructor <;> congr 1
 
 theorem getD_map_planes (n : ℕ) (rows : List ℕ) (i : ℕ) :
     (rows.map (planes n)).getD i (0, 0) = planes n (rows.getD i 0) := by

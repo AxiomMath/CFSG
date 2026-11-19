@@ -104,7 +104,7 @@ theorem wordK_eq {wd : List Int} (hl : lettersK 13 wd = true) :
   have e : Nat.beq (wordK 1755 11 (mask 11) (pidn 1755 11) TitsD.S TitsD.SI wd) (wK wd) = true :=
     Nat.beq_refl _
   unfold wordEqK
-  rw [hl, e] <;> rfl
+  rw [hl, e]; rfl
 
 theorem repD {wd : List Int} (hl : lettersK 13 wd = true) :
     Rep 1755 (unpack 1755 11 (wK wd)) (wordIn 13 titsT wd) := by
@@ -130,13 +130,13 @@ theorem wordIn_neg {G : Type*} [Group G] (k : ℕ) (gs : ℕ → G) (l : ℤ) :
     rcases lt_or_gt_of_ne h.1 with hl | hl
     · have hl' : 0 < -l := by omega
       have hl'' : ¬ 0 < l := by omega
-      simp [wordIn, toLetters, h, h', hl', hl, hl'', Int.natAbs_neg]
+      simp [wordIn, toLetters, h, h', hl, hl'', Int.natAbs_neg]
     · have hl' : ¬ 0 < -l := by omega
-      simp [wordIn, toLetters, h, h', hl', hl, not_lt.2 hl.le, Int.natAbs_neg]
+      simp [wordIn, toLetters, h, h', hl, not_lt.2 hl.le, Int.natAbs_neg]
   · have h' : ¬ (-l ≠ 0 ∧ (-l).natAbs ≤ k) := by
       rw [Int.natAbs_neg, neg_ne_zero]
       exact h
-    simp only [wordIn, toLetters, List.filterMap_cons, List.filterMap_nil, dif_neg h, dif_neg h']
+    simp only [wordIn, toLetters, List.filterMap_cons, List.filterMap_nil, dite_eq_right h, dite_eq_right h']
     simp
 
 @[expose] def invW (w : List ℤ) : List ℤ := (w.map Neg.neg).reverse
@@ -302,8 +302,8 @@ theorem card_fix_conj (τ σ : Equiv.Perm (Fin 2925)) :
     rw [Equiv.Perm.mul_apply, Equiv.Perm.mul_apply, ← Equiv.Perm.eq_inv_iff_eq])
 
 theorem card_fix_inv (σ : Equiv.Perm (Fin 2925)) :
-    Fintype.card {p : Fin 2925 // σ⁻¹ p = p} = Fintype.card {p : Fin 2925 // σ p = p} :=
-  Fintype.card_congr (Equiv.subtypeEquivRight fun p => Equiv.Perm.inv_eq_iff_eq.trans eq_comm)
+    Fintype.card {_p : Fin 2925 // σ⁻¹ _p = _p} = Fintype.card {_p : Fin 2925 // σ _p = _p} :=
+  Fintype.card_congr (Equiv.subtypeEquivRight fun _p => Equiv.Perm.inv_eq_iff_eq.trans eq_comm)
 
 theorem LC_conj {τ σ : Equiv.Perm (Fin 2925)} : LC (τ * σ * τ⁻¹) ↔ LC σ := by
   rw [LC, LC, card_fix_conj]
@@ -357,7 +357,7 @@ theorem repS {wd : List Int}
     Nat.beq_refl _
   have hw : wordEqK 2925 12 (mask 12) (pidn 2925 12) TitsSS.T TitsSS.TI 13 wd (wS wd) = true := by
     unfold wordEqK
-    rw [hl, e] <;> rfl
+    rw [hl, e]; rfl
   have ha := (wordEqK_sound ⟨TitsStab.tS_size, fun _ hj => TitsStab.tS_get hj⟩ TitsStab.aTp' hw).1
   rw [← ha]
   exact rep_wordArr_tstar (lettersK_sound hl)

@@ -19,10 +19,10 @@ theorem false_of_fixedDatum_glTwo {π : Bool} {p f : ℕ} {K : Type} [Field K]
     refine Subgroup.mem_map.mpr ⟨e.symm g * r * (e.symm g)⁻¹, hRn _ r hr, ?_⟩
     simp
   let eR : R ≃* R.map e.toMonoidHom := Subgroup.equivMapOfInjective R e.toMonoidHom e.injective
-  haveI : Group.IsSolvable (R.map e.toMonoidHom) := Group.isSolvable_of_surjective (f := eR.toMonoidHom) eR.surjective
+  have : Group.IsSolvable (R.map e.toMonoidHom) := Group.isSolvable_of_surjective (f := eR.toMonoidHom) eR.surjective
   have hNc : IsCyclic (R.map e.toMonoidHom) :=
     glPi_two_solvable_normal_cyclic hK hq3 (R.map e.toMonoidHom) inferInstance
-  haveI : IsCyclic R := eR.isCyclic.mpr hNc
+  have : IsCyclic R := eR.isCyclic.mpr hNc
   have : IsCyclic (P.subgroupOf R) := inferInstance
   exact hPnc ((Subgroup.subgroupOfEquivOfLe hPR).isCyclic.mp this)
 

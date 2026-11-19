@@ -76,7 +76,7 @@ theorem noncentralSylow_triple_normalizing_moving_element
   let W := (A : Subgroup E).map E.subtype
   have hWE : W ≤ E := Subgroup.map_subtype_le _
   have hWB : W ≤ B := hWE.trans inf_le_left
-  have hWp : IsPGroup p W := A.isPGroup'.map E.subtype
+  have hWp : IsPGroup p W := A.isPGroup.map E.subtype
   have hWBin : IsPGroup p (W.subgroupOf B) := hWp.comap_subtype
   obtain ⟨T, hWTin⟩ := hWBin.exists_le_sylow
   let TG := (T : Subgroup B).map B.subtype
@@ -102,7 +102,7 @@ theorem noncentralSylow_triple_normalizing_moving_element
   have hsurj : Function.Surjective (q.domRestrict (E.subgroupOf B)) :=
     noncentralSylow_triple_pair_quotient_surjective h.local_datum S hzS hzcenter beta hbeta
   have himages := noncentralSylow_containing_pgroup_image_eq p hp B E inf_le_left
-    q hsurj A TG (T.isPGroup'.map B.subtype) hWT
+    q hsurj A TG (T.isPGroup.map B.subtype) hWT
   have hsubtypeT : TG.subgroupOf B = (T : Subgroup B) := by
     ext b
     exact Subgroup.mem_map_iff_mem B.subtype_injective
@@ -112,7 +112,7 @@ theorem noncentralSylow_triple_normalizing_moving_element
     rw [Subgroup.map_subgroupOf_eq_of_le hWB]
     exact hstrict
   obtain ⟨xB, hxT, hxker, hxN, hxW⟩ := noncentralSylow_kernel_normalizer_growth
-    p hp (T : Subgroup B) (W.subgroupOf B) T.isPGroup' hWTB q himages
+    p hp (T : Subgroup B) (W.subgroupOf B) T.isPGroup hWTB q himages
   have hxG : (xB : G) ∈ TG := Subgroup.mem_map_of_mem B.subtype hxT
   have hxJ : (xB : G) ∈ pairOddCore H beta := by
     have hxcore : xB ∈ CFSG.oddCore B := by
@@ -125,7 +125,7 @@ theorem noncentralSylow_triple_normalizing_moving_element
   have hxnotE : (xB : G) ∉ E := by
     intro hxE
     have hinter : TG ⊓ E = W := noncentralSylow_containing_pgroup_intersection p E A TG
-      (T.isPGroup'.map B.subtype) hWT
+      (T.isPGroup.map B.subtype) hWT
     have hxWG : (xB : G) ∈ W := by
       rw [← hinter]
       exact ⟨hxG, hxE⟩

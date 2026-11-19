@@ -73,21 +73,21 @@ theorem core_bf_eq_zero_iff {V₁ P : Subgroup G} [(V₁.subgroupOf P).Normal] (
       apply hne
       calc (p : G) * r = (p : G) * r * (p : G)⁻¹ * (r : G)⁻¹ * ((r : G) * (p : G)) := by group
         _ = (r : G) * p := by rw [h1, one_mul]
-    rw [if_neg hne'] at h
+    rw [ite_eq_right hne'] at h
     exact one_ne_zero h
   · intro h
     have h1 : (p : G) * r * (p : G)⁻¹ * (r : G)⁻¹ = 1 := by
       calc (p : G) * r * (p : G)⁻¹ * (r : G)⁻¹ = (r : G) * p * (p : G)⁻¹ * (r : G)⁻¹ := by
             rw [h]
         _ = 1 := by group
-    rw [if_pos h1]
+    rw [ite_eq_left h1]
 
 theorem core_qf_eq_zero {V₁ P : Subgroup G} [(V₁.subgroupOf P).Normal] (hP : FormHyp V₁ P)
     {Y : Subgroup G} (hV : V₁ ≤ Y) (hYe : ∀ y ∈ Y, y * y = 1) (x : Ebar V₁ P)
     (hx : x ∈ FormHyp.imgE V₁ P Y) : hP.qf x = 0 := by
   obtain ⟨p, rfl⟩ := QuotientGroup.mk_surjective x
   rw [FormHyp.mem_imgE hV] at hx
-  rw [FormHyp.qf_mk, if_pos (hYe _ hx)]
+  rw [FormHyp.qf_mk, ite_eq_left (hYe _ hx)]
 
 theorem core_mem_imgE_iff_fix {V₁ P : Subgroup G} [(V₁.subgroupOf P).Normal]
     (hP : FormHyp V₁ P) {v : G} (hvN : ∀ p ∈ P, v * p * v⁻¹ ∈ P) {a : Ebar V₁ P ≃* Ebar V₁ P}
@@ -163,7 +163,7 @@ theorem center_le [Finite G] {V₁ P Xg Yg : Subgroup G} {v i : G} (hcard : Nat.
       (Nat.card Xg = 2 ^ 5 ∧ ∀ y ∈ Yg, (∀ x ∈ Xg, y * x = x * y) → y ∈ V₁)) :
     ∀ p ∈ P, (∀ r ∈ P, p * r = r * p) → p ∈ V₁ := by
   have hP : FormHyp V₁ P := ⟨hcard, hV₁P, hcen, hsq, hcomm⟩
-  haveI : (V₁.subgroupOf P).Normal := hP.normal
+  have : (V₁.subgroupOf P).Normal := hP.normal
   obtain ⟨a, ha_def⟩ : ∃ a : Ebar V₁ P ≃* Ebar V₁ P, a = hP.conjE v hvN hvN' hv₁ := ⟨_, rfl⟩
   obtain ⟨b, hb_def⟩ : ∃ b : Ebar V₁ P ≃* Ebar V₁ P, b = hP.conjE i hiN hiN' hi₁ := ⟨_, rfl⟩
   have ha_mk : ∀ p : ↥P, a (QuotientGroup.mk p) = QuotientGroup.mk ⟨v * p * v⁻¹, hvN p p.2⟩ := by

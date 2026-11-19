@@ -55,8 +55,7 @@ theorem checkD8_tabOK {n : ℕ} {A B U : Array ℕ} {ws : List (List ℕ)}
   simp only [Bool.and_eq_true, and_assoc] at h
   obtain ⟨hA, hB, hU, -, hid, hperm, hdist, hgen, hmul, hinv, hquad⟩ := h
   simp only [idOKT, permOKT, distinctOKT, genOKT, mulOKT, invOKT, CFSG.Monster.B.Co2.allLt_iff,
-    Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_true, beq_iff_eq, Bool.not_eq_true',
-    Bool.not_eq_true] at hid hperm hdist hgen hmul hinv
+    Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_true, beq_iff_eq, Bool.not_eq_true'] at hid hperm hdist hgen hmul hinv
   exact {
     gens_eq := rfl
     hA := hA

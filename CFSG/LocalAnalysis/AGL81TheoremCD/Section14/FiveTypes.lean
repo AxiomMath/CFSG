@@ -28,10 +28,10 @@ variable {G : Type} [Group G] [Finite G]
 theorem isKComp_of_isPComponentIn {M H J : Subgroup G} (hJ : IsPComponentIn 3 J H)
     (hJM : ¬ J ≤ M) (hL : ¬ pLayerIn 3 H ≤ M) : IsKComp M H J := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hJK : J ≤ kSub 3 M H := by
     unfold kSub
-    rw [if_neg hL]
+    rw [ite_eq_right hL]
     exact le_sSup ⟨hJ, hJM⟩
   obtain ⟨hsubH, hgen, hq⟩ :=
     (CFSG.ComponentClassification.CatalogueBPrimeJoin.pComponent_subgroupOf_iff
@@ -47,7 +47,7 @@ theorem nonempty_threeStar_mulEquiv_map {H : Subgroup G} {J₀ : Subgroup ↥H}
     Nonempty (threeStar (J₀.map H.subtype) ≃*
       ↥(J₀.map (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥H)))) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let O : Subgroup ↥H := CFSG.pPrimeCore 3 ↥H
   let π : ↥H →* (↥H ⧸ O) := QuotientGroup.mk' O
   let K : Subgroup (↥H ⧸ O) := J₀.map π
@@ -154,6 +154,7 @@ theorem preambleFiveTypes_of
   obtain ⟨E, -, hdata⟩ := exists_hypCGen_of_mem hC hM hσ hQ hH
   exact hdata.fiveTypes h1210 h97 h96 (hU 3 E H hdata)
 
+omit [Finite G] in
 theorem FiveTypes.exists_isKComp {M H : Subgroup G} (h : FiveTypes M H) :
     ∃ J, IsKComp M H J ∧ (IsL34Type (threeStar J) ∨ IsA11Star J) := by
   unfold FiveTypes at h

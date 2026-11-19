@@ -13,6 +13,7 @@ section Char
 
 variable {K : Type} [Field K] [CharP K 2] [Finite K] {X : Type} [AddCommGroup X] [Module K X]
 
+omit [CharP K 2] [Finite K] in
 theorem scalar_mul0 (B : ↥(EAut0 K) →* (X ≃ₗ[K] X)) {v₀ : X} (hne : v₀ ≠ 0)
     {g₁ g₂ : ↥(EAut0 K)} {c₁ c₂ c : K} (h₁ : B g₁ v₀ = c₁ • v₀) (h₂ : B g₂ v₀ = c₂ • v₀)
     (h : B (g₁ * g₂) v₀ = c • v₀) : c = c₁ * c₂ := by
@@ -24,6 +25,7 @@ variable (B : ↥(EAut0 K) →* (X ≃ₗ[K] X)) (hline : Module.finrank K (fix0
 
 include hline hv₀ hne
 
+omit [Finite K] in
 theorem exists_scalar_of_stab {g : ↥(EAut0 K)} (hg : g ∈ StabP0 K) :
     ∃ c : K, c ≠ 0 ∧ B g v₀ = c • v₀ := by
   have hmem : B g v₀ ∈ fix0 B := fix0_map_le_of_mem_StabP0 B hg (Submodule.mem_map_of_mem hv₀)
@@ -49,12 +51,14 @@ noncomputable def charOf0 : ↥(StabP0 K) →* Kˣ :=
       have e2 := (Classical.choose_spec (exists_scalar_of_stab B hline hv₀ hne h'.2)).2
       exact scalar_mul0 B hne e1 e2 e)
 
+omit [Finite K] in
 theorem charOf0_spec (h : ↥(StabP0 K)) :
     B (h : ↥(EAut0 K)) v₀ = ((charOf0 B hline hv₀ hne h : Kˣ) : K) • v₀ :=
   (Classical.choose_spec (exists_scalar_of_stab B hline hv₀ hne h.2)).2
 
 omit hline hv₀ hne
 
+omit [Finite K] in
 theorem hhom_E4 (hChar : E4StabChar K) (B : ↥(EAut0 K) →* (X ≃ₗ[K] X))
     (hline : Module.finrank K (fix0 B) = 1) {v₀ : X} (hv₀ : v₀ ∈ fix0 B) (hne : v₀ ≠ 0)
     (hd : ∀ c : Kˣ, B (d0Hom K c) v₀ = (c : K) • v₀)

@@ -20,12 +20,12 @@ theorem conjBy_one' {G : Type} [Group G] (H : Subgroup G) : conjBy (1 : G) H = H
 theorem conjBy_zpowers {G : Type} [Group G] (y x : G) :
     conjBy y (Subgroup.zpowers x) = Subgroup.zpowers (y * x * y⁻¹) := by
   have := MonoidHom.map_zpowers (MulAut.conj y).toMonoidHom x
-  simpa [MulAut.conj_apply] using this
+  simp [MulAut.conj_apply]
 
 theorem isElemAb_conjBy_three {G : Type} [Group G] [Finite G] {k : ℕ} {B : Subgroup G}
     (h : IsElemAb 3 k B) (c : G) : IsElemAb 3 k (conjBy c B) := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := h.1
+  have := h.1
   exact ⟨CFSG.IsElementaryAbelian.map (A := B) (MulAut.conj c).toMonoidHom,
     (card_conjBy c B).trans h.2⟩
 
@@ -33,7 +33,7 @@ section Ord3
 
 theorem exists_conj_T0 {B : Subgroup F42C}
     (hB : IsElemAb 3 4 B) : ∃ k : F42C, B = conjBy k T0 := by
-  haveI : Finite F42C := finite_adjF
+  have : Finite F42C := finite_adjF
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hBp : IsPGroup 3 B := IsPGroup.of_card (n := 4) hB.2
   obtain ⟨k, -, hk⟩ := exists_conj_le_sylowOf_p P0_sylow le_top hBp
@@ -48,7 +48,7 @@ theorem L5_C {Q : Subgroup F42C}
     (hQ : IsSylowOf 3 Q (⊤ : Subgroup F42C))
     {B₁ B₂ : Subgroup F42C} (h₁ : B₁ ≤ Q) (h₂ : B₂ ≤ Q) (e₁ : IsElemAb 3 4 B₁)
     (e₂ : IsElemAb 3 4 B₂) : B₁ = B₂ := by
-  haveI : Finite F42C := finite_adjF
+  have : Finite F42C := finite_adjF
   obtain ⟨a, -, ha⟩ := exists_conjBy_eq_sylowOf hQ P0_sylow
   have key : ∀ B : Subgroup F42C, B ≤ Q → IsElemAb 3 4 B → conjBy a⁻¹ B = T0 := by
     intro B hBQ hB
@@ -116,8 +116,8 @@ theorem L6_star_C {t x : F42C} (ht : orderOf t = 2)
     have hrho : rhoE j ∈ [rAE, rBE] := by
       rw [List.mem_cons, List.mem_singleton]
       interval_cases j
-      · exact Or.inl (if_pos rfl)
-      · exact Or.inr (if_neg (by norm_num))
+      · exact Or.inl (ite_eq_left rfl)
+      · exact Or.inr (ite_eq_right (by norm_num))
     obtain ⟨w, hcomm⟩ := inv_comm_C _ hrep _ hrho
     refine ⟨a * w * b, ?_⟩
     rw [Subgroup.mem_centralizer_singleton_iff, ← ha]
@@ -138,10 +138,10 @@ theorem rBE_mem_T0 : rBE ∈ T0 := Subgroup.mul_mem _ (sE_mem_T0 0) (sE_mem_T0 1
 
 theorem tgE_mem_T0 {a : ℕ} (ha : a < 2) : tgE a ∈ T0 := by
   interval_cases a
-  · have h : tgE 0 = rAE := if_pos rfl
+  · have h : tgE 0 = rAE := ite_eq_left rfl
     rw [h]
     exact rAE_mem_T0
-  · have h : tgE 1 = rBE := by unfold tgE; rw [if_neg (by norm_num), if_pos rfl]
+  · have h : tgE 1 = rBE := by unfold tgE; rw [ite_eq_right (by norm_num), ite_eq_left rfl]
     rw [h]
     exact rBE_mem_T0
 
@@ -157,14 +157,14 @@ theorem L4_star_C {B : Subgroup F42C} (hB : IsElemAb 3 4 B)
   obtain ⟨k, hk⟩ := exists_conj_T0 hB
   obtain ⟨a, ha, c, hcx⟩ : ∃ a, a < 2 ∧ ∃ c : F42C, c * x * c⁻¹ = tgE a := by
     rcases order_three_AB hx hnd with ⟨c, hc'⟩ | ⟨c, hc'⟩
-    · exact ⟨0, by norm_num, c, by rw [hc']; exact (if_pos rfl).symm⟩
-    · exact ⟨1, by norm_num, c, by rw [hc']; unfold tgE; rw [if_neg (by norm_num), if_pos rfl]⟩
+    · exact ⟨0, by norm_num, c, by rw [hc']; exact (ite_eq_left rfl).symm⟩
+    · exact ⟨1, by norm_num, c, by rw [hc']; unfold tgE; rw [ite_eq_right (by norm_num), ite_eq_left rfl]⟩
   have hx1 : x ≠ 1 := by
     intro h
     rw [h, orderOf_one] at hx
     omega
-  have hA : tgE 0 = rAE := if_pos rfl
-  have hB0 : tgE 1 = rBE := by unfold tgE; rw [if_neg (by norm_num), if_pos rfl]
+  have hA : tgE 0 = rAE := ite_eq_left rfl
+  have hB0 : tgE 1 = rBE := by unfold tgE; rw [ite_eq_right (by norm_num), ite_eq_left rfl]
   obtain ⟨nAB, nAZ, nBZ⟩ := rho_not_conj
   obtain ⟨LA, LB, hLA, hLB, hL⟩ := t0_lines
   obtain ⟨L, hLc, hLm⟩ : ∃ L : Finset (Subgroup F42C), L.card ≤ 12 ∧ ∀ d ∈ T0, d ≠ 1 →

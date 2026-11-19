@@ -17,15 +17,18 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem conjSubgroup_iSup {ι : Sort*} (A : ι → Subgroup G) (g : G) :
     conjSubgroup (⨆ i, A i) g = ⨆ i, conjSubgroup (A i) g :=
   Subgroup.map_iSup _ _
 
+omit [Finite G] in
 theorem conjSubgroup_oTwoIn (X : Subgroup G) (g : G) :
     conjSubgroup (oTwoIn X) g = oTwoIn (conjSubgroup X g) := by
   unfold conjSubgroup
   exact (oTwoIn_map_equiv (MulAut.conj g⁻¹) X).symm
 
+omit [Finite G] in
 theorem conjSubgroup_blockU (X : Subgroup G) (g : G) :
     conjSubgroup (blockU X) g = blockU (conjSubgroup X g) := by
   unfold blockU
@@ -33,7 +36,7 @@ theorem conjSubgroup_blockU (X : Subgroup G) (g : G) :
 
 theorem pCoreOf_le_of_isBlockOfInX {H L : Subgroup G} (hL : IsBlockOfInX H L) :
     pCoreOf 2 L ≤ pCoreOf 2 H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h1 := CFSG.RankThree.PartTwo.Late.pCoreOf_le_pCore_of_isSubnormal 2 hL.2.1
   have h2 := Subgroup.map_mono (f := H.subtype) h1
   have h3 : (CFSG.Open.pCoreOf 2 (L.subgroupOf H)).map H.subtype = pCoreOf 2 L :=
@@ -42,6 +45,7 @@ theorem pCoreOf_le_of_isBlockOfInX {H L : Subgroup G} (hL : IsBlockOfInX H L) :
   rw [h3, h4] at h2
   exact h2
 
+omit [Finite G] in
 theorem eq_one_of_mem_iSup_of_centralizes {ι : Type*} (S : Finset ι) (K Y : ι → Subgroup G)
     (hYK : ∀ i ∈ S, Y i ≤ K i)
     (hcomm : ∀ i ∈ S, ∀ j ∈ S, i ≠ j → ⁅K i, K j⁆ = ⊥)
@@ -106,7 +110,7 @@ theorem eq_one_of_mem_iSup_of_centralizes {ι : Type*} (S : Finset ι) (K Y : ι
 theorem hyperplaneRigid_conjSubgroup {M V Q : Subgroup G} (hset : Setting11 M V Q)
     (hr : 1 < rMV M V) (hm : 1 < mBar M ⊥ V hset.isElemAbelian) (g : G) :
     HyperplaneRigid (conjSubgroup V g) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro x hx D hDV hDrel hxD a ha
   obtain ⟨k, hk⟩ := hx
   have hV := hset.isElemAbelian
@@ -175,8 +179,8 @@ theorem normalizes_of_hyperplaneRigid_of_family {A R : Subgroup G} {Ω : Set (Su
     rw [h, Subgroup.relIndex_self] at hBrel
     omega
   obtain ⟨a₀, ha₀A, ha₀B⟩ :=
-    (SetLike.lt_iff_le_and_exists.mp (lt_of_le_of_ne hBA hBneA)).2
-  haveI : Fintype ↥B := Fintype.ofFinite _
+    (IsConcreteLE.lt_iff_le_and_exists.mp (lt_of_le_of_ne hBA hBneA)).2
+  have : Fintype ↥B := Fintype.ofFinite _
   set T : Subgroup G := ⨆ b : ↥B, Y (conjSubgroup X (b : G)) with hT
   have hTΩ : ∀ b : ↥B, conjSubgroup X (b : G) ∈ Ω :=
     fun b => hΩ X hX (b : G) (hBA b.2)
@@ -306,7 +310,7 @@ theorem le_normalizer_of_hyperplaneRigid {H L A : Subgroup G} (hH : IsCharacteri
 
 theorem normalizer_wClos_le {M V Q : Subgroup G} (hset : Setting11 M V Q) :
     Subgroup.normalizer (E3.wClos V 0 Q : Set G) ≤ M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hVcm : V ≤ Subgroup.centralizer (V : Set G) := by
     intro v hv
     rw [Subgroup.mem_centralizer_iff]
@@ -332,7 +336,7 @@ theorem eleven_seven {M V Q U L : Subgroup G} (hset : Setting11 M V Q)
     (hL : IsBlockOfInX (Subgroup.centralizer (U : Set G)) L) (hLM : ¬ L ≤ M) :
     ¬ ∃ n : ℕ, 1 ≤ n ∧ IsNaturalAltModule ↥L n := by
   rintro ⟨n, hn, hnat⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hH : IsCharacteristicP 2 ↥(Subgroup.centralizer (U : Set G)) :=
     eleven_e hset.charTwo hU.2.1 (hset.isElemAbelian.isPGroup.to_le hU.1)
   have hQH : IsSylowOf 2 Q (Subgroup.centralizer (U : Set G)) :=
@@ -417,6 +421,7 @@ theorem eleven_seven {M V Q U L : Subgroup G} (hset : Setting11 M V Q)
     exact conjSubgroup_eq_iff_mem_normalizer.1 (le_antisymm h1 h2)
   exact hLM (hLN.trans (normalizer_wClos_le hset))
 
+omit [Finite G] in
 theorem one_lt_rMV_and_one_lt_mBar {M V : Subgroup G} (hV : IsElemAbelian 2 V)
     (h116 : (mBar M ⊥ V hV : ℕ∞) ≤ 2 * rMV M V) (h2 : 2 < mBar M ⊥ V hV) :
     1 < rMV M V ∧ 1 < mBar M ⊥ V hV := by

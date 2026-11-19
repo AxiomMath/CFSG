@@ -142,6 +142,7 @@ theorem yamadaC₁_le_yamadaQ₅ : yamadaC₁ d t ≤ yamadaQ₅ d t := by
   exact sup_le hD₁ ((zpowers_le).2 ht)
 
 include h hNH h561 h562 in
+omit h562 in
 theorem exists_conj_t_eq {g : G} (hg : g ∈ normalizer (yamadaC₁ d t : Set G)) :
     ∃ δ ∈ yamadaD₁ d t, g * t * g⁻¹ = t * δ := by
   have hgD := hNH.1 hg
@@ -163,18 +164,20 @@ theorem exists_conj_t_eq {g : G} (hg : g ∈ normalizer (yamadaC₁ d t : Set G)
         _ = t * (t * a * t) := by group
 
 include h hNH h561 h562 in
+omit h562 in
 theorem crossed_mem_yamadaD₁ {x : G} (hx : x ∈ normalizer (yamadaC₁ d t : Set G)) :
     t * x * t * x⁻¹ ∈ yamadaD₁ d t := by
-  obtain ⟨δ, hδ, e⟩ := h.exists_conj_t_eq d hNH h561 h562 hx
+  obtain ⟨δ, hδ, e⟩ := h.exists_conj_t_eq d hNH h561 hx
   rw [show t * x * t * x⁻¹ = t * (x * t * x⁻¹) by group, e, ← mul_assoc, h.t_mul_t, one_mul]
   exact hδ
 
 include h hNH h561 h562 in
+omit h562 in
 theorem crossed_mul_mem {x y : G} (hx : x ∈ yamadaQ₅ d t)
     (hy : y ∈ normalizer (yamadaC₁ d t : Set G)) :
     (t * x * t * x⁻¹ * (t * y * t * y⁻¹))⁻¹ * (t * (x * y) * t * (x * y)⁻¹) ∈ yamadaV₁ d t := by
   obtain ⟨-, hxc⟩ := mem_yamadaQ₅.1 hx
-  have hδy := h.crossed_mem_yamadaD₁ d hNH h561 h562 hy
+  have hδy := h.crossed_mem_yamadaD₁ d hNH h561 hy
   have hδyN : t * y * t * y⁻¹ ∈ normalizer (yamadaV₁ d t : Set G) :=
     normalizer_yamadaD₁_le_normalizer_yamadaV₁ d t (le_normalizer hδy)
   have h1 := hxc _ hδy
@@ -186,6 +189,7 @@ theorem crossed_mul_mem {x y : G} (hx : x ∈ yamadaQ₅ d t)
   exact (mem_normalizer_iff.1 (inv_mem hδyN) _).1 h1
 
 include h hNH h561 h562 in
+omit h561 h562 in
 theorem mem_normalizer_tV₁_of_crossed_mem {x : G} (hxN : x ∈ normalizer (yamadaC₁ d t : Set G))
     (hx : t * x * t * x⁻¹ ∈ yamadaV₁ d t) :
     x ∈ normalizer ((yamadaV₁ d t ⊔ zpowers t : Subgroup G) : Set G) := by
@@ -233,7 +237,7 @@ theorem mem_yamadaC₁_of_crossed_mem {x : G} (hxQ : x ∈ yamadaQ₅ d t)
     (hx : t * x * t * x⁻¹ ∈ yamadaV₁ d t) : x ∈ yamadaC₁ d t :=
   h.mem_yamadaC₁_of_mem_yamadaQ₅_of_mem_normalizer d h561 h562 hxQ
     (hNH.2
-      (h.mem_normalizer_tV₁_of_crossed_mem d hNH h561 h562 (mem_yamadaQ₅.1 hxQ).1.1 hx))
+      (h.mem_normalizer_tV₁_of_crossed_mem d hNH (mem_yamadaQ₅.1 hxQ).1.1 hx))
 
 include h hNH h561 h562 in
 theorem isPGroup_yamadaQ₅ : IsPGroup 2 (yamadaQ₅ d t) := by
@@ -245,7 +249,7 @@ theorem isPGroup_yamadaQ₅ : IsPGroup 2 (yamadaQ₅ d t) := by
     (normal_subgroupOf_iff_le_normalizer (yamadaV₁_le_yamadaD₁ d t)).2
       (le_normalizer.trans (normalizer_yamadaD₁_le_normalizer_yamadaV₁ d t))
   let δf : Q → yamadaD₁ d t := fun x =>
-    ⟨t * x * t * (x : G)⁻¹, h.crossed_mem_yamadaD₁ d hNH h561 h562 (hQN x)⟩
+    ⟨t * x * t * (x : G)⁻¹, h.crossed_mem_yamadaD₁ d hNH h561 (hQN x)⟩
   let ψ : Q →* yamadaD₁ d t ⧸ (yamadaV₁ d t).subgroupOf (yamadaD₁ d t) :=
     { toFun := fun x => QuotientGroup.mk (δf x)
       map_one' := by
@@ -256,7 +260,7 @@ theorem isPGroup_yamadaQ₅ : IsPGroup 2 (yamadaQ₅ d t) := by
         exact one_mem _
       map_mul' := fun x y => by
         rw [← QuotientGroup.mk_mul, QuotientGroup.eq, mem_subgroupOf]
-        have h1 := inv_mem (h.crossed_mul_mem d hNH h561 h562 x.2 (hQN y))
+        have h1 := inv_mem (h.crossed_mul_mem d hNH h561 x.2 (hQN y))
         rw [mul_inv_rev, inv_inv] at h1
         change (t * ((x * y : Q) : G) * t * ((x * y : Q) : G)⁻¹)⁻¹ *
           (t * (x : G) * t * (x : G)⁻¹ * (t * (y : G) * t * (y : G)⁻¹)) ∈ yamadaV₁ d t
@@ -412,6 +416,7 @@ theorem conj_inv_eq_of_mem_yamadaQ₅ {x n v : G} (hx : x ∈ yamadaQ₅ d t)
     _ = t * n⁻¹ * (n * ((x⁻¹ * v⁻¹ * x⁻¹⁻¹) * (x⁻¹ * n⁻¹ * x⁻¹⁻¹ * n⁻¹⁻¹)) * n⁻¹) := by group
 
 include h hNH h561 h562 h591 h592 h593 in
+omit hNH in
 theorem exists_mem_yamadaQ₅_conj_eq_of_mem_D {n : G} (hn : n ∈ d.D.map L.subtype) :
     ∃ x ∈ yamadaQ₅ d t, ∃ v ∈ yamadaV₁ d t, x * t * x⁻¹ = t * n * v := by
   let T : Subgroup L :=
@@ -474,10 +479,11 @@ theorem exists_mem_yamadaQ₅_conj_eq_of_mem_D {n : G} (hn : n ∈ d.D.map L.sub
     exact (h1 ▸ hm : m ∈ T).2
 
 include h hNH h561 h562 h591 h592 h593 in
+omit hNH in
 theorem exists_mem_yamadaQ₅_conj_eq {δ : G} (hδ : δ ∈ yamadaD₁ d t) :
     ∃ x ∈ yamadaQ₅ d t, ∃ v ∈ yamadaV₁ d t, x * t * x⁻¹ = t * δ * v := by
   obtain ⟨n, hn, w, hw, rfl⟩ := h.exists_mul_of_mem_yamadaD₁ d h561 h562 hδ
-  obtain ⟨x, hx, v, hv, e⟩ := h.exists_mem_yamadaQ₅_conj_eq_of_mem_D d hNH h561 h562 h591 h592
+  obtain ⟨x, hx, v, hv, e⟩ := h.exists_mem_yamadaQ₅_conj_eq_of_mem_D d h561 h562 h591 h592
     h593 hn
   exact ⟨x, hx, w⁻¹ * v, mul_mem (inv_mem hw) hv, by rw [e]; group⟩
 
@@ -486,8 +492,8 @@ theorem exists_mul_of_mem_normalizer_yamadaC₁ {g : G}
     (hg : g ∈ normalizer (yamadaC₁ d t : Set G)) :
     ∃ x ∈ yamadaQ₅ d t, ∃ c ∈ centralizer ({t} : Set G) ⊓
       normalizer ((d.V.map L.subtype : Subgroup G) : Set G), g = x * c := by
-  obtain ⟨δ, hδ, hgt⟩ := h.exists_conj_t_eq d hNH h561 h562 hg
-  obtain ⟨x, hx, v, hv, hxt⟩ := h.exists_mem_yamadaQ₅_conj_eq d hNH h561 h562 h591 h592 h593 hδ
+  obtain ⟨δ, hδ, hgt⟩ := h.exists_conj_t_eq d hNH h561 hg
+  obtain ⟨x, hx, v, hv, hxt⟩ := h.exists_mem_yamadaQ₅_conj_eq d h561 h562 h591 h592 h593 hδ
   obtain ⟨⟨hxN, hxD⟩, -⟩ := mem_yamadaQ₅.1 hx
   have hyN : x⁻¹ * g ∈ normalizer (yamadaC₁ d t : Set G) := mul_mem (inv_mem hxN) hg
   have hxV : x⁻¹ ∈ normalizer (yamadaV₁ d t : Set G) :=
@@ -502,7 +508,7 @@ theorem exists_mul_of_mem_normalizer_yamadaC₁ {g : G}
     rw [e]
     exact (mem_normalizer_iff.1 hxV _).1 (inv_mem hv)
   have hy := hNH.2
-    (h.mem_normalizer_tV₁_of_crossed_mem d hNH h561 h562 hyN hκ)
+    (h.mem_normalizer_tV₁_of_crossed_mem d hNH hyN hκ)
   obtain ⟨c, hc, y, hy', e⟩ := (h.two_core_C₁_all d).2.2.2 _ hy
   have hcN : c ∈ normalizer (yamadaC₁ d t : Set G) :=
     le_normalizer_yamadaC₁ d t (h.centralizer_inf_normalizer_V_le d hc)
@@ -567,7 +573,7 @@ theorem yamada_5_12_module :
     (normal_subgroupOf_iff_le_normalizer hVD).2 hDV
   have hrel : ∀ x : yamadaC₅ d t, ∃ δ ∈ d.D.map L.subtype, ∃ u ∈ yamadaV₁ d t,
       (x : G) * t * (x : G)⁻¹ = t * δ * u := fun x => by
-    obtain ⟨δ₁, hδ₁, e⟩ := h.exists_conj_t_eq d hNH h561 h562 (yamadaC₅_le d t x.2)
+    obtain ⟨δ₁, hδ₁, e⟩ := h.exists_conj_t_eq d hNH h561 (yamadaC₅_le d t x.2)
     obtain ⟨a, ha, b, hb, rfl⟩ := h.exists_mul_of_mem_yamadaD₁ d h561 h562 hδ₁
     exact ⟨a, ha, b, hb, by rw [e, mul_assoc]⟩
   choose δf hδf uf huf hfe using hrel
@@ -618,7 +624,7 @@ theorem yamada_5_12_module :
     intro q
     obtain ⟨δ, rfl⟩ := QuotientGroup.mk_surjective q
     obtain ⟨x, hx, u, hu, e⟩ :=
-      h.exists_mem_yamadaQ₅_conj_eq_of_mem_D d hNH h561 h562 h591 h592 h593 δ.2
+      h.exists_mem_yamadaQ₅_conj_eq_of_mem_D d h561 h562 h591 h592 h593 δ.2
     have hx' : x ∈ yamadaC₅ d t := hCQ ▸ hx
     exact ⟨⟨x, hx'⟩, hform ⟨x, hx'⟩ δ ⟨u, hu, e⟩⟩
   have hC₁n : ((yamadaC₁ d t).subgroupOf (yamadaC₅ d t)).Normal := hker ▸ ψ.normal_ker
@@ -680,7 +686,7 @@ theorem yamada_5_12 :
       h.exists_mul_of_mem_normalizer_yamadaC₁ d hNH h561 h562 h591 h592 h593 hg
     exact mul_mem (mem_sup_left (hCQ ▸ hx)) (mem_sup_right hc)
   refine ⟨⟨hN, ?_, hNH.1, ?_⟩,
-    ⟨fun x hx => h.exists_conj_t_eq d hNH h561 h562 (yamadaC₅_le d t hx), fun δ hδ => ?_,
+    ⟨fun x hx => h.exists_conj_t_eq d hNH h561 (yamadaC₅_le d t hx), fun δ hδ => ?_,
       fun x hx => (mem_yamadaQ₅.1 (hCQ ▸ hx)).2⟩,
     hCQ ▸ h.yamadaY₂_le_yamadaQ₅ d h561 h562 h591 h593, ?_⟩
   · rw [hN]
@@ -698,7 +704,7 @@ theorem yamada_5_12 :
       exact mem_inf.2 ⟨hxC₁, hxC⟩
     · rw [← (h.two_core_C₁_all d).2.1]
       exact inf_le_inf_right _ (hCQ ▸ h.yamadaC₁_le_yamadaQ₅ d h561 h562)
-  · obtain ⟨x, hx, v, hv, e⟩ := h.exists_mem_yamadaQ₅_conj_eq d hNH h561 h562 h591 h592 h593 hδ
+  · obtain ⟨x, hx, v, hv, e⟩ := h.exists_mem_yamadaQ₅_conj_eq d h561 h562 h591 h592 h593 hδ
     exact ⟨x, hCQ ▸ hx, v, hv, e⟩
   · rw [h.core t h.ht, Subgroup.map_bot]
     exact bot_le

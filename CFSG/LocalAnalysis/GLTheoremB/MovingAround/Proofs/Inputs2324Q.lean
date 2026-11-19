@@ -27,7 +27,7 @@ section Gen
 
 theorem map_pCoreOf_le {X X' : Type*} [Group X] [Group X'] [Finite X] (f : X ≃* X')
     (H : Subgroup X) : (pCoreOf 2 H).map f.toMonoidHom ≤ pCoreOf 2 (H.map f.toMonoidHom) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2
     (Subgroup.map_mono (CFSG.LieType.BorelTits.pCoreOf_le 2 H)) ?_
     ((CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 H).map f.toMonoidHom)
@@ -101,7 +101,7 @@ theorem genAut_of_genPlane {X : Type} [Group X] (hZ : Subgroup.center X = ⊥) {
 
 theorem pCoreOf_two_le {G : Type*} [Group G] [Finite G] (H : Subgroup G) :
     pCoreOf 2 H ≤ GLAPPrimeCoreOf 3 H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine Subgroup.map_mono ?_
   obtain ⟨k, hk⟩ := (CFSG.pCore_isPGroup (p := 2) (G := ↥H)).exists_card_eq
   refine CFSG.le_pPrimeCore_of_normal_coprime CFSG.pCore_normal ?_
@@ -132,6 +132,7 @@ theorem top_le_of_genAut (hperf : commutator Y = ⊤) (hZ : IsPGroup 3 ↥(Subgr
   rw [← AltFacts2.eq_top_of_map_center_eq_top hperf hMtop]
   exact hMle
 
+omit [Finite Y] in
 theorem noSig_of_quot (hperf : commutator Y = ⊤) {A : Subgroup (MulAut Y)}
     (h : ∀ W : Subgroup (MulAut (Y ⧸ Subgroup.center Y)), ¬ 3 ∣ Nat.card W →
       A.map (quotientCenterAut' Y) ≤
@@ -192,9 +193,9 @@ theorem localDeltaTwoIn_eq_bot {K : Type*} [Group K] [Finite K] {A D H : Subgrou
     (hN : ∀ W : Subgroup (MulAut K), ¬ 3 ∣ Nat.card W →
       A ≤ Subgroup.normalizer (W : Set (MulAut K)) → W = ⊥) :
     localDeltaTwoIn H D = ⊥ := by
-  haveI : Finite (MulAut K) :=
+  have : Finite (MulAut K) :=
     Finite.of_injective (fun σ : MulAut K => (σ : K → K)) DFunLike.coe_injective
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨d₀, hd₀, hd₀1⟩ := (Subgroup.bot_or_exists_ne_one D).resolve_left hD
   refine hN _ ?_ ?_
   · have hle : localDeltaTwoIn H D ≤ pCoreOf 2 (H ⊓ Subgroup.centralizer {d₀}) :=
@@ -234,7 +235,7 @@ theorem balanced_of_noSig {K : Type*} [Group K] [Finite K] {A : Subgroup (MulAut
     (hN : ∀ W : Subgroup (MulAut K), ¬ 3 ∣ Nat.card W →
       A ≤ Subgroup.normalizer (W : Set (MulAut K)) → W = ⊥) :
     IsLocallyOTwoBalanced 3 2 A ∧ IsWeaklyLocallyOTwoBalanced 3 1 A := by
-  haveI : Finite (MulAut K) :=
+  have : Finite (MulAut K) :=
     Finite.of_injective (fun σ : MulAut K => (σ : K → K)) DFunLike.coe_injective
   have hcomm : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a := fun a ha b hb =>
     congrArg Subtype.val (hA.1.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
@@ -427,7 +428,7 @@ open CFSG.RankThree.PartTwo.Sec4 (Item434AltPerm.exists_le_map_conj_of_card
 theorem rep_j2VElt {j : ℕ}
     (hj : j < 6) : Rep 315 (j2VArr j) (j2VElt j).1 := by
   have h : j / 2 < 3 := by omega
-  rw [j2VElt, dif_pos h]
+  rw [j2VElt, dite_eq_left h]
   exact rep_vkE ⟨j / 2, h⟩ (j % 2 + 1)
 
 theorem rep_j2VProd :
@@ -466,7 +467,7 @@ theorem genPlane_E0 :
   have hmem : ∀ j < 6, j2VElt j ∈ T := by
     intro j hj
     have h : j / 2 < 3 := by omega
-    rw [j2VElt, dif_pos h]
+    rw [j2VElt, dite_eq_left h]
     exact hV ⟨j / 2, h⟩ (vkE_mem _ _)
   have hprod : ∀ w : List ℕ, (∀ j ∈ w, j < 6) → (w.map j2VElt).prod ∈ T := fun w hw =>
     list_prod_mem fun g hg => by
@@ -581,7 +582,7 @@ theorem rep_m22VArr {k : ℕ} (hk : k < 6) :
 
 theorem rep_m22V
     {k : ℕ} (hk : k < 6) : Rep 22 (m22VArr k) (m22V k).1 := by
-  rw [m22V, dif_pos hk]
+  rw [m22V, dite_eq_left hk]
   exact rep_m22VArr hk
 
 @[expose] noncomputable def m22eE
@@ -698,7 +699,7 @@ theorem m22_conj_facts
 theorem m22VSub_le
     (j : Fin 3) :
     m22VSub j ≤ pCoreOf 2 (Subgroup.centralizer {m22eE j}) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hve, hwe⟩ := m22V_comm_e j
   have key : ∀ g ∈ Subgroup.centralizer ({m22eE j} : Set M22G), ∀ u ∈ m22VSub j,
       g * u * g⁻¹ ∈ m22VSub j := by
@@ -801,7 +802,7 @@ section Main
 
 theorem center_quot_eq_bot {Y : Type} [Group Y] (hq : CFSG.Open.IsQuasisimple Y) :
     Subgroup.center (Y ⧸ Subgroup.center Y) = ⊥ := by
-  haveI : IsSimpleGroup (Y ⧸ Subgroup.center Y) := hq.2
+  have : IsSimpleGroup (Y ⧸ Subgroup.center Y) := hq.2
   exact CFSG.HardMathSupport.Timmesfeld.Coordinator.center_eq_bot_of_isSimpleGroup
     (CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian Y hq)
 

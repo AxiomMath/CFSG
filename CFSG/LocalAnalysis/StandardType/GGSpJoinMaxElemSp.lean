@@ -16,7 +16,7 @@ variable (n K) in
 @[expose] noncomputable def statedSpGL : StatedSp n K →* GL (Fin (n + n)) K :=
   (spReindex n K).toMonoidHom.comp (StatedSp n K).subtype
 
-theorem statedSpGL_injective : Function.Injective (statedSpGL n K) := fun a b hab =>
+theorem statedSpGL_injective : Function.Injective (statedSpGL n K) := fun _a _b hab =>
   Subtype.ext ((spReindex n K).injective hab)
 
 theorem statedSpGL_mem_isoGL (s : StatedSp n K) : statedSpGL n K s ∈ isoGL (spFormD n K) :=

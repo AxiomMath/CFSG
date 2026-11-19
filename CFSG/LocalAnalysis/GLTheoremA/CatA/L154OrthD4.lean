@@ -23,12 +23,15 @@ variable {K : Type} [Field K] {ι : Type} [Fintype ι] [DecidableEq ι]
   right_inv v := funext fun i => σ.apply_symm_apply (v i)
   map_add' v w := funext fun i => map_add σ (v i) (w i)
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem orthCoordFieldMap_apply (σ : K ≃+* K) (v : ι → K) (i : ι) :
     orthCoordFieldMap σ v i = σ (v i) := rfl
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem orthCoordFieldMap_symm_apply (σ : K ≃+* K) (v : ι → K) (i : ι) :
     (orthCoordFieldMap σ).symm v i = σ.symm (v i) := rfl
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem orthCoordFieldMap_symm_smul (σ : K ≃+* K) (c : K) (v : ι → K) :
     (orthCoordFieldMap σ).symm (c • v) = σ.symm c • (orthCoordFieldMap σ).symm v :=
   funext fun i => map_mul σ.symm c (v i)
@@ -142,7 +145,7 @@ theorem orth_polar_quadPlus_single (i : Fin n) :
   rw [polar_quadPlus, Finset.sum_eq_single i]
   · simp
   · intro j _ hj
-    simp [Pi.single_apply, hj]
+    simp [hj]
   · simp
 
 end PlusTwist
@@ -152,6 +155,7 @@ section FixedSemilinear
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {d : ℕ} {Q : QuadraticForm K (Fin d → K)} {p : ℕ}
   {x : (Fin d → K) ≃ₗ[K] (Fin d → K)}
 
+omit [Finite K] [CharP K 2] in
 theorem orth_sub_mem_fixedSpace (hx : OddOrderIsometry Q p x) {k : (Fin d → K) ≃ₗ[K] (Fin d → K)}
     (hk : k ∈ supportedBlock Q x (X - 1)) (v : Fin d → K) : k v - v ∈ fixedSpace x := by
   obtain ⟨w, hw, r, hr, rfl⟩ := exists_add_of_isCompl hx.fixed_others.1 v
@@ -232,6 +236,7 @@ theorem orth_semilinear_map_fixedSpace (hx : OddOrderIsometry Q p x) {n : ℕ}
   rw [coordinateSemilinearMap_smul]
   exact Submodule.smul_mem _ _ (hΦb j)
 
+omit [CharP K 2] in
 theorem orth_semilinear_symm_map_fixedSpace (g : coordinateSemilinearGroup d K)
     (hΦW : ∀ w ∈ fixedSpace x, coordinateSemilinearMap g w ∈ fixedSpace x) :
     ∀ w ∈ fixedSpace x, (coordinateSemilinearMap g).symm w ∈ fixedSpace x := by
@@ -390,10 +395,12 @@ variable {K : Type} [Field K] {ι : Type} [Fintype ι] [DecidableEq ι]
     change Φ' ((orthCoordFieldMap σ).symm (orthCoordFieldMap σ (Φ'.symm v))) = v
     rw [AddEquiv.symm_apply_apply, AddEquiv.apply_symm_apply]
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem orthLinearPart_apply (σ : K ≃+* K) (Φ' : (ι → K) ≃+ (ι → K))
     (hΦ' : ∀ (c : K) v, Φ' (c • v) = σ c • Φ' v) (v : ι → K) :
     orthLinearPart σ Φ' hΦ' v = Φ' ((orthCoordFieldMap σ).symm v) := rfl
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem orthLinearPart_symm_apply (σ : K ≃+* K) (Φ' : (ι → K) ≃+ (ι → K))
     (hΦ' : ∀ (c : K) v, Φ' (c • v) = σ c • Φ' v) (v : ι → K) :
     (orthLinearPart σ Φ' hΦ').symm v = orthCoordFieldMap σ (Φ'.symm v) := rfl
@@ -424,6 +431,7 @@ section D4Core
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {d : ℕ} {Q : QuadraticForm K (Fin d → K)} {p : ℕ}
   {x : (Fin d → K) ≃ₗ[K] (Fin d → K)} {n : ℕ}
 
+omit [Finite K] [CharP K 2] in
 theorem orthFixedCoord_semiConj (hx : OddOrderIsometry Q p x)
     (ψ : (Q.comp (fixedSpace x).subtype).IsometryEquiv (quadPlus n K)) (g : coordinateSemilinearGroup d K)
     (hΦW : ∀ w ∈ fixedSpace x, coordinateSemilinearMap g w ∈ fixedSpace x)
@@ -446,6 +454,7 @@ theorem orthFixedCoord_semiConj (hx : OddOrderIsometry Q p x)
   rw [orthFixedCoord_apply, orthSemilinearCoord_apply, orthFixedCoord_apply, orthSemilinearCoord_symm_apply]
   exact orthSemiConj_apply g ω (ψ.symm v : Fin d → K)
 
+omit [Finite K] [CharP K 2] in
 theorem quadPlus_orthSemilinearCoord (ψ : (Q.comp (fixedSpace x).subtype).IsometryEquiv (quadPlus n K))
     (g : coordinateSemilinearGroup d K) (hΦW : ∀ w ∈ fixedSpace x, coordinateSemilinearMap g w ∈ fixedSpace x)
     (hΦW' : ∀ w ∈ fixedSpace x, (coordinateSemilinearMap g).symm w ∈ fixedSpace x) {μ : K}
@@ -457,6 +466,7 @@ theorem quadPlus_orthSemilinearCoord (ψ : (Q.comp (fixedSpace x).subtype).Isome
   rw [QuadraticMap.comp_apply, Submodule.subtype_apply] at h2
   rw [← h1, hμ, h2]
 
+omit [Finite K] [CharP K 2] in
 theorem quadPlus_orthLinearPart (ψ : (Q.comp (fixedSpace x).subtype).IsometryEquiv (quadPlus n K))
     (g : coordinateSemilinearGroup d K) (hΦW : ∀ w ∈ fixedSpace x, coordinateSemilinearMap g w ∈ fixedSpace x)
     (hΦW' : ∀ w ∈ fixedSpace x, (coordinateSemilinearMap g).symm w ∈ fixedSpace x) {μ : K}
@@ -466,6 +476,7 @@ theorem quadPlus_orthLinearPart (ψ : (Q.comp (fixedSpace x).subtype).IsometryEq
   rw [orthLinearPart_apply, quadPlus_orthSemilinearCoord ψ g hΦW hΦW' hμ, quadPlus_orthCoordFieldMap_symm,
     RingEquiv.apply_symm_apply]
 
+omit [Finite K] [CharP K 2] in
 theorem orth_smulOfUnit_comm {ι : Type} (u : Kˣ) (X : (ι → K) ≃ₗ[K] (ι → K)) :
     LinearEquiv.smulOfUnit u * X = X * LinearEquiv.smulOfUnit u :=
   LinearEquiv.ext fun v => by
@@ -473,6 +484,7 @@ theorem orth_smulOfUnit_comm {ι : Type} (u : Kˣ) (X : (ι → K) ≃ₗ[K] (ι
     show (u : K) • X v = X ((u : K) • v)
     rw [map_smul]
 
+omit [Finite K] [CharP K 2] in
 theorem orth_conj_smulOfUnit {ι : Type} (u : Kˣ) (L X : (ι → K) ≃ₗ[K] (ι → K)) :
     (LinearEquiv.smulOfUnit u * L) * X * (LinearEquiv.smulOfUnit u * L)⁻¹ = L * X * L⁻¹ := by
   have h := orth_smulOfUnit_comm u (L * X * L⁻¹)
@@ -499,6 +511,7 @@ section D4Omega
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {d : ℕ} {Q : QuadraticForm K (Fin d → K)} {p : ℕ}
   {x : (Fin d → K) ≃ₗ[K] (Fin d → K)} {n : ℕ}
 
+omit [Finite K] [CharP K 2] in
 theorem orth_quadPlus_single_add_single (hn : 1 ≤ n) :
     quadPlus n K (Pi.single (Sum.inl ⟨0, by omega⟩) 1 + Pi.single (Sum.inr ⟨0, by omega⟩) 1) = 1 := by
   rw [QuadraticMap.map_add (quadPlus n K), orth_quadPlus_single, orth_quadPlus_single,
@@ -527,7 +540,7 @@ theorem orth_exists_omega_semiConj (hx : OddOrderIsometry Q p x) (hn : 3 ≤ n)
     rintro rfl
     exact ht (map_one _)
   have hK : 2 < Nat.card K := by
-    haveI := Fintype.ofFinite K
+    have := Fintype.ofFinite K
     have h3 : ({0, 1, t} : Finset K).card = 3 := by
       rw [Finset.card_insert_of_notMem (by simp [ht0.symm, (zero_ne_one (α := K))]),
         Finset.card_pair (Ne.symm ht1)]
@@ -732,6 +745,7 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2] {d : ℕ} {Q : QuadraticFor
     ↥(supportedFixedDerived Q x) ≃* ↥(StatedOmega (StatedQuadPlus n K)) :=
   (orthFixedCoord hx ψ).trans (orthStatedOmegaEquiv (coe_quadPlus n K)).symm
 
+omit [Finite K] [CharP K 2] in
 theorem toLinEquiv_orthFixedMatrix (hx : OddOrderIsometry Q p x)
     (ψ : (Q.comp (fixedSpace x).subtype).IsometryEquiv (quadPlus n K)) (ω : ↥(supportedFixedDerived Q x)) :
     CFSG.ClassicalGroups.Orthogonal.toLinEquiv (Fin n ⊕ Fin n) K
@@ -777,6 +791,7 @@ theorem orth_d4_decomp (hx : OddOrderIsometry Q p x) (hn : 3 ≤ n)
     (CFSG.ClassicalGroups.Orthogonal.toLinEquiv (Fin n ⊕ Fin n) K M)⁻¹ = _
   rw [hML]
 
+omit [CharP K 2] in
 theorem orth_isQuasisimple_fixed_plus (hx : OddOrderIsometry Q p x) (hn : 3 ≤ n)
     (ψ : (Q.comp (fixedSpace x).subtype).IsometryEquiv (quadPlus n K)) :
     CFSG.IsQuasisimple ↥(supportedFixedDerived Q x) := by
@@ -835,7 +850,7 @@ theorem orthD4Fact_holds : OrthD4Fact := by
   have hno := orth_no_real_of_obstruction Nat.prime_three (by norm_num) g hσ hσ3 Γ hΓv
     (orth_obstruction_fixed hx hQ (s := 4) (by norm_num) hdim)
   obtain ⟨f, hK⟩ : ∃ f : ℕ, Nat.card K = 2 ^ f := by
-    haveI := Fintype.ofFinite K
+    have := Fintype.ofFinite K
     obtain ⟨m, -, hm⟩ := FiniteField.card K 2
     exact ⟨m, by rw [Nat.card_eq_fintype_card, hm]⟩
   have hf1 : 1 ≤ f := by
@@ -852,7 +867,7 @@ theorem orthD4Fact_holds : OrthD4Fact := by
   unfold CFSG.Assembly.LargeEvenRawDatum
   simp only [show (4 : ℕ) ≠ 3 by decide, ↓reduceIte]
   unfold LargeEvenRecipeOmegaPlus
-  haveI hsimp : IsSimpleGroup (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus K 4))) :=
+  have hsimp : IsSimpleGroup (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus K 4))) :=
     CFSG.ClassicalGroups.Orthogonal.isSimpleGroup_statedProj_statedOmega_quadPlus (by norm_num)
   set e := orthFixedMatrix hx ψ with he
   set Θ₁ : ↥(supportedFixedDerived Q x) →* LargeEvenProj (LargeEvenOmega (LargeEvenQPlus K 4)) :=

@@ -68,13 +68,13 @@ theorem key1 : keyW 200 1 = conjW 253 matA matA matD := by
   have e : keyW 200 1 = if (1 : Nat) = 0 then matD else if tb G 92 1 = 1 then
       conjW 253 matA matA (keyW 199 (tb G 91 1)) else conjW 253 matB matBi (keyW 199 (tb G 91 1)) :=
     rfl
-  rw [e, if_neg (by decide), if_pos tb92_1, tb91_1, keyW_zero]
+  rw [e, ite_eq_right (by decide), ite_eq_left tb92_1, tb91_1, keyW_zero]
 
 theorem key2 : keyW 200 2 = conjW 253 matB matBi matD := by
   have e : keyW 200 2 = if (2 : Nat) = 0 then matD else if tb G 92 2 = 1 then
       conjW 253 matA matA (keyW 199 (tb G 91 2)) else conjW 253 matB matBi (keyW 199 (tb G 91 2)) :=
     rfl
-  rw [e, if_neg (by decide), if_neg (by rw [tb92_2]; decide), tb91_2, keyW_zero]
+  rw [e, ite_eq_right (by decide), ite_eq_right (by rw [tb92_2]; decide), tb91_2, keyW_zero]
 
 theorem conjW_size {g gi X : Array W} (hg : g.size = 253) : (conjW 253 g gi X).size = 253 := by
   unfold conjW

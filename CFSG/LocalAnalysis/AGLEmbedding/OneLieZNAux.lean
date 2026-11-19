@@ -190,7 +190,7 @@ theorem D1CompCore.inf_le_sup_of_not_mem (h3 : D1PhaseThree p P M H R)
         Subgroup.inf_normalizer_le_normalizer_inf
     have hcyc : IsCyclic ((Rbar : Subgroup (H ⧸ primeComplementCore (G := H) p)) ⊓ C :
         Subgroup (H ⧸ primeComplementCore (G := H) p)) :=
-      hd.red.isCyclic_of_le_centralizer hd.comp hKX₀ (Rbar.isPGroup'.to_le inf_le_left)
+      hd.red.isCyclic_of_le_centralizer hd.comp hKX₀ (Rbar.isPGroup.to_le inf_le_left)
         inf_le_right
     obtain ⟨e, he, hez⟩ := (mem_of_isCyclic_inf_of_ne_bot hd.red.core_eq_bot Rbar hcyc hzbR'
       hzbC' hzbp' inf_le_right hCV hV).1
@@ -213,7 +213,7 @@ theorem D1CompCore.inf_le_sup_of_not_mem (h3 : D1PhaseThree p P M H R)
             Set (H ⧸ primeComplementCore (G := H) p)) := hWTC w.2
     rw [Subgroup.mul_normal] at hw
     obtain ⟨t, htRK, c, hcC, htc⟩ := hw
-    obtain ⟨k, hk⟩ := Rbar.isPGroup' ⟨t, (htRK : t ∈ _ ⊓ K).1⟩
+    obtain ⟨k, hk⟩ := Rbar.isPGroup ⟨t, (htRK : t ∈ _ ⊓ K).1⟩
     have hk' : t ^ p ^ k = 1 := by simpa using congrArg Subtype.val hk
     have hwC : (w : H ⧸ primeComplementCore (G := H) p) ^ p ^ k ∈ C := by
       have hc1 : QuotientGroup.mk' C c = 1 := by
@@ -232,7 +232,7 @@ theorem D1CompCore.inf_le_sup_of_not_mem (h3 : D1PhaseThree p P M H R)
   have hWR : W ≤ (Rbar : Subgroup (H ⧸ primeComplementCore (G := H) p)) := by
     have h2 : IsPGroup p (W ⊔ (Rbar : Subgroup (H ⧸ primeComplementCore (G := H) p)) :
         Subgroup (H ⧸ primeComplementCore (G := H) p)) :=
-      IsPGroup.to_sup_of_normal_left' hWp Rbar.isPGroup' (hRX₀.trans hX₀W)
+      IsPGroup.to_sup_of_normal_left' hWp Rbar.isPGroup (hRX₀.trans hX₀W)
     exact le_sup_left.trans (Rbar.maximal_isPGroup.eq_of_ge h2 le_sup_right).le
   rintro x ⟨hxE, hxH⟩
   have hxW : π ⟨x, hxH⟩ ∈ (Rbar : Subgroup (H ⧸ primeComplementCore (G := H) p)) :=

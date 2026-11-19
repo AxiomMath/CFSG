@@ -23,7 +23,7 @@ theorem m24_card_pCoreOf (j : ℕ) (hj : j < 13) :
   have hrow : m24Mems.getD j ⟨0, 0, 0⟩ = defaultRow m24Ctx.k m24Ctx.D m24OtK j := by
     have := m24_rows
     rw [← this]
-    simp [List.getD_eq_getElem?_getD, List.getElem?_map, hj]
+    simp [List.getD_eq_getElem?_getD, hj]
     rfl
   rw [hrow]
   exact h
@@ -48,7 +48,7 @@ theorem m24_gen :
   obtain ⟨j, hj, hjeq⟩ := m24_complete J ((m24Ctx.S_le_Y 7).trans h7)
   by_cases hj13 : j < 13
   · exfalso
-    simp only [memberOrTop, m24_J, hj13, ite_true] at hjeq
+    simp only [memberOrTop, hj13, ite_true] at hjeq
     have e7 := (m24_Y_le_iff (j := 7) (jj := j) (by norm_num) hj13).mp (hjeq ▸ h7)
     have e9 := (m24_Y_le_iff (j := 9) (jj := j) (by norm_num) hj13).mp (hjeq ▸ h9)
     have e11 := (m24_Y_le_iff (j := 11) (jj := j) (by norm_num) hj13).mp (hjeq ▸ h11)
@@ -58,7 +58,7 @@ theorem m24_gen :
   · have : j = 13 := by omega
     subst this
     rw [hjeq]
-    simp [memberOrTop, m24_J]
+    simp [memberOrTop]
 
 
 theorem m24_isSylowIn : IsSylowIn 2 m24Ctx.S ⊤ := m24_S_sylow

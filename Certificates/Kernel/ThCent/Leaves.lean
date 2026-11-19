@@ -83,6 +83,7 @@ theorem psi : ∃ ψ : P →* J, Function.Bijective ψ ∧
   psi_of_fwd h thcFwdData thcFwd_chk (seedA_eq.symm.trans thcFwd_hA)
     (seedB_eq.symm.trans thcFwd_hB)
 
+omit h in
 theorem conj_wit {ψ : P →* J}
     (hx : ∀ g < 8, 𝕄 (ψ (presGen SporadicName.Th.presentation g)) =
         pkMat (thcFwdData.ThS_RBf (BigS.regAt thcFwdData.ThS_GRf g)) ∧
@@ -111,7 +112,7 @@ theorem card_centralizer_z3B_le (z : J) (hz : 𝕄 z = pkMat W.Z3B) :
   obtain ⟨ht, -, -, hc, -, hfix⟩ := class_T (card_P_eq h) (hKc h).le C3B.misc C3B.diff.all
     C3B.sel.all C3B.comm.all C3B.or1.all C3B.or2.all C3B.or3.all C3B.or4.all C3B.or5.all
     C3B.or6.all C3B.or7.all C3B.or8.all C3B.or9.all C3B.or10.all
-  have hz' := conj_wit h hx hA hB hBi hk W.w3B W.d3B z hz
+  have hz' := conj_wit hx hA hB hBi hk W.w3B W.d3B z hz
   have key : Nat.card (Subgroup.centralizer ({z} : Set J)) *
       ∑ _i : Fin 1, 634023936 / (C3B.N1 * C3B.m1) ≤
         (∑ D', fixB (C3B.N1 * C3B.m1) (nOf C3B.OR1 C3B.OR2 C3B.OR3 C3B.OR4 C3B.OR5 C3B.OR6
@@ -131,7 +132,7 @@ theorem card_centralizer_z3A_le (z : J) (hz : 𝕄 z = pkMat W.Z3A) :
   obtain ⟨ht, -, -, hc, -, hfix⟩ := class_T (card_P_eq h) (hKc h).le C3A.misc C3A.diff.all
     C3A.sel.all C3A.comm.all C3A.or1.all C3A.or2.all C3A.or3.all C3A.or4.all C3A.or5.all
     C3A.or6.all C3A.or7.all C3A.or8.all C3A.or9.all C3A.or10.all
-  have hz' := conj_wit h hx hA hB hBi hk W.w3A W.d3A z hz
+  have hz' := conj_wit hx hA hB hBi hk W.w3A W.d3A z hz
   have key : Nat.card (Subgroup.centralizer ({z} : Set J)) *
       ∑ _i : Fin 1, 634023936 / (C3A.N1 * C3A.m1) ≤
         (∑ D', fixB (C3A.N1 * C3A.m1) (nOf C3A.OR1 C3A.OR2 C3A.OR3 C3A.OR4 C3A.OR5 C3A.OR6
@@ -154,8 +155,8 @@ theorem card_centralizer_z7_le (z : J) (hz : 𝕄 z = pkMat W.Z7) :
   obtain ⟨htB, -, -, hcB, hinvB, -⟩ := class_T (card_P_eq h) (hKc h).le C7B.misc C7B.diff.all
     C7B.sel.all C7B.comm.all C7B.or1.all C7B.or2.all C7B.or3.all C7B.or4.all C7B.or5.all
     C7B.or6.all C7B.or7.all C7B.or8.all C7B.or9.all C7B.or10.all
-  have hzA := conj_wit h hx hA hB hBi hk W.w7A W.d7A z hz
-  have hzB := conj_wit h hx hA hB hBi hk W.w7B W.d7B z hz
+  have hzA := conj_wit hx hA hB hBi hk W.w7A W.d7A z hz
+  have hzB := conj_wit hx hA hB hBi hk W.w7B W.d7B z hz
   have mA := Gen.andB_left C7A.misc
   have mB := Gen.andB_left C7B.misc
   have hwA := allLt_spec (Gen.andB_left (Gen.andB_left mA))

@@ -57,51 +57,43 @@ private lemma k330c_mA_cube {ω : K} (h3 : ω ^ 3 = 1) : k330c_mA ω ^ 3 = 1 := 
   rw [k330c_mA, Matrix.diagonal_pow]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.diagonal_apply, Matrix.one_apply, Pi.pow_apply, h3, k330c_omega_pow_cube h3]
+    simp [Pi.pow_apply, h3, k330c_omega_pow_cube h3]
 
 private lemma k330c_mB_cube : k330c_mB ^ 3 = (1 : Matrix (Fin 3) (Fin 3) K) := by
   rw [pow_succ, pow_succ, pow_one]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [k330c_mB, Matrix.mul_apply, Fin.sum_univ_three, Matrix.one_apply]
+    simp [k330c_mB, Matrix.mul_apply]
 
-private lemma k330c_mA_mB {ω : K} (h2 : ω ^ 2 = -1 - ω) (h3 : ω ^ 3 = 1) :
+private lemma k330c_mA_mB {ω : K} (_h2 : ω ^ 2 = -1 - ω) (h3 : ω ^ 3 = 1) :
     k330c_mA ω * k330c_mB = ω • (k330c_mB * k330c_mA ω) := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [k330c_mA, k330c_mB, Matrix.diagonal_apply, Matrix.mul_apply, Fin.sum_univ_three] <;>
-    ring_nf <;>
-    simp only [h2, h3, k330c_om4 h3, k330c_om5 h2 h3, k330c_om6 h3, k330c_om7 h3,
-      k330c_om8 h2 h3, k330c_om9 h3, k330c_om12 h3, pow_one, pow_zero] <;>
-    ring
+    simp [k330c_mA, k330c_mB, Matrix.diagonal_apply, Matrix.mul_apply] <;>
+    ring_nf;
+    simp only [h3]
 
-private lemma k330c_mF_mA {ω : K} (h2 : ω ^ 2 = -1 - ω) (h3 : ω ^ 3 = 1) :
+private lemma k330c_mF_mA {ω : K} (_h2 : ω ^ 2 = -1 - ω) (h3 : ω ^ 3 = 1) :
     k330c_mF ω * k330c_mA ω = k330c_mBᵀ * k330c_mF ω := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [k330c_mA, k330c_mB, k330c_mF, Matrix.diagonal_apply, Matrix.mul_apply,
-      Fin.sum_univ_three] <;>
+    simp [k330c_mA, k330c_mB, k330c_mF, Matrix.diagonal_apply, Matrix.mul_apply] <;>
     ring_nf <;>
-    simp only [h2, h3, k330c_om4 h3, k330c_om5 h2 h3, k330c_om6 h3, k330c_om7 h3,
-      k330c_om8 h2 h3, k330c_om9 h3, k330c_om12 h3, pow_one, pow_zero] <;>
-    ring
+    simp only [h3, k330c_om6 h3]
 
-private lemma k330c_mF_mB {ω : K} (h2 : ω ^ 2 = -1 - ω) (h3 : ω ^ 3 = 1) :
+private lemma k330c_mF_mB {ω : K} (_h2 : ω ^ 2 = -1 - ω) (h3 : ω ^ 3 = 1) :
     k330c_mF ω * k330c_mB = k330c_mA ω * k330c_mF ω := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [k330c_mA, k330c_mB, k330c_mF, Matrix.diagonal_apply, Matrix.mul_apply,
-      Fin.sum_univ_three] <;>
+    simp [k330c_mA, k330c_mB, k330c_mF, Matrix.diagonal_apply, Matrix.mul_apply] <;>
     ring_nf <;>
-    simp only [h2, h3, k330c_om4 h3, k330c_om5 h2 h3, k330c_om6 h3, k330c_om7 h3,
-      k330c_om8 h2 h3, k330c_om9 h3, k330c_om12 h3, pow_one, pow_zero] <;>
-    ring
+    simp only [h3, k330c_om6 h3]
 
 private lemma k330c_mB_mul_transpose : k330c_mB * k330c_mBᵀ =
     (1 : Matrix (Fin 3) (Fin 3) K) := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [k330c_mB, Matrix.mul_apply, Fin.sum_univ_three, Matrix.one_apply]
+    simp [k330c_mB, Matrix.mul_apply, Fin.sum_univ_three]
 
 private lemma k330c_mB_inv : (k330c_mB : Matrix (Fin 3) (Fin 3) K)⁻¹ = k330c_mBᵀ :=
   Matrix.inv_eq_right_inv k330c_mB_mul_transpose
@@ -120,8 +112,7 @@ private lemma k330c_det_mF {ω : K} (h2 : ω ^ 2 = -1 - ω) (h3 : ω ^ 3 = 1) :
   rw [Matrix.det_fin_three]
   simp [k330c_mF]
   ring_nf
-  simp only [h2, h3, k330c_om4 h3, k330c_om5 h2 h3, k330c_om6 h3, k330c_om7 h3,
-    k330c_om8 h2 h3, k330c_om9 h3, k330c_om12 h3, pow_one, pow_zero]
+  simp only [h2, h3, k330c_om4 h3, k330c_om5 h2 h3]
   ring
 
 private lemma k330c_det_mT {ω : K} : (k330c_mT ω).det = ω := by
@@ -132,57 +123,52 @@ private lemma k330c_mT_mA {ω : K} :
     k330c_mT ω * k330c_mA ω = k330c_mA ω * k330c_mT ω := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [k330c_mA, k330c_mT, Matrix.diagonal_apply, Matrix.mul_apply, Fin.sum_univ_three] <;>
+    simp [k330c_mA, k330c_mT, Matrix.diagonal_apply, Matrix.mul_apply];
     ring
 
-private lemma k330c_mT_mB {ω : K} (h2 : ω ^ 2 = -1 - ω) (h3 : ω ^ 3 = 1) :
+private lemma k330c_mT_mB {ω : K} (_h2 : ω ^ 2 = -1 - ω) (h3 : ω ^ 3 = 1) :
     k330c_mT ω * k330c_mB = k330c_mB * k330c_mA ω * k330c_mT ω := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [k330c_mA, k330c_mB, k330c_mT, Matrix.diagonal_apply, Matrix.mul_apply,
-      Fin.sum_univ_three] <;>
-    ring_nf <;>
-    simp only [h2, h3, k330c_om4 h3, k330c_om5 h2 h3, k330c_om6 h3, k330c_om7 h3,
-      k330c_om8 h2 h3, k330c_om9 h3, k330c_om12 h3, pow_one, pow_zero] <;>
-    ring
+    simp [k330c_mA, k330c_mB, k330c_mT, Matrix.diagonal_apply, Matrix.mul_apply];
+    ring_nf;
+    simp only [h3]
 
 private lemma k330c_mA_not_scalar {ω : K} (hω1 : ω ≠ 1) {c : K} :
     k330c_mA ω ≠ c • (1 : Matrix (Fin 3) (Fin 3) K) := by
   intro h
   have h00 := congrFun (congrFun h 0) 0
   have h11 := congrFun (congrFun h 1) 1
-  simp [k330c_mA, Matrix.diagonal_apply] at h00 h11
+  simp [k330c_mA] at h00 h11
   exact hω1 (h11.trans h00.symm)
 
 private lemma k330c_mB_not_scalar {c : K} :
     k330c_mB ≠ c • (1 : Matrix (Fin 3) (Fin 3) K) := by
   intro h
   have h02 := congrFun (congrFun h 0) 2
-  simp [k330c_mB, Matrix.one_apply] at h02
+  simp [k330c_mB] at h02
 
 private lemma k330c_mA_mB_not_scalar {ω : K} (hω0 : ω ≠ 0) {c : K} :
     k330c_mA ω * k330c_mB ≠ c • (1 : Matrix (Fin 3) (Fin 3) K) := by
   intro h
   have h10 := congrFun (congrFun h 1) 0
-  simp [k330c_mA, k330c_mB, Matrix.mul_apply, Fin.sum_univ_three, Matrix.one_apply] at h10
+  simp [k330c_mA, k330c_mB, Matrix.mul_apply] at h10
   exact hω0 h10
 
 private lemma k330c_mA_mBtranspose_not_scalar {ω : K} {c : K} :
     k330c_mA ω * k330c_mBᵀ ≠ c • (1 : Matrix (Fin 3) (Fin 3) K) := by
   intro h
   have h01 := congrFun (congrFun h 0) 1
-  simp [k330c_mA, k330c_mB, Matrix.mul_apply, Fin.sum_univ_three, Matrix.one_apply] at h01
+  simp [k330c_mA, k330c_mB, Matrix.mul_apply] at h01
 
-private lemma k330c_mA_mB_mA {ω : K} (h2 : ω ^ 2 = -1 - ω) (h3 : ω ^ 3 = 1) :
+private lemma k330c_mA_mB_mA {ω : K} (_h2 : ω ^ 2 = -1 - ω) (h3 : ω ^ 3 = 1) :
     k330c_mA ω * k330c_mB * k330c_mA ω =
       (k330c_mA ω ^ 2 * k330c_mB) * (ω ^ 2 • (1 : Matrix (Fin 3) (Fin 3) K)) := by
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [k330c_mA, k330c_mB, Matrix.mul_apply, Fin.sum_univ_three, pow_two] <;>
     ring_nf <;>
-    simp only [h2, h3, k330c_om4 h3, k330c_om5 h2 h3, k330c_om6 h3, k330c_om7 h3,
-      k330c_om8 h2 h3, k330c_om9 h3, k330c_om12 h3, pow_one, pow_zero] <;>
-    ring
+    simp only [h3, k330c_om4 h3, k330c_om6 h3]
 
 end Matrices
 
@@ -459,7 +445,7 @@ private theorem k330c_hasHeis_of_mulEquiv {J T : Type} [Group J] [Group T] (e : 
 
 private theorem k330c_hasHeis_statedProj (K : Type) [Field K] [Finite K]
     (h3dvd : 3 ∣ Nat.card K - 1) : HasHeis (StatedProj (StatedSL 3 K)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ζ, hζ⟩ := exists_prime_orderOf_dvd_card' (G := Kˣ) 3 (by rwa [Nat.card_units])
   let ω : K := ζ
   have hω3 : ω ^ 3 = 1 := by
@@ -660,8 +646,8 @@ theorem hasHeis_PSL3 {J : Type} [Group J] [Finite J] {p f : ℕ} (e : LieModel J
   have hclass := LieModel.statedClassicalModel e (by decide)
   rw [StatedClassicalModel] at hclass
   obtain ⟨-, K, hKfield, hKfin, hKcard, ⟨eJ⟩⟩ := hclass
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
+  let : Field K := hKfield
+  let : Finite K := hKfin
   have h3dvd : 3 ∣ Nat.card K - 1 := by rw [hKcard]; omega
   exact k330c_hasHeis_of_mulEquiv eJ (k330c_hasHeis_statedProj K h3dvd)
 

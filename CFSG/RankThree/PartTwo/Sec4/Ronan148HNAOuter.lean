@@ -33,6 +33,7 @@ section Core
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem conj_injective_of_center_eq_bot {L : Subgroup G} (hZ : Subgroup.center L = ⊥) :
     Function.Injective (MulAut.conj : L →* MulAut L) := by
   rw [injective_iff_map_eq_one]
@@ -49,7 +50,7 @@ theorem conj_injective_of_center_eq_bot {L : Subgroup G} (hZ : Subgroup.center L
 theorem false_of_e27_centralized (hrk : CFSG.Open.pRank 3 (⊤ : Subgroup G) ≤ 3)
     {E : Subgroup G} (hE : Late.IsE27 E) {a : G} (ha3 : a ^ 3 = 1) (haE : a ∉ E)
     (hc : ∀ x ∈ E, a * x = x * a) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have ha1 : a ≠ 1 := fun h => haE (h ▸ E.one_mem)
   have hW : CFSG.Assembly.IsElemAbelian 3 (Subgroup.zpowers a) :=
     CFSG.RankThree.PartTwo.Sec13.isElemAbelian_zpowers ha3

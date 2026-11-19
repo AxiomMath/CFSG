@@ -12,6 +12,7 @@ open CFSG.Quasithin.H13.U3.GC137.SQ CFSG.SectionRank
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem burnsideC56_pCoreOf_subgroupOf_self (H : Subgroup G) :
     (pCoreOf 2 H).subgroupOf H = CFSG.pCore 2 ↥H :=
   A4.subgroupOf_map_subtype' H (CFSG.pCore 2 ↥H)
@@ -22,7 +23,7 @@ theorem burnsideC56_ker_oTwoUpper {H : Subgroup G} {Y : Type} [Group Y]
   rw [hker]
   exact burnsideC56_subgroupOf_eq_pCore (burnsideC56_pCoreOf_oTwoUpper H)
 
-theorem burnsideC56_hypI_minParabolic {H T : Subgroup G} (hc : CharTwo H)
+theorem burnsideC56_hypI_minParabolic {H T : Subgroup G} (_hc : CharTwo H)
     (hi : burnsideC56_HypI H) (hT : IsSylowTwoOf T H) :
     CFSG.QuasithinUnique.IsMinimalParabolic T H := by
   rcases hi with ⟨n, -, Y, _, φ, hφ, hker, hY⟩ | ⟨Y, _, ψ, hψ, hker, ⟨e⟩⟩ |
@@ -43,7 +44,7 @@ theorem burnsideC56_hypI_minParabolic {H T : Subgroup G} (hc : CharTwo H)
       (sup_eq_left.mpr hT.1) ψ hψ (by rw [hker, burnsideC56_pCoreOf_subgroupOf_self])
       (burnsideC56_umax_of_mulEquiv e burnsideC56_W3_umax) (by rw [hY72]; norm_num)
 
-theorem burnsideC56_hypI_uniqueMax {H T : Subgroup G} (hc : CharTwo H)
+theorem burnsideC56_hypI_uniqueMax {H T : Subgroup G} (_hc : CharTwo H)
     (hi : burnsideC56_HypI H) (hT : IsSylowTwoOf T H) :
     ∃ N : Subgroup G, CFSG.Quasithin.IsUniqueMaxOver H T N := by
   rcases hi with ⟨n, -, Y, _, φ, hφ, hker, hY⟩ | ⟨Y, _, ψ, hψ, hker, ⟨e⟩⟩ |
@@ -111,7 +112,7 @@ theorem burnsideC56_sqtk_of_psl {H : Subgroup G} {n : ℕ} {Y : Type}
       (Subgroup.inclusion_injective hLH) hq φ.ker hO hR),
     isKGroupCat_of_ext (Subgroup.inclusion hLH) (Subgroup.inclusion_injective hLH) hq φ.ker hO hK⟩
 
-theorem burnsideC56_hypI_sqtk {H : Subgroup G} (hc : CharTwo H)
+theorem burnsideC56_hypI_sqtk {H : Subgroup G} (_hc : CharTwo H)
     (hi : burnsideC56_HypI H) : IsSQTKIn H := by
   rcases hi with ⟨n, -, Y, _, φ, hφ, hker, hY⟩ | ⟨Y, _, ψ, hψ, hker, ⟨e⟩⟩ |
       ⟨Y, _, ψ, hψ, hker, ⟨e⟩⟩

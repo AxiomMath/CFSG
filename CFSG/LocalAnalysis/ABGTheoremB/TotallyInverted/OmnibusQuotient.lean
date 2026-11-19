@@ -496,7 +496,7 @@ theorem hasWreathedSylow_of_le (hσ : σ.IsValid) (hh : σ.height ≠ 1) {H : Su
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hW := hasWreathedSylow_of_height hσ hh
   refine ⟨hW.1, fun P => ?_⟩
-  have hS' : IsPGroup 2 ((σ.S : Subgroup G).subgroupOf H) := σ.S.isPGroup'.comap_subtype
+  have hS' : IsPGroup 2 ((σ.S : Subgroup G).subgroupOf H) := σ.S.isPGroup.comap_subtype
   have hidx : ¬ 2 ∣ ((σ.S : Subgroup G).subgroupOf H).index := by
     intro h2
     apply σ.S.not_dvd_index
@@ -592,7 +592,7 @@ theorem exists_conj_eq_S (hσ : σ.IsValid) (Δ : Data σ r) (hh : σ.height ≠
       Q ≤ Subgroup.normalizer (σ.T : Set G) →
       IsSylowOf 2 Q (Subgroup.normalizer (σ.T : Set G)) := by
     rintro P Q rfl hQ
-    refine isSylowOf_iff.mpr ⟨hQ, P.isPGroup', fun h2 => P.not_dvd_index ?_⟩
+    refine isSylowOf_iff.mpr ⟨hQ, P.isPGroup, fun h2 => P.not_dvd_index ?_⟩
     rw [← Subgroup.relIndex_mul_index hQ]
     exact h2.mul_right _
   obtain ⟨m, hm, hmS⟩ := exists_conjSub_eq_of_isSylowOf (hsyl hS₁S' hS₁T)

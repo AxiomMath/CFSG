@@ -599,7 +599,7 @@ theorem even_central_two_cover_class_three_kernel_pairing {E J : Type*} [Group E
       (Q.comapOfKerIsPGroup η hC2 hrange) η.ker hcen hC2
     rwa [map_subtype_commutator, Sylow.coe_comapOfKerIsPGroup] at h
   have hQ3 : ⁅⁅(Q : Subgroup J), (Q : Subgroup J)⁆, (Q : Subgroup J)⁆ = ⊥ := by
-    have : Group.IsNilpotent (Q : Subgroup J) := Q.isPGroup'.isNilpotent
+    have : Group.IsNilpotent (Q : Subgroup J) := Q.isPGroup.isNilpotent
     have h := (Subgroup.lowerCentralSeries_eq_bot_iff_nilpotencyClass_le (n := 2)).mpr hQ
     have h2 : Subgroup.map (Q : Subgroup J).subtype ⁅⁅(⊤ : Subgroup (Q : Subgroup J)),
         (⊤ : Subgroup (Q : Subgroup J))⁆, (⊤ : Subgroup (Q : Subgroup J))⁆ = ⊥ := by

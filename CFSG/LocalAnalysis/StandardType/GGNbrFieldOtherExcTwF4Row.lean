@@ -106,7 +106,7 @@ theorem largeEvenLabelAll_rowPlainTwo_twF4Add_of_irred
   dsimp only [CFSG.StandardType.LargeEvenRawDatum, LargeEvenRecipeTwF4] at hQ ⊢
   rw [show (2 * k + 1 - 1) / 2 = k by omega] at hQ ⊢
   obtain ⟨K, hf, hfin, hK, hQ'⟩ := hQ
-  haveI : CharP K CFSG.LieType.Ree.ReeTag.F4.prime := charP_two_of_card hK
+  have : CharP K CFSG.LieType.Ree.ReeTag.F4.prime := charP_two_of_card hK
   exact ⟨K, hf, hfin, hK, hQ', rowPlainTwo_twF4Row_recipe_of_irred (by omega) hK hp
     (hIrr k (by omega) K hK p hp hp2 hpq)⟩
 

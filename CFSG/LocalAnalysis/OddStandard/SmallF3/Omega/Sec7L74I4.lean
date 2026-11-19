@@ -47,7 +47,7 @@ theorem sec74_I4_decomp [Finite G] (h36 : Asc82Lemma36) (h72 : Asc82Lemma72)
   obtain ⟨hz2, hz4⟩ := sec7_z_type hF hA.ctx
   have hvl : v ∈ conjClassIn L z :=
     hP.i4_one_class G L hLP z v hA.ctx.z_mem_L hvL hz2 hv2 hz4 hv4
-  simp only [conjClassIn, Set.mem_setOf_eq] at hvl
+  simp only [conjClassIn, Set.mem_ofPred_eq] at hvl
   obtain ⟨l, hlL, rfl⟩ := hvl
   exact ⟨l, hlL, c, hc1t, by rw [hsv]⟩
 

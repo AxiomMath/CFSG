@@ -109,7 +109,7 @@ theorem map_conj_eq_of_le_normalizer (h1812 : Item181_2) (h184 : Item184_1)
   have hAp : IsPGroup 3 A := IsPGroup.of_card (n := 3) (by rw [hA.2]; norm_num)
   have hA'C := Sec11.le_centralizer_of_le_normalizer_zpowers hc3 (hAp.map _) (hg.trans hWc)
   have hy3 : (g⁻¹ * c * g) ^ 3 = 1 := by
-    have e : g⁻¹ * c * g = MulAut.conj g⁻¹ c := by simp [MulAut.conj_apply]
+    have e : g⁻¹ * c * g = MulAut.conj g⁻¹ c := by simp
     rw [e, ← map_pow, pow_three_eq_one_of_sec18H hH, map_one]
   have hyA : g⁻¹ * c * g ∈ A := by
     refine Item183NMProof.mem_of_commute_of_sec18Std hH.toSec18Std hy3 fun a ha => ?_

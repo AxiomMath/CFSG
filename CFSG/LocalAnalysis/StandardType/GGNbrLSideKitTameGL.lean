@@ -85,10 +85,10 @@ private theorem kitTame_group_gl (r : ℕ) (K : Type) [Field K] [Finite K] :
     CFSG.IsQuasisimple ↥(commutator (Matrix.GeneralLinearGroup (Fin r) K)) ∨
       Group.IsSolvable (Matrix.GeneralLinearGroup (Fin r) K) := by
   classical
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   rcases Nat.lt_or_ge r 2 with hr | hr
   · right
-    haveI : Group.IsSolvable (Matrix.GeneralLinearGroup (Fin r) K) :=
+    have : Group.IsSolvable (Matrix.GeneralLinearGroup (Fin r) K) :=
       kitTame_isSolvable_gl_of_le_one (by omega)
     infer_instance
   · by_cases hsmall : r = 2 ∧ Nat.card K ≤ 3
@@ -97,7 +97,7 @@ private theorem kitTame_group_gl (r : ℕ) (K : Type) [Field K] [Finite K] :
       have hcard : Nat.card K = 2 ∨ Nat.card K = 3 := by
         have h2 : 2 ≤ Nat.card K := Nat.succ_le_of_lt Finite.one_lt_card
         omega
-      haveI : Group.IsSolvable (Matrix.GeneralLinearGroup (Fin 2) K) :=
+      have : Group.IsSolvable (Matrix.GeneralLinearGroup (Fin 2) K) :=
         CFSG.ComponentClassification.CatalogueBGeneralLinear.generalLinear_two_small_solvable K hcard
       infer_instance
     · left

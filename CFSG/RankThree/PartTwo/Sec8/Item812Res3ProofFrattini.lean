@@ -61,7 +61,7 @@ theorem exists_mem_conj_eq_of_inv_mul_mem {G : Type*} [Group G] [Finite G] {N : 
     simpa [mul_assoc] using this
   have hmemT : (⟨x, hxP⟩ : P)⁻¹ * (p * ⟨y, hyP⟩ * p⁻¹) ∈ (T : Subgroup P) :=
     (T : Subgroup P).mul_mem ((T : Subgroup P).inv_mem hxT) hyT
-  obtain ⟨k, hk⟩ := T.isPGroup' ⟨_, hmemT⟩
+  obtain ⟨k, hk⟩ := T.isPGroup ⟨_, hmemT⟩
   have hk' : (x⁻¹ * (n * y * n⁻¹)) ^ 3 ^ k = 1 := by
     have h1 := congrArg (fun w : (T : Subgroup P) => ((w : P) : G)) hk
     simp only [SubmonoidClass.coe_pow, Subgroup.coe_mul, Subgroup.coe_inv,

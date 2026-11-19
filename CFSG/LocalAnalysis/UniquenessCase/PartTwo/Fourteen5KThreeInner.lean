@@ -17,7 +17,7 @@ theorem kThreeInner_of_autThreePowInner
       IsCatalogGroup S → (Nat.card S).factorization 3 = 1 → AutThreePowInner S) :
     KThreeInner := by
   intro A _ _ hK J hJ h3 h9 x hx hx3
-  haveI := hJ
+  have := hJ
   let ψ : ↥J ≃* ↥J := conjOnNormalizer J x hx
   have hψ3 : ∀ a : ↥J, ψ^[3] a = a := by
     intro a
@@ -52,7 +52,7 @@ theorem kThreeInner_of_autThreePowInner
   · have hcomm : ∀ a b : ↥J, a * b = b * a := by
       intro a b
       exact not_not.mp (not_exists.mp (not_exists.mp hab a) b)
-    letI : CommGroup ↥J := { (inferInstance : Group ↥J) with mul_comm := hcomm }
+    let : CommGroup ↥J := { (inferInstance : Group ↥J) with mul_comm := hcomm }
     have hprime : (Nat.card ↥J).Prime := IsSimpleGroup.prime_card
     have hcard : Nat.card ↥J = 3 := by
       have h3' : 3 ∣ Nat.card ↥J := h3
@@ -60,7 +60,7 @@ theorem kThreeInner_of_autThreePowInner
       rcases this with h | h
       · omega
       · exact h.symm
-    haveI : Fact (Nat.card ↥J).Prime := ⟨hprime⟩
+    have : Fact (Nat.card ↥J).Prime := ⟨hprime⟩
     have hnt : Nontrivial ↥J := by
       rw [← Finite.one_lt_card_iff_nontrivial, hcard]
       norm_num

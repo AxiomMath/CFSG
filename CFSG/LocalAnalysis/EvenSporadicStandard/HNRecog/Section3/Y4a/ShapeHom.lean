@@ -13,7 +13,7 @@ theorem y4a_exists_hom {X : Type} [Group X] (hX : IsShapeTwoTwoTimesTwoFourA5 X)
       ∀ k₁ ∈ π.ker, ∀ k₂ ∈ π.ker, k₁ * k₂ = k₂ * k₁ := by
   have hXcard : Nat.card X = 3840 := card_of_isShapeTwoTwoTimesTwoFourA5 hX
   obtain ⟨Y, _, ⟨N, hNnorm, ⟨eN⟩, ⟨eQ⟩⟩, ⟨e⟩⟩ := hX
-  haveI : N.Normal := hNnorm
+  have : N.Normal := hNnorm
   set π : X →* alternatingGroup (Fin 5) :=
     (eQ.toMonoidHom).comp ((QuotientGroup.mk' N).comp
       ((MonoidHom.snd (Elem2 2) Y).comp e.toMonoidHom)) with hπ

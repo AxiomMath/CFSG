@@ -13,7 +13,7 @@ open CFSG.Open CFSG.ComponentClassification.AschbacherToolkit.Bender
 open CFSG.BenderSuzuki.MatrixGroups CFSG.BenderSuzuki.PFAppendixIII
 open scoped LinearAlgebra.Projectivization
 
-private theorem suzuki_bruhat (m : ℕ) (hm : 0 < m) :
+private theorem suzuki_bruhat (m : ℕ) (_hm : 0 < m) :
     ∀ g : ↥(SuzukiMatrixGroup m),
       g ∈ SuzukiAut.rootSub m ⊔ SuzukiAut.torusSub m ∨
         ∃ b₁ ∈ SuzukiAut.rootSub m ⊔ SuzukiAut.torusSub m,
@@ -91,11 +91,11 @@ private theorem suzuki_borel_index (m : ℕ) (hm : 0 < m)
     exact Subgroup.subset_closure (Or.inr (Or.inl hA))
   have h3 := CFSG.BenderSuzuki.External.huppert_blackburn_XI_3_3 m hm pi hpi
   rcases h3 with ⟨hOstable, -, -, h2tr, -, hOcard, -, hstab⟩
-  letI : MulAction ↥(SuzukiMatrixGroup m) (ℙ K (Fin 4 → K)) :=
+  let : MulAction ↥(SuzukiMatrixGroup m) (ℙ K (Fin 4 → K)) :=
     MulAction.compHom _ (Matrix.GeneralLinearGroup.toLin.toMonoidHom.comp
       (Subgroup.subtype (SuzukiMatrixGroup m)))
   let Ω := {z : ℙ K (Fin 4 → K) // z ∈ O}
-  letI : MulAction ↥(SuzukiMatrixGroup m) Ω :=
+  let : MulAction ↥(SuzukiMatrixGroup m) Ω :=
     { smul := fun g z => ⟨g • z.1, hOstable g z.1 z.2⟩
       one_smul := fun z => Subtype.ext (one_smul (↥(SuzukiMatrixGroup m)) z.1)
       mul_smul := fun g h z => Subtype.ext (mul_smul g h z.1) }
@@ -114,8 +114,8 @@ private theorem suzuki_borel_index (m : ℕ) (hm : 0 < m)
     · change (Matrix.GeneralLinearGroup.toLin (g : GL (Fin 4) K)).toLinearEquiv •
         (b : ℙ K (Fin 4 → K)) = d
       exact hg2
-  haveI : MulAction.IsMultiplyPretransitive ↥(SuzukiMatrixGroup m) Ω 2 := h2trΩ
-  haveI : MulAction.IsPretransitive ↥(SuzukiMatrixGroup m) Ω :=
+  have : MulAction.IsMultiplyPretransitive ↥(SuzukiMatrixGroup m) Ω 2 := h2trΩ
+  have : MulAction.IsPretransitive ↥(SuzukiMatrixGroup m) Ω :=
     MulAction.isPretransitive_of_is_two_pretransitive
   have hidx : (MulAction.stabilizer ↥(SuzukiMatrixGroup m) pinfΩ).index = Nat.card Ω :=
     MulAction.index_stabilizer_of_transitive ↥(SuzukiMatrixGroup m) pinfΩ
@@ -193,13 +193,13 @@ theorem rankOneData_sz (a : ℕ) (ha : 1 ≤ a) :
     have hK : Nat.card (BinaryGaloisField (2 * m + 1)) = q := by
       simpa [q] using GaloisField.card 2 (2 * m + 1) (by omega)
     rwa [hK] at hle
-  haveI : IsSimpleGroup (SuzukiMatrixGroup m) :=
+  have : IsSimpleGroup (SuzukiMatrixGroup m) :=
     SuzukiAut.isSimpleGroup_suzukiMatrixGroup m hm
   have hdata_m : RankOneData (SuzukiMatrixGroup m)
       (SuzukiAut.rootSub m) (SuzukiAut.rootSub m ⊔ SuzukiAut.torusSub m) := by
     refine ⟨?_, hUbot, ⟨S, hS⟩, le_sup_left, ?_, ?_, ?_⟩
     · rw [← hS]
-      exact S.isPGroup'
+      exact S.isPGroup
     · intro M hUM hM
       rcases le_B_or_eq_top_of_bruhat rfl (SuzukiAut.torusSub_le_normalizer m) htorT hweylsq
         hUbot (suzuki_bruhat m hm) M hUM with h | h
@@ -242,7 +242,7 @@ theorem card_eq_of_hasNormalCopy_sz :
   intro Y _ _ Ω _ _ _ a ha h2 hdeg hcopy
   obtain ⟨M, hMnormal, hMequiv⟩ := hcopy
   let φ : ↥M ≃* Sz a := Classical.choice hMequiv
-  letI : M.Normal := hMnormal
+  let : M.Normal := hMnormal
   obtain ⟨U, B, hdata, hUcard⟩ := rankOneData_sz a ha
   let U' : Subgroup M := U.map φ.symm.toMonoidHom
   let B' : Subgroup M := B.map φ.symm.toMonoidHom

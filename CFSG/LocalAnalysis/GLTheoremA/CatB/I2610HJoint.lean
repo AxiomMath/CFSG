@@ -121,7 +121,7 @@ private theorem indPair_eq_one_iff (d₁ d₂ : Fin 6 → F4) (a b : F4) (i : Fi
     indPair d₁ d₂ a b i = 1 ↔ d₁ i = a ∧ d₂ i = b := by
   by_cases h : (d₁ i, d₂ i) = (a, b)
   · have hp : d₁ i = a ∧ d₂ i = b := by simpa using h
-    simp [indPair, h, hp]
+    simp [indPair, hp]
   · have hp : ¬ (d₁ i = a ∧ d₂ i = b) := fun hp => h (by simpa using hp)
     simp [indPair, h, hp, omega_ne_one]
 
@@ -129,7 +129,7 @@ private theorem indPair_eq_omega_iff (d₁ d₂ : Fin 6 → F4) (a b : F4) (i : 
     indPair d₁ d₂ a b i = F4.ω ↔ ¬ (d₁ i = a ∧ d₂ i = b) := by
   by_cases h : (d₁ i, d₂ i) = (a, b)
   · have hp : d₁ i = a ∧ d₂ i = b := by simpa using h
-    simp [indPair, h, hp, one_ne_omega]
+    simp [indPair, hp, one_ne_omega]
   · have hp : ¬ (d₁ i = a ∧ d₂ i = b) := fun hp => h (by simpa using hp)
     simp [indPair, h, hp]
 
@@ -212,10 +212,10 @@ private theorem embSU_mem_CenD_of_const_on_block {d e : Fin 6 → F4} {c : F4}
   ext i j
   rw [Matrix.mul_diagonal, Matrix.diagonal_mul, mM6_embSU, extMat_apply]
   by_cases h : e i = c ∧ e j = c
-  · rw [dif_pos h]
+  · rw [dite_eq_left h]
     have hd : d i = d j := hconst i j h.1 h.2
     rw [hd, mul_comm]
-  · rw [dif_neg h]
+  · rw [dite_eq_right h]
     by_cases hij : i = j <;> simp [Matrix.one_apply, hij]
 
 private theorem exists_c_of_pair_of_ne :
@@ -260,7 +260,7 @@ private theorem eq_bot_of_joint_small {D₁ D₂ : GL (Fin 6) F4} {d₁ d₂ : F
       simp
     · have hsub : (⟨i, hi1⟩ : Blk (indPair d₁ d₂ a b) 1) ≠ ⟨j, hj1⟩ :=
         fun h => hij (congrArg Subtype.val h)
-      simp [Matrix.one_apply, hij, hsub]
+      simp [hij, hsub]
   · let a := d₁ i
     let b := d₂ i
     have hi1 : indPair d₁ d₂ a b i = 1 :=
@@ -278,7 +278,7 @@ private theorem eq_bot_of_joint_small {D₁ D₂ : GL (Fin 6) F4} {d₁ d₂ : F
       exact fun h => omega_ne_one h.symm
     have hMij : mM6 u i j = 0 := CenD_zero (indGL_val d₁ d₂ a b) ⟨u, huDab⟩ heij
     have hij : i ≠ j := fun h => hpair (by rw [h])
-    rw [hMij, Matrix.one_apply, if_neg hij]
+    rw [hMij, Matrix.one_apply, ite_eq_right hij]
 
 theorem card_pSimple_of_diag_pair {D₁ D₂ : GL (Fin 6) F4} {d₁ d₂ : Fin 6 → F4}
     (hD₁ : (D₁ : Matrix (Fin 6) (Fin 6) F4) = Matrix.diagonal d₁)
@@ -424,9 +424,9 @@ theorem card_pSimple_of_diag_pair {D₁ D₂ : GL (Fin 6) F4} {d₁ d₂ : Fin 6
   have hcardBlk4 : Fintype.card (Blk (indPair d₁ d₂ a b) 1) = 4 := by
     rw [card_indPair_one, hcardS]
   let eK := MonoidHom.ofInjective (embSU_injective (indPair d₁ d₂ a b) 1)
-  haveI : IsSimpleGroup ↥(StatedSU (Fintype.card (Blk (indPair d₁ d₂ a b) 1)) (2 ^ 1) F4) :=
+  have : IsSimpleGroup ↥(StatedSU (Fintype.card (Blk (indPair d₁ d₂ a b) 1)) (2 ^ 1) F4) :=
     isSimple_statedSU _ (Or.inl hcardBlk4)
-  haveI hs : IsSimpleGroup ↥(embSU (indPair d₁ d₂ a b) 1).range := eK.symm.isSimpleGroup
+  have hs : IsSimpleGroup ↥(embSU (indPair d₁ d₂ a b) 1).range := eK.symm.isSimpleGroup
   have hJrange : J = (embSU (indPair d₁ d₂ a b) 1).range := by
     rcases CFSG.Open.IsSubnormal.eq_bot_or_eq_of_isSimpleGroup hsub hs with h | h
     · exact absurd h hJne
@@ -434,7 +434,7 @@ theorem card_pSimple_of_diag_pair {D₁ D₂ : GL (Fin 6) F4} {d₁ d₂ : Fin 6
   have hJsimple : IsSimpleGroup J := by
     rw [hJrange]
     exact hs
-  haveI : IsSimpleGroup J := hJsimple
+  have : IsSimpleGroup J := hJsimple
   obtain ⟨ePS⟩ := nonempty_pSimple_equiv_of_simple hJ
   calc
     Nat.card (PSimple 3 J) = Nat.card ↥J := Nat.card_congr ePS.toEquiv

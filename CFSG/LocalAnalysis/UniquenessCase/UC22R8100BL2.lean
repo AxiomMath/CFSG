@@ -21,7 +21,7 @@ theorem uc22r8100b_torus_frame {X : Type} [Group X] [Finite X] {n : ℕ} (h : Is
       ∀ g : SL(2, K), (∀ s ∈ Subgroup.map e.toMonoidHom (Q : Subgroup X), g * s = s * g) →
         g ∈ torusSL K := by
   obtain ⟨-, K, hKf, hKfin, hK, ⟨e₁⟩⟩ := LieModel.statedClassicalModel h (by decide)
-  haveI : CharP K 2 := uc22pwlie_charP_two hK
+  have : CharP K 2 := uc22pwlie_charP_two hK
   let e₀ : X ≃* SL(2, K) := e₁.trans
     ((CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 2 K).symm.trans
       (CFSG.Timmesfeld.RankOne.psl2EquivSL2 K))
@@ -30,11 +30,11 @@ theorem uc22r8100b_torus_frame {X : Type} [Group X] [Finite X] {n : ℕ} (h : Is
     rw [Nat.card_congr e₀.toEquiv]
     exact h1.trans (Subgroup.card_subgroup_dvd_card _)
   have hQq : q ∣ Nat.card Q := Q.dvd_card_of_dvd_card hqX
-  haveI : Nontrivial Q := by
+  have : Nontrivial Q := by
     rw [← Finite.one_lt_card_iff_nontrivial]
     exact lt_of_lt_of_le (Fact.out : q.Prime).one_lt (Nat.le_of_dvd Nat.card_pos hQq)
-  have hQp : IsPGroup q Q := Q.isPGroup'
-  haveI := hQp.center_nontrivial
+  have hQp : IsPGroup q Q := Q.isPGroup
+  have := hQp.center_nontrivial
   have hZq : q ∣ Nat.card (Subgroup.center Q) := by
     rcases (hQp.to_subgroup (Subgroup.center Q)).card_eq_or_dvd with h1 | h1
     · exact absurd h1 (Nat.ne_of_gt Finite.one_lt_card)
@@ -147,7 +147,7 @@ theorem uc22r8100b_not_dvd_normalizer_of_le {Γ : Type} [Group Γ] [Finite Γ] {
     {n : ℕ} (hK : IsL2 K n) {p q : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hpn : p ∣ 2 ^ n + 1)
     (hq : q.Prime) (hqn : q ∣ 2 ^ n - 1) (hS : IsSylowOf q S K) :
     ∀ y ∈ K, y ∈ normalizer (S : Set Γ) → orderOf y ≠ p := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨Q, rfl⟩ := hS
   intro y hyK hyN
   have hmem : ∀ s : K, s ∈ (Q : Subgroup K) ↔ (s : Γ) ∈ (Q : Subgroup K).map K.subtype :=

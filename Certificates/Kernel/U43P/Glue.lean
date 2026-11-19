@@ -220,7 +220,7 @@ theorem c9577_yOK {n : ℕ} (hn : n < 13) : yOK n = true := by
     have hl3 : (yTriple n).length = 3 := by simpa using hl
     have hi3 : i < 3 := by omega
     have hc := hr' i hi3
-    simp only [letB_eq, Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq, Nat.add_eq] at hc
+    simp only [Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq, Nat.add_eq] at hc
     obtain ⟨⟨hr1, hr2⟩, hr3⟩ := hc
     rw [← List.getD_eq_getElem _ 0 hi]
     have hcj := conjDF c9575Letters_ok (yWord n) (hD i hi3)

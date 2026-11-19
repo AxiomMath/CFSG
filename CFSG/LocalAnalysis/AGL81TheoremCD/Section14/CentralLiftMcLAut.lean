@@ -18,11 +18,11 @@ section Certificates
 
 private theorem center_native_mcl :
     Subgroup.center CFSG.Blueprint.NativeSporadic.McL = ⊥ := by
-  haveI : IsSimpleGroup CFSG.Blueprint.NativeSporadic.McL :=
+  have : IsSimpleGroup CFSG.Blueprint.NativeSporadic.McL :=
     CFSG.Sporadic.McL.isSimpleGroup_McL
   have hnoncomm : ¬ IsMulCommutative CFSG.Blueprint.NativeSporadic.McL := by
     intro hcomm
-    haveI := hcomm
+    have := hcomm
     have hp : (Nat.card CFSG.Blueprint.NativeSporadic.McL).Prime :=
       (Group.is_simple_iff_prime_card).mp (CFSG.Sporadic.McL.isSimpleGroup_McL)
     rw [CFSG.Sporadic.McL.card_McL] at hp
@@ -96,7 +96,6 @@ theorem exists_conj_of_pow_three_mcl {L : Type} [Group L] [Finite L]
     intro n
     simp only [β', pow_three, MulAut.mul_apply, MulAut.one_apply, MulEquiv.trans_apply,
       MulEquiv.symm_apply_apply]
-    change f (β (β (β (f.symm n)))) = n
     rw [h3 (f.symm n)]
     simp
   have hβ'1 : β' ≠ 1 := by
@@ -112,10 +111,9 @@ theorem exists_conj_of_pow_three_mcl {L : Type} [Group L] [Finite L]
     apply MulEquiv.ext
     intro x
     have h := congrArg (fun (a : MulAut CFSG.Blueprint.NativeSporadic.McL) => a (f x)) hy
-    simp only [β', MulEquiv.trans_apply, MulEquiv.symm_apply_apply, MulEquiv.apply_symm_apply,
-      MulAut.conj_apply] at h
+    simp only [β', MulEquiv.trans_apply, MulEquiv.symm_apply_apply, MulAut.conj_apply] at h
     have h' := congrArg f.symm h
-    simp only [map_mul, map_inv, MulEquiv.symm_apply_apply, MulAut.conj_apply] at h'
+    simp only [map_mul, map_inv, MulEquiv.symm_apply_apply] at h'
     exact h'
   have hcard : Nat.card (Subgroup.centralizer ({f.symm y} : Set L)) =
       Nat.card (Subgroup.centralizer

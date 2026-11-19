@@ -64,8 +64,8 @@ private theorem conj_mem_inf_of_le_normalizer {G : Type} [Group G] {L K : Subgro
 private theorem isPerfect_statedProj_statedSU_three {k : ℕ} (hk : 2 ≤ k) {F : Type} [Field F]
     [Finite F] (hF : Nat.card F = (2 ^ k) ^ 2) :
     Group.IsPerfect (StatedProj (StatedSU 3 (2 ^ k) F)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsPerfect (StatedSU 3 (2 ^ k) F) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsPerfect (StatedSU 3 (2 ^ k) F) :=
     CFSG.ClassicalGroups.Unitary.isPerfect_statedSU hF (n := 3) (by norm_num)
       (ne_three_two_of_two_le hk)
   exact Group.IsPerfect.ofSurjective
@@ -75,12 +75,12 @@ private theorem isPerfect_statedProj_statedSU_three {k : ℕ} (hk : 2 ≤ k) {F 
 private theorem isQuasisimple_statedProj_statedSU_three {k : ℕ} (hk : 2 ≤ k) {F : Type}
     [Field F] [Finite F] (hF : Nat.card F = (2 ^ k) ^ 2) :
     CFSG.IsQuasisimple (StatedProj (StatedSU 3 (2 ^ k) F)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsimple : IsSimpleGroup (StatedProj (StatedSU 3 (2 ^ k) F)) :=
     CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU F 2 k hF 3 le_rfl
       (ne_three_two_of_two_le hk)
-  haveI : IsSimpleGroup (StatedProj (StatedSU 3 (2 ^ k) F)) := hsimple
-  haveI : Group.IsPerfect (StatedProj (StatedSU 3 (2 ^ k) F)) :=
+  have : IsSimpleGroup (StatedProj (StatedSU 3 (2 ^ k) F)) := hsimple
+  have : Group.IsPerfect (StatedProj (StatedSU 3 (2 ^ k) F)) :=
     isPerfect_statedProj_statedSU_three hk hF
   have hna : ∃ a b : StatedProj (StatedSU 3 (2 ^ k) F), a * b ≠ b * a := by
     by_contra h
@@ -100,7 +100,7 @@ private theorem index_normalizer_mk'_eq_of_central_odd {A : Type*} [Group A] [Fi
 
 private theorem map_inf_subgroupOf_le_center {G : Type} [Group G] [Finite G]
     {L K : Subgroup G} (hq : CFSG.IsQuasisimple (oTwoQuot ↥L))
-    (hKL : K ≤ Subgroup.normalizer (L : Set G))
+    (_hKL : K ≤ Subgroup.normalizer (L : Set G))
     (hLK : L ≤ Subgroup.normalizer (K : Set G))
     (hprop : (L ⊓ K) ⊔ pCoreOf 2 L < L) :
     (((L ⊓ K).subgroupOf L).map (QuotientGroup.mk' (pCore 2 ↥L))) ≤
@@ -124,7 +124,7 @@ theorem isQuasisimple_oTwoQuot_of_u3 {L : Type} [Group L] [Finite L] {k : ℕ} (
     (hU3 : Nonempty (oTwoQuot L ≃* StatedSU 3 (2 ^ k) F) ∨
       Nonempty (oTwoQuot L ≃* StatedProj (StatedSU 3 (2 ^ k) F))) :
     CFSG.IsQuasisimple (oTwoQuot L) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rcases hU3 with ⟨⟨e⟩⟩ | ⟨⟨e⟩⟩
   · exact CFSG.LocalCores.isQuasisimple_of_mulEquiv e.symm
       (isQuasisimple_statedSU_of_card (p := 2) (f := k) (n := 3) hF (by norm_num)
@@ -220,7 +220,7 @@ theorem index_borelOf_of_u3 {G : Type} [Group G] [Finite G] {L S : Subgroup G} {
       Nonempty (oTwoQuot ↥L ≃* StatedProj (StatedSU 3 (2 ^ k) F))) :
     ((borelOf L S).subgroupOf L).index = (2 ^ k) ^ 3 + 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hnq := ne_three_two_of_two_le hk
   have hSCM : StatedClassicalModel (StatedProj (StatedSU 3 (2 ^ k) F)) .PSU 3 2 k :=
     ⟨⟨Nat.prime_two, by omega, by norm_num, hnq⟩, F, inferInstance, inferInstance, hF,
@@ -291,9 +291,9 @@ theorem nonempty_quotient_equiv_psu3 {G : Type} [Group G] [Finite G] {L N : Subg
       (l : G) ∈ N) :
     Nonempty (↥L ⧸ N.subgroupOf L ≃* StatedProj (StatedSU 3 (2 ^ k) F)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hnq := ne_three_two_of_two_le hk
-  haveI : (N.subgroupOf L).Normal := hN
+  have : (N.subgroupOf L).Normal := hN
   have hq := isQuasisimple_oTwoQuot_of_u3 hk hF hU3
   have hprop : (L ⊓ N) ⊔ pCoreOf 2 L < L := by
     rwa [inf_eq_right.mpr hNL, sup_eq_left.mpr hON]
@@ -336,8 +336,8 @@ theorem nonempty_quotient_equiv_psu3 {G : Type} [Group G] [Finite G] {L N : Subg
     ·
       have hsimple : IsSimpleGroup (StatedProj (StatedSU 3 (2 ^ k) F)) :=
         CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU F 2 k hF 3 le_rfl hnq
-      haveI : IsSimpleGroup (StatedProj (StatedSU 3 (2 ^ k) F)) := hsimple
-      haveI : Group.IsPerfect (StatedProj (StatedSU 3 (2 ^ k) F)) :=
+      have : IsSimpleGroup (StatedProj (StatedSU 3 (2 ^ k) F)) := hsimple
+      have : Group.IsPerfect (StatedProj (StatedSU 3 (2 ^ k) F)) :=
         isPerfect_statedProj_statedSU_three hk hF
       have hna : ∃ a b : StatedProj (StatedSU 3 (2 ^ k) F), a * b ≠ b * a := by
         by_contra h

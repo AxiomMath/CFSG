@@ -90,9 +90,9 @@ theorem le_centralizer_of_spor (hSpM : SporadicMultipliers) (hK : K315Spor)
     · exact (h14 hcov).elim
   have ψ : ↥K ≃* (TauCeti.CFSGIndex.sporadic s).Group :=
     ((QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot).symm.trans φ
-  haveI : Finite (TauCeti.CFSGIndex.sporadic s).Group := Finite.of_equiv _ ψ.toEquiv
-  haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := h.quasi.2.1
-  haveI : IsSimpleGroup (TauCeti.CFSGIndex.sporadic s).Group := φ.symm.isSimpleGroup
+  have : Finite (TauCeti.CFSGIndex.sporadic s).Group := Finite.of_equiv _ ψ.toEquiv
+  have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := h.quasi.2.1
+  have : IsSimpleGroup (TauCeti.CFSGIndex.sporadic s).Group := φ.symm.isSimpleGroup
   have hZT : Subgroup.center (TauCeti.CFSGIndex.sporadic s).Group = ⊥ := by
     rw [← Subgroup.map_center_eq ψ, hZ, Subgroup.map_bot]
   obtain ⟨Ē, R, hconf⟩ := h.exists_sporPlaneConf ψ hSC

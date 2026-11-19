@@ -18,7 +18,7 @@ variable {K E : Type*} [Field K] [Finite K] [AddCommGroup E] [Module K E] [Finit
 theorem card_le_pow_of_lagrangian_fixed {ι : Type*} (B : LinearMap.BilinForm K E)
     (hK2 : (2 : K) = 0) (halt : ∀ e, B e e = 0) (hnd : ∀ e, (∀ f, B e f = 0) → e = 0)
     (W₁ W₂ Kt : Submodule K E) (hW : IsCompl W₁ W₂)
-    (hW₁ : ∀ u ∈ W₁, ∀ v ∈ W₁, B u v = 0) (hW₂ : ∀ u ∈ W₂, ∀ v ∈ W₂, B u v = 0)
+    (_hW₁ : ∀ u ∈ W₁, ∀ v ∈ W₁, B u v = 0) (hW₂ : ∀ u ∈ W₂, ∀ v ∈ W₂, B u v = 0)
     (hKt : ∀ u ∈ Kt, ∀ v ∈ Kt, B u v = 0) (hdim : 2 * finrank K Kt = finrank K E)
     (S : ι → (E ≃ₗ[K] E)) (hSinj : Function.Injective S)
     (hS : ∀ i, (∀ e f, B (S i e) (S i f) = B e f) ∧ (∀ e, S i (S i e) = e) ∧
@@ -159,20 +159,20 @@ theorem exists_summands : ∃ W₁ W₂ : Submodule K E, (∀ e, e ∈ W₁ ↔ 
   let W₁ : Submodule K E :=
     { carrier := {e | (C.Ψ e).2 = 0}
       add_mem' := fun {a b} ha hb => by
-        simp only [Set.mem_setOf_eq, map_add, Prod.snd_add] at *
+        simp only [Set.mem_ofPred_eq, map_add, Prod.snd_add] at *
         rw [ha, hb, add_zero]
       zero_mem' := by simp
       smul_mem' := fun c e he => by
-        simp only [Set.mem_setOf_eq] at *
+        simp only [Set.mem_ofPred_eq] at *
         rw [C.smul, he, smul_zero] }
   let W₂ : Submodule K E :=
     { carrier := {e | (C.Ψ e).1 = 0}
       add_mem' := fun {a b} ha hb => by
-        simp only [Set.mem_setOf_eq, map_add, Prod.fst_add] at *
+        simp only [Set.mem_ofPred_eq, map_add, Prod.fst_add] at *
         rw [ha, hb, add_zero]
       zero_mem' := by simp
       smul_mem' := fun c e he => by
-        simp only [Set.mem_setOf_eq] at *
+        simp only [Set.mem_ofPred_eq] at *
         rw [C.smul, he, smul_zero] }
   refine ⟨W₁, W₂, fun e => C.mem_W₁.symm, fun e => C.mem_W₂.symm, ?_, ?_⟩
   · rw [disjoint_iff, eq_bot_iff]
@@ -252,7 +252,7 @@ theorem lin_count_of_card_Kx {G : Type} [Group G] [Finite G]
     (hW₁C e).trans (C.mem_W₁.trans (hV₁img e).symm)
   have hW₂ : ∀ e, e ∈ W₂ ↔ e ∈ M₀.img V₂ := fun e =>
     (hW₂C e).trans (C.mem_W₂.trans (hV₂img e).symm)
-  haveI : Finite M₀.E := Module.finite_of_finite K
+  have : Finite M₀.E := Module.finite_of_finite K
   have hKge : 2 ≤ Nat.card K := hK2lt.le
   have hZpos : 0 < Nat.card Z := by omega
   have hW₁sq : ∀ w ∈ W₁, M₀.Qf w = 0 := by

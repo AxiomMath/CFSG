@@ -76,6 +76,7 @@ variable {W : Type} [CommGroup W] [Finite W] {L : Subgroup (MulAut W)} {t : MulA
     ((σ φ : AddMonoid.End (Additive W)) (Additive.ofMul (t (Additive.toMul w)))) =
       Additive.ofMul (t (Additive.toMul ((φ : AddMonoid.End (Additive W)) w)))
 
+omit [Finite W] in
 theorem w135c2_exists_sigma (htN : ∀ g ∈ L, t * g * t⁻¹ ∈ L) (ht2 : orderOf t = 2) :
     ∃ σ : ↥(LEnd L) ≃+* ↥(LEnd L), (∀ φ, σ (σ φ) = φ) ∧ SemilinearBy t σ := by
   classical
@@ -177,8 +178,8 @@ theorem w135c2_linear (hW : ∀ w : W, w ^ 2 = 1) (hirr : IsIrrOn L ⊤ ⊥) (ht
     (hσ : SemilinearBy t σ) (hid : ∀ φ, σ φ = φ) :
     ∃ r : ℕ, 1 ≤ r ∧ E3.mQuot ⊤ (fixV (Subgroup.zpowers t)) = k * r := by
   classical
-  letI : Field ↥(LEnd L) := (w135c2_lend_isField hW hirr).toField
-  letI : Module ↥(LEnd L) (Additive W) := Module.compHom (Additive W) (LEnd L).subtype
+  let : Field ↥(LEnd L) := (w135c2_lend_isField hW hirr).toField
+  let : Module ↥(LEnd L) (Additive W) := Module.compHom (Additive W) (LEnd L).subtype
   let tA : Additive W ≃+ Additive W := MulEquiv.toAdditive t
   have hcomm : ∀ (φ : ↥(LEnd L)) (w : Additive W), φ.1 (tA w) = tA (φ.1 w) := by
     intro φ w
@@ -212,7 +213,7 @@ theorem w135c2_linear (hW : ∀ w : W, w ^ 2 = 1) (hirr : IsIrrOn L ⊤ ⊥) (ht
       rw [hτapply, h, sub_self]
   have hcardker : Nat.card ↥τ.ker = Nat.card ↥S :=
     Nat.card_congr (Equiv.subtypeEquiv (Additive.toMul : Additive W ≃ W) hkeriff)
-  haveI : Module.Finite ↥(LEnd L) (Additive W) := Module.Finite.of_finite
+  have : Module.Finite ↥(LEnd L) (Additive W) := Module.Finite.of_finite
   have hcardV : Nat.card (Additive W) =
       Nat.card ↥(LEnd L) ^ Module.finrank ↥(LEnd L) (Additive W) :=
     Module.natCard_eq_pow_finrank

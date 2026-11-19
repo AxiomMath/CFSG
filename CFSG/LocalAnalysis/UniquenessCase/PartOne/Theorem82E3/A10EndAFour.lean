@@ -90,7 +90,7 @@ private lemma kleinRules {E : Type*} [Group E] {σ₁ σ₂ : MulAut E} (K : Kle
     simpa only [MulAut.mul_apply, MulAut.one_apply] using mulAut_apply_congr K.mul33 x
 
 private lemma cycleMul {E : Type*} [Group E] {σ₁ σ₂ ε : MulAut E} (K : KleinMul σ₁ σ₂)
-    (he1 : ε * σ₁ * ε⁻¹ = σ₂) (he2 : ε * σ₂ * ε⁻¹ = σ₁ * σ₂) (he3 : ε ^ 3 = 1) :
+    (he1 : ε * σ₁ * ε⁻¹ = σ₂) (he2 : ε * σ₂ * ε⁻¹ = σ₁ * σ₂) (_he3 : ε ^ 3 = 1) :
     CycleMul σ₁ σ₂ ε := by
   have hm2ε : σ₂ * ε = ε * σ₁ := by
     have h := congrArg (fun f : MulAut E => f * ε) he1
@@ -139,7 +139,7 @@ private lemma cycleRules {E : Type*} [Group E] {σ₁ σ₂ ε : MulAut E} (C : 
 private lemma cycle_norm_fixed {E : Type*} [Group E] (hcomm : ∀ x y : E, x * y = y * x)
     {ε : MulAut E} (he3 : ε ^ 3 = 1) (b : E) :
     ε (b * (ε b) * ((ε ^ 2) b)) = b * (ε b) * ((ε ^ 2) b) := by
-  letI : CommGroup E := { ‹Group E› with mul_comm := hcomm }
+  let : CommGroup E := { ‹Group E› with mul_comm := hcomm }
   have hε2 : ε (ε b) = (ε ^ 2) b := by
     have h : (ε * ε) b = (ε ^ 2) b := by rw [pow_two]
     rwa [MulAut.mul_apply] at h
@@ -176,7 +176,7 @@ private lemma cycle_fix_three {E : Type*} [Group E] {σ₁ σ₂ ε : MulAut E}
 
 private lemma odd_of_isPGroup {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {E : Type*} [Group E]
     [Finite E] (hE : IsPGroup p E) : ∀ t : E, t * t = 1 → t = 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro t ht
   have h2' : orderOf t ∣ 2 := orderOf_dvd_of_pow_eq_one (by rwa [pow_two])
   obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp hE) t
@@ -191,7 +191,7 @@ private lemma norm_step_two {E : Type*} [Group E] (hcomm : ∀ x y : E, x * y = 
     (h2n : ∀ n : E, ε n = n → σ₂ n = n) (hodd : ∀ t : E, t * t = 1 → t = 1) {b : E}
     (hb2 : σ₂ b = b) (hb1 : σ₁ b = b⁻¹) (hb3 : (σ₁ * σ₂) b = b⁻¹) :
     b * (ε b) * ((ε ^ 2) b) = b := by
-  letI : CommGroup E := { ‹Group E› with mul_comm := hcomm }
+  let : CommGroup E := { ‹Group E› with mul_comm := hcomm }
   have hfixn : σ₂ (b * (ε b) * ((ε ^ 2) b)) = b * (ε b) * ((ε ^ 2) b) :=
     h2n _ (hεnorm b)
   have hcalc : σ₂ (b * (ε b) * ((ε ^ 2) b)) = b * (ε b)⁻¹ * ((ε ^ 2) b)⁻¹ := by
@@ -219,7 +219,7 @@ private lemma norm_step_three {E : Type*} [Group E] (hcomm : ∀ x y : E, x * y 
     (h3n : ∀ n : E, ε n = n → (σ₁ * σ₂) n = n) (hodd : ∀ t : E, t * t = 1 → t = 1) {b : E}
     (hb3 : (σ₁ * σ₂) b = b) (hb2 : σ₂ b = b⁻¹) (hb1 : σ₁ b = b⁻¹) :
     b * (ε b) * ((ε ^ 2) b) = b := by
-  letI : CommGroup E := { ‹Group E› with mul_comm := hcomm }
+  let : CommGroup E := { ‹Group E› with mul_comm := hcomm }
   have hfixn : (σ₁ * σ₂) (b * (ε b) * ((ε ^ 2) b)) = b * (ε b) * ((ε ^ 2) b) :=
     h3n _ (hεnorm b)
   have hcalc : (σ₁ * σ₂) (b * (ε b) * ((ε ^ 2) b)) = b * (ε b)⁻¹ * ((ε ^ 2) b)⁻¹ := by
@@ -279,11 +279,11 @@ private lemma eigenspace_proj_one {E : Type*} [Group E] (hcomm : ∀ x y : E, x 
     (h2n : ∀ n : E, ε n = n → σ₂ n = n) (hfix : ∀ x : E, ε x = x → σ₁ x = x)
     (hodd : ∀ t : E, t * t = 1 → t = 1) (a : E) :
     a * (σ₁ a)⁻¹ * (σ₂ a) * ((σ₁ * σ₂) a)⁻¹ = 1 := by
-  letI : CommGroup E := { ‹Group E› with mul_comm := hcomm }
+  let : CommGroup E := { ‹Group E› with mul_comm := hcomm }
   refine eq_one_of_eigenspace hcomm R hεnorm h2n hfix hodd ?_ ?_ ?_
   · simp only [map_mul, map_inv, K.sq1, K.cross12, K.cross13, mul_inv_rev, inv_inv]
     ac_rfl
-  · simp only [map_mul, map_inv, K.sq2, K.cross21, K.cross23, mul_inv_rev, inv_inv]
+  · simp only [map_mul, map_inv, K.sq2, K.cross21, K.cross23]
     ac_rfl
   · simp only [map_mul, map_inv, K.cross31, K.cross32, K.cross33, mul_inv_rev, inv_inv]
     ac_rfl
@@ -294,20 +294,20 @@ private lemma eigenspace_proj_two {E : Type*} [Group E] (hcomm : ∀ x y : E, x 
     (h3n : ∀ n : E, ε n = n → (σ₁ * σ₂) n = n) (hfix : ∀ x : E, ε x = x → σ₁ x = x)
     (hodd : ∀ t : E, t * t = 1 → t = 1) (a : E) :
     a * (σ₁ a)⁻¹ * (σ₂ a)⁻¹ * ((σ₁ * σ₂) a) = 1 := by
-  letI : CommGroup E := { ‹Group E› with mul_comm := hcomm }
+  let : CommGroup E := { ‹Group E› with mul_comm := hcomm }
   refine eq_one_of_eigenspace' hcomm R hεnorm h3n hfix hodd ?_ ?_ ?_
   · simp only [map_mul, map_inv, K.sq1, K.cross12, K.cross13, mul_inv_rev, inv_inv]
     ac_rfl
   · simp only [map_mul, map_inv, K.sq2, K.cross21, K.cross23, mul_inv_rev, inv_inv]
     ac_rfl
-  · simp only [map_mul, map_inv, K.cross31, K.cross32, K.cross33, mul_inv_rev, inv_inv]
+  · simp only [map_mul, map_inv, K.cross31, K.cross32, K.cross33]
     ac_rfl
 
 private lemma eq_one_of_projections {E : Type*} [Group E] (hcomm : ∀ x y : E, x * y = y * x)
     {σ₁ σ₂ : MulAut E} (hodd : ∀ t : E, t * t = 1 → t = 1)
     (h1' : ∀ a : E, a * (σ₁ a)⁻¹ * (σ₂ a) * ((σ₁ * σ₂) a)⁻¹ = 1)
     (h2' : ∀ a : E, a * (σ₁ a)⁻¹ * (σ₂ a)⁻¹ * ((σ₁ * σ₂) a) = 1) : σ₁ = 1 := by
-  letI : CommGroup E := { ‹Group E› with mul_comm := hcomm }
+  let : CommGroup E := { ‹Group E› with mul_comm := hcomm }
   refine MulEquiv.ext fun a => ?_
   have hf1 : a * (σ₁ a)⁻¹ * (σ₂ a) = (σ₁ * σ₂) a := mul_inv_eq_one.mp (h1' a)
   have hf2 : a * (σ₁ a)⁻¹ * (σ₂ a)⁻¹ = ((σ₁ * σ₂) a)⁻¹ := by
@@ -386,7 +386,7 @@ theorem a4_aut_eq_one {E : Type*} [Group E] [Finite E] {p : ℕ} (hp : p.Prime) 
     (he1 : ε * σ₁ * ε⁻¹ = σ₂) (he2 : ε * σ₂ * ε⁻¹ = σ₁ * σ₂) (he3 : ε ^ 3 = 1)
     (hfix : ∀ x : E, ε x = x → σ₁ x = x ∧ σ₂ x = x) : σ₁ = 1 := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hchar : (frattini E).Characteristic := inferInstance
   have hΦinv : ∀ n ∈ frattini E, ε n ∈ frattini E := by
     intro n hn
@@ -443,6 +443,7 @@ private structure NormalizerData (X : Subgroup G) (k₁ k₂ e : G)
     (⟨e, heX⟩ : ↥(Subgroup.normalizer (X : Set G)))⁻¹ = ⟨k₁, hk₁⟩ * ⟨k₂, hk₂⟩
   me3 : (⟨e, heX⟩ : ↥(Subgroup.normalizer (X : Set G))) ^ 3 = 1
 
+omit [Finite G] in
 private lemma normalizerData {X : Subgroup G} {k₁ k₂ e : G}
     (hk₁ : k₁ ∈ Subgroup.normalizer (X : Set G)) (hk₂ : k₂ ∈ Subgroup.normalizer (X : Set G))
     (heX : e ∈ Subgroup.normalizer (X : Set G))
@@ -466,6 +467,7 @@ private lemma normalizerData {X : Subgroup G} {k₁ k₂ e : G}
     rw [Subgroup.coe_pow, he3]
     rfl
 
+omit [Finite G] in
 private lemma conjData {X : Subgroup G} {k₁ k₂ e : G}
     (hk₁ : k₁ ∈ Subgroup.normalizer (X : Set G)) (hk₂ : k₂ ∈ Subgroup.normalizer (X : Set G))
     (heX : e ∈ Subgroup.normalizer (X : Set G)) (N : NormalizerData X k₁ k₂ e hk₁ hk₂ heX) :
@@ -479,6 +481,7 @@ private lemma conjData {X : Subgroup G} {k₁ k₂ e : G}
   he2 := by rw [← map_mul, ← map_inv, ← map_mul, N.me2, map_mul]
   he3 := by rw [← map_pow, N.me3, map_one]
 
+omit [Finite G] in
 private lemma conjData_fixed {X : Subgroup G} {k₁ k₂ e : G} {σ₁ σ₂ ε : MulAut ↥X}
     (hσ₁ : ∀ x : ↥X, ((σ₁ x : ↥X) : G) = k₁ * (x : G) * k₁⁻¹)
     (hσ₂ : ∀ x : ↥X, ((σ₂ x : ↥X) : G) = k₂ * (x : G) * k₂⁻¹)
@@ -536,6 +539,7 @@ theorem centralizes_of_a4 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hp3 : p ≠ 
   rw [mul_inv_eq_iff_eq_mul] at h'
   exact h'.symm
 
+omit [Finite G] in
 private lemma isElemAbelian_comm {W : Subgroup G} (hW : CFSG.Open.IsElemAbelian 2 W) :
     ∀ x y : ↥W, x * y = y * x :=
   hW.1.is_comm.comm
@@ -543,7 +547,7 @@ private lemma isElemAbelian_comm {W : Subgroup G} (hW : CFSG.Open.IsElemAbelian 
 private lemma norm_fixed_sigma {M : Type*} [Group M] (hcomm : ∀ x y : M, x * y = y * x)
     {σ : MulAut M} (hσ3 : σ ^ 3 = 1) (x : M) :
     x * σ x * (σ ^ 2) x = σ x * σ (σ x) * (σ ^ 2) (σ x) := by
-  letI : CommGroup M := { ‹Group M› with mul_comm := hcomm }
+  let : CommGroup M := { ‹Group M› with mul_comm := hcomm }
   have h1 : σ (σ x) = (σ ^ 2) x := by
     have h : (σ * σ) x = (σ ^ 2) x := by rw [pow_two]
     rwa [MulAut.mul_apply] at h
@@ -557,7 +561,7 @@ private lemma norm_fixed_sigma {M : Type*} [Group M] (hcomm : ∀ x y : M, x * y
 private lemma norm_fixed_sigma_sq {M : Type*} [Group M] (hcomm : ∀ x y : M, x * y = y * x)
     {σ : MulAut M} (hσ3 : σ ^ 3 = 1) (x : M) :
     x * σ x * (σ ^ 2) x = (σ ^ 2) x * σ ((σ ^ 2) x) * (σ ^ 2) ((σ ^ 2) x) := by
-  letI : CommGroup M := { ‹Group M› with mul_comm := hcomm }
+  let : CommGroup M := { ‹Group M› with mul_comm := hcomm }
   have h1 : σ ((σ ^ 2) x) = x := by
     have h : (σ * σ ^ 2) x = (1 : MulAut M) x := by
       rw [show σ * σ ^ 2 = σ ^ 3 by group, hσ3]
@@ -581,12 +585,14 @@ private noncomputable def normHom (W : Subgroup G) (e : G)
       map_one' := by simp
       map_mul' := fun x y => by simp only [map_mul]; ac_rfl }
 
+omit [Finite G] in
 private lemma normHom_apply {W : Subgroup G} {e : G} (heW : e ∈ Subgroup.normalizer (W : Set G))
     (hcomm : ∀ x y : ↥W, x * y = y * x) (x : ↥W) :
     normHom W e heW hcomm x = x * ((Subgroup.normalizerMonoidHom W) ⟨e, heW⟩ x) *
       (((Subgroup.normalizerMonoidHom W) ⟨e, heW⟩) ^ 2) x :=
   rfl
 
+omit [Finite G] in
 private lemma normalizerConj_pow_three {W : Subgroup G} {e : G}
     (heW : e ∈ Subgroup.normalizer (W : Set G)) (he : e ^ 3 = 1) :
     ((Subgroup.normalizerMonoidHom W) ⟨e, heW⟩) ^ 3 = 1 := by
@@ -596,6 +602,7 @@ private lemma normalizerConj_pow_three {W : Subgroup G} {e : G}
     rfl
   rw [← map_pow, h, map_one]
 
+omit [Finite G] in
 private lemma normalizerConj_pow_two_apply {W : Subgroup G} {e : G}
     (heW : e ∈ Subgroup.normalizer (W : Set G)) (x : ↥W) :
     ((((Subgroup.normalizerMonoidHom W) ⟨e, heW⟩) ^ 2) x : G) = e ^ 2 * (x : G) * (e ^ 2)⁻¹ := by
@@ -605,6 +612,7 @@ private lemma normalizerConj_pow_two_apply {W : Subgroup G} {e : G}
     rw [map_pow]
   rw [h, Subgroup.normalizerMonoidHom_apply_apply_coe, Subgroup.coe_pow]
 
+omit [Finite G] in
 private lemma normHom_sigma {W : Subgroup G} {e : G} (heW : e ∈ Subgroup.normalizer (W : Set G))
     (hcomm : ∀ x y : ↥W, x * y = y * x) (he : e ^ 3 = 1) (x : ↥W) :
     normHom W e heW hcomm (((Subgroup.normalizerMonoidHom W) ⟨e, heW⟩) x) =
@@ -613,6 +621,7 @@ private lemma normHom_sigma {W : Subgroup G} {e : G} (heW : e ∈ Subgroup.norma
     normHom_apply heW hcomm x]
   exact (norm_fixed_sigma hcomm (normalizerConj_pow_three heW he) x).symm
 
+omit [Finite G] in
 private lemma normHom_sigma_sq {W : Subgroup G} {e : G} (heW : e ∈ Subgroup.normalizer (W : Set G))
     (hcomm : ∀ x y : ↥W, x * y = y * x) (he : e ^ 3 = 1) (x : ↥W) :
     normHom W e heW hcomm ((((Subgroup.normalizerMonoidHom W) ⟨e, heW⟩) ^ 2) x) =
@@ -621,6 +630,7 @@ private lemma normHom_sigma_sq {W : Subgroup G} {e : G} (heW : e ∈ Subgroup.no
     normHom_apply heW hcomm x]
   exact (norm_fixed_sigma_sq hcomm (normalizerConj_pow_three heW he) x).symm
 
+omit [Finite G] in
 private lemma norm_commutator_one {W : Subgroup G} {e : G}
     (hW : CFSG.Open.IsElemAbelian 2 W) (heW : e ∈ Subgroup.normalizer (W : Set G))
     (he : e ^ 3 = 1) {w : G} (hw : w ∈ W) :
@@ -642,6 +652,7 @@ private lemma norm_commutator_one {W : Subgroup G} {e : G}
   rw [h1, map_mul, map_inv, normHom_sigma heW hcomm he ⟨w, hw⟩]
   exact mul_inv_cancel _
 
+omit [Finite G] in
 private lemma norm_commutator_two {W : Subgroup G} {e : G}
     (hW : CFSG.Open.IsElemAbelian 2 W) (heW : e ∈ Subgroup.normalizer (W : Set G))
     (he : e ^ 3 = 1) {w : G} (hw : w ∈ W) :
@@ -665,6 +676,7 @@ private lemma norm_commutator_two {W : Subgroup G} {e : G}
   rw [h1, map_mul, map_inv, normHom_sigma_sq heW hcomm he ⟨w, hw⟩]
   exact mul_inv_cancel _
 
+omit [Finite G] in
 private lemma norm_commutator_le {W : Subgroup G} {e : G}
     (hW : CFSG.Open.IsElemAbelian 2 W) (heW : e ∈ Subgroup.normalizer (W : Set G))
     (he : e ^ 3 = 1) :
@@ -685,6 +697,7 @@ private lemma norm_commutator_le {W : Subgroup G} {e : G}
   · rw [h, show (2 : ℤ) = ((2 : ℕ) : ℤ) by norm_num, zpow_natCast]
     exact norm_commutator_two hW heW he hw
 
+omit [Finite G] in
 private lemma norm_eq_one_of_mem {W : Subgroup G} {e : G}
     (hW : CFSG.Open.IsElemAbelian 2 W) (heW : e ∈ Subgroup.normalizer (W : Set G))
     (he : e ^ 3 = 1) {k : G} (hk : k ∈ ⁅W, Subgroup.zpowers e⁆) :

@@ -33,7 +33,7 @@ variable {D : Type} [Group D] [Finite D]
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsyl : IsSylowIn 2 ((S : Subgroup D) ⊓ N) N :=
     isSylowIn_inf_of_isSubnormal isSubnormal_top_of_normal
-      ⟨le_top, S.isPGroup', by rw [Subgroup.relIndex_top_right]; exact S.not_dvd_index⟩
+      ⟨le_top, S.isPGroup, by rw [Subgroup.relIndex_top_right]; exact S.not_dvd_index⟩
   (hsyl.2.1.of_equiv (Subgroup.subgroupOfEquivOfLe hsyl.1).symm).toSylow hsyl.2.2
 
 theorem coe_sylowInf (N : Subgroup D) [N.Normal] (S : Sylow 2 D) :

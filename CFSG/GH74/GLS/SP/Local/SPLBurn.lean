@@ -66,7 +66,7 @@ theorem exists_normal_two_complement_of_order_two {G : Type} [Group G] [Finite G
       rw [MonoidHom.map_zpowers]; rfl
     exact Subgroup.map_injective C₁.subtype_injective (h.trans h2.symm)
   obtain ⟨P, hP⟩ := hP₀p.exists_le_sylow
-  have hPeq : (P : Subgroup C₁) = P₀ := hmax P P.isPGroup' hP
+  have hPeq : (P : Subgroup C₁) = P₀ := hmax P P.isPGroup hP
   have hPcard : Nat.card (P : Subgroup C₁) = 2 := by rw [hPeq]; exact hP₀card
   have hcyc : IsCyclic (P : Subgroup C₁) := by rw [hPeq]; infer_instance
   have hdvd : 2 ∣ Nat.card C₁ := hz'2 ▸ orderOf_dvd_natCard z'

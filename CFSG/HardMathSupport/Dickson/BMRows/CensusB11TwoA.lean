@@ -38,7 +38,7 @@ theorem card_centralizer_dvd_four_mul_of_cover_prime {Y R : Type*} [Group Y] [Gr
     (hZ2 : Nat.card Z = 2) (φ : Y' ⧸ Z.subgroupOf Y' ≃* R) {p N : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) (hR : ∀ s : R, orderOf s = p → Nat.card (centralizer ({s} : Set R)) ∣ N)
     {y : Y} (hy : orderOf y = p) : Nat.card (centralizer ({y} : Set Y)) ∣ 4 * N := by
-  haveI : Y'.Normal := Subgroup.normal_of_index_eq_two hY'
+  have : Y'.Normal := Subgroup.normal_of_index_eq_two hY'
   have hyY' : y ∈ Y' := by
     obtain ⟨m, hm⟩ := hp.odd_of_ne_two hp2
     have h : (y ^ (m + 1)) ^ 2 = y := by
@@ -117,8 +117,8 @@ theorem card_centralizer_inf_dvd_of_babyInv_zero {u y : NativeSporadic.B} (hu : 
   have hR : ∀ s : ↥stdGroup, orderOf s = 11 →
       Nat.card (centralizer ({s} : Set ↥stdGroup)) ∣ 66 := by
     intro s hs
-    haveI : Finite ↥stdGroup := CFSG.Monster.Existence.StdOdd.Cert.rgrp_finite
-    haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+    have : Finite ↥stdGroup := CFSG.Monster.Existence.StdOdd.Cert.rgrp_finite
+    have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
     have hp2 : ¬ 11 ^ 2 ∣ Nat.card ↥stdGroup := by
       rw [card_stdGroup]
       norm_num

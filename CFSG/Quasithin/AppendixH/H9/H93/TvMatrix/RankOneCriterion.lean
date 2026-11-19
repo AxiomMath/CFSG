@@ -74,9 +74,9 @@ theorem rk_commOn_V1n_zpowers_pairActN_eq_one_iff (A : GL (Fin n) (ZMod 2)) :
         f i • u := by
       intro i
       by_cases h : (A : Matrix (Fin n) (Fin n) (ZMod 2)) *ᵥ Pi.single i 1 - Pi.single i 1 = u
-      · simp only [f, if_pos h, one_smul]
+      · simp only [f, ite_eq_left h, one_smul]
         exact h
-      · simp only [f, if_neg h, zero_smul]
+      · simp only [f, ite_eq_right h, zero_smul]
         exact (hdich _).resolve_right h
     have hM : (A : Matrix (Fin n) (Fin n) (ZMod 2)) = 1 + Matrix.vecMulVec u f := by
       ext i j

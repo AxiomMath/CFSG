@@ -55,7 +55,7 @@ theorem gomi1P_card_of_catalog
         exact not_exceptional_two ht h hv
       · exact gomi1P_not_odd_lie h.1.1 hp2 (Or.inr (Or.inl ⟨rfl, ht, h⟩)) hord hE hdvd'
     · cases t
-      all_goals first | exact absurd ht (by decide) | skip
+      all_goals try exact absurd ht (by decide)
       · have hp3 : p = 3 := h.1.2.2.2.1
         exact gomi1P_not_odd_lie h.1.1 (by rw [hp3]; norm_num)
           (Or.inr (Or.inr (Or.inl ⟨rfl, ht, h⟩))) hord hE hdvd'

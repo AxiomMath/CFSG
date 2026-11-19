@@ -90,7 +90,7 @@ theorem isPSolvable_of_isSolvable' {X : Type*} [Group X] [Finite X] (h : Group.I
 theorem isPSolvable_of_hasNormalPComplement {X : Type*} [Group X] [Finite X]
     (h : CFSG.HasNormalPComplement p X) : IsPSolvable p X := by
   obtain ⟨N, hN, hc, hq⟩ := h
-  haveI := hq.isNilpotent
+  have := hq.isNilpotent
   exact CFSG.AGLEmbeddingD2.Tits.OrdinaryProofs.isPSolvable_of_normal_coprime_quotient_solvable
     N hc inferInstance
 
@@ -102,6 +102,7 @@ theorem isPSolvable_of_surjective {X W : Type} [Group X] [Group W] [Finite X] (f
   rw [Subgroup.map_top_of_surjective f hf] at h2
   exact isPSolvable_of_mulEquiv Subgroup.topEquiv h2
 
+omit [Fact (Nat.Prime p)] in
 theorem hasNormalPComplement_of_subsingleton {X : Type*} [Group X] [Subsingleton X] :
     CFSG.HasNormalPComplement p X :=
   ⟨⊤, inferInstance, by rw [Subgroup.card_top, Nat.card_unique]; exact Nat.coprime_one_right p,
@@ -130,7 +131,7 @@ theorem hasNormalPComplement_d1PlusCore (hp2 : p ≠ 2)
       (MonoidHom.mem_ker.mp ((mem_d1PlusCore_iff_mem_ker x).mp (Subgroup.mem_subgroupOf.mp hx)))
   refine hasNormalPComplement_of_act hp2 hXr hbC hb hbo hXC ?_
   rw [hbot]
-  haveI : Subsingleton ↥(⊥ : Subgroup (MulAut ↥K)) :=
+  have : Subsingleton ↥(⊥ : Subgroup (MulAut ↥K)) :=
     ⟨fun a b => Subtype.ext ((Subgroup.mem_bot.mp a.2).trans (Subgroup.mem_bot.mp b.2).symm)⟩
   exact hasNormalPComplement_of_subsingleton
 

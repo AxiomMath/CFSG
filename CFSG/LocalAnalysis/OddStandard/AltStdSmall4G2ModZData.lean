@@ -88,7 +88,7 @@ theorem dMat_zero : dMat 0 0 0 = 1 := by
 theorem uS_add : ∀ s s' : ZMod 2, uS (s + s') = uS s * uS s' := by
   decide
 
-theorem uS_zero : uS 0 = 1 := if_pos rfl
+theorem uS_zero : uS 0 = 1 := ite_eq_left rfl
 
 instance : Mul Z4M := ⟨fun p q =>
   let M := dEnt p.a p.b p.c
@@ -256,14 +256,14 @@ instance : Fintype Z4M := ⟨⟨allL (), nodup_allL⟩, mem_allL⟩
   carrier := {p | p.s = 0}
   mul_mem' := by
     intro p q hp hq
-    simp only [Set.mem_setOf_eq, mul_s] at hp hq ⊢
+    simp only [Set.mem_ofPred_eq, mul_s] at hp hq ⊢
     rw [hp, hq, add_zero]
   one_mem' := by
     show (0 : ZMod 2) = 0
     rfl
   inv_mem' := by
     intro p hp
-    simp only [Set.mem_setOf_eq, inv_s] at hp ⊢
+    simp only [Set.mem_ofPred_eq, inv_s] at hp ⊢
     rw [hp, neg_zero]
 
 theorem vec_mul_of_mem_Am {p : Z4M} (hp : p ∈ Am) (q : Z4M) : vec (p * q) = vec p + vec q := by
@@ -349,11 +349,11 @@ variable {u : (ZMod 8)ˣ}
 
 @[expose] def uS (u : (ZMod 8)ˣ) (s : ZMod 2) : ZMod 8 := if s = 0 then 1 else (u : ZMod 8)
 
-theorem uS_zero (u : (ZMod 8)ˣ) : uS u 0 = 1 := if_pos rfl
+theorem uS_zero (u : (ZMod 8)ˣ) : uS u 0 = 1 := ite_eq_left rfl
 
 theorem uS_add (u : (ZMod 8)ˣ) (s s' : ZMod 2) : uS u (s + s') = uS u s * uS u s' := by
   have hc : ∀ s : ZMod 2, s = 0 ∨ s = 1 := by decide
-  have h1 : uS u 1 = u := if_neg (by decide)
+  have h1 : uS u 1 = u := ite_eq_right (by decide)
   have h11 : (1 : ZMod 2) + 1 = 0 := by decide
   rcases hc s with rfl | rfl <;> rcases hc s' with rfl | rfl
   · rw [add_zero, uS_zero, mul_one]
@@ -531,14 +531,14 @@ instance : Fintype (Z8M u) := ⟨⟨allL u (), nodup_allL⟩, mem_allL⟩
   carrier := {p | p.s = 0}
   mul_mem' := by
     intro p q hp hq
-    simp only [Set.mem_setOf_eq, mul_s] at hp hq ⊢
+    simp only [Set.mem_ofPred_eq, mul_s] at hp hq ⊢
     rw [hp, hq, add_zero]
   one_mem' := by
     show (0 : ZMod 2) = 0
     rfl
   inv_mem' := by
     intro p hp
-    simp only [Set.mem_setOf_eq, inv_s] at hp ⊢
+    simp only [Set.mem_ofPred_eq, inv_s] at hp ⊢
     rw [hp, neg_zero]
 
 theorem vec_mul_of_mem_Am {p : Z8M u} (hp : p ∈ Am u) (q : Z8M u) :

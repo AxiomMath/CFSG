@@ -26,6 +26,7 @@ section Core
 
 variable {H : Type*} [Group H] [Finite H]
 
+omit [Finite H] in
 theorem subfield_core (Z : Subgroup H) [Z.Normal] (hZc : Z ≤ Subgroup.center H)
     (hZ : Odd (Nat.card Z)) (ρ : MulAut H) (f : MulAut (H ⧸ Z))
     (hmk : ∀ x : H, f (QuotientGroup.mk x) = QuotientGroup.mk (ρ x)) :
@@ -108,6 +109,7 @@ theorem subfield_core (Z : Subgroup H) [Z.Normal] (hZc : Z ≤ Subgroup.center H
   exact Odd.of_dvd_nat hZ (h1.trans (h2 ▸ h3))
 
 
+omit [Finite H] in
 theorem equiv_of_map_mk {H' : Type*} [Group H'] (Z : Subgroup H) [Z.Normal] (C : Subgroup H)
     (Zk : Subgroup H') [Zk.Normal] (e : H' ≃* C) (he : ∀ x : H', x ∈ Zk ↔ ((e x : C) : H) ∈ Z) :
     Nonempty (C.map (QuotientGroup.mk' Z) ≃* H' ⧸ Zk) := by
@@ -182,7 +184,7 @@ variable {K : Type} [Field K] {H : Type} [Group H] [Finite H]
 theorem sigma_order {m : ℕ} (hm : 1 ≤ m) (hK : Nat.card K = 2 ^ m)
     (Z : Subgroup H) [Z.Normal] (hZc : Z ≤ Subgroup.center H) (hZ : Odd (Nat.card Z))
     (ρ : (K ≃+* K) →* MulAut H) (good : (K ≃+* K) → Prop)
-    (hgood : ∀ σ, good σ → ∀ n : ℕ, good (σ ^ n)) {u v : ℕ} (hu : 0 < u) (hv : 0 < v)
+    (hgood : ∀ σ, good σ → ∀ n : ℕ, good (σ ^ n)) {u v : ℕ} (hu : 0 < u) (_hv : 0 < v)
     (hH : twoPart (Nat.card H) ^ v = 2 ^ (m * u))
     (hC : ∀ σ, good σ → ∀ e : ℕ, Nat.card {x : K // σ x = x} = 2 ^ e →
       twoPart (FP.fixNum (ρ σ)) ^ v = 2 ^ (e * u))
@@ -191,7 +193,7 @@ theorem sigma_order {m : ℕ} (hm : 1 ≤ m) (hK : Nat.card K = 2 ^ m)
     (hσf : ∀ x : H, f (QuotientGroup.mk x) = QuotientGroup.mk (ρ σ x)) (hord : orderOf f = p) :
     ∃ n : ℕ, ¬ p ∣ n ∧ orderOf (σ ^ n) = p ∧ good (σ ^ n) ∧
       ∀ x : H, (f ^ n) (QuotientGroup.mk x) = QuotientGroup.mk (ρ (σ ^ n) x) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpow : ∀ n : ℕ, ∀ x : H, (f ^ n) (QuotientGroup.mk x) = QuotientGroup.mk ((ρ (σ ^ n)) x) := by
     intro n
     induction n with

@@ -36,7 +36,7 @@ theorem ksm_tripleA6_card {X : Type} [Group X] (hT : IsTripleA6 X) : Nat.card X 
 theorem ksm_tripleA6_nine {X : Type} [Group X] [Finite X]
     (hT : IsTripleA6 X) (hX : CFSG.IsQuasisimple X) : KSmNoNineMap X := by
   obtain ⟨hZ3, ⟨φ⟩⟩ := hT
-  haveI : Group.IsPerfect X := hX.1
+  have : Group.IsPerfect X := hX.1
   have hXc : Nat.card X = 1080 := ksm_tripleA6_card ⟨hZ3, ⟨φ⟩⟩
   have hA6c : Nat.card (alternatingGroup (Fin 6)) = 360 := by
     rw [nat_card_alternatingGroup]
@@ -59,7 +59,7 @@ theorem ksm_tripleA6_nine {X : Type} [Group X] [Finite X]
       (QuotientGroup.mk' (Subgroup.center X)) P
     rw [ksm_ker_conj] at h1
     rw [QuotientGroup.ker_mk'] at h2
-    haveI : Nonempty ↥(P ⊓ Subgroup.center X) := ⟨1⟩
+    have : Nonempty ↥(P ⊓ Subgroup.center X) := ⟨1⟩
     have hpos : 0 < Nat.card ↥(P ⊓ Subgroup.center X) := Nat.card_pos
     exact Nat.eq_of_mul_eq_mul_right hpos (h1.symm.trans h2)
   rw [hA] at hdvd
@@ -76,7 +76,7 @@ theorem ksm_tripleA6_nine {X : Type} [Group X] [Finite X]
     exact ksm_isSylow_top_of_sylow T
   have hT'pg : IsPGroup 2 T' := by
     rw [hT']
-    exact T.isPGroup'
+    exact T.isPGroup
   have hT'idx : ¬ 2 ∣ T'.index := by
     have := (CFSG.ABGLocalTools.isSylowOf_iff.1 hT'syl).2.2
     rwa [Subgroup.relIndex_top_right] at this
@@ -115,7 +115,7 @@ theorem ksm_tripleA6_nine {X : Type} [Group X] [Finite X]
     rw [← hT6card, hidx2]
   have hrel : T'.index = 3 * T6.index := by
     apply Nat.eq_of_mul_eq_mul_left hTpos
-    rw [hidx1, mul_left_comm, h360] <;> norm_num
+    rw [hidx1, mul_left_comm, h360]; norm_num
   have hT6idx : ¬ 2 ∣ T6.index := by omega
   have hT6pg : IsPGroup 2 T6 :=
     (hT'pg.map (QuotientGroup.mk' (Subgroup.center X))).map φ.toMonoidHom

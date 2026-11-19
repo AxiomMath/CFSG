@@ -149,9 +149,9 @@ theorem false_of_alt2_of_centralizer_le {X K J L : Subgroup G} (hLX : L ≤ X) (
   have : IsSimpleGroup (projSL 3 (GaloisField 2 2)) := isSimpleGroup_projSL_three_four
   have hsimple : IsSimpleGroup (L ⧸ CFSG.pCore 2 L) := eL.isSimpleGroup
   set π : L →* L ⧸ CFSG.pCore 2 L := QuotientGroup.mk' (CFSG.pCore 2 L) with hπ
-  haveI hDn : (D.subgroupOf L).Normal :=
+  have hDn : (D.subgroupOf L).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer inf_le_right).mpr hLD
-  haveI hDq : ((D.subgroupOf L).map π).Normal := hDn.map π (QuotientGroup.mk'_surjective _)
+  have hDq : ((D.subgroupOf L).map π).Normal := hDn.map π (QuotientGroup.mk'_surjective _)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((D.subgroupOf L).map π) with hbot | htop
   ·
     have hDQ : ∀ d ∈ D, d ∈ QL := by

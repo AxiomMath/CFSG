@@ -46,7 +46,7 @@ theorem ae8d_star_of_pairwise (F : Finset {s : Finset (Fin 8) // s.card = 2})
   have hclaim : (∀ t ∈ F, a ∈ (t : Finset (Fin 8))) ∨
       (∀ t ∈ F, b ∈ (t : Finset (Fin 8))) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨⟨t1, ht1, ht1a⟩, ⟨t2, ht2, ht2b⟩⟩ := hcon
     have h1 := hF s1 hs1 t1 ht1
     have h2 := hF s1 hs1 t2 ht2
@@ -430,6 +430,7 @@ theorem ae8d_trivial_of_perfect {Y : Type*} [Group Y] (hperf : commutator Y = �
   rw [hperf] at h
   exact MonoidHom.mem_ker.mp (h (Subgroup.mem_top y))
 
+omit [Finite G] in
 theorem ae8d_delta_conj (u g x : G) : x ∈ Delta u ↔ g * x * g⁻¹ ∈ Delta u := by
   constructor
   · rintro ⟨h, rfl⟩
@@ -443,13 +444,16 @@ theorem ae8d_delta_conj (u g x : G) : x ∈ Delta u ↔ g * x * g⁻¹ ∈ Delta
 @[expose] def ae8d_cg (u g : G) : ↥(Delta u) ≃ ↥(Delta u) :=
   Equiv.subtypeEquiv (MulAut.conj g).toEquiv fun x => ae8d_delta_conj u g x
 
+omit [Finite G] in
 theorem ae8d_cg_val (u g : G) (x : ↥(Delta u)) : ((ae8d_cg u g x : ↥(Delta u)) : G) =
     g * (x : G) * g⁻¹ := rfl
 
+omit [Finite G] in
 theorem ae8d_cg_mul (u g h : G) (x : ↥(Delta u)) :
     ae8d_cg u (g * h) x = ae8d_cg u g (ae8d_cg u h x) :=
   Subtype.ext (by rw [ae8d_cg_val, ae8d_cg_val, ae8d_cg_val]; group)
 
+omit [Finite G] in
 theorem ae8d_cg_one (u : G) (x : ↥(Delta u)) : ae8d_cg u 1 x = x :=
   Subtype.ext (by rw [ae8d_cg_val]; group)
 
@@ -457,19 +461,23 @@ theorem ae8d_cg_one (u : G) (x : ↥(Delta u)) : ae8d_cg u 1 x = x :=
     Equiv.Perm {s : Finset (Fin 8) // s.card = 2} :=
   (E.symm.trans (ae8d_cg u g)).trans E
 
+omit [Finite G] in
 theorem ae8d_F_apply {u : G} (E : ↥(Delta u) ≃ {s : Finset (Fin 8) // s.card = 2}) (g : G)
     (s : {s : Finset (Fin 8) // s.card = 2}) :
     ae8d_F E g s = E (ae8d_cg u g (E.symm s)) := rfl
 
+omit [Finite G] in
 theorem ae8d_F_mul {u : G} (E : ↥(Delta u) ≃ {s : Finset (Fin 8) // s.card = 2}) (g h : G)
     (s : {s : Finset (Fin 8) // s.card = 2}) :
     ae8d_F E (g * h) s = ae8d_F E g (ae8d_F E h s) := by
   rw [ae8d_F_apply, ae8d_F_apply, ae8d_F_apply, E.symm_apply_apply, ae8d_cg_mul]
 
+omit [Finite G] in
 theorem ae8d_F_one {u : G} (E : ↥(Delta u) ≃ {s : Finset (Fin 8) // s.card = 2})
     (s : {s : Finset (Fin 8) // s.card = 2}) : ae8d_F E 1 s = s := by
   rw [ae8d_F_apply, ae8d_cg_one, E.apply_symm_apply]
 
+omit [Finite G] in
 theorem ae8d_meet_iff {u : G} (E : ↥(Delta u) ≃ {s : Finset (Fin 8) // s.card = 2})
     (hE : ∀ x y : ↥(Delta u), (x ≠ y ∧ ((x : G) * y) ∈ Delta u) ↔
       (x ≠ y ∧ ((E x : Finset (Fin 8)) ∩ (E y : Finset (Fin 8))).Nonempty))
@@ -485,6 +493,7 @@ theorem ae8d_meet_iff {u : G} (E : ↥(Delta u) ≃ {s : Finset (Fin 8) // s.car
     simp only [h, false_or]
     exact this.symm
 
+omit [Finite G] in
 theorem ae8d_F_meet {u : G} (E : ↥(Delta u) ≃ {s : Finset (Fin 8) // s.card = 2})
     (hE : ∀ x y : ↥(Delta u), (x ≠ y ∧ ((x : G) * y) ∈ Delta u) ↔
       (x ≠ y ∧ ((E x : Finset (Fin 8)) ∩ (E y : Finset (Fin 8))).Nonempty))
@@ -539,6 +548,7 @@ theorem exists_points (H : End18.Hyp Ω) {c : Chart Ω u} {co : Coords c} (cl : 
   rw [← h1]
   exact hπ g (E x)
 
+omit [Finite G] in
 theorem ae8d_delta_mem_zGroup {c : Chart Ω u} {co : Coords c} (cl : Classes co) {x : G}
     (hx : x ∈ Delta u) : x ∈ zGroup Ω := by
   obtain ⟨h, -⟩ := (cl.u_class x).mp hx
@@ -548,6 +558,7 @@ theorem ae8d_wt_single (i : Fin 6) : wt (Pi.single i (1 : ZMod 2) : Fin 6 → ZM
   revert i
   decide
 
+omit [Finite G] in
 theorem ae8d_zGroup_le_closure {c : Chart Ω u} {co : Coords c} (cl : Classes co) :
     zGroup Ω ≤ Subgroup.closure (Delta u) := by
   let f : Multiplicative (Fin 6 → ZMod 2) →* G :=
@@ -614,6 +625,7 @@ theorem ae8d_perm_dv (σ : Equiv.Perm (Fin 6)) (a b : Fin 6) :
   funext i
   simp only [ae8d_dv, Pi.add_apply, Pi.single_apply, Equiv.symm_apply_eq]
 
+omit [Finite G] in
 theorem ae8d_delta_of_wt {c : Chart Ω u} {co : Coords c} (cl : Classes co) (v : Fin 6 → ZMod 2)
     (hv : wt v = 1 ∨ wt v = 2) :
     ((co.e.symm (Multiplicative.ofAdd v) : ↥(zGroup Ω)) : G) ∈ Delta u := by
@@ -680,11 +692,13 @@ namespace Points
 
 variable {c : Chart Ω u} {co : Coords c}
 
+omit [Finite G] in
 theorem ae8d_dl_val (cl : Classes co) {a b : Fin 6} (h : a ≠ b) :
     ((ae8d_dl cl a b h : ↥(Delta u)) : G) =
       ((co.e.symm (Multiplicative.ofAdd (ae8d_dv a b)) : ↥(zGroup Ω)) : G) :=
   rfl
 
+omit [Finite G] in
 theorem ae8d_dl_mul (cl : Classes co) {a b b' : Fin 6} (hab : a ≠ b) (hab' : a ≠ b')
     (hbb' : b ≠ b') :
     ((ae8d_dl cl a b hab : ↥(Delta u)) : G) * ((ae8d_dl cl a b' hab' : ↥(Delta u)) : G) ∈
@@ -695,6 +709,7 @@ theorem ae8d_dl_mul (cl : Classes co) {a b b' : Fin 6} (hab : a ≠ b) (hab' : a
   rw [h]
   exact ae8d_delta_of_wt cl (ae8d_dv b b') (Or.inr (ae8d_wt_dv b b' hbb'))
 
+omit [Finite G] in
 theorem ae8d_dl_inj (cl : Classes co) {a b a' b' : Fin 6} (hab : a ≠ b) (hab' : a' ≠ b')
     (h : ae8d_dl cl a b hab = ae8d_dl cl a' b' hab') :
     (a = a' ∧ b = b') ∨ (a = b' ∧ b = a') := by
@@ -712,16 +727,19 @@ theorem ae8d_dl_inj (cl : Classes co) {a b a' b' : Fin 6} (hab : a ≠ b) (hab' 
     {s : Finset (Fin 8) // s.card = 2} :=
   if h : a ≠ b then pt.E (ae8d_dl cl a b h) else ⟨{0, 1}, by decide⟩
 
+omit [Finite G] in
 theorem ae8d_S_ne (cl : Classes co) (pt : Points u) {a b : Fin 6} (h : a ≠ b) :
     ae8d_S cl pt a b = pt.E (ae8d_dl cl a b h) :=
-  dif_pos h
+  dite_eq_left h
 
+omit [Finite G] in
 theorem ae8d_S_inj (cl : Classes co) (pt : Points u) {a b a' b' : Fin 6} (hab : a ≠ b)
     (hab' : a' ≠ b') (h : ae8d_S cl pt a b = ae8d_S cl pt a' b') :
     (a = a' ∧ b = b') ∨ (a = b' ∧ b = a') := by
   rw [ae8d_S_ne cl pt hab, ae8d_S_ne cl pt hab'] at h
   exact ae8d_dl_inj cl hab hab' (pt.E.injective h)
 
+omit [Finite G] in
 theorem ae8d_center (cl : Classes co) (pt : Points u) (a : Fin 6) :
     ∃ p : Fin 8, ∀ b : Fin 6, b ≠ a → p ∈ (ae8d_S cl pt a b : Finset (Fin 8)) := by
   classical
@@ -750,7 +768,7 @@ theorem ae8d_center (cl : Classes co) (pt : Points u) (a : Fin 6) :
     have hcard : F.card = 5 := by
       rw [hFdef, Finset.card_image_of_injOn, ← ae8d_card_ne a]
       intro b hb b' hb' h
-      simp only [Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_setOf_eq] at hb hb'
+      simp only [Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_ofPred_eq] at hb hb'
       rcases ae8d_S_inj cl pt hb.symm hb'.symm h with h1 | h1
       · exact h1.2
       · exact absurd h1.2 hb
@@ -762,6 +780,7 @@ theorem ae8d_center (cl : Classes co) (pt : Points u) (a : Fin 6) :
 end Points
 
 
+omit [Finite G] in
 theorem ae8d_zGroup_conj (H : End18.Hyp Ω) (g : G) {d : G} (hd : d ∈ zGroup Ω) :
     g * d * g⁻¹ ∈ zGroup Ω := by
   have hle : zGroup Ω ≤ (zGroup Ω).comap (MulAut.conj g).toMonoidHom := by
@@ -776,6 +795,7 @@ namespace Points
 
 variable {c : Chart Ω u} {co : Coords c}
 
+omit [Finite G] in
 theorem exists_chartLines (H : End18.Hyp Ω) (cl : Classes co) (pt : Points u) :
     ∃ ι : Fin 6 ↪ Fin 8, ∀ y : ↥(pSpan (Generic.centMembers Ω u)),
       (∀ i : Fin 6, pt.π (y : G) (ι i) = ι ((c.ψ y : AE.Wr 6).perm i)) ∧
@@ -896,6 +916,7 @@ namespace Points
 
 variable {c : Chart Ω u} {co : Coords c}
 
+omit [Finite G] in
 theorem range_eq (H : End18.Hyp Ω) (cl : Classes co) (pt : Points u) :
     pt.π.range = alternatingGroup (Fin 8) := by
   apply le_antisymm

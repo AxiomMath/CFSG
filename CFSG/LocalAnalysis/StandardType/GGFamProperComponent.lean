@@ -73,7 +73,7 @@ private theorem famProper_componentRoots_eq_of_kernelRoots_full
       (Pi.single j 1 : Fin τ.rank → ℤ) ∈ componentRoots χ i0
     have hS : S.Nonempty := ⟨0, by
       simp only [S, Finset.mem_filter, Finset.mem_univ, true_and, componentRoots,
-        Set.mem_setOf_eq]
+        Set.mem_ofPred]
       exact ⟨hs 0, rfl⟩⟩
     have hcl : ∀ i ∈ S, ∀ j, Tag.cartanE τ.rank i j ≠ 0 → j ∈ S := by
       intro i hiS j hne

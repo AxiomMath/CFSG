@@ -52,7 +52,7 @@ theorem GGSecFiveRestHyp.card_bstar_of_twD5
       have h_eq_card : Nat.card ↥(Subgroup.zpowers x ⊓ L) =
           Nat.card ((Subgroup.zpowers x ⊓ L).subgroupOf (Subgroup.zpowers x)) := by
         rw [CFSG.DisconnectedInvolutionGraph.Helpers.card_subgroupOf_eq_inf]
-        simp [inf_assoc, inf_comm]
+        simp [inf_comm]
       rw [h_eq_card]
       have h_dvd' : Nat.card ((Subgroup.zpowers x ⊓ L).subgroupOf (Subgroup.zpowers x)) ∣
           Nat.card ↥(Subgroup.zpowers x) :=

@@ -17,7 +17,7 @@ theorem a1413_embedding {Q : Type} [Group Q] {L : Subgroup Q} (hLn : L.Normal)
       (∀ l : ↥L, θ (l : Q) = MulAut.conj (e l)) ∧
       (∀ (q : Q) (l : ↥L), θ q (e l) = e ⟨q * l * q⁻¹, hLn.conj_mem _ l.2 q⟩) ∧
       (∀ q : Q, q ∈ L ↔ θ q ∈ inner P) ∧ inner P ≤ θ.range := by
-  haveI := hLn
+  have := hLn
   let θ₁ : Q →* MulAut ↥L := MulAut.conjNormal
   let θ : Q →* MulAut P := (MulAut.congr e).toMonoidHom.comp θ₁
   have hZL : Subgroup.center ↥L = ⊥ := by

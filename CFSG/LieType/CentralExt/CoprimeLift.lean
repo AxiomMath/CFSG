@@ -194,7 +194,7 @@ theorem mem_liftSubgroup_iff (hcen : π.ker ≤ Subgroup.center E) {U : Subgroup
     exact fun e he => ⟨⟨e, he.1⟩, mem_sylow_of_pElement hcen hU P ⟨e, he.1⟩ he.2, rfl⟩
   refine ⟨fun he => ?_, fun he => Subgroup.subset_closure he⟩
   obtain ⟨x, hx, rfl⟩ := hle he
-  obtain ⟨n, hn⟩ := exists_orderOf_eq_pow_of_mem P.isPGroup' ⟨x, hx⟩
+  obtain ⟨n, hn⟩ := exists_orderOf_eq_pow_of_mem P.isPGroup ⟨x, hx⟩
   exact ⟨x.2, n, by rw [Subgroup.coe_subtype, Subgroup.orderOf_coe]; exact hn⟩
 
 theorem liftSubgroup_le_comap (hcen : π.ker ≤ Subgroup.center E) {U : Subgroup G}
@@ -215,7 +215,7 @@ theorem sylow_map_eq_liftSubgroup (hcen : π.ker ≤ Subgroup.center E) {U : Sub
   rw [mem_liftSubgroup_iff hcen hU]
   constructor
   · rintro ⟨x, hx, rfl⟩
-    obtain ⟨n, hn⟩ := exists_orderOf_eq_pow_of_mem P.isPGroup' ⟨x, hx⟩
+    obtain ⟨n, hn⟩ := exists_orderOf_eq_pow_of_mem P.isPGroup ⟨x, hx⟩
     exact ⟨x.2, n, by rw [Subgroup.coe_subtype, Subgroup.orderOf_coe]; exact hn⟩
   · rintro ⟨he, hpe⟩
     exact ⟨⟨e, he⟩, mem_sylow_of_pElement hcen hU P ⟨e, he⟩ hpe, rfl⟩

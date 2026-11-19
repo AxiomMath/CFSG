@@ -369,7 +369,7 @@ theorem exists_mem_yamadaD₇_inf_not_mem_yamadaF₅ (hW : CFSG.Walter.WalterOrd
     have := (Subgroup.mem_inf.1 (mem_conj_iff.1 hmem)).2
     rwa [show t * (t⁻¹ * (m * e) * t⁻¹⁻¹) * t⁻¹ = m * e by group] at this
   obtain ⟨φ, -, hφk⟩ := hL.fac₁.quot
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hK' : Fintype.card K = 2 ^ f := by
     rw [← Nat.card_eq_fintype_card]
     exact hK

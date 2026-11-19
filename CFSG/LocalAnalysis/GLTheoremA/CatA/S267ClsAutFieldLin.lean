@@ -30,7 +30,7 @@ theorem not_dvd_card_slScalars [Finite K] {p : ℕ} (hp : p.Prime)
     (hdiag : ¬ p ∣ Nat.gcd n (Nat.card K - 1)) :
     ¬ p ∣ Nat.card ↥((StatedScalars (Fin n) K).subgroupOf (StatedSL n K)) := by
   intro hd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' p hd
   have hzg : z ^ Nat.gcd n (Nat.card K - 1) = 1 := by
     obtain ⟨⟨z, hzS⟩, hzZ⟩ := z
@@ -76,7 +76,7 @@ theorem exists_scalar_mul_mem_statedSL [Finite K] {p : ℕ} (hp : p.Prime)
       Matrix.GeneralLinearGroup.scalar (Fin n) c ∈
         Cls.isomGL (0 : (Fin n → K) →ₗ[K] (Fin n → K) →ₗ[K] K) ∧
       Matrix.GeneralLinearGroup.scalar (Fin n) c * g ∈ StatedSL n K := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set d : Kˣ := (Matrix.GeneralLinearGroup.det g)⁻¹ with hd
   have hdp : d ^ p = 1 := by rw [hd, inv_pow, ← map_pow, hgp, map_one, inv_one]
   have hdetc : ∀ c : Kˣ, c ^ n = d →
@@ -114,12 +114,14 @@ section Field
 variable {p : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S : Subgroup Ω} [S.Normal]
 variable {n : ℕ} {K : Type} [Field K] [Finite K]
 
+omit [Finite Ω] [S.Normal] in
 theorem outPChain_lin (hp : p.Prime) (hp2 : p ≠ 2) (hn : 3 ≤ n)
     (hdiag : ¬ p ∣ Nat.gcd n (Nat.card K - 1)) (e : ↥S ≃* StatedProj (StatedSL n K)) :
     OutPChain p ↥S :=
   (CFSG.RankThree.PartOne.OutStructure.outPNice_projectiveSL hp hp2 hn hdiag).toChain.of_mulEquiv
     (e.trans (statedProjSLEquiv n K))
 
+omit [Finite Ω] in
 theorem exists_fieldAct_lin (hp : p.Prime) (hp2 : p ≠ 2) (hn : 3 ≤ n) {ℓ f : ℕ} (hℓ : ℓ.Prime)
     (hf : 1 ≤ f) (hK : Nat.card K = ℓ ^ f) (hpℓ : p ≠ ℓ)
     (hdiag : ¬ p ∣ Nat.gcd n (Nat.card K - 1)) (φ : ↥(StatedSL n K) →* Ω) (hφS : φ.range = S)
@@ -127,7 +129,7 @@ theorem exists_fieldAct_lin (hp : p.Prime) (hp2 : p ≠ 2) (hn : 3 ≤ n) {ℓ f
     (hbp : b ^ p = 1) (hbN : b ∉ S ⊔ Subgroup.centralizer (S : Set Ω)) :
     ∃ (A : GL (Fin n) K) (σ : K ≃+* K), FieldAct p φ b A σ ∧
       FormRel (0 : (Fin n → K) →ₗ[K] (Fin n → K) →ₗ[K] K) A σ := by
-  haveI : CharP K ℓ :=
+  have : CharP K ℓ :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hℓ hf hK
   set e : projectiveSL n K ≃* ↥S := (statedProjSLEquiv n K).symm.trans (coverProjEquiv φ hφS hφk)
     with he
@@ -175,6 +177,7 @@ theorem exists_fieldAct_lin (hp : p.Prime) (hp2 : p ≠ 2) (hn : 3 ≤ n) {ℓ f
       rw [h3, h3, hkS, MulEquiv.apply_symm_apply] at h2
       exact h2
 
+omit [Finite Ω] in
 theorem exists_clsData_lin (hp : p.Prime) (hp2 : p ≠ 2) (hcore : GLAPPrimeCore p ↥S = ⊥)
     (hZ : Subgroup.center ↥S = ⊥) (hn : 3 ≤ n) {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f)
     (hK : Nat.card K = ℓ ^ f) (hpℓ : p ≠ ℓ) (hdiag : ¬ p ∣ Nat.gcd n (Nat.card K - 1))

@@ -54,13 +54,13 @@ theorem center_eq_bot_of_simple_not_comm {G : Type} [Group G] (K : Subgroup G)
 
 theorem not_isComponentOf_of_solvable {G : Type} [Group G] {X L : Subgroup G}
     (hX : Group.IsSolvable ↥X) (hL : CFSG.Open.IsComponentOf L X) : False := by
-  haveI := hX
+  have := hX
   have hLs : Group.IsSolvable ↥L :=
     Group.isSolvable_of_surjective (f := (Subgroup.subgroupOfEquivOfLe hL.1).toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hL.1).surjective
-  haveI : Group.IsPerfect ↥L := ⟨hL.2.2.1⟩
-  haveI := hL.2.2.2
-  haveI : Nontrivial ↥L := (QuotientGroup.mk'_surjective (Subgroup.center ↥L)).nontrivial
+  have : Group.IsPerfect ↥L := ⟨hL.2.2.1⟩
+  have := hL.2.2.2
+  have : Nontrivial ↥L := (QuotientGroup.mk'_surjective (Subgroup.center ↥L)).nontrivial
   exact Group.IsPerfect.not_isSolvable (↥L) hLs
 
 theorem comp_yM5_catalog {L : Subgroup M5}
@@ -77,11 +77,11 @@ theorem comp_yM5_catalog {L : Subgroup M5}
     rwa [inf_eq_left.mpr hLK] at h
   rcases CFSG.Open.IsSubnormal.eq_bot_or_eq_of_isSimpleGroup hsub hsimp with h | h
   · exfalso
-    haveI := hL.2.2.2
+    have := hL.2.2.2
     have hnt : Nontrivial ↥L := (QuotientGroup.mk'_surjective (Subgroup.center ↥L)).nontrivial
     exact ((Subgroup.nontrivial_iff_ne_bot L).mp hnt) h
   · rw [h]
-    haveI := hsimp
+    have := hsimp
     have hZ := center_eq_bot_of_simple_not_comm Kb hnc
     let e : ↥Kb ⧸ Subgroup.center ↥Kb ≃* ↥Kb :=
       (QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot
@@ -89,7 +89,7 @@ theorem comp_yM5_catalog {L : Subgroup M5}
 
 theorem M5_nontrivial : Nontrivial M5 := by
   obtain ⟨Kb, -, -, -, hsimp, -, -, -⟩ := m5_u4_layer
-  haveI := hsimp
+  have := hsimp
   obtain ⟨x, y, hxy⟩ := exists_pair_ne ↥Kb
   exact ⟨⟨(x : M5), (y : M5), fun h => hxy (Subtype.ext h)⟩⟩
 

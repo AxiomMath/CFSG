@@ -38,12 +38,12 @@ theorem triD4Line_exists_trialityTorusHom_baseChange
     (hT : h ∈ torusGroup Tag.D4 L) (hF : twistHom TwistTag.D4 L Fr h = h) :
     ∃ p : Kˣ × (trialityFixedField K σ.toRingHom)ˣ,
       baseChangeGL (algebraMap K L) (trialityTorusHom σ p) = h := by
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
-  letI : Fintype K := Fintype.ofFinite K
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
+  let : Fintype K := Fintype.ofFinite K
   have hcard : ∀ c : K, c ^ Nat.card K = c := fun c => by
     rw [Nat.card_eq_fintype_card]
     exact FiniteField.pow_card c
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := n * 3)
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := n * 3)
     (by rw [← Nat.card_eq_fintype_card, hK, ← pow_mul])
   have hσ3 : σ ^ 3 = 1 := by
     ext c

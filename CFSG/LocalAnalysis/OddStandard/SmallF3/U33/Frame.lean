@@ -15,7 +15,7 @@ private theorem mulAut_conj_conj {G : Type*} [Group G] (α : MulAut G) (x : G) :
     MulAut.conj α (MulAut.conj x) = MulAut.conj (α x) := by
   ext z
   simp only [MulAut.conj_apply, MulAut.mul_apply, MulAut.inv_apply, map_mul, map_inv,
-    MulEquiv.symm_apply_apply, MulEquiv.apply_symm_apply]
+    MulEquiv.apply_symm_apply]
 
 private theorem WreathRel.exists_zpow_mul_of_mem_baseGrp {G : Type*} [Group G]
     {x₁ x₂ lam : G} (h : WreathRel x₁ x₂ lam) {w : G} (hw : w ∈ baseGrp x₁ x₂) :

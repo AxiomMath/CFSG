@@ -12,7 +12,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {G : Type} [Group G] [Finite G]
 
-theorem c23_pRank_top_le_two {H : Type} [Group H] [Finite H] {p : ℕ} (hp : p.Prime)
+theorem c23_pRank_top_le_two {H : Type} [Group H] [Finite H] {p : ℕ} (_hp : p.Prime)
     (h : ¬ p ^ 3 ∣ Nat.card H) : CFSG.Open.pRank p (⊤ : Subgroup H) ≤ 2 := by
   refine csSup_le ⟨0, ⊥, le_top, CFSG.Open.isElemAbelian_bot p, by simp⟩ ?_
   rintro k ⟨E, -, -, hE⟩
@@ -26,7 +26,7 @@ theorem c23_evenRank_eq_three (D : Data G) (hx : DataExt D) (h115 : F11.R115 D) 
   obtain ⟨p, hp, -, hpσ, -, hnd⟩ := c23_exists_prime D h1217 hS hc
   have h151 := hS.setting.hyp151
   have hpf := h151.hyp125.pairFacts
-  haveI : ((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal :=
+  have : ((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal :=
     WeakClosure81.cTilde_subgroupOf_normal hV hpf.le_normalizer hpf.le_normalizer₀
   have hH11 : F11.Hyp11 D V₀ V := Hyp125.hyp11 h127 h151.hyp125
   obtain ⟨-, hle, -⟩ := h115 V₀ V hH11 (c23_card_v0_le_four D hS.setting.hyp16) p hpσ

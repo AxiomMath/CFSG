@@ -16,22 +16,24 @@ open scoped commutatorElement
 
 variable {X : Type} [Group X] [Finite X] {f : ℕ}
 
+omit [Finite X] in
 private theorem σUnits_unitsIncl (d : TrialityD4Data X (2 ^ f)) (l : (d.Γ₀)ˣ) :
     d.σUnits (d.unitsIncl l) = d.unitsIncl l := by
   apply Units.ext
   rw [d.coe_σUnits, d.coe_unitsIncl]
   exact apply_coe_fixedSubfield _
 
+omit [Finite X] in
 private theorem twist_surjective (d : TrialityD4Data X (2 ^ f)) :
     ∀ a : d.Γˣ, ∃ μ : d.Γˣ, d.σUnits μ * d.σUnits (d.σUnits μ) = a := by
-  haveI : Finite d.Γˣ :=
+  have : Finite d.Γˣ :=
     Finite.of_injective (fun u : d.Γˣ => (u : d.Γ)) Units.val_injective
   let g : d.Γˣ →* d.Γˣ :=
     { toFun := fun μ => d.σUnits μ * d.σUnits (d.σUnits μ)
       map_one' := by simp
       map_mul' := by
         intro a b
-        simp only [map_mul, mul_assoc, mul_left_comm, mul_comm] }
+        simp only [map_mul, mul_left_comm, mul_comm] }
   have hg : Function.Injective g := by
     intro μ ν h
     have h1 : g (μ * ν⁻¹) = 1 := by
@@ -49,6 +51,7 @@ private theorem twist_surjective (d : TrialityD4Data X (2 ^ f)) :
   obtain ⟨μ, hμ⟩ := Finite.injective_iff_surjective.1 hg a
   exact ⟨μ, hμ⟩
 
+omit [Finite X] in
 private theorem u_mem_centralizer (d : TrialityD4Data X (2 ^ f))
     (u : ↥d.M ≃* ↥d.M)
     (hu : ∀ h ∈ d.J, ∀ x y : ↥d.M,
@@ -67,6 +70,7 @@ private theorem u_mem_centralizer (d : TrialityD4Data X (2 ^ f))
       _ = h * (u x : X) := by group
   exact hcomm.symm
 
+omit [Finite X] in
 private theorem exists_scalar (d : TrialityD4Data X (2 ^ f))
     (u : ↥d.M ≃* ↥d.M)
     (hu : ∀ h ∈ d.J, ∀ x y : ↥d.M,
@@ -110,6 +114,7 @@ private theorem exists_scalar (d : TrialityD4Data X (2 ^ f))
     rw [← hc, hχ h c, hh] at huy
     exact huy
 
+omit [Finite X] in
 private theorem mem_U₃_of_mem_M_of_mem_centralizer_J₃ (d : TrialityD4Data X (2 ^ f))
     (hq : 4 ≤ 2 ^ f) {x : X} (hx : x ∈ d.M)
     (hc : x ∈ centralizer (d.J₃ : Set X)) : x ∈ d.U₃ := by
@@ -162,10 +167,12 @@ private theorem mem_U₃_of_mem_M_of_mem_centralizer_J₃ (d : TrialityD4Data X 
   rw [h1z, h4z, h5z, h6z, d.nf_x₃]
   exact d.x₃_mem_U₃ a₃
 
+omit [Finite X] in
 private theorem unitsIncl_ne_one (d : TrialityD4Data X (2 ^ f)) {u : (d.Γ₀)ˣ}
     (hu : u ≠ 1) : d.unitsIncl u ≠ 1 :=
   (map_ne_one_iff d.unitsIncl d.unitsIncl_injective).2 hu
 
+omit [Finite X] in
 private theorem mem_U₄_of_mem_M_of_mem_centralizer_J₄ (d : TrialityD4Data X (2 ^ f))
     (hq : 4 ≤ 2 ^ f) {x : X} (hx : x ∈ d.M)
     (hc : x ∈ centralizer (d.J₄ : Set X)) : x ∈ d.U₄ := by
@@ -185,7 +192,7 @@ private theorem mem_U₄_of_mem_M_of_mem_centralizer_J₄ (d : TrialityD4Data X 
     simpa only [H] using h1
   have hunit3 : d.unitsIncl β ≠ 1 := unitsIncl_ne_one d hβ
   have hchar3 : d.unitsIncl H.1 * H.2 = d.unitsIncl β := by
-    simp only [H, map_pow, map_mul, map_inv]
+    simp only [H, map_pow, map_inv]
     group
   have h3u : (((d.unitsIncl H.1 * H.2 : d.Γˣ) : d.Γ)) * a₃ = a₃ := by
     simpa only [d.coe_unitsIncl, Units.val_mul] using h3
@@ -214,6 +221,7 @@ private theorem mem_U₄_of_mem_M_of_mem_centralizer_J₄ (d : TrialityD4Data X 
   rw [h1z, h3z, h5z, h6z, d.nf_x₄]
   exact d.x₄_mem_U₄ a₄
 
+omit [Finite X] in
 private theorem mem_U₅_of_mem_M_of_mem_centralizer_J₅ (d : TrialityD4Data X (2 ^ f))
     (hq : 4 ≤ 2 ^ f) {x : X} (hx : x ∈ d.M)
     (hc : x ∈ centralizer (d.J₅ : Set X)) : x ∈ d.U₅ := by
@@ -238,7 +246,7 @@ private theorem mem_U₅_of_mem_M_of_mem_centralizer_J₅ (d : TrialityD4Data X 
   have hlsqinv : (l ^ 2)⁻¹ ≠ 1 := fun h => hlsq (inv_eq_one.1 h)
   have hunitlsqinv : d.unitsIncl ((l ^ 2)⁻¹) ≠ 1 := unitsIncl_ne_one d hlsqinv
   have hchar3 : d.unitsIncl H.1 * H.2 = d.unitsIncl ((l ^ 2)⁻¹) := by
-    simp only [H, map_mul, map_inv, map_pow]
+    simp only [H, map_inv, map_pow]
     group
   have h3u : (((d.unitsIncl H.1 * H.2 : d.Γˣ) : d.Γ)) * a₃ = a₃ := by
     simpa only [d.coe_unitsIncl, Units.val_mul] using h3
@@ -250,7 +258,7 @@ private theorem mem_U₅_of_mem_M_of_mem_centralizer_J₅ (d : TrialityD4Data X 
   have hunitlinv : d.unitsIncl l⁻¹ ≠ 1 := unitsIncl_ne_one d hlinv
   have hchar4 : d.unitsIncl H.1 * d.σUnits H.2 * d.σUnits (d.σUnits H.2) =
       d.unitsIncl l⁻¹ := by
-    simp only [H, σUnits_unitsIncl, map_mul, map_inv, map_pow]
+    simp only [H, σUnits_unitsIncl, map_inv, map_pow]
     group
   have h4u : (((d.unitsIncl H.1 * d.σUnits H.2 * d.σUnits (d.σUnits H.2) : d.Γˣ) :
       d.Γ)) * a₄ = a₄ := by
@@ -282,6 +290,7 @@ private theorem mem_U₅_of_mem_M_of_mem_centralizer_J₅ (d : TrialityD4Data X 
   rw [h1z, h3z, h4z, h6z, d.nf_x₅]
   exact d.x₅_mem_U₅ a₅
 
+omit [Finite X] in
 private theorem σUnits_mul_σσUnits_eq_inv (d : TrialityD4Data X (2 ^ f)) {β : d.Γˣ}
     (hβ : d.nmUnits β = 1) : d.σUnits β * d.σUnits (d.σUnits β) = β⁻¹ := by
   apply Units.ext
@@ -299,6 +308,7 @@ private theorem σUnits_mul_σσUnits_eq_inv (d : TrialityD4Data X (2 ^ f)) {β 
   simp only [d.coe_σUnits]
   rw [h2', mul_inv_cancel₀ hβ0]
 
+omit [Finite X] in
 private theorem σUnits_mul_σσUnits_eq_inv_sq (d : TrialityD4Data X (2 ^ f)) {β : d.Γˣ}
     (hβ : d.nmUnits β = 1) :
     d.σUnits (β ^ 2) * d.σUnits (d.σUnits (β ^ 2)) = (β ^ 2)⁻¹ := by
@@ -306,6 +316,7 @@ private theorem σUnits_mul_σσUnits_eq_inv_sq (d : TrialityD4Data X (2 ^ f)) {
   rw [map_pow, map_pow, ← mul_pow, h]
   group
 
+omit [Finite X] in
 private theorem mem_U₆_of_mem_M_of_mem_centralizer_J₆ (d : TrialityD4Data X (2 ^ f))
     (hq : 4 ≤ 2 ^ f) {x : X} (hx : x ∈ d.M)
     (hc : x ∈ centralizer (d.J₆ : Set X)) : x ∈ d.U₆ := by
@@ -328,7 +339,7 @@ private theorem mem_U₆_of_mem_M_of_mem_centralizer_J₆ (d : TrialityD4Data X 
       (c := ((β ^ 2 : d.Γˣ) : d.Γ)) (fun h => hβ2ne (Units.ext h))
     simpa only [H] using h1
   have hchar3 : d.unitsIncl H.1 * H.2 = β ^ 2 := by
-    simp only [H, hβker, map_mul, map_inv, map_pow, one_mul, map_one, inv_one]
+    simp only [H, hβker, one_mul, map_one, inv_one]
   have h3u : (((d.unitsIncl H.1 * H.2 : d.Γˣ) : d.Γ)) * a₃ = a₃ := by
     simpa only [d.coe_unitsIncl, Units.val_mul] using h3
   have h3z : a₃ = 0 := by
@@ -338,7 +349,7 @@ private theorem mem_U₆_of_mem_M_of_mem_centralizer_J₆ (d : TrialityD4Data X 
   have hβ2inv : (β ^ 2)⁻¹ ≠ 1 := fun h => hβ2ne (inv_eq_one.1 h)
   have hchar4 : d.unitsIncl H.1 * d.σUnits H.2 * d.σUnits (d.σUnits H.2) =
       (β ^ 2)⁻¹ := by
-    simp only [H, hβker, map_mul, map_inv, map_pow, one_mul, map_one, inv_one]
+    simp only [H, hβker, map_pow, one_mul, map_one, inv_one]
     simpa only [map_pow] using σUnits_mul_σσUnits_eq_inv_sq d hβker
   have h4u : (((d.unitsIncl H.1 * d.σUnits H.2 * d.σUnits (d.σUnits H.2) : d.Γˣ) :
       d.Γ)) * a₄ = a₄ := by
@@ -374,6 +385,7 @@ private theorem mem_U₆_of_mem_M_of_mem_centralizer_J₆ (d : TrialityD4Data X 
   rw [hnf]
   exact d.x₆_mem_V a₆
 
+omit [Finite X] in
 private theorem x₁_mem_centralizer_J₁ (d : TrialityD4Data X (2 ^ f)) (a : d.Γ) :
     d.x₁ a ∈ centralizer (d.J₁ : Set X) := by
   have hJU : d.J₁ ≤ centralizer (d.U₁ : Set X) := inf_le_right
@@ -381,6 +393,7 @@ private theorem x₁_mem_centralizer_J₁ (d : TrialityD4Data X (2 ^ f)) (a : d.
   intro h hh
   exact (mem_centralizer_iff.1 (hJU hh) _ (d.x₁_mem_U₁ a)).symm
 
+omit [Finite X] in
 private theorem x₃_mem_centralizer_J₃ (d : TrialityD4Data X (2 ^ f)) (a : d.Γ) :
     d.x₃ a ∈ centralizer (d.J₃ : Set X) := by
   have hJU : d.J₃ ≤ centralizer (d.U₃ : Set X) := inf_le_right
@@ -388,6 +401,7 @@ private theorem x₃_mem_centralizer_J₃ (d : TrialityD4Data X (2 ^ f)) (a : d.
   intro h hh
   exact (mem_centralizer_iff.1 (hJU hh) _ (d.x₃_mem_U₃ a)).symm
 
+omit [Finite X] in
 private theorem x₄_mem_centralizer_J₄ (d : TrialityD4Data X (2 ^ f)) (a : d.Γ) :
     d.x₄ a ∈ centralizer (d.J₄ : Set X) := by
   have hJU : d.J₄ ≤ centralizer (d.U₄ : Set X) := inf_le_right
@@ -395,6 +409,7 @@ private theorem x₄_mem_centralizer_J₄ (d : TrialityD4Data X (2 ^ f)) (a : d.
   intro h hh
   exact (mem_centralizer_iff.1 (hJU hh) _ (d.x₄_mem_U₄ a)).symm
 
+omit [Finite X] in
 private theorem x₅_mem_centralizer_J₅ (d : TrialityD4Data X (2 ^ f)) (a : d.Γ₀) :
     d.x₅ a ∈ centralizer (d.J₅ : Set X) := by
   have hJU : d.J₅ ≤ centralizer (d.U₅ : Set X) := inf_le_right
@@ -402,6 +417,7 @@ private theorem x₅_mem_centralizer_J₅ (d : TrialityD4Data X (2 ^ f)) (a : d.
   intro h hh
   exact (mem_centralizer_iff.1 (hJU hh) _ (d.x₅_mem_U₅ a)).symm
 
+omit [Finite X] in
 private theorem x₆_mem_centralizer_J₆ (d : TrialityD4Data X (2 ^ f)) (a : d.Γ₀) :
     d.x₆ a ∈ centralizer (d.J₆ : Set X) := by
   have hJU : d.J₆ ≤ centralizer (d.V : Set X) := inf_le_right
@@ -409,6 +425,7 @@ private theorem x₆_mem_centralizer_J₆ (d : TrialityD4Data X (2 ^ f)) (a : d.
   intro h hh
   exact (mem_centralizer_iff.1 (hJU hh) _ (d.x₆_mem_V a)).symm
 
+omit [Finite X] in
 private theorem u_mem_U₁ (d : TrialityD4Data X (2 ^ f)) (u : ↥d.M ≃* ↥d.M)
     (hu : ∀ h ∈ d.J, ∀ x y : ↥d.M,
       (y : X) = h * x * h⁻¹ → (u y : X) = h * (u x : X) * h⁻¹)
@@ -419,6 +436,7 @@ private theorem u_mem_U₁ (d : TrialityD4Data X (2 ^ f)) (u : ↥d.M ≃* ↥d.
   exact u_mem_centralizer d u hu (T := d.J₁) (hTJ := inf_le_left)
     (x := ⟨d.x₁ a, d.x₁_mem_M a⟩) (hc := x₁_mem_centralizer_J₁ d a)
 
+omit [Finite X] in
 private theorem u_mem_U₃ (d : TrialityD4Data X (2 ^ f)) (u : ↥d.M ≃* ↥d.M)
     (hu : ∀ h ∈ d.J, ∀ x y : ↥d.M,
       (y : X) = h * x * h⁻¹ → (u y : X) = h * (u x : X) * h⁻¹)
@@ -429,6 +447,7 @@ private theorem u_mem_U₃ (d : TrialityD4Data X (2 ^ f)) (u : ↥d.M ≃* ↥d.
   exact u_mem_centralizer d u hu (T := d.J₃) (hTJ := inf_le_left)
     (x := ⟨d.x₃ a, d.F_le_M (d.x₃_mem_F a)⟩) (hc := x₃_mem_centralizer_J₃ d a)
 
+omit [Finite X] in
 private theorem u_mem_U₄ (d : TrialityD4Data X (2 ^ f)) (u : ↥d.M ≃* ↥d.M)
     (hu : ∀ h ∈ d.J, ∀ x y : ↥d.M,
       (y : X) = h * x * h⁻¹ → (u y : X) = h * (u x : X) * h⁻¹)
@@ -439,6 +458,7 @@ private theorem u_mem_U₄ (d : TrialityD4Data X (2 ^ f)) (u : ↥d.M ≃* ↥d.
   exact u_mem_centralizer d u hu (T := d.J₄) (hTJ := inf_le_left)
     (x := ⟨d.x₄ a, d.F_le_M (d.x₄_mem_F a)⟩) (hc := x₄_mem_centralizer_J₄ d a)
 
+omit [Finite X] in
 private theorem u_mem_U₅ (d : TrialityD4Data X (2 ^ f)) (u : ↥d.M ≃* ↥d.M)
     (hu : ∀ h ∈ d.J, ∀ x y : ↥d.M,
       (y : X) = h * x * h⁻¹ → (u y : X) = h * (u x : X) * h⁻¹)
@@ -449,6 +469,7 @@ private theorem u_mem_U₅ (d : TrialityD4Data X (2 ^ f)) (u : ↥d.M ≃* ↥d.
   exact u_mem_centralizer d u hu (T := d.J₅) (hTJ := inf_le_left)
     (x := ⟨d.x₅ a, d.F_le_M (d.x₅_mem_F a)⟩) (hc := x₅_mem_centralizer_J₅ d a)
 
+omit [Finite X] in
 private theorem u_mem_U₆ (d : TrialityD4Data X (2 ^ f)) (u : ↥d.M ≃* ↥d.M)
     (hu : ∀ h ∈ d.J, ∀ x y : ↥d.M,
       (y : X) = h * x * h⁻¹ → (u y : X) = h * (u x : X) * h⁻¹)
@@ -459,6 +480,7 @@ private theorem u_mem_U₆ (d : TrialityD4Data X (2 ^ f)) (u : ↥d.M ≃* ↥d.
   exact u_mem_centralizer d u hu (T := d.J₆) (hTJ := inf_le_left)
     (x := ⟨d.x₆ a, d.F_le_M (d.x₆_mem_F a)⟩) (hc := x₆_mem_centralizer_J₆ d a)
 
+omit [Finite X] in
 private theorem exists_scalar_x₁ (d : TrialityD4Data X (2 ^ f)) (u : ↥d.M ≃* ↥d.M)
     (hu : ∀ h ∈ d.J, ∀ x y : ↥d.M,
       (y : X) = h * x * h⁻¹ → (u y : X) = h * (u x : X) * h⁻¹)
@@ -471,6 +493,7 @@ private theorem exists_scalar_x₁ (d : TrialityD4Data X (2 ^ f)) (u : ↥d.M �
     exact ⟨(1, Units.mk0 a ha), by simp⟩
   · intro a; exact u_mem_U₁ d u hu hq a
 
+omit [Finite X] in
 private theorem exists_scalar_x₃ (d : TrialityD4Data X (2 ^ f)) (u : ↥d.M ≃* ↥d.M)
     (hu : ∀ h ∈ d.J, ∀ x y : ↥d.M,
       (y : X) = h * x * h⁻¹ → (u y : X) = h * (u x : X) * h⁻¹)
@@ -485,6 +508,7 @@ private theorem exists_scalar_x₃ (d : TrialityD4Data X (2 ^ f)) (u : ↥d.M �
     exact ⟨(1, Units.mk0 a ha), by simp⟩
   · intro a; exact u_mem_U₃ d u hu hq a
 
+omit [Finite X] in
 private theorem exists_scalar_x₄ (d : TrialityD4Data X (2 ^ f)) (u : ↥d.M ≃* ↥d.M)
     (hu : ∀ h ∈ d.J, ∀ x y : ↥d.M,
       (y : X) = h * x * h⁻¹ → (u y : X) = h * (u x : X) * h⁻¹)
@@ -504,6 +528,7 @@ private theorem exists_scalar_x₄ (d : TrialityD4Data X (2 ^ f)) (u : ↥d.M �
     simpa only [d.coe_σUnits, Units.val_mul, Units.val_one, Subfield.coe_one, one_mul] using h
   · intro a; exact u_mem_U₄ d u hu hq a
 
+omit [Finite X] in
 private theorem exists_scalar_x₅ (d : TrialityD4Data X (2 ^ f)) (u : ↥d.M ≃* ↥d.M)
     (hu : ∀ h ∈ d.J, ∀ x y : ↥d.M,
       (y : X) = h * x * h⁻¹ → (u y : X) = h * (u x : X) * h⁻¹)
@@ -518,6 +543,7 @@ private theorem exists_scalar_x₅ (d : TrialityD4Data X (2 ^ f)) (u : ↥d.M �
     exact ⟨(Units.mk0 a ha, 1), by simp [d.nm_one]⟩
   · intro a; exact u_mem_U₅ d u hu hq a
 
+omit [Finite X] in
 private theorem exists_scalar_x₆ (d : TrialityD4Data X (2 ^ f)) (u : ↥d.M ≃* ↥d.M)
     (hu : ∀ h ∈ d.J, ∀ x y : ↥d.M,
       (y : X) = h * x * h⁻¹ → (u y : X) = h * (u x : X) * h⁻¹)
@@ -537,6 +563,7 @@ private theorem exists_scalar_x₆ (d : TrialityD4Data X (2 ^ f)) (u : ↥d.M �
     simpa using h
   · intro a; exact u_mem_U₆ d u hu hq a
 
+omit [Finite X] in
 private theorem eq_of_forall_tr_mul_eq (d : TrialityD4Data X (2 ^ f)) {c : d.Γ}
     {e : d.Γ₀} (h : ∀ b : d.Γ, d.tr (c * b) = e * d.tr b) : c = (e : d.Γ) := by
   apply CharTwo.add_eq_zero.1
@@ -546,6 +573,7 @@ private theorem eq_of_forall_tr_mul_eq (d : TrialityD4Data X (2 ^ f)) {c : d.Γ}
   rw [show d.tr ((e : d.Γ) * b) = e * d.tr b from Subtype.ext (d.tr_smul e b)]
   exact CharTwo.add_self_eq_zero _
 
+omit [Finite X] in
 private theorem trace_relation_x₁₄ (d : TrialityD4Data X (2 ^ f)) (u : ↥d.M ≃* ↥d.M)
     {c₁ c₄ : d.Γ} {c₅ : d.Γ₀}
     (h₁ : ∀ a, (u ⟨d.x₁ a, d.x₁_mem_M a⟩ : X) = d.x₁ (a * c₁))
@@ -576,6 +604,7 @@ private theorem trace_relation_x₁₄ (d : TrialityD4Data X (2 ^ f)) (u : ↥d.
       _ = d.x₅ (c₅ * d.tr (a * b)) := by rw [mul_comm]
   exact d.x₅_injective hkey
 
+omit [Finite X] in
 private theorem trace_relation_x₃₄ (d : TrialityD4Data X (2 ^ f)) (u : ↥d.M ≃* ↥d.M)
     {c₃ c₄ : d.Γ} {c₆ : d.Γ₀}
     (h₃ : ∀ a, (u ⟨d.x₃ a, d.F_le_M (d.x₃_mem_F a)⟩ : X) = d.x₃ (a * c₃))
@@ -606,6 +635,7 @@ private theorem trace_relation_x₃₄ (d : TrialityD4Data X (2 ^ f)) (u : ↥d.
       _ = d.x₆ (c₆ * d.tr (a * b)) := by rw [mul_comm]
   exact d.x₆_injective hkey
 
+omit [Finite X] in
 private theorem x₄_relation_x₁₃ (d : TrialityD4Data X (2 ^ f)) (u : ↥d.M ≃* ↥d.M)
     {c₁ c₃ c₄ : d.Γ} {c₅ c₆ : d.Γ₀}
     (h₁ : ∀ a, (u ⟨d.x₁ a, d.x₁_mem_M a⟩ : X) = d.x₁ (a * c₁))
@@ -668,6 +698,7 @@ private theorem x₄_relation_x₁₃ (d : TrialityD4Data X (2 ^ f)) (u : ↥d.M
   simpa using hcoord
 
 
+omit [Finite X] in
 private theorem exists_lambda_scalar (d : TrialityD4Data X (2 ^ f))
     {c₁ c₃ c₄ : d.Γ} {c₅ c₆ : d.Γ₀}
     (hc₁ : c₁ ≠ 0) (hc₃ : c₃ ≠ 0)
@@ -750,6 +781,7 @@ private theorem exists_lambda_scalar (d : TrialityD4Data X (2 ^ f))
       ← hl_mul]
     ring
 
+omit [Finite X] in
 theorem exists_mem_J_conj_eq_of_commute (hf : 2 ≤ f) (d : TrialityD4Data X (2 ^ f))
     (u : ↥d.M ≃* ↥d.M)
     (hu : ∀ h ∈ d.J, ∀ x y : ↥d.M, (y : X) = h * x * h⁻¹ → (u y : X) = h * (u x : X) * h⁻¹) :
@@ -790,7 +822,7 @@ theorem exists_mem_J_conj_eq_of_commute (hf : 2 ≤ f) (d : TrialityD4Data X (2 
       (⟨d.x₄ a₄, hx4 a₄⟩ : ↥d.M) * (⟨d.x₅ a₅, hx5 a₅⟩ : ↥d.M) *
       (⟨d.x₆ a₆, hx6 a₆⟩ : ↥d.M) := by
     apply Subtype.ext
-    simp only [x', d.nf_apply, Subgroup.coe_mul, d.x₂_zero, one_mul, mul_one]
+    simp only [x', d.nf_apply, Subgroup.coe_mul, d.x₂_zero, mul_one]
   calc (u x' : X)
       = (u ((⟨d.x₁ a₁, hx1 a₁⟩ : ↥d.M) * (⟨d.x₃ a₃, hx3 a₃⟩ : ↥d.M) *
           (⟨d.x₄ a₄, hx4 a₄⟩ : ↥d.M) * (⟨d.x₅ a₅, hx5 a₅⟩ : ↥d.M) *
@@ -800,7 +832,7 @@ theorem exists_mem_J_conj_eq_of_commute (hf : 2 ≤ f) (d : TrialityD4Data X (2 
           simp only [map_mul, Subgroup.coe_mul, h₁ a₁, h₃ a₃, h₄ a₄, h₅ a₅, h₆ a₆]
     _ = d.nf (a₁ * c₁, 0, a₃ * c₃, a₄ * c₄, a₅ * c₅, a₆ * c₆) := by
           rw [d.nf_apply]
-          simp only [d.x₂_zero, one_mul, mul_one]
+          simp only [d.x₂_zero, mul_one]
     _ = d.torus (l, c₁u) * d.nf (a₁, 0, a₃, a₄, a₅, a₆) * (d.torus (l, c₁u))⁻¹ := by
           rw [d.torus_conj_nf]
           congr 1

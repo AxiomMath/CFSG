@@ -20,6 +20,7 @@ namespace P22kA
 
 variable {G : Type} [Group G] [Finite G] {S L V : Subgroup G} {F : Type} [Field F] [Fintype F]
 
+omit [Fintype F] in
 theorem coe_slEquiv (A : Matrix.SpecialLinearGroup (Fin 2) F) :
     (((slEquiv F A : ↥(CFSG.Open.StatedSL 2 F)) : GL (Fin 2) F) : Matrix (Fin 2) (Fin 2) F) =
       (A : Matrix (Fin 2) (Fin 2) F) := by
@@ -31,7 +32,7 @@ theorem uc22k_lside {e : ℕ} (hF : Fintype.card F = 2 ^ e) (he : 2 ≤ e)
     (hS2 : IsPGroup 2 S) (hSL : S ≤ normalizer (L : Set G)) (hSV : S ≤ normalizer (V : Set G))
     (hLV : L ≤ normalizer (V : Set G)) (hV : ∀ x ∈ V, ∀ y ∈ V, x * y = y * x) (hLp : ⁅L, L⁆ = L)
     (hLq : CFSG.Open.IsQuasisimple (↥L ⧸ CFSG.pCore 2 ↥L))
-    (hsyl : CFSG.QuasithinUnique.IsSylowTwoOf S (L ⊔ S))
+    (_hsyl : CFSG.QuasithinUnique.IsSylowTwoOf S (L ⊔ S))
     (α : ↥L →* ↥(CFSG.Open.StatedSL 2 F)) (hα : Function.Surjective α)
     (hαk : α.ker = (L ⊓ centralizer (V : Set G)).subgroupOf L)
     (β : ↥⁅V, L⁆ →* Multiplicative (Fin 2 → F)) (hβ : Function.Surjective β)
@@ -46,14 +47,14 @@ theorem uc22k_lside {e : ℕ} (hF : Fintype.card F = 2 ^ e) (he : 2 ≤ e)
         CFSG.Quasithin.IsMaxElemAbelian T A → A ≤ S →
         CFSG.Quasithin.IsMaxElemAbelian T ((A ⊓ centralizer ((⁅V, L⁆ : Subgroup G) : Set G)) ⊔ ⁅V, L⁆) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hchp : CharP F 2 := charP_of_card_eq_prime_pow hF
   have hF' : Nat.card F = 2 ^ e := by rw [Nat.card_eq_fintype_card, hF]
   have h4 : 4 ≤ Nat.card F := by
     rw [hF']
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ e := Nat.pow_le_pow_right (by norm_num) he
-  haveI hsimpleSL : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) F) :=
+  have hsimpleSL : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) F) :=
     CFSG.RankThree.PartOne.KFCL.L4.sl2_isSimpleGroup h4
   set H : Subgroup G := L ⊔ S with hHdef
   have hLH : L ≤ H := le_sup_left
@@ -173,21 +174,21 @@ theorem uc22k_lside {e : ℕ} (hF : Fintype.card F = 2 ^ e) (he : 2 ≤ e)
   have hO1 : CFSG.Open.pCoreOf 2 H ≤ centralizer ((⁅V, L⁆ : Subgroup G) : Set G) := by
     rintro _ ⟨y, hy, rfl⟩
     refine htriv y ?_
-    haveI hn : ((CFSG.pCore 2 ↥H).map φ).Normal := Subgroup.Normal.map inferInstance φ hφs
+    have hn : ((CFSG.pCore 2 ↥H).map φ).Normal := Subgroup.Normal.map inferInstance φ hφs
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((CFSG.pCore 2 ↥H).map φ) with hb | ht
     · exact (Subgroup.map_eq_bot_iff _).1 hb hy
     · exfalso
       have hp : IsPGroup 2 ((CFSG.pCore 2 ↥H).map φ) := (CFSG.pCore_isPGroup (p := 2) (G := ↥H)).map φ
       rw [ht] at hp
       exact not_isPGroup_sl2 hF he (hp.of_equiv Subgroup.topEquiv)
-  haveI hL'n : L'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hLH).mpr hHL
+  have hL'n : L'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hLH).mpr hHL
   have hS'2 : IsPGroup 2 S' := hS2.of_equiv (Subgroup.subgroupOfEquivOfLe hSH).symm
   set Q' : Subgroup ↥H := (CFSG.pCore 2 ↥L).map (Subgroup.inclusion hLH) with hQ'def
   have hQ'2 : IsPGroup 2 Q' := (CFSG.pCore_isPGroup (p := 2) (G := ↥L)).map _
   have hQ'mem : ∀ x : ↥H, (x : G) ∈ CFSG.Open.pCoreOf 2 L → x ∈ Q' := by
     rintro x ⟨q, hq, hqx⟩
     exact ⟨q, hq, Subtype.ext hqx⟩
-  haveI hQ'n : Q'.Normal := by
+  have hQ'n : Q'.Normal := by
     refine ⟨fun n hn g => ?_⟩
     obtain ⟨q, hq, rfl⟩ := hn
     have hgN := UC6S846.normalizer_le_normalizer_pCoreOf L (hHL g.2)
@@ -196,7 +197,7 @@ theorem uc22k_lside {e : ℕ} (hF : Fintype.card F = 2 ^ e) (he : 2 ≤ e)
     exact hQ'mem _ h1
   have hQ'H : Q' ≤ CFSG.pCore 2 ↥H := CFSG.LieType.BorelTits.le_pCore 2 hQ'n hQ'2
   have hQα : CFSG.pCore 2 ↥L ≤ α'.ker := by
-    haveI hn : ((CFSG.pCore 2 ↥L).map α').Normal := Subgroup.Normal.map inferInstance α' hα'
+    have hn : ((CFSG.pCore 2 ↥L).map α').Normal := Subgroup.Normal.map inferInstance α' hα'
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((CFSG.pCore 2 ↥L).map α') with hb | ht
     · exact (Subgroup.map_eq_bot_iff _).1 hb
     · exfalso

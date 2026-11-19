@@ -156,7 +156,7 @@ theorem BenderType.rootCenter_sup_zpowers_suzuki
   set W' : Subgroup K := (W : Subgroup ↥L).map L.subtype with hW'
   have hW'card : Nat.card W' = Nat.card (W : Subgroup ↥L) :=
     Subgroup.card_map_of_injective L.subtype_injective
-  have hW'2 : IsPGroup 2 W' := W.isPGroup'.map L.subtype
+  have hW'2 : IsPGroup 2 W' := W.isPGroup.map L.subtype
   have hZW' : rootCenter (Q : Subgroup K) ≤ W' := fun x hx => ⟨⟨x, hZL hx⟩, hW hx, rfl⟩
   obtain ⟨Q₁, hQ₁⟩ := hW'2.exists_le_sylow
   have hZne : rootCenter (Q : Subgroup K) ≠ ⊥ := by

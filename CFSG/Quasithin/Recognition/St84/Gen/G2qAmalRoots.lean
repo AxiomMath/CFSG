@@ -327,18 +327,21 @@ theorem g2N_eq_of_commute_dT_right {w : Kˣ} (hw : (w : K) ^ 3 ≠ 1) {A B C D E
     eq_zero_of_mul_eq_self (sq_ne_one_of_ne_one hw1) h4, eq_zero_of_mul_eq_self hw h5,
     eq_zero_of_mul_eq_self hw h6, pinnedX_a_eq_g2N]
 
+omit [CharP K 2] in
 theorem eq_one_of_commute_dT_of_ne_zero_left {s t : Kˣ} {A B C D E F : K} (hA : A ≠ 0)
     (h : dT s t * g2N A B C D E F = g2N A B C D E F * dT s t) : t = 1 := by
   obtain ⟨h1, -⟩ := (dT_comm_g2N_iff s t A B C D E F).1 h
   have h' : ((t : K) - 1) * A = 0 := by linear_combination h1
   exact Units.val_eq_one.1 (sub_eq_zero.1 ((mul_eq_zero.1 h').resolve_right hA))
 
+omit [CharP K 2] in
 theorem eq_one_of_commute_dT_of_ne_zero_right {s t : Kˣ} {A B C D E F : K} (hB : B ≠ 0)
     (h : dT s t * g2N A B C D E F = g2N A B C D E F * dT s t) : s = 1 := by
   obtain ⟨-, h2, -⟩ := (dT_comm_g2N_iff s t A B C D E F).1 h
   have h' : ((s : K) - 1) * B = 0 := by linear_combination h2
   exact Units.val_eq_one.1 (sub_eq_zero.1 ((mul_eq_zero.1 h').resolve_right hB))
 
+omit [CharP K 2] in
 theorem eq_one_of_commute_dT_of_ne_zero_top {s t : Kˣ} {A B C D E F : K} (hF : F ≠ 0)
     (h : dT s t * g2N A B C D E F = g2N A B C D E F * dT s t) :
     (s : K) ^ 2 * (t : K) ^ 3 = 1 := by

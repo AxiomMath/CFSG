@@ -122,7 +122,7 @@ theorem exists_conj_frameElt {K : Type} [Field K] [Finite K] (hpK : ¬ 5 ∣ Nat
       rootDiagUnit Tag.E8 a = diagMap D x → ∀ v, rootChar a (V • v) = rootChar a v)
     (F : E8FiveFrameElt K) {e : adjointGroup Tag.E8 K} (he : e ∈ E₀) (he1 : e ≠ 1) :
     ∃ g : adjointGroup Tag.E8 K, g * e * g⁻¹ = F.z := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have h5 : F.ω ^ 5 = 1 := by rw [← F.hω]; exact pow_orderOf_eq_one F.ω
   obtain ⟨x₀, hx₀, x₁, hx₁, -, hgen, k₀, k₁, ha₀, ha₁, hreg'⟩ :=
     exists_planeColumns F.hω hE₀p hE₀c D hreg
@@ -184,11 +184,11 @@ theorem exists_conj_frameElt {K : Type} [Field K] [Finite K] (hpK : ¬ 5 ∣ Nat
         charVal (fun l : Fin Tag.E8.rank => ((if l = 4 then 1 else 0 : ℕ) : ZMod 5)) v
       rw [hcolE, hcol4]
       exact hu v
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨p, hpK'⟩ := CharP.exists K
   obtain ⟨n, hpp, hcard⟩ := FiniteField.card K p
-  haveI : Fact p.Prime := ⟨hpp⟩
-  haveI : CharP (AlgebraicClosure K) p :=
+  have : Fact p.Prime := ⟨hpp⟩
+  have : CharP (AlgebraicClosure K) p :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective p
   have hq : Nat.card K = p ^ (n : ℕ) := by rw [Nat.card_eq_fintype_card, hcard]
   have hp5 : p ≠ 5 := by
@@ -208,7 +208,7 @@ theorem planeCl_eq_top_of_frameElt {K : Type} [Field K] [Finite K] (hpK : ¬ 5 �
     (hV : ∀ x ∈ E₀, ∀ a : Fin Tag.E8.rank → (AlgebraicClosure K)ˣ,
       rootDiagUnit Tag.E8 a = diagMap D x → ∀ v, rootChar a (V • v) = rootChar a v)
     (F : E8FiveFrameElt K) : planeCl E₀ = ⊤ := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨a, ha, b, hb, ha1, hb1, hgen⟩ := exists_gens_of_plane (p := 5) hE₀p hE₀c
   obtain ⟨X, hX⟩ := F.frame
   obtain ⟨ga, hga⟩ := exists_conj_frameElt hpK hE₀p hE₀c D hreg hV1 hV F ha ha1

@@ -36,7 +36,7 @@ theorem s16h_isPGroup_two_of_coprime_three {W : Type} [CommGroup W] [Finite W]
       exact Subtype.ext (hD.2 x.1 x.2)⟩
     obtain ⟨P, hP⟩ := CFSG.SolvableSignalizer.exists_sylow_isInvariant 3 (by norm_num)
       hDpg α r hr hJ3
-    letI : Fact r.Prime := ⟨hr⟩
+    let : Fact r.Prime := ⟨hr⟩
     have hPne : (P : Subgroup ↥J) ≠ ⊥ := Sylow.ne_bot_of_dvd_card P hrdvd
     set R : Subgroup (MulAut W) := (P : Subgroup ↥J).map J.subtype with hRdef
     have hRle : R ≤ J := by
@@ -51,7 +51,7 @@ theorem s16h_isPGroup_two_of_coprime_three {W : Type} [CommGroup W] [Finite W]
         J.subtype_injective).mp h)
     have hRr : IsPGroup r R := by
       rw [hRdef]
-      exact P.isPGroup'.map J.subtype
+      exact P.isPGroup.map J.subtype
     have hDR : D ≤ normalizer (R : Set (MulAut W)) := by
       intro d hd
       refine (Subgroup.mem_normalizer_iff (H := R) (g := d)).mpr ?_
@@ -70,7 +70,7 @@ theorem s16h_isPGroup_two_of_coprime_three {W : Type} [CommGroup W] [Finite W]
         refine ⟨(α ((⟨d, hd⟩)⁻¹)) y, hmem', ?_⟩
         have hyh' : (y : MulAut W) = d * h * d⁻¹ := hyh
         rw [hα ((⟨d, hd⟩)⁻¹) y, hyh']
-        simp only [zpow_neg_one, Subgroup.coe_inv, inv_inv]
+        simp only [Subgroup.coe_inv, inv_inv]
         group
     obtain ⟨x, hxord⟩ := exists_prime_orderOf_dvd_card' r hrdvd
     have hρl : (x : MulAut W) * l = l * (x : MulAut W) :=

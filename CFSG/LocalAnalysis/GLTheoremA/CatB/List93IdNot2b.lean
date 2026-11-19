@@ -32,7 +32,7 @@ theorem not_chev2_of_card {T : Type} [Group T] {a m : ℕ} (hm : Odd m) (ha : 1 
   have hm0 : m ≠ 0 := by
     rintro rfl
     exact absurd hm (by decide)
-  haveI : Finite T := Nat.finite_of_card_ne_zero (by rw [hT]; positivity)
+  have : Finite T := Nat.finite_of_card_ne_zero (by rw [hT]; positivity)
   have hc60 : Nat.card T ≠ 60 := by rw [hT]; exact hamb.1
   have hc168 : Nat.card T ≠ 168 := by rw [hT]; exact hamb.2.1
   have hc360 : Nat.card T ≠ 360 := by rw [hT]; exact hamb.2.2.1

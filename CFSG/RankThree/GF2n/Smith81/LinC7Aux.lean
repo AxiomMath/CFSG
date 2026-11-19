@@ -119,6 +119,7 @@ theorem uniq_over_xbar (hb : Smith1981Below (Nat.card G)) (hc : Ctx M Q Z B)
   · exact uniq_over_xbar_core hb hc hS hn hY hYV hxcl hx''cl hxQ hx''Q hxA hx''A hxx''
   · exact uniq_over_xbar_core hb hc hS.symm hn hY hYV hxcl hx''cl hxQ hx''Q hxA hx''A hxx''
 
+omit [Finite G] in
 private theorem commutator_mul_left_of_comm {p p' x : G} (h1 : p * ⁅p', x⁆ = ⁅p', x⁆ * p)
     (h2 : ⁅p, x⁆ * ⁅p', x⁆ = ⁅p', x⁆ * ⁅p, x⁆) : ⁅p * p', x⁆ = ⁅p, x⁆ * ⁅p', x⁆ := by
   have e : ⁅p * p', x⁆ = (p * ⁅p', x⁆ * p⁻¹) * ⁅p, x⁆ := by

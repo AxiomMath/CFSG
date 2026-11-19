@@ -47,7 +47,7 @@ theorem center_eq_bot_or_three {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {K : Typ
     (hn : 5 ≤ n) (eK : K ⧸ Subgroup.center K ≃* alternatingGroup (Fin n)) :
     Subgroup.center K = ⊥ ∨ (Nat.card (Subgroup.center K) = 3 ∧ (n = 6 ∨ n = 7)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpodd : Odd p := hp.odd_of_ne_two hp2
   obtain ⟨a, ha⟩ := (isPGroup_center_of_pPrimeCore hp hcore).exists_card_eq
   have hperf : Group.IsPerfect K := Group.isPerfect_def.2 hK.1
@@ -91,13 +91,13 @@ theorem fullCoverLevel_ne_four {p : ℕ} {Q : Type} [Group Q] [Finite Q]
     (h : K1Cover p Q ∨ K2Cover p Q ∨ K3Cover p Q) : fullCoverLevel p Q ≠ 4 := by
   unfold fullCoverLevel
   by_cases h1 : K1Cover p Q
-  · rw [if_pos h1]
+  · rw [ite_eq_left h1]
     norm_num
   · by_cases h2 : K2Cover p Q
-    · rw [if_neg h1, if_pos h2]
+    · rw [ite_eq_right h1, ite_eq_left h2]
       norm_num
     · have h3 : K3Cover p Q := (h.resolve_left h1).resolve_left h2
-      rw [if_neg h1, if_neg h2, if_pos h3]
+      rw [ite_eq_right h1, ite_eq_right h2, ite_eq_left h3]
       norm_num
 
 end CFSG.LocalAnalysis.GLTheoremA.KD264Z

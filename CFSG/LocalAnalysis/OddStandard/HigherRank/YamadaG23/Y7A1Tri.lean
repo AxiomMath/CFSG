@@ -14,7 +14,7 @@ open scoped commutatorElement IsMulCommutative
 
 variable {G : Type} [Group G]
 
-theorem y7a_triple_sum {C V AV X : Subgroup G} (hVC : V ≤ C) (hAVC : AV ≤ C)
+theorem y7a_triple_sum {C V AV X : Subgroup G} (hVC : V ≤ C) (_hAVC : AV ≤ C)
     (hidx : ∀ x ∈ C, ∀ y ∈ C, x ∉ AV → y ∉ AV → x * y ∈ AV)
     (hcomm : ∀ x ∈ C, ∀ y ∈ C, ⁅x, y⁆ ∈ V) (hsq : ∀ x ∈ C, x * x ∈ V)
     (hX : ∀ x ∈ X, x ∈ normalizer (C : Set G) ∧ x ∈ normalizer (V : Set G))
@@ -29,9 +29,9 @@ theorem y7a_triple_sum {C V AV X : Subgroup G} (hVC : V ≤ C) (hAVC : AV ≤ C)
     have heq : k * h * k⁻¹ = ⁅k, h⁆ * h := by rw [commutatorElement_def]; group
     rw [heq]
     exact V.mul_mem hc hh
-  haveI : (V.subgroupOf C).Normal := hVn
+  have : (V.subgroupOf C).Normal := hVn
   let q : C →* C ⧸ (V.subgroupOf C) := QuotientGroup.mk' (V.subgroupOf C)
-  haveI : IsMulCommutative (C ⧸ (V.subgroupOf C)) := by
+  have : IsMulCommutative (C ⧸ (V.subgroupOf C)) := by
     rw [Subgroup.Normal.quotient_commutative_iff_commutator_le]
     change ⁅(⊤ : Subgroup C), ⊤⁆ ≤ V.subgroupOf C
     rw [Subgroup.commutator_le]

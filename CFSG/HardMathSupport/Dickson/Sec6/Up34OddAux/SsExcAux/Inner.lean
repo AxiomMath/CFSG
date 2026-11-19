@@ -42,10 +42,10 @@ theorem ssexc_not_L34_inner {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] (S :
   classical
   intro hL34
   obtain ⟨r, e, hr, hchar, hr5, he, hq⟩ := ssexc_char_ge_five S h2
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨hs0, hs, hmin⟩ := outer_componentOrbitLength_spec S hT i
   set s := componentOrbitLength S.ρ (componentRoots (rootCharHom a) i) with hsdef
-  haveI : NeZero s := ⟨hs0.ne'⟩
+  have : NeZero s := ⟨hs0.ne'⟩
   have hinner := twistInner_of_twistKind_eq_innerT S rootAutIsWeyl_holds hT i hk
   obtain ⟨σ, z, hσ, hnorm, hz⟩ := exists_untwistT S hT i hs0 hinner
   have hσ' : ∀ c, σ c = c ^ (r ^ (e * s)) := fun c => by rw [hσ, hq, ← pow_mul]
@@ -72,14 +72,14 @@ theorem ssexc_not_L34_inner {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] (S :
     show c ∈ fixSubfield σ ↔ _
     rw [mem_fixSubfield, hσ']
     rfl
-  haveI hfinK : Finite (fixSubfield σ) := by
+  have hfinK : Finite (fixSubfield σ) := by
     have h1 : (fixSubfield σ : Set L).Finite := by rw [hset]; exact hfinset
     exact h1.to_subtype
   have hKcard : Nat.card (fixSubfield σ) = r ^ (e * s) := by
     have h1 : Nat.card (fixSubfield σ) = (fixSubfield σ : Set L).ncard :=
       Nat.card_coe_set_eq (fixSubfield σ : Set L)
     rw [h1, hset, hcardset]
-  haveI : CharP (fixSubfield σ) r := inferInstance
+  have : CharP (fixSubfield σ) r := inferInstance
   have hQ5 : 5 ≤ Nat.card (fixSubfield σ) := by
     rw [hKcard]
     exact hr5.trans (Nat.le_self_pow (Nat.mul_pos he hs0).ne' r)

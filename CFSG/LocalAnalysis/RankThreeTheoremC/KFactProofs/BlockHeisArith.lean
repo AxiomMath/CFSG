@@ -9,7 +9,7 @@ namespace CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs
 
 theorem heis_sq_dvd_pow_sub_one {p : ℕ} (hp : p.Prime) (c : ℤ) (hc : ¬ (p : ℤ) ∣ c) :
     (p : ℤ) ^ 2 ∣ (c ^ p) ^ (orderOf (((c ^ p : ℤ)) : ZMod p)) - 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcz : ((c : ℤ) : ZMod p) ≠ 0 := by
     intro h
     exact hc ((ZMod.intCast_zmod_eq_zero_iff_dvd c p).1 h)
@@ -41,7 +41,7 @@ theorem heis_sq_dvd_pow_sub_one {p : ℕ} (hp : p.Prime) (c : ℤ) (hc : ¬ (p :
 
 theorem heis_orderOf_pos {p : ℕ} (hp : p.Prime) (c : ℤ) (hc : ¬ (p : ℤ) ∣ c) :
     0 < orderOf (((c ^ p : ℤ)) : ZMod p) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcz : ((c : ℤ) : ZMod p) ≠ 0 := by
     intro h
     exact hc ((ZMod.intCast_zmod_eq_zero_iff_dvd c p).1 h)
@@ -53,7 +53,7 @@ theorem heis_orderOf_pos {p : ℕ} (hp : p.Prime) (c : ℤ) (hc : ¬ (p : ℤ) �
 
 theorem heis_two_le_padicValNat {p c : ℕ} (hp : p.Prime) (hc : ¬ p ∣ c) (hc1 : 2 ≤ c) :
     2 ≤ padicValNat p ((c ^ p) ^ (orderOf (((c ^ p : ℕ)) : ZMod p)) - 1) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hc' : ¬ (p : ℤ) ∣ (c : ℤ) := by
     intro h
     exact hc (Int.natCast_dvd_natCast.1 h)
@@ -82,7 +82,7 @@ theorem heis_two_le_padicValNat {p c : ℕ} (hp : p.Prime) (hc : ¬ p ∣ c) (hc
 theorem heis_two_le_padicValInt {p : ℕ} (hp : p.Prime) (c : ℤ) (hc : ¬ (p : ℤ) ∣ c)
     (hne : (c ^ p) ^ (orderOf (((c ^ p : ℤ)) : ZMod p)) - 1 ≠ 0) :
     2 ≤ padicValInt p ((c ^ p) ^ (orderOf (((c ^ p : ℤ)) : ZMod p)) - 1) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hz := heis_sq_dvd_pow_sub_one hp c hc
   rw [padicValInt]
   have hn : ((c ^ p) ^ (orderOf (((c ^ p : ℤ)) : ZMod p)) - 1).natAbs ≠ 0 :=

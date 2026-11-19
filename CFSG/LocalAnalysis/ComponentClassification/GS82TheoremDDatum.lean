@@ -19,8 +19,8 @@ open scoped MatrixGroups
 theorem nonempty_psl_two_five_equiv :
     Nonempty
       (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (ZMod 5) ≃* alternatingGroup (Fin 5)) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (ZMod 5)) :=
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (ZMod 5)) :=
     Matrix.ProjectiveSpecialLinearGroup.rank_two_simple (by rw [Nat.card_zmod]; norm_num)
   have hSL : Nat.card SL(2, ZMod 5) = 120 := by
     rw [Matrix.card_SL_field (𝔽 := ZMod 5) 2, ZMod.card, Fin.prod_univ_two]

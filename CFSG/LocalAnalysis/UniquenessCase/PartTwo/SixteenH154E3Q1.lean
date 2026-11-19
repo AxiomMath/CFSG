@@ -13,6 +13,7 @@ open CFSG.RankThree.PartOne (IsStronglyPEmbedded)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem s16h_conjSubgroup_le_of_mem {A M : Subgroup G} (hA : A ≤ M) {x : G}
     (hx : x ∈ M) : conjSubgroup A x ≤ M := by
   intro y hy
@@ -21,6 +22,7 @@ private theorem s16h_conjSubgroup_le_of_mem {A M : Subgroup G} (hA : A ≤ M) {x
   have e : x⁻¹ * (x * y * x⁻¹) * x = y := by group
   rwa [e] at h1
 
+omit [Finite G] in
 private theorem s16h_barSub_sup {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
     {A B : Subgroup G} (hA : A ≤ stabTil V₀ V) (hB : B ≤ stabTil V₀ V) :
     barSub V₀ V hV (A ⊔ B) = barSub V₀ V hV A ⊔ barSub V₀ V hV B := by
@@ -73,7 +75,7 @@ private theorem s16h_e3_preBarSub_conj_le_cElt
   rwa [hyval] at this
 
 theorem s16h_e3_unique₁_of_rank_two_LxC (D : Data G) (S : s16h_Std D) {V₀ V L : Subgroup G}
-    (h : Setting16 D V₀ V L) (hs2 : s15 D.M V₀ V h.hyp151.isElemAbelian L = 2) {p : ℕ}
+    (h : Setting16 D V₀ V L) (_hs2 : s15 D.M V₀ V h.hyp151.isElemAbelian L = 2) {p : ℕ}
     (hp : p.Prime) (hp2 : p ≠ 2) (hpσ : p ∈ D.sig ∨ (p = 3 ∧ IsStronglyPEmbedded 3 D.M))
     {x : G} (hx : x ∈ D.M) (hxn : x ∉ nBar D.M V₀ V h.hyp151.isElemAbelian L)
     {E : Subgroup G} (hEab : IsElemAbelian p E) (hEcard : p ^ 2 ≤ Nat.card ↥E)
@@ -150,7 +152,7 @@ theorem s16h_e3_unique₁_of_dvd_cTil (D : Data G) (S : s16h_Std D) {V₀ V L : 
     change barSub V₀ V hV (conjSubgroup L x ⊔ F11.CTilde D.M V₀ V) =
       barSub V₀ V hV (conjSubgroup L x)
     rw [s16h_barSub_sup hV (hLxM.trans hMs) (hCTM.trans hMs), hbarCT, sup_bot_eq]
-  haveI : Group.IsPerfect ↥(barSub V₀ V hV L) := ⟨hcomp.2.2.1⟩
+  have : Group.IsPerfect ↥(barSub V₀ V hV L) := ⟨hcomp.2.2.1⟩
   have hperfBar : Group.IsPerfect ↥(barSub V₀ V hV (conjSubgroup L x)) := by
     rw [s15_Infra_barSub_conjSubgroup V₀ V hV (hMs hx) L]
     exact Group.IsPerfect.map (MulAut.conj (actTil V₀ V hV ⟨x, hMs hx⟩)⁻¹).toMonoidHom
@@ -179,8 +181,8 @@ theorem s16h_e3_unique₁_of_dvd_cTil (D : Data G) (S : s16h_Std D) {V₀ V L : 
   have hPe : P ≃* P' := Subgroup.equivMapOfInjective P Hsub.subtype Hsub.subtype_injective
   have hP'p : IsPGroup p P' := hPp.of_equiv hPe
   have hP'c : ¬ IsCyclic ↥P' := fun hc => hPc (hPe.isCyclic.2 hc)
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (IsPGroup p ↥P') := ⟨hP'p⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (IsPGroup p ↥P') := ⟨hP'p⟩
   obtain ⟨E', _, hE'card, hE'el⟩ := CFSG.lemma_4_5_a (p := p) (R := ↥P') hp2 hP'c
   let E : Subgroup G := E'.map P'.subtype
   have hE_le_P' : E ≤ P' := Subgroup.map_subtype_le E'

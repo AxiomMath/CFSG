@@ -511,7 +511,7 @@ theorem cocycle_decomp {L : Type} [Field L] [IsAlgClosed L] {ζ : Lˣ} (hζ : Is
     · rw [mem_parabolicRoots_e6LeviNodes]
       refine ⟨isRoot_single _ j, ?_⟩
       have hj' : j ≠ e6Idx 1 := hj
-      simp [Pi.single_apply, hj'.symm]
+      simp [hj'.symm]
     · exact (rootReflection_eq_conj (τ := TwistTag.E6.tag) (w := 1) (j := j)
         (β := Pi.single j 1) (by simp)).trans (by simp)
   obtain ⟨k₁, hk₁, h1⟩ := canonicalRep_inv_eq (K := L) (τ := TwistTag.E6.tag) w
@@ -578,8 +578,8 @@ theorem exists_primitiveRoot_nine {L : Type} [Field L] [IsAlgClosed L] (p : ℕ)
     have hd : p ∣ 9 := (CharP.cast_eq_zero_iff L p 9).1 h
     have h3 : p ∣ 3 := (Fact.out : p.Prime).dvd_of_dvd_pow (n := 2) (by norm_num; exact hd)
     exact hp3 ((Nat.prime_dvd_prime_iff_eq (Fact.out : p.Prime) Nat.prime_three).1 h3)
-  haveI : NeZero ((9 : ℕ) : L) := ⟨h9⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L 9
+  have : NeZero ((9 : ℕ) : L) := ⟨h9⟩
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L 9
   have hu : IsUnit ζ := hζ.isUnit (by norm_num)
   exact ⟨hu.unit, IsPrimitiveRoot.coe_units_iff.1 (by rwa [IsUnit.unit_spec])⟩
 

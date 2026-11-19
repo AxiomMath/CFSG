@@ -22,7 +22,7 @@ theorem map_eq_of_simple {Y : Type*} [Group Y] [Finite Y] (N : Subgroup Y) [hN :
     Subgroup.card_map_of_injective β.injective
   have hI : (N ⊓ M).Normal := inferInstance
   have hIN : ((N ⊓ M).subgroupOf N).Normal := hI.subgroupOf N
-  haveI := hs
+  have := hs
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((N ⊓ M).subgroupOf N) with h | h
   · exfalso
     have hdisj : N ⊓ M = ⊥ := by

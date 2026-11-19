@@ -79,7 +79,7 @@ open CFSG.KC.Loop
 @[expose] noncomputable def z2d8K (P C Q X c g1 g2 R : Nat) : Bool :=
   bAnd(closOK C [g1, g2] R, strictB (closK C [g1, g2] R) fun Dm => strictB c fun c =>
     bAnd(Nat.blt 0 c, bAnd(Nat.beq (atR Q c) 0,
-    bAnd(Nat.beq (Nat.lor Dm (imgR (rowT P c) Dm)) X, bAnd(Bool.not' (hasB Dm c),
+    bAnd(Nat.beq (Nat.lor Dm (imgR (rowT P c) Dm)) X, bAnd(not (hasB Dm c),
     bAnd(Nat.beq (cenE P C Dm c) Dm, d8K P g1 g2 Dm))))))
 
 @[expose] noncomputable def hdL (l : List Nat) : Nat :=
@@ -91,7 +91,7 @@ open CFSG.KC.Loop
 @[expose] noncomputable def distB (ms : List Nat) : Bool :=
   List.rec (motive := fun _ => Bool) true (fun m t ih => bAnd(
     List.rec (motive := fun _ => Bool) true (fun m' _ ih2 =>
-      bAnd(Bool.not' (Nat.beq m m'), ih2)) t, ih)) ms
+      bAnd(not (Nat.beq m m'), ih2)) t, ih)) ms
 
 @[expose] noncomputable def lstMs (cl : List (List Nat)) : List Nat :=
   List.rec (motive := fun _ => List Nat) [] (fun c _ acc => lstM c :: acc) cl

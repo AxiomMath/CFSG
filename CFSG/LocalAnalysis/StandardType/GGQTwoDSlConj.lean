@@ -80,8 +80,8 @@ theorem conj_dTau_exists (m : ℕ) {U : DVec m ≃ₗ[ZMod 3] DVec m} (hU : U �
 private theorem qsl_sign_fun_cases (m : ℕ) (ε : Bool) (a b i : Fin m) :
     (if i = a ∨ i = b then sg ε else 1) = 1 ∨ (if i = a ∨ i = b then sg ε else 1) = -1 := by
   by_cases h : i = a ∨ i = b
-  · rw [if_pos h]; exact sg_cases ε
-  · rw [if_neg h]; exact Or.inl rfl
+  · rw [ite_eq_left h]; exact sg_cases ε
+  · rw [ite_eq_right h]; exact Or.inl rfl
 
 theorem comm_of_disjoint (m : ℕ) (ε ε' : Bool) {a b c d : Fin m} (hab : a ≠ b) (hcd : c ≠ d)
     (hac : a ≠ c) (had : a ≠ d) (hbc : b ≠ c) (hbd : b ≠ d) :
@@ -96,7 +96,7 @@ theorem comm_of_disjoint (m : ℕ) (ε ε' : Bool) {a b c d : Fin m} (hab : a �
     · exact hbd h.symm
   have h := mul_dTau m (U := dTau m ε a b) (σ := Equiv.swap a b)
     (c := fun i => if i = a ∨ i = b then sg ε else 1) (qsl_sign_fun_cases m ε a b)
-    (dTau_basis m ε hab) hcd ε' ε' (by simp only [if_neg hca, if_neg hda]; simp)
+    (dTau_basis m ε hab) hcd ε' ε' (by simp only [ite_eq_right hca, ite_eq_right hda]; simp)
   rw [Equiv.swap_apply_of_ne_of_ne (fun h => hca (Or.inl h)) (fun h => hca (Or.inr h)),
     Equiv.swap_apply_of_ne_of_ne (fun h => hda (Or.inl h)) (fun h => hda (Or.inr h))] at h
   exact mul_inv_eq_iff_eq_mul.1 h
@@ -130,8 +130,8 @@ theorem dSign_diag (m : ℕ) (p q k : Fin m) :
     ∃ κ : ZMod 3, (κ = 1 ∨ κ = -1) ∧ dSign m p q (dBasis m k) = κ • dBasis m k := by
   rw [dSign_apply]
   by_cases h : k = p ∨ k = q
-  · exact ⟨-1, Or.inr rfl, by rw [if_pos h]⟩
-  · exact ⟨1, Or.inl rfl, by rw [if_neg h]⟩
+  · exact ⟨-1, Or.inr rfl, by rw [ite_eq_left h]⟩
+  · exact ⟨1, Or.inl rfl, by rw [ite_eq_right h]⟩
 
 theorem exists_conj_pair (m : ℕ) {p₀ p₁ p₂ p₃ : Fin m} (h01 : p₀ ≠ p₁) (h02 : p₀ ≠ p₂)
     (h03 : p₀ ≠ p₃) (h12 : p₁ ≠ p₂) (h13 : p₁ ≠ p₃) (h23 : p₂ ≠ p₃) (ε₁ ε₂ : Bool) :
@@ -142,20 +142,19 @@ theorem exists_conj_pair (m : ℕ) {p₀ p₁ p₂ p₃ : Fin m} (h01 : p₀ ≠
   · exact ⟨1, (dEven m).one_mem, fun k => ⟨1, Or.inl rfl, by simp⟩, by simp, by simp⟩
   · refine ⟨dSign m p₂ p₃, dSign_mem_dEven m h23, dSign_diag m p₂ p₃, ?_, ?_⟩
     · exact dSign_conj m h01 false false
-        (by simp [sg, h02, h03, h12, h13, h02.symm, h03.symm, h12.symm, h13.symm])
+        (by simp [sg, h02, h03, h12, h13])
     · exact dSign_conj m h12 false true
-        (by simp [sg, h02, h03, h12, h13, h02.symm, h03.symm, h12.symm, h13.symm])
+        (by simp [sg, h12, h13])
   · refine ⟨dSign m p₀ p₃, dSign_mem_dEven m h03, dSign_diag m p₀ p₃, ?_, ?_⟩
     · exact dSign_conj m h01 false true
-        (by simp [sg, h01, h03, h12, h13, h01.symm, h03.symm, h12.symm, h13.symm])
+        (by simp [sg, h03, h13, h01.symm])
     · exact dSign_conj m h12 false false
-        (by simp [sg, h01, h02, h03, h12, h13, h23, h01.symm, h02.symm, h03.symm, h12.symm,
-          h13.symm, h23.symm])
+        (by simp [sg, h13, h23, h01.symm, h02.symm])
   · refine ⟨dSign m p₀ p₂, dSign_mem_dEven m h02, dSign_diag m p₀ p₂, ?_, ?_⟩
     · exact dSign_conj m h01 false true
-        (by simp [sg, h01, h02, h12, h01.symm, h02.symm, h12.symm])
+        (by simp [sg, h02, h12, h01.symm])
     · exact dSign_conj m h12 false true
-        (by simp [sg, h01, h02, h12, h01.symm, h02.symm, h12.symm])
+        (by simp [sg, h12, h01.symm, h02.symm])
 
 theorem perm_mul_conj_dTau (m : ℕ) (π : Equiv.Perm (Fin m)) {D : DVec m ≃ₗ[ZMod 3] DVec m}
     {p q : Fin m} {ε ε' : Bool} (hD : D * dTau m ε p q * D⁻¹ = dTau m ε' p q) :

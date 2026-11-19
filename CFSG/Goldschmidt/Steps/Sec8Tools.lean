@@ -260,7 +260,7 @@ theorem exists_sylow_map_eq {N T : Subgroup G} (hT : fusionIsSylowIn 2 T N) :
     ∃ P : Sylow 2 N, (P : Subgroup N).map N.subtype = T := by
   obtain ⟨hTN, hT2, hTmax⟩ := hT
   obtain ⟨P, hP⟩ := (hT2.comap_subtype (K := N)).exists_le_sylow
-  refine ⟨P, hTmax _ (Subgroup.map_subtype_le _) (P.isPGroup'.map _) fun t ht => ?_⟩
+  refine ⟨P, hTmax _ (Subgroup.map_subtype_le _) (P.isPGroup.map _) fun t ht => ?_⟩
   exact ⟨⟨t, hTN ht⟩, hP (Subgroup.mem_subgroupOf.mpr ht), rfl⟩
 
 theorem commutator_mem_oddCoreOf {N T : Subgroup G} (hT : fusionIsSylowIn 2 T N) {z : G}

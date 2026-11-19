@@ -16,10 +16,12 @@ section StarLineAPI
 
 variable {Γ : SimpleGraph V} [Fintype V] [DecidableRel Γ.Adj]
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem color_eq_of_dist_four (hP : IsGeneralizedPolygon Γ 4) {c : Γ.Coloring (Fin 2)}
     {x y : V} (hxy : Γ.dist x y = 4) : c x = c y :=
   (hP.eq_iff_even_dist c x y).2 (by rw [hxy]; exact ⟨2, by norm_num⟩)
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem IsHypLine.isStarLine (hP : IsGeneralizedPolygon Γ 4)
     {c : Γ.Coloring (Fin 2)} {ℓ : Set V} (hℓ : IsHypLine Γ c ℓ) : IsStarLine Γ c ℓ := by
   obtain ⟨x, y, hx, h4, rfl⟩ := hℓ
@@ -38,7 +40,7 @@ theorem IsHypLine.ncard (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
   obtain ⟨x, y, hx, h4, rfl⟩ := hℓ
   exact ncard_starLine_of_dist_four hP hT c hdeg hreg hx h4
 
-theorem IsHypLine.color (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
+theorem IsHypLine.color (_hP : IsGeneralizedPolygon Γ 4) (_hT : IsThick Γ)
     {c : Γ.Coloring (Fin 2)} {ℓ : Set V} (hℓ : IsHypLine Γ c ℓ) {z : V} (hz : z ∈ ℓ) :
     c z = 0 := by
   obtain ⟨x, y, hx, h4, rfl⟩ := hℓ
@@ -146,6 +148,7 @@ section PlaneLemmas
 
 variable {Γ : SimpleGraph V} [Fintype V] [DecidableRel Γ.Adj]
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem isLinearVariety_inter {c : Γ.Coloring (Fin 2)} {X Y : Set V}
     (hX : IsLinearVariety Γ c X) (hY : IsLinearVariety Γ c Y) :
     IsLinearVariety Γ c (X ∩ Y) := by
@@ -161,7 +164,7 @@ theorem not_isStarCollinear_of_not_mem_starLine (hP : IsGeneralizedPolygon Γ 4)
     (starLine_eq_of_isStarLine_of_mem hP hT hZ haz hbz hab).symm
   exact hz (by rw [hZeq]; exact hzz)
 
-theorem dist_eq_four_of_mem_of_isOvoid (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
+theorem dist_eq_four_of_mem_of_isOvoid (hP : IsGeneralizedPolygon Γ 4) (_hT : IsThick Γ)
     {c : Γ.Coloring (Fin 2)} {X : Set V} (hO : IsOvoid Γ c X) {x y : V}
     (hx : x ∈ X) (hy : y ∈ X) (hxy : x ≠ y) : Γ.dist x y = 4 := by
   classical
@@ -197,6 +200,7 @@ theorem ne_ptPerp_of_isNonabsPlane (hP : IsGeneralizedPolygon Γ 4) (hT : IsThic
   have hs : 2 ≤ s := two_le_s hP hT c hdeg
   omega
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem neighborSet_subset_ptPerp (hP : IsGeneralizedPolygon Γ 4) {c : Γ.Coloring (Fin 2)}
     {u L : V} (hL1 : c L = 1) (huL : Γ.Adj u L) :
     Γ.neighborSet L ⊆ ptPerp Γ c {u} := by
@@ -232,7 +236,7 @@ theorem ncard_opposite_mem_ptPerp (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick
   have hLx : Γ.Adj x L := commonNeighbor_adj_right hP hux2
   have hL1 : c L = 1 := color_eq_one_of_adj_of_color_eq_zero hu hLu
   have hLdeg : (Γ.neighborSet L).ncard = s + 1 := by
-    rw [ncard_neighborSet, hdeg, if_neg (by rw [hL1]; decide)]
+    rw [ncard_neighborSet, hdeg, ite_eq_right (by rw [hL1]; decide)]
   have hsub : Γ.neighborSet L ⊆ ptPerp Γ c {u} := neighborSet_subset_ptPerp hP hL1 hLu
   have hYset : {y | y ∈ ptPerp Γ c {u} ∧ Γ.dist x y = 4} =
       ptPerp Γ c {u} \ Γ.neighborSet L := by

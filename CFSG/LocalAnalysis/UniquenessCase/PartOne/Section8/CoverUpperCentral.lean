@@ -20,11 +20,11 @@ theorem le_upperCentralSeries_two_of_sup_cover
     (hXcard : Nat.card X = 3) :
     X.subgroupOf (Q ⊔ X) ≤ Subgroup.upperCentralSeries ↥(Q ⊔ X) 2 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hXcyc : IsCyclic ↥X := isCyclic_of_card_dvd_prime (p := 3) (by rw [hXcard])
   have hXcomm_amb : ∀ x ∈ X, ∀ x' ∈ X, x * x' = x' * x := by
-    haveI : IsCyclic ↥X := hXcyc
-    letI : CommGroup ↥X := hXcyc.commGroup
+    have : IsCyclic ↥X := hXcyc
+    let : CommGroup ↥X := hXcyc.commGroup
     intro x hx x' hx'
     exact congrArg Subtype.val (mul_comm (⟨x, hx⟩ : ↥X) (⟨x', hx'⟩ : ↥X))
   have hcomm_amb : ∀ x ∈ X, ∀ q ∈ Q, ⁅x, q⁆ ∈ (Subgroup.center ↥Q).map Q.subtype := by

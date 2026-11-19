@@ -27,7 +27,7 @@ theorem sylow_centralizer (h : Config a J E) {S : Subgroup X}
   set H := C ⊓ normalizer (J : Set X) with hH
   have hS2 : IsPGroup 2 S := by
     obtain ⟨P₀, hP₀⟩ := hSsyl
-    have h1 : IsPGroup 2 ((P₀ : Subgroup _).map H.subtype) := P₀.isPGroup'.map _
+    have h1 : IsPGroup 2 ((P₀ : Subgroup _).map H.subtype) := P₀.isPGroup.map _
     rwa [hP₀, map_subgroupOf_eq_of_le hSH] at h1
   have hSC : S ≤ C := hSH.trans inf_le_left
   have hSN : S ≤ normalizer (J : Set X) := hSH.trans inf_le_right
@@ -35,7 +35,7 @@ theorem sylow_centralizer (h : Config a J E) {S : Subgroup X}
   obtain ⟨T, hTle⟩ := hS₁.exists_le_sylow
   refine ⟨T, ?_⟩
   by_contra hne
-  have : Group.IsNilpotent ↥(T : Subgroup ↥C) := T.isPGroup'.isNilpotent
+  have : Group.IsNilpotent ↥(T : Subgroup ↥C) := T.isPGroup.isNilpotent
   set U := (S.subgroupOf C).subgroupOf (T : Subgroup ↥C) with hU
   have hUtop : U < ⊤ := by
     rw [lt_top_iff_ne_top]
@@ -60,7 +60,7 @@ theorem sylow_centralizer (h : Config a J E) {S : Subgroup X}
     refine eq_of_le_of_card_ge ?_ (by rw [card_map_of_injective (MulAut.conj _).injective])
     rintro _ ⟨s, hs, rfl⟩
     exact htSS s hs
-  obtain ⟨k, hk⟩ := T.isPGroup' u
+  obtain ⟨k, hk⟩ := T.isPGroup u
   have htk : t ^ 2 ^ k = 1 := by
     have h1 := congrArg (fun v : ↥(T : Subgroup ↥C) => ((v : ↥C) : X)) hk
     simpa using h1
@@ -139,7 +139,7 @@ theorem false_of_fusion (h : Config a J E) {S : Subgroup X}
   have hS2 : IsPGroup 2 S := by
     obtain ⟨P₀, hP₀⟩ := hSsyl
     have h1 : IsPGroup 2 ((P₀ : Subgroup _).map
-        (centralizer ({a} : Set X) ⊓ normalizer (J : Set X)).subtype) := P₀.isPGroup'.map _
+        (centralizer ({a} : Set X) ⊓ normalizer (J : Set X)).subtype) := P₀.isPGroup.map _
     rwa [hP₀, map_subgroupOf_eq_of_le hSH] at h1
   have hSC : S ≤ centralizer ({a} : Set X) := hSH.trans inf_le_left
   have hSN : S ≤ normalizer (J : Set X) := hSH.trans inf_le_right

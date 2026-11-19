@@ -55,7 +55,7 @@ theorem exists_card_eq_three_pow_two_mul_card_center_of_isGoodIn {G : Type*} [Gr
         have hcenter : Nat.card (Subgroup.center ↥Q₁) = Nat.card (Subgroup.center ↥Q) := by
           simpa [hQ₁def] using card_center_inf_centralizer_pair hZ hQ hg hh hgh
         have hpos : 0 < Nat.card Q₁ := by
-          haveI : Nonempty ↥Q₁ := ⟨1⟩
+          have : Nonempty ↥Q₁ := ⟨1⟩
           exact Nat.card_pos
         have hlt : Nat.card Q₁ < Nat.card Q := by rw [hcard]; omega
         obtain ⟨s₁, hs₁⟩ := ih (Nat.card Q₁) (hn ▸ hlt) Q₁ rfl hQ₁
@@ -186,10 +186,10 @@ private lemma p9u1t_mem_range_pguAct (h : UnitaryFieldData 2 1 F) {m : ℕ}
   rw [p9u1t_pguAct_mk, p9u1t_guAct, MonoidHom.comp_apply, hφX]
   congr 1
 
-private lemma p9u1t_exists_tau (h : UnitaryFieldData 2 1 F) (hm : 3 ≤ m)
+private lemma p9u1t_exists_tau (h : UnitaryFieldData 2 1 F) (_hm : 3 ≤ m)
     {L : Type} [Group L] {ψ : L →* LargeEvenProj (unitarySU 2 1 F m)}
     {A : Subgroup (MulAut L)}
-    (hψ : Function.Surjective ψ)
+    (_hψ : Function.Surjective ψ)
     (hI : ∀ a ∈ A, ∃ φ ∈ LargeEvenMatConjImage (LargeEvenProjMk (unitarySU 2 1 F m))
       (LargeEvenGUSet (Fin m) F (2 ^ 1)), ∀ l, φ (ψ l) = ψ (a l)) :
     ∀ a : ↥A, ∃ x : LargeEvenProj (primeFormUnitary h (idGram F m)),
@@ -334,8 +334,8 @@ private lemma p9u1t_arith {r s t : ℕ} (ht : 1 ≤ t) (hr : r ≤ 2 * s + t - 1
 
 private theorem p9u1t_finite_linearEquiv [Finite F] (m : ℕ) :
     Finite ((Fin m → F) ≃ₗ[F] (Fin m → F)) := by
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fintype (Fin m → F) := inferInstance
+  have : Fintype F := Fintype.ofFinite F
+  have : Fintype (Fin m → F) := inferInstance
   exact Finite.of_injective (fun e : (Fin m → F) ≃ₗ[F] (Fin m → F) => e.toEquiv)
     (fun _ _ h => LinearEquiv.toEquiv_injective h)
 
@@ -355,7 +355,7 @@ theorem P9_U1t_succ_le [Finite L] [Finite F] (hF : Nat.card F = 4) (hm : 3 ≤ m
   have hQcard' : Nat.card Q = 3 ^ (r + 1) := by
     rw [hQcard, hcardA'r, pow_succ]
     ring
-  haveI : Finite ((Fin m → F) ≃ₗ[F] (Fin m → F)) := p9u1t_finite_linearEquiv m
+  have : Finite ((Fin m → F) ≃ₗ[F] (Fin m → F)) := p9u1t_finite_linearEquiv m
   obtain ⟨s, hs⟩ := exists_card_eq_three_pow_two_mul_card_center_of_isGoodIn
     (scalarLike_scalars hF) hQ
   obtain ⟨hdvd, hle⟩ :=

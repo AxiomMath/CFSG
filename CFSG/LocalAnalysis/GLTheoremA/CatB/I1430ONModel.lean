@@ -109,7 +109,7 @@ theorem i1430ON_card_center_pQuot {Q : Type} [Group Q] [Finite Q] {K I₀ : Subg
   have hperf : ⁅I₀.comap ι, I₀.comap ι⁆ = I₀.comap ι := by
     apply Subgroup.map_injective hι
     rw [Subgroup.map_commutator, hmap, glaPComponent_perfect hI]
-  haveI : Group.IsPerfect ↥(I₀.comap ι) := Subgroup.isPerfect_iff.2 hperf
+  have : Group.IsPerfect ↥(I₀.comap ι) := Subgroup.isPerfect_iff.2 hperf
   have hI'K : I₀.comap ι ≤ K0G :=
     CFSG.RankThree.PartTwo.Sec15.ONCoverCent.le_K0_of_isPerfect fun x hx =>
       (hmem x).1 ((hI.1.trans inf_le_right) hx)

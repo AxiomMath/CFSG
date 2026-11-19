@@ -28,7 +28,7 @@ theorem sporPair_Ly_five (hOut : SporadicOuterLeTwo)
   have hq : CFSG.Open.IsQuasisimple ↥K := i116e_isQuasisimple hH.core hH.comp
   have hZ : Subgroup.center ↥K = ⊥ := center_eq_bot_of_five_le hSpM hH (le_refl 5) hS
   obtain ⟨e⟩ := hS
-  haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hq.2
+  have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hq.2
   have hloc : IsLocallyOneBalancedAbs 5 (↥K ⧸ Subgroup.center ↥K) :=
     isLocallyOneBalancedAbs_Ly_five hOut hBr _ hq.2 (exists_noncomm_of_isQuasisimple hq) ⟨e⟩
   let eK : ↥K ≃* NativeSporadic.Carrier .Ly :=

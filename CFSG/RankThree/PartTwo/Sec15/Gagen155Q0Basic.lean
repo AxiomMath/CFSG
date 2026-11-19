@@ -14,7 +14,7 @@ open scoped Pointwise
 variable {G : Type} [Group G] [Finite G] {A : Subgroup G}
 
 theorem le_of_le_sup_of_odd_relIndex {X R Q V H : Subgroup G} (hR2 : IsPGroup 2 R)
-    (hRX : R ≤ Subgroup.normalizer (X : Set G)) (hQ : Q ≤ X ⊔ R) (hVQ : V ≤ Q)
+    (hRX : R ≤ Subgroup.normalizer (X : Set G)) (hQ : Q ≤ X ⊔ R) (_hVQ : V ≤ Q)
     (hV : ¬ 2 ∣ V.relIndex Q) (hXH : X ≤ H) (hVH : V ≤ H) : Q ≤ H := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set N := X ⊔ R with hN
@@ -100,7 +100,7 @@ theorem le_sup_delta_of_mem_scriptQ (hA : Late.IsE27 A) (h146 : Item146 A (lB A)
     Nat.prime_three Nat.prime_two A Q hA.isPGroup hQ.1.2.2 hcop
   set V := (S : Subgroup Q).map Q.subtype with hVdef
   have hVQ : V ≤ Q := Subgroup.map_subtype_le _
-  have hV2 : IsPGroup 2 V := S.isPGroup'.map _
+  have hV2 : IsPGroup 2 V := S.isPGroup.map _
   have hVi : ¬ 2 ∣ V.relIndex Q := by
     have heq : V.subgroupOf Q = (S : Subgroup Q) :=
       Subgroup.comap_map_eq_self_of_injective Q.subtype_injective _

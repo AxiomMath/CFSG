@@ -83,7 +83,7 @@ theorem exists_sylow_unique_square
     rw [← Subgroup.orderOf_coe, ← Subgroup.orderOf_coe]
     exact hfa
   have hkernel (x : P) (hx : f x = 1) : (x : G) ∈ Q := by
-    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp P.isPGroup' x
+    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp P.isPGroup x
     apply mem_of_two_element_mem_kernel f Q hodd x k _ hx
     have hp : x ^ (2 ^ k) = 1 := by rw [← hk]; exact pow_orderOf_eq_one x
     exact congrArg Subtype.val hp
@@ -107,7 +107,7 @@ theorem exists_sylow_unique_square
     have hfx : (f x) ^ 2 = 1 := congrArg (fun t : D => ((t : alternatingGroup X) : Equiv.Perm X)) hx
     by_cases hne : f x = 1
     · exact congrArg Subtype.val (hQsq ⟨x.val, hkernel x hne⟩)
-    · obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp P.isPGroup' x
+    · obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp P.isPGroup x
       have hp : (x : G) ^ (2 ^ k) = 1 := by
         have hp' : x ^ (2 ^ k) = 1 := by rw [← hk]; exact pow_orderOf_eq_one x
         exact congrArg Subtype.val hp'

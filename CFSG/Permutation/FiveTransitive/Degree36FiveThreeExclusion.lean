@@ -27,7 +27,7 @@ theorem five_not_dvd_of_nine_not_dvd
   have hScard := Degree36SylowFiveOrder.card_eq_five P hcard h5 hnotAlt s hs S hSne
   obtain ⟨hF,him,_⟩ := Degree36SmallPrimeEntrance.five_entrance P hcard h5 hnotAlt s hs S hSne
   let Q := sylowImage X P s S
-  have hQ : IsPGroup 5 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup 5 Q := S.isPGroup.map (fixingSubgroup P s).subtype
   have hQcard : Nat.card Q = 5 := by
     have hmap : Nat.card Q = Nat.card S :=
       Subgroup.card_map_of_injective (fixingSubgroup P s).subtype_injective

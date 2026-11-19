@@ -55,7 +55,7 @@ theorem uc22s213t_normalizer_le_of_sig {D : Data G} (hσ : UC6S846.SigmaStd D) (
   have hnab : ∃ x y : Bar2 L ⧸ center (Bar2 L), x * y ≠ y * x := by
     by_contra hcomm
     push Not at hcomm
-    exact Group.IsPerfect.not_isSolvable _ (isSolvable_of_comm hcomm)
+    exact Group.IsPerfect.not_isSolvable _ (_root_.Group.isSolvable_of_comm hcomm)
   obtain ⟨-, x, hx⟩ :=
     CFSG.ComponentClassification.SimpleEvenOrder.nonabelian_simple_even hnab
   have hx1 : x ≠ 1 := by

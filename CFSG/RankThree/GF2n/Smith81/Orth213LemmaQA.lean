@@ -23,6 +23,7 @@ variable {K : Type} [Field K] [CharP K 2] {V : Type*} [AddCommGroup V] [Module K
     simp only [polar_smul_left, smul_eq_mul, RingHom.id_apply]
     module
 
+omit [CharP K 2] in
 theorem eN_apply (u w v : V) : eN Q u w v = polar Q v u • w + polar Q v w • u := rfl
 
 @[expose] def gramScalar (u w u' w' : V) : K :=
@@ -35,6 +36,7 @@ theorem eichler_eq_add_eN {u w : V} (hu : Q u = 0) (hw : Q w = 0) (huw : polar Q
   rw [eichler_apply hu huw, hw, zero_mul, add_zero, sub_eq_add_neg, neg_eq_self_mod K, eN_apply,
     add_assoc]
 
+omit [CharP K 2] in
 theorem eN_eN {u w : V} (hu : Q u = 0) (hw : Q w = 0) (huw : polar Q u w = 0) (v : V) :
     eN Q u w (eN Q u w v) = 0 := by
   have hwu : polar Q w u = 0 := by rw [polar_comm, huw]
@@ -43,6 +45,7 @@ theorem eN_eN {u w : V} (hu : Q u = 0) (hw : Q w = 0) (huw : polar Q u w = 0) (v
   simp only [eN_apply, polar_add_left, polar_smul_left, smul_eq_mul, hwu, huu, hww, huw, mul_zero,
     add_zero, zero_smul]
 
+omit [CharP K 2] in
 theorem eN_eq_zero_iff {u w : V} (hind : LinearIndependent K ![u, w]) (v : V) :
     eN Q u w v = 0 ↔ polar Q v u = 0 ∧ polar Q v w = 0 := by
   constructor
@@ -53,17 +56,20 @@ theorem eN_eq_zero_iff {u w : V} (hind : LinearIndependent K ![u, w]) (v : V) :
   · rintro ⟨h1, h2⟩
     rw [eN_apply, h1, h2, zero_smul, zero_smul, add_zero]
 
+omit [CharP K 2] in
 theorem eN_mem {S : Submodule K V} {u w : V} (hu : u ∈ S) (hw : w ∈ S) (v : V) :
     eN Q u w v ∈ S := by
   rw [eN_apply]
   exact S.add_mem (S.smul_mem _ hw) (S.smul_mem _ hu)
 
+omit [CharP K 2] in
 theorem qU_smul_add_smul {u w : V} (hu : Q u = 0) (hw : Q w = 0) (huw : polar Q u w = 0)
     (α β : K) : Q (α • u + β • w) = 0 := by
   rw [QuadraticMap.map_add Q, map_smul_eq_sq, map_smul_eq_sq, hu, hw, polar_smul_left_eq,
     polar_smul_right_eq, huw]
   ring
 
+omit [CharP K 2] in
 theorem exists_polar_eq (hnd : ∀ x : V, (∀ y : V, polar Q x y = 0) → x = 0) {u w : V}
     (hind : LinearIndependent K ![u, w]) (a b : K) :
     ∃ s : V, polar Q s u = a ∧ polar Q s w = b := by
@@ -110,7 +116,7 @@ theorem eN_pair_u {u w u' w' : V} (hu : Q u = 0) (huw : polar Q u w = 0) :
   have e3 : polar Q u' u = polar Q u u' := polar_comm Q u' u
   have e4 : polar Q u' w = polar Q w u' := polar_comm Q u' w
   simp only [gramScalar, eN_apply, polar_add_left, polar_smul_left_eq, huu, huw, e1, e2, e3, e4,
-    zero_smul, smul_zero, add_zero, polar_zero_left]
+    zero_smul, add_zero, polar_zero_left]
   linear_combination (norm := module) (polar Q u u' * polar Q u w') • h2
 
 theorem eN_pair_w {u w u' w' : V} (hw : Q w = 0) (huw : polar Q u w = 0) :
@@ -123,9 +129,10 @@ theorem eN_pair_w {u w u' w' : V} (hw : Q w = 0) (huw : polar Q u w = 0) :
   have e3 : polar Q u' u = polar Q u u' := polar_comm Q u' u
   have e4 : polar Q u' w = polar Q w u' := polar_comm Q u' w
   simp only [gramScalar, eN_apply, polar_add_left, polar_smul_left_eq, hww, hwu, e1, e2, e3, e4,
-    zero_smul, smul_zero, add_zero, polar_zero_left]
+    zero_smul, add_zero, polar_zero_left]
   linear_combination (norm := module) (polar Q w u' * polar Q w w') • h2
 
+omit [CharP K 2] in
 theorem gramScalar_swap (u w u' w' : V) :
     gramScalar Q u' w' u w = gramScalar Q u w u' w' := by
   simp only [gramScalar, polar_comm Q u' u, polar_comm Q w' w, polar_comm Q u' w,
@@ -224,6 +231,7 @@ section Prod
 
 variable {K : Type} [Field K] [CharP K 2] {V : Type*} [AddCommGroup V] [Module K V]
 
+omit [CharP K 2] in
 theorem pow_prod_apply (A B : V ≃ₗ[K] V) (X Y : (V × V) ≃ₗ[K] (V × V))
     (hX : ∀ p, X p = (A p.1, A p.2)) (hY : ∀ p, Y p = (B p.1, B p.2)) (k : ℕ) (p : V × V) :
     ((X * Y) ^ k) p = (((A * B) ^ k) p.1, ((A * B) ^ k) p.2) := by
@@ -244,6 +252,7 @@ theorem eichler_fix_iff {u w : V} (hu : Q u = 0) (hw : Q w = 0) (huw : polar Q u
     eichler Q u w z = z ↔ eN Q u w z = 0 := by
   rw [eichler_eq_add_eN hu hw huw, add_eq_left]
 
+omit [CharP K 2] in
 theorem eN_eq_zero_of_eN {ux wx uy wy : V} (hindy : LinearIndependent K ![uy, wy])
     (hcase : ∀ α β : K, polar Q (α • ux + β • wx) uy = 0 → polar Q (α • ux + β • wx) wy = 0 →
       α = 0 ∧ β = 0) (z : V) (h : eN Q uy wy (eN Q ux wx z) = 0) : eN Q ux wx z = 0 := by

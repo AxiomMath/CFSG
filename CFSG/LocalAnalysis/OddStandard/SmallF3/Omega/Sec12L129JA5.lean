@@ -116,7 +116,7 @@ theorem sec12A5_fix_le (Q : Subgroup ↥(alternatingGroup (Fin 5))) (hQ : IsElem
       by_contra hcon
       push Not at hcon
       classical
-      haveI : Fintype ↥Q := Fintype.ofFinite _
+      have : Fintype ↥Q := Fintype.ofFinite _
       have hsub : (Finset.univ : Finset ↥Q) ⊆ {1, a} := by
         intro x _
         by_cases hx1 : x = 1

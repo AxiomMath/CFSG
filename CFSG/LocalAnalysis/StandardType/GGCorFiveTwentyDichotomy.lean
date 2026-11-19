@@ -71,6 +71,7 @@ theorem le_normalizer_of_pComponent {p : ℕ} [Fact p.Prime] {Bs J X : Subgroup 
     (GGDichotomy.eq_of_le_of_pComponent ((largeEvenPComponent_iff_lBalance p _ X).1 hX).2
       ((largeEvenPComponent_iff_lBalance p _ _).1 hX').2 hJX hJ' hJ hpJ)
 
+omit [Finite G] in
 theorem aut_commute_of_comm {Bs : Subgroup G} {n m : G} {t a : MulAut ↥Bs}
     (ht : ∀ b : ↥Bs, ((t b : ↥Bs) : G) = n * b * n⁻¹)
     (ha : ∀ b : ↥Bs, ((a b : ↥Bs) : G) = m * b * m⁻¹)
@@ -144,7 +145,7 @@ theorem exists_mem_not_mem_zpowers {p : ℕ} (hp : p.Prime) {Bs D E : Subgroup G
     (hDBs : D ≤ Bs) (hD : Nat.card D = p ^ 2) (hxp : x ^ p = 1)
     (hE : E.relIndex Bs = p) (hxE : x ∉ E) : ∃ d ∈ D, d ∈ E ∧ d ∉ zpowers x := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hbot : E.subgroupOf D = ⊥ := by
     rw [eq_bot_iff_forall]
     intro z hz
@@ -161,6 +162,7 @@ theorem exists_mem_not_mem_zpowers {p : ℕ} (hp : p.Prime) {Bs D E : Subgroup G
   rw [h1, hE] at h2
   nlinarith [hp.two_le]
 
+omit [Finite G] in
 theorem mem_ggFixG_of_induced {Bs : Subgroup G} {t : MulAut ↥Bs} {n x : G} (hx : x ∈ Bs)
     (ht : ∀ b : ↥Bs, ((t b : ↥Bs) : G) = n * b * n⁻¹) (hnx : n * x * n⁻¹ = x) :
     x ∈ ggFixG Bs t :=
@@ -214,7 +216,7 @@ theorem ggDichotomy_of_hyp (hL : GGLBalanceInput) (hP : GGStdSubPrimeInput) {p :
   have hKP : KProper InCatalog G := hI.2.2.1
   have hp : p.Prime := hI.2.2.2.2.2.1.1
   have hS : LargeEvenSStar p B x L := hI.2.2.2.2.2.2.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hx1 : x ≠ 1 := hS.2.2.1
   have hBsabel : IsElemAbelian p Bs := hBsB.2.1
   have hcomm : ∀ a ∈ Bs, ∀ b ∈ Bs, a * b = b * a := fun a ha b hb =>
@@ -283,7 +285,7 @@ theorem ggDichotomy_of_hyp (hL : GGLBalanceInput) (hP : GGStdSubPrimeInput) {p :
 
 theorem ggHypDichotomyInput_of_lBalance (hL : GGLBalanceInput) (hP : GGStdSubPrimeInput) :
     GGHypDichotomyInput :=
-  fun G _ _ p B Bs x L D J hHyp _ _ _ t Jt hr hind hJC hpc =>
+  fun _G _ _ _p _B _Bs _x _L _D _J hHyp _ _ _ _t _Jt hr hind hJC hpc =>
     ggDichotomy_of_hyp hL hP hHyp hr hind hJC hpc
 
 theorem ggHypDichotomyInput_of_catalogueSchreier (hS : CatalogueRelativeB.CatalogueSchreier)

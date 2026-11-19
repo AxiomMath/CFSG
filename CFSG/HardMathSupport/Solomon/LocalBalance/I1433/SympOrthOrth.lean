@@ -43,7 +43,7 @@ theorem inner_of_mem_commutator_gates {K : Type} [Field K] [Finite K] {d f : ℕ
             ⁅(⟨a, hEall a⟩ : ↥(matrixProjectiveImage Q)),
               (⟨b, hEall b⟩ : ↥(matrixProjectiveImage Q))⁆ := rfl
         rw [this, map_commutatorElement]
-        haveI := hcyc
+        have := hcyc
         have hcomm : ∀ x y : ↥ψ.range, x * y = y * x := fun x y =>
           (IsCyclic.commGroup (α := ↥ψ.range)).mul_comm x y
         exact commutatorElement_eq_one_iff_mul_comm.mpr
@@ -106,7 +106,7 @@ theorem orth_contra {t : StatedLieTag}
     (hG : StatedClassicalModel S t n ℓ f) (hℓ3 : ℓ ≠ 3) (hD4 : t = .POmegaPlus → n ≠ 4)
     {Q : Subgroup (MulAut S)} {x : S} {J : Subgroup S} {q : ℕ} (c : I1433SCfg Q x J q) :
     False := by
-  haveI := hs
+  have := hs
   have hS : Subgroup.center S = ⊥ := b3Lie_center_eq_bot hna
   have hinn : ∀ β ∈ Q, ∃ s : S, MulAut.conj s = β := fun β hβ =>
     orth_inner_of_mem_commutator ht hG hD4 (c.derived hβ) (c.exponent β hβ)

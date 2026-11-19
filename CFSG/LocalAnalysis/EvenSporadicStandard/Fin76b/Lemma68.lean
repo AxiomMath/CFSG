@@ -52,7 +52,7 @@ theorem exists_conj_map_of_maximal [Finite G] {C S P : Subgroup G} (hS2 : IsPGro
   have hSp : IsPGroup 2 (S.subgroupOf C) := hS2.comap_subtype
   obtain ⟨Q₁, hQ₁⟩ := hSp.exists_le_sylow
   have hQ₁S : (Q₁ : Subgroup C) = S.subgroupOf C := by
-    have hmap : IsPGroup 2 ((Q₁ : Subgroup C).map C.subtype) := Q₁.isPGroup'.map _
+    have hmap : IsPGroup 2 ((Q₁ : Subgroup C).map C.subtype) := Q₁.isPGroup.map _
     have hle : S ≤ (Q₁ : Subgroup C).map C.subtype := fun s hs =>
       ⟨⟨s, hSC hs⟩, hQ₁ (mem_subgroupOf.2 hs), rfl⟩
     have heq := hSmax _ hmap (by rintro _ ⟨y, -, rfl⟩; exact y.2) hle

@@ -17,6 +17,7 @@ variable {G : Type} [Group G] [Finite G] {V H E : Subgroup G}
 @[expose] def iSubFix (V H E : Subgroup G) : Subgroup G :=
   iSub V H E ⊓ Subgroup.centralizer (pCoreOf 2 (kSub V H E) : Set G)
 
+omit [Finite G] in
 private theorem seven_twelve_setup_conj_mem_centralizer {V₀ : Subgroup G} {g k : G}
     (hg : g ∈ Subgroup.normalizer (V₀ : Set G))
     (hk : k ∈ Subgroup.centralizer (V₀ : Set G)) :
@@ -30,6 +31,7 @@ private theorem seven_twelve_setup_conj_mem_centralizer {V₀ : Subgroup G} {g k
     _ = g * (k * (g⁻¹ * v * g⁻¹⁻¹)) * g⁻¹ := by rw [this]
     _ = g * k * g⁻¹ * v := by group
 
+omit [Finite G] in
 private theorem seven_twelve_setup_normalizer_le_normalizer_centralizer (V₀ : Subgroup G) :
     Subgroup.normalizer (V₀ : Set G) ≤
       Subgroup.normalizer (Subgroup.centralizer (V₀ : Set G) : Set G) := by
@@ -40,16 +42,19 @@ private theorem seven_twelve_setup_normalizer_le_normalizer_centralizer (V₀ : 
   have := seven_twelve_setup_conj_mem_centralizer (inv_mem hg) hx
   simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem iSubFix_le_iSub : iSubFix V H E ≤ iSub V H E := by
   unfold iSubFix
   exact inf_le_left
 
+omit [Finite G] in
 theorem pCoreOf_kSub_le_centralizer_iSubFix :
     pCoreOf 2 (kSub V H E) ≤ Subgroup.centralizer (iSubFix V H E : Set G) := by
   refine Subgroup.le_centralizer_iff.mpr ?_
   unfold iSubFix
   exact inf_le_right
 
+omit [Finite G] in
 theorem kSub_le_normalizer_iSubFix (h : Hyp711 V H E) :
     kSub V H E ≤ Subgroup.normalizer (iSubFix V H E : Set G) := by
   have hKH : kSub V H E ≤ H := kSub_le_of_forall_le h.omega_le
@@ -66,12 +71,12 @@ theorem kSub_le_normalizer_iSubFix (h : Hyp711 V H E) :
   intro x hx
   rw [Subgroup.mem_normalizer_iff]
   intro y
-  change y ∈ iSubFix V H E ↔ x * y * x⁻¹ ∈ iSubFix V H E
   unfold iSubFix
   rw [Subgroup.mem_inf, Subgroup.mem_inf]
   exact and_congr ((Subgroup.mem_normalizer_iff.mp (hKNI hx)) y)
     ((Subgroup.mem_normalizer_iff.mp (hKNC hx)) y)
 
+omit [Finite G] in
 theorem commutator_iSubFix_sup_pCoreOf (h : Hyp711 V H E) {Y : Subgroup G}
     (hY : Y ≤ kSub V H E) :
     ⁅iSubFix V H E, Y ⊔ pCoreOf 2 (kSub V H E)⁆ = ⁅iSubFix V H E, Y⁆ := by
@@ -112,6 +117,7 @@ theorem commutator_iSubFix_sup_pCoreOf (h : Hyp711 V H E) {Y : Subgroup G}
     exact commutator_closure_le_of_forall hSsub hgen
   · exact Subgroup.commutator_mono_right le_sup_left
 
+omit [Finite G] in
 theorem le_centralizer_kSub_of_commutator_eq_bot (h : Hyp711 V H E) {A : Subgroup G}
     (hAK : kSub V H E ≤ Subgroup.normalizer (A : Set G)) (hAV : ⁅A, V⁆ = ⊥) :
     A ≤ Subgroup.centralizer (kSub V H E : Set G) := by

@@ -24,7 +24,7 @@ presence of an involution, odd order its absence. -/
 
 private theorem even_natCard_iff_exists_involution (K : Type u) [Group K] [Finite K] :
     Even (Nat.card K) ↔ ∃ x : K, x ≠ 1 ∧ x ^ 2 = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   constructor
   · intro h
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := K) 2 h.two_dvd
@@ -96,7 +96,7 @@ public theorem hypothesisA_stronglyEmbedded
   have hDstab : D = MulAction.stabilizer G ω ⊓ MulAction.stabilizer G (t⁻¹ • ω) := by
     rw [hA.A1.D_eq, hHω, rightConjugate_stabilizer]
   have hΩpos : 0 < Nat.card Ω - 1 := by
-    haveI : Nonempty Ω := ⟨ω⟩
+    have : Nonempty Ω := ⟨ω⟩
     have hne : Nat.card Ω ≠ 1 := by
       intro h
       obtain ⟨hsub, -⟩ := Nat.card_eq_one_iff_unique.1 h

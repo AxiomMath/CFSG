@@ -53,8 +53,8 @@ theorem catZ2S6_of_inputs (hSch : CFSG.LocalAnalysis.ComponentInitial.SchreierFo
     (hOB : OddLieA6TwoComponent) (hL : OddA6ModLeaf) (hSpor : SporadicZ2S6Leaf) : CatZ2S6 := by
   intro K _ _ S hSn hSs hcat hC z hz hζ
   obtain ⟨ζ⟩ := hζ
-  haveI := hSn
-  haveI := hSs
+  have := hSn
+  have := hSs
   have hna : ∃ a b : ↥S, a * b ≠ b * a := nonabelian_of_centralizer_eq_bot S hC
   have hinj : Function.Injective (MulAut.conj : ↥S →* MulAut ↥S) :=
     conj_injective_of_nonabelian hna

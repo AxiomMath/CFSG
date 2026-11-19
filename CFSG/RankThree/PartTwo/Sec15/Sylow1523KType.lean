@@ -74,6 +74,7 @@ theorem facts_of_l37_or_a7 {T : Type*} [Group T]
     rw [Nat.card_congr e.toEquiv, hA7]
     exact ⟨e.isSimpleGroup, by norm_num, by norm_num⟩
 
+omit [Finite G] in
 theorem surjective_inf_quot {Y K : Subgroup G} (hYK : Y = (Y ⊓ K) ⊔ CFSG.Open.pCoreOf 2 Y) :
     Function.Surjective ((QuotientGroup.mk' (CFSG.pCore 2 ↥Y)).comp
       (Subgroup.inclusion (inf_le_left : Y ⊓ K ≤ Y))) := by

@@ -14,7 +14,7 @@ theorem card_dvd_two_pow_mul_three {G : Type} [Group G] [Finite G] (Z : Subgroup
   have hNpos : Nat.card Z ≠ 0 := (Nat.card_pos (α := ↥Z)).ne'
   have hprime : ∀ p : ℕ, p.Prime → p ∣ Nat.card Z → p = 2 ∨ p = 3 := by
     intro p hp hpdvd
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := ↥Z) p hpdvd
     have hzG : ((z : G) ^ 4 ^ m) ^ 3 = 1 := h1 z z.2
     have hzpow : (z : G) ^ (4 ^ m * 3) = 1 := by rw [pow_mul]; exact hzG
@@ -32,7 +32,7 @@ theorem card_dvd_two_pow_mul_three {G : Type} [Group G] [Finite G] (Z : Subgroup
       exact (Nat.prime_dvd_prime_iff_eq hp (by decide)).mp h3
   have h9 : ¬ 9 ∣ Nat.card Z := by
     intro h9dvd
-    haveI : Fact (Nat.Prime 3) := ⟨by decide⟩
+    have : Fact (Nat.Prime 3) := ⟨by decide⟩
     let P : Sylow 3 ↥Z := default
     let Psub : Subgroup ↥Z := (P : Subgroup ↥Z)
     let j : ℕ := (Nat.card Z).factorization 3
@@ -89,7 +89,7 @@ theorem card_dvd_two_pow_mul_three {G : Type} [Group G] [Finite G] (Z : Subgroup
       obtain ⟨k, hk⟩ := hmem
       exact ⟨k, by apply Subtype.coe_injective; simpa using hk⟩
     have hcard_zp : Nat.card (Subgroup.zpowers z₀) = 3 := by
-      letI : Fintype ↥Z := Fintype.ofFinite ↥Z
+      let : Fintype ↥Z := Fintype.ofFinite ↥Z
       rw [Nat.card_eq_fintype_card, Fintype.card_zpowers, hz0orderZ]
     have hle : Nat.card Psub ≤ 3 := by
       have := Subgroup.card_le_of_le hPsub

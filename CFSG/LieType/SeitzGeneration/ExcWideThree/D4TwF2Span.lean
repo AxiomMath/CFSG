@@ -94,13 +94,13 @@ theorem sigma_gf8 {K : Type} [Field K] [Finite K] (h : Nat.card K = 8) {σ : K �
   · left
     intro a
     have := h4 a
-    simp only [RingEquiv.trans_apply, RingEquiv.symm_apply_apply] at this
+    simp only [RingEquiv.trans_apply] at this
     rw [← this]
     simp
   · right
     intro a
     have := h4 a
-    simp only [RingEquiv.trans_apply, RingEquiv.symm_apply_apply] at this
+    simp only [RingEquiv.trans_apply] at this
     rw [← this]
     simp
 
@@ -132,11 +132,13 @@ section Gens
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem pcoord_xPar_pos (n : ℕ) (hn : n < 4) (c : K) (v : RootModule Tag.D4 K) (q : ℕ) :
     pcoord K (endHom K (xPar (rootOperatorFamily Tag.D4) (Pi.single (⟨n, hn⟩ : Fin Tag.D4.rank) 1) c)
       v) q = xEg n c (fun r => pcoord K v r) q :=
   pcoord_endHom_pos ⟨n, hn⟩ c v q (valid_pos n hn 1 (Or.inl rfl)) (valid_pos n hn 2 (Or.inr rfl))
 
+omit [Finite K] in
 theorem pcoord_xPar_neg (n : ℕ) (hn : n < 4) (c : K) (v : RootModule Tag.D4 K) (q : ℕ) :
     pcoord K (endHom K (xPar (rootOperatorFamily Tag.D4) (-Pi.single (⟨n, hn⟩ : Fin Tag.D4.rank) 1) c)
       v) q = yEg n c (fun r => pcoord K v r) q :=
@@ -144,7 +146,7 @@ theorem pcoord_xPar_neg (n : ℕ) (hn : n < 4) (c : K) (v : RootModule Tag.D4 K)
     have h := pcoord_endHom_neg ⟨n, hn⟩ c v q (valid_neg' n hn 1 (Or.inl rfl))
       (valid_neg' n hn 2 (Or.inr rfl))
     rw [h]
-    simp only [yEg, negI_eq n hn, Fin.val_mk]
+    simp only [yEg, negI_eq n hn]
 
 noncomputable def gpos (σ : K ≃+* K) (s : K) : adjointGroup Tag.D4 K :=
   xPar (rootOperatorFamily Tag.D4) (Pi.single (nd 0) 1) s *
@@ -156,6 +158,7 @@ noncomputable def gneg (σ : K ≃+* K) (s : K) : adjointGroup Tag.D4 K :=
     xPar (rootOperatorFamily Tag.D4) (-Pi.single (nd 1) 1) (σ s) *
     xPar (rootOperatorFamily Tag.D4) (-Pi.single (nd 3) 1) (σ (σ s))
 
+omit [Finite K] in
 theorem pcoord_gpos (σ : K ≃+* K) (s : K) (u : RootModule Tag.D4 K) (q : ℕ) :
     pcoord K (endHom K (gpos σ s) u) q = tpEg (⇑σ) s (fun r => pcoord K u r) q := by
   have e0 : ∀ (V : RootModule Tag.D4 K) (r : ℕ), pcoord K (endHom K (xPar (rootOperatorFamily Tag.D4)
@@ -177,6 +180,7 @@ theorem pcoord_gpos (σ : K ≃+* K) (s : K) (u : RootModule Tag.D4 K) (q : ℕ)
   funext r
   rw [e3]
 
+omit [Finite K] in
 theorem pcoord_gneg (σ : K ≃+* K) (s : K) (u : RootModule Tag.D4 K) (q : ℕ) :
     pcoord K (endHom K (gneg σ s) u) q = tmEg (⇑σ) s (fun r => pcoord K u r) q := by
   have e0 : ∀ (V : RootModule Tag.D4 K) (r : ℕ), pcoord K (endHom K (xPar (rootOperatorFamily Tag.D4)
@@ -198,9 +202,11 @@ theorem pcoord_gneg (σ : K ≃+* K) (s : K) (u : RootModule Tag.D4 K) (q : ℕ)
   funext r
   rw [e3]
 
+omit [Finite K] in
 theorem gpos_mem {σ : K ≃+* K} (hσ3 : ∀ c : K, σ (σ (σ c)) = c) (s : K) :
     gpos σ s ∈ fixedSubgroup (d4Twist 1 σ) := triple_pos_mem hσ3 s
 
+omit [Finite K] in
 theorem gneg_mem {σ : K ≃+* K} (hσ3 : ∀ c : K, σ (σ (σ c)) = c) (s : K) :
     gneg σ s ∈ fixedSubgroup (d4Twist 1 σ) := triple_neg_mem hσ3 s
 
@@ -214,6 +220,7 @@ noncomputable def gEl (σ : K ≃+* K) (x x2 : K) : ℕ → adjointGroup Tag.D4 
   | 6 => gpos σ x2
   | _ => gneg σ x2
 
+omit [Finite K] in
 theorem gEl_mem {σ : K ≃+* K} (hσ3 : ∀ c : K, σ (σ (σ c)) = c) (x x2 : K) (idx : ℕ) :
     gEl σ x x2 idx ∈ fixedSubgroup (d4Twist 1 σ) := by
   match idx with
@@ -226,6 +233,7 @@ theorem gEl_mem {σ : K ≃+* K} (hσ3 : ∀ c : K, σ (σ (σ c)) = c) (x x2 : 
   | 6 => exact gpos_mem hσ3 x2
   | _ + 7 => exact gneg_mem hσ3 x2
 
+omit [Finite K] in
 theorem pcoord_gEl {σ : K ≃+* K} (x x2 : K) (idx : ℕ) (u : RootModule Tag.D4 K) (q : ℕ) :
     pcoord K (endHom K (gEl σ x x2 idx) u) q = genR (⇑σ) 1 x x2 idx (fun r => pcoord K u r) q := by
   match idx with
@@ -244,7 +252,7 @@ noncomputable abbrev vTheta (K : Type) [Field K] : RootModule Tag.D4 K := rootVe
 
 theorem vTheta_eq_posVec (K : Type) [Field K] : vTheta K = posVec Tag.D4 K 26 := by
   unfold vTheta posVec
-  simp only [show ¬ (26 < Tag.D4.rank) from by decide, dif_neg, not_false_eq_true]
+  simp only [show ¬ (26 < Tag.D4.rank) from by decide, dite_eq_right, not_false_eq_true]
   rfl
 
 theorem pcoord_vTheta (K : Type) [Field K] (q : ℕ) :

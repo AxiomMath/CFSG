@@ -35,12 +35,12 @@ theorem qTwoNbrA_block_of_diag {F0 : Type} [Field F0] [Finite F0] [CharP F0 2]
     by_contra hlt4
     have hlt4' : S.card < 4 := not_le.1 hlt4
     have hle3 : S.card ≤ 3 := by omega
-    haveI : Group.IsSolvable ↥(TableBUE.blockSU (K := F0) (n := 1) S) := by
-      haveI : Group.IsSolvable ↥(unitarySU 2 1 F0 S.card) :=
+    have : Group.IsSolvable ↥(TableBUE.blockSU (K := F0) (n := 1) S) := by
+      have : Group.IsSolvable ↥(unitarySU 2 1 F0 S.card) :=
         WitSU.isSolvable_unitarySU_two_one hKd (by omega) (by omega)
       exact Group.isSolvable_of_surjective (f := (TableBUE.blockSUEquiv S hKd).toMonoidHom)
         (TableBUE.blockSUEquiv S hKd).surjective
-    haveI : Group.IsSolvable Q := by rw [hQS']; infer_instance
+    have : Group.IsSolvable Q := by rw [hQS']; infer_instance
     exact Line63.H5.isQuasisimple_not_isSolvable hQ.2.2 inferInstance
   have hlt : S.card < m := by
     have hcard_le : S.card ≤ m := by simpa using Finset.card_le_univ S

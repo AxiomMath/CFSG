@@ -81,15 +81,15 @@ lemma sigC_lt {s c : ℕ} (hc : c < 4) : sigC s c < 4 := by
 lemma ofNat_sigC (s : ℕ) (c : GF4) : GF4.ofNat' (sigC s c.toNat) = sigF s c := by
   by_cases hs : s = 0
   · simp [sigC, sigF, hs, gf4_ofNat_toNat]
-  · simp only [sigC, sigF, if_neg hs]
+  · simp only [sigC, sigF, ite_eq_right hs]
     rfl
 
 lemma sigE_toNat (s : ℕ) (c : GF4) : (sigE s c).toNat = sigC s c.toNat := by
   by_cases hs : s = 0
   · simp [sigE, sigC, hs]
-  · rw [sigE, if_neg hs]
+  · rw [sigE, ite_eq_right hs]
     change (c * c).toNat = sigC s c.toNat
-    rw [sigC, if_neg hs]
+    rw [sigC, ite_eq_right hs]
     show (GF4.mulNat c.toNat c.toNat) % 4 = GF4.mulNat c.toNat c.toNat
     exact Nat.mod_eq_of_lt (gf4_mulNat_lt_four c.val.isLt c.val.isLt)
 
@@ -150,7 +150,7 @@ theorem codeOf_smul (c : GF4) (w : Fin 2 → GF4) : codeOf (c • w) = smulCode 
   rw [hw]
   exact key c (w 0) (w 1)
 
-theorem semilinear_of_code {M : ℕ → ℕ} (s : ℕ) (hs : s < 2)
+theorem semilinear_of_code {M : ℕ → ℕ} (s : ℕ) (_hs : s < 2)
     (hlt : ∀ n < 16, M n < 16)
     (h : ∀ c < 4, ∀ n < 16, M (smulCode c n) = smulCode (sigC s c) (M n)) (c : GF4)
     (w : Fin 2 → GF4) :

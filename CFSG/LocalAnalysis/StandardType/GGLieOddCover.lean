@@ -19,10 +19,10 @@ open CFSG.Open (StatedLieTag StatedLieAdmissible)
 
 theorem ggLieOddCover_holds :
     GGLieOddCover := by
-  haveI hfact2 : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hfact2 : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine ⟨?_, ?_⟩
   · intro t n f ht hadm Jb hJbG hJbFin hperf hodd hJ
-    haveI hfinU : Finite (ggU t n f).K :=
+    have hfinU : Finite (ggU t n f).K :=
       CFSG.StandardType.LieKnownR2.OddCenter.finite_ggU (t := t) ht hadm
     obtain ⟨q, hq, hqk⟩ := exists_ggU_central_cover_of_lieModel ht hadm hJ
     exact ggOddCover_lift (oddCentralSplit_ggU_pos ht hadm) hperf hodd hq hqk
@@ -39,12 +39,12 @@ theorem ggLieOddCover_holds :
     have hσ3 : ∀ c : F, σ (σ (σ c)) = c :=
       fun c => CFSG.LieType.Steinberg.TwistedD4.sigma_three_of_card hFcard hσq c
     refine ⟨F, inferInstance, inferInstance, σ, ⟨hg, hFcard, hσq⟩, ?_⟩
-    haveI hfinGL : Finite (CFSG.Blueprint.Chevalley.ModGL
+    have hfinGL : Finite (CFSG.Blueprint.Chevalley.ModGL
         CFSG.LieType.Steinberg.TwistedD4.d4 F) :=
       CFSG.LieType.Chevalley.finite_modGL
-    haveI hfinAdj : Finite (CFSG.Blueprint.Chevalley.adjointGroup
+    have hfinAdj : Finite (CFSG.Blueprint.Chevalley.adjointGroup
         CFSG.LieType.Steinberg.TwistedD4.d4 F) := Subtype.finite
-    haveI hfinU : Finite (triD4Universal F σ).K := Subtype.finite
+    have hfinU : Finite (triD4Universal F σ).K := Subtype.finite
     have hsplit : CFSG.SeitzReduction.UnitaryPilot.OddCentralSplit (triD4Universal F σ).K := by
       intro E hEG hEfin π hπ hker hodd
       obtain ⟨s, hs, -, -⟩ :=

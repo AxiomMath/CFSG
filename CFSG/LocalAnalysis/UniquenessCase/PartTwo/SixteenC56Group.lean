@@ -114,12 +114,12 @@ private theorem normalizer_le_centralizer_of_cyclic_sylow {G : Type*} [Group G] 
     {p : ℕ} [Fact p.Prime] (P : Sylow p G) (hcyc : IsCyclic (P : Subgroup G))
     {T : Subgroup G} (hTle : T ≤ P) (hTne : T ≠ ⊥) (hTz : T ≤ Subgroup.center G) :
     Subgroup.normalizer (P : Set G) ≤ Subgroup.centralizer (P : Set G) := by
-  haveI : IsCyclic (P : Subgroup G) := hcyc
-  haveI : IsMulCommutative (P : Subgroup G) := IsCyclic.isMulCommutative
+  have : IsCyclic (P : Subgroup G) := hcyc
+  have : IsMulCommutative (P : Subgroup G) := IsCyclic.isMulCommutative
   intro g hg
   set NC : Subgroup G := Subgroup.normalizer (P : Set G)
   set CC : Subgroup G := Subgroup.centralizer (P : Set G)
-  haveI : (CC.subgroupOf NC).Normal := Subgroup.normal_subgroupOf_centralizer_normalizer (P : Set G)
+  have : (CC.subgroupOf NC).Normal := Subgroup.normal_subgroupOf_centralizer_normalizer (P : Set G)
   have hindex : ¬ p ∣ (CC.subgroupOf NC).index := by
     have h1 : CC.relIndex NC ∣ P.index :=
       (Subgroup.relIndex_dvd_of_le_left NC
@@ -127,7 +127,7 @@ private theorem normalizer_le_centralizer_of_cyclic_sylow {G : Type*} [Group G] 
         (Subgroup.relIndex_dvd_index_of_le Subgroup.le_normalizer)
     exact fun h => P.not_dvd_index (h.trans h1)
   have hpdvdT : p ∣ Nat.card T := by
-    rcases (P.isPGroup'.to_le hTle).card_eq_or_dvd with h1 | h1
+    rcases (P.isPGroup.to_le hTle).card_eq_or_dvd with h1 | h1
     · exact absurd (Subgroup.card_eq_one.mp h1) hTne
     · exact h1
   obtain ⟨t, ht⟩ := exists_prime_orderOf_dvd_card' p hpdvdT
@@ -147,7 +147,7 @@ private theorem normalizer_le_centralizer_of_cyclic_sylow {G : Type*} [Group G] 
     rw [Subgroup.mem_center_iff] at hgt
     rw [hgt g, mul_assoc, mul_inv_cancel, mul_one]
   have hα1 : α = 1 :=
-    mulAut_eq_one_of_pow_eq_one_of_fixes P.isPGroup' α hαm hindex ht' hfix
+    mulAut_eq_one_of_pow_eq_one_of_fixes P.isPGroup α hαm hindex ht' hfix
   have hmem : (⟨g, hg⟩ : NC) ∈ (P : Subgroup G).normalizerMonoidHom.ker := by
     rw [MonoidHom.mem_ker]
     exact hα1
@@ -158,11 +158,11 @@ theorem not_isCyclic_sylow_of_perfect_quotient {H K : Type*} [Group H] [Finite H
     (hpK : p ∣ Nat.card K) (hpker : p ∣ Nat.card φ.ker) (P : Sylow p H) :
     ¬ IsCyclic (P : Subgroup H) := by
   intro hcyc
-  haveI : IsCyclic (P : Subgroup H) := hcyc
-  haveI : IsMulCommutative (P : Subgroup H) := IsCyclic.isMulCommutative
+  have : IsCyclic (P : Subgroup H) := hcyc
+  have : IsMulCommutative (P : Subgroup H) := IsCyclic.isMulCommutative
   let N : Subgroup H := φ.ker
   have hNnormal : N.Normal := MonoidHom.normal_ker φ
-  haveI : N.Normal := hNnormal
+  have : N.Normal := hNnormal
   obtain ⟨T, hT⟩ := sylow_inf_normal (p := p) (N := N) P
   let T' : Subgroup H := (P : Subgroup H) ⊓ N
   have hT' : (T : Subgroup N).map N.subtype = T' := hT
@@ -172,7 +172,7 @@ theorem not_isCyclic_sylow_of_perfect_quotient {H K : Type*} [Group H] [Finite H
     intro h
     exact hTne ((Subgroup.map_eq_bot_iff_of_injective (T : Subgroup N)
       N.subtype_injective).mp h)
-  haveI : Finite (Sylow p N) := Sylow.finite_of_finiteIndex (Classical.arbitrary (Sylow p N))
+  have : Finite (Sylow p N) := Sylow.finite_of_finiteIndex (Classical.arbitrary (Sylow p N))
   have hFr : Subgroup.normalizer (T' : Set H) ⊔ N = ⊤ := by
     have h := Sylow.normalizer_sup_eq_top (p := p) T
     rwa [hT'] at h
@@ -183,8 +183,8 @@ theorem not_isCyclic_sylow_of_perfect_quotient {H K : Type*} [Group H] [Finite H
     exact h
   have hcomm : ⁅Subgroup.normalizer (T' : Set H), Subgroup.normalizer (T' : Set H)⁆ ≤
       Subgroup.centralizer (T' : Set H) := by
-    haveI hTcyc : IsCyclic T' := Subgroup.isCyclic_of_le inf_le_left
-    haveI hTcomm : IsMulCommutative (MulAut T') := by
+    have hTcyc : IsCyclic T' := Subgroup.isCyclic_of_le inf_le_left
+    have hTcomm : IsMulCommutative (MulAut T') := by
       have e := IsCyclic.mulAutMulEquiv T'
       exact Function.Surjective.isMulCommutative e.symm.surjective
     rw [Subgroup.commutator_le]
@@ -244,7 +244,7 @@ theorem not_isCyclic_sylow_of_perfect_quotient {H K : Type*} [Group H] [Finite H
   let R : Subgroup C := (MonoidHom.transferSylow PC hPCnorm).ker
   have hcomp : Subgroup.IsComplement' R PC := MonoidHom.ker_transferSylow_isComplement' PC hPCnorm
   have hRp : ¬ p ∣ Nat.card R := MonoidHom.not_dvd_card_ker_transferSylow PC hPCnorm
-  haveI : R.Normal := MonoidHom.normal_ker _
+  have : R.Normal := MonoidHom.normal_ker _
   have hCC : _root_.commutator ↥C ≤ R := by
     exact Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hcomp.sup_eq_top
   have hCC' : ⁅C, C⁆ ≤ R.map C.subtype := by

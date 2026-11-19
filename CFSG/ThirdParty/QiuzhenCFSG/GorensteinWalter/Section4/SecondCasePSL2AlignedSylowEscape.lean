@@ -39,7 +39,7 @@ public theorem secondCase_psl2_aligned_sylow_intersection_escape
   let Iamb : Subgroup G := (c.S : Subgroup G) ⊓ w.M
   let IM : Subgroup w.M := Iamb.subgroupOf w.M
   have hIMp : IsPGroup 2 IM := by
-    have hIp : IsPGroup 2 Iamb := c.S.isPGroup'.to_inf_left
+    have hIp : IsPGroup 2 Iamb := c.S.isPGroup.to_inf_left
     exact hIp.comap_subtype
   have hSMleIM : (SM : Subgroup w.M) ≤ IM := by
     intro x hx

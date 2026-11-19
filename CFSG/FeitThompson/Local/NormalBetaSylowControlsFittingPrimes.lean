@@ -108,6 +108,7 @@ theorem exists_isUniqueMaximalOvergroup_le_centralizer_of_natCard_eq_prime_of_le
     exact ⟨Q, le_centralizer_of_coprime_natCard_of_isNilpotent _
       (isNilpotent_map_fittingRaw M) hQF hPF hcop, hQM, hQuniq⟩
 
+omit [Finite G] in
 theorem normalizer_ne_top_of_natCard_eq_prime (hna : ¬ IsMulCommutative G) (hp : p.Prime)
     (hPcard : Nat.card P = p) : normalizer (P : Set G) ≠ ⊤ := by
   have := Fact.mk hp

@@ -30,7 +30,7 @@ theorem false_of_quotient_data (hGH : GH73.GH73TheoremA64K) {Q : Type} [Group Q]
     False := by
   classical
   obtain ⟨X0, hX0n, hX0p, hX0max⟩ := exists_largest_perfect Q
-  haveI : X0.Normal := hX0n
+  have : X0.Normal := hX0n
   have hFX0 : F ≤ X0 := hX0max F hFp
   have hMX0 : M ≤ X0 := hX0max M hMp
   have hPX0 : P ≤ X0 := hPF.trans hFX0
@@ -48,7 +48,7 @@ theorem false_of_quotient_data (hGH : GH73.GH73TheoremA64K) {Q : Type} [Group Q]
     have hCcX0 : centralizer ({c} : Set Q) ≤ X0 :=
       le_of_card_eq_480 h2 hCc hM'C hM'X0 hM'card
     exact ⟨hCcX0, hCc⟩
-  haveI : Finite ↥X0 := inferInstance
+  have : Finite ↥X0 := inferInstance
   let x' : ↥X0 := ⟨x, hxX0⟩
   have hx2' : x' ^ 2 = 1 := by
     apply Subtype.ext

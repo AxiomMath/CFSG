@@ -11,10 +11,10 @@ open CFSG.LocalAnalysis.GLTheoremA.CatB Module
 
 theorem K4_exists_omega : ∃ ω : K4, ω ^ 2 + ω + 1 = 0 := by
   classical
-  haveI : Fintype K4 := Fintype.ofFinite K4
+  have : Fintype K4 := Fintype.ofFinite K4
   have hex : ∃ x : K4, x ≠ 0 ∧ x ≠ 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hsub : (Finset.univ : Finset K4) ⊆ {0, 1} := by
       intro x _
       by_cases hx : x = 0
@@ -79,18 +79,18 @@ theorem card_le_of_fixes_isotropic {Q : Type} [Finite Q] (ρ : Q → Module.End 
     (hisoR : ∀ r ∈ R, ∀ r' ∈ R, hermF r r' = 0) :
     Nat.card Q ≤ 3 ^ (5 - 2 * Module.finrank K4 R) := by
   classical
-  letI : Fintype K4 := Fintype.ofFinite K4
+  let : Fintype K4 := Fintype.ofFinite K4
   obtain ⟨ω, hω⟩ := K4_exists_omega
   obtain ⟨I, hIfin, b, χ, hb⟩ := exists_eigenbasis K4_two_eq_zero hω ρ hcomm hpow
-  letI : Fintype I := Fintype.ofFinite I
+  let : Fintype I := Fintype.ofFinite I
   have hmat : ∀ q, LinearMap.toMatrix b b (ρ q) = Matrix.diagonal (fun x => χ x q) := by
     intro q
     ext x y
     rw [LinearMap.toMatrix_apply, hb y q, map_smul, Basis.repr_self, Matrix.diagonal_apply]
     by_cases hxy : x = y
     · subst hxy
-      simp [Finsupp.single_apply]
-    · simp [Finsupp.single_apply, hxy, Ne.symm hxy]
+      simp
+    · simp [hxy]
   have K1 : ∀ q (v : Fin 6 → K4) (x : I), b.repr (ρ q v) x = χ x q * b.repr v x := by
     intro q v x
     have h := congrFun (LinearMap.toMatrix_mulVec_repr b b (ρ q) v) x
@@ -147,7 +147,7 @@ theorem card_le_of_fixes_isotropic {Q : Type} [Finite Q] (ρ : Q → Module.End 
       obtain ⟨x', rfl⟩ := hz
       intro x hx
       have hne : x'.1 ≠ x := fun h => hx (h ▸ x'.2)
-      rw [Basis.repr_self, Finsupp.single_apply, if_neg hne]
+      rw [Basis.repr_self, Finsupp.single_apply, ite_eq_right hne]
     | zero => intro x _; simp
     | add y z _ _ hy hz => intro x hx; rw [map_add, Finsupp.add_apply, hy x hx, hz x hx, add_zero]
     | smul c y _ hy => intro x hx; rw [map_smul, Finsupp.smul_apply, hy x hx, smul_zero]

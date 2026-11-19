@@ -55,12 +55,12 @@ public theorem CFSG.theorem_7_6
   have hA0groupRank : 3 ≤ groupRank A0 := hA0'.2.2
   have hA0rank : 3 ≤ generatorRank A0 :=
     scnSubgroup_generatorRank_at_least_three
-      (p := p) hpodd (R := ↥(P : Subgroup G)) P.isPGroup' hA0'
+      (p := p) hpodd (R := ↥(P : Subgroup G)) P.isPGroup hA0'
   have hA0comm : IsMulCommutative A0 := by
-    exact (scnSubgroup_normal_commutative (p := p) (R := ↥(P : Subgroup G)) P.isPGroup' hA0').2
+    exact (scnSubgroup_normal_commutative (p := p) (R := ↥(P : Subgroup G)) P.isPGroup hA0').2
   let eA : A0 ≃* A := Subgroup.subgroupOfEquivOfLe (H := A) (K := (P : Subgroup G)) hAP
   have hAp : IsPGroup p A := by
-    have hA0p : IsPGroup p A0 := P.isPGroup'.to_subgroup A0
+    have hA0p : IsPGroup p A0 := P.isPGroup.to_subgroup A0
     exact hA0p.of_equiv eA
   have hAcomm : IsMulCommutative A := by
     let : IsMulCommutative A0 := hA0comm

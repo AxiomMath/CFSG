@@ -140,7 +140,7 @@ theorem ys03_I19_lift_E81 {Y : Type} [Group Y] [Finite Y] {Z N : Subgroup Y}
     Subgroup.card_map_of_injective Ω.subtype_injective
   by_cases hKH : K ≤ Z ⊔ Subgroup.zpowers x
   · exact absurd ((hχker.trans hKcard.symm.le).trans (Subgroup.card_le_of_le hKH)) h27
-  obtain ⟨y, hyK, hyH⟩ := SetLike.not_le_iff_exists.mp hKH
+  obtain ⟨y, hyK, hyH⟩ := IsConcreteLE.not_le_iff_exists.mp hKH
   obtain ⟨s, hs, rfl⟩ := hyK
   have hsx : ((s : Y)) * x = x * s := (Sec14.Res9ON.mem_ker_commHom hZc hcx s).mp hs
   obtain ⟨hsN, hs3⟩ := hΩmem s s.2

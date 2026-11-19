@@ -14,6 +14,7 @@ open scoped commutatorElement
 variable {K : Type} [Group K] [Finite K]
 variable {f : ℕ} {F : Subgroup K}
 
+omit [Finite K] in
 theorem fdata_conj_mem_centralizer {w : K} (hw : w ∈ normalizer (F : Set K)) :
     ∀ h ∈ centralizer (F : Set K), w * h * w⁻¹ ∈ centralizer (F : Set K) := by
   intro h hh
@@ -28,6 +29,7 @@ theorem fdata_conj_mem_centralizer {w : K} (hw : w ∈ normalizer (F : Set K)) :
     _ = w * (h * (w⁻¹ * g * w)) * w⁻¹ := by rw [hcomm']
     _ = w * h * w⁻¹ * g := by group
 
+omit [Finite K] in
 theorem fdata_normalizes_inf {S : Subgroup K} {z : K} (hzS : z ∈ normalizer (S : Set K))
     (hzF : z ∈ normalizer (F : Set K)) :
     z ∈ normalizer ((S ⊓ centralizer (F : Set K) : Subgroup K) : Set K) := by
@@ -40,9 +42,10 @@ theorem fdata_normalizes_inf {S : Subgroup K} {z : K} (hzS : z ∈ normalizer (S
     · intro hh
       have := fdata_conj_mem_centralizer (inv_mem hzF) _ hh
       rwa [show z⁻¹ * (z * h * z⁻¹) * z⁻¹⁻¹ = h by group] at this
-  simp only [SetLike.mem_coe, Subgroup.mem_inf]
+  simp only [Subgroup.mem_inf]
   exact and_congr hS hC
 
+omit [Finite K] in
 theorem FData.inv_of_centralizer_eq_bot (hF : FData f F) {e : K}
     (he : e ∈ normalizer (F : Set K)) (he2 : e ^ 2 = 1)
     (hC : F ⊓ centralizer ({e} : Set K) = ⊥) : ∀ a ∈ F, e * a * e⁻¹ = a⁻¹ := by
@@ -62,8 +65,9 @@ theorem FData.inv_of_centralizer_eq_bot (hF : FData f F) {e : K}
   rw [hC, Subgroup.mem_bot] at hmem
   exact (inv_eq_of_mul_eq_one_right hmem).symm
 
+omit [Finite K] in
 theorem FData.false_of_klein (hF : FData f F) {e₁ e₂ : K} (h₁ : e₁ ∈ normalizer (F : Set K))
-    (h₂ : e₂ ∈ normalizer (F : Set K)) (h1sq : e₁ ^ 2 = 1) (h2sq : e₂ ^ 2 = 1) (hne : e₁ ≠ e₂)
+    (h₂ : e₂ ∈ normalizer (F : Set K)) (h1sq : e₁ ^ 2 = 1) (h2sq : e₂ ^ 2 = 1) (_hne : e₁ ≠ e₂)
     (hcomm : e₁ * e₂ = e₂ * e₁) (hC₁ : F ⊓ centralizer ({e₁} : Set K) = ⊥)
     (hC₂ : F ⊓ centralizer ({e₂} : Set K) = ⊥)
     (hC₁₂ : F ⊓ centralizer ({e₁ * e₂} : Set K) = ⊥) : False := by
@@ -96,6 +100,7 @@ theorem FData.false_of_klein (hF : FData f F) {e₁ e₂ : K} (h₁ : e₁ ∈ n
   rw [Nat.Coprime.gcd_eq_one hcop, pow_one] at hg
   exact ha1 hg
 
+omit [Finite K] in
 theorem faithful {S : Subgroup K} {z : K} (hF : F ≠ ⊥) (hzF : zpowers z ≤ normalizer (F : Set K))
     (hzS : zpowers z ≤ normalizer (S : Set K))
     (hb : ∀ S₀ : Subgroup K, S₀ ≤ S → S₀ ≠ ⊥ → zpowers z ≤ normalizer (S₀ : Set K) →
@@ -124,7 +129,7 @@ theorem faithful {S : Subgroup K} {z : K} (hF : F ≠ ⊥) (hzF : zpowers z ≤ 
 
 theorem card_le_of_pRank_le {E : Subgroup K} (hf : f.Prime) (hE : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a)
     (hE' : ∀ a ∈ E, a ^ f = 1) {r : ℕ} (h : CFSG.Open.pRank f E ≤ r) : Nat.card E ≤ f ^ r := by
-  haveI : Fact f.Prime := ⟨hf⟩
+  have : Fact f.Prime := ⟨hf⟩
   have hP : IsPGroup f E := by
     intro g
     exact ⟨1, Subtype.ext (by
@@ -147,6 +152,7 @@ variable {K : Type} [Group K] [Finite K]
 
 variable {f : ℕ} {F : Subgroup K}
 
+omit [Finite K] in
 theorem swap_conj_mem {x : K} (hx : x ∈ normalizer (F : Set K)) {a : K} (ha : a ∈ F) :
     x * a * x⁻¹ ∈ F :=
   (Subgroup.mem_normalizer_iff.mp hx a).mp ha
@@ -156,19 +162,22 @@ theorem swap_half (hf : f.Prime) (hf2 : f ≠ 2) : ∃ m : ℕ, 2 * m = f + 1 :=
   · exact absurd h hf2
   · exact ⟨(f + 1) / 2, by omega⟩
 
+omit [Finite K] in
 theorem swap_mem_H {g x : K} (hxF : x ∈ F) (hx : g * x * g⁻¹ = x) :
     x ∈ F ⊓ centralizer ({g} : Set K) :=
   Subgroup.mem_inf.mpr
     ⟨hxF, Subgroup.mem_centralizer_singleton_iff.mpr (mul_inv_eq_iff_eq_mul.mp hx).symm⟩
 
+omit [Finite K] in
 theorem swap_commute_of_mem {g x : K} (hx : x ∈ F ⊓ centralizer ({g} : Set K)) :
     Commute x g :=
   Subgroup.mem_centralizer_singleton_iff.mp (Subgroup.mem_inf.mp hx).2
 
+omit [Finite K] in
 theorem FData.card_eq_sq_of_swap (hF : FData f F) {g h t' : K}
     (hg : g ∈ normalizer (F : Set K)) (hh : h ∈ normalizer (F : Set K))
-    (ht' : t' ∈ normalizer (F : Set K)) (hg2 : g ^ 2 = 1)
-    (ht'inv : ∀ a ∈ F, t' * a * t'⁻¹ = a⁻¹) (hcomm : t' * g = g * t')
+    (_ht' : t' ∈ normalizer (F : Set K)) (hg2 : g ^ 2 = 1)
+    (ht'inv : ∀ a ∈ F, t' * a * t'⁻¹ = a⁻¹) (_hcomm : t' * g = g * t')
     (hswap : h * g * h⁻¹ = t' * g) :
     Nat.card F = Nat.card ↥(F ⊓ centralizer ({g} : Set K)) ^ 2 ∧
       ∀ a ∈ F, ∃ b ∈ F ⊓ centralizer ({g} : Set K), ∃ b' ∈ F ⊓ centralizer ({g} : Set K),
@@ -303,13 +312,13 @@ theorem scalarCyc_pow_eq_of_modEq {G : Type*} [Monoid G] {a : G} {q m n : ℕ} (
   rw [key m, key n, h']
 
 theorem FData.isCyclic_of_scalar (hF : FData f F) {C : Subgroup K}
-    (hCF : C ≤ normalizer (F : Set K))
+    (_hCF : C ≤ normalizer (F : Set K))
     (hfaith : ∀ c ∈ C, (∀ a ∈ F, c * a = a * c) → c = 1)
     (hscalar : ∀ c ∈ C, ∃ n : ℕ, ∀ a ∈ F, c * a * c⁻¹ = a ^ n) : IsCyclic C := by
-  haveI : Fact f.Prime := ⟨hF.prime⟩
+  have : Fact f.Prime := ⟨hF.prime⟩
   obtain ⟨a₀, ha₀F, ha₀⟩ : ∃ a₀ ∈ F, a₀ ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hF.ne
     rw [Subgroup.eq_bot_iff_forall]
     exact hcon

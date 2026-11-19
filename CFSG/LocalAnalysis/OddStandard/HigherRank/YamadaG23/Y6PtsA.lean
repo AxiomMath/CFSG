@@ -134,12 +134,12 @@ theorem y6_mem_Um_iff (h : Y6Cfg A C0 V a₁ b₁ a₂ b₂ z t u) :
       rw [hx3] at h1
       exact h.z_ne h1
 
-theorem y6_Um_V (h : Y6Cfg A C0 V a₁ b₁ a₂ b₂ z t u) :
+theorem y6_Um_V (_h : Y6Cfg A C0 V a₁ b₁ a₂ b₂ z t u) :
     ∀ x ∈ y6Um A V z t, ∀ v ∈ V, x * v ∈ y6Um A V z t := by
   rintro x ⟨a, ha, haz, v₀, hv₀, rfl⟩ v hv
   exact ⟨a, ha, haz, v₀ * v, mul_mem hv₀ hv, by group⟩
 
-theorem y6_Up_V (h : Y6Cfg A C0 V a₁ b₁ a₂ b₂ z t u) :
+theorem y6_Up_V (_h : Y6Cfg A C0 V a₁ b₁ a₂ b₂ z t u) :
     ∀ x ∈ y6Up A V t, ∀ v ∈ V, x * v ∈ y6Up A V t := by
   rintro x ⟨a, ha, ha1, v₀, hv₀, rfl⟩ v hv
   exact ⟨a, ha, ha1, v₀ * v, mul_mem hv₀ hv, by group⟩

@@ -41,7 +41,7 @@ theorem l17_card_tlam (hc : Ctx13 t L S x₁ x₂ lam rho tau om) :
     intro hmem
     obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.mp hmem
     have hord : orderOf t = 2 := by
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       exact orderOf_eq_prime ht2 ht1
     have hmod : t ^ (k % 2) = lam := by
       have h := zpow_mod_orderOf t k

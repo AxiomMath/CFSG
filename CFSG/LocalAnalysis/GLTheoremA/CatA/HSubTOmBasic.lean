@@ -128,7 +128,7 @@ section ImplicitT
 
 variable {t : StatedSp 4 (ZMod 2)}
 
-theorem movV_le_range (ht3 : t ^ 3 = 1) : movV t ≤ LinearMap.range (spEnd t - 1) := by
+theorem movV_le_range (_ht3 : t ^ 3 = 1) : movV t ≤ LinearMap.range (spEnd t - 1) := by
   intro v hv
   refine LinearMap.mem_range.mpr ⟨spEnd t v, ?_⟩
   have hq : (aeval (spEnd t) (X ^ 2 + X + 1 : (ZMod 2)[X])) v = 0 := by
@@ -151,7 +151,7 @@ theorem even_finrank_of_le_movV {t : StatedSp 4 (ZMod 2)}
     {W : Submodule (ZMod 2) (Fin 4 ⊕ Fin 4 → ZMod 2)} (hW : W ≤ movV t)
     (hinv : ∀ w ∈ W, spEnd t w ∈ W) : Even (Module.finrank (ZMod 2) W) := by
   classical
-  haveI : Fact (Irreducible q2) := ⟨q2_irreducible⟩
+  have : Fact (Irreducible q2) := ⟨q2_irreducible⟩
   let T : Module.End (ZMod 2) ↥W := (spEnd t).restrict hinv
   have hTq : aeval T q2 = 0 := by
     apply LinearMap.ext
@@ -165,18 +165,18 @@ theorem even_finrank_of_le_movV {t : StatedSp 4 (ZMod 2)}
     Ideal.Quotient.lift (Ideal.span {q2}) (aeval T).toRingHom (fun a ha => by
       obtain ⟨b, rfl⟩ := Ideal.mem_span_singleton'.mp ha
       simp [hTq])
-  letI : Module (AdjoinRoot q2) ↥W := Module.compHom ↥W ψ
+  let : Module (AdjoinRoot q2) ↥W := Module.compHom ↥W ψ
   have hψ : ∀ c : ZMod 2, ψ (algebraMap (ZMod 2) (AdjoinRoot q2) c) = algebraMap _ _ c := by
     intro c
     change (aeval T) (C c) = _
     rw [aeval_C]
-  haveI : IsScalarTower (ZMod 2) (AdjoinRoot q2) ↥W := by
+  have : IsScalarTower (ZMod 2) (AdjoinRoot q2) ↥W := by
     constructor
     intro c k m
     change ψ (c • k) m = c • ψ k m
     rw [Algebra.smul_def, map_mul, hψ]
     rfl
-  haveI : Module.Finite (AdjoinRoot q2) ↥W :=
+  have : Module.Finite (AdjoinRoot q2) ↥W :=
     Module.Finite.of_restrictScalars_finite (ZMod 2) _ _
   have hpb : Module.finrank (ZMod 2) (AdjoinRoot q2) = 2 := by
     rw [(AdjoinRoot.powerBasis q2_irreducible.ne_zero).finrank, AdjoinRoot.powerBasis_dim,

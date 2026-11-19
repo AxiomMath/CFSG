@@ -11,9 +11,9 @@ open Matrix CFSG.Assembly.LowTwoRank
 theorem kSchurSL3_holds : KSchurSL3 := by
   intro X _ _ n hperf Z _ hZc hshape hn
   obtain ⟨K, hKfield, hKfinite, hKcard, ⟨eZ⟩⟩ := hshape
-  letI := hKfield
-  letI := hKfinite
-  haveI : Group.IsPerfect X := ⟨hperf⟩
+  let := hKfield
+  let := hKfinite
+  have : Group.IsPerfect X := ⟨hperf⟩
   let e : X ⧸ Z ≃* SpecialLinearGroup (Fin 3) K :=
     eZ.trans (specialLinearGroupEquivStatedSL 3 K).symm
   let π : X →* SpecialLinearGroup (Fin 3) K :=
@@ -21,7 +21,7 @@ theorem kSchurSL3_holds : KSchurSL3 := by
   have hπ : Function.Surjective π := e.surjective.comp (QuotientGroup.mk'_surjective Z)
   have hker : π.ker = Z := by
     ext x
-    simp [π, MonoidHom.mem_ker, QuotientGroup.eq_one_iff, MulEquiv.map_eq_one_iff]
+    simp [π]
   have hcen : π.ker ≤ Subgroup.center X := by
     rw [hker]
     exact hZc

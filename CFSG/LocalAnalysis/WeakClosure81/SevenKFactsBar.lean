@@ -15,10 +15,12 @@ open CFSG.LocalAnalysis.WeakClosure81.SevenK
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isElemAbelian_barSub {K A : Subgroup G} (hA : IsElemAbelian 2 A) {X : Type} [Group X]
     (φ : ↥K →* X) : IsElemAbelian 2 (barSub K φ A) := by
   exact CFSG.Open.IsElemAbelian.map (CFSG.Open.IsElemAbelian.comap hA K.subtype_injective) φ
 
+omit [Finite G] in
 theorem barSub_conjSubgroup {K : Subgroup G} {X : Type} [Group X] (φ : ↥K →* X)
     (A : Subgroup G) (k : ↥K) :
     barSub K φ (conjSubgroup A (k : G)) = conjSubgroup (barSub K φ A) (φ k) := by
@@ -41,13 +43,15 @@ theorem barSub_conjSubgroup {K : Subgroup G} {X : Type} [Group X] (φ : ↥K →
     · rw [map_mul, map_mul, map_inv, haφ]
       group
 
+omit [Finite G] in
 theorem barSub_sup {K A B : Subgroup G} (hA : A ≤ K) (hB : B ≤ K) {X : Type} [Group X]
     (φ : ↥K →* X) : barSub K φ (A ⊔ B) = barSub K φ A ⊔ barSub K φ B := by
   change ((A ⊔ B).subgroupOf K).map φ =
     (A.subgroupOf K).map φ ⊔ (B.subgroupOf K).map φ
   rw [Subgroup.subgroupOf_sup hA hB, Subgroup.map_sup]
 
-theorem card_barSub_eq_relIndex_of_isBarMap {K N A : Subgroup G} (hA : A ≤ K) (hN : N ≤ K)
+omit [Finite G] in
+theorem card_barSub_eq_relIndex_of_isBarMap {K N A : Subgroup G} (hA : A ≤ K) (_hN : N ≤ K)
     {X : Type} [Group X] {φ : ↥K →* X} (hφ : IsBarMap K N φ) :
     Nat.card (barSub K φ A) = N.relIndex A := by
   have hker : φ.ker = N.subgroupOf K := by
@@ -60,7 +64,7 @@ theorem card_barSub_eq_relIndex_of_isBarMap {K N A : Subgroup G} (hA : A ≤ K) 
 
 theorem pCore_eq_bot_of_isBarMap {K : Subgroup G} {X : Type} [Group X] {φ : ↥K →* X}
     (hφ : IsBarMap K (pCoreOf 2 K) φ) : CFSG.pCore 2 X = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
+  have : Fact (Nat.Prime 2) := Nat.fact_prime_two
   let J : Subgroup G := pCoreOf 2 K
   let P : Subgroup X := CFSG.pCore 2 X
   let Q : Subgroup ↥K := P.comap φ
@@ -88,6 +92,7 @@ theorem pCore_eq_bot_of_isBarMap {K : Subgroup G} {X : Type} [Group X] {φ : ↥
   have h1 : φ k = 1 := (hφ.ker_iff k).mpr hkcore
   rw [← hk, h1]
 
+omit [Finite G] in
 theorem barSub_eq_top_iff {K N A : Subgroup G} (hA : A ≤ K) (hN : N ≤ K) {X : Type} [Group X]
     {φ : ↥K →* X} (hφ : IsBarMap K N φ) : barSub K φ A = ⊤ ↔ K = N ⊔ A := by
   constructor

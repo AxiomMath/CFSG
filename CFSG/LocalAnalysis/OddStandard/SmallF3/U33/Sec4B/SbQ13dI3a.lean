@@ -11,10 +11,11 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau om : G}
 
+omit [Finite G] in
 private lemma isMulCommutative_map_of_injective {E : Subgroup G}
-    (hE : IsMulCommutative ↥E) (f : G →* G) (hf : Function.Injective f) :
+    (hE : IsMulCommutative ↥E) (f : G →* G) (_hf : Function.Injective f) :
     IsMulCommutative ↥(E.map f) := by
-  haveI : IsMulCommutative ↥E := hE
+  have : IsMulCommutative ↥E := hE
   refine IsMulCommutative.of_comm fun x y => Subtype.ext ?_
   obtain ⟨a, ha, hxa⟩ := Subgroup.mem_map.mp x.2
   obtain ⟨b, hb, hxb⟩ := Subgroup.mem_map.mp y.2
@@ -23,6 +24,7 @@ private lemma isMulCommutative_map_of_injective {E : Subgroup G}
   exact congrArg f (congrArg (Subtype.val : ↥E → G)
     (mul_comm' (⟨a, ha⟩ : ↥E) (⟨b, hb⟩ : ↥E)))
 
+omit [Finite G] in
 private lemma isElemAbelian_map_of_injective {p : ℕ} {E : Subgroup G}
     (hE : CFSG.Open.IsElemAbelian p E) (f : G →* G) (hf : Function.Injective f) :
     CFSG.Open.IsElemAbelian p (E.map f) := by

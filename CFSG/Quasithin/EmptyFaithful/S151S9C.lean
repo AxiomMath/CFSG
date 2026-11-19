@@ -104,7 +104,7 @@ theorem center_eq_bot_of_simpleTypeCD
     (h : SimpleTypeCD15120 Q) : Subgroup.center Q = ⊥ := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P⟩ : Nonempty (Sylow 2 Q) := inferInstance
-  have hP2 : IsPGroup 2 ↥(P : Subgroup Q) := P.isPGroup'
+  have hP2 : IsPGroup 2 ↥(P : Subgroup Q) := P.isPGroup
   have hPi : ¬ 2 ∣ (P : Subgroup Q).index := P.not_dvd_index
   have six : SporadicSix Q → Subgroup.center Q = ⊥ := fun h6 =>
     (hZ Q (P : Subgroup Q) hP2 hPi (Or.inr h6)).1

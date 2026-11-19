@@ -71,7 +71,7 @@ theorem y7c_M3_elem (c : Ctx7 G L) (hH : F33Hyp c.s c.e) (h57 : c.toCtx5.Fact57)
     have hdV : c.d ∈ V1 c.e := by
       rw [c.hV]
       exact Subgroup.subset_closure (by simp)
-    haveI : IsCyclic ↥(V1 c.e) := by
+    have : IsCyclic ↥(V1 c.e) := by
       rw [hV1]
       exact inferInstance
     have hzV2 : (⟨c.s.fr.z, hzV⟩ : ↥(V1 c.e)) ^ 2 = 1 := Subtype.ext (by simpa using hz2)
@@ -143,7 +143,7 @@ theorem y7c_V1_comm_P (c : Ctx7 G L) (h5 : c.toCtx5.Facts5) (h75 : c.Fact75) :
     · exact hE.1
     · exact hMC
   have hcommV1 : ∀ a ∈ V1 c.e, ∀ b ∈ V1 c.e, a * b = b * a := by
-    haveI : IsMulCommutative ↥(M3 c.s) := hcommM3
+    have : IsMulCommutative ↥(M3 c.s) := hcommM3
     intro a ha b hb
     exact setLike_mul_comm (s := M3 c.s) (hV1M3 ha) (hV1M3 hb)
   have hV1M4 : V1 c.e ≤ M4 c.e := by

@@ -91,7 +91,7 @@ theorem E8ZPkg.oddCoreIn_centralizer_eq_bot (P : E8ZPkg z e E B T A X)
   have hA2 : CFSG.Open.IsElemAbelian 2 (D₀.map B.subtype) :=
     ⟨hAab, fun x hx => by rw [pow_two]; exact hsqA x hx⟩
   have hrank : 2 ^ 2 ≤ Nat.card (D₀.map B.subtype) := by
-    rw [hcardA] <;> norm_num
+    rw [hcardA]; norm_num
   have hABe : D₀.map B.subtype ≤ Subgroup.centralizer ({e} : Set G) := by
     intro a ha
     obtain ⟨d, -, rfl⟩ := Subgroup.mem_map.1 ha

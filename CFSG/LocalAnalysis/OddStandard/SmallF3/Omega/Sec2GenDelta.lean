@@ -33,6 +33,7 @@ theorem invType_eq_two_minus {U : Type} [AddCommGroup U] [Module (ZMod 3) U]
   rw [hsgn, h2]
   decide
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem blockInr_apply_fixSp {s : OGroup Q} (hs : s * s = 1)
     (b : OGroup (Q.restrict (commSp s))) {w : V} (hw : w ∈ fixSp s) :
     ((blockInr hs b : OGroup Q) : V ≃ₗ[ZMod 3] V) w = w := by
@@ -42,6 +43,7 @@ theorem blockInr_apply_fixSp {s : OGroup Q} (hs : s * s = 1)
   rw [happ]
   simp
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem blockInr_apply_commSp {s : OGroup Q} (hs : s * s = 1)
     (b : OGroup (Q.restrict (commSp s))) (x : commSp s) :
     ((blockInr hs b : OGroup Q) : V ≃ₗ[ZMod 3] V) (x : V) =

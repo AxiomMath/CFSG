@@ -154,13 +154,13 @@ theorem isPGroup_unitriangular3 : IsPGroup 2 ↥(unitriangular 3 (ZMod 2)) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hP⟩ := exists_sylow_unitriangular (K := ZMod 2) 2 (n := 3) (by norm_num)
   rw [← hP]
-  exact P.isPGroup'
+  exact P.isPGroup
 
 theorem isPGroup_unitriangular5 : IsPGroup 2 ↥(unitriangular 5 (ZMod 2)) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hP⟩ := exists_sylow_unitriangular (K := ZMod 2) 2 (n := 5) (by norm_num)
   rw [← hP]
-  exact P.isPGroup'
+  exact P.isPGroup
 
 theorem mem_kq_of_odd {g : SL5} (hg : g ∈ q234) (ho : Odd (orderOf g)) : g ∈ kq := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩

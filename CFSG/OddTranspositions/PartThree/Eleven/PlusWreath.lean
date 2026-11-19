@@ -39,7 +39,7 @@ private theorem card_psl2Model_two : Nat.card (CFSG.Theory.Comparator.PSL2Model 
 
 private theorem nonempty_psl2Model_two_equiv_alt5 :
     Nonempty (CFSG.Theory.Comparator.PSL2Model 2 ≃* alternatingGroup (Fin 5)) := by
-  haveI : IsSimpleGroup (CFSG.Theory.Comparator.PSL2Model 2) :=
+  have : IsSimpleGroup (CFSG.Theory.Comparator.PSL2Model 2) :=
     Matrix.ProjectiveSpecialLinearGroup.rank_two_simple (F := GaloisField 2 2) (by
       rw [GaloisField.card 2 2 (by norm_num)]
       norm_num)
@@ -101,8 +101,8 @@ theorem exists_l2WreathTwoTwo_mulEquiv_plusPerm_of
   let r : plusPerm := ⟨plusRefl 0, plusRefl_mem 0⟩
   have hrclass : r ∈ plusClass := ⟨0, rfl⟩
   have hcardA : Nat.card A = 60 := hAB.cardA
-  haveI : Finite A := (Nat.card_pos_iff.mp (by rw [hcardA]; norm_num)).2
-  haveI : IsSimpleGroup A := hAB.simpleA
+  have : Finite A := (Nat.card_pos_iff.mp (by rw [hcardA]; norm_num)).2
+  have : IsSimpleGroup A := hAB.simpleA
   obtain ⟨eA⟩ :=
     CFSG.QuasithinUnique.nonempty_mulEquiv_alternatingGroup_five_of_card_sixty hcardA
   obtain ⟨eP⟩ := nonempty_psl2Model_two_equiv_alt5

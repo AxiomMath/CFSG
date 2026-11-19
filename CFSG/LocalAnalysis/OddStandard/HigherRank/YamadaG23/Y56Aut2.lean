@@ -116,7 +116,7 @@ theorem y56_N_eq {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) :
     intro f hf
     have hαf : ((((s.fr.E).normalizerMonoidHom ⟨n, hnN⟩) ⟨f, hf⟩ : ↥s.fr.E) : G) =
         n * f * n⁻¹ := by
-      simpa using Subgroup.normalizerMonoidHom_apply_apply_coe (H := s.fr.E) ⟨n, hnN⟩ ⟨f, hf⟩
+      simp
     have hconj : (n₁⁻¹ * n) * f * (n₁⁻¹ * n)⁻¹ = f := by
       have h := hsurj ⟨f, hf⟩
       rw [hαf] at h
@@ -165,7 +165,7 @@ theorem y56_comm_E {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) :
       rw [htop]
       exact (Nat.card_congr (Subgroup.topEquiv).toEquiv).trans hEcard
     omega
-  obtain ⟨x, hx⟩ := SetLike.exists_not_mem_of_ne_top ((cen s.fr.B).subgroupOf s.fr.E) hproper
+  obtain ⟨x, hx⟩ := SetLike.exists_notMem_of_ne_top ((cen s.fr.B).subgroupOf s.fr.E) hproper
   have he'E : (x : G) ∈ s.fr.E := x.2
   have he'V : (x : G) ∉ cen s.fr.B := fun hxV => hx (Subgroup.mem_subgroupOf.mpr hxV)
   have he'1 : (x : G) ≠ 1 := fun h => he'V (by rw [h]; exact Subgroup.one_mem _)

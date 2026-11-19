@@ -26,7 +26,8 @@ theorem sec25Concl_of_bar {M V Q P H : Subgroup G} [Finite G] (hc : MinCex M V Q
 
 variable {M V Q P H : Subgroup G} [Finite G]
 
-theorem rootClassZ_eq_of_card_two (hc : MinCex M V Q P H) (hd : Sec23Data V H)
+omit [Finite G] in
+theorem rootClassZ_eq_of_card_two (_hc : MinCex M V Q P H) (hd : Sec23Data V H)
     (hq : qBar V H = 2) :
     {A : Subgroup (XbarZ V H) | ∃ d ∈ Dy V H,
       A = Subgroup.zpowers (QuotientGroup.mk' (Subgroup.center (Xbar V H)) d)} =
@@ -35,7 +36,7 @@ theorem rootClassZ_eq_of_card_two (hc : MinCex M V Q P H) (hd : Sec23Data V H)
   have h2 : Nat.card (barOf V H V) = 2 := hq
   obtain ⟨v, hv1, huniq⟩ := (Nat.card_eq_two_iff' (1 : barOf V H V)).1 h2
   set d₀ : Xbar V H := ⟨v.1, barOf_V_le V H v.2⟩ with hd₀
-  have hd₀D : d₀ ∈ Dy V H := hc.barOf_V_subset_dbarOf v.2 (fun h => hv1 (Subtype.ext h))
+  have hd₀D : d₀ ∈ Dy V H := CFSG.RankThree.GF2n.Tim79a.MinCex.barOf_V_subset_dbarOf v.2 (fun h => hv1 (Subtype.ext h))
   have hDy : Dy V H = {g | IsConj d₀ g} := by
     obtain ⟨d₁, hd₁⟩ := hd.isClass
     have h1 : IsConj d₁ d₀ := by
@@ -92,7 +93,7 @@ theorem sec23_three_or_four_of_noSquare (hc : MinCex M V Q P H) (hd : Sec23Data 
     rw [hd₁]
     exact IsConj.refl d₁
   have hd2 : orderOf d₁ = 2 := hd.root.1 d₁ hdD
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsq : d₁ ^ 2 = 1 := by
     have := pow_orderOf_eq_one d₁
     rwa [hd2] at this
@@ -114,7 +115,7 @@ end MinCex
 theorem tim79aIdentBenderStatement_of_parts (h1 : Tim79aIdentL2SzStatement)
     (h2 : Tim79aIdentU3Statement) : Tim79aIdentBenderStatement := by
   intro G _ _ M V Q P H hs hms hdisc
-  rcases hs.mc.toMinCex.tilde_isBender hs.data hs.degenerate hms hdisc with
+  rcases CFSG.RankThree.GF2n.Tim79a.MinCex.tilde_isBender hs.data hs.degenerate hms hdisc with
     ⟨n, hn, e⟩ | ⟨n, hn, e⟩ | ⟨n, hn, e⟩
   · exact h1 G M V Q P H hs hms hdisc (Or.inl ⟨n, hn, ⟨e⟩⟩)
   · exact h1 G M V Q P H hs hms hdisc (Or.inr ⟨n, hn, ⟨e⟩⟩)

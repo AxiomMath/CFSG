@@ -30,9 +30,9 @@ theorem not_isSolvable_of_isComponentModN {Q : Type} [Group Q] {H L : Subgroup Q
   intro hs
   have hsX : Group.IsSolvable X := Group.isSolvable_of_surjective hφ
   obtain ⟨hperf, hsimp, -⟩ := hX
-  haveI := hperf
-  haveI := hsimp
-  haveI : Nontrivial X := (QuotientGroup.mk'_surjective (Subgroup.center X)).nontrivial
+  have := hperf
+  have := hsimp
+  have : Nontrivial X := (QuotientGroup.mk'_surjective (Subgroup.center X)).nontrivial
   exact Group.IsPerfect.not_isSolvable X hsX
 
 theorem sup_eq_of_mem_cComp_of_isComponentModN {Q : Type} [Group Q] [Finite Q]
@@ -60,7 +60,7 @@ theorem sup_eq_of_mem_cComp_of_isComponentModN {Q : Type} [Group Q] [Finite Q]
     rw [← Subgroup.map_commutator, hC'perf]
   have hRsub : R.IsSubnormal := Subgroup.IsSubnormal.map hφ hC'sub
   have hRopen : CFSG.Open.IsSubnormal R ⊤ := CFSG.Open.IsSubnormal.of_mathlib hRsub
-  haveI : Group.IsPerfect ↥R := Subgroup.isPerfect_iff.mpr hRperf
+  have : Group.IsPerfect ↥R := Subgroup.isPerfect_iff.mpr hRperf
   rcases CFSG.ComponentClassification.Quasisimple.perfect_subnormal_eq_bot_or_eq_top
     hXopen R hRopen with hR | hR
   · exfalso
@@ -70,7 +70,7 @@ theorem sup_eq_of_mem_cComp_of_isComponentModN {Q : Type} [Group Q] [Finite Q]
       have h1 : φ ⟨c, hCL hc⟩ ∈ R := Subgroup.mem_map_of_mem φ hx
       rw [hR, Subgroup.mem_bot] at h1
       exact (hker _).mp h1
-    haveI := hNsolv
+    have := hNsolv
     have hCs : Group.IsSolvable ↥C :=
       Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hCN)
         (Subgroup.inclusion_injective hCN)

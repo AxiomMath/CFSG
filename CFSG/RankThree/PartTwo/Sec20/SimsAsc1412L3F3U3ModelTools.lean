@@ -19,12 +19,12 @@ variable {p : ℕ} [Fact p.Prime] (hK : Nat.card K = p ^ 2)
 
 include hK in
 theorem charP_of_card_sq : CharP K p := by
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   exact charP_of_card_eq_prime_pow (f := 2) (by rw [← Nat.card_eq_fintype_card, hK])
 
 include hK in
 theorem two_ne_zero_of_card_sq (hp2 : p ≠ 2) : (2 : K) ≠ 0 := by
-  haveI := charP_of_card_sq hK
+  have := charP_of_card_sq hK
   intro h
   have h' : ((2 : ℕ) : K) = 0 := by exact_mod_cast h
   rw [CharP.cast_eq_zero_iff K p] at h'
@@ -70,6 +70,7 @@ theorem factorization_card_psu :
     fun h => h4 ((hp.pow_dvd_iff_le_factorization hn0).mpr h)
   omega
 
+omit [Finite K] in
 theorem coord_zpow_fst (z : Coord J) (s : ℤ) :
     ((z ^ s : Coord J) : K × K).1 = (s : K) * z.1.1 := by
   let π : Coord J →* Multiplicative K :=
@@ -83,6 +84,7 @@ theorem coord_zpow_fst (z : Coord J) (s : ℤ) :
   rw [h', zsmul_eq_mul]
 
 include hK hfix in
+omit [Fact (Nat.Prime p)] in
 theorem exists_norm_one_pow_six_ne_one (hp7 : 7 ≤ p) :
     ∃ k : Kˣ, (k : K) * J.conj (k : K) = 1 ∧ (k : K) ^ 6 ≠ 1 := by
   let : IsCyclic Kˣ := inferInstance
@@ -123,6 +125,7 @@ variable {J} {q : ℕ}
 @[expose] noncomputable def mat (D : IotaData J q) (X : SL(2, ZMod q)) : Matrix (Fin 3) (Fin 3) K :=
   !![D.e (X.1 0 0), 0, D.e (X.1 0 1) * D.ζ⁻¹; 0, 1, 0; D.e (X.1 1 0) * D.ζ, 0, D.e (X.1 1 1)]
 
+omit [Finite K] in
 theorem mat_mul (D : IotaData J q) (X Y : SL(2, ZMod q)) :
     D.mat (X * Y) = (D.mat X : Matrix (Fin 3) (Fin 3) K) * D.mat Y := by
   have h := D.ζ_ne
@@ -131,10 +134,12 @@ theorem mat_mul (D : IotaData J q) (X Y : SL(2, ZMod q)) :
     simp [mat, Matrix.mul_apply, Fin.sum_univ_three, Matrix.SpecialLinearGroup.coe_mul,
       Fin.sum_univ_two] <;> field_simp
 
+omit [Finite K] in
 theorem mat_one (D : IotaData J q) : D.mat 1 = 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [mat]
 
+omit [Finite K] in
 theorem mat_det (D : IotaData J q) (X : SL(2, ZMod q)) : (D.mat X).det = 1 := by
   have h := X.2
   rw [Matrix.det_fin_two] at h
@@ -146,6 +151,7 @@ theorem mat_det (D : IotaData J q) (X : SL(2, ZMod q)) : (D.mat X).det = 1 := by
   field_simp
   linear_combination h'
 
+omit [Finite K] in
 theorem mat_unitary (D : IotaData J q) (hJ : J.form = !![0, 0, 1; 0, 1, 0; 1, 0, 0])
     (X : SL(2, ZMod q)) :
     J.conjTranspose (D.mat X) * J.form * D.mat X = J.form := by
@@ -161,12 +167,12 @@ theorem mat_unitary (D : IotaData J q) (hJ : J.form = !![0, 0, 1; 0, 1, 0; 1, 0,
   all_goals first
     | ring1
     | (field_simp; linear_combination h')
-    | (field_simp; linear_combination D.ζ * h')
 
 @[expose] noncomputable def iotaGL (D : IotaData J q) (X : SL(2, ZMod q)) : GL (Fin 3) K :=
   ⟨D.mat X, D.mat X⁻¹, by rw [← mat_mul, mul_inv_cancel, mat_one],
     by rw [← mat_mul, inv_mul_cancel, mat_one]⟩
 
+omit [Finite K] in
 theorem coe_iotaGL (D : IotaData J q) (X : SL(2, ZMod q)) :
     ((iotaGL D X : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) = D.mat X :=
   rfl
@@ -185,6 +191,7 @@ theorem coe_iotaGL (D : IotaData J q) (X : SL(2, ZMod q)) :
     SL(2, ZMod q) →* ProjectiveSpecialUnitaryMatrixGroup J :=
   (Matrix.ProjGenLinGroup.mk.subgroupMap J.specialSubgroup).comp (iotaSU D hJ)
 
+omit [Finite K] in
 theorem coe_iota (D : IotaData J q) (hJ : J.form = !![0, 0, 1; 0, 1, 0; 1, 0, 0])
     (X : SL(2, ZMod q)) :
     ((iota D hJ X : ProjectiveSpecialUnitaryMatrixGroup J) : Matrix.ProjGenLinGroup (Fin 3) K) =
@@ -246,7 +253,7 @@ theorem mem_of_upper_lower {F : Type*} [Field F] (S : Subgroup SL(2, F))
 
 include hK hfix in
 theorem nonempty_iotaData : Nonempty (IotaData J p) := by
-  haveI := charP_of_card_sq hK
+  have := charP_of_card_sq hK
   let e : ZMod p →+* K := ZMod.castHom (dvd_refl p) K
   have hconj_e : ∀ c, J.conj (e c) = e c := fun c => by
     have h : (J.conj : K ≃+* K).toRingHom.comp e = e := RingHom.ext_zmod _ _
@@ -285,6 +292,7 @@ variable {J}
 @[expose] noncomputable def zLower (D : IotaData J p) (s : ZMod p) : Coord J :=
   ⟨(0, D.e s * D.ζ), by simp [map_mul, D.conj_e, D.conj_ζ]⟩
 
+omit [Finite K] in
 theorem iota_upper (D : IotaData J p) (hJ : J.form = !![0, 0, 1; 0, 1, 0; 1, 0, 0])
     (s : ZMod p) : iota D hJ (upperSL s) = root J hJ (D.zUpper s) := by
   apply Subtype.ext
@@ -295,6 +303,7 @@ theorem iota_upper (D : IotaData J p) (hJ : J.form = !![0, 0, 1; 0, 1, 0; 1, 0, 
   change D.mat (upperSL s) i j = hermitianUnipotentMatrix J (D.zUpper s) i j
   fin_cases i <;> fin_cases j <;> simp [mat, zUpper, hermitianUnipotentMatrix]
 
+omit [Finite K] in
 theorem iota_lower (D : IotaData J p) (hJ : J.form = !![0, 0, 1; 0, 1, 0; 1, 0, 0])
     (s : ZMod p) :
     iota D hJ (lowerSL s) = weyl J hJ * root J hJ (D.zLower s) * weyl J hJ := by
@@ -309,6 +318,7 @@ theorem iota_lower (D : IotaData J p) (hJ : J.form = !![0, 0, 1; 0, 1, 0; 1, 0, 
     simp [mat, zLower, hermitianUnipotentMatrix, hermitianWeylMatrix, Matrix.mul_apply,
       Fin.sum_univ_three]
 
+omit [Finite K] in
 theorem iota_injective (D : IotaData J p) (hJ : J.form = !![0, 0, 1; 0, 1, 0; 1, 0, 0]) :
     Function.Injective (iota D hJ) := by
   rw [injective_iff_map_eq_one]
@@ -355,6 +365,7 @@ theorem exists_coords (D : IotaData J p) (h2 : (2 : K) ≠ 0) (t : K) :
 end IotaData
 
 include hJ hK hfix in
+omit [Fact (Nat.Prime p)] in
 theorem subgroupMap_mk_injective (hp3 : p % 3 = 1) :
     Function.Injective (Matrix.ProjGenLinGroup.mk.subgroupMap J.specialSubgroup) := by
   rw [injective_iff_map_eq_one]
@@ -391,6 +402,7 @@ theorem subgroupMap_mk_injective (hp3 : p % 3 = 1) :
   rfl
 
 include hJ hK hfix in
+omit [Fact p.Prime] in
 theorem exists_lift (hp3 : p % 3 = 1) :
     ∃ L : ProjectiveSpecialUnitaryMatrixGroup J →* GL (Fin 3) K,
       (∀ g, L g ∈ J.specialSubgroup) ∧
@@ -401,6 +413,7 @@ theorem exists_lift (hp3 : p % 3 = 1) :
   refine ⟨J.specialSubgroup.subtype.comp e.symm.toMonoidHom, fun g => (e.symm g).2, fun g => ?_⟩
   exact congrArg Subtype.val (e.apply_symm_apply g)
 
+omit [Finite K] in
 theorem block_form_aux (hJ : J.form = !![0, 0, 1; 0, 1, 0; 1, 0, 0])
     {M N : Matrix (Fin 3) (Fin 3) K} (hMN : M * N = 1)
     (hunit : J.conjTranspose M * J.form * M = J.form) (hN10 : N 1 0 = 0) (hN12 : N 1 2 = 0) :
@@ -416,6 +429,7 @@ theorem block_form_aux (hJ : J.form = !![0, 0, 1; 0, 1, 0; 1, 0, 0])
     hN12] at h10 h12
   exact ⟨h12, h10⟩
 
+omit [Finite K] in
 theorem eq_diag_of_involution {T : Matrix (Fin 3) (Fin 3) K} (h2 : (2 : K) ≠ 0)
     (h01 : T 0 1 = 0) (h10 : T 1 0 = 0) (h12 : T 1 2 = 0) (h21 : T 2 1 = 0) (h11 : T 1 1 = 1)
     (hdet : T.det = 1) (hsq : T * T = 1) (hne : T ≠ 1) :
@@ -428,7 +442,7 @@ theorem eq_diag_of_involution {T : Matrix (Fin 3) (Fin 3) K} (h2 : (2 : K) ≠ 0
   have e02 := congrFun (congrFun hsq 0) 2
   have e20 := congrFun (congrFun hsq 2) 0
   have e22 := congrFun (congrFun hsq 2) 2
-  simp [Matrix.mul_apply, Fin.sum_univ_three, h01, h10, h12, h21, h11] at e00 e02 e20 e22
+  simp [Matrix.mul_apply, Fin.sum_univ_three, h01, h10, h12, h21] at e00 e02 e20 e22
   have hT : ∀ x : K, T 0 0 = x → T 2 2 = x → T 0 2 = 0 → T 2 0 = 0 →
       T = !![x, 0, 0; 0, 1, 0; 0, 0, x] := by
     intro x h00 h22 h02 h20

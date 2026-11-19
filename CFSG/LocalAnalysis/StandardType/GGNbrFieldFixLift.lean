@@ -15,8 +15,8 @@ open scoped commutatorElement
 theorem ggFixDer_perfect {R R₀ : Type} [Group R] [Group R₀] {x : MulAut R}
     (θ₀ : ggFixDer x ≃* R₀) (hs : IsSimpleGroup R₀) (hna : ∃ a b : R₀, a * b ≠ b * a) :
     ⁅ggFixDer x, ggFixDer x⁆ = ggFixDer x := by
-  haveI := hs
-  haveI : IsSimpleGroup (ggFixDer x) := MulEquiv.isSimpleGroup θ₀
+  have := hs
+  have : IsSimpleGroup (ggFixDer x) := MulEquiv.isSimpleGroup θ₀
   have hnc : ¬ ∀ g h : ggFixDer x, g * h = h * g := by
     intro hc
     obtain ⟨a, b, hab⟩ := hna

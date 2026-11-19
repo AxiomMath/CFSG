@@ -16,6 +16,7 @@ namespace CFSG.StandardType.NsQuot
 variable {G : Type} [Group G] [Finite G] {Q : Type} [Group Q]
 variable {p : ℕ} {N : Subgroup G} {f : ↥N →* Q} {L Bs Z : Subgroup G}
 
+omit [Finite G] in
 theorem Datum.exists_chart_of_img (hD : Datum p N f L Bs Z) {J : Subgroup G} (hJL : J ≤ L)
     (hJZ : ∀ j ∈ J, j ∈ Z → j = 1) {H : Type} [Group H] (φ : H →* Q)
     (hφ : Function.Injective φ) (hJ : img N f J = φ.range) :
@@ -61,6 +62,7 @@ variable {G : Type} [Group G] [Finite G] {p : ℕ} {N L Bs Z : Subgroup G}
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {Q : Type} [Group Q]
 variable {f : ↥N →* Q} {ψ : Su K 2 1 6 →* Q}
 
+omit [Finite G] in
 theorem ggQTwoDUnitSix_chart (hK : Nat.card K = 4) (hD : NsQuot.Datum p N f L Bs Z)
     (hψk : ψ.ker ≤ Subgroup.center (Su K 2 1 6)) (T : Finset (Fin 6)) (hT : T.card < 6)
     {J : Subgroup G} (hJL : J ≤ L) (hJZ : ∀ j ∈ J, j ∈ Z → j = 1)
@@ -78,6 +80,7 @@ theorem ggQTwoDUnitSix_chart (hK : Nat.card K = 4) (hD : NsQuot.Datum p N f L Bs
     MonoidHom.range_comp _ _
   exact hD.exists_chart_of_img hJL hJZ _ hinj (hJ.trans hrange.symm)
 
+omit [Finite G] in
 theorem ggQTwoDUnitSix_chart_conj (hK : Nat.card K = 4) (hD : NsQuot.Datum p N f L Bs Z)
     (T : Finset (Fin 6)) {J : Subgroup G} (hJL : J ≤ L) [Group.IsPerfect ↥J]
     (hJZ : ∀ j ∈ J, j ∈ Z → j = 1)
@@ -125,6 +128,7 @@ theorem ggQTwoDUnitSix_chart_conj (hK : Nat.card K = 4) (hD : NsQuot.Datum p N f
   have h1 := hJZ _ (J.mul_mem hy (J.inv_mem hθX')) hZ
   exact mul_inv_eq_one.mp h1
 
+omit [Finite G] in
 theorem ggQTwoDUnitSix_chart_commute (hK : Nat.card K = 4) (hD : NsQuot.Datum p N f L Bs Z)
     (T : Finset (Fin 6)) {J : Subgroup G} (hJL : J ≤ L) [Group.IsPerfect ↥J]
     (hJZ : ∀ j ∈ J, j ∈ Z → j = 1)
@@ -169,6 +173,7 @@ theorem ggQTwoDUnitSix_J_quasisimple (hK : Nat.card K = 4) (T : Finset (Fin 6))
   exact (CFSG.ComponentClassification.AssemblyBPredicates.isQuasisimple_iff_native _).mpr
     (hq.of_mulEquiv e)
 
+omit [Finite G] in
 theorem ggQTwoDUnitSix_J_comp_L (hK : Nat.card K = 4) (hD : NsQuot.Datum p N f L Bs Z)
     (hψr : ψ.range = NsQuot.img N f L) (c : Fin 6) {J : Subgroup G} (hJL : J ≤ L)
     [Group.IsPerfect ↥J] (hJZ : ∀ j ∈ J, j ∈ Z → j = 1)
@@ -234,6 +239,7 @@ theorem ggQTwoDUnitSix_J_comp_L (hK : Nat.card K = 4) (hD : NsQuot.Datum p N f L
   exact ⟨hJA, CFSG.Assembly.IsSubnormal.step hJA hNor (CFSG.Assembly.IsSubnormal.refl _),
     ggQTwoDUnitSix_J_quasisimple hK (Finset.univ.erase c) hcard hθ hθr⟩
 
+omit [Finite G] in
 theorem ggQTwoDUnitSix_J_comp (hK : Nat.card K = 4) (hD : NsQuot.Datum p N f L Bs Z)
     (hψr : ψ.range = NsQuot.img N f L) (c : Fin 6) {J : Subgroup G} (hJL : J ≤ L)
     [Group.IsPerfect ↥J] (hJZ : ∀ j ∈ J, j ∈ Z → j = 1)
@@ -255,6 +261,7 @@ theorem ggQTwoDUnitSix_J_comp (hK : Nat.card K = 4) (hD : NsQuot.Datum p N f L B
 
 variable {B Bs' : Subgroup G} {x : G} {D J' : Subgroup G} {𝒦 : Finset (Subgroup G)}
 
+omit [Finite G] in
 theorem ggQTwoDUnitSix_signLift {βL : Additive ↥Bs ≃+ DVec 6}
     (hjoin : ∀ w ∈ dEven 6, ∃ a ∈ ggAutomizerJoin L Bs 𝒦,
       ∀ s : ↥Bs, βL (Additive.ofMul (a s)) = w (βL (Additive.ofMul s))) {a c : Fin 6}

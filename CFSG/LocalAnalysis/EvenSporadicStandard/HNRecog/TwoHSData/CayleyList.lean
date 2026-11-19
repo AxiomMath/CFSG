@@ -15,7 +15,7 @@ theorem nonempty_mulEquiv_of_cayley_enum {G T : Type*} [Group G] [Group T] (X : 
     (hstep : ∀ (k : Fin n) (i : Fin gS.length),
       ∃ j : Fin n, e j = e k * gS.get i ∧ fv j = fv k * gT.get (Fin.cast hlen i))
     (hinj : Function.Injective fv) (hsurj : Function.Surjective fv) : Nonempty (↥X ≃* T) := by
-  haveI : Nonempty (Fin n) := ⟨k₀⟩
+  have : Nonempty (Fin n) := ⟨k₀⟩
   classical
   let f : G → T := fun g => fv (Function.invFun e g)
   have hef : ∀ k, Function.invFun e (e k) = k := fun k => Function.leftInverse_invFun he k

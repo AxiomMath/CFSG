@@ -16,9 +16,9 @@ theorem card_range_barConj_comp_dvd {Λ : Type} [Group Λ] [Finite Λ] {q : ℕ}
     {T : Subgroup Λ} (hT : IsL2Odd (Bar2 T) q) {Q : Subgroup Λ}
     (hQ : IsPGroup q Q) (hQT : Q ≤ normalizer (T : Set Λ)) :
     Nat.card ((CFSG.CGT.Foote82.barConj T).comp (Subgroup.inclusion hQT)).range ∣ q := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   set φ := (CFSG.CGT.Foote82.barConj T).comp (Subgroup.inclusion hQT)
-  haveI : Finite φ.range := Finite.of_surjective _ φ.rangeRestrict_surjective
+  have : Finite φ.range := Finite.of_surjective _ φ.rangeRestrict_surjective
   obtain ⟨n, hn⟩ := (hQ.of_surjective φ.rangeRestrict φ.rangeRestrict_surjective).exists_card_eq
   have hdvd : Nat.card φ.range ∣ q * (q ^ 2 - 1) := by
     rw [← card_mulAut_of_isL2Odd hq hT]
@@ -37,12 +37,12 @@ theorem le_inf_centralizer_sup_pCoreOf {Λ : Type} [Group Λ] [Finite Λ] {q : �
     (hq2 : q ≠ 2) {T : Subgroup Λ} {u : Λ} (huT : u ∈ normalizer (T : Set Λ))
     (hu : orderOf u = q) (h1 : ∀ t ∈ T, u * t * u⁻¹ * t⁻¹ ∈ pCoreOf 2 T) :
     T ≤ (centralizer ({u} : Set Λ) ⊓ T) ⊔ pCoreOf 2 T := by
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact q.Prime := ⟨hq⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hRT : pCoreOf 2 T ≤ T := CFSG.LieType.BorelTits.pCoreOf_le 2 T
   have hRN : pCoreOf 2 T ≤ normalizer (T : Set Λ) := hRT.trans Subgroup.le_normalizer
   set N := (pCoreOf 2 T).subgroupOf (normalizer (T : Set Λ)) with hN_def
-  haveI : N.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hRN).2
+  have : N.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hRN).2
     (CFSG.LieType.BorelTits.normalizer_le_normalizer_pCoreOf 2 T)
   have hN : ¬ q ∣ Nat.card N := by
     rw [hN_def, Nat.card_congr (Subgroup.subgroupOfEquivOfLe hRN).toEquiv]
@@ -95,7 +95,7 @@ theorem exists_mem_orderOf_eq_not_isSolvable_inf {Λ : Type} [Group Λ] [Finite 
     {Q : Subgroup Λ} (hQ : IsPGroup q Q) (hQT : Q ≤ normalizer (T : Set Λ))
     (hQq : q ^ 2 ∣ Nat.card Q) :
     ∃ u ∈ Q, orderOf u = q ∧ ¬ Group.IsSolvable ↥(centralizer ({u} : Set Λ) ⊓ T) := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   set φ := (CFSG.CGT.Foote82.barConj T).comp (Subgroup.inclusion hQT)
   have hker : q ∣ Nat.card φ.ker := by
     have h3 : q ^ 2 ∣ Nat.card φ.ker * q := by
@@ -115,9 +115,9 @@ theorem exists_mem_orderOf_eq_not_isSolvable_inf {Λ : Type} [Group Λ] [Finite 
   have hsurj := surjective_mk_inclusion_of_sup
     (inf_le_right : centralizer ({((x : Q) : Λ)} : Set Λ) ⊓ T ≤ T)
     (le_antisymm hle (sup_le inf_le_right (CFSG.LieType.BorelTits.pCoreOf_le 2 T)))
-  haveI := hsol
-  haveI : Group.IsSolvable (Bar2 T) := Group.isSolvable_of_surjective hsurj
-  haveI : IsSimpleGroup (Bar2 T) :=
+  have := hsol
+  have : Group.IsSolvable (Bar2 T) := Group.isSolvable_of_surjective hsurj
+  have : IsSimpleGroup (Bar2 T) :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (t := .PSL) (by decide) hT
   obtain ⟨a, b, hab⟩ := exists_mul_ne_of_isL2Odd hq5 hT
   exact hab (IsSimpleGroup.comm_iff_isSolvable.2 inferInstance a b)

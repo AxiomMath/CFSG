@@ -61,7 +61,7 @@ private lemma ggQ2xKDe_conj_mem {U : Type} [AddCommGroup U] [Module (ZMod 3) U]
     (S : U ≃ₗ[ZMod 3] U)
     (hS : ∀ x ∈ Subgroup.closure (Set.range s), S * x * S⁻¹ ∈ Subgroup.closure (Set.range s)) :
     ∀ t ∈ ggReflConj s, S * t * S⁻¹ ∈ ggReflConj s := by
-  haveI : Finite U := hfin
+  have : Finite U := hfin
   have hFT : TauCeti.IsFiniteType (CartanMatrix.E 6) := by
     have h := TauCeti.DynkinType.isFiniteType_cartanMatrix_E6
     rwa [TauCeti.DynkinType.cartanMatrix_E6] at h
@@ -98,7 +98,7 @@ private lemma ggQ2xKDe_conj_mem {U : Type} [AddCommGroup U] [Module (ZMod 3) U]
 theorem ggQ2WeylInner_E6 : GGQ2WeylInner 6 (CartanMatrix.E 6) := by
   classical
   intro U instACG instMod h hb hspan α hα T hT
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hfr : Module.finrank (ZMod 3) U = 6 := by
     have h1 := finrank_span_eq_card hb
     rw [hspan, finrank_top, Fintype.card_fin] at h1
@@ -107,8 +107,8 @@ theorem ggQ2WeylInner_E6 : GGQ2WeylInner 6 (CartanMatrix.E 6) := by
     have hmod : Module.Finite (ZMod 3) (↥(Submodule.span (ZMod 3) (Set.range h))) :=
       Module.Finite.span_of_finite (ZMod 3) (Set.finite_range h)
     rw [hspan] at hmod
-    haveI : Module.Finite (ZMod 3) (↥(⊤ : Submodule (ZMod 3) U)) := hmod
-    haveI : Finite (↥(⊤ : Submodule (ZMod 3) U)) := Module.finite_of_finite (ZMod 3)
+    have : Module.Finite (ZMod 3) (↥(⊤ : Submodule (ZMod 3) U)) := hmod
+    have : Finite (↥(⊤ : Submodule (ZMod 3) U)) := Module.finite_of_finite (ZMod 3)
     exact Finite.of_surjective (Subtype.val : ↥(⊤ : Submodule (ZMod 3) U) → U)
       (fun u => ⟨⟨u, Submodule.mem_top⟩, rfl⟩)
   let D' : GGQ2Lin 3 :=

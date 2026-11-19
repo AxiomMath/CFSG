@@ -11,6 +11,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private lemma s16h_comm_of_mem_cElt_bot {M : Subgroup G} {v : G} {m : G}
     (hm : m ∈ F11.CElt M ⊥ v) : m * v = v * m := by
   have h1 : m * v * m⁻¹ * v⁻¹ = 1 := Subgroup.mem_bot.1 hm.2.2
@@ -18,7 +19,7 @@ private lemma s16h_comm_of_mem_cElt_bot {M : Subgroup G} {v : G} {m : G}
   rw [mul_inv_rev]
   simpa only [mul_assoc] using h1
 
-theorem s16h_unique₁_of_mixed_of_Eb (D : Data G) (S : s16h_Std D) (hσ : D.sig = D.sig1)
+theorem s16h_unique₁_of_mixed_of_Eb (D : Data G) (S : s16h_Std D) (_hσ : D.sig = D.sig1)
     {V L : Subgroup G} (h : Setting16 D ⊥ V L)
     (hs : s15 D.M ⊥ V h.hyp151.isElemAbelian L = 2) {q : ℕ} (hq : q ∈ D.sig)
     (hEb : ∃ E : Subgroup G, E ≤ D.M ∧ IsElemAbelian q E ∧

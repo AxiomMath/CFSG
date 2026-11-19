@@ -258,10 +258,10 @@ theorem pairN_eq (m : Fin 6) (i j : Nat) : Chk.pairN m i j =
       (fun k _ s => s + Chk.fN (pairMode m) i k * Chk.hN (pairMode m) j k) 0 := by
   by_cases hm : m.val = 3
   · have e : pairMode m = 2 := by simp [pairMode, hm]
-    rw [e, Chk.pairN, if_pos hm]
+    rw [e, Chk.pairN, ite_eq_left hm]
     rfl
   · have e : pairMode m = m := by simp [pairMode, hm]
-    rw [e, Chk.pairN, if_neg hm]
+    rw [e, Chk.pairN, ite_eq_right hm]
 
 theorem prK_eq {m : Fin 6} {K : KT} {fx hx fx' hx' : Nat} (h : TabsOK m K fx hx fx' hx') {i j : Nat}
     (hi : i < nroots m) (hj : j < nroots m) : (prK K i j : Int) = Chk.pairN m i j + 8 := by
@@ -349,7 +349,7 @@ theorem rt_entry {x' x y p : Nat} {F' F Y P : Int} (pos : Bool) (ε : Int)
     rfl
   rw [beq_iff_eq]
   cases pos <;> simp only [eq3, Nat.beq_eq, xk_add, xk_mul, xk_mod, Nat.succ_eq_add_one] at hb <;>
-    simp only [Bool.false_eq_true, if_false, if_true] at hε <;> subst hε <;>
+    simp only [Bool.false_eq_true, ite_false, ite_true] at hε <;> subst hε <;>
     generalize P * Y = w at h4 ⊢ <;> generalize ((p : Int) + 1) * (y : Int) = w2 at h4 e5 <;>
     generalize (p + 1) * y = z at hb e5 <;> omega
 
@@ -637,7 +637,7 @@ theorem zmK_eq {m : Fin 6} {K : KT} {fx hx fx' hx' : Nat} (hT : TabsOK m K fx hx
     change K.zm >>> (128 * c) &&& 340282366920938463463374607431768211455 = 0
     rw [Nat.shiftRight_eq_div_pow, Nat.div_eq_of_lt hlt, Nat.zero_and]
 
-theorem adjK_eq {m : Fin 6} {K : KT} {fx hx fx' hx' : Nat} (hT : TabsOK m K fx hx fx' hx')
+theorem adjK_eq {m : Fin 6} {K : KT} {fx hx fx' hx' : Nat} (_hT : TabsOK m K fx hx fx' hx')
     {t : Nat} (ht : t < nroots m) : adjK K t = (tabsK m K).adj[t]! := by
   rw [tabsK_adj ht]
 
@@ -912,7 +912,7 @@ theorem inK_sound {m : Fin 6} {K : KT} {fx hx fx' hx' : Nat} (hT : TabsOK m K fx
       at key hk'
     generalize Nat.fold coef.len (fun i _ s => s + ((ln9 coef.P i / 128 : Nat) : Int) *
       (tabsK m K).h[ln9 coef.P i % 128]![k]!) 0 = F at key ⊢
-    simp only [digK_dig, xk_add, xk_mul, xk_mod] at hk'
+    simp only [digK_dig] at hk'
     omega
 
 theorem refLK_sound {m : Fin 6} {K : KT} {fx hx fx' hx' : Nat} (hT : TabsOK m K fx hx fx' hx')
@@ -935,7 +935,7 @@ theorem refLK_sound {m : Fin 6} {K : KT} {fx hx fx' hx' : Nat} (hT : TabsOK m K 
     have h' : band (Nat.blt w (Nat.pow 3 K.d)) (band (subK (truncK K.r (zmK K cv)) (zmK K w))
         (offPlaneK K.d cv 0 w)) = true := h
     simp only [band_eq_and, nblt_eq, subK_eq, truncK_eq, offPlaneK_eq, zmK_eq hT, hT.hr, hT.hd,
-      xk_pow, Bool.and_assoc] at h'
+      xk_pow] at h'
     simp only [Chk.refLOK, Bool.and_assoc]
     exact h'
   | label =>
@@ -971,7 +971,7 @@ theorem refPK_sound {m : Fin 6} {K : KT} {fx hx fx' hx' : Nat} (hT : TabsOK m K 
     have h' : band (Nat.blt w (Nat.pow 3 K.d)) (band (subK (truncK K.r (Nat.land (zmK K cv)
         (zmK K cy))) (zmK K w)) (offPlaneK K.d cv cy w)) = true := h
     simp only [band_eq_and, nblt_eq, subK_eq, truncK_eq, offPlaneK_eq, zmK_eq hT, hT.hr, hT.hd,
-      xk_land, xk_pow, Bool.and_assoc] at h'
+      xk_land, xk_pow] at h'
     simp only [Chk.refPOK, Bool.and_assoc]
     exact h'
   | label =>
@@ -998,7 +998,7 @@ theorem refCK_sound {m : Fin 6} {K : KT} {fx hx fx' hx' : Nat} (hT : TabsOK m K 
         (zmK K (e / 8))) (offPlaneK K.d cz 0 (e / 8))) = true := h'
     refine ⟨.cent (e / 8), by simp [decRefC, h2], ?_⟩
     simp only [band_eq_and, nblt_eq, subK_eq, truncK_eq, offPlaneK_eq, zmK_eq hT, hT.hr, hT.hd,
-      xk_pow, Bool.and_assoc] at hk
+      xk_pow] at hk
     simp only [Chk.refCOK, Bool.and_assoc]
     exact hk
   rw [nbeq_false h2] at h'
@@ -1061,7 +1061,7 @@ theorem wk_dl_a (w : KLin) : (decLin w).a = w.a := rfl
 theorem wk_dl_b (w : KLin) : (decLin w).b = w.b := rfl
 
 theorem wk_nodeK_lt {w : KLin} {i : Nat} (hi : i < w.nodes.len) : nodeK w i = ln7 w.nodes.P i := by
-  rw [nodeK, nif_eq, nblt_eq, if_pos (decide_eq_true hi)]
+  rw [nodeK, nif_eq, nblt_eq, ite_eq_left (decide_eq_true hi)]
 
 theorem wk_nodeN (w : KLin) (i : Nat) : Chk.nodeN (decLin w) i = nodeK w i := by
   rw [Chk.nodeN, nodeK, nif_eq, nblt_eq]
@@ -1086,14 +1086,14 @@ theorem wk_rkW (w : KLin) : rkW w = Chk.rkN (decLin w).tc (decLin w).n := wk_rk 
 theorem wk_valid (tc n : Nat) : validK tc n = Chk.validN tc n := by
   unfold validK Chk.validN
   rcases tc with _ | _ | _ | _ | _ | _ | _ | _ | _ | tc <;>
-    simp [brec_eq, band_eq_and, nble_eq, nbeq_eq]
+    simp [band_eq_and, nble_eq, nbeq_eq]
 
 theorem wk_cart (tc n i j : Nat) : (cartK tc n i j : Int) = Chk.cartanN tc n i j + 8 := by
   unfold cartK Chk.cartanN
   by_cases hij : i = j
-  · rw [if_pos hij, wk_nif_pos (b := Nat.beq i j) (by rw [hij, nbeq_eq]; simp)]
+  · rw [ite_eq_left hij, wk_nif_pos (b := Nat.beq i j) (by rw [hij, nbeq_eq]; simp)]
     rfl
-  · rw [if_neg hij, wk_nif_neg (b := Nat.beq i j) (nbeq_false hij)]
+  · rw [ite_eq_right hij, wk_nif_neg (b := Nat.beq i j) (nbeq_false hij)]
     unfold cartOff
     rcases tc with _ | _ | _ | _ | _ | _ | _ | _ | tc
     all_goals simp only [nif_eq, nbeq_eq, bor_eq_or, band_eq_and, eqN, nble_eq, nblt_eq,
@@ -1322,7 +1322,7 @@ theorem wk_deriv {m : Fin 6} {K : KT} {fx hx fx' hx' : Nat} (hT : TabsOK m K fx 
           simp only [Nat.testBit_or]
           cases S.testBit i <;> cases liveBit.testBit i <;> cases (1 <<< rtK K u t).testBit i <;>
             rfl
-        · rw [if_pos (by
+        · rw [ite_eq_left (by
               simp only [Bool.and_eq_true, decide_eq_true_eq]
               exact ⟨⟨⟨hu, ht⟩, hgu⟩, hSt⟩), tabsK_rt hu ht]
       · have hcK : band (Nat.blt u (nroots m)) (band (Nat.blt t (nroots m))
@@ -1337,7 +1337,7 @@ theorem wk_deriv {m : Fin 6} {K : KT} {fx hx fx' hx' : Nat} (hT : TabsOK m K fx 
             rw [wk_bit_live (by omega)] at hSt
             exact hc ⟨hu, ht, hgu, hSt⟩
         refine Or.inl ⟨by rw [hcK]; rfl, ?_⟩
-        rw [if_neg]
+        rw [ite_eq_right]
         simp only [Bool.and_eq_true, decide_eq_true_eq]
         exact fun ⟨⟨⟨a, b⟩, c⟩, d⟩ => hc ⟨a, b, c, d⟩
 
@@ -1409,9 +1409,9 @@ theorem wk_anyN {n : Nat} {p : Nat → Bool} : anyN n p = true ↔ ∃ i < n, p 
 theorem wk_ndel (i j : Nat) : (3 : Int) ∣ (ndel i j : Int) + (if i = j then 1 else 0) := by
   rw [ndel, nif_eq, nbeq_eq]
   by_cases h : i = j
-  · rw [if_pos (by simp [h]), if_pos h]
+  · rw [ite_eq_left (by simp [h]), ite_eq_left h]
     omega
-  · rw [if_neg (by simp [h]), if_neg h]
+  · rw [ite_eq_right (by simp [h]), ite_eq_right h]
     omega
 
 theorem wk_fin {n e : Nat} {f : Nat → Nat} {g : Nat → Int} {δ : Int}
@@ -1475,18 +1475,18 @@ theorem wk_line {m : Fin 6} {K : KT} {fx hx fx' hx' : Nat} (hT : TabsOK m K fx h
     unfold Chk.phiN
     by_cases hk1 : k + 1 < dim m
     · have hkc : k < cnt := by omega
-      rw [wk_nif_pos (b := Nat.blt (Nat.succ k) (dim m)) (Nat.blt_eq.mpr hk1), if_pos hk1,
+      rw [wk_nif_pos (b := Nat.blt (Nat.succ k) (dim m)) (Nat.blt_eq.mpr hk1), ite_eq_left hk1,
         wk_getD_map _ hkc, tabsK_f (hrows' k hkc).1 hj]
       exact fK_dvd hT (hrows' k hkc).1 hj
     · have e1 : Nat.blt (Nat.succ k) (dim m) = false := by
         rw [Bool.eq_false_iff]
         intro e
         exact hk1 (Nat.blt_eq.mp e)
-      rw [wk_nif_neg e1, if_neg hk1, nif_eq, nbeq_eq]
+      rw [wk_nif_neg e1, ite_eq_right hk1, nif_eq, nbeq_eq]
       by_cases hjp : j = Chk.pivN (dim m) cz
-      · rw [if_pos hjp, if_pos (beq_iff_eq.mpr hjp)]
+      · rw [ite_eq_left hjp, ite_eq_left (beq_iff_eq.mpr hjp)]
         omega
-      · rw [if_neg hjp, if_neg (fun e => hjp (beq_iff_eq.mp e))]
+      · rw [ite_eq_right hjp, ite_eq_right (fun e => hjp (beq_iff_eq.mp e))]
         omega
 
 theorem wk_inv {tc n k B : Nat} (hk : k ≤ 8) (h : invCK tc n k idK B = true) :
@@ -1675,7 +1675,7 @@ theorem wk_ambD {m : Fin 6} {K : KT} {fx hx fx' hx' : Nat} (hT : TabsOK m K fx h
     intro i hi
     have := allN_iff.mp hrange i hi
     rw [band_eq_true, Nat.blt_eq, bnot_eq, nbeq_eq, rkW, wk_rk] at this
-    simp only [Bool.and_eq_true, decide_eq_true_eq]
+    simp only [Bool.and_eq_true]
     exact ⟨decide_eq_true this.1, this.2⟩
   · intro i hi j hj
     have hij := allN_iff.mp (allN_iff.mp hcart i hi) j hj
@@ -1816,10 +1816,10 @@ theorem walk_sound {K : KT} {d : Nat} (hd : K.d = d) {cv cref : Nat} :
         rintro rfl
         rw [hc] at hcn
         exact Bool.noConfusion hcn
-      rw [if_neg (by simp)]
+      rw [ite_eq_right (by simp)]
       exact ih hw cy (by omega) hc
     · rw [hcn] at hw
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       cases ps with
       | nil => exact Bool.noConfusion hw
       | cons P tl =>
@@ -1872,7 +1872,7 @@ theorem scanLineK_sound {m : Fin 6} {K : KT} {fx hx fx' hx' : Nat} (hT : TabsOK 
   rcases hL' with hL' | hL'
   · left
     obtain ⟨e, he, hok⟩ := refLK_sound hT hL'
-    simp only [searchOf, if_pos rfl, he]
+    simp only [searchOf, he]
     exact hok
   · right
     rw [nat_all_iff]

@@ -54,12 +54,14 @@ variable {K : Type} [Field K] [Finite K] {V : Type} [AddCommGroup V] [Module K V
     ↥(specialBlock Q x h) →* Matrix.GeneralLinearGroup (Fin m) (AdjoinRoot h) :=
   (toMatGL b).toMonoidHom.comp (specialBlockGL Q x h)
 
+omit [Finite K] in
 theorem specialMat_injective (hx : OddOrderIsometry Q 3 x) {h : K[X]} [Fact (Irreducible h)]
     (hh : h ∈ primaryFactors x.toLinearMap) {m : ℕ}
     (b : Basis (Fin m) (AdjoinRoot h) (primaryComponent x.toLinearMap h)) :
     Function.Injective (specialMat Q x h b) :=
   (toMatGL b).injective.comp (hx.specialBlockGL_injective hh)
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem det_specialMat (h : K[X]) [Fact (Irreducible h)] {m : ℕ}
     (b : Basis (Fin m) (AdjoinRoot h) (primaryComponent x.toLinearMap h))
     (g : ↥(specialBlock Q x h)) :
@@ -68,6 +70,7 @@ theorem det_specialMat (h : K[X]) [Fact (Irreducible h)] {m : ℕ}
   rw [specialMat, MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, det_toMatGL]
   exact det_specialBlockGL h g
 
+omit [Finite K] in
 theorem specialMat_surjective_paired (hx : OddOrderIsometry Q 3 x) {h : K[X]}
     [Fact (Irreducible h)] (hh : h ∈ primaryFactors x.toLinearMap)
     (hne : h ≠ reciprocalPolynomial h) {m : ℕ}
@@ -106,14 +109,13 @@ theorem mem_sesqUnitaryGroup_iff_matrix {E U : Type*} [Field E] [AddCommGroup U]
     simp only [map_sum, map_smulₛₗ, LinearMap.sum_apply, LinearMap.smul_apply, smul_eq_mul, he,
       Matrix.mul_apply, Matrix.transpose_apply, Matrix.map_apply]
     refine Finset.sum_congr rfl fun k _ => ?_
-    simp [Finset.sum_ite_eq, mul_comm]
+    simp [mul_comm]
   constructor
   · intro hγ
     ext i j
     rw [← key, hγ, he]
     simp [Matrix.one_apply]
-  · intro hmat
-    intro u w
+  · intro hmat u w
     have hext : (B.comp (γ : Module.End E U)).compl₂ (γ : Module.End E U) = B := by
       refine LinearMap.ext_basis e e fun i j => ?_
       simp only [LinearMap.compl₂_apply, LinearMap.comp_apply]
@@ -130,7 +132,7 @@ theorem reciprocalPolynomial_quadratic {K : Type} [Field K] :
     rw [coeff_reverse, hnd]
     rcases n with _ | _ | _ | n
     · rw [revAt_le (by norm_num)]; try simp [coeff_X, coeff_one]
-    · rw [revAt_le (by norm_num)]; try simp [coeff_X, coeff_one]
+    · rw [revAt_le (by norm_num)]
     · rw [revAt_le (by norm_num)]; try simp [coeff_X, coeff_one]
     · rw [revAt_eq_self_of_lt (by omega)]
   rw [reciprocalPolynomial, hc, hrev]
@@ -141,6 +143,7 @@ section Paired
 variable {K : Type} [Field K] [Finite K] {V : Type} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {Q : QuadraticForm K V} {x : V ≃ₗ[K] V}
 
+omit [Finite K] in
 theorem dvd_quadratic_of_mem_primaryFactors (hx : OddOrderIsometry Q 3 x) {h : K[X]}
     [Fact (Irreducible h)] (hh : h ∈ primaryFactors x.toLinearMap) (hne1 : h ≠ X - 1) :
     h ∣ (X ^ 2 + X + 1 : K[X]) := by
@@ -154,6 +157,7 @@ theorem dvd_quadratic_of_mem_primaryFactors (hx : OddOrderIsometry Q 3 x) {h : K
   · exact absurd (sub_eq_zero.mp h0) hω1
   · simpa using h0
 
+omit [Finite K] in
 theorem natDegree_le_two_of_order_three (hx : OddOrderIsometry Q 3 x) {h : K[X]}
     [Fact (Irreducible h)] (hh : h ∈ primaryFactors x.toLinearMap) (hne1 : h ≠ X - 1) :
     h.natDegree ≤ 2 := by
@@ -164,6 +168,7 @@ theorem natDegree_le_two_of_order_three (hx : OddOrderIsometry Q 3 x) {h : K[X]}
   have := congrArg (Polynomial.eval 0) h0
   simp at this
 
+omit [Finite K] in
 theorem natDegree_eq_one_of_primary_paired (hx : OddOrderIsometry Q 3 x) {h : K[X]}
     [Fact (Irreducible h)] (hh : h ∈ primaryFactors x.toLinearMap) (hne1 : h ≠ X - 1)
     (hne : h ≠ reciprocalPolynomial h) : h.natDegree = 1 := by
@@ -186,6 +191,7 @@ theorem natDegree_eq_one_of_primary_paired (hx : OddOrderIsometry Q 3 x) {h : K[
   apply hne
   rw [← heq, reciprocalPolynomial_quadratic]
 
+omit [Finite K] in
 theorem two_mul_finrank_le_of_paired (hx : OddOrderIsometry Q 3 x) {h : K[X]}
     (hh : h ∈ primaryFactors x.toLinearMap) (hne : h ≠ reciprocalPolynomial h) :
     2 * finrank K (primaryComponent x.toLinearMap h) ≤ finrank K V := by
@@ -260,6 +266,7 @@ theorem exists_selfDual_matrix_data (hx : OddOrderIsometry Q 3 x) {h : K[X]}
     funext fun z => by rw [hbar z, pow_one]
   rw [hfun]
 
+omit [Finite K] in
 theorem exists_specialBlock_equiv_SL (hx : OddOrderIsometry Q 3 x) {h : K[X]}
     [Fact (Irreducible h)] (hh : h ∈ primaryFactors x.toLinearMap)
     (hne : h ≠ reciprocalPolynomial h) {m : ℕ}
@@ -278,6 +285,7 @@ theorem exists_specialBlock_equiv_SL (hx : OddOrderIsometry Q 3 x) {h : K[X]}
     exact ⟨g, Subtype.ext hg⟩
   exact ⟨MulEquiv.ofBijective θ ⟨hinj, hsurj⟩, fun g => rfl⟩
 
+omit [Finite K] in
 theorem exists_specialBlock_equiv_SU (hx : OddOrderIsometry Q 3 x) {h : K[X]}
     [Fact (Irreducible h)] (hh : h ∈ primaryFactors x.toLinearMap) {m : ℕ}
     (b : Basis (Fin m) (AdjoinRoot h) (primaryComponent x.toLinearMap h))
@@ -405,6 +413,7 @@ open CFSG.ClassicalGroups.Orthogonal
 variable {K : Type} [Field K] [Finite K] {V : Type} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {Q : QuadraticForm K V} {x : V ≃ₗ[K] V}
 
+omit [Finite K] in
 theorem eq_one_of_scalar_of_odd (hx : OddOrderIsometry Q 3 x) {h : K[X]} [Fact (Irreducible h)]
     (hh : h ∈ primaryFactors x.toLinearMap) (hodd : Odd (primaryMultiplicity x.toLinearMap h))
     {g : ↥(specialBlock Q x h)} (hsc : (g : V ≃ₗ[K] V) ∈ scalars K V)
@@ -455,6 +464,7 @@ section Lam
 variable {K : Type} [Field K] [Finite K] {V : Type} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {Q : QuadraticForm K V}
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem exists_specialBlock_hom_onto {S : Type} [Group S] (e : S ≃* ProjOrthDerived Q)
     {J : Subgroup S}
     (x' : V ≃ₗ[K] V) (h : K[X]) (hSB : specialBlock Q x' h ≤ orthDerived Q)
@@ -526,8 +536,8 @@ theorem orth_blockIdentification_model {K : Type} [Field K] [Finite K] {V : Type
           ω ≠ 1 ∧ ω ^ 3 = 1 ∧
           (g : GL (Fin m) E) = Matrix.GeneralLinearGroup.scalar (Fin m) ω ∧ (φ g : S) = x)) := by
   classical
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
+  have : Finite V := Module.finite_of_finite K
+  have : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
     fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
   obtain ⟨-, hcenter, hcard, -, -, -, -, -, hlift⟩ :=
     orthogonal_high_Witt_derived_quotient_and_odd_lifts hQ hT
@@ -590,8 +600,8 @@ theorem orth_blockIdentification_model {K : Type} [Field K] [Finite K] {V : Type
     have hx : OddOrderIsometry Q 3 (y : V ≃ₗ[K] V) :=
       oddOrderIsometry_of_pow_eq_one Nat.prime_three hpℓ hQ y hy3
     exact hy1 (Subtype.ext (eq_one_of_mem_supportedBlock_fixed hx hyF'))
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
-  haveI : Finite (AdjoinRoot h) := finite_adjoinRoot_of_fact h
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Finite (AdjoinRoot h) := finite_adjoinRoot_of_fact h
   have hirr : Irreducible h := Fact.out
   have hx : OddOrderIsometry Q 3 (y : V ≃ₗ[K] V) :=
     oddOrderIsometry_of_pow_eq_one Nat.prime_three hpℓ hQ y hy3

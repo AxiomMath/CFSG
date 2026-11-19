@@ -27,7 +27,7 @@ theorem P1h_le_normalizer_map_incl_P1 :
   intro g hg
   rw [Subgroup.mem_normalizer_iff]
   intro h
-  haveI : Yh.Normal := Yh_normal
+  have : Yh.Normal := Yh_normal
   have key : ∀ x : Ah, x ∈ P1.map incl ↔ x ∈ P1h ∧ x ∈ Yh := by
     intro x
     constructor
@@ -50,7 +50,7 @@ theorem P1h_le_normalizer_map_incl_P1 :
       simpa [mul_assoc] using this
 
 theorem pCoreOf_P1h_eq : pCoreOf 2 P1h = pCoreOf 2 (P1.map incl) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hle : pCoreOf 2 (P1.map incl) ≤ pCoreOf 2 P1h := by
     rw [pCoreOf_eq_inf_pCoreOf map_incl_P1_le P1h_le_normalizer_map_incl_P1]
     exact inf_le_right
@@ -104,7 +104,7 @@ theorem y9U42_ext {L1 L2 S : Subgroup G} (hF : F112Hyp L1 L2 S) (h2 : VA5 L2)
         centerOf S ≤ Subgroup.centralizer (L1 : Set G)) ∧
       IsSpecialPow 2 (2 ^ 1) 2 ↥(pCoreOf 2 (L1 ⊔ bigB L1 L2 S)) ∧
       IsBlock2 L2 L2 ∧ IsOmega4MinusType L2 1 ∧ IsAltType L2 5 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hH := hF.1
   have hN2 := parabolic_le_normalizer_right hH
   have hL2P : L2 ≤ L2 ⊔ bigB L1 L2 S := le_sup_left
@@ -150,7 +150,7 @@ theorem y9U42_ext {L1 L2 S : Subgroup G} (hF : F112Hyp L1 L2 S) (h2 : VA5 L2)
     nlinarith
   obtain ⟨k, -, hk⟩ := (Nat.dvd_prime_pow Nat.prime_two).1
     (show L2.relIndex P ∣ 2 ^ 5 from ⟨_, hr32.symm⟩)
-  haveI : (L2.subgroupOf P).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hN2
+  have : (L2.subgroupOf P).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hN2
   have hq : IsPGroup 2 (P ⧸ L2.subgroupOf P) := IsPGroup.of_card (n := k) hk
   have hpow : ∀ g ∈ P, ∃ n : ℕ, g ^ 2 ^ n ∈ L2 := by
     intro g hg
@@ -174,7 +174,7 @@ theorem y9U42_ext {L1 L2 S : Subgroup G} (hF : F112Hyp L1 L2 S) (h2 : VA5 L2)
     intro g hg h hh
     refine ⟨(Subgroup.mem_normalizer_iff.mp (hN2 (hKP hg)) h).mp hh.1, ?_⟩
     exact K.mul_mem (K.mul_mem hg hh.2) (K.inv_mem hg)
-  haveI : ((L2 ⊓ K).subgroupOf K).Normal :=
+  have : ((L2 ⊓ K).subgroupOf K).Normal :=
     ⟨fun n hn g => Subgroup.mem_subgroupOf.mpr (by
       have := hconjK g g.2 n (Subgroup.mem_subgroupOf.mp hn)
       simpa using this)⟩
@@ -264,10 +264,10 @@ theorem y9U42_ext {L1 L2 S : Subgroup G} (hF : F112Hyp L1 L2 S) (h2 : VA5 L2)
     have hzC : z ∈ C :=
       ⟨hz, Subgroup.mem_centralizer_iff.mpr (fun k hk => (hzc k hk).symm)⟩
     exact hCL z hzC (hOPL (hCO hzC))
-  haveI : DSLeaf LeafFaithfulA5 := ⟨leafFaithfulA5⟩
-  haveI : DSLeaf LeafShort2OfA5 := ⟨leafShort2OfA5⟩
-  haveI : DSLeaf LeafM3 := ⟨leafM3⟩
-  haveI : DSLeaf LeafAlt5OfOrth := ⟨leafAlt5OfOrth⟩
+  have : DSLeaf LeafFaithfulA5 := ⟨leafFaithfulA5⟩
+  have : DSLeaf LeafShort2OfA5 := ⟨leafShort2OfA5⟩
+  have : DSLeaf LeafM3 := ⟨leafM3⟩
+  have : DSLeaf LeafAlt5OfOrth := ⟨leafAlt5OfOrth⟩
   refine ⟨?_, ?_, Gold14610.isBlock2_of_short (leafShort2OfA5 h2 hct hE hO16L) le_rfl
     Subgroup.le_normalizer, leafOmega4MinusOfOrth h2 hct hE hO16L hNat,
     leafAlt5OfOrth h2 hct hE hO16L hNat⟩

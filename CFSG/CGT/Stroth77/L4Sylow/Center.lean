@@ -24,11 +24,11 @@ theorem diagonal_mul_permMatrix_eq_diagonal_iff {x : ι → K} (hx : ∀ i, x i 
       by_contra hne
       have hne' : i ≠ σ i := fun h' => hne (by rw [Equiv.Perm.one_apply, ← h'])
       have h1 := congrFun (congrFun h i) (σ i)
-      rw [happ, if_pos rfl, diagonal_apply_ne _ hne'] at h1
+      rw [happ, ite_eq_left rfl, diagonal_apply_ne _ hne'] at h1
       exact hx i h1
     refine ⟨hσ, fun i => ?_⟩
     have h1 := congrFun (congrFun h i) i
-    rw [happ, hσ, Equiv.Perm.one_apply, if_pos rfl, diagonal_apply_eq] at h1
+    rw [happ, hσ, Equiv.Perm.one_apply, ite_eq_left rfl, diagonal_apply_eq] at h1
     exact h1
   · rintro ⟨rfl, hu⟩
     rw [permMatrix_one, mul_one]
@@ -57,7 +57,7 @@ variable {n : ℕ} (D : L4Data K n)
 
 theorem pow_val_eq_pow_val_iff {x y : ZMod (2 ^ n)} :
     (D.ζ : K) ^ x.val = (D.ζ : K) ^ y.val ↔ x = y := by
-  haveI : NeZero (2 ^ n) := ⟨by positivity⟩
+  have : NeZero (2 ^ n) := ⟨by positivity⟩
   refine ⟨fun h => ?_, by rintro rfl; rfl⟩
   have h' : D.ζ ^ x.val = D.ζ ^ y.val :=
     Units.ext (by rw [Units.val_pow_eq_pow_val, Units.val_pow_eq_pow_val, h])

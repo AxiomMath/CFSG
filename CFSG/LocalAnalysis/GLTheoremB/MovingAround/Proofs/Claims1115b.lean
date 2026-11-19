@@ -24,7 +24,7 @@ variable {G : Type} [Group G] [Finite G] {M E A K : Subgroup G} {a : G}
 theorem isSimpleGroup_barX_K (c : Inputs1114.Cfg M E A K a) :
     IsSimpleGroup ↥(barX 3 (Cg a) K) := by
   have hiso : barOf 3 K ≃* ↥(barX 3 (Cg a) K) := quotEquivBarX Nat.prime_three c.hK.1 c.hK.2.1
-  haveI := (CFSG.HardMathSupport.Solomon.UniquenessMaximal.isSimpleGroup_of_isLThreeFour c.hL).1
+  have := (CFSG.HardMathSupport.Solomon.UniquenessMaximal.isSimpleGroup_of_isLThreeFour c.hL).1
   exact MulEquiv.isSimpleGroup hiso.symm
 
 theorem card_barX_K (c : Inputs1114.Cfg M E A K a) : Nat.card ↥(barX 3 (Cg a) K) = 20160 := by
@@ -35,8 +35,8 @@ theorem eq_bot_of_le_barX_K (c : Inputs1114.Cfg M E A K a)
     {N : Subgroup (↥(Cg a) ⧸ GLAPPrimeCore 3 ↥(Cg a))} (hNK : N ≤ barX 3 (Cg a) K)
     (hKN : barX 3 (Cg a) K ≤ Subgroup.normalizer (N : Set _)) (hN : Nat.Coprime 3 (Nat.card N)) :
     N = ⊥ := by
-  haveI := isSimpleGroup_barX_K c
-  haveI : (N.subgroupOf (barX 3 (Cg a) K)).Normal :=
+  have := isSimpleGroup_barX_K c
+  have : (N.subgroupOf (barX 3 (Cg a) K)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNK).2 hKN
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (N.subgroupOf (barX 3 (Cg a) K)) with h | h
   · rw [Subgroup.subgroupOf_eq_bot] at h
@@ -49,6 +49,7 @@ theorem eq_bot_of_le_barX_K (c : Inputs1114.Cfg M E A K a)
     have h3 : 3 ∣ Nat.card N := (by norm_num : 3 ∣ 20160).trans hdvd
     exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).1 hN h3
 
+omit [Finite G] in
 theorem coprime_card_barX {X U : Subgroup G} (hUX : U ≤ X) (hU : Nat.Coprime 3 (Nat.card U)) :
     Nat.Coprime 3 (Nat.card (barX 3 X U)) := by
   have h1 : Nat.card (barX 3 X U) ∣ Nat.card (U.subgroupOf X) := Subgroup.card_map_dvd _ _
@@ -240,6 +241,7 @@ theorem Sit.K'_le_jLayer (S : Sit M E A K H a K') : K' ≤ Lemma1115.jLayer a H 
   have := Inputs1115.layer_le_jLayer (a := a) H
   rwa [S.layer_eq] at this
 
+omit [Finite G] in
 theorem centralizer_zpowers_eq (a : G) :
     Subgroup.centralizer ((Subgroup.zpowers a : Subgroup G) : Set G) = Cg a := by
   rw [Subgroup.zpowers_eq_closure, Subgroup.centralizer_closure]
@@ -603,8 +605,8 @@ theorem exists_central_of_normal {Γ : Type*} [Group Γ] [Finite Γ] {p : ℕ} [
     {S T : Subgroup Γ} (hS : IsPGroup p ↥S) (hTS : T ≤ S)
     (hTn : S ≤ Subgroup.normalizer (T : Set Γ)) (hT : T ≠ ⊥) :
     ∃ z ∈ T, orderOf z = p ∧ ∀ s ∈ S, s * z = z * s := by
-  haveI : (T.subgroupOf S).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hTS).2 hTn
-  haveI : Group.IsNilpotent ↥S := hS.isNilpotent
+  have : (T.subgroupOf S).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hTS).2 hTn
+  have : Group.IsNilpotent ↥S := hS.isNilpotent
   have hne : T.subgroupOf S ≠ ⊥ := by
     intro h
     apply hT
@@ -633,6 +635,7 @@ section Normal
 
 variable {G : Type} [Group G] [Finite G] {M E A K H : Subgroup G} {a : G} {K' : Subgroup G}
 
+omit [Finite G] in
 theorem commutator_mem_core_of_commute {p : ℕ} {X : Subgroup G} {x k : G} (hx : x ∈ X) (hk : k ∈ X)
     (h : QuotientGroup.mk' (GLAPPrimeCore p ↥X) ⟨x, hx⟩ * QuotientGroup.mk' (GLAPPrimeCore p ↥X) ⟨k, hk⟩ =
       QuotientGroup.mk' (GLAPPrimeCore p ↥X) ⟨k, hk⟩ * QuotientGroup.mk' (GLAPPrimeCore p ↥X) ⟨x, hx⟩) :
@@ -945,6 +948,7 @@ open CFSG.HardMathSupport.Solomon.Coordinator (c25Img c25Fix c25Img_isElemAbelia
     ∀ E : Subgroup Y, IsElemAbelian 3 E → Nat.card E = 3 ^ 2 →
       ∃ F : Subgroup Y, E ≤ F ∧ IsElemAbelian 3 F ∧ Nat.card F = 3 ^ 4
 
+omit [Finite G] in
 theorem subgroupOf_map_subtype_eq {L : Subgroup G} (S : Subgroup ↥L) :
     (S.map L.subtype).subgroupOf L = S := by
   ext x
@@ -978,7 +982,7 @@ theorem exists_lift {L P : Subgroup G} (hPL : P ≤ L) (hP : IsPGroup 3 ↥P) {Q
     rw [hcardQh, hk]
     exact dvd_mul_left _ _
   have hTcard : 3 ^ k ∣ Nat.card T := T.pow_dvd_card_of_pow_dvd_card hdvd
-  have hSp : IsPGroup 3 ↥S := T.isPGroup'.map _
+  have hSp : IsPGroup 3 ↥S := T.isPGroup.map _
   have hScard : Nat.card S = Nat.card T := Subgroup.card_map_of_injective Qh.subtype_injective
   have hNc : ¬ 3 ∣ Nat.card N := (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).1
     (CFSG.HardMathSupport.Solomon.LocalBalance.coprime_card_gLAPPrimeCore_aux 3 ↥L)
@@ -1138,7 +1142,7 @@ theorem Sit.false_of_D44 {m : ℕ} {B : Subgroup G} (h : Cex117 G m 3 B M E A a 
     rw [← Inputs1114.barAut_of_mem (hE'L hfE)]
   have hsimple : IsSimpleGroup (barOf 3 L) := by
     obtain ⟨hq, -⟩ := barOf_facts hL
-    haveI := hq.2
+    have := hq.2
     exact MulEquiv.isSimpleGroup
       ((QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot).symm
   have hseitz := hgen (barOf 3 L) hsimple hD4 (c25Img L E') (c25Img_isElemAbelian hE'el) hcard hinn
@@ -1178,6 +1182,7 @@ theorem isLThreeFour_quot_center {X : Type} [Group X] (h : IsLThreeFour X) :
   obtain ⟨F, hF, hFf, hc, ⟨f⟩⟩ := h
   exact ⟨F, hF, hFf, hc, ⟨e.trans f⟩⟩
 
+omit [Finite G] in
 theorem isLThreeFour_quot_center_conj {L : Subgroup G} (g : G)
     (h : IsLThreeFour (barOf 3 L ⧸ Subgroup.center (barOf 3 L))) :
     IsLThreeFour (barOf 3 (GLBConj g L) ⧸ Subgroup.center (barOf 3 (GLBConj g L))) := by

@@ -86,12 +86,12 @@ theorem lgenBar_eq_fstar_E4_of (h34 : Stroth34Statement) (hGen : StrothGenByBSta
     rw [hFv] at h
     exact (pow_dvd_pow 2 (by nlinarith : 2 ≤ f * 30)).trans h
   have hC := Insp.centralizer_fstar_eq_bot hS h4F
-  haveI : (generalizedFitting (SubCfgGroup M Q Z)).Normal :=
+  have : (generalizedFitting (SubCfgGroup M Q Z)).Normal :=
     (CFSG.LocalCores.generalized_fitting_characteristic (G := SubCfgGroup M Q Z)).2
   obtain ⟨K, _, _, _, hK, ⟨e⟩⟩ : ∃ (K : Type) (_ : Field K) (_ : Finite K) (_ : CharP K 2),
       Nat.card K = 2 ^ f ∧ Nonempty (FStar (SubCfgGroup M Q Z) ≃*
         matrixProjectiveDerived (coordinateQuadPlus 6 K)) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact ⟨GaloisField 2 f, inferInstance, inferInstance, inferInstance,
       GaloisField.card 2 f (by omega),
       CFSG.ComponentClassification.Burgoyne.DX.exists_galois_coordinatePlus
@@ -101,7 +101,7 @@ theorem lgenBar_eq_fstar_E4_of (h34 : Stroth34Statement) (hGen : StrothGenByBSta
   have hQLg : Q ≤ Lgen M (LB M Q B) := le_sup_left.trans (le_Lgen _)
   have hw : Width Q Z 16 := by simpa [Width] using hE4.1
   have hQ2 : IsPGroup 2 Q := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     refine IsPGroup.of_card (n := f * 33) ?_
     rw [hE4.1, hf, ← pow_mul]
   have hNorm : (bar (H0 M Z) Q (Lgen M (LB M Q B))).Normal := by
@@ -192,7 +192,7 @@ theorem lgenBar_eq_fstar_E4_of (h34 : Stroth34Statement) (hGen : StrothGenByBSta
     exact ⟨s, rfl⟩
   obtain ⟨K', _, _, _, γ, M₀, hg⟩ := stroth_globalModelData hc.ctx.hyp
   obtain ⟨T, hTe, -⟩ := exists_T_Lgen hc.ctx hg
-  haveI : Finite ((Fin (2 * 6) → K) ≃ₗ[K] (Fin (2 * 6) → K)) :=
+  have : Finite ((Fin (2 * 6) → K) ≃ₗ[K] (Fin (2 * 6) → K)) :=
     Finite.of_injective (fun g : (Fin (2 * 6) → K) ≃ₗ[K] (Fin (2 * 6) → K) =>
       (g : (Fin (2 * 6) → K) → Fin (2 * 6) → K)) DFunLike.coe_injective
   have hK4 : 4 ≤ Nat.card K := by
@@ -236,7 +236,7 @@ theorem exists_lgen_hom_EAut0_E4_of (h34 : Stroth34Statement) (hGen : StrothGenB
   obtain ⟨t, hD, hE4⟩ := h4
   obtain ⟨hN, f, hf, hLF⟩ :=
     lieModel_of_caseE4_recursion hb (hSt _ hb.1) SubCfg.subConfigE4Statement_holds hc hD hE4
-  haveI := hN
+  have := hN
   have hEq := lgenBar_eq_fstar_E4_of h34 hGen hSt hb hc ⟨t, hD, hE4⟩
   obtain ⟨K, _, _, _, hK, ⟨g⟩⟩ := D6Spin.exists_equiv_LamW_of_lieModel hLF
   have hLH := Br37.Lgen_LB_le_H0 hc.ctx

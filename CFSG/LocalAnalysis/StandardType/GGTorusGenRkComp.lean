@@ -68,7 +68,6 @@ private theorem ker_le_center {d n : ℕ} {K : Type} [Field K] {L' : Type} [Grou
   apply Units.ext
   rw [Subgroup.coe_mul, Subgroup.coe_mul, Units.val_mul, Units.val_mul, hc]
   first
-    | exact hcomm _
     | exact (hcomm _).symm
 
 open Classical in

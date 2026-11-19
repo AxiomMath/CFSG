@@ -78,7 +78,7 @@ public theorem firstCase_klein_sylow_normalizer_inverter
       map_mul' := by
         intro a b
         ext
-        simp [MulAut.conj_apply] }
+        simp }
   have hαsurj : Function.Surjective α := by
     intro z
     refine ⟨α z, ?_⟩

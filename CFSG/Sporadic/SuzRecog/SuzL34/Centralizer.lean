@@ -19,6 +19,7 @@ variable {G : Type} [Group G] [Finite G] {z : G} (D : LocalData G z)
 noncomputable abbrev RG : Subgroup G :=
   centralizer (D.AG : Set G) ⊓ centralizer ({D.t0} : Set G)
 
+omit [Finite G] in
 private theorem TG_inf_centralizer_T0G_eq_pull_c0Tabs :
     D.TG ⊓ centralizer (D.T0G : Set G) = D.pull (tabSubgroup c0Tabs) := by
   have hV0 : tabSubgroup v0Tabs ≤ invE 1 := by
@@ -53,6 +54,7 @@ private theorem isElemAbelian_tabSubgroup_c0Tabs (hF7 : F7Prop) :
   rw [pow_two]
   exact hsq x hx
 
+omit [Finite G] in
 private theorem isElemAbelian_pull_c0Tabs (hF7 : F7Prop) :
     IsElemAbelian 2 (D.pull (tabSubgroup c0Tabs)) := by
   have hV0 : tabSubgroup v0Tabs ≤ invE 1 := by
@@ -63,6 +65,7 @@ private theorem isElemAbelian_pull_c0Tabs (hF7 : F7Prop) :
     exact inf_le_right.trans hV0
   exact (D.isElemAbelian_pull_iff hc0).mpr (isElemAbelian_tabSubgroup_c0Tabs hF7)
 
+omit [Finite G] in
 theorem card_TG_inf_centralizer_T0G (hF7 : F7Prop) :
     Nat.card ↥(D.TG ⊓ centralizer (D.T0G : Set G)) = 16 := by
   have hc0 : tabSubgroup c0Tabs ≤ invE 1 := by
@@ -74,6 +77,7 @@ theorem card_TG_inf_centralizer_T0G (hF7 : F7Prop) :
   obtain ⟨hC0, -⟩ := hF7
   exact hC0
 
+omit [Finite G] in
 theorem mul_self_eq_one_of_mem_TG_inf (hF7 : F7Prop) {x : G}
     (hx : x ∈ D.TG ⊓ centralizer (D.T0G : Set G)) : x * x = 1 := by
   rw [TG_inf_centralizer_T0G_eq_pull_c0Tabs D] at hx

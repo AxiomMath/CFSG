@@ -64,7 +64,7 @@ theorem five_point_stabilizer_card_cases
   have hPcard : Nat.card P = 1860480 * h := by
     rw [hHindex] at hHindexCard
     exact hHindexCard.symm
-  letI : Fact (Nat.Prime 17) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 17) := ⟨by norm_num⟩
   let S₁₇ : Sylow 17 P := Sylow.nonempty.some
   have hS₁₇card : Nat.card S₁₇ = 17 :=
     sylow_long_prime_card_eq_prime
@@ -119,7 +119,7 @@ theorem five_point_stabilizer_card_cases
     change 20 - g.support.card = 3
     rw [hgsupport]
   have hP3 : MulAction.IsMultiplyPretransitive P X 3 := by
-    letI : MulAction.IsMultiplyPretransitive P X 5 := hP5
+    let : MulAction.IsMultiplyPretransitive P X 5 := hP5
     exact MulAction.isMultiplyPretransitive_of_le
       (G := P) (α := X) (m := 3) (n := 5)
         (by omega) (by
@@ -159,7 +159,7 @@ theorem five_point_stabilizer_card_cases
       _ = r₁₇ % 17 := by
         rw [Nat.mul_mod, hseventeen.2.2.1]
         simp
-  letI : Fact (Nat.Prime 19) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 19) := ⟨by norm_num⟩
   let S₁₉ : Sylow 19 P := Sylow.nonempty.some
   have hS₁₉card : Nat.card S₁₉ = 19 :=
     sylow_long_prime_card_eq_prime

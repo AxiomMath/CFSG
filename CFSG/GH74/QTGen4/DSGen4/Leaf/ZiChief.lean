@@ -17,7 +17,7 @@ theorem mem_dsCentMod_iff {G : Type} [Group G] {P L Q : Subgroup G} {p : G} :
 private theorem mem_of_odd_relIndex_of_isPGroup {G : Type} [Group G] [Finite G] {Q D : Subgroup G}
     (hDN : D ≤ Subgroup.normalizer (Q : Set G)) (hodd : Odd (Q.relIndex D)) {x : G} (hxD : x ∈ D)
     (hx : IsPGroup 2 (Subgroup.zpowers x)) : x ∈ Q := by
-  haveI : (Q.subgroupOf D).Normal := ⟨fun n hn g => by
+  have : (Q.subgroupOf D).Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     exact (Subgroup.mem_normalizer_iff.mp (hDN g.2) _).mp hn⟩
   obtain ⟨k, hk⟩ := hx ⟨x, Subgroup.mem_zpowers x⟩
@@ -38,19 +38,19 @@ private theorem mem_pCoreOf_of_normalizes {G : Type} [Group G] [Finite G] {L C :
     (hq : IsL2Quot 2 (oTwoQuot ↥L)) (hLC : ∀ g ∈ L, ∀ c ∈ C, g * c * g⁻¹ ∈ C)
     (hcore : pCoreOf 2 L ≤ C) (hnot : ¬ L ≤ C) {l : G} (hl : l ∈ L) (hlC : l ∈ C) :
     l ∈ pCoreOf 2 L := by
-  haveI hsimp : IsSimpleGroup (oTwoQuot ↥L) := by
+  have hsimp : IsSimpleGroup (oTwoQuot ↥L) := by
     obtain ⟨e⟩ := hq
-    haveI : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 2)) :=
+    have : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 2)) :=
       Matrix.ProjectiveSpecialLinearGroup.rank_two_simple
         (by rw [GaloisField.card 2 2 (by norm_num)]; norm_num)
     exact e.isSimpleGroup
-  haveI hNn : (Subgroup.comap L.subtype C).Normal := ⟨fun n hn g => by
+  have hNn : (Subgroup.comap L.subtype C).Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_comap] at hn ⊢
     simpa using hLC g.1 g.2 n.1 (by simpa using hn)⟩
   have hpN : pCore 2 ↥L ≤ Subgroup.comap L.subtype C := fun x hx => by
     rw [Subgroup.mem_comap]
     exact hcore (Subgroup.mem_map_of_mem L.subtype hx)
-  haveI : ((Subgroup.comap L.subtype C).map (QuotientGroup.mk' (pCore 2 ↥L))).Normal :=
+  have : ((Subgroup.comap L.subtype C).map (QuotientGroup.mk' (pCore 2 ↥L))).Normal :=
     hNn.map _ (QuotientGroup.mk'_surjective _)
   rcases hsimp.eq_bot_or_eq_top_of_normal
       ((Subgroup.comap L.subtype C).map (QuotientGroup.mk' (pCore 2 ↥L))) with hbot | htop
@@ -108,7 +108,7 @@ theorem leafZiChief [DSLeaf LeafZiStructure] [DSLeaf LeafFaithfulA5] [DSLeaf Lea
       Subgroup.mem_bot.mpr (commutatorElement_eq_one_iff_mul_comm.mpr (hZ1cQ e he q hq'))
   have hnt : ∃ l ∈ L1, ∃ e ∈ dsZi L1 S, ⁅l, e⁆ ∉ (⊥ : Subgroup G) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hnc
     rw [eq_bot_iff, Subgroup.commutator_le]
     intro e he l hl

@@ -20,7 +20,7 @@ theorem exists_perfect_normal {X : Subgroup A} {L : Subgroup (P64Asm.XBar 3 X)} 
   obtain ⟨K₀, -, ⟨hKn, hKL⟩, hKmin⟩ := exists_minimal_le_of_wellFoundedLT
     (fun N : Subgroup X => N.Normal ∧ N.map (P64Asm.XBar.mk 3 X) = L)
     (L.comap (P64Asm.XBar.mk 3 X)) ⟨inferInstance, map_comap_eq_self_of_surjective hπ L⟩
-  haveI := hKn
+  have := hKn
   refine ⟨K₀, hKn, hKL, le_antisymm (commutator_le_left K₀ K₀) ?_⟩
   exact hKmin ⟨inferInstance, by rw [map_commutator, hKL, hLp]⟩ (commutator_le_left K₀ K₀)
 

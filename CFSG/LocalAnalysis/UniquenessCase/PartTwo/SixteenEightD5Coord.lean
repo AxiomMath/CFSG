@@ -12,6 +12,7 @@ open CFSG.Quasithin CFSG.Open Subgroup
 variable {W : Type} [CommGroup W] [Finite W] {L : Subgroup (MulAut W)}
   {K : Fin 4 → Subgroup (MulAut W)} {Z : Fin 4 → Subgroup W}
 
+omit [Finite W] in
 private theorem s16e_d5_exists_notMem (hfr : s16e_d5_Frame L K Z) (i : Fin 4) :
     ∃ ξ : MulAut W, ξ ∈ L ∧ ξ ∉ K i := by
   have hnotsub : ¬ (L : Set (MulAut W)) ⊆ (K i : Set (MulAut W)) := by

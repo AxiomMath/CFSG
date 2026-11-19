@@ -105,7 +105,7 @@ theorem Pin_eq_inf (F : FritzData L) (hinj : Function.Injective (MulAut.conj : L
     rintro x (rfl | rfl)
     · exact MonoidHom.mem_range.2 ⟨F.x, rfl⟩
     · exact MonoidHom.mem_range.2 ⟨F.y, rfl⟩
-  haveI hfin : Finite ↥(P F) :=
+  have hfin : Finite ↥(P F) :=
     Nat.finite_of_card_ne_zero (by rw [card_P F]; norm_num)
   have hdvd : Nat.card ↥(P F ⊓ inn L) ∣ Nat.card (P F) := by
     have h := Subgroup.card_subgroup_dvd_card ((P F ⊓ inn L).subgroupOf (P F))
@@ -168,7 +168,7 @@ private theorem subgroupOf_Pin_eq_comap (F : FritzData L)
       SD.S16.comap (H8.subtype.comp (phi F).toMonoidHom : ↥(P F) →* Perm (ZMod 8)) := by
   let ψ : ↥(P F) →* Perm (ZMod 8) := H8.subtype.comp (phi F).toMonoidHom
   change (Pin F).subgroupOf (P F) = SD.S16.comap ψ
-  haveI hfin : Finite ↥(P F) :=
+  have hfin : Finite ↥(P F) :=
     Nat.finite_of_card_ne_zero (by rw [card_P F]; norm_num)
   have hmain : ∀ y (hy : y ∈ closure ({MulAut.conj F.x, MulAut.conj F.y} : Set (MulAut L)))
       (hyP : y ∈ P F), (⟨y, hyP⟩ : ↥(P F)) ∈ SD.S16.comap ψ := by

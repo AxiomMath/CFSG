@@ -69,11 +69,11 @@ theorem shift_and_ones (t : ℕ) (ht : t < 128) : ∀ x : List ℕ, (∀ c ∈ x
     rw [Nat.testBit_and, Nat.testBit_shiftRight, packL_lane _ _ _ hc, packL_lane _ _ _ h1,
       packL_lane _ _ _ h2]
     by_cases hj : j < 128
-    · rw [if_pos hj, if_pos hj]
+    · rw [ite_eq_left hj, ite_eq_left hj]
       rcases j with _ | j
       · have e : c.testBit t = (c >>> t).testBit 0 := by
           rw [Nat.testBit_shiftRight, Nat.add_zero]
-        rw [if_pos (by omega), Nat.add_zero, e, Nat.testBit_one_zero, Bool.and_true,
+        rw [ite_eq_left (by omega), Nat.add_zero, e, Nat.testBit_one_zero, Bool.and_true,
           Nat.testBit_zero, Nat.testBit_zero, Nat.mod_mod]
       · have e1 : (1 : ℕ).testBit (j + 1) = false :=
           Nat.testBit_lt_two_pow (Nat.one_lt_two_pow (by omega))
@@ -81,7 +81,7 @@ theorem shift_and_ones (t : ℕ) (ht : t < 128) : ∀ x : List ℕ, (∀ c ∈ x
           Nat.testBit_lt_two_pow (lt_of_lt_of_le (Nat.mod_lt _ (by norm_num))
             (Nat.le_self_pow (by omega) 2))
         rw [e1, e2, Bool.and_false]
-    · rw [if_neg hj, if_neg hj, if_neg (by omega), ← ih, Nat.testBit_and, Nat.testBit_shiftRight]
+    · rw [ite_eq_right hj, ite_eq_right hj, ite_eq_right (by omega), ← ih, Nat.testBit_and, Nat.testBit_shiftRight]
       have e : t + j - 128 = t + (j - 128) := by omega
       rw [e]
 
@@ -115,7 +115,7 @@ theorem mulPgo_eq (x : List ℕ) (hx : ∀ c ∈ x, c < 2 ^ 128) :
       rcases Nat.mod_two_eq_zero_or_one (c >>> t) with h | h <;> simp [h]
     · intro c _
       rcases Nat.mod_two_eq_zero_or_one (c >>> t) with h | h
-      · simp [Function.comp, h, Nat.two_pow_pos]
+      · simp [Function.comp, h]
       · simpa [Function.comp, h] using ha
     · intro c _
       exact applyL_lt A _ hA'
@@ -190,7 +190,7 @@ theorem toList_dlocMasks (fs : List FK) (D : LocData) (i j : Fin 4) (r : ℕ) :
 theorem locValid1_iff (a b c : Bool) : LocValid1 a b c ↔ LocValid1K a b c = true := by
   simp only [LocValid1, LocValid1K, loc1K, mulPL_eq, Bool.and_eq_true, beq_iff_eq,
     decide_eq_true_eq, List.all_eq_true, List.any_eq_true, List.mem_range, Finset.mem_range, all44,
-    List.mem_finRange, true_implies, forall_const, mcols_eq_iff, size_eq_length, toList_mul,
+    List.mem_finRange, forall_const, mcols_eq_iff, size_eq_length, toList_mul,
     toList_one, toList_zero, toList_zrowOf, toList_piOf, apply_eq, toList_tabD, yMasks_eq,
     hwEnc_eq, dimL_eq, and_assoc]
 
@@ -201,8 +201,7 @@ theorem locValid2_iff (a b c : Bool) : LocValid2 a b c ↔ LocValid2K a b c = tr
 
 theorem locValid3_iff (a b c : Bool) : LocValid3 a b c ↔ LocValid3K a b c = true := by
   simp only [LocValid3, LocValid3K, loc3K, mulPL_eq, Bool.and_eq_true, beq_iff_eq,
-    decide_eq_true_eq, List.all_eq_true, List.mem_range, Finset.mem_range, all44, List.mem_finRange, true_implies,
-    forall_const, mcols_eq_iff, size_eq_length, toList_mul, toList_one, apply_eq,
+    decide_eq_true_eq, List.all_eq_true, List.mem_range, Finset.mem_range, all44, List.mem_finRange, forall_const, mcols_eq_iff, size_eq_length, toList_mul, toList_one, apply_eq,
     toList_dlocMasks, yMasks_eq, and_assoc]
 
 theorem locValid_iff (a b c : Bool) : LocValid a b c ↔ LocValidK a b c = true := by

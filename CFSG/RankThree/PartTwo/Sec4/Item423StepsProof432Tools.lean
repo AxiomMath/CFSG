@@ -134,7 +134,7 @@ theorem not_three_dvd_card_of_isPerfect {X : Type*} [Group X] [Finite X]
     rw [← Finite.one_lt_card_iff_nontrivial, hPc]
     exact Nat.one_lt_pow hpos.ne' (by norm_num)
   obtain ⟨⟨g, hgP⟩, hg1⟩ := exists_ne (1 : (P : Subgroup X))
-  obtain ⟨k, hk⟩ := P.isPGroup' ⟨g, hgP⟩
+  obtain ⟨k, hk⟩ := P.isPGroup ⟨g, hgP⟩
   have hgk : g ^ 3 ^ k = 1 := by simpa using congrArg Subtype.val hk
   have hcop : Nat.Coprime (3 ^ k) (Subgroup.center X).index :=
     Nat.Coprime.pow_left k ((Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mpr hidx)

@@ -78,7 +78,7 @@ theorem ggWTTw_weylTypeW_twE6Plus
     GGTorusWeylTypeW p 5 (TwE6Delta.RecipeR K n) (TwE6Delta.RecipeI K n) := by
   have hp2 : p ≠ 2 := by omega
   have hp3 : p ≠ 3 := by omega
-  haveI : CharP K 2 := charP_two_of_card (K := K) (m := 2 * n) (by rw [hK, ← pow_mul, mul_comm])
+  have : CharP K 2 := charP_two_of_card (K := K) (m := 2 * n) (by rw [hK, ← pow_mul, mul_comm])
   obtain ⟨e⟩ := TwE6Rank.exists_mulEquiv_graphFixedRootGroup hn hK (iterateFrobenius K 2 n)
     (fun c => iterateFrobenius_def 2 n c)
   exact ggWTEx1_weylTypeW_of_excPlusModel hp hp2 ggWTTw_isWeylMatrix_E6 ggWTTw_card_E6
@@ -178,10 +178,10 @@ theorem ggWTTw_weylTypeW_twE6Split
     {n p : ℕ} (hn : 1 ≤ n) {K : Type} [Field K] [Finite K] (hK : Nat.card K = (2 ^ n) ^ 2)
     (hp : p.Prime) (hp5 : 5 ≤ p) (hpn : p ∣ 2 ^ n - 1) :
     GGTorusWeylTypeW p 4 (TwE6Delta.RecipeR K n) (TwE6Delta.RecipeI K n) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   have hp3 : p ≠ 3 := by omega
-  haveI : CharP K 2 := charP_two_of_card (K := K) (m := 2 * n) (by rw [hK, ← pow_mul, mul_comm])
+  have : CharP K 2 := charP_two_of_card (K := K) (m := 2 * n) (by rw [hK, ← pow_mul, mul_comm])
   obtain ⟨e⟩ := TwE6Rank.exists_mulEquiv_graphFixedRootGroup hn hK (iterateFrobenius K 2 n)
     (fun c => iterateFrobenius_def 2 n c)
   refine ggWTEx1_weylTypeW_of_excPlusModel hp hp2 ggWTEx1_isWeylMatrix_F4 ggWTEx1_card_F4

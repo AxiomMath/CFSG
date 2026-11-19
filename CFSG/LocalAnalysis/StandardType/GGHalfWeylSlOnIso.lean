@@ -57,7 +57,7 @@ theorem exists_mulEquiv_slOn_compl (m : ℕ) (P : Fin (m + 1 + 1)) :
     ext i
     dsimp only [B]
     simp only [Finset.coe_image, Finset.coe_univ, Set.image_univ, Set.mem_range,
-      Set.mem_setOf_eq]
+      Set.mem_ofPred_eq]
     constructor
     · rintro ⟨k, rfl⟩
       simp only [Fin.val_succ]

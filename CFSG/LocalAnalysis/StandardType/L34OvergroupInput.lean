@@ -20,13 +20,13 @@ theorem SolvableOrAltSix.of_mulEquiv {A B : Type} [Group A] [Group B] (e : A ≃
     (h : SolvableOrAltSix A) : SolvableOrAltSix B := by
   rcases h with h | ⟨hs, ⟨c⟩⟩
   · exact Or.inl (SylowOvergroup.isSolvable_of_mulEquiv e.symm h)
-  · haveI := hs
+  · have := hs
     let c' := SylowOvergroup.commutatorEquiv e
     exact Or.inr ⟨c'.symm.isSimpleGroup, ⟨c'.symm.trans c⟩⟩
 
 theorem solvableOrAltSix_of_aSix {M : Type} [Group M] (hperf : commutator M = ⊤)
     (e : M ≃* alternatingGroup (Fin 6)) : SolvableOrAltSix M := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
   let c : ↥(commutator M) ≃* alternatingGroup (Fin 6) :=
     ((MulEquiv.subgroupCongr hperf).trans Subgroup.topEquiv).trans e
   exact Or.inr ⟨c.isSimpleGroup, ⟨c⟩⟩
@@ -40,8 +40,8 @@ theorem solvableOrAltSix_of_not_dvd_index
   have hcardS : Nat.card ↥S = 20160 := by
     rw [← closureTabs_gensS]
     exact hF.card_S
-  haveI : Finite ↥S := Nat.finite_of_card_ne_zero (by rw [hcardS]; norm_num)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite ↥S := Nat.finite_of_card_ne_zero (by rw [hcardS]; norm_num)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hPcard : Nat.card ↥((closureTabs pGens).subgroupOf S) = 9 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hPS).toEquiv]
     exact hF.card_P

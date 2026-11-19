@@ -55,7 +55,7 @@ private theorem exists_altOn_map {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
     ∃ φ : alternatingGroup (Fin (2 * p)) →* K, Function.Injective φ ∧
       (T : Subgroup K) = Subgroup.zpowers (φ a) ⊔ Subgroup.zpowers (φ b) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set T₀ := Subgroup.zpowers a ⊔ Subgroup.zpowers b
   have hT₀p : IsPGroup p T₀ := by simpa [T₀] using hT0p
   have hT₀c : p * p ≤ Nat.card T₀ := by simpa [T₀] using hT0c
@@ -64,7 +64,7 @@ private theorem exists_altOn_map {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
   have hT₀Kp : IsPGroup p (T₀.map φ₀) := hT₀p.map φ₀
   obtain ⟨T', hT'⟩ := hT₀Kp.exists_le_sylow
   have hT'c : Nat.card (T' : Subgroup K) ≤ p * p := by
-    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp T'.isPGroup'
+    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp T'.isPGroup
     have hdvd : p ^ k ∣ Nat.card K := hk ▸ Subgroup.card_subgroup_dvd_card _
     rw [Nat.card_congr e.toEquiv] at hdvd
     have h2 := two_mul_card_alternatingGroup_fin (n := 2 * p) (by omega)
@@ -105,7 +105,7 @@ private theorem exists_altOn_transport {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
         orderOf a = p ∧ orderOf b = p ∧
           (T : Subgroup K) = Subgroup.zpowers (φ a) ⊔ Subgroup.zpowers (φ b) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   obtain ⟨a, ha⟩ := exists_prime_orderOf_dvd_card' p
     (dvd_card_altOn hp hp2 (card_half (p := p)))
@@ -201,8 +201,8 @@ theorem two_le_pRank_three_of_mulEquiv_alternatingGroup {p : ℕ} (hp : p.Prime)
     (T : Sylow p ↥K) (hT : (T : Subgroup ↥K) ≤ N.subgroupOf K) :
     2 ≤ CFSG.Open.pRank 3 N := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨x, y, u, v, hxT, hyT, hxo, hyo, huo, hvo, huy, hvx, huv, hnot⟩ :=
     exists_three_rank_witness hp hp5 e T
   have hxN : (x : X) ∈ N := Subgroup.mem_subgroupOf.mp (hT hxT)
@@ -255,12 +255,12 @@ private theorem solvable_or_id_of_smallAut
     (hN : IsStronglyPEmbedded p N)
     (hle : Subgroup.normalizer ((T : Subgroup ↥K) : Set ↥K) ≤ N.subgroupOf K)
     (hne : N.subgroupOf K ≠ ⊤) (hout : Group.IsSolvable (Outer ↥K)) :
-    IsSolvable ↥N ∨
+    Group.IsSolvable ↥N ∨
       (2 ≤ CFSG.Open.pRank 3 N ∧
         (CoverHasLargeTwoLocal ↥K ∨
           (p = 5 ∧ Nonempty (↥K ≃* alternatingGroup (Fin 10))))) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hTN : (T : Subgroup ↥K) ≤ N.subgroupOf K := le_trans Subgroup.le_normalizer hle
   have hK2 : CFSG.Open.pRank p (⊤ : Subgroup ↥K) ≤ 2 :=
     (CFSG.AGLEmbedding.pRank_le_pRank_mulAut_of_nonabelian hKnab hp.one_lt
@@ -323,18 +323,18 @@ private theorem solvable_or_id_of_largeAut
     (hKC : Subgroup.centralizer (K : Set X) = ⊥) (hout : Group.IsSolvable (Outer ↥K))
     (hle : Subgroup.normalizer ((T : Subgroup ↥K) : Set ↥K) ≤ N.subgroupOf K)
     (hne : N.subgroupOf K ≠ ⊤) :
-    IsSolvable ↥N ∨
+    Group.IsSolvable ↥N ∨
       (2 ≤ CFSG.Open.pRank 3 N ∧
         (CoverHasLargeTwoLocal ↥K ∨
           (p = 5 ∧ Nonempty (↥K ≃* alternatingGroup (Fin 10))))) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨n, e, hF⟩ := hTor ↥K hKs hKnab hcat p hp2 T hcyc hΓT hAut
   have hTbot : (T : Subgroup ↥K) ≠ ⊥ := by
     intro h
     exact hcyc (h ▸ inferInstance)
   have hdvd : p ∣ Nat.card (T : Subgroup ↥K) := by
-    obtain ⟨k, hk⟩ := T.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := T.isPGroup.exists_card_eq
     have hk0 : k ≠ 0 := by
       rintro rfl
       refine hTbot (Subgroup.card_eq_one.1 ?_)
@@ -364,12 +364,12 @@ theorem stronglyEmbeddedSolvableId_of_kFacts
     StronglyEmbeddedSolvableId := by
   classical
   intro p hp hp5 X _ _ hX hO h2 N hN
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   obtain ⟨hKs, hKnab, hKn, hKC⟩ := CFSG.RankThree.PartOne.Sec1511.spe_fstar hp hO hN
   set K := CFSG.generalizedFitting X with hKdef
-  haveI : K.Normal := hKn
-  haveI : IsSimpleGroup ↥K := hKs
+  have : K.Normal := hKn
+  have : IsSimpleGroup ↥K := hKs
   have hcat : CFSG.Open.IsCatalogGroup ↥K :=
     hX.isCatalogGroup_of_surjective K hKnab (MonoidHom.id _) Function.surjective_id
   have hK1 : K ≠ ⊥ := (Subgroup.nontrivial_iff_ne_bot K).1 inferInstance
@@ -380,12 +380,12 @@ theorem stronglyEmbeddedSolvableId_of_kFacts
     exact h2
   have hΓ : CFSG.Open.rankThreeGamma 1 p (P : Subgroup X) ≠ ⊤ :=
     ne_top_of_le_ne_top hN.1
-      (CFSG.LocalAnalysis.UniquenessCase.UCK.glbCore_le_of_isStronglyPEmbedded hN P.isPGroup' hPN)
+      (CFSG.LocalAnalysis.UniquenessCase.UCK.glbCore_le_of_isStronglyPEmbedded hN P.isPGroup hPN)
   have hout : Group.IsSolvable (Outer ↥K) := hSch ↥K hKs hKnab hcat
   have hle : Subgroup.normalizer ((T : Subgroup ↥K) : Set ↥K) ≤ N.subgroupOf K := by
     rw [hT]
     exact normalizer_subgroupOf_le_of_isStronglyPEmbedded hN hPK
-      (P.isPGroup'.to_le inf_le_left) (inf_le_left.trans hPN) inf_le_right
+      (P.isPGroup.to_le inf_le_left) (inf_le_left.trans hPN) inf_le_right
   have hne : N.subgroupOf K ≠ ⊤ := fun h =>
     CFSG.LocalAnalysis.UniquenessCase.UCK.not_le_of_isStronglyPEmbedded hN P hPN hPK T hT
       (Subgroup.subgroupOf_eq_top.mp h)

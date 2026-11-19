@@ -41,7 +41,7 @@ theorem s16h_e3_CycTwoP7M6A_pCoreOf_elemAbelian_of_lBar_le
       hPmax (M.map (Mbar D.M V₀ V hV).subtype) (Subgroup.map_subtype_le M) (hMp.map _)
     exact hMle (Subgroup.mem_map_of_mem (Mbar D.M V₀ V hV).subtype hx)
   have hcore : CFSG.pCore 7 ↥(Mbar D.M V₀ V hV) = P.subgroupOf (Mbar D.M V₀ V hV) := by
-    letI : (P.subgroupOf (Mbar D.M V₀ V hV)).Normal := hPn
+    let : (P.subgroupOf (Mbar D.M V₀ V hV)).Normal := hPn
     exact CFSG.OddStandard.SmallF3.HarrisU33.pCore_eq_of_normal _ hNp hNmax
   have heq : pCoreOf 7 (Mbar D.M V₀ V hV) = P := by
     unfold pCoreOf

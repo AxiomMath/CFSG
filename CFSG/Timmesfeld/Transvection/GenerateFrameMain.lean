@@ -27,6 +27,7 @@ namespace IsMaxFrame
 
 variable [Finite H] {r : ℕ} {P Q : Fin r → Subgroup H}
 
+omit [Finite H] in
 private theorem exists_spRelations_of_aligned [Finite H]
     (hfr : IsMaxFrame Δ P Q) (hΔ : IsTransvectionClass Δ) (hpts : PointsDetermined Δ)
     (hiso : NoIsolated Δ) (hml : MeetsLines Δ) (hthick : ThickLines Δ)
@@ -56,6 +57,7 @@ private theorem exists_spRelations_of_aligned [Finite H]
   rw [this]
   exact (hsp i j h).choose_spec
 
+omit [Finite H] in
 private theorem exists_suRelations_of_aligned [Finite H]
     (hfr : IsMaxFrame Δ P Q) (hΔ : IsTransvectionClass Δ) (hpts : PointsDetermined Δ)
     (hiso : NoIsolated Δ) (hml : MeetsLines Δ) (hthick : ThickLines Δ)

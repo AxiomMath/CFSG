@@ -41,7 +41,7 @@ theorem mem_scriptQ_of_centralizes {A : Subgroup G} (hA : IsE27 A)
   have hpow : ∀ n : ℕ, ∀ y ∈ Y, ⁅y, a ^ n⁆ ∈ V := by
     intro n
     induction n with
-    | zero => intro y hy; simpa using V.one_mem
+    | zero => intro y hy; simp
     | succ n ih =>
       intro y hy
       have h : ⁅y, a ^ (n + 1)⁆ = ⁅y, a⁆ * (a * ⁅y, a ^ n⁆ * a⁻¹) := by

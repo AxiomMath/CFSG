@@ -27,8 +27,8 @@ private theorem two_pow_add_one_dvd (n : ℕ) : 2 ^ n + 1 ∣ 2 ^ (2 * n) - 1 :=
 
 private theorem isSylowOf_top {X : Type} [Group X] [Finite X] (S : Sylow 2 X) :
     CFSG.ABGLocalTools.IsSylowOf 2 (S : Subgroup X) ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  refine CFSG.ABGLocalTools.isSylowOf_iff.mpr ⟨le_top, S.isPGroup', ?_⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  refine CFSG.ABGLocalTools.isSylowOf_iff.mpr ⟨le_top, S.isPGroup, ?_⟩
   rw [Subgroup.relIndex_top_right]
   exact S.not_dvd_index
 
@@ -69,9 +69,9 @@ theorem kob_U3 {Y : Type} [Group Y] [Finite Y] {n r : ℕ} (hX : IsU3 Y n)
 private theorem isL2_of_isOmegaMinus_four {X : Type} [Group X] {k : ℕ} (hk : 1 ≤ k)
     (h : IsOmegaMinus X 4 k) : IsL2 X (2 * k) := by
   obtain ⟨-, K, hKf, hKfin, b, c, hcard, hbc, ⟨e⟩⟩ := h
-  letI := hKf
-  letI := hKfin
-  haveI hchar : CharP K 2 := uc22p22d_charP_two hk hcard
+  let := hKf
+  let := hKfin
+  have hchar : CharP K 2 := uc22p22d_charP_two hk hcard
   let Q : QuadraticForm K (Fin (4 / 2 - 1) ⊕ Fin (4 / 2 - 1) ⊕ Fin 2 → K) :=
     CFSG.LieType.Universal.Spin.quadMinus (4 / 2) K b c
   have hQ : ⇑Q = StatedQuadMinus (4 / 2) K b c :=

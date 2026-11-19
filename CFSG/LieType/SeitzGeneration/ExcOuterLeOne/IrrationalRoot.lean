@@ -21,7 +21,7 @@ section EType
 theorem cartanE_connected_aux (r : ℕ) (hr : 4 ≤ r) (i j : Fin r) :
     Relation.ReflTransGen (fun a b : Fin r => Tag.cartanE r a b = -1 ∧ Tag.cartanE r b a = -1) i j := by
   set R := (fun a b : Fin r => Tag.cartanE r a b = -1 ∧ Tag.cartanE r b a = -1) with hR
-  have hsymm : Symmetric R := fun a b h => ⟨h.2, h.1⟩
+  have hsymm : (∀ ⦃a₀ b₀⦄, R a₀ b₀ → R b₀ a₀) := fun a b h => ⟨h.2, h.1⟩
   have hpath : ∀ k (hk : 2 + k < r), Relation.ReflTransGen R ⟨2, by omega⟩ ⟨2 + k, hk⟩ := by
     intro k
     induction k with
@@ -32,10 +32,10 @@ theorem cartanE_connected_aux (r : ℕ) (hr : 4 ≤ r) (i j : Fin r) :
       have hne : ¬ (2 + k = 2 + (k + 1)) := by omega
       have hne' : ¬ (2 + (k + 1) = 2 + k) := by omega
       constructor
-      · simp only [Tag.cartanE, Fin.mk.injEq, hne, if_false]
-        rw [if_pos (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl ⟨by omega, by omega⟩)))))]
-      · simp only [Tag.cartanE, Fin.mk.injEq, hne', if_false]
-        rw [if_pos (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr ⟨by omega, by omega⟩)))))]
+      · simp only [Tag.cartanE, Fin.mk.injEq, hne, ite_false]
+        rw [ite_eq_left (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl ⟨by omega, by omega⟩)))))]
+      · simp only [Tag.cartanE, Fin.mk.injEq, hne', ite_false]
+        rw [ite_eq_left (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr ⟨by omega, by omega⟩)))))]
   have h02 : R ⟨0, by omega⟩ ⟨2, by omega⟩ := by
     constructor <;> simp [Tag.cartanE]
   have h13 : R ⟨1, by omega⟩ ⟨3, by omega⟩ := by
@@ -93,7 +93,7 @@ theorem eq_top_of_irrational_rootElt {τ : Tag} (hτ : τ = .E6 ∨ τ = .E7 ∨
   obtain ⟨ε, hε, hcomm⟩ := commutator_xPar_neighbour (K := K) hD hG2 hil hli
   let S : Subring K :=
     { carrier := {u | ∀ γ : Fin τ.rank → ℤ, IsRoot τ γ → xPar (rootOperatorFamily τ) γ u ∈ H}
-      zero_mem' := fun γ _ => by simpa [xPar_zero] using H.one_mem
+      zero_mem' := fun γ _ => by simp [xPar_zero]
       one_mem' := fun γ hγ => hrat γ hγ 1 k.one_mem
       add_mem' := fun {a b} ha hb γ hγ => by
         rw [xPar_add]

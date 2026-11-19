@@ -149,7 +149,7 @@ theorem sup_center_ne {X : Type*} [Group X] (φ : X →* Matrix.SpecialLinearGro
     subst hw1
     rw [show (⟨1, hWP hw⟩ : ↥P) = 1 from rfl, map_one, toAdd_one] at hwc
     simpa using (congrFun hwc 1).symm
-  haveI := hWn
+  have := hWn
   have hp : ((ψ.symm (Multiplicative.ofAdd ![0, 0, 1]) : ↥P) : X) ∈ W ⊔ Subgroup.center X := by
     rw [hsup]
     exact (ψ.symm _).2

@@ -99,7 +99,7 @@ end Model
 theorem card_sylow_of_card {p : ℕ} [Fact p.Prime] {G : Type*} [Group G] [Finite G] (R : Sylow p G)
     {k m : ℕ} (hG : Nat.card G = p ^ k * m) (hm : ¬ p ∣ m) : Nat.card R = p ^ k := by
   have hp := (Fact.out : p.Prime)
-  obtain ⟨j, hj⟩ := IsPGroup.iff_card.mp R.isPGroup'
+  obtain ⟨j, hj⟩ := IsPGroup.iff_card.mp R.isPGroup
   have hidx := (R : Subgroup G).index_mul_card
   have hnd := R.not_dvd_index
   rw [hj, hG] at hidx
@@ -277,7 +277,7 @@ theorem false_of_hs (hMcard : Nat.card Open.MonsterY443Derived = Open.monsterOrd
             have h1 := Subgroup.card_dvd_of_le hQle
             rw [hQcard] at h1
             rcases GrSLit.L34R.hs_card_centralizer e (by
-              rw [orderOf_eq_prime hs2 hs1]) with h2 | h2 <;> rw [h2] at h1 ⊢ <;> norm_num at h1
+              rw [orderOf_eq_prime hs2 hs1]) with h2 | h2 <;> rw [h2] at h1 ⊢; norm_num at h1
           set f := (QuotientGroup.mk' (center Y)).subgroupMap T
           have hfker : f.ker = ⊥ := by
             rw [eq_bot_iff]

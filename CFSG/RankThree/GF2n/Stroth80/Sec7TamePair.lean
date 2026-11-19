@@ -46,6 +46,7 @@ theorem comm_Ut_of_vanish_mod_Z (hc : Ctx M Q Z B) {y a : G} (hyH : y ∈ H0 M Z
   have h1 := Subgroup.mem_centralizer_iff.mp hbW.2 a (Subgroup.mem_zpowers a)
   exact commutatorElement_eq_one_iff_mul_comm.mpr h1
 
+omit [Finite G] in
 theorem conc71abcd_of_conj (hc : Ctx M Q Z B) {m : G} (hm : m ∈ M) (t : G) (n : ℕ)
     (h : Conc71abcd (hc.conj_of_mem hm) n (m * t * m⁻¹)) : Conc71abcd hc n t := by
   have hQn : ∀ x ∈ Q, m⁻¹ * x * m ∈ Q := fun x hx => by
@@ -106,7 +107,7 @@ theorem step76EightTamePair_of (hV : Step71VanishStatement) (hZV : Sec7ZVStateme
       ∀ a ∈ Ut Q Z f, ∀ b ∈ Ut Q Z f', ⁅a, b⁆ = 1 := by
   intro G _ _ M Q Z B hc n t hs hno f hfL hfc f' hf'L hf'c a ha b hb
   classical
-  haveI := hc.normal_Q_in_M
+  have := hc.normal_Q_in_M
   have ht : t ∈ LB M Q B := hs.toSec5.mem
   obtain ⟨Z0, hZ0⟩ := hc.exists_centre ht
   have htZ0 : t ∈ Z0 := IsCentrePre.mem_of_mem_LB (hc := hc) ht hZ0

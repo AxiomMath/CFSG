@@ -67,7 +67,7 @@ theorem exists_lift_elem {Ĝ L : Type*} [Group Ĝ] [Group L] [Finite Ĝ] {φ : �
     (hc : IsCentralCover φ 2) (A₀ : Subgroup L) (hA : ∀ x ∈ A₀, x ^ 2 = 1) :
     ∃ Â : Subgroup Ĝ, (∀ a ∈ Â, a ^ 2 = 1) ∧ (∀ a ∈ Â, φ a ∈ A₀) ∧
       Nat.card A₀ ≤ Nat.card Â ∧ (A₀ ≠ ⊥ → Â ≠ ⊥) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hP : IsPGroup 2 A₀ := fun x => ⟨1, Subtype.ext (by simpa using hA x x.2)⟩
   refine ⟨pLift hc A₀ hP, ?_, fun a ha => ha.1, ?_, ?_⟩
   · intro a ha
@@ -132,9 +132,9 @@ theorem noIrrFFOffender_twistedE6_of_bounds
   have hK2 : Nat.card K = q.card ^ 2 := by
     rw [TauCeti.PrimePower.card_def, GaloisField.card _ _ (by have := q.exponent_pos; omega),
       ← pow_mul, mul_comm]
-  haveI : Finite K := inferInstance
+  have : Finite K := inferInstance
   have hKf : Nat.card K = (2 ^ f) ^ 2 := by rw [hK2, hqc]
-  haveI : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     Nat.prime_two (k := 2 * f) (by omega) (by rw [hKf, ← pow_mul]; ring_nf)
   let σ : K →+* K := iterateFrobenius K q.p q.exponent
   have hσq : ∀ x, σ x = x ^ q.card := fun x => by
@@ -152,13 +152,13 @@ theorem noIrrFFOffender_twistedE6_of_bounds
   have hodd : Odd (Nat.card (Subgroup.center ↥L)) := odd_card_center_of_isIrrOn hW hirr
   have hperf : Group.IsPerfect ↥L := hql.1
   obtain ⟨φ, hφs, hφπ⟩ := exists_cover_hom hf hKf σ hσ hperf hodd eS
-  haveI : Nontrivial ↥L := by
+  have : Nontrivial ↥L := by
     have := hql.2.1.toNontrivial
     exact (QuotientGroup.mk'_surjective (Subgroup.center ↥L)).nontrivial
   obtain ⟨δ, m, k, _, _, _, ιK, ρ, hδ, hm, hρirr, hρinj, hιKinj, hWcard, hent, hext, hfix, hdisp⟩ :=
     offender_periodic_data_out hW hperf hirr hEN hE hel hquad hoff (S := ↥L) (MulEquiv.refl _)
       (n := 2 * f) (K := K) (by omega) (by rw [hKf, ← pow_mul]; ring_nf)
-  letI : Algebra K k := ιK.toAlgebra
+  let : Algebra K k := ιK.toAlgebra
   have hρ : IsSimpleRep ρ := (SL2Modules.isIrreducible_iff ρ).1 hρirr
   have hρ' : IsSimpleRep (ρ.comp φ) := isSimpleRep_comp_surj ρ φ hφs hρ
   have hsplit := twistedCover_split hf hKf σ hσ k

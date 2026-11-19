@@ -20,8 +20,8 @@ theorem card_sup_mul_card_inf_of_conj_mem {G : Type} [Group G] [Finite G] (A B :
     refine ⟨fun hh => hAB a ha h hh, fun hh => ?_⟩
     simpa [mul_assoc] using hAB a⁻¹ (A.inv_mem ha) _ hh
   have hrel : B.relIndex A = B.relIndex (A ⊔ B) := by
-    letI := Subgroup.normal_subgroupOf_of_le_normalizer hAN
-    letI := Subgroup.normal_subgroupOf_sup_of_le_normalizer hAN
+    let := Subgroup.normal_subgroupOf_of_le_normalizer hAN
+    let := Subgroup.normal_subgroupOf_sup_of_le_normalizer hAN
     exact Nat.card_congr
       (QuotientGroup.quotientInfEquivProdNormalizerQuotient A B hAN).toEquiv
   have hC : B.relIndex (A ⊔ B) * Nat.card ↥B = Nat.card ↥(A ⊔ B) := by
@@ -68,7 +68,7 @@ theorem eq_sup_of_irred {G : Type} [Group G] [Finite G] {R N Z0 K : Subgroup G}
             rw [e2]
             exact hb n hn
           rwa [hZn a haR] at h1
-        one_mem' := ⟨R.one_mem, fun n _ => by simpa [commutatorElement_def] using Z0.one_mem⟩
+        one_mem' := ⟨R.one_mem, fun n _ => by simp [commutatorElement_def]⟩
         inv_mem' := by
           rintro a ⟨haR, ha⟩
           refine ⟨R.inv_mem haR, fun n hn => ?_⟩

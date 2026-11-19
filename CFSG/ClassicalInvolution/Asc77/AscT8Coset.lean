@@ -154,7 +154,7 @@ theorem exists_orderFour_centralizes_mul_conj (hp : p ≠ 2) (hq : 5 ≤ p ^ f)
     exact hbq.symm
   have hqS : r * r' ∈ (S : Subgroup G) := S.mul_mem (hPS hrP) (hPbS hr'mem)
   have hq2 : IsPGroup 2 (Subgroup.zpowers (r * r')) :=
-    S.isPGroup'.to_le (Subgroup.zpowers_le.mpr hqS)
+    S.isPGroup.to_le (Subgroup.zpowers_le.mpr hqS)
   obtain ⟨x, hxL, hxo, hx⟩ := exists_orderFour_centralizes_sq hp hΩ hL hb hq2 hqL
   have hsq : (r * r') * (r * r') = m * (b * m * b⁻¹) := by
     have h1 : r' * r' = b * m * b⁻¹ := by
@@ -197,7 +197,7 @@ theorem mem_dComp_of_four_le_card (hp : p ≠ 2) (hq : 5 ≤ p ^ f) (hΩ : HypOm
   have hUKord : 4 ≤ Nat.card ↥(K ⊓ ⨆ V ∈ η, V) := by
     obtain ⟨-, -, -, -, -, -, -, -, h4⟩ := hΩ.exists_data_of_mem_USet hp (hUSet _ hUK)
     exact h4
-  have hUK2 : IsPGroup 2 ↥(K ⊓ ⨆ V ∈ η, V) := S.isPGroup'.to_le (inf_le_right.trans hWS)
+  have hUK2 : IsPGroup 2 ↥(K ⊓ ⨆ V ∈ η, V) := S.isPGroup.to_le (inf_le_right.trans hWS)
   have hzU : z ∈ K ⊓ ⨆ V ∈ η, V := T3.mem_of_isPGroup hz inf_le_left hUK2 (by omega)
   have hUN : (L ⊓ ⨆ V ∈ η, V) ≤ Subgroup.normalizer (K : Set G) := by
     intro y hy
@@ -305,7 +305,7 @@ theorem mem_H274_of_conj_mem_sylow {K J : Subgroup G} {S : Sylow 2 G} {R T W : S
       calc t * b = (b * t * b⁻¹) * b := by rw [hbt]
         _ = b * t := by group
     obtain ⟨x, hxL, hxo, hxc⟩ := exists_orderFour_centralizes_one_of_three hp hΩ hLΩ hb
-      S.isPGroup' (hRS hzR) (hTS htT) (mem_normalizer_iff_conjSub_eq.mp (hCb hzb))
+      S.isPGroup (hRS hzR) (hTS htT) (mem_normalizer_iff_conjSub_eq.mp (hCb hzb))
       (mem_normalizer_iff_conjSub_eq.mp (hCb htb))
     refine ⟨x, hxL, hxo, ?_⟩
     rcases hxc with h | h | h

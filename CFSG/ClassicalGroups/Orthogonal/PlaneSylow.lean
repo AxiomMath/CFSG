@@ -207,7 +207,7 @@ theorem card_planeSylow {c : GL (Fin 2) K} {r : ℕ} (h2 : (2 : K) ≠ 0)
   rw [← hmul, pow_succ]
 
 theorem eq_one_or_neg_one_of_sq_eq_one {c : GL (Fin 2) K} {r : ℕ}
-    (hc : c ∈ SO2 K) (hord : orderOf c = 2 ^ r) (hr : 1 ≤ r)
+    (_hc : c ∈ SO2 K) (hord : orderOf c = 2 ^ r) (hr : 1 ≤ r)
     (hneg : c ^ (2 ^ (r - 1)) = -1)
     {x : GL (Fin 2) K} (hx : x ∈ Subgroup.zpowers c) (hx2 : x ^ 2 = 1) :
     x = 1 ∨ x = -1 := by
@@ -324,7 +324,7 @@ theorem isSylow_planeSylow [Finite K] (h2 : (2 : K) ≠ 0) (ε : ℤ) (hε : ε 
     {r m' : ℕ} (hmfac : m = 2 ^ r * m') (hm' : Odd m')
     {c : GL (Fin 2) K} (hc : c ∈ SO2 K) (hord : orderOf c = 2 ^ r) :
     ∃ S : Sylow 2 ↥(O2 K), (S : Subgroup ↥(O2 K)) = (planeSylow c).subgroupOf (O2 K) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hDle : planeSylow c ≤ O2 K := planeSylow_le_O2 hc
   have hcardP : Nat.card ↥((planeSylow c).subgroupOf (O2 K)) = 2 ^ (r + 1) := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hDle).toEquiv,

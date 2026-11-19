@@ -52,7 +52,7 @@ theorem fiveLangFrame_aut {f : ℕ} (hf : 1 ≤ f) (h5 : 5 ∣ 2 ^ f + 1)
     (hg₀C : g₀ ∈ adjointGroup Tag.E6 (AlgebraicClosure (GaloisField 2 (2 * f))))
     (ι₀ : Multiplicative (Fin 6 → ZMod 5) →*
       ↥(graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * f)) (frobQ 2 f)))
-    (hι₀ : Function.Injective ι₀)
+    (_hι₀ : Function.Injective ι₀)
     (hbase : ∀ s : Fin 6 → ZMod 5,
       baseChangeGL (algebraMap (GaloisField 2 (2 * f))
         (AlgebraicClosure (GaloisField 2 (2 * f))))

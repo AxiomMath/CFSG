@@ -133,7 +133,7 @@ private theorem d4v_vmap_pt (hω : ω * ω = ω + 1) (hσω : σ ω = ω + 1)
   have hv : d4v_vmap hω hσω hσ hK hT x = d4v_ptVert hω hσω
       (c := (ptCodes ())[x.1]!) (d4v_pt_mem hT hx) := by
     simp only [d4v_vmap]
-    exact dif_pos hx
+    exact dite_eq_left hx
   rw [hv]
   rfl
 
@@ -144,7 +144,7 @@ private theorem d4v_vmap_sol (hω : ω * ω = ω + 1) (hσω : σ ω = ω + 1)
   have hv : d4v_vmap hω hσω hσ hK hT x = d4v_solVert hω hσω hσ hK hT
       (j := x.1 - 2240) (by have h := x.2; omega) := by
     simp only [d4v_vmap]
-    exact dif_neg hx
+    exact dite_eq_right hx
   rw [hv]
   rfl
 
@@ -227,7 +227,7 @@ private theorem d4v_adjT_pt_pt (hω : ω * ω = ω + 1) (hσω : σ ω = ω + 1)
   have hpts : (mkTabs (ptCodes ()) F).pts = ptCodes () := rfl
   have hL : adjT (mkTabs (ptCodes ()) F) x.1 y.1 =
       ptAdjC ((ptCodes ())[x.1]!) ((ptCodes ())[y.1]!) := by
-    simp only [adjT, if_pos hx, if_pos hy, hpts]
+    simp only [adjT, ite_eq_left hx, ite_eq_left hy, hpts]
   rw [hL, compGraph_adj]
   constructor
   · intro h
@@ -270,7 +270,7 @@ private theorem d4v_adjT_pt_sol (hω : ω * ω = ω + 1) (hσω : σ ω = ω + 1
     exact hx
   have hL : adjT (mkTabs (ptCodes ()) F) x.1 y.1 =
       memC (ptCodes ()) F[y.1 - 2240]! ((ptCodes ())[x.1]!) := by
-    simp only [adjT, if_pos hx, if_neg hy]
+    simp only [adjT, ite_eq_left hx, ite_eq_right hy]
     exact inc_mkTabs hpy hpx
   have hvC : (ptCodes ())[x.1]! < 65536 := (mem_ptCodes.mp hcx).1
   have hmem := memC_iff hω hσω hσ hK hT hpy' hvC
@@ -324,7 +324,7 @@ private theorem d4v_adjT_sol_pt (hω : ω * ω = ω + 1) (hσω : σ ω = ω + 1
     exact hy
   have hL : adjT (mkTabs (ptCodes ()) F) x.1 y.1 =
       memC (ptCodes ()) F[x.1 - 2240]! ((ptCodes ())[y.1]!) := by
-    simp only [adjT, if_neg hx, if_pos hy]
+    simp only [adjT, ite_eq_right hx, ite_eq_left hy]
     exact inc_mkTabs hpx hpy
   have hvC : (ptCodes ())[y.1]! < 65536 := (mem_ptCodes.mp hcy).1
   have hmem := memC_iff hω hσω hσ hK hT hpx' hvC
@@ -369,7 +369,7 @@ private theorem d4v_adjT_sol_sol (hω : ω * ω = ω + 1) (hσω : σ ω = ω + 
     exact finrank_solSub hω hσω hσ hK hT hiy
   have hL : adjT (mkTabs (ptCodes ()) F) x.1 y.1 =
       (x.1 != y.1 && triTest (mkTabs (ptCodes ()) F) (x.1 - 2240) (y.1 - 2240)) := by
-    simp only [adjT, if_neg hx, if_neg hy]
+    simp only [adjT, ite_eq_right hx, ite_eq_right hy]
   have hne' : x.1 ≠ y.1 → x.1 - 2240 ≠ y.1 - 2240 := fun hne hh =>
     hne (d4v_sub_inj (Nat.le_of_not_lt hx) (Nat.le_of_not_lt hy) hh)
   constructor
@@ -478,7 +478,7 @@ private theorem d4v_vmap_inj (hω : ω * ω = ω + 1) (hσω : σ ω = ω + 1)
     have hlist : (ptCodes ()).toList[x.1] = (ptCodes ()).toList[y.1] := by
       rw [hxx', hyy']
       exact hcode
-    exact Fin.ext ((List.getElem_inj (d4v_ptCodes_nodup)).mp hlist)
+    exact Fin.ext ((_root_.List.Nodup.getElem_inj (d4v_ptCodes_nodup)).mp hlist)
   · have hvx := d4v_vmap_pt hω hσω hσ hK hT x hx
     have hvy := d4v_vmap_sol hω hσω hσ hK hT y hy
     have h1 : Module.finrank K (d4v_vmap hω hσω hσ hK hT x).1.1 = 1 := by

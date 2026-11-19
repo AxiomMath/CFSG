@@ -109,10 +109,10 @@ theorem codeP_canonCode {u : Array ℕ} (hu : Valid u) : codeP (canonCode u) = c
   unfold canonCode canonK
   rw [hb]
   by_cases h : u[0]! % 2 = 0
-  · rw [if_pos h, h]
+  · rw [ite_eq_left h, h]
     rfl
   · have h1 : u[0]! % 2 = 1 := by omega
-    rw [if_neg h, h1, codeP_invDiag hu]
+    rw [ite_eq_right h, h1, codeP_invDiag hu]
     rfl
 
 theorem codeP_conj {G Gi c : Array ℕ} (hG : Valid G) (hGi : Valid Gi) (hc : Valid c) :
@@ -205,20 +205,20 @@ theorem omSc_code (hg : ∀ j < 4, gK j = wordS6 gW[j]! ∧ gK (j + 4) = wordS6 
     {s : ℕ} (hs : s < 8) : Valid omSc[s]! ∧ codeP omSc[s]! = gK s := by
   rw [omSc_getElem hs]
   by_cases h : s < 4
-  · rw [if_pos h, codeP_wordCode6, (hg s h).1]
+  · rw [ite_eq_left h, codeP_wordCode6, (hg s h).1]
     exact ⟨valid_wordCode _, rfl⟩
-  · rw [if_neg h, codeP_wordCode6, ← (hg (s - 4) (by omega)).2, Nat.sub_add_cancel (by omega)]
+  · rw [ite_eq_right h, codeP_wordCode6, ← (hg (s - 4) (by omega)).2, Nat.sub_add_cancel (by omega)]
     exact ⟨valid_wordCode _, rfl⟩
 
 theorem omSic_code (hg : ∀ j < 4, gK j = wordS6 gW[j]! ∧ gK (j + 4) = wordS6 (gW[j]!).reverse)
     {s : ℕ} (hs : s < 8) : Valid omSic[s]! ∧ codeP omSic[s]! = gK (Nat.mod (Nat.add s 4) 8) := by
   rw [omSic_getElem hs]
   by_cases h : s < 4
-  · rw [if_pos h, codeP_wordCode6, ← (hg s h).2]
+  · rw [ite_eq_left h, codeP_wordCode6, ← (hg s h).2]
     refine ⟨valid_wordCode _, ?_⟩
     change gK (s + 4) = gK ((s + 4) % 8)
     rw [Nat.mod_eq_of_lt (by omega)]
-  · rw [if_neg h, codeP_wordCode6, ← (hg (s - 4) (by omega)).1]
+  · rw [ite_eq_right h, codeP_wordCode6, ← (hg (s - 4) (by omega)).1]
     refine ⟨valid_wordCode _, ?_⟩
     change gK (s - 4) = gK ((s + 4) % 8)
     congr 1
@@ -368,7 +368,6 @@ theorem omCodes_ok {T S H HS : ℕ → ℕ} (hc : OmChecks T S H HS) : (omCodesO
     apply codeP_inj (valid_unpk _) (valid_canonCode hv)
     rw [codeP_conj (valid_wordCode _) (valid_wordCode _) (valid_unpk _), codeP_wordCode6,
       codeP_wordCode6, ← (hc.gens _ hs).1, ← (hc.gens _ hs).2]
-    change codeP (unpk (keyK (T n))) = stepK _ _ (codeP (unpk (keyK (T (fld (T n) 108 17)))))
     rw [hpt, hpt]
     exact he
   ·
@@ -392,7 +391,6 @@ theorem omCodes_ok {T S H HS : ℕ → ℕ} (hc : OmChecks T S H HS) : (omCodesO
         (unpk (keyK (T 1)))) := valid_mulCode (valid_mulCode h1 (valid_unpk _)) h3
     apply codeP_inj (valid_canonCode hv) (valid_unpk _)
     rw [hsch t ht8 _ (valid_unpk _)]
-    change stepK _ _ (codeP (unpk (keyK (T 1)))) = codeP (unpk (keyK (T 1)))
     rw [hpt]
     exact hf
   ·
@@ -415,7 +413,6 @@ theorem omCodes_ok {T S H HS : ℕ → ℕ} (hc : OmChecks T S H HS) : (omCodesO
       valid_mulCode (valid_mulCode h1 (valid_unpk _)) h3
     apply codeP_inj (valid_unpk _) (valid_canonCode hv)
     rw [hsch _ hs _ (valid_unpk _)]
-    change codeP (unpk (keyK (H n))) = stepK _ _ (codeP (unpk (keyK (H (fld (H n) 108 10)))))
     rw [hpt, hpt]
     exact he
   ·

@@ -50,7 +50,7 @@ theorem card_le_pow_centralizer_of_scalar_pow {K : Type} [Field K] [Finite K] {p
     (E : Subgroup (StatedProj (Subgroup.centralizer ({D} : Set (GL (Fin N) K)))))
     (hE : IsElemAbelian p E) : Nat.card E ≤ p ^ (N / p) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hζ : ∀ b : K, b ^ p ≠ (lam : K) := by
     intro b hb
     by_cases hb0 : b = 0
@@ -58,7 +58,7 @@ theorem card_le_pow_centralizer_of_scalar_pow {K : Type} [Field K] [Finite K] {p
       rw [zero_pow hp.pos.ne'] at hb
       exact lam.ne_zero hb.symm
     · exact hlam (Units.mk0 b hb0) (Units.ext (by rwa [Units.val_pow_eq_pow_val, Units.val_mk0]))
-  haveI : Fact (Irreducible (X ^ p - C (lam : K) : K[X])) :=
+  have : Fact (Irreducible (X ^ p - C (lam : K) : K[X])) :=
     ⟨X_pow_sub_C_irreducible_of_prime hp hζ⟩
   let x : Module.End K (Fin N → K) :=
     Matrix.toLin' ((D : GL (Fin N) K) : Matrix (Fin N) (Fin N) K)
@@ -83,22 +83,22 @@ theorem card_le_pow_centralizer_of_scalar_pow {K : Type} [Field K] [Finite K] {p
         change aeval x ((X ^ p - C (lam : K)) * g) = 0
         rw [map_mul, hxl, zero_mul])
   have hφmk : ∀ g : K[X], φ (AdjoinRoot.mk (X ^ p - C (lam : K)) g) = aeval x g := fun g => rfl
-  letI : Module (FT K p (lam : K)) (Fin N → K) := Module.compHom (Fin N → K) φ
+  let : Module (FT K p (lam : K)) (Fin N → K) := Module.compHom (Fin N → K) φ
   have hsmul : ∀ (e : FT K p (lam : K)) (v : Fin N → K), e • v = φ e v := fun e v => rfl
-  haveI : IsScalarTower K (FT K p (lam : K)) (Fin N → K) := by
+  have : IsScalarTower K (FT K p (lam : K)) (Fin N → K) := by
     refine IsScalarTower.of_algebraMap_smul fun r v => ?_
     rw [hsmul, AdjoinRoot.algebraMap_eq, ← AdjoinRoot.mk_C, hφmk, aeval_C]
     rfl
-  haveI : Module.Finite K (Fin N → K) := inferInstance
-  haveI : Module.Finite (FT K p (lam : K)) (Fin N → K) :=
+  have : Module.Finite K (Fin N → K) := inferInstance
+  have : Module.Finite (FT K p (lam : K)) (Fin N → K) :=
     Module.Finite.of_restrictScalars_finite K _ _
-  haveI : Module.Free (FT K p (lam : K)) (Fin N → K) := Module.Free.of_divisionRing _ _
+  have : Module.Free (FT K p (lam : K)) (Fin N → K) := Module.Free.of_divisionRing _ _
   have hfinV : Module.finrank K (Fin N → K) = N := Module.finrank_fin_fun K
   have hf0 : (X ^ p - C (lam : K) : K[X]) ≠ 0 :=
     (monic_X_pow_sub_C (lam : K) hp.ne_zero).ne_zero
   have hfinF : Module.finrank K (FT K p (lam : K)) = p := by
     rw [(AdjoinRoot.powerBasis hf0).finrank]
-    simp [AdjoinRoot.powerBasis, natDegree_X_pow_sub_C]
+    simp [AdjoinRoot.powerBasis]
   have htower : Module.finrank K (FT K p (lam : K)) *
       Module.finrank (FT K p (lam : K)) (Fin N → K) = Module.finrank K (Fin N → K) :=
     Module.finrank_mul_finrank K _ _
@@ -252,7 +252,7 @@ theorem card_le_pow_centralizer_of_scalar_pow {K : Type} [Field K] [Finite K] {p
   let Kunit : Kˣ →* (FT K p (lam : K))ˣ :=
     { toFun := fun u => Units.mk0 (algebraMap K (FT K p (lam : K)) (u : K)) (by
         intro h
-        exact u.ne_zero (halg_inj (by simpa using h)))
+        exact u.ne_zero (halg_inj (by simp at h)))
       map_one' := by
         ext
         simp
@@ -327,7 +327,7 @@ theorem card_le_pow_centralizer_of_scalar_pow {K : Type} [Field K] [Finite K] {p
   let W : Subgroup C := E₀ ⊓ Subgroup.comap ψ (StatedScalars
     (Fin (Module.finrank (FT K p (lam : K)) (Fin N → K))) (FT K p (lam : K)))
   have hS_le_W : S ≤ W := le_inf hS_le_E₀ hS_le_comap
-  haveI : Nonempty (Fin (Module.finrank (FT K p (lam : K)) (Fin N → K))) :=
+  have : Nonempty (Fin (Module.finrank (FT K p (lam : K)) (Fin N → K))) :=
     ⟨⟨0, hrpos⟩⟩
   have hscalar_inj : Function.Injective
       (Matrix.GeneralLinearGroup.scalar
@@ -382,11 +382,11 @@ theorem card_le_pow_centralizer_of_scalar_pow {K : Type} [Field K] [Finite K] {p
         rw [hβ_spec w, hψ_scalar (w : C) hu.symm]
       have hmem : β w ∈ Kscal := ⟨u, hβeq.symm⟩
       exact (QuotientGroup.eq_one_iff (β w)).mpr hmem
-  haveI : Finite (FT K p (lam : K)) := by
-    haveI : Module.Finite K (FT K p (lam : K)) := (AdjoinRoot.powerBasis hf0).finite
+  have : Finite (FT K p (lam : K)) := by
+    have : Module.Finite K (FT K p (lam : K)) := (AdjoinRoot.powerBasis hf0).finite
     exact Module.finite_of_finite K
   have hγ_cyc : IsCyclic γ.range := by
-    haveI : IsCyclic (FT K p (lam : K))ˣ := inferInstance
+    have : IsCyclic (FT K p (lam : K))ˣ := inferInstance
     have hquot : IsCyclic ((FT K p (lam : K))ˣ ⧸ Kscal) :=
       isCyclic_of_surjective (QuotientGroup.mk' Kscal) (QuotientGroup.mk'_surjective Kscal)
     exact Subgroup.isCyclic γ.range
@@ -498,7 +498,7 @@ theorem card_le_pow_centralizer_of_scalar_pow {K : Type} [Field K] [Finite K] {p
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hS_le_W).toEquiv] at h
     rw [mul_comm] at h
     exact h
-  haveI : Nonempty S := ⟨1⟩
+  have : Nonempty S := ⟨1⟩
   have hSp : 0 < Nat.card S := Nat.card_pos
   have hmain : Nat.card E = Nat.card g.range * Nat.card γ.range := by
     have h1 : Nat.card E * Nat.card S = Nat.card g.range * Nat.card γ.range * Nat.card S := by

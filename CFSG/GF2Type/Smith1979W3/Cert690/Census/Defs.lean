@@ -109,7 +109,7 @@ structure GrpData where
     y < D.O.size && D.O[y]! == p && L.contains y) &&
   L.any (isA2Of D minus)
 
-@[expose] def l2OK (D : GrpData) (minus : Bool) (b : ℕ) (Llist : Array (Array ℕ))
+@[expose] def l2OK (D : GrpData) (_minus : Bool) (b : ℕ) (Llist : Array (Array ℕ))
     (a2 : Array ℕ) (wit : Array (ℕ × ℕ)) : Bool :=
   wit.size == a2.size &&
   (List.range a2.size).all fun k =>
@@ -244,7 +244,7 @@ structure CandData where
      let y := D.idx.getD p D.O.size
      y < D.O.size && D.O[y]! == p && L.contains y)
 
-@[expose] def goodAt (D : GrpData) (minus : Bool) (b : ℕ) (L : Array ℕ) (i : ℕ) : Bool :=
+@[expose] def goodAt (D : GrpData) (_minus : Bool) (b : ℕ) (L : Array ℕ) (i : ℕ) : Bool :=
   i < D.O.size &&
   (let c := D.O[i]!
    let fix := Code.act c b == b

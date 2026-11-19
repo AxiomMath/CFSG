@@ -163,11 +163,11 @@ theorem isSolvable_closure_threeCycles_sup {Ω : Type*} [Fintype Ω] [DecidableE
     rw [Subgroup.subgroupOf_self]
   have hN'solv : Group.IsSolvable ↥(N.subgroupOf G) := by
     let e : ↥(N.subgroupOf G) ≃* ↥N := Subgroup.subgroupOfEquivOfLe le_sup_left
-    exact @solvable_of_solvable_injective (↥(N.subgroupOf G)) (↥N) _ _
+    exact @Group.isSolvable_of_isSolvable_injective (↥(N.subgroupOf G)) (↥N) _ _
       e.toMonoidHom e.injective hN_solv
   have hT'solv : Group.IsSolvable ↥(T.subgroupOf G) := by
     let e : ↥(T.subgroupOf G) ≃* ↥T := Subgroup.subgroupOfEquivOfLe le_sup_right
-    exact @solvable_of_solvable_injective (↥(T.subgroupOf G)) (↥T) _ _
+    exact @Group.isSolvable_of_isSolvable_injective (↥(T.subgroupOf G)) (↥T) _ _
       e.toMonoidHom e.injective hT
   have hquot_surj : Function.Surjective
       ((QuotientGroup.mk' (N.subgroupOf G)).comp (T.subgroupOf G).subtype) := by

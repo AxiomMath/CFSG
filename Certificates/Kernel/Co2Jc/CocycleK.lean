@@ -60,7 +60,7 @@ theorem rowStep_eq (k : Nat) (first tail : List Nat) :
 theorem bit_beq (v b : Nat) : Nat.beq (Nat.land (Nat.shiftRight v b) 1) 1 = v.testBit b := by
   rw [Nat.land_eq, Nat.shiftRight_eq', Nat.and_one_is_mod, Nat.shiftRight_eq_div_pow,
     Nat.testBit_eq_decide_div_mod_eq]
-  rcases Nat.mod_two_eq_zero_or_one (v / 2 ^ b) with h | h <;> simp [h] <;> rfl
+  rcases Nat.mod_two_eq_zero_or_one (v / 2 ^ b) with h | h <;> simp [h]; rfl
 
 theorem preMaskVec_eq (k v : Nat) : preMaskVec k v = preMaskVecK k v := by
   simp only [preMaskVec, preMaskVecK, preMask, preMaskK, bit_beq]

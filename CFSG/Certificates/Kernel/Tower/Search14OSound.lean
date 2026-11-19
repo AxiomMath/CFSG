@@ -82,13 +82,13 @@ theorem e14_complete {n : Nat} (hn : n = 16384) (M : IsModel (⊤ : Subgroup X) 
   generalize hU2 : e14P2 R2 r2 = u2 at hu2 g2 hv3 e2
   unfold e14Oc at hv3
   cases hb : Nat.beq (Nat.land o 1) 0
-  · rw [hb, cond_false, Bool.and_eq_true] at hv3
+  · rw [hb, Bool.cond_false, Bool.and_eq_true] at hv3
     have hIM := s14_im M (by omega) ht hu1 hu2 hv γ g0 g1 g2 hdv.symm
     have hx : Nat.land (Nat.shiftRight o 1) 16383 < n :=
       lt_of_le_of_lt Nat.and_le_right (by omega)
     rw [s14_sp_false M hT γ hIM hx (Nat.le_of_ble_eq_true hv3.1)] at hv3
     exact absurd hv3.2 Bool.false_ne_true
-  · rw [hb, cond_true] at hv3
+  · rw [hb, _root_.Bool.cond_true] at hv3
     obtain ⟨hq, hi, hTG, hc1', hc2', hc3'⟩ := s14_tg hv3
     generalize Nat.land (Nat.shiftRight o 1) 1023 = q at hq hTG hc3'
     generalize Nat.shiftRight (Nat.shiftRight o 1) 10 = i at hi hc1' hc2' hc3'

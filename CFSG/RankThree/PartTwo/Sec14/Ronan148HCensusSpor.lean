@@ -40,11 +40,11 @@ theorem olRow_of_outer (S : Type) [Group S] [IsSimpleGroup S] (hS : ¬ 3 ∣ Nat
 
 theorem olRow_spor_M11 :
     OLRow (fun T _ => Nonempty (T ≃* Blueprint.NativeSporadic.Carrier .M11)) := by
-  haveI : IsSimpleGroup (Blueprint.NativeSporadic.Carrier .M11) :=
+  have : IsSimpleGroup (Blueprint.NativeSporadic.Carrier .M11) :=
     CFSG.ClassicalInvolution.Q3.isSimpleGroup_m11_kernel
-  haveI : Finite (Blueprint.NativeSporadic.Carrier .M11) :=
+  have : Finite (Blueprint.NativeSporadic.Carrier .M11) :=
     inferInstanceAs (Finite Blueprint.NativeSporadic.M11)
-  haveI : Finite (Outer (Blueprint.NativeSporadic.Carrier .M11)) :=
+  have : Finite (Outer (Blueprint.NativeSporadic.Carrier .M11)) :=
     Sec13.Res5Proof.finite_outer _
   refine olRow_of_outer _ (Sec13.Res5Proof.not_three_dvd_of_card_le_two
     CFSG.Sporadic.Schreier.at_m11_schreier.1) ?_
@@ -58,8 +58,8 @@ theorem olRow_spor_M11 :
 
 theorem olRow_spor_J1 :
     OLRow (fun T _ => Nonempty (T ≃* Blueprint.NativeSporadic.Carrier .J1)) := by
-  haveI : IsSimpleGroup (Blueprint.NativeSporadic.Carrier .J1) := CFSG.Sporadic.J1.isSimpleGroup_J1
-  haveI : Finite (Blueprint.NativeSporadic.Carrier .J1) :=
+  have : IsSimpleGroup (Blueprint.NativeSporadic.Carrier .J1) := CFSG.Sporadic.J1.isSimpleGroup_J1
+  have : Finite (Blueprint.NativeSporadic.Carrier .J1) :=
     Nat.finite_of_card_ne_zero (by
       change Nat.card Blueprint.NativeSporadic.J1 ≠ 0
       rw [CFSG.Sporadic.J1.card_J1]; norm_num)
@@ -119,7 +119,7 @@ set_option linter.unusedSectionVars false
 theorem olRow_spor_M12 :
     OLRow (fun T _ => Nonempty (T ≃* Blueprint.NativeSporadic.Carrier .M12)) := by
   intro X _ _ P L Q hcfg ⟨e⟩
-  haveI : IsSimpleGroup (Blueprint.NativeSporadic.Carrier .M12) :=
+  have : IsSimpleGroup (Blueprint.NativeSporadic.Carrier .M12) :=
     CFSG.Sporadic.Co1Schreier.m12_simple
   have hZL := Sec4.center_eq_bot_of_mulEquiv_isSimpleGroup hcfg.isQuasisimple e
   let f : Blueprint.NativeSporadic.M12 →* L := e.symm.toMonoidHom
@@ -170,7 +170,7 @@ theorem olRow_cover_ON :
       have hN := AG_le_normalizer_XG hj hl (by norm_num : 0 < 3) hφp
       rw [Subgroup.mem_normalizer_iff]
       intro y
-      simp only [hW, SetLike.mem_coe, Subgroup.mem_comap, MulEquiv.coe_toMonoidHom, map_mul,
+      simp only [hW, Subgroup.mem_comap, MulEquiv.coe_toMonoidHom, map_mul,
         map_inv]
       exact Subgroup.mem_normalizer_iff.mp hN (φ y)
     have hle := hcfg.inv W (by rw [hLtop]; exact le_top.trans le_sup_left)

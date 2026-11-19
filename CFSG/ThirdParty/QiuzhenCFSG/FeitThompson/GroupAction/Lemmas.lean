@@ -107,7 +107,7 @@ public theorem CFSG.commutatorAction_normal_and_invariant {G A : Type*} [Group G
   let N : Subgroup G := commutatorAction (A := A) (G := G)
   let φ : A →* MulAut G := MulDistribMulAction.toMulAut A G
   let SD := G ⋊[φ] A
-  letI : Group SD := by
+  let : Group SD := by
     infer_instance
   let inl : G →* SD := SemidirectProduct.inl (φ := φ)
   let inr : A →* SD := SemidirectProduct.inr (φ := φ)
@@ -231,7 +231,7 @@ public theorem CFSG.commutatorAction_map_subtype_eq_commutatorAction₂
     (commutatorAction (A := A) (G := H)).map H.subtype = commutatorAction₂ (A := A) (G := G) := by
   classical
   let H : Subgroup G := commutatorAction (A := A) (G := G)
-  letI : IsInvariant A G H := (commutatorAction_normal_and_invariant (G := G) (A := A)).2
+  let : IsInvariant A G H := (commutatorAction_normal_and_invariant (G := G) (A := A)).2
   let SH : Set H := {x : H | ∃ a : A, ∃ h : H, x = h⁻¹ * (a • h)}
   let SG : Set G := {x : G | ∃ a : A, ∃ g : G, g ∈ H ∧ x = g⁻¹ * (a • g)}
   have himage : H.subtype '' SH = SG := by
@@ -286,8 +286,8 @@ public theorem CFSG.actsTrivially_of_isPGroup_on_cyclic_prime_order
     {p : ℕ} (hp : Nat.Prime p) (hA : IsPGroup p A) (hG_cyclic : IsCyclic G)
     (hG_card : Nat.card G = p) :
     ActsTrivially (A := A) (G := G) := by
-  letI : Fact p.Prime := ⟨hp⟩
-  letI : IsCyclic G := hG_cyclic
+  let : Fact p.Prime := ⟨hp⟩
+  let : IsCyclic G := hG_cyclic
   let φ : A →* MulAut G := MulDistribMulAction.toMulAut A G
   have hA_top : IsPGroup p (⊤ : Subgroup A) := by
     simpa using hA.to_subgroup (⊤ : Subgroup A)

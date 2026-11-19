@@ -290,7 +290,7 @@ theorem closure_j2Tuple : Subgroup.closure (Set.range j2Tuple) = ⊤ := by
     | mem x hx =>
       obtain ⟨i, rfl⟩ := hx
       exact Subgroup.subset_closure ⟨i, rfl⟩
-    | one => simpa using Subgroup.one_mem _
+    | one => simp
     | mul x y _ _ hx hy => simpa using Subgroup.mul_mem _ hx hy
     | inv x _ hx => simpa using Subgroup.inv_mem _ hx
   simpa using key _ hg

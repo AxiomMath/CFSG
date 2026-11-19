@@ -164,11 +164,13 @@ namespace DeltaSetup
 variable {hC : HypothesisC D} {T : Sylow 2 (Halpha D hC.alpha)} {S : Sylow 2 G}
   {U : Subgroup G}
 
+omit [Finite G] in
 private theorem commute_of_mem_pResidualOf (hC : HypothesisC D) :
     ∀ l ∈ CFSG.Quasithin.pResidualOf 2 (Halpha D hC.alpha), Commute hC.d l := fun _ hl =>
   (Subgroup.mem_centralizer_singleton_iff.mp
     (PartThree.Halpha_le_centralizer_d hC (Subgroup.map_subtype_le _ hl))).symm
 
+omit [Finite G] in
 private theorem exists_conj_of_ne_one (hU : DeltaSetup hC T S U) {v w : G} (hv : v ∈ U)
     (hw : w ∈ U) (hv1 : v ≠ 1) (hw1 : w ≠ 1) :
     ∃ m ∈ CFSG.Quasithin.pResidualOf 2 (Halpha D hC.alpha) ⊓ Subgroup.normalizer (U : Set G),
@@ -264,6 +266,7 @@ theorem mem_regularCore_of_linear_eq_one [IsElementaryAbelian 2 U] (h3 : Conclus
   rw [hn']
   exact Q.mul_mem hxQ (hcent hm)
 
+omit [Finite G] in
 theorem mem_centralizer_of_mul_self_eq_one (hU : DeltaSetup hC T S U) {t : G}
     (htL : t ∈ CFSG.Quasithin.pResidualOf 2 (Halpha D hC.alpha))
     (htU : t ∈ Subgroup.normalizer (U : Set G)) (ht : t * t = 1) :

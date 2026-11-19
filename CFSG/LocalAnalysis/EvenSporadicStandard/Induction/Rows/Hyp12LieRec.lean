@@ -979,7 +979,7 @@ section Use
 
 theorem sol78Hyp12LieUseHered_holds_of_rankTwo (thm24_1 : Sol78Thm24_1Use) :
     Sol78Hyp12LieUseHered :=
-  fun Y _ _ hY => sol78Hyp12LieUseAt_of_uhered hY thm24_1
+  fun _Y _ _ hY => sol78Hyp12LieUseAt_of_uhered hY thm24_1
     (hyp12RankOne_of_rankTwo CFSG.EvenSporadicStandard.HSStd.Zassenhaus.Outer.rankTwoStdRec_proved)
     CFSG.ComponentClassification.CatLeafProof.lieOrderFormulasInput
     CFSG.LieType.Steinberg.CentralExt.TwistedE6TwoCover.twistedE6TwoMultiplier

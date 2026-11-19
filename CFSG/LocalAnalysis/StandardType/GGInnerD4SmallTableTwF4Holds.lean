@@ -46,7 +46,7 @@ private theorem ltrsm8_component_label
       calc 4 = 2 ^ 2 := by norm_num
         _ ≤ 2 ^ (2 * a + 1) := Nat.pow_le_pow_right (by norm_num) (by omega)
     omega
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSUZ := CFSG.LieType.Universal.Unitary.isQuasisimple_statedSU_of_card
     (p := 2) (f := 2 * a + 1) (F := GaloisField 2 (2 * (2 * a + 1))) hF le_rfl hnq
   have hqC : CFSG.Open.IsQuasisimple ↥(ggAutFixedSubgroup τ) :=
@@ -58,7 +58,7 @@ private theorem ltrsm8_component_label
     CFSG.Fischer.Classification.Recognition.IsComponentOf.eq_of_isQuasisimple hJopen hqC
   subst hLC
   simp only [GGHasLabel, CFSG.StandardType.LargeEvenRawDatum, LargeEvenRecipeUnitary]
-  haveI hNs : ((CFSG.Open.StatedScalars (Fin (2 + 1))
+  have hNs : ((CFSG.Open.StatedScalars (Fin (2 + 1))
       (GaloisField 2 (2 * (2 * a + 1)))).subgroupOf
       (CFSG.Open.StatedSU (2 + 1) (2 ^ (2 * a + 1))
         (GaloisField 2 (2 * (2 * a + 1))))).Normal :=
@@ -92,8 +92,7 @@ theorem smallTableTwF4_holds :
     omega
   have ha : 1 ≤ (n - 1) / 2 := by omega
   refine recipeTwF4_and (a := (n - 1) / 2) ?_ hQ
-  intro K hfield hfin hK hsimple hna
-  intro τ hτI hτ3 hτ1 L hL
+  intro K hfield hfin hK hsimple hna τ hτI hτ3 hτ1 L hL
   refine ⟨⟨.twA, 2, n⟩, ?_, ?_, ?_⟩
   · show 1 ≤ n ∧ 2 ≤ 2 ∧ (2 = 2 → 2 ≤ n)
     exact ⟨by omega, by norm_num, fun _ => by omega⟩

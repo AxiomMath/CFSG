@@ -15,7 +15,7 @@ theorem omq_omMinus_wt_torus_long {n : ℕ} {K : Type} [Field K] [Finite K] {b c
     omqMinusWt n ι ι' ν ((minusFrame n b c).longTorus (succ_ne_of_lt n hi) true false a) =
       ι (a : K) ^ (ν.1 i - ν.1 ⟨i.val + 1, hi⟩).val := by
   classical
-  haveI : NeZero m := ⟨by rw [hm]; exact Nat.card_pos.ne'⟩
+  have : NeZero m := ⟨by rw [hm]; exact Nat.card_pos.ne'⟩
   have ht := omq_omMinus_toral_longTorus (b := b) (c := c) hi a
   rw [omq_omMinus_wt_eq_of_toral ι ι' ν ht]
   set j : Fin (n - 1) := ⟨i.val + 1, hi⟩ with hj
@@ -24,13 +24,13 @@ theorem omq_omMinus_wt_torus_long {n : ℕ} {K : Type} [Field K] [Finite K] {b c
   have hprod : ∏ l : Fin (n - 1), ι ((if l = i then a else if l = j then a⁻¹ else 1 : Kˣ) : K) ^
       (ν.1 l).val = ι (a : K) ^ (ν.1 i).val * ι ((a⁻¹ : Kˣ) : K) ^ (ν.1 j).val := by
     rw [← Finset.prod_subset (Finset.subset_univ {i, j}), Finset.prod_pair hij]
-    · simp [hij, hji]
+    · simp [hji]
     · intro l _ hl
       have h1 : l ≠ i := fun h => hl (by simp [h])
       have h2 : l ≠ j := fun h => hl (by simp [h])
       simp [h1, h2]
   rw [hprod]
-  simp only [map_one, one_pow, mul_one, ZMod.val_zero, pow_zero]
+  simp only [map_one, one_pow, mul_one]
   have hu : ι (a : K) ^ m = 1 := by
     rw [hm, ← map_pow, ← Units.val_pow_eq_pow_val, pow_card_eq_one', Units.val_one, map_one]
   have hne : ι (a : K) ≠ 0 := fun h0 => a.ne_zero (ι.injective (h0.trans (map_zero ι).symm))
@@ -57,7 +57,7 @@ theorem omq_omMinus_wt_torus_short {n : ℕ} {K : Type} [Field K] [Finite K] [Ch
       ι' (u : ShortField b c) ^ (((Nat.card K : ℤ) + 1) * ((ν.1 i).val : ℤ) +
         (1 - (Nat.card K : ℤ)) * (ν.2.val : ℤ)) := by
   classical
-  haveI := fact_shortField hirr
+  have := fact_shortField hirr
   have ht := omq_omMinus_toral_shortTorusHom hirr i u
   rw [omq_omMinus_wt_eq_of_toral ι ι' ν ht]
   have hprod : ∏ l : Fin (n - 1), ι ((if l = i then Units.map QuadraticAlgebra.norm u else 1 : Kˣ)
@@ -88,8 +88,8 @@ theorem omq_omMinus_wt_torus_short {n : ℕ} {K : Type} [Field K] [Finite K] [Ch
 theorem omq_omMinus_card_shortField_units {K : Type} [Field K] [Finite K] [CharP K 2] {b c : K}
     (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
     Nat.card (ShortField b c)ˣ = Nat.card Kˣ * (Nat.card K + 1) := by
-  haveI := fact_shortField hirr
-  haveI := finite_shortField (b := b) (c := c)
+  have := fact_shortField hirr
+  have := finite_shortField (b := b) (c := c)
   rw [Nat.card_units, Nat.card_units]
   have hF : Nat.card (ShortField b c) = Nat.card K ^ 2 := by
     rw [Nat.card_congr (QuadraticAlgebra.equivProd (-c) b), Nat.card_prod, sq]
@@ -110,8 +110,8 @@ theorem omq_omMinus_exists_short_exponent {n : ℕ} {K : Type} [Field K] [Finite
         omqMinusWt n ι ι' (((fun _ => a : Fin (n - 1) → ZMod m), d) : OmqMinusLat (n - 1) m h)
           (shortTorusHom n hirr i u) = ι' (u : ShortField b c) ^ C := by
   classical
-  haveI := fact_shortField hirr
-  haveI := finite_shortField (b := b) (c := c)
+  have := fact_shortField hirr
+  have := finite_shortField (b := b) (c := c)
   have hq : 1 ≤ Nat.card K := Nat.card_pos
   have hcard := omq_omMinus_card_shortField_units hirr
   rw [← hm, ← hh] at hcard
@@ -139,15 +139,15 @@ theorem omq_omMinus_exists_short_exponent {n : ℕ} {K : Type} [Field K] [Finite
   have hCE : (C : ℤ) ≡ E [ZMOD (N : ℤ)] := by
     show ((if C₀ = 0 then N else C₀ : ℕ) : ℤ) ≡ E [ZMOD (N : ℤ)]
     split_ifs with h0
-    · have : ((N : ℕ) : ℤ) ≡ 0 [ZMOD (N : ℤ)] := by simp [Int.modEq_zero_iff_dvd]
+    · have : ((N : ℕ) : ℤ) ≡ 0 [ZMOD (N : ℤ)] := by simp
       refine this.trans ?_
       rw [h0] at hC₀
       exact (Int.modEq_iff_dvd.mpr (by simpa [Int.emod_emod_of_dvd] using
         (Int.dvd_of_emod_eq_zero hC₀.symm))).symm
     · rw [hC₀]
       exact (Int.mod_modEq E N)
-  haveI : NeZero m := ⟨by rw [hm]; exact Nat.card_pos.ne'⟩
-  haveI : NeZero h := ⟨by omega⟩
+  have : NeZero m := ⟨by rw [hm]; exact Nat.card_pos.ne'⟩
+  have : NeZero h := ⟨by omega⟩
   have hqm : Nat.card K = m + 1 := by
     have h1 : m = Nat.card K - 1 := by rw [hm, Nat.card_units]
     omega
@@ -161,7 +161,7 @@ theorem omq_omMinus_exists_short_exponent {n : ℕ} {K : Type} [Field K] [Finite
       rw [hE]
       push_cast
       rw [hqm]
-      simp [ZMod.natCast_self, ZMod.natCast_zmod_val]
+      simp
       ring
     rw [← h2, ← h1]
     simp
@@ -174,7 +174,7 @@ theorem omq_omMinus_exists_short_exponent {n : ℕ} {K : Type} [Field K] [Finite
         rw [← Nat.cast_one, ← Nat.cast_add, hqh, ZMod.natCast_self]
       have h3 : (Nat.card K : ZMod h) = -1 := eq_neg_of_add_eq_zero_left h0
       rw [h3]
-      simp [ZMod.natCast_zmod_val]
+      simp
       ring
     rw [← h2, ← h1]
     simp

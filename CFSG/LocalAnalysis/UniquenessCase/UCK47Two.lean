@@ -102,7 +102,7 @@ private theorem inf_fixSub_fixSub_ne_bot
         have := orderOf_dvd_natCard (⟨b, hb⟩ : D)
         simpa using this
       rw [hD] at hdvd
-      haveI : Fact r.Prime := ⟨hr⟩
+      have : Fact r.Prime := ⟨hr⟩
       have hord : orderOf b = r := by
         rcases hr.eq_one_or_self_of_dvd (orderOf b) hdvd with h1 | h1
         · exact absurd h1 (orderOf_eq_one_iff.not.mpr hb1)
@@ -118,7 +118,7 @@ private theorem inf_fixSub_fixSub_ne_bot
     exact hkC
   have hchar : ¬ ringChar (ZMod 2) ∣ Nat.card A := by
     rw [ZMod.ringChar_zmod_n]
-    haveI : Fact q.Prime := ⟨hq⟩
+    have : Fact q.Prime := ⟨hq⟩
     have hAp : IsPGroup q A := fun y => ⟨1, Subtype.ext (by simpa using hA.2 y y.2)⟩
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hAp
     rw [hk]
@@ -162,7 +162,7 @@ private theorem map_conj_zpow_injective
     {D : Subgroup H} (hD : Nat.card D = r) {d : H} (hdD : d ∈ D) (hd1 : d ≠ 1)
     {B : Subgroup H} (hBnf : B.map (MulAut.conj d).toMonoidHom ≠ B) :
     Function.Injective (fun j : ZMod r => B.map (MulAut.conj (d ^ j.val)).toMonoidHom) := by
-  haveI : NeZero r := ⟨hr.ne_zero⟩
+  have : NeZero r := ⟨hr.ne_zero⟩
   have hdr : d ^ r = 1 := by
     have h1 : (⟨d, hdD⟩ : D) ^ Nat.card D = 1 := pow_card_eq_one'
     have h2 : d ^ Nat.card D = 1 := by
@@ -170,7 +170,7 @@ private theorem map_conj_zpow_injective
       rwa [Subgroup.coe_pow, Subgroup.coe_one] at hh
     rwa [hD] at h2
   have hdord : orderOf d = r := by
-    haveI : Fact r.Prime := ⟨hr⟩
+    have : Fact r.Prime := ⟨hr⟩
     exact orderOf_eq_prime hdr hd1
   intro i j hij
   have hkey : B.map (MulAut.conj ((d ^ j.val)⁻¹ * d ^ i.val)).toMonoidHom = B := by
@@ -211,7 +211,7 @@ private theorem map_conj_zpow_injective
     exact ZMod.val_injective r hval
   ·
     have hgord : orderOf ((d ^ j.val)⁻¹ * d ^ i.val) = r := by
-      haveI : Fact r.Prime := ⟨hr⟩
+      have : Fact r.Prime := ⟨hr⟩
       have hgr : ((d ^ j.val)⁻¹ * d ^ i.val) ^ r = 1 := by
         have h1 : (⟨(d ^ j.val)⁻¹ * d ^ i.val, hgD⟩ : D) ^ Nat.card D = 1 := pow_card_eq_one'
         have h2 : ((d ^ j.val)⁻¹ * d ^ i.val) ^ Nat.card D = 1 := by
@@ -243,7 +243,7 @@ private theorem two_le_finrank_of_hyperplane_ne_bot
     rw [h] at hrel
     rw [Subgroup.relIndex_self] at hrel
     exact hq.ne_one hrel.symm
-  obtain ⟨-, x, hxA, hxB⟩ := SetLike.lt_iff_le_and_exists.mp hBltA
+  obtain ⟨-, x, hxA, hxB⟩ := IsConcreteLE.lt_iff_le_and_exists.mp hBltA
   have hsup : B ⊔ Subgroup.zpowers x = A := by
     have hidx : (B.subgroupOf A).index = q := hrel
     have hcoat : IsCoatom (B.subgroupOf A) :=
@@ -336,10 +336,10 @@ private lemma mul_pow_zmod_val
     {H : Type*} [Group H] {r : ℕ} (hr : r.Prime) {d : H}
     (hd1 : d ≠ 1) (hdr : d ^ r = 1) (j : ZMod r) :
     d * d ^ j.val = d ^ (j + 1).val := by
-  haveI : NeZero r := ⟨hr.ne_zero⟩
-  haveI : Fact (1 < r) := ⟨hr.one_lt⟩
+  have : NeZero r := ⟨hr.ne_zero⟩
+  have : Fact (1 < r) := ⟨hr.one_lt⟩
   have hdord : orderOf d = r := by
-    haveI : Fact r.Prime := ⟨hr⟩
+    have : Fact r.Prime := ⟨hr⟩
     exact orderOf_eq_prime hdr hd1
   have h1 : d * d ^ j.val = d ^ (j.val + 1) := by
     have := pow_add d 1 j.val
@@ -473,7 +473,7 @@ private lemma fixSub_inf_ker_sum_rho {G V : Type*} [Group G] [Finite G]
 
 private lemma ker_sum_rho_invariant {G V : Type*} [Group G] [Finite G]
     [AddCommGroup V] [Module (ZMod 2) V]
-    (ρ : Representation (ZMod 2) G V) (X : Subgroup G) [Fintype X] (hXodd : Odd (Nat.card X))
+    (ρ : Representation (ZMod 2) G V) (X : Subgroup G) [Fintype X] (_hXodd : Odd (Nat.card X))
     {g : G} (hg : g ∈ Subgroup.normalizer (X : Set G)) :
     (LinearMap.ker (∑ x : X, ρ (x : G))).map (ρ g) ≤
       LinearMap.ker (∑ x : X, ρ (x : G)) := by
@@ -506,7 +506,7 @@ private theorem false_of_module_data
     (hfaith : ∀ a ∈ A, (∀ w : W, ρ a w = w) → a = 1)
     (hfixD : Module.finrank (ZMod 2) (fixSub ρ D) ≤ 1) :
     False := by
-  haveI : NeZero r := ⟨hr.ne_zero⟩
+  have : NeZero r := ⟨hr.ne_zero⟩
   have hA1 : A ≠ ⊥ := by
     intro hbot
     have hc : Nat.card A = 1 := by rw [hbot, Subgroup.card_bot]
@@ -517,7 +517,7 @@ private theorem false_of_module_data
   have hind := iSupIndep_fixSub_hyperplane ρ hq hq2 hA hfixA
   obtain ⟨d, hdD, hd1⟩ : ∃ d ∈ D, d ≠ 1 := by
     have hcard : 1 < Nat.card D := by rw [hD]; exact hr.one_lt
-    haveI : Nontrivial D := (Finite.one_lt_card_iff_nontrivial).mp hcard
+    have : Nontrivial D := (Finite.one_lt_card_iff_nontrivial).mp hcard
     obtain ⟨d₀, hd0⟩ := exists_ne (1 : D)
     exact ⟨(d₀ : H), d₀.2, fun h => hd0 (Subtype.ext h)⟩
   have hdr : d ^ r = 1 := by
@@ -534,7 +534,7 @@ private theorem false_of_module_data
         have := orderOf_dvd_natCard (⟨d, hdD⟩ : D)
         simpa using this
       rw [hD] at hdvd
-      haveI : Fact r.Prime := ⟨hr⟩
+      have : Fact r.Prime := ⟨hr⟩
       have hord : orderOf d = r := by
         rcases hr.eq_one_or_self_of_dvd (orderOf d) hdvd with h1 | h1
         · exact absurd h1 (orderOf_eq_one_iff.not.mpr hd1)
@@ -778,12 +778,12 @@ private theorem exists_elementary_abelian_subgroup
 theorem k47_two {G : Type} [Group G] [Finite G]
     {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
     (ρ : Representation (ZMod 2) G V) (hρ : Function.Injective ρ)
-    {q r : ℕ} (hq : q.Prime) (hr : r.Prime) (hq2 : q ≠ 2) (hr2 : r ≠ 2) (hqr : q ≠ r)
+    {q r : ℕ} (hq : q.Prime) (hr : r.Prime) (hq2 : q ≠ 2) (_hr2 : r ≠ 2) (hqr : q ≠ r)
     (D : Subgroup G) (hD : Nat.card D = r) (hfix : Module.finrank (ZMod 2) (fixSub ρ D) ≤ 1)
     (Q : Subgroup G) (hQ : IsPGroup q Q) (hQab : IsMulCommutative ↥Q)
     (hDQ : D ≤ normalizer (Q : Set G)) (hQD : ⁅D, Q⁆ = Q) : IsCyclic ↥Q := by
   by_contra hQnc
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hcop : Nat.Coprime (Nat.card D) (Nat.card Q) := by
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hQ
     rw [hD, hk]
@@ -791,7 +791,7 @@ theorem k47_two {G : Type} [Group G] [Finite G]
     exact (hr.coprime_iff_not_dvd.mpr hrg).pow_right k
   obtain ⟨E, hEQ, hEea, hEcard, hDE, hCE⟩ :=
     exists_elementary_abelian_subgroup hq hq2 Q D hQ hQab hDQ hQD hcop hQnc
-  haveI : Fintype ↥E := Fintype.ofFinite ↥E
+  have : Fintype ↥E := Fintype.ofFinite ↥E
   have hEp : IsPGroup q E := fun y => ⟨1, Subtype.ext (by simpa using hEea.2 y y.2)⟩
   obtain ⟨kE, hkE⟩ := IsPGroup.iff_card.mp hEp
   have hEodd : Odd (Nat.card E) := by
@@ -933,7 +933,7 @@ theorem k47_two {G : Type} [Group G] [Finite G]
     have hle1 := hEcard
     rw [hcard1] at hle1
     nlinarith [hq.two_le]
-  haveI : Nontrivial ↥W := Submodule.nontrivial_iff_ne_bot.mpr hWne
+  have : Nontrivial ↥W := Submodule.nontrivial_iff_ne_bot.mpr hWne
   exact false_of_module_data ρW hq hq2 hr A hAea hA2 D' hcardD hHtop hDA' hCD' hfixA hfaith hfixD
 
 end CFSG.LocalAnalysis.UniquenessCase.UCK

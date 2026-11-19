@@ -45,52 +45,68 @@ abbrev XaB (F : Type) [Field F] [CharP F 2] : Subgroup ↥(B0 F) :=
 abbrev XbB (F : Type) [Field F] [CharP F 2] : Subgroup ↥(B0 F) :=
   (rootXb F).subgroupOf (B0 F)
 
+omit [Finite F] in
 theorem A1_le_B0 : radA1 F ≤ B0 F :=
   (radA1_le_antiUnipotent (K := F)).trans Subgroup.le_normalizer
 
+omit [Finite F] in
 theorem A2_le_B0 : radA2 F ≤ B0 F :=
   (radA2_le_antiUnipotent (K := F)).trans Subgroup.le_normalizer
 
+omit [Finite F] in
 theorem Z0_le_B0 : antiUnipotentCenter F ≤ B0 F :=
   antiUnipotentCenter_le.trans Subgroup.le_normalizer
 
+omit [Finite F] in
 theorem U1_le_B0 : rootU₁ F ≤ B0 F :=
   rootU₁_le_antiUnipotentCenter.trans Z0_le_B0
 
+omit [Finite F] in
 theorem U2_le_B0 : rootU₂ F ≤ B0 F :=
   rootU₂_le_antiUnipotentCenter.trans Z0_le_B0
 
+omit [Finite F] in
 theorem Xa_le_B0 : rootXa F ≤ B0 F :=
   rootXa_le_antiUnipotent.trans Subgroup.le_normalizer
 
+omit [Finite F] in
 theorem Xb_le_B0 : rootXb F ≤ B0 F :=
   rootXb_le_antiUnipotent.trans Subgroup.le_normalizer
 
+omit [Finite F] in
 theorem A1B_le_T0B : A1B F ≤ T0B F :=
   Subgroup.subgroupOf_mono _ (radA1_le_antiUnipotent (K := F))
 
+omit [Finite F] in
 theorem A2B_le_T0B : A2B F ≤ T0B F :=
   Subgroup.subgroupOf_mono _ (radA2_le_antiUnipotent (K := F))
 
+omit [Finite F] in
 theorem Z0B_le_A1B : Z0B F ≤ A1B F :=
   Subgroup.subgroupOf_mono _ (antiUnipotentCenter_le_radA1 (K := F))
 
+omit [Finite F] in
 theorem Z0B_le_A2B : Z0B F ≤ A2B F :=
   Subgroup.subgroupOf_mono _ (antiUnipotentCenter_le_radA2 (K := F))
 
+omit [Finite F] in
 theorem U1B_le_Z0B : U1B F ≤ Z0B F :=
   Subgroup.subgroupOf_mono _ rootU₁_le_antiUnipotentCenter
 
+omit [Finite F] in
 theorem U2B_le_Z0B : U2B F ≤ Z0B F :=
   Subgroup.subgroupOf_mono _ rootU₂_le_antiUnipotentCenter
 
+omit [Finite F] in
 theorem XaB_le_T0B : XaB F ≤ T0B F :=
   Subgroup.subgroupOf_mono _ rootXa_le_antiUnipotent
 
+omit [Finite F] in
 theorem XbB_le_T0B : XbB F ≤ T0B F :=
   Subgroup.subgroupOf_mono _ rootXb_le_antiUnipotent
 
 
+omit [Finite F] in
 theorem U1B_ne_U2B : U1B F ≠ U2B F := by
   intro h
   let x : ↥(B0 F) := ⟨uElt 0 1 0 0, U1_le_B0 ⟨1, rfl⟩⟩
@@ -221,7 +237,7 @@ theorem map_conj_inv_comp {Y : Type} [Group Y] (σ : MulAut Y) {g : Y} {H : Subg
 theorem exists_conj_torusB (hF : Nat.card F = 2 ^ 2) (σ : MulAut ↥(B0 F)) :
     ∃ g₁ : ↥(B0 F), (HB F).map σ.toMonoidHom =
       (HB F).map (MulAut.conj g₁).toMonoidHom := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hHp : IsPGroup 3 ↥(HB F) := by
     refine IsPGroup.of_card (n := 2) ?_
     rw [card_dTor_subgroupOf hF]
@@ -236,7 +252,7 @@ theorem exists_conj_torusB (hF : Nat.card F = 2 ^ 2) (σ : MulAut ↥(B0 F)) :
     norm_num
   let SH : Sylow 3 ↥(B0 F) := hHp.toSylow hHidx
   have hSH : (SH : Subgroup ↥(B0 F)) = HB F := rfl
-  haveI : Finite (Sylow 3 ↥(B0 F)) := Sylow.finite_of_finiteIndex SH
+  have : Finite (Sylow 3 ↥(B0 F)) := Sylow.finite_of_finiteIndex SH
   obtain ⟨g₁, hg₁⟩ := MulAction.exists_smul_eq ↥(B0 F) SH (σ • SH)
   refine ⟨g₁, ?_⟩
   have h := congrArg (fun S : Sylow 3 ↥(B0 F) => (S : Subgroup ↥(B0 F))) hg₁
@@ -262,7 +278,7 @@ theorem frobAutB0_pow_apply (k : ℕ) (g : ↥(B0 F)) :
 theorem units_eq_one_or_eq_or_sq (hF : Nat.card F = 2 ^ 2) {ω : Fˣ} (hω : ω ≠ 1)
     (s : Fˣ) : s = 1 ∨ s = ω ∨ s = ω ^ 2 := by
   classical
-  haveI : Fintype Fˣ := Fintype.ofFinite Fˣ
+  have : Fintype Fˣ := Fintype.ofFinite Fˣ
   have hcu : Nat.card Fˣ = 3 := by rw [Nat.card_units, hF]; norm_num
   have hω2 : ω ^ 2 ≠ 1 := by
     intro h
@@ -290,7 +306,8 @@ theorem units_eq_one_or_eq_or_sq (hF : Nat.card F = 2 ^ 2) {ω : Fˣ} (hω : ω 
     exact Finset.mem_univ s
   simpa using hs
 
-theorem units_ne_sq (hF : Nat.card F = 2 ^ 2) {ω : Fˣ} (hω : ω ≠ 1) : ω ≠ ω ^ 2 := by
+omit [Finite F] [CharP F 2] in
+theorem units_ne_sq (_hF : Nat.card F = 2 ^ 2) {ω : Fˣ} (hω : ω ≠ 1) : ω ≠ ω ^ 2 := by
   intro h
   have h1 : (1 : Fˣ) = ω := by
     calc (1 : Fˣ) = ω * ω⁻¹ := by group
@@ -298,10 +315,12 @@ theorem units_ne_sq (hF : Nat.card F = 2 ^ 2) {ω : Fˣ} (hω : ω ≠ 1) : ω �
       _ = ω := by group
   exact hω h1.symm
 
+omit [Finite F] [CharP F 2] in
 theorem units_pow_one_ne_pow_two (hF : Nat.card F = 2 ^ 2) {ω : Fˣ} (hω : ω ≠ 1) :
     ω ^ 1 ≠ ω ^ 2 := by
   simpa using units_ne_sq (F := F) hF hω
 
+omit [Finite F] [CharP F 2] in
 theorem units_sq_eq_inv (hF : Nat.card F = 2 ^ 2) (u : Fˣ) : u ^ 2 = u⁻¹ := by
   have hcu : Nat.card Fˣ = 3 := by rw [Nat.card_units, hF]; norm_num
   have h3 : u ^ 3 = 1 := by
@@ -311,9 +330,11 @@ theorem units_sq_eq_inv (hF : Nat.card F = 2 ^ 2) (u : Fˣ) : u ^ 2 = u⁻¹ := 
   exact eq_inv_of_mul_eq_one_right hm
 
 
+omit [Finite F] in
 theorem T0B_normal : (T0B F).Normal :=
   (Subgroup.normal_subgroupOf_iff_le_normalizer (Subgroup.le_normalizer)).mpr le_rfl
 
+omit [Finite F] in
 theorem map_A1B (σ : MulAut ↥(B0 F))
     (hA : ∀ b : ↥(B0 F), (b : antiSp F) ∈ radA1 F ↔ (σ b : antiSp F) ∈ radA1 F) :
     (A1B F).map σ.toMonoidHom = A1B F := by
@@ -325,6 +346,7 @@ theorem map_A1B (σ : MulAut ↥(B0 F))
     have hx' : (x : antiSp F) ∈ radA1 F := hx
     exact (hA (σ⁻¹ x)).mpr (by simpa using hx')
 
+omit [Finite F] in
 theorem map_Z0B (σ : MulAut ↥(B0 F))
     (hA1 : (A1B F).map σ.toMonoidHom = A1B F)
     (hA2 : (A2B F).map σ.toMonoidHom = A2B F) :
@@ -345,6 +367,7 @@ theorem map_Z0B (σ : MulAut ↥(B0 F))
       exact hx'
   rw [hcenter, Subgroup.map_inf _ _ σ.toMonoidHom σ.injective, hA1, hA2]
 
+omit [Finite F] in
 theorem map_conj_inv_comp_of_map {H : Subgroup ↥(B0 F)} [H.Normal]
     (σ : MulAut ↥(B0 F)) (g : ↥(B0 F)) (h : H.map σ.toMonoidHom = H) :
     H.map (((MulAut.conj g)⁻¹ * σ).toMonoidHom) = H := by
@@ -362,7 +385,7 @@ theorem frobAutB0_sq (hF : Nat.card F = 2 ^ 2) :
 
 theorem map_T0B (hF : Nat.card F = 2 ^ 2) (σ : MulAut ↥(B0 F)) :
     (T0B F).map σ.toMonoidHom = T0B F := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTnorm : (T0B F).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer (Subgroup.le_normalizer)).mpr le_rfl
   have hTp : IsPGroup 2 ↥(T0B F) :=
@@ -375,7 +398,7 @@ theorem map_T0B (hF : Nat.card F = 2 ^ 2) (σ : MulAut ↥(B0 F)) :
         CFSG.Quasithin.F7.isSylowTwoOf_exists_sylow (isSylowTwoOf_antiUnipotent_B0 hF)
       refine sSup_le ?_
       rintro K ⟨hKn, hKp⟩
-      letI : K.Normal := hKn
+      let : K.Normal := hKn
       have hle := IsPGroup.le_sylow_of_normal (p := 2) hKp S
       rwa [hS] at hle
   rw [hTpc, CFSG.pCore_map_iso]
@@ -454,7 +477,6 @@ theorem exists_frobAutB0_pow_fixes_torus (hF : Nat.card F = 2 ^ 2) (σ₁ : MulA
     rw [h1]
     apply Subtype.ext
     rw [frobAutB0_apply]
-    change (frobAut F) ((σ₁ h' : ↥(B0 F)) : antiSp F) = (h' : antiSp F)
     have hh2 : σ₁ h' =
         (⟨dSp (s ^ 2) (t ^ 2), dTor_le (dSp_mem_dTor (s ^ 2) (t ^ 2))⟩ : ↥(B0 F)) := hact s t
     rw [hh2]
@@ -467,7 +489,7 @@ theorem maps_to_XaB (hF : Nat.card F = 2 ^ 2) (σ : MulAut ↥(B0 F))
     (hfix : ∀ h ∈ HB F, σ h = h) :
     (XaB F).map σ.toMonoidHom ≤ XaB F := by
   classical
-  haveI : Fintype Fˣ := Fintype.ofFinite Fˣ
+  have : Fintype Fˣ := Fintype.ofFinite Fˣ
   have hcu : Nat.card Fˣ = 3 := by rw [Nat.card_units, hF]; norm_num
   have h1lt : 1 < Fintype.card Fˣ := by
     rw [← Nat.card_eq_fintype_card, hcu]
@@ -497,7 +519,7 @@ theorem maps_to_XbB (hF : Nat.card F = 2 ^ 2) (σ : MulAut ↥(B0 F))
     (hfix : ∀ h ∈ HB F, σ h = h) :
     (XbB F).map σ.toMonoidHom ≤ XbB F := by
   classical
-  haveI : Fintype Fˣ := Fintype.ofFinite Fˣ
+  have : Fintype Fˣ := Fintype.ofFinite Fˣ
   have hcu : Nat.card Fˣ = 3 := by rw [Nat.card_units, hF]; norm_num
   have h1lt : 1 < Fintype.card Fˣ := by
     rw [← Nat.card_eq_fintype_card, hcu]
@@ -622,7 +644,7 @@ theorem exists_scalar_Xa (hF : Nat.card F = 2 ^ 2) (σ : MulAut ↥(B0 F))
     intro h0
     have h : σ (ua 1) = 1 := by
       rw [hfa 1, h0]
-      simp [ua, uElt_zero_eq_one]
+      simp [uElt_zero_eq_one]
     have hua1 : ua 1 = 1 := σ.injective (by simpa using h)
     have hv : (uElt 1 0 0 0 : antiSp F) = 1 := Subtype.ext_iff.mp hua1
     have hv' : (uElt 1 0 0 0 : antiSp F) = uElt 0 0 0 0 := by
@@ -722,7 +744,7 @@ theorem exists_scalar_Xb (hF : Nat.card F = 2 ^ 2) (σ : MulAut ↥(B0 F))
     intro h0
     have h : σ (ub 1) = 1 := by
       rw [hfb 1, h0]
-      simp [ub, uElt_zero_eq_one]
+      simp [uElt_zero_eq_one]
     have hub1 : ub 1 = 1 := σ.injective (by simpa using h)
     have hv : (uElt 0 0 0 1 : antiSp F) = 1 := Subtype.ext_iff.mp hub1
     have hv' : (uElt 0 0 0 1 : antiSp F) = uElt 0 0 0 0 := by
@@ -792,6 +814,7 @@ theorem exists_scalar_Xb (hF : Nat.card F = 2 ^ 2) (σ : MulAut ↥(B0 F))
   rw [hfb d, hscaled d]
 
 
+omit [Finite F] in
 theorem map_closure_generators_B0 :
     (Subgroup.closure ((XaB F : Set ↥(B0 F)) ∪ XbB F ∪ HB F)).map (B0 F).subtype =
       Subgroup.closure ((rootXa F : Set (antiSp F)) ∪ rootXb F ∪ dTor F) := by
@@ -857,7 +880,7 @@ theorem exists_conj_of_fixes_H (hF : Nat.card F = 2 ^ 2) (σ : MulAut ↥(B0 F))
         apply Subtype.ext
         dsimp only [h0]
         rw [Subgroup.coe_mul, Subgroup.coe_mul, Subgroup.coe_inv]
-        simp only [Subgroup.coe_mk]
+        simp only
         change uElt ((lamA : F) * a) 0 0 0 =
           (dSp (lamA * t0) t0 : antiSp F) * uElt a 0 0 0 * (dSp (lamA * t0) t0)⁻¹
         rw [dSp_conj_uElt]
@@ -877,7 +900,7 @@ theorem exists_conj_of_fixes_H (hF : Nat.card F = 2 ^ 2) (σ : MulAut ↥(B0 F))
         apply Subtype.ext
         dsimp only [h0]
         rw [Subgroup.coe_mul, Subgroup.coe_mul, Subgroup.coe_inv]
-        simp only [Subgroup.coe_mk]
+        simp only
         change uElt 0 0 0 ((lamB : F) * d) =
           (dSp (lamA * t0) t0 : antiSp F) * uElt 0 0 0 d * (dSp (lamA * t0) t0)⁻¹
         rw [dSp_conj_uElt]
@@ -903,6 +926,7 @@ theorem exists_conj_of_fixes_H (hF : Nat.card F = 2 ^ 2) (σ : MulAut ↥(B0 F))
     rw [closure_generators_top hF]
     exact Subgroup.mem_top b)
 
+omit [Finite F] in
 theorem preserves_Kb {σ : MulAut ↥(B0 F)}
     (hA1 : (A1B F).map σ.toMonoidHom = A1B F)
     (hZ : (Z0B F).map σ.toMonoidHom = Z0B F)
@@ -934,6 +958,7 @@ theorem preserves_Kb {σ : MulAut ↥(B0 F)}
   rw [← hval]
   exact hcondmap
 
+omit [Finite F] in
 theorem preserves_Ka {σ : MulAut ↥(B0 F)}
     (hA2 : (A2B F).map σ.toMonoidHom = A2B F)
     (hZ : (Z0B F).map σ.toMonoidHom = Z0B F)
@@ -965,6 +990,7 @@ theorem preserves_Ka {σ : MulAut ↥(B0 F)}
   rw [← hval]
   exact hcondmap
 
+omit [Finite F] in
 theorem preserves_K2 {σ : MulAut ↥(B0 F)}
     (hU2 : (U2B F).map σ.toMonoidHom = U2B F) {h : ↥(B0 F)}
     (hh : ∀ x : antiSp F, x ∈ rootU₂ F →
@@ -998,7 +1024,7 @@ theorem torus_action_eq_pow (hF : Nat.card F = 2 ^ 2) (σ₁ : MulAut ↥(B0 F))
       ∀ s t : Fˣ, σ₁ ⟨dSp s t, dTor_le (dSp_mem_dTor s t)⟩ =
         ⟨dSp (s ^ ε) (t ^ ε), dTor_le (dSp_mem_dTor (s ^ ε) (t ^ ε))⟩ := by
   classical
-  haveI : Fintype Fˣ := Fintype.ofFinite Fˣ
+  have : Fintype Fˣ := Fintype.ofFinite Fˣ
   have hcu : Nat.card Fˣ = 3 := by rw [Nat.card_units, hF]; norm_num
   have h1lt : 1 < Fintype.card Fˣ := by
     rw [← Nat.card_eq_fintype_card, hcu]
@@ -1204,22 +1230,22 @@ theorem sp44_dc (hF : Nat.card F = 2 ^ 2) (σ : ↥(B0 F) ≃* ↥(B0 F))
   let σ₁ : MulAut ↥(B0 F) := (MulAut.conj g₁)⁻¹ * σ
   have hH : (HB F).map σ₁.toMonoidHom = HB F := map_conj_inv_comp σ hg₁
   have hT₁ : (T0B F).map σ₁.toMonoidHom = T0B F := by
-    letI : (T0B F).Normal := T0B_normal
+    let : (T0B F).Normal := T0B_normal
     exact map_conj_inv_comp_of_map σ g₁ hT
   have hA1₁ : (A1B F).map σ₁.toMonoidHom = A1B F := by
-    letI : (A1B F).Normal := radA1_normal
+    let : (A1B F).Normal := radA1_normal
     exact map_conj_inv_comp_of_map σ g₁ hA1
   have hA2₁ : (A2B F).map σ₁.toMonoidHom = A2B F := by
-    letI : (A2B F).Normal := radA2_normal
+    let : (A2B F).Normal := radA2_normal
     exact map_conj_inv_comp_of_map σ g₁ hA2
   have hZ₁ : (Z0B F).map σ₁.toMonoidHom = Z0B F := by
-    letI : (Z0B F).Normal := antiUnipotentCenter_normal
+    let : (Z0B F).Normal := antiUnipotentCenter_normal
     exact map_conj_inv_comp_of_map σ g₁ hZ
   have hU1₁ : (U1B F).map σ₁.toMonoidHom = U1B F := by
-    letI : (U1B F).Normal := rootU₁_normal
+    let : (U1B F).Normal := rootU₁_normal
     exact map_conj_inv_comp_of_map σ g₁ hU1
   have hU2₁ : (U2B F).map σ₁.toMonoidHom = U2B F := by
-    letI : (U2B F).Normal := rootU₂_normal
+    let : (U2B F).Normal := rootU₂_normal
     exact map_conj_inv_comp_of_map σ g₁ hU2
   obtain ⟨ε, hε, hact⟩ := torus_action_eq_pow hF σ₁ hH hA1₁ hA2₁ hZ₁ hU2₁
   obtain ⟨k, hk, hfix⟩ := exists_frobAutB0_pow_fixes_torus hF σ₁ ε hε hact

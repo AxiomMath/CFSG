@@ -95,12 +95,12 @@ theorem exists_mulEquiv_alternatingGroup_of_isThreeCycle
     rw [Fintype.card_coe, Finset.card_compl, Fintype.card_fin, hτ.card_support]
   refine ⟨hcard, ?_⟩
   have hRC := range_ofSubtype_le_autFix τ
-  haveI := hc.isPerfect
+  have := hc.isPerfect
   have hKR : K ≤ (alternatingGroup.ofSubtype τ.supportᶜ).range :=
     le_range_ofSubtype_of_isPerfect hτ.isCycle hc.le_autFix
   let ψ : alternatingGroup ↥(τ.supportᶜ) ≃* (alternatingGroup.ofSubtype τ.supportᶜ).range :=
     MonoidHom.ofInjective alternatingGroup.ofSubtype_injective
-  haveI : IsSimpleGroup (alternatingGroup ↥(τ.supportᶜ)) :=
+  have : IsSimpleGroup (alternatingGroup ↥(τ.supportᶜ)) :=
     alternatingGroup.isSimpleGroup (by rw [Nat.card_eq_finsetCard, Finset.card_compl,
       Fintype.card_fin, hτ.card_support]; omega)
   have hRs : IsSimpleGroup (alternatingGroup.ofSubtype τ.supportᶜ).range := ψ.symm.isSimpleGroup
@@ -122,7 +122,7 @@ theorem exists_mulEquiv_alternatingGroup_of_isThreeCycle
       omega
     · exact le_antisymm hKR (Subgroup.subgroupOf_eq_top.mp h)
   let χ : K ≃* alternatingGroup ↥(τ.supportᶜ) := (MulEquiv.subgroupCongr hKeq).trans ψ.symm
-  haveI : IsSimpleGroup K := χ.isSimpleGroup
+  have : IsSimpleGroup K := χ.isSimpleGroup
   have hO : CFSG.pCore 2 K = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (CFSG.pCore 2 K) with h | h
     · exact h
@@ -139,7 +139,7 @@ theorem exists_mulEquiv_alternatingGroup_of_isThreeCycle
 theorem nat_card_alternatingGroup_of_card {Ω : Type} [Fintype Ω] [DecidableEq Ω] {m : ℕ}
     (hm : Fintype.card Ω = m) (h2 : 2 ≤ m) :
     Nat.card (alternatingGroup Ω) = m.factorial / 2 := by
-  haveI : Nontrivial Ω := Fintype.one_lt_card_iff_nontrivial.mp (by omega)
+  have : Nontrivial Ω := Fintype.one_lt_card_iff_nontrivial.mp (by omega)
   rw [nat_card_alternatingGroup, Nat.card_eq_fintype_card, hm]
 
 theorem checkSL_a8 : ∀ q < 40, 2 ≤ q →
@@ -334,7 +334,7 @@ theorem isThreeCycle_or_exists_card_centralizer {n : ℕ} {τ : Perm (Fin n)} (h
   · right
     refine ⟨k, by omega, hsum, ?_⟩
     rw [nat_card_centralizer, hrep, Multiset.sum_replicate, Multiset.prod_replicate,
-      Fintype.card_fin, smul_eq_mul, Multiset.toFinset_replicate, if_neg (by omega),
+      Fintype.card_fin, smul_eq_mul, Multiset.toFinset_replicate, ite_eq_right (by omega),
       Finset.prod_singleton, Multiset.count_replicate_self, mul_comm k 3]
 
 theorem card_dvd_card_centralizer {n : ℕ} {τ : Perm (Fin n)}
@@ -358,7 +358,7 @@ theorem noCfgS429_alternatingGroup_eleven :
   rcases isThreeCycle_or_exists_card_centralizer hτ3 hτ1 with h3c | ⟨k, hk2, hk3, hcard⟩
   · obtain ⟨hΩ, ⟨φ⟩⟩ := exists_mulEquiv_alternatingGroup_of_isThreeCycle (by norm_num) h3c hc
     exact not_isType429_of_alternating_eight hΩ φ hc.isType
-  · haveI := hc.isPerfect
+  · have := hc.isPerfect
     have h1 := le_card_of_isType429 hc.isType
     have h2 : Nat.card (K ⧸ CFSG.pCore 2 K) ≤ Nat.card K :=
       Nat.le_of_dvd Nat.card_pos (Subgroup.card_quotient_dvd_card _)
@@ -381,7 +381,7 @@ theorem noCfgS429_alternatingGroup_twelve :
   rcases isThreeCycle_or_exists_card_centralizer hτ3 hτ1 with h3c | ⟨k, hk2, hk3, hcard⟩
   · obtain ⟨hΩ, ⟨φ⟩⟩ := exists_mulEquiv_alternatingGroup_of_isThreeCycle (by norm_num) h3c hc
     exact not_isType429_of_alternating_nine hΩ φ hc.isType
-  · haveI := hc.isPerfect
+  · have := hc.isPerfect
     have h1 := le_card_of_isType429 hc.isType
     have hdvd : Nat.card (K ⧸ CFSG.pCore 2 K) ∣
         Nat.card (Subgroup.centralizer ({τ} : Set (Perm (Fin 12)))) :=

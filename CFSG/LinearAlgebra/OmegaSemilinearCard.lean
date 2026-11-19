@@ -17,17 +17,17 @@ theorem natCard_coordinateSemilinearGroup (d : ℕ) (K : Type*) [Field K] [Finit
 
 theorem natCard_coordinateSemilinearGroup_three_OmegaField :
     Nat.card (coordinateSemilinearGroup 3 OmegaField) = 362880 := by
-  haveI : Module.Finite (ZMod 2) OmegaField := (AdjoinRoot.powerBasis' omegaPoly_monic).finite
-  haveI : Finite OmegaField := Module.finite_of_finite (ZMod 2)
-  haveI : Fintype OmegaField := Fintype.ofFinite OmegaField
+  have : Module.Finite (ZMod 2) OmegaField := (AdjoinRoot.powerBasis' omegaPoly_monic).finite
+  have : Finite OmegaField := Module.finite_of_finite (ZMod 2)
+  have : Fintype OmegaField := Fintype.ofFinite OmegaField
   rw [natCard_coordinateSemilinearGroup, Matrix.card_GL_field]
   have hcardField : Nat.card OmegaField = 4 := by
     rw [Module.natCard_eq_pow_finrank (K := ZMod 2), finrank_omegaField, Nat.card_zmod]
     norm_num
   have hcardFieldF : Fintype.card OmegaField = 4 := by
     rw [← Nat.card_eq_fintype_card, hcardField]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP OmegaField 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP OmegaField 2 :=
     charP_of_injective_algebraMap (algebraMap (ZMod 2) OmegaField).injective 2
   have hcardAut : Nat.card (OmegaField ≃+* OmegaField) = 2 := by
     have h := CFSG.AGLEmbedding.UnitaryModel.card_ringEquiv OmegaField 2 2 (by rw [hcardField]; norm_num)

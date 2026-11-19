@@ -133,12 +133,12 @@ theorem ggOrdPToralE6Rest_of_hard (h : GGOrdPToralE6RestHard) : GGOrdPToralE6Res
       (OrdPInnerExc.coprime_card_center_E6 hp (Or.inl hp3))
   rcases sylowTorus_or_card_lt_adjointE6 hf hp hp2 hp3
       (fun h5 => fun hd => hhard (Or.inr ⟨h5, hd⟩)) with ⟨m, hm⟩ | hlt
-  · haveI : Finite (adjointGroup .E6 (GaloisField 2 f)) := generated_group_finite .E6 _
+  · have : Finite (adjointGroup .E6 (GaloisField 2 f)) := generated_group_finite .E6 _
     exact OrdPInnerExc.ggOrdPToralMax_of_surjective hp (e6Isogeny_surjective (GaloisField 2 f))
       (CFSG.ClassicalInvolution.ModelFacts.ChevAut.e6Isogeny_ker_le_center (GaloisField 2 f)) hcop
       (OrdPInnerExc.ggOrdPToralMax_of_sylowTorus hm)
   · obtain ⟨A, hAel, hAc⟩ := hA
-    haveI : Finite (adjointGroup .E6 (GaloisField 2 f)) := generated_group_finite .E6 _
+    have : Finite (adjointGroup .E6 (GaloisField 2 f)) := generated_group_finite .E6 _
     exact absurd hAc (not_le.2 (OrdPInnerExc.card_lt_of_card_lt_map hcop hlt hAel))
 
 end Reduction

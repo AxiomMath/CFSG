@@ -85,7 +85,7 @@ theorem eq_bot_of_isPGroup_of_le_fitting (hB : CFSG.pCore 2 B = ⊥) {S : Subgro
   have hS' : IsPGroup 2 (S.subgroupOf N) := hS.of_equiv (Subgroup.subgroupOfEquivOfLe hSF).symm
   obtain ⟨P, hSP⟩ := hS'.exists_le_sylow
   have hPcore : (P : Subgroup N) ≤ CFSG.Open.pCore 2 ↥N :=
-    le_pCore 2 inferInstance P.isPGroup'
+    le_pCore 2 inferInstance P.isPGroup
   have hbot : pCoreOf 2 N = ⊥ := pCoreOf_two_eq_bot_of_normal hB N
   rw [eq_bot_iff]
   intro x hx

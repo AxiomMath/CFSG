@@ -17,12 +17,14 @@ variable {G : Subgroup (LGL 2 V)} {Γ : Set (Subgroup (LGL 2 V))}
 @[expose] def kHatOf (Γ : Set (Subgroup (LGL 2 V))) : Subgroup (LGL 2 V) :=
   Subgroup.closure (⋃ A ∈ Γ, (A : Set (LGL 2 V)))
 
+omit [Finite V] in
 theorem kSub_UAOf_orbit (h : Assumption131 G Γ VA i) (hrank : ∀ A ∈ Γ, mRank A ≤ i)
     (htrans : ∀ A ∈ Γ, ∀ B ∈ Γ, ∃ g ∈ G, B = cj g A) {A₀ : Subgroup (LGL 2 V)} (hA₀ : A₀ ∈ Γ) :
     kSub (UAOf G VA A₀) (⊤ : Subgroup (VG G)) (vHat G) = ⨆ A ∈ Γ, UAOf G VA A := by
   unfold kSub
   rw [(thirteen_two_three h hrank htrans hA₀).1, iSup_image]
 
+omit [Finite V] in
 theorem map_projG_kSub_UAOf_orbit (h : Assumption131 G Γ VA i) (hrank : ∀ A ∈ Γ, mRank A ≤ i)
     (htrans : ∀ A ∈ Γ, ∀ B ∈ Γ, ∃ g ∈ G, B = cj g A) {A₀ : Subgroup (LGL 2 V)} (hA₀ : A₀ ∈ Γ) :
     (kSub (UAOf G VA A₀) (⊤ : Subgroup (VG G)) (vHat G)).map (projG G) = kHatOf Γ := by
@@ -70,19 +72,20 @@ theorem hyp73_UAOf_orbit (h : Assumption131 G Γ VA i) (hrank : ∀ A ∈ Γ, mR
       pcore_le := pCoreOf_kSub_le_pCoreOf le_top hnorm hOm
       jnormal := pCoreOf_subgroupOf_normal le_top (kSub_subgroupOf_normal le_top hnorm hOm) }
 
-theorem fusionOddCoreOf_kSub_UAOf_orbit (h : Assumption131 G Γ VA i)
-    (hrank : ∀ A ∈ Γ, mRank A ≤ i) (htrans : ∀ A ∈ Γ, ∀ B ∈ Γ, ∃ g ∈ G, B = cj g A)
-    {A₀ : Subgroup (LGL 2 V)} (hA₀ : A₀ ∈ Γ) :
+theorem fusionOddCoreOf_kSub_UAOf_orbit (_h : Assumption131 G Γ VA i)
+    (_hrank : ∀ A ∈ Γ, mRank A ≤ i) (_htrans : ∀ A ∈ Γ, ∀ B ∈ Γ, ∃ g ∈ G, B = cj g A)
+    {A₀ : Subgroup (LGL 2 V)} (_hA₀ : A₀ ∈ Γ) :
     fusionOddCoreOf (kSub (UAOf G VA A₀) (⊤ : Subgroup (VG G)) (vHat G)) = ⊥ := by
   have hnorm : ((vHat G).subgroupOf (⊤ : Subgroup (VG G))).Normal := normal_vHat.subgroupOf _
   have hOm : ∀ W ∈ omegaSet (UAOf G VA A₀) (⊤ : Subgroup (VG G)) (vHat G),
       W ≤ (⊤ : Subgroup (VG G)) := fun _ _ => le_top
-  haveI : (kSub (UAOf G VA A₀) (⊤ : Subgroup (VG G)) (vHat G)).Normal := by
+  have : (kSub (UAOf G VA A₀) (⊤ : Subgroup (VG G)) (vHat G)).Normal := by
     have h1 := (Subgroup.normal_subgroupOf_iff_le_normalizer le_top).mp
       (kSub_subgroupOf_normal (V := UAOf G VA A₀) le_top hnorm hOm)
     exact Subgroup.normalizer_eq_top_iff.mp (top_le_iff.mp h1)
   exact fusionOddCoreOf_eq_bot_of_charTwo charTwo_top_VG _
 
+omit [Finite V] in
 private theorem inr_mem_kSub_of_mem_kHatOf (h : Assumption131 G Γ VA i)
     (hrank : ∀ A ∈ Γ, mRank A ≤ i) (htrans : ∀ A ∈ Γ, ∀ B ∈ Γ, ∃ g ∈ G, B = cj g A)
     {A₀ : Subgroup (LGL 2 V)} (hA₀ : A₀ ∈ Γ) {n : ↥G} (hn : (n : LGL 2 V) ∈ kHatOf Γ) :
@@ -121,6 +124,7 @@ private theorem inr_mem_kSub_of_mem_kHatOf (h : Assumption131 G Γ VA i)
     · exact Subgroup.mem_sup_right (S := wHat G (VA A)) (mem_aHat.mpr ⟨x, hxA, rfl⟩)
   exact hSle hnS
 
+omit [Finite V] in
 theorem transitive_kSub_UAOf_orbit (h : Assumption131 G Γ VA i) (hrank : ∀ A ∈ Γ, mRank A ≤ i)
     (htrans : ∀ A ∈ Γ, ∀ B ∈ Γ, ∃ g ∈ G, B = cj g A) {A₀ : Subgroup (LGL 2 V)}
     (hA₀ : A₀ ∈ Γ)
@@ -152,7 +156,7 @@ theorem mem_pCoreOf_kSub_UAOf_orbit_iff (h : Assumption131 G Γ VA i)
     (hx : x ∈ kSub (UAOf G VA A₀) (⊤ : Subgroup (VG G)) (vHat G)) :
     x ∈ pCoreOf 2 (kSub (UAOf G VA A₀) (⊤ : Subgroup (VG G)) (vHat G)) ↔
       projG G x ∈ pCoreOf 2 (kHatOf Γ) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let K1 : Subgroup (VG G) := kSub (UAOf G VA A₀) (⊤ : Subgroup (VG G)) (vHat G)
   let Khat : Subgroup (LGL 2 V) := kHatOf Γ
   have hmap : K1.map (projG G) = Khat := map_projG_kSub_UAOf_orbit h hrank htrans hA₀

@@ -93,7 +93,7 @@ theorem no_T_invol_Mc {T : H → Prop} (hT : ZJClass T Q t τ l)
     exact hα''Q hmem
   obtain ⟨F, hFMc, hVF, hFcomm, hFsq, hFcard, hFdecomp⟩ :=
     exists_E16 h hMh hMc hα hα'Mc hα2 hα'2 hc hαQ hα'Q hαα'Q
-  have hα''Mh : α'' ∈ Mh := h.Mc_le_Mh hMh hMc hα''Mc
+  have hα''Mh : α'' ∈ Mh := CFSG.OddStandard.SmallF3.HarrisU33.S4B.ZJData.Mc_le_Mh hMc hα''Mc
   have hTα' : T α' := by
     have hh := hT.conj α ρ hTα
     simpa [hα'def] using hh

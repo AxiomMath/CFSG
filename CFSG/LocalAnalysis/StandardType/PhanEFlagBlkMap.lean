@@ -70,13 +70,13 @@ theorem StabV.flagAct_mem_refSet {g : GL (Fin n) K} (hg : StabV n d g) {x : Flag
   map_add' v w := by
     ext t
     by_cases h : d.getD b 0 + t.val < n
-    · simp only [Pi.add_apply, dif_pos h]
-    · simp only [Pi.add_apply, dif_neg h, add_zero]
+    · simp only [Pi.add_apply, dite_eq_left h]
+    · simp only [Pi.add_apply, dite_eq_right h, add_zero]
   map_smul' c v := by
     ext t
     by_cases h : d.getD b 0 + t.val < n
-    · simp only [Pi.smul_apply, RingHom.id_apply, smul_eq_mul, dif_pos h]
-    · simp only [Pi.smul_apply, RingHom.id_apply, smul_eq_mul, dif_neg h, mul_zero]
+    · simp only [Pi.smul_apply, RingHom.id_apply, smul_eq_mul, dite_eq_left h]
+    · simp only [Pi.smul_apply, RingHom.id_apply, smul_eq_mul, dite_eq_right h, mul_zero]
 
 @[expose] def blkIn (n : ℕ) (d : List ℕ) (b : ℕ) :
     (Fin (blockSize d b) → K) →ₗ[K] (Fin n → K) where
@@ -87,13 +87,13 @@ theorem StabV.flagAct_mem_refSet {g : GL (Fin n) K} (hg : StabV n d g) {x : Flag
   map_add' v w := by
     ext k
     by_cases h : d.getD b 0 ≤ k.val ∧ k.val < d.getD (b + 1) 0
-    · simp only [Pi.add_apply, dif_pos h]
-    · simp only [Pi.add_apply, dif_neg h, add_zero]
+    · simp only [Pi.add_apply, dite_eq_left h]
+    · simp only [Pi.add_apply, dite_eq_right h, add_zero]
   map_smul' c v := by
     ext k
     by_cases h : d.getD b 0 ≤ k.val ∧ k.val < d.getD (b + 1) 0
-    · simp only [Pi.smul_apply, RingHom.id_apply, smul_eq_mul, dif_pos h]
-    · simp only [Pi.smul_apply, RingHom.id_apply, smul_eq_mul, dif_neg h, mul_zero]
+    · simp only [Pi.smul_apply, RingHom.id_apply, smul_eq_mul, dite_eq_left h]
+    · simp only [Pi.smul_apply, RingHom.id_apply, smul_eq_mul, dite_eq_right h, mul_zero]
 
 private theorem q2cFBM_blkOut_apply (n : ℕ) (d : List ℕ) (b : ℕ) (v : Fin n → K)
     (t : Fin (blockSize d b)) :
@@ -116,7 +116,7 @@ theorem blkOut_blkIn (hd : IsCut n d) {b : ℕ} (hb : b + 1 < d.length)
     simp only [blockSize] at this
     omega
   have hn : d.getD b 0 + t.val < n := lt_of_lt_of_le ht (q2cFPt_le_last hd hb)
-  rw [dif_pos hn, q2cFBM_blkIn_apply, dif_pos ⟨Nat.le_add_right _ _, ht⟩]
+  rw [dite_eq_left hn, q2cFBM_blkIn_apply, dite_eq_left ⟨Nat.le_add_right _ _, ht⟩]
   congr 1
   ext
   simp
@@ -132,11 +132,11 @@ theorem blkOut_blkIn_of_ne (hd : IsCut n d) {b b' : ℕ} (hb : b + 1 < d.length)
     simp only [blockSize] at this
     omega
   by_cases hn : d.getD b 0 + t.val < n
-  · rw [dif_pos hn, q2cFBM_blkIn_apply]
+  · rw [dite_eq_left hn, q2cFBM_blkIn_apply]
     have hnc : ¬ (d.getD b' 0 ≤ (⟨d.getD b 0 + t.val, hn⟩ : Fin n).val ∧
         (⟨d.getD b 0 + t.val, hn⟩ : Fin n).val < d.getD (b' + 1) 0) := by
       rintro ⟨h1, h2⟩
-      simp only [Fin.val_mk] at h1 h2
+      simp only at h1 h2
       rcases lt_or_gt_of_ne hne with hbb | hbb
       · have hle := q2cFPt_getD_le hd (i := b + 1) (j := b') (by omega)
           (by omega : b' < d.length)
@@ -144,9 +144,9 @@ theorem blkOut_blkIn_of_ne (hd : IsCut n d) {b b' : ℕ} (hb : b + 1 < d.length)
       · have hle := q2cFPt_getD_le hd (i := b' + 1) (j := b) (by omega)
           (by omega : b < d.length)
         omega
-    rw [dif_neg hnc]
+    rw [dite_eq_right hnc]
     rfl
-  · rw [dif_neg hn]
+  · rw [dite_eq_right hn]
     rfl
 
 theorem blkOut_of_mem_Vsub {b : ℕ} {v : Fin n → K} (hv : v ∈ Vsub n (d.getD b 0)) :
@@ -154,18 +154,18 @@ theorem blkOut_of_mem_Vsub {b : ℕ} {v : Fin n → K} (hv : v ∈ Vsub n (d.get
   ext t
   rw [q2cFBM_blkOut_apply]
   by_cases hn : d.getD b 0 + t.val < n
-  · rw [dif_pos hn, hv ⟨d.getD b 0 + t.val, hn⟩ (Nat.le_add_right _ _)]
+  · rw [dite_eq_left hn, hv ⟨d.getD b 0 + t.val, hn⟩ (Nat.le_add_right _ _)]
     rfl
-  · rw [dif_neg hn]
+  · rw [dite_eq_right hn]
     rfl
 
 theorem blkIn_mem_Vsub {b : ℕ} (w : Fin (blockSize d b) → K) :
     blkIn n d b w ∈ Vsub n (d.getD (b + 1) 0) := by
   intro k hk
   rw [q2cFBM_blkIn_apply]
-  exact dif_neg (fun hc => not_lt_of_ge hk hc.2)
+  exact dite_eq_right (fun hc => not_lt_of_ge hk hc.2)
 
-theorem sub_blkIn_blkOut_mem_Vsub (hd : IsCut n d) {b : ℕ} (hb : b + 1 < d.length)
+theorem sub_blkIn_blkOut_mem_Vsub (_hd : IsCut n d) {b : ℕ} (_hb : b + 1 < d.length)
     {v : Fin n → K} (hv : v ∈ Vsub n (d.getD (b + 1) 0)) :
     v - blkIn n d b (blkOut n d b v) ∈ Vsub n (d.getD b 0) := by
   intro k hk
@@ -174,12 +174,12 @@ theorem sub_blkIn_blkOut_mem_Vsub (hd : IsCut n d) {b : ℕ} (hb : b + 1 < d.len
   · have hkb : d.getD b 0 + (k.val - d.getD b 0) = k.val := Nat.add_sub_of_le hk
     have hbnd : d.getD b 0 + (k.val - d.getD b 0) < n := by rw [hkb]; exact k.isLt
     have hcond : d.getD b 0 ≤ k.val ∧ k.val < d.getD (b + 1) 0 := ⟨hk, hlt⟩
-    rw [q2cFBM_blkIn_apply, dif_pos hcond, q2cFBM_blkOut_apply, dif_pos hbnd]
+    rw [q2cFBM_blkIn_apply, dite_eq_left hcond, q2cFBM_blkOut_apply, dite_eq_left hbnd]
     have hidx : (⟨d.getD b 0 + (k.val - d.getD b 0), hbnd⟩ : Fin n) = k := by
       apply Fin.ext
       simpa only [Fin.val_mk] using hkb
     rw [hidx, sub_self]
-  · rw [q2cFBM_blkIn_apply, dif_neg (fun hc => hlt hc.2), hv k (le_of_not_gt hlt), sub_zero]
+  · rw [q2cFBM_blkIn_apply, dite_eq_right (fun hc => hlt hc.2), hv k (le_of_not_gt hlt), sub_zero]
 
 theorem sum_blkIn_blkOut (hd : IsCut n d) (v : Fin n → K) :
     ∑ b ∈ Finset.range (d.length - 1), blkIn n d b (blkOut n d b v) = v := by
@@ -211,13 +211,13 @@ theorem sum_blkIn_blkOut (hd : IsCut n d) (v : Fin n → K) :
         · have hle := q2cFPt_getD_le hd (i := b + 1) (j := b') (by omega)
             (by omega : b' < d.length)
           omega
-      exact dif_neg hnc
+      exact dite_eq_right hnc
     · intro hnot; exact absurd hbmem hnot
   rw [hsum]
   have hkb : d.getD b 0 + (k.val - d.getD b 0) = k.val := Nat.add_sub_of_le hlo'
   have hbnd : d.getD b 0 + (k.val - d.getD b 0) < n := by rw [hkb]; exact k.isLt
   have hcond : d.getD b 0 ≤ k.val ∧ k.val < d.getD (b + 1) 0 := ⟨hlo', hhi'⟩
-  rw [q2cFBM_blkIn_apply, dif_pos hcond, q2cFBM_blkOut_apply, dif_pos hbnd]
+  rw [q2cFBM_blkIn_apply, dite_eq_left hcond, q2cFBM_blkOut_apply, dite_eq_left hbnd]
   have hidx : (⟨d.getD b 0 + (k.val - d.getD b 0), hbnd⟩ : Fin n) = k := by
     apply Fin.ext
     simpa only [Fin.val_mk] using hkb
@@ -360,12 +360,12 @@ theorem exists_mem_refSet_E_eq (hd : IsCut n d) {b : ℕ} (hb : b + 1 < d.length
     · rw [hbb] at hs ⊢
       dsimp only [S]
       by_cases hs₁ : s ≤ k₁
-      · simp only [if_pos rfl, if_pos hs₁]
+      · simp only [ite_eq_left hs₁]
         exact (hC₁b s).1
-      · simp only [if_pos rfl, if_neg hs₁]
+      · simp only [ite_eq_right hs₁]
         exact le_trans h₁ (hC₂b (s - k₁)).1
     · dsimp only [S]
-      simp only [if_neg hbb]
+      simp only [ite_eq_right hbb]
       exact Vsub_mono (Nat.le_add_right _ _)
   have hhi : ∀ b' s, b' + 1 < d.length → s ≤ blockSize d b' →
       S b' s ≤ Vsub n (d.getD (b' + 1) 0) := by
@@ -374,12 +374,12 @@ theorem exists_mem_refSet_E_eq (hd : IsCut n d) {b : ℕ} (hb : b + 1 < d.length
     · rw [hbb] at hs ⊢
       dsimp only [S]
       by_cases hs₁ : s ≤ k₁
-      · simp only [if_pos rfl, if_pos hs₁]
+      · simp only [ite_eq_left hs₁]
         exact (hC₁b s).2.trans h₂
-      · simp only [if_pos rfl, if_neg hs₁]
+      · simp only [ite_eq_right hs₁]
         exact (hC₂b (s - k₁)).2
     · dsimp only [S]
-      simp only [if_neg hbb]
+      simp only [ite_eq_right hbb]
       apply Vsub_mono
       have hstrict := hd.strict b' hb'
       have := hs; simp only [blockSize] at this; omega
@@ -391,16 +391,16 @@ theorem exists_mem_refSet_E_eq (hd : IsCut n d) {b : ℕ} (hb : b + 1 < d.length
       dsimp only [S]
       by_cases hs₁ : s ≤ k₁
       · by_cases hs'₁ : s' ≤ k₁
-        · simp only [if_pos rfl, if_pos hs₁, if_pos hs'₁]
+        · simp only [ite_eq_left hs₁, ite_eq_left hs'₁]
           exact hC₁m hss'
-        · simp only [if_pos rfl, if_pos hs₁, if_neg hs'₁]
+        · simp only [ite_eq_left hs₁, ite_eq_right hs'₁]
           exact le_trans (hC₁m hs₁) (le_trans (le_of_eq hC₁k)
             (le_trans (le_of_eq hC₂X.symm) (hC₂m (Nat.zero_le (s' - k₁)))))
       · have hs'₁ : ¬ s' ≤ k₁ := fun h => hs₁ (le_trans hss' h)
-        simp only [if_pos rfl, if_neg hs₁, if_neg hs'₁]
+        simp only [ite_eq_right hs₁, ite_eq_right hs'₁]
         exact hC₂m (by omega)
     · dsimp only [S]
-      simp only [if_neg hbb]
+      simp only [ite_eq_right hbb]
       exact Vsub_mono (by omega)
   have hdim : ∀ b' s, b' + 1 < d.length → s ≤ blockSize d b' →
       finrank K (S b' s) = d.getD b' 0 + s := by
@@ -409,18 +409,18 @@ theorem exists_mem_refSet_E_eq (hd : IsCut n d) {b : ℕ} (hb : b + 1 < d.length
     · rw [hbb] at hs ⊢
       by_cases hs₁ : s ≤ k₁
       · have hSs : S b s = C₁ s := by
-          dsimp only [S]; rw [if_pos rfl, if_pos hs₁]
+          dsimp only [S]; rw [ite_eq_left rfl, ite_eq_left hs₁]
         rw [show finrank K (S b s) = finrank K ↥(C₁ s) from
           congrArg (fun W : Submodule K (Fin n → K) => finrank K W) hSs]
         rw [hC₁d s hs₁, finrank_Vsub hVa]
       · have hSs : S b s = C₂ (s - k₁) := by
-          dsimp only [S]; rw [if_pos rfl, if_neg hs₁]
+          dsimp only [S]; rw [ite_eq_left rfl, ite_eq_right hs₁]
         rw [show finrank K (S b s) = finrank K ↥(C₂ (s - k₁)) from
           congrArg (fun W : Submodule K (Fin n → K) => finrank K W) hSs]
         rw [hC₂d (s - k₁) (by simp only [blockSize] at hs; omega), hk₁]
         omega
     · have hSs : S b' s = Vsub n (d.getD b' 0 + s) := by
-        dsimp only [S]; rw [if_neg hbb]
+        dsimp only [S]; rw [ite_eq_right hbb]
       rw [show finrank K (S b' s) = finrank K ↥(Vsub n (d.getD b' 0 + s)) from
         congrArg (fun W : Submodule K (Fin n → K) => finrank K W) hSs]
       apply finrank_Vsub
@@ -432,7 +432,7 @@ theorem exists_mem_refSet_E_eq (hd : IsCut n d) {b : ℕ} (hb : b + 1 < d.length
   have hfin : d.getD b 0 + k₁ = finrank K X := by rw [hk₁]; omega
   have hk₁m : k₁ ≤ blockSize d b := by rw [hk₁, blockSize]; omega
   have hsz : S b k₁ = X := by
-    dsimp only [S]; rw [if_pos rfl, if_pos le_rfl, hC₁k]
+    dsimp only [S]; rw [ite_eq_left rfl, ite_eq_left le_rfl, hC₁k]
   rw [← hfin, hz b k₁ hb hk₁m, hsz]
 
 end CFSG.ClassicalInvolution.Phan.PhanE.Flag

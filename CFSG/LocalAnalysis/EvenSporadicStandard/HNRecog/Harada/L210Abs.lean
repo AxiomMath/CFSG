@@ -21,8 +21,8 @@ variable {X : Type} [Group X] [Finite X] {A : Subgroup X} {w : X}
 theorem Abs210.toL210Hyp (h : Abs210 A w ψ) : L210Hyp A where
   elemAb := h.elemAb
   card := h.card
-  centralizer_le := fun i hi hiA hi2 => L210_card_centralizer_le h hi hiA hi2
-  noE16 := fun D hD hDe hDA => L210_card_le_eight h hD hDe hDA
+  centralizer_le := fun _i hi hiA hi2 => L210_card_centralizer_le h hi hiA hi2
+  noE16 := fun _D hD hDe hDA => L210_card_le_eight h hD hDe hDA
 
 theorem Abs210.normal (hGold : GoldschmidtTheoremA) (h : Abs210 A w ψ) : A.Normal := by
   obtain ⟨T, hTN, hAT, hclosed⟩ := L210_strongly_closed h.toL210Hyp

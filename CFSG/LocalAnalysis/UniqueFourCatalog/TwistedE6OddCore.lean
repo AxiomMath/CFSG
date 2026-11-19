@@ -71,7 +71,7 @@ theorem exists_involution_perfect_centralizer (t : TwistTag)
       _ ≤ (p ^ f) ^ 2 := Nat.pow_le_pow_left hq3 2
       _ ≤ (p ^ f) ^ (t.orbit a).card := Nat.pow_le_pow_right (by omega) ha2
   have hperfSL : Group.IsPerfect (SL2 (orbitField t K σ.toRingHom a)) := by
-    haveI : Fintype (orbitField t K σ.toRingHom a) := Fintype.ofFinite _
+    have : Fintype (orbitField t K σ.toRingHom a) := Fintype.ofFinite _
     have h4 : 4 ≤ (Finset.univ : Finset (orbitField t K σ.toRingHom a)).card := by
       rw [Finset.card_univ, ← Nat.card_eq_fintype_card]
       omega

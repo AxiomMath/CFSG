@@ -189,7 +189,7 @@ theorem ggFieldInnR_unitary_63 (hK : Nat.card K = (2 ^ n) ^ 2) (hn : 1 ≤ n)
     have hns : tvGL h.bar hUU ∉ LargeEvenScalars (Fin 6) K := by
       refine tvGL_not_mem_scalars h.bar hUU hkl ?_
       have : tv h.bar U k l = v k * h.bar (v l) := by
-        simp [tv, Matrix.add_apply, Matrix.mul_apply, adjM, Matrix.one_apply, hkl, hU]
+        simp [tv, Matrix.add_apply, Matrix.mul_apply, adjM, hkl, hU]
       rw [this]
       exact mul_ne_zero hk (fun h0 => hl ((map_eq_zero_iff h.bar h.bar.injective).mp h0))
     have hnormσ : ∀ c : K, c ^ (2 ^ n + 1) = 1 → tv h.bar (c • U) = tv h.bar U :=

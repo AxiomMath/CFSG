@@ -29,7 +29,7 @@ private lemma l05nK7a_card_iff_move_finrank {p : ℕ} [Fact p.Prime] {V : Type} 
     (p ^ Module.finrank (ZMod p) (LinearMap.ker ((r : V →ₗ[ZMod p] V) - LinearMap.id)) * p =
         p ^ Module.finrank (ZMod p) V) ↔
       Module.finrank (ZMod p) (ggLinMove r) = 1 := by
-  haveI : Module.Finite (ZMod p) V := Module.Finite.of_finite
+  have : Module.Finite (ZMod p) V := Module.Finite.of_finite
   have hp2 : 2 ≤ p := (Fact.out : p.Prime).two_le
   constructor
   · intro hcard
@@ -60,7 +60,7 @@ theorem ggRC_isReflection_iff_linRefl {p : ℕ} [Fact p.Prime] {G : Type} [Group
     (ι : Additive ↥Bs ≃+ V)
     (φ : MulAut ↥Bs) :
     GGIsReflection p φ ↔ GGLinRefl (ggLin (p := p) ι φ) := by
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
   constructor
   · rintro ⟨h2, hcard⟩
     constructor

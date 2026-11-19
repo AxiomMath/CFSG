@@ -34,6 +34,7 @@ theorem MinCex88.le_normalizer_zero {V H T : Subgroup G} {i : ℕ} (h : MinCex88
   exact (CFSG.SectionRank.pRank_mono hpp.one_lt (inf_le_inf_right _ hXH.le)).trans
     (hp p hpp hp2 hpH)
 
+omit [Finite G] in
 private theorem lGen_le_inf {V H T : Subgroup G} (P : ∀ (X : Type) [Group X], Prop)
     (hP : ∀ X : Subgroup G, T ≤ X → X < H → ¬ HasCompFactor X P →
       X ≤ normalizer (V : Set G)) :

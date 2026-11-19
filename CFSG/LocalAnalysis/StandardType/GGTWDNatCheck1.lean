@@ -36,7 +36,7 @@ private lemma l05nD3_cases1_extract {p N : ℕ} (posn c0 mi ni : ℕ) (wits : Li
   have hc : (ggDepANDot p la lh == 2 % p && ggDepANDot p la (ggDepANX N) != 0) = true := by
     rw [Bool.and_eq_true]
     exact ⟨beq_iff_eq.mpr hd, bne_iff_ne.mpr hz⟩
-  rw [if_pos hc] at h2
+  rw [ite_eq_left hc] at h2
   exact List.any_eq_true.mp h2
 
 theorem ggTWDCases1_sound {p N : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) (hN : 5 ≤ N) (pos : GGTWPos)
@@ -59,16 +59,16 @@ theorem ggTWDCases1_sound {p N : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) (hN : 5 ≤
     have h2 := (hpair c hcJ).2
     by_cases hcc : c = c0
     · rw [hcc] at h2 ⊢
-      rw [if_pos rfl] at h2
+      rw [ite_eq_left rfl] at h2
       change ggDepAdot (ggDepAα p N c0) ha =
         (((if c0.val = c0.val then (p - ni % p) % p else 0 : ℕ)) : ZMod p)
-      rw [if_pos rfl, h2, Nat.mod_eq_of_lt hni_lt, l05nND_cast_neg p ni (le_of_lt hni_lt)]
+      rw [ite_eq_left rfl, h2, Nat.mod_eq_of_lt hni_lt, l05nND_cast_neg p ni (le_of_lt hni_lt)]
       simp
-    · rw [if_neg hcc] at h2
+    · rw [ite_eq_right hcc] at h2
       have hne : c.val ≠ c0.val := fun hh => hcc (Fin.ext hh)
       change ggDepAdot (ggDepAα p N c) ha =
         (((if c.val = c0.val then (p - ni % p) % p else 0 : ℕ)) : ZMod p)
-      rw [if_neg hne, h2]
+      rw [ite_eq_right hne, h2]
       simp
   have hvA : ∀ c : Fin (N - 1), ggTWInJ N pos c.val →
       ggDepAdot αa (ggDepAh p N c) =
@@ -77,16 +77,16 @@ theorem ggTWDCases1_sound {p N : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) (hN : 5 ≤
     have h1 := (hpair c hcJ).1
     by_cases hcc : c = c0
     · rw [hcc] at h1 ⊢
-      rw [if_pos rfl] at h1
+      rw [ite_eq_left rfl] at h1
       change ggDepAdot αa (ggDepAh p N c0) =
         (((if c0.val = c0.val then (p - mi % p) % p else 0 : ℕ)) : ZMod p)
-      rw [if_pos rfl, h1, Nat.mod_eq_of_lt hmi_lt, l05nND_cast_neg p mi (le_of_lt hmi_lt)]
+      rw [ite_eq_left rfl, h1, Nat.mod_eq_of_lt hmi_lt, l05nND_cast_neg p mi (le_of_lt hmi_lt)]
       simp
-    · rw [if_neg hcc] at h1
+    · rw [ite_eq_right hcc] at h1
       have hne : c.val ≠ c0.val := fun hh => hcc (Fin.ext hh)
       change ggDepAdot αa (ggDepAh p N c) =
         (((if c.val = c0.val then (p - mi % p) % p else 0 : ℕ)) : ZMod p)
-      rw [if_neg hne, h1]
+      rw [ite_eq_right hne, h1]
       simp
   obtain ⟨lh, hlh_mem, hlh_eq, hlh_len⟩ :=
     ggTWDSolH_complete (p := p) (N := N) pos

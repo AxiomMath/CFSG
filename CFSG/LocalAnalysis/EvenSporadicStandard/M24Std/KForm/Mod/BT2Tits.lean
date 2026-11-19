@@ -13,7 +13,7 @@ open Subgroup CFSG CFSG.Blueprint CFSG.Sporadic.Schreier.Tits
 theorem isCharacteristicP_two_of_hasTwoCore {G : Type*} [Group G] (h : HasTwoCore G) :
     IsCharacteristicP 2 G := by
   obtain ⟨J, hJ, hJ2, hJC⟩ := h
-  haveI := hJ
+  have := hJ
   exact isCharacteristicP_two_of_two_radical J hJ2 fun x hx => by
     obtain ⟨k, hk⟩ := hJ2 ⟨x, hJC hx⟩
     exact ⟨k, congrArg Subtype.val hk⟩

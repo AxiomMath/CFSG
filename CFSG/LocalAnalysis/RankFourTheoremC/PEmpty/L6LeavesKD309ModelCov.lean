@@ -17,7 +17,7 @@ open CFSG.Open
 theorem det_monEmb_monSub {C : Type} [CommGroup C] [Finite C] {a : ℕ} (hC : Nat.card C = 5 ^ a)
     {F : Type} [Field F] (e : C →* Fˣ) (m : ↥(monSub C)) :
     ((monEmb (F := F) e 5 (m : Mon C 5) : GL (Fin 5) F) : Matrix (Fin 5) (Fin 5) F).det = 1 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hodd : Odd (orderOf (m : Mon C 5)) := by
     obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp (isPGroup_monSub hC)) m
     rw [← Subgroup.orderOf_coe m] at hk
@@ -35,8 +35,8 @@ theorem sylow_statedSL {G : Type} [Group G] [Finite G] {K : Type} [Field K] [Fin
     (hT5 : Nat.card (T : Subgroup G) ≤ 5 ^ 5) :
     Nat.card (T : Subgroup G) = 5 ^ 5 ∧ (∀ t ∈ (T : Subgroup G), t ^ 5 = 1) ∧
       ∃ s ∈ (T : Subgroup G), ∃ t ∈ (T : Subgroup G), s * t ≠ t * s := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fintype K := Fintype.ofFinite K
   have hC : Nat.card (unitsPPart K 5) = 5 ^ padicValNat 5 (Fintype.card K - 1) :=
     card_unitsPPart K 5
   have hKc : Fintype.card K - 1 = Nat.card K - 1 := by rw [Nat.card_eq_fintype_card]
@@ -64,8 +64,8 @@ theorem sylow_statedSU {G : Type} [Group G] [Finite G] {K : Type} [Field K] [Fin
     (hT5 : Nat.card (T : Subgroup G) ≤ 5 ^ 5) :
     Nat.card (T : Subgroup G) = 5 ^ 5 ∧ (∀ t ∈ (T : Subgroup G), t ^ 5 = 1) ∧
       ∃ s ∈ (T : Subgroup G), ∃ t ∈ (T : Subgroup G), s * t ≠ t * s := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fintype K := Fintype.ofFinite K
   have hq2 : 2 ≤ q := by
     have := Nat.le_of_dvd (by omega) hpq
     omega

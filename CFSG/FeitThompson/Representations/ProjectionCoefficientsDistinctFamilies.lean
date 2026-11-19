@@ -116,12 +116,14 @@ variable {L G : Type*} [Group L] [Fintype L] [Group G] [Fintype G]
   {ν : Submodule.span ℤ (Set.range ξ) →+ virtualChars G} {β : G → ℂ} (H : Subgroup L)
 
 open scoped Classical in
+omit [Fintype ι] in
 theorem cfInner_coherentImage_coherentImage (hinj : Function.Injective ξ)
     (hIrr : ∀ k, ξ k ∈ Irr L) (hν : IsCoherentWith (Set.range ξ) τ ν) (k l : ι) :
     cfInner (coherentImage ξ ν k) (coherentImage ξ ν l) = if k = l then 1 else 0 := by
   rw [coherentImage_apply, coherentImage_apply, hν.inner_eq]
   simpa [hinj.eq_iff] using cfInner_eq_ite_of_mem_Irr (hIrr k) (hIrr l)
 
+omit [Fintype ι] in
 theorem cfInner_coherentImage_eq
     (hξS : Set.range ξ ⊆ indFam H (Irr H))
     (hν : IsCoherentWith (Set.range ξ) τ ν)
@@ -157,9 +159,9 @@ theorem cfInner_sub_smul_coherentSum_eq_zero (hinj : Function.Injective ξ)
   have hsum : ∑ k, cfInner ((ξ k 1 / (H.index : ℂ)) • coherentImage ξ ν k)
       (coherentImage ξ ν l) = ξ l 1 / (H.index : ℂ) := by
     rw [Finset.sum_eq_single_of_mem l (Finset.mem_univ l)]
-    · rw [cfInner_smul_left, cfInner_coherentImage_coherentImage hinj hIrr hν, if_pos rfl, mul_one]
+    · rw [cfInner_smul_left, cfInner_coherentImage_coherentImage hinj hIrr hν, ite_eq_left rfl, mul_one]
     · intro k _ hkl
-      rw [cfInner_smul_left, cfInner_coherentImage_coherentImage hinj hIrr hν, if_neg hkl,
+      rw [cfInner_smul_left, cfInner_coherentImage_coherentImage hinj hIrr hν, ite_eq_right hkl,
         mul_zero]
   rw [hsum]
   ring

@@ -10,7 +10,7 @@ open Module QuadraticMap CFSG.RankThree.Classical2 CFSG.ClassicalGroups.Orthogon
 section Unpack
 variable {K V : Type} [Field K] [Finite K] [AddCommGroup V] [Module K V] [FiniteDimensional K V]
 theorem qplus_data3 [Nontrivial V] (Q : QuadraticForm K V) (hQ : (polarBilin Q).Nondegenerate)
-    {p : ℕ} (hp : p.Prime) (hpne : p ≠ 2) (hK4 : 4 ≤ Nat.card K) (hpl : p ≠ ringChar K)
+    {p : ℕ} (hp : p.Prime) (hpne : p ≠ 2) (_hK4 : 4 ≤ Nat.card K) (hpl : p ≠ ringChar K)
     (A : Subgroup (ProjOrthDerived Q)) (hA : Assembly.IsElemAbelian p A)
     (hAc : Nat.card A = p ^ 2) : ∃ Ã : Subgroup (orthDerived Q), QPlusData Q p A Ã := by
   classical

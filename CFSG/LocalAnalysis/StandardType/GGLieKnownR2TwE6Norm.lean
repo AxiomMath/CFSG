@@ -30,7 +30,7 @@ theorem twE6_pCoreOf_normalizer_le_rad
         (((twistedE6Datum 2 f).rootGroup twE6Alpha : Subgroup (twistedE6Group 2 f)) :
           Set (twistedE6Group 2 f))) ≤ twE6Rad (frobQ 2 f) := by
   classical
-  haveI : Fintype (GaloisField 2 (2 * f)) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 (2 * f)) := Fintype.ofFinite _
   have hk : 4 ≤ Fintype.card (GaloisField 2 (2 * f)) := by
     have h := GaloisField.card 2 (2 * f) (by omega)
     rw [Nat.card_eq_fintype_card] at h

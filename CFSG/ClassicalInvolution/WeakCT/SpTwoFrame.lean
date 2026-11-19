@@ -19,7 +19,7 @@ variable {F : Type} [Field F] {X : Type} [Group X]
 private def spTwoUp {n : ℕ} (k : Fin (n - 1)) : Fin n := ⟨k.val, by have := k.isLt; omega⟩
 
 private theorem exists_frame_sp_two_restrict {n : ℕ} (hn : 3 ≤ n) (hF : Nat.card F = 2)
-    (hfin : Finite F) {U : Fin n → Subgroup X}
+    {U : Fin n → Subgroup X}
     (hcomm : ∀ i j : Fin n, i.val + 1 < j.val → ∀ x ∈ U i, ∀ y ∈ U j, x * y = y * x)
     (hpair : ∀ i j : Fin n, i.val + 1 = j.val → j.val + 1 < n →
       ∃ W, LinearBlockStandardPair F W (U i) (U j)) :
@@ -44,7 +44,7 @@ private theorem exists_frame_sp_two_restrict {n : ℕ} (hn : 3 ≤ n) (hF : Nat.
       (by simp only [spTwoUp]; have := i.isLt; omega)
     exact ⟨W, hW.symm⟩
   obtain ⟨ρ, hρ, hψ⟩ :=
-    @exists_frame_of_tree_two F _ hfin X _ (n - 1) (edgeDown (n - 1)) (parentDown (n - 1))
+    @exists_frame_of_tree_two F _ X _ (n - 1) (edgeDown (n - 1)) (parentDown (n - 1))
       (depthDown (n - 1)) _ hF (rootedTree_edgeDown (n := n - 1) (by omega))
       ⟨⟨n - 3, by omega⟩, Or.inl (by simp only [edgeDown]; omega)⟩
       (fun k => U (spTwoUp k)) hcomm' hpair'
@@ -102,8 +102,8 @@ private theorem exists_frame_sp_two_assembly {n : ℕ} (hn : 3 ≤ n) {U : Fin n
   classical
   let ρ : Fin n → SL(2, F) →* X :=
     fun k => if h : k.val < n - 1 then ρ' ⟨k.val, h⟩ else θ'.comp (spBlock F 1)
-  have hρeq : ∀ k (h : k.val < n - 1), ρ k = ρ' ⟨k.val, h⟩ := fun k h => dif_pos h
-  have hρeq' : ∀ k, ¬ k.val < n - 1 → ρ k = θ'.comp (spBlock F 1) := fun k h => dif_neg h
+  have hρeq : ∀ k (h : k.val < n - 1), ρ k = ρ' ⟨k.val, h⟩ := fun k h => dite_eq_left h
+  have hρeq' : ∀ k, ¬ k.val < n - 1 → ρ k = θ'.comp (spBlock F 1) := fun k h => dite_eq_right h
   refine ⟨ρ, ?_, ?_, ?_⟩
   · intro k
     by_cases hk : k.val < n - 1
@@ -141,7 +141,7 @@ theorem exists_frame_of_chain_sp_two (hF : Nat.card F = 2) {n : ℕ} (hn : 3 ≤
         ψ.comp (spBlock F 1) = ρ i ∧ ψ.comp (spBlock F 0) = ρ j := by
   classical
   have hfin : Finite F := Nat.finite_of_card_ne_zero (by rw [hF]; norm_num)
-  obtain ⟨ρ', hρ', hψ'⟩ := exists_frame_sp_two_restrict hn hF hfin hcomm hpair
+  obtain ⟨ρ', hρ', hψ'⟩ := exists_frame_sp_two_restrict hn hF hcomm hpair
   obtain ⟨a, ha⟩ : ∃ a : Fin n, a.val + 1 = n :=
     ⟨⟨n - 1, by omega⟩, by show n - 1 + 1 = n; omega⟩
   obtain ⟨b, hb⟩ : ∃ b : Fin n, b.val + 2 = n :=

@@ -14,7 +14,7 @@ theorem exists_isTransvectionWith_of_card_le [Finite V] (hV : finrank (ZMod 3) V
     {t : V ≃ₗ[ZMod 3] V} (ht3 : t ^ 3 = 1) (ht1 : t ≠ 1)
     (hfix : 9 ≤ Nat.card (LinearMap.ker ((t : V →ₗ[ZMod 3] V) - 1))) :
     ∃ (v : V) (f : Dual (ZMod 3) V), CFSG.RankThree.Classical.IsTransvectionWith t v f := by
-  haveI : FiniteDimensional (ZMod 3) V := Module.finite_of_finrank_pos (by omega)
+  have : FiniteDimensional (ZMod 3) V := Module.finite_of_finrank_pos (by omega)
   set N : V →ₗ[ZMod 3] V := (t : V →ₗ[ZMod 3] V) - 1
   have hNapp : ∀ x, N x = t x - x := fun x => rfl
   have hNne : N ≠ 0 := by

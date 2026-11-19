@@ -23,7 +23,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem exists_invariant_isSylowOf {X I : Subgroup G} {q : ℕ} (hq : q.Prime) (hX : IsPGroup 3 X)
     (hI3 : ¬ 3 ∣ Nat.card I) (hXI : X ≤ normalizer (I : Set G)) :
     ∃ Q : Subgroup G, CFSG.ABGLocalTools.IsSylowOf q Q I ∧ X ≤ normalizer (Q : Set G) := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hbot : IsPGroup q (⊥ : Subgroup G) := IsPGroup.of_card (n := 0) (by simp)
   have hXbot : X ≤ normalizer ((⊥ : Subgroup G) : Set G) := by
     rw [Subgroup.normalizer_eq_top]
@@ -36,7 +36,7 @@ theorem exists_invariant_isSylowOf {X I : Subgroup G} {q : ℕ} (hq : q.Prime) (
 private theorem isSylowOf_map_conj {I Q : Subgroup G} {n : G} {q : ℕ} (hq : q.Prime)
     (hn : n ∈ normalizer (I : Set G)) (hQ : CFSG.ABGLocalTools.IsSylowOf q Q I) :
     CFSG.ABGLocalTools.IsSylowOf q (Q.map (MulAut.conj n).toMonoidHom) I := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   rw [CFSG.ABGLocalTools.isSylowOf_iff] at hQ ⊢
   obtain ⟨hQI, hQp, hQidx⟩ := hQ
   have hI : I.map (MulAut.conj n).toMonoidHom = I :=
@@ -54,7 +54,7 @@ theorem exists_mem_normalizer_acts_as {H I X Q : Subgroup G} {q : ℕ} (hq : q.P
     (hXI : X ≤ normalizer (I : Set G)) :
     ∃ m ∈ H ⊓ normalizer (Q : Set G) ⊓ normalizer (X : Set G),
       ∀ x ∈ X, m * x * m⁻¹ = n * x * n⁻¹ := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hnH : n ∈ H := hn.1
   have hnX : n ∈ normalizer (X : Set G) := hn.2
   have hnI : n ∈ normalizer (I : Set G) := hHI hnH
@@ -121,7 +121,7 @@ theorem exists_mem_normalizer_acts_as {H I X Q : Subgroup G} {q : ℕ} (hq : q.P
     have hmem_n : y ∈ Q ↔ n * y * n⁻¹ ∈ Q.map (MulAut.conj n) := by
       have := Subgroup.mem_map_iff_mem (K := Q) (f := (MulAut.conj n : MulAut G).toMonoidHom)
         (MulAut.conj n).injective (x := y)
-      simpa [MulAut.conj_apply] using this.symm
+      simp [MulAut.conj_apply]
     have hmem_c : c⁻¹ * (n * y * n⁻¹) * c ∈ Q ↔
         n * y * n⁻¹ ∈ Q.map (MulAut.conj c) := by
       have := Subgroup.mem_map_iff_mem (K := Q) (f := (MulAut.conj c : MulAut G).toMonoidHom)
@@ -152,11 +152,11 @@ theorem exists_sylow_not_le {H I M X : Subgroup G} (hIH : I ≤ H) (hHI : H ≤ 
       ∃ Q : Subgroup G, CFSG.ABGLocalTools.IsSylowOf q Q I ∧ X ≤ normalizer (Q : Set G) ∧
         ¬ Q ≤ M := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hI2 : Odd (M.relIndex I) := by
     have hI'norm : (I.subgroupOf H).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer hIH).2 hHI
-    haveI : (I.subgroupOf H).Normal := hI'norm
+    have : (I.subgroupOf H).Normal := hI'norm
     have hdvd : (M.subgroupOf H).relIndex ((I.subgroupOf H) ⊔ (M.subgroupOf H)) ∣ M.relIndex H := by
       have := Subgroup.relIndex_dvd_index_of_le (H := M.subgroupOf H)
         (K := (I.subgroupOf H) ⊔ (M.subgroupOf H)) le_sup_right
@@ -171,7 +171,7 @@ theorem exists_sylow_not_le {H I M X : Subgroup G} (hIH : I ≤ H) (hHI : H ≤ 
   have htop : M.subgroupOf I = ⊤ := by
     apply CFSG.OrderReductions.PrimePart.eq_top_of_contains_sylow_for_every_prime
     intro p hp
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     by_cases hp3 : p = 3
     · subst hp3
       obtain ⟨S⟩ := Sylow.nonempty (p := 3) (G := ↥I)
@@ -228,7 +228,7 @@ theorem exists_elemAbelian_char {Q : Subgroup G} {q : ℕ} (hq : q.Prime) (hQ : 
     (hQ1 : Q ≠ ⊥) :
     ∃ V : Subgroup G, V ≤ Q ∧ IsElemAbelian q V ∧ V ≠ ⊥ ∧
       ∀ g ∈ normalizer (Q : Set G), g ∈ normalizer (V : Set G) := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   let V : Subgroup G :=
     { carrier := {x | x ∈ Q ∧ (∀ y ∈ Q, x * y = y * x) ∧ x ^ q = 1}
       one_mem' := by
@@ -261,9 +261,9 @@ theorem exists_elemAbelian_char {Q : Subgroup G} {q : ℕ} (hq : q.Prime) (hQ : 
     · intro x hx
       exact hx.2.2
   have hVne : V ≠ ⊥ := by
-    haveI : Nontrivial ↥Q := (Subgroup.nontrivial_iff_ne_bot Q).2 hQ1
+    have : Nontrivial ↥Q := (Subgroup.nontrivial_iff_ne_bot Q).2 hQ1
     let Z : Subgroup ↥Q := Subgroup.center ↥Q
-    haveI : Nontrivial ↥Z := hQ.center_nontrivial
+    have : Nontrivial ↥Z := hQ.center_nontrivial
     have hZne : Z ≠ ⊥ := (Subgroup.nontrivial_iff_ne_bot Z).mp inferInstance
     have hZcard : Nat.card ↥Z ≠ 1 := fun h => hZne (Subgroup.eq_bot_of_card_eq Z h)
     have hZq : IsPGroup q ↥Z := hQ.to_subgroup Z
@@ -318,7 +318,7 @@ theorem exists_elemAbelian_char {Q : Subgroup G} {q : ℕ} (hq : q.Prime) (hQ : 
 
 theorem card_le_pow_of_pRank_le {q r : ℕ} (hq : q.Prime) {V K : Subgroup G}
     (hV : IsElemAbelian q V) (hVK : V ≤ K) (hr : Open.pRank q K ≤ r) : Nat.card V ≤ q ^ r := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hVq : IsPGroup q ↥V := by
     intro g
     exact ⟨1, by rw [pow_one]; exact Subtype.ext (hV.2 (g : G) g.2)⟩
@@ -329,13 +329,13 @@ theorem card_le_pow_of_pRank_le {q r : ℕ} (hq : q.Prime) {V K : Subgroup G}
 
 theorem lt_inf_normalizer {q : ℕ} (hq : q.Prime) {Q W : Subgroup G} (hQ : IsPGroup q Q)
     (hWQ : W < Q) : W < Q ⊓ normalizer (W : Set G) := by
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Group.IsNilpotent Q := hQ.isNilpotent
+  have : Fact q.Prime := ⟨hq⟩
+  have : Group.IsNilpotent Q := hQ.isNilpotent
   have h1 : W.subgroupOf Q < ⊤ := by
     rw [lt_top_iff_ne_top, Ne, Subgroup.subgroupOf_eq_top]
     exact fun h => hWQ.not_ge h
   obtain ⟨⟨y, hyQ⟩, hy1, hy2⟩ :=
-    SetLike.exists_of_lt
+    _root_.IsConcreteLE.exists_of_lt
       (Group.normalizerCondition_of_isNilpotent (W.subgroupOf Q) h1)
   have hWQ' : W ≤ Q := hWQ.le
   have hy3 : y ∈ normalizer (W : Set G) := by

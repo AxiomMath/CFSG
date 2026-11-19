@@ -31,7 +31,7 @@ open CFSG CFSG.Assembly CFSG.LocalAnalysis.ComponentInitial
 open CFSG.GroupTheory.SteinbergBK (semilinearFixedSubfield)
 
 private theorem kgLangTorAUniCoreAux_dvd_add_one {p x : ℕ} (hp : p.Prime) (h : p ∣ x ^ p + 1) : p ∣ x + 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h1 : ((x ^ p + 1 : ℕ) : ZMod p) = 0 := (ZMod.natCast_eq_zero_iff _ _).mpr h
   rw [Nat.cast_add, Nat.cast_pow, ZMod.pow_card, Nat.cast_one] at h1
   rw [← ZMod.natCast_eq_zero_iff]
@@ -45,14 +45,14 @@ private theorem kgLangTorAUniCoreAux_torusVec_pow_eq_one {d n : ℕ} {F : Type} 
   rw [NbrLangTypeA.torusVec_apply]
   by_cases hki : k = i
   · subst hki
-    rw [if_pos rfl, if_neg hij]
+    rw [ite_eq_left rfl, ite_eq_right hij]
     rw [Units.val_mul, Units.val_one, mul_one, htF]
-  · rw [if_neg hki]
+  · rw [ite_eq_right hki]
     by_cases hkj : k = j
     · subst hkj
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       rw [Units.val_mul, Units.val_one, one_mul, Units.val_inv_eq_inv_val, inv_pow, htF, inv_one]
-    · rw [if_neg hkj]
+    · rw [ite_eq_right hkj]
       rw [Units.val_mul, Units.val_one, mul_one, one_pow]
 
 private theorem kgLangTorAUniCoreAux_torusElt_mem_su {d n : ℕ} {F : Type} [Field F] {i j : Fin d} {t : Fˣ}
@@ -71,7 +71,7 @@ private theorem kgLangTorAUniCoreAux_torusElt_mem_su {d n : ℕ} {F : Type} [Fie
       rw [Matrix.diagonal_apply_eq, Matrix.one_apply_eq, h.bar_apply, ← pow_succ]
       exact kgLangTorAUniCoreAux_torusVec_pow_eq_one hij ht a
     · rw [Matrix.diagonal_apply_ne _ hab, Matrix.one_apply_ne hab]
-  · simpa using Matrix.SpecialLinearGroup.coeToGL_det (NbrLangTypeA.torusElt i j t)
+  · simp
 
 private theorem kgLangTorAUniCoreAux_map_subtype_unitary {d n p : ℕ} {F : Type} [Field F] [Finite F]
     (hF : Nat.card F = (2 ^ n) ^ 2) (hn : 1 ≤ n) (hp : p.Prime) (hp2 : p ≠ 2)
@@ -138,9 +138,9 @@ theorem kgLangTorA_uni_core_split {d n p : ℕ} {F : Type} [Field F] [Finite F]
   classical
   have hd0 : 0 < d := by omega
   have hd2 : 2 ≤ d := by omega
-  haveI : Nonempty (Fin d) := ⟨⟨0, hd0⟩⟩
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fintype (semilinearFixedSubfield σ) := Fintype.ofFinite _
+  have : Nonempty (Fin d) := ⟨⟨0, hd0⟩⟩
+  have : Fintype F := Fintype.ofFinite F
+  have : Fintype (semilinearFixedSubfield σ) := Fintype.ofFinite _
   obtain ⟨hpn, hcard0⟩ := kgLangTorA_card_fixed_unitary hn hp hp2 hF hσ
   set q₀ : ℕ := 2 ^ (n / p) with hq₀
   have hnpad : 1 ≤ n / p := by
@@ -294,8 +294,8 @@ theorem kgLangTorA_uni_core_split {d n p : ℕ} {F : Type} [Field F] [Finite F]
     have h1 := congrFun (congrFun hcc' i1) i1
     rw [hDωcoe, Matrix.diagonal_apply_eq, Matrix.scalar_apply,
       Matrix.diagonal_apply_eq] at h0 h1
-    rw [NbrLangTypeA.torusVec_apply, if_pos rfl, if_neg h01, mul_one] at h0
-    rw [NbrLangTypeA.torusVec_apply, if_neg (Ne.symm h01), if_pos rfl, one_mul] at h1
+    rw [NbrLangTypeA.torusVec_apply, ite_eq_left rfl, ite_eq_right h01, mul_one] at h0
+    rw [NbrLangTypeA.torusVec_apply, ite_eq_right (Ne.symm h01), ite_eq_left rfl, one_mul] at h1
     have hωeq : ωF = ωF⁻¹ := Units.ext (by rw [h0, h1])
     have hω2 : ωF ^ 2 = 1 := by
       rw [pow_two, congrArg (fun x => ωF * x) hωeq, mul_inv_cancel]
@@ -454,7 +454,7 @@ private theorem kgLangTorAUniCoreAux_herm_one {d n : ℕ} {F : Type} [Field F] :
     ext i j
     by_cases h : i = j
     · subst h; simp [Matrix.map_apply]
-    · simp [Matrix.map_apply, Matrix.one_apply, h]
+    · simp [Matrix.map_apply, h]
   rw [hmap, Matrix.transpose_one, Matrix.one_mul]
 
 private theorem kgLangTorAUniCoreAux_herm_scalar {d n : ℕ} {F : Type} [Field F] (c : F) :
@@ -517,10 +517,10 @@ theorem kgLangTorA_uni_core_nonsplit {d n p : ℕ} {F : Type} [Field F] [Finite 
         B * e = e * B ∧ B * s = s * B := by
   classical
   have hd0 : 0 < d := by omega
-  haveI : Nonempty (Fin d) := ⟨⟨0, hd0⟩⟩
+  have : Nonempty (Fin d) := ⟨⟨0, hd0⟩⟩
   let h : UnitaryFieldData 2 n F := unitaryFieldData_of_card hn hF
-  haveI : CharP F 2 := h.charP
-  haveI : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := h.charP
+  have : Fintype F := Fintype.ofFinite F
   have hq2 : 2 ≤ 2 ^ n := by
     calc 2 = 2 ^ 1 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn
@@ -618,7 +618,7 @@ theorem kgLangTorA_uni_core_nonsplit {d n p : ℕ} {F : Type} [Field F] [Finite 
       ext i j
       by_cases hij : i = j
       · subst hij; simp [Matrix.map_apply]
-      · simp [Matrix.map_apply, Matrix.one_apply, hij]
+      · simp [Matrix.map_apply, hij]
     rw [hc'mat, kgLangTorAUniCoreAux_herm_smul, hB₁herm] at hhermσ
     have h00 := congrFun (congrFun hhermσ ⟨0, hd0⟩) ⟨0, hd0⟩
     simpa using h00

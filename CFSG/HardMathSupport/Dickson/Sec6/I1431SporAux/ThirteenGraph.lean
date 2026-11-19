@@ -106,9 +106,9 @@ theorem ncard_orbit_comm_le {u x : G} (hx : orderOf x = 13) (hux : u * x = x * u
     exact Nat.zero_le _
   obtain ⟨β₀, hβ₀O, hβ₀x⟩ := Set.nonempty_iff_ne_empty.2 hemp
   have hxC : x ∈ cent u := mem_centralizer_singleton_iff.2 hux.symm
-  letI : MulAction (cent u) O := conjSMulOn (cent u) O hO
+  let : MulAction (cent u) O := conjSMulOn (cent u) O hO
   have hsmul : ∀ (g : cent u) (s : O), ((g • s : O) : G) = g * s * g⁻¹ := fun g s => rfl
-  haveI : MulAction.IsPretransitive (cent u) O := ⟨fun s s' => by
+  have : MulAction.IsPretransitive (cent u) O := ⟨fun s s' => by
     obtain ⟨g, hg, hgs⟩ := htrans s s.2 s' s'.2
     exact ⟨⟨g, hg⟩, Subtype.ext hgs⟩⟩
   let ω : O := ⟨β₀, hβ₀O⟩
@@ -151,6 +151,7 @@ section Main
 variable {G : Type} [Group G] [Finite G] {B : Type} [Group B] [Finite B] {P : B → Prop} {a : G}
   {c : Fin 9 → G}
 
+omit [Finite G] [Finite B] in
 theorem class_cases (D : ThirteenGraphData P a c) {x u u' : G} (hx : orderOf x = 13)
     (hu : IsConj a u) (hu' : IsConj a u') (hux : u * x = x * u) (hu'x : u' * x = x * u') :
     ∃ i : Fin 9, IsConj (u * u') (c i) ∧ i ≠ 2 ∧ i ≠ 5 ∧ i ≠ 7 := by
@@ -167,6 +168,7 @@ theorem class_cases (D : ThirteenGraphData P a c) {x u u' : G} (hx : orderOf x =
   · intro h
     exact D.s13 _ i (Or.inr (Or.inr h)) hsh h13
 
+omit [Finite G] [Finite B] in
 theorem orderOf_mul_cases (D : ThirteenGraphData P a c) {x u u' : G} (hx : orderOf x = 13)
     (hu : IsConj a u) (hu' : IsConj a u') (hux : u * x = x * u) (hu'x : u' * x = x * u') :
     orderOf (u * u') = 1 ∨ orderOf (u * u') = 2 ∨ orderOf (u * u') = 3 ∨ orderOf (u * u') = 4 ∨
@@ -194,7 +196,7 @@ theorem ncard_nbrs_le (D : ThirteenGraphData P a c) {x : G} (hx : orderOf x = 13
     obtain ⟨hn2, hn1, hnx, hnu, hnc⟩ := hn
     have hnconj : IsConj a n := hA1 n hn2 hn1 hnx
     have hun2 : orderOf (u * n) = 2 := by
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       refine orderOf_eq_prime ?_ ?_
       · calc (u * n) ^ 2 = u * (n * u) * n := by simp only [pow_two, mul_assoc]
           _ = u * (u * n) * n := by rw [hnc]
@@ -233,6 +235,7 @@ theorem ncard_nbrs_le (D : ThirteenGraphData P a c) {x : G} (hx : orderOf x = 13
     _ ≤ 2 * 9 := Nat.mul_le_mul_left 2 hF9
     _ = 18 := by norm_num
 
+omit [Finite G] in
 theorem card_cent_inf_le (D : ThirteenGraphData P a c) {x : G} (hx : orderOf x = 13)
     (hA1 : ∀ u : G, u * u = 1 → u ≠ 1 → u * x = x * u → IsConj a u) {u : G} (hu2 : u * u = 1)
     (hu1 : u ≠ 1) (hux : u * x = x * u) : Nat.card ↥(cent u ⊓ cent x) ≤ 936 := by

@@ -16,6 +16,7 @@ open CFSG.Open Subgroup
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem relIndex_sup_dvd {A B P R : Subgroup X} (hAB : A ≤ centralizer (B : Set X))
     (hPA : P ≤ A) (hRB : R ≤ B) :
     (P ⊔ R).relIndex (A ⊔ B) ∣ P.relIndex A * R.relIndex B := by
@@ -31,7 +32,7 @@ theorem relIndex_sup_dvd {A B P R : Subgroup X} (hAB : A ≤ centralizer (B : Se
     obtain ⟨a, ha, b, hb, hab⟩ :=
       CFSG.GroupTheory.exists_mul_of_mem_sup_of_commute hcomm x.2
     exact ⟨(⟨a, ha⟩, ⟨b, hb⟩), Subtype.ext (by
-      simp only [φ, MonoidHom.noncommCoprod_apply, Subgroup.coe_inclusion]
+      simp only [φ]
       exact hab)⟩
   have hmap : ((P.subgroupOf A).prod (R.subgroupOf B)).map φ =
       (P ⊔ R).subgroupOf (A ⊔ B) := by
@@ -42,7 +43,7 @@ theorem relIndex_sup_dvd {A B P R : Subgroup X} (hAB : A ≤ centralizer (B : Se
       have hk2 : r ∈ R := hk.2
       rw [← hx]
       rw [Subgroup.mem_subgroupOf]
-      simp only [φ, MonoidHom.noncommCoprod_apply, Subgroup.coe_inclusion]
+      simp only [φ]
       exact Subgroup.mul_mem_sup hk1 hk2
     · intro hx
       rw [Subgroup.mem_subgroupOf] at hx
@@ -51,7 +52,7 @@ theorem relIndex_sup_dvd {A B P R : Subgroup X} (hAB : A ≤ centralizer (B : Se
       refine ⟨(⟨p, hPA hp⟩, ⟨r, hRB hr⟩), ?_, ?_⟩
       · exact ⟨hp, hr⟩
       · exact Subtype.ext (by
-          simp only [φ, MonoidHom.noncommCoprod_apply, Subgroup.coe_inclusion]
+          simp only [φ]
           exact hpr)
   calc (P ⊔ R).relIndex (A ⊔ B)
       = (((P.subgroupOf A).prod (R.subgroupOf B)).map φ).index := by
@@ -77,6 +78,7 @@ theorem isSylowOf_sup {p : ℕ} [Fact p.Prime] {A B P R : Subgroup X}
     have hdiv := hdvd.trans (relIndex_sup_dvd hAB hPA hRB)
     exact (Nat.Prime.dvd_mul (Fact.out : p.Prime)).mp hdiv |>.elim hPdvd hRdvd
 
+omit [Finite X] in
 private theorem le_normalizer_iSup_fin_three {C : Fin 3 → Subgroup X}
     (hcomm : ∀ i j, i ≠ j → C i ≤ centralizer (C j : Set X)) (i : Fin 3) :
     (⨆ j, C j) ≤ normalizer (C i : Set X) := by
@@ -107,6 +109,7 @@ theorem eq_iSup_inf_of_isSylowOf {p : ℕ} [Fact p.Prime] (C : Fin 3 → Subgrou
   (isSylowOf_iSup_inf_of_commuting C hcomm hT).eq_of_le
     (iSup_le fun _ => inf_le_left) hT.le hT.isPGroup
 
+omit [Finite X] in
 private theorem card_dvd_card_of_le {H K : Subgroup X} (h : H ≤ K) :
     Nat.card H ∣ Nat.card K := by
   have hc := Subgroup.card_subgroup_dvd_card (H.subgroupOf K)
@@ -121,8 +124,8 @@ private theorem isCyclic_of_pRank_le_one' {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 
     {L S : Subgroup X} (hSL : S ≤ L) (hS : IsPGroup p S) (hr : CFSG.pRank p ↥L ≤ 1) :
     IsCyclic S := by
   by_contra hnc
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (IsPGroup p S) := ⟨hS⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (IsPGroup p S) := ⟨hS⟩
   obtain ⟨E, -, hEcard, hEel⟩ := CFSG.lemma_4_5_a (R := ↥S) hp2 hnc
   have hEab : IsElemAbelian p (E.map S.subtype) :=
     (CFSG.Open.isElemAbelian_iff_isElementaryAbelian).mpr
@@ -145,7 +148,7 @@ theorem omegaOnePSub_structure {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (C : Fin
       (∀ v ∈ omegaOnePSub p T, v ^ p = 1) ∧ Nat.card (omegaOnePSub p T) = p ^ 3 ∧
       (∀ i, Nat.card ↥(omegaOnePSub p T ⊓ C i) = p) ∧
       omegaOnePSub p T ≤ ⨆ i, omegaOnePSub p T ⊓ C i := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let V : Subgroup X := omegaOnePSub p T
   have hTi : ∀ i, CFSG.ABGLocalTools.IsSylowOf p (T ⊓ C i) (C i) :=
     isSylowOf_inf_of_commuting C hcomm hT
@@ -162,7 +165,7 @@ theorem omegaOnePSub_structure {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (C : Fin
       refine iSup_le fun j => ?_
       by_cases hij : j = i
       · rw [hij]
-        haveI := hTi_cyclic i
+        have := hTi_cyclic i
         exact Subgroup.le_centralizer _
       · exact (inf_le_right.trans (hcomm j i hij)).trans
           (Subgroup.centralizer_le (SetLike.coe_subset_coe.mpr inf_le_right))

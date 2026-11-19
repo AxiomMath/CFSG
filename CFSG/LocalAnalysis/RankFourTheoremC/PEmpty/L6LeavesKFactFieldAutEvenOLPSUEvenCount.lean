@@ -37,8 +37,8 @@ theorem pow_modEq_pow_finrank_fixed {r : ℕ} (hr : r.Prime) (g : V ≃ₗ[F] V)
     Nat.card F ^ Module.finrank F W ≡
       Nat.card F ^ Module.finrank F ↥(W ⊓ LinearMap.ker (g.toLinearMap - LinearMap.id))
         [MOD r] := by
-  haveI : Finite V := Module.finite_of_finite F
-  haveI : Finite W := inferInstance
+  have : Finite V := Module.finite_of_finite F
+  have : Finite W := inferInstance
   have hinj : Function.Injective fun w : W => (⟨g w, hW w w.2⟩ : W) := by
     intro a b hab
     exact Subtype.ext (g.injective (congrArg Subtype.val hab))
@@ -74,9 +74,9 @@ theorem pow_modEq_pow_finrank_fixed {r : ℕ} (hr : r.Prime) (g : V ≃ₗ[F] V)
 theorem exists_ne_zero_fixed_of_stable [CharP F 2] (R : Subgroup (V ≃ₗ[F] V)) (hR : IsPGroup 2 R)
     (U : Submodule F V) (hU : ∀ x ∈ R, ∀ u ∈ U, x u ∈ U) (hU0 : U ≠ ⊥) :
     ∃ v ∈ U, v ≠ 0 ∧ ∀ x ∈ R, x v = v := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite V := Module.finite_of_finite F
-  letI : MulAction R U :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite V := Module.finite_of_finite F
+  let : MulAction R U :=
     { smul := fun x u => ⟨x.1 u, hU x.1 x.2 u u.2⟩
       one_smul := fun u => Subtype.ext rfl
       mul_smul := fun x y u => Subtype.ext rfl }
@@ -102,7 +102,7 @@ theorem exists_ne_zero_fixed_of_stable [CharP F 2] (R : Subgroup (V ≃ₗ[F] V)
     rw [Module.natCard_eq_pow_finrank (K := F)]
     have hfin : 0 < Module.finrank F U := Submodule.one_le_finrank_iff.2 hU0
     have hF : Even (Nat.card F) := by
-      haveI : Fintype F := Fintype.ofFinite F
+      have : Fintype F := Fintype.ofFinite F
       have := FiniteField.even_card_of_char_two (F := F) (ringChar.eq F 2)
       rw [Nat.card_eq_fintype_card]
       exact Nat.even_iff.mpr this

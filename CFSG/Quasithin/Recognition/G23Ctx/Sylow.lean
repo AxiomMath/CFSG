@@ -14,7 +14,7 @@ variable {G : Type} [Group G] {H H₁ H₂ M : Subgroup G}
 
 theorem exists_sylow_H [Finite G] (H : Subgroup G) :
     ∃ T : Subgroup G, T ≤ H ∧ quasithinIsSylowTwo (T.subgroupOf H) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P⟩ : Nonempty (Sylow 2 H) := inferInstance
   refine ⟨(P : Subgroup H).map H.subtype, Subgroup.map_subtype_le _, ?_⟩
   have hsub : ((P : Subgroup H).map H.subtype).subgroupOf H = (P : Subgroup H) := by
@@ -29,7 +29,7 @@ theorem exists_sylow_H [Finite G] (H : Subgroup G) :
       exact ⟨x, hx, rfl⟩
   unfold quasithinIsSylowTwo
   rw [hsub]
-  exact ⟨P.isPGroup', Sylow.not_dvd_index P⟩
+  exact ⟨P.isPGroup, Sylow.not_dvd_index P⟩
 
 theorem normalizer_le_H (hH : G23One H H₁ H₂) {z : G} (hz : IsZ H₁ H₂ z) {T : Subgroup G}
     (hTH : T ≤ H) (hT : quasithinIsSylowTwo (T.subgroupOf H)) :

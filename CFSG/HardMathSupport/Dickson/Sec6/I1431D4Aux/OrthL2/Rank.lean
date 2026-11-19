@@ -76,8 +76,8 @@ theorem specialBlock_multiplicity_le_two
   classical
   by_contra hlt
   have hm3 : 3 ≤ primaryMultiplicity x.toLinearMap h := by omega
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
-  haveI : Finite (AdjoinRoot h) := Module.finite_of_finite K
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Finite (AdjoinRoot h) := Module.finite_of_finite K
   by_cases hself : h = reciprocalPolynomial h
   · obtain ⟨ℓ, f, d, hU, B, hBsymm, hBl, hQ2, ⟨e₁⟩⟩ :=
       exists_selfDual_special_equiv hx hp hp2 hh hne1 hself

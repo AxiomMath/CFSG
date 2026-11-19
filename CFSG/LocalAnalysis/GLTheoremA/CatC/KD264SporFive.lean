@@ -137,7 +137,7 @@ theorem kd264SporAt_J2 (hOut : CFSG.HardMathSupport.Timmesfeld.Coordinator.Spora
       (mem_inf.1 (hcentD ▸ mem_zpowers (j2FiveLine 2))).1
     exact KD264Gen.kd264RowData_of_record_sq Nat.prime_five (by rw [hcard]; norm_num)
       (by rw [hcard]; norm_num) hxP hxo hDP hDs hDnab (by rw [hDcard]; norm_num) hxD
-      j2P_le_j2R (by rw [inf_comm, ← hC2, hCcard]) (by rw [hDcard] <;> norm_num)
+      j2P_le_j2R (by rw [inf_comm, ← hC2, hCcard]) (by rw [hDcard]; norm_num)
   · subst h
     exact absurd hsq (by norm_num)
 

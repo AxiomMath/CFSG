@@ -49,7 +49,6 @@ theorem rep_mul (W : ℕ) : ∀ r, (2 ^ W - 1) * rep W r = 2 ^ (W * r) - 1
     rw [rep]
     zify [h1, h2, h3] at ih ⊢
     rw [Nat.mul_succ, pow_add]
-    push_cast
     linear_combination (2 : ℤ) ^ W * ih
 
 theorem div_mask {r W : ℕ} (hW : 0 < W) :
@@ -98,7 +97,7 @@ theorem lowBit {C : ℕ} (hC : C ≠ 0) :
       · simp
       · simp [show a ≠ j by omega, show ¬ j < a by omega]
     · simp [show a ≠ j by omega]
-  · rw [e1, testBit_split hlt, if_pos (by omega), Nat.testBit_two_pow_self]
+  · rw [e1, testBit_split hlt, ite_eq_left (by omega), Nat.testBit_two_pow_self]
 
 theorem testBit_mul_sparse {W m : ℕ} (hW : 0 < W) (hm : m < 2 ^ W) :
     ∀ C, (∀ j, C.testBit j = true → j % W = 0) → ∀ j,
@@ -135,7 +134,7 @@ theorem testBit_mul_sparse {W m : ℕ} (hW : 0 < W) (hm : m < 2 ^ W) :
     rwa [Nat.add_mod_right] at this
   have hlow : C % 2 ^ W * m < 2 ^ W := by
     rw [hc0]
-    split_ifs <;> simp [hm, Nat.two_pow_pos]
+    split_ifs <;> simp [hm]
   have e : C * m = 2 ^ W * (C / 2 ^ W * m) + C % 2 ^ W * m := by
     conv_lhs => rw [← Nat.div_add_mod C (2 ^ W)]
     ring
@@ -261,8 +260,7 @@ theorem loop_eq {r W F R : ℕ} (hW : 0 < W) (hF : F = CFSG.KC.Co1RankCoord.mask
       have : W * t < W * r := Nat.mul_lt_mul_of_pos_left ht hW
       simp [this]
     first
-      | rw [Nat.rec_add_one (motive := fun _ => ℕ → ℕ → ℕ)]
-      | simp only [Nat.rec_add_one]
+      | simp only
     rw [strictN_eq]
     cases hb : Nat.beq (Nat.land (Nat.shiftRight A n) R) 0
     · dsimp only

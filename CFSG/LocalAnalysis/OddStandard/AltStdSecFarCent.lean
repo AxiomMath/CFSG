@@ -142,7 +142,7 @@ theorem card_Jbar_le (hm : 10 ≤ m) (hN : (L0bar O h4).Normal) (hO : CFSG.oddCo
   set f := MonoidHom.transferSylow P hP with hf
   have hodd_ker : ∀ k : Jbar O h4, Odd (orderOf k) → f k = 1 := by
     intro k hk
-    obtain ⟨j, hj⟩ := (IsPGroup.iff_orderOf.1 P.isPGroup') (f k)
+    obtain ⟨j, hj⟩ := (IsPGroup.iff_orderOf.1 P.isPGroup) (f k)
     have h1 : orderOf (f k) ∣ orderOf k := orderOf_map_dvd f k
     rw [hj] at h1
     have h2 : j = 0 := by

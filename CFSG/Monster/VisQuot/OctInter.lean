@@ -338,7 +338,7 @@ theorem card_iInf_octMember_le : Nat.card (⨅ j, octMember j : Subgroup Gvis) �
     change (if h : f p ∈ (⨅ j, octMember j : Subgroup Gvis) then
       (⟨f p, h⟩ : ↥(⨅ j, octMember j : Subgroup Gvis))
       else ⟨1, (⨅ j, octMember j : Subgroup Gvis).one_mem⟩) = ⟨g, hg⟩
-    rw [dif_pos hmem]
+    rw [dite_eq_left hmem]
     exact Subtype.ext hp
   calc Nat.card (⨅ j, octMember j : Subgroup Gvis)
       ≤ Nat.card (ZMod 2 × Bool) := Nat.card_le_card_of_surjective F hF

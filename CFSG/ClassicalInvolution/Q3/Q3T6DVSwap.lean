@@ -41,7 +41,7 @@ theorem Std20Three.v_no_norm_four (d : Std20Three K K' J S R R' W V z t) {σ ξ 
     · rw [h]
     · rw [h, hξinv2]
   have hA₂ : IsPGroup 2 ↥(Subgroup.zpowers ξ) :=
-    S.isPGroup'.to_le (Subgroup.zpowers_le.mpr (d.hWS hξW))
+    S.isPGroup.to_le (Subgroup.zpowers_le.mpr (d.hWS hξW))
   have hA₄ : 4 ≤ Nat.card ↥(Subgroup.zpowers ξ) := by
     rw [Nat.card_zpowers, late_orderOf_four rfl hξ2 hξ4]
   have hnorm : ∀ w ∈ Subgroup.zpowers ξ, σ⁻¹ * w * σ ∈ Subgroup.zpowers ξ := by

@@ -86,7 +86,7 @@ private theorem w183K3Dyn_relIndex_sup_of_central {A : Type} [Group A]
     (S ⊔ N).relIndex (L₀ ⊔ N) = S.relIndex L₀ := by
   have hnorm : L₀ ⊔ N ≤ Subgroup.normalizer (N : Set A) :=
     sup_le (w183K3Dyn_le_normalizer_of_comm hcent) Subgroup.le_normalizer
-  haveI : (N.subgroupOf (L₀ ⊔ N)).Normal :=
+  have : (N.subgroupOf (L₀ ⊔ N)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hnorm
   have hker : (QuotientGroup.mk' (N.subgroupOf (L₀ ⊔ N))).ker ⊓
       (L₀.subgroupOf (L₀ ⊔ N)) ≤ S.subgroupOf (L₀ ⊔ N) := by

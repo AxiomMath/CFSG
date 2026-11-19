@@ -25,7 +25,7 @@ private noncomputable def l05nS1_xiE (N : ℕ) :
     apply Fin.ext
     have hj : 1 ≤ j.val.val := by
       have := j.2; simp only [ggTWInJ] at this; exact this.1
-    simp only [Fin.val_mk]
+    simp only
     omega
 
 private noncomputable def l05nS1_xiA (N : ℕ) :
@@ -37,7 +37,7 @@ private noncomputable def l05nS1_xiA (N : ℕ) :
   right_inv j := by
     apply Subtype.ext
     apply Fin.ext
-    simp only [Fin.val_mk]
+    simp only
 
 private theorem l05nS1_pat1_cox {ι : Type} {M : CoxeterMatrix ι} {C : Matrix ι ι ℤ}
     (hC : GGIntCartan M C) {N : ℕ} {pos : GGTWPos} {c : ℕ} {a b : ι} (hab : a ≠ b)
@@ -115,7 +115,7 @@ private theorem l05nS1_translate {N : ℕ} {pos : GGTWPos} {Λa : Type}
         have hk := hrow j hjc
         rcases hCK.2 (Sum.inr a) (Sum.inl j) Sum.inr_ne_inl with
           ⟨-, h1, h2⟩ | ⟨hm3, -, -⟩ | ⟨hm4, -, -, -⟩ | ⟨hm6, -, -, -⟩
-        · exact ⟨by rw [if_neg hj, h1], by rw [if_neg hj, h2]⟩
+        · exact ⟨by rw [ite_eq_right hj, h1], by rw [ite_eq_right hj, h2]⟩
         · rw [hk] at hm3; omega
         · rw [hk] at hm4; omega
         · rw [hk] at hm6; omega
@@ -172,7 +172,7 @@ private theorem l05nS1_translate {N : ℕ} {pos : GGTWPos} {Λa : Type}
         have hk := hrowb j hjc
         rcases hCK.2 (Sum.inr b) (Sum.inl j) Sum.inr_ne_inl with
           ⟨-, h1, h2⟩ | ⟨hm3, -, -⟩ | ⟨hm4, -, -, -⟩ | ⟨hm6, -, -, -⟩
-        · exact ⟨by rw [if_neg hj, h1], by rw [if_neg hj, h2]⟩
+        · exact ⟨by rw [ite_eq_right hj, h1], by rw [ite_eq_right hj, h2]⟩
         · rw [hk] at hm3; omega
         · rw [hk] at hm4; omega
         · rw [hk] at hm6; omega
@@ -201,7 +201,7 @@ theorem ggTW_pattern2W {N : ℕ} (hN : N = 5 ∨ N = 6 ∨ N = 7 ∨ N = 9 ∨ N
   have hNmem : N - 1 = 4 ∨ N - 1 = 5 ∨ N - 1 = 6 ∨ N - 1 = 8 ∨ N - 1 = 9 := by
     rcases hN with h | h | h | h | h <;> omega
   have hFinΛa : Finite Λa := (Nat.card_pos_iff.mp (by omega : 0 < Nat.card Λa)).2
-  haveI : Finite Λa := hFinΛa
+  have : Finite Λa := hFinΛa
   have hcardJ : Nat.card {c : Fin (N - 1) // ggTWInJ N pos c.val} = N - 3 := by
     cases pos
     · exact (Nat.card_congr (l05nS1_xiE N)).symm.trans (Nat.card_fin (N - 3))

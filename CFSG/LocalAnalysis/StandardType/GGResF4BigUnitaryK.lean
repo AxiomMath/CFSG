@@ -54,10 +54,10 @@ theorem GGResHyp.not_exactThree_K_of_f4Three_L_residual_K
   have hFmark : GGInnerDiagOnLabel (fun _ lab => lab.tag = .F4) 3 Bs L :=
     hL.mono_label (fun lab h => h.1)
   obtain ⟨f, hLabel⟩ := ggResF4_exists_hasLabel_F4 hFmark
-  haveI : Finite ↥L := Finite.of_injective (Subgroup.subtype L) Subtype.coe_injective
-  haveI : Fintype ↥L := Fintype.ofFinite _
-  haveI : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hLperf
-  haveI : Fintype ↥(Subgroup.center ↥L) := Fintype.ofFinite _
+  have : Finite ↥L := Finite.of_injective (Subgroup.subtype L) Subtype.coe_injective
+  have : Fintype ↥L := Fintype.ofFinite _
+  have : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hLperf
+  have : Fintype ↥(Subgroup.center ↥L) := Fintype.ofFinite _
   have hZcard : ¬ 3 ∣ Nat.card ↥(Subgroup.center ↥L) :=
     not_three_dvd_card_center_of_ggHasLabel_F4 hLabel
   have hZL : ∀ g ∈ Subgroup.center ↥L, Nat.Coprime 3 (orderOf g) := by

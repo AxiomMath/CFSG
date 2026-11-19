@@ -18,6 +18,7 @@ open CFSG CFSG.QuasithinUnique CFSG.QuasithinUnique.Bridge CFSG.RankThree.S4Free
 
 variable {Q : Type} [Group Q] [Finite Q]
 
+omit [Finite Q] in
 private theorem odd_orderOf_of_coprime {K : Subgroup Q} (hK : Nat.Coprime 2 (Nat.card K)) {k : Q}
     (hk : k ∈ K) : Odd (orderOf k) := by
   have h1 : orderOf k ∣ Nat.card K := by
@@ -25,6 +26,7 @@ private theorem odd_orderOf_of_coprime {K : Subgroup Q} (hK : Nat.Coprime 2 (Nat
     rwa [Subgroup.orderOf_mk] at this
   exact Nat.coprime_two_left.mp (hK.coprime_dvd_right h1)
 
+omit [Finite Q] in
 private theorem eq_one_of_odd_of_isPGroup {T : Subgroup Q} (hT : IsPGroup 2 T) {t : Q}
     (ht : t ∈ T) (hto : Odd (orderOf t)) : t = 1 := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
@@ -33,6 +35,7 @@ private theorem eq_one_of_odd_of_isPGroup {T : Subgroup Q} (hT : IsPGroup 2 T) {
   have hcop : Nat.Coprime (orderOf t) (2 ^ n) := (Nat.coprime_two_right.mpr hto).pow_right n
   exact orderOf_eq_one_iff.mp (Nat.Coprime.eq_one_of_dvd hcop (hn ▸ dvd_refl _))
 
+omit [Finite Q] in
 private theorem mem_centralizer_sup {H K : Subgroup Q} {x : Q}
     (hH : x ∈ Subgroup.centralizer (H : Set Q)) (hK : x ∈ Subgroup.centralizer (K : Set Q)) :
     x ∈ Subgroup.centralizer ((H ⊔ K : Subgroup Q) : Set Q) := by
@@ -43,6 +46,7 @@ private theorem mem_centralizer_sup {H K : Subgroup Q} {x : Q}
   exact Subgroup.mem_centralizer_iff.mpr fun y hy =>
     Subgroup.mem_centralizer_singleton_iff.mp (hle hy)
 
+omit [Finite Q] in
 private theorem coe_mem_centralizer {N T : Subgroup Q} (hTN : T ≤ N) {n : ↥N}
     (hn : n ∈ Subgroup.centralizer ((T.subgroupOf N : Subgroup ↥N) : Set ↥N)) :
     (n : Q) ∈ Subgroup.centralizer (T : Set Q) := by
@@ -50,6 +54,7 @@ private theorem coe_mem_centralizer {N T : Subgroup Q} (hTN : T ≤ N) {n : ↥N
   intro t ht
   exact congrArg Subtype.val (hn ⟨t, hTN ht⟩ ht)
 
+omit [Finite Q] in
 private theorem mem_centralizer_of_coprime {N : Subgroup Q} {K : Subgroup ↥N} (hKn : K.Normal)
     (hK : Nat.Coprime 2 (Nat.card K)) {T : Subgroup Q} (hT : IsPGroup 2 T) (hTN : T ≤ N)
     (hTn : (T.subgroupOf N).Normal) {k : ↥N} (hk : k ∈ K) :
@@ -82,10 +87,12 @@ theorem card_le_card_inf_sylow (S : Sylow 2 Q) {H : Subgroup Q} [H.Normal] {T : 
     _ = Nat.card P := (Sylow.card_eq_multiplicity S').trans (Sylow.card_eq_multiplicity P).symm
     _ = Nat.card ((S : Subgroup Q) ⊓ H : Subgroup Q) := e2.symm
 
+omit [Finite Q] in
 private theorem layer_normal : (layer Q).Normal := by
   have := CFSG.LocalCores.layer_characteristic (G := Q)
   infer_instance
 
+omit [Finite Q] in
 theorem sylow_le_normalizer_inf (S : Sylow 2 Q) :
     (S : Subgroup Q) ≤ Subgroup.normalizer (((S : Subgroup Q) ⊓ layer Q : Subgroup Q) : Set Q) := by
   have : (layer Q).Normal := layer_normal
@@ -106,7 +113,7 @@ theorem mem_centralizer_layer
   have : (layer Q).Normal := layer_normal
   set P : Subgroup Q := (S : Subgroup Q) ⊓ layer Q with hPdef
   have hPE : P ≤ layer Q := inf_le_right
-  have hP2 : IsPGroup 2 P := S.isPGroup'.to_le inf_le_left
+  have hP2 : IsPGroup 2 P := S.isPGroup.to_le inf_le_left
   have hPs : ∀ T : Subgroup Q, T ≤ layer Q → IsPGroup 2 T → Nat.card T ≤ Nat.card P :=
     fun T hT hT2 => card_le_card_inf_sylow S hT hT2
   have hJ : ∀ J : Subgroup Q, IsComponent J → J ≤ Subgroup.centralizer ({x} : Set Q) := by
@@ -160,6 +167,7 @@ private theorem mem_centralizer_generalizedFitting (hO : pPrimeCore 2 Q = ⊥) {
   rw [generalizedFitting.eq_sup, Fitting_eq_pcore Q 2 hO]
   exact mem_centralizer_sup hx2 hxE
 
+omit [Finite Q] in
 private theorem pCore_le_normalizer (S : Sylow 2 Q) :
     pCore 2 Q ≤ Subgroup.normalizer (((S : Subgroup Q) ⊓ layer Q : Subgroup Q) : Set Q) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
@@ -175,7 +183,7 @@ theorem pPrimeCore_normalizer_eq_bot (hO : pPrimeCore 2 Q = ⊥)
   set N : Subgroup Q := Subgroup.normalizer (P : Set Q) with hNdef
   have hKn : (pPrimeCore 2 ↥N).Normal := pPrimeCore_normal
   have hKc : Nat.Coprime 2 (Nat.card (pPrimeCore 2 ↥N)) := pPrimeCore_coprime_card
-  have hP2 : IsPGroup 2 P := S.isPGroup'.to_le inf_le_left
+  have hP2 : IsPGroup 2 P := S.isPGroup.to_le inf_le_left
   rw [Subgroup.eq_bot_iff_forall]
   intro k hk
   have hko : Odd (orderOf (k : Q)) := by
@@ -197,7 +205,7 @@ theorem layer_normalizer_eq_bot (hO : pPrimeCore 2 Q = ⊥)
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set P : Subgroup Q := (S : Subgroup Q) ⊓ layer Q with hPdef
   set N : Subgroup Q := Subgroup.normalizer (P : Set Q) with hNdef
-  have hP2 : IsPGroup 2 P := S.isPGroup'.to_le inf_le_left
+  have hP2 : IsPGroup 2 P := S.isPGroup.to_le inf_le_left
   have hPN : P ≤ N := Subgroup.le_normalizer
   have hON : pCore 2 Q ≤ N := pCore_le_normalizer S
   have hP2' : IsPGroup 2 (P.subgroupOf N) := hP2.comap_of_injective N.subtype N.subtype_injective

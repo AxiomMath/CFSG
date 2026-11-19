@@ -44,10 +44,10 @@ theorem coverOdd_E (n : ℕ) (hn : 1 ≤ n) (hK : Nat.card K = 2 ^ n) :
 theorem e6ThreeModel_holds_E (hAL : GGAbelianLift) (n : ℕ) (hn : 1 ≤ n) (hK : Nat.card K = 2 ^ n)
     (h3 : 3 ∣ 2 ^ n - 1) :
     GGE6ThreeModelSCr (TableBExc.RecipeGroup .E6 K) (TableBExc.RecipeID .E6 K) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := n) (by rw [← Nat.card_eq_fintype_card, hK])
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := n) (by rw [← Nat.card_eq_fintype_card, hK])
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ζ, hζo⟩ : ∃ ζ : Kˣ, orderOf ζ = 3 :=
     exists_prime_orderOf_dvd_card' 3 (by rw [Nat.card_units, hK]; exact h3)
   have hζ : ζ ^ 3 = 1 := by rw [← hζo]; exact pow_orderOf_eq_one ζ

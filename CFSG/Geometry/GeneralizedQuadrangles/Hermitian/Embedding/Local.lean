@@ -19,8 +19,8 @@ variable {ι : V → Submodule K W} {A : Submodule K W}
 theorem exists_finrank_eq_one_le_inf {X Y Z : Submodule K W} [FiniteDimensional K Z]
     (hXZ : X ≤ Z) (hYZ : Y ≤ Z) (h : finrank K Z < finrank K X + finrank K Y) :
     ∃ P : Submodule K W, finrank K P = 1 ∧ P ≤ X ⊓ Y := by
-  haveI : FiniteDimensional K X := Submodule.finiteDimensional_of_le hXZ
-  haveI : FiniteDimensional K Y := Submodule.finiteDimensional_of_le hYZ
+  have : FiniteDimensional K X := Submodule.finiteDimensional_of_le hXZ
+  have : FiniteDimensional K Y := Submodule.finiteDimensional_of_le hYZ
   have hsup : finrank K ↥(X ⊔ Y) ≤ finrank K Z := Submodule.finrank_mono (sup_le hXZ hYZ)
   have hdim := Submodule.finrank_sup_add_finrank_inf_eq X Y
   have hpos : 0 < finrank K ↥(X ⊓ Y) := by omega
@@ -32,6 +32,7 @@ theorem exists_finrank_eq_one_le_inf {X Y Z : Submodule K W} [FiniteDimensional 
   exact ⟨K ∙ v, finrank_span_singleton hv0,
     (Submodule.span_singleton_le_iff_mem v (X ⊓ Y)).mpr hv⟩
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem finrank_sup_line_eq_succ (hι : IsProjGQ c ι A) [FiniteDimensional K A] {p L : V}
     (hp : c p = 0) {U : Submodule K W} (hpU : ι p ≤ U) (hpL : Γ.Adj p L)
     (hLU : ¬ ι L ≤ U) (hU : U ≤ A) :
@@ -40,8 +41,8 @@ theorem finrank_sup_line_eq_succ (hι : IsProjGQ c ι A) [FiniteDimensional K A]
   have hp1 : finrank K (ι p) = 1 := hι.finrank_point p hp
   have hL2 : finrank K (ι L) = 2 := hι.finrank_line L hL1
   have hpLle : ι p ≤ ι L := (hι.adj_iff p L hp hL1).1 hpL
-  haveI : FiniteDimensional K U := Submodule.finiteDimensional_of_le hU
-  haveI : FiniteDimensional K (ι L) := Submodule.finiteDimensional_of_le (hι.le_ambient L)
+  have : FiniteDimensional K U := Submodule.finiteDimensional_of_le hU
+  have : FiniteDimensional K (ι L) := Submodule.finiteDimensional_of_le (hι.le_ambient L)
   have hpU' : ι p ≤ U ⊓ ι L := le_inf hpU hpLle
   have hne : U ⊓ ι L ≠ ι L := fun h => hLU (h ▸ inf_le_left)
   have hlt : U ⊓ ι L < ι L := lt_of_le_of_ne inf_le_right hne
@@ -55,6 +56,7 @@ theorem finrank_sup_line_eq_succ (hι : IsProjGQ c ι A) [FiniteDimensional K A]
   rw [hinf.symm, hp1, hL2] at h
   omega
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem exists_adj_le_of_line_inf_ne_bot (hι : IsProjGQ c ι A) {M : V} (hM : c M = 1)
     {X : Submodule K W} (h : ι M ⊓ X ≠ ⊥) : ∃ x, Γ.Adj M x ∧ ι x ≤ X := by
   obtain ⟨v, hv, hv0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot h
@@ -65,6 +67,7 @@ theorem exists_adj_le_of_line_inf_ne_bot (hι : IsProjGQ c ι A) {M : V} (hM : c
   rw [hx]
   exact (Submodule.span_singleton_le_iff_mem v X).mpr hv.2
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem mem_ptPerp_of_adj_of_adj {p x L : V} (hx : c x = 0) (hpL : Γ.Adj p L)
     (hxL : Γ.Adj x L) : x ∈ ptPerp Γ c {p} := by
   refine ⟨hx, ?_⟩
@@ -76,6 +79,7 @@ theorem mem_ptPerp_of_adj_of_adj {p x L : V} (hx : c x = 0) (hpL : Γ.Adj p L)
   have := SimpleGraph.dist_le w
   omega
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem eq_of_mem_ptPerp_of_adj_line (hP : IsGeneralizedPolygon Γ 4) {p M x y : V}
     (hp : c p = 0) (hpM : ¬ Γ.Adj p M) (hxM : Γ.Adj M x) (hyM : Γ.Adj M y)
     (hx : x ∈ ptPerp Γ c {p}) (hy : y ∈ ptPerp Γ c {p}) : x = y := by
@@ -101,13 +105,14 @@ theorem eq_of_mem_ptPerp_of_adj_line (hP : IsGeneralizedPolygon Γ 4) {p M x y :
     (U : Submodule K W) : Prop :=
   ι p ≤ U ∧ sectionPoints c ι U ⊆ ptPerp Γ c {p}
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem isLocalAt_self (hι : IsProjGQ c ι A) {p : V} (hp : c p = 0) :
     IsLocalAt c ι p (ι p) := by
   refine ⟨le_rfl, ?_⟩
   intro x hx
   have hx1 : finrank K (ι x) = 1 := hι.finrank_point x hx.1
   have hp1 : finrank K (ι p) = 1 := hι.finrank_point p hp
-  haveI : FiniteDimensional K (ι p) := Module.finite_of_finrank_pos (by omega)
+  have : FiniteDimensional K (ι p) := Module.finite_of_finrank_pos (by omega)
   have hxeq : ι x = ι p :=
     Submodule.eq_of_le_of_finrank_eq hx.2 (by rw [hx1, hp1])
   have hxp : x = p := hι.injective hxeq
@@ -116,6 +121,7 @@ theorem isLocalAt_self (hι : IsProjGQ c ι A) {p : V} (hp : c p = 0) :
 
 namespace IsLocalAt
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem sup_line (hP : IsGeneralizedPolygon Γ 4) (hι : IsProjGQ c ι A) [FiniteDimensional K A]
     {p : V} (hp : c p = 0) {U : Submodule K W} (hU : U ≤ A) (hUloc : IsLocalAt c ι p U)
     {L : V} (hpL : Γ.Adj p L) : IsLocalAt c ι p (U ⊔ ι L) := by
@@ -123,9 +129,9 @@ theorem sup_line (hP : IsGeneralizedPolygon Γ 4) (hι : IsProjGQ c ι A) [Finit
   have hL1 : c L = 1 := color_eq_one_of_adj_of_color_eq_zero hp hpL
   have hpLle : ι p ≤ ι L := (hι.adj_iff p L hp hL1).1 hpL
   have hUA : U ⊔ ι L ≤ A := sup_le hU (hι.le_ambient L)
-  haveI : FiniteDimensional K ↥(U ⊔ ι L) := Submodule.finiteDimensional_of_le hUA
-  haveI : FiniteDimensional K U := Submodule.finiteDimensional_of_le hU
-  haveI : FiniteDimensional K (ι L) := Submodule.finiteDimensional_of_le (hι.le_ambient L)
+  have : FiniteDimensional K ↥(U ⊔ ι L) := Submodule.finiteDimensional_of_le hUA
+  have : FiniteDimensional K U := Submodule.finiteDimensional_of_le hU
+  have : FiniteDimensional K (ι L) := Submodule.finiteDimensional_of_le (hι.le_ambient L)
   refine ⟨hUloc.1.trans le_sup_left, ?_⟩
   intro z hz
   by_cases hLU : ι L ≤ U

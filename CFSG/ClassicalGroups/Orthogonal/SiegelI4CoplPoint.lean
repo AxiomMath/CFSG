@@ -11,6 +11,7 @@ open Module
 variable {K : Type*} [Field K] {N : Type*} [AddCommGroup N] [Module K N] [FiniteDimensional K N]
   {BN : LinearMap.BilinForm K N}
 
+omit [FiniteDimensional K N] in
 theorem isLine_span_pair (hBN : BN.IsAlt) {a c : N} (hac : BN a c = 0)
     (hind : LinearIndependent K ![a, c]) : IsLine BN (Submodule.span K {a, c}) :=
   ⟨isotropic_span_pair hBN hac, by
@@ -29,6 +30,7 @@ theorem IsLine.exists_pair_of_mem {ℓ : Submodule K N} (hℓ : IsLine BN ℓ) {
   rw [hℓ.2, ← Matrix.range_cons_cons_empty a c ![], finrank_span_eq_card hind,
     Fintype.card_fin]
 
+omit [FiniteDimensional K N] in
 theorem linearIndependent_triple_of_notMem {a b c : N} (hab : LinearIndependent K ![a, b])
     (hc : c ∉ Submodule.span K {a, b}) : LinearIndependent K ![a, b, c] := by
   rw [Fintype.linearIndependent_iff]
@@ -45,7 +47,7 @@ theorem linearIndependent_triple_of_notMem {a b c : N} (hab : LinearIndependent 
       have := congrArg (fun v => (g 2)⁻¹ • v) h3
       simp only [smul_smul, inv_mul_cancel₀ h2, one_smul, smul_neg] at this
       rw [this]
-      simp only [smul_add, smul_smul, div_eq_inv_mul, neg_mul, neg_smul, mul_comm]
+      simp only [smul_add, smul_smul, div_eq_inv_mul, neg_smul, mul_comm]
       abel
     rw [this]
     exact Submodule.add_mem _ (Submodule.smul_mem _ _ (Submodule.subset_span (by simp)))
@@ -59,6 +61,7 @@ theorem linearIndependent_triple_of_notMem {a b c : N} (hab : LinearIndependent 
   · exact h1
   · exact hg2
 
+omit [FiniteDimensional K N] in
 theorem linearIndependent_pair_of_triple₀₂ {a b c : N} (h : LinearIndependent K ![a, b, c]) :
     LinearIndependent K ![a, c] := by
   rw [LinearIndependent.pair_iff]
@@ -67,6 +70,7 @@ theorem linearIndependent_pair_of_triple₀₂ {a b c : N} (h : LinearIndependen
   have := h ![s, 0, t] (by simpa [Fin.sum_univ_three] using hst)
   exact ⟨by simpa using this 0, by simpa using this 2⟩
 
+omit [FiniteDimensional K N] in
 theorem linearIndependent_pair_of_triple₁₂ {a b c : N} (h : LinearIndependent K ![a, b, c]) :
     LinearIndependent K ![b, c] := by
   rw [LinearIndependent.pair_iff]
@@ -85,6 +89,7 @@ theorem exists_notMem_span_pair {π : Submodule K N} (hπ : IsPlane BN π) {a b 
     Fintype.card_fin] at this
   omega
 
+omit [FiniteDimensional K N] in
 theorem lineElt_self_smul [CharP K 2] (hBN : BN.IsAlt) (a : N) (l : K) :
     lineElt hBN a (l • a) = 1 := by
   have hac : BN a (l • a) = 0 := by rw [map_smul, hBN.self_eq_zero, smul_zero]
@@ -95,6 +100,7 @@ theorem lineElt_self_smul [CharP K 2] (hBN : BN.IsAlt) (a : N) (l : K) :
   linear_combination (norm := module) (BN x a * l) • (h2 • a)
 
 
+omit [FiniteDimensional K N] in
 theorem Gsp.map_lin_map_lin_inv (g : Gsp BN) (S : Submodule K N) :
     (S.map g⁻¹.lin).map g.lin = S := by
   ext x
@@ -157,21 +163,25 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2]
     (π : Submodule K N) (a : N) : Submodule K V :=
   ⨅ (ℓ : Submodule K N) (_ : IsLine BN ℓ ∧ a ∈ ℓ ∧ ℓ ≤ π), famSpace hBN ρ ℓ
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K N] [FiniteDimensional K V] in
 theorem mem_planePt_iff (hBN : BN.IsAlt) (ρ : Gsp BN →* (V ≃ₗ[K] V)) {π : Submodule K N}
     {a : N} {x : V} :
     x ∈ planePt hBN ρ π a ↔ ∀ ℓ : Submodule K N, IsLine BN ℓ → a ∈ ℓ → ℓ ≤ π →
       x ∈ famSpace hBN ρ ℓ := by
   simp only [planePt, Submodule.mem_iInf, and_imp]
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K N] [FiniteDimensional K V] in
 theorem planePt_le (hBN : BN.IsAlt) (ρ : Gsp BN →* (V ≃ₗ[K] V)) {π ℓ : Submodule K N} {a : N}
     (hℓ : IsLine BN ℓ) (ha : a ∈ ℓ) (hℓπ : ℓ ≤ π) : planePt hBN ρ π a ≤ famSpace hBN ρ ℓ :=
   fun _ hx => (mem_planePt_iff hBN ρ).mp hx ℓ hℓ ha hℓπ
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K N] [FiniteDimensional K V] in
 theorem planePt_smul (hBN : BN.IsAlt) (ρ : Gsp BN →* (V ≃ₗ[K] V)) (π : Submodule K N) {c : K}
     (hc : c ≠ 0) (a : N) : planePt hBN ρ π (c • a) = planePt hBN ρ π a := by
   ext x
   simp only [mem_planePt_iff, Submodule.smul_mem_iff _ hc]
 
+omit [Finite K] [FiniteDimensional K N] [FiniteDimensional K V] [CharP K 2] in
 theorem planePt_map (hBN : BN.IsAlt) (ρ : Gsp BN →* (V ≃ₗ[K] V)) (g : Gsp BN)
     (π : Submodule K N) (a : N) :
     planePt hBN ρ (π.map g.lin) (g.app a) = (planePt hBN ρ π a).map (ρ g : V →ₗ[K] V) := by
@@ -312,6 +322,7 @@ theorem finrank_planePt {π : Submodule K N} (hπ : IsPlane BN π) {a : N} (ha :
   rw [le_antisymm hle hPle]
   exact hP1
 
+omit hs hcopl [Finite K] [CharP K 2] [FiniteDimensional K N] [FiniteDimensional K V] in
 theorem planePt_le_famSpace {π : Submodule K N} (hπ : IsPlane BN π) {a : N} (ha : a ∈ π)
     (ha0 : a ≠ 0) : planePt hBN ρ π a ≤ famSpace hBN ρ π := by
   obtain ⟨c, hcπ, hind⟩ := exists_mem_linearIndependent_pair (by rw [hπ.2]; norm_num) ha ha0
@@ -344,8 +355,8 @@ theorem planePt_ne {π : Submodule K N} (hπ : IsPlane BN π) {a b : N} (ha : a 
   have hℓbc := isLine_span_pair hBN (hπ.1 b hb c hc) hbc_ind
   set Q := planePt hBN ρ π a with hQdef
   have hQ1 : finrank K Q = 1 := finrank_planePt hs hcopl hπ ha ha0
-  have hQW : Q ≤ famSpace hBN ρ π := planePt_le_famSpace hs hcopl hπ ha ha0
-  have hWs := qf_eq_zero_of_mem_famSpace_isPlane hs hcopl hπ
+  have hQW : Q ≤ famSpace hBN ρ π := planePt_le_famSpace hπ ha ha0
+  have hWs := qf_eq_zero_of_mem_famSpace_isPlane hs hπ
   have hpi : planeFamily hBN ρ π ≤ piGroup Qf Q (famSpace hBN ρ π) := by
     rintro _ ⟨g, hg, rfl⟩
     obtain ⟨α, β, γ, rfl⟩ := exists_eq_mul_lineElt_of_mem_planeGroup hBN hs.nondegN hπ ha hb hc

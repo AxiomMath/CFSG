@@ -71,11 +71,11 @@ private theorem l10sxc2_form_highRoot (τ : Tag) (j : Fin τ.rank)
           Finset.sum_eq_single_of_mem j (Finset.mem_univ j) fun l _ hl => by
             rw [form_single_right]
             simp only [toRat_apply]
-            rw [hrow l, if_neg hl, mul_zero, mul_zero]
+            rw [hrow l, ite_eq_right hl, mul_zero, mul_zero]
     _ = symmetrizer hA j * x j := by
           rw [form_single_right]
           simp only [toRat_apply]
-          rw [hrow j, if_pos rfl, mul_one]
+          rw [hrow j, ite_eq_left rfl, mul_one]
           ring
 
 private theorem l10sxc2_exists_ne_zero_iff_coord (τ : Tag) (j : Fin τ.rank)
@@ -133,7 +133,7 @@ private theorem l10sxc2_map_of
     rw [l10sxc2_form_highRoot τ j D.isFiniteType hrow (toRat γ), toRat_apply]
   have hsets : {γ : Fin τ.rank → ℤ | γ ∈ D.roots ∧ 0 < rootForm D γ θ} = R := by
     ext γ
-    rw [Set.mem_setOf_eq, l10sxc2_mem_parabolicRadicalRoots τ j hperp]
+    rw [Set.mem_ofPred_eq, l10sxc2_mem_parabolicRadicalRoots τ j hperp]
     constructor
     · rintro ⟨hγroot, hpos⟩
       have hγ : IsRoot τ γ := (mem_adjDatum_roots (F := rootOperatorFamily τ)).1 hγroot
@@ -179,7 +179,7 @@ private theorem l10sxc2_jθ (τ : Tag) (hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8
     Jθ τ = (thetaPerpF τ : Set (Fin τ.rank)) := by
   rcases hτ with rfl | rfl | rfl <;>
   · ext i
-    simp only [Jθ, thetaPerpF, Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_setOf_eq]
+    simp only [Jθ, thetaPerpF, Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_ofPred_eq]
     revert i
     decide +kernel
 

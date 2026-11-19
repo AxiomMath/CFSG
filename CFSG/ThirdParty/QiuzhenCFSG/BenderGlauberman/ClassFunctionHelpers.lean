@@ -420,8 +420,7 @@ public theorem isCharacter_conjChar {G : Type u} [Group G] (H0 : Subgroup G) {s 
                  calc
                    (ρ (conjMonoidHom H0 s hsH0 1)) v = (ρ 1) v := by rw [hc1]
                    _ = v := by
-                     simpa using
-                       (congrArg (fun f : (Fin n → ℂ) →ₗ[ℂ] (Fin n → ℂ) => f v) ρ.map_one')
+                     simp
                map_mul' := by
                  intro g h
                  refine LinearMap.ext ?_
@@ -670,7 +669,7 @@ public theorem scalarProductInv_ind_index_two_of_fixed {G : Type u} [Group G] [F
     simpa [ν', νs', νs, conjChar, conjMonoidHom, hsk] using h
   have hνs_eq' : νs' = ν' := by
     funext k
-    simp [ν', νs', νs, conjChar, conjMonoidHom, hνs_eq]
+    simp [ν', νs', νs, hνs_eq]
   have hpart1' : ∀ k : ↥K, (inducedFromSub hH0 ν) (k : ↥H) = 2 * ν' k := by
     intro k
     calc
@@ -781,8 +780,7 @@ public theorem isCharacter_ind_index_two {G : Type u} [Group G] [Fintype G]
         calc
           (ρ (conjMonoidHom H0 s hsH0 1)) v = (ρ 1) v := by rw [hc1]
           _ = v := by
-            simpa using
-              (congrArg (fun f : (Fin n → ℂ) →ₗ[ℂ] (Fin n → ℂ) => f v) ρ.map_one')
+            simp
       map_mul' := by
         intro g h
         refine LinearMap.ext ?_
@@ -1309,7 +1307,7 @@ public theorem remark_1_5 {G : Type u} [Group G] [Fintype G] {δ ε : ClassFunct
             (r : ℂ) * scalarProduct G χ χ * (s : ℂ) := by
     rw [sub_eq_add_neg, sub_eq_add_neg]
     convert scalarProduct_expand_four (G := G) 1 (-(r : ℂ)) 1 (-(s : ℂ)) φ χ ψ χ using 1 <;>
-      simp <;> ring
+      simp; ring
   let δ₁ : ClassFunction G := δ - (a : ℂ) • χ
   let ε₁ : ClassFunction G := ε - (b : ℂ) • χ
   have hδ₁gen : IsGeneralizedCharacter δ₁ := by

@@ -47,8 +47,8 @@ theorem exists_five_rotPairs_quadMinus_gen_orthOut {n : ℕ} (hn : 5 ≤ n) {b c
     intro k l hk hl
     rw [hs k, hs l, InputsSeitz10.sum_single_mul_single_orthEight]
     by_cases hkl : k = l
-    · rw [if_pos ((ha k l hk hl).2 hkl), if_pos hkl]
-    · rw [if_neg (fun h => hkl ((ha k l hk hl).1 h)), if_neg hkl]
+    · rw [ite_eq_left ((ha k l hk hl).2 hkl), ite_eq_left hkl]
+    · rw [ite_eq_right (fun h => hkl ((ha k l hk hl).1 h)), ite_eq_right hkl]
   obtain ⟨z₁, hz₁⟩ : ∃ z : Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2 → K,
       z = Sum.elim (0 : Fin (n - 1) → K) (Sum.elim (0 : Fin (n - 1) → K) ![(1 : K), 0]) := ⟨_, rfl⟩
   obtain ⟨z₂, hz₂⟩ : ∃ z : Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2 → K,
@@ -62,7 +62,7 @@ theorem exists_five_rotPairs_quadMinus_gen_orthOut {n : ℕ} (hn : 5 ≤ n) {b c
       rw [← hα]
       field_simp
     · rw [hz₁, hz₂, InputsSeitz10.polar_quadMinus_aniso_orthEight, CharTwo.neg_eq]
-      simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, mul_zero, add_zero, one_mul,
+      simp only [Matrix.cons_val_zero, Matrix.cons_val_one, mul_zero, add_zero, one_mul,
         zero_mul, mul_inv_cancel₀ hb]
       linear_combination α * h2
   have hza : ∀ f g : Fin (n - 1) → K, ∀ z ∈ ({z₁, z₂} : Set _),
@@ -114,7 +114,7 @@ variable {k : Type} [Field k] [Finite k] [CharP k 2]
 
 theorem eq_one_of_ne_zero_of_card_two_orthOut (hk : Nat.card k = 2) {x : k} (hx : x ≠ 0) : x = 1 := by
   classical
-  haveI := Fintype.ofFinite k
+  have := Fintype.ofFinite k
   have h := FiniteField.pow_card_sub_one_eq_one x hx
   rwa [← Nat.card_eq_fintype_card, hk, show 2 - 1 = 1 from rfl, pow_one] at h
 
@@ -132,13 +132,13 @@ theorem tail_facts_of_card_two_orthOut (hk : Nat.card k = 2) {b c : k} (hirr : �
 theorem quadMinus_first_ne_zero_orthOut {n : ℕ} (hn : 2 ≤ n) (b c : k) :
     quadMinus n k b c (Sum.elim (Pi.single (⟨0, by omega⟩ : Fin (n - 1)) (1 : k))
       (Sum.elim (Pi.single (⟨0, by omega⟩ : Fin (n - 1)) (1 : k)) 0)) ≠ 0 := by
-  rw [InputsSeitz10.quadMinus_hyp_orthEight, InputsSeitz10.sum_single_mul_single_orthEight, if_pos rfl]
+  rw [InputsSeitz10.quadMinus_hyp_orthEight, InputsSeitz10.sum_single_mul_single_orthEight, ite_eq_left rfl]
   exact one_ne_zero
 
 theorem quadPlus_first_ne_zero_orthOut {n : ℕ} (hn : 1 ≤ n) :
     quadPlus n k (Sum.elim (Pi.single (⟨0, by omega⟩ : Fin n) (1 : k))
       (Pi.single (⟨0, by omega⟩ : Fin n) (1 : k))) ≠ 0 := by
-  rw [InputsSeitz10.quadPlus_elim_orthEight, InputsSeitz10.sum_single_mul_single_orthEight, if_pos rfl]
+  rw [InputsSeitz10.quadPlus_elim_orthEight, InputsSeitz10.sum_single_mul_single_orthEight, ite_eq_left rfl]
   exact one_ne_zero
 
 noncomputable def matrixMinusEquivElementary_orthOut {n : ℕ} (hn : 2 ≤ n) (hn1 : 1 ≤ n) (b c : k)
@@ -260,8 +260,8 @@ theorem exists_fixed_five_of_outer_minus_orthOut {G : Type} [Group G] {n : ℕ} 
   have hk2 : Nat.card (semilinearFixedSubfield σ) = 2 := by
     rw [hVr, hcard]
     norm_num
-  haveI : Finite (semilinearFixedSubfield σ) := Subtype.finite
-  haveI : CharP (semilinearFixedSubfield σ) 2 :=
+  have : Finite (semilinearFixedSubfield σ) := Subtype.finite
+  have : CharP (semilinearFixedSubfield σ) 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
       (by norm_num) (by rw [hk2]; norm_num : Nat.card (semilinearFixedSubfield σ) = 2 ^ 1)
   have hext := coordinateQuadMinus_isExtension (semilinearFixedSubfield σ) n hn1 b' c'
@@ -301,8 +301,8 @@ theorem exists_fixed_five_of_outer_plus_orthOut {G : Type} [Group G] {n : ℕ} (
   have hk2 : Nat.card (semilinearFixedSubfield σ) = 2 := by
     rw [hVr, hcard]
     norm_num
-  haveI : Finite (semilinearFixedSubfield σ) := Subtype.finite
-  haveI : CharP (semilinearFixedSubfield σ) 2 :=
+  have : Finite (semilinearFixedSubfield σ) := Subtype.finite
+  have : CharP (semilinearFixedSubfield σ) 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
       (by norm_num) (by rw [hk2]; norm_num : Nat.card (semilinearFixedSubfield σ) = 2 ^ 1)
   have hext := coordinateQuadPlus_isExtension (semilinearFixedSubfield σ) n
@@ -330,7 +330,7 @@ theorem card_le_three_mul_inf_conj_matrix_orthOut {K : Type} [Field K] [Finite K
     Nat.card A ≤ 3 * Nat.card ↥(A ⊓
       (MulAut.conj : matrixProjectiveDerived Q →* MulAut (matrixProjectiveDerived Q)).range) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨-, ⟨ψ, -, hψker, -⟩, ⟨-, k₂, hk₂⟩, -⟩ := hg
   set D := (CFSG.LocalAnalysis.ComponentInitial.OrthogonalOuter.linearConjugationHom Q).range with hDdef
   set H := OuterAutomorphisms.inner (matrixProjectiveDerived Q) with hHdef
@@ -425,8 +425,8 @@ theorem le_glbCore_of_inner_sub_orthOut {X : Type} [Group X] [Finite X] {B B₁ 
     (φ : (↥K ⧸ Subgroup.center ↥K) ≃* ↥(elementaryGroup Q)) :
     K ≤ GLBCore 3 2 B := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (V ≃ₗ[F] V) := by
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (V ≃ₗ[F] V) := by
     have : Finite V := Module.finite_of_finite F
     exact Finite.of_injective (fun f : V ≃ₗ[F] V => (f : V → V)) DFunLike.coe_injective
   set E := elementaryGroup Q with hEdef
@@ -560,13 +560,13 @@ theorem le_glbCore_of_outer_of_data_orthOut {B : Subgroup X} (hB : IsElemAbelian
     K ≤ GLBCore 3 2 B := by
   classical
   have hp : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   set A := InputsSeitz3.autIm B K with hAdef
   have hAel : IsElemAbelian 3 A := InputsSeitz3.isElemAbelian_autIm hB K
   have hAc : Nat.card A = 3 ^ CFSG.Open.pRank 3 B :=
     (InputsSeitz3.card_autIm hBN hC).trans (GL83.PiGen.card_eq_pow_pRank hB)
   set I := (MulAut.conj : ↥K →* MulAut ↥K).range with hIdef
-  obtain ⟨x, hxA, hxI⟩ := SetLike.not_le_iff_exists.1 hout
+  obtain ⟨x, hxA, hxI⟩ := IsConcreteLE.not_le_iff_exists.1 hout
   obtain ⟨n, hn, rfl⟩ := hxA
   have hnB : (n : X) ∈ B := Subgroup.mem_subgroupOf.1 hn
   obtain ⟨hαo, hbK⟩ := isOuterOfOrder_of_not_mem_inner_orthOut hB hnB n.2 hxI

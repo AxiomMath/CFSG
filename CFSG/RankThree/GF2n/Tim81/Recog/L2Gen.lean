@@ -35,9 +35,9 @@ private theorem map_symm_map_eq_subgroupOf {F : Type} [Field F]
 
 theorem IsL2Gen.opposite (h : IsL2Gen A B) : Opposite A B := by
   obtain ⟨F, hField, hFin, hCharP, φ, hcard, hA, hB⟩ := h
-  letI := hField
-  letI := hFin
-  letI := hCharP
+  let := hField
+  let := hFin
+  let := hCharP
   have hA' : (utri F).map φ.symm.toMonoidHom = A.subgroupOf (A ⊔ B) :=
     map_symm_map_eq_subgroupOf φ hA
   have hB' : (ltri F).map φ.symm.toMonoidHom = B.subgroupOf (A ⊔ B) :=
@@ -58,17 +58,17 @@ theorem IsL2Gen.inf_eq_bot (h : IsL2Gen A B) : A ⊓ B = ⊥ := h.opposite.inf_e
 
 theorem IsL2Gen.isElemAbelian (h : IsL2Gen A B) : IsElemAbelian 2 A := by
   obtain ⟨F, hField, hFin, hCharP, φ, hcard, hA, hB⟩ := h
-  letI := hField
-  letI := hFin
-  letI := hCharP
+  let := hField
+  let := hFin
+  let := hCharP
   rw [← Subgroup.map_subgroupOf_eq_of_le (le_sup_left : A ≤ A ⊔ B),
     ← map_symm_map_eq_subgroupOf φ hA]
   exact ((isElemAbelian_utri (F := F)).map φ.symm.toMonoidHom).map (A ⊔ B).subtype
 
 private theorem IsL2Gen.ne_bot (h : IsL2Gen A B) : A ≠ ⊥ := by
   obtain ⟨F, hField, hFin, hCharP, φ, hcard, hA, hB⟩ := h
-  letI := hField
-  letI := hCharP
+  let := hField
+  let := hCharP
   have hA' : (utri F).map φ.symm.toMonoidHom = A.subgroupOf (A ⊔ B) :=
     map_symm_map_eq_subgroupOf φ hA
   intro hbot
@@ -92,9 +92,9 @@ theorem IsL2Gen.commutator_ne_bot (h : IsL2Gen A B) : ⁅A, B⁆ ≠ ⊥ := by
 private theorem IsL2Gen.commutator_eq_bot_of_commuting (h : IsL2Gen A B)
     (hc : Commuting ⁅A, B⁆ (A ⊔ B)) : ⁅A, B⁆ = ⊥ := by
   obtain ⟨F, hField, hFin, hCharP, φ, hcard, hA, hB⟩ := h
-  letI := hField
-  letI := hFin
-  letI := hCharP
+  let := hField
+  let := hFin
+  let := hCharP
   let H : Subgroup G := A ⊔ B
   have hCle : ⁅A, B⁆ ≤ H := Subgroup.commutator_le_of_le le_sup_left le_sup_right
   have hcenter : (⁅A, B⁆).subgroupOf H ≤ Subgroup.center H := by
@@ -122,9 +122,9 @@ theorem IsL2Gen.not_special (h : IsL2Gen A B) (R : Set (Subgroup G)) :
 theorem IsL2Gen.exists_conj (h : IsL2Gen A B) :
     ∃ x ∈ A ⊔ B, B = conjSubgroup x A := by
   obtain ⟨F, hField, hFin, hCharP, φ, hcard, hA, hB⟩ := h
-  letI := hField
-  letI := hFin
-  letI := hCharP
+  let := hField
+  let := hFin
+  let := hCharP
   let H : Subgroup G := A ⊔ B
   let xH : H := φ.symm (wElt : SL(2, F))
   have hWH : conjSubgroup xH (A.subgroupOf H) = B.subgroupOf H := by
@@ -154,17 +154,13 @@ private theorem exists_join_equiv_map {X Y : Type*} [Group X] [Group Y]
   have hAg : (A.subgroupOf (A ⊔ B)).map g.toMonoidHom =
       (A.map f).subgroupOf (A.map f ⊔ B.map f) := by
     ext y
-    simp only [Subgroup.mem_map, Subgroup.mem_subgroupOf, Subtype.ext_iff, g, e,
-      MulEquiv.trans_apply, MulEquiv.subgroupCongr_apply,
-      Subgroup.coe_equivMapOfInjective_apply]
+    simp only [Subgroup.mem_map, Subgroup.mem_subgroupOf, Subtype.ext_iff, g, e]
     exact ⟨fun ⟨x, hx, hxy⟩ => ⟨x, hx, hxy⟩,
       fun ⟨a, ha, hay⟩ => ⟨⟨a, Subgroup.mem_sup_left ha⟩, ha, hay⟩⟩
   have hBg : (B.subgroupOf (A ⊔ B)).map g.toMonoidHom =
       (B.map f).subgroupOf (A.map f ⊔ B.map f) := by
     ext y
-    simp only [Subgroup.mem_map, Subgroup.mem_subgroupOf, Subtype.ext_iff, g, e,
-      MulEquiv.trans_apply, MulEquiv.subgroupCongr_apply,
-      Subgroup.coe_equivMapOfInjective_apply]
+    simp only [Subgroup.mem_map, Subgroup.mem_subgroupOf, Subtype.ext_iff, g, e]
     exact ⟨fun ⟨x, hx, hxy⟩ => ⟨x, hx, hxy⟩,
       fun ⟨b, hb, hby⟩ => ⟨⟨b, Subgroup.mem_sup_right hb⟩, hb, hby⟩⟩
   exact ⟨g, hAg, hBg⟩
@@ -172,9 +168,9 @@ private theorem exists_join_equiv_map {X Y : Type*} [Group X] [Group Y]
 private theorem IsL2Gen.map_of_injective {G' : Type} [Group G'] (h : IsL2Gen A B)
     (e : G →* G') (he : Function.Injective e) : IsL2Gen (A.map e) (B.map e) := by
   obtain ⟨F, hField, hFin, hCharP, φ, hcard, hA, hB⟩ := h
-  letI := hField
-  letI := hFin
-  letI := hCharP
+  let := hField
+  let := hFin
+  let := hCharP
   obtain ⟨g, hAg, hBg⟩ := exists_join_equiv_map (A := A) (B := B) e he
   have hcomp : g.symm.toMonoidHom.comp g.toMonoidHom = MonoidHom.id ↥(A ⊔ B) := by
     ext x
@@ -210,9 +206,9 @@ private theorem IsL2Gen.comap_of_injective {G' : Type} [Group G'] {X : Type} [Gr
     {A B : Subgroup X} (f : X →* G') (hf : Function.Injective f)
     (h : IsL2Gen (A.map f) (B.map f)) : IsL2Gen A B := by
   obtain ⟨F, hField, hFin, hCharP, φ, hcard, hA, hB⟩ := h
-  letI := hField
-  letI := hFin
-  letI := hCharP
+  let := hField
+  let := hFin
+  let := hCharP
   obtain ⟨g, hAg, hBg⟩ := exists_join_equiv_map (A := A) (B := B) f hf
   let φ' : ↥(A ⊔ B) ≃* SL(2, F) := g.trans φ
   refine ⟨F, hField, hFin, hCharP, φ', ?_, ?_, ?_⟩
@@ -253,13 +249,13 @@ theorem IsL2Gen.map {G' : Type} [Group G'] (h : IsL2Gen A B) (e : G →* G')
 theorem IsL2Gen.isSimpleGroup (h : IsL2Gen A B) (h4 : 4 ≤ Nat.card A) :
     IsSimpleGroup ↥(A ⊔ B) := by
   obtain ⟨F, hField, hFin, hCharP, φ, hcard, hA, hB⟩ := h
-  letI := hField
-  letI := hFin
-  letI := hCharP
+  let := hField
+  let := hFin
+  let := hCharP
   have h4' : 4 ≤ Nat.card F := by
     rw [hcard]
     exact h4
-  haveI : IsSimpleGroup (SL(2, F)) := isSimpleGroup_SL2_charTwo F h4'
+  have : IsSimpleGroup (SL(2, F)) := isSimpleGroup_SL2_charTwo F h4'
   exact φ.isSimpleGroup
 
 theorem IsL2Gen.ker_inf_eq_bot {G' : Type} [Group G'] (h : IsL2Gen A B)
@@ -267,7 +263,7 @@ theorem IsL2Gen.ker_inf_eq_bot {G' : Type} [Group G'] (h : IsL2Gen A B)
     (A ⊔ B) ⊓ e.ker = ⊥ := by
   let H : Subgroup G := A ⊔ B
   let f : H →* G' := e.comp H.subtype
-  haveI : IsSimpleGroup H := h.isSimpleGroup h4
+  have : IsSimpleGroup H := h.isSimpleGroup h4
   have hker : f.ker = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal f.ker with hbot | htop
     · exact hbot

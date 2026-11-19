@@ -62,8 +62,9 @@ theorem not_isRoot_add_hiRoot_of_lvl_nonneg (hτ : τ = .F4 ∨ τ = .E6 ∨ τ 
     {γ : Fin τ.rank → ℤ} (h : 0 < lvl τ γ) : ¬ IsRoot τ (γ + hiRoot τ) := by
   intro hr
   have h1 := (lvl_bound hτ hr).2
-  have h2 : lvl τ (γ + hiRoot τ) = lvl τ γ + 2 := by simp [lvl, lvl_hiRoot hτ, Pi.add_apply] <;>
-    first | rfl | (have := lvl_hiRoot hτ; simp [lvl] at this ⊢; omega)
+  have h2 : lvl τ (γ + hiRoot τ) = lvl τ γ + 2 := by
+    simp [lvl, Pi.add_apply]
+    (have := lvl_hiRoot hτ; simp [lvl] at this ⊢; omega)
   omega
 
 theorem isRoot_delta1 (τ : Tag) : IsRoot τ (delta1 τ) := isRoot_single τ (gradNode τ)

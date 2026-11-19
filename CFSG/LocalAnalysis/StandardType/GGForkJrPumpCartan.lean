@@ -40,12 +40,14 @@ private def ggZbar (ι : Additive ↥Bs ≃+ V) (X : Subgroup G) : Submodule (ZM
           exact Subgroup.inv_mem _ hb
         · rw [ofMul_inv, map_neg] }
 
+omit [Finite G] in
 private theorem mem_ggZbar_iff (ι : Additive ↥Bs ≃+ V) (X : Subgroup G) (v : V) :
     v ∈ ggZbar (p := p) ι X ↔ ∃ b : ↥Bs, (b : G) ∈ Subgroup.centralizer (X : Set G) ∧
         ι (Additive.ofMul b) = v := by
   rw [ggZbar, AddSubgroup.mem_toZModSubmodule]
   rfl
 
+omit [Finite G] in
 private theorem ggZbar_iff (hBs : IsElemAbelian p Bs) (ι : Additive ↥Bs ≃+ V) (X : Subgroup G)
     (b b' : ↥Bs) :
     ((b : G))⁻¹ * (b' : G) ∈ Subgroup.centralizer (X : Set G) ↔
@@ -75,6 +77,7 @@ private theorem ggZbar_iff (hBs : IsElemAbelian p Bs) (ι : Additive ↥Bs ≃+ 
       rw [hcb, Subgroup.coe_mul, Subgroup.coe_inv]
     rwa [← hc'']
 
+omit [Finite G] in
 private theorem ggLin_fix_ggZbar (ι : Additive ↥Bs ≃+ V) {X : Subgroup G} {t : MulAut ↥Bs}
     (ht : t ∈ ggInduced X Bs) {v : V} (hv : v ∈ ggZbar (p := p) ι X) :
     ggLin (p := p) ι t v = v := by
@@ -159,6 +162,7 @@ private theorem ggCartan_scale {K : Type*} [Field K] (h2 : (2 : K) ≠ 0) {V' : 
 
 end CartanHelpers
 
+omit [Finite G] in
 theorem ggAutLattice_cartan {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {Bs X : Subgroup G}
     (hBs : IsElemAbelian p Bs) {V : Type*} [AddCommGroup V] [Module (ZMod p) V]
     (ι : Additive ↥Bs ≃+ V) (hX : GGAutLattice p Bs X) {κ : Type*} {t : κ → MulAut ↥Bs}

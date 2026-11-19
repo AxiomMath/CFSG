@@ -39,7 +39,7 @@ theorem k_CartanSylowAbelian_PSL {K : Type} [Group K] [Finite K] {m f r : ℕ} (
       hodd (d := 1) (by rwa [Fintype.card_eq_nat_card])
       (by rw [Fintype.card_eq_nat_card, pow_one, hF]; exact hrd)
       (fun j hj hj' => absurd hj' (by omega)) (by omega) Matrix.SpecialLinearGroup.toGL
-      Matrix.SpecialLinearGroup.toGL_injective R hR) P P.isPGroup'
+      Matrix.SpecialLinearGroup.toGL_injective R hR) P P.isPGroup
 
 theorem k_CartanSylowAbelian_linear :
     ∀ (K : Type) [Group K] [Finite K] (t : CFSG.Open.StatedLieTag) (m f r : ℕ),

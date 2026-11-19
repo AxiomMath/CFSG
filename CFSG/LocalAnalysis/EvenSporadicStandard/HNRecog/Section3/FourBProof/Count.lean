@@ -13,7 +13,7 @@ theorem fourB_card_shape2222 :
       105 := by
   classical
   rw [Nat.card_eq_fintype_card, Fintype.card_subtype, AlternatingGroup.card_of_cycleType,
-    if_pos (by decide)]
+    ite_eq_left (by decide)]
   norm_num
 
 end CFSG.EvenSporadicStandard.HNRecog.Section3

@@ -17,7 +17,8 @@ section Conj
 variable (h : Hyp6Sec2 G T M L V)
 
 include h in
-theorem HH_le_normalizer_CHU (hZ : Nat.card (quasithinOmegaOneCenter T) = 2) :
+omit [Finite G] h in
+theorem HH_le_normalizer_CHU (_hZ : Nat.card (quasithinOmegaOneCenter T) = 2) :
     HH T ≤ Subgroup.normalizer (CHU T L V : Set G) :=
   le_normalizer_centralizerMod (HH_le_normalizer_Z T) Subgroup.le_normalizer
     (HH_le_normalizer_UU T L V)

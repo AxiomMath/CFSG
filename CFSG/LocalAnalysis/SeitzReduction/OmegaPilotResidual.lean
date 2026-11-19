@@ -48,7 +48,7 @@ theorem exists_sylow_commute_of_isLongRoot_plus (hn : 3 ≤ n)
   have hzU₀ : z ∈ (U₀ : Subgroup _) := hU₀ hzR
   have : Nontrivial (U₀ : Subgroup (matrixProjectiveDerived (coordinateQuadPlus n K))) :=
     ⟨⟨⟨z, hzU₀⟩, 1, fun h => hz1 (congrArg Subtype.val h)⟩⟩
-  have := U₀.isPGroup'.center_nontrivial
+  have := U₀.isPGroup.center_nontrivial
   obtain ⟨c, hc1⟩ := exists_ne
     (1 : Subgroup.center (U₀ : Subgroup (matrixProjectiveDerived (coordinateQuadPlus n K))))
   have hcU : ∀ v ∈ (U₀ : Subgroup (matrixProjectiveDerived (coordinateQuadPlus n K))),

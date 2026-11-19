@@ -289,7 +289,7 @@ theorem le_normalizer_of_eq_E {G : Type} [Group G] [Finite G] {E : Subgroup G}
     exact hne (le_antisymm inf_le_left (Subgroup.subgroupOf_eq_top.mp htop))
   have hnil : Group.IsNilpotent ↥R := hR.isNilpotent
   obtain ⟨x, hxN, hxS⟩ :=
-    SetLike.exists_of_lt
+    _root_.IsConcreteLE.exists_of_lt
       ((Group.normalizerCondition_of_isNilpotent (G := ↥R)) ((R ⊓ N).subgroupOf R) hlt)
   have hxR : (x : G) ∈ R := x.2
   have hconjN : conjSubgroup (x : G) E ≤ N := by

@@ -41,14 +41,14 @@ theorem wordDe_sound : ∀ (w : List ℕ) (e : Bool), wordDe w e = true →
         intro h'
         rw [shiftRight_one, h'] at hb
         exact absurd hb (by decide)
-      have hcnt : a1Cnt (c :: w) = a1Cnt w := by simp [a1Cnt, List.countP_cons, hne]
+      have hcnt : a1Cnt (c :: w) = a1Cnt w := by simp [a1Cnt, hne]
       exact ⟨codes ih.1, by rw [hcnt]; exact ih.2⟩
     · rw [hb] at hw
       have ih := wordDe_sound w (bIf(e, false, true)) hw
       have heq : c / 2 = 2 := by
         rw [← shiftRight_one]
         exact Nat.eq_of_beq_eq_true hb
-      have hcnt : a1Cnt (c :: w) = a1Cnt w + 1 := by simp [a1Cnt, List.countP_cons, heq]
+      have hcnt : a1Cnt (c :: w) = a1Cnt w + 1 := by simp [a1Cnt, heq]
       refine ⟨codes ih.1, ?_⟩
       rw [hcnt, Nat.even_add_one]
       cases e
@@ -109,10 +109,10 @@ theorem wordP_mem_of_even (hidx : (D.subgroupOf A).index = 2) (hA : ∀ h < 4, g
         rw [e, mul_mem_iff_two hidx lA ihA, lD', ihD]
         refine ⟨A.mul_mem lA ihA, ?_⟩
         by_cases hc2 : c / 2 = 2
-        · have hcnt : a1Cnt (c :: w) = a1Cnt w + 1 := by simp [a1Cnt, List.countP_cons, hc2]
+        · have hcnt : a1Cnt (c :: w) = a1Cnt w + 1 := by simp [a1Cnt, hc2]
           rw [hcnt, Nat.even_add_one]
           simp [hc2]
-        · have hcnt : a1Cnt (c :: w) = a1Cnt w := by simp [a1Cnt, List.countP_cons, hc2]
+        · have hcnt : a1Cnt (c :: w) = a1Cnt w := by simp [a1Cnt, hc2]
           rw [hcnt]
           simp [hc2]
     exact ((main w hw).2).2 he

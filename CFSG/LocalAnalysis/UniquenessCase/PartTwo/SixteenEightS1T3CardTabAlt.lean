@@ -35,7 +35,7 @@ theorem s16t3_val_card_alt {X : Type} [Group X] [Finite X] (hq : CFSG.Open.IsQua
     {n : ℕ} (hX : UC22.IsAlt X n) (hn : n < 12) :
     (∀ p : ℕ, p.Prime → 5 ≤ p → ¬ p ^ 3 ∣ Nat.card X) ∧ ¬ 7 ^ 2 ∣ Nat.card X := by
   have hn5 : 5 ≤ n := s16k_five_le_of_isAlt hq hX
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
   obtain ⟨e⟩ := hX
   have hcard : Nat.card X = n.factorial / 2 := by
     rw [Nat.card_congr e.toEquiv, nat_card_alternatingGroup, Nat.card_fin]

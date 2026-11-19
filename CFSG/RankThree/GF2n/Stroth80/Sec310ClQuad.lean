@@ -14,19 +14,23 @@ variable {K V : Type} [Field K] [Finite K] [CharP K 2] [AddCommGroup V] [Module 
 theorem sq_surj_K (a : K) : ∃ b : K, b ^ 2 = a :=
   Finite.surjective_of_injective (f := fun x : K => x ^ 2) CharTwo.sq_injective a
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
 theorem qf_add {Q : QuadraticForm K V} (hQ : Q.polarBilin = F) (x y : V) :
     Q (x + y) = Q x + Q y + F x y := by
   rw [← hQ, QuadraticMap.polarBilin_apply_apply]
   exact QuadraticMap.map_add _ x y
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
 theorem qf_smul {Q : QuadraticForm K V} (c : K) (x : V) : Q (c • x) = c ^ 2 * Q x := by
   rw [QuadraticMap.map_smul, smul_eq_mul, sq]
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
 theorem polarBilin_symm' {Q : QuadraticForm K V} (hQ : Q.polarBilin = F) (x y : V) :
     F x y = F y x := by
   rw [← hQ, QuadraticMap.polarBilin_apply_apply, QuadraticMap.polarBilin_apply_apply]
   exact QuadraticMap.polar_comm _ x y
 
+omit [FiniteDimensional K V] in
 theorem exists_linear_sqrt (dl : V → K) (hadd : ∀ v w : V, dl (v + w) = dl v + dl w)
     (hsmul : ∀ (c : K) (v : V), dl (c • v) = c ^ 2 * dl v) :
     ∃ φ : V →ₗ[K] K, ∀ v, φ v ^ 2 = dl v := by
@@ -48,6 +52,7 @@ theorem exists_linear_sqrt (dl : V → K) (hadd : ∀ v w : V, dl (v + w) = dl v
            map_smul' := fun c v => by rw [hsmul' c v, RingHom.id_apply, smul_eq_mul] },
     fun v => hsq v⟩
 
+omit [Finite K] [CharP K 2] in
 theorem exists_vec_of_linear (hnd : F.Nondegenerate) (hsymm : ∀ x y : V, F x y = F y x)
     (φ : V →ₗ[K] K) : ∃ u : V, ∀ v, F v u = φ v := by
   obtain ⟨u, hu⟩ := (LinearMap.BilinForm.toDual F hnd).surjective φ
@@ -130,6 +135,7 @@ theorem quadForm_eq_of_elationFull (hnd : F.Nondegenerate) (halt : F.IsAlt)
   simp only [map_smul, smul_eq_mul]
   ring
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem qf_elation (halt : F.IsAlt) {e f ω : V} {Q : QuadraticForm K V} (hQ : Q.polarBilin = F)
     (he : Q e = 0) (hω : F ω e = 0) (v : V) :
     Q (elationEquiv halt e f ω hω v) = Q v + (F v e) ^ 2 * (Q ω + F f ω) := by
@@ -137,6 +143,7 @@ theorem qf_elation (halt : F.IsAlt) {e f ω : V} {Q : QuadraticForm K V} (hQ : Q
   simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul, hω]
   linear_combination (F v e * F v ω) * (two_eq_zero_K (K := K))
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem pointRad_mem_orth_iff (halt : F.IsAlt) {e f : V} (hef : F e f = 1)
     {Q : QuadraticForm K V} (hQ : Q.polarBilin = F) (he : Q e = 0) {g : V ≃ₗ[K] V}
     (hg : g ∈ pointRadSubgroup F e) :
@@ -168,6 +175,7 @@ theorem pointRad_mem_orth_iff (halt : F.IsAlt) {e f : V} (hef : F e f = 1)
     rw [hkey v, h]
     linear_combination ((F v e) ^ 2 * F f (g f - f)) * (two_eq_zero_K (K := K))
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem exists_quadForm_of_a (halt : F.IsAlt) {e f : V} (hef : F e f = 1) (a : V → K)
     (ha1 : ∀ (c : K) (w : V), F w e = 0 → F w f = 0 → a (c • w) = c ^ 2 * a w)
     (ha2 : ∀ w w' : V, F w e = 0 → F w f = 0 → F w' e = 0 → F w' f = 0 →

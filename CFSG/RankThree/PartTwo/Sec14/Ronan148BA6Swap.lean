@@ -30,7 +30,7 @@ theorem exists_eq_conj_of_mem_map {H : Subgroup G} {g z : G}
   exact ⟨h, hh, by simp [MulAut.conj_apply]⟩
 
 theorem exists_normalizer_mem_inf148 (hT : KTransport148) {A L : Subgroup G} {c : G}
-    (hS : Sec14Std G A c L) {Y : Subgroup G} (hY : Y ∈ scriptY A) [(ker148 A Y).Normal]
+    (hS : Sec14Std G A c L) {Y : Subgroup G} (_hY : Y ∈ scriptY A) [(ker148 A Y).Normal]
     {B : Subgroup G} (hB : IsHyperplane A B) {b d : G} {Lb : Subgroup G}
     (hc : IsLBConfig A B b d Lb) (hbA : b ∈ A) (hdA : d ∈ A) {YB : Subgroup G} (hYBY : YB ≤ Y)
     (hle : YB ≤ pPrimeCoreOf 3 (Subgroup.centralizer (B : Set G)) ⊔ lB A B) {y : G} (hy : y ∈ Y)
@@ -74,7 +74,7 @@ theorem exists_normalizer_mem_inf148 (hT : KTransport148) {A L : Subgroup G} {c 
   have hF₂M : (Subgroup.zpowers b ⊔ E₂).map (MulAut.conj y).toMonoidHom ≤ Y ⊔ A := by
     rintro _ ⟨z, hz, rfl⟩
     have hzM := hF₂'M hz
-    simp only [MonoidHom.coe_coe, MulAut.conj_apply, MulEquiv.coe_toMonoidHom]
+    simp only [MulAut.conj_apply, MulEquiv.coe_toMonoidHom]
     exact (Y ⊔ A).mul_mem ((Y ⊔ A).mul_mem hyM hzM) ((Y ⊔ A).inv_mem hyM)
   have hAF₂ : A.map (MulAut.conj (y * u)).toMonoidHom =
       (Subgroup.zpowers b ⊔ E₂).map (MulAut.conj y).toMonoidHom := by

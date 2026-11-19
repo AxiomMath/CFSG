@@ -152,7 +152,7 @@ theorem XS8_sub_Y0 {y : G} (hy : OYFacts c y) : XS8 y α t ⊆ (Y0 y α : Set G)
   · exact mul_mem hyα ht
 
 theorem Y0_eq_XS8 {y : G} (hy : OYFacts c y) : (Y0 y α : Set G) = XS8 y α t :=
-  Set.Subset.antisymm (fun s hs => closure_XS8 c hy hs) (XS8_sub_Y0 c hy)
+  Set.Subset.antisymm (fun _s hs => closure_XS8 c hy hs) (XS8_sub_Y0 c hy)
 
 theorem Y0_invol {y : G} (hy : OYFacts c y) {s : G} (hs : s ∈ Y0 y α) (hss : s * s = 1) :
     s = 1 ∨ s = t ∨ s = α ∨ s = α * t ∨ s = y ∨ s = y * t := by
@@ -227,18 +227,13 @@ theorem Y0_card {y : G} (hy : OYFacts c y) : Nat.card ↥(Y0 y α) = 8 := by
     Set.ncard_insert_of_notMem, Set.ncard_insert_of_notMem, Set.ncard_insert_of_notMem,
     Set.ncard_insert_of_notMem, Set.ncard_singleton]
   all_goals first
-    | exact Set.toFinite _
     | simp [f01, f02, f03, f04, f05, f06, f07, f12, f13, f14, f15, f16, f17, f23, f24, f25,
-        f26, f27, f34, f35, f36, f37, f45, f46, f47, f56, f57, f67,
-        f01.symm, f02.symm, f03.symm, f04.symm, f05.symm, f06.symm, f07.symm, f12.symm,
-        f13.symm, f14.symm, f15.symm, f16.symm, f17.symm, f23.symm, f24.symm, f25.symm,
-        f26.symm, f27.symm, f34.symm, f35.symm, f36.symm, f37.symm, f45.symm, f46.symm,
-        f47.symm, f56.symm, f57.symm, f67.symm]
+        f26, f27, f34, f35, f36, f37, f45, f46, f47, f56, f57, f67]
 
 theorem Y0_pgroup {y : G} (hy : OYFacts c y) : IsPGroup 2 (Y0 y α) :=
   IsPGroup.of_card (n := 3) (by rw [Y0_card c hy]; norm_num)
 
-theorem alpha_conj_Y0_iff {y : G} (hy : OYFacts c y) {w : G} :
+theorem alpha_conj_Y0_iff {y : G} (_hy : OYFacts c y) {w : G} :
     α * w * α⁻¹ ∈ Y0 y α ↔ w ∈ Y0 y α := by
   have hα_mem : α ∈ Y0 y α := subset_closure (by simp)
   constructor

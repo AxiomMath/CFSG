@@ -200,7 +200,7 @@ private theorem rckSUr_suOmega_sq : suOmega ^ 2 = suOmega + 1 := by
   have h2 : (2 : SUF) = 0 := CharP.cast_eq_zero SUF 2
   linear_combination h - (suOmega + 1) * h2
 private theorem rckSUr_pow_three (c : SUF) (hc : c ≠ 0) : c ^ 3 = 1 := by
-  haveI : Fintype SUF := Fintype.ofFinite SUF
+  have : Fintype SUF := Fintype.ofFinite SUF
   have h := FiniteField.pow_card_sub_one_eq_one c hc
   rwa [← Nat.card_eq_fintype_card, rckSUr_card] at h
 private theorem rckSUr_inv_eq_sq (c : SUF) (hc : c ≠ 0) : c⁻¹ = c ^ 2 :=
@@ -213,7 +213,7 @@ private theorem rckSUr_shortTorusFun_ne_zero (hk : 4 ≤ k) {c : SUF} (hc : c �
     (s : Fin k) : shortTorusFun SUσ (sI0 hk) (sI1 hk) c s ≠ 0 := by
   have hc' : SUσ c ≠ 0 := (map_ne_zero SUσ).mpr hc
   simp only [shortTorusFun]
-  split_ifs <;> simp [hc, hc']
+  split_ifs <;> simp [hc]
 private noncomputable def rckSUr_corner (hk : 4 ≤ k) (x : SUF) :
     Matrix (Fin k) (Fin k) SUF :=
   1 + Matrix.single (sI0 hk) (Fin.rev (sI1 hk)) x +
@@ -282,12 +282,12 @@ private theorem rckSUr_diag_conj (hk : 4 ≤ k) {c : SUF} (hc : c ≠ 0) :
   have hba : shortTorusFun SUσ (sI0 hk) (sI1 hk) c (sI0 hk) = c := shortTorusFun_left _ _ _
   have hbb : shortTorusFun SUσ (sI0 hk) (sI1 hk) c (Fin.rev (sI1 hk)) = SUσ c := by
     rw [shortTorusFun]
-    rw [if_neg (rckSUr_rev_sI1_ne_sI0 hk), if_neg (rckSUr_rev_sI1_ne_sI1 hk),
-      if_neg (rckSUr_rev_sI1_ne_rev_sI0 hk), if_pos rfl]
+    rw [ite_eq_right (rckSUr_rev_sI1_ne_sI0 hk), ite_eq_right (rckSUr_rev_sI1_ne_sI1 hk),
+      ite_eq_right (rckSUr_rev_sI1_ne_rev_sI0 hk), ite_eq_left rfl]
   have hcc : shortTorusFun SUσ (sI0 hk) (sI1 hk) c (Fin.rev (sI0 hk)) = (SUσ c)⁻¹ := by
     rw [shortTorusFun]
-    rw [if_neg (rckSUr_sI0_ne_rev_sI0 hk).symm, if_neg (rckSUr_sI1_ne_rev_sI0 hk).symm,
-      if_pos rfl]
+    rw [ite_eq_right (rckSUr_sI0_ne_rev_sI0 hk).symm, ite_eq_right (rckSUr_sI1_ne_rev_sI0 hk).symm,
+      ite_eq_left rfl]
   have hdd : shortTorusFun SUσ (sI0 hk) (sI1 hk) c (sI1 hk) = c⁻¹ :=
     shortTorusFun_right (rckSUr_sI0_ne_sI1 hk) c
   have h1 : c * (1 : SUF) * (SUσ c)⁻¹ = c⁻¹ := by
@@ -363,26 +363,26 @@ theorem suV_conj (hk : 4 ≤ k) :
     ring
 private def rckSUr_i0 (hk : 4 ≤ k) : Fin (k / 2) := ⟨0, by omega⟩
 private def rckSUr_i1 (hk : 4 ≤ k) : Fin (k / 2) := ⟨1, by omega⟩
-private def rckSUr_betaEven (hk : 4 ≤ k) : Fin (k / 2) → ℤ :=
+private def rckSUr_betaEven (_hk : 4 ≤ k) : Fin (k / 2) → ℤ :=
   fun a => if a.val = 0 then 1 else if a.val + 1 = k / 2 then 1 else 2
-private def rckSUr_betaOdd (hk : 4 ≤ k) : Fin (k / 2) → ℤ :=
+private def rckSUr_betaOdd (_hk : 4 ≤ k) : Fin (k / 2) → ℤ :=
   fun a => if a.val = 0 then 1 else 2
 private def rckSUr_beta (hk : 4 ≤ k) : Fin (k / 2) → ℤ :=
   if Even k then rckSUr_betaEven hk else rckSUr_betaOdd hk
 private theorem rckSUr_t_i0 (hk : 4 ≤ k) :
     (weight k (sI0 hk) - weight k (Fin.rev (sI1 hk))) (rckSUr_i0 hk) = 1 := by
   rw [Pi.sub_apply, SUExtras.weight_apply', SUExtras.weight_apply']
-  rw [if_pos (by simp [sI0, rckSUr_i0]),
-    if_neg (by simp [sI1, rckSUr_i0, Fin.val_rev]; omega),
-    if_neg (by simp [sI1, rckSUr_i0, Fin.val_rev]; omega)]
+  rw [ite_eq_left (by simp [sI0, rckSUr_i0]),
+    ite_eq_right (by simp [sI1, rckSUr_i0, Fin.val_rev]; omega),
+    ite_eq_right (by simp [sI1, rckSUr_i0, Fin.val_rev]; omega)]
   norm_num
 private theorem rckSUr_t_i1 (hk : 4 ≤ k) :
     (weight k (sI0 hk) - weight k (Fin.rev (sI1 hk))) (rckSUr_i1 hk) = 1 := by
   rw [Pi.sub_apply, SUExtras.weight_apply', SUExtras.weight_apply']
-  rw [if_neg (by simp [sI0, rckSUr_i1]),
-    if_neg (by simp [sI0, rckSUr_i1]; omega),
-    if_neg (by simp [sI1, rckSUr_i1, Fin.val_rev]; omega),
-    if_pos (by simp [sI1, rckSUr_i1, Fin.val_rev]; omega)]
+  rw [ite_eq_right (by simp [sI0, rckSUr_i1]),
+    ite_eq_right (by simp [sI0, rckSUr_i1]; omega),
+    ite_eq_right (by simp [sI1, rckSUr_i1, Fin.val_rev]; omega),
+    ite_eq_left (by simp [sI1, rckSUr_i1, Fin.val_rev]; omega)]
   norm_num
 private theorem rckSUr_toStd_betaEven (hk : 4 ≤ k) (he : Even k) :
     toStd k (rckSUr_betaEven hk) =
@@ -392,7 +392,7 @@ private theorem rckSUr_toStd_betaEven (hk : 4 ≤ k) (he : Even k) :
     omega
   funext a
   have ha : a.val < k / 2 := a.isLt
-  rw [toStd, if_pos he]
+  rw [toStd, ite_eq_left he]
   simp only [CFSG.LieType.Universal.Symplectic.toStd, rckSUr_betaEven, Pi.sub_apply,
     SUExtras.weight_apply', sI0, sI1, Fin.val_rev]
   split_ifs <;> omega
@@ -408,15 +408,15 @@ private theorem rckSUr_toStd_betaOdd (hk : 4 ≤ k) (he : ¬Even k) :
       _ = 2 * (k / 2) + 1 := by rw [hmod]
   funext a
   have ha : a.val < k / 2 := a.isLt
-  rw [toStd, if_neg he]
+  rw [toStd, ite_eq_right he]
   simp only [rckSUr_betaOdd, Pi.sub_apply, SUExtras.weight_apply', sI0, sI1, Fin.val_rev]
   split_ifs <;> omega
 private theorem rckSUr_toStd_beta (hk : 4 ≤ k) :
     toStd k (rckSUr_beta hk) =
       weight k (sI0 hk) - weight k (Fin.rev (sI1 hk)) := by
   by_cases he : Even k
-  · rw [rckSUr_beta, if_pos he]; exact rckSUr_toStd_betaEven hk he
-  · rw [rckSUr_beta, if_neg he]; exact rckSUr_toStd_betaOdd hk he
+  · rw [rckSUr_beta, ite_eq_left he]; exact rckSUr_toStd_betaEven hk he
+  · rw [rckSUr_beta, ite_eq_right he]; exact rckSUr_toStd_betaOdd hk he
 private theorem rckSUr_beta_mem_roots (hk : 4 ≤ k) :
     rckSUr_beta hk ∈ roots (isFiniteType_cartan k) (divisible k) := by
   rw [roots_eq]

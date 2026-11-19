@@ -92,7 +92,7 @@ theorem P_le_L : pGrp c Q ≤ c.L := map_subtype_le _
 theorem P_le_M (hQ : (M ⊓ c.L).subgroupOf c.L = normalizer ((Q : Subgroup c.L) : Set c.L)) :
     pGrp c Q ≤ M := fun _ hx => (Ctx12.map_sylow_le hQ hx).2
 
-theorem isPGroup_P : IsPGroup 2 (pGrp c Q) := Q.isPGroup'.map c.L.subtype
+theorem isPGroup_P : IsPGroup 2 (pGrp c Q) := Q.isPGroup.map c.L.subtype
 
 theorem card_P (S : ZDSetup X Z M) (h : LData c n 2)
     (hQ : (M ⊓ c.L).subgroupOf c.L = normalizer ((Q : Subgroup c.L) : Set c.L)) :
@@ -204,7 +204,7 @@ theorem K_fpf_P (S : ZDSetup X Z M) (h : LData c n 2)
   obtain ⟨x', hx', rfl⟩ := mem_pGrp_iff.mp hx
   have hc := h.benderCore S.invariant hQ
   have hk1' : k' ≠ 1 := fun h1 => hk1 (by rw [h1]; rfl)
-  have hcent := hc.centralizer_cartan_eq Q.isPGroup' hk' hk1'
+  have hcent := hc.centralizer_cartan_eq Q.isPGroup hk' hk1'
   have hx'C : x' ∈ centralizer ({k'} : Set ↥c.L) :=
     mem_centralizer_singleton_iff.mpr (Subtype.ext hkx.symm)
   rw [hcent] at hx'C

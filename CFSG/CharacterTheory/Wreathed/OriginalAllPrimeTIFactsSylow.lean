@@ -30,7 +30,7 @@ theorem wreathedSetting_F₀_eq [Finite G] (n : ℕ) (hn : 2 ≤ n) (S : Sylow 2
   · have hQp : IsPGroup 2 (((S : Subgroup G) ⊓
         Subgroup.centralizer (modelT n S e : Set G)).subgroupOf
           (Subgroup.centralizer (modelT n S e : Set G))) :=
-      (S.isPGroup'.to_le inf_le_left).comap_subtype
+      (S.isPGroup.to_le inf_le_left).comap_subtype
     have hle : (modelBaseFourCentralizerSylow n hn S e :
         Subgroup (Subgroup.centralizer (modelT n S e : Set G))) ≤
         ((S : Subgroup G) ⊓ Subgroup.centralizer (modelT n S e : Set G)).subgroupOf

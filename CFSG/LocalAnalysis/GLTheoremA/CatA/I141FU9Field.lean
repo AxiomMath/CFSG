@@ -75,7 +75,7 @@ theorem u9_card_of_chevAut_eq_one {Γ : Type} [Group Γ] [Finite Γ] {K J : Subg
   obtain ⟨hs, hna⟩ := u9_simple_nonabelian hI1
   obtain ⟨hα3, hJ', ⟨eJ⟩⟩ := u9_transfer_chev hx hI1 hJ
   have hU' : catalogIs (PSimple 3 (chevTransfer 3 K J)) S9.isU3eight := catalogIs_congr' eJ hJU
-  haveI := hs
+  have := hs
   have hI : GLAPComponent 3 (⊤ : Subgroup (PSimple 3 K)) (chevTransfer 3 K J) := by
     rw [hα1, fixSubgroup_one_eq_top] at hJ'
     exact hJ'

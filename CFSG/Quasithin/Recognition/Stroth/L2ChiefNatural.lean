@@ -31,7 +31,7 @@ theorem natCard_quotient_of_isNaturalChiefStep {H U L N : Subgroup G} {m : ℕ}
   have hHL : H ≤ Subgroup.normalizer (L : Set G) :=
     D14.le_normalizer_of_isNormalIn (H := H) (U := U) hstep.2.1
   have hNL : N ≤ Subgroup.normalizer (L : Set G) := (hstep.1.1.trans hUH).trans hHL
-  haveI : (L.subgroupOf N).Normal :=
+  have : (L.subgroupOf N).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hstep.2.2.1.le).mpr hNL
   have hquot : Nat.card (N ⧸ L.subgroupOf N) = Nat.card ↥(Ch3z.chiefMod L N) :=
     Nat.card_congr (Ch3z.chiefQuotEquiv hNL).toEquiv
@@ -54,8 +54,8 @@ theorem isNaturalChiefStep_of_eq {H U L N A : Subgroup G} {m : ℕ} (hm2 : 2 ≤
       (CFSG.Quasithin.isElemAbelian_chiefMod hstep hUH hU.isPGroup) m := by
   classical
   let hE := CFSG.Quasithin.isElemAbelian_chiefMod hstep hUH hU.isPGroup
-  letI : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
+  let : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
   obtain ⟨e, ρ, φ, -, -, hcompat, hnatiso, -⟩ :=
     l2_chiefStep_natural hm2 hL2 hU hUH hstep hnc hA hAH hstep_eq hA_eq
   refine ⟨e, ?_⟩
@@ -68,6 +68,7 @@ theorem isNaturalChiefStep_of_eq {H U L N A : Subgroup G} {m : ℕ} (hm2 : 2 ≤
   rw [← hρeq]
   exact ⟨φ, hnatiso⟩
 
+omit [Finite G] in
 private theorem chiefIota_eq_of_mul_inv_mem {L N : Subgroup G}
     (hNL : N ≤ Subgroup.normalizer (L : Set G)) {u v : ↥N}
     (h : (u : G) * (v : G)⁻¹ ∈ L) : Ch3z.chiefIota hNL u = Ch3z.chiefIota hNL v := by
@@ -87,8 +88,8 @@ theorem mem_of_conj_mem_of_isNaturalChiefStep {H U L N : Subgroup G} {m : ℕ}
     {x : G} (hx : x ∈ N) (hxd : d * x * d⁻¹ * x⁻¹ ∈ L) : x ∈ L := by
   classical
   obtain ⟨e, hnatmod⟩ := hnat
-  letI : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
+  let : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
   have hHL : H ≤ Subgroup.normalizer (L : Set G) :=
     D14.le_normalizer_of_isNormalIn (H := H) (U := U) hstep.2.1
   have hHN : H ≤ Subgroup.normalizer (N : Set G) :=
@@ -118,7 +119,7 @@ theorem mem_of_conj_mem_of_isNaturalChiefStep {H U L N : Subgroup G} {m : ℕ}
       have := orderOf_map_dvd ψ dH
       simpa [g] using this
     have h2 : orderOf dH = orderOf d := by
-      simpa [dH] using (Subgroup.orderOf_coe dH).symm
+      simp [dH]
     exact Odd.of_dvd_nat (h2 ▸ hdo) hdvd
   by_contra hxL
   have hwne : w ≠ 0 := by

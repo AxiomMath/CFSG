@@ -18,7 +18,7 @@ theorem false_of_not_sq_dvd (hp : p.Prime) {K B : Subgroup Y} (h : KHyp p K B)
     (hc : Nat.card ↥(B ⊓ Subgroup.centralizer (K : Set Y)) < p ^ 3) {S : Type} [Group S]
     (e : ↥K ⧸ Subgroup.center ↥K ≃* S) (hS : ¬ p ^ 2 ∣ Nat.card (MulAut S)) : False := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨ψ, -, hcard⟩ := card_B_eq hp h
   have hBp : IsPGroup p ↥B := isPGroup_of_isElemAbelian h.elem
   have hrp : IsPGroup p ↥ψ.range := hBp.of_surjective ψ.rangeRestrict ψ.rangeRestrict_surjective
@@ -56,6 +56,7 @@ section Tool2
 
 variable {Y : Type} [Group Y] [Finite Y] {p : ℕ}
 
+omit [Finite Y] in
 private theorem isElemAbelian_sup_of_commute {E F : Subgroup Y} (hE : IsElemAbelian p E)
     (hF : IsElemAbelian p F) (hcomm : ∀ e ∈ E, ∀ f ∈ F, e * f = f * e) :
     IsElemAbelian p (E ⊔ F) := by
@@ -99,6 +100,7 @@ section Inner
 
 variable {Y : Type} [Group Y] [Finite Y] {p : ℕ}
 
+omit [Finite Y] in
 theorem inf_centralizer_eq_bot {K : Subgroup Y} (hZ : Subgroup.center ↥K = ⊥) :
     K ⊓ Subgroup.centralizer (K : Set Y) = ⊥ := by
   rw [eq_bot_iff]
@@ -112,6 +114,7 @@ theorem inf_centralizer_eq_bot {K : Subgroup Y} (hZ : Subgroup.center ↥K = ⊥
   rw [hZ, Subgroup.mem_bot] at hcen
   exact congrArg Subtype.val hcen
 
+omit [Finite Y] in
 theorem conjNormal_eq_one_iff {K : Subgroup Y} [K.Normal] (y : Y) :
     (MulAut.conjNormal y : MulAut ↥K) = 1 ↔ y ∈ Subgroup.centralizer (K : Set Y) := by
   rw [Subgroup.mem_centralizer_iff]
@@ -137,7 +140,7 @@ theorem exists_innerPart {K B : Subgroup Y} [K.Normal] (hB : IsElemAbelian p B)
       Nat.card Ē * Nat.card ↥(B ⊓ Subgroup.centralizer (K : Set Y)) = Nat.card B := by
   classical
   set CK : Subgroup Y := Subgroup.centralizer (K : Set Y) with hCK
-  haveI hCKn : CK.Normal := inferInstance
+  have hCKn : CK.Normal := inferInstance
   set C : Subgroup Y := B ⊓ CK with hC
   let β : Y →* MulAut ↥K := MulAut.conjNormal
   have hβ : ∀ y : Y, β y = 1 ↔ y ∈ CK := fun y => conjNormal_eq_one_iff y
@@ -243,7 +246,7 @@ theorem false_of_inner {K B : Subgroup Y} (h : KHyp p K B)
       E ≤ Subgroup.normalizer (T : Set Y) → Nat.card E ≤ R)
     (hE₀ : ∃ E₀ : Subgroup Y, E₀ ≤ K ∧ IsElemAbelian p E₀ ∧ R < Nat.card E₀) : False := by
   classical
-  haveI := h.normal
+  have := h.normal
   have hKCK := inf_centralizer_eq_bot hZ
   obtain ⟨Ē, hĒK, hĒel, hĒN, hcard⟩ := exists_innerPart (p := p) h.elem hKCK hin
   obtain ⟨T, hTK, hT2, hTne, hBT⟩ := h.twogrp

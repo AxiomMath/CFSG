@@ -15,8 +15,8 @@ theorem s16h_e3_CycTwoP7M6A_lBar_le_pCoreOf
     (hc : Conc4_136 D V₀ V hV L) {p : ℕ} (hp : p.Prime)
     (hLp : IsCyclicOrd ↥(lBar V₀ V hV L) p) :
     lBar V₀ V hV L ≤ pCoreOf p (Mbar D.M V₀ V hV) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite ↥(lBar V₀ V hV L) := Subtype.finite
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite ↥(lBar V₀ V hV L) := Subtype.finite
   have hLpg : IsPGroup p ↥(lBar V₀ V hV L) :=
     IsPGroup.of_card (n := 1) (by rw [hLp.2, pow_one])
   have hL1 : lBar V₀ V hV L ≠ ⊥ := by

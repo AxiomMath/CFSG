@@ -33,11 +33,11 @@ theorem epsListFrom_smul_planeXN (k : ℕ) :
     have hs : s < 11 := by omega
     simp only [epsTabsFrom, epsListFrom, maskAct, maskProd_cons]
     by_cases hm : m % 2 = 1
-    · simp only [if_pos hm]
+    · simp only [ite_eq_left hm]
       refine ⟨planeTabs_lt (s := 2 + s) (by omega) hlt, ?_⟩
       rw [mul_smul, hsm, epsAt_of_lt hs, ← planeGen_eps hs,
         planeGen_smul_planeXN (by omega) hlt]
-    · simp only [if_neg hm, one_mul]
+    · simp only [ite_eq_right hm, one_mul]
       exact ⟨hlt, hsm⟩
 
 theorem epsMask_smul_planeXN (m : ℕ) {i : ℕ} (hi : i < 891) :

@@ -15,7 +15,7 @@ variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ l
 
 private theorem E_comm (hc : W4Ctxb t L S x₁ x₂ lam rho tau) {u v : G}
     (hu : u ∈ ctxE t x₁ x₂) (hv : v ∈ ctxE t x₁ x₂) : u * v = v * u := by
-  haveI : IsMulCommutative ↥(ctxE t x₁ x₂) :=
+  have : IsMulCommutative ↥(ctxE t x₁ x₂) :=
     (hc.toCtx10.toCtx4.toCtx).m2_PT_attained.1.1
   have key := mul_comm' (⟨u, hu⟩ : ↥(ctxE t x₁ x₂)) (⟨v, hv⟩ : ↥(ctxE t x₁ x₂))
   exact congrArg Subtype.val key
@@ -56,7 +56,7 @@ private theorem tau_commute_z (hc : W4Ctxb t L S x₁ x₂ lam rho tau) :
       inv_eq_of_mul_eq_one_right hsq]
   exact mul_inv_eq_iff_eq_mul.mp hconj
 
-private theorem fourGrp_le_centralizer_of (hc : W4Ctxb t L S x₁ x₂ lam rho tau) {a : G}
+private theorem fourGrp_le_centralizer_of (_hc : W4Ctxb t L S x₁ x₂ lam rho tau) {a : G}
     (hy : x₁ ^ 2 * a = a * x₁ ^ 2) (hz : (x₁ * x₂) ^ 2 * a = a * (x₁ * x₂) ^ 2) :
     fourGrp x₁ x₂ ≤ centralizer ({a} : Set G) := by
   rw [fourGrp]
@@ -70,7 +70,7 @@ private theorem fourGrp_le_centralizer_of (hc : W4Ctxb t L S x₁ x₂ lam rho t
 private theorem mem_centralizer_fourGrp_of (hc : W4Ctxb t L S x₁ x₂ lam rho tau) {a : G}
     (hy : x₁ ^ 2 * a = a * x₁ ^ 2) (hz : (x₁ * x₂) ^ 2 * a = a * (x₁ * x₂) ^ 2) :
     a ∈ centralizer ((fourGrp x₁ x₂ : Subgroup G) : Set G) :=
-  Subgroup.mem_centralizer_iff.mpr fun v hv =>
+  Subgroup.mem_centralizer_iff.mpr fun _v hv =>
     Subgroup.mem_centralizer_singleton_iff.mp (fourGrp_le_centralizer_of hc hy hz hv)
 
 private theorem t_mem_centralizer_fourGrp (hc : W4Ctxb t L S x₁ x₂ lam rho tau) :

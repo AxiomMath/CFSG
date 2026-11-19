@@ -25,7 +25,7 @@ theorem pwDistinct_iff (l : List (Array ℕ)) : pwDistinct l = true ↔ l.Nodup 
 theorem mem_of_maskOf_eq {l l' : List ℕ} (h : maskOf l = maskOf l') {x : ℕ} (hx : x < 100) :
     x ∈ l ↔ x ∈ l' := by
   have := congrArg (fun m => m[x]?) h
-  simp only [maskOf, List.getElem?_map, List.getElem?_range, hx, if_true, Option.map_some,
+  simp only [maskOf, List.getElem?_map, List.getElem?_range, hx, Option.map_some,
     Option.some.injEq] at this
   rw [← List.contains_iff_mem, ← List.contains_iff_mem, this]
 

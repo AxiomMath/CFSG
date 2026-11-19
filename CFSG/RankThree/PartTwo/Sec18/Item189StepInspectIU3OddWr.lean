@@ -110,7 +110,7 @@ theorem eq_one_of_mem_normalizer_wr_u3odd189 (hK : UnitaryFieldData p f K) (hp2 
       diagGL_pow_u3odd189, diagGL_mul_u3odd189, coe_diagGL]
     congr 1
     funext k
-    fin_cases k <;> simp [hlm, hlinv, inv_pow]
+    fin_cases k <;> simp [hlm, inv_pow]
   have hz_comm : ∀ w ∈ W, z * w = w * z := by
     have hle : W ≤ Subgroup.centralizer {z} := by
       rw [hWdef, Subgroup.closure_le]
@@ -262,8 +262,7 @@ theorem eq_one_of_mem_normalizer_wr_u3odd189 (hK : UnitaryFieldData p f K) (hp2 
       have e01 := entry_of_mul_diagonal_u3odd189 hyu 0 1
       have e10 := entry_of_mul_diagonal_u3odd189 hyu 1 0
       have e11 := entry_of_mul_diagonal_u3odd189 hyu 1 1
-      simp only [hdu, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
-        mul_one] at e00 e01 e10 e11
+      simp only [hdu, Matrix.cons_val_zero, Matrix.cons_val_one, mul_one] at e00 e01 e10 e11
       have hl1' : (l : K) - 1 ≠ 0 := sub_ne_zero.2 hl1
       have h0 : Y 0 0 * Y 0 1 = 0 := by
         have : Y 0 0 * Y 0 1 * ((l : K) - 1) = 0 := by
@@ -287,7 +286,7 @@ theorem eq_one_of_mem_normalizer_wr_u3odd189 (hK : UnitaryFieldData p f K) (hp2 
           simp at hdetY
         have h3 : Y 0 1 * Y 1 0 * Y 0 1 = 0 := by
           have := congrFun (congrFun hY3 0) 1
-          simp only [Matrix.mul_apply, Fin.sum_univ_three, h00, h11, hY02, hY12, hY20, hY21,
+          simp only [Matrix.mul_apply, Fin.sum_univ_three, h00, h11, hY02, hY12, hY21,
             mul_zero, zero_mul, add_zero, zero_add] at this
           rw [this, Matrix.one_apply_ne (by decide)]
         exact mul_ne_zero hprod (left_ne_zero_of_mul hprod) h3
@@ -300,8 +299,7 @@ theorem eq_one_of_mem_normalizer_wr_u3odd189 (hK : UnitaryFieldData p f K) (hp2 
       exfalso
       rw [pow_one, hS] at hyu
       obtain ⟨e00, e01, e10, e11⟩ := entry_of_mul_diagonal_swap_u3odd189 hyu
-      simp only [hdu, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
-        mul_one] at e00 e01 e10 e11
+      simp only [hdu, Matrix.cons_val_zero, Matrix.cons_val_one, mul_one] at e00 e01 e10 e11
       have hA : Y 0 0 * ((l : K) ^ 2 - d' 0 * d' 1) = 0 := by
         linear_combination (l : K) * e00 + d' 0 * e10
       have hB : Y 0 1 * (1 - d' 0 * d' 1) = 0 := by

@@ -15,10 +15,10 @@ variable {A : Type} [Group A]
 namespace Config
 
 theorem inf_smul_eq_bot_of_not_mem (C : Config A) [Finite A] {u : A}
-    (hu2 : u * u = 1) (hu1 : u ≠ 1) (huK1 : u ∉ C.K₁) (huK2 : u ∉ C.K₂) :
+    (hu2 : u * u = 1) (_hu1 : u ≠ 1) (huK1 : u ∉ C.K₁) (huK2 : u ∉ C.K₂) :
     (C.T : Subgroup A) ⊓ ((u • C.T : Sylow 2 A) : Subgroup A) = ⊥ := by
   classical
-  haveI : Fintype A := Fintype.ofFinite A
+  have : Fintype A := Fintype.ofFinite A
   by_contra hbot
   set U : Subgroup A := ((u • C.T : Sylow 2 A) : Subgroup A) with hU
   set D : Subgroup A := (C.T : Subgroup A) ⊓ U with hD
@@ -42,8 +42,8 @@ theorem inf_smul_eq_bot_of_not_mem (C : Config A) [Finite A] {u : A}
     IsPGroup.of_card (n := 6) (by rw [C.card_T]; norm_num)
   have hD2 : IsPGroup 2 ↥D :=
     IsPGroup.of_injective hT2 (Subgroup.inclusion hDleT) (Subgroup.inclusion_injective hDleT)
-  haveI : Nontrivial ↥D := (Subgroup.nontrivial_iff_ne_bot D).mpr hDne
-  haveI hZnt : Nontrivial ↥(Subgroup.center ↥D) := IsPGroup.center_nontrivial hD2
+  have : Nontrivial ↥D := (Subgroup.nontrivial_iff_ne_bot D).mpr hDne
+  have hZnt : Nontrivial ↥(Subgroup.center ↥D) := IsPGroup.center_nontrivial hD2
   have hZ2 : IsPGroup 2 ↥(Subgroup.center ↥D) := hD2.to_subgroup _
   have hZcard : 2 ∣ Fintype.card ↥(Subgroup.center ↥D) := by
     have hnat : 2 ∣ Nat.card ↥(Subgroup.center ↥D) := by
@@ -193,7 +193,7 @@ theorem not_mem_K₂_of_inf_smul_eq_bot (C : Config A) [Finite A] {u : A}
 
 theorem index_subgroupOf_normalizer_T (C : Config A) [Finite A] :
     ((C.T : Subgroup A).subgroupOf (normalizer (C.T : Set A))).index = 3 := by
-  haveI : ((C.T : Subgroup A).subgroupOf (normalizer (C.T : Set A))).Normal :=
+  have : ((C.T : Subgroup A).subgroupOf (normalizer (C.T : Set A))).Normal :=
     Subgroup.normal_in_normalizer
   have hcard : Nat.card ↥((C.T : Subgroup A).subgroupOf (normalizer (C.T : Set A))) = 64 := by
     have hEq : ↥((C.T : Subgroup A).subgroupOf (normalizer (C.T : Set A))) ≃
@@ -209,11 +209,11 @@ theorem index_subgroupOf_normalizer_T (C : Config A) [Finite A] :
 theorem ncard_fibre_le_three (C : Config A) [Finite A] (S' : Sylow 2 A)
     (hS' : (C.T : Subgroup A) ⊓ (S' : Subgroup A) = ⊥) : (C.fibre S').ncard ≤ 3 := by
   classical
-  haveI : Fintype A := Fintype.ofFinite A
+  have : Fintype A := Fintype.ofFinite A
   rcases Set.eq_empty_or_nonempty (C.fibre S') with hempty | ⟨u₀, hu₀⟩
   · rw [hempty]; simp
   set N : Subgroup A := normalizer (C.T : Set A) with hN
-  haveI : ((C.T : Subgroup A).subgroupOf N).Normal := Subgroup.normal_in_normalizer
+  have : ((C.T : Subgroup A).subgroupOf N).Normal := Subgroup.normal_in_normalizer
   have hmemN : ∀ u ∈ C.fibre S', u₀⁻¹ * u ∈ N := by
     intro u hu
     rw [hN, ← Sylow.smul_eq_iff_mem_normalizer, ← smul_smul, hu.2.2, ← hu₀.2.2]
@@ -323,8 +323,8 @@ private theorem inf_smul_eq_bot_iff_of_involution (C : Config A) [Finite A] {e :
 theorem ncard_fibre_eq_three (C : Config A) [Finite A] (S' : Sylow 2 A)
     (hS' : (C.T : Subgroup A) ⊓ (S' : Subgroup A) = ⊥) : (C.fibre S').ncard = 3 := by
   classical
-  haveI : Fintype A := Fintype.ofFinite A
-  haveI : Fintype (Sylow 2 A) := Fintype.ofFinite _
+  have : Fintype A := Fintype.ofFinite A
+  have : Fintype (Sylow 2 A) := Fintype.ofFinite _
   have hfin : ({P : Sylow 2 A | (C.T : Subgroup A) ⊓ (P : Subgroup A) = ⊥} :
       Set (Sylow 2 A)).Finite := Set.toFinite _
   set S : Finset (Sylow 2 A) := hfin.toFinset with hS
@@ -420,7 +420,7 @@ theorem card_normalizer_inf_normalizer (C : Config A) [Finite A] (S' : Sylow 2 A
     (hS' : (C.T : Subgroup A) ⊓ (S' : Subgroup A) = ⊥) :
     Nat.card ↥(normalizer (C.T : Set A) ⊓ normalizer (S' : Set A)) = 3 := by
   classical
-  haveI : Fintype A := Fintype.ofFinite A
+  have : Fintype A := Fintype.ofFinite A
   set K' : Subgroup A := normalizer (C.T : Set A) ⊓ normalizer (S' : Set A) with hK'
   have hdvd : Nat.card ↥K' ∣ 192 := by
     rw [← C.card_normalizer_T]

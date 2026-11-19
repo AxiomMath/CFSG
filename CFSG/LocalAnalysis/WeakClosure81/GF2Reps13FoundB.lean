@@ -14,14 +14,14 @@ open scoped commutatorElement
 
 variable {W : Type} [CommGroup W] [Finite W]
 
-theorem s13_schur_perfect (hW : ∀ w : W, w * w = 1) (M R : Subgroup (MulAut W))
+theorem s13_schur_perfect (_hW : ∀ w : W, w * w = 1) (M R : Subgroup (MulAut W))
     (hMR : ⁅M, R⁆ = ⊥) (hR : ⁅R, R⁆ = R) (Y : Subgroup W) (hYM : StableUnder M Y)
     (hYR : StableUnder R Y) (hirr : IsIrrOn M Y (Y ⊓ fixV M)) :
     commSub Y R ≤ Y ⊓ fixV M := by
   classical
-  letI : MulDistribMulAction ↥M W := MulDistribMulAction.compHom W M.subtype
+  let : MulDistribMulAction ↥M W := MulDistribMulAction.compHom W M.subtype
   have hYM' : XMod.IsInv ↥M Y := fun a y hy => hYM a a.2 y hy
-  letI : MulDistribMulAction ↥M ↥Y := XMod.subAction hYM'
+  let : MulDistribMulAction ↥M ↥Y := XMod.subAction hYM'
   have hfixed : XMod.fixed ↥M Y = Y ⊓ fixV M := by
     ext w
     exact ⟨fun h => ⟨h.1, fun x hx => h.2 ⟨x, hx⟩⟩,

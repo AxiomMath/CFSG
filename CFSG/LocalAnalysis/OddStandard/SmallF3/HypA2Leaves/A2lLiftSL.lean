@@ -12,7 +12,7 @@ open Subgroup CFSG.ComponentClassification
 theorem a2l_isPerfect_of_isSLTwoOver {A : Type} [Group A] {q₀ : ℕ} (h5 : 5 ≤ q₀)
     (h : HarrisLit.IsSLTwoOver q₀ A) : Group.IsPerfect A := by
   obtain ⟨F, _, _, hF, ⟨e⟩⟩ := h
-  haveI := Fintype.finite ‹Fintype F›
+  have := Fintype.finite ‹Fintype F›
   refine ClassicalInvolution.isPerfect_of_equiv_sl2 ?_ e
   rw [Nat.card_eq_fintype_card, hF]
   omega
@@ -23,7 +23,7 @@ theorem a2l_lift_sl2 (hGA : TBLit.GriessMultipliersOdd) {K K' : Type} [Group K] 
     (hN' : HarrisLit.IsSLTwoOver q₀ ↥N') :
     ∃ N : Subgroup K, HarrisLit.IsSLTwoOver q₀ ↥N ∧ N.map π = N' ∧ ⁅N, N⁆ = N ∧
       ∀ x ∈ N, π x = 1 → x = 1 := by
-  haveI : Group.IsPerfect ↥N' := a2l_isPerfect_of_isSLTwoOver h5 hN'
+  have : Group.IsPerfect ↥N' := a2l_isPerfect_of_isSLTwoOver h5 hN'
   let M : Subgroup K := N'.comap π
   let f : ↥M →* ↥N' := (π.comp M.subtype).codRestrict N' fun x => x.2
   have hf : Function.Surjective f := fun r => by
@@ -55,7 +55,7 @@ theorem a2l_lift_sl2 (hGA : TBLit.GriessMultipliersOdd) {K K' : Type} [Group K] 
         exact Subgroup.mem_top _
       obtain ⟨d, hd, hdr⟩ := Subgroup.mem_map.1 hmem
       exact ⟨d.1, ⟨d, hd, rfl⟩, congrArg Subtype.val hdr⟩
-  haveI : Group.IsPerfect ↥(D.map M.subtype) := a2l_isPerfect_of_isSLTwoOver h5 hN1
+  have : Group.IsPerfect ↥(D.map M.subtype) := a2l_isPerfect_of_isSLTwoOver h5 hN1
   refine ⟨D.map M.subtype, hN1, hmap, ?_, ?_⟩
   · exact LocalAnalysis.ComponentInitial.commutator_self_of_commutator_eq_top
       Group.IsPerfect.commutator_eq_top

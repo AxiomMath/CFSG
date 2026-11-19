@@ -38,8 +38,8 @@ theorem langDescent_exact (hτ : τ = .G2 ∨ τ = .F4) {Fr : L →+* L}
   have hrange : ι.range = (adjointGroup τ K).map (baseChangeGL (algebraMap K L)) := by
     rw [hι, MonoidHom.range_comp, Subgroup.range_subtype]
   have hfixr : D.fix = ι.range := hfix.trans hrange.symm
-  haveI : Finite (ModGL τ K) := finite_modGL
-  haveI : Finite (adjointGroup τ K) := inferInstance
+  have : Finite (ModGL τ K) := finite_modGL
+  have : Finite (adjointGroup τ K) := inferInstance
   refine ⟨?_, hfixr.ge, fun P hP _ => hfixr ▸ hP, ?_⟩
   · rw [hfixr]
     exact Finite.of_surjective ι.rangeRestrict ι.rangeRestrict_surjective
@@ -53,13 +53,13 @@ theorem exists_exact_frame (hτ : τ = .G2 ∨ τ = .F4) {p : ℕ} (w : WeylGrou
       ((Nat.card K : ℕ) : L) = 0 ∧
       LangDescent D p ((baseChangeGL (algebraMap K L)).comp (adjointGroup τ K).subtype) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, hℓ, hf⟩ := FiniteField.card K (ringChar K)
-  haveI : Fact (ringChar K).Prime := ⟨hℓ⟩
+  have : Fact (ringChar K).Prime := ⟨hℓ⟩
   have hq : Nat.card K = ringChar K ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hf
-  haveI : CharP K (ringChar K) := ringChar.charP K
+  have : CharP K (ringChar K) := ringChar.charP K
   let L := AlgebraicClosure K
-  haveI : CharP L (ringChar K) := charP_of_injective_algebraMap (algebraMap K L).injective _
+  have : CharP L (ringChar K) := charP_of_injective_algebraMap (algebraMap K L).injective _
   let Fr : L →+* L := iterateFrobenius L (ringChar K) (f : ℕ)
   have hFr : ∀ c, Fr c = c ^ Nat.card K := fun c => by
     rw [hq]

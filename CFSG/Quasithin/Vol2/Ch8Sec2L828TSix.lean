@@ -117,7 +117,7 @@ theorem s828_no_dihedral3 (hLU : HLU82) (hcard : Mathieu.StmtH13Card)
       rw [e]
       exact c.hcomm (Subgroup.commutator_mem_commutator (LU.inv_mem q.2) y'.2)
     have hdis := IsPGroup.disjoint_of_ne 3 2 (by norm_num) (Q₀ : Subgroup ↥LU)
-      ((pCoreOf 2 LU).subgroupOf LU) Q₀.isPGroup' hO2
+      ((pCoreOf 2 LU).subgroupOf LU) Q₀.isPGroup hO2
     have hc : q⁻¹ * q' = 1 :=
       Subgroup.disjoint_def.mp hdis hc1 (Subgroup.mem_subgroupOf.mpr hc2)
     have hqq : q' = q := (inv_mul_eq_one.mp hc).symm
@@ -140,7 +140,7 @@ theorem s828_no_dihedral3 (hLU : HLU82) (hcard : Mathieu.StmtH13Card)
     rw [hn, hn4]
     norm_num
   have hnc : ¬ IsCyclic ↥(Q₀ : Subgroup ↥LU) := s828_sylow3_noncyclic c hX6 hU16 Q₀
-  have : Fact (IsPGroup 3 ↥(Q₀ : Subgroup ↥LU)) := ⟨Q₀.isPGroup'⟩
+  have : Fact (IsPGroup 3 ↥(Q₀ : Subgroup ↥LU)) := ⟨Q₀.isPGroup⟩
   obtain ⟨S, -, hScard, hSel⟩ := CFSG.lemma_4_5_a (by norm_num : (3 : ℕ) ≠ 2) hnc
   set E : Subgroup G := (S.map (Q₀ : Subgroup ↥LU).subtype).map LU.subtype with hEdef
   have hEcard : Nat.card E = 3 ^ 2 := by

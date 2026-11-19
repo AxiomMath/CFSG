@@ -68,7 +68,7 @@ private theorem gfr7_card_le_49_of_mulAut_projectiveSL {K : Type} [Field K] [Fin
     have hle : D.relIndex B ≤ D.relIndex E := Subgroup.relIndex_le_of_le_right hBE hne
     have hle3 : D.relIndex B ≤ 3 := hle.trans (Nat.le_of_dvd (by norm_num) hEDidx)
     have hdvd : D.relIndex B ∣ Nat.card B := Subgroup.relIndex_dvd_card D B
-    haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+    have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
     have hP : IsPGroup 7 B := fun g => ⟨1, by rw [pow_one]; exact Subtype.ext (hB.2 g g.2)⟩
     obtain ⟨j, hj⟩ := IsPGroup.iff_card.1 hP
     rw [hj] at hdvd

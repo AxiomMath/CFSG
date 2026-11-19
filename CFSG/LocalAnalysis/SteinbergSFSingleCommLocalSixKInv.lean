@@ -22,6 +22,7 @@ section Steps
 variable {G : Type} [Group G] [Finite G] [IsSimpleGroup G] {L : Subgroup G} {K : Type} [Field K]
   [CharP K 2] [Finite K] {n : ℕ} {φ : L ≃* antiSp K} {t : G} {i : Axis}
 
+omit [Finite G] [IsSimpleGroup G] in
 theorem sixK_k1_aux_orbit_card (H : Subgroup G) (c : G) :
     ((fun x : G => x * c * x⁻¹) '' (H : Set G)).ncard * Nat.card ↥(H ⊓ centralizer ({c} : Set G)) =
       Nat.card ↥H := by
@@ -78,6 +79,7 @@ theorem sixK_k1_aux_orbit_card (H : Subgroup G) (c : G) :
   rw [← Nat.card_coe_set_eq, hquot, ← hNc, mul_comm]
   exact hcard
 
+omit [Finite G] [IsSimpleGroup G] [Finite K] in
 theorem sixK_k1_aux_U_sq {w : G} (hw : w ∈ U φ i) : w * w = 1 := by
   obtain ⟨hL, hmem⟩ := GomiFusion.mem_pull.mp hw
   have hA : φ ⟨w, hL⟩ ∈ rootA K i := FullCenter.rootU_le_rootA i hmem
@@ -86,6 +88,7 @@ theorem sixK_k1_aux_U_sq {w : G} (hw : w ∈ U φ i) : w * w = 1 := by
   have h2 : (⟨w, hL⟩ * ⟨w, hL⟩ : L) = 1 := (MulEquiv.map_eq_one_iff φ).mp h1
   simpa using congrArg Subtype.val h2
 
+omit [Finite G] [IsSimpleGroup G] [Finite K] in
 theorem sixK_k1_aux_sq_mem_U (hH : SixHConclusion φ t i) {v : G} (hv : v ∈ Vtor φ t i i) :
     v * v ∈ U φ i := by
   have hVM : Vtor φ t i i ≤ Mhat φ t i i := inf_le_left.trans le_sup_left
@@ -93,6 +96,7 @@ theorem sixK_k1_aux_sq_mem_U (hH : SixHConclusion φ t i) {v : G} (hv : v ∈ Vt
   exact Subgroup.subset_closure (show v * v ∈ {x : G | ∃ y ∈ Mhat φ t i i, x = y * y} from
     ⟨v, hVM hv, rfl⟩)
 
+omit [IsSimpleGroup G] in
 theorem sixK_k1_aux_mem_W (h : FullCenter.FCHyp L K n φ t)
     (hne : ⁅A φ i, F φ t ⊓ D φ t i.swap⁆ ≠ ⊥) (hbot : ⁅A φ i.swap, F φ t ⊓ D φ t i⁆ = ⊥)
     {v : G} (hv : v ∈ Vtor φ t i i)
@@ -104,6 +108,7 @@ theorem sixK_k1_aux_mem_W (h : FullCenter.FCHyp L K n φ t)
     (MulEquiv.map_eq_one_iff e).mp h2
   exact Subgroup.mem_subgroupOf.mp ((QuotientGroup.eq_one_iff _).mp h3)
 
+omit [IsSimpleGroup G] in
 theorem sixK_k1_aux_mem_W_of_inv (h : FullCenter.FCHyp L K n φ t)
     (hne : ⁅A φ i, F φ t ⊓ D φ t i.swap⁆ ≠ ⊥) (hbot : ⁅A φ i.swap, F φ t ⊓ D φ t i⁆ = ⊥)
     (hH : SixHConclusion φ t i) (ht : t * t = 1) {u : G} (hu : u ∈ Vtor φ t i i)
@@ -121,6 +126,7 @@ theorem sixK_k1_aux_mem_W_of_inv (h : FullCenter.FCHyp L K n φ t)
     rw [e1]; exact sixK_k1_aux_U_sq (sixK_k1_aux_sq_mem_U hH hu)
   exact sixK_k1_aux_mem_W h hne hbot hu hc
 
+omit [IsSimpleGroup G] in
 theorem sixK_k1
     (hS : SCSetting L K n φ t i) (hH : SixHConclusion φ t i) :
     K1Concl φ t i := by
@@ -186,12 +192,14 @@ theorem sixK_k1
       _ = t * (t * (y * t * y⁻¹)) := by group
   exact ⟨y⁻¹, inv_mem hy', by rw [inv_inv]; exact hgt⟩
 
+omit [Finite G] [IsSimpleGroup G] [Finite K] in
 theorem sixK_k2_aux_U_le_Mhat (hH : SixHConclusion φ t i) : U φ i ≤ Mhat φ t i i := by
   rw [← hH.sq_Mhat_i]
   refine (Subgroup.closure_le _).mpr ?_
   rintro x ⟨y, hy, rfl⟩
   exact mul_mem hy hy
 
+omit [IsSimpleGroup G] in
 theorem sixK_k2_aux_t_not_mem (hS : SCSetting L K n φ t i) : t ∉ Mhat φ t i i := by
   intro h
   have h1 : t ∈ Mhat φ t i i ⊓ zpowers t := ⟨h, mem_zpowers t⟩
@@ -200,11 +208,13 @@ theorem sixK_k2_aux_t_not_mem (hS : SCSetting L K n φ t i) : t ∉ Mhat φ t i 
   rw [inv_one, one_mul, mul_one, h1]
   exact L.one_mem
 
+omit [IsSimpleGroup G] in
 theorem sixK_k2_aux_K_le_Mhat (hS : SCSetting L K n φ t i) : Kc φ t i ≤ Mhat φ t i i := by
   refine sup_le ?_ ?_
   · exact (le_of_eq (SixF.Mhat_inf_C hS.fc i hS.ne_bot hS.eq_bot).symm).trans inf_le_left
   · exact inf_le_left.trans ((NextCores.F_le_M hS.fc i hS.ne_bot hS.eq_bot).trans le_sup_left)
 
+omit [Finite G] [IsSimpleGroup G] [Finite K] in
 theorem sixK_k2_aux_conj_mem (hH : SixHConclusion φ t i) (hT : t ∈ Tplus φ t i) {y : G}
     (hy : y ∈ Mhat φ t i i) : t * y * t⁻¹ ∈ Mhat φ t i i := by
   obtain ⟨hle, hnorm, -⟩ := hH.normal_Mhat i
@@ -212,6 +222,7 @@ theorem sixK_k2_aux_conj_mem (hH : SixHConclusion φ t i) (hT : t ∈ Tplus φ t
   have h := Subgroup.Normal.conj_mem hnorm ⟨y, hyT⟩ (Subgroup.mem_subgroupOf.mpr hy) ⟨t, hT⟩
   exact Subgroup.mem_subgroupOf.mp h
 
+omit [IsSimpleGroup G] in
 theorem sixK_k2_aux_step1 (hS : SCSetting L K n φ t i) (hH : SixHConclusion φ t i)
     {m : G} (hm : m ∈ Mhat φ t i i) (hinv : t * m * (t * m) = 1) : m ∈ Kc φ t i := by
   have ht : t * t = 1 := SixF.t_mul_t hS.fc
@@ -234,7 +245,7 @@ theorem sixK_k2_aux_step1 (hS : SCSetting L K n φ t i) (hH : SixHConclusion φ 
     mul_mem htP (SixF.Mhat_le_P₁ hS.fc i hS.ne_bot hS.eq_bot hm)
   obtain ⟨hNorm, hmax⟩ := hH.maximal_P₁
   unfold SixG.MNMaximal at hmax
-  haveI : Finite (↥(P₁ φ t i) ⧸ (U φ i).subgroupOf (P₁ φ t i)) :=
+  have : Finite (↥(P₁ φ t i) ⧸ (U φ i).subgroupOf (P₁ φ t i)) :=
     Finite.of_surjective (QuotientGroup.mk : ↥(P₁ φ t i) → _) QuotientGroup.mk_surjective
   obtain ⟨x, hxdef⟩ : ∃ x : ↥(P₁ φ t i) ⧸ (U φ i).subgroupOf (P₁ φ t i),
       x = QuotientGroup.mk' ((U φ i).subgroupOf (P₁ φ t i)) ⟨t * m, htmP⟩ := ⟨_, rfl⟩
@@ -246,7 +257,7 @@ theorem sixK_k2_aux_step1 (hS : SCSetting L K n φ t i) (hH : SixHConclusion φ 
       (QuotientGroup.mk' ((U φ i).subgroupOf (P₁ φ t i))) := by
     rw [hxdef]
     exact Subgroup.mem_map.mpr ⟨⟨t * m, htmP⟩, Subgroup.mem_subgroupOf.mpr htmP, rfl⟩
-  haveI := IsElementaryAbelian.zpowers_of_pow_eq_one hx2
+  have := IsElementaryAbelian.zpowers_of_pow_eq_one hx2
   obtain ⟨Sg, hzS, hSmax⟩ := sixH_g6_exists_maximal (Subgroup.zpowers_le.mpr hxX)
   have hxS : x ∈ Sg := hzS (Subgroup.mem_zpowers x)
   rcases (hmax Sg).mp hSmax with hSM | hSD
@@ -272,6 +283,7 @@ theorem sixK_k2_aux_step1 (hS : SCSetting L K n φ t i) (hH : SixHConclusion φ 
       rw [e] at h1
       exact h1
 
+omit [IsSimpleGroup G] in
 theorem sixK_k2
     (hS : SCSetting L K n φ t i) (hH : SixHConclusion φ t i) :
     K2Concl φ t i := by
@@ -319,6 +331,7 @@ theorem sixK_k2
   have hy' : y ∈ Mhat φ t i i := hy
   exact ⟨y⁻¹, inv_mem hy', by rw [inv_inv]; exact hyc⟩
 
+omit [Finite G] [IsSimpleGroup G] [Finite K] in
 theorem sixK_k3_aux_conj_mem (hH : SixHConclusion φ t i) {y : G} (hyT : y ∈ Tplus φ t i)
     {m : G} (hm : m ∈ Mhat φ t i i) : y * m * y⁻¹ ∈ Mhat φ t i i := by
   obtain ⟨hle, hnorm, -⟩ := hH.normal_Mhat i
@@ -384,7 +397,7 @@ theorem sixK_k3_aux_core {Γ : Type} [Group Γ] {t : Γ} {M V T : Subgroup Γ}
     _ = t * (m * v) := by group
 
 theorem sixK_k3_aux_k1_transport {Γ : Type} [Group Γ] {t w : Γ} {V₀ : Subgroup Γ}
-    (ht : t * t = 1) (hww : w * w = 1) (hwt : t * w = w * t)
+    (_ht : t * t = 1) (hww : w * w = 1) (hwt : t * w = w * t)
     (k1 : ∀ u ∈ V₀, t * u * (t * u) = 1 → ∃ x ∈ V₀, x⁻¹ * t * x = t * u) :
     ∀ v ∈ V₀.map (MulAut.conj w⁻¹).toMonoidHom, t * v * (t * v) = 1 →
       ∃ x ∈ V₀.map (MulAut.conj w⁻¹).toMonoidHom, x⁻¹ * t * x = t * v := by
@@ -436,6 +449,7 @@ theorem sixK_k3_aux_t_conj {Γ : Type} [Group Γ] {t w : Γ} {V₀ : Subgroup Γ
     _ = (t * w) * u * (w * t) := by rw [hwt]
     _ = t * (w * u * w) * t := by group
 
+omit [IsSimpleGroup G] in
 theorem sixK_k3 (hS : SCSetting L K n φ t i) (hH : SixHConclusion φ t i)
     (hE : EmbConclusion φ t i) (k1 : K1Concl φ t i) (k2 : K2Concl φ t i) : K3Concl φ t i := by
   have ht : t * t = 1 := SixF.t_mul_t hS.fc

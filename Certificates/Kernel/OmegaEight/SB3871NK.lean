@@ -19,7 +19,7 @@ open CFSG.KC.Enum CFSG.KC.SB CFSG.EvenSmallLie.OmegaEight.SpBranch
 theorem xorBits_succ' (n : ℕ) (f : ℕ → ℕ) (c : ℕ) : xorBits (n + 1) f c =
     (if c.testBit 0 then f 0 else 0) ^^^ xorBits n (fun j => f (j + 1)) (c / 2) := by
   induction n with
-  | zero => simp [xorBits_succ, xorBits]
+  | zero => simp [xorBits]
   | succ n ih =>
     rw [xorBits_succ, ih, xorBits_succ, Nat.xor_assoc, Nat.testBit_succ]
 
@@ -73,7 +73,7 @@ theorem cbK_eq_cbL : cbK = cbL := by
   cases h : (Nat.blt j 7 && Nat.blt i 9)
   · rfl
   · rw [Bool.and_eq_true, Nat.blt_eq, Nat.blt_eq] at h
-    rw [cond_true]
+    rw [_root_.Bool.cond_true]
     have := List.all_eq_true.1 (List.all_eq_true.1 cbT_ok j (List.mem_range.2 h.1)) i
       (List.mem_range.2 h.2)
     exact beq_iff_eq.1 this

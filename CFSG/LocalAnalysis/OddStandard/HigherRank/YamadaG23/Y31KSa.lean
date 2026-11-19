@@ -15,7 +15,7 @@ variable {G : Type} [Group G] [Finite G] {L : Subgroup G} (s : Setting3 G L)
 theorem s3_NT_fix_t_RT (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))
     (hRT : s.R = s.T) (hQ : ∃ q ∈ s.T ⊓ centralizer (L : Set G), q ∉ zpowers s.t) :
     ∀ n ∈ normalizer (s.T : Set G), n * s.t * n⁻¹ = s.t := by
-  haveI : IsCyclic ↥(s.T ⊓ centralizer (L : Set G)) := s3_Q_cyclic s hS
+  have : IsCyclic ↥(s.T ⊓ centralizer (L : Set G)) := s3_Q_cyclic s hS
   obtain ⟨q₀, hq₀, hq₀t⟩ := hQ
   obtain ⟨q, hq, hq2⟩ := s3_Q_sq_root s hS hq₀ hq₀t
   have hqT : q ∈ s.T := (Subgroup.mem_inf.mp hq).1

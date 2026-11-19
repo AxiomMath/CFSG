@@ -27,7 +27,7 @@ theorem three_lt_pRank {p : ℕ} [hp : Fact p.Prime] {G : Type} [Group G] [Finit
     have := h51.setting.odd
     rintro rfl
     exact absurd this (by decide)
-  haveI : CharP (AlgebraicClosure (ZMod p)) p :=
+  have : CharP (AlgebraicClosure (ZMod p)) p :=
     charP_of_injective_algebraMap (algebraMap (ZMod p) _).injective p
   have hF : (2 : AlgebraicClosure (ZMod p)) ≠ 0 := by
     intro h

@@ -93,10 +93,10 @@ private theorem s16nt_sl_two_fix_three (c : S168e3Ctx D V₀ V L hV)
     s16k_sum_two_data_of_comm_top hcomm hS
   obtain ⟨K₁, hK₁f, hK₁fin, hK₁card, hR₁⟩ := hN₁
   obtain ⟨K₂, hK₂f, hK₂fin, hK₂card, hR₂⟩ := hN₂
-  letI : Field K₁ := hK₁f
-  letI : Finite K₁ := hK₁fin
-  letI : Field K₂ := hK₂f
-  letI : Finite K₂ := hK₂fin
+  let : Field K₁ := hK₁f
+  let : Finite K₁ := hK₁fin
+  let : Field K₂ := hK₂f
+  let : Finite K₂ := hK₂fin
   obtain ⟨π₁, h₁⟩ := hR₁
   obtain ⟨π₂, h₂⟩ := hR₂
   have hK₁ : Nat.card K₁ = 2 := by simpa using hK₁card
@@ -122,7 +122,7 @@ private theorem s16nt_sl_two_fix_three (c : S168e3Ctx D V₀ V L hV)
 
 private theorem s16nt_sl_two_fix_seven (c : S168e3Ctx D V₀ V L hV)
     (hs : s15 D.M V₀ V hV L = 1) {n : ℕ} (hn : n = 6 ∨ n = 7)
-    (hSL : IsSLn ↥(lBar V₀ V hV L) n 1)
+    (_hSL : IsSLn ↥(lBar V₀ V hV L) n 1)
     (hsum : SumOfNat (fun H U Z => BinaryNaturalSL H U Z n 1)
       (lBar V₀ V hV L) (wTil V₀ V hV L)
       (wTil V₀ V hV L ⊓ fixV (lBar V₀ V hV L)) 2)

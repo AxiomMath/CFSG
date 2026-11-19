@@ -66,7 +66,7 @@ theorem orth_le_L_sup {p n : ℕ} {M L V : Subgroup G} {sing : G → Prop} {g : 
     (hFg : O6LocalFacts p n (cj g M) (cj g L) (cj g V) (fun x => sing (g⁻¹ * x * g)))
     (hg : g ∉ M) (hAM : cj g V ≤ M) : cj g V ≤ L ⊔ (M ⊓ centralizer (V : Set G)) := by
   by_contra hAL
-  obtain ⟨a, haA, haL⟩ := SetLike.not_le_iff_exists.mp hAL
+  obtain ⟨a, haA, haL⟩ := IsConcreteLE.not_le_iff_exists.mp hAL
   have haM : a ∈ M := hAM haA
   have ha2 : a ^ 2 = 1 := hSg.elemAbelian.2 a haA
   obtain ⟨v, hvV, hav1, hns⟩ := hF.outer_nonsing a haM ha2 haL
@@ -99,6 +99,7 @@ theorem orth_le_L_sup {p n : ℕ} {M L V : Subgroup G} {sing : G → Prop} {g : 
   have hpow : 2 ^ (3 * n + 1) ≤ 2 ^ (4 * n) := Nat.pow_le_pow_right (by norm_num) (by omega)
   omega
 
+omit [Finite G] in
 theorem normalizes_weakClosureIn_of_commutator {T V P R : Subgroup G} (hRT : R ≤ T)
     (h : ∀ g : G, cj g V ≤ T → ∀ a ∈ cj g V, ∀ x ∈ P, ⁅x, a⁆ ∈ R) :
     P ≤ normalizer (weakClosureIn V T : Set G) := by

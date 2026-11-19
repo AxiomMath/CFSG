@@ -39,7 +39,7 @@ theorem sl2_cube_quad {F : Type*} [Field F] {x : Matrix.SpecialLinearGroup (Fin 
   by_cases ht : a + d + 1 = 0
   · ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [pow_two, Matrix.mul_apply, Fin.sum_univ_two]
+      simp [pow_two]
     · linear_combination a * ht - hdet
     · linear_combination b * ht
     · linear_combination c * ht
@@ -178,7 +178,7 @@ theorem no_plane_in_sl2 {G : Type*} [Group G] {F : Type*} [Field F] (h3 : (3 : F
   have hsub : ¬ (E : Set G) ⊆ (Subgroup.zpowers x : Set G) := by
     intro hsub
     have hle : E ≤ Subgroup.zpowers x := hsub
-    haveI : Finite (Subgroup.zpowers x) := Nat.finite_of_card_ne_zero (by
+    have : Finite (Subgroup.zpowers x) := Nat.finite_of_card_ne_zero (by
       rw [card_zpowers_of_cube_one (hcube x hxE) hx1]; norm_num)
     have := Subgroup.card_le_of_le hle
     rw [card_zpowers_of_cube_one (hcube x hxE) hx1, hc] at this
@@ -221,7 +221,7 @@ theorem asub_commutator_eq (n : ℕ) (hn : 1 ≤ n) (hX : Nat.card X = (2 ^ n) ^
   have hK4 := four_le_card_of_cube n hn hX
   exact (Subgroup.isPerfect_iff).mp (KS11Lie4Proof.isQuasisimple_d4ShortSL2 hσ3 hK4).1
 
-theorem centralizer_comm_le_asub (n : ℕ) (hn : 1 ≤ n) (hX : Nat.card X = (2 ^ n) ^ 3)
+theorem centralizer_comm_le_asub (n : ℕ) (_hn : 1 ≤ n) (hX : Nat.card X = (2 ^ n) ^ 3)
     (hσ : ∀ c : X, σ c = c ^ (2 ^ n)) {b : C0 σ} (hb : b ∈ Bsub σ) (hb3 : b ^ 3 = 1)
     (hb1 : b ≠ 1) :
     ⁅Subgroup.centralizer {b}, Subgroup.centralizer {b}⁆ ≤ Asub σ := by
@@ -234,6 +234,7 @@ theorem centralizer_comm_le_asub (n : ℕ) (hn : 1 ≤ n) (hX : Nat.card X = (2 
   exact hK.1 x hx y hy
 
 
+omit [Finite X] in
 theorem bsub_le_normalizer_asub : Bsub σ ≤ Subgroup.normalizer ((Asub σ : Subgroup (C0 σ)) : Set (C0 σ)) := by
   intro b hb
   have hb' : ∀ h ∈ Asub σ, h * b = b * h := fun h hh => Subgroup.mem_centralizer_iff.mp hb h hh
@@ -252,6 +253,7 @@ theorem bsub_le_normalizer_asub : Bsub σ ≤ Subgroup.normalizer ((Asub σ : Su
     rw [h2]
     exact hh
 
+omit [Finite X] in
 theorem mem_sup_AB_decomp {e : C0 σ} (he : e ∈ Asub σ ⊔ Bsub σ) :
     ∃ a ∈ Asub σ, ∃ b ∈ Bsub σ, e = a * b := by
   have h1 := Subgroup.coe_mul_of_left_le_normalizer_right (Bsub σ) (Asub σ) (bsub_le_normalizer_asub σ)
@@ -273,11 +275,11 @@ theorem sup_AB_ne_top (hAB : TrialityABFacts σ) (n : ℕ) (hn : 1 ≤ n)
     (hX : Nat.card X = (2 ^ n) ^ 3) (hσ : ∀ c : X, σ c = c ^ (2 ^ n)) :
     Asub σ ⊔ Bsub σ ≠ ⊤ := by
   intro htop
-  haveI := isSimpleGroup_C0 σ n hn hX hσ
+  have := isSimpleGroup_C0 σ n hn hX hσ
   obtain ⟨eA⟩ := hAB.sl2A
   obtain ⟨eB⟩ := hAB.sl2B
-  haveI := sl2_nontrivial X
-  haveI := sl2_nontrivial (fixSubfield σ)
+  have := sl2_nontrivial X
+  have := sl2_nontrivial (fixSubfield σ)
   have hAne : Asub σ ≠ ⊥ := by
     have : Nontrivial (Asub σ) := eA.toEquiv.nontrivial
     exact (Subgroup.nontrivial_iff_ne_bot _).mp this
@@ -316,14 +318,14 @@ theorem sup_AB_ne_top (hAB : TrialityABFacts σ) (n : ℕ) (hn : 1 ≤ n)
 
 theorem asub_ne_bot (hAB : TrialityABFacts σ) : Asub σ ≠ ⊥ := by
   obtain ⟨eA⟩ := hAB.sl2A
-  haveI := sl2_nontrivial X
+  have := sl2_nontrivial X
   have : Nontrivial (Asub σ) := eA.toEquiv.nontrivial
   exact (Subgroup.nontrivial_iff_ne_bot _).mp this
 
 theorem normalizer_AB_eq (hAB : TrialityABFacts σ) (n : ℕ) (hn : 1 ≤ n)
     (hX : Nat.card X = (2 ^ n) ^ 3) (hσ : ∀ c : X, σ c = c ^ (2 ^ n)) :
     Subgroup.normalizer ((Asub σ ⊔ Bsub σ : Subgroup (C0 σ)) : Set (C0 σ)) = Asub σ ⊔ Bsub σ := by
-  haveI := isSimpleGroup_C0 σ n hn hX hσ
+  have := isSimpleGroup_C0 σ n hn hX hσ
   rcases hAB.max _ (Subgroup.le_normalizer) with h | h
   · exact h
   · exfalso
@@ -400,7 +402,7 @@ theorem centralizer_le_AB (hAB : TrialityABFacts σ) (n : ℕ) (hn : 2 ≤ n)
 
 
 theorem plane_in_AB (hAB : TrialityABFacts σ) (n : ℕ) (hn : 2 ≤ n)
-    (hX : Nat.card X = (2 ^ n) ^ 3) (hσ : ∀ c : X, σ c = c ^ (2 ^ n))
+    (hX : Nat.card X = (2 ^ n) ^ 3) (_hσ : ∀ c : X, σ c = c ^ (2 ^ n))
     {E : Subgroup (C0 σ)} (hE : CFSG.IsElementaryAbelian 3 E) (hc : Nat.card E = 3 ^ 2)
     (hle : E ≤ Asub σ ⊔ Bsub σ) :
     ∃ a b : C0 σ, a ∈ Asub σ ∧ b ∈ Bsub σ ∧ a ^ 3 = 1 ∧ b ^ 3 = 1 ∧ a ≠ 1 ∧ b ≠ 1 ∧
@@ -486,8 +488,8 @@ theorem plane_in_AB (hAB : TrialityABFacts σ) (n : ℕ) (hn : 2 ≤ n)
   let f : Subgroup.zpowers a × Subgroup.zpowers b → C0 σ := fun p => (p.1 : C0 σ) * (p.2 : C0 σ)
   have hPc := card_zpowers_of_cube_one ha3 ha1
   have hQc := card_zpowers_of_cube_one hb3 hb1
-  haveI : Finite (Subgroup.zpowers a) := Nat.finite_of_card_ne_zero (by rw [hPc]; norm_num)
-  haveI : Finite (Subgroup.zpowers b) := Nat.finite_of_card_ne_zero (by rw [hQc]; norm_num)
+  have : Finite (Subgroup.zpowers a) := Nat.finite_of_card_ne_zero (by rw [hPc]; norm_num)
+  have : Finite (Subgroup.zpowers b) := Nat.finite_of_card_ne_zero (by rw [hQc]; norm_num)
   have hsub : (E : Set (C0 σ)) ⊆ Set.range f := by
     intro e he
     obtain ⟨a', ha', b', hb', rfl⟩ := hdec e he

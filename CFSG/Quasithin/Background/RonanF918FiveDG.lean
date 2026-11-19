@@ -129,6 +129,7 @@ theorem modMk_mem_commV_iff (h : HypF918 T V L V₁ Vp H K) (hIU : I ≤ conjClo
   rw [← subM_Jg_eq_commV h hIU]
   exact modMk_mem_subM_iff (h.conjClosure_le_normalizer_V₁ hIU) le_sup_left hx
 
+omit [Fact (IsElemAbelian 2 (tildeOf V₁ (conjClosure I H)))] in
 theorem Jg_le_normalizer (h : HypF918 T V L V₁ Vp H K) (hIU : I ≤ conjClosure Vp H) (hV₁I : V₁ ≤ I) :
     V₁ ⊔ ⁅conjClosure I H, K⁆ ≤ Subgroup.normalizer (V₁ : Set G) :=
   (Jg_le_conjClosure h hV₁I).trans (h.conjClosure_le_normalizer_V₁ hIU)
@@ -179,11 +180,13 @@ theorem modMk_mem_fixV_iff (h : HypF918 T V L V₁ Vp H K) (hIU : I ≤ conjClos
     exact hfix ⟨a, ha⟩
 
 omit [Fact (IsElemAbelian 2 (tildeOf V₁ (conjClosure I H)))] in
+omit [Finite G] in
 theorem modMk_congr {IH : Subgroup G} (hIHN : IH ≤ Subgroup.normalizer (V₁ : Set G)) {a b : G}
     (hab : a = b) (ha : a ∈ IH) (hb : b ∈ IH) : modMk hIHN a ha = modMk hIHN b hb := by
   subst hab
   rfl
 
+omit [Finite G] in
 theorem actH_mem_NLM (h : HypF918 T V L V₁ Vp H K) {x : G} (hxH : x ∈ H)
     (hxK : x ∈ Subgroup.normalizer (K : Set G)) :
     actH h.H_le_normalizer_V₁ (le_normalizer_conjClosure I H) ⟨x, hxH⟩ ∈
@@ -207,10 +210,12 @@ theorem Jt_conj (h : HypF918 T V L V₁ Vp H K) (hIU : I ≤ conjClosure Vp H) (
     (le_normalizer_conjClosure I H) x (Jg_le_conjClosure h hV₁I v.2)]
   exact modMk_congr _ hw _ _
 
-theorem autIH_K_le_K₀ (I : Subgroup G) (hKH : K ≤ H) (T : Subgroup G) :
+omit [Finite G] in
+theorem autIH_K_le_K₀ (I : Subgroup G) (_hKH : K ≤ H) (T : Subgroup G) :
     autIH V₁ I H K ≤ autIH V₁ I H (conjClosure K T) :=
   CFSG.Quasithin.AutOn.autOn_mono (secImg_mono (le_conjClosure K T))
 
+omit [Finite G] in
 theorem conj_mem_centralizerMod_K₀ (h : HypF918 T V L V₁ Vp H K) {x y : G} (hxH : x ∈ H)
     (hy : y ∈ centralizerMod (pCoreOf 2 H) H (conjClosure K T)) :
     x * y * x⁻¹ ∈ centralizerMod (pCoreOf 2 H) H (conjClosure K T) := by
@@ -229,8 +234,6 @@ theorem conj_mem_centralizerMod_K₀ (h : HypF918 T V L V₁ Vp H K) {x y : G} (
   rw [e]
   exact h2
 
-variable [Fact (IsElemAbelian 2 (tildeOf V₁ (conjClosure I H)))]
-
 theorem bq_Jt_conj (h : HypF918 T V L V₁ Vp H K) (hIU : I ≤ conjClosure Vp H) (hV₁I : V₁ ≤ I)
     {F : Type} [Field F] (D : CoordData (autIH V₁ I H K) (autIH V₁ I H (conjClosure K T)) F)
     (g : ↥(NLM (autIH V₁ I H K) (autIH V₁ I H (conjClosure K T)))) (x : ↥H)
@@ -245,12 +248,13 @@ theorem bq_Jt_conj (h : HypF918 T V L V₁ Vp H K) (hIU : I ≤ conjClosure Vp H
   exact Jt_conj h hIU hV₁I x v w hw
 
 omit [Fact (IsElemAbelian 2 (tildeOf V₁ (conjClosure I H)))] in
+omit [Finite G] in
 theorem mem_normalizer_sup' {A B : Subgroup G} {x : G} (hA : x ∈ Subgroup.normalizer (A : Set G))
     (hB : x ∈ Subgroup.normalizer (B : Set G)) :
     x ∈ Subgroup.normalizer ((A ⊔ B : Subgroup G) : Set G) := by
   rw [← A38.map_conj_eq_iff, Subgroup.map_sup, A38.map_conj_eq_iff.mpr hA, A38.map_conj_eq_iff.mpr hB]
 
-omit [Fact (IsElemAbelian 2 (tildeOf V₁ (conjClosure I H)))] in
+omit [Fact (IsElemAbelian 2 (tildeOf V₁ (conjClosure I H)))] [Finite G] in
 theorem N_le_normalizer_Jg (h : HypF918 T V L V₁ Vp H K) :
     H ⊓ Subgroup.normalizer (K : Set G) ≤
       Subgroup.normalizer ((V₁ ⊔ ⁅conjClosure I H, K⁆ : Subgroup G) : Set G) := by

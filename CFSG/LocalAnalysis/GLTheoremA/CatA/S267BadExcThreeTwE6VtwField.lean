@@ -38,6 +38,7 @@ private theorem units_map_eq_of_mem_zpowers {δ : K ≃+* K} (hδc : δ c = c) {
 
 omit
   [Fact ℓ.Prime] [CharP K ℓ] in
+omit [Finite K] in
 private theorem glMap_diagGL {δ : K ≃+* K} {d : Fin 6 → Kˣ}
     (hd : ∀ i, Units.map δ.toRingHom.toMonoidHom (d i) = d i) :
     Matrix.GeneralLinearGroup.map δ.toRingHom (diagGL K 6 d) = diagGL K 6 d := by

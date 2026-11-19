@@ -512,7 +512,7 @@ theorem layerBar_generic [Finite F] (M : ModelData F) (h2 : (2 : F) ≠ 0) {n s 
     unfold OddCore pPrimeCoreOf
     show (CFSG.pPrimeCore 2 ↥(Cg M)).map (Cg M).subtype = _
     rw [hR, Subgroup.map_subgroupOf_eq_of_le hRC]
-  have hSp : IsPGroup 2 ↥(S : Subgroup (PG M)) := S.isPGroup'
+  have hSp : IsPGroup 2 ↥(S : Subgroup (PG M)) := S.isPGroup
   refine ⟨?_, ?_⟩
   · rw [hL, hOdd]
     exact layerSylow_inf_R0 M h2 n' hodd' hU hqs hdvd hSp hSC

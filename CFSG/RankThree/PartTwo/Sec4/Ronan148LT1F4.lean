@@ -19,7 +19,7 @@ open CFSG.LieType.Ree CFSG.Open CFSG.Blueprint.Chevalley
 theorem three_dvd_card_of_f42CompType {Q : Type} [Group Q] (h : FamF42.F42CompType Q) :
     3 ∣ Nat.card Q := by
   obtain ⟨F, _, _, hF, ⟨e⟩⟩ := h
-  haveI : CharP F 2 :=
+  have : CharP F 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
       (le_refl 1) (by rw [hF]; norm_num)
   have hZ := center_statedSp_eq_bot_of_charP_two (K := F) 3
@@ -46,9 +46,9 @@ theorem isSolvable_outer_f4Two {X : Type} [Group X]
       (QuotientGroup.quotientKerEquivOfSurjective Θ hsurj)
   have hsol : Group.IsSolvable (Outer (adjointGroup ReeTag.F4.tag Y)) :=
     Group.isSolvable_of_comm fun a b => φ.injective (by rw [map_mul, map_mul]; exact mul_comm _ _)
-  haveI := hsol
+  have := hsol
   let e'' : X ≃* adjointGroup ReeTag.F4.tag Y := e'
-  exact solvable_of_surjective (f := (equivalence e'').symm.toMonoidHom)
+  exact Group.isSolvable_of_surjective (f := (equivalence e'').symm.toMonoidHom)
     (equivalence e'').symm.surjective
 
 theorem exists_conj_of_cubeInner {S : Type} [Group S] [IsSimpleGroup S]

@@ -139,9 +139,10 @@ private theorem levelTorus_one_le_oct_four_sup_neg_four
   rw [hgw]
   simpa [CFSG.LieType.CurtisTits.rankOne] using hw
 
+omit [Fact (Nat.Prime 2)] in
 theorem un5BorelResidualSplit : Un5BorelResidualSplit := by
   intro k F _ _ _ _ hF ζ hζfact hk
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let π := un5Proj (F := F) (f := k)
   let D := un5System hF ζ
   let P1 := D.P₁

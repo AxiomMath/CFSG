@@ -96,16 +96,16 @@ theorem elem_abelian_le_cover {ι : Type*} (P : Subgroup G) (M : ι → Subgroup
   by_cases hB1 : B ≤ Subgroup.closure {x1}
   · refine ⟨x1, hx1B, 1, B.one_mem, 1, B.one_mem, hB1.trans ?_⟩
     exact Subgroup.closure_mono (by intro g hg; simp at hg ⊢; exact Or.inl hg)
-  rw [SetLike.not_le_iff_exists] at hB1
+  rw [IsConcreteLE.not_le_iff_exists] at hB1
   obtain ⟨x2, hx2B, hx2⟩ := hB1
   by_cases hB2 : B ≤ Subgroup.closure {x1, x2}
   · refine ⟨x1, hx1B, x2, hx2B, 1, B.one_mem, hB2.trans ?_⟩
     exact Subgroup.closure_mono (by intro g hg; simp at hg ⊢; tauto)
-  rw [SetLike.not_le_iff_exists] at hB2
+  rw [IsConcreteLE.not_le_iff_exists] at hB2
   obtain ⟨x3, hx3B, hx3⟩ := hB2
   by_cases hB3 : B ≤ Subgroup.closure {x1, x2, x3}
   · exact ⟨x1, hx1B, x2, hx2B, x3, hx3B, hB3⟩
-  rw [SetLike.not_le_iff_exists] at hB3
+  rw [IsConcreteLE.not_le_iff_exists] at hB3
   obtain ⟨x4, hx4B, hx4⟩ := hB3
   exfalso
   have hind := independent_of_chain x1 x2 x3 (hcube x1 hx1B) (hcube x2 hx2B) (hcube x3 hx3B)

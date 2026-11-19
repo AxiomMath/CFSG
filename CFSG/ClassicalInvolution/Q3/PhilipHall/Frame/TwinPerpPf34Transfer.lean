@@ -15,16 +15,19 @@ noncomputable def cv (ϕ : H →* A) (g : G) (X : G ⧸ H) : A :=
   open Classical in
   if h : (Quotient.out X)⁻¹ * g * Quotient.out X ∈ H then ϕ ⟨_, h⟩ else 1
 
+omit [Finite G] in
 theorem cv_of_mem (ϕ : H →* A) {g : G} {X : G ⧸ H}
     (h : (Quotient.out X)⁻¹ * g * Quotient.out X ∈ H) : cv ϕ g X = ϕ ⟨_, h⟩ := by
   unfold cv
   simp only [h, ↓reduceDIte]
 
+omit [Finite G] in
 theorem cv_of_not_mem (ϕ : H →* A) {g : G} {X : G ⧸ H}
     (h : ¬ (Quotient.out X)⁻¹ * g * Quotient.out X ∈ H) : cv ϕ g X = 1 := by
   unfold cv
-  rw [dif_neg h]
+  rw [dite_eq_right h]
 
+omit [Finite G] in
 theorem cv_coe (ϕ : H →* A) {g x : G} (hx : x⁻¹ * g * x ∈ H) :
     cv ϕ g (x : G ⧸ H) = ϕ ⟨_, hx⟩ := by
   obtain ⟨h, hh⟩ := QuotientGroup.mk_out_eq_mul H x
@@ -42,6 +45,7 @@ theorem cv_coe (ϕ : H →* A) {g x : G} (hx : x⁻¹ * g * x ∈ H) :
   rw [this, map_mul, map_mul, mul_comm, ← mul_assoc, ← map_mul, mul_inv_cancel, map_one,
     one_mul]
 
+omit [Finite G] in
 theorem factor_eq_aux (ϕ : H →* A) (y : G) (hy4 : y ^ 4 = 1)
     (h1 : ∀ g : G, ∀ hg : g⁻¹ * y * g ∈ H, ϕ ⟨g⁻¹ * y * g, hg⟩ = 1) (X₀ : G ⧸ H) (m : ℕ)
     (hmdef : Function.minimalPeriod (fun x => y • x) X₀ = m)
@@ -95,8 +99,9 @@ theorem factor_eq_aux (ϕ : H →* A) (y : G) (hy4 : y ^ 4 = 1)
       Subtype.ext hy4'
     rw [e, map_one]
     unfold cv
-    rw [dif_neg hn]
+    rw [dite_eq_right hn]
 
+omit [Finite G] in
 theorem factor_eq (ϕ : H →* A) (y : G) (hy4 : y ^ 4 = 1)
     (h1 : ∀ g : G, ∀ hg : g⁻¹ * y * g ∈ H, ϕ ⟨g⁻¹ * y * g, hg⟩ = 1) (X₀ : G ⧸ H) :
     ϕ ⟨(Quotient.out X₀)⁻¹ * y ^ Function.minimalPeriod (fun x => y • x) X₀ * Quotient.out X₀,
@@ -105,14 +110,16 @@ theorem factor_eq (ϕ : H →* A) (y : G) (hy4 : y ^ 4 = 1)
 
 
 
+omit [Finite G] in
 theorem cv_coe_of_not (ϕ : H →* A) {g x : G} (hx : ¬ x⁻¹ * g * x ∈ H) :
     cv ϕ g (x : G ⧸ H) = 1 := by
   unfold cv
   have : ¬ (Quotient.out (x : G ⧸ H))⁻¹ * g * Quotient.out (x : G ⧸ H) ∈ H := by
     intro h
     exact hx (smul_coe_eq_iff.mp (smul_eq_self_iff_out.mpr h))
-  rw [dif_neg this]
+  rw [dite_eq_right this]
 
+omit [Finite G] in
 theorem cv_smul_of_commute (ϕ : H →* A) {c w : G} (hc : c * w = w * c) (X : G ⧸ H) :
     cv ϕ w (c • X) = cv ϕ w X := by
   induction X using QuotientGroup.induction_on with
@@ -132,6 +139,7 @@ theorem cv_smul_of_commute (ϕ : H →* A) {c w : G} (hc : c * w = w * c) (X : G
 
 
 
+omit [Finite G] in
 theorem cv_of_fixed (ϕ : H →* A) {y : G}
     (h1 : ∀ g : G, ∀ hg : g⁻¹ * y * g ∈ H, ϕ ⟨g⁻¹ * y * g, hg⟩ = 1) {X : G ⧸ H}
     (hX : y • X = X) : cv ϕ (y ^ 2) X = 1 := by
@@ -149,6 +157,7 @@ theorem cv_of_fixed (ϕ : H →* A) {y : G}
     rw [pow_two, pow_two]; group
   rw [e2, map_pow, h1 _ hy, one_pow]
 
+omit [Finite G] in
 theorem minimalPeriod_eq_two (ϕ : H →* A) {y : G} {ε : A} (hε1 : ε ≠ 1)
     (h1 : ∀ g : G, ∀ hg : g⁻¹ * y * g ∈ H, ϕ ⟨g⁻¹ * y * g, hg⟩ = 1) {X : G ⧸ H}
     (hX : cv ϕ (y ^ 2) X = ε) :
@@ -158,7 +167,7 @@ theorem minimalPeriod_eq_two (ϕ : H →* A) {y : G} {ε : A} (hε1 : ε ≠ 1)
     apply hε1
     rw [← hX]
     unfold cv
-    rw [dif_neg (fun hh => h (smul_eq_self_iff_out.mpr hh))]
+    rw [dite_eq_right (fun hh => h (smul_eq_self_iff_out.mpr hh))]
   have hdvd : Function.minimalPeriod (fun x => y • x) X ∣ 2 := by
     refine Function.IsPeriodicPt.minimalPeriod_dvd ?_
     show (fun x => y • x)^[2] X = X
@@ -172,6 +181,7 @@ theorem minimalPeriod_eq_two (ϕ : H →* A) {y : G} {ε : A} (hε1 : ε ≠ 1)
 
 
 
+omit [Finite G] in
 theorem cv_orbit (ϕ : H →* A) {y : G} {X Y : G ⧸ H}
     (hXY : Y ∈ orbit (zpowers y) X) :
     cv ϕ (y ^ 2) Y = cv ϕ (y ^ 2) X := by
@@ -190,8 +200,8 @@ theorem card_eps (ϕ : H →* A) {y : G} {ε : A} (hε1 : ε ≠ 1)
       2 * Nat.card {q : Quotient (orbitRel (zpowers y) (G ⧸ H)) //
         cv ϕ (y ^ 2) q.out = ε} := by
   classical
-  haveI : Fintype (G ⧸ H) := Fintype.ofFinite _
-  haveI : Fintype (Quotient (orbitRel (zpowers y) (G ⧸ H))) := Fintype.ofFinite _
+  have : Fintype (G ⧸ H) := Fintype.ofFinite _
+  have : Fintype (Quotient (orbitRel (zpowers y) (G ⧸ H))) := Fintype.ofFinite _
   rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card, Fintype.card_subtype,
     Fintype.card_subtype]
   have hmaps : Set.MapsTo
@@ -200,7 +210,7 @@ theorem card_eps (ϕ : H →* A) {y : G} {ε : A} (hε1 : ε ≠ 1)
       ↑(Finset.univ.filter (fun q : Quotient (orbitRel (zpowers y) (G ⧸ H)) =>
         cv ϕ (y ^ 2) q.out = ε)) := by
     intro X hX
-    simp only [Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_setOf_eq] at hX ⊢
+    simp only [Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_ofPred_eq] at hX ⊢
     have hout : (Quotient.mk'' X : Quotient (orbitRel (zpowers y) (G ⧸ H))).out ∈
         orbit (zpowers y) X := by
       have := Quotient.mk_out (s := orbitRel (zpowers y) (G ⧸ H)) X
@@ -210,7 +220,7 @@ theorem card_eps (ϕ : H →* A) {y : G} {ε : A} (hε1 : ε ≠ 1)
   intro q hq
   simp only [Finset.mem_filter, Finset.mem_univ, true_and] at hq
   have hper := minimalPeriod_eq_two ϕ hε1 h1 hq
-  haveI : Fintype ↑(orbit (zpowers y) q.out) := Fintype.ofFinite _
+  have : Fintype ↑(orbit (zpowers y) q.out) := Fintype.ofFinite _
   have hcard := MulAction.minimalPeriod_eq_card y q.out
   rw [hper] at hcard
   have hfib : ({a ∈ Finset.univ.filter (fun X : G ⧸ H => cv ϕ (y ^ 2) X = ε) |
@@ -242,7 +252,7 @@ theorem transfer_eq_one_of_four (ϕ : H →* A) (y : G) (ε : A) (hε2 : ε ^ 2 
     (h4 : 4 ∣ Nat.card {X : G ⧸ H // cv ϕ (y ^ 2) X = ε}) :
     ϕ.transfer y = 1 := by
   classical
-  haveI : Fintype (Quotient (orbitRel (zpowers y) (G ⧸ H))) := Fintype.ofFinite _
+  have : Fintype (Quotient (orbitRel (zpowers y) (G ⧸ H))) := Fintype.ofFinite _
   rw [MonoidHom.transfer_eq_prod_quotient_orbitRel_zpowers_quot]
   have hcv : ∀ q : Quotient (orbitRel (zpowers y) (G ⧸ H)),
       ϕ ⟨(Quotient.out q.out)⁻¹ * y ^ Function.minimalPeriod (fun x => y • x) q.out *
@@ -251,8 +261,8 @@ theorem transfer_eq_one_of_four (ϕ : H →* A) (y : G) (ε : A) (hε2 : ε ^ 2 
     intro q
     rw [factor_eq ϕ y hy4 h1 q.out]
     rcases h2 q.out with h | h
-    · rw [h, if_neg (fun h' => hε1 h'.symm)]
-    · rw [h, if_pos rfl]
+    · rw [h, ite_eq_right (fun h' => hε1 h'.symm)]
+    · rw [h, ite_eq_left rfl]
   rw [Finset.prod_congr rfl (fun q _ => hcv q), ← Finset.prod_filter, Finset.prod_const]
   have hc := card_eps ϕ hε1 h1
   rw [Nat.card_eq_fintype_card (α := {q : Quotient (orbitRel (zpowers y) (G ⧸ H)) //
@@ -267,8 +277,8 @@ theorem transfer_eq_one_of_four (ϕ : H →* A) (y : G) (ε : A) (hε2 : ε ^ 2 
 theorem four_dvd_card_of_orbits {S Y : Type*} [Group S] [Finite S] [MulAction S Y] [Finite Y]
     (hS : IsPGroup 2 S) (hno : ∀ y : Y, 2 < (orbit S y).ncard) : 4 ∣ Nat.card Y := by
   classical
-  haveI : Fintype Y := Fintype.ofFinite Y
-  haveI : Fintype (Quotient (orbitRel S Y)) := Fintype.ofFinite _
+  have : Fintype Y := Fintype.ofFinite Y
+  have : Fintype (Quotient (orbitRel S Y)) := Fintype.ofFinite _
   rw [Nat.card_congr (MulAction.selfEquivSigmaOrbits S Y), Nat.card_sigma]
   refine Finset.dvd_sum fun ω _ => ?_
   obtain ⟨n, hn⟩ := hS.card_orbit (ω.out)
@@ -277,7 +287,7 @@ theorem four_dvd_card_of_orbits {S Y : Type*} [Group S] [Finite S] [MulAction S 
   rw [hn]
   have hn2 : 2 ≤ n := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     interval_cases n <;> omega
   exact (Nat.pow_dvd_pow 2 hn2 : 2 ^ 2 ∣ 2 ^ n)
 
@@ -299,11 +309,11 @@ theorem four_dvd_card_zEps (S : Subgroup G) (hS : IsPGroup 2 S) (ϕ : S →* A) 
   have hcard : Nat.card {X : G ⧸ S // cv ϕ z X = ε} = Nat.card Zm :=
     Nat.card_congr (Equiv.refl _)
   rw [hcard]
-  haveI : Finite S := inferInstance
+  have : Finite S := inferInstance
   refine four_dvd_card_of_orbits (S := S) (Y := Zm) hS ?_
   intro y
   by_contra hle
-  push_neg at hle
+  push Not at hle
   have hidx : (MulAction.stabilizer S y).index ≤ 2 := by
     rw [MulAction.index_stabilizer]; exact hle
   have hmem := hw2 _ hidx
@@ -328,10 +338,10 @@ theorem commutator_mem_of_index_le_two {S : Type*} [Group S] [Finite S] (B : Sub
   have h12 : B.index = 1 ∨ B.index = 2 := by omega
   rcases h12 with h | h
   · rw [Subgroup.index_eq_one.mp h]; exact Subgroup.mem_top _
-  · haveI : B.Normal := Subgroup.normal_of_index_eq_two h
-    haveI : Fact (Nat.Prime (Nat.card (S ⧸ B))) := ⟨by rw [← Subgroup.index, h]; exact Nat.prime_two⟩
-    haveI : IsCyclic (S ⧸ B) := isCyclic_of_prime_card (p := Nat.card (S ⧸ B)) rfl
-    letI := IsCyclic.commGroup (α := S ⧸ B)
+  · have : B.Normal := Subgroup.normal_of_index_eq_two h
+    have : Fact (Nat.Prime (Nat.card (S ⧸ B))) := ⟨by rw [← Subgroup.index, h]; exact Nat.prime_two⟩
+    have : IsCyclic (S ⧸ B) := isCyclic_of_prime_card (p := Nat.card (S ⧸ B)) rfl
+    let := IsCyclic.commGroup (α := S ⧸ B)
     rw [← QuotientGroup.eq_one_iff]
     simp only [QuotientGroup.mk_mul, QuotientGroup.mk_inv]
     rw [mul_comm (a : S ⧸ B) b]

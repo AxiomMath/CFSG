@@ -238,6 +238,7 @@ section Cube
 
 variable {K : Type} [Field K] [Fintype K] [CharP K 2] {n : ℕ}
 
+omit [Fintype K] in
 theorem exists_slot_map_of_twist {k' : Type} [Field k'] {τ : K ≃+* k'} {J : Fin 3 → Finset ℕ}
     {W : Type} [AddCommGroup W] [Module k' W] {B : Representation k' (Cube K) W}
     (T : TwistEquiv τ (cubeRep K J) B) (s : Fin 3) {E : Type} [AddCommGroup E] [Module k' E]

@@ -73,7 +73,7 @@ theorem exists_sylow_mem_le_of_not_dvd_index {p : ℕ} [Fact p.Prime] {H : Subgr
   have hidx : ¬ p ∣ ((P : Subgroup H).map H.subtype).index := by
     rw [index_map_subtype]
     exact (Fact.out : p.Prime).not_dvd_mul P.not_dvd_index hH
-  exact ⟨(P.isPGroup'.map H.subtype).toSylow hidx, ⟨⟨t, htH⟩, hP (mem_zpowers _), rfl⟩,
+  exact ⟨(P.isPGroup.map H.subtype).toSylow hidx, ⟨⟨t, htH⟩, hP (mem_zpowers _), rfl⟩,
     map_subtype_le _⟩
 
 theorem exists_normal_index_two_of_not_fused {Y : Subgroup G} {t : G} (ht : orderOf t = 2)
@@ -84,7 +84,7 @@ theorem exists_normal_index_two_of_not_fused {Y : Subgroup G} {t : G} (ht : orde
   have htt : t * t = 1 := by rw [← sq, ← ht, pow_orderOf_eq_one]
   obtain ⟨T, htT, hTH⟩ := exists_sylow_mem_le_of_not_dvd_index hsyl
     ((le_sup_right : zpowers t ≤ Y ⊔ zpowers t) (mem_zpowers t)) (ht.trans (pow_one 2).symm)
-  refine CFSG.ThompsonIndexTwo.exists_normal_index_two_of_thompson T.isPGroup' T.not_dvd_index
+  refine CFSG.ThompsonIndexTwo.exists_normal_index_two_of_thompson T.isPGroup T.not_dvd_index
     inf_le_left (relIndex_inf_eq_two htt htN htY hTH htT) htT (fun h => htY h.2)
     (fun y _ hyU => ?_) (fun g hg => hfus g hg.2)
   have hy : orderOf y ≠ 1 := fun h => hyU (orderOf_eq_one_iff.1 h ▸ one_mem _)

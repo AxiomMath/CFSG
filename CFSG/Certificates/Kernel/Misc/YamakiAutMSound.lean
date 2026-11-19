@@ -71,7 +71,7 @@ theorem autAtT_of_chunks {R RT : ℕ → ℕ} {a0 a1 b0 b1 n L M : ℕ}
     rw [Nat.mul_comm] at this
     exact this)
   have hb : Nat.blt t n = true := Nat.blt_eq.mpr ht
-  rw [hb, cond_true] at e
+  rw [hb, _root_.Bool.cond_true] at e
   exact e
 
 variable {R RP : ℕ → ℕ} {n a0 a1 v0 v1 : ℕ} {E : Enum} {gs : Array (Array ℕ)}
@@ -146,10 +146,8 @@ theorem autOK_of_mcodes
       (s := fun j => pkMat 6 (R (12 + j))) (h := fun j => pkMat 6 (aj j))
       (POS := recPOS R 14 2) (PA := recF R 14 0) (PB := recF R 14 1)
       ?_ ?_ ?_ ?_ ?_ ?_ ?_ ?_
-    · beta_reduce
-      rw [h0, pkMat_ONE]
-    · beta_reduce
-      rw [hRP0, pkMat_ONE]
+    · rw [h0, pkMat_ONE]
+    · rw [hRP0, pkMat_ONE]
     · intro a ha b hb e
       exact hd a ha b hb (CFSG.KC.Sp62.pkMat_inj (hlt a ha) (hlt b hb) e)
     · intro j hj
@@ -175,14 +173,11 @@ theorem autOK_of_mcodes
     · intro i hi j hj
       obtain ⟨p1, p2, p3⟩ := hP i hi j hj
       refine ⟨p1, ?_, ?_⟩
-      · beta_reduce
-        rw [p2, CFSG.KC.Sp62.pkMat_MULF]
-      · beta_reduce
-        rw [p3, CFSG.KC.Sp62.pkMat_MULF]
+      · rw [p2, CFSG.KC.Sp62.pkMat_MULF]
+      · rw [p3, CFSG.KC.Sp62.pkMat_MULF]
     · intro i hi
       obtain ⟨b1, b2, b3⟩ := hB i hi
       refine ⟨b1, b2, ?_⟩
-      beta_reduce
       rw [b3, CFSG.KC.Sp62.pkMat_MULF]
     · intro t ht e
       apply (hK t ht).1

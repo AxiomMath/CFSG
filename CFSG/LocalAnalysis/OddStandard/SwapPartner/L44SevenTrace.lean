@@ -56,10 +56,10 @@ theorem trace_of_pow_seven (hK : Nat.card K = 4) {g : Matrix (Fin 4) (Fin 4) K}
     (hg7 : g ^ 7 = 1) (hg1 : g ≠ 1) :
     (trace g = 0 ∨ trace g = 1) ∧ trace (g ^ 6) = trace g + 1 := by
   classical
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
-  letI : Fintype K := Fintype.ofFinite K
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
+  let : Fintype K := Fintype.ofFinite K
   have hcardK : Fintype.card K = 4 := by rw [Fintype.card_eq_nat_card, hK]
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2) (by rw [hcardK]; norm_num)
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2) (by rw [hcardK]; norm_num)
   have h4 : ((4 : ℕ) : K) = 0 := by
     rw [CharP.cast_eq_mod (R := K) (p := 2) 4, show (4 % 2 : ℕ) = 0 by norm_num,
       Nat.cast_zero]

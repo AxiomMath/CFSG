@@ -264,7 +264,7 @@ theorem fld_lor {W v s : ℕ} (h : W < 2 ^ s) :
   rw [Nat.or_comm, ← Nat.shiftLeft_add_eq_or_of_lt h, Nat.shiftLeft_eq]
   ring
 
-theorem fld_low {W v s j l : ℕ} (hW : W < 2 ^ (s * j)) (hl : l < j) :
+theorem fld_low {W v s j l : ℕ} (_hW : W < 2 ^ (s * j)) (hl : l < j) :
     (W + v * 2 ^ (s * j)) / 2 ^ (s * l) % 2 ^ s = W / 2 ^ (s * l) % 2 ^ s := by
   have e : 2 ^ (s * j) = 2 ^ (s * l) * (2 ^ s * 2 ^ (s * (j - l - 1))) := by
     rw [← pow_add, ← pow_add]
@@ -368,7 +368,7 @@ theorem cntXY_succ {n w kS nb BP : ℕ} {PS PSI LR TR TRI : ℕ → ℕ} {Q : Ra
     (f := fun h => rpos w (mask w) (n * w) (LR j) (h (Q.base.get ⟨j, hjQ⟩)))
     (t := Finset.range (rcnt (LR j))) (by
       intro h hh
-      simp only [Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_setOf_eq,
+      simp only [Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_ofPred_eq,
         Finset.coe_range, Set.mem_Iio] at hh ⊢
       exact (levPosK hA hF hQ hb hp hl hnb hj hh.1).1)]
   refine Finset.sum_congr rfl fun k hk => ?_
@@ -469,6 +469,7 @@ variable {n w BP DP E i B : ℕ} {bs : ℕ → Fin n} {c : Equiv.Perm (Fin n)}
   (hB : ∀ l < i, pg w (mask w) B l = c (bs l))
 include hd hcd hbs hB
 
+omit hB in
 theorem dAt_c {J l : ℕ} (hJ : J < 8) (hl : l ≤ i)
     (he : dAt n w (mask w) DP J (pg w (mask w) BP l) = pg w (mask w) BP i) :
     dAt n w (mask w) DP J (c (bs l)) = c (bs i) := by
@@ -495,9 +496,10 @@ theorem relOK_of {a : ℕ} (ha : a = c (bs i)) (hr : relsOK n w (mask w) BP DP E
         simp only [decide_eq_true_eq] at h
         exact Nat.le_antisymm hl (Nat.not_lt.1 h)
       rw [this, ha]
-  rw [himg, dAt_c hd hcd hbs hB (land7_lt _) hl he', ← ha, Orb.beq_dec]
+  rw [himg, dAt_c hd hcd hbs (land7_lt _) hl he', ← ha, Orb.beq_dec]
   exact decide_eq_true rfl
 
+omit hB in
 theorem fixAll_of {a : ℕ} (ha : a = c (bs i)) (hr : relsOK n w (mask w) BP DP E i = true) :
     fixAll n w (mask w) DP E i a = true := by
   unfold relsOK at hr
@@ -512,7 +514,7 @@ theorem fixAll_of {a : ℕ} (ha : a = c (bs i)) (hr : relsOK n w (mask w) BP DP 
   by_cases hli : Nat.land (eRel E r) 7 = i
   · right
     rw [hli] at he'
-    rw [ha, dAt_c hd hcd hbs hB (land7_lt _) le_rfl he']
+    rw [ha, dAt_c hd hcd hbs (land7_lt _) le_rfl he']
     exact decide_eq_true rfl
   · left
     rw [decide_eq_false hli]
@@ -521,7 +523,7 @@ theorem fixAll_of {a : ℕ} (ha : a = c (bs i)) (hr : relsOK n w (mask w) BP DP 
 theorem forced_of {a : ℕ} (ha : a = c (bs i)) (hlt : eL E < i)
     (he : dAt n w (mask w) DP (eJ E) (pg w (mask w) BP (eL E)) = pg w (mask w) BP i) :
     dAt n w (mask w) DP (eJ E) (pg w (mask w) B (eL E)) = a := by
-  rw [hB _ hlt, dAt_c hd hcd hbs hB (J := eJ E) (land7_lt _) hlt.le he, ha]
+  rw [hB _ hlt, dAt_c hd hcd hbs (J := eJ E) (land7_lt _) hlt.le he, ha]
 
 end Prune
 
@@ -530,7 +532,7 @@ noncomputable def bsK {n : ℕ} (Q : RawSchreierDatum n) (t : ℕ) : Fin n :=
 
 theorem bsK_of {n : ℕ} {Q : RawSchreierDatum n} {t : ℕ} (h : t < Q.baseCount) :
     bsK Q t = Q.base.get ⟨t, h⟩ :=
-  dif_pos h
+  dite_eq_left h
 
 theorem levelSubgroup_le_orig {n : ℕ} {Q : RawSchreierDatum n} (hQ : ValidSchreier Q) :
     ∀ j ≤ Q.baseCount, Q.levelSubgroup j ≤ Q.originalSubgroup := by
@@ -875,7 +877,7 @@ theorem srch_node_count {n w kS nb BP : ℕ} {PS PSI LR TR TRI : ℕ → ℕ}
       · intro k hk hne
         have hk' := Finset.mem_range.1 hk
         obtain ⟨c, c1, c2, hBc, hcj⟩ := hwit k hk' hne
-        have hfix := fixAll_of hdP (hcd c c1 c2) (fun t ht => hbs t (by omega)) hBc
+        have hfix := fixAll_of hdP (hcd c c1 c2) (fun t ht => hbs t (by omega))
           (a := ((c (bsK Q j) : Fin n) : ℕ)) rfl hrels
         rw [hcj] at hfix
         have hm : (!(fixAll n w (mask w) DP E j (((p * levT n S base j k) (bsK Q j) : Fin n) : ℕ))
@@ -883,7 +885,6 @@ theorem srch_node_count {n w kS nb BP : ℕ} {PS PSI LR TR TRI : ℕ → ℕ}
               (((p * levT n S base j k) (bsK Q j) : Fin n) : ℕ)))) = true :=
           Orb.allN_iff.1 hmode _ (Fin.is_lt _)
         rw [hfix, Bool.not_true, Bool.false_or] at hm
-        beta_reduce
         rw [hm]
         change _ = tgt n w (mask w) (Nat.mul n w) TRI DP E j (LR j) V Bm _
           (srch n w nb LR TR TRI BP DP [X, Y] rest)

@@ -25,6 +25,7 @@ section Engine
 variable {G : Type} [Group G] [Finite G] {Ω : Set (Subgroup G)} {K K' W : Subgroup G}
   {S : Sylow 2 G} {R R' : Subgroup G} {z t u₁ u₂ : G}
 
+omit [Finite G] in
 theorem conjSub_le_of_mem {S X : Subgroup G} {s : G} (hs : s ∈ S) (hX : X ≤ S) :
     conjSub s X ≤ S := by
   intro x hx
@@ -107,7 +108,7 @@ theorem c25_11_of_zStar_swap (h : Hyp25 Ω K K' W S R R' z t u₁ u₂)
     intro t' ht'S ht'2 hg ht'R hnf a hat ha1
     have ha : a ∈ A := hat.1
     have haS : a ∈ (S : Subgroup G) := ha.1
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp S.isPGroup') ⟨a, haS⟩
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp S.isPGroup) ⟨a, haS⟩
     have hk' : orderOf a = 2 ^ k := by rw [← hk]; simp [← Subgroup.orderOf_coe]
     have hk0 : k ≠ 0 := by
       rintro rfl
@@ -147,7 +148,7 @@ theorem no_isFAut_of_inv (h : Hyp25 Ω K K' W S R R' z t u₁ u₂)
     have haN : a ∈ Subgroup.normalizer (R' : Set G) := hF.1
     have hVle : R' ⊔ Subgroup.zpowers a ≤ (S : Subgroup G) :=
       sup_le hT.hR'S (Subgroup.zpowers_le.mpr haS)
-    have hV2 : IsPGroup 2 ↥(R' ⊔ Subgroup.zpowers a) := S.isPGroup'.to_le hVle
+    have hV2 : IsPGroup 2 ↥(R' ⊔ Subgroup.zpowers a) := S.isPGroup.to_le hVle
     have hVn : R' ⊔ Subgroup.zpowers a ≤ Subgroup.normalizer (R' : Set G) :=
       sup_le Subgroup.le_normalizer (Subgroup.zpowers_le.mpr haN)
     have hVR : ∀ y ∈ R' ⊔ Subgroup.zpowers a, conjSub y R' = R' := fun y hy =>
@@ -396,7 +397,7 @@ theorem PerpHypR.ascStand (h : PerpHypR r n Y R S t) :
     (classicalClauseR h.core.datum h.core.hyp).isSubnormal_of_uniqueInvolution hL hz
   nine3 := Q3.Q3CL.l9_3 h.partIHypG
 
-theorem PerpHypR.gen2 (h : PerpHypR r n Y R S t) :
+theorem PerpHypR.gen2 (_h : PerpHypR r n Y R S t) :
     ∀ J ∈ CoreAssembly.conjClass (tightCore R), ∀ N : Subgroup Y,
       (∀ x ∈ J, IsPGroup 2 ↥(Subgroup.zpowers x) → x ∈ N) → J ≤ N := by
   intro J hJ N hN
@@ -417,7 +418,7 @@ theorem PerpHypR.hom_eq_one (h : PerpHypR r n Y R S t) {J R₁ : Subgroup Y}
     (iSup_conjClass_eq_top h.core.gen) h.gen2 hJ hR f hf
 
 theorem PerpHypR.center_eq_bot (h : PerpHypR r n Y R S t) : Subgroup.center Y = ⊥ := by
-  haveI := h.core.simple
+  have := h.core.simple
   have hC := CFSG.ClassicalInvolution.centralizer_genFittingFStar_eq_bot h.core.nonab
   refine le_antisymm (fun z hz => ?_) bot_le
   rw [← hC, Subgroup.mem_centralizer_iff]

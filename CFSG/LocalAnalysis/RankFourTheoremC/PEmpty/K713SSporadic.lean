@@ -129,7 +129,7 @@ theorem liftClause_sporadic_Suz
 theorem liftClause_sporadic_Co1
     [Finite (NativeSporadic.Carrier .Co1)]
     [IsSimpleGroup (NativeSporadic.Carrier .Co1)]
-    (hnonab : ∃ a b : NativeSporadic.Carrier .Co1, a * b ≠ b * a) :
+    (_hnonab : ∃ a b : NativeSporadic.Carrier .Co1, a * b ≠ b * a) :
     LiftClause (NativeSporadic.Carrier .Co1) := by
   have h := (Sporadic.Co1Schreier.catalog_schreier_of_inputs.{0}
     fun K _ e => Sporadic.Co2Schreier.AT_Co2_model_Schreier K e).2.2.1
@@ -139,7 +139,7 @@ theorem liftClause_sporadic_Co1
 theorem liftClause_sporadic_Co2
     [Finite (NativeSporadic.Carrier .Co2)]
     [IsSimpleGroup (NativeSporadic.Carrier .Co2)]
-    (hnonab : ∃ a b : NativeSporadic.Carrier .Co2, a * b ≠ b * a) :
+    (_hnonab : ∃ a b : NativeSporadic.Carrier .Co2, a * b ≠ b * a) :
     LiftClause (NativeSporadic.Carrier .Co2) := by
   obtain ⟨e⟩ : Nonempty (NativeSporadic.Carrier .Co2 ≃* NativeSporadic.Co2) :=
     ⟨MulEquiv.refl _⟩

@@ -38,7 +38,7 @@ theorem submatrix_pow_of_cutPat {ι : Type} [Fintype ι] [DecidableEq ι] {φ : 
 theorem submatrix_conj_mul_eq_one {ι : Type} [Fintype ι] [DecidableEq ι] {φ : ι → HypIndex r ε}
     (hφ : Function.Injective φ) {a b : ℕ}
     (hrange : ∀ x, x ∈ Set.range φ ↔ a ≤ fullPos x ∧ fullPos x < b)
-    {M M' X Y : Matrix (HypIndex r ε) (HypIndex r ε) K} (hMa : CutPat a M) (hMb : CutPat b M)
+    {M M' X Y : Matrix (HypIndex r ε) (HypIndex r ε) K} (hMa : CutPat a M) (_hMb : CutPat b M)
     (hM'a : CutPat a M') (hM'b : CutPat b M') (hXa : CutPat a X) (hXb : CutPat b X)
     (hYb : CutPat b Y) (e : M * M' = 1) {c : K} (hX : X.submatrix φ φ = c • 1)
     (hY : c • Y.submatrix φ φ = 1) : (M * X * M' * Y).submatrix φ φ = 1 := by

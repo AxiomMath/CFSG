@@ -39,7 +39,7 @@ theorem s15_Three_V0_large (hAut : RAutRank153) (hAbs : RAbsIrr153) (h127 : R127
   have hV0' : mSub V₀ ≤ 2 := by omega
   have hpf := h.hyp125.pairFacts
   have hMs : D.M ≤ stabTil V₀ V := le_stabTil hpf.le_normalizer hpf.le_normalizer₀
-  haveI := s15_Three_cTilde_normal (D := D) hV hMs
+  have := s15_Three_cTilde_normal (D := D) hV hMs
   have hH11 : F11.Hyp11 D V₀ V := Hyp125.hyp11 h127 h.hyp125
   have hcard : Nat.card V₀ ≤ 4 := by
     rw [card_eq_two_pow_mSub hpf.elemAbelian₀.isPGroup]
@@ -101,7 +101,7 @@ private theorem s15_Three_rank_cTilde {D : Data G} {V₀ V L : Subgroup G}
     2 ≤ CFSG.Open.pRank 3 (F11.CTilde D.M V₀ V) := by
   have hpf := h.hyp125.pairFacts
   have hMs : D.M ≤ stabTil V₀ V := le_stabTil hpf.le_normalizer hpf.le_normalizer₀
-  haveI := s15_Three_cTilde_normal (D := D) hV hMs
+  have := s15_Three_cTilde_normal (D := D) hV hMs
   have hH11 : F11.Hyp11 D V₀ V := Hyp125.hyp11 h127 h.hyp125
   have h1111' := h1111 V₀ V hH11 3 h3
   have hrank2 := (s15_Three_rank_ListTwo hAut hAbs D h1217 h hV hL hs hperf hL2).1 3
@@ -112,11 +112,11 @@ private theorem s15_Three_rank_cTilde {D : Data G} {V₀ V L : Subgroup G}
   omega
 
 private theorem s15_Three_inf_centralizer_ne_bot {D : Data G} {V₀ V L : Subgroup G}
-    (h61 : UC6.R6_1 D) (h127 : R127 D) (h : Hyp151 D V₀ V L) (hV : IsElemAbelian 2 V)
+    (h61 : UC6.R6_1 D) (h127 : R127 D) (h : Hyp151 D V₀ V L) (_hV : IsElemAbelian 2 V)
     (h3 : 3 ∈ D.sig) {E : Subgroup G} (hEM : E ≤ D.M) (hE : CFSG.Open.IsElemAbelian 3 E)
     (hEcard : Nat.card E = 3 ^ 2) : E ⊓ centralizer (V₀ : Set G) ≠ ⊥ := by
   intro hbot
-  haveI : IsMulCommutative ↥E := hE.1
+  have : IsMulCommutative ↥E := hE.1
   have hcyc := s15_Three_cyclic_quotient h61 h h127 h3 hEM hE.isPGroup
   have hbot' : (E ⊓ centralizer (V₀ : Set G)).subgroupOf E = ⊥ := by
     rw [hbot]
@@ -212,7 +212,7 @@ theorem s15_Three_sig_two (hAut : RAutRank153) (hAbs : RAbsIrr153) (h127 : R127 
       D.sig = {p} ∧ CFSG.Open.pRank p D.M = 3 := by
   have hpf := h.hyp125.pairFacts
   have hMs : D.M ≤ stabTil V₀ V := le_stabTil hpf.le_normalizer hpf.le_normalizer₀
-  haveI := s15_Three_cTilde_normal (D := D) hV hMs
+  have := s15_Three_cTilde_normal (D := D) hV hMs
   have hH11 : F11.Hyp11 D V₀ V := Hyp125.hyp11 h127 h.hyp125
   obtain ⟨hr1, hL3, hA5⟩ := s15_Three_rank_ListTwo hAut hAbs D h1217 h hV hL hs hperf hL2
   have key : ∀ r ∈ D.sig, CFSG.Open.pRank r D.M = 3 ∧

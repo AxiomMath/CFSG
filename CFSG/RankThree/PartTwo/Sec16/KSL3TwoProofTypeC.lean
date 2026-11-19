@@ -300,7 +300,7 @@ theorem exists_typeC_of_inndiag (hK : PiField π p f K) (hq : ModThree π (p ^ f
   have hH81 : ¬ 81 ∣ Nat.card ↥H := by rw [hH, card_projImage_glPi hK]; exact h81
   obtain ⟨S, hS⟩ := hPt3.exists_le_sylow
   have hSeq : (S : Subgroup ↥H) = Pt := by
-    obtain ⟨k, hk⟩ := S.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := S.isPGroup.exists_card_eq
     have hdvd : Nat.card (S : Subgroup ↥H) ∣ Nat.card ↥H := Subgroup.card_subgroup_dvd_card _
     have hge : 27 ≤ Nat.card (S : Subgroup ↥H) := by
       rw [← hPt27]

@@ -78,7 +78,7 @@ theorem false_of_field_host_field_normal (hcat : L3TwoPowProperFixedCatalog)
     (hme : Even m) (hPm : Blueprint.LieModel (P ⧸ Open.fusionZStar P) .PSL 3 2 m)
     (hLm : Blueprint.LieModel (↥L ⧸ center ↥L) .PSL 3 2 (2 * m)) : False := by
   classical
-  haveI hfact2 : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hfact2 : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hset' : L34FieldNormalSetting G t P := hset
   obtain ⟨-, ht2, hPt, hPp, hPn, -, -, -, -⟩ := hset
   have hCM : centralizer ({t} : Set G) ≤ M := by
@@ -302,9 +302,9 @@ theorem false_of_field_host_swap_pair (hcat : L3TwoPowProperFixedCatalog)
     · have hgh : Lg (g * h) = L := by
         rw [hLg_mul, hh]
         exact hg
-      have hfgh : f (g * h) = 1 := if_pos hgh
-      have hfg : f g = 1 := if_pos hg
-      have hfh : f h = 1 := if_pos hh
+      have hfgh : f (g * h) = 1 := ite_eq_left hgh
+      have hfg : f g = 1 := ite_eq_left hg
+      have hfh : f h = 1 := ite_eq_left hh
       rw [hfgh, hfg, hfh, mul_one]
     · have hne : Lg (g * h) ≠ L := by
         rw [hLg_mul, hh]
@@ -318,17 +318,17 @@ theorem false_of_field_host_swap_pair (hcat : L3TwoPowProperFixedCatalog)
         rcases hpairLg (g * h) with h' | h'
         · exact absurd h' hne
         · exact h'
-      have hfgh : f (g * h) = -1 := if_neg hne
-      have hfg : f g = 1 := if_pos hg
-      have hfh : f h = -1 := if_neg (by rw [hh]; exact ha_ne)
+      have hfgh : f (g * h) = -1 := ite_eq_right hne
+      have hfg : f g = 1 := ite_eq_left hg
+      have hfh : f h = -1 := ite_eq_right (by rw [hh]; exact ha_ne)
       rw [hfgh, hfg, hfh, one_mul]
     · have hgh : Lg (g * h) = Lg a := by
         rw [hLg_mul, hh]
         exact hg
       have hne : Lg (g * h) ≠ L := by rw [hgh]; exact ha_ne
-      have hfgh : f (g * h) = -1 := if_neg hne
-      have hfg : f g = -1 := if_neg (by rw [hg]; exact ha_ne)
-      have hfh : f h = 1 := if_pos hh
+      have hfgh : f (g * h) = -1 := ite_eq_right hne
+      have hfg : f g = -1 := ite_eq_right (by rw [hg]; exact ha_ne)
+      have hfh : f h = 1 := ite_eq_left hh
       rw [hfgh, hfg, hfh, mul_one]
     · have hne : Lg (g * h) ≠ Lg a := by
         rw [hLg_mul, hh]
@@ -342,9 +342,9 @@ theorem false_of_field_host_swap_pair (hcat : L3TwoPowProperFixedCatalog)
         rcases hpairLg (g * h) with h' | h'
         · exact h'
         · exact absurd h' hne
-      have hfgh : f (g * h) = 1 := if_pos hgh
-      have hfg : f g = -1 := if_neg (by rw [hg]; exact ha_ne)
-      have hfh : f h = -1 := if_neg (by rw [hh]; exact ha_ne)
+      have hfgh : f (g * h) = 1 := ite_eq_left hgh
+      have hfg : f g = -1 := ite_eq_right (by rw [hg]; exact ha_ne)
+      have hfh : f h = -1 := ite_eq_right (by rw [hh]; exact ha_ne)
       rw [hfgh, hfg, hfh, Int.units_mul_self]
   let ε : X →* ℤˣ := MonoidHom.mk' f hf_mul
   let χ : ↥(normalizer (W : Set G)) →* ℤˣ := ε.comp π

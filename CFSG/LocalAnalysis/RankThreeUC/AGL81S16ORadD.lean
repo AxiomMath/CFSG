@@ -38,20 +38,25 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {b c : F}
       · simp only [Pi.smul_apply, smul_eq_mul, RingHom.id_apply, nvec_n0]; ring
       · simp only [Pi.smul_apply, smul_eq_mul, RingHom.id_apply, nvec_n1]; ring
 
+omit [Finite F] [CharP F 2] in
 theorem nMap_inl (a b' c' d : F) (x : OW F) (i : Fin (3 - 1)) :
     nMap a b' c' d x (Sum.inl i) = 0 := nvec_inl _ _ i
 
+omit [Finite F] [CharP F 2] in
 theorem nMap_inr_inl (a b' c' d : F) (x : OW F) (i : Fin (3 - 1)) :
     nMap a b' c' d x (Sum.inr (Sum.inl i)) = 0 := nvec_inr_inl _ _ i
 
+omit [Finite F] [CharP F 2] in
 theorem nMap_n0 (a b' c' d : F) (x : OW F) :
     nMap a b' c' d x (Sum.inr (Sum.inr 0)) =
       a * x (Sum.inr (Sum.inr 0)) + b' * x (Sum.inr (Sum.inr 1)) := nvec_n0 _ _
 
+omit [Finite F] [CharP F 2] in
 theorem nMap_n1 (a b' c' d : F) (x : OW F) :
     nMap a b' c' d x (Sum.inr (Sum.inr 1)) =
       c' * x (Sum.inr (Sum.inr 0)) + d * x (Sum.inr (Sum.inr 1)) := nvec_n1 _ _
 
+omit [Finite F] in
 theorem exists_ell (ν00 ν01 ν10 ν11 : F)
     (hnil : ν00 * ν00 + ν01 * ν10 = 0 ∧ ν00 * ν01 + ν01 * ν11 = 0 ∧
       ν10 * ν00 + ν11 * ν10 = 0 ∧ ν10 * ν01 + ν11 * ν11 = 0)
@@ -100,6 +105,7 @@ theorem exists_ell (ν00 ν01 ν10 ν11 : F)
     linear_combination hiso (v (Sum.inr (Sum.inr 0))) (v (Sum.inr (Sum.inr 1)))
 
 
+omit [Finite F] [CharP F 2] in
 theorem nMap_eq (a b' c' d : F) (x : OW F) :
     nMap a b' c' d x = x (Sum.inr (Sum.inr 0)) • nvec F a c' + x (Sum.inr (Sum.inr 1)) • nvec F b' d := by
   have hj : ∀ j : Fin 2, j = 0 ∨ j = 1 := by decide
@@ -112,6 +118,7 @@ theorem nMap_eq (a b' c' d : F) (x : OW F) :
     · simp only [nMap_n0, Pi.add_apply, Pi.smul_apply, smul_eq_mul, nvec_n0]; ring
     · simp only [nMap_n1, Pi.add_apply, Pi.smul_apply, smul_eq_mul, nvec_n1]; ring
 
+omit [Finite F] [CharP F 2] in
 theorem nvec_zero : nvec F (0 : F) 0 = 0 := by
   ext k
   rcases k with i | i | j

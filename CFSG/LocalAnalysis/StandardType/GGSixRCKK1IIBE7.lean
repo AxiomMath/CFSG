@@ -13,7 +13,7 @@ open CFSG.Assembly CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalle
 open CFSG.SeitzReduction CFSG.LieType.Steinberg.Adjoint CFSG.LieType.Steinberg.Minuscule
 
 theorem rckIIPair_E7
-    (n : ℕ) (hadm : StatedLieAdmissible .E7 n 2 1) : RCKIIPair .E7 n := by
+    (n : ℕ) (_hadm : StatedLieAdmissible .E7 n 2 1) : RCKIIPair .E7 n := by
   obtain ⟨β, x', V', hβ, hlong, hroot', hx2', hx1', hxV', hVab', hVcard', hVN', hconj'⟩ :=
     rckIIPairAdj_E7
   have hβroot : IsRoot .E7 β := mem_adjDatum_roots.1 hβ

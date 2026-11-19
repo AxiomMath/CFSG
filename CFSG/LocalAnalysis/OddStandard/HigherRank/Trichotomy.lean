@@ -32,7 +32,7 @@ theorem hr_trichotomy {Q : Type} [Group Q] (hodd : CFSG.Blueprint.OddLieType Q)
   by_cases h5 : 5 ≤ p ^ f
   · left
     refine ⟨t, n, p, f, hp, hp2, hadm, hm, ?_, ?_, Or.inl h5⟩
-    · cases t <;> first | trivial | skip
+    · cases t <;> try trivial
       · obtain ⟨-, rfl, -⟩ := hadm'
         exact absurd rfl hp2
       · obtain ⟨rfl, rfl, -⟩ := hadm'

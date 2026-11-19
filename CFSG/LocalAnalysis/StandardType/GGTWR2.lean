@@ -61,11 +61,11 @@ theorem ggTWR2_xdatumA_K
     hb, hcardΛa, hWML, hIntL, hWMK, hIntK, hlin, hrefl, hpairL, hpairK, hfLex, hfKex,
     hclosL, hclosK, hdel, _hclosJ⟩ :=
     ggResTwoNodeDatum_of_sides_card_two ggWeylSimpleSystemsConjInput_holds hp2 hLd hK
-  letI := i1; letI := i2; letI := i1a; letI := i2a; letI := i3; letI := i4
+  let := i1; let := i2; let := i1a; let := i2a; let := i3; let := i4
   obtain ⟨fL, hfL⟩ := hfLex
   obtain ⟨ΛL, i1L, i2L, ML0, CL0, VL, i3L, i4L, ιL, φL0, hL0, αL0, eL, hMLeqL, hWML0,
     hIntL0, hlinL0, hreflL0, hpairL0, hfL0ex, _hclosL0⟩ := hdatL
-  letI := i1L; letI := i2L; letI := i3L; letI := i4L
+  let := i1L; let := i2L; let := i3L; let := i4L
   obtain ⟨fL0, hfL0⟩ := hfL0ex
   have hN2 : 2 ≤ N - 1 := by omega
   obtain ⟨e, hMLeq⟩ :=
@@ -99,8 +99,8 @@ theorem ggTWR2_xdatumA_K
     change Fintype.card ({i : Λ // i ≠ b₁ ∧ i ≠ b₂} ⊕ Λa) = N - 1
     rw [Fintype.card_sum, hcardSub, hcardΛaF]
     omega
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Module.Finite (ZMod p) V := Module.Finite.of_finite
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Module.Finite (ZMod p) V := Module.Finite.of_finite
   have hVcard : Nat.card V = p ^ Module.finrank (ZMod p) V := by
     have h := Module.natCard_eq_pow_finrank (K := ZMod p) (V := V)
     rwa [Nat.card_zmod] at h
@@ -238,11 +238,11 @@ theorem ggTWR2_xdatumA_L
     hb, hcardΛa, hWML, hIntL, hWMK, hIntK, hlin, hrefl, hpairL, hpairK, hfLex, hfKex,
     hclosL, hclosK, hdel, _hclosJ⟩ :=
     ggResTwoNodeDatum_of_sides_card_two ggWeylSimpleSystemsConjInput_holds hp2 hKside hL
-  letI := i1; letI := i2; letI := i1a; letI := i2a; letI := i3; letI := i4
+  let := i1; let := i2; let := i1a; let := i2a; let := i3; let := i4
   obtain ⟨fL, hfL⟩ := hfLex
   obtain ⟨ΛK, i1K, i2K, MK0, CK0, VK, i3K, i4K, ιK, φK0, hK0, αK0, eK, hMKeqK, hWMK0,
     hIntK0, hlinK0, hreflK0, hpairK0, hfK0ex, _hclosK0⟩ := hKdatum
-  letI := i1K; letI := i2K; letI := i3K; letI := i4K
+  let := i1K; let := i2K; let := i3K; let := i4K
   obtain ⟨fK0, hfK0⟩ := hfK0ex
   have hN2 : 2 ≤ labK.rank := by omega
   obtain ⟨e, hMLeq⟩ :=
@@ -276,8 +276,8 @@ theorem ggTWR2_xdatumA_L
     change Fintype.card ({i : Λ // i ≠ b₁ ∧ i ≠ b₂} ⊕ Λa) = labK.rank
     rw [Fintype.card_sum, hcardSub, hcardΛaF]
     omega
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Module.Finite (ZMod p) V := Module.Finite.of_finite
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Module.Finite (ZMod p) V := Module.Finite.of_finite
   have hVcard : Nat.card V = p ^ Module.finrank (ZMod p) V := by
     have h := Module.natCard_eq_pow_finrank (K := ZMod p) (V := V)
     rwa [Nat.card_zmod] at h

@@ -26,9 +26,9 @@ theorem hashIndex_foldl (L : Array Table) (k : UInt64) :
     rw [List.range_succ, List.foldl_append, List.foldl_cons, List.foldl_nil,
       Std.HashMap.getElem?_insert]
     by_cases e : (hkey n L[m]! == k) = true
-    · rw [if_pos e]
+    · rw [ite_eq_left e]
       exact Or.inr ⟨m, by omega, beq_iff_eq.1 e, rfl⟩
-    · rw [if_neg e]
+    · rw [ite_eq_right e]
       rcases hashIndex_foldl L k m with h | ⟨i, hi, hk, h⟩
       · exact Or.inl h
       · exact Or.inr ⟨i, by omega, hk, h⟩
@@ -47,8 +47,8 @@ theorem hashIndex_get {L : Array Table}
       rw [List.range_succ, List.foldl_append, List.foldl_cons, List.foldl_nil,
         Std.HashMap.getElem?_insert]
       by_cases e : (hkey n L[m]! == hkey n L[i]!) = true
-      · rw [if_pos e, hd m (by omega) i hi (beq_iff_eq.1 e)]
-      · rw [if_neg e]
+      · rw [ite_eq_left e, hd m (by omega) i hi (beq_iff_eq.1 e)]
+      · rw [ite_eq_right e]
         rcases Nat.lt_succ_iff_lt_or_eq.1 him with a | rfl
         · exact ih (by omega) a
         · exact absurd (beq_iff_eq.2 rfl) e
@@ -68,7 +68,7 @@ section Closure
 variable {gens gensInv : Array Table} {γ : Nat → Equiv.Perm (Fin n)}
   {C : Set (Equiv.Perm (Fin n))}
 
-theorem conjClosureH_one (hn : n < 2 ^ 32)
+theorem conjClosureH_one (_hn : n < 2 ^ 32)
     (hg : ∀ l < gens.size, Rep n gens[l]! (γ l) ∧ Rep n gensInv[l]! (γ l)⁻¹)
     (hCf : C.Finite) (hCcl : ∀ l < gens.size, ∀ x ∈ C, γ l * x * (γ l)⁻¹ ∈ C)
     (hmin : ∀ g ∈ C, ∀ D : Set (Equiv.Perm (Fin n)), D.Finite → g ∈ D →

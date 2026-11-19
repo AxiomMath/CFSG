@@ -29,7 +29,7 @@ theorem exists_inverting_of_invNormalizer (hr3 : m.r = 3) (h620 : m.C620)
     (hI : InvNormalizer 3 m.Lbar) :
     ∃ x : G, x ∈ m.L ∧ x ∈ normalizer ((m.A ⊓ m.L : Subgroup G) : Set G) ∧
       ∀ e ∈ m.A ⊓ m.L, x * x * e * (x * x)⁻¹ = e⁻¹ := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   have hcop := CFSG.pPrimeCore_coprime_card (p := m.r) (G := ↥m.L)
   have hN : ¬ 3 ∣ Nat.card ↥(CFSG.pPrimeCore m.r ↥m.L) := by
     intro hdiv

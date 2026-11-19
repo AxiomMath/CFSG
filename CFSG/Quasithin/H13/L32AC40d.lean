@@ -3,7 +3,7 @@ module
 public import CFSG.Quasithin.H13.L32AC40a
 public import CFSG.Quasithin.Background.B3Sec
 public import Mathlib.Algebra.Order.Ring.Star
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.GroupTheory.SpecificGroups.Alternating.Simple
 
 public section

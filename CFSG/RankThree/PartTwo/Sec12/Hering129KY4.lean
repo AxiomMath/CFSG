@@ -19,7 +19,7 @@ theorem inf_eq_zpowers_of_sl2_quotient {G : Type} [Group G] [Finite G] {A X : Su
     (hc3 : orderOf c = 3) {F : Type} [Field F] [Finite F] (h3F : ¬ 3 ∣ Nat.card F)
     (φ : ↥X →* Matrix.SpecialLinearGroup (Fin 2) F)
     (hker : φ.ker ≤ aschbacherSolvableCore 3 ↥X) : A ⊓ X = Subgroup.zpowers c := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hAc : ∀ y ∈ A, ∀ z ∈ A, y * z = z * y := fun y hy z hz =>
     congrArg Subtype.val (hAe.1.is_comm.comm ⟨y, hy⟩ ⟨z, hz⟩)
   set E : Subgroup ↥X := (A ⊓ X).subgroupOf X with hE
@@ -116,6 +116,7 @@ section Table
 variable {G : Type} [Group G] [Finite G]
 
 
+omit [Finite G] in
 theorem typ129IIIcType_of_d4 {L Y : Subgroup G} {r : TauCeti.PrimePower}
     (hL : ∃ q' : TauCeti.PrimePower, Sec4.IsSLThreePiAt (L ⧸ aschbacherSolvableCore 3 L) q'.card)
     (hY : ∃ hr : (TauCeti.LieTypeIndex.trialityD4 r).Valid,
@@ -125,6 +126,7 @@ theorem typ129IIIcType_of_d4 {L Y : Subgroup G} {r : TauCeti.PrimePower}
   refine ⟨hL, Or.inr ⟨r, hr, ⟨e⟩⟩, ?_⟩
   exact Hering129KModels.center_eq_bot_of_isG2D4 (Or.inr ⟨rfl, hr, ⟨e⟩⟩ : IsG2D4 _ r 3)
 
+omit [Finite G] in
 theorem typ129_of_lie_table {K Y : Subgroup G} {q r : TauCeti.PrimePower} {δ δ' : ℕ}
     (hGK : IsG2D4 (K ⧸ CFSG.pCore 2 K) q δ) (hGY : IsG2D4 (Y ⧸ CFSG.pCore 2 Y) r δ')
     (hcase : ¬ (δ = 1 ∧ δ' = 3))

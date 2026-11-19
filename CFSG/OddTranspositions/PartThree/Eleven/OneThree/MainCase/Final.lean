@@ -142,12 +142,14 @@ private noncomputable def exists_witData {U : Type} [Group U] [Finite U]
     exact (hu'v.mul_right hu'c).mul_right hu'w
   exact ⟨β, u', hβ, hvβ, hu'β, hdu', hu'α, hu'v, hu'c, hu'w, hu'z, hκ⟩
 
+omit [Finite G] in
 private theorem exists_lift_centSet {z : Halpha D hC.alpha} {y : G}
     (hy : y ∈ DalphaStar D hC.alpha) (hyz : Commute y (z : G)) :
     ∃ yH : Halpha D hC.alpha, (yH : G) = y ∧ yH ∈ centSet (DstarH hC) z := by
   refine ⟨⟨y, Subgroup.subset_closure hy⟩, rfl, (mem_DstarH_iff hC).mpr hy, ?_⟩
   exact Subtype.ext hyz.eq
 
+omit [Finite G] in
 private theorem localGroup_map_subtype_le {z : Halpha D hC.alpha} :
     (localGroup (DstarH hC) z).map (Halpha D hC.alpha).subtype ≤
       localGroup (DalphaStar D hC.alpha) (z : G) := by
@@ -157,6 +159,7 @@ private theorem localGroup_map_subtype_le {z : Halpha D hC.alpha} :
   exact Subgroup.subset_closure
     ⟨(mem_DstarH_iff hC).mp hx.1, hx.2.map (Halpha D hC.alpha).subtype⟩
 
+omit [Finite G] in
 private theorem mem_localGroup_subtype {z l : Halpha D hC.alpha}
     (hl : l ∈ localGroup (DstarH hC) z) :
     (l : G) ∈ localGroup (DalphaStar D hC.alpha) (z : G) :=
@@ -217,6 +220,7 @@ private theorem exists_decomp_dalphaStar {U : Type} [Group U]
     Subgroup.mem_map_of_mem (Halpha D hC.alpha).subtype hkK, ?_⟩
   simpa only [Subgroup.coe_mul, Subgroup.coe_inv] using congrArg Subtype.val heq
 
+omit [Finite G] in
 private theorem mem_DalphaStar_conj_inv {β : Set G} {g : G}
     (hψ : cimg g⁻¹ β = hC.alpha) {x : G} (hx : x ∈ DalphaStar D β) :
     g⁻¹ * x * g ∈ DalphaStar D hC.alpha := by
@@ -225,6 +229,7 @@ private theorem mem_DalphaStar_conj_inv {β : Set G} {g : G}
     simpa [cimg] using hψ] at h
   simpa only [inv_inv] using h
 
+omit [Finite G] in
 private theorem commute_conj_inv_of_commute {g z x : G} (hg : Commute g z)
     (hx : Commute x z) : Commute (g⁻¹ * x * g) z := by
   have h1 : Commute (g⁻¹ * x * (g⁻¹)⁻¹) (g⁻¹ * z * (g⁻¹)⁻¹) :=
@@ -237,6 +242,7 @@ private theorem commute_conj_inv_of_commute {g z x : G} (hg : Commute g z)
   rw [h2] at h1
   simpa only [inv_inv] using h1
 
+omit [Finite G] in
 private theorem mem_D_of_mem_DalphaStar {β : Set G} {x : G}
     (hx : x ∈ DalphaStar D β) : x ∈ D := by
   obtain ⟨δ, hδ, hxδ⟩ := mem_DalphaStar_iff.mp hx
@@ -315,6 +321,7 @@ private theorem mem_DalphaStar_of_triangle (h : MainHyp hC) {β : Set G}
       (h.mem_Dalpha_of_mem_of_commute hβ hγ hvβ hcγ hvc hcomm) hcγ
   · exact subset_DalphaStar (mem_Dalpha_symm hβ hC.isBlock_alpha.subset) hC.d_mem_alpha
 
+omit [Finite G] in
 private theorem pullback_lift {z c : Halpha D hC.alpha} {β : Set G} {u' g₁ : G}
     (hzc : Commute z c) (hcd : Commute (c : G) hC.d)
     (hψ : cimg g₁⁻¹ β = hC.alpha)
@@ -433,7 +440,7 @@ theorem false_of_pCore_le_center (h : MainHyp hC)
   · obtain ⟨φ⟩ := hL2
     exact h.false_of_shape (.isPSL2 2 le_rfl (MulEquiv.refl _)) φ hQ1
   · obtain ⟨φ⟩ := hU
-    haveI : Finite ↥(CFSG.Theory.Comparator.PSU3Model 2) := by
+    have : Finite ↥(CFSG.Theory.Comparator.PSU3Model 2) := by
       have : Finite (Matrix.ProjGenLinGroup (Fin 3) (GaloisField 2 4)) :=
         Finite.of_surjective Matrix.ProjGenLinGroup.mk Matrix.ProjGenLinGroup.mk_surjective
       exact Subtype.finite

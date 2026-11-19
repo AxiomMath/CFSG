@@ -67,7 +67,7 @@ private theorem exists_centClosed_of_isStronglyPEmbedded {α : Type*} [Fintype �
   obtain ⟨S, hS⟩ := (isPGroup_zpowers_of_pow_eq_one (p := 2)
     (x := (⟨u, hu⟩ : alternatingGroup α)) (Subtype.ext hu2)).exists_le_sylow
   obtain ⟨g, hg⟩ := hM.exists_conj_ge (P := (S : Subgroup (alternatingGroup α)))
-    ⟨le_top, S.isPGroup', by rw [relIndex_top_right]; exact S.not_dvd_index⟩
+    ⟨le_top, S.isPGroup, by rw [relIndex_top_right]; exact S.not_dvd_index⟩
   have hM' := hM.conj g
   refine ⟨(conjSub g M).map (alternatingGroup α).subtype,
     ⟨⟨u, hu⟩, hg (hS (mem_zpowers _)), rfl⟩, ?_, fun hle => hM'.1 (eq_top_iff.mpr fun x _ => ?_)⟩

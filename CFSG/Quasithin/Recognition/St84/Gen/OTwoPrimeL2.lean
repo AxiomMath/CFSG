@@ -17,7 +17,7 @@ theorem le_oTwoPrime_of_isL2Quot_of_two_le {A E : Subgroup G} [Finite ↥A] {n :
     (hn : 2 ≤ n) (hAE : A ≤ E) (hq : IsL2Quot n (oTwoQuot ↥A)) :
     A ≤ oTwoPrime E := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let L := oTwoPrime E
   let D := pCoreOf 2 A
   let N := A ⊓ L
@@ -35,15 +35,15 @@ theorem le_oTwoPrime_of_isL2Quot_of_two_le {A E : Subgroup G} [Finite ↥A] {n :
   have hNnormal : (N.subgroupOf A).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hAN
   have hqe : D.subgroupOf A = CFSG.pCore 2 ↥A := CFSG.openPCoreOf_subgroupOf 2 A
-  haveI hDnormal : (D.subgroupOf A).Normal := by
+  have hDnormal : (D.subgroupOf A).Normal := by
     rw [hqe]
     exact CFSG.pCore_normal
   let π : ↥A →* (↥A ⧸ D.subgroupOf A) := QuotientGroup.mk' (D.subgroupOf A)
   let Nbar : Subgroup (↥A ⧸ D.subgroupOf A) := (N.subgroupOf A).map π
   have hNbarNormal : Nbar.Normal :=
     hNnormal.map π (QuotientGroup.mk'_surjective (N := D.subgroupOf A))
-  haveI : Nbar.Normal := hNbarNormal
-  haveI : IsSimpleGroup (↥A ⧸ D.subgroupOf A) := by
+  have : Nbar.Normal := hNbarNormal
+  have : IsSimpleGroup (↥A ⧸ D.subgroupOf A) := by
     have e : (↥A ⧸ D.subgroupOf A) ≃* oTwoQuot ↥A :=
       QuotientGroup.quotientMulEquivOfEq hqe
     exact e.isSimpleGroup_congr.mpr
@@ -68,7 +68,7 @@ theorem le_oTwoPrime_of_isL2Quot_of_two_le {A E : Subgroup G} [Finite ↥A] {n :
       rw [hcard]
       refine dvd_mul_of_dvd_left ?_ _
       rw [show n = n - 1 + 1 by omega, pow_succ]
-      simpa [mul_comm] using dvd_mul_right 2 (2 ^ (n - 1))
+      simp [mul_comm]
     obtain ⟨q, hq2⟩ := exists_prime_orderOf_dvd_card' 2 h2dvd
     obtain ⟨x, rfl⟩ := (QuotientGroup.mk'_surjective (N := D.subgroupOf A)) q
     have hx2q : (π x) ^ 2 = 1 := by
@@ -102,7 +102,7 @@ theorem le_oTwoPrime_of_isL2Quot_of_two_le {A E : Subgroup G} [Finite ↥A] {n :
     have hx1 : π x = 1 :=
       (QuotientGroup.eq_one_iff x).mpr (Subgroup.mem_subgroupOf.mpr hxD)
     rw [hx1] at hq2
-    simpa using hq2
+    simp at hq2
   have hNbarTop : Nbar = ⊤ := by
     rcases Subgroup.Normal.eq_bot_or_eq_top Nbar with h | h
     · exact absurd h hNbarNe

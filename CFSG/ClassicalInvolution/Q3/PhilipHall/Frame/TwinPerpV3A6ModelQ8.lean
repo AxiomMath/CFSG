@@ -56,7 +56,7 @@ theorem smallQ8_conj_z0 {a : AE6Om} {J : Subgroup AE6Om} (hJ : AE6SmallQ8 a J) :
   have hSc : (sQ ()).originalSubgroup = Subgroup.closure {g | g ∈ sGens ()} := by
     rw [sQ, certificate_originalSubgroup]
   have ho : orderOf ((x⁻¹ * a * x : AE6Om) : Equiv.Perm (Fin 360)) = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     refine orderOf_eq_prime ?_ ?_
     · rw [← Subgroup.coe_pow, sq]
       have h2 : x⁻¹ * a * x * (x⁻¹ * a * x) = x⁻¹ * (a * a) * x := by group

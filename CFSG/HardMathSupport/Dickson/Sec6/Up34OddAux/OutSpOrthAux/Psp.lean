@@ -39,7 +39,7 @@ theorem psp_field_descent {r : ℕ} (hr : 2 ≤ r) {K : Type} [Field K] [Finite 
     intro hD
     have hrel2 : (inner (StatedProj (StatedSp r K))).relIndex (spLinearAutGroup r K) ∣ 2 :=
       hrel.trans (Nat.gcd_dvd_left _ _)
-    haveI := inner_normal (StatedProj (StatedSp r K))
+    have := inner_normal (StatedProj (StatedSp r K))
     have hmem : ψ ∈ inner (StatedProj (StatedSp r K)) := by
       rcases (Nat.dvd_prime Nat.prime_two).1 hrel2 with hk | hk
       · exact KCOrthogonalNoninner.mem_of_pow_eq_one_of_relIndex_eq_two_pow
@@ -90,7 +90,7 @@ theorem noL34Layer_fieldAut_psp (hO : LieOrderFormulasInput) {r : ℕ} (hr : 2 �
       omega⟩
   have hmodelk : StatedClassicalModel (StatedProj (StatedSp r ↥k)) .PSp r p (f / 3) :=
     ⟨hadm, ↥k, inferInstance, inferInstance, hkcard', ⟨MulEquiv.refl _⟩⟩
-  haveI hsk : IsSimpleGroup (StatedProj (StatedSp r ↥k)) :=
+  have hsk : IsSimpleGroup (StatedProj (StatedSp r ↥k)) :=
     CFSG.ClassicalGroups.Symplectic.isSimpleGroup_of_statedClassicalModel_PSp _ r p (f / 3)
       hmodelk
   have hmodel : LieModel (StatedProj (StatedSp r ↥k)) .PSp r p (f / 3) :=

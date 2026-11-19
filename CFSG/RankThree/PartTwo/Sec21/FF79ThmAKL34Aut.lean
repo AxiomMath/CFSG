@@ -72,7 +72,7 @@ theorem exists_equiv_map_eq {E : Type} [Group E] (ε : E ≃* ↥S) {P : Subgrou
     obtain ⟨p, hp0, hpe⟩ := h1
     have h2 : ((ε.trans (MulAut.conj g⁻¹)) a : ↥S) = p := by
       have : ε a = g * p * g⁻¹ := hpe.symm
-      simp [MulEquiv.trans_apply, MulAut.conj_apply, this, mul_assoc]
+      simp [MulEquiv.trans_apply, this, mul_assoc]
     rw [h2]
     exact Subgroup.mem_subgroupOf.1 hp0
   · intro a ha
@@ -82,6 +82,6 @@ theorem exists_equiv_map_eq {E : Type} [Group E] (ε : E ≃* ↥S) {P : Subgrou
     obtain ⟨k, hk, hke⟩ := h1
     refine ⟨k, hk, ?_⟩
     have : ε k = g * ⟨a, hA₀S ha⟩ * g⁻¹ := hke
-    simp [MulEquiv.trans_apply, MulAut.conj_apply, this, mul_assoc]
+    simp [MulEquiv.trans_apply, this, mul_assoc]
 
 end CFSG.RankThree.PartTwo.Sec21.FF79.KL34

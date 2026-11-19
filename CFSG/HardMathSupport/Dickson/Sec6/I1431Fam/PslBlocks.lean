@@ -29,6 +29,7 @@ abbrev PslIdx (a : SpecialLinearGroup (Fin n) K) : Type :=
 
 variable {a : SpecialLinearGroup (Fin n) K}
 
+omit [Finite K] in
 theorem mem_fixSubgroup_slConjugation_toGL_iff {g : SpecialLinearGroup (Fin n) K} :
     g ∈ fixSubgroup (slConjugation n K (SpecialLinearGroup.toGL a)) ↔
       g ∈ Subgroup.centralizer ({a} : Set (SpecialLinearGroup (Fin n) K)) := by
@@ -60,6 +61,7 @@ theorem mem_fixSubgroup_slConjugation_toGL_iff {g : SpecialLinearGroup (Fin n) K
 variable (hZ : ∀ z ∈ scalars n K, z ^ 3 = 1 → z = 1) (hap : a ^ 3 = 1)
 include hZ hap
 
+omit [Finite K] in
 theorem centralizer_proj_eq_map :
     Subgroup.centralizer ({proj n K a} : Set (projectiveSL n K)) =
       (Subgroup.centralizer ({a} : Set (SpecialLinearGroup (Fin n) K))).map (proj n K) := by
@@ -80,12 +82,14 @@ theorem centralizer_proj_eq_map :
     rw [Subgroup.mem_centralizer_singleton_iff, ← map_mul, ← map_mul, hy]
 
 omit hZ hap in
+omit [Finite K] in
 theorem pslBlock_le_centralizer (h : K[X]) :
     pslBlock a h ≤ Subgroup.centralizer ({proj n K a} : Set (projectiveSL n K)) := by
   rintro _ ⟨g, hg, rfl⟩
   have hga := Subgroup.mem_centralizer_singleton_iff.mp (comap_linearSpecialBlock_le_centralizer h hg)
   rw [Subgroup.mem_centralizer_singleton_iff, ← map_mul, ← map_mul, hga]
 
+omit [Finite K] in
 theorem pslBlock_normal (h : K[X]) :
     ∀ c ∈ Subgroup.centralizer ({proj n K a} : Set (projectiveSL n K)), ∀ m ∈ pslBlock a h,
       c * m * c⁻¹ ∈ pslBlock a h := by
@@ -178,12 +182,12 @@ theorem pslBlocks_derived (hpk : (3 : K) ≠ 0) :
     squarefree_minpoly_slGL hpk hap
   set C := fixSubgroup (slConjugation n K A) with hC
   set f := blockDetHom hsq with hf
-  haveI : ∀ b : {b : primaryFactors (glA A : Module.End K (Fin n → K)) // ¬ IsGoodFactor A b},
+  have : ∀ b : {b : primaryFactors (glA A : Module.End K (Fin n → K)) // ¬ IsGoodFactor A b},
       Group.IsSolvable (blockGL (glA A : Module.End K (Fin n → K)) b.1.1) := fun b =>
     isSolvable_blockGL_of_not_good b.1.2 b.2
-  haveI : Group.IsSolvable ((b : primaryFactors (glA A : Module.End K (Fin n → K))) →
+  have : Group.IsSolvable ((b : primaryFactors (glA A : Module.End K (Fin n → K))) →
       (AdjoinRoot (b : K[X]))ˣ) := inferInstance
-  haveI : Group.IsSolvable ((b : {b : primaryFactors (glA A : Module.End K (Fin n → K)) //
+  have : Group.IsSolvable ((b : {b : primaryFactors (glA A : Module.End K (Fin n → K)) //
       ¬ IsGoodFactor A b}) → blockGL (glA A : Module.End K (Fin n → K)) b.1.1) :=
     t6psl_isSolvable_pi
   obtain ⟨k, hk⟩ := t6psl_derived_le_ker f

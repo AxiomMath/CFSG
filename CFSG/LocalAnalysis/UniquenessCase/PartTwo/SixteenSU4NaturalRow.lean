@@ -50,10 +50,10 @@ variable {G : Type} [Group G] [Finite G] {D : Data G} {V₀ V L : Subgroup G}
 
 theorem isU4_of_isSUn_four_one {X : Type} [Group X] (h : IsSUn X 4 1) : IsU4 X 1 := by
   obtain ⟨K, hKfield, hKfinite, hKcard, ⟨e⟩⟩ := h
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 :=
+  let : Field K := hKfield
+  let : Finite K := hKfinite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 :=
     CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := 1) hKcard
   have hnq : ((4 : ℕ), 2 ^ 1) ≠ (3, 2) := by decide
   have hSUbot : (StatedScalars (Fin 4) K).subgroupOf (StatedSU 4 (2 ^ 1) K) = ⊥ :=
@@ -137,8 +137,8 @@ theorem case162_6_of_su4_natural
   have hU4 : IsU4 ↥(lBar V₀ V hV L) 1 := isU4_of_isSUn_four_one hSU
   have hs : s15 D.M V₀ V hV L = 1 := s15_eq_one_of_su4_component_at_three c hcomp hSU
   obtain ⟨K, hKfield, hKfinite, hKcard, hR⟩ := hNat
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
+  let : Field K := hKfield
+  let : Finite K := hKfinite
   have hstar : S16kStar D V₀ V L hV := c.toS16kStar hs
   have hreal : (FFModel.nat (StatedSU 4 (2 ^ 1) K)).Realizes
       (lStar D.M V₀ V hV L) (wStar D.M V₀ V hV L) ⊥ :=

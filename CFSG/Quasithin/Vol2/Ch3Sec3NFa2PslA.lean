@@ -39,7 +39,7 @@ theorem psl_small_two_card_twelve {X : Type} [Group X] {A T : Subgroup X} {x : X
     (hform : ∀ g ∈ T, ∃ a ∈ A, ∃ j : ℤ, g = a * x ^ j)
     (hA4 : Nat.card A = 4) (hx3 : orderOf x = 3) (hxA : x ∉ A) : Nat.card T = 12 := by
   have hx3' : x ^ 3 = 1 := by rw [← hx3, pow_orderOf_eq_one]
-  haveI : (A.subgroupOf T).Normal :=
+  have : (A.subgroupOf T).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hAT).mpr hTN
   have hA'card : Nat.card (A.subgroupOf T) = 4 :=
     (Nat.card_congr (Subgroup.subgroupOfEquivOfLe hAT).toEquiv).trans hA4
@@ -82,16 +82,16 @@ theorem psl_small_two_subgroup {X : Type} [Group X] (q : ℕ)
     Nat.card A ≤ 2 := by
   have hq5 : 5 ≤ q := by omega
   have h3 : q % 8 = 3 ∨ q % 8 = 5 := by omega
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : NeZero q := ⟨hq.ne_zero⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact q.Prime := ⟨hq⟩
+  have : NeZero q := ⟨hq.ne_zero⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hFq : Nat.card (ZMod q) = q := Nat.card_zmod q
   obtain ⟨e⟩ := nonempty_mulEquiv_psl_zmod hq hX
-  haveI : Finite X := Finite.of_equiv _ e.symm.toEquiv
+  have : Finite X := Finite.of_equiv _ e.symm.toEquiv
   by_contra hgt
   obtain ⟨P, hAP⟩ := IsPGroup.exists_le_sylow hA
   have hPcard : Nat.card (P : Subgroup X) = 4 :=
-    CFSG.Quasithin.H13.L2q.card_sylow_four e hFq hq hq5 h3 P.isPGroup' P.not_dvd_index
+    CFSG.Quasithin.H13.L2q.card_sylow_four e hFq hq hq5 h3 P.isPGroup P.not_dvd_index
   have hdvd : Nat.card A ∣ 4 := by
     have := Subgroup.card_dvd_of_le hAP
     rwa [hPcard] at this

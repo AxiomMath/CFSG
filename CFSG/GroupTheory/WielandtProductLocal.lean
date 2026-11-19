@@ -147,7 +147,7 @@ theorem exists_sylow_eq_subgroupOf {K : Subgroup G} (hZK : zOf A ≤ K) {p : ℕ
     (isPGroup_sylowOf (A := A) (p := p)).comap_of_injective K.subtype K.subtype_injective
   obtain ⟨T, hT⟩ := hPK.exists_le_sylow
   refine ⟨T, le_antisymm ?_ hT⟩
-  have hT' : IsPGroup p ((T : Subgroup K).map K.subtype) := T.isPGroup'.map _
+  have hT' : IsPGroup p ((T : Subgroup K).map K.subtype) := T.isPGroup.map _
   obtain ⟨S', hS'⟩ := hT'.exists_le_sylow
   obtain ⟨x, hx⟩ := MulAction.exists_smul_eq G (h.sylow hpA) S'
   obtain ⟨z, hzP, hzZ, hz1, -⟩ := h.exists_mem_sylowOf_zOf hpA
@@ -251,7 +251,7 @@ theorem le_of_normalizer_le {K : Subgroup G} (hZK : zOf A ≤ K)
   have hTK₀ : ∀ T : Sylow q K, (T : Subgroup K) ≤ K₀ := by
     intro T
     refine le_of_coprime_index ?_
-    obtain ⟨a, ha⟩ := T.isPGroup'.exists_card_eq
+    obtain ⟨a, ha⟩ := T.isPGroup.exists_card_eq
     rw [ha, hm]
     exact Nat.Coprime.pow _ _ ((Nat.coprime_primes hq hp).2 (Ne.symm hpq))
   have hpT : ¬ p ∣ Nat.card (Sylow q K) := by
@@ -272,7 +272,7 @@ theorem le_of_normalizer_le {K : Subgroup G} (hZK : zOf A ≤ K)
     (Subgroup.sylow_mem_fixedPoints_iff _).mp hT' (mem_zpowers _)
   set W : Subgroup G := (T' : Subgroup K).map K.subtype with hWdef
   have ha₀W : a₀ ∈ normalizer (W : Set G) := mem_normalizer_map_subtype ha₀T'
-  have hWq : IsPGroup q W := T'.isPGroup'.map _
+  have hWq : IsPGroup q W := T'.isPGroup.map _
   have hWb : W ≠ ⊥ := fun hb =>
     T'.ne_bot_of_dvd_card hqK ((map_eq_bot_iff_of_injective _ K.subtype_injective).mp hb)
   obtain ⟨S'', hS''⟩ := hWq.exists_le_sylow

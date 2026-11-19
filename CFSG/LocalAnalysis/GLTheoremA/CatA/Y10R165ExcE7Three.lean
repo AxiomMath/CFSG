@@ -117,7 +117,7 @@ theorem dvd_card_of_surjective_of_ker_dvd_six {G H : Type} [Group G] [Finite G] 
   · exact h
   · exact absurd h hpg
 
-theorem dvd_card_SL_six {K : Type} [Field K] [Finite K] {p : ℕ} (hp : p.Prime) (hp3 : 3 < p)
+theorem dvd_card_SL_six {K : Type} [Field K] [Finite K] {p : ℕ} (_hp : p.Prime) (_hp3 : 3 < p)
     (hΦ : (Nat.card K : ZMod p) ^ 2 + Nat.card K + 1 = 0) :
     p ∣ Nat.card (SL(6, K)) := by
   have hq2 : 2 ≤ Nat.card K := Finite.one_lt_card
@@ -150,6 +150,7 @@ section Model
 variable {K : Type} [Field K] [Finite K] {ℓ f p : ℕ} [Fact ℓ.Prime]
   {L : Type} [Field L] [Algebra K L] [IsAlgClosure K L] [CharP L ℓ] {ε : ℤ}
 
+omit [Finite K] in
 theorem exists_a5Layer_sigma_of_aut (hf : 1 ≤ f) (hK : Nat.card K = ℓ ^ f)
     (hε : ε = 1 ∨ ε = -1) (hq2 : ε = -1 → 2 < ℓ ^ f)
     {n : ModGL Tag.E7 L} (hnm : n ∈ monomialSubgroup Tag.E7 L)

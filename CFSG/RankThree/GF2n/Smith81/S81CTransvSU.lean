@@ -22,8 +22,8 @@ theorem su_transv_form {g : GL (Fin n) K} (hg : g ∈ StatedSU n (2 ^ f) K)
     (hr : ((g : Matrix (Fin n) (Fin n) K) - 1).rank = 1) :
     ∃ b : Fin n → K, b ≠ 0 ∧ (h.bar ∘ b) ⬝ᵥ b = 0 ∧
       (g : Matrix (Fin n) (Fin n) K) = 1 + vecMulVec b (h.bar ∘ b) := by
-  haveI := h.charP
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := h.charP
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hadd : ∀ M : Matrix (Fin n) (Fin n) K, M + M = 0 := fun M => by
     ext i j
     simp [CharTwo.add_self_eq_zero]

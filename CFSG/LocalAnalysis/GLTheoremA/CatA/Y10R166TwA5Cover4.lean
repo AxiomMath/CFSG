@@ -16,11 +16,13 @@ open Matrix
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {n : ℕ}
 
+omit [Finite F] [CharP F 2] in
 private theorem omega_cube {ω : F} (hω : ω ^ 2 + ω + 1 = 0) : ω ^ 3 = 1 := by
   have h : (ω - 1) * (ω ^ 2 + ω + 1) = 0 := by rw [hω, mul_zero]
   have h' : ω ^ 3 - 1 = 0 := by linear_combination h
   exact sub_eq_zero.mp h'
 
+omit [Finite F] in
 private theorem omega_ne_one {ω : F} (hω : ω ^ 2 + ω + 1 = 0) : ω ≠ 1 := by
   intro h
   have h3 : (3 : F) = 0 := by
@@ -32,18 +34,21 @@ private theorem omega_ne_one {ω : F} (hω : ω ^ 2 + ω + 1 = 0) : ω ≠ 1 := 
   have h1 : (1 : F) = 0 := by linear_combination h3 - h2
   exact one_ne_zero h1
 
+omit [Finite F] in
 private theorem omega_norm (h : UnitaryFieldData 2 n F) {ω : F} (hω : ω ^ 2 + ω + 1 = 0)
     (hbar : h.bar ω = ω + 1) : h.norm ω = 1 := by
   rw [UnitaryFieldData.norm, hbar]
   have h2 : (2 : F) = 0 := CharTwo.two_eq_zero
   linear_combination hω - h2
 
+omit [Finite F] [CharP F 2] in
 private theorem omega_five_inv {ω : F} (hω3 : ω ^ 3 = 1) : (ω ^ 5)⁻¹ = ω := by
   have h5 : ω ^ 5 = ω ^ 2 := by
     rw [show (5 : ℕ) = 2 + 3 by norm_num, pow_add, hω3, mul_one]
   rw [h5]
   exact inv_eq_of_mul_eq_one_right (by rw [← pow_succ, show (2 : ℕ) + 1 = 3 by norm_num, hω3])
 
+omit [Finite F] [CharP F 2] in
 private theorem coverDiag_vx_eq_diagFiveLast (h : UnitaryFieldData 2 n F) {ω : F} (hω3 : ω ^ 3 = 1)
     (hωnorm : h.norm ω = 1) (hω1 : ω ≠ 1) :
     coverDiag h hω3 hωnorm hω1 vx = diagFiveLast h ω hωnorm := by
@@ -53,6 +58,7 @@ private theorem coverDiag_vx_eq_diagFiveLast (h : UnitaryFieldData 2 n F) {ω : 
   funext i
   fin_cases i <;> simp [diagFiveLastEntries, omega_five_inv hω3]
 
+omit [Finite F] [CharP F 2] in
 private theorem coverDiag_vx_mem_center (h : UnitaryFieldData 2 n F) {ω : F} (hω3 : ω ^ 3 = 1)
     (hωnorm : h.norm ω = 1) (hω1 : ω ≠ 1) :
     coverDiag h hω3 hωnorm hω1 vx ∈ Subgroup.center (unitarySU 2 n F 6) := by
@@ -71,6 +77,7 @@ private theorem mem_centralizer_of_mem_center {X : Type} [Group X] {x : X}
   intro y _
   exact Subgroup.mem_center_iff.1 hx y
 
+omit [Finite F] [CharP F 2] in
 theorem cover_eight (h : UnitaryFieldData 2 n F) {ω : F} (hω3 : ω ^ 3 = 1)
     (hωnorm : h.norm ω = 1) (hω1 : ω ≠ 1) :
     ∃ S : Subgroup (unitarySU 2 n F 6),
@@ -107,6 +114,7 @@ theorem cover_eight (h : UnitaryFieldData 2 n F) {ω : F} (hω3 : ω ^ 3 = 1)
         Set.range (coverDiag h hω3 hωnorm hω1)
       exact ⟨vx, rfl⟩
 
+omit [Finite F] [CharP F 2] in
 private theorem commute_unitaryBlock_coverDiag (h : UnitaryFieldData 2 n F) {ω : F} (hω3 : ω ^ 3 = 1)
     (hωnorm : h.norm ω = 1) (hω1 : ω ≠ 1) (v : Fin 4 → ZMod 3)
     {l : unitarySU 2 n F 6} (hl : l ∈ unitaryBlock h ({0, 1} : Finset (Fin 6))) :
@@ -126,12 +134,13 @@ private theorem commute_unitaryBlock_coverDiag (h : UnitaryFieldData 2 n F) {ω 
         have hm := (mem_unitaryBlock h).1 hl i j
         have hnot : i ∉ ({0, 1} : Finset (Fin 6)) ∨ j ∉ ({0, 1} : Finset (Fin 6)) := by
           by_contra hcon
-          push_neg at hcon
+          push Not at hcon
           exact hmem ⟨hcon.1, hcon.2⟩
         rw [hm hnot]
-        simp [Matrix.one_apply, hij]
+        simp [hij]
       rw [hl0]; ring
 
+omit [CharP F 2] in
 theorem cover_e3 (h : UnitaryFieldData 2 n F) {ω : F} (hω3 : ω ^ 3 = 1)
     (hωnorm : h.norm ω = 1) (hω1 : ω ≠ 1) (hn : 2 ≤ n)
     (hqd : 3 ∣ 2 ^ (2 * n) - 1) :

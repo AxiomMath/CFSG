@@ -58,8 +58,8 @@ private theorem foldr_cnt (f : Nat → Bool) : ∀ (n s : Nat),
     rw [List.range_succ, List.foldr_append, List.foldr_cons, List.foldr_nil, foldr_cnt f n,
       Finset.range_add_one, Finset.filter_insert]
     cases hf : f n
-    · rw [if_neg Bool.false_ne_true]
-    · rw [if_pos rfl, Finset.card_insert_of_notMem (by simp)]
+    · rw [ite_eq_right Bool.false_ne_true]
+    · rw [ite_eq_left rfl, Finset.card_insert_of_notMem (by simp)]
       change s + 1 + _ = _
       omega
 
@@ -106,9 +106,9 @@ theorem recOK_of_recK {m : Nat} {gens : Array (Array Nat)} {G : Nat → Nat} {L 
       rw [unpack12_get L hx, unpack12_get D hx, Bool.and_eq_true, decide_eq_true_eq]
       refine ⟨blt_t e1, ?_⟩
       by_cases hd : at12 D x = 1
-      · rw [if_pos (beq_iff_eq.2 hd), beq_iff_eq]
+      · rw [ite_eq_left (beq_iff_eq.2 hd), beq_iff_eq]
         exact beq_t ((bif_true e2).1 (beq_true hd))
-      · rw [if_neg (fun h' => hd (beq_iff_eq.1 h'))]
+      · rw [ite_eq_right (fun h' => hd (beq_iff_eq.1 h'))]
         obtain ⟨f1, f'⟩ := band_true ((bif_true e2).2 (beq_false hd))
         obtain ⟨f2, f''⟩ := band_true f'
         obtain ⟨f3, f4⟩ := band_true f''

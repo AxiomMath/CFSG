@@ -154,15 +154,15 @@ theorem quot_eq_iff_mul_inv_mem {H : Type} [Group H] (N : Subgroup H) [N.Normal]
     rw [e]
     exact Subgroup.Normal.conj_mem inferInstance _ (N.inv_mem h) _
 
-theorem Yof_map_conj (X : Subgroup G) : ∀ g : G, ∀ hg : g ∈ Subgroup.normalizer (X : Set G),
+theorem Yof_map_conj (X : Subgroup G) : ∀ _g : G, ∀ hg : _g ∈ Subgroup.normalizer (X : Set G),
     (Yof ((pCoreOf 2 X).subgroupOf X)).map (conjXEquiv X hg).toMonoidHom =
       Yof ((pCoreOf 2 X).subgroupOf X) :=
-  fun g hg => map_conjXEquiv_eq_of_iff hg (fun x => Yof_conj_iff X hg x)
+  fun _g hg => map_conjXEquiv_eq_of_iff hg (fun x => Yof_conj_iff X hg x)
 
-theorem N_map_conj (X : Subgroup G) : ∀ g : G, ∀ hg : g ∈ Subgroup.normalizer (X : Set G),
+theorem N_map_conj (X : Subgroup G) : ∀ _g : G, ∀ hg : _g ∈ Subgroup.normalizer (X : Set G),
     ((pCoreOf 2 X).subgroupOf X).map (conjXEquiv X hg).toMonoidHom =
       (pCoreOf 2 X).subgroupOf X :=
-  fun g hg => map_conjXEquiv_eq_of_iff hg (fun x => N_conj_iff X hg x)
+  fun _g hg => map_conjXEquiv_eq_of_iff hg (fun x => N_conj_iff X hg x)
 
 @[expose] noncomputable def linHom {X K : Subgroup G} (hK : K ≤ Subgroup.normalizer (X : Set G))
     [Fact (∀ x ∈ X, x ^ 3 ∈ pCoreOf 2 X)] :
@@ -241,9 +241,9 @@ theorem isSolvable_of_trivial_action {X K : Subgroup G} [Finite G]
     (hK5 : ∀ K' : Subgroup G, K' ≤ K → ⁅K', X⁆ ≤ pCoreOf 2 X → Group.IsSolvable ↥K')
     (hall : ∀ s : ↥K, linHom hKN s = 1) : Group.IsSolvable ↥K := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let actN := actHom hKN ((pCoreOf 2 X).subgroupOf X) (N_map_conj X)
-  haveI : Finite (MulAut (↥X ⧸ (pCoreOf 2 X).subgroupOf X)) :=
+  have : Finite (MulAut (↥X ⧸ (pCoreOf 2 X).subgroupOf X)) :=
     Finite.of_injective (fun f : MulAut (↥X ⧸ (pCoreOf 2 X).subgroupOf X) =>
       (f : (↥X ⧸ (pCoreOf 2 X).subgroupOf X) → (↥X ⧸ (pCoreOf 2 X).subgroupOf X)))
       (fun f g h => MulEquiv.ext (fun x => congrFun h x))
@@ -256,8 +256,8 @@ theorem isSolvable_of_trivial_action {X K : Subgroup G} [Finite G]
     apply Subtype.ext
     rw [SubgroupClass.coe_pow, ← hs]
     exact actN_pow_three_eq_one hKN hS s (hall s)
-  haveI : Group.IsNilpotent ↥actN.range := IsPGroup.isNilpotent hRP
-  haveI : Group.IsSolvable ↥actN.range := inferInstance
+  have : Group.IsNilpotent ↥actN.range := IsPGroup.isNilpotent hRP
+  have : Group.IsSolvable ↥actN.range := inferInstance
   have hKer : Group.IsSolvable ↥actN.ker := by
     have hK'K : actN.ker.map K.subtype ≤ K := Subgroup.map_subtype_le _
     have hcomm : ⁅actN.ker.map K.subtype, X⁆ ≤ pCoreOf 2 X := by
@@ -281,7 +281,7 @@ theorem isSolvable_of_trivial_action {X K : Subgroup G} [Finite G]
       rw [commutatorElement_def]
       exact h3
     have hK' : Group.IsSolvable ↥(actN.ker.map K.subtype) := hK5 _ hK'K hcomm
-    haveI := hK'
+    have := hK'
     exact Group.isSolvable_of_isSolvable_injective
       (f := (Subgroup.equivMapOfInjective actN.ker K.subtype K.subtype_injective).toMonoidHom)
       (Subgroup.equivMapOfInjective actN.ker K.subtype K.subtype_injective).injective
@@ -296,21 +296,21 @@ theorem not_three_of_cComponent {X K : Subgroup G} [Finite G]
     (hpow : ∀ x ∈ X, x ^ 3 ∈ pCoreOf 2 X)
     (hidx : (pCoreOf 2 X).relIndex X = 3 ^ 3) (hnc : ¬ ⁅X, X⁆ ≤ pCoreOf 2 X) : False := by
   have hKN : K ≤ Subgroup.normalizer (X : Set G) := Subgroup.le_normalizer.trans hNKX
-  haveI : Fact (∀ x ∈ X, x ^ 3 ∈ pCoreOf 2 X) := ⟨hpow⟩
+  have : Fact (∀ x ∈ X, x ^ 3 ∈ pCoreOf 2 X) := ⟨hpow⟩
   have hnc' : ¬ ⁅(⊤ : Subgroup ↥X), (⊤ : Subgroup ↥X)⁆ ≤ (pCoreOf 2 X).subgroupOf X :=
     fun h => hnc ((commutator_top_le_subgroupOf_iff X).mp h)
   have hN3 : ((pCoreOf 2 X).subgroupOf X).index = 3 ^ 3 := hidx
   have hMidx : (Yof ((pCoreOf 2 X).subgroupOf X)).index = 3 ^ 2 :=
     (index_Yof_of_index_cube hN3 hnc').1
   have hS : IsXiShape 3 ((pCoreOf 2 X).subgroupOf X) := Or.inr ⟨hN3, hnc'⟩
-  haveI : Group.IsPerfect ↥K := Subgroup.isPerfect_iff.mpr hKperf
-  haveI : Nontrivial ↥K := (Subgroup.nontrivial_iff_ne_bot K).mpr hKne
+  have : Group.IsPerfect ↥K := Subgroup.isPerfect_iff.mpr hKperf
+  have : Nontrivial ↥K := (Subgroup.nontrivial_iff_ne_bot K).mpr hKne
   obtain ⟨s₀, hs₀⟩ : ∃ s : ↥K, linHom hKN s ≠ 1 := by
     by_contra hcon
     push Not at hcon
     exact Group.IsPerfect.not_isSolvable ↥K (isSolvable_of_trivial_action hKN hS hK5 hcon)
-  haveI : Group.IsPerfect (linHom hKN).range := Group.IsPerfect.range (linHom hKN)
-  haveI : Nontrivial (linHom hKN).range := by
+  have : Group.IsPerfect (linHom hKN).range := Group.IsPerfect.range (linHom hKN)
+  have : Nontrivial (linHom hKN).range := by
     rw [Subgroup.nontrivial_iff_ne_bot]
     intro h
     apply hs₀
@@ -318,7 +318,7 @@ theorem not_three_of_cComponent {X K : Subgroup G} [Finite G]
     rw [h, Subgroup.mem_bot] at hmem
     exact hmem
   have hns : ¬ Group.IsSolvable (linHom hKN).range := Group.IsPerfect.not_isSolvable _
-  haveI : Module.Finite (ZMod 3) (Additive (↥X ⧸ Yof ((pCoreOf 2 X).subgroupOf X))) :=
+  have : Module.Finite (ZMod 3) (Additive (↥X ⧸ Yof ((pCoreOf 2 X).subgroupOf X))) :=
     inferInstance
   have hE : Module.finrank (ZMod 3) (Additive (↥X ⧸ Yof ((pCoreOf 2 X).subgroupOf X))) = 2 := by
     have h1 := Module.natCard_eq_pow_finrank (K := ZMod 3)

@@ -243,7 +243,7 @@ theorem lr6SmallRankExcl_of_closed
       rcases hmemL with h | h
       · exact Or.inl (Or.inl (Or.inr h))
       · exact Or.inr h
-  haveI : Fact Q.pt.p.Prime := hp
+  have : Fact Q.pt.p.Prime := hp
   rcases hcl Q hQ with hfix | hnwf | htrv | hcyc
   · exfalso
     have hz : c • αa x = 0 := by simpa using alphaFixed_models hM hfix

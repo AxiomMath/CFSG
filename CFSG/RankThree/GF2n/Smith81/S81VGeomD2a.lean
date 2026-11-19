@@ -10,7 +10,7 @@ open CFSG.ClassicalGroups.Unitary CFSG.RankThree.GF2n.Smith81.U6Cube Module
 
 variable {F : Type} [Field F] {σ : F ≃+* F}
 
-@[expose] def recipeVec (σ : F ≃+* F) (u₁ w₁ u₂ w₂ : Fin 6 → F) (θ : F) : Fin 6 → F :=
+@[expose] def recipeVec (_σ : F ≃+* F) (u₁ w₁ u₂ w₂ : Fin 6 → F) (θ : F) : Fin 6 → F :=
   u₁ + θ • w₁ + u₂ + θ • w₂
 
 @[expose] def recipeSet (σ : F ≃+* F) (p u₁ w₁ u₂ w₂ : Fin 6 → F) (θ : F) :
@@ -65,7 +65,7 @@ theorem Recipe.li5 (hσ : ∀ c, σ (σ c) = c) (h : Recipe σ p u₁ w₁ u₂ 
   rw [Fintype.linearIndependent_iff]
   intro g hg
   rw [Fin.sum_univ_five] at hg
-  simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons] at hg
+  simp only [Matrix.cons_val_zero, Matrix.cons_val_one] at hg
   have e1 : g 1 = 0 := by
     have := congrArg (herm σ w₁) hg
     simpa [r1, r7, h.w₁w₁, h.w₁u₂, h.w₁w₂] using this
@@ -79,7 +79,7 @@ theorem Recipe.li5 (hσ : ∀ c, σ (σ c) = c) (h : Recipe σ p u₁ w₁ u₂ 
     have := congrArg (herm σ u₂) hg
     simpa [r9, r3, r4, h.u₂u₂, h.u₂w₂] using this
   have e0 : g 0 = 0 := by
-    simp only [e1, e2, e3, e4, zero_smul, add_zero, zero_add] at hg
+    simp only [e1, e2, e3, e4, zero_smul, add_zero] at hg
     exact (smul_eq_zero.mp hg).resolve_right h.p0
   intro i
   fin_cases i
@@ -95,16 +95,15 @@ theorem Recipe.herm_c (hσ : ∀ c, σ (σ c) = c) [CharP F 2] (h : Recipe σ p 
   unfold recipeVec
   refine ⟨?_, ?_, ?_, ?_⟩
   · simp only [herm_add_left, herm_add_right, herm_smul_left, herm_smul_right, r1, r2, r3, r4,
-      r5, r6, r7, r8, r9, r10, h.u₁u₁, h.u₁w₁, h.u₁u₂, h.u₁w₂, h.w₁w₁, h.w₁u₂, h.w₁w₂,
+      r5, r6, h.u₁u₁, h.u₁w₁, h.u₁u₂, h.u₁w₂, h.w₁w₁, h.w₁u₂, h.w₁w₂,
       h.u₂u₂, h.u₂w₂, h.w₂w₂]
     linear_combination (θ + σ θ) * two
-  · simp only [herm_add_left, herm_add_right, herm_smul_left, herm_smul_right, r1, r2, r3, r4,
-      r5, r6, r7, r8, r9, r10, h.u₁u₁, h.u₁w₁, h.u₁u₂, h.u₁w₂, h.w₁w₁, h.w₁u₂, h.w₁w₂,
-      h.u₂u₂, h.u₂w₂, h.w₂w₂]
+  · simp only [herm_add_left, herm_add_right, herm_smul_left, r4,
+      r6, h.u₁w₁, h.u₁w₂, h.w₁w₁, h.w₁w₂,
+      h.u₂w₂, h.w₂w₂]
     linear_combination two
-  · simp only [herm_add_left, herm_add_right, herm_smul_left, herm_smul_right, r1, r2, r3, r4,
-      r5, r6, r7, r8, r9, r10, h.u₁u₁, h.u₁w₁, h.u₁u₂, h.u₁w₂, h.w₁w₁, h.w₁u₂, h.w₁w₂,
-      h.u₂u₂, h.u₂w₂, h.w₂w₂]
+  · simp only [herm_add_left, herm_add_right, herm_smul_left, herm_smul_right, r1, r3, r5, h.u₁u₁, h.u₁w₂, h.w₁w₂,
+      h.u₂w₂, h.w₂w₂]
     linear_combination (σ θ) * two
   · simp [herm_add_right, herm_smul_right, h.pu₁, h.pw₁, h.pu₂, h.pw₂]
 
@@ -156,7 +155,7 @@ theorem Recipe.isPt_all [CharP F 2] (hσ : ∀ c, σ (σ c) = c) (h : Recipe σ 
       rw [Fintype.linearIndependent_iff]
       intro g hg
       rw [Fin.sum_univ_three] at hg
-      simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons] at hg
+      simp only [Matrix.cons_val_zero, Matrix.cons_val_one] at hg
       have hg' : g 0 • p + g 1 • (u₁ + θ • w₁ + u₂ + θ • w₂) + g 2 • (w₁ + w₂) = 0 := by
         unfold recipeVec at hg
         exact hg
@@ -171,7 +170,7 @@ theorem Recipe.isPt_all [CharP F 2] (hσ : ∀ c, σ (σ c) = c) (h : Recipe σ 
       rw [Fintype.linearIndependent_iff]
       intro g hg
       rw [Fin.sum_univ_three] at hg
-      simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons] at hg
+      simp only [Matrix.cons_val_zero, Matrix.cons_val_one] at hg
       have hg' : g 0 • p + g 1 • (u₁ + θ • w₁ + u₂ + θ • w₂) + g 2 • (u₁ + σ θ • w₂) = 0 := by
         unfold recipeVec at hg
         exact hg

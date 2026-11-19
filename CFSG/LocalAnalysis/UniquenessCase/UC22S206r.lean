@@ -20,11 +20,11 @@ variable {G : Type} [Group G]
 
 theorem uc22s206r_isCatalogGroup [Finite G] (D : Data G) {C : Subgroup (Bar2 D.M)}
     (hC : IsComponentOf C ⊤) : CFSG.Open.IsCatalogGroup (↥C ⧸ Subgroup.center ↥C) := by
-  haveI := D.standing.simple
+  have := D.standing.simple
   have hM : D.M ≠ ⊤ :=
     CFSG.PreuniquenessRankFour.Helpers.twoLocal_ne_top D.standing.nonab D.maxLocal.1
   have hB : CFSG.Open.IsKGroup (Bar2 D.M) := (D.standing.kProper.isKGroup D.M hM).quotient _
-  haveI : IsSimpleGroup (↥C ⧸ Subgroup.center ↥C) := hC.2.2.2
+  have : IsSimpleGroup (↥C ⧸ Subgroup.center ↥C) := hC.2.2.2
   exact hB.isCatalogGroup_of_surjective C
     (CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian ↥C hC.2.2)
     (QuotientGroup.mk' _) (QuotientGroup.mk'_surjective _)
@@ -36,12 +36,12 @@ theorem uc22s206r_calC [Finite G] (D : Data G) {C : Subgroup (Bar2 D.M)}
 
 theorem uc22s206r_pRank_le [Finite G] (D : Data G) (h82 : F08.R82 D) (hk : D.k = 2)
     {A : Subgroup G} (hA : A ∈ calC D.M) : CFSG.Open.pRank 3 (⊤ : Subgroup (Bar2 A)) ≤ 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hSE : ¬ CFSG.RankThree.PartOne.IsStronglyPEmbedded 3 D.M := fun h => by
     have h1 : D.k = 1 := by
       show CFSG.LocalAnalysis.RankThreeUC.kParam D.M = 1
-      rw [CFSG.LocalAnalysis.RankThreeUC.kParam, if_pos h]
+      rw [CFSG.LocalAnalysis.RankThreeUC.kParam, ite_eq_left h]
     omega
   have hA3 : CFSG.Open.pRank 3 A ≤ 2 := by
     by_contra h
@@ -60,7 +60,7 @@ theorem uc22s206r_pRank_le [Finite G] (D : Data G) (h82 : F08.R82 D) (hk : D.k =
 theorem uc22s206r_center_alt8 {W : Type} [Group W] [Finite W] (hW : commutator W = ⊤)
     (hodd : Odd (Nat.card (Subgroup.center W))) (hA : IsAlt (W ⧸ Subgroup.center W) 8) :
     Subgroup.center W = ⊥ := by
-  haveI : Group.IsPerfect W := Group.isPerfect_def.mpr hW
+  have : Group.IsPerfect W := Group.isPerfect_def.mpr hW
   obtain ⟨e⟩ : Nonempty (W ⧸ Subgroup.center W ≃* alternatingGroup (Fin 8)) := hA
   set η : W →* alternatingGroup (Fin (6 + 2)) :=
     e.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center W))
@@ -74,7 +74,7 @@ theorem uc22s206r_center_alt8 {W : Type} [Group W] [Finite W] (hW : commutator W
 theorem uc22s206r_center_psl52 (hN : uc22p20rNativeGriess) {W : Type} [Group W] [Finite W]
     (hW : commutator W = ⊤) (hL : LieModel (W ⧸ Subgroup.center W) .PSL 5 2 1) :
     Subgroup.center W = ⊥ := by
-  haveI : Group.IsPerfect W := Group.isPerfect_def.mpr hW
+  have : Group.IsPerfect W := Group.isPerfect_def.mpr hW
   obtain ⟨-, ⟨eM⟩⟩ := hN (W ⧸ Subgroup.center W) .PSL 5 2 1 hL
   have hM : Nat.card (hopfMultiplier (W ⧸ Subgroup.center W)) = 1 := by
     rw [← Nat.card_congr (hopfMultiplierEquivGriess (W ⧸ Subgroup.center W)).toEquiv,
@@ -91,7 +91,7 @@ theorem uc22s206r_center_m24
     {W : Type} [Group W] [Finite W] (hW : commutator W = ⊤)
     (hodd : Odd (Nat.card (Subgroup.center W))) (hS : IsSpor (W ⧸ Subgroup.center W) .M24) :
     Subgroup.center W = ⊥ := by
-  haveI : Group.IsPerfect W := Group.isPerfect_def.mpr hW
+  have : Group.IsPerfect W := Group.isPerfect_def.mpr hW
   obtain ⟨e⟩ : Nonempty (W ⧸ Subgroup.center W ≃* CFSG.Blueprint.NativeSporadic.Carrier .M24) :=
     hS
   set π : W →* CFSG.Blueprint.NativeSporadic.Carrier .M24 :=
@@ -106,7 +106,7 @@ theorem uc22s206r_center_j4
     {W : Type} [Group W] [Finite W] (hW : commutator W = ⊤)
     (hodd : Odd (Nat.card (Subgroup.center W))) (hS : IsSpor (W ⧸ Subgroup.center W) .J4) :
     Subgroup.center W = ⊥ := by
-  haveI : Group.IsPerfect W := Group.isPerfect_def.mpr hW
+  have : Group.IsPerfect W := Group.isPerfect_def.mpr hW
   obtain ⟨e⟩ : Nonempty (W ⧸ Subgroup.center W ≃* CFSG.Blueprint.NativeSporadic.Carrier .J4) :=
     hS
   set π : W →* CFSG.Blueprint.NativeSporadic.Carrier .J4 :=
@@ -165,8 +165,8 @@ theorem uc22s206r_list880
     {TS : Subgroup (↥C ⧸ Subgroup.center ↥C)} (hTS : CFSG.ABGLocalTools.IsSylowOf 2 TS ⊤)
     (hTSn : TS ≤ normalizer (ψ.range : Set (↥C ⧸ Subgroup.center ↥C))) :
     ∃ A ∈ calC D.M, F08.List880 (Bar2 A) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : IsSimpleGroup (↥C ⧸ Subgroup.center ↥C) := hC.2.2.2
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsSimpleGroup (↥C ⧸ Subgroup.center ↥C) := hC.2.2.2
   obtain ⟨A, hA, ⟨e₁⟩⟩ := uc22s206r_calC D hC
   have h3 : CFSG.Open.pRank 3 (⊤ : Subgroup ↥C) ≤ 2 := by
     rw [← CFSG.SectionRank.pRank_top_eq_of_mulEquiv (by norm_num) e₁]
@@ -178,7 +178,7 @@ theorem uc22s206r_list880
     rcases hK331 (↥C ⧸ Subgroup.center ↥C) hC.2.2.2 (uc22s206r_isCatalogGroup D hC)
       (uc22s206q_pRank α hα hker ψ hψ h3) TS hTS ψ.range ⟨e₈⟩ hTSn with hR | h | h | h
     · obtain ⟨-, -, -, ha1, -⟩ := uc22s206p_rel
-      haveI : Nontrivial (alternatingGroup (Fin 8)) := ⟨⟨uc22s206pA0, 1, ha1⟩⟩
+      have : Nontrivial (alternatingGroup (Fin 8)) := ⟨⟨uc22s206pA0, 1, ha1⟩⟩
       exact Or.inl (uc22s206r_mulEquiv_of_top hR e₈)
     · exact Or.inr (Or.inl h)
     · exact Or.inr (Or.inr (Or.inl h))

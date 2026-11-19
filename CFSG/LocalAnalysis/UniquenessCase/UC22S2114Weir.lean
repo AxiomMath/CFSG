@@ -126,7 +126,7 @@ theorem uc22s2114_pRank_le_one_of_isL3 (hGA : GriessAllModelsStatement) {M L : S
   rw [← pRank_bar2_eq_of_odd hp hp2,
     uc22p20w_pRank_psl (uc22p20x_lieOddRankChev hGA) hL.2.2 hS le_rfl hf hp hp2]
   have h1 : eP (2 ^ f) p ≠ 1 := fun h => hpf ((eP_eq_one_iff Nat.one_le_two_pow).1 h)
-  simp only [rkLin, ↓reduceIte, if_neg h1]
+  simp only [rkLin, ↓reduceIte, ite_eq_right h1]
   exact div_le_one_of (by omega)
 
 theorem uc22s2114_pRank_le_one_of_isU5 (hGA : GriessAllModelsStatement) {M L : Subgroup G}
@@ -145,7 +145,7 @@ theorem uc22s2114_pRank_le_one_of_isU5 (hGA : GriessAllModelsStatement) {M L : S
     have h' := pow_orderOf_eq_one (-((2 ^ f : ℕ) : ZMod p))
     rw [show orderOf (-((2 ^ f : ℕ) : ZMod p)) = 2 from h, neg_sq] at h'
     exact h')
-  simp only [rkLin, Bool.false_eq_true, ↓reduceIte, if_neg h1]
+  simp only [rkLin, Bool.false_eq_true, ↓reduceIte, ite_eq_right h1]
   exact div_le_one_of (by omega)
 
 theorem uc22s2114_pRank_le_one_of_rootLineShape (hGA : GriessAllModelsStatement)

@@ -23,6 +23,7 @@ private theorem w16g_card_of_isElemAbelianOfRank {X : Type*} [Group X] {p n : �
   change Nat.card (Fin n → ZMod p) = p ^ n
   rw [Nat.card_fun, Nat.card_zmod, Nat.card_fin]
 
+omit [Finite W] in
 theorem w16g_le_normalizer_zpowers_of_le_normalizer
     {P : Subgroup (MulAut W)} {z : MulAut W}
     (hzP : z ∈ P) (hzc : ∀ y ∈ P, y * z = z * y)
@@ -97,7 +98,7 @@ theorem w16g_isPOnePlusTwo_sup {N M : Subgroup (MulAut W)}
     obtain ⟨k, hk2, hk⟩ := (Nat.dvd_prime_pow Nat.prime_three).mp hdvd
     interval_cases k
     · exfalso
-      haveI : Nontrivial ↥(N ⊓ M) := (Subgroup.nontrivial_iff_ne_bot _).mpr hinf_ne
+      have : Nontrivial ↥(N ⊓ M) := (Subgroup.nontrivial_iff_ne_bot _).mpr hinf_ne
       have hlt : 1 < Nat.card ↥(N ⊓ M) := Finite.one_lt_card_iff_nontrivial.mpr inferInstance
       omega
     · exact hk

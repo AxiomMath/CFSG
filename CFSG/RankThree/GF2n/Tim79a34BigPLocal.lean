@@ -120,7 +120,7 @@ theorem bigPLocalStatement_of_spRad (hR : SpRadGeneralStatement) : BigPLocalStat
   have hfwd : ∀ w : Fin n ⊕ Fin n → GaloisField 2 f,
       ((Additive.toMul (ψ w) : ↥(wOf V H)) : G) ∈ P → CaseM.spForm a w = 0 := by
     intro w hw
-    obtain ⟨v, hvV, hvW⟩ := SetLike.not_le_iff_exists.mp hc.not_V_le_wOf
+    obtain ⟨v, hvV, hvW⟩ := IsConcreteLE.not_le_iff_exists.mp hc.not_V_le_wOf
     have hvX : v ∈ xOf V H := le_xOf (V_mem_omegaOf V H) hvV
     have hxmem : xToXbar hVH ⟨v, hvX⟩ ∈ Vy V H :=
       Subgroup.mem_subgroupOf.mpr

@@ -20,15 +20,15 @@ theorem theta_eq_bot_of_center_three {Y : Type*} [Group Y] [Finite Y] (hY : IsQu
   obtain ⟨hsolv, hchar, h3, -⟩ := solvable_prime_complement_core_characterization
     (H := Y) Nat.prime_three
   set θ := aschbacherSolvableCore 3 Y with hθ
-  haveI := hchar
+  have := hchar
   have hnorm : θ.Normal := inferInstance
   obtain ⟨-, hsimple, hna⟩ := hY
-  haveI := hsimple
+  have := hsimple
   have : Group.IsPerfect (Y ⧸ center Y) := isPerfect_of_simple_nonabelian hna
   have hmapnorm : (θ.map (QuotientGroup.mk' (center Y))).Normal :=
     hnorm.map _ (QuotientGroup.mk'_surjective _)
   have hle : θ ≤ center Y := by
-    haveI := hmapnorm
+    have := hmapnorm
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (θ.map (QuotientGroup.mk' (center Y))) with h | h
     · intro x hx
       have : QuotientGroup.mk' (center Y) x ∈ θ.map (QuotientGroup.mk' (center Y)) := ⟨x, hx, rfl⟩
@@ -36,11 +36,11 @@ theorem theta_eq_bot_of_center_three {Y : Type*} [Group Y] [Finite Y] (hY : IsQu
       exact (QuotientGroup.eq_one_iff x).1 this
     · exfalso
       have hsolvmap : Group.IsSolvable (θ.map (QuotientGroup.mk' (center Y))) :=
-        solvable_of_surjective (f := (QuotientGroup.mk' (center Y)).subgroupMap θ)
+        Group.isSolvable_of_surjective (f := (QuotientGroup.mk' (center Y)).subgroupMap θ)
           ((QuotientGroup.mk' (center Y)).subgroupMap_surjective θ)
       rw [h] at hsolvmap
       have hs : Group.IsSolvable (Y ⧸ center Y) :=
-        solvable_of_surjective (f := (topEquiv : (⊤ : Subgroup (Y ⧸ center Y)) ≃* _).toMonoidHom)
+        Group.isSolvable_of_surjective (f := (topEquiv : (⊤ : Subgroup (Y ⧸ center Y)) ≃* _).toMonoidHom)
           (topEquiv.surjective)
       exact Group.IsPerfect.not_isSolvable _ hs
   have hdvd : Nat.card θ ∣ 3 := by

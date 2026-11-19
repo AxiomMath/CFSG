@@ -35,7 +35,7 @@ theorem StrothWeakTypeData.closure_c_a_b (D : StrothWeakTypeData B τ) :
     have hy : y = z 0 • gen τ.k 0 + z 1 • gen τ.k 1 + z 2 • gen τ.k 2 := by
       funext i
       fin_cases i <;>
-        simp [gen, Pi.single_eq_same, Pi.single_eq_of_ne, hz, Pi.add_apply, Pi.smul_apply]
+        simp [gen, Pi.single_eq_same, Pi.single_eq_of_ne, hz, Pi.add_apply]
     have hx' : xB = D.c ^ (z 0) * D.a ^ (z 1) * D.b ^ (z 2) := by
       apply Additive.ofMul.injective
       apply D.e.injective

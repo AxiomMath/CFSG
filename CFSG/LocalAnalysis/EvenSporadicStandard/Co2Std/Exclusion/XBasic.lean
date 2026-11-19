@@ -33,7 +33,7 @@ theorem XHyp.card₂ (h : XHyp ρ Q V₁ V₂ z Q₁ t₁) : Nat.card V₂ = 2 ^
   rw [← Nat.card_congr (⟨f, g, hgf, hfg⟩ : ↥V₁ ≃ ↥V₂), h.card₁]
 
 theorem XHyp.card_V (h : XHyp ρ Q V₁ V₂ z Q₁ t₁) : Nat.card V = 2 ^ 20 := by
-  haveI : IsMulCommutative V := h.elemAb.toIsMulCommutative
+  have : IsMulCommutative V := h.elemAb.toIsMulCommutative
   let f : ↥V₁ × ↥V₂ → V := fun p => (p.1 : V) * (p.2 : V)
   have hf_inj : Function.Injective f := by
     intro p q heq
@@ -141,9 +141,7 @@ theorem XHyp.resEquiv_mem_commutator_iff (h : XHyp ρ Q V₁ V₂ z Q₁ t₁) (
     exact Subgroup.mem_map_iff_mem Q₁.subtype_injective
   have hmid : h.resEquiv q ∈ _root_.commutator ↥Q₁ ↔ q ∈ _root_.commutator ↥Q := by
     rw [← h.map_commutator_resEquiv]
-    simpa using
-      (Subgroup.mem_map_equiv (f := h.resEquiv) (K := _root_.commutator ↥Q)
-        (x := h.resEquiv q))
+    simp
   exact hQ₁.trans (hmid.trans hQ.symm)
 
 theorem XHyp.apply_mem₁ (h : XHyp ρ Q V₁ V₂ z Q₁ t₁) {q : X} (hq : q ∈ Q) {v : V}
@@ -217,7 +215,7 @@ private noncomputable def XHyp.commutatorEquiv (h : XHyp ρ Q V₁ V₂ z Q₁ t
 
 theorem XHyp.isSimpleGroup_commutator (h : XHyp ρ Q V₁ V₂ z Q₁ t₁) :
     IsSimpleGroup ↥⁅Q, Q⁆ := by
-  haveI := h.module.derived_simple
+  have := h.module.derived_simple
   exact MulEquiv.isSimpleGroup h.commutatorEquiv
 
 theorem XHyp.card_commutator (h : XHyp ρ Q V₁ V₂ z Q₁ t₁) : Nat.card ↥⁅Q, Q⁆ = 443520 := by
@@ -259,7 +257,7 @@ theorem XHyp.centralizer_commutator (h : XHyp ρ Q V₁ V₂ z Q₁ t₁) :
 
 theorem XHyp.eq_bot_or_le_of_normal (h : XHyp ρ Q V₁ V₂ z Q₁ t₁) {N : Subgroup X}
     (hNQ : N ≤ Q) (hN : ∀ q ∈ Q, ∀ n ∈ N, q * n * q⁻¹ ∈ N) : N = ⊥ ∨ ⁅Q, Q⁆ ≤ N := by
-  haveI := h.isSimpleGroup_commutator
+  have := h.isSimpleGroup_commutator
   have hMnormal : ((N ⊓ ⁅Q, Q⁆ : Subgroup X).subgroupOf ⁅Q, Q⁆).Normal := by
     rw [Subgroup.normal_subgroupOf_iff inf_le_right]
     intro n k hn hk
@@ -356,8 +354,8 @@ theorem XHyp.le_zpowers_or_le (h : XHyp ρ Q V₁ V₂ z Q₁ t₁) {Y : Subgrou
     intro y c hy hc
     exact hYn c hc y hy
   have hcomm_le : ⁅Y, Q⁆ ≤ Y ⊓ Q := by
-    haveI : (Y.subgroupOf (centralizer ({z} : Set X))).Normal := hYN
-    haveI : (Q.subgroupOf (centralizer ({z} : Set X))).Normal := hQN
+    have : (Y.subgroupOf (centralizer ({z} : Set X))).Normal := hYN
+    have : (Q.subgroupOf (centralizer ({z} : Set X))).Normal := hQN
     have hle := Subgroup.commutator_le_inf
       (H₁ := Y.subgroupOf (centralizer ({z} : Set X)))
       (H₂ := Q.subgroupOf (centralizer ({z} : Set X)))
@@ -479,7 +477,7 @@ theorem XHyp.exists_sylow_of_forall [Finite X] (h : XHyp ρ Q V₁ V₂ z Q₁ t
     rw [Nat.card_zpowers, h.orderOf_z]
     norm_num
   obtain ⟨P, hzP⟩ := hz2.exists_le_sylow
-  have hzmem : z ∈ zpowers z := by simpa using Subgroup.zpow_mem_zpowers z (1 : ℤ)
+  have hzmem : z ∈ zpowers z := by simp
   exact ⟨P, hzP hzmem, fun x _ => hall x⟩
 
 theorem XHyp.exists_sylow_of_odd [Finite X] (h : XHyp ρ Q V₁ V₂ z Q₁ t₁)
@@ -497,7 +495,7 @@ theorem XHyp.exists_sylow_of_odd [Finite X] (h : XHyp ρ Q V₁ V₂ z Q₁ t₁
   have hzS : (⟨z, hzC⟩ : ↥C) ∈ S := by
     refine hS ?_
     rw [Subgroup.mem_subgroupOf]
-    simpa using Subgroup.zpow_mem_zpowers z (1 : ℤ)
+    simp
   have hPsub2 : IsPGroup 2 ((S : Subgroup ↥C).map C.subtype) := S.isPGroup.map C.subtype
   have hodd_idx : ¬ 2 ∣ ((S : Subgroup ↥C).map C.subtype).index := by
     rw [Subgroup.index_map_subtype]

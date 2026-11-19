@@ -83,8 +83,8 @@ theorem cl_inFStar_of_isComponentIn_fix_proj (hQ : Q.Nondegenerate)
   have hKXeq : K = (suToProj hQ E hEΩ).range :=
     IsComponentIn.eq_of_isQuasisimple (hK.mono hKX hXC) hq
   rw [show InFStar K = IsFStarGroup ↥K from rfl, hKXeq]
-  haveI : Finite (OGroup Q) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
-  haveI : Finite (omegaProj hQ) := inferInstance
+  have : Finite (OGroup Q) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
+  have : Finite (omegaProj hQ) := inferInstance
   have hodd : oddCore ((suToProj hQ E hEΩ).range) = ⊥ := oddCore_eq_bot_of_isTwoU43 hq h2
   refine Or.inl ⟨hq, Or.inr ?_⟩
   exact isTwoU43_of_mulEquiv

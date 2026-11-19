@@ -15,6 +15,7 @@ variable {K : Type} [Field K] [Finite K] {γ : G → K} {M₀ : Tim79.QuadModel 
 @[expose] def eichlerMap (M₀ : Tim79.QuadModel Q Z K γ) (b u y : M₀.E) : M₀.E :=
   y + M₀.B y b • u + M₀.B y u • b + (M₀.Qf u * M₀.B y b) • b
 
+omit [Finite G] [Finite K] in
 theorem eichlerMap_add_smul [CharP K 2] (M₀ : Tim79.QuadModel Q Z K γ) {b v : M₀.E}
     (hbs : M₀.Qf b = 0) (hvb : M₀.B v b = 0) (lam : K) (y : M₀.E) :
     eichlerMap M₀ b (v + lam • b) y = eichlerMap M₀ b v y := by
@@ -30,6 +31,7 @@ theorem eichlerMap_add_smul [CharP K 2] (M₀ : Tim79.QuadModel Q Z K γ) {b v :
     rw [this, zero_smul]
   linear_combination (norm := module) key'
 
+omit [Finite G] [Finite K] in
 theorem Qf_eichlerMap_sub [CharP K 2] (M₀ : Tim79.QuadModel Q Z K γ) {b u : M₀.E}
     (hbs : M₀.Qf b = 0) (hub : M₀.B u b = 0) (hu : M₀.Qf u = 0) (y : M₀.E) :
     M₀.Qf (eichlerMap M₀ b u y - y) = 0 := by

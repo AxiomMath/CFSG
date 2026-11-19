@@ -39,7 +39,7 @@ theorem sec127_center_alt5 {X : Subgroup G}
 
 theorem sec127_exists_order_three [Finite G] {X : Subgroup G}
     (hX : Nonempty (↥X ≃* ↥(alternatingGroup (Fin 5)))) : ∃ x ∈ X, orderOf x = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hd : 3 ∣ Nat.card ↥X := by rw [sec127_card_alt5 hX]; norm_num
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 3 hd
   refine ⟨x, x.2, ?_⟩
@@ -50,8 +50,8 @@ theorem sec127_simple_dich {X Y : Subgroup G}
     (hX : Nonempty (↥X ≃* ↥(alternatingGroup (Fin 5)))) (hXY : X ≤ normalizer (Y : Set G)) :
     X ⊓ Y = ⊥ ∨ X ≤ Y := by
   obtain ⟨e⟩ := hX
-  haveI : IsSimpleGroup ↥X := e.isSimpleGroup
-  haveI : (Y.subgroupOf X).Normal :=
+  have : IsSimpleGroup ↥X := e.isSimpleGroup
+  have : (Y.subgroupOf X).Normal :=
     ⟨fun n hn g => by
       rw [Subgroup.mem_subgroupOf] at hn ⊢
       have := (Subgroup.mem_normalizer_iff.mp (hXY g.2) n).mp hn

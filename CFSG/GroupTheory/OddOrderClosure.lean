@@ -126,7 +126,7 @@ theorem pow_two_pow_mem_oddOrderClosure (H : Subgroup G) {g : G} (hg : g ∈ H) 
 theorem index_oddOrderClosure_eq_two_pow (H : Subgroup G) :
     ∃ k : ℕ, ((oddOrderClosure H).subgroupOf H).index = 2 ^ k := by
   let N : Subgroup H := (oddOrderClosure H).subgroupOf H
-  haveI hN : N.Normal := normal_oddOrderClosure_subgroupOf H
+  have hN : N.Normal := normal_oddOrderClosure_subgroupOf H
   have hquot : IsPGroup 2 (H ⧸ N) := by
     intro x
     obtain ⟨g, rfl⟩ := QuotientGroup.mk'_surjective N x
@@ -143,7 +143,7 @@ theorem sup_sylow_eq (H : Subgroup G) {Q : Subgroup G} (hQH : Q ≤ H)
     oddOrderClosure H ⊔ Q = H := by
   let N : Subgroup G := oddOrderClosure H
   let NH : Subgroup H := N.subgroupOf H
-  haveI hNH : NH.Normal := normal_oddOrderClosure_subgroupOf H
+  have hNH : NH.Normal := normal_oddOrderClosure_subgroupOf H
   have hNidx : ∃ k : ℕ, NH.index = 2 ^ k := index_oddOrderClosure_eq_two_pow H
   have hQH2 : IsPGroup 2 (Q.subgroupOf H) :=
     hQ2.of_equiv (Subgroup.subgroupOfEquivOfLe hQH).symm
@@ -167,6 +167,7 @@ theorem sup_sylow_eq (H : Subgroup G) {Q : Subgroup G} (hQH : Q ≤ H)
   rw [← hnqG]
   exact Subgroup.mul_mem_sup hnG hqG
 
+omit [Finite G] in
 theorem oddOrderClosure_eq_self_of_odd_card (H : Subgroup G) (hH : Odd (Nat.card H)) :
     oddOrderClosure H = H := by
   apply le_antisymm (oddOrderClosure_le H)

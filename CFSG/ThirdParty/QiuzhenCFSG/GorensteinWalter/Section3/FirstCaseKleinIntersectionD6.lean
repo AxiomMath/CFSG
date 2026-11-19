@@ -98,8 +98,7 @@ public theorem firstCase_klein_intersection_quotient_d6
   let Q : Subgroup (A ⧸ B0) := fD0.range
   have hker : fD0.ker = B0.subgroupOf D0 := by
     ext z
-    simpa [fD0, Subgroup.mem_subgroupOf] using
-      (QuotientGroup.eq_one_iff (N := B0) (D0.subtype z))
+    simp [fD0, Subgroup.mem_subgroupOf]
   have hidxQ : (B0.subgroupOf D0).index = Nat.card Q := by
     rw [← hker]
     simpa [Q] using Subgroup.index_ker fD0
@@ -110,7 +109,6 @@ public theorem firstCase_klein_intersection_quotient_d6
   have hNnorm : (N.subgroupOf D).Normal := by
     apply (Subgroup.normal_subgroupOf_iff (show N ≤ D from inf_le_left)).2
     intro n d hn hd
-    change d * n * d⁻¹ ∈ N
     refine ⟨?_, ?_⟩
     · exact D.mul_mem (D.mul_mem hd ((show N ≤ D from inf_le_left) hn))
         (D.inv_mem hd)
@@ -125,7 +123,7 @@ public theorem firstCase_klein_intersection_quotient_d6
           Subgroup.relIndex_subgroupOf (H := B) (K := D) (L := A)
             (by dsimp [D, A]; exact inf_le_left)
         _ = (N.subgroupOf D).index := by
-          simpa [Subgroup.relIndex, hNsubeq]
+          simp [Subgroup.relIndex, hNsubeq]
     calc
       (B0.subgroupOf D0).index = (N.subgroupOf D).index := hrel
       _ = 6 := by simpa [A, B, D, N] using hindex

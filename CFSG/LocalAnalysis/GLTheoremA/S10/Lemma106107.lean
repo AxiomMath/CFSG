@@ -23,6 +23,7 @@ theorem h104_of_concl105 {B : Subgroup G} {x : G} {L : Subgroup G} {b : G}
   exact ⟨ha, ha1, c.essential a ha ha1, (c.single a ha ha1).1, hlt,
     ⟨T, hTI.trans hIJ, hT2, hTB, fun hle => hTO ((le_inf hTI hle).trans (core_inf_le hIJ))⟩⟩
 
+omit [Finite G] in
 private theorem lemma106107_dgrp_le {B : Subgroup G} {b x : G} (hb : b ∈ B) (hx : x ∈ B) :
     Dgrp b x ≤ B := by
   refine (Subgroup.closure_le B).2 ?_
@@ -35,7 +36,7 @@ private theorem lemma106107_not_isCyclic {B : Subgroup G} {b x : G} (hp : p.Prim
     (hBel : IsElemAbelian p B) (hb : b ∈ B) (hxB : x ∈ B) (hx1 : x ≠ 1)
     (hbx : b ∉ Subgroup.zpowers x) : ¬ IsCyclic (Dgrp b x) := by
   intro hcyc
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpow : ∀ g ∈ B, g ^ p = 1 := fun g hg => hBel.2 g hg
   have hexp : Monoid.exponent (Dgrp b x) ∣ p := by
     apply Monoid.exponent_dvd_of_forall_pow_eq_one
@@ -54,6 +55,7 @@ private theorem lemma106107_not_isCyclic {B : Subgroup G} {b x : G} (hp : p.Prim
   rw [← hD] at hbD
   exact hbx hbD
 
+omit [Finite G] in
 private theorem lemma106107_normalizer_inf {A C : Subgroup G} {g : G}
     (hA : g ∈ Subgroup.normalizer (A : Set G)) (hC : g ∈ Subgroup.normalizer (C : Set G)) :
     g ∈ Subgroup.normalizer ((A ⊓ C : Subgroup G) : Set G) := by
@@ -61,6 +63,7 @@ private theorem lemma106107_normalizer_inf {A C : Subgroup G} {g : G}
   intro k
   rw [Subgroup.mem_inf, Subgroup.mem_inf, hA k, hC k]
 
+omit [Finite G] in
 private theorem lemma106107_normalizer_cx {a g : G} (hg : g ∈ cx a) :
     g ∈ Subgroup.normalizer ((cx a : Subgroup G) : Set G) := by
   have hg' : g * a = a * g := Subgroup.mem_centralizer_singleton_iff.1 hg
@@ -86,6 +89,7 @@ private theorem lemma106107_normalizer_cx {a g : G} (hg : g ∈ cx a) :
   · intro hk
     exact mul_left_cancel (mul_right_cancel hk)
 
+omit [Finite G] in
 private theorem lemma106107_gLBConj_cx {a s : G} (hs : s ∈ cx a) :
     GLBConj s (cx a) = cx a := by
   ext y
@@ -110,6 +114,7 @@ private theorem lemma106107_gLBConj_cx {a s : G} (hs : s ∈ cx a) :
   · intro hk
     rw [hk]
 
+omit [Finite G] in
 private theorem lemma106107_gLBConj_conj {I : Subgroup G} {g : G} (hg : GLBConj g I = I) (a : G) :
     GLBConj g (GLBConj a I) = GLBConj (g⁻¹ * a * g) I := by
   have e2 : GLBConj (g⁻¹ * a * g) (GLBConj g I) = GLBConj (g * (g⁻¹ * a * g)) I :=
@@ -119,6 +124,7 @@ private theorem lemma106107_gLBConj_conj {I : Subgroup G} {g : G} (hg : GLBConj 
   rw [gLBConj_gLBConj]
   exact e2.symm
 
+omit [Finite G] in
 private theorem lemma106107_normalizer_closureIn {I K : Subgroup G} {g : G}
     (hgI : GLBConj g I = I) (hgK : g ∈ Subgroup.normalizer (K : Set G)) :
     g ∈ Subgroup.normalizer ((closureIn I K : Subgroup G) : Set G) := by
@@ -148,7 +154,7 @@ theorem exists_aT (hc : S10Ctx G p) {B : Subgroup G} {x : G} {L : Subgroup G} {b
       B ≤ Subgroup.normalizer (T : Set G) ∧ (⁅Dgrp b x, T ⊓ cx a⁆ : Subgroup G) ≠ ⊥ := by
   have hp : p.Prime := hc.ctx.prime
   have hp2 : p ≠ 2 := hc.ctx.odd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hBel : IsElemAbelian p B := B_el h
   have hbB : b ∈ B := h.mem
   have hxB : x ∈ B := (sstar_triple h.star).2.1.1
@@ -203,7 +209,7 @@ theorem S107_basic (hc : S10Ctx G p) {B : Subgroup G} {x : G} {L : Subgroup G} {
       B ≤ Subgroup.normalizer ((S107 b x T a : Subgroup G) : Set G) := by
   have hp : p.Prime := hc.ctx.prime
   have hp2 : p ≠ 2 := hc.ctx.odd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hBel : IsElemAbelian p B := B_el h
   have hxB : x ∈ B := (sstar_triple h.star).2.1.1
   have hDB : Dgrp b x ≤ B := lemma106107_dgrp_le h.mem hxB
@@ -239,7 +245,7 @@ theorem S107_basic (hc : S10Ctx G p) {B : Subgroup G} {x : G} {L : Subgroup G} {
     show GLBConj β ⁅T ⊓ cx a, Dgrp b x⁆ = ⁅T ⊓ cx a, Dgrp b x⁆
     rw [e, mem_normalizer_iff_gLBConj_eq.1 hβX, mem_normalizer_iff_gLBConj_eq.1 hβD]
 
-theorem S_norm_J (hc : S10Ctx G p) {B : Subgroup G} {x : G} {L : Subgroup G} {b : G} (h : Cfg p B x L b)
+theorem S_norm_J (_hc : S10Ctx G p) {B : Subgroup G} {x : G} {L : Subgroup G} {b : G} (h : Cfg p B x L b)
     (c : Concl105 G p B x L b) {a : G} (ha : a ∈ Dgrp b x) (ha1 : a ≠ 1) {S : Subgroup G}
     (hSD : (⁅S, Dgrp b x⁆ : Subgroup G) = S) (hSC : S ≤ cx a) :
     S ≤ Subgroup.normalizer ((Jpart p (Ipart p L b) a : Subgroup G) : Set G) := by
@@ -347,8 +353,8 @@ theorem exists_R (hc : S10Ctx G p) {B : Subgroup G} {x : G} {L : Subgroup G} {b 
       S ⊔ GLAPPrimeCoreOf p (Jpart p (Ipart p L b) a) ≤ R ⊔ GLAPPrimeCoreOf p (Jpart p (Ipart p L b) a) := by
   have hp : p.Prime := hc.ctx.prime
   have hp2 : p ≠ 2 := hc.ctx.odd
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hBp : IsPGroup p B := isPGroup_of_isElemAbelian (B_el h)
   have hsingle := c.single a ha ha1
   set J := Jpart p (Ipart p L b) a with hJdef
@@ -419,6 +425,7 @@ theorem exists_R (hc : S10Ctx G p) {B : Subgroup G} {x : G} {L : Subgroup G} {b 
   calc S ⊔ O = O ⊔ R := hOR_eq.symm
     _ ≤ R ⊔ O := le_of_eq (sup_comm _ _)
 
+omit [Finite G] in
 theorem I_norm_SW {I J S : Subgroup G} (hIJ : I ≤ J) (hcent : ∀ s ∈ S, CentMod p J s) :
     I ≤ Subgroup.normalizer ((S ⊔ GLAPPrimeCoreOf p J : Subgroup G) : Set G) := by
   have hJO : J ≤ Subgroup.normalizer ((GLAPPrimeCoreOf p J : Subgroup G) : Set G) :=
@@ -436,19 +443,21 @@ theorem I_norm_SW {I J S : Subgroup G} (hIJ : I ≤ J) (hcent : ∀ s ∈ S, Cen
   intro i hi
   exact mem_normalizer_of_conj' (key i hi) (key i⁻¹ (Subgroup.inv_mem _ hi))
 
+omit [Finite G] in
 private theorem lemma106107_relIndex_of_card {H M : Subgroup G} {k m : ℕ} (hHM : H ≤ M)
     (hHk : Nat.card H = k) (hk : 0 < k) (hM : Nat.card M = m * k) : H.relIndex M = m := by
   have h1 := Subgroup.relIndex_mul_card H M
   rw [inf_eq_left.2 hHM, hHk, hM] at h1
   exact Nat.eq_of_mul_eq_mul_right hk h1
 
+omit [Finite G] in
 private theorem lemma106107_mem_cs_of {S : Subgroup G} {g : G} (h : S ≤ cx g) : g ∈ cs S :=
-  Subgroup.mem_centralizer_iff.2 fun s hs => Subgroup.mem_centralizer_singleton_iff.1 (h hs)
+  Subgroup.mem_centralizer_iff.2 fun _s hs => Subgroup.mem_centralizer_singleton_iff.1 (h hs)
 
 private theorem lemma106107_frattini {M R : Subgroup G} (hR2 : IsPGroup 2 R) (hRM : R ≤ M)
     (hodd : ¬ 2 ∣ R.relIndex M) {i : G} (hiM : i ∈ Subgroup.normalizer (M : Set G)) :
     ∃ m ∈ M, ∃ n ∈ Subgroup.normalizer (R : Set G), i = m * n := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set R₁ : Subgroup G := R.map (MulAut.conj i).toMonoidHom with hR₁def
   have hR₁M : R₁ ≤ M := by
     rintro _ ⟨r, hr, rfl⟩
@@ -503,7 +512,7 @@ private theorem lemma106107_frattini {M R : Subgroup G} (hR2 : IsPGroup 2 R) (hR
 theorem cover_of_R (hc : S10Ctx G p) {B : Subgroup G} {x : G} {L : Subgroup G} {b : G} (h : Cfg p B x L b)
     (c : Concl105 G p B x L b) {a : G} (ha : a ∈ Dgrp b x) (ha1 : a ≠ 1)
     (hI : Ipart p L b ⊔ GLAPPrimeCoreOf p (Jpart p (Ipart p L b) a) = Jpart p (Ipart p L b) a)
-    {S : Subgroup G} (hS2 : IsPGroup 2 S) (hSne : S ≠ ⊥) (hSC : S ≤ cx a)
+    {S : Subgroup G} (_hS2 : IsPGroup 2 S) (_hSne : S ≠ ⊥) (_hSC : S ≤ cx a)
     (hcent : ∀ s ∈ S, CentMod p (Jpart p (Ipart p L b) a) s) {R : Subgroup G} (hR2 : IsPGroup 2 R)
     (hBR : B ≤ Subgroup.normalizer (R : Set G))
     (hWodd : Odd (Nat.card (GLAPPrimeCoreOf p (Jpart p (Ipart p L b) a))))
@@ -513,8 +522,8 @@ theorem cover_of_R (hc : S10Ctx G p) {B : Subgroup G} {x : G} {L : Subgroup G} {
     (hWR : S ⊔ GLAPPrimeCoreOf p (Jpart p (Ipart p L b) a) ≤ R ⊔ GLAPPrimeCoreOf p (Jpart p (Ipart p L b) a)) :
     S9.Covers p (Subgroup.normalizer (R : Set G)) (Ipart p L b) := by
   have hp : p.Prime := hc.ctx.prime
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hxB : x ∈ B := (sstar_triple h.star).2.1.1
   have hDB : Dgrp b x ≤ B := lemma106107_dgrp_le h.mem hxB
   obtain ⟨-, hDel, -⟩ := dgrp_facts hc h

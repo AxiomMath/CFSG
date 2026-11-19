@@ -174,7 +174,7 @@ private lemma card_normalizer_zpowers {k : S3Wr} (hk3 : k ^ 3 = 1) (hk1 : k ≠ 
     Nat.card_eq_fintype_card]
   exact hall k hk3 hk1
 
-theorem oddSub_irreducible (S : Subgroup S3Wr) (hS : IsPGroup 2 S) (hS8 : Nat.card S = 8)
+theorem oddSub_irreducible (S : Subgroup S3Wr) (_hS : IsPGroup 2 S) (hS8 : Nat.card S = 8)
     (K : Subgroup S3Wr) (hK : K ≤ oddSub) (hSK : S ≤ Subgroup.normalizer (K : Set S3Wr)) :
     K = ⊥ ∨ K = oddSub := by
   by_cases hK0 : K = ⊥

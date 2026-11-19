@@ -225,7 +225,7 @@ theorem noL34Layer_of_fieldType (hO : LieOrderFormulasInput) {ℓ f : ℕ} [Fact
     (hαeq : α = MulAut.conj g * (exactNormalAut Tag.D4 K a σ 0 * d4Graph K 0)) :
     NoL34Layer α := by
   have hℓ : ℓ.Prime := Fact.out
-  haveI : CharP K ℓ := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have : CharP K ℓ := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     hℓ hf hK
   obtain ⟨d, T, hd0, hdf, hT, hT3, hσT⟩ := exists_frobenius_of_cube hℓ hf K hK σ hσ3 hσ1
   rw [d4Graph_zero, mul_one] at hαeq
@@ -264,9 +264,9 @@ theorem noL34Layer_of_graphFieldType {ℓ f : ℕ} [Fact ℓ.Prime] (hℓ2 : ℓ
     (hαeq : α = MulAut.conj g * (exactNormalAut Tag.D4 K a σ 0 * d4Graph K ε)) :
     NoL34Layer α := by
   have hℓ : ℓ.Prime := Fact.out
-  haveI : CharP K ℓ := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have : CharP K ℓ := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     hℓ hf hK
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf σ = 3 := orderOf_eq_prime hσ3 hσ1
   obtain ⟨e, T, he, hef, hT, hσT⟩ := exists_frobenius_eq_or_inv_of_orderOf_three hℓ hf K hK σ hord
   have hK4 : 4 ≤ Nat.card K := by

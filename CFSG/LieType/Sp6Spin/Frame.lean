@@ -128,12 +128,12 @@ private noncomputable def frameVec (R : S.SpinRoots) (σ : Fin 3 → Bool) : V :
 
 private theorem frameVec_of_true (R : S.SpinRoots) {σ : Fin 3 → Bool} (h : σ 0 = true) :
     frameVec R σ = frameBase R σ := by
-  rw [frameVec, dif_pos h]
+  rw [frameVec, dite_eq_left h]
 
 private theorem frameVec_polar_base (R : S.SpinRoots) {σ : Fin 3 → Bool}
     (h : ¬ σ 0 = true) :
     polar S.Q (frameBase R (fun i => !σ i)) (frameVec R σ) = 1 := by
-  rw [frameVec, dif_neg h]
+  rw [frameVec, dite_eq_right h]
   exact frameChoice_polar R h
 
 private theorem frameVec_mem (R : S.SpinRoots) (σ : Fin 3 → Bool) :
@@ -141,7 +141,7 @@ private theorem frameVec_mem (R : S.SpinRoots) (σ : Fin 3 → Bool) :
   by_cases h : σ 0 = true
   · rw [frameVec_of_true R h]
     exact frameBase_mem R h
-  · rw [frameVec, dif_neg h]
+  · rw [frameVec, dite_eq_right h]
     have hneg : -spinWt R.x (fun i => !σ i) = spinWt R.x σ := by
       rw [neg_spinWt]
       simp
@@ -327,12 +327,12 @@ private theorem frameShort_exists (R : S.SpinRoots) (r : RootSubgroupIndex 3)
     exact hσ₀
   refine ⟨polar S.Q (S.A r (2 ^ R.l) (frameVec R σ₀)) (frameVec R σ'), fun σ => ?_⟩
   by_cases hσ : IsSrc (stdVec r) σ
-  · rw [if_pos hσ]
+  · rw [ite_eq_left hσ]
     rcases IsSrc.eq_or_eq hr hσ₀ hσ with h | h
     · rw [h]
       exact frameShort_source R hr hσ₀
     · rw [h, frameShort_source R hr hσ', ← frameShort_lam_eq (R := R) (σ := σ₀)]
-  · rw [if_neg hσ]
+  · rw [ite_eq_right hσ]
     exact R.short_not_src r hr σ hσ (frameVec R σ) (frameVec_mem R σ)
 
 structure SpinFrame {S : SpinSetting K V} (R : S.SpinRoots) where
@@ -354,9 +354,9 @@ theorem SpinRoots.nonempty_spinFrame {S : SpinSetting K V} (R : S.SpinRoots) :
             long_eq := fun σ h2 => ?_
             short_eq := fun r hr => frameShort_exists R r hr }⟩
   · by_cases h : τ = fun i => !σ i
-    · rw [if_pos h, h]
+    · rw [ite_eq_left h, h]
       exact frameVec_polar_compl R σ
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       refine S.polar_eq_zero ?_ (frameVec_mem R σ) (frameVec_mem R τ)
       intro hzero
       exact h ((spinWt_add_spinWt_eq_zero_iff (odd_natCard_units (K := K))

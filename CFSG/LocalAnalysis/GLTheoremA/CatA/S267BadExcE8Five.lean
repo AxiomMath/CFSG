@@ -15,7 +15,7 @@ open CFSG.Open CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley CFSG.LieType.Seit
 theorem exists_cube_of_mem {G : Type*} [Group G] {p : ℕ} (hp : p.Prime) {A : Subgroup G}
     [Finite A] (hA : IsElemAbelian p A) (hcard : p ^ 3 ≤ Nat.card A) {y : G} (hy : y ∈ A) :
     ∃ E₀ : Subgroup G, E₀ ≤ A ∧ y ∈ E₀ ∧ Nat.card E₀ = p ^ 3 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpg : IsPGroup p A := fun x => ⟨1, Subtype.ext (by simpa using hA.2 x x.2)⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 hpg
   have hk3 : 3 ≤ k := by
@@ -60,15 +60,15 @@ theorem card_le_adjointGroup_E8_five_four (K : Type) [Field K] [Finite K]
     (he : orderOf ((Nat.card K : ℕ) : ZMod 5) = 4) {E : Subgroup (adjointGroup .E8 K)}
     (hE : IsElemAbelian 5 E) : Nat.card E ≤ 5 ^ 4 := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   rcases lt_or_ge (Nat.card E) (5 ^ 3) with hsmall | hbig
   · exact hsmall.le.trans (by norm_num)
   have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, hℓ, hf⟩ := FiniteField.card K (ringChar K)
-  haveI : Fact (ringChar K).Prime := ⟨hℓ⟩
-  haveI : CharP K (ringChar K) := ringChar.charP K
+  have : Fact (ringChar K).Prime := ⟨hℓ⟩
+  have : CharP K (ringChar K) := ringChar.charP K
   have hK : Nat.card K = ringChar K ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hf
-  haveI : CharP (AlgebraicClosure K) (ringChar K) :=
+  have : CharP (AlgebraicClosure K) (ringChar K) :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective _
   set L := AlgebraicClosure K with hL
   have hq5 := natCast_eq_two_or_three_of_orderOf_four he
@@ -88,7 +88,7 @@ theorem card_le_adjointGroup_E8_five_four (K : Type) [Field K] [Finite K]
   obtain ⟨F, hFn⟩ := exists_frame_canonical K f.pos hK L
   obtain ⟨m, hm⟩ := exists_isLift F hFn hK
   have hT0 := card_twistedTorus F hK f.pos
-  haveI : Finite (sylowGrp F m) := Nat.finite_of_card_ne_zero (by
+  have : Finite (sylowGrp F m) := Nat.finite_of_card_ne_zero (by
     rw [card_sylowGrp hm, hT0]
     positivity)
   have hE5 : IsPGroup 5 E := fun x => ⟨1, Subtype.ext (by simpa using hE.2 x x.2)⟩
@@ -159,7 +159,7 @@ theorem card_le_adjointGroup_E8_five_four (K : Type) [Field K] [Finite K]
     refine ⟨(sylowRho_eq_one_iff hm x).1 (MonoidHom.mem_ker.1 (hker hx)), ?_⟩
     have := congrArg Subtype.val (hRexp x hx)
     simpa using this
-  haveI : Finite (torsionSubgroup T0 hcomm 5) :=
+  have : Finite (torsionSubgroup T0 hcomm 5) :=
     Nat.finite_of_card_ne_zero (by rw [htors]; positivity)
   let ι : R → torsionSubgroup T0 hcomm 5 := fun x => ⟨_, hRT x x.2⟩
   have hι : Function.Injective ι := by
@@ -201,7 +201,7 @@ theorem pRank_mulAut_le_E8_all (Q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeIn
     exists_catEquiv_adjointGroup CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e8 Q hv
   obtain ⟨Θ, hΘ⟩ := CFSG.HardMathSupport.Timmesfeld.CrossChar.exists_hom_ringAut_E
     (Or.inr (Or.inr rfl)) K hp hp5
-  haveI : IsCyclic (RingAut K) :=
+  have : IsCyclic (RingAut K) :=
     CFSG.ComponentClassification.CatalogueSchreierLinearTwo.fieldAut_isCyclic K
   exact pRank_mulAut_le_of_hom (eX.trans e) Θ hp hΘ
     (conj_injective_of_mulEquiv eX (conj_injective_cat_E8 Q hv))

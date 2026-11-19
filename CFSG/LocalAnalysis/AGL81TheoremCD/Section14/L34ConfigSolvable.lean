@@ -29,7 +29,7 @@ private theorem isSolvable_range_conjQuotAction
   let ψ : ↥Y →* MulAut (↥K ⧸ N) :=
     (conjQuotAction H K N (kSub_le 3 M H) (hK 3 E H h)).comp (Subgroup.inclusion hYH)
   let Abar : Subgroup (↥K ⧸ N) := (A.subgroupOf K).map π
-  haveI : N.Normal := CFSG.pPrimeCore_normal (p := 3) (G := ↥K)
+  have : N.Normal := CFSG.pPrimeCore_normal (p := 3) (G := ↥K)
   have hψA : ∀ y : ↥Y, Abar.map (ψ y).toMonoidHom = Abar := by
     intro y
     simpa [ψ, K, N, π, Abar, Subgroup.coe_inclusion] using
@@ -44,7 +44,7 @@ private theorem isSolvable_range_conjQuotAction
       obtain ⟨k, hk⟩ := hr.odd_of_ne_two hr2
       have h2 : 2 ≤ r := hr.two_le
       omega
-    haveI : Fact r.Prime := ⟨hr⟩
+    have : Fact r.Prime := ⟨hr⟩
     obtain ⟨x, hxord⟩ := exists_prime_orderOf_dvd_card' r hrd
     obtain ⟨y, hy⟩ := MonoidHom.mem_range.mp x.2
     have hxq : ψ y ^ r = 1 := by
@@ -112,6 +112,7 @@ private theorem normalizer_quotientCentralizer_inf {M H A : Subgroup G}
     have heq : g⁻¹ * (g * z * g⁻¹) * g⁻¹⁻¹ = z := by group
     rwa [heq] at h
 
+omit [Finite G] in
 private theorem normal_sylowTwo_quotientCentralizer {M H A T Z0 : Subgroup G}
     (hZ0norm : H ⊓ M ≤ Subgroup.normalizer (Z0 : Set G)) (hZ0HM : Z0 ≤ H ⊓ M)
     (hSeq : T ⊓ Z0 = CFSG.Open.pCoreOf 2 (A ⊔ T) ⊓ Z0) :
@@ -157,7 +158,7 @@ private theorem isSolvable_quotientCentralizer_inf_normalizer
       (CFSG.pPrimeCore 3 ↥(kSub 3 M H)) (kSub_le 3 M H) (hK 3 A H h) ⊓ M ⊓
       Subgroup.normalizer (CFSG.Open.pCoreOf 2 (A ⊔ T) : Set G)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let K : Subgroup G := kSub 3 M H
   let N : Subgroup ↥K := CFSG.pPrimeCore 3 ↥K
   let X : Subgroup G := quotientCentralizer H K N (kSub_le 3 M H) (hK 3 A H h)
@@ -195,7 +196,7 @@ private theorem isSolvable_quotientCentralizer_inf_normalizer
     simpa [Z, S, Z0, R, K, N] using this
   have hS2 : IsPGroup 2 S := hT.isPGroup.to_le (fun x hx => hx.1)
   have hSsolv : Group.IsSolvable ↥S := by
-    haveI : Group.IsNilpotent ↥S := hS2.isNilpotent
+    have : Group.IsNilpotent ↥S := hS2.isNilpotent
     infer_instance
   have hqodd : Odd (Nat.card (↥Z ⧸ S.subgroupOf Z)) := by
     have hnot2 : ¬ 2 ∣ S.relIndex Z :=
@@ -206,13 +207,13 @@ private theorem isSolvable_quotientCentralizer_inf_normalizer
     exact fun heven => hnot2 (even_iff_two_dvd.mp heven)
   have hQsolv : Group.IsSolvable (↥Z ⧸ S.subgroupOf Z) :=
     CFSG.FeitThompson.isSolvable_of_odd_natCard _ hqodd
-  haveI : (S.subgroupOf Z).Normal := hSnorm
-  haveI : Group.IsSolvable ↥(S.subgroupOf Z) := by
-    haveI : Group.IsSolvable ↥S := hSsolv
+  have : (S.subgroupOf Z).Normal := hSnorm
+  have : Group.IsSolvable ↥(S.subgroupOf Z) := by
+    have : Group.IsSolvable ↥S := hSsolv
     exact Group.isSolvable_of_isSolvable_injective
       (f := (Subgroup.subgroupOfEquivOfLe hSZ).toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hSZ).injective
-  haveI : Group.IsSolvable (↥Z ⧸ S.subgroupOf Z) := hQsolv
+  have : Group.IsSolvable (↥Z ⧸ S.subgroupOf Z) := hQsolv
   change Group.IsSolvable ↥Z
   exact Group.isSolvable_of_subgroup_quotient (S.subgroupOf Z)
 variable {M H A : Subgroup G}
@@ -224,7 +225,7 @@ theorem HypCGen.isSolvable_inf_normalizer_pCoreOf
     {T : Subgroup G} (hT : CFSG.ABGLocalTools.IsSylowOf 2 T (H ⊓ M)) :
     Group.IsSolvable ↥(H ⊓ M ⊓ Subgroup.normalizer (CFSG.Open.pCoreOf 2 (A ⊔ T) : Set G)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let K : Subgroup G := kSub 3 M H
   let N : Subgroup ↥K := CFSG.pPrimeCore 3 ↥K
   let R : Subgroup G := CFSG.Open.pCoreOf 2 (A ⊔ T)
@@ -268,12 +269,12 @@ theorem HypCGen.isSolvable_inf_normalizer_pCoreOf
     (Subgroup.equivMapOfInjective ψ.ker Y.subtype Y.subtype_injective).trans
       (MulEquiv.subgroupCongr hkerMap)
   have hkerSolv : Group.IsSolvable ↥ψ.ker := by
-    haveI : Group.IsSolvable ↥Z := hZsolv
+    have : Group.IsSolvable ↥Z := hZsolv
     exact Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective
-  haveI : Group.IsSolvable ↥ψ.ker := hkerSolv
-  haveI : Group.IsSolvable ↥ψ.range := hrange
+  have : Group.IsSolvable ↥ψ.ker := hkerSolv
+  have : Group.IsSolvable ↥ψ.range := hrange
   have hker_le : ψ.rangeRestrict.ker ≤ ψ.ker.subtype.range := by
     rw [MonoidHom.ker_rangeRestrict, Subgroup.range_subtype]
-  exact solvable_of_ker_le_range ψ.ker.subtype ψ.rangeRestrict hker_le
+  exact Group.isSolvable_of_ker_le_range ψ.ker.subtype ψ.rangeRestrict hker_le
 
 end CFSG.LocalAnalysis.AGL81TheoremCD.Section14

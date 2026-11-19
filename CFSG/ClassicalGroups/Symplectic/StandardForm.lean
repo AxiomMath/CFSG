@@ -45,7 +45,7 @@ theorem spForm_isAlt : (spForm m K).IsAlt := spForm_self
 theorem spForm_single_inl_inr (i j : Fin m) :
     spForm m K (Pi.single (Sum.inl i) 1) (Pi.single (Sum.inr j) 1) = if i = j then 1 else 0 := by
   rw [spForm_apply]
-  simp [spJ, mulVec, dotProduct, Fintype.sum_sum_type, Matrix.one_apply, Pi.single_apply]
+  simp [spJ, mulVec, dotProduct, Matrix.one_apply, Pi.single_apply]
 
 theorem spJ_mul_spJ : spJ m K * spJ m K = -1 := by
   have h : (-1 : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) K) =

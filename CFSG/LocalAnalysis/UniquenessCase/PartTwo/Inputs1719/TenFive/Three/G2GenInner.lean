@@ -19,7 +19,7 @@ section CertificateInputs
 
 
 private theorem g2GenIn_ne_one_of_diag {x : G3} {a : Array ℕ} {p : ℕ} (hx : mt x = M a)
-    (hp : p / 14 = p % 14) (hpl : p < 196) (h : a[p]! % 3 = 2) : x ≠ 1 := by
+    (hp : p / 14 = p % 14) (_hpl : p < 196) (h : a[p]! % 3 = 2) : x ≠ 1 := by
   intro hx1
   have h1 : M a = 1 := by rw [← hx, hx1, mt_one, M_idArr]
   have hr : p / 14 < 14 := by omega
@@ -38,7 +38,7 @@ private theorem g2GenIn_genGood_of_check (hchk : g2GenCheck = true) :
     ∀ t : G3, t * t = 1 → t ≠ 1 → IsGenGood (MulAut.conj t) := by
   intro t ht ht1
   have h := hchk
-  simp only [Certificates.G2Gen.g2GenCheck, Bool.and_eq_true, beq_iff_eq, bne_iff_ne] at h
+  simp only [Certificates.G2Gen.g2GenCheck, Bool.and_eq_true, beq_iff_eq] at h
   obtain ⟨⟨⟨⟨⟨⟨⟨⟨⟨h1, h2⟩, h3⟩, h4⟩, h5⟩, h6⟩, h7⟩, h8⟩, h9⟩, h10⟩ := h
   let d : G3 := wordElem gensG dW
   let g : G3 := wordElem gensG gW

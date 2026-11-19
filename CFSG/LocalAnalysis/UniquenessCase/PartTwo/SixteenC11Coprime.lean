@@ -40,8 +40,8 @@ theorem s16c11_inf_centSub_fixV_eq_bot (hW : ∀ w : W, w ^ 2 = 1) {P S : Subgro
       rwa [show s⁻¹ * (s * f * s⁻¹) * s = f by group] at h⟩
   have hRbot : commV F = ⊥ := by
     by_contra hRne
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    letI : MulAction S ↥(commV F) :=
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    let : MulAction S ↥(commV F) :=
       { smul := fun s r => ⟨(s : MulAut W) (r : W),
           commV_apply_mem_of_normalizes (Y := F) (c := (s : MulAut W))
             (fun f hf => hconj s s.2 f hf) r.2⟩
@@ -80,7 +80,7 @@ theorem s16c11_le_centralizer_of_mem_aSet_two (hW : ∀ w : W, w ^ 2 = 1)
     A ≤ centralizer (Y : Set (MulAut W)) := by
   classical
   obtain ⟨hAX, hAne, hAab, hAfix⟩ := hA
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hA2 : IsPGroup 2 A := fun a => ⟨1, by
     apply Subtype.ext
     simpa [sq] using hAab.2 a.1 a.2⟩

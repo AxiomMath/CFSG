@@ -98,8 +98,8 @@ theorem phanEResidueModel_of_chartOf (hpanel : StdPanel hct F (nrep hct w₀))
   have ht : Gate.IsFlipInvolution (cs) (stdδ hct) w₀ (stdFlip F (nrep hct w₀)) :=
     Gate.isFlipInvolution_of_isSphericalFlip
       (stdBuildingData hct F hext hw₀ hsq hpanel).flip
-  haveI : Finite ((cs).parabolic J) := by
-    haveI : Finite W := finite_group D.isFiniteType
+  have : Finite ((cs).parabolic J) := by
+    have : Finite W := finite_group D.isFiniteType
     infer_instance
   refine Flag.phanEResidueModel_of_chart hB hw ht hcore hIJ hK hq code Θ ?_ ?_
   · intro c

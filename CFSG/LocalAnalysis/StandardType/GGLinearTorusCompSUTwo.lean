@@ -24,7 +24,7 @@ theorem exists_comp_conjSU_diag {K : Type} [Field K] {f n : ℕ} {G : Type*} [Gr
       ψ'.ker ≤ Subgroup.center ↥(unitarySU 2 f K n) ∧
       ∀ e ∈ E, ∃ d : Fin n → Kˣ, (e, diagHom n d) ∈ suPairs ψ' := by
   classical
-  haveI : NeZero n := ⟨by omega⟩
+  have : NeZero n := ⟨by omega⟩
   have hEA : ∀ e ∈ E, ∃ A, (e, A) ∈ suPairs ψ := fun e he => by
     obtain ⟨B, -, hB⟩ := hEB e he
     exact ⟨B, hB⟩
@@ -50,10 +50,10 @@ private lemma four_le_card_blockSU_of_isComponentOf_two {K : Type} [Field K] {m 
   by_contra hlt
   have hk1 : 1 ≤ I.card := Finset.card_pos.mpr ⟨i, hi⟩
   have hk3 : I.card ≤ 3 := by omega
-  haveI : Group.IsSolvable ↥(unitarySU 2 1 K I.card) :=
+  have : Group.IsSolvable ↥(unitarySU 2 1 K I.card) :=
     WitSU.isSolvable_unitarySU_two_one h hk1 hk3
   let eI := TableBUE.blockSUEquiv (K := K) (n := 1) I h
-  haveI : Group.IsSolvable ↥(TableBUE.blockSU (K := K) (n := 1) I) :=
+  have : Group.IsSolvable ↥(TableBUE.blockSU (K := K) (n := 1) I) :=
     Group.isSolvable_of_isSolvable_injective (f := eI.symm.toMonoidHom)
       (fun x y hxy => eI.symm.injective hxy)
   have hsolv : Group.IsSolvable ↥((TableBUE.blockSU (K := K) (n := 1) I).map ψ) := by
@@ -61,17 +61,17 @@ private lemma four_le_card_blockSU_of_isComponentOf_two {K : Type} [Field K] {m 
       (f := (ψ.comp (TableBUE.blockSU (K := K) (n := 1) I).subtype).rangeRestrict)
       (MonoidHom.rangeRestrict_surjective _)
     rwa [MonoidHom.range_comp, Subgroup.range_subtype] at hres
-  haveI := hsolv
-  haveI hsolvJ : Group.IsSolvable ↥J := by
+  have := hsolv
+  have hsolvJ : Group.IsSolvable ↥J := by
     let eJ := Subgroup.subgroupOfEquivOfLe hJI
-    haveI : Group.IsSolvable ↥(J.subgroupOf
+    have : Group.IsSolvable ↥(J.subgroupOf
         ((TableBUE.blockSU (K := K) (n := 1) I).map ψ)) :=
       Group.isSolvable_of_isSolvable_injective
         (f := (J.subgroupOf ((TableBUE.blockSU (K := K) (n := 1) I).map ψ)).subtype)
         (fun x y hxy => Subtype.ext hxy)
     exact Group.isSolvable_of_surjective (f := eJ.toMonoidHom) (fun z => ⟨eJ.symm z, by simp⟩)
-  haveI : Group.IsPerfect ↥J := ⟨hJ.2.2.1⟩
-  haveI : Nontrivial ↥J := CFSG.ComponentClassification.Quasisimple.nontrivial hJ.2.2
+  have : Group.IsPerfect ↥J := ⟨hJ.2.2.1⟩
+  have : Nontrivial ↥J := CFSG.ComponentClassification.Quasisimple.nontrivial hJ.2.2
   exact Group.IsPerfect.not_isSolvable ↥J hsolvJ
 
 theorem exists_blockSU_of_isComponentOf_two {K : Type} [Field K] {m : ℕ} {G : Type} [Group G]

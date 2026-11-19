@@ -333,7 +333,7 @@ theorem unitary_four_order_four_centralizer_odd_complement {T : Type} [Group T]
   obtain ⟨P, hA'P⟩ := hA'p.exists_le_sylow
   have hPcard : Nat.card (P : Subgroup C) ≤ 16 := by
     set P' := (P : Subgroup C).map C.subtype with hP'
-    have hP'p : IsPGroup 2 P' := P.isPGroup'.map _
+    have hP'p : IsPGroup 2 P' := P.isPGroup.map _
     obtain ⟨c, -, hc⟩ := exists_conj_le_sylow_of_le S le_top le_top hP'p
     have hxP' : x ∈ P' := ⟨xC, hA'P hxA', rfl⟩
     have hxcS : c * x * c⁻¹ ∈ Sg := hc x hxP'

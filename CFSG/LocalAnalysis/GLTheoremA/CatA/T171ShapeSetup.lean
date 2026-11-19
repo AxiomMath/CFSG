@@ -19,8 +19,8 @@ theorem exists_isCompl_of_isElemAbelian {G : Type} [Group G] {p : ℕ} (hp : p.P
     {B W H : Subgroup G} (hB : IsElemAbelian p B) (hW : W ≤ B) (hH : H ≤ B)
     (hHW : H ⊓ W = ⊥) :
     ∃ A : Subgroup G, A ≤ B ∧ H ≤ A ∧ A ⊓ W = ⊥ ∧ A ⊔ W = B := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI hBel : CFSG.IsElementaryAbelian p B :=
+  have : Fact p.Prime := ⟨hp⟩
+  have hBel : CFSG.IsElementaryAbelian p B :=
     CFSG.Open.isElemAbelian_iff_isElementaryAbelian.mp hB
   let H' : Subgroup B := H.subgroupOf B
   let W' : Subgroup B := W.subgroupOf B
@@ -66,7 +66,7 @@ theorem setup_of_cfg {β : Ω} (hcfg : S171.Cfg Ω p B x L) (hpre : GLAStdSubPre
     ∃ (A : Subgroup Ω) (d : Ω), A ≤ B ∧ x ∉ A ∧ Setup p L K A d β ∧
       Nat.card B = p * Nat.card A := by
   have hp := hcfg.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hxCL : x ∈ Subgroup.centralizer (L : Set Ω) :=
     (hcfg.cent x hcfg.mem).2 (Subgroup.mem_zpowers x)
   have hLx : L ≤ Subgroup.centralizer ({x} : Set Ω) := by
@@ -166,7 +166,7 @@ theorem card_le_of_twoLocal (hcfg : S171.Cfg Ω p B x L) (hmax : S171.MaxG p B)
     (hU : IsPGroup 2 U) (hU1 : U ≠ ⊥) (hEU : E ≤ Subgroup.normalizer (U : Set Ω)) :
     p * Nat.card E ≤ Nat.card B * Nat.card ↥(E ⊓ Subgroup.centralizer (L : Set Ω)) := by
   have hp := hcfg.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hxCL : x ∈ Subgroup.centralizer (L : Set Ω) :=
     (hcfg.cent x hcfg.mem).2 (Subgroup.mem_zpowers x)
   have hxp : x ^ p = 1 := hcfg.elem.2 x hcfg.mem

@@ -28,7 +28,7 @@ theorem excTits_clauses {G : ∀ (S : Type) [Group S], MulAut S → Prop} {X : T
     (hq : IsLieQuot ↥K IsExcTits) : Bal207PlusFamClauses p K B A := by
   obtain ⟨d, hd, ⟨f⟩⟩ := hq
   obtain ⟨hv, rfl⟩ := excTits_index hd
-  haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := ctx.comp.2.2.2
+  have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := ctx.comp.2.2.2
   have hnc := CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian _
     ctx.comp.2.2
   refine bal207PlusFamClauses_of_fix_solvable ctx fun β hβ hβ1 => ?_

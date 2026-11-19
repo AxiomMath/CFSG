@@ -70,7 +70,7 @@ public theorem normalizerFixedPointAction_twoPretransitive
       normalizerFixedPointAction X Omega P
     MulAction.IsMultiplyPretransitive (Subgroup.normalizer (P : Set X))
       {omega : Omega // omega ∈ fixedPointsOfSubgroup X Omega P} 2 := by
-  letI : MulAction (Subgroup.normalizer (P : Set X))
+  let : MulAction (Subgroup.normalizer (P : Set X))
       {omega : Omega // omega ∈ fixedPointsOfSubgroup X Omega P} :=
     normalizerFixedPointAction X Omega P
   rw [MulAction.is_two_pretransitive_iff]
@@ -132,7 +132,7 @@ public theorem witt_normalizer_fixedPoint_transporter
           (MulAction.stabilizer G a).subtype : Subgroup G) : Set G),
       (n : G) • a = d := by
   classical
-  letI : Fact (Nat.Prime p) := ⟨hp⟩
+  let : Fact (Nat.Prime p) := ⟨hp⟩
   let D : Subgroup G := MulAction.stabilizer G a
   let P : Subgroup G := (S : Subgroup D).map D.subtype
   let Q : Subgroup G := P.map (MulAut.conj g⁻¹).toMonoidHom
@@ -216,7 +216,7 @@ public theorem witt_normalizer_pretransitive_core
     IsTransitiveOn (Subgroup.normalizer (P : Set G))
       (fixedPointsOfSubgroup G A P) := by
   classical
-  letI : Fact (Nat.Prime p) := ⟨hp⟩
+  let : Fact (Nat.Prime p) := ⟨hp⟩
   let D : Subgroup G := MulAction.stabilizer G a
   let P : Subgroup G := (S : Subgroup D).map D.subtype
   dsimp only
@@ -400,7 +400,7 @@ public theorem exists_larger_normalizer_pSubgroup
       IsPGroup p R₁ ∧ P < R₁ ∧ R₁ ≤ R ∧
         R₁ ≤ Subgroup.normalizer (P : Set G) := by
   classical
-  letI : Fact (Nat.Prime p) := ⟨hp⟩
+  let : Fact (Nat.Prime p) := ⟨hp⟩
   let PR : Subgroup R := P.subgroupOf R
   have hPRtop : PR < ⊤ := by
     rw [lt_top_iff_ne_top]
@@ -410,7 +410,7 @@ public theorem exists_larger_normalizer_pSubgroup
     let xR : R := ⟨x, hxR⟩
     have hxPR : xR ∈ PR := by rw [htop]; trivial
     exact hxPR
-  letI : Group.IsNilpotent R := hRp.isNilpotent
+  let : Group.IsNilpotent R := hRp.isNilpotent
   have hPRnorm : PR < Subgroup.normalizer (PR : Set R) :=
     Group.normalizerCondition_of_isNilpotent PR hPRtop
   let NR : Subgroup R := Subgroup.normalizer (PR : Set R)
@@ -432,7 +432,7 @@ public theorem exists_larger_normalizer_pSubgroup
   have hPR₁lt : P < R₁ := by
     apply lt_of_le_of_ne hPR₁
     intro hPR₁eq
-    obtain ⟨y, hyNR, hyPR⟩ := SetLike.exists_of_lt hPRnorm
+    obtain ⟨y, hyNR, hyPR⟩ := _root_.IsConcreteLE.exists_of_lt hPRnorm
     apply hyPR
     have hyR₁ : (y : G) ∈ R₁ :=
       Subgroup.mem_map.mpr ⟨y, hyNR, rfl⟩
@@ -622,7 +622,7 @@ private theorem bender_normalizer_pretransitive
     IsTransitiveOn (Subgroup.normalizer (P : Set G))
       (fixedPointsOfSubgroup G Omega P) := by
   classical
-  letI : Fact (Nat.Prime p) := ⟨hp⟩
+  let : Fact (Nat.Prime p) := ⟨hp⟩
   let FixedP := {omega : Omega //
     omega ∈ fixedPointsOfSubgroup G Omega P}
   have hFixedPpos : 0 < Nat.card FixedP :=
@@ -649,7 +649,7 @@ private theorem bender_normalizer_pretransitive
     simpa [D, R] using
       (witt_normalizer_pretransitive_core hp htrans a S)
   have hPRlt : P < R := lt_of_le_of_ne hPR hPR_eq
-  have hRp : IsPGroup p R := S.isPGroup'.map D.subtype
+  have hRp : IsPGroup p R := S.isPGroup.map D.subtype
   have hRD : R ≤ D := by
     simpa [R] using Subgroup.map_le_range D.subtype (S : Subgroup D)
   have hRa : a ∈ fixedPointsOfSubgroup G Omega R := by
@@ -662,8 +662,8 @@ private theorem bender_normalizer_pretransitive
       hmax hRp hPRlt hb hRa
   let FixedR := {omega : Omega //
     omega ∈ fixedPointsOfSubgroup G Omega R}
-  letI : Nonempty FixedR := ⟨⟨a, hRa⟩⟩
-  letI : Subsingleton FixedR := ⟨by
+  let : Nonempty FixedR := ⟨⟨a, hRa⟩⟩
+  let : Subsingleton FixedR := ⟨by
     intro x y
     apply Subtype.ext
     exact (hRunique x.property).trans (hRunique y.property).symm⟩
@@ -723,7 +723,7 @@ private theorem bender_normalizer_pretransitive
         simpa [E, Q] using hw
       exact hw' ha hb
     have hPQlt : P < Q := lt_of_le_of_ne hPQ hPQ_eq
-    have hQp : IsPGroup p Q := T.isPGroup'.map E.subtype
+    have hQp : IsPGroup p Q := T.isPGroup.map E.subtype
     have hQE : Q ≤ E := by
       simpa [Q] using Subgroup.map_le_range E.subtype (T : Subgroup E)
     obtain ⟨Q₁, hQ₁p, hPQ₁, hQ₁Q, hQ₁norm⟩ :=
@@ -742,7 +742,7 @@ private theorem bender_normalizer_pretransitive
     obtain ⟨SQ, hQ₁NSQ⟩ := hQ₁Np.exists_le_sylow
     obtain ⟨g, hg⟩ := MulAction.exists_smul_eq N SR SQ
     let A : Subgroup G := (SQ : Subgroup N).map N.subtype
-    have hAp : IsPGroup p A := SQ.isPGroup'.map N.subtype
+    have hAp : IsPGroup p A := SQ.isPGroup.map N.subtype
     obtain ⟨delta, hdelta⟩ :=
       hAp.nonempty_fixed_point_of_prime_not_dvd_card Omega hpOmega
     have hdeltaFix : ∀ x : A, x • delta = delta :=
@@ -818,8 +818,8 @@ private theorem bender_normalizer_pointStabilizer_pretransitive
       {omega : Omega |
         omega ∈ fixedPointsOfSubgroup G Omega P ∧ omega ≠ a} := by
   classical
-  letI : MulAction.IsMultiplyPretransitive G Omega 2 := htwo
-  letI : MulAction.IsPretransitive G Omega :=
+  let : MulAction.IsMultiplyPretransitive G Omega 2 := htwo
+  let : MulAction.IsPretransitive G Omega :=
     MulAction.isPretransitive_of_is_two_pretransitive
   let A : Subgroup G := MulAction.stabilizer G a
   let PA : Subgroup A := P.subgroupOf A
@@ -892,8 +892,8 @@ public theorem chapter1_bender_normalizer_pointStabilizer_pretransitive_of_local
       {omega : Omega |
         omega ∈ fixedPointsOfSubgroup G Omega P ∧ omega ≠ a} := by
   classical
-  letI : MulAction.IsMultiplyPretransitive G Omega 2 := htwo
-  letI : MulAction.IsPretransitive G Omega :=
+  let : MulAction.IsMultiplyPretransitive G Omega 2 := htwo
+  let : MulAction.IsPretransitive G Omega :=
     MulAction.isPretransitive_of_is_two_pretransitive
   let A : Subgroup G := MulAction.stabilizer G a
   let PA : Subgroup A := P.subgroupOf A

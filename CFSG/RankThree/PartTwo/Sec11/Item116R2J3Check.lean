@@ -50,7 +50,7 @@ theorem commTriple_of_check {M V : Type} {O : Ops M V} {p d : ℕ} (Sp : OpsSpec
     obtain ⟨i, hi, hu⟩ := eall u u.2
     exact ⟨⟨i, hi⟩, Subtype.ext hu.symm⟩
   obtain ⟨F, hF⟩ := hFbij
-  haveI : Finite K := Finite.of_surjective F hF.2
+  have : Finite K := Finite.of_surjective F hF.2
   have hcardK : Nat.card K = D.base.nP := by
     rw [← Nat.card_eq_of_bijective F hF, Nat.card_fin]
   have listed : ∀ {X : M}, O.memOK En.1 X = true → ∃ u ∈ K, valHom S u = Sp.toMat X := by

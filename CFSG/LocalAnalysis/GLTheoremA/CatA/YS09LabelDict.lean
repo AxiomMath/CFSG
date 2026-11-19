@@ -93,7 +93,7 @@ theorem ys09Label_of_triple {lab : LargeEvenLabel}
   cases tg <;>
     simp only [CFSG.StandardType.markTag, CFSG.StandardType.markRank, CFSG.StandardType.markDeg,
       Ys09Label] at hT ⊢ <;>
-    (try split_ifs at hT ⊢) <;> simp_all <;> omega
+    (try split_ifs at hT ⊢) <;> simp_all; omega
 
 section Cert
 

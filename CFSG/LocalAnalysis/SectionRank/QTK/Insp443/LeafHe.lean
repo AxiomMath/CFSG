@@ -43,13 +43,13 @@ theorem conclK_He
     (h : KConfig (NativeSporadic.Carrier .He) L V MK) :
     ConclK (NativeSporadic.Carrier .He) L V MK := by
   let φ : NativeSporadic.Carrier .He ≃* heP := heEquivP
-  haveI : Finite (NativeSporadic.Carrier .He) := Finite.of_injective (⇑φ) φ.injective
+  have : Finite (NativeSporadic.Carrier .He) := Finite.of_injective (⇑φ) φ.injective
   exact KConfig.conclK_he h (He.emb_of_mulEquiv φ)
 
 theorem forK_He :
     ForK (fun S _ => Nonempty (S ≃* NativeSporadic.Carrier .He)) := by
   let φ : NativeSporadic.Carrier .He ≃* heP := heEquivP
-  haveI : Finite (NativeSporadic.Carrier .He) := Finite.of_injective (⇑φ) φ.injective
+  have : Finite (NativeSporadic.Carrier .He) := Finite.of_injective (⇑φ) φ.injective
   refine forK_of_kConfig (X := NativeSporadic.Carrier .He) ?_ (fun L V MK h => conclK_He h)
   rw [CFSG.RankThree.PartTwo.Sec4.Census.Karpilovsky.Coordinator.nativeRow_He]
   decide

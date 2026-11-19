@@ -69,7 +69,7 @@ theorem false_of_maximal_of_eight73Y (hK35w : UCK.K35w) (hKZ : StronglyEmbeddedC
     (hmax : ∀ Z : Subgroup G, Y < Z → Z ≤ D.M → IsPGroup p Z → normalizer (Z : Set G) ≤ D.M) :
     False := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hLMle : L ≤ D.M := CFSG.Quasithin.A3.subnormal_le hL.1
   have hQM : Q ≤ D.M := hQL.trans hLMle
   have hYp : IsPGroup p Y := hP.isPGroup.to_le hYP
@@ -88,8 +88,8 @@ theorem false_of_maximal_of_eight73Y (hK35w : UCK.K35w) (hKZ : StronglyEmbeddedC
   have hcomm : u * v = v * u :=
     commute_of_mem_centralizerBar hp hp2 hP.isPGroup hQL hQP huQ hvC
   let H : Subgroup G := Subgroup.centralizer (Y : Set G)
-  haveI : IsCyclic ↥Y := hYcyc
-  letI : CommGroup ↥Y := IsCyclic.commGroup
+  have : IsCyclic ↥Y := hYcyc
+  let : CommGroup ↥Y := IsCyclic.commGroup
   have hYleH : Y ≤ H := by
     intro a ha
     rw [Subgroup.mem_centralizer_iff]
@@ -129,7 +129,7 @@ theorem false_of_maximal_of_eight73Y (hK35w : UCK.K35w) (hKZ : StronglyEmbeddedC
         _ ≤ p ^ 3 := Nat.pow_le_pow_left hp.two_le 3
     have hle1 : p ^ 3 ≤ 1 := Nat.le_of_dvd (by norm_num) hQcard
     omega
-  haveI hQnt : Nontrivial ↥Q := (Subgroup.nontrivial_iff_ne_bot Q).mpr hQne
+  have hQnt : Nontrivial ↥Q := (Subgroup.nontrivial_iff_ne_bot Q).mpr hQne
   have hQp : IsPGroup p ↥Q := hP.isPGroup.to_le hQP
   have huQpow : uQ ^ p = 1 := Subtype.ext (hQexp u huQ)
   let Cq : Subgroup ↥Q := Subgroup.centralizer ({uQ} : Set ↥Q)
@@ -246,7 +246,7 @@ theorem false_of_maximal_of_eight73Y (hK35w : UCK.K35w) (hKZ : StronglyEmbeddedC
     exact ((Commute.zpow_right hfy k).eq).symm
   have hE0comm : ∀ a ∈ E0, ∀ b ∈ E0, a * b = b * a := by
     have hcommE0 : ∀ a b : ↥E0, a * b = b * a :=
-      IsPGroup.commutative_of_card_eq_prime_sq hE0card
+      (IsPGroup.isMulCommutative_of_card_eq_prime_sq hE0card).is_comm.comm
     intro a ha b hb
     exact congrArg Subtype.val (hcommE0 ⟨a, ha⟩ ⟨b, hb⟩)
   have hE0pow : ∀ a ∈ E0, a ^ p = 1 := fun a ha => hQexp a (hE0Q ha)
@@ -273,7 +273,7 @@ theorem false_of_maximal_of_eight73Y (hK35w : UCK.K35w) (hKZ : StronglyEmbeddedC
     not_centralizer_le_of_maximal hp (hYP.trans hP.le) hYp hYleH hYN hmax hE0H hE0p hE0notY
   have hHne_top : H ≠ ⊤ := by
     intro htop
-    haveI : IsSimpleGroup G := D.standing.simple
+    have : IsSimpleGroup G := D.standing.simple
     have hnab : ¬ IsMulCommutative G := by
       intro hcommG
       obtain ⟨a, b, hab⟩ := D.standing.nonab
@@ -289,7 +289,7 @@ theorem false_of_maximal_of_eight73Y (hK35w : UCK.K35w) (hKZ : StronglyEmbeddedC
     rw [hcenterbot] at hYcenter
     exact hY (le_bot_iff.mp hYcenter)
   let YH : Subgroup ↥H := Y.subgroupOf H
-  haveI hYHnorm' : YH.Normal := hYHnorm
+  have hYHnorm' : YH.Normal := hYHnorm
   let π : ↥H →* (↥H ⧸ YH) := QuotientGroup.mk' YH
   let N : Subgroup (↥H ⧸ YH) := ((D.M ⊓ H).subgroupOf H).map π
   have hne : N ≠ ⊤ := by
@@ -475,10 +475,10 @@ theorem normalizer_le_of_eight73Y (hK35w : UCK.K35w) (hKZ : StronglyEmbeddedCent
     (hZ : ¬ p ∣ Nat.card (center (Bar2 L))) (hP : IsSylowOf p P D.M) (hQL : Q ≤ L)
     (hQP : Q ≤ P) (hQexp : ∀ x ∈ Q, x ^ p = 1) (hQcard : p ^ 3 ∣ Nat.card Q)
     (hPQ : P ≤ Q ⊔ centralizerBar P L) (hcyc : IsCyclic (centralizerBar P L))
-    (hΓ : rankThreeGamma 1 p Q ≤ D.M) {Y : Subgroup G} (hYM : Y ≤ D.M) (hYp : IsPGroup p Y)
-    (hY : Y ≠ ⊥) : normalizer (Y : Set G) ≤ D.M :=
+    (hΓ : rankThreeGamma 1 p Q ≤ D.M) {_Y : Subgroup G} (hYM : _Y ≤ D.M) (hYp : IsPGroup p _Y)
+    (hY : _Y ≠ ⊥) : normalizer (_Y : Set G) ≤ D.M :=
   normalizer_le_of_forall_maximal hp hP
-    (fun Y hY hYP hYN hmax =>
+    (fun _Y hY hYP hYN hmax =>
       false_of_maximal_of_eight73Y hK35w hKZ h63 hp hp2 hL hLM hZ hP hQL hQP hQexp hQcard
         hPQ hcyc hΓ hY hYP hYN hmax)
     hYM hYp hY
@@ -490,7 +490,7 @@ theorem isStronglyPEmbedded_of_eight73Y (hK35w : UCK.K35w) (hKZ : StronglyEmbedd
     (hQP : Q ≤ P) (hQexp : ∀ x ∈ Q, x ^ p = 1) (hQcard : p ^ 3 ∣ Nat.card Q)
     (hPQ : P ≤ Q ⊔ centralizerBar P L) (hcyc : IsCyclic (centralizerBar P L))
     (hΓ : rankThreeGamma 1 p Q ≤ D.M) : IsStronglyPEmbedded p D.M := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hQM : Q ≤ D.M := hQL.trans (CFSG.Quasithin.A3.subnormal_le hL.1)
   have hpM : p ∣ Nat.card D.M := by
     have hpQ : p ∣ Nat.card Q :=
@@ -510,7 +510,7 @@ theorem isStronglyPEmbedded_of_eight73Y_of_extraspecial (hK35w : UCK.K35w)
     (hQe : IsExtraspecialExpP p 1 ↥Q) (hPQ : P ≤ Q ⊔ centralizerBar P L)
     (hcyc : IsCyclic (centralizerBar P L)) (hΓ : rankThreeGamma 1 p Q ≤ D.M) :
     IsStronglyPEmbedded p D.M := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hQL : Q ≤ L := hQ.le
   have hQe' := hQe
   unfold CFSG.LocalAnalysis.RankThreeUC.SmallClassTwoGroups.IsExtraspecialExpP at hQe'

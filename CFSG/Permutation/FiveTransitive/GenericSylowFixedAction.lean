@@ -11,20 +11,20 @@ namespace FiveTransitive.GenericSylowFixedAction
 open MulAction SubMulAction Subgroup
 open FiveTransitive.SylowFixedActionCore
 
-@[expose] abbrev sylowImage
+abbrev sylowImage
     (G X : Type) [Group G] [MulAction G X] (s : Set X)
     {p : ℕ}
     (S : Sylow p (fixingSubgroup G s)) : Subgroup G :=
   (S : Subgroup (fixingSubgroup G s)).map
     (fixingSubgroup G s).subtype
 
-@[expose] abbrev sylowNormalizer
+abbrev sylowNormalizer
     (G X : Type) [Group G] [MulAction G X] (s : Set X)
     {p : ℕ}
     (S : Sylow p (fixingSubgroup G s)) : Subgroup G :=
   Subgroup.normalizer (sylowImage G X s S : Set G)
 
-@[expose] abbrev sylowInNormalizer
+abbrev sylowInNormalizer
     (G X : Type) [Group G] [MulAction G X] (s : Set X)
     {p : ℕ}
     (S : Sylow p (fixingSubgroup G s)) :
@@ -32,7 +32,7 @@ open FiveTransitive.SylowFixedActionCore
   (sylowImage G X s S).subgroupOf
     (sylowNormalizer G X s S)
 
-@[expose] abbrev sylowFixedPoints
+abbrev sylowFixedPoints
     (G X : Type) [Group G] [MulAction G X] (s : Set X)
     {p : ℕ}
     (S : Sylow p (fixingSubgroup G s)) :=
@@ -151,7 +151,7 @@ theorem sylowNormalizer_transitive_on_fixedPoints
       _ = Nat.card SP := hQSPcard
       _ = Nat.card S := hSPcard
   obtain ⟨n, hn⟩ :=
-    S.isPGroup'.exists_card_eq
+    S.isPGroup.exists_card_eq
   have hSUisP : IsPGroup p SU := by
     exact IsPGroup.of_card (hSUcard.trans hn)
   have hTUisP : IsPGroup p TU := by
@@ -364,7 +364,7 @@ theorem fixed_degree_modEq
   let SP : Subgroup G := sylowImage G X s S
   let N : Subgroup G := sylowNormalizer G X s S
   let SN : Subgroup N := sylowInNormalizer G X s S
-  have hSP : IsPGroup p SP := S.isPGroup'.map H.subtype
+  have hSP : IsPGroup p SP := S.isPGroup.map H.subtype
   let e : SN ≃* SP := Subgroup.subgroupOfEquivOfLe SP.le_normalizer
   have hSN : IsPGroup p SN := hSP.of_injective e.toMonoidHom e.injective
   exact hSN.card_modEq_card_fixedPoints X

@@ -129,7 +129,7 @@ theorem dbar_core {z t : G} (hu : UData z t) {H P I₁ : Subgroup G} {p : ℕ} (
   have hV2' : IsPGroup 2 ↥((pCore 2 (HBar H) ⊔ barIn H (U4 z t)).subgroupOf C') := hV2.comap_subtype
   obtain ⟨Q, hQ⟩ := hV2'.exists_le_sylow
   set W : Subgroup (HBar H) := (Q : Subgroup ↥C').map C'.subtype with hW
-  have hW2 : IsPGroup 2 ↥W := Q.isPGroup'.map C'.subtype
+  have hW2 : IsPGroup 2 ↥W := Q.isPGroup.map C'.subtype
   have hWC : W ≤ C' := Subgroup.map_subtype_le _
   have hVW : pCore 2 (HBar H) ⊔ barIn H (U4 z t) ≤ W := by
     intro x hx

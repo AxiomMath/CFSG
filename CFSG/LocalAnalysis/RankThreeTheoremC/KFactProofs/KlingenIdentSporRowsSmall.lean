@@ -28,7 +28,7 @@ theorem false_of_J3 {Y : Type} [Group Y] [Finite Y] [Fact (Nat.Prime 3)] {Rb : S
   have hC := KlingenIdentLieAux.centralizer_eq_bot hred hKn hcent hZ
   have hRK : (Rb : Subgroup Y) ≤ K := by
     intro x hx
-    obtain ⟨n, hn⟩ := (IsPGroup.iff_orderOf.mp Rb.isPGroup') ⟨x, hx⟩
+    obtain ⟨n, hn⟩ := (IsPGroup.iff_orderOf.mp Rb.isPGroup) ⟨x, hx⟩
     have h1 := pow_orderOf_eq_one (⟨x, hx⟩ : (Rb : Subgroup Y))
     rw [hn] at h1
     have := mem_sup_centralizer_of_pow Nat.prime_three hOut (n := n) (congrArg Subtype.val h1)

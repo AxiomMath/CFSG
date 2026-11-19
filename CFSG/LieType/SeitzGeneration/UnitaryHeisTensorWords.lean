@@ -30,8 +30,7 @@ theorem hX3'' (hX3 : X * X * X = α • 1) : X * (X * X) = α • (1 : Matrix (F
 theorem idA (hω3 : ω ^ 3 = 1) (hyx : Y * X = ω • (X * Y)) (hX3 : X * X * X = α • 1)
     (hY3 : Y * Y * Y = β • 1) :
     (X * Y) * (X * Y) * (X * Y) = (α * β) • (1 : Matrix (Fin n) (Fin n) K) := by
-  simp only [Matrix.mul_assoc, hA hyx, Matrix.mul_smul, Matrix.smul_mul, hX3' hX3, hX3' hY3,
-    hX3'' hX3, hX3'' hY3, smul_smul]
+  simp only [Matrix.mul_assoc, hA hyx, Matrix.mul_smul, Matrix.smul_mul, hX3' hX3, hX3'' hY3, smul_smul]
   congr 1
   linear_combination (α * β) * hω3
 
@@ -39,37 +38,34 @@ theorem idB (hω3 : ω ^ 3 = 1) (hyx : Y * X = ω • (X * Y)) (hX3 : X * X * X 
     (hY3 : Y * Y * Y = β • 1) :
     (X * (Y * Y)) * (X * (Y * Y)) * (X * (Y * Y)) =
       (α * β ^ 2) • (1 : Matrix (Fin n) (Fin n) K) := by
-  simp only [Matrix.mul_assoc, hA hyx, Matrix.mul_smul, Matrix.smul_mul, hX3' hX3, hX3' hY3,
-    hX3'' hX3, hX3'' hY3, smul_smul, Matrix.one_mul, Matrix.mul_one]
+  simp only [Matrix.mul_assoc, hA hyx, Matrix.mul_smul, Matrix.smul_mul, hX3'' hX3, hX3'' hY3, smul_smul, Matrix.mul_one]
   congr 1
   linear_combination (α * β ^ 2) * hω3
 
 theorem idC (hX3 : X * X * X = α • 1) (hY3 : Y * Y * Y = β • 1) :
     (X * (Y * Y)) * (Y * (X * X)) = (α * β) • (1 : Matrix (Fin n) (Fin n) K) := by
-  simp only [Matrix.mul_assoc, Matrix.mul_smul, Matrix.smul_mul, hX3' hX3, hX3' hY3,
-    hX3'' hX3, hX3'' hY3, smul_smul, Matrix.one_mul, Matrix.mul_one]
+  simp only [Matrix.mul_assoc, Matrix.mul_smul, hX3' hY3,
+    hX3'' hX3, smul_smul]
   congr 1
   ring
 
 theorem idD1 (hyx : Y * X = ω • (X * Y)) : Y * (X * Y) = ω • (X * (Y * Y)) := by
-  simp only [Matrix.mul_assoc, hA hyx]
+  simp only [hA hyx]
 
 theorem idD2 (hω3 : ω ^ 3 = 1) (hyx : Y * X = ω • (X * Y)) (hY3 : Y * Y * Y = β • 1) :
     Y * ((X * Y) * (X * Y)) = β • (X * X) := by
-  simp only [Matrix.mul_assoc, hA hyx, Matrix.mul_smul, Matrix.smul_mul, hX3' hY3,
-    hX3'' hY3, smul_smul, Matrix.one_mul, Matrix.mul_one]
+  simp only [Matrix.mul_assoc, hA hyx, Matrix.mul_smul, hX3'' hY3, smul_smul, Matrix.mul_one]
   congr 1
   linear_combination β * hω3
 
 theorem idE1 (hyx : Y * X = ω • (X * Y)) (hY3 : Y * Y * Y = β • 1) :
     Y * (X * (Y * Y)) = (ω * β) • X := by
-  simp only [Matrix.mul_assoc, hA hyx, Matrix.mul_smul, Matrix.smul_mul, hX3'' hY3, smul_smul,
-    Matrix.one_mul, Matrix.mul_one]
+  simp only [hA hyx, Matrix.mul_smul, hX3'' hY3, smul_smul,
+    Matrix.mul_one]
 
 theorem idE2 (hω3 : ω ^ 3 = 1) (hyx : Y * X = ω • (X * Y)) (hY3 : Y * Y * Y = β • 1) :
     Y * ((X * (Y * Y)) * (X * (Y * Y))) = β • ((X * Y) * (X * Y)) := by
-  simp only [Matrix.mul_assoc, hA hyx, hyx, Matrix.mul_smul, Matrix.smul_mul, hX3' hY3,
-    hX3'' hY3, smul_smul, Matrix.one_mul, Matrix.mul_one]
+  simp only [Matrix.mul_assoc, hA hyx, hyx, Matrix.mul_smul, hX3'' hY3, smul_smul, Matrix.mul_one]
   congr 1
   linear_combination (ω * β) * hω3
 

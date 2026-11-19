@@ -150,13 +150,13 @@ private theorem polar_normHypForm_planeVec_planeVec {m : ℕ} (k l : Fin m) (x y
   simp only [zero_mul, zero_add]
   by_cases h : k = l
   · subst h
-    rw [if_pos rfl, Finset.sum_eq_single k]
+    rw [ite_eq_left rfl, Finset.sum_eq_single k]
     · simp
     · intro j _ hj
       rw [Pi.single_eq_of_ne hj, QuadraticMap.polar_zero_left]
     · intro h'
       exact absurd (Finset.mem_univ k) h'
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     refine Finset.sum_eq_zero fun j _ => ?_
     rcases eq_or_ne j l with rfl | hj
     · rw [Pi.single_eq_same, Pi.single_eq_of_ne (Ne.symm h), QuadraticMap.polar_zero_left]
@@ -521,7 +521,7 @@ theorem qTwoW0Lin_mem {ω : K} (hω : IsTraceNormOne E ω) : qTwoW0Lin E ∈ nor
     exact one_ne_zero
   have hwa : polar (normHypForm E 4) (normPlaneVec F 2 1) (normPlaneVec F 2 ω) =
       normHypForm E 4 (normPlaneVec F 2 1) := by
-    rw [polar_normHypForm_planeVec_planeVec, if_pos rfl, normHypForm_planeVec, normQuad_one]
+    rw [polar_normHypForm_planeVec_planeVec, ite_eq_left rfl, normHypForm_planeVec, normQuad_one]
     exact hω.1
   have heaT : polar (normHypForm E 4) (normWVec K 4 true) (normPlaneVec F 2 1) = 0 :=
     polar_normHypForm_wVec_planeVec E true 2 1
@@ -591,7 +591,7 @@ theorem qTwoW0Lin_planeVec {k : Fin 4} (hk : k ≠ 2) (x : K) :
   have h1 : polar (normHypForm E 4) (normPlaneVec F k x) (normWVec K 4 true) = 0 :=
     polar_normHypForm_planeVec_wVec E k x true
   have h2 : polar (normHypForm E 4) (normPlaneVec F k x) (normPlaneVec F 2 1) = 0 := by
-    rw [polar_normHypForm_planeVec_planeVec, if_neg hk]
+    rw [polar_normHypForm_planeVec_planeVec, ite_eq_right hk]
   have h3 : polar (normHypForm E 4) (normPlaneVec F k x) (normWVec K 4 false) = 0 :=
     polar_normHypForm_planeVec_wVec E k x false
   rw [qTwoW0Lin]
@@ -610,7 +610,7 @@ theorem qTwoW0_mem_normBlock {ω : K} (hω : IsTraceNormOne E ω) :
     exact one_ne_zero
   have hwa : polar (normHypForm E 4) (normPlaneVec F 2 1) (normPlaneVec F 2 ω) =
       normHypForm E 4 (normPlaneVec F 2 1) := by
-    rw [polar_normHypForm_planeVec_planeVec, if_pos rfl, normHypForm_planeVec, normQuad_one]
+    rw [polar_normHypForm_planeVec_planeVec, ite_eq_left rfl, normHypForm_planeVec, normQuad_one]
     exact hω.1
   have hw1 : normPlaneVec F 2 1 ∈ W := mem_coordSupport_singleton (m := 4) (2 : Fin 4) 1
   have hwω : normPlaneVec F 2 ω ∈ W := mem_coordSupport_singleton (m := 4) (2 : Fin 4) ω
@@ -653,7 +653,7 @@ private theorem qTwoY_Qe {ω : K} (hω : IsTraceNormOne E ω) :
   have : CharP F 2 := (algebraMap F K).charP (algebraMap F K).injective 2
   rw [QuadraticMap.map_add (normHypForm E 3), normHypForm_planeVec,
     normHypForm_planeVec, normQuad_one_add E hω, normQuad_one,
-    polar_normHypForm_planeVec_planeVec, if_neg (by decide : (0 : Fin 3) ≠ 2)]
+    polar_normHypForm_planeVec_planeVec, ite_eq_right (by decide : (0 : Fin 3) ≠ 2)]
   rw [CharTwo.add_self_eq_zero (1 : F), zero_add]
 
 private theorem qTwoY_Qa {ω : K} (hω : IsTraceNormOne E ω) :
@@ -723,15 +723,15 @@ theorem qTwoYLin_planeVec_two {ω : K} (hω : IsTraceNormOne E ω) :
   have hxe : polar (normHypForm E 3) (normPlaneVec F 2 1)
       (normPlaneVec F 0 (1 + ω) + normPlaneVec F 2 1) = 0 := by
     rw [polar_add_right, polar_normHypForm_planeVec_planeVec,
-      polar_normHypForm_planeVec_planeVec, if_neg (by decide : (2 : Fin 3) ≠ 0),
-      if_pos rfl, polar_normQuad_self]
+      polar_normHypForm_planeVec_planeVec, ite_eq_right (by decide : (2 : Fin 3) ≠ 0),
+      ite_eq_left rfl, polar_normQuad_self]
     simp
   have hxa : polar (normHypForm E 3) (normPlaneVec F 2 1)
       (normPlaneVec F 0 ω + normPlaneVec F 1 1 + normPlaneVec F 2 ω) = 1 := by
     rw [polar_add_right, polar_add_right, polar_normHypForm_planeVec_planeVec,
       polar_normHypForm_planeVec_planeVec, polar_normHypForm_planeVec_planeVec,
-      if_neg (by decide : (2 : Fin 3) ≠ 0), if_neg (by decide : (2 : Fin 3) ≠ 1),
-      if_pos rfl, hω.1]
+      ite_eq_right (by decide : (2 : Fin 3) ≠ 0), ite_eq_right (by decide : (2 : Fin 3) ≠ 1),
+      ite_eq_left rfl, hω.1]
     simp
   rw [qTwoYLin, eichler_apply hQe (qTwoY_polar_ea E hω), hxe, hxa, qTwoY_Qa E hω]
   simp only [zero_smul, mul_zero, add_zero, one_smul, sub_eq_add_neg]

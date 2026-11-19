@@ -47,6 +47,7 @@ theorem s16c1_Mbar_le_normalizer_lBar {D : Data G} {V₀ V L : Subgroup G}
       (f := (MulAut.conj g).toMonoidHom) (MulAut.conj g).injective).1 hLg
   exact hS.ne_bot hbot
 
+omit [Finite G] in
 theorem s16c1_barSub_sylow {M T V₀ V : Subgroup G} {hV : IsElemAbelian 2 V}
     (hM : M ≤ stabTil V₀ V) (hT : IsSylowIn 2 T M) :
     IsSylowIn 2 (barSub V₀ V hV T) (barSub V₀ V hV M) := by

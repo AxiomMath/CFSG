@@ -30,7 +30,7 @@ theorem card_eq_of_center_isolated {G : Type*} [Group G] [Finite G] {p : ℕ} [F
     intro x hx
     have : (⟨x, hx⟩ : P) ∈ T.subgroupOf P := by rw [htop]; exact Subgroup.mem_top _
     exact Subgroup.mem_subgroupOf.1 this
-  have hnil : Group.IsNilpotent P := P.isPGroup'.isNilpotent
+  have hnil : Group.IsNilpotent P := P.isPGroup.isNilpotent
   have hnc := Group.normalizerCondition_of_isNilpotent (G := P)
   obtain ⟨x, hxN, hxT⟩ := IsConcreteLE.exists_of_lt (hnc _ hlt)
   rw [Subgroup.mem_normalizer_iff] at hxN
@@ -68,7 +68,7 @@ theorem card_eq_of_center_isolated {G : Type*} [Group G] [Finite G] {p : ℕ} [F
     rw [Subgroup.mem_subgroupOf, e]
     exact Subgroup.mem_inf.2 ⟨x.2, hxC⟩
   have hKp : IsPGroup p (K.subgroupOf (Subgroup.centralizer ({z} : Set G))) := by
-    have : IsPGroup p K := P.isPGroup'.to_le inf_le_left
+    have : IsPGroup p K := P.isPGroup.to_le inf_le_left
     exact this.comap_of_injective (Subgroup.centralizer ({z} : Set G)).subtype
       (Subgroup.subtype_injective _)
   obtain ⟨Q, hQ⟩ := hKp.exists_le_sylow
@@ -85,7 +85,7 @@ namespace Co2CentHyp
 variable {G : Type} [Group G] (h : Co2CentHyp G)
 
 theorem card_TG : Nat.card (h.liftG (subW sylWords)) = 2 ^ (Nat.card G).factorization 2 := by
-  haveI := h.finite
+  have := h.finite
   refine card_eq_of_center_isolated (h.liftG_le_H _) ?_ ?_ ?_
   · rw [← h.rG_zero, rG, rep_zero]
     exact h.φ_symm_mem_liftG rCr_mem_sylT
@@ -111,7 +111,7 @@ theorem card_TG : Nat.card (h.liftG (subW sylWords)) = 2 ^ (Nat.card G).factoriz
 
 theorem exists_conj_mem_TG {t : G} (ht : t * t = 1) (ht1 : t ≠ 1) :
     ∃ g : G, g * t * g⁻¹ ∈ h.liftG (subW sylWords) := by
-  haveI := h.finite
+  have := h.finite
   have hp : IsPGroup 2 (Subgroup.zpowers t) := by
     have ho : orderOf t = 2 := orderOf_eq_prime (by rw [sq]; exact ht) ht1
     exact IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, ho, pow_one])

@@ -82,7 +82,7 @@ private theorem four_le_card_orbitField [Finite K] (σ : K →+* K) {p : ℕ} (h
     (hp2 : p ≠ 2) {ζ : Kˣ} (hζo : orderOf ζ = p) (hζσ : σ (ζ : K) = ζ)
     (a : Fin TwistTag.E6.foldedTag.rank) : 4 ≤ Nat.card (orbitField TwistTag.E6 K σ a) := by
   obtain ⟨ζL, hζL⟩ := exists_unit_orbitField_orderOf σ hζo hζσ a
-  haveI : Finite (orbitField TwistTag.E6 K σ a) := Subtype.finite
+  have : Finite (orbitField TwistTag.E6 K σ a) := Subtype.finite
   have hdvd : p ∣ Nat.card (orbitField TwistTag.E6 K σ a)ˣ := hζL ▸ orderOf_dvd_natCard ζL
   have hp_le : p ≤ Nat.card (orbitField TwistTag.E6 K σ a)ˣ :=
     Nat.le_of_dvd Nat.card_pos hdvd
@@ -405,10 +405,10 @@ theorem isQuasisimple_orbitRankOneGroup_twE6 [Finite K] [CharP K 2] (σ : K →+
     CFSG.Assembly.IsQuasisimple ↥(orbitRankOneGroup TwistTag.E6 K σ a) := by
   let a' : Fin TwistTag.E6.foldedTag.rank := a
   change CFSG.Assembly.IsQuasisimple ↥(orbitRankOneGroup TwistTag.E6 K σ a')
-  haveI : CharP (orbitField TwistTag.E6 K σ a') 2 :=
+  have : CharP (orbitField TwistTag.E6 K σ a') 2 :=
     Subfield.charP (orbitField TwistTag.E6 K σ a') 2
   have h4 := four_le_card_orbitField (K := K) σ hp hp2 hζo hζσ a'
-  haveI : IsSimpleGroup (SL2 (orbitField TwistTag.E6 K σ a')) :=
+  have : IsSimpleGroup (SL2 (orbitField TwistTag.E6 K σ a')) :=
     CFSG.RankThree.PartOne.KCRootAxis.sl2_isSimpleGroup h4
   have hnonab : ∃ x y : SL2 (orbitField TwistTag.E6 K σ a'), x * y ≠ y * x := by
     refine ⟨uSL 1, vSL 1, fun h => ?_⟩

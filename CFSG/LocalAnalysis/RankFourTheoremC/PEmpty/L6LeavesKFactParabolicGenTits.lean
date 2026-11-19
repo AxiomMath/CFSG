@@ -15,13 +15,13 @@ open CFSG.Open CFSG.LieType.BorelTits Subgroup
 theorem mem_sylow_of_normalizer {T : Type*} [Group T] [Finite T] (S : Sylow 2 T) {B : Subgroup T}
     (hBS : B ≤ normalizer ((S : Subgroup T) : Set T)) {y : T} (hy : y ∈ B) {m : ℕ}
     (hym : y ^ 2 ^ m = 1) : y ∈ (S : Subgroup T) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hz : IsPGroup 2 (Subgroup.zpowers y) := by
     have hdvd : orderOf y ∣ 2 ^ m := orderOf_dvd_of_pow_eq_one hym
     obtain ⟨j, -, hj⟩ := (Nat.dvd_prime_pow Nat.prime_two).1 hdvd
     exact IsPGroup.of_card (n := j) (by rw [Nat.card_zpowers, hj])
   have hsup : IsPGroup 2 ((S : Subgroup T) ⊔ Subgroup.zpowers y : Subgroup T) :=
-    S.isPGroup'.to_sup_of_normal_left' hz (Subgroup.zpowers_le.mpr (hBS hy))
+    S.isPGroup.to_sup_of_normal_left' hz (Subgroup.zpowers_le.mpr (hBS hy))
   have hmax : (S : Subgroup T) ⊔ Subgroup.zpowers y ≤ (S : Subgroup T) :=
     S.maximal_isPGroup.le_of_ge hsup le_sup_left
   exact (le_sup_right.trans hmax) (Subgroup.mem_zpowers y)
@@ -31,7 +31,7 @@ theorem pCoreOf_ne_bot_of_small_index {T : Type*} [Group T] [Finite T] (S : Sylo
     (hBS : B ≤ normalizer ((S : Subgroup T) : Set T)) (hBP : B ≤ P) {k : ℕ}
     (hk : 2 ^ k ∣ Nat.card (S : Subgroup T)) (hr : ¬ 2 ^ k ∣ (B.relIndex P).factorial) :
     pCoreOf 2 P ≠ ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro hbot
   set C : Subgroup ↥P := (B.subgroupOf P).normalCore with hC
   have hCn : C.Normal := Subgroup.normalCore_normal (B.subgroupOf P)
@@ -60,7 +60,7 @@ theorem pCoreOf_ne_bot_of_small_index {T : Type*} [Group T] [Finite T] (S : Sylo
   have hconj : ∀ p ∈ P, ∀ y ∈ Q', p * y * p⁻¹ ∈ Q' := by
     intro p hp y hy
     have hyC : p * y * p⁻¹ ∈ C' := (mem_normalizer_iff.mp (hPC' hp) y).mp hy.1
-    obtain ⟨m, hm⟩ := S.isPGroup' ⟨y, hy.2⟩
+    obtain ⟨m, hm⟩ := S.isPGroup ⟨y, hy.2⟩
     have hm' : y ^ 2 ^ m = 1 := congrArg Subtype.val hm
     refine ⟨hyC, mem_sylow_of_normalizer S hBS (hC'B hyC) (m := m) ?_⟩
     rw [conj_pow, hm']
@@ -70,7 +70,7 @@ theorem pCoreOf_ne_bot_of_small_index {T : Type*} [Group T] [Finite T] (S : Sylo
       have h' := hconj p⁻¹ (P.inv_mem hp) _ h
       have e : p⁻¹ * (p * n * p⁻¹) * p⁻¹⁻¹ = n := by group
       rwa [e] at h'⟩
-  have hQ'p : IsPGroup 2 Q' := S.isPGroup'.to_le inf_le_right
+  have hQ'p : IsPGroup 2 Q' := S.isPGroup.to_le inf_le_right
   have hle : Q' ≤ pCoreOf 2 P :=
     le_pCoreOf_of_le_normalizer 2 (inf_le_left.trans hC'P) hPQ' hQ'p
   rw [hbot, le_bot_iff] at hle
@@ -120,7 +120,7 @@ theorem hasParGen_of_lieParabolics_index {T : Type} [Group T] [Finite T] {B P₁
     (h : CFSG.ASVolI.ChF.IsLieParabolics 2 ⊤ B P₁ P₂) {k : ℕ} (hk : 2 ^ k ∣ Nat.card T)
     (h₁ : ¬ 2 ^ k ∣ (B.relIndex P₁).factorial) (h₂ : ¬ 2 ^ k ∣ (B.relIndex P₂).factorial) :
     HasParGen T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hgen := sup_eq_top_of_lieParabolics h
   obtain ⟨⟨S, ⟨-, hS2, hSi⟩, hB⟩, -, -, hQ⟩ := h
   have hodd : ¬ 2 ∣ S.index := by rwa [Subgroup.relIndex_top_right] at hSi
@@ -162,8 +162,8 @@ theorem hasParGen_of_titsModel
   have ha : a = 0 := by omega
   subst ha
   have hK2 : Nat.card K = 2 := by rw [hK, hf1, pow_one]
-  haveI := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := f)
+  have := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := f)
     (by rw [← Nat.card_eq_fintype_card, hK])
   have hscope : ReeScope K 0 := by
     show Nat.card K = 2 ^ (2 * 0 + 1)
@@ -171,7 +171,7 @@ theorem hasParGen_of_titsModel
     norm_num
   obtain ⟨hlie, h5, h3, -⟩ := CFSG.ASVolI.burnsideF4h_titsParentAssembly K hscope
   let e' : G ≃* DerivedCentralQuotient (reeGroup K 0) := e
-  haveI : Finite (DerivedCentralQuotient (reeGroup K 0)) := Finite.of_equiv G e'.toEquiv
+  have : Finite (DerivedCentralQuotient (reeGroup K 0)) := Finite.of_equiv G e'.toEquiv
   have hk : 2 ^ 4 ∣ Nat.card (DerivedCentralQuotient (reeGroup K 0)) := by
     rw [← Nat.card_congr e'.toEquiv, hcard]
     norm_num

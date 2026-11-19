@@ -21,15 +21,15 @@ theorem strL_append (a b : List Nat) : strL (a ++ b) = strL a ++ strL b := by
 private theorem toList_strL' (l : List Nat) : (strL l).toList = l.map Char.ofNat := by
   simp [strL]
 
-theorem toList_strL {l : List Nat} (hl : ∀ c ∈ l, c < 128) : (strL l).toList = l.map Char.ofNat := by
-  clear hl
+theorem toList_strL {l : List Nat} (_hl : ∀ c ∈ l, c < 128) : (strL l).toList = l.map Char.ofNat := by
+  clear _hl
   exact toList_strL' l
 
 private theorem valid_of_lt {n : Nat} (h : n < 128) : n.isValidChar := Or.inl (by omega)
 
 private theorem toNat_ofNat {n : Nat} (h : n < 128) : (Char.ofNat n).toNat = n := by
   unfold Char.ofNat
-  rw [dif_pos (valid_of_lt h)]
+  rw [dite_eq_left (valid_of_lt h)]
   rfl
 
 private theorem utf8Size_ofNat {n : Nat} (h : n < 128) : (Char.ofNat n).utf8Size = 1 := by
@@ -90,7 +90,7 @@ private theorem utf8GetAux_ascii : ∀ (L : List Char) (k i : Nat), (∀ c ∈ L
       have hc : c.utf8Size = 1 := h c List.mem_cons_self
       have h2 := utf8GetAux_ascii cs (k + 1) j (fun x hx => h x (List.mem_cons_of_mem _ hx))
       simp only [String.Pos.Raw.utf8GetAux]
-      rw [if_neg (by simp [String.Pos.Raw.ext_iff])]
+      rw [ite_eq_right (by simp [String.Pos.Raw.ext_iff])]
       have h3 : (⟨k⟩ : String.Pos.Raw) + c = ⟨k + 1⟩ := by
         simp [String.Pos.Raw.ext_iff, hc]
       rw [h3, show k + (j + 1) = k + 1 + j by omega, h2]
@@ -133,7 +133,7 @@ private theorem go₂_ascii : ∀ (L : List Char) (k E : Nat), k ≤ E → (∀ 
       simp [String.Pos.Raw.extract.go₂]
     · have h2 := go₂_ascii cs (k + 1) E (by omega) (fun x hx => h x (List.mem_cons_of_mem _ hx))
       simp only [String.Pos.Raw.extract.go₂]
-      rw [if_neg (by simp [String.Pos.Raw.ext_iff]; omega), h3, h2]
+      rw [ite_eq_right (by simp [String.Pos.Raw.ext_iff]; omega), h3, h2]
       rw [show E - k = (E - (k + 1)) + 1 by omega]
       simp
 
@@ -151,7 +151,7 @@ private theorem go₁_ascii : ∀ (L : List Char) (k B E : Nat), k ≤ B → B �
     · have h2 := go₁_ascii cs (k + 1) B E (by omega) hBE
         (fun x hx => h x (List.mem_cons_of_mem _ hx))
       simp only [String.Pos.Raw.extract.go₁]
-      rw [if_neg (by simp [String.Pos.Raw.ext_iff]; omega), h3, h2]
+      rw [ite_eq_right (by simp [String.Pos.Raw.ext_iff]; omega), h3, h2]
       rw [show B - k = (B - (k + 1)) + 1 by omega]
       simp
 
@@ -164,10 +164,10 @@ private theorem extract_strL {l : List Nat} (hl : ∀ c ∈ l, c < 128) (b e : N
   unfold String.Pos.Raw.extract
   dsimp only
   by_cases hbe : b ≥ e
-  · rw [if_pos hbe]
+  · rw [ite_eq_left hbe]
     rw [show e - b = 0 by omega]
     simp [strL]
-  · rw [if_neg hbe, toList_strL']
+  · rw [ite_eq_right hbe, toList_strL']
     have := go₁_ascii (l.map Char.ofNat) 0 b e (by omega) (by omega) h1
     simp only [Nat.sub_zero] at this
     show String.ofList (String.Pos.Raw.extract.go₁ _ ⟨0⟩ ⟨b⟩ ⟨e⟩) = _
@@ -350,7 +350,7 @@ private theorem slice_toNat? {t : String.Slice} {l : List Nat} (hl : IsDigits l)
     (ht : t.copy = strL l) : t.toNat? = some (decVal l) := by
   have h1 : t.copy.toList = l.map Char.ofNat := by rw [ht, toList_strL']
   unfold String.Slice.toNat?
-  rw [if_pos (slice_isNat hl ht)]
+  rw [ite_eq_left (slice_isNat hl ht)]
   simp only [String.Slice.foldl_eq_foldl_toList, h1]
   rw [foldl_digits l 0 hl.2]
   rfl
@@ -359,7 +359,7 @@ private theorem slice_toNat! {t : String.Slice} {l : List Nat} (hl : IsDigits l)
     (ht : t.copy = strL l) : t.toNat! = decVal l := by
   have h1 : t.copy.toList = l.map Char.ofNat := by rw [ht, toList_strL']
   unfold String.Slice.toNat!
-  rw [if_pos (slice_isNat hl ht)]
+  rw [ite_eq_left (slice_isNat hl ht)]
   simp only [String.Slice.foldl_eq_foldl_toList, h1]
   rw [foldl_digits l 0 hl.2]
   rfl
@@ -393,7 +393,7 @@ private theorem dropPrefix?_some {t : String.Slice} {l : List Nat}
   have h45 : Char.ofNat 45 = '-' := by decide
   have hs : t.startsWith '-' = true := by
     rw [String.Slice.startsWith_char_eq_head?, ht, toList_strL']
-    simp [h45]
+    simp
   cases h : t.dropPrefix? '-' with
   | none =>
     rw [String.Slice.dropPrefix?_eq_none_iff, hs] at h
@@ -403,7 +403,7 @@ private theorem dropPrefix?_some {t : String.Slice} {l : List Nat}
     have h2 := String.Slice.eq_append_of_dropPrefix?_char_eq_some h
     have e : strL (45 :: l) = String.singleton '-' ++ strL l := by
       rw [show (45 :: l) = [45] ++ l from rfl, strL_append, String.singleton_eq_ofList]
-      simp [strL, h45]
+      simp [strL]
     rw [ht, e] at h2
     exact ((String.append_right_inj _).1 h2).symm
 

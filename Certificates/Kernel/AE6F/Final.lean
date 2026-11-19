@@ -29,6 +29,7 @@ theorem perm_head {n w kS kO nb BP : Nat} {PS PSI : Nat → Nat} {D : List (List
 theorem ppS {j : Nat} (hj : j < 18) : PP 360 9 (CertificateChecks.KernelO8.AP.S j) :=
   PP_of_permOK2 hsz (allN_spec (perm_head CertificateChecks.KernelO8.AP.head) j hj)
 
+set_option exponentiation.threshold 3240 in
 theorem toTable_eq_tabN {X : Nat} {g : Equiv.Perm (Fin 360)} (h : Orb.PRep 360 9 X g) :
     toTable g = tabN 360 9 X := by
   apply Array.ext (by simp [toTable, tabN])
@@ -74,7 +75,7 @@ theorem prep_curtis {l : Nat} (hl : l < 8) :
   rw [getD_curtis hl]
   intro x
   unfold permOfInv
-  rw [dif_pos hinv]
+  rw [dite_eq_left hinv]
   change _ = (curtisArr l)[x.val]!
   rw [ht, Orb.unpack_get x.isLt]
 

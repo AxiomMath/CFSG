@@ -144,7 +144,7 @@ theorem co3XA_ne : co3XA ≠ 1 := co3_phi_ne_one co3_vec_kA_ne
 theorem co3XB_ne : co3XB ≠ 1 := co3_phi_ne_one (a := vec kB) (by decide)
 
 theorem co3_hR : ∀ c ∈ ({co3SA, co3SB, co3SY} : Set ↥co3P), orderOf c = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro c hc
   simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hc
   rcases hc with rfl | rfl | rfl
@@ -269,19 +269,19 @@ end Fusion
 
 theorem listRow_co3 :
     ListRow Blueprint.NativeSporadic.Co3 := by
-  haveI : Finite Blueprint.NativeSporadic.Co3 := Finite.of_equiv _ co3PermEquiv.symm.toEquiv
+  have : Finite Blueprint.NativeSporadic.Co3 := Finite.of_equiv _ co3PermEquiv.symm.toEquiv
   exact ListRow.of_mulEquiv co3PermEquiv.symm listRow_co3P
 
 theorem outerRow_co3 :
     OuterRow Blueprint.NativeSporadic.Co3 := by
-  haveI : Finite Blueprint.NativeSporadic.Co3 := Finite.of_equiv _ co3PermEquiv.symm.toEquiv
+  have : Finite Blueprint.NativeSporadic.Co3 := Finite.of_equiv _ co3PermEquiv.symm.toEquiv
   refine outerRow_of_forall_pow_three_inner fun σ _ => ?_
   obtain ⟨g, rfl⟩ := (CFSG.RankThree.PartOne.CTUC_Co3_all_automorphisms_inner.{0}).2.1 σ
   exact ⟨g, rfl⟩
 
 theorem row_carrier_co3 :
     RowOf (NativeSporadic.Carrier .Co3) := by
-  haveI : Finite Blueprint.NativeSporadic.Co3 := Finite.of_equiv _ co3PermEquiv.symm.toEquiv
+  have : Finite Blueprint.NativeSporadic.Co3 := Finite.of_equiv _ co3PermEquiv.symm.toEquiv
   intro S _ _ _ _ ⟨e⟩
   exact GoodRow.of_mulEquiv (S := Blueprint.NativeSporadic.Co3) e.symm
     ⟨listRow_co3, outerRow_co3⟩

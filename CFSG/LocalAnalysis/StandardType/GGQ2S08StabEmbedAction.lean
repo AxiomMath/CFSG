@@ -38,7 +38,7 @@ theorem ggQ2s08x2_action_mem_ggHL
     (ψ : MulAut ↥Bs) (hψ : ∀ b : ↥Bs, ((ψ b : ↥Bs) : G) = g * b * g⁻¹) :
     ∃ T ∈ ggHL ι φ h α, ∀ v : M.V,
       T (Submodule.Quotient.mk v) = Submodule.Quotient.mk (ggLin (p := 3) M.model ψ v) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let φ' : MulAut ↥(ggGamma L hBsN).range :=
     (ggGamma L hBsN).range.normalizerMonoidHom
       ⟨L.normalizerMonoidHom ⟨g, hgL⟩,

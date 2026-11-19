@@ -61,7 +61,7 @@ private theorem s1614e3_case9_map_conj_map_conj (A : Subgroup (MulAut T)) (x y :
 private theorem s1614e3_case9_map_conj_one (A : Subgroup (MulAut T)) :
     A.map (MulAut.conj (1 : MulAut T)).toMonoidHom = A := by
   ext z
-  simp [Subgroup.mem_map, MulAut.conj_apply]
+  simp [Subgroup.mem_map]
 
 end Generic
 
@@ -158,7 +158,7 @@ theorem s1614e3_case9_two (D : Data G) (h1217 : R1217 D) {V L : Subgroup G}
   have hconjinv : ((MulAut.conj g₂)⁻¹).toMonoidHom =
       (MulAut.conj g₂⁻¹).toMonoidHom := by
     ext z
-    simp [MulAut.conj_apply]
+    simp
   have hbar : barSub ⊥ V hV (conjSubgroup L (x : G)) =
       (lBar ⊥ V hV L).map (MulAut.conj g₂⁻¹).toMonoidHom := by
     rw [s15_Infra_barSub_conjSubgroup ⊥ V hV x.2 L, hxg₂]

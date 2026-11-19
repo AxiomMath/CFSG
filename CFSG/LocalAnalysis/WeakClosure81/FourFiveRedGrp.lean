@@ -196,7 +196,7 @@ theorem fourFive_isComp_quotient {Q : Type} [Group Q] {X J U C : Subgroup Q} (hX
     Subgroup.map_mono hJXU
   let e : ↥J ≃* ↥((J.subgroupOf U).map (QuotientGroup.mk' (C.subgroupOf U))) :=
     fourFive_quotientEquiv hXC hXU hJ.1
-  haveI : IsSimpleGroup ↥J := hJ.simple
+  have : IsSimpleGroup ↥J := hJ.simple
   refine ⟨hJbar_le, ?_, e.symm.isSimpleGroup, ?_⟩
   · rw [Subgroup.normal_subgroupOf_iff hJbar_le]
     intro h k hh hk

@@ -12,6 +12,7 @@ open scoped commutatorElement Matrix
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem stroth72_mul_mem {R Z0 : Subgroup G} (hZ0 : IsCentrePre Z0 R Q)
     (hQM : M ≤ Subgroup.normalizer (Q : Set G)) (hZM : Z0 ≤ M) {ν μ x : G} (hν : ν ∈ R)
     (hμ : ⁅μ, x⁆ ∈ Z0) (ha : ⁅ν, x⁆ ∈ Z0) :
@@ -35,6 +36,7 @@ theorem stroth72_mul_mem {R Z0 : Subgroup G} (hZ0 : IsCentrePre Z0 R Q)
   rw [e]
   exact Q.mul_mem hconj hcomm
 
+omit [Finite G] in
 theorem stroth72_conj_mem {R Z0 : Subgroup G} (hZ0 : IsCentrePre Z0 R Q)
     (hQM : M ≤ Subgroup.normalizer (Q : Set G)) (hZM : Z0 ≤ M) {ν x z : G} (hxR : x ∈ R)
     (hz : z ∈ Z0) (h : ⁅ν, x⁆⁻¹ * z ∈ Q) : ν * x * ν⁻¹ * (x * z)⁻¹ ∈ Q := by
@@ -86,7 +88,7 @@ theorem stroth72_of_index (hNN : Sec7CommNStatement) (hZc : Sec7ZCardStatement)
     rwa [show (x * (g * t * g⁻¹)⁻¹) * (g * t * g⁻¹) = x by group] at h2
   have hcomm_mem : ∀ ν ∈ hc.CN t, ⁅ν, x⁆ ∈ Z0 := fun ν hν =>
     hNN G M Q Z B hc n t hs Z0 hZ0 (Subgroup.commutator_mem_commutator hν hxN)
-  haveI hQ0 : (Q.subgroupOf Z0).Normal := ⟨fun n' hn' g => by
+  have hQ0 : (Q.subgroupOf Z0).Normal := ⟨fun n' hn' g => by
     rw [Subgroup.mem_subgroupOf] at hn' ⊢
     exact (Subgroup.mem_normalizer_iff.mp (hQM (hZM g.2)) (n' : G)).mp hn'⟩
   have hidx : (Q.subgroupOf Z0).index = Nat.card Z := by

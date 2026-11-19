@@ -17,7 +17,7 @@ theorem tmIdx_simple_le_or_card_dvd_factorial {H : Type*} [Group H] [Finite H] (
     have h1 : Nat.card J ∣ Nat.card (Equiv.Perm (H ⧸ M)) := Subgroup.card_dvd_of_injective φ hinj
     have h2 : Nat.card (Equiv.Perm (H ⧸ M)) = (M.index).factorial := by
       classical
-      haveI : Fintype (H ⧸ M) := Fintype.ofFinite _
+      have : Fintype (H ⧸ M) := Fintype.ofFinite _
       rw [Nat.card_eq_fintype_card, Fintype.card_perm, ← Nat.card_eq_fintype_card]
       rfl
     rw [h2] at h1

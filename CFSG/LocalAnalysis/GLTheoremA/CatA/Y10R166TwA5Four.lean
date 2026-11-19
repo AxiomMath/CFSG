@@ -31,7 +31,7 @@ open TwA5Four
 theorem exists_mulEquiv_unitarySU_of_hasLabel_twA5_two {K : Type} [Group K] [Finite K]
     {lab : GLALabel} (hlab : lab = ⟨.twA, 5, 2⟩)
     (hK : HasLabel K (fun l : GLALabel => l = lab)) (hz : Subgroup.center K = ⊥) :
-    ∃ (F : Type) (_ : Field F) (_ : Finite F) (hF : UnitaryFieldData 2 2 F),
+    ∃ (F : Type) (_ : Field F) (_ : Finite F) (_hF : UnitaryFieldData 2 2 F),
       Nonempty (K ≃* unitarySU 2 2 F 6) := by
   subst hlab
   obtain ⟨-, -, hM⟩ :=
@@ -43,18 +43,18 @@ theorem exists_mulEquiv_unitarySU_of_hasLabel_twA5_two {K : Type} [Group K] [Fin
       CFSG.StandardType.markDeg] using hM
   obtain ⟨-, F, hFld, hFin, hFcard, ⟨θ⟩⟩ :=
     hM'.statedClassicalModel (by decide : CFSG.Open.StatedLieTag.PSU ∈ CFSG.Blueprint.classicalTags)
-  letI : Field F := hFld
-  letI : Finite F := hFin
+  let : Field F := hFld
+  let : Finite F := hFin
   have hcard : Nat.card F = 2 ^ (2 * 2) := by
     rw [hFcard]
     norm_num
-  have hF : UnitaryFieldData 2 2 F := ⟨Nat.prime_two, by norm_num, hcard⟩
-  refine ⟨F, hFld, hFin, hF, ?_⟩
+  have _hF : UnitaryFieldData 2 2 F := ⟨Nat.prime_two, by norm_num, hcard⟩
+  refine ⟨F, hFld, hFin, _hF, ?_⟩
   have hbot : K ≃* K ⧸ Subgroup.center K :=
     ((QuotientGroup.quotientMulEquivOfEq hz).trans
       (QuotientGroup.quotientBot (G := K))).symm
   exact ⟨hbot.trans (θ.trans
-    ((unitaryPSUEquiv hF (n := 6) (by norm_num)).symm.trans
-      (unitaryPSUEquivUnitarySU hF)))⟩
+    ((unitaryPSUEquiv _hF (n := 6) (by norm_num)).symm.trans
+      (unitaryPSUEquivUnitarySU _hF)))⟩
 
 end CFSG.LocalAnalysis.GLTheoremA.Y10F

@@ -130,9 +130,9 @@ theorem StrothFrame.stroth_3_10_global {G : Type} [Group G] [Finite G]
     refine lt_of_le_of_ne le_top fun htop => hNS.ne (le_antisymm hNS.le fun x hx => ?_)
     have : (⟨x, hx⟩ : (F.S : Subgroup G)) ∈ IP := by rw [htop]; trivial
     exact Subgroup.mem_subgroupOf.mp this
-  have : Group.IsNilpotent (F.S : Subgroup G) := F.S.isPGroup'.isNilpotent
+  have : Group.IsNilpotent (F.S : Subgroup G) := F.S.isPGroup.isNilpotent
   obtain ⟨x, hxN, hxnot⟩ :=
-    SetLike.exists_of_lt (Group.normalizerCondition_of_isNilpotent IP hIPlt)
+    _root_.IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent IP hIPlt)
   have hxsub : x ∈ (Subgroup.normalizer (N : Set G)).subgroupOf (F.S : Subgroup G) := by
     rw [Subgroup.subgroupOf_normalizer_eq hNS.le]
     exact hxN

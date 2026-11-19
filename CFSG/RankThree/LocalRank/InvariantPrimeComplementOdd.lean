@@ -24,7 +24,7 @@ theorem above_two_local_rank_invariant_prime_complement_odd {G : Type*} [Group G
       (Subgroup.normalizer (((S : Subgroup X).map X.subtype : Subgroup G) : Set G)) :=
     ⟨_, fun hbot => S.ne_bot_of_dvd_card heven
       ((Subgroup.map_eq_bot_iff_of_injective _ X.subtype_injective).mp hbot),
-      S.isPGroup'.map X.subtype, rfl⟩
+      S.isPGroup.map X.subtype, rfl⟩
   have hle : pRank p A ≤ localRank p G :=
     (CFSG.RankThreeEvenClassification.Helpers.pRank_mono p hp hS).trans
       (CFSG.RankThreeEvenClassification.Helpers.pRank_le_twoLocalRank p hp _ hlocal)

@@ -78,7 +78,7 @@ theorem exists_conj_eq_mul_of_two_dvd_index_of_autU {L : Subgroup G} {t : G}
   have htt : t * t = 1 := by rw [← sq, ← ht, pow_orderOf_eq_one]
   have htM : t ∈ M := mem_centralizer_singleton_iff.2 rfl
   obtain ⟨U⟩ : Nonempty (Sylow 2 L) := inferInstance
-  obtain ⟨P, hUP⟩ := (U.isPGroup'.map (inclusion hLt)).exists_le_sylow
+  obtain ⟨P, hUP⟩ := (U.isPGroup.map (inclusion hLt)).exists_le_sylow
   set S : Subgroup G := (P : Subgroup M).map M.subtype with hSdef
   have hSM : S ≤ M := map_subtype_le _
   have hmemS : ∀ y : M, (y : G) ∈ S ↔ y ∈ P := fun y => mem_map_iff_mem M.subtype_injective
@@ -97,11 +97,11 @@ theorem exists_conj_eq_mul_of_two_dvd_index_of_autU {L : Subgroup G} {t : G}
   have htS : t ∈ S :=
     hNS t htM (IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, orderOf_mk, ht, pow_one]))
       (F4Pilot.mem_normalizer_of_le_centralizer_singleton hSM)
-  obtain ⟨Sst, hSS⟩ := (P.isPGroup'.map M.subtype).exists_le_sylow
+  obtain ⟨Sst, hSS⟩ := (P.isPGroup.map M.subtype).exists_le_sylow
   have hlt : S.subgroupOf Sst < ⊤ := by
     refine lt_top_iff_ne_top.2 fun h => ?_
     exact Sst.not_dvd_index (h2.trans (index_dvd_of_le ((subgroupOf_eq_top.1 h).trans hSM)))
-  have : Group.IsNilpotent Sst := Sst.isPGroup'.isNilpotent
+  have : Group.IsNilpotent Sst := Sst.isPGroup.isNilpotent
   obtain ⟨y, hyN, hyS⟩ :=
     IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hlt)
   rw [← subgroupOf_normalizer_eq hSS, mem_subgroupOf] at hyN
@@ -127,7 +127,7 @@ theorem exists_conj_eq_mul_of_two_dvd_index_of_autU {L : Subgroup G} {t : G}
       calc x * t = x * (x⁻¹ * t * x) := by rw [hxt]
         _ = t * x := by group
     refine hyS (hNS x hxM ?_ hyN)
-    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.1 Sst.isPGroup' y
+    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.1 Sst.isPGroup y
     exact IsPGroup.of_card (n := k) (by rw [Nat.card_zpowers, orderOf_mk, hxdef, orderOf_coe, hk])
   · have hs := hUS u hu
     have hst : (u : G) * t = t * u := mem_centralizer_singleton_iff.1 (hSM hs)
@@ -231,7 +231,7 @@ theorem exists_conj_eq_mul_of_commutator_eq_top (hperf : commutator G = ⊤) {L 
             ((S : Subgroup G).subgroupOf L).index :=
         Subgroup.relIndex_subgroupOf hLt
       rwa [e] at h
-    have hSLp : IsPGroup 2 ((S : Subgroup G).subgroupOf L) := S.isPGroup'.comap_subtype
+    have hSLp : IsPGroup 2 ((S : Subgroup G).subgroupOf L) := S.isPGroup.comap_subtype
     set U : Sylow 2 L := hSLp.toSylow hodd with hUdef
     have hUS : ∀ u ∈ (U : Subgroup L), (u : G) ∈ (S : Subgroup G) := by
       intro u hu
@@ -353,7 +353,7 @@ theorem exists_normal_index_two_of_rigid {t : G} (ht : orderOf t = 2) (S : Sylow
     intro y hy hyM
     rw [hxk]
     exact Nat.find_min' hex ⟨y, hy, hyM, rfl⟩
-  rcases exists_normal_index_two_or_conj_mem_of_min S.isPGroup' S.not_dvd_index hMS hMidx hxS hxM
+  rcases exists_normal_index_two_or_conj_mem_of_min S.isPGroup S.not_dvd_index hMS hMidx hxS hxM
     hmin with h | ⟨g, hgM, hcall⟩
   · exact h
   · exfalso

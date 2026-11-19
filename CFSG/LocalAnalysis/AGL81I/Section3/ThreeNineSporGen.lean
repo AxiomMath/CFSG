@@ -19,10 +19,12 @@ variable {K : Type*} [Group K] [Finite K] {p : ℕ} [Fact p.Prime]
 @[expose] noncomputable def centGen (A : Subgroup K) : Subgroup K :=
   ⨆ (a : K) (_ : a ∈ A) (_ : a ≠ 1), Subgroup.centralizer ({a} : Set K)
 
+omit [Finite K] in
 theorem centralizer_le_centGen {A : Subgroup K} {a : K} (ha : a ∈ A) (ha1 : a ≠ 1) :
     Subgroup.centralizer ({a} : Set K) ≤ centGen A :=
   le_iSup_of_le a (le_iSup_of_le ha (le_iSup_of_le ha1 le_rfl))
 
+omit [Finite K] in
 theorem le_normalizer_centGen (A : Subgroup K) :
     Subgroup.normalizer (A : Set K) ≤ Subgroup.normalizer (centGen A : Set K) := by
   intro n hn
@@ -294,7 +296,8 @@ theorem exists_inner_of_card_outer_le_two {K : Subgroup X} [K.Normal]
   simp only [MulAut.conj_apply, Subgroup.coe_mul, Subgroup.coe_inv, MulAut.conjNormal_apply] at this
   exact this.symm
 
-theorem le_iSup_centralizer_inf_of_centGen {K A : Subgroup X} (hAK : A ≤ K)
+omit [Finite X] in
+theorem le_iSup_centralizer_inf_of_centGen {K A : Subgroup X} (_hAK : A ≤ K)
     (h : centGen (A.subgroupOf K) = ⊤) :
     K ≤ ⨆ (a : X) (_ : a ∈ A) (_ : a ≠ 1), Subgroup.centralizer ({a} : Set X) ⊓ K := by
   intro x hx
@@ -320,6 +323,7 @@ end Reduction
 
 section Rows
 
+omit [Fact (Nat.Prime p)] in
 theorem pRank_top_le_two_of_not_cube {L : Type*} [Group L] [Finite L]
     (hcube : ¬ p ^ 3 ∣ Nat.card L) : CFSG.Open.pRank p (⊤ : Subgroup L) ≤ 2 := by
   unfold CFSG.Open.pRank
@@ -335,7 +339,7 @@ theorem centGen_eq_top_of_not_cube {L : Type*} [Group L] [Finite L] [IsSimpleGro
   have hp : p.Prime := Fact.out
   have hAp : IsPGroup p A := IsPGroup.of_card hAc
   obtain ⟨T, hAT⟩ := hAp.exists_le_sylow
-  obtain ⟨n, hn⟩ := T.isPGroup'.exists_card_eq
+  obtain ⟨n, hn⟩ := T.isPGroup.exists_card_eq
   have hn2 : n ≤ 2 := by
     by_contra h
     exact hcube ((pow_dvd_pow p (by omega : 3 ≤ n)).trans
@@ -413,7 +417,7 @@ theorem centGen_of_ne_M (hrows : CFSG.AGLEmbedding.SporProvedRows)
     rcases hleaf with ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ <;>
     first
       | omega
-      | (simp [CFSG.LocalAnalysis.AGL81I.Section3.SporadicIn24_12] at hnot; done)
+      | (simp [CFSG.LocalAnalysis.AGL81I.Section3.SporadicIn24_12] at hnot)
   · simp only [d2SporadicOpenList, List.mem_cons, Prod.mk.injEq, List.not_mem_nil,
       or_false] at hopen
     rcases hopen with ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ <;>
@@ -444,8 +448,7 @@ theorem eq_of_sq_dvd_monsterOrder {q : ℕ} (hq : q.Prime) (hq5 : 5 ≤ q)
   rw [hpf] at hmem
   simp only [Finset.mem_insert, Finset.mem_singleton] at hmem
   rcases hmem with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl |
-    rfl | rfl <;> first | omega | (left; rfl) | (right; left; rfl) | (right; right; left; rfl) |
-    (right; right; right; rfl) | (exfalso; revert h; norm_num [CFSG.Open.monsterOrder])
+    rfl | rfl <;> first | omega  | (exfalso; revert h; norm_num [CFSG.Open.monsterOrder])
 
 theorem centGen_of_M
     (hcardM : Nat.card (NativeSporadic.Carrier .M) = CFSG.Open.monsterOrder)
@@ -487,12 +490,12 @@ theorem sporadicGen24_12Five_of_parts (hrows : CFSG.AGLEmbedding.SporProvedRows)
       4 ≤ CFSG.Open.pRank 5 (⊤ : Subgroup L)) :
     CFSG.LocalAnalysis.AGL81I.Section3.SporadicGen24_12Five := by
   intro X _ _ K E p s hp hp5 hnot hKn ⟨φ⟩ hE hEc hrk
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   obtain ⟨f⟩ := hbr s
   let ψ : ↥K ≃* NativeSporadic.Carrier s := φ.trans f.symm
-  haveI := hsimple s
-  haveI : IsSimpleGroup ↥K := ψ.isSimpleGroup
+  have := hsimple s
+  have : IsSimpleGroup ↥K := ψ.isSimpleGroup
   have hZ : ∀ k ∈ K, (∀ x ∈ K, k * x = x * k) → k = 1 := by
     intro k hk hcomm
     have hcen : (⟨k, hk⟩ : ↥K) ∈ Subgroup.center ↥K := by
@@ -509,7 +512,7 @@ theorem sporadicGen24_12Five_of_parts (hrows : CFSG.AGLEmbedding.SporProvedRows)
         (Subgroup.mem_center_iff.mp (ht ▸ Subgroup.mem_top y) x)
       have := hc (ψ.symm a) (ψ.symm b)
       simpa using congrArg ψ this
-  haveI : K.Normal := hKn
+  have : K.Normal := hKn
   have hout' : Nat.card (CFSG.ComponentClassification.OuterAutomorphisms.Outer ↥K) ≤ 2 :=
     (Nat.card_congr (CFSG.ComponentClassification.OuterAutomorphisms.equivalence ψ).toEquiv).le.trans
       (hout s)
@@ -551,7 +554,7 @@ theorem sporadicGen24_12Five_of_inputs
   have hMcard : Nat.card (NativeSporadic.Carrier .M) = CFSG.Open.monsterOrder :=
     (Nat.card_congr CFSG.Sporadic.Bridge.Y443.commutatorMulEquiv.toEquiv).trans
       CFSG.Milestones.fam_m_finiteness
-  haveI : Finite (NativeSporadic.Carrier .M) := hMfacts.1
+  have : Finite (NativeSporadic.Carrier .M) := hMfacts.1
   have hMout : Nat.card
       (CFSG.ComponentClassification.OuterAutomorphisms.Outer (NativeSporadic.Carrier .M)) ≤ 2 :=
     CFSG.HardMathSupport.Timmesfeld.Proving.sporadicOuterLeTwo_holds _ hMfacts.2.1 hMfacts.2.2.2 .M

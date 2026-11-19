@@ -96,6 +96,7 @@ theorem comm_of_mem {c : G} (hc : c ∈ Subgroup.zpowers y) (g : G) : g * c = c 
   have h : Commute g y := E.comm g
   exact (h.zpow_right k).eq
 
+omit E in
 theorem orderOf_map_dvd_120 (σ : Perm (Fin 5)) : orderOf (ψ σ) ∣ 120 :=
   (orderOf_map_dvd ψ σ).trans (card_perm_five ▸ orderOf_dvd_natCard σ)
 
@@ -108,7 +109,7 @@ theorem eq_one_of_pow_eq_one {c : G} (hc : c ∈ Subgroup.zpowers y) {k : ℕ} (
 
 theorem eq_one_of_eq_map {c : G} (hc : c ∈ Subgroup.zpowers y) {ρ : Perm (Fin 5)}
     (h : c = ψ ρ) : c = 1 :=
-  E.eq_one_of_pow_eq_one hc (k := 120) (orderOf_dvd_iff_pow_eq_one.1 (h ▸ E.orderOf_map_dvd_120 ρ))
+  E.eq_one_of_pow_eq_one hc (k := 120) (orderOf_dvd_iff_pow_eq_one.1 (h ▸ CentralElevenSym5.orderOf_map_dvd_120 ρ))
     (by norm_num)
 
 theorem mul_map_inj {c c' : G} (hc : c ∈ Subgroup.zpowers y) (hc' : c' ∈ Subgroup.zpowers y)
@@ -187,6 +188,7 @@ theorem eq_dbl_of_comm (hB : Nat.card (Subgroup.centralizer ({ψ d₀} : Set G))
   · exact absurd (map_one ψ) hu1
   · rfl
 
+omit [Finite G] in
 theorem card_P0 :
     Nat.card ((Subgroup.centralizer ({d₀} : Set (Perm (Fin 5)))).map ψ) = 8 := by
   rw [Subgroup.card_map_of_injective E.injective, ← card_comm_dbl]
@@ -200,7 +202,7 @@ theorem eq_P0_of_le (hB : Nat.card (Subgroup.centralizer ({ψ d₀} : Set G)) �
     hle ⟨σ, Subgroup.mem_centralizer_singleton_iff.2 hσ, rfl⟩
   have hd1 : ψ d₀ ≠ 1 := fun h =>
     absurd (E.injective (h.trans (map_one ψ).symm)) (by decide)
-  haveI : Nontrivial S := ⟨⟨⟨ψ d₀, hdP d₀ rfl⟩, 1, fun h => hd1 (congrArg Subtype.val h)⟩⟩
+  have : Nontrivial S := ⟨⟨⟨ψ d₀, hdP d₀ rfl⟩, 1, fun h => hd1 (congrArg Subtype.val h)⟩⟩
   have hZ := hS.center_nontrivial
   obtain ⟨n, hn0, hn⟩ := (hS.to_subgroup (Subgroup.center S)).nontrivial_iff_card.1 hZ
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := Subgroup.center S) 2
@@ -311,7 +313,7 @@ theorem mem_of_comm_involution (hA : Nat.card (Subgroup.centralizer ({ψ t₀} :
 
 theorem mem_of_involution (hA : Nat.card (Subgroup.centralizer ({ψ t₀} : Set G)) ∣ 264)
     (hB : Nat.card (Subgroup.centralizer ({ψ d₀} : Set G)) ≤ 88) {v : G} (hv : v * v = 1)
-    (hv1 : v ≠ 1) : ∃ c ∈ Subgroup.zpowers y, ∃ σ : Perm (Fin 5), v = c * ψ σ := by
+    (_hv1 : v ≠ 1) : ∃ c ∈ Subgroup.zpowers y, ∃ σ : Perm (Fin 5), v = c * ψ σ := by
   by_contra hvH
   have key : ∀ c ∈ Subgroup.zpowers y, ∀ σ : Perm (Fin 5), c * ψ σ * (c * ψ σ) = 1 →
       c * ψ σ ≠ 1 → c * ψ σ * v = v * (c * ψ σ) → False := by

@@ -33,13 +33,13 @@ private theorem seven_dvd_card_GL_three :
 private theorem not_isPerfect_z3_mul_alt_five :
     ¬ Group.IsPerfect (Multiplicative (ZMod 3) × alternatingGroup (Fin 5)) := by
   intro hp
-  haveI := hp
+  have := hp
   have h1 : Group.IsPerfect (Multiplicative (ZMod 3)) :=
     Group.IsPerfect.ofSurjective
       (f := MonoidHom.fst (Multiplicative (ZMod 3)) (alternatingGroup (Fin 5)))
       (fun x => ⟨(x, 1), rfl⟩)
-  haveI := h1
-  haveI : IsMulCommutative (Multiplicative (ZMod 3)) := ⟨⟨fun a b => mul_comm a b⟩⟩
+  have := h1
+  have : IsMulCommutative (Multiplicative (ZMod 3)) := ⟨⟨fun a b => mul_comm a b⟩⟩
   have : Subsingleton (Multiplicative (ZMod 3)) :=
     Group.IsPerfect.subsingleton_of_isMulCommutative
   have h2 : (Multiplicative.ofAdd (1 : ZMod 3) : Multiplicative (ZMod 3)) ≠ 1 := by decide
@@ -54,7 +54,7 @@ theorem KConfig.sixteen_list
       (Nonempty ((↥L ⧸ CFSG.pCore 2 ↥L) ≃* alternatingGroup (Fin 6)) ∨
         Nonempty ((↥L ⧸ CFSG.pCore 2 ↥L) ≃* alternatingGroup (Fin 5))) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hO : pCoreOf 2 L = V := le_antisymm (h.pCoreOf_le.trans hC) h.le_pCoreOf
   have hpck : CFSG.pCore 2 ↥L = V.subgroupOf L := by
     rw [← CFSG.Quasithin.KGC31.Hex.pCoreOf_subgroupOf' L, hO]
@@ -66,7 +66,7 @@ theorem KConfig.sixteen_list
       exact Subgroup.le_centralizer_iff_isMulCommutative.mpr h.elemAbelian.1
     rw [hVV, le_bot_iff] at hmono
     exact h.ne_bot (by rw [h.eq_commutator, hmono])
-  letI : IsMulCommutative ↥V := h.elemAbelian.1
+  let : IsMulCommutative ↥V := h.elemAbelian.1
   obtain ⟨e⟩ := CFSG.Quasithin.AppendixH.H14.exists_mulEquiv_elemAbelian_two (G := G) V
     h.elemAbelian 4 (by rw [hV]; norm_num)
   let φ : ↥L →* MulAut ↥V := (CFSG.Quasithin.conjAct V).comp (Subgroup.inclusion h.le_normalizer)
@@ -94,16 +94,16 @@ theorem KConfig.sixteen_list
     rw [hψker, hφker] at hl
     rw [hpck]
     exact hl
-  haveI : Group.IsPerfect ↥L := Subgroup.isPerfect_iff.mpr h.perfect
-  haveI hPperf : Group.IsPerfect (↥L ⧸ CFSG.pCore 2 ↥L) :=
+  have : Group.IsPerfect ↥L := Subgroup.isPerfect_iff.mpr h.perfect
+  have hPperf : Group.IsPerfect (↥L ⧸ CFSG.pCore 2 ↥L) :=
     Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' (CFSG.pCore 2 ↥L))
       (QuotientGroup.mk'_surjective _)
   have hpctop : CFSG.pCore 2 ↥L ≠ ⊤ := by
     rw [hpck]
     intro htop
     exact hLnotV ((Subgroup.subgroupOf_eq_top).mp htop)
-  haveI : Nontrivial (↥L ⧸ CFSG.pCore 2 ↥L) := QuotientGroup.nontrivial_iff.mpr hpctop
-  have hnsolv : ¬ IsSolvable (↥L ⧸ CFSG.pCore 2 ↥L) := Group.IsPerfect.not_isSolvable _
+  have : Nontrivial (↥L ⧸ CFSG.pCore 2 ↥L) := QuotientGroup.nontrivial_iff.mpr hpctop
+  have hnsolv : ¬ Group.IsSolvable (↥L ⧸ CFSG.pCore 2 ↥L) := Group.IsPerfect.not_isSolvable _
   have hO2 : O2 (⊤ : Subgroup (↥L ⧸ CFSG.pCore 2 ↥L)) = ⊥ := by
     unfold O2
     rw [eq_bot_iff, iSup_le_iff]
@@ -125,7 +125,7 @@ theorem KConfig.sixteen_list
   have hno7 : ∀ {X : Type} [Group X] [Finite X]
       (f : (↥L ⧸ CFSG.pCore 2 ↥L) ≃* X), 7 ∣ Nat.card X → False := by
     intro X _ _ f hdvd
-    haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' (G := X) 7 hdvd
     have hgP : orderOf (f.symm g) = 7 := by
       rw [MulEquiv.orderOf_eq]
@@ -192,12 +192,12 @@ theorem KConfig.sixteen_list
       (Group.IsPerfect.ofSurjective (f := f.toMonoidHom) f.surjective)).elim
   ·
     exfalso
-    haveI : L'.Normal := Subgroup.normal_of_index_eq_two hidx
+    have : L'.Normal := Subgroup.normal_of_index_eq_two hidx
     have hcard : Nat.card ((↥L ⧸ CFSG.pCore 2 ↥L) ⧸ L') = 2 := by
       rw [← Subgroup.index_eq_card]
       exact hidx
-    haveI : IsCyclic ((↥L ⧸ CFSG.pCore 2 ↥L) ⧸ L') := isCyclic_of_prime_card hcard
-    haveI : IsMulCommutative ((↥L ⧸ CFSG.pCore 2 ↥L) ⧸ L') := IsCyclic.isMulCommutative
+    have : IsCyclic ((↥L ⧸ CFSG.pCore 2 ↥L) ⧸ L') := isCyclic_of_prime_card hcard
+    have : IsMulCommutative ((↥L ⧸ CFSG.pCore 2 ↥L) ⧸ L') := IsCyclic.isMulCommutative
     have hc : commutator (↥L ⧸ CFSG.pCore 2 ↥L) ≤ L' :=
       Subgroup.Normal.quotient_commutative_iff_commutator_le.mp inferInstance
     rw [hPperf.commutator_eq_top, top_le_iff] at hc

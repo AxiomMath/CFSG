@@ -40,6 +40,7 @@ section LemmaE
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem pow_three_eq_normMap {B : Subgroup G} (hBe : IsElemAbelian 3 B) {x b : G}
     (hx3 : x ^ 3 = 1) (hb : b ∈ B) (hxB : ∀ b ∈ B, x * b * x⁻¹ ∈ B) :
     (x * b) ^ 3 = normMap x b := by
@@ -69,7 +70,7 @@ theorem pow_three_eq_normMap {B : Subgroup G} (hBe : IsElemAbelian 3 B) {x b : G
 
 theorem exists_pow_three_ne_one_grp {B T : Subgroup G} {z x : G}
     (hGc : Nat.card G = 81) (hBe : IsElemAbelian 3 B) (hBc : Nat.card B = 27)
-    (hTn : T.Normal) (hTc : Nat.card T = 27) (hTB : Nat.card (T ⊓ B : Subgroup G) = 9)
+    (_hTn : T.Normal) (hTc : Nat.card T = 27) (hTB : Nat.card (T ⊓ B : Subgroup G) = 9)
     (hxT : x ∉ T) (hx3 : x ^ 3 = 1)
     (hzB : z ∈ B) (hzo : orderOf z = 3) (hzx : x * z = z * x)
     (hCB : ∀ b ∈ B, x * b = b * x → b ∈ zpowers z) :
@@ -78,7 +79,7 @@ theorem exists_pow_three_ne_one_grp {B T : Subgroup G} {z x : G}
   by_contra hcon
   push Not at hcon
   have hp3 : (3 : ℕ).Prime := Nat.prime_three
-  haveI : Fact (3 : ℕ).Prime := ⟨hp3⟩
+  have : Fact (3 : ℕ).Prime := ⟨hp3⟩
   have hBind : B.index = 3 := by
     have h1 := Subgroup.card_mul_index B
     rw [hBc, hGc] at h1
@@ -192,6 +193,7 @@ section Ambient
 
 variable {X : Type*} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem card_sup_mul_card_inf_of_commute' (L R : Subgroup X)
     (hc : ∀ x ∈ L, ∀ y ∈ R, x * y = y * x) :
     Nat.card (L ⊔ R : Subgroup X) * Nat.card (L ⊓ R : Subgroup X) = Nat.card L * Nat.card R := by
@@ -248,6 +250,7 @@ theorem mem_elem_of_pRank {P E : Subgroup X} {z : X} (hEP : E ≤ P) (hE : IsEle
   have h4 : 4 ≤ CFSG.Open.pRank 3 P := CFSG.SectionRank.le_pRank hp3.one_lt hle hsup hc4
   omega
 
+omit [Finite X] in
 theorem nine_le_card_inf {P T B : Subgroup X} (hPc : Nat.card P = 81) (hTP : T ≤ P)
     (hBP : B ≤ P) (hTc : Nat.card T = 27) (hBc : Nat.card B = 27) :
     9 ≤ Nat.card (T ⊓ B : Subgroup X) := by
@@ -268,7 +271,7 @@ theorem false_of_conj_plane {D B : Subgroup X} {g : X}
     (hS : CFSG.ABGLocalTools.IsSylowOf 3 D (centralizer (D : Set X))) (hDc : Nat.card D = 9)
     (hBe : IsElemAbelian 3 B) (hBc : Nat.card B = 27) (hgD : ∀ d ∈ D, g * d * g⁻¹ ∈ B) :
     False := by
-  haveI : Fact (3 : ℕ).Prime := ⟨Nat.prime_three⟩
+  have : Fact (3 : ℕ).Prime := ⟨Nat.prime_three⟩
   set S : Subgroup X := B.map (MulAut.conj g⁻¹).toMonoidHom with hSdef
   have hScard : Nat.card S = 27 := by
     rw [hSdef, Subgroup.card_map_of_injective (MulAut.conj g⁻¹).injective, hBc]
@@ -277,7 +280,7 @@ theorem false_of_conj_plane {D B : Subgroup X} {g : X}
     rintro _ ⟨b, hb, rfl⟩
     rw [mem_centralizer_iff]
     intro d hd
-    have h1 : (MulAut.conj g⁻¹).toMonoidHom b = g⁻¹ * b * g := by simp [MulAut.conj_apply]
+    have h1 : (MulAut.conj g⁻¹).toMonoidHom b = g⁻¹ * b * g := by simp
     rw [h1]
     have hcomm : b * (g * d * g⁻¹) = (g * d * g⁻¹) * b := hBe.comm hb (hgD d hd)
     calc d * (g⁻¹ * b * g) = g⁻¹ * ((g * d * g⁻¹) * b) * g := by group

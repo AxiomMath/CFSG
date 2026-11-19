@@ -117,9 +117,9 @@ theorem exists_conj_eZero_Sp4Eight {E : Subgroup (Perm (Fin 6))} (hE : ∀ x ∈
   obtain ⟨P, hEP⟩ := hEp.exists_le_sylow
   obtain ⟨P₀, h0P⟩ := h0p.exists_le_sylow
   have hEeq : E = P :=
-    Subgroup.eq_of_le_of_card_ge hEP ((card_le_nine_of_isPGroup_Sp4Eight P.isPGroup').trans h9)
+    Subgroup.eq_of_le_of_card_ge hEP ((card_le_nine_of_isPGroup_Sp4Eight P.isPGroup).trans h9)
   have h0eq : eZeroSp4Eight = P₀ :=
-    Subgroup.eq_of_le_of_card_ge h0P ((card_le_nine_of_isPGroup_Sp4Eight P₀.isPGroup').trans
+    Subgroup.eq_of_le_of_card_ge h0P ((card_le_nine_of_isPGroup_Sp4Eight P₀.isPGroup).trans
       card_eZero_Sp4Eight.ge)
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq (Perm (Fin 6)) P₀ P
   have h1 : (P : Subgroup (Perm (Fin 6))) = MulAut.conj g • (P₀ : Subgroup (Perm (Fin 6))) := by

@@ -14,6 +14,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem alperinDecomposition_mem_uc6 {p : ℕ} {S P M : Subgroup G}
     (hN : ∀ Q : Subgroup G, IsAlperinSubgroup p S Q → normalizer (Q : Set G) ≤ M) {c : G}
     (hc : AlperinDecomposition p S P c) : c ∈ M := by
@@ -53,7 +54,7 @@ theorem sylow_le_commutator_of_fusion_uc6 (hG : IsSimpleGroup G)
     · rw [hc]
       simp [commutatorElement_def, mul_assoc]
   obtain ⟨N, hN, hNp, hNi, -⟩ := CFSG.Holt.exists_normal_inf_eq_of_focal S inf_le_left hfoc
-  haveI := hN
+  have := hN
   have hcomm : (commutator ↥M).map M.subtype = ⁅M, M⁆ := by
     rw [_root_.commutator_def, Subgroup.map_commutator, ← MonoidHom.range_eq_map,
       Subgroup.range_subtype]
@@ -62,7 +63,7 @@ theorem sylow_le_commutator_of_fusion_uc6 (hG : IsSimpleGroup G)
     have hinj : Function.Injective (QuotientGroup.mk' N) := by
       rw [← MonoidHom.ker_eq_bot_iff, QuotientGroup.ker_mk', hN0]
     have hGp : IsPGroup p G := hNp.of_injective _ hinj
-    haveI : Nontrivial G := by
+    have : Nontrivial G := by
       obtain ⟨a, b, hab⟩ := hnab
       exact ⟨⟨a, b, fun h => hab (h ▸ rfl)⟩⟩
     have hcn : Nontrivial (Subgroup.center G) := hGp.center_nontrivial
@@ -84,7 +85,7 @@ namespace Mc614
 variable (c : Mc614 G)
 
 theorem exists_sylow_eq_R : ∃ S : Sylow c.r G, (S : Subgroup G) = c.R := by
-  haveI : Fact c.r.Prime := ⟨c.d.prime⟩
+  have : Fact c.r.Prime := ⟨c.d.prime⟩
   have hRp : IsPGroup c.r c.R := c.d.sylow.isPGroup
   obtain ⟨S, hRS⟩ := hRp.exists_le_sylow
   refine ⟨S, ?_⟩
@@ -94,10 +95,10 @@ theorem exists_sylow_eq_R : ∃ S : Sylow c.r G, (S : Subgroup G) = c.R := by
     c.d.normalizer_le_of_le_pGroup c.hC le_rfl (E_ne_bot c) c.E_le_R hRp
   have hN : c.R < (S : Subgroup G) ⊓ normalizer (c.R : Set G) :=
     CFSG.RankThreeCoreUniqueness.Helpers.pGroup_proper_subgroup_lt_internal_normalizer c.r
-      c.d.prime (S : Subgroup G) c.R S.isPGroup' hlt
+      c.d.prime (S : Subgroup G) c.R S.isPGroup hlt
   have hNM : (S : Subgroup G) ⊓ normalizer (c.R : Set G) ≤ c.M := fun x hx => hNR hx.2
   have hNp : IsPGroup c.r ((S : Subgroup G) ⊓ normalizer (c.R : Set G) : Subgroup G) :=
-    S.isPGroup'.to_inf_left
+    S.isPGroup.to_inf_left
   have := c.d.sylow.eq_of_le hN.le hNM hNp
   exact hN.ne this.symm
 
@@ -123,11 +124,11 @@ theorem normalizer_le_of_alperin {Q : Subgroup G}
 
 theorem fusion_control {x g : G} (hx : x ∈ c.sylowTop) (hg : g * x * g⁻¹ ∈ c.sylowTop) :
     ∃ k ∈ c.M, g * x * g⁻¹ = k⁻¹ * x * k := by
-  haveI : Fact c.r.Prime := ⟨c.d.prime⟩
+  have : Fact c.r.Prime := ⟨c.d.prime⟩
   exact fusion_control_of_alperin_uc6 c.sylowTop (fun Q hQ => c.normalizer_le_of_alperin hQ) hx hg
 
 theorem R_le_commutator : c.R ≤ ⁅c.M, c.M⁆ := by
-  haveI : Fact c.r.Prime := ⟨c.d.prime⟩
+  have : Fact c.r.Prime := ⟨c.d.prime⟩
   have hSM : (c.sylowTop : Subgroup G) ≤ c.M := by
     rw [c.coe_sylowTop]
     exact c.R_le_M

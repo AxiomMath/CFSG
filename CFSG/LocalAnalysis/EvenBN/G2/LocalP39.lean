@@ -56,7 +56,7 @@ theorem mul_comm_of_forall_mul_self_eq_one {Y : Subgroup G} (h : ∀ x ∈ Y, x 
   exact this.symm
 
 theorem cosetData_bar [Finite G] {Z H Mt : Subgroup G} {t : G}
-    (hHN : H ≤ normalizer (Z : Set G)) (hZM : Z ≤ Mt) (hMN : Mt ≤ normalizer (Z : Set G))
+    (_hHN : H ≤ normalizer (Z : Set G)) (hZM : Z ≤ Mt) (_hMN : Mt ≤ normalizer (Z : Set G))
     (hHM : H ≤ normalizer (Mt : Set G)) (htN : t ∈ normalizer (Z : Set G)) (ht2 : t * t = 1)
     (hMsq : ∀ x ∈ Mt, x * x ∈ Z) (htc : ∀ y ∈ Mt, ⁅y, t⁆ ∈ Z)
     (hcr : ∀ h ∈ H, h⁻¹ * t * h * t ∈ Mt) :
@@ -458,13 +458,16 @@ variable
   {K : Type} [Field K] [Finite K]
   [CharP K 2]
 
+omit [Finite G] [Finite K] in
 theorem W_le_M (d : G2Data L K) : d.W ≤ d.M := by
   obtain ⟨-, -, -, -, hWF, -, hFM, -⟩ := d.inclusions
   exact hWF.trans hFM
 
+omit [Finite G] [Finite K] in
 theorem yamadaW₂_le_yamadaM₂ (d : G2Data L K) (t : G) : yamadaW₂ d t ≤ yamadaM₂ d t :=
   sup_le_sup_right (W_le_M d) _
 
+omit [Finite G] in
 theorem M_le_normalizer_W (d : G2Data L K) : d.M ≤ normalizer (d.W : Set G) := fun m hm => by
   have : m ∈ L ⊓ normalizer (d.W : Set G) := by
     rw [(d.yamada_3_13_3_G).2.1]
@@ -540,7 +543,8 @@ theorem normalizer_yamadaV₂_le_inf (hW : CFSG.Walter.WalterOrderForm) (h : Set
   le_inf (h.normalizer_le_normalizer_yamadaL₂ hW d hK hD)
     (h.normalizer_yamadaV₂_le hW d hK hD).1
 
-theorem mem_normalizer_yamadaV₂_of_commutator_mem (h : Setup G L f t) (d : G2Data L K) {g : G}
+omit [Finite K] in
+theorem mem_normalizer_yamadaV₂_of_commutator_mem (_h : Setup G L f t) (d : G2Data L K) {g : G}
     (hgW : g ∈ normalizer (yamadaW₂ d t : Set G)) (hgt : ⁅g, t⁆ ∈ yamadaW₂ d t) :
     g ∈ normalizer (yamadaV₂ d t : Set G) := by
   refine mem_normalizer_sup_zpowers_of_conj_mem hgW ?_
@@ -626,13 +630,13 @@ theorem commutator_mem_yamadaW₂_of_mem_yamadaL₃ (hW : CFSG.Walter.WalterOrde
     (h : Setup G L f t) (d : G2Data L K) (hK : Nat.card K = 2 ^ f) (hQ : h.QFacts d)
     {a b : G} (ha : a ∈ yamadaL₃ d t) (hb : b ∈ yamadaL₃ d t) : ⁅a, b⁆ ∈ yamadaW₂ d t :=
   commutator_mem_of_mul_self_mem (X := yamadaL₃ d t)
-    (fun x hx => (h.normalizer_yamadaV₂_le hW d hK hQ.doubling).1
+    (fun _x hx => (h.normalizer_yamadaV₂_le hW d hK hQ.doubling).1
       (LieType.BorelTits.pCoreOf_le 2 _ hx))
-    (fun x hx => h.mul_self_mem_yamadaW₂_of_mem_yamadaL₃ hW d hK hQ hx) ha hb
+    (fun _x hx => h.mul_self_mem_yamadaW₂_of_mem_yamadaL₃ hW d hK hQ hx) ha hb
 
 theorem leviB_le_normalizer_yamadaV₂ (h : Setup G L f t) (d : G2Data L K)
     (hK : Nat.card K = 2 ^ f) (hD : h.DoublingFacts d) :
-    d.leviB ≤ normalizer (yamadaV₂ d t : Set G) := fun b hb =>
+    d.leviB ≤ normalizer (yamadaV₂ d t : Set G) := fun _b hb =>
   (h.normalizer_tY_le d hK hD).2.2
     (h.centralizer_inf_normalizer_Y_le d (h.leviB_le_centralizer_inf_normalizer_Y d hb))
 

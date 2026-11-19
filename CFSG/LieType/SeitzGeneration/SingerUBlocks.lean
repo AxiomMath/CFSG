@@ -29,7 +29,7 @@ private theorem singerU_monomial_rel_entry {σ : Equiv.Perm (Fin n)} {d : Fin n 
   have h1 := congrFun (congrFun hrel i) (σ j)
   rw [Matrix.mul_apply, Matrix.mul_apply] at h1
   simp only [singerU_monomial_apply, σ.injective.eq_iff, ite_mul, mul_ite, mul_zero, zero_mul,
-    Finset.sum_ite_eq', Finset.sum_ite_eq, Finset.mem_univ, if_true] at h1
+    Finset.sum_ite_eq', Finset.sum_ite_eq, Finset.mem_univ, ite_true] at h1
   exact h1
 
 private theorem singerU_monomial_block_iff {σ : Equiv.Perm (Fin n)} {d : Fin n → K}
@@ -50,12 +50,12 @@ private theorem singerU_monomial_block_iff {σ : Equiv.Perm (Fin n)} {d : Fin n 
     rw [hc] at E
     by_cases hij' : i = j
     · subst hij'
-      rw [if_pos rfl] at E
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl] at E
+      rw [ite_eq_left rfl]
       apply mul_left_cancel₀ (hd i)
       linear_combination -E
-    · rw [if_neg hij'] at E
-      rw [if_neg hij']
+    · rw [ite_eq_right hij'] at E
+      rw [ite_eq_right hij']
       apply mul_left_cancel₀ (hd i)
       linear_combination -E
   · intro hy i j hij
@@ -69,12 +69,12 @@ private theorem singerU_monomial_block_iff {σ : Equiv.Perm (Fin n)} {d : Fin n 
     rw [hc] at E
     by_cases hij' : i = j
     · subst hij'
-      rw [if_pos rfl] at E
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl] at E
+      rw [ite_eq_left rfl]
       apply mul_left_cancel₀ (hd (σ i))
       linear_combination E
-    · rw [if_neg hij'] at E
-      rw [if_neg hij']
+    · rw [ite_eq_right hij'] at E
+      rw [ite_eq_right hij']
       apply mul_left_cancel₀ (hd (σ j))
       linear_combination E
 
@@ -282,7 +282,7 @@ theorem unitarySU_le_of_companion_blocks (h : UnitaryFieldData ℓ f K) (hq : 4 
     {a b : Fin p} (hab : a ≠ b)
     (hH : ∀ y ∈ unitarySU ℓ f K p, IsCoordBlockOn a b (y : Matrix (Fin p) (Fin p) K) → y ∈ H) :
     unitarySU ℓ f K p ≤ H := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   obtain ⟨g, hg, -⟩ := singerU_exists_unit h (singerU_companion_adj_mul (p := p) h hcu)
   have hgU : ug83_adj h (g : Matrix (Fin p) (Fin p) K) * (g : Matrix (Fin p) (Fin p) K) = 1 := by
     rw [hg]

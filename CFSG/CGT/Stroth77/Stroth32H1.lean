@@ -343,6 +343,7 @@ end Coord
 variable {G : Type} [Group G] [Finite G] {D : Subgroup G} {m : ℕ}
   (dD : StrothWeakTypeData D (.t100 m))
 
+omit [Finite G] in
 theorem t100_even_of_mem (hm : 1 ≤ m) {d : G} (hd : d ∈ D) (x y : Fin 3 → ℤ)
     (hx : crdT dD.e (d⁻¹ * dD.uv * d * dD.uv⁻¹) = Torus.ofInt _ x)
     (hy : crdT dD.e (d⁻¹ * dD.t * d * dD.t⁻¹) = Torus.ofInt _ y) {κ₂ κ₃ : ℤ}

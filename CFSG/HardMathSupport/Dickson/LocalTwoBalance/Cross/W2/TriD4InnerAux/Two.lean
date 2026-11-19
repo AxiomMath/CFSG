@@ -33,7 +33,7 @@ theorem innerPlaneBalance_cat_triD4_two {q : TauCeti.PrimePower} (hq : q.p = 2)
   rw [hq, hq1] at hm
   have hO := Item434SmallTwoIII.card_outer_d42 hm
   set Y := CatT ⟨.trialityD4 q, hv⟩ with hY
-  haveI : Finite Y := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite Y := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   intro E hEin hE hEc H hH
   set E₀ : Subgroup Y := E.comap (MulAut.conj : Y →* MulAut Y) with hE₀def
   have hEE : E₀.map (MulAut.conj : Y →* MulAut Y) = E := Subgroup.map_comap_eq_self hEin

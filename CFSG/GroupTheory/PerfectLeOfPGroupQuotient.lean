@@ -23,21 +23,21 @@ theorem le_of_commutator_eq_self_of_isSolvable_quotient {M H : Subgroup G} [M.No
 
 theorem le_of_commutator_eq_self_of_index_eq_prime_pow {M H : Subgroup G} [M.Normal] {p k : ℕ}
     (hp : p.Prime) (hM : M.index = p ^ k) (hH : ⁅H, H⁆ = H) : H ≤ M := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hne : M.index ≠ 0 := by
     rw [hM]
     exact pow_ne_zero k hp.ne_zero
-  haveI : Finite (G ⧸ M) := Subgroup.index_ne_zero_iff_finite.mp hne
+  have : Finite (G ⧸ M) := Subgroup.index_ne_zero_iff_finite.mp hne
   have hcard : Nat.card (G ⧸ M) = p ^ k := by
     rw [← Subgroup.index_eq_card, hM]
   have hP : IsPGroup p (G ⧸ M) := IsPGroup.of_card hcard
-  haveI : Group.IsNilpotent (G ⧸ M) := hP.isNilpotent
+  have : Group.IsNilpotent (G ⧸ M) := hP.isNilpotent
   exact le_of_commutator_eq_self_of_isSolvable_quotient hH
 
 theorem le_of_commutator_eq_self_of_relIndex_eq_prime_pow {D C H : Subgroup G} {p k : ℕ}
     (hp : p.Prime) (hDC : D ≤ C) (hn : C ≤ normalizer (D : Set G)) (hidx : D.relIndex C = p ^ k)
     (hHC : H ≤ C) (hH : ⁅H, H⁆ = H) : H ≤ D := by
-  haveI : (D.subgroupOf C).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hDC).2 hn
+  have : (D.subgroupOf C).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hDC).2 hn
   have hH' : ⁅H.subgroupOf C, H.subgroupOf C⁆ = H.subgroupOf C := by
     apply Subgroup.map_injective C.subtype_injective
     rw [Subgroup.map_commutator, Subgroup.subgroupOf_map_subtype, inf_of_le_left hHC, hH]

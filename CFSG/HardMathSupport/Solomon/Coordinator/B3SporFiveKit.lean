@@ -105,7 +105,7 @@ theorem mem_normalizer_centralizer_inf {P R : Subgroup G}
   rw [Subgroup.mem_centralizer_singleton_iff] at hcx
   rw [Subgroup.mem_normalizer_iff]
   intro y
-  simp only [SetLike.mem_coe, Subgroup.mem_inf, Subgroup.mem_centralizer_singleton_iff]
+  simp only [Subgroup.mem_inf, Subgroup.mem_centralizer_singleton_iff]
   constructor
   · rintro ⟨hyx, hyP⟩
     refine ⟨?_, hR c hcR y hyP⟩

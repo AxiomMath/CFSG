@@ -56,7 +56,7 @@ theorem stabWord_fun : stabWord IT SK = stabK := by
 
 theorem search_eq : search G4 IT IV = SK := by
   unfold search
-  simp only [piPt0, piPt8, List.toList_toArray, orb_eq]
+  simp only [piPt0, piPt8, orb_eq]
   rw [commPt_eq (SOK_mk #[] #[]), sigList_eq (SOK_mk #[] #[]), basis_ok, vecs_eq]
   simp only [vecA_get]
   unfold SK
@@ -143,7 +143,7 @@ theorem vecC_ok : vecCheck SK = true := by
       beq_iff_eq.2 (Nat.eq_of_beq_eq_true h.2.2)⟩
   · have h := allN_iff.1 vec_k2 v hv2
     have hv0 : ¬ Nat.beq v 0 = true := fun e => by have := Nat.eq_of_beq_eq_true e; omega
-    rw [bIf_eq, if_neg hv0, bAnd_eq, bAnd_eq] at h
+    rw [bIf_eq, ite_eq_right hv0, bAnd_eq, bAnd_eq] at h
     simp only [Bool.and_eq_true] at h ⊢
     rw [vecA_get, labA_get]
     exact ⟨⟨decide_eq_true (by simpa [Nat.blt_eq] using h.1), beq_iff_eq.2 (Nat.eq_of_beq_eq_true h.2.1)⟩,
@@ -151,7 +151,7 @@ theorem vecC_ok : vecCheck SK = true := by
 
 theorem vecG_eq {x : Nat} (hx : x < 31671) (h0 : labP x = 0) : vecG x = tb L 5 x := by
   unfold vecG
-  rw [if_pos ⟨hx, h0⟩]
+  rw [ite_eq_left ⟨hx, h0⟩]
 
 theorem trans_ok' : transCheck IT IV SK = true := by
   unfold transCheck

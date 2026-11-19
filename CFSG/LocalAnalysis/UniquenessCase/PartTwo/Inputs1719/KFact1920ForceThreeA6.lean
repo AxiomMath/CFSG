@@ -51,7 +51,7 @@ theorem exists_noncommute_three_of_isA6ModZ3 {X : Type} [Group X] [Finite X]
     ∃ P : Subgroup X, IsPGroup 3 P ∧
       ∃ x ∈ P, ∃ y ∈ P, x ^ 3 = 1 ∧ y ^ 3 = 1 ∧ x * y ≠ y * x := by
   obtain ⟨⟨hq, ⟨e⟩⟩, hZcard⟩ := hX
-  haveI : Group.IsPerfect X := ⟨hq.1⟩
+  have : Group.IsPerfect X := ⟨hq.1⟩
   have htriple : IsTripleA6 X := ⟨hZcard, ⟨e⟩⟩
   let A : Subgroup (Perm (Fin 6)) := alternatingGroup (Fin 6)
   let Z : Subgroup X := Subgroup.center X

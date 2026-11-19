@@ -31,7 +31,7 @@ structure U3TorusHyp (S : Type) [Group S] (labL : GLALabel) (β β₁ β₂ : Mu
   ∀ (S : Type) [Group S] [Finite S] (labL : GLALabel) (β β₁ β₂ : MulAut S) (n : ℕ)
     (J : Subgroup S),
     Fam labL → U3TorusHyp S labL β β₁ β₂ n J →
-      ¬ (IsSolvable ↥(J ⊓ fixSubgroup β₁) ∧ IsSolvable ↥(J ⊓ fixSubgroup β₂))
+      ¬ (Group.IsSolvable ↥(J ⊓ fixSubgroup β₁) ∧ Group.IsSolvable ↥(J ⊓ fixSubgroup β₂))
 
 @[expose] def U3TorusCoreS : Prop := U3TorusCoreOn fun _ => True
 

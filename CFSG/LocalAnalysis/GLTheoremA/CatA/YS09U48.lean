@@ -52,8 +52,8 @@ theorem bridge_u4eight {S : Type} [Group S] (h : catalogIs S S9.isU4eight) :
   have hm := lieModel_twistedA' 3 q hv e
   rw [h1, h2] at hm
   obtain ⟨-, K, _, _, hK, ⟨e'⟩⟩ := hm.statedClassicalModel (by decide)
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fintype (GaloisField 2 6) := Fintype.ofFinite _
+  have : Fintype K := Fintype.ofFinite K
+  have : Fintype (GaloisField 2 6) := Fintype.ofFinite _
   have hc : Fintype.card K = Fintype.card (GaloisField 2 6) := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hK,
       GaloisField.card 2 6 (by norm_num)]
@@ -75,7 +75,7 @@ theorem glaPPrimeCore_eq_bot_of_isU4eight {G : Type} [Group G] [Finite G] {X L :
   have hsimple : IsSimpleGroup ↥L := S10.isSimple_of_isU4eight hcat
   have hPS : IsSimpleGroup (PSimple 3 L) :=
     (isQuasisimple_pQuot_of_glaPComponent Nat.prime_three hL).2
-  haveI := hPS.toNontrivial
+  have := hPS.toNontrivial
   have hne_top : GLAPPrimeCore 3 ↥L ≠ ⊤ := by
     intro htop
     have hsub : Subsingleton (PQuot 3 L) := by

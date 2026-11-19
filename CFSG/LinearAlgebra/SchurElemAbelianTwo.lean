@@ -50,7 +50,7 @@ private theorem sub_one_mem_flag {n : ℕ} (b : Basis (Fin n) K V) {T : V →ₗ
     rw [SetLike.mem_coe, mem_comap, Basis.mem_span_image]
     intro k hk
     rw [Finset.mem_coe, Finsupp.mem_support_iff] at hk
-    simp only [Set.mem_setOf_eq] at hj ⊢
+    simp only [Set.mem_ofPred_eq] at hj ⊢
     by_contra hki
     apply hk
     have hjk : j ≤ k := by
@@ -60,7 +60,7 @@ private theorem sub_one_mem_flag {n : ℕ} (b : Basis (Fin n) K V) {T : V →ₗ
     · have h0 : LinearMap.toMatrixAlgEquiv b T k j = 0 := hTu (show id j < id k from hlt)
       rw [LinearMap.toMatrixAlgEquiv_apply] at h0
       rw [LinearMap.sub_apply, map_sub, Finsupp.sub_apply, h0, Module.End.one_apply,
-        Basis.repr_self, Finsupp.single_apply, if_neg hlt.ne, sub_zero]
+        Basis.repr_self, Finsupp.single_apply, ite_eq_right hlt.ne, sub_zero]
     · subst heq
       have h1 : LinearMap.toMatrixAlgEquiv b T j j = 1 := hTd j
       rw [LinearMap.toMatrixAlgEquiv_apply] at h1
@@ -139,7 +139,7 @@ theorem card_le_pow_of_mul_self_eq_one [Finite K] [CharP K 2] [FiniteDimensional
   set N : Submodule K (V →ₗ[K] V) := span K S with hN
   set F : ℕ → Submodule K V := fun i => span K (b '' {j | (j : ℕ) < i}) with hFdef
   have hF0 : F 0 = ⊥ := by
-    simp only [hFdef, Nat.not_lt_zero, Set.setOf_false, Set.image_empty, span_empty]
+    simp only [hFdef, Nat.not_lt_zero, Set.ofPred_false, Set.image_empty, span_empty]
   have hFm : F m = ⊤ := by
     have : {j : Fin m | (j : ℕ) < m} = Set.univ := Set.eq_univ_of_forall fun j => j.isLt
     simp only [hFdef, this, Set.image_univ, b.span_eq]
@@ -177,7 +177,7 @@ theorem card_le_pow_of_mul_self_eq_one [Finite K] [CharP K 2] [FiniteDimensional
       intro c hc
       exact congrArg Subtype.val (LinearMap.congr_fun hy ⟨c, hc⟩)
     exact Subtype.ext (eq_zero_of_forall_mem_compl hcommN hF0 hFm hF hC y.2 hyC)
-  haveI : Finite (V →ₗ[K] V) := Module.finite_of_finite K
+  have : Finite (V →ₗ[K] V) := Module.finite_of_finite K
   have hinjA : Function.Injective fun a : A => (⟨ρ a - 1, subset_span ⟨a, rfl⟩⟩ : N) := by
     intro a a' h
     apply hρ
@@ -201,7 +201,7 @@ theorem card_le_pow_of_isElemAbelian_two [Finite K] [CharP K 2] {n : ℕ}
     {A : Subgroup (GL (Fin n) K)} (hA : CFSG.Open.IsElemAbelian 2 A) :
     Nat.card A ≤ Nat.card K ^ (n * n / 4) := by
   let ρ : Representation K A (Fin n → K) :=
-    (MonoidHomClass.toMonoidHom (Matrix.toLinAlgEquiv' (R := K) (n := Fin n))).comp
+    (MonoidHom.ofClass (Matrix.toLinAlgEquiv' (R := K) (n := Fin n))).comp
       ((Units.coeHom (Matrix (Fin n) (Fin n) K)).comp A.subtype)
   have hρ : Function.Injective ρ := by
     intro a a' h

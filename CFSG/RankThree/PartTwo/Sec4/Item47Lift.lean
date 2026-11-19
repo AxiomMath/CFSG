@@ -258,7 +258,7 @@ theorem false_of_local_witness (hG : SectionFourHyp G) {c a : G}
   have hA₀3 : IsPGroup 3 A₀ := IsPGroup.of_card (n := 4) (by rw [hA₀81]; norm_num)
   obtain ⟨P, hP⟩ := exists_sylow_two_le_normalizer hA₀3 hA₀H hH3
   set S : Subgroup G := (P : Subgroup H).map H.subtype with hS
-  have hS2 : IsPGroup 2 S := P.isPGroup'.map H.subtype
+  have hS2 : IsPGroup 2 S := P.isPGroup.map H.subtype
   have hS1 : S ≠ ⊥ := by
     intro h0
     have hcardS : Nat.card S = 2 ^ (Nat.card H).factorization 2 := by

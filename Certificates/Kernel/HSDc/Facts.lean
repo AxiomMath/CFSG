@@ -68,6 +68,7 @@ theorem o2_card (j : ℕ) (hj : j < 5) :
   change 2 ^ 9 / hsOtK[j]!.lbl.size = _
   rw [hs_Ot_size j hj]
 
+omit [HSLat] in
 theorem quot1 : HSQuot1Fact := by
   intro _ N _ hp
   have hjJ : 1 < hsCtx.J := by rw [hs_J]; norm_num
@@ -84,8 +85,10 @@ theorem incl_iff {j jj : ℕ} (hj : j < 5) (hjj : jj < 5) :
   rw [hsCtx.Y_le_iff (by omega) (by omega)]
   exact inclPt_iff.mp CFSG.KD.HSA312.struct.1 j hj jj hjj
 
-theorem incl : HSInclFact := fun j hj jj hjj => incl_iff hj hjj
+omit [HSLat] in
+theorem incl : HSInclFact := fun _j hj _jj hjj => incl_iff hj hjj
 
+omit [HSLat] in
 theorem struct : HSStructFact := by
   intro _
   have hp1 : Nat.card (CFSG.pCore 2 ↥(hsCtx.Y 1)) = 2 ^ 6 :=
@@ -145,6 +148,7 @@ theorem hs_V1 : CFSG.Quasithin.IsZ4StarExtra2 ↥(Subgroup.closure {x | x ∈ hs
   rw [← hsZ4Elt_tab, ← hsEElts_tabs] at h
   exact z4StarOK_spec (base_lt hs_facts) (base_property hs_facts) hsZ4Elt hsEElts h
 
+omit [HSLat] in
 theorem a1 : HSA1Fact := by
   intro _
   refine ⟨hs_V1.1, hs_V1.2, ?_⟩
@@ -163,6 +167,7 @@ theorem hsE2_tabs : genTabs hsData.n hsE2 = hsL2K := by
   rw [hsE2, hsCtx.Y_letters (by rw [hs_J]; norm_num)]
   rfl
 
+omit [HSLat] in
 theorem hsL2_size : hsL2K.toArray.size = 4 := by
   rw [List.size_toArray]
   exact CFSG.KD.HSA312.y2.1
@@ -176,6 +181,7 @@ theorem hsE2_hel : ∀ l < hsE2.toArray.size,
   rw [← hsE2_tabs]
   exact genTabs_hel hsE2
 
+omit [HSLat] in
 theorem hs_hM : ∀ l < hsL2K.toArray.size, ∀ i : Fin 3,
     e8Col (hsVMats.getD l []) i = e8Vec fun r => hsMat l r i := by
   rw [hsL2_size]
@@ -212,6 +218,7 @@ theorem hs_W : CFSG.Quasithin.IsZ4Cubed ↥(Subgroup.closure {x | x ∈ hsWElts}
   rw [← hsWElts_tabs] at h
   exact z4CubedOK_spec (base_lt hs_facts) (base_property hs_facts) hsWElts h
 
+omit [HSLat] in
 theorem a2 : HSA2Fact := by
   intro _
   refine ⟨by simpa using hsE2_size, hs_e8.1, fun l hl i => hs_e8.2 l (by rw [hsL2_size]; exact hl) i,

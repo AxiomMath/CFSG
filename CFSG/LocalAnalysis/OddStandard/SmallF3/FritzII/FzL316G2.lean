@@ -41,7 +41,7 @@ theorem fzl_316_nonab {t tau lam rho : G} {Z E W Q R T P : Subgroup G}
   have hl2 : ∀ p ∈ P, lam⁻¹ * p * lam ∈ P := by
     intro p hp
     have := hl1 p hp
-    rwa [hl] at this ⊢
+    rw [hl] at this ⊢; assumption
   let f : MulAut ↥P := conjOn P rho hPf.nrm_P_rho hrP'
   let u : MulAut ↥P := conjOn P lam hl1 hl2
   have hfix : ∀ g : ↥P, f g = g → g = 1 := fun g hg =>
@@ -55,7 +55,7 @@ theorem fzl_316_nonab {t tau lam rho : G} {Z E W Q R T P : Subgroup G}
       _ = p := by rw [h3]; simp
   have hf1 : f ≠ 1 := by
     intro hf
-    haveI : Nontrivial ↥P := Finite.one_lt_card_iff_nontrivial.mp (by rw [hPf.card_P]; norm_num)
+    have : Nontrivial ↥P := Finite.one_lt_card_iff_nontrivial.mp (by rw [hPf.card_P]; norm_num)
     obtain ⟨p, hp⟩ := exists_ne (1 : ↥P)
     exact hp (hfix p (by rw [hf]; rfl))
   have hu2 : u * u = 1 := by
@@ -75,7 +75,7 @@ theorem fzl_316_nonab {t tau lam rho : G} {Z E W Q R T P : Subgroup G}
     h.W_comm a (h.EW ha) b (h.EW hb)
   have hcent := fzl_cent_eq_E h.rho_ord hPf.card_P h.card_E hPf.EP hEcomm hPf.nrm_P_rho
     h.rho_nrm_E hPf.rho_fpf hna
-  haveI hAn : (E.subgroupOf P).Normal := ⟨fun n hn g => by
+  have hAn : (E.subgroupOf P).Normal := ⟨fun n hn g => by
     rw [mem_subgroupOf] at hn ⊢
     have := hPf.P_comm g g.2 n n.2
     have hE := mul_mem this hn

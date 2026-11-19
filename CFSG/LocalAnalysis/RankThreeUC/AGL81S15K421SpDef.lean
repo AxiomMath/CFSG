@@ -114,7 +114,7 @@ theorem bcGL_mem {g : GL Idx F2} (hg : g ∈ SpF2) : bcGL F g ∈ SpI F := by
 @[expose] def spBase : ↥SpF2 →* ↥(SpI F) :=
   ((bcGL F).comp SpF2.subtype).codRestrict (SpI F) (fun g => bcGL_mem F g.2)
 
-theorem spBase_injective : Function.Injective (spBase F) := fun g h hgh =>
+theorem spBase_injective : Function.Injective (spBase F) := fun _g _h hgh =>
   Subtype.ext (bcGL_injective F (congrArg Subtype.val hgh))
 
 @[expose] noncomputable def monoSp : Mono81 ↥(SpI F) := monoF2.map (spBase F) (spBase_injective F)

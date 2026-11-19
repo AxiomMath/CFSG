@@ -15,7 +15,7 @@ noncomputable def crdT (g : G) : Torus k := by
   exact if h : g ∈ D then eD (Additive.ofMul ⟨g, h⟩) else 0
 
 theorem crdT_of_mem {g : G} (h : g ∈ D) : crdT eD g = eD (Additive.ofMul ⟨g, h⟩) := by
-  rw [crdT, dif_pos h]
+  rw [crdT, dite_eq_left h]
 
 theorem crdT_mul {g h : G} (hg : g ∈ D) (hh : h ∈ D) :
     crdT eD (g * h) = crdT eD g + crdT eD h := by
@@ -88,7 +88,7 @@ theorem cocycle_uv_t {uv t : G} (huv2 : uv * uv = 1) (ht2 : t * t = 1) (hc : uv 
   have gc : (e⁻¹ * uv * e * uv⁻¹) * (uv⁻¹ * (e⁻¹ * t * e * t⁻¹) * uv) =
       (e⁻¹ * t * e * t⁻¹) * (t⁻¹ * (e⁻¹ * uv * e * uv⁻¹) * t) := by
     rw [iuv, it]
-    simp only [mul_assoc, suv, st, mul_inv_cancel_left, inv_mul_cancel_left, c1, hc]
+    simp only [mul_assoc, suv, st, mul_inv_cancel_left, c1, hc]
   refine ⟨?_, ?_, ?_⟩
   · have h := congrArg (crdT eD) ga
     rwa [crdT_mul eD huv (nuv huv), crdT_one, cuv huv] at h
@@ -120,7 +120,7 @@ theorem rho_stable_crd (h : F.IsD D dD) (hS : Local.Setting (F.S : Subgroup G) D
       (e⁻¹ * dD.uv * e * dD.uv⁻¹) * (dD.uv⁻¹ * (e⁻¹ * dD.t * e * dD.t⁻¹) * dD.uv) := by
     rw [huvi]
     have hs : ∀ y, dD.uv * (dD.uv * y) = y := fun y => by rw [← mul_assoc, dD.uv_sq, one_mul]
-    simp only [mul_inv_rev, mul_assoc, hs, inv_mul_cancel_left, mul_inv_cancel_left]
+    simp only [mul_inv_rev, mul_assoc, hs, mul_inv_cancel_left]
     rw [huvi]
   have hmem : e⁻¹ * (dD.uv * dD.t) * e * (dD.uv * dD.t)⁻¹ ∈ D := by
     rw [huvt]; exact mul_mem huv hrt'

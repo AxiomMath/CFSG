@@ -175,7 +175,7 @@ theorem hasNoncommPair_of_injective {G H : Type} [Group G] [Group H] [Finite G] 
     (ι : G →* H) (hι : Function.Injective ι)
     (hcard : (Nat.card G).factorization 3 = (Nat.card H).factorization 3)
     (h : HasNoncommPair 3 H) : HasNoncommPair 3 G := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨x, y, hx, hy, hxy, hP⟩ := h
   obtain ⟨P₂, hP₂⟩ := hP.exists_le_sylow
   obtain ⟨P⟩ : Nonempty (Sylow 3 G) := inferInstance
@@ -199,7 +199,7 @@ theorem hasNoncommPair_of_injective {G H : Type} [Group G] [Group H] [Finite G] 
     exact ⟨z', hz', hz'z⟩
   obtain ⟨x', hx'P, hx'⟩ := hmem x (Subgroup.subset_closure (by simp))
   obtain ⟨y', hy'P, hy'⟩ := hmem y (Subgroup.subset_closure (by simp))
-  refine ⟨x', y', hι ?_, hι ?_, fun he => hxy (hc ?_), P.isPGroup'.to_le ((Subgroup.closure_le _).2
+  refine ⟨x', y', hι ?_, hι ?_, fun he => hxy (hc ?_), P.isPGroup.to_le ((Subgroup.closure_le _).2
     (Set.insert_subset_iff.2 ⟨hx'P, Set.singleton_subset_iff.2 hy'P⟩))⟩
   · rw [map_pow, hx', ← map_pow, hx, map_one, map_one]
   · rw [map_pow, hy', ← map_pow, hy, map_one, map_one]
@@ -210,8 +210,8 @@ end RankTwo
 private theorem card_subfield_eq_pow {K : Type} [Field K] [Finite K] {ℓ : ℕ} [CharP K ℓ]
     (k : Subfield K) : ∃ m : ℕ, 1 ≤ m ∧ Nat.card k = ℓ ^ m := by
   classical
-  haveI : Fintype k := Fintype.ofFinite _
-  haveI : CharP k ℓ := (k.subtype.charP_iff k.subtype_injective ℓ).2 inferInstance
+  have : Fintype k := Fintype.ofFinite _
+  have : CharP k ℓ := (k.subtype.charP_iff k.subtype_injective ℓ).2 inferInstance
   obtain ⟨n, -, hcard⟩ := FiniteField.card k ℓ
   exact ⟨n, n.pos, by rw [Nat.card_eq_fintype_card, hcard]⟩
 
@@ -219,7 +219,7 @@ section Certified
 
 theorem hasNoncommPair_three_G2_of_dvd_sub (k : Type) [Field k] [Finite k]
     (h1 : 3 ∣ Nat.card k - 1) : HasNoncommPair 3 ↥(adjointGroup .G2 k) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ω, hω⟩ := exists_prime_orderOf_dvd_card' (G := kˣ) 3 (by rwa [Nat.card_units])
   obtain ⟨φ, hφ, -⟩ := CFSG.GH74.GLS.Stage2.Bender.Thm1.exists_a2Hom_injective (K := k)
   have hSL := RankTwo.hasNoncommPair_three hω (StatedSL 3 k)
@@ -240,7 +240,7 @@ private theorem card_adjointG2 (hLie : LieOrderFormulasInput) (k : Type) [Field 
     Nat.card ↥(adjointGroup .G2 k) * 1 =
       Nat.card k ^ 6 * (Nat.card k ^ 6 - 1) * (Nat.card k ^ 2 - 1) := by
   classical
-  haveI := Fintype.ofFinite k
+  have := Fintype.ofFinite k
   obtain ⟨n, hp, hcard⟩ := FiniteField.card k (ringChar k)
   have hk' : Nat.card k = ringChar k ^ (n : ℕ) := by rw [Nat.card_eq_fintype_card, hcard]
   have hadm : StatedLieAdmissible .G2 0 (ringChar k) n :=
@@ -253,7 +253,7 @@ private theorem g2_factorization_eq {q N N₂ : ℕ} (hq : 2 ≤ q) (h1 : 3 ∣ 
     (hN : N * 1 = q ^ 6 * (q ^ 6 - 1) * (q ^ 2 - 1))
     (hN₂ : N₂ * 1 = (q ^ 2) ^ 6 * ((q ^ 2) ^ 6 - 1) * ((q ^ 2) ^ 2 - 1)) :
     N.factorization 3 = N₂.factorization 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [mul_one] at hN hN₂
   set x := q ^ 2 with hx
   have hx4 : 4 ≤ x := by rw [hx]; nlinarith
@@ -309,8 +309,8 @@ theorem hasNoncommPair_three_G2_of_dvd_add (hLie : LieOrderFormulasInput) (k : T
     HasNoncommPair 3 ↥(adjointGroup .G2 k) := by
   obtain ⟨k₂, _, _, hdeg, -⟩ :=
     CFSG.HardMathSupport.Seitz.G2Anisotropic.UnitaryEmbedding.exists_quadratic_frobenius_all k
-  haveI : Module.Finite k k₂ := Module.finite_of_finrank_pos (by omega)
-  haveI : Finite k₂ := Module.finite_of_finite k
+  have : Module.Finite k k₂ := Module.finite_of_finrank_pos (by omega)
+  have : Finite k₂ := Module.finite_of_finite k
   have hk₂ : Nat.card k₂ = Nat.card k ^ 2 :=
     CFSG.RankThree.Chevalley.natCard_eq_sq_of_finrank_eq_two hdeg
   have h₂ : 3 ∣ Nat.card k₂ - 1 := by
@@ -403,7 +403,7 @@ private theorem hasNoncommPair_graphFixedD4 (hLie : LieOrderFormulasInput) {L : 
 
 private theorem factorization_three_eq {n k : ℕ} (hn : n ≠ 0) (h1 : 3 ^ k ∣ n)
     (h2 : ¬ 3 ^ (k + 1) ∣ n) : n.factorization 3 = k := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [Nat.factorization_def n Nat.prime_three]
   have := (padicValNat_dvd_iff_le hn).1 h1
   have h' : ¬ k + 1 ≤ padicValNat 3 n := fun h => h2 ((padicValNat_dvd_iff_le hn).2 h)
@@ -412,8 +412,8 @@ private theorem factorization_three_eq {n k : ℕ} (hn : n ≠ 0) (h1 : 3 ^ k �
 private theorem hasNoncommPair_graphFixedD4_two (hLie : LieOrderFormulasInput) {K₈ : Type}
     [Field K₈] [Finite K₈] (σ : K₈ ≃+* K₈) (hK : Nat.card K₈ = 8) (hσ : ∀ c, σ c = c ^ 2) :
     HasNoncommPair 3 ↥(graphFixedRootGroup TwistTag.D4 K₈ σ.toRingHom) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K₈ 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K₈ 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
       (k := 3) (by norm_num) (by rw [hK]; norm_num)
   let L := FiniteField.Extension K₈ 2 4
@@ -436,7 +436,7 @@ private theorem hasNoncommPair_graphFixedD4_two (hLie : LieOrderFormulasInput) {
     rw [show (16 : ℕ) = 2 ^ 4 by norm_num]
     exact hpow 4 x
   have hc8 : ∀ c : K₈, c ^ 8 = c := fun c => by
-    haveI := Fintype.ofFinite K₈
+    have := Fintype.ofFinite K₈
     have := FiniteField.pow_card c
     rwa [Fintype.card_eq_nat_card, hK] at this
   have hcompat : ∀ c : K₈, Fr.toRingHom (algebraMap K₈ L c) =
@@ -494,7 +494,7 @@ theorem dichLieCross_trialityD4 (hLie : LieOrderFormulasInput) : DichLieCrossAt 
       (fun x => by rw [hσ' x, h21.1, h21.2]; norm_num)
   have hK'3 : Nat.card K' = q.p ^ (3 * q.exponent) := by
     rw [hK', ← pow_mul, mul_comm]
-  haveI : CharP K' q.p :=
+  have : CharP K' q.p :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hℓ
       (by omega) hK'3
   obtain ⟨m, hm1, hmcard⟩ := card_subfield_eq_pow (ℓ := q.p)
@@ -529,8 +529,8 @@ private theorem exists_equiv_reeGamma {K : Type} [Group K] {n ℓ f : ℕ}
   obtain ⟨-, -, -, hℓ2, -, hiso⟩ := CFSG.LieType.Ree.ReeTag.large_Ree_model_Schreier K ℓ f hX
   subst hℓ2
   obtain ⟨-, a, hfa, F, _, _, hF, ⟨e⟩⟩ := hX
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F CFSG.LieType.Ree.ReeTag.F4.prime := charP_of_card_eq_prime_pow (f := f) (by
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F CFSG.LieType.Ree.ReeTag.F4.prime := charP_of_card_eq_prime_pow (f := f) (by
     rw [← Nat.card_eq_fintype_card, hF]
     rfl)
   exact ⟨a, F, inferInstance, inferInstance, inferInstance, by rw [hF, hfa],

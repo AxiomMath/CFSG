@@ -17,8 +17,8 @@ theorem j2NotSectionOfGLFourPrimeToThree_holds :
     J2NotSectionOfGLFourPrimeToThree := by
   intro q hq hq5 V _ _ hexp hcard H _ _ φ N _ hN hker
   refine ⟨fun e => ?_⟩
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : CFSG.IsElementaryAbelian q V :=
+  have : Fact q.Prime := ⟨hq⟩
+  have : CFSG.IsElementaryAbelian q V :=
     { toIsMulCommutative := inferInstance
       exponent_dvd_p := Monoid.exponent_dvd_of_forall_pow_eq_one hexp }
   let π : H →* CFSG.Blueprint.NativeSporadic.J2 := e.toMonoidHom.comp (QuotientGroup.mk' N)
@@ -47,7 +47,7 @@ theorem j2NotSectionOfGLFourPrimeToThree_holds :
     rw [CharP.cast_eq_zero_iff (ZMod q) q] at h'
     have := Nat.le_of_dvd (by norm_num) h'
     omega
-  haveI : FiniteDimensional (ZMod q) (Additive V) := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod q) (Additive V) := Module.Finite.of_finite
   have hdim : Module.finrank (ZMod q) (Additive V) ≤ 5 := by
     have hc' := Module.natCard_eq_pow_finrank (K := ZMod q) (V := Additive V)
     rw [Nat.card_zmod] at hc'
@@ -73,7 +73,7 @@ theorem j2NotSectionOfGLFourTwo_of_primeToThree (h : J2NotSectionOfGLFourPrimeTo
     J2NotSectionOfGLFourTwo := by
   intro q hq hq5 V _ _ hexp hcard H _ _ φ N _ hN2 hker
   refine h q hq hq5 V hexp hcard H φ N ?_ hker
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hN2
   rw [hk]
   intro h3

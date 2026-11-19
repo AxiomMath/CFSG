@@ -24,8 +24,8 @@ theorem seven_sixteen (hF₁ : PSUThreeRootFacts) (hF₂ : PerfectPSUThreeFact)
   have hVK : V ≤ kSub V H E := le_kSub h.mem
   have hIK : iSub V H E ≤ kSub V H E := iSub_le_kSub V H E
   have hn2 : 2 ≤ n := two_le_of_isPSUGp hQ
-  haveI : Finite Q := Finite.of_surjective φ hφ.surjective
-  haveI : Nontrivial (Q ⧸ Subgroup.center Q) := nontrivial_of_isPSUGp hQ
+  have : Finite Q := Finite.of_surjective φ hφ.surjective
+  have : Nontrivial (Q ⧸ Subgroup.center Q) := nontrivial_of_isPSUGp hQ
   have hxI : ∀ w ∈ V ⊓ iSub V H E, ∀ x ∈ X, ⁅w, x⁆ = 1 := fun w hw x hx => by
     have hmem := Subgroup.commutator_mem_commutator hw hx
     rw [hcomm] at hmem
@@ -105,10 +105,10 @@ theorem seven_sixteen (hF₁ : PSUThreeRootFacts) (hF₂ : PerfectPSUThreeFact)
           ((QuotientGroup.mk' (Subgroup.center Q)).comp φ) V := by
       rw [barSub_comp, barSub_comp, h1]
     rw [h3] at hS
-    haveI := (isElemAbelian_barSub h.elemAbelian
+    have := (isElemAbelian_barSub h.elemAbelian
       ((QuotientGroup.mk' (Subgroup.center Q)).comp φ)).1
     exact not_isSolvable_of_isL2Gp hn2 hS
-      (isSolvable_of_comm fun u v => Subtype.ext (setLike_mul_comm u.2 v.2))
+      (_root_.Group.isSolvable_of_comm fun u v => Subtype.ext (setLike_mul_comm u.2 v.2))
   have hXbar_odd : Odd (Nat.card ↥(barSub (kSub V H E) φ X)) := by
     have hdvd : Nat.card ↥(barSub (kSub V H E) φ X) ∣
         Nat.card ↥(X.subgroupOf (kSub V H E)) :=

@@ -39,7 +39,7 @@ private theorem list_prod_ofFn_ite {G : Type} [Group G] : ∀ {n : ℕ} (i : Fin
     cases i using Fin.cases with
     | zero => simp [Fin.succ_ne_zero, List.ofFn_const]
     | succ i' =>
-      rw [if_neg (Fin.succ_ne_zero i').symm, one_mul]
+      rw [ite_eq_right (Fin.succ_ne_zero i').symm, one_mul]
       simp only [Fin.succ_inj]
       exact list_prod_ofFn_ite i' x
 
@@ -77,8 +77,8 @@ theorem vec_single (B : Basis3 G k) (i : Fin k) : B.vec (Pi.single i 1) = B.b i 
     funext j
     by_cases hj : j = i
     · subst hj
-      rw [Pi.single_eq_same, if_pos rfl, ZMod.val_one, pow_one]
-    · rw [Pi.single_eq_of_ne hj, if_neg hj, ZMod.val_zero, pow_zero]
+      rw [Pi.single_eq_same, ite_eq_left rfl, ZMod.val_one, pow_one]
+    · rw [Pi.single_eq_of_ne hj, ite_eq_right hj, ZMod.val_zero, pow_zero]
   unfold vec
   rw [h]
   exact list_prod_ofFn_ite i (B.b i)
@@ -105,7 +105,7 @@ theorem mem_normalizer_of_acts [Finite G] (B : Basis3 G k) {g : G}
   have hle : B.span.map (↑(MulAut.conj g) : G →* G) ≤ B.span := by
     rw [span, MonoidHom.map_closure, Subgroup.closure_le]
     rintro _ ⟨_, ⟨i, rfl⟩, rfl⟩
-    simp only [MonoidHom.coe_coe, MulAut.conj_apply]
+    simp only [_root_.MonoidHom.coe_ofClass, MulAut.conj_apply]
     rw [h i]
     exact B.vec_mem_span _
   refine Subgroup.eq_of_le_of_card_ge hle (le_of_eq ?_)

@@ -11,7 +11,7 @@ namespace K421SpWrProof
 theorem three_le_pRank_regularWreathProduct {D Q : Type} [Group D] [Finite D] [Group Q] [Finite Q]
     (hD : 3 ∣ Nat.card D) (hQ : Nat.card Q = 3) :
     3 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup (D ≀ᵣ Q)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' (G := D) 3 hD
   have hg3 : g ^ 3 = 1 := by
     have := pow_orderOf_eq_one g

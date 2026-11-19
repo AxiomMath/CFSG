@@ -18,7 +18,7 @@ theorem exists_conj_mem_of_isSylow2In {G : Type} [Group G] [Finite G] {T C : Sub
   obtain ⟨P, hP⟩ := hT'.exists_le_sylow
   have hPT : (P : Subgroup ↥C) ≤ T.subgroupOf C := by
     have hV : (P : Subgroup ↥C).map C.subtype = T := by
-      refine hTmax _ ?_ (P.isPGroup'.map C.subtype) ?_
+      refine hTmax _ ?_ (P.isPGroup.map C.subtype) ?_
       · rintro _ ⟨x, -, rfl⟩
         exact x.2
       · intro t ht

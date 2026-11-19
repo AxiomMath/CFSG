@@ -381,7 +381,6 @@ theorem suzukiType_unique (D : ClassicalModel A) {x : G} {L L' : Letter} {â„“ â„
     obtain rfl := hM.eq_of_orderOf_eq_two hM' hM2 hM'2
     cases L <;> cases L' <;> first | rfl | (exfalso; first
       | exact not_letterHolds_a_c hL hL' | exact not_letterHolds_a_c hL' hL
-      | exact (Nat.not_even_iff_odd.mpr hL.1 hL'.1) | exact (Nat.not_even_iff_odd.mpr hL'.1 hL.1)
       | exact (Nat.not_even_iff_odd.mpr hL hL'.1) | exact (Nat.not_even_iff_odd.mpr hL' hL.1))
   | orthPlus n m hn hm K hK e =>
     have := charP_two_of_card hK
@@ -390,7 +389,6 @@ theorem suzukiType_unique (D : ClassicalModel A) {x : G} {L L' : Letter} {â„“ â„
     obtain rfl := hM.eq_of_orderOf_eq_two hM' hM2 hM'2
     cases L <;> cases L' <;> first | rfl | (exfalso; first
       | exact not_letterHolds_a_c hL hL' | exact not_letterHolds_a_c hL' hL
-      | exact (Nat.not_even_iff_odd.mpr hL.1 hL'.1) | exact (Nat.not_even_iff_odd.mpr hL'.1 hL.1)
       | exact (Nat.not_even_iff_odd.mpr hL hL'.1) | exact (Nat.not_even_iff_odd.mpr hL' hL.1))
   | orthMinus n m hn hm K hK b c hbc e =>
     have := charP_two_of_card hK
@@ -399,7 +397,6 @@ theorem suzukiType_unique (D : ClassicalModel A) {x : G} {L L' : Letter} {â„“ â„
     obtain rfl := hM.eq_of_orderOf_eq_two hM' hM2 hM'2
     cases L <;> cases L' <;> first | rfl | (exfalso; first
       | exact not_letterHolds_a_c hL hL' | exact not_letterHolds_a_c hL' hL
-      | exact (Nat.not_even_iff_odd.mpr hL.1 hL'.1) | exact (Nat.not_even_iff_odd.mpr hL'.1 hL.1)
       | exact (Nat.not_even_iff_odd.mpr hL hL'.1) | exact (Nat.not_even_iff_odd.mpr hL' hL.1))
 
 @[expose] def HasMeasure (D : ClassicalModel A) (x : G) (n : â„•) : Prop :=

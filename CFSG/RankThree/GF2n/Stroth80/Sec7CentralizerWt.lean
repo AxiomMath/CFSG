@@ -12,6 +12,7 @@ open scoped commutatorElement Matrix
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem centralizer_Wt_le_of_quadModel {K : Type} [Field K] [Finite K] {γ : G → K}
     (M₀ : Tim79.QuadModel Q Z K γ) (R : Tim79.GammaReg Q Z γ) {V : Subgroup G} (hZV : Z ≤ V)
     (hVQ : V ≤ Q) (hS : ∀ (c : K) (e : M₀.E), e ∈ M₀.img V → c • e ∈ M₀.img V)

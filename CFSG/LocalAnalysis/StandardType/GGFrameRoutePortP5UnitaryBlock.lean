@@ -344,7 +344,7 @@ theorem isSolvable_fixedSubgroup_quotient_suBlock (hK : Nat.card K = 4) {ζ : K�
         TauCeti.diagGL (fun i => ζ ^ (a i).val) * (h : GL (Fin d) K) *
           (TauCeti.diagGL (fun i => ζ ^ (a i).val))⁻¹) φ)
     [((suBlock hK I).subgroupOf (TauCeti.fixedSubgroup φ.toMonoidHom)).Normal] :
-    IsSolvable (↥(TauCeti.fixedSubgroup φ.toMonoidHom) ⧸
+    Group.IsSolvable (↥(TauCeti.fixedSubgroup φ.toMonoidHom) ⧸
       (suBlock hK I).subgroupOf (TauCeti.fixedSubgroup φ.toMonoidHom)) := by
   classical
   have hU : UnitaryFieldData 2 1 K := ⟨Nat.prime_two, le_rfl, hK⟩

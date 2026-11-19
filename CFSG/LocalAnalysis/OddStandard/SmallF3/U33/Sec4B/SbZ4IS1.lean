@@ -12,7 +12,7 @@ open scoped commutatorElement
 variable {X : Type*} [Group X]
 
 private lemma z4i_ab_cancel {Q : Subgroup X} (hcomm : ∀ a ∈ Q, ∀ b ∈ Q, a * b = b * a)
-    {a b c d : X} (ha : a ∈ Q) (hb : b ∈ Q) (hc : c ∈ Q) (hd : d ∈ Q)
+    {a b c d : X} (_ha : a ∈ Q) (hb : b ∈ Q) (hc : c ∈ Q) (hd : d ∈ Q)
     (h : a * c⁻¹ = b * d⁻¹) : a * b⁻¹ = c * d⁻¹ := by
   have hb' : b⁻¹ ∈ Q := Q.inv_mem hb
   have hd' : d⁻¹ ∈ Q := Q.inv_mem hd
@@ -161,7 +161,7 @@ theorem z4i_invol_coset {Z : Type} [Group Z] [Finite Z] {K Y : Subgroup Z} {u : 
     intro i hi
     interval_cases i
     · simpa [Wseries] using hYK
-    · simpa [Wseries] using bot_le
+    · simp [Wseries]
   have htnorm : ∀ i ≤ 2, ∀ g ∈ Wseries i, u * g * u⁻¹ ∈ Wseries i := by
     intro i hi g hg
     interval_cases i

@@ -23,8 +23,8 @@ theorem Setup.exists_order_five_not_centralizing (X : Setup Γ G)
     (hc : CharTwoStab (V := V) (G := G)) (i : ℤ) (hn : X.n i = 2) :
     ∃ x ∈ X.L i, orderOf x = 5 ∧ ∃ q ∈ X.Q i, x * q * x⁻¹ ≠ q := by
   classical
-  haveI hfinGi : Finite ↥(X.Gi i) := X.hyp.finite_stab (X.vert i)
-  haveI hfinL : Finite ↥(X.L i) :=
+  have hfinGi : Finite ↥(X.Gi i) := X.hyp.finite_stab (X.vert i)
+  have hfinL : Finite ↥(X.L i) :=
     Finite.of_injective (Subgroup.inclusion (X.L_le_Gi i))
       (Subgroup.inclusion_injective (X.L_le_Gi i))
   have hL : IsLocL2 Γ G (X.vert i) 2 (X.L i) := by
@@ -41,7 +41,7 @@ theorem Setup.exists_order_five_not_centralizing (X : Setup Γ G)
   have h5dvd : 5 ∣ Nat.card ↥(X.L i) := by
     rw [hcardL]
     exact dvd_mul_of_dvd_left (by norm_num : 5 ∣ 60) _
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨x, hx5'⟩ := exists_prime_orderOf_dvd_card' 5 h5dvd
   have hx5 : orderOf (x : G) = 5 := by
     rw [Subgroup.orderOf_coe]
@@ -50,14 +50,14 @@ theorem Setup.exists_order_five_not_centralizing (X : Setup Γ G)
   have hxGi : (x : G) ∈ X.Gi i := X.L_le_Gi i hxL
   have hex : ∃ q ∈ X.Q i, (x : G) * q * (x : G)⁻¹ ≠ q := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hxCent : (x : G) ∈ Subgroup.centralizer (X.Q i : Set G) := by
       rw [Subgroup.mem_centralizer_iff]
       intro q hq
       calc q * (x : G) = ((x : G) * q * (x : G)⁻¹) * (x : G) := by rw [hcon q hq]
         _ = (x : G) * q := by group
     have hxQ : (x : G) ∈ X.Q i := hc (X.vert i) ⟨hxGi, hxCent⟩
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hQp : IsPGroup 2 (X.Q i) :=
       (CFSG.pCore_isPGroup (G := ↥(X.Gi i)) (p := 2)).map (X.Gi i).subtype
     obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp hQp) ⟨(x : G), hxQ⟩
@@ -76,8 +76,8 @@ theorem Setup.isElemAbelian_Q_of_card (X : Setup Γ G)
   have hxGi : x ∈ X.Gi i := X.L_le_Gi i hxL
   have hxN : x ∈ Subgroup.normalizer (X.Q i : Set G) :=
     CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 (X.Gi i) hxGi
-  haveI : Finite ↥(X.Gi i) := X.hyp.finite_stab (X.vert i)
-  haveI : Finite ↥(X.Q i) :=
+  have : Finite ↥(X.Gi i) := X.hyp.finite_stab (X.vert i)
+  have : Finite ↥(X.Q i) :=
     Finite.of_injective (Subgroup.inclusion (X.Q_le_Gi i))
       (Subgroup.inclusion_injective (X.Q_le_Gi i))
   have hcard16 : Nat.card (X.Q i) = 16 := by
@@ -177,7 +177,7 @@ theorem Setup.natSec_Q_of_card {V G : Type} [Group G]
     (hT : IsSylowTwoOf T (X.L i))
     (hC : 4 ≤ Nat.card ↥(X.Q i ⊓ Subgroup.centralizer (T : Set G))) :
     NatSec (X.L i) ⊥ (pCoreOf 2 (X.L i)) := by
-  haveI : Finite ↥(X.Gi i) := X.hyp.finite_stab (X.vert i)
+  have : Finite ↥(X.Gi i) := X.hyp.finite_stab (X.vert i)
   have hL : IsLocL2 Γ G (X.vert i) 2 (X.L i) := by
     simpa [Setup.n, hn] using X.hyp.isLocL2_oTwoPrime (X.vert i)
   have hquot : IsL2Quot 2 (oTwoQuot ↥(X.L i)) := by

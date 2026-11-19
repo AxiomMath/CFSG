@@ -63,12 +63,12 @@ theorem ggFixDer_entrywiseAdjointAut_E6 (σ : K ≃+* K) :
     rw [Subgroup.mem_subgroupOf]
     simpa [a, b, commutatorElement_def] using hmem
   ·
-    haveI : Group.IsPerfect ↥(adjointGroup Tag.E6 ↥(fixSubfield σ)) :=
+    have : Group.IsPerfect ↥(adjointGroup Tag.E6 ↥(fixSubfield σ)) :=
       (CFSG.LieType.Simplicity.isQuasisimple_adjointGroup_e6 ↥(fixSubfield σ)).1
     let e : adjointGroup Tag.E6 ↥(fixSubfield σ) ≃*
         ↥((fixedFieldImage Tag.E6 σ).subgroupOf (adjointGroup Tag.E6 K)) :=
       (fixedFieldImageEquiv (τ := Tag.E6) σ).trans (Subgroup.subgroupOfEquivOfLe hJC).symm
-    haveI : Group.IsPerfect ↥((fixedFieldImage Tag.E6 σ).subgroupOf (adjointGroup Tag.E6 K)) :=
+    have : Group.IsPerfect ↥((fixedFieldImage Tag.E6 σ).subgroupOf (adjointGroup Tag.E6 K)) :=
       Group.IsPerfect.ofSurjective (f := e.toMonoidHom) e.surjective
     rw [← Subgroup.commutator_eq_self (H := (fixedFieldImage Tag.E6 σ).subgroupOf
       (adjointGroup Tag.E6 K))]

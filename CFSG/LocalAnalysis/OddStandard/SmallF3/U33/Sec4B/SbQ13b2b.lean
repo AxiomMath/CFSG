@@ -13,6 +13,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau om : G}
 
+omit [Finite G] in
 private theorem mem_zpowers_of_sq {z x : G} (hz : z * z = 1) (hx : x ∈ zpowers z) :
     x = 1 ∨ x = z := by
   by_cases hz1 : z = 1
@@ -77,7 +78,7 @@ theorem q13b_inv_sub_N (h : Q13Om t L S x₁ x₂ lam rho tau om) {K : Subgroup 
   · right
     have hex : ∃ k ∈ K, k ∉ fourGrp x₁ x₂ := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hKV hcon
     obtain ⟨k, hkK, hkV⟩ := hex
     have hkN : k ∈ ctxN tau x₁ x₂ := hKN hkK

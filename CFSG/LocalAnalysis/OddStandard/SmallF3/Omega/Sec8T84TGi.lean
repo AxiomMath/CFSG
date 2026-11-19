@@ -22,7 +22,7 @@ theorem sec8t84FactGamInner_holds : Sec8T84FactGamInner := by
   obtain ⟨ρc, hρc, hρφ⟩ := ff6m_exists_centCover hQ (by omega) e (ff6m_odd_center hL) hs hss
   obtain ⟨E, hEn, hLie, hP⟩ := ff6m_K4_layerModel hQ hdim hsgn hx2 hx
   obtain ⟨ρ, rfl, hρ, hρρ⟩ := ff6m_K4_split hQ hdim hsgn hx2 hx
-  haveI : E.Normal := hEn
+  have : E.Normal := hEn
   obtain ⟨hEs, hEnc⟩ := ff_simple_of_lieModel_psl2 hLie
   have hcent : ∀ c, (∀ e ∈ E, c * e = e * c) → c = 1 := fun c hc =>
     sec8t84t_centB_eq_one hQ hdim hsgn E hEs hEnc hP hc

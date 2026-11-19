@@ -121,6 +121,7 @@ theorem isAltSixCoverThree_of_mulEquiv {S S' : Type} [Group S] [Group S'] (e : S
   · exact ⟨(QuotientGroup.congr (Subgroup.center S) (Subgroup.center S') e
       (Subgroup.map_center_eq e)).trans eq⟩
 
+omit [Finite X] in
 theorem isAltSixCoverThree_barO2_conj {L : Subgroup X} (h : IsAltSixCoverThree ↥(barO2 L)) (x : X) :
     IsAltSixCoverThree ↥(barO2 (L.map (MulAut.conj x).toMonoidHom)) := by
   rw [barO2_map_conj]
@@ -217,11 +218,13 @@ theorem centerIn_barO2_ne_conj (hK57 : K57) {T : Subgroup X} {Ls : Subgroup (X �
   rw [heq, h2] at h1
   exact hk (by rw [← centerIn_eq_cfsg, ← centerIn_eq_cfsg]; exact h1.symm)
 
+omit [Finite X] in
 theorem dvd_card_of_liftOf {T L : Subgroup X} {Ls : Subgroup (X ⧸ gnC T)} (hL : LiftOf T L Ls)
     {q : ℕ} (h : q ∣ Nat.card Ls) : q ∣ Nat.card L := by
   rw [← hL.2] at h
   exact h.trans (Subgroup.card_dvd_of_surjective ((toStar T).subgroupMap_surjective L))
 
+omit [Finite X] in
 theorem three_dvd_card_gnYComponent {T T₁ T₂ : Subgroup X} (hthree : GNThree T T₁ T₂)
     {Ls : Subgroup (X ⧸ gnC T)} (hLs : GNYComponent T T₁ T₂ Ls) : 3 ∣ Nat.card ↥Ls := by
   by_contra h3

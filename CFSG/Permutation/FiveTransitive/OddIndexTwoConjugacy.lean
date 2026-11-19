@@ -81,7 +81,7 @@ private theorem involutions_conjugate_of_card_eq_two_mul_odd
     exact hm.not_two_dvd_nat
   let SU : Sylow 2 L := hUP.toSylow hUnot
   let SV : Sylow 2 L := hVP.toSylow hVnot
-  letI : Fintype (Sylow 2 L) := Fintype.ofFinite _
+  let : Fintype (Sylow 2 L) := Fintype.ofFinite _
   have hpre : MulAction.IsPretransitive L (Sylow 2 L) :=
     Sylow.isPretransitive_of_finite
   obtain ⟨g, hg⟩ := hpre.exists_smul_eq SU SV
@@ -91,7 +91,7 @@ private theorem involutions_conjugate_of_card_eq_two_mul_odd
       IsPGroup.toSylow_coe] using hcoe
   have hug : (MulAut.conj g) u ∈ MulAut.conj g • U :=
     Subgroup.smul_mem_pointwise_smul u (MulAut.conj g) U
-      (by simpa [U] using Subgroup.mem_zpowers u)
+      (by simp [U])
   rw [hsub] at hug
   have hug' : g * u * g⁻¹ ∈ Subgroup.zpowers v := by
     simpa [V] using hug

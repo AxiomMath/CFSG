@@ -123,7 +123,7 @@ theorem p1OffCharAlmostSimpleNonNormalAt_A_one
     e.trans (CFSG.ClassicalModels.linearCatalogCandidateEquivPSL 1 q hv)
   set P := ((Rb : Subgroup Y) ⊓ K).subgroupOf K with hP
   have hPp : IsPGroup p P :=
-    (Rb.isPGroup'.to_le inf_le_left).comap_of_injective K.subtype K.subtype_injective
+    (Rb.isPGroup.to_le inf_le_left).comap_of_injective K.subtype K.subtype_injective
   have hcyc : IsCyclic (P.map e'.toMonoidHom) :=
     CFSG.Quasithin.H13.NQCore.isCyclic_of_isPGroup_psl2 hpℓ hR.ne_two q.exponent_pos
       (hPp.map e'.toMonoidHom)

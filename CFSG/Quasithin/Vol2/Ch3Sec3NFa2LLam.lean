@@ -13,7 +13,7 @@ open Matrix
 theorem pluck_wedgeMat4_e0 (g : Matrix (Fin 4) (Fin 4) (ZMod 2)) :
     pluck (B5FinWedge.wedgeMat4 g *ᵥ Pi.single 0 1) = 0 := by
   have h2 : (2 : ZMod 2) = 0 := by decide
-  simp [pluck, Matrix.mulVec, dotProduct, Fin.sum_univ_six, B5FinWedge.wedgeMat4,
+  simp [pluck, Matrix.mulVec, dotProduct, B5FinWedge.wedgeMat4,
     B5FinWedge.pr4, Matrix.of_apply, Pi.single_apply]
   linear_combination (g 0 0 * g 2 1 - g 0 1 * g 2 0) * (g 1 0 * g 3 1 - g 1 1 * g 3 0) * h2
 

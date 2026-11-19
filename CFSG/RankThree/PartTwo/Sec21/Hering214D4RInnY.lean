@@ -39,8 +39,8 @@ theorem exists_four_shortSL2 (P : D4Par n F σ) (hev : Even n) {g : C0 σ} (hg :
     have h1 : 2 ^ n - 1 ∣ (2 ^ n) ^ 3 - 1 ^ 3 := Nat.sub_dvd_pow_sub_pow _ _ _
     rw [one_pow] at h1
     exact (three_dvd_two_pow_sub_one hev).trans h1
-  haveI := P.charP
-  haveI : CharP (CFSG.LieType.Chevalley.orbitField TwistTag.D4 F σ.toRingHom
+  have := P.charP
+  have : CharP (CFSG.LieType.Chevalley.orbitField TwistTag.D4 F σ.toRingHom
       KS11Lie4Proof.d4Outer) 2 :=
     RingHom.charP (Subfield.subtype _) Subtype.val_injective 2
   obtain ⟨ω, hω, hω1⟩ := exists_primitive_cube_root h3

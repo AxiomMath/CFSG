@@ -30,13 +30,13 @@ theorem type_facts {X : Type} [Group X] [Finite X]
   have hA5card : Nat.card (alternatingGroup (Fin 5)) = 60 := by
     rw [Nat.card_eq_fintype_card, card_alternatingGroup, Fintype.card_fin]
     norm_num [Nat.factorial]
-  haveI hA6simple : IsSimpleGroup (alternatingGroup (Fin 6)) :=
+  have hA6simple : IsSimpleGroup (alternatingGroup (Fin 6)) :=
     alternatingGroup.isSimpleGroup (by simp)
-  haveI hA5simple : IsSimpleGroup (alternatingGroup (Fin 5)) :=
+  have hA5simple : IsSimpleGroup (alternatingGroup (Fin 5)) :=
     alternatingGroup.isSimpleGroup (by simp)
   have hresTop : ∀ {Y : Type} [Group Y] [Finite Y], Group.IsPerfect Y → perfectResidual Y = ⊤ := by
     intro Y _ _ hY
-    haveI := hY
+    have := hY
     exact eq_top_iff.2 ((CFSG.perfect_residual_transport (MonoidHom.id Y)).2.2 ⊤ inferInstance)
   have key : ∀ {Y : Type} [Group Y] [Finite Y] [IsSimpleGroup Y],
       ¬ (Nat.card Y).Prime → 3 ∣ Nat.card Y →
@@ -55,9 +55,9 @@ theorem type_facts {X : Type} [Group X] [Finite X]
   rcases hX with he | htc | he
   ·
     obtain ⟨e⟩ := he
-    haveI : IsSimpleGroup CFSG.Blueprint.NativeSporadic.J2 :=
+    have : IsSimpleGroup CFSG.Blueprint.NativeSporadic.J2 :=
       CFSG.Sporadic.J2.isSimpleGroup_J2
-    haveI : IsSimpleGroup X := e.isSimpleGroup
+    have : IsSimpleGroup X := e.isSimpleGroup
     refine key ?_ ?_
     · rw [Nat.card_congr e.toEquiv, CFSG.RankThree.PartTwo.KFacts.KS14.card_nativeJ2]
       norm_num
@@ -65,7 +65,7 @@ theorem type_facts {X : Type} [Group X] [Finite X]
       norm_num
   ·
     obtain ⟨hZ3, ⟨eQ⟩⟩ := htc
-    haveI : IsSimpleGroup (X ⧸ Subgroup.center X) := eQ.isSimpleGroup
+    have : IsSimpleGroup (X ⧸ Subgroup.center X) := eQ.isSimpleGroup
     have hQcard : Nat.card (X ⧸ Subgroup.center X) = 360 := by
       rw [Nat.card_congr eQ.toEquiv, hA6card]
     have hQperf : Group.IsPerfect (X ⧸ Subgroup.center X) :=
@@ -98,7 +98,7 @@ theorem type_facts {X : Type} [Group X] [Finite X]
       have hrange : (QuotientGroup.mk' (Subgroup.center X)).range = ⊤ :=
         MonoidHom.range_eq_top.mpr (QuotientGroup.mk'_surjective _)
       rw [hrange] at hmap
-      haveI : Group.IsPerfect (X ⧸ Subgroup.center X) := hQperf
+      have : Group.IsPerfect (X ⧸ Subgroup.center X) := hQperf
       have htop : (perfectResidual (⊤ : Subgroup (X ⧸ Subgroup.center X))).map
           (⊤ : Subgroup (X ⧸ Subgroup.center X)).subtype = ⊤ := by
         rw [hresTop inferInstance, Subgroup.map_top, Subgroup.range_subtype]
@@ -109,7 +109,7 @@ theorem type_facts {X : Type} [Group X] [Finite X]
       exact (by norm_num : (3 : ℕ) ∣ 360).trans hdvd
   ·
     obtain ⟨e⟩ := he
-    haveI : IsSimpleGroup X := e.isSimpleGroup
+    have : IsSimpleGroup X := e.isSimpleGroup
     refine key ?_ ?_
     · rw [Nat.card_congr e.toEquiv, hA5card]
       norm_num
@@ -131,7 +131,7 @@ theorem case2_type
       (∀ N : Subgroup ↥(img148 A Y (deltaZero A (lB A) Y)), N.Normal → ¬ 3 ∣ Nat.card N →
           N = ⊥) ∧
         3 ∣ Nat.card (inSubgroup perfectResidual (img148 A Y (deltaZero A (lB A) Y))) := by
-  letI := ker148_normal hY.2
+  let := ker148_normal hY.2
   obtain ⟨c', hc', hX, L', hL', hcase⟩ := h2
   refine ⟨c', hc', hX, ?_⟩
   have hHJ : AllPointsHJ A :=
@@ -157,7 +157,7 @@ theorem case2_type
     · exact (hEmpty.2.2.1 hSL.choose).false hSL.choose_spec.some
     · exact (hEmpty.2.2.2 hSU.choose).false hSU.choose_spec.some
   · obtain ⟨p, f, e, hp, -, -, hiso, -⟩ := h3case
-    letI := hp
+    let := hp
     exact absurd hiso (Sec17.PropU.not_isoLThreePi_of_equiv_J2 hJ p (f * e))
   · have hfacts := type_facts
       (X := ↥(img148 A Y (deltaZero A (lB A) Y))) (Or.inr h4case.2)

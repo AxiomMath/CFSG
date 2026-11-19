@@ -173,7 +173,7 @@ theorem pCore3_eq {Γ : Subgroup (GLV V)} (ι : ↥Γ →* G0) (hι : Function.I
 
 theorem E9_le_range {Δ : Type} [Group Δ] [Finite Δ] (ι : Δ →* G0)
     (hι : Function.Injective ι) (h9 : 9 ∣ Nat.card Δ) : E9 ≤ ι.range := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hR : 3 ^ 2 ∣ Nat.card ι.range := by
     rw [Nat.card_congr (MonoidHom.ofInjective hι).toEquiv.symm]
     norm_num
@@ -489,7 +489,7 @@ theorem g105_core [Finite V] {B : LinearMap.BilinForm (ZMod 2) V} {Γ : Subgroup
     have hW := hG.finrank_isotropic_le
     rw [hV4] at hW hr
     omega
-  obtain ⟨y, hyX, hyX₀⟩ := SetLike.exists_of_lt (lt_of_le_of_ne hG.X₀_le hXne)
+  obtain ⟨y, hyX, hyX₀⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne hG.X₀_le hXne)
   have hyΓ : y ∈ Γ := hG.X_le hyX
   have hyy : y * y = 1 := hG.X_sq y hyX
   have hy1 : y ≠ 1 := fun h => hyX₀ (h ▸ X₀.one_mem)

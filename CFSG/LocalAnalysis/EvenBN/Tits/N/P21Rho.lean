@@ -12,6 +12,7 @@ open Subgroup CFSG.LocalAnalysis.EvenBN.Tits.I21L Module
 variable {G : Type} [Group G] [Finite G]
   {d : Data G} {z₀ : G}
 
+omit [Finite G] in
 theorem elemAb2_Ws (h19 : Node19 d z₀) : ElemAb2 ↥(Ws d) := by
   obtain ⟨-, -, -, -, -, -, ⟨hc, hsq⟩, -⟩ := h19
   refine ⟨fun a b => ?_, fun a => ?_⟩
@@ -23,9 +24,11 @@ theorem elemAb2_Ws (h19 : Node19 d z₀) : ElemAb2 ↥(Ws d) := by
     ↥(Ialpha d) →* (EVec ↥(Ws d) hW ≃ₗ[ZMod 2] EVec ↥(Ws d) hW) :=
   (EVec.mulAutToGL hW).toMonoidHom.comp (Ialpha d).subtype
 
+omit [Finite G] in
 theorem rhoI_injective (hW : ElemAb2 ↥(Ws d)) : Function.Injective (rhoI d hW) :=
   (EVec.mulAutToGL hW).injective.comp Subtype.val_injective
 
+omit [Finite G] in
 theorem rhoI_apply (hW : ElemAb2 ↥(Ws d)) (y : ↥(Ialpha d)) (v : EVec ↥(Ws d) hW) :
     rhoI d hW y v = EVec.ofE hW ((y : MulAut ↥(Ws d)) (EVec.toE hW v)) := rfl
 

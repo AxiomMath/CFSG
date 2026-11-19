@@ -46,7 +46,7 @@ theorem pairConclusion_of_sl {G : Type} [Group G] [Finite G] {L R : Subgroup G}
     rw [isSylowOf_iff]
     refine ⟨le_top, ?_, ?_⟩
     · rw [← hSy]
-      exact Sy.isPGroup'
+      exact Sy.isPGroup
     · rw [Subgroup.relIndex_top_right, ← hSy]
       exact Sy.not_dvd_index
   obtain ⟨k, -, hk⟩ := hSyl'.exists_mem_conj hU

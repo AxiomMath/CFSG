@@ -44,7 +44,7 @@ theorem mulAut_mem_range_conj_E78
     α ∈ (MulAut.conj : adjointGroup τ K →* MulAut (adjointGroup τ K)).range := by
   obtain ⟨-, Θ, -, -, hker, -⟩ := even_E7_E8_exact_inner_field_automorphism_normal_form
     (f := 1) le_rfl K (by rw [hK]; norm_num) τ hτ
-  haveI := ringEquiv_subsingleton K hK
+  have := ringEquiv_subsingleton K hK
   have : α ∈ Θ.ker := by
     rw [MonoidHom.mem_ker]
     exact Subsingleton.elim _ _

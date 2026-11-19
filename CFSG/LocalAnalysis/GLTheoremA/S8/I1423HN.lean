@@ -21,6 +21,7 @@ open CFSG.Open CFSG.Yardstones.Md0ec50421ce4 CFSG.LocalAnalysis.GLTheoremB
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem normalizer_map_subtype_subgroupOf {L : Subgroup G} (T : Subgroup ↥L) :
     (Subgroup.normalizer ((T.map L.subtype : Subgroup G) : Set G)).subgroupOf L =
       Subgroup.normalizer (T : Set ↥L) := by
@@ -66,7 +67,7 @@ set_option maxRecDepth 20000 in
 theorem i1423At_holds (G : Type) [Group G] [Finite G] : S8.L83.I1423At G := by
   intro x L hx hL hcat
   have hp3 : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp3⟩
+  have : Fact (Nat.Prime 3) := ⟨hp3⟩
   obtain ⟨hZ, ⟨ψ⟩⟩ := nonempty_pquot_equiv_HN hL hcat
   let e : PQuot 3 L ≃* JH := ψ.trans hnEquivJ
   obtain ⟨yb, Tb, A9, A8, hyb, hT2, hT1, hyT, h89, hU9, ⟨e9⟩, hU8, ⟨e8⟩⟩ := hn_native e
@@ -152,9 +153,9 @@ theorem i1423At_holds (G : Type) [Group G] [Finite G] : S8.L83.I1423At G := by
   obtain ⟨I, hIu, hIbar, ⟨eI⟩⟩ := uniq_lift (inf_le_left.trans inf_le_left) hU8'
   have hc9 : Nat.card A9 = 181440 := card_of_equiv_alt9 e9
   have hc8 : Nat.card A8 = 20160 := card_of_equiv_alt8 e8
-  haveI : IsSimpleGroup A9 :=
+  have : IsSimpleGroup A9 :=
     e9.isSimpleGroup_congr.2 (alternatingGroup.isSimpleGroup (by simp))
-  haveI : IsSimpleGroup A8 :=
+  have : IsSimpleGroup A8 :=
     e8.isSimpleGroup_congr.2 (alternatingGroup.isSimpleGroup (by simp))
   have eJ9 : PQuot 3 J ≃* alternatingGroup (Fin 9) :=
     eJ.trans ((pQuotEquivSelf A9 (by rw [hc9]; norm_num)).trans e9)
@@ -166,7 +167,7 @@ theorem i1423At_holds (G : Type) [Group G] [Finite G] : S8.L83.I1423At G := by
     have := CFSG.LocalAnalysis.GLTheoremA.S8.L84.mem_normalizer_of_uniq hJu.1 hJu.2 (Subgroup.le_normalizer hg)
     exact (Subgroup.mem_normalizer_iff.1 this j).1 hj
   have hIJ : I ≤ J := by
-    haveI : IsSimpleGroup (PQuot 3 I) :=
+    have : IsSimpleGroup (PQuot 3 I) :=
       eI8.isSimpleGroup_congr.2 (alternatingGroup.isSimpleGroup (by simp))
     refine le_of_cover inf_le_left hJu.1.1 hJn hIu.1 this
       (by rw [card_of_equiv_alt8 eI8]; decide) fun i hi => ?_

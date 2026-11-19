@@ -84,7 +84,7 @@ theorem k67_l3u3_elemAbelian_le {Q : Type} [Group Q] [Finite Q] (J : Subgroup Q)
     {x : Q} (hx : x ∈ J) (hx3 : orderOf x = 3) {B : Subgroup Q} (hB : IsElemAbelian 2 B)
     (hBx : B ≤ centralizer ({x} : Set Q))
     (hBn : ∀ t ∈ J ⊓ centralizer ({x} : Set Q), t ∈ normalizer (B : Set Q)) : B ≤ J := by
-  haveI := hJ
+  have := hJ
   obtain ⟨hcyc, hcard⟩ := s1667_kg_l3u3_centralizer J hC1 h hx hx3
   obtain ⟨g, hgT, hgen⟩ := s1667_kg_exists_generator hcyc
   have hgJ : g ∈ J := (Subgroup.mem_inf.mp hgT).1

@@ -65,7 +65,7 @@ theorem le_normalizer_and_mem_of_elemAbelian {Q : Subgroup G} (hQ : IsElemAbelia
     (hN : ∀ g ∈ normalizer (Q : Set G), ∀ q ∈ Q, g * q * g⁻¹ = q)
     (P : Sylow 3 G) (hQP : Q ≤ P) :
     (P : Subgroup G) ≤ normalizer (Q : Set G) ∧ ∀ g ∈ (P : Subgroup G), g ^ 3 = 1 → g ∈ Q := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set R : Subgroup G := (P : Subgroup G) ⊓ normalizer (Q : Set G) with hR
   have hRQ : ∀ r ∈ R, r ^ 3 = 1 → r ∈ Q := by
     intro r hr hr3
@@ -78,7 +78,7 @@ theorem le_normalizer_and_mem_of_elemAbelian {Q : Subgroup G} (hQ : IsElemAbelia
     refine ⟨fun g hg => ?_, fun g hg hg3 => hRQ g (hRP ▸ hg) hg3⟩
     rw [← hRP] at hg
     exact (Subgroup.mem_inf.1 hg).2
-  haveI hnil : Group.IsNilpotent ↥(P : Subgroup G) := P.isPGroup'.isNilpotent
+  have hnil : Group.IsNilpotent ↥(P : Subgroup G) := P.isPGroup.isNilpotent
   have hnc := (normalizerCondition_iff_only_full_group_self_normalizing.1
     (Group.normalizerCondition_of_isNilpotent (G := ↥(P : Subgroup G)))) (R.subgroupOf P)
   have hself : normalizer ((R.subgroupOf P : Subgroup ↥(P : Subgroup G)) :
@@ -100,7 +100,7 @@ theorem hasNormalPComplement_of_elemAbelian {Q : Subgroup G} (hQ : IsElemAbelian
     (hmax : ∀ g : G, g ^ 3 = 1 → (∀ q ∈ Q, q * g = g * q) → g ∈ Q)
     (hN : ∀ g ∈ normalizer (Q : Set G), ∀ q ∈ Q, g * q * g⁻¹ = q) :
     CFSG.HasNormalPComplement 3 G := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hQp : IsPGroup 3 Q := fun q => ⟨1, Subtype.ext (by simpa using hQ.2 q q.2)⟩
   obtain ⟨P, hQP⟩ := hQp.exists_le_sylow
   obtain ⟨hPN, hPQ⟩ := le_normalizer_and_mem_of_elemAbelian hQ hmax hN P hQP
@@ -207,7 +207,7 @@ theorem three_le_of_pair {L : Subgroup X} {x a b : X} (hx3 : x ^ 3 = 1) (hxL : x
     (haL : a ∈ L) (hbL : b ∈ L) (ha3 : a ^ 3 = 1) (hb3 : b ^ 3 = 1) (hab : a * b = b * a)
     (ha1 : a ≠ 1) (hb : b ∉ zpowers a) (hxa : a * x = x * a) (hxb : b * x = x * b) :
     3 ≤ CFSG.Open.pRank 3 (centralizer ({x} : Set X)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hel : ∀ c : X, c ^ 3 = 1 → IsElemAbelian 3 (zpowers c) := fun c hc => by
     rw [Subgroup.zpowers_eq_closure]
     refine IsElemAbelian.closure_of_commute (fun u hu v hv => ?_) (fun u hu => ?_)

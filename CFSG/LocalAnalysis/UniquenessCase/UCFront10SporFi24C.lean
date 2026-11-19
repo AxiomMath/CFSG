@@ -93,7 +93,7 @@ theorem k105In_centralizer_fi24z_of
     have hNodd : Odd (76545 * fi24C.index) := h' ▸ (by norm_num)
     exact Nat.Odd.of_mul_right hNodd
   have hT₂ : IsSylowTwoOf T₂ ⊤ := by
-    refine ⟨le_top, P₀.isPGroup'.map fi24C.subtype, ?_⟩
+    refine ⟨le_top, P₀.isPGroup.map fi24C.subtype, ?_⟩
     change ¬ 2 ∣ T₂.relIndex ⊤
     rw [Subgroup.relIndex_top_right]
     change ¬ 2 ∣ (P₀.map fi24C.subtype).index

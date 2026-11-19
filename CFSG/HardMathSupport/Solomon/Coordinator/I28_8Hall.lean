@@ -19,7 +19,7 @@ theorem exists_hall_two_seven {G : Type} [Group G] [Finite G] [Group.IsSolvable 
   obtain ⟨H, hHc, hHi⟩ := solvable_hall_subgroup_exists G ({2, 7} : Set ℕ)
   let T' : Sylow 2 G := hT2.toSylow hT
   obtain ⟨S⟩ : Nonempty (Sylow 2 H) := inferInstance
-  have hS'2 : IsPGroup 2 ((S : Subgroup H).map H.subtype) := S.isPGroup'.map H.subtype
+  have hS'2 : IsPGroup 2 ((S : Subgroup H).map H.subtype) := S.isPGroup.map H.subtype
   have hS'idx : ¬ 2 ∣ ((S : Subgroup H).map H.subtype).index := by
     rw [Subgroup.index_map_subtype]
     intro h

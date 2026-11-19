@@ -58,7 +58,7 @@ private theorem ltqS1_three_dvd (n : ℕ) : 3 ∣ 2 ^ n - 1 ∨ 3 ∣ 2 ^ n + 1 
       refine ⟨2 * k - 1, ?_⟩
       rw [pow_succ]; omega
 
-private theorem ltqS1_kacRE {lab : LargeEvenLabel} (hΛ : LargeEvenInLambda2 lab)
+private theorem ltqS1_kacRE {lab : LargeEvenLabel} (_hΛ : LargeEvenInLambda2 lab)
     (htag : lab.tag = .E6 ∨ lab.tag = .twE6) : GGKacRE lab 3 := by
   refine ⟨by norm_num, by norm_num, ltqS1_three_dvd lab.n, ?_⟩
   rcases htag with h | h
@@ -153,8 +153,8 @@ private theorem ltqS1_eq_top_of_card_quotient_le {X : Type*} [Group X] [Finite X
     apply le_antisymm le_top
     rw [← hsup]
     exact sup_le Subgroup.le_normalizer (Subgroup.center_le_normalizer (J₀ : Set X))
-  haveI := hnorm
-  haveI : IsMulCommutative (Subgroup.center X) := Subgroup.center.isMulCommutative X
+  have := hnorm
+  have : IsMulCommutative (Subgroup.center X) := Subgroup.center.isMulCommutative X
   have hcomm_le : commutator X ≤ J₀ :=
     Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top (N := J₀) hsup
   rw [hcomm] at hcomm_le

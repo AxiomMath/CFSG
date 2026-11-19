@@ -208,7 +208,7 @@ theorem minimal_suzuki_kernel_le_center_of_scalar_bounds
     have hRn : R.Normal :=
       CFSG.RankThree.PartTwo.Sec16.SuzukiSectionProof.sylow_normal_of_minimal hπ hmin p P
     have : R.Normal := hRn
-    have hRp : IsPGroup p R := P.isPGroup'.map π.ker.subtype
+    have hRp : IsPGroup p R := P.isPGroup.map π.ker.subtype
     have hRN : R ≤ π.ker := Subgroup.map_subtype_le _
     have hRc : R ≤ Subgroup.center H := by
       by_cases hp3 : p = 3

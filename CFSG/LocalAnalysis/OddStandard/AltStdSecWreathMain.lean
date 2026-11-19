@@ -95,7 +95,7 @@ theorem false_of_wreathPair (h : Setting G L n) (d : Cyc L Q z) (hQ2 : Nat.card 
   obtain ⟨P₀⟩ : Nonempty (Sylow 2 L) := inferInstance
   set P₀' : Subgroup G := (P₀ : Subgroup L).map L.subtype with hP₀'
   have hP₀'L : P₀' ≤ L := Subgroup.map_subtype_le _
-  have hP₀'p : IsPGroup 2 P₀' := P₀.isPGroup'.map L.subtype
+  have hP₀'p : IsPGroup 2 P₀' := P₀.isPGroup.map L.subtype
   set T₁ := diagPre c P₀' with hT₁def
   have hT₁ : T₁ ≤ H := diagPre_le c P₀'
   have hT₁p : IsPGroup 2 T₁ := c.isPGroup_diagPre hP₀'p
@@ -122,7 +122,7 @@ theorem false_of_wreathPair (h : Setting G L n) (d : Cyc L Q z) (hQ2 : Nat.card 
   have hS'le : (S' : Subgroup G) ≤ S := by
     by_contra hnle
     have hne : S ≠ (S' : Subgroup G) := fun heq => hnle (heq ▸ le_rfl)
-    have hnil : Group.IsNilpotent (S' : Subgroup G) := S'.isPGroup'.isNilpotent
+    have hnil : Group.IsNilpotent (S' : Subgroup G) := S'.isPGroup.isNilpotent
     have hlt : S.subgroupOf (S' : Subgroup G) < ⊤ := by
       refine lt_top_iff_ne_top.2 fun htop => hne ?_
       refine le_antisymm hSS' fun s hs => ?_
@@ -160,7 +160,7 @@ theorem false_of_wreathPair (h : Setting G L n) (d : Cyc L Q z) (hQ2 : Nat.card 
       · have : l = (a⁻¹ * x) * z⁻¹ := by rw [hly]; group
         rw [this]
         exact S'.mul_mem hyS' (S'.inv_mem (hSS' hzS))
-    have hX : IsPGroup 2 ((S' : Subgroup G).comap L.subtype) := S'.isPGroup'.comap_subtype
+    have hX : IsPGroup 2 ((S' : Subgroup G).comap L.subtype) := S'.isPGroup.comap_subtype
     have hle : (P₀ : Subgroup L) ≤ (S' : Subgroup G).comap L.subtype := by
       intro p hp
       have hp' : (p : G) ∈ P₀' := ⟨p, hp, rfl⟩

@@ -52,7 +52,7 @@ theorem outside_involution_mem_swap_orbits
     have hm := (inferInstance : D.Normal).conj_mem' (g * s * g⁻¹) h g
     simpa only [mul_assoc, inv_mul_cancel_left, inv_mul_cancel, mul_one] using hm
   have htwo := outside_involution_in_two_subgroup D (P : Subgroup K) J hDindex
-    P.isPGroup' hJodd hfour u t hu ht huD huP htD htP htcentral hconj hg hconjD
+    P.isPGroup hJodd hfour u t hu ht huD huP htD htP htcentral hconj hg hconjD
   have heq : ∀ z : K, g * s * g⁻¹ = z → s ∈ conjugacyWithin (⊤ : Subgroup K) z := by
     intro z hz
     refine ⟨⟨g, Subgroup.mem_top _⟩, ?_⟩

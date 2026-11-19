@@ -104,6 +104,7 @@ theorem ggNbr_facts {p : ℕ} {B Bs : Subgroup G} {x : G} {L D J : Subgroup G} {
     have hp2le : p ^ 2 ≤ p := Nat.le_of_dvd hp.pos hp2dvd
     nlinarith [hp.two_le]
 
+omit [Finite G] in
 theorem GGFarCtx.range_permAut₁_le {p : ℕ} {Bs : Subgroup G} {n : ℕ} {F : Type} [Field F]
     {φ₁ φ₂ : SpecialLinearGroup (Fin (n + 1)) F →* G} {x y : G}
     (hC : GGFarCtx p Bs φ₁ φ₂ x y) {L : Subgroup G} (hL : φ₁.range = L) :
@@ -115,6 +116,7 @@ theorem GGFarCtx.range_permAut₁_le {p : ℕ} {Bs : Subgroup G} {n : ℕ} {F : 
   · intro b
     exact hC.permAut₁_apply π b
 
+omit [Finite G] in
 theorem GGFarCtx.card_range_permAut₁ {p : ℕ} {Bs : Subgroup G} {n : ℕ} {F : Type} [Field F]
     {φ₁ φ₂ : SpecialLinearGroup (Fin (n + 1)) F →* G} {x y : G}
     (hC : GGFarCtx p Bs φ₁ φ₂ x y) : Nat.card hC.permAut₁.range = (n + 1).factorial := by

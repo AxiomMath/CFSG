@@ -69,7 +69,6 @@ theorem commute_four {K : Type*} [Group K] {a b : K} (h : Commute a b) {σ τ : 
   all_goals first
     | exact Commute.one_left _
     | exact Commute.one_right _
-    | exact Commute.refl _
     | exact h
     | exact h'
     | exact (Commute.refl _).mul_right h
@@ -127,33 +126,40 @@ variable {θ : Γ →* Perm (Fin 6)} {p : Γ → permBar 6} {z : Γ} {O : Subgro
   (H : OData θ p z O)
 include H
 
+omit [Finite Γ] in
 theorem p_one : p 1 = 0 := by
   have h := H.pi.mul 1 1 (map_one θ) (map_one θ)
   rw [mul_one] at h
   exact add_left_cancel (h.symm.trans (add_zero _).symm)
 
+omit [Finite Γ] in
 theorem p_inv {a : Γ} (ha : θ a = 1) : p a⁻¹ = p a := by
   have h := H.pi.mul a a⁻¹ ha (by rw [map_inv, ha, inv_one])
   rw [mul_inv_cancel, H.p_one] at h
   have h' : p a⁻¹ = -p a := eq_neg_of_add_eq_zero_right h.symm
   rw [h', permBar_neg_eq]
 
+omit [Finite Γ] in
 theorem mem_V0 {x : Γ} (hx : x ∈ O) : θ x ∈ V₀ := by
   rw [← H.map_O]
   exact Subgroup.mem_map_of_mem θ hx
 
+omit [Finite Γ] in
 theorem exists_lift {σ : Perm (Fin 6)} (hσ : σ ∈ V₀) : ∃ o ∈ O, θ o = σ := by
   rw [← H.map_O] at hσ
   obtain ⟨o, ho, rfl⟩ := Subgroup.mem_map.1 hσ
   exact ⟨o, ho, rfl⟩
 
+omit [Finite Γ] in
 theorem theta_comm {x y : Γ} (hx : x ∈ O) (hy : y ∈ O) : θ (x * y * x⁻¹ * y⁻¹) = 1 := by
   rw [map_mul, map_mul, map_mul, map_inv, map_inv, V0_comm (H.mem_V0 hx) (H.mem_V0 hy)]
   group
 
+omit [Finite Γ] H in
 theorem comm_mem {x y : Γ} (hx : x ∈ O) (hy : y ∈ O) : x * y * x⁻¹ * y⁻¹ ∈ O :=
   O.mul_mem (O.mul_mem (O.mul_mem hx hy) (O.inv_mem hx)) (O.inv_mem hy)
 
+omit [Finite Γ] in
 theorem conj_comm_mem {o q : Γ} (ho : o ∈ O) (hq : θ q = 1) :
     o * q * o⁻¹ * q⁻¹ ∈ O ∧ θ (o * q * o⁻¹ * q⁻¹) = 1 := by
   refine ⟨?_, ?_⟩
@@ -164,6 +170,7 @@ theorem conj_comm_mem {o q : Γ} (ho : o ∈ O) (hq : θ q = 1) :
   · rw [map_mul, map_mul, map_mul, map_inv, map_inv, hq]
     group
 
+omit [Finite Γ] in
 theorem p_conj_comm {o q : Γ} (hq : θ q = 1) :
     p (o * q * o⁻¹ * q⁻¹) = barAct (θ o) (p q) - p q := by
   have h1 : θ (o * q * o⁻¹) = 1 := by
@@ -172,6 +179,7 @@ theorem p_conj_comm {o q : Γ} (hq : θ q = 1) :
   have h2 : θ q⁻¹ = 1 := by rw [map_inv, hq, inv_one]
   rw [H.pi.mul _ _ h1 h2, H.pi.conj o q hq, H.p_inv hq, permBar_sub_eq_add]
 
+omit [Finite Γ] in
 theorem exists_of_mem_zPerp {w : permBar 6} (hw : w ∈ zPerp) :
     ∃ x ∈ O, θ x = 1 ∧ p x = w := by
   obtain ⟨σ, hσ, u, hu, rfl⟩ := exists_eq_sub_of_mem_zPerp hw
@@ -223,6 +231,7 @@ theorem card_W : Nat.card ↥(O ⊓ θ.ker) = 8 ∧ ∀ x ∈ O, θ x = 1 → p 
   rw [heq]
   exact ⟨x, (hmemW x).2 ⟨hxO, hx1⟩, rfl⟩
 
+omit [Finite Γ] in
 theorem z_mem : z ∈ O := by
   obtain ⟨x, hxO, hx1, hpx⟩ := H.exists_of_mem_zPerp zBar_mem_zPerp
   have : x = z := H.pi.inj x z hx1 H.theta_z (hpx.trans H.p_z.symm)
@@ -230,6 +239,7 @@ theorem z_mem : z ∈ O := by
 
 end OData
 
+omit [Finite Γ] in
 theorem card_eq_inf_mul (θ : Γ →* Perm (Fin 6)) (O : Subgroup Γ) :
     Nat.card O = Nat.card ↥(O ⊓ θ.ker) * Nat.card ↥(O.map θ) := by
   have h1 := Subgroup.card_ker_mul_card_range (θ.comp O.subtype)
@@ -289,6 +299,7 @@ theorem kap_mem_of_right {x y : Γ} (hx : x ∈ O) (hy : y ∈ O) (hy1 : θ y = 
   rw [H.p_conj_comm hy1]
   exact mem_Zs.2 (barAct_sub_mem_zPerp (H.mem_V0 hx) (H.card_W.2 y hy hy1))
 
+omit [Finite Γ] in
 theorem p_comm_symm {x y : Γ} (hx : x ∈ O) (hy : y ∈ O) :
     p (y * x * y⁻¹ * x⁻¹) = p (x * y * x⁻¹ * y⁻¹) := by
   have e : y * x * y⁻¹ * x⁻¹ = (x * y * x⁻¹ * y⁻¹)⁻¹ := by group
@@ -310,11 +321,11 @@ theorem kap_mul_left {x x' y : Γ} (hx : x ∈ O) (hx' : x' ∈ O) (hy : y ∈ O
     rw [map_mul, map_mul, map_inv, hA]
     group
   rw [e, H.pi.mul _ _ hC hB, H.pi.conj x _ hA]
-  have hw := barAct_sub_mem_zPerp (H.mem_V0 hx) (H.card_W.2 _ (H.comm_mem hx' hy) hA)
+  have hw := barAct_sub_mem_zPerp (H.mem_V0 hx) (H.card_W.2 _ (OData.comm_mem hx' hy) hA)
   have e2 : barAct (θ x) (p (x' * y * x'⁻¹ * y⁻¹)) + p (x * y * x⁻¹ * y⁻¹) -
       (p (x * y * x⁻¹ * y⁻¹) + p (x' * y * x'⁻¹ * y⁻¹)) =
       barAct (θ x) (p (x' * y * x'⁻¹ * y⁻¹)) - p (x' * y * x'⁻¹ * y⁻¹) := by
-    letI := permBarACG 6
+    let := permBarACG 6
     abel
   rw [e2]
   exact mem_Zs.2 hw
@@ -330,11 +341,11 @@ theorem kap_mul_right {x y y' : Γ} (hx : x ∈ O) (hy : y ∈ O) (hy' : y' ∈ 
     rw [map_mul, map_mul, map_inv, hA]
     group
   rw [e, H.pi.mul _ _ hB hC, H.pi.conj y _ hA]
-  have hw := barAct_sub_mem_zPerp (H.mem_V0 hy) (H.card_W.2 _ (H.comm_mem hx hy') hA)
+  have hw := barAct_sub_mem_zPerp (H.mem_V0 hy) (H.card_W.2 _ (OData.comm_mem hx hy') hA)
   have e2 : p (x * y * x⁻¹ * y⁻¹) + barAct (θ y) (p (x * y' * x⁻¹ * y'⁻¹)) -
       (p (x * y * x⁻¹ * y⁻¹) + p (x * y' * x⁻¹ * y'⁻¹)) =
       barAct (θ y) (p (x * y' * x⁻¹ * y'⁻¹)) - p (x * y' * x⁻¹ * y'⁻¹) := by
-    letI := permBarACG 6
+    let := permBarACG 6
     abel
   rw [e2]
   exact mem_Zs.2 hw
@@ -349,7 +360,7 @@ theorem kap_congr_left {x x' y : Γ} (hx : x ∈ O) (hx' : x' ∈ O) (hy : y ∈
   rw [mul_inv_cancel_left] at h1
   have h3 := Zs.add_mem h1 h2
   convert h3 using 1
-  letI := permBarACG 6
+  let := permBarACG 6
   abel
 
 theorem kap_congr_right {x y y' : Γ} (hx : x ∈ O) (hy : y ∈ O) (hy' : y' ∈ O)
@@ -362,7 +373,7 @@ theorem kap_congr_right {x y y' : Γ} (hx : x ∈ O) (hy : y ∈ O) (hy' : y' �
   rw [mul_inv_cancel_left] at h1
   have h3 := Zs.add_mem h1 h2
   convert h3 using 1
-  letI := permBarACG 6
+  let := permBarACG 6
   abel
 
 theorem kap_congr {x x' y y' : Γ} (hx : x ∈ O) (hx' : x' ∈ O) (hy : y ∈ O) (hy' : y' ∈ O)
@@ -373,6 +384,7 @@ theorem kap_congr {x x' y y' : Γ} (hx : x ∈ O) (hx' : x' ∈ O) (hy : y ∈ O
   have h3 := Zs.add_mem h1 h2
   rwa [sub_add_sub_cancel] at h3
 
+omit [Finite Γ] in
 theorem decomp {A : Γ → Prop} {o₁ o₂ : Γ} (ho₁ : o₁ ∈ O) (ho₂ : o₂ ∈ O)
     (hθ₁ : θ o₁ = b1) (hθ₂ : θ o₂ = b2) (hmul : ∀ a b, A a → A b → A (a * b))
     (hW : ∀ x ∈ O, θ x = 1 → A x) (h₁ : A o₁) (h₂ : A o₂) : ∀ x ∈ O, A x := by
@@ -421,11 +433,11 @@ theorem kap_b1_b2 {o₁ o₂ : Γ} (ho₁ : o₁ ∈ O) (ho₂ : o₂ ∈ O) (h�
   have h4 := H.p_comm_symm ho₁ ho₂
   rw [h3, h4] at h2
   rw [hp] at h1
-  have hw : p (o₁ * o₂ * o₁⁻¹ * o₂⁻¹) ∈ zPerp := H.card_W.2 _ (H.comm_mem ho₁ ho₂) hθc
+  have hw : p (o₁ * o₂ * o₁⁻¹ * o₂⁻¹) ∈ zPerp := H.card_W.2 _ (OData.comm_mem ho₁ ho₂) hθc
   have h5 := Zs.add_mem h1 h2
   have h6 : barAct c3 (p (o₁ * o₂ * o₁⁻¹ * o₂⁻¹)) - p (o₁ * o₂ * o₁⁻¹ * o₂⁻¹) ∈ Zs := by
     convert h5 using 1
-    letI := permBarACG 6
+    let := permBarACG 6
     abel
   exact mem_Zs.2 (eq_of_c3_sub hw (mem_Zs.1 h6))
 
@@ -498,7 +510,7 @@ noncomputable def piM (m : ↥M) : permBar 6 := by
 theorem piM_of_mem {m : ↥M} (h : (m : G) ∈ CFSG.Open.pCoreOf 2 M) :
     D.piM m = Multiplicative.toAdd (D.piQ ⟨m, h⟩) := by
   unfold piM
-  rw [dif_pos h]
+  rw [dite_eq_left h]
 
 theorem piLike (hR : Nat.card ↥(Rc X) ≤ 2) (hQ : Nat.card ↥(CFSG.Open.pCoreOf 2 M) = 16) :
     Q16Alt.Lemma5.PiLike C.θ D.piM where

@@ -18,17 +18,17 @@ variable {G : Type*} [Group G] (D Y : Subgroup G) [(Y.subgroupOf D).Normal]
   liftFix D Y (S.subgroupOf (normDY D Y))
 
 theorem mem_liftFix_iff (S : Subgroup (normDY D Y)) {x : G} :
-    x ∈ liftFix D Y S ↔ ∃ hx : x ∈ D, ∀ g ∈ S, (g : G) * x * (g : G)⁻¹ * x⁻¹ ∈ Y := by
+    x ∈ liftFix D Y S ↔ ∃ _hx : x ∈ D, ∀ g ∈ S, (g : G) * x * (g : G)⁻¹ * x⁻¹ ∈ Y := by
   unfold liftFix
   rw [Subgroup.mem_map]
   constructor
   · rintro ⟨y, hy, rfl⟩
     rw [Subgroup.mem_comap, QuotientGroup.mk'_apply, mem_fixSub] at hy
     exact ⟨y.2, fun g hg => (actQuot_mk_eq_iff D Y g y).1 (hy g hg)⟩
-  · rintro ⟨hx, h⟩
-    refine ⟨⟨x, hx⟩, ?_, rfl⟩
+  · rintro ⟨_hx, h⟩
+    refine ⟨⟨x, _hx⟩, ?_, rfl⟩
     rw [Subgroup.mem_comap, QuotientGroup.mk'_apply, mem_fixSub]
-    exact fun g hg => (actQuot_mk_eq_iff D Y g ⟨x, hx⟩).2 (h g hg)
+    exact fun g hg => (actQuot_mk_eq_iff D Y g ⟨x, _hx⟩).2 (h g hg)
 
 theorem mem_liftFixG_iff {S : Subgroup G} (hS : S ≤ normDY D Y) {x : G} :
     x ∈ liftFixG D Y S ↔ x ∈ D ∧ ∀ g ∈ S, g * x * g⁻¹ * x⁻¹ ∈ Y := by

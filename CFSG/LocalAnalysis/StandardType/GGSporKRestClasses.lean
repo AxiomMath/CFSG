@@ -12,12 +12,12 @@ theorem sporKRest_cover_of_classes {K : Type} [Group K] {p : ℕ} (hp : p.Prime)
     (hcomplete : ∀ s : K, orderOf s = p → ∃ r ∈ reps, IsConj r s)
     (hgen : ∀ r ∈ reps, ∀ x : K, IsConj r x → SporKRestGenerating p x) : SporKRestCover p K := by
   intro E hE hcard
-  haveI : Finite ↥E := Nat.finite_of_card_ne_zero (by rw [hcard]; exact pow_ne_zero 2 hp.ne_zero)
+  have : Finite ↥E := Nat.finite_of_card_ne_zero (by rw [hcard]; exact pow_ne_zero 2 hp.ne_zero)
   have hlt : 1 < Nat.card E := by
     rw [hcard]
     nlinarith [hp.two_le]
   have hbot : E ≠ ⊥ := (Subgroup.one_lt_card_iff_ne_bot E).mp hlt
-  haveI : Nontrivial ↥E := (Subgroup.nontrivial_iff_ne_bot E).mpr hbot
+  have : Nontrivial ↥E := (Subgroup.nontrivial_iff_ne_bot E).mpr hbot
   obtain ⟨x, hxE, hx1⟩ := Subgroup.exists_ne_one_of_nontrivial E
   have hpow : x ^ p = 1 := hE.2 x hxE
   have hord : orderOf x = p := by
@@ -35,12 +35,12 @@ theorem sporKRest_generating_of_pgroup {K : Type} [Group K] [Finite K] {p : ℕ}
     (wa wb : List ℤ) (ha : sporKRestEval (sg ++ ent.flatMap fun e => e.2.2) wa = a)
     (hb : sporKRestEval (sg ++ ent.flatMap fun e => e.2.2) wb = b)
     {x : K} (hx : IsConj x₀ x) : SporKRestGenerating p x := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨S, hSS⟩ := hS₀.exists_le_sylow
   refine ggSporKRest_generating_of_closure hp S hx
     {z : K | z ∈ ent.flatMap fun e => e.2.2} ?_ ?_
   · intro z hz
-    rw [Set.mem_setOf_eq, List.mem_flatMap] at hz
+    rw [Set.mem_ofPred_eq, List.mem_flatMap] at hz
     obtain ⟨e, he, hze⟩ := hz
     obtain ⟨he1S, he2, hzcent⟩ := hent e he
     exact ⟨e.2.1, e.1, hSS he1S, he2,

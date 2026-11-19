@@ -45,14 +45,14 @@ theorem sec63_exists_sylow_pair [Finite G] {X : Subgroup G} {x y : G} (hx : orde
 theorem sec63_isCyclic_inf [Finite G] (h33 : Asc82Lemma33) {t : G} {L : Subgroup G}
     (hS : Sec3SettingLB G t L) {Y T : Subgroup G} (hYC : InCStar Y) (hYF : InFStar Y)
     (hT : IsPGroup 2 T) : IsCyclic ↥(T ⊓ centralizer (Y : Set G)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hU : IsPGroup 2 ↥(T ⊓ centralizer (Y : Set G)) := hT.to_le inf_le_left
   have hU' : IsPGroup 2 ↥((T ⊓ centralizer (Y : Set G)).subgroupOf (centralizer (Y : Set G))) :=
     hU.of_equiv (Subgroup.subgroupOfEquivOfLe inf_le_right).symm
   obtain ⟨S, hU'S⟩ := hU'.exists_le_sylow
   have hScyc : IsCyclic ↥(S : Subgroup (centralizer (Y : Set G))) :=
     h33 G t L hS Y hYC hYF S
-  haveI : IsCyclic ↥(S : Subgroup (centralizer (Y : Set G))) := hScyc
+  have : IsCyclic ↥(S : Subgroup (centralizer (Y : Set G))) := hScyc
   have hU'cyc : IsCyclic
       ↥((T ⊓ centralizer (Y : Set G)).subgroupOf (centralizer (Y : Set G))) :=
     Subgroup.isCyclic_of_le hU'S
@@ -60,7 +60,7 @@ theorem sec63_isCyclic_inf [Finite G] (h33 : Asc82Lemma33) {t : G} {L : Subgroup
 
 theorem sec63_card_ge_four [Finite G] {U : Subgroup G} {y : G} (hU : IsPGroup 2 U)
     (hy : orderOf y = 2) (hyU : y ∈ U) (hne : Nat.card U ≠ 2) : 4 ≤ Nat.card U := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := hU.exists_card_eq
   have hdvd : 2 ∣ Nat.card U := by
     have h := Subgroup.orderOf_dvd_natCard U hyU

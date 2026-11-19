@@ -75,7 +75,7 @@ private noncomputable def ggK1Df_statedOmegaEquiv {ι K : Type} [Fintype ι] [De
 
 private theorem ggK1Df_isQuasisimple_commutator {G : Type*} [Group G] (A : Subgroup G)
     (h : CFSG.IsQuasisimple ↥A) : CFSG.IsQuasisimple ↥⁅A, A⁆ := by
-  haveI : Group.IsPerfect ↥A := h.1
+  have : Group.IsPerfect ↥A := h.1
   have hc : ⁅A, A⁆ = A := by
     rw [← Subgroup.map_subtype_commutator, Group.IsPerfect.commutator_eq_top, Subgroup.map_top,
       Subgroup.range_subtype]
@@ -234,9 +234,9 @@ theorem ggK1D_fixed_sl2 {K V : Type} [Field K] [Finite K] [CharP K 2] [AddCommGr
       orthDerived (Q.comp (fixedSpace x).subtype) :=
     le_antisymm (CFSG.SeitzReduction.OmegaPilot.omegaGroup_le_orthDerived_of_four hR hWfix hts)
       (CFSG.RankThree.PartOne.FieldFix.orthDerived_le_omegaGroup hR)
-  letI : Field E := hE
-  letI : Algebra K E := hAlg
-  haveI : Finite E := D.finite_E
+  let : Field E := hE
+  let : Algebra K E := hAlg
+  have : Finite E := D.finite_E
   refine ⟨E, hE, Fintype.ofFinite E, ?_, ?_⟩
   · rw [Fintype.card_eq_nat_card, D.card_E]
   · refine ⟨(ggK1Df_omegaEquiv hx hQ hT).trans ?_⟩
@@ -265,8 +265,8 @@ theorem ggK1D_fixed_abelian {K V : Type} [Field K] [Finite K] [CharP K 2] [AddCo
     rcases eq_or_lt_of_le hle2 with h2 | hlt
     · exact ggK1Df_omegaGroup_commute_of_finrank_two hR h2 _ _
     · have h0 : Module.finrank K (fixedSpace x) = 0 := by omega
-      haveI : Subsingleton (fixedSpace x) := Module.finrank_zero_iff.mp h0
-      haveI : Subsingleton (fixedSpace x ≃ₗ[K] fixedSpace x) :=
+      have : Subsingleton (fixedSpace x) := Module.finrank_zero_iff.mp h0
+      have : Subsingleton (fixedSpace x ≃ₗ[K] fixedSpace x) :=
         ⟨fun f g => LinearEquiv.ext fun v => Subsingleton.elim _ _⟩
       have hxy : ((ggK1Df_omegaEquiv hx hQ hT) ⟨a, ha⟩) =
           ((ggK1Df_omegaEquiv hx hQ hT) ⟨b, hb⟩) := Subsingleton.elim _ _
@@ -304,7 +304,7 @@ theorem ggK1D_tame_fixed {K V : Type} [Field K] [Finite K] [CharP K 2] [AddCommG
     exact Group.isSolvable_of_comm fun a b => Subtype.ext (hab a a.2 b b.2).eq
   · left
     have hs2le : 2 ≤ s := by omega
-    haveI : Nontrivial (fixedSpace x) :=
+    have : Nontrivial (fixedSpace x) :=
       Module.nontrivial_of_finrank_pos (R := K) (by omega)
     by_cases hplus : CFSG.GroupTheory.WeirSylow.IsPlusType
         (Q.restrict (primaryComponent x.toLinearMap (X - 1)))

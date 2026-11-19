@@ -43,7 +43,7 @@ theorem off_okN3P : offCheck wN3P = true := by
   have hr : List.range 4096 = (List.range 4096).filter fun _ => true :=
     (List.filter_eq_self.2 fun _ _ => rfl).symm
   have hb : ∀ v < 4096, (2 ^ 4096 - 1 : ℕ).testBit v = (fun _ => true) v := fun v hv => by
-    simp [Nat.testBit_two_pow_sub_one, hv]
+    rw [Nat.testBit_two_pow_sub_one]; simp [hv]
   rw [offCheck, allRootsMinF_eq (base := List.range 4096) (fun v hv => List.mem_range.1 hv),
     invsOf_wN3P, allRootsMin, hr]
   simp only [commAbove, mulK_eq, rootCheck_eqM_proved sw_eqN3P hb]

@@ -14,17 +14,19 @@ namespace R38K
 
 variable {H : Type} [Group H] [Finite H]
 
+omit [Finite H] in
 theorem pow_three_of_mem_zpowers {b y : H} (hb3 : b ^ 3 = 1) (hy : y ∈ Subgroup.zpowers b) :
     y ^ 3 = 1 := by
   obtain ⟨i, rfl⟩ := Subgroup.mem_zpowers_iff.mp hy
   rw [← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast, hb3, one_zpow]
 
+omit [Finite H] in
 theorem cen_of_ctl {b β : H} (hb3 : b ^ 3 = 1) (hbβ : b * β = β * b) (hC : CtlEq b β)
     (hO : Odd (Nat.card (Opp 3 (Nor (Subgroup.zpowers β))))) {S : Subgroup H}
     (hS : IsPGroup 2 S) (hbS : b ∈ Nor S) {x : H} (hxS : x ∈ S) (hxβ : x * β = β * x) :
     x * b = b * x := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hxN : x ∈ Nor (Subgroup.zpowers β) := mem_Nor_zpowers_of_comm hxβ
   have hxmem : x ∈ setMul (Opp 3 (Nor (Subgroup.zpowers β)))
       (Nor (Subgroup.zpowers b) ⊓ Nor (Subgroup.zpowers β)) := by
@@ -94,6 +96,7 @@ theorem cen_of_ctl {b β : H} (hb3 : b ^ 3 = 1) (hbβ : b * β = β * b) (hC : C
 
 
 
+omit [Finite H] in
 theorem exists_beta {b c : H} (hb : orderOf b = 3) (hc : orderOf c = 3) (hbc : b * c = c * b)
     {a : H} (ha : a ∈ Subgroup.closure ({b, c} : Set H)) (ha1 : a ≠ 1) :
     b ∈ Subgroup.zpowers a ∨ c ∈ Subgroup.zpowers a ∨ b * c ∈ Subgroup.zpowers a ∨
@@ -154,6 +157,7 @@ theorem exists_beta {b c : H} (hb : orderOf b = 3) (hc : orderOf c = 3) (hbc : b
   · exact Or.inr (Or.inr (Or.inl (hpow (b ^ 2 * c ^ 2) (b * c) 2
       (by rw [(Commute.pow_pow hbc' 2 2).mul_pow 2, hb2, hc2]))))
 
+omit [Finite H] in
 theorem B_comm_gen {b c : H} (hbc : b * c = c * b) {u v : H}
     (hu : u ∈ Subgroup.closure ({b, c} : Set H)) (hv : v ∈ Subgroup.closure ({b, c} : Set H)) :
     u * v = v * u := by
@@ -177,6 +181,7 @@ theorem B_comm_gen {b c : H} (hbc : b * c = c * b) {u v : H}
     · exact Commute.zpow_zpow_self c j j'
   exact h1.eq
 
+omit [Finite H] in
 theorem B_pow_three_gen {b c : H} (hb3 : b ^ 3 = 1) (hc3 : c ^ 3 = 1) (hbc : b * c = c * b)
     {u : H} (hu : u ∈ Subgroup.closure ({b, c} : Set H)) : u ^ 3 = 1 := by
   have hcomm : ∀ a ∈ Subgroup.zpowers b, ∀ x ∈ Subgroup.zpowers c, Commute a x := by
@@ -189,6 +194,7 @@ theorem B_pow_three_gen {b c : H} (hb3 : b ^ 3 = 1) (hc3 : c ^ 3 = 1) (hbc : b *
   rw [(hcomm a ha x hx).mul_pow, pow_three_of_mem_zpowers hb3 ha, pow_three_of_mem_zpowers hc3 hx,
     mul_one]
 
+omit [Finite H] in
 theorem card_B_gen {b c : H} (hb : orderOf b = 3) (hc : orderOf c = 3) (hbc : b * c = c * b)
     (hdisj : Subgroup.zpowers b ⊓ Subgroup.zpowers c = ⊥) :
     Nat.card (Subgroup.closure ({b, c} : Set H)) = 9 := by
@@ -209,7 +215,7 @@ theorem le_cen_of_e9 {b c : H} (hb : orderOf b = 3) (hc : orderOf c = 3) (hbc : 
     {S : Subgroup H} (hS : IsPGroup 2 S) (hbS : b ∈ Nor S) (hcS : c ∈ Nor S) :
     ∀ x ∈ S, x * b = b * x := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hb3 : b ^ 3 = 1 := by rw [← hb]; exact pow_orderOf_eq_one b
   have hc3 : c ^ 3 = 1 := by rw [← hc]; exact pow_orderOf_eq_one c
   set B₀ : Subgroup H := Subgroup.closure ({b, c} : Set H) with hB₀
@@ -218,7 +224,7 @@ theorem le_cen_of_e9 {b c : H} (hb : orderOf b = 3) (hc : orderOf c = 3) (hbc : 
     rintro x (rfl | rfl)
     · exact hbS
     · exact hcS
-  haveI : IsElementaryAbelian 3 ↥B₀ :=
+  have : IsElementaryAbelian 3 ↥B₀ :=
     { toIsMulCommutative := ⟨⟨fun x y => Subtype.ext (B_comm_gen hbc x.2 y.2)⟩⟩
       exponent_dvd_p := Monoid.exponent_dvd_iff_forall_pow_eq_one.2
         (fun x => Subtype.ext (B_pow_three_gen hb3 hc3 hbc x.2)) }

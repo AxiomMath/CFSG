@@ -60,7 +60,7 @@ theorem exists_isSylowIn_preBarSub_le_normalizer (h : Hyp64 n M V₀ V g) (hgen 
     (hpX : p ∣ Nat.card Xbar) :
     ∃ P : Subgroup G, IsSylowIn p P (preBarSub M V₀ V h.elemAbelian Xbar) ∧
       P ≤ normalizer (NOf M V g : Set G) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpn := prime_dvd_two_pow_mQuot_sub_one h hgen hirr hY.1 hX1 hXM hXnorm hXB hp hpX
   have hpY : p ∣ Nat.card Y := by rw [hY.1.2.1]; exact hpn
   have hp2 : p ≠ 2 := by

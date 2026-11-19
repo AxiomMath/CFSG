@@ -24,7 +24,7 @@ theorem nq_index_two_centralizer_Sylow_transfer [Finite G] (T : Sylow 2 G) {M : 
       ((T : Subgroup G) ⊓ centralizer {u} = T → centralizer {u} ≤ M) := by
   set C := centralizer ({u} : Set G) with hC
   set Q := (T : Subgroup G) ⊓ C with hQdef
-  have hQp : IsPGroup 2 Q := T.isPGroup'.to_le inf_le_left
+  have hQp : IsPGroup 2 Q := T.isPGroup.to_le inf_le_left
   have huQ : u ∈ Q := mem_inf.2 ⟨huT, mem_centralizer_singleton_iff.2 rfl⟩
   refine ⟨⟨inf_le_right, hQp, fun hdvd => ?_⟩, fun hQT => ?_⟩
   ·
@@ -36,7 +36,7 @@ theorem nq_index_two_centralizer_Sylow_transfer [Finite G] (T : Sylow 2 G) {M : 
       rw [← h] at this
       exact this hdvd
     obtain ⟨a, ha⟩ := hQ'p.exists_card_eq
-    obtain ⟨b, hb⟩ := S'.isPGroup'.exists_card_eq
+    obtain ⟨b, hb⟩ := S'.isPGroup.exists_card_eq
     have hab : a < b := by
       have hle : a ≤ b := by
         have := card_dvd_of_le hS'
@@ -61,7 +61,7 @@ theorem nq_index_two_centralizer_Sylow_transfer [Finite G] (T : Sylow 2 G) {M : 
         _ = 2 * Nat.card Q := mul_comm _ _
     set S := (S' : Subgroup C).map C.subtype with hSdef
     have hScard : Nat.card S = Nat.card S' := card_map_of_injective C.subtype_injective
-    have hSp : IsPGroup 2 S := S'.isPGroup'.map _
+    have hSp : IsPGroup 2 S := S'.isPGroup.map _
     obtain ⟨P, hSP⟩ := hSp.exists_le_sylow
     have hPcard : Nat.card P = Nat.card T := by
       rw [Sylow.card_eq_multiplicity, Sylow.card_eq_multiplicity]

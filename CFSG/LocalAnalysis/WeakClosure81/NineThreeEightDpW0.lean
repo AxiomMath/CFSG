@@ -11,10 +11,11 @@ open scoped Pointwise commutatorElement IsMulCommutative
 
 variable {G : Type} [Group G] [Finite G] {V T A K S X : Subgroup G} {p : ℕ} {g x : G}
 
+omit [Finite G] in
 private theorem nine3_inf_eq_left_of_sup_eq {I J K W : Subgroup G}
     (hIcomm : IsMulCommutative ↥I) (hJ : J ≤ I) (hK : K ≤ I) (hsup : I = J ⊔ K)
     (hbot : K ⊓ W = ⊥) (hJW : J ≤ W) : I ⊓ W = J := by
-  haveI : IsMulCommutative ↥I := hIcomm
+  have : IsMulCommutative ↥I := hIcomm
   refine le_antisymm ?_ (le_inf hJ hJW)
   rintro x ⟨hxI, hxW⟩
   have hsup' : J.subgroupOf I ⊔ K.subgroupOf I = ⊤ := by

@@ -46,7 +46,7 @@ theorem dvd_two_pow_sq_sub_of_rk2Ord_six {p n : ℕ} (hp : p.Prime) (hp2 : p ≠
 
 theorem seven_le_of_rk2Ord_six {p n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (h : rk2Ord p n = 6) : 7 ≤ p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h2 : (2 : ZMod p) ≠ 0 := by
     intro h0
     have hd : p ∣ 2 := by

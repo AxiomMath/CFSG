@@ -34,7 +34,7 @@ theorem isBalSmall_of_g28CompType {X : Type} [Group X] {J : Subgroup X}
 theorem g28CompType_psl2 {E : Type} [Field E] [Finite E] (hE : Nat.card E = 8) :
     G28CompType (Matrix.SpecialLinearGroup (Fin 2) E ⧸
       Subgroup.center (Matrix.SpecialLinearGroup (Fin 2) E)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let q : TauCeti.PrimePower := ⟨2, 3, Nat.prime_two, by norm_num⟩
   have hv : (TauCeti.LieTypeIndex.A 1 q).Valid := by
     rw [TauCeti.LieTypeIndex.valid_iff, TauCeti.LieTypeIndex.inStandardRange_iff,
@@ -48,7 +48,7 @@ theorem g28CompType_psl2 {E : Type} [Field E] [Finite E] (hE : Nat.card E = 8) :
 
 theorem g28CompType_psu38 {E : Type} [Field E] [Finite E] (hE : Nat.card E = (2 ^ 3) ^ 2) :
     G28CompType (↥(StatedSU 3 (2 ^ 3) E) ⧸ Subgroup.center ↥(StatedSU 3 (2 ^ 3) E)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQ := CFSG.LieType.Universal.Unitary.isQuasisimple_statedSU_of_card (p := 2) (n := 3) hE
     le_rfl (by decide)
   let q : TauCeti.PrimePower := ⟨2, 3, Nat.prime_two, by norm_num⟩
@@ -62,8 +62,8 @@ theorem g28CompType_psu38 {E : Type} [Field E] [Finite E] (hE : Nat.card E = (2 
     norm_num
   obtain ⟨-, K₀, _, _, hK₀, ⟨e₀⟩⟩ :=
     CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA 2 q hv (MulEquiv.refl _)
-  haveI : Fintype K₀ := Fintype.ofFinite _
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype K₀ := Fintype.ofFinite _
+  have : Fintype E := Fintype.ofFinite E
   have hKK : Fintype.card E = Fintype.card K₀ := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hK₀, hE]
   let eK : E ≃+* K₀ := FiniteField.ringEquivOfCardEq hKK
@@ -86,8 +86,8 @@ theorem g28CompType_of_lieModel_u33 {Y : Type} [Group Y] (h : LieModel Y .PSU 3 
     norm_num
   obtain ⟨-, K₀, _, _, hK₀, ⟨e₀⟩⟩ :=
     CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA 2 q hv (MulEquiv.refl _)
-  haveI : Fintype K₀ := Fintype.ofFinite _
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype K₀ := Fintype.ofFinite _
+  have : Fintype F := Fintype.ofFinite F
   have hKK : Fintype.card F = Fintype.card K₀ := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hK₀, hF]
   let eK : F ≃+* K₀ := FiniteField.ringEquivOfCardEq hKK
@@ -103,7 +103,7 @@ theorem g28_compShape_threeA
     (hK : Nat.card K = 8) {z : adjointGroup .G2 K} (hzS : z ∈ g2ShortSL2 K) (hz3 : z ^ 3 = 1)
     (hz1 : z ≠ 1) :
     CompShape G28CompType (MulAut.conj z) := by
-  haveI : Finite (ModGL Tag.G2 K) := finite_modGL
+  have : Finite (ModGL Tag.G2 K) := finite_modGL
   set C := Subgroup.centralizer ({z} : Set (adjointGroup .G2 K)) with hCdef
   have hC : fixSubgroup (MulAut.conj z) = C := b3Lie_fixSubgroup_conj z
   have h3 : 3 ∣ Nat.card K + 1 := by norm_num [hK]
@@ -111,11 +111,11 @@ theorem g28_compShape_threeA
   have hq : CFSG.Open.IsQuasisimple ↥C :=
     (CFSG.ComponentClassification.AssemblyBPredicates.isQuasisimple_iff_native _).2
       (KS11Lie7Proof.isQuasisimple_centralizer_threeA h3 (by norm_num [hK]) hzS hz3 hz1)
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.HardMathSupport.Dickson.LocalTwoBalance.Cross.G2Aux.charP_two_of_even_natCard K
       (by rw [hK]; decide)
   obtain ⟨L, _, _, _, -, hdeg, -⟩ := exists_quadratic_ext' K
-  haveI : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
+  have : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
   obtain ⟨e⟩ := KS11Lie7Proof.nonempty_centralizer_mulEquiv_statedSU (p := 2) (f := 3)
     hK8 h3 hdeg hzS hz3 hz1
   have hT : G28CompType (↥C ⧸ Subgroup.center ↥C) :=
@@ -129,7 +129,7 @@ theorem g28_compShape_threeA
 theorem g28_compShape_threeB (hK : Nat.card K = 8) {z : adjointGroup .G2 K}
     (hzM : z ∈ g2LongSL2 K) (hz3 : z ^ 3 = 1) (hz1 : z ≠ 1) :
     CompShape G28CompType (MulAut.conj z) := by
-  haveI : Finite (ModGL Tag.G2 K) := finite_modGL
+  have : Finite (ModGL Tag.G2 K) := finite_modGL
   have hC : fixSubgroup (MulAut.conj z) = Subgroup.centralizer ({z} : Set (adjointGroup .G2 K)) :=
     b3Lie_fixSubgroup_conj z
   have hK4 : 4 ≤ Nat.card K := by norm_num [hK]
@@ -151,12 +151,12 @@ theorem g28_compShape_field (hK : Nat.card K = 2 ^ 3)
     {σ : K ≃+* K} (hσ : orderOf σ = 3) :
     CompShape G28CompType (entrywiseAdjointAut Tag.G2 σ) := by
   classical
-  haveI : Finite (ModGL Tag.G2 K) := finite_modGL
+  have : Finite (ModGL Tag.G2 K) := finite_modGL
   obtain ⟨-, hk, hJC, hfixeq, -, -, -, -, -, -, -, -, -⟩ :=
     even_G2_canonical_field_centralizer_all_orders (by norm_num : 2 ≤ 3) hK σ
   rw [hσ] at hk
   have hk2 : Nat.card (fixSubfield σ) = 2 := hk.trans (by norm_num)
-  haveI : Finite (fixSubfield σ) := Subtype.finite
+  have : Finite (fixSubfield σ) := Subtype.finite
   have hmemφ : ∀ a : adjointGroup Tag.G2 (fixSubfield σ),
       baseChangeGL (fixSubfield σ).subtype (a : ModGL Tag.G2 (fixSubfield σ)) ∈
         adjointGroup Tag.G2 K := fun a => hJC ⟨a, a.2, rfl⟩

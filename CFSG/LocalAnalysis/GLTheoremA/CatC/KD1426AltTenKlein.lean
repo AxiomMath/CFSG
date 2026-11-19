@@ -14,7 +14,7 @@ namespace CFSG.LocalAnalysis.GLTheoremA.KD1426AltTenKlein
 
 theorem card_le_nine_of_2520 {G : Type} [Group G] [Finite G] (hG : Nat.card G = 2520)
     {H : Subgroup G} (hH : ∀ g ∈ H, g ^ 3 = 1) : Nat.card H ≤ 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : IsPGroup 3 H := fun g => ⟨1, by
     apply Subtype.ext
     simpa using hH g.1 g.2⟩
@@ -23,7 +23,7 @@ theorem card_le_nine_of_2520 {G : Type} [Group G] [Finite G] (hG : Nat.card G = 
   rw [hm, hG] at hdvd
   have hm2 : m ≤ 2 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have h27 : 3 ^ 3 ∣ 3 ^ m := pow_dvd_pow 3 h
     have := dvd_trans h27 hdvd
     norm_num at this
@@ -66,7 +66,7 @@ theorem decomp_P {σ : ↥(alternatingGroup (Fin 10))} (h3 : σ ^ 3 = 1)
   rw [h2, Perm.mul_apply, h1, Equiv.Perm.inv_eq_iff_eq]
 
 theorem altFix_comm_pow {σ : ↥(alternatingGroup (Fin 10))}
-    (hc : ((σ : ↥(alternatingGroup (Fin 10))) : Equiv.Perm (Fin 10)).support.card = 3)
+    (_hc : ((σ : ↥(alternatingGroup (Fin 10))) : Equiv.Perm (Fin 10)).support.card = 3)
     {u : ↥(alternatingGroup (Fin 10))} (hu : u ∈ altFix (σ : Equiv.Perm (Fin 10))) (j : ℕ) :
     σ ^ j * u = u * σ ^ j := by
   have hle : altFix (σ : Equiv.Perm (Fin 10)) ≤
@@ -144,7 +144,7 @@ theorem klein_on_P {σ : ↥(alternatingGroup (Fin 10))} (h3 : σ ^ 3 = 1)
   · intro t ht
     obtain ⟨s, _, rfl⟩ := Subgroup.mem_map.1 ht
     have := (R.symm s).2
-    simpa [hψ0] using this
+    simp [hψ0]
   ·
     intro x hx t ht
     obtain ⟨s, hs, rfl⟩ := Subgroup.mem_map.1 ht

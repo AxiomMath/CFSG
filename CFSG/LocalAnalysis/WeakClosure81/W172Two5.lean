@@ -26,7 +26,7 @@ theorem w172_exists_odd_faithful {Γ : Type} [Group Γ] [Finite Γ] {L : Subgrou
   refine ⟨CFSG.fittingSubgroupOf L, Subgroup.map_subtype_le _, ?_, ?_, ?_⟩
   · exact CFSG.GorensteinWalter.le_normalizer_of_isNormalIn
       (CFSG.GorensteinWalter.fittingSubgroupOf_isNormalIn L)
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     set F : Subgroup ↥L := CFSG.fittingSubgroup ↥L with hF
     have hcard : Nat.card (CFSG.fittingSubgroupOf L) = Nat.card F :=
       Subgroup.card_map_of_injective (K := CFSG.fittingSubgroup ↥L) (f := L.subtype)
@@ -48,14 +48,14 @@ theorem w172_exists_odd_faithful {Γ : Type} [Group Γ] [Finite Γ] {L : Subgrou
       rw [hNdef, ← Subgroup.normalizer_eq_top_iff, eq_top_iff]
       have hFtop : Subgroup.normalizer (F : Set ↥L) = ⊤ :=
         Subgroup.normalizer_eq_top_iff.mpr hFnorm
-      haveI : (S : Subgroup F).Characteristic := hSchar
+      have : (S : Subgroup F).Characteristic := hSchar
       calc (⊤ : Subgroup ↥L) = Subgroup.normalizer (F : Set ↥L) := hFtop.symm
         _ ≤ Subgroup.normalizer (((S : Subgroup F).map F.subtype : Subgroup ↥L) :
               Set ↥L) :=
             CFSG.LieType.BorelTits.normalizer_le_normalizer_map_of_characteristic (S : Subgroup F)
     have hN2 : IsPGroup 2 N := by
       rw [hNdef]
-      exact S.isPGroup'.map F.subtype
+      exact S.isPGroup.map F.subtype
     have hNcore : N ≤ CFSG.pCore 2 ↥L := CFSG.LieType.BorelTits.le_pCore 2 hNnorm hN2
     have hNbot : N = ⊥ := by
       rw [hcore] at hNcore
@@ -172,13 +172,13 @@ theorem w172_two5 (h162 : W3Thm162Gt2 G) (c : MinCex172 D V₀ V H) {g : G}
   have hAab : IsElemAbelian 2 (vInH V H g) :=
     (E3.isElemAbelian_conjSubgroup c.hyp.setting.isElemAbelian g).mono inf_le_left
   obtain ⟨hquad, hcond, hTI⟩ := w172_two5_hyps h162 c hg M
-  haveI : Group.IsSolvable ↥H := c.solv
+  have : Group.IsSolvable ↥H := c.solv
   have hsolv : Group.IsSolvable ↥(M.img H) := by
     have h : M.img H = M.ρ.range := by
       unfold ModDataE.img
       rw [Subgroup.subgroupOf_self, ← MonoidHom.range_eq_map]
     rw [h]
-    exact solvable_of_surjective (MonoidHom.rangeRestrict_surjective M.ρ)
+    exact Group.isSolvable_of_surjective (MonoidHom.rangeRestrict_surjective M.ρ)
   have hZcent : D.T ≤ Subgroup.centralizer (omegaOneCenterOf D.T : Set G) := by
     intro t ht
     rw [Subgroup.mem_centralizer_iff]

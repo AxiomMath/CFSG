@@ -14,6 +14,7 @@ open CFSG.LocalAnalysis.UniquenessCase.PartOne.Section7 (StronglyEmbeddedFive)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem conj_mem_center_map_of_mem_normalizer {R : Subgroup G} {a z : G}
     (han : a ∈ Subgroup.normalizer (R : Set G))
     (hz : z ∈ (Subgroup.center ↥R).map R.subtype) :
@@ -39,12 +40,14 @@ private theorem conj_mem_center_map_of_mem_normalizer {R : Subgroup G} {a z : G}
     _ = a * ((c : G) * (a⁻¹ * (s : G) * a)) * a⁻¹ := by rw [h2]
     _ = (a * (c : G) * a⁻¹) * (s : G) := by group
 
+omit [Finite G] in
 private theorem le_normalizer_center_map (R : Subgroup G) :
     R ≤ Subgroup.normalizer ((Subgroup.center ↥R).map R.subtype : Set G) := by
   rw [Subgroup.le_normalizer_iff]
   intro r hr k hk
   exact conj_mem_center_map_of_mem_normalizer (Subgroup.le_normalizer hr) hk
 
+omit [Finite G] in
 private theorem le_normalizer_center_map_of_le_normalizer {R A : Subgroup G}
     (hAN : A ≤ Subgroup.normalizer (R : Set G)) :
     A ≤ Subgroup.normalizer ((Subgroup.center ↥R).map R.subtype : Set G) := by

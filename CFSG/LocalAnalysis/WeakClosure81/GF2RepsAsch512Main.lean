@@ -47,7 +47,7 @@ theorem asch5_12_of_inputs (hA : Asch80L3EpsWreathed) (hS : L3EpsWreathedNoCalL1
   · exact ⟨calNIn_eq_lGen_of_isSolvable hTH hne, Or.inl hHs⟩
   have hRs : Group.IsSolvable ↥(relPPrimeCore 3 H) := isSolvable_relPPrimeCore_three hK hno
   have hRH : relPPrimeCore 3 H ≤ H := relPPrimeCore_le_ambient 3 H
-  haveI hRn : ((relPPrimeCore 3 H).subgroupOf H).Normal := normal_subgroupOf_relPPrimeCore 3 H
+  have hRn : ((relPPrimeCore 3 H).subgroupOf H).Normal := normal_subgroupOf_relPPrimeCore 3 H
   have hHR : ¬ H ≤ relPPrimeCore 3 H := fun hle =>
     hHs (Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hle))
   let π := QuotientGroup.mk' ((relPPrimeCore 3 H).subgroupOf H).normalCore
@@ -57,10 +57,10 @@ theorem asch5_12_of_inputs (hA : Asch80L3EpsWreathed) (hS : L3EpsWreathedNoCalL1
   obtain ⟨hEs, hEnab, hEC⟩ := genFittingFStar_simple_of_pRank_three_le_one
     (pPrimeCore_three_quot_relPPrimeCore_eq_bot H)
     ((pRank_three_quot_relPPrimeCore_le H).trans h3) hYns
-  haveI : (CFSG.Open.genFittingFStar
+  have : (CFSG.Open.genFittingFStar
       (↥H ⧸ ((relPPrimeCore 3 H).subgroupOf H).normalCore)).Normal :=
     CFSG.ComponentClassification.GeneralizedFitting.normal _
-  haveI := hEs
+  have := hEs
   have hEno : ¬ IsCalL1 ↥(CFSG.Open.genFittingFStar
       (↥H ⧸ ((relPPrimeCore 3 H).subgroupOf H).normalCore)) := fun h =>
     hno ⟨_, inferInstance, isCompositionFactor_of_quot (isCompositionFactor_self_of_normal _ hEs), h⟩
@@ -87,7 +87,7 @@ theorem asch5_12_of_inputs (hA : Asch80L3EpsWreathed) (hS : L3EpsWreathedNoCalL1
   rcases asch512_quot hA hS hEs hEnab hEC hq hKE h3E hTb hEno with ⟨hcf, hshape⟩ | hgen
   · have hnoX : ∀ X : Subgroup G, T ≤ X → X ≤ H → ¬ HasCompFactor X IsCalL1 := by
       rintro X hTX hXH ⟨L, _, hcfX, hL⟩
-      haveI : Finite L := isCompositionFactor_finite hcfX
+      have : Finite L := isCompositionFactor_finite hcfX
       have h1 := isCompositionFactor_map_of_le hRs hXH hcfX (exists_mul_ne_of_isCalL1 hL)
       have hTX' : (T.subgroupOf H).map π ≤ (X.subgroupOf H).map π :=
         Subgroup.map_mono (fun t ht => by

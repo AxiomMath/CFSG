@@ -62,7 +62,7 @@ noncomputable def commutatorMatrixOrthogonalEquivProj :
 
 theorem isSimpleGroup_commutator_matrixOrthogonal :
     IsSimpleGroup ↥(commutator ↥(matrixOrthogonal Q0)) := by
-  haveI : IsSimpleGroup (StatedProj (StatedOmega Q0)) :=
+  have : IsSimpleGroup (StatedProj (StatedOmega Q0)) :=
     CFSG.ClassicalGroups.Orthogonal.isSimpleGroup_statedProj_statedOmega_quadPlus (K := ZMod 2)
       (n := 4) (by norm_num)
   exact commutatorMatrixOrthogonalEquivProj.isSimpleGroup

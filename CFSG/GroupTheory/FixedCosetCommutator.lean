@@ -18,16 +18,16 @@ theorem exists_commutatorElement_mem_of_isPGroup [Finite G] {p : ℕ} [Fact p.Pr
   classical
   have hKnormal : (K₀.subgroupOf Q).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hK₀Q.le).mpr hQK
-  letI : (K₀.subgroupOf Q).Normal := hKnormal
+  let : (K₀.subgroupOf Q).Normal := hKnormal
   let φ : P →* MulAut ↥Q :=
     (Subgroup.normalizerMonoidHom Q).comp (Subgroup.inclusion hPQ)
-  letI : MulAction P ↥Q := MulAction.compHom ↥Q φ
+  let : MulAction P ↥Q := MulAction.compHom ↥Q φ
   have hsmul : ∀ (x : P) (q : ↥Q), ((x • q : ↥Q) : G) = (x : G) * (q : G) * (x : G)⁻¹ := by
     intro x q
     rw [MulAction.compHom_smul_def]
     exact Subgroup.normalizerMonoidHom_apply_apply_coe Q (Subgroup.inclusion hPQ x) q
   let R := ↥Q ⧸ K₀.subgroupOf Q
-  letI : MulAction.QuotientAction P (K₀.subgroupOf Q) :=
+  let : MulAction.QuotientAction P (K₀.subgroupOf Q) :=
     ⟨fun x y z hyz => by
       rw [Subgroup.mem_subgroupOf] at hyz
       have hyz' : (y : G)⁻¹ * (z : G) ∈ K₀ := by simpa using hyz
@@ -126,7 +126,7 @@ private theorem exists_fixed_subgroup {L Q K₀ : Subgroup G} {c : G}
       one_mem' := by simp
       mul_mem' := by
         intro a b ha hb
-        rw [Set.mem_setOf_eq] at ha hb
+        rw [Set.mem_ofPred_eq] at ha hb
         refine ⟨Q.mul_mem ha.1 hb.1, ?_⟩
         rw [commutatorElement_mul_right_eq_mul_conj]
         have hconj : a * ⁅c, b⁆ * a⁻¹ ∈ K₀ :=
@@ -134,7 +134,7 @@ private theorem exists_fixed_subgroup {L Q K₀ : Subgroup G} {c : G}
         exact (by simpa [mul_assoc] using K₀.mul_mem ha.2 hconj)
       inv_mem' := by
         intro a ha
-        rw [Set.mem_setOf_eq] at ha
+        rw [Set.mem_ofPred_eq] at ha
         refine ⟨Q.inv_mem ha.1, ?_⟩
         rw [commutatorElement_inv_right, ← commutatorElement_inv]
         simpa using (Subgroup.mem_normalizer_iff.mp (hQK (Q.inv_mem ha.1)) ⁅c, a⁆⁻¹).mp

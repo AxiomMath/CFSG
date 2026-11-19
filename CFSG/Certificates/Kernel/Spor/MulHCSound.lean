@@ -19,7 +19,7 @@ theorem clRK_find {n w k K cnt : Nat} {GI GJ T PL POS SRT SRI CL : Nat → Nat}
   unfold clRK at h
   rw [strictB_eq, bIf_eq] at h
   by_cases hj : Nat.blt (Nat.mod c K) k = true
-  · rw [if_pos hj] at h
+  · rw [ite_eq_left hj] at h
     have hjk : c % K < k := Nat.blt_eq.mp hj
     have hi : c / K < cnt := Nat.div_lt_of_lt_mul (by rw [Nat.mul_comm]; exact hc)
     obtain ⟨hq, hT⟩ := (CFSG.KS.PEnumR.penumPtR_spec (hb _ hi)).2 _ hjk
@@ -34,7 +34,7 @@ theorem clRK_find {n w k K cnt : Nat} {GI GJ T PL POS SRT SRI CL : Nat → Nat}
     unfold findPtK
     rw [strictB_eq, bAnd_eq, Bool.and_eq_true, hpos, eQ, hT]
     exact ⟨Nat.blt_eq.mpr hq, Nat.beq_refl _⟩
-  · rw [if_neg hj] at h
+  · rw [ite_eq_right hj] at h
     exact h
 
 end CFSG.KS.MulH

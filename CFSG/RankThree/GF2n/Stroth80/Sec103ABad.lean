@@ -66,6 +66,7 @@ theorem BadA.comm_of_mem (D : BadA hc n t Y) {a a' : G} (ha : a ∈ Q ⊓ QB Y)
   rw [Z_inf_QB_eq_bot D.hs (smith_1_12 D.hs), Subgroup.mem_bot] at h1
   exact commutatorElement_eq_one_iff_mul_comm.mp h1
 
+omit [Finite G] in
 theorem BadA.comm_mem_Q (D : BadA hc n t Y) {c : G} (hcQ : c ∈ Q) : ⁅t, c⁆ ∈ Q := by
   rw [← commutatorElement_inv]
   exact Q.inv_mem (hc.comm_mem_Q D.ht.2.1 hcQ)
@@ -205,9 +206,9 @@ theorem BadA.card (D : BadA hc n t Y) :
       Nat.card Z ^ (m + 1) ≤ Nat.card ↥(Q ⊓ QB Y) := by
   obtain ⟨m, hm, hsl⟩ := SLlike.exists_SLMNat (D.H.slLike D.ht)
   obtain ⟨K, fK, finK, chK, γ, M₀, hD⟩ := stroth_globalModelData hc.hyp
-  letI := fK
-  letI := finK
-  letI := chK
+  let := fK
+  let := finK
+  let := chK
   have hA₀card := BadA.card_inf_eq D (M₀ := M₀) hsl
   obtain ⟨d, hcardA, hmd⟩ := BadA.exists_finrank_gt D hD hA₀card
   refine ⟨m, hm, hA₀card, ?_⟩

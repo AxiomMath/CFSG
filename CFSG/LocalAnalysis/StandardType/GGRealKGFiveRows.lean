@@ -54,11 +54,11 @@ private theorem two_dvd_card_sz {a : ℕ} {K : Type} [Field K] [Finite K]
   let e : LargeEvenCenterQuot (LargeEvenSzGroup a K) ≃* LargeEvenSzGroup a K :=
     (QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot
   rw [Nat.card_congr e.toEquiv, largeEvenSzGroup_eq]
-  letI : Nontrivial (CFSG.Blueprint.suzukiGroup a K) :=
+  let : Nontrivial (CFSG.Blueprint.suzukiGroup a K) :=
     (CFSG.LieType.Ree.suzuki_simple ha hK).2.1
-  letI : Group.IsPerfect (CFSG.Blueprint.suzukiGroup a K) :=
+  let : Group.IsPerfect (CFSG.Blueprint.suzukiGroup a K) :=
     (CFSG.LieType.Ree.suzuki_perfect ha hK).2
-  letI : Finite (CFSG.Blueprint.suzukiGroup a K) :=
+  let : Finite (CFSG.Blueprint.suzukiGroup a K) :=
     (CFSG.LieType.Ree.suzuki_simple ha hK).1
   exact two_dvd_card_of_perfect
 
@@ -68,18 +68,18 @@ private theorem two_dvd_card_triD4 {n : ℕ} (hn : 1 ≤ n) {K : Type} [Field K]
       (LargeEvenCenterQuot (LargeEvenTwistedH LargeEvenCartanD4 K LargeEvenRhoD4 n)) := by
   obtain ⟨e⟩ := TableBExcSmallRest.nonempty_triD4_equiv hn K hK σ hσ
   rw [Nat.card_congr e.toEquiv]
-  haveI : Finite (CFSG.Blueprint.Chevalley.ModGL CFSG.Blueprint.Chevalley.TwistTag.D4.tag K) :=
+  have : Finite (CFSG.Blueprint.Chevalley.ModGL CFSG.Blueprint.Chevalley.TwistTag.D4.tag K) :=
     CFSG.LieType.Chevalley.finite_modGL
-  haveI : Finite (CFSG.LieType.Chevalley.graphFixedRootGroup CFSG.Blueprint.Chevalley.TwistTag.D4 K
+  have : Finite (CFSG.LieType.Chevalley.graphFixedRootGroup CFSG.Blueprint.Chevalley.TwistTag.D4 K
       σ.toRingHom) := Subtype.finite
   obtain ⟨hperf, ⟨x, hx, y, hy, hxy⟩, -⟩ :=
     CFSG.LieType.Chevalley.finite_fixed_root_group_perfect
       (t := CFSG.Blueprint.Chevalley.TwistTag.D4) (p := 2) (f := n)
       Nat.prime_two hn K
       (by simpa only [CFSG.Blueprint.Chevalley.TwistTag.order] using hK) σ.toRingHom hσ
-  letI : Group.IsPerfect (CFSG.LieType.Chevalley.graphFixedRootGroup
+  let : Group.IsPerfect (CFSG.LieType.Chevalley.graphFixedRootGroup
       CFSG.Blueprint.Chevalley.TwistTag.D4 K σ.toRingHom) := Subgroup.isPerfect_iff.mpr hperf
-  letI : Nontrivial (CFSG.LieType.Chevalley.graphFixedRootGroup
+  let : Nontrivial (CFSG.LieType.Chevalley.graphFixedRootGroup
       CFSG.Blueprint.Chevalley.TwistTag.D4 K σ.toRingHom) :=
     ⟨⟨x, hx⟩, ⟨y, hy⟩, fun h => hxy (by
       have hxy' : x = y := congrArg Subtype.val h
@@ -93,13 +93,13 @@ private theorem two_dvd_card_twF4 {a : ℕ} {K : Type} [Field K] [Finite K]
     2 ∣ Nat.card (LargeEvenCenterQuot (LargeEvenTwF4H a K)) := by
   obtain ⟨e⟩ := TableBExcSmallRest.nonempty_twF4_equiv ha K hK
   rw [Nat.card_congr e.toEquiv]
-  haveI : Finite (CFSG.Blueprint.Chevalley.ModGL CFSG.LieType.Ree.ReeTag.F4.tag K) :=
+  have : Finite (CFSG.Blueprint.Chevalley.ModGL CFSG.LieType.Ree.ReeTag.F4.tag K) :=
     CFSG.LieType.Chevalley.finite_modGL
-  haveI : Finite (CFSG.LieType.Ree.ReeTag.F4.reeGamma K a) := Subtype.finite
-  letI : Group.IsPerfect (CFSG.LieType.Ree.ReeTag.F4.reeGamma K a) :=
+  have : Finite (CFSG.LieType.Ree.ReeTag.F4.reeGamma K a) := Subtype.finite
+  let : Group.IsPerfect (CFSG.LieType.Ree.ReeTag.F4.reeGamma K a) :=
     ⟨CFSG.LieType.Ree.ReeTag.commutator_reeGamma_eq_top (t := CFSG.LieType.Ree.ReeTag.F4)
       ha (show Nat.card K = CFSG.LieType.Ree.ReeTag.F4.prime ^ (2 * a + 1) from hK)⟩
-  letI : Nontrivial (CFSG.LieType.Ree.ReeTag.F4.reeGamma K a) :=
+  let : Nontrivial (CFSG.LieType.Ree.ReeTag.F4.reeGamma K a) :=
     CFSG.LieType.Ree.ReeTag.nontrivial_reeGamma (t := CFSG.LieType.Ree.ReeTag.F4)
   exact two_dvd_card_of_perfect
 
@@ -119,7 +119,7 @@ theorem ggRealRootSL2On_small :
   · intro Q hQ
     obtain ⟨K, i1, i2, hK, hQ', hpc⟩ :=
       (NbrInnerNine.largeEvenLabelAll_card_lt_G2_all (lab := ⟨.G2, l, n⟩) hp hp2 rfl) Q hQ
-    haveI : CharP K 2 := charP_two_of_card hK
+    have : CharP K 2 := charP_two_of_card hK
     refine ⟨K, i1, i2, hK, hQ', 0, TypeA.ggTorusLift_zero (two_dvd_card_chevG2 (K := K)), ?_⟩
     intro L' _ _ ψ A hA
     exact (ggTorusTBGroup_false_of_card_lt hpc hA).elim
@@ -129,7 +129,7 @@ theorem ggRealRootSL2On_small :
     intro Q hQ
     obtain ⟨K, i1, i2, hK, hQ', hpc⟩ :=
       (NbrInnerNine.largeEvenLabelAll_card_lt_triD4_of hp hlab rfl (Or.inr hpq)) Q hQ
-    haveI : CharP K 2 := charP_two_of_card (m := n * 3) (by rw [hK, pow_mul])
+    have : CharP K 2 := charP_two_of_card (m := n * 3) (by rw [hK, pow_mul])
     set σ := iterateFrobeniusEquiv K 2 n with hσdef
     have hσ : ∀ c, σ c = c ^ 2 ^ n := fun c => by
       rw [hσdef, iterateFrobeniusEquiv_apply, iterateFrobenius_def]
@@ -154,7 +154,7 @@ theorem ggRealRootSL2On_small :
     obtain ⟨K, i1, i2, hK, hQ', hpc⟩ := hcard Q hQ
     have hn3 : 3 ≤ n := hlab.2.2.2
     have ha : 1 ≤ (n - 1) / 2 := by omega
-    haveI : CharP K CFSG.LieType.Ree.ReeTag.F4.prime := charP_two_of_card hK
+    have : CharP K CFSG.LieType.Ree.ReeTag.F4.prime := charP_two_of_card hK
     refine ⟨K, i1, i2, hK, hQ', 0, TypeA.ggTorusLift_zero (two_dvd_card_twF4 ha hK), ?_⟩
     intro L' _ _ ψ A hA
     exact (ggTorusTBGroup_false_of_card_lt hpc hA).elim

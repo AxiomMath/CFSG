@@ -55,8 +55,8 @@ theorem frobeniusComplementChar_eq_character (C : Subgroup Q) :
   congr 1
   refine Finset.sum_congr rfl fun t _ => ?_
   by_cases h : t⁻¹ * x * t ∈ C
-  · rw [dif_pos h, ← InducedCharacterConstruction.subgroupExtend_coe C 1 ⟨_, h⟩]
-  · rw [dif_neg h, InducedCharacterConstruction.subgroupExtend_of_notMem C 1 h]
+  · rw [dite_eq_left h, ← InducedCharacterConstruction.subgroupExtend_coe C 1 ⟨_, h⟩]
+  · rw [dite_eq_right h, InducedCharacterConstruction.subgroupExtend_of_notMem C 1 h]
 
 theorem cfInner_frobeniusComplementChar_one (C : Subgroup Q) :
     cfInner (frobeniusComplementChar C) (1 : Q → ℂ) = 1 := by
@@ -79,6 +79,7 @@ noncomputable def conjAutOn (U C : Subgroup Q) [U.Normal] : C →* MulAut U :=
   (MulAut.conjNormal (H := U)).comp C.subtype
 
 omit [Fintype Q] in
+omit [U.Normal] in
 theorem conjAutOn_apply_coe [U.Normal] (c : C) (v : U) :
     ((conjAutOn U C c v : U) : Q) = (c : Q) * (v : Q) * (c : Q)⁻¹ :=
   MulAut.conjNormal_apply _ _
@@ -135,6 +136,7 @@ theorem mem_iff_conj_mem {c : Q} (hc : c ∈ C) (hc1 : c ≠ 1) (t : Q) :
   simpa [eq_one_of_mem_of_conj_mem hUC hfree hc hc1 hv' hvc] using hb'
 
 include hUC in
+omit [U.Normal] in
 theorem frobeniusComplementChar_one : frobeniusComplementChar C 1 = (Nat.card U : ℂ) := by
   have hC : (Nat.card C : ℂ) ≠ 0 := Nat.cast_ne_zero.2 Nat.card_pos.ne'
   rw [frobeniusComplementChar, indClassFun_one, Pi.one_apply, mul_one, ← hUC.card_mul_card]
@@ -200,24 +202,24 @@ theorem cfInner_frobeniusComplementChar_self :
       = if x ∈ U then (if x = 1 then (Nat.card U : ℂ) ^ 2 else 0) else 1 := by
     intro x
     by_cases hx : x ∈ U
-    · rw [if_pos hx]
+    · rw [ite_eq_left hx]
       by_cases hx1 : x = 1
-      · rw [if_pos hx1, hx1, frobeniusComplementChar_one hUC]; norm_num
-      · rw [if_neg hx1, frobeniusComplementChar_eq_zero hUC hx hx1]; norm_num
-    · rw [if_neg hx, frobeniusComplementChar_eq_one_of_notMem hUC hfree hx]; norm_num
+      · rw [ite_eq_left hx1, hx1, frobeniusComplementChar_one hUC]; norm_num
+      · rw [ite_eq_right hx1, frobeniusComplementChar_eq_zero hUC hx hx1]; norm_num
+    · rw [ite_eq_right hx, frobeniusComplementChar_eq_one_of_notMem hUC hfree hx]; norm_num
   rw [cfInner_self_eq_sum_norm_sq, Finset.sum_congr rfl fun x _ => hval x,
     ← Finset.sum_filter_add_sum_filter_not Finset.univ (fun x : Q => x ∈ U)]
   have hA : ∑ x ∈ Finset.univ.filter (fun x : Q => x ∈ U),
       (if x ∈ U then (if x = 1 then (Nat.card U : ℂ) ^ 2 else 0) else 1)
       = (Nat.card U : ℂ) ^ 2 := by
-    rw [Finset.sum_congr rfl fun x hx => by rw [if_pos (Finset.mem_filter.mp hx).2],
+    rw [Finset.sum_congr rfl fun x hx => by rw [ite_eq_left (Finset.mem_filter.mp hx).2],
       Finset.sum_ite_eq' (Finset.univ.filter (fun x : Q => x ∈ U)) (1 : Q)
         (fun _ => (Nat.card U : ℂ) ^ 2)]
     simp
   have hB : ∑ x ∈ Finset.univ.filter (fun x : Q => ¬ x ∈ U),
       (if x ∈ U then (if x = 1 then (Nat.card U : ℂ) ^ 2 else 0) else 1)
       = ((Finset.univ.filter (fun x : Q => ¬ x ∈ U)).card : ℂ) := by
-    rw [Finset.sum_congr rfl fun x hx => by rw [if_neg (Finset.mem_filter.mp hx).2],
+    rw [Finset.sum_congr rfl fun x hx => by rw [ite_eq_right (Finset.mem_filter.mp hx).2],
       Finset.sum_const, nsmul_eq_mul, mul_one]
   rw [hA, hB]
   have hcardU : (Finset.univ.filter (fun x : Q => x ∈ U)).card = Nat.card U := by

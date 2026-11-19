@@ -381,7 +381,7 @@ theorem maximal (hnc : ¬ SubConj F.E₁ F.E₂) {Q : Subgroup X} (hQ : IsPGroup
 noncomputable def sylow (hnc : ¬ SubConj F.E₁ F.E₂) : Sylow 2 X where
   toSubgroup := C.D₁.S₁
   maximal_isPGroup.left := C.D₁.isPGroup_S₁
-  maximal_isPGroup.right Q hQ hle := le_of_eq (C.maximal hnc hQ hle)
+  maximal_isPGroup.right _Q hQ hle := le_of_eq (C.maximal hnc hQ hle)
 
 include C in
 theorem false_of [IsSimpleGroup X] (hX : ∃ a b : X, a * b ≠ b * a)

@@ -143,7 +143,7 @@ private lemma exists_root_element (c : SpChart hC B.hα k F) (g : G)
     simpa [a_v] using h1
   exact ⟨s₀, τ, hs₀, hτU, hτlin, hcommV, hτcomm⟩
 
-omit [DecidableEq F] in
+omit [DecidableEq F] [Finite G] in
 private lemma local_iso_form_vector (c : SpChart hC B.hα k F) (g : G)
     {Q₀ : QuadraticForm F (Fin k ⊕ Fin k → F)} {γ : MSpace k F ≃ₗ[F] MSpace k F}
     {A : (Fin k ⊕ Fin k → F) → (Fin k ⊕ Fin k → F)} {τ : MGroup Q₀}
@@ -198,7 +198,7 @@ private theorem second_eq_spForm {Q₀ : QuadraticForm F (Fin k ⊕ Fin k → F)
   rw [polar_mForm hQ₀]
   simp [mLift]
 
-omit [DecidableEq F] in
+omit [DecidableEq F] [Finite G] in
 private lemma mStabForm_eq_formOfLine (c : SpChart hC B.hα k F)
     {Q₀ : QuadraticForm F (Fin k ⊕ Fin k → F)}
     (hQ₀ : ∀ a b, polar Q₀ a b = spForm k F a b) (g : G)
@@ -250,6 +250,7 @@ private lemma mStabForm_eq_formOfLine (c : SpChart hC B.hα k F)
   rw [hA₀form z hz hzd Q ⟨hQpol, hQline⟩ a, hstab a, hsymm a, hs₀]
   ring
 
+omit [Finite G] in
 private theorem exists_psi_eq_of_mem_commSet_mRefl (c : SpChart hC B.hα k F) {g : G}
     (hk : 2 ≤ k) {Q₀ : QuadraticForm F (Fin k ⊕ Fin k → F)}
     (hQ₀ : ∀ a b, polar Q₀ a b = spForm k F a b)

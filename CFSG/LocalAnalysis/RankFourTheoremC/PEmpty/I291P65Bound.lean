@@ -24,6 +24,7 @@ noncomputable def Sb (b : G) : Submodule (ZMod 2) (FV Q) :=
 noncomputable def Ub (z b : G) : Submodule (ZMod 2) (FV Q) :=
   (Sb Q b).map (rep Q z - 1)
 
+omit [Q.Normal] in
 theorem mem_Sb {b : G} {v : FV Q} :
     v ∈ Sb Q b ↔ ∃ c : ↥Q, (c : G) ∈ centralizer ({b} : Set G) ∧ piV Q c = v := by
   unfold Sb
@@ -34,6 +35,7 @@ theorem mem_Sb {b : G} {v : FV Q} :
   · rintro ⟨c, hc, h⟩
     exact ⟨c, Subgroup.mem_subgroupOf.2 ⟨c.2, hc⟩, h⟩
 
+omit [Q.Normal] in
 theorem Sb_mono {b b' : G} (h : centralizer ({b} : Set G) ≤ centralizer ({b'} : Set G)) :
     Sb Q b ≤ Sb Q b' := by
   intro v hv
@@ -44,6 +46,7 @@ theorem Ub_mono (z : G) {b b' : G}
     (h : centralizer ({b} : Set G) ≤ centralizer ({b'} : Set G)) : Ub Q z b ≤ Ub Q z b' :=
   Submodule.map_mono (Sb_mono Q h)
 
+omit [Finite G] in
 theorem centralizer_le_of_mem_zpowers {b y : G} (hy : y ∈ zpowers b) :
     centralizer ({b} : Set G) ≤ centralizer ({y} : Set G) := by
   intro c hc
@@ -124,7 +127,7 @@ theorem Ub_le_map_of_conj {z x y g : G} (hg : g * z = z * g)
 theorem finrank_Ub_le_four_x {T : Subgroup G} (hQT : Q ≤ T) {z x : G}
     (hR32 : Nat.card (Rsub T z x) ≤ 32) (hsq : ∃ r ∈ Rsub T z x, r ^ 2 ≠ 1) :
     Module.finrank (ZMod 2) (Ub Q z x) ≤ 4 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQ : IsPGroup 2 ↥Q := Fact.out
   have hE : ∀ e : ↥Q ⧸ frattini ↥Q, e ^ 2 = 1 :=
     (CFSG.GroupTheory.frattini_elementary_quotient hQ).2.2.1
@@ -162,7 +165,7 @@ theorem finrank_range_le_twenty {P : Sylow 5 G} {x z : G} {T : Subgroup G}
     Module.finrank (ZMod 2) (LinearMap.range (rep Q z - 1)) ≤ 20 := by
   classical
   have hp5 : Nat.Prime 5 := by norm_num
-  haveI : Fact (Nat.Prime 5) := ⟨hp5⟩
+  have : Fact (Nat.Prime 5) := ⟨hp5⟩
   obtain ⟨hxP, hzP, hxp, hzp, hx1, hz1⟩ := plane_facts hp5 hB
   have hQ : IsPGroup 2 ↥Q := Fact.out
   have hQcop : ¬ 5 ∣ Nat.card Q := by

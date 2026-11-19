@@ -56,7 +56,7 @@ theorem exists_sylow_B [Finite G] (hF : FFacts) (hH : HFacts) (Y : C.Y1) :
     exact r.2
   have hPcard : Nat.card P = 64 := by
     rw [hP, Subgroup.card_map_of_injective Y.B.subtype_injective, hRcard]
-  have hPp : IsPGroup 2 P := R.isPGroup'.map Y.B.subtype
+  have hPp : IsPGroup 2 P := R.isPGroup.map Y.B.subtype
   have hPs : P ≤ centralizer ({C.s} : Set G) := fun p hp => (hPB hp).2
   set P' : Subgroup ↥(centralizer ({C.s} : Set G)) :=
     P.subgroupOf (centralizer ({C.s} : Set G)) with hP'
@@ -69,7 +69,7 @@ theorem exists_sylow_B [Finite G] (hF : FFacts) (hH : HFacts) (Y : C.Y1) :
   obtain ⟨Q, hQ⟩ := hP'p.exists_le_sylow
   have hQle : Nat.card (Q : Subgroup ↥(centralizer ({C.s} : Set G))) ≤ 64 := by
     have hmap := C.pgroup_le_64 hF hH ((Q : Subgroup ↥(centralizer ({C.s} : Set G))).map
-      (centralizer ({C.s} : Set G)).subtype) (Q.isPGroup'.map _) (by
+      (centralizer ({C.s} : Set G)).subtype) (Q.isPGroup.map _) (by
         rintro _ ⟨q, -, rfl⟩
         exact mem_centralizer_singleton_iff.1 q.2)
     rwa [Subgroup.card_map_of_injective (centralizer ({C.s} : Set G)).subtype_injective] at hmap

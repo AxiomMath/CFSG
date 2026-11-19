@@ -10,10 +10,11 @@ open CFSG.Timmesfeld CFSG.Timmesfeld.Bridge CFSG.Timmesfeld.Bridge.Asc72
 
 variable {G : Type} [Group G] [Finite G] {D : Set G}
 
+omit [Finite G] in
 theorem commute_conj_u_of_mem {u : G} (hu2 : u * u = 1) {A B : Subgroup G}
     (hAB : ∀ a ∈ A, u * a * u ∈ B)
     (hcommAB : ∀ a ∈ A, ∀ b ∈ B, Commute a b)
-    {s : G} (hsA : s ∈ A) (hs2 : s * s = 1) :
+    {s : G} (hsA : s ∈ A) (_hs2 : s * s = 1) :
     Commute (s * u * s) u := by
   let b : G := u * s * u
   have hb : b = u * s * u := rfl
@@ -46,6 +47,7 @@ theorem commute_conj_u_of_mem {u : G} (hu2 : u * u = 1) {A B : Subgroup G}
     _ = b * s := hbs.eq
     _ = u * (s * u * s) := h2.symm
 
+omit [Finite G] in
 theorem orderOf_conj_mul_conj {u : G} (hu2 : u * u = 1) {A B : Subgroup G}
     (hAB : ∀ a ∈ A, u * a * u ∈ B)
     (hdisj : A ⊓ B = ⊥)
@@ -126,6 +128,7 @@ theorem orderOf_conj_mul_conj {u : G} (hu2 : u * u = 1) {A B : Subgroup G}
     exact orderOf_dvd_iff_pow_eq_one.mpr hbot
   exact Nat.dvd_antisymm hdvd1 hdvd2
 
+omit [Finite G] in
 theorem conj_mul_conj_eq {u : G} (hu2 : u * u = 1) {A B : Subgroup G}
     (hAB : ∀ a ∈ A, u * a * u ∈ B)
     (hcommAB : ∀ a ∈ A, ∀ b ∈ B, Commute a b)
@@ -176,6 +179,7 @@ theorem conj_mul_conj_eq {u : G} (hu2 : u * u = 1) {A B : Subgroup G}
             exact hconj
   exact hxt
 
+omit [Finite G] in
 theorem conj_mul_conj_mul_conj {u : G} (hu2 : u * u = 1) {A B : Subgroup G}
     (hAB : ∀ a ∈ A, u * a * u ∈ B)
     (hcommAB : ∀ a ∈ A, ∀ b ∈ B, Commute a b)
@@ -207,6 +211,7 @@ theorem conj_mul_conj_mul_conj {u : G} (hu2 : u * u = 1) {A B : Subgroup G}
           group
     _ = (s₁ * s₂ * s₃) * (u * (s₁ * s₂ * s₃) * u) * u := rfl
 
+omit [Finite G] in
 theorem orderOf_mul_conj_self {u : G} (hu2 : u * u = 1) {A B : Subgroup G}
     (hAB : ∀ a ∈ A, u * a * u ∈ B)
     (hdisj : A ⊓ B = ⊥)
@@ -241,6 +246,7 @@ theorem orderOf_mul_conj_self {u : G} (hu2 : u * u = 1) {A B : Subgroup G}
     exact orderOf_dvd_iff_pow_eq_one.mpr hbot
   exact Nat.dvd_antisymm hdvd1 hdvd2
 
+omit [Finite G] in
 theorem commute_u_mul_conj {u g : G} (hu2 : u * u = 1)
     (hcomm : Commute g (u * g * u)) : Commute u (g * (u * g * u)) := by
   have h1 : u * g = (u * g * u) * u := by

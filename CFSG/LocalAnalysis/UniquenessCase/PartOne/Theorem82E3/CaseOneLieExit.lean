@@ -29,7 +29,7 @@ theorem Ctx82E3.lie3_exit (c : Ctx82E3 D) (h : Case811Sylow c) (hK6c : K6c) (hK7
     by_contra hr
     have hrprime : r.Prime := by
       rcases fam with _ | _ | _ | _ | _ | _ <;> exact hlie.2.2.1
-    haveI : Fact r.Prime := ⟨hrprime⟩
+    have : Fact r.Prime := ⟨hrprime⟩
     have h4 := hN1 c.Lbar fam r f hlie hr
     simp only [CFSG.SectionRank.pRank_coe_eq_openPRank] at h4
     rw [Ctx82E3.pRank_lbar c hr] at h4
@@ -39,7 +39,7 @@ theorem Ctx82E3.lie3_exit (c : Ctx82E3 D) (h : Case811Sylow c) (hK6c : K6c) (hK7
     omega
   subst hr2
   refine ⟨rfl, fun p hp => ?_⟩
-  haveI : Fact p.Prime := ⟨(D.sig_prime p hp).1⟩
+  have : Fact p.Prime := ⟨(D.sig_prime p hp).1⟩
   exact h.lie3Survivor_of_ne_char hK7 hN2 hN3 hN4 hN5 hN6 hlie hp (c.conclusion76 hp)
     (h.mem_centralizer_of_isPGroup hK6c hlie (c.five_le_of_mem_sigma hp))
 

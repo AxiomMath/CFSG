@@ -129,7 +129,7 @@ theorem exists_perfect_factors_isPerfect_commutator {P X : Type*} [Group P] [Gro
     have h2 : (x : P) ∈ Subgroup.center P := hker (MonoidHom.mem_ker.mpr h1)
     exact Subgroup.mem_center_iff.mpr fun y => Subtype.ext (Subgroup.mem_center_iff.mp h2 (y : P))
   obtain ⟨-, hperf, -⟩ := CFSG.LocalCores.central_extension_derived_of_surjective g hsurj hgker hD
-  haveI := hperf
+  have := hperf
   have hm : Group.IsPerfect ↥((commutator ↥(D.comap f)).map (D.comap f).subtype) :=
     Group.IsPerfect.map (D.comap f).subtype
   have hsub : (commutator ↥(D.comap f)).map (D.comap f).subtype = ⁅D.comap f, D.comap f⁆ := by
@@ -188,7 +188,7 @@ theorem exists_perfect_factors {P X : Type*} [Group P] [Finite P] [Group X]
       rw [← h, MonoidHom.range_eq_map, Subgroup.comap_map_eq, top_sup_eq]
     rw [sup_eq_left.mpr (hkQ₁.trans le_sup_left)] at htop
     exact htop.symm
-  haveI hNS : (D₁.comap f ⊔ D₂.comap f).Normal := by
+  have hNS : (D₁.comap f ⊔ D₂.comap f).Normal := by
     rw [hQ12]
     infer_instance
   have hQle : D₁.comap f ≤ ⁅D₁.comap f, D₁.comap f⁆ ⊔ f.ker := by

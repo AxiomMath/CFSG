@@ -14,6 +14,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_of_odd_of_mem_or_mul_mem_normalizer {X D : Subgroup G} {a : G} (ha2 : a * a = 1)
     (haD : a ∈ normalizer (D : Set G)) (hX : ∀ x ∈ X, x ∈ D ∨ a * x ∈ D)
     {x : G} (hx : x ∈ X) (hodd : Odd (orderOf x)) : x ∈ D := by
@@ -52,8 +53,8 @@ theorem eq_one_of_commute_of_odd_of_mQuot_eq_one {A : Subgroup G} (hAel : IsElem
       (nVSub A h) (bSub A h) M := prop24Setup hAel hTI hU hne
   have hBidx : (bSub A h).relIndex (conjSubgroup A h) = 2 := by
     rw [S.relIndex_Lb, hUidx]
-  obtain ⟨a, haA, haU⟩ := SetLike.exists_of_lt (lt_of_le_of_ne inf_le_left hne)
-  obtain ⟨a', ha'Ah, ha'B⟩ := SetLike.exists_of_lt (lt_of_le_of_ne S.Lb_le S.Lb_ne)
+  obtain ⟨a, haA, haU⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne inf_le_left hne)
+  obtain ⟨a', ha'Ah, ha'B⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne S.Lb_le S.Lb_ne)
   have hrX : a * a' ∈ A ⊔ conjSubgroup A h :=
     Subgroup.mul_mem _ (Subgroup.mem_sup_left haA) (Subgroup.mem_sup_right ha'Ah)
   have hrodd : Odd (orderOf (a * a')) := S.odd_orderOf_mul haA haU ha'Ah ha'B

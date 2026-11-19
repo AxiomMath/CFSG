@@ -132,7 +132,7 @@ theorem exists_descend_of_commute_U3Eight (hd : 3 ≤ d) (hj : 1 ≤ j)
     ext a b
     rw [Matrix.mul_diagonal, Matrix.diagonal_mul]
     ring
-  haveI : Nonempty (Fin d) := ⟨⟨0, by omega⟩⟩
+  have : Nonempty (Fin d) := ⟨⟨0, by omega⟩⟩
   obtain ⟨μ, B, hdesc⟩ := LinearFieldFix.exists_descend_of_map_eq_smul σ A c hmat
   have hBGU : B ∈ LargeEvenGUSet (Fin d) (fixF σ) (2 ^ (j / orderOf σ)) := by
     refine mem_guSet_of_map (fixF σ).subtype (q := 2 ^ j) (fun b => ?_) (pow_pow_eq_self hK)

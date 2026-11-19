@@ -163,7 +163,7 @@ private lemma fePSp_adjoin_comm {ι F : Type} [Fintype ι] [DecidableEq ι] [Fie
     show (s : Matrix ι ι F) * (s' : Matrix ι ι F) = (s' : Matrix ι ι F) * (s : Matrix ι ι F)
     rw [← Units.val_mul, ← Units.val_mul]
     exact congrArg Units.val (hS s hs s' hs').eq
-  haveI : IsMulCommutative (Algebra.adjoin F (Units.val '' S)) :=
+  have : IsMulCommutative (Algebra.adjoin F (Units.val '' S)) :=
     Algebra.isMulCommutative_adjoin F hcommS
   intro a b ha hb
   have h := mul_comm' (⟨a, ha⟩ : Algebra.adjoin F (Units.val '' S))
@@ -175,7 +175,7 @@ private lemma fePSp_one_le_f {F : Type} [Field F] [Finite F] {f : ℕ} (hc : Nat
   by_contra hf
   have hf0 : f = 0 := by omega
   rw [hf0, pow_zero] at hc
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   have h2 : 2 ≤ Nat.card F := by
     rw [Nat.card_eq_fintype_card]
     exact Fintype.one_lt_card
@@ -263,11 +263,11 @@ private lemma fePSp_dualPair_blockField {n f : ℕ} {F : Type} [Field F] [Finite
         Module.finrank F K = blockDegree (Algebra.adjoin F (Units.val '' S)) e := by
   obtain ⟨K, hKfield, hKalgebra, hKfinite, π, hπsurj, hπker, hπfin⟩ :=
     exists_blockField (F := F) (ι := Fin n ⊕ Fin n) hS hodd he
-  letI : Field K := hKfield
-  letI : Algebra F K := hKalgebra
-  letI : Finite K := hKfinite
-  letI : Fintype F := Fintype.ofFinite F
-  letI : Fintype K := Fintype.ofFinite K
+  let : Field K := hKfield
+  let : Algebra F K := hKalgebra
+  let : Finite K := hKfinite
+  let : Fintype F := Fintype.ofFinite F
+  let : Fintype K := Fintype.ofFinite K
   have hcard : Nat.card K = 2 ^ (blockDegree (Algebra.adjoin F (Units.val '' S)) e * f) := by
     calc Nat.card K = Nat.card F ^ Module.finrank F K := by
           rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card]
@@ -290,9 +290,9 @@ private lemma fePSp_dualPair_commutatorIso {n f : ℕ} {F : Type} [Field F] [Fin
       Nat.card K = 2 ^ (blockDegree (Algebra.adjoin F (Units.val '' S)) e * f) ∧
       Nonempty (CFSG.Open.StatedSL m' K ≃* ↥(⁅fePSp_Geps S e, fePSp_Geps S e⁆)) := by
   obtain ⟨K, hKfield, hKalgebra, hKfinite, m', hm', hcard, ⟨φ⟩⟩ := hgl
-  letI : Field K := hKfield
-  letI : Algebra F K := hKalgebra
-  letI : Finite K := hKfinite
+  let : Field K := hKfield
+  let : Algebra F K := hKalgebra
+  let : Finite K := hKfinite
   have hf : 1 ≤ f := fePSp_one_le_f hc
   have hK4 : 4 ≤ Nat.card K := by
     rw [hcard]
@@ -301,7 +301,7 @@ private lemma fePSp_dualPair_commutatorIso {n f : ℕ} {F : Type} [Field F] [Fin
       _ ≤ 2 ^ (blockDegree (Algebra.adjoin F (Units.val '' S)) e * f) := by gcongr
   have hcond : 3 ≤ m' ∨ ∃ s : Finset K, s.card = 4 := by
     right
-    letI : Fintype K := Fintype.ofFinite K
+    let : Fintype K := Fintype.ofFinite K
     have h4 : 4 ≤ (Finset.univ : Finset K).card := by
       rw [Finset.card_univ, ← Nat.card_eq_fintype_card]
       exact hK4
@@ -385,8 +385,8 @@ private lemma fePSp_dualPair_lieModel {n f : ℕ} {F : Type} [Field F] [Finite F
       LieModel (↥(J'.map ψ) ⧸ Subgroup.center ↥(J'.map ψ)) .PSL m' 2
         (blockDegree (Algebra.adjoin F (Units.val '' S)) e * f) := by
   obtain ⟨K, hKfield, hKfinite, m', hm', hcard, ⟨φ⟩⟩ := hJ
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
+  let : Field K := hKfield
+  let : Finite K := hKfinite
   have hf : 1 ≤ f := fePSp_one_le_f hc
   have hf' : f < blockDegree (Algebra.adjoin F (Units.val '' S)) e * f := by
     calc f = f * 1 := (Nat.mul_one f).symm
@@ -424,8 +424,8 @@ private lemma fePSp_selfDual_lieModel {n f : ℕ} {F : Type} [Field F] [Finite F
   rcases hJ with hJ | hJ
   swap
   · obtain ⟨K, hKfield, hKfinite, l, hd2l, hcard, ⟨eγ⟩⟩ := hJ
-    letI : Field K := hKfield
-    letI : Finite K := hKfinite
+    let : Field K := hKfield
+    let : Finite K := hKfinite
     have hf : 1 ≤ f := fePSp_one_le_f hc
     have hl : 2 ≤ l := by omega
     have hlf : f < l * f := by
@@ -453,8 +453,8 @@ private lemma fePSp_selfDual_lieModel {n f : ℕ} {F : Type} [Field F] [Finite F
     · refine ⟨K, hKfield, hKfinite, ?_, ⟨eγ⟩⟩
       rw [hcard]
   obtain ⟨K, hKfield, hKfinite, l, m', hm', hd2l, hcard, ⟨eγ⟩⟩ := hJ
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
+  let : Field K := hKfield
+  let : Finite K := hKfinite
   have hf : 1 ≤ f := fePSp_one_le_f hc
   have hl : 2 ≤ l := by omega
   have hlf : f < l * f := by
@@ -527,7 +527,7 @@ private lemma fePSp_dualPair_blockSpace {n : ℕ} {F : Type} [Field F] [Finite F
   let Φbar := Ideal.Quotient.liftₐ I Φ hI
   let eπ := Ideal.quotientKerAlgEquivOfSurjective hπ
   let φ : K →ₐ[F] Module.End F W := Φbar.comp eπ.symm.toAlgHom
-  letI : Module K W := Module.compHom W φ.toRingHom
+  let : Module K W := Module.compHom W φ.toRingHom
   refine ⟨W, inferInstance, inferInstance, inferInstance, ?_, ?_, LinearEquiv.refl F W, ?_⟩
   · refine ⟨fun c k w => ?_⟩
     change φ (c • k) w = c • (φ k w)
@@ -642,7 +642,7 @@ private lemma fePSp_dualPair_blockActionCompat {n : ℕ} {F : Type} [Field F]
     exact (hcommS s hs).symm
   · intro r
     rw [Algebra.algebraMap_eq_smul_one]
-    simp [Matrix.mul_smul, Matrix.smul_mul]
+    simp
   · intro x y hx hy hpx hpy
     rw [Matrix.mul_add, Matrix.add_mul, hpx, hpy]
   · intro x y hx hy hpx hpy
@@ -706,7 +706,6 @@ private noncomputable def fePSp_dualPair_blockActionMap_rangeEquiv {n : ℕ} {F 
       ((((g⁻¹ : ↥(fePSp_Geps S e)) : ↥(CFSG.Open.StatedSp n F)) : GL (Fin n ⊕ Fin n) F) :
         Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F)) = 1
     rw [← Units.val_mul]
-    congr 1
     rw [← Subgroup.coe_mul, ← Subgroup.coe_mul, mul_inv_cancel]
     rfl
   have humul' : um' * um = 1 := by
@@ -715,7 +714,6 @@ private noncomputable def fePSp_dualPair_blockActionMap_rangeEquiv {n : ℕ} {F 
       (((g : ↥(CFSG.Open.StatedSp n F)) : GL (Fin n ⊕ Fin n) F) :
         Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F)) = 1
     rw [← Units.val_mul]
-    congr 1
     rw [← Subgroup.coe_mul, ← Subgroup.coe_mul, inv_mul_cancel]
     rfl
   let T : LinearMap.range (Matrix.toLin' e) →ₗ[F] LinearMap.range (Matrix.toLin' e) :=
@@ -750,7 +748,7 @@ private lemma fePSp_dualPair_blockActionMap_rangeEquiv_prop {n : ℕ} {F : Type}
       (((g : ↥(CFSG.Open.StatedSp n F)) : GL (Fin n ⊕ Fin n) F) :
         Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) *ᵥ (eW w : (Fin n ⊕ Fin n) → F) := by
   simp only [fePSp_dualPair_blockActionMap_rangeEquiv, LinearEquiv.trans_apply,
-    LinearEquiv.apply_symm_apply, LinearMap.restrict_apply, Matrix.mulVecLin_apply]
+    LinearEquiv.apply_symm_apply]
   rfl
 
 private lemma fePSp_dualPair_blockActionMap_rangeEquiv_smul {n : ℕ} {F : Type} [Field F] {S : Set
@@ -1670,8 +1668,7 @@ private lemma fePSp_dualPair_blockRestrict_wittPr_smul {n : ℕ} {F : Type} [Fie
           v))).symm
   simp only [LinearMap.comp_apply]
   rw [Matrix.toLin'_apply]
-  simp only [fePSp_dualPair_blockRestrict_wittPr, LinearMap.comp_apply, LinearMap.smul_apply,
-    LinearMap.id_apply]
+  simp only [fePSp_dualPair_blockRestrict_wittPr, LinearMap.comp_apply, LinearMap.smul_apply]
   rw [h1]
   simp
 
@@ -2668,13 +2665,13 @@ private lemma fePSp_dualPair_component_eq_of_quasisimple {G : Type} [Group G]
     have hx' : (⟨x, hx⟩ : ↥K) ∈ L.subgroupOf K := by rw [h]; trivial
     exact Subgroup.mem_subgroupOf.mp hx'
   · exfalso
-    haveI : IsMulCommutative ↥L := ⟨⟨fun a b => by
+    have : IsMulCommutative ↥L := ⟨⟨fun a b => by
       apply Subtype.ext
       have ha' : (⟨a.val, hL.1 a.2⟩ : ↥K) ∈ L.subgroupOf K := a.2
       exact congrArg (fun x : ↥K => (x : G)) (Subgroup.mem_center_iff.mp (h ha') ⟨b.val, hL.1
           b.2⟩).symm⟩⟩
     have hcenter : Subgroup.center ↥L = ⊤ := Subgroup.center_eq_top
-    haveI : Subsingleton (↥L ⧸ Subgroup.center ↥L) := by
+    have : Subsingleton (↥L ⧸ Subgroup.center ↥L) := by
       rw [hcenter]
       exact QuotientGroup.subsingleton_quotient_top
     exact (not_subsingleton_iff_nontrivial.mpr hL.2.2.2.toNontrivial) inferInstance
@@ -2731,8 +2728,8 @@ private lemma fePSp_dualPair_componentModel {n f : ℕ} {F : Type} [Field F] [Ch
       Nonempty (↥(J'.map ψ) ≃* Matrix.SpecialLinearGroup (Fin m') K) := by
   obtain ⟨K, hKf, hKa, hKfin, m', hm', hcard, hiso⟩ :=
     fePSp_dualPair_componentModel_rank hcomm
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   exact ⟨K, hKf, hKfin, m', hm', hcard,
     fePSp_dualPair_componentModel_iso ψ hψ hJε hm' hcard hf2 hiso⟩
 
@@ -2777,7 +2774,7 @@ private lemma fePSp_dualPair_case (n f : ℕ) (F : Type) [Field F]
       exact hcomm
     have hJbot : J' = ⊥ := le_bot_iff.mp (by rw [hbot] at hJε'; exact hJε'.1)
     have hsimple : IsSimpleGroup (J' ⧸ Subgroup.center J') := hJε'.2.2.2
-    haveI : Subsingleton (J' ⧸ Subgroup.center J') := by rw [hJbot]; infer_instance
+    have : Subsingleton (J' ⧸ Subgroup.center J') := by rw [hJbot]; infer_instance
     exact (not_subsingleton_iff_nontrivial.mpr hsimple.toNontrivial) inferInstance
   have hgl := fePSp_dualPair_glModel hc hSU hS hodd hε he heε hne hnab
   have hcomm := fePSp_dualPair_commutatorModel hc hSU hS hε he heε hne hd hgl
@@ -3111,7 +3108,7 @@ private lemma fePSp_selfDual_adjointInvolution {n : ℕ} {F : Type} [Field F] [F
     have hsq : π a * π a = 1 := by
       have hsq' : π a * π (φ a) = 1 := by rw [← map_mul, hprod, map_one]
       rwa [heq] at hsq'
-    haveI : CharP K 2 := charP_of_injective_algebraMap' F 2
+    have : CharP K 2 := charP_of_injective_algebraMap' F 2
     have hx2 : (π a) ^ 2 = 1 := by rw [pow_two]; exact hsq
     rcases (sq_eq_one_iff.mp hx2) with h | h
     · exact h
@@ -3210,7 +3207,7 @@ private lemma fePSp_selfDual_blockActionCompat {n : ℕ} {F : Type} [Field F]
     exact (hcommS s hs).symm
   · intro r
     rw [Algebra.algebraMap_eq_smul_one]
-    simp [Matrix.mul_smul, Matrix.smul_mul]
+    simp
   · intro x y hx hy hpx hpy
     rw [Matrix.mul_add, Matrix.add_mul, hpx, hpy]
   · intro x y hx hy hpx hpy
@@ -3267,7 +3264,6 @@ private noncomputable def fePSp_selfDual_blockActionMap_rangeEquiv {n : ℕ} {F 
           F)) : GL (Fin n ⊕ Fin n) F) :
         Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F)) = 1
     rw [← Units.val_mul]
-    congr 1
     rw [← Subgroup.coe_mul, ← Subgroup.coe_mul, mul_inv_cancel]
     rfl
   have humul' : um' * um = 1 := by
@@ -3277,7 +3273,6 @@ private noncomputable def fePSp_selfDual_blockActionMap_rangeEquiv {n : ℕ} {F 
       (((g : ↥(CFSG.Open.StatedSp n F)) : GL (Fin n ⊕ Fin n) F) :
         Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F)) = 1
     rw [← Units.val_mul]
-    congr 1
     rw [← Subgroup.coe_mul, ← Subgroup.coe_mul, inv_mul_cancel]
     rfl
   let T : LinearMap.range (Matrix.toLin' e) →ₗ[F] LinearMap.range (Matrix.toLin' e) :=
@@ -3312,7 +3307,7 @@ private lemma fePSp_selfDual_blockActionMap_rangeEquiv_prop {n : ℕ} {F : Type}
       (((g : ↥(CFSG.Open.StatedSp n F)) : GL (Fin n ⊕ Fin n) F) :
         Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) *ᵥ (eW w : (Fin n ⊕ Fin n) → F) := by
   simp only [fePSp_selfDual_blockActionMap_rangeEquiv, LinearEquiv.trans_apply,
-    LinearEquiv.apply_symm_apply, LinearMap.restrict_apply, Matrix.mulVecLin_apply]
+    LinearEquiv.apply_symm_apply]
   rfl
 
 private lemma fePSp_selfDual_blockActionMap_rangeEquiv_smul {n : ℕ} {F : Type} [Field F] {S : Set
@@ -3792,10 +3787,10 @@ private lemma fePSp_selfDual_unitaryBlockTraceTransfer {n : ℕ} {F : Type} [Fie
       (∀ x x' : W, h (x + x') = h x + h x') ∧
       (∀ (g : ↥(glBlockCentralizer (CFSG.Open.StatedSp n F).subtype S e)) (x y : W), h ((f g) x) ((f
           g) y) = h x y) := by
-  haveI : FiniteDimensional F K := Module.Finite.of_finite
-  haveI : Algebra.IsAlgebraic F K := Algebra.IsAlgebraic.of_finite F K
-  haveI : PerfectField F := PerfectField.ofFinite
-  haveI : Algebra.IsSeparable F K := Algebra.IsAlgebraic.isSeparable_of_perfectField
+  have : FiniteDimensional F K := Module.Finite.of_finite
+  have : Algebra.IsAlgebraic F K := Algebra.IsAlgebraic.of_finite F K
+  have : PerfectField F := PerfectField.ofFinite
+  have : Algebra.IsSeparable F K := Algebra.IsAlgebraic.isSeparable_of_perfectField
   have hEx : ∀ x : W, ∃! hx : W →ₗ[K] K, ∀ (y : W) (c : K),
       B x (c • y) = Algebra.trace F K (c * hx y) := fun x =>
     existsUnique_traceTransfer (K := F) (A := K) (W := W) B x
@@ -3840,10 +3835,10 @@ private lemma fePSp_selfDual_unitaryBlockTraceTransferHerm {n : ℕ} {F : Type} 
     (h : W → W →ₗ[K] K)
     (hSpec : ∀ (x y : W) (c : K), B x (c • y) = Algebra.trace F K (c * h x y)) :
     ∀ (a : K) (x y : W), h (a • x) y = σ a * h x y := by
-  haveI : FiniteDimensional F K := Module.Finite.of_finite
-  haveI : Algebra.IsAlgebraic F K := Algebra.IsAlgebraic.of_finite F K
-  haveI : PerfectField F := PerfectField.ofFinite
-  haveI : Algebra.IsSeparable F K := Algebra.IsAlgebraic.isSeparable_of_perfectField
+  have : FiniteDimensional F K := Module.Finite.of_finite
+  have : Algebra.IsAlgebraic F K := Algebra.IsAlgebraic.of_finite F K
+  have : PerfectField F := PerfectField.ofFinite
+  have : Algebra.IsSeparable F K := Algebra.IsAlgebraic.isSeparable_of_perfectField
   have hτ : ∀ (a : K) (x y : W), B (a • x) y = B x ((σ a) • y) := by
     intro a x y
     obtain ⟨a', rfl⟩ := hπ a
@@ -4646,7 +4641,7 @@ private lemma fePSp_selfDual_unitaryBlockExtensionUnit_preservesB {n : ℕ} {F :
 private lemma fePSp_selfDual_unitaryBlockExtensionUnit_apply_eq_dot {n : ℕ} {F : Type} [Field F]
     (A : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) (i j : Fin n ⊕ Fin n) :
     A i j = (Pi.single i 1) ⬝ᵥ (A *ᵥ Pi.single j 1) := by
-  simp [single_dotProduct, Matrix.mulVec_single_one]
+  simp [single_dotProduct]
 
 private lemma fePSp_selfDual_unitaryBlockExtensionUnit_dot_transpose {n : ℕ} {F : Type} [Field F]
     (A : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) (x y : (Fin n ⊕ Fin n) → F) :
@@ -5294,7 +5289,7 @@ private lemma fePSp_selfDual_unitaryBlockIsometryHeldGU_orthonormalBasis {n : �
   fePSp_selfDual_unitaryBlockIsometryOrthonormalBasis hW σ hσ2 hσne β hsym
     ⟨hβ.2.1, hβ.2.2.1, hβ.2.2.2.1, hβ.2.2.2.2.1, hβ.2.2.2.2.2⟩
 
-private def fePSp_selfDual_unitaryBlockIsometryHeldGU_tau {K : Type} [Field K] (σ : K ≃+* K)
+private theorem fePSp_selfDual_unitaryBlockIsometryHeldGU_tau {K : Type} [Field K] (σ : K ≃+* K)
     (hσ2 : σ ^ 2 = 1) : ∀ x : K, σ (σ x) = x := fun x => by
   have h := congrArg (fun e : K ≃+* K => e x) hσ2
   simpa [pow_two] using h
@@ -5414,7 +5409,7 @@ private lemma fePSp_selfDual_unitaryBlockIsometryHeldGU_beta_basis_expand {n : �
   apply Finset.sum_congr rfl
   intro k _
   rw [fePSp_selfDual_unitaryBlockIsometryHeldGU_beta_sum_right σ m' W f β hβ b c (b k)]
-  simp [hb k, Finset.sum_ite_eq', Finset.sum_ite_eq, Finset.mem_univ]
+  simp [hb k, Finset.sum_ite_eq, Finset.mem_univ]
 
 private lemma fePSp_selfDual_unitaryBlockIsometryHeldGU_matrix_mul_apply {K : Type} [Field K]
     {m' : ℕ} (M : Matrix (Fin m') (Fin m') K) (σ : K → K) (i j : Fin m') :
@@ -5866,9 +5861,9 @@ private lemma fePSp_selfDual_unitaryBlockHeldGUCommutator {f : ℕ} {K : Type} [
         simpa [pow_two] using h)))) :
     Nonempty (CFSG.Open.StatedSU m' (2 ^ (l * f)) K ≃* ↥(⁅H, H⁆)) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := l * f) hK
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := l * f) hK
   have hτ : ∀ x : K, σ (σ x) = x := fun x => by
     have h := congrArg (fun e : K ≃+* K => e x) hσ2
     simpa [pow_two] using h
@@ -5887,7 +5882,7 @@ private lemma fePSp_selfDual_unitaryBlockHeldGUCommutator {f : ℕ} {K : Type} [
       rcases h12 with rfl | rfl
       · rw [CFSG.LieType.SemisimpleCentralizers.Held.hct_heldSU_eq_statedSU (a := 1)
           (Q := 2 ^ (l * f)) (M := K) (τ := σ) (hτ := hτ) hτQ]
-        haveI : Subsingleton ↥(CFSG.Open.StatedSL 1 K) :=
+        have : Subsingleton ↥(CFSG.Open.StatedSL 1 K) :=
           CFSG.LieType.SemisimpleCentralizers.Held.hct_subsingleton_statedSL_of_le_one
             (K := K) (d := 1) (by norm_num)
         refine Group.isPerfect_def.mpr (le_antisymm le_top ?_)
@@ -6015,9 +6010,9 @@ private lemma fePSp_selfDual_commutatorIso_hU {n f : ℕ} {F : Type} [Field F] [
       Nonempty (CFSG.Open.StatedSU m' (2 ^ (l * f)) K ≃* ↥(⁅H, H⁆)) := by
   obtain ⟨K, hKf, hKa, hKfin, l, hdeg, hK, hfin, π, hπ, hker⟩ :=
     fePSp_selfDual_blockFieldAndInvolution hc hSU hS hodd he hadj hd
-  letI : Field K := hKf
-  letI : Finite K := hKfin
-  letI : Algebra F K := hKa
+  let : Field K := hKf
+  let : Finite K := hKfin
+  let : Algebra F K := hKa
   obtain ⟨σ, hσ2, hσne, hσalg, hσπ⟩ :=
     fePSp_selfDual_adjointInvolution hdeg hSU hS he hadj hfin π hπ hker
   obtain ⟨m', H, hm', hφ, hSUi⟩ :=
@@ -6042,8 +6037,8 @@ private lemma fePSp_selfDual_blockCentralizerSU {n f : ℕ} {F : Type} [Field F]
           glBlockCentralizer (CFSG.Open.StatedSp n F).subtype S e⁆)) := by
   obtain ⟨K, hKfield, hKfinite, m', l, H, hm', hd2l, hcard, ⟨φ⟩, ⟨ψU⟩⟩ :=
     fePSp_selfDual_commutatorIso_hU hc hSU hS hodd he hadj hd
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
+  let : Field K := hKfield
+  let : Finite K := hKfinite
   let G : Subgroup ↥(CFSG.Open.StatedSp n F) :=
     glBlockCentralizer (CFSG.Open.StatedSp n F).subtype S e
   have hmap : (commutator ↥G).map (φ : ↥G →* ↥H) = commutator ↥H := by
@@ -6071,8 +6066,8 @@ private lemma fePSp_statedSU_isQuasisimple {q m : ℕ} {K : Type} [Field K] [Fin
     CFSG.Open.IsQuasisimple ↥(CFSG.Open.StatedSU m q K) := by
   obtain ⟨p, hchar, k, hp, hqk⟩ :=
     CFSG.LieType.SemisimpleCentralizers.Held.hct_exists_char_pow (M := K) (Q := q) hK
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CharP K p := hchar
+  have : Fact p.Prime := ⟨hp⟩
+  have : CharP K p := hchar
   have hK' : Nat.card K = (p ^ k) ^ 2 := by rw [hK, hqk]
   rcases Nat.lt_or_ge m 3 with hm2 | hm3
   · have hm_eq : m = 2 := by omega
@@ -6111,8 +6106,8 @@ private lemma fePSp_statedSU_center_eq_scalars {f m : ℕ} {K : Type} [Field K] 
   rcases Nat.lt_or_ge m 3 with hm2 | hm3
   · have hm_eq : m = 2 := by omega
     subst hm_eq
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : CharP K 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := f) hK
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : CharP K 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := f) hK
     have hZ : Subgroup.center ↥(CFSG.Open.StatedSU 2 (2 ^ f) K) = ⊥ :=
       CFSG.ComponentClassification.RankTwoClassical.center_statedSU_two_eq_bot (f := f) hK
     rw [hZ]
@@ -6123,7 +6118,7 @@ private lemma fePSp_statedSU_center_eq_scalars {f m : ℕ} {K : Type} [Field K] 
       intro hcon
       have h2 : 2 ^ f = 2 := (Prod.mk.inj hcon).2
       omega
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact (CFSG.LieType.Universal.Unitary.isQuasisimple_statedSU_of_card
       (F := K) (p := 2) (f := f) hK hm3 hnq).2
 
@@ -6157,14 +6152,14 @@ private lemma fePSp_eq_of_isComponentOf {G : Type} [Group G] {J M : Subgroup G}
       rw [Subgroup.mem_centralizer_iff]
       intro y _
       exact (habel x y).symm
-    haveI : Subsingleton ↥J := by
+    have : Subsingleton ↥J := by
       rw [htop] at hbot
       refine ⟨fun a b => Subtype.ext ?_⟩
       have h1 : a ∈ (⊥ : Subgroup ↥J) := hbot ▸ Subgroup.mem_top a
       have h2 : b ∈ (⊥ : Subgroup ↥J) := hbot ▸ Subgroup.mem_top b
       rw [Subgroup.mem_bot] at h1 h2
       rw [h1, h2]
-    haveI : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := hq.2
+    have : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := hq.2
     have hn : Nontrivial (↥J ⧸ Subgroup.center ↥J) := inferInstance
     have hs : Subsingleton (↥J ⧸ Subgroup.center ↥J) := inferInstance
     obtain ⟨a, b, hab⟩ := hn
@@ -6196,7 +6191,7 @@ private lemma fePSp_selfDual_unitaryComponentModel {n f : ℕ} {F : Type} [Field
       (fePSp_statedSU_isQuasisimple (K := K) (q := 2 ^ (l * f)) (m := m') hm' hq hK)
   have hJeq : J' = M :=
     fePSp_eq_of_isComponentOf (show CFSG.Assembly.IsComponentOf J' M from hJε) hMq
-  haveI : Group.IsPerfect ↥M := Group.isPerfect_def.mpr hMq.1
+  have : Group.IsPerfect ↥M := Group.isPerfect_def.mpr hMq.1
   rw [hJeq]
   obtain ⟨eU⟩ := hU
   let φ : ↥M →* ↥(M.map ψ) :=
@@ -6227,7 +6222,7 @@ private lemma fePSp_selfDual_unitaryComponentModel {n f : ℕ} {F : Type} [Field
 
 private lemma fePSp_statedSU_subsingleton_of_le_one {q : ℕ} {K : Type} [Field K] {m' : ℕ}
     (hm : m' ≤ 1) : Subsingleton (CFSG.Open.StatedSU m' q K) := by
-  haveI : Subsingleton ↥(CFSG.Open.StatedSL m' K) :=
+  have : Subsingleton ↥(CFSG.Open.StatedSL m' K) :=
     CFSG.LieType.SemisimpleCentralizers.Held.hct_subsingleton_statedSL_of_le_one (K := K) hm
   refine ⟨fun a b => Subtype.ext ?_⟩
   have h1 : (⟨a.1, CFSG.Open.StatedAPI.statedSU_le_statedSL m' q K a.2⟩ :
@@ -6240,8 +6235,8 @@ private lemma fePSp_selfDual_SU2_to_SL2 {l f : ℕ} {K : Type} [Field K] [Finite
     ∃ (K' : Type) (_ : Field K') (_ : Finite K'), Nat.card K' = 2 ^ (l * f) ∧
       Nonempty (CFSG.Open.StatedProj (CFSG.Open.StatedSU 2 (2 ^ (l * f)) K) ≃*
         CFSG.Open.StatedProj (CFSG.Open.StatedSL 2 K')) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := l * f) hK
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := l * f) hK
   have hf : l * f ≠ 0 := by
     intro h0
     rw [h0, pow_zero, one_pow] at hK
@@ -6253,8 +6248,8 @@ private lemma fePSp_selfDual_SU2_to_SL2 {l f : ℕ} {K : Type} [Field K] [Finite
   obtain ⟨k, hkfield, hkfin, hkcard, ⟨eSU⟩⟩ :=
     CFSG.LocalAnalysis.GLTheoremA.Y10GInnUni.exists_quot_heldSU_two_equiv_psl (E := K)
       (m := l * f) σ hτ hσQ hK
-  letI : Field k := hkfield
-  letI : Finite k := hkfin
+  let : Field k := hkfield
+  let : Finite k := hkfin
   have hSUeq : CFSG.LieType.SemisimpleCentralizers.Held.heldSU 2 K σ hτ =
       CFSG.Open.StatedSU 2 (2 ^ (l * f)) K :=
     CFSG.LieType.SemisimpleCentralizers.Held.hct_heldSU_eq_statedSU (a := 2) (Q := 2 ^ (l * f))
@@ -6304,8 +6299,8 @@ private lemma fePSp_selfDual_unitaryModel {n f : ℕ} {F : Type} [Field F] [Fini
         CFSG.Open.StatedProj (CFSG.Open.StatedSL 2 K))) := by
   obtain ⟨K, hKf, hKfin, l, m', hm', hd2l, hcard, hU⟩ :=
     fePSp_selfDual_blockCentralizerSU hc hSU hS hodd he hadj hd
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   have hq4 : 4 ≤ 2 ^ (l * f) := by
     have hl : 2 ≤ l := by omega
     have hf1 : 1 ≤ f := by
@@ -6323,7 +6318,7 @@ private lemma fePSp_selfDual_unitaryModel {n f : ℕ} {F : Type} [Field F] [Fini
   have hm2 : 2 ≤ m' := by
     by_contra hlt
     have hm1 : m' ≤ 1 := by omega
-    haveI : Subsingleton ↥(CFSG.Open.StatedSU m' (2 ^ (l * f)) K) :=
+    have : Subsingleton ↥(CFSG.Open.StatedSU m' (2 ^ (l * f)) K) :=
       fePSp_statedSU_subsingleton_of_le_one (q := 2 ^ (l * f)) hm1
     obtain ⟨eU⟩ := hU
     have hnontriv : Nontrivial ↥J' :=
@@ -6399,14 +6394,14 @@ theorem ggSixLSevenFieldExtCase_PSp (n f : ℕ) (F : Type) [Field F]
     (hdeg : (e = ε ∧ 4 ≤ blockDegree (Algebra.adjoin F (Units.val '' S)) e) ∨
       (e ≠ ε ∧ 2 ≤ blockDegree (Algebra.adjoin F (Units.val '' S)) e)) :
     GGSixLSevenFieldExtCase (J'.map ψ) .PSp f := by
-  haveI hfin : Finite F :=
+  have hfin : Finite F :=
     Nat.finite_of_card_ne_zero (by rw [hc]; exact pow_ne_zero _ (by norm_num))
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   have hcard : Fintype.card F = 2 ^ f := by
     rw [← Nat.card_eq_fintype_card]
     exact hc
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hchar : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := f) hcard
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hchar : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := f) hcard
   have hf : 1 ≤ f := fePSp_one_le_f hc
   rcases hdeg with ⟨heq, hd⟩ | ⟨hne, hd⟩
   · exact fePSp_selfDual_case n f F hc ψ hψ S hSU hS hodd hε hJε he heq hd

@@ -80,14 +80,14 @@ theorem isSolvable_ggFix_projConj {H : Subgroup (GL ι K)}
     calc ((s : H) : GL ι K) * M = (M : GL ι K) * ((s : H) : GL ι K) * (M : GL ι K)⁻¹ * M := by
           rw [h3]
       _ = M * ((s : H) : GL ι K) := by group
-  haveI : Group.IsSolvable z.ker := isSolvable_of_comm fun a b => by
+  have : Group.IsSolvable z.ker := _root_.Group.isSolvable_of_comm fun a b => by
     apply Subtype.ext
     apply Subtype.ext
     apply Subtype.ext
     exact hM _ _ ((a : S) : H).2 ((b : S) : H).2 (hker a a.2) (hker b b.2)
-  haveI : Group.IsSolvable (Subgroup.center H) := isSolvable_of_comm fun a b =>
+  have : Group.IsSolvable (Subgroup.center H) := _root_.Group.isSolvable_of_comm fun a b =>
     Subtype.ext (Subgroup.mem_center_iff.mp b.2 a)
-  haveI : Group.IsSolvable S :=
+  have : Group.IsSolvable S :=
     Group.isSolvable_of_ker_le_range z.ker.subtype z (by rw [Subgroup.range_subtype])
   have hmap : Group.IsSolvable (S.map π) :=
     Group.isSolvable_of_surjective (π.subgroupMap_surjective S)

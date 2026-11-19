@@ -30,7 +30,7 @@ theorem l3u3_exists_sl3 {X : Type} [Group X] (h : catalogIs X l3u3Index) :
       · subst hr
         have hi' : q.p = 2 ∧ (q.exponent % 6 = 2 ∨ q.exponent % 6 = 4) := hi
         obtain ⟨hp2, hk⟩ := hi'
-        haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+        have : Fact q.p.Prime := ⟨q.prime_p⟩
         obtain ⟨j, hj⟩ : ∃ j, q.exponent = 2 * j := ⟨q.exponent / 2, by omega⟩
         have hchar : CharP (GaloisField q.p q.exponent) 2 := by
           rw [← hp2]
@@ -52,9 +52,9 @@ theorem l3u3_exists_sl3 {X : Type} [Group X] (h : catalogIs X l3u3Index) :
           (TauCeti.LieTypeIndex.inStandardRange_iff _).1 ((TauCeti.LieTypeIndex.valid_iff _).1 hv).1
         have hq3 : 3 ≤ q.card := hv1.2 rfl
         have hq2 : q.card ≠ 2 := by omega
-        haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+        have : Fact q.p.Prime := ⟨q.prime_p⟩
         obtain ⟨j, hj⟩ : ∃ j, q.exponent = 2 * j + 1 := ⟨q.exponent / 2, by omega⟩
-        haveI : Fintype (GaloisField q.p (2 * q.exponent)) := Fintype.ofFinite _
+        have : Fintype (GaloisField q.p (2 * q.exponent)) := Fintype.ofFinite _
         have hcardK : Nat.card (GaloisField q.p (2 * q.exponent)) = q.card ^ 2 := by
           rw [GaloisField.card q.p (2 * q.exponent) (by omega), TauCeti.PrimePower.card_def, ← pow_mul, mul_comm]
         have hchar : CharP (GaloisField q.p (2 * q.exponent)) 2 := by
@@ -183,11 +183,11 @@ theorem not_nine_hopf_PSU (G : Type) [Group G] (j : ℕ) (hm : CFSG.Blueprint.Li
 open Subgroup in
 theorem i1419CoverL3U3_holds : I1419CoverL3U3 := by
   intro C _ _ hC hcore hcat
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hperf : Group.IsPerfect C := ⟨hC.1⟩
   obtain ⟨H, hH, hsl, ⟨eHL⟩⟩ := l3u3_exists_sl3 hcat
-  haveI : Finite H := finite_of_sl3EpsOfChar hsl
+  have : Finite H := finite_of_sl3EpsOfChar hsl
   have hnot9 : ¬ 9 ∣ Nat.card (hopfMultiplier (C ⧸ Subgroup.center C)) := by
     rcases hsl with ⟨K, hF, hfin, hchar, hmod, ⟨e⟩⟩ | ⟨K, hF, hfin, q, hchar, hcardK, hq3, hq2, ⟨e⟩⟩
     · obtain ⟨k, hk1, hkr⟩ := card_eq_pow_of_charP K 2
@@ -229,7 +229,7 @@ theorem i1419CoverL3U3_holds : I1419CoverL3U3 := by
         have h3 : 3 ∣ 2 ^ j + 1 := by omega
         have hQ := (CFSG.LieType.Universal.Unitary.isQuasisimple_statedSU_of_card (F := K) (p := 2)
           (f := j) (n := 3) hcardK le_rfl (fun h => hq2 (Prod.mk.inj h).2)).1
-        haveI : Group.IsPerfect ↥(CFSG.Open.StatedSU 3 (2 ^ j) K) := hQ.1
+        have : Group.IsPerfect ↥(CFSG.Open.StatedSU 3 (2 ^ j) K) := hQ.1
         exact ⟨Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective,
           (card_center_transfer e).trans (CFSG.Open.StatedCenterThree.card_center_statedSU_three hcardK h3)⟩
     obtain ⟨hHperf, hZH⟩ := hHfacts

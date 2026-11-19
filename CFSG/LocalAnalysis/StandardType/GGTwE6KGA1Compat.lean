@@ -16,7 +16,7 @@ private theorem cp_baseChange_mem {f : ℕ} (hf : 1 ≤ f) (h3 : 3 ∣ 2 ^ f + 1
     (c : ↥(graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * f)) (frobQ 2 f))) :
     baseChangeGL (algebraMap (GaloisField 2 (2 * f)) Ω)
         (c : ModGL TwistTag.E6.tag (GaloisField 2 (2 * f))) ∈ TwistedDiag.Rgrp Ω Fr := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK : Nat.card (GaloisField 2 (2 * f)) = (2 ^ f) ^ 2 :=
     CFSG.LieType.Universal.card_galoisField_two_mul 2 f hf
   have hσ : ∀ c : GaloisField 2 (2 * f), frobQ 2 f c = c ^ 2 ^ f :=

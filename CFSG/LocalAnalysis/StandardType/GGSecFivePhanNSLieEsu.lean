@@ -155,8 +155,8 @@ theorem ggNSLie_lift_of_ne
       Function.Surjective α ∧ ∀ s, η (α s) =
         LargeEvenProjMk (LargeEvenSUGroup (Fin m) K (2 ^ lab.n)) s := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := lab.n) hK
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := lab.n) hK
   have hm4 : ¬ (m = 4 ∧ lab.n = 1) := by
     rintro ⟨hm, hn1⟩
     exact hne ⟨hn1, Or.inl (by omega)⟩
@@ -214,8 +214,8 @@ theorem ggNSLie_cover_of_esu_of_lift
     obtain ⟨b, hb⟩ : ∃ b, m = b + 1 := ⟨lab.rank, hmrank⟩
     subst hb
     exact ⟨b, rfl, K, hf, hfin, hK, ⟨θ⟩⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := lab.n) hK
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := lab.n) hK
   have hSU : LargeEvenSUGroup (Fin m) K (2 ^ lab.n) = SUid (unitaryInvolution K 2 lab.n) m := by
     have h2 : LargeEvenSUGroup (Fin m) K (2 ^ lab.n) =
         CFSG.Open.StatedSU m (2 ^ lab.n) K := rfl
@@ -257,13 +257,13 @@ theorem ggNSLie_cover_of_esu_pred
     {P : ℕ → LargeEvenLabel → Prop}
     (hP : ∀ p lab, P p lab → ggRowP_ESU p lab ∧ ¬ (lab.n = 1 ∧ (lab.rank = 3 ∨ lab.rank = 5)))
     (h : GGInnerDiagOnLabel P p Bs X) :
-    ∃ (lab : LargeEvenLabel) (K : Type) (_ : Field K) (_ : Finite K) (_ : CharP K 2) (f n : ℕ)
-      (ψ : Su K 2 f n →* G), P p lab ∧ n = lab.rank + 1 ∧ f = lab.n ∧
-      Nat.card K = (2 ^ f) ^ 2 ∧ 4 ≤ n ∧ ψ.ker ≤ Subgroup.center (Su K 2 f n) ∧ ψ.range = X ∧
+    ∃ (lab : LargeEvenLabel) (_K : Type) (_ : Field _K) (_ : Finite _K) (_ : CharP _K 2) (f n : ℕ)
+      (ψ : Su _K 2 f n →* G), P p lab ∧ n = lab.rank + 1 ∧ f = lab.n ∧
+      Nat.card _K = (2 ^ f) ^ 2 ∧ 4 ≤ n ∧ ψ.ker ≤ Subgroup.center (Su _K 2 f n) ∧ ψ.range = X ∧
         p ∣ 2 ^ f + 1 ∧ GGActsUnitarily (p := 2) (f := f) ψ Bs ∧
         ∃ b : ℕ, n = b + 1 ∧ GGHasLabel ⟨.twA, b, f⟩ (↥X ⧸ Subgroup.center ↥X) :=
   ggNSLie_cover_of_esu_of_lift (fun p lab hl => (hP p lab hl).1) h
-    (fun lab m K _ _ hlab hK h4m hmrank hperf η hηsurj hηker =>
+    (fun lab _m _K _ _ hlab hK h4m hmrank hperf η hηsurj hηker =>
       ggNSLie_lift_of_ne hK h4m hmrank (hP p lab hlab).2 hperf η hηsurj hηker)
 
 theorem ggNSLie_cover_of_esu

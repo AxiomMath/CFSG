@@ -17,7 +17,7 @@ variable {F : Type} [Field F] [Finite F] {p f : ℕ} [Fact p.Prime] [CharP F p]
 
 section Arithmetic
 
-theorem padic_card_SU3_of_mod4_three {q : ℕ} (hq4 : q % 4 = 3) (hq2 : 2 ≤ q) :
+theorem padic_card_SU3_of_mod4_three {q : ℕ} (hq4 : q % 4 = 3) (_hq2 : 2 ≤ q) :
     padicValNat 2 (q ^ 3 * (q ^ 2 - 1) * (q ^ 3 + 1)) = 1 + 2 * padicValNat 2 (q + 1) := by
   have hodd : Odd q := Nat.odd_iff.2 (by omega)
   rw [u3two_padic_order q hodd (by omega), u3two_padic_sub_one_of_mod4_three q hq4]
@@ -30,6 +30,7 @@ end Arithmetic
 
 section Units
 
+omit [Fact p.Prime] [CharP F p] in
 theorem exists_unit_orderOf_of_dvd (hF : Nat.card F = (p ^ f) ^ 2) {d : ℕ}
     (hd : d ∣ (p ^ f) ^ 2 - 1) : ∃ ι : Fˣ, orderOf ι = d := by
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := Fˣ)
@@ -117,6 +118,7 @@ variable (hF : Nat.card F = (p ^ f) ^ 2) (h2 : (2 : F) ≠ 0) {c : F}
   (hc : unitaryInvolution F p f c * c = -1)
 
 include hF in
+omit [Fact p.Prime] [CharP F p] in
 theorem exists_iota (hq4 : (p ^ f) % 4 = 3) :
     ∃ ι : Fˣ, orderOf ι = 2 ^ padicValNat 2 (p ^ f + 1) ∧
       ι ^ (2 ^ padicValNat 2 (p ^ f + 1)) = 1 ∧ ι ^ 2 ≠ 1 := by
@@ -147,7 +149,7 @@ theorem isSylowOf_stdSylG (hq4 : (p ^ f) % 4 = 3) :
   have hNd : 2 ^ a ∣ p ^ f + 1 := pow_padicValNat_dvd
   obtain ⟨ι, hιo, -, -⟩ := exists_iota hF hq4
   have hroots : Nat.card (rootsOfUnity (2 ^ a) F) = 2 ^ a := by
-    haveI : NeZero (2 ^ a) := ⟨by positivity⟩
+    have : NeZero (2 ^ a) := ⟨by positivity⟩
     exact (hιo ▸ IsPrimitiveRoot.orderOf ι : IsPrimitiveRoot ι (2 ^ a)).card_rootsOfUnity'
   refine isSylowOf_of_card le_top ?_
   rw [Subgroup.card_top, card_SU3 hF, card_stdSylG hF h2 hc hNe hNd, card_stdMon _ hroots,
@@ -207,6 +209,7 @@ theorem normalizer_iff_stdMon {N : ℕ} (hNe : Even N) (hN : N ∣ p ^ f + 1)
     rw [mem_stdSylG, hg₀] at h3
     exact h3
 
+omit [Finite F] in
 theorem dGL_comm_of_blockShape {g : GL (Fin 3) F} (l γ : Fˣ)
     (h : (g : Matrix (Fin 3) (Fin 3) F) 0 2 = 0 ∧ (g : Matrix (Fin 3) (Fin 3) F) 1 2 = 0 ∧
       (g : Matrix (Fin 3) (Fin 3) F) 2 0 = 0 ∧ (g : Matrix (Fin 3) (Fin 3) F) 2 1 = 0) :

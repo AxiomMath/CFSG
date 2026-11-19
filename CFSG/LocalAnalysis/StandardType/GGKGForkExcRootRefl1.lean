@@ -96,7 +96,7 @@ noncomputable def ggKGEr_tupleFun {τ : Tag} {K : Type} [Field K] {p : ℕ}
 theorem ggKGEr_tupleFun_injective {τ : Tag} {K : Type} [Field K] {p : ℕ} [NeZero p]
     (ζ : (AlgebraicClosure K)ˣ) (hζ : IsPrimitiveRoot ζ p) :
     Function.Injective (ggKGEr_tupleFun (τ := τ) (K := K) (p := p) ζ hζ) :=
-  fun y y' h => ggKGEr_tupleOf_injective ζ hζ (congrArg Subtype.val h)
+  fun _y _y' h => ggKGEr_tupleOf_injective ζ hζ (congrArg Subtype.val h)
 
 theorem ggKGEr_tupleFun_surjective {τ : Tag} {K : Type} [Field K] {p : ℕ} [NeZero p]
     (ζ : (AlgebraicClosure K)ˣ) (hζ : IsPrimitiveRoot ζ p) :

@@ -56,7 +56,7 @@ theorem n4_R_main (h : L41GPh7 t L S x₁ x₂ lam rho) :
   have hFcomm : ∀ a ∈ zpowers t, ∀ b ∈ fourGrp x₁ x₂, a * b = b * a :=
     fun a ha b hb => n4_zpowers_t_comm h.toL41GPh5 ha (pt_four_le_L h.toCtx0 hb)
   let FΓ : Subgroup ↥(l41O2 t x₁ x₂) := (fourGrp x₁ x₂).subgroupOf (l41O2 t x₁ x₂)
-  haveI hnorm : FΓ.Normal := ⟨fun x hx g => by
+  have hnorm : FΓ.Normal := ⟨fun x hx g => by
     rw [Subgroup.mem_subgroupOf] at hx ⊢
     simpa using n4_O_norm_F h.toL41GPh3 (g : G) g.2 (x : G) hx⟩
   let c : ↥(l41O2 t x₁ x₂) →* ↥(l41O2 t x₁ x₂) :=

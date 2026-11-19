@@ -18,16 +18,19 @@ variable {z : G} {F : Subgroup G}
 noncomputable def rep (q : ↥F ⧸ Subgroup.center ↥F) : ↥F :=
   Classical.choose (QuotientGroup.mk_surjective q)
 
+omit [Finite G] in
 theorem mk_rep (q : ↥F ⧸ Subgroup.center ↥F) :
     (QuotientGroup.mk (rep q) : ↥F ⧸ Subgroup.center ↥F) = q :=
   Classical.choose_spec (QuotientGroup.mk_surjective q)
 
+omit [Finite G] in
 theorem center_comm {c : ↥F} (hc : c ∈ Subgroup.center ↥F) (f : G) (hf : f ∈ F) :
     (c : G) * f = f * c := by
   have h2 := congrArg Subtype.val (Subgroup.mem_center_iff.mp hc ⟨f, hf⟩)
   simp only [Subgroup.coe_mul] at h2
   exact h2.symm
 
+omit [Finite G] in
 theorem cbit_rep_left (hF : CData z F) (u v : ↥F) :
     cbit z (rep (QuotientGroup.mk u) : G) (v : G) = cbit z (u : G) (v : G) := by
   have h := QuotientGroup.eq.mp (mk_rep (QuotientGroup.mk u))
@@ -37,6 +40,7 @@ theorem cbit_rep_left (hF : CData z F) (u v : ↥F) :
   rw [hu, cbit_mul_central hF (rep (QuotientGroup.mk u)).2 ((rep (QuotientGroup.mk u))⁻¹ * u).2
     (center_comm h) v.2]
 
+omit [Finite G] in
 theorem cbit_rep_right (hF : CData z F) (u v : ↥F) :
     cbit z (u : G) (rep (QuotientGroup.mk v) : G) = cbit z (u : G) (v : G) := by
   have h := QuotientGroup.eq.mp (mk_rep (QuotientGroup.mk v))
@@ -51,6 +55,7 @@ noncomputable def bV (z : G) (F : Subgroup G) (a b : Additive (↥F ⧸ Subgroup
     ZMod 2 :=
   cbit z ((rep (Additive.toMul a) : ↥F) : G) ((rep (Additive.toMul b) : ↥F) : G)
 
+omit [Finite G] in
 theorem bV_zero_left (hF : CData z F) (n : Additive (↥F ⧸ Subgroup.center ↥F)) :
     bV z F 0 n = 0 := by
   unfold bV
@@ -60,6 +65,7 @@ theorem bV_zero_left (hF : CData z F) (n : Additive (↥F ⧸ Subgroup.center �
   rw [h1, h2]
   simp [cbit]
 
+omit [Finite G] in
 theorem bV_zero_right (hF : CData z F) (m : Additive (↥F ⧸ Subgroup.center ↥F)) :
     bV z F m 0 = 0 := by
   unfold bV
@@ -69,6 +75,7 @@ theorem bV_zero_right (hF : CData z F) (m : Additive (↥F ⧸ Subgroup.center �
   rw [h1, h2]
   simp [cbit]
 
+omit [Finite G] in
 theorem bV_add_left (hF : CData z F) (m₁ m₂ n : Additive (↥F ⧸ Subgroup.center ↥F)) :
     bV z F (m₁ + m₂) n = bV z F m₁ n + bV z F m₂ n := by
   unfold bV
@@ -80,6 +87,7 @@ theorem bV_add_left (hF : CData z F) (m₁ m₂ n : Additive (↥F ⧸ Subgroup.
   simp only [Subgroup.coe_mul]
   exact cbit_mul_left hF (rep _).2 (rep _).2 (rep _).2
 
+omit [Finite G] in
 theorem bV_add_right (hF : CData z F) (m n₁ n₂ : Additive (↥F ⧸ Subgroup.center ↥F)) :
     bV z F m (n₁ + n₂) = bV z F m n₁ + bV z F m n₂ := by
   unfold bV
@@ -91,6 +99,7 @@ theorem bV_add_right (hF : CData z F) (m n₁ n₂ : Additive (↥F ⧸ Subgroup
   simp only [Subgroup.coe_mul]
   exact cbit_mul_right hF (rep _).2 (rep _).2 (rep _).2
 
+omit [Finite G] in
 theorem isEA_quot (hF : CData z F) : CFSG.IsElementaryAbelian 2 (↥F ⧸ Subgroup.center ↥F) := by
   have hcen : ∀ t : ↥F, ((t : G) = 1 ∨ (t : G) = z) → t ∈ Subgroup.center ↥F := by
     intro t ht
@@ -132,12 +141,14 @@ theorem zmod2_cases (c : ZMod 2) : c = 0 ∨ c = 1 := by
   fin_cases c
   exacts [Or.inl rfl, Or.inr rfl]
 
+omit [Finite G] in
 theorem bV_smul_left (hF : CData z F) (c : ZMod 2) (m n : Additive (↥F ⧸ Subgroup.center ↥F)) :
     bV z F (c • m) n = c • bV z F m n := by
   rcases zmod2_cases c with rfl | rfl
   · rw [zero_smul, zero_smul, bV_zero_left hF]
   · rw [one_smul, one_smul]
 
+omit [Finite G] in
 theorem bV_smul_right (hF : CData z F) (c : ZMod 2) (m n : Additive (↥F ⧸ Subgroup.center ↥F)) :
     bV z F m (c • n) = c • bV z F m n := by
   rcases zmod2_cases c with rfl | rfl
@@ -149,11 +160,13 @@ noncomputable def bil (hF : CData z F) :
   LinearMap.mk₂ (ZMod 2) (bV z F) (bV_add_left hF) (bV_smul_left hF) (bV_add_right hF)
     (bV_smul_right hF)
 
+omit [Finite G] in
 theorem bil_apply (hF : CData z F) (m n : Additive (↥F ⧸ Subgroup.center ↥F)) :
     bil hF m n = bV z F m n := by
   unfold bil
   rw [LinearMap.mk₂_apply]
 
+omit [Finite G] [Fact (Nat.Prime 2)] in
 theorem cbit_comm (x y : G) : cbit z x y = cbit z y x := by
   have hiff : ⁅x, y⁆ = 1 ↔ ⁅y, x⁆ = 1 := by
     rw [commutatorElement_eq_one_iff_mul_comm, commutatorElement_eq_one_iff_mul_comm]
@@ -164,12 +177,14 @@ theorem cbit_comm (x y : G) : cbit z x y = cbit z y x := by
   · have h' : ¬ ⁅y, x⁆ = 1 := fun h'' => h (hiff.mpr h'')
     simp [cbit, h, h']
 
+omit [Finite G] in
 theorem bil_symm (hF : CData z F) (m n : Additive (↥F ⧸ Subgroup.center ↥F)) :
     bil hF m n = bil hF n m := by
   rw [bil_apply, bil_apply]
   unfold bV
   exact cbit_comm _ _
 
+omit [Finite G] in
 theorem bil_sep_left (hF : CData z F) (m : Additive (↥F ⧸ Subgroup.center ↥F))
     (hm : ∀ n, bil hF m n = 0) : m = 0 := by
   have hc : ∀ v : ↥F, ⁅(rep (Additive.toMul m) : G), (v : G)⁆ = 1 := by
@@ -194,16 +209,19 @@ theorem bil_sep_left (hF : CData z F) (m : Additive (↥F ⧸ Subgroup.center �
   rw [hm0, hq]
   rfl
 
+omit [Finite G] in
 theorem bil_nondegenerate (hF : CData z F) : (bil hF).Nondegenerate :=
   ⟨fun m hm => bil_sep_left hF m hm, fun n hn => bil_sep_left hF n (fun m => by
     rw [bil_symm]; exact hn m)⟩
 
+omit [Finite G] in
 theorem bil_alt (hF : CData z F) : (bil hF).IsAlt := by
   intro v
   rw [bil_apply]
   unfold bV
   exact cbit_self _
 
+omit [Finite G] in
 theorem bil_hrule (hF : CData z F) (x y : ↥F) :
     ⁅x, y⁆ = (⟨z, hF.zF⟩ : ↥F) ^ (bil hF (Additive.ofMul (QuotientGroup.mk x))
       (Additive.ofMul (QuotientGroup.mk y))).val := by

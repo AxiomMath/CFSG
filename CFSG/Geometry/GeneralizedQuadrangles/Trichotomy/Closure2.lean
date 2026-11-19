@@ -15,7 +15,7 @@ variable {V : Type u} {Γ : SimpleGraph V} [Fintype V] [DecidableRel Γ.Adj]
 
 theorem exists_quadrangle_spanUnion
     (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ) (c : Γ.Coloring (Fin 2))
-    {s t : ℕ} (hdeg : ∀ v, Γ.degree v = if c v = 0 then t + 1 else s + 1)
+    {s t : ℕ} (_hdeg : ∀ v, Γ.degree v = if c v = 0 then t + 1 else s + 1)
     {L M : V} (hL : c L = 1) (hM : c M = 1) (hLM : Γ.dist L M = 4) :
     ∃ x ∈ spanUnion hP L M, ∃ y ∈ spanUnion hP L M,
       Γ.dist x y = 4 ∧ 2 ≤ (traceSet Γ x y ∩ spanUnion hP L M).ncard := by
@@ -101,7 +101,7 @@ theorem exists_fullSubquadrangle_of_lineClosure
     (hp : ∀ x y : V, c x = 0 → Γ.dist x y = 4 → (spanSet Γ x y).ncard = p + 1)
     {L M : V} (hL : c L = 1) (hM : c M = 1) (hLM : Γ.dist L M = 4)
     (hLC : ∀ V : V, c V = 1 → 2 ≤ (Γ.neighborSet V ∩ spanUnion hP L M).ncard →
-      Γ.neighborSet V ⊆ spanUnion hP L M) (h1 : 1 < p) (h2 : p < t) :
+      Γ.neighborSet V ⊆ spanUnion hP L M) (_h1 : 1 < p) (_h2 : p < t) :
     ∃ P' : Set V, Γ.neighborSet L ⊆ P' ∧ Γ.neighborSet M ⊆ P' ∧
       IsFullSubquadrangle c P' p := by
   classical

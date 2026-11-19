@@ -77,7 +77,7 @@ theorem pow_four_eq_one_of_quotient {G : Type} [Group G] [Finite G] (hG : Group.
   have hZgc : Z₀.map (P : Subgroup G).subtype ≤ Subgroup.center G :=
     hZg ▸ Subgroup.zpowers_le.mpr ha2
   have hZgp : IsPGroup 2 (Z₀.map (P : Subgroup G).subtype) :=
-    (P.isPGroup'.to_subgroup Z₀).map _
+    (P.isPGroup.to_subgroup Z₀).map _
   have h8 := central_sylow_commutator P hZgc hZgp
   rw [hG.commutator_eq_top, inf_top_eq] at h8
   have hZD : Z₀ ≤ commutator (P : Subgroup G) := by
@@ -152,7 +152,7 @@ theorem orderOf_eq_four_of_inner {G : Type} [Group G] [Finite G] (hG : Group.IsP
     have h1 : 2 ^ k ∣ 2 ^ 1 := Nat.pow_dvd_pow 2 (by omega)
     simpa using h1
   have hQcyc : IsCyclic ((P : Subgroup G) ⊓ Subgroup.centralizer ({y} : Set G) : Subgroup G) := by
-    refine isCyclic_of_central_of_sq_ne_one (P.isPGroup'.to_le inf_le_left)
+    refine isCyclic_of_central_of_sq_ne_one (P.isPGroup.to_le inf_le_left)
       ((CFSG.SectionRank.pRank_mono one_lt_two inf_le_right).trans hR)
       ⟨hyP, Subgroup.mem_centralizer_singleton_iff.mpr rfl⟩ ?_ hysq
     intro q hq
@@ -186,7 +186,7 @@ theorem orderOf_eq_four_of_inner {G : Type} [Group G] [Finite G] (hG : Group.IsP
     have := twoRank_eq_one_of_sylow P h hPne
     unfold CFSG.Open.twoRank at this
     omega
-  rcases cyclic_centralizer_shape P.isPGroup' hinv ha hcyc with hD | hSD | hCa
+  rcases cyclic_centralizer_shape P.isPGroup hinv ha hcyc with hD | hSD | hCa
   · exact (hnd ⟨P, hD⟩).elim
   ·
     exfalso
@@ -214,7 +214,7 @@ theorem orderOf_eq_four_of_inner {G : Type} [Group G] [Finite G] (hG : Group.IsP
       exact Subtype.ext (Subgroup.mem_center_iff.mp hyZ g)
     have : (Subgroup.zpowers (a ^ 2)).Normal :=
       Subgroup.normal_of_le_center (Subgroup.zpowers_le.mpr ha2)
-    have hshape := quotient_dihedral_or_semidihedral P.isPGroup' hinv ha hCa ha2
+    have hshape := quotient_dihedral_or_semidihedral P.isPGroup hinv ha hCa ha2
       (Subgroup.zpowers (a ^ 2)) rfl
     have h4 := pow_four_eq_one_of_quotient hG P (a := a) hyZ (Subgroup.zpowers (a ^ 2)) rfl hshape
     have hy4 : y ^ 4 = 1 := congrArg Subtype.val h4
@@ -278,7 +278,7 @@ theorem inner_case_cyclic_four {X : Type} [Group X] [Finite X] (A : Subgroup X)
   have hιy : ι yC = y' := rfl
   have hRle : (R : Subgroup C) ≤ Subgroup.zpowers yC := by
     intro r hr
-    have hQ2 : IsPGroup 2 ((R : Subgroup C).map ι) := R.isPGroup'.map ι
+    have hQ2 : IsPGroup 2 ((R : Subgroup C).map ι) := R.isPGroup.map ι
     obtain ⟨P, hQP⟩ := hQ2.exists_le_sylow
     have hyP : y' ∈ (P : Subgroup A) := hQP ⟨yC, hRy (Subgroup.mem_zpowers yC), rfl⟩
     have hιr : ι r ∈ (P : Subgroup A) ⊓ Subgroup.centralizer ({y'} : Set A) := by

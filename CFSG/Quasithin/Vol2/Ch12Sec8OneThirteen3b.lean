@@ -225,7 +225,7 @@ theorem thirteen_four_three (h1222 : Stmt12_2_2) (h12213 : Stmt12_2_13) (h37 : A
   have hPJJ : P ≤ JJ := by
     rintro _ ⟨x, -, rfl⟩
     exact x.2
-  have hP3 : IsPGroup 3 ↥P := P'.isPGroup'.map JJ.subtype
+  have hP3 : IsPGroup 3 ↥P := P'.isPGroup.map JJ.subtype
   have hPodd : Odd (Nat.card ↥P) := by
     obtain ⟨r, hr⟩ := IsPGroup.iff_card.1 hP3
     rw [hr]

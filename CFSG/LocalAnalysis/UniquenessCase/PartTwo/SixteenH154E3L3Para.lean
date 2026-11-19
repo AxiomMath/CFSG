@@ -58,9 +58,9 @@ theorem s16h_e3_l3_parabolic_of_sylow {X : Type} [Group X] [Finite X] (hX : IsSL
       ∀ p ∈ P, p ^ 12 = 1 := by
   classical
   obtain ⟨K, hfield, hfin, hcard, ⟨eX⟩⟩ := hX
-  letI : Field K := hfield
-  letI : Finite K := hfin
-  haveI : Fintype K := Fintype.ofFinite K
+  let : Field K := hfield
+  let : Finite K := hfin
+  have : Fintype K := Fintype.ofFinite K
   have hKcard : Nat.card K = 2 := by simpa using hcard
   have hKf : Fintype.card K = Fintype.card (ZMod 2) := by
     rw [← Nat.card_eq_fintype_card, ZMod.card]

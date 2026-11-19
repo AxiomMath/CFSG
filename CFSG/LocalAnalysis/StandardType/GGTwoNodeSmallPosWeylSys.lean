@@ -215,9 +215,9 @@ theorem pws_linWeyl_of_simple_system {p : ℕ} [Fact p.Prime] {V : Type} [AddCom
     apply Subtype.ext
     change f₀ g = (r : V ≃ₗ[ZMod p] V)
     exact hg
-  haveI : Fintype M.Group := Fintype.ofFinite _
-  haveI : Finite R := Finite.of_surjective f₁ hsurj
-  haveI : Fintype R := Fintype.ofFinite _
+  have : Fintype M.Group := Fintype.ofFinite _
+  have : Finite R := Finite.of_surjective f₁ hsurj
+  have : Fintype R := Fintype.ofFinite _
   have hcard_eq : Fintype.card M.Group = Fintype.card R := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card]
     exact le_antisymm hcard (Nat.card_le_card_of_surjective f₁ hsurj)

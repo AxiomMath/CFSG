@@ -30,7 +30,7 @@ theorem pmat_mul (π τ : Equiv.Perm (Fin 4)) :
   rw [Matrix.mul_apply, Finset.sum_eq_single (τ j)]
   · by_cases h : i = π (τ j) <;> simp [pmat_apply, h]
   · intro k _ hk
-    rw [pmat_apply τ k j, if_neg hk, mul_zero]
+    rw [pmat_apply τ k j, ite_eq_right hk, mul_zero]
   · intro h
     exact absurd (Finset.mem_univ _) h
 
@@ -43,11 +43,11 @@ theorem pmat_mul_mul_apply (π τ : Equiv.Perm (Fin 4)) (M : Matrix (Fin 4) (Fin
     ((pmat π : Matrix (Fin 4) (Fin 4) K) * M * (pmat τ : Matrix (Fin 4) (Fin 4) K)) i j =
       M (π⁻¹ i) (τ j) := by
   rw [Matrix.mul_apply, Finset.sum_eq_single (τ j)]
-  · rw [pmat_apply τ (τ j) j, if_pos rfl, mul_one, Matrix.mul_apply,
+  · rw [pmat_apply τ (τ j) j, ite_eq_left rfl, mul_one, Matrix.mul_apply,
       Finset.sum_eq_single (π⁻¹ i)]
-    · rw [pmat_apply π i (π⁻¹ i), if_pos (by simp), one_mul]
+    · rw [pmat_apply π i (π⁻¹ i), ite_eq_left (by simp), one_mul]
     · intro k _ hk
-      rw [pmat_apply π i k, if_neg, zero_mul]
+      rw [pmat_apply π i k, ite_eq_right, zero_mul]
       intro h
       apply hk
       rw [h]
@@ -55,7 +55,7 @@ theorem pmat_mul_mul_apply (π τ : Equiv.Perm (Fin 4)) (M : Matrix (Fin 4) (Fin
     · intro h
       exact absurd (Finset.mem_univ _) h
   · intro l _ hl
-    rw [pmat_apply τ l j, if_neg hl, mul_zero]
+    rw [pmat_apply τ l j, ite_eq_right hl, mul_zero]
   · intro h
     exact absurd (Finset.mem_univ _) h
 
@@ -112,6 +112,7 @@ section PermSU
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {n : ℕ}
 
+omit [Finite K] in
 theorem det_pmat (π : Equiv.Perm (Fin 4)) : (pmat π : Matrix (Fin 4) (Fin 4) K).det = 1 := by
   rw [pmat_eq_permMatrix, Matrix.det_permutation]
   rcases Int.units_eq_one_or (Equiv.Perm.sign π⁻¹) with h | h

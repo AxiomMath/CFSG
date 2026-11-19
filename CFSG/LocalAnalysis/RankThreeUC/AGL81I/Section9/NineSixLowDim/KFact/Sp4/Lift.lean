@@ -105,7 +105,7 @@ private theorem exists_section (hq2 : q ≠ 2) {p : ℕ} (hp : p.Prime) (hp2 : p
   · rintro _ ⟨w, -, rfl⟩
     exact w.2
   · rintro _ ⟨w, hw, rfl⟩ h1
-    obtain ⟨k, hk⟩ := Q₀.isPGroup' ⟨w, hw⟩
+    obtain ⟨k, hk⟩ := Q₀.isPGroup ⟨w, hw⟩
     refine eq_one_of_spConj_eq_one hq2 hp hp2 h1 (k := k) ?_
     have := congrArg (fun x : Q₀ => ((x : P) : StatedSp 2 (ZMod q))) hk
     simpa using this

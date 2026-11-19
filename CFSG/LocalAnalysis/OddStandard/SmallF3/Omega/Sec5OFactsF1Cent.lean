@@ -23,7 +23,7 @@ theorem u43CentTwoPlus_of (h : U4CentTwoPlus) : U43CentTwoPlus := by
   classical
   let Z : Subgroup U := Subgroup.center U
   have hZcard : Nat.card ↥Z = 2 := by simpa [Z] using htwo.1
-  haveI hZn : Z.Normal := by
+  have hZn : Z.Normal := by
     simpa [Z] using Subgroup.instNormalCenter (G := U)
   let V := U ⧸ Z
   let mk : U →* V := QuotientGroup.mk' Z

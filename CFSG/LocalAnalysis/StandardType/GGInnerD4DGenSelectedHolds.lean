@@ -75,7 +75,7 @@ private lemma ltrdg1_plus_part {X : Type} [Group X] (A : Subgroup (MulAut X))
         ggInducedAut (θ.trans e) σ = MulAut.congr e (ggInducedAut θ σ) := by
   let e := CFSG.LocalAnalysis.GLTheoremA.T171Sh.orthModelEquivPlus r K
   let Q := CFSG.LieType.Universal.Spin.quadPlus r K
-  haveI : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
+  have : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
   have hQ : (QuadraticMap.polarBilin Q).Nondegenerate :=
     CFSG.LieType.Universal.Spin.nondegenerate_polarBilin_quadPlus r K
   have hT : ∃ U : Submodule K (Fin r ⊕ Fin r → K), Module.finrank K U = 3 ∧ ∀ u ∈ U, Q u = 0 :=
@@ -103,7 +103,7 @@ private lemma ltrdg1_minus_part {X : Type} [Group X] (A : Subgroup (MulAut X))
         ggInducedAut (θ.trans e) σ = MulAut.congr e (ggInducedAut θ σ) := by
   let e := CFSG.LocalAnalysis.GLTheoremA.T171Sh.orthModelEquivMinus r K b c
   let Q := CFSG.LieType.Universal.Spin.quadMinus r K b c
-  haveI : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
+  have : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
   have hQ : (QuadraticMap.polarBilin Q).Nondegenerate :=
     CFSG.LieType.Universal.Spin.nondegenerate_polarBilin_quadMinus_of_finite r K hbc
   have hT : ∃ U : Submodule K (Fin (r - 1) ⊕ Fin (r - 1) ⊕ Fin 2 → K),
@@ -140,10 +140,10 @@ theorem dgenSelectedMarking_holds : S2MathAs51600DGenSelected.DGenSelectedMarkin
   ·
     dsimp only [LargeEvenRawDatumLegacy] at hraw ⊢
     by_cases h3 : rank = 3
-    · rw [if_pos h3] at hraw ⊢
+    · rw [ite_eq_left h3] at hraw ⊢
       have hr' : 4 ≤ rank := hr
       exfalso; omega
-    · rw [if_neg h3] at hraw ⊢
+    · rw [ite_eq_right h3] at hraw ⊢
       obtain ⟨K, i1, i2, hK, hq⟩ := hraw
       obtain ⟨hs, hna, θ, hold⟩ := hq
       refine ⟨K, i1, i2, hK, hs, hna, θ, hold, ?_⟩
@@ -151,15 +151,15 @@ theorem dgenSelectedMarking_holds : S2MathAs51600DGenSelected.DGenSelectedMarkin
   ·
     dsimp only [LargeEvenRawDatumLegacy] at hraw ⊢
     by_cases h2 : rank = 2
-    · rw [if_pos h2] at hraw ⊢
+    · rw [ite_eq_left h2] at hraw ⊢
       have hr' : 4 ≤ rank := hr
       exfalso; omega
-    · rw [if_neg h2] at hraw ⊢
+    · rw [ite_eq_right h2] at hraw ⊢
       by_cases h3 : rank = 3
-      · rw [if_pos h3] at hraw ⊢
+      · rw [ite_eq_left h3] at hraw ⊢
         have hr' : 4 ≤ rank := hr
         exfalso; omega
-      · rw [if_neg h3] at hraw ⊢
+      · rw [ite_eq_right h3] at hraw ⊢
         obtain ⟨K, i1, i2, hK, b, c, hbc, hq⟩ := hraw
         obtain ⟨hs, hna, θ, hold⟩ := hq
         refine ⟨K, i1, i2, hK, b, c, hbc, hs, hna, θ, hold, ?_⟩

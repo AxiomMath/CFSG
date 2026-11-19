@@ -127,14 +127,14 @@ theorem sl4Blk_commute (x : Matrix.SpecialLinearGroup (Fin 2) F) :
 end Blocks
 
 theorem two_le_pRank_sl4_of_dvd {F : Type} [Field F] [Finite F] {p : ℕ} (hp : p.Prime)
-    (hp2 : p ≠ 2) (hdvd : p ∣ Nat.card F ^ 2 - 1) :
+    (_hp2 : p ≠ 2) (hdvd : p ∣ Nat.card F ^ 2 - 1) :
     2 ≤ CFSG.Open.pRank p (⊤ : Subgroup (Matrix.SpecialLinearGroup (Fin 4) F)) := by
-  clear hp2
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (Matrix.SpecialLinearGroup (Fin 2) F) :=
+  clear _hp2
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (Matrix.SpecialLinearGroup (Fin 2) F) :=
     Finite.of_injective (Subtype.val : Matrix.SpecialLinearGroup (Fin 2) F → Matrix (Fin 2) (Fin 2) F)
       Subtype.val_injective
-  haveI : Finite (Matrix.SpecialLinearGroup (Fin 4) F) :=
+  have : Finite (Matrix.SpecialLinearGroup (Fin 4) F) :=
     Finite.of_injective (Subtype.val : Matrix.SpecialLinearGroup (Fin 4) F → Matrix (Fin 4) (Fin 4) F)
       Subtype.val_injective
   have hcard : p ∣ Nat.card (Matrix.SpecialLinearGroup (Fin 2) F) := by

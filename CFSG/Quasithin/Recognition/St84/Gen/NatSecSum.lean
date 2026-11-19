@@ -756,7 +756,7 @@ theorem exists_relIndex_eq_two_pow_mul_of_quadratic {G : Type} [Group G]
   classical
   obtain ⟨α, S, hαsurj, hαker, hUpper, hfinW, hfix, hquadA, hgenW⟩ :=
     exists_quadratic_section hq hsec hL hcore hcent hT hquad hgen
-  haveI : Finite S.W := hfinW
+  have : Finite S.W := hfinW
   let K := GaloisField 2 n
   let A : Subgroup (Matrix.SpecialLinearGroup (Fin 2) K) := upperUnipotent K
   have hA2 : IsPGroup 2 A :=
@@ -819,7 +819,7 @@ theorem fixFree_of_quadratic {G : Type} [Group G]
   classical
   obtain ⟨α, S, hαsurj, hαker, hUpper, hfinW, hfix, hquadA, hgenW⟩ :=
     exists_quadratic_section hq hsec hL hcore hcent hT hquad hgen
-  haveI : Finite S.W := hfinW
+  have : Finite S.W := hfinW
   let K := GaloisField 2 n
   let A : Subgroup (Matrix.SpecialLinearGroup (Fin 2) K) := upperUnipotent K
   have hAX : ∀ a ∈ L, ∀ x ∈ E, a * x * a⁻¹ ∈ E :=
@@ -828,7 +828,7 @@ theorem fixFree_of_quadratic {G : Type} [Group G]
     CFSG.RankThree.GF2n.exists_supIndep_natural (K := K) (V := S.W) hfix hquadA
       (L := fixedAdd K S.W A) (fun w hw => hw) hgenW
   intro l hl hodd hl1 e heE hcomm
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcoreP : IsPGroup 2 (pCoreOf 2 L) := by
     change IsPGroup 2 ((pCore 2 ↥L).map L.subtype)
     exact (CFSG.LieType.BorelTits.pCore_isPGroup (G := ↥L) 2).map L.subtype

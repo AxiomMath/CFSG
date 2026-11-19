@@ -85,7 +85,7 @@ theorem k14_2Small_two {I : Type} [CommGroup I] [Finite I] (hI : ∀ w : I, w ^ 
         rcases he' with ⟨b, hb⟩
         omega
       have hm' : E3.mParam X = rk I := by
-        rw [E3.mParam, if_neg hne]
+        rw [E3.mParam, ite_eq_right hne]
       rw [hm', hrkI] at hm
       omega
   have hle : e ≤ E3.mParam X :=
@@ -104,7 +104,7 @@ theorem k14_2Small_two {I : Type} [CommGroup I] [Finite I] (hI : ∀ w : I, w ^ 
   have hcardF4 : Fintype.card F = 4 := by
     rw [hF, he2]
     norm_num
-  haveI : Fintype Fˣ := Fintype.ofFinite Fˣ
+  have : Fintype Fˣ := Fintype.ofFinite Fˣ
   have hcardUnits : Fintype.card Fˣ = 3 := by
     rw [← Nat.card_eq_fintype_card, Nat.card_units, Nat.card_eq_fintype_card, hcardF4]
   obtain ⟨u, hu⟩ :=
@@ -184,12 +184,12 @@ theorem k14_2Small_two {I : Type} [CommGroup I] [Finite I] (hI : ∀ w : I, w ^ 
     intro h
     have h1 : σ (E.symm (Pi.single (0 : Fin 3) (1 : F))) = 0 := by
       have := congrArg E.symm h
-      simpa [hfval] using this
+      simp [hfval] at this
     have h2 : E.symm (Pi.single (0 : Fin 3) (1 : F)) = 0 := by
       exact σ.injective (by rw [h1, map_zero])
     have h3 : (Pi.single (0 : Fin 3) (1 : F) : Fin 3 → F) = 0 := by
       have := congrArg E h2
-      simpa using this
+      simp at this
     exact hsingle h3
   have hc0 : c₀ ≠ 0 := by
     intro h0
@@ -212,7 +212,7 @@ theorem k14_2Small_two {I : Type} [CommGroup I] [Finite I] (hI : ∀ w : I, w ^ 
     apply LinearEquiv.ext
     intro u
     have hv := hf3 (E u)
-    simp only [hfval, AddEquiv.symm_apply_apply, AddEquiv.apply_symm_apply] at hv
+    simp only [hfval, AddEquiv.symm_apply_apply] at hv
     have h3 : σ (σ (σ u)) = u := E.injective hv
     simpa [pow_succ, LinearEquiv.mul_apply] using h3
   apply (Layer.binPsi θ).injective

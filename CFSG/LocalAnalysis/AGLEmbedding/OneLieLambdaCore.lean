@@ -62,7 +62,7 @@ theorem D1OneLieData.mem_d1PlusCore_of_mul_conj_mem (hK : KFactOneLie) (h84 : As
   set π := QuotientGroup.mk' (primeComplementCore (G := H) p) with hπ
   set T := (Rbar : Subgroup (H ⧸ primeComplementCore (G := H) p)) ⊓ K with hT
   set C := Subgroup.centralizer (K : Set (H ⧸ primeComplementCore (G := H) p)) with hC
-  have hTp : IsPGroup p T := Rbar.isPGroup'.to_le inf_le_left
+  have hTp : IsPGroup p T := Rbar.isPGroup.to_le inf_le_left
   have hTC : T ⊓ C = ⊥ :=
     le_bot_iff.mp (hd.inf_centralizer_eq_bot ▸ inf_le_inf_right C inf_le_right)
   have hcomm : ∀ t ∈ T, ∀ c ∈ C, t * c = c * t := fun t ht c hc =>
@@ -90,7 +90,7 @@ theorem D1OneLieData.le_d1PlusCore_of_perfect (hK : KFactOneLie) (h84 : Asc81bEi
   have hKn : K.Normal := hd.cfg.red.normal_of_rankOne hd.comp hd.noncyclic
   refine le_d1PlusCore_of_map_le hVH (le_of_perfect_of_le_sup hp
     (T := (Rbar : Subgroup (H ⧸ primeComplementCore (G := H) p)) ⊓ K)
-    (Rbar.isPGroup'.to_le inf_le_left) (commutator_map_eq_self hVH hV) ?_)
+    (Rbar.isPGroup.to_le inf_le_left) (commutator_map_eq_self hVH hV) ?_)
   rintro _ ⟨⟨v, hvH⟩, hv, rfl⟩
   exact hd.mk_mem_sup_of_mem hK h84 hD2 hY hU3 hL hvH (hVL (Subgroup.mem_subgroupOf.mp hv))
 
@@ -109,7 +109,7 @@ theorem D1OneLieData.exists_conj_zpowers_eq (hd : D1OneLieData p P M H R Rbar K)
     have hmap : (((T : Subgroup H) ⊓ C' : Subgroup H).map H.subtype) ≤ d1PlusCore p H K := by
       rintro _ ⟨x, ⟨-, hx⟩, rfl⟩
       exact Subgroup.mem_subgroupOf.mp hx
-    have hcyc := hd.isCyclic_of_le_d1PlusCore hmap ((T.isPGroup'.to_le inf_le_left).map _)
+    have hcyc := hd.isCyclic_of_le_d1PlusCore hmap ((T.isPGroup.to_le inf_le_left).map _)
     let e := (((T : Subgroup H) ⊓ C' : Subgroup H)).equivMapOfInjective H.subtype
       H.subtype_injective
     exact isCyclic_of_surjective e.symm.toMonoidHom e.symm.surjective

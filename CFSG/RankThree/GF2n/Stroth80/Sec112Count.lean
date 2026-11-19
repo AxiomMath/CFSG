@@ -75,7 +75,7 @@ private theorem exists_rep_of_mem_L [(Q.subgroupOf M).Normal] (hc' : Ctx M Q Z B
   rw [Subgroup.mem_subgroupOf] at hl
   exact ⟨l, hl, by rw [← hxl]; rfl⟩
 
-omit [Finite K] in
+omit [Finite K] [Finite G] in
 private theorem liftF_stabilizes_W_of_mem_HH [(Q.subgroupOf M).Normal]
     {φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E)}
     (hφker : ∀ g : ↥(H0 M Z), φ g = 1 ↔ (g : G) ∈ Q)
@@ -86,7 +86,7 @@ private theorem liftF_stabilizes_W_of_mem_HH [(Q.subgroupOf M).Normal]
   rw [liftF_mkH hφker]
   exact hWst g w hw
 
-omit [Finite K] in
+omit [Finite K] [Finite G] in
 private theorem liftF_mem_orthogonalGroup_of_mem_HH [(Q.subgroupOf M).Normal]
     {φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E)}
     (hφker : ∀ g : ↥(H0 M Z), φ g = 1 ↔ (g : G) ∈ Q)
@@ -97,7 +97,7 @@ private theorem liftF_mem_orthogonalGroup_of_mem_HH [(Q.subgroupOf M).Normal]
   rw [liftF_mkH hφker]
   exact TauCeti.QuadraticMap.mem_orthogonalGroup_iff.mpr (hφiso g)
 
-omit [Finite K] in
+omit [Finite K] [Finite G] in
 private theorem liftF_preserves_B_of_mem_HH [(Q.subgroupOf M).Normal]
     {φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E)}
     (hφker : ∀ g : ↥(H0 M Z), φ g = 1 ↔ (g : G) ∈ Q)
@@ -108,6 +108,7 @@ private theorem liftF_preserves_B_of_mem_HH [(Q.subgroupOf M).Normal]
   have h := TauCeti.QuadraticMap.polar_apply_of_mem_orthogonalGroup hO a b
   rwa [Tim79.QuadModel.polar_toQuadraticForm, Tim79.QuadModel.polar_toQuadraticForm] at h
 
+omit [Finite K] in
 private theorem liftF_fixes_perp_of_mem_L [(Q.subgroupOf M).Normal]
     (hc' : Ctx M Q Z B') (h : GlobalModelData M Q Z γ M₀)
     {φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E)}
@@ -151,6 +152,7 @@ private theorem exists_dual_eq_one_of_not_le_perp {b : M₀.E}
   show ((M₀.B v₀) b)⁻¹ * ((M₀.B v₀) b) = 1
   exact inv_mul_cancel₀ hv₀b
 
+omit [Finite K] in
 private theorem liftF_fixes_hyperplane_of_mem_L [(Q.subgroupOf M).Normal]
     (hc' : Ctx M Q Z B') (h : GlobalModelData M Q Z γ M₀)
     {φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E)}
@@ -165,6 +167,7 @@ private theorem liftF_fixes_hyperplane_of_mem_L [(Q.subgroupOf M).Normal]
   refine liftF_fixes_perp_of_mem_L hc' h hφπ hφker hB hcent hWst hbW hx hz ?_
   rwa [LinearMap.BilinForm.flip_apply] at hzμ
 
+omit [Finite K] in
 private theorem liftF_moves_of_not_mem_Lzero [(Q.subgroupOf M).Normal]
     (hc' : Ctx M Q Z B') (h : GlobalModelData M Q Z γ M₀)
     {φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E)}
@@ -192,6 +195,7 @@ private theorem liftF_moves_of_not_mem_Lzero [(Q.subgroupOf M).Normal]
     liftF_fixes_perp_of_mem_L hc' h hφπ hφker hB hcent hWst hbW x.2 hz₀.1 hzb
   rw [map_add, map_smul, hfixH, hfix]
 
+omit [Finite K] in
 private theorem liftF_eqOn_W_of_not_mem_Lzero [(Q.subgroupOf M).Normal]
     (hc' : Ctx M Q Z B') (h : GlobalModelData M Q Z γ M₀)
     {φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E)}
@@ -224,6 +228,7 @@ private theorem liftF_eqOn_W_of_not_mem_Lzero [(Q.subgroupOf M).Normal]
     (liftF_moves_of_not_mem_Lzero hc' h hφπ hφker hB hcent hWst hbW hx hv₁W hμ)
     (liftF_moves_of_not_mem_Lzero hc' h hφπ hφker hB hcent hWst hbW hy hv₁W hμ)
 
+omit [Finite K] in
 private theorem Lzero_eq_top_of_le_perp [(Q.subgroupOf M).Normal]
     (hc' : Ctx M Q Z B') (h : GlobalModelData M Q Z γ M₀)
     {φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E)}
@@ -240,6 +245,7 @@ private theorem Lzero_eq_top_of_le_perp [(Q.subgroupOf M).Normal]
   intro w hw
   exact liftF_fixes_perp_of_mem_L hc' h hφπ hφker hB hcent hWst hbW x.2 hw (hWperp w hw)
 
+omit [Finite K] in
 private theorem mul_mem_Lzero_of_not_mem [(Q.subgroupOf M).Normal]
     (hc' : Ctx M Q Z B') (h : GlobalModelData M Q Z γ M₀)
     {φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E)}
@@ -273,6 +279,7 @@ private theorem mul_mem_Lzero_of_not_mem [(Q.subgroupOf M).Normal]
           (hac _ (liftF_stabilizes_W_of_mem_HH hφker hWst haH hw)).symm
     _ = w := by rw [← LinearEquiv.mul_apply, hsq]; rfl
 
+omit [Finite K] in
 private theorem index_Lzero_dvd_two [(Q.subgroupOf M).Normal]
     (hc' : Ctx M Q Z B') (h : GlobalModelData M Q Z γ M₀)
     {φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E)}
@@ -300,6 +307,7 @@ private theorem index_Lzero_dvd_two [(Q.subgroupOf M).Normal]
     · exact Or.inl (mul_mem_Lzero_of_not_mem hc' h hφπ hφker hφiso hB hcent hWnd hWst
         hbW hWperp ha hc)
 
+omit [Finite K] in
 private theorem card_bar_LB_le_two_mul_card_Lzero [(Q.subgroupOf M).Normal]
     (hc' : Ctx M Q Z B') (h : GlobalModelData M Q Z γ M₀)
     {φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E)}
@@ -390,7 +398,7 @@ private theorem orthogonal_le_ker_opm_of_mem_Ebar [(Q.subgroupOf M).Normal]
   rw [← hfixeq, mem_fixSpace] at hyW
   exact hyW
 
-omit [Finite K] in
+omit [Finite K] [Finite G] in
 private theorem eq_of_liftF_eq_on_HH [(Q.subgroupOf M).Normal]
     {φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E)}
     (hφker : ∀ g : ↥(H0 M Z), φ g = 1 ↔ (g : G) ∈ Q)

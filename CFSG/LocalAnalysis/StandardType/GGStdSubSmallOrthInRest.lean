@@ -211,7 +211,7 @@ theorem one_le_of_card {K : Type} [Field K] [Finite K] {n : ℕ} (hK : Nat.card 
 
 theorem plusTwoInput_of_endInput (h : PlusTwoEndInput) : PlusTwoInput := by
   intro K _ _ m hK hm
-  haveI : CharP K 2 := charP_two_of_card (n := 1) le_rfl (by rw [hK, pow_one])
+  have : CharP K 2 := charP_two_of_card (n := 1) le_rfl (by rw [hK, pow_one])
   obtain ⟨f, hf, hr⟩ := exists_ambient_plus (K := K) (m := m) (by omega)
   exact eltNormSmall_of_ambient_two _ f hf hr fun A D a hE hA _ hU => h K m hK hm A D a hE hA hU
 
@@ -250,7 +250,7 @@ theorem plusTwoInput_of_vacuous_four (hv : PlusTwoVacuousInput) (h4 : PlusTwoFou
 
 theorem minusUnitInput_of_endInput (h : MinusUnitEndInput) : MinusUnitInput := by
   intro K _ _ n m p b c hK hm hp hpn hirr hnot
-  haveI : CharP K 2 := charP_two_of_card (one_le_of_card hK) hK
+  have : CharP K 2 := charP_two_of_card (one_le_of_card hK) hK
   obtain ⟨f, hf, hr⟩ := exists_ambient_minus (K := K) (m := m) b c
   exact eltNormSmall_of_ambient_two _ f hf hr fun A D a hE hA _ hU =>
     h K n m p b c hK hm hp hpn hirr hnot A D a hE hA hU
@@ -299,7 +299,7 @@ theorem minusUnitInput_of_vacuous_three (hv : MinusUnitVacuousInput) (h3 : Minus
 
 theorem twDFourInput_of_endInput (h : TwDFourEndInput) : TwDFourInput := by
   intro K _ _ n p b c hK hn hp hpn hirr
-  haveI : CharP K 2 := charP_two_of_card (one_le_of_card hK) hK
+  have : CharP K 2 := charP_two_of_card (one_le_of_card hK) hK
   obtain ⟨f, hf, hr⟩ := exists_ambient_minus (K := K) (m := 3) b c
   exact eltInnerSmall_of_ambient _ f hf hr fun A D a hE hA _ =>
     h K n p b c hK hn hp hpn hirr A D a hE hA

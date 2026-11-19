@@ -222,9 +222,9 @@ theorem orbit_eq :
       exact ⟨g, by rw [hg, Finset.pair_comm]⟩
 
 theorem card_N : Nat.card N = 144 := by
-  haveI : Fintype 𝔾 := Fintype.ofFinite _
-  haveI : Fintype ↥(MulAction.orbit 𝔾 ({0, 1} : Finset (Fin 11))) := Fintype.ofFinite _
-  haveI : Fintype ↥(MulAction.stabilizer 𝔾 ({0, 1} : Finset (Fin 11))) := Fintype.ofFinite _
+  have : Fintype 𝔾 := Fintype.ofFinite _
+  have : Fintype ↥(MulAction.orbit 𝔾 ({0, 1} : Finset (Fin 11))) := Fintype.ofFinite _
+  have : Fintype ↥(MulAction.stabilizer 𝔾 ({0, 1} : Finset (Fin 11))) := Fintype.ofFinite _
   have horbit : Fintype.card ↥(MulAction.orbit 𝔾 ({0, 1} : Finset (Fin 11))) = 55 := by
     rw [← Nat.card_eq_fintype_card, orbit_eq, Nat.card_coe_set_eq, Set.ncard_coe_finset,
       Finset.card_powersetCard, Finset.card_univ, Fintype.card_fin]
@@ -379,7 +379,7 @@ theorem S_fix (z : Fin 11) (hz : z.val < 2) : ∀ s ∈ S, s • z = z := by
     unfold S
     rw [Subgroup.closure_le]
     intro g hg
-    simp only [Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false] at hg
+    simp only [Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false] at hg
     rw [SetLike.mem_coe, MulAction.mem_stabilizer_iff]
     apply Fin.ext
     rw [val_smul]
@@ -444,7 +444,7 @@ theorem conj_mem {g : 𝔾} (hg : g ∈ N) :
   unfold S at hy
   induction hy using Subgroup.closure_induction with
   | mem x hx =>
-    simp only [Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false] at hx
+    simp only [Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false] at hx
     rcases hx with rfl | rfl
     · exact hgen 0 (by norm_num)
     · exact hgen 1 (by norm_num)
@@ -478,13 +478,13 @@ theorem cent :
   rw [allLt_iff] at h
   have h := h t ht
   cases hb : Nat.blt (nthN F.NC t) 9
-  · rw [hb, cond_false, Bool.not_eq_true'] at h
+  · rw [hb, Bool.cond_false, Bool.not_eq_true'] at h
     have e : ev (sW (nthN F.NC t - 9) ++ nW t) = ev (nW t ++ sW (nthN F.NC t - 9)) := by
       rw [ev_append, ev_append]
       exact hc _ (sW_mem _)
     rw [E_complete e] at h
     exact absurd h (by decide)
-  · rw [hb, cond_true] at h
+  · rw [hb, _root_.Bool.cond_true] at h
     rw [mem_S_iff]
     exact ⟨_, blt_iff.1 hb, (E_sound h).symm⟩
 

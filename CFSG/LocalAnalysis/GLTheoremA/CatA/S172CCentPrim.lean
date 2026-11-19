@@ -17,6 +17,7 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type} [AddCommGroup V]
   [FiniteDimensional F V] {Q : QuadraticForm F V} {p : ℕ} {m : ℕ} {U : Fin m → Submodule F V}
   {e : Fin m → ↥(orthDerived Q)} {Bb : Subgroup ↥(orthDerived Q)}
 
+omit [Finite F] [CharP F 2] in
 theorem eq_zero_of_mem_primaryComponent_of_apply_eq {x : V ≃ₗ[F] V} {h : F[X]}
     (hh : h ∈ primaryFactors x.toLinearMap) (hne : h ≠ X - 1) {v : V}
     (hv : v ∈ primaryComponent x.toLinearMap h) (hfix : x v = v) : v = 0 := by
@@ -35,6 +36,7 @@ theorem eq_zero_of_mem_primaryComponent_of_apply_eq {x : V ≃ₗ[F] V} {h : F[X
   have h4 := (irreducible_X_sub_C (1 : F)).associated_of_dvd hirr h3
   exact hne (by simpa using (Polynomial.eq_of_monic_of_associated (monic_X_sub_C (1 : F)) hmon h4).symm)
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem IsPlaneFrame.exists_le_primaryComponent_aux1 {x : V ≃ₗ[F] V} {W : Submodule F V}
     (hxW : ∀ v ∈ W, x v ∈ W) (f : F[X]) (w : W) :
     ((aeval (x.toLinearMap.restrict hxW) f w : W) : V) = aeval x.toLinearMap f (w : V) := by
@@ -47,7 +49,8 @@ private theorem IsPlaneFrame.exists_le_primaryComponent_aux1 {x : V ≃ₗ[F] V}
     rw [Module.End.pow_restrict n hxW]
     rfl
 
-private theorem IsPlaneFrame.exists_le_primaryComponent_aux3 (hF : IsPlaneFrame Q p U e Bb)
+omit [Finite F] [FiniteDimensional F V] in
+private theorem IsPlaneFrame.exists_le_primaryComponent_aux3 (_hF : IsPlaneFrame Q p U e Bb)
     (hp : p.Prime) (hp2 : p ≠ 2) : Squarefree (X ^ p - 1 : F[X]) := by
   have hpc : (p : F) ≠ 0 := by
     intro h0
@@ -60,6 +63,7 @@ private theorem IsPlaneFrame.exists_le_primaryComponent_aux3 (hF : IsPlaneFrame 
   have := Polynomial.separable_X_pow_sub_C (1 : F) hpc one_ne_zero
   simpa using this.squarefree
 
+omit [CharP F 2] in
 private theorem IsPlaneFrame.exists_le_primaryComponent_aux2 (hF : IsPlaneFrame Q p U e Bb)
     {d : ↥(orthDerived Q)} (hd : d ∈ Bb) (j : Fin m) :
     ∃ xj : U j ≃ₗ[F] U j, (∀ v : U j, (xj v : V) = (d : V ≃ₗ[F] V) v) ∧
@@ -109,7 +113,7 @@ private theorem IsPlaneFrame.exists_le_primaryComponent_aux2 (hF : IsPlaneFrame 
     simpa using congrArg (fun f : Module.End F V => f (w : V)) hdpL
 
 private theorem IsPlaneFrame.exists_le_primaryComponent_aux4 (hF : IsPlaneFrame Q p U e Bb)
-    (hp : p.Prime) (hp2 : p ≠ 2) (hpq : p ∣ Nat.card F + 1) {d : ↥(orthDerived Q)} (hd : d ∈ Bb)
+    (hp : p.Prime) (hp2 : p ≠ 2) (hpq : p ∣ Nat.card F + 1) {d : ↥(orthDerived Q)} (_hd : d ∈ Bb)
     (j : Fin m) (hno : ∀ v ∈ U j, (d : V ≃ₗ[F] V) v = v → v = 0)
     {xj : U j ≃ₗ[F] U j} (hxjcoe : ∀ v : U j, (xj v : V) = (d : V ≃ₗ[F] V) v)
     (hxjp : xj.toLinearMap ^ p = 1) :
@@ -128,7 +132,7 @@ private theorem IsPlaneFrame.exists_le_primaryComponent_aux4 (hF : IsPlaneFrame 
     rw [h0, zero_pow hp.ne_zero] at hap
     exact zero_ne_one hap
   have hq1 : a ^ (Nat.card F - 1) = 1 := by
-    haveI := Fintype.ofFinite F
+    have := Fintype.ofFinite F
     rw [Nat.card_eq_fintype_card]
     exact FiniteField.pow_card_sub_one_eq_one a ha0
   have hnd : ¬ p ∣ Nat.card F - 1 := fun hdiv =>
@@ -156,6 +160,7 @@ private theorem IsPlaneFrame.exists_le_primaryComponent_aux4 (hF : IsPlaneFrame 
       sub_eq_zero] using this
   exact hw0 (Subtype.ext (hno (w : V) w.2 (by rw [← hxjcoe w, hfix])))
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem IsPlaneFrame.exists_le_primaryComponent_aux6 (hF : IsPlaneFrame Q p U e Bb)
     (j : Fin m) : U j ≠ ⊥ := by
   intro hbot
@@ -168,7 +173,7 @@ private theorem IsPlaneFrame.exists_le_primaryComponent_aux5 (hF : IsPlaneFrame 
     (j : Fin m) (hno : ∀ v ∈ U j, (d : V ≃ₗ[F] V) v = v → v = 0) :
     ∃ k ∈ primaryFactors (d : V ≃ₗ[F] V).toLinearMap,
       U j ≤ primaryComponent (d : V ≃ₗ[F] V).toLinearMap k := by
-  haveI : Nontrivial (U j) :=
+  have : Nontrivial (U j) :=
     Module.nontrivial_of_finrank_pos (by rw [hF.finrank_eq j]; norm_num)
   obtain ⟨xj, hxjcoe, hxjaeval, hxjp⟩ := hF.exists_le_primaryComponent_aux2 hd j
   let g : F[X] := minpoly F xj.toLinearMap
@@ -212,6 +217,7 @@ theorem IsPlaneFrame.exists_le_primaryComponent (hF : IsPlaneFrame Q p U e Bb) (
     exact fun hbot => hF.exists_le_primaryComponent_aux6 j (le_bot_iff.mp (hUg.trans (le_of_eq hbot)))
   · exact hF.exists_le_primaryComponent_aux5 hp hp2 hpq hd j hno
 
+omit [CharP F 2] in
 private theorem IsPlaneFrame.exists_le_primaryComponent_of_mem_aux1 (hF : IsPlaneFrame Q p U e Bb)
     {d : ↥(orthDerived Q)} (hd : d ∈ Bb) {f : F[X]} {v : V} (hv : v ∈ ⨆ j, U j) :
     aeval (d : V ≃ₗ[F] V).toLinearMap f v ∈ ⨆ j, U j := by
@@ -244,6 +250,7 @@ private theorem IsPlaneFrame.exists_le_primaryComponent_of_mem_aux1 (hF : IsPlan
       LinearMap.smul_apply, Module.End.one_apply]
     exact Submodule.smul_mem _ _ (hWpow n v hv)
 
+omit [Finite F] [CharP F 2] in
 private theorem IsPlaneFrame.exists_le_primaryComponent_of_mem_aux2
     {d : ↥(orthDerived Q)} {h : F[X]}
     (hh : h ∈ primaryFactors (d : V ≃ₗ[F] V).toLinearMap) (hne : h ≠ X - 1) :
@@ -257,6 +264,7 @@ private theorem IsPlaneFrame.exists_le_primaryComponent_of_mem_aux2
     (Polynomial.eq_of_monic_of_associated (monic_X_sub_C (1 : F)) hmon hass).symm
   exact hne (by rw [heq, Polynomial.C_1])
 
+omit [CharP F 2] in
 private theorem IsPlaneFrame.exists_le_primaryComponent_of_mem_aux3 (hF : IsPlaneFrame Q p U e Bb)
     {d : ↥(orthDerived Q)} (hd : d ∈ Bb) {h : F[X]} (h1 : h.eval 1 ≠ 0) {v : V}
     (hv : v ∈ primaryComponent (d : V ≃ₗ[F] V).toLinearMap h) :

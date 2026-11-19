@@ -214,7 +214,7 @@ theorem false_of_perfect (hacc : AutCenterCondExc (↥L ⧸ center ↥L) (fun _ 
     mulAut_inner_of_inner_centerQuotient S.perfect hinn
   have hinn' : centralizer ({t} : Set H) ≤ L ⊔ centralizer (L : Set H) :=
     S.centralizer_t_le.trans (normalizer_le_sup_centralizer_of_mulAut_inner hLinn)
-  have hsplit := S.sylow_split hS2 hinn' P.isPGroup' htP hPM
+  have hsplit := S.sylow_split hS2 hinn' P.isPGroup htP hPM
   have hLP : L.relIndex P = 2 := relIndex_eq_two htP S.t_not_mem hsplit
   have hU : (↑P ⊓ L : Subgroup H).relIndex P = 2 := by
     rw [inf_relIndex_left]
@@ -233,7 +233,7 @@ theorem false_of_perfect (hacc : AutCenterCondExc (↥L ⧸ center ↥L) (fun _ 
       simpa [MulAut.conj_apply] using this.trans S.t_order
     exact S.not_isConj_of_perfect hperf hS2 hinn' hg.2 ha2 (isConj_iff.2 ⟨g⁻¹, by simp⟩)
   obtain ⟨N', hN', hcyc, hp2, htN'⟩ := exists_normal_cyclic_two_quotient_of_thompson
-    P.isPGroup' (Sylow.not_dvd_index P) inf_le_left hU htP htU hmin hconj
+    P.isPGroup (Sylow.not_dvd_index P) inf_le_left hU htP htU hmin hconj
   have hNle : N ≤ N' := by
     have : IsSimpleGroup ↥N := S.fstar.isSimpleGroup
     have hcommN : commutator ↥N = ⊤ :=

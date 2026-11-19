@@ -10,10 +10,10 @@ open Subgroup
 
 private lemma y4_klein_cover {Q : Type*} [Group Q] [Finite Q] (hQ : Nat.card Q = 4)
     {q₀ q₁ : Q} (hq₀ : q₀ ≠ 1) (hq₁ : q₁ ≠ 1) (hq₀₁ : q₀ ≠ q₁)
-    (hq₀sq : q₀ * q₀ = 1) (hq₁sq : q₁ * q₁ = 1) :
+    (_hq₀sq : q₀ * q₀ = 1) (hq₁sq : q₁ * q₁ = 1) :
     ∀ q : Q, q = 1 ∨ q = q₀ ∨ q = q₁ ∨ q = q₀ * q₁ := by
   classical
-  haveI : Fintype Q := Fintype.ofFinite Q
+  have : Fintype Q := Fintype.ofFinite Q
   have hFcard : Fintype.card Q = 4 := by rw [← Nat.card_eq_fintype_card, hQ]
   have hq₀q₁ : q₀ * q₁ ≠ 1 := by
     intro h
@@ -71,8 +71,8 @@ theorem y4_lam_mem {Γ : Type*} [Group Γ] {J V : Subgroup Γ} {x : Γ}
   rw [hdd, haa, ← mul_inv_rev j j, mul_inv_cancel]
 
 theorem y4_core_prep {Γ : Type*} [Group Γ] {J V B : Subgroup Γ} {α x j₀ : Γ}
-    (hVJ : V ≤ J) (hJB : J ≤ B) (hJc : ∀ a ∈ J, ∀ b ∈ J, a * b = b * a)
-    (hVsq : ∀ v ∈ V, v * v = 1)
+    (hVJ : V ≤ J) (_hJB : J ≤ B) (hJc : ∀ a ∈ J, ∀ b ∈ J, a * b = b * a)
+    (_hVsq : ∀ v ∈ V, v * v = 1)
     (hJsq : ∀ j ∈ J, j * j ∈ V) (hJ1 : ∀ j ∈ J, j * j = 1 → j ∈ V)
     (hcardV : Nat.card ↥V = 4) (hcardJ : Nat.card ↥J = 16)
     (hBcases : ∀ b ∈ B, b ∈ J ∨ ∃ j ∈ J, b = j * α)
@@ -134,8 +134,8 @@ theorem y4_core_prep {Γ : Type*} [Group Γ] {J V B : Subgroup Γ} {α x j₀ : 
       _ = v * x := by rw [hxV v hv]
   have hCK : C ≤ K := fun c hc => ⟨hCJ hc, (Subgroup.mem_inf.mp hc).2⟩
   have hKcard : 8 ≤ Nat.card ↥K := by
-    haveI : Finite ↥J := Nat.finite_of_card_ne_zero (by rw [hcardJ]; norm_num)
-    haveI : Finite ↥K :=
+    have : Finite ↥J := Nat.finite_of_card_ne_zero (by rw [hcardJ]; norm_num)
+    have : Finite ↥K :=
       Finite.of_injective (Subgroup.inclusion hKleJ : ↥K → ↥J)
         (Subgroup.inclusion_injective hKleJ)
     have hle : Nat.card ↥C ≤ Nat.card ↥K := Subgroup.card_le_of_le hCK
@@ -146,7 +146,7 @@ theorem y4_core_prep {Γ : Type*} [Group Γ] {J V B : Subgroup Γ} {α x j₀ : 
       have h := hCK
       rw [hKV] at h
       exact h
-    haveI : Finite ↥V := Nat.finite_of_card_ne_zero (by rw [hcardV]; norm_num)
+    have : Finite ↥V := Nat.finite_of_card_ne_zero (by rw [hcardV]; norm_num)
     have hle : Nat.card ↥C ≤ Nat.card ↥V := Subgroup.card_le_of_le hCV
     have : Nat.card ↥C ≤ 4 := by simpa [hcardV] using hle
     omega
@@ -160,13 +160,13 @@ theorem y4_core_prep {Γ : Type*} [Group Γ] {J V B : Subgroup Γ} {α x j₀ : 
       (Subgroup.mem_centralizer_iff.mp hcent) x (Set.mem_singleton x)
     rw [hcomm, mul_assoc, mul_inv_cancel, mul_one]
   let N : Subgroup ↥J := V.subgroupOf J
-  haveI hJcomm : IsMulCommutative ↥J :=
+  have hJcomm : IsMulCommutative ↥J :=
     isMulCommutative_iff.mpr (fun a b : ↥J => Subtype.ext (hJc a a.2 b b.2))
   have hNcard : Nat.card ↥N = 4 := by
     have he : Nat.card ↥N = Nat.card ↥V :=
       Nat.card_congr (Subgroup.subgroupOfEquivOfLe hVJ).toEquiv
     rw [he, hcardV]
-  haveI hNfin : Finite ↥N := Nat.finite_of_card_ne_zero (by rw [hNcard]; norm_num)
+  have hNfin : Finite ↥N := Nat.finite_of_card_ne_zero (by rw [hNcard]; norm_num)
   let Q := ↥J ⧸ N
   have hQcard : Nat.card Q = 4 := by
     change Nat.card (↥J ⧸ N) = 4
@@ -205,7 +205,7 @@ theorem y4_core_prep {Γ : Type*} [Group Γ] {J V B : Subgroup Γ} {α x j₀ : 
   have hq₀_ne_q₁ : (J₀ : Q) ≠ (J₁ : Q) := by
     intro h
     exact hq₀q₁_ne1 (by rw [h, hq₁sq])
-  haveI : Finite Q := Nat.finite_of_card_ne_zero (by rw [hQcard]; norm_num)
+  have : Finite Q := Nat.finite_of_card_ne_zero (by rw [hQcard]; norm_num)
   have hmem := y4_klein_cover hQcard hq₀ne1 hq₁ne1 hq₀_ne_q₁ hq₀sq hq₁sq
   refine ⟨j₁, hj₁J, hj₁V, hj₁x, ?_⟩
   intro j hj

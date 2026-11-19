@@ -18,7 +18,7 @@ open CFSG.Assembly.RankThreeEven (projSL projSU)
 
 theorem not_isChevSimple_of_card_eq_360 (hb : LieOrderBridge) {q : ℕ} (hq : q.Prime)
     (hq3 : 3 < q) {T : Type} [Group T] (hT : Nat.card T = 360) : ¬ IsChevSimple q T := by
-  haveI : Finite T := Nat.finite_of_card_ne_zero (by rw [hT]; norm_num)
+  have : Finite T := Nat.finite_of_card_ne_zero (by rw [hT]; norm_num)
   by_cases h5 : q = 5
   · subst h5
     exact CFSG.LocalAnalysis.GLTheoremA.I1416QRows.not_isChevSimple_of_card hb hq (by norm_num)
@@ -95,7 +95,7 @@ theorem noCfgS431_alt_of_not_dvd {T : TauCeti.CFSGIndex → Prop}
   obtain ⟨m, hm5, -, hdvd, ⟨e⟩⟩ := CFSG.LocalAnalysis.GLTheoremA.S8.L84.ClsRed.kdAltDown_mod n 3
     hn Nat.prime_three (by norm_num) σ (pow_three_eq_one_of_cfgS431 hc) hc.ne_one J hJ
   have hm5' : 5 ≤ m := le_of_max_le_left hm5
-  haveI : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.mpr (by omega)
+  have : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.mpr (by omega)
   have h360 := hT _ hcat
   rw [Nat.card_congr e.toEquiv, nat_card_alternatingGroup, Nat.card_fin] at h360
   have hm6 := eq_six_of_factorial_div_two_eq hm5' h360

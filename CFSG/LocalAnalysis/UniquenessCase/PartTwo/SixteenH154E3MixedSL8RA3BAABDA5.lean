@@ -19,7 +19,7 @@ open scoped commutatorElement Pointwise
 variable {G : Type} [Group G] [Finite G]
 
 theorem s16h_sl28_wTil_sup_conj_eq_top_of_setting16
-    (D : Data G) (S : s16h_Std D) {V L : Subgroup G} (h : Setting16 D ⊥ V L)
+    (D : Data G) (_S : s16h_Std D) {V L : Subgroup G} (h : Setting16 D ⊥ V L)
     (hs2 : s15 D.M ⊥ V h.hyp151.isElemAbelian L = 2)
     {t : MulAut (Vtil ⊥ V h.hyp151.isElemAbelian)}
     (hW : Conc4_136W (Mbar D.M ⊥ V h.hyp151.isElemAbelian) t

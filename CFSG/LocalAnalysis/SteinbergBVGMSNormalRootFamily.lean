@@ -122,7 +122,7 @@ theorem gms_sq_V (h : GMSNormalRootData J R X U P n) :
 
 theorem gms_isPGroup_P (h : GMSNormalRootData J R X U P n) : IsPGroup 2 P := by
   obtain ⟨-, -, -, -, -, -, ⟨hPN, ⟨TP, hTP⟩, -⟩⟩ := h
-  have h1 : IsPGroup 2 (P.subgroupOf (normalizer (R : Set D))) := hTP ▸ TP.isPGroup'
+  have h1 : IsPGroup 2 (P.subgroupOf (normalizer (R : Set D))) := hTP ▸ TP.isPGroup
   exact h1.of_equiv (subgroupOfEquivOfLe hPN)
 
 theorem gms_R_mem : R ∈ gmsRootConjugates (U ⊔ R) R :=

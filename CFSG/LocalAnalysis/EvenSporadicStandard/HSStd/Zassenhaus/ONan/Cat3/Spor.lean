@@ -66,7 +66,7 @@ theorem sporadic_cases {L : Type} [Group L] [Finite L] (h : SporadicRep L)
     have := (Nat.Prime.pow_dvd_iff_le_factorization (p := 3) (k := 1) (n := Nat.card L)
       Nat.prime_three hpos.ne').mpr (by omega)
     simpa using this
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rcases spor_ord_cases s h9 hn27 with rfl | rfl | rfl | rfl
   ·
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := L) 3 h3dvd

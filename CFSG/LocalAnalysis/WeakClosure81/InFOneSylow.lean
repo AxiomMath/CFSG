@@ -43,7 +43,7 @@ theorem inFFor_top_map_conj {Q : Type} [Group Q] [Finite Q] {j : ℕ} {T : Subgr
 
 theorem inF_top_of_inFFor {Q : Type} [Group Q] [Finite Q] {j : ℕ} {T : Subgroup Q}
     (hT : IsSylowIn 2 T ⊤) (h : InFFor j (⊤ : Subgroup Q) T) : InF j (⊤ : Subgroup Q) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro T' hT'
   have hTof : CFSG.ABGLocalTools.IsSylowOf 2 T ⊤ :=
     CFSG.ABGLocalTools.isSylowOf_iff.mpr hT

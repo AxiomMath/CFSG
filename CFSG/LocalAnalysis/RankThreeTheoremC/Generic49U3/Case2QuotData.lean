@@ -54,7 +54,7 @@ private theorem PGroupData.map_of_injOn {H Y : Type*} [Group H] [Group Y] (hp : 
     rw [← map_mul, ← map_mul] at hab
     exact hinj (P.mul_mem (h.T_le ha) (h.T_le hb)) (P.mul_mem (h.T_le hb) (h.T_le ha)) hab
   D_cyc := by
-    haveI := h.D_cyc
+    have := h.D_cyc
     exact isCyclic_of_surjective (φ.subgroupMap D) (φ.subgroupMap_surjective D)
   x_mem := Subgroup.mem_map_of_mem φ h.x_mem
   x_ord := by
@@ -281,7 +281,7 @@ private theorem sylow_subgroupOf {G : Type*} [Group G] [Finite G] [Fact p.Prime]
     ∃ T : Sylow p M, (T : Subgroup M) = (P : Subgroup G).subgroupOf M := by
   have h : CFSG.ABGLocalTools.IsSylowOf p (P : Subgroup G) M := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    exact ⟨hPM, P.isPGroup', fun h =>
+    exact ⟨hPM, P.isPGroup, fun h =>
       P.not_dvd_index (h.trans (Subgroup.relIndex_dvd_index_of_le hPM))⟩
   exact h.exists_sylow_eq_subgroupOf
 
@@ -290,7 +290,7 @@ private theorem isSylowOf_top_subgroupOf {G : Type*} [Group G] [Finite G] [Fact 
     CFSG.ABGLocalTools.IsSylowOf p ((P : Subgroup G).subgroupOf M) (⊤ : Subgroup M) := by
   obtain ⟨T, hT⟩ := sylow_subgroupOf P hPM
   rw [CFSG.ABGLocalTools.isSylowOf_iff, Subgroup.relIndex_top_right, ← hT]
-  exact ⟨le_top, T.isPGroup', T.not_dvd_index⟩
+  exact ⟨le_top, T.isPGroup, T.not_dvd_index⟩
 
 private theorem wc_subgroupOf {G : Type} [Group G] [Finite G] {M P : Subgroup G} {x : G} (hxM : x ∈ M)
     (hwc : U3LineWC x P) (g : ↥M)
@@ -406,7 +406,7 @@ private theorem PGroupDataAb.map_of_injOn {H Y : Type*} [Group H] [Group Y] (hp 
     rintro _ ⟨a, ha, rfl⟩ _ ⟨b, hb, rfl⟩
     rw [← map_mul, ← map_mul, isMulCommutative_iff_of_setLike.mp h.T_comm a ha b hb]
   D_cyc := by
-    haveI := h.D_cyc
+    have := h.D_cyc
     exact isCyclic_of_surjective (φ.subgroupMap D) (φ.subgroupMap_surjective D)
   x_mem := Subgroup.mem_map_of_mem φ h.x_mem
   x_ord := by
@@ -471,7 +471,7 @@ theorem case2Data_of_G {p : ℕ} [Fact p.Prime] (hp5 : 5 ≤ p) {G : Type} [Grou
   have hp : p.Prime := Fact.out
   have hTP : T ≤ (P : Subgroup G) := hpd.T_le
   have hTM : T ≤ M := hTP.trans hPM
-  have hPp : IsPGroup p ((P : Subgroup G).subgroupOf M) := P.isPGroup'.comap_subtype
+  have hPp : IsPGroup p ((P : Subgroup G).subgroupOf M) := P.isPGroup.comap_subtype
   have hinj : Set.InjOn (QuotientGroup.mk' (primeComplementCore (G := ↥M) p))
       (((P : Subgroup G).subgroupOf M : Subgroup ↥M) : Set ↥M) :=
     injOn_mk_of_isPGroup hp _ (primeComplementCore_coprime p) hPp
@@ -521,7 +521,7 @@ theorem case2DataAb_of_G {p : ℕ} [Fact p.Prime] (hp5 : 5 ≤ p) {G : Type} [Gr
       (QuotientGroup.mk' (primeComplementCore (G := ↥M) p) ⟨x, hxM⟩) := by
   have hp : p.Prime := Fact.out
   have hTP : T ≤ (P : Subgroup G) := hpd.T_le
-  have hPp : IsPGroup p ((P : Subgroup G).subgroupOf M) := P.isPGroup'.comap_subtype
+  have hPp : IsPGroup p ((P : Subgroup G).subgroupOf M) := P.isPGroup.comap_subtype
   have hinj : Set.InjOn (QuotientGroup.mk' (primeComplementCore (G := ↥M) p))
       (((P : Subgroup G).subgroupOf M : Subgroup ↥M) : Set ↥M) :=
     injOn_mk_of_isPGroup hp _ (primeComplementCore_coprime p) hPp

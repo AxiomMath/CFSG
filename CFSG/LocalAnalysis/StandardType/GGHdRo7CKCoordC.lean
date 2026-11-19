@@ -26,11 +26,11 @@ private lemma hdRo7CKCoordAux_swap_apply_of_ne {α : Type} [DecidableEq α] {x y
     (hx : z ≠ x) (hy : z ≠ y) : Equiv.swap x y z = z := by
   rw [Equiv.swap_apply_def]
   by_cases h1 : z = x
-  · rw [if_pos h1]; exact absurd h1 hx
-  · rw [if_neg h1]
+  · rw [ite_eq_left h1]; exact absurd h1 hx
+  · rw [ite_eq_right h1]
     by_cases h2 : z = y
-    · rw [if_pos h2]; exact absurd h2 hy
-    · rw [if_neg h2]
+    · rw [ite_eq_left h2]; exact absurd h2 hy
+    · rw [ite_eq_right h2]
 
 private noncomputable def hdRo7CKCoordAux_coordAut {p : ℕ} {m : ℕ} (π : Equiv.Perm (Fin m))
     (s : Fin m → ZMod p) (hs : ∀ l, s l * s l = 1) :
@@ -169,7 +169,7 @@ private theorem hdRo7CKCoordAux_conj_coordPerm {G : Type} [Group G] (p : ℕ) (B
       rw [Equiv.trans_apply, Equiv.trans_apply]
     rw [h1] at h
     rw [hdRo7CKCoordAux_coordAut_symm_apply π s hssq] at h
-    simp only [Equiv.symm_apply_apply, Equiv.apply_symm_apply] at h
+    simp only [Equiv.symm_apply_apply] at h
     dsimp only [c]
     calc
       Multiplicative.toAdd (τ.symm (a (τ f)) (σ i))
@@ -204,10 +204,10 @@ theorem hdRo7CKCoordAux_normalize {G : Type} [Group G] (p : ℕ) (hp3 : p = 3) (
   have hab : a ≠ b := by intro h; have := congrArg Fin.val h; simp [a, b] at this
   have ha_eq : (1 : Fin (n + 1)) = a := by
     apply Fin.ext
-    simp [a, Fin.val_ofNat, Nat.mod_eq_of_lt h1lt]
+    simp [a, Nat.mod_eq_of_lt h1lt]
   have hb_eq : (2 : Fin (n + 1)) = b := by
     apply Fin.ext
-    simp [b, Fin.val_ofNat, Nat.mod_eq_of_lt h2lt]
+    simp [b, Nat.mod_eq_of_lt h2lt]
   let u : Fin (n + 1) → Multiplicative (ZMod 3) := τ.symm x
   have hui : Multiplicative.toAdd (u i) ≠ 0 := by
     have := (hsupp i hi).mpr (Or.inl rfl)
@@ -248,22 +248,22 @@ theorem hdRo7CKCoordAux_normalize {G : Type} [Group G] (p : ℕ) (hp3 : p = 3) (
     if l = i then Multiplicative.toAdd (u i) else if l = j then Multiplicative.toAdd (u j) else 1
   have hsi : s i = Multiplicative.toAdd (u i) := by
     dsimp only [s]
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
   have hsj : s j = Multiplicative.toAdd (u j) := by
     dsimp only [s]
-    rw [if_neg (fun h => hij h.symm), if_pos rfl]
+    rw [ite_eq_right (fun h => hij h.symm), ite_eq_left rfl]
   have hs0 : s 0 = 1 := by
     dsimp only [s]
-    rw [if_neg (fun h => hi h.symm), if_neg (fun h => hj h.symm)]
+    rw [ite_eq_right (fun h => hi h.symm), ite_eq_right (fun h => hj h.symm)]
   have hsgn : ∀ l, s l = 1 ∨ s l = -1 := by
     intro l
     dsimp only [s]
     by_cases h1 : l = i
-    · rw [if_pos h1]; exact hui1
-    · rw [if_neg h1]
+    · rw [ite_eq_left h1]; exact hui1
+    · rw [ite_eq_right h1]
       by_cases h2 : l = j
-      · rw [if_pos h2]; exact huj1
-      · rw [if_neg h2]; exact Or.inl rfl
+      · rw [ite_eq_left h2]; exact huj1
+      · rw [ite_eq_right h2]; exact Or.inl rfl
   have hssq : ∀ l, s l * s l = 1 := by
     intro l
     rcases hsgn l with h | h <;> rw [h] <;> ring
@@ -297,17 +297,17 @@ theorem hdRo7CKCoordAux_normalize {G : Type} [Group G] (p : ℕ) (hp3 : p = 3) (
     rw [hτ'symm, hdRo7CKCoordAux_coordAut_symm_apply π s hssq]
     by_cases hl0 : l = 0
     · subst hl0
-      rw [hπs0, if_pos rfl, hs0, one_mul]
-    · rw [if_neg hl0]
+      rw [hπs0, ite_eq_left rfl, hs0, one_mul]
+    · rw [ite_eq_right hl0]
       by_cases hla : l = a
       · subst hla
-        rw [hπsa, hsi, if_pos (Or.inl rfl)]
+        rw [hπsa, hsi, ite_eq_left (Or.inl rfl)]
         rcases hui1 with h | h <;> rw [h] <;> ring
       · by_cases hlb : l = b
         · subst hlb
-          rw [hπsb, hsj, if_pos (Or.inr rfl)]
+          rw [hπsb, hsj, ite_eq_left (Or.inr rfl)]
           rcases huj1 with h | h <;> rw [h] <;> ring
-        · rw [if_neg (fun h => h.elim hla hlb)]
+        · rw [ite_eq_right (fun h => h.elim hla hlb)]
           have hne0 : π.symm l ≠ 0 := by
             intro h
             exact hl0 (by rw [← Equiv.apply_symm_apply π l, h, hπ0])

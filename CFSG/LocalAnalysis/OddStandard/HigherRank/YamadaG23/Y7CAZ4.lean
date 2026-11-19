@@ -12,6 +12,7 @@ open scoped commutatorElement
 variable {Γ M : Type} [Group Γ] [Finite Γ] [Group M] [Finite M] {ρ : Γ →* MulAut M}
   {t : Γ} {J Q P M6 M7 : Subgroup Γ}
 
+omit [Finite M] in
 theorem y7c_exists_prime_part (ρ : Γ →* MulAut M) {z : Γ} (hρz : ρ z ≠ 1) :
     ∃ (r : ℕ) (z' : Γ), r.Prime ∧ z' ∈ Subgroup.zpowers z ∧ IsPGroup r ↥(Subgroup.zpowers z') ∧
       ρ z' ≠ 1 := by

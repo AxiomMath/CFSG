@@ -21,6 +21,7 @@ theorem three_cast_ne_zero_of_charP_two : ((3 : ℕ) : k) ≠ 0 := by
   rw [CharP.cast_eq_zero_iff k 2] at h0
   omega
 
+omit [CharP k 2] in
 theorem toLin'_scalar_fin {n : ℕ} (c : k) :
     Matrix.toLin' (Matrix.scalar (Fin n) c) = c • (1 : Module.End k (Fin n → k)) := by
   ext v i

@@ -25,10 +25,10 @@ theorem n_eq_p_of_cover {p n : ℕ} [hpp : Fact p.Prime] (hp5 : 5 ≤ p) (hpn : 
     (hmono : p + 3 ≤ n → ∀ B : G, B ^ p ∈ Z → (∀ w ∈ Z, w ^ p ≠ B ^ p) →
       ∃ T : Subgroup S₀, IsElemAbelian p T ∧ p ^ (p + 1) ≤ Nat.card (T.map π) ∧
         ∀ t ∈ T, c B t ∈ T) : n = p := by
-  haveI := hS₀
+  have := hS₀
   have hp : p.Prime := hpp.out
   set ψ : Y →* MulAut P := (l212in_descend e).comp (odC L) with hψ
-  haveI : Φ.range.Normal :=
+  have : Φ.range.Normal :=
     ⟨fun a ha g => by
       have h := hcomm g a
       have h2 : g * a * g⁻¹ = (g * a * g⁻¹ * a⁻¹) * a := by group
@@ -103,7 +103,7 @@ theorem final_of_cover {p : ℕ} [hpp : Fact p.Prime] {L S₀ P : Type} [Group L
     have hker : φ.ker = ⊥ := Subgroup.card_eq_one.1 h1
     exact ⟨MulEquiv.ofBijective φ ⟨(MonoidHom.ker_eq_bot_iff φ).1 hker, hφ⟩⟩
   · right
-    haveI : Finite π.ker := Nat.finite_of_card_ne_zero (by rw [hcard]; exact hp.ne_zero)
+    have : Finite π.ker := Nat.finite_of_card_ne_zero (by rw [hcard]; exact hp.ne_zero)
     have heq : φ.ker = π.ker :=
       Subgroup.eq_of_le_of_card_ge hle (by rw [hcard, h1])
     set ε : L →* P := e.toMonoidHom.comp (QuotientGroup.mk' (center L)) with hε

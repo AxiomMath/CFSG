@@ -117,7 +117,7 @@ theorem card_fix_mul_le {F : Type} [Field F] [Finite F] {θ : F →+* F}
           by_cases h : j = i
           · subst h
             simp
-          · simp [Pi.single_apply, h]
+          · simp [h]
         rw [hc, hα, hμ i, hθ c, smul_comm]
       calc α x = α (∑ i, Pi.single i (x i)) := by rw [Finset.univ_sum_single]
         _ = ∑ i, α (Pi.single i (x i)) := map_sum α _ _

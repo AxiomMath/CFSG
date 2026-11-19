@@ -116,7 +116,7 @@ theorem jM_four_structure (D : Data G) {V₀ V : Subgroup G} {p : ℕ} {L : Subg
     rw [Nat.add_mod, CFSG.two_pow_mod_three_of_even hnEven] at h0
     norm_num at h0
   have hI_le_Lp : IOf D p L ≤ Lp D p := by
-    rw [IOf, if_pos hj]
+    rw [IOf, ite_eq_left hj]
     refine iSup₂_le fun K hK => ?_
     exact (uc22p21c_le_Hinf hK.1.1.le hK.1.2.1).trans hH.le
   have key : ∀ {A B : Type} [Group A] [Group B] (e : Bar2 (Lp D p) ≃* A × B)

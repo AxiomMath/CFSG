@@ -43,7 +43,7 @@ private theorem exists_pPart_diag_SL
       (∃ v : Fin d → K, (s : Matrix (Fin d) (Fin d) K) = diagonal v) ∧
       (∃ k : ℕ, s ^ p ^ k = 1) ∧ φ s = c := by
   classical
-  haveI : Finite (SpecialLinearGroup (Fin d) K) := by infer_instance
+  have : Finite (SpecialLinearGroup (Fin d) K) := by infer_instance
   obtain ⟨m, hm⟩ := hcp
   have hN : orderOf s0 ≠ 0 := (orderOf_pos s0).ne'
   obtain ⟨e, n', hn'p, hN⟩ := Nat.exists_eq_pow_mul_and_not_dvd hN p hp.ne_one
@@ -231,9 +231,9 @@ theorem largeEvenLabelAll_torusGenTableB_typeA_coprime
   dsimp only [LargeEvenRawDatum] at hQ ⊢
   obtain ⟨K, hfield, hfinite, hK, hQ'⟩ := hQ
   refine ⟨K, hfield, hfinite, hK, hQ', ?_⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 :=
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 :=
     charP_of_card_eq_prime_pow (R := K) (p := 2) (f := n)
       (by rw [← Nat.card_eq_fintype_card]; exact hK)
   have hd : 4 ≤ l + 1 := by omega

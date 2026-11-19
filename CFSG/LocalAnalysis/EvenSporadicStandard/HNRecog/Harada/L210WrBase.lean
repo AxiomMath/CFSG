@@ -103,7 +103,7 @@ private lemma exists_mul_conj_mul_inv_ne_one {x : alternatingGroup (Fin 5)} (hx 
       rwa [mul_inv_eq_one] at this
     calc g * x = g * x * g⁻¹ * g := by group
       _ = x * g := by rw [hg]
-  have hcenter := alternatingGroup.center_eq_bot (α := Fin 5) (by simp [Nat.card_fin])
+  have hcenter := alternatingGroup.center_eq_bot (α := Fin 5) (by simp)
   rw [hcenter] at hxcenter
   exact hx (Subgroup.mem_bot.mp hxcenter)
 
@@ -127,7 +127,7 @@ private lemma mem_comap_iota2_iff (B : Subgroup A5WrTwo) [B.Normal]
       exact A5WrTwo.swap_mul_baseEmb_mul_inv a 1] at hconj
 
 theorem L210_card_a5WrTwo : Nat.card A5WrTwo = 7200 := by
-  haveI : Finite (Multiplicative (ZMod 2)) := inferInstance
+  have : Finite (Multiplicative (ZMod 2)) := inferInstance
   rw [RegularWreathProduct.card]
   have h5 : Nat.card (alternatingGroup (Fin 5)) = 60 := by
     rw [nat_card_alternatingGroup, Nat.card_fin]
@@ -169,8 +169,8 @@ theorem L210_base_le_of_normal {B : Subgroup A5WrTwo} [B.Normal] (hB : B ≠ ⊥
       refine ⟨p', ?_, hp'ne⟩
       rw [hp']
       exact B.mul_mem hbB (hBn.conj_mem b⁻¹ (B.inv_mem hbB) (A5WrTwo.baseEmb (g, 1)))
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) :=
-    alternatingGroup.isSimpleGroup (by simp [Nat.card_fin])
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) :=
+    alternatingGroup.isSimpleGroup (by simp)
   have hK1ne : B.comap iota1 ≠ ⊥ := by
     obtain ⟨p, hpB, hpne⟩ := hbase
     have hxy : p.1 ≠ 1 ∨ p.2 ≠ 1 := by
@@ -236,7 +236,7 @@ theorem L210_eq_bot_of_normal_isPGroup {B : Subgroup A5WrTwo} [B.Normal] (hB : I
   have hdvd : 3600 ∣ Nat.card B := by
     have h := Subgroup.card_dvd_of_le hle
     rwa [L210_card_base] at h
-  haveI : Finite A5WrTwo := inferInstance
+  have : Finite A5WrTwo := inferInstance
   obtain ⟨k, hk⟩ := hB.exists_card_eq
   rw [hk] at hdvd
   have h3 : (3 : ℕ) ∣ 2 ^ k := dvd_trans (by norm_num : 3 ∣ 3600) hdvd

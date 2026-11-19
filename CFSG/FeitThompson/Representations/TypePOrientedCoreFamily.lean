@@ -239,17 +239,19 @@ noncomputable def ofSpanHom {L : Subgroup G} {S : Set (↥L → ℂ)}
   classical
   exact fun f => if h : f ∈ Submodule.span ℤ S then (ν ⟨f, h⟩ : G → ℂ) else 0
 
+omit [Fintype G] in
 theorem ofSpanHom_apply_of_mem {L : Subgroup G} {S : Set (↥L → ℂ)}
     (ν : Submodule.span ℤ S →+ virtualChars G) {f : ↥L → ℂ}
     (hf : f ∈ Submodule.span ℤ S) : ofSpanHom ν f = (ν ⟨f, hf⟩ : G → ℂ) := by
   classical
-  simp only [ofSpanHom, dif_pos hf]
+  simp only [ofSpanHom, dite_eq_left hf]
 
+omit [Fintype G] in
 theorem ofSpanHom_apply_of_notMem {L : Subgroup G} {S : Set (↥L → ℂ)}
     (ν : Submodule.span ℤ S →+ virtualChars G) {f : ↥L → ℂ}
     (hf : f ∉ Submodule.span ℤ S) : ofSpanHom ν f = 0 := by
   classical
-  simp only [ofSpanHom, dif_neg hf]
+  simp only [ofSpanHom, dite_eq_right hf]
 
 theorem isAdditiveIsometryOn_ofSpanHom {L : Subgroup G} {S : Set (↥L → ℂ)}
     (ν : Submodule.span ℤ S →+ virtualChars G)
@@ -430,6 +432,7 @@ theorem apply_one_of_mem_detectInd_fittingIn {M U W₁ W₂ : Subgroup G}
   rw [detectInd_fittingIn_eq_indFamDetect, ← hF] at hζ
   exact hc.apply_one_of_mem_indFamDetect_coreProduct h hζ
 
+omit [Fintype G] in
 theorem comap_subgroupOf_subgroupOfEquivOfLe {M A B : Subgroup G} (hB : B ≤ M) :
     Subgroup.comap (Subgroup.subgroupOfEquivOfLe hB).toMonoidHom (A.subgroupOf B)
       = (A.subgroupOf M).subgroupOf (B.subgroupOf M) := by
@@ -437,11 +440,13 @@ theorem comap_subgroupOf_subgroupOfEquivOfLe {M A B : Subgroup G} (hB : B ≤ M)
   rw [Subgroup.mem_comap, Subgroup.mem_subgroupOf, Subgroup.mem_subgroupOf,
     Subgroup.mem_subgroupOf, MulEquiv.coe_toMonoidHom, Subgroup.subgroupOfEquivOfLe_apply_coe]
 
+omit [Fintype G] in
 theorem relIndex_subgroupOf_eq {M A B : Subgroup G} (hB : B ≤ M) :
     (A.subgroupOf M).relIndex (B.subgroupOf M) = A.relIndex B := by
   rw [Subgroup.relIndex, Subgroup.relIndex, ← comap_subgroupOf_subgroupOfEquivOfLe hB,
     Subgroup.index_comap_of_surjective _ (Subgroup.subgroupOfEquivOfLe hB).surjective]
 
+omit [Fintype G] in
 theorem relIndex_coreCentralizer_eq (M U : Subgroup G) (hU : U ≤ M) :
     (coreCentralizer (hallCore ↥M) (U.subgroupOf M)).relIndex (U.subgroupOf M)
       = (cent U (Prep03.hallCoreIn M : Set G)).relIndex U := by
@@ -473,6 +478,7 @@ def coreFixedSupport (M : Subgroup G) : Set ↥M :=
   {x : ↥M | x ∈ commutator ↥M ∧ x ≠ 1 ∧
     hallCore ↥M ⊓ Subgroup.centralizer ({x} : Set ↥M) ≠ ⊥}
 
+omit [Fintype G] in
 theorem mem_coreFixedSupport {M : Subgroup G} {x : ↥M} :
     x ∈ coreFixedSupport M ↔ x ∈ commutator ↥M ∧ x ≠ 1 ∧
       ∃ y ∈ hallCore ↥M, y ≠ 1 ∧ x * y = y * x := by
@@ -486,6 +492,7 @@ theorem mem_coreFixedSupport {M : Subgroup G} {x : ↥M} :
     exact ⟨⟨y, hyH, Subgroup.mem_centralizer_iff.2 fun z hz => hz ▸ hyc⟩,
       fun h => hy1 (by simpa using congrArg Subtype.val h)⟩
 
+omit [Fintype G] in
 theorem coreFixedSupport_subset (M : Subgroup G) :
     coreFixedSupport M ⊆ ((commutator ↥M : Subgroup ↥M) : Set ↥M) \ {1} :=
   fun _ hx => ⟨hx.1, hx.2.1⟩
@@ -496,6 +503,7 @@ private theorem eq_one_of_conj_eq_one {L : Type*} [Group L] {x t : L}
     _ = t * (1 : L) * t⁻¹ := by rw [h]
     _ = 1 := by group
 
+omit [Fintype G] in
 theorem conj_mem_coreFixedSupport {M : Subgroup G} {x : ↥M} (hx : x ∈ coreFixedSupport M)
     (t : ↥M) : t⁻¹ * x * t ∈ coreFixedSupport M := by
   have hK : (commutator ↥M).Normal := inferInstance
@@ -510,6 +518,7 @@ theorem conj_mem_coreFixedSupport {M : Subgroup G} {x : ↥M} (hx : x ∈ coreFi
     _ = t⁻¹ * (y * x) * t := by rw [hyc]
     _ = t⁻¹ * y * t * (t⁻¹ * x * t) := by group
 
+omit [Fintype G] in
 theorem coreFixedSupport_conj (M : Subgroup G) (t : ↥M) :
     (fun a => t⁻¹ * a * t) '' coreFixedSupport M = coreFixedSupport M := by
   refine Set.eq_of_subset_of_subset ?_ ?_
@@ -521,6 +530,7 @@ theorem coreFixedSupport_conj (M : Subgroup G) (t : ↥M) :
     have he : t⁻¹⁻¹ * x * t⁻¹ = t * x * t⁻¹ := by group
     rwa [he] at h
 
+omit [Fintype G] in
 theorem centralizer_subset_coreFixedSupport (M : Subgroup G) :
     ∀ y ∈ hallCore ↥M, y ≠ 1 →
       ((commutator ↥M ⊓ Subgroup.centralizer ({y} : Set ↥M) : Subgroup ↥M) : Set ↥M) \ {1}
@@ -529,6 +539,7 @@ theorem centralizer_subset_coreFixedSupport (M : Subgroup G) :
   rw [mem_coreFixedSupport]
   exact ⟨hxK, hx1, y, hy, hy1, (Subgroup.mem_centralizer_iff.1 hxc y rfl).symm⟩
 
+omit [Fintype G] in
 theorem mem_coreFixedSet_iff {H X : Subgroup G} {a : G} :
     a ∈ CFSG.FeitThompson.Prep09.coreFixedSet H X ↔ a ∈ X ∧ a ≠ 1 ∧
       ∃ y ∈ H, y ≠ 1 ∧ a * y = y * a := by
@@ -543,6 +554,7 @@ theorem mem_coreFixedSet_iff {H X : Subgroup G} {a : G} :
     exact ⟨⟨y, hyH, Subgroup.mem_centralizer_iff.2 fun z hz => hz ▸ hyc⟩,
       fun h => hy1 (by simpa using congrArg Subtype.val h)⟩
 
+omit [Fintype G] in
 theorem image_coreFixedSupport (M : Subgroup G) :
     (fun x : ↥M => (x : G)) '' coreFixedSupport M
       = CFSG.FeitThompson.Prep09.coreFixedSet (Prep03.hallCoreIn M) (⁅M, M⁆ : Subgroup G) := by
@@ -562,10 +574,12 @@ theorem image_coreFixedSupport (M : Subgroup G) :
     rw [commutator_eq_subgroupOf_commutator]
     exact mem_subgroupOf.2 (by simpa using haK)
 
+omit [Fintype G] in
 theorem map_subgroupOf_sup {M W₁ W₂ : Subgroup G} (h1 : W₁ ≤ M) (h2 : W₂ ≤ M) :
     ((W₁.subgroupOf M ⊔ W₂.subgroupOf M).map M.subtype) = W₁ ⊔ W₂ := by
   rw [← Subgroup.subgroupOf_sup h1 h2, Subgroup.map_subgroupOf_eq_of_le (sup_le h1 h2)]
 
+omit [Fintype G] in
 theorem cyclicTIDiff_map_subgroupOf {M W₁ W₂ : Subgroup G} (h1 : W₁ ≤ M) (h2 : W₂ ≤ M) :
     cyclicTIDiff ((W₁.subgroupOf M ⊔ W₂.subgroupOf M).map M.subtype)
         ((W₁.subgroupOf M).map M.subtype) ((W₂.subgroupOf M).map M.subtype)
@@ -573,6 +587,7 @@ theorem cyclicTIDiff_map_subgroupOf {M W₁ W₂ : Subgroup G} (h1 : W₁ ≤ M)
   rw [map_subgroupOf_sup h1 h2, Subgroup.map_subgroupOf_eq_of_le h1,
     Subgroup.map_subgroupOf_eq_of_le h2]
 
+omit [Fintype G] in
 theorem mem_cyclicTIset_subgroupOf_iff {M W₁ W₂ : Subgroup G} (h1 : W₁ ≤ M) (h2 : W₂ ≤ M)
     {x : ↥M} : x ∈ cyclicTIset (W₁.subgroupOf M) (W₂.subgroupOf M) ↔
       (x : G) ∈ cyclicTIset W₁ W₂ := by
@@ -581,6 +596,7 @@ theorem mem_cyclicTIset_subgroupOf_iff {M W₁ W₂ : Subgroup G} (h1 : W₁ ≤
     exact not_congr ⟨fun h => by simpa using mem_subgroupOf.1 h,
       fun h => mem_subgroupOf.2 (by simpa using h)⟩
 
+omit [Fintype G] in
 theorem image_cyclicTIsetConj_eq {M W₁ W₂ : Subgroup G} (h1 : W₁ ≤ M) (h2 : W₂ ≤ M) :
     (fun x : ↥M => (x : G)) '' cyclicTIsetConj (W₁.subgroupOf M) (W₂.subgroupOf M)
       = CFSG.FeitThompson.Prep09.conjUnion M (cyclicTIset W₁ W₂) := by
@@ -595,6 +611,7 @@ theorem image_cyclicTIsetConj_eq {M W₁ W₂ : Subgroup G} (h1 : W₁ ≤ M) (h
     exact ⟨⟨m, hm⟩⁻¹ * ⟨v, hvM⟩ * ⟨m, hm⟩, ⟨⟨m, hm⟩, ⟨v, hvM⟩,
       (mem_cyclicTIset_subgroupOf_iff h1 h2).2 hv, rfl⟩, by simp⟩
 
+omit [Fintype G] in
 theorem setOf_conj_eq_of_isCyclicTIPair {M W₁ W₂ : Subgroup G} (h1 : W₁ ≤ M) (h2 : W₂ ≤ M)
     (hW : IsCyclicTIPair (W₁ ⊔ W₂) W₁ W₂) :
     {g : G | (fun x => g⁻¹ * x * g) ''
@@ -606,6 +623,7 @@ theorem setOf_conj_eq_of_isCyclicTIPair {M W₁ W₂ : Subgroup G} (h1 : W₁ �
   rw [cyclicTIDiff_map_subgroupOf h1 h2, map_subgroupOf_sup h1 h2]
   exact hW.setOf_conj_eq_self
 
+omit [Fintype G] in
 theorem inter_eq_empty_of_isCyclicTIPair {M W₁ W₂ : Subgroup G} (h1 : W₁ ≤ M) (h2 : W₂ ≤ M)
     (hW : IsCyclicTIPair (W₁ ⊔ W₂) W₁ W₂) :
     ∀ g ∉ (W₁.subgroupOf M ⊔ W₂.subgroupOf M).map M.subtype,
@@ -617,6 +635,7 @@ theorem inter_eq_empty_of_isCyclicTIPair {M W₁ W₂ : Subgroup G} (h1 : W₁ �
   rw [cyclicTIDiff_map_subgroupOf h1 h2, map_subgroupOf_sup h1 h2]
   exact hW.inter_eq_empty
 
+omit [Fintype G] in
 theorem isCyclicTIPair_map_subgroupOf {M W₁ W₂ : Subgroup G} (h1 : W₁ ≤ M) (h2 : W₂ ≤ M)
     (hW : IsCyclicTIPair (W₁ ⊔ W₂) W₁ W₂) :
     IsCyclicTIPair ((W₁.subgroupOf M ⊔ W₂.subgroupOf M).map M.subtype)
@@ -678,6 +697,7 @@ theorem inf_hallCore_centralizer_eq_bot
   rw [hCHU] at hxG
   exact Subgroup.mem_bot.2 (Subtype.ext (Subgroup.mem_bot.1 hxG))
 
+omit [Fintype G] in
 theorem chiefActionKer_bot (M U : Subgroup G) :
     chiefActionKer (hallCore ↥M) (⊥ : Subgroup ↥M) (U.subgroupOf M)
       = U.subgroupOf M ⊓ Subgroup.centralizer ((hallCore ↥M : Subgroup ↥M) : Set ↥M) := by
@@ -828,6 +848,7 @@ theorem exists_isCoherentWith_detectInd_commutator
   exact exists_isCoherentWith_baselineMap hcfg hR
     (by rw [hSc, coreDetectFam_bot_eq_indFamDetect])
 
+omit [Fintype G] in
 theorem commutator_sdiff_one_conj (M : Subgroup G) (t : ↥M) :
     (fun a => t⁻¹ * a * t) '' (((commutator ↥M : Subgroup ↥M) : Set ↥M) \ {1})
       = ((commutator ↥M : Subgroup ↥M) : Set ↥M) \ {1} := by
@@ -846,6 +867,7 @@ theorem commutator_sdiff_one_conj (M : Subgroup G) (t : ↥M) :
     have h : t * a * t⁻¹ = 1 := Set.mem_singleton_iff.1 hc
     rw [show t⁻¹⁻¹ * a * t⁻¹ = t * a * t⁻¹ from by group, h]
 
+omit [Fintype G] in
 theorem image_bridgeSupport_commutator_eq_dadeA0 {M W₁ W₂ : Subgroup G} (h1 : W₁ ≤ M)
     (h2 : W₂ ≤ M) :
     (fun x : ↥M => (x : G)) '' bridgeSupport (((commutator ↥M : Subgroup ↥M) : Set ↥M) \ {1})
@@ -953,6 +975,7 @@ theorem exists_isCoherentWith_detectInd_commutator_typeIII
   exact exists_isCoherentWith_baselineMap hcfg hR
     (by rw [hSc, coreDetectFam_bot_eq_indFamDetect])
 
+omit [Fintype G] in
 theorem cyclicTIDiff_sup_subset_dadeA0 {M W₁ W₂ : Subgroup G} :
     cyclicTIDiff (W₁ ⊔ W₂) W₁ W₂ ⊆ CFSG.FeitThompson.Prep06.dadeA0 M W₁ W₂ := by
   intro v hv
@@ -1006,6 +1029,7 @@ theorem eq_zero_of_mem_charSpanZero_detectInd_commutator
   refine hcfg.eq_zero_of_mem_charSpanZero hf fun hxA => ?_
   exact hx (Or.inl (by rw [← image_coreFixedSupport]; exact ⟨x, hxA, rfl⟩))
 
+omit [Fintype G] in
 theorem cyclicTIDiff_subset_extendedSupport {M W₁ W₂ : Subgroup G} (h1 : W₁ ≤ M) (h2 : W₂ ≤ M) :
     cyclicTIDiff ((W₁.subgroupOf M ⊔ W₂.subgroupOf M).map M.subtype)
         ((W₁.subgroupOf M).map M.subtype) ((W₂.subgroupOf M).map M.subtype)
@@ -1028,10 +1052,12 @@ noncomputable def supSubgroupOfEquiv {M W₁ W₂ : Subgroup G} (h1 : W₁ ≤ M
   (MulEquiv.subgroupCongr (Subgroup.subgroupOf_sup h1 h2).symm).trans
     (Subgroup.subgroupOfEquivOfLe (sup_le h1 h2))
 
+omit [Fintype G] in
 theorem coe_supSubgroupOfEquiv {M W₁ W₂ : Subgroup G} (h1 : W₁ ≤ M) (h2 : W₂ ≤ M)
     (z : ↥(W₁.subgroupOf M ⊔ W₂.subgroupOf M)) :
     ((supSubgroupOfEquiv h1 h2 z : ↥(W₁ ⊔ W₂)) : G) = ((z : ↥M) : G) := (rfl)
 
+omit [Fintype G] in
 theorem coe_supSubgroupOfEquiv_symm {M W₁ W₂ : Subgroup G} (h1 : W₁ ≤ M) (h2 : W₂ ≤ M)
     (z : ↥(W₁ ⊔ W₂)) :
     (((supSubgroupOfEquiv h1 h2).symm z : ↥(W₁.subgroupOf M ⊔ W₂.subgroupOf M)) : ↥M)
@@ -1041,6 +1067,7 @@ theorem coe_supSubgroupOfEquiv_symm {M W₁ W₂ : Subgroup G} (h1 : W₁ ≤ M)
   rw [MulEquiv.apply_symm_apply] at h
   exact h.symm
 
+omit [Fintype G] in
 theorem mem_cyclicTIDiff_subgroupOf_iff {M W₁ W₂ : Subgroup G} (h1 : W₁ ≤ M) (h2 : W₂ ≤ M)
     (x : ↥M) :
     x ∈ cyclicTIDiff (W₁.subgroupOf M ⊔ W₂.subgroupOf M) (W₁.subgroupOf M) (W₂.subgroupOf M)
@@ -1120,6 +1147,7 @@ noncomputable def localIrrEquiv {M W : Subgroup G} (h : W ≤ M) {I : Type*} (α
     (hsurj : ∀ χ ∈ Irr ↥W, ∃ i, α i = χ) : I ≃ Irr ↥(W.subgroupOf M) :=
   (irrEquivOfEnum α hα hinj hsurj).trans (irrEquivOfMulEquiv (Subgroup.subgroupOfEquivOfLe h))
 
+omit [Fintype G] in
 theorem coe_localIrrEquiv {M W : Subgroup G} (h : W ≤ M) {I : Type*} (α : I → ↥W → ℂ)
     (hα : ∀ i, α i ∈ Irr ↥W) (hinj : Function.Injective α)
     (hsurj : ∀ χ ∈ Irr ↥W, ∃ i, α i = χ) (i : I) :
@@ -1127,12 +1155,14 @@ theorem coe_localIrrEquiv {M W : Subgroup G} (h : W ≤ M) {I : Type*} (α : I �
       = α i ∘ (Subgroup.subgroupOfEquivOfLe h) := by
   rw [localIrrEquiv, Equiv.trans_apply, coe_irrEquivOfMulEquiv, coe_irrEquivOfEnum_apply]
 
+omit [Fintype G] in
 theorem localIrrEquiv_eq_principalIrr {M W : Subgroup G} (h : W ≤ M) {I : Type*} (α : I → ↥W → ℂ)
     (hα : ∀ i, α i ∈ Irr ↥W) (hinj : Function.Injective α)
     (hsurj : ∀ χ ∈ Irr ↥W, ∃ i, α i = χ) {i : I} (hi : α i = 1) :
     localIrrEquiv h α hα hinj hsurj i = principalIrr ↥(W.subgroupOf M) :=
   Subtype.ext (by rw [coe_localIrrEquiv, hi, coe_principalIrr]; rfl)
 
+omit [Fintype G] in
 theorem localIrrEquiv_ne_principalIrr {M W : Subgroup G} (h : W ≤ M) {I : Type*} (α : I → ↥W → ℂ)
     (hα : ∀ i, α i ∈ Irr ↥W) (hinj : Function.Injective α)
     (hsurj : ∀ χ ∈ Irr ↥W, ∃ i, α i = χ) {i i0 : I} (hi0 : α i0 = 1) (hi : i ≠ i0) :
@@ -1140,6 +1170,7 @@ theorem localIrrEquiv_ne_principalIrr {M W : Subgroup G} (h : W ≤ M) {I : Type
   rw [← localIrrEquiv_eq_principalIrr h α hα hinj hsurj hi0]
   exact fun hc => hi ((localIrrEquiv h α hα hinj hsurj).injective hc)
 
+omit [Fintype G] in
 theorem prodChar_comp_supSubgroupOfEquiv {M W₁ W₂ : Subgroup G} (h1 : W₁ ≤ M) (h2 : W₂ ≤ M)
     (hW : IsCyclicTIPair (W₁.subgroupOf M ⊔ W₂.subgroupOf M) (W₁.subgroupOf M) (W₂.subgroupOf M))
     {lam : ↥W₁ → ℂ} {mu : ↥W₂ → ℂ} {f : ↥(W₁ ⊔ W₂) → ℂ}
@@ -1175,6 +1206,7 @@ theorem coe_sigmaLocalHom_basisProdIrr {M W₁ W₂ : Subgroup G} (h1 : W₁ ≤
     simp
   rw [coe_sigmaLocalHom, hcomp]
 
+omit [Fintype G] in
 theorem ell_eq_inflateLeft {M W₁ W₂ : Subgroup G} {I : Type*} {α : I → ↥W₁ → ℂ}
     (h1 : W₁ ≤ M)
     (hα : ∀ i, α i ∈ Irr ↥W₁) (hαinj : Function.Injective α)
@@ -1338,8 +1370,9 @@ theorem cfInner_Mrow_of_ne
   classical
   rw [hrow j, hrow k,
     cfInner_primeTIrow_primeTIrow hP (isCyclicTIIsometry_sigmaLocalHom h1 h2 hσ),
-    if_neg fun hc => hjk ((localIrrEquiv h2 β hβ hβinj hβsurj).injective hc)]
+    ite_eq_right fun hc => hjk ((localIrrEquiv h2 β hβ hβinj hβsurj).injective hc)]
 
+omit [Fintype ↑(Irr ↥(W₁.subgroupOf M))] in
 theorem exists_forall_delta_eq
     (h1 : W₁ ≤ M) (h2 : W₂ ≤ M)
     (hα : ∀ i, α i ∈ Irr ↥W₁) (hβ : ∀ j, β j ∈ Irr ↥W₂)
@@ -1367,6 +1400,7 @@ section Ambient
 
 variable {G : Type u} [Group G] [Fintype G]
 
+omit [Fintype G] in
 theorem map_subtype_commutator (M : Subgroup G) :
     (commutator ↥M).map M.subtype = (⁅M, M⁆ : Subgroup G) := by
   rw [commutator_eq_subgroupOf_commutator]
@@ -1384,6 +1418,7 @@ theorem inf_map_subtype_commutator_eq_bot {M U W₁ W₂ : Subgroup G}
   rw [map_subtype_commutator, inf_comm]
   exact disjoint_iff.1 hc.disjoint_commutator_W₁
 
+omit [Fintype G] in
 theorem cyclicTIDiff_sup_subset_extendedSupport {M W₁ W₂ : Subgroup G} :
     cyclicTIDiff (W₁ ⊔ W₂) W₁ W₂ ⊆
       CFSG.FeitThompson.Prep09.coreFixedSet (Prep03.hallCoreIn M) (⁅M, M⁆ : Subgroup G) ∪
@@ -1438,6 +1473,7 @@ theorem dadeMapFun_primeTIrow_sub
   rw [← coe_dadeMap hD ⟨_, hmem⟩]
   exact h.dadeMap_primeTIirr_sub_eq hσ hWH hA hA₀ hD hstab hdisj hω i hj hk (hone i)
 
+omit [Fintype G] [Fintype ↥(map L.subtype (W₁ ⊔ W₂))] [Fintype ↑(Irr ↥W₁)] in
 theorem primeTIirr_one_eq_relIndex {H U : Subgroup ↥L} (h : IsPrimeCyclicTIHyp K W₁ W₂)
     (hc : IsMinimalAbelianCore K W₁ W₂ H U) (hσ : IsCyclicTIIsometry (W₁ ⊔ W₂) W₁ W₂ σ)
     (i : Irr ↥W₁) {j : Irr ↥W₂} (hj : j ≠ principalIrr ↥W₂) :
@@ -1629,6 +1665,7 @@ theorem nu_signedIrr_of_mem_detectInd_inter_Irr
       (le_map_subtype_commutator hc) (inf_map_subtype_commutator_eq_bot hc) hω hD hVA hS hSstar
       hνiso hS0 hντ hξS hξIrr hv⟩
 
+omit [Fintype G] in
 theorem exists_index_eq {W₂ : Subgroup G} {J : Type} {β : J → ↥W₂ → ℂ} {j0' : J}
     (hβ : ∀ j, β j ∈ Irr ↥W₂)
     (hβsurj : ∀ χ ∈ Irr ↥W₂, ∃ j, β j = χ) (hβ0 : β j0' = 1)
@@ -1654,6 +1691,7 @@ noncomputable def nonprincipalEquiv {M W₂ : Subgroup G} (h2 : W₂ ≤ M) :
         fun hc => (irrEquivOfMulEquiv (Subgroup.subgroupOfEquivOfLe h2)).symm.injective
           (by rw [hc, Equiv.symm_apply_apply])⟩
 
+omit [Fintype G] in
 theorem coe_nonprincipalEquiv {M W₂ : Subgroup G} (h2 : W₂ ≤ M)
     (j : {j : Irr ↥(W₂.subgroupOf M) // j ≠ principalIrr ↥(W₂.subgroupOf M)}) :
     ((nonprincipalEquiv h2 j : Irr ↥W₂))
@@ -1724,7 +1762,7 @@ theorem cfInner_signed_prodCharEtaColSum_prodCharEta {W₁ W₂ : Subgroup G}
       = (-1 : ℂ) ^ e * δ := by
   have hfin := hW.finite_right
   rw [starIrr_iterate_iterate he, cfInner_smul_left,
-    hW.cfInner_prodCharEtaColSum_prodCharEta hω j₀ i j₀, if_pos rfl, mul_one]
+    hW.cfInner_prodCharEtaColSum_prodCharEta hω j₀ i j₀, ite_eq_left rfl, mul_one]
 
 theorem prodCharEtaColSum_eq_sum_eta {W₁ W₂ : Subgroup G} {I J : Type} [Fintype I]
     (hW : IsCyclicTIPair (W₁ ⊔ W₂) W₁ W₂)
@@ -2008,7 +2046,7 @@ private theorem orientedCoreFamily_aux
       cfInner (ambRow h1 h2 hσ hP (j : Irr ↥W₂)) (ambRow h1 h2 hσ hP (k : Irr ↥W₂)) = 0 := by
     intro j k hjk
     rw [ambRow_def, ambRow_def, cfInner_primeTIrow_primeTIrow hP hσ',
-      if_neg fun h => hjk (Subtype.ext ((irrEquivOfMulEquiv _).injective h))]
+      ite_eq_right fun h => hjk (Subtype.ext ((irrEquivOfMulEquiv _).injective h))]
   have hupos : 0 < Nat.card ↥W₁ * u := by
     refine Nat.mul_pos Nat.card_pos (Nat.pos_of_ne_zero ?_)
     rw [hu, Subgroup.relIndex]
@@ -2107,7 +2145,7 @@ private theorem orientedCoreFamily_aux
     intro ζ hζ i j₀ hnot
     rcases eq_ambRow_or_mem_span_inter_Irr h1 h2 hσ hP hmac hF hζ with ⟨k, hk0, rfl⟩ | hspan
     · rw [show ofSpanHom ν (ambRow h1 h2 hσ hP k) = _ from hνamb ⟨k, hk0⟩, hPair]
-      exact if_neg (hnot ⟨k, hk0⟩ rfl)
+      exact ite_eq_right (hnot ⟨k, hk0⟩ rfl)
     · exact cfInner_ofSpanHom_eq_zero_of_mem_span ν Set.inter_subset_left
         (fun ξ hξ => by rw [hηeq]; exact (hSirr hξ).2.2.2.1 _ _) hspan
   have hcolη : ∀ l : J, hWpair.prodCharEtaColSum (tiExtensionHom hω) ⟨β l, hβ l⟩
@@ -2174,7 +2212,7 @@ private theorem orientedCoreFamily_aux
     refine ⟨?_, cfInner_self_Mrow h1 h2 hβ hβinj hβsurj hσ hP hrow _, ?_, ?_⟩
     · rw [hMamb]; exact hMT ⟨_, hne0 _ hne'⟩
     · rw [hMamb, hνamb ⟨_, hne0 _ hne'⟩, hPair]
-      exact if_pos hstar
+      exact ite_eq_left hstar
     · intro ζ hζ hne
       refine hcoef ζ hζ i0 j₀ fun k hk h => hne ?_
       have hk' : (k : Irr ↥W₂) = ⟨β (if e = 0 then j₀ else bar j₀), hβ _⟩ := by

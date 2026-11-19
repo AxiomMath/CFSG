@@ -60,10 +60,10 @@ theorem eq_zero_or_eq_e7Y56 (w : Fin e7Data.d →₀ ZMod 2)
   carrier := {g | e7Rep56 (ZMod 2) g e7Y56 = e7Y56}
   one_mem' := by simp
   mul_mem' := fun {a b} ha hb => by
-    simp only [Set.mem_setOf_eq] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq] at ha hb ⊢
     rw [map_mul, Module.End.mul_apply, hb, ha]
   inv_mem' := fun {a} ha => by
-    simp only [Set.mem_setOf_eq] at ha ⊢
+    simp only [Set.mem_ofPred_eq] at ha ⊢
     have h : e7Rep56 (ZMod 2) (a⁻¹ * a) e7Y56 = e7Y56 := by simp
     rw [map_mul, Module.End.mul_apply, ha] at h
     exact h
@@ -105,7 +105,7 @@ theorem e7Data_weyl_zero (i : Fin (Tag.rank .E7)) : e7Data_valid.sRefl i ⟨0, b
     exact e7Data_valid.sRefl_ne_self (a := ⟨0, by decide⟩) (by rw [e7_wt_one]; decide) h
   · intro hi
     refine e7Data_valid.sRefl_eq_self ?_
-    rw [e7_wt_zero, if_neg hi]
+    rw [e7_wt_zero, ite_eq_right hi]
 
 theorem nC_mem_stabY_iff (i : Fin (Tag.rank .E7)) :
     nC .E7 (ZMod 2) i ∈ stabY ↔ i ≠ e7n6 := by
@@ -123,7 +123,7 @@ theorem e7Rep56_e7Y56_eq_iff (g : ↥(adjointGroup .E7 (ZMod 2))) :
     stabYGL_le
   have hJ : {i | weylElt .E7 (ZMod 2) i 1 ∈ stabYGL} = {i | i ≠ e7n6} := by
     ext i
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     rw [← nC_mem_stabY_iff]
     constructor
     · intro h

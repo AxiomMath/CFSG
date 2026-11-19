@@ -48,7 +48,7 @@ theorem e6TwoLangComp_labelW
       rationalLabel_typeA S Nat.prime_three hT hap h1 i hA hQS
     have hkind : twistKind S.ρ (rootCharHom a) i = .inner := by
       unfold twistKind
-      rw [if_pos ?_]
+      rw [ite_eq_left ?_]
       rwa [horb1, Function.iterate_one]
     have htag : lab.tag = .A := hinn hkind
     have hn1 : lab.n = 1 := by
@@ -97,7 +97,7 @@ theorem e6TwoLangComp_labelW
       rationalLabel_typeA S Nat.prime_three hT hap h1 i hA hQS
     have hkind : twistKind S.ρ (rootCharHom a) i = .inner := by
       unfold twistKind
-      rw [if_pos ?_]
+      rw [ite_eq_left ?_]
       rwa [horb2]
     have htag : lab.tag = .A := hinn hkind
     have hn1 : lab.n = 2 := by
@@ -201,7 +201,7 @@ theorem e6TwoLangComp_labelT
       ⟨by omega, by rw [hn20, hr4]⟩
     have hkind : twistKind S.ρ (rootCharHom a) i = .suN := by
       unfold twistKind
-      rw [if_neg hout', if_neg hexc, if_neg htwoD, if_pos hsuN]
+      rw [ite_eq_right hout', ite_eq_right hexc, ite_eq_right htwoD, ite_eq_left hsuN]
     have htag : lab.tag = .twA := hsu hkind
     have hn1 : lab.n = 1 := by
       apply Nat.pow_right_injective (by norm_num : 2 ≤ 2)
@@ -249,7 +249,7 @@ theorem e6TwoLangComp_labelT
       ⟨by omega, by rw [hn30, hr5]⟩
     have hkind : twistKind S.ρ (rootCharHom a) i = .suN := by
       unfold twistKind
-      rw [if_neg hout', if_neg hexc, if_neg htwoD, if_pos hsuN]
+      rw [ite_eq_right hout', ite_eq_right hexc, ite_eq_right htwoD, ite_eq_left hsuN]
     have htag : lab.tag = .twA := hsu hkind
     have hn1 : lab.n = 1 := by
       apply Nat.pow_right_injective (by norm_num : 2 ≤ 2)
@@ -296,7 +296,7 @@ theorem e6TwoLangComp_labelT
       ⟨by omega, by rw [hn6, hr2]⟩
     have hkind : twistKind S.ρ (rootCharHom a) i = .suN := by
       unfold twistKind
-      rw [if_neg hout', if_neg hexc, if_neg htwoD, if_pos hsuN]
+      rw [ite_eq_right hout', ite_eq_right hexc, ite_eq_right htwoD, ite_eq_left hsuN]
     have htag : lab.tag = .twA := hsu hkind
     have hn1 : lab.n = 3 := by
       apply Nat.pow_right_injective (by norm_num : 2 ≤ 2)

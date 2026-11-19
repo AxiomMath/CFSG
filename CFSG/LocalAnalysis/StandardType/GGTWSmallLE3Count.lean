@@ -343,9 +343,9 @@ theorem ggResTwoNodeLE3Small_of_count
                   have hKd5' := hKd5
                   obtain ⟨Λ, i1, i2, MK, CK, V, i3, i4, ι, φ, h, α, e, hMK, hWMK, hCK,
                     hlin, hrefl, hpair, ⟨f, hf⟩, hclos⟩ := hKd5
-                  letI := i1; letI := i2; letI := i3; letI := i4
-                  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-                  haveI : Module.Finite (ZMod p) V := Module.Finite.of_finite
+                  let := i1; let := i2; let := i3; let := i4
+                  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+                  have : Module.Finite (ZMod p) V := Module.Finite.of_finite
                   have hpN6 : p ∣ 6 := by rw [hp3]; norm_num
                   have hdep : ¬ LinearIndependent (ZMod p) h :=
                     ggXDatumA_dep_K hp2 hH hy hyK hfixK (N := 6) (by norm_num) hpN6 e hMK

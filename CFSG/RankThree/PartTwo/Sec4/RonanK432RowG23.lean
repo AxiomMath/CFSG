@@ -42,7 +42,7 @@ theorem elt_witness {c d : Fin D.n → ZMod 3} {g : X} (hg : g * D.elt c * g⁻�
     (h0 : d ≠ 0) (h1 : d ≠ c) (h2 : d ≠ -c) :
     (g * D.elt c * g⁻¹) * D.elt c = D.elt c * (g * D.elt c * g⁻¹) ∧
       g * D.elt c * g⁻¹ ∉ Subgroup.zpowers (D.elt c) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [hg]
   refine ⟨D.mul_comm_of_mem (D.elt_mem d) (D.elt_mem c), fun hmem => ?_⟩
   rcases mem_zpowers_cases_of_pow_three (D.pow_eq_one_of_mem (D.elt_mem c)) hmem with h | h | h
@@ -220,7 +220,7 @@ open CFSG.RankThree.PartTwo.Census.Carrier.G2Three
 
 theorem listRow_rg :
     ListRow ↥RG := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P, hAP, hxa, hxb, hPcard, -, hPcent⟩ := exists_sylow_of_two_gens specA actsBy_gxa
     actsBy_gxb gxa_pow gxb_pow comm_xb_xa distinct_nine
   refine listRow_of_sylow_center 6 P hPcard ?_ ?_

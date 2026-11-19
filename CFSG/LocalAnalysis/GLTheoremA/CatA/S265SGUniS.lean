@@ -96,7 +96,7 @@ private theorem blkFrame_injective (hd : 3 ≤ d) {i j : Fin d} (hij : i ≠ j) 
 
 private theorem three_dvd_card_blk (h3 : 3 ∣ 2 ^ n + 1) {i j : Fin d} (hij : i ≠ j) :
     3 ∣ Nat.card ↥(RankThree.PartOne.KFU.blk h hij) := by
-  haveI := Fact.mk Nat.prime_three
+  have := Fact.mk Nat.prime_three
   obtain ⟨ζ, hζ⟩ := RankThree.PartOne.KFU.exists_isPrimitiveRoot h Nat.prime_three h3
   set u : Fˣ := Units.mk0 ζ (hζ.ne_zero (by norm_num))
   have hun : h.norm (u : F) = 1 := by
@@ -122,7 +122,7 @@ private theorem three_dvd_card_blk (h3 : 3 ∣ 2 ^ n + 1) {i j : Fin d} (hij : i
   have hb1 : b ≠ 1 := fun e => by
     have := congrArg (fun y : ↥(RankThree.PartOne.KFU.blk h hij) =>
       ((y : GL (Fin d) F) : Matrix (Fin d) (Fin d) F) i i) e
-    simp only [hcoe, diagonal_apply_eq, if_pos rfl, Subgroup.coe_one, Units.val_one,
+    simp only [hcoe, diagonal_apply_eq, Subgroup.coe_one, Units.val_one,
       one_apply_eq] at this
     exact hζ.ne_one (by norm_num) this
   rw [← orderOf_eq_prime hb3 hb1]
@@ -137,8 +137,8 @@ theorem SG.uniS_core (hn : 2 ≤ n) (h3 : 3 ∣ 2 ^ n + 1) (hd4 : 4 ≤ d) (hd5 
       (∃ a b : ↥A, a * b ≠ b * a) ∧ 3 ∣ Nat.card ↥A ∧ A ≤ fixSubgroup α ∧
       ∃ Y : Subgroup (MulAut (LargeEvenProj (LargeEvenSUGroup (Fin d) F (2 ^ n)))),
         Y.relIndex X ≤ 3 ∧ ∀ ε ∈ Y, A ≤ fixSubgroup ε := by
-  haveI := h.finite
-  haveI : NeZero (3 : ℕ) := ⟨three_ne_zero⟩
+  have := h.finite
+  have : NeZero (3 : ℕ) := ⟨three_ne_zero⟩
   have hF : Nat.card F = (2 ^ n) ^ 2 := by rw [h.card, ← pow_mul, mul_comm]
   have hd3 : 3 ≤ d := by omega
   have hdq : (d, 2 ^ n) ≠ (3, 2) := fun e => (show d ≠ 3 by omega) (congrArg Prod.fst e)
@@ -170,7 +170,7 @@ theorem SG.uniS_core (hn : 2 ≤ n) (h3 : 3 ∣ 2 ^ n + 1) (hd4 : 4 ≤ d) (hd5 
   obtain ⟨χ, hχ⟩ : ∃ χ : ↥X →* Fˣ, ∀ e : ↥X, χ e = σ e i / σ e j :=
     ⟨MonoidHom.mk' (fun e => σ e i / σ e j) fun e₁ e₂ => hmul _ e₁.2 _ e₂.2, fun _ => rfl⟩
   obtain ⟨⟨-, hsimp, a₀, b₀, hab₀⟩, hZ, -⟩ := RankThree.PartOne.KFU.blk_model h hn hij
-  haveI := hsimp
+  have := hsimp
   obtain ⟨eA⟩ : Nonempty (↥(RankThree.PartOne.KFU.blk h hij) ≃* ↥(blkFrame h hij Q hQ).range) :=
     ⟨MonoidHom.ofInjective (blkFrame_injective h hd3 hij Q hQ)⟩
   set e₀ := ((QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot).trans eA

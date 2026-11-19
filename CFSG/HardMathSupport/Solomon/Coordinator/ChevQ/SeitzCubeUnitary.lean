@@ -124,6 +124,7 @@ theorem mem_primeFormUnitary_of_herm (h : UnitaryFieldData ℓ f K) {m : ℕ} {g
   rw [Nonsplit.idForm_eq_herm h, Nonsplit.idForm_eq_herm h]
   simpa [Matrix.toLin'_apply] using hg u v
 
+omit [Finite K] in
 theorem exists_orthoEmb_of_stable {σ : K ≃+* K} {m : ℕ} {x : Fin m → Fin n → K}
     {W : Submodule K (Fin n → K)} (hW : Submodule.span K (Set.range x) = W) {s : SUid σ n}
     (hs : ∀ v ∈ W, s • v ∈ W) (c : Fin m → K) : ∃ d, s • orthoEmb x c = orthoEmb x d := by
@@ -450,7 +451,7 @@ theorem eigenspace_le_iSup_inf {K : Type} [Field K] {V : Type*} [AddCommGroup V]
     apply LinearMap.ext
     intro w
     apply Subtype.ext
-    rw [LinearMap.restrict_coe_apply, hB]
+    rw [_root_.LinearMap.coe_restrict_apply, hB]
     simp [Algebra.algebraMap_eq_smul_one]
   have hsupB := NonPth.iSup_eigenspace_eq_top_p hp hpK hζ hν hB'
   calc W = (⊤ : Submodule K W).map W.subtype := (Submodule.map_subtype_top W).symm
@@ -501,7 +502,7 @@ theorem iSup_inf_eigenspace_eq_top {K : Type} [Field K] {V : Type*} [AddCommGrou
     apply LinearMap.ext
     intro w
     apply Subtype.ext
-    rw [LinearMap.restrict_coe_apply, hB]
+    rw [_root_.LinearMap.coe_restrict_apply, hB]
     simp [Algebra.algebraMap_eq_smul_one]
   have hsupB := NonPth.iSup_eigenspace_eq_top_p hp hpK hζ hν₂ hB'
   calc W = (⊤ : Submodule K W).map W.subtype := (Submodule.map_subtype_top W).symm
@@ -523,6 +524,7 @@ variable {ℓ f n p : ℕ} {K : Type} [Field K] [Finite K] [Fact ℓ.Prime] [Cha
 
 local notation "σ₀" => unitaryInvolution K ℓ f
 
+omit [Finite K] in
 theorem scalar_ne_zero_of_matPow {m : ℕ} (hm : 0 < m) {g : GL (Fin m) K} {k : ℕ} {β : K}
     (hg : ((g : GL (Fin m) K) : Matrix (Fin m) (Fin m) K) ^ k = β • 1) : β ≠ 0 := by
   rintro rfl
@@ -664,6 +666,7 @@ variable {ℓ f n p : ℕ} {K : Type} [Field K] [Finite K] [Fact ℓ.Prime] [Cha
 
 local notation "σ₀" => unitaryInvolution K ℓ f
 
+omit [Finite K] [Fact (Nat.Prime ℓ)] [CharP K ℓ] in
 theorem dvd_card_sub_one_of_unitary (h : UnitaryFieldData ℓ f K) (hpq : p ∣ ℓ ^ f + 1) :
     p ∣ Nat.card K - 1 := by
   rw [UnitaryFieldData.card_eq_sq h]
@@ -703,6 +706,7 @@ theorem bar_mul_ne_one (h : UnitaryFieldData ℓ f K) {ν ζ : K} (hν : ν ≠ 
   have h2 : ζ ^ (i' : ℕ) = ζ ^ (i : ℕ) := mul_left_cancel₀ hν key
   exact hii (Fin.ext (hζ.pow_inj i'.2 i.2 h2).symm)
 
+omit [Finite K] in
 theorem herm_eq_zero_of_eigen {σ : K ≃+* K} {s : SUid σ n} {u v : Fin n → K} {l₁ l₂ : K}
     (hu : ((s : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) *ᵥ u = l₁ • u)
     (hv : ((s : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) *ᵥ v = l₂ • v)
@@ -714,6 +718,7 @@ theorem herm_eq_zero_of_eigen {σ : K ≃+* K} {s : SUid σ n} {u v : Fin n → 
   · exact absurd (sub_eq_zero.1 h3) hl
   · exact h3
 
+omit [Finite K] in
 theorem pow_eq_pow_mod {ζ : K} (hζ : IsPrimitiveRoot ζ p) (N : ℕ) : ζ ^ N = ζ ^ (N % p) := by
   conv_lhs => rw [← Nat.mod_add_div N p, pow_add, pow_mul, hζ.pow_eq_one, one_pow, mul_one]
 
@@ -1011,7 +1016,7 @@ theorem mulVec_orthoEmb_eq {x : Fin m → Fin n → K} (hx : ONExt.IsON σ x)
   obtain ⟨d, hd⟩ := hM c
   rw [resMat_mulVec_of_eq hx hd, hd]
 
-theorem commute_extMat_of_GL (hσ : ∀ c, σ (σ c) = c) {x : Fin m → Fin n → K}
+theorem commute_extMat_of_GL (_hσ : ∀ c, σ (σ c) = c) {x : Fin m → Fin n → K}
     (hx : ONExt.IsON σ x) {M : GL (Fin n) K}
     (hMu : ∀ u v, herm σ ((M : Matrix (Fin n) (Fin n) K) *ᵥ u)
       ((M : Matrix (Fin n) (Fin n) K) *ᵥ v) = herm σ u v)
@@ -1066,7 +1071,7 @@ theorem eq_top_of_normal_of_nonscalar {K : Type} [Field K] {σ : K ≃+* K}
     {g : SUid σ m} (hgN : g ∈ N)
     (hg : ∀ c : K, ((g : GL (Fin m) K) : Matrix (Fin m) (Fin m) K) ≠ c • 1) : N = ⊤ := by
   classical
-  haveI hsimple := isSimpleGroup_statedProj_SUid hσ hm h3
+  have hsimple := isSimpleGroup_statedProj_SUid hσ hm h3
   have hperf := isPerfect_SUid hσ hm h3
   set Z := (StatedScalars (Fin m) K).subgroupOf (SUid σ m) with hZ
   set φ : SUid σ m →* StatedProj (SUid σ m) := QuotientGroup.mk' Z with hφ
@@ -1225,7 +1230,7 @@ theorem exists_siegel_orbit (hσ : ∀ c, σ (σ c) = c) {p : ℕ} [NeZero p] {X
         rw [map_inv₀, ← mul_inv, hd, inv_one]
       intro u v
       simp only [herm_def, Fin.sum_univ_two, Matrix.mulVec_diagonal, map_mul]
-      simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons]
+      simp only [Matrix.cons_val_zero, Matrix.cons_val_one]
       linear_combination (σ (u 0) * v 0) * hd + (σ (u 1) * v 1) * hd')
 
 theorem diagTwo_smul_single (σ : K ≃+* K) {d : K} (hd : σ d * d = 1) :
@@ -1304,7 +1309,7 @@ theorem exists_nonscalar_comm (hσ : IsUnitaryInvolution σ) {xs : Fin m → Fin
       intro N a b ha hb c
       refine ⟨![a * c 0, b * c 1], ?_⟩
       simp only [Centers.orthoEmb_apply, Fin.sum_univ_two, hy, Matrix.cons_val_zero,
-        Matrix.cons_val_one, Matrix.head_cons, mulVec_add, mulVec_smul, ha, hb, smul_smul]
+        Matrix.cons_val_one, mulVec_add, mulVec_smul, ha, hb, smul_smul]
       ring_nf
     have hres : ONExt.resMat σ y (M : Matrix (Fin m) (Fin m) K) =
         Matrix.diagonal ![l₁, l₂] := by
@@ -1320,7 +1325,7 @@ theorem exists_nonscalar_comm (hσ : IsUnitaryInvolution σ) {xs : Fin m → Fin
       rw [Matrix.mulVec_diagonal]
       by_cases hij : i = j
       · subst hij; simp
-      · simp [Pi.single_apply, hij]
+      · simp [hij]
     have hcomm := commute_extMat_of_GL hσi hyON (M := M)
       (fun u v => by rw [hM, coe_resGL]; exact ONExt.herm_resMat hxs hsU u v)
       (hspan _ l₁ l₂ hMe₁ hMe₂)
@@ -1532,7 +1537,7 @@ theorem finrank_eigen_le {X B : SUid σ₀ n} {ζ : K} (hζ : IsPrimitiveRoot ζ
   intro v w hvw
   apply Subtype.ext
   have := congrArg Subtype.val hvw
-  simp only [LinearMap.restrict_coe_apply, Matrix.toLin'_apply] at this
+  simp only [_root_.LinearMap.coe_restrict_apply, Matrix.toLin'_apply] at this
   rw [← smul_def, ← smul_def] at this
   exact smul_left_cancel _ this
 
@@ -1563,7 +1568,7 @@ theorem allCenters_eigen_nonab (h : UnitaryFieldData ℓ f K) (hp : p.Prime) (hp
   have hσi := hσ.invol
   have hσb : ∀ c, σ₀ c = h.bar c := Nonsplit.unitaryInvolution_eq_bar h
   have hpK : (p : K) ≠ 0 := heis_natCast_ne_zero hζ hp.two_le
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   set Bm : Matrix (Fin n) (Fin n) K := ((B : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) with hBm
   set Xm : Matrix (Fin n) (Fin n) K := ((X : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) with hXm
   set rm : Matrix (Fin n) (Fin n) K := ((r : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) with hrm
@@ -1774,6 +1779,7 @@ theorem allCenters_eigen_nonab (h : UnitaryFieldData ℓ f K) (hp : p.Prime) (hp
     have : g ∈ HU := by rw [htop]; exact Subgroup.mem_top g
     exact this
 
+omit [Finite K] in
 theorem pow_mulVec_of_eigen {M : Matrix (Fin n) (Fin n) K} {c : K} {v : Fin n → K}
     (hv : M *ᵥ v = c • v) (t : ℕ) : (M ^ t) *ᵥ v = c ^ t • v := by
   induction t with
@@ -1806,7 +1812,7 @@ theorem hyperGen_of_nonab_pth (h : UnitaryFieldData ℓ f K) (hp : p.Prime) (hp2
   have hσi := hσ.invol
   have hσb : ∀ c, σ₀ c = h.bar c := Nonsplit.unitaryInvolution_eq_bar h
   have hpK : (p : K) ≠ 0 := heis_natCast_ne_zero hζ hp.two_le
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hn0 : 0 < n := by omega
   have hexp : ∀ e ∈ E, e ^ p = 1 := hE.2
   have hrs : ∀ c : K, ((r : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) ≠ c • 1 :=
@@ -2098,6 +2104,7 @@ theorem exists_comm_scalar (hn : 0 < n) {G : Type*} [Group G] (π : SUid σ₀ n
   have hα0 : α ≠ 0 := scalar_ne_zero_of_matPow hn (by rw [← Units.val_pow_eq_pow_val]; exact hα')
   exact pow_eq_one_of_smul_comm_p hn hα0 hα' hrel
 
+omit [Finite K] in
 theorem comm_of_scalar {σ : K ≃+* K} {z : SUid σ n} {c : K}
     (hz : ((z : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) = c • 1) (s : SUid σ n) :
     z * s = s * z := by
@@ -2248,7 +2255,7 @@ theorem exists_radical (hp : p.Prime) (hn : 0 < n) {G : Type*} [Group G] [Finite
 theorem exists_heis_pair (h : UnitaryFieldData ℓ f K) (hp : p.Prime) (hp2 : p ≠ 2)
     (hpq : p ∣ ℓ ^ f + 1) (hn : 0 < n) {G : Type*} [Group G] [Finite G] (π : SUid σ₀ n →* G)
     (hker : ∀ g ∈ π.ker, ∃ c : K, ((g : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) = c • 1)
-    {E : Subgroup G} (hE : IsElemAbelian p E) (hcard : Nat.card E = p ^ 3)
+    {E : Subgroup G} (hE : IsElemAbelian p E) (_hcard : Nat.card E = p ^ 3)
     {a b r : SUid σ₀ n} (ha : π a ∈ E) (hb : π b ∈ E) (hab : a * b ≠ b * a) (ha1 : π a ≠ 1)
     (hba : π b ∉ Subgroup.zpowers (π a)) (hrE : π r ∈ E)
     (hrcl : π r ∉ Subgroup.closure ({π a, π b} : Set G)) (hra : r * a = a * r)
@@ -2367,7 +2374,7 @@ theorem exists_heis_pair (h : UnitaryFieldData ℓ f K) (hp : p.Prime) (hp2 : p 
         simp only [Subgroup.coe_mul, Units.val_mul]
         exact h2
       have h4 := ((mem_SUid_iff σ₀).1 (X * Y).2).1
-      haveI : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
+      have : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
       rw [h3, Matrix.det_zero] at h4
       exact zero_ne_one h4
   intro hmem
@@ -2396,7 +2403,7 @@ open TauCeti
 
 theorem exists_model {m : ℕ} {q : PrimePower} (hv : (LieTypeIndex.twistedA m q).Valid) :
     ∃ (ℓ f : ℕ) (K : Type) (_ : Field K) (_ : Finite K) (_ : Fact ℓ.Prime) (_ : CharP K ℓ)
-      (h : UnitaryFieldData ℓ f K) (π : unitarySU ℓ f K (m + 1) →* Cat ⟨.twistedA m q, hv⟩),
+      (_h : UnitaryFieldData ℓ f K) (π : unitarySU ℓ f K (m + 1) →* Cat ⟨.twistedA m q, hv⟩),
       ℓ ^ f = q.card ∧ Function.Surjective π ∧
       (∀ g ∈ π.ker, ∃ c : K,
         ((g : GL (Fin (m + 1)) K) : Matrix (Fin (m + 1)) (Fin (m + 1)) K) = c • 1) ∧
@@ -2434,7 +2441,7 @@ theorem exists_model {m : ℕ} {q : PrimePower} (hv : (LieTypeIndex.twistedA m q
   · have hc0 : c ≠ 0 := by
       rintro rfl
       have hdet := ((mem_unitarySU_iff hU).1 g.2).1
-      haveI : Nonempty (Fin (m + 1)) := ⟨0⟩
+      have : Nonempty (Fin (m + 1)) := ⟨0⟩
       rw [hc, zero_smul, Matrix.det_zero] at hdet
       exact zero_ne_one hdet
     show e.symm (π₀ g) = 1
@@ -2516,7 +2523,7 @@ theorem seitzGoodInnerUnitaryNonDiag_of_nonabRest (hC : SeitzGoodInnerUnitaryNon
       πS (ε.symm x) = π x := fun x => by
     show π (ε (ε.symm x)) = π x
     rw [MulEquiv.apply_symm_apply]
-  haveI : Finite (Cat ⟨.twistedA m q, hv⟩) := Finite.of_surjective πS hπS
+  have : Finite (Cat ⟨.twistedA m q, hv⟩) := Finite.of_surjective πS hπS
   by_cases hab : ∀ x y : CFSG.ClassicalGroups.UnitaryFlag.unitarySU ℓ f K (m + 1), π x ∈ E₀ →
       π y ∈ E₀ → x * y = y * x
   ·

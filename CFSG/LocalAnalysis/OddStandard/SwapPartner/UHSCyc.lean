@@ -159,7 +159,7 @@ theorem HSCtx.isCyclic_of_isPGroup (C : HSCtx z ι ιd Kh) [Finite G] {U : Subgr
         exact subset_closure (Set.mem_insert g {x})
       exact hgS hgS'
     · rw [hseq]; infer_instance
-  haveI : IsCyclic ↥S := hScyc
+  have : IsCyclic ↥S := hScyc
   have hU'S : U' ≤ S := by
     change U' ≤ U' ⊔ Subgroup.zpowers x
     exact le_sup_left

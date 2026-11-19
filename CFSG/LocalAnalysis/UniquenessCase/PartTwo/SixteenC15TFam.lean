@@ -40,7 +40,7 @@ private theorem s16c15t_rk_le_one_of_index_two {Y : Type*} [Group Y] [Finite Y]
     rw [hcardN', hcard] at h1
     have hpos : 0 < Nat.card N := Nat.card_pos
     exact Nat.eq_of_mul_eq_mul_left hpos (h1.trans (mul_comm _ _))
-  haveI : (N.subgroupOf L₀).Normal := Subgroup.normal_of_index_eq_two hidx
+  have : (N.subgroupOf L₀).Normal := Subgroup.normal_of_index_eq_two hidx
   let φ : ↥E →* ↥L₀ ⧸ N.subgroupOf L₀ :=
     (QuotientGroup.mk' (N.subgroupOf L₀)).comp (Subgroup.inclusion hEL)
   have hinj : Function.Injective φ := by

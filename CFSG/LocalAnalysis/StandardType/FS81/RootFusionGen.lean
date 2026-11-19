@@ -38,7 +38,7 @@ theorem mem_of_conj_mem_of_commute_conj {G : Type*} [Group G] {Y : Subgroup G} {
 
 theorem isSylow2In_map_subtype {G : Type} [Group G] {Y : Subgroup G} (U : Sylow 2 ↥Y) :
     IsSylow2In ((U : Subgroup ↥Y).map Y.subtype) Y := by
-  refine ⟨Subgroup.map_subtype_le _, U.isPGroup'.map _, fun T hTY hT hUT => ?_⟩
+  refine ⟨Subgroup.map_subtype_le _, U.isPGroup.map _, fun T hTY hT hUT => ?_⟩
   have hT' : IsPGroup 2 ↥(T.subgroupOf Y) := hT.of_equiv (Subgroup.subgroupOfEquivOfLe hTY).symm
   have hle : (U : Subgroup ↥Y) ≤ T.subgroupOf Y := Subgroup.map_le_iff_le_comap.mp hUT
   rw [← U.maximal_isPGroup.eq_of_ge hT' hle, Subgroup.subgroupOf_map_subtype,

@@ -21,6 +21,7 @@ open CFSG.RankThree.PartTwo.Sec19 (starIm IsList194 IsSmall194 IsTripleA6 IsProp
 
 variable {G : Type} [Group G] [Finite G] {A M N L K : Subgroup G} {c : G}
 
+omit [Finite G] in
 private theorem barAut_eq_one_iff_of_mem {x : G} (hx : x ∈ Subgroup.normalizer (K : Set G)) :
     Sec3.Sims321.barAut K ⟨x, hx⟩ = 1 ↔
       ∀ k ∈ K, x * k * x⁻¹ * k⁻¹ ∈ CFSG.Open.pCoreOf 2 K := by
@@ -162,6 +163,7 @@ private theorem outTwoExpTwo_of_relIndex_eq_two (hkf : KFacts1923) (h : Hyp1921 
   exact hkf.kf1.2.1 _ hlist (step1923_KM2 h hK hkf.h194 hkf.kf2 hkf.kf3a hkf.kfbig
     (ncard_conj_eq_two_of_not_le h hF hK.1 hW))
 
+omit [Finite G] in
 private theorem barAut_inverts {B : Subgroup G} (e : ↥(Subgroup.normalizer (K : Set G)))
     (he : ∀ b ∈ B, (e : G) * b * (e : G)⁻¹ = b⁻¹) :
     ∀ d ∈ barActionImage K B,
@@ -173,6 +175,7 @@ private theorem barAut_inverts {B : Subgroup G} (e : ↥(Subgroup.normalizer (K 
     rw [map_mul, map_mul, map_inv]
   rw [← key, hx', map_inv]
 
+omit [Finite G] in
 private theorem barAut_mem_normalizer_image {B : Subgroup G}
     (e : ↥(Subgroup.normalizer (K : Set G)))
     (heB : (e : G) ∈ Subgroup.normalizer (B : Set G)) :

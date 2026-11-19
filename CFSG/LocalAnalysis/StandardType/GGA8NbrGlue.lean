@@ -19,7 +19,7 @@ private lemma a8g_two_ne_zero : (2 : ZMod 7) ≠ 0 := by decide
 private lemma a8g_single_vecMul (A : M4) (i : Fin 4) :
     vecMul (Pi.single i 1) A = A i := by
   funext j
-  simp [Matrix.vecMul, dotProduct, Pi.single_apply, Finset.sum_ite_eq, Finset.mem_univ]
+  simp [Matrix.vecMul, dotProduct, Pi.single_apply, Finset.mem_univ]
 
 private lemma a8g_matrix_eq_of_rows {A B : M4}
     (h : ∀ i, vecMul (Pi.single i (1 : ZMod 7)) A =
@@ -36,9 +36,9 @@ private lemma a8g_vecMul_a8MonK_succ (v : Fin 4 → ZMod 7) (π : Equiv.Perm (Fi
 
 private lemma a8g_vecMul_a8Dscal (a u : ZMod 7) (hu : u ≠ 0) :
     vecMul ![a, u, u, u] (a8Dscal u⁻¹) = ![a, 1, 1, 1] := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   funext j
-  fin_cases j <;> simp [a8Dscal, Matrix.vecMul, dotProduct, Fin.sum_univ_four, Matrix.diagonal]
+  fin_cases j <;> simp [a8Dscal, Matrix.vecMul, dotProduct, Matrix.diagonal]
   all_goals exact mul_inv_cancel₀ hu
 
 private lemma a8g_det_ne_zero_of_mul_eq_one {A B : M4} (h : A * B = 1) : A.det ≠ 0 := by
@@ -49,7 +49,7 @@ private lemma a8g_det_ne_zero_of_mul_eq_one {A B : M4} (h : A * B = 1) : A.det �
 
 private lemma a8g_mul_comm_of_mul_eq_one {A B : M4} (h : A * B = 1) : B * A = 1 := by
   have hdet : Invertible A.det := Matrix.detInvertibleOfRightInverse (A := A) (B := B) h
-  letI : Invertible A := Matrix.invertibleOfDetInvertible (A := A)
+  let : Invertible A := Matrix.invertibleOfDetInvertible (A := A)
   rw [← Matrix.inv_eq_right_inv h, Matrix.inv_mul_of_invertible]
 
 private def a8g_matAddEquiv (m m' : M4) (hm : m * m' = 1) :
@@ -64,7 +64,6 @@ private def a8g_matAddEquiv (m m' : M4) (hm : m * m' = 1) :
     change vecMul (vecMul v m') m = v
     rw [Matrix.vecMul_vecMul, hm', Matrix.vecMul_one]
   map_add' v w := by
-    change vecMul (v + w) m = vecMul v m + vecMul w m
     rw [Matrix.add_vecMul]
 
 private noncomputable def a8g_matAut {G : Type} [Group G] {Bs : Subgroup G}
@@ -87,7 +86,7 @@ private lemma a8g_decomp {G : Type} [Group G] {Bs : Subgroup G}
     (e f : Additive ↥Bs ≃+ (Fin 4 → ZMod 7)) :
     ∀ b : Additive ↥Bs, f b =
       vecMul (e b) (Matrix.of fun i j => f (e.symm (Pi.single i 1)) j) := by
-  letI : AddCommMonoid (Additive ↥Bs) :=
+  let : AddCommMonoid (Additive ↥Bs) :=
     { (inferInstance : AddMonoid (Additive ↥Bs)) with
       add_comm := fun x y => e.injective (by rw [map_add, map_add, add_comm]) }
   intro b
@@ -285,7 +284,7 @@ theorem ggA8Nbr_glue {G : Type} [Group G] {Bs L K J : Subgroup G} (hNT : GGNoTra
     ∃ (c : Case) (ι : Additive ↥Bs ≃+ (Fin 4 → ZMod 7)), c ∈ allCases ∧ c.1 = true ∧
       ∀ k : Fin 6, ∃ φ ∈ ggAutomizer L Bs ⊔ ggAutomizer K Bs, ∀ b : ↥Bs,
         ι (Additive.ofMul (φ b)) = vecMul (ι (Additive.ofMul b)) (gens c k) := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨P, Q, hP, hPQ, hQP⟩ := a8g_exists_frame ιK ιL
   have hdetP : P.det ≠ 0 := a8g_det_ne_zero_of_mul_eq_one hPQ
   obtain ⟨ψ1, hψ1J, hψ1L⟩ := hLJ (Equiv.swap 1 2) (by decide)

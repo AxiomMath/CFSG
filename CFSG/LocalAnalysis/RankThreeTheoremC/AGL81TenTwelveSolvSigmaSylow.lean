@@ -64,7 +64,7 @@ private theorem map_symm_map {K K' : Type} [Group K] [Group K'] (e : K ≃* K') 
 
 theorem SolvSigmaSylowFacts.of_mulEquiv {K K' : Type} [Group K] [Group K'] [Finite K]
     (e : K ≃* K') (h : SolvSigmaSylowFacts K') : SolvSigmaSylowFacts K := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro S
   obtain ⟨A', hA'⟩ := h (S.mapSurjective (f := e.toMonoidHom) e.surjective)
   refine ⟨A'.map e.symm.toMonoidHom, ?_⟩
@@ -87,7 +87,7 @@ private theorem mem_zpowers_cases {K : Type} [Group K] {u x : K} (hu : u ^ 3 = 1
 
 private theorem zpowers_eq_of_mem {K : Type} [Group K] [Finite K] {x y : K} (hx3 : x ^ 3 = 1)
     (hx1 : x ≠ 1) (hy3 : y ^ 3 = 1) (h : x ∈ zpowers y) : zpowers x = zpowers y := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine Subgroup.eq_of_le_of_card_ge (zpowers_le.mpr h) ?_
   rw [Nat.card_zpowers, Nat.card_zpowers, orderOf_eq_prime hx3 hx1]
   exact Nat.le_of_dvd (by norm_num) (orderOf_dvd_of_pow_eq_one hy3)
@@ -126,10 +126,10 @@ private theorem conj_not_mem_zpowers {K : Type} [Group K] {S₀ : Subgroup K}
 private theorem pairFacts_of_data {K : Type} [Group K] [Finite K] {S₀ A₀ : Subgroup K}
     (hS₀c : Nat.card S₀ = 81) (hA₀S₀ : A₀ ≤ S₀) (hA₀ : IsElemAbelian 3 A₀)
     (hA₀c : Nat.card A₀ = 27) {σ z f : K} (hσ : σ ∈ S₀) (hσA : σ ∉ A₀) (hz : z ∈ A₀)
-    (hz1 : z ≠ 1) (hzσ : σ * z = z * σ) (hCσ : ∀ b ∈ A₀, σ * b = b * σ → b ∈ zpowers z)
+    (_hz1 : z ≠ 1) (hzσ : σ * z = z * σ) (hCσ : ∀ b ∈ A₀, σ * b = b * σ → b ∈ zpowers z)
     (hf : f ∈ normalizer (A₀ : Set K)) (hfz : f * z * f⁻¹ ∉ zpowers z) :
     PairFacts S₀ A₀ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hnormal : (A₀.subgroupOf S₀).Normal := by
     apply Subgroup.normal_of_index_eq_minFac_card
     have h := (A₀.subgroupOf S₀).card_mul_index
@@ -296,7 +296,7 @@ theorem solvSigmaSylowFacts_of_data {K : Type} [Group K] [Finite K] {S₀ A₀ :
     (hzσ : σ * z = z * σ) (hCσ : ∀ b ∈ A₀, σ * b = b * σ → b ∈ zpowers z)
     (hf : f ∈ normalizer (A₀ : Set K)) (hfz : f * z * f⁻¹ ∉ zpowers z) :
     SolvSigmaSylowFacts K := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h0 := pairFacts_of_data hS₀c hA₀S₀ hA₀ hA₀c hσ hσA hz hz1 hzσ hCσ hf hfz
   intro S
   obtain ⟨Φ, hΦ⟩ := exists_mulEquiv_map_eq_sylow (MulEquiv.refl K) hS₀ hS₀i S
@@ -311,7 +311,7 @@ theorem solvSigmaSylowFacts_of_data_of_le {G : Type} [Group G] [Finite G] {H S�
     (hzσ : σ * z = z * σ) (hCσ : ∀ b ∈ A₀, σ * b = b * σ → b ∈ zpowers z)
     (hfH : f ∈ H) (hf : f ∈ normalizer (A₀ : Set G)) (hfz : f * z * f⁻¹ ∉ zpowers z) :
     SolvSigmaSylowFacts H := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hA₀H : A₀ ≤ H := hA₀S₀.trans hS₀H
   have hc81 : Nat.card (S₀.subgroupOf H) = 81 := by
     rw [Nat.card_congr (subgroupOfEquivOfLe hS₀H).toEquiv, hS₀c]

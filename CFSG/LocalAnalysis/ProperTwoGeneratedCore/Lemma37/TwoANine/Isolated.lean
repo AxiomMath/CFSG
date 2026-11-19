@@ -79,7 +79,7 @@ theorem signalizerJoin_of_conj_ne (S : Sylow 2 X) {t : X}
   exact ⟨odd_card_signalizerJoin hA2 hA8 hallA,
     fun a haA ha1 => signalizerJoin_inf_centralizer hA2 hA8 hallA haA ha1,
     fun Y hY hAY => le_signalizerJoin_of_odd hA2 hA hallA hY hAY,
-    le_normalizer_signalizerJoin_of_le hall ht.2.1 hA2 hA S.isPGroup'
+    le_normalizer_signalizerJoin_of_le hall ht.2.1 hA2 hA S.isPGroup
       (le_centralizer_of_isCentralInvolution ht) hAS,
     normalizer_le_normalizer_signalizerJoin A⟩
 

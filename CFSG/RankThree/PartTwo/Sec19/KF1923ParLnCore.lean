@@ -28,8 +28,8 @@ theorem eq_bot_or_eq_of_invariant {H : Type} [Group H] {E K : Subgroup H} {y : H
   by_contra hcon
   push Not at hcon
   obtain ⟨hKbot, hKE'⟩ := hcon
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by omega)
-  haveI : Finite K :=
+  have : Finite E := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite K :=
     Finite.of_injective (Subgroup.inclusion hKE) (Subgroup.inclusion_injective hKE)
   have hdvd : Nat.card K ∣ 9 := hE9 ▸ Subgroup.card_dvd_of_le hKE
   have hcard3 : Nat.card K = 3 := by
@@ -124,14 +124,14 @@ theorem Cfg.false_of_small (hc : Cfg R E y) {m : ℕ} (hm : 1 ≤ m) (hm2 : m �
 
 theorem Cfg.false_of_surjective (hc : Cfg R E y) {m : ℕ} (hm : 3 ≤ m) (ι : H →* S2 m)
     (hinj : ∀ e ∈ E, ι e = 1 → e = 1) (hsurj : Function.Surjective ι) : False := by
-  haveI hS : IsSimpleGroup (S2 m) :=
+  have hS : IsSimpleGroup (S2 m) :=
     CFSG.RankThree.PartTwo.Sec4.RonanK429F.isSimpleGroup_SL_zmod_two hm
-  haveI hN : (R.map ι).Normal := ⟨fun n hn s => by
+  have hN : (R.map ι).Normal := ⟨fun n hn s => by
     obtain ⟨r, hr, rfl⟩ := Subgroup.mem_map.1 hn
     obtain ⟨h, rfl⟩ := hsurj s
     exact Subgroup.mem_map.2 ⟨h * r * h⁻¹, hc.normal h r hr, by simp⟩⟩
-  haveI := hc.solvable
-  haveI hsolv : Group.IsSolvable ↥(R.map ι) :=
+  have := hc.solvable
+  have hsolv : Group.IsSolvable ↥(R.map ι) :=
     Group.isSolvable_of_surjective (f := ι.subgroupMap R) (MonoidHom.subgroupMap_surjective ι R)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (R.map ι) with h | h
   · apply hc.ne_bot
@@ -142,7 +142,7 @@ theorem Cfg.false_of_surjective (hc : Cfg R E y) {m : ℕ} (hm : 3 ≤ m) (ι : 
     exact Subgroup.mem_bot.2 (hinj e he this)
   · rw [h] at hsolv
     let eT : ↥(⊤ : Subgroup (S2 m)) ≃* S2 m := Subgroup.topEquiv
-    haveI : Group.IsSolvable (S2 m) :=
+    have : Group.IsSolvable (S2 m) :=
       Group.isSolvable_of_surjective (f := eT.toMonoidHom) eT.surjective
     obtain ⟨a, b, hab⟩ := CFSG.QuasithinUnique.Vol2Native.A312L.sl_nonabelian_of_card_two
       (K := ZMod 2) (Nat.card_zmod 2) hm

@@ -54,7 +54,7 @@ private theorem normalizer_card_le
       rw [←hg] at hiv
       exact hiv
     have hfix := ThreeOrbitNormalizerFixed.fixes_six_of_fixes_three heven hfour s hs
-      (horb s hs) A (P.isPGroup'.map (stabilizer G b).subtype) hAs hc
+      (horb s hs) A (P.isPGroup.map (stabilizer G b).subtype) hAs hc
       g.val hgs g.property
     apply Subtype.ext
     apply Equiv.ext

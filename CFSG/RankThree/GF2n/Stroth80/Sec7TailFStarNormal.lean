@@ -45,15 +45,15 @@ theorem mem_normalizer_map_of_normal {X : Type*} [Group X] {H : Subgroup X} (Q :
 theorem normal_eq_bot_of_fstar {X : Type*} [Group X] [Finite X] {H V N C : Subgroup X}
     (hCH : ∀ h ∈ H, h ∈ Subgroup.normalizer (C : Set X)) (hCHle : C ≤ H) (hCK : C ≤ NormIn H V)
     (hF : generalizedFitting ↥(NormIn H V) = N.subgroupOf (NormIn H V))
-    (hN2 : IsPGroup 2 N) (hNK : N ≤ NormIn H V)
+    (hN2 : IsPGroup 2 N) (_hNK : N ≤ NormIn H V)
     (hO2 : ∀ P : Subgroup X, P ≤ H → (∀ h ∈ H, h ∈ Subgroup.normalizer (P : Set X)) →
       IsPGroup 2 P → P = ⊥)
-    (hO : ∀ P : Subgroup X, P ≤ H → (∀ h ∈ H, h ∈ Subgroup.normalizer (P : Set X)) →
+    (_hO : ∀ P : Subgroup X, P ≤ H → (∀ h ∈ H, h ∈ Subgroup.normalizer (P : Set X)) →
       Odd (Nat.card P) → P = ⊥) : C = ⊥ := by
   have hKH : NormIn H V ≤ H := fun x hx => (mem_NormIn.mp hx).1
-  haveI hBK : (C.subgroupOf (NormIn H V)).Normal :=
+  have hBK : (C.subgroupOf (NormIn H V)).Normal :=
     normal_subgroupOf_of_le_normalizer hCH hKH
-  haveI hAH : (C.subgroupOf H).Normal := normal_subgroupOf_of_le_normalizer hCH le_rfl
+  have hAH : (C.subgroupOf H).Normal := normal_subgroupOf_of_le_normalizer hCH le_rfl
   have hmono := CFSG.LocalAnalysis.SteinbergBQ.generalized_fitting_subnormal_monotone
     (G := ↥(NormIn H V)) (H := C.subgroupOf (NormIn H V)) hBK.isSubnormal
   rw [hF] at hmono
@@ -62,9 +62,9 @@ theorem normal_eq_bot_of_fstar {X : Type*} [Group X] [Finite X] {H V N C : Subgr
     refine (Subgroup.map_mono (f := (NormIn H V).subtype) hmono).trans ?_
     rw [Subgroup.subgroupOf_map_subtype]
     exact inf_le_left
-  haveI hchar : (generalizedFitting ↥(C.subgroupOf H)).Characteristic :=
+  have hchar : (generalizedFitting ↥(C.subgroupOf H)).Characteristic :=
     (CFSG.LocalCores.generalized_fitting_characteristic (G := ↥(C.subgroupOf H))).1
-  haveI hQ : ((generalizedFitting ↥(C.subgroupOf H)).map (C.subgroupOf H).subtype).Normal :=
+  have hQ : ((generalizedFitting ↥(C.subgroupOf H)).map (C.subgroupOf H).subtype).Normal :=
     inferInstance
   have hPH : (generalizedFitting ↥C).map C.subtype ≤ H :=
     (Subgroup.map_subtype_le _).trans hCHle

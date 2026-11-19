@@ -68,7 +68,7 @@ theorem ivLieRow_holds : IvLieRow := by
       have hchar : d.1.characteristic = 2 := hi
       have hf := (H1431c.lieSInn_holds (PSimple 3 S) hsPS hncPS d hchar ⟨eS⟩ _ hαder hαpow
         hαne).1 hC
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       have hrk : GLATwoLocalRank 3 ↥(S ⊔ B) ≤ 4 :=
         (CFSG.HardMathSupport.Solomon.LocalBalance.glaTwoLocalRank_subgroup_le Nat.prime_three
           (S ⊔ B)).trans ((Nat.pow_le_pow_iff_right (by norm_num : 1 < 3)).1

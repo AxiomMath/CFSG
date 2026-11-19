@@ -16,7 +16,7 @@ theorem HCtx.exists_equiv_cent {G : Type} [Group G] {E B : Subgroup G} {u : MulA
     {A H : Subgroup (MulAut ↥E)} (S : HCtx E B u A H) :
     Nonempty (↥(centralizer ({(⟨u, S.u_H⟩ : ↥H)} : Set ↥H)) ≃*
       Multiplicative (ZMod 2) × alternatingGroup (Fin 6)) := by
-  haveI : Finite ↥E := Nat.finite_of_card_ne_zero (by rw [S.hE.2]; norm_num)
+  have : Finite ↥E := Nat.finite_of_card_ne_zero (by rw [S.hE.2]; norm_num)
   have horder : orderOf u = 2 := by
     have hdvd : orderOf u ∣ 2 :=
       orderOf_dvd_iff_pow_eq_one.mpr (by rw [pow_two]; exact S.u_sq)
@@ -47,7 +47,7 @@ theorem HCtx.exists_equiv_cent {G : Type} [Group G] {E B : Subgroup G} {u : MulA
     rw [eq_bot_iff]
     intro x hx
     rcases hcases x hx.2 with h | h
-    · simpa [h]
+    · simp [h]
     · exact absurd (h ▸ hx.1) S.u_A
   have hle : A ⊔ zpowers u ≤ H :=
     sup_le S.A_H (Subgroup.zpowers_le.mpr S.u_H)

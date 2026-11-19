@@ -13,7 +13,7 @@ theorem eq_one_of_isPGroup_of_not_dvd_card
     (h : ¬ p ∣ Nat.card (MulAut A)) {φ : MulAut A}
     (hφ : IsPGroup p (Subgroup.zpowers φ)) : φ = 1 := by
   by_contra hφne
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hx : (⟨φ, Subgroup.mem_zpowers φ⟩ : Subgroup.zpowers φ) ≠ 1 := by
     intro hx1
     exact hφne (by simpa using congrArg Subtype.val hx1)

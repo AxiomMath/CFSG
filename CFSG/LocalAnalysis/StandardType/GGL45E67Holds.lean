@@ -92,7 +92,7 @@ private theorem e67_theta_rho
   ext r'
   refine hρinj ?_
   rw [hρΘ, MulAut.conj_apply]
-  simp only [Subgroup.coe_mk, map_mul, map_inv]
+  simp only [map_mul, map_inv]
 
 private theorem e67_hfj
     {G R : Type} [Group G] [Group R] {H : Subgroup G} (ρ : R →* G)
@@ -111,8 +111,8 @@ private theorem e67_hfj
     _ = h' * ρ r * h'⁻¹ := by
         rw [← hf (f⁻¹ r), MulAut.apply_inv_self,
           CFSG.HardMathSupport.C14ExcBridgeTwF4.endPowU_apply_eq_iterate, ← hh]
-        simp [Subgroup.coe_inv]
-    _ = ρ (Θ h' r) := by rw [hρΘ]; simp [Subgroup.coe_inv]
+        simp
+    _ = ρ (Θ h' r) := by rw [hρΘ]; simp
 
 private theorem e67_mem_H
     {G : Type} [Group G] (S : Subgroup G) (F : G →* G) (x : G) :
@@ -193,8 +193,8 @@ private theorem e67_nonabelian
     rw [eq_top_iff]
     calc ⊤ = commutator K := hK.symm
       _ ≤ Subgroup.center K := hle
-  haveI : Subsingleton K := e67_subsingleton_of_center_eq_top hcenter hK
-  haveI : Subsingleton (MulAut K) :=
+  have : Subsingleton K := e67_subsingleton_of_center_eq_top hcenter hK
+  have : Subsingleton (MulAut K) :=
     ⟨fun φ ψ => MulEquiv.ext fun x => Subsingleton.elim _ _⟩
   have hcardAut : Nat.card (MulAut K) = 1 :=
     Nat.card_eq_one_iff_unique.mpr ⟨inferInstance, ⟨1⟩⟩
@@ -698,7 +698,7 @@ private theorem e67Case_E6
   dsimp only [CFSG.StandardType.LargeEvenRawDatum, LargeEvenRecipeChevalley] at hQ ⊢
   refine recipeChevalley_and (P := E67Case ⟨.E6, l, n⟩) (fun K _ _ hK => ?_) hQ
   intro hf
-  haveI : CharP K 2 := charP_two_of_card hK
+  have : CharP K 2 := charP_two_of_card hK
   obtain ⟨e, hen, ε, hbr⟩ := bridge_chev_spec (τ := .E6) hn hK (AlgebraicClosure K)
     Nat.prime_three hf
   by_cases h3 : 3 ∣ 2 ^ n - 1
@@ -730,7 +730,7 @@ private theorem e67Case_twE6
   refine recipeTwisted_and (P := E67Case ⟨.twE6, l, n⟩) (fun K _ _ hK => ?_) hQ
   intro hf
   have hK' : Nat.card K = 2 ^ (n * 2) := by rw [pow_mul]; exact hK
-  haveI : CharP K 2 := charP_two_of_card hK'
+  have : CharP K 2 := charP_two_of_card hK'
   let σ : K ≃+* K := iterateFrobeniusEquiv K 2 n
   have hσ : ∀ c, σ c = c ^ 2 ^ n := fun c => iterateFrobeniusEquiv_def K 2 n c
   obtain ⟨e, hen, ε, hbr⟩ := bridge_twE6_chev_spec hn hK σ hσ (AlgebraicClosure K)
@@ -767,7 +767,7 @@ private theorem e67Case_E7
   dsimp only [CFSG.StandardType.LargeEvenRawDatum, LargeEvenRecipeChevalley] at hQ ⊢
   refine recipeChevalley_and (P := E67Case ⟨.E7, l, n⟩) (fun K _ _ hK => ?_) hQ
   intro hf
-  haveI : CharP K 2 := charP_two_of_card hK
+  have : CharP K 2 := charP_two_of_card hK
   obtain ⟨e, hen, ε, hbr⟩ := bridge_chev_spec (τ := .E7) hn hK (AlgebraicClosure K)
     Nat.prime_three hf
   left

@@ -20,7 +20,7 @@ theorem perm5_eq_alternating {H : Subgroup (Equiv.Perm (Fin 5))} (h : Nat.card H
   rw [h5] at h1
   omega
 
-theorem exists_perm_index {L K : Subgroup G} (hKL : K ≤ L) {n : ℕ} [NeZero n]
+theorem exists_perm_index {L K : Subgroup G} (_hKL : K ≤ L) {n : ℕ} [NeZero n]
     (hidx : K.relIndex L = n) :
     ∃ φ : ↥L →* Equiv.Perm (Fin n),
       (∀ k : ↥L, φ k = 1 ↔ ∀ l : ↥L, (l : G)⁻¹ * (k : G) * (l : G) ∈ K) ∧
@@ -35,7 +35,7 @@ theorem exists_perm_index {L K : Subgroup G} (hKL : K ≤ L) {n : ℕ} [NeZero n
   · intro k
     have h1 : (e.permCongrHom.toMonoidHom.comp (MulAction.toPermHom ↥L (↥L ⧸ K'))) k = 1 ↔
         MulAction.toPermHom ↥L (↥L ⧸ K') k = 1 := by
-      simp only [MonoidHom.comp_apply, MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe]
+      simp only [MonoidHom.comp_apply, MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass]
       exact e.permCongrHom.map_eq_one_iff
     rw [h1, ← MonoidHom.mem_ker, ← Subgroup.normalCore_eq_ker]
     constructor
@@ -71,6 +71,7 @@ variable {A A' : Subgroup G} {u w : G → V2} {m : G → M2} {N T : Subgroup G} 
 
 include hD
 
+omit [Finite G] in
 theorem Data40.card_Z : Nat.card ↥(A ⊓ A') = 16 := by
   have h : Nat.card ↥(A ⊓ A') = Nat.card M2 :=
     Nat.card_congr (Equiv.ofBijective (fun y => m y.1) ⟨fun y y' hyy => Subtype.ext
@@ -80,6 +81,7 @@ theorem Data40.card_Z : Nat.card ↥(A ⊓ A') = 16 := by
   rw [h, Nat.card_eq_fintype_card]
   decide +kernel
 
+omit [Finite G] in
 theorem Data40.card_A : Nat.card ↥A = 64 := by
   let f : ↥A →* Multiplicative V2 :=
     { toFun := fun y => Multiplicative.ofAdd (u y.1)
@@ -125,10 +127,10 @@ theorem Data40.alt5 (hN : N = normalizer ((A ⊔ A' : Subgroup G) : Set G))
       ∃ φ : ↥(Lg A a b) →* Equiv.Perm (Fin 5), φ.ker = A.subgroupOf (Lg A a b) ∧
         φ.range = alternatingGroup (Fin 5) ∧
         ∀ k : ↥(Lg A a b), φ k 0 = 0 ↔ (k : G) ∈ Kg N a b := by
-  have hbZ : b ∈ A ⊓ A' := ((hD.mem_B_iff hxN hxa hx3).1 hb).1
-  obtain ⟨d, hdD, hdm⟩ := hD.exists_d hxN hxa hx3 hbZ hbm
+  have hbZ : b ∈ A ⊓ A' := ((hD.mem_B_iff hxN hxa).1 hb).1
+  obtain ⟨d, hdD, hdm⟩ := hD.exists_d hxN hx3 hbZ hbm
   set g := ((hD.hT.rho N hD.hK.norm ⟨x, hxN⟩).1 : GL2) with hg
-  have hg3 := hD.g_pow_three hxN hxa hx3
+  have hg3 := hD.g_pow_three hxN hx3
   have hg1 := hD.g_ne_one hxN hxa hx3
   have hb1 : b ≠ 1 := by
     rintro rfl
@@ -148,7 +150,7 @@ theorem Data40.alt5 (hN : N = normalizer ((A ⊔ A' : Subgroup G) : Set G))
     exact gl2_inv_ne g hg3 hg1 (Units.ext h2)
   have hL : Nat.card ↥(Lg A a b) = 3840 := hD.card_L hxN hxa hx3 hb hb1 hba hdD hdb
   have hK : Nat.card ↥(Kg N a b) = 768 := hD.card_K hxN hxa hx3 hb hb1 hba hdD hdb
-  have hKL : Kg N a b ≤ Lg A a b := hD.Kg_le_Lg hxN hxa hx3 hb hbm
+  have hKL : Kg N a b ≤ Lg A a b := hD.Kg_le_Lg
   have hidx : (Kg N a b).relIndex (Lg A a b) = 5 := by
     have h := Subgroup.relIndex_mul_card (H := Kg N a b) (K := Lg A a b)
     rw [inf_eq_left.mpr hKL] at h
@@ -167,9 +169,9 @@ theorem Data40.alt5 (hN : N = normalizer ((A ⊔ A' : Subgroup G) : Set G))
     · intro hk
       exact hD.core_le_A hxN hxa hx3 hb hbm hN hLK ⟨k.2, fun l hl => hk ⟨l, hl⟩⟩
     · intro hk l
-      exact (hD.A_core hxN hxa hx3 hb hbm hk).2 l l.2
+      exact (hD.A_core hb hk).2 l l.2
   have hAL : A ≤ Lg A a b := fun y hy =>
-    hKL (hD.A_le_Kg hxN hxa hx3 hb hbm hy)
+    hKL (hD.A_le_Kg hb hy)
   have hrange : Nat.card φ.range = 60 := by
     have h1 := Subgroup.card_eq_card_quotient_mul_card_subgroup φ.ker
     have h2 : Nat.card (↥(Lg A a b) ⧸ φ.ker) = Nat.card φ.range :=
@@ -187,7 +189,7 @@ theorem Data40.exists_alt5 (hN : N = normalizer ((A ⊔ A' : Subgroup G) : Set G
       ∃ φ : ↥(Lg A a b) →* Equiv.Perm (Fin 5), φ.ker = A.subgroupOf (Lg A a b) ∧
         φ.range = alternatingGroup (Fin 5) ∧
         ∀ k : ↥(Lg A a b), φ k 0 = 0 ↔ (k : G) ∈ Kg N a b := by
-  obtain ⟨b, hb, hbm⟩ := hD.exists_b hxN hxa hx3
+  obtain ⟨b, hb, hbm⟩ := hD.exists_b hxN hxa
   obtain ⟨hb1, hba, h3⟩ := hD.alt5 hN hxN hxa hx3 hb hbm
   exact ⟨b, hb, hb1, hba, h3⟩
 

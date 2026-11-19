@@ -35,7 +35,7 @@ theorem l34g_pocket_oddCore_isPGroup (hM3 : Asc82SchurOdd3) [Finite G] {x y : G}
 theorem l34g_pocket_card (hM3 : Asc82SchurOdd3) [Finite G] {x y : G} {X K : Subgroup G}
     (hD : Sec3PocketData x X y K) :
     ∃ m : ℕ, Nat.card ↥K = 24 * 3 ^ m ∧ Nat.card ↥(oddCore ↥K) = 3 ^ m := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨m, hm⟩ := (IsPGroup.iff_card).mp (l34g_pocket_oddCore_isPGroup hM3 hD)
   obtain ⟨e⟩ := hD.pocket.2.2.2
   refine ⟨m, ?_, hm⟩
@@ -48,7 +48,7 @@ theorem sec3_pocket_structure (hM3 : Asc82SchurOdd3) [Finite G] {x y : G} {X K :
     Nat.card ↥(CFSG.inSubgroup (CFSG.pCore 2) K) = 8 ∧
       ∀ g ∈ K, ∃ n : ℕ, g ^ (3 ^ n) ∈ CFSG.inSubgroup (CFSG.pCore 2) K := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨m, hcardK, -⟩ := l34g_pocket_card hM3 hD
   obtain ⟨f, hf, -, hfQ⟩ := exists_quaternion_of_pocketData_q8 asc82NoQ8InL2_holds
     asc82OddCoreCentralizerQ8_holds hD

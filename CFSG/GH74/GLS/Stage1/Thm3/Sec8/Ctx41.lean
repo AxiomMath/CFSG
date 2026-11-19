@@ -47,6 +47,7 @@ namespace YData
 variable {G : Type} [Group G] [Finite G] {z : G} {S K₁ K₂ W₁ W₂ U : Subgroup G} {u h : G}
   {Y : Subgroup G}
 
+omit [Finite G] in
 theorem Y_le_S (hY : YData S K₁ W₂ U h Y) : Y ≤ S := hY.le_W.trans inf_le_left
 
 theorem h_mem_normalizer (hs : Setup8 G z S K₁ K₂ W₁ W₂ U u h) (hY : YData S K₁ W₂ U h Y) :
@@ -69,6 +70,7 @@ theorem h_mem_normalizer (hs : Setup8 G z S K₁ K₂ W₁ W₂ U u h) (hY : YDa
     have := hY.conj_h _ hy
     simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem Nh_le_normalizer (hY : YData S K₁ W₂ U h Y) : Nh S h ≤ normalizer (Y : Set G) := by
   intro d hd
   rw [Subgroup.mem_normalizer_iff]
@@ -81,6 +83,7 @@ theorem Nh_le_normalizer (hY : YData S K₁ W₂ U h Y) : Nh S h ≤ normalizer 
     have e : d⁻¹ * (d * y * d⁻¹) * d⁻¹⁻¹ = y := by group
     rwa [e] at h1
 
+omit [Finite G] in
 theorem S_le_normalizer (hY : YData S K₁ W₂ U h Y) : S ≤ normalizer (Y : Set G) := by
   intro s hs
   obtain ⟨y, hy, d, hd, rfl⟩ := hY.decomp s hs

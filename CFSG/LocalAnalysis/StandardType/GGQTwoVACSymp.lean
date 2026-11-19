@@ -20,7 +20,7 @@ theorem ggQ2Symp_gamma_card
     (hBsI0 : ∀ b ∈ Bs, ∃ φ ∈ LargeEvenMatConjImage (LargeEvenProjMk (LargeEvenSpGroup K m))
       (LargeEvenGSpSet K m), LargeEvenInduces θ (fun l l' => (l' : G) = b⁻¹ * l * b) φ) :
     Nat.card (ggGamma L hBsN).range = 3 ^ m := by
-  haveI : CharP K 2 := charP_two_of_card (m := 1) (by rw [hK, pow_one])
+  have : CharP K 2 := charP_two_of_card (m := 1) (by rw [hK, pow_one])
   have hpq : 3 ∣ Nat.card K + 1 := by
     have h3 : Nat.card K + 1 = 3 := by omega
     rw [h3]
@@ -44,7 +44,7 @@ theorem ggQ2Symp_gamma_card
     ggTorusSCRank_sp (m := m) (p := 3) (by omega) Nat.prime_three hpq
       L (ggQuotHom θ) (ggQuotHom_surjective θ) (by rw [ker_ggQuotHom]) hperf
       (ggGamma L hBsN).range hAe hAI hself
-  haveI : NeZero m := ⟨by omega⟩
+  have : NeZero m := ⟨by omega⟩
   have hup : Nat.card (ggGamma L hBsN).range ≤ 3 ^ m :=
     KGA.kga_card_le_sp (K := K) (N := m) (p := 3) Nat.prime_three (by norm_num)
       (L' := L) (ψ := ggQuotHom θ) (ggQuotHom_surjective θ) (by rw [ker_ggQuotHom]) hperf hAe hAI

@@ -77,8 +77,7 @@ theorem rckSU_suZ0_conj_mem (hk : 4 ≤ k) {x : SUG k}
       suZ hk ((ψ : Matrix (Fin 4) (Fin 4) (ZMod 2)).mulVec v) := by
     apply Subtype.ext
     apply Units.ext
-    simp only [Subgroup.coe_mul, Subgroup.coe_inv, Units.val_mul, Units.val_inv_eq_inv_val,
-      suZ_val]
+    simp only [Subgroup.coe_mul, Subgroup.coe_inv, Units.val_mul, suZ_val]
     exact hconj v
   rw [hxconj]
   exact ⟨_, rfl⟩
@@ -140,7 +139,7 @@ theorem rckSU_two_by_two_involution_eq_one {K : Type*} [Field K] [CharP K 2]
     exact CharTwo.sq_inj.mp (by simpa [pow_two] using h11)
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [hp, hq0, hr0, hs, Matrix.one_apply]
+    simp [hp, hq0, hr0, hs]
 
 
 theorem rckSU_suR_sq (hk : 4 ≤ k) : suR hk ^ 2 = 1 := by
@@ -160,8 +159,7 @@ theorem rckSU_suZ_inv (hk : 4 ≤ k) (v : Fin 4 → ZMod 2) : (suZ hk v)⁻¹ = 
   rw [hv, suZ_zero]
 
 theorem rckSU_A_s5R_diag : (rckSUc_A s5R) 0 0 = 0 ∧ (rckSUc_A s5R) 1 1 = 0 := by
-  constructor <;> simp [rckSUc_A, rckSUc_beta, rckSUc_alpha, s5R, Matrix.cons_val_zero,
-    Matrix.cons_val_succ, Matrix.head_cons, Matrix.tail_cons]
+  constructor <;> simp [rckSUc_A, rckSUc_beta, rckSUc_alpha, s5R, Matrix.cons_val_zero]
 
 theorem rckSU_corner_eq_one_of_coreComm (hk : 4 ≤ k) (V : Subgroup (SUG k))
     (hN : ∀ v ∈ V, ∀ y ∈ pCoreOf 2 (Subgroup.centralizer ({suR hk} : Set (SUG k))),
@@ -332,16 +330,16 @@ theorem rckSU_U_isTotallyIsotropic (hk : 4 ≤ k) :
     simp only [suH, suForm_σ]
   have h00 : (suH rckSU_suF_card k).β (rckSU_std (k := k) (sI0 hk))
       (rckSU_std (k := k) (sI0 hk)) = 0 := by
-    rw [rckSU_suH_std, if_neg (fun h => rckSUc_e_ne_e' hk 0 0 h.symm)]
+    rw [rckSU_suH_std, ite_eq_right (fun h => rckSUc_e_ne_e' hk 0 0 h.symm)]
   have h01 : (suH rckSU_suF_card k).β (rckSU_std (k := k) (sI0 hk))
       (rckSU_std (k := k) (sI1 hk)) = 0 := by
-    rw [rckSU_suH_std, if_neg (fun h => rckSUc_e_ne_e' hk 1 0 h.symm)]
+    rw [rckSU_suH_std, ite_eq_right (fun h => rckSUc_e_ne_e' hk 1 0 h.symm)]
   have h10 : (suH rckSU_suF_card k).β (rckSU_std (k := k) (sI1 hk))
       (rckSU_std (k := k) (sI0 hk)) = 0 := by
-    rw [rckSU_suH_std, if_neg (fun h => rckSUc_e_ne_e' hk 0 1 h.symm)]
+    rw [rckSU_suH_std, ite_eq_right (fun h => rckSUc_e_ne_e' hk 0 1 h.symm)]
   have h11 : (suH rckSU_suF_card k).β (rckSU_std (k := k) (sI1 hk))
       (rckSU_std (k := k) (sI1 hk)) = 0 := by
-    rw [rckSU_suH_std, if_neg (fun h => rckSUc_e_ne_e' hk 1 1 h.symm)]
+    rw [rckSU_suH_std, ite_eq_right (fun h => rckSUc_e_ne_e' hk 1 1 h.symm)]
   rw [ReflForm.IsTotallyIsotropic, rckSU_U, Submodule.span_le]
   rintro x hx
   rw [Set.mem_insert_iff, Set.mem_singleton_iff] at hx
@@ -406,10 +404,10 @@ theorem rckSU_N_sq (hk : 4 ≤ k) : rckSU_Nlin hk * rckSU_Nlin hk = 0 := by
   rw [map_add, map_smul, map_smul]
   have h0 : rckSU_Nlin hk (Pi.single (rckSUc_e hk 0) (1 : SUF)) = 0 := by
     rw [rckSU_Nlin_apply]
-    simp [Pi.single_apply, rckSUc_e_ne_e' hk 0 1, rckSUc_e_ne_e' hk 0 0, eq_comm]
+    simp [rckSUc_e_ne_e' hk 0 1, rckSUc_e_ne_e' hk 0 0, eq_comm]
   have h1 : rckSU_Nlin hk (Pi.single (rckSUc_e hk 1) (1 : SUF)) = 0 := by
     rw [rckSU_Nlin_apply]
-    simp [Pi.single_apply, rckSUc_e_ne_e' hk 1 1, rckSUc_e_ne_e' hk 1 0, eq_comm]
+    simp [rckSUc_e_ne_e' hk 1 1, rckSUc_e_ne_e' hk 1 0, eq_comm]
   rw [h0, h1, smul_zero, smul_zero, add_zero]
   simp
 
@@ -553,7 +551,7 @@ theorem rckSU_centralizer_le_normalizer_Q (hk : 4 ≤ k) :
 
 theorem rckSU_Q_le_pCoreOf (hk : 4 ≤ k) :
     rckSU_Q hk ≤ pCoreOf 2 (Subgroup.centralizer ({suR hk} : Set (SUG k))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine le_pCoreOf_of_le_normalizer (r := 2) (rckSU_Q_le_centralizer hk)
     (rckSU_centralizer_le_normalizer_Q hk) ?_
   exact rad_isPGroup (F := suH rckSU_suF_card k) (ρ := natRep (SU SUσ k))
@@ -570,12 +568,12 @@ theorem rckSU_U_eq_range (hk : 4 ≤ k) :
     rintro x (rfl | rfl)
     · refine ⟨Pi.single (rckSUc_e' hk 1) (1 : SUF), ?_⟩
       rw [rckSU_Nlin_apply]
-      simp [rckSU_std, rckSUc_e, rckSUc_e', Pi.single_apply, eq_comm, Matrix.cons_val_zero,
-        Matrix.cons_val_one, rckSUc_e'_one_ne_zero hk, h01]
+      simp [rckSU_std, rckSUc_e, rckSUc_e', Matrix.cons_val_zero,
+        Matrix.cons_val_one, h01]
     · refine ⟨Pi.single (rckSUc_e' hk 0) (1 : SUF), ?_⟩
       rw [rckSU_Nlin_apply]
-      simp [rckSU_std, rckSUc_e, rckSUc_e', Pi.single_apply, eq_comm, Matrix.cons_val_zero,
-        Matrix.cons_val_one, rckSUc_e'_zero_ne_one hk, h01]
+      simp [rckSU_std, rckSUc_e, rckSUc_e', eq_comm, Matrix.cons_val_zero,
+        Matrix.cons_val_one, h01]
   · rintro _ ⟨x, rfl⟩
     rw [rckSU_Nlin_apply, rckSU_U]
     refine Submodule.add_mem _ (Submodule.smul_mem _ _ (Submodule.subset_span ?_))
@@ -625,7 +623,7 @@ theorem rckSU_eichler_mem_Q (hk : 4 ≤ k) {e a : Fin k → SUF}
     exact Submodule.smul_mem _ _ he
 
 
-theorem rckSU_std_ne_zero (hk : 4 ≤ k) (i : Fin k) : rckSU_std (k := k) i ≠ 0 := by
+theorem rckSU_std_ne_zero (_hk : 4 ≤ k) (i : Fin k) : rckSU_std (k := k) i ≠ 0 := by
   intro h
   have h1 := congrFun h i
   simp [rckSU_std, Pi.single_eq_same] at h1
@@ -659,9 +657,9 @@ theorem rckSU_fixes_std_of_corner (hk : 4 ≤ k) {s : SUG k}
         have := congrFun (congrFun hg1 1) 0
         simpa [B, rckSUc_g, Matrix.submatrix_apply] using this
       rw [h10]
-      simp [Pi.single_apply, hi0]
+      simp [hi0]
     · rw [(rckSUc_B_col_of_ne hk B hBN i hi0 hi1).1]
-      simp [Pi.single_apply, hi0]
+      simp [hi0]
 
 theorem rckSU_fixes_std1_of_corner (hk : 4 ≤ k) {s : SUG k}
     (hsC : s ∈ Subgroup.centralizer ({suR hk} : Set (SUG k)))
@@ -692,9 +690,9 @@ theorem rckSU_fixes_std1_of_corner (hk : 4 ≤ k) {s : SUG k}
         have := congrFun (congrFun hg1 0) 1
         simpa [B, rckSUc_g, Matrix.submatrix_apply] using this
       rw [h01]
-      simp [Pi.single_apply, hi1]
+      simp [hi1]
     · rw [(rckSUc_B_col_of_ne hk B hBN i hi0 hi1).2]
-      simp [Pi.single_apply, hi1]
+      simp [hi1]
 
 theorem rckSU_fixes_U_of_corner (hk : 4 ≤ k) {s : SUG k}
     (hsC : s ∈ Subgroup.centralizer ({suR hk} : Set (SUG k)))

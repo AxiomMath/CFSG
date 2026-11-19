@@ -23,6 +23,7 @@ structure SecData (M XM YM : Subgroup G) (ℒ : Set (Subgroup G)) : Prop where
 
 variable [Finite G]
 
+omit [Finite G] in
 theorem sec_normalizer_of_conj_mem {L Y : Subgroup G} (hYn : ∀ l ∈ L, ∀ y ∈ Y, l * y * l⁻¹ ∈ Y)
     {a : G} (ha : a ∈ L) : a ∈ Subgroup.normalizer (Y : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -31,6 +32,7 @@ theorem sec_normalizer_of_conj_mem {L Y : Subgroup G} (hYn : ∀ l ∈ L, ∀ y 
   have h := hYn a⁻¹ (L.inv_mem ha) _ hy
   simpa [mul_assoc] using h
 
+omit [Finite G] in
 theorem sec_commutator_sup_le {L A Y : Subgroup G} (hAL : A ≤ L)
     (hYn : ∀ l ∈ L, ∀ y ∈ Y, l * y * l⁻¹ ∈ Y) (hLA : L ≤ A ⊔ Y) :
     ⁅L, L⁆ ≤ ⁅A, A⁆ ⊔ Y := by
@@ -60,6 +62,7 @@ theorem sec_commutator_sup_le {L A Y : Subgroup G} (hAL : A ≤ L)
   rw [hkey]
   exact Subgroup.mul_mem _ (Subgroup.mem_sup_right hz) (Subgroup.mem_sup_left hcA)
 
+omit [Finite G] in
 theorem sec_conj_mem_sup {L C Y : Subgroup G} (hCL : C ≤ L)
     (hYn : ∀ l ∈ L, ∀ y ∈ Y, l * y * l⁻¹ ∈ Y) (hCn : ∀ l ∈ L, ∀ c ∈ C, l * c * l⁻¹ ∈ C)
     {l : G} (hl : l ∈ L) {x : G} (hx : x ∈ C ⊔ Y) : l * x * l⁻¹ ∈ C ⊔ Y := by
@@ -71,6 +74,7 @@ theorem sec_conj_mem_sup {L C Y : Subgroup G} (hCL : C ≤ L)
   rw [e, sup_comm]
   exact Subgroup.mul_mem_sup (hYn l hl y hy) (hCn l hl c hc)
 
+omit [Finite G] in
 theorem sec_le_commutator_sup {L Y : Subgroup G} (hYL : Y ≤ L)
     (hYn : ∀ l ∈ L, ∀ y ∈ Y, l * y * l⁻¹ ∈ Y)
     (hsimple : ∀ N : Subgroup G, Y ≤ N → N ≤ L → (N.subgroupOf L).Normal → N = Y ∨ N = L)
@@ -110,16 +114,19 @@ theorem key_le_perfectCore_sup {M XM YM : Subgroup G} {ℒ : Set (Subgroup G)}
   have h := hind n
   rwa [← hn n le_rfl] at h
 
+omit [Finite G] in
 theorem sec_conjSub_sup (e : G) (A B : Subgroup G) :
     A1b.conjSub e (A ⊔ B) = A1b.conjSub e A ⊔ A1b.conjSub e B := by
   unfold A1b.conjSub
   exact Subgroup.map_sup _ _ _
 
+omit [Finite G] in
 theorem sec_conjSub_iSup {ι : Sort*} (e : G) (F : ι → Subgroup G) :
     A1b.conjSub e (⨆ i, F i) = ⨆ i, A1b.conjSub e (F i) := by
   unfold A1b.conjSub
   exact Subgroup.map_iSup _ _
 
+omit [Finite G] in
 theorem sec_le_normalizer_of_conj {A H : Subgroup G}
     (hA : ∀ a ∈ A, ∀ h ∈ H, a * h * a⁻¹ ∈ H) : A ≤ Subgroup.normalizer (H : Set G) := by
   intro a ha
@@ -129,12 +136,14 @@ theorem sec_le_normalizer_of_conj {A H : Subgroup G}
   have h := hA a⁻¹ (A.inv_mem ha) _ hx
   simpa [mul_assoc] using h
 
+omit [Finite G] in
 theorem sec_conj_mem_of_normal_subgroupOf {N S : Subgroup G} (hN : (N.subgroupOf S).Normal)
     {s : G} (hs : s ∈ S) {n : G} (hn : n ∈ N) (hnS : n ∈ S) : s * n * s⁻¹ ∈ N := by
   have h := hN.conj_mem ⟨n, hnS⟩ (Subgroup.mem_subgroupOf.mpr hn) ⟨s, hs⟩
   have h' := Subgroup.mem_subgroupOf.mp h
   simpa using h'
 
+omit [Finite G] in
 theorem sec_iSup_conj_mem {ι : Sort*} {F : ι → Subgroup G} {X : Subgroup G}
     (hF : ∀ s ∈ X, ∀ i, ∀ x ∈ F i, s * x * s⁻¹ ∈ F i) {s : G} (hs : s ∈ X) {x : G}
     (hx : x ∈ ⨆ i, F i) : s * x * s⁻¹ ∈ ⨆ i, F i := by
@@ -150,6 +159,7 @@ theorem sec_iSup_conj_mem {ι : Sort*} {F : ι → Subgroup G} {X : Subgroup G}
     rw [e]
     exact Subgroup.mul_mem _ ha hb
 
+omit [Finite G] in
 theorem sec_simple_sup {L P D YM Y S N : Subgroup G}
     (hY : Y = D ⊓ YM) (hS' : S = P ⊔ Y) (hPD : P ≤ D) (hPL : P ≤ L) (hYL : YM ≤ L)
     (hLkey : L ≤ P ⊔ YM) (hYn : ∀ l ∈ L, ∀ y ∈ YM, l * y * l⁻¹ ∈ YM)
@@ -309,7 +319,7 @@ theorem jdata_of_section {T M XM YM E J : Subgroup G} {ℒ : Set (Subgroup G)}
   have hYD : Y ≤ D := by rw [hY]; exact inf_le_left
   have hYYM : Y ≤ YM := by rw [hY]; exact inf_le_right
   have hYsolv : Group.IsSolvable ↥Y := by
-    haveI := hS.Ysolv
+    have := hS.Ysolv
     exact Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hYYM)
       (Subgroup.inclusion_injective hYYM)
   have hYnormD : (Y.subgroupOf D).Normal := by

@@ -56,14 +56,14 @@ private lemma ltrk0t2_compBij {L' : Type} [Group L'] [Finite L'] {lab : LargeEve
     GGKacCompBij (GGKacIdentityDatum lab) L' (1 : MulAut L') := by
   have hcompTop : IsComponentOf (⊤ : Subgroup L') (ggFixSub (1 : MulAut L')) :=
     ltrk0t2_topComponent hQ
-  haveI : Unique {J : Subgroup L' // IsComponentOf J (ggFixSub (1 : MulAut L'))} :=
+  have : Unique {J : Subgroup L' // IsComponentOf J (ggFixSub (1 : MulAut L'))} :=
     ⟨⟨⊤, hcompTop⟩, fun J => Subtype.ext (hcomp J.1 J.2)⟩
   have horbit : ∀ i : Fin (GGKacIdentityDatum lab).orbits.length,
       (GGKacIdentityDatum lab).orbits[i] = ⟨lab, true⟩ := by
     intro i
     fin_cases i
     simp [GGKacIdentityDatum]
-  haveI : Unique {i : Fin (GGKacIdentityDatum lab).orbits.length //
+  have : Unique {i : Fin (GGKacIdentityDatum lab).orbits.length //
       (GGKacIdentityDatum lab).orbits[i].qs = true} :=
     ⟨⟨⟨0, by simp [GGKacIdentityDatum]⟩, by simp [GGKacIdentityDatum]⟩,
       fun i => Subtype.ext (Fin.ext (by
@@ -93,9 +93,8 @@ private lemma ltrk0t2_point {lab : LargeEvenLabel} {p : ℕ}
     (hR : GGHasLabel lab R) (hs : IsSimpleGroup R)
     (hZ : Subgroup.center R = ⊥) (hM : MarkedModel lab R) :
     ∀ (I F : Set (MulAut R)), ltrk0t2_P lab p R I F := by
-  intro I F
-  intro L' _ _ ψ hψ hker hperf
-  haveI : Finite R := Finite.of_surjective ψ hψ
+  intro I F L' _ _ ψ hψ hker hperf
+  have : Finite R := Finite.of_surjective ψ hψ
   have hZker : Subgroup.center L' ≤ ψ.ker := by
     intro z hz
     rw [MonoidHom.mem_ker]
@@ -309,8 +308,7 @@ private lemma ltrk0t2_excData {lab : LargeEvenLabel} {p : ℕ}
 theorem ggK0ExcTrivial_of_table
     (hT : ∀ (p : ℕ) (lab : LargeEvenLabel), LargeEvenInLambda2 lab → GGKacExcPair lab p →
       GGKacValid lab p (GGKacIdentityDatum lab)) : GGK0ExcTrivial := by
-  intro p lab hΛ hpair
-  intro Q hQ
+  intro p lab hΛ hpair Q hQ
   have hdata := ltrk0t2_excData (p := p) hΛ hpair Q hQ
   obtain ⟨tag, rk, n⟩ := lab
   rcases hpair.2.2.2 with h | h | h | h | h

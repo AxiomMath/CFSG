@@ -27,7 +27,7 @@ theorem s16t3_omminus_model {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2
   exact T3ParabIn.of_conj Subgroup.le_normalizer hPN hBP hBN hcard hexp hg hXB
 
 theorem s16t3_exists_parab_omegaMinus (h : ThreeNat A L T) {n : ℕ} (hn : 6 ≤ n)
-    (hom : IsOmegaMinus ↥L n 1) {I : Subgroup W} (hTI : StableUnder T I)
+    (_hom : IsOmegaMinus ↥L n 1) {I : Subgroup W} (hTI : StableUnder T I)
     (hnat : SumOfNat (fun H U Z => NatOmegaMinus H U Z n 1) L I (I ⊓ fixV L) 1) :
     ∃ P : Subgroup (MulAut W), P ≤ L ∧ (∀ t ∈ T, ∀ x ∈ P, t * x * t⁻¹ ∈ P) ∧ T ⊓ L ≤ P ∧
       Nat.card ↥P = 3 ^ ((n + 2) / 4) * Nat.card ↥(T ⊓ L) ∧

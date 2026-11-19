@@ -31,7 +31,7 @@ theorem D1OneSmallData.le_or_le_of_l34 (hUE : KFactUPrimeExc)
   have hKn : K.Normal := hd.cfg.red.normal_of_rankOne hd.comp hd.noncyclic
   obtain ⟨zb, hzbR, hzbK, hzbp, hzbc⟩ := hd.z
   have hRKp : IsPGroup p ((Rbar : Subgroup (H ⧸ primeComplementCore (G := H) p)) ⊓ K :
-      Subgroup _) := Rbar.isPGroup'.to_le inf_le_left
+      Subgroup _) := Rbar.isPGroup.to_le inf_le_left
   have h2 : 2 ≤ Open.pRank p ((Rbar : Subgroup (H ⧸ primeComplementCore (G := H) p)) ⊓ K :
       Subgroup _) :=
     CFSG.LocalAnalysis.RankThreeTheoremC.two_le_pRank_of_not_isCyclic hp hd.cfg.red.ne_two hRKp

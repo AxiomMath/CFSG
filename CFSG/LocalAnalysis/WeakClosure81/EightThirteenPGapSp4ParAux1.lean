@@ -36,7 +36,7 @@ private theorem wcgapsq_oTwo_normal {Y : Type} [Group Y] (H : Subgroup Y) :
 
 theorem wcgapsq_oddResMod_bot_eq_oTwoPrime {Y : Type} [Group Y] [Finite Y]
     (P : Subgroup Y) : oddResMod (⊥ : Subgroup Y) P = oTwo P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   apply le_antisymm
   ·
     have hmem : oTwo P ∈ wcgapsq_oddSet (⊥ : Subgroup Y) P := by
@@ -58,7 +58,7 @@ theorem wcgapsq_oddResMod_bot_eq_oTwoPrime {Y : Type} [Group Y] [Finite Y]
     rintro g ⟨hg, n, hn⟩
     rw [oddResMod]
     refine Subgroup.mem_iInf.mpr fun Q => Subgroup.mem_iInf.mpr fun hQ => ?_
-    haveI : (Q.subgroupOf P).Normal := hQ.2.2.1
+    have : (Q.subgroupOf P).Normal := hQ.2.2.1
     have hgP : g ∈ P := hg
     let π : ↥P →* (↥P ⧸ Q.subgroupOf P) := QuotientGroup.mk' (Q.subgroupOf P)
     have hpow : (⟨g, hgP⟩ : ↥P) ^ 2 ^ n = 1 := Subtype.ext hn

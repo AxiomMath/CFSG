@@ -21,22 +21,25 @@ private noncomputable def resAbar {Sg K : Subgroup X} {m : ℕ}
     ((⁅Sg, Sg⁆ : Subgroup X).subgroupOf K) →* Perm (Fin m) :=
   (toPerm e).domRestrict ((⁅Sg, Sg⁆ : Subgroup X).subgroupOf K)
 
+omit [Finite X] in
 private lemma resAbar_apply {Sg K : Subgroup X} {m : ℕ}
     (e : K ⧸ Subgroup.center K ≃* alternatingGroup (Fin m))
     (x : ↥((⁅Sg, Sg⁆ : Subgroup X).subgroupOf K)) :
     resAbar (Sg := Sg) (K := K) e x = toPerm e x := rfl
 
+omit [Finite X] in
 private lemma resAbar_range {Sg K : Subgroup X} {m : ℕ}
     (e : K ⧸ Subgroup.center K ≃* alternatingGroup (Fin m)) :
     (resAbar (Sg := Sg) (K := K) e).range = imageAbar Sg K e := by
   rw [imageAbar]
   exact MonoidHom.domRestrict_range ((⁅Sg, Sg⁆ : Subgroup X).subgroupOf K) (toPerm e)
 
+omit [Finite X] in
 private lemma resAbar_injective (hS : SwapShape t Sg V) (hA : ⁅Sg, Sg⁆ ≤ K) {m : ℕ}
     (e : K ⧸ Subgroup.center K ≃* alternatingGroup (Fin m)) :
     Function.Injective (resAbar (Sg := Sg) (K := K) e) := by
-  haveI hA_simple : IsSimpleGroup (⁅Sg, Sg⁆ : Subgroup X) := hS.isSimpleGroup_commutator_sg
-  haveI hsimple : IsSimpleGroup ((⁅Sg, Sg⁆ : Subgroup X).subgroupOf K) :=
+  have hA_simple : IsSimpleGroup (⁅Sg, Sg⁆ : Subgroup X) := hS.isSimpleGroup_commutator_sg
+  have hsimple : IsSimpleGroup ((⁅Sg, Sg⁆ : Subgroup X).subgroupOf K) :=
     (Subgroup.subgroupOfEquivOfLe hA).isSimpleGroup
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
     (resAbar (Sg := Sg) (K := K) e).ker with h | h
@@ -52,7 +55,7 @@ private lemma resAbar_injective (hS : SwapShape t Sg V) (hA : ⁅Sg, Sg⁆ ≤ K
         rw [MonoidHom.mem_ker]
         rwa [resAbar_apply] at hxker
       rwa [ker_toPerm] at hxker'
-    haveI : IsMulCommutative ((⁅Sg, Sg⁆ : Subgroup X).subgroupOf K) :=
+    have : IsMulCommutative ((⁅Sg, Sg⁆ : Subgroup X).subgroupOf K) :=
       isMulCommutative_anti hle_center
     have hprime : (Nat.card ((⁅Sg, Sg⁆ : Subgroup X).subgroupOf K)).Prime :=
       (Group.is_simple_iff_prime_card).mp hsimple
@@ -64,12 +67,14 @@ private lemma resAbar_injective (hS : SwapShape t Sg V) (hA : ⁅Sg, Sg⁆ ≤ K
       rcases hp.eq_one_or_self_of_dvd 2 (by norm_num : 2 ∣ 20160) with h' | h' <;> omega
     exact hnot hprime
 
+omit [Finite X] in
 theorem injOn_toPerm_commutator (hS : SwapShape t Sg V) (hA : ⁅Sg, Sg⁆ ≤ K) {m : ℕ}
     (e : K ⧸ Subgroup.center K ≃* alternatingGroup (Fin m)) :
     Set.InjOn (toPerm e) ((⁅Sg, Sg⁆ : Subgroup X).subgroupOf K : Set K) := by
   rw [Set.injOn_iff_injective]
   exact resAbar_injective hS hA e
 
+omit [Finite X] in
 theorem card_imageAbar (hS : SwapShape t Sg V) (hA : ⁅Sg, Sg⁆ ≤ K) {m : ℕ}
     (e : K ⧸ Subgroup.center K ≃* alternatingGroup (Fin m)) :
     Nat.card (imageAbar Sg K e) = 20160 := by
@@ -80,16 +85,18 @@ theorem card_imageAbar (hS : SwapShape t Sg V) (hA : ⁅Sg, Sg⁆ ≤ K) {m : �
   rw [← resAbar_range (Sg := Sg) (K := K) e, ← hcard,
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hA).toEquiv, hS.card_commutator_sg]
 
+omit [Finite X] in
 theorem isSimpleGroup_imageAbar (hS : SwapShape t Sg V) (hA : ⁅Sg, Sg⁆ ≤ K) {m : ℕ}
     (e : K ⧸ Subgroup.center K ≃* alternatingGroup (Fin m)) :
     IsSimpleGroup (imageAbar Sg K e) := by
   have hrinj := resAbar_injective (Sg := Sg) (K := K) hS hA e
-  haveI hA_simple : IsSimpleGroup (⁅Sg, Sg⁆ : Subgroup X) := hS.isSimpleGroup_commutator_sg
-  haveI hsimple : IsSimpleGroup ((⁅Sg, Sg⁆ : Subgroup X).subgroupOf K) :=
+  have hA_simple : IsSimpleGroup (⁅Sg, Sg⁆ : Subgroup X) := hS.isSimpleGroup_commutator_sg
+  have hsimple : IsSimpleGroup ((⁅Sg, Sg⁆ : Subgroup X).subgroupOf K) :=
     (Subgroup.subgroupOfEquivOfLe hA).isSimpleGroup
   rw [← resAbar_range (Sg := Sg) (K := K) e]
   exact (MonoidHom.ofInjective hrinj).symm.isSimpleGroup
 
+omit [Finite X] in
 theorem eight_le (hS : SwapShape t Sg V) (hA : ⁅Sg, Sg⁆ ≤ K) {m : ℕ}
     (e : K ⧸ Subgroup.center K ≃* alternatingGroup (Fin m)) : 8 ≤ m := by
   have hcard : Nat.card (imageAbar Sg K e) ≤ Nat.card (Perm (Fin m)) := by
@@ -103,6 +110,7 @@ theorem eight_le (hS : SwapShape t Sg V) (hA : ⁅Sg, Sg⁆ ≤ K) {m : ℕ}
   have : Nat.factorial m ≤ 5040 := by simpa [h7] using Nat.factorial_le hm
   omega
 
+omit [Finite X] in
 theorem imageAbar_le [K.Normal] (hS : SwapShape t Sg V) {m : ℕ}
     (e : K ⧸ Subgroup.center K ≃* alternatingGroup (Fin m)) {π : Perm (Fin m)}
     (hπ : ∀ k : K, toPerm e (MulAut.conjNormal t k) = π * toPerm e k * π⁻¹) :
@@ -129,6 +137,7 @@ theorem imageAbar_le [K.Normal] (hS : SwapShape t Sg V) {m : ℕ}
     conv_lhs => rw [hthis]
     rw [mul_assoc, inv_mul_cancel, mul_one]
 
+omit [Finite X] in
 theorem pi_ne_one [K.Normal] (hS : SwapShape t Sg V) (hK : ⁅K, K⁆ = K) (hne : ⁅Sg, Sg⁆ ≠ K)
     (hA : ⁅Sg, Sg⁆ ≤ K) {m : ℕ} (e : K ⧸ Subgroup.center K ≃* alternatingGroup (Fin m))
     {π : Perm (Fin m)}
@@ -163,6 +172,7 @@ theorem card_alt_inf_centralizer_le [K.Normal] (hS : SwapShape t Sg V) {m : ℕ}
       ≤ Nat.card (centralizer ({t} : Set X)) := Subgroup.card_le_of_le inf_le_right
     _ = 161280 := hS.card_centralizer
 
+omit [Finite X] in
 theorem exists_commuting_lifts (hS : SwapShape t Sg V) (hA : ⁅Sg, Sg⁆ ≤ K) {m : ℕ}
     (e : K ⧸ Subgroup.center K ≃* alternatingGroup (Fin m)) {g₁ g₂ : Perm (Fin m)}
     (h₁ : g₁ ∈ imageAbar Sg K e) (h₂ : g₂ ∈ imageAbar Sg K e) (hc : g₁ * g₂ = g₂ * g₁) :

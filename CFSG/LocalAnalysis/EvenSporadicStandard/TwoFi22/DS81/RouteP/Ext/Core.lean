@@ -44,7 +44,7 @@ open scoped Classical in
 open scoped Classical in
 theorem extendOn_of_mem {B : Subgroup N} {B₀ : Subgroup N₀} (φ : ↥B ≃* ↥B₀) {n : N}
     (hn : n ∈ B) : extendOn B B₀ φ n = ((φ ⟨n, hn⟩ : ↥B₀) : N₀) :=
-  dif_pos hn
+  dite_eq_left hn
 
 open scoped Classical in
 @[expose] noncomputable def sectionOn {M : Type*} [Group M] (π : N →* M)
@@ -53,7 +53,7 @@ open scoped Classical in
 
 open scoped Classical in
 theorem sectionOn_one {M : Type*} [Group M] (π : N →* M) (hπ : Function.Surjective π) :
-    sectionOn π hπ 1 = 1 := if_pos rfl
+    sectionOn π hπ 1 = 1 := ite_eq_left rfl
 
 open scoped Classical in
 theorem π_sectionOn {M : Type*} [Group M] (π : N →* M) (hπ : Function.Surjective π) (k : M) :

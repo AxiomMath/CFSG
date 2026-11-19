@@ -111,7 +111,7 @@ theorem s16c1G43_dih {Λ : Type} [Group Λ] [Finite Λ] {s t : Λ} (hs : s * s =
 
 theorem s16c1G43_twoRank_dihedral {Λ : Type} [Group Λ] [Finite Λ] {m : ℕ} (hm : Odd m)
     (e : Λ ≃* DihedralGroup m) : CFSG.Open.twoRank Λ = 1 := by
-  haveI : NeZero m := ⟨by obtain ⟨k, hk⟩ := hm; omega⟩
+  have : NeZero m := ⟨by obtain ⟨k, hk⟩ := hm; omega⟩
   rw [CFSG.GH74.twoRank_eq_of_mulEquiv e]
   apply IsGreatest.csSup_eq
   refine ⟨⟨Subgroup.zpowers (DihedralGroup.sr 0), le_top,

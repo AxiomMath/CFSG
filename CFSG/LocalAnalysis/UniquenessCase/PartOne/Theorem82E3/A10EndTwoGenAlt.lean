@@ -62,12 +62,12 @@ private theorem x_zero (hn : 3 ≤ n) {k : Fin n} (hk1 : k ≠ 1) : x k (0 : Fin
   rw [x, Equiv.Perm.mul_apply, Equiv.swap_apply_left,
     Equiv.swap_apply_of_ne_of_ne (Ne.symm (zero_ne_one hn)) (Ne.symm hk1)]
 
-private theorem x_self (hn : 3 ≤ n) {k : Fin n} (hk0 : k ≠ 0) (hk1 : k ≠ 1) :
+private theorem x_self (_hn : 3 ≤ n) {k : Fin n} (hk0 : k ≠ 0) (hk1 : k ≠ 1) :
     x k k = 0 := by
   rw [x, Equiv.Perm.mul_apply, Equiv.swap_apply_of_ne_of_ne hk0 hk1,
     Equiv.swap_apply_right]
 
-private theorem x_one (hn : 3 ≤ n) {k : Fin n} (hk0 : k ≠ 0) (hk1 : k ≠ 1) :
+private theorem x_one (_hn : 3 ≤ n) {k : Fin n} (_hk0 : k ≠ 0) (_hk1 : k ≠ 1) :
     x k (1 : Fin n) = k := by
   rw [x, Equiv.Perm.mul_apply, Equiv.swap_apply_right, Equiv.swap_apply_left]
 
@@ -225,10 +225,10 @@ private lemma map_closure_pair {n : ℕ} [NeZero n] {a b : alternatingGroup (Fin
 private lemma closure_three_eq_sup {X : Type*} [Group X] (a b c : X) :
     Subgroup.closure ({a, b, c} : Set X) = zpowers a ⊔ zpowers b ⊔ zpowers c := by
   rw [show ({a, b, c} : Set X) = ({a, b} : Set _) ∪ {c} by
-    ext x; simp only [Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_union] <;> tauto]
+    ext x; simp only [Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_union]; tauto]
   rw [Subgroup.closure_union]
   rw [show ({a, b} : Set X) = ({a} : Set _) ∪ {b} by
-    ext x; simp only [Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_union] <;> tauto]
+    ext x; simp only [Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_union]]
   rw [Subgroup.closure_union, Subgroup.zpowers_eq_closure, Subgroup.zpowers_eq_closure,
     Subgroup.zpowers_eq_closure]
 
@@ -273,6 +273,7 @@ private lemma ofNat_ne (n : ℕ) [NeZero n] (a b : ℕ) (ha : a < n) (hb : b < n
 section
 variable {n : ℕ} [NeZero n]
 
+omit [NeZero n] in
 private lemma disjoint_triples {a b c d e f : Fin n}
     (had : a ≠ d) (hae : a ≠ e) (haf : a ≠ f)
     (hbd : b ≠ d) (hbe : b ≠ e) (hbf : b ≠ f)
@@ -284,6 +285,7 @@ private lemma disjoint_triples {a b c d e f : Fin n}
   rcases hx with rfl | rfl | rfl <;> rcases hy with rfl | rfl | rfl
   all_goals tauto
 
+omit [NeZero n] in
 private lemma support_cyc3_subset {a b c : Fin n} (hab : a ≠ b) (hac : a ≠ c) :
     (swap a b * swap a c).support ⊆ ({a, b, c} : Finset (Fin n)) := by
   refine (Equiv.Perm.support_mul_le _ _).trans ?_
@@ -293,12 +295,14 @@ private lemma support_cyc3_subset {a b c : Fin n} (hab : a ≠ b) (hac : a ≠ c
   simp only [Finset.mem_union, Finset.mem_insert, Finset.mem_singleton] at hx ⊢
   tauto
 
-private lemma cyc3_mem_support_left {a b c : Fin n} (hab : a ≠ b) (hac : a ≠ c)
+omit [NeZero n] in
+private lemma cyc3_mem_support_left {a b c : Fin n} (_hab : a ≠ b) (hac : a ≠ c)
     (hbc : b ≠ c) : a ∈ (swap a b * swap a c).support := by
   rw [Equiv.Perm.mem_support, Equiv.Perm.mul_apply, Equiv.swap_apply_left,
     Equiv.swap_apply_of_ne_of_ne (Ne.symm hac) (Ne.symm hbc)]
   exact Ne.symm hac
 
+omit [NeZero n] in
 private lemma not_mem_triple {a b c x : Fin n} (hxa : x ≠ a) (hxb : x ≠ b) (hxc : x ≠ c) :
     x ∉ ({a, b, c} : Finset (Fin n)) := by
   intro h
@@ -429,7 +433,7 @@ private lemma six_not_mem (hn : 10 ≤ n) :
   intro h6
   rw [show ({0, 1, 2, 3, 4, 5} : Finset (Fin n)) =
       ({0, 1, 2} : Finset (Fin n)) ∪ ({3, 4, 5} : Finset (Fin n)) by
-    ext x; simp only [Finset.mem_insert, Finset.mem_singleton, Finset.mem_union] <;> tauto]
+    ext x; simp only [Finset.mem_insert, Finset.mem_singleton, Finset.mem_union]; tauto]
     at h6
   rcases Finset.mem_union.mp h6 with h6 | h6
   · exact not_mem_triple
@@ -454,7 +458,7 @@ private lemma p3_not_mem_sup (hn : 10 ≤ n) :
       Subgroup.closure ({(p1 : Perm (Fin n)), p2} : Set (Perm (Fin n))) := by
     rw [show ({(p1 : Perm (Fin n)), p2} : Set (Perm (Fin n))) =
         ({(p1 : Perm (Fin n))} : Set _) ∪ {p2} by
-      ext x; simp only [Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_union] <;> tauto]
+      ext x; simp only [Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_union]]
     rw [Subgroup.closure_union, Subgroup.zpowers_eq_closure, Subgroup.zpowers_eq_closure]
   have hsupp : ∀ x ∈ (zpowers (p1 : Perm (Fin n)) ⊔ zpowers (p2 : Perm (Fin n))),
       x.support ⊆ ({0, 1, 2, 3, 4, 5} : Finset (Fin n)) := by
@@ -587,7 +591,7 @@ private def x9 (hn : 10 ≤ n) : alternatingGroup (Fin n) :=
   xk hn 9 (ofNat_ne n 9 0 (by omega) (by omega) (by norm_num))
     (ofNat_ne n 9 1 (by omega) (by omega) (by norm_num))
 
-private def g3 (hn : 10 ≤ n) (k l : Fin n) (hk9 : k ≠ 9) (hkl : k ≠ l) (hl9 : l ≠ 9) :
+private def g3 (_hn : 10 ≤ n) (k l : Fin n) (hk9 : k ≠ 9) (hkl : k ≠ l) (hl9 : l ≠ 9) :
     alternatingGroup (Fin n) :=
   ⟨swap k 9 * swap k l,
     (isThreeCycle_swap_mul_swap_same hk9 hkl (Ne.symm hl9)).mem_alternatingGroup⟩
@@ -1085,17 +1089,11 @@ private lemma d01k_345 (hn : 10 ≤ n) {k : Fin n} (hge : 9 ≤ k.val) :
   all_goals
     first
     | exact ofNat_ne n 0 3 (by omega) (by omega) (by norm_num) (hx.symm.trans hy)
-    | exact (ofNat_ne n 0 3 (by omega) (by omega) (by norm_num)).symm (hx.symm.trans hy)
     | exact ofNat_ne n 0 4 (by omega) (by omega) (by norm_num) (hx.symm.trans hy)
-    | exact (ofNat_ne n 0 4 (by omega) (by omega) (by norm_num)).symm (hx.symm.trans hy)
     | exact ofNat_ne n 0 5 (by omega) (by omega) (by norm_num) (hx.symm.trans hy)
-    | exact (ofNat_ne n 0 5 (by omega) (by omega) (by norm_num)).symm (hx.symm.trans hy)
     | exact ofNat_ne n 1 3 (by omega) (by omega) (by norm_num) (hx.symm.trans hy)
-    | exact (ofNat_ne n 1 3 (by omega) (by omega) (by norm_num)).symm (hx.symm.trans hy)
     | exact ofNat_ne n 1 4 (by omega) (by omega) (by norm_num) (hx.symm.trans hy)
-    | exact (ofNat_ne n 1 4 (by omega) (by omega) (by norm_num)).symm (hx.symm.trans hy)
     | exact ofNat_ne n 1 5 (by omega) (by omega) (by norm_num) (hx.symm.trans hy)
-    | exact (ofNat_ne n 1 5 (by omega) (by omega) (by norm_num)).symm (hx.symm.trans hy)
     | (have hv := congrArg Fin.val (hx.symm.trans hy)
        have hv' : (3 : Fin n).val = 3 := by
          change 3 % n = 3; exact Nat.mod_eq_of_lt (by omega)
@@ -1118,17 +1116,11 @@ private lemma d01k_678 (hn : 10 ≤ n) {k : Fin n} (hge : 9 ≤ k.val) :
   all_goals
     first
     | exact ofNat_ne n 0 6 (by omega) (by omega) (by norm_num) (hx.symm.trans hy)
-    | exact (ofNat_ne n 0 6 (by omega) (by omega) (by norm_num)).symm (hx.symm.trans hy)
     | exact ofNat_ne n 0 7 (by omega) (by omega) (by norm_num) (hx.symm.trans hy)
-    | exact (ofNat_ne n 0 7 (by omega) (by omega) (by norm_num)).symm (hx.symm.trans hy)
     | exact ofNat_ne n 0 8 (by omega) (by omega) (by norm_num) (hx.symm.trans hy)
-    | exact (ofNat_ne n 0 8 (by omega) (by omega) (by norm_num)).symm (hx.symm.trans hy)
     | exact ofNat_ne n 1 6 (by omega) (by omega) (by norm_num) (hx.symm.trans hy)
-    | exact (ofNat_ne n 1 6 (by omega) (by omega) (by norm_num)).symm (hx.symm.trans hy)
     | exact ofNat_ne n 1 7 (by omega) (by omega) (by norm_num) (hx.symm.trans hy)
-    | exact (ofNat_ne n 1 7 (by omega) (by omega) (by norm_num)).symm (hx.symm.trans hy)
     | exact ofNat_ne n 1 8 (by omega) (by omega) (by norm_num) (hx.symm.trans hy)
-    | exact (ofNat_ne n 1 8 (by omega) (by omega) (by norm_num)).symm (hx.symm.trans hy)
     | (have hv := congrArg Fin.val (hx.symm.trans hy)
        have hv' : (6 : Fin n).val = 6 := by
          change 6 % n = 6; exact Nat.mod_eq_of_lt (by omega)
@@ -1242,11 +1234,11 @@ variable {n : ℕ} [NeZero n]
 private lemma exists_conj_A0_le (hn : 10 ≤ n) {L : Type} [Group L] [Finite L]
     (e : L ≃* alternatingGroup (Fin n)) {P : Subgroup L}
     (hP : CFSG.ABGLocalTools.IsSylowOf 3 P ⊤)
-    (hPZ : Nonempty (↥P ≃* UC22.InS3.UC326.ZWr 1)) :
+    (_hPZ : Nonempty (↥P ≃* UC22.InS3.UC326.ZWr 1)) :
     ∃ k : alternatingGroup (Fin n),
       (A0 hn).map (MulAut.conj k).toMonoidHom ≤ P.map e.toMonoidHom := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hPEsylow : CFSG.ABGLocalTools.IsSylowOf 3 (P.map e.toMonoidHom) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
     refine ⟨le_top, hP.isPGroup.map e.toMonoidHom, ?_⟩
@@ -1261,7 +1253,7 @@ private lemma exists_conj_A0_le (hn : 10 ≤ n) {L : Type} [Group L] [Finite L]
   have hQIs : CFSG.ABGLocalTools.IsSylowOf 3
       (Q : Subgroup (alternatingGroup (Fin n))) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    refine ⟨le_top, Q.isPGroup', ?_⟩
+    refine ⟨le_top, Q.isPGroup, ?_⟩
     rw [Subgroup.relIndex_top_right]
     exact Q.not_dvd_index
   obtain ⟨k, -, hconj⟩ := hQIs.exists_mem_conj hPEsylow
@@ -1273,6 +1265,7 @@ private lemma exists_conj_A0_le (hn : 10 ≤ n) {L : Type} [Group L] [Finite L]
   rw [hxa]
   exact hA0Q ha
 
+omit [NeZero n] in
 private lemma eq_of_e27_le {PE : Subgroup (alternatingGroup (Fin n))}
     (hPEZ : Nonempty (↥PE ≃* UC22.InS3.UC326.ZWr 1))
     {E F : Subgroup (alternatingGroup (Fin n))} (hE : E ≤ PE) (hF : F ≤ PE)
@@ -1300,7 +1293,7 @@ private theorem transport (hn : 10 ≤ n) {L : Type} [Group L] [Finite L]
     (hA : CFSG.Open.IsElemAbelian 3 A) (hcard : Nat.card A = 27) :
     CFSG.Open.GLBCore 3 2 A = ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e⟩ := he
   let PE : Subgroup (alternatingGroup (Fin n)) := P.map e.toMonoidHom
   have hPEZ : Nonempty (↥PE ≃* UC22.InS3.UC326.ZWr 1) := by
@@ -1338,7 +1331,7 @@ theorem glbCore_eq_top_of_isAlt {L : Type} [Group L] [Finite L] {n : ℕ} (hn : 
     (hA : CFSG.Open.IsElemAbelian 3 A) (hcard : Nat.card A = 27) :
     CFSG.Open.GLBCore 3 2 A = ⊤ := by
   have hn10 : 10 ≤ n := by omega
-  haveI : NeZero n := by rcases hn with rfl | rfl <;> infer_instance
+  have : NeZero n := by rcases hn with rfl | rfl <;> infer_instance
   exact Core.transport (n := n) hn10 he hP hPZ hAP hA hcard
 
 end CFSG.LocalAnalysis.UniquenessCase.PartOne.Theorem82E3.A10TwoGen

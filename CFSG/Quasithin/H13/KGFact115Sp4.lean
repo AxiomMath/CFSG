@@ -267,7 +267,7 @@ variable [Finite K]
 theorem orderOf_ne_three_of_mem_unipotent {g : Sp₄} (hg : g ∈ unipotent 2 K) :
     orderOf g ≠ 3 := by
   obtain ⟨P, hP⟩ := exists_sylow_unipotent (K := K) 2 2
-  obtain ⟨k, hk⟩ := P.isPGroup' ⟨g, hP ▸ hg⟩
+  obtain ⟨k, hk⟩ := P.isPGroup ⟨g, hP ▸ hg⟩
   have h1 : g ^ 2 ^ k = 1 := by simpa using congrArg Subtype.val hk
   intro h3
   have h2 := orderOf_dvd_of_pow_eq_one h1
@@ -365,7 +365,7 @@ theorem kg115Excluded_sp4 {f : ℕ} (hK : Nat.card K = 2 ^ f) (hf : 2 ≤ f) :
   have : IsSimpleGroup Sp₄ := e.symm.isSimpleGroup
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hP⟩ := exists_sylow_unipotent (K := K) 2 2
-  have hU : IsPGroup 2 (unipotent 2 K) := hP ▸ P.isPGroup'
+  have hU : IsPGroup 2 (unipotent 2 K) := hP ▸ P.isPGroup
   have hUi : ¬ 2 ∣ (unipotent 2 K).index := hP ▸ P.not_dvd_index
   refine kg115Excluded_of_simple fun hc => kg115Excluded_of_data hc ⟨?_, ?_⟩
   · exact sylowTwoNoThree_of_conj hU hUi fun y hy hyU =>

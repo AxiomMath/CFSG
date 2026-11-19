@@ -66,7 +66,7 @@ private theorem index_hyperplane (H : Subgroup A3) (hH : H.index = 3) : Nat.card
   omega
 
 private theorem orderOf_eq_three (c : A3) (hc : c ≠ 1) : orderOf c = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact orderOf_eq_prime (pow_three_eq_one_of_A3 c) hc
 
 @[expose] def flipC (i : Fin 3) (c : Fin 3 → ZMod 3) : Fin 3 → ZMod 3 :=
@@ -75,17 +75,17 @@ private theorem orderOf_eq_three (c : A3) (hc : c ≠ 1) : orderOf c = 3 := by
 theorem flipC_invol (i : Fin 3) (c : Fin 3 → ZMod 3) : flipC i (flipC i c) = c := by
   funext j
   by_cases h : j = i
-  · simp only [flipC, h, if_true]
+  · simp only [flipC, h, ite_true]
     exact neg_neg (c i)
-  · simp only [flipC, h, if_false]
+  · simp only [flipC, h, ite_false]
 
 theorem flipC_add (i : Fin 3) (c c' : Fin 3 → ZMod 3) :
     flipC i (c + c') = flipC i c + flipC i c' := by
   funext j
   by_cases h : j = i
-  · simp only [flipC, h, if_true, Pi.add_apply]
+  · simp only [flipC, h, ite_true, Pi.add_apply]
     exact neg_add (c i) (c' i)
-  · simp only [flipC, h, if_false, Pi.add_apply]
+  · simp only [flipC, h, ite_false, Pi.add_apply]
 
 @[expose] def flipAdd (i : Fin 3) : (Fin 3 → ZMod 3) ≃+ (Fin 3 → ZMod 3) where
   toFun := flipC i
@@ -123,23 +123,23 @@ theorem eprod_flip (e l : Fin 3 → X) (h3 : ∀ i, e i ^ 3 = 1)
   have hc0 : l i * e 0 ^ (c 0).val * (l i)⁻¹ = e 0 ^ ((flipC i c) 0).val := by
     by_cases h : i = 0
     · rw [h]
-      simp only [flipC, if_true]
+      simp only [flipC, ite_true]
       rw [← conj_pow, hinv 0, inv_pow, ← hneg 0]
-    · simp only [flipC, if_neg h, if_neg (Ne.symm h)]
+    · simp only [flipC, ite_eq_right (Ne.symm h)]
       rw [← conj_pow, hfix i 0 h]
   have hc1 : l i * e 1 ^ (c 1).val * (l i)⁻¹ = e 1 ^ ((flipC i c) 1).val := by
     by_cases h : i = 1
     · rw [h]
-      simp only [flipC, if_true]
+      simp only [flipC, ite_true]
       rw [← conj_pow, hinv 1, inv_pow, ← hneg 1]
-    · simp only [flipC, if_neg h, if_neg (Ne.symm h)]
+    · simp only [flipC, ite_eq_right (Ne.symm h)]
       rw [← conj_pow, hfix i 1 h]
   have hc2 : l i * e 2 ^ (c 2).val * (l i)⁻¹ = e 2 ^ ((flipC i c) 2).val := by
     by_cases h : i = 2
     · rw [h]
-      simp only [flipC, if_true]
+      simp only [flipC, ite_true]
       rw [← conj_pow, hinv 2, inv_pow, ← hneg 2]
-    · simp only [flipC, if_neg h, if_neg (Ne.symm h)]
+    · simp only [flipC, ite_eq_right (Ne.symm h)]
       rw [← conj_pow, hfix i 2 h]
   rw [hc0, hc1, hc2]
 
@@ -258,7 +258,7 @@ private theorem eq_gen_mul : ∀ x : A3,
 
 theorem exists_functional (H : Subgroup A3) (hH : H.index = 3) :
     ∃ f : Fin 3 → ZMod 3, f ≠ 0 ∧ H = kerH f := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcard : Nat.card (A3 ⧸ H) = 3 := hH
   let e : A3 ⧸ H ≃* Multiplicative (ZMod 3) := mulEquivOfPrimeCardEq hcard card_mult_zmod_three
   let χ : A3 →* Multiplicative (ZMod 3) := e.toMonoidHom.comp (QuotientGroup.mk' H)
@@ -686,7 +686,7 @@ theorem flipC_ne_zero {f : Fin 3 → ZMod 3} (hf : f ≠ 0) (i : Fin 3) : flipC 
   have := congrFun h j
   by_cases hj : j = i
   · subst hj
-    simp only [flipC, if_true] at this
+    simp only [flipC, ite_true] at this
     exact neg_eq_zero.mp this
   · simpa [flipC, hj] using this
 
@@ -708,9 +708,9 @@ theorem map_kerH (i : Fin 3) (f : Fin 3 → ZMod 3) :
     rw [flipMul_toAdd, dot3, dot3, Finset.sum_congr rfl (fun j _ => ?_)]
     by_cases hj : j = i
     · subst hj
-      simp only [flipC, if_true]
+      simp only [flipC, ite_true]
       rw [neg_mul, mul_neg, neg_neg]
-    · simp only [flipC, if_neg hj]
+    · simp only [flipC, ite_eq_right hj]
   ext z
   constructor
   · intro hz
@@ -745,7 +745,7 @@ private theorem weightSpace_flip_eq (ρ : Representation (ZMod 2) X W) (e l : Fi
   exact h
 
 private noncomputable def orbitSum (ρA : Representation (ZMod 2) A3 W) (f : Fin 3 → ZMod 3)
-    (hf : f ≠ 0) : Submodule (ZMod 2) W :=
+    (_hf : f ≠ 0) : Submodule (ZMod 2) W :=
   ⨆ ε : Fin 3 → ZMod 2, weightSpace ρA (kerH (flipEps ε f))
 
 private theorem orbitSum_ne_bot (ρA : Representation (ZMod 2) A3 W) {f : Fin 3 → ZMod 3}
@@ -877,7 +877,7 @@ private theorem ofAdd_single_ne_one (k : Fin 3) :
   rw [toAdd_one, toAdd_ofAdd] at h'
   have hk : (1 : ZMod 3) = 0 := by
     have h1 := congrFun h' k
-    simpa using h1
+    simp at h1
   exact one_ne_zero hk
 
 instance nontrivial_A3 : Nontrivial A3 :=
@@ -1074,7 +1074,7 @@ theorem weightSpace_ne_bot_iff (ρ : Representation (ZMod 2) X W) (e l : Fin 3 �
     exact Kfun_ne_bot ρ e l he3 hec hl2 hlc hinv hfix hfaith hCY hCL j
 
 
-private theorem rhoA_commute_proj {ρ : Representation (ZMod 2) X W} {e l : Fin 3 → X}
+private theorem rhoA_commute_proj {ρ : Representation (ZMod 2) X W} {e _l : Fin 3 → X}
     {he3 : ∀ i, e i ^ 3 = 1} {hec : ∀ i j, Commute (e i) (e j)} (c : A3) (H : Hyperplane A3) :
     rhoA ρ e he3 hec c * proj (rhoA ρ e he3 hec) H =
       proj (rhoA ρ e he3 hec) H * rhoA ρ e he3 hec c := by
@@ -1245,7 +1245,7 @@ theorem fpf_e (ρ : Representation (ZMod 2) X W) (e l : Fin 3 → X)
     exact hw
   have hproj : ∀ j : Fin 4, proj (rhoA ρ e he3 hec) (Kfun j) w = 0 := by
     intro j
-    have hcomm := rhoA_commute_proj (ρ := ρ) (e := e) (l := l) (he3 := he3) (hec := hec)
+    have hcomm := rhoA_commute_proj (ρ := ρ) (e := e) (_l := l) (he3 := he3) (hec := hec)
       (Multiplicative.ofAdd (Pi.single i 1)) (Kfun j)
     have hfixw : rhoA ρ e he3 hec (Multiplicative.ofAdd (Pi.single i 1))
         (proj (rhoA ρ e he3 hec) (Kfun j) w) = proj (rhoA ρ e he3 hec) (Kfun j) w := by
@@ -1267,7 +1267,7 @@ theorem eq_single_of_fpf (ρ : Representation (ZMod 2) X W) (e l : Fin 3 → X)
     (hfaith : ∀ c : Fin 3 → ZMod 3, ρ (eprod e c) = 1 → c = 0)
     (hCY : ∀ w : W, (∀ i, ρ (e i) w = w) → w = 0)
     (hCL : ∀ v w : W, v ≠ 0 → w ≠ 0 → (∀ i, ρ (l i) v = v) → (∀ i, ρ (l i) w = w) →
-      v = w) (c : Fin 3 → ZMod 3) (hc : c ≠ 0)
+      v = w) (c : Fin 3 → ZMod 3) (_hc : c ≠ 0)
     (hfpf : ∀ w : W, ρ (eprod e c) w = w → w = 0) :
     ∃ i, ∀ j, j ≠ i → c j = 0 := by
   have hcontra : ¬((c 0 ≠ 0 ∧ c 1 ≠ 0) ∨ (c 0 ≠ 0 ∧ c 2 ≠ 0) ∨ (c 1 ≠ 0 ∧ c 2 ≠ 0)) := by
@@ -1342,7 +1342,7 @@ theorem eq_zero_of_fix (ρ : Representation (ZMod 2) X W) (e l : Fin 3 → X)
   have hcJ : ∀ k : Fin 4, Multiplicative.ofAdd c ∈ (Kfun k).1 := by
     intro k
     by_contra hck
-    have hcomm := rhoA_commute_proj (ρ := ρ) (e := e) (l := l) (he3 := he3) (hec := hec)
+    have hcomm := rhoA_commute_proj (ρ := ρ) (e := e) (_l := l) (he3 := he3) (hec := hec)
       (Multiplicative.ofAdd c) (Kfun k)
     have hfixc : rhoA ρ e he3 hec (Multiplicative.ofAdd c)
         (proj (rhoA ρ e he3 hec) (Kfun k) a) = proj (rhoA ρ e he3 hec) (Kfun k) a := by

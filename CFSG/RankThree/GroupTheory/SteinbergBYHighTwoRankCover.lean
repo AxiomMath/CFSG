@@ -69,7 +69,7 @@ theorem high_two_rank_simple_section_small_rank_central_cover {G : Type u} [Grou
   set T : Sylow 2 C := default with hT
   set R : Subgroup K := (T : Subgroup C).map C.subtype with hR
   have hRn : R.Normal := hCsyl 2 T
-  have hRp : IsPGroup 2 R := T.isPGroup'.map _
+  have hRp : IsPGroup 2 R := T.isPGroup.map _
   have hRC : R ≤ C := Subgroup.map_subtype_le _
   set ι : K →* G := H.subtype.comp K.subtype with hι
   have hιinj : Function.Injective ι := H.subtype_injective.comp K.subtype_injective

@@ -203,8 +203,8 @@ theorem lq_rec_SU
     CFSG.HardMathSupport.Solomon.Coordinator.ChevQ.KSExact.rationalComponent_suN_model
       S hT i hν hψ hΨ π hπ hr hchar he hq hνQ
   obtain ⟨-, K, hKf, hKfin, hKcard, ⟨eC⟩⟩ := hmodel
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   have hcard' : Nat.card K = (2 ^ N) ^ 2 := by
     rw [hKcard, hes, hr2]
   refine CFSG.LocalAnalysis.GLTheoremA.Y10GInnUni.ggHasLabel_twA (E := K)

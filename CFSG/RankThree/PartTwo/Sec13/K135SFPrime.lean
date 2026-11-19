@@ -90,7 +90,7 @@ theorem sectionFourHyp_of_perfect_cover (hLP : Item4_1LargePrime) (hTC : Item4_1
     (QuotientGroup.quotientMulEquivOfEq hcen).trans
       (QuotientGroup.quotientKerEquivOfSurjective π' hπ')
   have hq : CFSG.IsQuasisimple (X ⧸ N') := by
-    haveI := hS
+    have := hS
     refine ⟨inferInstance, e.isSimpleGroup, ?_⟩
     obtain ⟨a, b, hab⟩ := hSn
     refine ⟨e.symm a, e.symm b, fun h => hab ?_⟩

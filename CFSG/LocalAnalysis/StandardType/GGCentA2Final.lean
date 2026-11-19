@@ -61,7 +61,7 @@ private theorem a2f_frame_ker_le_center
     have h2 : pinnedX Tag.E6 L (σφ 0 1) ((ε : L) * 1) = pinnedX Tag.E6 L (σφ 0 1) 0 :=
       ((hε 1).symm.trans h1).trans (pinnedX_zero (τ := Tag.E6) (R := L) (σφ 0 1)).symm
     have h3 := pinnedX_injective (τ := Tag.E6) (R := L) (σφ 0 1) h2
-    exact ε.ne_zero (by simpa using h3)
+    exact ε.ne_zero (by simp at h3)
   · exact h
 
 private theorem a2f_step_diag {G : Type*} [Group G] (stp : G →* G) (n : G) (hn : stp n = n)

@@ -24,7 +24,7 @@ theorem u4xbMat_mul (t t' : K) : u4xbMat t * u4xbMat t' = u4xbMat (t + t') := by
   ext i j
   rw [mul_apply, sum_ix]
   rcases ix_cases i with rfl | rfl | rfl | rfl <;> rcases ix_cases j with rfl | rfl | rfl | rfl <;>
-    simp [u4xbMat_apply, one_apply, ie1, ie2, if1, if2] <;> ring
+    simp [u4xbMat_apply, one_apply, ie1, ie2, if1, if2]; ring
 
 theorem u4xbMat_zero : u4xbMat (0 : K) = 1 := by
   simp [u4xbMat]
@@ -44,7 +44,7 @@ theorem u4xbMat_gram {t : K} (ht : h.bar t = t) :
   rw [mul_apply, sum_ix]
   simp only [mul_hypGram_apply, transpose_apply, map_apply]
   rcases ix_cases i with rfl | rfl | rfl | rfl <;> rcases ix_cases j with rfl | rfl | rfl | rfl <;>
-    simp [u4xbMat_apply, one_apply, hypGram_apply, hypPartner, ie1, ie2, if1, if2, ht] <;>
+    simp [u4xbMat_apply, one_apply, hypGram_apply, hypPartner, ie1, ie2, if1, if2, ht];
     grind
 
 @[expose] noncomputable def u4xbElt {t : K} (ht : h.bar t = t) : hypSU h 2 0 :=
@@ -72,7 +72,7 @@ theorem u4xbMat_mul_sMat {t : K} (ht : h.bar t = t) (x y c : K) :
   ext i j
   rw [mul_apply, sum_ix, mul_apply, sum_ix]
   rcases ix_cases i with rfl | rfl | rfl | rfl <;> rcases ix_cases j with rfl | rfl | rfl | rfl <;>
-    simp [u4xbMat_apply, sMat_apply, one_apply, ie1, ie2, if1, if2, map_add, map_mul, ht] <;>
+    simp [u4xbMat_apply, sMat_apply, one_apply, ie1, ie2, if1, if2, map_add, map_mul, ht];
     grind
 
 theorem u4xbMat_comm_sMat {t : K} (ht : h.bar t = t) (y : K) :
@@ -468,7 +468,7 @@ theorem coe_conj_u4xbElt_of_diag {d : hypSU h 2 0} {q : Ix → K}
   ext i j
   rw [mul_diagonal, diagonal_mul]
   rcases ix_cases i with rfl | rfl | rfl | rfl <;> rcases ix_cases j with rfl | rfl | rfl | rfl <;>
-    simp [u4xbMat_apply, one_apply, n1, n2, n3, n4] <;> ring
+    simp [u4xbMat_apply, one_apply, n1, n2, n3, n4]; ring
 
 theorem mem_u4RootB_of_comm_diag {d u : hypSU h 2 0} {q : Ix → K}
     (hd : ((d : GL Ix K) : Matrix Ix Ix K) = diagonal q) (h12 : q ie1 ≠ q ie2)

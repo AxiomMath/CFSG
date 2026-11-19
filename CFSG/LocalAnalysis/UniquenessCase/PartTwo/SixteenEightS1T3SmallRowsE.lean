@@ -22,7 +22,7 @@ theorem S16gRowCtx.false_of_seven_mem_sig_sl (h : S16gRowCtx D V₀ V L hV)
     (hGA : CFSG.Open.GriessAllModelsStatement)
     (hSchur : CFSG.ComponentClassification.SolAltLit.SchurAlternatingMultiplierInput)
     (hT : ThreeNat (Mbar D.M V₀ V hV) (lBar V₀ V hV L) (barSub V₀ V hV D.T))
-    (h3 : 3 ∉ D.sig) (h7 : 7 ∈ D.sig)
+    (_h3 : 3 ∉ D.sig) (h7 : 7 ∈ D.sig)
     (hL : IsSLn ↥(lBar V₀ V hV L) 6 1 ∨ IsSLn ↥(lBar V₀ V hV L) 7 1) : False := by
   have hsimple_mult : IsSimpleGroup ↥(lBar V₀ V hV L) ∧
       ∃ k : ℕ, Nat.card (CFSG.Open.griessHopfMultiplier ↥(lBar V₀ V hV L)) = 2 ^ k := by
@@ -30,7 +30,7 @@ theorem S16gRowCtx.false_of_seven_mem_sig_sl (h : S16gRowCtx D V₀ V L hV)
     · exact s16t3_simple_and_mult hGA hSchur (Or.inl ⟨hL, by norm_num⟩)
     · exact s16t3_simple_and_mult hGA hSchur (Or.inl ⟨hL, by norm_num⟩)
   obtain ⟨hsimple, hmult⟩ := hsimple_mult
-  haveI : IsSimpleGroup ↥(lBar V₀ V hV L) := hsimple
+  have : IsSimpleGroup ↥(lBar V₀ V hV L) := hsimple
   have hKnc : ¬ IsMulCommutative ↥(lBar V₀ V hV L) := by
     intro hc
     exact CFSG.LocalAnalysis.GLTheoremA.SFM12.not_all_commute_of_quasisimple h.quasi

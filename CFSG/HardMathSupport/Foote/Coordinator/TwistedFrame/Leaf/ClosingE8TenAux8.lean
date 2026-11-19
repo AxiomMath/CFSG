@@ -210,7 +210,7 @@ variable {K : Type} [Field K] [Finite K]
   Fr := D.Fr
   hFr := D.hFr
   hbij := by
-    haveI : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+    have : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
     refine ⟨D.Fr.injective, fun c => ?_⟩
     obtain ⟨d, hd⟩ := IsAlgClosed.exists_pow_nat_eq c (show 0 < Nat.card K from Nat.card_pos)
     exact ⟨d, by rw [D.hFr, hd]⟩

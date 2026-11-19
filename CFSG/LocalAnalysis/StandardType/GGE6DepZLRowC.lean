@@ -17,6 +17,7 @@ open scoped commutatorElement
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 private theorem zlc_zeta_zpow_eq_one (ζ : Kˣ) (hζ : ζ ^ 3 = 1) {e : ℤ}
     (he : (3 : ℤ) ∣ e) : ζ ^ e = 1 := by
   obtain ⟨m, rfl⟩ := he
@@ -51,6 +52,7 @@ theorem zl_isogeny_minTorus_kappa (ζ : Kˣ) (hζ : ζ ^ 3 = 1) :
     exact zlc_zeta_zpow_eq_one ζ hζ hdiv
   rw [hparams, rootDiagUnit_one, OneMemClass.coe_one]
 
+omit [Finite K] in
 theorem zl_minTorus_kappa_ne_one (ζ : Kˣ) (hζ : ζ ^ 3 = 1) (hζo : orderOf ζ = 3) :
     minTorus e6Data_valid K (zetaVec ζ hζ kappa) ≠ 1 := by
   intro h
@@ -69,6 +71,7 @@ theorem zl_minTorus_kappa_ne_one (ζ : Kˣ) (hζ : ζ ^ 3 = 1) (hζo : orderOf �
   rw [hζ1, orderOf_one] at hζo
   exact absurd hζo (by decide)
 
+omit [Finite K] in
 theorem zl_minTorus_kappa_mem (ζ : Kˣ) (hζ : ζ ^ 3 = 1)
     (S : Subgroup (e6Data_valid.minGroup K)) (hS : ∀ i, e6Data_valid.hm K i ζ ∈ S) :
     minTorus e6Data_valid K (zetaVec ζ hζ kappa) ∈ S := by
@@ -85,8 +88,8 @@ theorem zl_minTorus_kappa_mem (ζ : Kˣ) (hζ : ζ ^ 3 = 1)
         ((Pi.mulSingle j ζ : Fin Tag.E6.rank → Kˣ) ^ (κ j).val) j := by
       refine Finset.prod_eq_single j (fun i _ hij => ?_)
         (fun hj => absurd (Finset.mem_univ j) hj)
-      rw [Pi.pow_apply, Pi.mulSingle_apply, if_neg hij.symm, one_pow]
-    rw [Finset.prod_apply, hprod, Pi.pow_apply, Pi.mulSingle_apply, if_pos rfl]
+      rw [Pi.pow_apply, Pi.mulSingle_apply, ite_eq_right hij.symm, one_pow]
+    rw [Finset.prod_apply, hprod, Pi.pow_apply, Pi.mulSingle_apply, ite_eq_left rfl]
   rw [hzeta]
   have key : ∀ t : Finset (Fin Tag.E6.rank),
       minTorus e6Data_valid K (Finset.prod t
@@ -104,8 +107,8 @@ theorem zl_minTorus_kappa_mem (ζ : Kˣ) (hζ : ζ ^ 3 = 1)
 theorem zl_ker_isogeny_eq_zpowers (hK3 : 3 ∣ Nat.card K - 1) (ζ : Kˣ) (hζ : ζ ^ 3 = 1)
     (hζo : orderOf ζ = 3) :
     (e6Isogeny K).ker = Subgroup.zpowers (minTorus e6Data_valid K (zetaVec ζ hζ kappa)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  haveI : Finite (e6Data_valid.minGroup K) :=
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Finite (e6Data_valid.minGroup K) :=
     CFSG.LieType.Steinberg.CentralExt.FieldFour.finite_minGroup' (K := K) e6Data_valid
   let κ : Fin Tag.E6.rank → ZMod 3 := kappa
   change (e6Isogeny K).ker =

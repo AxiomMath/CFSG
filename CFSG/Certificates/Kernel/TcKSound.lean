@@ -170,7 +170,7 @@ theorem tcOK_of_K {n w m ngQ ngK NQ NK NS X : Nat} {ps : List Nat} {x : Array Na
     beq_iff_eq.2 (hsS.trans (Nat.eq_of_beq_eq_true c14))
   unfold tcOK
   rw [heQ, g2, g3, g4, g5, g6, g7, heK, g9, g10, g11, g12, g13, g14, g15, g16, g17, g18, g19,
-    heS, g21] <;> rfl
+    heS, g21]; rfl
 
 end CFSG.KC.TcK
 

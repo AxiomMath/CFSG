@@ -11,11 +11,13 @@ open Subgroup CFSG.Blueprint
 
 variable {G : Type} [Group G] [Finite G] {t : G} {T1 T2 : Subgroup G}
 
-private lemma sec8t84_mul_mul (W : Sec8T84Wr G t T1 T2) {x x' y y' : G} (hx : x ∈ T1)
-    (hx' : x' ∈ T1) (hy : y ∈ T2) (hy' : y' ∈ T2) :
+omit [Finite G] in
+private lemma sec8t84_mul_mul (W : Sec8T84Wr G t T1 T2) {x x' y y' : G} (_hx : x ∈ T1)
+    (hx' : x' ∈ T1) (hy : y ∈ T2) (_hy' : y' ∈ T2) :
     (x * y) * (x' * y') = (x * x') * (y * y') :=
   Commute.mul_mul_mul_comm (W.comm x' hx' y hy).symm x y'
 
+omit [Finite G] in
 private lemma sec8t84_mul_inv (W : Sec8T84Wr G t T1 T2) {x y : G} (hx : x ∈ T1)
     (hy : y ∈ T2) : (x * y)⁻¹ = x⁻¹ * y⁻¹ :=
   Commute.mul_inv (W.comm x hx y hy)
@@ -28,7 +30,7 @@ theorem sec8t84_proj_split (W : Sec8T84Wr G t T1 T2) {A : Subgroup G} (hA : A �
       (∀ x ∈ A1, ∃ y ∈ T2, x * y ∈ A) ∧ (∀ y ∈ A2, ∃ x ∈ T1, x * y ∈ A) := by
   let A1 : Subgroup G :=
     { carrier := {x | x ∈ T1 ∧ ∃ y ∈ T2, x * y ∈ A}
-      one_mem' := ⟨one_mem T1, 1, one_mem T2, by simpa using one_mem A⟩
+      one_mem' := ⟨one_mem T1, 1, one_mem T2, by simp⟩
       mul_mem' := by
         rintro x x' ⟨hxT1, y, hyT2, hxyA⟩ ⟨hx'T1, y', hy'T2, hx'y'A⟩
         refine ⟨mul_mem hxT1 hx'T1, y * y', mul_mem hyT2 hy'T2, ?_⟩
@@ -41,7 +43,7 @@ theorem sec8t84_proj_split (W : Sec8T84Wr G t T1 T2) {A : Subgroup G} (hA : A �
         exact inv_mem hxyA }
   let A2 : Subgroup G :=
     { carrier := {y | y ∈ T2 ∧ ∃ x ∈ T1, x * y ∈ A}
-      one_mem' := ⟨one_mem T2, 1, one_mem T1, by simpa using one_mem A⟩
+      one_mem' := ⟨one_mem T2, 1, one_mem T1, by simp⟩
       mul_mem' := by
         rintro y y' ⟨hyT2, x, hxT1, hxyA⟩ ⟨hy'T2, x', hx'T1, hx'y'A⟩
         refine ⟨mul_mem hyT2 hy'T2, x * x', mul_mem hxT1 hx'T1, ?_⟩

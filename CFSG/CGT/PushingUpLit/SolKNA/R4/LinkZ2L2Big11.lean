@@ -17,6 +17,7 @@ section Outer
 
 variable {X : Type} [Group X] [Finite X] {F : Type} [Field F] [Finite F]
 
+omit [Finite X] [Finite F] in
 theorem exists_inner_of_psl (E : PGamEmb X F) {g : PGammaL2 F} (h1 : g.right = 1)
     (h2 : g.left ∈ pslRange F) : ∃ x ∈ genFittingFStar X, E.ρ (MulAut.conj x) = g := by
   obtain ⟨s, hs⟩ := h2
@@ -25,6 +26,7 @@ theorem exists_inner_of_psl (E : PGamEmb X F) {g : PGammaL2 F} (h1 : g.right = 1
   rw [hnρ, hs]
   exact (TL4.MF163.eq_inl_of_right_eq_one h1).symm
 
+omit [Finite X] [Finite F] in
 theorem exists_inner_of_quot (E : PGamEmb X F) {b : X} {g : PGammaL2 F}
     (h1 : (g * (E.ρ (MulAut.conj b))⁻¹).right = 1)
     (h2 : (g * (E.ρ (MulAut.conj b))⁻¹).left ∈ pslRange F) :
@@ -36,6 +38,7 @@ theorem exists_inner_of_quot (E : PGamEmb X F) {b : X} {g : PGammaL2 F}
     _ = (g * (E.ρ (MulAut.conj b))⁻¹) * E.ρ (MulAut.conj b) := by rw [hnρ]
     _ = g := by group
 
+omit [Finite F] in
 theorem inner_quot_mem (E : PGamEmb X F) (hidx : (genFittingFStar X).index ≤ 2) {b x : X}
     (hb : (E.ρ (MulAut.conj b)).right ≠ 1) (hx : (E.ρ (MulAut.conj x)).right ≠ 1) :
     (E.ρ (MulAut.conj x) * (E.ρ (MulAut.conj b))⁻¹).right = 1 ∧
@@ -75,9 +78,11 @@ section Numerics
 
 variable {F : Type} [Field F] [Finite F]
 
+omit [Finite F] in
 theorem autU_zpow (σ : F ≃+* F) (x : Fˣ) (n : ℤ) : autU σ (x ^ n) = (autU σ x) ^ n :=
   map_zpow (Units.map σ.toRingHom.toMonoidHom) x n
 
+omit [Finite F] in
 theorem autU_pow_mem_pair {σ : F ≃+* F} {x : Fˣ}
     (h : autU σ x = x ∨ autU σ x = x⁻¹) (j : ℕ) :
     autU (σ ^ j) x = x ∨ autU (σ ^ j) x = x⁻¹ := by
@@ -128,6 +133,7 @@ theorem not_isSquare_mul_of_isSquare (h2 : (2 : F) ≠ 0) {a b : Fˣ} (ha : IsSq
   rw [mul_pow, ha, one_mul, pow_half_eq_neg_one_of_not_isSquare h2 hb] at hab
   exact units_neg_one_ne_one h2 hab
 
+omit [Finite F] in
 theorem card_units_eq_sq_sub_one {p f : ℕ} (hF : Nat.card F = p ^ f) (hf : Even f) :
     Nat.card Fˣ = p ^ (f / 2) * p ^ (f / 2) - 1 := by
   rw [card_units_eq_of_card hF]
@@ -137,6 +143,7 @@ theorem card_units_eq_sq_sub_one {p f : ℕ} (hF : Nat.card F = p ^ f) (hf : Eve
   obtain ⟨g, hg⟩ := hf
   omega
 
+omit [Finite F] in
 theorem autU_eq_pow {σ₀ : F ≃+* F} {q : ℕ} (hq : ∀ x : F, σ₀ x = x ^ q) (u : Fˣ) :
     autU σ₀ u = u ^ q := by
   apply Units.ext
@@ -170,6 +177,7 @@ theorem q_mod_eight_of_dvd_sub_one {q r : ℕ} (hr : 4 ≤ r) (hq : 1 ≤ q)
     _ = ((q - 1) % 8 + 1) % 8 := by simp [Nat.add_mod]
     _ = 1 := by simp [hmod]
 
+omit [Finite F] in
 theorem unit_eq_neg_one_or_one_of_pow {u : Fˣ} {c k : ℕ} (hc : c % 4 = 2) (hu : u ^ c = 1)
     (hk : u ^ 2 ^ k = 1) : u = 1 ∨ u = -1 := by
   have hgcd : u ^ Nat.gcd c (2 ^ k) = 1 := pow_gcd_eq_one.mpr ⟨hu, hk⟩

@@ -23,7 +23,7 @@ theorem s16t_false_of_direct_eight {T : Type} [CommGroup T] [Finite T] (hT : ∀
     (hk : rkIdx Ut ≤ 1) (hA4 : ∀ b ∈ B, b ≠ 1 → ∀ w, w ∈ Ut ↔ w * (b w)⁻¹ ∈ fixV B)
     (hA5 : rkIdx (fixV B) = rk ↥B + rkIdx Ut) : False := by
   classical
-  haveI : Finite (MulAut T) := MulEquiv.finite_left
+  have : Finite (MulAut T) := MulEquiv.finite_left
   have hAcard : Nat.card A = 9 := by
     rw [s16c167_card_isElemAbelianOfRank hA]
     norm_num
@@ -104,11 +104,11 @@ theorem s16t_fstarBar_selfCentralizing (D : Data G) {V₀ V : Subgroup G} (hV : 
     {x : MulAut (Vtil V₀ V hV)} (hx : x ∈ Mbar D.M V₀ V hV)
     (hcomm : ∀ a ∈ fstarBar D.M V₀ V hV, x * a = a * x) : x ∈ fstarBar D.M V₀ V hV := by
   classical
-  haveI : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
+  have : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
   let Mb : Subgroup (MulAut (Vtil V₀ V hV)) := Mbar D.M V₀ V hV
-  haveI : Finite ↥Mb := Subtype.finite
+  have : Finite ↥Mb := Subtype.finite
   have hself : centralizer (genFittingFStar ↥Mb : Set ↥Mb) ≤ genFittingFStar ↥Mb :=
-    CFSG.Open.Open.generalized_fitting_self_centralizing ↥Mb
+    CFSG.Open.Thm.generalized_fitting_self_centralizing ↥Mb
   have hmem : (⟨x, hx⟩ : ↥Mb) ∈ centralizer (genFittingFStar ↥Mb : Set ↥Mb) := by
     rw [Subgroup.mem_centralizer_iff]
     intro f hf

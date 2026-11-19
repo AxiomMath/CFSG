@@ -35,7 +35,7 @@ variable {p : ℕ} [Fact p.Prime] [CharP K p]
 
 theorem icosa_triple_core (hp5 : 5 ≤ p) {G : Subgroup (GL V₄ K)}
     (hU0 : ∀ x ∈ G, IsSqZero x → x = 1) (hneg : (-1 : GL V₄ K) ∈ G) {d e f : GL V₄ K}
-    (hdG : d ∈ G) (heG : e ∈ G) (hfG : f ∈ G) (hd : IsNCInv d) (he : IsNCInv e) (hf : IsNCInv f)
+    (hdG : d ∈ G) (_heG : e ∈ G) (hfG : f ∈ G) (hd : IsNCInv d) (he : IsNCInv e) (hf : IsNCInv f)
     (hθ : 16 * cliffB ⟪d⟫ ⟪e⟫ ^ 4 - 12 * cliffB ⟪d⟫ ⟪e⟫ ^ 2 + 1 = 0)
     (hβ1 : cliffB ⟪d⟫ ⟪e⟫ ^ 2 ≠ 1) (hfP : ∀ a b : K, ⟪f⟫ ≠ a • ⟪d⟫ + b • ⟪e⟫)
     (hγ : cliffB ⟪d⟫ ⟪f⟫ ≠ 0) :

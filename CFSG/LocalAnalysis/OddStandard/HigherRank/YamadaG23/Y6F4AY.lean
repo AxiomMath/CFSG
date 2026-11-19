@@ -31,8 +31,8 @@ theorem y6f4a_four_dvd_card_of_sl
     (hJ : ∃ (k : Type) (_ : Field k) (_ : Fintype k), Fintype.card k = 2 ^ 3 ∧
       Nonempty (↥J ≃* Matrix.SpecialLinearGroup (Fin 2) k)) : 4 ∣ Nat.card ↥J := by
   obtain ⟨k, hF, hFin, hk, ⟨e⟩⟩ := hJ
-  letI : Field k := hF
-  letI : Fintype k := hFin
+  let : Field k := hF
+  let : Fintype k := hFin
   have hcard : Nat.card ↥J = Nat.card (Matrix.SpecialLinearGroup (Fin 2) k) :=
     Nat.card_congr e.toEquiv
   rw [hcard, Matrix.card_SL_field (𝔽 := k) 2, hk, Fin.prod_univ_two]
@@ -41,7 +41,7 @@ theorem y6f4a_four_dvd_card_of_sl
 theorem y6f4a_solvableRadical_eq_bot_of_data [Finite Y]
     (hO : CFSG.Open.standardComponentOddCore Y = ⊥) (hY : Y6YData τ J M) :
     CFSG.solvableRadical Y = ⊥ :=
-  y6f4a_solvableRadical_eq_bot hO fun Q hQ h2 =>
+  y6f4a_solvableRadical_eq_bot hO fun _Q hQ h2 =>
     y6f4a_normal_two_eq_bot hY.tau_order hY.J_simple hY.J_nonab hY.J_norm hY.J_cent
       (y6f4a_tau_not_central hY.M_equiv hY.M_inv) hQ h2
 

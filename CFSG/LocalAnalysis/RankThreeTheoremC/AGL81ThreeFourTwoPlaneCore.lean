@@ -20,7 +20,7 @@ theorem exists_ne_one_mem_inf_centralizer_of_inner {Y : Type*} [Group Y] [Finite
     (hrk : ∀ B : Subgroup K, IsElemAbelian p B → Nat.card B ≤ p ^ 2) {A : Subgroup Y}
     (hA : IsElemAbelian p A) (hcard : p ^ 2 < Nat.card A) :
     ∃ c ∈ A ⊓ centralizer (K : Set Y), c ≠ 1 := by
-  haveI : Finite (MulAut K) := Finite.of_injective (fun φ : MulAut K => (φ : K ≃ K))
+  have : Finite (MulAut K) := Finite.of_injective (fun φ : MulAut K => (φ : K ≃ K))
     (fun φ ψ h => MulEquiv.ext fun x => congrArg (fun f : K ≃ K => f x) h)
   set θ : A →* MulAut K := MulAut.conjNormal.comp A.subtype with hθ
   have hker : ∀ a : A, θ a = 1 → (a : Y) ∈ centralizer (K : Set Y) := by
@@ -99,12 +99,12 @@ theorem threeFourTwoAt_of_planeCore {p : ℕ} {X : Type*} [Group X] [Finite X]
       ∃ iK iJ : TauCeti.CFSGIndex, IsThreeFourPair p iK iJ ∧ Nonempty (X ≃* iK.Group) ∧
         ∃ g : J →* iJ.Group, Function.Surjective g) :
     ThreeFourTwoAt p X := by
-  haveI := hX
+  have := hX
   have hZ : center X = ⊥ := CFSG.ComponentClassification.Helpers.center_eq_bot X hnab
   refine threeFourTwoAt_of_forall_model hX hnab hout ?_
   intro Y _ _ K Y₀ E R hp hp2 hKn e _ _ _ hER hE hEc hcore _ hKY J hJW hJ1 hJp hJs hQ
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := hKn
+  have : Fact p.Prime := ⟨hp⟩
+  have := hKn
   have hp1 : 1 < p := hp.one_lt
   have hes : Function.Surjective e.toMonoidHom := e.surjective
   have hei : Function.Injective e.toMonoidHom := e.injective

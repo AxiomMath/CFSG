@@ -67,7 +67,7 @@ theorem mem_center_of_dihedral (hperf : commutator J = ⊤) (hZ : IsPGroup 2 (Su
     (hZne : Subgroup.center J ≠ ⊥) (Q : Sylow 2 J) {m : ℕ} (hm : 2 ≤ m)
     (e : (centralSylow Q : Subgroup (J ⧸ Subgroup.center J)) ≃* DihedralGroup m) {y : J}
     (hy : orderOf y = 2) : y ∈ Subgroup.center J := by
-  obtain ⟨x, hx, hkerx⟩ := exists_cyclic_index_two_of_dihedral Q.isPGroup' hm (coverHom Q e)
+  obtain ⟨x, hx, hkerx⟩ := exists_cyclic_index_two_of_dihedral Q.isPGroup hm (coverHom Q e)
     coverHom_surjective coverHom_central (coverHom_mem_commutator hperf)
   have hsub : (Subgroup.zpowers (x : J)).subgroupOf (Q : Subgroup J) = Subgroup.zpowers x := by
     ext g

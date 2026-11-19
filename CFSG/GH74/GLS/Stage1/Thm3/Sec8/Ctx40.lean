@@ -81,7 +81,7 @@ theorem card_S_eq_two_W (hII : II4_4_4_center) (hq : II4_4_quat)
   omega
 
 theorem t₀_not_mem_W (hII : II4_4_4_center) (hs : Setup8 G z S K₁ K₂ W₁ W₂ U u h) {t₀ : G}
-    (ht₀S : t₀ ∈ S) (ht₀u : t₀ * u * t₀⁻¹ = u * z) : t₀ ∉ Wsub S U := by
+    (_ht₀S : t₀ ∈ S) (ht₀u : t₀ * u * t₀⁻¹ = u * z) : t₀ ∉ Wsub S U := by
   intro hW
   have h1 := (hs.mem_W_iff hII).1 hW
   have h2 : t₀ * u * t₀⁻¹ = u := by rw [h1.2]; group

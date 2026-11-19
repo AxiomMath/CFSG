@@ -296,7 +296,7 @@ theorem uc22l3p4_false_of_invertSplit (hIS : L3InvertSplit) {D : Data G} (h149 :
     have h := congrArg Subtype.val (hBab.is_comm.comm ⟨(x' : G), hx'⟩ ⟨(y' : G), hy'⟩)
     exact h
   have hcard : Nat.card ↥(B'.map θ) = Nat.card ↥c.B0 := by
-    rw [← MonoidHom.restrict_range B' θ, ← Nat.card_congr (MonoidHom.ofInjective hinj).toEquiv]
+    rw [← MonoidHom.domRestrict_range B' θ, ← Nat.card_congr (MonoidHom.ofInjective hinj).toEquiv]
     exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hBΓ).toEquiv
   have hperm : ((B'.map θ : Subgroup _) : Set (MulAut (BarInf L))) *
       ((T'.map θ : Subgroup _) : Set (MulAut (BarInf L))) =
@@ -538,7 +538,7 @@ theorem uc22l3p4_false (hGA : GriessAllModelsStatement) (hIS : L3InvertSplit) {D
         (·.statedClassicalModel_of_ne_zero (by norm_num)))
   by_cases hMN : D.M ≤ normalizer (L : Set G)
   · exact uc22s2112l3p_false_of_invertSplit hIS h149 hH c hn3 hn2 hL hp hp2 hX hfaith hMN
-  obtain ⟨g, hg, hgN⟩ := SetLike.not_le_iff_exists.1 hMN
+  obtain ⟨g, hg, hgN⟩ := IsConcreteLE.not_le_iff_exists.1 hMN
   have hne : L ≠ L.map (MulAut.conj g).toMonoidHom := fun he =>
     hgN (Subgroup.mem_normalizer_iff_map_conj_eq.mpr he.symm)
   have h4 := uc22s213_four_le_pRank_of_two_conj hL

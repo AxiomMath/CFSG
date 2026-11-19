@@ -223,17 +223,17 @@ private theorem lr2z_rootSL_congr {k X : Type} [Field k] [AddCommGroup X] [Modul
   have h' : ∀ t : k,
       (stdPi k k X ∘ₗ L.symm.toLinearMap) ((L.toLinearMap ∘ₗ stdIota k k X) t) = 0 := by
     intro t
-    simp only [LinearMap.comp_apply, LinearEquiv.symm_apply_apply]
+    simp only [LinearMap.comp_apply]
     rfl
   have hLstd : L.toLinearMap ∘ₗ stdIota k k X = stdIota k k k := by
     apply LinearMap.ext
     intro t
-    simp [L, stdIota, LinearEquiv.prodCongr_apply]
+    simp [L, stdIota]
   have hLpi : stdPi k k X ∘ₗ L.symm.toLinearMap = stdPi k k k := by
     apply LinearMap.ext
     intro v
     obtain ⟨a, y, b⟩ := v
-    simp [L, stdPi, LinearEquiv.prodCongr_symm, LinearEquiv.prodCongr_apply]
+    simp [L, stdPi, LinearEquiv.prodCongr_symm]
   calc (rootSL k k X).map (SpecialLinearGroup.congr_linearEquiv L).toMonoidHom
       = (datumRoot (stdIota k k X) (stdPi k k X) hstd).map
           (SpecialLinearGroup.congr_linearEquiv L).toMonoidHom := by
@@ -453,7 +453,7 @@ private theorem lr2h1_centralQuotEquiv_mk {H H' : Type*} [Group H] [Group H']
     QuotientGroup.quotientKerEquivOfRightInverse, QuotientGroup.kerLift_mk,
     QuotientGroup.mk'_apply, MonoidHom.comp_apply]
 
-theorem exists_lift_mulAut_specialLinear {m g : ℕ} (hm : 2 ≤ m) (hg : 1 ≤ g)
+theorem exists_lift_mulAut_specialLinear {m g : ℕ} (hm : 2 ≤ m) (_hg : 1 ≤ g)
     {X : Type} [Group X] [Finite X]
     (φ : Matrix.SpecialLinearGroup (Fin (m + 1)) (GaloisField 2 g) →* X)
     (hker : φ.ker ≤ Subgroup.center (Matrix.SpecialLinearGroup (Fin (m + 1)) (GaloisField 2 g)))
@@ -471,8 +471,8 @@ theorem exists_lift_mulAut_specialLinear {m g : ℕ} (hm : 2 ≤ m) (hg : 1 ≤ 
   have hm3 : 3 ≤ m + 1 := by omega
   have hperf : Group.IsPerfect K :=
     CFSG.LinearGroups.special_linear_dimension_at_least_three_perfect hm3
-  haveI hQperf : Group.IsPerfect Q := hperf.ofSurjective hq
-  haveI : IsCyclic (Subgroup.center K) :=
+  have hQperf : Group.IsPerfect Q := hperf.ofSurjective hq
+  have : IsCyclic (Subgroup.center K) :=
     CFSG.LieType.Steinberg.isCyclic_center_specialLinearGroup (m + 1) (GaloisField 2 g)
   have hcomm : commutator K = ⊤ := hperf.commutator_eq_top
   let e0 : K ⧸ Subgroup.center K ≃* Q ⧸ Subgroup.center Q :=
@@ -625,13 +625,13 @@ private theorem lr2h2_eq_one_of_forall_mul_inv_mem_center {S : Type*} [Group S]
   rw [MulAut.one_apply]
   exact eq_of_mul_inv_eq_one hs
 
-theorem lift_mulAut_unique_specialLinear {m g : ℕ} (hm : 2 ≤ m) (hg : 1 ≤ g)
+theorem lift_mulAut_unique_specialLinear {m g : ℕ} (hm : 2 ≤ m) (_hg : 1 ≤ g)
     {X : Type} [Group X] [Finite X]
     (φ : Matrix.SpecialLinearGroup (Fin (m + 1)) (GaloisField 2 g) →* X)
     (hker : φ.ker ≤ Subgroup.center (Matrix.SpecialLinearGroup (Fin (m + 1)) (GaloisField 2 g)))
     {y₁ y₂ : MulAut (Matrix.SpecialLinearGroup (Fin (m + 1)) (GaloisField 2 g))}
     (h : ∀ s, φ.rangeRestrict (y₁ s) = φ.rangeRestrict (y₂ s)) : y₁ = y₂ := by
-  haveI : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin (m + 1)) (GaloisField 2 g)) :=
+  have : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin (m + 1)) (GaloisField 2 g)) :=
     CFSG.LinearGroups.special_linear_dimension_at_least_three_perfect (by omega)
   let δ : MulAut (Matrix.SpecialLinearGroup (Fin (m + 1)) (GaloisField 2 g)) := y₁ * y₂⁻¹
   have hδ : δ = 1 := by
@@ -744,7 +744,7 @@ theorem lift_map_eq_of_map_eq_specialLinear {m g : ℕ}
     rw [hrw]
     simpa [sup_comm] using Subgroup.mul_mem_sup hker_mem hr'R
   have hS : IsPGroup 2 (R.map ŷ.toMonoidHom) := hR.map ŷ.toMonoidHom
-  haveI : (φ.ker).Normal := φ.normal_ker
+  have : (φ.ker).Normal := φ.normal_ker
   have hle' : R.map ŷ.toMonoidHom ≤ R :=
     lr2h2_le_of_isPGroup_le_sup_of_odd_central hker hodd hR hS hle
   have hcard : Nat.card (R.map ŷ.toMonoidHom) = Nat.card R :=

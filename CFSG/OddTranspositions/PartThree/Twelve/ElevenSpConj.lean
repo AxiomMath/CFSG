@@ -29,6 +29,7 @@ private lemma mem_commSet_conj_iff (hC : HypothesisC D) (g z : G) :
     z ∈ commSet D (hC.conj g).d ↔ g⁻¹ * z * g ∈ commSet D hC.d := by
   rw [HypothesisC.conj_d hC g, commSet_conj hC.setup.normal g hC.d, mem_cimg]
 
+omit [Finite G] in
 theorem exists_spBranch_conj (B : SpBranch hC) (g : G) :
     ∃ B' : SpBranch (hC.conj g), B'.n = B.n ∧ B'.f = B.f := by
   classical
@@ -62,15 +63,17 @@ theorem exists_spBranch_conj (B : SpBranch hC) (g : G) :
 noncomputable def SpBranch.conj (B : SpBranch hC) (g : G) : SpBranch (hC.conj g) :=
   (exists_spBranch_conj B g).choose
 
+omit [Finite G] in
 theorem SpBranch.conj_n (B : SpBranch hC) (g : G) : (B.conj g).n = B.n :=
   (exists_spBranch_conj B g).choose_spec.1
 
+omit [Finite G] in
 theorem SpBranch.conj_f (B : SpBranch hC) (g : G) : (B.conj g).f = B.f :=
   (exists_spBranch_conj B g).choose_spec.2
 
 variable {B : SpBranch hC} {k : ℕ} {F : Type} [Field F] [Fintype F] [DecidableEq F] [CharP F 2]
 
-omit [Fintype F] [DecidableEq F] [CharP F 2] in
+omit [Fintype F] [DecidableEq F] [CharP F 2] [Finite G] in
 private lemma spChart_conj_rho_apply (c : SpChart hC B.hα k F) (g : G) (z : G)
     (hz : z ∈ commSet D (hC.conj g).d) :
     (c.ρ.comp (conjEquiv hC g).symm.toMonoidHom)
@@ -116,7 +119,7 @@ private lemma commute_iff_spForm_conj (c : SpChart hC B.hα k F) (g : G)
   rw [hcomm']
   exact c.commute_iff _ hz'' _ hz3
 
-omit [Fintype F] [DecidableEq F] [CharP F 2] in
+omit [Fintype F] [DecidableEq F] [CharP F 2] [Finite G] in
 theorem exists_spChart_conj (g : G) (c : SpChart hC B.hα k F) :
     ∃ c' : SpChart (hC.conj g) (B.conj g).hα k F,
       ∀ z : G, c'.vec z = c.vec (g⁻¹ * z * g) := by
@@ -162,6 +165,7 @@ theorem _root_.CFSG.OddTranspositions.PartThree.SpChart.ker_eq_zpowers (B : SpBr
   obtain ⟨_, hZ, -, -⟩ := twelveTen_sp_center hC B.hMZ B.hs B.hn B.hf B.hSp
   exact c.ker_eq.trans ((le_antisymm B.hMZ (center_le_solvableRadical _)).trans hZ)
 
+omit [Finite G] in
 private lemma zmodTwoHom_apply_of_mem_commSet {hu : hC.d ∈ Halpha D hC.alpha}
     (χ : ↥(Halpha D hC.alpha) →* Multiplicative (ZMod 2))
     (hχker : χ.ker = commutator (Halpha D hC.alpha))

@@ -68,7 +68,7 @@ theorem sq_odd_mod_eight {y : ℤ} (hy : Odd y) : (8 : ℤ) ∣ y ^ 2 - 1 := by
   obtain ⟨c, hc⟩ := this
   exact ⟨c, by rw [hc]; ring⟩
 
-theorem sq_eq_one_add_cases {j : ℕ} (hj : 1 ≤ j) {y : ℤ} (hy4 : (4 : ℤ) ∣ y - 1)
+theorem sq_eq_one_add_cases {j : ℕ} (_hj : 1 ≤ j) {y : ℤ} (hy4 : (4 : ℤ) ∣ y - 1)
     (h : (2 : ℤ) ^ (j + 2) ∣ y ^ 2 - (1 + 2 ^ (j + 1))) :
     (2 : ℤ) ^ (j + 1) ∣ y - (1 + 2 ^ j) := by
   obtain ⟨a, ha⟩ := hy4

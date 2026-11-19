@@ -34,13 +34,13 @@ theorem nonempty_quotCenter_equiv_of_glaPComponent_fieldAut (hm : 2 ≤ m) {p : 
     {J : Subgroup (StatedProj (StatedSp m K))}
     (hJ : GLAPComponent p (fixSubgroup (fieldAut m K σ)) J) :
     Nonempty (↥J ⧸ Subgroup.center ↥J ≃* StatedProj (StatedSp m (descentField σ))) := by
-  haveI : NeZero m := ⟨by omega⟩
+  have : NeZero m := ⟨by omega⟩
   obtain ⟨e⟩ := nonempty_fixSubgroup_fieldAut_equiv (m := m) hp hσ
   obtain ⟨hs, hperf⟩ := simple_perfect_statedProj (k := descentField σ) hm hne
-  haveI : IsSimpleGroup (StatedProj (StatedSp m (descentField σ))) := hs
-  haveI : Group.IsPerfect (StatedProj (StatedSp m (descentField σ))) := hperf
-  haveI : IsSimpleGroup ↥(fixSubgroup (fieldAut m K σ)) := e.isSimpleGroup
-  haveI : Group.IsPerfect ↥(fixSubgroup (fieldAut m K σ)) :=
+  have : IsSimpleGroup (StatedProj (StatedSp m (descentField σ))) := hs
+  have : Group.IsPerfect (StatedProj (StatedSp m (descentField σ))) := hperf
+  have : IsSimpleGroup ↥(fixSubgroup (fieldAut m K σ)) := e.isSimpleGroup
+  have : Group.IsPerfect ↥(fixSubgroup (fieldAut m K σ)) :=
     Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
   have hJeq : J = fixSubgroup (fieldAut m K σ) :=
     CFSG.LocalAnalysis.GLTheoremA.Y10GInnLinFld.component_eq_of_fixed
@@ -55,7 +55,7 @@ theorem nonempty_quotCenter_equiv_alternating_of_glaPComponent_fieldAut {p : ℕ
     {J : Subgroup (StatedProj (StatedSp 2 K))}
     (hJ : GLAPComponent p (fixSubgroup (fieldAut 2 K σ)) J) :
     Nonempty (↥J ⧸ Subgroup.center ↥J ≃* alternatingGroup (Fin 6)) := by
-  haveI : NeZero 2 := ⟨by norm_num⟩
+  have : NeZero 2 := ⟨by norm_num⟩
   obtain ⟨e⟩ := nonempty_fixSubgroup_fieldAut_equiv (m := 2) hp hσ
   have hE : ↥(fixSubgroup (fieldAut 2 K σ)) ≃* sympFour :=
     e.trans (statedProjEquivSympFour hk)
@@ -67,10 +67,10 @@ theorem nonempty_quotCenter_equiv_alternating_of_glaPComponent_fieldAut {p : ℕ
     ((commutator ↥C).equivMapOfInjective C.subtype C.subtype_injective).symm.trans
       (((commutator ↥C).equivMapOfInjective hE.toMonoidHom hE.injective).trans
         (MulEquiv.subgroupCongr hmap))
-  haveI : IsSimpleGroup ↥(commutator sympFour) := isSimpleGroup_commutator_sympFour
-  haveI : Group.IsPerfect ↥(commutator sympFour) := isPerfect_commutator_sympFour
-  haveI : IsSimpleGroup ↥((commutator ↥C).map C.subtype) := e₁.isSimpleGroup
-  haveI : Group.IsPerfect ↥((commutator ↥C).map C.subtype) :=
+  have : IsSimpleGroup ↥(commutator sympFour) := isSimpleGroup_commutator_sympFour
+  have : Group.IsPerfect ↥(commutator sympFour) := isPerfect_commutator_sympFour
+  have : IsSimpleGroup ↥((commutator ↥C).map C.subtype) := e₁.isSimpleGroup
+  have : Group.IsPerfect ↥((commutator ↥C).map C.subtype) :=
     Group.IsPerfect.ofSurjective (f := e₁.symm.toMonoidHom) e₁.symm.surjective
   have hcomm : (commutator ↥C).map C.subtype = ⁅C, C⁆ := Subgroup.map_subtype_commutator C
   have hN : ((commutator ↥C).map C.subtype).subgroupOf C = commutator ↥C :=

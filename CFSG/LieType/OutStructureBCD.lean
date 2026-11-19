@@ -39,7 +39,7 @@ theorem exists_fieldPart_statedProj_sp {r : ℕ} (hr : 3 ≤ r) (k : Type) [Fiel
   let E : Subgroup (MulAut P) := spSemilinearAutGroup r k
   let F : Subgroup (MulAut P) :=
     (⊤ : Subgroup (k ≃+* k)).map (fieldAut r k)
-  haveI : NeZero r := ⟨by omega⟩
+  have : NeZero r := ⟨by omega⟩
   have hE : E = ⊤ := (automorphism_generation (K := k) hr).1
   have hFle : F ≤ E := by
     rintro _ ⟨σ, -, rfl⟩
@@ -60,7 +60,7 @@ theorem exists_fieldPart_statedProj_sp {r : ℕ} (hr : 3 ≤ r) (k : Type) [Fiel
     have hle : (⊤ : Subgroup (MulAut P)) ≤ Subgroup.normalizer D :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer (H := D) (K := ⊤) le_top).mp h'
     exact Subgroup.normalizer_eq_top_iff.mp (le_antisymm le_top hle)
-  haveI : Fintype k := Fintype.ofFinite k
+  have : Fintype k := Fintype.ofFinite k
   obtain ⟨p₀, -, f, hp₀, hcard⟩ := FiniteField.card' k
   have hDrel : I.relIndex D ∣ 2 :=
     (relIndex_inner_spLinearAutGroup_dvd (r := r) hp₀ (show 1 ≤ (f : ℕ) from f.pos)
@@ -87,7 +87,7 @@ theorem exists_fieldPart_statedProj_sp {r : ℕ} (hr : 3 ≤ r) (k : Type) [Fiel
     rcases (Nat.dvd_prime Nat.prime_two).mp h2 with hp1 | hp2'
     · exact hp.ne_one hp1
     · exact hp2 hp2'
-  haveI hcyc : IsCyclic (k ≃+* k) := fieldAut_isCyclic k
+  have hcyc : IsCyclic (k ≃+* k) := fieldAut_isCyclic k
   have hFcyc : IsCyclic ↥F := by
     have hrange : F = (fieldAut r k).range := Subgroup.map_top _
     rw [hrange]
@@ -133,7 +133,7 @@ theorem i713ClauseFor_lie_C (r : ℕ) (q : TauCeti.PrimePower)
   intro K _ _ hK hnab ⟨eK⟩ p hp hp2 hpRank
   have hr : 3 ≤ r := (TauCeti.LieTypeIndex.inStandardRange_iff _).mp
     ((TauCeti.LieTypeIndex.valid_iff _).mp hv).1 |>.1
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hcard : Nat.card (GaloisField q.p q.exponent) = q.card :=
     (GaloisField.card q.p q.exponent q.exponent_pos.ne').trans
       (TauCeti.PrimePower.card_def q).symm
@@ -148,7 +148,7 @@ theorem i713ClauseFor_lie_B_even (r : ℕ) (q : TauCeti.PrimePower)
     (hv : (TauCeti.LieTypeIndex.B r q).Valid) (hq2 : q.p = 2) (hr3 : 3 ≤ r) :
     I713ClauseFor (TauCeti.CFSGIndex.lie ⟨.B r q, hv⟩) := by
   intro K _ _ hK hnab ⟨eK⟩ p hp hp2 hpRank
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hcard : Nat.card (GaloisField q.p q.exponent) = q.card :=
     (GaloisField.card q.p q.exponent q.exponent_pos.ne').trans
       (TauCeti.PrimePower.card_def q).symm
@@ -195,7 +195,7 @@ theorem exists_fieldPart_statedProj_sp_two (k : Type) [Field k] [Finite k]
   have hDnormE : (D.subgroupOf E).Normal := by
     have h := (standard_outer_quotient (K := k) (by omega : 1 ≤ 2)).2.2.1
     simpa [D, E] using h
-  haveI : IsMulCommutative (Outer P) := by
+  have : IsMulCommutative (Outer P) := by
     refine IsMulCommutative.of_comm fun a b => ?_
     obtain ⟨γ, rfl⟩ := QuotientGroup.mk'_surjective I a
     obtain ⟨α, rfl⟩ := QuotientGroup.mk'_surjective I b
@@ -206,7 +206,7 @@ theorem exists_fieldPart_statedProj_sp_two (k : Type) [Field k] [Finite k]
     simpa [div_eq_mul_inv, mul_assoc] using hI
   have hEindex : E.index ∣ 2 := index_spSemilinearAutGroup_dvd_two (K := k) (by norm_num)
   have hDrel : I.relIndex D ∣ 2 := by
-    haveI : Fintype k := Fintype.ofFinite k
+    have : Fintype k := Fintype.ofFinite k
     obtain ⟨p₀, -, f, hp₀, hcard⟩ := FiniteField.card' k
     exact (relIndex_inner_spLinearAutGroup_dvd (r := 2) hp₀
       (show 1 ≤ (f : ℕ) from f.pos) (by rwa [Nat.card_eq_fintype_card])).trans
@@ -248,7 +248,7 @@ theorem exists_fieldPart_statedProj_sp_two (k : Type) [Field k] [Finite k]
     have hp4 : p ∣ 2 ^ 2 := by simpa using h2
     have hp2' : p ∣ 2 := hp.dvd_of_dvd_pow hp4
     exact hp2 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).mp hp2')
-  haveI hcyc : IsCyclic (k ≃+* k) := fieldAut_isCyclic k
+  have hcyc : IsCyclic (k ≃+* k) := fieldAut_isCyclic k
   have hFcyc : IsCyclic ↥F := by
     have hrange : F = (fieldAut 2 k).range := Subgroup.map_top _
     rw [hrange]
@@ -289,7 +289,7 @@ theorem i713ClauseFor_lie_B2 (q : TauCeti.PrimePower)
     (hv : (TauCeti.LieTypeIndex.B 2 q).Valid) :
     I713ClauseFor (TauCeti.CFSGIndex.lie ⟨.B 2 q, hv⟩) := by
   intro K _ _ hK hnab ⟨eK⟩ p hp hp2 hpRank
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hcard : Nat.card (GaloisField q.p q.exponent) = q.card :=
     (GaloisField.card q.p q.exponent q.exponent_pos.ne').trans
       (TauCeti.PrimePower.card_def q).symm

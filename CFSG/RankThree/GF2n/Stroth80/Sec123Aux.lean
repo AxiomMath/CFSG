@@ -11,7 +11,7 @@ private theorem stroth80_inv_mul_of_mul_eq {G : Type} [Group G] {z z' b b' : G}
     (h : z * b = z' * b') : z'⁻¹ * z = b' * b⁻¹ := by
   calc z'⁻¹ * z = z'⁻¹ * (z * b) * b⁻¹ := by simp [mul_assoc]
     _ = z'⁻¹ * (z' * b') * b⁻¹ := by rw [h]
-    _ = b' * b⁻¹ := by simp [mul_assoc]
+    _ = b' * b⁻¹ := by simp
 
 private theorem stroth80_mulMap_injective {G : Type} [Group G] {Z B D : Subgroup G}
     (hZ : Z ≤ D) (hB : B ≤ D) (hinf : Z ⊓ B = ⊥) :
@@ -51,7 +51,7 @@ theorem exists_mul_of_card_eq {G : Type} [Group G] [Finite G] {Z B D : Subgroup 
 theorem card_dvd_of_free_action {H X : Type} [Group H] [Finite H] [Finite X] [MulAction H X]
     (hfree : ∀ (h : H) (x : X), h • x = x → h = 1) : Nat.card H ∣ Nat.card X := by
   classical
-  haveI : Fintype (MulAction.orbitRel.Quotient H X) := Fintype.ofFinite _
+  have : Fintype (MulAction.orbitRel.Quotient H X) := Fintype.ofFinite _
   have horb : ∀ ω : MulAction.orbitRel.Quotient H X, Nat.card ω.orbit = Nat.card H := by
     intro ω
     have hstab : MulAction.stabilizer H ω.out = ⊥ := by
@@ -64,7 +64,7 @@ theorem card_dvd_of_free_action {H X : Type} [Group H] [Finite H] [Finite X] [Mu
   rw [Nat.card_congr (MulAction.selfEquivSigmaOrbits' H X), Nat.card_sigma]
   exact Finset.dvd_sum fun ω _ => dvd_of_eq (horb ω).symm
 
-theorem two_pow_sub_one_dvd {r k : ℕ} (hr : 0 < r) (h : 2 ^ r - 1 ∣ 2 ^ k - 1) : r ∣ k := by
+theorem two_pow_sub_one_dvd {r k : ℕ} (_hr : 0 < r) (h : 2 ^ r - 1 ∣ 2 ^ k - 1) : r ∣ k := by
   have hg := Nat.pow_sub_one_gcd_pow_sub_one 2 r k
   rw [Nat.gcd_eq_left h] at hg
   have hp1 : 0 < 2 ^ r := pow_pos (by norm_num) r
@@ -126,7 +126,7 @@ theorem card_conj_free_dvd {G : Type} [Group G] [Finite G] {Q L : Subgroup G} (h
     intro g hg l hl
     obtain ⟨i, rfl⟩ := (Submonoid.mem_powers_iff _ _).mp (mem_powers_iff_mem_zpowers.mpr hg)
     exact ⟨hpow L hτL i l hl.1, fun hy => hl.2 (hinv i l hy)⟩
-  letI act : MulAction (Subgroup.zpowers τ) ↥((L : Set G) \ (Q : Set G)) :=
+  let act : MulAction (Subgroup.zpowers τ) ↥((L : Set G) \ (Q : Set G)) :=
     { smul := fun g x => ⟨g.1 * x.1 * g.1⁻¹, hgX g.1 g.2 x.1 x.2⟩
       one_smul := fun x => by
         apply Subtype.ext

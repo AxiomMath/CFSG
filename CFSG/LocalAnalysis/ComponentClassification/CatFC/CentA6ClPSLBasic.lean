@@ -37,10 +37,10 @@ abbrev slToPsl (n : ℕ) (K : Type) [Field K] :
 
 theorem card_center_SL_le (n : ℕ) (K : Type) [Field K] (hn : 1 ≤ n) :
     Nat.card (Subgroup.center (SpecialLinearGroup (Fin n) K)) ≤ n := by
-  haveI : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
+  have : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
   rw [Nat.card_congr (Matrix.SpecialLinearGroup.center_equiv_rootsOfUnity (n := Fin n)
     (R := K)).toEquiv]
-  haveI : NeZero (max (Fintype.card (Fin n)) 1) := ⟨by simp⟩
+  have : NeZero (max (Fintype.card (Fin n)) 1) := ⟨by simp⟩
   have := card_rootsOfUnity K (max (Fintype.card (Fin n)) 1)
   simpa [Fintype.card_fin, Nat.max_eq_left hn] using this
 
@@ -59,9 +59,9 @@ theorem ker_card_le_of_injective {n : ℕ} {K : Type} [Field K] [Finite K] {Q : 
 theorem card_SL_ge (n : ℕ) {K : Type*} [Field K] [Finite K] (hn : 1 ≤ n) :
     Nat.card K ^ (n * (n - 1)) * (Nat.card K - 1) ^ (n - 1) ≤
       Nat.card (SpecialLinearGroup (Fin n) K) := by
-  haveI : NeZero n := ⟨by omega⟩
-  haveI : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
-  letI : Fintype K := Fintype.ofFinite K
+  have : NeZero n := ⟨by omega⟩
+  have : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
+  let : Fintype K := Fintype.ofFinite K
   have h1 := Matrix.card_SL_mul_card_units (n := Fin n) (R := K)
   rw [Matrix.card_GL_field, Nat.card_units] at h1
   simp only [← Nat.card_eq_fintype_card] at h1

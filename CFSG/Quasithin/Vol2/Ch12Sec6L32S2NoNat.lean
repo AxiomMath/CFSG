@@ -38,7 +38,7 @@ theorem charP_two_of_card {K : Type} [Field K] [Finite K] {n : ℕ} (h : Nat.car
 theorem leafNoNat_holds : LeafNoNat := by
   intro hNo G _ _ T L V _ F H K c I hV₁I hIU hkerI hHI
   have h := c.f918
-  haveI hFe := factElem h hIU
+  have hFe := factElem h hIU
   intro hnat
   have hKH : K ≤ H := le_of_mem_cComp h.K_cComp
   have hTH : T ≤ H := h.T_le_H

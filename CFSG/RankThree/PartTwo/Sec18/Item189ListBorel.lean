@@ -29,7 +29,7 @@ theorem exists_two_fixed_sylow189 {x : X} (hx : orderOf x = 3)
     unfold Nat.ModEq at hmod
     omega
   have h1 : 1 < Nat.card (MulAction.fixedPoints (Subgroup.zpowers x) (Sylow 2 X)) := by omega
-  haveI := Finite.one_lt_card_iff_nontrivial.mp h1
+  have := Finite.one_lt_card_iff_nontrivial.mp h1
   obtain ⟨⟨a, ha⟩, ⟨b, hb⟩, hab⟩ := exists_pair_ne
     (MulAction.fixedPoints (Subgroup.zpowers x) (Sylow 2 X))
   have hfix : ∀ V : Sylow 2 X, V ∈ MulAction.fixedPoints (Subgroup.zpowers x) (Sylow 2 X) →
@@ -74,7 +74,7 @@ theorem exists_conj_orderThree189 {T : Sylow 2 X} {D : Subgroup X} (h : BorelSet
       have hd1 : d = 1 := orderOf_eq_one_iff.mp h1
       subst hd1
       rw [mul_one] at hx3
-      obtain ⟨n, hn⟩ := (IsPGroup.iff_orderOf.mp (T : Sylow 2 X).isPGroup') ⟨t, ht⟩
+      obtain ⟨n, hn⟩ := (IsPGroup.iff_orderOf.mp (T : Sylow 2 X).isPGroup) ⟨t, ht⟩
       rw [Subgroup.orderOf_mk, hx3] at hn
       exact absurd (Nat.Prime.dvd_of_dvd_pow Nat.prime_three (dvd_of_eq hn)) (by norm_num)
     · exact h1
@@ -159,7 +159,7 @@ theorem exists_conj_mem_zpowers189 (hB : BorelOrderThree189 X)
   obtain ⟨g₁, d₁, hd₁, hd₁3, hxg⟩ := key x hx
   obtain ⟨g₂, d₂, hd₂, hd₂3, hxg'⟩ := key x' hx'
   have hzp : d₂ ∈ Subgroup.zpowers d₁ := by
-    haveI := hD.cyc
+    have := hD.cyc
     have hle₁ : Subgroup.zpowers d₁ ≤ D := Subgroup.zpowers_le.mpr hd₁
     have hle₂ : Subgroup.zpowers d₂ ≤ D := Subgroup.zpowers_le.mpr hd₂
     have hH : Nat.card ((Subgroup.zpowers d₂).subgroupOf D) =

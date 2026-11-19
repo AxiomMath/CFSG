@@ -94,11 +94,11 @@ private lemma fAct_one (i : C →* A) (hi : Injective i) (q : C × Coset i) :
 
 private lemma fAct_inv (i : C →* A) (hi : Injective i) (a : A) (q : C × Coset i) :
     fAct i hi a⁻¹ (fAct i hi a q) = q := by
-  simp [fAct, mul_assoc]
+  simp [fAct]
 
 private lemma fAct_inv' (i : C →* A) (hi : Injective i) (a : A) (q : C × Coset i) :
     fAct i hi a (fAct i hi a⁻¹ q) = q := by
-  simp [fAct, mul_assoc]
+  simp [fAct]
 
 private lemma gAct_mul (j : C →* B) (hj : Injective j) (b b' : B) (q : C × Coset j) :
     gAct j hj b (gAct j hj b' q) = gAct j hj (b * b') q := by
@@ -111,12 +111,12 @@ private lemma gAct_one (j : C →* B) (hj : Injective j) (q : C × Coset j) :
 private lemma gAct_inv (j : C →* B) (hj : Injective j) (b : B) (q : C × Coset j) :
     gAct j hj b ((gAct j hj b⁻¹ q).1, (gAct j hj b⁻¹ q).2) = q := by
   rw [show ((gAct j hj b⁻¹ q).1, (gAct j hj b⁻¹ q).2) = gAct j hj b⁻¹ q from rfl]
-  simp [gAct, mul_assoc]
+  simp [gAct]
 
 private lemma gAct_inv' (j : C →* B) (hj : Injective j) (b : B) (q : C × Coset j) :
     gAct j hj b⁻¹ ((gAct j hj b q).1, (gAct j hj b q).2) = q := by
   rw [show ((gAct j hj b q).1, (gAct j hj b q).2) = gAct j hj b q from rfl]
-  simp [gAct, mul_assoc]
+  simp [gAct]
 
 private lemma fAct_i (i : C →* A) (hi : Injective i) (c₀ : C) (c : C) (x : Coset i) :
     fAct i hi (i c₀) (c, x) = (c₀ * c, x) := by
@@ -255,7 +255,7 @@ theorem exists_finite_amalgam_embedding {A B C : Type} [Group A] [Group B] [Grou
     ∃ (F : Type) (_ : Group F) (_ : Finite F) (f : A →* F) (g : B →* F),
       Function.Injective f ∧ Function.Injective g ∧ f.comp i = g.comp j := by
   classical
-  haveI : Finite C := Finite.of_injective i hi
+  have : Finite C := Finite.of_injective i hi
   refine ⟨Equiv.Perm (AmalgamSet i j), inferInstance, inferInstance, fHom i hi j, gHom i j hj,
     fHom_injective i hi j, gHom_injective i j hj, fHom_comp_eq i hi j hj⟩
 

@@ -56,8 +56,8 @@ theorem sz32_exists_outside_fixed {R Ω : Type} [Group R] [Finite R] [MulAction 
   classical
   by_contra hcon
   push Not at hcon
-  haveI := Fintype.ofFinite R
-  haveI := Fintype.ofFinite Ω
+  have := Fintype.ofFinite R
+  have := Fintype.ofFinite Ω
   have hb := MulAction.sum_card_fixedBy_eq_card_orbits_mul_card_group R Ω
   have hz : ∀ g : R, g ≠ 1 → Fintype.card (MulAction.fixedBy Ω g) = 0 := by
     intro g hg
@@ -116,7 +116,7 @@ theorem sz32_index_eq_five {X : Type} [Group X] [Finite X]
   exact ((Nat.dvd_prime Nat.prime_five).1 h1).resolve_left h2
 
 theorem sz32_factorization_five : (162688000 : ℕ).factorization 5 = 3 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have h : (162688000 : ℕ) = 5 ^ 3 * (2 ^ 10 * 31 * 41) := by norm_num
   rw [h, Nat.factorization_mul (by norm_num) (by norm_num)]
   simp only [Finsupp.add_apply]
@@ -132,7 +132,7 @@ theorem sz32_card_K {K : Type} [Group K]
 theorem sz32_card_sylow5 {X : Type}
     [Group X] [Finite X] (K : Subgroup X) (hK : IsSz32Type 5 ↥K) (hidx : K.index = 5)
     (R : Sylow 5 X) : Nat.card (R : Subgroup X) = 125 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have h1 := Subgroup.card_mul_index K
   rw [sz32_card_K hK, hidx] at h1
   rw [Sylow.card_eq_multiplicity, ← h1]
@@ -144,14 +144,14 @@ theorem sz32_inf_card_cyclic {X : Type} [Group X] [Finite X]
     (K : Subgroup X) [K.Normal] (hK : IsSz32Type 5 ↥K) (R : Sylow 5 X) :
     Nat.card (((R : Subgroup X) ⊓ K : Subgroup X)) = 25 ∧
       IsCyclic (((R : Subgroup X) ⊓ K : Subgroup X)) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨P, hP⟩ := exists_sylow_inf_normal K R
   obtain ⟨hcyc, hcard⟩ := sz32_sylow K hK P
   rw [← hP]
   refine ⟨?_, ?_⟩
   · rw [Subgroup.card_map_of_injective K.subtype_injective, hcard]
     norm_num
-  · haveI := hcyc
+  · have := hcyc
     exact isCyclic_of_surjective (K.subtype.subgroupMap (P : Subgroup K))
       (K.subtype.subgroupMap_surjective _)
 
@@ -167,7 +167,7 @@ theorem sz32_subgroupOf_card_cyclic {X : Type} [Group X] [Finite X]
   · rw [← hcard]
     exact Nat.card_congr
       (Subgroup.subgroupOfEquivOfLe (inf_le_left : (R : Subgroup X) ⊓ K ≤ R)).toEquiv
-  · haveI := hcyc
+  · have := hcyc
     exact isCyclic_of_surjective
       (Subgroup.subgroupOfEquivOfLe (inf_le_left : (R : Subgroup X) ⊓ K ≤ R)).symm.toMonoidHom
       (Subgroup.subgroupOfEquivOfLe (inf_le_left : (R : Subgroup X) ⊓ K ≤ R)).symm.surjective
@@ -220,7 +220,7 @@ theorem sz32_exists_fixed_outer
       ∃ ω : Sylow 2 K, (MulAut.conjNormal (g : X) : MulAut K) • ω = ω := by
   classical
   let R₀ : Subgroup X := (R : Subgroup X)
-  letI : MulAction ↥R₀ (Sylow 2 K) :=
+  let : MulAction ↥R₀ (Sylow 2 K) :=
     MulAction.compHom _ ((MulAut.conjNormal : X →* MulAut K).comp R₀.subtype)
   have hcardR : Nat.card R₀ = 125 := sz32_card_sylow5 K hK hidx R
   have hSz := CFSG.RankThree.PartOne.K159.SzAbs.szSylow_of_isoLie hK.2
@@ -274,7 +274,7 @@ theorem sz32_outer_acts_nontrivially
       (⟨u, huR⟩ : (R : Subgroup X)) * s * (⟨u, huR⟩ : (R : Subgroup X))⁻¹ ≠ s := by
   by_contra hcon
   push Not at hcon
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨P, hP⟩ := exists_sylow_inf_normal K R
   have hSz := CFSG.RankThree.PartOne.K159.SzAbs.szSylow_of_isoLie hK.2
   have hsimple := sz32_isSimpleGroup hK
@@ -303,7 +303,7 @@ theorem sz32_sylow_eq_inf_mul_pow
     (r : (R : Subgroup X)) :
     ∃ s ∈ K.subgroupOf (R : Subgroup X), ∃ i : ℕ,
       r = s * (⟨u, huR⟩ : (R : Subgroup X)) ^ i := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hQ : Nat.card ((R : Subgroup X) ⧸ K.subgroupOf (R : Subgroup X)) = 5 :=
     sz32_subgroupOf_index K hK hidx R
   have hq1 : (QuotientGroup.mk (⟨u, huR⟩ : (R : Subgroup X)) :
@@ -323,9 +323,9 @@ theorem sz32_lemma45 :
   classical
   intro X _ _ K hK R U₀ hUR _ hUc hshape
   obtain ⟨hKn, hKc, hKT⟩ := hK
-  haveI : K.Normal := hKn
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  obtain ⟨u, huU, huK⟩ := SetLike.not_le_iff_exists.1 hshape
+  have : K.Normal := hKn
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  obtain ⟨u, huU, huK⟩ := IsConcreteLE.not_le_iff_exists.1 hshape
   have hu1 : u ≠ 1 := fun h => huK (h ▸ K.one_mem)
   have hU : U₀ = zpowers u := eq_zpowers_of_card_prime Nat.prime_five hUc huU hu1
   have hord : orderOf u = 5 := by rw [← Nat.card_zpowers, ← hU, hUc]
@@ -366,7 +366,7 @@ theorem sz32_lemma45 :
     rw [← map_pow, ← hm] at this
     exact this
   refine ⟨((a • ω : Sylow 2 K) : Subgroup K).map K.subtype, Subgroup.map_subtype_le _,
-    (a • ω : Sylow 2 K).isPGroup'.map K.subtype, ?_, ?_⟩
+    (a • ω : Sylow 2 K).isPGroup.map K.subtype, ?_, ?_⟩
   ·
     rw [hU, Subgroup.zpowers_le]
     exact sz32_mem_normalizer_map_subtype K (fun k => sz32_mem_iff_of_smul_eq hfixu k)

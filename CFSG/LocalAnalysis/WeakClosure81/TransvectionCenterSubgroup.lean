@@ -12,7 +12,7 @@ open CFSG.Open CFSG.Open.StatedAPI CFSG.CGT.Timmesfeld75 Matrix
 variable {m : ℕ} {F : Type} [Field F]
 
 noncomputable def transvectionCenterSubgroup (m : ℕ) (F : Type) [Field F] [Finite F]
-    (hm : 2 ≤ m) (a : Fin m → F) (ha : a ≠ 0) :
+    (_hm : 2 ≤ m) (a : Fin m → F) (_ha : a ≠ 0) :
     Subgroup (StatedProj (StatedSL m F)) :=
   ((transvCenter m F a).subgroupOf (StatedSL m F)).map
     (QuotientGroup.mk' ((StatedScalars (Fin m) F).subgroupOf (StatedSL m F)))

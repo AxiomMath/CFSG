@@ -64,7 +64,7 @@ structure Hyp1222 (D : Data G) (V₀ V : Subgroup G) (L : Subgroup G) (j : ℕ)
   delta_unique : UniqueMax D.M (⨆ H ∈ Δ, H)
   either : XCond1218 D.M V₀ V hyp125.isElemAbelian j (conjClosure D.M L)
 
-@[expose] def IsDelta18 (D : Data G) (V₀ V : Subgroup G) (p : ℕ) (L : Subgroup G)
+@[expose] def IsDelta18 (D : Data G) (_V₀ _V : Subgroup G) (p : ℕ) (L : Subgroup G)
     (Δ : Set (Subgroup G)) : Prop :=
   (∀ H ∈ Δ, D.T ≤ H ∧ H ≤ conjClosure D.M L ⊔ D.T) ∧
     (((∃ f : ℕ, IsSp4 (Bar2 (conjClosure D.M L)) f) ∧

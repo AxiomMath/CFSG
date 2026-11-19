@@ -42,7 +42,7 @@ theorem commutator_mem_sup_centralizer_of_isCyclic_outer {K : Subgroup X} [K.Nor
       (MulAut.conjNormal (H := K))
   have hcomm : ∀ u v : CFSG.ComponentClassification.OuterAutomorphisms.Outer ↥K,
       u * v = v * u := by
-    haveI : IsCyclic (CFSG.ComponentClassification.OuterAutomorphisms.Outer ↥K) := hcyc
+    have : IsCyclic (CFSG.ComponentClassification.OuterAutomorphisms.Outer ↥K) := hcyc
     have := (IsCyclic.isMulCommutative
       (α := CFSG.ComponentClassification.OuterAutomorphisms.Outer ↥K)).is_comm.comm
     exact fun u v => this u v
@@ -54,7 +54,7 @@ theorem commutator_mem_sup_centralizer_of_isCyclic_outer {K : Subgroup X} [K.Nor
 
 
 theorem mem_zpowers_or_mem_zpowers_of_isPGroup {Γ : Type*} [Group Γ] [Finite Γ] [IsCyclic Γ]
-    {p : ℕ} (hp : p.Prime) {g h : Γ}
+    {p : ℕ} (_hp : p.Prime) {g h : Γ}
     (hg : ∃ i : ℕ, orderOf g = p ^ i) (hh : ∃ j : ℕ, orderOf h = p ^ j) :
     g ∈ Subgroup.zpowers h ∨ h ∈ Subgroup.zpowers g := by
   obtain ⟨i, hi⟩ := hg
@@ -75,10 +75,10 @@ theorem exists_pow_mul_inv_mem_sup_centralizer {K : Subgroup X} [K.Normal] [Fini
     (hp : p.Prime) {a b : X} (ha : ∃ m : ℕ, a ^ p ^ m = 1) (hb : ∃ m : ℕ, b ^ p ^ m = 1) :
     (∃ k : ℕ, a ^ k * b⁻¹ ∈ K ⊔ Subgroup.centralizer (K : Set X)) ∨
       ∃ k : ℕ, b ^ k * a⁻¹ ∈ K ⊔ Subgroup.centralizer (K : Set X) := by
-  haveI : Finite ↥K := Subtype.finite
+  have : Finite ↥K := Subtype.finite
   classical
-  haveI : Finite (CFSG.ComponentClassification.OuterAutomorphisms.Outer ↥K) := inferInstance
-  haveI : IsCyclic (CFSG.ComponentClassification.OuterAutomorphisms.Outer ↥K) := hcyc
+  have : Finite (CFSG.ComponentClassification.OuterAutomorphisms.Outer ↥K) := inferInstance
+  have : IsCyclic (CFSG.ComponentClassification.OuterAutomorphisms.Outer ↥K) := hcyc
   let ψ : X →* CFSG.ComponentClassification.OuterAutomorphisms.Outer ↥K :=
     (QuotientGroup.mk' (CFSG.ComponentClassification.OuterAutomorphisms.inner ↥K)).comp
       (MulAut.conjNormal (H := K))
@@ -151,7 +151,7 @@ theorem commutator_le_pCoreOf_of_burnsideAut_SolvBorel {K L T : Subgroup X} [K.N
     (hTL : T ≤ Subgroup.normalizer (L : Set X)) (hLK : L ≤ K)
     (hT2 : IsPGroup 2 T) (hLsolv : Group.IsSolvable ↥L) :
     ⁅L, T ⊓ K⁆ ≤ pCoreOf 2 L := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set U : Subgroup X := T ⊓ K with hU
   have hU2 : IsPGroup 2 U := hT2.to_le inf_le_left
   have hUK : U ≤ K := inf_le_right
@@ -207,11 +207,11 @@ theorem sylow_inf_sup_centralizer_eq {K T : Subgroup X} [K.Normal] [Finite X]
     (hTmax : ∀ S : Subgroup X, IsPGroup 2 S → T ≤ S → S = T) :
     T ⊓ (K ⊔ Subgroup.centralizer (K : Set X)) =
       (T ⊓ K) ⊔ (T ⊓ Subgroup.centralizer (K : Set X)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : (Subgroup.centralizer (K : Set X)).Normal := Subgroup.normal_centralizer
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : (Subgroup.centralizer (K : Set X)).Normal := Subgroup.normal_centralizer
   set C : Subgroup X := Subgroup.centralizer (K : Set X) with hC
   set W : Subgroup X := K ⊔ C with hW
-  haveI hWn : W.Normal := Subgroup.sup_normal K C
+  have hWn : W.Normal := Subgroup.sup_normal K C
   have hcomm : ∀ k ∈ K, ∀ c ∈ C, k * c = c * k := by
     intro k hk c hc
     exact Subgroup.mem_centralizer_iff.mp hc k hk
@@ -249,13 +249,13 @@ theorem sylow_inf_sup_centralizer_eq {K T : Subgroup X} [K.Normal] [Finite X]
   simpa [W, C, inf_assoc, inf_eq_left.mpr hKW, inf_eq_left.mpr hCW] using hmain
 
 theorem false_of_action_mod {R O T W : Subgroup X}
-    (hOR : O ≤ R) (hOn : ∀ r ∈ R, ∀ o ∈ O, r * o * r⁻¹ ∈ O)
+    (_hOR : O ≤ R) (hOn : ∀ r ∈ R, ∀ o ∈ O, r * o * r⁻¹ ∈ O)
     (hTR : T ≤ Subgroup.normalizer (R : Set X))
     (hTO : T ≤ Subgroup.normalizer (O : Set X))
     (htriv : ∀ s ∈ T ⊓ W, ∀ r ∈ R, s * r * s⁻¹ * r⁻¹ ∈ O)
     {t₁ t₂ : X} (ht₁ : t₁ ∈ T) (ht₂ : t₂ ∈ T)
     (hchain : (∃ k : ℕ, t₁ ^ k * t₂⁻¹ ∈ W) ∨ (∃ k : ℕ, t₂ ^ k * t₁⁻¹ ∈ W))
-    {x y : X} (hx : x ∈ R) (hy : y ∈ R)
+    {x y : X} (hx : x ∈ R) (_hy : y ∈ R)
     (h₁ : t₁ * x * t₁⁻¹ * x ∈ O) (h₂ : t₂ * x * t₂⁻¹ * y⁻¹ ∈ O)
     (h₃ : t₂ * y * t₂⁻¹ * x⁻¹ ∈ O)
     (hx₂ : x ^ 2 ∉ O) (hyx : y * x ∉ O) (hyx' : y * x⁻¹ ∉ O) : False := by

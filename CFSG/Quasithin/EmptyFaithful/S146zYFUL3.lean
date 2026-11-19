@@ -35,7 +35,7 @@ theorem noElemTwentyFive_of_not_dvd_four {X : Type} [Group X] {n : ℕ} (hn : ¬
   refine NoElemTwentyFive.of_mulEquiv e (noElemTwentyFive_of_isCyclic fun Q hQ => ?_)
   exact isCyclic_of_isPGroup_of_surjective (QuotientGroup.mk'_surjective _)
     (fun S => CFSG.SectionRank.OddCover.isCyclic_of_isPGroup_of_le_GL_three (by omega)
-      (by omega) S.isPGroup') Q hQ
+      (by omega) S.isPGroup) Q hQ
 
 theorem false_of_e25Config {A : Type} [Group A] [Finite A] {L P T : Subgroup A}
     {K : Type} [Field K] [Finite K] [CharP K 2] (hK5 : Nat.card K % 5 = 1)

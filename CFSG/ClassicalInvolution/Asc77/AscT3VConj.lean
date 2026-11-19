@@ -60,7 +60,7 @@ theorem Std20.v_KJ_bot (d : Std20 p f K K' J S R R' W V z t) :
   intro x hxK hxJ
   by_contra hx1
   have hA : IsPGroup 2 ↥(Subgroup.zpowers x) :=
-    S.isPGroup'.to_le ((Subgroup.zpowers_le.mpr hxK.1).trans d.hWS)
+    S.isPGroup.to_le ((Subgroup.zpowers_le.mpr hxK.1).trans d.hWS)
   have hcard := Sec6Gen.card_le_two_of_le_inf d.late_hΩ d.late_mem_K d.late_mem_J
     d.late_J_ne_K.symm hA (Subgroup.zpowers_le.mpr hxK.2) (Subgroup.zpowers_le.mpr hxJ.2)
   rw [Nat.card_zpowers] at hcard
@@ -148,7 +148,7 @@ theorem Std20.v_conj_t (d : Std20 p f K K' J S R R' W V z t) {a : G}
       have hxK : u ^ κ ∈ K := K.zpow_mem huKW.1 κ
       have hxW : u ^ κ ∈ W := W.zpow_mem huKW.2 κ
       have hA : IsPGroup 2 ↥(Subgroup.zpowers (u ^ κ)) :=
-        S.isPGroup'.to_le ((Subgroup.zpowers_le.mpr hxW).trans d.hWS)
+        S.isPGroup.to_le ((Subgroup.zpowers_le.mpr hxW).trans d.hWS)
       have hcard := Sec6Gen.card_le_two_of_le_inf d.late_hΩ d.late_mem_K d.late_mem_K'
         d.ne.symm hA (Subgroup.zpowers_le.mpr hxK) (Subgroup.zpowers_le.mpr hxK')
       rw [Nat.card_zpowers] at hcard
@@ -210,7 +210,7 @@ theorem Std20.v_conj_t (d : Std20 p f K K' J S R R' W V z t) {a : G}
       rw [hcomm.mul_zpow, inv_zpow, e3, mul_inv_cancel]
     have hyW : a * v₀ * a⁻¹ * (v₀ ^ κ)⁻¹ ∈ W := W.mul_mem hAW (W.inv_mem hBW)
     have hy2 : ∃ m : ℕ, (a * v₀ * a⁻¹ * (v₀ ^ κ)⁻¹) ^ 2 ^ m = 1 := by
-      obtain ⟨m, hm⟩ := S.isPGroup' ⟨_, d.hWS hyW⟩
+      obtain ⟨m, hm⟩ := S.isPGroup ⟨_, d.hWS hyW⟩
       exact ⟨m, by simpa using congrArg Subtype.val hm⟩
     have := eq_one_of_zpow_odd hy2 hjodd hy1
     exact mul_inv_eq_one.mp this
@@ -243,7 +243,7 @@ theorem Std20.v_conj_t (d : Std20 p f K K' J S R R' W V z t) {a : G}
     (fun q hq hqW => by
       have hodd := odd_orderOf_of_mem_oddCoreOf D hq
       have h2 : ∃ m : ℕ, q ^ 2 ^ m = 1 := by
-        obtain ⟨m, hm⟩ := S.isPGroup' ⟨_, d.hWS hqW⟩
+        obtain ⟨m, hm⟩ := S.isPGroup ⟨_, d.hWS hqW⟩
         exact ⟨m, by simpa using congrArg Subtype.val hm⟩
       refine eq_one_of_zpow_odd h2 (j := (orderOf q : ℤ)) ?_ ?_
       · exact_mod_cast hodd

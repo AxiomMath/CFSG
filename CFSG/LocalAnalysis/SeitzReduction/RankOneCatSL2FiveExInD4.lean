@@ -34,8 +34,8 @@ theorem two_pow_dvd_of_card_fixedSubgroup_conj_eq [Finite G] {N n : ℕ}
     have h1 : 2 ≤ 2 ^ n := Nat.le_self_pow (by omega) 2
     have h3 : 0 < Nat.card P := Nat.card_pos
     exact lt_of_lt_of_le (by omega) (h1.trans (Nat.le_of_dvd h3 hP))
-  have hZnt : Nontrivial (center P) := P.isPGroup'.center_nontrivial
-  obtain ⟨m, hm⟩ := (P.isPGroup'.to_subgroup (center P)).exists_card_eq
+  have hZnt : Nontrivial (center P) := P.isPGroup.center_nontrivial
+  obtain ⟨m, hm⟩ := (P.isPGroup.to_subgroup (center P)).exists_card_eq
   have hm0 : m ≠ 0 := by
     rintro rfl
     rw [pow_zero] at hm

@@ -56,7 +56,7 @@ private theorem tw3m_modelAt_recipe
   classical
   intro L' _ _ ψ₀ A hA
   obtain ⟨hψ0, hker0, hperf0, hAe, hAI, hr, -, hsc⟩ := hA
-  haveI : Finite (TwE6Delta.RecipeR K n) := TwE6Delta.finite_recipeR hK
+  have : Finite (TwE6Delta.RecipeR K n) := TwE6Delta.finite_recipeR hK
   obtain ⟨hker1, hZL⟩ := ggTwE6_ker_center_recipe (n := n) hn hK h3 ψ₀ hψ0 hker0 hperf0
   have hψ₀inj : Function.Injective ψ₀ := (MonoidHom.ker_eq_bot_iff ψ₀).1 hker1
   have hInn : TwE6Delta.RecipeI K n ⊆
@@ -67,11 +67,11 @@ private theorem tw3m_modelAt_recipe
       (fun φ hφ _ => hInn hφ)
       (TwE6Delta.ggCenterPrime_three_twE6 (by omega) hK h3)
       ψ₀ hψ0 hker0 hperf0 hAe hAI hsc
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
     (by rw [Fintype.card_eq_nat_card, hK, ← pow_mul, mul_comm])
-  haveI : ExpChar K 2 := ExpChar.prime Nat.prime_two
+  have : ExpChar K 2 := ExpChar.prime Nat.prime_two
   let σ : K ≃+* K := iterateFrobeniusEquiv K 2 n
   have hσ : ∀ c, σ c = c ^ (2 ^ n) := fun c => iterateFrobeniusEquiv_def K 2 n c
   obtain ⟨e⟩ := TwE6Rank.exists_mulEquiv_graphFixedRootGroup (n := n) (by omega) hK σ.toRingHom hσ
@@ -124,7 +124,7 @@ private theorem tw3m_model_of_innerDiag
     (hΛ : LargeEvenInLambda2 (⟨.twE6, 0, n⟩ : LargeEvenLabel))
     (hX : GGHasLabel (⟨.twE6, 0, n⟩ : LargeEvenLabel) (↥X ⧸ Subgroup.center ↥X))
     (hcard : commutator ↥X = ⊤ → ∀ {R : Type} [Group R]
-      (θ : ↥X ⧸ Subgroup.center ↥X ≃* R) (hN : Bs ≤ Subgroup.normalizer (X : Set G)),
+      (_θ : ↥X ⧸ Subgroup.center ↥X ≃* R) (hN : Bs ≤ Subgroup.normalizer (X : Set G)),
       GGTorusLift 3 4 R → 3 ^ 4 ≤ Nat.card ↥(ggGamma X hN).range) :
     ∃ (hN : Bs ≤ Subgroup.normalizer (X : Set G)) (Kf : Type) (_ : Field Kf) (_ : Finite Kf)
       (σ : Kf ≃+* Kf) (_ : Nat.card Kf = (2 ^ n) ^ 2) (_ : ∀ c, σ c = c ^ 2 ^ n)
@@ -156,13 +156,13 @@ private theorem tw3m_model_of_innerDiag
     (S := fun lab => lab = (⟨.twE6, 0, n⟩ : LargeEvenLabel))
     (P' := fun R _ I _ => GGTorusLift 3 4 R ∧ tw3m_ModelAt n R I) hall
     (fun _ _ _ _ _ _ hP => hP.1) hmark
-  obtain ⟨R, _, I, Fm, -, -, θ, ⟨-, hBsN, h3I⟩, hlift, hModel⟩ := largeEvenRawDatum_exists hraw
-  have hBsI : ∀ (b : G) (hb : b ∈ Bs), ggLAut X θ ⟨b, hBsN hb⟩ ∈ I :=
-    fun b hb => ggLAut_mem_of_induces X θ hBsN h3I hb
-  have hr := hcard hXc θ hBsN hlift
-  have hTB := ggTorusTBGroup_of_marking Nat.prime_three hBs hSC hXc θ hBsN hBsI hr
+  obtain ⟨R, _, I, Fm, -, -, _θ, ⟨-, hBsN, h3I⟩, hlift, hModel⟩ := largeEvenRawDatum_exists hraw
+  have hBsI : ∀ (b : G) (hb : b ∈ Bs), ggLAut X _θ ⟨b, hBsN hb⟩ ∈ I :=
+    fun b hb => ggLAut_mem_of_induces X _θ hBsN h3I hb
+  have hr := hcard hXc _θ hBsN hlift
+  have hTB := ggTorusTBGroup_of_marking Nat.prime_three hBs hSC hXc _θ hBsN hBsI hr
     (le_trans (by norm_num : 3 ^ 3 ≤ 3 ^ 4) hr)
-  obtain ⟨Kf, _, _, σ, hK, hσ, e, E, hEab, h4E, hsc, hAE, hZ⟩ := hModel X (ggQuotHom θ) _ hTB
+  obtain ⟨Kf, _, _, σ, hK, hσ, e, E, hEab, h4E, hsc, hAE, hZ⟩ := hModel X (ggQuotHom _θ) _ hTB
   exact ⟨hBsN, Kf, inferInstance, inferInstance, σ, hK, hσ, e, E, hZ, hEab, h4E, hsc, hAE⟩
 private theorem tw3m_field_iso
     {Kf : Type} [Field Kf] [Finite Kf] {n : ℕ} (hn : 1 ≤ n)
@@ -171,9 +171,9 @@ private theorem tw3m_field_iso
       τ.toRingHom.comp (frobQ 2 n) = σe.toRingHom.comp τ.toRingHom ∧
       τ.symm.toRingHom.comp σe.toRingHom = (frobQ 2 n).comp τ.symm.toRingHom := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype (GaloisField 2 (2 * n)) := Fintype.ofFinite (GaloisField 2 (2 * n))
-  haveI : Fintype Kf := Fintype.ofFinite Kf
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype (GaloisField 2 (2 * n)) := Fintype.ofFinite (GaloisField 2 (2 * n))
+  have : Fintype Kf := Fintype.ofFinite Kf
   have hFcard : Nat.card (GaloisField 2 (2 * n)) = (2 ^ n) ^ 2 :=
     CFSG.LieType.Universal.card_galoisField_two_mul 2 n hn
   have hcardτ : Fintype.card (GaloisField 2 (2 * n)) = Fintype.card Kf := by
@@ -204,7 +204,7 @@ private theorem tw3m_nonempty_equiv
     Nonempty (↥(graphFixedRootGroup TwistTag.E6 Kf σe.toRingHom) ≃*
       ↥(graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * n)) (frobQ 2 n))) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hFcard : Nat.card (GaloisField 2 (2 * n)) = (2 ^ n) ^ 2 :=
     CFSG.LieType.Universal.card_galoisField_two_mul 2 n hn
   obtain ⟨τ, hτ, hτ'⟩ := tw3m_field_iso hn hKc σe hσe
@@ -335,7 +335,7 @@ theorem ggTwE6Split_model_K_three
           (MulAut.conj : ↥(graphFixedRootGroup TwistTag.E6 F σ) →*
             MulAut ↥(graphFixedRootGroup TwistTag.E6 F σ)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨-, hBs, -, -, -⟩ := hH.1.tableB_facts
   have hSC : ∀ g ∈ Subgroup.centralizer (Bs : Set G), g ^ 3 = 1 → g ∈ Bs := hH.1.2.1.2.2.2
   have hnb : GGNbr 3 B x D J y K := hH.2.2.2.2.1
@@ -353,8 +353,8 @@ theorem ggTwE6Split_model_K_three
       pow_le_card_range_ggGamma_bstar_of_torusLift hH.1 hnb hXc θ hN hlift
   obtain ⟨hN, Kf, hFieldKf, hFinKf, σe, hKc, hσe, e0, E0, hZK, hEab0, h4E0, hsc0, hAE0⟩ :=
     tw3m_model_of_innerDiag hRig hBs hSC (hH.2.2.1.2 y K hnb) hn h3 hΛ hK hcard
-  letI : Field Kf := hFieldKf
-  letI : Finite Kf := hFinKf
+  let : Field Kf := hFieldKf
+  let : Finite Kf := hFinKf
   obtain ⟨φ⟩ := tw3m_nonempty_equiv (n := n) (by omega) hKc σe hσe
   let E := E0.map φ.toMonoidHom
   obtain ⟨hEab, h4E, hscE⟩ := tw3m_transport_props φ E0 hEab0 h4E0 hsc0

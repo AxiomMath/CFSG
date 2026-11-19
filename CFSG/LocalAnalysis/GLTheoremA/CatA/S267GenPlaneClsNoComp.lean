@@ -36,7 +36,7 @@ theorem genPlaneCompOn_of_planeNoComp {Q : TauCeti.LieTypeIndex → Prop}
         PlaneNoComp p (TauCeti.CFSGIndex.lie d).Group) : GenPlaneCompOn Q := by
   intro p T _ _ d hd hQ
   obtain ⟨e⟩ := hd.iso
-  haveI : Finite (TauCeti.CFSGIndex.lie d).Group := Finite.of_equiv T e
+  have : Finite (TauCeti.CFSGIndex.lie d).Group := Finite.of_equiv T e
   have hd' : OddLie p (TauCeti.CFSGIndex.lie d).Group d :=
     ⟨hd.prime, hd.odd, ⟨MulEquiv.refl _⟩, hd.charOdd, hd.ne⟩
   exact PlaneNoComp.of_mulEquiv hd.prime e (h p d hd' hQ)

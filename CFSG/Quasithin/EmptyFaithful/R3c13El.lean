@@ -244,7 +244,7 @@ theorem quot_cent {L Q V₂ : Subgroup G} (hZ : centerOf L = CFSG.Open.pCoreOf 2
   have hker : π.ker = Z := QuotientGroup.ker_mk' Z
   set T' : Subgroup (↥L ⧸ Z) := (Tsyl : Subgroup (↥L ⧸ Z)) with hTdef
   have hTsyl : IsSylowTwoOf T' ⊤ :=
-    K1.isSylowTwoOf_top_iff.mpr ⟨Tsyl.isPGroup', Tsyl.not_dvd_index⟩
+    K1.isSylowTwoOf_top_iff.mpr ⟨Tsyl.isPGroup, Tsyl.not_dvd_index⟩
   have hVL : V₂ ≤ L := hVQ.trans hQ.1
   set Vbar : Subgroup (↥L ⧸ Z) := (V₂.subgroupOf L).map π with hVbar
   have hVT : Vbar ≤ T' := by

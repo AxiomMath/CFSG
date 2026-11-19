@@ -82,8 +82,7 @@ theorem weight1Gen_le_weight1Gen_sup_closure_conjList [Finite G] [Finite V]
         {y : G | ∃ k' ∈ ks, ∃ a ∈ A, y = k' * a * k'⁻¹} ∪
           (A.map (MulAut.conj k).toMonoidHom : Set G) := by
       ext y
-      simp only [List.mem_cons, Set.mem_ofPred_eq, Set.mem_union, Set.mem_setOf_eq,
-        SetLike.mem_coe, Subgroup.mem_map, MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
+      simp only [List.mem_cons, Set.mem_ofPred_eq, Set.mem_union, SetLike.mem_coe, Subgroup.mem_map, MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
       constructor
       · rintro ⟨k', hk' | hk', a, ha, rfl⟩
         · subst hk'
@@ -107,7 +106,7 @@ theorem weight1Gen_le_weight1Gen_normalClosure [Finite G] [Finite V]
     {ρ : Representation K G V} {A : Subgroup G} (hA : IsBestFGen ρ A) :
     weight1Gen ρ A ≤ weight1Gen ρ (Subgroup.normalClosure (A : Set G)) := by
   classical
-  letI : Fintype G := Fintype.ofFinite G
+  let : Fintype G := Fintype.ofFinite G
   let ks : List G := (Finset.univ : Finset G).toList
   have hset : {y : G | ∃ k ∈ ks, ∃ a ∈ A, y = k * a * k⁻¹} =
       (Group.conjugatesOfSet (A : Set G) : Set G) := by
@@ -138,6 +137,7 @@ variable {P : Type*} [Group P] [Finite P] {U L : Subgroup P} {p : ℕ}
 @[expose] def CUGen (U A : Subgroup P) : Subgroup P :=
   U ⊓ Subgroup.centralizer (A : Set P)
 
+omit [Finite P] in
 @[simp] theorem mem_CUGen {U A : Subgroup P} {x : P} :
     x ∈ CUGen U A ↔ x ∈ U ∧ x ∈ Subgroup.centralizer (A : Set P) := by
   rw [CUGen]

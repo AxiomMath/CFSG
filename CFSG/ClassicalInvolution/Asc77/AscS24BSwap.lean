@@ -158,7 +158,7 @@ theorem exists_swap : ∃ x ∈ (S : Subgroup G) ⊓ MGrp Ω W, conjSub x K = K'
       apply C.D.φ.injective
       rw [map_pow, map_mul, h3, map_one]
     apply h1
-    rw [← map_mul, eq_one_of_pow_three PB.isPGroup' hy hy3, map_one]
+    rw [← map_mul, eq_one_of_pow_three PB.isPGroup hy hy3, map_one]
   obtain ⟨x, hxS, hx⟩ := (hmemPB h).mp hhP
   have hxN : (x : G) ∈ Subgroup.normalizer (W : Set G) := Thompson.MGrp_le_normalizer Ω W x.2
   refine ⟨x, ⟨hxS, x.2⟩, ?_⟩

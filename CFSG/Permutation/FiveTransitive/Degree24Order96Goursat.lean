@@ -19,7 +19,7 @@ private theorem card_lt_three_hundred_sixty_of_small_normal
     (hLcard : Nat.card L ≤ 6) :
     Nat.card Q < 360 := by
   classical
-  letI : Nontrivial F :=
+  let : Nontrivial F :=
     Fintype.one_lt_card_iff_nontrivial.mp (by
       rw [hFcard]
       norm_num)
@@ -65,7 +65,7 @@ private theorem card_lt_three_hundred_sixty_of_small_normal
       symm
       apply Subgroup.eq_of_le_of_card_ge hAltLe
       rw [hQcard, hAltCard]
-    letI : IsSimpleGroup Q := by
+    let : IsSimpleGroup Q := by
       rw [hQeq]
       exact
         alternatingGroup.isSimpleGroup (by
@@ -93,7 +93,7 @@ private theorem card_lt_three_hundred_sixty_of_small_normal
       exact Subgroup.mem_top q
     let M : Subgroup (Equiv.Perm F) :=
       L.map Q.subtype
-    letI : M.Normal := by
+    let : M.Normal := by
       dsimp only [M]
       exact
         (inferInstance : L.Normal).map
@@ -407,7 +407,7 @@ theorem auxiliary_range_card_lt_three_hundred_sixty_of_small_kernel
       MonoidHom.rangeRestrict_surjective auxMap
   let L : Subgroup Q :=
     fixedMap.ker.map auxRangeMap
-  letI : L.Normal := by
+  let : L.Normal := by
     dsimp only [L]
     exact
       (inferInstance : fixedMap.ker.Normal).map
@@ -426,7 +426,7 @@ theorem auxiliary_range_card_lt_three_hundred_sixty_of_small_kernel
         (fun q : L =>
           ((q : Q) : Equiv.Perm B)) hkL
     exact hval
-  letI : Nontrivial L :=
+  let : Nontrivial L :=
     nontrivial_iff.mpr ⟨kL, 1, hkLne⟩
   let kernelToImage : fixedMap.ker → L :=
     fun z =>

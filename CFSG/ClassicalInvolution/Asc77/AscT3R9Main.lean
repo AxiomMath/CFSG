@@ -101,7 +101,7 @@ theorem Std20.r9_aux (d : Std20 p f K K' J S R R' W V z t) (c3 : Concl20_3 K K' 
     ⟨d.hyp.conjInvariant, d.viol.hzK, d.twins, d.ne, d.hSz, d.hV, d.hVS, hV2⟩
   set X := sec20X (CoreAssembly.conjClass K) z K K' with hX
   set T : Subgroup G := (S : Subgroup G) ⊓ Subgroup.normalizer (K : Set G) with hT
-  have hT2 : IsPGroup 2 ↥T := S.isPGroup'.to_le inf_le_left
+  have hT2 : IsPGroup 2 ↥T := S.isPGroup.to_le inf_le_left
   have hTN : T ≤ Subgroup.normalizer (K : Set G) := inf_le_right
   have hRT : R ≤ T := le_inf d.hRS (d.hR.1.trans Subgroup.le_normalizer)
   have hR'T : R' ≤ T := le_inf d.hR'S (d.hR'.1.trans d.late_K'_le)
@@ -145,7 +145,7 @@ theorem Std20.r9_aux (d : Std20 p f K K' J S R R' W V z t) (c3 : Concl20_3 K K' 
       (psi_mul_eq_one hρv hxN hyN hψx hψy hψx2 hψy2))
   refine ⟨hA, ?_⟩
   have hex : ∃ n : ℕ, u ^ (2 ^ n) ∈ X := by
-    obtain ⟨n, hn⟩ := S.isPGroup' ⟨u, hu⟩
+    obtain ⟨n, hn⟩ := S.isPGroup ⟨u, hu⟩
     have h1 : u ^ 2 ^ n = 1 := by simpa using congrArg Subtype.val hn
     exact ⟨n, by rw [h1]; exact X.one_mem⟩
   have hunotN : u ∉ Subgroup.normalizer (K : Set G) := fun h =>
@@ -296,11 +296,11 @@ theorem Std20.r9_aux (d : Std20 p f K K' J S R R' W V z t) (c3 : Concl20_3 K K' 
   have hσ1 : psi hKop K eK v a ≠ 1 := hψa
   have hσ2 : psi hKop K eK v a * psi hKop K eK v a = 1 := hψa2
   obtain ⟨n₁, hn₁⟩ : ∃ n : ℕ, a₂ ^ (2 ^ n) = 1 := by
-    obtain ⟨n, hn⟩ := S.isPGroup' ⟨a₂, ha₂T.1⟩
+    obtain ⟨n, hn⟩ := S.isPGroup ⟨a₂, ha₂T.1⟩
     exact ⟨n, by simpa using congrArg Subtype.val hn⟩
   have hb₂S : b₂ ∈ (S : Subgroup G) := S.mul_mem (S.mul_mem (S.inv_mem hu) ha₂T.1) hu
   obtain ⟨n₂, hn₂⟩ : ∃ n : ℕ, b₂ ^ (2 ^ n) = 1 := by
-    obtain ⟨n, hn⟩ := S.isPGroup' ⟨b₂, hb₂S⟩
+    obtain ⟨n, hn⟩ := S.isPGroup ⟨b₂, hb₂S⟩
     exact ⟨n, by simpa using congrArg Subtype.val hn⟩
   have ha₂X : a₂ ∉ X := by
     intro h

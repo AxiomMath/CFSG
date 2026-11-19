@@ -74,7 +74,7 @@ theorem not_hasCompFactor_isCalL0_of_commutator {Q : Type} [Group Q] [Finite Q] 
     (CFSG.Quasithin.H13.L829N.isCompositionFactor_congr
       ((Subgroup.subgroupOfEquivOfLe le_top).trans Subgroup.topEquiv.symm)).1 h1
   have hab : Group.IsSolvable (↥(L.subgroupOf X) ⧸ commutator ↥(L.subgroupOf X)) :=
-    isSolvable_of_comm fun a b => by
+    _root_.Group.isSolvable_of_comm fun a b => by
       let a' : Abelianization ↥(L.subgroupOf X) := a
       let b' : Abelianization ↥(L.subgroupOf X) := b
       exact mul_comm a' b'
@@ -92,7 +92,7 @@ theorem lGen_eq_top_of_ree {Q : Type} [Group Q] [Finite Q] {L T : Subgroup Q} [h
     ward_kleidman_small_Ree_involution_centralizer_maximal a ha ↥L hR
   have hOut : Group.IsSolvable (Outer ↥L) := by
     have := hcyc
-    exact isSolvable_of_comm fun u v => (IsCyclic.isMulCommutative (α := Outer ↥L)).is_comm.comm u v
+    exact _root_.Group.isSolvable_of_comm fun u v => (IsCyclic.isMulCommutative (α := Outer ↥L)).is_comm.comm u v
   have hq : Group.IsSolvable (Q ⧸ L) :=
     isSolvable_quotient_of_outSolvable L (by rw [hC]; exact bot_le)
       (CFSG.QuasithinUnique.Vol2Native.outSolvable_of_isSolvable_outer hOut)

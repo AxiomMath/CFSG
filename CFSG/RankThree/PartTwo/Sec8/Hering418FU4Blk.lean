@@ -182,7 +182,7 @@ theorem blk3_comm_diagonal (A : Matrix (Fin 3) (Fin 3) K) (l m : K) :
 
 theorem blockData_A (h : UnitaryFieldData 2 f K) (hf2 : 2 ≤ f) (h3 : 3 ∣ 2 ^ f + 1)
     (h9 : 9 ∣ 2 ^ f + 1) {ω : Kˣ} (hω1 : ω ≠ 1) {u : Fin 4 → Kˣ} (hu3 : ∀ i, u i ^ 3 = 1)
-    (hup : ∏ i, u i = 1) :
+    (_hup : ∏ i, u i = 1) :
     BlockData (unitarySU 2 f K 4 ⊓ Subgroup.centralizer {diagU ![ω, ω, ω, 1]}) (diagU u) := by
   have := h.finite
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
@@ -235,7 +235,7 @@ theorem blockData_A (h : UnitaryFieldData 2 f K) (hf2 : 2 ≤ f) (h3 : 3 ∣ 2 ^
             Matrix.cons_val_three, Matrix.head_cons, Matrix.tail_cons]
           calc u 0 * l⁻¹ * (u 1 * l⁻¹) * (u 2 * l⁻¹) * 1 =
                 (u 0 * u 1 * u 2) * (l⁻¹ * l⁻¹ * l⁻¹) := by
-                simp only [mul_one, one_mul, mul_assoc, mul_comm, mul_left_comm]
+                simp only [one_mul, mul_assoc, mul_comm, mul_left_comm]
             _ = 1 := by rw [← hl3]; group
       · exact ⟨diagU_apply_ne _ (by decide), diagU_apply_ne _ (by decide),
           diagU_apply_ne _ (by decide), diagU_apply_ne _ (by decide),
@@ -295,7 +295,7 @@ variable {f : ℕ} {K : Type} [Field K]
 
 theorem blockData_B (h : UnitaryFieldData 2 f K) (hf2 : 2 ≤ f) (h3 : 3 ∣ 2 ^ f + 1) {ω : Kˣ}
     (h1 : ω ≠ 1) (h2 : ω ≠ ω⁻¹) {u : Fin 4 → Kˣ} (hu3 : ∀ i, u i ^ 3 = 1)
-    (hup : ∏ i, u i = 1) :
+    (_hup : ∏ i, u i = 1) :
     BlockData (unitarySU 2 f K 4 ⊓ Subgroup.centralizer {diagU (dvecD0 ω)}) (diagU u) := by
   have := h.finite
   set C := unitarySU 2 f K 4 ⊓ Subgroup.centralizer {diagU (dvecD0 ω)} with hC
@@ -359,7 +359,7 @@ section TypeC
 variable {f : ℕ} {K : Type} [Field K]
 
 theorem blockData_C (h : UnitaryFieldData 2 f K) (hf2 : 2 ≤ f) (h3 : 3 ∣ 2 ^ f + 1) {ω : Kˣ}
-    (hω : ω ≠ ω⁻¹) {u : Fin 4 → Kˣ} (hu3 : ∀ i, u i ^ 3 = 1) (hup : ∏ i, u i = 1) :
+    (hω : ω ≠ ω⁻¹) {u : Fin 4 → Kˣ} (hu3 : ∀ i, u i ^ 3 = 1) (_hup : ∏ i, u i = 1) :
     BlockData (centC f K ω) (diagU u) := by
   have := h.finite
   have hn₁ : ((blkSU2 f K).subgroupOf (centC f K ω)).Normal := by

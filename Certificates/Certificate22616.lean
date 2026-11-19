@@ -60,7 +60,7 @@ theorem row {i : Nat} (hi : i < 4) {F : Nat → Nat} {s nl : Nat} (hs : invInner
     change CFSG.Monster.B.Co2.Rep 1782 (invInnerGenArrs i)[l]! _ at hr
     rw [invInnerGenArrs_get hl', hs, hrun (s + l) (by omega)] at hr
     change pg 11 (mask 11) (F (s + l)) x = _
-    rw [gE, dif_pos hlc, ← upk_get hx]
+    rw [gE, dite_eq_left hlc, ← upk_get hx]
     exact hr ⟨x, hx⟩
   obtain ⟨E, hE, hcm, hsq, hcard⟩ := elem_of_ckE faithT (fun _ h => lt_of_mem_ptsL h) le_top hL
     (fun l _ => gE_mem i l) hck

@@ -96,7 +96,7 @@ private def x0 : StatedSp 2 (ZMod 3) := ⟨x0GL, x0GL_mem⟩
 private theorem matSp_x0 : matSp x0 = xM := rfl
 
 private theorem orderOf_x0 : orderOf x0 = 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have h5 : x0 ^ 5 = 1 := by
     apply matSp_injective
     rw [show matSp (x0 ^ 5) = matSp x0 ^ 5 from by
@@ -152,7 +152,7 @@ private theorem card_sp43 : Nat.card (StatedSp 2 (ZMod 3)) = 51840 :=
 
 private theorem card_eq_five {S : Subgroup (StatedSp 2 (ZMod 3))} (hS : IsPGroup 5 S)
     (h5 : 5 ∣ Nat.card S) : Nat.card S = 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨n, hn⟩ := hS.exists_card_eq
   have hd : Nat.card S ∣ 51840 := by
     rw [← card_sp43]
@@ -169,7 +169,7 @@ private theorem card_eq_five {S : Subgroup (StatedSp 2 (ZMod 3))} (hS : IsPGroup
 private theorem exists_conj_commute {g x' : StatedSp 2 (ZMod 3)} (hx5 : orderOf x' = 5)
     (hxg : x' * g = g * x') :
     ∃ c : StatedSp 2 (ZMod 3), (c * g * c⁻¹) * x0 = x0 * (c * g * c⁻¹) := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hP' : IsPGroup 5 (Subgroup.zpowers x') :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hx5, pow_one])
   have hP0 : IsPGroup 5 (Subgroup.zpowers x0) :=
@@ -181,7 +181,7 @@ private theorem exists_conj_commute {g x' : StatedSp 2 (ZMod 3)} (hx5 : orderOf 
     have := Subgroup.card_dvd_of_le hS1
     rwa [Nat.card_zpowers, hx5] at this
   have hcard1 : Nat.card (S1 : Subgroup (StatedSp 2 (ZMod 3))) = 5 :=
-    card_eq_five S1.isPGroup' h5S1
+    card_eq_five S1.isPGroup h5S1
   have hS1eq : Subgroup.zpowers x' = (S1 : Subgroup (StatedSp 2 (ZMod 3))) :=
     Subgroup.eq_of_le_of_card_ge hS1 (by rw [hcard1, Nat.card_zpowers, hx5])
   have hx0 : x0 ∈ ((c • S1 : Sylow 5 (StatedSp 2 (ZMod 3))) : Subgroup (StatedSp 2 (ZMod 3))) := by
@@ -206,7 +206,7 @@ private theorem not_five_dvd_card_centralizer {g : StatedSp 2 (ZMod 3)}
     (hgc : g ∉ Subgroup.center (StatedSp 2 (ZMod 3))) :
     ¬ 5 ∣ Nat.card (Subgroup.centralizer ({g} : Set (StatedSp 2 (ZMod 3)))) := by
   intro h5
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card'
     (G := Subgroup.centralizer ({g} : Set (StatedSp 2 (ZMod 3)))) 5 h5
   have hx5 : orderOf (x : StatedSp 2 (ZMod 3)) = 5 := by rw [Subgroup.orderOf_coe]; exact hx

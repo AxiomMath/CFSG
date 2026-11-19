@@ -24,14 +24,14 @@ private theorem simple_subgroup_le_goursatFst_of_solvable
     Q ≤ I.goursatFst := by
   let M : Subgroup A := I.goursatFst
   let N : Subgroup B := I.goursatSnd
-  letI : M.Normal := by
+  let : M.Normal := by
     dsimp only [M]
     exact Subgroup.normal_goursatFst hfst
-  letI : N.Normal := by
+  let : N.Normal := by
     dsimp only [N]
     exact Subgroup.normal_goursatSnd hsnd
   let K : Subgroup Q := M.comap Q.subtype
-  letI : K.Normal := by
+  let : K.Normal := by
     dsimp only [K]
     exact Subgroup.Normal.comap inferInstance Q.subtype
   rcases (inferInstance : K.Normal).eq_bot_or_eq_top with hKbot | hKtop
@@ -92,11 +92,11 @@ theorem exists_lift_with_solvable_aux_eq_one
     apply Subtype.ext
     exact hl
   let QJ : Subgroup J := Q.subgroupOf J
-  letI : IsSimpleGroup QJ :=
+  let : IsSimpleGroup QJ :=
     (Subgroup.subgroupOfEquivOfLe hQ).isSimpleGroup
   have hQJnonsolvable : ¬Group.IsSolvable QJ := by
     intro hsolvable
-    letI : Group.IsSolvable QJ := hsolvable
+    let : Group.IsSolvable QJ := hsolvable
     apply hQnonsolvable
     exact Group.isSolvable_of_isSolvable_injective
       (f := (Subgroup.subgroupOfEquivOfLe hQ).symm.toMonoidHom)
@@ -176,17 +176,17 @@ private theorem alternatingGroup_le_of_invariant_fixed_action_of_solvable_orbit_
   classical
   let ρ : N →* Equiv.Perm F := MulAction.toPermHom N F
   let τ : N →* Equiv.Perm FC := MulAction.toPermHom N FC
-  letI : Group.IsSolvable orbitMap.ker := horbitKernel
+  let : Group.IsSolvable orbitMap.ker := horbitKernel
   have hAlt' : alternatingGroup F ≤ ρ.range := by
     simpa only [ρ] using hAlt
   have hsmall' :
       Nat.card (orbitMap.comp τ.rangeRestrict).range <
         Nat.card (alternatingGroup F) := by
     simpa only [τ] using hsmall
-  letI : IsSimpleGroup (alternatingGroup F) :=
+  let : IsSimpleGroup (alternatingGroup F) :=
     alternatingGroup.isSimpleGroup (by
       simpa only [Nat.card_eq_fintype_card] using hfive)
-  letI : Group.IsPerfect (alternatingGroup F) := by
+  let : Group.IsPerfect (alternatingGroup F) := by
     rw [Group.isPerfect_def]
     exact commutator_alternatingGroup_eq_top (by
       simpa only [Nat.card_eq_fintype_card] using hfive)
@@ -309,7 +309,7 @@ private theorem alternatingGroup_le_of_prime_cyclic_complement_orbits
   classical
   let Ω :=
     MulAction.orbitRel.Quotient (Subgroup.zpowers g) FC
-  letI : Fintype Ω := Fintype.ofFinite Ω
+  let : Fintype Ω := Fintype.ofFinite Ω
   let orbitMap :
       (MulAction.toPermHom N FC).range →*
         Equiv.Perm Ω :=
@@ -326,7 +326,7 @@ private theorem alternatingGroup_le_of_prime_cyclic_complement_orbits
     simpa only [Ω, Nat.card_eq_fintype_card] using horbits
   have hnontrivialF : Nontrivial F :=
     Fintype.one_lt_card_iff_nontrivial.mp (by omega)
-  letI : Nontrivial F := hnontrivialF
+  let : Nontrivial F := hnontrivialF
   have horbitFactorialLe :
       (Fintype.card Ω).factorial ≤
         (Fintype.card F - 1).factorial :=

@@ -21,33 +21,33 @@ theorem torusMat_mulVec_orthonormal {q f n : ℕ} {K : Type} [Field K]
   rw [torusMat_mulVec]
   by_cases hki : k = i
   · have hii : idForm h n (b i) (b k) = 1 := by
-      rw [hb i k, if_pos hki.symm]
+      rw [hb i k, ite_eq_left hki.symm]
     have hji : idForm h n (b j) (b k) = 0 := by
-      rw [hb j k, if_neg]
+      rw [hb j k, ite_eq_right]
       intro hjk
       exact (Ne.symm hij) (hjk.trans hki)
-    rw [hii, hji, if_pos hki, hki]
+    rw [hii, hji, ite_eq_left hki, hki]
     simp only [mul_one, mul_zero, zero_smul, add_zero, sub_smul, one_smul]
     module
   · by_cases hkj : k = j
     · have hi0 : idForm h n (b i) (b k) = 0 := by
-        rw [hb i k, if_neg]
+        rw [hb i k, ite_eq_right]
         intro hik
         exact hki hik.symm
       have hj1 : idForm h n (b j) (b k) = 1 := by
-        rw [hb j k, if_pos hkj.symm]
-      rw [hi0, hj1, if_neg hki, if_pos hkj, hkj]
+        rw [hb j k, ite_eq_left hkj.symm]
+      rw [hi0, hj1, ite_eq_right hki, ite_eq_left hkj, hkj]
       simp only [mul_zero, zero_smul, add_zero, mul_one, sub_smul, one_smul]
       module
     · have hi0 : idForm h n (b i) (b k) = 0 := by
-        rw [hb i k, if_neg]
+        rw [hb i k, ite_eq_right]
         intro hik
         exact hki hik.symm
       have hj0 : idForm h n (b j) (b k) = 0 := by
-        rw [hb j k, if_neg]
+        rw [hb j k, ite_eq_right]
         intro hjk
         exact hkj hjk.symm
-      rw [hi0, hj0, if_neg hki, if_neg hkj]
+      rw [hi0, hj0, ite_eq_right hki, ite_eq_right hkj]
       simp
 
 end CFSG.LinearAlgebra

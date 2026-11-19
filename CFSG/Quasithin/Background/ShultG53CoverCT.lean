@@ -29,7 +29,7 @@ theorem five_le_card {M : Type} [Finite M] (a₀ a₁ a₂ a₃ a₄ : M) (h01 :
     (h03 : a₀ ≠ a₃) (h04 : a₀ ≠ a₄) (h12 : a₁ ≠ a₂) (h13 : a₁ ≠ a₃) (h14 : a₁ ≠ a₄)
     (h23 : a₂ ≠ a₃) (h24 : a₂ ≠ a₄) (h34 : a₃ ≠ a₄) : 5 ≤ Nat.card M := by
   classical
-  haveI := Fintype.ofFinite M
+  have := Fintype.ofFinite M
   have hnd : [a₀, a₁, a₂, a₃, a₄].Nodup := by
     simp [h01, h02, h03, h04, h12, h13, h14, h23, h24, h34]
   have := hnd.length_le_card
@@ -94,9 +94,9 @@ theorem card_closure_le_two {M : Type} [AddCommGroup M] [Module (ZMod 2) M] [Fin
     have hxy' : (if x.1 = 0 then (0 : Fin 2) else 1) = if y.1 = 0 then 0 else 1 := hxy
     by_cases hx : x.1 = 0 <;> by_cases hy : y.1 = 0
     · rw [hx, hy]
-    · rw [if_pos hx, if_neg hy] at hxy'
+    · rw [ite_eq_left hx, ite_eq_right hy] at hxy'
       exact absurd hxy' (by decide)
-    · rw [if_neg hx, if_pos hy] at hxy'
+    · rw [ite_eq_right hx, ite_eq_left hy] at hxy'
       exact absurd hxy' (by decide)
     · rcases key x.1 x.2 with h | h
       · exact absurd h hx
@@ -151,7 +151,7 @@ theorem wf_ρ (hHx : ∀ h ∈ Hx k, W.ρ h w = w) (g : ↥(alternatingGroup (Fi
     wf k W w (ρk k g (x0 k)) = W.ρ g w := by
   have h : ∃ g' : ↥(alternatingGroup (Fin 6)), ρk k g' (x0 k) = ρk k g (x0 k) := ⟨g, rfl⟩
   unfold wf
-  rw [dif_pos h]
+  rw [dite_eq_left h]
   have hc := h.choose_spec
   have hmem : g⁻¹ * h.choose ∈ Hx k := by
     show ρk k (g⁻¹ * h.choose) (x0 k) = x0 k
@@ -175,7 +175,7 @@ theorem wf_equiv (hHx : ∀ h ∈ Hx k, W.ρ h w = w) (g : ↥(alternatingGroup 
       rw [map_mul, Module.End.mul_apply, hg'', ← Module.End.mul_apply, ← map_mul, inv_mul_cancel,
         map_one, Module.End.one_apply]
     unfold wf
-    rw [dif_neg hy', dif_neg hy, map_zero]
+    rw [dite_eq_right hy', dite_eq_right hy, map_zero]
 
 @[expose] noncomputable def Psi (k : Fin 2) (W : Md ↥(alternatingGroup (Fin 6))) (w : W.carrier) :
     Fn →+ W.carrier where

@@ -15,7 +15,7 @@ open scoped commutatorElement
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
 private lemma isE_three_comm {A : Type} [Group A] (hA : IsE 3 A) : ∀ a b : A, a * b = b * a := by
-  haveI : IsMulCommutative (⊤ : Subgroup A) := hA.1.1
+  have : IsMulCommutative (⊤ : Subgroup A) := hA.1.1
   intro a b
   exact congrArg Subtype.val (mul_comm' (⟨a, Subgroup.mem_top a⟩ : ↥(⊤ : Subgroup A))
     ⟨b, Subgroup.mem_top b⟩)
@@ -23,14 +23,14 @@ private lemma isE_three_comm {A : Type} [Group A] (hA : IsE 3 A) : ∀ a b : A, 
 private lemma exists_ne_three {F : Type} [Finite F] (hcard : 4 ≤ Nat.card F) (x y z : F) :
     ∃ w : F, w ≠ x ∧ w ≠ y ∧ w ≠ z := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hcard' : 4 ≤ Fintype.card F := by rwa [Fintype.card_eq_nat_card]
   have h3 : ({x, y, z} : Finset F).card ≤ 3 := Finset.card_le_three
   have hsne : ({x, y, z} : Finset F) ≠ ⊤ := by
     intro h
     have hc : ({x, y, z} : Finset F).card = Fintype.card F := by rw [h]; simp
     omega
-  obtain ⟨w, hw⟩ := SetLike.exists_not_mem_of_ne_top ({x, y, z} : Finset F) hsne
+  obtain ⟨w, hw⟩ := SetLike.exists_notMem_of_ne_top ({x, y, z} : Finset F) hsne
   simp only [Finset.mem_insert, Finset.mem_singleton, not_or] at hw
   exact ⟨w, hw.1, hw.2.1, hw.2.2⟩
 
@@ -71,7 +71,7 @@ private lemma exists_basis_pair {A : Type*} [AddCommGroup A] [Module (ZMod 2) A]
     rw [htop] at h1
     have : Module.finrank (ZMod 2) A = 2 := by simpa using h1
     omega
-  obtain ⟨c, -, hc⟩ := SetLike.exists_of_lt hproper
+  obtain ⟨c, -, hc⟩ := _root_.IsConcreteLE.exists_of_lt hproper
   have hli3 : LinearIndependent (ZMod 2) (Fin.snoc ![a, b] c) :=
     LinearIndependent.finSnoc hli2 hc
   have hcard : Fintype.card (Fin 3) = Module.finrank (ZMod 2) A := by simp [hfin]
@@ -83,13 +83,13 @@ private theorem mulAut_trans2 {F : Type} [Group F] (hF : IsE 3 F) {a b a' b' : F
     (ha : a ≠ 1) (hb : b ≠ 1) (hab : a ≠ b) (ha' : a' ≠ 1) (hb' : b' ≠ 1) (hab' : a' ≠ b') :
     ∃ α : MulAut F, α a = a' ∧ α b = b' := by
   have hcomm := isE_three_comm hF
-  letI : CommGroup F := { ‹Group F› with mul_comm := hcomm }
+  let : CommGroup F := { ‹Group F› with mul_comm := hcomm }
   have h2 : ∀ x : F, x ^ 2 = 1 := fun x => hF.1.2 x trivial
-  letI : Module (ZMod 2) (Additive F) :=
+  let : Module (ZMod 2) (Additive F) :=
     AddCommGroup.zmodModule (n := 2) fun x => by
       rw [← toMul_eq_one, toMul_nsmul, h2]
-  haveI : Finite F := Nat.finite_of_card_ne_zero (by rw [hF.2]; norm_num)
-  haveI : Fintype (Additive F) := Fintype.ofFinite (Additive F)
+  have : Finite F := Nat.finite_of_card_ne_zero (by rw [hF.2]; norm_num)
+  have : Fintype (Additive F) := Fintype.ofFinite (Additive F)
   have hcardV : Fintype.card (Additive F) = 8 := by
     rw [Fintype.card_eq_nat_card, ← Nat.card_congr Additive.ofMul, hF.2]
     norm_num
@@ -115,7 +115,7 @@ private theorem mulAut_trans2 {F : Type} [Group F] (hF : IsE 3 F) {a b a' b' : F
 
 private theorem mulAut_trans1 {F : Type} [Group F] (hF : IsE 3 F) {a a' : F}
     (ha : a ≠ 1) (ha' : a' ≠ 1) : ∃ α : MulAut F, α a = a' := by
-  haveI : Finite F := Nat.finite_of_card_ne_zero (by rw [hF.2]; norm_num)
+  have : Finite F := Nat.finite_of_card_ne_zero (by rw [hF.2]; norm_num)
   have hcard : 4 ≤ Nat.card F := by rw [hF.2]; norm_num
   obtain ⟨b, hb1, hba, -⟩ := exists_ne_three hcard 1 a 1
   obtain ⟨b', hb'1, hb'a', -⟩ := exists_ne_three hcard 1 a' 1
@@ -133,7 +133,7 @@ theorem y54_card_N {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) :
   have hFL : s.fr.F ≤ L := (s3_F_le_A s).trans (s3_A_le_L s)
   have hFN : s.fr.F ≤ normIn L s.fr.F := le_inf hFL Subgroup.le_normalizer
   obtain ⟨hN, hP⟩ := hH.hLF.fact18.2.2.2.2.1
-  letI := hN
+  let := hN
   obtain ⟨e⟩ := hP
   have hquot : Nat.card
       (↥(normIn L s.fr.F) ⧸ (zL L ⊔ s.fr.F).subgroupOf (normIn L s.fr.F)) = 168 := by
@@ -162,7 +162,7 @@ theorem y54_aut_surj {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e)
     simpa [pow_two] using hFE.1.2 v (Subgroup.mem_top v)
   have hcardAut : Nat.card (MulAut ↥s.fr.F) = 168 :=
     CFSG.GF2Type.Aschbacher1976Full.HS.card_mulAut_eq_168 hV hcomm hsq
-  haveI : Finite (MulAut ↥s.fr.F) :=
+  have : Finite (MulAut ↥s.fr.F) :=
     Nat.finite_of_card_ne_zero (by rw [hcardAut]; norm_num)
   let ρ : ↥(normIn L s.fr.F) →* MulAut ↥s.fr.F :=
     (Subgroup.normalizerMonoidHom s.fr.F).comp (Subgroup.inclusion inf_le_right)

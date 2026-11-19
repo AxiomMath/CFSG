@@ -14,7 +14,7 @@ namespace CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.L6KD291
 open Subgroup
 
 theorem factorization_orderOf_eq_of_not_pow {G : Type*} [Group G] [Finite G] [IsCyclic G]
-    {p : ℕ} (hp : p.Prime) {c : G} (hc : ∀ b : G, b ^ p ≠ c) :
+    {p : ℕ} (_hp : p.Prime) {c : G} (hc : ∀ b : G, b ^ p ≠ c) :
     (orderOf c).factorization p = (Nat.card G).factorization p := by
   obtain ⟨g, hg⟩ := exists_zpow_surjective G
   have hgen : ∀ x : G, x ∈ Subgroup.zpowers g := fun x => Subgroup.mem_zpowers_iff.mpr (hg x)
@@ -23,7 +23,7 @@ theorem factorization_orderOf_eq_of_not_pow {G : Type*} [Group G] [Finite G] [Is
     have htop : Subgroup.zpowers g = ⊤ := le_antisymm le_top fun x _ => hgen x
     have hcard : Nat.card (Subgroup.zpowers g) = Nat.card G :=
       (Subgroup.card_eq_iff_eq_top _).mpr htop
-    haveI : Fintype G := Fintype.ofFinite G
+    have : Fintype G := Fintype.ofFinite G
     exact (Fintype.card_zpowers (x := g)).symm.trans (Fintype.card_eq_nat_card.trans hcard)
   have hpos : 0 < Nat.card G := Nat.card_pos
   set k' : ℕ := (k % (Nat.card G : ℤ)).toNat with hk'

@@ -57,7 +57,7 @@ private instance instDecidableRelNcTen : DecidableRel ncTen :=
     change Decidable (a ≠ b ∧ ¬ Commute (x a) (x b))
     infer_instance
 
-theorem ncTen_symm : Symmetric ncTen := by
+theorem ncTen_symm : (∀ ⦃a₀ b₀⦄, ncTen a₀ b₀ → ncTen b₀ a₀) := by
   intro a b h
   change a ≠ b ∧ ¬ Commute (x a) (x b) at h
   change b ≠ a ∧ ¬ Commute (x b) (x a)
@@ -80,7 +80,7 @@ theorem ncTen_reachable (i : Fin 10) : Relation.ReflTransGen ncTen 0 i := by
   · exact Relation.ReflTransGen.single (by decide +kernel : ncTen 0 9)
 
 theorem ncTen_connected (i j : Fin 10) : Relation.ReflTransGen ncTen i j :=
-  (CFSG.GroupTheory.reflTransGen_symm (fun a b h => ncTen_symm h)
+  (CFSG.GroupTheory.reflTransGen_symm (fun _a _b h => ncTen_symm h)
     (ncTen_reachable i)).trans (ncTen_reachable j)
 
 end CFSG.OddTranspositions.QZ

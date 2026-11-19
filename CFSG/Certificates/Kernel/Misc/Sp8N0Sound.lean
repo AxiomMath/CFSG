@@ -28,14 +28,14 @@ theorem trS_fold (A : List ℕ) (j : ℕ) : ∀ n,
       (fun acc i => if (A.getD i 0).testBit j then acc + 2 ^ i else acc) 0 = F at hlt hbit ⊢
     have hp : 2 ^ (n + 1) = 2 ^ n + 2 ^ n := by rw [pow_succ]; omega
     by_cases hb : (A.getD n 0).testBit j = true
-    · rw [if_pos hb]
+    · rw [ite_eq_left hb]
       refine ⟨by omega, fun i hi => ?_⟩
       rw [Nat.add_comm]
       rcases Nat.lt_succ_iff_lt_or_eq.1 hi with hi | rfl
       · rw [Nat.testBit_two_pow_add_gt hi, hbit i hi]
       · rw [Nat.testBit_two_pow_add_eq, Nat.testBit_eq_false_of_lt hlt, hb]
         rfl
-    · rw [if_neg hb]
+    · rw [ite_eq_right hb]
       refine ⟨by omega, fun i hi => ?_⟩
       rcases Nat.lt_succ_iff_lt_or_eq.1 hi with hi | rfl
       · exact hbit i hi
@@ -400,7 +400,6 @@ theorem normChk_of (hH : Header R) (hT : n0TabK R 31104 = true) (h : normK R = t
       (n := T.size) (k := [l1S.getD a [], l1S.getD b [], l1S.getD c [], l1S.getD d []])).2
       ⟨t, h0.1, (hK t h0.1).2 ⟨h0.2, h1.2, h2.2, h3.2⟩⟩
     obtain ⟨t', ht'⟩ := Option.isSome_iff_exists.1 hsome
-    beta_reduce at ht'
     rw [ht']
     obtain ⟨hlt, hk⟩ := CFSG.KC.HashFold.get?_range_foldl ht'
     obtain ⟨k0, k1, k2, k3⟩ := (hK t' hlt).1 hk

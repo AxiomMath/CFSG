@@ -52,7 +52,7 @@ theorem testBit_foldl_img (g : Array ℕ) (m : ℕ) (L : List ℕ) (acc y : ℕ)
   | cons x L ih =>
     rw [List.foldl_cons, ih]
     by_cases hx : m.testBit x = true
-    · rw [if_pos hx, testBit_or_one_shiftLeft, Bool.or_eq_true, decide_eq_true_eq]
+    · rw [ite_eq_left hx, testBit_or_one_shiftLeft, Bool.or_eq_true, decide_eq_true_eq]
       constructor
       · rintro ((h | h) | ⟨x', hx', h⟩)
         · exact Or.inl h
@@ -63,7 +63,7 @@ theorem testBit_foldl_img (g : Array ℕ) (m : ℕ) (L : List ℕ) (acc y : ℕ)
         · rcases List.mem_cons.1 hx' with rfl | hx'
           · exact Or.inl (Or.inr h.2)
           · exact Or.inr ⟨x', hx', h⟩
-    · rw [if_neg hx]
+    · rw [ite_eq_right hx]
       constructor
       · rintro (h | ⟨x', hx', h⟩)
         · exact Or.inl h
@@ -462,7 +462,7 @@ theorem eq_T_of_le
     (hTw : KG82HatM22Twelve) : Sylow 2 G where
   toSubgroup := D.T
   maximal_isPGroup.left := D.isPGroup_T hOut hTw
-  maximal_isPGroup.right {Q} hQ hle := (D.eq_T_of_le hOut hTw hQ hle).le
+  maximal_isPGroup.right {_Q} hQ hle := (D.eq_T_of_le hOut hTw hQ hle).le
 
 theorem center_T : (center D.T).map D.T.subtype = zpowers z := by
   have hzT : z ∈ D.T := D.QG_le_T h.setting.z_mem_QG

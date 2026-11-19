@@ -171,13 +171,13 @@ theorem twF4NoLocalTwoN {a : ℕ} (ha : 1 ≤ a) {K : Type} [Field K] [Finite K]
     (hord : orderOf f = p)
     (hnot : f ∉ (MulAut.conj : LargeEvenCenterQuot (LargeEvenTwF4H a K) →* _).range) :
     NoLocalTwo p f := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K F4.prime := charP_of_card_eq_prime_pow (p := 2) (f := 2 * a + 1) (by
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K F4.prime := charP_of_card_eq_prime_pow (p := 2) (f := 2 * a + 1) (by
     rw [← Nat.card_eq_fintype_card, hK])
   obtain ⟨β, eT, hβord, key⟩ := twF4Lang ha hK hp hord hnot
-  haveI : Finite (ModGL F4.tag K) := finite_modGL
-  haveI : Finite ↥(F4.reeGamma K a) := Subtype.finite
-  haveI : Finite (LargeEvenCenterQuot (LargeEvenTwF4H a K)) := Finite.of_equiv _ eT.symm.toEquiv
+  have : Finite (ModGL F4.tag K) := finite_modGL
+  have : Finite ↥(F4.reeGamma K a) := Subtype.finite
+  have : Finite (LargeEvenCenterQuot (LargeEvenTwF4H a K)) := Finite.of_equiv _ eT.symm.toEquiv
   have hcore : CoreSub (FP.fixSub f) := by
     obtain ⟨eS⟩ := CFSG.StandardType.centerQuot_twF4H_equiv K a
     obtain ⟨-, b₀, hb, k, _, _, _, hk, ⟨eF⟩⟩ := FR.Res.ree_fix_equiv ha hK hp hp2 eS f hord hnot

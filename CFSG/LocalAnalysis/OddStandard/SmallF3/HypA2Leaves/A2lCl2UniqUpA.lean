@@ -47,8 +47,8 @@ theorem cl24_ppd_le_PSU {n j k ℓ : ℕ} (hadm : StatedLieAdmissible .PSU n 3 j
   have hE : i ≤ cl24E .PSU n := by
     simp only [cl24E]
     by_cases hn2 : Even n
-    · rw [if_pos hn2]; omega
-    · rw [if_neg hn2]; omega
+    · rw [ite_eq_left hn2]; omega
+    · rw [ite_eq_right hn2]; omega
   by_cases hie : Even i
   · have hdiv' : ℓ ∣ (3 ^ j) ^ i - 1 := by simpa [hie] using hdiv
     exact (cl24_ppd_le_sub hk hdiv' hj0 hi0).trans (Nat.mul_le_mul_left j hE)
@@ -57,14 +57,14 @@ theorem cl24_ppd_le_PSU {n j k ℓ : ℕ} (hadm : StatedLieAdmissible .PSU n 3 j
     have h2E : 2 * i ≤ cl24E .PSU n := by
       simp only [cl24E]
       by_cases hn2 : Even n
-      · rw [if_pos hn2]
+      · rw [ite_eq_left hn2]
         have hilt : i < n := by
           by_contra h
           have hge : n ≤ i := le_of_not_gt h
           have hieq : i = n := le_antisymm hin hge
           exact hie (hieq.symm ▸ hn2)
         exact Nat.mul_le_mul_left 2 (Nat.le_pred_of_lt hilt)
-      · rw [if_neg hn2]; omega
+      · rw [ite_eq_right hn2]; omega
     have hrew : 2 * (j * i) = j * (2 * i) := by ring
     rw [hrew] at hle
     exact hle.trans (Nat.mul_le_mul_left j h2E)

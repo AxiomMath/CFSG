@@ -10,7 +10,7 @@ open Finset CFSG.Open CFSG.Timmesfeld CFSG.Timmesfeld.Orders
 open CFSG.RankThree.PartTwo.KFacts.OddChar
 open CFSG.RankThree.PartTwo.Sec11.KSListsProof
 
-theorem family_core {M p e s g d C N dmax B : ℕ} (hX : XInfo M p e) (hs : s.Prime) (hg : 1 ≤ g)
+theorem family_core {M p e s g d C N dmax B : ℕ} (hX : XInfo M p e) (hs : s.Prime) (_hg : 1 ≤ g)
     (hMC : M * d = (s ^ g) ^ N * C) (hd : d ≤ dmax) (hdm : 0 < dmax)
     (hCs : ¬ s ∣ C) (hds : ¬ s ∣ d)
     (hN : s ≠ 2 → g * N < 8)

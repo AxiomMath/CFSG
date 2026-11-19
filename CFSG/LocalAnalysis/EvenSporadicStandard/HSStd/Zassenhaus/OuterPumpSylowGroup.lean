@@ -204,7 +204,7 @@ theorem card_le_four_of_centralizer_two_subgroups {H : Type} [Group H] [Finite H
       _ = 1 := by rw [hE e he]; group
   have hcardE' : Nat.card E' = Nat.card E :=
     Subgroup.card_map_of_injective (MulAut.conj g⁻¹).injective
-  have hSp : IsPGroup 2 (S : Subgroup H) := S.isPGroup'
+  have hSp : IsPGroup 2 (S : Subgroup H) := S.isPGroup
   have hQ : Nat.card ↥((S : Subgroup H) ⊓ centralizer ({x} : Set H)) ≤ 4 :=
     hc _ inf_le_right (hSp.to_le inf_le_left)
   have := card_le_four_of_le_sylow hSp (hxS (Subgroup.mem_zpowers x)) hx hQ hE'S hE'e

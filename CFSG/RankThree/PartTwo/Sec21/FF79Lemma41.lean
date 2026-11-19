@@ -14,6 +14,7 @@ open CFSG CFSG.RankThree.PartTwo.Sec21 L14 L41
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem le_cenS_of_normal {J : Subgroup G} (hq : CFSG.IsQuasisimple ↥J) {W : Subgroup G}
     (hWJ : W ≤ J) (hn : ∀ j ∈ J, ∀ w ∈ W, j * w * j⁻¹ ∈ W) {t : G} (htJ : t ∈ J)
     (htW : t ∉ W) : W ≤ CenS J := by
@@ -32,6 +33,7 @@ theorem le_cenS_of_normal {J : Subgroup G} (hq : CFSG.IsQuasisimple ↥J) {W : S
     have := Subgroup.mem_center_iff.mp hz' ⟨g, hg⟩
     exact congrArg Subtype.val this
 
+omit [Finite G] in
 theorem not_mem_of_isPGroup_two {N : Subgroup G} (hN : IsPGroup 2 N) {t : G}
     (ht : orderOf t = 3) : t ∉ N := by
   intro htN
@@ -41,9 +43,11 @@ theorem not_mem_of_isPGroup_two {N : Subgroup G} (hN : IsPGroup 2 N) {t : G}
   have h3 : 3 ∣ 2 := Nat.Prime.dvd_of_dvd_pow Nat.prime_three h2
   omega
 
+omit [Finite G] in
 theorem isPGroup_conjBy {p : ℕ} {V : Subgroup G} (hV : IsPGroup p V) (g : G) :
     IsPGroup p (conjBy g V) := hV.of_equiv ((MulAut.conj g).subgroupMap V)
 
+omit [Finite G] in
 theorem conjBy_cenS (g : G) (H : Subgroup G) : CenS (conjBy g H) = conjBy g (CenS H) := by
   ext z
   constructor
@@ -65,6 +69,7 @@ theorem conjBy_cenS (g : G) (H : Subgroup G) : CenS (conjBy g H) = conjBy g (Cen
       _ = g * (c * h) * g⁻¹ := by rw [this]
       _ = g * c * g⁻¹ * (g * h * g⁻¹) := by group
 
+omit [Finite G] in
 theorem conjBy_closure_pair {n b b₁ : G} (h1 : n * b * n⁻¹ = b₁) (h2 : n * b₁ * n⁻¹ = b) :
     conjBy n (Subgroup.closure {b, b₁}) = Subgroup.closure {b, b₁} := by
   show (Subgroup.closure {b, b₁}).map (MulAut.conj n).toMonoidHom = _
@@ -78,7 +83,7 @@ variable {n : ℕ} {b : G} {J B : Subgroup G} (S : Setup14 n b J B)
 include S
 
 theorem X_le_cenS_gen : Opp 3 (Cen b) ≤ CenS J := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hJc := S.J_le_cen
   set X := Opp 3 (Cen b) with hXdef
   obtain ⟨t, ht, hto⟩ := S.exists_order3
@@ -103,7 +108,7 @@ theorem X_le_cenS_gen : Opp 3 (Cen b) ≤ CenS J := by
 
 theorem c0_mem_X {c : G} (hc : c ∈ Cen b ⊓ CenS J) {N : ℕ} (hN : ¬ 3 ∣ N) (hcN : c ^ N = 1) :
     c ∈ Opp 3 (Cen b) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨i, x, hx, rfl⟩ := S.C0_decomp c hc
   have hxc : x ∈ Cen b := Opp_le 3 _ hx
   have hbx : Commute b x := (Subgroup.mem_centralizer_singleton_iff.mp hxc).symm
@@ -163,7 +168,7 @@ end Setup14
 theorem opp_cenS_pair {b : G} {J B : Subgroup G} (S : Setup14 5 b J B) (hCA : FF79KCentAlpha)
     {α : G} (hα : α ∈ B ⊓ J) (hαo : orderOf α = 3) :
     Opp 3 (CenS (Subgroup.closure {b, α})) = Opp 3 (Cen b) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hbA : b ∈ Subgroup.closure {b, α} := Subgroup.subset_closure (by simp)
   have hαA : α ∈ Subgroup.closure {b, α} := Subgroup.subset_closure (by simp)
   have hAcen : CenS (Subgroup.closure {b, α}) ≤ Cen b :=
@@ -218,8 +223,8 @@ theorem ff79_4_1_of
   obtain ⟨hCJ, -, hCA⟩ := h14k
   intro G _ _ b J B b₁ b₂ h
   by_contra hodd
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have S := setup14 hK hCJ (Or.inr rfl) h.hyp h.sylB
   have hXJ := S.X_le_cenS_gen
   obtain ⟨-, -, -, -, ⟨n₁, -, hn1b, hn1b1, -⟩, -⟩ := h.mono

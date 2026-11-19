@@ -20,23 +20,28 @@ namespace S3
 
 section Helpers
 
+omit [Finite G] in
 private theorem mem_glaPPrimeCoreOf' {p : ℕ} {X : Subgroup G} {y : G} :
     y ∈ GLAPPrimeCoreOf p X ↔ ∃ h : y ∈ X, (⟨y, h⟩ : ↥X) ∈ GLAPPrimeCore p ↥X := by
   unfold GLAPPrimeCoreOf
   simp [Subgroup.mem_map]
 
+omit [Finite G] in
 private theorem mem_oPPrimeP' {p : ℕ} {X : Subgroup G} {y : G} :
     y ∈ oPPrimeP p X ↔ ∃ h : y ∈ X, QuotientGroup.mk' (GLAPPrimeCore p ↥X) ⟨y, h⟩ ∈
       CFSG.pCore p (↥X ⧸ GLAPPrimeCore p ↥X) := by
   unfold oPPrimeP
   simp [Subgroup.mem_map]
 
+omit [Finite G] in
 private theorem oPPrimeP_le' (p : ℕ) (X : Subgroup G) : oPPrimeP p X ≤ X :=
   Subgroup.map_subtype_le _
 
+omit [Finite G] in
 private theorem glaPPrimeCoreOf_le' (p : ℕ) (X : Subgroup G) : GLAPPrimeCoreOf p X ≤ X :=
   Subgroup.map_subtype_le _
 
+omit [Finite G] in
 private theorem glaPPrimeCoreOf_le_oPPrimeP' (p : ℕ) (X : Subgroup G) :
     GLAPPrimeCoreOf p X ≤ oPPrimeP p X := by
   intro y hy
@@ -47,6 +52,7 @@ private theorem glaPPrimeCoreOf_le_oPPrimeP' (p : ℕ) (X : Subgroup G) :
   rw [h1]
   exact Subgroup.one_mem _
 
+omit [Finite G] in
 private theorem conj_mem_glaPPrimeCoreOf' {p : ℕ} {X : Subgroup G} {g y : G} (hg : g ∈ X)
     (hy : y ∈ GLAPPrimeCoreOf p X) : g * y * g⁻¹ ∈ GLAPPrimeCoreOf p X := by
   obtain ⟨hyX, hy'⟩ := mem_glaPPrimeCoreOf'.1 hy
@@ -56,6 +62,7 @@ private theorem conj_mem_glaPPrimeCoreOf' {p : ℕ} {X : Subgroup G} {g y : G} (
   rw [e]
   exact (GLAPPrimeCore.normal p ↥X).conj_mem _ hy' _
 
+omit [Finite G] in
 private theorem le_normalizer_glaPPrimeCoreOf' (p : ℕ) (X : Subgroup G) :
     X ≤ Subgroup.normalizer (GLAPPrimeCoreOf p X : Set G) := by
   intro g hg
@@ -69,6 +76,7 @@ private theorem le_normalizer_glaPPrimeCoreOf' (p : ℕ) (X : Subgroup G) :
     rw [e] at h
     exact h
 
+omit [Finite G] in
 private theorem le_normalizer_oPPrimeP' (p : ℕ) (X : Subgroup G) :
     X ≤ Subgroup.normalizer (oPPrimeP p X : Set G) := by
   have key : ∀ g ∈ X, ∀ y ∈ oPPrimeP p X, g * y * g⁻¹ ∈ oPPrimeP p X := by
@@ -84,6 +92,7 @@ private theorem le_normalizer_oPPrimeP' (p : ℕ) (X : Subgroup G) :
   intro y
   exact ⟨key g hg y, fun h => by simpa [mul_assoc] using key g⁻¹ (X.inv_mem hg) _ h⟩
 
+omit [Finite G] in
 private theorem eq_one_of_pow_mem' {p : ℕ} {Y : Subgroup G} {x : G} {N : ℕ} (hx : x ∈ Y)
     (hcop : Nat.Coprime p (Nat.card Y)) (hpow : x ^ (p ^ N) = 1) : x = 1 := by
   have h1 : orderOf x ∣ p ^ N := orderOf_dvd_of_pow_eq_one hpow
@@ -92,6 +101,7 @@ private theorem eq_one_of_pow_mem' {p : ℕ} {Y : Subgroup G} {x : G} {N : ℕ} 
     Nat.Coprime.coprime_dvd_left h1 (Nat.Coprime.pow_left N hcop)
   exact orderOf_eq_one_iff.1 (Nat.Coprime.eq_one_of_dvd h3 h2)
 
+omit [Finite G] in
 private theorem disjoint_of_coprime' {p : ℕ} {Y P : Subgroup G} (hP : IsPGroup p P)
     (hcop : Nat.Coprime p (Nat.card Y)) : Disjoint Y P := by
   rw [Subgroup.disjoint_def]
@@ -99,9 +109,10 @@ private theorem disjoint_of_coprime' {p : ℕ} {Y P : Subgroup G} (hP : IsPGroup
   obtain ⟨n, hn⟩ := hP ⟨x, hxP⟩
   exact eq_one_of_pow_mem' hxY hcop (by simpa using congrArg Subtype.val hn)
 
-private theorem exists_pow_mem' {p : ℕ} (hp : p.Prime) (K : Subgroup G) {x : G}
+omit [Finite G] in
+private theorem exists_pow_mem' {p : ℕ} (_hp : p.Prime) (K : Subgroup G) {x : G}
     (hx : x ∈ oPPrimeP p K) : ∃ n : ℕ, x ^ (p ^ n) ∈ GLAPPrimeCoreOf p K := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨_hp⟩
   obtain ⟨hxK, hxQ⟩ := mem_oPPrimeP'.1 hx
   obtain ⟨n, hn⟩ := (CFSG.pCore_isPGroup (p := p) (G := ↥K ⧸ GLAPPrimeCore p ↥K)) ⟨_, hxQ⟩
   refine ⟨n, mem_glaPPrimeCoreOf'.2 ⟨K.pow_mem hxK _, ?_⟩⟩
@@ -112,9 +123,9 @@ private theorem exists_pow_mem' {p : ℕ} (hp : p.Prime) (K : Subgroup G) {x : G
 
 private theorem card_oPPrimeP_eq' {p : ℕ} (hp : p.Prime) (K : Subgroup G) :
     ∃ a : ℕ, Nat.card (oPPrimeP p K) = Nat.card (GLAPPrimeCoreOf p K) * p ^ a := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hYN : GLAPPrimeCoreOf p K ≤ oPPrimeP p K := glaPPrimeCoreOf_le_oPPrimeP' p K
-  haveI hYnorm : ((GLAPPrimeCoreOf p K).subgroupOf (oPPrimeP p K)).Normal :=
+  have hYnorm : ((GLAPPrimeCoreOf p K).subgroupOf (oPPrimeP p K)).Normal :=
     ⟨fun n hn g => by
       rw [Subgroup.mem_subgroupOf] at hn ⊢
       simp only [Subgroup.coe_mul, Subgroup.coe_inv]
@@ -156,6 +167,7 @@ private theorem pCore_self_centralizing' {p : ℕ} (hp : p.Prime) {K : Subgroup 
     Subgroup.mem_centralizer_iff.2 fun z hz => (hw z (hNle hz)).symm
   exact hNle (hcent hwC)
 
+omit [Finite G] in
 private theorem le_normalizer_of_commutator_eq' {Q V : Subgroup G} (h : ⁅Q, V⁆ = Q) :
     V ≤ Subgroup.normalizer (Q : Set G) := by
   have key : ∀ v ∈ V, ∀ k ∈ Q, v * k⁻¹ * v⁻¹ ∈ Q := by
@@ -181,6 +193,7 @@ private theorem le_normalizer_of_commutator_eq' {Q V : Subgroup G} (h : ⁅Q, V�
     rw [e2] at h1
     simpa using Q.inv_mem h1
 
+omit [Finite G] in
 private theorem le_normalizer_of_centralizes' {E Q : Subgroup G}
     (h : ∀ q ∈ Q, ∀ e ∈ E, e * q = q * e) : Q ≤ Subgroup.normalizer (E : Set G) := by
   have hconj : ∀ q ∈ Q, ∀ e ∈ E, q * e * q⁻¹ = e := fun q hq e he => by
@@ -209,7 +222,7 @@ theorem exists_faithful_invariant_sylow {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hodd : Odd (Nat.card (GLAPPrimeCoreOf p (Subgroup.centralizer (E : Set G))))) :
     ∃ P : Subgroup G, IsPGroup p P ∧ E ≤ P ∧ P ≤ Subgroup.centralizer (E : Set G) ∧
       V ≤ Subgroup.normalizer (P : Set G) ∧ ∀ v ∈ V, (∀ y ∈ P, v * y = y * v) → v = 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨K, hK⟩ : ∃ K : Subgroup G, K = Subgroup.centralizer (E : Set G) := ⟨_, rfl⟩
   rw [← hK] at hVK hlayer hodd
   rw [← hK]
@@ -347,10 +360,10 @@ theorem exists_faithful_invariant_sylow {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
 theorem dihedral_contra (hDih : DihedralUsed) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {B E V P : Subgroup G} (hB : GLAIsBmax p B) (hEB : E ≤ B) {k : ℕ}
     (hk : Nat.card E * p ^ k = Nat.card B) (hV : IsElemAbelian 2 V) (hVcard : Nat.card V = 2 ^ (k + 2))
-    (hVK : V ≤ Subgroup.centralizer (E : Set G)) (hP : IsPGroup p P) (hEP : E ≤ P)
+    (hVK : V ≤ Subgroup.centralizer (E : Set G)) (hP : IsPGroup p P) (_hEP : E ≤ P)
     (hPK : P ≤ Subgroup.centralizer (E : Set G)) (hVP : V ≤ Subgroup.normalizer (P : Set G))
     (hfaith : ∀ v ∈ V, (∀ y ∈ P, v * y = y * v) → v = 1) : False := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hfaithD : ∀ u ∈ V, P ≤ Subgroup.centralizer ({u} : Set G) → u = 1 := fun u hu hPu =>
     hfaith u hu fun y hy => (Subgroup.mem_centralizer_singleton_iff.1 (hPu hy)).symm
   obtain ⟨u, huV, hu1, Q₁, hQ₁P, hQ₁el, hQ₁card, hQ₁C, hQ₁comm⟩ :=
@@ -360,7 +373,7 @@ theorem dihedral_contra (hDih : DihedralUsed) {p : ℕ} (hp : p.Prime) (hp2 : p 
     Subgroup.mem_centralizer_iff.1 (hVK hv) e he
   have hQE : ∀ q ∈ Q₁, ∀ e ∈ E, e * q = q * e := fun q hq e he =>
     Subgroup.mem_centralizer_iff.1 (hPK (hQ₁P hq)) e he
-  haveI : IsMulCommutative Q₁ := hQ₁el.1
+  have : IsMulCommutative Q₁ := hQ₁el.1
   have hcop2 : Nat.Coprime 2 (Nat.card Q₁) := by
     rw [hQ₁card]
     exact Nat.Coprime.pow_right _ ((Nat.coprime_primes Nat.prime_two hp).2 (Ne.symm hp2))
@@ -427,7 +440,7 @@ theorem km22 (hDih : DihedralUsed) {p : ℕ} (hc : S3Ctx G p) {B : Subgroup G}
       Nat.card V ≤ 2 ^ (k + 1) := by
   intro V hVK hVel
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have hp := hc.prime
   have hp2 := hc.odd
   obtain ⟨a, ha⟩ := exists_card_eq_pow_of_isElemAbelian Nat.prime_two hVel

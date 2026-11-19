@@ -186,7 +186,7 @@ theorem dce_sound {F RD RW RA RJ : ℕ → ℕ} {THM E BS NB N C : ℕ}
             simp only [nodesOK, sB_eq, brec_eq, hk0, Bool.false_eq_true, ↓reduceIte] at hn
             refine ⟨fun hk3 => ?_, fun hk3 hk5 => ?_⟩
             · have hf : isFact (dKind (RD r)) = true := Nat.blt_eq.mpr hk3
-              rw [hf, if_pos rfl, andB_iff] at hn
+              rw [hf, ite_eq_left rfl, andB_iff] at hn
               exact ⟨Nat.blt_eq.mp hn.1, Nat.blt_eq.mp hn.2⟩
             · have hf : isFact (dKind (RD r)) = false := by
                 rw [isFact]; simp only [Nat.blt_eq, Bool.not_eq_true] at *

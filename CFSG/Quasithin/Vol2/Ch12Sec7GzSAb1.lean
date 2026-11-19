@@ -104,7 +104,7 @@ open CFSG.OrderReductions.FrattiniAutomorphisms in
 theorem mem_of_trivial_action {H Q N : Subgroup G}
     (hQmax : ∀ X : Subgroup G, X ≤ H → (∀ h ∈ H, ∀ x ∈ X, h * x * h⁻¹ ∈ X) → IsPGroup 2 ↥X →
       X ≤ Q)
-    (hQH : Q ≤ H) (hQn : ∀ h ∈ H, ∀ x ∈ Q, h * x * h⁻¹ ∈ Q) (hQ2 : IsPGroup 2 ↥Q)
+    (_hQH : Q ≤ H) (hQn : ∀ h ∈ H, ∀ x ∈ Q, h * x * h⁻¹ ∈ Q) (hQ2 : IsPGroup 2 ↥Q)
     (hC : ∀ h ∈ H, (∀ x ∈ Q, h * x = x * h) → h ∈ Q)
     (hNQ : N ≤ Q) (hNn : ∀ h ∈ H, ∀ n ∈ N, h * n * h⁻¹ ∈ N)
     (hNfr : ∀ n (hn : n ∈ N), (⟨n, hNQ hn⟩ : ↥Q) ∈ frattini ↥Q)
@@ -113,7 +113,7 @@ theorem mem_of_trivial_action {H Q N : Subgroup G}
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let X : Subgroup G :=
     { carrier := {g | g ∈ H ∧ ∀ x ∈ Q, g * x * g⁻¹ * x⁻¹ ∈ N}
-      one_mem' := ⟨H.one_mem, fun x _ => by simpa using N.one_mem⟩
+      one_mem' := ⟨H.one_mem, fun x _ => by simp⟩
       mul_mem' := by
         rintro a b ⟨haH, ha⟩ ⟨hbH, hb⟩
         refine ⟨H.mul_mem haH hbH, fun x hx => ?_⟩

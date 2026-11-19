@@ -165,7 +165,7 @@ theorem kf1418MJ_of (hX : ∀ (X : Type) [Group X] [Finite X],
   obtain ⟨hθsol, -, hθ3, -⟩ :=
     solvable_prime_complement_core_characterization (H := K) Nat.prime_three
   have hQsol : Group.IsSolvable Q := by
-    haveI := hQ2.isNilpotent
+    have := hQ2.isNilpotent
     infer_instance
   have hHsol : Group.IsSolvable H := by
     have hle : θK ≤ Q.comap π := fun k hk => by
@@ -177,7 +177,7 @@ theorem kf1418MJ_of (hX : ∀ (X : Type) [Group X] [Finite X],
       intro y hy
       have h1 : π y = 1 := congrArg Subtype.val (MonoidHom.mem_ker.mp hy)
       exact ⟨⟨y, (hπ1 _).mp h1⟩, rfl⟩
-    haveI : Group.IsSolvable (Q.comap π) := solvable_of_ker_le_range f g hfg
+    have : Group.IsSolvable (Q.comap π) := Group.isSolvable_of_ker_le_range f g hfg
     exact Group.isSolvable_of_isSolvable_injective
       (f := ((Q.comap π).equivMapOfInjective K.subtype K.subtype_injective).symm.toMonoidHom)
       (MulEquiv.injective _)

@@ -19,7 +19,7 @@ theorem exists_conj_sylow_transport {T : Subgroup G} (hT : FzSylow T) {z i c₀ 
     (hz : T ≤ centralizer ({z} : Set G)) (hc₀ : c₀ * z * c₀⁻¹ = i) {D : Subgroup G} (hDT : D ≤ T)
     (hDi : D ≤ centralizer ({i} : Set G)) :
     ∃ g : G, g * i * g⁻¹ = z ∧ ∀ d ∈ D, g * d * g⁻¹ ∈ T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set C := centralizer ({z} : Set G)
   have hTC : IsPGroup 2 (T.subgroupOf C) :=
     hT.1.comap_of_injective C.subtype Subtype.val_injective
@@ -49,7 +49,7 @@ theorem exists_conj_sylow_transport {T : Subgroup G} (hT : FzSylow T) {z i c₀ 
       _ = z := by group
   · have he : (⟨c₀⁻¹ * d * c₀, hmemC d hd⟩ : C) ∈ E := by
       rw [Subgroup.mem_subgroupOf]
-      exact ⟨d, hd, by simp [MulAut.conj_apply]⟩
+      exact ⟨d, hd, by simp⟩
     have hQe := hQ he
     rw [Sylow.coe_subgroup_smul, Subgroup.mem_pointwise_smul_iff_inv_smul_mem] at hQe
     have hmem : (MulAut.conj k)⁻¹ • (⟨c₀⁻¹ * d * c₀, hmemC d hd⟩ : C) ∈ T.subgroupOf C := by
@@ -60,6 +60,7 @@ theorem exists_conj_sylow_transport {T : Subgroup G} (hT : FzSylow T) {z i c₀ 
       rw [MulAut.smul_def, MulAut.conj_inv_apply]; simp; group
     rw [← h1]; exact hmem
 
+omit [Finite G] in
 theorem le_centralizer_z₃ (hs : FzSpShape t x₁ x₂ lam T₂ a₁₂ a₂₂ a₃₂) (ht : t ^ 2 = 1)
     (htu : t * (x₁ * x₂) = (x₁ * x₂) * t) :
     T₂ ≤ centralizer ({(x₁ * x₂) ^ 2} : Set G) := by

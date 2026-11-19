@@ -84,9 +84,9 @@ theorem exists_involFrame_F4
       ∃ s₁ ∈ NbrTableBExc.ggTorusInvolSet p e, ∃ s₂ ∈ NbrTableBExc.ggTorusInvolSet p e,
         4 ∣ orderOf (s₁ * s₂) := by
   have hval : (-1 : ZMod p).val = p - 1 := by
-    haveI : NeZero p := ⟨hp.ne_zero⟩
-    haveI : Fact (1 < p) := ⟨hp.one_lt⟩
-    rw [ZMod.neg_val, if_neg one_ne_zero, ZMod.val_one]
+    have : NeZero p := ⟨hp.ne_zero⟩
+    have : Fact (1 < p) := ⟨hp.one_lt⟩
+    rw [ZMod.neg_val, ite_eq_right one_ne_zero, ZMod.val_one]
   have hn' : n * s * n⁻¹ = s ^ (-1 : ZMod p).val := by
     rw [hn, hval]
     refine inv_eq_of_mul_eq_one_right ?_
@@ -137,7 +137,7 @@ theorem ggTorusInvolFrameElt_F4Plus
     GGTorusInvolFrameElt p r (TableBF4.RecipeGroup K) := by
   have hp2 : p ≠ 2 := by omega
   refine ggTorusInvolFrameElt_of_mulEquiv (TableBF4.recipeEquiv K) ?_
-  haveI : Finite (adjointGroup .F4 K) := generated_group_finite .F4 K
+  have : Finite (adjointGroup .F4 K) := generated_group_finite .F4 K
   obtain ⟨s, n, hs, hn⟩ := GGPlusLiftSL2.exists_order_p_inverting_sl2 (K := K) hp hp2 hpq
   obtain ⟨e, he, hfr⟩ := exists_involFrame_F4 hp hp2 hs hn
   have hT := OrdPInnerExc.sylowTorus_F4_two K hp (by omega)

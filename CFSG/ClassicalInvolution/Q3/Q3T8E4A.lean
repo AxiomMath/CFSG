@@ -43,7 +43,7 @@ theorem ih8_nbr_sylow (hΩ : HypOmegaMod Ω) {K J : Subgroup G}
   obtain ⟨-, -, A, hA, hAJ, hAN⟩ := hJ
   have hA' := hA
   obtain ⟨M, -, P, rfl⟩ := hA
-  exact ⟨_, P.isPGroup'.map _, hAJ, hAN, (hΩ.isQuatSub_of_mem_RSet hA').exists_not_commute⟩
+  exact ⟨_, P.isPGroup.map _, hAJ, hAN, (hΩ.isQuatSub_of_mem_RSet hA').exists_not_commute⟩
 end GroupLevel
 section NbrModel
 variable {K G : Type} [Group K] [Group G]
@@ -884,7 +884,7 @@ theorem exists_good_involution_E4 [IsSimpleGroup G] (hs : Std8 Ω K J S R T W z 
       hs.hR.1 hs.hR.2.1
   have hzR : z ∈ R := T3.mem_of_isPGroup hs.hz hs.hR.2.1 hRsyl.2.1
     (by have := hΩ.eight_le_of_mem_RSet hs.hR.1; omega)
-  have hS₂2 : IsPGroup 2 ↥(S₂ : Subgroup G) := S₂.isPGroup'
+  have hS₂2 : IsPGroup 2 ↥(S₂ : Subgroup G) := S₂.isPGroup
   have hcommK : ∀ r ∈ R, r * (g⁻¹ * t * g) = g⁻¹ * t * g * r := fun r hr =>
     commute_of_mem_two_subgroup hs hdisc hS₂2 (hs.hR.2.1 hr) ht1X (hRS₂ hr) hgS
   have hzt1 : z * (g⁻¹ * t * g) = g⁻¹ * t * g * z := hcommK z hzR

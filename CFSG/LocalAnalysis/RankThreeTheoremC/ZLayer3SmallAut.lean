@@ -101,7 +101,7 @@ theorem false_of_small_automorphism_group {Y : Type} [Group Y] [Finite Y] (R : S
     (hΩ : ∀ c ∈ (R : Subgroup Y) ⊓ centralizer (K : Set Y), orderOf c = 3 → c ∈ zpowers z)
     (hrank : 3 ≤ CFSG.Open.pRank 3 (R : Subgroup Y)) : False := by
   have hC : IsMulCommutative ↥((R : Subgroup Y) ⊓ centralizer (K : Set Y)) :=
-    isMulCommutative_of_orderOf_eq_three hz3 R.isPGroup'.to_inf_left hΩ
+    isMulCommutative_of_orderOf_eq_three hz3 R.isPGroup.to_inf_left hΩ
   obtain ⟨A, hAR, hAe, hAcard⟩ := pRank_attained 3 (R : Subgroup Y) (by omega)
   have hA27 : 27 ≤ Nat.card A := by
     rw [hAcard]
@@ -126,7 +126,7 @@ theorem false_of_small_automorphism_group {Y : Type} [Group Y] [Finite Y] (R : S
     have := Nat.mul_le_mul hker h8
     omega
   have hRmap : IsPGroup 3 ((R : Subgroup Y).map (MulAut.conjNormal (H := K))) :=
-    R.isPGroup'.map _
+    R.isPGroup.map _
   have hmap : A.map (MulAut.conjNormal (H := K)) =
       (R : Subgroup Y).map (MulAut.conjNormal (H := K)) :=
     eq_of_le_of_card_ge (map_mono hAR) ((hB _ hRmap).trans hmap9)

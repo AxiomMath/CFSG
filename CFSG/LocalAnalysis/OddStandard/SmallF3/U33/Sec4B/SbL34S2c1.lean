@@ -24,7 +24,7 @@ theorem abelian_of_rho_inv (Q V B : Subgroup G) (rho : G) (hVB : V ≤ B) (hBQ :
     (hρB : ∀ b ∈ B, rho * b * rho⁻¹ ∈ B) (hB : Nat.card B = 16) :
     ∀ a ∈ B, ∀ b ∈ B, a * b = b * a := by
   classical
-  haveI : Finite V := Finite.of_injective (Subtype.val : V → G) Subtype.val_injective
+  have : Finite V := Finite.of_injective (Subtype.val : V → G) Subtype.val_injective
   have hVQ : V ≤ Q := hVB.trans hBQ
   let φ : MulAut G := MulAut.conj rho
   have hφ_apply : ∀ x : G, φ x = rho * x * rho⁻¹ := fun x => MulAut.conj_apply rho x
@@ -221,7 +221,7 @@ theorem abelian_of_rho_inv (Q V B : Subgroup G) (rho : G) (hVB : V ≤ B) (hBQ :
     · exfalso
       apply hu₂V
       rw [← hv]
-      simpa [p] using v.2
+      simp [p]
     · exfalso
       apply hu₂_not_uV
       exact ⟨v, v.2, by
@@ -308,7 +308,7 @@ theorem abelian_of_rho_inv (Q V B : Subgroup G) (rho : G) (hVB : V ≤ B) (hBQ :
   intro a ha b hb
   have haA : a ∈ A := hBA ha
   have hbA : b ∈ A := hBA hb
-  haveI : IsMulCommutative A := hAcomm
+  have : IsMulCommutative A := hAcomm
   have hcommA : (⟨a, haA⟩ : A) * ⟨b, hbA⟩ = (⟨b, hbA⟩ : A) * ⟨a, haA⟩ :=
     hAcomm.is_comm.comm (⟨a, haA⟩ : A) (⟨b, hbA⟩ : A)
   simpa using congrArg Subtype.val hcommA

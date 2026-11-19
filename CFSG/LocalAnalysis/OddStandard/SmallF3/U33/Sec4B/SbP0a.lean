@@ -13,10 +13,12 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau : G}
 
+omit [Finite G] in
 private lemma p0_conj_zpow_inv {ρ lam : G} (hlam : lam * ρ * lam⁻¹ = ρ⁻¹) (k : ℤ) :
     lam * ρ ^ k * lam⁻¹ = ρ ^ (-k) := by
   rw [← conj_zpow, hlam, inv_zpow']
 
+omit [Finite G] in
 private lemma p0_mem_normalizer_zpowers_of_inv {ρ lam : G} (hlam2 : lam ^ 2 = 1)
     (hlam : lam * ρ * lam⁻¹ = ρ⁻¹) :
     lam ∈ Subgroup.normalizer ((zpowers ρ : Subgroup G) : Set G) := by

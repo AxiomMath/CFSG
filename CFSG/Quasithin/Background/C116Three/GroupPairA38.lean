@@ -41,7 +41,7 @@ theorem groupPair_conj_dichotomy {Q : Type} [Group Q] [Finite Q] {K : Subgroup Q
   · exact Or.inl h
   · exact Or.inr (h.trans htb.symm)
 
-theorem groupPair (h38 : A38ForSQTK) {H T L : Subgroup G} (hH : CharTwo H) (hT : IsSylowTwoOf T H)
+theorem groupPair (h38 : A38ForSQTK) {H T L : Subgroup G} (_hH : CharTwo H) (hT : IsSylowTwoOf T H)
     (hSQ : IsSQTKTC H) (hL : L ∈ cComp H) (hTN : ¬ T ≤ Subgroup.normalizer (L : Set G)) :
     ∃ t, GroupPair H T L t := by
   classical

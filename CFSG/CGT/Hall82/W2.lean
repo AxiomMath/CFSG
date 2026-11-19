@@ -114,7 +114,7 @@ theorem centralizer_eq_pCoreOf_of_card_eq_two (S : Setting G M L)
       hwuniq _ (fun h => hconj_ne (congrArg Subtype.val h))
     have hcommw : k * (w : G) = (w : G) * k := by
       have h := congrArg Subtype.val heq
-      simp only [Subgroup.coe_mk] at h
+      simp only at h
       calc k * (w : G) = (k * (w : G) * k⁻¹) * k := by group
         _ = (w : G) * k := by rw [h]
     have hcommall : ∀ y ∈ W, k * y = y * k := by
@@ -157,9 +157,9 @@ theorem sq_eq_one_of_mem_pCoreOf_of_card_eq_two (S : Setting G M L)
     _ = (v * v) * (w * w) := by group
     _ = 1 := by rw [hv2, hw2, one_mul]
 
-theorem commute_of_mem_pCoreOf_centralizer_of_card_eq_two (S : Setting G M L)
-    (hF : ModelFacts)
-    (hc : HexaCoord (blockU L) R (hallPts (blockU L) L) rep)
+theorem commute_of_mem_pCoreOf_centralizer_of_card_eq_two (_S : Setting G M L)
+    (_hF : ModelFacts)
+    (_hc : HexaCoord (blockU L) R (hallPts (blockU L) L) rep)
     (hcard : Nat.card (CFSG.Open.pCoreOf 2 (Subgroup.centralizer (L : Set G))) = 2)
     {a b : G}
     (ha : a ∈ CFSG.Open.pCoreOf 2 (Subgroup.centralizer (L : Set G)))
@@ -186,7 +186,7 @@ theorem commute_of_mem_pCoreOf_of_card_eq_two (S : Setting G M L)
     {a b : G} (ha : a ∈ CFSG.Open.pCoreOf 2 M) (hb : b ∈ CFSG.Open.pCoreOf 2 M) :
     a * b = b * a :=
   S.commute_of_mem_pCoreOf hF hc
-    (fun x hx y hy => S.commute_of_mem_pCoreOf_centralizer_of_card_eq_two hF hc hcard hx hy)
+    (fun _x hx _y hy => S.commute_of_mem_pCoreOf_centralizer_of_card_eq_two hF hc hcard hx hy)
     ha hb
 
 theorem sq_eq_one_of_mem_conjSubgroup_pCoreOf_of_card_eq_two (S : Setting G M L)
@@ -218,8 +218,8 @@ theorem commute_of_mem_conjSubgroup_pCoreOf_of_card_eq_two (S : Setting G M L)
   rwa [h2, h3] at this
 
 theorem conj_eq_self_of_mem_pCoreOf_centralizer_of_card_eq_two (S : Setting G M L)
-    (hF : ModelFacts)
-    (hc : HexaCoord (blockU L) R (hallPts (blockU L) L) rep)
+    (_hF : ModelFacts)
+    (_hc : HexaCoord (blockU L) R (hallPts (blockU L) L) rep)
     (hcard : Nat.card (CFSG.Open.pCoreOf 2 (Subgroup.centralizer (L : Set G))) = 2)
     {m : G} (hm : m ∈ M)
     {w : G} (hw : w ∈ CFSG.Open.pCoreOf 2 (Subgroup.centralizer (L : Set G))) :
@@ -397,7 +397,7 @@ theorem exists_involution_of_conjSubgroup_not_mem_pCoreOf (S : Setting G M L)
     exact pow_two_eq_one_of_card_eq_two hcard w0.2
   have huY : g * (w0 : G) * g⁻¹ ∈ Y := by
     rw [CFSG.CGT.Timmesfeld75.mem_conjSubgroup]
-    simpa [mul_assoc] using w0.2
+    simp [mul_assoc]
   have huM : g * (w0 : G) * g⁻¹ ∈ M := hgM huY
   have hu1 : g * (w0 : G) * g⁻¹ ≠ 1 := by
     intro h
@@ -420,7 +420,7 @@ theorem exists_involution_of_conjSubgroup_not_mem_pCoreOf (S : Setting G M L)
       · intro y hy
         rw [CFSG.CGT.Timmesfeld75.mem_conjSubgroup] at hy
         have h := S.conj_mem_pCoreOf_centralizer hgM' hy
-        convert h using 2 <;> group
+        convert h using 2; group
       · rw [CFSG.CGT.Timmesfeld75.card_conjSubgroup]
     exact hgW hYW
   exact ⟨g * (w0 : G) * g⁻¹, huY, huM, hu1, hu2, huJ⟩
@@ -486,7 +486,7 @@ theorem false_of_M1_eq_M_of_dichotomy (S : Setting G M L)
     exact huJ (hall u huM1 huV)
 
 theorem M1_conj_iff_of_relIndex_eq_two (S : Setting G M L)
-    (hF : ModelFacts)
+    (_hF : ModelFacts)
     (hc : HexaCoord (blockU L) R (hallPts (blockU L) L) rep)
     (hrel : (S.M1 hc).relIndex M = 2) :
     ∀ m ∈ M, ∀ y : G, y ∈ S.M1 hc ↔ m * y * m⁻¹ ∈ S.M1 hc := by

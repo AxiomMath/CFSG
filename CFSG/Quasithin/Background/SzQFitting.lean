@@ -81,7 +81,7 @@ theorem pCoreOf_two_ne_bot_of_solvable_of_nonabelian_sylow
     (CFSG.subgroup_le_centralizer_fitting_of_le_centralizer_pCores hcent).trans
       (CFSG.centralizer_fittingSubgroup_le_fittingSubgroup_of_solvable hA)
   let T : Subgroup ↥A := (S : Subgroup K).subgroupOf A
-  have hT : IsPGroup 2 T := S.isPGroup'.of_equiv (Subgroup.subgroupOfEquivOfLe hSA).symm
+  have hT : IsPGroup 2 T := S.isPGroup.of_equiv (Subgroup.subgroupOfEquivOfLe hSA).symm
   have hTT : ⁅T, T⁆ ≤ T := Subgroup.commutator_le.mpr fun x hx y hy => by
     rw [commutatorElement_def]
     exact T.mul_mem (T.mul_mem (T.mul_mem hx hy) (T.inv_mem hx)) (T.inv_mem hy)

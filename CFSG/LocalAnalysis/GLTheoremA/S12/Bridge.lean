@@ -66,6 +66,7 @@ section Markings
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem splitInnerDiag16_of_canon {p : ℕ} {B L : Subgroup G}
     (hrk : ∀ lab : GLALabel, LabelOf L lab → lab.tag ≠ .twB2 ∧ lab.tag ≠ .twF4)
     (h : SplitInnerDiagMarking p B L) : SplitInnerDiagMarking16 p B L := by
@@ -87,7 +88,7 @@ variable {G : Type} [Group G] [Finite G] {m p : ℕ} {B : Subgroup G} {x : G} {L
 theorem card_inf_centMod_of_star (hc : S12Ctx G m p) (hS : IsSStarMax p B x L) :
     Nat.card ↥(B ⊓ centModSubgroup p L) = p := by
   have hp := hc.ctx.ctx.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hBm := IsSStarMax.bmax hS
   have hxB := (IsSStarMax.essential hS).1
   have hx1 := (IsSStarMax.essential hS).2.1
@@ -120,7 +121,7 @@ theorem rankLabel_of_canon (hc : S12Ctx G m p) (hS : IsSStarMax p B x L) (hsplit
 theorem card_inf_centMod_of_nbr {y : G} {J : Subgroup G} (h : NbrCfg G m p B x L D K y J) :
     Nat.card ↥(B ⊓ centModSubgroup p J) = p := by
   have hp := h.cfg.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have : B ⊓ centModSubgroup p J = Subgroup.zpowers y := by
     ext g
     constructor

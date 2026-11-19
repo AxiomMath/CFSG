@@ -11,11 +11,12 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem eq_one_of_commute_of_prime_card {P₀ : Subgroup G} {d y : G}
     (hcard : (Nat.card P₀).Prime) (hdc : d ∉ centralizer (P₀ : Set G))
     (hy : y ∈ P₀) (hcomm : y * d = d * y) : y = 1 := by
   let C : Subgroup P₀ := (Subgroup.centralizer ({d} : Set G)).subgroupOf P₀
-  haveI : Fact (Nat.card P₀).Prime := ⟨hcard⟩
+  have : Fact (Nat.card P₀).Prime := ⟨hcard⟩
   have hC : C = ⊥ ∨ C = ⊤ := C.eq_bot_or_eq_top_of_prime_card
   have hyC : (⟨y, hy⟩ : P₀) ∈ C := by
     rw [Subgroup.mem_subgroupOf, Subgroup.mem_centralizer_iff]
@@ -34,6 +35,7 @@ private theorem eq_one_of_commute_of_prime_card {P₀ : Subgroup G} {d y : G}
     have hh' := Subgroup.mem_subgroupOf.mp hhC
     exact (Subgroup.mem_centralizer_iff.mp hh' d (Set.mem_singleton d)).symm
 
+omit [Finite G] in
 private theorem normalizer_le_normalizer_center_map (T : Subgroup G) :
     Subgroup.normalizer (T : Set G) ≤
       Subgroup.normalizer (((Subgroup.center T).map T.subtype : Subgroup G) : Set G) := by
@@ -67,9 +69,9 @@ theorem frob4P_exists_fixed_of_abelian {p r : ℕ} (hp : p.Prime) (hp2 : p ≠ 2
     (hdP : d ∈ normalizer (P₀ : Set G)) (hdc : d ∉ centralizer (P₀ : Set G)) :
     ∃ v ∈ V, v ≠ 1 ∧ v * d = d * v := by
   classical
-  letI : CommGroup V := { (inferInstance : Group V) with
+  let : CommGroup V := { (inferInstance : Group V) with
     mul_comm := fun a b => hVab.is_comm.comm a b }
-  haveI : Fintype P₀ := Fintype.ofFinite _
+  have : Fintype P₀ := Fintype.ofFinite _
   have hcardP : (Nat.card P₀).Prime := hP₀.symm ▸ hp
   by_contra hcon
   have hCV : ∀ v ∈ V, v * d = d * v → v = 1 := by
@@ -77,7 +79,7 @@ theorem frob4P_exists_fixed_of_abelian {p r : ℕ} (hp : p.Prime) (hp2 : p ≠ 2
     by_contra hv1
     exact hcon ⟨v, hv, hv1, hcomm⟩
   let H : Subgroup G := zpowers d
-  haveI : Fintype H := Fintype.ofFinite _
+  have : Fintype H := Fintype.ofFinite _
   have hHV : H ≤ normalizer (V : Set G) := Subgroup.zpowers_le.mpr hdV
   have hHP : H ≤ normalizer (P₀ : Set G) := Subgroup.zpowers_le.mpr hdP
   let κ : P₀ →* MulAut V := V.normalizerMonoidHom.comp (Subgroup.inclusion hP₀V)
@@ -109,7 +111,7 @@ theorem frob4P_exists_fixed_of_abelian {p r : ℕ} (hp : p.Prime) (hp2 : p ≠ 2
     have hcardH : Nat.card H = r := by
       show Nat.card (zpowers d) = r
       rw [Nat.card_zpowers, hd]
-    haveI : Fact r.Prime := ⟨hr⟩
+    have : Fact r.Prime := ⟨hr⟩
     have hmem : (⟨d, Subgroup.mem_zpowers d⟩ : H) ∈ Subgroup.zpowers h :=
       mem_zpowers_of_prime_card hcardH hh1
     obtain ⟨n, hn⟩ := Subgroup.mem_zpowers_iff.mp hmem
@@ -169,7 +171,7 @@ theorem frob4P_exists_fixed_of_abelian {p r : ℕ} (hp : p.Prime) (hp2 : p ≠ 2
         intro y
         apply Subtype.ext
         simp only [F, ψ, ψf, κ, actH, MonoidHom.comp_apply, Subgroup.coe_inclusion,
-          Subgroup.normalizerMonoidHom_apply_apply_coe, Subgroup.coe_mul, Subgroup.coe_inv]
+          Subgroup.normalizerMonoidHom_apply_apply_coe, Subgroup.coe_inv]
         group
       have hprod : (∏ y : P₀, F h y) = ∏ y : P₀, κ (ψ y) (actH h v) :=
         Finset.prod_congr rfl (fun y _ => hF y)
@@ -216,7 +218,7 @@ theorem frob4P_exists_fixed_of_abelian {p r : ℕ} (hp : p.Prime) (hp2 : p ≠ 2
   have hVbot : V = ⊥ := by
     rw [Subgroup.eq_bot_iff_forall]
     intro x hx
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hxp : x ^ p = 1 := by
       have := congrArg Subtype.val (hmain ⟨x, hx⟩)
       simpa using this
@@ -249,8 +251,8 @@ theorem frob4P_exists_fixed_of_frobenius {p r : ℕ} (hp : p.Prime) (hp2 : p ≠
     simpa only [Z] using this
   have hZ1 : Z ≠ ⊥ := by
     rw [Subgroup.ne_bot_iff_exists_ne_one]
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Nontrivial T := (Subgroup.nontrivial_iff_ne_bot T).mpr hT1
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Nontrivial T := (Subgroup.nontrivial_iff_ne_bot T).mpr hT1
     have hnt : Nontrivial (Subgroup.center T) := hT.center_nontrivial
     obtain ⟨w, hw⟩ := exists_ne (1 : Subgroup.center T)
     refine ⟨⟨(w : T), Subgroup.mem_map.mpr ⟨w, w.2, rfl⟩⟩, ?_⟩

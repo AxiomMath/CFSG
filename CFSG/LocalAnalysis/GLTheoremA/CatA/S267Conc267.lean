@@ -37,7 +37,7 @@ theorem conc267_core {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (N : Subgroup A) [
         B₁ ≤ Subgroup.normalizer (T : Set A))) ∧
       Nat.card ↥(B₁ ⊓ centModSubgroup p K₀) = p := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set π : A →* A ⧸ N := QuotientGroup.mk' N with hπ
   have hker : ¬ p ∣ Nat.card π.ker := by rw [hπ, QuotientGroup.ker_mk']; exact hN
   have hB₀p : IsPGroup p B₀ := isPGroup_of_isElemAbelian hB₀
@@ -94,7 +94,7 @@ theorem conc267ACov_of_quot {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (N : Subgro
     (h : S267ConcA p (K₀.map (QuotientGroup.mk' N)) (B₀.map (QuotientGroup.mk' N))) :
     S267ConcACov p K₀ B₀ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨B', D', J', hBel, hIn, hcase, hcard, t, ht1, ht2, htD, htJ⟩ := h
   obtain ⟨B₁, D₁, J₁, hB₁el, hB₁map, hD₁map, hJ₁map, hInD, hcase₁, hcard₁⟩ :=
     conc267_core hp hp2 N hN K₀ B₀ hK₀n hB₀ hBel hIn hcase hcard
@@ -123,6 +123,7 @@ section BCDE
 
 variable {A : Type} [Group A] [Finite A]
 
+omit [Finite A] in
 theorem map_inf_of_ker_le {Ω : Type*} [Group Ω] (π : A →* Ω) {M : Subgroup A} (hM : π.ker ≤ M)
     (B₀ : Subgroup A) : (B₀ ⊓ M).map π = B₀.map π ⊓ M.map π := by
   apply le_antisymm (Subgroup.map_inf_le _ _ _)
@@ -139,7 +140,7 @@ theorem concBCDE_of_quot {p q : ℕ} (hp : p.Prime) (N : Subgroup A) [N.Normal]
     (h : S267ConcBCDE p q (K₀.map (QuotientGroup.mk' N)) (B₀.map (QuotientGroup.mk' N))) :
     S267ConcBCDE p q K₀ B₀ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set π : A →* A ⧸ N := QuotientGroup.mk' N with hπ
   have hker : ¬ p ∣ Nat.card π.ker := by rw [hπ, QuotientGroup.ker_mk']; exact hN
   have hker' : π.ker ≤ K₀ := by rw [hπ, QuotientGroup.ker_mk']; exact hNK

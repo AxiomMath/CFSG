@@ -17,10 +17,12 @@ variable {G : Type} [Group G] [Finite G] {Q : Type} [Group Q]
 
 @[expose] def img (N : Subgroup G) (f : ↥N →* Q) (U : Subgroup G) : Subgroup Q := (U.subgroupOf N).map f
 
+omit [Finite G] in
 theorem mem_img {N : Subgroup G} {f : ↥N →* Q} {U : Subgroup G} {q : Q} :
     q ∈ img N f U ↔ ∃ u : ↥N, (u : G) ∈ U ∧ f u = q := by
   simp [img, Subgroup.mem_map, Subgroup.mem_subgroupOf]
 
+omit [Finite G] in
 theorem img_mono {N : Subgroup G} {f : ↥N →* Q} {U V : Subgroup G} (h : U ≤ V) :
     img N f U ≤ img N f V :=
   Subgroup.map_mono fun _ hx => h hx
@@ -28,8 +30,8 @@ theorem img_mono {N : Subgroup G} {f : ↥N →* Q} {U V : Subgroup G} (h : U �
 theorem card_map_eq_of_inj {M : Type*} [Group M] {f : M →* Q} {U : Subgroup M}
     (hf : Function.Injective (fun u : U => f (u : M))) : Nat.card ↥(U.map f) = Nat.card ↥U :=
   (Nat.card_congr (Equiv.ofBijective (fun u : U => (⟨f u, u, u.2, rfl⟩ : ↥(U.map f)))
-    ⟨fun a b h => hf (congrArg Subtype.val h),
-     fun ⟨y, x, hx, hxy⟩ => ⟨⟨x, hx⟩, Subtype.ext hxy⟩⟩)).symm
+    ⟨fun _a _b h => hf (congrArg Subtype.val h),
+     fun ⟨_y, x, hx, hxy⟩ => ⟨⟨x, hx⟩, Subtype.ext hxy⟩⟩)).symm
 
 structure Datum (p : ℕ) (N : Subgroup G) (f : ↥N →* Q) (L Bs Z : Subgroup G) : Prop where
   prime : p.Prime
@@ -45,23 +47,27 @@ structure Datum (p : ℕ) (N : Subgroup G) (f : ↥N →* Q) (L Bs Z : Subgroup 
 
 variable {p : ℕ} {N : Subgroup G} {f : ↥N →* Q} {L Bs Z : Subgroup G}
 
+omit [Finite G] in
 theorem Datum.ZN (hD : Datum p N f L Bs Z) : Z ≤ N := hD.ZL.trans hD.LN
 
+omit [Finite G] in
 theorem Datum.mem_ker_iff (hD : Datum p N f L Bs Z) (n : ↥N) : n ∈ f.ker ↔ (n : G) ∈ Z := by
   rw [hD.ker_eq, Subgroup.mem_subgroupOf]
 
+omit [Finite G] in
 theorem Datum.ker_two (hD : Datum p N f L Bs Z) (k : ↥N) (hk : k ∈ f.ker) :
     ∃ m : ℕ, k ^ (2 ^ m) = 1 := by
   obtain ⟨m, hm⟩ := hD.Z2 k ((hD.mem_ker_iff k).1 hk)
   exact ⟨m, Subtype.ext (by simpa using hm)⟩
 
+omit [Finite G] in
 theorem Datum.isPGroup_ker (hD : Datum p N f L Bs Z) : IsPGroup 2 ↥f.ker := by
   intro k
   obtain ⟨m, hm⟩ := hD.ker_two k k.2
   exact ⟨m, Subtype.ext (by simpa using hm)⟩
 
 theorem Datum.card_ker (hD : Datum p N f L Bs Z) : ∃ a : ℕ, Nat.card f.ker = 2 ^ a := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact (IsPGroup.iff_card).1 hD.isPGroup_ker
 
 theorem Datum.not_dvd (hD : Datum p N f L Bs Z) : ¬ p ∣ Nat.card f.ker := by
@@ -70,6 +76,7 @@ theorem Datum.not_dvd (hD : Datum p N f L Bs Z) : ¬ p ∣ Nat.card f.ker := by
   rw [ha] at h
   exact hD.odd ((Nat.prime_dvd_prime_iff_eq hD.prime Nat.prime_two).1 (hD.prime.dvd_of_dvd_pow h))
 
+omit [Finite G] in
 theorem Datum.isPGroup_sub (hD : Datum p N f L Bs Z) {U : Subgroup G} (hU : U ≤ Bs) :
     IsPGroup p ↥(U.subgroupOf N) := by
   intro x
@@ -80,7 +87,7 @@ theorem Datum.isPGroup_sub (hD : Datum p N f L Bs Z) {U : Subgroup G} (hU : U �
 
 theorem Datum.coprime (hD : Datum p N f L Bs Z) {U : Subgroup G} (hU : U ≤ Bs) :
     Nat.Coprime (Nat.card f.ker) (Nat.card (U.subgroupOf N)) := by
-  haveI := Fact.mk hD.prime
+  have := Fact.mk hD.prime
   obtain ⟨a, ha⟩ := hD.card_ker
   obtain ⟨b, hb⟩ := (IsPGroup.iff_card).1 (hD.isPGroup_sub hU)
   rw [ha, hb]
@@ -96,6 +103,7 @@ theorem Datum.card_img (hD : Datum p N f L Bs Z) {U : Subgroup G} (hU : U ≤ Bs
   rw [card_map_eq_of_inj (hD.injOn hU)]
   exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe (hU.trans hD.BsN)).toEquiv
 
+omit [Finite G] in
 theorem Datum.conj_mem (hD : Datum p N f L Bs Z) {n : G} (hn : n ∈ N) {z : G} (hz : z ∈ Z) :
     n * z * n⁻¹ ∈ Z := by
   have hk : (⟨z, hD.ZN hz⟩ : ↥N) ∈ f.ker := (hD.mem_ker_iff _).2 hz
@@ -127,7 +135,7 @@ theorem Datum.bstar (hD : Datum p N f L Bs Z) {B : Subgroup G} (hB : GGBstar p B
     exact hcard
   · intro g hgC hgp
     obtain ⟨n, rfl⟩ := hD.surj g
-    haveI := Fact.mk hD.prime
+    have := Fact.mk hD.prime
     have hcomm : ∀ u ∈ Bs.subgroupOf N, f u * f n = f n * f u := by
       intro u hu
       have hmem : f u ∈ img N f Bs := mem_img.2 ⟨u, hu, rfl⟩
@@ -153,7 +161,7 @@ theorem Datum.cent (hD : Datum p N f L Bs Z) (hLperf : Group.IsPerfect ↥L) {B 
     (hBBs : B ≤ Bs) :
     Nat.card ↥(img N f B ⊓ Subgroup.centralizer (img N f L : Set Q)) =
       Nat.card ↥(B ⊓ Subgroup.centralizer (L : Set G)) := by
-  haveI : Group.IsPerfect ↥(L.subgroupOf N) :=
+  have : Group.IsPerfect ↥(L.subgroupOf N) :=
     Group.IsPerfect.ofSurjective (f := (Subgroup.subgroupOfEquivOfLe hD.LN).symm.toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hD.LN).symm.surjective
   have hZL' : f.ker ≤ L.subgroupOf N := by

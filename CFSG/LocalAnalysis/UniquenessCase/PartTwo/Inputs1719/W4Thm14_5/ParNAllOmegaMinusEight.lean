@@ -25,6 +25,7 @@ open scoped Pointwise
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {b c : K}
 
+omit [Finite K] [CharP K 2] in
 private theorem eq_inf_stabilizer_tailFlag (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) (j : Fin 3)
     {M : Subgroup (T3V K ≃ₗ[K] T3V K)} (hMG : M ≤ T3G K b c)
     (hBM : tailBorel 3 (minusTailForm K b c) ≤ M)
@@ -78,7 +79,7 @@ theorem nParam_eq_of_natOmegaMinusEight {H S P : Subgroup (MulAut W)} {k n : ℕ
   obtain ⟨-, -, -, -, -, -, -, -, -, -, hO8m⟩ :=
     kTab23b_holds W H k hnat hperf hS.toSylow ((hS.toSylow : Subgroup ↥H).map H.subtype)
       ((Subgroup.map_subtype_le _).trans Subgroup.le_normalizer)
-      ((hS.toSylow.isPGroup').map H.subtype) le_rfl
+      ((hS.toSylow.isPGroup).map H.subtype) le_rfl
   obtain ⟨-, K, _, _, b, c, hK, hirr, hreal⟩ := h.2
   have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
   have hK4 : 4 ≤ Nat.card K := by

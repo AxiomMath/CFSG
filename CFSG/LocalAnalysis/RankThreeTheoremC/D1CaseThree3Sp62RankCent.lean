@@ -40,7 +40,7 @@ theorem _root_.CFSG.AGLEmbedding.D1Sp62Data.sylow_eq_of_omegaEight {P : Sylow 3 
         _ = mk ⟨a, hPM a.2⟩ * y := by group
     have haN := hC haC
     have hco : Nat.Coprime 3 (Nat.card (GLBPrimeCore 3 H)) := glbPrimeCore_coprime 3 H
-    obtain ⟨k, hk⟩ := P.isPGroup' a
+    obtain ⟨k, hk⟩ := P.isPGroup a
     have hdvd : orderOf (a : G) ∣ Nat.card (GLBPrimeCore 3 H) :=
       Subgroup.orderOf_dvd_natCard _ haN
     have hdvd' : orderOf (a : G) ∣ 3 ^ k :=
@@ -49,7 +49,7 @@ theorem _root_.CFSG.AGLEmbedding.D1Sp62Data.sylow_eq_of_omegaEight {P : Sylow 3 
       Nat.Coprime.eq_one_of_dvd ((Nat.Coprime.coprime_dvd_right hdvd hco).pow_left k).symm hdvd'
     exact Subtype.ext (orderOf_eq_one_iff.mp h1)
   have hpg : IsPGroup 3 ψ.range :=
-    P.isPGroup'.of_surjective ψ.rangeRestrict ψ.rangeRestrict_surjective
+    P.isPGroup.of_surjective ψ.rangeRestrict ψ.rangeRestrict_surjective
   have hcard : Nat.card (P : Subgroup G) = Nat.card ψ.range :=
     Nat.card_congr (MonoidHom.ofInjective hψ).toEquiv
   have hdvd : Nat.card ψ.range ∣ 3 ^ 4 := hKA _ d hd e ψ.range hpg

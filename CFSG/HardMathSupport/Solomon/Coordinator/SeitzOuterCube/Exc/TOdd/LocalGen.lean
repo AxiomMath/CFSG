@@ -64,7 +64,7 @@ theorem cen_le_closure_model_odd (P : D4ParOdd ℓ f X σ) {E : Subgroup (MulAut
     (hein : e ∉ (MulAut.conj : C0 σ →* MulAut (C0 σ)).range) :
     cenX σ x ≤ Subgroup.closure {l | l ∈ cenX σ x ∧ ∃ y ∈ E,
       y ∉ Subgroup.zpowers (MulAut.conj x : MulAut (C0 σ)) ∧ y l = l} := by
-  haveI : Finite (C0 σ) := finite_C0
+  have : Finite (C0 σ) := finite_C0
   have hx3 : x ^ 3 = 1 := pow_three_of_conj_mem P hE hx
   obtain ⟨g, hg | hg⟩ := KS11Lie6Proof.d4ThreeConj_holds X (ℓ ^ f) σ P.card P.frob
     P.not_three_dvd x hx3 hx1

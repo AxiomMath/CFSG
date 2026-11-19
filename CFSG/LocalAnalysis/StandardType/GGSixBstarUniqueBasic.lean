@@ -91,7 +91,7 @@ theorem exists_maximal_pSubgroup {p : ℕ} (hp : p.Prime) {N Q : Subgroup G} (hQ
       ∀ R : Subgroup G, R ≤ N → IsPGroup p R → P ≤ R → R = P := by
   have : Fact p.Prime := ⟨hp⟩
   obtain ⟨S, hS⟩ := (hQ.comap_of_injective N.subtype N.subtype_injective).exists_le_sylow
-  refine ⟨(S : Subgroup ↥N).map N.subtype, Subgroup.map_subtype_le _, S.isPGroup'.map N.subtype,
+  refine ⟨(S : Subgroup ↥N).map N.subtype, Subgroup.map_subtype_le _, S.isPGroup.map N.subtype,
     fun q hq => ⟨⟨q, hQN hq⟩, hS hq, rfl⟩, fun R hRN hRp hPR => ?_⟩
   have hRp' : IsPGroup p (R.subgroupOf N) :=
     hRp.comap_of_injective N.subtype N.subtype_injective

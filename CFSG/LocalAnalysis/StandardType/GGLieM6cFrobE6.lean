@@ -121,9 +121,9 @@ private theorem m6c_abelianPreimage_unfolded
       baseChangeGL ι (e6Isogeny k y : ModGL Tag.E6 k) ∈ A → x * y = y * x := by
   intro k hk hkfin ι x y hx hy
   classical
-  haveI : CharP k 2 := ι.charP ι.injective 2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : ExpChar k 2 := expChar_prime k 2
+  have : CharP k 2 := ι.charP ι.injective 2
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : ExpChar k 2 := expChar_prime k 2
   let θ : k →+* k := iterateFrobenius k 2 f
   have hθ : ∀ c, ι (θ c) = ggFrobT f (ι c) := by
     intro c

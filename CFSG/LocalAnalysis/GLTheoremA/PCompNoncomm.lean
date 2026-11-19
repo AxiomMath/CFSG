@@ -17,7 +17,7 @@ theorem exists_mul_ne_mul_of_glaPComponent {G : Type} [Group G] [Finite G] {p : 
     by_contra hne
     exact h ⟨a, b, hne⟩
   have hq := isQuasisimple_pQuot_of_glaPComponent hp hL
-  haveI := isQuasisimple_nontrivial hq
+  have := isQuasisimple_nontrivial hq
   have hQc : ∀ a b : PQuot p L, a * b = b * a := by
     intro a b
     obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective a

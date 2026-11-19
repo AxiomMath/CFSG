@@ -56,7 +56,7 @@ theorem sec8_bridge_data (hc : Ctx M Q Z B) {n : ℕ} {t r g l : G} (h : Sec8Out
   have hVx : ∀ v ∈ Vt M (LB M Q B) B Z t, ⁅g * t * g⁻¹, v⁆ ∈ Z :=
     fun v hv => h.hvan v (hVV₁ hv)
   obtain ⟨K, iF, iFin, iCh, γ, M₀, hD⟩ := stroth_globalModelData hc.hyp
-  haveI := iCh
+  have := iCh
   have hxH : g * t * g⁻¹ ∈ H0 M Z := sec8_conj_mem_H0 hc hgM (hc.LB_le_H0 ht)
   have hxcz : ∀ z ∈ Z, (g * t * g⁻¹) * z * (g * t * g⁻¹)⁻¹ = z := fun z hz => by
     rw [← Subgroup.mem_centralizer_iff.mp hxH.2 z hz, mul_inv_cancel_right]

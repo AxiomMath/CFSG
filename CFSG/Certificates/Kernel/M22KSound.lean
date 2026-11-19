@@ -39,9 +39,9 @@ theorem stepORel (gs : List (List ℕ)) (uw : ℕ × List ℕ) (i : ℕ)
   dsimp only
   rw [h1, CFSG.KC.Mat12P.mvNR_eq]
   by_cases hc : memP b1 (mvN (gs.getD i []) uw.1) = true
-  · rw [if_pos hc, if_pos hc]
+  · rw [ite_eq_left hc, ite_eq_left hc]
     exact ⟨rfl, h1⟩
-  · rw [if_neg hc, if_neg hc]
+  · rw [ite_eq_right hc, ite_eq_right hc]
     refine ⟨rfl, fun z => ?_⟩
     dsimp only
     rw [Std.HashSet.contains_insert, memP_insP, h1]

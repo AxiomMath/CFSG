@@ -82,11 +82,11 @@ private theorem ggL45NtVacRank1_linear {p N : ℕ} (hp : p.Prime) (hp2 : p ≠ 2
   obtain ⟨m, hm1, hmN⟩ := hN
   have hKcard : Nat.card K = 2 ^ m := by rw [hKN, hmN]
   have hKchar : CharP K 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fintype K := Fintype.ofFinite K
     exact charP_of_card_eq_prime_pow (p := 2) (f := m)
       (by rw [← Nat.card_eq_fintype_card]; exact hKcard)
-  haveI : CharP K 2 := hKchar
+  have : CharP K 2 := hKchar
   refine ⟨K, inferInstance, inferInstance, hKN, hQ, ?_⟩
   right
   rintro ⟨A, hAab, hAcard, hAI⟩
@@ -128,7 +128,7 @@ theorem ggL45NtVacOn_rankOne :
       have := hlab
       simp only [LargeEvenInLambda2] at this
       exact this.1
-    simp only [LargeEvenRawDatum, LargeEvenRecipeLinear, ↓reduceIte] at hQ ⊢
+    simp only [LargeEvenRawDatum, LargeEvenRecipeLinear] at hQ ⊢
     exact ggL45NtVacRank1_linear hp hp2 ⟨n, hn, rfl⟩ hQ
   · subst htag
     subst hrank

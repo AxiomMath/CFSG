@@ -53,7 +53,7 @@ theorem false_of_index_eight {Γ : Type*} [Group Γ] [Finite Γ] {S X : Subgroup
     have hSL : S ≤ L := by
       have : L ⊓ S = S := Subgroup.eq_of_le_of_card_ge inf_le_right (by rw [hmul, hS])
       exact this ▸ inf_le_left
-    haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+    have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
     have hF := Sylow.normalizer_sup_eq_top' (Sylow.ofCard S (card_eq_sylow_seven hS hΓ)) hSL
     change normalizer (S : Set Γ) ⊔ L = ⊤ at hF
     have hXt : X = ⊤ := top_le_iff.1 (hF ▸ sup_le hX hLX)
@@ -108,7 +108,7 @@ theorem eq_normalizer_or_eq {G : Type*} [Group G] [Finite G] {S Y H : Subgroup G
     rw [hY] at this
     exact absurd this (by norm_num)
   have hm7 : m % 7 = 1 := by
-    haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+    have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
     have hS' : Nat.card (S.subgroupOf H) = 343 := by
       rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hSH).toEquiv, hS]
     set P := Sylow.ofCard (S.subgroupOf H) (card_eq_sylow_seven hS' hH4)

@@ -39,6 +39,7 @@ variable (σ : K ≃+* K) {D : Finset ℕ} (hD : ∀ d ∈ D, d ≤ r) {h x g : 
   (hgeq : g = h * fieldConj r K σ x * h⁻¹ * x⁻¹) (hg : g ∈ plusFlagStabO K r D)
 
 include hgeq in
+omit [Finite K] [CharP K 2] in
 theorem plusEBlockHomO_rel {b : ℕ} (hb : b ∈ D)
     (h1 : plusEBlockHomO hD hb ⟨g, hg⟩ = 1) :
     ((plusEBlockHomO hD hb ⟨h, hh⟩ : GL (Fin (b - predCut D b)) K) :
@@ -64,6 +65,7 @@ theorem plusEBlockHomO_rel {b : ℕ} (hb : b ∈ D)
   exact h3
 
 include hgeq in
+omit [Finite K] [CharP K 2] in
 theorem plusResBlockHomO_rel {t m : ℕ} (ht : t = 0 ∨ t ∈ D) (htm : t + m = r)
     (h1 : plusResBlockHomO hD ht htm ⟨g, hg⟩ = 1) :
     ((plusResBlockHomO hD ht htm ⟨h, hh⟩ : GL (Fin m ⊕ Fin m) K) :
@@ -99,6 +101,7 @@ theorem coordIdx_plusResIdx {t m : ℕ} (htm : t + m = r) (a : Fin m ⊕ Fin m) 
     (coordIdx (plusResIdx htm a)).val = t + (coordIdx a).val := by
   rcases a with s | s <;> rfl
 
+omit [Finite K] [CharP K 2] in
 theorem plusResExt_rpElt {t m : ℕ} (htm : t + m = r) {a b : Fin m ⊕ Fin m}
     (hab : coordIdx a ≠ coordIdx b) (s : K) :
     plusResExt K htm (rpElt a b s) = rpElt (plusResIdx htm a) (plusResIdx htm b) s := by
@@ -122,13 +125,13 @@ theorem plusResExt_rpElt {t m : ℕ} (htm : t + m = r) {a b : Fin m ⊕ Fin m}
       exact hboth ⟨not_not.1 (fun h => hc (Or.inl h)), not_not.1 (fun h => hc (Or.inr h))⟩
     rw [extendMat_apply_of_not_mem _ _ hnot]
     have h1 : Matrix.single (plusResIdx htm a) (plusResIdx htm b) (1 : K) u v = 0 := by
-      rw [Matrix.single_apply, if_neg]
+      rw [Matrix.single_apply, ite_eq_right]
       rintro ⟨h1, h2⟩
       rcases hnot with hu | hv
       · exact hu ⟨a, h1⟩
       · exact hv ⟨b, h2⟩
     have h2 : Matrix.single (plusResIdx htm b).swap (plusResIdx htm a).swap (1 : K) u v = 0 := by
-      rw [Matrix.single_apply, if_neg]
+      rw [Matrix.single_apply, ite_eq_right]
       rintro ⟨h1, h2⟩
       rcases hnot with hu | hv
       · exact hu ⟨b.swap, by rw [plusResIdx_swap, h1]⟩
@@ -136,6 +139,7 @@ theorem plusResExt_rpElt {t m : ℕ} (htm : t + m = r) {a b : Fin m ⊕ Fin m}
     simp only [Matrix.add_apply, Matrix.smul_apply, rpMat, Matrix.sub_apply, h1, h2, sub_zero,
       smul_zero, add_zero]
 
+omit [Finite K] [CharP K 2] in
 theorem plusResExt_rpElt_mem {D : Finset ℕ} {t m : ℕ} (htm : t + m = r)
     (hDt : ∀ d ∈ D, d ≤ t) {a b : Fin m ⊕ Fin m} (hab : coordIdx a ≠ coordIdx b) (s : K) :
     plusResExt K htm (rpElt a b s) ∈ plusFlagStab K r D :=
@@ -143,6 +147,7 @@ theorem plusResExt_rpElt_mem {D : Finset ℕ} {t m : ℕ} (htm : t + m = r)
     rw [plusResExt_rpElt htm hab s]
     exact eichler_mem_elementaryGroup _ _ _)
 
+omit [Finite K] [CharP K 2] in
 theorem coe_plusResBlockHom_plusResExt {D : Finset ℕ} (hD : ∀ d ∈ D, d ≤ r) {t m : ℕ}
     (ht : t = 0 ∨ t ∈ D) (htm : t + m = r) (h : GLV m K)
     (hq : plusResExt K htm h ∈ plusFlagStab K r D) :
@@ -152,6 +157,7 @@ theorem coe_plusResBlockHom_plusResExt {D : Finset ℕ} (hD : ∀ d ∈ D, d ≤
   change (autMat (plusResExt K htm h)).submatrix _ _ = _
   rw [autMat_plusResExt, submatrix_extendMat]
 
+omit [Finite K] [CharP K 2] in
 theorem map_one_add_smul_rpMat {m : ℕ} (σ : K ≃+* K) (a b : Fin m ⊕ Fin m) (s : K) :
     (1 + s • rpMat K a b : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) K).map σ =
       1 + σ s • rpMat K a b := by
@@ -214,6 +220,7 @@ theorem gl_block {α : MulAut ↥(orthElementaryGroup (quadPlus r K))}
   exact ⟨fun s => hσ s, c, hc⟩
 
 include hr in
+omit hr [Finite K] [CharP K 2] in
 theorem res_block (hDt : ∀ d ∈ D, d ≤ t) (hm : 2 ≤ m)
     {α : MulAut ↥(orthElementaryGroup (quadPlus r K))}
     (hNF : NormFix hD ht htm α) {h : GLV r K} {σ : K ≃+* K}
@@ -253,6 +260,7 @@ theorem res_block (hDt : ∀ d ∈ D, d ≤ t) (hm : 2 ≤ m)
 
 end Blocks
 
+omit [Finite K] [CharP K 2] in
 theorem gl_mul_comm_of_lt_two {k : ℕ} (hk : k < 2) (g h : GL (Fin k) K) : g * h = h * g := by
   rcases (show k = 0 ∨ k = 1 by omega) with rfl | rfl
   · exact Subsingleton.elim _ _
@@ -263,9 +271,11 @@ theorem gl_mul_comm_of_lt_two {k : ℕ} (hk : k < 2) (g h : GL (Fin k) K) : g * 
     subst hi hj
     simp [Matrix.mul_apply, mul_comm]
 
+omit [Finite K] [CharP K 2] in
 theorem gl_subsingleton_zero : Subsingleton (GL (Fin 0 ⊕ Fin 0) K) :=
   ⟨fun g h => Units.ext (Matrix.ext fun i => by rcases i with i | i <;> exact i.elim0)⟩
 
+omit [Finite K] [CharP K 2] in
 theorem mem_center_of_eq_smul_one {ι : Type} [Fintype ι] [DecidableEq ι] {z : GL ι K} {c : K}
     (hz : (z : Matrix ι ι K) = c • 1) : z ∈ Subgroup.center (GL ι K) := by
   rw [Subgroup.mem_center_iff]
@@ -311,7 +321,7 @@ theorem exists_data (hr : 3 ≤ r) {D : Finset ℕ} (hD : ∀ d ∈ D, 1 ≤ d �
   have hσ : ∀ s : K, σ s = s := by
     rcases hblk with ⟨b, hb, hk⟩ | hm2
     · exact (gl_block hr hD' ht htm hNF hα hh hb hk).1
-    · exact (res_block hr hD' ht htm hDt hm2 hNF hα hh).1
+    · exact (res_block hD' ht htm hDt hm2 hNF hα hh).1
   have hσ1 : σ = 1 := RingEquiv.ext hσ
   refine ⟨h, hh, fun x => ?_, fun b hb => ?_, ?_⟩
   · rw [hα, hσ1, fieldConj_one]
@@ -321,11 +331,12 @@ theorem exists_data (hr : 3 ≤ r) {D : Finset ℕ} (hD : ∀ d ∈ D, 1 ≤ d �
     · exact Subgroup.mem_center_iff.2 fun g => gl_mul_comm_of_lt_two (by omega) _ _
   · rcases hm with hm0 | hm2
     · subst hm0
-      haveI := gl_subsingleton_zero (K := K)
+      have := gl_subsingleton_zero (K := K)
       exact Subgroup.mem_center_iff.2 fun g => Subsingleton.elim _ _
-    · obtain ⟨c, hc⟩ := (res_block hr hD' ht htm hDt hm2 hNF hα hh).2
+    · obtain ⟨c, hc⟩ := (res_block hD' ht htm hDt hm2 hNF hα hh).2
       exact mem_center_of_eq_smul_one hc
 
+omit [Finite K] [CharP K 2] in
 theorem mem_normalizer_orthElementaryGroup {h : GLV r K}
     (hO : h ∈ TauCeti.QuadraticMap.orthogonalGroup (quadPlus r K)) :
     h ∈ Subgroup.normalizer (orthElementaryGroup (quadPlus r K) : Set (GLV r K)) := by

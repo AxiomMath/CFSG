@@ -99,9 +99,9 @@ private theorem plRunSorted_eq (get : ℕ → ℕ) (qb m : ℕ) (Cs : List ℕ) 
 
 theorem runSorted_inj {get : ℕ → ℕ} {qb m : ℕ} {cs : List ℕ} {sf : ℕ}
     (hrun : CFSG.KC.Th.DceS.runSorted get qb m cs 1 = sf)
-    (hcount : CFSG.KC.Th.DceS.sortedCount sf = m) (hm : 0 < m) (hm' : m + 2 < 2 ^ 20) :
+    (hcount : CFSG.KC.Th.DceS.sortedCount sf = m) (_hm : 0 < m) (_hm' : m + 2 < 2 ^ 20) :
     ∀ i < m, ∀ j < m, i < j → get i ≠ get j := by
-  clear hm hm'
+  clear _hm _hm'
   obtain ⟨-, hinj⟩ := CFSG.Certificates.DceLoop.sortRun_spec (plRunSorted_eq _ _ _ _ _ ▸ hrun)
     hcount
   intro i hi j hj hij heq

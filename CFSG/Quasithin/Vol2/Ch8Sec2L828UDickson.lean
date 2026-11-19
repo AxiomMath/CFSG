@@ -12,8 +12,8 @@ open scoped MatrixGroups
 
 theorem ob5_perfect_card_six_false {G : Type} [Group G] [Finite G] [Group.IsPerfect G]
     (h6 : Nat.card G = 6) : False := by
-  haveI : Fintype G := Fintype.ofFinite G
-  haveI : Fact (Nat.Prime 3) := ⟨by decide⟩
+  have : Fintype G := Fintype.ofFinite G
+  have : Fact (Nat.Prime 3) := ⟨by decide⟩
   have hdvd : 3 ∣ Fintype.card G := by
     rw [← Nat.card_eq_fintype_card, h6]
     norm_num
@@ -25,11 +25,11 @@ theorem ob5_perfect_card_six_false {G : Type} [Group G] [Finite G] [Group.IsPerf
     have := Subgroup.card_mul_index (H := N)
     rw [hNcard, h6] at this
     omega
-  haveI : N.Normal := Subgroup.normal_of_index_eq_two hidx
-  haveI : Group.IsPerfect (G ⧸ N) := Group.IsPerfect.ofSurjective (QuotientGroup.mk'_surjective N)
+  have : N.Normal := Subgroup.normal_of_index_eq_two hidx
+  have : Group.IsPerfect (G ⧸ N) := Group.IsPerfect.ofSurjective (QuotientGroup.mk'_surjective N)
   have hQ : Nat.card (G ⧸ N) = 2 := hidx
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Nontrivial (G ⧸ N) := by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Nontrivial (G ⧸ N) := by
     rw [← Finite.one_lt_card_iff_nontrivial, hQ]
     norm_num
   have hcyc : IsCyclic (G ⧸ N) := isCyclic_of_prime_card (p := 2) hQ
@@ -44,33 +44,33 @@ theorem ob5_false_of_solvable_perfect (K : Type) [Group K] [Nontrivial K] [Group
 
 theorem ob5_perfect_SL_card (H : Subgroup ob5SL)
     [Group.IsPerfect H] (hne : H ≠ ⊥) : Nat.card H = 60 ∨ Nat.card H = 4080 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Hp : Subgroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 4)) :=
     H.map ob5Proj with hHp
   have hinj : Function.Injective (ob5Proj : ob5SL → _) := ob5_proj_injective
   let e : H ≃* Hp := Subgroup.equivMapOfInjective H ob5Proj hinj
   have hcard : Nat.card Hp = Nat.card H := (Nat.card_congr e.toEquiv).symm
-  haveI : Group.IsPerfect Hp := Group.IsPerfect.ofSurjective (f := e.toMonoidHom) e.surjective
-  haveI : Nontrivial H := (Subgroup.nontrivial_iff_ne_bot H).mpr hne
-  haveI : Nontrivial Hp := Function.Surjective.nontrivial (f := e.symm) e.symm.surjective
+  have : Group.IsPerfect Hp := Group.IsPerfect.ofSurjective (f := e.toMonoidHom) e.surjective
+  have : Nontrivial H := (Subgroup.nontrivial_iff_ne_bot H).mpr hne
+  have : Nontrivial Hp := Function.Surjective.nontrivial (f := e.symm) e.symm.surjective
   have hD := CFSG.Quasithin.F6.dicksonPSL2_holds 2 4 (by norm_num) Hp
   rw [← hcard]
   rcases hD with h1 | h2 | h3 | h4 | h5 | h6 | h7 | h8 | h9
   ·
     obtain ⟨hab, -⟩ := h1
-    haveI : IsMulCommutative Hp := hab.1
+    have : IsMulCommutative Hp := hab.1
     exact (ob5_false_of_solvable_perfect Hp (Group.isSolvable_of_comm
       (fun a b => (inferInstance : IsMulCommutative Hp).is_comm.comm a b))).elim
   · obtain ⟨hcyc, -⟩ := h2
-    haveI := hcyc
+    have := hcyc
     exact (ob5_false_of_solvable_perfect Hp (Group.isSolvable_of_comm
       (fun a b => (inferInstance : IsMulCommutative Hp).is_comm.comm a b))).elim
   · obtain ⟨z, -, ⟨f⟩⟩ := h3
-    haveI := CFSG.Quasithin.Dickson.isSolvable_dihedral z
+    have := CFSG.Quasithin.Dickson.isSolvable_dihedral z
     exact (ob5_false_of_solvable_perfect Hp
       (Group.isSolvable_of_isSolvable_injective (f := f.toMonoidHom) f.injective)).elim
   · obtain ⟨-, ⟨f⟩⟩ := h4
-    haveI : Group.IsSolvable (alternatingGroup (Fin 4)) :=
+    have : Group.IsSolvable (alternatingGroup (Fin 4)) :=
       alternatingGroup.isSolvable (by simp)
     exact (ob5_false_of_solvable_perfect Hp
       (Group.isSolvable_of_isSolvable_injective (f := f.toMonoidHom) f.injective)).elim
@@ -80,10 +80,10 @@ theorem ob5_perfect_SL_card (H : Subgroup ob5SL)
     left
     rw [Nat.card_congr f.toEquiv, CFSG.Quasithin.H13.NQCore.card_alternating_five']
   · obtain ⟨m, t, P, hPn, hPab, -, hPcyc, -⟩ := h7
-    haveI : P.Normal := hPn
+    have : P.Normal := hPn
     have hPs : Group.IsSolvable P := Group.isSolvable_of_comm
       (fun a b => hPab.1.is_comm.comm a b)
-    haveI := hPcyc
+    have := hPcyc
     have hQs : Group.IsSolvable (Hp ⧸ P) := Group.isSolvable_of_comm
       (fun a b => (inferInstance : IsMulCommutative (Hp ⧸ P)).is_comm.comm a b)
     exact (ob5_false_of_solvable_perfect Hp

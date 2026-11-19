@@ -45,8 +45,8 @@ theorem blk_partner : ∀ i, blk (partner i) = blk i := by decide
   Function.Involutive.toPerm (fun i => if d (blk i) = 1 then partner i else i) (by
     intro i
     by_cases h : d (blk i) = 1
-    · simp only [h, if_true, blk_partner, partner_partner]
-    · simp only [h, if_false])
+    · simp only [h, ite_true, blk_partner, partner_partner]
+    · simp only [h, ite_false])
 
 @[expose] def cS (c d : Fin 3 → ZMod 2) : Wr 6 := ⟨fun i => c (blk i), swapsOf d⟩
 

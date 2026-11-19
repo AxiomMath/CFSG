@@ -50,7 +50,7 @@ theorem isQuasisimple_of_localB_component {Q : Type} [Group Q] [Finite Q]
 theorem isComponent_subgroupOf_of_localB_component {Q : Type} [Group Q] [Finite Q]
     (hB : CFSG.Assembly.ComponentType.LocalBProperty Q)
     {a : Q} (ha : orderOf a = 2) {A : Subgroup Q}
-    (hAC : A ≤ centralizer ({a} : Set Q))
+    (_hAC : A ≤ centralizer ({a} : Set Q))
     (hA : IsPComponent 2 (A.subgroupOf (centralizer ({a} : Set Q)))) :
     IsComponent (A.subgroupOf (centralizer ({a} : Set Q))) := by
   let C : Subgroup Q := centralizer ({a} : Set Q)
@@ -96,6 +96,7 @@ theorem exists_commuting_involution_lifts {H Q : Type} [Group H] [Finite H] [Gro
     CFSG.OrderReductions.OddKernelInvolutions.exists_commuting_involution_lift π hπ hodd a B hcomm
   exact ⟨a.val, b.val, a.property, b.property, hcommab, haeq, hbeq⟩
 
+omit [Finite G] in
 theorem le_conjClosure_sup_oddCore_of_normalClosure_map_eq_top
     {V A : Subgroup G} (hAV : A ≤ V)
     (h : Subgroup.normalClosure
@@ -151,7 +152,7 @@ theorem canonicalPerfectLift_map_quotient {H : Subgroup G}
     change π h ∈ A
     rw [hh]
     exact a.2
-  letI : Group.IsPerfect A := hAperf
+  let : Group.IsPerfect A := hAperf
   have hres := CFSG.ComponentClassification.SolMax.perfectResidual_map_eq_top f hf
   have htopA : (⊤ : Subgroup A).map A.subtype = A := by
     simpa using Subgroup.subgroupOf_map_subtype (⊤ : Subgroup (H ⧸ pPrimeCore 2 H)) A
@@ -180,7 +181,7 @@ theorem eq_of_relative_cover
     (hKc : IsComponent ((conjugate K abar).subgroupOf (centralizer ({bbar} : Set Q))))
     (hKle : K ≤ centralizer ({bbar} : Set Q))
     (hKcle : conjugate K abar ≤ centralizer ({bbar} : Set Q))
-    (hAq : IsQuasisimple A)
+    (_hAq : IsQuasisimple A)
     (hAcent : A ≤ centralizer ({abar} : Set Q))
     (hWbar : Wbar = K ⊔ conjugate K abar)
     (hAK : A ≤ Wbar)
@@ -296,15 +297,15 @@ theorem isQuasisimple_oddCoreQuotient_of_perfect_simple
     (hP : Group.IsPerfect P) (e : P ⧸ pPrimeCore 2 P ≃* T) :
     IsQuasisimple (P ⧸ pPrimeCore 2 P) := by
   let Q := P ⧸ pPrimeCore 2 P
-  haveI : Group.IsPerfect Q :=
+  have : Group.IsPerfect Q :=
     Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' (pPrimeCore 2 P))
       (QuotientGroup.mk'_surjective (pPrimeCore 2 P))
-  haveI : IsSimpleGroup Q := e.isSimpleGroup
-  haveI : Nontrivial Q := e.toEquiv.nontrivial
+  have : IsSimpleGroup Q := e.isSimpleGroup
+  have : Nontrivial Q := e.toEquiv.nontrivial
   refine (LocalCores.isQuasisimple_of_isSimpleGroup (Q := Q) ?_).1
   by_contra h
   push Not at h
-  haveI : IsMulCommutative Q := ⟨⟨fun a b => h a b⟩⟩
+  have : IsMulCommutative Q := ⟨⟨fun a b => h a b⟩⟩
   exact Group.IsPerfect.not_isMulCommutative (G := Q) inferInstance
 
 theorem gsFixedLayer_eq_self_of_isQuasisimple {H : Type} [Group H] [Finite H]
@@ -521,8 +522,8 @@ theorem relative_normal_generation
         (CFSG.pPrimeCore_coprime_card (p := 2) (G := V))
     have hAodd : Odd (Nat.card A) :=
       hOodd.of_dvd_nat (Subgroup.card_dvd_of_le hle)
-    haveI : Nontrivial A := CFSG.LocalCores.isQuasisimple_nontrivial hAq
-    haveI : Group.IsPerfect A := hAq.1
+    have : Nontrivial A := CFSG.LocalCores.isQuasisimple_nontrivial hAq
+    have : Group.IsPerfect A := hAq.1
     exact Group.IsPerfect.not_isSolvable A (CFSG.FeitThompson.isSolvable_of_odd_natCard _ hAodd)
   have hNC := UnbalancedCorr.normalClosure_map_eq_top_of_orbit haa hKle hKpC rfl hVM haV
     hAK hAcent hWperf hWodd
@@ -552,7 +553,7 @@ theorem fixedShadowAt_canonical_lift_map_eq {H : Subgroup G}
     (hPmap : ((canonicalPerfectLift H A).subgroupOf H).map
       (QuotientGroup.mk' (pPrimeCore 2 H)) = A)
     (hbG2 : orderOf (H.subtype b) = 2)
-    (hbbar : QuotientGroup.mk' (pPrimeCore 2 H) b = bbar)
+    (_hbbar : QuotientGroup.mk' (pPrimeCore 2 H) b = bbar)
     (hbCore : H.subtype b ∈ UnbalancedLayer.coreActionKernel
       (canonicalPerfectLift H A)) :
     ((fixedShadowAt (canonicalPerfectLift H A) (H.subtype b)).subgroupOf H).map
@@ -761,7 +762,7 @@ noncomputable def exists_relative_perfect_lift_normal_generation
     exact CFSG.RankThreeCoreUniqueness.Helpers.finite_perfectResidualOf_isPerfect D
   have hW0leD : W0 ≤ D := Subgroup.map_subtype_le _
   have hP0perf : Group.IsPerfect (P.subgroupOf H) := by
-    haveI : Group.IsPerfect P := hPperf
+    have : Group.IsPerfect P := hPperf
     exact Group.IsPerfect.ofSurjective
       (f := (Subgroup.subgroupOfEquivOfLe hPH).symm.toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hPH).symm.surjective
@@ -792,7 +793,7 @@ noncomputable def exists_relative_perfect_lift_normal_generation
     have hh := Subgroup.mem_centralizer_singleton_iff.mp hw0C
     simpa using congrArg (fun z : H => (z : G)) hh
   have hWperf : Group.IsPerfect W := by
-    haveI : Group.IsPerfect W0 := hW0perf
+    have : Group.IsPerfect W0 := hW0perf
     simpa [W] using Group.IsPerfect.map (H := W0) (f := H.subtype)
   let N : Subgroup G := FooteLit.conjClosure P W
   have hNW : N ≤ W := by
@@ -994,8 +995,8 @@ theorem relative_identity_of_localB
     simpa [u] using h
   have hKcle : conjugate K abar ≤ Cb :=
     CFSG.GroupTheory.conjugate_le_of_mem hKb habarCb
-  haveI : Group.IsPerfect (K.subgroupOf Cb) := hKcomp.1.1
-  haveI : Group.IsPerfect ((conjugate K abar).subgroupOf Cb) := hKccomp.1.1
+  have : Group.IsPerfect (K.subgroupOf Cb) := hKcomp.1.1
+  have : Group.IsPerfect ((conjugate K abar).subgroupOf Cb) := hKccomp.1.1
   have hKperf : Group.IsPerfect K :=
     Group.IsPerfect.ofSurjective
       (f := (Subgroup.subgroupOfEquivOfLe hKb).toMonoidHom)
@@ -1004,8 +1005,8 @@ theorem relative_identity_of_localB
     Group.IsPerfect.ofSurjective
       (f := (Subgroup.subgroupOfEquivOfLe hKcle).toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hKcle).surjective
-  haveI : Group.IsPerfect K := hKperf
-  haveI : Group.IsPerfect (conjugate K abar) := hKcperf
+  have : Group.IsPerfect K := hKperf
+  have : Group.IsPerfect (conjugate K abar) := hKcperf
   have hVperf : Group.IsPerfect V := by
     dsimp [V]
     exact CFSG.ComponentClassification.GSThmB.B5a.isPerfect_sup
@@ -1018,7 +1019,7 @@ theorem relative_identity_of_localB
     dsimp [π]
     exact QuotientGroup.mk'_surjective (pPrimeCore 2 H)
   have hker : π.ker = CFSG.pPrimeCore 2 H := by
-    simpa [π] using QuotientGroup.ker_mk' (CFSG.pPrimeCore 2 H)
+    simp [π]
   have hoddker : Odd (Nat.card π.ker) := by
     rw [hker]
     exact Nat.coprime_two_left.mp (CFSG.pPrimeCore_coprime_card (p := 2) (G := H))
@@ -1134,7 +1135,6 @@ theorem relative_identity_of_localB
   let πH : W →* H := Subgroup.inclusion hWH
   let πW : W →* V := (π.comp πH).codRestrict V (fun w => by
     dsimp [πH, V]
-    change π ((inclusion hWH) w) ∈ K ⊔ conjugate K abar
     rw [← hWmap]
     exact Subgroup.mem_map.mpr ⟨Subgroup.inclusion hWH w, by
       rw [Subgroup.mem_subgroupOf]
@@ -1242,10 +1242,11 @@ private noncomputable def relativeLiftA (M H : Subgroup G) (a : G) :
     Subgroup (H ⧸ pPrimeCore 2 H) :=
   ((fixedShadowAt M a).subgroupOf H).map (QuotientGroup.mk' (pPrimeCore 2 H))
 
+omit [Finite G] in
 private theorem relativeLiftA_le_centralizer
     {S : Set (Subgroup G)} {T : Type} [Group T] [IsSimpleGroup T]
-    {M H : Subgroup G} {a : G} (_hM : Marked S T M) (hMH : M ≤ H)
-    (ha : orderOf a = 2) (haH : a ∈ H) :
+    {M H : Subgroup G} {a : G} (_hM : Marked S T M) (_hMH : M ≤ H)
+    (_ha : orderOf a = 2) (haH : a ∈ H) :
     relativeLiftA M H a ≤
       centralizer ({QuotientGroup.mk' (pPrimeCore 2 H) ⟨a, haH⟩} :
         Set (H ⧸ pPrimeCore 2 H)) := by
@@ -1319,8 +1320,9 @@ private noncomputable def relMaCH (M H : Subgroup G) (a : G) (haH : a ∈ H) :
     Subgroup (relCH H a haH) :=
   (relMaH M H a).subgroupOf (relCH H a haH)
 
+omit [Finite G] in
 private lemma relMaCH_map_relF_eq_relK
-    {S : Set (Subgroup G)} {T : Type} [Group T] [IsSimpleGroup T]
+    {_S : Set (Subgroup G)} {T : Type} [Group T] [IsSimpleGroup T]
     {M H : Subgroup G} (hMH : M ≤ H) {a : G} (haH : a ∈ H)
     {Sa : Subgroup G} (hSaAt : IsTwoComponentAt a Sa)
     (himage : fixedShadowAt M a ⊔ FooteLit.oddCoreOfCentralizer a =
@@ -1383,7 +1385,8 @@ private lemma relMaCH_map_relF_eq_relK
     _ = MaC.map (QuotientGroup.mk' (pPrimeCore 2 C)) := by rw [hmapMaC]
     _ = relK a Sa := hmapEq.trans rfl
 
-private lemma relMaH_le_relCH {M H : Subgroup G} (hMH : M ≤ H) {a : G} (haH : a ∈ H) :
+omit [Finite G] in
+private lemma relMaH_le_relCH {M H : Subgroup G} (_hMH : M ≤ H) {a : G} (haH : a ∈ H) :
     relMaH M H a ≤ relCH H a haH := by
   intro x hx
   change x ∈ centralizer ({⟨a, haH⟩} : Set H)
@@ -1408,11 +1411,12 @@ private noncomputable def relMaCH_equiv_shadow {M H : Subgroup G} (hMH : M ≤ H
 private lemma relMaCH_perfect {M H : Subgroup G} (hMH : M ≤ H) {a : G} (haH : a ∈ H) :
     Group.IsPerfect (relMaCH M H a haH) := by
   let eMaCH := relMaCH_equiv_shadow hMH haH
-  haveI : Group.IsPerfect (fixedShadowAt M a) := fixedShadowAt_perfect M a
+  have : Group.IsPerfect (fixedShadowAt M a) := fixedShadowAt_perfect M a
   refine Group.IsPerfect.ofSurjective (f := eMaCH.symm.toMonoidHom) ?_
   intro y
   exact ⟨eMaCH y, eMaCH.symm_apply_apply y⟩
 
+omit [Finite G] in
 private lemma relMaCH_le_relI {M H : Subgroup G} {a : G} (haH : a ∈ H)
     {Sa : Subgroup G}
     (hMa_image : (relMaCH M H a haH).map (relF H a haH) = relK a Sa) :
@@ -1422,6 +1426,7 @@ private lemma relMaCH_le_relI {M H : Subgroup G} {a : G} (haH : a ∈ H)
   rw [← hMa_image]
   exact Subgroup.mem_map_of_mem (relF H a haH) hx
 
+omit [Finite G] in
 private lemma relI_subnormal {H : Subgroup G} {a : G} (haH : a ∈ H)
     {Sa : Subgroup G} (hKcomp : IsComponent (relK a Sa)) :
     (relI H a haH Sa).IsSubnormal := by
@@ -1434,12 +1439,13 @@ private lemma relJ0_perfect {H : Subgroup G} {a : G} (haH : a ∈ H)
   let R := CFSG.perfectResidual I
   let e : R ≃* relJ0 H a haH Sa :=
     R.equivMapOfInjective I.subtype I.subtype_injective
-  haveI : Group.IsPerfect R :=
+  have : Group.IsPerfect R :=
     CFSG.RankThreeCoreUniqueness.Helpers.finite_perfectResidual_isPerfect
   refine Group.IsPerfect.ofSurjective (f := e.toMonoidHom) ?_
   intro y
   exact ⟨e.symm y, e.apply_symm_apply y⟩
 
+omit [Finite G] in
 private lemma relJ0_subnormal {H : Subgroup G} {a : G} (haH : a ∈ H)
     {Sa : Subgroup G} (hKcomp : IsComponent (relK a Sa)) :
     (relJ0 H a haH Sa).IsSubnormal := by
@@ -1457,8 +1463,9 @@ private lemma relMaCH_le_relJ0 {M H : Subgroup G} (hMH : M ≤ H) {a : G} (haH :
     (relMaCH M H a haH) (relI H a haH Sa)
     (relMaCH_perfect hMH haH) (relMaCH_le_relI haH hMa_image)
 
+omit [Finite G] in
 private lemma relI_map_relF_eq_relK {H : Subgroup G} {a : G} (haH : a ∈ H)
-    {M : Subgroup G} (hMH : M ≤ H) {Sa : Subgroup G}
+    {M : Subgroup G} (_hMH : M ≤ H) {Sa : Subgroup G}
     (hMa_image : (relMaCH M H a haH).map (relF H a haH) = relK a Sa) :
     (relI H a haH Sa).map (relF H a haH) = relK a Sa := by
   apply le_antisymm
@@ -1482,6 +1489,7 @@ private lemma relJ0_map_relF_eq_relK {H : Subgroup G} {a : G} (haH : a ∈ H)
   · rw [← hMa_image]
     exact Subgroup.map_mono (relMaCH_le_relJ0 hMH haH hMa_image)
 
+omit [Finite G] in
 private lemma relIncl_injective (H : Subgroup G) (a : G) (haH : a ∈ H) :
     Function.Injective (relIncl H a haH) := by
   intro x y hxy
@@ -1529,7 +1537,7 @@ private noncomputable def relJ0_quotient_equiv_target {T : Type} [Group T]
   have hKnonab : ∃ x y : relK a Sa, x * y ≠ y * x := by
     by_contra h
     push Not at h
-    haveI : IsMulCommutative (relK a Sa) := ⟨⟨fun x y => h x y⟩⟩
+    have : IsMulCommutative (relK a Sa) := ⟨⟨fun x y => h x y⟩⟩
     exact Group.IsPerfect.not_isMulCommutative (G := relK a Sa) inferInstance
   have hOK : pPrimeCore 2 (relK a Sa) = ⊥ :=
     CFSG.Walter.pPrimeCore_eq_bot_of_isSimpleGroup hKnonab
@@ -1686,12 +1694,14 @@ private noncomputable def relAq (H : Subgroup G) (a : G) (haH : a ∈ H)
     (Sa : Subgroup G) : Subgroup (relQ H) :=
   (relA0 H a haH Sa).map (relCbar H a haH).subtype
 
+omit [Finite G] in
 private lemma relAq_le_centralizer (H : Subgroup G) (a : G) (haH : a ∈ H)
     (Sa : Subgroup G) :
     relAq H a haH Sa ≤ centralizer ({relAbar H a haH} : Set (relQ H)) := by
   rintro _ ⟨x, hx, rfl⟩
   exact x.property
 
+omit [Finite G] in
 private lemma relAq_isPComponent (H : Subgroup G) (a : G) (haH : a ∈ H)
     (Sa : Subgroup G) (hA0p : IsPComponent 2 (relA0 H a haH Sa)) :
     IsPComponent 2 ((relAq H a haH Sa).subgroupOf (relCbar H a haH)) := by
@@ -1702,7 +1712,7 @@ private lemma relAq_isPComponent (H : Subgroup G) (a : G) (haH : a ∈ H)
   rw [hsub]
   exact hA0p
 
-private lemma relAq_quasisimple {S : Set (Subgroup G)} {T : Type} [Group T]
+private lemma relAq_quasisimple {_S : Set (Subgroup G)} {T : Type} [Group T]
     [IsSimpleGroup T] {H : Subgroup G} {a : G} (haH : a ∈ H)
     (hB : CFSG.Assembly.ComponentType.LocalBProperty (relQ H))
     (ha : orderOf (relAbar H a haH) = 2) {Sa : Subgroup G}
@@ -1762,6 +1772,7 @@ private lemma relJ0_eq_maCH_sup_oddCore {S : Set (Subgroup G)} {T : Type} [Group
     ⟨relMaCH_quot_equiv_target hMH haH hM ha haQ⟩
     ⟨relJ0_quotient_equiv_target haH hKcomp hKsimple eK hJ0map⟩
 
+omit [Finite G] in
 private lemma relA0_eq_maCH_sup_oddCore {M H : Subgroup G} {a : G} (haH : a ∈ H)
     {Sa : Subgroup G}
     (hcover : relMaCH M H a haH ⊔ FooteLit.oddCoreIn (relJ0 H a haH Sa) =
@@ -1777,8 +1788,9 @@ private lemma relA0_eq_maCH_sup_oddCore {M H : Subgroup G} {a : G} (haH : a ∈ 
         (FooteLit.oddCoreIn (relJ0 H a haH Sa)).map (relPiCH H a haH) :=
       Subgroup.map_sup _ _ _
 
+omit [Finite G] in
 private lemma relMaCH_map_pi_eq_literalA {M H : Subgroup G} (hMH : M ≤ H)
-    {a : G} (haH : a ∈ H) {Sa : Subgroup G} :
+    {a : G} (haH : a ∈ H) {_Sa : Subgroup G} :
     ((relMaCH M H a haH).map (relPiCH H a haH)).map
         (relCbar H a haH).subtype =
       ((fixedShadowAt M a).subgroupOf H).map
@@ -1800,6 +1812,7 @@ private lemma relMaCH_map_pi_eq_literalA {M H : Subgroup G} (hMH : M ≤ H)
     _ = ((fixedShadowAt M a).subgroupOf H).map
           (QuotientGroup.mk' (pPrimeCore 2 H)) := rfl
 
+omit [Finite G] in
 private lemma relA0_quasisimple (H : Subgroup G) (a : G) (haH : a ∈ H)
     (Sa : Subgroup G) (hAq : IsQuasisimple (relAq H a haH Sa)) :
     IsQuasisimple (relA0 H a haH Sa) :=
@@ -1869,20 +1882,20 @@ private lemma relA0_eq_imageMaCH {S : Set (Subgroup G)} {T : Type} [Group T]
     rw [Subgroup.subgroupOf_sup hImage_le_A0 hoddCore_le_A0] at h
     simpa [J, P, Subgroup.subgroupOf_self] using h.symm
   have hImaPerf : Group.IsPerfect Ima := by
-    haveI : Group.IsPerfect (relMaCH M H a haH) := relMaCH_perfect hMH haH
+    have : Group.IsPerfect (relMaCH M H a haH) := relMaCH_perfect hMH haH
     exact Group.IsPerfect.map (H := relMaCH M H a haH) (f := relPiCH H a haH)
   have hJperf : Group.IsPerfect J := by
     let e := Subgroup.subgroupOfEquivOfLe hImage_le_A0
     exact Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
   have hPcomm : ⁅(⊤ : Subgroup A0), (⊤ : Subgroup A0)⁆ = (⊤ : Subgroup A0) := by
-    haveI : Group.IsPerfect (⊤ : Subgroup A0) :=
+    have : Group.IsPerfect (⊤ : Subgroup A0) :=
       Group.IsPerfect.top_iff.mpr hA0q.1
     exact Subgroup.commutator_eq_self (H := (⊤ : Subgroup A0))
   have hle : (⊤ : Subgroup A0) ≤ J ⊔ Subgroup.center A0 := by
     rw [← hcoverA0]
     exact sup_le le_sup_left (hPcenter.trans le_sup_right)
   have hJcomm : ⁅J, J⁆ = J := by
-    haveI : Group.IsPerfect J := hJperf
+    have : Group.IsPerfect J := hJperf
     exact Subgroup.commutator_eq_self
   have htop_le_J : (⊤ : Subgroup A0) ≤ J :=
     CFSG.le_of_perfect_of_le_sup_center hJcomm hPcomm hle
@@ -1890,6 +1903,7 @@ private lemma relA0_eq_imageMaCH {S : Set (Subgroup G)} {T : Type} [Group T]
   have hA0_le_Ima : A0 ≤ Ima := Subgroup.subgroupOf_eq_top.mp hJtop
   exact le_antisymm hA0_le_Ima hImage_le_A0
 
+omit [Finite G] in
 private lemma relAq_eq_literalA {M H : Subgroup G} (hMH : M ≤ H)
     {a : G} (haH : a ∈ H) {Sa : Subgroup G}
     (hA0eq : relA0 H a haH Sa =
@@ -1904,9 +1918,9 @@ private lemma relAq_eq_literalA {M H : Subgroup G} (hMH : M ≤ H)
         (relCbar H a haH).subtype := by rw [hA0eq]
     _ = ((fixedShadowAt M a).subgroupOf H).map
         (QuotientGroup.mk' (pPrimeCore 2 H)) :=
-      relMaCH_map_pi_eq_literalA (Sa := Sa) hMH haH
+      relMaCH_map_pi_eq_literalA (_Sa := Sa) hMH haH
 
-private noncomputable def relLiteralA (M H : Subgroup G) (a : G) (haH : a ∈ H) :
+private noncomputable def relLiteralA (M H : Subgroup G) (a : G) (_haH : a ∈ H) :
     Subgroup (relQ H) :=
   ((fixedShadowAt M a).subgroupOf H).map
     (QuotientGroup.mk' (pPrimeCore 2 H))
@@ -1949,7 +1963,7 @@ private noncomputable def relP_quot_equiv_target {T : Type} [Group T]
     exact canonicalPerfectLift_map_quotient hAperf
   have hπ : ¬ 2 ∣ Nat.card π.ker := by
     rw [show π.ker = pPrimeCore 2 H by
-      simpa [π] using QuotientGroup.ker_mk' (pPrimeCore 2 H)]
+      simp [π]]
     exact Nat.prime_two.coprime_iff_not_dvd.mp
       (CFSG.pPrimeCore_coprime_card (p := 2) (G := H))
   have hker : ¬ 2 ∣ Nat.card (π.domRestrict PH).ker :=
@@ -1974,7 +1988,7 @@ private noncomputable def relP_quot_equiv_target {T : Type} [Group T]
 private lemma relP_marked {S : Set (Subgroup G)} {T : Type} [Group T]
     [IsSimpleGroup T] (hFam : IsomorphicFamily S T) {M H : Subgroup G}
     (hMH : M ≤ H) {a : G} (ha : orderOf a = 2) (haH : a ∈ H)
-    (haQ : a ∈ UnbalancedLayer.coreActionKernel M) (hM : Marked S T M)
+    (_haQ : a ∈ UnbalancedLayer.coreActionKernel M) (hM : Marked S T M)
     {Sa : Subgroup G} (hSaS : Sa ∈ S) (hSaAt : FooteLit.IsTwoComponentAt a Sa)
     (hmareq : fixedShadowAt M a ⊔ FooteLit.oddCoreOfCentralizer a =
       Sa ⊔ FooteLit.oddCoreOfCentralizer a)
@@ -1996,7 +2010,7 @@ private lemma relP_marked {S : Set (Subgroup G)} {T : Type} [Group T]
     let V : Subgroup H := A.comap π
     have hV : Group.IsPerfect ((CFSG.perfectResidual V).map V.subtype) :=
       CFSG.SignalizerFunctorTheorem.Nonsolvable.isPerfect_perfectResidual_map V
-    haveI : Group.IsPerfect ((CFSG.perfectResidual V).map V.subtype) := hV
+    have : Group.IsPerfect ((CFSG.perfectResidual V).map V.subtype) := hV
     exact Group.IsPerfect.map (H := (CFSG.perfectResidual V).map V.subtype)
       (f := H.subtype)
   have eA_T : A ⧸ pPrimeCore 2 A ≃* T := by
@@ -2068,6 +2082,7 @@ private lemma relP_marked {S : Set (Subgroup G)} {T : Type} [Group T]
   refine ⟨hPperfect, ⟨eP_T⟩, a, ha, haPcore, Sa, hSaS, ?_⟩
   simpa [FooteLit.oddCoreOfCentralizer] using hmarkP
 
+omit [Finite G] in
 private lemma relLiteralA_quasisimple {M H : Subgroup G} {a : G} (haH : a ∈ H)
     {Sa : Subgroup G} (hAq : IsQuasisimple (relAq H a haH Sa))
     (hAqeq : relAq H a haH Sa = relLiteralA M H a haH) :
@@ -2085,7 +2100,7 @@ private lemma relLiteralA_center_equiv_target {T : Type} [Group T] [IsSimpleGrou
       Subgroup.center (relLiteralA M H a haH) ≃* T) := by
   let A := relLiteralA M H a haH
   have hAqA : IsQuasisimple A := relLiteralA_quasisimple haH hAq hAqeq
-  haveI : IsSimpleGroup (A ⧸ pPrimeCore 2 A) := eA_T.isSimpleGroup
+  have : IsSimpleGroup (A ⧸ pPrimeCore 2 A) := eA_T.isSimpleGroup
   have hAQs : IsSimpleGroup (A ⧸ CFSG.oddCore A) := by
     let eOdd : A ⧸ CFSG.oddCore A ≃* A ⧸ pPrimeCore 2 A :=
       QuotientGroup.quotientMulEquivOfEq
@@ -2107,7 +2122,7 @@ private lemma relLiteralA_center_odd {T : Type} [Group T] [IsSimpleGroup T]
     Odd (Nat.card (Subgroup.center (relLiteralA M H a haH))) := by
   let A := relLiteralA M H a haH
   have hAqA : IsQuasisimple A := relLiteralA_quasisimple haH hAq hAqeq
-  haveI : IsSimpleGroup (A ⧸ pPrimeCore 2 A) := eA_T.isSimpleGroup
+  have : IsSimpleGroup (A ⧸ pPrimeCore 2 A) := eA_T.isSimpleGroup
   have hAQs : IsSimpleGroup (A ⧸ CFSG.oddCore A) := by
     let eOdd : A ⧸ CFSG.oddCore A ≃* A ⧸ pPrimeCore 2 A :=
       QuotientGroup.quotientMulEquivOfEq
@@ -2154,7 +2169,7 @@ theorem relative_lift_of_localB {S : Set (Subgroup G)} {T : Type} [Group T]
   have hKsimple : IsSimpleGroup (relK a Sa) := hKpair.2
   let eK : relK a Sa ≃* T := relK_equiv_target hJC eSa
   have hMa_image : (relMaCH M H a haH).map (relF H a haH) = relK a Sa :=
-    relMaCH_map_relF_eq_relK (S := S) (T := T) hMH haH hSaAt hmareq
+    relMaCH_map_relF_eq_relK (_S := S) (T := T) hMH haH hSaAt hmareq
   have hJ0map : (relJ0 H a haH Sa).map (relF H a haH) = relK a Sa :=
     relJ0_map_relF_eq_relK haH hMH hMa_image
   have hJ0p : IsPComponent 2 (relJ0 H a haH Sa) :=
@@ -2166,7 +2181,7 @@ theorem relative_lift_of_localB {S : Set (Subgroup G)} {T : Type} [Group T]
   have hAbar2 : orderOf (relAbar H a haH) = 2 := by
     simpa [relAbar] using relativeLift_abar_order (H := H) ha haH
   have hAq : IsQuasisimple (relAq H a haH Sa) :=
-    relAq_quasisimple (S := S) (T := T) haH hB hAbar2 hA0p
+    relAq_quasisimple (_S := S) (T := T) haH hB hAbar2 hA0p
   have hA0eq : relA0 H a haH Sa =
       (relMaCH M H a haH).map (relPiCH H a haH) :=
     relA0_eq_imageMaCH hMH haH ha haQ hM hMa_image hKcomp hKsimple eK

@@ -28,11 +28,13 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {A : Subgroup G} {c : G} {L Y₀ : Subgroup G}
 
+omit [Finite G] in
 theorem c1a_mem_sc {S X Y : Subgroup G} {a : G} :
     a ∈ CFSG.RankThree.PartTwo.Late.sectionCentralizer S X Y ↔
       a ∈ S ∧ ∀ x ∈ X, a * x * a⁻¹ * x⁻¹ ∈ Y :=
   Iff.rfl
 
+omit [Finite G] in
 theorem pCoreOf_le_cQuot (Y₀ : Subgroup G) : CFSG.Open.pCoreOf 2 Y₀ ≤ cQuot Y₀ := by
   intro x hx
   have hxY : x ∈ Y₀ := CFSG.openPCoreOf_le 2 Y₀ hx
@@ -52,6 +54,7 @@ theorem pCoreOf_le_cQuot (Y₀ : Subgroup G) : CFSG.Open.pCoreOf 2 Y₀ ≤ cQuo
   rw [e]
   exact (CFSG.Open.pCoreOf 2 Y₀).mul_mem hx hmem
 
+omit [Finite G] in
 theorem normalizer_le_normalizer_cQuot (Y₀ : Subgroup G) :
     Subgroup.normalizer (Y₀ : Set G) ≤ Subgroup.normalizer ((cQuot Y₀ : Subgroup G) : Set G) := by
   have hNO : Subgroup.normalizer (Y₀ : Set G) ≤
@@ -91,9 +94,9 @@ theorem normalizer_le_normalizer_cQuot (Y₀ : Subgroup G) :
     rw [e] at h1
     exact h1
 
-theorem pCoreOf_normalizer_le_cQuot (h : Sec17Std G A c L Y₀) :
+theorem pCoreOf_normalizer_le_cQuot (_h : Sec17Std G A c L Y₀) :
     CFSG.Open.pCoreOf 2 (Subgroup.normalizer (Y₀ : Set G)) ≤ cQuot Y₀ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set M : Subgroup G := Subgroup.normalizer (Y₀ : Set G)
   set P : Subgroup G := CFSG.Open.pCoreOf 2 M
   have hP2 : IsPGroup 2 ↥P := CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 M
@@ -261,7 +264,7 @@ theorem two_le_pRank_three_of_isoLThreePi
 theorem lBar_transport {X Y : Type} [Group X] [Group Y] [Finite X] [Finite Y] (e : X ≃* Y)
     (hs : IsSimpleGroup Y) (hr : 2 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup Y)) :
     IsSimpleGroup X ∧ 2 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup X) := by
-  haveI := hs
+  have := hs
   refine ⟨e.isSimpleGroup, ?_⟩
   rw [CFSG.SectionRank.pRank_top_eq_of_mulEquiv (p := 3) (by norm_num) e]
   exact hr
@@ -270,7 +273,7 @@ theorem exists_noncomm_of_simple_pRank {X : Type} [Group X] [Finite X] [IsSimple
     (hr : 2 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup X)) : ∃ a b : X, a * b ≠ b * a := by
   by_contra hcomm
   simp only [not_exists, not_not] at hcomm
-  letI : CommGroup X := { ‹Group X› with mul_comm := fun a b => hcomm a b }
+  let : CommGroup X := { ‹Group X› with mul_comm := fun a b => hcomm a b }
   have htop : IsCyclic (⊤ : Subgroup X) :=
     isCyclic_of_surjective (Subgroup.topEquiv.symm : X ≃* (⊤ : Subgroup X))
       (Subgroup.topEquiv.symm).surjective
@@ -290,26 +293,26 @@ theorem lBar_simple_and_pRank
     IsSimpleGroup (↥L ⧸ aschbacherSolvableCore 3 ↥L) ∧
       2 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup (↥L ⧸ aschbacherSolvableCore 3 ↥L)) := by
   have hLc : L ∈ thetaComponentsAt 3 c := lA_subset A c h.mem_lA
-  haveI hperf : Group.IsPerfect ↥L :=
+  have hperf : Group.IsPerfect ↥L :=
     CFSG.RankThree.PartTwo.Sec6.isPerfect_of_mem_thetaComponentsAt hLc
   have hcases := (h.chosen136.2 c h.zpowers_mem_omegaA L h.mem_lA).1
   rcases hcases with hJ | hL3 | hA7 | hM22 | hM12
-  · haveI : Finite CFSG.Blueprint.NativeSporadic.J2 := CFSG.Sporadic.J2.fam_j2_simplicity.1
+  · have : Finite CFSG.Blueprint.NativeSporadic.J2 := CFSG.Sporadic.J2.fam_j2_simplicity.1
     obtain ⟨e⟩ := hJ
     exact lBar_transport e CFSG.Sporadic.J2.isSimpleGroup_J2
       CFSG.Quasithin.two_le_pRank_J2_1515e
   · obtain ⟨p, e, hp, he, hiso⟩ := hL3
-    haveI : Group.IsPerfect (↥L ⧸ aschbacherSolvableCore 3 ↥L) := inferInstance
+    have : Group.IsPerfect (↥L ⧸ aschbacherSolvableCore 3 ↥L) := inferInstance
     exact ⟨(CFSG.RankThree.PartTwo.Sec19.Step1914TriProof.isSimpleGroup_of_isoLThreePi he hiso).1,
       two_le_pRank_three_of_isoLThreePi he hiso⟩
-  · haveI : IsSimpleGroup (alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
+  · have : IsSimpleGroup (alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
     obtain ⟨e⟩ := hA7
     exact lBar_transport e inferInstance CFSG.Quasithin.C1GN.two_le_pRank_alt7
-  · haveI : Finite CFSG.Blueprint.NativeSporadic.M22 := CFSG.Sporadic.Mathieu.fam_m22_simplicity.1
+  · have : Finite CFSG.Blueprint.NativeSporadic.M22 := CFSG.Sporadic.Mathieu.fam_m22_simplicity.1
     obtain ⟨e⟩ := hM22
     exact lBar_transport e CFSG.Sporadic.Mathieu.fam_m22_simplicity.2.2
       CFSG.Quasithin.two_le_pRank_M22_1515e
-  · haveI : Finite CFSG.Blueprint.NativeSporadic.M12 := CFSG.Sporadic.Mathieu.fam_m12_simplicity.1
+  · have : Finite CFSG.Blueprint.NativeSporadic.M12 := CFSG.Sporadic.Mathieu.fam_m12_simplicity.1
     obtain ⟨e⟩ := hM12
     exact lBar_transport e CFSG.Sporadic.Mathieu.fam_m12_simplicity.2.2
       CFSG.Quasithin.two_le_pRank_M12_1515e
@@ -318,7 +321,7 @@ theorem lBar_nonabelian
     (h : Sec14Std G A c L) :
     ∃ a b : ↥L ⧸ aschbacherSolvableCore 3 ↥L, a * b ≠ b * a := by
   obtain ⟨hs, hr⟩ := lBar_simple_and_pRank h
-  haveI := hs
+  have := hs
   exact exists_noncomm_of_simple_pRank hr
 
 theorem three_dvd_card_L
@@ -370,7 +373,7 @@ theorem inf_cQuot_le_theta (h : Sec17Std G A c L Y₀)
       exact Subtype.ext (Subtype.ext (Subtype.ext h3))
     have hK2 : IsPGroup 2 ↥K :=
       (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 Y₀).of_injective ψ hψ
-    haveI := hK2.isNilpotent
+    have := hK2.isNilpotent
     infer_instance
   have hcomm : commutator ↥S ≤ K := by
     have hK_comm : ∀ x y : ↥S, ⁅x, y⁆ ∈ K := by
@@ -390,7 +393,7 @@ theorem inf_cQuot_le_theta (h : Sec17Std G A c L Y₀)
     have hc : Group.IsSolvable ↥(commutator ↥S) :=
       Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hcomm)
     exact Group.isSolvable_commutator_iff.mp hc
-  haveI := hs
+  have := hs
   set φ : ↥L →* ↥L ⧸ θ := QuotientGroup.mk' θ with hφ
   have hSbar : (S.map φ).Normal := hSnormal.map φ (QuotientGroup.mk'_surjective θ)
   have hS_le : S ≤ θ := by
@@ -412,6 +415,7 @@ theorem inf_cQuot_le_theta (h : Sec17Std G A c L Y₀)
   have hmem : (⟨x, hxL⟩ : ↥L) ∈ S := Subgroup.mem_subgroupOf.mpr (Subgroup.mem_inf.mpr ⟨hxL, hxC⟩)
   exact Subgroup.mem_map.mpr ⟨⟨x, hxL⟩, hS_le hmem, rfl⟩
 
+omit [Finite G] in
 theorem map_conj_eq_of_mem_normalizer_D1 {H : Subgroup G} {x : G}
     (hx : x ∈ Subgroup.normalizer (H : Set G)) :
     H.map (MulAut.conj x).toMonoidHom = H := by
@@ -459,8 +463,8 @@ theorem isSolvable_centralizer_of_pRank_aux {Γ : Type*} [Group Γ] [Finite Γ]
     (hcen : Λ ⊓ Subgroup.centralizer (Λ : Set Γ) = ⊥)
     (hΛ : 2 ≤ CFSG.Open.pRank 3 Λ) (hΓ : CFSG.Open.pRank 3 (⊤ : Subgroup Γ) ≤ 3) :
     Group.IsSolvable (Subgroup.centralizer (Λ : Set Γ)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : (Subgroup.centralizer (Λ : Set Γ)).Normal := inferInstance
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : (Subgroup.centralizer (Λ : Set Γ)).Normal := inferInstance
   have hzD : z ∈ Subgroup.centralizer (Λ : Set Γ) :=
     Subgroup.mem_centralizer_iff.mpr fun h hh =>
       Subgroup.mem_centralizer_singleton_iff.mp (hΛz hh)

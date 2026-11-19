@@ -24,7 +24,7 @@ noncomputable instance movedAction (P : Subgroup Y) : MulAction ↥P (Moved P) w
   mul_smul g g' C := Subtype.ext (Lemma213.cjComp_mul (g : Y) (g' : Y) C.1)
 
 theorem Cfg.dvd_card_moved (h : Cfg p P x z) : p ∣ Nat.card (Moved P) := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   have hmod := h.isPGroup.card_modEq_card_fixedPoints (Moved P)
   have hfix : Nat.card (MulAction.fixedPoints ↥P (Moved P)) = 0 := by
     rw [Nat.card_eq_zero]
@@ -41,7 +41,7 @@ theorem Cfg.dvd_card_moved (h : Cfg p P x z) : p ∣ Nat.card (Moved P) := by
 
 theorem Cfg.center_eq_bot_of_cyclic (h : Cfg p P x z) (h610 : GL83.I_6_10_1)
     {C : ComponentIndex Y} (hcyc : IsCyclic ↥(P ⊓ C.1)) : center C.1 = ⊥ := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   by_contra hne
   have hpg : IsPGroup p (center C.1) := by
     rw [IsPGroup.iff_orderOf]
@@ -55,7 +55,7 @@ theorem Cfg.center_eq_bot_of_cyclic (h : Cfg p P x z) (h610 : GL83.I_6_10_1)
     exact ⟨n, by
       rw [← Subgroup.orderOf_coe, ← Subgroup.orderOf_coe]
       simpa using hn⟩
-  haveI : Nontrivial (center C.1) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
+  have : Nontrivial (center C.1) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
   obtain ⟨m, hm, hmcard⟩ := hpg.nontrivial_iff_card.mp inferInstance
   have hdvd : p ∣ Nat.card (center C.1) := hmcard ▸ dvd_pow_self p hm.ne'
   exact h.not_isCyclic_inf_comp h610 C hdvd hcyc
@@ -69,7 +69,7 @@ theorem Cfg.moved_family (h : Cfg p P x z)
       (∀ e ∈ E, (∀ i : Moved P, ∀ c ∈ i.1.1, c * e = e * c) → e = 1) := by
   classical
   have hp := h.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let K : Moved P → ComponentIndex Y := fun i => i.1
   have hK : Function.Injective K := Subtype.val_injective
   let U : Moved P → Subgroup Y := fun i => omega1 p P i.1

@@ -115,9 +115,9 @@ theorem cfInner_tau_nu_eq_zero {Q : Finset (L → ℂ)} (hQT : Q ⊆ T) (hQIrr :
     have h := cfInner_coe_Irr (G := L) ⟨(q : L → ℂ), hQIrr _ q.2⟩ ⟨(q' : L → ℂ), hQIrr _ q'.2⟩
     simp only [Subtype.mk.injEq] at h
     exact h
-  have hone : ∀ q : Q, cfInner (η q) (η q) = 1 := fun q => by rw [hqq q q, if_pos rfl]
+  have hone : ∀ q : Q, cfInner (η q) (η q) = 1 := fun q => by rw [hqq q q, ite_eq_left rfl]
   have hzero : ∀ q q' : Q, q ≠ q' → cfInner (η q) (η q') = 0 := fun q q' hne => by
-    rw [hqq q q', if_neg fun h => hne (Subtype.ext h)]
+    rw [hqq q q', ite_eq_right fun h => hne (Subtype.ext h)]
   have hceq : ∀ q : Q, cfInner (τ α : G → ℂ) (η q) = c := fun q => by
     rw [hc]; exact cfInner_tau_nu_eq (hD0 := hD0) hdeg hτ hντ hα (hQT q.2) hχ
   have hbound := card_mul_mul_conj_le_cfInner_self hone hzero hceq

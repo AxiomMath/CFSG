@@ -149,7 +149,7 @@ theorem pCoreIn_le_map_pComplCore [IsSimpleGroup G]
     normal_subgroupOf_of_le_normalizer (le_normalizer_pCoreIn_centreIn_mixedFitting q M)
   have hZX : Z ≤ X := (h.pCoreIn_centreIn_le_mixedFittingCentralizer q).trans hTX
   have htrans := inf_map_pComplCore_le_map_pComplCore_of_normal_pSubgroup hna hodd hsolv hqp
-    h.isCoatom hZM hZnormal (isPGroup_pCoreIn hqp _) (h.pCoreIn_centreIn_ne_bot hqp hq) hX hZX
+    h.isCoatom hZM hZnormal (isPGroup_pCoreIn hqp _) (CFSG.FeitThompson.IsMixedFittingSetup.pCoreIn_centreIn_ne_bot hqp hq) hX hZX
   exact fun x hx => htrans ⟨h2 (h1 hx), hTX ((pCoreIn_le r _) hx)⟩
 
 theorem inf_centralizer_pCoreIn_eq_bot [IsSimpleGroup G] {q : ℕ}

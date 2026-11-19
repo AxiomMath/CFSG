@@ -55,7 +55,7 @@ theorem isSylowOf_barIn {H T : Subgroup G} (hT : IsSylowOf 2 T ⊤) (hTH : T ≤
     rw [Sylow.coe_mapSurjective, hQ]
     rfl
   rw [isSylowOf_iff]
-  refine ⟨le_top, hQ' ▸ Q'.isPGroup', ?_⟩
+  refine ⟨le_top, hQ' ▸ Q'.isPGroup, ?_⟩
   rw [Subgroup.relIndex_top_right, ← hQ']
   exact Q'.not_dvd_index
 

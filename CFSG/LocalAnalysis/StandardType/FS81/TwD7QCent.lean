@@ -54,8 +54,7 @@ private theorem commutatorElement_mul_central {T : Type} [Group T] {a b z w : T}
     have : w⁻¹ * (z⁻¹ * (w * (z * X))) = w⁻¹ * ((z⁻¹ * w * z) * X) := by simp only [mul_assoc]
     rw [this, hconj, inv_mul_cancel_left]
   simp only [commutatorElement_def, mul_inv_rev, ← mul_assoc]
-  simp only [hz1, hw1, hz2, hw2, mul_assoc, inv_mul_cancel_left, mul_inv_cancel_left,
-    inv_mul_cancel, mul_inv_cancel, mul_one, one_mul]
+  simp only [hz1, hw1, hz2, hw2, mul_assoc]
   exact key _
 
 theorem mem_centralizer_of_pr_mem_centralizer_img {β : G} {M : Subgroup G} (hM : M ≤ cen β)
@@ -78,7 +77,7 @@ theorem mem_centralizer_of_pr_mem_centralizer_img {β : G} {M : Subgroup G} (hM 
     simp only [MulAut.conj_apply] at hmap
     rw [he x₁ h₁, he x₂ h₂, commutatorElement_mul_central (hc x₁ h₁) (hc x₂ h₂)] at hmap
     have h := congrArg Subtype.val hmap
-    simp only [commutatorElement_def, Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_mk] at h
+    simp only [commutatorElement_def, Subgroup.coe_mul, Subgroup.coe_inv] at h
     simp only [commutatorElement_def]
     calc x₁ * x₂ * x₁⁻¹ * x₂⁻¹ * (g : G)
         = (g : G) * (x₁ * x₂ * x₁⁻¹ * x₂⁻¹) * (g : G)⁻¹ * g := by rw [h]

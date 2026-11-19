@@ -34,7 +34,7 @@ theorem om_pRank_eq_of_card [Finite G] {p : ℕ} (hp : p.Prime) {E : Subgroup G}
 
 theorem om_exists_card_eq_pow [Finite G] {p : ℕ} (hp : p.Prime) {E : Subgroup G}
     (hE : IsElemAbelian p E) : ∃ k : ℕ, Nat.card E = p ^ k := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hP : IsPGroup p E := by
     intro g
     refine ⟨1, ?_⟩

@@ -34,6 +34,7 @@ theorem not_isSquare_of_generator (h2 : (2 : F) ≠ 0) {γ : Fˣ}
     Nat.div_lt_self hcardpos (by norm_num : 1 < 2)
   omega
 
+omit [Finite F] in
 theorem two_mul_dvd_orderOf_gA {σ₀ : F ≃+* F} (hσ₀1 : σ₀ ≠ 1) (hσ₀2 : σ₀ * σ₀ = 1) {q : ℕ}
     (hq : ∀ x : F, σ₀ x = x ^ q) (hcard : Nat.card Fˣ = q * q - 1) (hq3 : 3 ≤ q) {γ : Fˣ}
     (hγ : ∀ x : Fˣ, x ∈ Subgroup.zpowers γ) : 2 * (q + 1) ∣ orderOf (gA γ σ₀) := by
@@ -96,6 +97,7 @@ theorem two_mul_dvd_orderOf_gA {σ₀ : F ≃+* F} (hσ₀1 : σ₀ ≠ 1) (hσ�
   rw [hj]
   exact h2j
 
+omit [Finite F] in
 theorem two_mul_dvd_orderOf_gD {σ₀ : F ≃+* F} (hσ₀1 : σ₀ ≠ 1) (hσ₀2 : σ₀ * σ₀ = 1) {q : ℕ}
     (hq : ∀ x : F, σ₀ x = x ^ q) (hcard : Nat.card Fˣ = q * q - 1) (hq3 : 3 ≤ q) {γ : Fˣ}
     (hγ : ∀ x : Fˣ, x ∈ Subgroup.zpowers γ) : 2 * (q - 1) ∣ orderOf (gD γ σ₀) := by

@@ -19,7 +19,7 @@ theorem injOn_map_center {L : Type} [Group L] [Finite L] (Q : Sylow 2 L)
   intro a ha b hb hab
   have h2 : a⁻¹ * b ∈ center L := QuotientGroup.eq.1 hab
   have h3 : a⁻¹ * b ∈ (Q : Subgroup L) := Q.mul_mem (Q.inv_mem ha) hb
-  exact inv_mul_eq_one.1 (eq_one_of_mem_pGroup_of_mem_center_odd Q.isPGroup' hodd h3 h2)
+  exact inv_mul_eq_one.1 (eq_one_of_mem_pGroup_of_mem_center_odd Q.isPGroup hodd h3 h2)
 
 theorem b_L3_noNormalMinus : B_L3_noNormalMinus := by
   intro G _ _ t t' p f ⟨ht, ht'⟩ hp hp2 h5 L hLq hodd hmod H S hLH hHN hS M hMS hMn hMC

@@ -26,6 +26,7 @@ private theorem le_right_of_g2q (hH : Hyp111 L1 L2 S) (hD : G2qLocalData L1 L2 S
     (h1 : IsL2Quot f (oTwoQuot ↥L1)) (h2 : IsL2Quot f (oTwoQuot ↥L2)) : S ≤ L2 :=
   (hD.borelOf_inf_borelOf hH h1 h2).symm.le.trans (inf_le_right.trans (borelOf_le L2 S))
 
+omit [Finite G] in
 theorem G2qCoord.alpha_eq_of_inv_mul_mem {L : Subgroup G} (c : G2qCoord L S f) {x y : G}
     (hx : x ∈ L) (hy : y ∈ L) (h : x⁻¹ * y ∈ pCoreOf 2 L) : c.α ⟨x, hx⟩ = c.α ⟨y, hy⟩ := by
   have h1 : c.α (⟨x, hx⟩⁻¹ * ⟨y, hy⟩) = 1 := (c.ker _).mpr h
@@ -97,6 +98,7 @@ private theorem mem_pCoreOf_right_of_centralizes (hH : Hyp111 L1 L2 S)
   have := hH.h2.charTwo ⟨hhP, hhC⟩
   rwa [hP2, hcore] at this
 
+omit [Finite G] in
 theorem G2qLocalData.exists_conj_commutator_eq_mul (hD : G2qLocalData L1 L2 S f) {h l x : G}
     (hl : l ∈ L1) (ht1 : h ∈ trivOTwoQuot L1)
     (hhQ : h ∈ Subgroup.normalizer (pCoreOf 2 L1 : Set G)) (hx : x ∈ pCoreOf 2 L1) :
@@ -157,6 +159,7 @@ private theorem conj_mul_inv_mem_W_of_triv (hH : Hyp111 L1 L2 S) (hD : G2qLocalD
     · simpa using hsnd a ha
   exact (natSecVec_eq_zero_iff hβker (hd a ha).2).mp hzero
 
+omit [Finite G] in
 private theorem commutator_conj_eq_of_triv (c : G2qCoordRight L2 S f) {h : G}
     (hhQ : h ∈ Subgroup.normalizer (pCoreOf 2 L2 : Set G))
     (hMN : ∀ a ∈ pCoreOf 2 L2, h * a * h⁻¹ * a⁻¹ ∈ c.W) {w a : G} (hw : w ∈ c.W)
@@ -181,6 +184,7 @@ private theorem commutator_conj_eq_of_triv (c : G2qCoordRight L2 S f) {h : G}
         group
     _ = h * ⁅w, a⁆ * h⁻¹ := by rw [hka, hcomm]
 
+omit [Finite G] in
 private theorem eq_one_of_fixed_centerOf (c : G2qCoordRight L2 S f) {h : G}
     (ht2 : h ∈ trivOTwoQuot L2)
     (hnot : ¬∀ z ∈ centerOf (pCoreOf 2 L2), h * z * h⁻¹ = z) {z : G}

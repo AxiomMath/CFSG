@@ -47,9 +47,9 @@ theorem aux_GrOmega_dvd_of_mem {G : Type*} [Group G] (d f : G) (hf3 : f ^ 3 = 1)
     exact absurd h2 hfd
 
 theorem mem_A_of_cube_eq_one {G : Type*} [Group G] (A : Subgroup G) (y r d f : G)
-    (hAexp : ∀ u ∈ A, u ^ 3 = 1) (hAcomm : ∀ u ∈ A, ∀ v ∈ A, u * v = v * u)
+    (hAexp : ∀ u ∈ A, u ^ 3 = 1) (_hAcomm : ∀ u ∈ A, ∀ v ∈ A, u * v = v * u)
     (hAy : ∀ u ∈ A, u * y = y * u) (hAr : ∀ u ∈ A, u * r = r * u)
-    (hdA : d ∈ A) (hfA : f ∈ A) (hd1 : d ≠ 1)
+    (hdA : d ∈ A) (hfA : f ∈ A) (_hd1 : d ≠ 1)
     (hy3 : y ^ 3 ∈ Subgroup.zpowers d) (hy3ne : y ^ 3 ≠ 1)
     (hr3 : r ^ 3 = f) (hfd : f ∉ Subgroup.zpowers d)
     (hyr : y * r * y⁻¹ * r⁻¹ ∈ Subgroup.zpowers d)
@@ -79,9 +79,9 @@ theorem mem_A_of_cube_eq_one {G : Type*} [Group G] (A : Subgroup G) (y r d f : G
   exact A.mul_mem (A.mul_mem hyi hrj) hu
 
 theorem g_r_comm_mem {G : Type*} [Group G] (A : Subgroup G) (y r d f g : G)
-    (hAexp : ∀ u ∈ A, u ^ 3 = 1) (hAcomm : ∀ u ∈ A, ∀ v ∈ A, u * v = v * u)
+    (hAexp : ∀ u ∈ A, u ^ 3 = 1) (_hAcomm : ∀ u ∈ A, ∀ v ∈ A, u * v = v * u)
     (hAy : ∀ u ∈ A, u * y = y * u) (hAr : ∀ u ∈ A, u * r = r * u)
-    (hdA : d ∈ A) (hfA : f ∈ A) (hd1 : d ≠ 1)
+    (hdA : d ∈ A) (hfA : f ∈ A) (_hd1 : d ≠ 1)
     (hy3 : y ^ 3 ∈ Subgroup.zpowers d) (hr3 : r ^ 3 = f) (hfd : f ∉ Subgroup.zpowers d)
     (hyr : y * r * y⁻¹ * r⁻¹ ∈ Subgroup.zpowers d)
     (t : ℤ) (hgf : g * f * g⁻¹ = d ^ t * f)

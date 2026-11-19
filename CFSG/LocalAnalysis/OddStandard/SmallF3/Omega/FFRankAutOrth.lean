@@ -49,7 +49,7 @@ theorem ffRA_mulAut_omega_plus
   have hs := ffRASide_of_group hchk.1
   have hcard : Nat.card (ProjSim Q) = 512 * 47385 := by
     rw [ff_natCard_projSim_six_plus hQ hdim hsgn]
-  haveI : Finite (ProjSim Q) :=
+  have : Finite (ProjSim Q) :=
     Nat.finite_of_card_ne_zero (by rw [ff_natCard_projSim_six_plus hQ hdim hsgn]; norm_num)
   have hφ := ffSimOmegaAct_bijective_six_plus hQ hdim hsgn
   set φ : ProjSim Q →* MulAut ↥(omegaProj hQ) := ffSimOmegaAct hQ (by omega) with hφdef
@@ -76,7 +76,7 @@ theorem ffRA_mulAut_omega_minus
   have hs := ffRASide_of_group hchk.2
   have hcard : Nat.card (ProjSim Q) = 1024 * 25515 := by
     rw [ff_natCard_projSim_six_minus hQ hdim hsgn]
-  haveI : Finite (ProjSim Q) :=
+  have : Finite (ProjSim Q) :=
     Nat.finite_of_card_ne_zero (by rw [ff_natCard_projSim_six_minus hQ hdim hsgn]; norm_num)
   have hφ := ffSimOmegaAct_bijective_six_minus hQ hdim hsgn
   set φ : ProjSim Q →* MulAut ↥(omegaProj hQ) := ffSimOmegaAct hQ (by omega) with hφdef

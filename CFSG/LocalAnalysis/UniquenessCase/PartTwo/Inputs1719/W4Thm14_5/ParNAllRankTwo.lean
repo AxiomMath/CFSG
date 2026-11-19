@@ -59,7 +59,7 @@ theorem sl3_eq_slQAlpha_or_eq_top {K : Type} [Field K] [Finite K] [CharP K 2]
   obtain ⟨I, hI, rfl⟩ := sl_eq_map_flagStabilizer_of_parabolic (by norm_num) hP hU hnot
   have hcuts : KAdjE.slAlphaCuts 3 = {2} := by
     ext i
-    simp only [KAdjE.slAlphaCuts, Set.mem_setOf_eq, Set.mem_singleton_iff]
+    simp only [KAdjE.slAlphaCuts, Set.mem_ofPred_eq, Set.mem_singleton_iff]
     omega
   rw [hcuts] at hI
   rcases Set.subset_singleton_iff_eq.mp hI with rfl | rfl
@@ -121,7 +121,7 @@ theorem nParam_eq_of_natSL3 {H S P : Subgroup (MulAut W)} {k n : ℕ}
   obtain ⟨-, -, -, -, hSL3, -⟩ :=
     kTab23b_holds W H k hnat hperf hS.toSylow ((hS.toSylow : Subgroup ↥H).map H.subtype)
       ((Subgroup.map_subtype_le _).trans Subgroup.le_normalizer)
-      ((hS.toSylow.isPGroup').map H.subtype) le_rfl
+      ((hS.toSylow.isPGroup).map H.subtype) le_rfl
   obtain ⟨K, _, _, hK, hreal⟩ := h.2
   have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
   have hmodel : ∀ S' : Sylow 2 ↥H, ∃ φ : ↥(StatedSL 3 K) ≃* ↥H,
@@ -163,7 +163,7 @@ theorem nParam_eq_of_natSp4 {H S P : Subgroup (MulAut W)} {k n : ℕ}
   obtain ⟨-, -, -, hSp4, -⟩ :=
     kTab23b_holds W H k hnat hperf hS.toSylow ((hS.toSylow : Subgroup ↥H).map H.subtype)
       ((Subgroup.map_subtype_le _).trans Subgroup.le_normalizer)
-      ((hS.toSylow.isPGroup').map H.subtype) le_rfl
+      ((hS.toSylow.isPGroup).map H.subtype) le_rfl
   obtain ⟨-, K, _, _, hK, hreal⟩ := h.2
   have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
   have hmodel : ∀ S' : Sylow 2 ↥H, ∃ φ : ↥(StatedSp 2 K) ≃* ↥H,

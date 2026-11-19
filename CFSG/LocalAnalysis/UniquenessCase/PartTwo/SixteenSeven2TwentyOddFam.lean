@@ -34,7 +34,7 @@ theorem s16c167_oddCore_isLn {X : Type} [Group X] {m : ℕ} (h3 : 3 ≤ m) (h5 :
         (CFSG.Blueprint.LieModel.statedClassicalModel h (by decide))))
     · exact Or.inr (Or.inr (StatedAPI.card_of_statedClassicalModel_psl_five_two
         (CFSG.Blueprint.LieModel.statedClassicalModel h (by decide))))
-  haveI : Finite X := Nat.finite_of_card_ne_zero (by rcases hc with h | h | h <;> omega)
+  have : Finite X := Nat.finite_of_card_ne_zero (by rcases hc with h | h | h <;> omega)
   exact oddCore_eq_bot_of_isSimpleGroup (by rcases hc with h | h | h <;> rw [h] <;> decide)
 
 theorem s16c167_oddCore_isSpn {X : Type} [Group X] (h : IsSpn X 6 1) :

@@ -36,7 +36,7 @@ theorem mem_zpowers_sup_center_of_commute {A : Subgroup G} (hA : A ∈ partTwoF 
   let Q := ↥C ⧸ N
   let π : ↥C →* Q := QuotientGroup.mk' N
   have hAab : CFSG.Assembly.IsElemAbelian 3 A := hA.1
-  haveI : IsMulCommutative A := hAab.1
+  have : IsMulCommutative A := hAab.1
   have hAC : A ≤ C := by
     intro y hy
     change y ∈ Subgroup.centralizer (B : Set G)

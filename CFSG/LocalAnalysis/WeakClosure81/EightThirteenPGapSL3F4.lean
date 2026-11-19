@@ -34,7 +34,7 @@ private lemma wcgapsf_injOn_of_isPGroup {G₀ G : Type} [Group G₀] [Finite G�
   obtain ⟨n, hn⟩ := hP.exists_card_dvd_pow
   have hcop : Nat.Coprime (Nat.card ↥α.ker) (Nat.card ↥P) :=
     Nat.Coprime.of_dvd (dvd_refl _) hn (hodd.coprime_two_right.pow_right n)
-  have hinf : α.ker ⊓ P = ⊥ := Subgroup.inf_eq_bot_of_coprime hcop
+  have hinf : α.ker ⊓ P = ⊥ := (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcop))
   intro x hx y hy hxy
   have hmem : x⁻¹ * y ∈ α.ker ⊓ P :=
     Subgroup.mem_inf.mpr
@@ -84,7 +84,7 @@ private lemma wcgapsf_map_inf_centralizer_of_injOn {G₀ G : Type} [Group G₀] 
 private theorem wcgapsf_exists_sylow_eq_of_isSylowIn_top {M : Type} [Group M] [Finite M]
     {S : Subgroup M} (hS : IsSylowIn 2 S (⊤ : Subgroup M)) :
     ∃ P : Sylow 2 M, (P : Subgroup M) = S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine ⟨hS.isPGroup.toSylow ?_, IsPGroup.toSylow_coe _ _⟩
   have := hS.not_dvd_relIndex
   rwa [Subgroup.relIndex_top_right] at this
@@ -95,7 +95,7 @@ theorem centralKData_slThree {F : Type} [Field F] [Finite F]
       ((S : Subgroup (Matrix.SpecialLinearGroup (Fin 3) F)) ⊓ centralizer
         ((S : Subgroup (Matrix.SpecialLinearGroup (Fin 3) F)) :
           Set (Matrix.SpecialLinearGroup (Fin 3) F))) := by
-  haveI : CharP F 2 :=
+  have : CharP F 2 :=
     CFSG.LocalAnalysis.ComponentInitial.LinearFieldFour.charP_two_of_card_eq_four hF
   obtain ⟨U, hU⟩ :=
     CFSG.LocalAnalysis.ComponentInitial.LinearFlag.exists_sylow_unitriangular
@@ -106,7 +106,7 @@ theorem centralKData_slThree {F : Type} [Field F] [Finite F]
     MulAut.conj g
   have hSmap : (S : Subgroup (Matrix.SpecialLinearGroup (Fin 3) F)) =
       (U : Subgroup (Matrix.SpecialLinearGroup (Fin 3) F)).map e.toMonoidHom := by
-    rw [← hg, Sylow.coe_subgroup_smul, Subgroup.pointwise_smul_def] <;> rfl
+    rw [← hg, Sylow.coe_subgroup_smul, Subgroup.pointwise_smul_def]; rfl
   have hUdata : CentralKData (U : Subgroup (Matrix.SpecialLinearGroup (Fin 3) F))
       ((U : Subgroup (Matrix.SpecialLinearGroup (Fin 3) F)) ⊓
         Subgroup.centralizer ((U : Subgroup (Matrix.SpecialLinearGroup (Fin 3) F)) :
@@ -130,7 +130,7 @@ theorem centralKData_slThree {F : Type} [Field F] [Finite F]
 theorem rankTwoParabData_slThree {F : Type} [Field F] [Finite F]
     (hF : Nat.card F = 4) (S : Sylow 2 (Matrix.SpecialLinearGroup (Fin 3) F)) :
     RankTwoParabData (S : Subgroup (Matrix.SpecialLinearGroup (Fin 3) F)) := by
-  haveI : CharP F 2 :=
+  have : CharP F 2 :=
     CFSG.LocalAnalysis.ComponentInitial.LinearFieldFour.charP_two_of_card_eq_four hF
   obtain ⟨U, hU⟩ :=
     CFSG.LocalAnalysis.ComponentInitial.LinearFlag.exists_sylow_unitriangular
@@ -141,7 +141,7 @@ theorem rankTwoParabData_slThree {F : Type} [Field F] [Finite F]
     MulAut.conj g
   have hSmap : (S : Subgroup (Matrix.SpecialLinearGroup (Fin 3) F)) =
       (U : Subgroup (Matrix.SpecialLinearGroup (Fin 3) F)).map e.toMonoidHom := by
-    rw [← hg, Sylow.coe_subgroup_smul, Subgroup.pointwise_smul_def] <;> rfl
+    rw [← hg, Sylow.coe_subgroup_smul, Subgroup.pointwise_smul_def]; rfl
   have hUdata : RankTwoParabData (U : Subgroup (Matrix.SpecialLinearGroup (Fin 3) F)) := by
     rw [hU]
     exact rankTwoParabData_slThree_unitriangular (F := F) hF
@@ -152,8 +152,8 @@ theorem centralKData_of_hasSL3Cover {G : Type} [Group G] [Finite G]
     (h : HasSL3Cover G) (S : Sylow 2 G) :
     CentralKData (S : Subgroup G) ((S : Subgroup G) ⊓ centralizer ((S : Subgroup G) : Set G)) := by
   obtain ⟨F, hF, hFin, hFcard, α, hα, hkerle⟩ := h
-  letI : Field F := hF
-  letI : Finite F := hFin
+  let : Field F := hF
+  let : Finite F := hFin
   have hcenter : Nat.card (Subgroup.center (Matrix.SpecialLinearGroup (Fin 3) F)) = 3 := by
     rw [Nat.card_congr (Matrix.SpecialLinearGroup.center_equiv_rootsOfUnity' (0 : Fin 3)).toEquiv,
       Fintype.card_fin]
@@ -166,7 +166,7 @@ theorem centralKData_of_hasSL3Cover {G : Type} [Group G] [Finite G]
     rcases Nat.prime_three.eq_one_or_self_of_dvd (Nat.card ↥α.ker) hdvd with h1 | h3
     · rw [h1]; exact odd_one
     · rw [h3]; exact ⟨1, by norm_num⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S₀, hS₀eq⟩ := Sylow.mapSurjective_surjective (p := 2) hα S
   have hSeq : (S : Subgroup G) =
       (S₀ : Subgroup (Matrix.SpecialLinearGroup (Fin 3) F)).map α := by
@@ -174,7 +174,7 @@ theorem centralKData_of_hasSL3Cover {G : Type} [Group G] [Finite G]
     simpa using h
   have hinj : ∀ x ∈ (S₀ : Subgroup (Matrix.SpecialLinearGroup (Fin 3) F)),
       ∀ y ∈ (S₀ : Subgroup (Matrix.SpecialLinearGroup (Fin 3) F)), α x = α y → x = y :=
-    wcgapsf_injOn_of_isPGroup α hodd S₀.isPGroup'
+    wcgapsf_injOn_of_isPGroup α hodd S₀.isPGroup
   have hZeq : ((S₀ : Subgroup (Matrix.SpecialLinearGroup (Fin 3) F)) ⊓
         Subgroup.centralizer ((S₀ : Subgroup (Matrix.SpecialLinearGroup (Fin 3) F)) :
           Set (Matrix.SpecialLinearGroup (Fin 3) F))).map α =
@@ -184,14 +184,14 @@ theorem centralKData_of_hasSL3Cover {G : Type} [Group G] [Finite G]
     wcgapsf_map_inf_centralizer_of_injOn α
       (S₀ : Subgroup (Matrix.SpecialLinearGroup (Fin 3) F)) hinj
   rw [hSeq, ← hZeq]
-  exact centralKData_of_cover α hα hkerle hodd S₀.isPGroup' inf_le_left
+  exact centralKData_of_cover α hα hkerle hodd S₀.isPGroup inf_le_left
     (centralKData_slThree hFcard S₀)
 
 theorem rankTwoParabData_of_hasSL3Cover {G : Type} [Group G]
     [Finite G] (h : HasSL3Cover G) (S : Sylow 2 G) : RankTwoParabData (S : Subgroup G) := by
   obtain ⟨F, hF, hFin, hFcard, α, hα, hkerle⟩ := h
-  letI : Field F := hF
-  letI : Finite F := hFin
+  let : Field F := hF
+  let : Finite F := hFin
   have hcenter : Nat.card (Subgroup.center (Matrix.SpecialLinearGroup (Fin 3) F)) = 3 := by
     rw [Nat.card_congr (Matrix.SpecialLinearGroup.center_equiv_rootsOfUnity' (0 : Fin 3)).toEquiv,
       Fintype.card_fin]
@@ -204,7 +204,7 @@ theorem rankTwoParabData_of_hasSL3Cover {G : Type} [Group G]
     rcases Nat.prime_three.eq_one_or_self_of_dvd (Nat.card ↥α.ker) hdvd with h1 | h3
     · rw [h1]; exact odd_one
     · rw [h3]; exact ⟨1, by norm_num⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S₀, hS₀eq⟩ := Sylow.mapSurjective_surjective (p := 2) hα S
   have hSeq : (S : Subgroup G) =
       (S₀ : Subgroup (Matrix.SpecialLinearGroup (Fin 3) F)).map α := by
@@ -212,7 +212,7 @@ theorem rankTwoParabData_of_hasSL3Cover {G : Type} [Group G]
     simpa using h
   have hSyl : IsSylowIn 2 (S₀ : Subgroup (Matrix.SpecialLinearGroup (Fin 3) F))
       (⊤ : Subgroup (Matrix.SpecialLinearGroup (Fin 3) F)) := by
-    refine ⟨le_top, S₀.isPGroup', ?_⟩
+    refine ⟨le_top, S₀.isPGroup, ?_⟩
     rw [Subgroup.relIndex_top_right]
     exact S₀.not_dvd_index
   rw [hSeq]
@@ -230,12 +230,12 @@ theorem choiceOfKTop_of_hasSL3Cover {G : Type} [Group G] [Finite G]
 
 theorem choiceOfKOn_shapeSL3 :
     ChoiceOfKOn ShapeSL3 :=
-  choiceOfKOn_of_top ShapeSL3 fun Y _ _ L hL =>
+  choiceOfKOn_of_top ShapeSL3 fun _Y _ _ L hL =>
     ⟨↥L, inferInstance, MulEquiv.refl _,
       choiceOfKTop_of_hasSL3Cover (hasSL3Cover_of_shapeSL3 hL) _⟩
 
 theorem choiceOfKOn_shapeL3 : ChoiceOfKOn ShapeL3 :=
-  choiceOfKOn_of_top ShapeL3 fun Y _ _ L hL =>
+  choiceOfKOn_of_top ShapeL3 fun _Y _ _ L hL =>
     ⟨↥L, inferInstance, MulEquiv.refl _,
       choiceOfKTop_of_hasSL3Cover (hasSL3Cover_of_shapeL3 hL) _⟩
 

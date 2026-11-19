@@ -158,7 +158,7 @@ theorem card_commutator_sg (h : SwapShape t Sg V) : Nat.card (⁅Sg, Sg⁆ : Sub
     _ = 20160 := hcardA
 
 theorem isSimpleGroup_commutator_sg (h : SwapShape t Sg V) : IsSimpleGroup (⁅Sg, Sg⁆ : Subgroup X) := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin 8)) :=
+  have : IsSimpleGroup (alternatingGroup (Fin 8)) :=
     alternatingGroup.isSimpleGroup (by simp)
   exact (commutatorEquivAlt h).isSimpleGroup
 

@@ -100,7 +100,7 @@ private theorem m11_ordR_spec {n w : Nat} (hn32 : n < 2 ^ 32) (hn24 : n ≤ 2 ^ 
     by_cases hid : ∀ x < n, itr (fd w g) j x = x
     · have hb : Nat.beq (enc w (itr (fd w g) j) n) (pidn n w) = true :=
         (m11_enc_eq_id hn24 hw (fun x hx => m11_itr_lt hw g j hx)).2 hid
-      rw [if_pos hb]
+      rw [ite_eq_left hb]
       constructor
       · intro h
         exact absurd h Bool.false_ne_true
@@ -108,7 +108,7 @@ private theorem m11_ordR_spec {n w : Nat} (hn32 : n < 2 ^ 32) (hn24 : n ≤ 2 ^ 
         exact absurd hid (h1 0 (Nat.succ_pos k))
     · have hb : ¬ Nat.beq (enc w (itr (fd w g) j) n) (pidn n w) = true := fun h =>
         hid ((m11_enc_eq_id hn24 hw (fun x hx => m11_itr_lt hw g j hx)).1 h)
-      rw [if_neg hb]
+      rw [ite_eq_right hb]
       have hp : pcomp n w (mask w) g (enc w (itr (fd w g) j) n) =
           enc w (itr (fd w g) (j + 1)) n := by
         rw [pcomp_eq hn32]
@@ -232,7 +232,7 @@ private theorem m11_ltr {F : Nat → Nat → Nat} {s : BS} (hs : GoodBS 11 F s) 
   have h : ltr (11 * 4) (mask (11 * 4)) (recBS 11 4 F s V) k =
       if k < s.pts.length then enc 4 (BS.trans F s k) 11 else 0 :=
     ltr_recOf (m11_recBS_ok hs) (Nat.lt_of_lt_of_le hk hs.2.1)
-  rw [if_pos hk] at h
+  rw [ite_eq_left hk] at h
   exact h
 
 private theorem m11_lcnt {F : Nat → Nat → Nat} {s : BS} (hs : GoodBS 11 F s) (V : Nat) :
@@ -332,7 +332,7 @@ private theorem m11_packP_eq : ∀ (L : List (Nat × Nat)) (c : Nat),
     have e0 : m11_eL ((g, gi) :: L) 0 = g + gi * 2 ^ 44 := rfl
     have e1 : (fun i => m11_eL ((g, gi) :: L) (i + 1)) = m11_eL L := by
       funext i
-      simp [m11_eL, List.getD_cons_succ]
+      simp [m11_eL]
     rw [e0, e1]
     ring
 
@@ -430,7 +430,7 @@ private theorem m11_foldl_col {f : Nat → Nat → Nat} (pred : Nat → Bool)
       hQ g' (List.mem_cons_of_mem _ hg')
     rw [List.foldl_cons, hf]
     by_cases hp : pred g = true
-    · rw [if_pos hp, List.filter_cons_of_pos hp]
+    · rw [ite_eq_left hp, List.filter_cons_of_pos hp]
       have hpl : ∀ p ∈ pairsOf L0, p.1 < 2 ^ 44 ∧ p.2 < 2 ^ 44 := by
         intro p hp
         obtain ⟨g', hg', rfl⟩ := List.mem_map.1 hp
@@ -452,12 +452,12 @@ private theorem m11_foldl_col {f : Nat → Nat → Nat} (pred : Nat → Bool)
           rw [hg']
           exact hg
       have hlen2 : (L0 ++ [g]).length + Q.length < 2 ^ 16 := by
-        simp only [List.length_append, List.length_singleton, List.length_cons,
+        simp only [List.length_append, List.length_cons,
           List.length_nil] at hlen ⊢
         omega
       rw [ih (L0 ++ [g]) _ hQ' hL0' rfl hlen2]
       simp
-    · rw [if_neg hp, List.filter_cons_of_neg hp]
+    · rw [ite_eq_right hp, List.filter_cons_of_neg hp]
       exact ih L0 s hQ' hL0 hs (by simp only [List.length_cons] at hlen; omega)
 
 private theorem m11_pinvS_enc {G : Nat → Nat} (hG : IsPermN 11 G) :

@@ -19,14 +19,17 @@ noncomputable abbrev f112llMA (L1 L2 S : Subgroup H) : Subgroup (f112Gold L1 L2 
 noncomputable def f112llNlocalA (L1 L2 S : Subgroup H) : Subgroup (f112Gold L1 L2 S).Universal :=
   f112llMA L1 L2 S ⊔ pCoreOf 2 (f112EOdd L1 L2 S ⊓ (f112Gold L1 L2 S).ofA.range)
 
+omit [Finite H] in
 theorem f112llMA_le_range (L1 L2 S : Subgroup H) :
     f112llMA L1 L2 S ≤ (f112Gold L1 L2 S).ofA.range :=
   Subgroup.map_le_range _ _
 
+omit [Finite H] in
 theorem f112llMA_le_Nalpha {L1 L2 S : Subgroup H} :
     f112llMA L1 L2 S ≤ f112EOdd L1 L2 S ⊓ (f112Gold L1 L2 S).ofA.range :=
   le_inf f112sa_oTwoRes_left_map_le_EOdd (f112llMA_le_range L1 L2 S)
 
+omit [Finite H] in
 private theorem f112ll_ofA_range_le_normalizer_MA {L1 L2 S : Subgroup H}
     (hF : F112HypW L1 L2 S) :
     (f112Gold L1 L2 S).ofA.range ≤
@@ -68,12 +71,14 @@ private theorem f112ll_ofA_range_le_normalizer_MA {L1 L2 S : Subgroup H}
       group
     rwa [heq] at h
 
+omit [Finite H] in
 theorem f112llMA_normal_Nalpha {L1 L2 S : Subgroup H} (hF : F112HypW L1 L2 S) :
     f112EOdd L1 L2 S ⊓ (f112Gold L1 L2 S).ofA.range ≤
       Subgroup.normalizer (f112llMA L1 L2 S : Set (f112Gold L1 L2 S).Universal) :=
   (inf_le_right : f112EOdd L1 L2 S ⊓ (f112Gold L1 L2 S).ofA.range ≤
     (f112Gold L1 L2 S).ofA.range).trans (f112ll_ofA_range_le_normalizer_MA hF)
 
+omit [Finite H] in
 theorem f112llNlocalA_normal_Nalpha {L1 L2 S : Subgroup H} (hF : F112HypW L1 L2 S) :
     f112EOdd L1 L2 S ⊓ (f112Gold L1 L2 S).ofA.range ≤ Subgroup.normalizer
       (f112llNlocalA L1 L2 S : Set (f112Gold L1 L2 S).Universal) :=
@@ -83,10 +88,12 @@ theorem f112llNlocalA_normal_Nalpha {L1 L2 S : Subgroup H} (hF : F112HypW L1 L2 
     (Subgroup.inf_normalizer_le_normalizer_sup (f112llMA L1 L2 S)
       (pCoreOf 2 (f112EOdd L1 L2 S ⊓ (f112Gold L1 L2 S).ofA.range)))
 
+omit [Finite H] in
 theorem f112llNlocalA_le_Nalpha {L1 L2 S : Subgroup H} :
     f112llNlocalA L1 L2 S ≤ f112EOdd L1 L2 S ⊓ (f112Gold L1 L2 S).ofA.range :=
   sup_le f112llMA_le_Nalpha (CFSG.LieType.BorelTits.pCoreOf_le 2 _)
 
+omit [Finite H] in
 theorem f112llNlocalA_le_E {L1 L2 S : Subgroup H} :
     f112llNlocalA L1 L2 S ≤ f112EOdd L1 L2 S :=
   f112llNlocalA_le_Nalpha.trans inf_le_left

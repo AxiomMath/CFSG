@@ -60,7 +60,7 @@ theorem weylTuple_zpow_vec {ζ : Lˣ} {b : Fin τ.rank → ℤ} {u : WeylGroup �
   rw [e0, hN, rootChar_zpow_vec]
   congr 1
   simp only [Matrix.mulVec, dotProduct, Pi.single_apply, mul_ite, mul_one, mul_zero,
-    Finset.sum_ite_eq', Finset.mem_univ, if_true, Matrix.transpose_apply]
+    Finset.sum_ite_eq', Finset.mem_univ, ite_true, Matrix.transpose_apply]
   exact Finset.sum_congr rfl fun i _ => mul_comm _ _
 
 theorem tw_weylTuple_ne_of_vec {ζ : Lˣ} {p : ℕ} (hζ : orderOf ζ = p) {b : Fin τ.rank → ℤ}
@@ -76,7 +76,7 @@ theorem tw_weylTuple_ne_of_vec {ζ : Lˣ} {p : ℕ} (hζ : orderOf ζ = p) {b : 
     rw [e0, hN, rootChar_zpow_vec]
     congr 1
     simp only [Matrix.mulVec, dotProduct, Pi.single_apply, mul_ite, mul_one, mul_zero,
-      Finset.sum_ite_eq', Finset.mem_univ, if_true, Matrix.transpose_apply]
+      Finset.sum_ite_eq', Finset.mem_univ, ite_true, Matrix.transpose_apply]
     exact Finset.sum_congr rfl fun i _ => mul_comm _ _
   rw [h2] at h1
   have h3 : ζ ^ ((N.transpose *ᵥ b) i₀ - b i₀) = 1 := by
@@ -92,6 +92,7 @@ section Witness
 variable {t : TwistTag} {L : Type} [Field L] [IsAlgClosed L]
   (D : LangDatum t.tag L)
 
+omit [IsAlgClosed L] in
 theorem TwActsAs.pow {y : ModGL t.tag L} {u : WeylGroup t.tag} (h : TwActsAs y u) (m : ℕ) :
     TwActsAs (y ^ m) (u ^ m) := by
   induction m with
@@ -136,6 +137,7 @@ theorem tw_mem_normalizer_twTorsion (p : ℕ) {y : ModGL t.tag L} (hy : y ∈ mo
   have h := key hyinv hfinv _ hz
   simpa [mul_assoc] using h
 
+omit [IsAlgClosed L] in
 theorem weylTuple_eq_of_pow_eq {u : WeylGroup t.tag} {p m : ℕ} [hp : Fact p.Prime] (hup : u ^ p = 1)
     (hm : ¬ p ∣ m) {β : Fin t.tag.rank → Lˣ} (h : weylTuple (u ^ m) β = β) :
     weylTuple u β = β := by

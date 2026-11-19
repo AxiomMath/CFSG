@@ -45,7 +45,7 @@ theorem sl4HomW3_holds : SL4HomW3Statement := by
     have hEi : twoPtEntry t i = 1 := ht1 i (by simp)
     obtain ⟨c, hc⟩ := hentry i t
     have h := hc s₁ s₂
-    rw [hEi, map_one, Pi.single_apply, if_neg hs, mul_zero, add_zero] at h
+    rw [hEi, map_one, Pi.single_apply, ite_eq_right hs, mul_zero, add_zero] at h
     have hw₂ : twoPtWt (kleinCnt s₂) t ≠ 0 := twoPtWt_ne_zero _ _
     have hinv := mul_inv_cancel₀ hw₂
     have h' : (twoPtWt (kleinCnt s₂) t - twoPtWt (kleinCnt s₁) t) *
@@ -81,7 +81,7 @@ theorem sl4HomW3_holds : SL4HomW3Statement := by
     by_cases hs : s₁ = s₂
     · subst hs
       rw [hμ, Pi.single_eq_same, mul_one]
-    · rw [hoff i s₁ s₂ hs, Pi.single_apply, if_neg hs, mul_zero]
+    · rw [hoff i s₁ s₂ hs, Pi.single_apply, ite_eq_right hs, mul_zero]
   choose μ hμ using hbasis
   intro v
   refine ⟨∑ i, v i * μ i, ?_⟩

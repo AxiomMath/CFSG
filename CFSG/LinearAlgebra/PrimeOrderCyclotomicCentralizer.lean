@@ -26,7 +26,7 @@ theorem minpoly_eq_cyclotomic {K V : Type*} [Field K] [AddCommGroup V] [Module K
     minpoly K E = cyclotomic r K := by
   classical
   have hr : r.Prime := Fact.out
-  haveI : Nontrivial (Module.End K V) := ⟨1, E, fun h => hE1 h.symm⟩
+  have : Nontrivial (Module.End K V) := ⟨1, E, fun h => hE1 h.symm⟩
   have hint : IsIntegral K E := Algebra.IsIntegral.isIntegral E
   have hq_monic : (minpoly K E).Monic := minpoly.monic hint
   have hq_pos : 0 < (minpoly K E).natDegree := minpoly.natDegree_pos hint
@@ -59,7 +59,7 @@ private noncomputable def centralizerEndHom {K : Type} [Field K] {n : ℕ} (g : 
   Matrix.toLinAlgEquiv'.toMonoidHom.comp ((Units.coeHom _).comp (Subgroup.subtype _))
 
 private lemma centralizerEndHom_injective {K : Type} [Field K] {n : ℕ} (g : GL (Fin n) K) :
-    Function.Injective (centralizerEndHom g) := fun x y h =>
+    Function.Injective (centralizerEndHom g) := fun _x _y h =>
   Subtype.ext (Units.ext (Matrix.toLinAlgEquiv'.injective h))
 
 private lemma centralizerEndHom_commute {K : Type} [Field K] {n : ℕ} (g : GL (Fin n) K) :
@@ -115,7 +115,7 @@ theorem isCyclic_centralizer_of_orderOf_eq {K : Type} [Field K] [Finite K] {r n 
 
 theorem irreducible_cyclotomic_five_zmod_seven :
     Irreducible (Polynomial.cyclotomic 5 (ZMod 7)) := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   refine ZMod.irreducible_of_dvd_cyclotomic_of_natDegree (p := 7) (n := 5) (by norm_num)
     dvd_rfl ?_
   rw [Polynomial.natDegree_cyclotomic, Nat.totient_prime (by norm_num : Nat.Prime 5)]
@@ -127,8 +127,8 @@ theorem irreducible_cyclotomic_five_zmod_seven :
 
 theorem isCyclic_centralizer_of_orderOf_eq_five {g : GL (Fin 4) (ZMod 7)} (hg : orderOf g = 5) :
     IsCyclic (Subgroup.centralizer ({g} : Set (GL (Fin 4) (ZMod 7)))) := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   exact isCyclic_centralizer_of_orderOf_eq (K := ZMod 7) (r := 5) (n := 4)
     irreducible_cyclotomic_five_zmod_seven (by norm_num) hg
 

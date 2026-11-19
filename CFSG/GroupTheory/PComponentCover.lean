@@ -16,10 +16,12 @@ open scoped commutatorElement
 
 variable {X : Type} [Group X] [Finite X] {p : ℕ}
 
+omit [Finite X] in
 private lemma core_le (K : Subgroup X) :
     (CFSG.pPrimeCore p ↥K).map K.subtype ≤ K :=
   Subgroup.map_subtype_le _
 
+omit [Finite X] in
 theorem le_normalizer_map_pPrimeCore (K : Subgroup X) :
     K ≤ Subgroup.normalizer (((CFSG.pPrimeCore p ↥K).map K.subtype : Subgroup X) : Set X) := by
   have h := Subgroup.le_normalizer_map (H := CFSG.pPrimeCore p ↥K) K.subtype
@@ -28,7 +30,7 @@ theorem le_normalizer_map_pPrimeCore (K : Subgroup X) :
 private lemma dvd_card_quotient_core_of_isPComponent (hp : p.Prime) {K : Subgroup X}
     (hK : CFSG.IsPComponent p K) :
     p ∣ Nat.card (K ⧸ CFSG.pPrimeCore p K) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hnd
   have hq :=
     CFSG.ComponentClassification.CatalogueBHeldSmallCore.pComponent_coreQuotient_quasisimple
@@ -40,19 +42,19 @@ private lemma dvd_card_quotient_core_of_isPComponent (hp : p.Prime) {K : Subgrou
       exact (Nat.Prime.coprime_iff_not_dvd hp).2 hnd⟩
   rw [CFSG.pPrimeCore_quotient_eq_bot hp, le_bot_iff] at htop
   have hnt : Nontrivial (K ⧸ CFSG.pPrimeCore p K) := by
-    haveI : IsSimpleGroup
+    have : IsSimpleGroup
         ((K ⧸ CFSG.pPrimeCore p K) ⧸
           Subgroup.center (K ⧸ CFSG.pPrimeCore p K)) := hq.2.1
     exact (QuotientGroup.mk'_surjective
       (Subgroup.center (K ⧸ CFSG.pPrimeCore p K))).nontrivial
-  haveI := hnt
+  have := hnt
   exact (Subgroup.nontrivial_iff_ne_bot (⊤ : Subgroup (K ⧸ CFSG.pPrimeCore p K))).mp
     inferInstance htop
 
 private lemma not_isPSolvable_coreQuotient_of_isPComponent (hp : p.Prime) {K : Subgroup X}
     (hK : CFSG.IsPComponent p K) :
     ¬ CFSG.HallHigman.IsPSolvable p (K ⧸ CFSG.pPrimeCore p K) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq :=
     CFSG.ComponentClassification.CatalogueBHeldSmallCore.pComponent_coreQuotient_quasisimple
       p K hK
@@ -60,6 +62,7 @@ private lemma not_isPSolvable_coreQuotient_of_isPComponent (hp : p.Prime) {K : S
     ⟨hq.1.commutator_eq_top, hq.2.1⟩
     (dvd_card_quotient_core_of_isPComponent hp hK)
 
+omit [Finite X] in
 private lemma coreQuotient_surjective_of_covers {K H : Subgroup X} (hHK : H ≤ K)
     (hcov : ∀ b ∈ K, ∃ c ∈ H, c⁻¹ * b ∈ (CFSG.pPrimeCore p ↥K).map K.subtype) :
     Function.Surjective
@@ -76,6 +79,7 @@ private lemma coreQuotient_surjective_of_covers {K H : Subgroup X} (hHK : H ≤ 
     Subtype.ext (by simpa using hk_eq.symm)]
   exact hk
 
+omit [Finite X] in
 private lemma commutator_mem_inf_centralizer {B₁ B₂ K N : Subgroup X}
     (hc : ∀ x ∈ B₁, ∀ y ∈ B₂, x * y = y * x)
     (hcomm : ⁅B₂, K⁆ ≤ N) {a : X} (ha : a ∈ B₂) {d : X}
@@ -98,7 +102,7 @@ theorem not_isPSolvable_of_covers (hp : p.Prime) {K H : Subgroup X}
     (hK : CFSG.IsPComponent p K) (hHK : H ≤ K)
     (hcov : ∀ b ∈ K, ∃ c ∈ H, c⁻¹ * b ∈ (CFSG.pPrimeCore p ↥K).map K.subtype) :
     ¬ CFSG.HallHigman.IsPSolvable p ↥H := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro hH
   let φ : ↥H →* ↥K ⧸ CFSG.pPrimeCore p ↥K :=
     (QuotientGroup.mk' (CFSG.pPrimeCore p ↥K)).comp (Subgroup.inclusion hHK)
@@ -118,11 +122,12 @@ theorem dvd_card_of_covers (hp : p.Prime) {K H : Subgroup X}
     (hK : CFSG.IsPComponent p K) (hHK : H ≤ K)
     (hcov : ∀ b ∈ K, ∃ c ∈ H, c⁻¹ * b ∈ (CFSG.pPrimeCore p ↥K).map K.subtype) :
     p ∣ Nat.card H := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hnd
   exact not_isPSolvable_of_covers hp hK hHK hcov
     (CFSG.LocalAnalysis.UniquenessCase.UCK.isPSolvable_of_not_dvd_card (Q := ↥H) hnd)
 
+omit [Finite X] in
 theorem exists_mem_inf_centralizer_sup {q₁ q₂ : ℕ} (hq₁ : q₁.Prime) (hq₂ : q₂.Prime)
     {K N B₁ B₂ : Subgroup X} (hNK : N ≤ K)
     (hKN : K ≤ Subgroup.normalizer (N : Set X))

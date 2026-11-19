@@ -15,6 +15,7 @@ namespace Setting4
 variable {G : Type} [Group G] [Finite G] {T L V : Subgroup G} (S : Setting4 G T L V)
 include S
 
+omit [Finite G] S in
 theorem oTwoUpper_l0 : oTwoUpper (l0 L) = l0 L := by
   rw [l0, oTwoRes_eq_oTwoUpper, oTwoUpper_oTwoUpper, ← oTwoRes_eq_oTwoUpper]
 
@@ -29,7 +30,7 @@ theorem l0_le_of_hat (h139 : Stmt13_3_9) (h37 : A37ForSQTK)
   have hl0H : l0 L ≤ H := S.l0_le_L1.trans hL1H
   have hTsyl : IsSylowTwoOf T H := isSylowTwoOf_of_quasithinIsSylowTwo S.h13.sylow hTH
   have hP' : IsPSL 3 2 1 (L32A.cStar K) := IsPSL.of_mulEquiv (L32A.C.cStarEquiv K).symm hP
-  have hX := S.oTwoUpper_l0
+  have hX := (CFSG.Quasithin.H13.A6.Setting4.oTwoUpper_l0 (G := G) (L := L))
   have hTl0 : T ≤ Subgroup.normalizer (l0 L : Set G) := S.frame.T_le.trans S.normalizer_le_l0
   have h3 : (pCoreOf 2 (l0 L)).relIndex (l0 L) = 3 := by
     obtain ⟨c, hc, hc3, hcO, hdec⟩ := l0_decomp hhat

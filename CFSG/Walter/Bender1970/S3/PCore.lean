@@ -1336,9 +1336,9 @@ theorem bender1970_3_5
   have hE4 := card_le_four_of_faithful hq hp2 ((qCoreOf_isPGroup H q).to_le hX₀P) hexp hZp hX₀3
     hcomm hEN hEc hE2 hfaith
   have hcardE : Nat.card E = 2 ^ CFSG.Open.pRank 2 (T : Subgroup G) :=
-    card_omegaOneOfComm Nat.prime_two _ hcommT T.isPGroup'
+    card_omegaOneOfComm Nat.prime_two _ hcommT T.isPGroup
   have h3 := hG.three_le_rank_sylow T
-  rw [rank_eq_pRank_of_isPGroup Nat.prime_two T.isPGroup'] at h3
+  rw [rank_eq_pRank_of_isPGroup Nat.prime_two T.isPGroup] at h3
   have h8 : 8 ≤ Nat.card E := by
     rw [hcardE]
     exact (Nat.pow_le_pow_right two_pos h3 : 2 ^ 3 ≤ _)

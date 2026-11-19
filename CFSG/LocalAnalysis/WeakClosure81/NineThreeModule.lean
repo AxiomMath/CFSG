@@ -14,12 +14,12 @@ variable {Γ Ω : Type*} [Group Γ] [Finite Γ] [Fintype Ω]
   carrier := {f | ∑ ω, f ω = 0}
   add_mem' := by
     intro f g hf hg
-    simp only [Set.mem_setOf_eq, Pi.add_apply, Finset.sum_add_distrib] at hf hg ⊢
+    simp only [Set.mem_ofPred_eq, Pi.add_apply, Finset.sum_add_distrib] at hf hg ⊢
     rw [hf, hg, add_zero]
   zero_mem' := by simp
   smul_mem' := by
     intro c f hf
-    simp only [Set.mem_setOf_eq, Pi.smul_apply, smul_eq_mul, ← Finset.mul_sum] at hf ⊢
+    simp only [Set.mem_ofPred_eq, Pi.smul_apply, smul_eq_mul, ← Finset.mul_sum] at hf ⊢
     rw [hf, mul_zero]
 
 @[expose] def nineThreeConst (Ω : Type*) : Submodule (ZMod 2) (Ω → ZMod 2) :=
@@ -31,7 +31,7 @@ theorem nineThree_even_le_of_mem [DecidableEq Ω] (N : Submodule (ZMod 2) (Ω �
   have hsum : ∑ ω, f ω = 0 := hf
   have hf' : f = ∑ ω, f ω • ((fun _ => (1 : ZMod 2)) + Pi.single ω 1) := by
     ext ω'
-    simp [Finset.sum_apply, Pi.single_apply, mul_add, Finset.sum_add_distrib, hsum]
+    simp [Finset.sum_apply, Pi.single_apply, Finset.sum_add_distrib, hsum]
   rw [hf']
   exact N.sum_mem fun ω _ => N.smul_mem _ (h ω)
 
@@ -71,7 +71,7 @@ theorem nineThree_even_const_off [DecidableEq Ω] (hodd : Odd (Fintype.card Ω))
       · subst hω
         simp only [hfv, Pi.add_apply, Pi.single_eq_same]
         decide
-      · simp [Pi.single_apply, hω, hfc ω hω, h1]
+      · simp [hω, hfc ω hω, h1]
   · have hΩ : ∀ a, a = v := fun a => not_not.mp (not_exists.mp hΩ a)
     left
     ext ω
@@ -83,14 +83,15 @@ theorem nineThree_even_const_off [DecidableEq Ω] (hodd : Odd (Fintype.card Ω))
     rw [← h1]
     exact hsum
 
+omit [Finite Γ] in
 theorem nineThree_exists_fixed (σ : Γ →* Equiv.Perm Ω) (Q : Subgroup Γ) (hQ : IsPGroup 2 Q)
     (N : Submodule (ZMod 2) (Ω → ZMod 2))
     (hN : ∀ γ : Γ, ∀ f ∈ N, (fun ω => f ((σ γ).symm ω)) ∈ N) (hN0 : N ≠ ⊥) :
     ∃ f ∈ N, f ≠ 0 ∧ ∀ q ∈ Q, ∀ ω, f (σ q ω) = f ω := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Nontrivial N := Submodule.nontrivial_iff_ne_bot.mpr hN0
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Nontrivial N := Submodule.nontrivial_iff_ne_bot.mpr hN0
   let smulQ : SMul Q N := ⟨fun q f => ⟨fun ω => f.1 ((σ q.1).symm ω), hN q.1 f.1 f.2⟩⟩
-  letI : MulAction Q N :=
+  let : MulAction Q N :=
     { smul := smulQ.smul
       one_smul := fun f => by
         apply Subtype.ext
@@ -102,7 +103,7 @@ theorem nineThree_exists_fixed (σ : Γ →* Equiv.Perm Ω) (Q : Subgroup Γ) (h
         apply Subtype.ext
         funext ω
         show f.1 ((σ (q * r).1).symm ω) = f.1 ((σ r.1).symm ((σ q.1).symm ω))
-        simp [Equiv.Perm.mul_def, Equiv.symm_trans_apply] }
+        simp [Equiv.Perm.mul_def] }
   have hcard : 2 ∣ Nat.card N := by
     rw [Module.natCard_eq_pow_finrank (K := ZMod 2), Nat.card_zmod]
     exact dvd_pow_self 2 Module.finrank_pos.ne'
@@ -117,6 +118,7 @@ theorem nineThree_exists_fixed (σ : Γ →* Equiv.Perm Ω) (Q : Subgroup Γ) (h
   rw [Equiv.symm_apply_apply] at h1
   exact h1.symm
 
+omit [Finite Γ] in
 theorem nineThree_even_irred [DecidableEq Ω] (σ : Γ →* Equiv.Perm Ω)
     (hodd : Odd (Fintype.card Ω)) (htrans : ∀ a b : Ω, ∃ γ : Γ, σ γ a = b) (v : Ω)
     (Q : Subgroup Γ) (hQ : IsPGroup 2 Q) (hQt : ∀ a b : Ω, a ≠ v → b ≠ v → ∃ q ∈ Q, σ q a = b)
@@ -141,6 +143,7 @@ theorem nineThree_even_irred [DecidableEq Ω] (σ : Γ →* Equiv.Perm Ω)
     rw [Equiv.symm_apply_eq, hγ]
   simp only [Pi.add_apply, Pi.single_apply, h2]
 
+omit [Finite Γ] in
 theorem nineThree_perm_trichotomy (σ : Γ →* Equiv.Perm Ω) (hodd : Odd (Fintype.card Ω))
     (htrans : ∀ a b : Ω, ∃ γ : Γ, σ γ a = b) (v : Ω) (Q : Subgroup Γ) (hQ : IsPGroup 2 Q)
     (hQt : ∀ a b : Ω, a ≠ v → b ≠ v → ∃ q ∈ Q, σ q a = b)

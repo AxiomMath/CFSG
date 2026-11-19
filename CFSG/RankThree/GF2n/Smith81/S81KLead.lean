@@ -57,7 +57,7 @@ theorem perp_of_mem_leadSet [CharP K 2] {A : Subgroup (Gp K)} (hA : A ≤ ULG K)
     pr_shift hγP.1 hb theta
   have htb : pr (shift γ b) theta ≠ pr b theta := by omega
   have hv : (Finsupp.single b 1 : V K) ∈ Piece K (pr b theta) := mem_Piece_iff.2 fun b' hb' => by
-    rw [Finsupp.single_apply, if_neg]
+    rw [Finsupp.single_apply, ite_eq_right]
     rintro rfl
     exact hb' rfl
   have h1 : (e7Data_valid.endo K (e7Data_valid.xm K γ c * κ) (Finsupp.single b 1)) (shift γ b) =
@@ -73,9 +73,9 @@ theorem perp_of_mem_leadSet [CharP K 2] {A : Subgroup (Gp K)} (hA : A ≤ ULG K)
     exact lt_add_of_pos_right _ hc0
   have hφt := apply_eq_zero_of_mem_filt hφ (b := shift γ b) hlt
   have hroot : (e7Data.rootOp K γ (Finsupp.single b 1)) (shift γ b) = 1 := by
-    rw [rootOp_single hγP.1, if_pos hb, Finsupp.single_eq_same]
+    rw [rootOp_single hγP.1, ite_eq_left hb, Finsupp.single_eq_same]
   have hvt : (Finsupp.single b 1 : V K) (shift γ b) = 0 := by
-    rw [Finsupp.single_apply, if_neg]
+    rw [Finsupp.single_apply, ite_eq_right]
     intro h
     exact htb (by rw [← h])
   simp only [LinearMap.sub_apply, LinearMap.smul_apply, Module.End.one_apply, Finsupp.sub_apply,

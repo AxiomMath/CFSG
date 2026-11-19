@@ -50,7 +50,7 @@ theorem mem_centralizer_of_commute_of_isTI {B N : Subgroup G} [hNn : N.Normal]
 theorem le_centralizer_of_odd_card_of_isTI {M : Type*} [Group M] [Finite M] {B N : Subgroup M}
     [hNn : N.Normal] (hBe : IsElemAbelian 2 B) (hB4 : 4 ≤ Nat.card B) (hTI : IsTI B)
     (hNodd : Odd (Nat.card N)) : N ≤ Subgroup.centralizer (B : Set M) := by
-  haveI : CFSG.IsElementaryAbelian 2 B :=
+  have : CFSG.IsElementaryAbelian 2 B :=
     { toIsMulCommutative := hBe.1
       exponent_dvd_p := Monoid.exponent_dvd_of_forall_pow_eq_one fun x =>
         Subtype.ext (by rw [Subgroup.coe_pow, hBe.2 x x.2, Subgroup.coe_one]) }

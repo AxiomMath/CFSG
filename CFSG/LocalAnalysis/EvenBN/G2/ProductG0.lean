@@ -27,8 +27,7 @@ theorem map_conj_inv_map_conj_inv {g : G} (hg : g * g = 1) (A : Subgroup G) :
     ext x
     have hgi : g⁻¹ = g := inv_eq_of_mul_eq_one_right hg
     have h1 : g * (g * x * g) * g = (g * g) * x * (g * g) := by group
-    simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulAut.conj_apply, hgi, inv_inv,
-      MonoidHom.id_apply]
+    simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulAut.conj_apply, hgi, MonoidHom.id_apply]
     rw [h1, hg]
     simp
   rw [Subgroup.map_map, hcomp, Subgroup.map_id]
@@ -74,6 +73,7 @@ section Hall
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem isHallSubgroup_odd {U J : Subgroup G} (hJU : J ≤ U) (hodd : Odd (Nat.card J))
     (hidx : ∃ k : ℕ, (J.subgroupOf U).index ∣ 2 ^ k) :
     CFSG.IsHallSubgroup {p : Nat.Primes | p.val ≠ 2} (J.subgroupOf U) := by
@@ -192,6 +192,7 @@ namespace DiagonalPair
 
 variable {d : G2Data L K} (X : DiagonalPair d t)
 
+omit [Finite G] in
 theorem commutator_sup_eq_bot (hK : 4 ≤ Nat.card K) (htL : t ∈ centralizer (L : Set G))
     (ht : t * t = 1) : ⁅X.A₁ ⊔ X.A₂, (X.A₁ ⊔ X.A₂)ᵍ[t]⁆ = ⊥ := by
   obtain ⟨h₁₂, h₂₁⟩ := X.commutator_cross_eq_bot hK ht htL
@@ -224,13 +225,13 @@ theorem range_and_isPerfect (h : Setup G L f t) (hK : 4 ≤ Nat.card K) :
     rw [MonoidHom.range_eq_map, ← Subgroup.subgroupOf_self (X.A₁ ⊔ X.A₂),
       Subgroup.subgroupOf_sup le_sup_left le_sup_right, Subgroup.map_sup, hmap₁, hmap₂,
       X.range₁, X.range₂, h5]
-  · haveI : Group.IsPerfect ↥X.A₁ := by
-      haveI : Group.IsPerfect (diagonalHom X.A₁ t X.comm₁).range := by
+  · have : Group.IsPerfect ↥X.A₁ := by
+      have : Group.IsPerfect (diagonalHom X.A₁ t X.comm₁).range := by
         rw [Subgroup.isPerfect_iff, X.range₁]
         exact h6₁
       exact ProductG0Aux.isPerfect_of_injective _ X.injective₁
-    haveI : Group.IsPerfect ↥X.A₂ := by
-      haveI : Group.IsPerfect (diagonalHom X.A₂ t X.comm₂).range := by
+    have : Group.IsPerfect ↥X.A₂ := by
+      have : Group.IsPerfect (diagonalHom X.A₂ t X.comm₂).range := by
         rw [Subgroup.isPerfect_iff, X.range₂]
         exact h6₂
       exact ProductG0Aux.isPerfect_of_injective _ X.injective₂

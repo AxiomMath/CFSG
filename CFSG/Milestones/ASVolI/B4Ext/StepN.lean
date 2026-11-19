@@ -114,7 +114,7 @@ theorem burnsideB49x_bBuild_blocks (D : ↥(LinearMap.ker φ) →ₗ[ZMod 2] ↥
   · ext y
     simp only [burnsideB49x_bD, LinearMap.comp_apply, Submodule.subtype_apply,
       burnsideB49x_bBuild_apply, burnsideB49_proj_ker hw₀, hφy, zero_smul, add_zero, map_add,
-      map_smul, hpr0, smul_zero, Submodule.coe_add]
+      map_smul, hpr0, smul_zero]
   · simp only [burnsideB49x_bC, burnsideB49x_bBuild_apply, hpr0, map_zero, hw₀, one_smul,
       ZeroMemClass.coe_zero, zero_add, map_add, map_smul, burnsideB49_proj_ker hw₀, smul_zero,
       add_zero]
@@ -135,10 +135,12 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 variable {W : Type*} [AddCommGroup W] [Module (ZMod 2) W] [FiniteDimensional (ZMod 2) W]
   {φ : Dual (ZMod 2) W} {w₀ : W} (hw₀ : φ w₀ = 1)
 
+omit [FiniteDimensional (ZMod 2) W] in
 theorem burnsideB49x_K_symm_w₀ (k : ↥(burnsideB49_K φ w₀)) :
     (k : W ≃ₗ[ZMod 2] W).symm w₀ = w₀ :=
   (LinearEquiv.symm_apply_eq _).2 k.2.2.symm
 
+omit [FiniteDimensional (ZMod 2) W] in
 theorem burnsideB49x_K_phi_symm (k : ↥(burnsideB49_K φ w₀)) (x : W) :
     φ ((k : W ≃ₗ[ZMod 2] W).symm x) = φ x := by
   have := k.2.1 ((k : W ≃ₗ[ZMod 2] W).symm x)
@@ -159,6 +161,7 @@ theorem burnsideB49x_bC_muN (k : ↥(burnsideB49_K φ w₀)) (f : W →ₗ[ZMod 
   simp only [burnsideB49x_bC, burnsideB49x_muN_apply, burnsideB49x_K_symm_w₀]
   exact burnsideB49_proj_K hw₀ k _
 
+omit [FiniteDimensional (ZMod 2) W] in
 theorem burnsideB49x_bR_muN (k : ↥(burnsideB49_K φ w₀)) (f : W →ₗ[ZMod 2] W) :
     burnsideB49x_bR φ (burnsideB49x_muN W k f) =
       burnsideB49_KresDual φ w₀ k (burnsideB49x_bR φ f) := by
@@ -167,6 +170,7 @@ theorem burnsideB49x_bR_muN (k : ↥(burnsideB49_K φ w₀)) (f : W →ₗ[ZMod 
     burnsideB49x_muN_apply, burnsideB49_KresDual_apply]
   rw [k.2.1, burnsideB49_Kres_symm_apply]
 
+omit [FiniteDimensional (ZMod 2) W] in
 theorem burnsideB49x_bA_muN (k : ↥(burnsideB49_K φ w₀)) (f : W →ₗ[ZMod 2] W) :
     burnsideB49x_bA φ w₀ (burnsideB49x_muN W k f) = burnsideB49x_bA φ w₀ f := by
   simp only [burnsideB49x_bA, burnsideB49x_muN_apply, burnsideB49x_K_symm_w₀]
@@ -292,6 +296,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 variable {W : Type*} [AddCommGroup W] [Module (ZMod 2) W] [FiniteDimensional (ZMod 2) W]
   {φ : Dual (ZMod 2) W} {w₀ : W} (hw₀ : φ w₀ = 1)
 
+omit [FiniteDimensional (ZMod 2) W] in
 theorem burnsideB49x_tv_symm_apply {u : W} (h : φ u = 0) (x : W) :
     (burnsideB49_tv φ u h).symm x = x + φ x • u := by
   show (burnsideB49_tv φ u h)⁻¹ x = _
@@ -392,7 +397,7 @@ theorem burnsideB49x_qstepN (hdim : 3 ≤ finrank (ZMod 2) ↥(LinearMap.ker φ)
       (φ x * c) • u := by
     rw [LinearMap.sub_apply, hmuT]
     simp only [LinearMap.smul_apply, LinearMap.smulRight_apply, map_add, map_smul, hu', h,
-      smul_zero, add_zero, hw₀, smul_eq_mul, mul_one, zero_smul, mul_zero]
+      smul_zero, add_zero, hw₀, smul_eq_mul, mul_one, zero_smul]
     rw [add_sub_cancel_left, mul_comm]
   rw [hL, hR]
 

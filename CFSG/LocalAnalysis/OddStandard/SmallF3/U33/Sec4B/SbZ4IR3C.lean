@@ -17,11 +17,13 @@ private lemma toZE_card_B (h : Z4IData N Q Y V V' B K ρ t τ l) :
     Nat.card (B.map (z4iπ N)) = 16 := by
   rw [z4i_card_map N h.odd_N (h.isPGroup_Q.to_le h.B_le_Q), h.card_B]
 
+omit [Finite X] in
 private lemma toZE_Y_sq (h : Z4IData N Q Y V V' B K ρ t τ l) :
     ∀ y ∈ Y.map (z4iπ N), y * y = 1 := by
   rintro _ ⟨y, hy, rfl⟩
   rw [← map_mul, h.Y_sq y hy, map_one]
 
+omit [Finite X] in
 private lemma toZE_normal {A : Subgroup X}
     (hA : ∀ g x : X, x ∈ A → g * x * g⁻¹ ∈ A) :
     ∀ g x : X ⧸ N, x ∈ A.map (z4iπ N) → g * x * g⁻¹ ∈ A.map (z4iπ N) := by
@@ -31,48 +33,59 @@ private lemma toZE_normal {A : Subgroup X}
   rw [← map_mul, ← map_inv, ← map_mul]
   exact Subgroup.mem_map_of_mem (z4iπ N) (hA g0 x0 hx0)
 
+omit [Finite X] in
 private lemma toZE_t_sq (h : Z4IData N Q Y V V' B K ρ t τ l) :
     z4iπ N t * z4iπ N t = 1 := by
   rw [← map_mul, h.t_sq, map_one]
 
+omit [Finite X] in
 private lemma toZE_tau_sq (h : Z4IData N Q Y V V' B K ρ t τ l) :
     z4iπ N τ * z4iπ N τ = 1 := by
   rw [← map_mul, h.tau_sq, map_one]
 
+omit [Finite X] in
 private lemma toZE_l_sq (h : Z4IData N Q Y V V' B K ρ t τ l) :
     z4iπ N l * z4iπ N l = 1 := by
   rw [← map_mul, h.l_sq, map_one]
 
+omit [Finite X] in
 private lemma toZE_t_tau (h : Z4IData N Q Y V V' B K ρ t τ l) :
     z4iπ N t * z4iπ N τ = z4iπ N τ * z4iπ N t := by
   rw [← map_mul, ← map_mul, h.t_tau]
 
+omit [Finite X] in
 private lemma toZE_t_l (h : Z4IData N Q Y V V' B K ρ t τ l) :
     z4iπ N t * z4iπ N l = z4iπ N l * z4iπ N t := by
   rw [← map_mul, ← map_mul, h.t_l]
 
+omit [Finite X] in
 private lemma toZE_tau_l (h : Z4IData N Q Y V V' B K ρ t τ l) :
     z4iπ N τ * z4iπ N l = z4iπ N l * z4iπ N τ := by
   rw [← map_mul, ← map_mul, h.tau_l]
 
+omit [Finite X] in
 private lemma toZE_t_rho (h : Z4IData N Q Y V V' B K ρ t τ l) :
     z4iπ N t * z4iπ N ρ = z4iπ N ρ * z4iπ N t := by
   rw [← map_mul, ← map_mul, h.t_rho]
 
+omit [Finite X] in
 private lemma toZE_tau_rho (h : Z4IData N Q Y V V' B K ρ t τ l) :
     z4iπ N τ * z4iπ N ρ = z4iπ N ρ * z4iπ N τ := by
   rw [← map_mul, ← map_mul, h.tau_rho]
 
+omit [Finite X] in
 private lemma toZE_l_rho (h : Z4IData N Q Y V V' B K ρ t τ l) :
     z4iπ N l * z4iπ N ρ * (z4iπ N l)⁻¹ = (z4iπ N ρ)⁻¹ := by
   rw [← map_mul, ← map_inv, ← map_mul, h.l_rho, map_inv]
 
+omit [Finite X] in
 private lemma toZE_norm {A : Subgroup X} {a : X} (ha : ∀ x ∈ A, a * x * a⁻¹ ∈ A) :
     ∀ x ∈ A.map (z4iπ N), z4iπ N a * x * (z4iπ N a)⁻¹ ∈ A.map (z4iπ N) := by
   rintro _ ⟨x, hx, rfl⟩
   rw [← map_mul, ← map_inv, ← map_mul]
   exact Subgroup.mem_map_of_mem (z4iπ N) (ha x hx)
 
+omit [Finite X] in
 private lemma toZE_comm_t_K (h : Z4IData N Q Y V V' B K ρ t τ l) :
     ∀ k ∈ K.map (z4iπ N),
       z4iπ N t * k * (z4iπ N t)⁻¹ * k⁻¹ ∈ Q.map (z4iπ N) := by
@@ -83,20 +96,24 @@ private lemma toZE_comm_t_K (h : Z4IData N Q Y V V' B K ρ t τ l) :
   rw [h1]
   exact (z4iπ_mem_map_iff N (A := Q) (x := t * k * t⁻¹ * k⁻¹)).mpr (h.comm_t_K k hk)
 
+omit [Finite X] in
 private lemma toZE_tau_inv (h : Z4IData N Q Y V V' B K ρ t τ l) :
     ∀ q ∈ Q.map (z4iπ N), z4iπ N τ * q * (z4iπ N τ)⁻¹ = q⁻¹ := by
   rintro _ ⟨q, hq, rfl⟩
   rw [← map_mul, ← map_inv, ← map_mul, h.tau_inv q hq, map_inv]
 
+omit [Finite X] in
 private lemma toZE_tau_not_mem_Q (h : Z4IData N Q Y V V' B K ρ t τ l) :
     z4iπ N τ ∉ Q.map (z4iπ N) :=
   fun hmem => h.tau_not_mem_Q ((z4iπ_mem_map_iff N (A := Q) (x := τ)).mp hmem)
 
+omit [Finite X] in
 private lemma toZE_B_cent_t (h : Z4IData N Q Y V V' B K ρ t τ l) :
     ∀ b ∈ B.map (z4iπ N), z4iπ N t * b = b * z4iπ N t := by
   rintro _ ⟨b, hb, rfl⟩
   rw [← map_mul, ← map_mul, h.B_cent_t b hb]
 
+omit [Finite X] in
 private lemma toZE_V_cent_t (h : Z4IData N Q Y V V' B K ρ t τ l) :
     ∀ v ∈ V.map (z4iπ N), z4iπ N t * v = v * z4iπ N t := by
   rintro _ ⟨v, hv, rfl⟩
@@ -117,7 +134,7 @@ private lemma toZE_Y_cent_t (h : Z4IData N Q Y V V' B K ρ t τ l) :
 private lemma toZE_bound (h : Z4IData N Q Y V V' B K ρ t τ l) :
     ∀ R : Subgroup (X ⧸ N), IsPGroup 2 R →
       R ≤ centralizer ({z4iπ N t} : Set (X ⧸ N)) → Nat.card R ≤ 128 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have ht_ord : orderOf t = 2 := orderOf_eq_prime (by rw [sq, h.t_sq]) h.t_ne_one
   have hA : IsPGroup 2 (zpowers t) := by
     refine IsPGroup.of_card (n := 1) ?_
@@ -146,7 +163,7 @@ private lemma toZE_bound (h : Z4IData N Q Y V V' B K ρ t τ l) :
 
 private lemma toZE_not_conj (h : Z4IData N Q Y V V' B K ρ t τ l) :
     ∀ g : X ⧸ N, g * z4iπ N t * g⁻¹ ≠ z4iπ N t * z4iπ N τ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have ht_ord : orderOf t = 2 := orderOf_eq_prime (by rw [sq, h.t_sq]) h.t_ne_one
   have htau_inv : τ⁻¹ = τ := inv_eq_of_mul_eq_one_right h.tau_sq
   have htτ_sq : (t * τ) ^ 2 = 1 := by

@@ -131,7 +131,7 @@ theorem mem_TG_of_normalizes (S : Sylow 2 G) {s : G} (hsS : s ∈ (S : Subgroup 
       C.Φ1_inj (T_le_P1 hτ') (P1.mul_mem (P1.mul_mem hyP (T_le_P1 hτ)) (P1.inv_mem hyP)) h2
     simpa [MulAut.conj_apply, h3.symm] using hτ'
   have hp : IsPGroup 2 (Subgroup.zpowers y) := by
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 S.isPGroup') ⟨C.Φ1 y, hsS⟩
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 S.isPGroup) ⟨C.Φ1 y, hsS⟩
     have h1 : orderOf (C.Φ1 y) = 2 ^ k := by
       have := hk
       rwa [Subgroup.orderOf_mk] at this
@@ -148,7 +148,7 @@ theorem mem_TG_of_normalizes (S : Sylow 2 G) {s : G} (hsS : s ∈ (S : Subgroup 
 theorem sylow_eq_TG (S : Sylow 2 G) (hS : C.TG ≤ (S : Subgroup G)) :
     (S : Subgroup G) = C.TG := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  have : Group.IsNilpotent ↥(S : Subgroup G) := S.isPGroup'.isNilpotent
+  have : Group.IsNilpotent ↥(S : Subgroup G) := S.isPGroup.isNilpotent
   set A : Subgroup ↥(S : Subgroup G) := C.TG.subgroupOf (S : Subgroup G) with hA
   have hnorm : Subgroup.normalizer (A : Set ↥(S : Subgroup G)) ≤ A := by
     intro s hs

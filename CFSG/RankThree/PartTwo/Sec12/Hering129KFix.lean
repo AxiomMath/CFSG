@@ -138,8 +138,8 @@ theorem exists_sl2_quotient_of_fix (hTL : KS129ThreeLocalFix) (hCen : Gap127TwoC
   have hctT : ct ∈ T :=
     Subgroup.mem_centralizer_singleton_iff.mpr (Subtype.ext (hAc c hcA a haA))
   set P : Subgroup T := perfectResidual T with hP
-  haveI : P.Characteristic := CFSG.RankThreeCoreUniqueness.Helpers.perfectResidual_characteristic
-  haveI : P.Normal := inferInstance
+  have : P.Characteristic := CFSG.RankThreeCoreUniqueness.Helpers.perfectResidual_characteristic
+  have : P.Normal := inferInstance
   have hct_X : ct ∈ inSubgroup perfectResidual T := by
     rw [← map_resCent_quot N hN3 hat3] at hct_in
     obtain ⟨y, hy, hyc⟩ := hct_in
@@ -238,7 +238,7 @@ theorem gap129KFKStrong_of_fix (hTL : KS129ThreeLocalFix) (hCen : Gap127TwoCfgPl
     exists_sl2_quotient_of_fix hTL hCen G A c L b a K S cfg q hq x hxD hxb
   obtain ⟨hq4, -, -⟩ := hCen.2 G A c L b a K S cfg q hq
   have hQ : CFSG.IsQuasisimple (Matrix.SpecialLinearGroup (Fin 2) F) := by
-    haveI : Finite F := Finite.of_fintype F
+    have : Finite F := Finite.of_fintype F
     have h4 : 4 ≤ Nat.card F := by
       rw [Nat.card_eq_fintype_card, hFcard]
       exact hq4.trans (Nat.le_self_pow (by omega) _)

@@ -108,7 +108,7 @@ private theorem r4d_core {L Z Q S D : Subgroup G} {f : ℕ} (hf : f ≠ 0)
     obtain ⟨x, hx, rfl⟩ := mem_map.mp hA
     exact ⟨x, x.2, (mem_subgroupOf.mp hx).1, rfl⟩
   have hU1 : U ≠ ⊥ := by
-    obtain ⟨τ, hτ, hτQ⟩ := SetLike.not_le_iff_exists.mp hSQ
+    obtain ⟨τ, hτ, hτQ⟩ := IsConcreteLE.not_le_iff_exists.mp hSQ
     have hne : α ⟨τ, hτ.2⟩ ≠ 1 := fun h => hτQ (hkerQ _ h)
     intro hU
     have hm := hmemU τ hτ.2 hτ.1
@@ -277,10 +277,13 @@ namespace Track
 
 variable {L1 L2 S : Subgroup G} (t : Track L1 L2 S)
 
+omit [Finite G] in
 private theorem D2_le_K : t.D2 ≤ t.K := le_sup_right
 
+omit [Finite G] in
 private theorem D2_le_Gv (i : ℤ) : t.D2 ≤ t.Gv i := t.D2_le_K.trans (t.K_le_Gv i)
 
+omit [Finite G] in
 private theorem K_le_normalizer_pCoreOf_Gw (a b : ℤ) :
     t.K ≤ normalizer (pCoreOf 2 (t.Gw a b) : Set G) :=
   (t.K_le_Gw a b).trans (le_normalizer_pCoreOf 2 _)
@@ -306,6 +309,7 @@ private theorem Qv_one_le_Gv_two {a f : ℕ} (hfr : Frame L1 L2 S a f) :
   have h2 := inf_eq_left.mp h
   rwa [show (1 : ℤ) + 1 = 2 by norm_num] at h2
 
+omit [Finite G] in
 private theorem r4a_P2_le_normalizer_L2 (hF : Hyp111 L1 L2 S) :
     P2 L1 L2 S ≤ normalizer (L2 : Set G) := by
   have h := bigB_le_normalizer_of_hyp111 hF.symm
@@ -323,6 +327,7 @@ private theorem r4a_P2_le_sup {a f : ℕ}
   exact sup_le (sup_le (hSle.trans le_sup_left) (le_sup_left.trans le_sup_right))
     (le_sup_right.trans le_sup_right)
 
+omit [Finite G] in
 private theorem r4a_K_le_normalizer {a f : ℕ}
     (hfr : Frame L1 L2 S a f) :
     t.K ≤ normalizer ((L2 ⊔ Q2 L1 L2 S : Subgroup G) : Set G) := by
@@ -393,10 +398,12 @@ theorem mem_L2_sup_Q2_of_pow_eq_one {a f : ℕ}
     x ∈ L2 ⊔ Q2 L1 L2 S := by
   exact t.r4a_mem_of_pow_eq_one hfr hx hxj
 
+omit [Finite G] in
 private theorem r4b_conj_mem {H : Subgroup G} {g y : G} (hg : g ∈ normalizer (H : Set G))
     (hy : y ∈ H) : g * y * g⁻¹ ∈ H :=
   (mem_normalizer_iff.mp hg y).mp hy
 
+omit [Finite G] in
 private theorem r4b_mem_normalizer_centralizer {H : Subgroup G} {g : G}
     (hg : g ∈ normalizer (H : Set G)) :
     g ∈ normalizer ((centralizer (H : Set G) : Subgroup G) : Set G) := by
@@ -418,19 +425,23 @@ private theorem r4b_mem_normalizer_centralizer {H : Subgroup G} {g : G}
   have := key g⁻¹ (inv_mem hg) _ hy
   rwa [show g⁻¹ * (g * y * g⁻¹) * g⁻¹⁻¹ = y by group] at this
 
+omit [Finite G] in
 private theorem r4b_map_Zv (i k : ℤ) :
     (t.Zv i).map (MulAut.conj ((t.x₂ * t.x₁) ^ k)).toMonoidHom = t.Zv (i + 2 * k) :=
   map_qv_tau_pow i k
 
+omit [Finite G] in
 private theorem r4b_map_Gv (i k : ℤ) :
     (t.Gv i).map (MulAut.conj ((t.x₂ * t.x₁) ^ k)).toMonoidHom = t.Gv (i + 2 * k) :=
   map_qv_tau_pow i k
 
+omit [Finite G] in
 private theorem r4b_map_Gw (a b k : ℤ) :
     (t.Gw a b).map (MulAut.conj ((t.x₂ * t.x₁) ^ k)).toMonoidHom =
       t.Gw (a + 2 * k) (b + 2 * k) :=
   map_win_tau_pow a b k
 
+omit [Finite G] in
 private theorem Zv_one_sub_le_Gw {b₀ : ℕ} (hb₀ : Even b₀) (hZ0 : t.Zv 1 ≤ t.Gw (1 - b₀) (1 + b₀)) :
     t.Zv (1 - b₀) ≤ t.Gw (1 - 2 * b₀) 1 := by
   obtain ⟨c, hc⟩ := hb₀
@@ -442,6 +453,7 @@ private theorem Zv_one_sub_le_Gw {b₀ : ℕ} (hb₀ : Even b₀) (hZ0 : t.Zv 1 
   have e3 : (1 : ℤ) + b₀ + 2 * (-(c : ℤ)) = 1 := by omega
   rwa [e1, e2, e3] at h
 
+omit [Finite G] in
 private theorem Zv_one_sub_not_le_Gv_two {b₀ : ℕ} (hb₀ : Even b₀)
     (hZ0' : ¬ t.Zv 1 ≤ t.Gv (2 + b₀)) :
     ¬ t.Zv (1 - b₀) ≤ t.Gv 2 := by
@@ -454,6 +466,7 @@ private theorem Zv_one_sub_not_le_Gv_two {b₀ : ℕ} (hb₀ : Even b₀)
   have e2 : (2 : ℤ) + 2 * (c : ℤ) = 2 + b₀ := by omega
   rwa [e1, e2] at h'
 
+omit [Finite G] in
 theorem commutator_Zv_one_le_inf {b₀ : ℕ} (hb₀ : Even b₀)
     (hZ0 : t.Zv 1 ≤ t.Gw (1 - b₀) (1 + b₀)) :
     ⁅t.Zv 1, t.Zv (1 - b₀)⁆ ≤ t.Zv 1 ⊓ t.Zv (1 - b₀) := by
@@ -479,7 +492,7 @@ theorem le_centralizer_of_commutator_eq_bot {a f : ℕ}
     (hfr : Frame L1 L2 S a f) {b₀ : ℕ} (hb₀ : Even b₀)
     (hZ0 : t.Zv 1 ≤ t.Gw (1 - b₀) (1 + b₀)) (hZ0' : ¬ t.Zv 1 ≤ t.Gv (2 + b₀))
     (h : ⁅t.Zv 1, t.Zv (1 - b₀)⁆ = ⊥) : L2 ≤ centralizer (t.Zv 1 : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hb : 1 ≤ b₀ := by
     by_contra hb
     have h0 : b₀ = 0 := by omega
@@ -535,6 +548,7 @@ theorem L2_le_centralizer_of_l2 {a f : ℕ}
   have hL := t.L2_le_sup_Qv_one_of_sylow hfr hT hx
   rwa [sup_eq_left.mpr hQC] at hL
 
+omit [Finite G] in
 private theorem r4c_map_conj_eq_of_mem {H : Subgroup G} {g : G}
     (hg : g ∈ normalizer (H : Set G)) : H.map (MulAut.conj g).toMonoidHom = H := by
   ext y
@@ -549,16 +563,20 @@ private theorem r4c_relIndex_ne_zero (H K : Subgroup G) : H.relIndex K ≠ 0 :=
 private theorem r4c_two_pow_mul (n : ℕ) : 2 ^ (2 * n) = 2 ^ n * 2 ^ n := by
   rw [two_mul, pow_add]
 
+omit [Finite G] in
 private theorem r4c_P1_le_normalizer_Z1 : P1 L1 L2 S ≤ normalizer (Z1 L1 L2 S : Set G) :=
   (le_normalizer_pCoreOf 2 _).trans (A4.normalizer_le_normalizer_omegaOneCenterOf _)
 
+omit [Finite G] in
 private theorem r4c_P2_le_normalizer_Z2 : P2 L1 L2 S ≤ normalizer (Z2 L1 L2 S : Set G) :=
   (le_normalizer_pCoreOf 2 _).trans (A4.normalizer_le_normalizer_omegaOneCenterOf _)
 
+omit [Finite G] in
 private theorem r4c_Zv_comm (i : ℤ) {x y : G} (hx : x ∈ t.Zv i) (hy : y ∈ t.Zv i) :
     x * y = y * x :=
   (mem_centralizer_iff.mp (t.Zv_le_centralizer i hx) y (t.Zv_le_Qv i hy)).symm
 
+omit [Finite G] in
 private theorem r4c_sq_eq_one (i : ℤ) {e : G} (he : e ∈ t.Zv i) : e ^ 2 = 1 := by
   rw [t.Zv_eq i] at he
   exact A4.sq_eq_one_of_mem_omegaOneCenterOf he
@@ -569,6 +587,7 @@ private theorem r4c_pCoreOf_le_Qv_one (hF : Hyp111 L1 L2 S) : pCoreOf 2 L2 ≤ t
   rw [t.Qv_one]
   exact h
 
+omit [Finite G] in
 private theorem r4c_L2_le_Gv_one : L2 ≤ t.Gv 1 := by
   rw [t.Gv_one]
   exact le_sup_left
@@ -584,7 +603,7 @@ private theorem r4c_S_eq_sup_Qv_one {a f : ℕ}
 private theorem r4c_ne_conj_x₂ {a f : ℕ}
     (hfr : Frame L1 L2 S a f) :
     S ⊓ L2 ≠ (S ⊓ L2).map (MulAut.conj t.x₂).toMonoidHom := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTsyl : IsSylowTwoOf (S ⊓ L2) L2 := hfr.hF.1.h2.sylow
   have hSQ : S = t.Qv 1 ⊔ (S ⊓ L2) := t.r4c_S_eq_sup_Qv_one hfr
   intro heq
@@ -608,12 +627,13 @@ private theorem r4c_ne_conj_x₂ {a f : ℕ}
   have hSle : S ≤ t.Qv 1 := hSQ.le.trans (sup_le le_rfl hTQ)
   have hQS : (t.Qv 1).relIndex S = 1 := Subgroup.relIndex_eq_one.mpr hSle
   have h9 := (t.relIndex_Qv_pCoreOf hfr 1).1
-  rw [sub_self, t.pCoreOf_Gw_zero_one hfr, if_neg Int.not_even_one, hQS] at h9
+  rw [sub_self, t.pCoreOf_Gw_zero_one hfr, ite_eq_right Int.not_even_one, hQS] at h9
   have h4 : 4 ≤ 2 ^ f :=
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hfr.hf
   omega
 
+omit [Finite G] in
 private theorem r4c_relCent_eq {L Q E : Subgroup G} (hQE : Q ≤ centralizer (E : Set G))
     (hL : L ≤ ⁅L, L⁆ ⊔ Q) :
     St84.relCent E (E ⊓ centralizer (L : Set G)) L = E ⊓ centralizer (L : Set G) := by
@@ -649,6 +669,7 @@ private theorem r4c_relCent_eq {L Q E : Subgroup G} (hQE : Q ≤ centralizer (E 
     rw [h1]
     exact Z.one_mem
 
+omit [Finite G] in
 private theorem r4c_Zv_le_Gw {b₀ c : ℕ} (hc : (b₀ : ℤ) = 2 * c)
     (hZ0 : t.Zv 1 ≤ t.Gw (1 - b₀) (1 + b₀)) : t.Zv (1 - b₀) ≤ t.Gw (1 - 2 * b₀) 1 := by
   have h := Subgroup.map_mono (f := (MulAut.conj ((t.x₂ * t.x₁) ^ (-(c : ℤ)))).toMonoidHom) hZ0
@@ -668,6 +689,7 @@ private theorem r4c_Zv_le_Gw {b₀ c : ℕ} (hc : (b₀ : ℤ) = 2 * c)
   rw [e1, e2] at h
   exact h
 
+omit [Finite G] in
 private theorem r4c_not_Zv_le_Gv_two {b₀ c : ℕ} (hc : (b₀ : ℤ) = 2 * c)
     (hZ0' : ¬ t.Zv 1 ≤ t.Gv (2 + b₀)) : ¬ t.Zv (1 - b₀) ≤ t.Gv 2 := by
   intro h
@@ -701,17 +723,20 @@ private theorem r4c_S_le_sup {a f : ℕ}
   · intro h
     exact t.r4c_not_Zv_le_Gv_two hc hZ0' (h.trans (t.Qv_one_le_Gv_two hfr))
 
+omit [Finite G] in
 private theorem r4c_Zv_le_normalizer_C :
     t.Zv 1 ≤ normalizer ((t.Zv 1 ⊓ centralizer (L2 : Set G) : Subgroup G) : Set G) :=
-  fun e he => Subgroup.centralizer_le_normalizer _ (mem_centralizer_iff.mpr fun c hc =>
+  fun _e he => Subgroup.centralizer_le_normalizer _ (mem_centralizer_iff.mpr fun _c hc =>
     t.r4c_Zv_comm 1 (mem_inf.mp hc).1 he)
 
+omit [Finite G] in
 private theorem r4c_L2_le_normalizer_C :
     L2 ≤ normalizer ((t.Zv 1 ⊓ centralizer (L2 : Set G) : Subgroup G) : Set G) := by
   have h : L2 ≤ centralizer ((t.Zv 1 ⊓ centralizer (L2 : Set G) : Subgroup G) : Set G) :=
     Subgroup.le_centralizer_iff.mp inf_le_right
   exact h.trans (Subgroup.centralizer_le_normalizer _)
 
+omit [Finite G] in
 private theorem r4c_Qv_one_le_centralizer_Zv : t.Qv 1 ≤ centralizer (t.Zv 1 : Set G) :=
   Subgroup.le_centralizer_iff.mp (t.Zv_le_centralizer 1)
 
@@ -719,6 +744,7 @@ private theorem r4c_pCoreOf_le_centralizer_Zv (hF : Hyp111 L1 L2 S) :
     pCoreOf 2 L2 ≤ centralizer (t.Zv 1 : Set G) :=
   (t.r4c_pCoreOf_le_Qv_one hF).trans t.r4c_Qv_one_le_centralizer_Zv
 
+omit [Finite G] in
 private theorem r4c_isElemSec : CFSG.GH74.QTGen4.DSGen4.IsElemSec
     (t.Zv 1 ⊓ centralizer (L2 : Set G)) (t.Zv 1) := by
   refine ⟨inf_le_left, ?_, fun e he => ?_⟩
@@ -754,6 +780,7 @@ private theorem r4c_relCent_L2 {a f : ℕ}
   r4c_relCent_eq (Q := pCoreOf 2 L2) (t.r4c_pCoreOf_le_centralizer_Zv hfr.hF.1)
     (CFSG.Quasithin.F112R.le_commutator_sup_pCoreOf_of_isL2Quot hfr.hf hfr.hL2)
 
+omit [Finite G] in
 private theorem r4c_L2_le_normalizer_Zv : L2 ≤ normalizer (t.Zv 1 : Set G) :=
   (t.r4c_L2_le_Gv_one).trans (t.Gv_le_normalizer_Zv 1)
 
@@ -802,7 +829,7 @@ private theorem r4c_relIndex_relCent_le {a f : ℕ}
   have h2 := Subgroup.relIndex_le_of_le_left (L := t.Zv 1) h1 (r4c_relIndex_ne_zero _ _)
   rw [Subgroup.inf_relIndex_left] at h2
   have h3 := t.relIndex_Qv_le hfr v (t.isPGroup_Zv 1) hXw
-  rw [if_neg hv] at h3
+  rw [ite_eq_right hv] at h3
   exact h2.trans h3
 
 private theorem r4c_main {a f : ℕ}
@@ -884,7 +911,7 @@ theorem L2_le_centralizer_Zv_one_of_relIndex_lt {a f : ℕ}
     (hfr : Frame L1 L2 S a f)
     (hrel : (t.Zv 1 ⊓ centralizer (L2 : Set G)).relIndex (t.Zv 1) < 2 ^ f * 2 ^ f) :
     L2 ≤ centralizer (t.Zv 1 : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hC
   have h := St84.two_pow_le_relIndex_of_nontrivial (by have := hfr.hf; omega) hfr.hL2
     t.r4c_isElemSec (le_inf t.r4c_L2_le_normalizer_Zv t.r4c_L2_le_normalizer_C)
@@ -894,7 +921,7 @@ theorem L2_le_centralizer_Zv_one_of_relIndex_lt {a f : ℕ}
 
 private theorem natural_Zv_one_of_isNatSecOf {a f : ℕ}
     (hfr : Frame L1 L2 S a f) {α : ↥L2 →* SL(2, GaloisField 2 f)}
-    (hα : Function.Surjective α) (hker : α.ker = (pCoreOf 2 L2).subgroupOf L2)
+    (_hα : Function.Surjective α) (hker : α.ker = (pCoreOf 2 L2).subgroupOf L2)
     (hnat : CFSG.Quasithin.F112R.St84.IsNatSecOf L2 (t.Zv 1) ⊥ α) :
     Nat.card (t.Zv 1) = 2 ^ f * 2 ^ f ∧
       Nat.card (t.Zv 1 ⊓ centralizer (S : Set G) : Subgroup G) = 2 ^ f ∧
@@ -903,7 +930,7 @@ private theorem natural_Zv_one_of_isNatSecOf {a f : ℕ}
         z ∈ t.Zv 1 ⊓ centralizer (S : Set G)) ∧
       (∀ z ∈ t.Zv 1 ⊓ centralizer (S : Set G), z ≠ 1 →
         ∀ z' ∈ t.Zv 1 ⊓ centralizer (S : Set G), z' ≠ 1 → ∃ d ∈ t.D2, d * z * d⁻¹ = z') := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hL2G : L2 ≤ t.Gv 1 := by
     rw [t.Gv_one]
     exact le_sup_left
@@ -940,7 +967,7 @@ private theorem natural_Zv_one_of_isNatSecOf {a f : ℕ}
     have hSle : S ≤ t.Qv 1 := hS_eq.le.trans (sup_le le_rfl hTQ)
     have hQS : (t.Qv 1).relIndex S = 1 := Subgroup.relIndex_eq_one.mpr hSle
     have h9 := (t.relIndex_Qv_pCoreOf hfr 1).1
-    rw [sub_self, t.pCoreOf_Gw_zero_one hfr, if_neg Int.not_even_one, hQS] at h9
+    rw [sub_self, t.pCoreOf_Gw_zero_one hfr, ite_eq_right Int.not_even_one, hQS] at h9
     have h4 : 4 ≤ 2 ^ f :=
       calc 4 = 2 ^ 2 := by norm_num
         _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hfr.hf
@@ -971,18 +998,22 @@ private theorem natural_Zv_one_of_isNatSecOf {a f : ℕ}
     omega
   exact r4d_core hf0 hnat hZL hQZ hSdec hSp hkerQ hSQ hDL hDS hDZ t.hD2hall.2.1 hDcard hDker
 
+omit [Finite G] in
 private theorem r4e_map_Qv (i k : ℤ) :
     (t.Qv i).map (MulAut.conj ((t.x₂ * t.x₁) ^ k)).toMonoidHom = t.Qv (i + 2 * k) :=
   map_qv_tau_pow i k
 
+omit [Finite G] in
 private theorem r4e_map_Gw_x₁ (a b : ℤ) :
     (t.Gw a b).map (MulAut.conj t.x₁).toMonoidHom = t.Gw (-b) (-a) :=
   t.track.map_win_x₁ Subgroup.le_normalizer Subgroup.le_normalizer a b
 
+omit [Finite G] in
 private theorem r4e_map_Qv_x₁ (i : ℤ) :
     (t.Qv i).map (MulAut.conj t.x₁).toMonoidHom = t.Qv (-i) :=
   t.track.map_qv_x₁ (le_normalizer_pCoreOf 2 _) (le_normalizer_pCoreOf 2 _) i
 
+omit [Finite G] in
 private theorem r4e_conj_mul (g h : G) (H : Subgroup G) :
     H.map (MulAut.conj (g * h)).toMonoidHom =
       (H.map (MulAut.conj h).toMonoidHom).map (MulAut.conj g).toMonoidHom := by
@@ -991,6 +1022,7 @@ private theorem r4e_conj_mul (g h : G) (H : Subgroup G) :
   ext x
   simp [MulAut.conj_apply, mul_assoc]
 
+omit [Finite G] in
 private theorem r4e_K_le_normalizer_map {Y : Subgroup G} {g : G}
     (hg : g ∈ normalizer (t.K : Set G)) (hY : t.K ≤ normalizer (Y : Set G)) :
     t.K ≤ normalizer ((Y.map (MulAut.conj g).toMonoidHom : Subgroup G) : Set G) := by
@@ -1013,7 +1045,7 @@ private theorem r4e_S_le_Gv_one {a f : ℕ}
 private theorem r4e_relIndex_Qv_one_S {a f : ℕ}
     (hfr : Frame L1 L2 S a f) : (t.Qv 1).relIndex S = 2 ^ f := by
   have h := (t.relIndex_Qv_pCoreOf hfr 1).1
-  rwa [sub_self, t.pCoreOf_Gw_zero_one hfr, if_neg Int.not_even_one] at h
+  rwa [sub_self, t.pCoreOf_Gw_zero_one hfr, ite_eq_right Int.not_even_one] at h
 
 private theorem r4e_KI_of_conj {a f : ℕ}
     (hfr : Frame L1 L2 S a f) {g : G} (hg : g ∈ normalizer (t.K : Set G)) {c : ℤ}
@@ -1021,7 +1053,7 @@ private theorem r4e_KI_of_conj {a f : ℕ}
     (hYw : Y.map (MulAut.conj g).toMonoidHom ≤ t.Gw 0 1)
     (hQ : (t.Qv c).map (MulAut.conj g).toMonoidHom = t.Qv 1) :
     Y ≤ t.Qv c ∨ (t.Qv c).relIndex Y = 2 ^ f := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hY'2 : IsPGroup 2 (Y.map (MulAut.conj g).toMonoidHom) := hY2.map _
   have hY'S : Y.map (MulAut.conj g).toMonoidHom ≤ S := by
     have := t.le_pCoreOf_Gw hfr (u := 0) (w := 1) (by norm_num) hY'2 hYw
@@ -1076,16 +1108,19 @@ private theorem r4e_KI_left {a f : ℕ}
     exact (Subgroup.map_mono hYw).trans hmap.le
   · rw [r4e_conj_mul, t.r4e_map_Qv_x₁, t.r4e_map_Qv, show -(2 * j + 1) + 2 * (j + 1) = 1 by ring]
 
+omit [Finite G] in
 private theorem r4e_inf_Gv_sub_le {Y : Subgroup G} {u w : ℤ} (h : u - 1 ≤ w)
     (hY : Y ≤ t.Gw u w) : Y ⊓ t.Gv (u - 1) ≤ t.Gw (u - 1) w := by
   rw [show t.Gw (u - 1) w = t.Gv (u - 1) ⊓ t.Gw u w from win_sub_one_left h, inf_comm]
   exact inf_le_inf_left _ hY
 
+omit [Finite G] in
 private theorem r4e_inf_Gv_add_le {Y : Subgroup G} {u w : ℤ} (h : u ≤ w + 1)
     (hY : Y ≤ t.Gw u w) : Y ⊓ t.Gv (w + 1) ≤ t.Gw u (w + 1) := by
   rw [show t.Gw u (w + 1) = t.Gw u w ⊓ t.Gv (w + 1) from win_add_one_right h]
   exact inf_le_inf_right _ hY
 
+omit [Finite G] in
 private theorem r4e_Zv_eq_bot_of_m_zero {m : ℕ} (hm0 : m = 0)
     (hwlog : ∀ k : ℤ, pCoreOf 2 (t.Gw (2 * k - 2 * m) (2 * k)) = ⊥) : t.Zv 0 = ⊥ := by
   have h0 : pCoreOf 2 (t.Gv 0) = ⊥ := by
@@ -1095,6 +1130,7 @@ private theorem r4e_Zv_eq_bot_of_m_zero {m : ℕ} (hm0 : m = 0)
   refine le_bot_iff.mp ((t.Zv_le_Qv 0).trans ?_)
   rw [t.Qv_eq 0, h0]
 
+omit [Finite G] in
 private theorem r4e_pCoreOf_Gw_eq_bot {m : ℕ} (hm : Even m)
     (hwlog : ∀ k : ℤ, pCoreOf 2 (t.Gw (2 * k - 2 * m) (2 * k)) = ⊥) :
     pCoreOf 2 (t.Gw (-m) m) = ⊥ := by
@@ -1102,15 +1138,18 @@ private theorem r4e_pCoreOf_Gw_eq_bot {m : ℕ} (hm : Even m)
   have h := hwlog (c : ℤ)
   rwa [show 2 * (c : ℤ) - 2 * m = -m by omega, show 2 * (c : ℤ) = m by omega] at h
 
+omit [Finite G] in
 private theorem r4e_Zv_le_Gw {m : ℕ} (hm2 : 2 ≤ m) (hZ1 : t.Zv 0 ≤ t.Gw (1 - m) (m - 1)) :
     t.Zv 0 ≤ t.Gw (1 - m) (1 - m + 1) :=
   hZ1.trans (win_mono le_rfl (by omega))
 
+omit [Finite G] in
 private theorem r4e_X_le_Gw_full {m : ℕ} (hm2 : 2 ≤ m)
     (hZ1 : t.Zv 0 ≤ t.Gw (1 - m) (m - 1)) : t.Zv 0 ⊓ t.Gv (-m) ≤ t.Gw (-m) (m - 1) := by
   have h := t.r4e_inf_Gv_sub_le (u := 1 - m) (w := m - 1) (by omega) hZ1
   rwa [show (1 : ℤ) - m - 1 = -m by ring] at h
 
+omit [Finite G] in
 private theorem r4e_X_le_Gw {m : ℕ} (hm2 : 2 ≤ m)
     (hZ1 : t.Zv 0 ≤ t.Gw (1 - m) (m - 1)) :
     t.Zv 0 ⊓ t.Gv (-m) ≤ t.Gw (m - 1 - 1) (m - 1) :=
@@ -1143,10 +1182,10 @@ private theorem r4e_card_le {a f : ℕ}
     omega
   have h1 := t.card_le_mul_card_inf_Gv_sub_one hfr (1 - m) (t.isPGroup_Zv 0)
     (t.r4e_Zv_le_Gw hm2 hZ1)
-  rw [if_neg hodd1, show (1 : ℤ) - m - 1 = -m by ring] at h1
+  rw [ite_eq_right hodd1, show (1 : ℤ) - m - 1 = -m by ring] at h1
   have h2 := t.card_le_mul_card_inf_Gv_add_one hfr (m - 1)
     ((t.isPGroup_Zv 0).to_le inf_le_left) (t.r4e_X_le_Gw hm2 hZ1)
-  rw [if_neg hodd2, show (m : ℤ) - 1 + 1 = m by ring,
+  rw [ite_eq_right hodd2, show (m : ℤ) - 1 + 1 = m by ring,
     t.r4e_X_inf_Gv_eq_bot hfr ⟨c, hc⟩ hm2 hZ1 hwlog, Subgroup.card_bot, mul_one] at h2
   exact ⟨h1, h2⟩
 
@@ -1169,7 +1208,7 @@ theorem eq_or_eq_of_B {a f : ℕ}
     (hZ1 : t.Zv 0 ≤ t.Gw (1 - m) (m - 1))
     (hwlog : ∀ k : ℤ, pCoreOf 2 (t.Gw (2 * k - 2 * m) (2 * k)) = ⊥)
     (hcard : Nat.card (t.Zv 0) = 2 ^ f * 2 ^ f) {A B : Subgroup G} (hA : Nat.card A = 2 ^ f)
-    (hAK : t.K ≤ normalizer (A : Set G)) (hAB : A ≤ B) (hB : B ≤ t.Zv 0)
+    (_hAK : t.K ≤ normalizer (A : Set G)) (hAB : A ≤ B) (hB : B ≤ t.Zv 0)
     (hBK : t.K ≤ normalizer (B : Set G)) : B = A ∨ B = t.Zv 0 := by
   have hr : 0 < 2 ^ f := by positivity
   have hr4 : 4 ≤ 2 ^ f :=
@@ -1257,6 +1296,7 @@ theorem eq_or_eq_of_B {a f : ℕ}
     · right
       exact h'
 
+omit [Finite G] in
 private theorem r4f_mem_normalizer_of_map_eq {H : Subgroup G} {g : G}
     (h : H.map (MulAut.conj g).toMonoidHom = H) : g ∈ normalizer (H : Set G) := by
   rw [mem_normalizer_iff]
@@ -1266,6 +1306,7 @@ private theorem r4f_mem_normalizer_of_map_eq {H : Subgroup G} {g : G}
   rw [h, show g⁻¹ * (g * y * g⁻¹) * g = y by group] at h1
   exact h1.symm
 
+omit [Finite G] in
 private theorem r4f_mem_normalizer_inf {A B : Subgroup G} {g : G}
     (hA : g ∈ normalizer (A : Set G)) (hB : g ∈ normalizer (B : Set G)) :
     g ∈ normalizer ((A ⊓ B : Subgroup G) : Set G) := by
@@ -1273,20 +1314,24 @@ private theorem r4f_mem_normalizer_inf {A B : Subgroup G} {g : G}
   intro x
   rw [mem_inf, mem_inf, hA x, hB x]
 
+omit [Finite G] in
 private theorem r4f_mem_normalizer_sup {A B : Subgroup G} {g : G}
     (hA : g ∈ normalizer (A : Set G)) (hB : g ∈ normalizer (B : Set G)) :
     g ∈ normalizer ((A ⊔ B : Subgroup G) : Set G) := by
   rw [mem_normalizer_iff_map_conj_eq] at hA hB ⊢
   rw [Subgroup.map_sup, hA, hB]
 
+omit [Finite G] in
 private theorem r4f_mem_Gv_neg_iff (i : ℤ) {y : G} :
     y ∈ t.Gv i ↔ t.x₁⁻¹ * y * t.x₁ ∈ t.Gv (-i) :=
   t.track.mem_qv_neg_iff Subgroup.le_normalizer Subgroup.le_normalizer i
 
+omit [Finite G] in
 private theorem r4f_mem_Gv_two_sub_iff (i : ℤ) {y : G} :
     y ∈ t.Gv i ↔ t.x₂⁻¹ * y * t.x₂ ∈ t.Gv (2 - i) :=
   t.track.mem_qv_two_sub_iff Subgroup.le_normalizer Subgroup.le_normalizer i
 
+omit [Finite G] in
 private theorem r4f_map_Zv_of_map_Gv {i j : ℤ} {g : G}
     (h : (t.Gv i).map (MulAut.conj g).toMonoidHom = t.Gv j) :
     (t.Zv i).map (MulAut.conj g).toMonoidHom = t.Zv j := by
@@ -1307,7 +1352,7 @@ private theorem r4f_exists_L2_not_mem_bigB
   have hlt : L2 ⊓ bigB L2 L1 S < L2 := by
     rw [CFSG.Quasithin.F1.inf_bigB_eq_borelOf hR']
     exact CFSG.Quasithin.F1.lt_borelOf hR'
-  obtain ⟨g0, hg0L2, hg0B⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨g0, hg0L2, hg0B⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   exact ⟨g0, hg0L2, fun h => hg0B ⟨hg0L2, by rwa [bigB_comm]⟩⟩
 
 private theorem r4f_bruhat_base {a f : ℕ}
@@ -1396,7 +1441,7 @@ private theorem r4f_le_Gv_zero {a f : ℕ}
     (hfr : Frame L1 L2 S a f) (hO4 : t.GT = t.K) {b₁ : ℕ} (hb₁ : Odd b₁)
     (hZ1 : t.Zv 0 ≤ t.Gw (-(b₁ : ℤ)) b₁) (hZh : t.Zv (-(b₁ : ℤ)) ≤ t.Gv (-1)) :
     t.Zv (-(b₁ : ℤ)) ⊓ centralizer (t.Zv 0 : Set G) ≤ t.Gv 0 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro x hx
   by_contra hx0
   obtain ⟨hxZ, hxC⟩ := mem_inf.mp hx
@@ -1439,6 +1484,7 @@ private theorem r4f_le_Gv_zero {a f : ℕ}
   exact t.r4f_Zv_zero_ne_bot hfr.hF ((Subgroup.eq_bot_iff_forall _).mpr fun z hz =>
     Subgroup.disjoint_def.mp hdisj (hZK hz) hz)
 
+omit [Finite G] in
 private theorem r4f_K_le_normalizer_map {H : Subgroup G} (hH : t.K ≤ normalizer (H : Set G)) :
     t.K ≤ normalizer ((H.map (MulAut.conj t.x₁).toMonoidHom : Subgroup G) : Set G) := by
   intro k hk
@@ -1459,7 +1505,7 @@ private theorem r4f_L1_le_centralizer
     (hYC : Y ≤ centralizer (t.Zv 0 : Set G)) (hYQ : ¬ Y ≤ t.Qv 0)
     (hYD : t.D1 ≤ normalizer (Y : Set G)) :
     L1 ≤ centralizer (t.Zv 0 : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTsyl : IsSylowTwoOf (S ⊓ L1) L1 := hfr.hF.1.h1.sylow
   have hQ1le : pCoreOf 2 L1 ≤ t.Qv 0 := by
     rw [t.Qv_zero]
@@ -1512,7 +1558,7 @@ private theorem r4f_L1_le_centralizer
   have hKIC : ∀ x ∈ S ⊓ L1, x * x ∈ pCoreOf 2 L1 →
       x ∈ t.Gv 0 ⊓ centralizer (t.Zv 0 : Set G) := fun x hx hxx => hXC (hKI x hx hxx)
   have hR : Hyp111R L1 L2 S := Hyp111R.of_hyp111 rankOneListedFacts hfr.hF.1
-  obtain ⟨g, hgL1, hgB⟩ := SetLike.exists_of_lt (CFSG.Quasithin.F1.lt_borelOf hR)
+  obtain ⟨g, hgL1, hgB⟩ := _root_.IsConcreteLE.exists_of_lt (CFSG.Quasithin.F1.lt_borelOf hR)
   have hgN : g ∉ normalizer ((S ⊓ L1 : Subgroup G) : Set G) := fun h => hgB ⟨hgL1, h⟩
   have hL1N : g ∈ normalizer (L1 : Set G) := Subgroup.le_normalizer hgL1
   have hT'syl : IsSylowTwoOf ((S ⊓ L1).map (MulAut.conj g).toMonoidHom) L1 := by
@@ -1540,7 +1586,7 @@ private theorem r4f_L1_le_centralizer
 private theorem r4f_C0_eq_bot {a f : ℕ} (hfr : Frame L1 L2 S a f)
     (hL1 : L1 ≤ centralizer (t.Zv 0 : Set G)) :
     t.Zv 1 ⊓ centralizer (L2 : Set G) = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hpB : pCoreOf 2 (bigB L1 L2 S) = S := by
     have := t.pCoreOf_Gw_zero_one hfr
     rwa [t.Gw_zero_one hfr.hF] at this
@@ -1589,7 +1635,7 @@ private theorem r4f_step2 {a f : ℕ}
     (hZh : t.Zv (-(b₁ : ℤ)) ≤ t.Gv (-1)) (hH0 : H ≤ t.Gv 0)
     (hHK : t.K ≤ normalizer (H : Set G)) (hHQ : ¬ H ≤ t.Qv 0) :
     t.Zv 1 ⊓ centralizer (L2 : Set G) = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hx₁0 : t.x₁ ∈ t.Gv 0 := by
     rw [t.Gv_zero]
     exact t.track.x₁_mem
@@ -1656,10 +1702,12 @@ theorem Zv_inf_centralizer_le_Qv_zero_or {a f : ℕ}
       t.Zv 1 ⊓ centralizer (L2 : Set G) = ⊥ := by
   exact t.Zv_inf_centralizer_le_Qv_zero_or_of_cert43 hfr hO4 hb₁ hZ1 hZh
 
+omit [Finite G] in
 private theorem r4g_K_le_P2 : t.K ≤ P2 L1 L2 S := by
   rw [← t.Gv_one]
   exact t.K_le_Gv 1
 
+omit [Finite G] in
 private theorem r4g_P2_le_normalizer_C0 (hF : Hyp111 L1 L2 S) :
     P2 L1 L2 S ≤ normalizer ((t.Zv 1 ⊓ centralizer (L2 : Set G) : Subgroup G) : Set G) := by
   intro x hx
@@ -1701,18 +1749,18 @@ private theorem r4g_exists_fixed_coset {S N C : Subgroup G} (hS : IsPGroup 2 S)
     (hNS : N ≤ S) (hN : S ≤ normalizer (N : Set G)) (hCN : C ≤ N)
     (hC : S ≤ centralizer (C : Set G)) (hlt : C < N) :
     ∃ z ∈ N, z ∉ C ∧ ∀ s ∈ S, s * z * s⁻¹ * z⁻¹ ∈ C := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hCS : C ≤ S := hCN.trans hNS
-  haveI hNn : (N.subgroupOf S).Normal :=
+  have hNn : (N.subgroupOf S).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNS).mpr hN
-  haveI hCn : (C.subgroupOf S).Normal :=
+  have hCn : (C.subgroupOf S).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hCS).mpr
       (hC.trans (Subgroup.centralizer_le_normalizer _))
-  haveI : Group.IsNilpotent (↥S ⧸ C.subgroupOf S) :=
+  have : Group.IsNilpotent (↥S ⧸ C.subgroupOf S) :=
     (hS.to_quotient (C.subgroupOf S)).isNilpotent
   set M : Subgroup (↥S ⧸ C.subgroupOf S) :=
     (N.subgroupOf S).map (QuotientGroup.mk' (C.subgroupOf S)) with hM
-  haveI : M.Normal := hNn.map _ (QuotientGroup.mk'_surjective _)
+  have : M.Normal := hNn.map _ (QuotientGroup.mk'_surjective _)
   have hMne : M ≠ ⊥ := by
     intro hbot
     rw [hM, Subgroup.map_eq_bot_iff, QuotientGroup.ker_mk'] at hbot
@@ -1733,6 +1781,7 @@ private theorem r4g_exists_fixed_coset {S N C : Subgroup G} (hS : IsPGroup 2 S)
     have h2 := (QuotientGroup.eq_one_iff _).mp h1
     exact h2
 
+omit [Finite G] in
 private theorem r4g_map_conj_inv (H : Subgroup G) (g : G) :
     (H.map (MulAut.conj g).toMonoidHom).map (MulAut.conj g⁻¹).toMonoidHom = H := by
   rw [← r4e_conj_mul, inv_mul_cancel]
@@ -1740,6 +1789,7 @@ private theorem r4g_map_conj_inv (H : Subgroup G) (g : G) :
   rw [mem_map_conj_iff]
   simp
 
+omit [Finite G] in
 private theorem r4g_exists_B {Z C S : Subgroup G} (hZab : ∀ x ∈ Z, ∀ y ∈ Z, x * y = y * x)
     (hCZ : C ≤ Z) :
     ∃ B : Subgroup G, ∀ z, z ∈ B ↔ (z ∈ Z ∧ ∀ s ∈ S, s * z * s⁻¹ * z⁻¹ ∈ C) := by
@@ -1758,7 +1808,7 @@ private theorem r4g_exists_B {Z C S : Subgroup G} (hZab : ∀ x ∈ Z, ∀ y ∈
     rw [key, hcomm]
     exact mul_mem (hzs s hs) hc'
   · refine ⟨one_mem Z, fun s hs => ?_⟩
-    simpa using one_mem C
+    simp
   · rintro z ⟨hz, hzs⟩
     refine ⟨inv_mem hz, fun s hs => ?_⟩
     have hc := hzs s hs
@@ -1780,7 +1830,7 @@ theorem Zv_one_inf_centralizer_L2_eq_bot {a f : ℕ}
     (hZ0 : t.Zv 1 ≤ t.Gw (1 - b₀) (1 + b₀))
     (hZ1 : t.Zv 0 ≤ t.Gw (-((b₀ + 1 : ℕ) : ℤ)) (b₀ + 1)) :
     t.Zv 1 ⊓ centralizer (L2 : Set G) = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hne
   set C₀ : Subgroup G := t.Zv 1 ⊓ centralizer (L2 : Set G) with hC₀
   obtain ⟨c, hc⟩ : ∃ c, b₀ = c + c := hb₀
@@ -1976,7 +2026,7 @@ theorem Zv_one_inf_centralizer_L2_eq_bot {a f : ℕ}
     exact le_bot_iff.mp h
   have hZ1m : t.Zv 0 ≤ t.Gw (1 - ((b₀ + 2 : ℕ) : ℤ)) (((b₀ + 2 : ℕ) : ℤ) - 1) := by
     refine hZ1'.trans (le_of_eq ?_)
-    congr 1 <;> push_cast <;> ring
+    congr 1; push_cast; ring
   have hmEven : Even (b₀ + 2) := ⟨c + 1, by omega⟩
   have hcardZ : Nat.card (t.Zv 0) = 2 ^ f * 2 ^ f := by
     have hle := t.card_Zv_zero_le_of_B hfr hmEven hZ1m hwlog
@@ -2081,6 +2131,7 @@ theorem Zv_one_inf_centralizer_L2_eq_bot {a f : ℕ}
     exact h1.symm
   exact hne (t.r4f_C0_eq_bot hfr hL1)
 
+omit [Finite G] in
 private theorem r4h_inf_le_Gw {b₀ : ℕ} (hZ0 : t.Zv 1 ≤ t.Gw (1 - b₀) (1 + b₀))
     (hZb : t.Zv (1 - b₀) ≤ t.Gw (1 - 2 * b₀) 1) :
     t.Zv 1 ⊓ t.Zv (1 - b₀) ≤ t.Gw (1 - 2 * b₀) (1 + b₀) := by
@@ -2164,6 +2215,7 @@ private theorem r4i_card_dichotomy {a f : ℕ}
       rw [h, inf_comm, hZX, hXr] at h2
       rw [← h2]
 
+omit [Finite G] in
 private theorem r4i_le_normalizer_of_forall {H K : Subgroup G}
     (h : ∀ k ∈ K, ∀ y ∈ H, k * y * k⁻¹ ∈ H) : K ≤ normalizer (H : Set G) := by
   intro k hk
@@ -2182,6 +2234,7 @@ private theorem r4i_Zv_zero_le_S (hF : F112HypW L1 L2 S) :
     t.Zv 0 ≤ S :=
   (t.Zv_le_Qv 0).trans (t.r4i_Qv_zero_le_S hF)
 
+omit [Finite G] in
 private theorem r4i_S_le_Gv_zero : S ≤ t.Gv 0 := by
   rw [t.Gv_zero]
   exact (le_sup_right : S ≤ bigB L1 L2 S).trans le_sup_right
@@ -2189,7 +2242,7 @@ private theorem r4i_S_le_Gv_zero : S ≤ t.Gv 0 := by
 include t in
 private theorem r4i_isPGroup_S {a f : ℕ}
     (hfr : Frame L1 L2 S a f) : IsPGroup 2 S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have := pCoreOf_isPGroup 2 (t.Gw 0 1)
   rwa [t.pCoreOf_Gw_zero_one hfr] at this
 
@@ -2203,9 +2256,10 @@ private theorem r4i_A_le_Zv_zero {a f : ℕ}
   rw [t.Zv_one, t.Zv_zero]
   exact h
 
+omit [Finite G] in
 private theorem r4i_K_le_normalizer_A {a f : ℕ}
     (hfr : Frame L1 L2 S a f) :
-    t.K ≤ normalizer ((t.Zv 1 ⊓ centralizer (S : Set G) : Subgroup G) : Set G) := fun k hk =>
+    t.K ≤ normalizer ((t.Zv 1 ⊓ centralizer (S : Set G) : Subgroup G) : Set G) := fun _k hk =>
   A4.mem_normalizer_inf (t.Gv_le_normalizer_Zv 1 (t.K_le_Gv 1 hk))
     (r4b_mem_normalizer_centralizer (hfr.hN (t.hHall.1 hk)))
 
@@ -2301,7 +2355,7 @@ private theorem r4i_exists_B {a f : ℕ} (hfr : Frame L1 L2 S a f)
 private theorem r4i_L1_le_centralizer {a f : ℕ}
     (hfr : Frame L1 L2 S a f) (hSC : S ≤ centralizer (t.Zv 0 : Set G)) :
     L1 ≤ centralizer (t.Zv 0 : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTsyl : IsSylowTwoOf (S ⊓ L1) L1 := hfr.hF.1.h1.sylow
   have hQ1le : pCoreOf 2 L1 ≤ t.Qv 0 := by
     rw [t.Qv_zero]
@@ -2312,7 +2366,7 @@ private theorem r4i_L1_le_centralizer {a f : ℕ}
   have hQC : t.Qv 0 ≤ centralizer (t.Zv 0 : Set G) :=
     Subgroup.le_centralizer_iff.mp (t.Zv_le_centralizer 0)
   have hR : Hyp111R L1 L2 S := Hyp111R.of_hyp111 rankOneListedFacts hfr.hF.1
-  obtain ⟨g, hgL1, hgB⟩ := SetLike.exists_of_lt (CFSG.Quasithin.F1.lt_borelOf hR)
+  obtain ⟨g, hgL1, hgB⟩ := _root_.IsConcreteLE.exists_of_lt (CFSG.Quasithin.F1.lt_borelOf hR)
   have hgN : g ∉ normalizer ((S ⊓ L1 : Subgroup G) : Set G) := fun h => hgB ⟨hgL1, h⟩
   have hL1N : g ∈ normalizer (L1 : Set G) := Subgroup.le_normalizer hgL1
   have hT'syl : IsSylowTwoOf ((S ⊓ L1).map (MulAut.conj g).toMonoidHom) L1 := by
@@ -2403,7 +2457,7 @@ private theorem r4i_Zv_zero_eq_of_m_three {a f : ℕ}
     (hZ1 : t.Zv 0 ≤ t.Gw (-3) 3)
     (hcardA : Nat.card (t.Zv 1 ⊓ centralizer (S : Set G) : Subgroup G) = 2 ^ f) :
     t.Zv 0 = t.Zv 1 ⊓ centralizer (S : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2 := t.le_pCoreOf_Gw hfr (u := -3) (w := 3) (by norm_num) (t.isPGroup_Zv 0) hZ1
   have hmap : pCoreOf 2 (t.Gw (-3) 3) =
       (pCoreOf 2 (t.Gw (-5) 1)).map (MulAut.conj ((t.x₂ * t.x₁) ^ (1 : ℤ))).toMonoidHom := by
@@ -2421,7 +2475,7 @@ private theorem r4i_Zv_zero_eq_of_even {a f : ℕ}
     (hZ1 : t.Zv 0 ≤ t.Gw (1 - m) (m - 1))
     (hcardA : Nat.card (t.Zv 1 ⊓ centralizer (S : Set G) : Subgroup G) = 2 ^ f) :
     t.Zv 0 = t.Zv 1 ⊓ centralizer (S : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hAZ : t.Zv 1 ⊓ centralizer (S : Set G) ≤ t.Zv 0 := t.r4i_A_le_Zv_zero hfr
   have hr : 2 ^ f ≤ Nat.card (t.Zv 0) := hcardA ▸ Subgroup.card_le_of_le hAZ
   have hr4 : 4 ≤ 2 ^ f :=
@@ -2489,20 +2543,24 @@ theorem Zv_zero_eq_and_le_centralizer {a f : ℕ}
   refine ⟨hZA, t.r4i_L1_le_centralizer hfr ?_⟩
   exact Subgroup.le_centralizer_iff.mp (hZA.le.trans inf_le_right)
 
+omit [Finite G] in
 private theorem r4j_map_Zv_x₁ (i : ℤ) :
     (t.Zv i).map (MulAut.conj t.x₁).toMonoidHom = t.Zv (-i) :=
   t.track.map_qv_x₁ r4c_P1_le_normalizer_Z1 r4c_P2_le_normalizer_Z2 i
 
+omit [Finite G] in
 private theorem r4j_map_Zv_x₂ (i : ℤ) :
     (t.Zv i).map (MulAut.conj t.x₂).toMonoidHom = t.Zv (2 - i) :=
   t.track.map_qv_x₂ r4c_P1_le_normalizer_Z1 r4c_P2_le_normalizer_Z2 i
 
+omit [Finite G] in
 private theorem r4j_map_conj_mul (K : Subgroup G) (g h : G) :
     K.map (MulAut.conj (g * h)).toMonoidHom =
       (K.map (MulAut.conj h).toMonoidHom).map (MulAut.conj g).toMonoidHom := by
   ext y
   simp only [mem_map_conj_iff, mul_inv_rev, mul_assoc]
 
+omit [Finite G] in
 private theorem r4j_reflect (c : ℤ) :
     ∃ y : G, ∀ i : ℤ, (t.Zv i).map (MulAut.conj y).toMonoidHom = t.Zv (2 * c - i) := by
   obtain ⟨k, rfl | rfl⟩ := Int.even_or_odd' c
@@ -2515,6 +2573,7 @@ private theorem r4j_reflect (c : ℤ) :
     congr 1
     ring
 
+omit [Finite G] in
 private theorem r4j_exists_hom {Z : Subgroup G}
     (hcomm : ∀ x ∈ Z, ∀ y ∈ Z, x * y = y * x) {s : G} (hs : s ∈ normalizer (Z : Set G)) :
     ∃ φ : ↥Z →* ↥Z, ∀ z : ↥Z, (φ z : G) = s * (z : G) * s⁻¹ * (z : G)⁻¹ := by
@@ -2573,7 +2632,7 @@ private theorem r4j_surj_comm {Z A : Subgroup G} {s : G} {r : ℕ} (hr : 0 < r)
 private theorem r4j_Y_le_S {a f : ℕ} (hfr : Frame L1 L2 S a f)
     {b₀ : ℕ} (hb₀ : Even b₀) (hb : 1 ≤ b₀)
     (hZ0 : t.Zv 1 ≤ t.Gw (1 - b₀) (1 + b₀)) : t.Zv (1 - b₀) ≤ S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hYG : t.Zv (1 - b₀) ≤ t.Gw 0 1 :=
     (t.Zv_one_sub_le_Gw hb₀ hZ0).trans (win_mono (by omega) le_rfl)
   have h := t.le_pCoreOf_Gw hfr (u := 0) (w := 1) (by norm_num) (t.isPGroup_Zv _) hYG
@@ -2599,7 +2658,7 @@ private theorem r4j_commutator_eq {a f : ℕ}
       have h2 := (t.Qv_le_Gv hfr 1).2
       rw [show (1 : ℤ) + 1 = 2 by norm_num] at h2
       exact t.Zv_one_sub_not_le_Gv_two hb₀ hZ0' (hle.trans h2)
-    obtain ⟨s, hsY, hsQ⟩ := SetLike.not_le_iff_exists.mp hYQ
+    obtain ⟨s, hsY, hsQ⟩ := IsConcreteLE.not_le_iff_exists.mp hYQ
     have hsS : s ∈ S := hYS hsY
     have hsG : s ∈ t.Gv 1 :=
       ((t.Zv_one_sub_le_Gw hb₀ hZ0).trans (win_le_qv (by omega) le_rfl)) hsY
@@ -2628,7 +2687,7 @@ theorem eq_two_of_Zv_zero_eq {a f : ℕ}
     (hN2 : ∀ s ∈ S, s ∉ t.Qv 1 → ∀ z ∈ t.Zv 1, s * z * s⁻¹ = z →
       z ∈ t.Zv 1 ⊓ centralizer (S : Set G)) :
     b₀ = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hb : 1 ≤ b₀ := by
     by_contra hb
     have h0 : b₀ = 0 := by omega
@@ -2696,10 +2755,12 @@ theorem eq_two_of_Zv_zero_eq {a f : ℕ}
   have h2 : 2 ∣ Nat.card t.K := (dvd_pow_self 2 (by have := hfr.hf; omega)).trans hdvd
   exact (t.hHall.2.1 : Odd (Nat.card t.K)).not_two_dvd_nat h2
 
+omit [Finite G] in
 private theorem r4k_map_Gv_x₁ (i : ℤ) :
     (t.Gv i).map (MulAut.conj t.x₁).toMonoidHom = t.Gv (-i) :=
   t.track.map_qv_x₁ Subgroup.le_normalizer Subgroup.le_normalizer i
 
+omit [Finite G] in
 private theorem r4k_P1_le_normalizer_L1 (hF : Hyp111 L1 L2 S) :
     P1 L1 L2 S ≤ normalizer (L1 : Set G) :=
   sup_le le_normalizer (bigB_le_normalizer_of_hyp111 hF)
@@ -2715,6 +2776,7 @@ private theorem r4k_P1_le_sup {a f : ℕ}
   exact sup_le (sup_le (hSle.trans le_sup_left) (le_sup_left.trans le_sup_right))
     (le_sup_right.trans le_sup_right)
 
+omit [Finite G] in
 private theorem r4k_K_le_normalizer {a f : ℕ}
     (hfr : Frame L1 L2 S a f) :
     t.K ≤ normalizer ((L1 ⊔ Q1 L1 L2 S : Subgroup G) : Set G) := by
@@ -2789,6 +2851,7 @@ private theorem r4k_one_le {a f : ℕ}
   rw [zero_add] at h1
   simpa using (t.Zv_le_Qv 0).trans h1
 
+omit [Finite G] in
 private theorem r4k_Zv_le_Gw {b₀ c : ℕ} (hc : (b₀ : ℤ) = 2 * c)
     (hZ0 : t.Zv 0 ≤ t.Gw (-(b₀ : ℤ)) b₀) : t.Zv b₀ ≤ t.Gw 0 (2 * b₀) := by
   have h := Subgroup.map_mono (f := (MulAut.conj ((t.x₂ * t.x₁) ^ (c : ℤ))).toMonoidHom) hZ0
@@ -2801,7 +2864,7 @@ private theorem r4k_Zv_le_Gw {b₀ c : ℕ} (hc : (b₀ : ℤ) = 2 * c)
 private theorem r4k_Zv_le_S {a f : ℕ}
     (hfr : Frame L1 L2 S a f) {b₀ c : ℕ} (hc : (b₀ : ℤ) = 2 * c) (hb : 1 ≤ b₀)
     (hZ0 : t.Zv 0 ≤ t.Gw (-(b₀ : ℤ)) b₀) : t.Zv b₀ ≤ S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h1 : t.Zv b₀ ≤ t.Gw 0 1 :=
     (t.r4k_Zv_le_Gw hc hZ0).trans (win_mono le_rfl (by omega))
   have h2 := t.le_pCoreOf_Gw hfr (u := 0) (w := 1) (by norm_num) (t.isPGroup_Zv _) h1
@@ -2832,6 +2895,7 @@ private theorem r4k_relIndex_Zv_le {a f : ℕ}
     exact one_mem _
   exact (Subgroup.relIndex_le_of_le_right hle (r4c_relIndex_ne_zero _ _)).trans hΩidx
 
+omit [Finite G] in
 private theorem r4k_relIndex_neg {b₀ c : ℕ} (hc : (b₀ : ℤ) = 2 * c) :
     (t.Qv (-(b₀ : ℤ))).relIndex (t.Zv 0) = (t.Qv 0).relIndex (t.Zv b₀) := by
   rw [← Subgroup.relIndex_map_map_of_injective
@@ -2840,11 +2904,13 @@ private theorem r4k_relIndex_neg {b₀ c : ℕ} (hc : (b₀ : ℤ) = 2 * c) :
     show (0 : ℤ) + 2 * -(c : ℤ) = -(b₀ : ℤ) by omega,
     show (b₀ : ℤ) + 2 * -(c : ℤ) = 0 by omega]
 
+omit [Finite G] in
 private theorem r4k_relIndex_pos (b₀ : ℤ) :
     (t.Qv b₀).relIndex (t.Zv 0) = (t.Qv (-b₀)).relIndex (t.Zv 0) := by
   rw [← Subgroup.relIndex_map_map_of_injective (f := (MulAut.conj t.x₁).toMonoidHom) (t.Qv b₀)
     (t.Zv 0) (MulAut.conj _).injective, t.r4e_map_Qv_x₁, t.r4j_map_Zv_x₁, neg_zero]
 
+omit [Finite G] in
 private theorem r4k_mem_normalizer_sup {H K : Subgroup G} {g : G}
     (hH : g ∈ normalizer (H : Set G)) (hK : g ∈ normalizer (K : Set G)) :
     g ∈ normalizer ((H ⊔ K : Subgroup G) : Set G) :=
@@ -2855,9 +2921,11 @@ private theorem r4k_pCoreOf_le_Qv_zero (hF : Hyp111 L1 L2 S) : pCoreOf 2 L1 ≤ 
   rw [t.Qv_zero]
   exact Hyp111.pCoreOf_le_pCoreOf_vertex hF
 
+omit [Finite G] in
 private theorem r4k_D1_le_normalizer_T : t.D1 ≤ normalizer ((S ⊓ L1 : Subgroup G) : Set G) :=
   t.hD1hall.1.trans inf_le_right
 
+omit [Finite G] in
 private theorem r4k_T_le_normalizer_Qv_zero : S ⊓ L1 ≤ normalizer (t.Qv 0 : Set G) := by
   have h : P1 L1 L2 S ≤ normalizer (t.Qv 0 : Set G) := by
     rw [← t.Gv_zero]
@@ -2871,6 +2939,7 @@ private theorem r4k_S_eq_sup_Qv_zero {a f : ℕ}
   rw [t.Qv_zero]
   exact h
 
+omit [Finite G] in
 private theorem r4k_x₁_mem_normalizer_L1 (hF : Hyp111 L1 L2 S) :
     t.x₁ ∈ normalizer (L1 : Set G) :=
   r4k_P1_le_normalizer_L1 hF t.track.x₁_mem
@@ -2878,7 +2947,7 @@ private theorem r4k_x₁_mem_normalizer_L1 (hF : Hyp111 L1 L2 S) :
 private theorem r4k_ne_conj_x₁ {a f : ℕ}
     (hfr : Frame L1 L2 S a f) :
     S ⊓ L1 ≠ (S ⊓ L1).map (MulAut.conj t.x₁).toMonoidHom := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTsyl : IsSylowTwoOf (S ⊓ L1) L1 := hfr.hF.1.h1.sylow
   have hSQ : S = t.Qv 0 ⊔ (S ⊓ L1) := t.r4k_S_eq_sup_Qv_zero hfr
   intro heq
@@ -2902,7 +2971,7 @@ private theorem r4k_ne_conj_x₁ {a f : ℕ}
   have hSle : S ≤ t.Qv 0 := hSQ.le.trans (sup_le le_rfl hTQ)
   have hQS : (t.Qv 0).relIndex S = 1 := Subgroup.relIndex_eq_one.mpr hSle
   have h9 := (t.relIndex_Qv_pCoreOf hfr 0).2
-  rw [zero_add, t.pCoreOf_Gw_zero_one hfr, if_pos (by decide), hQS] at h9
+  rw [zero_add, t.pCoreOf_Gw_zero_one hfr, ite_eq_left (by decide), hQS] at h9
   have h4 : 4 ≤ (2 ^ (2 * a + 1)) ^ 2 :=
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ (2 * (2 * a + 1)) := Nat.pow_le_pow_right (by norm_num) (by omega)
@@ -2913,7 +2982,7 @@ private theorem r4k_KI {a f : ℕ}
     (hfr : Frame L1 L2 S a f) {Y : Subgroup G} (hYS : Y ≤ S)
     (hYD : t.D1 ≤ normalizer (Y : Set G)) (hYQ : ¬ Y ≤ t.Qv 0) :
     ∀ x ∈ S ⊓ L1, x * x ∈ pCoreOf 2 L1 → x ∈ Y ⊔ t.Qv 0 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTsyl : IsSylowTwoOf (S ⊓ L1) L1 := hfr.hF.1.h1.sylow
   have hQ1le : pCoreOf 2 L1 ≤ t.Qv 0 := t.r4k_pCoreOf_le_Qv_zero hfr.hF.1
   have hTQ' : S ⊓ L1 ≤ normalizer (t.Qv 0 : Set G) := t.r4k_T_le_normalizer_Qv_zero
@@ -2947,7 +3016,7 @@ private theorem r4k_L1_le_sup {a f : ℕ}
     (hT' : ∀ x ∈ (S ⊓ L1).map (MulAut.conj t.x₁).toMonoidHom, x * x ∈ pCoreOf 2 L1 →
       x ∈ X ⊔ pCoreOf 2 L1) :
     L1 ≤ X ⊔ pCoreOf 2 L1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTsyl : IsSylowTwoOf (S ⊓ L1) L1 := hfr.hF.1.h1.sylow
   have hT'syl : IsSylowTwoOf ((S ⊓ L1).map (MulAut.conj t.x₁).toMonoidHom) L1 := by
     have h := IsSylowTwoOf.map_equiv (MulAut.conj t.x₁) hTsyl
@@ -3009,19 +3078,21 @@ private theorem r4k_comm_le {a f : ℕ}
   intro h hh
   exact (mem_centralizer_iff.mp (hLC hh) g hg).symm
 
+omit [Finite G] in
 private theorem r4k_isPerfect_oTwoQuot {L : Subgroup G} {a : ℕ} (ha : 1 ≤ a)
     (hSz : Nonempty (oTwoQuot ↥L ≃* Sz a)) : Group.IsPerfect (oTwoQuot ↥L) := by
   obtain ⟨e⟩ := hSz
-  haveI hpS := CFSG.SectionRank.suzukiMatrixGroup_isPerfect a (by omega)
-  haveI : Group.IsPerfect (Sz a) :=
+  have hpS := CFSG.SectionRank.suzukiMatrixGroup_isPerfect a (by omega)
+  have : Group.IsPerfect (Sz a) :=
     Group.IsPerfect.ofSurjective
       (f := (CFSG.SignalizerFunctorTheorem.McBride.SzModel.szEquiv a).symm.toMonoidHom)
       (CFSG.SignalizerFunctorTheorem.McBride.SzModel.szEquiv a).symm.surjective
   exact Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
 
+omit [Finite G] in
 private theorem r4k_le_commutator_sup_pCoreOf {L : Subgroup G}
     (hperf : Group.IsPerfect (oTwoQuot ↥L)) : L ≤ ⁅L, L⁆ ⊔ pCoreOf 2 L := by
-  haveI := hperf
+  have := hperf
   let π : ↥L →* oTwoQuot ↥L := QuotientGroup.mk' (pCore 2 ↥L)
   have hmap : (commutator ↥L).map π = ⊤ := by
     rw [map_commutator_eq, MonoidHom.range_eq_top.mpr (QuotientGroup.mk'_surjective _)]
@@ -3035,6 +3106,7 @@ private theorem r4k_le_commutator_sup_pCoreOf {L : Subgroup G}
     Subgroup.range_subtype] at this
   exact this.ge
 
+omit [Finite G] in
 private theorem r4k_isElemSec :
     CFSG.GH74.QTGen4.DSGen4.IsElemSec (t.Zv 0 ⊓ centralizer (L1 : Set G)) (t.Zv 0) := by
   refine ⟨inf_le_left, ?_, fun e he => ?_⟩

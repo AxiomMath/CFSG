@@ -48,7 +48,7 @@ theorem E_le_B (h : FF84Sec4 b L B K b₁ b₂) : Subgroup.closure ({b, b₁} : 
 
 theorem relIndex_E (h : FF84Sec4 b L B K b₁ b₂) :
     (Subgroup.closure ({b, b₁} : Set G)).relIndex B = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set U := Subgroup.closure ({b, b₁} : Set G) with hU
   have hUB : U ≤ B := E_le_B h
   have hxU : b ∈ U := Subgroup.subset_closure (by simp)
@@ -82,6 +82,7 @@ theorem relIndex_E (h : FF84Sec4 b L B K b₁ b₂) :
   show (U.subgroupOf B).index = 3
   omega
 
+omit [Finite G] in
 theorem cen_sq {a : G} (ha : a ^ 3 = 1) : Cen (a ^ 2) = Cen a := by
   have ha' : a = (a ^ 2) ^ 2 := by
     calc a = a ^ 4 * (a ^ 3)⁻¹ := by group
@@ -98,6 +99,7 @@ theorem cen_sq {a : G} (ha : a ^ 3 = 1) : Cen (a ^ 2) = Cen a := by
     have hc : Commute y a := hy
     exact hc.pow_right 2
 
+omit [Finite G] in
 theorem cen_conj_iff {a a' g : G} (hg : g * a * g⁻¹ = a') (y : G) :
     y ∈ Cen a ↔ g * y * g⁻¹ ∈ Cen a' := by
   simp only [Subgroup.mem_centralizer_singleton_iff]
@@ -154,6 +156,7 @@ theorem exists_inv_b₁ (hA : A8Model L) (h : FF84Sec4 b L B K b₁ b₂) (hθ :
   calc x * b₁ * x⁻¹ = z * b₁⁻¹ := by rw [hz]; group
     _ = b₁⁻¹ := by rw [hz1, one_mul]
 
+omit [Finite G] in
 theorem eq_one_of_two_group_odd {S H : Subgroup G} (hS : IsPGroup 2 S) (hH : Odd (Nat.card H))
     {c : G} (hcS : c ∈ S) (hcH : c ∈ H) : c = 1 := by
   obtain ⟨k, hk⟩ := hS ⟨c, hcS⟩
@@ -175,7 +178,7 @@ theorem eq_one_of_two_group_odd {S H : Subgroup G} (hS : IsPGroup 2 S) (hH : Odd
 theorem M_le_theta_cen_b (hA : A8Model L)
     (h : FF84Sec4 b L B K b₁ b₂) {m : G} (hm : m ∈ Theta (Cen (b * b₁))) (hmB : m ∈ CenS B) :
     m ∈ Theta (Cen b) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hmX := theta_cenB_le_X hA h hm hmB
   have hXD : Opp 3 (Cen b) ≤ Cen (b * b₁) := by
     intro x hx
@@ -189,8 +192,8 @@ theorem M_le_theta_cen_b (hA : A8Model L)
       _ = b * b₁ * x := by group
   set N0 : Subgroup G := Opp 3 (Cen b) ⊓ Theta (Cen (b * b₁)) with hN0
   have hsolv : Group.IsSolvable ↥N0 := by
-    haveI := theta_solv (Cen (b * b₁))
-    exact solvable_of_solvable_injective (f := Subgroup.inclusion (inf_le_right : N0 ≤ _))
+    have := theta_solv (Cen (b * b₁))
+    exact Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion (inf_le_right : N0 ≤ _))
       (Subgroup.inclusion_injective _)
   have h3 : ¬ 3 ∣ Nat.card ↥N0 := fun hd =>
     theta_three (Cen (b * b₁)) (hd.trans (Subgroup.card_dvd_of_le inf_le_right))

@@ -37,7 +37,7 @@ theorem isPGroup_isotropicTransvectionGroup (h : UnitaryFieldData 2 m K)
     IsPGroup 2 (isotropicTransvectionGroup h 3 L) := by
   obtain ⟨R, hR⟩ := exists_sylow_omegaOneOf_eq_isotropicTransvectionGroup hL
   rw [← hR]
-  exact R.isPGroup'.to_le ((Subgroup.closure_le _).mpr fun x hx => hx.1)
+  exact R.isPGroup.to_le ((Subgroup.closure_le _).mpr fun x hx => hx.1)
 
 theorem range_subOne_conj (h : UnitaryFieldData 2 m K) (g t : unitarySU 2 m K 3) :
     LinearMap.range (subOne (g * t * g⁻¹)) = g • LinearMap.range (subOne t) := by

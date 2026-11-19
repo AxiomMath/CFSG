@@ -96,6 +96,7 @@ include hr
 @[expose] noncomputable def tr₁ (ρ : G →* Module.End (ZMod 2) V) (b : S → V) (g : G) : V :=
   ∑ i, ρ (r i)⁻¹ (b (hr.coef i g))
 
+omit [Fintype I] in
 theorem rho_inv_mul_coef (ρ : G →* Module.End (ZMod 2) V) (i : I) (g : G) (v : V) :
     ρ (r i)⁻¹ (ρ (hr.coef i g) v) = ρ g (ρ (r (hr.act i g))⁻¹ v) := by
   rw [← Module.End.mul_apply, ← Module.End.mul_apply, ← map_mul, ← map_mul, hr.coe_coef]
@@ -114,6 +115,7 @@ theorem tr₂_cob (ρ : G →* Module.End (ZMod 2) V) (b : S → V) :
     (g : G) : V :=
   ∑ i, ρ (r i)⁻¹ (c (r i) g - c (hr.coef i g) (r (hr.act i g)))
 
+omit [Fintype I] in
 theorem coset_identity (ρ : G →* Module.End (ZMod 2) V) {c : G → G → V} (hc : IsNormCoc ρ c)
     (i : I) (g k : G) :
     (c (r i) g - c (hr.coef i g) (r (hr.act i g))) +

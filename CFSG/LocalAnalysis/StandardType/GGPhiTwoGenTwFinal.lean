@@ -65,7 +65,7 @@ theorem iSup_phiTwoCompIn_eq_top_twE6_of_prime
     (⨆ γ : {γ : Fin TwistTag.E6.tag.rank → ℤ // IsRoot TwistTag.E6.tag γ},
       phiTwoCompIn (twistedE6RootGroup K σ) g0 γ.1) = ⊤ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp3 : p ≠ 3 := by omega
   obtain ⟨ζ, hζo⟩ := exists_orderOf_eq_algebraicClosure hK hpq
   have hζ : ζ ^ p = 1 := by rw [← hζo]; exact pow_orderOf_eq_one ζ

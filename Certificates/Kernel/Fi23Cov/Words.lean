@@ -157,7 +157,7 @@ theorem wJ_repW (w : List ℕ) : ∀ p : ℕ, wJ (repW w p) = wJ w ^ p
 
 theorem jL_img {c : ℕ} (hc : c < 10) : jL c = CFSG.Sporadic.Bridge.Fi23.img c := by
   unfold jL
-  rw [if_pos hc]
+  rw [ite_eq_left hc]
 
 theorem jL_39 : jL 39 = a := by
   unfold jL
@@ -173,7 +173,7 @@ theorem jL_41 : jL 41 = b⁻¹ := by
 
 theorem jL_chain {c : ℕ} (h1 : 52 ≤ c) : jL c = pairG gs (c - 52) := by
   unfold jL
-  rw [if_neg (by omega), if_neg (by omega), if_neg (by omega), if_neg (by omega)]
+  rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by omega)]
 
 theorem wJ_39 : wJ [39] = a := by rw [wJ_single, jL_39]
 
@@ -259,7 +259,7 @@ private theorem tJ_injective : Function.Injective tJ := by
 private theorem of_eq_gen (i : Fin CFSG.KD.Fi23K.P23.generatorCount) :
     PresentedGroup.of i = CertificateChecks.KernelFi23M.gen i.val := by
   unfold CertificateChecks.KernelFi23M.gen
-  rw [dif_pos i.isLt]
+  rw [dite_eq_left i.isLt]
 
 private theorem subtype_tJ : J.subtype.comp tJ = CertificateChecks.KernelFi23M.σ := by
   refine PresentedGroup.ext fun i => ?_
@@ -339,7 +339,7 @@ theorem wa_wJ : ∀ w : List ℕ, okW w → ∀ x < 31671,
     have hc128 : c < 128 := by
       unfold okC at hc
       omega
-    rw [CertificateChecks.KernelFi23R.wa_cons, CertificateChecks.KernelFi23R.lf_eq, if_pos hc128,
+    rw [CertificateChecks.KernelFi23R.wa_cons, CertificateChecks.KernelFi23R.lf_eq, ite_eq_left hc128,
       tb_jL hc hx, wa_wJ w hw _ (idx_lt _ hx), wJ_cons, idx_mul]
 
 theorem eqw {u v : List ℕ} (hu : okW u) (hv : okW v) (h : E u v = true) : wJ u = wJ v := by

@@ -89,7 +89,7 @@ theorem swap_of_residual {Y : Type} [Group Y] [Finite Y] {U : Subgroup Y}
 
 theorem isSylowIn_inf_of_isComponentOf {G : Type} [Group G] [Finite G] {T L X : Subgroup G}
     (hT : IsSylowIn 2 T X) (hL : IsComponentOf L X) : IsSylowIn 2 (T ⊓ L) L := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact CFSG.Quasithin.F6.isSylowIn_inf_of_isSubnormal hL.2.1 hT
 
 private theorem map_centerQuot_sylow_fixed {G : Type} [Group G] [Finite G]
@@ -104,7 +104,7 @@ private theorem map_centerQuot_sylow_fixed {G : Type} [Group G] [Finite G]
         θ.toMonoidHom =
       ((S.mapSurjective (QuotientGroup.mk'_surjective (Subgroup.center ↥L)) :
         Sylow 2 (↥L ⧸ Subgroup.center ↥L)) : Subgroup (↥L ⧸ Subgroup.center ↥L)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Z := Subgroup.center ↥L
   let q : ↥L →* (↥L ⧸ Z) := QuotientGroup.mk' Z
   let Sb : Sylow 2 (↥L ⧸ Z) := S.mapSurjective (QuotientGroup.mk'_surjective Z)
@@ -133,7 +133,7 @@ private theorem map_centerQuot_sylow_fixed {G : Type} [Group G] [Finite G]
   exact Subgroup.eq_of_le_of_card_ge hle hcard.ge
 
 private theorem exists_maxParabolic_moved {G : Type} [Group G] [Finite G]
-    {T L : Subgroup G} {t : G} (htT : t ∈ T) (htL : t ∈ normalizer (L : Set G))
+    {T L : Subgroup G} {t : G} (_htT : t ∈ T) (htL : t ∈ normalizer (L : Set G))
     (S : Sylow 2 ↥L) (hS : (S : Subgroup ↥L) = (T ⊓ L).subgroupOf L)
     {θ : MulAut (↥L ⧸ Subgroup.center ↥L)}
     (hθ : ∀ a a' : ↥L, (a' : G) = t * (a : G) * t⁻¹ →
@@ -243,8 +243,8 @@ private theorem isPerfect_of_isSp4 {X : Type} [Group X] [Finite X] {n : ℕ}
   have hmodel : CFSG.Open.StatedClassicalModel X .PSp 2 2 n :=
     CFSG.Blueprint.LieModel.statedClassicalModel_of_ne_zero (by norm_num) h
   obtain ⟨hadm, K, hKfield, hKfin, hKcard, ⟨e⟩⟩ := hmodel
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
+  let : Field K := hKfield
+  let : Finite K := hKfin
   have hn1 : n ≠ 1 := by
     intro hn
     apply hadm.2.2.2
@@ -256,7 +256,7 @@ private theorem isPerfect_of_isSp4 {X : Type} [Group X] [Finite X] {n : ℕ}
     rw [hKcard]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn2
-  haveI : Group.IsPerfect (CFSG.Open.StatedProj (CFSG.Open.StatedSp 2 K)) :=
+  have : Group.IsPerfect (CFSG.Open.StatedProj (CFSG.Open.StatedSp 2 K)) :=
     CFSG.ClassicalGroups.Symplectic.symplectic_projective_perfect 2 K
       (Or.inl (CFSG.LinearGroups.exists_finset_card_eq_four h4))
   exact Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
@@ -267,7 +267,7 @@ private theorem ne_top_normalizer_of_two_dvd {Y : Type} [Group Y] [Finite Y]
     (hR : CFSG.QuasithinUnique.Setup.X6.ResidualOvergroupsAt Y U P) :
     normalizer (U : Set Y) ≠ ⊤ := by
   intro htop
-  haveI : U.Normal := Subgroup.normalizer_eq_top_iff.mp htop
+  have : U.Normal := Subgroup.normalizer_eq_top_iff.mp htop
   obtain ⟨-, hUP, hmax, -, -, -⟩ := hR
   have hcov : P 0 ⋖ ⊤ := (hmax (P 0) (hUP 0)).2 ⟨0, rfl⟩
   rcases hsimple.eq_bot_or_eq_top_of_normal U with hbot | htopU
@@ -280,7 +280,7 @@ theorem swapsParabolics_of_actsNontrivOnDiagramIn {G : Type} [Group G] [Finite G
     S17.SwapsParabolics (T ⊓ Subgroup.normalizer (L : Set G)) L := by
   classical
   obtain ⟨htL, θ, hθ, hnd⟩ := ht
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Z := Subgroup.center ↥L
   let Lb := ↥L ⧸ Z
   let q : ↥L →* Lb := QuotientGroup.mk' Z
@@ -288,7 +288,7 @@ theorem swapsParabolics_of_actsNontrivOnDiagramIn {G : Type} [Group G] [Finite G
   let Sb : Sylow 2 Lb := S.mapSurjective (QuotientGroup.mk'_surjective Z)
   let U : Subgroup Lb := Sb
   have hScoe : (S : Subgroup ↥L) = (T ⊓ L).subgroupOf L := by
-    simpa [S] using CFSG.Quasithin.IsSylowIn.coe_toSylow hTL
+    simp [S]
   have hU : CFSG.QuasithinUnique.IsSylowTwoOf U ⊤ := by
     simpa [U, Sb] using CFSG.QuasithinUnique.isSylowTwoOf_top_of_sylow Sb
   have hθSb : U.map θ.toMonoidHom = U := by
@@ -319,14 +319,14 @@ theorem swapsParabolics_of_actsNontrivOnDiagramIn {G : Type} [Group G] [Finite G
       CFSG.Blueprint.LieModel.statedClassicalModel_of_ne_zero (by norm_num) h3
     obtain ⟨K, hKfield, hKfin, hKchar, φ, -, -, hR, -⟩ :=
       CFSG.QuasithinUnique.Setup.X7a.even_rank_two_residual_linear hmodel hU
-    letI : Field K := hKfield
-    letI : Finite K := hKfin
-    letI : CharP K 2 := hKchar
+    let : Field K := hKfield
+    let : Finite K := hKfin
+    let : CharP K 2 := hKchar
     have h2 : 2 ∣ Nat.card Lb := by
       rw [Nat.card_congr φ.toEquiv]
       exact CFSG.QuasithinUnique.B113Lie.Lin.two_dvd_card_projectiveSL
         (n := 3) (K := K) (by norm_num)
-    haveI hsimple : IsSimpleGroup Lb :=
+    have hsimple : IsSimpleGroup Lb :=
       CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) h3
     have hdich : ∀ H : Subgroup Lb, U ≤ H → H.map θ.toMonoidHom = H →
         H ≤ normalizer (U : Set Lb) ∨ H = ⊤ :=
@@ -337,7 +337,7 @@ theorem swapsParabolics_of_actsNontrivOnDiagramIn {G : Type} [Group G] [Finite G
       ne_top_normalizer_of_two_dvd hsimple hU h2 hR
     exact finish _ hR hdich hN
   ·
-    haveI : Group.IsPerfect ↥L := isPerfect_of_isSp4 hsp
+    have : Group.IsPerfect ↥L := isPerfect_of_isSp4 hsp
     have hperf : _root_.commutator ↥L = ⊤ := Group.IsPerfect.commutator_eq_top
     have hspLie : CFSG.Blueprint.LieModel Lb .PSp 2 2 n :=
       CFSG.LocalAnalysis.UniquenessCase.UC22.RankOneBorel.lieModel_quot_center_of_isSp4
@@ -346,14 +346,14 @@ theorem swapsParabolics_of_actsNontrivOnDiagramIn {G : Type} [Group G] [Finite G
       CFSG.Blueprint.LieModel.statedClassicalModel_of_ne_zero (by norm_num) hspLie
     obtain ⟨K, hKfield, hKfin, hKchar, φ, -, -, hR, -⟩ :=
       CFSG.QuasithinUnique.Setup.X7a.even_rank_two_residual_symplectic hmodel hU
-    letI : Field K := hKfield
-    letI : Finite K := hKfin
-    letI : CharP K 2 := hKchar
+    let : Field K := hKfield
+    let : Finite K := hKfin
+    let : CharP K 2 := hKchar
     have h2 : 2 ∣ Nat.card Lb := by
       rw [Nat.card_congr φ.toEquiv]
       exact CFSG.QuasithinUnique.B113Lie.Sp.two_dvd_card_statedProj (K := K) (r := 2)
         (CFSG.QuasithinUnique.B113Lie.Sp.single_inl_ne_zero (r := 2) ⟨0, by norm_num⟩)
-    haveI hsimple : IsSimpleGroup Lb :=
+    have hsimple : IsSimpleGroup Lb :=
       CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hspLie
     have hdich : ∀ H : Subgroup Lb, U ≤ H → H.map θ.toMonoidHom = H →
         H ≤ normalizer (U : Set Lb) ∨ H = ⊤ :=

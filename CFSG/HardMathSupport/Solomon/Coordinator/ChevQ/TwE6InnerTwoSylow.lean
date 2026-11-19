@@ -48,20 +48,20 @@ private theorem twE6Sylow_not_three_dvd_index {ℓ f : ℕ} (hℓ : ℓ.Prime) (
         ((baseChangeGL (algebraMap K (AlgebraicClosure K))).comp
           (twistedE6RootGroup K σ).subtype))).index := by
   classical
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K ℓ := charP_of_card_eq_prime_pow (f := f * 2)
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K ℓ := charP_of_card_eq_prime_pow (f := f * 2)
     (by rw [← Nat.card_eq_fintype_card, hK, ← pow_mul])
   set L := AlgebraicClosure K
-  haveI : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
+  have : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
   have hσ' : ∀ c, σ.toRingHom c = c ^ (ℓ ^ f) := fun c => by
     rw [RingEquiv.toRingHom_eq_coe, RingEquiv.coe_toRingHom, hσ]
   have hq1 : 1 < ℓ ^ f := Nat.one_lt_pow (by omega) hℓ.one_lt
   have hw0 : ∀ u : Fin TwistTag.E6.tag.rank → ℤ,
       e6HRReflProd • u = -permLattice TwistTag.E6.perm u := fun u => e6HRReflProd_smul u
   set J := twistedE6RootGroup K σ
-  haveI : Finite (ModGL TwistTag.E6.tag K) := inferInstance
-  haveI hJfin : Finite J := inferInstance
+  have : Finite (ModGL TwistTag.E6.tag K) := inferInstance
+  have hJfin : Finite J := inferInstance
   set X := X6 L Fr e6HRReflProd
   set R := twistedFixedGroup TwistTag.E6 L Fr
   set C' := J.map (baseChangeGL (algebraMap K L))
@@ -181,7 +181,7 @@ theorem twE6SylowMonoTwo_holds :
               t * canonicalRep (coxeterSystem TwistTag.E6.tag) (AlgebraicClosure K) w := by
   intro K _ _ σ q hK hσ hq E hE
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, hℓ, hn⟩ := FiniteField.card K (ringChar K)
   have hdvd : q ∣ ringChar K ^ (n : ℕ) := by
     rw [← hn, ← Nat.card_eq_fintype_card, hK]
@@ -193,18 +193,18 @@ theorem twE6SylowMonoTwo_holds :
     · rw [h0, pow_zero] at hq
       omega
     · exact h0
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : CharP K ℓ := ringChar.charP K
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : CharP K ℓ := ringChar.charP K
   set L := AlgebraicClosure K
-  haveI : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
+  have : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
   set Fr : L →+* L := iterateFrobenius L ℓ f
   have hFr : ∀ c, Fr c = c ^ (ℓ ^ f) := fun c => iterateFrobenius_def ℓ f c
   have hσ' : ∀ c, σ.toRingHom c = c ^ (ℓ ^ f) := fun c => by
     rw [RingEquiv.toRingHom_eq_coe, RingEquiv.coe_toRingHom, hσ]
   obtain ⟨g0, hg0C, hg0⟩ := lang_conjugator_twisted K (ℓ := ℓ) hf L e6HRReflProd
   have hidx := twE6Sylow_not_three_dvd_index hℓ hf hq hK σ hσ Fr hFr hg0C hg0
-  haveI : Finite (ModGL TwistTag.E6.tag K) := inferInstance
-  haveI : Finite (twistedE6RootGroup K σ) := inferInstance
+  have : Finite (ModGL TwistTag.E6.tag K) := inferInstance
+  have : Finite (twistedE6RootGroup K σ) := inferInstance
   obtain ⟨g, hg⟩ :=
     CFSG.StandardType.TableBF4.exists_conj_le_of_not_dvd_index Nat.prime_three hidx hE
   set b : ModGL TwistTag.E6.tag L := baseChangeGL (algebraMap K L) (g : ModGL TwistTag.E6.tag K)

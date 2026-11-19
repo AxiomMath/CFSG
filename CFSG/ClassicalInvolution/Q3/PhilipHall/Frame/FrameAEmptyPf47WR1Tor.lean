@@ -74,6 +74,7 @@ variable {K J K' W : Subgroup G} {z j u v : G} {R R' T : Subgroup G}
   (d : Data Ω K J K' W z j u v R R' T)
 include d
 
+omit [Finite G] in
 theorem UV_le_W : 𝕌𝕍 ≤ W := by
   refine sup_le ?_ ?_
   · rw [d.hu]

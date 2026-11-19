@@ -52,8 +52,8 @@ private theorem tpo_model_psu {X : Type} [Group X] {E : Type} [Field E] [Fintype
     (e : X ≃* ↥(CFSG.Open.StatedSU m q' E)) :
     CFSG.Open.StatedClassicalModel (X ⧸ Subgroup.center X) .PSU m 2 g := by
   subst hq
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite E := Finite.of_fintype E
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite E := Finite.of_fintype E
   obtain ⟨-, hZ⟩ :=
     CFSG.LieType.Universal.Unitary.isQuasisimple_statedSU_of_card
       (F := E) (p := 2) (f := g) (n := m) hE hm hne
@@ -81,7 +81,7 @@ private theorem tpo_model_of_orthFactor {X : Type} [Group X] {f : ℕ} (hf : 1 �
   · have hq : q' = 2 ^ (f * j) := by rw [hq', pow_mul]
     have hE : Nat.card E = q' ^ 2 := by rw [Nat.card_eq_fintype_card, hcard]
     exact ⟨.PSU, m, f * j, tpo_model_psu (Nat.mul_pos hf hj) hm3 hq hne hE e⟩
-  · haveI : Finite K' := Finite.of_fintype K'
+  · have : Finite K' := Finite.of_fintype K'
     have hadm : CFSG.Open.StatedLieAdmissible .PSp s 2 f :=
       ⟨Nat.prime_two, hf, hs2, by rw [← hKcard]; exact hne⟩
     have hSp : CFSG.Open.StatedClassicalModel
@@ -127,7 +127,7 @@ theorem ggTorsion_pomega_components {G : Type} [Group G] {t : CFSG.Open.StatedLi
       CFSG.HardMathSupport.Solomon.Coordinator.LieComp.suFactorFacts_holds
       CFSG.HardMathSupport.Solomon.Coordinator.LieComp.omegaFactorField_holds
       hp hp2 (Or.inr ht) hG hp2 a ha J (tpo_isComponentOf_open hJ)
-  letI := inst
+  let := inst
   obtain ⟨eXJ⟩ :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieComp.nonempty_centralQuotient_mulEquiv
       hXLie.perfect g hg hker
@@ -163,12 +163,12 @@ private theorem exists_inn_of_rawD
   rcases htag with hD | htwD
   · cases hD
     dsimp only [LargeEvenRawDatum] at h
-    rw [if_neg (by omega : ¬ rank = 3)] at h
+    rw [ite_eq_right (by omega : ¬ rank = 3)] at h
     obtain ⟨K, hField, hFinite, hCard, hQ⟩ := h
     exact ⟨_, inferInstance, _, _, hQ, rfl⟩
   · cases htwD
     dsimp only [LargeEvenRawDatum] at h
-    rw [if_neg (by omega : ¬ rank = 2), if_neg (by omega : ¬ rank = 3)] at h
+    rw [ite_eq_right (by omega : ¬ rank = 2), ite_eq_right (by omega : ¬ rank = 3)] at h
     obtain ⟨K, hField, hFinite, hCard, b, c, hbc, hQ⟩ := h
     exact ⟨_, inferInstance, _, _, hQ, rfl⟩
 
@@ -185,11 +185,11 @@ theorem ggInnerDiagOn_orthogonal_quotient_gamma_inner
   have hmark' := ggInnerDiagOn_relabel hRig hmarkK hΛ hKlab
   obtain ⟨hKperf, lab', hΛ', hraw'⟩ := hmark'
   obtain ⟨R₀, hGroup₀, I₀, F₀, hQ₀⟩ := largeEvenRawDatum_exists hraw'
-  letI : Group R₀ := hGroup₀
+  let : Group R₀ := hGroup₀
   obtain ⟨hsimple₀, hnonab₀, θ₀, hEqLab, hN₀, hAct₀⟩ := hQ₀
   cases hEqLab
   obtain ⟨R, hGroup, I, F, hQ, hIeq⟩ := exists_inn_of_rawD hrank htag hraw'
-  letI : Group R := hGroup
+  let : Group R := hGroup
   obtain ⟨hsimple, hnonab, θ, hEqLab, hN, hAct⟩ := hQ
   obtain ⟨φ, hφI, hind⟩ := hAct x⁻¹ (Subgroup.inv_mem Bs hx)
   rw [hIeq] at hφI
@@ -211,17 +211,17 @@ theorem center_quotient_eq_bot_of_innerDiagOn
     Subgroup.center (↥K ⧸ Subgroup.center ↥K) = ⊥ := by
   obtain ⟨hKperf, lab, hΛ, hraw⟩ := hmarkK
   obtain ⟨R, hGroup, I, F, hQ⟩ := largeEvenRawDatum_exists hraw
-  letI : Group R := hGroup
+  let : Group R := hGroup
   obtain ⟨hsimple, hnonab, θ, hN, hAct⟩ := hQ
   have hsimple' : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) :=
     (MulEquiv.isSimpleGroup_congr θ).mpr hsimple
   have hnonab' : ∃ a b : ↥K ⧸ Subgroup.center ↥K, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hnonab
     exact ⟨θ.symm a, θ.symm b, fun h => hab (by simpa using congrArg θ h)⟩
-  letI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hsimple'
+  let : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hsimple'
   apply TauCeti.IsSimpleGroup.center_eq_bot_of_not_isMulCommutative
   intro hcomm
-  letI := hcomm
+  let := hcomm
   obtain ⟨a, b, hab⟩ := hnonab'
   exact hab (mul_comm a b)
 

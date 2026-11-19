@@ -138,7 +138,7 @@ theorem Hyp.K_le (H : Hyp z s) :
     KSub ≤ Subgroup.centralizer ({s} : Set H6) ⊓ Subgroup.centralizer ({z 0} : Set H6) := by
   rw [KSub, Subgroup.closure_le]
   intro g hg
-  simp only [kgens, Set.mem_setOf_eq, List.mem_map, List.mem_range] at hg
+  simp only [kgens, Set.mem_ofPred_eq, List.mem_map, List.mem_range] at hg
   obtain ⟨l, hl, rfl⟩ := hg
   obtain ⟨m1, m2⟩ := H.kgens_mem l hl
   rw [SetLike.mem_coe]
@@ -153,7 +153,7 @@ theorem Hyp.K_eq (H : Hyp z s) :
   rw [← H.ez0] at h6
   exact H.eq_cen_of H.K_le H.K_facts.2.1 (n := 32) (by norm_num) (by norm_num) h6 h7
 
-theorem Hyp.K_inv (H : Hyp z s) {g : H6} (hg : g ∈ KSub) {k : ℕ} (hk : k < 144)
+theorem Hyp.K_inv (H : Hyp z s) {g : H6} (_hg : g ∈ KSub) {k : ℕ} (hk : k < 144)
     (eg : enc6 g = KE k) : enc6 g⁻¹ = KE (KI k) := by
   obtain ⟨-, -, -, -, h5, -⟩ := k_parts
   obtain ⟨i1, i2⟩ := h5 k hk
@@ -215,7 +215,7 @@ theorem Hyp.Y_le (H : Hyp z s) :
       Subgroup.centralizer ({z 0 * (z 1 * z 2)} : Set H6) := by
   rw [YSub, Subgroup.closure_le]
   intro g hg
-  simp only [ygens, Set.mem_setOf_eq, List.mem_map, List.mem_range] at hg
+  simp only [ygens, Set.mem_ofPred_eq, List.mem_map, List.mem_range] at hg
   obtain ⟨l, hl, rfl⟩ := hg
   obtain ⟨m1, m2⟩ := H.ygens_mem l hl
   rw [SetLike.mem_coe]
@@ -279,7 +279,7 @@ theorem Hyp.mem_cenS_of (H : Hyp z s) {t : ℕ} (ht : t < 3) {v : H6}
   have hle : RSub t ≤ Subgroup.centralizer ({v} : Set H6) := by
     rw [RSub, Subgroup.closure_le]
     intro g hg
-    simp only [rgens, Set.mem_setOf_eq, List.mem_map, List.mem_range] at hg
+    simp only [rgens, Set.mem_ofPred_eq, List.mem_map, List.mem_range] at hg
     obtain ⟨l, hl, rfl⟩ := hg
     rw [SetLike.mem_coe, ← commF_iff]
     have e : commF (enc6 v) (enc6 (eltOf (rgen t l))) = true := by
@@ -337,7 +337,6 @@ theorem Hyp.card_cnt (H : Hyp z s) {t : ℕ} (ht : t < 3) {y : H6} {x : ℕ} (ey
     Nat.card ↥(RSub t ⊓ Subgroup.centralizer ({y} : Set H6)) = cntT t x := by
   obtain ⟨r1, -, r3, r4⟩ := H.R_facts t ht
   exact card_inf_of_cnt r1 r3 r4 fun k _ g hg => by
-    beta_reduce
     rw [← hg, ← ey]
     exact commF_iff g y
 

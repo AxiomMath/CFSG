@@ -22,12 +22,12 @@ theorem om_eq_iff (x y : V4C) {k : Nat} (hk : k < 3) :
 
 theorem mulVec_ev (X : M4) (i : Fin 4) : X.mulVec (ev i) = fun r => X r i := by
   ext r
-  simp [Matrix.mulVec, dotProduct, ev, Fin.sum_univ_four]
+  simp [Matrix.mulVec, dotProduct, ev]
 
 theorem omega4_ev : omega4 (ev 0) (ev 2) = 1 ∧ omega4 (ev 1) (ev 3) = 1 ∧
     omega4 (ev 0) (ev 1) = 0 ∧ omega4 (ev 0) (ev 3) = 0 ∧ omega4 (ev 1) (ev 2) = 0 ∧
     omega4 (ev 2) (ev 3) = 0 := by
-  refine ⟨?_, ?_, ?_, ?_, ?_, ?_⟩ <;> simp [omega4, ev] <;> decide
+  refine ⟨?_, ?_, ?_, ?_, ?_, ?_⟩ <;> simp [omega4, ev]
 
 theorem lineC_toV (L : Fin 4) : (lineC L.val).toV = lineVec L := by
   fin_cases L <;> (ext i; fin_cases i <;> simp [lineC, V4C.toV, lineVec])

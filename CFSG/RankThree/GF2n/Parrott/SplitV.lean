@@ -18,16 +18,16 @@ variable (D : QuotientData (z := z) hN)
   toFun v := v * conjV h (sigma1H3 D) v
   map_one' := by simp
   map_mul' v w := by
-    letI : CommGroup (QuotientV.V z) := commGroupV h
+    let : CommGroup (QuotientV.V z) := commGroupV h
     simp [map_mul, mul_assoc, mul_comm, mul_left_comm]
 
 @[expose] noncomputable def mulEquivVAdd :
     QuotientV.V z ≃* Multiplicative (Additive (QuotientV.V z)) where
   toFun v := Multiplicative.ofAdd (Additive.ofMul v)
   invFun w := Additive.toMul w.toAdd
-  left_inv v := rfl
-  right_inv w := rfl
-  map_mul' v w := rfl
+  left_inv _v := rfl
+  right_inv _w := rfl
+  map_mul' _v _w := rfl
 
 @[expose] noncomputable def sigma1VLinearMap (h : Tim79a.ParrottHyp z) :
     letI : CommGroup (QuotientV.V z) := commGroupV h
@@ -38,14 +38,15 @@ variable (D : QuotientData (z := z) hN)
   exact mulAutToLinearMap
     (MulAut.congr (mulEquivVAdd (z := z)) (conjV h (sigma1H3 D)))
 
+omit [Finite G] in
 @[simp] theorem sigma1VLinearMap_apply (h : Tim79a.ParrottHyp z)
     (v : Additive (QuotientV.V z)) :
     letI : CommGroup (QuotientV.V z) := commGroupV h
     letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
     sigma1VLinearMap D h v =
       Additive.ofMul ((conjV h (sigma1H3 D)) (Additive.toMul v)) := by
-  letI : CommGroup (QuotientV.V z) := commGroupV h
-  letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
+  let : CommGroup (QuotientV.V z) := commGroupV h
+  let : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
   rfl
 
 @[expose] noncomputable def sigma1VComplementAddMap (h : Tim79a.ParrottHyp z) :
@@ -56,14 +57,15 @@ variable (D : QuotientData (z := z) hN)
   letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
   exact (MonoidHom.toAdditive (sigma1VComplementHom D h)).toZModLinearMap 2
 
+omit [Finite G] in
 @[simp] theorem sigma1VComplementAddMap_apply (h : Tim79a.ParrottHyp z)
     (v : Additive (QuotientV.V z)) :
     letI : CommGroup (QuotientV.V z) := commGroupV h
     letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
     sigma1VComplementAddMap D h v =
       Additive.ofMul ((sigma1VComplementHom D h) (Additive.toMul v)) := by
-  letI : CommGroup (QuotientV.V z) := commGroupV h
-  letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
+  let : CommGroup (QuotientV.V z) := commGroupV h
+  let : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
   rfl
 
 @[expose] noncomputable def sigma1VComplementMap (h : Tim79a.ParrottHyp z) :
@@ -74,13 +76,14 @@ variable (D : QuotientData (z := z) hN)
   letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
   LinearMap.id - sigma1VLinearMap D h
 
+omit [Finite G] in
 @[simp] theorem sigma1VComplementMap_apply (h : Tim79a.ParrottHyp z)
     (v : Additive (QuotientV.V z)) :
     letI : CommGroup (QuotientV.V z) := commGroupV h
     letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
     sigma1VComplementMap D h v = v - sigma1VLinearMap D h v := by
-  letI : CommGroup (QuotientV.V z) := commGroupV h
-  letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
+  let : CommGroup (QuotientV.V z) := commGroupV h
+  let : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
   rfl
 
 end CFSG.RankThree.GF2n.Parrott

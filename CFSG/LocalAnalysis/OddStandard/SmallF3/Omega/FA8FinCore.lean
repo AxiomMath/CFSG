@@ -14,12 +14,14 @@ namespace CFSG.OddStandard.SmallF3.Omega
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem fa8fin_h_apply_comm {s g : OGroup Q} (hg : g * s = s * g) (v : V) :
     (g : V ≃ₗ[ZMod 3] V) ((s : V ≃ₗ[ZMod 3] V) v) =
       (s : V ≃ₗ[ZMod 3] V) ((g : V ≃ₗ[ZMod 3] V) v) := by
   have h := congrArg (fun e : OGroup Q => (e : V ≃ₗ[ZMod 3] V) v) hg
   simpa only [Subgroup.coe_mul, LinearEquiv.mul_apply] using h
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem fa8fin_h_pres {s : OGroup Q} (hs : s * s = 1) {g : OGroup Q}
     (hg : g * s = s * g) : ∀ w ∈ commSp s, (g : V ≃ₗ[ZMod 3] V) w ∈ commSp s := by
   intro w hw
@@ -52,7 +54,7 @@ theorem fa8fin_core (hQ : Q.Nondegenerate) {s : OGroup Q} (hs : s * s = 1)
     ∃ b : OGroup (Q.restrict (FGSplit.comm hQ hs).P),
       (QuotientGroup.mk x : ProjSim Q) = fgIotaP (FGSplit.comm hQ hs) b := by
   have hxs : simAct Q x s = s := hx s hsR
-  haveI : Finite ↥R := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite ↥R := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   let ρ := fa8fin_h_rhoW hs R hcent
   let s' : ↥R := ⟨s, hsR⟩
   have hs'2 : s' * s' = 1 := Subtype.ext hs
@@ -87,7 +89,7 @@ theorem fa8fin_core (hQ : Q.Nondegenerate) {s : OGroup Q} (hs : s * s = 1)
   have hc0 : c ≠ 0 := by
     rintro rfl
     have hpos : 0 < Module.finrank (ZMod 3) (commSp s) := by rw [hW]; norm_num
-    haveI : Nontrivial (commSp s) := Module.finrank_pos_iff.mp hpos
+    have : Nontrivial (commSp s) := Module.finrank_pos_iff.mp hpos
     obtain ⟨w, hw0⟩ := exists_ne (0 : commSp s)
     apply hw0
     apply Subtype.ext

@@ -48,7 +48,7 @@ private theorem q2cF4T_adjoint_five_false {K : Type} [Field K] [Finite K]
   classical
   obtain ⟨h, hh, hβh, hp1, hh1⟩ :=
     exists_inndiag_of_mem_innAutDerived_F4 β hβmem hβ5 hβ1
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, hℓ, hcardK⟩ := FiniteField.card K (ringChar K)
   have hK : Nat.card K = ringChar K ^ (f : ℕ) := by
     rw [Nat.card_eq_fintype_card]; exact hcardK
@@ -103,8 +103,8 @@ theorem q2c_F4_five_false {m : ℕ} {lab : LargeEvenLabel} (hlab : lab.tag = .F4
   obtain ⟨K₀, iF, iFin, hK₀, hq⟩ := hQ
   refine ⟨K₀, iF, iFin, hK₀, hq, ?_⟩
   intro u hu huo J hJ huniq K iK iFinK hK he
-  letI : Field K₀ := iF
-  letI : Finite K₀ := iFin
+  let : Field K₀ := iF
+  let : Finite K₀ := iFin
   set R : Type := LargeEvenCenterQuot (LargeEvenChevH LargeEvenCartanF4 K₀ false) with hR
   set I : Set (MulAut R) := LargeEvenChevIDImage LargeEvenCartanF4 K₀ _ with hI
   let e : R ≃* ↥(adjointGroup .F4 K₀) := TableBF4.recipeEquiv K₀
@@ -151,7 +151,7 @@ theorem q2c_F4_five_false {m : ℕ} {lab : LargeEvenLabel} (hlab : lab.tag = .F4
     let eJ : ↥J ≃* ↥(J.map e.toMonoidHom) :=
       Subgroup.equivMapOfInjective J e.toMonoidHom e.injective
     exact ⟨(QuotientGroup.congr _ _ eJ (Subgroup.map_center_eq eJ)).symm.trans heK⟩
-  haveI : CharP K₀ 2 := charP_two_of_card hK₀
+  have : CharP K₀ 2 := charP_two_of_card hK₀
   have hK2 : ringChar K₀ = 2 := ringChar.eq K₀ 2
   exact q2cF4T_adjoint_five_false (K' := K) hK2 hβmem hβ5 hβ1 hJmap hm hK hJZ
 
@@ -177,13 +177,13 @@ theorem q2c_F4_three_false {m : ℕ} {lab : LargeEvenLabel} (hlab : lab.tag = .F
     rw [hn0, pow_zero] at hK₀
     have : 2 ≤ Nat.card K₀ := Finite.one_lt_card
     omega
-  letI : Field K₀ := iF
-  letI : Finite K₀ := iFin
+  let : Field K₀ := iF
+  let : Finite K₀ := iFin
   set R : Type := LargeEvenCenterQuot (LargeEvenChevH LargeEvenCartanF4 K₀ false) with hR
   set I : Set (MulAut R) := LargeEvenChevIDImage LargeEvenCartanF4 K₀ _ with hI
-  haveI : IsSimpleGroup R := by
+  have : IsSimpleGroup R := by
     have hq := CFSG.LieType.Steinberg.Adjoint.isQuasisimple_f4 (K := K₀)
-    haveI : IsSimpleGroup (CFSG.Blueprint.AdjointQuotient .F4 K₀) := hq.2.1
+    have : IsSimpleGroup (CFSG.Blueprint.AdjointQuotient .F4 K₀) := hq.2.1
     obtain ⟨eR'⟩ := centerQuot_chevGroup_equiv K₀ .F4
     exact eR'.isSimpleGroup
   have hna : ∃ a b : R, a * b ≠ b * a := by
@@ -193,7 +193,7 @@ theorem q2c_F4_three_false {m : ℕ} {lab : LargeEvenLabel} (hlab : lab.tag = .F
       (QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot
     let e : R ≃* ↥(adjointGroup .F4 K₀) := eR'.trans eZ
     exact exists_ne_comm_of_mulEquiv_adjointGroup_F4 (k := K₀) (H := R)
-      (by haveI : CharP K₀ 2 := charP_two_of_card hK₀
+      (by have : CharP K₀ 2 := charP_two_of_card hK₀
           exact CharP.cast_eq_zero K₀ 2) e
   have hcomm : commutator R = ⊤ := CFSG.Assembly.Dichotomy.commutator_eq_top_of_isSimpleGroup hna
   have hZbot : Subgroup.center R = ⊥ := center_eq_bot_of_isSimpleGroup_of_nonabelian hna
@@ -229,7 +229,7 @@ theorem q2c_F4_three_false {m : ℕ} {lab : LargeEvenLabel} (hlab : lab.tag = .F
     · intro h1
       rw [h1, orderOf_one] at huo
       omega
-  haveI : Finite R := by
+  have : Finite R := by
     obtain ⟨e0⟩ := centerQuot_chevGroup_equiv K₀ .F4
     exact Finite.of_equiv _ e0.symm.toEquiv
   have hF4 := ggTorsion_f4_comp hdat

@@ -65,7 +65,7 @@ theorem no_tri_of_noA5 [Finite S] {Y : Subgroup S} (hY : Nat.card Y = 3)
     · exact hz.cube hY
   have h2 : ∀ i j, i ≠ j → (a i * a j) ^ 2 = 1 := by
     intro i j hij
-    fin_cases i <;> fin_cases j <;> first | exact absurd rfl hij | skip
+    fin_cases i <;> fin_cases j <;> try exact absurd rfl hij
     · exact hxy
     · exact hxz
     · exact NoA5.sq_comm hxy

@@ -363,7 +363,7 @@ theorem Hyp.kernel (hd : d.Hyp) :
     exact hRn
   rw [hR'] at hRn' ⊢
   refine ⟨isCyclic_of_surjective _ (MonoidHom.subgroupMap_surjective _ _),
-    Q.isPGroup'.map _, ?_, hRn'⟩
+    Q.isPGroup.map _, ?_, hRn'⟩
   rintro _ ⟨y, hy, rfl⟩ hy2
   rw [Subgroup.subtype_apply, orderOf_coe] at hy2
   exact congrArg Subtype.val (huniq y hy hy2)

@@ -50,11 +50,13 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
       simp only [glv_inv_apply_apply] at this
       exact this.symm
 
+omit [Finite V] in
 theorem mem_flagQ {a : V} {φ : Module.Dual (ZMod 2) V} {g : GLV V} :
     g ∈ flagQ a φ ↔ (∀ v, φ (g v) = φ v) ∧
       (∀ v, φ v = 0 → g v - v ∈ Submodule.span (ZMod 2) {a}) ∧ g a = a := Iff.rfl
 
-theorem pow_four_eq_one_of_mem_flagQ {a : V} {φ : Module.Dual (ZMod 2) V} (hφa : φ a = 0)
+omit [Finite V] in
+theorem pow_four_eq_one_of_mem_flagQ {a : V} {φ : Module.Dual (ZMod 2) V} (_hφa : φ a = 0)
     {g : GLV V} (hg : g ∈ flagQ a φ) : g ^ 4 = 1 := by
   obtain ⟨hg1, hg2, hg3⟩ := hg
   set u : V → V := fun v => g v - v with hu
@@ -86,6 +88,7 @@ theorem pow_four_eq_one_of_mem_flagQ {a : V} {φ : Module.Dual (ZMod 2) V} (hφa
   show v + u (u v) + (u (u v) + 0) = v
   rw [add_zero, add_assoc, zmod2_add_self, add_zero]
 
+omit [Finite V] in
 theorem isPGroup_flagQ_inf {a : V} {φ : Module.Dual (ZMod 2) V} (hφa : φ a = 0)
     (H : Subgroup (GLV V)) : IsPGroup 2 ↥(flagQ a φ ⊓ H) := by
   intro g
@@ -98,7 +101,7 @@ theorem exists_dual_ne {a : V} (φ : Module.Dual (ZMod 2) V)
     (hn : 3 ≤ Module.finrank (ZMod 2) V) :
     ∃ ψ : Module.Dual (ZMod 2) V, ψ a = 0 ∧ ψ ≠ 0 ∧ ψ ≠ φ := by
   classical
-  haveI : Module.Finite (ZMod 2) V := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) V := Module.Finite.of_finite
   have hrank := LinearMap.finrank_range_add_finrank_ker (Module.Dual.eval (ZMod 2) V a)
   have hr : Module.finrank (ZMod 2) ↥(LinearMap.range (Module.Dual.eval (ZMod 2) V a)) ≤ 1 := by
     have := Submodule.finrank_le (LinearMap.range (Module.Dual.eval (ZMod 2) V a))
@@ -131,7 +134,7 @@ theorem exists_dual_ne {a : V} (φ : Module.Dual (ZMod 2) V)
 theorem exists_mem_ker_notMem_span {φ : Module.Dual (ZMod 2) V} (hφ : φ ≠ 0) (a : V)
     (hn : 3 ≤ Module.finrank (ZMod 2) V) :
     ∃ b : V, φ b = 0 ∧ b ∉ Submodule.span (ZMod 2) {a} := by
-  haveI : Module.Finite (ZMod 2) V := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) V := Module.Finite.of_finite
   have h1 := Module.Dual.finrank_ker_add_one_of_ne_zero hφ
   have h2 : Module.finrank (ZMod 2) ↥(Submodule.span (ZMod 2) {a}) ≤ 1 := by
     by_cases ha : a = 0
@@ -146,7 +149,7 @@ theorem exists_mem_ker_notMem_span {φ : Module.Dual (ZMod 2) V} (hφ : φ ≠ 0
 
 theorem exists_apply_zero_one {f : LinearMap.BilinForm (ZMod 2) V} (hnd : f.Nondegenerate)
     {a b : V} (hb : b ∉ Submodule.span (ZMod 2) {a}) : ∃ v, f a v = 0 ∧ f b v = 1 := by
-  haveI : Module.Finite (ZMod 2) V := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) V := Module.Finite.of_finite
   by_contra hall
   push Not at hall
   have hker : (⨅ _ : Unit, LinearMap.ker (f a)) ≤ LinearMap.ker (f b) := by
@@ -170,6 +173,7 @@ theorem exists_apply_zero_one {f : LinearMap.BilinForm (ZMod 2) V} (hnd : f.Nond
   rw [h0]
   exact Submodule.smul_mem _ _ (Submodule.mem_span_singleton_self a)
 
+omit [Finite V] in
 theorem eq_of_tv_mem_bilinIsometryGroup {f : LinearMap.BilinForm (ZMod 2) V}
     (hnd : f.Nondegenerate) (halt : f.IsAlt) {φ : Module.Dual (ZMod 2) V} {a : V}
     (h : φ a = 0) (hφ : φ ≠ 0) (ha : a ≠ 0) (hmem : tv φ a h ∈ bilinIsometryGroup f) :
@@ -208,7 +212,7 @@ theorem commutator_orthGL_ne {Q : QuadraticForm (ZMod 2) V}
     ⁅CFSG.HardMathSupport.Cooperstein.StructureLie.orthGL Q,
       CFSG.HardMathSupport.Cooperstein.StructureLie.orthGL Q⁆ ≠
       CFSG.HardMathSupport.Cooperstein.StructureLie.orthGL Q := by
-  haveI : Module.Finite (ZMod 2) V := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) V := Module.Finite.of_finite
   intro h
   set e := LinearMap.GeneralLinearGroup.generalLinearEquiv (ZMod 2) V
   have hmap : (CFSG.HardMathSupport.Cooperstein.StructureLie.orthGL Q).map e.toMonoidHom =
@@ -244,6 +248,7 @@ namespace Hyp
 variable (hc : Hyp G L z)
 include hc
 
+omit [Finite V] hc in
 theorem fix_of_mem_centralizer {a : V} {φ : Module.Dual (ZMod 2) V} (ha : a ≠ 0)
     (hφ : φ ≠ 0) (hz : ∀ v, z v = v + φ v • a) {c : GLV V}
     (hc' : c ∈ Subgroup.centralizer ({z} : Set (GLV V))) :
@@ -288,7 +293,7 @@ theorem false_of_flagQ {a : V} {φ : Module.Dual (ZMod 2) V} (ha : a ≠ 0) (hφ
     ⟨hg.2, Subgroup.mem_centralizer_singleton_iff.2 (hQz g hg.1)⟩
   have hNn : ∀ c ∈ G ⊓ Subgroup.centralizer ({z} : Set (GLV V)), ∀ x ∈ N, c * x * c⁻¹ ∈ N := by
     intro c hc' x hx
-    obtain ⟨hca, hcφ⟩ := hc.fix_of_mem_centralizer ha hφ hz hc'.2
+    obtain ⟨hca, hcφ⟩ := Hyp.fix_of_mem_centralizer ha hφ hz hc'.2
     have hcinvφ : ∀ v, φ (c⁻¹ v) = φ v := fun v => by
       have := hcφ (c⁻¹ v)
       rw [glv_apply_inv_apply] at this
@@ -324,7 +329,7 @@ theorem false_of_flagQ {a : V} {φ : Module.Dual (ZMod 2) V} (ha : a ≠ 0) (hφ
 theorem false_of_perfect
     (hdim : Module.finrank (ZMod 2) ↥(commSpace (Subgroup.zpowers z) ⊤) = 1)
     (hzE : z ∈ layerIn G) (hn6 : 6 ≤ Module.finrank (ZMod 2) V) : False := by
-  haveI : Module.Finite (ZMod 2) V := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) V := Module.Finite.of_finite
   have hGE := hc.eq_layerIn_of_mem hzE
   have hGperf : ⁅G, G⁆ = G := hc.conf.derived.trans hGE.symm
   have hperf : ⁅mapGL G, mapGL G⁆ = mapGL G := by rw [← mapGL_commutator, hGperf]

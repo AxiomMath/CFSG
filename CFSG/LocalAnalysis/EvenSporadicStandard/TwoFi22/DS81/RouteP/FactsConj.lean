@@ -58,14 +58,14 @@ theorem Facts.conjSubgroup_of_mem (D : Facts G t L E) {l : G} (hl : l ∈ L) :
     have h2 : x ∈ (E ⊔ closure {y | y ∈ normalizer (E : Set G) ⊓ L ∧ Odd (orderOf y)}).map
         (MulAut.conj l⁻¹).toMonoidHom := by
       refine ⟨l * x * l⁻¹, h1, ?_⟩
-      simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply, inv_inv]
+      simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply, inv_inv]
       group
     rw [Subgroup.map_sup, MonoidHom.map_closure] at h2
     refine sup_le_sup_left (Subgroup.closure_mono ?_) _ h2
     rintro _ ⟨y, ⟨hyN, hyodd⟩, rfl⟩
     have e1 : (MulAut.conj l⁻¹).toMonoidHom y = l⁻¹ * y * l := by
-      simp [MulAut.conj_apply]
-    rw [Set.mem_setOf_eq, e1]
+      simp
+    rw [Set.mem_ofPred_eq, e1]
     refine ⟨⟨mem_normalizer_conjSubgroup_iff.2 ?_, ?_⟩, ?_⟩
     · have h4 : l * (l⁻¹ * y * l) * l⁻¹ = y := by group
       rw [h4]

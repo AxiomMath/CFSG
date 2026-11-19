@@ -45,7 +45,7 @@ private theorem l02qt1_commutatorElement_mul_center_right {X : Type*} [Group X] 
   group
 
 private theorem l02qt1_commutatorElement_mul_right_center {X : Type*} [Group X] {x y z : X}
-    (hy : ⁅x, y⁆ ∈ Subgroup.center X) (hz : ⁅x, z⁆ ∈ Subgroup.center X) :
+    (_hy : ⁅x, y⁆ ∈ Subgroup.center X) (hz : ⁅x, z⁆ ∈ Subgroup.center X) :
     ⁅x, y * z⁆ = ⁅x, y⁆ * ⁅x, z⁆ := by
   have h1 : x * y * x⁻¹ = ⁅x, y⁆ * y := by rw [commutatorElement_def]; group
   have h2 : x * z * x⁻¹ = ⁅x, z⁆ * z := by rw [commutatorElement_def]; group
@@ -62,7 +62,7 @@ private theorem l02qt1_commutatorElement_mul_right_center {X : Type*} [Group X] 
 private theorem l02qt1_commutator_sup_center {X : Type*} [Group X] {J Z : Subgroup X}
     (hZ : Z ≤ Subgroup.center X) (hJJ : ⁅J, J⁆ = J) :
     ⁅J ⊔ Z, J ⊔ Z⁆ = J := by
-  haveI hZn : Z.Normal := Subgroup.normal_of_le_center hZ
+  have hZn : Z.Normal := Subgroup.normal_of_le_center hZ
   apply le_antisymm
   · refine Subgroup.commutator_le.2 fun x hx y hy => ?_
     obtain ⟨j, hj, z, hz, rfl⟩ := Subgroup.mem_sup_of_normal_right.mp hx
@@ -247,7 +247,7 @@ theorem q1ToralActionTransfer_of_rToral
         rw [hcomm_all a⁻¹ x, map_inv]
         exact hz
     have hcomm_sup : ⁅J ⊔ π.ker, J ⊔ π.ker⁆ = J := by
-      haveI : Group.IsPerfect ↥J := ⟨hJcomm⟩
+      have : Group.IsPerfect ↥J := ⟨hJcomm⟩
       exact l02qt1_commutator_sup_center hker_le (Subgroup.commutator_eq_self (H := J))
     have hstep3 : J = ⁅Subgroup.comap π (J.map π), Subgroup.comap π (J.map π)⁆ := by
       rw [Subgroup.comap_map_eq (f := π) J]

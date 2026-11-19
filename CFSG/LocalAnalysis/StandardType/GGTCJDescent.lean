@@ -55,8 +55,8 @@ theorem tcjDescent_center_comap_eq {L' R : Type} [Group L'] [Group R] {J : Subgr
     obtain ⟨j, rfl⟩ := hf g
     rw [← map_mul, ← map_mul, (Subgroup.mem_center_iff.1 hz j)]
   refine le_antisymm ?_ hle
-  haveI hN : ((Subgroup.center ↥(J.map ψ)).comap (ψ.subgroupMap J)).Normal := inferInstance
-  haveI hN' : (((Subgroup.center ↥(J.map ψ)).comap (ψ.subgroupMap J)).map
+  have hN : ((Subgroup.center ↥(J.map ψ)).comap (ψ.subgroupMap J)).Normal := inferInstance
+  have hN' : (((Subgroup.center ↥(J.map ψ)).comap (ψ.subgroupMap J)).map
       (QuotientGroup.mk' (Subgroup.center ↥J))).Normal :=
     hN.map _ (QuotientGroup.mk'_surjective _)
   rcases hsimple.eq_bot_or_eq_top_of_normal (((Subgroup.center ↥(J.map ψ)).comap
@@ -100,7 +100,7 @@ theorem tcjDescent_center_comap_eq {L' R : Type} [Group L'] [Group R] {J : Subgr
       intro g
       have hc := Subgroup.mem_center_iff.1 (hker hx2) (g : L')
       exact Subtype.ext hc
-    haveI := hsimple.toNontrivial
+    have := hsimple.toNontrivial
     obtain ⟨a, b, hab⟩ := exists_pair_ne (↥J ⧸ Subgroup.center ↥J)
     obtain ⟨a', rfl⟩ := QuotientGroup.mk_surjective a
     obtain ⟨b', rfl⟩ := QuotientGroup.mk_surjective b
@@ -127,7 +127,7 @@ theorem ggTCJ_descent {L' R : Type} [Group L'] [Group R]
     rw [← MonoidHom.ker_eq_bot_iff, QuotientGroup.ker_map, hcen]
     ext q
     obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective q
-    simp [Subgroup.mem_map, QuotientGroup.eq_one_iff]
+    simp [QuotientGroup.eq_one_iff]
   have hgsurj : Function.Surjective g := by
     intro q
     obtain ⟨y, rfl⟩ := QuotientGroup.mk_surjective q

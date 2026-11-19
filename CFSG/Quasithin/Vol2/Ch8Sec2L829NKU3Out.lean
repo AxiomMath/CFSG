@@ -49,7 +49,7 @@ theorem mem_of_mat (h : UnitaryFieldData p 1 K) (M N : M3 K) (h1 : M * N = 1) (h
 @[expose] noncomputable def barEquiv (h : UnitaryFieldData p 1 K) : K ≃+* K :=
   RingEquiv.ofBijective h.bar
     (by
-      haveI := h.finite
+      have := h.finite
       exact ⟨(h.bar : K →+* K).injective, Finite.injective_iff_surjective.mp
         (h.bar : K →+* K).injective⟩)
 
@@ -57,7 +57,7 @@ theorem barEquiv_apply (h : UnitaryFieldData p 1 K) (c : K) : barEquiv h c = h.b
 
 theorem ringAut_eq_refl_or_bar (h : UnitaryFieldData p 1 K) (σ : K ≃+* K) :
     σ = RingEquiv.refl K ∨ σ = barEquiv h := by
-  haveI := h.finite
+  have := h.finite
   have hcard : Nat.card K = p ^ 2 := by rw [h.card]
   have hp : p.Prime := h.prime
   obtain ⟨h2, -⟩ := card_ringAut_and_isCyclic hp K hcard
@@ -77,7 +77,7 @@ theorem ringAut_eq_refl_or_bar (h : UnitaryFieldData p 1 K) (σ : K ≃+* K) :
 
 theorem exists_good_a (h : UnitaryFieldData p 1 K) (hp : 13 ≤ p) :
     ∃ a : K, h.bar a * a = 1 ∧ a ^ 3 ≠ 1 ∧ a ^ 6 ≠ 1 := by
-  haveI := h.finite
+  have := h.finite
   have hp' : p.Prime := h.prime
   have hcardK : Nat.card K = p ^ 2 := by rw [h.card]
   have hcardU : Nat.card Kˣ = p ^ 2 - 1 := by rw [Nat.card_units, hcardK]
@@ -302,8 +302,7 @@ theorem bar_case_false (h : UnitaryFieldData p 1 K) {a : K} (ha0 : a ≠ 0) (hba
   have e00 := entry_of_diag (mat (A : GL (Fin 3) K)) ![a, a⁻¹, 1] c₁ (barEquiv h) r₁ 0 0
   have e02 := entry_of_diag (mat (A : GL (Fin 3) K)) ![a, a⁻¹, 1] c₁ (barEquiv h) r₁ 0 2
   have e01 := entry_of_diag (mat (A : GL (Fin 3) K)) ![1, a, a⁻¹] c₂ (barEquiv h) r₂ 0 1
-  simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, hτa, hτb,
-    Matrix.cons_val_two, Matrix.tail_cons, map_one] at e00 e02 e01
+  simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, hτa, Matrix.cons_val_two, Matrix.tail_cons, map_one] at e00 e02 e01
   have z00 : mat (A : GL (Fin 3) K) 0 0 = 0 :=
     (mul_eq_zero.mp (show mat (A : GL (Fin 3) K) 0 0 * (a⁻¹ - c₁ * a) = 0 by
       linear_combination e00)).resolve_right (nz_V1 hab hc₁ ha6)
@@ -350,23 +349,23 @@ theorem refl_case (h : UnitaryFieldData p 1 K) {a : K} (ha0 : a ≠ 0)
     simpa using this
   have z01 : M 0 1 = 0 := by
     have e := E 0 1
-    simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons] at e
+    simp only [Matrix.cons_val_zero, Matrix.cons_val_one] at e
     exact (mul_eq_zero.mp (show M 0 1 * (a⁻¹ - c₁ * a) = 0 by linear_combination e)).resolve_right
       (nz_V1 hab hc₁ ha6)
   have z10 : M 1 0 = 0 := by
     have e := E 1 0
-    simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons] at e
+    simp only [Matrix.cons_val_zero, Matrix.cons_val_one] at e
     exact (mul_eq_zero.mp (show M 1 0 * (a - c₁ * a⁻¹) = 0 by linear_combination e)).resolve_right
       (nz_V4 hab hc₁ ha6)
   have z02 : M 0 2 = 0 := by
     have e := E 0 2
-    simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, Matrix.cons_val_two,
+    simp only [Matrix.cons_val_zero, Matrix.head_cons, Matrix.cons_val_two,
       Matrix.tail_cons] at e
     exact (mul_eq_zero.mp (show M 0 2 * (1 - c₁ * a) = 0 by linear_combination e)).resolve_right
       (nz_V2 hc₁ ha3)
   have z20 : M 2 0 = 0 := by
     have e := E 2 0
-    simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, Matrix.cons_val_two,
+    simp only [Matrix.cons_val_zero, Matrix.head_cons, Matrix.cons_val_two,
       Matrix.tail_cons] at e
     exact (mul_eq_zero.mp (show M 2 0 * (a - c₁) = 0 by linear_combination e)).resolve_right
       (nz_V5 hc₁ ha3)
@@ -395,14 +394,13 @@ theorem refl_case (h : UnitaryFieldData p 1 K) {a : K} (ha0 : a ≠ 0)
   have w02 : M 0 0 = c₂ * M 2 2 := by
     have e := congrFun (congrFun r₂ 0) 2
     simp only [Matrix.mul_apply, Fin.sum_univ_three, Matrix.smul_apply, smul_eq_mul,
-      Matrix.map_apply, RingEquiv.refl_apply, wM00, wM01, wM02, wM10, wM11, wM12, wM20, wM21,
-      wM22, z01, z02, z10, z12, z20, z21] at e
+      Matrix.map_apply, RingEquiv.refl_apply, wM00, wM01, wM02, wM12, wM22, z01, z02, z12] at e
     linear_combination e
   have w20 : M 2 2 = c₂ * M 0 0 := by
     have e := congrFun (congrFun r₂ 2) 0
     simp only [Matrix.mul_apply, Fin.sum_univ_three, Matrix.smul_apply, smul_eq_mul,
-      Matrix.map_apply, RingEquiv.refl_apply, wM00, wM01, wM02, wM10, wM11, wM12, wM20, wM21,
-      wM22, z01, z02, z10, z12, z20, z21] at e
+      Matrix.map_apply, RingEquiv.refl_apply, wM00, wM10, wM20, wM21,
+      wM22, z10, z20, z21] at e
     linear_combination e
   have hsq0 : (1 - c₂ ^ 2) * M 0 0 = 0 := by linear_combination w02 + c₂ * w20
   have hsq : c₂ ^ 2 = 1 := by
@@ -415,7 +413,7 @@ theorem refl_case (h : UnitaryFieldData p 1 K) {a : K} (ha0 : a ≠ 0)
   have e33 := congrFun (congrFun r₃ 2) 2
   have e01 := congrFun (congrFun r₃ 0) 1
   simp only [Matrix.mul_apply, Fin.sum_univ_three, Matrix.smul_apply, smul_eq_mul,
-    Matrix.map_apply, RingEquiv.refl_apply, uM00, uM01, uM02, uM10, uM11, uM12, uM20, uM21,
+    Matrix.map_apply, RingEquiv.refl_apply, uM00, uM01, uM02, uM11, uM12, uM20, uM21,
     uM22, z01, z02, z10, z12, z20, z21] at e33 e01
   have hc3 : c₃ = 1 := by
     have h1 : (M 2 2 * M 2 2) * (1 - c₃) = 0 := by linear_combination -e33
@@ -663,7 +661,7 @@ theorem iM22 : iM 2 2 = (0 : K) := by simp [iM]
 theorem two_ne_zero_of_prime (h : UnitaryFieldData p 1 K) (hp : p.Prime) (hp4 : p % 4 = 1) :
     (2 : K) ≠ 0 := by
   intro h0
-  haveI := h.charP
+  have := h.charP
   have h2 : ((2 : ℕ) : K) = 0 := by exact_mod_cast h0
   have hd : p ∣ 2 := (CharP.cast_eq_zero_iff K p 2).mp h2
   have hle := Nat.le_of_dvd (by norm_num) hd
@@ -681,7 +679,7 @@ theorem diag_of_commute {K : Type} [Field K] (h2 : (2 : K) ≠ 0) (X : M3 K)
   have e12 := congrFun (congrFun hI 1) 2
   have f00 := congrFun (congrFun hW 0) 0
   simp only [Matrix.mul_apply, Fin.sum_univ_three, iM00, iM01, iM02, iM10, iM11, iM12, iM20,
-    iM21, iM22, wM00, wM01, wM02, wM10, wM11, wM12, wM20, wM21, wM22, mul_zero, zero_mul,
+    iM21, iM22, wM00, wM01, wM02, wM10, wM20, mul_zero, zero_mul,
     mul_one, one_mul, add_zero, zero_add] at e00 e02 e01 e21 e10 e12 f00
   have z01 : X 0 1 = 0 := by
     have : (2 : K) * X 0 1 = 0 := by linear_combination e01 + e21
@@ -696,7 +694,7 @@ theorem diag_of_commute {K : Type} [Field K] (h2 : (2 : K) ≠ 0) (X : M3 K)
     exact (mul_eq_zero.mp this).resolve_left h2
   have z20 : X 2 0 = 0 := by linear_combination z02 - f00
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [dg, z01, z02, z10, z12, z20, z21, Matrix.diagonal_apply]
+  fin_cases i <;> fin_cases j <;> simp [dg, z01, z02, z10, z12, z20, z21]
   · linear_combination -e02
 
 theorem dg_pow (x y z : K) (N : ℕ) : (dg x y z) ^ N = dg (x ^ N) (y ^ N) (z ^ N) := by
@@ -810,7 +808,7 @@ theorem center_sub_z0 (h : UnitaryFieldData p 1 K) (hp : p.Prime) (hp4 : p % 4 =
       rw [GeneralLinearGroup.coe_scalar]
       ext i j
       fin_cases i <;> fin_cases j <;>
-        simp [hβγ, dg, hγβ, Matrix.scalar_apply, Matrix.diagonal_apply]
+        simp [hβγ, dg, hγβ, Matrix.scalar_apply]
   ·
     have hγβ : γ = -β := by
       have h0 : β * β * (γ + β) = 0 := by linear_combination hdet + hc1
@@ -823,8 +821,7 @@ theorem center_sub_z0 (h : UnitaryFieldData p 1 K) (hp : p.Prime) (hp4 : p % 4 =
       rw [Units.val_mul, GeneralLinearGroup.coe_scalar]
       ext i j
       fin_cases i <;> fin_cases j <;>
-        simp [hβγ, dg, hγβ, z0SU_mat, z0M, Matrix.mul_apply, Fin.sum_univ_three,
-          Matrix.scalar_apply, Matrix.diagonal_apply]
+        simp [hβγ, dg, hγβ, z0SU_mat, z0M, Matrix.mul_apply, Matrix.scalar_apply, Matrix.diagonal_apply]
     have hmem : (z0SU h)⁻¹ * mt ∈ unitaryScalars h 3 := by
       refine mem_unitaryScalars.mpr ⟨Units.mk0 (-β) (neg_ne_zero.mpr hβ0), ?_, ?_, ?_⟩
       · show (-β) * h.bar (-β) = 1
@@ -849,13 +846,13 @@ theorem tM1_unit (h : UnitaryFieldData p 1 K) {a : K} (ha0 : a ≠ 0) (hbar : h.
     ((dg a a⁻¹ 1 : M3 K).map h.bar)ᵀ * dg a a⁻¹ 1 = 1 := by
   have hba' : h.bar a⁻¹ = a := by rw [map_inv₀, hbar, inv_inv]
   ext i j; fin_cases i <;> fin_cases j <;>
-    simp [dg, Matrix.mul_apply, Fin.sum_univ_three, hbar, hba', ha0, Matrix.diagonal_apply]
+    simp [dg, Matrix.mul_apply, hbar, hba', ha0, Matrix.diagonal_apply]
 
 theorem tM2_unit (h : UnitaryFieldData p 1 K) {a : K} (ha0 : a ≠ 0) (hbar : h.bar a = a⁻¹) :
     ((dg 1 a a⁻¹ : M3 K).map h.bar)ᵀ * dg 1 a a⁻¹ = 1 := by
   have hba' : h.bar a⁻¹ = a := by rw [map_inv₀, hbar, inv_inv]
   ext i j; fin_cases i <;> fin_cases j <;>
-    simp [dg, Matrix.mul_apply, Fin.sum_univ_three, hbar, hba', ha0, Matrix.diagonal_apply]
+    simp [dg, Matrix.mul_apply, hbar, hba', ha0, Matrix.diagonal_apply]
 
 @[expose] noncomputable def tSU1 (h : UnitaryFieldData p 1 K) {a : K} (ha0 : a ≠ 0)
     (hbar : h.bar a = a⁻¹) : unitarySU p 1 K 3 :=
@@ -879,7 +876,7 @@ theorem tSU2_mat (h : UnitaryFieldData p 1 K) {a : K} (ha0 : a ≠ 0) (hbar : h.
 
 theorem z0M_comm_dg (x y z : K) : z0M * dg x y z = dg x y z * z0M := by
   ext i j; fin_cases i <;> fin_cases j <;>
-    simp [z0M, dg, Matrix.mul_apply, Fin.sum_univ_three, Matrix.diagonal_apply]
+    simp [z0M, dg, Matrix.mul_apply, Matrix.diagonal_apply]
 
 theorem z0M_comm_wM : (z0M : M3 K) * wM = wM * z0M := by
   ext i j; fin_cases i <;> fin_cases j <;>
@@ -911,8 +908,8 @@ theorem uout_P (h : UnitaryFieldData p 1 K) (hp : p.Prime) (hp13 : 13 ≤ p) (hp
     UOut (unitaryPSU h 3)
       (Subgroup.centralizer ((S ⊓ Subgroup.centralizer (S : Set (unitaryPSU h 3)) :
         Subgroup (unitaryPSU h 3)) : Set (unitaryPSU h 3))) := by
-  haveI := h.finite
-  haveI : Fintype K := Fintype.ofFinite K
+  have := h.finite
+  have : Fintype K := Fintype.ofFinite K
   intro y hy hfix
   obtain ⟨a', ha', ha3, ha6⟩ := exists_good_a h hp13
   have ha0 : a' ≠ 0 := by rintro rfl; simp at ha'

@@ -255,10 +255,12 @@ section
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
 
+omit [Finite K] [CharP K 2] in
 private theorem f4_rootChar_single (b : Fin ReeTag.F4.tag.rank → Kˣ)
     (i : Fin ReeTag.F4.tag.rank) : rootChar b (Pi.single i 1) = b i := by
   simpa only [one_smul, pow_one] using rootChar_nsmul_single b i 1
 
+omit [Finite K] [CharP K 2] in
 private theorem f4_entrywise_injective (σ : K →+* K) :
     Function.Injective (entrywise (τ := ReeTag.F4.tag) σ) := by
   intro A B h
@@ -273,11 +275,13 @@ private theorem f4_entrywise_injective (σ : K →+* K) :
   ((entrywiseFrobGL Tag.F4 K 2 e).comp (adjointGroup Tag.F4 K).subtype).codRestrict
     (adjointGroup Tag.F4 K) fun g => entrywiseFrobGL_mem_adjointGroup_no117 2 e g.2
 
+omit [Finite K] [CharP K 2] in
 private theorem f4_rootDiagUnit_mem (b : Fin ReeTag.F4.tag.rank → Kˣ) :
     rootDiagUnit ReeTag.F4.tag b ∈ adjointGroup ReeTag.F4.tag K := by
   obtain ⟨B, hB, -⟩ := (G2_F4_root_character_diagonals_inner ReeTag.F4.tag (Or.inr rfl) K).1
   exact ((G2_F4_root_character_diagonals_inner ReeTag.F4.tag (Or.inr rfl) K).2 B hB b).2.2.1
 
+omit [Finite K] [CharP K 2] in
 private theorem f4DiagAut_adjX (b : Fin ReeTag.F4.tag.rank → Kˣ) (i : Fin ReeTag.F4.tag.rank) (c : K) :
     rootDiagAut ReeTag.F4.tag K b (adjX ReeTag.F4.tag K i c) =
       adjX ReeTag.F4.tag K i (((rootChar b (Pi.single i 1) : Kˣ) : K) * c) := by
@@ -291,6 +295,7 @@ private theorem f4DiagAut_adjX (b : Fin ReeTag.F4.tag.rank → Kˣ) (i : Fin Ree
   rw [← pinnedX_single, ← pinnedX_single, rootDiagUnit_conj_pinnedX b (isRoot_single ReeTag.F4.tag i) c,
     f4_rootChar_single]
 
+omit [Finite K] [CharP K 2] in
 private theorem f4DiagAut_adjY (b : Fin ReeTag.F4.tag.rank → Kˣ) (i : Fin ReeTag.F4.tag.rank) (c : K) :
     rootDiagAut ReeTag.F4.tag K b (adjY ReeTag.F4.tag K i c) =
       adjY ReeTag.F4.tag K i (((rootChar b (-Pi.single i 1) : Kˣ) : K) * c) := by
@@ -308,8 +313,8 @@ private theorem f4DiagAut_adjY (b : Fin ReeTag.F4.tag.rank → Kˣ) (i : Fin Ree
 
 private noncomputable def f4FrobAut (e : ℕ) : MulAut (adjointGroup ReeTag.F4.tag K) :=
   MulEquiv.ofBijective (f4FrobTwist e) (by
-    haveI : Finite (adjointGroup ReeTag.F4.tag K) := generated_group_finite ReeTag.F4.tag K
-    haveI : Fintype (adjointGroup ReeTag.F4.tag K) := Fintype.ofFinite _
+    have : Finite (adjointGroup ReeTag.F4.tag K) := generated_group_finite ReeTag.F4.tag K
+    have : Fintype (adjointGroup ReeTag.F4.tag K) := Fintype.ofFinite _
     have hinj : Function.Injective (f4FrobTwist (K := K) e) := by
       intro x y h
       apply Subtype.ext
@@ -428,16 +433,12 @@ private theorem f4_exceptionalAut_mul_self :
     f4_exceptionalAut K * f4_exceptionalAut K = f4FrobAut 1 := by
   apply mulAut_ext_adjX_adjY
   · intro i c
-    change (f4_exceptionalAut K * f4_exceptionalAut K) (adjX ReeTag.F4.tag K i c) =
-      f4FrobAut 1 (adjX ReeTag.F4.tag K i c)
     rw [MulAut.mul_apply, f4_exceptionalAut_adjX, f4_exceptionalAut_adjX,
       f4_perm_perm, f4FrobAut_adjX]
     congr 1
     rw [← pow_mul, f4_exponent_mul_perm]
     norm_num
   · intro i c
-    change (f4_exceptionalAut K * f4_exceptionalAut K) (adjY ReeTag.F4.tag K i c) =
-      f4FrobAut 1 (adjY ReeTag.F4.tag K i c)
     rw [MulAut.mul_apply, f4_exceptionalAut_adjY, f4_exceptionalAut_adjY,
       f4_perm_perm, f4FrobAut_adjY]
     congr 1
@@ -460,8 +461,9 @@ private theorem f4_exponent_pow_surjective (i : Fin ReeTag.F4.tag.rank) :
   · refine ⟨(frobeniusEquiv K 2).symm d, ?_⟩
     have h := (frobeniusEquiv K 2).apply_symm_apply d
     rw [h2]
-    simpa [frobeniusEquiv_pow_apply] using h
+    simp
 
+omit [Finite K] [CharP K 2] in
 private theorem f4_rootChar_neg_single (b : Fin ReeTag.F4.tag.rank → Kˣ) (i : Fin ReeTag.F4.tag.rank) :
     rootChar b (-Pi.single i 1) = (b i)⁻¹ := by
   rw [show (-Pi.single i 1 : Fin ReeTag.F4.tag.rank → ℤ) = 0 - Pi.single i 1 by
@@ -473,7 +475,7 @@ private theorem f4_rootPairAut_eq_diag_mul_frob (ζ : rootPairAut ReeTag.F4.tag 
     ∃ a : Fin ReeTag.F4.tag.rank → Kˣ, ∃ m : ℕ,
       (ζ : MulAut (adjointGroup ReeTag.F4.tag K)) = rootDiagAut ReeTag.F4.tag K a * (f4FrobAut 1) ^ m := by
   obtain ⟨p, hp⟩ := exists_common_params ζ.2
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, -, hK⟩ := FiniteField.card K 2
   have hnpos : 1 ≤ (n : ℕ) := n.pos
   have hK' : Nat.card K = 2 ^ (n : ℕ) := by
@@ -486,8 +488,6 @@ private theorem f4_rootPairAut_eq_diag_mul_frob (ζ : rootPairAut ReeTag.F4.tag 
   change (ζ : MulAut (adjointGroup ReeTag.F4.tag K)) = A
   apply mulAut_ext_adjX_adjY
   · intro i c
-    change (ζ : MulAut (adjointGroup ReeTag.F4.tag K)) (adjX ReeTag.F4.tag K i c) =
-      A (adjX ReeTag.F4.tag K i c)
     calc
       (ζ : MulAut (adjointGroup ReeTag.F4.tag K)) (adjX ReeTag.F4.tag K i c) =
           adjX ReeTag.F4.tag K i (p.1 i * p.2 c) := by
@@ -498,8 +498,6 @@ private theorem f4_rootPairAut_eq_diag_mul_frob (ζ : rootPairAut ReeTag.F4.tag 
         dsimp [A]
         rw [f4FrobAutOne_pow_adjX, f4DiagAut_adjX, f4_rootChar_single]
   · intro i c
-    change (ζ : MulAut (adjointGroup ReeTag.F4.tag K)) (adjY ReeTag.F4.tag K i c) =
-      A (adjY ReeTag.F4.tag K i c)
     calc
       (ζ : MulAut (adjointGroup ReeTag.F4.tag K)) (adjY ReeTag.F4.tag K i c) =
           adjY ReeTag.F4.tag K i ((((p.1 i)⁻¹ : Kˣ) : K) * p.2 c) := by
@@ -579,7 +577,7 @@ theorem f4_exists_conj_mul_pow (α : MulAut (adjointGroup ReeTag.F4.tag K)) :
     ∃ (g : adjointGroup ReeTag.F4.tag K) (k : ℕ),
       α = MulAut.conj g * f4_exceptionalAut K ^ k := by
   obtain ⟨w₀, hw₀⟩ := Finite.exists_max (coxeterSystem ReeTag.F4.tag).length
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨c, β, hβ, hα⟩ :=
     f4_exists_conj_mul_unipotentPair (K := K) 2 w₀ hw₀ α
   let c' : adjointGroup ReeTag.F4.tag K := c
@@ -727,8 +725,8 @@ theorem f4_outer_isCyclic :
 
 private theorem f4_outer_isSolvable_aux :
     Group.IsSolvable (Outer (adjointGroup ReeTag.F4.tag K)) := by
-  letI : IsCyclic (Outer (adjointGroup ReeTag.F4.tag K)) := f4_outer_isCyclic_aux
-  letI : CommGroup (Outer (adjointGroup ReeTag.F4.tag K)) := IsCyclic.commGroup
+  let : IsCyclic (Outer (adjointGroup ReeTag.F4.tag K)) := f4_outer_isCyclic_aux
+  let : CommGroup (Outer (adjointGroup ReeTag.F4.tag K)) := IsCyclic.commGroup
   exact Group.isSolvable_of_comm (fun a b => mul_comm a b)
 
 theorem f4_outer_isSolvable :
@@ -761,8 +759,8 @@ theorem f4_outer_isSolvable_of_perfect_centralCover
     (QuotientGroup.quotientMulEquivOfEq
       (CFSG.StandardType.F4ExplicitPos.CenterProofFast.center_adjointGroup_F4_charTwo_eq_bot
         (K := K))).trans QuotientGroup.quotientBot
-  letI : Group.IsSolvable (Outer (adjointGroup Tag.F4 K)) := f4_outer_isSolvable
-  letI : Group.IsSolvable (Outer (Y ⧸ Subgroup.center Y)) :=
+  let : Group.IsSolvable (Outer (adjointGroup Tag.F4 K)) := f4_outer_isSolvable
+  let : Group.IsSolvable (Outer (Y ⧸ Subgroup.center Y)) :=
     solvable_of_equiv (e.trans e0).symm
   exact solvable_of_centerQuotient Y
 

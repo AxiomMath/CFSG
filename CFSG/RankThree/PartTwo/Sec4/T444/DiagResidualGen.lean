@@ -283,7 +283,7 @@ theorem IsSimpleCover.false_of_rep [Finite G] [Finite T]
   obtain ⟨P, hPp, hPE, P3, hP3⟩ : ∃ P : Subgroup G, IsPGroup 3 P ∧ P.map π = E ∧
       ∃ P3 : Sylow 3 (E.comap π), (P3 : Subgroup (E.comap π)).map (E.comap π).subtype = P := by
     obtain ⟨P3, hP3E⟩ := exists_sylow_comap_map_eq hπ.surjective hE3p
-    exact ⟨_, P3.isPGroup'.map _, hP3E, P3, rfl⟩
+    exact ⟨_, P3.isPGroup.map _, hP3E, P3, rfl⟩
   have hπP : ∀ x ∈ P, π x ∈ E := fun x hx => hPE ▸ Subgroup.mem_map_of_mem π hx
   have hρeq : ∀ x y : G, x * y⁻¹ ∈ P → π x = π y → ρ x = ρ y := by
     intro x y hxy hxy'
@@ -438,7 +438,7 @@ theorem le_center_of_isPGroup {X : Type} [Group X] [Finite X]
     (hloc : CFSG.Assembly.RankThreeEven.localRank p X ≤ 2)
     (R : Subgroup X) [R.Normal] (hR : IsPGroup p R) : R ≤ Subgroup.center X := by
   classical
-  haveI : IsSimpleGroup T := hT.simple
+  have : IsSimpleGroup T := hT.simple
   have hcenterT : Subgroup.center T = ⊥ := center_eq_bot_of_simple_nonabelian hT.nonabelian
   have hlayerT : CFSG.layer T = ⊤ :=
     CFSG.LocalCores.layer_eq_top_of_mulEquiv_pi (ι := Unit) (S := fun _ => T)
@@ -567,7 +567,7 @@ theorem le_center_of_isPGroup {X : Type} [Group X] [Finite X]
   obtain ⟨S2⟩ : Nonempty (Sylow 2 C) := inferInstance
   set S : Subgroup Y := (S2 : Subgroup C).map C.subtype with hSdef
   have hSn : S.Normal := hsyl 2 S2
-  have hS2 : IsPGroup 2 S := S2.isPGroup'.map _
+  have hS2 : IsPGroup 2 S := S2.isPGroup.map _
   have hS1 : S ≠ ⊥ := by
     rw [hSdef, Ne, Subgroup.map_eq_bot_iff_of_injective _ C.subtype_injective]
     exact S2.ne_bot_of_dvd_card hCeven
@@ -736,7 +736,7 @@ theorem le_center_of_isPGroup {X : Type} [Group X] [Finite X]
       have hdvd : Nat.card T3 ∣ Nat.card π.ker := by
         rw [hT3, Subgroup.card_map_of_injective C.subtype_injective]
         exact (Subgroup.card_subgroup_dvd_card _).trans hCdvd
-      obtain ⟨m, hm⟩ := (Q3.isPGroup'.map C.subtype : IsPGroup 3 T3).exists_card_eq
+      obtain ⟨m, hm⟩ := (Q3.isPGroup.map C.subtype : IsPGroup 3 T3).exists_card_eq
       rw [hm] at hdvd ⊢
       by_contra h3
       have hm2 : 2 ≤ m := by
@@ -753,7 +753,7 @@ theorem isQuasisimple_of_residualData {T : Type} [Group T]
     (K : Subgroup X) [K.Normal] (hK : Group.IsSolvable K) (h9 : ¬ 9 ∣ Nat.card K)
     (ψ : X ⧸ K ≃* T) : IsQuasisimple X := by
   classical
-  haveI : IsSimpleGroup T := hT.simple
+  have : IsSimpleGroup T := hT.simple
   have hcenterT : Subgroup.center T = ⊥ := center_eq_bot_of_simple_nonabelian hT.nonabelian
   let π : X →* T := ψ.toMonoidHom.comp (QuotientGroup.mk' K)
   have hπs : Function.Surjective π := by

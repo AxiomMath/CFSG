@@ -22,7 +22,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
     (φ : Fin 8 → MulAut ↥Bs) (h : Fin 8 → V) (α : Fin 8 → Module.Dual (ZMod p) V),
     (∀ i w, ggLin (p := p) ι (φ i) w = w - α i w • h i) ∧
     (∀ i, GGIsReflection p (φ i)) ∧
-    (∀ i j, α i (h j) = ((CartanMatrix.E₈ i j : ℤ) : ZMod p)) ∧
+    (∀ i j, α i (h j) = (((CartanMatrix.E 8) i j : ℤ) : ZMod p)) ∧
     (∃ f : CoxeterMatrix.E₈.Group ≃* ↥(ggAutomizer X Bs),
       ∀ i, (f (CoxeterMatrix.E₈.simple i) : MulAut ↥Bs) = φ i) ∧
     ggAutomizer X Bs = Subgroup.closure (Set.range φ) ∧
@@ -37,14 +37,14 @@ private theorem l6m2_core_L (hT : GGTBTorE8) (hLift : GGTBTorLiftE8) (hLab : GGL
     (hp3 : p = 3) :
     ∃ (hN : Bs ≤ Subgroup.normalizer (L : Set G)),
       Odd (ggTorME8 labX) ∧ p ∣ ggTorME8 labX ∧
-        GGIntCartan CoxeterMatrix.E₈ CartanMatrix.E₈ ∧
-        GGTorusTorData (ggTorME8 labX) 8 CartanMatrix.E₈ CoxeterMatrix.E₈ ↥L
+        GGIntCartan CoxeterMatrix.E₈ (CartanMatrix.E 8) ∧
+        GGTorusTorData (ggTorME8 labX) 8 (CartanMatrix.E 8) CoxeterMatrix.E₈ ↥L
           (ggGamma L hN).range := by
   subst hp3
   have hp : Nat.Prime 3 := Fact.out
   have hp2 : (3 : ℕ) ≠ 2 := by norm_num
   have hrowX : GGTBTorRowAt 3 labX (8 - ggTorEnn 3 labX) (ggTorME8 labX) 8
-      CartanMatrix.E₈ CoxeterMatrix.E₈ := GGTBTorRowAt.e8Three htag rfl
+      (CartanMatrix.E 8) CoxeterMatrix.E₈ := GGTBTorRowAt.e8Three htag rfl
   have hinner : GGInnerDiagOn Bs L := hH.2.2.1.1
   obtain ⟨hperf, lab, hlab, hraw⟩ := ggInnerDiagOn_relabel hLab hinner hΛX hXhas
   obtain ⟨_, _, _, _, _, _, _, hEq, _, _⟩ := largeEvenRawDatum_exists hraw
@@ -68,14 +68,14 @@ private theorem l6m2_core_K (hT : GGTBTorE8) (hLift : GGTBTorLiftE8) (hLab : GGL
     (hp3 : p = 3) :
     ∃ (hN : Bs ≤ Subgroup.normalizer (K : Set G)),
       Odd (ggTorME8 labX) ∧ p ∣ ggTorME8 labX ∧
-        GGIntCartan CoxeterMatrix.E₈ CartanMatrix.E₈ ∧
-        GGTorusTorData (ggTorME8 labX) 8 CartanMatrix.E₈ CoxeterMatrix.E₈ ↥K
+        GGIntCartan CoxeterMatrix.E₈ (CartanMatrix.E 8) ∧
+        GGTorusTorData (ggTorME8 labX) 8 (CartanMatrix.E 8) CoxeterMatrix.E₈ ↥K
           (ggGamma K hN).range := by
   subst hp3
   have hp : Nat.Prime 3 := Fact.out
   have hp2 : (3 : ℕ) ≠ 2 := by norm_num
   have hrowX : GGTBTorRowAt 3 labX (8 - ggTorEnn 3 labX) (ggTorME8 labX) 8
-      CartanMatrix.E₈ CoxeterMatrix.E₈ := GGTBTorRowAt.e8Three htag rfl
+      (CartanMatrix.E 8) CoxeterMatrix.E₈ := GGTBTorRowAt.e8Three htag rfl
   have hnb : GGNbr 3 B x D J y K := hH.2.2.2.2.1
   have hinner : GGInnerDiagOn Bs K := hH.2.2.1.2 y K hnb
   obtain ⟨hperf, lab, hlab, hraw⟩ := ggInnerDiagOn_relabel hLab hinner hΛX hXhas
@@ -97,14 +97,14 @@ private theorem l6m2_e8Datum_of_torData {G : Type} [Group G] [Finite G] {p m : �
     (hBs : IsElemAbelian p Bs)
     (hS : ∀ g ∈ Subgroup.centralizer (Bs : Set G), g ^ p = 1 → g ∈ Bs)
     (hN : Bs ≤ Subgroup.normalizer (X : Set G))
-    (hMC : GGIntCartan CoxeterMatrix.E₈ CartanMatrix.E₈)
-    (hTor : GGTorusTorData m 8 CartanMatrix.E₈ CoxeterMatrix.E₈ ↥X (ggGamma X hN).range) :
+    (hMC : GGIntCartan CoxeterMatrix.E₈ (CartanMatrix.E 8))
+    (hTor : GGTorusTorData m 8 (CartanMatrix.E 8) CoxeterMatrix.E₈ ↥X (ggGamma X hN).range) :
     GGResE8SeparatedDatum p Bs X := by
   obtain ⟨w, hw⟩ := hTor
   obtain ⟨V, hVadd, hVmod, hι⟩ :=
     exists_ggLinData (p := p) (G := G) (Bs := Bs) hBs
-  letI : AddCommGroup V := hVadd
-  letI : Module (ZMod p) V := hVmod
+  let : AddCommGroup V := hVadd
+  let : Module (ZMod p) V := hVmod
   obtain ⟨ι⟩ := hι
   obtain ⟨hnk, hbk, F, hFadd, hFφ, hFC, hF1, hFsep⟩ := ggTD_core hm hpm hBs hS hN w hw
   let f : Fin 8 → Additive ↥Bs →+ ZMod p := fun k =>
@@ -127,7 +127,7 @@ private theorem l6m2_e8Datum_of_torData {G : Type} [Group G] [Finite G] {p m : �
       AddEquiv.apply_symm_apply, hα, ← Nat.cast_smul_eq_nsmul (ZMod p), ZMod.natCast_zmod_val]
     abel
   have hpair : ∀ i j, α i (ι (Additive.ofMul (⟨_, hbk j⟩ : ↥Bs))) =
-      ((CartanMatrix.E₈ i j : ℤ) : ZMod p) := by
+      (((CartanMatrix.E 8) i j : ℤ) : ZMod p) := by
     intro i j
     rw [hα, AddEquiv.symm_apply_apply, toMul_ofMul]
     exact hFC i j

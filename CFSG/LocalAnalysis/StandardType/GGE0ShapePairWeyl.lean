@@ -133,7 +133,7 @@ private theorem familyKernel_eq_pair {L : Type} [Field L]
     familyKernel a =
       {γ | IsRoot .E6 γ ∧ triPairing (b 0) γ = 0 ∧ triPairing (b 1) γ = 0} := by
   ext γ
-  simp only [familyKernel, Set.mem_setOf_eq]
+  simp only [familyKernel, Set.mem_ofPred_eq]
   rw [Fin.forall_fin_two]
   refine and_congr_right fun _ => and_congr ?_ ?_
   · exact triPairing_eq_zero_of_rootCharHom3 (hb 0) γ
@@ -143,7 +143,7 @@ private theorem familyKernel_unit_eq_rootCharKernel {L : Type} [Field L]
     (a : Fin Tag.E6.rank → Lˣ) :
     familyKernel (fun _ : Unit => a) = rootCharKernel a := by
   ext γ
-  simp only [familyKernel, rootCharKernel, Set.mem_setOf_eq]
+  simp only [familyKernel, rootCharKernel, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨hroot, hf⟩; exact ⟨hroot, hf ()⟩
   · rintro ⟨hroot, hf⟩; exact ⟨hroot, fun _ => hf⟩
@@ -155,7 +155,7 @@ private theorem closure_rootReflection_familyKernel_unit {L : Type} [Field L]
   rw [familyKernel_unit_eq_rootCharKernel a]
   congr 1
   ext s
-  simp only [Set.mem_setOf_eq, Set.mem_image]
+  simp only [Set.mem_ofPred_eq, Set.mem_image]
   exact ⟨fun ⟨α, hα, hs⟩ => ⟨α, hα, hs.symm⟩, fun ⟨α, hα, hs⟩ => ⟨α, hα, hs.symm⟩⟩
 
 private theorem range_fin_two' {α : Type} (f : Fin 2 → α) : Set.range f = {f 0, f 1} := by

@@ -35,8 +35,8 @@ theorem heisB_model {X : Type} [Group X] (d : TauCeti.ValidLieTypeIndex) (hd : I
 theorem heisCoreOn_idxB_of_oddCenterRest (hZ : OddCenterRest) : HeisCoreOn IdxB := by
   intro L _ _ hperf hodd hrk hsimple d hd e p hp hp5
   left
-  haveI := hperf
-  haveI := hsimple
+  have := hperf
+  have := hsimple
   have hq : CFSG.Open.IsQuasisimple L := ⟨hperf.commutator_eq_top, hsimple⟩
   have hZp : ¬ p ∣ Nat.card (Subgroup.center L) :=
     heis_not_dvd_center_rest hZ hq hodd (Or.inl ⟨d, hd, ⟨e⟩⟩) hp hp5

@@ -35,14 +35,14 @@ theorem qTwoLMH_card_of_model {m : ℕ} (h3 : 3 ∣ m) {V : Type} [Group V]
   obtain ⟨π, hsurj, hker, -⟩ := h.ex
   by_cases hm : m = 0
   · subst hm
-    haveI : Subsingleton V := ⟨fun a b => by
+    have : Subsingleton V := ⟨fun a b => by
       obtain ⟨x, rfl⟩ := hsurj a
       obtain ⟨y, rfl⟩ := hsurj b
       rw [Subsingleton.elim x y]⟩
     rw [Nat.card_eq_one_iff_unique.mpr ⟨inferInstance, ⟨1⟩⟩]
     norm_num
   · have hm' : 1 ≤ m := Nat.one_le_iff_ne_zero.mpr hm
-    haveI : Fintype ↥(sumZero m 3) := Fintype.ofFinite _
+    have : Fintype ↥(sumZero m 3) := Fintype.ofFinite _
     have hcardV : Nat.card V * 3 = Nat.card ↥(sumZero m 3) := by
       have h := qTwoLMH_card_of_surjective_ker (qTwoOneVec m h3) π hsurj hker
       rwa [qTwoLMH_card_zpowers_oneVec h3 hm'] at h
@@ -93,7 +93,7 @@ theorem qTwoLMH_faithful {m : ℕ} (h3 : 3 ∣ m) {V : Type} [Group V]
   by_contra hne
   obtain ⟨a, ha⟩ : ∃ a, σ a ≠ a := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hne (Equiv.ext hcon)
   obtain ⟨c, hca, hcσa, hcσia⟩ := qTwoLMH_exists_ne_three (by omega : 4 ≤ m) a (σ a) (σ⁻¹ a)
   have hσia : σ⁻¹ a ≠ a := by
@@ -124,7 +124,7 @@ theorem qTwoLMH_comm {m : ℕ} (h3 : 3 ∣ m) {V : Type} [Group V]
   obtain ⟨π, hsurj, hker, heq⟩ := h.ex
   by_cases hm : m = 0
   · subst hm
-    haveI : Subsingleton V := ⟨fun a b => by
+    have : Subsingleton V := ⟨fun a b => by
       obtain ⟨x, rfl⟩ := hsurj a
       obtain ⟨y, rfl⟩ := hsurj b
       rw [Subsingleton.elim x y]⟩
@@ -165,7 +165,7 @@ theorem qTwoLMH_fix_swap_card {m : ℕ} (h3 : 3 ∣ m) {V : Type} [Group V]
     (a b : Fin m) (hab : a ≠ b) :
     Nat.card {v : V // ρ (Equiv.swap a b) v = v} * 3 = Nat.card V := by
   obtain ⟨π, hsurj, hker, heq⟩ := h.ex
-  haveI : Fintype ↥(sumZero m 3) := Fintype.ofFinite _
+  have : Fintype ↥(sumZero m 3) := Fintype.ofFinite _
   have hm1 : 1 ≤ m := by have := a.2; omega
   let ψ : ↥(sumZero m 3) →* Multiplicative (ZMod 3) :=
     { toFun := fun w => ofAdd (crd w a - crd w b)

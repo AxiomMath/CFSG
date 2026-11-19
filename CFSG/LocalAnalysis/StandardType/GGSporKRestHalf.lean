@@ -57,7 +57,7 @@ theorem ggKGroupFusionAtFlatK_rest_of_leaves (hOut : SporadicOuterLeTwo) (hP2 : 
     obtain ⟨hi1, rfl⟩ := hi
     by_cases hsq : q ^ 2 ∣ Nat.card (MulAut (TauCeti.CFSGIndex.sporadic s').Group)
     · obtain ⟨e⟩ := he
-      haveI : IsSimpleGroup ↥(CFSG.generalizedFitting W) := hyp.2.1.1
+      have : IsSimpleGroup ↥(CFSG.generalizedFitting W) := hyp.2.1.1
       have hS : IsSimpleGroup (TauCeti.CFSGIndex.sporadic s').Group := by
         subst hi1
         exact MulEquiv.isSimpleGroup e.symm

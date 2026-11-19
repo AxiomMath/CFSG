@@ -25,7 +25,7 @@ theorem mul_cubeProj_eq_smul (hY : Y * (Y * Y) = 1) {c : K} (hc : c ^ 3 = 1) :
   simp only [cubeProj, mul_add, mul_one, mul_smul_comm, hY, smul_add, smul_smul, h1, h2, one_smul]
   abel
 
-theorem cubeProj_mul_cubeProj_eq_zero (hY : Y * (Y * Y) = 1) (hY' : Y * Y * Y = 1)
+theorem cubeProj_mul_cubeProj_eq_zero (hY : Y * (Y * Y) = 1) (_hY' : Y * Y * Y = 1)
     {c c' : K} (hc : c ^ 3 = 1) (hc' : c' ^ 3 = 1) (hcc : c ^ 2 ≠ c' ^ 2) :
     cubeProj Y c * cubeProj Y c' = 0 := by
   have h1 : Y * (cubeProj Y c * cubeProj Y c') = c ^ 2 • (cubeProj Y c * cubeProj Y c') := by
@@ -86,7 +86,7 @@ theorem cube_root_facts {τ : K} (hτ : τ ^ 3 = 1) (hτ1 : τ ≠ 1) :
     linear_combination h + τ * hτ
 
 theorem exists_pair {Y : Matrix (Fin 3) (Fin 3) K} (h2 : (2 : K) = 0)
-    (hY : Y * (Y * Y) = 1) (hne1 : ∀ c : K, c ^ 3 = 1 → cubeProj Y c ≠ 1)
+    (_hY : Y * (Y * Y) = 1) (hne1 : ∀ c : K, c ^ 3 = 1 → cubeProj Y c ≠ 1)
     {τ : K} (hτ : τ ^ 3 = 1) (hτ1 : τ ≠ 1) {ψ : K ≃+* K} (hψτ : ψ τ = τ) :
     ∃ c c' : K, c ^ 3 = 1 ∧ c' ^ 3 = 1 ∧ c ^ 2 ≠ c' ^ 2 ∧ ψ c = c ∧ ψ c' = c' ∧
       cubeProj Y c ≠ 0 ∧ cubeProj Y c' ≠ 0 := by
@@ -130,11 +130,11 @@ theorem exists_N {Y : Matrix (Fin 3) (Fin 3) K} (hY : Y * (Y * Y) = 1)
       N * Y = c' ^ 2 • N ∧ N.map ψ = N := by
   obtain ⟨a₀, i₀, hai⟩ : ∃ a i : Fin 3, cubeProj Y c a i ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hPc (Matrix.ext fun a i => by simpa using h a i)
   obtain ⟨j₀, b₀, hjb⟩ : ∃ j b : Fin 3, cubeProj Y c' j b ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hPc' (Matrix.ext fun a i => by simpa using h a i)
   obtain ⟨N, hN⟩ : ∃ N : Matrix (Fin 3) (Fin 3) K,
       N = cubeProj Y c * Matrix.single i₀ j₀ 1 * cubeProj Y c' := ⟨_, rfl⟩

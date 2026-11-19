@@ -166,7 +166,7 @@ theorem ggActsDiag_of_compat {X : Type} [Group X] {F : Type} [Field F] [Finite F
     map_one' := by
       apply Subtype.ext
       change P 1 * (Q 1)⁻¹ = 1
-      simp only [P, Q, MonoidHom.comp_apply, map_one, inv_one, mul_one]
+      simp only [P, Q, map_one, inv_one, mul_one]
     map_mul' := fun t t' => by
       apply Subtype.ext
       change P (t * t') * (Q (t * t'))⁻¹ =

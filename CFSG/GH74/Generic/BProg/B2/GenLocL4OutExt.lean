@@ -298,7 +298,7 @@ theorem dgS_form (κ : F) (s : Fˣ) :
   have hs : (s : F) * (s : F)⁻¹ = 1 := mul_inv_cancel₀ s.ne_zero
   ext i j
   fin_cases i <;> fin_cases j <;> simp [dgS, Matrix.mul_apply, Fin.sum_univ_two]
-  all_goals first | ring1 | linear_combination κ * hs
+  all_goals linear_combination κ * hs
 
 theorem rE_comm_C0 (α0 α1 β0 β1 γ0 γ1 δ0 δ1 : F) :
     rE α0 α1 β0 β1 γ0 γ1 δ0 δ1 * bd2 !![0, -1; 1, 0] !![0, -1; 1, 0] =

@@ -13,6 +13,7 @@ variable {Γ : Type} [Group Γ] {F : Type} [Field F] {M : Type} [AddCommGroup M]
 @[expose] def piAct (k : ℕ) (act : Γ → M →+ M) : Γ → (Fin k → M) →+ (Fin k → M) :=
   fun x => AddMonoidHom.compLeft (act x) (Fin k)
 
+omit [Group Γ] in
 theorem piAct_apply (k : ℕ) (act : Γ → M →+ M) (x : Γ) (e : Fin k → M) (l : Fin k) :
     piAct k act x e l = act x (e l) := rfl
 
@@ -52,15 +53,15 @@ theorem piSub_zero (k : ℕ) (M₁ M₂ : AddSubgroup M) : piSub k M₁ M₂ 0 =
   ext e
   rw [mem_piSub, mem_piPow]
   refine forall_congr' fun l => ?_
-  rw [if_neg (Nat.not_lt_zero _)]
+  rw [ite_eq_right (Nat.not_lt_zero _)]
 
-theorem piSub_k (k : ℕ) {M₁ M₂ : AddSubgroup M} (h : M₁ ≤ M₂) :
+theorem piSub_k (k : ℕ) {M₁ M₂ : AddSubgroup M} (_h : M₁ ≤ M₂) :
     piSub k M₁ M₂ k = piPow k M₂ := by
-  clear h
+  clear _h
   ext e
   rw [mem_piSub, mem_piPow]
   refine forall_congr' fun l => ?_
-  rw [if_pos l.isLt]
+  rw [ite_eq_left l.isLt]
 
 theorem mem_piSub_single {k : ℕ} {M₁ M₂ : AddSubgroup M} {j : ℕ} (i : Fin k) (m : M) :
     Pi.single i m ∈ piSub k M₁ M₂ j ↔ m ∈ (if i.val < j then M₂ else M₁) := by
@@ -85,21 +86,22 @@ theorem mem_piSub_iff_of_succ {k j : ℕ} {M₁ M₂ : AddSubgroup M} {e : Fin k
   constructor
   · intro h
     have h' := h i
-    rwa [if_neg (show ¬ (i.val < j) by omega)] at h'
+    rwa [ite_eq_right (show ¬ (i.val < j) by omega)] at h'
   · intro h l
     have hl := he l
     by_cases hlt : l.val < j
-    · rw [if_pos hlt]
-      rw [if_pos (show l.val < j + 1 by omega)] at hl
+    · rw [ite_eq_left hlt]
+      rw [ite_eq_left (show l.val < j + 1 by omega)] at hl
       exact hl
-    · rw [if_neg hlt]
+    · rw [ite_eq_right hlt]
       by_cases hjl : l.val = j
       · have hli : l = i := Fin.ext (hjl.trans hi.symm)
         rw [hli]
         exact h
-      · rw [if_neg (show ¬ (l.val < j + 1) by omega)] at hl
+      · rw [ite_eq_right (show ¬ (l.val < j + 1) by omega)] at hl
         exact hl
 
+omit [Group Γ] in
 theorem piSub_inv (k : ℕ) {act : Γ → M →+ M} {M₁ M₂ : AddSubgroup M} (hs : ModStep act M₁ M₂)
     (j : ℕ) : AInv (piAct k act) (piSub k M₁ M₂ j) := by
   intro x e he
@@ -128,7 +130,7 @@ theorem card_piSub_succ (k j : ℕ) (i : Fin k) (hi : i.val = j) (M₁ M₂ : Ad
   refine ⟨∏ l ∈ Finset.univ.erase i, Nat.card ↥(if l.val < j then M₂ else M₁ : AddSubgroup M),
     ?_, ?_⟩
   · have h1 : Nat.card ↥(if i.val < j + 1 then M₂ else M₁ : AddSubgroup M) = Nat.card M₂ := by
-      rw [if_pos (show i.val < j + 1 by omega)]
+      rw [ite_eq_left (show i.val < j + 1 by omega)]
     have h2 : ∏ l ∈ Finset.univ.erase i,
         Nat.card ↥(if l.val < j + 1 then M₂ else M₁ : AddSubgroup M) =
         ∏ l ∈ Finset.univ.erase i, Nat.card ↥(if l.val < j then M₂ else M₁ : AddSubgroup M) := by
@@ -139,34 +141,35 @@ theorem card_piSub_succ (k j : ℕ) (i : Fin k) (hi : i.val = j) (M₁ M₂ : Ad
       simp only [hiff]
     rw [card_piSub, ← Finset.mul_prod_erase Finset.univ _ (Finset.mem_univ i), h1, h2]
   · have h1 : Nat.card ↥(if i.val < j then M₂ else M₁ : AddSubgroup M) = Nat.card M₁ := by
-      rw [if_neg (show ¬ (i.val < j) by omega)]
+      rw [ite_eq_right (show ¬ (i.val < j) by omega)]
     rw [card_piSub, ← Finset.mul_prod_erase Finset.univ _ (Finset.mem_univ i), h1]
 
+omit [Group Γ] in
 theorem piSub_step (k : ℕ) {act : Γ → M →+ M} {M₁ M₂ : AddSubgroup M} (hs : ModStep act M₁ M₂)
     (j : ℕ) (hj : j < k) :
     ModStep (piAct k act) (piSub k M₁ M₂ j) (piSub k M₁ M₂ (j + 1)) := by
   obtain ⟨i, hi⟩ : ∃ i : Fin k, i.val = j := ⟨⟨j, hj⟩, rfl⟩
   refine ⟨?_, piSub_inv k hs j, piSub_inv k hs (j + 1), ?_⟩
-  · refine SetLike.lt_iff_le_and_exists.2 ⟨?_, ?_⟩
+  · refine IsConcreteLE.lt_iff_le_and_exists.2 ⟨?_, ?_⟩
     · intro f hf
       rw [mem_piSub] at hf ⊢
       intro l
       have hl := hf l
       by_cases hlt : l.val < j
-      · rw [if_pos hlt] at hl
-        rw [if_pos (show l.val < j + 1 by omega)]
+      · rw [ite_eq_left hlt] at hl
+        rw [ite_eq_left (show l.val < j + 1 by omega)]
         exact hl
-      · rw [if_neg hlt] at hl
+      · rw [ite_eq_right hlt] at hl
         by_cases hlt' : l.val < j + 1
-        · rw [if_pos hlt']
+        · rw [ite_eq_left hlt']
           exact hs.lt.le hl
-        · rw [if_neg hlt']
+        · rw [ite_eq_right hlt']
           exact hl
-    · obtain ⟨m, hm2, hm1⟩ := SetLike.exists_of_lt hs.lt
+    · obtain ⟨m, hm2, hm1⟩ := _root_.IsConcreteLE.exists_of_lt hs.lt
       refine ⟨Pi.single i m, ?_, ?_⟩
-      · rw [mem_piSub_single, if_pos (show i.val < j + 1 by omega)]
+      · rw [mem_piSub_single, ite_eq_left (show i.val < j + 1 by omega)]
         exact hm2
-      · rw [mem_piSub_single, if_neg (show ¬ (i.val < j) by omega)]
+      · rw [mem_piSub_single, ite_eq_right (show ¬ (i.val < j) by omega)]
         exact hm1
   · intro X hX1 hX2 hXinv
     obtain ⟨Y, hYdef⟩ : ∃ Y : AddSubgroup M,
@@ -176,7 +179,7 @@ theorem piSub_step (k : ℕ) {act : Γ → M →+ M} {M₁ M₂ : AddSubgroup M}
       intro m hm
       rw [hYdef]
       have hsing : Pi.single i m ∈ piSub k M₁ M₂ j := by
-        rw [mem_piSub_single, if_neg (show ¬ (i.val < j) by omega)]
+        rw [mem_piSub_single, ite_eq_right (show ¬ (i.val < j) by omega)]
         exact hm
       exact ⟨Pi.single i m, hX1 hsing, by simp⟩
     have hY2 : Y ≤ M₂ := by
@@ -184,7 +187,7 @@ theorem piSub_step (k : ℕ) {act : Γ → M →+ M} {M₁ M₂ : AddSubgroup M}
       rw [hYdef] at hm
       obtain ⟨f, hf, rfl⟩ := hm
       have h := (mem_piSub.1 (hX2 hf)) i
-      rwa [if_pos (show i.val < j + 1 by omega)] at h
+      rwa [ite_eq_left (show i.val < j + 1 by omega)] at h
     have hYinv : AInv act Y := by
       intro x m hm
       rw [hYdef] at hm
@@ -205,7 +208,7 @@ theorem piSub_step (k : ℕ) {act : Γ → M →+ M} {M₁ M₂ : AddSubgroup M}
       have hfi : f i ∈ Y := by
         rw [hYeq]
         have h := (mem_piSub.1 hf) i
-        rwa [if_pos (show i.val < j + 1 by omega)] at h
+        rwa [ite_eq_left (show i.val < j + 1 by omega)] at h
       obtain ⟨e, he, hei⟩ := (hYdef (f i)).1 hfi
       have hdiff : f - e ∈ piSub k M₁ M₂ j := by
         refine (mem_piSub_iff_of_succ ((piSub k M₁ M₂ (j + 1)).sub_mem hf (hX2 he)) i hi).2 ?_
@@ -222,13 +225,13 @@ theorem piSub_natural (k : ℕ) {act : Γ → M →+ M} {M₁ M₂ : AddSubgroup
   have hcoord : ∀ e ∈ piSub k M₁ M₂ (j + 1), e i ∈ M₂ := by
     intro e he
     have h := (mem_piSub.1 he) i
-    rwa [if_pos (show i.val < j + 1 by omega)] at h
+    rwa [ite_eq_left (show i.val < j + 1 by omega)] at h
   unfold ModNatural
   refine ⟨c.comp (Pi.evalAddMonoidHom (fun _ : Fin k => M) i), β, ?_, ?_, ?_, h2, h3⟩
   · intro w
     obtain ⟨e₀, he₀, hce⟩ := hsurj w
     refine ⟨Pi.single i e₀, ?_, ?_⟩
-    · rw [mem_piSub_single, if_pos (show i.val < j + 1 by omega)]
+    · rw [mem_piSub_single, ite_eq_left (show i.val < j + 1 by omega)]
       exact he₀
     · show c ((Pi.single i e₀ : Fin k → M) i) = w
       rw [Pi.single_eq_same]
@@ -240,6 +243,7 @@ theorem piSub_natural (k : ℕ) {act : Γ → M →+ M} {M₁ M₂ : AddSubgroup
   · intro x e he
     exact hequiv x (e i) (hcoord e he)
 
+omit [Group Γ] in
 theorem piSub_additional (k : ℕ) {act : Γ → M →+ M} {M₁ M₂ : AddSubgroup M}
     (hn : ModAdditional F act M₁ M₂) (j : ℕ) (hj : j < k) :
     ModAdditional F (piAct k act) (piSub k M₁ M₂ j) (piSub k M₁ M₂ (j + 1)) := by
@@ -249,13 +253,14 @@ theorem piSub_additional (k : ℕ) {act : Γ → M →+ M} {M₁ M₂ : AddSubgr
   unfold ModAdditional
   refine ⟨?_, x, Pi.single i e, (mem_piSub_single i e).2 ?_, ?_⟩
   · rw [hR1, hR2, hcard, mul_assoc]
-  · rw [if_pos (show i.val < j + 1 by omega)]
+  · rw [ite_eq_left (show i.val < j + 1 by omega)]
     exact he
   · intro hmem
     have h := (mem_piSub.1 hmem) i
-    rw [if_neg (show ¬ (i.val < j) by omega), Pi.sub_apply, piAct_apply, Pi.single_eq_same] at h
+    rw [ite_eq_right (show ¬ (i.val < j) by omega), Pi.sub_apply, piAct_apply, Pi.single_eq_same] at h
     exact hne h
 
+omit [Group Γ] in
 theorem piSub_central (k : ℕ) {act : Γ → M →+ M} {M₁ M₂ : AddSubgroup M}
     (hs : ModStep act M₁ M₂) (hn : ModCentral act M₁ M₂) (j : ℕ) (hj : j < k) :
     ModCentral (piAct k act) (piSub k M₁ M₂ j) (piSub k M₁ M₂ (j + 1)) := by

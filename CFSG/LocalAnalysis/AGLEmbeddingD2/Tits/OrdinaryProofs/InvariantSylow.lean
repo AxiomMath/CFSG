@@ -78,7 +78,7 @@ theorem exists_inv_sylow_inf {G : Type*} [Group G] [Finite G] {p q : ℕ} [Fact 
   refine ⟨(P : Subgroup N).map N.subtype, ?_, ?_, ?_, ?_, ?_⟩
   · rintro _ ⟨n, -, rfl⟩
     exact n.2
-  · exact P.isPGroup'.map N.subtype
+  · exact P.isPGroup.map N.subtype
   ·
     have hXsub : (X.subgroupOf N).Normal := normal_subgroupOf_of_le_normalizer hNX
     have hXq : IsPGroup q (X.subgroupOf N) := hX.comap_subtype
@@ -181,7 +181,7 @@ theorem exists_invariant_sylow_ge {G : Type*} [Group G] [Finite G] {p q : ℕ} [
     have hPS : P ≤ S := by
       rintro _ ⟨x, -, rfl⟩
       exact x.2
-    have hPq : IsPGroup q P := Q.isPGroup'.map S.subtype
+    have hPq : IsPGroup q P := Q.isPGroup.map S.subtype
     have hYP : Y ≤ P := by
       intro y hy
       exact Subgroup.mem_map.mpr ⟨⟨y, hYS hy⟩, hQ (Subgroup.mem_subgroupOf.mpr hy), rfl⟩

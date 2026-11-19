@@ -31,7 +31,7 @@ theorem halfHom_one (n : ℕ) : halfHom n 1 = 2 ^ (n - 1) := by
   simp
 
 @[expose] def torusBar (k : Fin 3 → ℕ) (hk : ∀ i, 1 ≤ k i) : Torus k →+ (Fin 3 → ZMod 2) :=
-  Pi.addMonoidHom fun i =>
+  _root_.AddMonoidHom.pi fun i =>
     (ZMod.castHom (dvd_pow_self 2 (Nat.one_le_iff_ne_zero.mp (hk i))) (ZMod 2)).toAddMonoidHom.comp
       (Pi.evalAddMonoidHom (fun j => ZMod (2 ^ k j)) i)
 
@@ -39,7 +39,7 @@ theorem torusBar_apply (k : Fin 3 → ℕ) (hk : ∀ i, 1 ≤ k i) (v : Torus k)
     torusBar k hk v i = ZMod.cast (v i) := rfl
 
 @[expose] def torusHalf (k : Fin 3 → ℕ) : (Fin 3 → ZMod 2) →+ Torus k :=
-  Pi.addMonoidHom fun i => (halfHom (k i)).comp (Pi.evalAddMonoidHom (fun _ => ZMod 2) i)
+  _root_.AddMonoidHom.pi fun i => (halfHom (k i)).comp (Pi.evalAddMonoidHom (fun _ => ZMod 2) i)
 
 theorem torusHalf_apply (k : Fin 3 → ℕ) (ε : Fin 3 → ZMod 2) (i : Fin 3) :
     torusHalf k ε i = halfHom (k i) (ε i) := rfl

@@ -60,7 +60,7 @@ theorem eGen_map_le_eGen_sup_map {N T : Subgroup Q} [N.Normal] (hQ : Group.IsSol
       simp [hπn]
   have hK' : IsE 1 ⊤ (T.map π) ((conjSub n A₀).map π) K := by
     rw [hAeq]; exact hK
-  haveI : Group.IsSolvable (Q ⧸ N) :=
+  have : Group.IsSolvable (Q ⧸ N) :=
     Group.isSolvable_of_surjective (QuotientGroup.mk'_surjective N)
   have hKsolv : Group.IsSolvable K := inferInstance
   obtain ⟨J, hJ, hJK⟩ := ten_seven_eOne hT hAT (hΩ.isElemAbelian _ hAΩ) hK'
@@ -102,7 +102,7 @@ theorem eGen_mul_normalizer_of_solvable_aux :
     · have hnt : Nontrivial Q := not_subsingleton_iff_nontrivial.mp hsub
       have htop : (⊤ : Subgroup Q) ≠ ⊥ := Ne.symm bot_ne_top
       obtain ⟨R, hRn, -, hRbot, hRmin⟩ := CFSG.exists_minimal_normal_le ⊤ inferInstance htop
-      haveI : R.Normal := hRn
+      have : R.Normal := hRn
       have hIM : CFSG.IsMinimalNormal R := ⟨fun K _ hKN => by
         by_cases hK : K = ⊥
         · exact Or.inl hK
@@ -135,7 +135,7 @@ theorem eGen_mul_normalizer_of_solvable_aux :
         · have hR2 : IsPGroup 2 R := hr2 ▸ hRp
           have hRT : R ≤ T := hT.le_of_normal le_top inferInstance hR2
           exact ⟨1, E.one_mem, ρ, hTN (hRT hρ), one_mul ρ⟩
-        · haveI : Fact r.Prime := ⟨hr⟩
+        · have : Fact r.Prime := ⟨hr⟩
           have hRodd : Nat.Coprime 2 (Nat.card R) := by
             obtain ⟨k, hk⟩ := hRp.exists_card_eq
             rw [hk]
@@ -209,6 +209,7 @@ theorem eGen_mul_normalizer_of_isSolvable (hQ : Group.IsSolvable Q) {T : Subgrou
       ∃ n ∈ Subgroup.normalizer (weakClosure T Ω : Set Q), g = e * n :=
   eGen_mul_normalizer_of_solvable_aux (Nat.card Q) Q le_rfl hQ T hT Ω hΩ g
 
+omit [Finite Q] in
 private theorem isElemAbelian_of_map_injective' {G' : Type*} [Group G'] {p : ℕ} {f : Q →* G'}
     (hf : Function.Injective f) {A : Subgroup Q} (h : IsElemAbelian p (A.map f)) :
     IsElemAbelian p A := by

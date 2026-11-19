@@ -109,7 +109,7 @@ theorem xT_eq {i : Nat} (hi : i < 4) : xT DT i = unpack 1755 11 (W (i + 1)) := b
   have h := PK.allN_iff.1 ckWords0 (i + 1) (by omega)
   have e : wd (i + 1) = (DT).xWs.getD i [] := by
     unfold wd
-    rw [if_neg (by omega), if_pos (by omega)]
+    rw [ite_eq_right (by omega), ite_eq_left (by omega)]
     rfl
   rw [e] at h
   exact wT_eq h
@@ -354,7 +354,7 @@ theorem gT_get {i j : Nat} (hi : i < 4) (hj : j < 2) :
     omega
   have e2 : wd (5 + 2 * i + j) = ((DT).es.getD i default).gWs[j]! := by
     unfold wd
-    rw [if_neg (by omega), if_neg (by omega)]
+    rw [ite_eq_right (by omega), ite_eq_right (by omega)]
     have e3 : (5 + 2 * i + j - 5) / 2 = i := by omega
     have e4 : (5 + 2 * i + j - 5) % 2 = j := by omega
     rw [e3, e4, List.getD_eq_getElem?_getD,
@@ -399,7 +399,7 @@ theorem nrm_ok {i j : Nat} (hi : i < 4) (hj : j < 2) :
   have cu := cZX (k := 9 * i + 3 * f.a + f.b) (by omega)
   have cg := cW (k := 5 + 2 * i + j) (by omega)
   unfold nrmOK
-  rw [hDn, if_neg (by rw [h2]; decide), gT_get hi hj, zx_eq hi ha hb, eqI cu, pw_eq cu,
+  rw [hDn, ite_eq_right (by rw [h2]; decide), gT_get hi hj, zx_eq hi ha hb, eqI cu, pw_eq cu,
     pc_eq cg cu, pc_eq (cpw cu _) cg, eq_u (cpc cg cu) (cpc (cpw cu _) cg)]
   exact hJ
 
@@ -441,8 +441,8 @@ theorem move_ok {i : Nat} (hi : i < 4) : moveOK DT ((DT).es.getD i default) = tr
 theorem k_ent {i : Nat} (hi : i < 4) : entryOK DT i ((DT).es.getD i default) = true := by
   obtain ⟨hmv, -, -, hl, hnl, -⟩ := ent_shape i hi
   unfold entryOK
-  rw [hDn, if_pos hmv, move_ok hi, hl, hnl, gT_size hi]
-  simp only [Bool.and_true, beq_self_eq_true, Bool.and_eq_true]
+  rw [hDn, ite_eq_left hmv, move_ok hi, hl, hnl, gT_size hi]
+  simp only [Bool.and_true, beq_self_eq_true]
   rw [allBelow_iff']
   intro j hj
   rw [gTi_get hi hj, gT_get hi hj, size_u, inv_comp (gperm_i hi j hj), ← gT_get hi hj, nrm_ok hi hj]

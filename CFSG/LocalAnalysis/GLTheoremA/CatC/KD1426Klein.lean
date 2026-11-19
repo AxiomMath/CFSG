@@ -33,55 +33,55 @@ theorem kU1_mul_kU1 (h : Distinct4 x y z f) : kU1 x y z f * kU1 x y z f = 1 := b
   obtain ⟨h1, h2, h3, h4, h5, h6⟩ := h
   ext i
   simp only [Perm.mul_apply, Perm.one_apply, swap_apply_def]
-  split_ifs <;> simp_all <;> omega
+  split_ifs <;> simp_all
 
 theorem kU2_mul_kU2 (h : Distinct4 x y z f) : kU2 x y z f * kU2 x y z f = 1 := by
   obtain ⟨h1, h2, h3, h4, h5, h6⟩ := h
   ext i
   simp only [Perm.mul_apply, Perm.one_apply, swap_apply_def]
-  split_ifs <;> simp_all <;> omega
+  split_ifs <;> simp_all
 
 theorem kU3_mul_kU3 (h : Distinct4 x y z f) : kU3 x y z f * kU3 x y z f = 1 := by
   obtain ⟨h1, h2, h3, h4, h5, h6⟩ := h
   ext i
   simp only [Perm.mul_apply, Perm.one_apply, swap_apply_def]
-  split_ifs <;> simp_all <;> omega
+  split_ifs <;> simp_all
 
 theorem kU12 (h : Distinct4 x y z f) : kU1 x y z f * kU2 x y z f = kU3 x y z f := by
   obtain ⟨h1, h2, h3, h4, h5, h6⟩ := h
   ext i
   simp only [Perm.mul_apply, swap_apply_def]
-  split_ifs <;> simp_all <;> omega
+  split_ifs <;> simp_all
 
 theorem kU21 (h : Distinct4 x y z f) : kU2 x y z f * kU1 x y z f = kU3 x y z f := by
   obtain ⟨h1, h2, h3, h4, h5, h6⟩ := h
   ext i
   simp only [Perm.mul_apply, swap_apply_def]
-  split_ifs <;> simp_all <;> omega
+  split_ifs <;> simp_all
 
 theorem kU13 (h : Distinct4 x y z f) : kU1 x y z f * kU3 x y z f = kU2 x y z f := by
   obtain ⟨h1, h2, h3, h4, h5, h6⟩ := h
   ext i
   simp only [Perm.mul_apply, swap_apply_def]
-  split_ifs <;> simp_all <;> omega
+  split_ifs <;> simp_all
 
 theorem kU31 (h : Distinct4 x y z f) : kU3 x y z f * kU1 x y z f = kU2 x y z f := by
   obtain ⟨h1, h2, h3, h4, h5, h6⟩ := h
   ext i
   simp only [Perm.mul_apply, swap_apply_def]
-  split_ifs <;> simp_all <;> omega
+  split_ifs <;> simp_all
 
 theorem kU23 (h : Distinct4 x y z f) : kU2 x y z f * kU3 x y z f = kU1 x y z f := by
   obtain ⟨h1, h2, h3, h4, h5, h6⟩ := h
   ext i
   simp only [Perm.mul_apply, swap_apply_def]
-  split_ifs <;> simp_all <;> omega
+  split_ifs <;> simp_all
 
 theorem kU32 (h : Distinct4 x y z f) : kU3 x y z f * kU2 x y z f = kU1 x y z f := by
   obtain ⟨h1, h2, h3, h4, h5, h6⟩ := h
   ext i
   simp only [Perm.mul_apply, swap_apply_def]
-  split_ifs <;> simp_all <;> omega
+  split_ifs <;> simp_all
 
 end Identities
 

@@ -83,7 +83,7 @@ theorem pPrimeCore_eq_bot_of_fixSubgroup [Finite K] [Finite Q] {p : ℕ} (hp : p
     (hpker : IsPGroup p π.ker) (α : MulAut K) (β : MulAut Q)
     (hαβ : ∀ k, π (α k) = β (π k))
     (hK : pPrimeCore p ↥(fixSubgroup α) = ⊥) : pPrimeCore p ↥(fixSubgroup β) = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set B : Subgroup K := (fixSubgroup β).comap π with hB
   set A : Subgroup K := fixSubgroup α with hA
   have hAB : A ≤ B := fun a ha =>

@@ -59,7 +59,7 @@ theorem card_le_two_of_xGriess_mem_three (hb : Co1ThreeSixFixFact) {F W : Subgro
     (hxW : xGriess ∈ W) (hF : IsElemAbelian 3 F) (hFc : Nat.card F = 3 ^ 6)
     (hW : IsElemAbelian 2 W) (hFW : F ≤ Subgroup.centralizer (W : Set MGriess)) :
     Nat.card W ≤ 2 := by
-  haveI : Finite (cent xGriess) := finite_cent_xGriess
+  have : Finite (cent xGriess) := finite_cent_xGriess
   have hcomm : ∀ f ∈ F, ∀ w ∈ W, f * w = w * f := fun f hf w hw =>
     (Subgroup.mem_centralizer_iff.1 (hFW hf) w hw).symm
   have hWC : W ≤ cent xGriess := fun w hw => Subgroup.mem_centralizer_singleton_iff.2
@@ -87,7 +87,7 @@ theorem false_of_four_three (hE : MonsterExistenceStatement MGriess)
     (hb : Co1ThreeSixFixFact) (F W : Subgroup MGriess) (hF : IsElemAbelian 3 F)
     (hFc : Nat.card F = 3 ^ 6) (hW : IsElemAbelian 2 W) (hW4 : 2 ^ 2 ≤ Nat.card W)
     (hFW : F ≤ Subgroup.centralizer (W : Set MGriess)) : False := by
-  haveI : Finite MGriess := hE.1.1
+  have : Finite MGriess := hE.1.1
   obtain ⟨-, a, z, -, hz, -, hcls, -, hZ, hgraph⟩ := id hE
   obtain ⟨-, c, -, -, hc1, -, -, -, -, hshape, -⟩ := hgraph
   have hcomm : ∀ f ∈ F, ∀ w ∈ W, f * w = w * f := fun f hf w hw =>
@@ -133,14 +133,14 @@ theorem false_of_four_three (hE : MonsterExistenceStatement MGriess)
       have h := Subgroup.card_le_of_le hle
       rw [Nat.card_zpowers, orderOf_eq_prime (hW.2 α hαW) hα1'] at h
       exact absurd (hW4.trans h) (by norm_num)
-    obtain ⟨β, hβW, hβα⟩ := SetLike.not_le_iff_exists.1 hnle
+    obtain ⟨β, hβW, hβα⟩ := IsConcreteLE.not_le_iff_exists.1 hnle
     have hβ1 : β ≠ 1 := fun h => hβα (h ▸ one_mem _)
     have hαβ1 : α * β ≠ 1 := fun h => hβα (by
       rw [eq_inv_of_mul_eq_one_right h]
       exact inv_mem (Subgroup.mem_zpowers α))
     have hab : IsConj (α * β) (c 1) := (h2A _ (mul_mem hαW hβW) hαβ1).symm.trans hc1
     obtain ⟨N, hN, -, hN4, hL⟩ := hshape α β 1 (h2A α hαW hα1') (h2A β hβW hβ1) hab
-    haveI := hN
+    have := hN
     have hFD : F ≤ cent2 α β := fun f hf =>
       ⟨Subgroup.mem_centralizer_singleton_iff.2 (hcomm f hf α hαW),
         Subgroup.mem_centralizer_singleton_iff.2 (hcomm f hf β hβW)⟩

@@ -57,7 +57,7 @@ theorem exists_diagModel_PSU
       have h3 : p ∣ 3 := by simpa using hpq
       exact (Nat.prime_dvd_prime_iff_eq hp Nat.prime_three).mp h3
     subst hp3
-    haveI : Finite (LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1))) :=
+    have : Finite (LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1))) :=
       finite_largeEvenProj_PSU (LargeEvenSUGroup (Fin 6) K (2 ^ 1))
     let ψ : LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)) →*
         LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)) := MonoidHom.id _
@@ -73,7 +73,7 @@ theorem exists_diagModel_PSU
     have hodd : Odd (Nat.card ψ.ker) := by
       rw [hkerbot, Subgroup.card_bot]; decide
     exact USixTwo.exists_diagModel_odd hK hψ hker hperf hodd hA hAI hcard
-  · haveI : Finite (LargeEvenProj (LargeEvenSUGroup (Fin d) K (2 ^ n))) :=
+  · have : Finite (LargeEvenProj (LargeEvenSUGroup (Fin d) K (2 ^ n))) :=
       finite_largeEvenProj_PSU (LargeEvenSUGroup (Fin d) K (2 ^ n))
     let ψ : LargeEvenProj (LargeEvenSUGroup (Fin d) K (2 ^ n)) →*
         LargeEvenProj (LargeEvenSUGroup (Fin d) K (2 ^ n)) := MonoidHom.id _

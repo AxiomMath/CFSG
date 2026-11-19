@@ -18,7 +18,7 @@ open CFSG CFSG.Assembly CFSG.Assembly.LowTwoRank CFSG.Blueprint.Multiplier
 private theorem pzmt_not_dvd_generic {p l n : ℕ} (hpl : ¬ p ∣ l + 1) :
     ¬ p ∣ (genericOrders .PSU (l + 1) 2 n).1 * (genericOrders .PSU (l + 1) 2 n).2 := by
   rw [show genericOrders .PSU (l + 1) 2 n = (Nat.gcd (l + 1) (2 ^ n + 1), 1) from rfl]
-  simp only [Prod.fst, Prod.snd, mul_one]
+  simp only [mul_one]
   intro h
   exact hpl (h.trans (Nat.gcd_dvd_left _ _))
 

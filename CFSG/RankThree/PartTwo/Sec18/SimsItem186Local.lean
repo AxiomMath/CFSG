@@ -36,7 +36,7 @@ theorem mem_oTwoComponentsIn_of_le (hAlt : Item182Alt1At H) (h : Sec18Std G A M)
   have hKN : K ≤ Subgroup.normalizer (L : Set G) := by
     rw [hKL]
     exact sup_le Subgroup.le_normalizer hQK
-  haveI hLn : (L.subgroupOf K).Normal :=
+  have hLn : (L.subgroupOf K).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hLK).mpr hKN
   have hQs : Group.IsSolvable (CFSG.Open.pCoreOf 2 K) := by
     have := (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 K).isNilpotent
@@ -209,7 +209,7 @@ theorem normalizer_le_normalizer (h1812 : Item181_2) (h1813 : Item181_3) (h184 :
     (normalizer_ne_top_of_isPGroup_two h.nonabelian hC'2 hC'1)
   have hXeq := eq_normalizer_perfectResidual_of_isCoatom h1812 h184 hAlt hH hHs hH2 hX
     (hHC.trans hCX)
-  haveI := hCc
+  have := hCc
   exact (CFSG.LieType.BorelTits.normalizer_le_normalizer_map_of_characteristic C).trans
     (hCX.trans hXeq.le)
 

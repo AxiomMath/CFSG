@@ -13,6 +13,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau : G}
 
+omit [Finite G] in
 private theorem isPGroup_ctxO (t tau x₁ x₂ : G) : IsPGroup 2 (ctxO t tau x₁ x₂) := by
   rw [ctxO, CFSG.Open.pCoreOf]
   exact (CFSG.pCore_isPGroup (p := 2) (G := ↥(ctxM t tau x₁ x₂))).map
@@ -25,6 +26,7 @@ private theorem CO_normalizes_R (hc : Ctx11 t L S x₁ x₂ lam rho tau) :
   have hkO : k ∈ ctxO t tau x₁ x₂ := (Subgroup.mem_inf.mp hk').1
   exact hc.normal_R.2 k ((CFSG.LieType.BorelTits.pCoreOf_le 2 (ctxM t tau x₁ x₂)) hkO) h hh
 
+omit [Finite G] in
 private theorem ctxN_le_ctxX (t tau x₁ x₂ : G) : ctxN tau x₁ x₂ ≤ ctxX t tau x₁ x₂ := by
   rw [ctxN, ctxX]
   apply Subgroup.closure_mono

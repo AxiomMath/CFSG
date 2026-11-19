@@ -34,15 +34,15 @@ theorem range_le_fixV (hM : MCtx false d a b O Tr S B T₀ Γ ρ β) :
 
 theorem range_eq_fixV (hM : MCtx false d a b O Tr S B T₀ Γ ρ β) :
     P.φ.range = fixV (rImg ρ (octFix O)) := by
-  haveI : Finite V := mctx_finite hM
-  haveI : Finite ↥(fixV (rImg ρ (octFix O))) := Subtype.finite
+  have : Finite V := mctx_finite hM
+  have : Finite ↥(fixV (rImg ρ (octFix O))) := Subtype.finite
   have hcard6 : Nat.card (Multiplicative (Fin 6 → ZMod 2)) = 2 ^ 6 := by
     rw [Nat.card_congr Multiplicative.toAdd, Nat.card_eq_fintype_card]
-    simp [Fintype.card_fun, ZMod.card]
+    simp [ZMod.card]
   refine Subgroup.eq_of_le_of_card_ge (range_le_fixV P hM) ?_
   rw [kLayer_card_fixV hM]
   by_cases hd : d = 22
-  · rw [if_pos hd]
+  · rw [ite_eq_left hd]
     have hker : Nat.card ↥P.φ.ker = 2 := by
       rw [ker_eq22 P hM hd, Nat.card_zpowers]
       refine orderOf_eq_prime ?_ ?_
@@ -63,7 +63,7 @@ theorem range_eq_fixV (hM : MCtx false d a b O Tr S B T₀ Γ ρ β) :
       norm_num at hmul ⊢
       omega
     exact le_of_eq hrange.symm
-  · rw [if_neg hd]
+  · rw [ite_eq_right hd]
     have hinj : Function.Injective P.φ :=
       (MonoidHom.ker_eq_bot_iff P.φ).mp (ker_ne22 P hM hd)
     have hrange : Nat.card ↥P.φ.range = 2 ^ 6 :=

@@ -39,6 +39,7 @@ structure SporCfgCore (G : Type) [Group G] [Finite G] (p : ℕ) (x : G) (L : Sub
       lImg p L (GLAPLayer p (L ⊓ (Subgroup.centralizer (D : Set G) ⊓
         Subgroup.centralizer (centerOf (cfgR0 R D) : Set G)))) = lImg p L (cfgK p x L D R))
 
+omit [Finite G] in
 private theorem catalogIs_pSimple_of_pQuot_equiv {H : Type} [Group H] {p : ℕ} {X : Subgroup G}
     {Y : Subgroup H} (e : PQuot p X ≃* PQuot p Y) {Q : TauCeti.CFSGIndex → Prop}
     (h : catalogIs (PSimple p Y) Q) : catalogIs (PSimple p X) Q := by
@@ -56,8 +57,8 @@ theorem nonempty_sporCfgCore {p : ℕ} {row : Row} (hrowS : I301ARow row) (hc : 
   have hp : row.prime.Prime := by cases row <;> norm_num [Row.prime]
   have hp2 : row.prime ≠ 2 := by cases row <;> norm_num [Row.prime]
   set p : ℕ := row.prime with hpdef
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hZ : Subgroup.center (PQuot p L) = ⊥ := Subgroup.card_eq_one.1 (hZ1.trans hc)
   have hKcat : catalogIs (PQuot p L) (sporIs row.name) :=
     S8.L89.catalogIs_of_mulEquiv
@@ -292,7 +293,7 @@ theorem nonempty_sporCfgCore {p : ℕ} {row : Row} (hrowS : I301ARow row) (hc : 
     rw [hKdef]
     exact (glaPLayer_le_self' _).trans inf_le_right
   have hKBN : cfgK p x L D R ⊔ Bs ≤ Subgroup.normalizer (R : Set G) := sup_le hKN hBsNR
-  haveI : Finite (MulAut (PQuot p L)) := finite_mulAut
+  have : Finite (MulAut (PQuot p L)) := finite_mulAut
   have hMax : IsMaxInvTwo (cfgK p x L D R ⊔ Bs) (cx x) R := by
     refine ⟨hRL.trans hLx, hR2, hKBN, fun R' hR'X hR'2 hR'N hRR' => ?_⟩
     have hA₀N : cfgK p x L D R ⊔ B₁ ≤ Subgroup.normalizer (R' : Set G) :=
@@ -358,8 +359,8 @@ theorem nonempty_sporCfgCore {p : ℕ} {row : Row} (hrowS : I301ARow row) (hc : 
           · intro r hr
             rw [S8.L89.mem_centerOf_iff]
             refine ⟨hr, fun s hs => ?_⟩
-            haveI : IsCyclic ↥(cfgR0 R D) := isCyclic_of_prime_card (p := 2) h
-            letI : CommGroup ↥(cfgR0 R D) := IsCyclic.commGroup
+            have : IsCyclic ↥(cfgR0 R D) := isCyclic_of_prime_card (p := 2) h
+            let : CommGroup ↥(cfgR0 R D) := IsCyclic.commGroup
             have := mul_comm (⟨s, hs⟩ : ↥(cfgR0 R D)) ⟨r, hr⟩
             simpa using congrArg Subtype.val this
         rw [h1, h]

@@ -58,11 +58,11 @@ theorem f4ThreeEighteenToral_holds :
     F4ThreeEighteenToral := by
   intro K _ _ hK3 A hA hAfin hcomm hexp g hg a ha h18 hga
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ℓ, hℓK⟩ := CharP.exists K
   have hℓp : ℓ.Prime := CharP.char_is_prime K ℓ
-  haveI : Fact ℓ.Prime := ⟨hℓp⟩
-  haveI : CharP (AlgebraicClosure K) ℓ :=
+  have : Fact ℓ.Prime := ⟨hℓp⟩
+  have : CharP (AlgebraicClosure K) ℓ :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective ℓ
   have hℓ3 : ℓ ≠ 3 := by
     rintro rfl
@@ -124,7 +124,7 @@ theorem f4ThreeEighteenToral_holds :
   have hA'fin : Finite A' := by
     change Finite ↥(A.map (MulAut.conj g⁻¹).toMonoidHom)
     exact Finite.Set.finite_image _ _
-  haveI : Fintype A' := Fintype.ofFinite A'
+  have : Fintype A' := Fintype.ofFinite A'
   have claim : ∀ S : Finset A',
       ∃ C ∈ adjointGroup Tag.F4 (AlgebraicClosure K),
         C * rootDiagUnit Tag.F4 a * C⁻¹ = rootDiagUnit Tag.F4 a ∧

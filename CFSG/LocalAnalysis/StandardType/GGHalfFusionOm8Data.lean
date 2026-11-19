@@ -291,7 +291,7 @@ private theorem s2_ne_s1_sq_Om8 : s2 ≠ s1 ^ 2 := by
   exact hh
 
 private theorem s2_notMem_zpowers_s1 : s2 ∉ Subgroup.zpowers s1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   intro hmem
   have horder : orderOf s1 = 3 := orderOf_eq_prime s1_cube s1_ne_one_Om8
   rw [mem_zpowers_iff_mem_range_orderOf, horder, Finset.mem_image] at hmem

@@ -24,7 +24,7 @@ theorem a6VICase2Layer_of_kfacts (h1435 : KFact1435) (hZJ : KFactZJFactorization
   have hJ : IsA6Normal M x J :=
     ⟨hJC, hCJ, hperf, hnot, hlt, hmin, Qt, inferInstance, ψ, hψ, hker, hQ⟩
   obtain ⟨e₂, e₃, t, ρ, s, hpd⟩ := exists_pointData hS hU0 hp hM hgen hJ h34 hnwc
-  haveI hN : ((GLBPrimeCore 3 M).subgroupOf M).Normal := glbPrimeCore_normal 3 M
+  have hN : ((GLBPrimeCore 3 M).subgroupOf M).Normal := glbPrimeCore_normal 3 M
   have hsolv := hpd.isPSolvable_centralizer_bar hS hU0 hp hM hgen hJ
   have hd := hpd.xdata hJC hC1 hsolv
   have hf := hd.frame
@@ -45,7 +45,7 @@ theorem a6VICase2Layer_of_kfacts (h1435 : KFact1435) (hZJ : KFactZJFactorization
       exact this
     have hgP : ((g : M) : G) ∈ (P : Subgroup G) := mem_subgroupOf.mp g.2
     have : ((g : M) : G) ∈ (P : Subgroup G) ⊓ GLBPrimeCore 3 M := mem_inf.mpr ⟨hgP, hgO⟩
-    rw [hpd.P_inf_O, mem_bot] at this
+    rw [(CFSG.LocalAnalysis.RankThreeTheoremC.GL83P3A6Layer.PointData.P_inf_O (G := G) (P := P) (M := M)), mem_bot] at this
     exact Subtype.ext (Subtype.ext this)
   have hrange : (π.comp ((P : Subgroup G).subgroupOf M).subtype).range =
       img M (GLBPrimeCore 3 M) (P : Subgroup G) := by
@@ -62,7 +62,7 @@ theorem a6VICase2Layer_of_kfacts (h1435 : KFact1435) (hZJ : KFactZJFactorization
     exact hf.thompsonSubgroup_eq φS (hS' ▸ hd.Q_le)
   have hxJ : π ⟨x, hpd.x_memM⟩ ∈
       thompsonSubgroup (S : Subgroup (M ⧸ (GLBPrimeCore 3 M).subgroupOf M)) := by
-    rw [hJP]; exact hf.x_mem
+    rw [hJP]; exact CFSG.LocalAnalysis.RankThreeTheoremC.GL83P3A6Layer.XFrame.x_mem
   have hlines3 : conjLinesIn (thompsonSubgroup (S : Subgroup (M ⧸ (GLBPrimeCore 3 M).subgroupOf M)))
       (π ⟨x, hpd.x_memM⟩) = 3 := by
     rw [hJP]

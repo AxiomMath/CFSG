@@ -70,7 +70,7 @@ theorem burnsideF429a_L3_dMat_inv_mem_oPPrime (a : Fˣ) :
       !![0, ((1 : Fˣ) : F), 0; (((1 : Fˣ)⁻¹ : Fˣ) : F), 0, 0; 0, 0, 1]
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.mul_apply, Fin.sum_univ_three, Matrix.diagonal_apply]
+      simp [Matrix.mul_apply, Fin.sum_univ_three]
   have hsN : ∀ c, proj 3 F (s c) ∈
       Subgroup.normalizer ((V2 : Subgroup (projectiveSL 3 F)) : Set (projectiveSL 3 F)) := by
     intro c
@@ -83,6 +83,7 @@ theorem burnsideF429a_L3_dMat_inv_mem_oPPrime (a : Fˣ) :
   rw [hsd, map_mul]
   exact Subgroup.mul_mem _ (hmem a) (hmem 1)
 
+omit [Finite F] [CharP F 2] in
 theorem burnsideF429a_L3_dMat_one_inj {u a : Fˣ}
     (h : proj 3 F (dMat 1 u) = proj 3 F (dMat 1 a)) : u = a := by
   have h1 : proj 3 F (dMat (1 * 1⁻¹) (u * a⁻¹)) = 1 := by
@@ -111,8 +112,8 @@ theorem burnsideF429a_L3_key_of_setup {F : Type} [Field F] [Finite F] [CharP F 2
       (∀ b ∈ oPPrime 2 (Gp ⊓ M) ⊓ (M₁ ⊓ M₂),
         r * b * r⁻¹ * b⁻¹ ∈ pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂))) → r ∈ Gp := by
   intro r hr k hk hcomm
-  haveI : Finite (projectiveSL 3 F) := Finite.of_injective Φ C.hΦ
-  haveI : Φ.range.Normal := by rw [C.hrange]; infer_instance
+  have : Finite (projectiveSL 3 F) := Finite.of_injective Φ C.hΦ
+  have : Φ.range.Normal := by rw [C.hrange]; infer_instance
   have hrN : r ∈ Subgroup.normalizer (((projUnitriangular 3 F).map Φ : Subgroup E) : Set E) := by
     rw [← hM12]
     exact hr
@@ -209,8 +210,8 @@ theorem burnsideF429a_L3_setup5 {f : ℕ} (hf : 2 ≤ f) {E : Type} [Group E] [F
       ChF.IsSylowOf 2 (pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂))) Gp := by
   obtain ⟨F, hFf, hFfin, hFchar, Φ, ρ, R₁, R₂, s₁, s₂, hFcard, hΦ, hrange, hρ, hΦρ, hE, hD, hO,
     h₁, h₂, hRv⟩ := burnsideF447_setup hf h
-  haveI : Finite (projectiveSL 3 F) := Finite.of_injective Φ hΦ
-  haveI : Φ.range.Normal := by rw [hrange]; infer_instance
+  have : Finite (projectiveSL 3 F) := Finite.of_injective Φ hΦ
+  have : Φ.range.Normal := by rw [hrange]; infer_instance
   have hNp := burnsideF4d_Y2_pCore_eq Φ hΦ hD hO h₁ h₂
   have hS : pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) = (projUnitriangular 3 F).map Φ := by
     have hle : pCoreOf 2 (M₁ ⊓ M₂) ≤ Gp := burnsideF4d_Y2_pCore_le hf h
@@ -236,8 +237,8 @@ theorem burnsideF429a_key1_L3 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Sub
     ∀ r ∈ M₁ ⊓ M₂, ∀ k : ℕ, r ^ 2 ^ k = 1 →
       (∀ b ∈ oPPrime 2 (Gp ⊓ M₁) ⊓ (M₁ ⊓ M₂),
         r * b * r⁻¹ * b⁻¹ ∈ pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂))) → r ∈ Gp := by
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   obtain ⟨F, _, _, _, Φ, ρ, R₁, R₂, C, hM12, hS, h₁, -, hR1, -, -⟩ :=
     burnsideF429a_L3_setup5 hf hyp.toHypF_4_4g
   exact burnsideF429a_L3_key_of_setup C hM12 hS h₁ hR1
@@ -247,8 +248,8 @@ theorem burnsideF429a_key2_L3 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Sub
     ∀ r ∈ M₁ ⊓ M₂, ∀ k : ℕ, r ^ 2 ^ k = 1 →
       (∀ b ∈ oPPrime 2 (Gp ⊓ M₂) ⊓ (M₁ ⊓ M₂),
         r * b * r⁻¹ * b⁻¹ ∈ pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂))) → r ∈ Gp := by
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   obtain ⟨F, _, _, _, Φ, ρ, R₁, R₂, C, hM12, hS, -, h₂, -, hR2, -⟩ :=
     burnsideF429a_L3_setup5 hf hyp.toHypF_4_4g
   exact burnsideF429a_L3_key_of_setup C hM12 hS h₂ hR2
@@ -256,8 +257,8 @@ theorem burnsideF429a_key2_L3 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Sub
 theorem burnsideF429a_c5_L3 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
     (hyp : HypF_4_4 .L3 2 f Gp M₁ M₂) (hf : 2 ≤ f) {T : Subgroup E}
     (hT : ChF.IsSylowOf 2 T (M₁ ⊓ M₂)) : burnsideF429_C5 .L3 Gp M₁ M₂ hyp T := by
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   obtain ⟨F, _, _, _, Φ, ρ, R₁, R₂, -, -, -, -, -, -, -, hSG⟩ :=
     burnsideF429a_L3_setup5 hf hyp.toHypF_4_4g
   exact Or.inl ⟨burnsideF429a_c5_of_key hSG inf_le_left hT (burnsideF429a_key1_L3 hyp hf),

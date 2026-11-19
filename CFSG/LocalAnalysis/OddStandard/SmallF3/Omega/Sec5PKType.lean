@@ -18,8 +18,8 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
-theorem sec5pk_oddCoreIn_cent {M K' O : Subgroup G} (hKM : K' ≤ M) (hOM : O ≤ M)
-    (hO : Odd (Nat.card O)) (hOc : ∀ o ∈ O, ∀ m ∈ M, m * o * m⁻¹ = o)
+theorem sec5pk_oddCoreIn_cent {M K' O : Subgroup G} (hKM : K' ≤ M) (_hOM : O ≤ M)
+    (_hO : Odd (Nat.card O)) (hOc : ∀ o ∈ O, ∀ m ∈ M, m * o * m⁻¹ = o)
     (hdec : ∀ m ∈ M, ∃ c ∈ K', c⁻¹ * m ∈ O) :
     oddCoreIn K' = K' ⊓ oddCoreIn M := by
   have hMn : M ≤ Subgroup.normalizer (oddCoreIn M : Subgroup G) :=
@@ -162,9 +162,9 @@ theorem sec5pk_oddCoreIn_sup {K O : Subgroup G} (hO : Odd (Nat.card O))
   rw [← hko]
   exact O.mul_mem hkO hOo
 
-theorem sec5pk_twoCoreIn_cent {K K' O : Subgroup G} (hO : Odd (Nat.card O))
+theorem sec5pk_twoCoreIn_cent {K K' O : Subgroup G} (_hO : Odd (Nat.card O))
     (hOc : ∀ o ∈ O, ∀ k ∈ K, k * o * k⁻¹ = o) (hK'M : K' ≤ K ⊔ O)
-    (hdec : ∀ m ∈ K ⊔ O, ∃ c ∈ K', c⁻¹ * m ∈ O) (hK : IsSL23Mod K) (hK' : IsSL23Mod K')
+    (_hdec : ∀ m ∈ K ⊔ O, ∃ c ∈ K', c⁻¹ * m ∈ O) (_hK : IsSL23Mod K) (hK' : IsSL23Mod K')
     (hQ : Nonempty (↥(twoCoreIn K) ≃* QuaternionGroup 2)) (hQK' : twoCoreIn K ≤ K') :
     twoCoreIn K' = twoCoreIn K := by
   have hKnQ : K ≤ Subgroup.normalizer (twoCoreIn K : Subgroup G) :=
@@ -187,7 +187,7 @@ theorem sec5pk_twoCoreIn_cent {K K' O : Subgroup G} (hO : Odd (Nat.card O))
   have hQP : twoCoreIn K ≤ twoCoreIn K' :=
     le_twoCoreIn_of_normal hQK' (isPGroup_twoCoreIn K) hNQ
   have hPcard : Nat.card (twoCoreIn K') ≤ 8 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hcard24 : Nat.card (↥K' ⧸ CFSG.oddCore ↥K') = 24 := by
       obtain ⟨e'⟩ := hK'
       rw [Nat.card_congr e'.toEquiv, Matrix.card_SL_field 2]

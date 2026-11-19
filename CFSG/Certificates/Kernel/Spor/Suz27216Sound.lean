@@ -475,14 +475,14 @@ theorem suzPrep_letK {Gi GiI : Nat → Nat} {g : Nat → Equiv.Perm (Fin n)} (hn
   unfold letK letP
   by_cases h5 : c < 5
   · have hb : Nat.blt c 5 = true := Nat.blt_eq.mpr h5
-    rw [hb, if_pos h5, commutatorElement_def]
+    rw [hb, ite_eq_left h5, commutatorElement_def]
     exact prep_pcomp hn (prep_pcomp hn (prep_pcomp hn (hG 1 (by omega)) (hG (c + 2) (by omega)))
       (hGI 1 (by omega))) (hGI (c + 2) (by omega))
   · have hb : Nat.blt c 5 = false := by
       cases hh : Nat.blt c 5
       · rfl
       · exact absurd (Nat.blt_eq.mp hh) h5
-    rw [hb, if_neg h5, commutatorElement_inv, commutatorElement_def]
+    rw [hb, ite_eq_right h5, commutatorElement_inv, commutatorElement_def]
     exact prep_pcomp hn (prep_pcomp hn (prep_pcomp hn (hG (c - 5 + 2) (by omega)) (hG 1 (by omega)))
       (hGI (c - 5 + 2) (by omega))) (hGI 1 (by omega))
 
@@ -583,10 +583,10 @@ theorem hK_sound {msift : Nat → Bool} {HP T1 : Nat} {OW G GN : Nat → Nat} (h
     · have hj4 : ¬ j < 4 := fun hh => by
         rw [Nat.blt_eq.mpr hh] at hb
         exact Bool.noConfusion hb
-      rw [if_neg hj4]
+      rw [ite_eq_right hj4]
       exact hwg
     · have hj4 : j < 4 := Nat.blt_eq.mp hb
-      rw [if_pos hj4]
+      rw [ite_eq_left hj4]
       exact hr j hj4
 
 end CFSG.KS.Suz27216

@@ -94,7 +94,7 @@ theorem exists_vec_annihilator {W : Submodule (ZMod 2) (Fin n → ZMod 2)} (hW :
       ext j
       by_cases hj : j = i
       · subst hj; simp
-      · simp [hj, Pi.single_apply]
+      · simp [hj]
     rw [hs, map_smul, smul_eq_mul]
     simp only [mul_comm]
   refine ⟨fun i => φ (Pi.single i 1), ?_, fun w hw => ?_⟩
@@ -138,7 +138,7 @@ theorem unipPred_mul {W : Submodule (ZMod 2) (Fin n → ZMod 2)} {g h : Matrix.S
 
 theorem unipPred_inv {W : Submodule (ZMod 2) (Fin n → ZMod 2)}
     {g k : Matrix.SpecialLinearGroup (Fin n) (ZMod 2)}
-    (hgk : g * k = 1) (hkg : k * g = 1) (hg : unipPred W g) : unipPred W k := by
+    (_hgk : g * k = 1) (hkg : k * g = 1) (hg : unipPred W g) : unipPred W k := by
   obtain ⟨hg1, hg2⟩ := hg
   have hKG : M[k] * M[g] = 1 := by
     rw [← Matrix.SpecialLinearGroup.coe_mul, hkg, Matrix.SpecialLinearGroup.coe_one]
@@ -232,8 +232,7 @@ theorem normalizes_unip (W : Submodule (ZMod 2) (Fin n → ZMod 2))
   refine ⟨fun v => ?_, fun w hw => ?_⟩
   · have e : (M[g * u * k] - 1) *ᵥ v = M[g] *ᵥ ((M[u] - 1) *ᵥ (M[k] *ᵥ v)) := by
       rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_mul]
-      simp only [sub_mulVec, one_mulVec, mulVec_sub, mulVec_mulVec, mul_assoc, sub_mul, mul_sub,
-        one_mul, hGK]
+      simp only [sub_mulVec, one_mulVec, mulVec_sub, mulVec_mulVec, mul_assoc, sub_mul, one_mul, hGK]
     rw [e]
     exact hW1 _ (hu1 _)
   · rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_mul]
@@ -243,7 +242,7 @@ theorem normalizes_unip (W : Submodule (ZMod 2) (Fin n → ZMod 2))
       _ = w := by rw [mulVec_mulVec, hGK, one_mulVec]
 
 theorem mem_normalizer_of_conj {G : Type} [Group G] {H : Subgroup G} {g k : G}
-    (hk : g * k = 1) (hkg : k * g = 1) (hconj : ∀ u ∈ H, g * u * k ∈ H)
+    (hk : g * k = 1) (_hkg : k * g = 1) (hconj : ∀ u ∈ H, g * u * k ∈ H)
     (hconj' : ∀ u ∈ H, k * u * g ∈ H) : g ∈ normalizer (H : Set G) := by
   have hk' : k = g⁻¹ := (inv_eq_of_mul_eq_one_right hk).symm
   rw [Subgroup.mem_normalizer_iff]
@@ -262,7 +261,7 @@ theorem mem_normalizer_unip_of (W : Submodule (ZMod 2) (Fin n → ZMod 2))
     (hW1 : ∀ w ∈ W, M[g] *ᵥ w ∈ W) (hW2 : ∀ w ∈ W, M[k] *ᵥ w ∈ W) :
     g ∈ normalizer ((unip W : Subgroup (Matrix.SpecialLinearGroup (Fin n) (ZMod 2))) :
       Set (Matrix.SpecialLinearGroup (Fin n) (ZMod 2))) :=
-  mem_normalizer_of_conj hk hkg (fun u hu => normalizes_unip W hk hkg hW1 hW2 hu)
-    (fun u hu => normalizes_unip W hkg hk hW2 hW1 hu)
+  mem_normalizer_of_conj hk hkg (fun _u hu => normalizes_unip W hk hkg hW1 hW2 hu)
+    (fun _u hu => normalizes_unip W hkg hk hW2 hW1 hu)
 
 end CFSG.LocalAnalysis.GLTheoremA.Timm.L2

@@ -106,7 +106,7 @@ theorem exists_conj_eq_entrywiseAdjointAut_of_form (τ : Tag)
   rw [hαβ, ← conj_pow, hβ, hδ, ← entrywiseAdjointAut_pow, hj]
 
 theorem outerFixedOrder_G2_of_conj {ℓ f p : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f) (K : Type) [Field K]
-    (hK : Nat.card K = ℓ ^ f) (hp : p.Prime) (α : MulAut (adjointGroup Tag.G2 K))
+    (hK : Nat.card K = ℓ ^ f) (_hp : p.Prime) (α : MulAut (adjointGroup Tag.G2 K))
     (σ : K ≃+* K) (hσp : orderOf σ = p) (δ : MulAut (adjointGroup Tag.G2 K))
     (hδ : δ * α * δ⁻¹ = entrywiseAdjointAut Tag.G2 σ) :
     ∃ f₀ : ℕ, f = p * f₀ ∧ Nat.card (fixedSubgroup α) ∣ lieOrderNumerator .G2 0 (ℓ ^ f₀) := by

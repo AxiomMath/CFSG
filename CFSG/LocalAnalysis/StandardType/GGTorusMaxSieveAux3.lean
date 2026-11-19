@@ -19,8 +19,8 @@ theorem tm_orderTwistedA_eq {n q : ℕ} (hq : 1 ≤ q) : orderTwistedA n q = ord
     apply Finset.prod_congr rfl
     intro i _
     rcases Nat.even_or_odd i with he | ho
-    · rw [if_pos he, CFSG.Timmesfeld.Orders.toNat_pow_sub_neg_one_pow_of_even hq he]
-    · rw [if_neg (Nat.not_even_iff_odd.mpr ho),
+    · rw [ite_eq_left he, CFSG.Timmesfeld.Orders.toNat_pow_sub_neg_one_pow_of_even hq he]
+    · rw [ite_eq_right (Nat.not_even_iff_odd.mpr ho),
         CFSG.Timmesfeld.Orders.toNat_pow_sub_neg_one_pow_of_odd ho]
   simp only [orderTwistedA, ordTwistedA, h]
 
@@ -37,8 +37,8 @@ theorem tm_order_bridge (d : TauCeti.LieTypeIndex) (h : tmTag d ∈ searchTags) 
   | tits => exact absurd h (by simp [tmTag, searchTags])
   | _ =>
       simp only [CFSG.HardMathSupport.Solomon.Coordinator.I1420.lieOrderFormula, lieOrd, tmTag,
-        tmRank, tmChar, tmDeg, TauCeti.PrimePower.card_def, Nat.add_sub_cancel] <;>
-      first | rfl | omega
+        tmRank, tmChar, tmDeg, TauCeti.PrimePower.card_def, Nat.add_sub_cancel];
+      first | rfl
 
 theorem tm_out_bridge (d : TauCeti.LieTypeIndex) (h : tmTag d ∈ searchTags) :
     tmLieOut d = tmOutTag (tmTag d) (tmRank d) (tmChar d) (tmDeg d) := by
@@ -48,10 +48,10 @@ theorem tm_out_bridge (d : TauCeti.LieTypeIndex) (h : tmTag d ∈ searchTags) :
       by_cases hn : n = 1
       · subst hn; simp [tmRank]
       · have h2 : tmRank (.A n q) ≠ 2 := by simp [tmRank]; omega
-        rw [if_neg hn, if_neg h2]
+        rw [ite_eq_right hn, ite_eq_right h2]
         simp [tmRank]
   | _ =>
-      simp only [tmLieOut, tmOutTag, tmTag, tmRank, tmChar, tmDeg, TauCeti.PrimePower.card_def] <;>
+      simp only [tmLieOut, tmOutTag, tmTag, tmRank, tmChar, tmDeg, TauCeti.PrimePower.card_def]; try
       first | rfl | omega
 
 theorem tmPrime_dvd_factorial_div_two {p n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hpn : p ≤ n) :
@@ -70,7 +70,7 @@ theorem tmAlt_not_dvd {c : ℕ} (hc : 5 ≤ c) (hc22 : c ≤ 22) : ¬ 3 ^ 11 ∣
 theorem tmSieve_alt_contra {c k L : ℕ} (hc : 5 ≤ c) {J : Type} [Group J] [Finite J]
     (e : J ≃* alternatingGroup (Fin c)) (h23 : ¬ 23 ∣ L) (hdvd : Nat.card J ∣ L)
     (hk : 11 ≤ k) (hM : 3 ^ k ∣ Nat.card (MulAut J)) : False := by
-  haveI : Nontrivial (Fin c) := Fin.nontrivial_iff_two_le.mpr (by omega)
+  have : Nontrivial (Fin c) := Fin.nontrivial_iff_two_le.mpr (by omega)
   have hcard : Nat.card J = c.factorial / 2 := by
     rw [Nat.card_congr e.toEquiv, nat_card_alternatingGroup, Nat.card_fin]
   have hcardA : Nat.card (alternatingGroup (Fin c)) = c.factorial / 2 := by
@@ -130,7 +130,7 @@ theorem tmRank_min (d : TauCeti.LieTypeIndex) (h : d.Valid) (ht : tmTag d ∈ se
   have hstd := ((TauCeti.LieTypeIndex.valid_iff d).1 h).1
   rw [TauCeti.LieTypeIndex.inStandardRange_iff] at hstd
   cases d <;> simp only [tmTag, tmMin, tmRank] at hstd ht ⊢ <;>
-    first | omega | (exfalso; exact absurd ht (by decide))
+    first | omega
 
 theorem tmAdm (d : TauCeti.LieTypeIndex) (h : d.Valid) (ht : tmTag d ∈ searchTags) :
     lieAdm (tmTag d) (tmChar d) (tmDeg d) = true := by
@@ -150,8 +150,7 @@ theorem tmAdm (d : TauCeti.LieTypeIndex) (h : d.Valid) (ht : tmTag d ∈ searchT
       simp only [tmTag, tmChar, tmDeg, lieAdm]
       simp [h1, h2]
   | _ =>
-      simp only [tmTag, tmChar, tmDeg, lieAdm] <;>
-        first | rfl | (exfalso; exact absurd ht (by simp [tmTag, searchTags]))
+      simp only [tmTag, tmChar, tmDeg, lieAdm]
 
 theorem tmIsTarget7_twistedA {d : TauCeti.LieTypeIndex}
     (h : tmIsTarget7 (tmTag d) (tmRank d) (tmChar d) (tmDeg d) = true) :
@@ -217,7 +216,6 @@ theorem tmRank_lt_18 (d : TauCeti.LieTypeIndex) (h : d.Valid) (ht : tmTag d ∈ 
       | exact tm_quad_le hlog le_rfl
       | exact tm_sq_le hlog le_rfl
       | exact tm_prod_le hlog le_rfl
-      | (exfalso; exact absurd ht (by decide))
 
 theorem tmRank_lt_24 (d : TauCeti.LieTypeIndex) (h : d.Valid) (ht : tmTag d ∈ searchTags)
     (hlog : lieExp (tmTag d) (tmRank d) ≤ 247) : tmRank d < 24 := by
@@ -229,7 +227,6 @@ theorem tmRank_lt_24 (d : TauCeti.LieTypeIndex) (h : d.Valid) (ht : tmTag d ∈ 
       | exact tm_quad_le24 hlog le_rfl
       | exact tm_sq_le24 hlog le_rfl
       | exact tm_prod_le24 hlog le_rfl
-      | (exfalso; exact absurd ht (by decide))
 
 theorem tm_log_bound {d : TauCeti.LieTypeIndex} {N k : ℕ} (hN0 : 0 < N)
     (hN : N < 2 ^ (k + 1)) (hn : tmMin (tmTag d) ≤ tmRank d)

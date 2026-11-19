@@ -127,7 +127,7 @@ theorem actK_lt (g : G) (F : ℕ) : actK (mcode (g : Mat)) F < 2 ^ 32 := by
   have := mvK_lt g hv
   omega
 
-theorem actK_mul (g h : G) {F : ℕ} (hF : F < 2 ^ 32) :
+theorem actK_mul (g h : G) {F : ℕ} (_hF : F < 2 ^ 32) :
     actK (mcode ((g * h : G) : Mat)) F = actK (mcode (g : Mat)) (actK (mcode (h : Mat)) F) := by
   apply Nat.eq_of_testBit_eq
   intro u

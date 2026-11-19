@@ -104,7 +104,7 @@ private theorem r1i_isSylowOf_sup (hσ : σ.IsValid) {K U : Subgroup G} (hDK : �
     IsSylowOf σ.p U (oddCoreIn K ⊔ U) := by
   have : Fact σ.p.Prime := ⟨hσ.p_prime⟩
   obtain ⟨⟨hUK, hUp, hDU, -⟩, hmax⟩ := hU
-  have hD2 : IsPGroup 2 σ.D := σ.S.isPGroup'.to_le σ.D_le_S
+  have hD2 : IsPGroup 2 σ.D := σ.S.isPGroup.to_le σ.D_le_S
   have hKO : K ≤ Subgroup.normalizer ((oddCoreIn K : Subgroup G) : Set G) :=
     le_normalizer_oddCoreIn K
   have hYodd : Odd (Nat.card (oddCoreIn K ⊔ U : Subgroup G)) :=
@@ -131,7 +131,7 @@ private theorem r1i_exists_X (hσ : σ.IsValid) {K U : Subgroup G} (hDK : σ.D �
   have hYodd : Odd (Nat.card (O ⊔ U : Subgroup G)) :=
     odd_card_sup_of_le_normalizer_of_odd (hUK.trans hKO) (odd_card_oddCoreIn K)
       (V56.odd_card_of_isPGroup hσ.p_prime hσ.p_ne_two hUp)
-  have hD2 : IsPGroup 2 σ.D := σ.S.isPGroup'.to_le σ.D_le_S
+  have hD2 : IsPGroup 2 σ.D := σ.S.isPGroup.to_le σ.D_le_S
   have hDY : σ.D ≤ Subgroup.normalizer ((O ⊔ U : Subgroup G) : Set G) :=
     (le_inf (hDK.trans hKO) hDU).trans (normalizer_inf_normalizer_le_normalizer_sup _ _)
   have hDB : σ.D ≤ Subgroup.normalizer (((O ⊔ U) ⊓ σ.N : Subgroup G) : Set G) :=

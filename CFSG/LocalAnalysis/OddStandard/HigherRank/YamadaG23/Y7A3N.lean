@@ -13,6 +13,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
+omit [Finite G] in
 private lemma y7a_V_ab_n {A C0 V : Subgroup G} {a₁ b₁ a₂ b₂ z t d : G}
     (h : Y7ACfg A C0 V a₁ b₁ a₂ b₂ z t d) : ∀ v ∈ V, ∀ w ∈ V, v * w = w * v := by
   have hzd : Commute z d := y7a_d_cent h z (y7a_z_mem_A h)
@@ -24,12 +25,13 @@ private lemma y7a_V_ab_n {A C0 V : Subgroup G} {a₁ b₁ a₂ b₂ z t d : G}
     · exact hzd
     · exact hzd.symm
     · exact absurd rfl hab
-  haveI : IsMulCommutative ↥V := by
+  have : IsMulCommutative ↥V := by
     rw [h.hV]
     exact Subgroup.isMulCommutative_closure hpair
   intro v hv w hw
   exact setLike_mul_comm hv hw
 
+omit [Finite G] in
 private lemma y7a_norm_conj {S : Subgroup G} {x : G} (hx : x ∈ normalizer (S : Set G)) :
     (∀ y ∈ S, x * y * x⁻¹ ∈ S) ∧ (∀ y ∈ S, x⁻¹ * y * x ∈ S) := by
   refine ⟨fun y hy => (Subgroup.mem_set_normalizer_iff.mp hx y).mp hy, fun y hy => ?_⟩

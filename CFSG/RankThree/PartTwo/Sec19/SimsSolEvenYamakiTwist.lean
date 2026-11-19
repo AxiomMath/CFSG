@@ -16,7 +16,7 @@ theorem sgn2_mul (σ τ : Perm (Fin 6)) : sgn2 (σ * τ) = sgn2 σ + sgn2 τ := 
   unfold sgn2
   rw [Perm.sign_mul]
   rcases Int.units_eq_one_or (Perm.sign σ) with h | h <;>
-    rcases Int.units_eq_one_or (Perm.sign τ) with h' | h' <;> simp [h, h', hne] <;> decide
+    rcases Int.units_eq_one_or (Perm.sign τ) with h' | h' <;> simp [h, h', hne]; decide
 
 theorem sgn2_one : sgn2 1 = 0 := by simp [sgn2]
 
@@ -110,11 +110,14 @@ variable {G : Type} [Group G] [Finite G] {z : G} (Y : YData z)
     show twistW (Y.ϑ ⟨z, mem_centralizer_self' z⟩ : Wr 6) = Wr.allOnes 6
     rw [Y.ϑ_z, twistW_allOnes]
 
+omit [Finite G] in
 theorem twist_ϑ (x : ↥(Subgroup.centralizer ({z} : Set G))) :
     (Y.twist.ϑ x : Wr 6) = twistW (Y.ϑ x) := rfl
 
+omit [Finite G] in
 theorem twist_ι (a : ↥Wsub) : Y.twist.ι a = Y.ι (twistWsub a) := rfl
 
+omit [Finite G] in
 theorem twist_mem_lift {X : Subgroup (Wr 6)} (hX : ∀ a, twistW a ∈ X ↔ a ∈ X) (x : G) :
     x ∈ Y.twist.lift X ↔ x ∈ Y.lift X := by
   rw [Y.twist.mem_lift, Y.mem_lift]
@@ -122,29 +125,35 @@ theorem twist_mem_lift {X : Subgroup (Wr 6)} (hX : ∀ a, twistW a ∈ X ↔ a �
   rw [twist_ϑ]
   exact hX _
 
+omit [Finite G] in
 theorem twist_A : Y.twist.A = Y.A := by
   ext x
   exact Y.twist_mem_lift twistW_mem_SW_iff x
 
+omit [Finite G] in
 theorem twist_T : Y.twist.T = Y.T := by
   ext x
   exact Y.twist_mem_lift twistW_mem_DW_iff x
 
+omit [Finite G] in
 theorem twist_σA (c : SC) : Y.twist.σA c = Y.σA (twC c) := by
   rw [σA, twist_ι, σA]
   congr 1
   exact Subtype.ext (twistW_cSp c)
 
+omit [Finite G] in
 theorem twist_π3 : Y.twist.π3 = Y.π3 := by
   rw [π3, twist_ι, π3]
   congr 1
   exact Subtype.ext twistW_wPi3
 
+omit [Finite G] in
 theorem twist_π12 : Y.twist.π12 = Y.π12 := by
   rw [π12, twist_ι, π12]
   congr 1
   exact Subtype.ext twistW_wPi12
 
+omit [Finite G] in
 theorem twist_coord (X : Set G) : Y.twist.coord X = (Y.coord X).image twC := by
   ext c
   rw [Y.twist.mem_coord, twist_σA, Finset.mem_image]

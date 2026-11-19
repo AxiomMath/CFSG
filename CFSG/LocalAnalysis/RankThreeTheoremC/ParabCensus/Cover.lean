@@ -142,7 +142,7 @@ theorem hasLeviCensus_of_mulEquiv {X C : Type} [Group X] [Group C] [Finite C] {L
   · rw [hker]
     exact bot_le
   · rw [hker]
-    simpa using (show Odd (1 : ℕ) by norm_num)
+    simp
   · intro j _ z hz _
     have hz1 : ρ (z : C) = 1 := hz
     have hz_eq : (z : C) = 1 := ρ.injective (by simpa using hz1)

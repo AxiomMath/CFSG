@@ -127,8 +127,8 @@ theorem d4t2TorusPart_of_spinPerfect
   intro L _ _ p₀ S hS hAlg l f hl hf hq hl3 h3 h3q a hT hap hall F₀ hF₀mod hF₀M hab hcard hdF
   classical
   obtain ⟨hch, halg⟩ := S.exists_charP_isAlgebraic_zmod hAlg hl hf hq
-  haveI := hch
-  haveI : Fact l.Prime := ⟨hl⟩
+  have := hch
+  have : Fact l.Prime := ⟨hl⟩
   have hd1 : rootDiagUnit .E6 a ≠ 1 := d4t2_rootDiagUnit_ne_one hall
   obtain ⟨g₁, hg₁, hg₁T⟩ := d4t2_plane_toral hl3 halg hd1 hF₀M hab hcard hdF
   obtain ⟨hΦtw, hFr⟩ := d4t2tm_datum S hS hq

@@ -73,19 +73,19 @@ theorem Aff.mul {P : Frame σ n} {g g' : SUid σ n} {m m' : SpecialLinearGroup (
 
 theorem ent_inv_zero_zero (g : SpecialLinearGroup (Fin 2) (fixSub σ)) :
     ent g⁻¹ 0 0 = ent g 1 1 := by
-  simp [ent, Matrix.SpecialLinearGroup.coe_inv, Matrix.adjugate_fin_two]
+  simp [ent]
 
 theorem ent_inv_zero_one (g : SpecialLinearGroup (Fin 2) (fixSub σ)) :
     ent g⁻¹ 0 1 = -ent g 0 1 := by
-  simp [ent, Matrix.SpecialLinearGroup.coe_inv, Matrix.adjugate_fin_two]
+  simp [ent]
 
 theorem ent_inv_one_zero (g : SpecialLinearGroup (Fin 2) (fixSub σ)) :
     ent g⁻¹ 1 0 = -ent g 1 0 := by
-  simp [ent, Matrix.SpecialLinearGroup.coe_inv, Matrix.adjugate_fin_two]
+  simp [ent]
 
 theorem ent_inv_one_one (g : SpecialLinearGroup (Fin 2) (fixSub σ)) :
     ent g⁻¹ 1 1 = ent g 0 0 := by
-  simp [ent, Matrix.SpecialLinearGroup.coe_inv, Matrix.adjugate_fin_two]
+  simp [ent]
 
 theorem Aff.inv {P : Frame σ n} {g : SUid σ n} {m : SpecialLinearGroup (Fin 2) (fixSub σ)}
     {τ₁ τ₂ : K} (h : Aff P g m τ₁ τ₂) :

@@ -69,12 +69,12 @@ theorem Z_comm (D : Subgroup P) {y d : P} (hy : y ∈ Zof D) (hd : d ∈ D) : d 
   mem_centralizer_iff.mp (RankThree.GroupTheory.SteinbergBY.map_center_le_centralizer D hy) d hd
 
 theorem Z_normal (c : CritData D E R z) : (Zof D).Normal := by
-  haveI := c.char
+  have := c.char
   exact normal_of_characteristic _
 
 theorem exists_mul_of_mem_D (c : CritData D E R z) {d : P} (hd : d ∈ D) :
     ∃ e ∈ E, ∃ y ∈ Zof D, e * y = d := by
-  haveI := c.Z_normal
+  have := c.Z_normal
   rw [← c.ED] at hd
   exact mem_sup_of_normal_right.mp hd
 

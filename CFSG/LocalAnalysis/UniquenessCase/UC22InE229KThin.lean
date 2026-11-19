@@ -11,7 +11,7 @@ namespace CFSG.LocalAnalysis.UniquenessCase.UC22.KBridge
 
 theorem kThinSimple_of_thinList13 (h : PartTwo.ThinList13) : KThinSimple := by
   intro Q _ _ hK hs hna hcyc
-  haveI := hs
+  have := hs
   have hq : CFSG.Open.IsQuasisimple Q := CFSG.Quasithin.A3.isQuasisimple_iff_open.mp
     (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup hna).1
   have hr : ∀ r : ℕ, r.Prime → r ≠ 2 → CFSG.pRank r Q ≤ 1 := fun r hr hr2 =>

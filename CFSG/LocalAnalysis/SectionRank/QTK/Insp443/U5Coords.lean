@@ -14,14 +14,14 @@ open CFSG.ClassicalGroups.UnitaryFlag CFSG.LocalAnalysis.ComponentInitial
   CFSG.LocalAnalysis.ComponentInitial.UnitaryHigher
 
 theorem KConfig.exists_u5_coords
-    {X : Type} [Group X] [Finite X] (hXs : IsSimpleGroup X) {f : ℕ}
+    {X : Type} [Group X] [Finite X] (_hXs : IsSimpleGroup X) {f : ℕ}
     (hU : CFSG.Quasithin.IsPSU 5 2 f X) {L V MK : Subgroup X} (hc : KConfig X L V MK) :
     ∃ (K : Type) (_ : Field K) (h : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 f K)
       (e : X ≃* CFSG.ClassicalGroups.UnitaryFlag.hypPSU h 2 1),
       MK.map e.toMonoidHom = CFSG.Quasithin.H13.Sec53F.Unit.u5PtP h ∨
         MK.map e.toMonoidHom = CFSG.Quasithin.H13.Sec53F.Unit.u5LnP h := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : IsSimpleGroup X := hXs
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsSimpleGroup X := _hXs
   have hEven : CFSG.Blueprint.EvenLieType X :=
     ⟨.PSU, 5, f, hU.1, Or.inl ⟨by decide, hU⟩⟩
   have hRad : CFSG.Quasithin.SmithC27.IsRadicalParabolic (⊤ : Subgroup X) :=
@@ -49,8 +49,8 @@ theorem KConfig.exists_u5_coords
     rwa [top_inf_eq] at this
   obtain ⟨K, hKfield, hKm, ⟨e₀⟩⟩ :=
     CFSG.Quasithin.H13.F431.Un.OL5.exists_model5 (D := X) (Or.inl ⟨by decide, hU⟩)
-  letI : Field K := hKfield
-  haveI : Finite (hypPSU hKm 2 1) := CFSG.Quasithin.H13.Sec53F.Unit.finite_hypPSU_five hKm
+  let : Field K := hKfield
+  have : Finite (hypPSU hKm 2 1) := CFSG.Quasithin.H13.Sec53F.Unit.finite_hypPSU_five hKm
   have hUs : CFSG.QuasithinUnique.IsSylowTwoOf (hypProjUnitriangular hKm 2 1) ⊤ :=
     CFSG.Quasithin.H13.Sec53F.Unit.u5_sylow hKm
   obtain ⟨e, he⟩ := CFSG.Quasithin.H13.Ch4.U4A.exists_equiv_sylow e₀.symm hUs hS
@@ -101,17 +101,17 @@ theorem KConfig.exists_u5_coords
         exact Group.IsPerfect.map e.toMonoidHom
       have hLmap_ne : L.map e.toMonoidHom ≠ ⊥ :=
         (Subgroup.map_eq_bot_iff_of_injective L e.injective).not.mpr hLne
-      haveI : Nontrivial ↥(L.map e.toMonoidHom) :=
+      have : Nontrivial ↥(L.map e.toMonoidHom) :=
         (Subgroup.nontrivial_iff_ne_bot _).mpr hLmap_ne
       let : Group.IsPerfect ↥(L.map e.toMonoidHom) := hLmap_perf
       have hleL : L.map e.toMonoidHom ≤ hypProjBorel hKm 2 1 :=
         (Subgroup.map_mono hc.le_MK).trans
           (hle12.trans (le_of_eq (u5PtP_inf_u5LnP (h := hKm))))
-      haveI : Group.IsSolvable ↥(hypProjBorel hKm 2 1) := by
+      have : Group.IsSolvable ↥(hypProjBorel hKm 2 1) := by
         rw [← CFSG.Quasithin.H13.Sec53F.Unit.normalizer_hypProjUnitriangular_five]
         exact (borelBase_u5 hKm).isSolvable_B
       have hsolv : Group.IsSolvable ↥(L.map e.toMonoidHom) := by
-        haveI : Group.IsSolvable
+        have : Group.IsSolvable
             ↥((L.map e.toMonoidHom).subgroupOf (hypProjBorel hKm 2 1)) := inferInstance
         exact Group.isSolvable_of_surjective
           (f := (Subgroup.subgroupOfEquivOfLe hleL).toMonoidHom)

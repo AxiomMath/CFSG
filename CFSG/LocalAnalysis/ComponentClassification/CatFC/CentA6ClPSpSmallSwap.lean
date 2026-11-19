@@ -28,7 +28,7 @@ theorem swapDiag_isSp : (swapDiag K)ᵀ * formJ 2 K * swapDiag K = formJ 2 K := 
   ext p q
   rw [swapDiag, diagonal_transpose, Matrix.mul_diagonal, Matrix.diagonal_mul]
   rcases p with p | p <;> rcases q with q | q <;> fin_cases p <;> fin_cases q <;>
-    simp [formJ, Matrix.one_apply]
+    simp [formJ]
 
 abbrev swapBlock (d : K) : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K :=
   fromBlocks !![0, d; 1, 0] 0 0 !![0, 1; d, 0]
@@ -105,7 +105,7 @@ theorem exists_swap_of_selfAdjoint (h2 : (2 : K) ≠ 0) (A : gsp 2 K) {d : K} (h
   set u : Fin 2 ⊕ Fin 2 → Fin 2 ⊕ Fin 2 → K := Sum.elim ![e₁, e₂] ![f₁, f₂] with hu
   have hgram : ∀ p q, ω (u p) (u q) = formJ 2 K p q := by
     rintro (i | i) (j | j) <;> fin_cases i <;> fin_cases j <;>
-      simp [hu, formJ, Matrix.one_apply, g11, g12, g21, g22, a11, a12, a21, a22, b11, b12, b21,
+      simp [hu, formJ, g11, g12, g21, g22, a11, a12, a21, a22, b11, b12, b21,
         b22, k11, k12, k21, k22]
   obtain ⟨H, hH⟩ := exists_sp_of_gram hgram
   have hMe₂ : M *ᵥ e₂ = d • e₁ := hMM e₁

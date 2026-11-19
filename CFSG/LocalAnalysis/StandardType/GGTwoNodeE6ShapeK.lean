@@ -79,7 +79,7 @@ theorem ggE6K_shape
       exact Nat.pow_le_pow_right (by norm_num) (by norm_num)
     · rw [h7]
   obtain ⟨Λ, i1, i2, MK, -, -, -, -, -, -, -, -, e, hMK, -, -, -, -, -, ⟨fK, -⟩, -, -⟩ := hdat
-  letI := i1; letI := i2
+  let := i1; let := i2
   have hAK : Nat.card ↥(ggAutomizer K Bs) = 51840 := ggE6K_card_AK e hMK fK
   have hbound := ggE6K_card_join_le hOrbK rfl hH hy hBs hAK
   have hTwo : GGResRowAt ggRowTwoNode 3 J L → GGResTwoNodeSideDatum 3 Bs L J := by
@@ -132,7 +132,7 @@ theorem ggResTwoNodeIndepE6K
       · rw [h7]
     obtain ⟨Λ, i1, i2, MK, CK, V, i3, i4, ι, φ, h, α, e, hMK, -, hCK, hφ, -, hpair, -, hAK,
       hind⟩ := hdat
-    letI := i1; letI := i2; letI := i3; letI := i4
+    let := i1; let := i2; let := i3; let := i4
     exact ggTwoNodeIndepAtK_e6 hAll hFix hFixK rfl hH hBs hLrefl hbound e hMK hCK hφ hpair
       hAK (hind hyK)
   · exact hweyl

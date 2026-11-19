@@ -21,6 +21,7 @@ open TableBExc.E6Three
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [CharP K 2] in
 theorem ggBstarModelFrame_vAd {ζ : Kˣ} (hζo : orderOf ζ = 3) (hζ : ζ ^ 3 = 1)
     (M : Subgroup (MulAut (adjointGroup .E6 K))) :
     GGBstarModelFrame (adPerm .E6 3) 3 M (vAd (K := K) ζ hζ) := by
@@ -39,6 +40,7 @@ theorem ggBstarModelFrame_vAd {ζ : Kˣ} (hζo : orderOf ζ = 3) (hζ : ζ ^ 3 =
   obtain ⟨w, hw⟩ := exists_weyl_conj_diag3 hζ hh hW
   exact ⟨w, fun v => (hgh v).trans (hw v (Set.mem_univ v))⟩
 
+omit [CharP K 2] in
 theorem ggBstarModelFrame_vHyp {ζ : Kˣ} (hζo : orderOf ζ = 3) (hζ : ζ ^ 3 = 1)
     (M : Subgroup (MulAut (adjointGroup .E6 K))) :
     GGBstarModelFrame NoOffRest.hypPerm 3 M (vHyp (K := K) ζ hζ) := by
@@ -68,7 +70,7 @@ theorem exists_autFrame_E6 (h3 : 3 ∣ Nat.card K - 1)
       (∃ U : Subgroup (adjointGroup .E6 K), U ≠ ⊥ ∧ IsPGroup 2 U ∧ ∀ φ ∈ X, ∀ u ∈ U, φ u ∈ U) →
         Nat.card X ≤ Nat.card S) :
     GGBstarModelFrame (adPerm .E6 3) 3 M' S ∨ GGBstarModelFrame NoOffRest.hypPerm 3 M' S := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ζ, hζo⟩ := TableBSymp.exists_orderOf_eq_of_dvd (K := K) h3
   have hζ : ζ ^ 3 = 1 := by
     rw [← hζo]

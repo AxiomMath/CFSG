@@ -68,7 +68,7 @@ theorem mul_comm_of_le_borelSubgroup [Finite K] [CharP K 2] {P : Subgroup (State
     x * y = y * x := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S, hS⟩ := exists_sylow_unipotent (K := K) 2 2
-  have hU2 : IsPGroup 2 (unipotent 2 K) := hS ▸ S.isPGroup'
+  have hU2 : IsPGroup 2 (unipotent 2 K) := hS ▸ S.isPGroup
   set X : borelSubgroup 2 K := ⟨x, hPB hx⟩
   set Y : borelSubgroup 2 K := ⟨y, hPB hy⟩
   have hker : ⁅X, Y⁆ ∈ (diagHom 2 K).ker := by

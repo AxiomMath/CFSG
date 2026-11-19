@@ -13,18 +13,18 @@ namespace CFSG.KC.O8
 open CFSG.EvenSmallLie.OmegaEight.Stage2
 
 theorem enum_sound {G GI D : Nat → Nat} {ng m z nb : Nat} (hm : m ≤ 256 * nb) (hm' : m < 2 ^ 17)
-    (hng : ng < 32) (hh : enumHeadOK G GI ng m D z = true)
+    (_hng : ng < 32) (hh : enumHeadOK G GI ng m D z = true)
     (hb : ∀ b < nb, enumBlockOK G ng m D b = true) :
     enumOK (genPairsK G GI ng) (decE D m) = true := by
   apply enum_sound_proved <;> assumption
 
 theorem exists_of_enMemK {D : Nat → Nat} {m k : Nat} (h : enMemK D m k = true) :
     ∃ i < m, enKey D i = k := by
-  apply exists_of_enMemK_proved <;> assumption
+  apply exists_of_enMemK_proved; assumption
 
 theorem contains_decE {D : Nat → Nat} {m k : Nat} (h : enNotMemK D m k = true) :
     (decE D m).keys.contains k = false := by
-  apply contains_decE_proved <;> assumption
+  apply contains_decE_proved; assumption
 
 theorem mulK_eq (a b : ℕ) : mulK a b = mul12K a b := by
   apply mulK_eq_proved

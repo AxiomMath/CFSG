@@ -19,16 +19,17 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem uc22p20a_exists_max_ge {H : Subgroup G} (hH : IsTwoLocal H) :
     ∃ N : Subgroup G, rankThreeIsMaxTwoLocal N ∧ H ≤ N := by
-  haveI : Finite (Subgroup G) := Finite.of_injective _ SetLike.coe_injective
-  haveI : WellFoundedGT (Subgroup G) := Finite.to_wellFoundedGT
+  have : Finite (Subgroup G) := Finite.of_injective _ SetLike.coe_injective
+  have : WellFoundedGT (Subgroup G) := Finite.to_wellFoundedGT
   obtain ⟨N, hge, hmax⟩ :=
     exists_maximal_ge_of_wellFoundedGT (fun K : Subgroup G => IsTwoLocal K) H hH
   exact ⟨N, ⟨hmax.1, fun K hK hle => le_antisymm (hmax.2 hK hle) hle⟩, hge⟩
 
 theorem uc22p20a_M_ne_top (D : Data G) : D.M ≠ ⊤ := by
-  haveI := D.standing.simple
+  have := D.standing.simple
   exact CFSG.PreuniquenessRankFour.Helpers.twoLocal_ne_top D.standing.nonab D.maxLocal.1
 
+omit [Finite G] in
 theorem uc22p20a_pCoreOf_ne_bot {T M H : Subgroup G} (hH : H ∈ hSet T M) : pCoreOf 2 H ≠ ⊥ := by
   intro h
   apply hH.2.1
@@ -81,6 +82,7 @@ theorem s20_1_12 (D : Data G) (h66 : UC6.R6_6 D) :
 @[expose] def ListBNonabelian : Prop :=
   ∀ (L : Type) [Group L], Asc1930ListB L → ∃ a b : L, a * b ≠ b * a
 
+omit [Finite G] in
 theorem uc22p20a_le_normalizer_oinf (H : Subgroup G) : H ≤ normalizer (OInf H : Set G) := by
   have hle : OInf H ≤ H := Subgroup.map_subtype_le _
   rw [← Subgroup.normal_subgroupOf_iff_le_normalizer hle]
@@ -91,14 +93,14 @@ theorem uc22p20a_le_normalizer_oinf (H : Subgroup G) : H ≤ normalizer (OInf H 
   exact CFSG.SignalizerFunctorTheorem.Nonsolvable.instNormalSolvableRadical
 
 theorem uc22p20a_isSolvable_oinf (H : Subgroup G) : Group.IsSolvable ↥(OInf H) := by
-  haveI : Group.IsSolvable ↥(CFSG.solvableRadical ↥H) :=
+  have : Group.IsSolvable ↥(CFSG.solvableRadical ↥H) :=
     CFSG.SignalizerFunctorTheorem.Nonsolvable.isSolvable_solvableRadical
   exact CFSG.SignalizerFunctorTheorem.Nonsolvable.isSolvable_of_mulEquiv
     (Subgroup.equivMapOfInjective _ H.subtype H.subtype_injective)
 
 theorem uc22p20a_pCoreOf_le_oinf (H : Subgroup G) : pCoreOf 2 H ≤ OInf H := by
   have hp : IsPGroup 2 ↥(CFSG.pCore 2 ↥H) := CFSG.pCore_isPGroup
-  haveI : Group.IsNilpotent ↥(CFSG.pCore 2 ↥H) := hp.isNilpotent
+  have : Group.IsNilpotent ↥(CFSG.pCore 2 ↥H) := hp.isNilpotent
   exact Subgroup.map_mono (CFSG.SignalizerFunctorTheorem.Nonsolvable.le_solvableRadical
     (CFSG.pCore_normal (p := 2) (G := ↥H)) inferInstance)
 
@@ -110,14 +112,14 @@ theorem uc22p20a_isSolvable_sup (H T : Subgroup G) (hTH : T ≤ H) (hT : IsPGrou
   have hLH : OInf H ⊔ T ≤ H := sup_le hSH hTH
   have hM : (( OInf H).subgroupOf (OInf H ⊔ T)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer le_sup_left).2 (hLH.trans hHn)
-  haveI := hM
-  haveI hS : Group.IsSolvable ↥(OInf H) := uc22p20a_isSolvable_oinf H
-  haveI hMs : Group.IsSolvable ↥((OInf H).subgroupOf (OInf H ⊔ T)) :=
+  have := hM
+  have hS : Group.IsSolvable ↥(OInf H) := uc22p20a_isSolvable_oinf H
+  have hMs : Group.IsSolvable ↥((OInf H).subgroupOf (OInf H ⊔ T)) :=
     Group.isSolvable_of_isSolvable_injective
       (f := (Subgroup.subgroupOfEquivOfLe (le_sup_left : OInf H ≤ OInf H ⊔ T)).toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe le_sup_left).injective
-  haveI hTs : Group.IsSolvable ↥T := by
-    haveI : Group.IsNilpotent ↥T := hT.isNilpotent
+  have hTs : Group.IsSolvable ↥T := by
+    have : Group.IsNilpotent ↥T := hT.isNilpotent
     infer_instance
   let f : ↥T →* ↥(OInf H ⊔ T) ⧸ (OInf H).subgroupOf (OInf H ⊔ T) :=
     (QuotientGroup.mk' ((OInf H).subgroupOf (OInf H ⊔ T))).comp
@@ -133,7 +135,7 @@ theorem uc22p20a_isSolvable_sup (H T : Subgroup G) (hTH : T ≤ H) (hT : IsPGrou
     rw [QuotientGroup.mk'_apply, QuotientGroup.mk'_apply, QuotientGroup.eq, Subgroup.mem_subgroupOf]
     have hb' : b⁻¹ * a * b ∈ OInf H := (mem_normalizer_iff''.1 (hTn hb) a).1 ha
     simpa [mul_assoc] using hb'
-  haveI : Group.IsSolvable (↥(OInf H ⊔ T) ⧸ (OInf H).subgroupOf (OInf H ⊔ T)) :=
+  have : Group.IsSolvable (↥(OInf H ⊔ T) ⧸ (OInf H).subgroupOf (OInf H ⊔ T)) :=
     Group.isSolvable_of_surjective hf
   exact Group.isSolvable_of_subgroup_quotient ((OInf H).subgroupOf (OInf H ⊔ T))
 
@@ -141,9 +143,9 @@ theorem uc22p20a_abelian_of_compositionFactor {X L : Type} [Group X] [Group L] [
     (hX : Group.IsSolvable X) (h : CFSG.Quasithin.E1.IsCompositionFactor X L) :
     ∀ a b : L, a * b = b * a := by
   obtain ⟨N, M, hNM, -, -, -, hsimple, ⟨e⟩⟩ := h
-  haveI := hNM
-  haveI := hsimple
-  haveI := hX
+  have := hNM
+  have := hsimple
+  have := hX
   have hs : Group.IsSolvable (↥M ⧸ N.subgroupOf M) := inferInstance
   have hcomm : ∀ a b : ↥M ⧸ N.subgroupOf M, a * b = b * a :=
     IsSimpleGroup.comm_iff_isSolvable.2 hs

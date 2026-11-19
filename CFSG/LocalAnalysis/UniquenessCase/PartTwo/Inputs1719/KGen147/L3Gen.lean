@@ -56,7 +56,7 @@ theorem coe_cSL_mul_diagSL_mul_inv_mul_inv (x y e : F) (hxy : x ^ 3 + y ^ 3 = 1)
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [gMat, Matrix.mul_apply, Fin.sum_univ_three] <;>
-    field_simp [he] <;> try ring_nf <;> try simp
+    field_simp [he] <;> try ring_nf; try simp
 
 def dSL (e : F) (h : e * e * (e⁻¹) ^ 2 = 1) : SpecialLinearGroup (Fin 3) F :=
   diagSL e e ((e⁻¹) ^ 2) h

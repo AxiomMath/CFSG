@@ -14,12 +14,15 @@ open CFSG.GH74.GLS.Balance (IsSylowIn)
 section Helpers
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_Cen_iff {g x : G} : g ∈ Cen x ↔ g * x * g⁻¹ = x := by
   rw [Subgroup.mem_centralizer_singleton_iff, mul_inv_eq_iff_eq_mul, eq_comm]
 
+omit [Finite G] in
 theorem O3_le (H : Subgroup G) : O3 H ≤ H :=
-  (Subgroup.closure_le H).2 (fun x hx => hx.1)
+  (Subgroup.closure_le H).2 (fun _x hx => hx.1)
 
+omit [Finite G] in
 theorem mem_Nor_O3 {H : Subgroup G} {h : G} (hh : h ∈ H) : h ∈ Nor (O3 H) := by
   have key : ∀ (h : G), h ∈ H → ∀ g ∈ O3 H, h * g * h⁻¹ ∈ O3 H := by
     intro h hh g hg
@@ -44,6 +47,7 @@ theorem mem_Nor_O3 {H : Subgroup G} {h : G} (hh : h ∈ H) : h ∈ Nor (O3 H) :=
     have := key h⁻¹ (H.inv_mem hh) _ hg
     simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem O3_normal_sub (H : Subgroup G) : ((O3 H).subgroupOf H).Normal :=
   ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
@@ -56,10 +60,11 @@ theorem isSylowOf_iff_abg {p : ℕ} [Fact p.Prime] {P K : Subgroup G} :
 
 theorem isSylowOf_inf_of_normal {P K N : Subgroup G} (hP : IsSylowOf 3 P K) (hNK : N ≤ K)
     (hn : K ≤ Nor N) : IsSylowOf 3 (P ⊓ N) N := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [isSylowOf_iff_abg] at hP ⊢
   exact hP.inf_of_le_normalizer hNK hn
 
+omit [Finite G] in
 theorem inv_eq_sq {x : G} (hx : x ^ 3 = 1) : x⁻¹ = x ^ 2 :=
   inv_eq_of_mul_eq_one_right (by rw [← pow_succ']; exact hx)
 
@@ -93,7 +98,7 @@ theorem B_isPGroup (h : FF84Sec3 b L B b₁ b₂) : IsPGroup 3 B :=
   IsPGroup.of_card (n := 3) (by rw [P_cardB h]; norm_num)
 
 theorem S2_B_sylow (h : FF84Sec3 b L B b₁ b₂) : IsSylowOf 3 B (Cen (b₁ * b₂)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨T, hT, hBT⟩ := exists_isSylowOf_ge' (B_le_Cen_c h) (B_isPGroup h)
   have hTeq : T = B := by
     by_contra hne
@@ -121,7 +126,7 @@ theorem S2_B_sylow (h : FF84Sec3 b L B b₁ b₂) : IsSylowOf 3 B (Cen (b₁ * b
 
 theorem mem_O3_of_inv (h : FF84Sec3 b L B b₁ b₂) {x n : G} (hxB : x ∈ B) (hn : n ∈ Nor B)
     (hnc : n ∈ Cen (b₁ * b₂)) (hnx : n * x * n⁻¹ = x⁻¹) : x ∈ O3 (Cen (b₁ * b₂)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨a, b', hab, -, ⟨e, hae⟩, hb'cop, han, hb'n⟩ :=
     CFSG.Quasithin.F6.exists_mul_eq_pPart Nat.prime_three n
   have hac : a ∈ Cen (b₁ * b₂) := (Subgroup.zpowers_le.2 hnc) han
@@ -214,7 +219,7 @@ theorem d_notin_zpowers_b (h : FF84Sec3 b L B b₁ b₂) : b₁ * b₂ ^ 2 ∉ S
 
 theorem card_P_ge (h : FF84Sec3 b L B b₁ b₂) :
     9 ≤ Nat.card ↥(Subgroup.zpowers b ⊔ Subgroup.zpowers (b₁ * b₂ ^ 2) : Subgroup G) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hb3 := pow3_of_mem_B h (mem_B_b h)
   have hbne : b ≠ 1 := b_ne_one' h
   have hpg : IsPGroup 3 ↥(Subgroup.zpowers b ⊔ Subgroup.zpowers (b₁ * b₂ ^ 2) : Subgroup G) :=
@@ -261,7 +266,7 @@ theorem P_eq_inf (h : FF84Sec3 b L B b₁ b₂) (hc : b₁ * b₂ ∉ O3 (Cen (b
   have := card_P_ge h
   rw [hk']
   interval_cases k <;> norm_num <;>
-    first | omega | (exfalso; apply hne; rw [hk']; norm_num)
+    first | omega
 
 end Main
 

@@ -57,8 +57,8 @@ theorem s4Mat_mem : s4Mat ∈ evenFix0 5 := by
   refine spMat_mem_evenFix0 (by decide) (by decide) (fun i => ?_) (by decide)
   unfold s4Sign
   by_cases h : i = 4 ∨ i = 5
-  · rw [if_pos h]; exact Or.inr rfl
-  · rw [if_neg h]; exact Or.inl rfl
+  · rw [ite_eq_left h]; exact Or.inr rfl
+  · rw [ite_eq_right h]; exact Or.inl rfl
 
 theorem s0_mem : s0 ∈ wE6 1 := Subgroup.subset_closure (Or.inl s0Mat_mem)
 
@@ -103,8 +103,8 @@ theorem g2u_mem : g2u ∈ wE6 1 := by
   unfold g2u
   repeat' apply Subgroup.mul_mem
   all_goals first
-    | exact s0_mem | exact s1_mem | exact s2_mem
-    | exact s3_mem | exact s4_mem | exact s5_mem
+    | exact s0_mem | exact s2_mem
+    | exact s4_mem | exact s5_mem
 
 theorem evenFix0_row_zero {A : Mat6} (hA : A ∈ evenFix0 5) :
     A 0 0 = 1 ∧ ∀ j : Fin 6, j ≠ 0 → A 0 j = 0 := by
@@ -116,7 +116,7 @@ theorem evenFix0_row_zero {A : Mat6} (hA : A ∈ evenFix0 5) :
     have hne : σ j ≠ 0 := by
       intro h
       exact hj (σ.injective (h.trans hσ.symm))
-    exact if_neg (Ne.symm hne)
+    exact ite_eq_right (Ne.symm hne)
 
 theorem rE6_row_zero (ε : ZMod 3) :
     rE6 ε 0 0 = 1 ∧ ∀ j : Fin 6, j ≠ 0 → rE6 ε 0 j = 0 := by
@@ -580,7 +580,7 @@ theorem dGL_mulVec_zero {v : Vec6} (hv : v 0 = 0) :
     ((wE6SignGL : Mat6) *ᵥ v) 0 = 0 := by
   show (dMat *ᵥ v) 0 = 0
   rw [dMat, spMat_mulVec]
-  simp only [Equiv.Perm.one_symm, Equiv.Perm.one_apply]
+  simp only [← Equiv.Perm.inv_def 1, inv_one, Equiv.Perm.one_apply]
   simp [dSign, hv]
 
 theorem conj_dGL_mem_evenFix0 {A : GL (Fin 6) (ZMod 3)}
@@ -606,7 +606,7 @@ theorem conj_dGL_mem_evenFix0 {A : GL (Fin 6) (ZMod 3)}
       intro i
       by_cases h : i = 5 <;> simp [dSign, h]
     rcases hd (σ j) with h1 | h1 <;> rcases hs j with h2 | h2 <;>
-      rcases hd j with h3 | h3 <;> simp [s', h1, h2, h3] <;> decide +kernel
+      rcases hd j with h3 | h3 <;> simp [s', h1, h2, h3]
   · simp [s', hσ, hs0, dSign]
   · have hs'0 : s' 0 = 1 := by simp [s', hσ, hs0, dSign]
     rw [Fin.prod_univ_succ] at hfull'

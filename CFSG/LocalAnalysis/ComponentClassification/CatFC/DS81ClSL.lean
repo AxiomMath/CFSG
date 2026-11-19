@@ -41,21 +41,21 @@ theorem exists_diag_commute_ggInvSL (n l : ℕ) (hn : 3 ≤ n) (hl : 1 ≤ l) (h
     · have hl2' : 2 ≤ l := by omega
       refine ⟨⟨0, by omega⟩, ⟨l, by omega⟩, ⟨1, by omega⟩, ⟨l + 1, by omega⟩, ?_, ?_, ?_⟩
       · intro a b hb ha hab
-        simp only [Fin.ext_iff, Fin.val_mk]
+        simp only [Fin.ext_iff]
         split_ifs <;> omega
       · have h1 : (0 : ℕ) ≠ l := by omega
         have h2 : (0 : ℕ) ≠ l + 1 := by omega
-        simp [Fin.ext_iff, h1, h2]
+        simp [Fin.ext_iff, h1]
       · left
         have h1 : (1 : ℕ) ≠ l := by omega
         have h2 : (1 : ℕ) ≠ l + 1 := by omega
         have h3 : l ≠ 0 := by omega
-        simp [Fin.ext_iff, h1, h2, h3]
+        simp [Fin.ext_iff, h1, h3]
   set e : Fin n → ℤ := fun i => (if i = i0 then (1 : ℤ) else 0) + (if i = i1 then 1 else 0)
     - (if i = j0 then 1 else 0) - (if i = j1 then 1 else 0) with he
   have hsum : ∑ i, e i = 0 := by
     simp only [he, Finset.sum_sub_distrib, Finset.sum_add_distrib, Finset.sum_ite_eq',
-      Finset.mem_univ, if_true]
+      Finset.mem_univ, ite_true]
     norm_num
   have hprod : ∀ s : Finset (Fin n), ∏ i ∈ s, w ^ e i = w ^ (∑ i ∈ s, e i) := by
     intro s
@@ -85,7 +85,7 @@ theorem exists_diag_commute_ggInvSL (n l : ℕ) (hn : 3 ≤ n) (hl : 1 ≤ l) (h
     rw [Matrix.diagonal_pow, ← Matrix.diagonal_one]
     congr 1
     funext i
-    simp only [Pi.pow_apply, Pi.one_apply]
+    simp only [Pi.pow_apply]
     rw [← Units.val_pow_eq_pow_val, ← zpow_natCast, ← _root_.zpow_mul, mul_comm,
       _root_.zpow_mul, zpow_natCast, hw89, _root_.one_zpow, Units.val_one]
   ·
@@ -107,7 +107,7 @@ theorem odd_card_statedScalars_subgroupOf [Finite K] [CharP K 2] {ι : Type} [Fi
     Odd (Nat.card ((StatedScalars ι K).subgroupOf H)) := by
   by_contra h
   rw [Nat.not_odd_iff_even] at h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨⟨z, hz⟩, hzord⟩ := exists_prime_orderOf_dvd_card' 2 (even_iff_two_dvd.1 h)
   rw [Subgroup.orderOf_mk] at hzord
   have hz2 : z * z = 1 := by rw [← pow_two, ← hzord, pow_orderOf_eq_one]
@@ -177,7 +177,7 @@ theorem eightynine_dvd_card_centralizer_of_dvd [Finite K] [CharP K 2] (hn : 3 �
   classical
   set C := centralizer ({τ} : Set (StatedProj (StatedSL n K)))
   set N := (StatedScalars (Fin n) K).subgroupOf (StatedSL n K)
-  haveI : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
+  have : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
   have hNodd : Odd (Nat.card N) := odd_card_statedScalars_subgroupOf _
   obtain ⟨t, ht2, htτ⟩ := CFSG.Walter.Suzuki.exists_orderOf_eq_two_mk_eq N hNodd hτ
   let e := CFSG.Assembly.LowTwoRank.specialLinearGroupEquivStatedSL n K
@@ -187,7 +187,7 @@ theorem eightynine_dvd_card_centralizer_of_dvd [Finite K] [CharP K 2] (hn : 3 �
   have hKu : 89 ∣ Nat.card Kˣ := by
     have := Fintype.ofFinite K
     rwa [Nat.card_eq_fintype_card, Fintype.card_units, ← Nat.card_eq_fintype_card]
-  haveI : Fact (Nat.Prime 89) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 89) := ⟨by norm_num⟩
   obtain ⟨w, hw⟩ := exists_prime_orderOf_dvd_card' (G := Kˣ) 89 hKu
   obtain ⟨D, hDc, hD89, hDs⟩ := exists_diag_commute_ggInvSL n l hn hl1 hl2 w hw
   set zS := a * D * a⁻¹ with hzS
@@ -270,7 +270,7 @@ theorem not_twentythree_dvd_card_centralizer_two [Finite K] [CharP K 2]
     ¬ 23 ∣ Nat.card ↥(centralizer ({τ} : Set (StatedProj (StatedSL 2 K)))) := by
   classical
   intro h23
-  haveI : Nonempty (Fin 2) := ⟨0⟩
+  have : Nonempty (Fin 2) := ⟨0⟩
   set N := (StatedScalars (Fin 2) K).subgroupOf (StatedSL 2 K)
   have hNodd : Odd (Nat.card N) := odd_card_statedScalars_subgroupOf _
   obtain ⟨t, ht2, htτ⟩ := CFSG.Walter.Suzuki.exists_orderOf_eq_two_mk_eq N hNodd hτ
@@ -322,8 +322,8 @@ theorem lie23To89_psl {X : Type} [Group X] [Finite X] {n f : ℕ}
     89 ∣ Nat.card ↥(centralizer ({τ} : Set X)) := by
   obtain ⟨hadm, K, _, _, hcard, ⟨φ⟩⟩ := hm
   have hn : 2 ≤ n := hadm.2.2.1
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := f)
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := f)
     (by rw [← Nat.card_eq_fintype_card]; exact hcard)
   rw [card_centralizer_eq φ τ] at h23 ⊢
   exact eightynine_dvd_card_centralizer hn (φ τ) (by rw [MulEquiv.orderOf_eq]; exact hτ) h23

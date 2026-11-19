@@ -112,7 +112,7 @@ private lemma l937z_om_commute {ι K : Type} [Fintype ι] [DecidableEq ι] [Fiel
     rw [Set.mem_singleton_iff] at hs ht
     subst hs; subst ht
     exact Commute.refl _
-  haveI : IsMulCommutative A := Algebra.isMulCommutative_adjoin K hcommP
+  have : IsMulCommutative A := Algebra.isMulCommutative_adjoin K hcommP
   exact congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : A) (⟨y, hy⟩ : A))
 
 private lemma l937z_om_prim_orthogonal {ι K : Type} [Fintype ι] [DecidableEq ι] [Field K]
@@ -415,8 +415,8 @@ private lemma l937z_om_block_O2 {ι K : Type} [Fintype ι] [DecidableEq ι] [Fie
     exact (l937z_om_pCoreOf_eq_bot_iff _).mpr this
   · obtain ⟨m, E, hEfield, hEfin, hcardE, hmul, hEiso⟩ :=
       l937z_om_nontrivial_block_data Φ hΦ h8 hK b hb hb7 (hP ε hε) h1
-    letI : Field E := hEfield
-    letI : Fintype E := hEfin
+    let : Field E := hEfield
+    let : Fintype E := hEfin
     have hcharE : CharP E 2 := by
       refine charP_of_card_eq_prime_pow (p := 2) (f := 3) ?_
       rw [hcardE, hK]
@@ -469,9 +469,9 @@ private lemma l937z_om_scalars_coprime {K : Type} [Field K] [Finite K] (hK : Nat
 
 theorem lieZRow_POmegaPlus_twelve {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) :
     LieZRow (StatedProj (StatedOmega (StatedQuadPlus 6 K))) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hKfin : Fintype.card K = 2 := by rw [← Nat.card_eq_fintype_card]; exact hK
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     charP_of_card_eq_prime_pow (p := 2) (f := 1) (by rw [hKfin]; norm_num)
   have hΩeq : StatedOmega ⇑(CFSG.LieType.Universal.Spin.quadPlus 6 K) =
       StatedOmega (StatedQuadPlus 6 K) := by

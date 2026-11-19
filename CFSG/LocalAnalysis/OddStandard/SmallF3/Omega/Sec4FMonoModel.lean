@@ -61,7 +61,7 @@ theorem sec4F_mono_model (hQ : Q.Nondegenerate) (fr : Sec4IFrame Q) {a b : Fin 7
   obtain ⟨g, hg⟩ := QuotientGroup.mk'_surjective (piGroup Q) y
   have hswapsq : Equiv.swap a b * Equiv.swap a b = 1 := by
     ext i
-    simp [Equiv.Perm.mul_apply]
+    simp
   have hgN : toProj Q g ∈ Subgroup.normalizer (sec4IB0 fr : Set (ProjOrth Q)) := by
     rw [Subgroup.mem_set_normalizer_iff]
     intro h

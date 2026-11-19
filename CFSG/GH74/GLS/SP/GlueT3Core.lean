@@ -90,6 +90,7 @@ theorem root_le_U {k : ℤ} (hk1 : 1 ≤ k) (hkn : k ≤ n) : root k ≤ U := by
   exact hVU this
 
 include R in
+omit R in
 theorem mem_chainProd_neg {k : ℤ} (hk1 : 1 ≤ k) (hkn : k ≤ n) {y : X}
     (hy : y ∈ root (-k)) : y ∈ chainProd root ((intList 1 n).map Neg.neg) :=
   mem_chainProd_of_mem root
@@ -520,7 +521,7 @@ theorem t4_r₁ : ¬ (({r₁} : Set X) * ((H ⊔ U : Subgroup X) : Set X) * {r�
     (R.root_le_U le_rfl (by omega)) ?_
   intro y hy
   have hz : r₁ * y * r₁⁻¹ ∈ root (-1) := mem_of_conjBy_inv R.act₁.1 hy
-  exact R.mem_chainProd_neg le_rfl (by omega) hz
+  exact RGD2Core.mem_chainProd_neg le_rfl (by omega) hz
 
 include R in
 theorem t4_r₂ : ¬ (({r₂} : Set X) * ((H ⊔ U : Subgroup X) : Set X) * {r₂⁻¹} ⊆
@@ -530,7 +531,7 @@ theorem t4_r₂ : ¬ (({r₂} : Set X) * ((H ⊔ U : Subgroup X) : Set X) * {r�
     (R.root_le_U (by omega) le_rfl) ?_
   intro y hy
   have hz : r₂ * y * r₂⁻¹ ∈ root (-(n : ℤ)) := mem_of_conjBy_inv R.act₂.1 hy
-  exact R.mem_chainProd_neg (by omega) le_rfl hz
+  exact RGD2Core.mem_chainProd_neg (by omega) le_rfl hz
 
 open Classical in
 open Classical in

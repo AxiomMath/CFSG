@@ -27,7 +27,7 @@ theorem actG_inv {g : G} {F F' : ℕ} (hF : F < 2 ^ 32) (h : actG g F = F') : ac
   carrier := {g | actG g F₀ = F₀}
   mul_mem' {a b} ha hb := by
     change actG (a * b) F₀ = F₀
-    rw [actG_mul _ _ hF₀, Set.mem_setOf_eq.mp hb, Set.mem_setOf_eq.mp ha]
+    rw [actG_mul _ _ hF₀, Set.mem_ofPred_eq.mp hb, Set.mem_ofPred_eq.mp ha]
   one_mem' := actG_one hF₀
   inv_mem' {a} ha := actG_inv hF₀ ha
 

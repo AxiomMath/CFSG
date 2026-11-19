@@ -22,7 +22,7 @@ theorem rckK1I_rootField_triD4
       GGLongRoot (triD4Universal F σ).D β ∧
       ∃ (Fq : Type) (_ : Field Fq) (_ : Finite Fq) (ε : Multiplicative Fq ≃* (triD4Universal F σ).D.rootGroup β),
         Nat.card Fq = 2 ^ g ∧ RCKRootFieldExact ((triD4Universal F σ).D.rootGroup β) Fq ε := by
-  haveI hchar : CharP F 2 := CFSG.StandardType.RCKC1.charP_two_of_triField hF
+  have hchar : CharP F 2 := CFSG.StandardType.RCKC1.charP_two_of_triField hF
   have hσ : ∀ c, σ (σ (σ c)) = c := sigma_three_of_card hF.2.1 hF.2.2
   have hconj : ∀ (t : Fˣ) (c : F),
       torusElement d4 F (nd 2) t * xPar (rootOperatorFamily d4) (Pi.single (nd 2) 1) c *
@@ -37,7 +37,7 @@ theorem rckK1I_rootField_triD4
       decide +kernel]
     rw [zpow_ofNat, Units.val_pow_eq_pow_val]
   have hsq : Function.Surjective (fun t : fixedUnits σ => t * t) := by
-    haveI : Finite (fixedUnits σ) := inferInstance
+    have : Finite (fixedUnits σ) := inferInstance
     have hsq1 : ∀ x : Fˣ, x * x = 1 → x = 1 := by
       intro x hx
       have hx' : (x : F) * (x : F) = 1 := by simpa using congrArg (fun u : Fˣ => (u : F)) hx
@@ -200,7 +200,7 @@ theorem rckK1I_rootField_triD4
         intro h
         apply hy_ne
         rw [← hd_eq, h]
-        simpa using map_one ε
+        simp
       have hdF_ne : (d : F) ≠ 0 := by intro h; exact hd_ne (Subtype.ext h)
       have hdfix : σ (d : F) = (d : F) := d.2
       let du : fixedUnits σ := ⟨Units.mk0 (d : F) hdF_ne, by

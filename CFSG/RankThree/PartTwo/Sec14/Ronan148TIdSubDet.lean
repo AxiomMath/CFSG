@@ -43,7 +43,7 @@ private theorem cube_surjective_rootsOfUnity [Finite K] {n : ℕ} (hn : Nat.Copr
 theorem exists_slPi_mul_scalar_of_not_modThree (hK : PiField π p f K) (hp3 : p ≠ 3)
     (hNM : ¬ ModThree π (p ^ f)) {y : GL (Fin 3) K} (hy : y ∈ glPi π 3 (p ^ f) K) :
     ∃ l ∈ slPi π 3 (p ^ f) K, ∃ z : Kˣ, y = l * GeneralLinearGroup.scalar (Fin 3) z := by
-  haveI : Finite K := hK.finite
+  have : Finite K := hK.finite
   obtain ⟨μ, hμ⟩ := cube_surjective_rootsOfUnity (three_coprime_qSubPi hK.prime hp3 hNM)
     ⟨GeneralLinearGroup.det y, Sec4.det_mem_rootsOfUnity hK hy⟩
   have hμ3 : (μ : Kˣ) ^ 3 = GeneralLinearGroup.det y := congrArg Subtype.val hμ
@@ -58,7 +58,7 @@ theorem exists_pow_mul_slPi_mul_scalar (hK : PiField π p f K) (hq : ModThree π
     (h3 : Type123 π (p ^ f) K y 3) :
     ∃ k : ℕ, ∃ l ∈ slPi π 3 (p ^ f) K, ∃ z : Kˣ,
       y ^ k * y' = l * GeneralLinearGroup.scalar (Fin 3) z := by
-  haveI : Finite K := hK.finite
+  have : Finite K := hK.finite
   let β : rootsOfUnity (Sec4.qSubPi π (p ^ f)) K :=
     ⟨GeneralLinearGroup.det y, Sec4.det_mem_rootsOfUnity hK hy⟩
   let α : rootsOfUnity (Sec4.qSubPi π (p ^ f)) K :=

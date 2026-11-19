@@ -101,7 +101,7 @@ theorem exists_ne_of_not_isRigid (hZ : IsPGroup 2 (Subgroup.center J)) {x : J}
     rw [hPx p hp, mul_inv_cancel_right, mul_inv_cancel]
     exact Subgroup.one_mem _)
   obtain ⟨S, hS⟩ := (hP.comap_subtype (K := H)).exists_le_sylow
-  refine ⟨(S : Subgroup H).map H.subtype, S.isPGroup'.map _, ?_, ?_, Subgroup.map_subtype_le _⟩
+  refine ⟨(S : Subgroup H).map H.subtype, S.isPGroup.map _, ?_, ?_, Subgroup.map_subtype_le _⟩
   · intro p hp
     exact ⟨⟨p, hPH hp⟩, hS hp, rfl⟩
   · intro heq
@@ -113,7 +113,7 @@ theorem exists_ne_of_not_isRigid (hZ : IsPGroup 2 (Subgroup.center J)) {x : J}
 theorem isRigid_of_commute_sylow (hZ : IsPGroup 2 (Subgroup.center J)) (Q : Sylow 2 J) {x : J}
     (hx : ∀ q ∈ (Q : Subgroup J), q * x = x * q) : IsRigid x := by
   by_contra hnr
-  obtain ⟨P', hP', hle, hne, -⟩ := exists_ne_of_not_isRigid hZ hnr Q.isPGroup' hx
+  obtain ⟨P', hP', hle, hne, -⟩ := exists_ne_of_not_isRigid hZ hnr Q.isPGroup hx
   exact hne (Q.maximal_isPGroup.eq_of_le hP' hle).symm
 
 end CFSG.ProperTwoGeneratedCore.Lemma37

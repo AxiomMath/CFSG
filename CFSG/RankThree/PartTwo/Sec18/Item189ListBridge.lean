@@ -18,6 +18,7 @@ section Bridge
 
 variable {G : Type} [Group G] [Finite G] {A M H : Subgroup G} {c : G}
 
+omit [Finite G] in
 theorem c_mem_sk189 (M H : Subgroup G) (c : G) : c ∈ sk189 M H c :=
   (le_sup_right : normalClosureIn M c ≤ sk189 M H c)
     (Subgroup.subset_closure ⟨1, M.one_mem, by group⟩)
@@ -153,7 +154,7 @@ theorem conj_cAlpha189_mem (h : Sec18H G A M H c) :
     rw [e, map_mul, map_mul, map_inv, MulAut.conj_apply]
     rfl
 
-theorem cAlpha189_mem_kAlpha (h : Sec18H G A M H c) : cAlpha189 M H c ∈ kAlpha189 M H c :=
+theorem cAlpha189_mem_kAlpha (_h : Sec18H G A M H c) : cAlpha189 M H c ∈ kAlpha189 M H c :=
   Subgroup.mem_map_of_mem _ (Subgroup.mem_subgroupOf.mpr (Sec20.self_mem_normalClosureIn M c))
 
 theorem orderOf_cAlpha189 (h : Sec18H G A M H c) (hc1 : c ≠ 1) :
@@ -184,7 +185,7 @@ theorem listData189_of_setting (h186 : Item186H) (hset : Setting189 G A M H c) :
   have h := hset.toSec18H
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := kAlpha189_normal M H c
+  have := kAlpha189_normal M H c
   set ψ := kThetaEquiv189 M H c with hψ
   have hsimpleθ := ktype_simple hset.mem_thetaComponentsIn hset.pRank_eq
   have hQθ := quasisimple_of_mem_thetaComponentsIn hset.mem_thetaComponentsIn

@@ -10,7 +10,7 @@ open Matrix Module CFSG.LocalAnalysis.ComponentInitial.LinearFlag
 
 theorem isPGroup_Ut {n : ℕ} (hn : 1 ≤ n) : IsPGroup 2 ↥(Ut n) := by
   obtain ⟨P, hP⟩ := exists_sylow_unitriangular (K := ZMod 2) 2 hn
-  have h := P.isPGroup'
+  have h := P.isPGroup
   rw [hP] at h
   exact h
 

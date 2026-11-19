@@ -51,7 +51,7 @@ theorem incl_mem_planeB_of_FJ' (ε : F) (hε : ε ≠ 0) (h4 : (4 : F) ≠ 0)
   · show (frame1 ε hε h4).La (-1) _ = (-1 : F) • _
     rw [hx, La_neg_one_frame1]
     ext s
-    rcases s with i | i <;> fin_cases i <;> simp [h1, h2'] <;> field_simp
+    rcases s with i | i <;> fin_cases i <;> simp [h1, h2']; field_simp
   · show (frame2 (F := F)).La (-1) _ = (1 : F) • _
     rw [hx, La_neg_one_frame2]
     ext s

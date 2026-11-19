@@ -152,12 +152,12 @@ theorem exists_mem_normalizer_conj_eq_of_weaklyClosed (P : Sylow 3 G) {A : Subgr
     calc g * z * g⁻¹ * (g * x * g⁻¹) = g * (z * x) * g⁻¹ := by group
       _ = g * (x * z) * g⁻¹ := by rw [hzx]
       _ = g * x * g⁻¹ * (g * z * g⁻¹) := by group
-  have hAp : IsPGroup 3 A := P.isPGroup'.to_le hAP
+  have hAp : IsPGroup 3 A := P.isPGroup.to_le hAP
   have hAgp : IsPGroup 3 (A.map (MulAut.conj g).toMonoidHom) := hAp.map _
   obtain ⟨S, hAS⟩ := (hAp.comap_of_injective C.subtype C.subtype_injective).exists_le_sylow
   obtain ⟨c, hc⟩ := KFacts.exists_conj_mem_sylow S
     (hAgp.comap_of_injective C.subtype C.subtype_injective)
-  have hSp : IsPGroup 3 ((S : Subgroup C).map C.subtype) := S.isPGroup'.map _
+  have hSp : IsPGroup 3 ((S : Subgroup C).map C.subtype) := S.isPGroup.map _
   obtain ⟨h, hh⟩ := KFacts.exists_conj_mem_sylow P hSp
   have hAhP : A.map (MulAut.conj h).toMonoidHom ≤ P := by
     rintro _ ⟨z, hz, rfl⟩

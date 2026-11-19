@@ -14,16 +14,16 @@ open CFSG.LieType.Universal CFSG.LieType.Universal.Spin CFSG.LieType.Universal.S
 
 theorem dotE_boolSign_self {N : ℕ} (x : Fin N) (s : Bool) :
     dotE (Pi.single x (boolSign s) : Fin N → ℤ) (Pi.single x (boolSign s)) = 1 := by
-  rw [dotE_single, if_pos rfl]
+  rw [dotE_single, ite_eq_left rfl]
   cases s <;> simp [boolSign]
 
 theorem dotE_eps_self_B (n : ℕ) (i : Fin (n - 1)) :
     dotE (toStdB (n - 1) (Pi.single i 1)) (toStdB (n - 1) (Pi.single i 1)) =
       if i.val + 1 < n - 1 then 2 else 1 := by
   by_cases hi : i.val + 1 < n - 1
-  · rw [if_pos hi, toStdB_single_of_lt' n hi]
+  · rw [ite_eq_left hi, toStdB_single_of_lt' n hi]
     exact dotE_root (succ_ne_of_lt n hi) true false
-  · rw [if_neg hi, toStdB_single_of_not_lt' n hi]
+  · rw [ite_eq_right hi, toStdB_single_of_not_lt' n hi]
     exact dotE_boolSign_self _ _
 
 theorem dotE_eps_ne_B (n : ℕ) {i j : Fin (n - 1)} (hij : i ≠ j) (hadj : ¬ BAdj n i j) :
@@ -34,15 +34,15 @@ theorem dotE_eps_ne_B (n : ℕ) {i j : Fin (n - 1)} (hij : i ≠ j) (hadj : ¬ B
   · rw [toStdB_single_of_lt' n hi, toStdB_single_of_lt' n hj, dotE_add_left, dotE_add_right,
       dotE_add_right, dotE_single, dotE_single, dotE_single, dotE_single]
     simp only [Fin.ext_iff]
-    split_ifs <;> simp_all [boolSign] <;> omega
+    split_ifs <;> simp_all
   · rw [toStdB_single_of_lt' n hi, toStdB_single_of_not_lt' n hj, dotE_add_left,
       dotE_single, dotE_single]
     simp only [Fin.ext_iff]
-    split_ifs <;> simp_all [boolSign] <;> omega
+    split_ifs <;> simp_all
   · rw [toStdB_single_of_not_lt' n hi, toStdB_single_of_lt' n hj, dotE_add_right,
       dotE_single, dotE_single]
     simp only [Fin.ext_iff]
-    split_ifs <;> simp_all [boolSign] <;> omega
+    split_ifs <;> simp_all
   · exact absurd (Fin.ext (by omega)) hij
 
 theorem no_root_comb_B (n : ℕ) {i j : Fin (n - 1)} (hij : i ≠ j) (hadj : ¬ BAdj n i j) (p q : ℤ)
@@ -86,9 +86,9 @@ theorem no_root_comb_B (n : ℕ) {i j : Fin (n - 1)} (hij : i ≠ j) (hadj : ¬ 
       have := j.isLt
       exact hij (Fin.ext (by omega))
     by_cases hi : i.val + 1 < n - 1 <;> by_cases hj : j.val + 1 < n - 1
-    · simp only [hi, hj, if_true] at h2; nlinarith
-    · simp only [hi, hj, if_true, if_false] at h2; nlinarith
-    · simp only [hi, hj, if_true, if_false] at h2; nlinarith
+    · simp only [hi, hj, ite_true] at h2; nlinarith
+    · simp only [hi, hj, ite_true, ite_false] at h2; nlinarith
+    · simp only [hi, hj, ite_true, ite_false] at h2; nlinarith
     · exact absurd hnotboth (by tauto)
   · rw [toStdB_add, toStdB_smul, toStdB_smul] at h
     have h2 := congrArg (fun v => dotE v v) h
@@ -111,9 +111,9 @@ theorem no_root_comb_B (n : ℕ) {i j : Fin (n - 1)} (hij : i ≠ j) (hadj : ¬ 
       have := j.isLt
       exact hij (Fin.ext (by omega))
     by_cases hi : i.val + 1 < n - 1 <;> by_cases hj : j.val + 1 < n - 1
-    · simp only [hi, hj, if_true] at h2; nlinarith
-    · simp only [hi, hj, if_true, if_false] at h2; nlinarith
-    · simp only [hi, hj, if_true, if_false] at h2; nlinarith
+    · simp only [hi, hj, ite_true] at h2; nlinarith
+    · simp only [hi, hj, ite_true, ite_false] at h2; nlinarith
+    · simp only [hi, hj, ite_true, ite_false] at h2; nlinarith
     · exact absurd hnotboth (by tauto)
 
 section Groups
@@ -140,7 +140,7 @@ theorem commute_rootGroups_B {i j : Fin (n - 1)} (hij : i ≠ j) (hadj : ¬ BAdj
     have h2 := congrFun hab j
     have hij' : j ≠ i := Ne.symm hij
     rcases hγ with rfl | rfl <;> rcases hδ with rfl | rfl <;>
-    · simp [Pi.single_apply, hij, hij'] at h1 h2
+    · simp [hij, hij'] at h1 h2
       exact ⟨h1, h2⟩
   have hcomm := (minusDatum_steinbergExtras n hirr).commutator_mem γ hγr δ hδr hind x hx y hy
   have hnone : ∀ ε, ε ∉ openCone (minusDatum n hirr).roots γ δ := by

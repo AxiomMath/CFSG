@@ -179,7 +179,7 @@ theorem F3S7.mem_of_two_pow_of_sup {L K : Subgroup G} (hKN : K ≤ normalizer (L
   obtain ⟨P⟩ : Nonempty (Sylow 2 ↥K) := inferInstance
   have hPR : (P : Subgroup ↥K) ≤ R := by
     intro s hs
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨s, hs⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨s, hs⟩
     exact Subgroup.subset_closure ⟨k, by simpa using congrArg Subtype.val hk⟩
   have hodd : Odd R.index := by
     have h1 : R.index ∣ (P : Subgroup ↥K).index := Subgroup.index_dvd_of_le hPR
@@ -242,7 +242,7 @@ theorem F3S7.oPrimeResidualOf_sup_eq {L K : Subgroup G} (hKN : K ≤ normalizer 
     obtain ⟨S⟩ : Nonempty (Sylow 2 ↥(L.subgroupOf X)) := inferInstance
     have hSR : (S : Subgroup ↥(L.subgroupOf X)) ≤ R := by
       intro x hx
-      obtain ⟨k, hk⟩ := S.isPGroup' ⟨x, hx⟩
+      obtain ⟨k, hk⟩ := S.isPGroup ⟨x, hx⟩
       refine Subgroup.subset_closure ⟨k, ?_⟩
       have := congrArg (fun w : ↥S => (((w : ↥(L.subgroupOf X)) : ↥X))) hk
       simpa using this

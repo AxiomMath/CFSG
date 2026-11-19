@@ -21,6 +21,7 @@ open scoped MatrixGroups
 
 variable {τ : Tag} {K : Type} [Field K] [CharP K 2]
 
+omit [CharP K 2] in
 theorem frame_mem_adjointGroup (ρ : SL(3, K) →* ModGL τ K)
     (σ : Fin 3 → Fin 3 → Fin τ.rank → ℤ) (hF : IsA2Frame ρ σ) (A : SL(3, K)) :
     ρ A ∈ adjointGroup τ K := by
@@ -30,6 +31,7 @@ theorem frame_mem_adjointGroup (ρ : SL(3, K) →* ModGL τ K)
   rw [← hF.range]
   exact ⟨A, rfl⟩
 
+omit [CharP K 2] in
 theorem diagonalWord_image (θ : SL(3, K) →* ModGL τ K) (j : Fin τ.rank)
     (hθ : θ.comp (blockSL K 3 2 1 (by omega)) = rootSL2 τ K (Pi.single j 1))
     (ζ : Kˣ) : θ (diagonalWord ζ) = torusElt τ K j ζ := by
@@ -38,6 +40,7 @@ theorem diagonalWord_image (θ : SL(3, K) →* ModGL τ K) (j : Fin τ.rank)
   change simpleRootSL2 τ K j (HSL ζ) = torusElt τ K j ζ
   exact simpleRootSL2_HSL j ζ
 
+omit [CharP K 2] in
 theorem centralWord_image (θ : SL(3, K) →* ModGL τ K) (i j : Fin τ.rank)
     (h0 : θ.comp (blockSL K 3 2 0 (by omega)) = rootSL2 τ K (Pi.single i 1))
     (h1 : θ.comp (blockSL K 3 2 1 (by omega)) = rootSL2 τ K (Pi.single j 1))

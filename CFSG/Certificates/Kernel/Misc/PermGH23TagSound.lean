@@ -152,13 +152,13 @@ theorem gh23_imgs_common {Pg imgs : List ℕ} (hsub : gh23Sub Pg = gh23Sub imgs)
   have hσmem : ∀ i (hi : i < imgs.length), σ i ∈ gh23Sub Pg := by
     intro i hi
     change (if h : i < imgs.length then Classical.choose (hex i h) else 1) ∈ gh23Sub Pg
-    simp only [dif_pos hi]
+    simp only [dite_eq_left hi]
     exact (Classical.choose_spec (hex i hi)).1
   have hσcode : ∀ i (hi : i < imgs.length), gh23Code (σ i) = imgs.getD i 0 := by
     intro i hi
     change gh23Code (if h : i < imgs.length then Classical.choose (hex i h) else 1) =
       imgs.getD i 0
-    simp only [dif_pos hi]
+    simp only [dite_eq_left hi]
     exact (Classical.choose_spec (hex i hi)).2
   let y : ℕ → ↥(gh23Sub Pg) := fun i =>
     if hi : i < imgs.length then ⟨σ i, hσmem i hi⟩ else 1
@@ -166,7 +166,7 @@ theorem gh23_imgs_common {Pg imgs : List ℕ} (hsub : gh23Sub Pg = gh23Sub imgs)
     intro i hi
     have hy : y i = ⟨σ i, hσmem i hi⟩ := by
       dsimp only [y]
-      rw [dif_pos hi]
+      rw [dite_eq_left hi]
     exact congrArg Subtype.val hy
   have hgen : Subgroup.closure {h | ∃ i, i < imgs.length ∧ y i = h} = ⊤ := by
     set s : Set (Perm (Fin 8)) := {τ | gh23Code τ ∈ imgs} with hs
@@ -380,7 +380,7 @@ theorem gh23_z3a5_exact {Pg imgs : List ℕ} {z : ℕ}
     rw [← hgen, hl]
     congr 1
     ext h
-    simp only [Set.mem_union, Set.mem_singleton_iff, Set.mem_setOf_eq]
+    simp only [Set.mem_union, Set.mem_singleton_iff, Set.mem_ofPred_eq]
     constructor
     · rintro (rfl | ⟨i, hi, rfl⟩)
       · exact ⟨3, by omega, rfl⟩

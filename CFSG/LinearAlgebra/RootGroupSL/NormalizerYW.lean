@@ -12,6 +12,7 @@ open CFSG.Open NormalizerYWAux
 variable {k E X : Type} [Field k] [Field E] [Algebra k E] [AddCommGroup X] [Module k X]
   [Finite k] [Finite E] [Module.Finite k X] [CharP k 2]
 
+omit [Finite k] [Finite E] [CharP k 2] in
 theorem exists_mul_algEquiv_of_normalizes_mulLeft (b : E ≃ₗ[k] E)
     (hb : ∀ t : E, ∃ s : E,
       b.toLinearMap ∘ₗ LinearMap.mulLeft k t ∘ₗ b.symm.toLinearMap = LinearMap.mulLeft k s) :
@@ -29,7 +30,7 @@ theorem exists_mul_algEquiv_of_normalizes_mulLeft (b : E ≃ₗ[k] E)
     simpa using hkey t 1
   have hc0 : b 1 ≠ 0 := by
     intro h
-    have hb1 : b 1 = b 0 := by simpa using h
+    have hb1 : b 1 = b 0 := by simp at h
     exact one_ne_zero (b.injective hb1)
   let c : Eˣ := Units.mk0 (b 1) hc0
   have hc : (c : E) = b 1 := rfl
@@ -95,6 +96,7 @@ theorem exists_mul_algEquiv_of_normalizes_mulLeft (b : E ≃ₗ[k] E)
 private noncomputable def detElt (hX : 0 < Module.finrank k X) (u : kˣ) : X ≃ₗ[k] X :=
   Classical.choose (exists_linearEquiv_det_eq (k := k) (X := X) hX u)
 
+omit [CharP k 2] in
 private theorem detElt_spec (hX : 0 < Module.finrank k X) (u : kˣ) :
     LinearEquiv.det (detElt (k := k) (X := X) hX u) = u :=
   Classical.choose_spec (exists_linearEquiv_det_eq (k := k) (X := X) hX u)
@@ -108,14 +110,16 @@ private noncomputable def hElt (hX : 0 < Module.finrank k X) (s : Eˣ) :
       rw [detElt_spec]
       group)
 
+omit [CharP k 2] in
 private theorem hElt_mem (hX : 0 < Module.finrank k X) (s : Eˣ) :
     hElt (X := X) hX s ∈ NN := by
   rw [hElt, blockSL_mem_normalizer_iff]
   intro t
   refine ⟨t, ?_⟩
   ext x
-  simp [mulLeftEquiv, LinearMap.mulLeft, LinearMap.comp_apply, mul_assoc, mul_comm, mul_left_comm]
+  simp [mulLeftEquiv, LinearMap.mulLeft, LinearMap.comp_apply, mul_comm, mul_left_comm]
 
+omit [CharP k 2] in
 private theorem hElt_yMap (hX : 0 < Module.finrank k X) (s : Eˣ) :
     yMap (hElt (X := X) hX s).toLinearEquiv = LinearMap.mulLeft k (s : E) := by
   ext x
@@ -143,9 +147,11 @@ private noncomputable def yEquivHom :
       exact yMap_mul_mem u.2 v.2
     simpa [LinearMap.comp_apply] using congrFun (congrArg DFunLike.coe h) x
 
+omit [Finite k] [Finite E] [Module.Finite k X] [CharP k 2] in
 private theorem yEquivHom_apply (u : NN (k := k) (E := E) (X := X)) :
     (yEquivHom u).toLinearMap = yMap u.1.toLinearEquiv := rfl
 
+omit [Finite k] [Finite E] [CharP k 2] in
 private theorem mulLeftEquiv_symm_apply (s : Eˣ) (x : E) :
     (mulLeftEquiv k s).symm x = (s : E)⁻¹ * x := by
   change LinearMap.mulLeft k ((s⁻¹ : Eˣ) : E) x = (s : E)⁻¹ * x
@@ -156,7 +162,7 @@ theorem pCoreOf_normalizer_trivial_on_quotient (hX : 0 < Module.finrank k X)
     (hg : g ∈ pCoreOf 2
       (Subgroup.normalizer (rootSL k E X : Set (SpecialLinearGroup k (DSpace E X)))))
     (v : DSpace E X) : g v - v ∈ flagK k E X := by
-  haveI hcharE : CharP E 2 := CharP.of_ringHom_of_ne_zero (algebraMap k E) 2 (by norm_num)
+  have hcharE : CharP E 2 := CharP.of_ringHom_of_ne_zero (algebraMap k E) 2 (by norm_num)
   have hgN : g ∈ NN := pCoreOf_le_ambient 2 NN hg
   have hy_left : (yMap g.toLinearEquiv).comp (yMap ((g⁻¹).toLinearEquiv)) = LinearMap.id := by
     have h := yMap_mul_mem (u := g) (v := g⁻¹) hgN (Subgroup.inv_mem _ hgN)
@@ -190,7 +196,7 @@ theorem pCoreOf_normalizer_trivial_on_quotient (hX : 0 < Module.finrank k X)
       refine O.mul_mem ?_ (O.inv_mem hg)
       exact (Subgroup.mem_normalizer_iff.mp (hnormO hh_mem) g).mp hg
     have hkNN : hh * g * hh⁻¹ * g⁻¹ ∈ NN := pCoreOf_le_ambient 2 NN hkO
-    haveI hOpg : IsPGroup 2 O := (CFSG.pCore_isPGroup (p := 2) (G := ↥NN)).map NN.subtype
+    have hOpg : IsPGroup 2 O := (CFSG.pCore_isPGroup (p := 2) (G := ↥NN)).map NN.subtype
     obtain ⟨n, hn⟩ := isPGroup_iff_pow_pow_eq_one.mp hOpg
       (⟨hh * g * hh⁻¹ * g⁻¹, hkO⟩ : O)
     have hkpow : (hh * g * hh⁻¹ * g⁻¹) ^ 2 ^ n = 1 := by
@@ -309,7 +315,7 @@ theorem pCoreOf_normalizer_trivial_on_flagW (hX : 0 < Module.finrank k X)
     (hg : g ∈ pCoreOf 2
       (Subgroup.normalizer (rootSL k E X : Set (SpecialLinearGroup k (DSpace E X)))))
     (v : DSpace E X) (hv : v ∈ flagW k E X) : g v = v := by
-  haveI hcharE : CharP E 2 := CharP.of_ringHom_of_ne_zero (algebraMap k E) 2 (by norm_num)
+  have hcharE : CharP E 2 := CharP.of_ringHom_of_ne_zero (algebraMap k E) 2 (by norm_num)
   have hgN : g ∈ NN := pCoreOf_le_ambient 2 NN hg
   have hyid : yMap g.toLinearEquiv = LinearMap.id := by
     ext b

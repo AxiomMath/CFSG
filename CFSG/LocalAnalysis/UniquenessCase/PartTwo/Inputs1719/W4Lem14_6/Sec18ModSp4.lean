@@ -24,11 +24,11 @@ theorem k146ModSp4_holds : K146ModSp4 := by
   have hodd' : Odd n := hodd
   obtain ⟨k, hk⟩ := hodd'
   obtain ⟨hn2, K, hfield, hfin, hchar, hKcard, ⟨e⟩⟩ := K148.exists_antiSp_of_isSp4 hSp
-  letI := hfield
-  letI := hfin
-  letI := hchar
+  let := hfield
+  let := hfin
+  let := hchar
   have hKf : Fintype.card K = 2 ^ n := by rw [← Nat.card_eq_fintype_card, hKcard]
-  letI : Module (ZMod 2) (Additive U) := CFSG.Quasithin.SmithD37.zmodModule hU
+  let : Module (ZMod 2) (Additive U) := CFSG.Quasithin.SmithD37.zmodModule hU
   let θ : U ≃* Multiplicative (Additive U) := CFSG.Quasithin.SmithD37.theta
   let ρS : ↥S →* (Additive U ≃ₗ[ZMod 2] Additive U) :=
     (CFSG.Quasithin.SmithD37.autLin hU).toMonoidHom.comp S.subtype
@@ -49,7 +49,7 @@ theorem k146ModSp4_holds : K146ModSp4 := by
     have h := hV (e ⟨l, hl⟩) u hu
     rwa [hπ, MulEquiv.symm_apply_apply] at h
   have hntW : Nontrivial (Additive U) := by
-    obtain ⟨x, -, hx1⟩ := SetLike.exists_of_lt hirr.1
+    obtain ⟨x, -, hx1⟩ := _root_.IsConcreteLE.exists_of_lt hirr.1
     exact ⟨Additive.ofMul x, 0, fun h => hx1 (by simpa using congrArg Additive.toMul h)⟩
   have hntπ : ∃ g, CFSG.Quasithin.B42Sp4.repOf π g ≠ 1 := by
     refine ⟨CFSG.QuasithinUnique.Setup.X7b.invX K, fun h => ?_⟩
@@ -64,7 +64,7 @@ theorem k146ModSp4_holds : K146ModSp4 := by
   have hFact : Fact (CFSG.Quasithin.B42Sp4.repOf π).IsIrreducible :=
     ⟨(CFSG.QuasithinUnique.Setup.X7.isIrreducible_iff
       (CFSG.Quasithin.B42Sp4.repOf π)).mpr ⟨hntW, hirrW⟩⟩
-  letI := hFact
+  let := hFact
   have hinvS : ∃ l : ↥S, orderOf l = 2 := by
     refine ⟨e.symm (CFSG.QuasithinUnique.Setup.X7b.invX K), ?_⟩
     have h2 : e.symm (CFSG.QuasithinUnique.Setup.X7b.invX K) *
@@ -110,7 +110,6 @@ theorem k146ModSp4_holds : K146ModSp4 := by
           e ⟨t, htS⟩
         have hz2 : z * z = 1 := by
           rw [← map_mul]
-          congr 1
           exact Subtype.ext (by simpa using ht2)
         have hz1 : z ≠ 1 := by
           intro h

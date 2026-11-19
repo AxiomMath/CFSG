@@ -53,7 +53,7 @@ theorem mul_self_eq_one_of_apply_eq (h2 : (2 : K) = 0) {M : Type u} [AddCommGrou
     have := finrank_span_singleton (K := K) hm
     rw [htop, finrank_top, hM] at this
     exact absurd this (by norm_num)
-  obtain ⟨m', -, hm'⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨m', -, hm'⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   have hli : LinearIndependent K ![m, m'] := by
     rw [LinearIndependent.pair_iff]
     intro s t hst
@@ -141,7 +141,7 @@ theorem card_dvd_of_flag [Finite K] [FiniteDimensional K V] {P : Type*} [Group P
       exact (Submodule.Quotient.eq B).2 (hB p v)
     have hAA : ((ρ p).restrict (hBinv p)).restrict (hA'inv p) = LinearMap.id := by
       ext v
-      simp only [LinearMap.restrict_coe_apply, LinearMap.id_coe, id_eq]
+      simp only [_root_.LinearMap.coe_restrict_apply, LinearMap.id_coe, id_eq]
       exact hA p _ v.2
     have h1 := LinearMap.det_eq_det_mul_det B (ρ p) (hBinv p)
     have h2' := LinearMap.det_eq_det_mul_det A' _ (hA'inv p)

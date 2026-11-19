@@ -84,7 +84,7 @@ theorem ncard_xi_step {g : S24} (hg : g ∈ M24g) {U : Finset (Finset (Fin 24))}
   have hset : {W | IsSextet W ∧ Xi (g • U) W i} =
       (fun W => g • W) '' {W | IsSextet W ∧ Xi U W i} := by
     ext W
-    simp only [Set.mem_setOf_eq, Set.mem_image]
+    simp only [Set.mem_ofPred_eq, Set.mem_image]
     constructor
     · rintro ⟨hW, hX⟩
       exact ⟨g⁻¹ • W, ⟨(isSextet_smul_iff (M24g.inv_mem hg)).2 hW, (xi_smul_iff' hg i).1 hX⟩,

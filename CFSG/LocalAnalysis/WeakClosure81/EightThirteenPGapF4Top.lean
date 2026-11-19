@@ -28,7 +28,7 @@ theorem choiceOfKOn_of_top (Sh : ShapePred)
     ChoiceOfKOn Sh := by
   intro Y _ _ L S A hL hS hAS hAe hA4 hK1 hTIS
   obtain ⟨M, hMgrp, e, hM⟩ := h Y L hL
-  letI : Group M := hMgrp
+  let : Group M := hMgrp
   let φ : ↥L →* M := e.toMonoidHom
   have hφ : IsBarMap L (⊥ : Subgroup Y) φ :=
     ⟨MulEquiv.surjective e, fun k => by

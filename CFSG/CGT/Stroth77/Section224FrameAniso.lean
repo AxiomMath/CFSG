@@ -50,6 +50,7 @@ local notation "𝓡[" S ", " D "]" =>
 variable {G : Type} [Group G] [Finite G] {S D : Subgroup G} {τ : StrothTypeIndex}
   {dD : StrothWeakTypeData D τ}
 
+omit [Finite G] in
 theorem mem_omegaIn_one_of_inverted (hfam : τ.m + 1 = τ.n) (hk : ∀ i, 2 ≤ τ.k i) {y : G}
     (hy : y ∈ 𝓡[S, D])
     (hf : devMat dD hk y hy 0 0 = 0 ∧ devMat dD hk y hy 0 1 = 0 ∧ devMat dD hk y hy 0 2 = 0)

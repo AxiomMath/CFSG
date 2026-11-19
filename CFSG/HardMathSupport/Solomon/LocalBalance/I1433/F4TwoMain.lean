@@ -45,7 +45,7 @@ theorem three_dvd_card_of_orderOf {G : Type*} [Group G] {R : Subgroup G} {g : G}
 theorem exists_primitive_root_odd {L : Type} [Field L] [IsAlgClosed L] [CharP L 2] {N : ℕ}
     (hN : Odd N) : ∃ ζ : Lˣ, ∀ n : ℤ, ζ ^ n = 1 ↔ (N : ℤ) ∣ n := by
   have hN0 : 0 < N := hN.pos
-  haveI : NeZero (N : L) := by
+  have : NeZero (N : L) := by
     refine ⟨fun h => ?_⟩
     obtain ⟨m, hm⟩ := hN
     have h2 : (2 : L) = 0 := CharP.cast_eq_zero L 2
@@ -162,14 +162,14 @@ theorem exists_pair_frames (S : LangSetup Tag.F4 L p₀) {a : Fin Tag.F4.rank �
     rw [hΛset]
     have : {γ | γ ∈ kernelRoots (rootCharHom a) ∧ ipF4 γ γ = 4} =
         {γ : V4 | IsRoot Tag.F4 γ ∧ kdot k γ % 3 = 0 ∧ ipF4 γ γ = 4} :=
-      Set.ext fun γ => by simp only [Set.mem_setOf_eq, hker, and_assoc]
+      Set.ext fun γ => by simp only [Set.mem_ofPred_eq, hker, and_assoc]
     rw [this]
     exact hk.card_long
   have hΘ6 : (componentRoots (rootCharHom a) iΘ).ncard = 6 := by
     rw [hΘset]
     have : {γ | γ ∈ kernelRoots (rootCharHom a) ∧ ipF4 γ γ = 2} =
         {γ : V4 | IsRoot Tag.F4 γ ∧ kdot k γ % 3 = 0 ∧ ipF4 γ γ = 2} :=
-      Set.ext fun γ => by simp only [Set.mem_setOf_eq, hker, and_assoc]
+      Set.ext fun γ => by simp only [Set.mem_ofPred_eq, hker, and_assoc]
     rw [this]
     exact hk.card_short
   obtain ⟨ψ, σ, κ, hψ, hκ, hnormσ, hΛroots⟩ :=
@@ -261,7 +261,7 @@ variable {L : Type} [Field L] [IsAlgClosed L] {p₀ : ℕ}
 theorem exists_sigmaQ (S : LangSetup Tag.F4 L p₀) :
     ∃ σQ : L ≃+* L, ∀ c, σQ c = c ^ S.D.q := by
   obtain ⟨r, e, hr, hchar, he, hq⟩ := exists_char_pow S
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨σ, hσ⟩ := exists_ringEquiv_frob (L := L) r e
   refine ⟨σ, fun c => ?_⟩
   have h1 : σ c = iterateFrobenius L r e c := by
@@ -294,7 +294,7 @@ theorem omega_det {ω : Lˣ} (hω3 : ω ^ 3 = 1) :
 theorem orderOf_conj_frame_omega {ψ : SL(3, L) →* ModGL Tag.F4 L} (hψ : Function.Injective ψ)
     {ω : Lˣ} (hω3 : ω ^ 3 = 1) (hω1 : ω ≠ 1) (z : ModGL Tag.F4 L) :
     orderOf (z * ψ (diagSL3 (fun _ => ω) (omega_det hω3)) * z⁻¹) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set X₀ := diagSL3 (fun _ : Fin 3 => ω) (omega_det hω3) with hX₀
   have hX3 : X₀ ^ 3 = 1 := by
     have h := diagSL3_cube (fun _ : Fin 3 => ω) (omega_det hω3) (fun _ => 1) (by simp)
@@ -393,7 +393,7 @@ theorem false_of_a2a2 {C : Type} [Group C] [Finite C] {x g y : C} {J : Subgroup 
       rw [← Subgroup.map_commutator, hperfJ]
     have h2 := perfect_le_iSup_rationalComponent_of_prime S Nat.prime_three hT hap h1 hTame
       (J.map ι) hPmap hperfmap
-    haveI : IsEmpty {i : KernelComponent (rootCharHom a) //
+    have : IsEmpty {i : KernelComponent (rootCharHom a) //
         CFSG.IsQuasisimple (rationalComponent S.ρ S.Γ (rootCharHom a) i)} :=
       ⟨fun ⟨i, hi⟩ => not_isSolvable_of_isQuasisimple' hi (hsolv i)⟩
     rw [iSup_of_empty] at h2
@@ -521,10 +521,10 @@ theorem not_innerHeisCfg_F4 (n : ℕ) (hn : Odd n) (F : Type) [Field F] [Finite 
     (J : Subgroup ↥(adjointGroup Tag.F4 F)) : ¬ InnerHeisCfg x g y J := by
   intro hcfg
   classical
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (f := n) (by rw [← Nat.card_eq_fintype_card, hF])
-  haveI : CharP (AlgebraicClosure F) 2 :=
+  have : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := charP_of_card_eq_prime_pow (f := n) (by rw [← Nat.card_eq_fintype_card, hF])
+  have : CharP (AlgebraicClosure F) 2 :=
     charP_of_injective_algebraMap (algebraMap F (AlgebraicClosure F)).injective 2
   have hpK : ¬ 3 ∣ Nat.card F := by
     rw [hF]

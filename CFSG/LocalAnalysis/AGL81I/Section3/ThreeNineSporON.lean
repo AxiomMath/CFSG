@@ -69,7 +69,7 @@ theorem conclusion_of_onan
   have hX₁K : X₁ ≤ K := h.lt.le.trans (sup_le le_rfl hDK)
   obtain ⟨Ebar, -, hEc, -, hN⟩ := h.exists_barE hZ hout7
   obtain ⟨S, hES⟩ := (IsPGroup.of_card hEc).exists_le_sylow
-  have hNS := hN S S.isPGroup' hES
+  have hNS := hN S S.isPGroup hES
   obtain ⟨g, hg⟩ := sylow_eq_map_on7F (Sylow.mapSurjective (f := θ.toMonoidHom) θ.surjective S)
   have hg' : (S : Subgroup ↥K).map θ.toMonoidHom =
       (on7F 0).map (MulAut.conj g : Pv ≃* Pv).toMonoidHom := hg

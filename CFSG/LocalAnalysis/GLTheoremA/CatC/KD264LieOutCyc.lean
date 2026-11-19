@@ -62,11 +62,11 @@ theorem outCycAt_of_cyclic {p : ℕ} (hp : p.Prime) {S : Type} [Group S] [Finite
 theorem outCycAt_of_outPChain {p : ℕ} (hp : p.Prime) {S : Type} [Group S] [Finite S]
     (h : CFSG.RankThree.PartOne.OutStructure.OutPChain p S) : OutCycAt p S := by
   intro D hD
-  haveI : ((CFSG.RankThree.PartOne.OutStructure.Inn S).subgroupOf D).Normal := inferInstance
+  have : ((CFSG.RankThree.PartOne.OutStructure.Inn S).subgroupOf D).Normal := inferInstance
   have hcyc : IsCyclic (D ⧸ (CFSG.RankThree.PartOne.OutStructure.Inn S).subgroupOf D) := by
     classical
     by_cases hDI : D ≤ CFSG.RankThree.PartOne.OutStructure.Inn S
-    · haveI : Subsingleton (D ⧸ (CFSG.RankThree.PartOne.OutStructure.Inn S).subgroupOf D) := by
+    · have : Subsingleton (D ⧸ (CFSG.RankThree.PartOne.OutStructure.Inn S).subgroupOf D) := by
         rw [QuotientGroup.subsingleton_iff]
         exact (Subgroup.subgroupOf_eq_top).mpr hDI
       infer_instance

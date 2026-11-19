@@ -62,7 +62,7 @@ theorem burnsideF429a_U5_T_frob (sigma : mk.field →+* mk.field)
         (1 : Matrix (Fin 5) (Fin 5) mk.field).submatrix id (fullPosEquiv (r := 2) (ε := 1)) := by
     ext i a
     simp only [burnsideF429a_hypR, Matrix.submatrix_apply, Matrix.mul_apply, Matrix.one_apply, id,
-      mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+      mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
   have hPQ : (1 : Matrix (Fin 5) (Fin 5) mk.field).submatrix id (fullPosEquiv (r := 2) (ε := 1)) *
       (1 : Matrix (Fin 5) (Fin 5) mk.field).submatrix (fullPosEquiv (r := 2) (ε := 1)) id = 1 := by
     rw [Matrix.submatrix_mul_equiv, Matrix.mul_one]
@@ -219,7 +219,7 @@ theorem burnsideF429a_U5_graphAction (mk : Marking .U5 2 f ↥Gp) {t : E}
         (barEquiv (burnsideF429a_U5_fieldData mk))) g))) : ↥Gp) : E) =
         t * ((burnsideF429a_U5_Psi mk (hypProj _ 2 1 (act _ y g)) : ↥Gp) : E) * t⁻¹) :
     (NativeCoordinates.classical .U5 rfl mk : NativeCoordinates .U5 2 f ↥Gp).GraphAction t := by
-  haveI := (burnsideF429a_U5_fieldData mk).finite
+  have := (burnsideF429a_U5_fieldData mk).finite
   have hR := burnsideF429a_U5_isHypTransport mk
   let conj : MulAut ↥Gp := (MulAut.congr (burnsideF429a_U5_Psi mk))
     (Phi (burnsideF429a_U5_fieldData mk) y)

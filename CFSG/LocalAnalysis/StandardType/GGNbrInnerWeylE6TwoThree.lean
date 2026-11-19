@@ -128,9 +128,9 @@ theorem torusE6Two_not_mem_zpowers_of_not_smul {K : Type} [Field K] (h2 : (2 : K
 
 theorem ggCenterPrime_recipe_E6_two {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2)
     {p : ℕ} (hp : p.Prime) : GGCenterPrime p (TableBExc.RecipeGroup .E6 K) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CharP K 2 := charP_two_of_card (K := K) (m := 1) (by rw [pow_one]; exact hK)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : CharP K 2 := charP_two_of_card (K := K) (m := 1) (by rw [pow_one]; exact hK)
   have hfinj : Function.Injective (CFSG.LieType.Steinberg.Isogeny.e6Isogeny K) :=
     CFSG.LieType.Steinberg.CentralExt.FieldTwo.e6Isogeny_injective_two (K := K) hK
   have hfsurj : Function.Surjective (CFSG.LieType.Steinberg.Isogeny.e6Isogeny K) :=
@@ -150,7 +150,7 @@ theorem ggCenterPrime_recipe_E6_two {K : Type} [Field K] [Finite K] (hK : Nat.ca
     exact hker (by simpa [MonoidHom.mem_ker] using hx)
   obtain ⟨σ, hσ⟩ := CFSG.LieType.Steinberg.CentralExt.FieldTwo.e6_two_exists_section
       (K := K) hK L' (qe.symm.toMonoidHom.comp ψ) hψ' hker'
-  haveI : Group.IsPerfect L' := ⟨hperf⟩
+  have : Group.IsPerfect L' := ⟨hperf⟩
   have hbot : (qe.symm.toMonoidHom.comp ψ).ker = ⊥ :=
     CFSG.SectionRank.ker_eq_bot_of_section_of_perfect _ hker' σ hσ
   have hcenter : Subgroup.center L' = ⊥ := by
@@ -171,7 +171,7 @@ theorem ggCenterPrime_recipe_E6_two {K : Type} [Field K] [Finite K] (hK : Nat.ca
 
 theorem ggSCNoLine_adjoint_E6_two {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) :
     GGSCNoLine 3 4 (adjointGroup .E6 K) := by
-  haveI : CharP K 2 := charP_two_of_card (K := K) (m := 1) (by rw [pow_one]; exact hK)
+  have : CharP K 2 := charP_two_of_card (K := K) (m := 1) (by rw [pow_one]; exact hK)
   have h2 : (2 : K) = 0 := CharP.cast_eq_zero K 2
   intro E hE h4 h3 hsc e he he1
   obtain ⟨c, hc⟩ := E6TwoPilot.exists_conj_eq_range_torusE6Two h2 hK hE h4

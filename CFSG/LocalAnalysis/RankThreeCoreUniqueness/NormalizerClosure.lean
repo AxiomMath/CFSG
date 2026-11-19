@@ -91,11 +91,11 @@ theorem normalizer_closure_transporter_mem
   obtain ⟨sourceSylow, hsylowGroup⟩ := hpGroup.exists_le_sylow
   have hsource : (sourceSylow : Subgroup G) ≤ overgroup := by
     apply pGroup_le_of_rank_intersection_of_normalizer_closure threshold prime hprime overgroup
-      hclosure (sourceSylow : Subgroup G) sourceSylow.isPGroup'
+      hclosure (sourceSylow : Subgroup G) sourceSylow.isPGroup
     exact hrank.trans (pRank_mono prime hprime.one_lt (le_inf hsylowGroup hinclusion))
   have htarget : ((transporter • sourceSylow : Sylow prime G) : Subgroup G) ≤ overgroup := by
     apply pGroup_le_of_rank_intersection_of_normalizer_closure threshold prime hprime overgroup
-      hclosure _ (transporter • sourceSylow).isPGroup'
+      hclosure _ (transporter • sourceSylow).isPGroup
     have himageSylow : primeGroup.map (MulAut.conj transporter).toMonoidHom ≤
         ((transporter • sourceSylow : Sylow prime G) : Subgroup G) := by
       rw [sylow_conjugate_eq_map]
@@ -110,7 +110,7 @@ theorem normalizer_closure_transporter_mem
   have hnormalized : (adjustment : G) • (transporter • sourceSylow) = sourceSylow := by
     simpa only [Subgroup.smul_def] using Sylow.subtype_injective hadjustment
   have hnormalizer : Subgroup.normalizer (sourceSylow : Set G) ≤ overgroup :=
-    hclosure _ sourceSylow.isPGroup' hsource
+    hclosure _ sourceSylow.isPGroup hsource
       (hrank.trans (pRank_mono prime hprime.one_lt hsylowGroup))
   have hproduct : (adjustment : G) * transporter ∈ overgroup := by
     apply hnormalizer

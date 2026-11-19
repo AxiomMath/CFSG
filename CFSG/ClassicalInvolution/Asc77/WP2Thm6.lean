@@ -67,7 +67,7 @@ theorem exists_std6 {G : Type} [Group G] [Finite G] {Ω : Set (Subgroup G)} {K :
   have hU := ConnectedA2.isUniqueInvolution_of_isClassicalMember hs.odd hs.five hz
   obtain ⟨P⟩ : Nonempty (Sylow 2 ↥K) := inferInstance
   set R : Subgroup G := Subgroup.map K.subtype (P : Subgroup ↥K) with hR
-  have hRp : IsPGroup 2 R := P.isPGroup'.map K.subtype
+  have hRp : IsPGroup 2 R := P.isPGroup.map K.subtype
   obtain ⟨S, hRS⟩ := hRp.exists_le_sylow
   exact ⟨S, R, z, ⟨hs, he, hU, ⟨K, hs.mem, P, rfl⟩, Subgroup.map_subtype_le _, hRS, hc⟩⟩
 

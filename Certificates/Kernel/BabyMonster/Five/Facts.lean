@@ -113,8 +113,8 @@ variable {G : Type*} [Group G] {x h : G}
 
 theorem comm_rows (R : FiveRel x h) (i j : Fin 4) (hij : i < j) :
     bcomm (qW x h i) (qW x h j) = zW x h ^ ((fiveCommRows.getD i []).getD j 0) := by
-  fin_cases i <;> fin_cases j <;> simp only [Fin.isValue] at hij ⊢ <;>
-    first | exact absurd hij (by decide) | skip
+  fin_cases i <;> fin_cases j <;> simp only at hij ⊢ <;>
+    try exact absurd hij (by decide)
   · simpa [fiveCommRows] using bcomm_of1 R.c01
   · simpa [fiveCommRows] using bcomm_of R.c02
   · simpa [fiveCommRows] using bcomm_of1 R.c03
@@ -126,9 +126,9 @@ theorem act_rows (R : FiveRel x h) (i : Fin 4) :
     x⁻¹ * qW x h i * x =
       (List.ofFn fun j => qW x h j ^ (fiveActRows.getD i []).getD j 0).prod *
         zW x h ^ fiveActC.getD i 0 := by
-  fin_cases i <;> simp only [Fin.isValue]
-  · simp [List.ofFn_succ, fiveActRows, fiveActC] <;> rfl
-  · simp [List.ofFn_succ, fiveActRows, fiveActC] <;> rfl
+  fin_cases i <;> simp only
+  · simp [List.ofFn_succ, fiveActRows, fiveActC]; rfl
+  · simp [List.ofFn_succ, fiveActRows, fiveActC]; rfl
   · refine R.ax2.trans ?_
     simp [nfQ, xAct, List.ofFn_succ, fiveActRows, fiveActC, mul_assoc]
   · refine R.ax3.trans ?_
@@ -138,8 +138,8 @@ theorem hact_rows (R : FiveRel x h) (i : Fin 4) :
     h⁻¹ * qW x h i * h =
       (List.ofFn fun j => qW x h j ^ (CFSG.RankThree.Native.bFiveHRows.getD i []).getD j 0).prod *
         zW x h ^ CFSG.RankThree.Native.bFiveHC.getD i 0 := by
-  fin_cases i <;> simp only [Fin.isValue]
-  · simp [List.ofFn_succ, CFSG.RankThree.Native.bFiveHRows, CFSG.RankThree.Native.bFiveHC] <;> rfl
+  fin_cases i <;> simp only
+  · simp [List.ofFn_succ, CFSG.RankThree.Native.bFiveHRows, CFSG.RankThree.Native.bFiveHC]; rfl
   · refine R.ah1.trans ?_
     simp [nfQ, hAct, List.ofFn_succ, CFSG.RankThree.Native.bFiveHRows,
       CFSG.RankThree.Native.bFiveHC, mul_assoc]

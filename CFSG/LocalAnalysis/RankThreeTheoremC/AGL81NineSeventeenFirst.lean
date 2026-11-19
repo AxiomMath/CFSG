@@ -23,7 +23,7 @@ theorem sq_dvd_card_component_of_escape (h31 : KFactThreeOne) (h75 : KFactSevenF
     (hNtop : N ≠ ⊤) {L : Subgroup (N ⧸ primeComplementCore (G := N) p)} (hL : IsComponentOf L ⊤)
     (hLX : ¬ L ≤ d1X0 p M N) : p ^ 2 ∣ Nat.card L := by
   have hp := he.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨i, hi, hiL⟩ := exists_nineThreeIndex_of_component h31 h75 hS hKP he hB hBN hNtop hL hLX
   by_cases h2 : 2 ≤ CFSG.Open.pRank p L
   · obtain ⟨E, hEL, -, hE⟩ := CFSG.GH74.Uniqueness.SU.SU1.exists_isElemAbelian_of_le_pRank hp h2
@@ -38,7 +38,7 @@ theorem not_le_bot_of_isComponentOf {X : Type} [Group X] {L : Subgroup X} (hL : 
     ¬ L ≤ ⊥ := by
   intro hLb
   have hnt : Nontrivial (L ⧸ Subgroup.center L) := hL.2.2.2.toNontrivial
-  haveI : Nontrivial L := (QuotientGroup.mk'_surjective (Subgroup.center L)).nontrivial
+  have : Nontrivial L := (QuotientGroup.mk'_surjective (Subgroup.center L)).nontrivial
   obtain ⟨x, hx⟩ := exists_ne (1 : L)
   exact hx (Subtype.ext (Subgroup.mem_bot.mp (hLb x.2)))
 
@@ -52,7 +52,7 @@ theorem d1KBar_ne_bot_of_three_le (h31 : KFactThreeOne) (h75 : KFactSevenFive)
     (hcov : AGLCovers p H N (d1KBar p M H)) (hRM : R ≤ M) (hR : CFSG.Quasithin.IsSylowIn p R N)
     (h3 : 3 ≤ CFSG.Open.pRank p R) : d1KBar p M N ≠ ⊥ := by
   have hp := he.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro hKN
   obtain ⟨hLs, hLnab, -⟩ := isSimpleGroup_catalog_of_component h31 hKP he hB hBH hHtop hL hLX
   have hL2 := sq_dvd_card_component_of_escape h31 h75 hR1 hSyl hS hKP he hB hBH hHtop hL hLX

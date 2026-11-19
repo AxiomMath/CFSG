@@ -61,8 +61,8 @@ private theorem sq_sub_one_of_sq_one {x : Hc} (hx : x * x = 1) :
 theorem f6Model_holds : F6Model := by
   intro E hET hEA hEc
   classical
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hEc]; norm_num)
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hEc]; norm_num)
+  have : Fintype E := Fintype.ofFinite E
   let 𝒩 : Finset (Matrix (Fin 5) (Fin 5) (ZMod 2)) :=
     Finset.univ.image (fun x : E => cm x.1 - 1)
   have hmem : ∀ N, N ∈ 𝒩 ↔ ∃ x ∈ E, cm x - 1 = N := by
@@ -113,7 +113,7 @@ theorem f6Model_holds : F6Model := by
   rcases F6Comb.classify 𝒩 hup hgm hcomm hsq hcard with h | h
   ·
     left
-    haveI : Finite A1 := Nat.finite_of_card_ne_zero (by rw [card_A1]; norm_num)
+    have : Finite A1 := Nat.finite_of_card_ne_zero (by rw [card_A1]; norm_num)
     refine Subgroup.eq_of_le_of_card_ge ?_ ?_
     · intro x hx
       have hN := h (cm x - 1) ((hmem _).2 ⟨x, hx, rfl⟩)
@@ -123,7 +123,7 @@ theorem f6Model_holds : F6Model := by
       norm_num
   ·
     right
-    haveI : Finite A2 := Nat.finite_of_card_ne_zero (by rw [card_A2]; norm_num)
+    have : Finite A2 := Nat.finite_of_card_ne_zero (by rw [card_A2]; norm_num)
     refine Subgroup.eq_of_le_of_card_ge ?_ ?_
     · intro x hx
       have hN := h (cm x - 1) ((hmem _).2 ⟨x, hx, rfl⟩)

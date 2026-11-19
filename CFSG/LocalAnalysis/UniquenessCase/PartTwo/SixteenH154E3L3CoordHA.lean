@@ -11,6 +11,7 @@ namespace CFSG.LocalAnalysis.UniquenessCase.PartTwo
 open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 theorem s16h_e3_isoMod_map {L : Subgroup (MulAut W)} {g : MulAut W}
     (hg : g ∈ Subgroup.normalizer (L : Set (MulAut W))) {A B : Subgroup W}
     (h : H.Pair.IsoMod L A B) :

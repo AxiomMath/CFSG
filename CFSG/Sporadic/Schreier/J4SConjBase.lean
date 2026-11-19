@@ -20,11 +20,11 @@ theorem toVecD_app11_comp11 (C D : Array ℕ) (a : ℕ) :
 theorem toVecD_app11_idRows (a : ℕ) : toVecD 11 (app11 (idRows 11) a) = toVecD 11 a := by
   rw [← colsMatrix_mulVec, colsMatrix_idRows, Matrix.one_mulVec]
 
-@[expose] def letterApp (l : ℤ) (a : ℕ) : ℕ :=
+def letterApp (l : ℤ) (a : ℕ) : ℕ :=
   if l = 1 then app11 xColumns a else if l = -1 then app11 xInvColumns a
   else if l = 2 then app11 yColumns a else if l = -2 then app11 yInvColumns a else a
 
-@[expose] def app11W : List ℤ → ℕ → ℕ
+def app11W : List ℤ → ℕ → ℕ
   | [], a => a
   | l :: w, a => letterApp l (app11W w a)
 

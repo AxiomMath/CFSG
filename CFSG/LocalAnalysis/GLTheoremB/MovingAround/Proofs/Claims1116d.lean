@@ -76,8 +76,8 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem prime_dvd_card_pSimple {p : ℕ} (hp : p.Prime) {X I : Subgroup G}
     (hI : GLAPComponent p X I) : p ∣ Nat.card (PSimple p I) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Group.IsPerfect (PQuot p I) :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : Group.IsPerfect (PQuot p I) :=
     ⟨(CFSG.LocalAnalysis.GLTheoremA.isQuasisimple_pQuot_of_glaPComponent hp hI).1⟩
   by_contra h
   exact CFSG.RankThree.PerfectCover.perfect_central_quotient_prime_support hp h
@@ -126,15 +126,15 @@ theorem false_of_pSimple_L28 {p : ℕ} {C I : Subgroup G} (hIC : I ≤ C)
   have hP8 : Nat.card (P : Subgroup ↥I) = 8 := by
     rw [P.card_eq_multiplicity, hv]
     norm_num
-  obtain ⟨U, hU⟩ := (P.isPGroup'.map φ).exists_le_sylow
-  haveI := (CFSG.Walter.psl2_even_sylow_two (f := 3) (by norm_num) U).1
+  obtain ⟨U, hU⟩ := (P.isPGroup.map φ).exists_le_sylow
+  have := (CFSG.Walter.psl2_even_sylow_two (f := 3) (by norm_num) U).1
   have hsq : ∀ x ∈ (P : Subgroup ↥I), x ^ 2 = 1 := by
     intro x hx
     have hx2 : x ^ 2 ∈ φ.ker := by
       rw [MonoidHom.mem_ker, map_pow]
       exact CFSG.elemPow_eq_one_of_isElementaryAbelian (φ x) (hU (Subgroup.mem_map_of_mem φ hx))
     have hxP : x ^ 2 ∈ (P : Subgroup ↥I) := Subgroup.pow_mem _ hx 2
-    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.1 P.isPGroup' ⟨x ^ 2, hxP⟩
+    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.1 P.isPGroup ⟨x ^ 2, hxP⟩
     rw [Subgroup.orderOf_mk] at hk
     have hd : orderOf (x ^ 2) ∣ Nat.card φ.ker := Subgroup.orderOf_dvd_natCard φ.ker hx2
     rcases k with _ | k
@@ -167,7 +167,7 @@ theorem downCompOK_seven {s : TauCeti.SporadicName} {Q : Type} [Group Q] [Finite
   intro I hI q hq hq2 hq7 hC
   exfalso
   obtain ⟨hsI, hnab⟩ := CFSG.LocalAnalysis.GLTheoremA.KDSpor.pSimple_simple_nonab (by norm_num) hI
-  haveI := hsI
+  have := hsI
   have h7 := prime_dvd_card_pSimple (by norm_num : Nat.Prime 7) hI
   rcases CFSG.LocalAnalysis.GLTheoremA.I1416Rows.chev_card_dvd_2520_cases
       CFSG.HardMathSupport.Solomon.Coordinator.lieOrderBridge_holds hnab hC (hd I hI) with
@@ -238,7 +238,7 @@ theorem downTypeOK_of_goodSpor_suz {s : TauCeti.SporadicName} {T : Type} [Group 
     obtain ⟨b⟩ := CFSG.Sporadic.Bridge.nonempty_carrier_mulEquiv_group .Suz
     have hc : Nat.card T = 448345497600 :=
       (Nat.card_congr (f.trans b.symm).toEquiv).trans CFSG.Sporadic.Suz.card_Suz
-    haveI : Finite T := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
+    have : Finite T := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
     exact downTypeOK_of_not_chev (not_isChevSimple_of_card_bound hc (by norm_num) (by norm_num)
       (by simp only [Nat.primeFactorsList_ofNat]; decide +kernel) (by decide) (by decide))
 
@@ -305,10 +305,10 @@ theorem false_of_component_card_sixty {L : Subgroup X}
     (hL : CFSG.IsComponent L) (h60 : Nat.card (↥L ⧸ Subgroup.center ↥L) = 60)
     (hX : Nat.card X ∣ 2160) (h27 : 27 ∣ Nat.card X)
     (hP : ∀ B : Subgroup X, Nat.card B = 27 → ∃ a ∈ B, ∃ b ∈ B, a * b ≠ b * a) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : L.Normal := normal_of_component_card_sixty hL h60 hX
-  haveI : Group.IsPerfect ↥L := hL.1.1
-  haveI : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hL.1.2.1
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : L.Normal := normal_of_component_card_sixty hL h60 hX
+  have : Group.IsPerfect ↥L := hL.1.1
+  have : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hL.1.2.1
   let ψ : X →* MulAut (↥L ⧸ Subgroup.center ↥L) :=
     (CFSG.ComponentClassification.PerfectAutomorphisms.centerQuotientHom ↥L).comp
       MulAut.conjNormal
@@ -334,7 +334,7 @@ theorem false_of_component_card_sixty {L : Subgroup X}
   obtain ⟨R₀⟩ : Nonempty (Sylow 3 ↥ψ.ker) := inferInstance
   let R : Subgroup X := (R₀ : Subgroup ↥ψ.ker).map ψ.ker.subtype
   have hRker : R ≤ ψ.ker := Subgroup.map_subtype_le _
-  have hRp : IsPGroup 3 R := R₀.isPGroup'.map _
+  have hRp : IsPGroup 3 R := R₀.isPGroup.map _
   have hR9 : 9 ∣ Nat.card R := by
     rw [Subgroup.card_map_of_injective ψ.ker.subtype_injective, R₀.card_eq_multiplicity]
     have h2 : 2 ≤ (Nat.card ψ.ker).factorization 3 :=
@@ -359,7 +359,7 @@ theorem false_of_component_card_sixty {L : Subgroup X}
       Nat.factorization_eq_zero_of_not_dvd (by norm_num : ¬ 3 ∣ 20)] at hc
     norm_num at hc
   let Q₀ : Subgroup X := Subgroup.zpowers (y : X)
-  obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.1 Q₁.isPGroup' ⟨y, hyQ⟩
+  obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.1 Q₁.isPGroup ⟨y, hyQ⟩
   rw [Subgroup.orderOf_mk] at hk
   have hyk : orderOf (y : X) = 3 ^ k := (Subgroup.orderOf_coe y).trans hk
   have hQ₀ : Nat.card Q₀ = 3 ^ k := by rw [Nat.card_zpowers, hyk]
@@ -424,7 +424,7 @@ theorem false_of_component_card_sixty {L : Subgroup X}
     intro r hr
     rw [Subgroup.mem_centralizer_iff]
     intro r' hr'
-    have := IsPGroup.commutative_of_card_eq_prime_sq (p := 3) (G := ↥R) (by rw [hRcard]; norm_num)
+    have := (IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3) (G := ↥R) (by rw [hRcard]; norm_num)).is_comm.comm
       ⟨r', hr'⟩ ⟨r, hr⟩
     exact congrArg Subtype.val this
   have hQab : Q₀ ≤ Subgroup.centralizer (Q₀ : Set X) := by
@@ -461,7 +461,7 @@ theorem false_of_glaPComponent_sixty {C I : Subgroup G}
     (hC : Nat.card C ∣ 2160) (h27 : 27 ∣ Nat.card C)
     (hP : ∀ B : Subgroup G, B ≤ C → Nat.card B = 27 → ∃ a ∈ B, ∃ b ∈ B, a * b ≠ b * a) :
     False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hL : CFSG.IsComponent (barX 3 C I) := (CFSG.isComponent_iff_open _).2 hI.2.2.1
   have e := quotEquivBarX Nat.prime_three hI.1 hI.2.1
   have h60' : Nat.card (↥(barX 3 C I) ⧸ Subgroup.center ↥(barX 3 C I)) = 60 := by
@@ -495,7 +495,7 @@ theorem false_of_glaPComponent_sixty {C I : Subgroup G}
     intro x hx h1
     have hxO : ((x : ↥C)) ∈ GLAPPrimeCore 3 ↥C :=
       (QuotientGroup.eq_one_iff _).1 (congrArg Subtype.val h1)
-    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.1 P.isPGroup' ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.1 P.isPGroup ⟨x, hx⟩
     rw [Subgroup.orderOf_mk] at hk
     have hdO : orderOf (x : ↥C) ∣ Nat.card (GLAPPrimeCore 3 ↥C) :=
       Subgroup.orderOf_dvd_natCard _ hxO
@@ -540,7 +540,7 @@ theorem noncomm_of_card_27 {Q : Type} [Group Q] [Finite Q]
     (hnc : CFSG.RankThree.PartOne.StrongP.HasNoncommPair 3 Q)
     (hQ : (Nat.card Q).factorization 3 = 3) (B : Subgroup Q) (hB : Nat.card B = 27) :
     ∃ a ∈ B, ∃ b ∈ B, a * b ≠ b * a := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨a, b, -, -, hab, hpg⟩ := hnc
   obtain ⟨P₁, hP₁⟩ := hpg.exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq Q P₁ (Sylow.ofCard B (by rw [hB, hQ]; norm_num))
@@ -613,7 +613,7 @@ theorem downCompOK_three_of_card_dvd_2160 {s : TauCeti.SporadicName} {Q : Type} 
   exfalso
   obtain ⟨hsI, hnab⟩ :=
     CFSG.LocalAnalysis.GLTheoremA.KDSpor.pSimple_simple_nonab Nat.prime_three hI
-  haveI := hsI
+  have := hsI
   have h3 : 3 * Nat.card (PSimple 3 I) ∣ 2160 :=
     (CFSG.LocalAnalysis.GLTheoremA.I1416Rows.prime_mul_card_pSimple_dvd_cent Nat.prime_three hk3
       hI.1).trans hC
@@ -629,7 +629,7 @@ theorem downCompOK_three_of_card_dvd_504 {s : TauCeti.SporadicName} (hs : s = .M
   intro I hI
   obtain ⟨hs', hnab⟩ :=
     CFSG.LocalAnalysis.GLTheoremA.KDSpor.pSimple_simple_nonab Nat.prime_three hI
-  haveI := hs'
+  have := hs'
   have h3 : 3 * Nat.card (PSimple 3 I) ∣ 504 :=
     (CFSG.LocalAnalysis.GLTheoremA.I1416Rows.prime_mul_card_pSimple_dvd_cent Nat.prime_three hk3
       hI.1).trans hk
@@ -637,7 +637,7 @@ theorem downCompOK_three_of_card_dvd_504 {s : TauCeti.SporadicName} (hs : s = .M
     Nat.dvd_of_mul_dvd_mul_left (by norm_num : 0 < 3) (h3.trans (by norm_num))
   obtain ⟨e⟩ := CFSG.Quasithin.H13.U3.GC137.SQ.S168.nonempty_mulEquiv_psl_seven
     (CFSG.LocalAnalysis.GLTheoremA.I1416Rows.card_eq_168_of_dvd hnab hd)
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   exact fun _ _ _ _ _ => Or.inr (Or.inl ⟨rfl, hs, ⟨ZMod 7, inferInstance, inferInstance,
     by rw [Nat.card_eq_fintype_card, ZMod.card],
     ⟨e.trans (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 2 (ZMod 7))⟩⟩⟩)

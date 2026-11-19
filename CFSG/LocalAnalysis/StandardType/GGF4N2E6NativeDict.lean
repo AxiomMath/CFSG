@@ -173,6 +173,7 @@ section Adjoint
 variable {L : Type} [Field L] [IsAlgClosed L] [CharP L 2] [Algebra (GaloisField 2 2) L]
   [IsAlgClosure (GaloisField 2 2) L]
 
+omit [CharP L 2] [IsAlgClosure (GaloisField 2 2) L] in
 theorem adjoint_pullback (S : LangSetup Tag.E6 L 5) {A : SL2 L}
     (hΓ : S.Γ = (nativeIota L).range.map (MulAut.conj (nativeCas A)⁻¹).toMonoidHom)
     (y : ↥(adjointGroup Tag.E6 (GaloisField 2 2))) {d : ModGL Tag.E6 L}
@@ -250,11 +251,11 @@ theorem adjoint_pair_component (t : SL2 (GaloisField 2 2)) {A : SL2 L} {ζ : Lˣ
   have hd1 : rootDiagUnit Tag.E6
       (fun k => ζ ^ e6NativeChar (Pi.single i 1 + e • Pi.single j 1) k) ≠ 1 := fun h => by
     have h5 := (rootDiagUnit_nativeChar_eq_one_iff ζ hζ _).1 h i
-    simp [Pi.single_apply, hij] at h5
+    simp [hij] at h5
   obtain ⟨c, hc, -, hr, hn, hs, hout⟩ :=
     CFSG.Assembly.E6FourDiagonal.exists_native_pair_component S.ρ hρ ζ hζ i j hij e he
   obtain ⟨hR, hRu, hL⟩ := lang_D4_component S hq hρ2
-    ⟨iterateFrobenius L 2 2, fun x => by rw [hq, iterateFrobenius_def] <;> norm_num, hΦ⟩
+    ⟨iterateFrobenius L 2 2, fun x => by rw [hq, iterateFrobenius_def]; norm_num, hΦ⟩
     hT hb hd1 c hc hr hn hs hout
   obtain ⟨I₀, hI₀, hI₀u, -, ⟨e2⟩⟩ := adjoint_pullback S hΓ _ hy hR hRu
   exact ⟨I₀, hI₀, hI₀u, LieModel.of_mulEquiv e2.symm hL⟩
@@ -302,7 +303,7 @@ theorem native_pair_component {G : Type} [Group G]
       LieModel (↥(K.map ψ) ⧸ Subgroup.center ↥(K.map ψ)) .POmegaMinus 4 2 2 ∧
       CFSG.Open.IsComponentOf (K.map (e6Isogeny (GaloisField 2 2)))
         (Subgroup.centralizer {nativeY t (Pi.single i 1 + e • Pi.single j 1)}) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨I₀, hI₀, hI₀u, hL⟩ := adjoint_pair_component t hA htA hζ hij he
   obtain ⟨K, hK, hKθ, hKψ, hKu, ⟨e2⟩⟩ := unique_component_central_lift
     (e6Isogeny (GaloisField 2 2)) (CFSG.LieType.Steinberg.Isogeny.e6Isogeny_surjective _)
@@ -328,7 +329,7 @@ theorem native_axis_component {G : Type} [Group G]
       LieModel (↥(K.map ψ) ⧸ Subgroup.center ↥(K.map ψ)) .PSL 6 2 2 ∧
       CFSG.Open.IsComponentOf (K.map (e6Isogeny (GaloisField 2 2)))
         (Subgroup.centralizer {nativeY t (Pi.single i 1)}) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨I₀, hI₀, hI₀u, hL⟩ := adjoint_axis_component t hA htA hζ i
   obtain ⟨K, hK, hKθ, hKψ, hKu, ⟨e2⟩⟩ := unique_component_central_lift
     (e6Isogeny (GaloisField 2 2)) (CFSG.LieType.Steinberg.Isogeny.e6Isogeny_surjective _)
@@ -375,11 +376,11 @@ theorem native_pair_component_of_order_five {G : Type} [Group G]
       LieModel (↥(K.map ψ) ⧸ Subgroup.center ↥(K.map ψ)) .POmegaMinus 4 2 2 ∧
       CFSG.Open.IsComponentOf (K.map (e6Isogeny (GaloisField 2 2)))
         (Subgroup.centralizer {nativeY t (Pi.single i 1 + e • Pi.single j 1)}) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP (AlgebraicClosure (GaloisField 2 2)) 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP (AlgebraicClosure (GaloisField 2 2)) 2 :=
     charP_of_injective_algebraMap (algebraMap (GaloisField 2 2) _).injective 2
   have hK4 : Nat.card (GaloisField 2 2) = 4 := by
-    rw [GaloisField.card 2 2 (by norm_num)] <;> norm_num
+    rw [GaloisField.card 2 2 (by norm_num)]; norm_num
   obtain ⟨ζ, hζ, A, hA, htA⟩ :=
     CFSG.SeitzReduction.F4Pilot.exists_simultaneous_diagonalizer_order_five
       (Ω := AlgebraicClosure (GaloisField 2 2)) hK4 t ht
@@ -399,11 +400,11 @@ theorem native_axis_component_of_order_five {G : Type} [Group G]
       LieModel (↥(K.map ψ) ⧸ Subgroup.center ↥(K.map ψ)) .PSL 6 2 2 ∧
       CFSG.Open.IsComponentOf (K.map (e6Isogeny (GaloisField 2 2)))
         (Subgroup.centralizer {nativeY t (Pi.single i 1)}) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP (AlgebraicClosure (GaloisField 2 2)) 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP (AlgebraicClosure (GaloisField 2 2)) 2 :=
     charP_of_injective_algebraMap (algebraMap (GaloisField 2 2) _).injective 2
   have hK4 : Nat.card (GaloisField 2 2) = 4 := by
-    rw [GaloisField.card 2 2 (by norm_num)] <;> norm_num
+    rw [GaloisField.card 2 2 (by norm_num)]; norm_num
   obtain ⟨ζ, hζ, A, hA, htA⟩ :=
     CFSG.SeitzReduction.F4Pilot.exists_simultaneous_diagonalizer_order_five
       (Ω := AlgebraicClosure (GaloisField 2 2)) hK4 t ht

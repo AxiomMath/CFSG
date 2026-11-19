@@ -15,7 +15,7 @@ variable {G : Type} [Group G]
 
 private theorem natCard_eq_two_or_four_le (F : Type) [Field F] [Finite F] [CharP F 2] :
     Nat.card F = 2 ∨ 4 ≤ Nat.card F := by
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   obtain ⟨k, -, hk⟩ := FiniteField.card F 2
   rw [Nat.card_eq_fintype_card, hk]
   rcases Nat.lt_or_ge (k : ℕ) 2 with h | h
@@ -83,8 +83,8 @@ theorem range_comp_spLeviBlock_eq_of_isSubnormal {F : Type} [Field F] [Finite F]
   have hle := le_range_comp_spLeviBlock_of_perfect hψ htr hperf hJX hJc
   have hinj : Function.Injective (ψ.comp (CFSG.StandardType.spLeviBlock m F)) :=
     hψ.comp CFSG.StandardType.spLeviBlock_injective
-  haveI : IsSimpleGroup (StatedSp m F) := isSimpleGroup_statedSp_of_three_le hm
-  haveI hSsimple : IsSimpleGroup ↥(ψ.comp (CFSG.StandardType.spLeviBlock m F)).range :=
+  have : IsSimpleGroup (StatedSp m F) := isSimpleGroup_statedSp_of_three_le hm
+  have hSsimple : IsSimpleGroup ↥(ψ.comp (CFSG.StandardType.spLeviBlock m F)).range :=
     (MonoidHom.ofInjective hinj).symm.isSimpleGroup
   have hsub' := hsub.inf_of_le hSC
   have hsub'' : CFSG.Assembly.IsSubnormal J

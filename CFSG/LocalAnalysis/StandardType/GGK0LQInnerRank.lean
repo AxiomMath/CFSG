@@ -28,7 +28,7 @@ theorem two_lt_ncard_of_inner_quasisimple_two
     intro hrank
     have hkind : twistKind S.ρ (rootCharHom a) i = .inner := by
       unfold twistKind
-      rw [if_pos hinner]
+      rw [ite_eq_left hinner]
     have hsolv := CFSG.StandardType.GGK0LQ.lq_inner_solvable_of_rank_one
       S hp hT hTp h1 i hkind (fun h => (hG2 h).elim)
       (by rw [hs1, hq]; norm_num) hrank

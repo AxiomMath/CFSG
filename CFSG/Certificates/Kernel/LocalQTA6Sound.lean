@@ -248,7 +248,7 @@ private theorem recBool_eq (a : ℕ) (y1 y2 : List ℕ) :
   by_cases h : a = 0
   · subst h
     rfl
-  · rw [beq_false' h, if_neg h]
+  · rw [beq_false' h, ite_eq_right h]
 
 private theorem evNodeK_succ (P0 P1 Q1 : ℕ) (y1 y2 par lab : List ℕ) (f k p : ℕ) :
     evNodeK P0 P1 Q1 y1 y2 par lab (f + 1) k p =
@@ -264,7 +264,7 @@ private theorem evNodeK_succ (P0 P1 Q1 : ℕ) (y1 y2 par lab : List ℕ) (f k p 
 private theorem nodeWordFuelG_succ (par lab : Array ℕ) (y1 y2 : List ℕ) (f k : ℕ) (hk : k ≠ 0) :
     nodeWordFuelG par lab y1 y2 (f + 1) k =
       nodeWordFuelG par lab y1 y2 f par[k]! ++ (if lab[k]! = 0 then y1 else y2) := by
-  rw [nodeWordFuelG, if_neg hk]
+  rw [nodeWordFuelG, ite_eq_right hk]
 
 private theorem evNodeK_eq {P0 P1 Q1 : ℕ} (hg : Good P0 P1 Q1) (y1 y2 : List ℕ)
     (par lab : Array ℕ) : ∀ (fuel k p : ℕ), p < 3850 →

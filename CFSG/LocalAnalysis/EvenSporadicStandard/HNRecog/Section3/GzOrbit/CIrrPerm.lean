@@ -35,7 +35,7 @@ theorem exists_mulEquiv_inf_commutator_of_perm5 (H : Subgroup A5WrTwo)
     Nonempty (↥(H ⊓ commutator A5WrTwo) ≃* alternatingGroup (Fin 5)) := by
   obtain ⟨φ⟩ := hH
   let B : Subgroup A5WrTwo := commutator A5WrTwo
-  haveI hBnorm : B.Normal := by
+  have hBnorm : B.Normal := by
     change (commutator A5WrTwo).Normal
     infer_instance
   let K : Subgroup ↥H := B.subgroupOf H

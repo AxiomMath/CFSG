@@ -61,7 +61,7 @@ theorem Ctx2311.E_le_pCoreOf_M {D : Data G} {Ch : Choice2011 G} (c : Ctx2311 D C
 theorem Ctx2311.isPGroup_E {D : Data G} {Ch : Choice2011 G} (c : Ctx2311 D Ch)
     (h1930 : H1930 D) (h4 : S23_4 D Ch) (h12 : S23_12 D Ch)
     (hN8 : ⁅c.V, c.K⁆ = c.V) : IsPGroup 2 ↥c.E := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 D.M).to_le
     (Ctx2311.E_le_pCoreOf_M c h1930 h4 h12 hN8)
 

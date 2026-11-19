@@ -61,7 +61,7 @@ theorem largeEvenLabelAll_torusGenTableB_uFourTwo
     obtain ⟨K, i1, i2, hK, hQ'⟩ := hQ
     exact ⟨K, i1, i2, hK, ⟨hQ', ggTorusGenTableB_psuFourTwo (by rw [hK]; norm_num)⟩⟩
   · dsimp only [LargeEvenRawDatum] at hQ ⊢
-    rw [if_neg (by norm_num : ¬ (3 = 2)), if_pos rfl] at hQ ⊢
+    rw [ite_eq_right (by norm_num : ¬ (3 = 2)), ite_eq_left rfl] at hQ ⊢
     obtain ⟨K, i1, i2, hK, hQ'⟩ := hQ
     exact ⟨K, i1, i2, hK, ⟨hQ', ggTorusGenTableB_psuFourTwo (by rw [hK]; norm_num)⟩⟩
 

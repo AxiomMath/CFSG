@@ -103,7 +103,7 @@ theorem exists_twisted_subgroup_aux (hF : IsReeFrob a F) (w : WeylGroup ReeTag.F
   have hm0 : (m : L) ≠ 0 := fun h => hm2 ((CharP.cast_eq_zero_iff L 2 m).1 h)
   have : NeZero m := ⟨fun h => hm2 (by simp [h])⟩
   have : NeZero (m : L) := ⟨hm0⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L m
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L m
   have hcard : Nat.card (rootsOfUnity m L) = m := hζ.card_rootsOfUnity
   let φ : (rootsOfUnity m L) × (rootsOfUnity m L) →* (Fin ReeTag.F4.tag.rank → Lˣ) :=
     { toFun := fun z => expTuple (z.1 : Lˣ) (z.2 : Lˣ) U

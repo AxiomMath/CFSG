@@ -24,6 +24,7 @@ variable {G : Type} [Group G] [Finite G] {D : Set G} {d e : G} {E : Set G} {n : 
     Subgroup (Equiv.Perm ↥(szLine D d e)) :=
   ((szS E P).subgroupOf (szLineStab D d e)).map (szLineHom D d e)
 
+omit [Finite G] in
 theorem SzCfg.szLineT_fix (c : SzCfg G D d E e n) :
     ∀ t ∈ szLineT D d e E, t (szLinePt D d e d c.d_mem_szLineSet) =
       szLinePt D d e d c.d_mem_szLineSet := by
@@ -33,6 +34,7 @@ theorem SzCfg.szLineT_fix (c : SzCfg G D d E e n) :
   have hrQ : ((r : ↥(szLineStab D d e)) : G) ∈ szQ E := Subgroup.mem_subgroupOf.mp hr
   exact c.szLineHom_fix_of_mem_closure (szQ_le_closure E hrQ)
 
+omit [Finite G] in
 theorem SzCfg.szLineS_fix (c : SzCfg G D d E e n) (P : Sylow 2 (SzBar E)) :
     ∀ t ∈ szLineS D d e E P, t (szLinePt D d e d c.d_mem_szLineSet) =
       szLinePt D d e d c.d_mem_szLineSet := by

@@ -108,15 +108,15 @@ private theorem zs4a_isRefl_twist {n : ℕ} (f : Module.Basis (Fin n) (ZMod p) U
     simp only [diagMap_apply_basis, permMap_apply_basis, map_smul, smul_smul]
     by_cases hki : k = i
     · rw [hki]
-      simp only [Equiv.swap_apply_left, ite_true, if_neg hij, if_neg (Ne.symm hij), pairUnit,
+      simp only [Equiv.swap_apply_left, ite_true, ite_eq_right hij, ite_eq_right (Ne.symm hij), pairUnit,
         Units.val_one, one_mul]
     · by_cases hkj : k = j
       · rw [hkj]
-        simp only [Equiv.swap_apply_right, ite_true, if_neg hij, if_neg (Ne.symm hij), pairUnit,
+        simp only [Equiv.swap_apply_right, ite_true, ite_eq_right hij, ite_eq_right (Ne.symm hij), pairUnit,
           Units.val_one, Units.inv_mul, one_smul]
       · have hswap : Equiv.swap i j k = k := Equiv.swap_apply_of_ne_of_ne hki hkj
         rw [hswap]
-        simp only [if_neg hki, if_neg hkj, pairUnit, Units.val_one, one_mul, one_smul]
+        simp only [ite_eq_right hki, ite_eq_right hkj, pairUnit, Units.val_one, one_mul, one_smul]
   have h_eq : diagMap p f (pairUnit p i j c) * permMap p f (Equiv.swap i j)
       = d * permMap p f (Equiv.swap i j) * d⁻¹ := by
     calc diagMap p f (pairUnit p i j c) * permMap p f (Equiv.swap i j)
@@ -145,8 +145,8 @@ private theorem zs4a_isRefl_sign (hp : p ≠ 2) {n : ℕ} (f : Module.Basis (Fin
     refine f.ext' fun k => ?_
     rw [diagMap_apply_basis, Module.reflection_apply]
     by_cases hka : k = a
-    · subst hka; rw [if_pos rfl, hφa]; module
-    · rw [hφ0 k hka, if_neg hka]; simp
+    · subst hka; rw [ite_eq_left rfl, hφa]; module
+    · rw [hφ0 k hka, ite_eq_right hka]; simp
   rw [hrefl]
   exact isRefl_reflection hp hφa
 
@@ -228,7 +228,7 @@ private theorem zs4a_reflGen_g2mmn_sign {n : ℕ} (f : Module.Basis (Fin n) (ZMo
       funext k
       by_cases hk : k = i₀
       · subst hk
-        simp only [if_true]
+        simp only [ite_true]
         exact Subsingleton.elim _ _
       · simp [hk]
     rw [h1, diagMap_one]
@@ -296,15 +296,15 @@ private theorem zs4a_equivFun_diagMap_apply {n : ℕ} (f : Module.Basis (Fin n) 
 
 private theorem zs4a_pairUnit_apply_of_ne (p : ℕ) {n : ℕ} (i j l : Fin n) (ζ : (ZMod p)ˣ)
     (hi : l ≠ i) (hj : l ≠ j) : (pairUnit p i j ζ l : ZMod p) = 1 := by
-  simp only [pairUnit, if_neg hi, if_neg hj, Units.val_one]
+  simp only [pairUnit, ite_eq_right hi, ite_eq_right hj, Units.val_one]
 
 private theorem zs4a_pairUnit_apply_left (p : ℕ) {n : ℕ} (i j : Fin n) (ζ : (ZMod p)ˣ)
     (_h : i ≠ j) : (pairUnit p i j ζ i : ZMod p) = ζ := by
-  simp only [pairUnit, if_true]
+  simp only [pairUnit, ite_true]
 
 private theorem zs4a_pairUnit_apply_right (p : ℕ) {n : ℕ} (i j : Fin n) (ζ : (ZMod p)ˣ)
     (h : i ≠ j) : (pairUnit p i j ζ j : ZMod p) = ζ⁻¹ := by
-  simp only [pairUnit, if_neg (Ne.symm h), if_true]
+  simp only [pairUnit, ite_eq_right (Ne.symm h), ite_true]
 
 private theorem zs4a_exists_perm_pair {n : ℕ} {i₀ i₁ i j : Fin n} (hi : i₀ ≠ i₁) (hij : i ≠ j) :
     ∃ π : Equiv.Perm (Fin n), π i₀ = i ∧ π i₁ = j := by
@@ -416,9 +416,9 @@ private theorem zs4a_coord_diagMap {n : ℕ} (f : Module.Basis (Fin n) (ZMod p) 
   by_cases hli : l = i
   · subst l
     rw [zs4a_pairUnit_apply_left p i k ζ (Ne.symm hki),
-      zs4a_pairUnit_apply_left p i j ζ hij, if_pos rfl]
+      zs4a_pairUnit_apply_left p i j ζ hij, ite_eq_left rfl]
     ring
-  · rw [if_neg (Ne.symm hli), mul_zero]
+  · rw [ite_eq_right (Ne.symm hli), mul_zero]
     by_cases hlj : l = j
     · rw [zs4a_pairUnit_apply_of_ne p i k l ζ hli (fun h => hkj (by rw [← h]; exact hlj))]
       ring
@@ -438,10 +438,10 @@ private theorem zs4a_coord_two (f : Module.Basis (Fin 2) (ZMod p) U)
   have hcases : l = i ∨ l = j := by omega
   rcases hcases with h | h
   · subst l
-    rw [zs4a_pairUnit_apply_left p i j ζ hij, if_pos rfl]
+    rw [zs4a_pairUnit_apply_left p i j ζ hij, ite_eq_left rfl]
     ring
   · subst l
-    rw [zs4a_pairUnit_apply_right p i j ζ hij, if_neg hij, Units.val_inv_eq_inv_val]
+    rw [zs4a_pairUnit_apply_right p i j ζ hij, ite_eq_right hij, Units.val_inv_eq_inv_val]
     ring
 
 private theorem zs4a_coord_sign {n : ℕ} (f : Module.Basis (Fin n) (ZMod p) U)
@@ -455,9 +455,9 @@ private theorem zs4a_coord_sign {n : ℕ} (f : Module.Basis (Fin n) (ZMod p) U)
   dsimp only
   by_cases hli : l = i
   · subst l
-    rw [if_pos rfl, if_pos rfl, Units.val_neg, Units.val_one]
+    rw [ite_eq_left rfl, ite_eq_left rfl, Units.val_neg, Units.val_one]
     ring
-  · rw [if_neg hli, if_neg (Ne.symm hli), Units.val_one]
+  · rw [ite_eq_right hli, ite_eq_right (Ne.symm hli), Units.val_one]
     ring
 
 private theorem zs4a_irreducible_gmmn_n2 (f : Module.Basis (Fin 2) (ZMod p) U) {i₀ i₁ : Fin 2}
@@ -872,7 +872,7 @@ private theorem zs4a_index_eq {n : ℕ} (f : Module.Basis (Fin n) (ZMod p) U) {c
   by_contra hne
   have h1 := congrArg (fun x => f.repr x j) h
   rw [map_smul, map_smul, Finsupp.smul_apply, Finsupp.smul_apply, f.repr_self, f.repr_self,
-    Finsupp.single_apply, Finsupp.single_apply, if_pos rfl, if_neg (Ne.symm hne), smul_eq_mul,
+    Finsupp.single_apply, Finsupp.single_apply, ite_eq_left rfl, ite_eq_right (Ne.symm hne), smul_eq_mul,
     mul_one, smul_zero] at h1
   exact hc h1
 
@@ -955,7 +955,7 @@ private theorem zs4a_exists_scalar {n : ℕ} (f : Module.Basis (Fin n) (ZMod p) 
     have hxa2 : (e * c i) • f i = (c i₀ * e) • f i := hL.trans (hxa.trans hR)
     have heq : e * c i = e * c i₀ := by
       have h2 := congrArg (fun y => f.repr y i) hxa2
-      simp only [map_smul, Finsupp.smul_apply, f.repr_self, Finsupp.single_apply, if_true,
+      simp only [map_smul, Finsupp.smul_apply, f.repr_self, Finsupp.single_apply, ite_true,
         smul_eq_mul, mul_one, mul_comm (c i₀) e] at h2
       exact h2
     exact mul_left_cancel₀ he heq
@@ -997,7 +997,7 @@ private theorem zs4a_scalar_unit_gmmn {n : ℕ} (f : Module.Basis (Fin n) (ZMod 
     have h := hm i
     rw [hσi i] at h
     have h2 := congrArg (fun y => f.repr y i) h
-    simp only [map_smul, Finsupp.smul_apply, f.repr_self, Finsupp.single_apply, if_true,
+    simp only [map_smul, Finsupp.smul_apply, f.repr_self, Finsupp.single_apply, ite_true,
       smul_eq_mul, mul_one] at h2
     exact h2
   have hd_const : ∀ k, d k = d i₀ := fun k => Units.ext ((hdi k).trans (hdi i₀).symm)
@@ -1030,7 +1030,7 @@ private theorem zs4a_scalar_unit_g2mmn {n : ℕ} (f : Module.Basis (Fin n) (ZMod
     have h := hm i
     rw [hσi i] at h
     have h2 := congrArg (fun y => f.repr y i) h
-    simp only [map_smul, Finsupp.smul_apply, f.repr_self, Finsupp.single_apply, if_true,
+    simp only [map_smul, Finsupp.smul_apply, f.repr_self, Finsupp.single_apply, ite_true,
       smul_eq_mul, mul_one] at h2
     exact h2
   have hd_const : ∀ k, d k = d i₀ := fun k => Units.ext ((hdi k).trans (hdi i₀).symm)
@@ -1466,10 +1466,10 @@ theorem eq_span_of_isImprimSystem_g2mmn (hp : p ≠ 2) {n : ℕ} (hn : 2 ≤ n)
     have hcoe := congrArg (fun u : (ZMod p)ˣ => (u : ZMod p)) h
     have hj : ((fun l => if l = j then (-1 : (ZMod p)ˣ) else 1) j : ZMod p) = -1 := by
       dsimp only
-      rw [if_pos rfl, Units.val_neg, Units.val_one]
+      rw [ite_eq_left rfl, Units.val_neg, Units.val_one]
     have hj' : ((fun l => if l = j then (-1 : (ZMod p)ˣ) else 1) j' : ZMod p) = 1 := by
       dsimp only
-      rw [if_neg (Ne.symm hjj'), Units.val_one]
+      rw [ite_eq_right (Ne.symm hjj'), Units.val_one]
     rw [hj, hj'] at hcoe
     exact (zs4a_two_ne_zero (p := p) hp) (by
       have htwo := congrArg (fun x : ZMod p => x + 1) hcoe

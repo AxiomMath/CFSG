@@ -47,7 +47,7 @@ private theorem claim_7_sup_decomposition_of_direct_product
       simpa [mul_assoc] using hback
   intro x hxN
   let xH : H := ⟨x, hN_le_H hxN⟩
-  haveI : (A.subgroupOf H).Normal := hA_normal_H
+  have : (A.subgroupOf H).Normal := hA_normal_H
   have hsup_top : A.subgroupOf H ⊔ B.subgroupOf H = ⊤ := by
     have hsub :
         (A ⊔ B).subgroupOf H = A.subgroupOf H ⊔ B.subgroupOf H :=
@@ -155,7 +155,7 @@ private theorem claim_7_sigmaBar_mulEquiv_CW
           group
         rw [hback_eq] at hback
         exact hback
-    letI : (Wc.subgroupOf DCP).Normal := hWc_normal_DCP
+    let : (Wc.subgroupOf DCP).Normal := hWc_normal_DCP
     have hsup_top :
         Wc.subgroupOf DCP ⊔ P.subgroupOf DCP = ⊤ := by
       have hsub :
@@ -277,7 +277,7 @@ private theorem claim_7_addOrderOf_one_eq_three_of_dickson_model
   rw [PFAppendixII.IsDicksonIndexTwoModel] at hmodel
   rcases hmodel with
     ⟨_hprime, _hne_two, _hn_pos, hfact, e, he1, _hmul, _hfrob, _hcenter⟩
-  letI : Fact (Nat.Prime 3) := hfact
+  let : Fact (Nat.Prime 3) := hfact
   apply addOrderOf_eq_prime
   · apply e.injective
     have hchar : (3 : GaloisField 3 (2 * 1)) = 0 :=
@@ -449,9 +449,9 @@ private theorem chapter2_claim7_N_inf_W_nontrivial_case_elimination
   rcases h2b with
     ⟨_hNcore, hnormal, _quotientAction, _hsmul, _hAbar,
       F, hF, hFfinite, hFnontrivial, unitEquiv, _hPO, hcharacteristic⟩
-  letI : PFAppendixII.RightNearField F := hF
-  letI : Finite F := hFfinite
-  letI : Nontrivial F := hFnontrivial
+  let : PFAppendixII.RightNearField F := hF
+  let : Finite F := hFfinite
+  let : Nontrivial F := hFnontrivial
   have hQnil : Group.IsNilpotent Q :=
     _root_.CFSG.BenderSuzuki.PFchapter1section2.proposition_1_b
       H D Q K V W Q0 S Q1 t hch.section3.section2
@@ -689,7 +689,7 @@ public theorem claim_7
   classical
   let C : Subgroup G := Subgroup.centralizer (P : Set G)
   let OmegaP : Type _ := {w : Ω // w ∈ fixedPointsOfSubgroup G Ω P}
-  letI : MulAction C OmegaP := fixedPointCentralizerAction G Ω P
+  let : MulAction C OmegaP := fixedPointCentralizerAction G Ω P
   let DP : Subgroup C := D.comap C.subtype
   let core : Subgroup C := pointStabilizerCore C OmegaP
   have h2b := claim_2_b H D Q K V W Q0 S Q1 P t s p hch
@@ -699,7 +699,7 @@ public theorem claim_7
     rw [hN]
     exact hNcoreDef
   refine ⟨hnormal, ?_⟩
-  letI : core.Normal := hnormal
+  let : core.Normal := hnormal
   have hdecomp : N = (N ⊓ W) ⊔ P :=
     claim_7_N_decomposition_obligation
       H D Q K V W Q0 S Q1 P N t s p hch hN

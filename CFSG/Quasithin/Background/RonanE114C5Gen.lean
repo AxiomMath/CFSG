@@ -41,7 +41,7 @@ theorem nParam_le_of_levi {H : Type} [Group H] [Finite H] {K T : Subgroup H}
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hker_eq : CFSG.pCore 2 ↥K = f.ker := pCore_two_eq_ker hnab f hf hker
   set Y := CFSG.pCore 2 H with hY
-  haveI hYn : Y.Normal := CFSG.pCore_normal
+  have hYn : Y.Normal := CFSG.pCore_normal
   refine nParam_top_le_of_quotient_pGroup (CFSG.pCore_isPGroup) hm ?_
   set π := QuotientGroup.mk' Y with hπ
   set N := K.map π with hN
@@ -61,7 +61,7 @@ theorem nParam_le_of_levi {H : Type} [Group H] [Finite H] {K T : Subgroup H}
         intro g
         obtain ⟨n, hn⟩ := (CFSG.pCore_isPGroup (p := 2) (G := H)) ⟨(g.1 : H), g.2⟩
         exact ⟨n, Subtype.ext (Subtype.ext (by simpa using congrArg Subtype.val hn))⟩
-      haveI : (Y.subgroupOf K).Normal := Subgroup.Normal.subgroupOf hYn K
+      have : (Y.subgroupOf K).Normal := Subgroup.Normal.subgroupOf hYn K
       exact (le_sSup ⟨inferInstance, hp⟩ : Y.subgroupOf K ≤ CFSG.pCore 2 ↥K) hkY
     · intro hk
       apply Subtype.ext
@@ -72,7 +72,7 @@ theorem nParam_le_of_levi {H : Type} [Group H] [Finite H] {K T : Subgroup H}
     (QuotientGroup.quotientKerEquivOfSurjective (π.subgroupMap K) hsurj).symm.trans
       ((QuotientGroup.quotientMulEquivOfEq hkerπ).trans
         (QuotientGroup.quotientKerEquivOfSurjective f hf))
-  haveI : IsSimpleGroup ↥N := θ.isSimpleGroup
+  have : IsSimpleGroup ↥N := θ.isSimpleGroup
   have hncN : ∃ x y : ↥N, x * y ≠ y * x := by
     obtain ⟨a, b, hab⟩ := hnab
     refine ⟨θ.symm a, θ.symm b, fun h => hab ?_⟩
@@ -102,7 +102,7 @@ theorem alt5_nonabelian : ∃ a b : ↥(alternatingGroup (Fin 5)), a * b ≠ b *
   by_contra hcomm
   push Not at hcomm
   have : IsMulCommutative ↥(alternatingGroup (Fin 5)) := ⟨⟨fun a b => hcomm a b⟩⟩
-  have hp := Group.is_simple_iff_prime_card.1 alternatingGroup.isSimpleGroup_five
+  have hp := Group.is_simple_iff_prime_card.1 (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   rw [Nat.card_eq_fintype_card, card_alternatingGroup, Fintype.card_fin] at hp
   norm_num [Nat.factorial] at hp
 
@@ -128,7 +128,7 @@ theorem hX_alt5 (G' : Type) [Group G'] [Finite G'] (T' : Subgroup G')
     (h : Nonempty (↥(CFSG.generalizedFitting G') ≃* ↥(alternatingGroup (Fin 5)))) :
     E1.nParam (⊤ : Subgroup G') ≤ ((2 : ℕ) : ℕ∞) := by
   obtain ⟨e⟩ := h
-  haveI := alternatingGroup.isSimpleGroup_five
+  have := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   have hL : IsPSL 2 2 2 ↥(CFSG.generalizedFitting G') :=
     CFSG.QuasithinUnique.Ch1.statedClassicalModel_psl_two_four_of_alternating_five _ ⟨e⟩
   have hs : IsSimpleGroup ↥(CFSG.generalizedFitting G') := e.isSimpleGroup
@@ -162,7 +162,7 @@ theorem nParam_le_one_of_levi3
     (f : ↥K →* Matrix.SpecialLinearGroup (Fin 3) (ZMod 2)) (hf : Function.Surjective f)
     (hker : IsPGroup 2 f.ker) : E1.nParam (⊤ : Subgroup H) ≤ ((1 : ℕ) : ℕ∞) := by
   have hK2 : Nat.card (ZMod 2) = 2 := Nat.card_zmod 2
-  haveI := sl_isSimple_of_card_two hK2 (m := 3) le_rfl
+  have := sl_isSimple_of_card_two hK2 (m := 3) le_rfl
   exact nParam_le_of_levi hK hT hKT (sl_nonabelian_of_card_two hK2 (m := 3) le_rfl) f hf hker
     one_pos hX_sl3
 
@@ -172,14 +172,14 @@ theorem nParam_le_two_of_levi5 {H : Type} [Group H] [Finite H]
     (ρ : ↥Q →* Perm (Fin 5)) (hker : IsPGroup 2 ρ.ker)
     (hA : alternatingGroup (Fin 5) ≤ ρ.range) : E1.nParam (⊤ : Subgroup H) ≤ ((2 : ℕ) : ℕ∞) := by
   classical
-  haveI := hQ
+  have := hQ
   set K : Subgroup H := ⁅Q, Q⁆ with hKdef
-  haveI hKn : K.Normal := Subgroup.commutator_normal Q Q
+  have hKn : K.Normal := Subgroup.commutator_normal Q Q
   have hKQ : K ≤ Q := Subgroup.commutator_le_left Q Q
   have hKsub : K.subgroupOf Q = commutator ↥Q := by
     rw [hKdef, ← Subgroup.map_subtype_commutator]
     ext x
-    simp [Subgroup.mem_subgroupOf]
+    simp
   let fK : ↥K →* Perm (Fin 5) := ρ.comp (Subgroup.inclusion hKQ)
   have hrange : fK.range = alternatingGroup (Fin 5) := by
     rw [MonoidHom.range_comp, range_inclusion_eq hKQ, hKsub, commutator_def,
@@ -243,12 +243,12 @@ theorem nParam_le_two_of_levi5 {H : Type} [Group H] [Finite H]
     have hq' : q = ((a * (Subgroup.inclusion hKQ k)⁻¹ : ↥Q) : H) * (k : H) * (s : H) := by
       have h1 : ((a * s : ↥Q) : H) = q := congrArg Subtype.val has
       rw [← h1]
-      simp [Subgroup.coe_mul, Subgroup.coe_inv]
+      simp [Subgroup.coe_mul]
     rw [hq']
     refine Subgroup.mul_mem _ (Subgroup.mul_mem _ ?_ (Subgroup.mem_sup_left k.2)) ?_
     · exact Subgroup.mem_sup_right (Subgroup.mem_inf.mp (Subgroup.mem_subgroupOf.mp hrkS)).1
     · exact Subgroup.mem_sup_right (Subgroup.mem_inf.mp (Subgroup.mem_subgroupOf.mp hs)).1
-  haveI := alternatingGroup.isSimpleGroup_five
+  have := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   exact nParam_le_of_levi hKn hT hKT alt5_nonabelian f hf hkerf two_pos
     (fun G' _ _ T' hT' hFT h => hX_alt5 G' T' hT' hFT h)
 
@@ -256,6 +256,7 @@ section Ambient
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem typeLevel_of_ambient {Q T : Subgroup G} (hTQ : T ≤ Subgroup.normalizer (Q : Set G))
     (hT : IsSylowTwoOf T (Q ⊔ T)) :
     (Q.subgroupOf (Q ⊔ T)).Normal ∧ IsSylowTwoOf (T.subgroupOf (Q ⊔ T)) ⊤ ∧
@@ -370,7 +371,7 @@ theorem GoodGam.toGoodSub {Γ : Type} [Group Γ] [Finite Γ] {H : Type} [Group H
     {K T : Subgroup H} (hK : K.Normal) (e' : ↥K ≃* Γ) {𝒜 : Set (MulAut Γ)}
     (h𝒜 : ∀ t ∈ T, autK e' t ∈ 𝒜) {P : Subgroup Γ} (h : GoodGam 𝒜 P) :
     GoodSub T ((P.map e'.symm.toMonoidHom).map K.subtype) := by
-  haveI := hK
+  have := hK
   induction h with
   | @solvable P hinv hs =>
     exact GoodSub.solvable (fun t ht => mem_normalizer_pull e' (hinv _ (h𝒜 t ht)))

@@ -19,8 +19,6 @@ section RhoTorus
 
 open CFSG.RankThree.PartOne.KE6
 
-variable
-  [E6Sub Tag.E8]
 
 private def e8RhoRoot1 : Fin Tag.E8.rank → ℤ := ![0, 0, 0, 0, 0, -1, 0, 0]
 
@@ -78,10 +76,11 @@ private lemma torusElt_two_mul_four_mem_stdLayer_rho {ℓ f : ℕ} [Fact ℓ.Pri
   rw [conj_torusElt_of_hgen hstd.hgen h2 ω, conj_torusElt_of_hgen hstd.hgen h4 ω, hρ2, hρ4]
   exact (torusElt_mul_comm 2 4 ω ω).symm
 
+omit [E6Sub Tag.E8] in
 private lemma orderOf_torusElt_mul_two_four {ω : Lˣ} {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2)
     (hωq : ω ^ q = 1) (hωdvd : ∀ k : ℕ, ω ^ k = 1 → q ∣ k) :
     orderOf (torusElt Tag.E8 L 2 ω * torusElt Tag.E8 L 4 ω) = q := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hdiag2 : torusElt Tag.E8 L 2 ω ∈ diagonalGroup :=
     torusGroup_le_diagonalGroup (torusElt_mem_torusGroup 2 ω)
   have hdiag4 : torusElt Tag.E8 L 4 ω ∈ diagonalGroup :=
@@ -105,6 +104,7 @@ private lemma orderOf_torusElt_mul_two_four {ω : Lˣ} {q : ℕ} (hq : q.Prime) 
     · exact hq2 h
   exact orderOf_eq_prime hpow hne
 
+omit [E6Sub Tag.E8] in
 private lemma rho_char_at_root_one {ω : Lˣ} :
     torusRootChar (torusElt Tag.E8 L 1 ω) e8RhoRoot1 = 1 ∧
       torusRootChar (torusElt Tag.E8 L 3 ω) e8RhoRoot1 = 1 ∧
@@ -122,6 +122,7 @@ private lemma rho_char_at_root_one {ω : Lˣ} :
       (torusGroup_le_diagonalGroup (torusElt_mem_torusGroup 4 ω)),
       torusRootChar_torusElt _ _ hr, torusRootChar_torusElt _ _ hr, s21, s41]; simp
 
+omit [E6Sub Tag.E8] in
 private lemma rho_char_at_root_two {ω : Lˣ} :
     torusRootChar (torusElt Tag.E8 L 1 ω) e8RhoRoot2 = (ω : L) ∧
       torusRootChar (torusElt Tag.E8 L 3 ω) e8RhoRoot2 = 1 ∧
@@ -138,6 +139,7 @@ private lemma rho_char_at_root_two {ω : Lˣ} :
       (torusGroup_le_diagonalGroup (torusElt_mem_torusGroup 4 ω)),
       torusRootChar_torusElt _ _ hr, torusRootChar_torusElt _ _ hr, s22, s42]; simp
 
+omit [E6Sub Tag.E8] in
 private lemma rho_char_at_root_three {ω : Lˣ} :
     torusRootChar (torusElt Tag.E8 L 1 ω) e8RhoRoot3 = 1 ∧
       torusRootChar (torusElt Tag.E8 L 3 ω) e8RhoRoot3 = (ω : L) ∧
@@ -154,6 +156,7 @@ private lemma rho_char_at_root_three {ω : Lˣ} :
       (torusGroup_le_diagonalGroup (torusElt_mem_torusGroup 4 ω)),
       torusRootChar_torusElt _ _ hr, torusRootChar_torusElt _ _ hr, s23, s43]; simp
 
+omit [E6Sub Tag.E8] in
 private lemma independent_powers_rho {ω : Lˣ} {q : ℕ}
     (hωdvd : ∀ k : ℕ, ω ^ k = 1 → q ∣ k) :
     ∀ m n k : ℕ, torusElt Tag.E8 L 1 ω ^ m * torusElt Tag.E8 L 3 ω ^ n *
@@ -205,16 +208,16 @@ private lemma independent_powers_rho {ω : Lˣ} {q : ℕ}
   exact ⟨hm, hn, hk⟩
 
 theorem exists_three_qTorus_stdLayer_rho {K : Type} [Field K] [Algebra K L] {ℓ f : ℕ}
-    [Fact ℓ.Prime] [CharP L ℓ] (hf : 1 ≤ f) {q : ℕ}
+    [Fact ℓ.Prime] [CharP L ℓ] (_hf : 1 ≤ f) {q : ℕ}
     (hq : q.Prime) (hq2 : q ≠ 2) {ζ : K} (hζ : IsPrimitiveRoot ζ q)
     (hFr : ∀ x : K, (algebraMap K L x) ^ (ℓ ^ f) = algebraMap K L x)
     {n₁ : ModGL Tag.E8 L} (hstd : StdTwist6 n₁ (rhoτ Tag.E8)) :
     ∃ T : Subgroup (ModGL Tag.E8 L), T ≤ stdLayer Tag.E8 ℓ f n₁ ∧
       IsElemAbelian q T ∧ Nat.card T = q ^ 3 := by
   classical
-  haveI : NeZero q := ⟨hq.ne_zero⟩
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Fact (1 < q) := ⟨hq.one_lt⟩
+  have : NeZero q := ⟨hq.ne_zero⟩
+  have : Fact q.Prime := ⟨hq⟩
+  have : Fact (1 < q) := ⟨hq.one_lt⟩
   set ζu : Kˣ := Units.mk0 ζ (hζ.ne_zero hq.ne_zero) with hζudef
   have hζu : IsPrimitiveRoot ζu q := (IsPrimitiveRoot.coe_units_iff).mp hζ
   set ω : Lˣ := Units.map (algebraMap K L).toMonoidHom ζu with hωdef

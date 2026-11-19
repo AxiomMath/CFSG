@@ -12,6 +12,7 @@ open CFSG.ClassicalInvolution.Solomon73 CFSG.ClassicalInvolution.Solomon73.Yamak
 variable {G : Type} [Group G] [Finite G] {A X' : Subgroup G}
   {A0 : Subgroup (StatedSp 3 (ZMod 2))}
 
+omit [Finite G] in
 theorem autL32_of_nu (hNX : Subgroup.normalizer (A : Set G) = X')
     (ν : ↥X' ≃* ↥N0) (hνA : (A.subgroupOf X').map ν.toMonoidHom = A0.subgroupOf N0)
     (hCA : Subgroup.centralizer (A : Set G) = A)
@@ -26,8 +27,7 @@ theorem autL32_of_nu (hNX : Subgroup.normalizer (A : Set G) = X')
   · intro g
     obtain ⟨n, hn⟩ := hρs g
     refine ⟨(MulEquiv.subgroupCongr hNX).symm (ν.symm n), ?_⟩
-    simp only [MonoidHom.comp_apply, MonoidHom.coe_comp, Function.comp_apply,
-      MulEquiv.coe_toMonoidHom, MulEquiv.apply_symm_apply, hn]
+    simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulEquiv.apply_symm_apply, hn]
   · ext n
     have key : ν (MulEquiv.subgroupCongr hNX n) ∈ A0.subgroupOf N0 ↔ (n : G) ∈ A :=
       (hmem (MulEquiv.subgroupCongr hNX n)).symm.trans Subgroup.mem_subgroupOf
@@ -39,6 +39,7 @@ theorem autL32_of_nu (hNX : Subgroup.normalizer (A : Set G) = X')
       n ∈ (Subgroup.centralizer (A : Set G)).subgroupOf (Subgroup.normalizer (A : Set G))
     rw [h1, key, Subgroup.mem_subgroupOf, hCA]
 
+omit [Finite G] in
 theorem exists_fpf_of_nu (hNX : Subgroup.normalizer (A : Set G) = X')
     (ν : ↥X' ≃* ↥N0) (hνA : (A.subgroupOf X').map ν.toMonoidHom = A0.subgroupOf N0)
     (hAX : A ≤ X')
@@ -71,6 +72,7 @@ theorem exists_fpf_of_nu (hNX : Subgroup.normalizer (A : Set G) = X')
     have h1 : (⟨a, haX⟩ : ↥X') = 1 := ν.injective (by rw [map_one]; exact Subtype.ext hw)
     exact congrArg Subtype.val h1
 
+omit [Finite G] in
 theorem mem_centralizer_iff_nu {e : G} (ν : ↥X' ≃* ↥N0) (heX : e ∈ X')
     (hνe : ((ν ⟨e, heX⟩ : ↥N0) : StatedSp 3 (ZMod 2)) = alpha)
     (hαX0 : ∀ n ∈ N0, n * alpha = alpha * n → n ∈ X0)
@@ -92,12 +94,13 @@ theorem mem_centralizer_iff_nu {e : G} (ν : ↥X' ≃* ↥N0) (heX : e ∈ X')
   · intro h
     exact Subgroup.mem_centralizer_singleton_iff.1 (hHα (X0_le_Hhat h))
 
+omit [Finite G] in
 theorem exists_mem_normalizer_not_mem_centralizer {e : G}
     (hcard : Nat.card ↥(Subgroup.normalizer (A : Set G) ⊓ Subgroup.centralizer ({e} : Set G)) <
       Nat.card ↥(Subgroup.normalizer (A : Set G))) :
     ∃ n ∈ Subgroup.normalizer (A : Set G), n ∉ Subgroup.centralizer ({e} : Set G) := by
   by_contra h
-  push_neg at h
+  push Not at h
   have hle : Subgroup.normalizer (A : Set G) ≤ Subgroup.centralizer ({e} : Set G) :=
     fun n hn => h n hn
   rw [inf_eq_left.2 hle] at hcard

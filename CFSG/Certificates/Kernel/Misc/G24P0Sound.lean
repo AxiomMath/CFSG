@@ -40,7 +40,7 @@ private theorem digitsOf_eq' (rs : List (List ℕ)) :
       rfl
 
 private theorem toNat_ofNat_lt' {c : ℕ} (hc : c < 128) : (Char.ofNat c).toNat = c := by
-  rw [Char.toNat_ofNat, if_pos]
+  rw [Char.toNat_ofNat, ite_eq_left]
   exact Or.inl (by omega)
 
 private theorem toMat_rowsArr_f4 {rows : List (List ℕ)} (ha : asciiK rows = true)
@@ -123,6 +123,7 @@ theorem eq_of_pkMat_eq {n x y : ℕ} (hx : x < 2 ^ (n * n)) (hy : y < 2 ^ (n * n
     rw [Nat.testBit_lt_two_pow (lt_of_lt_of_le hx hle),
       Nat.testBit_lt_two_pow (lt_of_lt_of_le hy hle)]
 
+set_option exponentiation.threshold 784 in
 theorem g24P0_sound {GR : List (List (List Nat))} {Gb : List Nat} {RS XS YS : List (List Nat)}
     {PS : List (List (List Nat × List Nat))} {XL YL : List (List (List Nat))}
     {p1 p2 zx zy : List Nat} (h44 : g24F4K GR Gb RS PS XS YS XL YL = true)

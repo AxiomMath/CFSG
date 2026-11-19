@@ -23,7 +23,7 @@ theorem Setting12One.exists_inverted_element
       Odd (orderOf x) ∧ orderOf x * (2 ^ m - 1) = 2 ^ n - 1 ∧
       Nat.Coprime (orderOf x) (2 ^ m - 1) ∧
       ∃ v ∈ commSub ρ.range, ρ x v = v ∧ ∃ y : G, ρ y v ≠ v := by
-  haveI : Finite G := rankOne_finite h.type
+  have : Finite G := rankOne_finite h.type
   obtain ⟨L, hL⟩ := h.exists_minimal
   obtain ⟨hmn, hZm, -, t, TL, htL, ht2, htB, hTLle, hTLcyc, hTLcard, hTLinv, hTLreg, hTLcomm⟩ :=
     twelveTwo_two_general h hL hZ
@@ -52,7 +52,7 @@ theorem Setting12One.exists_inverted_element
   have hApos : 1 < Nat.card A := by
     rw [h.A_card]
     exact Nat.one_lt_two_pow (by omega)
-  haveI : Nontrivial A := Finite.one_lt_card_iff_nontrivial.1 hApos
+  have : Nontrivial A := Finite.one_lt_card_iff_nontrivial.1 hApos
   obtain ⟨a, haA, ha1⟩ : ∃ a ∈ A, a ≠ 1 := by
     obtain ⟨a', ha'⟩ := exists_ne (1 : A)
     exact ⟨a', a'.2, fun h1 => ha' (Subtype.ext h1)⟩
@@ -89,7 +89,7 @@ theorem Setting12One.exists_inverted_element
     exact hx₀ord
   · rw [horder]
     exact hx₀cop
-  · haveI : Nontrivial Z := Finite.one_lt_card_iff_nontrivial.1 (by
+  · have : Nontrivial Z := Finite.one_lt_card_iff_nontrivial.1 (by
       rw [hZcard]
       exact Nat.one_lt_two_pow (by omega))
     obtain ⟨z', hz'⟩ := exists_ne (0 : Z)
@@ -102,7 +102,7 @@ theorem Setting12One.exists_inverted_element
       exact sub_mem_commSub ρ.range ⟨y, rfl⟩ u
     refine ⟨ρ c z', map_mem_commSub ρ.range ⟨c, rfl⟩ (hZle hz₀), ?_, ?_⟩
     · rw [hconj x₀ z', hx₀fix z' hz₀]
-    · haveI : Nontrivial TL := Finite.one_lt_card_iff_nontrivial.1 (by
+    · have : Nontrivial TL := Finite.one_lt_card_iff_nontrivial.1 (by
         rw [hTLcard]
         have h4 : 2 ^ 2 ≤ 2 ^ m := Nat.pow_le_pow_right (by norm_num) hm2
         omega)
@@ -122,7 +122,7 @@ theorem twelveThree
   by_cases hnm : n = m
   · exact Or.inl hnm
   right
-  haveI : Finite G := rankOne_finite h.type
+  have : Finite G := rankOne_finite h.type
   obtain ⟨⟨hm2, hmn, hmlt⟩, a, x, haA, ha1, ha2, hax, hxodd, hxord, hxcop, v, hv, hxv, y, hy⟩ :=
     h.exists_inverted_element hZ hnm
   have hn1 : 1 ≤ n := by omega
@@ -180,7 +180,7 @@ theorem twelveThree
       have hS'S : S' = S := rankOne_sylow_eq_of_ne_bot h.type hA1 hAS hAS'
       have hxN : x ∈ normalizer (S : Set G) := hS'S ▸ hS' hxH
       have hx1 : x = 1 :=
-        eq_one_of_inverted_of_mem_normalizer S.isPGroup' (hAS haA) hxN hax hxodd
+        eq_one_of_inverted_of_mem_normalizer S.isPGroup (hAS haA) hxN hax hxodd
       have h1 : 2 ^ n - 1 = 2 ^ m - 1 := by rw [← hxord, hx1, orderOf_one, one_mul]
       have hn2 : 1 < 2 ^ n := Nat.one_lt_two_pow (by omega)
       have hm2' : 1 < 2 ^ m := Nat.one_lt_two_pow (by omega)

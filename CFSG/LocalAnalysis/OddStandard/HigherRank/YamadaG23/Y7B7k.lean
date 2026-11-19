@@ -16,7 +16,7 @@ variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
 theorem y7b_X7_le_K (c : Ctx7 G L) (hb : B5Std c) : X7 c.s ≤ y7bK c.s := by
   obtain ⟨ρ, hker, hsurj⟩ := y7b_exists_rhoV c hb
-  haveI : ((X7 c.s).subgroupOf (y7bX c.s)).Normal := by
+  have : ((X7 c.s).subgroupOf (y7bX c.s)).Normal := by
     rw [Subgroup.normal_subgroupOf_iff (y7b_X7_le_X c)]
     intro h k hh hk
     exact y7b_X7_normal c hb k hk h hh
@@ -50,7 +50,7 @@ theorem y7b_M4_le_X7 (c : Ctx7 G L) (hb : B5Std c) : M4 c.e ≤ X7 c.s := by
     have h := y7b_V_le_V2 c hb hv
     rw [V2] at h
     exact (Subgroup.mem_inf.mp h).2
-  haveI : IsMulCommutative ↥(M4 c.e) := (hb.h72.2.1).1
+  have : IsMulCommutative ↥(M4 c.e) := (hb.h72.2.1).1
   exact congrArg Subtype.val
     (mul_comm' (⟨v, hvM4⟩ : ↥(M4 c.e)) ⟨m, hm⟩)
 

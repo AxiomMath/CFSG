@@ -18,7 +18,7 @@ theorem uc22p22r_normalizes_calC (D : Data G) (h201 : S20_1_124 D) (h1930 : H193
     (hH : H ∈ hSet D.T D.M) {L K' : Subgroup G} (hL : L ∈ calLOf D.T D.M H) (hK : K' ∈ calC L)
     (hKM : ¬ K' ≤ D.M) {x : G} {q : ℕ} (hq : q.Prime) (hxo : orderOf x = q) (hxH : x ∈ H) (hxM : x ∈ D.M)
     (hU : ∀ h ∈ H, h⁻¹ * x * h ∈ D.M → h ∈ D.M) : x ∈ normalizer (K' : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hKsub, hKperf⟩ := uc22p22r_K_subnormal hL hK
   have hKH : K' ≤ H := hKsub.le
   have hOinf : OInf H ≤ D.M := (h201 h1930 H hH).2.2
@@ -51,6 +51,7 @@ theorem uc22p22r_normalizes_calC (D : Data G) (h201 : S20_1_124 D) (h1930 : H193
     (uc22p22r_quasisimple_quot hKH hK.2.2) hKM'
   exact uc22p22r_mem_normalizer_of_subgroupOf hKH hxH hxN'
 
+omit [Finite G] in
 theorem uc22p22r_mem_normalizer_iSup {ι : Type*} {F : ι → Subgroup G} {x : G}
     (h : ∀ i, x ∈ normalizer ((F i : Subgroup G) : Set G)) : x ∈ normalizer (((⨆ i, F i) : Subgroup G) : Set G) := by
   rw [Subgroup.mem_normalizer_iff_map_conj_eq, Subgroup.map_iSup]

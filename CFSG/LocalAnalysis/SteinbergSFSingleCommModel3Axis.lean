@@ -76,8 +76,8 @@ theorem model3_odd_card_ker_statedSU {m : ℕ} (hF' : UnitaryFieldData 2 m F') {
     (γ : ↥(StatedSU 3 (2 ^ m) F') →* Y)
     (hker : γ.ker ≤ (StatedScalars (Fin 3) F').subgroupOf (StatedSU 3 (2 ^ m) F')) :
     Odd (Nat.card γ.ker) := by
-  haveI := hF'.finite
-  haveI : Finite ↥(StatedSU 3 (2 ^ m) F') := model3ax_finite_subgroup_GL _
+  have := hF'.finite
+  have : Finite ↥(StatedSU 3 (2 ^ m) F') := model3ax_finite_subgroup_GL _
   apply model3ax_odd_ker_of_exp_three γ
   intro g hg
   exact model3ax_pow_three_of_mem (H := StatedSU 3 (2 ^ m) F')
@@ -87,9 +87,9 @@ theorem model3_of_linear_cover [Finite F'] [CharP F' 2] {Y : Type*} [Group Y]
     (γ : ↥(StatedSL 3 F') →* Y) (hγ : Function.Surjective γ)
     (hker : γ.ker ≤ (StatedScalars (Fin 3) F').subgroupOf (StatedSL 3 F')) (R : Sylow 2 Y) :
     Model3Concl Y (R : Subgroup Y) (Nat.card F') := by
-  haveI : Finite ↥(StatedSL 3 F') := model3ax_finite_subgroup_GL _
+  have : Finite ↥(StatedSL 3 F') := model3ax_finite_subgroup_GL _
   let e := CFSG.Assembly.LowTwoRank.specialLinearGroupEquivStatedSL 3 F'
-  haveI : Finite (Matrix.SpecialLinearGroup (Fin 3) F') := Finite.of_injective (⇑e) e.injective
+  have : Finite (Matrix.SpecialLinearGroup (Fin 3) F') := Finite.of_injective (⇑e) e.injective
   have hodd : Odd (Nat.card (γ.comp e.toMonoidHom).ker) := by
     apply model3ax_odd_ker_of_exp_three (γ.comp e.toMonoidHom)
     intro g hg
@@ -109,8 +109,8 @@ theorem model3_of_unitary_cover {m : ℕ} (hm : 2 ≤ m) (hF' : UnitaryFieldData
     {Y : Type*} [Group Y] (γ : ↥(StatedSU 3 (2 ^ m) F') →* Y) (hγ : Function.Surjective γ)
     (hker : γ.ker ≤ (StatedScalars (Fin 3) F').subgroupOf (StatedSU 3 (2 ^ m) F'))
     (R : Sylow 2 Y) : Model3Concl Y (R : Subgroup Y) (2 ^ m) := by
-  haveI := hF'.finite
-  haveI : Finite ↥(StatedSU 3 (2 ^ m) F') := model3ax_finite_subgroup_GL _
+  have := hF'.finite
+  have : Finite ↥(StatedSU 3 (2 ^ m) F') := model3ax_finite_subgroup_GL _
   exact model3_of_cover γ hγ (model3_odd_card_ker_statedSU hF' γ hker) (model3_unitary hm hF')
     ⟨R, rfl⟩
 
@@ -126,8 +126,8 @@ theorem model3_of_axis_conclusions {F : Type} [Group F] [Finite F] {K : Type} [F
   obtain ⟨-, -, -, -, hlin, hunit⟩ := hc
   rcases hcm with hPSL | hPSU
   · obtain ⟨-, K', hKf, hKfin, hKc, ⟨η⟩⟩ := hPSL
-    haveI : Fintype K' := Fintype.ofFinite K'
-    haveI : CharP K' 2 := charP_of_card_eq_prime_pow (f := n)
+    have : Fintype K' := Fintype.ofFinite K'
+    have : CharP K' 2 := charP_of_card_eq_prime_pow (f := n)
       (by rw [← Nat.card_eq_fintype_card, hKc])
     obtain ⟨-, -, -, γ, -, -, hγ, hker, -, -, -, -⟩ := hlin n K' hKc η
     have key := model3_of_linear_cover γ hγ hker R

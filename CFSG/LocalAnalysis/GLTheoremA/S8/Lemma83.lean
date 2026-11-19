@@ -28,6 +28,7 @@ namespace L83
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_normalizer_inf {A C : Subgroup G} {g : G} (hA : g ∈ Subgroup.normalizer (A : Set G))
     (hC : g ∈ Subgroup.normalizer (C : Set G)) :
     g ∈ Subgroup.normalizer ((A ⊓ C : Subgroup G) : Set G) := by
@@ -35,6 +36,7 @@ theorem mem_normalizer_inf {A C : Subgroup G} {g : G} (hA : g ∈ Subgroup.norma
   intro h
   rw [Subgroup.mem_inf, Subgroup.mem_inf, hA h, hC h]
 
+omit [Finite G] in
 theorem mem_normalizer_commutator {Q I : Subgroup G} {g : G}
     (hQ : g ∈ Subgroup.normalizer (Q : Set G)) (hI : g ∈ Subgroup.normalizer (I : Set G)) :
     g ∈ Subgroup.normalizer ((⁅Q, I⁆ : Subgroup G) : Set G) := by
@@ -42,6 +44,7 @@ theorem mem_normalizer_commutator {Q I : Subgroup G} {g : G}
   unfold GLBConj at hQ hI ⊢
   rw [Subgroup.map_commutator, hQ, hI]
 
+omit [Finite G] in
 theorem commutator_le_of_le_normalizer {Q I : Subgroup G}
     (h : I ≤ Subgroup.normalizer (Q : Set G)) : (⁅Q, I⁆ : Subgroup G) ≤ Q := by
   rw [Subgroup.commutator_le]
@@ -50,11 +53,13 @@ theorem commutator_le_of_le_normalizer {Q I : Subgroup G}
   have h1 : i * q⁻¹ * i⁻¹ ∈ Q := (Subgroup.mem_normalizer_iff.1 (h hi) q⁻¹).1 (Q.inv_mem hq)
   simpa [mul_assoc] using Q.mul_mem hq h1
 
+omit [Finite G] in
 theorem orderOf_eq_of_mem {p : ℕ} (hp : p.Prime) {B : Subgroup G} (hB : IsElemAbelian p B) {x : G}
     (hx : x ∈ B) (hx1 : x ≠ 1) : orderOf x = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact orderOf_eq_prime (hB.2 x hx) hx1
 
+omit [Finite G] in
 theorem isElemAbelian_altDxy {x y : G} (hx : x ^ 3 = 1) (hy : y ^ 3 = 1) (hxy : x * y = y * x) :
     IsElemAbelian 3 (altDxy x y) := by
   unfold altDxy
@@ -66,8 +71,8 @@ theorem isElemAbelian_altDxy {x y : G} (hx : x ^ 3 = 1) (hy : y ^ 3 = 1) (hxy : 
 
 theorem false_of_le_of_odd {S H : Subgroup G} (hS : S ≠ ⊥) (hS2 : IsPGroup 2 S) (hSH : S ≤ H)
     (hH : Odd (Nat.card H)) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Nontrivial S := (Subgroup.nontrivial_iff_ne_bot S).2 hS
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Nontrivial S := (Subgroup.nontrivial_iff_ne_bot S).2 hS
   obtain ⟨n, hn, hcard⟩ := hS2.nontrivial_iff_card.1 inferInstance
   have h2 : 2 ∣ Nat.card S := hcard ▸ dvd_pow_self 2 (by omega)
   exact (Nat.not_even_iff_odd.2 hH) (even_iff_two_dvd.2 (h2.trans (Subgroup.card_dvd_of_le hSH)))
@@ -75,7 +80,7 @@ theorem false_of_le_of_odd {S H : Subgroup G} (hS : S ≠ ⊥) (hS2 : IsPGroup 2
 theorem not_isPGroup_two_of_alt8 {I : Subgroup G} (hI : IsAltPType 3 I 8) : ¬ IsPGroup 2 I := by
   intro h2
   obtain ⟨e⟩ := hI
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hq : IsPGroup 2 (PQuot 3 I) := h2.to_quotient _
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 hq
   have hA : Nat.card (PQuot 3 I) = 20160 := by
@@ -151,6 +156,7 @@ theorem exists_second_gen {D : Subgroup G} {a : G} (haD : a ∈ D) (ha1 : a ≠ 
     · exact hk'
   exact le_of_eq (Subgroup.eq_of_le_of_card_ge hHD (by rw [h9, hD])).symm
 
+omit [Finite G] in
 theorem inf_cx_le_centralizer {D : Subgroup G} {a d : G}
     (hD : D ≤ Subgroup.zpowers a ⊔ Subgroup.zpowers d) :
     cx a ⊓ cx d ≤ Subgroup.centralizer (D : Set G) := by
@@ -165,6 +171,7 @@ theorem inf_cx_le_centralizer {D : Subgroup G} {a d : G}
   intro h hh
   exact Subgroup.mem_centralizer_singleton_iff.1 (hle (hD hh))
 
+omit [Finite G] in
 theorem le_of_isSubnormal_of_commutator_eq {S I K X : Subgroup G} (hK : IsSubnormal K X)
     (hSX : S ≤ X) (hIK : I ≤ K) (hS : (⁅S, I⁆ : Subgroup G) = S) : S ≤ K := by
   induction hK with
@@ -238,7 +245,7 @@ theorem alt9_elemAbelian :
 theorem lift_elemAbelian {p k : ℕ} (hp : p.Prime) {L : Subgroup G} {E' : Subgroup (PQuot p L)}
     (hE' : IsElemAbelian p E') (hc : Nat.card E' = p ^ k) :
     ∃ E : Subgroup G, E ≤ L ∧ IsElemAbelian p E ∧ Nat.card E = p ^ k := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set φ : ↥L →* PQuot p L := QuotientGroup.mk' (GLAPPrimeCore p ↥L) with hφ
   have hφs : Function.Surjective φ := QuotientGroup.mk'_surjective _
   set Y : Subgroup ↥L := E'.comap φ with hY
@@ -272,7 +279,7 @@ theorem lift_elemAbelian {p k : ℕ} (hp : p.Prime) {L : Subgroup G} {E' : Subgr
       have : φ ((z : ↥Y) : ↥L) = 1 := congrArg Subtype.val hz
       exact (QuotientGroup.eq_one_iff _).1 this
     have hwG : (((z : ↥Y) : ↥L) : G) ∈ GLAPPrimeCoreOf p L := ⟨_, hw, rfl⟩
-    obtain ⟨n, hn⟩ := P.isPGroup' z
+    obtain ⟨n, hn⟩ := P.isPGroup z
     have h1 : orderOf (((z : ↥Y) : ↥L) : G) = orderOf z := by
       rw [Subgroup.orderOf_coe, Subgroup.orderOf_coe, Subgroup.orderOf_coe]
     have h2 : orderOf z ∣ p ^ n := orderOf_dvd_of_pow_eq_one hn
@@ -394,7 +401,7 @@ theorem co1_contra {K E V : Subgroup G} {a : G} (hrk : GLATwoLocalRank 3 G = 4) 
     exact inf_le_inf_left E (Subgroup.zpowers_le.2 haK)
   have hza : Nat.card (Subgroup.zpowers a) = 3 := by
     rw [Nat.card_zpowers]
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact orderOf_eq_prime ha3 ha1
   have hFc : Nat.card ↥(E ⊔ Subgroup.zpowers a) = 3 ^ 5 := by
     have h := card_sup_mul_card_inf_of_le_normalizer hzN
@@ -420,7 +427,7 @@ theorem lemma83 (hc : S8Ctx G p) (hin : Inputs83 G p) {B : Subgroup G} {x : G} {
   intro hHN
   obtain ⟨rfl, hBc, hrk⟩ := L83.rank_step hc hin.i1016HN h82 hHN
   have hp3 : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hx3 : orderOf x = 3 := L83.orderOf_eq_of_mem hp3 h82.hB.1 h82.hxB h82.hx1
   have hLn : cx x ≤ Subgroup.normalizer (L : Set G) := normalizer_of_unique h82.hL h82.huniq
   obtain ⟨y, T, J, I, hyL, hy3, hDc, -, hT1, hT2, hDT, -, hJ, hJ9, -, hI, hIJ, hI8⟩ :=

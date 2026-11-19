@@ -351,7 +351,7 @@ private theorem ker_eq_bot_plus (hG : GriessCoverStatement) (h4 : 4 ≤ Nat.card
   · exfalso
     have h1 := ker_eq_bot_of_clause π.ker hA
     have hc : ¬ (Nat.card F = 4 ∧ k = 2) := fun h => by omega
-    rw [if_neg hc] at h1
+    rw [ite_eq_right hc] at h1
     omega
 
 private theorem ker_eq_bot_minus (hG : GriessCoverStatement) (h4 : 4 ≤ Nat.card F) {k : ℕ}

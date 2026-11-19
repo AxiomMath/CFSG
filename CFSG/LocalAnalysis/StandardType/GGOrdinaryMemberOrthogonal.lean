@@ -61,10 +61,10 @@ theorem bstar_le_ggG0_of_original_E7 (hTBF : GGTBFixInput) (hWI : GGNbrInnerWeyl
     intro ψ hψ b
     simpa only [sup_idem] using
       mul_inv_mem_sup_of_mem_sup_ggAutomizer hN hN (Subgroup.mem_sup_left (hA hψ)) b
-  have hdet : IsUnit (CartanMatrix.E₇.det : ZMod p) := by
+  have hdet : IsUnit ((CartanMatrix.E 7).det : ZMod p) := by
     rw [CartanMatrix.E₇_det]
     exact isUnit_iff_ne_zero.mpr (by rw [Int.cast_ofNat]; exact h2)
-  apply le_of_cartan_pairing (M := CoxeterMatrix.E₇) (C := CartanMatrix.E₇)
+  apply le_of_cartan_pairing (M := CoxeterMatrix.E₇) (C := (CartanMatrix.E 7))
     hp2 hBs hstep
   · intro V _ _ ιV
     exact SecFiveRootRefl.exists_cartan_pairing_of_weylOfType' (p := p)

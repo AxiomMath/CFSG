@@ -273,9 +273,9 @@ theorem burnsideF48s_sp43e_cands : burnsideF48s_ECands burnsideF48s_sp43eG burns
   refine ⟨hfin, ?_⟩
   rw [hX]
   by_cases hev : k % 4 = 0
-  · rw [if_pos hev] at hcard
+  · rw [ite_eq_left hev] at hcard
     exact Or.inr ⟨hcard.trans (by norm_num), r2 k (burnsideF48s_sp43e_mem_holds hk hev)⟩
-  · rw [if_neg hev] at hcard
+  · rw [ite_eq_right hev] at hcard
     exact Or.inl (lt_of_le_of_lt hcard (by norm_num))
 
 end TC
@@ -292,7 +292,7 @@ theorem burnsideF48s_sp43e_conj
       Nat.card ↥K'' = Nat.card ↥burnsideF48s_sp43eK →
       ∃ t ∈ burnsideF48s_sp43eP1 ⊓ burnsideF48s_sp43eP2, ∀ z, z ∈ K'' ↔
         t * z * t⁻¹ ∈ burnsideF48s_sp43eK := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hKB := burnsideF48s_sp43e_model.K_le
   have hcK := burnsideF48s_sp43e_card_K
   refine burnsideF48s_e_sylow_conj (q := 2) hKB (IsPGroup.of_card (n := 2) (by rw [hcK]; norm_num))

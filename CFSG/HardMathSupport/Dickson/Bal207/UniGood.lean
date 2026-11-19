@@ -28,10 +28,10 @@ theorem uni_finrank_coord {n : ℕ} {F : Type} [Field F] (I : Finset (Fin n))
       · exact congrFun hvw ⟨j, hj⟩
       · rw [(hW v).1 v.2 j hj, (hW w).1 w.2 j hj]
     · intro u
-      refine ⟨⟨fun j => if hj : j ∈ I then u ⟨j, hj⟩ else 0, (hW _).2 fun j hj => dif_neg hj⟩, ?_⟩
+      refine ⟨⟨fun j => if hj : j ∈ I then u ⟨j, hj⟩ else 0, (hW _).2 fun j hj => dite_eq_right hj⟩, ?_⟩
       funext i
       show (if hj : (i : Fin n) ∈ I then u ⟨i, hj⟩ else 0) = u i
-      rw [dif_pos i.2]
+      rw [dite_eq_left i.2]
   rw [(LinearEquiv.ofBijective r hr).finrank_eq, Module.finrank_fintype_fun_eq_card,
     Fintype.card_coe]
 
@@ -45,8 +45,8 @@ theorem uni_inner_component_good (hf : f = 1 ∨ f = 3) (hn : 3 ≤ n) (h3 : ¬ 
     ∃ I : Finset (Fin n), (∃ j, j ∉ I) ∧ 2 ≤ I.card ∧ (I.card ≤ 3 → f = 3) ∧
       L = (blockSU h I.card).map ((uniTheta h hf hn h3).comp (uniBlk h I)) := by
   classical
-  haveI := h.finite
-  haveI : Finite (GL (Fin n) F) :=
+  have := h.finite
+  have : Finite (GL (Fin n) F) :=
     Finite.of_injective (fun g : GL (Fin n) F => (g : Matrix (Fin n) (Fin n) F)) Units.val_injective
   have hfo : Odd f := by rcases hf with rfl | rfl <;> decide
   have hD3' : (D : GL (Fin n) F) ^ 3 = 1 := by rw [← Subgroup.coe_pow, hD3, Subgroup.coe_one]

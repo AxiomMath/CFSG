@@ -29,6 +29,7 @@ structure Lemma95Inputs (G : Type) [Group G] [Finite G] (p : ℕ) : Prop where
   dickson : InvolvedSL2At G
   i269 : I269At G
 
+omit [Finite G] in
 theorem le_normalizer_commutator {A K J : Subgroup G} (hA : J ≤ Subgroup.normalizer (A : Set G))
     (hK : J ≤ Subgroup.normalizer (K : Set G)) :
     J ≤ Subgroup.normalizer ((⁅A, K⁆ : Subgroup G) : Set G) := by
@@ -37,6 +38,7 @@ theorem le_normalizer_commutator {A K J : Subgroup G} (hA : J ≤ Subgroup.norma
   have h2 := Subgroup.mem_normalizer_iff_map_conj_eq.1 (hK hj)
   rw [Subgroup.mem_normalizer_iff_map_conj_eq, Subgroup.map_commutator, h1, h2]
 
+omit [Finite G] in
 theorem card_of_index_eq {p : ℕ} (hp : p.Prime) {K E : Subgroup G} (hKE : K ≤ E)
     (hE : Nat.card E = p ^ 3) (hi : (K.subgroupOf E).index = p) : Nat.card K = p ^ 2 := by
   have h1 := Subgroup.card_mul_index (K.subgroupOf E)
@@ -47,6 +49,7 @@ theorem card_of_index_eq {p : ℕ} (hp : p.Prime) {K E : Subgroup G} (hKE : K �
   have : Nat.card K * p = p ^ 2 * p := by rw [h1]; ring
   exact Nat.eq_of_mul_eq_mul_right hp0 this
 
+omit [Finite G] in
 private theorem l95b_normalizer_centralizer {S : Set G} {g : G} (hg : ∀ s ∈ S, g * s = s * g) :
     g ∈ Subgroup.normalizer ((Subgroup.centralizer S : Subgroup G) : Set G) := by
   have key : ∀ g' : G, (∀ s ∈ S, g' * s = s * g') → (∀ s ∈ S, g'⁻¹ * s = s * g'⁻¹) →
@@ -77,6 +80,7 @@ private theorem l95b_normalizer_centralizer {S : Set G} {g : G} (hg : ∀ s ∈ 
     exact h2
 
 open scoped Pointwise in
+omit [Finite G] in
 private theorem l95b_centralizer_sup_zpowers {E₀ : Subgroup G} {e : G}
     (hN : Subgroup.zpowers e ≤ Subgroup.normalizer (E₀ : Set G)) :
     Subgroup.centralizer ((E₀ ⊔ Subgroup.zpowers e : Subgroup G) : Set G) =
@@ -107,6 +111,7 @@ private theorem l95b_centralizer_sup_zpowers {E₀ : Subgroup G} {e : G}
       _ = (g * a) * e ^ k := by rw [hag]
       _ = g * (a * e ^ k) := mul_assoc _ _ _
 
+omit [Finite G] in
 private theorem l95b_mem_normalizer {p : ℕ} {B E₀ : Subgroup G} {g : G} (hB : IsElemAbelian p B)
     (hE₀B : E₀ ≤ B) (hg : g ∈ B) : g ∈ Subgroup.normalizer (E₀ : Set G) := by
   have hc : ∀ g' ∈ B, ∀ k ∈ E₀, g' * k * g'⁻¹ = k := fun g' hg' k hk => by
@@ -127,7 +132,7 @@ private theorem l95b_mem_normalizer {p : ℕ} {B E₀ : Subgroup G} {g : G} (hB 
 private theorem l95b_card_sup_zpowers {p : ℕ} (hp : p.Prime) {B E₀ : Subgroup G}
     (hB : IsElemAbelian p B) (hE₀B : E₀ ≤ B) (hE₀ : Nat.card E₀ = p ^ 2) {g : G} (hg : g ∈ B)
     (hg1 : g ≠ 1) (hgE : g ∉ E₀) : Nat.card ↥(E₀ ⊔ Subgroup.zpowers g) = p ^ 3 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hord : orderOf g = p := orderOf_eq_prime (hB.2 g hg) hg1
   have hzp : Nat.card (Subgroup.zpowers g) = p := by rw [Nat.card_zpowers, hord]
   have hN : Subgroup.zpowers g ≤ Subgroup.normalizer (E₀ : Set G) :=
@@ -150,6 +155,7 @@ private theorem l95b_card_sup_zpowers {p : ℕ} (hp : p.Prime) {B E₀ : Subgrou
   rw [hcard]
   ring
 
+omit [Finite G] in
 private theorem l95b_isKGroup_of_le {C X : Subgroup G} (hC : CFSG.Open.IsKGroup ↥C)
     (hXC : X ≤ C) : CFSG.Open.IsKGroup ↥X :=
   CFSG.Open.IsKGroup.of_le hC hXC
@@ -169,7 +175,7 @@ private theorem l95b_normal_zpowers {Q : Type} [Group Q] {w : Q} (hw : w ∈ Sub
 private theorem l95b_center_pow {p : ℕ} (hp : p.Prime) {J : Subgroup G} :
     ∀ z ∈ Subgroup.center (PQuot p J), ∃ k : ℕ, z ^ (p ^ k) = 1 := by
   intro z hz
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨e, n', hn', hzn⟩ :=
     Nat.exists_eq_pow_mul_and_not_dvd (orderOf_pos z).ne' p hp.one_lt.ne'
   have hw : orderOf (z ^ (p ^ e)) = n' := by
@@ -196,6 +202,7 @@ private theorem l95b_center_le_pCore {p : ℕ} (hp : p.Prime) {J : Subgroup G} :
     exact ⟨k, Subtype.ext hk⟩
   exact le_sSup hmem
 
+omit [Finite G] in
 private theorem l95b_mem_oPPrimeP {p : ℕ} {J : Subgroup G} (c : ↥J)
     (hc : (QuotientGroup.mk c : PQuot p J) ∈ CFSG.pCore p (PQuot p J)) :
     (c : G) ∈ oPPrimeP p J := by
@@ -205,8 +212,8 @@ private theorem l95b_mem_oPPrimeP {p : ℕ} {J : Subgroup G} (c : ↥J)
 private theorem l95b_dvd_card_pQuot {p : ℕ} (hp : p.Prime) {X J : Subgroup G}
     (hJ : GLAPComponent p X J) : p ∣ Nat.card (PQuot p J) := by
   by_contra hdvd
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Nontrivial (PQuot p J) :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : Nontrivial (PQuot p J) :=
     isQuasisimple_nontrivial (isQuasisimple_pQuot_of_glaPComponent hp hJ)
   have hcard : Nat.card ↥J = Nat.card (PQuot p J) * Nat.card ↥(GLAPPrimeCore p ↥J) :=
     Subgroup.card_eq_card_quotient_mul_card_subgroup _
@@ -266,7 +273,7 @@ theorem exists_E_containing_x {p : ℕ} (hp : p.Prime) (hLB : LBalanceAt G p) {B
     {L : Subgroup G} (h : H92 p B x L) (hX : CFSG.Open.IsKGroup ↥(cx x)) (hGB : IsGB p B L) :
     ∃ E : Subgroup G, E ≤ B ∧ IsElemAbelian p E ∧ Nat.card E = p ^ 3 ∧ x ∈ E ∧
       GLAPLayer p (L ⊓ Subgroup.centralizer (E : Set G)) ≠ ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨E, hEB, hEel, hEcard, hEN, hne⟩ := hGB
   by_cases hxE : x ∈ E
   · exact ⟨E, hEB, hEel, hEcard, hxE, hne⟩
@@ -290,7 +297,7 @@ theorem exists_E_containing_x {p : ℕ} (hp : p.Prime) (hLB : LBalanceAt G p) {B
     rw [hE₀card, hEcard] at h3
     have h4 : p ^ 2 < p ^ 3 := Nat.pow_lt_pow_right hp.one_lt (by norm_num)
     exact (ne_of_lt h4) h3
-  obtain ⟨e, heE, heE₀⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨e, heE, heE₀⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   have he1 : e ≠ 1 := fun h1 => heE₀ (by rw [h1]; exact E₀.one_mem)
   have heB : e ∈ B := hEB heE
   have hE' : E₀ ⊔ Subgroup.zpowers e = E := by
@@ -397,7 +404,7 @@ theorem inf_oPPrimeP_le {p : ℕ} (hp : p.Prime) {J L : Subgroup G} (hJL : J ≤
 theorem residual_of_component {p : ℕ} (hp : p.Prime) {X J : Subgroup G} (hJ : GLAPComponent p X J) :
     ∀ N : Subgroup G, N ≤ J → (N.subgroupOf J).Normal → Nat.Coprime p (N.subgroupOf J).index → N = J := by
   intro N hNJ hNn hidx
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hQ := isQuasisimple_pQuot_of_glaPComponent hp hJ
   have hfs : Function.Surjective (QuotientGroup.mk' (GLAPPrimeCore p ↥J)) :=
     QuotientGroup.mk'_surjective _
@@ -481,10 +488,10 @@ theorem exists_D {p q : ℕ} {B : Subgroup G} {x : G} {L Q₁ E J : Subgroup G} 
     ∃ D : Subgroup G, D ≤ E ∧ Nat.card D = p ^ 2 ∧
       (⁅Q₁ ⊓ Subgroup.centralizer (D : Set G), J⁆ : Subgroup G) ≠ ⊥ := by
   have hp : p.Prime := hc.ctx.prime
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact q.Prime := ⟨hC.setup.prime⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact q.Prime := ⟨hC.setup.prime⟩
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hJL : J ≤ L := hE.comp.1.trans inf_le_left
   have hEQ : E ≤ Subgroup.normalizer (Q₁ : Set G) :=
     fun e he => hC.setup.char (hC.h.norm (hE.le he))
@@ -497,7 +504,7 @@ theorem exists_D {p q : ℕ} {B : Subgroup G} {x : G} {L Q₁ E J : Subgroup G} 
     intro hdvd
     exact hC.setup.ne_p ((Nat.prime_dvd_prime_iff_eq hp hC.setup.prime).1
       (hp.dvd_of_dvd_pow hdvd)).symm
-  haveI : Nontrivial ↥E := by
+  have : Nontrivial ↥E := by
     rw [← Finite.one_lt_card_iff_nontrivial, hE.card]
     exact Nat.one_lt_pow (by norm_num) hp.one_lt
   have hgen := le_iSup_inf_centralizer_hyperplane (p := p) hE.el hEQ hQ₁p
@@ -518,7 +525,7 @@ theorem exists_D {p q : ℕ} {B : Subgroup G} {x : G} {L Q₁ E J : Subgroup G} 
 theorem Contra92.coprime_card_of_le {p q : ℕ} {B : Subgroup G} {x : G} {L Q₁ : Subgroup G}
     (hC : Contra92 p B x L q Q₁) (hp : p.Prime) {A : Subgroup G} (hA : A ≤ Q₁) :
     Nat.Coprime p (Nat.card A) := by
-  haveI : Fact q.Prime := ⟨hC.setup.prime⟩
+  have : Fact q.Prime := ⟨hC.setup.prime⟩
   have hQg : IsPGroup q Q₁ := fun g => ⟨1, by
     rw [pow_one]
     exact Subtype.ext (hC.setup.exp g g.2)⟩
@@ -526,9 +533,11 @@ theorem Contra92.coprime_card_of_le {p q : ℕ} {B : Subgroup G} {x : G} {L Q₁
   rw [hn]
   exact Nat.Coprime.pow_right n ((Nat.coprime_primes hp hC.setup.prime).2 (Ne.symm hC.setup.ne_p))
 
+omit [Finite G] in
 theorem EJ95.le_L {p : ℕ} {B : Subgroup G} {x : G} {L E J : Subgroup G} (hE : EJ95 p B x L E J) :
     J ≤ L := hE.comp.1.trans inf_le_left
 
+omit [Finite G] in
 theorem EJ95.le_centralizer {p : ℕ} {B : Subgroup G} {x : G} {L E J : Subgroup G}
     (hE : EJ95 p B x L E J) : J ≤ Subgroup.centralizer (E : Set G) :=
   hE.comp.1.trans inf_le_right
@@ -569,7 +578,7 @@ theorem three_le_pRank_Q₂ {p q : ℕ} {B : Subgroup G} {x : G} {L Q₁ E J D :
     (hne : (⁅Q₁ ⊓ Subgroup.centralizer (D : Set G), J⁆ : Subgroup G) ≠ ⊥) :
     3 ≤ CFSG.Open.pRank q (⁅Q₁ ⊓ Subgroup.centralizer (D : Set G), J⁆ : Subgroup G) := by
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have hp : p.Prime := hc.ctx.prime
   have hp2 : p ≠ 2 := hc.ctx.odd
   have hq : q.Prime := hC.setup.prime

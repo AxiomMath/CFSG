@@ -14,8 +14,8 @@ theorem normal_two_subgroup_stab_E0_eq_bot
     {P : Subgroup (V12 ≃ₗ[ZMod 2] V12)} (hP : P ≤ stabIn E0 w0)
     (hnorm : ∀ g ∈ stabIn E0 w0, ∀ n ∈ P, g * n * g⁻¹ ∈ P) (h2 : IsPGroup 2 P) : P = ⊥ := by
   have hPS : stabIn E0 w0 ≤ stabIn M0 w0 := inf_le_inf_right _ E0_le_M0
-  letI : MulAction ↥(stabIn E0 w0) OmegaTy := omegaAction _ hPS
-  haveI : MulAction.IsPretransitive ↥(stabIn E0 w0) OmegaTy := ⟨fun x y => by
+  let : MulAction ↥(stabIn E0 w0) OmegaTy := omegaAction _ hPS
+  have : MulAction.IsPretransitive ↥(stabIn E0 w0) OmegaTy := ⟨fun x y => by
     obtain ⟨A, hA, hAx⟩ := Certificates.certificate17606 _ ((inOmega_iff _).1 x.2)
     obtain ⟨B, hB, hBy⟩ := Certificates.certificate17606 _ ((inOmega_iff _).1 y.2)
     refine ⟨⟨B * A⁻¹, genGrp_pGens_le (mul_mem hB (inv_mem hA))⟩, Subtype.ext ?_⟩
@@ -25,7 +25,7 @@ theorem normal_two_subgroup_stab_E0_eq_bot
     rw [card_InOmega]
     decide
   set Nn : Subgroup ↥(stabIn E0 w0) := P.subgroupOf (stabIn E0 w0) with hNn
-  haveI : Nn.Normal := ⟨fun n hn g => by
+  have : Nn.Normal := ⟨fun n hn g => by
     rw [hNn, Subgroup.mem_subgroupOf] at hn ⊢
     exact hnorm g.1 g.2 n.1 hn⟩
   have hNn2 : IsPGroup 2 Nn := IsPGroup.of_equiv h2 (Subgroup.subgroupOfEquivOfLe hP).symm
@@ -42,7 +42,6 @@ theorem normal_two_subgroup_stab_E0_eq_bot
   have := congrArg Subtype.val (hfix _ hn' ⟨vecOf b, hbΩ⟩)
   refine Fin.ext ?_
   rw [Chain.codePerm_apply]
-  change codeOf (n (vecOf b)) = b
   rw [show n (vecOf b) = vecOf b from this, codeOf_vecOf b.2]
 
 end CFSG.GF2Type.Smith1979.IdxFour

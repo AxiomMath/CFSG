@@ -139,7 +139,7 @@ theorem s16c167_irr_three (D : Data G) {V L : Subgroup G} {hV : IsElemAbelian 2 
   have hsimple : IsSimpleGroup ↥(lBar ⊥ V hV L) := s16c167_cfg2_simple D h2
   have hfix : fixV (lBar ⊥ V hV L) = ⊥ := s16c167_cfg2_fix D h2
   have hLbot : lBar ⊥ V hV L ≠ ⊥ := by
-    haveI := hsimple.toNontrivial
+    have := hsimple.toNontrivial
     exact (Subgroup.nontrivial_iff_ne_bot _).1 inferInstance
   have hall : commSub ⊤ (lBar ⊥ V hV L) = ⊤ := by
     refine top_le_iff.1 (hsup.symm.le.trans (sup_le ?_ ?_))
@@ -171,7 +171,7 @@ theorem s16c167_irr_three (D : Data G) {V L : Subgroup G} {hV : IsElemAbelian 2 
   obtain ⟨G3, π, hG3inj, hrange, hact, hsurj, hfaith⟩ :=
     s16c167_irr_three_abs (W := Vtil ⊥ V hV) F hKX hKL hK hE₀ hE₁
   have hodd := s16c167_oddBar_case2 D h2
-  haveI : Nontrivial ↥(oddBar D.M ⊥ V hV) := by
+  have : Nontrivial ↥(oddBar D.M ⊥ V hV) := by
     rw [← not_subsingleton_iff_nontrivial]
     intro hsub
     have h1 : Nat.card ↥(oddBar D.M ⊥ V hV) = 1 :=

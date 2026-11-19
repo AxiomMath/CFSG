@@ -45,7 +45,6 @@ theorem e8nc_exp_form {L : Type} [Field L] {a : Fin Tag.E8.rank → Lˣ} (h3 : �
     have h2 : ζ ^ ((∑ i, (e i : ℤ) * r10C0Col j i) - (e j : ℤ)) = 1 := by
       have h1' : ζ ^ (-(∑ i, (e i : ℤ) * r10C0Col j i)) = ζ ^ (-(e j : ℤ)) := by
         rw [_root_.zpow_neg, _root_.zpow_neg, zpow_natCast, ← h1]
-        congr 1
         rw [← _root_.zpow_neg]
         congr 1
         simp only [Pi.neg_apply, mul_neg, Finset.sum_neg_distrib]
@@ -239,7 +238,7 @@ theorem e8nc_line_le_hyperClosure (hT : QuasiHigh5E6Cover.TwE6ThreeOpenDiag) {K 
     (haσ : rootChar a (Pi.single 7 1) = 1) :
     Subgroup.centralizer {y} ≤ hyperClosure 3 ⊤ E₀ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨q, -, hKq, hgood, -⟩ := hs
   have hq28 : ¬ (q.p = 2 ∧ (q.exponent = 1 ∨ q.exponent = 3)) := by
     rintro ⟨h2, h13⟩
@@ -253,12 +252,12 @@ theorem e8nc_line_le_hyperClosure (hT : QuasiHigh5E6Cover.TwE6ThreeOpenDiag) {K 
   set L := AlgebraicClosure K with hLdef
   set ℓ := q.p with hℓdef
   set f := q.exponent with hfdef
-  haveI : Fact ℓ.Prime := ⟨q.prime_p⟩
+  have : Fact ℓ.Prime := ⟨q.prime_p⟩
   have hf : 1 ≤ f := q.exponent_pos
   have hKℓ : Nat.card K = ℓ ^ f := by rw [hKq, TauCeti.PrimePower.card_def]
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K ℓ := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card]; exact hKℓ)
-  haveI : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K ℓ := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card]; exact hKℓ)
+  have : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
   have hq1 : 3 ∣ ℓ ^ f + 1 := by
     rw [← hKℓ]
     omega
@@ -327,7 +326,7 @@ theorem e8nc_line_le_hyperClosure (hT : QuasiHigh5E6Cover.TwE6ThreeOpenDiag) {K 
   let ψ : adjointGroup Tag.E8 K →* ModGL Tag.E8 L :=
     (MulAut.conj V⁻¹).toMonoidHom.comp (diagMap D)
   have hψapp : ∀ x, ψ x = V⁻¹ * diagMap D x * V := fun x => by
-    simp [ψ, MulAut.conj_apply]
+    simp [ψ]
   have hψinj : Function.Injective ψ :=
     (MulAut.conj V⁻¹).injective.comp (diagMap_injective D)
   have hψd : ∀ (x : adjointGroup Tag.E8 K) (b : Fin Tag.E8.rank → Lˣ),
@@ -401,7 +400,7 @@ theorem e8nc_line_le_hyperClosure (hT : QuasiHigh5E6Cover.TwE6ThreeOpenDiag) {K 
   ·
     intro P hPfin hPC hPF hPP x hx
     set P₁ : Subgroup (ModGL Tag.E8 L) := P.map (MulAut.conj V).toMonoidHom with hP₁
-    haveI : Finite P := hPfin
+    have : Finite P := hPfin
     have hP₁fin : Finite P₁ :=
       Finite.of_surjective _ ((MulAut.conj V).toMonoidHom.subgroupMap_surjective P)
     have hP₁C : P₁ ≤ adjointGroup Tag.E8 L := by

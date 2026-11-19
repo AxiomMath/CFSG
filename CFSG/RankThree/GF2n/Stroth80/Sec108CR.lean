@@ -18,6 +18,7 @@ private theorem eq_one_of_pow_two_pow {K : Type} [Field K] [CharP K 2] {c : K} {
   have h1 : (c - 1) ^ 2 ^ k = 0 := by rw [sub_pow_char_pow, h, one_pow, sub_self]
   exact sub_eq_zero.mp ((pow_eq_zero_iff (pow_ne_zero k two_ne_zero)).mp h1)
 
+omit [Finite G] in
 private theorem gamma_conj_pow {K : Type} [Field K] {γ : G → K} {x : G}
     (hxZ : x ∈ Subgroup.normalizer (Z : Set G)) {a : K}
     (hγ : ∀ z ∈ Z, γ (x * z * x⁻¹) = a * γ z) (j : ℕ) :

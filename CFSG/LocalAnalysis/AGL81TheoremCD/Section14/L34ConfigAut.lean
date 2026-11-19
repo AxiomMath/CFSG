@@ -48,9 +48,9 @@ private theorem map_autIn_eq_quotient {K A : Subgroup G} (hA : IsSylowOf 3 A K) 
       autIn (⊤ : Subgroup (↥K ⧸ CFSG.pPrimeCore 3 ↥K))
         ((A.subgroupOf K).map (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥K))) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (IsPGroup 3 ↥(A.subgroupOf K)) := ⟨hA.isPGroup.comap_subtype⟩
-  haveI : (CFSG.pPrimeCore 3 ↥K).Normal := CFSG.pPrimeCore_normal
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (IsPGroup 3 ↥(A.subgroupOf K)) := ⟨hA.isPGroup.comap_subtype⟩
+  have : (CFSG.pPrimeCore 3 ↥K).Normal := CFSG.pPrimeCore_normal
   set N : Subgroup G := Subgroup.normalizer (A : Set G)
   set π : ↥K →* (↥K ⧸ CFSG.pPrimeCore 3 ↥K) :=
     QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥K) with hπ
@@ -155,7 +155,7 @@ private theorem map_autIn_top_subgroupEquiv {X Y : Type*} [Group X] [Group Y]
       CFSG.RankThree.PartTwo.Sec4.mem_autIn_iff.mpr ⟨x, hx, Subgroup.mem_top _, rfl⟩,
       hcongr x hx hy⟩
 
-theorem HypCGen.nonempty_autIn_kSub (h : HypCGen G M 3 E H) (hC3 : CaseThree M H)
+theorem HypCGen.nonempty_autIn_kSub (_h : HypCGen G M 3 E H) (hC3 : CaseThree M H)
     {A : Subgroup G} (hA : IsSylowOf 3 A (kSub 3 M H)) :
     Nonempty (↥(autIn (kSub 3 M H) A) ≃* QuaternionGroup 2) := by
   classical
@@ -212,7 +212,7 @@ private theorem sup_ker_eq_of_isSylowOf_of_isPGroup {N Q : Type*} [Group N] [Gro
     (hL : IsPGroup 2 (L.map ψ)) :
     W ⊔ ψ.ker = L ⊔ ψ.ker := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let D : Subgroup L := (ψ.comp L.subtype).ker
   have hrange : (ψ.comp L.subtype).range = L.map ψ := by
     rw [MonoidHom.range_comp, Subgroup.range_subtype]
@@ -256,7 +256,7 @@ theorem autIn_eq_of_isSylowOf_two {X A W : Subgroup G}
     (h2 : IsPGroup 2 ↥(autIn X A)) :
     autIn W A = autIn X A := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set N : Subgroup G := Subgroup.normalizer (A : Set G)
   set ψ : ↥N →* MulAut ↥A := A.normalizerMonoidHom
   let L : Subgroup ↥N := (X ⊓ N).subgroupOf N
@@ -284,13 +284,13 @@ theorem HypCGen.nonempty_autIn_sylowTwo (h : HypCGen G M 3 E H) (hC3 : CaseThree
   exact ⟨(MulEquiv.subgroupCongr
     (autIn_eq_of_isSylowOf_two hW (isPGroup_autIn_kSub h hC3 hA))).trans e⟩
 
-theorem HypCGen.exists_sylowTwo_normalizer_inf_kSub_le (h : HypCGen G M 3 E H)
+theorem HypCGen.exists_sylowTwo_normalizer_inf_kSub_le (_h : HypCGen G M 3 E H)
     {A : Subgroup G}
     (hNA : Subgroup.normalizer (A : Set G) ⊓ kSub 3 M H ≤ M) :
     ∃ W T : Subgroup G,
       IsSylowOf 2 W (Subgroup.normalizer (A : Set G) ⊓ kSub 3 M H) ∧
       IsSylowOf 2 T (H ⊓ M) ∧ W ≤ T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨W, hW⟩ := exists_isSylowOf 2
     (Subgroup.normalizer (A : Set G) ⊓ kSub 3 M H)
   have hWM : W ≤ M := hW.le.trans hNA

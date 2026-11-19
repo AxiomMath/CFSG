@@ -10,12 +10,12 @@ variable {Y : Type} [Group Y] [Finite Y]
 
 theorem s16c167_seven_fix_eq_one (hY : Nat.card Y = 8) {l : MulAut Y} (hl : l ^ 7 = 1)
     (hne : l ≠ 1) {y : Y} (hy : l y = y) : y = 1 := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   exact CFSG.GH74.Generic.S45.fix_seven_eight hY l (orderOf_eq_prime hl hne) y hy
 
 theorem s16c167_seven_orbit (hY : Nat.card Y = 8) {l : MulAut Y} (hl : l ^ 7 = 1) (hne : l ≠ 1)
     {y z : Y} (hy : y ≠ 1) (hz : z ≠ 1) : ∃ i : ℕ, (l ^ i) y = z := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have ho : orderOf l = 7 := orderOf_eq_prime hl hne
   obtain ⟨g, hg, hgy⟩ := CFSG.GH74.Generic.S45.exists_zpowers_apply_eq hY ho hy hz
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 hg
@@ -30,7 +30,7 @@ theorem s16c167_seven_orbit (hY : Nat.card Y = 8) {l : MulAut Y} (hl : l ^ 7 = 1
 theorem s16c167_seven_cyclic (hY : Nat.card Y = 8) {H : Subgroup (MulAut Y)}
     (hH : ∀ h ∈ H, h ^ 7 = 1) {l : MulAut Y} (hl : l ∈ H) (hne : l ≠ 1) {h : MulAut Y}
     (hh : h ∈ H) : ∃ a : ℕ, h = l ^ a := by
-  haveI : Nontrivial Y := (Finite.one_lt_card_iff_nontrivial (α := Y)).1 (by omega)
+  have : Nontrivial Y := (Finite.one_lt_card_iff_nontrivial (α := Y)).1 (by omega)
   obtain ⟨y, hy⟩ : ∃ y : Y, y ≠ 1 := exists_ne 1
   have hhy : h y ≠ 1 := fun h1 => hy (h.injective (by rw [h1, map_one]))
   obtain ⟨i, hi⟩ := s16c167_seven_orbit hY (hH l hl) hne hy hhy

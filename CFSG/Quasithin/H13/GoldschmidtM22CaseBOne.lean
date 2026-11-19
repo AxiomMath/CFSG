@@ -30,7 +30,7 @@ theorem E_conj {t e : G} (ht : t ∈ T) (he : e ∈ Subgroup.centralizer (D : Se
     calc d * (t * e * t⁻¹) = t * ((t⁻¹ * d * t) * e) * t⁻¹ := by group
       _ = t * (e * (t⁻¹ * d * t)) * t⁻¹ := by rw [h1]
       _ = (t * e * t⁻¹) * d := by group
-  · exact (Subgroup.mem_normalizer_iff.mp (HH_le_normalizer_CHU c.h c.hZ htH) e).mp heC
+  · exact (Subgroup.mem_normalizer_iff.mp (HH_le_normalizer_CHU c.hZ htH) e).mp heC
 
 include c in
 theorem E_inf_V {x : G} (hx : x ∈ Subgroup.centralizer (D : Set G) ⊓ CHU T L V) (hxV : x ∈ V) :

@@ -266,7 +266,7 @@ theorem exists_weight_projections (M : TauCeti.FiniteTypeCommHopfAlgCat.{u,u} k)
     rw [← map_mul, ← map_mul, h]
   · have hσ : TauCeti.AlgHom.mapDomain (A := k) π (σ s) = s := by
       have hs' := (hTmem s).mp hs
-      simp only [σ, dif_pos hs']
+      simp only [σ, dite_eq_left hs']
       exact hs'.choose_spec
     ext v
     have h := CentralizerUnipotent.basePointsRepresentation_mapDomain_of_mem_wt π (σ s)

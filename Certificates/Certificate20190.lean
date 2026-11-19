@@ -47,7 +47,7 @@ open CFSG.LieType.Chevalley.E8Frame in
 theorem lineCheck_true : lineCheck () = true := by
   unfold lineCheck
   simp only [lineList_eq, transList_eq, List.length_map, nodup_map_ev, List.all_map, List.any_map,
-    Function.comp_def, ev_mul', ev_inv', decide_mem_map_ev, one_eq_ev, ev_eq_iff, decide_ev_eq]
+    Function.comp_def, ev_mul', ev_inv', decide_mem_map_ev, one_eq_ev, ev_eq_iff]
   decide +kernel
 
 end CertificateChecks.Batch20190

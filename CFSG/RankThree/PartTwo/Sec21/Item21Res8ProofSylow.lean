@@ -304,7 +304,7 @@ theorem exists_noncentral_of_not_dvd {X : Type*} [Group X] [Finite X] [Group.IsP
     exact Nat.card_congr (QuotientGroup.quotientKerEquivRange f).toEquiv
   have hdvdX : Nat.card (H ⧸ Z₀) ∣ Nat.card (X ⧸ center X) :=
     hcardf ▸ card_subgroup_dvd_card f.range
-  have hpq : IsPGroup 3 (H ⧸ Z₀) := (S.isPGroup').to_quotient Z₀
+  have hpq : IsPGroup 3 (H ⧸ Z₀) := (S.isPGroup).to_quotient Z₀
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hpq
   have hk2 : k ≤ 2 := by
     by_contra hk3
@@ -356,7 +356,7 @@ theorem exists_of_lBar {G : Type} [Group G] [Finite G] {J S : Subgroup G}
   rw [hQb, Sylow.coe_mapSurjective] at hsb htb
   obtain ⟨s, hs, rfl⟩ := mem_map.mp hsb
   obtain ⟨t, ht, rfl⟩ := mem_map.mp htb
-  have hinj := injOn_mk_of_isPGroup Nat.prime_three Q.isPGroup'
+  have hinj := injOn_mk_of_isPGroup Nat.prime_three Q.isPGroup
   have hs3 : s ^ 3 = 1 := by
     have h1 : π (s ^ 3) = π 1 := by rw [map_pow, map_one]; exact hsb3
     exact hinj (pow_mem hs 3) (one_mem _) h1

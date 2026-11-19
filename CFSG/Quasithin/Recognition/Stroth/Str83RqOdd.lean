@@ -24,16 +24,17 @@ namespace Track
 
 variable {L1 L2 S : Subgroup G} (t : Track L1 L2 S)
 
+omit [Finite G] in
 private theorem IsMaxArc.odd_isFixRadius_reflect {c : ℤ} (hc : ¬ Even c) {v : ℤ} {b : ℕ}
     (h : t.IsFixRadius v b) : t.IsFixRadius (c + 1 - v) b := by
   refine ⟨?_, ?_⟩
   · have h1 := Subgroup.map_mono (f := (MulAut.conj (t.edgeElt c)).toMonoidHom) h.le_Gw
-    rw [t.map_Zv_edgeElt c v, t.map_Gw_edgeElt c (v - b) (v + b), if_neg hc, if_neg hc] at h1
+    rw [t.map_Zv_edgeElt c v, t.map_Gw_edgeElt c (v - b) (v + b), ite_eq_right hc, ite_eq_right hc] at h1
     convert h1 using 2 <;> ring
   · intro hle
     have h1 := Subgroup.map_mono (f := (MulAut.conj (t.edgeElt c)).toMonoidHom) hle
     rw [t.map_Zv_edgeElt c (c + 1 - v), t.map_Gv_edgeElt c (c + 1 - v + b + 1),
-      if_neg hc, if_neg hc] at h1
+      ite_eq_right hc, ite_eq_right hc] at h1
     rw [show c + 1 - (c + 1 - v) = v by ring,
       show c + 1 - (c + 1 - v + b + 1) = v - b - 1 by ring] at h1
     exact IsFixRadius.not_le_Gv_sub t h h1
@@ -50,6 +51,7 @@ private theorem IsMaxArc.odd_numbers
   obtain ⟨v, hv⟩ := hb₁
   omega
 
+omit [Finite G] in
 private theorem IsMaxArc.odd_normalize {ε : ℤ} {n b₀ b₁ : ℕ} (h : t.IsMaxArc ε n)
     (h₀ : t.IsFixRadius ε b₀) (h₁ : t.IsFixRadius (ε + 1) b₁) :
     (t.IsMaxArc 0 n ∧ t.IsFixRadius 0 b₀ ∧ t.IsFixRadius 1 b₁) ∨
@@ -67,6 +69,7 @@ private theorem IsMaxArc.odd_normalize {ε : ℤ} {n b₀ b₁ : ℕ} (h : t.IsM
     · exact (show ε + 1 - ε = 1 by ring) ▸ IsMaxArc.odd_isFixRadius_reflect t hc h₀
     · exact (show ε + 1 - (ε + 1) = 0 by ring) ▸ IsMaxArc.odd_isFixRadius_reflect t hc h₁
 
+omit [Finite G] in
 private theorem IsMaxArc.odd_sz_data {n b₀ b₁ : ℕ} (hγ : t.IsMaxArc 0 n)
     (r0 : t.IsFixRadius 0 b₀) (r1 : t.IsFixRadius 1 b₁) (hn : n = 2 * b₁) (hb : b₀ + 2 = b₁)
     (hb₁ : Odd b₁) :
@@ -95,6 +98,7 @@ private theorem IsMaxArc.odd_sz_data {n b₀ b₁ : ℕ} (hγ : t.IsMaxArc 0 n)
     exact h'.trans (win_mono (by norm_num) (by omega))
   exact ⟨hγ', hZ1, hZ1', hZ1'', hZh⟩
 
+omit [Finite G] in
 private theorem IsMaxArc.odd_l2_data {n b₀ b₁ : ℕ} (hγ : t.IsMaxArc (1 - n) n)
     (r1 : t.IsFixRadius 1 b₀) (r0 : t.IsFixRadius 0 b₁) (hn : n = 2 * b₁) (hb : b₀ + 2 = b₁)
     (hb₁ : Odd b₁) :
@@ -151,7 +155,7 @@ private theorem IsMaxArc.odd_false_of_sz
   obtain ⟨k, hk⟩ := hb₁
   have hev : Even (1 - (b₁ : ℤ)) := ⟨-(k : ℤ), by omega⟩
   have hcard := IsMaxArc.odd_card_Zv t hfr hγ' hZγ
-  rw [if_pos hev] at hcard
+  rw [ite_eq_left hev] at hcard
   have hZL := L2_le_centralizer_Zv_one_of_minimal t hfr (IsMaxArc.odd_eq_Zv_of_le t hfr hγ' hZγ)
   have hev' : Even ((b₁ : ℤ) + 1) := ⟨(k : ℤ) + 1, by omega⟩
   exact hrq (eq_two_mul_add_one_of_sz t hfr (h := (b₁ : ℤ) + 1) (by omega) hev' hZ1 hZ1' hZh
@@ -167,7 +171,7 @@ private theorem IsMaxArc.odd_false_of_l2
     obtain ⟨k, hk⟩ := hb₁
     exact ⟨-(k : ℤ) - 1, by omega⟩
   have hcard := IsMaxArc.odd_card_Zv t hfr hγ' hZγ
-  rw [if_neg hodd] at hcard
+  rw [ite_eq_right hodd] at hcard
   have hZL := L1_le_centralizer_Zv_zero_of_minimal t hfr (IsMaxArc.odd_eq_Zv_of_le t hfr hγ' hZγ)
   rcases (show b₁ = 3 ∨ 5 ≤ b₁ by obtain ⟨k, hk⟩ := hb₁; omega) with h3 | h5
   · subst b₁

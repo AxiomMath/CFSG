@@ -149,7 +149,7 @@ theorem spAltMap_eq_of_span_eq {a b x y : SpMod m} {s : SpG m} (hs : SpSiegel x 
   rw [hc, hc1, one_smul]
 
 theorem spSiegel_eq_of_span_eq {a b x y : SpMod m} {r s : SpG m}
-    (hr : SpSiegel a b r) (hr1 : r ≠ 1) (hs : SpSiegel x y s) (hs1 : s ≠ 1)
+    (hr : SpSiegel a b r) (_hr1 : r ≠ 1) (hs : SpSiegel x y s) (hs1 : s ≠ 1)
     (hspan : Submodule.span (GaloisField 2 1) {x, y} =
       Submodule.span (GaloisField 2 1) {a, b}) : r = s := by
   have hM : spAltMap x y = spAltMap a b := spAltMap_eq_of_span_eq hs hs1 hspan
@@ -203,12 +203,10 @@ theorem exists_spDualPair (x y : SpMod m)
   let c₀ : SpMod m := (LinearMap.BilinForm.toDual (spBilin m) hnd).symm f₁
   let d₀ : SpMod m := (LinearMap.BilinForm.toDual (spBilin m) hnd).symm f₂
   have hBx : B (Sum.inl 0) = x := by
-    simp only [B, Module.Basis.sumExtend, Module.Basis.reindex_apply, Equiv.symm_symm,
-      Module.Basis.extend_apply_self]
+    simp only [B, Module.Basis.sumExtend, Module.Basis.reindex_apply, Module.Basis.extend_apply_self]
     rfl
   have hBy : B (Sum.inl 1) = y := by
-    simp only [B, Module.Basis.sumExtend, Module.Basis.reindex_apply, Equiv.symm_symm,
-      Module.Basis.extend_apply_self]
+    simp only [B, Module.Basis.sumExtend, Module.Basis.reindex_apply, Module.Basis.extend_apply_self]
     rfl
   have hf₁x : f₁ x = 1 := by
     rw [← hBx]

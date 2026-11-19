@@ -72,7 +72,7 @@ theorem quasisimple_markedModel_of_isLabel {K : Type} [Group K] {lab : GLALabel}
   have hraw' := CFSG.StandardType.Canonical.largeEvenRawDatum_markedModel hlab' hna hraw
   obtain ⟨R, hgroup, I, F, ⟨⟨hs, ⟨a, b, hab⟩, θ, hlab'⟩, hM⟩⟩ :=
     CFSG.StandardType.Canonical.largeEvenRawDatum_exists hraw'
-  letI : Group R := hgroup
+  let : Group R := hgroup
   subst hlab'
   exact ⟨⟨⟨hL⟩, (θ.isSimpleGroup_congr).2 hs,
       ⟨θ.symm a, θ.symm b, fun h => hab (θ.symm.injective (by simpa [map_mul] using h))⟩⟩,
@@ -81,7 +81,7 @@ theorem quasisimple_markedModel_of_isLabel {K : Type} [Group K] {lab : GLALabel}
 theorem spSiegel_ne_bot {F : Type} [Field F] [Finite F] [CharP F 2] {ℓ : ℕ}
     (hℓ : 1 ≤ ℓ) : spSiegel ℓ F ≠ ⊥ := by
   rw [← Subgroup.one_lt_card_iff_ne_bot, card_spSiegel]
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have h2 : 2 ≤ Nat.card F := by
     rw [Nat.card_eq_fintype_card]
     exact Fintype.one_lt_card
@@ -95,13 +95,13 @@ theorem spSiegel_ne_bot {F : Type} [Field F] [Finite F] [CharP F 2] {ℓ : ℕ}
 
 theorem isPGroup_spSiegel {F : Type} [Field F] [Finite F] [CharP F 2] (ℓ : ℕ) :
     IsPGroup 2 (spSiegel ℓ F) := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   obtain ⟨k, -, hk⟩ := FiniteField.card F 2
   refine IsPGroup.of_card (n := k * (ℓ * (ℓ + 1) / 2)) ?_
   rw [card_spSiegel, Nat.card_eq_fintype_card, hk, ← pow_mul]
 
 theorem exists_isElemAbelian_torus_statedSp {F : Type} [Field F] [Finite F] [CharP F 2]
-    {ℓ r : ℕ} (hℓ : 1 ≤ ℓ) (hr : r.Prime) (hr2 : r ≠ 2) (hdvd : r ∣ Nat.card F - 1) :
+    {ℓ r : ℕ} (_hℓ : 1 ≤ ℓ) (hr : r.Prime) (_hr2 : r ≠ 2) (hdvd : r ∣ Nat.card F - 1) :
     ∃ E : Subgroup (StatedSp ℓ F), IsElemAbelian r E ∧ Nat.card E = r ^ ℓ ∧
       E ≤ Subgroup.normalizer (spSiegel ℓ F : Set (StatedSp ℓ F)) := by
   classical
@@ -180,8 +180,8 @@ theorem card_griess_psp_dvd_four {X : Type} [Group X] {ℓ n : ℕ}
 
 
 private theorem le_evenRank_statedSp_of_markedModel {K F : Type} [Group K] [Finite K]
-    [Field F] [Finite F] [CharP F 2] {ℓ n r : ℕ} (hcard : Nat.card F = 2 ^ n)
-    (hQ : CFSG.IsQuasisimple K)
+    [Field F] [Finite F] [CharP F 2] {ℓ n r : ℕ} (_hcard : Nat.card F = 2 ^ n)
+    (_hQ : CFSG.IsQuasisimple K)
     (θ : K ⧸ Subgroup.center K ≃* StatedProj (StatedSp ℓ F))
     (hrZ : ¬ r ∣ Nat.card (Subgroup.center K))
     (hr : r.Prime) (hr2 : r ≠ 2) (hdvd : r ∣ Nat.card F - 1) (hℓ : 1 ≤ ℓ) :
@@ -219,11 +219,11 @@ private theorem rk2_low_bc_ge_aux {K : Type} [Group K] [Finite K] {lab : GLALabe
   rw [ht, hrk, hch, hdg] at hM'
   obtain ⟨hadm, F, hfield, hfinite, hcard, ⟨e⟩⟩ := hM'.statedClassicalModel (by decide)
   obtain ⟨-, hℓ2⟩ := hadm
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype F := Fintype.ofFinite F
   have hcard' : Fintype.card F = 2 ^ lab.n := by
     rw [← Nat.card_eq_fintype_card]; exact hcard
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow hcard'
+  have : CharP F 2 := charP_of_card_eq_prime_pow hcard'
   have hF4 : 4 ≤ Nat.card F := by
     rw [hcard]
     calc 4 = 2 ^ 2 := by norm_num
@@ -257,7 +257,7 @@ private theorem rk2_low_bc_ge_aux {K : Type} [Group K] [Finite K] {lab : GLALabe
 
 
 theorem exists_isElemAbelian_torus_quadPlus {F : Type} [Field F] [Finite F] [CharP F 2]
-    {ℓ r : ℕ} (hℓ : 3 ≤ ℓ) (hr : r.Prime) (hr2 : r ≠ 2) (hdvd : r ∣ Nat.card F - 1) :
+    {ℓ r : ℕ} (hℓ : 3 ≤ ℓ) (hr : r.Prime) (_hr2 : r ≠ 2) (hdvd : r ∣ Nat.card F - 1) :
     ∃ E : Subgroup (orthElementaryGroup (quadPlus ℓ F)), IsElemAbelian r E ∧
       Nat.card E = r ^ ℓ ∧
       E ≤ Subgroup.normalizer
@@ -327,7 +327,7 @@ theorem card_griess_pomegaPlus_dvd_four {X : Type} [Group X] {ℓ n : ℕ}
     _root_.CFSG.GH74.GLS.Stage2.Signalizer.Odd87.card_generic_exceptional']
   have hg : genericOrders .POmegaPlus ℓ 2 n = (1, 1) := by
     simp only [genericOrders]
-    rw [if_pos (even_iff_two_dvd.mpr (dvd_pow_self 2 (by omega)))]
+    rw [ite_eq_left (even_iff_two_dvd.mpr (dvd_pow_self 2 (by omega)))]
   have he : exceptionalOrders .POmegaPlus ℓ 2 n = (1, 1) ∨
       exceptionalOrders .POmegaPlus ℓ 2 n = (2, 2) := by
     by_cases h4 : ℓ = 4 ∧ n = 1
@@ -348,11 +348,11 @@ theorem posUnip_subgroupOf_nontrivial_isPGroup {F : Type} [Field F] [Finite F] [
     {ℓ : ℕ} (hℓ : 2 ≤ ℓ) :
     (posUnip ℓ F).subgroupOf (orthElementaryGroup (quadPlus ℓ F)) ≠ ⊥ ∧
       IsPGroup 2 ((posUnip ℓ F).subgroupOf (orthElementaryGroup (quadPlus ℓ F))) := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hlast := (orthogonal_geometry_split_positive_unipotent_matrices
     (r := ℓ) (K := F)).2.2.2.2.2.2.2.2.2.2
   have hpos := hlast 2 (inferInstance : CharP F 2) (inferInstance : Finite F)
-  haveI hfinX : Finite ↥((posUnip ℓ F).subgroupOf (orthElementaryGroup (quadPlus ℓ F))) :=
+  have hfinX : Finite ↥((posUnip ℓ F).subgroupOf (orthElementaryGroup (quadPlus ℓ F))) :=
     Nat.finite_of_card_ne_zero (by
       rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe
         posUnip_le_orthElementaryGroup).toEquiv, hpos.1]
@@ -384,20 +384,20 @@ private theorem rk2_low_d_ge_aux {K : Type} [Group K] [Finite K] {lab : GLALabel
   obtain ⟨hQ, hlab, hM⟩ := quasisimple_markedModel_of_isLabel hK
   have htag3 : lab.rank ≠ 3 := by omega
   have ht : markTag lab = .POmegaPlus := by
-    simp [CFSG.StandardType.markTag, htag, if_neg htag3]
+    simp [CFSG.StandardType.markTag, htag, ite_eq_right htag3]
   have hrk : markRank lab = lab.rank := by
-    simp [CFSG.StandardType.markRank, htag, if_neg htag3]
+    simp [CFSG.StandardType.markRank, htag, ite_eq_right htag3]
   have hch : markChar lab = 2 := by simp [CFSG.StandardType.markChar, htag]
   have hdg : markDeg lab = lab.n := by simp [CFSG.StandardType.markDeg, htag]
   have hM' := hM
   unfold CFSG.StandardType.MarkedModel at hM'
   rw [ht, hrk, hch, hdg] at hM'
   obtain ⟨hadm, F, hfield, hfinite, hcard, ⟨e⟩⟩ := hM'.statedClassicalModel (by decide)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype F := Fintype.ofFinite F
   have hcard' : Fintype.card F = 2 ^ lab.n := by
     rw [← Nat.card_eq_fintype_card]; exact hcard
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow hcard'
+  have : CharP F 2 := charP_of_card_eq_prime_pow hcard'
   have hF4 : 4 ≤ Nat.card F := by
     rw [hcard]
     calc 4 = 2 ^ 2 := by norm_num
@@ -425,8 +425,8 @@ private theorem rk2_low_d_ge_aux {K : Type} [Group K] [Finite K] {lab : GLALabel
         if i = i0 then 1 else 0 := by
       intro i
       by_cases hi : i = i0
-      · subst hi; rw [hv1, hv2, if_pos rfl, one_mul]
-      · rw [if_neg hi]
+      · subst hi; rw [hv1, hv2, ite_eq_left rfl, one_mul]
+      · rw [ite_eq_right hi]
         have h1 : v (Sum.inl i) = 0 := by
           simp [v, hi]
         rw [h1, zero_mul]
@@ -574,12 +574,12 @@ private theorem rk2_low_bc_one_aux {K : Type} [Group K] [Finite K] {lab : GLALab
   unfold CFSG.StandardType.MarkedModel at hM'
   rw [ht, hrk, hch, hdg] at hM'
   obtain ⟨hadm, F, hfield, hfinite, hcard, ⟨e⟩⟩ := hM'.statedClassicalModel (by decide)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype F := Fintype.ofFinite F
   have hcard2 : Nat.card F = 2 := by rw [hcard, hn]; norm_num
   have hcard' : Fintype.card F = 2 ^ 1 := by
     rw [← Nat.card_eq_fintype_card]; exact hcard2
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow hcard'
+  have : CharP F 2 := charP_of_card_eq_prime_pow hcard'
   have hℓ2 : 2 ≤ lab.rank := by
     rcases htag with hB | hC
     · have h := hlab; simp only [LargeEvenInLambda2, hB] at h; exact h.2.1

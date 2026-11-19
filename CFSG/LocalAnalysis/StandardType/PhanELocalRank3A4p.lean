@@ -16,13 +16,13 @@ private theorem plh_hermLin_apply (n : ℕ) (u v : Fin n → K) :
   unfold hermLin herm
   rw [LinearMap.sum_apply]
   refine Finset.sum_congr rfl fun i _ => ?_
-  rw [if_pos ⟨Nat.zero_le _, i.isLt⟩, LinearMap.smul_apply, LinearMap.proj_apply, smul_eq_mul]
+  rw [ite_eq_left ⟨Nat.zero_le _, i.isLt⟩, LinearMap.smul_apply, LinearMap.proj_apply, smul_eq_mul]
 
 private theorem plh_perpB_eq_perp (hK : Nat.card K = (2 ^ f) ^ 2)
     (U : Submodule K (Fin 4 → K)) : perpB K f 4 0 4 U = perp (sg K f) U := by
   have hσ := isUnitaryInvolution_unitaryInvolution hK
   ext v
-  simp only [perpB, perp, Submodule.mem_iInf, LinearMap.mem_ker, Set.mem_setOf_eq]
+  simp only [perpB, perp, Submodule.mem_iInf, LinearMap.mem_ker]
   constructor
   · intro h u hu
     have h1 : herm (sg K f) u v = 0 := by
@@ -45,21 +45,21 @@ theorem mem_genSet_a3_4p_iff (hK : Nat.card K = (2 ^ f) ^ 2) (x : FlagK K 4) :
       omega
   have hbu : ∀ r : ℕ, blockU K 4 [0, 4] x.E 0 r = x.E r := by
     intro r
-    simp only [blockU, List.getD_cons_zero, List.getD_cons_succ, List.getD_nil, Nat.sub_self,
+    simp only [blockU, List.getD_cons_zero, List.getD_cons_succ, Nat.sub_self,
       Nat.zero_add, Vsub_self, Vsub_zero, inf_top_eq, sup_bot_eq]
   have hblock0 : blockOK K f 4 [0, 4] [true] x.E 0 ↔ NondegFlag (sg K f) x := by
     constructor
     · intro h r hr
       have hb := h r (by simpa only [List.getD_cons_zero, List.getD_cons_succ, List.getD_nil,
         Nat.sub_self, Nat.zero_add] using hr)
-      rw [if_pos (show [true].getD 0 false = true from rfl), hbu r,
+      rw [ite_eq_left (show [true].getD 0 false = true from rfl), hbu r,
         show [0, 4].getD (0 + 1) 0 = 4 from rfl,
         show [0, 4].getD 0 0 = 0 from rfl, Vsub_zero] at hb
       rw [plh_perpB_eq_perp K f hK] at hb
       rw [nondeg_iff_rad_eq_bot]
       simpa only [rad] using hb
     · intro h r hr
-      rw [if_pos (show [true].getD 0 false = true from rfl), hbu r,
+      rw [ite_eq_left (show [true].getD 0 false = true from rfl), hbu r,
         show [0, 4].getD (0 + 1) 0 = 4 from rfl,
         show [0, 4].getD 0 0 = 0 from rfl, Vsub_zero]
       have hb := h r (by simpa only [List.getD_cons_zero, List.getD_cons_succ, List.getD_nil,
@@ -77,7 +77,7 @@ theorem mem_genSet_a3_4p_iff (hK : Nat.card K = (2 ^ f) ^ 2) (x : FlagK K 4) :
         have : i + 1 < 2 := by simpa using hi
         omega
       rw [hi0]; exact h
-  simp only [genSet, Set.mem_setOf_eq]
+  simp only [genSet, Set.mem_ofPred_eq]
   rw [hiff]
   exact ⟨fun h => hblock0.mp h.2, fun h => ⟨hfar, hblock0.mpr h⟩⟩
 

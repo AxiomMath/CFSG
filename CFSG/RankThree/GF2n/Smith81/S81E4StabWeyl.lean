@@ -23,14 +23,14 @@ theorem forall_endo_single_iff [CharP K 2] {δ : Fin (Tag.rank .E7) → ℤ} (h�
         Finsupp.single a 1 + Finsupp.single (shift δ a) 1 := by
       change ((e7Data_valid.xu K δ 1 : (Module.End K (V K))ˣ) : Module.End K (V K))
         (Finsupp.single a 1) = _
-      rw [e7Data_valid.xu_apply, rootOp_single hδ a, if_pos hδa, one_smul]
+      rw [e7Data_valid.xu_apply, rootOp_single hδ a, ite_eq_left hδa, one_smul]
     rw [h2, add_eq_left] at h1
     exact one_ne_zero (Finsupp.single_eq_zero.1 h1)
   · intro hδa x hx
     obtain ⟨c, rfl⟩ := (e7Data_valid.mem_rootGroup K).1 hx
     change ((e7Data_valid.xu K δ c : (Module.End K (V K))ˣ) : Module.End K (V K))
       (Finsupp.single a 1) = Finsupp.single a 1
-    rw [e7Data_valid.xu_apply, rootOp_single hδ a, if_neg hδa, smul_zero, add_zero]
+    rw [e7Data_valid.xu_apply, rootOp_single hδ a, ite_eq_right hδa, smul_zero, add_zero]
 
 theorem endo_inv_single {n : e7Data_valid.minGroup K} {a : Fin e7Data.d} {c : K}
     (hc : endoE n (Finsupp.single a 1) = c • Finsupp.single a 1) :
@@ -137,7 +137,7 @@ private theorem nW_shift_eq [CharP K 2] {w : W7 K}
       Finsupp.single a 1 + Finsupp.single (shift δ a) 1 := by
     change ((e7Data_valid.xu K δ 1 : (Module.End K (V K))ˣ) : Module.End K (V K))
       (Finsupp.single a 1) = _
-    rw [e7Data_valid.xu_apply, rootOp_single hδ a, if_pos ha, one_smul]
+    rw [e7Data_valid.xu_apply, rootOp_single hδ a, ite_eq_left ha, one_smul]
   have h1 : endoE (nW K w * e7Data_valid.xm K δ 1 * (nW K w)⁻¹)
       (Finsupp.single (π a) 1) =
       Finsupp.single (π a) 1 + Finsupp.single (π (shift δ a)) 1 := by
@@ -145,9 +145,6 @@ private theorem nW_shift_eq [CharP K 2] {w : W7 K}
       (Finsupp.single (π a) 1) = _
     rw [e7Data_valid.endo_mul, e7Data_valid.endo_mul, Module.End.mul_apply,
       Module.End.mul_apply]
-    change e7Data_valid.endo K (nW K w)
-      (e7Data_valid.endo K (e7Data_valid.xm K δ 1)
-        (e7Data_valid.endo K (nW K w)⁻¹ (Finsupp.single (π a) 1))) = _
     rw [hinv a, hx, map_add, hπ a, hπ (shift δ a)]
   have hy : nW K w * e7Data_valid.xm K δ 1 * (nW K w)⁻¹ ∈
       e7Data_valid.rootGroup K δ' := by
@@ -170,14 +167,14 @@ private theorem nW_shift_eq [CharP K 2] {w : W7 K}
     by_contra hpr
     have heval : (1 : K) = 0 := by
       have h := congrArg (fun v : V K => v (π (shift δ a))) hsingle
-      simpa [hpr, Finsupp.smul_apply] using h
+      simp [hpr] at h
     exact one_ne_zero heval
   have hidx : π (shift δ a) = shift δ' (π a) := by
     by_contra hne
     have hne' : shift δ' (π a) ≠ π (shift δ a) := fun e => hne e.symm
     have heval : (1 : K) = 0 := by
       have h := congrArg (fun v : V K => v (π (shift δ a))) hsingle
-      simpa [hpr, hne', Finsupp.smul_apply] using h
+      simp [hpr, hne'] at h
     exact one_ne_zero heval
   exact ⟨hpr, hidx⟩
 

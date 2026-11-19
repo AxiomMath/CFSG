@@ -234,8 +234,8 @@ theorem D4qLocalData.centerOf_pCoreOf_right_le_left (hH : Hyp111 L1 L2 S)
   refine (le_pCoreOf_or_le_sup_of_borelOf_le_normalizer (n := 3 * f) (by omega) hH.h1.sylow h1
     hS1 hZS hBZ).resolve_right fun hle => ?_
   obtain ⟨F, hField, hFintype, hFcard, α, -, -, β, hβ, hker, -⟩ := hD.nat_right
-  letI := hField
-  letI := hFintype
+  let := hField
+  let := hFintype
   have hinj : Function.Injective β := by
     rw [← MonoidHom.ker_eq_bot_iff, hker, Subgroup.bot_subgroupOf]
   have hZcard : Nat.card (centerOf (pCoreOf 2 L2)) = 2 ^ (2 * f) := by
@@ -301,9 +301,9 @@ private theorem d4qIndec_inf_right_le_trivOTwoQuot (hH : Hyp111 L1 L2 S)
   have hS1 : S ≤ L1 := hD.le_left hH h1
   obtain ⟨-, -, hHsup, -⟩ := hD.torus_left_of_hall hH h1 hHB hSH hSinfH hHcard hHcomm
   obtain ⟨c1⟩ := hD.exists_coordLeft hH h1
-  letI := c1.field
-  letI := c1.fintype
-  haveI : CharP c1.F 2 :=
+  let := c1.field
+  let := c1.fintype
+  have : CharP c1.F 2 :=
     charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, c1.card])
   obtain ⟨x₀, hx₀Q, hx₀⟩ :=
     d4qIndec_exists_pCoreOf_right_utriElt hH hD h1 c1.α c1.surj c1.ker c1.memS

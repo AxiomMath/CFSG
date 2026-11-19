@@ -60,7 +60,7 @@ theorem a6c_autCentChain3_of_facts (hF : A6C6Facts) : Asc82AutCentChain3 := by
   obtain ⟨fr⟩ := exists_nframe_six hQ hdim hsgn
   obtain ⟨m, hm⟩ := a6c_model_of_frame fr one_ne_zero
   have hcard : Nat.card (ProjSim Q) = 26127360 := ff_natCard_projSim_six_minus hQ hdim hsgn
-  haveI : Finite (ProjSim Q) := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite (ProjSim Q) := Nat.finite_of_card_ne_zero (by omega)
   have hΓ : ¬ 25 ∣ Nat.card (ProjSim Q) := by rw [hcard]; norm_num
   have hJ : Even ({0, 1} : Finset (Fin 6)).card := by decide
   let u0 : ↥(omegaProj hQ) :=

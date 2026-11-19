@@ -90,7 +90,7 @@ theorem simple_mul_wTab (s : Fin 2) (i : Fin 8) :
     csB.simple s * wTab i = wTab (lmulTab s i) := by
   fin_cases s <;> fin_cases i <;>
     simp [-CoxeterMatrix.toCoxeterSystem_simple, wTab, lmulTab, mul_assoc, braid_B2',
-      braid_B2_tail, s0_mul_s0, s1_mul_s1, s0_mul_s0_mul, s1_mul_s1_mul]
+      braid_B2_tail]
 
 theorem exists_wTab (w : WB) : ∃ i, w = wTab i := by
   refine csB.simple_induction_left (p := fun x : WB => ∃ i, x = wTab i) w ⟨0, ?_⟩ ?_

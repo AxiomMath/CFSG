@@ -37,7 +37,7 @@ theorem sec4F_block_disjoint {Ω : Type u} {R : Ω → Ω → Prop} {a a' c c' b
     exact hfalse ((ha' e).mp (hb'a' ▸ (he b').mpr (Or.inr rfl)))
 
 theorem sec4F_block_pair {Ω : Type u} {R : Ω → Ω → Prop} {a a' c c' p q : Ω}
-    (hb : Sec4FBlock R a a' c c') (hp : p = a ∨ p = a') (hpq : q ≠ p)
+    (hb : Sec4FBlock R a a' c c') (hp : p = a ∨ p = a') (_hpq : q ≠ p)
     (hnb : ∀ e, R p e ↔ R q e) : q = a ∨ q = a' := by
   obtain ⟨-, -, hc, -, ha, ha'⟩ := hb
   have hpc : R p c := by
@@ -105,7 +105,7 @@ theorem Sec4FSetup.block_kappa (h : Sec4FSetup t L S z A B φ) (hT : Sec4FTwo A 
     exact hprod.symm
 
 theorem Sec4FSetup.kappa_nbr (h : Sec4FSetup t L S z A B φ) (hT : Sec4FTwo A P x)
-    {p q e₁ e₂ : Option (Fin 7)} (hpq : p ≠ q) (he : e₁ ≠ e₂)
+    {p q e₁ e₂ : Option (Fin 7)} (_hpq : p ≠ q) (_he : e₁ ≠ e₂)
     (hprod : sec4MPt t φ p * sec4MPt t φ q = sec4FD t φ x e₁ * sec4FD t φ x e₂) :
     ∀ e, sec4FR t φ x p e ↔ sec4FR t φ x q e := by
   obtain ⟨u, v, huv, hRp, hrp⟩ := h.R_right hT p

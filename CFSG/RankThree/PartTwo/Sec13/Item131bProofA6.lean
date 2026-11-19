@@ -158,7 +158,7 @@ theorem exists_two_subgroup_of_isTripleCover {X : Type*} [Group X] [Finite X]
   have : Group.IsNilpotent W := Subgroup.isNilpotent_of_ker_le_center f hker
   obtain ⟨P⟩ := Sylow.nonempty (p := 2) (G := W)
   have hPc := Sylow.characteristic_of_normal P inferInstance
-  refine ⟨(P : Subgroup W).map W.subtype, ?_, P.isPGroup'.map _, ?_⟩
+  refine ⟨(P : Subgroup W).map W.subtype, ?_, P.isPGroup.map _, ?_⟩
   ·
     have hV2d : 2 ∣ Nat.card V := by
       obtain ⟨n, hn⟩ := hV2.exists_card_eq

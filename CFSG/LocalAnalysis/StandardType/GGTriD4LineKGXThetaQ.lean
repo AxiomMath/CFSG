@@ -62,9 +62,9 @@ theorem triD4Line_exists_thetaQ
               Matrix.SpecialLinearGroup (Fin 3) L) =
             Matrix.SpecialLinearGroup.map (algebraMap k L) s := by
   classical
-  haveI : Finite K := Nat.finite_of_card_ne_zero
+  have : Finite K := Nat.finite_of_card_ne_zero
     (by rw [hK]; exact pow_ne_zero 3 (pow_ne_zero n (by norm_num)))
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcard2 : 2 ≤ Nat.card K := by
     rw [Nat.card_eq_fintype_card]
     have hlt := Fintype.one_lt_card (α := K)
@@ -76,11 +76,11 @@ theorem triD4Line_exists_thetaQ
     rw [Nat.card_eq_fintype_card] at hK
     have hlt := Fintype.one_lt_card (α := K)
     omega
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := n * 3) (by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := n * 3) (by
     rw [← Nat.card_eq_fintype_card, hK, pow_mul])
-  haveI : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
-  haveI : Finite k := Nat.finite_of_card_ne_zero
+  have : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
+  have : Finite k := Nat.finite_of_card_ne_zero
     (by rw [hk]; exact pow_ne_zero n (by norm_num))
   set Fr : L →+* L := iterateFrobenius L 2 n with hFrdef
   have hFr : ∀ c : L, Fr c = c ^ 2 ^ n := by

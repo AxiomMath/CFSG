@@ -255,7 +255,7 @@ theorem false_of_fused (hc : NoncentralConfig G p P M D U u) (hgen : Centralizer
     rw [hw₀z] at this
     exact this
   have hSp : IsPGroup p S := by
-    obtain ⟨k, hk⟩ := (P.isPGroup'.to_le (inf_le_left : R P U ≤ (P : Subgroup G))).exists_card_eq
+    obtain ⟨k, hk⟩ := (P.isPGroup.to_le (inf_le_left : R P U ≤ (P : Subgroup G))).exists_card_eq
     exact IsPGroup.of_card (n := k)
       (by rw [hS, Subgroup.card_map_of_injective (MulAut.conj g₀).injective, hk])
   obtain ⟨c₁, hc₁N, hc₁P⟩ := exists_normalizer_conj_into_sylow P hPN₀ hSN hSp

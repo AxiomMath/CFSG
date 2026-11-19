@@ -23,8 +23,8 @@ private lemma c2slomqsg_spIsSign_ite {n : ℕ} (p : Fin n) {v : ℤ} (hv : v = 1
   intro d
   change (if d = p then v else 1) = 1 ∨ (if d = p then v else 1) = -1
   by_cases h : d = p
-  · rw [if_pos h]; exact hv
-  · rw [if_neg h]; exact Or.inl rfl
+  · rw [ite_eq_left h]; exact hv
+  · rw [ite_eq_right h]; exact Or.inl rfl
 
 private lemma c2slomqsg_spIsSign_mul {n : ℕ} {s t : Fin n → ℤ} (hs : SpIsSign s)
     (ht : SpIsSign t) : SpIsSign (fun c => s c * t c) := by
@@ -122,7 +122,7 @@ theorem omq_exists_signed_perm_two_coord {n : ℕ} (hn : 3 ≤ n) {m : ℕ} {a b
       have hnb : π'.symm d' ≠ b := by
         intro h
         exact hdb' (by rw [← hπ'b, ← h, π'.apply_symm_apply])
-      rw [if_neg hna, if_neg hnb, if_neg hda', if_neg hdb']
+      rw [ite_eq_right hna, ite_eq_right hnb, ite_eq_right hda', ite_eq_right hdb']
       simp
 
 end CFSG.LocalAnalysis.WeakClosure81

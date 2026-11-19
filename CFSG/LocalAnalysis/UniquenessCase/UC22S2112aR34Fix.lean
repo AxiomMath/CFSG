@@ -31,7 +31,7 @@ theorem uc22s2112r34_exists_fixHom {L : Subgroup G} {b : G} (hb : b ∈ normaliz
         ↥(signalizerFixedSubgroup (inducedBarInfAutHom L ⟨b, hb⟩)),
       Function.Surjective φ ∧ Nat.card φ.ker ∣ Nat.card ↥(CFSG.solvableRadical ↥L) := by
   classical
-  haveI : Fact (orderOf b).Prime := ⟨hbp⟩
+  have : Fact (orderOf b).Prime := ⟨hbp⟩
   set α : MulAut ↥L := L.normalizerMonoidHom ⟨b, hb⟩ with hαdef
   have hN : ∀ n ∈ CFSG.solvableRadical ↥L, α n ∈ CFSG.solvableRadical ↥L := fun n hn => by
     rw [← CFSG.LieType.SteinbergBR.solvableRadical_map_equiv α]
@@ -117,7 +117,7 @@ theorem uc22s2112r34_false_of_fixed {D : Data G} {Ch : Choice2011 G} (hKF7 : KF7
   have hg' : Function.Surjective g' :=
     ((hg.comp (Subgroup.subgroupOfEquivOfLe hY).surjective).comp
       (φ.subgroupComap_surjective Y' hφ)).comp eA.symm.surjective
-  haveI : Group.IsPerfect S := by
+  have : Group.IsPerfect S := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (commutator S) with hbot | htop
     · exact absurd ⟨⟨1, by rw [derivedSeries_one]; exact hbot⟩⟩ hSns
     · exact ⟨htop⟩
@@ -161,7 +161,7 @@ theorem uc22s2112r34_le_pRank_of_dvd (hGA : GriessAllModelsStatement) {M L : Sub
     (hL : L ∈ calC M) {t : StatedLieTag} {n p f : ℕ} (hX : LieModel (BarInf L) t n p f)
     {r : ℕ} (hr : r.Prime) (hr5 : 5 ≤ r) (hrg : r ∣ (genericOrders t n p f).1) :
     (t = .PSL ∨ t = .PSU) ∧ r ∣ n ∧ (4 ≤ n → n - 2 ≤ Open.pRank r L) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hr2 : r ≠ 2 := by omega
   have hPU : (t = .PSL ∨ t = .PSU) ∧ r ∣ n := by
     rcases CFSG.LocalAnalysis.RankFourTheoremC.eq_psl_or_psu_of_dvd_genericOrders hr hr5 t n p f

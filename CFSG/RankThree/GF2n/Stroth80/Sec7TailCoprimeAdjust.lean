@@ -53,7 +53,7 @@ theorem exists_conj_mem_sup_zpowers {Γ : Type*} [Group Γ] [Finite Γ] (Q : Sub
     (hQ : ¬ 3 ∣ Nat.card Q) {y w : Γ} (hy : orderOf y = 3) (hw : orderOf w = 3)
     (hyw : y⁻¹ * w ∈ Q) : ∃ h ∈ Q ⊔ Subgroup.zpowers y, h * w * h⁻¹ = y := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcop : Nat.Coprime 3 (Nat.card Q) :=
     (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).2 hQ
   set W : Subgroup Γ := Q ⊔ Subgroup.zpowers y with hW
@@ -159,7 +159,7 @@ theorem hom_trivial_of_centralizer {X : Type*} [Group X] [Finite X] {N : Subgrou
     Subgroup.zpowers_le.2 hyN
   have hmem : ∀ (a : Subgroup.zpowers y) (n : N), (a : X) * (n : X) * (a : X)⁻¹ ∈ N :=
     fun a n => (Subgroup.mem_normalizer_iff.1 (hnorm a.2) (n : X)).1 n.2
-  letI act : MulDistribMulAction (Subgroup.zpowers y) N :=
+  let act : MulDistribMulAction (Subgroup.zpowers y) N :=
     { smul := fun a n => ⟨(a : X) * (n : X) * (a : X)⁻¹, hmem a n⟩
       one_smul := fun n => Subtype.ext (by show (1 : X) * (n : X) * (1 : X)⁻¹ = n; group)
       mul_smul := fun a b n => Subtype.ext (by

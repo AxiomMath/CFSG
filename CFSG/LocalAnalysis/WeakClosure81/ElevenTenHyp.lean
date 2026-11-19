@@ -64,6 +64,7 @@ theorem Eleven11Data.ten {M V Q U L X : Subgroup G}
   exact ⟨n, hn, ⟨hn, hnat, eleven_seven hset hd.one_lt_r hm hUΓ hLb hLM⟩, hr, huniq, hD⟩
 
 
+omit [Finite G] in
 theorem isHallTwoPrimeOf_conjSubgroup {D K : Subgroup G} (h : IsHallTwoPrimeOf D K) (g : G) :
     IsHallTwoPrimeOf (conjSubgroup D g) (conjSubgroup K g) := by
   obtain ⟨hDK, hodd, k, hk⟩ := h

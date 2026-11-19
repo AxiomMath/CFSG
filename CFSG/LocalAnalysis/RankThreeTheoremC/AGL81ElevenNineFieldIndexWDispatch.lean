@@ -76,7 +76,7 @@ theorem oddInnW_of_isSimpleGroup {X : Type} [Group X] [IsSimpleGroup X]
     (h : ∀ α : MulAut X, ∃ g : X, α = MulAut.conj g) : OddInnW X := by
   intro α _
   obtain ⟨g, rfl⟩ := h α
-  haveI hWn : (wSup X).Normal := ⟨fun n hn c => by
+  have hWn : (wSup X).Normal := ⟨fun n hn c => by
     rw [← map_wSup_eq (MulAut.conj c)]
     exact ⟨n, hn, rfl⟩⟩
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (wSup X) with hW | hW
@@ -89,7 +89,7 @@ variable {Y : Type} [Group Y] [Finite Y]
 
 theorem pCore_eq_bot_of_mulEquiv_quotient {J : Subgroup Y} {X : Type} [Group X]
     (e : ↥J ⧸ CFSG.pCore 2 ↥J ≃* X) : CFSG.pCore 2 X = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [← CFSG.pCore_map_iso 2 e, CFSG.RankThree.PartTwo.Sec18.pCore_quotient_pCore_eq_bot,
     Subgroup.map_bot]
 
@@ -108,9 +108,10 @@ theorem pRank_wSup_le_pRank_wPre (J : Subgroup Y) {p : ℕ} (hp : p.Prime) (hp2 
       exact hp.not_dvd_one)
   exact h1.trans h2
 
+omit [Finite Y] in
 theorem odd_orderOf_of_isPGroup {a : Y} {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (ha : IsPGroup p (Subgroup.zpowers a)) : Odd (orderOf a) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp ha ⟨a, mem_zpowers a⟩
   rw [Subgroup.orderOf_mk] at hk
   rw [hk]
@@ -119,7 +120,7 @@ theorem odd_orderOf_of_isPGroup {a : Y} {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
 theorem oddInnW_sp_two {k : ℕ} {d : TauCeti.ValidLieTypeIndex} (hk : 3 ≤ k)
     (hd : ∃ q : TauCeti.PrimePower, q.card = 2 ∧ d.1 = .B k q) :
     OddInnW (TauCeti.CFSGIndex.lie d).Group := by
-  haveI : IsSimpleGroup (TauCeti.CFSGIndex.lie d).Group := (kFactSpTwoSimple_holds k d hk hd).1
+  have : IsSimpleGroup (TauCeti.CFSGIndex.lie d).Group := (kFactSpTwoSimple_holds k d hk hd).1
   refine oddInnW_of_isSimpleGroup ?_
   obtain ⟨d₁, hv⟩ := d
   obtain ⟨q, hq, hd₁⟩ := hd
@@ -245,7 +246,7 @@ theorem nineThreeTwo_of_not_inner_wPre {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
       omega
     have hO := pCore_eq_bot_of_mulEquiv_quotient φ
     rcases Nat.lt_or_ge r 2 with hr | hr
-    · haveI : Subsingleton (Fin r) := Fintype.card_le_one_iff_subsingleton.mp (by simpa using hr)
+    · have : Subsingleton (Fin r) := Fintype.card_le_one_iff_subsingleton.mp (by simpa using hr)
       let e2 : (Perm (Fin r) × Perm (Fin (N - 2 * r))) ≃* Perm (Fin (N - 2 * r)) :=
         MulEquiv.ofBijective (MonoidHom.snd _ _)
           ⟨fun x y h => Prod.ext (Subsingleton.elim _ _) h, fun y => ⟨(1, y), rfl⟩⟩

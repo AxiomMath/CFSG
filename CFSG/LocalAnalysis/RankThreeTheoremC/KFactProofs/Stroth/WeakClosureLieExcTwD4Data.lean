@@ -107,7 +107,7 @@ theorem d4One_moves (D : LangDatum TwistTag.D4.tag L) {Fr : L →+* L} {q : ℕ}
     (hFr : ∀ c, Fr c = c ^ q) (hΦ : D.Φ = twistHom TwistTag.D4 L Fr)
     (hn : D.n = canonicalRep (coxeterSystem TwistTag.D4.tag) L
       ((coxeterSystem TwistTag.D4.tag).wordProd d4OneWord))
-    (hMΓ : D.model ≤ D.Γ) {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) (hp5 : 5 ≤ p)
+    (hMΓ : D.model ≤ D.Γ) {p : ℕ} [Fact p.Prime] (_hp2 : p ≠ 2) (hp5 : 5 ≤ p)
     (he : orderOf (q : ZMod p) = 1) (S₀ : Sylow p D.Γ)
     (hS₀ : (S₀ : Subgroup D.Γ) ≤ D.torus.subgroupOf D.Γ) :
     NormalizerMovesLines p (S₀ : Subgroup D.Γ) :=

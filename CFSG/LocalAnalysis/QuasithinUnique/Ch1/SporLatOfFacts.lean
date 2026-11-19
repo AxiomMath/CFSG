@@ -25,6 +25,7 @@ theorem arr_ofFn_getElem! {α : Type} [Inhabited α] {m : ℕ} (f : Fin m → α
 
 variable {act : Array ℕ → Lab → Lab} {letters : Array (Array ℕ)} {Δ : Lab} {labs : Set Lab}
 
+omit [DecidableEq Lab] [Hashable Lab] [Inhabited Lab] in
 theorem EnumInv.step {m : ℕ} {lb : ℕ → Lab} {par via : ℕ → ℕ}
     (h : EnumInv act letters Δ labs m lb par via)
     (hcl : ∀ x ∈ labs, ∀ l < letters.size, act letters[l]! x ∈ labs) {l i : ℕ}
@@ -34,32 +35,33 @@ theorem EnumInv.step {m : ℕ} {lb : ℕ → Lab} {par via : ℕ → ℕ}
   obtain ⟨hm, h0, hinj, hlabs, htree⟩ := h
   refine ⟨by omega, ?_, ?_, ?_, ?_⟩
   · simp only
-    rw [if_neg (by omega)]
+    rw [ite_eq_right (by omega)]
     exact h0
   · intro a ha b hb hab
     simp only at hab
     by_cases ham : a = m <;> by_cases hbm : b = m
     · omega
-    · rw [if_pos ham, if_neg hbm] at hab
+    · rw [ite_eq_left ham, ite_eq_right hbm] at hab
       exact absurd hab.symm (hnew b (by omega))
-    · rw [if_neg ham, if_pos hbm] at hab
+    · rw [ite_eq_right ham, ite_eq_left hbm] at hab
       exact absurd hab (hnew a (by omega))
-    · rw [if_neg ham, if_neg hbm] at hab
+    · rw [ite_eq_right ham, ite_eq_right hbm] at hab
       exact hinj a (by omega) b (by omega) hab
   · intro a ha
     simp only
     by_cases ham : a = m
-    · rw [if_pos ham]; exact hcl _ (hlabs i hi) l hl
-    · rw [if_neg ham]; exact hlabs a (by omega)
+    · rw [ite_eq_left ham]; exact hcl _ (hlabs i hi) l hl
+    · rw [ite_eq_right ham]; exact hlabs a (by omega)
   · intro a ha hpos
     simp only
     by_cases ham : a = m
-    · rw [if_pos ham, if_pos ham, if_pos ham, if_neg (by omega)]
+    · rw [ite_eq_left ham, ite_eq_left ham, ite_eq_left ham, ite_eq_right (by omega)]
       exact ⟨by omega, hl, rfl⟩
     · obtain ⟨h1, h2, h3⟩ := htree a (by omega) hpos
-      rw [if_neg ham, if_neg ham, if_neg ham, if_neg (by omega)]
+      rw [ite_eq_right ham, ite_eq_right ham, ite_eq_right ham, ite_eq_right (by omega)]
       exact ⟨h1, h2, h3⟩
 
+omit [Hashable Lab] [Inhabited Lab] in
 theorem EnumInv.le_card (hfin : labs.Finite) {m : ℕ} {lb : ℕ → Lab} {par via : ℕ → ℕ}
     (h : EnumInv act letters Δ labs m lb par via) : m ≤ hfin.toFinset.card := by
   obtain ⟨-, -, hinj, hlabs, -⟩ := h
@@ -73,6 +75,7 @@ theorem EnumInv.le_card (hfin : labs.Finite) {m : ℕ} {lb : ℕ → Lab} {par v
   obtain ⟨a, ha, rfl⟩ := Finset.mem_image.mp hx
   simpa using hlabs a (by simpa using ha)
 
+omit [Hashable Lab] [Inhabited Lab] in
 theorem EnumInv.closed (hfin : labs.Finite)
     (hcl : ∀ x ∈ labs, ∀ l < letters.size, act letters[l]! x ∈ labs) :
     ∀ e m lb par via, EnumInv act letters Δ labs m lb par via → hfin.toFinset.card ≤ m + e →
@@ -85,14 +88,14 @@ theorem EnumInv.closed (hfin : labs.Finite)
     refine ⟨m, lb, par, via, h, ?_⟩
     intro l hl i hi
     by_contra hne
-    push_neg at hne
+    push Not at hne
     have := (h.step hcl hl hi hne).le_card hfin
     omega
   | succ e ih =>
     intro m lb par via h hb
     by_cases hc : ∀ l < letters.size, ∀ i < m, ∃ j < m, lb j = act letters[l]! (lb i)
     · exact ⟨m, lb, par, via, h, hc⟩
-    · push_neg at hc
+    · push Not at hc
       obtain ⟨l, hl, i, hi, hne⟩ := hc
       exact ih _ _ _ _ (h.step hcl hl hi hne) (by omega)
 
@@ -310,7 +313,7 @@ theorem mem_label {X : List Γ} {j : ℕ}
     ∃ x < F.D0.Om[j]!.lbl.size, lab n F.A F.Δ g = F.D0.Om[j]!.lbl[x]! := by
   have h := Subgroup.subset_closure (k := {x | x ∈ F.sg ++ X}) hg
   rw [hZ] at h
-  have e : memberOrTop F.J F.Y j = F.Y j := if_pos hj
+  have e : memberOrTop F.J F.Y j = F.Y j := ite_eq_left hj
   rw [e] at h
   exact (F.Y_mem_iff hj g).mp h
 

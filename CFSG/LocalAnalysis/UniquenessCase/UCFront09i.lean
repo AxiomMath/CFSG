@@ -14,6 +14,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem le_normalizer_center_pCoreOf (M : Subgroup G) :
     M ≤ normalizer ((pCoreOf 2 M ⊓ centralizer (pCoreOf 2 M : Set G) : Subgroup G) : Set G) :=
   (le_inf (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 M)
@@ -21,6 +22,7 @@ theorem le_normalizer_center_pCoreOf (M : Subgroup G) :
       (Subgroup.le_normalizer_of_normal_subgroupOf (Subgroup.centralizer_le_normalizer _)))).trans
     Subgroup.inf_normalizer_le_normalizer_inf
 
+omit [Finite G] in
 theorem le_normalizer_zO2 {M X : Subgroup G} (hXM : X ≤ M) :
     X ≤ normalizer
       ((pCoreOf 2 M ⊓ centralizer (pCoreOf 2 M : Set G) ⊓ X : Subgroup G) : Set G) :=
@@ -29,20 +31,23 @@ theorem le_normalizer_zO2 {M X : Subgroup G} (hXM : X ≤ M) :
 
 theorem zO2_le_pCoreOf {M X : Subgroup G} (hXM : X ≤ M) :
     pCoreOf 2 M ⊓ centralizer (pCoreOf 2 M : Set G) ⊓ X ≤ pCoreOf 2 X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2 inf_le_right (le_normalizer_zO2 hXM)
     ((CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 M).to_le (inf_le_left.trans inf_le_left))
 
+omit [Finite G] in
 theorem zO2_ne_bot {M X : Subgroup G}
     (hZ : ⁅pCoreOf 2 M ⊓ centralizer (pCoreOf 2 M : Set G) ⊓ X, X⁆ ≠ ⊥) :
     pCoreOf 2 M ⊓ centralizer (pCoreOf 2 M : Set G) ⊓ X ≠ ⊥ :=
   fun h => hZ (by rw [h, Subgroup.commutator_bot_left])
 
+omit [Finite G] in
 theorem commutator_zO2_le {M X : Subgroup G} (hXM : X ≤ M) :
     ⁅pCoreOf 2 M ⊓ centralizer (pCoreOf 2 M : Set G) ⊓ X, X⁆ ≤
       pCoreOf 2 M ⊓ centralizer (pCoreOf 2 M : Set G) ⊓ X :=
   Subgroup.le_normalizer_iff_commutator_le_left.1 (le_normalizer_zO2 hXM)
 
+omit [Finite G] in
 theorem commutator_zO2_le_centralizer {M X : Subgroup G} (hXM : X ≤ M) :
     ⁅pCoreOf 2 M ⊓ centralizer (pCoreOf 2 M : Set G) ⊓ X, X⁆ ≤
       centralizer (⁅pCoreOf 2 M ⊓ centralizer (pCoreOf 2 M : Set G) ⊓ X, X⁆ : Subgroup G) := by
@@ -52,6 +57,7 @@ theorem commutator_zO2_le_centralizer {M X : Subgroup G} (hXM : X ≤ M) :
   exact Subgroup.mem_centralizer_iff.1 (commutator_zO2_le hXM ha).1.2 b
     (commutator_zO2_le hXM hb).1.1
 
+omit [Finite G] in
 theorem commutatorElement_eq_one_of_commute {z d : G} {m n : ℕ} (hc : Commute ⁅z, d⁆ d)
     (hd : d ^ n = 1) (hm : ⁅z, d⁆ ^ m = 1) (hmn : Nat.Coprime m n) : ⁅z, d⁆ = 1 := by
   have h1 : z * d * z⁻¹ = ⁅z, d⁆ * d := by rw [commutatorElement_def]; group
@@ -64,7 +70,7 @@ theorem commutatorElement_eq_one_of_commute {z d : G} {m n : ℕ} (hc : Commute 
 theorem not_le_centralizer_commutator {M X : Subgroup G} (hXM : X ≤ M) (hX : Opp 3 X = X)
     (hZ : ⁅pCoreOf 2 M ⊓ centralizer (pCoreOf 2 M : Set G) ⊓ X, X⁆ ≠ ⊥) :
     ¬ X ≤ centralizer (⁅pCoreOf 2 M ⊓ centralizer (pCoreOf 2 M : Set G) ⊓ X, X⁆ : Subgroup G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro hXC
   apply hZ
   rw [Subgroup.commutator_eq_bot_iff_le_centralizer, Subgroup.le_centralizer_iff]

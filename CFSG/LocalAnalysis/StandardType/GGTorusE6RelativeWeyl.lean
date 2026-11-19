@@ -100,6 +100,7 @@ theorem revWeyl_simple (i : Fin Tag.F4.rank) :
     revWeyl (simple Tag.F4 i) = simple Tag.F4 (f4RevTag i) :=
   revHom_simple i
 
+omit [Finite K] in
 theorem nNative_mem_graphFixedRootMonomial (a : Fin TwistTag.E6.foldedTag.rank) :
     ((nNative (K := K) (σ := σ) a : ↥(graphFixedRootGroup TwistTag.E6 K σ)) : ModGL TwistTag.E6.tag K) ∈
       graphFixedRootMonomial TwistTag.E6 K σ := by
@@ -113,13 +114,14 @@ theorem nNative_mem_graphFixedRootMonomial (a : Fin TwistTag.E6.foldedTag.rank) 
     graphFixedRootGroup_le TwistTag.E6 K σ (nNative (K := K) (σ := σ) a).2⟩,
     (nNative (K := K) (σ := σ) a).2⟩
 
-theorem nNative_conj (hζo : orderOf ζ = p) (hζ : ζ ^ p = 1) (a : Fin TwistTag.E6.foldedTag.rank)
+omit [Finite K] in
+theorem nNative_conj (_hζo : orderOf ζ = p) (hζ : ζ ^ p = 1) (a : Fin TwistTag.E6.foldedTag.rank)
     (s : Fin Tag.F4.rank → ZMod p) :
     nNative (K := K) (σ := σ) a * stdFrame (K := K) (σ := σ) (p := p) (hp := hp) (hζ := hζ) (hζσ := hζσ)
         (Multiplicative.ofAdd s) * (nNative (K := K) (σ := σ) a)⁻¹ =
       stdFrame (K := K) (σ := σ) (p := p) (hp := hp) (hζ := hζ) (hζσ := hζσ)
         (Multiplicative.ofAdd (TableBExc.torusAct Tag.F4 p (simple Tag.F4 a) s)) := by
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   have hM := nNative_mem_graphFixedRootMonomial (K := K) (σ := σ) a
   have h2 := ExcFrames.twE6SplitFrameHom_conj σ hζ hζσ hM s
   have hGF : (nNative (K := K) (σ := σ) a : ModGL TwistTag.E6.tag K) ∈
@@ -153,6 +155,7 @@ theorem nNative_conj (hζo : orderOf ζ = p) (hζ : ζ ^ p = 1) (a : Fin TwistTa
   rw [hfold] at h2
   simpa only [stdFrame] using h2
 
+omit [Finite K] in
 theorem normalizer_action (hp5 : 5 ≤ p) (hζo : orderOf ζ = p) (hζ : ζ ^ p = 1) (g : ↥(graphFixedRootGroup TwistTag.E6 K σ))
     (hg : g ∈ Subgroup.normalizer
       ((stdFrame (K := K) (σ := σ) (p := p) (hp := hp) (hζ := hζ) (hζσ := hζσ)).range : Set _)) :
@@ -160,7 +163,7 @@ theorem normalizer_action (hp5 : 5 ≤ p) (hζo : orderOf ζ = p) (hζ : ζ ^ p 
       g * stdFrame (K := K) (σ := σ) (p := p) (hp := hp) (hζ := hζ) (hζσ := hζσ) (Multiplicative.ofAdd s) * g⁻¹ =
         stdFrame (K := K) (σ := σ) (p := p) (hp := hp) (hζ := hζ) (hζσ := hζσ)
           (Multiplicative.ofAdd (TableBExc.torusAct Tag.F4 p u s)) := by
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   let ι := stdFrame (K := K) (σ := σ) (p := p) (hp := hp) (hζ := hζ) (hζσ := hζσ)
   have hxs : ∀ s, g * ι (Multiplicative.ofAdd s) * g⁻¹ ∈ ι.range := fun s =>
     (Subgroup.mem_normalizer_iff.mp hg _).mp (MonoidHom.mem_range.mpr ⟨_, rfl⟩)
@@ -189,6 +192,7 @@ theorem normalizer_action (hp5 : 5 ≤ p) (hζo : orderOf ζ = p) (hζ : ζ ^ p 
   have h2 := ExcFrames.twE6SplitFrameHom_conj σ hζ hζσ hxM s
   simpa only [stdFrame, MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulAut.conj_apply] using h2
 
+omit [Finite K] in
 theorem exists_markedWeyl_standard (hp5 : 5 ≤ p) (hζo : orderOf ζ = p) (hζ : ζ ^ p = 1) :
     ∃ hnN : ∀ a : Fin TwistTag.E6.foldedTag.rank,
         nNative (K := K) (σ := σ) a ∈ Subgroup.normalizer
@@ -201,17 +205,18 @@ theorem exists_markedWeyl_standard (hp5 : 5 ≤ p) (hζo : orderOf ζ = p) (hζ 
           (stdFrame (K := K) (σ := σ) (p := p) (hp := hp) (hζ := hζ) (hζσ := hζσ)).range),
         ∀ a, (e (simple Tag.F4 a) : MulAut _) =
           ggConjAut _ (hnN a) := by
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   let ι := stdFrame (K := K) (σ := σ) (p := p) (hp := hp) (hζ := hζ) (hζσ := hζσ)
   have hodd : Odd p := hp.odd_of_ne_two (by omega)
   exact exists_markedWeyl_ggAutomizer hodd (E := ι.range) (ι := ι)
     (ExcFrames.twE6SplitFrameHom_injective σ hp5 hζo hζ hζσ) rfl
     (fun a => nNative (K := K) (σ := σ) a)
     (fun a s => nNative_conj (K := K) (σ := σ) (p := p) (hp := hp)
-      (hζo := hζo) (hζ := hζ) (hζσ := hζσ) (a := a) (s := s))
+      (_hζo := hζo) (hζ := hζ) (hζσ := hζσ) (a := a) (s := s))
     (fun g hg => normalizer_action (K := K) (σ := σ) (p := p) (hp := hp)
       (hp5 := hp5) (hζo := hζo) (hζ := hζ) (hζσ := hζσ) (g := g) (hg := hg))
 
+omit [Finite K] in
 theorem exists_markedWeyl_standard_conventional (hp5 : 5 ≤ p) (hζo : orderOf ζ = p) (hζ : ζ ^ p = 1) :
     ∃ hnN : ∀ j : Fin Tag.F4.rank, nNative (K := K) (σ := σ) (f4FoldedIndex j) ∈
         Subgroup.normalizer

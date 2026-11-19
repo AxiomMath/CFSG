@@ -27,7 +27,7 @@ private theorem tableZCube_iform_single (i : Fin Tag.E6.rank) (y : Fin Tag.E6.ra
   rw [Finset.sum_eq_single i]
   · simp
   · intro b _ hb
-    simp [Pi.single_apply, hb]
+    simp [hb]
   · intro h
     simp at h
 
@@ -97,13 +97,13 @@ private theorem tableZCube_dvd_rho_of_dvd
   have hd' : d = (3 : ℤ) • u := by
     funext k
     rw [hu k]
-    simp [Pi.smul_apply, smul_eq_mul]
+    simp [Pi.smul_apply]
   have hρd : ρ d = (3 : ℤ) • ρ u := by
     rw [hd']
     exact map_zsmul (AddMonoidHom.mk' ρ hadd) 3 u
   intro i
   rw [hρd]
-  exact ⟨(ρ u) i, by simp [Pi.smul_apply, smul_eq_mul]⟩
+  exact ⟨(ρ u) i, by simp [Pi.smul_apply]⟩
 
 private theorem tableZCube_rho_varpi
     (ρ : Equiv.Perm (Fin Tag.E6.rank → ℤ))
@@ -130,7 +130,7 @@ private theorem tableZCube_rho_varpi
     have hrho : ρ e6ThreeVarpiOne = (3 : ℤ) • u := by
       funext k
       rw [hu k]
-      simp [Pi.smul_apply, smul_eq_mul]
+      simp [Pi.smul_apply]
     have hiso' := hiso e6ThreeVarpiOne e6ThreeVarpiOne
     rw [hrho, tableZCube_iform_smul_left, tableZCube_iform_smul_right] at hiso'
     have hv12 : iform e6ThreeVarpiOne e6ThreeVarpiOne = 12 := by

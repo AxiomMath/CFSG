@@ -288,7 +288,7 @@ theorem reach_back {N : Nat} {ts : List (Array Nat)} {t : Array Nat} (ht : t ∈
       rw [Function.iterate_succ_apply, Function.iterate_succ_apply] at h
       exact hinj x hx y hy (ih _ _ (htab x hx) (htab y hy) h)
   have hN : 0 < N := by omega
-  haveI : NeZero N := ⟨by omega⟩
+  have : NeZero N := ⟨by omega⟩
   obtain ⟨a, b, hab, hfab⟩ := Finite.exists_ne_map_eq_of_infinite
     (fun k : Nat => (⟨(arrImg t)^[k] i, hlt k i hi⟩ : Fin N))
   have hfab' : (arrImg t)^[a] i = (arrImg t)^[b] i := by simpa using hfab

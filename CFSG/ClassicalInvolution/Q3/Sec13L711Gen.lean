@@ -30,6 +30,7 @@ variable {σ : Set (Subgroup G)} (hσ : IsSys Ω σ)
 include hσ
 
 omit hΩ in
+omit [Finite G] hσ in
 theorem le_span {V : Subgroup G} (hV : V ∈ σ) : V ≤ (⨆ V ∈ σ, V : Subgroup G) :=
   le_biSup (fun V => V) hV
 
@@ -42,10 +43,10 @@ theorem le_normalizer_member {K U : Subgroup G} (hK : K ∈ Ω) (hU : U ∈ σ) 
   obtain ⟨z, hz⟩ := hΩ.exists_uniqueInvolution hK
   have hzU : z ∈ U :=
     AscL62.mem_of_index_two (hΩ.isQuatSub hK) hz hUK
-      (Q8Omega.natCard_eq_two_mul hΩ hK (hσ.mem U hU) hUK)
+      (Q8Omega.natCard_eq_two_mul hΩ hK (hσ.mem U hU))
   have hVc : V ≤ Subgroup.centralizer ({z} : Set G) := fun v hv =>
     Subgroup.mem_centralizer_singleton_iff.mpr
-      (hσ.comm v (le_span hσ hV hv) z (le_span hσ hU hzU))
+      (hσ.comm v (le_span hV hv) z (le_span hU hzU))
   have hV4 := hΩ.natCard_of_mem_USet (hσ.mem V hV)
   exact Sec6Gen.le_normalizer_of_le_centralizer hΩ.hyp hK hJ hJK hz hVJ
     (hΩ.isPGroup_of_mem_USet (hσ.mem V hV)) (by omega) hVc
@@ -57,7 +58,7 @@ theorem commutator_mem_of_mem {K U : Subgroup G} (hK : K ∈ Ω) (hU : U ∈ σ)
   have hvN : v ∈ Subgroup.normalizer (K : Set G) := hσ.le_normalizer_member hΩ hK hU hUK hV hv
   have hvkK : v * k * v⁻¹ ∈ K := (Subgroup.mem_normalizer_iff.mp hvN k).mp hk
   have hvc : ∀ u ∈ U, v * u = u * v := fun u hu =>
-    hσ.comm v (le_span hσ hV hv) u (le_span hσ hU hu)
+    hσ.comm v (le_span hV hv) u (le_span hU hu)
   by_cases hkU : k ∈ U
   · have : v * k * v⁻¹ * k⁻¹ = 1 := by rw [hvc k hkU]; group
     rw [this]; exact U.one_mem
@@ -73,7 +74,7 @@ theorem commutator_mem_of_mem {K U : Subgroup G} (hK : K ∈ Ω) (hU : U ∈ σ)
         rw [e]; exact h
       simpa [mul_assoc] using h1
     have hc : k⁻¹ * (v * k * v⁻¹) ∈ U :=
-      AscL62.inv_mul_mem_of_index_two hUK (Q8Omega.natCard_eq_two_mul hΩ hK hUU hUK) hk hvkK
+      AscL62.inv_mul_mem_of_index_two hUK (Q8Omega.natCard_eq_two_mul hΩ hK hUU) hk hvkK
         hkU hvkU
     have hkN : k ∈ Subgroup.normalizer (U : Set G) := Q8Omega.le_normalizer_of_le hΩ hK hUU hUK hk
     have h3 := (Subgroup.mem_normalizer_iff.mp hkN _).mp hc
@@ -97,12 +98,12 @@ theorem le_normalizer_span {K U : Subgroup G} (hK : K ∈ Ω) (hU : U ∈ σ) (h
   by_cases hVU : V = U
   · subst hVU
     have := (Subgroup.mem_normalizer_iff.mp (Q8Omega.le_normalizer_of_le hΩ hK hUU hUK hk) v).mp hx
-    exact le_span hσ hU this
+    exact le_span hU this
   ·
     have hc := hσ.commutator_mem_of_mem hΩ hK hU hUK hV hx hk
     have e : k * v * k⁻¹ = (v * k * v⁻¹ * k⁻¹)⁻¹ * v := by group
     rw [e]
-    exact Subgroup.mul_mem _ (Subgroup.inv_mem _ (le_span hσ hU hc)) (le_span hσ hV hx)
+    exact Subgroup.mul_mem _ (Subgroup.inv_mem _ (le_span hU hc)) (le_span hV hx)
 
 end IsSys
 

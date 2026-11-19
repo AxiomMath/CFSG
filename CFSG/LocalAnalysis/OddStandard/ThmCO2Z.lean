@@ -76,7 +76,7 @@ theorem weakClosed_of_extremal {H : Type} [Group H] [Finite H] (P : Sylow 2 H) {
   set C : Subgroup H := centralizer ({x} : Set H) with hC
   have hPC : (P : Subgroup H) ≤ C := fun p hp => mem_centralizer_singleton_iff.2 (hxc p hp)
   set Q : Subgroup H := (P : Subgroup H).map (MulAut.conj g).toMonoidHom with hQ
-  have hQp : IsPGroup 2 (Q ⊓ C : Subgroup H) := (P.isPGroup'.map _).to_inf_left
+  have hQp : IsPGroup 2 (Q ⊓ C : Subgroup H) := (P.isPGroup.map _).to_inf_left
   have hconj : ∀ y ∈ (P : Subgroup H), y * (g⁻¹ * x * g) = (g⁻¹ * x * g) * y →
       g * y * g⁻¹ ∈ Q ⊓ C := by
     intro y hy hyc

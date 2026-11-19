@@ -19,15 +19,18 @@ variable {E : Type} [CommGroup E] [Finite E]
   inv_mem' := fun {a} ha => ⟨Y.inv_mem ha.1, fun k hk => by
     rw [map_inv, ha.2 k hk]⟩
 
+omit [Finite E] in
 theorem mem_fixIn {𝒦 : Subgroup (MulAut E)} {Y : Subgroup E} {y : E} :
     y ∈ fixIn 𝒦 Y ↔ y ∈ Y ∧ ∀ k ∈ 𝒦, k y = y := Iff.rfl
 
+omit [Finite E] in
 theorem conj_mem_of_normalizer {𝒦 : Subgroup (MulAut E)} {v : MulAut E}
     (hv : v ∈ Subgroup.normalizer (𝒦 : Set (MulAut E))) (k : MulAut E) (hk : k ∈ 𝒦) :
     v⁻¹ * k * v ∈ 𝒦 := by
   have h := (Subgroup.mem_normalizer_iff.mp (Subgroup.inv_mem _ hv) k).mp hk
   simpa using h
 
+omit [Finite E] in
 theorem fixIn_GInv {𝒦 : Subgroup (MulAut E)} {v : MulAut E}
     (hv : v ∈ Subgroup.normalizer (𝒦 : Set (MulAut E))) {Y : Subgroup E} (hY : GInv 𝒦 v Y) :
     GInv 𝒦 v (fixIn 𝒦 Y) := by

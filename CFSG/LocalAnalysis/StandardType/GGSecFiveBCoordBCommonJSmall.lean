@@ -104,7 +104,7 @@ theorem not_largeEvenSmall_J (hcfg : GGConfig p B Bs x L D J) (hB : B = Bs)
   have hK_R : CFSG.Assembly.IsComponentOf K_R (Subgroup.centralizer ({γ z₁} : Set R)) := by
     have h := isComponentOf_map_mulEquiv e.symm (isComponentOf_iff_open.mp hK)
     rw [CFSG.GroupTheory.map_centralizer_eq_of_mulEquiv e.symm ({e (γ z₁)} : Set H)] at h
-    simp only [Set.image_singleton, MulEquiv.symm_apply_apply, K_R, MulEquiv.coe_toMonoidHom] at h
+    simp only [Set.image_singleton, MulEquiv.symm_apply_apply, MulEquiv.coe_toMonoidHom] at h
     exact isComponentOf_iff_open.mpr h
   have hK_R_uniq : ∀ K'_R : Subgroup R,
       CFSG.Assembly.IsComponentOf K'_R (Subgroup.centralizer ({γ z₁} : Set R)) → K'_R = K_R := by

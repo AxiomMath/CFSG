@@ -12,6 +12,7 @@ open CFSG CFSG.Assembly CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley TableBEx
 
 variable {R : Type} [Group R] [Finite R] {L' : Type} [Group L'] [Finite L'] (D : FrameData R)
 
+omit [Finite R] in
 theorem zl_model_odd (hAL : GGAbelianLift) (hD : D.Good)
     {ψ : L' →* R} (hψ : Function.Surjective ψ) (hker : ψ.ker ≤ Subgroup.center L')
     (hcard : Nat.card ψ.ker = 1 ∨ Nat.card ψ.ker = 3)

@@ -28,7 +28,7 @@ theorem exists_mem_orderOf_eq_of_card_ge {G : Type*} [Group G] [Finite G] {p m :
     (H : Subgroup G) (hH : IsPGroup p H) (hm : m ≤ Nat.card H) (g : G)
     (hg : IsPGroup p (zpowers g)) : ∃ h ∈ H, orderOf h = orderOf g := by
   obtain ⟨P', hP'⟩ := hH.exists_le_sylow
-  have hHP : H = P' := eq_of_le_of_card_ge hP' ((hbound _ P'.isPGroup').trans hm)
+  have hHP : H = P' := eq_of_le_of_card_ge hP' ((hbound _ P'.isPGroup).trans hm)
   obtain ⟨P, hP⟩ := hg.exists_le_sylow
   obtain ⟨c, hc⟩ := MulAction.exists_smul_eq G P P'
   refine ⟨MulAut.conj c g, ?_, MulEquiv.orderOf_eq _ g⟩

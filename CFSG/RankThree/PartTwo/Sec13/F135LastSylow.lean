@@ -12,8 +12,8 @@ theorem sl1_si_sylow_conj {X : Type*} [Group X] [Finite X] (A R₁ R₂ : Subgro
     (hq : q.Prime) (hR₁A : R₁ ≤ A) (hR₂A : R₂ ≤ A) (hR₁ : IsPGroup q R₁) (hR₂ : IsPGroup q R₂)
     (h₁ : ¬ q ∣ R₁.relIndex A) (h₂ : ¬ q ∣ R₂.relIndex A) :
     ∃ g ∈ A, ∀ y : X, y ∈ R₂ ↔ g * y * g⁻¹ ∈ R₁ := by
-  haveI : Fact (Nat.Prime q) := ⟨hq⟩
-  haveI : Finite (Sylow q A) := Sylow.finite_of_finiteIndex (Classical.arbitrary (Sylow q A))
+  have : Fact (Nat.Prime q) := ⟨hq⟩
+  have : Finite (Sylow q A) := Sylow.finite_of_finiteIndex (Classical.arbitrary (Sylow q A))
   have hP₁ : IsPGroup q (R₁.subgroupOf A) :=
     hR₁.of_injective (Subgroup.subgroupOfEquivOfLe hR₁A).toMonoidHom
       (Subgroup.subgroupOfEquivOfLe hR₁A).injective
@@ -42,7 +42,7 @@ theorem sl1_si_sylow_conj {X : Type*} [Group X] [Finite X] (A R₁ R₂ : Subgro
     simp [MulAut.conj_apply]
   have hval' : ∀ (h w : A), (((MulAut.conj h)⁻¹ w : A) : X) = (h : X)⁻¹ * (w : X) * (h : X) := by
     intro h w
-    simp [MulAut.conj_inv_apply]
+    simp
   refine ⟨(g : X), g.2, fun y => ?_⟩
   constructor
   · intro hy
@@ -72,7 +72,7 @@ theorem sl1_si_sylow_conj {X : Type*} [Group X] [Finite X] (A R₁ R₂ : Subgro
     rwa [e] at h4
 
 theorem sl1_frattini_argument {X : Type*} [Group X] [Finite X] (J A R : Subgroup X) (q : ℕ)
-    (hq : q.Prime) (hAJ : A ≤ J) (hAn : ∀ j ∈ J, ∀ a ∈ A, j * a * j⁻¹ ∈ A) (hRA : R ≤ A)
+    (hq : q.Prime) (_hAJ : A ≤ J) (hAn : ∀ j ∈ J, ∀ a ∈ A, j * a * j⁻¹ ∈ A) (hRA : R ≤ A)
     (hRq : IsPGroup q R) (hRsyl : ¬ q ∣ R.relIndex A) :
     ∀ j ∈ J, ∃ a ∈ A, a * j ∈ Subgroup.normalizer (R : Set X) := by
   intro j hj
@@ -193,7 +193,7 @@ theorem exists_sigma {M : Type*} [Group M] [Finite M] {p : ℕ} (hp : p.Prime) (
       (sl1_conj_zpowers c e⁻¹ (hEc' e⁻¹ (E.inv_mem he)))
   obtain ⟨S, hfus, hcT, hES⟩ := CFSG.Goldschmidt.G310.exists_invariant_sylow_containing
     hp Nat.prime_three hE hpH hEH le_sup_right hc3 hEZ
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P, hP⟩ := CFSG.Goldschmidt.G310.exists_sylow_of_fusionIsSylowIn hfus
   obtain ⟨hS_le, hS3, -⟩ := hfus
   have hSP : S.subgroupOf (R ⊔ Subgroup.zpowers c) =

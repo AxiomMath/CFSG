@@ -40,7 +40,7 @@ theorem ext_of_max (hPU : PU) (hCM : CM) (h43d : II4_43d) (hquat : II4_4_quat) (
   obtain ⟨T, hT, hxT⟩ := exists_sylow_mem hx
   have hTcard : Nat.card ↥T = 2 ^ cLog x := hT.card_eq
   obtain ⟨Q, hQ⟩ := hT.isPGroup.exists_le_sylow
-  have hSp : IsPGroup 2 ↥(Q : Subgroup G) := Q.isPGroup'
+  have hSp : IsPGroup 2 ↥(Q : Subgroup G) := Q.isPGroup
   have hSne : (Q : Subgroup G) ≠ ⊥ := by
     intro h
     have h1 : x ∈ (Q : Subgroup G) := hQ hxT

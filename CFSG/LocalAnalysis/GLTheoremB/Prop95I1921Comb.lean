@@ -10,6 +10,7 @@ open Equiv Equiv.Perm
 
 variable {Ω : Type*} [Fintype Ω] [DecidableEq Ω]
 
+omit [Fintype Ω] [DecidableEq Ω] in
 theorem pai (g : Perm Ω) (x : Ω) : g (g⁻¹ x) = x := by simp
 
 theorem fixF_subset_of_card_lt {p : ℕ} (hp : p.Prime) {a b : Perm Ω} (hab : Commute a b)
@@ -105,6 +106,7 @@ theorem fixF_inter_of_card_four {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {a b : 
         Finset.inter_subset_right (by omega)
       rw [← h1', h2']
 
+omit [Fintype Ω] in
 theorem exists_restrictDT {F : Finset Ω} {s : Perm Ω} (hs : IsDT F s) :
     ∃ r : Perm ↥F, Perm.ofSubtype r = s ∧ IsDT (Finset.univ : Finset ↥F) r := by
   let r : Perm ↥F := s.subtypePerm (fun x => (isDT_preserves hs x).symm)
@@ -149,6 +151,7 @@ theorem isDT_mul_aux {G : Type*} [Fintype G] [DecidableEq G] (hG : Fintype.card 
     rw [← map_mul, hφ] at h
     exact (isDT_univ_permCongr e _).1 h
 
+omit [Fintype Ω] in
 theorem isDT_mul {F : Finset Ω} (hF : F.card = 4) {s s' : Perm Ω} (hs : IsDT F s)
     (hs' : IsDT F s') : s * s' = 1 ∨ IsDT F (s * s') := by
   have hcard : Fintype.card ↥F = 4 := by rw [Fintype.card_coe]; exact hF
@@ -179,9 +182,11 @@ theorem isDT_mul {F : Finset Ω} (hF : F.card = 4) {s s' : Perm Ω} (hs : IsDT F
         exact inv_eq_of_mul_eq_one_left h2
       rw [this]; exact hs
 
+omit [Fintype Ω] in
 theorem mem_V4 {F : Finset Ω} (hF : F.card = 4) {s : Perm Ω} : s ∈ V4 F hF ↔ s = 1 ∨ IsDT F s :=
   Iff.rfl
 
+omit [Fintype Ω] in
 theorem conj_ofSubtype {F : Finset Ω} {g : Perm Ω} {gr : Perm ↥F}
     (hg : ∀ x : ↥F, ((gr x : ↥F) : Ω) = g x) (hpres : ∀ x, x ∈ F ↔ g x ∈ F) (r : Perm ↥F) :
     g * Perm.ofSubtype r * g⁻¹ = Perm.ofSubtype (gr * r * gr⁻¹) := by
@@ -338,6 +343,7 @@ theorem sign_isDT {F : Finset Ω} (hF : F.card = 4) {s : Perm Ω} (hs : IsDT F s
   have := fin4_dt_even (e.permCongr r) ((isDT_univ_permCongr e r).2 hd)
   rwa [sign_permCongr] at this
 
+omit [Fintype Ω] in
 theorem mem_zpowers_swap_of_supported {x y : Ω} (hxy : x ≠ y) {s : Perm Ω}
     (hs : ∀ z, z ≠ x → z ≠ y → s z = z) : s ∈ Subgroup.zpowers (swap x y) := by
   have hx : s x = x ∨ s x = y := by
@@ -376,6 +382,7 @@ theorem mem_zpowers_swap_of_supported {x y : Ω} (hxy : x ≠ y) {s : Perm Ω}
           · rw [swap_apply_of_ne_of_ne hzx hzy]; exact hs z hzx hzy
       rw [this]; exact Subgroup.mem_zpowers _
 
+omit [Fintype Ω] in
 theorem mem_zpowers_swap_cases {x y : Ω} {r : Perm Ω} (hr : r ∈ Subgroup.zpowers (swap x y)) :
     r = 1 ∨ r = swap x y := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 hr
@@ -525,7 +532,7 @@ theorem comb {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
         (fun c => c ∈ Δ ∧ c ≠ 1 ∧ Sg c ≠ ⊥ ∧ fixF c ≠ fixF a₁)
       have hD'mem : ∀ c, c ∈ D' ↔ c ∈ Δ ∧ c ≠ 1 ∧ Sg c ≠ ⊥ ∧ fixF c ≠ fixF a₁ := by
         intro c; simp [D']
-      haveI : Nonempty ↥D' := ⟨⟨b, (hD'mem b).2 ⟨hbΔ, hb1, hbne, hbF⟩⟩⟩
+      have : Nonempty ↥D' := ⟨⟨b, (hD'mem b).2 ⟨hbΔ, hb1, hbne, hbF⟩⟩⟩
       let G : ↥D' → Finset Ω := fun c => fixF c.1
       have hG4 : ∀ c : ↥D', (G c).card = 4 := fun c => by
         obtain ⟨hc, hc1, hcne, -⟩ := (hD'mem c.1).1 c.2
@@ -697,7 +704,7 @@ theorem locB7_conj {α : Type*} [Fintype α] [DecidableEq α] {σ₀ σ : Perm �
 theorem locB7 {σ g : Perm (Fin 7)} (hσ : σ ^ 3 = 1) (hσ1 : σ ≠ 1) (hg : g * σ = σ * g)
     (hev : sign g = 1) (h4 : g ^ 4 = 1) :
     (∀ x, σ x ≠ x → g x = x) ∧ (g = 1 ∨ ((fixF σ).card = 4 ∧ IsDT (fixF σ) g)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hct := cycleType_of_pow_prime_eq_one hσ
   have hcard_pos : σ.cycleType.card ≠ 0 := by
     intro h0
@@ -708,7 +715,7 @@ theorem locB7 {σ g : Perm (Fin 7)} (hσ : σ ^ 3 = 1) (hσ1 : σ ≠ 1) (hg : g
   have hsupp : σ.support.card ≤ 7 := by simpa using σ.support.card_le_univ
   have hk : σ.cycleType.card = 1 ∨ σ.cycleType.card = 2 := by
     rw [hct] at hsum
-    simp only [Multiset.sum_replicate, smul_eq_mul, Multiset.card_replicate] at hsum
+    simp only [Multiset.sum_replicate, smul_eq_mul] at hsum
     omega
   rcases hk with hk | hk
   · have hty : σ.cycleType = {3} := by rw [hct, hk]; rfl

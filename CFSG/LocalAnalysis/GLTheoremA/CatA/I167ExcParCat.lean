@@ -42,7 +42,7 @@ private theorem exc_cat_twoPart_aux1 {k j : ℕ} (hk : 1 ≤ k) (hj : 1 ≤ j) :
 
 private theorem exc_cat_twoPart_aux2 {a x : ℕ} (hx : Odd x) :
     padicValNat 2 (2 ^ a * x) = a := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [padicValNat.mul (by positivity) hx.pos.ne', padicValNat.prime_pow,
     padicValNat.eq_zero_of_not_dvd
       (fun hd => Nat.not_even_iff_odd.2 hx (even_iff_two_dvd.2 hd)), Nat.add_zero]
@@ -105,9 +105,9 @@ private theorem exc_cat_twoPart_aux7 {G : Type} [Group G] [Finite G] {n k : ℕ}
   subst hn3
   rcases h2 with h2a | ⟨hm, hq, hi⟩ | ⟨hm, hq, hi⟩ | ⟨hm, hq, hi⟩ | ⟨hm, hq, hi⟩
   · cases i with
-    | cyclic pp hpp => simp [onLie, isLnEps] at h2a
-    | alternating m hm => simp [onLie, isLnEps] at h2a
-    | sporadic s => simp [onLie, isLnEps] at h2a
+    | cyclic pp hpp => simp [onLie] at h2a
+    | alternating m hm => simp [onLie] at h2a
+    | sporadic s => simp [onLie] at h2a
     | lie idx =>
       obtain ⟨d, hv⟩ := idx
       cases d with
@@ -130,7 +130,7 @@ private theorem exc_cat_twoPart_aux7 {G : Type} [Group G] [Finite G] {n k : ℕ}
     have := hk1 hk1'
     omega
 
-theorem exc_cat_twoPart {G : Type} [Group G] [Finite G] {n k : ℕ} (hn : Odd n) (hn3 : 3 ≤ n)
+theorem exc_cat_twoPart {G : Type} [Group G] [Finite G] {n k : ℕ} (_hn : Odd n) (hn3 : 3 ≤ n)
     (hk : 1 ≤ k) (hk1 : k = 1 → 5 ≤ n) (h : catalogIs G (isOmPA n (2 ^ k))) :
     padicValNat 2 (Nat.card G) = k * (n * (n - 1)) := by
   obtain ⟨i, hi, ⟨e⟩⟩ := h
@@ -156,8 +156,8 @@ private theorem exc_cat_pRank_le_aux2 {G : Type} [Group G] [Finite G] {p n k : �
     (hm : CFSG.Open.StatedClassicalModel G .POmegaPlus n 2 k) :
     CFSG.Open.pRank p (⊤ : Subgroup G) ≤ n - 1 := by
   obtain ⟨-, F, hF, hFin, hFcard, ⟨eModel⟩⟩ := hm
-  letI : Field F := hF
-  letI : Finite F := hFin
+  let : Field F := hF
+  let : Finite F := hFin
   have hpF1 : p ∣ Nat.card F + 1 := by rw [hFcard]; exact hpk
   have hpF : ¬ p ∣ Nat.card F := by
     intro hd
@@ -175,7 +175,7 @@ private theorem exc_cat_pRank_le_aux2 {G : Type} [Group G] [Finite G] {p n k : �
     exact_mod_cast h2
   have hord : orderOf (Nat.card F : ZMod p) = 2 :=
     CFSG.StandardType.OrdPInnerExc.orderOf_natCast_eq_two_of_dvd_add_one hp hp2 hpF1
-  rw [if_pos hcond, hord, if_pos (by norm_num : Even (2 : ℕ)),
+  rw [ite_eq_left hcond, hord, ite_eq_left (by norm_num : Even (2 : ℕ)),
     Nat.mul_div_cancel_left (n - 1) (by norm_num : 0 < 2)]
 
 private theorem exc_cat_pRank_le_aux3 {G : Type} [Group G] [Finite G] {p k : ℕ}
@@ -183,9 +183,9 @@ private theorem exc_cat_pRank_le_aux3 {G : Type} [Group G] [Finite G] {p k : ℕ
     (hm : CFSG.Open.StatedClassicalModel G .PSL 4 2 k) :
     CFSG.Open.pRank p (⊤ : Subgroup G) ≤ 2 := by
   obtain ⟨-, F, hF, hFin, hFcard, ⟨eModel⟩⟩ := hm
-  letI : Field F := hF
-  letI : Finite F := hFin
-  haveI : Fact p.Prime := ⟨hp⟩
+  let : Field F := hF
+  let : Finite F := hFin
+  have : Fact p.Prime := ⟨hp⟩
   have hpF1 : p ∣ Nat.card F + 1 := by rw [hFcard]; exact hpk
   have hnot4 : ¬ p ∣ 4 := by
     intro hd
@@ -203,7 +203,7 @@ private theorem exc_cat_pRank_le_aux4 {G : Type} [Group G] [Finite G] {p n k r :
     (e : G ≃* TauCeti.ValidLieTypeIndex.Group ⟨TauCeti.LieTypeIndex.D r q, hv⟩)
     (hi : isOmPA n (2 ^ k) (TauCeti.CFSGIndex.lie ⟨TauCeti.LieTypeIndex.D r q, hv⟩)) :
     CFSG.Open.pRank p (⊤ : Subgroup G) ≤ n - 1 := by
-  simp only [isOmPA, isOmP, onLie, isLnEps, isAltN] at hi
+  simp only [isOmPA, isOmP, onLie] at hi
   rcases hi with ⟨hrn, hq2k⟩ | hbad
   · subst r
     obtain ⟨hqp, hqk⟩ := exc_cat_pRank_le_aux1 hq2k
@@ -218,7 +218,7 @@ private theorem exc_cat_pRank_le_aux4 {G : Type} [Group G] [Finite G] {p n k r :
     exact exc_cat_pRank_le_aux2 hp hp2 hn hn4 hpk hclass
   · exfalso
     rcases hbad with ⟨-, hln⟩
-    simpa [isLnA, onLie, isLnEps, isAltN] using hln
+    simp [isLnA, onLie, isLnEps, isAltN] at hln
 
 private theorem exc_cat_pRank_le_aux5 {G : Type} [Group G] [Finite G] {p n k r : ℕ}
     {q : TauCeti.PrimePower} {hv : (TauCeti.LieTypeIndex.A r q).Valid}
@@ -226,7 +226,7 @@ private theorem exc_cat_pRank_le_aux5 {G : Type} [Group G] [Finite G] {p n k r :
     (e : G ≃* TauCeti.ValidLieTypeIndex.Group ⟨TauCeti.LieTypeIndex.A r q, hv⟩)
     (hi : isOmPA n (2 ^ k) (TauCeti.CFSGIndex.lie ⟨TauCeti.LieTypeIndex.A r q, hv⟩)) :
     CFSG.Open.pRank p (⊤ : Subgroup G) ≤ n - 1 := by
-  simp [isOmPA, isOmP, onLie, isLnEps, isAltN] at hi
+  simp [isOmPA, isOmP, onLie] at hi
   obtain ⟨hn3, hln⟩ := hi
   have hln' : r + 1 = 4 ∧ q.card = 2 ^ k := by
     simpa [isLnA, onLie, isLnEps, isAltN] using hln
@@ -248,7 +248,7 @@ private theorem exc_cat_pRank_le_aux6 {G : Type} [Group G] [Finite G] {p n k deg
     (e : G ≃* (TauCeti.CFSGIndex.alternating deg hdeg).Group)
     (hi : isOmPA n (2 ^ k) (TauCeti.CFSGIndex.alternating deg hdeg)) :
     CFSG.Open.pRank p (⊤ : Subgroup G) ≤ n - 1 := by
-  simp [isOmPA, isOmP, onLie, isLnEps, isAltN] at hi
+  simp [isOmPA, isOmP, onLie] at hi
   obtain ⟨hn3, hln⟩ := hi
   have hln' : 2 ^ k = 2 ∧ deg = 8 := by
     simpa [isLnA, onLie, isLnEps, isAltN] using hln
@@ -276,7 +276,7 @@ private theorem exc_cat_pRank_le_aux6 {G : Type} [Group G] [Finite G] {p n k deg
   exact hle
 
 theorem exc_cat_pRank_le {G : Type} [Group G] [Finite G] {p n k : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
-    (hn : Odd n) (hn3 : 3 ≤ n) (hk : 1 ≤ k) (hpk : p ∣ 2 ^ k + 1)
+    (hn : Odd n) (_hn3 : 3 ≤ n) (_hk : 1 ≤ k) (hpk : p ∣ 2 ^ k + 1)
     (h : catalogIs G (isOmPA n (2 ^ k))) : CFSG.Open.pRank p (⊤ : Subgroup G) ≤ n - 1 := by
   obtain ⟨i, hi, ⟨e⟩⟩ := h
   cases i with
@@ -286,9 +286,9 @@ theorem exc_cat_pRank_le {G : Type} [Group G] [Finite G] {p n k : ℕ} (hp : p.P
     | D r q => exact exc_cat_pRank_le_aux4 hp hp2 hn hpk e hi
     | A r q => exact exc_cat_pRank_le_aux5 hp hp2 hpk e hi
     | _ => exfalso; simp_all [isOmPA, isOmP, onLie, isLnA, isLnEps, isAltN]
-  | cyclic _ _ => exfalso; simp_all [isOmPA, isOmP, onLie, isLnA, isLnEps, isAltN]
+  | cyclic _ _ => exfalso; simp_all [isOmPA, isOmP, onLie, isLnA, isAltN]
   | alternating deg hdeg => exact exc_cat_pRank_le_aux6 hp hpk e hi
-  | sporadic _ => exfalso; simp_all [isOmPA, isOmP, onLie, isLnA, isLnEps, isAltN]
+  | sporadic _ => exfalso; simp_all [isOmPA, isOmP, onLie, isLnA, isAltN]
 
 end CFSG.LocalAnalysis.GLTheoremA.I167
 

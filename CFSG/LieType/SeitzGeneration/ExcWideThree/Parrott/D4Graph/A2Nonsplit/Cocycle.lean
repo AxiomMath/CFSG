@@ -268,7 +268,7 @@ theorem mul_yP_pow_three [Finite L] {r : ↥(adjointGroup Tag.D4 L)} {x z : Lˣ}
         pw z (vZ + (weylG2M ^ 4).mulVec vZ + (weylG2M ^ 8).mulVec vZ) := by
     simp only [tupXZ, tupAct_mul, tupAct_pw, pw_add, show 4 * 1 = 4 from rfl,
       show 4 * 2 = 8 from rfl]
-    simp only [mul_assoc, mul_comm, mul_left_comm]
+    simp only [mul_comm, mul_left_comm]
   rw [key, vX_vZ_facts.1, vX_vZ_facts.2.1, pw_zero, pw_zero, mul_one]
 
 include hω3 in

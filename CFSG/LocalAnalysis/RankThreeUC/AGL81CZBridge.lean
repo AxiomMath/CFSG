@@ -27,6 +27,7 @@ theorem not_dvd_card_pPrimeCore {M H : Subgroup G} {p d : ℕ} (hp : p.Prime)
     ← relPPrimeCore_eq_map hp H]
   exact fun hdvd => hd (hdvd.trans (Subgroup.card_dvd_of_le (le_inf (relPPrimeCore_le H) hcore)))
 
+omit [Finite G] in
 theorem card_barInf_dvd (p : ℕ) (M H : Subgroup G) :
     Nat.card (barInf p M H) ∣ Nat.card (H ⊓ M : Subgroup G) := by
   calc Nat.card (barInf p M H)
@@ -40,7 +41,7 @@ theorem card_barInf_dvd (p : ℕ) (M H : Subgroup G) :
 theorem pRank_le_pRank_map_mk' {A : Type*} [Group A] [Finite A] {d : ℕ} (hd : d.Prime)
     (N : Subgroup A) [N.Normal] (hN : ¬ d ∣ Nat.card N) {P : Subgroup A} (hP : IsPGroup d P) :
     CFSG.pRank d ↥P ≤ CFSG.pRank d ↥(P.map (QuotientGroup.mk' N)) := by
-  haveI : Fact d.Prime := ⟨hd⟩
+  have : Fact d.Prime := ⟨hd⟩
   obtain ⟨a, ha⟩ := IsPGroup.iff_card.mp hP
   have hdisj : Disjoint P N := by
     refine Subgroup.disjoint_of_coprime_natCard ?_
@@ -69,27 +70,29 @@ theorem pRank_le_pRank_map_mk' {A : Type*} [Group A] [Finite A] {d : ℕ} (hd : 
           CFSG.pRank_congr_of_mulEquiv (MulEquiv.subgroupCongr hrange) d
   exact hEq.le
 
+omit [Finite G] in
 theorem commutator_le_map_subtype_of_index_eq {H : Subgroup G} {N₀ : Subgroup ↥H} [N₀.Normal]
     {d : ℕ} (hd : d.Prime) (h : N₀.index = d) : ⁅H, H⁆ ≤ N₀.map H.subtype := by
   rw [Subgroup.commutator_le]
   intro x hx y hy
-  haveI : Fact d.Prime := ⟨hd⟩
+  have : Fact d.Prime := ⟨hd⟩
   let a : ↥H := ⟨x, hx⟩
   let b : ↥H := ⟨y, hy⟩
   let π : ↥H →* ↥H ⧸ N₀ := QuotientGroup.mk' N₀
   have hcab : ⁅a, b⁆ ∈ N₀ := by
     have hcard : Nat.card (↥H ⧸ N₀) = d := by
       rw [← Subgroup.index_eq_card, h]
-    haveI : IsCyclic (↥H ⧸ N₀) := isCyclic_of_prime_card hcard
+    have : IsCyclic (↥H ⧸ N₀) := isCyclic_of_prime_card hcard
     have hcomm : ⁅π a, π b⁆ = 1 := by
       rw [commutatorElement_eq_one_iff_mul_comm]
-      letI : CommGroup (↥H ⧸ N₀) := IsCyclic.commGroup
+      let : CommGroup (↥H ⧸ N₀) := IsCyclic.commGroup
       exact mul_comm (π a) (π b)
     have h1 : π ⁅a, b⁆ = 1 := by
       rw [map_commutatorElement, hcomm]
     exact (QuotientGroup.eq_one_iff (N := N₀) ⁅a, b⁆).mp h1
   exact ⟨⁅a, b⁆, hcab, by simp [map_commutatorElement, a, b]⟩
 
+omit [Finite G] in
 theorem relIndex_map_subtype {H : Subgroup G} (N₀ : Subgroup ↥H) :
     (N₀.map H.subtype).relIndex H = N₀.index := by
   show ((N₀.map H.subtype).comap H.subtype).index = N₀.index
@@ -106,7 +109,7 @@ theorem isKGroup_quotient (h : NineSettingGen G M p Q H E k) (q : ℕ) :
 theorem pRank_quotient_le_three (h : NineSettingGen G M 3 Q H E k) (hH : IsTwoLocal H)
     (h3 : 3 ∉ sigmaM G M) :
     CFSG.pRank 3 ↥(⊤ : Subgroup (↥H ⧸ CFSG.pPrimeCore 3 ↥H)) ≤ 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hN : ¬ 3 ∣ Nat.card (CFSG.pPrimeCore 3 ↥H) :=
     (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mp CFSG.pPrimeCore_coprime_card
   have h3A : 3 ∉ rankThreeSigmaA G := fun hσ =>
@@ -142,11 +145,11 @@ theorem not_dvd_card_barInf (h : NineSettingGen G M p Q H E k) {g : G}
     ¬ d ∣ Nat.card (barInf p M H) :=
   fun hdvd => h.not_dvd_card_inf hg hM (hdvd.trans (card_barInf_dvd p M H))
 
-theorem no_normal_index (h : NineSettingGen G M p Q H E k) {g : G}
+theorem no_normal_index (_h : NineSettingGen G M p Q H E k) {g : G}
     (hg : H = M.map (MulAut.conj g).toMonoidHom) {d : ℕ} (hd : d.Prime)
     (hM : CFSG.RankThree.PartOne.IsStronglyPEmbedded d M) (hperf : commutator G = ⊤) :
     ∀ N : Subgroup (↥H ⧸ CFSG.pPrimeCore p ↥H), N.Normal → N.index ≠ d := by
-  haveI : Fact d.Prime := ⟨hd⟩
+  have : Fact d.Prime := ⟨hd⟩
   intro N hN hNidx
   set N₀ : Subgroup ↥H := N.comap (QuotientGroup.mk' (CFSG.pPrimeCore p ↥H)) with hN₀def
   have hN₀ : N₀.Normal := by
@@ -156,7 +159,7 @@ theorem no_normal_index (h : NineSettingGen G M p Q H E k) {g : G}
     rw [hN₀def, Subgroup.index_comap_of_surjective N
       (QuotientGroup.mk'_surjective (N := CFSG.pPrimeCore p ↥H))]
     exact hNidx
-  haveI := hN₀
+  have := hN₀
   have hNM : N₀.map H.subtype ≤ M.map (MulAut.conj g).toMonoidHom := by
     rw [← hg]
     exact Subgroup.map_subtype_le N₀
@@ -173,7 +176,7 @@ theorem exists_sylow_image (h : NineSettingGen G M p Q H E k) {g : G}
     (hM : CFSG.RankThree.PartOne.IsStronglyPEmbedded d M) :
     ∃ W : Subgroup (↥H ⧸ CFSG.pPrimeCore p ↥H), IsPGroup d W ∧ 3 ≤ CFSG.pRank d ↥W := by
   have hdp : d.Prime := sigmaA_prime d hd.1
-  haveI : Fact d.Prime := ⟨hdp⟩
+  have : Fact d.Prime := ⟨hdp⟩
   obtain ⟨P, hP, hPM'⟩ := (hM.conj g).exists_isSylowOf_le
   have hPH : P ≤ H := hg.symm ▸ hPM'
   let S : Sylow d G := hP.2.1.toSylow (by simpa [Subgroup.relIndex_top_right] using hP.2.2)
@@ -209,14 +212,14 @@ theorem dEmbConfig (h : NineSettingGen G M 3 Q H E k) {g : G}
     hg.symm ▸ (CFSG.LocalAnalysis.RankThreeTheoremC.rankThreeIsMaxTwoLocal_map
       h.setting.maxLocal (MulAut.conj g)).1
   obtain ⟨W, hWp, hW3⟩ := h.exists_sylow_image hg hd hM
-  haveI : IsSimpleGroup G := h.setting.cstar.simple
+  have : IsSimpleGroup G := h.setting.cstar.simple
   have hperf : commutator G = ⊤ := commutator_eq_top_of_standing h.setting.cstar.nonab
   refine ⟨W, ?_⟩
   exact ⟨hdp, hd5, h.isKGroup_quotient 3, CFSG.pPrimeCore_quotient_eq_bot Nat.prime_three,
     h.pRank_quotient_le_three hH2 h3, h.not_dvd_card_barInf hg hM, hWp, hW3,
     h.no_normal_index hg hdp hM hperf⟩
 
-private theorem zComponentData_mk {M Q H E : Subgroup G}
+private theorem zComponentData_mk {M _Q H _E : Subgroup G}
     (hex : ∃ L : Subgroup (↥H ⧸ CFSG.pPrimeCore 3 ↥H), CFSG.IsComponent L ∧
       ¬ L ≤ barInf 3 M H ∧ (IsL34Type ↥L ∨ IsA11Type ↥L))
     (h6 : {C : Subgroup (↥H ⧸ CFSG.pPrimeCore 3 ↥H) |
@@ -233,7 +236,7 @@ theorem zComponentDataGen (h7 : NineSevenTwoInputGen) (h6 : NineSixInputGen)
     (h35 : ThreeFiveA11InputGen) (h : NineSettingGen G M 3 Q H E 2) (hH2 : H ∈ H2Fam M Q)
     (h3 : 3 ∉ sigmaM G M) (hcore : pCoreOf 2 H ≠ pCoreOf 2 (H ⊓ M)) :
     ZComponentData (↥H ⧸ CFSG.pPrimeCore 3 ↥H) (barInf 3 M H) :=
-  zComponentData_mk (Q := Q) (E := E) (h7 G M Q H E h hH2 h3 hcore.symm)
+  zComponentData_mk (_Q := Q) (_E := E) (h7 G M Q H E h hH2 h3 hcore.symm)
     (h6 G M Q H E h hH2 h3 (h7 G M Q H E h hH2 h3 hcore.symm))
     (h35 G M Q H E h hH2 h3)
 

@@ -16,6 +16,7 @@ private abbrev c13SpanSet (t tau x₁ x₂ rho : G) : Set G :=
   {g : G | ∃ A : Subgroup G, A ≤ ctxQ t tau x₁ x₂ rho ⊔ closure ({t, tau} : Set G) ∧
     CFSG.Open.IsElemAbelian 2 A ∧ Nat.card A = 32 ∧ g ∈ A}
 
+omit [Finite G] in
 private lemma c13_mem_zpowers_eq_one_or_eq {z x : G} (hz : z * z = 1) (hx : x ∈ zpowers z) :
     x = 1 ∨ x = z := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hx
@@ -31,7 +32,7 @@ theorem c13_exists_E32 (hc : Ctx13C t L S x₁ x₂ lam rho tau om) {q : G}
     (hq : q ∈ ctxQ t tau x₁ x₂ rho) :
     ∃ A : Subgroup G, A ≤ ctxQ t tau x₁ x₂ rho ⊔ closure ({t, tau} : Set G) ∧
       CFSG.Open.IsElemAbelian 2 A ∧ Nat.card A = 32 ∧ tau * q ∈ A := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have htau2 : tau * tau = 1 := (c13_tau_data hc.toCtx13A).2.1
   have htau_inv : tau⁻¹ = tau := inv_eq_of_mul_eq_one_right htau2
   let a : G := tau * q
@@ -130,7 +131,7 @@ private lemma c13_Qtau_eq_span_closure (hc : Ctx13C t L S x₁ x₂ lam rho tau 
       exact c13_tau_mem_spanSet hc
   exact le_antisymm h2 h1
 
-private lemma c13_conj_mem_spanSet (hc : Ctx13C t L S x₁ x₂ lam rho tau om) {m : G}
+private lemma c13_conj_mem_spanSet (_hc : Ctx13C t L S x₁ x₂ lam rho tau om) {m : G}
     (hm : m ∈ ctxK t tau x₁ x₂ rho) {g : G} (hg : g ∈ c13SpanSet t tau x₁ x₂ rho) :
     m * g * m⁻¹ ∈ c13SpanSet t tau x₁ x₂ rho := by
   obtain ⟨A, hAR, hAe, hAcard, hgA⟩ := hg
@@ -145,7 +146,7 @@ private lemma c13_conj_mem_spanSet (hc : Ctx13C t L S x₁ x₂ lam rho tau om) 
       (hnorm a).mp (hAR ha)
     simpa [MulAut.conj_apply] using h1
   · refine ⟨?_, ?_⟩
-    · haveI : IsMulCommutative ↥A := hAe.1
+    · have : IsMulCommutative ↥A := hAe.1
       infer_instance
     · intro x hx
       obtain ⟨a, ha, rfl⟩ := Subgroup.mem_map.mp hx
@@ -163,7 +164,7 @@ private lemma c13_conj_mem_closure_spanSet (hc : Ctx13C t L S x₁ x₂ lam rho 
     m * x * m⁻¹ ∈ closure (c13SpanSet t tau x₁ x₂ rho) := by
   induction hx using Subgroup.closure_induction with
   | mem g hg => exact Subgroup.subset_closure (c13_conj_mem_spanSet hc hm hg)
-  | one => simpa using Subgroup.one_mem _
+  | one => simp
   | mul y z hy hz ihy ihz =>
       have h : m * (y * z) * m⁻¹ = (m * y * m⁻¹) * (m * z * m⁻¹) := by group
       rw [h]

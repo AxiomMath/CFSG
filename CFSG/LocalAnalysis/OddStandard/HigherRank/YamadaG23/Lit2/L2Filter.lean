@@ -14,7 +14,7 @@ theorem l2_elem_order_four {K X P : Type} [Group K] [Finite K] [Group X] [Group 
     (hK : CFSG.IsQuasisimple K) (e : K ⧸ center K ≃* X)
     (eM : CFSG.Open.griessHopfMultiplier X ≃* P) (hz : ∃ z ∈ center K, orderOf z = 4) :
     ∃ m : P, 4 ∣ orderOf m := by
-  haveI : Group.IsPerfect K := hK.1
+  have : Group.IsPerfect K := hK.1
   have hqsurj : Function.Surjective (CFSG.RankThree.PerfectCover.centralQuotientMap e) :=
     CFSG.RankThree.PerfectCover.centralQuotientMap_surjective e
   have hqker : (CFSG.RankThree.PerfectCover.centralQuotientMap e).ker = center K :=
@@ -67,10 +67,10 @@ theorem l2_alt_no_four
     CFSG.GH74.Generic.card_center_dvd_hopfMultiplier hK e
   rw [(hA m hm).2] at hdvd
   by_cases h : m = 6 ∨ m = 7
-  · rw [if_pos h] at hdvd
+  · rw [ite_eq_left h] at hdvd
     have : 4 ∣ 6 := h4.trans hdvd
     omega
-  · rw [if_neg h] at hdvd
+  · rw [ite_eq_right h] at hdvd
     have : 4 ∣ 2 := h4.trans hdvd
     omega
 

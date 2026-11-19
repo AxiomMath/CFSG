@@ -103,8 +103,8 @@ theorem a1_G2 (hB : LieOrderBridge) {n : ℕ} (hn : 2 ≤ n) (K : Type) [Field K
     (J : Subgroup (LargeEvenCenterQuot (LargeEvenChevH LargeEvenCartanG2 K false)))
     (hJ : IsComponentOf J (ggFixSub φ))
     (hlab : GGHasLabel (⟨.B2der, 0, 1⟩ : LargeEvenLabel) (↥J ⧸ Subgroup.center ↥J)) : False := by
-  haveI : CharP K 2 := CFSG.StandardType.charP_two_of_card hK
-  haveI := finite_recipeGroup .G2 K
+  have : CharP K 2 := CFSG.StandardType.charP_two_of_card hK
+  have := finite_recipeGroup .G2 K
   let q : TauCeti.PrimePower := ⟨2, n, Nat.prime_two, by omega⟩
   have hq : q.card = 2 ^ n := by rw [TauCeti.PrimePower.card_def]
   have h4 : 4 ≤ 2 ^ n := by
@@ -130,14 +130,14 @@ theorem a1_triD4 (hB : LieOrderBridge) {n : ℕ} (hn : 2 ≤ n) (K : Type) [Fiel
     (J : Subgroup (LargeEvenCenterQuot (LargeEvenTwistedH LargeEvenCartanD4 K LargeEvenRhoD4 n)))
     (hJ : IsComponentOf J (ggFixSub φ))
     (hlab : GGHasLabel (⟨.B2der, 0, 1⟩ : LargeEvenLabel) (↥J ⧸ Subgroup.center ↥J)) : False := by
-  haveI : CharP K 2 := CFSG.StandardType.charP_two_of_card (m := n * 3) (by rw [hK, pow_mul])
+  have : CharP K 2 := CFSG.StandardType.charP_two_of_card (m := n * 3) (by rw [hK, pow_mul])
   set σ := iterateFrobeniusEquiv K 2 n with hσdef
   have hσ : ∀ c, σ c = c ^ 2 ^ n := fun c => by
     rw [hσdef, iterateFrobeniusEquiv_apply, iterateFrobenius_def]
   obtain ⟨e₁⟩ := nonempty_triD4_equiv (by omega) K hK σ hσ
   have hI := chevIDImage_subset_inn_triD4 (by omega : 1 ≤ n) K hK
-  haveI : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
-  haveI : Finite (LargeEvenCenterQuot
+  have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
+  have : Finite (LargeEvenCenterQuot
       (LargeEvenTwistedH LargeEvenCartanD4 K LargeEvenRhoD4 n)) :=
     Finite.of_equiv _ e₁.symm.toEquiv
   let q : TauCeti.PrimePower := ⟨2, n, Nat.prime_two, by omega⟩
@@ -160,11 +160,11 @@ theorem a1_twF4 (hB : LieOrderBridge) {a : ℕ} (ha : 1 ≤ a) (K : Type) [Field
     (J : Subgroup (LargeEvenCenterQuot (LargeEvenTwF4H a K)))
     (hJ : IsComponentOf J (ggFixSub φ))
     (hlab : GGHasLabel (⟨.B2der, 0, 1⟩ : LargeEvenLabel) (↥J ⧸ Subgroup.center ↥J)) : False := by
-  haveI : CharP K ReeTag.F4.prime := CFSG.StandardType.charP_two_of_card hK
+  have : CharP K ReeTag.F4.prime := CFSG.StandardType.charP_two_of_card hK
   obtain ⟨e₁⟩ := nonempty_twF4_equiv ha K hK
   have hI := chevIDImage_subset_inn_twF4 ha K hK
-  haveI : Finite (ModGL Tag.F4 K) := finite_modGL
-  haveI : Finite (LargeEvenCenterQuot (LargeEvenTwF4H a K)) := Finite.of_equiv _ e₁.symm.toEquiv
+  have : Finite (ModGL Tag.F4 K) := finite_modGL
+  have : Finite (LargeEvenCenterQuot (LargeEvenTwF4H a K)) := Finite.of_equiv _ e₁.symm.toEquiv
   have hv : (TauCeti.LieTypeIndex.reeF4 a).Valid := by
     refine (TauCeti.LieTypeIndex.valid_iff _).2 ⟨?_, ?_⟩
     · exact (TauCeti.LieTypeIndex.inStandardRange_iff _).2 ha

@@ -179,13 +179,9 @@ private theorem map_SU2_equivs
         (Q k).subgroupOf (P k ⊔ Q k) := by
   have hφtop : (su2Top (unitaryInvolution F 2 n)).map
       (θ₂.comp (su3Chord (unitaryInvolution F 2 n))) = P k := by
-    change (su2Top (unitaryInvolution F 2 n)).map
-      (θ₂.comp (su3Chord (unitaryInvolution F 2 n))) = P k
     rw [← Subgroup.map_map, map_su2Top_su3Chord, hθ₂top]
   have hφbot : (su2Bot (unitaryInvolution F 2 n)).map
       (θ₂.comp (su3Chord (unitaryInvolution F 2 n))) = Q k := by
-    change (su2Bot (unitaryInvolution F 2 n)).map
-      (θ₂.comp (su3Chord (unitaryInvolution F 2 n))) = Q k
     rw [← Subgroup.map_map, map_su2Bot_su3Chord, hθ₂bot]
   have hψtop := map_equiv_of_val_eq
     (S := su2Top (unitaryInvolution F 2 n)) (f := ψ) (e := ψe)
@@ -339,7 +335,6 @@ private theorem block_theta_mem
     simpa using h'.symm
   have hθchord : θ.comp (su3Chord σ) = ψ := by
     rw [hθdef]
-    change (θ₂.comp β.symm.toMonoidHom).comp (su3Chord σ) = ψ
     rw [MonoidHom.comp_assoc, hβinvchord, ← MonoidHom.comp_assoc]
     change (θ₂.comp (su3Chord σ)).comp α.symm.toMonoidHom = ψ
     exact hφα
@@ -368,7 +363,7 @@ theorem IsMaxFrame.exists_su3_residue_block (h : TransvectionHyp H Δ) (hML : Me
       θ.comp (su3Chord (unitaryInvolution F 2 n)) = ψ ∧
       ∀ X : Subgroup H, X ∈ frameResidue Δ P Q k ↔ ∃ g, X = (conjSub (su3Top _) g).map θ := by
   classical
-  haveI : Finite H := h.finite
+  have : Finite H := h.finite
   obtain ⟨θ₂, hθ₂r, hθ₂k, hθ₂odd, hθ₂top, hθ₂bot, hθ₂mem⟩ :=
     IsMaxFrame.exists_su3_residue (Δ := Δ) (P := P) (Q := Q) (k := k)
       h hML hq hF hns hFn hcard

@@ -56,7 +56,7 @@ private theorem s168e3_axis_contradiction
     rw [h, E3.mQuot_self] at h1
     omega
   have hnotBC : ¬ B ≤ C := fun h => hCBne (le_antisymm hCB h)
-  obtain ⟨b, hbB, hbC⟩ := SetLike.not_le_iff_exists.1 hnotBC
+  obtain ⟨b, hbB, hbC⟩ := IsConcreteLE.not_le_iff_exists.1 hnotBC
   have hbM : b ∈ D.M := hBM hbB
   have hb2 : b * b = 1 := by
     have h := (E3.isElemAbelian_conjSubgroup hV g').2 b (hBA hbB)

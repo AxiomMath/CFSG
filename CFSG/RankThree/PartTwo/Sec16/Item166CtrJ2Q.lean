@@ -26,7 +26,7 @@ theorem pCoreOf_y0_eq_inf_and_quotientCentralizer_eq
       CFSG.Quasithin.SteinbergBS.quotientCentralizer (Y₀ ⊔ S) Y₀ (CFSG.pCore 2 ↥Y₀) =
         CFSG.Open.pCoreOf 2 (Y₀ ⊔ S) := by
   classical
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hY : Y₀ = L ⊔ CFSG.Open.pCoreOf 2 Y₀ := by
     have h1 := (h1523 G A c L h.toSec15R hJ Y₀ h.mem_y0Star).1
     rwa [inf_of_le_right h.le_y0] at h1
@@ -35,10 +35,10 @@ theorem pCoreOf_y0_eq_inf_and_quotientCentralizer_eq
     CFSG.RankThree.PartTwo.Sec17.PropU.nonempty_quotient_J2 h hJ hY
   have hcenter : Subgroup.center (↥Y₀ ⧸ CFSG.pCore 2 ↥Y₀) = ⊥ := by
     obtain ⟨e⟩ := hYJ
-    haveI : IsSimpleGroup CFSG.Blueprint.NativeSporadic.J2 :=
+    have : IsSimpleGroup CFSG.Blueprint.NativeSporadic.J2 :=
       CFSG.Sporadic.J2.isSimpleGroup_J2
     have hZJ : Subgroup.center CFSG.Blueprint.NativeSporadic.J2 = ⊥ := by
-      haveI : Group.IsPerfect CFSG.Blueprint.NativeSporadic.J2 :=
+      have : Group.IsPerfect CFSG.Blueprint.NativeSporadic.J2 :=
         CFSG.RankThree.PartTwo.Sec17.PropU.isPerfect_J2
       have hnc : ¬ IsMulCommutative CFSG.Blueprint.NativeSporadic.J2 :=
         Group.IsPerfect.not_isMulCommutative CFSG.Blueprint.NativeSporadic.J2
@@ -55,7 +55,7 @@ theorem pCoreOf_y0_eq_inf_and_quotientCentralizer_eq
       rw [← map_mul, ← map_mul, hz w']
     rw [hZJ, Subgroup.mem_bot] at hz'
     exact e.injective (by rw [hz', map_one])
-  haveI : (Y₀.subgroupOf (Y₀ ⊔ S)).Normal :=
+  have : (Y₀.subgroupOf (Y₀ ⊔ S)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (sup_le Subgroup.le_normalizer hSM)
   have hquot : IsPGroup 2 (↥(Y₀ ⊔ S) ⧸ Y₀.subgroupOf (Y₀ ⊔ S)) :=
     CFSG.GH74.Uniqueness.isPGroup_quotient_sup_of_le_normalizer Y₀ S hS2
@@ -69,6 +69,7 @@ theorem pCoreOf_y0_eq_inf_and_quotientCentralizer_eq
       hQS hcenter hSM
   exact ⟨h1, h2⟩
 
+omit [Finite G] in
 private theorem comap_pCore_inclusion_eq {H K : Subgroup G} (hHK : H ≤ K)
     (hQ : CFSG.Open.pCoreOf 2 H = CFSG.Open.pCoreOf 2 K ⊓ H) :
     (CFSG.pCore 2 ↥K).comap (Subgroup.inclusion hHK) = CFSG.pCore 2 ↥H := by
@@ -99,6 +100,7 @@ private theorem comap_pCore_inclusion_eq {H K : Subgroup G} (hHK : H ≤ K)
       rwa [hzx'] at hz
   exact h1.trans h2.symm
 
+omit [Finite G] in
 private theorem commutator_mem_pCore_of_mem {a j : G} (ha : a ∈ S) (hj : j ∈ J)
     (hY : a * j * a⁻¹ * j⁻¹ ∈ Y₀)
     (hSJ : ⁅S, J⁆ ≤ CFSG.Open.pCoreOf 2 Y₀) :
@@ -111,6 +113,7 @@ private theorem commutator_mem_pCore_of_mem {a j : G} (ha : a ∈ S) (hj : j ∈
     exact hqval.trans (commutatorElement_def _ _)
   rwa [hqj] at hq
 
+omit [Finite G] in
 private theorem conjQuotientHom_star_apply_eq {s : G} (hs : s ∈ S)
     (hSM : S ≤ Subgroup.normalizer (Y₀ : Set G))
     (hSJ : ⁅S, J⁆ ≤ CFSG.Open.pCoreOf 2 Y₀) :
@@ -130,7 +133,7 @@ private theorem conjQuotientHom_star_apply_eq {s : G} (hs : s ∈ S)
     have e : Subgroup.normalizerMonoidHom Y₀ ⟨s, hSM hs⟩ j * j⁻¹ =
         (⟨s * (j : G) * s⁻¹ * (j : G)⁻¹, hY⟩ : ↥Y₀) := by
       apply Subtype.ext
-      simp [div_eq_mul_inv, Subgroup.normalizerMonoidHom_apply_apply_coe]
+      simp [Subgroup.normalizerMonoidHom_apply_apply_coe]
     have hmem : Subgroup.normalizerMonoidHom Y₀ ⟨s, hSM hs⟩ j * j⁻¹ ∈
         CFSG.pCore 2 ↥Y₀ := e ▸ hd
     have hAj : QuotientGroup.mk' (CFSG.pCore 2 ↥Y₀)
@@ -145,6 +148,7 @@ private theorem conjQuotientHom_star_apply_eq {s : G} (hs : s ∈ S)
         rfl
     _ = QuotientGroup.mk' (CFSG.pCore 2 ↥Y₀) j := h1
 
+omit [Finite G] in
 private theorem inv_mul_mem_quotientCentralizer {s : G} (hs : s ∈ S) {yv : ↥Y₀}
     (hSM : S ≤ Subgroup.normalizer (Y₀ : Set G))
     (hα : CFSG.Quasithin.SteinbergBS.conjQuotientHom Y₀ (CFSG.pCore 2 ↥Y₀) ⟨s, hSM hs⟩ =
@@ -198,7 +202,7 @@ theorem exists_mem_inf_inv_mul_mem
       CFSG.Open.pCoreOf 2 (Y₀ ⊔ S)) :
     ∀ s ∈ S, ∃ y ∈ S ⊓ Y₀, y⁻¹ * s ∈ CFSG.Open.pCoreOf 2 (Y₀ ⊔ S) := by
   classical
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hKstar := ks166J2A5_at_star h hJ h1523 hK hJY hJperf hJA5 hAJ
   intro s hs
   obtain ⟨g, -, hα⟩ := hKstar.2.2.1 _ (conjQuotientHom_star_apply_eq hs hSM hSJ)
@@ -210,6 +214,7 @@ theorem exists_mem_inf_inv_mul_mem
   rw [hy]
   exact S.mul_mem hs (S.inv_mem (hQS hx))
 
+omit [Finite G] in
 theorem exists_quotient_mulEquiv_y0 (hSM : S ≤ Subgroup.normalizer (Y₀ : Set G))
     (hQY : CFSG.Open.pCoreOf 2 Y₀ = CFSG.Open.pCoreOf 2 (Y₀ ⊔ S) ⊓ Y₀)
     (hcov : ∀ s ∈ S, ∃ y ∈ S ⊓ Y₀, y⁻¹ * s ∈ CFSG.Open.pCoreOf 2 (Y₀ ⊔ S)) :
@@ -217,7 +222,7 @@ theorem exists_quotient_mulEquiv_y0 (hSM : S ≤ Subgroup.normalizer (Y₀ : Set
       ∀ y : ↥Y₀, ψ (QuotientGroup.mk' (CFSG.pCore 2 ↥Y₀) y) =
         QuotientGroup.mk' (CFSG.pCore 2 ↥(Y₀ ⊔ S)) (Subgroup.inclusion le_sup_left y) := by
   classical
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Qy : Subgroup ↥Y₀ := CFSG.pCore 2 ↥Y₀
   let Qg : Subgroup ↥(Y₀ ⊔ S) := CFSG.pCore 2 ↥(Y₀ ⊔ S)
   let φ : ↥Y₀ →* ↥(Y₀ ⊔ S) ⧸ Qg :=
@@ -259,6 +264,7 @@ theorem exists_quotient_mulEquiv_y0 (hSM : S ≤ Subgroup.normalizer (Y₀ : Set
   intro y
   exact QuotientGroup.liftEquiv_mk _ _ _ _
 
+omit [Finite G] in
 theorem map_star_inf_eq
     (hcov : ∀ s ∈ S, ∃ y ∈ S ⊓ Y₀, y⁻¹ * s ∈ CFSG.Open.pCoreOf 2 (Y₀ ⊔ S))
     (ψ : (↥Y₀ ⧸ CFSG.pCore 2 ↥Y₀) ≃* (↥(Y₀ ⊔ S) ⧸ CFSG.pCore 2 ↥(Y₀ ⊔ S)))
@@ -267,7 +273,7 @@ theorem map_star_inf_eq
     (((S ⊓ Y₀).subgroupOf Y₀).map (QuotientGroup.mk' (CFSG.pCore 2 ↥Y₀))).map ψ.toMonoidHom =
       (S.subgroupOf (Y₀ ⊔ S)).map (QuotientGroup.mk' (CFSG.pCore 2 ↥(Y₀ ⊔ S))) := by
   classical
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   ext x
   constructor
   · intro hx
@@ -306,6 +312,7 @@ theorem map_star_inf_eq
       · group
     rwa [hgy]
 
+omit [Finite G] in
 private theorem map_inf_le_centralizer_star (hSJ : ⁅S, J⁆ ≤ CFSG.Open.pCoreOf 2 Y₀) :
     ((S ⊓ Y₀).subgroupOf Y₀).map (QuotientGroup.mk' (CFSG.pCore 2 ↥Y₀)) ≤
       Subgroup.centralizer
@@ -341,12 +348,14 @@ private theorem map_inf_le_centralizer_star (hSJ : ⁅S, J⁆ ≤ CFSG.Open.pCor
     _ = QuotientGroup.mk' (CFSG.pCore 2 ↥Y₀) a * QuotientGroup.mk' (CFSG.pCore 2 ↥Y₀) j := by
         rw [map_mul]
 
+omit [Finite G] in
 private theorem isPGroup_map_inf_star (hS2 : IsPGroup 2 S) :
     IsPGroup 2 (((S ⊓ Y₀).subgroupOf Y₀).map (QuotientGroup.mk' (CFSG.pCore 2 ↥Y₀))) := by
   have h2 : IsPGroup 2 ((S ⊓ Y₀).subgroupOf Y₀) :=
     IsPGroup.of_equiv hS2.to_inf_left (Subgroup.subgroupOfEquivOfLe inf_le_right).symm
   exact IsPGroup.map h2 (QuotientGroup.mk' (CFSG.pCore 2 ↥Y₀))
 
+omit [Finite G] in
 private theorem inf_le_pCoreOf_of_map_inf_eq_bot
     (hbot : ((S ⊓ Y₀).subgroupOf Y₀).map (QuotientGroup.mk' (CFSG.pCore 2 ↥Y₀)) = ⊥) :
     S ⊓ Y₀ ≤ CFSG.Open.pCoreOf 2 Y₀ := by
@@ -380,7 +389,7 @@ theorem inf_le_pCoreOf_or_nonempty
               Set (↥(Y₀ ⊔ S) ⧸ CFSG.pCore 2 ↥(Y₀ ⊔ S))) ≃*
           (Multiplicative (ZMod 2) × Multiplicative (ZMod 2)) × alternatingGroup (Fin 5))) := by
   classical
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Qy : Subgroup ↥Y₀ := CFSG.pCore 2 ↥Y₀
   let Qg : Subgroup ↥(Y₀ ⊔ S) := CFSG.pCore 2 ↥(Y₀ ⊔ S)
   let Jstar : Subgroup (↥Y₀ ⧸ Qy) := (J.subgroupOf Y₀).map (QuotientGroup.mk' Qy)

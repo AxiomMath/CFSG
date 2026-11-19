@@ -26,7 +26,7 @@ theorem OmegaModel.le_perp_of_card_sq (S : OmegaModel W) (hSK : Nat.card S.K = 4
     {F : Subgroup W} (hF : S.IsSub F) (hcard : Nat.card F = 16) (hR : F ⊓ S.perp F ≠ ⊥) :
     F ≤ S.perp F := by
   classical
-  haveI := S.finite_carrier
+  have := S.finite_carrier
   obtain ⟨z, hz1⟩ := Subgroup.ne_bot_iff_exists_ne_one.1 hR
   have hzF : (z : W) ∈ F := z.2.1
   have hzP : (z : W) ∈ S.perp F := z.2.2
@@ -69,7 +69,7 @@ theorem OmegaModel.le_perp_of_card_sq (S : OmegaModel W) (hSK : Nat.card S.K = 4
 theorem Geo2.perp_eq_of_card_fix_16 (hE : Geo2 S E) (hSK : Nat.card S.K = 4)
     (hF : Nat.card (fixV E) = 16) : S.perp (fixV E) = fixV E := by
   classical
-  haveI := S.finite_carrier
+  have := S.finite_carrier
   have hW2 : ∀ w : W, w ^ 2 = 1 := fun w => by rw [pow_two]; exact S.mul_self_eq_one w
   obtain ⟨w, hwF, hw2⟩ :=
     exists_mem_secondLayer hW2 hE.elem (le_refl (fixV E)) (fixV_ne_top hE.ne_bot)
@@ -92,7 +92,7 @@ theorem Geo2.perp_eq_of_card_fix_16 (hE : Geo2 S E) (hSK : Nat.card S.K = 4)
 theorem Geo2.gammaCheck_eq_top_of_card_fix_16 (hE : Geo2 S E) (hSK : Nat.card S.K = 4)
     (hF : Nat.card (fixV E) = 16) : E3.gammaCheck 2 E = ⊤ := by
   classical
-  haveI := S.finite_carrier
+  have := S.finite_carrier
   have hperp := hE.perp_eq_of_card_fix_16 hSK hF
   have hiso : ∀ x ∈ fixV E, ∀ y ∈ fixV E, S.pol x y = 0 := fun x hx y hy => by
     have : x ∈ S.perp (fixV E) := by rw [hperp]; exact hx

@@ -273,6 +273,7 @@ theorem base_spec {x : G} (hx : x ∈ SylowPc.pcSub g 10 0)
     exact hmove m hm hm0 ⟨fix o0 ho0 h0, fix o1 ho1 h1, fix o2 ho2 h2⟩
 
 omit hmove in
+omit ho0 ho1 ho2 hsurj in
 theorem cubeFix_of_pow {o n : ℕ} (ho : o < 243) (h3 : nfFrom g 10 0 n ^ 3 = 1) :
     permCubeFix TT o n = true := by
   obtain ⟨a1, a2⟩ := permWalk_spec hstep ho n
@@ -300,9 +301,9 @@ theorem conj_spec {reps : List (List ℕ)} {nr : ℕ}
   · left
     rw [hn0, nfFrom_zero]
   right
-  obtain ⟨m1, c, hm1, hm1r, k0, k1, k2⟩ := hrec n hn hn0 (cubeFix_of_pow hstep hinj ho0 ho1 ho2
-    hsurj ho0 h3) (cubeFix_of_pow hstep hinj ho0 ho1 ho2 hsurj ho1 h3)
-    (cubeFix_of_pow hstep hinj ho0 ho1 ho2 hsurj ho2 h3)
+  obtain ⟨m1, c, hm1, hm1r, k0, k1, k2⟩ := hrec n hn hn0 (cubeFix_of_pow hstep hinj
+ ho0 h3) (cubeFix_of_pow hstep hinj ho1 h3)
+    (cubeFix_of_pow hstep hinj ho2 h3)
   set r := permNfNum (reps.getD (m1 - 1) []) with hr
   have key : ∀ o < 243, permKeyAt TT o c n r = true →
       Matrix.vecMul (vec o) (φ (nfFrom g 10 0 c * nfFrom g 10 0 n *

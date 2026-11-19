@@ -158,7 +158,7 @@ theorem map_conjNormal_subgroupOf (hΩ : HypOmegaGen Ω)
     haveI := normal_coreHull hΩ hc2
     (L.subgroupOf (coreHull Ω c)).map (MulAut.conjNormal g : ↥(coreHull Ω c) ≃* ↥(coreHull Ω c)).toMonoidHom =
       (conjSub g L).subgroupOf (coreHull Ω c) := by
-  haveI := normal_coreHull hΩ hc2
+  have := normal_coreHull hΩ hc2
   ext y
   constructor
   · rintro ⟨x, hx, rfl⟩
@@ -188,7 +188,7 @@ theorem exists_secAut (hΩ : HypOmegaGen Ω) (hc2 : IsPGroup 2 (Subgroup.zpowers
           g * (x : ↥(Subgroup.centralizer ({c} : Set G))) * g⁻¹ →
         φ (QuotientGroup.mk x) = QuotientGroup.mk y) ∧
       ∀ J ∈ TwinDisc.secFam Ω c, J.map φ.toMonoidHom ∈ TwinDisc.secFam Ω c := by
-  haveI := normal_coreHull hΩ hc2
+  have := normal_coreHull hΩ hc2
   have hN : (classicalInvolutionOddCore ↥(coreHull Ω c)).map
       ((MulAut.conjNormal g : ↥(coreHull Ω c) ≃* ↥(coreHull Ω c)) :
         ↥(coreHull Ω c) →* ↥(coreHull Ω c)) =
@@ -232,7 +232,7 @@ theorem sec_invariant_of_unique (hΩ : HypOmegaGen Ω) (hc2 : IsPGroup 2 (Subgro
     (QuotientGroup.mk y : ↥(coreHull Ω c) ⧸ classicalInvolutionOddCore ↥(coreHull Ω c)) ∈ V := by
   obtain ⟨φ, hφ1, hφ2⟩ := exists_secAut hΩ hc2 g
   obtain ⟨φ', hφ1', hφ2'⟩ := exists_secAut hΩ hc2 g⁻¹
-  haveI := normal_coreHull hΩ hc2
+  have := normal_coreHull hΩ hc2
   have hsymm : φ.symm = φ' := by
     ext z
     obtain ⟨x₀, rfl⟩ := QuotientGroup.mk_surjective z
@@ -271,13 +271,13 @@ theorem isPGroup_zpowers_of_mul_self {T : Type*} [Group T] {x : T} (h : x * x = 
 
 theorem isPGroup_two_of_nilpotent_gen {T : Type*} [Group T] [Finite T] [Group.IsNilpotent T]
     (S : Set T) (hS : ∀ x ∈ S, x * x = 1) (hgen : Subgroup.closure S = ⊤) : IsPGroup 2 T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P⟩ : Nonempty (Sylow 2 T) := inferInstance
   have hP : ∀ x ∈ S, x ∈ (P : Subgroup T) := by
     intro x hx
     have h2 : IsPGroup 2 (Subgroup.zpowers x) := isPGroup_zpowers_of_mul_self (hS x hx)
     obtain ⟨Q, hQ⟩ := h2.exists_le_sylow
-    haveI : Unique (Sylow 2 T) := Sylow.unique_of_normal P inferInstance
+    have : Unique (Sylow 2 T) := Sylow.unique_of_normal P inferInstance
     have : Q = P := Subsingleton.elim _ _
     subst this
     exact hQ (Subgroup.mem_zpowers x)
@@ -285,20 +285,20 @@ theorem isPGroup_two_of_nilpotent_gen {T : Type*} [Group T] [Finite T] [Group.Is
     rw [← hgen, Subgroup.closure_le]
     exact hP
   intro g
-  obtain ⟨k, hk⟩ := P.isPGroup' ⟨g, hle (Subgroup.mem_top g)⟩
+  obtain ⟨k, hk⟩ := P.isPGroup ⟨g, hle (Subgroup.mem_top g)⟩
   exact ⟨k, congrArg Subtype.val hk⟩
 
 
 theorem isPGroup_two_of_central_ker {T Q : Type*} [Group T] [Finite T] [Group Q] (ρ : T →* Q)
     (hQ : IsPGroup 2 ρ.range) (hker : ρ.ker ≤ Subgroup.center T)
     (S : Set T) (hS : ∀ x ∈ S, x * x = 1) (hgen : Subgroup.closure S = ⊤) : IsPGroup 2 T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite ρ.range := Finite.of_surjective ρ.rangeRestrict ρ.rangeRestrict_surjective
-  haveI : Group.IsNilpotent ρ.range := hQ.isNilpotent
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite ρ.range := Finite.of_surjective ρ.rangeRestrict ρ.rangeRestrict_surjective
+  have : Group.IsNilpotent ρ.range := hQ.isNilpotent
   have hnil : Group.IsNilpotent T := by
     refine Subgroup.isNilpotent_of_ker_le_center ρ.rangeRestrict ?_
     simpa [MonoidHom.ker_rangeRestrict] using hker
-  haveI := hnil
+  have := hnil
   exact isPGroup_two_of_nilpotent_gen S hS hgen
 
 
@@ -311,7 +311,7 @@ theorem conjNormal_mem_oddCore (hΩ : HypOmegaGen Ω) (hc2 : IsPGroup 2 (Subgrou
     haveI := normal_coreHull hΩ hc2
     (MulAut.conjNormal g : ↥(coreHull Ω c) ≃* ↥(coreHull Ω c)) n ∈
       classicalInvolutionOddCore ↥(coreHull Ω c) := by
-  haveI := normal_coreHull hΩ hc2
+  have := normal_coreHull hΩ hc2
   have hN : (classicalInvolutionOddCore ↥(coreHull Ω c)).map
       ((MulAut.conjNormal g : ↥(coreHull Ω c) ≃* ↥(coreHull Ω c)) :
         ↥(coreHull Ω c) →* ↥(coreHull Ω c)) =
@@ -337,7 +337,7 @@ theorem inO2C_of_unique_W (hΩ : HypOmegaGen Ω) (hc2 : IsPGroup 2 (Subgroup.zpo
     (hVex : ∃ V₀, WSet (TwinDisc.secFam Ω c) = {V₀}) :
     TwinPerpV3.InO2C t c := by
   obtain ⟨htC, htY, hinv⟩ := TwinDisc.isUniqueInvolution_secImg hΩ hc2 hJ ht
-  haveI := normal_coreHull hΩ hc2
+  have := normal_coreHull hΩ hc2
   set C := Subgroup.centralizer ({c} : Set G) with hCdef
   set X := coreHull Ω c with hXdef
   set N₀ := classicalInvolutionOddCore ↥X with hN₀def

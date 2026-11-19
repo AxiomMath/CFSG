@@ -25,7 +25,7 @@ theorem k332S_of_row (hrow : Row332) (hexc : K332Exclusion) : K332S := by
   obtain ⟨hK', hS', hrk', hZS', hZ3', hwc', hd'⟩ := descend332 hK hS hrk hZS hZ3 hwc hd
   set N := CFSG.pPrimeCore 3 G with hN
   have hcore : CFSG.pPrimeCore 3 (G ⧸ N) = ⊥ := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact CFSG.Semidihedral.Local.pPrimeCore_quotient_self_eq_bot G 3
   have hrkT : CFSG.Open.pRank 3 (⊤ : Subgroup (G ⧸ N)) ≤ 3 :=
     (N588A.pRank_le_of_isSylowOf Nat.prime_three hS' ⊤).trans hrk'

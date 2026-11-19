@@ -51,7 +51,7 @@ theorem rckExc_card_le_pow_of_inj {H G : Type} [Group H] [Group G] [Finite G] (�
     (hι : Function.Injective ι) {E T : Subgroup H} (hTne : T ≠ ⊥) (hTp : IsPGroup 2 ↥T)
     (hEel : IsElemAbelian 3 E) (hEN : E ≤ Subgroup.normalizer (T : Set H)) :
     Nat.card E ≤ 3 ^ LargeEvenTwoLocalRank 3 G := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hnorm : E.map ι ≤ Subgroup.normalizer ((T.map ι : Subgroup G) : Set G) :=
     (Subgroup.map_mono hEN).trans (Subgroup.le_normalizer_map ι)
   have hne : T.map ι ≠ ⊥ := by
@@ -192,7 +192,7 @@ theorem rckExc_floorsTwOut_holds
     refine hθ₀cent z hz (fun x => hc (θ₀ x) ?_)
     rw [← hθ₀range]
     exact MonoidHom.mem_range.2 ⟨x, rfl⟩
-  obtain ⟨a, haA', haR⟩ := SetLike.not_le_iff_exists.mp hnR
+  obtain ⟨a, haA', haR⟩ := IsConcreteLE.not_le_iff_exists.mp hnR
   obtain ⟨d, hdA, hdact⟩ := hbwd a haA'
   have hnoninn : ¬ ∃ g : ↥G₀, ∀ y : ↥G₀,
       (d : X) * (y : X) * (d : X)⁻¹ = (g : X) * (y : X) * (g : X)⁻¹ := by

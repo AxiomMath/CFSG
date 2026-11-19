@@ -15,6 +15,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G] {T M L Mm I H K : Subgroup G} {m k : ℕ}
 
+omit [Finite G] in
 private theorem conj_mem_centralizer_nsb31b {V : Subgroup G} {g z : G}
     (hg : g ∈ Subgroup.normalizer (V : Set G)) (hz : z ∈ Subgroup.centralizer (V : Set G)) :
     g * z * g⁻¹ ∈ Subgroup.centralizer (V : Set G) := by
@@ -57,6 +58,7 @@ private theorem pow_mem_L_nsb31b (c : Conf4212 G T M L I H K) {x : G} (hx : x �
   rw [e, hpow, htk, mul_one]
   exact hx'
 
+omit [Finite G] in
 private theorem mem_pCore_iff_nsb31b {L : Subgroup G} (z : ↥L) :
     (z : G) ∈ pCoreOf 2 L ↔ z ∈ CFSG.pCore 2 ↥L := by
   constructor
@@ -182,7 +184,7 @@ private theorem mem_pCoreOf_sup_of_commutator_nsb31b {S L V : Subgroup G}
     (hpow : ∀ x ∈ S, ∃ e : ℕ, x ^ 2 ^ e ∈ L) :
     ∀ x ∈ S, (∀ l ∈ L, x * l * x⁻¹ * l⁻¹ ∈ Subgroup.centralizer (V : Set G)) →
       x ∈ pCoreOf 2 S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let D : Subgroup G :=
     { carrier := {x | x ∈ S ∧ ∀ l ∈ L, x * l * x⁻¹ * l⁻¹ ∈ Subgroup.centralizer (V : Set G)}
       mul_mem' := by

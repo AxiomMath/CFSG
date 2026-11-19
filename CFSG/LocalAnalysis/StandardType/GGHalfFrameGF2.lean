@@ -48,10 +48,10 @@ private theorem nsCore_submatrix_reindex {F : Type} [Field F] {d d' s r : ℕ}
         Equiv.refl_apply, Matrix.blockDiagonal_apply]
       by_cases h : j = j'
       · subst h
-        rw [if_pos rfl, if_pos rfl]
+        rw [ite_eq_left rfl, ite_eq_left rfl]
         rw [submatrix_pow_equiv (C := C) (e := e) (m := k j)]
         simp only [Matrix.submatrix_apply, Equiv.symm_apply_apply]
-      · rw [if_neg h, if_neg h]
+      · rw [ite_eq_right h, ite_eq_right h]
     · simp only [SLNS.nsCore, Matrix.submatrix_apply, Matrix.fromBlocks_apply₁₂,
         Equiv.sumCongr_apply, Sum.map_inl, Sum.map_inr, Equiv.prodCongr_apply, Prod.map_apply,
         Equiv.refl_apply, Matrix.zero_apply]
@@ -113,7 +113,7 @@ theorem exists_frame_gf2 {n : ℕ} (S : Set (Matrix (Fin n) (Fin n) F2))
             Polynomial.eval_one, one_pow]
           rw [h11, zero_add]
         rw [h1] at hx; exact one_ne_zero hx
-  haveI : Fact (Irreducible g) := ⟨hirr⟩
+  have : Fact (Irreducible g) := ⟨hirr⟩
   have hgd : g ∣ Polynomial.cyclotomic 3 F2 := by
     rw [Polynomial.cyclotomic_three]
   have hdim : (CoordSL.rootPB g).dim = 2 := by

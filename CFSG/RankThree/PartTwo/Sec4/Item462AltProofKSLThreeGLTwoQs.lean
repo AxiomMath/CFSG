@@ -38,10 +38,10 @@ theorem isQuasisimple_statedSU_two {K : Type} [Field K] [Finite K] {p f : ℕ} [
 
 theorem isQuasisimple_slPi_two {π : Bool} {p f : ℕ} {K : Type} [Field K] (hK : PiField π p f K)
     (hq3 : 3 < p ^ f) : IsQuasisimple (slPi π 2 (p ^ f) K) := by
-  haveI := hK.finite
-  haveI : Fact p.Prime := ⟨hK.prime⟩
+  have := hK.finite
+  have : Fact p.Prime := ⟨hK.prime⟩
   cases π
-  · haveI : CharP K p := hK.unitary.charP
+  · have : CharP K p := hK.unitary.charP
     exact isQuasisimple_statedSU_two hK.card (by omega)
   · have h4 : 4 ≤ Nat.card K := by
       rw [hK.card]

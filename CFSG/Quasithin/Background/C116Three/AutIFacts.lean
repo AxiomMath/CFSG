@@ -20,11 +20,12 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem b53Hyp_autI {H V : Subgroup G} (hSQ : IsSQTKTC H) (hVred : IsTwoReducedIn H V) :
     B53Hyp (ffJ (autI hVred.2.2.1 H)) := by
-  haveI : IsMulCommutative ↥V := hVred.2.2.1.1
+  have : IsMulCommutative ↥V := hVred.2.2.1.1
   have hS : SQTKGroup ↥H := C1GN.isSQTKTC_iff_sqtkGroup.1 hSQ
   have hO2 : pCoreOf 2 (autOn H V) = ⊥ := L246C127.pCoreOf_autI_eq_bot hVred.2.2.1 hVred
   exact InternalSec.b53Hyp_ffJ_autOn hVred.2.1 hS hO2
 
+omit [Finite G] in
 theorem autI_isQuasisimple_of_quasiData {H V L : Subgroup G} (hVred : IsTwoReducedIn H V)
     (hL : L ∈ cComp H) (hq : QuasiData V L) : CFSG.IsQuasisimple ↥(autI hVred.2.2.1 L) := by
   have hLN : L ≤ Subgroup.normalizer (V : Set G) := (le_of_mem_cComp hL).trans hVred.2.1
@@ -41,6 +42,7 @@ theorem autI_isQuasisimple_of_quasiData {H V L : Subgroup G} (hVred : IsTwoReduc
         (QuotientGroup.quotientKerEquivOfSurjective φQ hφs))
   exact hQq.of_mulEquiv e
 
+omit [Finite G] in
 theorem commutator_le_centralizer_of_commute {H V L K : Subgroup G} (hVred : IsTwoReducedIn H V)
     (hLN : L ≤ Subgroup.normalizer (V : Set G)) (hKN : K ≤ Subgroup.normalizer (V : Set G))
     (hcomm : ∀ a ∈ autI hVred.2.2.1 L, ∀ b ∈ autI hVred.2.2.1 K, a * b = b * a) :

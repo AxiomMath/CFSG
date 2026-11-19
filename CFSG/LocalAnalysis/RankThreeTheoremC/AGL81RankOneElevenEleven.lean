@@ -18,6 +18,7 @@ variable {G : Type} [Group G] [Finite G]
 
 namespace RankOne
 
+omit [Finite G] in
 theorem card_sup_of_le_normalizer_of_inf_eq_bot {N T : Subgroup G}
     (hT : T ≤ Subgroup.normalizer (N : Set G)) (hNT : N ⊓ T = ⊥) :
     Nat.card ↥(N ⊔ T) = Nat.card N * Nat.card T := by
@@ -50,7 +51,7 @@ theorem elemAbelian_pair {p : ℕ} (hp : p.Prime) {u v : G} (hu : orderOf u = p)
     (hv : orderOf v = p) (hvu : v ∉ Subgroup.zpowers u) (hc : u * v = v * u) :
     IsElemAbelian p (Subgroup.zpowers u ⊔ Subgroup.zpowers v) ∧
       Nat.card ↥(Subgroup.zpowers u ⊔ Subgroup.zpowers v) = p ^ 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set S := Subgroup.zpowers u ⊔ Subgroup.zpowers v with hS
   have h1 : S ≤ Subgroup.centralizer ({u, v} : Set G) := by
     refine sup_le (Subgroup.zpowers_le.mpr ?_) (Subgroup.zpowers_le.mpr ?_) <;>
@@ -109,6 +110,7 @@ theorem elemAbelian_pair {p : ℕ} (hp : p.Prime) {u v : G} (hu : orderOf u = p)
   rw [card_sup_of_le_normalizer_of_inf_eq_bot hnorm hinf, Nat.card_zpowers, Nat.card_zpowers, hu,
     hv, sq]
 
+omit [Finite G] in
 theorem conj_pow_facts {p : ℕ} [hp : Fact p.Prime] {a y : G} (hy : orderOf y = p ^ 2)
     (ha : a ^ p = 1) (hconj : a * y * a⁻¹ ∈ Subgroup.zpowers y) :
     a * y * a⁻¹ * y⁻¹ ∈ Subgroup.zpowers (y ^ p) ∧ a * y ^ p * a⁻¹ = y ^ p := by
@@ -155,7 +157,7 @@ theorem isCyclic_of_le_of_pRank_le_one {p : ℕ} [hp : Fact p.Prime] (hp2 : p �
     {X S : Subgroup G} (hSX : S ≤ X) (hS : IsPGroup p S) (hX : Open.pRank p X ≤ 1) :
     IsCyclic S := by
   by_contra hnc
-  haveI : Fact (IsPGroup p S) := ⟨hS⟩
+  have : Fact (IsPGroup p S) := ⟨hS⟩
   obtain ⟨E, -, hEc, hEel⟩ := CFSG.lemma_4_5_a hp2 hnc
   have hE := (CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian p E).mp hEel
   have h2 := CFSG.SectionRank.le_pRank hp.out.one_lt (le_top : E ≤ ⊤) hE hEc
@@ -163,6 +165,7 @@ theorem isCyclic_of_le_of_pRank_le_one {p : ℕ} [hp : Fact p.Prime] (hp2 : p �
   have := CFSG.RankThreeCoreUniqueness.Helpers.pRank_mono p hp.out.one_lt hSX
   omega
 
+omit [Finite G] in
 theorem conj_mem_d1LiftX {p : ℕ} {H R : Subgroup G}
     {K : Subgroup (H ⧸ primeComplementCore (G := H) p)} (hKn : K.Normal) {g x : G} (hgR : g ∈ R)
     (hgH : g ∈ H) (hx : x ∈ d1LiftX p H R K) : g * x * g⁻¹ ∈ d1LiftX p H R K := by
@@ -177,6 +180,7 @@ theorem conj_mem_d1LiftX {p : ℕ} {H R : Subgroup G}
     rw [map_mul, map_mul, map_inv]
     exact hKn.conj_mem _ hx'K _
 
+omit [Finite G] in
 theorem d1LiftX_le_hyp111Pre (p : ℕ) (H R : Subgroup G)
     (K : Subgroup (H ⧸ primeComplementCore (G := H) p)) : d1LiftX p H R K ≤ hyp111Pre p H K :=
   Subgroup.map_mono inf_le_right
@@ -186,6 +190,7 @@ end RankOne
 variable {p : ℕ} {M H Q : Subgroup G} {K : Subgroup (H ⧸ primeComplementCore (G := H) p)}
   {W : Subgroup G} {y z : G}
 
+omit [Finite G] in
 theorem RankOneSylowData.y_mem (hW : RankOneSylowData p M H Q K W y z) : y ∈ W :=
   d1LiftX_le p H W K (hW.y_lift ▸ Subgroup.mem_zpowers y)
 
@@ -205,7 +210,7 @@ theorem RankOneSylowData.isAGLQ (hS : Setting G) {P : Sylow p G}
     (h1014 : AGL81TenFourteenThreeCfgGen G) (hC : AGL81ElevenElevenRankOneCent G) :
     IsAGLQ p M (Subgroup.zpowers y ⊔ Subgroup.zpowers a) := by
   obtain ⟨H₁, R₁, hesc⟩ := hd.escape
-  haveI : Fact p.Prime := ⟨hesc.prime⟩
+  have : Fact p.Prime := ⟨hesc.prime⟩
   have hp : p.Prime := hesc.prime
   set A := Subgroup.zpowers y ⊔ Subgroup.zpowers a with hAdef
   have hyW : y ∈ W := hW.y_mem

@@ -17,7 +17,7 @@ open CFSG.RepresentationTheory
 
 
 theorem matrixListAt_three_three : MatrixListAt 3 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro H hH
   by_cases hirr : IsIrreducibleMatrixRep H.subtype
   · rcases sl3_or_psl2_or_frobenius_of_irreducible_three hH hirr with h | h | h
@@ -29,7 +29,7 @@ theorem matrixListAt_three_three : MatrixListAt 3 3 := by
     · exact Or.inl (Or.inr (Or.inr (Or.inr h)))
 
 theorem linearListAt_three : LinearListAt 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine linearListAt_of_matrixListAt fun n hn => ?_
   rcases Nat.lt_or_ge n 3 with h | h
   · exact matrixListAt_of_le_two (by omega)

@@ -122,7 +122,7 @@ theorem three_le_pRank_of_weighted_pair (hext : SteinbergExtras D n H) {p : ℕ}
       · exact c12.symm
       · exact absurd rfl hne)
   rw [Finset.sum_pair h12] at key
-  simp only [↓reduceIte, if_neg h12.symm] at key
+  simp only [↓reduceIte, ite_eq_right h12.symm] at key
   omega
 
 theorem three_le_pRank_of_image_triple (hext : SteinbergExtras D n H) {p : ℕ} (hp : p.Prime)

@@ -70,12 +70,12 @@ theorem lemma_2_9 (L : Type) [Group L] [Finite L] (hL : IsQuasisimple L)
     Subgroup.characteristic_iff_map_eq.mp inferInstance α
   have hZα : Z.map (α : L →* L) = Z := by
     rw [hZdef, Subgroup.map_inf_eq _ _ _ α.injective, hcenα, hPα]
-  have hZcyc : IsCyclic Z := center_inf_isCyclic P P.isPGroup' hZ
+  have hZcyc : IsCyclic Z := center_inf_isCyclic P P.isPGroup hZ
   have hfix : ∀ p ∈ (P : Subgroup L), α p = p → p ∈ Z := by
     intro p hp hαp
     refine ⟨?_, hp⟩
     by_contra hpc
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨p, hp⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨p, hp⟩
     exact hex ⟨p, hαp, hpc, k, congrArg Subtype.val hk⟩
   set π := QuotientGroup.mk' Z with hπ
   set Pb : Subgroup (L ⧸ Z) := (P : Subgroup L).map π with hPb
@@ -83,7 +83,7 @@ theorem lemma_2_9 (L : Type) [Group L] [Finite L] (hL : IsQuasisimple L)
   have hβ₁2 := restrictAut_sq (QuotientGroup.congr Z Z α hZα) (quotient_congr_sq α hα2 Z hZα)
     Pb hPbα
   have hβ₁fix := card_fixedSubgroup_quotient_le_two α hα2 Z P hZc hZP hZα hZcyc hfix hPbα
-  have hPb2 : IsPGroup 2 Pb := P.isPGroup'.map π
+  have hPb2 : IsPGroup 2 Pb := P.isPGroup.map π
   let Sb : Sylow 2 (L ⧸ Z) := P.mapSurjective (QuotientGroup.mk'_surjective Z)
   have hcomap : Pb.comap π = P := by
     rw [hPb, Subgroup.comap_map_eq, QuotientGroup.ker_mk', sup_eq_left.mpr hZP]
@@ -154,7 +154,7 @@ theorem lemma_2_9 (L : Type) [Group L] [Finite L] (hL : IsQuasisimple L)
     intro q
     exact Subtype.ext (Subgroup.mem_center_iff.mp (hZc hp) q)
   have hext := dihedral_central_extension_card_le f hf hfkerc hB
-  have h8 := central_sylow_commutator P hZc (P.isPGroup'.to_le hZP)
+  have h8 := central_sylow_commutator P hZc (P.isPGroup.to_le hZP)
   rw [show commutator L = ⊤ from hL.1, inf_top_eq] at h8
   have hZD : f.ker ≤ commutator (P : Subgroup L) := by
     rw [hfker]
@@ -181,7 +181,7 @@ theorem lemma_2_9 (L : Type) [Group L] [Finite L] (hL : IsQuasisimple L)
       _ ≤ 2 := hZcard
   have hPne : (P : Subgroup L) ≠ ⊥ := fun hbot =>
     sylow_not_le_center hL P (hbot ▸ bot_le)
-  rcases involutory_automorphism_shape P.isPGroup' _ hβ₂2 hβ₂fix with hPA | hPB
+  rcases involutory_automorphism_shape P.isPGroup _ hβ₂2 hβ₂fix with hPA | hPB
   · exact twoRank_eq_one_of_sylow P hPA hPne
   exfalso
   obtain ⟨x, y, hgen, hy2, hyx, hy⟩ := hPB
@@ -213,7 +213,7 @@ theorem lemma_2_9 (L : Type) [Group L] [Finite L] (hL : IsQuasisimple L)
     have : Nontrivial (P : Subgroup L) := by
       obtain ⟨⟨p, hp⟩, hp1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hPne
       exact ⟨⟨⟨p, hp⟩, 1, hp1⟩⟩
-    obtain ⟨p, hp1, hpfix⟩ := exists_fixed_ne_one P.isPGroup' _ hβ₂2
+    obtain ⟨p, hp1, hpfix⟩ := exists_fixed_ne_one P.isPGroup _ hβ₂2
     intro hbot
     have hpZ : (p : L) ∈ Z := hfix p p.2 (by
       have := congrArg Subtype.val hpfix
@@ -230,7 +230,7 @@ theorem lemma_2_9 (L : Type) [Group L] [Finite L] (hL : IsQuasisimple L)
       Nat.card_congr (Subgroup.subgroupOfEquivOfLe hZP).toEquiv, hZ2] at h
     exact h.symm
   have hP8 : 8 ≤ Nat.card (P : Subgroup L) := by omega
-  obtain ⟨z, hzZ, hzo⟩ := exists_orderOf_eq_two_of_isPGroup (P.isPGroup'.to_le hZP) hZne
+  obtain ⟨z, hzZ, hzo⟩ := exists_orderOf_eq_two_of_isPGroup (P.isPGroup.to_le hZP) hZne
   have hZz : ∀ w ∈ Z, w = 1 ∨ w = z := by
     intro w hw
     have hzpow : Subgroup.zpowers z = Z := by
@@ -243,7 +243,7 @@ theorem lemma_2_9 (L : Type) [Group L] [Finite L] (hL : IsQuasisimple L)
     rw [Subgroup.mem_center_iff]
     intro q
     exact Subtype.ext (Subgroup.mem_center_iff.mp (hZc hzZ) q)
-  obtain ⟨u, hu2, huniq⟩ := dihedral_central_involution_sqrt P.isPGroup' x y hgen hy2 hyx hy
+  obtain ⟨u, hu2, huniq⟩ := dihedral_central_involution_sqrt P.isPGroup x y hgen hy2 hyx hy
     hP8 ⟨z, hzP⟩ hzc (by rw [Subgroup.orderOf_mk]; exact hzo)
   have hu2' : (u : L) ^ 2 = z := congrArg Subtype.val hu2
   have hπu2 : π u ^ 2 = 1 := by

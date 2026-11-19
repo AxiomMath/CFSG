@@ -180,7 +180,7 @@ theorem ncard_degSet_eq (d : ℤ) : (degSet τ J d).ncard =
 theorem card_layer {d : ℤ} (hd : 1 ≤ d) :
     Nat.card (Lyr (isLayer_degSeries (K := K) (J := J) hd)) =
       Nat.card K ^ (degLayerRoots τ J d).ncard := by
-  haveI := finite_modGL (τ := τ) (K := K)
+  have := finite_modGL (τ := τ) (K := K)
   have h1 := Lyr.card_mul (isLayer_degSeries (K := K) (J := J) hd)
   rw [card_degSeries hd, card_degSeries (show 1 ≤ d + 1 by omega)] at h1
   rw [ncard_degSet_eq d, pow_add] at h1

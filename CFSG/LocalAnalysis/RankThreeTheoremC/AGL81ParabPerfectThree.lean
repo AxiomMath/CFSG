@@ -44,7 +44,7 @@ theorem eq_one_of_conj_eq_inv {X : Type*} [Group X] [Finite X] (hX : ¬ 2 ∣ Na
   · exact absurd (h2 ▸ orderOf_dvd_natCard a) hX
 
 theorem false_of_invThree_normal {X : Type*} [Group X] [Finite X] {N B T : Subgroup X}
-    [hN : N.Normal] (hNB : N ⊔ B = ⊤) (hTB : T ≤ B) (hBT : B ≤ normalizer (T : Set X))
+    [hN : N.Normal] (hNB : N ⊔ B = ⊤) (_hTB : T ≤ B) (hBT : B ≤ normalizer (T : Set X))
     (hT : IsPGroup 2 T) (hodd : ¬ 2 ∣ T.relIndex B) (h3 : ¬ 3 ∣ Nat.card N)
     (hinv : InvThree (⊤ : Subgroup X)) : False := by
   classical
@@ -101,7 +101,7 @@ theorem false_of_invThree {X : Type*} [Group X] [Finite X] {N B T : Subgroup X}
   set J := N ⊔ B
   have hNJ : N ≤ J := le_sup_left
   have hBJ : B ≤ J := le_sup_right
-  haveI : (N.subgroupOf J).Normal :=
+  have : (N.subgroupOf J).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNJ).mpr (sup_le Subgroup.le_normalizer hBN)
   refine false_of_invThree_normal (N := N.subgroupOf J) (B := B.subgroupOf J)
     (T := T.subgroupOf J) ?_ (fun x hx => hTB hx) ?_ hT.comap_subtype ?_ ?_ ?_
@@ -122,20 +122,20 @@ theorem eq_bot_of_perfect_of_le {X : Type*} [Group X] [Finite X] {C B T : Subgro
     (hCB : C ≤ B) (hTB : T ≤ B) (hBT : B ≤ normalizer (T : Set X)) (hT : IsPGroup 2 T)
     (hodd : ¬ 2 ∣ T.relIndex B) (hC : ⁅C, C⁆ = C) : C = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set T' : Subgroup ↥C := T.subgroupOf C
-  haveI hT'n : T'.Normal := ⟨fun x hx g => by
+  have hT'n : T'.Normal := ⟨fun x hx g => by
     rw [Subgroup.mem_subgroupOf] at hx ⊢
     simpa using (Subgroup.mem_normalizer_iff.mp (hBT (hCB g.2)) x).mp hx⟩
   have hidx : ¬ 2 ∣ Nat.card (↥C ⧸ T') := by
     change ¬ 2 ∣ T'.index
-    haveI : (T.subgroupOf B).Normal :=
+    have : (T.subgroupOf B).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer hTB).mpr hBT
     have h1 : T'.index = (T.subgroupOf B).relIndex (C.subgroupOf B) :=
       (Subgroup.relIndex_subgroupOf hCB).symm
     rw [h1]
     exact fun h2 => hodd (h2.trans (Subgroup.relIndex_dvd_index_of_normal _ _))
-  haveI : Group.IsSolvable (↥C ⧸ T') :=
+  have : Group.IsSolvable (↥C ⧸ T') :=
     CFSG.FeitThompson.isSolvable_of_odd_natCard _ (Nat.odd_iff.mpr (Nat.two_dvd_ne_zero.mp hidx))
   set π := QuotientGroup.mk' T'
   have hCt : ⁅(⊤ : Subgroup ↥C), (⊤ : Subgroup ↥C)⁆ = ⊤ := by
@@ -160,7 +160,7 @@ theorem kFactParabolicPerfectThree_of (hPI : KFactParabolicThreeInv) :
     KFactParabolicPerfectThree := by
   intro A _ _ Y P _ _ hcl hP C hCP hC1 hCperf hCsn
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra h3C
   obtain ⟨hPY, T, hT, hNT⟩ := hP
   set N : Subgroup A := (CFSG.pPrimeCore 3 ↥P).map P.subtype with hN
@@ -177,7 +177,7 @@ theorem kFactParabolicPerfectThree_of (hPI : KFactParabolicThreeInv) :
     intro x hx
     exact ⟨⟨x, hCP hx⟩, h (Subgroup.mem_subgroupOf.mpr hx), rfl⟩
   have hPN : P ≤ normalizer (N : Set A) := by
-    haveI : (N.subgroupOf P).Normal := by
+    have : (N.subgroupOf P).Normal := by
       change (N.comap P.subtype).Normal
       rw [hN, Subgroup.comap_map_eq_self_of_injective P.subtype_injective]
       exact CFSG.pPrimeCore_normal

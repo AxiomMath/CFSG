@@ -123,17 +123,17 @@ theorem sporNoPumpup_J3
     show Nat.card NativeSporadic.J3 = sporOrd .J3
     rw [CFSG.Sporadic.J3.card_J3]
     norm_num [sporOrd, orderJ3]
-  · haveI : Finite (TauCeti.CFSGIndex.sporadic .J3).Group :=
+  · have : Finite (TauCeti.CFSGIndex.sporadic .J3).Group :=
       Finite.of_equiv NativeSporadic.J3 (hbr .J3).some.toEquiv
     exact oPrimeCoreTrivialAt_J3 _ ⟨MulEquiv.refl _⟩
   · intro s hs K hK h
     rcases h with ⟨hperf, hZ, ⟨f⟩⟩ | ⟨hM, _⟩
-    · haveI : Group.IsPerfect ↥K := ⟨hperf⟩
+    · have : Group.IsPerfect ↥K := ⟨hperf⟩
       exact no_perfect_1080_of_mulEquiv_J3 ((hbr .J3).some.symm.trans j3PermEquiv) hs hK.1
         (gfr2_card_isHatSix ⟨hperf, hZ, ⟨f⟩⟩)
     · exact absurd hM (by decide)
   · intro Y _ _ hq _ hZ ⟨e⟩ x hxo J₁ hJ₁ _
-    haveI : Group.IsPerfect ↥J₁ :=
+    have : Group.IsPerfect ↥J₁ :=
       Subgroup.isPerfect_iff.2 (CFSG.LocalAnalysis.GLTheoremB.glaPComponent_perfect hJ₁)
     exact perfect_inf_center_eq_bot_J3 hOut hbr hq hZ e hxo hJ₁.1
 

@@ -114,11 +114,11 @@ theorem GGResHyp.false_of_exact2_L_linTwo
   rcases hD with ⟨Λ, hΛF, hΛD, Sdel, Λa, hΛaF, hΛaD, ML, CL, MK, CK, Vd, hVd, hVdM,
     ιd, φd, hd, αd, hSdel, -, -, hML, hCL, -, -, -, hlind, hreflD, hpairD,
     -, -, ⟨fL, -⟩, -, hclosL, -, -, hclosJ⟩
-  letI : Fintype Λ := hΛF
-  letI : DecidableEq Λ := hΛD
-  letI : AddCommGroup Vd := hVd
-  letI : Module (ZMod 3) Vd := hVdM
-  letI : Finite Vd := Finite.of_equiv (Additive ↥Bs) ιd.toEquiv
+  let : Fintype Λ := hΛF
+  let : DecidableEq Λ := hΛD
+  let : AddCommGroup Vd := hVd
+  let : Module (ZMod 3) Vd := hVdM
+  let : Finite Vd := Finite.of_equiv (Additive ↥Bs) ιd.toEquiv
   have hWML : GGWeylTypeData (Fintype.card Λ) (2 ^ s * s.factorial)
       (Nat.card ↥(Subgroup.center ML.Group)) := by
     rw [← hcardAL, ← Nat.card_congr fL.toEquiv]

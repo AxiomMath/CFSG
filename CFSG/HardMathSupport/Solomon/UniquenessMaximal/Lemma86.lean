@@ -86,7 +86,7 @@ theorem lemma86 (i11 : Input11_3) (i5 : Input28_5) (i14 : Input28_14)
   have hM3 : ∀ E : Subgroup G, E ≤ B → 3 ≤ CFSG.Open.pRank p E →
       Subgroup.normalizer (E : Set G) ≤ M₀ := fun E hEB h3 =>
     (le_sSup ⟨E, hEB, h3, rfl⟩ : Subgroup.normalizer (E : Set G) ≤ GLBCore p 3 B).trans hM.2.1
-  have hP2 : IsPGroup 2 (P : Subgroup G) := P.isPGroup'
+  have hP2 : IsPGroup 2 (P : Subgroup G) := P.isPGroup
   rcases L.stage2 hP2 hPQ hU hUN hC with hUQ | ⟨u₀, hu₀U, hu₀Q, hcover, htv⟩
   · exact h85 P U hPQ hU hUN (hUQ.trans hQM)
   · obtain ⟨n, hn⟩ := L.core86 i11 i5 i14 it hp hp2 hm4 hQ2 (L.pCoreOf_range_eq_bot hQ2 hQ) hK

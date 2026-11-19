@@ -20,9 +20,9 @@ theorem isShapeCentralizerSeven_of_data {G : Type} [Group G] [Finite G] (X V S :
   obtain ⟨eV⟩ :=
     nonempty_mulEquiv_elem2 (G := ↥V) 2 (fun v => Subtype.ext (hVsq v.1 v.2))
       (by rw [hV]; norm_num)
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have eS : ↥S ≃* Multiplicative (ZMod 7) :=
-    mulEquivOfPrimeCardEq (p := 7) hS (by simp [Nat.card_zmod])
+    mulEquivOfPrimeCardEq (p := 7) hS (by simp)
   exact ⟨(eXS.trans (MulEquiv.prodCongr eV eS)).trans MulEquiv.prodComm⟩
 
 end CFSG.EvenSporadicStandard.HNRecog.TwoHSData

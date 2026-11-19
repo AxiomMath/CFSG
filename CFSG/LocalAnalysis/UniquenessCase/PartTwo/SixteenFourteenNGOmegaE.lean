@@ -274,7 +274,7 @@ theorem s1614_om_E {ι K : Type} [Fintype ι] [DecidableEq ι] [Field K] [Finite
         apply hg2StabA
         rw [← hiz] at hzStabA
         simpa using hzStabA
-    haveI : IsMulCommutative ↥E₀ := hE0comm
+    have : IsMulCommutative ↥E₀ := hE0comm
     let U : Subgroup ↥E₀ := (Subgroup.zpowers g).subgroupOf E₀
     let W : Subgroup ↥E₀ := (Subgroup.zpowers h).subgroupOf E₀
     have hle_g : Subgroup.zpowers g ≤ E₀ :=

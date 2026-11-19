@@ -101,7 +101,7 @@ theorem pRank_top_eq_of_injective_of_not_dvd_index {H G : Type*} [Group H] [Grou
     exact y.2
   let φ : E →* G := (MulAut.conj g⁻¹).toMonoidHom.comp E.subtype
   have hφapp : ∀ x : E, φ x = g⁻¹ * (x : G) * g := fun x => by
-    simp [φ, MulAut.conj_apply]
+    simp [φ]
   have hφinj : Function.Injective φ :=
     (MulAut.conj g⁻¹).injective.comp Subtype.val_injective
   have hrange : ∀ x : E, φ x ∈ f.range := fun x => by
@@ -139,7 +139,7 @@ theorem cast_pow_six_eq_one {r q : ℕ} (hq : 1 ≤ q) (h : r ∣ q ^ 6 - 1) :
 theorem not_dvd_indices {r q : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) (hq1 : 1 ≤ q) (hrq : ¬ r ∣ q)
     (h : r ∣ q ^ 6 - 1) :
     ¬ r ∣ q ^ 6 * (q ^ 6 + 1) ∧ ¬ r ∣ q ^ 6 * (q ^ 6 + 1) * (q ^ 2 + 1) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have h6 := cast_pow_six_eq_one hq1 h
   have h2 := two_ne_zero_zmod hr hr2
   have h3 := sq_add_one_ne_zero hr hr2 h6
@@ -203,7 +203,7 @@ theorem pRank_eq_zero_of_not_dvd_card {G : Type*} [Group G] [Finite G] {r : ℕ}
 
 theorem not_dvd_card_of_charP_two {L : Type} [Field L] [Finite L] [CharP L 2] {r : ℕ}
     (hr : r.Prime) (hr2 : r ≠ 2) : ¬ r ∣ Nat.card L := by
-  haveI : Fintype L := Fintype.ofFinite L
+  have : Fintype L := Fintype.ofFinite L
   obtain ⟨m, -, hm⟩ := FiniteField.card L 2
   rw [Nat.card_eq_fintype_card, hm]
   exact fun h => hr2 ((Nat.prime_dvd_prime_iff_eq hr Nat.prime_two).1 (hr.dvd_of_dvd_pow h))
@@ -212,14 +212,14 @@ theorem pRank_statedSL_three_charTwo {L : Type} [Field L] [Finite L] [CharP L 2]
     (hr : r.Prime) (hr2 : r ≠ 2) :
     CFSG.Open.pRank r (⊤ : Subgroup ↥(CFSG.Open.StatedSL 3 L)) =
       if r ∣ Nat.card L - 1 then 2 else 3 / orderOf (Nat.card L : ZMod r) := by
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : Fintype L := Fintype.ofFinite L
+  have : Fact r.Prime := ⟨hr⟩
+  have : Fintype L := Fintype.ofFinite L
   by_cases h : r ∣ Nat.card L - 1
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     have hrL : (r : L) ≠ 0 := fun h0 => hr2
       ((Nat.prime_dvd_prime_iff_eq Nat.prime_two hr).1 ((CharP.cast_eq_zero_iff L 2 r).1 h0)).symm
     exact pRank_top_statedSL_eq_pred (by norm_num) hrL h
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     have hrp : ¬ r ∣ Fintype.card L := by
       rw [← Nat.card_eq_fintype_card]
       exact not_dvd_card_of_charP_two hr hr2
@@ -235,8 +235,8 @@ theorem exists_injective_baseChange
     {K L : Type} [Field K] [Field L] (f : K →+* L) :
     ∃ ι : adjointGroup .G2 K →* adjointGroup .G2 L, Function.Injective ι :=
   ⟨((baseChangeGL f).comp (adjointGroup .G2 K).subtype).codRestrict (adjointGroup .G2 L)
-      fun u => baseChangeGL_mem_adjointGroup f u.2,
-    fun u v h => Subtype.ext (baseChangeGL_injective f (congrArg Subtype.val h))⟩
+      fun _u => baseChangeGL_mem_adjointGroup f _u.2,
+    fun _u _v h => Subtype.ext (baseChangeGL_injective f (congrArg Subtype.val h))⟩
 
 section Certified
 
@@ -257,13 +257,13 @@ theorem pRank_adjointG2_eq_statedSL_three (K : Type) [Field K] [Fintype K] [Char
       Nat.card L = Fintype.card K ^ 2 ∧
       CFSG.Open.pRank r (⊤ : Subgroup ↥(adjointGroup .G2 K)) =
         CFSG.Open.pRank r (⊤ : Subgroup ↥(StatedSL 3 L)) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hq1 : 1 ≤ Fintype.card K := Fintype.card_pos
   have hrq : ¬ r ∣ Fintype.card K := by
     rw [← Nat.card_eq_fintype_card]
     exact not_dvd_card_of_charP_two hr hr2
   let L := FiniteField.Extension K 2 2
-  haveI : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
+  have : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
   have hLc : Nat.card L = Fintype.card K ^ 2 := by
     rw [FiniteField.natCard_extension, Nat.card_eq_fintype_card]
   refine ⟨L, inferInstance, inferInstance, inferInstance, hLc, ?_⟩
@@ -291,12 +291,12 @@ end RankChevG2Proof
 
 open CFSG.Blueprint.Chevalley in
 theorem pRank_adjointG2_eq
-    (K : Type) [Field K] [Fintype K] {n : ℕ} (hK : Fintype.card K = 2 ^ n) (hn : 2 ≤ n)
+    (K : Type) [Field K] [Fintype K] {n : ℕ} (hK : Fintype.card K = 2 ^ n) (_hn : 2 ≤ n)
     {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) :
     CFSG.Open.pRank r (⊤ : Subgroup ↥(adjointGroup .G2 K)) = rkG2 (Fintype.card K) r := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hq1 : 1 ≤ Fintype.card K := Fintype.card_pos
-  haveI : CharP K 2 := CFSG.LargeExtraspecial.DW.charP_two_of_card_eq (f := n)
+  have : CharP K 2 := CFSG.LargeExtraspecial.DW.charP_two_of_card_eq (f := n)
     (by rw [Nat.card_eq_fintype_card, hK])
   have hrq : ¬ r ∣ Fintype.card K := by
     rw [← Nat.card_eq_fintype_card]
@@ -311,14 +311,14 @@ theorem pRank_adjointG2_eq
       exact orderOf_dvd_of_pow_eq_one (by rw [← pow_mul]; exact h6')
     unfold rkG2
     by_cases h2 : r ∣ Fintype.card K ^ 2 - 1
-    · rw [if_pos h2, if_pos ((eS_eq_one_iff hq1).2 h2)]
+    · rw [ite_eq_left h2, ite_eq_left ((eS_eq_one_iff hq1).2 h2)]
     · have h1 : eS (Fintype.card K) r ≠ 1 := fun h => h2 ((eS_eq_one_iff hq1).1 h)
       have h3 : eS (Fintype.card K) r = 3 :=
         ((Nat.dvd_prime Nat.prime_three).1 hdvd3).resolve_left h1
       have h4 : orderOf (((Fintype.card K ^ 2 : ℕ)) : ZMod r) = 3 := by
         rw [Nat.cast_pow]
         exact h3
-      rw [if_neg h2, if_neg h1, if_pos h3, h4]
+      rw [ite_eq_right h2, ite_eq_right h1, ite_eq_left h3, h4]
   · have hnd : ¬ r ∣ Nat.card ↥(adjointGroup .G2 K) := by
       rw [CFSG.Timmesfeld.ExceptionalOrders.card_adjointGroup_G2, Nat.card_eq_fintype_card]
       intro hd
@@ -338,6 +338,6 @@ theorem pRank_adjointG2_eq
       rw [h, ← pow_mul] at h5
       exact h5
     unfold rkG2
-    rw [if_neg h1, if_neg h3]
+    rw [ite_eq_right h1, ite_eq_right h3]
 
 end CFSG.LocalAnalysis.RankThreeUC.S15

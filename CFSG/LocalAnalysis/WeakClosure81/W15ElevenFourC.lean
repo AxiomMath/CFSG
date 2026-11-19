@@ -61,8 +61,8 @@ theorem exists_Y (c : Cfg1511 M V₀ V U S H P Q₀ p)
     ∃ Y : Subgroup G, Y ≤ X ∧ Y ≤ M ∧ X ⊓ M ≤ Y ∧ Nat.card ↥Y = p ∧
       (∀ y ∈ Y, ∀ x ∈ X, y * x = x * y) ∧ iHull15 V₀ U H ⊓ centralizer (Y : Set G) = ⊥ ∧
       U ⊔ v1Sub15 V₀ U = ⁅U ⊔ v1Sub15 V₀ U, Y⁆ ∧ Y ⊓ F11.CTilde M V₀ V = ⊥ := by
-  haveI : Fact p.Prime := ⟨c.prime⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨c.prime⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨x, z, g, hH, hCz, hCx⟩ := hX.heis hcard
   set Y : Subgroup G := Subgroup.zpowers z with hY
   set A : Subgroup G := U ⊔ v1Sub15 V₀ U with hA

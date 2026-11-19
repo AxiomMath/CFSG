@@ -14,8 +14,8 @@ theorem ggTorusFrameEltSC_specialLinear {d p : ℕ} {K : Type} [Field K] [Finite
     (hp : p.Prime) (hp2 : p ≠ 2) (hpK0 : (p : K) ≠ 0) (hpK : p ∣ Nat.card K + 1) :
     GGTorusFrameEltSC p (Matrix.SpecialLinearGroup (Fin d) K) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Nonempty K := ⟨0⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Nonempty K := ⟨0⟩
   have hcard1 : 1 ≤ Nat.card K := Nat.card_pos
   have hpK' : ¬ p ∣ Nat.card K - 1 := by
     intro hK1
@@ -26,7 +26,7 @@ theorem ggTorusFrameEltSC_specialLinear {d p : ℕ} {K : Type} [Field K] [Finite
     exact hp2 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).mp hdvd)
   intro E hE h3 hsc
   obtain ⟨g, hg, hgd⟩ := exists_irreducible_dvd_cyclotomic (K := K) hp
-  haveI : Fact (Irreducible g) := ⟨hg⟩
+  have : Fact (Irreducible g) := ⟨hg⟩
   have hζ : AdjoinRoot.root g ^ p = 1 := (CoordSL.root_isPrimitiveRoot hp hpK0 hgd).pow_eq_one
   have hC : (CoordSL.rootMat g).det = 1 := CoordSL.det_rootMat hp hpK' hpK0 hgd
   have hCp : CoordSL.rootMat g ^ p = 1 := CoordSL.rootMat_pow_eq_one hp hpK0 hgd
@@ -105,7 +105,7 @@ theorem ggTorusFrameEltSC_specialLinear {d p : ℕ} {K : Type} [Field K] [Finite
       by_cases hl : l = i
       · rw [hl]
         simpa [η, Function.update_apply] using hneg
-      · simpa [η, Function.update_apply, hl] using hone
+      · simp [η, hl]
     obtain ⟨w, -, hw⟩ := CoordSL.exists_move_mem g
       (MonoidHom.id (Matrix.SpecialLinearGroup (Fin d) K)) A₀ ε hC hCp hζ hrange
       (Equiv.refl (Fin s)) η hη
@@ -114,8 +114,8 @@ theorem ggTorusFrameEltSC_specialLinear {d p : ℕ} {K : Type} [Field K] [Finite
       funext l
       by_cases hl : l = i
       · rw [hl]
-        simp [η, Function.update_apply]
-      · simp [η, Function.update_apply, hl]
+        simp [η]
+      · simp [η, hl]
     have harg : (fun l => (η l : ZMod p) * t ((Equiv.refl (Fin s)) l)) =
         Function.update t i (-t i) := by
       simpa only [Equiv.refl_apply] using hηt

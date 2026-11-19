@@ -27,6 +27,7 @@ theorem exists_conj_le_sylow (P : Sylow p G) {H S : Subgroup G} (hPH : (P : Subg
   rw [← Sylow.coe_subgroup_smul, hh] at hmem
   exact hmem
 
+omit [Finite G] in
 theorem normalizer_le_of_conj {H S : Subgroup G} {h : G} (hh : h ∈ H)
     (hN : normalizer ((S.map (MulAut.conj h).toMonoidHom : Subgroup G) : Set G) ≤ H) :
     normalizer (S : Set G) ≤ H := by
@@ -53,7 +54,7 @@ theorem pRank_eq_two {X Q U : Subgroup A} (hrk : Open.pRank 3 X = 2) (hQX : Q �
 theorem le_of_gammaTwo {X Q Y : Subgroup A} (hQX : Q ≤ X) (hQ2 : 2 ≤ Open.pRank 3 Q)
     (hΓ2 : ∀ S : Subgroup A, S ≤ Q → 2 ≤ Open.pRank 3 S → normalizer (S : Set A) ⊓ X ≤ Y) :
     Q ≤ Y :=
-  fun q hq => hΓ2 Q le_rfl hQ2 ⟨Subgroup.le_normalizer hq, hQX hq⟩
+  fun _q hq => hΓ2 Q le_rfl hQ2 ⟨Subgroup.le_normalizer hq, hQX hq⟩
 
 theorem normalizer_le_of_le_plane {X Y U : Subgroup A} (hUp : IsPGroup 3 (U.subgroupOf X))
     (hUel : IsElemAbelian 3 ((U.subgroupOf X).map (P64Asm.XBar.mk 3 X)))
@@ -84,7 +85,7 @@ theorem normalizer_le_of_rank_two {X Y Q : Subgroup A} (hQp : IsPGroup 3 (Q.subg
     {Sb : Subgroup (P64Asm.XBar 3 X)} (hSbY : Sb ≤ (Y.subgroupOf X).map (P64Asm.XBar.mk 3 X))
     (hSb : IsPGroup 3 Sb) (hrk : 2 ≤ Open.pRank 3 Sb) :
     normalizer (Sb : Set (P64Asm.XBar 3 X)) ≤ (Y.subgroupOf X).map (P64Asm.XBar.mk 3 X) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨h, hhY, hle⟩ := exists_conj_le_sylow Qb hQbY hSbY hSb
   have hrk' : 2 ≤ Open.pRank 3 (Sb.map (MulAut.conj h).toMonoidHom) := by
     rw [CFSG.HardMathSupport.Malle.OvergroupTransport.pRank_map_of_injective 3

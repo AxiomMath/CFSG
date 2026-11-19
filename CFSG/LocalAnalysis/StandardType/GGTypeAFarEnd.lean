@@ -16,7 +16,7 @@ theorem slPerfect_of_four_le_card [Finite F] {m : ℕ} (hm : 2 ≤ m) (hF : 4 �
     Group.IsPerfect (SpecialLinearGroup (Fin m) F) := by
   apply CFSG.LinearGroups.special_linear_isPerfect hm
   right
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hcard : 4 ≤ (Finset.univ : Finset F).card := by
     rw [Finset.card_univ, ← Nat.card_eq_fintype_card]
     exact hF
@@ -25,7 +25,7 @@ theorem slPerfect_of_four_le_card [Finite F] {m : ℕ} (hm : 2 ≤ m) (hF : 4 �
 
 theorem range_le_commutator_of_isPerfect {H X : Type*} [Group H] [Group X]
     (hH : Group.IsPerfect H) (f : H →* X) : f.range ≤ ⁅f.range, f.range⁆ := by
-  haveI := hH
+  have := hH
   have h : ⁅f.range, f.range⁆ = f.range := Subgroup.isPerfect_iff.mp (Group.IsPerfect.range f)
   rw [h]
 
@@ -40,10 +40,10 @@ theorem diag2nUnit_mul {ι R : Type*} [Fintype ι] [DecidableEq ι] [CommRing R]
   funext r
   by_cases hri : r = i
   · subst hri
-    simp [hij, Units.val_mul]
+    simp [Units.val_mul]
   · by_cases hrj : r = j
     · subst hrj
-      simp [hri, Units.val_mul, Units.val_inv_eq_inv_val, _root_.mul_inv_rev, mul_comm]
+      simp [hri, Units.val_mul, _root_.mul_inv_rev, mul_comm]
     · simp [hri, hrj]
 
 theorem diag2nUnit_pow {ι R : Type*} [Fintype ι] [DecidableEq ι] [CommRing R] {i j : ι}
@@ -60,7 +60,7 @@ theorem exists_orderP_mem_lowerLower [Finite F] {X : Type*} [Group X] {p : ℕ} 
     (hker : φ.ker ≤ Subgroup.center (SpecialLinearGroup (Fin (m + 1 + 1)) F)) :
     ∃ g ∈ ((φ.comp (slLowerBlockHom (m + 1) F)).comp (slLowerBlockHom m F)).range,
       g ≠ 1 ∧ g ^ p = 1 := by
-  haveI : NeZero m := ⟨by omega⟩
+  have : NeZero m := ⟨by omega⟩
   obtain ⟨t, ht⟩ := exists_prime_orderOf_dvd_card' p hp
   have hprime : p.Prime := Fact.out
   have ht_ne : t ≠ 1 := by
@@ -82,7 +82,7 @@ theorem exists_orderP_mem_lowerLower [Finite F] {X : Type*} [Group X] {p : ℕ} 
         Matrix (Fin m) (Fin m) F) 0 0 = 1 := by
       rw [h]; simp
     rw [Matrix.SpecialLinearGroup.diag2nUnit_coe, Matrix.diagonal_apply_eq] at h00
-    simp [h01] at h00
+    simp at h00
     exact ht_ne h00
   refine ⟨_, MonoidHom.mem_range.mpr
       ⟨Matrix.SpecialLinearGroup.diag2nUnit h01 t, rfl⟩, ?_, ?_⟩
@@ -123,7 +123,7 @@ theorem pow_natCard_units_eq_one_of_centralizes_range [Finite F] {X : Type*} [Gr
         exact commutatorElement_eq_one_iff_mul_comm.mp h1
       have hbot : Subgroup.center (SpecialLinearGroup (Fin m) F ⧸
           Subgroup.center (SpecialLinearGroup (Fin m) F)) = ⊥ := by
-        haveI := hperf
+        have := hperf
         exact Group.IsPerfect.center_quotient_center_eq_bot _
       rw [hbot, Subgroup.mem_bot] at hx
       exact (QuotientGroup.eq_one_iff

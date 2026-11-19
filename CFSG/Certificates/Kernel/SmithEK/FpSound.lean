@@ -48,7 +48,7 @@ theorem fpFixK_sound {TP : Nat → Nat} {W : List Nat} {L a : Nat} {FX : List Na
     else true) 693).1 h
   intro x hx he
   have h2 := h1 x hx
-  rw [show Nat.beq (cdImg TP W L a x) x = true from Nat.beq_eq_true_eq _ _ ▸ he, cond_true,
+  rw [show Nat.beq (cdImg TP W L a x) x = true from Nat.beq_eq_true_eq _ _ ▸ he, _root_.Bool.cond_true,
     bitK_eq, maskK_testBit] at h2
   exact h2
 

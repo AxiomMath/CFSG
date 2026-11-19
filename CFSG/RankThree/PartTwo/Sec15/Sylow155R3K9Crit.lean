@@ -16,8 +16,8 @@ private theorem not_dvd_prod_GL_three {d : ℕ} (hd : d ≤ 7) :
 
 theorem not_dvd_card_mulAut_of_three_group {R : Type} [Group R] [Finite R] (hR : IsPGroup 3 R)
     (hcard : Nat.card R ≤ 3 ^ 7) : ¬ 25 ∣ Nat.card (MulAut R) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (MulAut R) := MulEquiv.finite_left
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (MulAut R) := MulEquiv.finite_left
   obtain ⟨-, hcomm, hpow, -, d, hd, -⟩ := CFSG.GroupTheory.frattini_elementary_quotient hR
   have hd7 : d ≤ 7 := by
     have h1 : Nat.card (R ⧸ frattini R) ≤ 3 ^ 7 :=
@@ -42,10 +42,10 @@ theorem not_dvd_card_mulAut_of_three_group {R : Type} [Group R] [Finite R] (hR :
   exact not_dvd_prod_GL_three hd7 h25''
 
 theorem not_dvd_card_of_selfCentralizing_three {S : Type} [Group S] [Finite S] {C R : Subgroup S}
-    (hRC : R ≤ C) (hRn : ∀ g ∈ C, ∀ r ∈ R, g * r * g⁻¹ ∈ R) (hR3 : IsPGroup 3 R)
+    (_hRC : R ≤ C) (hRn : ∀ g ∈ C, ∀ r ∈ R, g * r * g⁻¹ ∈ R) (hR3 : IsPGroup 3 R)
     (hcent : Subgroup.centralizer (R : Set S) ⊓ C ≤ R) (hcard : Nat.card R ≤ 3 ^ 7) :
     ¬ 25 ∣ Nat.card C := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hCN : C ≤ Subgroup.normalizer (R : Set S) := fun g hg =>
     Subgroup.mem_normalizer_iff.2 fun h => ⟨fun hh => hRn g hg h hh, fun hh => by
       have h2 := hRn g⁻¹ (C.inv_mem hg) _ hh

@@ -179,6 +179,7 @@ theorem e9_facts {t x y Z : G} (hxt : x * t = t * x) (hyt : y * t = t * y) (hxy 
     rintro rfl
     exact hw1 (by simp [pairP])
 
+omit [Group G] in
 theorem surj_of_mapsTo' [Finite G] {T : Set G} (f : G → G) (hf : Function.Injective f)
     (hm : ∀ y ∈ T, f y ∈ T) : ∀ y ∈ T, ∃ z ∈ T, f z = y := by
   intro y hy

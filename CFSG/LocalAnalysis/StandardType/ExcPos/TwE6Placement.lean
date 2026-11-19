@@ -20,7 +20,7 @@ private lemma lk0xttplace_exists_subgroup_card_pow_prime
     (hp : p.Prime) (hAel : IsElemAbelian p A) (hDleA : D ≤ A)
     (hDcard : Nat.card D = p ^ 2) (hk2 : 2 ≤ k) (hk : p ^ k ≤ Nat.card A) :
     ∃ Y : Subgroup X, D ≤ Y ∧ Y ≤ A ∧ Nat.card Y = p ^ k := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hApg : IsPGroup p ↥A := IsElemAbelian.isPGroup hAel
   obtain ⟨m, hm⟩ := (IsPGroup.iff_card).mp hApg
   have hkm : k ≤ m := by

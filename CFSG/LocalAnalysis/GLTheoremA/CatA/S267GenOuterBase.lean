@@ -23,7 +23,7 @@ theorem CompsNormal.of_mulEquiv {C C' : Type*} [Group C] [Group C'] (e : C ≃* 
   have hK' : IsComponentOf (K.map (e : C →* C')) ⊤ := by
     have := CFSG.SignalizerFunctorTheorem.TransportA.isComponentOf_map e hK
     rwa [Subgroup.map_top_of_surjective _ e.surjective] at this
-  haveI := h _ hK'
+  have := h _ hK'
   rw [← Subgroup.comap_map_eq_self_of_injective (f := (e : C →* C')) e.injective K]
   infer_instance
 
@@ -66,7 +66,7 @@ theorem compsNormal_fixSubgroup_of_derived_eq_simple {S : Type} [Group S] [Finit
       rw [commutatorElement_def]
       exact (fixSubgroup δ).mul_mem ((fixSubgroup δ).mul_mem ((fixSubgroup δ).mul_mem ha hb)
         ((fixSubgroup δ).inv_mem ha)) ((fixSubgroup δ).inv_mem hb)
-  haveI hJnorm : (J.subgroupOf (fixSubgroup δ)).Normal := by
+  have hJnorm : (J.subgroupOf (fixSubgroup δ)).Normal := by
     rw [← hder]
     have h := Subgroup.normal_subgroupOf_commutator_sup (fixSubgroup δ) (fixSubgroup δ)
     rwa [sup_idem] at h

@@ -81,8 +81,8 @@ theorem fzbW0_iff (x : Nat) : fzbW0 x ↔ ∃ i < 8, w0E i = x := by
   unfold fzbW0
   constructor
   · rintro (h | ⟨h1, h2⟩)
-    · exact ⟨x, by omega, by rw [hE, if_pos h]⟩
-    · exact ⟨x - 124, by omega, by rw [hE, if_neg (by omega)]; omega⟩
+    · exact ⟨x, by omega, by rw [hE, ite_eq_left h]⟩
+    · exact ⟨x - 124, by omega, by rw [hE, ite_eq_right (by omega)]; omega⟩
   · rintro ⟨i, hi, rfl⟩
     rw [hE]
     split_ifs with h
@@ -93,18 +93,18 @@ theorem w0N_iff (x : Nat) : w0N x = true ↔ fzbW0 x := by
   unfold w0N fzbW0
   rw [bIf_eq, bIf_eq]
   by_cases h1 : x < 4
-  · rw [if_pos (by simp [Nat.blt_eq, h1])]
+  · rw [ite_eq_left (by simp [Nat.blt_eq, h1])]
     exact ⟨fun _ => Or.inl h1, fun _ => rfl⟩
-  · rw [if_neg (by simp [Nat.blt_eq, h1])]
+  · rw [ite_eq_right (by simp [Nat.blt_eq, h1])]
     by_cases h2 : 128 ≤ x
-    · rw [if_pos (by simp [Nat.ble_eq, h2]), Nat.blt_eq]
+    · rw [ite_eq_left (by simp [Nat.ble_eq, h2]), Nat.blt_eq]
       constructor
       · intro h
         exact Or.inr ⟨h2, h⟩
       · rintro (h | ⟨-, h⟩)
         · omega
         · exact h
-    · rw [if_neg (by simp [Nat.ble_eq, h2])]
+    · rw [ite_eq_right (by simp [Nat.ble_eq, h2])]
       constructor
       · intro h
         exact absurd h (by simp)
@@ -156,19 +156,18 @@ theorem fzbFactsGen_mk (c : Bool) : FzbFactsGen c := by
     rw [countN_eq] at h
     rw [← h]
     congr 1
-    try (refine Finset.filter_congr (fun x _ => ?_); simp [fzbIsM, Nat.beq_eq])
   · intro x hx hxM y hy hyM
     unfold fzbIsM at hxM hyM ⊢
     rw [E hx hy, mulN_div]
     have h := (allN_iff 16 _).mp ((allN_iff 16 _).mp ch441796_mmul (x / 64) (by omega)) (y / 64)
       (by omega)
-    simp only [bIf_eq, Nat.beq_eq, hxM, hyM, if_true] at h
+    simp only [bIf_eq, Nat.beq_eq, hxM, hyM, ite_true] at h
     exact h
   · intro m hm hmM
     unfold fzbIsM at hmM
     rw [E hm hm]
     have h := (allN_iff 16 _).mp ch441796_msq (m / 64) (by omega)
-    simp only [bIf_eq, Nat.beq_eq, hmM, if_true] at h
+    simp only [bIf_eq, Nat.beq_eq, hmM, ite_true] at h
     obtain ⟨u, hu, hsplit⟩ := mulN_split c m m
     rw [hsplit, h]
     omega
@@ -193,9 +192,9 @@ theorem fzbFactsGen_mk (c : Bool) : FzbFactsGen c := by
     have h0 : v2BG c (v2G c) = true := ch441796_v2 c
     unfold v2BG at h0
     have h := (allN_iff 1024 _).mp h0 v hv
-    simp only [bIf_eq, Nat.beq_eq, hvM, hvv, if_false, if_true] at h
+    simp only [bIf_eq, Nat.beq_eq, hvM, hvv, ite_false, ite_true] at h
     obtain ⟨g, -, hg⟩ := (anyL_iff _ _).mp h
-    simp only [bIf_eq, Nat.blt_eq, letN_eq, Nat.beq_eq] at hg
+    simp only [Nat.blt_eq, letN_eq] at hg
     split_ifs at hg with hg1 hg2
     · exact ⟨g, hg1, Or.inl (by rw [E hg1 hv, E (by norm_num) hg1]; exact hg2)⟩
     · exact ⟨g, hg1, Or.inr (by rw [E hg1 hv, E (by norm_num) hg1]; exact B hg)⟩
@@ -219,10 +218,9 @@ theorem h1_witness {L : List Nat} (hL : e32B L = true) (hnd : L.Nodup) (hlen : L
     split_ifs at h with h1 h2
     · refine ⟨h1, h2, fun y hy => ?_⟩
       have h' := (allL_iff _ _).mp h y hy
-      simp only [letN_eq, bIf_eq, Nat.beq_eq] at h'
+      simp only [letN_eq] at h'
       split_ifs at h' with h3
       exact ⟨h3, (memL_iff _ _).mp h'⟩
-    all_goals exact absurd h (by simp)
   refine ⟨L.toFinset, by rw [List.toFinset_card_of_nodup hnd, hlen], List.mem_toFinset.mpr h0,
     fun x hx => ?_, fun x hx y hy => ?_⟩
   · have hx' := List.mem_toFinset.mp hx
@@ -244,11 +242,11 @@ theorem fzbH1_of : FzbH1 := by
   have h0 : h1BL e32L1 e32L2 = true := ch441796_h1
   unfold h1BL at h0
   have h := (allN_iff 64 _).mp h0 n h64
-  simp only [bIf_eq, Nat.blt_eq, Nat.beq_eq, hnn, if_true] at h
-  rw [if_neg (by omega)] at h
+  simp only [bIf_eq, Nat.blt_eq, Nat.beq_eq, hnn, ite_true] at h
+  rw [ite_eq_right (by omega)] at h
   by_cases h1 : memL n e32L1 = true
   · exact h1_witness ch441796_e32_1 (by decide) rfl (by decide) ((memL_iff _ _).mp h1)
-  · rw [if_neg h1] at h
+  · rw [ite_eq_right h1] at h
     exact h1_witness ch441796_e32_2 (by decide) rfl (by decide) ((memL_iff _ _).mp h)
 
 theorem fzbV1_of : FzbV1 := by
@@ -260,7 +258,7 @@ theorem fzbV1_of : FzbV1 := by
   have h0 := ch441796_v1
   unfold v1B at h0
   have h := (allN_iff 1024 _).mp h0 m hm
-  simp only [bIf_eq, Nat.beq_eq, hmM, if_true, letN_eq, hmm, Nat.blt_eq] at h
+  simp only [bIf_eq, Nat.beq_eq, hmM, ite_true, letN_eq, hmm, Nat.blt_eq] at h
   exact h
 
 end CFSG.KC.FzBMod

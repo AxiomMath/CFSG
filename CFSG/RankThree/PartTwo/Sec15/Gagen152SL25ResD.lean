@@ -64,7 +64,7 @@ theorem card_map_eq_one_twenty_of_cover {X : Type} [Group X] [Finite X]
       have h := Subgroup.card_mul_index H
       rw [hH60, hX120] at h
       omega
-    haveI hHn : H.Normal := Subgroup.normal_of_index_eq_two hidx
+    have hHn : H.Normal := Subgroup.normal_of_index_eq_two hidx
     rcases CFSG.GH74.GLS.LU.Local.Five.sl2_five_normal_cases e.symm H with h0 | hZ | htop
     · rw [h0, Subgroup.card_bot] at hH60
       omega
@@ -160,7 +160,7 @@ theorem ResCtx.exists_cover
         (QuotientGroup.mk' (CFSG.pCore 2 ↥X)) := by
     rw [oTwoOddIn, ← Subgroup.comap_subtype]
     exact Subgroup.comap_map_eq_self (by simp)
-  haveI hKn : ((oTwoOddIn X).subgroupOf X).Normal := by
+  have hKn : ((oTwoOddIn X).subgroupOf X).Normal := by
     rw [hKeq]
     exact Subgroup.Normal.comap (CFSG.oddCore_normal _) _
   have hNle : CFSG.pCore 2 ↥X ≤ (oTwoOddIn X).subgroupOf X := by

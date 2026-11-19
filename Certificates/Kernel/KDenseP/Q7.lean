@@ -175,11 +175,11 @@ theorem chkW_of {Z F A X T : List Native.Gen} {v : Native.DVec}
     (h11 : (Native.evalWord (A ++ X ++ A) v).eqv (Native.evalWord X v) = true) :
     chkW Z F A X T v = true := by
   simp only [evalWord_append', evalWord_nil', evalWord_powL_succ, evalWord_powL_zero] at h1 h2 h3 h4
-  simp only [evalWord_append', evalWord_nil', evalWord_powL_succ, evalWord_powL_zero] at h5 h6 h7 h8
-  simp only [evalWord_append', evalWord_nil', evalWord_powL_succ, evalWord_powL_zero] at h9 h10 h11
+  simp only [evalWord_append'] at h5 h6 h7 h8
+  simp only [evalWord_append', evalWord_powL_succ, evalWord_powL_zero] at h9 h10 h11
   simp only [chkW, Bool.and_eq_true]
   refine ⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨?_, h1⟩, h2⟩, h3⟩, h4⟩, h5⟩, h6⟩, h7⟩, h8⟩, h9⟩, h10⟩, h11⟩
-  simp only [List.all_cons, List.all_nil, vZ, vF, vA, vX, vT, Bool.and_self, Bool.and_true]
+  simp only [List.all_cons, List.all_nil, vZ, vF, vA, vX, vT, Bool.and_self]
 
 theorem qAt_of_ops {v : Native.DVec} (hv : v.D.size = 196884) :
     qAt v = true := by

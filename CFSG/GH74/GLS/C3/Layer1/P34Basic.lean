@@ -36,7 +36,7 @@ theorem exists_sylow_ge [Finite X] {N K : Subgroup X} (hKN : K ≤ N) (hK : IsPG
     IsPGroup.of_equiv hK (Subgroup.subgroupOfEquivOfLe hKN).symm
   obtain ⟨S, hS⟩ := hU0.exists_le_sylow
   refine ⟨(S : Subgroup ↥N).map N.subtype, ?_, Subgroup.map_subtype_le _,
-    S.isPGroup'.map N.subtype, ?_⟩
+    S.isPGroup.map N.subtype, ?_⟩
   · intro k hk
     exact ⟨⟨k, hKN hk⟩, hS (by simpa [Subgroup.mem_subgroupOf] using hk), rfl⟩
   · have hS' : ((S : Subgroup ↥N).map N.subtype).subgroupOf N = (S : Subgroup ↥N) := by

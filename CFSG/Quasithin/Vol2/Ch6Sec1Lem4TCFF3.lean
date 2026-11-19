@@ -53,6 +53,7 @@ noncomputable def preSet {R : Subgroup G} (hV : IsElemAbelian 2 R)
     (S : Subgroup (MulAut (IntMod R hV))) (H : Subgroup G) : Subgroup G :=
   (S.comap (convI hV)).map (Subgroup.normalizer (R : Set G)).subtype ⊓ H
 
+omit [Finite G] in
 theorem mem_preSet {R H : Subgroup G} (hV : IsElemAbelian 2 R)
     {S : Subgroup (MulAut (IntMod R hV))} {g : G} :
     g ∈ preSet hV S H ↔ g ∈ H ∧ ∃ hg : g ∈ Subgroup.normalizer (R : Set G),
@@ -83,7 +84,7 @@ theorem ffCentralizerFact_of (hT : TitsBasicFact) (hB55 : CFSG.ASVolI.B_5_5)
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, hq, hZ⟩ := hT (ModO2 K₁) htits
   have hsimp : IsSimpleGroup (ModO2 K₁) := by
-    haveI := hq.2.1
+    have := hq.2.1
     exact MulEquiv.isSimpleGroup
       (((QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot).symm)
   have hK₁M₁ : K₁ ≤ M₁ := le_of_mem_cComp hK₁
@@ -220,13 +221,13 @@ theorem ffCentralizerFact_of (hT : TitsBasicFact) (hB55 : CFSG.ASVolI.B_5_5)
   have hKq : CFSG.IsQuasisimple ↥Kh := CFSG.IsQuasisimple.of_mulEquiv eK.symm hq
   set Kc : Subgroup ↥(autI hV (K₁ ⊔ T)) := Kh.subgroupOf (autI hV (K₁ ⊔ T)) with hKc
   set Nc : Subgroup ↥(autI hV (K₁ ⊔ T)) := G₀.subgroupOf (autI hV (K₁ ⊔ T)) with hNc
-  haveI hNcn : Nc.Normal := by
+  have hNcn : Nc.Normal := by
     constructor
     intro n hn g
     rw [hNc, Subgroup.mem_subgroupOf] at hn ⊢
     simp only [Subgroup.coe_mul, Subgroup.coe_inv]
     exact hG₀n _ g.2 _ hn
-  haveI hKcn : Kc.Normal := by
+  have hKcn : Kc.Normal := by
     constructor
     intro n hn g
     rw [hKc, Subgroup.mem_subgroupOf] at hn ⊢

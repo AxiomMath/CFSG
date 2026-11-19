@@ -17,6 +17,7 @@ attribute [local instance] CFSG.Quasithin.commGroupOfFact
 
 variable {G : Type} [Group G] [Finite G] {T V L V₁ Vp H K I : Subgroup G}
 
+omit [Finite G] in
 theorem kbarOf_mem_hat_of_mem (h : HypF918 T V L V₁ Vp H K) {X : Subgroup G} (hXH : X ≤ H)
     {x : G} (hx : x ∈ X) : kbarOf h (hXH hx) ∈ hat' V₁ Vp H K T X :=
   mem_secImg.mpr ⟨⟨secMk (Subgroup.normalizer (V₁ : Set G)) V₁
@@ -26,6 +27,7 @@ theorem kbarOf_mem_hat_of_mem (h : HypF918 T V L V₁ Vp H K) {X : Subgroup G} (
     secMk_mem_secImg (A := Subgroup.normalizer (V₁ : Set G)) (B := V₁) (X := X)
       (x := ⟨x, h.H_le_normalizer_V₁ (hXH hx)⟩) hx, rfl⟩
 
+omit [Finite G] in
 theorem kbarOf_inv (h : HypF918 T V L V₁ Vp H K) {x : G} (hx : x ∈ H) :
     kbarOf h (H.inv_mem hx) = (kbarOf h hx)⁻¹ := by
   unfold kbarOf
@@ -121,7 +123,7 @@ theorem isFFInt_hat_of_isFFModule [Fact (IsElemAbelian 2 (tildeOf V₁ (conjClos
   have hel : IsElemAbelian 2 (hat' V₁ Vp H K T I) :=
     isElemAbelian_secImg (h.isElemAbelian_tilde_of_le hIU)
   refine ⟨hel, ?_⟩
-  letI : CommGroup ↥(hat' V₁ Vp H K T I) := commGroupOfElemAbelian hel
+  let : CommGroup ↥(hat' V₁ Vp H K T I) := commGroupOfElemAbelian hel
   show @IsFFModule ↥(hat' V₁ Vp H K T I) (commGroupOfElemAbelian hel)
     (autOn (hat' V₁ Vp H K T (conjClosure K T ⊔ T)) (hat' V₁ Vp H K T I))
   have h1 := B1Red.isFFModule_map_congr' (W' := ↥(hat' V₁ Vp H K T I)) (psiSec h hIU) hFF

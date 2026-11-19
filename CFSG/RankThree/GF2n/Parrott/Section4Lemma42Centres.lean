@@ -21,6 +21,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {z : G}
 
+omit [Finite G] in
 theorem inf_centralizer_le_isSylowOf (h : Tim79a.ParrottHyp z) {σ : G} {T : Subgroup G}
     (hT : IsSylowOf 2 T (H z ⊓ centralizer ({σ} : Set G))) :
     J z ⊓ centralizer ({σ} : Set G) ≤ T := by
@@ -415,6 +416,7 @@ theorem isSylowOf_q8_centralizer_sigma1 :
 
 omit
   hN in
+omit [Finite G] in
 theorem four_dvd_card_centre (h : Tim79a.ParrottHyp z) (hZ : centerIn (J z) = centerIn (H z))
     {σ : G} (hσH : σ ∈ H z) {T : Subgroup G}
     (hT : IsSylowOf 2 T (H z ⊓ centralizer ({σ} : Set G))) :
@@ -651,6 +653,7 @@ private theorem conjugate_zpowers_eq (a g : G) :
 
 omit
   hN in
+omit [Finite G] in
 private theorem conjugate_conjugate_eq (R : Subgroup G) (a b : G) :
     CFSG.conjugate (CFSG.conjugate R a) b = CFSG.conjugate R (a * b) := by
   ext x

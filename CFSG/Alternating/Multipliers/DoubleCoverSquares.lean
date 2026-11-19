@@ -53,7 +53,7 @@ theorem psi_negOneE {m : ℕ} (hm : 2 ≤ m) : psi (m := m) (negOneE hm) = 1 := 
   exact perm_negOne
 
 theorem card_ker_psi {m : ℕ} (hm : 6 ≤ m) : Nat.card (psi (m := m)).ker = 2 := by
-  haveI : Group.IsPerfect (E (m + 2)) := E_isPerfect (by omega)
+  have : Group.IsPerfect (E (m + 2)) := E_isPerfect (by omega)
   have hMcard : Nat.card (hopfMultiplier (alternatingGroup (Fin (m + 2)))) = 2 :=
     card_hopfMultiplier_alternatingGroup (by omega)
   have hmap := map_hopfMultiplier_hopfLift (psi (m := m)) (psi_surjective (by omega))
@@ -66,7 +66,7 @@ theorem card_ker_psi {m : ℕ} (hm : 6 ≤ m) : Nat.card (psi (m := m)).ker = 2 
   have hne : Nat.card (psi (m := m)).ker ≠ 1 := by
     intro hcard
     obtain ⟨a, ha⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp (ker_psi_ne_bot (by omega : 2 ≤ m))
-    haveI : Subsingleton (psi (m := m)).ker := (Nat.card_eq_one_iff_unique.mp hcard).1
+    have : Subsingleton (psi (m := m)).ker := (Nat.card_eq_one_iff_unique.mp hcard).1
     exact ha (Subsingleton.elim a 1)
   have hle : Nat.card (psi (m := m)).ker ≤ 2 := Nat.le_of_dvd (by norm_num) hdvd
   have h0 : Nat.card (psi (m := m)).ker ≠ 0 := by
@@ -166,7 +166,7 @@ theorem sq_eq_of_perfect_double_cover {n : ℕ} (hn : 8 ≤ n) {E : Type*} [Grou
     rcases (hker x).mp hx with rfl | rfl
     · exact Subgroup.one_mem _
     · exact hζ
-  haveI : Group.IsPerfect (CFSG.Alternating.Multipliers.Spin.E (m + 2)) := E_isPerfect (by omega)
+  have : Group.IsPerfect (CFSG.Alternating.Multipliers.Spin.E (m + 2)) := E_isPerfect (by omega)
   let M := hopfMultiplier S
   have hMcard : Nat.card M = 2 := card_hopfMultiplier_alternatingGroup (by omega)
   let h1 := hopfLift π hπ hcenter

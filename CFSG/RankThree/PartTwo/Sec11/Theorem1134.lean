@@ -94,7 +94,7 @@ theorem exists_invariantPiSubgroups_of_invTwoBarNontrivial {E L : Subgroup G}
     rwa [hS e] at hmem
   set U := (S : Subgroup Y).map Y.subtype
   refine ⟨U, ⟨(Subgroup.map_subtype_le _).trans hYL,
-    (isPiSubgroup_piOf_iff Nat.prime_two U).mpr (S.isPGroup'.map Y.subtype), ?_⟩, ?_⟩
+    (isPiSubgroup_piOf_iff Nat.prime_two U).mpr (S.isPGroup.map Y.subtype), ?_⟩, ?_⟩
   · intro e he
     rw [Subgroup.mem_normalizer_iff]
     have hc : ∀ e ∈ E, ∀ t ∈ U, e * t * e⁻¹ ∈ U := by
@@ -116,7 +116,7 @@ theorem exists_isSylowOf_inf (p : ℕ) [Fact p.Prime] (H W : Subgroup G) :
   have hSR : S ≤ (Q : Subgroup H).map H.subtype ⊓ W := fun x hx =>
     ⟨⟨⟨x, hSH hx⟩, hQ (Subgroup.mem_subgroupOf.mpr hx), rfl⟩, (hS.le hx).2⟩
   have hRW := hS.eq_of_le hSR (inf_le_inf_right _ (Subgroup.map_subtype_le _))
-    ((Q.isPGroup'.map H.subtype).to_le inf_le_left)
+    ((Q.isPGroup.map H.subtype).to_le inf_le_left)
   rw [hRW]
   exact hS
 

@@ -98,12 +98,12 @@ theorem dcLet_eq (im : List ℕ) (c : ℕ) :
     dcLet im c = if c % 2 = 1 then mulF2 28 (nthV im (c / 2)) (nthV im (c / 2)) else nthV im (c / 2) := by
   rcases Nat.mod_two_eq_zero_or_one c with h | h
   · have h' : Nat.mod c 2 = 0 := h
-    rw [if_neg (by omega)]
+    rw [ite_eq_right (by omega)]
     unfold dcLet
     rw [h']
     rfl
   · have h' : Nat.mod c 2 = 1 := h
-    rw [if_pos h]
+    rw [ite_eq_left h]
     unfold dcLet
     rw [h']
     rfl
@@ -119,7 +119,7 @@ theorem pk_dcEvS (hC : ChevFacts) {im : List ℕ} {z : Fin 4 → Y}
     change psi (ltrM z c * evM z w) = pkMat 28 (mulF2 28 (dcLet im c) (dcEvS im w))
     rw [map_mul, pkMat_mulF2, pk_dcEvS hC hz w (fun c' hc' => hw c' (by simp [hc'])), dcLet_eq]
     unfold ltrM
-    rw [dif_pos hc]
+    rw [dite_eq_left hc]
     have e := hz ⟨c / 2, hc⟩
     split_ifs
     · rw [map_mul, e, pkMat_mulF2]
@@ -578,7 +578,7 @@ theorem dcDetNe (hM : Facts) {n : MulAut ↥(M1 ⊓ M2)} {s t u v : Nat}
       rw [he, Nat.mul_mod, htc]
       simp
 
-theorem dcDet_of {s t u v : ℕ} (hs : s < 3) (ht : t < 3) (hu : u < 3) (hv : v < 3)
+theorem dcDet_of {s t u v : ℕ} (_hs : s < 3) (ht : t < 3) (_hu : u < 3) (hv : v < 3)
     (h : (s * v) % 3 ≠ (t * u) % 3) : dcDet (3 * s + t) (3 * u + v) = true := by
   have e1 : Nat.div (3 * s + t) 3 = s := by change (3 * s + t) / 3 = s; omega
   have e2 : Nat.mod (3 * s + t) 3 = t := by change (3 * s + t) % 3 = t; omega
@@ -787,7 +787,7 @@ theorem decomp_of_gens (hM : Facts) (W : Witnesses) (n : MulAut ↥(M1 ⊓ M2))
   exact congrArg (fun f : ↥(M1 ⊓ M2) →* Y => f x) hFG
 
 theorem inv_facts (hC : ChevFacts) {w : Y} {X : ℕ} (hw : psi w = pkMat 28 X)
-    (hX : X < 2 ^ (28 * 28)) (h2 : w * w = 1) (h1 : w ≠ 1) :
+    (_hX : X < 2 ^ (28 * 28)) (h2 : w * w = 1) (h1 : w ≠ 1) :
     mulF2 28 X X = oneF2 28 ∧ X ≠ oneF2 28 := by
   refine ⟨(pk_one_iff (mulF2_lt' _ _)).mp (by rw [pkMat_mulF2, ← hw, ← map_mul, h2, map_one]), ?_⟩
   intro hX1
@@ -795,7 +795,7 @@ theorem inv_facts (hC : ChevFacts) {w : Y} {X : ℕ} (hw : psi w = pkMat 28 X)
   apply psi_injective hC
   rw [hw, hX1, pkMat_oneF2, map_one]
 
-theorem comm_of (hC : ChevFacts) {w h : Y} {X H : ℕ} (hw : psi w = pkMat 28 X)
+theorem comm_of (_hC : ChevFacts) {w h : Y} {X H : ℕ} (hw : psi w = pkMat 28 X)
     (hh : psi h = pkMat 28 H) (hc : w * h = h * w) : commK X H = true := by
   have e : pkMat 28 (mulF2 28 X H) = pkMat 28 (mulF2 28 H X) := by
     rw [pkMat_mulF2, pkMat_mulF2, ← hw, ← hh, ← map_mul, ← map_mul, hc]

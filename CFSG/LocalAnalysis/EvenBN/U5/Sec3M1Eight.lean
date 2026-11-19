@@ -194,7 +194,7 @@ theorem layer_selection_four
       have hSV : (S : Subgroup H) ⊓ CFSG.layer H = V := by
         refine (eq_of_le_of_card_ge (le_inf hVS hVL) ?_).symm
         rw [hVcard]
-        exact hcard2 _ (S.isPGroup'.to_inf_left) inf_le_right
+        exact hcard2 _ (S.isPGroup.to_inf_left) inf_le_right
       have hmemV : ∀ x ∈ (S : Subgroup H), x ∈ normalClosure (V : Set H) → x * x = 1 →
           x ∈ V := fun x hxS hxV _ => by
         rw [← hSV]

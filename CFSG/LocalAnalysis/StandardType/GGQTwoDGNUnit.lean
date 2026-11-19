@@ -59,12 +59,13 @@ theorem isPerfect_su_two {F : Type} [Field F] [Finite F] [CharP F 2] (hF : Nat.c
     simp only at this
     omega
   have hq := (isQuasisimple_statedSU_of_card (F := F) (p := 2) (f := 1) hF' (by omega) hnq).1.1
-  haveI : Group.IsPerfect ↥(CFSG.Open.StatedSU n (2 ^ 1) F) := hq
+  have : Group.IsPerfect ↥(CFSG.Open.StatedSU n (2 ^ 1) F) := hq
   exact Group.IsPerfect.ofSurjective
     (f := (MulEquiv.subgroupCongr
       (SUid_eq_statedSU (F := F) (p := 2) (f := 1) hF' n)).symm.toMonoidHom)
     (MulEquiv.surjective _)
 
+omit [Finite G] in
 theorem mem_normalizer_range_of_acts {F : Type} [Field F] [Finite F] [CharP F 2] {n : ℕ}
     {ψ : Su F 2 1 n →* G} {Bs : Subgroup G}
     (hdiag : GGActsDiagonally (p := 2) (f := 1) ψ Bs) {b : G} (hb : b ∈ Bs) :

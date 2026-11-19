@@ -10,6 +10,7 @@ variable {G : Type} [Group G] [Finite G]
 
 open CFSG.Timmesfeld.Bridge.OddTransp
 
+omit [Finite G] in
 theorem isSolvable_of_isSolvable_solvableRadical_quotient [Finite G]
     (h : Group.IsSolvable (G ⧸ CFSG.solvableRadical G)) : Group.IsSolvable G := by
   have hR : Group.IsSolvable (CFSG.solvableRadical G) :=
@@ -21,6 +22,7 @@ theorem isSolvable_of_isSolvable_solvableRadical_quotient [Finite G]
   rw [QuotientGroup.ker_mk'] at hx
   exact ⟨⟨x, hx⟩, rfl⟩
 
+omit [Finite G] in
 theorem not_isSolvable_quotient_solvableRadical [Finite G]
     (h : ¬ Group.IsSolvable G) :
     ¬ Group.IsSolvable (G ⧸ CFSG.solvableRadical G) :=

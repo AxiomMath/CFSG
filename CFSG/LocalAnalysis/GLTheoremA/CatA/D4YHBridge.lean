@@ -48,6 +48,7 @@ open CFSG.LocalAnalysis.ComponentInitial.OrthogonalOuter (linearConjugationHom)
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 theorem exists_pair_of_mem_sup {c : MulAut (Om8 K)}
     (hc : c ∈ Inn (Om8 K) ⊔ (AutOm.fieldAutP (K := K) 4).range) :
     ∃ (g : similarityPairs (coordinateQuadPlus 4 K)) (σ : K ≃+* K) (ι : MulAut (Om8 K)),
@@ -90,7 +91,7 @@ theorem fixed_sub_om8 {n : ℕ} (hn1 : 1 ≤ n) (hK₀ : Nat.card K = 2 ^ n) {c 
   have hap : orderOf a = 3 := by
     have h3 : a ^ 3 = 1 := by rw [ha, ← map_pow, hc3, map_one]
     have h1 : a ≠ 1 := fun h => hc1 ((MulAut.congr Λ).injective (by rw [map_one]; exact h))
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact orderOf_eq_prime h3 h1
   let e : matrixProjectiveDerived (coordinateQuadPlus 4 K) ≃*
       StatedProj (StatedOmega (StatedQuadPlus 4 K)) :=

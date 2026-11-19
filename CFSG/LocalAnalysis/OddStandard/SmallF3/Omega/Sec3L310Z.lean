@@ -27,7 +27,7 @@ theorem exists_conj_commute_ne [Finite G] (hG : IsSimpleGroup G) {t : G} (ht : o
     simpa [pow_two] using hpow
   let _ : Fintype G := Fintype.ofFinite G
   obtain ⟨N, hNn, hNodd, hN⟩ := CFSG.ZStar.glauberman_zStar G t ht1 ht2 hiso
-  haveI : N.Normal := hNn
+  have : N.Normal := hNn
   rcases hG.eq_bot_or_eq_top_of_normal N with hN0 | hNtop
   · have hz : t ∈ Subgroup.center G := by
       rw [Subgroup.mem_center_iff]
@@ -42,7 +42,7 @@ theorem exists_conj_commute_ne [Finite G] (hG : IsSimpleGroup G) {t : G} (ht : o
       exact ht1 hz
     have htop : Subgroup.center G = ⊤ :=
       (hG.eq_bot_or_eq_top_of_normal (Subgroup.center G)).resolve_left hcenter_ne
-    haveI : IsMulCommutative G := Subgroup.center_eq_top_iff.mp htop
+    have : IsMulCommutative G := Subgroup.center_eq_top_iff.mp htop
     obtain ⟨a, b, hab⟩ := hnc
     exact hab (mul_comm a b)
   · rw [hNtop, Subgroup.card_top] at hNodd

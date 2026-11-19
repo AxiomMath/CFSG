@@ -15,7 +15,7 @@ theorem ggCover_component {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prim
     (hZp : ∀ z ∈ Subgroup.center ↥X, z ^ p = 1 → z = 1)
     {H : Type} [Group H] [Finite H] (ψ : ↥X →* H) (hψ : Function.Surjective ψ)
     (hker : ψ.ker ≤ Subgroup.center ↥X) (Λ : H →* MulAut ↥X)
-    (hΛc : ∀ x, Λ (ψ x) = MulAut.conj x) (hΛn : ∀ h l, ψ (Λ h l) = h * ψ l * h⁻¹)
+    (_hΛc : ∀ x, Λ (ψ x) = MulAut.conj x) (hΛn : ∀ h l, ψ (Λ h l) = h * ψ l * h⁻¹)
     {c : H} (hc : Λ c = ggGamma X hN ⟨g, hgBs⟩)
     (hJX : J ≤ X) (hcomp : IsComponentOf J (X ⊓ Subgroup.centralizer ({g} : Set G))) :
     IsComponentOf ((J.subgroupOf X).map ψ) (Subgroup.centralizer ({c} : Set H)) ∧
@@ -214,11 +214,11 @@ theorem ggCover_component {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prim
     have hφrange : φ.range ≤ Subgroup.center ↥X := by
       rintro _ ⟨j, rfl⟩
       exact hzcenter j
-    haveI : IsMulCommutative ↥φ.range := by
+    have : IsMulCommutative ↥φ.range := by
       rw [← Subgroup.le_centralizer_iff_isMulCommutative]
       exact hφrange.trans (Subgroup.center_le_centralizer (φ.range : Set ↥X))
-    haveI : Group.IsPerfect ↥J := ⟨hcomp.2.2.1⟩
-    haveI : Group.IsPerfect ↥φ.range := Group.IsPerfect.range φ
+    have : Group.IsPerfect ↥J := ⟨hcomp.2.2.1⟩
+    have : Group.IsPerfect ↥φ.range := Group.IsPerfect.range φ
     have hφone : ∀ j : ↥J, φ j = 1 := by
       intro j
       have h1 : (⟨φ j, ⟨j, rfl⟩⟩ : φ.range) = 1 := Subsingleton.elim _ _

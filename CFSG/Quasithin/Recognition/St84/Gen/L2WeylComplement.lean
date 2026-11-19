@@ -16,7 +16,7 @@ theorem wElt_conj_torusElt_inv {F : Type} [Field F] [CharP F 2] (a : Fˣ) :
   apply sl2_ext
   all_goals
     sl2_simp
-    simp only [CharTwo.neg_eq, inv_inv]
+    simp only [CharTwo.neg_eq]
     ring
 
 theorem borel_sup_zpowers_wElt {F : Type} [Field F] :

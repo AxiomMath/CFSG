@@ -59,7 +59,7 @@ theorem principalBlockPadic_augmentation :
   · exfalso
     rw [ha0, map_zero] at hared
     have h01 : (0 : ZMod 2) ≠ 1 := zero_ne_one
-    exact h01 (by simpa using hared)
+    exact h01 (by simp at hared)
   · exact sub_eq_zero.mp ha1
 
 end

@@ -18,7 +18,7 @@ private theorem w183finL34map_conjSubgroup_map {G₁ G₂ : Type*} [Group G₁] 
       = ι.comp (MulAut.conj g⁻¹).toMonoidHom := by
     ext x
     simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulAut.conj_inv_apply, map_mul,
-      map_inv, inv_inv]
+      map_inv]
   rw [conjSubgroup, conjSubgroup, Subgroup.map_map, Subgroup.map_map, hcomp]
 
 theorem isSylowIn_map {G₁ G₂ : Type*} [Group G₁] [Group G₂] (ι : G₁ →* G₂)
@@ -31,7 +31,7 @@ theorem isSylowIn_map {G₁ G₂ : Type*} [Group G₁] [Group G₂] (ι : G₁ �
 theorem exists_conj_isSylowIn {G : Type*} [Group G] [Finite G] {H P Q : Subgroup G}
     (hP : IsSylowIn 2 P H) (hQ : IsSylowIn 2 Q H) :
     ∃ k ∈ H, Q = P.map (MulAut.conj k).toMonoidHom := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hP' : fusionIsSylowIn 2 P H := fusionIsSylowIn_of_isSylowIn_two hP
   have hQ' : fusionIsSylowIn 2 Q H := fusionIsSylowIn_of_isSylowIn_two hQ
   obtain ⟨k, hkH, hk⟩ := CFSG.Holt.exists_mem_conj_of_fusionIsSylowIn hP' hQ'
@@ -52,7 +52,7 @@ theorem exists_conj_isSylowIn {G : Type*} [Group G] [Finite G] {H P Q : Subgroup
 theorem exists_conj_le_isSylowIn {G : Type*} [Group G] [Finite G] {H A P : Subgroup G}
     (hAH : A ≤ H) (hA : IsPGroup 2 A) (hP : IsSylowIn 2 P H) :
     ∃ k ∈ H, A.map (MulAut.conj k).toMonoidHom ≤ P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hP' : fusionIsSylowIn 2 P H := fusionIsSylowIn_of_isSylowIn_two hP
   obtain ⟨Q, hAQ, hQ⟩ := CFSG.Holt.exists_fusionIsSylowIn_ge hA hAH
   obtain ⟨k, hkH, hk⟩ := CFSG.Holt.exists_mem_conj_of_fusionIsSylowIn hP' hQ

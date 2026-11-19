@@ -160,6 +160,7 @@ theorem conj_mem {i : ℕ} {g : G} (hg : g ∈ Nsub x 0) {n : G} (hn : n ∈ Nsu
     · simpa using (ha n hn).2
     · simpa using (ha n hn).1
 
+omit [Finite G] in
 theorem decomp {i : ℕ} (hi : i < 16) {n : G} (hn : n ∈ Nsub x i) :
     ∃ e < 3, (x i ^ e)⁻¹ * n ∈ Nsub x (i + 1) := by
   have h3 := cube_mem hP hi

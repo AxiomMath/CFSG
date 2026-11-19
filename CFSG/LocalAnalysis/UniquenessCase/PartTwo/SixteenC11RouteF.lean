@@ -28,8 +28,8 @@ theorem s16c11_normalizer_le_of_factor (D : Data G) (h61 : UC6.R6_1 D)
     normalizer (E3.wClos V 0 D.T : Set G) ≤ D.M := by
   classical
   have hpp : p.Prime := (D.sig_prime p hp).1
-  haveI : Fact p.Prime := ⟨hpp⟩
-  haveI : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
+  have : Fact p.Prime := ⟨hpp⟩
+  have : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
   let C : Subgroup (MulAut (Vtil V₀ V hV)) :=
     Xbar ⊓ centSub (fixV (barSub V₀ V hV D.T))
   let N : Subgroup (MulAut (Vtil V₀ V hV)) :=
@@ -47,7 +47,7 @@ theorem s16c11_normalizer_le_of_factor (D : Data G) (h61 : UC6.R6_1 D)
   have hPW : P ≤ normalizer
       ((barSub V₀ V hV (E3.wClos V 0 D.T) : Subgroup _) : Set _) :=
     hPN.trans inf_le_right
-  have hPp : IsPGroup p ↥P := Q.isPGroup'.map N.subtype
+  have hPp : IsPGroup p ↥P := Q.isPGroup.map N.subtype
   have hPcard : Nat.card P = p ^ padicValNat p (Nat.card N) := by
     rw [show P = (Q : Subgroup ↥N).map N.subtype from rfl,
       Subgroup.card_map_of_injective N.subtype_injective, Sylow.card_eq_multiplicity Q,
@@ -81,9 +81,9 @@ theorem s16c11_le_normalizer_barSub_wClos_of_pGroup (D : Data G) (h1610 : R16_10
     (hPT : barSub V₀ V hV D.T ≤ normalizer (P : Set (MulAut (Vtil V₀ V hV)))) :
     P ≤ normalizer ((barSub V₀ V hV (E3.wClos V 0 D.T) : Subgroup _) : Set _) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
   let Tbar : Subgroup (MulAut (Vtil V₀ V hV)) := barSub V₀ V hV D.T
   let Wbar : Subgroup (MulAut (Vtil V₀ V hV)) := barSub V₀ V hV (E3.wClos V 0 D.T)
   let Xbar : Subgroup (MulAut (Vtil V₀ V hV)) := P ⊔ Tbar
@@ -102,11 +102,11 @@ theorem s16c11_le_normalizer_barSub_wClos_of_pGroup (D : Data G) (h1610 : R16_10
     exact hp2 ((Nat.prime_dvd_prime_iff_eq Nat.prime_two hp).1
       (Nat.prime_two.dvd_of_dvd_pow h2)).symm
   have hsolv : Group.IsSolvable ↥Xbar := by
-    haveI : (P.subgroupOf Xbar).Normal :=
+    have : (P.subgroupOf Xbar).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer hPX).2 hnorm
     have hPp' : IsPGroup p (P.subgroupOf Xbar) := hPp.comap_subtype
-    haveI : Group.IsNilpotent ↥(P.subgroupOf Xbar) := hPp'.isNilpotent
-    haveI : Group.IsSolvable ↥(P.subgroupOf Xbar) := inferInstance
+    have : Group.IsNilpotent ↥(P.subgroupOf Xbar) := hPp'.isNilpotent
+    have : Group.IsSolvable ↥(P.subgroupOf Xbar) := inferInstance
     have hQ : IsPGroup 2 (↥Xbar ⧸ P.subgroupOf Xbar) := by
       refine (hTbar.comap_subtype).of_surjective
         ((QuotientGroup.mk' (P.subgroupOf Xbar)).comp
@@ -129,8 +129,8 @@ theorem s16c11_le_normalizer_barSub_wClos_of_pGroup (D : Data G) (h1610 : R16_10
         (Subgroup.mem_normalizer_iff.mp (hPT (Tbar.inv_mem ht)) k).mp hk
       convert hmem using 1
       group
-    haveI : Group.IsNilpotent (↥Xbar ⧸ P.subgroupOf Xbar) := hQ.isNilpotent
-    haveI : Group.IsSolvable (↥Xbar ⧸ P.subgroupOf Xbar) := inferInstance
+    have : Group.IsNilpotent (↥Xbar ⧸ P.subgroupOf Xbar) := hQ.isNilpotent
+    have : Group.IsSolvable (↥Xbar ⧸ P.subgroupOf Xbar) := inferInstance
     exact Group.isSolvable_of_subgroup_quotient (P.subgroupOf Xbar)
   have hfac := s16c11_barSub_factor_of_routeF D h1610 h169 hV hc hXM hTX hsolv
   let C : Subgroup (MulAut (Vtil V₀ V hV)) := Xbar ⊓ centSub (fixV Tbar)

@@ -95,7 +95,7 @@ theorem prep_fP {k : ℕ} (hk : k < 6) :
   have h := (invFullChain_arrays (i := 1) (by norm_num)).orig ⟨k, hk'⟩
   rw [CertificateChecks.KernelSpor.SuzInv.gensF1.2 k hk] at h
   unfold fP
-  rw [dif_pos hk']
+  rw [dite_eq_left hk']
   exact prep_of_rep h
 
 theorem invD_le_closure_fP :
@@ -105,7 +105,7 @@ theorem invD_le_closure_fP :
   obtain ⟨⟨k, hk⟩, rfl⟩ := (schreier_vector_mem_toList_iff_get _ g).1 hg
   refine Subgroup.subset_closure ⟨k, by rw [← fullCount]; exact hk, ?_⟩
   unfold fP
-  rw [dif_pos hk]
+  rw [dite_eq_left hk]
 
 theorem ext_facts : (∀ t < 6, fldK idKey t = [0, 1, 2, 3, 4, 8].getD t 0) ∧
     (∀ j < 4, ∀ t < 6, fldK idKey (6 * (j + 1) + t) = fldK (UGT j) (fldK idKey t)) ∧
@@ -308,7 +308,7 @@ theorem central_eq (x : Equiv.Perm (Fin 1782)) (hx : x ∈ UP)
     rw [Nat.eq_of_beq_eq_true h0, UE_z] at e
     exact permKey_inj m.2 z_mem_suzM e
 
-theorem z_central : ∀ y ∈ UP, suzInv 1 * y = y * suzInv 1 := fun y hy =>
+theorem z_central : ∀ _y ∈ UP, suzInv 1 * _y = _y * suzInv 1 := fun _y hy =>
   (Subgroup.mem_centralizer_singleton_iff.mp (invE_le_centz (UP_le_invE hy))).symm
 
 theorem hNC : suzT ⊓ Subgroup.normalizer (UP : Set (Equiv.Perm (Fin 1782))) ≤ invD 1 := by
@@ -431,7 +431,7 @@ theorem hl_closure : Subgroup.closure {g | g ∈ hl} = invE 1 := by
   rw [invE_eq_closure (i := 1) (by norm_num), CertificateChecks.KernelSpor.SuzInv.gensI1.1]
   congr 1
   ext g
-  simp only [hl, List.mem_ofFn', Set.mem_setOf_eq]
+  simp only [hl, List.mem_ofFn', Set.mem_ofPred_eq]
   constructor
   · rintro ⟨k, rfl⟩
     exact ⟨k, k.isLt, rfl⟩
@@ -455,13 +455,13 @@ theorem prep_gal {j : ℕ} (hj : j < gal.length) : PRep 1782 11 (GA j) (gal.getD
   rw [List.getD_eq_getElem _ _ hj]
   simp only [gal, List.getElem_ofFn]
   by_cases h : j < 10
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     have e : GA j = HG j := by
       unfold GA HG
       rw [show Nat.blt j 10 = true by rw [Nat.blt_eq]; exact h]
     rw [e]
     exact prep_HG h
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     have e : GA j = CertificateChecks.KernelSpor.SuzInvT1.F (1 + (j - 10)) := by
       unfold GA
       rw [show Nat.blt j 10 = false by
@@ -741,7 +741,7 @@ theorem UN_unique {c : ℕ} (x : ↥(CSub c))
   exact h
 
 theorem UN_fix {c : ℕ} (x : ↥(CSub c)) (hx : UP ≤ MulAction.stabilizer (Equiv.Perm (Fin 1782)) x) :
-    ∀ u ∈ UN, ((u : ↥NT) : ↥suzT) • x = x := fun u hu => hx (UN_mem hu)
+    ∀ _u ∈ UN, ((_u : ↥NT) : ↥suzT) • x = x := fun _u hu => hx (UN_mem hu)
 
 theorem card_CN {c : ℕ} (x : ↥(CSub c)) :
     Nat.card ((CN ⊓ MulAction.stabilizer ↥suzT x).subgroupOf NT) =

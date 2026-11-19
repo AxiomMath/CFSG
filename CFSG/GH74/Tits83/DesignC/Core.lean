@@ -181,7 +181,7 @@ theorem gammaOf_mem (x : win T.U 1 8) : gammaOf c c' θ hθ x ∈ Gamma c c' θ 
   refine (⨆ k ∈ intList 1 8, Delta c c' θ k).list_prod_mem ?_
   intro y hy
   obtain ⟨k, hk, rfl⟩ := List.mem_map.1 hy
-  exact SetLike.le_def.mp
+  exact _root_.IsConcreteLE.le_iff.mp
     (le_iSup₂_of_le (f := fun k (_ : k ∈ intList 1 8) => Delta c c' θ k) k hk le_rfl)
     (psi_mem_Delta c c' θ hθ k (coord x k))
 
@@ -189,7 +189,7 @@ theorem gammaOf_mem (x : win T.U 1 8) : gammaOf c c' θ hθ x ∈ Gamma c c' θ 
   ⟨((intList 1 8).map (fun k => ((g c c' θ hθ k) (coord x k) : G'))).prod,
    (win T'.U 1 8).list_prod_mem (fun y hy => by
      obtain ⟨k, hk, rfl⟩ := List.mem_map.1 hy
-     exact SetLike.le_def.mp
+     exact _root_.IsConcreteLE.le_iff.mp
        (le_iSup₂_of_le (f := fun k (_ : k ∈ Set.Icc (1 : ℤ) 8) => T'.U k)
          k (by exact mem_intList_iff.1 hk) le_rfl)
        ((g c c' θ hθ k (coord x k)).2))⟩

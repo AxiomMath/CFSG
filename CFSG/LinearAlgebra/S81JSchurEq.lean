@@ -75,7 +75,7 @@ private theorem kills_of_surj_aux {N : Submodule K (V →ₗ[K] V)}
     (hsurj : ∀ f : C →ₗ[K] W, ∃ y ∈ N, ∀ c : C, y c = (f c : V)) :
     ∀ y ∈ N, ∀ w ∈ W, y w = 0 := by
   have h0 : 0 < finrank K C := by omega
-  haveI : Module.Finite K C := Module.finite_of_finrank_pos h0
+  have : Module.Finite K C := Module.finite_of_finrank_pos h0
   let b : Basis (Fin (finrank K C)) K C := Module.finBasis K C
   let i₁ : Fin (finrank K C) := ⟨0, h0⟩
   let i₂ : Fin (finrank K C) := ⟨1, by omega⟩
@@ -86,7 +86,7 @@ private theorem kills_of_surj_aux {N : Submodule K (V →ₗ[K] V)}
   let lam : C →ₗ[K] K := b.coord i₁
   let mu : C →ₗ[K] K := b.coord i₂
   have hlam1 : lam (b i₁) = 1 := by simp [lam]
-  have hlam2 : lam (b i₂) = 0 := by simp [lam, Finsupp.single_apply, hne, hne.symm]
+  have hlam2 : lam (b i₂) = 0 := by simp [lam, hne]
   have hmu2 : mu (b i₂) = 1 := by simp [mu]
   have hev : ∀ c : C, ∀ μ' : C →ₗ[K] K, μ' c = 1 → ∀ w ∈ W, ∃ a ∈ N, a (c : V) = w := by
     intro c μ' hμ' w hw

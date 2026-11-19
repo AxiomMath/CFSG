@@ -29,6 +29,7 @@ theorem fieldCard_sl3Order_ge {n : ℕ} (hn : 2 ≤ n) :
     _ ≤ (2 ^ n) ^ 3 * ((2 ^ n) ^ 2 - 1) * ((2 ^ n) ^ 3 - 1) :=
       Nat.mul_le_mul (Nat.mul_le_mul h3 (by omega)) (by omega)
 
+omit [Finite A] in
 theorem CampbellHyp.card_field_eq_two (h : CampbellHyp X K R P) {F : Type} [Field F] [Fintype F]
     {n : ℕ} (hF : Fintype.card F = 2 ^ n) (α : ↥K →* ↥(StatedSL 3 F))
     (hα : CFSG.Quasithin.IsModO2Surj K α) : Fintype.card F = 2 := by
@@ -75,6 +76,7 @@ theorem transport_map_bijective {F F' : Type} [Field F] [Field F'] (e : F ≃+* 
     ext i j
     simp
 
+omit [Finite A] in
 theorem transport_section_data {K D : Subgroup A} {F : Type} [Field F] [Fintype F]
     (hF : Fintype.card F = 2) {α : ↥K →* ↥(StatedSL 3 F)}
     (hα : CFSG.Quasithin.IsModO2Surj K α) (n : ℕ)
@@ -113,6 +115,7 @@ theorem transport_section_data {K D : Subgroup A} {F : Type} [Field F] [Fintype 
     rw [hmap, hv]
     exact congrFun (transport_mulVec_map e _ (Multiplicative.toAdd (β u) i)) j
 
+omit [Finite A] in
 theorem hasNatSection_of_via {K D C₀ : Subgroup A} {F : Type} [Field F] [Fintype F]
     (hF : Fintype.card F = 2) {α : ↥K →* ↥(StatedSL 3 F)} (hα : CFSG.Quasithin.IsModO2Surj K α)
     (hsec : CFSG.Quasithin.IsSumOfNaturalModulesVia K D C₀ α false 1) :
@@ -127,6 +130,7 @@ theorem hasNatSection_of_via {K D C₀ : Subgroup A} {F : Type} [Field F] [Finty
     have := hbe k u v (fun i => by simpa [CFSG.Quasithin.moduleAct] using hβe k u v huv i) 0
     exact this
 
+omit [Finite A] in
 theorem hasNatSum2_of_via {K Q : Subgroup A} {F : Type} [Field F] [Fintype F]
     (hF : Fintype.card F = 2) {α : ↥K →* ↥(StatedSL 3 F)} (hα : CFSG.Quasithin.IsModO2Surj K α)
     (hsec : CFSG.Quasithin.IsSumOfNaturalModulesVia K Q ⊥ α false 2) : HasNatSum2 K Q := by

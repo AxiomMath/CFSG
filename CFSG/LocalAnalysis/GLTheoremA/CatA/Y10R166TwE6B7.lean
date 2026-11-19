@@ -64,6 +64,7 @@ variable {Ω : Type} [Field Ω] [CharP Ω 2]
 
 namespace TwE6B
 
+omit [CharP Ω 2] in
 theorem weylElt_mem_thetaFixed (Fr : Ω →+* Ω) (i : Fin Tag.E6.rank) :
     weylElt Tag.E6 Ω i 1 ∈ TwistedDiag.thetaFixed Fr := by
   rw [TwistedDiag.mem_thetaFixed]
@@ -71,6 +72,7 @@ theorem weylElt_mem_thetaFixed (Fr : Ω →+* Ω) (i : Fin Tag.E6.rank) :
   rw [TwistedDiag.theta_apply]
   exact weylElt_twistFixed6 (L := Ω) Fr (fun u => twE6W0_smul u) i
 
+omit [CharP Ω 2] in
 theorem theta_torusElt_eq {Fr : Ω →+* Ω} {t : Ωˣ} {n : ℕ}
     (hFr : ∀ c, Fr c = c ^ (2 ^ n)) (ht : t ^ (2 ^ n + 1) = 1) (i : Fin Tag.E6.rank) :
     TwistedDiag.theta Fr (torusElt Tag.E6 Ω i t) = torusElt Tag.E6 Ω i t := by
@@ -83,6 +85,7 @@ theorem theta_torusElt_eq {Fr : Ω →+* Ω} {t : Ωˣ} {n : ℕ}
   rw [hstep, ht]
   simp
 
+omit [CharP Ω 2] in
 theorem torusElt_mem_twE6Block {Fr : Ω →+* Ω} {n : ℕ} (hFr : ∀ c, Fr c = c ^ (2 ^ n))
     {t : Ωˣ} (ht : t ^ (2 ^ n + 1) = 1) {i : Fin Tag.E6.rank} (hi : i ∈ support56) :
     torusElt Tag.E6 Ω i t ∈ twE6Block Fr := by
@@ -91,12 +94,14 @@ theorem torusElt_mem_twE6Block {Fr : Ω →+* Ω} {n : ℕ} (hFr : ∀ c, Fr c =
   rw [TwistedDiag.mem_thetaFixed]
   exact ⟨torusElt_mem_adjointGroup i t, theta_torusElt_eq hFr ht i⟩
 
+omit [CharP Ω 2] in
 theorem pow_two_pow_add_one_eq_one {ω : Ωˣ} {n : ℕ} (hω3 : ω ^ 3 = 1) (hn : Odd n) :
     ω ^ (2 ^ n + 1) = 1 := by
   obtain ⟨k, hk⟩ := Odd.nat_add_dvd_pow_add_pow 2 1 hn
   rw [one_pow] at hk
   rw [hk, pow_mul, hω3, one_pow]
 
+omit [CharP Ω 2] in
 theorem torusElt_four_mem_twE6C {Fr : Ω →+* Ω} {ω : Ωˣ} {n : ℕ} {K : Type} [Field K]
     [Algebra K Ω] [IsAlgClosure K Ω] (hFr : ∀ c, Fr c = c ^ (2 ^ n))
     (hK : Nat.card K = (2 ^ n) ^ 2) (hn : 3 ≤ n) (hod : Odd n) (hω3 : ω ^ 3 = 1) :
@@ -123,6 +128,7 @@ private theorem conj_mem_commutator {G : Type*} [Group G] {S : Subgroup G} {n : 
   rw [hmap] at h
   simpa only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply] using h
 
+omit [CharP Ω 2] in
 private theorem torusElt_conj_step (t : Ωˣ) (i j : Fin Tag.E6.rank) :
     (torusElt Tag.E6 Ω i t * torusElt Tag.E6 Ω i (t ^ (-2 : ℤ))) *
         (torusElt Tag.E6 Ω j t * torusElt Tag.E6 Ω i t) = torusElt Tag.E6 Ω j t := by
@@ -143,6 +149,7 @@ private theorem torusElt_conj_step (t : Ωˣ) (i j : Fin Tag.E6.rank) :
     _ = torusElt Tag.E6 Ω j t * torusElt Tag.E6 Ω i 1 := by rw [inv_mul_cancel]
     _ = torusElt Tag.E6 Ω j t := by rw [torusElt_one, mul_one]
 
+omit [CharP Ω 2] in
 theorem weylElt_four_conj_torusElt (t : Ωˣ) :
     (weylElt Tag.E6 Ω 3 1 * weylElt Tag.E6 Ω 2 1 * weylElt Tag.E6 Ω 4 1 *
         weylElt Tag.E6 Ω 3 1) * torusElt Tag.E6 Ω 4 t *
@@ -205,6 +212,7 @@ theorem weylElt_four_conj_torusElt (t : Ωˣ) :
         rw [h3]
     _ = torusElt Tag.E6 Ω 2 t := h4
 
+omit [CharP Ω 2] in
 theorem fBar_mem_C {Fr : Ω →+* Ω} {ω : Ωˣ} {n : ℕ} {K : Type} [Field K]
     [Algebra K Ω] [IsAlgClosure K Ω] (hFr : ∀ c, Fr c = c ^ (2 ^ n))
     (hK : Nat.card K = (2 ^ n) ^ 2) (hn : 3 ≤ n) (hod : Odd n) (hω3 : ω ^ 3 = 1) :
@@ -222,6 +230,7 @@ theorem fBar_mem_C {Fr : Ω →+* Ω} {ω : Ωˣ} {n : ℕ} {K : Type} [Field K]
   rw [fBar_eq_torusElt hω3, ← weylElt_four_conj_torusElt (Ω := Ω) ω]
   exact hconj
 
+omit [CharP Ω 2] in
 theorem orderOf_sq_of_orderOf_eq_three {ω : Ωˣ} (hω : orderOf ω = 3) : orderOf (ω ^ 2) = 3 := by
   have h : ω ^ 2 * ω = 1 := by
     rw [show ω ^ 2 * ω = ω ^ 3 by group, ← hω, pow_orderOf_eq_one]
@@ -231,6 +240,7 @@ theorem orderOf_sq_of_orderOf_eq_three {ω : Ωˣ} (hω : orderOf ω = 3) : orde
       _ = ω⁻¹ := by rw [one_mul]
   rw [hω2, orderOf_inv, hω]
 
+omit [CharP Ω 2] in
 theorem eBarTuple_eq {ω : Ωˣ} (hω3 : ω ^ 3 = 1) :
     eBarTuple ω = (fun j => ω ^ Tag.E6.cartan 4 j) *
       (fun j => (ω ^ 2) ^ Tag.E6.cartan 5 j) := by
@@ -238,24 +248,28 @@ theorem eBarTuple_eq {ω : Ωˣ} (hω3 : ω ^ 3 = 1) :
   rw [rootDiagUnit_mul, ← torusElt_eq_rootDiagUnit, ← torusElt_eq_rootDiagUnit]
   exact eBar_eq_torusElt hω3
 
+omit [CharP Ω 2] in
 theorem fBarTuple_eq {ω : Ωˣ} (hω3 : ω ^ 3 = 1) :
     fBarTuple ω = fun j => ω ^ Tag.E6.cartan 2 j := by
   apply rootDiagUnit_injective (τ := Tag.E6)
   rw [← torusElt_eq_rootDiagUnit]
   exact fBar_eq_torusElt hω3
 
+omit [CharP Ω 2] in
 private theorem eBar_pow_coord {ω : Ωˣ} {k : ℤ} :
     (eBar (Ω := Ω) ω ^ k : ModGL Tag.E6 Ω) =
       rootDiagUnit Tag.E6 (eBarTuple ω ^ k) := by
   rw [eBar]
   exact (map_zpow (rootDiagUnitHom Tag.E6 Ω) (eBarTuple ω) k).symm
 
+omit [CharP Ω 2] in
 private theorem fBar_pow_coord {ω : Ωˣ} {m : ℤ} :
     (fBar (Ω := Ω) ω ^ m : ModGL Tag.E6 Ω) =
       rootDiagUnit Tag.E6 (fBarTuple ω ^ m) := by
   rw [fBar]
   exact (map_zpow (rootDiagUnitHom Tag.E6 Ω) (fBarTuple ω) m).symm
 
+omit [CharP Ω 2] in
 theorem disjoint_zpowers_eBar_fBar {ω : Ωˣ} (hω3 : ω ^ 3 = 1) (hω : orderOf ω = 3) :
     Subgroup.zpowers (eBar (Ω := Ω) ω) ⊓ Subgroup.zpowers (fBar (Ω := Ω) ω) = ⊥ := by
   rw [eq_bot_iff]
@@ -353,6 +367,7 @@ private theorem closure_pair_eq_sup {G : Type*} [Group G] (a b : G) :
     exact ⟨Subgroup.zpowers_le.2 (Subgroup.subset_closure (Set.mem_insert _ _)),
       Subgroup.zpowers_le.2 (Subgroup.subset_closure (Set.mem_insert_of_mem _ rfl))⟩
 
+omit [CharP Ω 2] in
 theorem card_closure_eBar_fBar {ω : Ωˣ} (hω3 : ω ^ 3 = 1) (hω : orderOf ω = 3) :
     Nat.card (Subgroup.closure
       ({eBar (Ω := Ω) ω, fBar (Ω := Ω) ω} : Set (ModGL Tag.E6 Ω))) = 9 := by

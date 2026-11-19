@@ -15,7 +15,7 @@ namespace K21bSyl3Proof
 theorem no_elemAbelian_of_orderOf_nine {P : Type} [Group P] [Finite P]
     (hcard : ∃ k : ℕ, ¬ 3 ∣ k ∧ Nat.card P = 9 * k) (hg : ∃ g : P, orderOf g = 9)
     (E : Subgroup P) (hE : CFSG.Open.IsElemAbelian 3 E) (hc : Nat.card E = 9) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, hk3, hPk⟩ := hcard
   obtain ⟨g, hg9⟩ := hg
   have hCc : Nat.card (Subgroup.zpowers g) = 9 := by rw [Nat.card_zpowers, hg9]

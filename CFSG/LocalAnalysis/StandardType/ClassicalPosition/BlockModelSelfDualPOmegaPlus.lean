@@ -192,14 +192,14 @@ private lemma bmsdop_even_rank_of_selfAdjoint_idem {ι F : Type} [Fintype ι] [D
 
 private theorem bmsdop_block_idem_and_degree
     (k f : ℕ) (S : Set (GL (Fin (k + 3) ⊕ Fin (k + 3)) (GaloisField 2 f)))
-    (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {e : Matrix (Fin (k + 3) ⊕ Fin (k + 3)) (Fin (k + 3) ⊕ Fin (k + 3)) (GaloisField 2 f)}
     (he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
     (hadj : formAdj (RingHom.id (GaloisField 2 f))
       (LinearMap.toMatrix₂' (GaloisField 2 f)
       (QuadraticMap.polarBilin (Spin.quadPlus (k + 3) (GaloisField 2 f)))) e = e)
       (hdeg : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 2)
-    (hnm : ¬
+    (_hnm : ¬
       (e.rank = 4 ∧ ∀ x y : (Fin (k + 3) ⊕ Fin (k + 3)) → (GaloisField 2 f), Matrix.mulVec e x = x →
       Matrix.mulVec e y = y →
       (Spin.quadPlus (k + 3) (GaloisField 2 f)) x = 0 → (Spin.quadPlus (k + 3) (GaloisField 2 f)) y
@@ -506,7 +506,7 @@ private noncomputable abbrev bmsdop_Ge (k f : ℕ)
     Subgroup ↥(spinGroup (bmsdop_Q k f)) :=
   glBlockCentralizer (Spin.spinMatrix (bmsdop_Q k f)) S e
 
-private def bmsdop_ExtProps (k f : ℕ) (S : Set (GL (Fin (k + 3) ⊕ Fin (k + 3))
+private def bmsdop_ExtProps (k f : ℕ) (_S : Set (GL (Fin (k + 3) ⊕ Fin (k + 3))
       (GaloisField 2 f)))
     (e : Matrix (Fin (k + 3) ⊕ Fin (k + 3)) (Fin (k + 3) ⊕ Fin (k + 3)) (GaloisField 2 f))
     {Vstd : Type} [AddCommGroup Vstd] [Module (GaloisField 2 f) Vstd]
@@ -624,7 +624,7 @@ private abbrev bmsdop_V (k f : ℕ) := (Fin (k + 3) ⊕ Fin (k + 3)) → GaloisF
 private noncomputable def bmsdop_glueG (k f : ℕ)
     (S : Set (GL (Fin (k + 3) ⊕ Fin (k + 3)) (GaloisField 2 f)))
     {e : Matrix (Fin (k + 3) ⊕ Fin (k + 3)) (Fin (k + 3) ⊕ Fin (k + 3)) (GaloisField 2 f)}
-    (h1 : bmsdop_geom₁ k f S e)
+    (_h1 : bmsdop_geom₁ k f S e)
     {Vstd : Type} [AddCommGroup Vstd] [Module (GaloisField 2 f) Vstd]
     (θ : Vstd ≃ₗ[GaloisField 2 f] ↥(bmsdop_W k f e))
     (g : Vstd ≃ₗ[GaloisField 2 f] Vstd) :
@@ -654,7 +654,7 @@ private lemma bmsdop_glueG_mul (k f : ℕ)
     bmsdop_glueG k f S h1 θ (g * h) =
       bmsdop_glueG k f S h1 θ g * bmsdop_glueG k f S h1 θ h := by
   ext x <;> simp only [bmsdop_glueG, LinearEquiv.prodCongr_apply, LinearEquiv.trans_apply,
-    LinearEquiv.mul_apply, LinearEquiv.symm_apply_apply, LinearEquiv.refl_apply, Prod.mk.eta]
+    LinearEquiv.mul_apply, LinearEquiv.symm_apply_apply, LinearEquiv.refl_apply]
 
 private noncomputable def bmsdop_glueFun (k f : ℕ)
     (S : Set (GL (Fin (k + 3) ⊕ Fin (k + 3)) (GaloisField 2 f)))
@@ -1031,7 +1031,7 @@ private lemma bmsdop_glue_omegaGroup (k f : ℕ)
 private lemma bmsdop_ext_apply (k f : ℕ)
     (S : Set (GL (Fin (k + 3) ⊕ Fin (k + 3)) (GaloisField 2 f)))
     {e : Matrix (Fin (k + 3) ⊕ Fin (k + 3)) (Fin (k + 3) ⊕ Fin (k + 3)) (GaloisField 2 f)}
-    (h1 : bmsdop_geom₁ k f S e)
+    (_h1 : bmsdop_geom₁ k f S e)
     {Vstd : Type} [AddCommGroup Vstd] [Module (GaloisField 2 f) Vstd]
     [FiniteDimensional (GaloisField 2 f) Vstd]
     (Qstd : QuadraticForm (GaloisField 2 f) Vstd)
@@ -1299,8 +1299,8 @@ private lemma bmsdop_glue_map_ge (k f : ℕ)
 private lemma bmsdop_glue_map_le (k f : ℕ)
     (S : Set (GL (Fin (k + 3) ⊕ Fin (k + 3)) (GaloisField 2 f)))
     {e : Matrix (Fin (k + 3) ⊕ Fin (k + 3)) (Fin (k + 3) ⊕ Fin (k + 3)) (GaloisField 2 f)}
-    (h1 : bmsdop_geom₁ k f S e) (h2 : bmsdop_geom₂ k f S e)
-    (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
+    (h1 : bmsdop_geom₁ k f S e) (_h2 : bmsdop_geom₂ k f S e)
+    (_hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
     (heA : e ∈ Algebra.adjoin (GaloisField 2 f) (Units.val '' S))
     {Vstd : Type} [AddCommGroup Vstd] [Module (GaloisField 2 f) Vstd]
     [FiniteDimensional (GaloisField 2 f) Vstd]
@@ -1636,7 +1636,7 @@ private lemma bmsdop_thetaIsometry_injective (k f : ℕ)
 private lemma bmsdop_spinAction_injective_of (f : ℕ) {Vstd : Type} [AddCommGroup Vstd]
     [Module (GaloisField 2 f) Vstd] [FiniteDimensional (GaloisField 2 f) Vstd]
     (Qstd : QuadraticForm (GaloisField 2 f) Vstd)
-    (hnd_std : (QuadraticMap.polarBilin Qstd).Nondegenerate)
+    (_hnd_std : (QuadraticMap.polarBilin Qstd).Nondegenerate)
     [Algebra.IsCentral (GaloisField 2 f) (CliffordAlgebra Qstd)] :
     Function.Injective (Spin.spinAction Qstd) := by
   rw [← MonoidHom.ker_eq_bot_iff]
@@ -1731,7 +1731,7 @@ private theorem bmsdop_component_eq
     (k f : ℕ) (S : Set (GL (Fin (k + 3) ⊕ Fin (k + 3)) (GaloisField 2 f)))
     {e : Matrix (Fin (k + 3) ⊕ Fin (k + 3)) (Fin (k + 3) ⊕ Fin (k + 3)) (GaloisField 2 f)}
     {J' : Subgroup ↥(spinGroup (bmsdop_Q k f))}
-    (h1 : bmsdop_geom₁ k f S e) (h2 : bmsdop_geom₂ k f S e)
+    (_h1 : bmsdop_geom₁ k f S e) (_h2 : bmsdop_geom₂ k f S e)
     {Vstd : Type} [AddCommGroup Vstd] [Module (GaloisField 2 f) Vstd]
     [FiniteDimensional (GaloisField 2 f) Vstd]
     (Qstd : QuadraticForm (GaloisField 2 f) Vstd)
@@ -1779,9 +1779,7 @@ private lemma bmsdop_eichler_coe (k f : ℕ)
         (x : bmsdop_V k f) := by
   rw [CFSG.ClassicalGroups.Orthogonal.eichler_apply,
     CFSG.ClassicalGroups.Orthogonal.eichler_apply hu huw]
-  · simp only [Submodule.coe_add, Submodule.coe_sub, Submodule.coe_smul,
-      QuadraticMap.polarBilin_comp,
-      LinearMap.compl₁₂_apply, QuadraticMap.polarBilin_apply_apply]
+  · simp only [Submodule.coe_add, Submodule.coe_sub, Submodule.coe_smul]
     rfl
   · exact hu
   · exact huw
@@ -1907,7 +1905,7 @@ private theorem bmsdop_root_siegel
     (hθ : ∀ x, (bmsdop_blockForm k f e) (θ x) = Qstd x)
     (D : UniversalRootDatum (spinGroup Qstd))
     (ι₁ : spinGroup Qstd →* spinGroup (bmsdop_Q k f))
-    (hι₁ : Function.Injective ι₁ ∧ ι₁.range = bmsdop_Ge k f S e)
+    (_hι₁ : Function.Injective ι₁ ∧ ι₁.range = bmsdop_Ge k f S e)
     (E : (Vstd ≃ₗ[GaloisField 2 f] Vstd) →*
         (bmsdop_V k f ≃ₗ[GaloisField 2 f] bmsdop_V k f))
     (hE : bmsdop_ExtProps k f S e Qstd hnd_std θ E)
@@ -2035,7 +2033,7 @@ private theorem bmsdop_closure
     (hθ : ∀ x, (bmsdop_blockForm k f e) (θ x) = Qstd x)
     (D : UniversalRootDatum (spinGroup Qstd))
     (ι₁ : spinGroup Qstd →* spinGroup (bmsdop_Q k f))
-    (hι₁ : Function.Injective ι₁ ∧ ι₁.range = bmsdop_Ge k f S e)
+    (_hι₁ : Function.Injective ι₁ ∧ ι₁.range = bmsdop_Ge k f S e)
     (E : (Vstd ≃ₗ[GaloisField 2 f] Vstd) →*
         (bmsdop_V k f ≃ₗ[GaloisField 2 f] bmsdop_V k f))
     (hE : bmsdop_ExtProps k f S e Qstd hnd_std θ E)
@@ -2255,7 +2253,7 @@ private theorem bmsdop_r3m_quasisimple
     (f : ℕ) (β γ : GaloisField 2 f)
     (hirr : ∀ s : GaloisField 2 f, s ^ 2 + β * s + γ ≠ 0) :
     IsQuasisimple (spinGroup (Spin.quadMinus 3 (GaloisField 2 f) β γ)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨f', hf'1, hfcard⟩ :=
     CFSG.AGLEmbedding.ParabHub.exists_card_eq_two_pow (GaloisField 2 f)
   have hdim : Module.finrank (GaloisField 2 f)
@@ -2395,7 +2393,7 @@ private theorem bmsdop_r3m_ambient
     rw [show a = g a₀ from rfl, ← hg k,
       CFSG.ClassicalGroups.Orthogonal.polar_map_of_mem hgO, QuadraticMap.polar_comm]
     fin_cases k <;>
-      simp only [w, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons]
+      simp only [w]
     · exact (ha₀ t).2
     · exact (ha₀ s).1
     · exact (ha₀ (!t)).2
@@ -2440,7 +2438,7 @@ private lemma bmsdop_plus_omegaGroup (f ρ : ℕ) (hρ : 3 ≤ ρ) :
 private lemma bmsdop_plus_extProps (k f : ℕ)
     (S : Set (GL (Fin (k + 3) ⊕ Fin (k + 3)) (GaloisField 2 f)))
     {e : Matrix (Fin (k + 3) ⊕ Fin (k + 3)) (Fin (k + 3) ⊕ Fin (k + 3)) (GaloisField 2 f)}
-    (h1 : bmsdop_geom₁ k f S e) (h2 : bmsdop_geom₂ k f S e) (ρ : ℕ) (hρ : 3 ≤ ρ)
+    (h1 : bmsdop_geom₁ k f S e) (h2 : bmsdop_geom₂ k f S e) (ρ : ℕ) (_hρ : 3 ≤ ρ)
     (θ : (Fin ρ ⊕ Fin ρ → GaloisField 2 f) ≃ₗ[GaloisField 2 f] ↥(bmsdop_W k f e))
     (hθ : ∀ x, (bmsdop_blockForm k f e) (θ x) = (Spin.quadPlus ρ (GaloisField 2 f)) x) :
     bmsdop_ExtProps k f S e (Spin.quadPlus ρ (GaloisField 2 f))
@@ -2461,7 +2459,7 @@ private theorem bmsdop_plus_embedding (k f : ℕ)
     (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
     (heA : e ∈ Algebra.adjoin (GaloisField 2 f) (Units.val '' S))
     (hJe : IsComponentOf J' ⁅bmsdop_Ge k f S e, bmsdop_Ge k f S e⁆)
-    (ρ : ℕ) (hρ : 3 ≤ ρ) (hrank : e.rank = 2 * ρ)
+    (ρ : ℕ) (hρ : 3 ≤ ρ) (_hrank : e.rank = 2 * ρ)
     (θ : (Fin ρ ⊕ Fin ρ → GaloisField 2 f) ≃ₗ[GaloisField 2 f] ↥(bmsdop_W k f e))
     (hθ : ∀ x, (bmsdop_blockForm k f e) (θ x) = (Spin.quadPlus ρ (GaloisField 2 f)) x) :
     ∃ (ι₁ : spinGroup (Spin.quadPlus ρ (GaloisField 2 f)) →* ↥(spinGroup (bmsdop_Q k f))),
@@ -2471,7 +2469,7 @@ private theorem bmsdop_plus_embedding (k f : ℕ)
       (∀ y, ι₁ y ∈ Subgroup.center ↥(spinGroup (bmsdop_Q k f)) →
         y ∈ Subgroup.center (spinGroup (Spin.quadPlus ρ (GaloisField 2 f)))) ∧
       J' = bmsdop_Ge k f S e := by
-  haveI : Algebra.IsCentral (GaloisField 2 f)
+  have : Algebra.IsCentral (GaloisField 2 f)
       (CliffordAlgebra (Spin.quadPlus ρ (GaloisField 2 f))) :=
     Spin.isCentral_cliffordAlgebra_quadPlus (GaloisField 2 f) ρ
   have hE : bmsdop_ExtProps k f S e (Spin.quadPlus ρ (GaloisField 2 f))
@@ -2640,7 +2638,7 @@ private lemma bmsdop_minus_range_of_four (ρ f : ℕ) (hρ : 4 ≤ ρ) (β γ : 
         (K := GaloisField 2 f) hirr hρ hg)
 
 private lemma bmsdop_minus_frame (f ρ : ℕ) (hρ : 3 ≤ ρ) (β γ : GaloisField 2 f)
-    (hirr : ∀ s : GaloisField 2 f, s ^ 2 + β * s + γ ≠ 0) :
+    (_hirr : ∀ s : GaloisField 2 f, s ^ 2 + β * s + γ ≠ 0) :
     ∃ a₁ a₂ b₁ b₂ : (Fin (ρ - 1) ⊕ Fin (ρ - 1) ⊕ Fin 2 → GaloisField 2 f),
       ((Spin.quadMinus ρ (GaloisField 2 f) β γ) a₁ = 0 ∧
         (Spin.quadMinus ρ (GaloisField 2 f) β γ) a₂ = 0 ∧
@@ -2678,7 +2676,7 @@ private theorem bmsdop_minus_model_data (k f : ℕ)
     (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
     (heA : e ∈ Algebra.adjoin (GaloisField 2 f) (Units.val '' S))
     (hJe : IsComponentOf J' ⁅bmsdop_Ge k f S e, bmsdop_Ge k f S e⁆)
-    (ρ : ℕ) (hρ : 3 ≤ ρ) (hrank : e.rank = 2 * ρ) (hf : 1 ≤ f)
+    (ρ : ℕ) (hρ : 3 ≤ ρ) (_hrank : e.rank = 2 * ρ) (_hf : 1 ≤ f)
     (β γ : GaloisField 2 f) (hirr : ∀ s : GaloisField 2 f, s ^ 2 + β * s + γ ≠ 0)
     (hq : IsQuasisimple (spinGroup (Spin.quadMinus ρ (GaloisField 2 f) β γ)))
     (hΩ : (Spin.spinAction (Spin.quadMinus ρ (GaloisField 2 f) β γ)).range =
@@ -2709,7 +2707,7 @@ private theorem bmsdop_minus_model_data (k f : ℕ)
           (Spin.spinAction (bmsdop_Q k f)) = siegelGroup (bmsdop_Q k f) b₁ b₂) := by
   have hnd_std : (QuadraticMap.polarBilin (Spin.quadMinus ρ (GaloisField 2 f) β γ)).Nondegenerate :=
     Spin.nondegenerate_polarBilin_quadMinus_of_finite ρ (GaloisField 2 f) hirr
-  haveI : Algebra.IsCentral (GaloisField 2 f)
+  have : Algebra.IsCentral (GaloisField 2 f)
       (CliffordAlgebra (Spin.quadMinus ρ (GaloisField 2 f) β γ)) :=
     Spin.isCentral_cliffordAlgebra_quadMinus ρ β γ hirr
   have hE : bmsdop_ExtProps k f S e (Spin.quadMinus ρ (GaloisField 2 f) β γ) hnd_std θ
@@ -2809,7 +2807,7 @@ private lemma bmsdop_plus_hext (f ρ : ℕ) (hρ : 3 ≤ ρ) :
     intro c d hcd
     have hc : c = 0 := by
       have h := congrArg (QuadraticMap.polarBilin Q (Fr.vec i0 true)) hcd
-      simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul,
+      simp only [map_add, map_smul, smul_eq_mul,
         map_zero] at h
       rw [QuadraticMap.polarBilin_apply_apply, QuadraticMap.polarBilin_apply_apply] at h
       rw [Fr.polar_vec_of_ne hij true false, QuadraticMap.polar_comm] at h
@@ -2818,7 +2816,7 @@ private lemma bmsdop_plus_hext (f ρ : ℕ) (hρ : 3 ≤ ρ) :
       simpa using h
     have hd : d = 0 := by
       have h := congrArg (QuadraticMap.polarBilin Q (Fr.vec i1 true)) hcd
-      simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul,
+      simp only [map_add, map_smul, smul_eq_mul,
         map_zero] at h
       rw [QuadraticMap.polarBilin_apply_apply, QuadraticMap.polarBilin_apply_apply] at h
       rw [Fr.polar_vec_of_ne hij.symm true false, QuadraticMap.polar_comm] at h
@@ -2832,8 +2830,7 @@ private lemma bmsdop_plus_hext (f ρ : ℕ) (hρ : 3 ≤ ρ) :
     (by
       intro i
       fin_cases i <;>
-        simp [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, Fr.map_vec,
-          hQ₁, hQ₂])
+        simp [Matrix.cons_val_zero, Matrix.cons_val_one, hQ₁, hQ₂])
     (by
       intro i j
       fin_cases i <;> fin_cases j
@@ -2907,7 +2904,7 @@ private lemma bmsdop_minus_hext (f ρ : ℕ) (hρ : 3 ≤ ρ) (β γ : GaloisFie
     intro c d hcd
     have hc : c = 0 := by
       have h := congrArg (QuadraticMap.polarBilin Q (Fr.vec i0 true)) hcd
-      simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul,
+      simp only [map_add, map_smul, smul_eq_mul,
         map_zero] at h
       rw [QuadraticMap.polarBilin_apply_apply, QuadraticMap.polarBilin_apply_apply] at h
       rw [Fr.polar_vec_of_ne hij true false, QuadraticMap.polar_comm] at h
@@ -2916,7 +2913,7 @@ private lemma bmsdop_minus_hext (f ρ : ℕ) (hρ : 3 ≤ ρ) (β γ : GaloisFie
       simpa using h
     have hd : d = 0 := by
       have h := congrArg (QuadraticMap.polarBilin Q (Fr.vec i1 true)) hcd
-      simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul,
+      simp only [map_add, map_smul, smul_eq_mul,
         map_zero] at h
       rw [QuadraticMap.polarBilin_apply_apply, QuadraticMap.polarBilin_apply_apply] at h
       rw [Fr.polar_vec_of_ne hij.symm true false, QuadraticMap.polar_comm] at h
@@ -2931,8 +2928,7 @@ private lemma bmsdop_minus_hext (f ρ : ℕ) (hρ : 3 ≤ ρ) (β γ : GaloisFie
     (by
       intro i
       fin_cases i <;>
-        simp [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, Fr.map_vec,
-          hQ₁, hQ₂])
+        simp [Matrix.cons_val_zero, Matrix.cons_val_one, hQ₁, hQ₂])
     (by
       intro i j
       fin_cases i <;> fin_cases j
@@ -3014,12 +3010,12 @@ private lemma bmsdop_r2_degenerate (k f : ℕ)
     rw [Module.finrank_fintype_fun_eq_card, Fintype.card_sum, Fintype.card_fin]
   have hplus_std : CFSG.GroupTheory.WeirSylow.IsPlusType Qstd :=
     CFSG.GroupTheory.WeirSylow.isPlusType_quadPlus (GaloisField 2 f) 2
-  haveI : Group.IsSolvable ↥(TauCeti.QuadraticMap.orthogonalGroup Qstd) :=
+  have : Group.IsSolvable ↥(TauCeti.QuadraticMap.orthogonalGroup Qstd) :=
     CFSG.LocalAnalysis.GLTheoremA.T123CB.isSolvable_orthogonalGroup_of_card_two_of_plus
       Qstd hnd_std hcard hfin_std hplus_std
-  haveI : Group.IsSolvable
+  have : Group.IsSolvable
       ↥(CFSG.RankThree.OrthogonalInvolutions.omegaGroup Qstd hnd_std) :=
-    solvable_of_solvable_injective
+    Group.isSolvable_of_isSolvable_injective
       (Subgroup.inclusion_injective
         (CFSG.RankThree.OrthogonalInvolutions.omegaGroup_le Qstd hnd_std))
   have hsolvΩE : Group.IsSolvable
@@ -3038,21 +3034,21 @@ private lemma bmsdop_r2_degenerate (k f : ℕ)
         (bmsdop_Ge k f S e).map (Spin.spinAction (bmsdop_Q k f)) := by
       simp only [φ, MonoidHom.range_comp, Subgroup.range_subtype]
     exact hφrange.trans hmap
-  haveI : Group.IsSolvable ↥φ.range := by
+  have : Group.IsSolvable ↥φ.range := by
     rw [hrange]
     exact hsolvΩE
-  haveI : Group.IsSolvable ↥(bmsdop_Ge k f S e) :=
-    solvable_of_solvable_injective (MonoidHom.ofInjective hφinj).injective
-  haveI : Group.IsSolvable ↥⁅bmsdop_Ge k f S e, bmsdop_Ge k f S e⁆ :=
-    solvable_of_solvable_injective
+  have : Group.IsSolvable ↥(bmsdop_Ge k f S e) :=
+    Group.isSolvable_of_isSolvable_injective (MonoidHom.ofInjective hφinj).injective
+  have : Group.IsSolvable ↥⁅bmsdop_Ge k f S e, bmsdop_Ge k f S e⁆ :=
+    Group.isSolvable_of_isSolvable_injective
       (Subgroup.inclusion_injective (Subgroup.commutator_le_self (bmsdop_Ge k f S e)))
   have hsolvJ : Group.IsSolvable ↥J' :=
-    solvable_of_solvable_injective (Subgroup.inclusion_injective hJe.1)
+    Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hJe.1)
   have hperf : Group.IsPerfect ↥J' := (Group.isPerfect_def).mpr hJe.2.2.1
   have hsub : Subsingleton ↥J' :=
     CFSG.RankThree.PartTwo.Sec21.subsingleton_of_isPerfect_of_isSolvable hperf hsolvJ
-  haveI hsubI : Subsingleton ↥J' := hsub
-  haveI : Nontrivial (↥J' ⧸ Subgroup.center ↥J') := (isSimpleGroup_iff _).mp hJe.2.2.2 |>.1
+  have hsubI : Subsingleton ↥J' := hsub
+  have : Nontrivial (↥J' ⧸ Subgroup.center ↥J') := (isSimpleGroup_iff _).mp hJe.2.2.2 |>.1
   exact not_subsingleton (↥J' ⧸ Subgroup.center ↥J') inferInstance
 
 private lemma bmsdop_r2_restrict (k f : ℕ)
@@ -3062,7 +3058,7 @@ private lemma bmsdop_r2_restrict (k f : ℕ)
     (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
     (heA : e ∈ Algebra.adjoin (GaloisField 2 f) (Units.val '' S))
     (θ : (Fin 2 ⊕ Fin 2 → GaloisField 2 f) ≃ₗ[GaloisField 2 f] ↥(bmsdop_W k f e))
-    (hθ : ∀ x, (bmsdop_blockForm k f e) (θ x) = (Spin.quadPlus 2 (GaloisField 2 f)) x)
+    (_hθ : ∀ x, (bmsdop_blockForm k f e) (θ x) = (Spin.quadPlus 2 (GaloisField 2 f)) x)
     (E : ((Fin 2 ⊕ Fin 2 → GaloisField 2 f) ≃ₗ[GaloisField 2 f]
         (Fin 2 ⊕ Fin 2 → GaloisField 2 f)) →*
         (bmsdop_V k f ≃ₗ[GaloisField 2 f] bmsdop_V k f))
@@ -3517,8 +3513,7 @@ private lemma bmsdop_r2_swEquiv_eq (f : ℕ)
   simp only [CFSG.RankThree.GF2n.Smith81.FourPlus.swEquiv,
     CFSG.RankThree.GF2n.Smith81.D2.pairEquiv_apply, LinearEquiv.trans_apply,
     LinearEquiv.mul_apply, bmsdop_r2_rhoLFun_apply, bmsdop_r2_rhoRFun_apply,
-    LinearEquiv.apply_symm_apply, Matrix.SpecialLinearGroup.coe_inv,
-    Matrix.SpecialLinearGroup.coe_transpose, inv_inv, Matrix.mul_assoc]
+    LinearEquiv.apply_symm_apply, Matrix.SpecialLinearGroup.coe_transpose, inv_inv, Matrix.mul_assoc]
 
 private lemma bmsdop_r2_sl_eq_one_of_central (f : ℕ)
     (a : Matrix.SpecialLinearGroup (Fin 2) (GaloisField 2 f))
@@ -3626,8 +3621,7 @@ private lemma bmsdop_r2_split (f : ℕ)
       obtain ⟨y, hy⟩ := (bmsdop_r2_kappa f).surjective M
       have h2 := congrArg (fun e : (Fin 2 ⊕ Fin 2 → GaloisField 2 f) ≃ₗ[GaloisField 2 f]
           (Fin 2 ⊕ Fin 2 → GaloisField 2 f) => e y) h1
-      simp only [bmsdop_r2_rhoLFun_apply, bmsdop_r2_rhoRFun_apply,
-        LinearEquiv.apply_symm_apply] at h2
+      simp only [bmsdop_r2_rhoLFun_apply, bmsdop_r2_rhoRFun_apply] at h2
       have h2' := (bmsdop_r2_kappa f).symm.injective h2
       rw [← hab, hy] at h2'
       exact h2'
@@ -3748,33 +3742,33 @@ private lemma bmsdop_r2_frame_orth (f : ℕ) :
         (bmsdop_r2_e12 f) (bmsdop_r2_e22 f) = 0) := by
   refine ⟨⟨?_, ?_, ?_, ?_⟩, ?_, ?_, ⟨?_, ?_, ?_, ?_⟩⟩
   · rw [← bmsdop_r2_kappa_det, bmsdop_r2_e11, LinearEquiv.apply_symm_apply,
-      ]; simp [Matrix.det_fin_two, CharTwo.neg_eq]
+      ]; simp [Matrix.det_fin_two]
   · rw [← bmsdop_r2_kappa_det, bmsdop_r2_e12, LinearEquiv.apply_symm_apply,
-      ]; simp [Matrix.det_fin_two, CharTwo.neg_eq]
+      ]; simp [Matrix.det_fin_two]
   · rw [← bmsdop_r2_kappa_det, bmsdop_r2_e22, LinearEquiv.apply_symm_apply,
-      ]; simp [Matrix.det_fin_two, CharTwo.neg_eq]
+      ]; simp [Matrix.det_fin_two]
   · rw [← bmsdop_r2_kappa_det, bmsdop_r2_e21, LinearEquiv.apply_symm_apply,
-      ]; simp [Matrix.det_fin_two, CharTwo.neg_eq]
+      ]; simp [Matrix.det_fin_two]
   · rw [bmsdop_r2_kappa_polar, bmsdop_r2_e11, bmsdop_r2_e22, LinearEquiv.apply_symm_apply]
-    simp [Matrix.det_fin_two, CharTwo.neg_eq]
+    simp [Matrix.det_fin_two]
   · rw [bmsdop_r2_kappa_polar, bmsdop_r2_e12, bmsdop_r2_e21, LinearEquiv.apply_symm_apply]
     simp [Matrix.det_fin_two, CharTwo.neg_eq]
   · rw [bmsdop_r2_kappa_polar, bmsdop_r2_e11, bmsdop_r2_e12, LinearEquiv.apply_symm_apply]
-    simp [Matrix.det_fin_two, CharTwo.neg_eq]
+    simp [Matrix.det_fin_two]
   · rw [bmsdop_r2_kappa_polar, bmsdop_r2_e22, bmsdop_r2_e21, LinearEquiv.apply_symm_apply]
-    simp [Matrix.det_fin_two, CharTwo.neg_eq]
+    simp [Matrix.det_fin_two]
   · rw [bmsdop_r2_kappa_polar, bmsdop_r2_e11, bmsdop_r2_e21, LinearEquiv.apply_symm_apply]
-    simp [Matrix.det_fin_two, CharTwo.neg_eq]
+    simp [Matrix.det_fin_two]
   · rw [bmsdop_r2_kappa_polar, bmsdop_r2_e12, bmsdop_r2_e22, LinearEquiv.apply_symm_apply]
-    simp [Matrix.det_fin_two, CharTwo.neg_eq]
+    simp [Matrix.det_fin_two]
 
 private lemma bmsdop_r2_polar_e11 (f : ℕ) (x : Fin 2 ⊕ Fin 2 → GaloisField 2 f) :
     QuadraticMap.polar (Spin.quadPlus 2 (GaloisField 2 f)) x (bmsdop_r2_e11 f) =
       ((bmsdop_r2_kappa f) x) 1 1 := by
   rw [bmsdop_r2_kappa_polar, bmsdop_r2_e11, LinearEquiv.apply_symm_apply]
   simp only [Matrix.det_fin_two, Matrix.of_apply, Matrix.add_apply, Matrix.cons_val_zero,
-    Matrix.cons_val_one, Matrix.cons_val', Matrix.head_cons, Matrix.empty_val',
-    Matrix.cons_val_fin_one, Matrix.zero_apply]
+    Matrix.cons_val_one, Matrix.cons_val', Matrix.empty_val',
+    Matrix.cons_val_fin_one]
   ring
 
 private lemma bmsdop_r2_polar_e12 (f : ℕ) (x : Fin 2 ⊕ Fin 2 → GaloisField 2 f) :
@@ -3782,8 +3776,8 @@ private lemma bmsdop_r2_polar_e12 (f : ℕ) (x : Fin 2 ⊕ Fin 2 → GaloisField
       -((bmsdop_r2_kappa f) x) 1 0 := by
   rw [bmsdop_r2_kappa_polar, bmsdop_r2_e12, LinearEquiv.apply_symm_apply]
   simp only [Matrix.det_fin_two, Matrix.of_apply, Matrix.add_apply, Matrix.cons_val_zero,
-    Matrix.cons_val_one, Matrix.cons_val', Matrix.head_cons, Matrix.empty_val',
-    Matrix.cons_val_fin_one, Matrix.zero_apply]
+    Matrix.cons_val_one, Matrix.cons_val', Matrix.empty_val',
+    Matrix.cons_val_fin_one]
   ring
 
 private lemma bmsdop_r2_polar_e22 (f : ℕ) (x : Fin 2 ⊕ Fin 2 → GaloisField 2 f) :
@@ -3791,8 +3785,8 @@ private lemma bmsdop_r2_polar_e22 (f : ℕ) (x : Fin 2 ⊕ Fin 2 → GaloisField
       ((bmsdop_r2_kappa f) x) 0 0 := by
   rw [bmsdop_r2_kappa_polar, bmsdop_r2_e22, LinearEquiv.apply_symm_apply]
   simp only [Matrix.det_fin_two, Matrix.of_apply, Matrix.add_apply, Matrix.cons_val_zero,
-    Matrix.cons_val_one, Matrix.cons_val', Matrix.head_cons, Matrix.empty_val',
-    Matrix.cons_val_fin_one, Matrix.zero_apply]
+    Matrix.cons_val_one, Matrix.cons_val', Matrix.empty_val',
+    Matrix.cons_val_fin_one]
   ring
 
 private lemma bmsdop_r2_polar_e21 (f : ℕ) (x : Fin 2 ⊕ Fin 2 → GaloisField 2 f) :
@@ -3800,8 +3794,8 @@ private lemma bmsdop_r2_polar_e21 (f : ℕ) (x : Fin 2 ⊕ Fin 2 → GaloisField
       -((bmsdop_r2_kappa f) x) 0 1 := by
   rw [bmsdop_r2_kappa_polar, bmsdop_r2_e21, LinearEquiv.apply_symm_apply]
   simp only [Matrix.det_fin_two, Matrix.of_apply, Matrix.add_apply, Matrix.cons_val_zero,
-    Matrix.cons_val_one, Matrix.cons_val', Matrix.head_cons, Matrix.empty_val',
-    Matrix.cons_val_fin_one, Matrix.zero_apply]
+    Matrix.cons_val_one, Matrix.cons_val', Matrix.empty_val',
+    Matrix.cons_val_fin_one]
   ring
 
 private lemma bmsdop_r2_eichler_left (f : ℕ) (c : GaloisField 2 f) :
@@ -3824,7 +3818,7 @@ private lemma bmsdop_r2_eichler_left (f : ℕ) (c : GaloisField 2 f) :
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [Matrix.mul_apply, Matrix.add_apply, Matrix.single_apply, Matrix.one_apply,
-      Fin.sum_univ_two, bmsdop_r2_e11, bmsdop_r2_e12, LinearEquiv.apply_symm_apply] <;> ring_nf
+      Fin.sum_univ_two, bmsdop_r2_e11, bmsdop_r2_e12, LinearEquiv.apply_symm_apply]; ring_nf
 
 private noncomputable def bmsdop_r2_i0 (f : ℕ) :
     Fin (SpecialLinear.rootDatum 1 (GaloisField 2 f)).rank :=
@@ -3836,7 +3830,7 @@ private lemma bmsdop_r2_root_mem (f : ℕ) :
   simp
 
 private lemma bmsdop_r2_root_long (f : ℕ)
-    (hcard : Nat.card (GaloisField 2 f) ≠ 2) :
+    (_hcard : Nat.card (GaloisField 2 f) ≠ 2) :
     GGLongRoot (SpecialLinear.rootDatum 1 (GaloisField 2 f))
       (Pi.single (bmsdop_r2_i0 f) 1) := by
   refine ⟨1, Pi.single (bmsdop_r2_i0 f) 1, bmsdop_r2_root_mem f, ?_, ?_⟩
@@ -3877,7 +3871,7 @@ private lemma bmsdop_r2_eichler_right (f : ℕ) (c : GaloisField 2 f) :
       sub_eq_add_neg, CharTwo.neg_eq] <;> ring_nf
 
 private lemma bmsdop_r2_rootGroup_upper (f : ℕ)
-    (hcard : Nat.card (GaloisField 2 f) ≠ 2) :
+    (_hcard : Nat.card (GaloisField 2 f) ≠ 2) :
     ((SpecialLinear.rootDatum 1 (GaloisField 2 f)).rootGroup (Pi.single (bmsdop_r2_i0 f) 1)).map
         ((Subgroup.subtype (CFSG.RankThree.OrthogonalInvolutions.omegaGroup (Spin.quadPlus 2
             (GaloisField 2 f))
@@ -3898,18 +3892,16 @@ private lemma bmsdop_r2_rootGroup_upper (f : ℕ)
   constructor
   · rintro ⟨c, -, rfl⟩
     refine ⟨Multiplicative.toAdd c, ?_⟩
-    simp only [MonoidHom.comp_apply, Matrix.SpecialLinearGroup.transvectionHom_apply,
-      bmsdop_r2_rhoLFun_apply, LinearEquiv.apply_symm_apply]
+    simp only [MonoidHom.comp_apply, Matrix.SpecialLinearGroup.transvectionHom_apply]
     exact (bmsdop_r2_eichler_left f (Multiplicative.toAdd c)).symm
   · rintro ⟨c, rfl⟩
     refine ⟨Multiplicative.ofAdd c, trivial, ?_⟩
-    simp only [MonoidHom.comp_apply, Matrix.SpecialLinearGroup.transvectionHom_apply,
-      bmsdop_r2_rhoLFun_apply, LinearEquiv.apply_symm_apply]
+    simp only [MonoidHom.comp_apply, Matrix.SpecialLinearGroup.transvectionHom_apply]
     rw [show Multiplicative.toAdd (Multiplicative.ofAdd c) = c from rfl]
     exact (bmsdop_r2_eichler_left f c).symm
 
 private lemma bmsdop_r2_rootGroup_lower (f : ℕ)
-    (hcard : Nat.card (GaloisField 2 f) ≠ 2) :
+    (_hcard : Nat.card (GaloisField 2 f) ≠ 2) :
     ((SpecialLinear.rootDatum 1 (GaloisField 2 f)).rootGroup (-Pi.single (bmsdop_r2_i0 f) 1)).map
         ((Subgroup.subtype (CFSG.RankThree.OrthogonalInvolutions.omegaGroup (Spin.quadPlus 2
             (GaloisField 2 f))
@@ -3930,13 +3922,11 @@ private lemma bmsdop_r2_rootGroup_lower (f : ℕ)
   constructor
   · rintro ⟨c, -, rfl⟩
     refine ⟨Multiplicative.toAdd c, ?_⟩
-    simp only [MonoidHom.comp_apply, Matrix.SpecialLinearGroup.transvectionHom_apply,
-      bmsdop_r2_rhoLFun_apply, LinearEquiv.apply_symm_apply]
+    simp only [MonoidHom.comp_apply, Matrix.SpecialLinearGroup.transvectionHom_apply]
     exact (bmsdop_r2_eichler_right f (Multiplicative.toAdd c)).symm
   · rintro ⟨c, rfl⟩
     refine ⟨Multiplicative.ofAdd c, trivial, ?_⟩
-    simp only [MonoidHom.comp_apply, Matrix.SpecialLinearGroup.transvectionHom_apply,
-      bmsdop_r2_rhoLFun_apply, LinearEquiv.apply_symm_apply]
+    simp only [MonoidHom.comp_apply, Matrix.SpecialLinearGroup.transvectionHom_apply]
     rw [show Multiplicative.toAdd (Multiplicative.ofAdd c) = c from rfl]
     exact (bmsdop_r2_eichler_right f c).symm
 
@@ -4067,10 +4057,10 @@ private lemma bmsdop_r2_eichler_R_b (f : ℕ) (c : GaloisField 2 f) :
   fin_cases i <;> fin_cases j <;>
     simp [Matrix.mul_apply, Matrix.add_apply, Matrix.single_apply, Matrix.one_apply,
       Fin.sum_univ_two, bmsdop_r2_e11, bmsdop_r2_e21, LinearEquiv.apply_symm_apply,
-      sub_eq_add_neg, CharTwo.neg_eq] <;> ring_nf
+      sub_eq_add_neg, CharTwo.neg_eq]; ring_nf
 
 private lemma bmsdop_r2_rootGroup_R_upper (f : ℕ)
-    (hcard : Nat.card (GaloisField 2 f) ≠ 2) :
+    (_hcard : Nat.card (GaloisField 2 f) ≠ 2) :
     ((SpecialLinear.rootDatum 1 (GaloisField 2 f)).rootGroup (Pi.single (bmsdop_r2_i0 f) 1)).map
         ((Subgroup.subtype (CFSG.RankThree.OrthogonalInvolutions.omegaGroup (Spin.quadPlus 2
             (GaloisField 2 f))
@@ -4091,18 +4081,16 @@ private lemma bmsdop_r2_rootGroup_R_upper (f : ℕ)
   constructor
   · rintro ⟨c, -, rfl⟩
     refine ⟨Multiplicative.toAdd c, ?_⟩
-    simp only [MonoidHom.comp_apply, Matrix.SpecialLinearGroup.transvectionHom_apply,
-      bmsdop_r2_rhoRFun_apply, LinearEquiv.apply_symm_apply]
+    simp only [MonoidHom.comp_apply, Matrix.SpecialLinearGroup.transvectionHom_apply]
     exact (bmsdop_r2_eichler_R_a f (Multiplicative.toAdd c)).symm
   · rintro ⟨c, rfl⟩
     refine ⟨Multiplicative.ofAdd c, trivial, ?_⟩
-    simp only [MonoidHom.comp_apply, Matrix.SpecialLinearGroup.transvectionHom_apply,
-      bmsdop_r2_rhoRFun_apply, LinearEquiv.apply_symm_apply]
+    simp only [MonoidHom.comp_apply, Matrix.SpecialLinearGroup.transvectionHom_apply]
     rw [show Multiplicative.toAdd (Multiplicative.ofAdd c) = c from rfl]
     exact (bmsdop_r2_eichler_R_a f c).symm
 
 private lemma bmsdop_r2_rootGroup_R_lower (f : ℕ)
-    (hcard : Nat.card (GaloisField 2 f) ≠ 2) :
+    (_hcard : Nat.card (GaloisField 2 f) ≠ 2) :
     ((SpecialLinear.rootDatum 1 (GaloisField 2 f)).rootGroup (-Pi.single (bmsdop_r2_i0 f) 1)).map
         ((Subgroup.subtype (CFSG.RankThree.OrthogonalInvolutions.omegaGroup (Spin.quadPlus 2
             (GaloisField 2 f))
@@ -4123,13 +4111,11 @@ private lemma bmsdop_r2_rootGroup_R_lower (f : ℕ)
   constructor
   · rintro ⟨c, -, rfl⟩
     refine ⟨Multiplicative.toAdd c, ?_⟩
-    simp only [MonoidHom.comp_apply, Matrix.SpecialLinearGroup.transvectionHom_apply,
-      bmsdop_r2_rhoRFun_apply, LinearEquiv.apply_symm_apply]
+    simp only [MonoidHom.comp_apply, Matrix.SpecialLinearGroup.transvectionHom_apply]
     exact (bmsdop_r2_eichler_R_b f (Multiplicative.toAdd c)).symm
   · rintro ⟨c, rfl⟩
     refine ⟨Multiplicative.ofAdd c, trivial, ?_⟩
-    simp only [MonoidHom.comp_apply, Matrix.SpecialLinearGroup.transvectionHom_apply,
-      bmsdop_r2_rhoRFun_apply, LinearEquiv.apply_symm_apply]
+    simp only [MonoidHom.comp_apply, Matrix.SpecialLinearGroup.transvectionHom_apply]
     rw [show Multiplicative.toAdd (Multiplicative.ofAdd c) = c from rfl]
     exact (bmsdop_r2_eichler_R_b f c).symm
 
@@ -4192,8 +4178,8 @@ private lemma bmsdop_r2_frame_R (f : ℕ)
 
 private def bmsdop_r2_PSLData
     (k f : ℕ)
-    (S : Set (GL (Fin (k + 3) ⊕ Fin (k + 3)) (GaloisField 2 f)))
-    (e : Matrix (Fin (k + 3) ⊕ Fin (k + 3)) (Fin (k + 3) ⊕ Fin (k + 3)) (GaloisField 2 f))
+    (_S : Set (GL (Fin (k + 3) ⊕ Fin (k + 3)) (GaloisField 2 f)))
+    (_e : Matrix (Fin (k + 3) ⊕ Fin (k + 3)) (Fin (k + 3) ⊕ Fin (k + 3)) (GaloisField 2 f))
     (J' : Subgroup ↥(spinGroup (bmsdop_Q k f))) : Prop :=
   ∃ (ι : (ggU .PSL 2 f).K →* ↥(spinGroup (bmsdop_Q k f)))
     (β₀ : Fin (ggU .PSL 2 f).D.rank → ℤ),
@@ -4216,8 +4202,8 @@ private def bmsdop_r2_PSLData
 
 private def bmsdop_r2_PSLClosureData
     (k f : ℕ)
-    (S : Set (GL (Fin (k + 3) ⊕ Fin (k + 3)) (GaloisField 2 f)))
-    (e : Matrix (Fin (k + 3) ⊕ Fin (k + 3)) (Fin (k + 3) ⊕ Fin (k + 3)) (GaloisField 2 f))
+    (_S : Set (GL (Fin (k + 3) ⊕ Fin (k + 3)) (GaloisField 2 f)))
+    (_e : Matrix (Fin (k + 3) ⊕ Fin (k + 3)) (Fin (k + 3) ⊕ Fin (k + 3)) (GaloisField 2 f))
     (J' : Subgroup ↥(spinGroup (bmsdop_Q k f))) : Prop :=
   ∃ (ι : (ggU .PSL 2 f).K →* ↥(spinGroup (bmsdop_Q k f))),
     (∀ y, ι y ∈ Subgroup.center ↥(spinGroup (bmsdop_Q k f)) →
@@ -4235,7 +4221,7 @@ private lemma bmsdop_r2_model_data_center
     (k f : ℕ)
     (S : Set (GL (Fin (k + 3) ⊕ Fin (k + 3)) (GaloisField 2 f)))
     {e : Matrix (Fin (k + 3) ⊕ Fin (k + 3)) (Fin (k + 3) ⊕ Fin (k + 3)) (GaloisField 2 f)}
-    (E : ((Fin 2 ⊕ Fin 2 → GaloisField 2 f) ≃ₗ[GaloisField 2 f]
+    (_E : ((Fin 2 ⊕ Fin 2 → GaloisField 2 f) ≃ₗ[GaloisField 2 f]
         (Fin 2 ⊕ Fin 2 → GaloisField 2 f)) →*
         (bmsdop_V k f ≃ₗ[GaloisField 2 f] bmsdop_V k f))
     (r : ↥(CFSG.RankThree.OrthogonalInvolutions.omegaGroup (Spin.quadPlus 2 (GaloisField 2 f))
@@ -4402,7 +4388,7 @@ private lemma bmsdop_r2_model_data_R
       (bmsdop_r2_e11 f) (bmsdop_r2_e21 f) hQstd.1 horth.1
 
 private lemma bmsdop_r2_model_data
-    (k f : ℕ) (hf : 1 ≤ f)
+    (k f : ℕ) (_hf : 1 ≤ f)
     (S : Set (GL (Fin (k + 3) ⊕ Fin (k + 3)) (GaloisField 2 f)))
     {e : Matrix (Fin (k + 3) ⊕ Fin (k + 3)) (Fin (k + 3) ⊕ Fin (k + 3)) (GaloisField 2 f)}
     {J' : Subgroup ↥(spinGroup (bmsdop_Q k f))}
@@ -4412,7 +4398,7 @@ private lemma bmsdop_r2_model_data
     (hJe : IsComponentOf J' ⁅bmsdop_Ge k f S e, bmsdop_Ge k f S e⁆)
     (θ : (Fin 2 ⊕ Fin 2 → GaloisField 2 f) ≃ₗ[GaloisField 2 f] ↥(bmsdop_W k f e))
     (hθ : ∀ x, (bmsdop_blockForm k f e) (θ x) = (Spin.quadPlus 2 (GaloisField 2 f)) x)
-    (hrank : e.rank = 4)
+    (_hrank : e.rank = 4)
     (hcard : Nat.card (GaloisField 2 f) ≠ 2) :
     bmsdop_r2_PSLData k f S e J' := by
   obtain ⟨E, hE⟩ := bmsdop_ext k f S h1 h2 (Spin.quadPlus 2 (GaloisField 2 f)) θ hθ
@@ -4434,21 +4420,21 @@ private lemma bmsdop_r2_rank1_decomp (f : ℕ) (A : Matrix (Fin 2) (Fin 2) (Galo
   · by_cases h01 : A 0 1 = 0
     · by_cases h10 : A 1 0 = 0
       · refine ⟨![0, 1], ![0, A 1 1], ?_⟩
-        ext i j <;> fin_cases i <;> fin_cases j <;>
+        ext i j; fin_cases i <;> fin_cases j <;>
           simp [Matrix.vecMulVec, h, h01, h10]
       · refine ⟨![0, A 1 0], ![1, (A 1 0)⁻¹ * A 1 1], ?_⟩
-        ext i j <;> fin_cases i <;> fin_cases j <;>
-          simp [Matrix.vecMulVec, h, h01, h10, inv_mul_cancel₀]
+        ext i j; fin_cases i <;> fin_cases j <;>
+          simp [Matrix.vecMulVec, h, h01, h10]
     · have h10 : A 1 0 = 0 := by
         rcases mul_eq_zero.mp (by rw [h, zero_mul] at h00; exact h00.symm) with h' | h'
         · exact absurd h' h01
         · exact h'
       refine ⟨![A 0 1, A 1 1], ![0, 1], ?_⟩
-      ext i j <;> fin_cases i <;> fin_cases j <;>
+      ext i j; fin_cases i <;> fin_cases j <;>
         simp [Matrix.vecMulVec, h, h10]
   · refine ⟨![A 0 0, A 1 0], ![1, (A 0 0)⁻¹ * A 0 1], ?_⟩
-    ext i j <;> fin_cases i <;> fin_cases j <;>
-      simp [Matrix.vecMulVec, h] <;> field_simp <;> linear_combination h00
+    ext i j; fin_cases i <;> fin_cases j <;>
+      simp [Matrix.vecMulVec, h]; field_simp; linear_combination h00
 
 private lemma bmsdop_r2_rank1_dichotomy (f : ℕ)
     (u₁ u₂ v₁ v₂ : Fin 2 → (GaloisField 2 f))
@@ -4463,13 +4449,12 @@ private lemma bmsdop_r2_rank1_dichotomy (f : ℕ)
   exact mul_eq_zero.mp h
 
 private lemma bmsdop_r2_fin2_dependent (f : ℕ) (u₁ u₂ : Fin 2 → GaloisField 2 f)
-    (h₁ : u₁ ≠ 0) (h₂ : u₂ ≠ 0)
+    (h₁ : u₁ ≠ 0) (_h₂ : u₂ ≠ 0)
     (h : (Matrix.of ![u₁, u₂]).det = 0) :
     ∃ c : GaloisField 2 f, u₂ = c • u₁ := by
   have h00 : u₁ 0 * u₂ 1 = u₁ 1 * u₂ 0 := by
     have h' := h
-    simp only [Matrix.det_fin_two, Matrix.of_apply, Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.head_cons] at h'
+    simp only [Matrix.det_fin_two, Matrix.of_apply, Matrix.cons_val_zero, Matrix.cons_val_one] at h'
     linear_combination h'
   by_cases h0 : u₁ 0 = 0
   · have h1 : u₁ 1 ≠ 0 := by
@@ -4488,10 +4473,10 @@ private lemma bmsdop_r2_fin2_dependent (f : ℕ) (u₁ u₂ : Fin 2 → GaloisFi
       linear_combination h00
 
 private lemma bmsdop_r2_lagrangian_image_or_kernel (f : ℕ)
-    (hcard : Nat.card (GaloisField 2 f) ≠ 2)
+    (_hcard : Nat.card (GaloisField 2 f) ≠ 2)
     (a₁ a₂ : Fin 2 ⊕ Fin 2 → (GaloisField 2 f))
     (ha₁ : a₁ ≠ 0) (ha₂ : a₂ ≠ 0)
-    (hlin : LinearIndependent (GaloisField 2 f) ![a₁, a₂])
+    (_hlin : LinearIndependent (GaloisField 2 f) ![a₁, a₂])
     (hQ₁ : (Spin.quadPlus 2 (GaloisField 2 f)) a₁ = 0)
     (hQ₂ : (Spin.quadPlus 2 (GaloisField 2 f)) a₂ = 0)
     (hpol : QuadraticMap.polar (Spin.quadPlus 2 (GaloisField 2 f)) a₁ a₂ = 0) :
@@ -4620,7 +4605,7 @@ private lemma bmsdop_r2_eichler_action_rank1 (f : ℕ)
   rw [CFSG.ClassicalGroups.Orthogonal.eichler_apply hQ1 hpol X]
   simp only [map_add, map_sub, map_smul, LinearEquiv.apply_symm_apply, hQ2,
     QuadraticMap.map_smul, QuadraticMap.polar_smul_right, smul_eq_mul, bmsdop_r2_polar_rank1]
-  simp only [Matrix.vecMulVec, Matrix.of_apply]
+  simp only [Matrix.vecMulVec]
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp only [Matrix.add_apply, Matrix.sub_apply, Matrix.smul_apply, Matrix.of_apply,
@@ -4654,7 +4639,7 @@ private lemma bmsdop_r2_vecMulVec_z_eq (f : ℕ)
   ext i j
   fin_cases j <;>
     simp only [Matrix.vecMulVec, Matrix.of_apply, Fin.reduceFinMk, Matrix.cons_val_zero,
-      Matrix.cons_val_one, Matrix.head_cons, Matrix.head_fin_const] <;> ring_nf
+      Matrix.cons_val_one] <;> ring_nf
 
 private lemma bmsdop_r2_eichler_eq_normalized (f : ℕ)
     (a₁ a₂ : Fin 2 ⊕ Fin 2 → (GaloisField 2 f)) (u v₁ v₂ : Fin 2 → (GaloisField 2 f))
@@ -4819,7 +4804,7 @@ private lemma bmsdop_r2_siegelGroup_family1_param (f : ℕ)
       exact hu (funext fun i => by fin_cases i <;> simp [hu0, h1])
     refine ⟨⟨!![0, -(u 1)⁻¹; u 1, 0], ?_⟩, ?_⟩
     · rw [Matrix.det_fin_two]
-      simp only [Matrix.of_apply, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons]
+      simp only [Matrix.of_apply, Matrix.cons_val_zero, Matrix.cons_val_one]
       field_simp
       ring
     · rw [ha₁', ha₂']
@@ -4834,7 +4819,7 @@ private lemma bmsdop_r2_siegelGroup_family1_param (f : ℕ)
         fin_cases i <;> simp [hu0]
   · refine ⟨⟨!![u 0, 0; u 1, (u 0)⁻¹], ?_⟩, ?_⟩
     · rw [Matrix.det_fin_two]
-      simp only [Matrix.of_apply, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons]
+      simp only [Matrix.of_apply, Matrix.cons_val_zero, Matrix.cons_val_one]
       field_simp [hu0]
       ring
     · rw [ha₁', ha₂']
@@ -4896,8 +4881,7 @@ private lemma bmsdop_r2_siegelGroup_family1 (f : ℕ)
   have hdetv := bmsdop_r2_v_det_ne_zero f a₁ a₂ u v₁ v₂ hlin ha₁ ha₂
   have hdetw : ((![1, 0] : Fin 2 → (GaloisField 2 f))) 0 * (![0, 1] : Fin 2 → (GaloisField 2 f)) 1 -
       (![1, 0] : Fin 2 → (GaloisField 2 f)) 1 * (![0, 1] : Fin 2 → (GaloisField 2 f)) 0 ≠ 0 := by
-    simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, Matrix.head_fin_const,
-      mul_one, mul_zero, sub_zero]
+    simp only [Matrix.cons_val_zero, Matrix.cons_val_one, mul_one, mul_zero, sub_zero]
     exact one_ne_zero
   obtain ⟨g, hg⟩ := bmsdop_r2_siegelGroup_family1_param f
     ((bmsdop_r2_kappa f).symm (Matrix.vecMulVec u ![1, 0]))
@@ -4916,9 +4900,9 @@ private noncomputable def bmsdop_r2_transpose (f : ℕ) :
   left_inv x := by simp [Matrix.transpose_transpose]
   right_inv x := by simp [Matrix.transpose_transpose]
   map_add' x y := by
-    simp only [map_add, Matrix.transpose_add, LinearEquiv.apply_symm_apply]
+    simp only [map_add, Matrix.transpose_add]
   map_smul' a x := by
-    simp only [map_smul, Matrix.transpose_smul, LinearEquiv.apply_symm_apply, RingHom.id_apply]
+    simp only [map_smul, Matrix.transpose_smul, RingHom.id_apply]
 
 private lemma bmsdop_r2_transpose_mem (f : ℕ) :
     bmsdop_r2_transpose f ∈ TauCeti.QuadraticMap.orthogonalGroup (Spin.quadPlus 2 (GaloisField 2 f))
@@ -5057,8 +5041,7 @@ private lemma bmsdop_r2_polar_family2_a (f : ℕ) (w : Fin 2 → (GaloisField 2 
         (Matrix.vecMulVec ![1, 0] w)) =
       (bmsdop_r2_kappa f X) 1 1 * w 0 - (bmsdop_r2_kappa f X) 1 0 * w 1 := by
   rw [bmsdop_r2_polar_rank1]
-  simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, Matrix.head_fin_const,
-    mul_one, mul_zero, add_zero, zero_mul, sub_zero]
+  simp only [Matrix.cons_val_zero, Matrix.cons_val_one, mul_one, mul_zero, sub_zero]
   ring
 
 private lemma bmsdop_r2_polar_family2_b (f : ℕ) (w : Fin 2 → (GaloisField 2 f))
@@ -5067,8 +5050,7 @@ private lemma bmsdop_r2_polar_family2_b (f : ℕ) (w : Fin 2 → (GaloisField 2 
         (Matrix.vecMulVec ![0, 1] w)) =
       (bmsdop_r2_kappa f X) 0 0 * w 1 - (bmsdop_r2_kappa f X) 0 1 * w 0 := by
   rw [bmsdop_r2_polar_rank1]
-  simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, Matrix.head_fin_const,
-    mul_one, mul_zero, add_zero, zero_mul, sub_zero]
+  simp only [Matrix.cons_val_zero, Matrix.cons_val_one, mul_one, mul_zero, sub_zero]
   ring
 
 private lemma bmsdop_r2_eichler_apply_family2 (f : ℕ) (w : Fin 2 → (GaloisField 2 f)) (c :
@@ -5093,19 +5075,17 @@ private lemma bmsdop_r2_eichler_apply_family2 (f : ℕ) (w : Fin 2 → (GaloisFi
           0 := by
     rw [QuadraticMap.polar_smul_right, QuadraticMap.polar_comm, bmsdop_r2_polar_rank1]
     simp only [LinearEquiv.apply_symm_apply, Matrix.vecMulVec, Matrix.of_apply,
-      Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, Matrix.head_fin_const,
-      mul_one, mul_zero, add_zero, zero_mul, sub_zero]
+      Matrix.cons_val_zero, Matrix.cons_val_one, mul_one, mul_zero, zero_mul, sub_zero]
     ring
   rw [CFSG.ClassicalGroups.Orthogonal.eichler_apply hQ hpol X]
   simp only [map_add, map_sub, map_smul, LinearEquiv.apply_symm_apply, hQ2,
     QuadraticMap.map_smul, QuadraticMap.polar_smul_right, smul_eq_mul]
   rw [bmsdop_r2_polar_family2_a, bmsdop_r2_polar_family2_b]
-  simp only [Matrix.vecMulVec, Matrix.of_apply]
+  simp only [Matrix.vecMulVec]
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp only [Matrix.add_apply, Matrix.sub_apply, Matrix.smul_apply, Matrix.of_apply,
-      Fin.reduceFinMk, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
-      Matrix.head_fin_const] <;> ring_nf
+      Fin.reduceFinMk, Matrix.cons_val_zero, Matrix.cons_val_one] <;> ring_nf
 
 private lemma bmsdop_r2_matrix_identity_family2 (f : ℕ) (w : Fin 2 → (GaloisField 2 f)) (c :
     (GaloisField 2 f))
@@ -5118,8 +5098,7 @@ private lemma bmsdop_r2_matrix_identity_family2 (f : ℕ) (w : Fin 2 → (Galois
   fin_cases i <;> fin_cases j <;>
     simp only [Matrix.add_apply, Matrix.sub_apply, Matrix.smul_apply, Matrix.mul_apply,
       Matrix.one_apply, Matrix.vecMulVec, Matrix.of_apply, Fin.sum_univ_two,
-      Fin.reduceFinMk, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
-      Matrix.head_fin_const, sub_eq_add_neg, CharTwo.neg_eq] <;> norm_num <;> ring_nf
+      Fin.reduceFinMk, Matrix.cons_val_zero, Matrix.cons_val_one, sub_eq_add_neg, CharTwo.neg_eq] <;> norm_num <;> ring_nf
 
 private lemma bmsdop_r2_kappa_eichler_family2 (f : ℕ) (w : Fin 2 → (GaloisField 2 f)) (c :
     (GaloisField 2 f))
@@ -5140,8 +5119,8 @@ private lemma bmsdop_r2_family2_sq (f : ℕ) (w : Fin 2 → (GaloisField 2 f)) (
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp only [Matrix.mul_apply, Matrix.add_apply, Matrix.one_apply, Matrix.smul_apply,
-      Matrix.zero_apply, Fin.sum_univ_two, Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.head_cons, Matrix.head_fin_const, Matrix.of_apply, Fin.reduceFinMk] <;>
+      Fin.sum_univ_two, Matrix.cons_val_zero, Matrix.cons_val_one,
+      Matrix.of_apply, Fin.reduceFinMk] <;>
     norm_num <;> ring_nf <;>
     rw [show (2 : GaloisField 2 f) = 0 from CharP.cast_eq_zero _ 2, mul_zero] <;> ring
 
@@ -5151,9 +5130,8 @@ private lemma bmsdop_r2_family2_det (f : ℕ) (w : Fin 2 → (GaloisField 2 f)) 
         f))).det = 1 := by
   rw [Matrix.det_fin_two]
   simp only [Matrix.add_apply, Matrix.one_apply, Matrix.smul_apply, Matrix.cons_val_zero,
-    Matrix.cons_val_one, Matrix.head_cons, Matrix.head_fin_const, Matrix.of_apply,
-    Fin.reduceFinMk] <;> norm_num <;> ring_nf <;>
-  rw [show (2 : GaloisField 2 f) = 0 from CharP.cast_eq_zero _ 2, mul_zero] <;> ring
+    Matrix.cons_val_one, Matrix.of_apply]; norm_num; ring_nf;
+  rw [show (2 : GaloisField 2 f) = 0 from CharP.cast_eq_zero _ 2, mul_zero]; ring
 
 private lemma bmsdop_r2_family2_eichler_mem_rhoR (f : ℕ) (w : Fin 2 → (GaloisField 2 f)) (c :
     (GaloisField 2 f)) :
@@ -5233,13 +5211,11 @@ private lemma bmsdop_r2_family2_M_ne_zero (f : ℕ) (w : Fin 2 → (GaloisField 
   intro hM
   have h1 : w 1 = 0 := by
     have h := congrFun (congrFun hM 0) 1
-    simp only [Matrix.zero_apply, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
-      Matrix.of_apply] at h
+    simp only [Matrix.zero_apply, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.of_apply] at h
     exact mul_self_eq_zero.mp h
   have h0 : w 0 = 0 := by
     have h := congrFun (congrFun hM 1) 0
-    simp only [Matrix.zero_apply, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
-      Matrix.of_apply] at h
+    simp only [Matrix.zero_apply, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.of_apply] at h
     exact mul_self_eq_zero.mp h
   exact hw (funext fun i => by fin_cases i <;> simp [h0, h1])
 
@@ -5270,8 +5246,7 @@ private lemma bmsdop_r2_family2_polar_one (f : ℕ) (w : Fin 2 → (GaloisField 
             = 0 := by
   rw [one_smul, QuadraticMap.polar_comm, bmsdop_r2_polar_rank1]
   simp only [LinearEquiv.apply_symm_apply, Matrix.vecMulVec, Matrix.of_apply,
-    Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, Matrix.head_fin_const,
-    mul_one, mul_zero, add_zero, zero_mul, sub_zero]
+    Matrix.cons_val_zero, Matrix.cons_val_one, mul_one, mul_zero, zero_mul, sub_zero]
   ring
 
 private lemma bmsdop_r2_family2_eichler_apply_one (f : ℕ) (w : Fin 2 → (GaloisField 2 f))
@@ -5289,7 +5264,6 @@ private lemma bmsdop_r2_family2_eichler_apply_one (f : ℕ) (w : Fin 2 → (Galo
   have hpol := bmsdop_r2_family2_polar_one f w
   rw [CFSG.ClassicalGroups.Orthogonal.eichler_apply hQ hpol X]
   simp only [map_add, map_sub, map_smul, LinearEquiv.apply_symm_apply, one_smul, hQ2,
-    QuadraticMap.map_smul, QuadraticMap.polar_smul_right, smul_eq_mul,
     bmsdop_r2_polar_family2_a, bmsdop_r2_polar_family2_b, zero_mul, add_zero]
 
 private lemma bmsdop_r2_family2_mul_one_add_M_of_eichler_eq_one (f : ℕ) (w : Fin 2 → (GaloisField 2
@@ -5398,11 +5372,11 @@ private lemma bmsdop_r2_eichler_family2_ne_one (f : ℕ) (w : Fin 2 → (GaloisF
 private lemma bmsdop_r2_lagrangian_family2_excl (f : ℕ)
     (hcard : Nat.card (GaloisField 2 f) ≠ 2)
     (a₁ a₂ : Fin 2 ⊕ Fin 2 → (GaloisField 2 f))
-    (ha₁ : a₁ ≠ 0) (ha₂ : a₂ ≠ 0)
-    (hlin : LinearIndependent (GaloisField 2 f) ![a₁, a₂])
-    (hQ₁ : (Spin.quadPlus 2 (GaloisField 2 f)) a₁ = 0)
-    (hQ₂ : (Spin.quadPlus 2 (GaloisField 2 f)) a₂ = 0)
-    (hpol : QuadraticMap.polar (Spin.quadPlus 2 (GaloisField 2 f)) a₁ a₂ = 0)
+    (_ha₁ : a₁ ≠ 0) (_ha₂ : a₂ ≠ 0)
+    (_hlin : LinearIndependent (GaloisField 2 f) ![a₁, a₂])
+    (_hQ₁ : (Spin.quadPlus 2 (GaloisField 2 f)) a₁ = 0)
+    (_hQ₂ : (Spin.quadPlus 2 (GaloisField 2 f)) a₂ = 0)
+    (_hpol : QuadraticMap.polar (Spin.quadPlus 2 (GaloisField 2 f)) a₁ a₂ = 0)
     (hle : siegelGroup (Spin.quadPlus 2 (GaloisField 2 f)) a₁ a₂ ≤
       (bmsdop_r2_rhoL f).range.map (Subgroup.subtype
         (CFSG.RankThree.OrthogonalInvolutions.omegaGroup (Spin.quadPlus 2 (GaloisField 2 f))
@@ -5424,7 +5398,7 @@ private lemma bmsdop_r2_lagrangian_family2_excl (f : ℕ)
       simpa using congrFun h0 0
     have h01 : (↑h : Matrix (Fin 2) (Fin 2) (GaloisField 2 f)) 0 1 = 0 := by
       simpa using congrFun h0 1
-    simp only [h00, h01, zero_mul, sub_zero, neg_zero] at hdet
+    simp only [h00, h01, zero_mul, sub_zero] at hdet
     exact zero_ne_one hdet
   have hE1 : (!![1, 0; 0, 0] : Matrix (Fin 2) (Fin 2) (GaloisField 2 f)) * (↑h : Matrix (Fin 2) (Fin
       2) (GaloisField 2 f)) = Matrix.vecMulVec ![1, 0] (fun j => (↑h : Matrix (Fin 2) (Fin 2)
@@ -5630,12 +5604,12 @@ private lemma bmsdop_r2_rootGroup_conj_eq (f : ℕ) (hcard : Nat.card (GaloisFie
 private lemma bmsdop_r2_closure_Qstd_left_eichler (f : ℕ)
     (hcard : Nat.card (GaloisField 2 f) ≠ 2)
     (a₁ a₂ : Fin 2 ⊕ Fin 2 → (GaloisField 2 f))
-    (ha₁ : a₁ ≠ 0) (ha₂ : a₂ ≠ 0)
-    (hlin : LinearIndependent (GaloisField 2 f) ![a₁, a₂])
-    (hQ₁ : (Spin.quadPlus 2 (GaloisField 2 f)) a₁ = 0)
-    (hQ₂ : (Spin.quadPlus 2 (GaloisField 2 f)) a₂ = 0)
-    (hpol : QuadraticMap.polar (Spin.quadPlus 2 (GaloisField 2 f)) a₁ a₂ = 0)
-    (hle : siegelGroup (Spin.quadPlus 2 (GaloisField 2 f)) a₁ a₂ ≤
+    (_ha₁ : a₁ ≠ 0) (_ha₂ : a₂ ≠ 0)
+    (_hlin : LinearIndependent (GaloisField 2 f) ![a₁, a₂])
+    (_hQ₁ : (Spin.quadPlus 2 (GaloisField 2 f)) a₁ = 0)
+    (_hQ₂ : (Spin.quadPlus 2 (GaloisField 2 f)) a₂ = 0)
+    (_hpol : QuadraticMap.polar (Spin.quadPlus 2 (GaloisField 2 f)) a₁ a₂ = 0)
+    (_hle : siegelGroup (Spin.quadPlus 2 (GaloisField 2 f)) a₁ a₂ ≤
       (bmsdop_r2_rhoL f).range.map (Subgroup.subtype
           (CFSG.RankThree.OrthogonalInvolutions.omegaGroup (Spin.quadPlus 2 (GaloisField 2 f))
           (Spin.nondegenerate_polarBilin_quadPlus 2 (GaloisField 2 f)))))
@@ -5885,11 +5859,11 @@ private lemma bmsdop_r2_eichler_family1_ne_one (f : ℕ)
 private lemma bmsdop_r2_lagrangian_family1_excl (f : ℕ)
     (hcard : Nat.card (GaloisField 2 f) ≠ 2)
     (a₁ a₂ : Fin 2 ⊕ Fin 2 → (GaloisField 2 f))
-    (ha₁ : a₁ ≠ 0) (ha₂ : a₂ ≠ 0)
-    (hlin : LinearIndependent (GaloisField 2 f) ![a₁, a₂])
-    (hQ₁ : (Spin.quadPlus 2 (GaloisField 2 f)) a₁ = 0)
-    (hQ₂ : (Spin.quadPlus 2 (GaloisField 2 f)) a₂ = 0)
-    (hpol : QuadraticMap.polar (Spin.quadPlus 2 (GaloisField 2 f)) a₁ a₂ = 0)
+    (_ha₁ : a₁ ≠ 0) (_ha₂ : a₂ ≠ 0)
+    (_hlin : LinearIndependent (GaloisField 2 f) ![a₁, a₂])
+    (_hQ₁ : (Spin.quadPlus 2 (GaloisField 2 f)) a₁ = 0)
+    (_hQ₂ : (Spin.quadPlus 2 (GaloisField 2 f)) a₂ = 0)
+    (_hpol : QuadraticMap.polar (Spin.quadPlus 2 (GaloisField 2 f)) a₁ a₂ = 0)
     (hle : siegelGroup (Spin.quadPlus 2 (GaloisField 2 f)) a₁ a₂ ≤
       (bmsdop_r2_rhoR f).range.map (Subgroup.subtype
           (CFSG.RankThree.OrthogonalInvolutions.omegaGroup (Spin.quadPlus 2 (GaloisField 2 f))
@@ -5993,8 +5967,7 @@ private lemma bmsdop_r2_siegelGroup_family2_rhoR_normal (f : ℕ)
   · let S : Matrix.SpecialLinearGroup (Fin 2) (GaloisField 2 f) :=
       ⟨!![0, 1; 1, 0], by
         rw [Matrix.det_fin_two]
-        simp only [Matrix.of_apply, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
-          mul_one, mul_zero, zero_mul, sub_zero, zero_sub]
+        simp only [Matrix.of_apply, Matrix.cons_val_zero, Matrix.cons_val_one, mul_one, mul_zero, zero_sub]
         exact CharTwo.neg_eq (1 : GaloisField 2 f)⟩
     have hSmat : (S : Matrix (Fin 2) (Fin 2) (GaloisField 2 f)) =
         (!![0, 1; 1, 0] : Matrix (Fin 2) (Fin 2) (GaloisField 2 f)) := rfl
@@ -6005,8 +5978,7 @@ private lemma bmsdop_r2_siegelGroup_family2_rhoR_normal (f : ℕ)
       show ((S : Matrix (Fin 2) (Fin 2) (GaloisField 2 f)) *
         (h : Matrix (Fin 2) (Fin 2) (GaloisField 2 f))).det = 1
       rw [Matrix.det_mul, Matrix.SpecialLinearGroup.det_coe h, hSmat, Matrix.det_fin_two]
-      simp only [Matrix.of_apply, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
-        mul_one, mul_zero, zero_mul, sub_zero, zero_sub]
+      simp only [Matrix.of_apply, Matrix.cons_val_zero, Matrix.cons_val_one, mul_one, mul_zero, zero_sub]
       exact CharTwo.neg_eq (1 : GaloisField 2 f)
     let k : Matrix.SpecialLinearGroup (Fin 2) (GaloisField 2 f) :=
       ⟨M⁻¹, by
@@ -6079,12 +6051,10 @@ private lemma bmsdop_r2_siegelGroup_family2_rhoR_normal (f : ℕ)
         fin_cases i <;> fin_cases j <;>
           simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.vecMulVec, Matrix.of_apply])
       (by
-        simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
-          Matrix.head_fin_const, mul_one, mul_zero, zero_mul, sub_zero]
+        simp only [Matrix.cons_val_zero, Matrix.cons_val_one, mul_one, mul_zero, sub_zero]
         exact (one_ne_zero : (1 : GaloisField 2 f) ≠ 0))
       (by
-        simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
-          Matrix.head_fin_const, zero_mul, mul_zero, mul_one, zero_sub, CharTwo.neg_eq]
+        simp only [Matrix.cons_val_zero, Matrix.cons_val_one, mul_zero, mul_one, zero_sub, CharTwo.neg_eq]
         exact (one_ne_zero : (1 : GaloisField 2 f) ≠ 0))
 
 private lemma bmsdop_r2_matrix_inv_coe (f : ℕ)
@@ -6349,7 +6319,7 @@ private lemma bmsdop_r2_closure_V_right (k f : ℕ)
     ha₁ ha₂ hlin hQ₁ hQ₂ hpol hle
 
 private lemma bmsdop_r2_closure_data
-    (k f : ℕ) (hf : 1 ≤ f)
+    (k f : ℕ) (_hf : 1 ≤ f)
     (S : Set (GL (Fin (k + 3) ⊕ Fin (k + 3)) (GaloisField 2 f)))
     {e : Matrix (Fin (k + 3) ⊕ Fin (k + 3)) (Fin (k + 3) ⊕ Fin (k + 3)) (GaloisField 2 f)}
     {J' : Subgroup ↥(spinGroup (bmsdop_Q k f))}
@@ -6359,7 +6329,7 @@ private lemma bmsdop_r2_closure_data
     (hJe : IsComponentOf J' ⁅bmsdop_Ge k f S e, bmsdop_Ge k f S e⁆)
     (θ : (Fin 2 ⊕ Fin 2 → GaloisField 2 f) ≃ₗ[GaloisField 2 f] ↥(bmsdop_W k f e))
     (hθ : ∀ x, (bmsdop_blockForm k f e) (θ x) = (Spin.quadPlus 2 (GaloisField 2 f)) x)
-    (hrank : e.rank = 4)
+    (_hrank : e.rank = 4)
     (hcard : Nat.card (GaloisField 2 f) ≠ 2) :
     bmsdop_r2_PSLClosureData k f S e J' := by
   obtain ⟨E, hE⟩ := bmsdop_ext k f S h1 h2 (Spin.quadPlus 2 (GaloisField 2 f)) θ hθ
@@ -6455,10 +6425,10 @@ private lemma bmsdop_component_bot_false
   have hle : J' ≤ (⊥ : Subgroup ↥(spinGroup (bmsdop_Q k f))) := by
     simpa only [hcomm] using hJe.1
   have hJbot : J' = ⊥ := le_bot_iff.mp hle
-  haveI : Subsingleton J' := by rw [hJbot]; infer_instance
+  have : Subsingleton J' := by rw [hJbot]; infer_instance
   obtain ⟨-, hsimpleJ⟩ := hJe.2.2
-  haveI : Nontrivial (J' ⧸ Subgroup.center J') := hsimpleJ.toNontrivial
-  haveI : Nontrivial J' :=
+  have : Nontrivial (J' ⧸ Subgroup.center J') := hsimpleJ.toNontrivial
+  have : Nontrivial J' :=
     Function.Surjective.nontrivial (QuotientGroup.mk'_surjective (Subgroup.center J'))
   exact (not_subsingleton_iff_nontrivial.mpr (inferInstance : Nontrivial J'))
     (inferInstance : Subsingleton J')
@@ -6569,7 +6539,7 @@ private lemma bmsdop_minus_two_no_singular_pair
 private lemma bmsdop_minus_two_block_no_singular_pair
     (k f : ℕ) (S : Set (GL (Fin (k + 3) ⊕ Fin (k + 3)) (GaloisField 2 f)))
     {e : Matrix (Fin (k + 3) ⊕ Fin (k + 3)) (Fin (k + 3) ⊕ Fin (k + 3)) (GaloisField 2 f)}
-    (h1 : bmsdop_geom₁ k f S e) (h2 : bmsdop_geom₂ k f S e)
+    (_h1 : bmsdop_geom₁ k f S e) (_h2 : bmsdop_geom₂ k f S e)
     (β γ : GaloisField 2 f)
     (hirr : ∀ s : GaloisField 2 f, s ^ 2 + β * s + γ ≠ 0)
     (θ : (Fin (2 - 1) ⊕ Fin (2 - 1) ⊕ Fin 2 → GaloisField 2 f) ≃ₗ[GaloisField 2 f]
@@ -6629,7 +6599,7 @@ private lemma bmsdopx_rank_eq_finrank_range {ι F : Type} [Fintype ι] [Decidabl
 
 private def bmsdopx_FrozenConcl
     (k f : ℕ)
-    (S : Set (GL (Fin (k + 3) ⊕ Fin (k + 3)) (GaloisField 2 f)))
+    (_S : Set (GL (Fin (k + 3) ⊕ Fin (k + 3)) (GaloisField 2 f)))
     (e : Matrix (Fin (k + 3) ⊕ Fin (k + 3)) (Fin (k + 3) ⊕ Fin (k + 3)) (GaloisField 2 f))
     (J' : Subgroup ↥(spinGroup (bmsdop_Q k f))) : Prop :=
   ∃ (t' : StatedLieTag) (m : ℕ)
@@ -6658,7 +6628,7 @@ private def bmsdopx_FrozenConcl
 
 private def bmsdopx_FrozenClosure
     (k f : ℕ)
-    (S : Set (GL (Fin (k + 3) ⊕ Fin (k + 3)) (GaloisField 2 f)))
+    (_S : Set (GL (Fin (k + 3) ⊕ Fin (k + 3)) (GaloisField 2 f)))
     (e : Matrix (Fin (k + 3) ⊕ Fin (k + 3)) (Fin (k + 3) ⊕ Fin (k + 3)) (GaloisField 2 f))
     (J' : Subgroup ↥(spinGroup (bmsdop_Q k f))) : Prop :=
   ∃ (t' : StatedLieTag) (m : ℕ)
@@ -6745,7 +6715,7 @@ private lemma bmsdopx_frozenConcl_plus_of_data
     hframe', hrest'⟩
 
 private theorem bmsdopx_frozenConcl_psl_of_data
-    (k f : ℕ) (hf : 1 ≤ f)
+    (k f : ℕ) (_hf : 1 ≤ f)
     (S : Set (GL (Fin (k + 3) ⊕ Fin (k + 3)) (GaloisField 2 f)))
     {e : Matrix (Fin (k + 3) ⊕ Fin (k + 3)) (Fin (k + 3) ⊕ Fin (k + 3)) (GaloisField 2 f)}
     {J' : Subgroup ↥(spinGroup (bmsdop_Q k f))}
@@ -6811,7 +6781,7 @@ private lemma bmsdopx_frozenConcl_minus_of_data
   have hgg : ggU .POmegaMinus ρ f =
       ⟨spinGroup (Spin.quadMinus ρ (GaloisField 2 f) (minusCoeffs 2 f).1 (minusCoeffs 2 f).2),
         Spin.Twisted.minusDatum ρ (minusCoeffs_irr 2 f)⟩ := by
-    simp only [ggU, lieUniversal, ↓reduceDIte]
+    simp only [ggU, lieUniversal]
   have hrank' : 2 * ρ = Module.finrank (GaloisField 2 f)
       (LinearMap.range (Matrix.toLin' e)) := by
     rw [← bmsdopx_rank_eq_finrank_range e]
@@ -6855,7 +6825,7 @@ private lemma bmsdopx_frozenConcl_of_plus_plane
     (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
     (heA : e ∈ Algebra.adjoin (GaloisField 2 f) (Units.val '' S))
     (hJe : IsComponentOf J' ⁅bmsdop_Ge k f S e, bmsdop_Ge k f S e⁆)
-    (hf : 1 ≤ f)
+    (_hf : 1 ≤ f)
     (θ : (Fin 1 ⊕ Fin 1 → GaloisField 2 f) ≃ₗ[GaloisField 2 f] ↥(bmsdop_W k f e))
     (hθ : ∀ x, (bmsdop_blockForm k f e) (θ x) = (Spin.quadPlus 1 (GaloisField 2 f)) x) :
     bmsdopx_FrozenConcl k f S e J' :=
@@ -6898,7 +6868,7 @@ private lemma bmsdopx_frozenConcl_of_minus_lt_three
       Matrix.mulVec e x = x → Matrix.mulVec e y = y → (bmsdop_Q k f) x = 0 →
       (bmsdop_Q k f) y = 0 → QuadraticMap.polar (bmsdop_Q k f) x y = 0 →
       ¬ LinearIndependent (GaloisField 2 f) ![x, y]))
-    (ρ : ℕ) (hρ : e.rank = 2 * ρ) (hρ1 : 1 ≤ ρ) (hρlt : ρ < 3) (hf : 1 ≤ f)
+    (ρ : ℕ) (hρ : e.rank = 2 * ρ) (hρ1 : 1 ≤ ρ) (hρlt : ρ < 3) (_hf : 1 ≤ f)
     (β γ : GaloisField 2 f) (hirr : ∀ s : GaloisField 2 f, s ^ 2 + β * s + γ ≠ 0)
     (θ : (Fin (ρ - 1) ⊕ Fin (ρ - 1) ⊕ Fin 2 → GaloisField 2 f) ≃ₗ[GaloisField 2 f]
       ↥(bmsdop_W k f e))
@@ -6994,7 +6964,7 @@ private theorem bmsdopx_model_of_geom
         β γ hirr θ hθ
 
 private theorem bmsdopx_frozenClosure_psl_of_data
-    (k f : ℕ) (hf : 1 ≤ f)
+    (k f : ℕ) (_hf : 1 ≤ f)
     (S : Set (GL (Fin (k + 3) ⊕ Fin (k + 3)) (GaloisField 2 f)))
     {e : Matrix (Fin (k + 3) ⊕ Fin (k + 3)) (Fin (k + 3) ⊕ Fin (k + 3)) (GaloisField 2 f)}
     {J' : Subgroup ↥(spinGroup (bmsdop_Q k f))}
@@ -7036,7 +7006,7 @@ private theorem bmsdopx_generic_closure_plus
     (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
     (heA : e ∈ Algebra.adjoin (GaloisField 2 f) (Units.val '' S))
     (hJe : IsComponentOf J' ⁅bmsdop_Ge k f S e, bmsdop_Ge k f S e⁆)
-    (ρ : ℕ) (hρ3 : 3 ≤ ρ) (hrank : e.rank = 2 * ρ) (hf : 1 ≤ f)
+    (ρ : ℕ) (hρ3 : 3 ≤ ρ) (hrank : e.rank = 2 * ρ) (_hf : 1 ≤ f)
     (θ : (Fin ρ ⊕ Fin ρ → GaloisField 2 f) ≃ₗ[GaloisField 2 f] ↥(bmsdop_W k f e))
     (hθ : ∀ x, (bmsdop_blockForm k f e) (θ x) = (Spin.quadPlus ρ (GaloisField 2 f)) x) :
     bmsdopx_FrozenClosure k f S e J' := by
@@ -7087,7 +7057,7 @@ private theorem bmsdopx_generic_closure_minus
     (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
     (heA : e ∈ Algebra.adjoin (GaloisField 2 f) (Units.val '' S))
     (hJe : IsComponentOf J' ⁅bmsdop_Ge k f S e, bmsdop_Ge k f S e⁆)
-    (ρ : ℕ) (hρ3 : 3 ≤ ρ) (hrank : e.rank = 2 * ρ) (hf : 1 ≤ f)
+    (ρ : ℕ) (hρ3 : 3 ≤ ρ) (hrank : e.rank = 2 * ρ) (_hf : 1 ≤ f)
     (hq : IsQuasisimple (spinGroup (Spin.quadMinus ρ (GaloisField 2 f)
       (minusCoeffs 2 f).1 (minusCoeffs 2 f).2)))
     (hΩ : (Spin.spinAction (Spin.quadMinus ρ (GaloisField 2 f)
@@ -7106,7 +7076,7 @@ private theorem bmsdopx_generic_closure_minus
   have hnd_std : (QuadraticMap.polarBilin (Spin.quadMinus ρ (GaloisField 2 f)
       (minusCoeffs 2 f).1 (minusCoeffs 2 f).2)).Nondegenerate :=
     Spin.nondegenerate_polarBilin_quadMinus_of_finite ρ (GaloisField 2 f) (minusCoeffs_irr 2 f)
-  haveI : Algebra.IsCentral (GaloisField 2 f)
+  have : Algebra.IsCentral (GaloisField 2 f)
       (CliffordAlgebra (Spin.quadMinus ρ (GaloisField 2 f) (minusCoeffs 2 f).1
         (minusCoeffs 2 f).2)) :=
     Spin.isCentral_cliffordAlgebra_quadMinus ρ (minusCoeffs 2 f).1 (minusCoeffs 2 f).2
@@ -7167,7 +7137,7 @@ private theorem bmsdopx_generic_closure_minus
   have hgg : ggU .POmegaMinus ρ f =
       ⟨spinGroup (Spin.quadMinus ρ (GaloisField 2 f) (minusCoeffs 2 f).1
         (minusCoeffs 2 f).2), Spin.Twisted.minusDatum ρ (minusCoeffs_irr 2 f)⟩ := by
-    simp only [ggU, lieUniversal, ↓reduceDIte]
+    simp only [ggU, lieUniversal]
   have hrank' : 2 * ρ = Module.finrank (GaloisField 2 f)
       (LinearMap.range (Matrix.toLin' e)) := by
     rw [← bmsdopx_rank_eq_finrank_range e]
@@ -7204,7 +7174,7 @@ private lemma bmsdopx_frozenClosure_of_plus_plane
     (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
     (heA : e ∈ Algebra.adjoin (GaloisField 2 f) (Units.val '' S))
     (hJe : IsComponentOf J' ⁅bmsdop_Ge k f S e, bmsdop_Ge k f S e⁆)
-    (hf : 1 ≤ f)
+    (_hf : 1 ≤ f)
     (θ : (Fin 1 ⊕ Fin 1 → GaloisField 2 f) ≃ₗ[GaloisField 2 f] ↥(bmsdop_W k f e))
     (hθ : ∀ x, (bmsdop_blockForm k f e) (θ x) = (Spin.quadPlus 1 (GaloisField 2 f)) x) :
     bmsdopx_FrozenClosure k f S e J' :=
@@ -7245,7 +7215,7 @@ private lemma bmsdopx_frozenClosure_of_minus_lt_three
       Matrix.mulVec e x = x → Matrix.mulVec e y = y → (bmsdop_Q k f) x = 0 →
       (bmsdop_Q k f) y = 0 → QuadraticMap.polar (bmsdop_Q k f) x y = 0 →
       ¬ LinearIndependent (GaloisField 2 f) ![x, y]))
-    (ρ : ℕ) (hρ : e.rank = 2 * ρ) (hρ1 : 1 ≤ ρ) (hρlt : ρ < 3) (hf : 1 ≤ f)
+    (ρ : ℕ) (hρ : e.rank = 2 * ρ) (hρ1 : 1 ≤ ρ) (hρlt : ρ < 3) (_hf : 1 ≤ f)
     (β γ : GaloisField 2 f) (hirr : ∀ s : GaloisField 2 f, s ^ 2 + β * s + γ ≠ 0)
     (θ : (Fin (ρ - 1) ⊕ Fin (ρ - 1) ⊕ Fin 2 → GaloisField 2 f) ≃ₗ[GaloisField 2 f]
       ↥(bmsdop_W k f e))

@@ -85,7 +85,7 @@ public theorem proposition102_hall_of_subgroupOf_and_ambient_sylows
     apply hHallD.p_in_pi_of_p_dvd_card q
     simpa [natCard_subgroupOf_eq H D hHD] using hqH
   · intro q hqpi hqindex
-    letI : Fact (Nat.Prime q.val) := ⟨q.property⟩
+    let : Fact (Nat.Prime q.val) := ⟨q.property⟩
     obtain ⟨Q, hQH⟩ := hSylow q hqpi
     have hindex_dvd : H.index ∣ (Q : Subgroup G).index :=
       Subgroup.index_dvd_of_le hQH

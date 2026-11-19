@@ -25,7 +25,7 @@ theorem eq_of_isPGroup_of_le {G : Type*} [Group G] [Finite G] {p : ℕ} [Fact p.
     intro htop
     exact not_le_of_gt hSRlt (Subgroup.subgroupOf_eq_top.mp htop)
   obtain ⟨x, hxN, hxS⟩ :=
-    SetLike.exists_of_lt
+    _root_.IsConcreteLE.exists_of_lt
       (Group.normalizerCondition_of_isNilpotent (G := ↥R) (h := hnil)
         (S.subgroupOf R) hsub_lt)
   let xG : G := (x : G)

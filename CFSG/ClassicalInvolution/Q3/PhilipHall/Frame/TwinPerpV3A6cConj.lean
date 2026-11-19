@@ -128,7 +128,7 @@ theorem eq_vec_of_comm_zBar (hn5 : 5 ≤ n) (x : AE.AEQ n)
         (fun m => (if m = i then (1 : ZMod 2) else 0) + (if m = j then 1 else 0)) := by
       funext m
       by_cases hmi : m = i <;> by_cases hmj : m = j <;> by_cases hmT : m ∈ T <;>
-        simp [ind, Finset.mem_insert, hmi, hmj, hmT, hiT, hjT, hij, Ne.symm hij] <;> decide
+        simp [ind, Finset.mem_insert, hmi, hmj, hmT, hiT, hjT, hij, Ne.symm hij]; decide
     have h := C.add_mem (hind (insert i T) hα) (hind (insert j T) hβ)
     rw [hsum] at h
     exact h
@@ -145,9 +145,9 @@ theorem eq_vec_of_comm_zBar (hn5 : 5 ≤ n) (x : AE.AEQ n)
     funext m
     by_cases hm : m = i₀
     · subst hm
-      simp [Finset.sum_apply, Finset.sum_mul, mul_add, Finset.sum_add_distrib, hsum]
-    · simp [Finset.sum_apply, mul_add, Finset.sum_add_distrib, mul_ite, hm,
-        Finset.sum_ite_eq', Finset.mem_erase]
+      simp [Finset.sum_apply, mul_add, Finset.sum_add_distrib, hsum]
+    · simp [Finset.sum_apply, mul_ite, hm,
+        Finset.mem_erase]
   have hev : ∀ f : Fin n → ZMod 2, ∑ i, f i = 0 →
       x * AE.mkQ n (AE.Wr.ofVec f) = AE.mkQ n (AE.Wr.ofVec f) * x := by
     intro f hf

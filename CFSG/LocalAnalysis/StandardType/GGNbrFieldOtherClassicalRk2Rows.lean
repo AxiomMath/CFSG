@@ -183,7 +183,7 @@ theorem ggFieldFixKnown_u3 : GGFieldFixKnown GGFieldOtherU3Label := by
   intro Q hQ
   dsimp only [LargeEvenRawDatum] at hQ ⊢
   obtain ⟨K, i1, i2, hK, hQ'⟩ := hQ
-  haveI : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, ← pow_mul])
+  have : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, ← pow_mul])
   refine ⟨K, i1, i2, hK, hQ', ?_⟩
   intro _ _ f hf hord
   have h4 : 4 ≤ 2 ^ (n / p) :=
@@ -251,13 +251,13 @@ theorem ggFieldFixKnown_u4 : GGFieldFixKnown GGFieldOtherU4Label := by
       LargeEvenRecipeUnitary 4 (2 ^ n) fun R _ I F => Q R I F ∧
         GGRawFieldFixStd p ⟨t, 3, n / p⟩ R I F := by
     rintro ⟨K, i1, i2, hK, hQ'⟩
-    haveI : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, ← pow_mul])
+    have : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, ← pow_mul])
     refine ⟨K, i1, i2, hK, hQ', ?_⟩
     intro _ _ f hf hord
     have h := CFSG.LocalAnalysis.GLTheoremA.T156.Uni.exists_raw_unitary (d := 4) (by norm_num) hn
       hK hp hp2 (fun h => by have := congrArg Prod.fst h; dsimp only at this; omega) hf hord
     rcases hT with ht | ht <;> subst ht <;> dsimp only [LargeEvenRawDatum] <;>
-      first | exact h | (simp only [show (3 : ℕ) ≠ 2 by norm_num, ↓reduceIte]; exact h)
+      first | exact h
   rcases hT with ht | ht <;> subst ht <;> dsimp only [LargeEvenRawDatum] at hQ ⊢
   · exact key hQ
   · simp only [show (3 : ℕ) ≠ 2 by norm_num, ↓reduceIte] at hQ ⊢

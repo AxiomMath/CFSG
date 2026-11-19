@@ -57,7 +57,7 @@ public theorem exists_involution_centralizing_of_regular_twoSubgroup
     simpa [FixedP] using hthree
   have hnontrivial : Nontrivial FixedP :=
     Finite.one_lt_card_iff_nontrivial.mp (by omega)
-  letI : Nontrivial FixedP := hnontrivial
+  let : Nontrivial FixedP := hnontrivial
   obtain ⟨betaP, hbetaAlpha⟩ := exists_ne alphaP
   have hthreeCardinal : (3 : Cardinal) ≤ Cardinal.mk FixedP := by
     rw [← Nat.cast_card]
@@ -344,7 +344,6 @@ public theorem exists_local_normalizer_involution_of_maximal_containing
     have hfixedQToA : Function.Injective fixedQToA := by
       intro a b hab
       apply Subtype.ext
-      change (a : Omega) = (b : Omega)
       exact congrArg (fun z : FixedA => (z : Omega)) hab
     have hAcard : 2 < Nat.card FixedA :=
       hQ.2.trans_le (Nat.card_le_card_of_injective
@@ -353,7 +352,7 @@ public theorem exists_local_normalizer_involution_of_maximal_containing
     · have hAleP : A ≤ P := hmaxLocal.2
         ⟨hAp, hAstab, by simpa [FixedA] using hAcard⟩ hPA.le
       exact (not_le_of_gt hPA hAleP).elim
-    obtain ⟨r, hrA, hrMove⟩ := SetLike.not_le_iff_exists.mp hAstab
+    obtain ⟨r, hrA, hrMove⟩ := IsConcreteLE.not_le_iff_exists.mp hAstab
     let delta : Omega := r • gamma
     have hrNorm : r ∈ Subgroup.normalizer (P : Set X) := hAN hrA
     have hdelta : delta ∈ fixedPointsOfSubgroup X Omega P :=
@@ -363,7 +362,7 @@ public theorem exists_local_normalizer_involution_of_maximal_containing
       apply hrMove
       exact MulAction.mem_stabilizer_iff.mpr h
     have hFixedQpos : 0 < Nat.card FixedQ := lt_trans (by decide) hQ.2
-    letI : Nonempty FixedQ := (Nat.card_pos_iff.mp hFixedQpos).1
+    let : Nonempty FixedQ := (Nat.card_pos_iff.mp hFixedQpos).1
     let betaQ : FixedQ := Classical.choice inferInstance
     let beta : Omega := betaQ
     have hbetaQ : beta ∈ fixedPointsOfSubgroup X Omega Q :=
@@ -528,7 +527,7 @@ public theorem corollary713_nonsolvable_exists_normal_twoSubgroup_regular
     rw [Subgroup.map_map, Subgroup.map_map]
     congr 1
   have hS2 : IsPGroup 2 S := by
-    exact (P0.isPGroup'.map H0.subtype)
+    exact (P0.isPGroup.map H0.subtype)
   have hker : q.ker ≤ H := by
     simpa [q, QuotientGroup.ker_mk'] using hKH
   have hregCoset : IsRegularOn SF0
@@ -555,7 +554,7 @@ public theorem corollary713_nonsolvable_exists_normal_twoSubgroup_regular
     apply regularOn_orbit_of_coset F0 alpha SF0
     rw [hpoint]
     exact hregCoset
-  obtain ⟨x, hxF0, hxM⟩ := SetLike.not_le_iff_exists.mp hnotle
+  obtain ⟨x, hxF0, hxM⟩ := IsConcreteLE.not_le_iff_exists.mp hnotle
   let beta : conjugateCosetSpace M := x • alpha
   have hbetaOrbit : InOrbit F alpha beta := by
     exact ⟨⟨x, involutionCoreIn_le F hxF0⟩, rfl⟩
@@ -687,7 +686,7 @@ public theorem exists_local_normalizer_involution_of_corollary713_borel
       ⟨alpha, ⟨⟨1, by simp⟩, hPalpha⟩⟩
     have hnontrivial : Nontrivial FixedOrbitP :=
       Finite.one_lt_card_iff_nontrivial.mp (by omega)
-    letI : Nontrivial FixedOrbitP := hnontrivial
+    let : Nontrivial FixedOrbitP := hnontrivial
     obtain ⟨betaP, hbetaAlpha⟩ := exists_ne alphaP
     have hthreeCardinal : (3 : Cardinal) ≤ Cardinal.mk FixedOrbitP := by
       rw [← Nat.cast_card]

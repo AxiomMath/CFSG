@@ -25,7 +25,7 @@ theorem rckPSL_toStd_one {m : ℕ} (hm : 0 < m) :
     · subst hl
       have h0last : (0 : Fin (m + 1)) ≠ Fin.last m := by
         intro h; have := congrArg Fin.val h; simp at this; omega
-      simp [h0last, hm.ne']
+      simp [hm.ne']
     · have ha0 : 0 < a.val := by
         by_contra h
         have : a.val = 0 := by omega
@@ -59,7 +59,7 @@ theorem rckPSL_eq_zero_or_one (c : GaloisField 2 1) : c = 0 ∨ c = 1 := by
       rw [GaloisField.card 2 1 (by norm_num)]; norm_num
     have hunits : Nat.card (GaloisField 2 1)ˣ = 1 := by
       rw [Nat.card_units, hcard]
-    haveI : Subsingleton (GaloisField 2 1)ˣ := (Nat.card_eq_one_iff_unique.mp hunits).1
+    have : Subsingleton (GaloisField 2 1)ˣ := (Nat.card_eq_one_iff_unique.mp hunits).1
     have : (Units.mk0 c h : (GaloisField 2 1)ˣ) = 1 := Subsingleton.elim _ _
     exact congrArg Units.val this
 
@@ -98,7 +98,7 @@ abbrev rckPSL_four {G : Type*} [Group G] (a b : G) (ha : a * a = 1) (hb : b * b 
       intro u v hu hv
       simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hu hv ⊢
       rcases hu with rfl | rfl | rfl | rfl <;> rcases hv with rfl | rfl | rfl | rfl <;>
-        simp only [Set.mem_insert_iff, Set.mem_singleton_iff, ha, hb, hab.symm, habb, hbab,
+        simp only [ha, hb, hab.symm, habb, hbab,
           haba, habb', habab, one_mul, mul_one] <;>
         tauto
     inv_mem' := by
@@ -127,7 +127,7 @@ theorem rckPSL_four_isElemAbelian {G : Type*} [Group G] {a b : G}
     show (u : G) * (v : G) = (v : G) * (u : G)
     rcases hu with h1 | h1 | h1 | h1 <;> rcases hv with h2 | h2 | h2 | h2 <;>
       rw [h1, h2] <;>
-      simp only [ha, hb, hab.symm, habb, hbab, haba, habb', habab, one_mul, mul_one]
+      simp only [hab.symm, habb, hbab, haba, habb', one_mul, mul_one]
   · intro v hv
     have hv' : (v : G) = 1 ∨ (v : G) = a ∨ (v : G) = b ∨ (v : G) = a * b := by
       have h : (v : G) ∈ ({1, a, b, a * b} : Set G) := hv
@@ -218,9 +218,9 @@ private lemma rckPSL_row_single {F : Type} [Zero F] [One F] {m : ℕ}
   by_cases h : i' = 0
   · subst h
     by_cases h2 : j' = j
-    · subst h2; simp [rckPSL_row_apply, Matrix.single_apply, Pi.single_apply]
-    · simp [rckPSL_row_apply, Matrix.single_apply, Pi.single_apply, h2, Ne.symm h2]
-  · simp [rckPSL_row_apply, Matrix.single_apply, Pi.single_apply, h, Ne.symm h]
+    · subst h2; simp [rckPSL_row_apply]
+    · simp [rckPSL_row_apply, h2, Ne.symm h2]
+  · simp [rckPSL_row_apply, h, Ne.symm h]
 
 lemma rckPSL_row_mulVec {F : Type} [Field F] {m : ℕ} (a : Fin (m + 1) → F)
     (v : Fin (m + 1) → F) :
@@ -246,7 +246,7 @@ lemma rckPSL_transvection_mem_rad {m : ℕ} {i j : Fin (m + 1)}
     Matrix.SpecialLinearGroup.transvection hij (1 : GaloisField 2 1) ∈
       rckPSL_rad (F := GaloisField 2 1) (m := m) := by
   subst hi
-  refine ⟨Pi.single j 1, by simp [Pi.single_apply, hj, eq_comm], ?_⟩
+  refine ⟨Pi.single j 1, by simp [hj, eq_comm], ?_⟩
   rw [Matrix.SpecialLinearGroup.transvection_coe, rckPSL_row_single j]
 
 end CFSG.StandardType.RCKK1II

@@ -248,7 +248,7 @@ private theorem spLB_spTorusChar_corootVec {K k : Type} [Field K] [Field k] [Alg
   rw [← zpow_natCast (algebraMap K k (c : K)) (a i)]
   rw [corootVec_eq_mul, map_mul, Units.val_mul]
   by_cases h : i.val + 1 < n
-  · rw [dif_pos h,
+  · rw [dite_eq_left h,
       spLB_spTorusChar_mulSingle (algebraMap K k) (spLabelVec a) i c,
       spLB_spTorusChar_mulSingle (algebraMap K k) (spLabelVec a) ⟨i.val + 1, h⟩ c⁻¹]
     have hx : algebraMap K k (c : K) ≠ 0 := by
@@ -260,7 +260,7 @@ private theorem spLB_spTorusChar_corootVec {K k : Type} [Field K] [Field k] [Alg
     congr 1
     have := spLB_spLabelVec_succ a i h
     omega
-  · rw [dif_neg h, map_one, Units.val_one, mul_one,
+  · rw [dite_eq_right h, map_one, Units.val_one, mul_one,
       spLB_spTorusChar_mulSingle (algebraMap K k) (spLabelVec a) i c]
     rw [spLB_spLabelVec_last a i (by have := i.isLt; omega)]
 

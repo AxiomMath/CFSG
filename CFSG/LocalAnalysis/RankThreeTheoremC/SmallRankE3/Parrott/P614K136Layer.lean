@@ -65,7 +65,7 @@ theorem card_dvd_card_pLayer {X : Type*} [Group X] [Finite X] (p : ℕ) [hp : Fa
   let e : K' ≃* S := (QuotientGroup.quotientKerEquivOfSurjective α hα).symm.trans
     ((QuotientGroup.quotientMulEquivOfEq hker_eq).trans
       (QuotientGroup.quotientKerEquivOfSurjective ψ hψ))
-  haveI : IsSimpleGroup K' := e.isSimpleGroup
+  have : IsSimpleGroup K' := e.isSimpleGroup
   have hK'nc : ∃ a b : K', a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hSnc
     refine ⟨e.symm a, e.symm b, fun h => hab ?_⟩
@@ -83,7 +83,7 @@ theorem card_dvd_card_pLayer {X : Type*} [Group X] [Finite X] (p : ℕ) [hp : Fa
 theorem eq_of_inf_normalizer_le {G : Type*} [Group G] {p : ℕ} [Fact p.Prime] {R S : Subgroup G}
     [Finite S] (hRS : R ≤ S) (hS : IsPGroup p S) (h : S ⊓ normalizer (R : Set G) ≤ R) :
     R = S := by
-  haveI : Group.IsNilpotent S := hS.isNilpotent
+  have : Group.IsNilpotent S := hS.isNilpotent
   have hnc : NormalizerCondition S := Group.normalizerCondition_of_isNilpotent
   by_contra hne
   have hlt : R.subgroupOf S < ⊤ := by
@@ -93,7 +93,7 @@ theorem eq_of_inf_normalizer_le {G : Type*} [Group G] {p : ℕ} [Fact p.Prime] {
       exact this
   have hgrow := hnc _ hlt
   rw [← Subgroup.subgroupOf_normalizer_eq hRS] at hgrow
-  obtain ⟨x, hxN, hxR⟩ := SetLike.exists_of_lt hgrow
+  obtain ⟨x, hxN, hxR⟩ := _root_.IsConcreteLE.exists_of_lt hgrow
   exact hxR (h ⟨x.2, hxN⟩)
 
 end CFSG.LocalAnalysis.RankThreeTheoremC.SmallRankE3.Parrott.P614.P614K136

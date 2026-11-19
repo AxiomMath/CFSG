@@ -69,7 +69,7 @@ theorem inf_centralizer_conjClosure_eq (h1 : W16One G) (h5 : W16Five G) (h15 : W
     V ⊓ centralizer (conjClosure (U ⊔ V₀) H : Set G) = U ⊔ V₀ := by
   refine le_antisymm ?_ ?_
   · rintro x ⟨hxV, hxC⟩
-    obtain ⟨g₁, hg₁, hg₁M⟩ := SetLike.not_le_iff_exists.1 hQ.2.1
+    obtain ⟨g₁, hg₁, hg₁M⟩ := IsConcreteLE.not_le_iff_exists.1 hQ.2.1
     have hxM : x ∈ conjSubgroup M g₁ := centralizer_conjClosure_le_conj h hxC hg₁.1
     have hinf := h.inf_conjSubgroup_eq h1 h5 h15 hS hg₁.2 hg₁M
     rw [← hinf]

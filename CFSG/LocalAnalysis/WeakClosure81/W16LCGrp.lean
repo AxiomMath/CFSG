@@ -22,8 +22,8 @@ theorem glAct_apply (ρ : L →* LGL 2 W) (l : L) (w : W) :
     glAct ρ l (Multiplicative.ofAdd w) = Multiplicative.ofAdd (ρ l w) := rfl
 
 instance (ρ : L →* LGL 2 W) [Finite L] [Finite W] : Finite (VGL ρ) :=
-  Finite.of_injective (fun x : VGL ρ => (x.left, x.right))
-    fun x y h => SemidirectProduct.ext (congrArg Prod.fst h) (congrArg Prod.snd h)
+  Finite.of_injective (fun _x : VGL ρ => (_x.left, _x.right))
+    fun _x _y h => SemidirectProduct.ext (congrArg Prod.fst h) (congrArg Prod.snd h)
 
 @[expose] noncomputable def zHat (ρ : L →* LGL 2 W) (Z : Submodule (ZMod 2) W) : Subgroup (VGL ρ) :=
   (AddSubgroup.toSubgroup Z.toAddSubgroup).map SemidirectProduct.inl
@@ -209,7 +209,7 @@ theorem LiftHyp.isElemAbelian_a1L [Finite L] [Finite W] (hA : LiftHyp ρ A Z) :
     · rw [SemidirectProduct.inl_inj]
       exact congrArg Multiplicative.ofAdd (add_comm (z : W) (z' : W))
     · rw [SemidirectProduct.inr_inj]
-      haveI : IsMulCommutative A := hA.elemAbelian.1
+      have : IsMulCommutative A := hA.elemAbelian.1
       exact congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : A) (⟨a', ha'⟩ : A))
   · intro x hx
     rw [pow_two]
@@ -331,10 +331,10 @@ theorem LiftHyp.hyp7_a1L [Finite L] [Finite W] (hA : LiftHyp ρ A Z) : Hyp7 (a1L
   refine ⟨hA.isElemAbelian_a1L, ?_, hA.isTI_a1L⟩
   rw [hA.card_a1L]
   have hZ2 : 2 ≤ Nat.card Z := by
-    haveI : Nontrivial Z := (Submodule.nontrivial_iff_ne_bot).2 hA.ne_bot_Z
+    have : Nontrivial Z := (Submodule.nontrivial_iff_ne_bot).2 hA.ne_bot_Z
     exact Nat.succ_le_of_lt Finite.one_lt_card
   have hA2 : 2 ≤ Nat.card A := by
-    haveI : Nontrivial A := (Subgroup.nontrivial_iff_ne_bot A).2 hA.ne_bot_A
+    have : Nontrivial A := (Subgroup.nontrivial_iff_ne_bot A).2 hA.ne_bot_A
     exact Nat.succ_le_of_lt Finite.one_lt_card
   calc 2 < 2 * 2 := by norm_num
     _ ≤ Nat.card Z * Nat.card A := Nat.mul_le_mul hZ2 hA2

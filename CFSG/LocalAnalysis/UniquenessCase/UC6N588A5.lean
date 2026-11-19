@@ -28,7 +28,7 @@ theorem mem_centralizer_of_isCyclic {X : Type} [Group X] [Finite X] {p : ℕ} (h
     (hn : n ∈ Subgroup.normalizer (T : Set X)) {m : ℕ} (hm : ¬ p ∣ m)
     (hnm : n ^ m ∈ Subgroup.centralizer (T : Set X)) {t : X} (ht : t ∈ T) (hto : orderOf t = p)
     (hnt : n * t = t * n) : n ∈ Subgroup.centralizer (T : Set X) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨u, hu⟩ := hTc.exists_generator
   have hnu : n * (u : X) * n⁻¹ ∈ T := (Subgroup.mem_normalizer_iff.mp hn _).mp u.2
   obtain ⟨e, he⟩ : ∃ e : ℕ, (u : X) ^ e = n * u * n⁻¹ := by
@@ -122,7 +122,7 @@ theorem exists_decomp (h : Hyp G p S Z) {J : Subgroup G}
     (hZz : Z = zpowers z) (htJ : t ∈ J) (hjx : ∀ x ∈ J, t * x * t⁻¹ = z * x * z⁻¹) :
     ∃ c : G, z = t * c ∧ c ∈ Subgroup.center G ∧ c ∈ Subgroup.centralizer (J : Set G) ∧
       c ∈ S ∧ t ∈ S ∧ orderOf c = p ∧ orderOf t = p := by
-  haveI := h.fact
+  have := h.fact
   have hzZ : z ∈ Z := hZz ▸ Subgroup.mem_zpowers z
   set c : G := t⁻¹ * z with hc
   have hzeq : z = t * c := by rw [hc, mul_inv_cancel_left]
@@ -181,7 +181,7 @@ theorem exists_decomp (h : Hyp G p S Z) {J : Subgroup G}
   have hto : orderOf t = p := orderOf_eq_prime htp ht1
   have hcS : c ∈ S := by
     have hzc : zpowers c ≤ Subgroup.center G := (Subgroup.zpowers_le).mpr hcC
-    haveI hN : (zpowers c).Normal := ⟨fun x hx g => by
+    have hN : (zpowers c).Normal := ⟨fun x hx g => by
       rw [Subgroup.mem_center_iff.mp (hzc hx) g, mul_inv_cancel_right]
       exact hx⟩
     have hP : IsPGroup p (zpowers c) :=

@@ -77,7 +77,7 @@ private lemma cuq2m_E_isElemAbelian
     (fun b => Subtype.ext (by simpa using hAb.2 b b.2)) hcomp
 
 private lemma cuq2m_E_subset_I
-    {G : Type} [Group G] [Finite G] {p : ℕ} {Bs : Subgroup G}
+    {G : Type} [Group G] [Finite G] {_p : ℕ} {Bs : Subgroup G}
     {L : Subgroup G} (hN : Bs ≤ Subgroup.normalizer (L : Set G))
     {R : Type} [Group R] {I : Set (MulAut R)}
     (θ : L ⧸ Subgroup.center L ≃* R)
@@ -103,7 +103,7 @@ private lemma cuq2m_E_subset_I
     obtain ⟨l, rfl⟩ := QuotientGroup.mk_surjective y
     have hrel : ((ggGamma L hN c l : L) : G) = (c⁻¹)⁻¹ * (l : G) * c⁻¹ := by
       rw [ggGamma_coe]
-      simp [Subgroup.coe_inv]
+      simp
     have h1 := hφ l (ggGamma L hN c l) hrel
     rw [ggInducedAut_apply]
     exact h1.symm
@@ -223,7 +223,7 @@ theorem q2TorUni_notDvd_config :
     have hEI : ∀ a ∈ (ggGamma L hN).range.map (ggInducedAut θ),
         a ∈ LargeEvenMatConjImage (LargeEvenProjMk (LargeEvenSUGroup (Fin (lab.rank + 1)) K (2 ^ lab.n)))
           (LargeEvenGUSet (Fin (lab.rank + 1)) K (2 ^ lab.n)) :=
-      cuq2m_E_subset_I (p := p) hN θ hact
+      cuq2m_E_subset_I (_p := p) hN θ hact
     have hpd : ¬ p ∣ lab.rank + 1 ∨ ¬ p ∣ 2 ^ lab.n + 1 := by
       by_contra h
       simp only [not_or, not_not] at h
@@ -336,7 +336,7 @@ theorem q2URLevelOn_twA : Q2URLevelOn ToralUni (fun _ lab => lab.tag = .twA) := 
       ⟨φ (a : ↥Dom), ha⟩ ⟨φ (b : ↥Dom), hb⟩
     rw [map_mul, map_mul]
     exact congrArg Subtype.val hcomm
-  haveI : IsMulCommutative ↥H₀ := hH₀comm
+  have : IsMulCommutative ↥H₀ := hH₀comm
   let f : ↥H₀ →* ↥(TableB.unitGroup (ι := Fin a) hD.bar) := π.comp H₀.subtype
   let G : Subgroup ↥(TableB.unitGroup (ι := Fin a) hD.bar) := f.range
   have hGcomm : IsMulCommutative G := inferInstance

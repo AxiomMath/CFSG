@@ -20,7 +20,7 @@ theorem str86_caseIIa_two_fixEq
       Nonempty (oTwoQuot ↥L1 ≃* StatedProj (StatedSU 3 (2 ^ k) F)))
     (hB2 : VBig L2) (hm : IsL2Quot m (oTwoQuot ↥L2))
     (hII : ¬ L1 ⊔ Q1 L1 L2 S ≤ Subgroup.centralizer (Z1 L1 L2 S : Set G))
-    (hIIa : L2 ⊔ Q2 L1 L2 S ≤ Subgroup.centralizer (Z2 L1 L2 S : Set G))
+    (_hIIa : L2 ⊔ Q2 L1 L2 S ≤ Subgroup.centralizer (Z2 L1 L2 S : Set G))
     (hZ : Z1 L1 L2 S ≤ Q2 L1 L2 S)
     (hc : IsChiefSeriesFrom (L2 ⊔ S) (str86U L1 L2 S) (str86U L1 L2 S) 2)
     {Lo Hi : Subgroup G} (hstep : IsChiefStep (L2 ⊔ S) (str86U L1 L2 S) Lo Hi)

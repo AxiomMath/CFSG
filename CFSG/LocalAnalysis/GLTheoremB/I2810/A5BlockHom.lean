@@ -225,6 +225,7 @@ theorem a5_I_dec_zker_aux (h : Setup28 W K S) (hR : Red28 W K S) (d : A5Data W K
     rw [hik]
     exact (kerAct W K S).mul_mem hn (hR.w1_le hkW)
 
+omit [Finite X] in
 theorem a5_I_gen_aux (h : Setup28 W K S) (hR : Red28 W K S) (d : A5Data W K S e V₄ B Ik) :
     ∀ H : Subgroup X, H ≤ K → (Ik ⊔ S) ⊓ K ≤ H →
       (∀ k ∈ K, k ∈ Subgroup.normalizer (S : Set X) → k ∈ H) →

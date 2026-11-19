@@ -22,7 +22,7 @@ theorem linHeisenbergBalanceOdd_holds :
           localDeltaIn p H (Subgroup.closure {conjAut n F A, conjAut n F B}) = ⊥ := by
   intro n F _ _ hn p hp hp2 hpq hnp A B hAB hcomm hAp hBp H hH
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp3 : 3 ≤ p := by have := hp.two_le; omega
   obtain ⟨z, hz⟩ := exists_comm_scalar hn hcomm
   obtain ⟨a, ha⟩ := exists_pow_scalar hn hAp

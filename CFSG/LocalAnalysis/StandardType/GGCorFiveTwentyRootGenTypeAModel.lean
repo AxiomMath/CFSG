@@ -183,13 +183,13 @@ theorem isReflection_conj_permSL (hp : p.Prime) (hp2 : p ≠ 2) (hpK : p ∣ Nat
     (hM : IsDiagTorusModel p φ A) {i j : Fin d} (hij : i ≠ j) :
     GGIsReflection p (ggConjAut A (conj_permSL_mem_normalizer hM i j)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : Finite (MulAut L') :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : Finite (MulAut L') :=
     Finite.of_injective (fun f : MulAut L' => (f : L' → L')) fun f g h => by
       ext x
       exact congrFun h x
-  haveI : Finite ↥A := Subtype.finite
+  have : Finite ↥A := Subtype.finite
   have hd0 : 0 < d := by omega
   obtain ⟨ζ, hζ⟩ := exists_isPrimitiveRoot (K := K) hp hpK
   have hζ0 : ζ ≠ 0 := hζ.ne_zero hp.ne_zero

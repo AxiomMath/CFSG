@@ -46,7 +46,7 @@ theorem center_isPGroup_two_of_pPrimeCore_eq_bot {Q : Type} [Group Q] [Finite Q]
 theorem center_isCyclic_of_no_kleinFour {Q : Type} [Group Q] [Finite Q]
     (h2 : IsPGroup 2 (center Q)) (hZ : ∀ Z : Subgroup Q, Z ≤ center Q → ¬ IsKleinFour Z) :
     IsCyclic (center Q) := by
-  letI : CommGroup (center Q) :=
+  let : CommGroup (center Q) :=
     { (inferInstance : Group (center Q)) with
       mul_comm := fun a b => Subtype.ext (mem_center_iff.mp b.2 a) }
   refine DisconnectedInvolutionGraph.Helpers.rank_one_abelian_two_group_cyclic (center Q) h2 ?_

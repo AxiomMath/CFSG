@@ -46,7 +46,7 @@ private lemma conjNormal_mul_inv_mul_comm {X : Type*} [Group X] {K : Subgroup X}
     MulAut.conjNormal t (a * b) * (a * b)⁻¹ =
       (MulAut.conjNormal t a * a⁻¹) * (MulAut.conjNormal t b * b⁻¹) := by
   rw [Subgroup.mem_center_iff] at hb
-  simp only [Subgroup.coe_mul, map_mul, mul_inv_rev]
+  simp only [map_mul, mul_inv_rev]
   rw [mul_assoc (MulAut.conjNormal t a) (MulAut.conjNormal t b) (b⁻¹ * a⁻¹),
       ← mul_assoc (MulAut.conjNormal t b) b⁻¹ a⁻¹,
       ← hb a⁻¹,
@@ -74,7 +74,7 @@ theorem card_range_inf_centralizer_le {X : Type*} [Group X] [Finite X] {K : Subg
     Nat.card (q.range ⊓ centralizer ({π} : Set P) : Subgroup P) ≤
       Nat.card (K ⊓ centralizer ({t} : Set X) : Subgroup X) := by
   classical
-  haveI : Finite K := Finite.of_injective (Subtype.val : K → X) Subtype.val_injective
+  have : Finite K := Finite.of_injective (Subtype.val : K → X) Subtype.val_injective
   set Kt : Subgroup K := (Subgroup.centralizer ({π} : Set P)).comap q with hKt
   let c : Kt →* K := conjNormalMulInvHom q hker π hq Kt le_rfl
   let q' : Kt →* P := q.comp Kt.subtype
@@ -178,7 +178,7 @@ theorem le_centralizer_of_perfect {X : Type*} [Group X] {K : Subgroup X} [K.Norm
   have hf_center : ∀ k : K, f k ∈ Subgroup.center K :=
     fun k => conjNormal_mul_inv_mem_center_of q hker hq k
   let c : K →* Subgroup.center K := f.codRestrict (Subgroup.center K) hf_center
-  haveI : Group.IsPerfect K := (Subgroup.isPerfect_iff).mpr hK
+  have : Group.IsPerfect K := (Subgroup.isPerfect_iff).mpr hK
   have hcomm : commutator K ≤ c.ker := Abelianization.commutator_subset_ker c
   have hker_top : c.ker = ⊤ := by
     rw [eq_top_iff, ← Group.IsPerfect.commutator_eq_top]

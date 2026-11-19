@@ -15,7 +15,7 @@ theorem exists_sylow_inf_normal {X : Type} [Group X] [Finite X] {p : ℕ} [Fact 
     ∃ P : Sylow p K, (P : Subgroup K).map K.subtype = (R : Subgroup X) ⊓ K := by
   have hRX : IsSylowOf p (R : Subgroup X) (⊤ : Subgroup X) := by
     rw [isSylowOf_iff]
-    refine ⟨le_top, R.isPGroup', ?_⟩
+    refine ⟨le_top, R.isPGroup, ?_⟩
     rw [Subgroup.relIndex_top_right]
     exact R.not_dvd_index
   have hRK := hRX.inf_of_le_normalizer (N := K) le_top (by
@@ -29,8 +29,8 @@ theorem signalizerTrivialX_of_on {T : ℕ → ∀ (Q : Type) [Group Q], Prop} {p
     SignalizerTrivialX T p := by
   intro X _ _ K hK R W hW hRK
   obtain ⟨hKn, hKc, hT⟩ := hK
-  haveI : K.Normal := hKn
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : K.Normal := hKn
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨P, hP⟩ := exists_sylow_inf_normal K R
   let φ : X →* MulAut K := MulAut.conjNormal
   have hφ : ∀ x : X, ∀ k : K, ((φ x k : K) : X) = x * k * x⁻¹ := fun x k => rfl
@@ -71,7 +71,7 @@ theorem signalizerTrivialX_of_on {T : ℕ → ∀ (Q : Type) [Group Q], Prop} {p
 theorem eq_one_of_mem_two_pgroup_inf {X : Type} [Group X] [Finite X] {p : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) {V S : Subgroup X} (hV : IsPGroup 2 V) (hS : IsPGroup p S) {c : X}
     (hcV : c ∈ V) (hcS : c ∈ S) : c = 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨a, ha⟩ := hV ⟨c, hcV⟩
   obtain ⟨b, hb⟩ := hS ⟨c, hcS⟩
   have h1 : c ^ 2 ^ a = 1 := congrArg Subtype.val ha
@@ -96,7 +96,7 @@ theorem lemma45Facts_of_inner {T : ℕ → ∀ (Q : Type) [Group Q], Prop} {p : 
   refine ⟨V, hVK, hV2, hVN, ?_⟩
   intro hVS
   apply hne
-  have hS : IsPGroup p ((R : Subgroup X) ⊓ K : Subgroup X) := R.isPGroup'.to_inf_left
+  have hS : IsPGroup p ((R : Subgroup X) ⊓ K : Subgroup X) := R.isPGroup.to_inf_left
   have huS : u ∈ (R : Subgroup X) ⊓ K := ⟨hUR hu, hUK hu⟩
   have hvN : v ∈ normalizer (((R : Subgroup X) ⊓ K : Subgroup X) : Set X) := hVS hv
   have h1 : v * u * v⁻¹ ∈ (R : Subgroup X) ⊓ K := (Subgroup.mem_normalizer_iff.mp hvN u).mp huS

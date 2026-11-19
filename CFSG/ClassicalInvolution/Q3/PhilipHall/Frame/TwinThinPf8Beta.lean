@@ -39,7 +39,7 @@ theorem beta_subset_fam :
 theorem false_of_fam_le_beta
     (h : fam K (conjSub g (piGen π)) ⊆
       betaOf (nbrAdj (CoreAssembly.conjClass K₀)) (CoreAssembly.conjClass K₀) π) : False :=
-  S.false_of_cent fun L hL u hu x hx =>
+  S.false_of_cent fun _L hL _u hu x hx =>
     Subgroup.mem_centralizer_iff.mp (S.hos.beta_le_centralizer (h hL) hu.mem) x hx
 
 theorem map_conj_member {n : ℕ} (J : AEIdent (fam K (conjSub g (piGen π))) n)

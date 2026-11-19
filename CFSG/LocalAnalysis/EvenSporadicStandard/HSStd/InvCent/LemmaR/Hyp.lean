@@ -34,7 +34,7 @@ theorem RHyp.eq_one_of_commute (hR : RHyp B B₀) {x : B} (hx : ∀ a ∈ B₀, 
     rw [hbot, Subgroup.mem_bot] at hxmem
     exact hx1 hxmem
   have hCnormal : (Subgroup.centralizer (B₀ : Set B)).Normal := by
-    haveI : B₀.Normal := hR.normal
+    have : B₀.Normal := hR.normal
     infer_instance
   have hle : B₀ ≤ Subgroup.centralizer (B₀ : Set B) := hR.min _ hCnormal hCne
   obtain ⟨a, ha, b, hb, hab⟩ := hR.nonab

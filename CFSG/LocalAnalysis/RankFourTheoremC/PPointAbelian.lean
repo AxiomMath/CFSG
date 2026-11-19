@@ -111,7 +111,7 @@ theorem BorelData3.conj_mem_QK_of_mem_normalizer {P : Sylow 3 G} {M : Subgroup G
   set O : Subgroup C := primeComplementCore (G := C) 3 with hO
   set Qc : Subgroup C := ((P : Subgroup G) ⊓ C).subgroupOf C with hQc
   have hQcp : IsPGroup 3 Qc :=
-    (P.isPGroup'.to_le (inf_le_left : (P : Subgroup G) ⊓ C ≤ P)).comap_subtype
+    (P.isPGroup.to_le (inf_le_left : (P : Subgroup G) ⊓ C ≤ P)).comap_subtype
   have hinj := injOn_mk_of_isPGroup (primeComplementCore_coprime (G := C) 3) hQcp
   have hftC : f t ∈ C := mem_centralizer_singleton_iff.mpr (hB.f_comm t)
   obtain ⟨hc, hρt, -⟩ := hρ t
@@ -290,12 +290,12 @@ theorem IsPPoint.isMulCommutative_sylow_three {P : Sylow 3 G} {M : Subgroup G} {
       ⟨⟨b, hAC hb⟩, hb⟩
     exact congrArg (fun z => ((z.1 : centralizer (K : Set (RedCent 3 x))) : RedCent 3 x)) this
   have hRcomm := commute_of_inner_action (K := K) (R := (R : Subgroup (RedCent 3 x)))
-    R.isPGroup' hKC hKab hCab hinner
+    R.isPGroup hKC hKab hCab hinner
   set C : Subgroup G := centralizer ({x} : Set G) with hC
   set O : Subgroup C := primeComplementCore (G := C) 3 with hO
   set Qc : Subgroup C := ((P : Subgroup G) ⊓ C).subgroupOf C with hQc
   have hQcp : IsPGroup 3 Qc :=
-    (P.isPGroup'.to_le (inf_le_left : (P : Subgroup G) ⊓ C ≤ P)).comap_subtype
+    (P.isPGroup.to_le (inf_le_left : (P : Subgroup G) ⊓ C ≤ P)).comap_subtype
   have hinj := injOn_mk_of_isPGroup (primeComplementCore_coprime (G := C) 3) hQcp
   refine IsMulCommutative.of_comm fun a b => ?_
   have haQ : (⟨a, hPC a.2⟩ : C) ∈ Qc := mem_subgroupOf.mpr ⟨a.2, hPC a.2⟩

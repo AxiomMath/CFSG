@@ -54,6 +54,7 @@ theorem exists_symm_order_31 (hK : Nat.card K = 2) :
     exact Matrix.SpecialLinearGroup.ext _ _ (fun i j => congrFun (congrFun h i) j)
 
 open CFSG.ComponentClassification.CatalogueBHigherLinearAction in
+omit [Finite K] in
 theorem slConjugation_eq {A : GL (Fin 5) K} {A' : SpecialLinearGroup (Fin 5) K}
     (h : Matrix.SpecialLinearGroup.toGL A' = A) (g : SpecialLinearGroup (Fin 5) K) :
     slConjugation 5 K A g = A' * g * A'⁻¹ := by

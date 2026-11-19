@@ -136,12 +136,12 @@ section Form
 
 variable {F₀ : Subfield F} {I : Submodule F₀ V} {B : BilinForm F V}
 
-theorem linearIndependent_of_form (halt : ∀ x, B x x = 0) (hnd : ∀ x, (∀ y, B x y = 0) → x = 0)
-    (hval : ∀ x ∈ I, ∀ y ∈ I, B x y ∈ F₀) (hspan : Submodule.span F (I : Set V) = ⊤)
+theorem linearIndependent_of_form (halt : ∀ _x, B _x _x = 0) (hnd : ∀ _x, (∀ y, B _x y = 0) → _x = 0)
+    (hval : ∀ _x ∈ I, ∀ y ∈ I, B _x y ∈ F₀) (hspan : Submodule.span F (I : Set V) = ⊤)
     {ι : Type} [Fintype ι] (v : ι → V) (hv : ∀ i, v i ∈ I) (hli : LinearIndependent F₀ v) :
     LinearIndependent F v :=
   G48.linearIndependent_of_subfield F₀ (I := I.toAddSubgroup) B
-    (fun c hc x hx => I.smul_mem ⟨c, hc⟩ hx) hval
+    (fun c hc _x hx => I.smul_mem ⟨c, hc⟩ hx) hval
     (fun _ _ h => G48.eq_zero_of_forall_left B halt hnd (I := I.toAddSubgroup) hspan h) v hv hli
 
 theorem exists_ne_zero_of_form (hnd : ∀ x, (∀ y, B x y = 0) → x = 0)
@@ -205,7 +205,7 @@ theorem exists_sympBasis_form [CharP F 2] (halt : ∀ x, B x x = 0)
     (hnd : ∀ x, (∀ y, B x y = 0) → x = 0) (hval : ∀ x ∈ I, ∀ y ∈ I, B x y ∈ F₀)
     (hspan : Submodule.span F (I : Set V) = ⊤) (hdim : Module.finrank F V = 4) :
     ∃ b : Module.Basis (Fin 4) F V, IsSympBasis B b ∧ ∀ i, b i ∈ I := by
-  haveI : Nontrivial V := Module.nontrivial_of_finrank_pos (by omega : 0 < Module.finrank F V)
+  have : Nontrivial V := Module.nontrivial_of_finrank_pos (by omega : 0 < Module.finrank F V)
   have hI0 : I.toAddSubgroup ≠ ⊥ := by
     intro h
     have hI : (I : Set V) ⊆ {0} := fun x hx => by
@@ -316,8 +316,8 @@ theorem eq_of_eqOn_span {S : Set V} (hS : Submodule.span F S = ⊤) {g h : V ≃
   LinearEquiv.toLinearMap_injective (LinearMap.ext_on hS fun x hx => hgh x hx)
 
 theorem resHom_injective (hspan : Submodule.span F (I : Set V) = ⊤)
-    {G₀ : Subgroup (V ≃ₗ[F] V)} (hGI : ∀ g ∈ G₀, ∀ x ∈ I, g x ∈ I) :
-    Function.Injective (resHom hGI) := fun g h hgh =>
+    {G₀ : Subgroup (V ≃ₗ[F] V)} (hGI : ∀ _g ∈ G₀, ∀ x ∈ I, _g x ∈ I) :
+    Function.Injective (resHom hGI) := fun _g _h hgh =>
   Subtype.ext (eq_of_eqOn_span hspan fun x hx =>
     congrArg (fun φ : I ≃ₗ[F₀] I => ((φ ⟨x, hx⟩ : I) : V)) hgh)
 
@@ -325,7 +325,7 @@ end Restriction
 
 theorem exists_card_subfield [Finite F] [CharP F 2] {n : ℕ} (hn : Nat.card F = 2 ^ n)
     (F₀ : Subfield F) : ∃ k : ℕ, 0 < k ∧ k ∣ n ∧ Nat.card F₀ = 2 ^ k := by
-  letI := Fintype.ofFinite F₀
+  let := Fintype.ofFinite F₀
   obtain ⟨k, -, hk⟩ := FiniteField.card F₀ 2
   have hk' : Nat.card F₀ = 2 ^ (k : ℕ) := by rw [Nat.card_eq_fintype_card, hk]
   refine ⟨k, k.pos, ?_, hk'⟩

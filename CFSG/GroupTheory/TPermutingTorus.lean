@@ -45,16 +45,19 @@ variable {G : Type} [Group G] [Finite G]
     rintro x ⟨hxB, hxr⟩
     exact ⟨B.inv_mem hxB, by rw [inv_pow]; exact S.inv_mem hxr⟩
 
+omit [Finite G] in
 theorem omegaOnePreimage_le (B S : Subgroup G) [(S.subgroupOf B).Normal] (r : ℕ)
     (hab : ∀ a b : B ⧸ S.subgroupOf B, a * b = b * a) :
     omegaOnePreimage B S r hab ≤ B := fun _ hx => hx.1
 
+omit [Finite G] in
 theorem le_omegaOnePreimage {B S : Subgroup G} [(S.subgroupOf B).Normal] {r : ℕ}
     (hab : ∀ a b : B ⧸ S.subgroupOf B, a * b = b * a) (hSB : S ≤ B) :
     S ≤ omegaOnePreimage B S r hab := by
   intro s hs
   exact ⟨hSB hs, S.pow_mem hs r⟩
 
+omit [Finite G] in
 theorem omegaOnePreimage_normalizer {B S T : Subgroup G} [(S.subgroupOf B).Normal] {r : ℕ}
     (hab : ∀ a b : B ⧸ S.subgroupOf B, a * b = b * a) (hTB : T ≤ Subgroup.normalizer (B : Set G))
     (hTS : T ≤ Subgroup.normalizer (S : Set G)) :
@@ -81,6 +84,7 @@ theorem omegaOnePreimage_normalizer {B S T : Subgroup G} [(S.subgroupOf B).Norma
   rw [Subgroup.mem_normalizer_iff]
   exact hmem
 
+omit [Finite G] in
 theorem set_mul_assoc' (A B C : Set G) : (A * B) * C = A * (B * C) := by
   ext x
   simp only [Set.mem_mul]
@@ -90,6 +94,7 @@ theorem set_mul_assoc' (A B C : Set G) : (A * B) * C = A * (B * C) := by
   · rintro ⟨a, ha, y, ⟨b, hb, c, hc, rfl⟩, rfl⟩
     exact ⟨a * b, ⟨a, ha, b, hb, rfl⟩, c, hc, mul_assoc a b c⟩
 
+omit [Finite G] in
 theorem set_mul_comm_of_le_normalizer {H T : Subgroup G}
     (h : T ≤ Subgroup.normalizer (H : Set G)) :
     (H : Set G) * (T : Set G) = (T : Set G) * (H : Set G) := by
@@ -113,7 +118,7 @@ theorem exists_elemAbelian_permutes_of_abelian_quotient {B S T : Subgroup G}
       Nat.card E = r ^ CFSG.Open.pRank r B ∧
       (E : Set G) * (T : Set G) = (T : Set G) * (E : Set G) := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hTN : T ≤ Subgroup.normalizer (omegaOnePreimage B S r hab : Set G) :=
     omegaOnePreimage_normalizer hab hTB hTS
   set N : Subgroup G := omegaOnePreimage B S r hab with hNdef
@@ -167,7 +172,7 @@ theorem exists_elemAbelian_permutes_of_abelian_quotient {B S T : Subgroup G}
   have hEcard : Nat.card ↥E = r ^ k := by
     rw [hEdef, Subgroup.card_map_of_injective N.subtype_injective,
       Sylow.card_eq_multiplicity E₀, hfac]
-  have hEr : IsPGroup r ↥E := E₀.isPGroup'.map N.subtype
+  have hEr : IsPGroup r ↥E := E₀.isPGroup.map N.subtype
   have hEodd : Odd (Nat.card ↥E) := by
     obtain ⟨n, hn⟩ := hEr.exists_card_eq
     rw [hn]
@@ -282,9 +287,9 @@ theorem exists_elemAbelian_permutes_of_abelian_quotient {B S T : Subgroup G}
         rw [hs] at h'
         exact Subtype.ext (mul_left_cancel h')
       rw [hs, he]
-    haveI : Fintype ↥N := Fintype.ofFinite _
-    haveI : Fintype ↥S := Fintype.ofFinite _
-    haveI : Fintype ↥E := Fintype.ofFinite _
+    have : Fintype ↥N := Fintype.ofFinite _
+    have : Fintype ↥S := Fintype.ofFinite _
+    have : Fintype ↥E := Fintype.ofFinite _
     have hcardEq : Fintype.card (↥S × ↥E) = Fintype.card ↥N := by
       rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, Nat.card_prod, hcard]
     have hbij := (Fintype.bijective_iff_injective_and_card _).2 ⟨hinj, hcardEq⟩
@@ -322,9 +327,9 @@ theorem exists_elemAbelian_permutes_of_abelian_quotient {B S T : Subgroup G}
         rw [he] at h'
         exact Subtype.ext (mul_left_cancel h')
       rw [he, hs]
-    haveI : Fintype ↥N := Fintype.ofFinite _
-    haveI : Fintype ↥S := Fintype.ofFinite _
-    haveI : Fintype ↥E := Fintype.ofFinite _
+    have : Fintype ↥N := Fintype.ofFinite _
+    have : Fintype ↥S := Fintype.ofFinite _
+    have : Fintype ↥E := Fintype.ofFinite _
     have hcardEq : Fintype.card (↥E × ↥S) = Fintype.card ↥N := by
       rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, Nat.card_prod, hcard2]
     have hbij := (Fintype.bijective_iff_injective_and_card _).2 ⟨hinj, hcardEq⟩

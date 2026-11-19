@@ -245,15 +245,15 @@ include hV in
 theorem minRep_xm_nm_of_wt_zero {s : Fin τ.rank} (h : D.wt a₀ s = 0) (c : K) :
     minRep hV K (hV.xm K (Pi.single s 1) c * hV.nm K s) (Finsupp.single a₀ 1) =
       Finsupp.single a₀ 1 := by
-  rw [minRep_xm_nm_apply hV, minRep_nm_single, if_neg (by omega), hV.sRefl_eq_self h,
-    hV.rootOp_single_apply, if_neg (by omega), smul_zero, add_zero]
+  rw [minRep_xm_nm_apply hV, minRep_nm_single, ite_eq_right (by omega), hV.sRefl_eq_self h,
+    hV.rootOp_single_apply, ite_eq_right (by omega), smul_zero, add_zero]
 
 include hV in
 theorem minRep_xm_nm_of_wt_one {s : Fin τ.rank} (h : D.wt a₀ s = 1) (c : K) :
     minRep hV K (hV.xm K (Pi.single s 1) c * hV.nm K s) (Finsupp.single a₀ 1) =
       -Finsupp.single (hV.sRefl s a₀) 1 - c • Finsupp.single a₀ 1 := by
-  rw [minRep_xm_nm_apply hV, minRep_nm_single, if_pos h, map_neg, hV.rootOp_single_apply,
-    if_pos (by rw [hV.wt_sRefl_self, h]), hV.sRefl_sRefl]
+  rw [minRep_xm_nm_apply hV, minRep_nm_single, ite_eq_left h, map_neg, hV.rootOp_single_apply,
+    ite_eq_left (by rw [hV.wt_sRefl_self, h]), hV.sRefl_sRefl]
   simp [sub_eq_add_neg]
 
 theorem card_smul_eq_zero' (K : Type) [Field K] [Fintype K] {V : Type*} [AddCommGroup V]

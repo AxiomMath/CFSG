@@ -37,7 +37,7 @@ private theorem hdRo7CCoefAux_conj_refl
       have hcomp : (g * r * g⁻¹).toLinearMap - LinearMap.id =
           g.toLinearMap.comp ((r.toLinearMap - LinearMap.id).comp g⁻¹.toLinearMap) := by
         ext v
-        simp [LinearEquiv.mul_apply, map_sub]
+        simp [map_sub]
       rw [hcomp, LinearMap.range_comp, LinearMap.range_comp,
         LinearMap.range_eq_top.mpr g⁻¹.surjective, Submodule.map_top]
     rw [hmap]
@@ -117,18 +117,18 @@ private lemma hdRo7CCoefAux_signChange_mem
     C2SP 3 b (ggOrthSignChange b i) := by
   refine ⟨1, fun j => if j = i then -1 else 1, by simp, ?_, ?_, ?_⟩
   · show (if (0 : Fin (n + 1)) = i then -1 else 1) = 1
-    rw [if_neg (Ne.symm hi)]
+    rw [ite_eq_right (Ne.symm hi)]
   · intro j
     dsimp only
     by_cases hj : j = i
-    · rw [if_pos hj]; right; rfl
-    · rw [if_neg hj]; left; rfl
+    · rw [ite_eq_left hj]; right; rfl
+    · rw [ite_eq_right hj]; left; rfl
   · intro j
     rw [Equiv.Perm.one_apply]
     show ggOrthSignChange b i (b j) = (if j = i then -1 else 1) • b j
     by_cases hj : j = i
-    · rw [hj, if_pos rfl, ggOrthSignChange_apply_self, neg_one_smul]
-    · rw [if_neg hj, ggOrthSignChange_apply_of_ne b hj, one_smul]
+    · rw [hj, ite_eq_left rfl, ggOrthSignChange_apply_self, neg_one_smul]
+    · rw [ite_eq_right hj, ggOrthSignChange_apply_of_ne b hj, one_smul]
 
 private lemma hdRo7CCoefAux_signChange_fix
     {V : Type} [AddCommGroup V] [Module (ZMod 3) V] {m : ℕ}
@@ -168,12 +168,12 @@ private noncomputable def hdRo7CCoefAux_swap
         simp only [LinearMap.comp_apply, LinearMap.id_apply]
         rw [hT k]
         by_cases hki : k = i
-        · rw [if_pos hki, map_smul, hT j, if_neg (Ne.symm hij), if_pos rfl, ← mul_smul, hε,
+        · rw [ite_eq_left hki, map_smul, hT j, ite_eq_right (Ne.symm hij), ite_eq_left rfl, ← mul_smul, hε,
             one_smul, hki]
         · by_cases hkj : k = j
-          · rw [if_neg hki, if_pos hkj, map_smul, hT i, if_pos rfl, ← mul_smul, hε, one_smul,
+          · rw [ite_eq_right hki, ite_eq_left hkj, map_smul, hT i, ite_eq_left rfl, ← mul_smul, hε, one_smul,
               hkj]
-          · rw [if_neg hki, if_neg hkj, hT k, if_neg hki, if_neg hkj]
+          · rw [ite_eq_right hki, ite_eq_right hkj, hT k, ite_eq_right hki, ite_eq_right hkj]
       intro x
       have hx := congrArg (fun L : V →ₗ[ZMod 3] V => L x) hcomp
       simpa [LinearMap.comp_apply] using hx)
@@ -183,14 +183,14 @@ private lemma hdRo7CCoefAux_swap_apply_i
     (b : Module.Basis (Fin m) (ZMod 3) V) (i j : Fin m) (ε : ZMod 3) (hij : i ≠ j)
     (hε : ε * ε = 1) : hdRo7CCoefAux_swap b i j ε hij hε (b i) = ε • b j := by
   simp only [hdRo7CCoefAux_swap, LinearEquiv.coe_ofInvolutive]
-  rw [Module.Basis.constr_basis, if_pos rfl]
+  rw [Module.Basis.constr_basis, ite_eq_left rfl]
 
 private lemma hdRo7CCoefAux_swap_apply_j
     {V : Type} [AddCommGroup V] [Module (ZMod 3) V] {m : ℕ}
     (b : Module.Basis (Fin m) (ZMod 3) V) (i j : Fin m) (ε : ZMod 3) (hij : i ≠ j)
     (hε : ε * ε = 1) : hdRo7CCoefAux_swap b i j ε hij hε (b j) = ε • b i := by
   simp only [hdRo7CCoefAux_swap, LinearEquiv.coe_ofInvolutive]
-  rw [Module.Basis.constr_basis, if_neg (Ne.symm hij), if_pos rfl]
+  rw [Module.Basis.constr_basis, ite_eq_right (Ne.symm hij), ite_eq_left rfl]
 
 private lemma hdRo7CCoefAux_swap_apply_of_ne
     {V : Type} [AddCommGroup V] [Module (ZMod 3) V] {m : ℕ}
@@ -198,7 +198,7 @@ private lemma hdRo7CCoefAux_swap_apply_of_ne
     (hε : ε * ε = 1) {k : Fin m} (hki : k ≠ i) (hkj : k ≠ j) :
     hdRo7CCoefAux_swap b i j ε hij hε (b k) = b k := by
   simp only [hdRo7CCoefAux_swap, LinearEquiv.coe_ofInvolutive]
-  rw [Module.Basis.constr_basis, if_neg hki, if_neg hkj]
+  rw [Module.Basis.constr_basis, ite_eq_right hki, ite_eq_right hkj]
 
 private theorem hdRo7CCoefAux_swap_refl
     {V : Type} [AddCommGroup V] [Module (ZMod 3) V] {m : ℕ}
@@ -278,23 +278,23 @@ private theorem hdRo7CCoefAux_swap_mem
   refine ⟨Equiv.swap i j, fun k => if k = i ∨ k = j then ε else 1, ?_, ?_, ?_, ?_⟩
   · rw [Equiv.swap_apply_of_ne_of_ne (Ne.symm hi0) (Ne.symm hj0)]
   · dsimp only
-    rw [if_neg (by
+    rw [ite_eq_right (by
       rintro (h | h)
       · exact hi0 h.symm
       · exact hj0 h.symm)]
   · intro k
     dsimp only
     by_cases hk : k = i ∨ k = j
-    · rw [if_pos hk]; exact hεpm
-    · rw [if_neg hk]; left; rfl
+    · rw [ite_eq_left hk]; exact hεpm
+    · rw [ite_eq_right hk]; left; rfl
   · intro k
     dsimp only
     by_cases hki : k = i
-    · rw [hki, Equiv.swap_apply_left, if_pos (Or.inl rfl), hdRo7CCoefAux_swap_apply_i]
+    · rw [hki, Equiv.swap_apply_left, ite_eq_left (Or.inl rfl), hdRo7CCoefAux_swap_apply_i]
     · by_cases hkj : k = j
-      · rw [hkj, Equiv.swap_apply_right, if_pos (Or.inr rfl), hdRo7CCoefAux_swap_apply_j]
+      · rw [hkj, Equiv.swap_apply_right, ite_eq_left (Or.inr rfl), hdRo7CCoefAux_swap_apply_j]
       · rw [Equiv.swap_apply_of_ne_of_ne hki hkj,
-          if_neg (by
+          ite_eq_right (by
             rintro (h | h)
             · exact hki h
             · exact hkj h),

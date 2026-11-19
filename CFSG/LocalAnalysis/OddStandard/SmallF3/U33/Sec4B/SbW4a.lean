@@ -81,6 +81,7 @@ theorem w4_tM_of_ncard (hc : Ctx10 t L S x₁ x₂ lam rho tau)
       (by rw [h]; exact Set.subset_union_left)
     omega
 
+omit [Finite G] in
 private theorem w4_conj_mem_closure_of_gens {T : Set G} {g : G}
     (hgen : ∀ x ∈ T, g * x * g⁻¹ ∈ Subgroup.closure T) :
     ∀ w ∈ Subgroup.closure T, g * w * g⁻¹ ∈ Subgroup.closure T := by

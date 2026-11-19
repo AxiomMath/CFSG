@@ -105,7 +105,7 @@ theorem Hyp.s56_J_le_M (hd : d.Hyp) : d.s56J ≤ d.M := by
   rw [hd.mem_normalizer_tSup_iff hED hjC, hd.ρ_lift hyD]
   exact hyN.2
 
-theorem Hyp.s56_J_comm_E (hd : d.Hyp) {j e : G} (hj : j ∈ d.s56J) (he : e ∈ d.E) :
+theorem Hyp.s56_J_comm_E (_hd : d.Hyp) {j e : G} (hj : j ∈ d.s56J) (he : e ∈ d.E) :
     j * e * j⁻¹ * e⁻¹ ∈ zpowers d.z := by
   obtain ⟨y, hy, hyD, rfl⟩ := mem_liftSub.1 hj
   obtain ⟨x, hx, hxD, rfl⟩ := mem_liftSub.1 he
@@ -126,7 +126,7 @@ theorem Hyp.s56_J_le_Q0 (h49 : d.Thm49Statement) (hd : d.Hyp) : d.s56J ≤ d.s56
     exact ⟨hd.s56_J_le_M hj, fun e he => hd.s56_J_comm_E hj he⟩
   exact hmem
 
-theorem Hyp.s56_J_inf_Q2 (hd : d.Hyp) : d.s56J ⊓ d.s56Q2 = d.E := by
+theorem Hyp.s56_J_inf_Q2 (_hd : d.Hyp) : d.s56J ⊓ d.s56Q2 = d.E := by
   apply le_antisymm
   · rintro j ⟨hj, hjQ⟩
     have hjQ' : j ∈ d.M ⊓ centralizer (d.E : Set G) := hjQ
@@ -144,15 +144,15 @@ theorem Hyp.s56_J_inf_Q2 (hd : d.Hyp) : d.s56J ⊓ d.s56Q2 = d.E := by
       mem_inf.2 ⟨d.s56_E_le_M he, mem_centralizer_iff.2 fun e' he' => s56J_E_comm he' he⟩
     exact this
 
-theorem Hyp.s56_card_J (hd : d.Hyp) : Nat.card d.s56J = 2 ^ 9 := by
+theorem Hyp.s56_card_J (_hd : d.Hyp) : Nat.card d.s56J = 2 ^ 9 := by
   rw [s56J, d.card_liftSub titsJ_le_titsD, titsQJ_facts.2.2.2]
   norm_num
 
 theorem Hyp.s56_J_isPGroup (hd : d.Hyp) : IsPGroup 2 d.s56J := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact IsPGroup.of_card (n := 9) hd.s56_card_J
 
-theorem Hyp.s56_J_comm_le_E (hd : d.Hyp) {j j' : G} (hj : j ∈ d.s56J) (hj' : j' ∈ d.s56J) :
+theorem Hyp.s56_J_comm_le_E (_hd : d.Hyp) {j j' : G} (hj : j ∈ d.s56J) (hj' : j' ∈ d.s56J) :
     j * j' * j⁻¹ * j'⁻¹ ∈ d.E := by
   obtain ⟨y, hy, hyD, rfl⟩ := mem_liftSub.1 hj
   obtain ⟨y', hy', hy'D, rfl⟩ := mem_liftSub.1 hj'
@@ -163,7 +163,7 @@ theorem Hyp.s56_J_comm_le_E (hd : d.Hyp) {j j' : G} (hj : j ∈ d.s56J) (hj' : j
   rw [← s56J_lift_commutator hyD hy'D]
   exact mem_liftSub.2 ⟨_, hc, hcD, rfl⟩
 
-theorem Hyp.s56_exists_comm_eq_z (hd : d.Hyp) :
+theorem Hyp.s56_exists_comm_eq_z (_hd : d.Hyp) :
     ∃ a ∈ d.s56J, ∃ b ∈ d.s56J, a * b * a⁻¹ * b⁻¹ = d.z := by
   obtain ⟨x, hx, y, hy, hxy⟩ := Model.comm_hatE.2.2
   have hxJ : x ∈ titsJ := Model.hatE_le_titsJ hx
@@ -198,7 +198,7 @@ theorem Hyp.s56_L_inf_M_normalizes_J (hd : d.Hyp) {h : G} (hhL : h ∈ d.L) (hhM
 section X5
 
 
-theorem Hyp.s56_x5_comm_z (hd : d.Hyp) : d.x₅ * d.z = d.z * d.x₅ := by
+theorem Hyp.s56_x5_comm_z (_hd : d.Hyp) : d.x₅ * d.z = d.z * d.x₅ := by
   have hXH := Model.hatX_facts.1
   have hXD : Model.hatX ∈ titsD := titsH_le_titsD hXH
   have hc : Model.hatX * titsZ = titsZ * Model.hatX :=
@@ -206,7 +206,7 @@ theorem Hyp.s56_x5_comm_z (hd : d.Hyp) : d.x₅ * d.z = d.z * d.x₅ := by
   rw [x₅, ← d.lift_titsZ]
   exact d.lift_comm hXD titsZ_mem_titsD hc
 
-theorem Hyp.s56_orderOf_x5 (hd : d.Hyp) : orderOf d.x₅ = 5 := by
+theorem Hyp.s56_orderOf_x5 (_hd : d.Hyp) : orderOf d.x₅ = 5 := by
   rw [x₅, d.orderOf_lift (titsH_le_titsD Model.hatX_facts.1)]
   exact Model.hatX_facts.2.1
 
@@ -227,7 +227,7 @@ theorem Hyp.s56_x5_mem_M (hd : d.Hyp) : d.x₅ ∈ d.M := by
 theorem Hyp.s56_x5_normalizes_J (hd : d.Hyp) : d.x₅ ∈ normalizer (d.s56J : Set G) :=
   hd.s56_L_inf_M_normalizes_J (Hyp.s56_x5_mem_L d) hd.s56_x5_mem_M
 
-theorem Hyp.s56_J_cent_x5 (hd : d.Hyp) {j : G} (hj : j ∈ d.s56J) (hc : j * d.x₅ = d.x₅ * j) :
+theorem Hyp.s56_J_cent_x5 (_hd : d.Hyp) {j : G} (hj : j ∈ d.s56J) (hc : j * d.x₅ = d.x₅ * j) :
     j ∈ zpowers d.z := by
   obtain ⟨y, hy, hyD, rfl⟩ := mem_liftSub.1 hj
   have hXD : Model.hatX ∈ titsD := titsH_le_titsD Model.hatX_facts.1

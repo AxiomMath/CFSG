@@ -176,7 +176,7 @@ private theorem twE6_goodPlane_component {G : Type} [Group G] [Finite G] {B Bs :
     (hJq : CFSG.IsQuasisimple ↥J)
     (hJfix : J ≤ TauCeti.fixedSubgroup (φ (u z)).toMonoidHom)
     (hJnorm : (J.subgroupOf (TauCeti.fixedSubgroup (φ (u z)).toMonoidHom)).Normal)
-    (hJsolv : IsSolvable (↥(TauCeti.fixedSubgroup (φ (u z)).toMonoidHom) ⧸
+    (hJsolv : Group.IsSolvable (↥(TauCeti.fixedSubgroup (φ (u z)).toMonoidHom) ⧸
       J.subgroupOf (TauCeti.fixedSubgroup (φ (u z)).toMonoidHom)))
     (hJbig : 25920 < Nat.card (↥J ⧸ Subgroup.center ↥J))
     (hJmark : LargeEvenMarking ↥J (fun lab _ _ _ _ _ => lab = lab₀))
@@ -244,7 +244,7 @@ theorem p5Out_of_twE6Component {G : Type} [Group G] [Finite G] {B Bs : Subgroup 
     (hJq : CFSG.IsQuasisimple ↥J)
     (hJfix : J ≤ TauCeti.fixedSubgroup (φ (u z)).toMonoidHom)
     (hJnorm : (J.subgroupOf (TauCeti.fixedSubgroup (φ (u z)).toMonoidHom)).Normal)
-    (hJsolv : IsSolvable (↥(TauCeti.fixedSubgroup (φ (u z)).toMonoidHom) ⧸
+    (hJsolv : Group.IsSolvable (↥(TauCeti.fixedSubgroup (φ (u z)).toMonoidHom) ⧸
       J.subgroupOf (TauCeti.fixedSubgroup (φ (u z)).toMonoidHom)))
     (hJbig : 25920 < Nat.card (↥J ⧸ Subgroup.center ↥J))
     (hJmark : LargeEvenMarking ↥J (fun lab _ _ _ _ _ => lab = lab₀))

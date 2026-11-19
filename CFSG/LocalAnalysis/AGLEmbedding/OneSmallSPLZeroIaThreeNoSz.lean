@@ -156,7 +156,7 @@ theorem D1OneSmallData.eq_bot_of_coprime_le_map_cz (hβ : KFactBeta) (hKO : KFac
         rw [hψrange] at hmem
         exact ⟨ζ, hmem, rfl⟩
       have hζP : IsPGroup 3 (centerOf ((Pbar : Subgroup (D1CzQuot 3 z)) ⊓ KC)) :=
-        Pbar.isPGroup'.to_le (inf_le_left.trans inf_le_left)
+        Pbar.isPGroup.to_le (inf_le_left.trans inf_le_left)
       have hbot := inf_eq_bot_of_isPGroup hp3 hζP hWc
       rw [inf_eq_left.mpr hle] at hbot
       have : (ζ : D1CzQuot 3 z) ∈ (⊥ : Subgroup (D1CzQuot 3 z)) := hbot ▸ hζZ

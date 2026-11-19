@@ -38,10 +38,10 @@ theorem rank_three_square_involution_coverage (hrank : 3 ≤ CFSG.Open.twoRank H
       (CFSG.SectionRank.pRank_sylow S).1]
     exact hrank
   obtain ⟨A, hA, hAcard⟩ := exists_elementary_eight_of_rank_three hPrank
-  obtain ⟨V, hVnormal, hV, hVcard⟩ := high_two_rank_normal_four P S.isPGroup' hPrank
+  obtain ⟨V, hVnormal, hV, hVcard⟩ := high_two_rank_normal_four P S.isPGroup hPrank
   have : V.Normal := hVnormal
   let C := Subgroup.centralizer (V : Set P)
-  obtain ⟨-, -, hindex⟩ := normal_four_centralizer_index S.isPGroup' V hV hVcard
+  obtain ⟨-, -, hindex⟩ := normal_four_centralizer_index S.isPGroup V hV hVcard
   change C.index ≤ 2 at hindex
   let D := C.map P.subtype
   have hDP : D ≤ P := Subgroup.map_subtype_le _
@@ -67,7 +67,7 @@ theorem rank_three_square_involution_coverage (hrank : 3 ≤ CFSG.Open.twoRank H
     rw [← Subgroup.orderOf_coe, hy]
     simpa only [MulAut.conj_apply, inv_inv, ht] using (MulAut.conj g⁻¹).orderOf_eq t
   obtain ⟨E, -, hE, hEcard, hyE⟩ := normal_four_centralizer_involution_coverage
-    S.isPGroup' V hV hVcard A hA hAcard y hyOrder hyC
+    S.isPGroup V hV hVcard A hA hAcard y hyOrder hyC
   obtain ⟨F, -, hF, hFcard, hyF⟩ := elementary_eight_coverage_lift P y ⟨E, hE, hEcard, hyE⟩
   exact elementary_eight_coverage_conjugate t g F hF hFcard (hy ▸ hyF)
 

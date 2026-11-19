@@ -12,11 +12,11 @@ namespace CFSG.GF2Type.Smith1979
 
 theorem no_conj_elemAbelian_sixteen_alt {n : ℕ} (hn : n = 10 ∨ n = 11)
     (K : Subgroup (alternatingGroup (Fin n))) (hK : ∀ x ∈ K, x * x = 1)
-    (hcomm : ∀ x ∈ K, ∀ y ∈ K, x * y = y * x) (hcard : Nat.card K = 16)
+    (_hcomm : ∀ x ∈ K, ∀ y ∈ K, x * y = y * x) (hcard : Nat.card K = 16)
     (hconj : ∀ x ∈ K, ∀ y ∈ K, x ≠ 1 → y ≠ 1 →
       (x : Equiv.Perm (Fin n)).cycleType = (y : Equiv.Perm (Fin n)).cycleType) : False := by
   classical
-  clear hcomm
+  clear _hcomm
   have hn11 : n ≤ 11 := by omega
   obtain ⟨x0, hx0K, hx01⟩ : ∃ x ∈ K, x ≠ 1 := by
     by_contra hcon
@@ -63,7 +63,7 @@ theorem no_conj_elemAbelian_sixteen_alt {n : ℕ} (hn : n = 10 ∨ n = 11)
       ∑ g ∈ Finset.univ.erase (1 : K), (n - s) :=
     Finset.sum_congr rfl (fun g hg => hterm g (Finset.ne_of_mem_erase hg))
   have h15 : ∑ g ∈ Finset.univ.erase (1 : K), (n - s) = 15 * (n - s) := by
-    simp [hcardE, hcardK]
+    simp [hcardE]
   have hB := MulAction.sum_card_fixedBy_eq_card_orbits_mul_card_group (G := ↥K) (X := Fin n)
   rw [hsplit, hone, h2, h15, hcardK] at hB
   omega

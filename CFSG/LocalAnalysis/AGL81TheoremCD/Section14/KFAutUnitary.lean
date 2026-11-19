@@ -28,8 +28,8 @@ theorem autMAt_unitary {p : ℕ} [Fact p.Prime] (hp5 : 5 ≤ p)
     CFSG.RankThree.PartOne.Sec1511.spe_fstar Fact.out hO hN
   set K := CFSG.generalizedFitting X with hKdef
   have hK1 : K ≠ ⊥ := (Subgroup.nontrivial_iff_ne_bot K).1 inferInstance
-  haveI : K.Normal := hKn
-  haveI : IsSimpleGroup ↥K := hKs
+  have : K.Normal := hKn
+  have : IsSimpleGroup ↥K := hKs
   obtain ⟨P, hPN, hPK, T, hT, -⟩ :=
     exists_sylow_glbCore_ne_top_of_isStronglyPEmbedded hO hK1 hN
   have hTmap : (T : Subgroup ↥K).map K.subtype = (P : Subgroup X) ⊓ K := by
@@ -43,7 +43,7 @@ theorem autMAt_unitary {p : ℕ} [Fact p.Prime] (hp5 : 5 ≤ p)
   have hle : Subgroup.normalizer ((T : Subgroup ↥K) : Set ↥K) ≤ N.subgroupOf K := by
     have h := normalizer_subgroupOf_le_of_isStronglyPEmbedded
       hN (p := p) (K := K) (Q := (T : Subgroup ↥K).map K.subtype)
-      (by rw [hTmap]; exact hPK) (T.isPGroup'.map K.subtype)
+      (by rw [hTmap]; exact hPK) (T.isPGroup.map K.subtype)
       (by rw [hTmap]; exact inf_le_left.trans hPN) (Subgroup.map_subtype_le _)
     rwa [hTsub] at h
   have hne : N.subgroupOf K ≠ ⊤ := fun h => hnotle (Subgroup.subgroupOf_eq_top.1 h)
@@ -56,7 +56,7 @@ theorem autMAt_unitary {p : ℕ} [Fact p.Prime] (hp5 : 5 ≤ p)
   let ρ : X →* MulAut ↥K := MulAut.conjNormal (G := X) (H := K)
   have hρinj : Function.Injective ρ :=
     CFSG.Wreathed.SimpleOddIndexQuotient.conjNormal_injective_of_centralizer_eq_bot K hKC
-  refine autMAt_of_card_le_nine hp5 ?_ (T.isPGroup'.map K.subtype) (by rw [hTmap]; exact hPK)
+  refine autMAt_of_card_le_nine hp5 ?_ (T.isPGroup.map K.subtype) (by rw [hTmap]; exact hPK)
     (by rw [hTmap]; exact inf_le_left.trans hPN) hNle
     (SEFive.good_unitary hd hO hN e).2
   intro R hRN hexp

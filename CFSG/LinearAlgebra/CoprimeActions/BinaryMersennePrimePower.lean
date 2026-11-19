@@ -3,7 +3,7 @@ module
 
 public import Mathlib.Algebra.IsPrimePow
 public import Mathlib.Algebra.Order.Ring.Star
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 import Mathlib.Tactic.LinearCombination
 import Mathlib.Algebra.Order.Field.Basic
 import Mathlib.Data.Rat.Cast.Order

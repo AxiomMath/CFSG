@@ -11,6 +11,7 @@ open CFSG.QuasithinUnique.Setup.X7 CFSG.Blueprint CFSG.LieType.Ree
 variable {a : ℕ} {K : Type} [Field K] [CharP K 2] [Fintype K]
   {W : Type} [AddCommGroup W] [Module (ZMod 2) W] [Finite W]
 
+omit [CharP K 2] [Fintype K] in
 private theorem suzukiS_zero_map_mulVec (c : ℕ) (v : K) (u : Fin 4 → K) :
     ((suzukiS a 0 v).map (· ^ 2 ^ c)).mulVec u =
       ![u 0, u 1, v ^ 2 ^ c * u 0 + u 2,
@@ -19,6 +20,7 @@ private theorem suzukiS_zero_map_mulVec (c : ℕ) (v : K) (u : Fin 4 → K) :
   fin_cases i <;>
     simp [suzukiS, suzukiN, Matrix.map_apply, Matrix.mulVec, dotProduct, Fin.sum_univ_four]
 
+omit [CharP K 2] [Fintype K] in
 private theorem suzukiS_zero_map_sub_mulVec (c : ℕ) (v : K) (u : Fin 4 → K) :
     ((suzukiS a 0 v).map (· ^ 2 ^ c)).mulVec u - u =
       ![0, 0, v ^ 2 ^ c * u 0,
@@ -27,6 +29,7 @@ private theorem suzukiS_zero_map_sub_mulVec (c : ℕ) (v : K) (u : Fin 4 → K) 
   ext i
   fin_cases i <;> simp
 
+omit [Finite W] [CharP K 2] in
 private theorem mem_fixedSub_zpowers_iff
     (hK : Nat.card K = 2 ^ (2 * a + 1))
     (ρ : Representation (ZMod 2) ↥(suzukiGroup a K) W) {c : ℕ} {φ : W ≃+ (Fin 4 → K)}
@@ -72,6 +75,7 @@ private theorem mem_fixedSub_zpowers_iff
     ext i
     fin_cases i <;> simp [h0, h1]
 
+omit [Finite W] [CharP K 2] in
 theorem fixedSub_zpowers_eq_fixedSub_suzukiZ0
     (hK : Nat.card K = 2 ^ (2 * a + 1))
     (ρ : Representation (ZMod 2) ↥(suzukiGroup a K) W) (hρ : IsSzNatural ρ)
@@ -82,6 +86,7 @@ theorem fixedSub_zpowers_eq_fixedSub_suzukiZ0
   rw [mem_fixedSub_zpowers_iff hK ρ hφ hz hz1,
     mem_fixedSub_suzukiZ0_iff hK ρ hφ]
 
+omit [Finite W] in
 theorem range_sub_one_eq_fixedSub_suzukiZ0
     (hK : Nat.card K = 2 ^ (2 * a + 1))
     (ρ : Representation (ZMod 2) ↥(suzukiGroup a K) W) (hρ : IsSzNatural ρ)
@@ -121,14 +126,12 @@ theorem range_sub_one_eq_fixedSub_suzukiZ0
     have hv' : v ^ 2 ^ c ≠ 0 := pow_ne_zero _ hv
     ext i
     fin_cases i
-    · simp [u, h0, h1]
-    · simp [u, h0, h1]
-    · simp only [u, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
-        Matrix.cons_val_two, Matrix.cons_val_three, h0, h1, mul_zero, zero_add, add_zero]
+    · simp [u, h0]
+    · simp [u, h1]
+    · simp only [u, Matrix.cons_val_zero, Matrix.cons_val_one]
       change v ^ 2 ^ c * ((v ^ 2 ^ c)⁻¹ * φ y 2) = φ y 2
       rw [mul_inv_cancel_left₀ hv']
-    · simp only [u, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
-        Matrix.cons_val_two, Matrix.cons_val_three, h0, h1, mul_zero, zero_add, add_zero]
+    · simp only [u, Matrix.cons_val_zero, Matrix.cons_val_one]
       change (v ^ 2 ^ (a + 1)) ^ 2 ^ c * ((v ^ 2 ^ c)⁻¹ * φ y 2) +
           v ^ 2 ^ c * ((v ^ 2 ^ c)⁻¹ * (φ y 3 +
             (v ^ 2 ^ (a + 1)) ^ 2 ^ c * ((v ^ 2 ^ c)⁻¹ * φ y 2))) = φ y 3
@@ -145,6 +148,7 @@ theorem range_sub_one_eq_fixedSub_suzukiZ0
             abel
         _ = φ y 3 := by rw [h2, zero_add]
 
+omit [CharP K 2] [Fintype K] in
 private theorem suzukiS_one_zero_map_mulVec (c : ℕ) (u : Fin 4 → K) :
     ((suzukiS a 1 0).map (· ^ 2 ^ c)).mulVec u =
       ![u 0, u 0 + u 1, u 1 + u 2, u 0 + u 1 + u 2 + u 3] := by
@@ -152,6 +156,7 @@ private theorem suzukiS_one_zero_map_mulVec (c : ℕ) (u : Fin 4 → K) :
   fin_cases i <;>
     simp [suzukiS, suzukiN, Matrix.map_apply, Matrix.mulVec, dotProduct, Fin.sum_univ_four]
 
+omit [Finite W] [CharP K 2] in
 private theorem mem_fixedSub_suzukiU_iff
     (hK : Nat.card K = 2 ^ (2 * a + 1))
     (ρ : Representation (ZMod 2) ↥(suzukiGroup a K) W) {c : ℕ} {φ : W ≃+ (Fin 4 → K)}
@@ -186,6 +191,7 @@ private theorem mem_fixedSub_suzukiU_iff
       simp [suzukiS, suzukiN, Matrix.map_apply, Matrix.mulVec, dotProduct,
         Fin.sum_univ_four, h0, h1, h2]
 
+omit [Finite W] [CharP K 2] in
 theorem natCard_fixedSub_suzukiU
     (hK : Nat.card K = 2 ^ (2 * a + 1))
     (ρ : Representation (ZMod 2) ↥(suzukiGroup a K) W) (hρ : IsSzNatural ρ) :

@@ -81,7 +81,7 @@ private theorem two_mul_card_le {B : Type} [Group B] [Finite B] {z : B}
     (hm : ∀ E : Subgroup B, (∀ x ∈ E, ∀ y ∈ E, x * y = y * x) → (∀ x ∈ E, x * x = 1) →
       Nat.card E ≤ m) : 2 * Nat.card S ≤ m := by
   have hzc : ∀ g : B, g * z = z * g := Subgroup.mem_center_iff.mp hz
-  haveI : (Subgroup.zpowers z).Normal :=
+  have : (Subgroup.zpowers z).Normal :=
     Subgroup.normal_of_le_center (Subgroup.zpowers_le.mpr hz)
   have hcen : ∀ n : B, (n = 1 ∨ n = z) → ∀ g : B, Commute n g := by
     rintro n (rfl | rfl) g
@@ -248,10 +248,10 @@ variable {Y : Type} [Group Y]
 private theorem le_center_of_card_le_four [Finite Y] (hYp : Group.IsPerfect Y)
     (N : Subgroup Y) [N.Normal] (h4 : Nat.card N ≤ 4) : N ≤ Subgroup.center Y := by
   let φ : Y →* Equiv.Perm N := (MulAut.toPerm N).comp (MulAut.conjNormal : Y →* MulAut N)
-  haveI : Group.IsSolvable (Equiv.Perm N) := Equiv.Perm.isSolvable h4
-  haveI : Group.IsSolvable (Y ⧸ φ.ker) :=
+  have : Group.IsSolvable (Equiv.Perm N) := Equiv.Perm.isSolvable h4
+  have : Group.IsSolvable (Y ⧸ φ.ker) :=
     Group.isSolvable_of_isSolvable_injective (QuotientGroup.kerLift_injective φ)
-  haveI := hYp
+  have := hYp
   have hker : φ.ker = ⊤ := Sec4.Census.eq_top_of_isSolvable_quotient inferInstance
   intro n hn
   rw [Subgroup.mem_center_iff]
@@ -298,7 +298,7 @@ private theorem false_of_pCore_le_center (hYp : Group.IsPerfect Y)
     (τ : Y ≃* Y) (hτ3 : ∀ y, τ (τ (τ y)) = y)
     (hfix : ∀ y ∈ CFSG.pCore 2 Y, τ y = y → y = 1)
     (hc : CFSG.pCore 2 Y ≤ Subgroup.center Y) : False := by
-  haveI := hYp
+  have := hYp
   set R := CFSG.pCore 2 Y with hR
   have hRτ : R.map τ.toMonoidHom = R := by
     have hch := CFSG.LieType.BorelTits.pCore_characteristic (G := Y) 2
@@ -341,7 +341,7 @@ private theorem false_of_pCore_le_center (hYp : Group.IsPerfect Y)
         apply Subtype.ext
         simp
       map_mul' := fun y z => Subtype.ext (hδ y z) }
-  haveI : Group.IsSolvable (Y ⧸ δ.ker) :=
+  have : Group.IsSolvable (Y ⧸ δ.ker) :=
     Group.isSolvable_of_isSolvable_injective (QuotientGroup.kerLift_injective δ)
   have hker : δ.ker = ⊤ := Sec4.Census.eq_top_of_isSolvable_quotient inferInstance
   have hτy : ∀ y, τ y = y₀ * y * y₀⁻¹ := by
@@ -421,7 +421,7 @@ private theorem card_quotient (D : Dat P Y) : Nat.card (P ⧸ D.K) = 60 := by
 
 private theorem eq_one_of_mem_oddCore (D : Dat P Y) {y : Y} (hy : y ∈ CFSG.pCore 2 Y)
     (hyO : D.j y ∈ CFSG.oddCore P) : y = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hR2 : IsPGroup 2 (CFSG.pCore 2 Y) := CFSG.LieType.BorelTits.pCore_isPGroup 2
   obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp hR2 ⟨y, hy⟩
   have h1 : orderOf y = 2 ^ k := by rw [← Subgroup.orderOf_mk y hy, hk]
@@ -458,9 +458,9 @@ private theorem pCore_le_center_of_map_central (D : Dat P Y) {Q : Type*} [Group 
 
 private theorem case_one (D : Dat P Y) (hq : IsQuasisimple (P ⧸ CFSG.pCore 2 P)) :
     CFSG.pCore 2 Y ≤ Subgroup.center Y := by
-  haveI := D.hperf
-  haveI := D.simple
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := D.hperf
+  have := D.simple
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let f : P →* P ⧸ CFSG.pCore 2 P := QuotientGroup.mk' (CFSG.pCore 2 P)
   have hfK : f.ker ≤ D.K := by
     rw [QuotientGroup.ker_mk']
@@ -479,8 +479,8 @@ private theorem card_le_two_of_sl2 (D : Dat P Y) {p : ℕ} [Fact p.Prime] (hp5 :
     {N : Subgroup P} [N.Normal] (hNO : N ≤ CFSG.oddCore P) (hNK : N ≤ D.K)
     (e : P ⧸ N ≃* Matrix.SpecialLinearGroup (Fin 2) (ZMod p)) :
     Nat.card (CFSG.pCore 2 Y) ≤ 2 := by
-  haveI := D.hperf
-  haveI := D.simple
+  have := D.hperf
+  have := D.simple
   have hJ : IsQuasisimple (Matrix.SpecialLinearGroup (Fin 2) (ZMod p)) :=
     Sec4.Census.isQuasisimple_SL2 hp5
   let f : P →* Matrix.SpecialLinearGroup (Fin 2) (ZMod p) :=
@@ -510,9 +510,9 @@ private theorem case_two (D : Dat P Y)
     (e : Nonempty (P ⧸ Sec4.oTwoFitting P ≃* Matrix.SpecialLinearGroup (Fin 2) (ZMod 5))) :
     Nat.card (CFSG.pCore 2 Y) ≤ 2 := by
   obtain ⟨e⟩ := e
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI := D.hperf
-  haveI := D.simple
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have := D.hperf
+  have := D.simple
   have hNK : Sec4.oTwoFitting P ≤ D.K :=
     Sec4.Census.le_of_isSolvable_of_normal inferInstance Sec4.isSolvable_oTwoFitting
   have hNO : Sec4.oTwoFitting P ≤ CFSG.oddCore P := by
@@ -524,9 +524,9 @@ private theorem case_three (D : Dat P Y) {p : ℕ} (hp : p.Prime) (hp3 : 3 < p)
     (e : Nonempty (P ⧸ Sec4.oTwoP p P ≃* Matrix.SpecialLinearGroup (Fin 2) (ZMod p))) :
     Nat.card (CFSG.pCore 2 Y) ≤ 2 := by
   obtain ⟨e⟩ := e
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := D.hperf
-  haveI := D.simple
+  have : Fact p.Prime := ⟨hp⟩
+  have := D.hperf
+  have := D.simple
   have hp2 : p ≠ 2 := by omega
   have hp5 : 5 ≤ p := by
     have hpodd : p % 2 = 1 := Nat.odd_iff.mp (hp.odd_of_ne_two hp2)
@@ -544,9 +544,9 @@ private theorem case_three (D : Dat P Y) {p : ℕ} (hp : p.Prime) (hp3 : 3 < p)
 private theorem false_of_case_four_a (D : Dat P Y)
     (e : Nonempty (P ⧸ Sec4.oTwoP 3 P ≃* projSL 3 (GaloisField 3 1))) : False := by
   obtain ⟨e⟩ := e
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := D.hperf
-  haveI := D.simple
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := D.hperf
+  have := D.simple
   have hNK : Sec4.oTwoP 3 P ≤ D.K :=
     Sec4.Census.le_of_isSolvable_of_normal inferInstance (Sec4.isSolvable_oTwoP 3)
   have hdiv : Nat.card (P ⧸ D.K) ∣ Nat.card (P ⧸ Sec4.oTwoP 3 P) :=
@@ -564,12 +564,12 @@ private theorem isPGroup_two_q8D8 : IsPGroup 2 Sec4.Q8D8 := by
 
 private theorem false_of_case_four_b (D : Dat P Y)
     (h : Sec4.IsExtOf (P ⧸ Sec4.oTwoP 3 P) (alternatingGroup (Fin 5)) Sec4.Q8D8) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := D.hperf
-  haveI := D.simple
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := D.hperf
+  have := D.simple
   obtain ⟨B, hBn, ⟨eB⟩, -⟩ := h
-  haveI := hBn
+  have := hBn
   have hN3 : Sec4.oTwoP 3 P = ⊥ := by
     have h1 : Sec4.oTwoP 3 P = CFSG.pCore 3 P :=
       Sec4.Census.oTwoP_eq_of_pCore_two_eq_bot 3 D.hO2
@@ -597,19 +597,19 @@ private theorem false_of_case_four_b (D : Dat P Y)
     rw [← hmapBt, hBtle, Subgroup.map_bot]
   obtain ⟨a, b, hab⟩ := Sec21.Hering233i.exists_not_commute_Q8D8
   have hnt : Nontrivial B := by
-    haveI : Nontrivial Sec4.Q8D8 := ⟨⟨a, b, fun h => hab (by rw [h])⟩⟩
+    have : Nontrivial Sec4.Q8D8 := ⟨⟨a, b, fun h => hab (by rw [h])⟩⟩
     exact eB.surjective.nontrivial
   exact (Subgroup.nontrivial_iff_ne_bot B).1 hnt hmap1
 
 private theorem comap_eq_K (D : Dat P Y) {B' : Subgroup (P ⧸ CFSG.oddCore P)} [B'.Normal]
     (eA : (P ⧸ CFSG.oddCore P) ⧸ B' ≃* alternatingGroup (Fin 5)) :
     B'.comap (QuotientGroup.mk' (CFSG.oddCore P)) = D.K := by
-  haveI := D.hperf
-  haveI := D.simple
-  haveI : (B'.comap (QuotientGroup.mk' (CFSG.oddCore P))).Normal := inferInstance
+  have := D.hperf
+  have := D.simple
+  have : (B'.comap (QuotientGroup.mk' (CFSG.oddCore P))).Normal := inferInstance
   let eT : P ⧸ B'.comap (QuotientGroup.mk' (CFSG.oddCore P)) ≃* alternatingGroup (Fin 5) :=
     (Sec4.Census.quotientComapEquiv (CFSG.oddCore P) B').trans eA
-  haveI : Nontrivial (P ⧸ B'.comap (QuotientGroup.mk' (CFSG.oddCore P))) :=
+  have : Nontrivial (P ⧸ B'.comap (QuotientGroup.mk' (CFSG.oddCore P))) :=
     eT.surjective.nontrivial
   have hle : B'.comap (QuotientGroup.mk' (CFSG.oddCore P)) ≤ D.K :=
     Sec4.Census.le_of_nontrivial_quotient D.hKs inferInstance
@@ -635,16 +635,16 @@ private theorem card_alternatingGroup_six : Nat.card (alternatingGroup (Fin 6)) 
 
 private theorem false_of_case_A6 (D : Dat P Y) {B' : Subgroup (P ⧸ CFSG.oddCore P)} [B'.Normal]
     (eA : (P ⧸ CFSG.oddCore P) ⧸ B' ≃* alternatingGroup (Fin 6)) : False := by
-  haveI := D.hperf
-  haveI := D.simple
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) :=
+  have := D.hperf
+  have := D.simple
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) :=
     alternatingGroup.isSimpleGroup (by simp)
-  haveI : (B'.comap (QuotientGroup.mk' (CFSG.oddCore P))).Normal := inferInstance
+  have : (B'.comap (QuotientGroup.mk' (CFSG.oddCore P))).Normal := inferInstance
   set Bt := B'.comap (QuotientGroup.mk' (CFSG.oddCore P)) with hBt
   let eT : P ⧸ Bt ≃* alternatingGroup (Fin 6) :=
     (Sec4.Census.quotientComapEquiv (CFSG.oddCore P) B').trans eA
-  haveI : Nontrivial (P ⧸ Bt) := eT.surjective.nontrivial
-  haveI : IsSimpleGroup (P ⧸ Bt) := eT.isSimpleGroup
+  have : Nontrivial (P ⧸ Bt) := eT.surjective.nontrivial
+  have : IsSimpleGroup (P ⧸ Bt) := eT.isSimpleGroup
   have hle : Bt ≤ D.K := Sec4.Census.le_of_nontrivial_quotient D.hKs inferInstance
   have hM : (D.K.map (QuotientGroup.mk' Bt)).Normal :=
     Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective Bt)
@@ -690,7 +690,7 @@ private theorem card_le_four_of_ext (D : Dat P Y) {B : Type} [Group B] (hB : Ext
     {B' : Subgroup (P ⧸ CFSG.oddCore P)} [B'.Normal] (eB : B' ≃* B)
     (hBK : B'.comap (QuotientGroup.mk' (CFSG.oddCore P)) = D.K) :
     Nat.card (CFSG.pCore 2 Y) ≤ 4 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let O := CFSG.oddCore P
   let f : P →* P ⧸ O := QuotientGroup.mk' O
   have hKB : D.K.map f = B' := by
@@ -816,9 +816,9 @@ variable {P Y : Type} [Group P] [Finite P] [Group Y] [Finite Y]
 
 private theorem case_five_q (D : Dat P Y) (hq : IsQuasisimple (P ⧸ CFSG.oddCore P)) :
     CFSG.pCore 2 Y ≤ Subgroup.center Y := by
-  haveI := D.hperf
-  haveI := D.simple
-  haveI : Nontrivial (P ⧸ CFSG.oddCore P) := CFSG.LocalCores.isQuasisimple_nontrivial hq
+  have := D.hperf
+  have := D.simple
+  have : Nontrivial (P ⧸ CFSG.oddCore P) := CFSG.LocalCores.isQuasisimple_nontrivial hq
   have hOK : CFSG.oddCore P ≤ D.K := Sec4.Census.le_of_nontrivial_quotient D.hKs inferInstance
   let f : P →* P ⧸ CFSG.oddCore P := QuotientGroup.mk' (CFSG.oddCore P)
   have hfK : f.ker ≤ D.K := by
@@ -837,8 +837,8 @@ end Dat
 private theorem false_of_dat (h44 : Sec4.Item4_4)
     {P Y : Type} [Group P] [Finite P] [Group Y] [Finite Y] (hS : SectionFourHyp P)
     (D : Dat P Y) : False := by
-  haveI := D.hperf
-  haveI := D.simple
+  have := D.hperf
+  have := D.simple
   have hcen : CFSG.pCore 2 Y ≤ Subgroup.center Y → False := fun hc =>
     false_of_pCore_le_center D.hYp D.eY D.hR1 D.τ D.hτ3 D.hfix hc
   have hle4 : Nat.card (CFSG.pCore 2 Y) ≤ 4 → False := fun h4 =>
@@ -853,16 +853,16 @@ private theorem false_of_dat (h44 : Sec4.Item4_4)
   · rcases h5 D.hK3 with ⟨-, hq | hext⟩ | ⟨-, hext1 | hext2 | hext3⟩
     · exact hcen (D.case_five_q hq)
     · obtain ⟨B', hB'n, ⟨eB⟩, ⟨eA⟩⟩ := hext
-      haveI := hB'n
+      have := hB'n
       exact hle4 (D.card_le_four_of_ext extFacts_q8D8 eB (D.comap_eq_K eA))
     · obtain ⟨B', hB'n, ⟨eB⟩, ⟨eA⟩⟩ := hext1
-      haveI := hB'n
+      have := hB'n
       exact hle4 (D.card_le_four_of_ext extFacts_q8D8 eB (D.comap_eq_K eA))
     · obtain ⟨B', hB'n, ⟨eB⟩, ⟨eA⟩⟩ := hext2
-      haveI := hB'n
+      have := hB'n
       exact hle4 (D.card_le_four_of_ext extFacts_z4Q8Q8 eB (D.comap_eq_K eA))
     · obtain ⟨B', hB'n, -, ⟨eA⟩⟩ := hext3
-      haveI := hB'n
+      have := hB'n
       exact D.false_of_case_A6 eA
 
 end PLevel
@@ -890,8 +890,8 @@ private theorem card_alt5 : Nat.card (alternatingGroup (Fin 5)) = 60 := by
 private theorem le_of_normal_of_not_three_dvd {Y : Type} [Group Y] {R N : Subgroup Y}
     [R.Normal] [N.Normal] (e : Y ⧸ R ≃* alternatingGroup (Fin 5)) (hN : ¬ 3 ∣ Nat.card N) :
     N ≤ R := by
-  haveI : IsSimpleGroup (Y ⧸ R) := e.isSimpleGroup
-  haveI : (N.map (QuotientGroup.mk' R)).Normal :=
+  have : IsSimpleGroup (Y ⧸ R) := e.isSimpleGroup
+  have : (N.map (QuotientGroup.mk' R)).Normal :=
     Subgroup.Normal.map ‹N.Normal› _ (QuotientGroup.mk'_surjective R)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (N.map (QuotientGroup.mk' R)) with h | h
   · rwa [Subgroup.map_eq_bot_iff, QuotientGroup.ker_mk'] at h
@@ -1002,11 +1002,11 @@ theorem pCoreOf_ne_bot_of_item44 (h44 : Sec4.Item4_4)
   obtain ⟨G₀, hG₀H, hYG₀, hperf, hTG₀, hcG₀⟩ := exists_perfect_core (T := T) hYp hcY hcT
   have hG₀T : G₀ ≤ Subgroup.normalizer (T : Set G) :=
     hG₀H.trans (sup_le Subgroup.le_normalizer hYT)
-  haveI : (T.subgroupOf G₀).Normal := normal_subgroupOf_of_le_normalizer hG₀T
+  have : (T.subgroupOf G₀).Normal := normal_subgroupOf_of_le_normalizer hG₀T
   obtain ⟨eK⟩ := exists_isoA5 hT3 hYT hYG₀ hG₀H hRT hY5
   obtain ⟨f, hf⟩ := exists_injective_subgroupOf T G₀
-  haveI := hperf
-  haveI : IsSimpleGroup (↥G₀ ⧸ T.subgroupOf G₀) := eK.isSimpleGroup
+  have := hperf
+  have : IsSimpleGroup (↥G₀ ⧸ T.subgroupOf G₀) := eK.isSimpleGroup
   have hKs : Group.IsSolvable ↥(T.subgroupOf G₀) := Group.isSolvable_of_isSolvable_injective hf
   have hK3 : ¬ 3 ∣ Nat.card ↥(T.subgroupOf G₀) := fun h =>
     hT3 (h.trans (Subgroup.card_dvd_of_injective f hf))

@@ -60,17 +60,21 @@ namespace KuHyp
 
 variable [Finite G] {T M H P : Subgroup G} {z : G}
 
+omit [Finite G] in
 theorem kuR_le : kuR T M ≤ oTwoUpper M := inf_le_right
 
+omit [Finite G] in
 theorem mem_normalizer_V_of_mem_M (h : KuHyp G T M H P z) {g : G} (hg : g ∈ M) :
     g ∈ Subgroup.normalizer (pCoreOf 2 M : Set G) := by
   rw [← h.mNorm]; exact hg
 
+omit [Finite G] in
 theorem oTwoUpper_le_normalizer_V (h : KuHyp G T M H P z) :
     oTwoUpper M ≤ Subgroup.normalizer (pCoreOf 2 M : Set G) := by
   intro g hg
   exact h.mem_normalizer_V_of_mem_M (oTwoUpper_le M hg)
 
+omit [Finite G] in
 theorem mem_kuV2_iff_fix (h : KuHyp G T M H P z) (v : ↥(pCoreOf 2 M)) :
     (v : G) ∈ kuV2 T M ↔
       Multiplicative.toAdd (h.mNat.data.E v) ∈ kuFix h.mNat.data (kuR_le (T := T) (M := M)) := by
@@ -167,6 +171,7 @@ theorem card_kuV2 (h : KuHyp G T M H P z) : Nat.card (kuV2 T M) = 4 := by
       left_inv := fun x => Subtype.ext (by simp)
       right_inv := fun w => Subtype.ext (by simp) }
 
+omit [Finite G] in
 theorem fixOne_ne_top (h : KuHyp G T M H P z) {a : G}
     (haN : a ∈ Subgroup.normalizer (pCoreOf 2 M : Set G)) (haL : a ∈ oTwoUpper M)
     (haV : a ∉ pCoreOf 2 M) : fixOne h.mNat.data haN haL ≠ ⊤ := by

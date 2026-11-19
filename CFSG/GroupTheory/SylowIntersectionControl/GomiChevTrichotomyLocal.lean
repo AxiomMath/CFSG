@@ -103,7 +103,7 @@ theorem exists_sylow_sup_le_inf_eq {L U W : Subgroup G} (hL : L.Normal) (hU : Is
   obtain ⟨T, hTle⟩ := hUWp.exists_le_sylow
   have hTsyl : IsSylowOf p (T : Subgroup G) ⊤ := by
     rw [isSylowOf_iff]
-    exact ⟨le_top, T.isPGroup', by rw [Subgroup.relIndex_top_right]; exact T.not_dvd_index⟩
+    exact ⟨le_top, T.isPGroup, by rw [Subgroup.relIndex_top_right]; exact T.not_dvd_index⟩
   have hTLsyl : IsSylowOf p ((T : Subgroup G) ⊓ L) L :=
     hTsyl.inf_of_le_normalizer le_top (by rw [Subgroup.normalizer_eq_top L])
   exact ⟨T, hTle, hU.eq_of_le (le_inf (le_sup_left.trans hTle) hU.le) inf_le_right
@@ -219,7 +219,7 @@ theorem dvd_relIndex_inf_normalizer {L H U : Subgroup G} (hH : IsPGroup p H)
   have hHW : H < U ⊔ H :=
     lt_of_le_of_ne le_sup_right (fun heq => hUH (le_sup_left.trans (le_of_eq heq.symm)))
   have hHlt : H < (U ⊔ H) ⊓ normalizer (H : Set G) := lt_inf_normalizer_of_isPGroup hWp hHW
-  obtain ⟨x, hx, hxH⟩ := SetLike.exists_of_lt hHlt
+  obtain ⟨x, hx, hxH⟩ := _root_.IsConcreteLE.exists_of_lt hHlt
   obtain ⟨hxW, hxN⟩ := Subgroup.mem_inf.mp hx
   have hxW' : x ∈ (U : Set G) * (H : Set G) := by
     rw [← Subgroup.coe_mul_of_right_le_normalizer_left U H hHU]

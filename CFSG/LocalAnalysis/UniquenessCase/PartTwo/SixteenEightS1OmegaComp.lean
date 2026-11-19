@@ -35,13 +35,13 @@ theorem s16e_omc_N_equiv_alt_five (D : Data G) {V₀ V L : Subgroup G} (hV : IsE
   have hle : lBar V₀ V hV L ≤ Mbar D.M V₀ V hV := barSub_mono V₀ V hV hL
   exact ⟨(Subgroup.subgroupOfEquivOfLe hle).trans e⟩
 
-theorem s16e_omf_comp_layer (D : Data G) (hx : DataExt D)
-    (h4 : 3 < CFSG.Open.evenRank G) (h61 : UC6.R6_1 D) (h127 : R127 D) (h1217 : R1217 D)
+theorem s16e_omf_comp_layer (D : Data G) (_hx : DataExt D)
+    (_h4 : 3 < CFSG.Open.evenRank G) (_h61 : UC6.R6_1 D) (_h127 : R127 D) (_h1217 : R1217 D)
     {V₀ V L : Subgroup G} (hV : IsElemAbelian 2 V) (hset : Setting16 D V₀ V L)
-    (hL : barSub V₀ V hV L ≠ ⊥) (hconc : Conc4_136 D V₀ V hV L)
+    (_hL : barSub V₀ V hV L ≠ ⊥) (_hconc : Conc4_136 D V₀ V hV L)
     (h : Case162_7 D V₀ V hV L) :
     s16e_omf_N D V₀ V hV L ≤ CFSG.layer ↥(Mbar D.M V₀ V hV) := by
-  haveI := s16e_omc_N_normal D hV h.2.2
+  have := s16e_omc_N_normal D hV h.2.2
   obtain ⟨e⟩ := s16e_omc_N_equiv_alt_five D hV hset.hyp151.le h.1
   exact s16e_omc_le_layer_of_equiv_alt_five e
 
@@ -54,32 +54,32 @@ theorem s16e_omf_comp_centralizer (D : Data G) (hx : DataExt D)
         (s16e_omf_N D V₀ V hV L : Set ↥(Mbar D.M V₀ V hV))) ∧
       Nonempty (↥(Subgroup.centralizer
           (s16e_omf_N D V₀ V hV L : Set ↥(Mbar D.M V₀ V hV))) ≃* Multiplicative (ZMod 3)) := by
-  haveI := s16e_omc_N_normal D hV h.2.2
+  have := s16e_omc_N_normal D hV h.2.2
   obtain ⟨e⟩ := s16e_omc_N_equiv_alt_five D hV hset.hyp151.le h.1
   have hne : Subgroup.centralizer (s16e_omf_N D V₀ V hV L : Set ↥(Mbar D.M V₀ V hV)) ≠ ⊥ :=
     s16e_omc_centralizer_ne_bot e
       (s16e_omc_dvd_card_mBar D hx h4 h61 h127 h1217 hV hset hL hconc h)
-  haveI : Nontrivial ↥(Subgroup.centralizer
+  have : Nontrivial ↥(Subgroup.centralizer
       (s16e_omf_N D V₀ V hV L : Set ↥(Mbar D.M V₀ V hV))) :=
     (Subgroup.nontrivial_iff_ne_bot _).2 hne
   obtain ⟨K, hKf, hKfin, hK4, f, hf⟩ :=
     s16e_omc_centralizer_embeds_units_mBar D hx h4 h61 h127 h1217 hV hset hL hconc h
   exact s16e_omc_nilpotent_equiv_zmod_three hK4 f hf
 
-theorem s16e_omf_comp_center_bot (D : Data G) (hx : DataExt D)
-    (h4 : 3 < CFSG.Open.evenRank G) (h61 : UC6.R6_1 D) (h127 : R127 D) (h1217 : R1217 D)
+theorem s16e_omf_comp_center_bot (D : Data G) (_hx : DataExt D)
+    (_h4 : 3 < CFSG.Open.evenRank G) (_h61 : UC6.R6_1 D) (_h127 : R127 D) (_h1217 : R1217 D)
     {V₀ V L : Subgroup G} (hV : IsElemAbelian 2 V) (hset : Setting16 D V₀ V L)
-    (hL : barSub V₀ V hV L ≠ ⊥) (hconc : Conc4_136 D V₀ V hV L)
+    (_hL : barSub V₀ V hV L ≠ ⊥) (_hconc : Conc4_136 D V₀ V hV L)
     (h : Case162_7 D V₀ V hV L) :
     s16e_omf_N D V₀ V hV L ⊓ Subgroup.centralizer
         (s16e_omf_N D V₀ V hV L : Set ↥(Mbar D.M V₀ V hV)) = ⊥ := by
   obtain ⟨-, K, hKf, hKfin, hKcard, ⟨eΩ⟩⟩ := h.1
-  letI := hKf
-  letI := hKfin
-  haveI hKchar : CharP K 2 :=
+  let := hKf
+  let := hKfin
+  have hKchar : CharP K 2 :=
     CFSG.ABGLocalTools.SL2Facts.charP_of_card_eq_prime_pow Nat.prime_two hKcard
-  have h4 : 4 ≤ Nat.card K := by rw [hKcard]; norm_num
-  obtain ⟨e4⟩ := nonempty_statedOmegaFour_mulEquiv_prod (K := K) h4
+  have _h4 : 4 ≤ Nat.card K := by rw [hKcard]; norm_num
+  obtain ⟨e4⟩ := nonempty_statedOmegaFour_mulEquiv_prod (K := K) _h4
   have hle : lBar V₀ V hV L ≤ Mbar D.M V₀ V hV := barSub_mono V₀ V hV hset.hyp151.le
   let e : s16e_omf_N D V₀ V hV L ≃* ↥(StatedSL 2 K) × ↥(StatedSL 2 K) :=
     (Subgroup.subgroupOfEquivOfLe hle).trans
@@ -113,7 +113,7 @@ theorem s16e_omf_fstarBar_equiv (D : Data G) (hx : DataExt D)
     (h : Case162_7 D V₀ V hV L) :
     Nonempty (↥(fstarBar D.M V₀ V hV) ≃*
       (Multiplicative (ZMod 3) × ↥(lBar V₀ V hV L))) := by
-  haveI hNnorm : (s16e_omf_N D V₀ V hV L).Normal := by
+  have hNnorm : (s16e_omf_N D V₀ V hV L).Normal := by
     rw [s16e_omf_N]
     refine Subgroup.normal_subgroupOf_of_le_normalizer ?_
     intro g hg

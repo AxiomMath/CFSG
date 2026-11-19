@@ -310,6 +310,7 @@ theorem ggF4QGeFour_centralizer_le_normalizer_L (ha₀ : GGLNoncyclicInput)
   subst hh
   exact hg h hxH
 
+omit [Finite G] in
 theorem exists_commute_refl_of_f4Triple {A : Subgroup (MulAut ↥Bs)}
     {e : CoxeterMatrix.F₄.Group ≃* ↥A} (hpres : GGCoxeterPres p A CoxeterMatrix.F₄ e)
     {X : Subgroup G} {a : Fin 3 → CoxeterMatrix.F₄.Group}

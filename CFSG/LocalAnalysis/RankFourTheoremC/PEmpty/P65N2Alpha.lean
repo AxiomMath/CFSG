@@ -16,14 +16,14 @@ open CFSG.Open CFSG.RankThreeCoreUniqueness.Helpers Subgroup
 theorem card_le_of_cyclic {A : Type} [Group A] [Finite A] {p : ℕ} (hp : 0 < p) {H T : Subgroup A}
     (hH : IsCyclic H) (hTH : T ≤ H) (hT : ∀ t ∈ T, t ^ p = 1) : Nat.card T ≤ p := by
   classical
-  haveI : Fintype A := Fintype.ofFinite A
-  haveI := hH
+  have : Fintype A := Fintype.ofFinite A
+  have := hH
   have h := IsCyclic.card_pow_eq_one_le (α := ↥H) hp
   have h2 : (Finset.univ : Finset ↥T).card ≤
       (Finset.univ.filter (fun a : ↥H => a ^ p = 1)).card := by
     refine Finset.card_le_card_of_injOn (fun t => (⟨t.1, hTH t.2⟩ : ↥H)) ?_ ?_
     · intro t _
-      simp only [Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_setOf_eq]
+      simp only [Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_ofPred_eq]
       exact Subtype.ext (by simpa using hT t t.2)
     · intro a _ b _ hab
       have := congrArg (fun x : ↥H => (x : A)) hab
@@ -36,7 +36,7 @@ theorem card_le_of_pRank_le {A : Type} [Group A] [Finite A] {f : ℕ} (hf : f.Pr
     ∀ E : Subgroup A, E ≤ Fs → (∀ a ∈ E, ∀ b ∈ E, a * b = b * a) → (∀ a ∈ E, a ^ f = 1) →
       Nat.card E ≤ f ^ 3 := by
   intro E hEF hEc hEp
-  haveI : Fact f.Prime := ⟨hf⟩
+  have : Fact f.Prime := ⟨hf⟩
   have hEf : IsPGroup f E := fun g => ⟨1, Subtype.ext (by simpa using hEp g g.2)⟩
   obtain ⟨k, hk⟩ := hEf.exists_card_eq
   have hEab : IsElemAbelian f E := ⟨⟨⟨fun a b => Subtype.ext (hEc a a.2 b b.2)⟩⟩, hEp⟩
@@ -49,6 +49,7 @@ variable {A : Type} [Group A] [Finite A] {p : ℕ} {P : Sylow p A} {X : Subgroup
 @[expose] def coreA (p : ℕ) (X : Subgroup A) : Subgroup A :=
   (primeComplementCore (G := ↥X) p).map X.subtype
 
+omit [Finite A] in
 theorem coreA_le : coreA p X ≤ X := Subgroup.map_subtype_le _
 
 theorem coreA_card (hp : p.Prime) : ¬ p ∣ Nat.card (coreA p X) := by
@@ -57,10 +58,12 @@ theorem coreA_card (hp : p.Prime) : ¬ p ∣ Nat.card (coreA p X) := by
   rw [h1]
   exact (Nat.Prime.coprime_iff_not_dvd hp).mp (primeComplementCore_coprime p)
 
+omit [Finite A] in
 theorem coreA_conj : ∀ g ∈ X, ∀ d ∈ coreA p X, g * d * g⁻¹ ∈ coreA p X := by
   rintro g hg _ ⟨d, hd, rfl⟩
   exact ⟨⟨g, hg⟩ * d * ⟨g, hg⟩⁻¹, (primeComplementCore_normal (G := ↥X) p).conj_mem d hd _, rfl⟩
 
+omit [Finite A] in
 theorem coreA_normalizer : X ≤ normalizer (coreA p X : Set A) := by
   intro g hg
   rw [mem_normalizer_iff]
@@ -73,7 +76,7 @@ theorem p65N2_sylow_of_le_core (hpl : Plane65 p P X x z) {f : ℕ} (hf : f.Prime
     {Fs : Subgroup A} (hF : IsMaxFInvariantIn f (zpowers x ⊔ zpowers z) X Fs)
     (hFD : Fs ≤ coreA p X) : fusionIsSylowIn f Fs (coreA p X) := by
   have hprime := hpl.prime
-  haveI : Fact f.Prime := ⟨hf⟩
+  have : Fact f.Prime := ⟨hf⟩
   set B : Subgroup A := zpowers x ⊔ zpowers z with hBdef
   have hB3 : IsPGroup p B := IsPGroup.of_card (n := 2) hpl.plane.card_eq
   have hBP : B ≤ (P : Subgroup A) := hpl.plane.isIsolatedPlane.1
@@ -90,7 +93,7 @@ theorem p65N2_le_core (hpl : Plane65 p P X x z) (hcon : HasPrimeConstraint (G :=
     (hF : IsMaxFInvariantIn f (zpowers x ⊔ zpowers z) X Fs) :
     fusionIsSylowIn f Fs (coreA p X) := by
   have hprime := hpl.prime
-  haveI : Fact f.Prime := ⟨hf⟩
+  have : Fact f.Prime := ⟨hf⟩
   set B : Subgroup A := zpowers x ⊔ zpowers z with hBdef
   have hB3 : IsPGroup p B := IsPGroup.of_card (n := 2) hpl.plane.card_eq
   have hBP : B ≤ (P : Subgroup A) := hpl.plane.isIsolatedPlane.1
@@ -130,10 +133,10 @@ theorem p65N2_of_sylow (hpl : Plane65 p P X x z) {f : ℕ} (hf : f.Prime) (hf2 :
   by_contra hlt
   push Not at hlt
   have hX3 : Open.pRank f X ≤ 3 := by omega
-  haveI : Fact f.Prime := ⟨hf⟩
+  have : Fact f.Prime := ⟨hf⟩
   have hprime := hpl.prime
-  haveI : Fact p.Prime := ⟨hprime⟩
-  haveI : NeZero f := ⟨hf.ne_zero⟩
+  have : Fact p.Prime := ⟨hprime⟩
+  have : NeZero f := ⟨hf.ne_zero⟩
   have hFsf : IsPGroup f Fs := hF.1.2.1
   obtain ⟨χ, hχ⟩ := exists_rank_bound hf2 hprime hfp.symm hFsf (N := X ⊓ normalizer (Fs : Set A))
     inf_le_right (card_le_of_pRank_le hf hF.1.1 hX3)

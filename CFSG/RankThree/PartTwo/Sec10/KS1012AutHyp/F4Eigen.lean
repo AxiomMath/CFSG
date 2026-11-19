@@ -14,7 +14,7 @@ namespace CFSG.RankThree.PartTwo.Sec10.KS1012AutHyp
 theorem exists_ne_zero_ne_one_of_card_four {K : Type} [Field K] (hK : Nat.card K = 4) :
     ∃ ω : K, ω ≠ 0 ∧ ω ≠ 1 := by
   classical
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
   by_contra h
   push Not at h
   have hsub : (Set.univ : Set K) ⊆ ({0, 1} : Set K) := fun x _ => by
@@ -27,8 +27,8 @@ theorem exists_ne_zero_ne_one_of_card_four {K : Type} [Field K] (hK : Nat.card K
 
 theorem pow_three_eq_one_of_card_four {K : Type} [Field K] (hK : Nat.card K = 4) {l : K}
     (hl : l ≠ 0) : l ^ 3 = 1 := by
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
-  haveI := Fintype.ofFinite K
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
+  have := Fintype.ofFinite K
   have h := FiniteField.pow_card_sub_one_eq_one l hl
   rw [← Nat.card_eq_fintype_card, hK] at h
   simpa using h
@@ -68,7 +68,7 @@ theorem cube_scalar_eq_one {K : Type} [Field K] (hK : Nat.card K = 4)
     · rw [Matrix.charpoly_natDegree_eq_dim, Fintype.card_fin, hpdeg]
   have h := Matrix.det_eq_sign_charpoly_coeff A
   rw [hdet, hchar, hp, Fintype.card_fin, coeff_sub, coeff_X_pow, coeff_C_zero,
-    if_neg (by norm_num)] at h
+    ite_eq_right (by norm_num)] at h
   exact hμ1 (by linear_combination -h)
 
 public theorem exists_eigenvector_of_cube_scalar {K : Type} [Field K] (hK : Nat.card K = 4)

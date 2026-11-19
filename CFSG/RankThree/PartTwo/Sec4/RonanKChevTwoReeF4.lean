@@ -69,7 +69,7 @@ theorem reeGamma_not_pullDatum
 end ReeF4
 
 theorem kChevTwo_reeF4
-    (n : ℕ) (hn : Odd n) :
+    (n : ℕ) (_hn : Odd n) :
     ∀ (X : Type) [Group X] [Finite X], IsQuasisimple X →
       Blueprint.ReeTitsModel X .twistedF4 2 n →
         ∀ β : MulAut X, orderOf β = 3 → ¬ InnThetaNoncyclic β := by

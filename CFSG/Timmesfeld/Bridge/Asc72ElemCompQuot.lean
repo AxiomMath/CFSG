@@ -81,7 +81,7 @@ theorem otg2_exists_commute_pair {G : Type} [Group G] [Finite G] {D : Set G} (hS
     (hns : ¬ Group.IsSolvable G) : ∃ a ∈ D, ∃ b ∈ D, a ≠ b ∧ Commute a b := by
   by_contra hcon
   obtain ⟨d, hd⟩ := hS.nonempty
-  letI : Fintype G := Fintype.ofFinite G
+  let : Fintype G := Fintype.ofFinite G
   have hd1 : d ≠ 1 := hS.oddT.ne_one hd
   have hdd : d * d = 1 := hS.oddT.mul_self_eq_one hd
   have hiso : ∀ g : G, (g * d * g⁻¹) * d = d * (g * d * g⁻¹) → g * d * g⁻¹ = d := by
@@ -89,7 +89,7 @@ theorem otg2_exists_commute_pair {G : Type} [Group G] [Finite G] {D : Set G} (hS
     by_contra hne
     exact hcon ⟨g * d * g⁻¹, hS.conj_mem g hd, d, hd, hne, hc⟩
   obtain ⟨N, hNn, hNodd, hN⟩ := CFSG.ZStar.glauberman_zStar G d hd1 hdd hiso
-  haveI := hNn
+  have := hNn
   have hxN : ∀ x ∈ D, x⁻¹ * d ∈ N := by
     intro x hx
     obtain ⟨c, hc⟩ := isConj_iff.mp (hS.isConj hd hx)
@@ -121,8 +121,8 @@ theorem otg2_exists_commute_pair {G : Type} [Group G] [Finite G] {D : Set G} (hS
       (T := {(QuotientGroup.mk d : G ⧸ N)}) ?_ (hall x) (hall y)).eq
     intro u hu v hv
     rw [Set.mem_singleton_iff.mp hu, Set.mem_singleton_iff.mp hv]
-  haveI : Group.IsSolvable (G ⧸ N) := Group.isSolvable_of_comm hcomm
-  haveI : Group.IsSolvable N := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hNodd
+  have : Group.IsSolvable (G ⧸ N) := Group.isSolvable_of_comm hcomm
+  have : Group.IsSolvable N := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hNodd
   exact hns (Group.isSolvable_of_subgroup_quotient N)
 
 theorem otg2_commute_of_mem_oddCore {G : Type} [Group G] [Finite G] {D : Set G} (hS : Setup G D)
@@ -252,8 +252,8 @@ theorem otg2_oddCore_le_center {G : Type} [Group G] [Finite G] {D : Set G} (hS :
 theorem otg2_solvableRadical_le_center {G : Type} [Group G] [Finite G]
     (hO2 : CFSG.pCore 2 G ≤ Subgroup.center G) (hO : CFSG.oddCore G ≤ Subgroup.center G) :
     CFSG.solvableRadical G ≤ Subgroup.center G := by
-  haveI hSn : (CFSG.solvableRadical G).Normal := Subgroup.sSup_normal _ fun _ hN => hN.1
-  haveI hSs : Group.IsSolvable (CFSG.solvableRadical G) :=
+  have hSn : (CFSG.solvableRadical G).Normal := Subgroup.sSup_normal _ fun _ hN => hN.1
+  have hSs : Group.IsSolvable (CFSG.solvableRadical G) :=
     CFSG.SignalizerFunctorTheorem.Nonsolvable.isSolvable_solvableRadical
   have hF : CFSG.fittingSubgroupOf (CFSG.solvableRadical G) ≤ Subgroup.center G := by
     refine le_trans (CFSG.fittingSubgroupOf_le_fittingSubgroup _ hSn) ?_
@@ -295,7 +295,7 @@ theorem otg2_isBender_quotient {G : Type} [Group G] [Finite G] {D : Set G} (hS :
     (hE : ∀ d ∈ D, IsElemAbelian 2 (Subgroup.closure {e | e ∈ D ∧ Commute e d}))
     (hns : ¬ Group.IsSolvable G) (hSZ : CFSG.solvableRadical G ≤ Subgroup.center G) :
     CFSG.BenderSuzuki.IsBenderGroup (G ⧸ Subgroup.center G) := by
-  haveI hZs : Group.IsSolvable (Subgroup.center G) :=
+  have hZs : Group.IsSolvable (Subgroup.center G) :=
     Group.isSolvable_of_comm fun a b => Subtype.ext (Subgroup.mem_center_iff.mp b.2 a)
   obtain ⟨b₀, hb₀⟩ := hS.nonempty
   have hnotcen : ∀ d ∈ D, d ∉ Subgroup.center G := by
@@ -324,7 +324,7 @@ theorem otg2_isBender_quotient {G : Type} [Group G] [Finite G] {D : Set G} (hS :
     · ext g
       constructor
       · rintro ⟨x, hx, rfl⟩
-        rw [Set.mem_setOf_eq]
+        rw [Set.mem_ofPred_eq]
         obtain ⟨c, hc⟩ := isConj_iff.mp (hS.isConj hb₀ hx)
         refine isConj_iff.mpr ⟨(QuotientGroup.mk' (Subgroup.center G)) c, ?_⟩
         rw [← hc]
@@ -346,8 +346,8 @@ theorem otg2_isBender_quotient {G : Type} [Group G] [Finite G] {D : Set G} (hS :
       rwa [MonoidHom.map_closure] at hmem
   have hrad' : ∀ N : Subgroup (G ⧸ Subgroup.center G), N.Normal → Group.IsSolvable N → N = ⊥ := by
     intro N hN hNs
-    haveI := hN
-    haveI := hNs
+    have := hN
+    have := hNs
     have hcomap : Group.IsSolvable (N.comap (QuotientGroup.mk' (Subgroup.center G))) :=
       CFSG.SignalizerFunctorTheorem.Nonsolvable.isSolvable_comap_mk'
     have hle : N.comap (QuotientGroup.mk' (Subgroup.center G)) ≤ CFSG.solvableRadical G :=
@@ -415,7 +415,7 @@ theorem otg2_isBender_quotient {G : Type} [Group G] [Finite G] {D : Set G} (hS :
         rw [hS'.gen]
         exact Subgroup.mem_top y
       exact (commute_of_mem_closure hall hx hy).eq
-    haveI : Group.IsSolvable (G ⧸ Subgroup.center G) := Group.isSolvable_of_comm hcomm
+    have : Group.IsSolvable (G ⧸ Subgroup.center G) := Group.isSolvable_of_comm hcomm
     exact Group.isSolvable_of_subgroup_quotient (Subgroup.center G)
   exact isBenderGroup_of_elemComponents hS' hrad' hdisc' hE'
 

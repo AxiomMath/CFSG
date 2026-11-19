@@ -16,6 +16,7 @@ section Basic
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem exists_isSylowOf_of_le {K T : Subgroup G} (hT : IsPGroup 2 ↥T) (hTK : T ≤ K) :
     ∃ P : Subgroup G, IsSylowOf 2 P K ∧ T ≤ P := by
   classical

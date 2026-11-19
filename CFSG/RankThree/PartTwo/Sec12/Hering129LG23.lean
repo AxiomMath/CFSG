@@ -236,7 +236,7 @@ section YG2
 theorem nonempty_equiv_R3_of_isoGTwo {Q : Type} [Group Q] {r : TauCeti.PrimePower}
     (hr3 : r.card = 3) (h : Sec4.IsoGTwo Q r) : Nonempty (Q ≃* ↥R3) := by
   obtain ⟨K, _, _, hcard, -, ⟨e⟩⟩ := Hering129KModels.exists_adjoint_model h
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hFc : Fintype.card K = Fintype.card (ZMod 3) := by
     rw [ZMod.card, ← Nat.card_eq_fintype_card, hcard, hr3]
   let ρ : K ≃+* ZMod 3 := FiniteField.ringEquivOfCardEq hFc
@@ -284,7 +284,7 @@ theorem card_eq_three_or_range {X : Type} [Group X] [Finite X] {r : TauCeti.Prim
 
 theorem gap129YG2Range_of (h1 : Sec4.Item4_1LargePrime) : Gap129YG2Range := by
   intro G _ _ A c L b a K S cfg q hq x hxD hxb Y hY hXY r hIso
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hstd := cfg.std
   have hAe : CFSG.Assembly.IsElemAbelian 3 A := hstd.isE27.1
   obtain ⟨hbA, haA, haL, hb1, ha1, haB, hbL, hab, haD, -⟩ := cfg.point_facts

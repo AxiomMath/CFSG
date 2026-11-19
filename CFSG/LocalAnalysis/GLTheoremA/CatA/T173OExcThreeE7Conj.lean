@@ -24,8 +24,8 @@ theorem exists_conj_le_perpLevi_of_stdElt (hF : Nat.card F = 2)
     (hTN : innerClosure A d ⊔ A ≤ Subgroup.normalizer (T : Set ↥(adjointGroup .E7 F))) :
     ∃ g : ↥(adjointGroup .E7 F), A.map (MulAut.conj g).toMonoidHom ≤ perpLevi .E7 F ∧
       stdLayer (MulAut.conj g d) ≤ perpLevi .E7 F := by
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
     rw [← Nat.card_eq_fintype_card, hF]; norm_num)
   obtain ⟨g, hA, hK⟩ := exists_conj_le_of_stdElt_of_levi .E7 Nat.prime_three (by norm_num)
     (M₀ := rootSpan .E7 F (perpRoots .E7)) hAel hd

@@ -117,20 +117,20 @@ theorem s16nt_goal_of_irr_h1 [Finite W] (hW2 : ∀ w : W, w ^ 2 = 1) {L : Subgro
     rw [← QuotientGroup.mk_pow]
     have hv : (v : ↥U) ^ 2 = 1 := Subtype.ext (by simpa using hW2 (v : W))
     rw [hv, QuotientGroup.mk_one]
-  letI : Module (ZMod 2) (Additive (↥U ⧸ C)) := w183ModTwo hq
+  let : Module (ZMod 2) (Additive (↥U ⧸ C)) := w183ModTwo hq
   let ρQ : Representation (ZMod 2) ↥L (Additive (↥U ⧸ C)) :=
     w183RepOfEnd (w183MuQ hLU)
   have hρQ : ρQ.IsIrreducible := by
     rw [CFSG.QuasithinUnique.Setup.SL2Modules.isIrreducible_iff]
     constructor
-    · obtain ⟨u, -, hu⟩ := SetLike.exists_of_lt hCtop
+    · obtain ⟨u, -, hu⟩ := _root_.IsConcreteLE.exists_of_lt hCtop
       exact ⟨0, Additive.ofMul (QuotientGroup.mk u : ↥U ⧸ C), fun h => hu
         ((QuotientGroup.eq_one_iff u).mp (ofMul_eq_zero.mp h.symm))⟩
     · intro M hM
       let W' : Subgroup ↥U :=
         { carrier := {u | Additive.ofMul (QuotientGroup.mk u : ↥U ⧸ C) ∈ M}
           one_mem' := by
-            simpa [QuotientGroup.mk_one, ofMul_one] using M.zero_mem
+            simp [QuotientGroup.mk_one, ofMul_one]
           mul_mem' := by
             intro a b ha hb
             simpa [QuotientGroup.mk_mul, ofMul_mul] using M.add_mem ha hb
@@ -141,7 +141,7 @@ theorem s16nt_goal_of_irr_h1 [Finite W] (hW2 : ∀ w : W, w ^ 2 = 1) {L : Subgro
         intro c hc
         show Additive.ofMul (QuotientGroup.mk c : ↥U ⧸ C) ∈ M
         rw [(QuotientGroup.eq_one_iff c).mpr hc]
-        simpa using M.zero_mem
+        simp
       have hW'inv : ∀ (l : MulAut W) (hl : l ∈ L) (u : ↥U), u ∈ W' →
           (⟨l (u : W), hUinv l hl (u : W) u.2⟩ : ↥U) ∈ W' := by
         intro l hl u hu
@@ -196,7 +196,7 @@ theorem s16nt_goal_of_irr_h1 [Finite W] (hW2 : ∀ w : W, w ^ 2 = 1) {L : Subgro
     have h2 : 2 ^ Module.finrank (ZMod 2) (Additive (↥U ⧸ C)) = 2 ^ d := by
       rw [hpow, hcard]
     exact Nat.pow_right_injective (by norm_num : 2 ≤ 2) h2
-  haveI : Finite ↥L := Finite.of_injective (fun l : ↥L => (l.1 : W → W))
+  have : Finite ↥L := Finite.of_injective (fun l : ↥L => (l.1 : W → W))
     (fun a b h => Subtype.ext (DFunLike.ext _ _ fun w => congrFun h w))
   have hcomm : XMod.commOf ↥L U = U := by rw [commOf_eq_commSub]; exact hUc
   have hZfix : ∀ z ∈ Z, ∀ x ∈ L, x z = z := fun z hz x hx => mem_fixV.mp hz.2 x hx
@@ -230,8 +230,8 @@ theorem s16nt_goal_of_irr_h1 [Finite W] (hW2 : ∀ w : W, w ^ 2 = 1) {L : Subgro
         (w183StabHom hLU γ).1 v from Subtype.ext rfl]
   have hcard := card_le_pow_finrank_H1_dual (W := W) (Γ := ↥L) hW2 L U Z hZU hZfix hUinv hcomm
     (MonoidHom.id ↥L) Function.surjective_id ρQ β hβs hβk hβe
-  haveI : Module.Finite (ZMod 2) (Additive (↥U ⧸ C)) := Module.Finite.of_finite
-  haveI : Finite (Module.Dual (ZMod 2) (Additive (↥U ⧸ C))) :=
+  have : Module.Finite (ZMod 2) (Additive (↥U ⧸ C)) := Module.Finite.of_finite
+  have : Finite (Module.Dual (ZMod 2) (Additive (↥U ⧸ C))) :=
     Module.finite_of_finite (ZMod 2)
   have hdual : (Representation.dual ρQ).IsIrreducible :=
     CFSG.LocalAnalysis.GorensteinLyons.SteinbergBQ.isIrreducible_dual ρQ hρQ

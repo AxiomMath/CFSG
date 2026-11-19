@@ -82,6 +82,7 @@ theorem Hyp.mem_sigmaAt_conjSubgroup_iff (h : Hyp M V) (a : G) {U : Subgroup G} 
   rw [sigmaAt, normalizer_conjSubgroup a V, h.normalizer_eq]
   exact mem_sigmaSet_conjSubgroup_iff a
 
+omit [Finite G] in
 theorem m0Of_conjSubgroup (a : G) :
     m0Of (conjSubgroup a M) (conjSubgroup a V) = conjSubgroup a (m0Of M V) := by
   apply le_antisymm
@@ -116,6 +117,7 @@ theorem Sec6Hyp.mem_gammaAt_self (hS : Sec6Hyp M V) : V ∈ gammaAt V := by
   rw [hS.sec5.toRootHyp.toHyp.sigmaAt_eq]
   exact hA
 
+omit [Finite G] in
 theorem gammaAt_subset_omegaSet (V : Subgroup G) : gammaAt V ⊆ omegaSet V := by
   intro B hB
   rw [gammaAt] at hB

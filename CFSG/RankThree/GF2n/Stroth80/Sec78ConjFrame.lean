@@ -11,6 +11,7 @@ open scoped commutatorElement Matrix
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem sec7ctr_iSup_conj_frame {L B' : Subgroup G} {h : G} (hh : h ∈ M) (s : G) :
     (⨆ (m : G) (_ : m ∈ M) (_ : s ∈ conjSubgroup m (conjSubgroup h L)),
         conjSubgroup m (conjSubgroup h B')) =
@@ -35,34 +36,40 @@ theorem sec7ctr_iSup_conj_frame {L B' : Subgroup G} {h : G} (hh : h ∈ M) (s : 
     rw [← e]
     exact le_iSup₂_of_le (m * h⁻¹) hmh (le_iSup_of_le hs' le_rfl)
 
+omit [Finite G] in
 theorem sec7ctr_Rt_conj_frame {L : Subgroup G} {h : G} (hh : h ∈ M) (s : G) :
     Rt M (conjSubgroup h L) s = Rt M L s := by
   unfold Rt
   exact sec7ctr_iSup_conj_frame (B' := L) hh s
 
+omit [Finite G] in
 theorem sec7ctr_Vt_conj_frame {L B' : Subgroup G} {h : G} (hh : h ∈ M) (s : G) :
     Vt M (conjSubgroup h L) (conjSubgroup h B') Z s = Vt M L B' Z s := by
   unfold Vt
   rw [sec7ctr_iSup_conj_frame hh s]
 
+omit [Finite G] in
 theorem sec7ctr_CN_conj_frame (hc : Ctx M Q Z B) {h : G} (hh : h ∈ M) (s : G) :
     (hc.conj_of_mem hh).CN s = hc.CN s := by
   ext x
   rw [Ctx.mem_CN, Ctx.mem_CN, hc.LB_conj hh, sec7ctr_Rt_conj_frame hh s,
     sec7ctr_Vt_conj_frame hh s]
 
+omit [Finite G] in
 theorem sec7ctr_OmegaPlusNat_conj_frame (hc : Ctx M Q Z B) {h : G} (hh : h ∈ M) (s : G)
     (m : ℕ) : OmegaPlusNat (hc.conj_of_mem hh) s m ↔ OmegaPlusNat hc s m := by
   unfold OmegaPlusNat
   rw [sec7ctr_CN_conj_frame hc hh s, hc.LB_conj hh, sec7ctr_Rt_conj_frame hh s,
     sec7ctr_Vt_conj_frame hh s]
 
+omit [Finite G] in
 theorem sec7ctr_OmegaMinusNat_conj_frame (hc : Ctx M Q Z B) {h : G} (hh : h ∈ M) (s : G)
     (m : ℕ) : OmegaMinusNat (hc.conj_of_mem hh) s m ↔ OmegaMinusNat hc s m := by
   unfold OmegaMinusNat
   rw [sec7ctr_CN_conj_frame hc hh s, hc.LB_conj hh, sec7ctr_Rt_conj_frame hh s,
     sec7ctr_Vt_conj_frame hh s]
 
+omit [Finite G] in
 theorem sec7ctr_IsA2_conj {g : G} (hgQ : conjSubgroup g Q = Q) (hgZ : conjSubgroup g Z = Z)
     {a : G} (ha : IsA2 Q Z a) : IsA2 Q Z (g * a * g⁻¹) := by
   unfold IsA2 at ha ⊢
@@ -94,6 +101,7 @@ theorem sec7ctr_IsA2_conj {g : G} (hgQ : conjSubgroup g Q = Q) (hgZ : conjSubgro
   · rw [hC]
     exact CFSG.CGT.Timmesfeld75.isElemAbelian_conjSubgroup hab g
 
+omit [Finite G] in
 theorem sec7ctr_NoA2_conj (hc : Ctx M Q Z B) {h : G} (hh : h ∈ M) {L : Subgroup G}
     (hL : NoA2 Q Z L) : NoA2 Q Z (conjSubgroup h L) := by
   unfold NoA2 at hL ⊢

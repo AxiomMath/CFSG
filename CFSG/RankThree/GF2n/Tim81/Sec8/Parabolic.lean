@@ -251,7 +251,7 @@ private theorem exists_two_parabolic_two_subgroups_projectiveSL3 {K : Type} [Fie
       Subgroup.normalizer (R₁ : Set (projectiveSL 3 K)) ⊔
         Subgroup.normalizer (R₂ : Set (projectiveSL 3 K)) = ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨T, hT⟩ := exists_sylow_projUnitriangular (K := K) 2 (n := 3) (by norm_num)
   set R₁ : Subgroup (projectiveSL 3 K) :=
     (tvCenterSL (m := 3) (c₀ K)).map (proj 3 K) with hR₁
@@ -335,7 +335,7 @@ private theorem false_of_sec8SylowData_of_data {H H' : Type} [Group H] [Group H'
     (hsup' : Subgroup.normalizer (R₁' : Set H') ⊔ Subgroup.normalizer (R₂' : Set H') = ⊤) :
     False := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let es : H' ≃* H := e.symm
   let T : Sylow 2 H := Sylow.mapSurjective (f := es.toMonoidHom) es.surjective T'
   have hTcoe : (T : Subgroup H) = (T' : Subgroup H').map es.toMonoidHom :=
@@ -373,7 +373,7 @@ private theorem false_of_sec8SylowData_projectiveSL3 {K : Type} [Field K] [Finit
     {H : Type} [Group H] [Finite H] {M : Subgroup H} (hM : M ≠ ⊤) (hsyl : Sec8SylowData M)
     (e : H ≃* projectiveSL 3 K) : False := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨T', R₁', R₂', hR₁'ne, hR₂'ne, hp₁', hp₂', hT₁', hT₂', hsup'⟩ :=
     exists_two_parabolic_two_subgroups_projectiveSL3 (K := K)
   exact false_of_sec8SylowData_of_data hM hsyl e T' R₁' R₂' hR₁'ne hR₂'ne hp₁' hp₂'
@@ -382,7 +382,7 @@ private theorem false_of_sec8SylowData_projectiveSL3 {K : Type} [Field K] [Finit
 theorem sec8L3Statement : Sec8L3Statement := by
   intro G _ _ _ hnonab hK hchar M V hHyp h4 hwcQ hnwc hempty hsyl hm
   obtain ⟨n, _hn, ⟨e⟩⟩ := hm
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hM : M ≠ ⊤ := CFSG.CGT.PushingUp.ne_top_of_isPLocal hnonab hHyp.maxLocal.1
   exact false_of_sec8SylowData_projectiveSL3 (K := GaloisField 2 n) hM hsyl
     (e.trans (CFSG.RankThree.PartOne.S15K.projSLEquivProjectiveSL 3 (GaloisField 2 n)))
@@ -407,6 +407,7 @@ private theorem tv_mul_self (v : Fin 2 ⊕ Fin 2 → K) : tv v * tv v = 1 := by
   apply Subtype.ext
   simpa [tv, Subgroup.coe_mul] using h
 
+omit [CharP K 2] in
 private theorem conj_tv (g : StatedSp 2 K) (v : Fin 2 ⊕ Fin 2 → K) :
     g * tv v * g⁻¹ = tv (g.val *ᵥ v) := by
   apply Subtype.ext
@@ -414,6 +415,7 @@ private theorem conj_tv (g : StatedSp 2 K) (v : Fin 2 ⊕ Fin 2 → K) :
   simpa [tv] using congrArg (fun x : GL (Fin 2 ⊕ Fin 2) K =>
     (x : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K)) (conj_spTrans g.2 v 1)
 
+omit [CharP K 2] in
 private theorem tv_comm_of_isotropic {v w : Fin 2 ⊕ Fin 2 → K}
     (h : spForm 2 K v w = 0) : tv v * tv w = tv w * tv v := by
   apply Subtype.ext
@@ -426,7 +428,7 @@ private theorem tv_comm_of_isotropic {v w : Fin 2 ⊕ Fin 2 → K}
       (Units.val (spTrans v 1 : GL (Fin 2 ⊕ Fin 2) K) *ᵥ x)
   rw [spTrans_mulVec, spTrans_mulVec, spTrans_mulVec, spTrans_mulVec]
   simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul,
-    spForm_self, mul_zero, add_zero, one_mul]
+    one_mul]
   have hwv : spForm 2 K w v = 0 := by
     have := LinearMap.BilinForm.IsAlt.neg_eq spForm_isAlt w v
     rw [h] at this
@@ -434,6 +436,7 @@ private theorem tv_comm_of_isotropic {v w : Fin 2 ⊕ Fin 2 → K}
   rw [h, hwv, mul_zero, add_zero, mul_zero, add_zero]
   abel
 
+omit [CharP K 2] in
 private theorem tv_ne_one {v : Fin 2 ⊕ Fin 2 → K} (hv : v ≠ 0) : tv v ≠ 1 := by
   intro h
   have h1 : spTrans v 1 = 1 := by
@@ -456,6 +459,7 @@ private theorem tv_ne_one {v : Fin 2 ⊕ Fin 2 → K} (hv : v ≠ 0) : tv v ≠ 
 private def R (d : ℕ) : Subgroup (StatedSp 2 K) :=
   Subgroup.closure {x : StatedSp 2 K | ∃ v ∈ flag 2 K d, tv v = x}
 
+omit [CharP K 2] in
 private theorem mem_R {d : ℕ} {v : Fin 2 ⊕ Fin 2 → K} (hv : v ∈ flag 2 K d) :
     tv v ∈ R (K := K) d :=
   Subgroup.subset_closure ⟨v, hv, rfl⟩
@@ -475,11 +479,13 @@ private theorem R_isPGroup {d : ℕ} (hd : d ≤ 2) : IsPGroup 2 (R (K := K) d) 
   intro x
   exact ⟨1, Subtype.ext (by simpa [pow_two] using hE.2 x x.2)⟩
 
+omit [CharP K 2] in
 private theorem mem_flag_one :
     (Pi.single (Sum.inl (0 : Fin 2)) (1 : K) : Fin 2 ⊕ Fin 2 → K) ∈ flag 2 K 1 := by
   rw [mem_flag_of_le (by norm_num)]
   simpa using SymplecticFlag.single_mem_isoFlag (K := K) (r := 2) (0 : Fin 2)
 
+omit [CharP K 2] in
 private theorem R_ne_bot {d : ℕ} (hd1 : 1 ≤ d) : R (K := K) d ≠ ⊥ := by
   intro hbot
   have hmem : tv (Pi.single (Sum.inl (0 : Fin 2)) (1 : K) : Fin 2 ⊕ Fin 2 → K) ∈ R d :=
@@ -488,6 +494,7 @@ private theorem R_ne_bot {d : ℕ} (hd1 : 1 ≤ d) : R (K := K) d ≠ ⊥ := by
   exact tv_ne_one (K := K) (SymplecticHigher.single_ne_zero (Sum.inl 0))
     (Subgroup.mem_bot.mp hmem)
 
+omit [CharP K 2] in
 private theorem stabilizer_le_normalizer_R [Finite K] {d : ℕ} :
     stabilizer 2 K (flag 2 K d) ≤ Subgroup.normalizer (R (K := K) d : Set (StatedSp 2 K)) := by
   intro x hx
@@ -506,6 +513,7 @@ private theorem stabilizer_le_normalizer_R [Finite K] {d : ℕ} :
   refine Subgroup.eq_of_le_of_card_ge hle ?_
   rw [Subgroup.card_map_of_injective (MulAut.conj x).injective]
 
+omit [CharP K 2] in
 private theorem stabilizer_sup :
     stabilizer 2 K (flag 2 K 1) ⊔ stabilizer 2 K (flag 2 K 2) = ⊤ := by
   have hzero : weylRep K (0 : Fin 2) ∈ stabilizer 2 K (flag 2 K 2) := by
@@ -560,7 +568,7 @@ private theorem exists_two_parabolic_two_subgroups_statedProj [Finite K] :
         Subgroup.normalizer (R₂ : Set (StatedProj (StatedSp 2 K))) ∧
       Subgroup.normalizer (R₁ : Set (StatedProj (StatedSp 2 K))) ⊔
         Subgroup.normalizer (R₂ : Set (StatedProj (StatedSp 2 K))) = ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨T', R₁', R₂', hR₁'ne, hR₂'ne, hp₁', hp₂', hT₁', hT₂', hsup'⟩ :=
     exists_two_parabolic_two_subgroups_statedSp (K := K)
   have hker : (SymplecticFlag.proj 2 K).ker = ⊥ := by
@@ -606,7 +614,7 @@ private theorem false_of_sec8SylowData_projSp {K : Type} [Field K] [Finite K] [C
 theorem sec8Sp4Statement : Sec8Sp4Statement := by
   intro G _ _ _ hnonab hK hchar M V hHyp h4 hwcQ hnwc hempty hsyl hm
   obtain ⟨n, _hn, ⟨e⟩⟩ := hm
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hM : M ≠ ⊤ := CFSG.CGT.PushingUp.ne_top_of_isPLocal hnonab hHyp.maxLocal.1
   exact false_of_sec8SylowData_projSp (K := GaloisField 2 n) hM hsyl e
 

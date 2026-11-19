@@ -104,26 +104,26 @@ theorem foldl_testBit_xor (cols : List Nat) (v v' : Nat) (l : List Nat) (a a' : 
     · have h3 : ¬ (v ^^^ v').testBit j = true := by
         rw [Nat.testBit_xor, h1, h2]
         decide
-      rw [if_neg h3, if_pos h1, if_pos h2, ← xor_xor_xor_cancel a a' (cols.getD j 0)]
+      rw [ite_eq_right h3, ite_eq_left h1, ite_eq_left h2, ← xor_xor_xor_cancel a a' (cols.getD j 0)]
       exact ih (a ^^^ cols.getD j 0) (a' ^^^ cols.getD j 0)
     · have h2' : v'.testBit j = false := by simpa using h2
       have h3 : (v ^^^ v').testBit j = true := by
         rw [Nat.testBit_xor, h1, h2']
         decide
-      rw [if_pos h3, if_pos h1, if_neg h2, xor_swap_right a a' (cols.getD j 0)]
+      rw [ite_eq_left h3, ite_eq_left h1, ite_eq_right h2, xor_swap_right a a' (cols.getD j 0)]
       exact ih (a ^^^ cols.getD j 0) a'
     · have h1' : v.testBit j = false := by simpa using h1
       have h3 : (v ^^^ v').testBit j = true := by
         rw [Nat.testBit_xor, h1', h2]
         decide
-      rw [if_pos h3, if_neg h1, if_pos h2, Nat.xor_assoc]
+      rw [ite_eq_left h3, ite_eq_right h1, ite_eq_left h2, Nat.xor_assoc]
       exact ih a (a' ^^^ cols.getD j 0)
     · have h1' : v.testBit j = false := by simpa using h1
       have h2' : v'.testBit j = false := by simpa using h2
       have h3 : ¬ (v ^^^ v').testBit j = true := by
         rw [Nat.testBit_xor, h1', h2']
         decide
-      rw [if_neg h3, if_neg h1, if_neg h2]
+      rw [ite_eq_right h3, ite_eq_right h1, ite_eq_right h2]
       exact ih a a'
 
 theorem applyCols_xor (cols : List Nat) (v v' : Nat) :
@@ -156,7 +156,7 @@ theorem applyCols_pow (cols : List Nat) {j : Nat} (hj : j < 20) :
     applyCols cols (1 <<< j) = cols.getD j 0 := by
   unfold applyCols
   have h := foldl_single_bit (fun i => cols.getD i 0) j 20 0
-  simp only [if_pos hj, Nat.zero_xor] at h
+  simp only [ite_eq_left hj, Nat.zero_xor] at h
   exact h
 
 theorem applyWord_cons (M : List (List Nat)) (g : Nat) (w : List Nat) (v : Nat) :
@@ -315,13 +315,13 @@ theorem allBelow_spec (f : Nat → Bool) (n : Nat) (h : allBelow f n = true) :
     intro m h1 h2
     unfold allBelow at h
     by_cases hf : f (k + 1) = true
-    · rw [if_pos hf] at h
+    · rw [ite_eq_left hf] at h
       rcases Nat.lt_or_ge m (k + 1) with hm | hm
       · exact ih h m h1 (by omega)
       · have : m = k + 1 := by omega
         subst this
         exact hf
-    · rw [if_neg hf] at h
+    · rw [ite_eq_right hf] at h
       exact absurd h (by simp)
 
 theorem foldl_set_mem (l : List (Nat × Nat × Nat)) (A : Array Bool) (d : Nat)
@@ -335,7 +335,7 @@ theorem foldl_set_mem (l : List (Nat × Nat × Nat)) (A : Array Bool) (d : Nat)
     · rw [Array.getD_eq_getD_getElem?, Array.set!_eq_setIfInBounds, Array.getElem?_setIfInBounds] at h1
       by_cases hed : e.1 = d
       · exact Or.inr ⟨e, List.mem_cons_self, hed⟩
-      · rw [if_neg hed] at h1
+      · rw [ite_eq_right hed] at h1
         exact Or.inl (by rwa [Array.getD_eq_getD_getElem?])
     · exact Or.inr ⟨e', List.mem_cons_of_mem _ he', hd⟩
 
@@ -433,9 +433,9 @@ theorem bfsOk_spec (h : bfsOk () = true) :
   rw [List.any_eq_true] at hA
   obtain ⟨k, hk, hne⟩ := hA
   refine ⟨⟨k, List.mem_range.1 hk, by simpa using hne⟩, fun hr => ?_, fun hr => ?_⟩
-  · rw [if_pos (beq_iff_eq.2 hr)] at hB
+  · rw [ite_eq_left (beq_iff_eq.2 hr)] at hB
     simpa using hB
-  · rw [if_neg (by simpa using hr)] at hB
+  · rw [ite_eq_right (by simpa using hr)] at hB
     simp only [Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq] at hB
     obtain ⟨⟨h1, h2'⟩, h3⟩ := hB
     exact ⟨h1, h2', h3⟩

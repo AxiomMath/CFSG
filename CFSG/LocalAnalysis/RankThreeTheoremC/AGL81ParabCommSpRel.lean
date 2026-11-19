@@ -122,7 +122,7 @@ theorem sigma_eq_one [Finite K] [CharP K 2] (hI1 : ∀ i ∈ I, 1 ≤ i) (hmax :
       have hm' : 1 ≤ m := hm
       have hres : spResBlock K m = ⊤ := by
         have hs : ¬ (m = 1 ∧ Nat.card K = 2) := fun h => hK h.2
-        rw [spResBlock, if_neg hs]
+        rw [spResBlock, ite_eq_right hs]
         exact (isQuasisimple_statedSp_of_not_small (K := K) hm' hs (fun h => hK h.2)).1
       set i₀ : Fin m := ⟨0, hm'⟩ with hi₀
       have hab : (Sum.inl i₀ : Fin m ⊕ Fin m) ≠ Sum.inr i₀ := Sum.inl_ne_inr

@@ -48,7 +48,7 @@ theorem false_of_alperinFrame_of_gold (hgold : CFSG.Goldschmidt.CoreStatement) {
       rw [show s * s = s * s⁻¹ by rw [e], mul_inv_cancel]
       exact one_mem _
     have := (hF.nf_mem_V_iff hn2 0 (i := 2) (e := 0) (by norm_num) (by norm_num)).1
-      (by rw [hF.vec_zero, one_mul, pow_zero, mul_one, pow_two]; exact hs)
+      (by rw [CFSG.OddStandard.ONan76.AlperinFrame.vec_zero, one_mul, pow_zero, mul_one, pow_two]; exact hs)
     omega
   have hO : CFSG.Open.goldschmidtOddCore G = ⊥ := by
     rw [CFSG.Open.goldschmidtOddCore, sSup_eq_bot]
@@ -84,7 +84,7 @@ theorem false_of_alperinFrame_of_gold (hgold : CFSG.Goldschmidt.CoreStatement) {
     exact hF.t_sq
   have htV : t ∈ hF.V := hF.W_le_V hn1 ht
   have := (hF.nf_mem_V_iff hn2 0 (i := 0) (e := 1) (by norm_num) (by norm_num)).1
-    (by rw [hF.vec_zero, one_mul, pow_zero, one_mul, pow_one]; exact htV)
+    (by rw [CFSG.OddStandard.ONan76.AlperinFrame.vec_zero, one_mul, pow_zero, one_mul, pow_one]; exact htV)
   omega
 
 end CFSG.OddStandard.ONan76

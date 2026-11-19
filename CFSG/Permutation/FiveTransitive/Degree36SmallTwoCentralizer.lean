@@ -129,7 +129,7 @@ theorem nine_not_dvd_centralizer
       have hmem : t ∈ R := htx
       rw [he,Subgroup.mem_bot] at hmem
       exact ht hmem
-    obtain ⟨e,he⟩ := IsPGroup.iff_card.mp (T.isPGroup'.to_subgroup R)
+    obtain ⟨e,he⟩ := IsPGroup.iff_card.mp (T.isPGroup.to_subgroup R)
     have hepos : 1 ≤ e := by
       by_contra hn
       have hc : Nat.card R = 1 := by rw [he,show e = 0 by omega,pow_zero]

@@ -91,7 +91,7 @@ private theorem eq_zero_of_mem_fixedSub_dual_of_natural
     by_cases h : j = i
     · subst h
       simp [Matrix.mulVec_diagonal]
-    · simp [Matrix.mulVec_diagonal, Pi.single_apply, h]
+    · simp [Matrix.mulVec_diagonal, h]
   have hpsi : ∀ (i : Fin 4) (x : K),
       Lbar (Pi.single i ((dEnt a l i) ^ 2 ^ c * x)) = Lbar (Pi.single i x) := by
     intro i x
@@ -151,13 +151,12 @@ theorem le_commSub_suzukiZ0_of_natural_quotient
     rw [mem_fixedSub_dual, Submodule.mem_dualAnnihilator]
     intro w hw
     exact LinearMap.mem_ker.mp (hfW hw)
-  haveI : Finite G := (suzuki_simple ha hK).1
-  letI : Fintype D := Fintype.ofFinite D
+  have : Finite G := (suzuki_simple ha hK).1
+  let : Fintype D := Fintype.ofFinite D
   let πf : Module.Dual (ZMod 2) M := ∑ d : D, (ρ.dual (d : G)) f
   have hπD : πf ∈ fixedSub ρ.dual D := by
     rw [mem_fixedSub]
     intro d hd
-    change (ρ.dual (d : G)) πf = πf
     rw [show πf = ∑ e : D, (ρ.dual (e : G)) f from rfl, map_sum]
     rw [show (∑ e : D, (ρ.dual (d : G)) ((ρ.dual (e : G)) f)) =
         ∑ e : D, (ρ.dual ((d : G) * (e : G))) f from by

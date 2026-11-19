@@ -99,7 +99,7 @@ theorem FooteCore.sylow_centralizer_Z {G : Type*} [Group G] [Finite G] {T : Sylo
   have hTK : IsSylowOf 2 (T : Subgroup G)
       (normalizer ((D.A ⊔ (zpowers D.b₀ ⊔ zpowers D.b₁) : Subgroup G) : Set G)) := by
     rw [isSylowOf_iff]
-    exact ⟨D.le_normalizer_Z, T.isPGroup', fun h =>
+    exact ⟨D.le_normalizer_Z, T.isPGroup, fun h =>
       T.not_dvd_index (h.trans (relIndex_dvd_index_of_le D.le_normalizer_Z))⟩
   have hNK := centralizer_le_normalizer
     ((D.A ⊔ (zpowers D.b₀ ⊔ zpowers D.b₁) : Subgroup G) : Set G)

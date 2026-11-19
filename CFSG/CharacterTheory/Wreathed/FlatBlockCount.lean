@@ -59,7 +59,7 @@ theorem flat_block_count_corrected_three_cycle_commutator [IsSimpleGroup G]
       boundaryKernel S e η = J.subgroupOf E ∧ IsMulCommutative (E ⧸ boundaryKernel S e η) ∧
       (∀ 𝔅 ∈ flatWreathedBlocks basis ideal S e, ∀ B ∈ 𝔅,
         ∃ (θ : eb.index) (θhat : nb.index), InflatedLabel (oddCore_le_normalizer S) nb eb θ θhat ∧
-          brauerNormalizerCharacterResidueHom ideal 2 (S : Subgroup G) S.isPGroup'
+          brauerNormalizerCharacterResidueHom ideal 2 (S : Subgroup G) S.isPGroup
               (Subgroup.normalizer ((S : Subgroup G) : Set G))
               (Subgroup.centralizer_le_normalizer _) le_rfl nb θhat =
             centralCharacterResidueHom basis ideal B) ∧
@@ -67,7 +67,7 @@ theorem flat_block_count_corrected_three_cycle_commutator [IsSimpleGroup G]
         ∀ (𝔅 : flatWreathedBlocks basis ideal S e) (B : basis.index),
           B ∈ (𝔅 : Finset basis.index) → ∀ (θ : eb.index) (θhat : nb.index),
           InflatedLabel (oddCore_le_normalizer S) nb eb θ θhat →
-          brauerNormalizerCharacterResidueHom ideal 2 (S : Subgroup G) S.isPGroup'
+          brauerNormalizerCharacterResidueHom ideal 2 (S : Subgroup G) S.isPGroup
               (Subgroup.normalizer ((S : Subgroup G) : Set G))
               (Subgroup.centralizer_le_normalizer _) le_rfl nb θhat =
             centralCharacterResidueHom basis ideal B →

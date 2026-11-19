@@ -141,7 +141,7 @@ theorem eq_six_or_seven_of_three_dvd_alt {S : Type} [Group S] {m : ℕ} (hm : 5 
       (alternatingGroup (Fin m))).toEquiv,
     (CFSG.Alternating.Multipliers.schurAlternatingMultiplierInput m hm).2] at h3
   by_contra hcon
-  rw [if_neg hcon] at h3
+  rw [ite_eq_right hcon] at h3
   omega
 
 theorem rows_of_three_dvd_center (hG : GriessAllModelsStatement) {X : Type} [Group X] [Finite X]

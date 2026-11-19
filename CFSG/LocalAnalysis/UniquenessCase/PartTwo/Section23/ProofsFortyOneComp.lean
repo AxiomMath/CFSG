@@ -81,7 +81,7 @@ private theorem image_isSimple {D : Data G} {Ch : Choice2011 G} {c : Ctx23L D Ch
     IsSimpleGroup (imageOTwoQuot D.M K) := by
   obtain ⟨q, hq, hq2, hL2⟩ := (h37 h1930 c K hK).1
   obtain ⟨e⟩ := CFSG.Quasithin.C2Push.nonempty_mulEquiv_pCore_quotient_imageOTwoQuot hK.1
-  haveI : IsSimpleGroup (Bar2 K) :=
+  have : IsSimpleGroup (Bar2 K) :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hL2
   exact MulEquiv.isSimpleGroup e.symm
 
@@ -98,8 +98,8 @@ private theorem image_center_eq_bot {D : Data G} {Ch : Choice2011 G} {c : Ctx23L
 private theorem image_not_isPGroup_two {D : Data G} {Ch : Choice2011 G} {c : Ctx23L D Ch}
     (h1930 : H1930 D) (h37 : S23_37 D Ch) {K : Subgroup G} (hK : K ∈ calC D.M) :
     ¬ IsPGroup 2 (imageOTwoQuot D.M K) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : IsSimpleGroup (imageOTwoQuot D.M K) := image_isSimple (c := c) h1930 h37 hK
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsSimpleGroup (imageOTwoQuot D.M K) := image_isSimple (c := c) h1930 h37 hK
   have hcen := image_center_eq_bot (c := c) h1930 h37 hK
   intro hp
   have hc : Nontrivial ↥(Subgroup.center (imageOTwoQuot D.M K)) := hp.center_nontrivial
@@ -124,7 +124,7 @@ private theorem mul_ne_one_of_center_eq_bot {Q : Type*} [Group Q] {K : Subgroup 
 private theorem comp_cent_pow_normalizer {D : Data G} {Ch : Choice2011 G}
     {c : Ctx23L D Ch} (X : S2341Frame D Ch c) (h4 : S23_4 D Ch)
     (h23 : S23_23 D Ch) (h39 : S23_39 D Ch) (h40 : S23_40 D Ch)
-    (h1930 : H1930 D) {K : Subgroup G} (hK : K ∈ calC D.M)
+    (h1930 : H1930 D) {K : Subgroup G} (_hK : K ∈ calC D.M)
     (hN : ∀ v : D.M, (v : G) ∈ X.W → ∀ x : Bar2 D.M,
       x ∈ imageOTwoQuot D.M K →
       (QuotientGroup.mk v) * x * (QuotientGroup.mk v)⁻¹ ∈ imageOTwoQuot D.M K)
@@ -165,7 +165,7 @@ private theorem comp_cent {D : Data G} {Ch : Choice2011 G} {c : Ctx23L D Ch}
   by_contra hcon
   push Not at hcon
   obtain ⟨x, hxK, hxnc⟩ := hcon
-  haveI : IsSimpleGroup (imageOTwoQuot D.M K) := image_isSimple (c := c) h1930 h37 hK
+  have : IsSimpleGroup (imageOTwoQuot D.M K) := image_isSimple (c := c) h1930 h37 hK
   obtain ⟨ht2, htN⟩ := comp_cent_pow_normalizer X h4 h23 h39 h40 h1930 hK hN hvW
   have htC : (QuotientGroup.mk v : Bar2 D.M) ∉
       Subgroup.centralizer ((imageOTwoQuot D.M K) : Set (Bar2 D.M)) := by
@@ -412,7 +412,7 @@ private theorem four_conj_comm_outer {Q : Type*} [Group Q] [Finite Q]
         ((CFSG.isComponent_iff_open _).mp h4) hfour.2.2.1.symm) hx hy
 
 private theorem four_conj_comm_inner {Q : Type*} [Group Q] [Finite Q]
-    {K : Subgroup Q} {a b : Q} (hK : CFSG.IsComponent K)
+    {K : Subgroup Q} {a b : Q} (_hK : CFSG.IsComponent K)
     (h2 : CFSG.IsComponent (K.map (MulAut.conj a).toMonoidHom))
     (h3 : CFSG.IsComponent (K.map (MulAut.conj b).toMonoidHom))
     (h4 : CFSG.IsComponent (K.map (MulAut.conj (a * b)).toMonoidHom))
@@ -517,8 +517,8 @@ private noncomputable def four_conj_z {Q : Type*} [Group Q] {K : Subgroup Q} {a 
   exact FourConjX.mk Y z x rfl rfl hzodd hyz hzC hx1 hxodd
 
 private theorem four_conj_inv {Q : Type*} [Group Q] {K : Subgroup Q} {a b y : Q}
-    (Z : FourConjX K a b y) (ha2 : a * a = 1) (hb2 : b * b = 1)
-    (hab : a * b = b * a) : a * Z.x * a⁻¹ = Z.x⁻¹ := by
+    (Z : FourConjX K a b y) (ha2 : a * a = 1) (_hb2 : b * b = 1)
+    (_hab : a * b = b * a) : a * Z.x * a⁻¹ = Z.x⁻¹ := by
   have hconj2a : (MulAut.conj a) * (MulAut.conj a) = 1 := by
     rw [← map_mul (MulAut.conj) a a, ha2, map_one (MulAut.conj)]
   have ha_y : (MulAut.conj a) y = Z.y2 := Z.h2eq.symm
@@ -586,7 +586,7 @@ private theorem four_conj_cent {Q : Type*} [Group Q] {K : Subgroup Q} {a b y : Q
 private theorem comp_norm_case_four_apply {D : Data G} {Ch : Choice2011 G}
     {c : Ctx23L D Ch} (X : S2341Frame D Ch c) (h4 : S23_4 D Ch)
     (h23 : S23_23 D Ch) (h39 : S23_39 D Ch) (h40 : S23_40 D Ch)
-    (h1930 : H1930 D) (hneq : ⁅X.W, X.F⁆ ≠ ⊥) {K : Subgroup G} (hK : K ∈ calC D.M)
+    (h1930 : H1930 D) (hneq : ⁅X.W, X.F⁆ ≠ ⊥) {K : Subgroup G} (_hK : K ∈ calC D.M)
     {v : D.M} (hvW : (v : G) ∈ X.W) (P : CompNormData X K v)
     (C : FourConjCase P.A P.W1 P.Kstar P.a) (h7 : X.NoOddInverted)
     {y : Bar2 D.M} (Z : FourConjX P.Kstar P.a C.b y) : False := by
@@ -675,10 +675,10 @@ private theorem comp_norm_case_sup_eq {D : Data G} {Ch : Choice2011 G}
   exact ⟨hAsup, hW1ne⟩
 
 private noncomputable def comp_norm_case_sup_w {D : Data G} {Ch : Choice2011 G}
-    {c : Ctx23L D Ch} (X : S2341Frame D Ch c) (h4 : S23_4 D Ch)
-    (h23 : S23_23 D Ch) (h39 : S23_39 D Ch) (h40 : S23_40 D Ch)
-    (h1930 : H1930 D) (hneq : ⁅X.W, X.F⁆ ≠ ⊥) {K : Subgroup G} {v : D.M}
-    (hvW : (v : G) ∈ X.W) (P : CompNormData X K v) (hW1ne : P.W1 ≠ ⊥) :
+    {c : Ctx23L D Ch} (X : S2341Frame D Ch c) (_h4 : S23_4 D Ch)
+    (_h23 : S23_23 D Ch) (_h39 : S23_39 D Ch) (_h40 : S23_40 D Ch)
+    (_h1930 : H1930 D) (_hneq : ⁅X.W, X.F⁆ ≠ ⊥) {K : Subgroup G} {v : D.M}
+    (_hvW : (v : G) ∈ X.W) (P : CompNormData X K v) (hW1ne : P.W1 ≠ ⊥) :
     CompNormSupW X P := by
   have hnt : Nontrivial ↥P.W1 := (Subgroup.nontrivial_iff_ne_bot P.W1).mpr hW1ne
   let wstar : ↥P.W1 := Classical.choose (exists_ne (1 : ↥P.W1))
@@ -955,7 +955,6 @@ private theorem comp_norm_sup_noncent_inv {D : Data G} {Ch : Choice2011 G}
       (P.hE.1.is_comm.comm ⟨S.w, S.hwA⟩ ⟨P.a, P.haA⟩)
   have hwy2 : S.w * B.y2 * S.w⁻¹ = B.y2⁻¹ := by
     rw [B.hy2eq]
-    change S.w * ((MulAut.conj P.a) B.y) * S.w⁻¹ = ((MulAut.conj P.a) B.y)⁻¹
     rw [MulAut.conj_apply]
     have hwaw' : P.a⁻¹ * S.w⁻¹ = S.w⁻¹ * P.a⁻¹ := by
       have h := congrArg Inv.inv hwaw
@@ -1024,7 +1023,7 @@ private theorem comp_norm {D : Data G} {Ch : Choice2011 G} {c : Ctx23L D Ch}
 
 private theorem fittingSubgroup_odd {D : Data G} :
     Odd (Nat.card (CFSG.fittingSubgroup (Bar2 D.M))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact CFSG.LocalAnalysis.RankThreeUC.Section5.OddActorSylowFactorization.odd_of_pCore_bot
     (pCore_two_quot_eq_bot D.M) (CFSG.fittingSubgroup (Bar2 D.M))
 
@@ -1060,8 +1059,8 @@ private theorem fitting_centralized_hnotfix (h4 : S23_4 D Ch) (h23 : S23_23 D Ch
     (hnot : ⁅CFSG.fittingSubgroup (Bar2 D.M), imageOTwoQuot D.M X.W⁆ ≠ ⊥) :
     ∃ a : imageOTwoQuot D.M X.W, ∃ p : CFSG.fittingSubgroup (Bar2 D.M),
       a • p ≠ p := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : MulDistribMulAction (imageOTwoQuot D.M X.W) (CFSG.fittingSubgroup (Bar2 D.M)) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : MulDistribMulAction (imageOTwoQuot D.M X.W) (CFSG.fittingSubgroup (Bar2 D.M)) :=
     MulDistribMulAction.compHom (CFSG.fittingSubgroup (Bar2 D.M))
       ((MulAut.conjNormal (H := CFSG.fittingSubgroup (Bar2 D.M))).comp
         (imageOTwoQuot D.M X.W).subtype)
@@ -1069,7 +1068,7 @@ private theorem fitting_centralized_hnotfix (h4 : S23_4 D Ch) (h23 : S23_23 D Ch
   have hA4 : 4 ≤ Nat.card (imageOTwoQuot D.M X.W) := by
     rw [Wstar_card X h4 h23 h39 h40 h1930 hneq]
     exact (by norm_num : 4 ≤ 2 ^ 3).trans (pow_le_pow_right₀ (by norm_num) hn3)
-  haveI : CFSG.IsElementaryAbelian 2 ↥(imageOTwoQuot D.M X.W) :=
+  have : CFSG.IsElementaryAbelian 2 ↥(imageOTwoQuot D.M X.W) :=
     (CFSG.Open.isElemAbelian_iff_isElementaryAbelian (p := 2)
       (E := imageOTwoQuot D.M X.W)).mp hE
   have hgen := CFSG.SolvableHall.coprime_centralizer_generation (p := 2)
@@ -1100,15 +1099,15 @@ private theorem fitting_centralized_hex (h4 : S23_4 D Ch) (h23 : S23_23 D Ch)
       ∃ a : imageOTwoQuot D.M X.W, ∃ p : CFSG.fittingSubgroup (Bar2 D.M),
         (a : Bar2 D.M) * (p : Bar2 D.M) * (a : Bar2 D.M)⁻¹ ≠ (p : Bar2 D.M) ∧
         (w : Bar2 D.M) * (p : Bar2 D.M) * (w : Bar2 D.M)⁻¹ = (p : Bar2 D.M) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : MulDistribMulAction (imageOTwoQuot D.M X.W) (CFSG.fittingSubgroup (Bar2 D.M)) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : MulDistribMulAction (imageOTwoQuot D.M X.W) (CFSG.fittingSubgroup (Bar2 D.M)) :=
     MulDistribMulAction.compHom (CFSG.fittingSubgroup (Bar2 D.M))
       ((MulAut.conjNormal (H := CFSG.fittingSubgroup (Bar2 D.M))).comp
         (imageOTwoQuot D.M X.W).subtype)
   have hA4 : 4 ≤ Nat.card (imageOTwoQuot D.M X.W) := by
     rw [Wstar_card X h4 h23 h39 h40 h1930 hneq]
     exact (by norm_num : 4 ≤ 2 ^ 3).trans (pow_le_pow_right₀ (by norm_num) hn3)
-  haveI := (CFSG.Open.isElemAbelian_iff_isElementaryAbelian (p := 2)
+  have := (CFSG.Open.isElemAbelian_iff_isElementaryAbelian (p := 2)
     (E := imageOTwoQuot D.M X.W)).mp (Wstar_isElemAbelian X h4 h1930)
   have hgen := CFSG.SolvableHall.coprime_centralizer_generation (p := 2)
     (A := imageOTwoQuot D.M X.W) (H := CFSG.fittingSubgroup (Bar2 D.M))
@@ -1134,7 +1133,7 @@ private theorem fitting_centralized_x_basic {D : Data G} {Ch : Choice2011 G}
     {c : Ctx23L D Ch} (X : S2341Frame D Ch c)
     (hFodd : Odd (Nat.card (CFSG.fittingSubgroup (Bar2 D.M))))
     {a : imageOTwoQuot D.M X.W} {p : CFSG.fittingSubgroup (Bar2 D.M)}
-    (ha2 : (a : Bar2 D.M) * (a : Bar2 D.M) = 1)
+    (_ha2 : (a : Bar2 D.M) * (a : Bar2 D.M) = 1)
     (hap' : (a : Bar2 D.M) * (p : Bar2 D.M) * (a : Bar2 D.M)⁻¹ ≠ (p : Bar2 D.M)) :
     ∃ x : Bar2 D.M,
       x = (p : Bar2 D.M)⁻¹ * ((a : Bar2 D.M) * (p : Bar2 D.M) * (a : Bar2 D.M)⁻¹) ∧
@@ -1145,7 +1144,7 @@ private theorem fitting_centralized_x_basic {D : Data G} {Ch : Choice2011 G}
     apply hap'
     have h := congrArg (fun y => (p : Bar2 D.M) * y) hx
     simpa [x, mul_assoc] using h
-  haveI hFn : (CFSG.fittingSubgroup (Bar2 D.M)).Normal := CFSG.fittingSubgroup_normal
+  have hFn : (CFSG.fittingSubgroup (Bar2 D.M)).Normal := CFSG.fittingSubgroup_normal
   have hxmem : x ∈ CFSG.fittingSubgroup (Bar2 D.M) := by
     have hconjF : (a : Bar2 D.M) * (p : Bar2 D.M) * (a : Bar2 D.M)⁻¹ ∈
         CFSG.fittingSubgroup (Bar2 D.M) :=
@@ -1196,7 +1195,6 @@ private theorem fitting_centralized_x_comm {D : Data G} {Ch : Choice2011 G}
     (hxdef : x = (p : Bar2 D.M)⁻¹ *
       ((a : Bar2 D.M) * (p : Bar2 D.M) * (a : Bar2 D.M)⁻¹)) :
     Commute (QuotientGroup.mk wM) x := by
-  change Commute (↑wM : Bar2 D.M) x
   have hwMco : (↑wM : Bar2 D.M) = (w : Bar2 D.M) := hwMeq
   rw [hwMco]
   have hcommA : (w : Bar2 D.M) * (a : Bar2 D.M) = (a : Bar2 D.M) * (w : Bar2 D.M) :=
@@ -1222,8 +1220,8 @@ private theorem fitting_centralized {D : Data G} {Ch : Choice2011 G} {c : Ctx23L
   let Q := Bar2 D.M
   let F : Subgroup Q := CFSG.fittingSubgroup Q
   let A : Subgroup Q := imageOTwoQuot D.M X.W
-  haveI hFn : F.Normal := CFSG.fittingSubgroup_normal
-  letI : MulDistribMulAction A F :=
+  have hFn : F.Normal := CFSG.fittingSubgroup_normal
+  let : MulDistribMulAction A F :=
     MulDistribMulAction.compHom F ((MulAut.conjNormal (H := F)).comp A.subtype)
   by_contra hnot
   obtain ⟨w, hw1, a, p, hap', hwp'⟩ :=
@@ -1303,7 +1301,7 @@ private theorem exists_faithful_comp_false {D : Data G} {Ch : Choice2011 G}
     (even_iff_two_dvd.mpr h2F)
 
 private theorem exists_faithful_comp {D : Data G} {Ch : Choice2011 G} {c : Ctx23L D Ch}
-    (X : S2341Frame D Ch c) (h4 : S23_4 D Ch) (h23 : S23_23 D Ch) (h37 : S23_37 D Ch)
+    (X : S2341Frame D Ch c) (h4 : S23_4 D Ch) (h23 : S23_23 D Ch) (_h37 : S23_37 D Ch)
     (h39 : S23_39 D Ch) (h40 : S23_40 D Ch) (h1930 : H1930 D)
     (hneq : ⁅X.W, X.F⁆ ≠ ⊥) (hn3 : 3 ≤ CFSG.Open.pRank 2 D.Z) (h7 : X.NoOddInverted) :
     ∃ K ∈ calC D.M, ∃ w : D.M, (w : G) ∈ X.W ∧
@@ -1322,8 +1320,8 @@ private theorem autRankLe_imageOTwoQuot {D : Data G} {Ch : Choice2011 G} {c : Ct
   rcases hL2 with ⟨-, hclass⟩ | ⟨h0, -⟩ | ⟨h0, -⟩ | ⟨h0, -⟩
   · rw [CFSG.Open.StatedClassicalModel] at hclass
     obtain ⟨Kf, hKf, hKfin, hcard, ⟨eK⟩⟩ := hclass.2
-    letI : Field Kf := hKf
-    letI : Finite Kf := hKfin
+    let : Field Kf := hKf
+    let : Finite Kf := hKfin
     let ePSL : Bar2 K ≃* CFSG.GorensteinWalter.PSL2 Kf :=
       eK.trans (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj
         2 Kf).symm

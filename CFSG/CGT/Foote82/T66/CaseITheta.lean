@@ -25,6 +25,7 @@ theorem Hyp.heartFor (h : Hyp G L z v H₁ m ψ) :
   rw [← pe_psi x]
   exact h.mem_H_iff (ψ x)
 
+omit [Finite V] in
 theorem commSpace_conj_eq (x c : GLV V) :
     commSpace (Subgroup.zpowers (x * c * x⁻¹)) ⊤ =
       (commSpace (Subgroup.zpowers c) ⊤).map (x : V →ₗ[ZMod 2] V) := by
@@ -35,6 +36,7 @@ theorem commSpace_conj_eq (x c : GLV V) :
   · rintro _ ⟨w, hw, rfl⟩
     exact mem_commSpace_conj hw
 
+omit [Finite V] in
 theorem finrank_conj (x c : GLV V) :
     Module.finrank (ZMod 2) ↥(commSpace (Subgroup.zpowers (x * c * x⁻¹)) ⊤) =
       Module.finrank (ZMod 2) ↥(commSpace (Subgroup.zpowers c) ⊤) := by
@@ -45,10 +47,12 @@ theorem finrank_conj (x c : GLV V) :
     alternatingGroup (Fin (m + 6)) →* GLV V :=
   (pe ψ).comp ((iota2 (m + 6)).comp (alternatingGroup (Fin (m + 6))).subtype)
 
+omit [Finite V] in
 theorem jL_apply (a : alternatingGroup (Fin (m + 6))) :
     jL ψ a = pe ψ (iota2 (m + 6) (a : Perm (Fin (m + 6)))) := rfl
 
-theorem jL_injective : Function.Injective (jL ψ) := fun a b hab =>
+omit [Finite V] in
+theorem jL_injective : Function.Injective (jL ψ) := fun _a _b hab =>
   Subtype.ext (iota2_injective _ (pe_injective hab))
 
 theorem Hyp.range_jL (h : Hyp G L z v H₁ m ψ) : (jL ψ).range = L := by
@@ -58,6 +62,7 @@ theorem Hyp.range_jL (h : Hyp G L z v H₁ m ψ) : (jL ψ).range = L := by
 theorem Hyp.jL_mem (h : Hyp G L z v H₁ m ψ) (a : alternatingGroup (Fin (m + 6))) : jL ψ a ∈ L := by
   rw [← h.range_jL]; exact ⟨a, rfl⟩
 
+omit [Finite V] in
 theorem psi_jL (a : alternatingGroup (Fin (m + 6))) :
     ψ ⟨jL ψ a, pe_mem _⟩ = iota2 (m + 6) (a : Perm (Fin (m + 6))) := psi_pe _
 
@@ -101,7 +106,7 @@ theorem Hyp.L_le_N (h : Hyp G L z v H₁ m ψ) : L ≤ NN G L :=
       simpa [mul_assoc] using this⟩⟩
 
 theorem Hyp.isThreeCycle_of_conj (h : Hyp G L z v H₁ m ψ) {x : GLV V}
-    (hx : x ∈ NN G L) {a b : alternatingGroup (Fin (m + 6))}
+    (_hx : x ∈ NN G L) {a b : alternatingGroup (Fin (m + 6))}
     (ha : (a : Perm (Fin (m + 6))).IsThreeCycle) (hab : x * jL ψ a * x⁻¹ = jL ψ b) :
     (b : Perm (Fin (m + 6))).IsThreeCycle := by
   by_contra hb

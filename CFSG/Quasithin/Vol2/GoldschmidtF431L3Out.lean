@@ -62,7 +62,7 @@ theorem isSylowTwoOf_of_max [Finite G] {S H : Subgroup G} (hSH : S ≤ H) (hp : 
     (hmax : ∀ P : Subgroup G, IsPGroup 2 P → S ≤ P → P ≤ H → P = S) : IsSylowTwoOf S H := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q, hQ⟩ := (hp.of_equiv (Subgroup.subgroupOfEquivOfLe hSH).symm).exists_le_sylow
-  have hPp : IsPGroup 2 ((Q : Subgroup H).map H.subtype) := Q.isPGroup'.map _
+  have hPp : IsPGroup 2 ((Q : Subgroup H).map H.subtype) := Q.isPGroup.map _
   have hSP : S ≤ (Q : Subgroup H).map H.subtype := fun x hx =>
     ⟨⟨x, hSH hx⟩, hQ (Subgroup.mem_subgroupOf.mpr hx), rfl⟩
   have hPH : (Q : Subgroup H).map H.subtype ≤ H := Subgroup.map_subtype_le _

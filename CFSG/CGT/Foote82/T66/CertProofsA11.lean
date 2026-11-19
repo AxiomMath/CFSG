@@ -122,7 +122,7 @@ theorem not_dvd_card_GL {k : ℕ} (hk : k ≤ 9) :
 
 theorem eq_one_of_pow_eleven [Finite W] (hW : Module.finrank (ZMod 2) W ≤ 9) (x : GLV W)
     (hx : x ^ 11 = 1) : x = 1 := by
-  haveI : Module.Finite (ZMod 2) W := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) W := Module.Finite.of_finite
   let e : W ≃ₗ[ZMod 2] (Fin (Module.finrank (ZMod 2) W) → ZMod 2) :=
     (Module.finBasis (ZMod 2) W).equivFun
   let ψ := L13Alt.glvEquiv e
@@ -196,7 +196,7 @@ theorem false_of_rank_le_three [Finite W] (a₁ a₂ a₃ : GLV W)
     (h₂ : Module.finrank (ZMod 2) (LinearMap.range ((a₂ : W →ₗ[ZMod 2] W) - LinearMap.id)) ≤ 3)
     (h₃ : Module.finrank (ZMod 2) (LinearMap.range ((a₃ : W →ₗ[ZMod 2] W) - LinearMap.id)) ≤ 3)
     (h11 : (a₁ * a₂ * a₃) ^ 11 = 1) (hne : a₁ * a₂ * a₃ ≠ 1) : False := by
-  haveI : Module.Finite (ZMod 2) W := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) W := Module.Finite.of_finite
   generalize hR₁ : LinearMap.range ((a₁ : W →ₗ[ZMod 2] W) - LinearMap.id) = R₁ at h₁
   generalize hR₂ : LinearMap.range ((a₂ : W →ₗ[ZMod 2] W) - LinearMap.id) = R₂ at h₂
   generalize hR₃ : LinearMap.range ((a₃ : W →ₗ[ZMod 2] W) - LinearMap.id) = R₃ at h₃
@@ -232,7 +232,7 @@ open A11Aux
 theorem a11DoubleThreeCycle_holds : A11DoubleThreeCycle := by
   intro W _ _ _ H φ _ h hcyc
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   obtain ⟨hg2, hg3, h11, hne⟩ := perm_facts
   obtain ⟨π, hπ⟩ := isConj_iff.mp (isConj_iff_cycleType_eq.mpr (cycleType_s1.trans hcyc.symm))
   have hev : ∀ g : Perm (Fin 11), sign g = 1 → π * g * π⁻¹ ∈ alternatingGroup (Fin 11) := by

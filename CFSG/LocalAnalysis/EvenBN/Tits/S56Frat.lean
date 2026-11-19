@@ -34,7 +34,7 @@ private theorem exists_conj_mem_zpowers_of_index_twenty [Finite G] {M Q₀ : Sub
     (hxM : x ∈ M) (hx : orderOf x = 5) (hcard : Nat.card M = 20 * Nat.card Q₀) {m : G}
     (hm : m ∈ M) :
     ∃ y ∈ (Q₀ ⊔ zpowers x : Subgroup G), y⁻¹ * (m * x * m⁻¹) * y ∈ zpowers x := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hA5 : Nat.card (zpowers x) = 5 := by rw [Nat.card_zpowers, hx]
   have hAp : IsPGroup 5 (zpowers x) := IsPGroup.of_card (n := 1) (by rw [hA5, pow_one])
   have hdisj : Disjoint Q₀ (zpowers x) := hQ2.disjoint_of_coprime hAp (by norm_num)

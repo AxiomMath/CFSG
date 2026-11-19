@@ -20,7 +20,7 @@ private theorem ggQ2x_mem_zpowers_of_smul {G : Type} [Group G] {p : ℕ} [Fact p
     (h : ggLin (p := p) model ψ (model (Additive.ofMul ⟨x, hx⟩)) =
       c • model (Additive.ofMul ⟨x, hx⟩)) :
     ψ ⟨x, hx⟩ ∈ Subgroup.zpowers (⟨x, hx⟩ : ↥Bs) := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   refine Subgroup.mem_zpowers_iff.mpr ⟨(c.val : ℤ), ?_⟩
   rw [zpow_natCast]
   have h2 : Additive.ofMul (ψ ⟨x, hx⟩) = Additive.ofMul (⟨x, hx⟩ ^ c.val) := by

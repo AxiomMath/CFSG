@@ -117,7 +117,7 @@ theorem false_of_rank_count
       ∃ x ∈ Y, rootDiagUnit TwistTag.E6.tag (TwE6RootAs.corootTuple γ ζ) = f x)
     (hZc : Nat.card Z ≤ p) (hYc : Nat.card Y < p ^ 3) : False := by
   classical
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   have hp1 : 1 < p := (Fact.out : p.Prime).one_lt
   have h6 : TwistTag.E6.tag.rank = 6 := rfl
   have hz : ∀ {y : ZMod p} {m : ℤ}, (m : ZMod p) = y → ζ ^ ((y.val : ℕ) : ℤ) = ζ ^ m :=

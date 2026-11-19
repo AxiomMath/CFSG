@@ -87,7 +87,7 @@ theorem five_point_stabilizer_mod_twentyThree_cases
   have hPcard : Nat.card P = 5100480 * h := by
     rw [hHindex] at hHindexCard
     exact hHindexCard.symm
-  letI : Fact (Nat.Prime 23) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 23) := ⟨by norm_num⟩
   have hPfactorization :
       (5100480 * h).factorization 23 = 1 := by
     rw [show 5100480 = 23 * 221760 by norm_num,

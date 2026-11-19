@@ -21,7 +21,7 @@ theorem le_of_isPConstrained_of_inf {M R H P : Subgroup G}
     (hH : CFSG.ABGLocalTools.IsPConstrained 3 ↥H) : H ≤ M := by
   have hPM : P ≤ M := hP.le.trans inf_le_left
   have hPH : P ≤ H := hP.le.trans inf_le_right
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨E, hEP, hE, hEcard⟩ :=
     CFSG.SectionRank.exists_isElemAbelian_card_of_le_pRank (p := 3) (k := 3) hP3
   have hE27 : Nat.card E = 27 := by simpa using hEcard
@@ -49,7 +49,7 @@ end O1517b
 
 theorem o1517b_of_res (h : O1517bRes) : O1517b := by
   intro G _ _ hS hUC M hM hwit hstrong p hp R hR hΓ A hAM hA hpdvd P hP hshape
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hpp : p.Prime := CFSG.RankThreeCoreUniqueness.Helpers.sigmaA_prime p hp.1
   have hp2 : p ≠ 2 := CFSG.RankThreeCoreUniqueness.Helpers.sigmaA_odd p hp.1
   by_cases hp3 : p = 3

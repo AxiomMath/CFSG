@@ -56,9 +56,9 @@ private lemma l6ke_center_element {G : Type*} [Group G] (H : Subgroup G)
     ∃ c : ↥H, c ∈ Subgroup.center H ∧ c ≠ 1 ∧ orderOf c ∣ n := by
   have hpos : 0 < Nat.card ↥(Subgroup.center H) := by rw [hcard]; omega
   have hfin : Finite ↥(Subgroup.center H) := (Nat.card_pos_iff.mp hpos).2
-  haveI : Finite ↥(Subgroup.center H) := hfin
+  have : Finite ↥(Subgroup.center H) := hfin
   have h2 : 1 < Nat.card ↥(Subgroup.center H) := by rw [hcard]; exact hn
-  haveI : Nontrivial ↥(Subgroup.center H) := (Finite.one_lt_card_iff_nontrivial).mp h2
+  have : Nontrivial ↥(Subgroup.center H) := (Finite.one_lt_card_iff_nontrivial).mp h2
   obtain ⟨z, hz⟩ := exists_ne (1 : ↥(Subgroup.center H))
   refine ⟨z.1, z.2, ?_, ?_⟩
   · intro h
@@ -83,14 +83,14 @@ theorem ggFixLine_not_exc {p N : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V]
     (hcard : Nat.card ↥(ggFixLineQ S) = k.ord)
     (hcen : Nat.card ↥(Subgroup.center ↥(ggFixLineQ S)) = k.cen) : False := by
   classical
-  haveI hι : Finite ι := S.finite_family
-  haveI hfinV : Module.Finite (ZMod p) V := ggFixLine_finite (p := p) s S.s_refl S.fix_H
+  have hι : Finite ι := S.finite_family
+  have hfinV : Module.Finite (ZMod p) V := ggFixLine_finite (p := p) s S.s_refl S.fix_H
   obtain ⟨_, _, hle_low, hle_high⟩ := ggFixLine_T_props S
   have hN5 : 5 ≤ N := S.five_le
   have hpN : p ∣ N := S.dvd
   have hp_odd : p ≠ 2 := S.odd
   have hp_prime : Nat.Prime p := Fact.out
-  haveI hfinT : Module.Finite (ZMod p) ↥(ggFixLineT r s) :=
+  have hfinT : Module.Finite (ZMod p) ↥(ggFixLineT r s) :=
     FiniteDimensional.finiteDimensional_submodule (ggFixLineT r s)
   cases k <;>
     simp only [ZS.ExcRow.deg, ZS.ExcRow.ord, ZS.ExcRow.cen, ZS.ExcRow.admissible] at hdim hcard hcen hadm

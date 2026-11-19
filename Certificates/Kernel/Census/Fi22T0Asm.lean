@@ -154,7 +154,7 @@ theorem rootII_ok : prootConjOKB 3510 12 fi22PS inXK inWK false 2 [694, 182] 13 
       ((CFSG.KS.bAnd_iff _ _).1 (List.all_eq_true.1 entsT0 j hj)).1
   unfold prootConjOKB
   simp only [h0a, h0b, h0g, h0c, h1, kM1, kM2, headsT0, hw, hpf, he, orderT0, Bool.and_true,
-    Bool.true_or, Bool.or_true]
+    Bool.or_true]
 
 theorem root17_ok : prootConjOKB 3510 12 fi22PS inXK inWK true 1 [694, 182] 13 fi22T0Root = true := by
   have h0a := kM0a
@@ -177,7 +177,7 @@ theorem root17_ok : prootConjOKB 3510 12 fi22PS inXK inWK true 1 [694, 182] 13 f
       ((CFSG.KS.bAnd_iff _ _).1 (List.all_eq_true.1 entsT0 j hj)).2
   unfold prootConjOKB
   simp only [h0a, h0b, h0g, h0c, h1, kM1, kM2, headsT0, hw, hpf, he, orderT0, Bool.and_true,
-    Bool.true_or, Bool.or_true]
+    Bool.or_true]
 
 end CertificateChecks.KernelCensus.Fi22K.T0
 

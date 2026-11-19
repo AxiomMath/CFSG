@@ -53,7 +53,7 @@ private theorem exists_pbarRep_ne (hS : Sec6Hyp M V) [Module (ZMod 2) (SecMod hS
 
 theorem Sec7Hyp.stmt71 (hS : Sec7Hyp M V n f) (hT : UnitaryTIModule) : Sec7.Stmt71 M V := by
   intro N hVN hNP hNm0
-  haveI : Module (ZMod 2) (SecMod hS.pbarHyp) := hS.pbarModule
+  have : Module (ZMod 2) (SecMod hS.pbarHyp) := hS.pbarModule
   have hnt : ∃ x ∈ imgQ M (m0Of M V), ∃ w : SecMod hS.pbarHyp, hS.pbarRep x w ≠ w :=
     exists_pbarRep_ne hS.toSec6Hyp
   have hTI : ∀ A ∈ (imgQ M '' sigmaSet M V), ∀ B ∈ (imgQ M '' sigmaSet M V),

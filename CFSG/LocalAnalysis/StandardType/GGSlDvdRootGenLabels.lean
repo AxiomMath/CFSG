@@ -19,7 +19,7 @@ private theorem recipeLinear_rootGenAvoidKG_tableB_dvd {d N p : ℕ} (hp : p.Pri
   obtain ⟨K, _, _, hK, hQ⟩ := h
   obtain ⟨m, rfl⟩ := hN
   refine ⟨K, inferInstance, inferInstance, hK, hQ, ?_⟩
-  haveI : CharP K 2 := charP_two_of_card hK
+  have : CharP K 2 := charP_two_of_card hK
   have hpK : p ∣ Nat.card K - 1 := by rw [hK]; exact hpN
   have hK1 : 1 < Nat.card K := Finite.one_lt_card
   have hm : 1 ≤ m := by

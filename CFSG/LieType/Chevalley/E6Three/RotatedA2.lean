@@ -241,10 +241,10 @@ theorem isSolvable_cycCent {A : GL (Fin 3) L}
       exact (congrArg Units.val h2).symm
     intro x y
     exact Subtype.ext (Subtype.ext (Units.ext (hA _ _ (hcA x) (hcA y)).eq))
-  have : Group.IsSolvable g.ker := isSolvable_of_comm hcomm
+  have : Group.IsSolvable g.ker := _root_.Group.isSolvable_of_comm hcomm
   have : Group.IsSolvable (Subgroup.center (GL (Fin 3) L)) :=
-    isSolvable_of_comm fun x y => Subtype.ext (Subgroup.mem_center_iff.1 y.2 x)
-  exact solvable_of_ker_le_range g.ker.subtype g fun x hx => ⟨⟨x, hx⟩, rfl⟩
+    _root_.Group.isSolvable_of_comm fun x y => Subtype.ext (Subgroup.mem_center_iff.1 y.2 x)
+  exact Group.isSolvable_of_ker_le_range g.ker.subtype g fun x hx => ⟨⟨x, hx⟩, rfl⟩
 
 end Conj
 
@@ -470,9 +470,9 @@ theorem isSolvable_of_le_of_commute {n : ModGL .E6 L} (hnN : n ∈ monomialSubgr
     rw [hA] at hX hY
     exact commute_of_commute_cycleMat hp hq hX hY
   have : Group.IsSolvable ((conjSLAut (L := L)).comp (cycCent A).subtype).range :=
-    solvable_of_surjective (MonoidHom.rangeRestrict_surjective _)
+    Group.isSolvable_of_surjective (MonoidHom.rangeRestrict_surjective _)
   have : Group.IsSolvable φ.range :=
-    solvable_of_solvable_injective (Subgroup.inclusion_injective hrange)
+    Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hrange)
   have hcomm : ∀ x y : φ.ker, x * y = y * x := by
     intro x y
     have hxT := hker x.1 (MonoidHom.mem_ker.1 x.2)
@@ -483,8 +483,8 @@ theorem isSolvable_of_le_of_commute {n : ModGL .E6 L} (hnN : n ∈ monomialSubgr
     change (x : ModGL .E6 L) * (y : ModGL .E6 L) = (y : ModGL .E6 L) * (x : ModGL .E6 L)
     rw [hbx]
     exact rootDiagUnit_mul_comm_of_mem_torusGroup bx hyT
-  have : Group.IsSolvable φ.ker := isSolvable_of_comm hcomm
-  exact solvable_of_ker_le_range φ.ker.subtype φ.rangeRestrict fun x hx =>
+  have : Group.IsSolvable φ.ker := _root_.Group.isSolvable_of_comm hcomm
+  exact Group.isSolvable_of_ker_le_range φ.ker.subtype φ.rangeRestrict fun x hx =>
     ⟨⟨x, MonoidHom.mem_ker.2 (congrArg Subtype.val (MonoidHom.mem_ker.1 hx))⟩, rfl⟩
 
 end Monomial

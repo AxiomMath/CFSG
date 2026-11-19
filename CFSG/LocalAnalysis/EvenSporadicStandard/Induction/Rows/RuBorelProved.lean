@@ -127,9 +127,9 @@ theorem ruNormalizerFacts_proved : RuNormalizerFacts := by
   have hNK : N ≤ K := inf_le_right
   have hNL : N ≤ L := hNK.trans hKL
   have hRL : R ≤ L := hRK.trans hKL
-  haveI hfinL : Finite ↥L :=
+  have hfinL : Finite ↥L :=
     Nat.finite_of_card_ne_zero (by rw [(ruFacts_of_isSporadic hL).card_eq]; norm_num)
-  haveI : Finite ↥(L ⊓ centralizer (N : Set G)) :=
+  have : Finite ↥(L ⊓ centralizer (N : Set G)) :=
     Finite.of_injective (Subgroup.inclusion inf_le_left) (Subgroup.inclusion_injective _)
   have hup : Nat.card ↥(L ⊓ centralizer (N : Set G)) ≤ 4 := by
     set u' : ↥L := ⟨u, huL⟩ with hu'

@@ -30,7 +30,7 @@ theorem stepH_facts {st : ℕ → ℕ → ℕ} {X PA PB C POS : ℕ → ℕ} {H 
   obtain ⟨⟨⟨⟨⟨a, a'⟩, b⟩, c⟩, d⟩, e⟩ := e
   refine ⟨a, a', b, c, d, fun hpc => ?_, fun hpc => ?_⟩
   · have hb : Nat.beq (POS i) (C i) = true := Nat.beq_eq.mpr hpc
-    rw [hb, cond_true] at e
+    rw [hb, _root_.Bool.cond_true] at e
     simp only [Bool.and_eq_true, Nat.beq_eq] at e
     obtain ⟨⟨e1, e2⟩, e3⟩ := e
     rw [Nat.pred_eq_sub_one] at e2 e3
@@ -39,7 +39,7 @@ theorem stepH_facts {st : ℕ → ℕ → ℕ} {X PA PB C POS : ℕ → ℕ} {H 
       cases hq : Nat.beq (POS i) (C i)
       · rfl
       · exact absurd (Nat.eq_of_beq_eq_true hq) hpc
-    rw [hb, cond_false] at e
+    rw [hb, Bool.cond_false] at e
     exact Nat.eq_of_beq_eq_true e
 
 theorem tableP {start : List ℕ} {mul : List ℕ → List ℕ → List ℕ} {gens : List (List ℕ)}

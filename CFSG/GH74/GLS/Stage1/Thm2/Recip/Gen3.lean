@@ -27,7 +27,7 @@ theorem exists_isSylow2In_of_le [Finite G] {H A : Subgroup G} (hA : IsPGroup 2 �
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hA' : IsPGroup 2 ↥(A.subgroupOf H) := hA.of_equiv (Subgroup.subgroupOfEquivOfLe hAH).symm
   obtain ⟨Q₀, hQ₀⟩ := hA'.exists_le_sylow
-  refine ⟨(Q₀ : Subgroup H).map H.subtype, ⟨map_subtype_le _, Q₀.isPGroup'.map _, ?_⟩, ?_⟩
+  refine ⟨(Q₀ : Subgroup H).map H.subtype, ⟨map_subtype_le _, Q₀.isPGroup.map _, ?_⟩, ?_⟩
   · have e : ((Q₀ : Subgroup H).map H.subtype).subgroupOf H = (Q₀ : Subgroup H) :=
       Subgroup.comap_map_eq_self_of_injective H.subtype_injective _
     rw [Subgroup.relIndex, e]

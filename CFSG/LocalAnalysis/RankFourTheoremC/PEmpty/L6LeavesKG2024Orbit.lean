@@ -17,21 +17,26 @@ section OrbitBasic
 
 variable {T : Subgroup (Perm Ω)}
 
+omit [Fintype Ω] [DecidableEq Ω] in
 theorem mem_orb_self (x : Ω) : x ∈ orb T x := ⟨1, T.one_mem, rfl⟩
 
+omit [Fintype Ω] [DecidableEq Ω] in
 theorem orb_trans {x y w : Ω} (hy : y ∈ orb T x) (hw : w ∈ orb T y) : w ∈ orb T x := by
   obtain ⟨s, hs, rfl⟩ := hy
   obtain ⟨t, ht, rfl⟩ := hw
   exact ⟨t * s, T.mul_mem ht hs, rfl⟩
 
+omit [Fintype Ω] [DecidableEq Ω] in
 theorem orb_symm {x y : Ω} (hy : y ∈ orb T x) : x ∈ orb T y := by
   obtain ⟨s, hs, rfl⟩ := hy
   exact ⟨s⁻¹, T.inv_mem hs, by simp⟩
 
+omit [Fintype Ω] [DecidableEq Ω] in
 theorem smul_mem_orb {t : Perm Ω} (ht : t ∈ T) {x y : Ω} (hy : y ∈ orb T x) : t y ∈ orb T x := by
   obtain ⟨s, hs, rfl⟩ := hy
   exact ⟨t * s, T.mul_mem ht hs, rfl⟩
 
+omit [Fintype Ω] [DecidableEq Ω] in
 theorem card_orb_dvd (T : Subgroup (Perm Ω)) (x : Ω) : Nat.card (orb T x) ∣ Nat.card T := by
   have hset : MulAction.orbit T x = orb T x := by
     ext w
@@ -58,14 +63,17 @@ namespace OrbitSetting
 variable {p : ℕ} {z : Perm Ω} {T : Subgroup (Perm Ω)} (h : OrbitSetting p z T)
 include h
 
+omit [DecidableEq Ω] in
 theorem cycle : z.IsCycle := isCycle_of_order h.prime h.order h.card_lt
 
 theorem card_support : z.support.card = p := card_support_eq h.prime h.order h.card_lt
 
+omit [DecidableEq Ω] in
 theorem p_ne_two : p ≠ 2 := by
   have := h.five_le
   omega
 
+omit [DecidableEq Ω] in
 theorem conj_pow_mem (i : ℕ) {t : Perm Ω} (ht : t ∈ T) : (z ^ i) * t * (z ^ i)⁻¹ ∈ T := by
   induction i with
   | zero => simpa using ht
@@ -76,6 +84,7 @@ theorem conj_pow_mem (i : ℕ) {t : Perm Ω} (ht : t ∈ T) : (z ^ i) * t * (z ^
       group
     rwa [e] at h1
 
+omit [DecidableEq Ω] in
 theorem moved_all (hmove : ∃ x, z x ≠ x ∧ ∃ t ∈ T, t x ≠ x) :
     ∀ x, z x ≠ x → ∃ t ∈ T, t x ≠ x := by
   obtain ⟨x₁, hx₁, t₁, ht₁, hne⟩ := hmove
@@ -123,6 +132,7 @@ theorem exists_two_in_orbit (hmove : ∀ x, z x ≠ x → ∃ t ∈ T, t x ≠ x
   have := h.card_lt
   omega
 
+omit [DecidableEq Ω] in
 theorem orbit_invariant {x y : Ω} (hx : z x ≠ x) (hy : z y ≠ y) (hne : y ≠ x)
     (hyx : y ∈ orb T x) :
     (∀ w ∈ orb T x, z w ∈ orb T x) ∧ ∀ w, z w ≠ w → w ∈ orb T x := by
@@ -191,6 +201,7 @@ theorem exists_fixed_in_orbit {x : Ω} (hsub : ∀ w, z w ≠ w → w ∈ orb T 
   have := h.five_le
   omega
 
+omit [DecidableEq Ω] in
 theorem stab_dichotomy {x : Ω} (hzx : z x = x) :
     (∀ t ∈ T, t x = x → t = 1) ∨ (∀ t ∈ T, t x = x) := by
   have hzi : z⁻¹ x = x := by rw [Perm.inv_eq_iff_eq]; exact hzx.symm

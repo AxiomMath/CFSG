@@ -80,7 +80,7 @@ theorem scan_sound {PE CL SC RR RN SW : Nat → Nat} {NR : Nat}
   have hb : Nat.beq (addP (PE (CL s)) v) (SC s) = true := by
     rw [hc]
     exact Nat.beq_refl _
-  rw [implK_eq, if_pos hb] at h''
+  rw [implK_eq, ite_eq_left hb] at h''
   simp only [letB_eq, andK_eq, Bool.and_eq_true] at h''
   refine ⟨_, blt_iff.1 h''.1, _, ?_, Nat.eq_of_beq_eq_true h''.2⟩
   have hr : Nat.land (Nat.shiftRight (SW s) (Nat.mul 14 v)) 16383 < 2 ^ 14 :=

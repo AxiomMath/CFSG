@@ -106,12 +106,12 @@ theorem gspToSoGroup5_scalar (A : gsp 2 (ZMod 5)) (c : (ZMod 5)ˣ)
   have hm : gspMatrix A = (c : ZMod 5) • (1 : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) (ZMod 5)) := by
     rw [show gspMatrix A = ((A : GL (Fin 2 ⊕ Fin 2) (ZMod 5)) : Matrix _ _ _) from rfl, hA]
     ext i j
-    by_cases hij : i = j <;> simp [Matrix.GeneralLinearGroup.scalar, Matrix.one_apply, hij]
+    by_cases hij : i = j <;> simp [Matrix.GeneralLinearGroup.scalar, hij]
   have hmu : gspMultiplier A = (c : ZMod 5) ^ 2 := by
     have h := gspMatrix_spec A
     rw [hm] at h
     have h2 := congrFun (congrFun h (.inl 0)) (.inr 0)
-    simp [Matrix.mul_apply, Fintype.sum_sum_type, Matrix.fromBlocks, Matrix.one_apply] at h2
+    simp [Matrix.mul_apply, Matrix.fromBlocks, Matrix.one_apply] at h2
     linear_combination -h2
   have hc : (c : ZMod 5) ≠ 0 := c.ne_zero
   have hpre : wedgePre A = 1 := by
@@ -152,8 +152,7 @@ theorem diagTwoOneThreeOne_symplectic :
     (diagTwoOneThreeOne)ᵀ * wedgeJ (ZMod 5) * diagTwoOneThreeOne = wedgeJ (ZMod 5) := by
   ext i j
   rcases i with i | i <;> rcases j with j | j <;> fin_cases i <;> fin_cases j <;>
-    simp [diagTwoOneThreeOne, Matrix.mul_apply, Fintype.sum_sum_type, Fin.sum_univ_two,
-      Matrix.diagonal_apply] <;> decide
+    simp [diagTwoOneThreeOne, Matrix.mul_apply, Matrix.diagonal_apply] <;> decide
 
 theorem diagTwoOneThreeOne_det_ne_zero : diagTwoOneThreeOne.det ≠ 0 := by
   simp [diagTwoOneThreeOne, Matrix.det_diagonal, Fintype.prod_sum_type, Fin.prod_univ_two]
@@ -177,7 +176,7 @@ theorem gspToSoGroup5_diag_ne_one : gspToSoGroup5 diagTwoOneThreeOneGsp ≠ 1 :=
     have hg : gspMatrix diagTwoOneThreeOneGsp = diagTwoOneThreeOne := rfl
     rw [wedgePre, hmu, inv_one, one_smul, hg, wedgeRestrict_apply_zero_zero,
       wedge2_apply_zero_zero]
-    simp [diagTwoOneThreeOne, Matrix.diagonal_apply]
+    simp [diagTwoOneThreeOne]
   have h3 : (wedgePre diagTwoOneThreeOneGsp).det * 2 = 1 := by
     have : (wedgeFin diagTwoOneThreeOneGsp) 0 0 =
         (wedgePre diagTwoOneThreeOneGsp).det * wedgePre diagTwoOneThreeOneGsp 0 0 := by

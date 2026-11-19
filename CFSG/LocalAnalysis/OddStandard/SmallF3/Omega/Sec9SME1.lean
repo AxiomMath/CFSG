@@ -21,7 +21,7 @@ theorem sec9m_card_E16 : Nat.card E16 = 16 := by
   rw [E16, Nat.card_pi]
   have h2 : Nat.card (Multiplicative (ZMod 2)) = 2 := by
     rw [Nat.card_congr Multiplicative.toAdd, Nat.card_zmod]
-  simp [h2]
+  simp
 
 theorem sec9m_E1_card (hctx : Sec9E1 G t L S z g B t₀ E1) :
     Nat.card E1 = 16 * Nat.card (Asub9 t t₀ B) := by
@@ -34,7 +34,7 @@ theorem sec9m_E1_card (hctx : Sec9E1 G t L S z g B t₀ E1) :
   exact Nat.mul_comm _ _
 
 theorem sec9m_E1_pgroup (hctx : Sec9E1 G t L S z g B t₀ E1) : IsPGroup 2 ↥E1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hA : CFSG.Open.IsElemAbelian 2 (Asub9 t t₀ B) :=
     sec9n_A_elem hctx.choice.toSec9Ctx
   obtain ⟨n, hn⟩ := (CFSG.Open.IsElemAbelian.isPGroup hA).exists_card_eq
@@ -81,7 +81,7 @@ theorem sec9m_E1_not_le_A (hctx : Sec9E1 G t L S z g B t₀ E1) : ¬ E1 ≤ Asub
 theorem sec9m_E1_inf_O (hctx : Sec9E1 G t L S z g B t₀ E1) :
     ∀ x ∈ E1, x ∈ oddCoreIn (centMod (Asub9 t t₀ B) B) → x = 1 := by
   intro x hx hxO
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := (sec9m_E1_pgroup hctx).exists_orderOf_eq_pow (⟨x, hx⟩ : ↥E1)
   have hx2 : orderOf x = 2 ^ k := (Subgroup.orderOf_coe (⟨x, hx⟩ : ↥E1)).trans hk
   have hodd : Odd (orderOf x) := odd_orderOf_of_mem_oddCoreIn hxO
@@ -92,6 +92,7 @@ theorem sec9m_E1_inf_O (hctx : Sec9E1 G t L S z g B t₀ E1) :
   rw [hk0, pow_zero] at hx2
   exact orderOf_eq_one_iff.mp hx2
 
+omit [Finite G] in
 theorem sec9m_O_cent_A
     (hv : centMod (Asub9 t t₀ B) B ⊓ centralizer (Asub9 t t₀ B : Set G) =
       oddCoreIn (centMod (Asub9 t t₀ B) B) ⊔ Asub9 t t₀ B) :

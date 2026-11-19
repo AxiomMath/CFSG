@@ -22,7 +22,7 @@ theorem blockU_eq_commutator_of_isElemAbelian_odd {W L : Subgroup G}
     (hWL : W ≤ Subgroup.normalizer (L : Set G))
     (hLodd : L = Subgroup.closure {x : G | x ∈ L ∧ Odd (orderOf x)})
     (hQW : ⁅CFSG.Open.pCoreOf 2 L, L⁆ ≤ W) : blockU L = ⁅W, L⁆ := by
-  haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
+  have : Fact (Nat.Prime 2) := Nat.fact_prime_two
   have hWp : IsPGroup 2 W := fun x => ⟨1, Subtype.ext (by simpa using hW.2 x x.2)⟩
   have hLQ : L ≤ Subgroup.normalizer (CFSG.Open.pCoreOf 2 L : Set G) :=
     CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 L
@@ -47,6 +47,7 @@ theorem blockU_eq_commutator_of_isElemAbelian_odd {W L : Subgroup G}
     Subgroup.commutator_mono hQW le_rfl
   exact le_antisymm (h3.trans h4) (h1.trans h2)
 
+omit [Finite G] in
 theorem exists_altHom_ker_pCore {W L M : Subgroup G} {n : ℕ}
     (hn5 : 5 ≤ n) (hLM : L ≤ M)
     (hLodd : L = Subgroup.closure {x : G | x ∈ L ∧ Odd (orderOf x)})
@@ -104,7 +105,7 @@ theorem exists_altHom_ker_pCore {W L M : Subgroup G} {n : ℕ}
     · exact CFSG.LieType.BorelTits.le_pCore (r := 2) (inferInstance : α.ker.Normal) hkerP
     · have hmapP : IsPGroup 2 ((CFSG.pCore 2 ↥L).map α) :=
         (CFSG.pCore_isPGroup (p := 2) (G := ↥L)).map α
-      haveI : ((CFSG.pCore 2 ↥L).map α).Normal :=
+      have : ((CFSG.pCore 2 ↥L).map α).Normal :=
         (inferInstance : (CFSG.pCore 2 ↥L).Normal).map α hαsurj
       have hsimple : IsSimpleGroup (alternatingGroup (Fin n)) :=
         alternatingGroup.isSimpleGroup (by simpa using hn5)
@@ -132,6 +133,7 @@ theorem exists_altHom_ker_pCore {W L M : Subgroup G} {n : ℕ}
         exact not_nontrivial_iff_subsingleton.mpr inferInstance hZnt
   exact ⟨θL, α, hαval, fun _ => rfl, hαsurj, hαker⟩
 
+omit [Finite G] in
 theorem blockU_le_inf_centralizer_of_commutator {W L : Subgroup G}
     (hW : CFSG.Open.IsElemAbelian 2 W) (hLW : L ≤ Subgroup.normalizer (W : Set G))
     (hQC : CFSG.Open.pCoreOf 2 L ≤ Subgroup.centralizer (W : Set G))
@@ -157,6 +159,7 @@ theorem blockU_le_inf_centralizer_of_commutator {W L : Subgroup G}
   · intro x hx
     exact hW.2 x (hUW (hU ▸ hx))
 
+omit [Finite G] in
 theorem theta_eq_one_of_centralizes_commutator {W L M : Subgroup G} {n : ℕ}
     (hn5 : 5 ≤ n) (hLM : L ≤ M)
     {π : ↥⁅W, L⁆ →* Multiplicative (altHeart n)} (hπ : Function.Surjective π)
@@ -167,16 +170,17 @@ theorem theta_eq_one_of_centralizes_commutator {W L M : Subgroup G} {n : ℕ}
   obtain ⟨u, hu⟩ := hπ (Multiplicative.ofAdd (QuotientAddGroup.mk x : altHeart n))
   have hcomm : (u : G) = (⟨l, hLM hlL⟩ : ↥M) * u * (⟨l, hLM hlL⟩ : ↥M)⁻¹ := by
     have h1 := Subgroup.mem_centralizer_iff.mp hlU (u : G) u.2
-    simp only [Subgroup.coe_inv, Subgroup.coe_mk]
+    simp only [Subgroup.coe_inv]
     rw [← h1]
     group
   have h1 := hsec ⟨l, hLM hlL⟩ u u hcomm x (by rw [hu]; rfl)
   rw [hu] at h1
   exact h1.symm
 
+omit [Finite G] in
 theorem charTwo_of_naturalSectionOn {W L M : Subgroup G} {n : ℕ}
     (hn5 : 5 ≤ n) (hLM : L ≤ M)
-    (hQC : CFSG.Open.pCoreOf 2 L ≤ Subgroup.centralizer (W : Set G))
+    (_hQC : CFSG.Open.pCoreOf 2 L ≤ Subgroup.centralizer (W : Set G))
     (hU : blockU L = ⁅W, L⁆)
     {θL : ↥L →* Equiv.Perm (Fin n)} {α : ↥L →* alternatingGroup (Fin n)}
     (hαval : ∀ l : ↥L, (α l : Equiv.Perm (Fin n)) = θL l)
@@ -206,6 +210,7 @@ theorem charTwo_of_naturalSectionOn {W L M : Subgroup G} {n : ℕ}
   rw [hαker] at hmem
   exact (CFSG.mem_openPCoreOf_iff ⟨x, hxL⟩).mpr hmem
 
+omit [Finite G] in
 theorem isQuasisimple_quotient_pCore_of_altHom {L : Subgroup G} {n : ℕ} (hn5 : 5 ≤ n)
     {α : ↥L →* alternatingGroup (Fin n)} (hαsurj : Function.Surjective α)
     (hαker : α.ker = CFSG.pCore 2 ↥L) :
@@ -227,6 +232,7 @@ theorem isQuasisimple_quotient_pCore_of_altHom {L : Subgroup G} {n : ℕ} (hn5 :
       (QuotientGroup.quotientKerEquivOfSurjective α hαsurj)
   exact CFSG.LocalCores.isQuasisimple_of_mulEquiv e.symm hAnQ
 
+omit [Finite G] in
 theorem blockZ_clause_of_naturalSectionOn {W L M : Subgroup G} {n : ℕ} (hn5 : 5 ≤ n)
     (hU : blockU L = ⁅W, L⁆)
     {π : ↥⁅W, L⁆ →* Multiplicative (altHeart n)} (hπ : Function.Surjective π)
@@ -247,8 +253,8 @@ theorem blockZ_clause_of_naturalSectionOn {W L M : Subgroup G} {n : ℕ} (hn5 : 
       rw [hπker, hEq]
       simp
     have hπ1 : π = 1 := MonoidHom.ker_eq_top_iff.mp hker_top
-    haveI : Nontrivial (altHeart n) := altHeart_nontrivial (by omega)
-    haveI : Nontrivial (Multiplicative (altHeart n)) := inferInstance
+    have : Nontrivial (altHeart n) := altHeart_nontrivial (by omega)
+    have : Nontrivial (Multiplicative (altHeart n)) := inferInstance
     obtain ⟨v, hv⟩ := exists_ne (1 : Multiplicative (altHeart n))
     obtain ⟨u, hu⟩ := hπ v
     rw [hπ1, MonoidHom.one_apply] at hu

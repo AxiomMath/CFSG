@@ -144,14 +144,14 @@ theorem fix_of_mem_Op {t : F6} {g : OmG} (hg : g ∈ Op 2 (stabilizer OmG t)) :
 
 theorem card_Op_le {t y : F6} (ht : qMinus t = 0) (h0 : t ≠ 0) (hy : qMinus y = 0)
     (hty : polarMinus t y = 1) : Nat.card ↥(Op 2 (stabilizer OmG t)) ≤ 16 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hyt : polarMinus y t = 1 := by rw [polarMinus_comm]; exact hty
   have hs : qMinus (y + t) = 1 := by rw [qMinus_add, hy, ht, hyt]; rfl
   have hst : qMinus (y + t + t) = 0 := by
     rw [add_assoc, add_self_F6, add_zero]; exact hy
   obtain ⟨e⟩ := Om_pair hs ht hst h0
   set K : Subgroup OmG := stabilizer OmG (y + t) ⊓ stabilizer OmG t with hK
-  haveI : IsSimpleGroup ↥K := e.isSimpleGroup
+  have : IsSimpleGroup ↥K := e.isSimpleGroup
   have hKS : K ≤ stabilizer OmG t := inf_le_right
   have hM : ((Op 2 (stabilizer OmG t)).subgroupOf K).Normal := by
     refine ⟨fun n hn k => ?_⟩
@@ -162,7 +162,7 @@ theorem card_Op_le {t y : F6} (ht : qMinus t = 0) (h0 : t ≠ 0) (hy : qMinus y 
     rw [Nat.card_congr e.toEquiv, nat_card_alternatingGroup, Nat.card_fin]
     rfl
   have hbot : (Op 2 (stabilizer OmG t)).subgroupOf K = ⊥ := by
-    haveI := hM
+    have := hM
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((Op 2 (stabilizer OmG t)).subgroupOf K) with h | h
     · exact h
     · exfalso
@@ -251,7 +251,7 @@ theorem card_Et_ge {t y : F6} (ht : qMinus t = 0) (h0 : t ≠ 0) (hy : qMinus y 
 
 theorem Op_eq_Et {t : F6} (ht : qMinus t = 0) (h0 : t ≠ 0) :
     Op 2 (stabilizer OmG t) = Et t := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨y, hy, hty⟩ := omY_exists t ht h0
   have hle : Et t ≤ Op 2 (stabilizer OmG t) :=
     L41.le_Op_of_normalized (Et_le_stabilizer ht) Et_normalized Et_isPGroup
@@ -260,7 +260,7 @@ theorem Op_eq_Et {t : F6} (ht : qMinus t = 0) (h0 : t ≠ 0) :
   exact (Subgroup.eq_of_le_of_card_ge hle (by omega)).symm
 
 theorem card_Et {t : F6} (ht : qMinus t = 0) (h0 : t ≠ 0) : Nat.card ↥(Et t) = 16 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨y, hy, hty⟩ := omY_exists t ht h0
   have h1 := card_Op_le ht h0 hy hty
   have h2 := card_Et_ge ht h0 hy hty

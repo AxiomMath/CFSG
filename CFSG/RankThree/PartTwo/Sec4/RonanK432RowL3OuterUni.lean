@@ -90,7 +90,7 @@ theorem rowOf_seven_SU3_of_odd_of_not_three_dvd : ∀ n : ℕ, 1 ≤ n → n % 2
   · subst hn1
     exfalso
     have hsolv : Group.IsSolvable (projSU 3 2 1) := CFSG.RankThree.PartTwo.Sec13.isSolvable_projSU_two
-    haveI : Group.IsSolvable S :=
+    have : Group.IsSolvable S :=
       Group.isSolvable_of_surjective (f := eS.symm.toMonoidHom) eS.symm.surjective
     obtain ⟨a, b, hab⟩ := hna
     exact hab (IsSimpleGroup.comm_iff_isSolvable.mpr ‹_› a b)

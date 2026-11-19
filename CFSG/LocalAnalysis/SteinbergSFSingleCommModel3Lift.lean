@@ -19,7 +19,7 @@ theorem model3_exists_sylow_lift {X Y : Type*} [Group X] [Group Y] [Finite X] (�
     exact (Sylow.coe_mapSurjective hγ W).symm
   ·
     have hWK : IsPGroup 2 ↥((W : Subgroup X) ⊓ γ.ker) :=
-      W.isPGroup'.to_le inf_le_left
+      W.isPGroup.to_le inf_le_left
     obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hWK
     have hcard : Nat.card ↥((W : Subgroup X) ⊓ γ.ker) = 1 := by
       rcases Nat.eq_zero_or_pos n with h0 | hpos

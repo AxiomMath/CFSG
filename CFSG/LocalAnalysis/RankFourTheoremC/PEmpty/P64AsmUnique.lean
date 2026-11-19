@@ -15,14 +15,14 @@ theorem top_le_of_normal (hp : p.Prime) (Q : Sylow p Z) {N Y : Subgroup Z} [N.No
     (hNY : N ≤ Y) (h2 : 2 ≤ Open.pRank p ((Q : Subgroup Z) ⊓ N))
     (hΓ2 : ∀ S : Subgroup Z, S ≤ Q → 2 ≤ Open.pRank p S → normalizer (S : Set Z) ≤ Y) :
     ⊤ ≤ Y := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hQsyl : ¬ p ∣ ((Q : Subgroup Z).subgroupOf ⊤).index := by
     have : ((Q : Subgroup Z).subgroupOf ⊤).index = (Q : Subgroup Z).index := by
       rw [← Subgroup.relIndex, Subgroup.relIndex_top_right]
     rw [this]
     exact Q.not_dvd_index
   have h := P64Free.le_sup_of_normal_of_gammaTwo hp (X := ⊤) (Y := Y) (Q := (Q : Subgroup Z))
-    (N := N) le_top (Subgroup.normalizer_eq_top (H := N)).ge le_top Q.isPGroup' hQsyl h2
+    (N := N) le_top (Subgroup.normalizer_eq_top (H := N)).ge le_top Q.isPGroup hQsyl h2
     (fun S hS hS2 => inf_le_left.trans (hΓ2 S hS hS2))
   exact h.trans (sup_le hNY le_rfl)
 
@@ -31,7 +31,7 @@ theorem exists_isComponentOf_Z (hp : p.Prime) (hp2 : p ≠ 2)
     (hQnc : ¬ IsCyclic (Q : Subgroup Z)) (hQY : (Q : Subgroup Z) ≤ Y)
     (hΓ2 : ∀ S : Subgroup Z, S ≤ Q → 2 ≤ Open.pRank p S → normalizer (S : Set Z) ≤ Y)
     (hY : ¬ ⊤ ≤ Y) : ∃ L : Subgroup Z, IsComponentOf L ⊤ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hno
   have hcore : CFSG.pPrimeCore p Z = ⊥ := hZ
   have hlayer : CFSG.layer Z = ⊥ := by
@@ -54,14 +54,15 @@ theorem exists_isComponentOf_Z (hp : p.Prime) (hp2 : p ≠ 2)
       exact mul_mem (hUQ hc) hq
     have hQ2 : 2 ≤ Open.pRank p ((Q : Subgroup Z) ⊓ (Q : Subgroup Z)) := by
       rw [inf_idem]
-      exact CFSG.AGLEmbedding.two_le_pRank_of_isPGroup_not_isCyclic hp hp2 Q.isPGroup' hQnc
+      exact CFSG.AGLEmbedding.two_le_pRank_of_isPGroup_not_isCyclic hp hp2 Q.isPGroup hQnc
     exact top_le_of_normal hp Q hQY hQ2 hΓ2
   · have hU2 : 2 ≤ Open.pRank p ((Q : Subgroup Z) ⊓ U) := by
       rw [inf_eq_right.mpr hUQ]
       exact CFSG.AGLEmbedding.two_le_pRank_of_isPGroup_not_isCyclic hp hp2
-        (Q.isPGroup'.to_le hUQ) hUc
+        (Q.isPGroup.to_le hUQ) hUc
     exact top_le_of_normal hp Q (hUQ.trans hQY) hU2 hΓ2
 
+omit [Finite Z] in
 theorem map_conj_eq_self_iff (g : Z) (M : Subgroup Z) :
     M.map (MulAut.conj g).toMonoidHom = M ↔ g ∈ normalizer (M : Set Z) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -88,6 +89,7 @@ theorem map_conj_eq_self_iff (g : Z) (M : Subgroup Z) :
         exact hz
       · exact e
 
+omit [Finite Z] in
 theorem sq_not_mem_normalizer (hp : p.Prime) (hp2 : p ≠ 2) {g : Z} {n : ℕ}
     (hg : g ^ (p ^ n) = 1) {M : Subgroup Z} (hgM : g ∉ normalizer (M : Set Z)) :
     g ^ 2 ∉ normalizer (M : Set Z) := by
@@ -102,6 +104,7 @@ theorem sq_not_mem_normalizer (hp : p.Prime) (hp2 : p ≠ 2) {g : Z} {n : ℕ}
   rw [e]
   exact Subgroup.pow_mem _ h2 _
 
+omit [Finite Z] in
 theorem map_conj_map_conj (a b : Z) (M : Subgroup Z) :
     (M.map (MulAut.conj a).toMonoidHom).map (MulAut.conj b).toMonoidHom =
       M.map (MulAut.conj (b * a)).toMonoidHom := by
@@ -110,6 +113,7 @@ theorem map_conj_map_conj (a b : Z) (M : Subgroup Z) :
   ext x
   simp [mul_assoc]
 
+omit [Finite Z] in
 theorem exists_pow_orderOf_eq_prime (hp : p.Prime) {g : Z} {n : ℕ} (hg : orderOf g = p ^ n)
     (hg1 : g ≠ 1) : ∃ k : ℕ, orderOf (g ^ k) = p := by
   have hn : n ≠ 0 := by
@@ -132,7 +136,7 @@ theorem exists_cube_of_not_normalizes (hp : p.Prime) (hp2 : p ≠ 2)
     (hM : IsComponentOf M ⊤) (hQM : ¬ (Q : Subgroup Z) ≤ normalizer (M : Set Z)) :
     ∃ y ∈ M, ∃ E : Subgroup Z, E ≤ (Q : Subgroup Z) ∧ IsElemAbelian p E ∧
       Nat.card E = p ^ 3 ∧ y ∈ E ∧ y ≠ 1 ∧ y ^ p = 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨y, hyQM, hyo, hyc⟩ := exists_mem_inf_sylow_component hp hp2 hZ Q hM
   have hyp : y ^ p = 1 := by
     rw [← hyo]
@@ -145,7 +149,7 @@ theorem exists_cube_of_not_normalizes (hp : p.Prime) (hp2 : p ≠ 2)
     by_contra hcon
     push Not at hcon
     exact hQM fun g hg => hcon g hg
-  obtain ⟨n, hn⟩ := Q.isPGroup' ⟨g, hgQ⟩
+  obtain ⟨n, hn⟩ := Q.isPGroup ⟨g, hgQ⟩
   have hgn : g ^ (p ^ n) = 1 := by simpa using congrArg Subtype.val hn
   have hg2 : g ^ 2 ∉ normalizer (M : Set Z) := sq_not_mem_normalizer hp hp2 hgn hgM
   have hM₂ := isComponentOf_map_conj hM g
@@ -185,7 +189,7 @@ theorem exists_cube_of_not_normalizes (hp : p.Prime) (hp2 : p ≠ 2)
 theorem exists_central_of_inf (hp : p.Prime) (Q : Sylow p Z) {M : Subgroup Z}
     (hQM : (Q : Subgroup Z) ≤ normalizer (M : Set Z)) (hne : (Q : Subgroup Z) ⊓ M ≠ ⊥) :
     ∃ z ∈ (Q : Subgroup Z) ⊓ M, orderOf z = p ∧ ∀ q ∈ (Q : Subgroup Z), q * z = z * q := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hnorm : ∀ g ∈ (Q : Subgroup Z), ∀ u ∈ (Q : Subgroup Z) ⊓ M,
       g * u * g⁻¹ ∈ (Q : Subgroup Z) ⊓ M := by
     intro g hg u hu
@@ -193,10 +197,10 @@ theorem exists_central_of_inf (hp : p.Prime) (Q : Sylow p Z) {M : Subgroup Z}
       ((Q : Subgroup Z).inv_mem hg), ?_⟩
     exact ((Subgroup.mem_normalizer_iff.mp (hQM hg)) u).mp hu.2
   obtain ⟨z, hzU, hz1, hzc⟩ :=
-    SU1.exists_central_of_normal hp Q.isPGroup' inf_le_left hnorm hne
+    SU1.exists_central_of_normal hp Q.isPGroup inf_le_left hnorm hne
   have hzQ : z ∈ (Q : Subgroup Z) := hzU.1
   obtain ⟨n, hn⟩ : ∃ n, orderOf (⟨z, hzQ⟩ : (Q : Subgroup Z)) = p ^ n :=
-    IsPGroup.iff_orderOf.mp Q.isPGroup' ⟨z, hzQ⟩
+    IsPGroup.iff_orderOf.mp Q.isPGroup ⟨z, hzQ⟩
   rw [Subgroup.orderOf_mk] at hn
   obtain ⟨k, hk⟩ := exists_pow_orderOf_eq_prime hp hn hz1
   exact ⟨z ^ k, pow_mem hzU k, hk, fun q hq =>
@@ -207,7 +211,7 @@ theorem exists_cube_of_component (hp : p.Prime) (hp2 : p ≠ 2)
     (h3 : 3 ≤ Open.pRank p (Q : Subgroup Z)) {M : Subgroup Z} (hM : IsComponentOf M ⊤) :
     ∃ y ∈ M, ∃ E : Subgroup Z, E ≤ (Q : Subgroup Z) ∧ IsElemAbelian p E ∧
       Nat.card E = p ^ 3 ∧ y ∈ E ∧ y ≠ 1 ∧ y ^ p = 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_cases hQM : (Q : Subgroup Z) ≤ normalizer (M : Set Z)
   · obtain ⟨y, hyQM, hyo, hyc⟩ := exists_mem_inf_sylow_component hp hp2 hZ Q hM
     have hy1 : y ≠ 1 := by
@@ -258,7 +262,7 @@ theorem unique_component (hp : p.Prime) (hp2 : p ≠ 2)
     · exact component_le_of_ne hp hp2 hZ Q h3 hΓ1 hL hM (Ne.symm hML)
   set N : Subgroup Z := sSup {M : Subgroup Z | IsComponentOf M ⊤} with hN
   have hNY : N ≤ Y := sSup_le fun M hM => hall M hM
-  haveI hNn : N.Normal := by
+  have hNn : N.Normal := by
     refine ⟨fun n hn g => ?_⟩
     have hle : N ≤ N.comap (MulAut.conj g).toMonoidHom := by
       refine sSup_le fun M hM => ?_

@@ -69,7 +69,7 @@ noncomputable def rhoRangeEquiv : ↥rho.range ≃* ↥CFSG.Monster.B.Fischer.fi
 set_option maxRecDepth 100000 in
 theorem card_centralizer_Cd_five (w : Cd) (hw : orderOf w = 5) :
     Nat.card (Subgroup.centralizer ({w} : Set Cd)) = 1200 := by
-  haveI : Finite J := Nat.finite_of_card_ne_zero (by rw [card_J]; norm_num)
+  have : Finite J := Nat.finite_of_card_ne_zero (by rw [card_J]; norm_num)
   obtain ⟨C, hCdef⟩ : ∃ C : Subgroup Cd, C = Subgroup.centralizer ({w} : Set Cd) := ⟨_, rfl⟩
   rw [← hCdef]
   have hdZ : dCd ∈ Subgroup.center Cd := by

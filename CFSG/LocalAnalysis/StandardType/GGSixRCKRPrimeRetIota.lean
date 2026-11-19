@@ -78,7 +78,7 @@ theorem rckRet_iota
           rckIo_L_neg]
         rfl
     show L (if h : ∃ v, L v = γ then Classical.choose h else 0) = γ
-    rw [dif_pos hex]
+    rw [dite_eq_left hex]
     exact Classical.choose_spec hex
   have hsingle : ∀ k : Fin 6, ι (β k) = Pi.single k 1 := by
     intro k
@@ -255,7 +255,7 @@ theorem rckRet_weyl_transport
 
 theorem rckRet_torus_val
     {τ : Tag} {β : Fin 6 → Fin τ.rank → ℤ} {ι : (Fin τ.rank → ℤ) → (Fin Tag.E6.rank → ℤ)}
-    (hι : RetIotaSpec β ι) {b : ModGL τ GGL} (hb : b ∈ torusGroup τ GGL) :
+    (hι : RetIotaSpec β ι) {b : ModGL τ GGL} (_hb : b ∈ torusGroup τ GGL) :
     ∀ γ ∈ rootsOfFam β Set.univ,
       rckRootVal (rootDiagUnit Tag.E6 (fun k : Fin Tag.E6.rank => rckRootVal b (β k))) (ι γ) =
         rckRootVal b γ := by

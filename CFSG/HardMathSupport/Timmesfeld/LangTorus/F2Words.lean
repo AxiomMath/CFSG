@@ -71,7 +71,7 @@ theorem validEntries_mulE {N M : List Entry} (hN : ValidEntries τ N) (hM : Vali
   obtain ⟨y, hy, x, ⟨hx, -⟩, rfl⟩ := he
   exact ⟨(hM y hy).1, (hN x hx).2⟩
 
-theorem genPos_lt (hd : DataChecks τ) (j k : Fin τ.rank) (g : ℕ) :
+theorem genPos_lt (_hd : DataChecks τ) (j k : Fin τ.rank) (g : ℕ) :
     genPos τ j k g < τ.rootCertificate.roots.length := by
   have hj := val_lt_rootCertificate_length (τ := τ) j
   have hk := val_lt_rootCertificate_length (τ := τ) k
@@ -107,8 +107,7 @@ theorem entriesOp_idE_aux (n : ℕ) (p : ℕ) (hp : p < dim τ) :
   | succ n ih =>
     rw [List.range_succ, List.map_append, entriesOp_append, LinearMap.add_apply, ih]
     simp only [List.map_cons, List.map_nil, entriesOp_cons, entriesOp_nil, add_zero,
-      Int.cast_one, one_smul, LinearMap.smulRight_apply, LinearMap.add_apply,
-      LinearMap.smul_apply]
+      Int.cast_one, one_smul, LinearMap.smulRight_apply]
     rw [posCoord_posVec hp]
     by_cases h1 : p < n
     · have : n ≠ p := by omega
@@ -123,7 +122,7 @@ theorem entriesOp_idE : entriesOp τ R (idE τ) = 1 := by
   refine ext_posVec fun p hp => ?_
   rw [Module.End.one_apply]
   unfold idE
-  rw [entriesOp_idE_aux _ _ hp, if_pos hp]
+  rw [entriesOp_idE_aux _ _ hp, ite_eq_left hp]
 
 theorem entriesOp_eq_zero_of_all_even (h2 : (2 : R) = 0) :
     ∀ L : List Entry, (∀ e ∈ L, e.2.2 % 2 = 0) → entriesOp τ R L = 0
@@ -244,7 +243,7 @@ theorem gen_zero (hd : DataChecks τ) (j k : Fin τ.rank) :
   have h2 := hd.simple R j 2 (by norm_num) (by norm_num)
   have h3 := hd.simple R j 3 (by norm_num) (by norm_num)
   rw [xOp_eq_sum_xCoeff]
-  simp only [Finset.sum_range_succ, Finset.sum_range_zero, zero_add, pow_zero, one_smul, one_pow,
+  simp only [Finset.sum_range_succ, Finset.sum_range_zero, zero_add, one_smul, one_pow,
     xCoeff_zero, nilE, genPos, entriesOp_append, h1, h2, h3]
   abel
 
@@ -254,7 +253,7 @@ theorem gen_one (hd : DataChecks τ) (j k : Fin τ.rank) :
   have h2 := hd.negSimple R j 2 (by norm_num) (by norm_num)
   have h3 := hd.negSimple R j 3 (by norm_num) (by norm_num)
   rw [yOp_eq_sum_yCoeff]
-  simp only [Finset.sum_range_succ, Finset.sum_range_zero, zero_add, pow_zero, one_smul, one_pow,
+  simp only [Finset.sum_range_succ, Finset.sum_range_zero, zero_add, one_smul, one_pow,
     yCoeff_zero, nilE, genPos, entriesOp_append, h1, h2, h3]
   abel
 
@@ -264,7 +263,7 @@ theorem gen_two (hd : DataChecks τ) (j k : Fin τ.rank) :
   have h2 := hd.simple R k 2 (by norm_num) (by norm_num)
   have h3 := hd.simple R k 3 (by norm_num) (by norm_num)
   rw [xOp_eq_sum_xCoeff]
-  simp only [Finset.sum_range_succ, Finset.sum_range_zero, zero_add, pow_zero, one_smul, one_pow,
+  simp only [Finset.sum_range_succ, Finset.sum_range_zero, zero_add, one_smul, one_pow,
     xCoeff_zero, nilE, genPos, entriesOp_append, h1, h2, h3]
   abel
 
@@ -274,7 +273,7 @@ theorem gen_three (hd : DataChecks τ) (j k : Fin τ.rank) :
   have h2 := hd.negSimple R k 2 (by norm_num) (by norm_num)
   have h3 := hd.negSimple R k 3 (by norm_num) (by norm_num)
   rw [yOp_eq_sum_yCoeff]
-  simp only [Finset.sum_range_succ, Finset.sum_range_zero, zero_add, pow_zero, one_smul, one_pow,
+  simp only [Finset.sum_range_succ, Finset.sum_range_zero, zero_add, one_smul, one_pow,
     yCoeff_zero, nilE, genPos, entriesOp_append, h1, h2, h3]
   abel
 

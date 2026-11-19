@@ -44,7 +44,7 @@ theorem inf_normalCore_le_pCore {G : Type*} [Group G] {T : Subgroup G} (hT : IsP
 theorem relIndex_pCore_le_two {G : Type*} [Group G] [Finite G] {T : Subgroup G}
     (hT : IsPGroup 2 T) (hidx : (Subgroup.normalizer (T : Set G)).index ∣ 3) :
     (CFSG.pCore 2 G).relIndex T ≤ 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set N : Subgroup G := Subgroup.normalizer (T : Set G) with hN
   have hD6 : N.normalCore.index ∣ 6 := by
     have h1 : N.normalCore.index ∣ Nat.factorial N.index :=

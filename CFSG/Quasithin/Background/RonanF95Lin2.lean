@@ -19,39 +19,49 @@ namespace TwoInv
 
 variable {E : Type*} [AddCommGroup E] [Module (ZMod 2) E] [Finite E] (S : TwoInv E)
 
+omit [Finite E] in
 theorem add_self_E (y : E) : y + y = 0 := by
   calc y + y = (2 : ZMod 2) • y := (two_smul (ZMod 2) y).symm
     _ = 0 := by rw [show (2 : ZMod 2) = 0 from rfl, zero_smul]
 
+omit [Finite E] in
 theorem add_self_End (f : Module.End (ZMod 2) E) : f + f = 0 := by
   rw [← two_mul, TwoInv.char_two, zero_mul]
 
+omit [Finite E] in
 theorem eq_of_add_eq_zero_E {u v : E} (h : u + v = 0) : u = v := by
   calc u = u + (v + v) := by rw [add_self_E v, add_zero]
     _ = (u + v) + v := by rw [add_assoc]
     _ = v := by rw [h, zero_add]
 
+omit [Finite E] in
 theorem eq_of_add_eq_zero_End {u v : Module.End (ZMod 2) E} (h : u + v = 0) : u = v := by
   calc u = u + (v + v) := by rw [add_self_End v, add_zero]
     _ = (u + v) + v := by rw [add_assoc]
     _ = v := by rw [h, zero_add]
 
+omit [Finite E] in
 theorem ni_apply (x : E) : S.ni x = S.i x + x := by
   simp only [ni, LinearMap.add_apply, Module.End.one_apply]
 
+omit [Finite E] in
 theorem D_apply (x : E) : S.D x = S.v (S.i x) + S.i (S.v x) := by
   simp only [D, LinearMap.add_apply, Module.End.mul_apply]
 
+omit [Finite E] in
 theorem D_sq_apply (x : E) : (S.D ^ 2) x = S.D (S.D x) := by
   rw [sq, Module.End.mul_apply]
 
+omit [Finite E] in
 theorem D_ni_apply (c : E) : S.D (S.ni c) = S.ni (S.D c) := by
   have h := congrArg (fun f : Module.End (ZMod 2) E => f c) S.D_comm_ni
   simpa only [Module.End.mul_apply] using h
 
+omit [Finite E] in
 theorem sigma_D_shift (a c : E) : S.b (S.D a) (S.ni c) = S.b a (S.ni (S.D c)) := by
   rw [S.D_selfAdj a (S.ni c), S.D_ni_apply c]
 
+omit [Finite E] in
 theorem sigma_pow_shift (l : ℕ) (a c : E) :
     S.b a (S.ni ((S.D ^ l) c)) = S.b ((S.D ^ l) a) (S.ni c) := by
   induction l generalizing a c with
@@ -63,6 +73,7 @@ theorem sigma_pow_shift (l : ℕ) (a c : E) :
       rw [pow_succ, Module.End.mul_apply]
     rw [h1, ← S.sigma_D_shift a ((S.D ^ l) c), ih (S.D a) c, h2]
 
+omit [Finite E] in
 theorem D_pow_mem_X (z : E) (hz : z ∈ S.X) (k : ℕ) : (S.D ^ k) z ∈ S.X := by
   induction k with
   | zero => simpa using hz
@@ -70,17 +81,21 @@ theorem D_pow_mem_X (z : E) (hz : z ∈ S.X) (k : ℕ) : (S.D ^ k) z ∈ S.X := 
     rw [pow_succ', Module.End.mul_apply]
     exact S.D_mem_X _ ih
 
+omit [Finite E] in
 theorem D1_sq : (S.D + 1) ^ 2 = S.D ^ 2 + 1 := by
   have e : (S.D + 1) * (S.D + 1) = S.D * S.D + (S.D + S.D) + 1 := by noncomm_ring
   rw [sq, sq, e, add_self_End, add_zero]
 
+omit [Finite E] in
 theorem P1_apply (x : E) : ((S.D + 1) ^ 2 : Module.End (ZMod 2) E) x = S.D (S.D x) + x := by
   rw [S.D1_sq, LinearMap.add_apply, Module.End.one_apply, S.D_sq_apply]
 
+omit [Finite E] in
 theorem P2_apply (x : E) :
     (S.D ^ 2 + S.D + 1 : Module.End (ZMod 2) E) x = S.D (S.D x) + S.D x + x := by
   rw [LinearMap.add_apply, LinearMap.add_apply, Module.End.one_apply, S.D_sq_apply]
 
+omit [Finite E] in
 theorem finrank_map_ni (Z : Submodule (ZMod 2) E) (hZ : Z ≤ S.X) :
     finrank (ZMod 2) (Z.map S.ni) = finrank (ZMod 2) Z := by
   have hinj : Function.Injective (S.ni ∘ₗ Z.subtype) := by
@@ -92,6 +107,7 @@ theorem finrank_map_ni (Z : Submodule (ZMod 2) E) (hZ : Z ≤ S.X) :
   rw [← hrange]
   exact LinearMap.finrank_range_of_inj hinj
 
+omit [Finite E] in
 theorem iso_span (A : Set E) (hA : ∀ a ∈ A, ∀ a' ∈ A, S.b a (S.ni a') = 0) :
     ∀ z ∈ Submodule.span (ZMod 2) A, ∀ z' ∈ Submodule.span (ZMod 2) A,
       S.b z (S.ni z') = 0 := by
@@ -124,6 +140,7 @@ theorem tot_iso_dim (W : Submodule (ZMod 2) E)
   have h2 := Submodule.finrank_mono hle
   omega
 
+omit [Finite E] in
 theorem sigma_alt (x : E) (hx : x ∈ S.X) : S.b x (S.ni x) = 0 := by
   have hq1 : S.q (S.ni x) = 0 := S.hqY _ (S.ni_mem_Y x)
   have hq2 : S.q (S.i x) = 0 := by rw [S.hqi, S.hqX x hx]
@@ -133,6 +150,7 @@ theorem sigma_alt (x : E) (hx : x ∈ S.X) : S.b x (S.ni x) = 0 := by
   have hbxi : S.b x (S.i x) = 0 := (S.b_symm x (S.i x)).trans hbix
   rw [S.ni_apply x, map_add, hbxi, S.hbalt x, add_zero]
 
+omit [Finite E] in
 theorem tau_alt (x : E) (hx : x ∈ S.X) : S.b (S.D x) (S.ni x) = 0 := by
   have hyY : S.ni x ∈ S.Y := S.ni_mem_Y x
   have hvx : S.v x = x := (S.hXv x).mp hx
@@ -152,6 +170,7 @@ theorem tau_alt (x : E) (hx : x ∈ S.X) : S.b (S.D x) (S.ni x) = 0 := by
   simp only [hDx, map_add, LinearMap.add_apply, S.hbalt, add_zero]
   exact hexp.symm
 
+omit [Finite E] in
 theorem cyc_gen (z : E) (hz : z ∈ S.X) (m : ℕ) : S.b ((S.D ^ m) z) (S.ni z) = 0 := by
   obtain ⟨k, rfl | rfl⟩ := Nat.even_or_odd' m
   · have hw : (S.D ^ k) z ∈ S.X := S.D_pow_mem_X z hz k
@@ -175,6 +194,7 @@ theorem cyc_gen (z : E) (hz : z ∈ S.X) (m : ℕ) : S.b ((S.D ^ m) z) (S.ni z) 
       _ = S.b (S.D ((S.D ^ k) z)) (S.ni ((S.D ^ k) z)) := by rw [h3]
       _ = 0 := h1
 
+omit [Finite E] in
 theorem cyc (z : E) (hz : z ∈ S.X) (k l : ℕ) :
     S.b ((S.D ^ k) z) (S.ni ((S.D ^ l) z)) = 0 := by
   rw [S.sigma_pow_shift l ((S.D ^ k) z) z]
@@ -313,7 +333,7 @@ theorem poly_pt (h : finrank (ZMod 2) S.X = 4) (x : E) (hx : x ∈ S.X) :
         left
         rw [h2]
         simp
-      · simp only [zero_smul, one_smul, zero_add, add_zero] at hrel
+      · simp only [zero_smul, one_smul, zero_add] at hrel
         have h0 : S.D (x + S.D x) = 0 := by
           rw [map_add]
           exact hrel
@@ -324,21 +344,21 @@ theorem poly_pt (h : finrank (ZMod 2) S.X = 4) (x : E) (hx : x ∈ S.X) :
         exact add_self_E x
   · rcases hz a₁ with rfl | rfl
     · rcases hz a₂ with rfl | rfl
-      · simp only [zero_smul, one_smul, zero_add, add_zero] at hrel
+      · simp only [zero_smul, one_smul, add_zero] at hrel
         left
         rw [hrel]
         simp
-      · simp only [zero_smul, one_smul, zero_add, add_zero] at hrel
+      · simp only [zero_smul, one_smul, add_zero] at hrel
         left
         rw [add_comm]
         exact hrel
     · rcases hz a₂ with rfl | rfl
-      · simp only [zero_smul, one_smul, zero_add, add_zero] at hrel
+      · simp only [zero_smul, one_smul, add_zero] at hrel
         have hDx : S.D x = x := (eq_of_add_eq_zero_E hrel).symm
         left
         rw [hDx, hDx]
         exact add_self_E x
-      · simp only [zero_smul, one_smul, zero_add, add_zero] at hrel
+      · simp only [one_smul] at hrel
         right
         calc S.D (S.D x) + S.D x + x = x + S.D x + S.D (S.D x) := by abel
           _ = 0 := hrel
@@ -397,6 +417,7 @@ theorem kills_E (f : Module.End (ZMod 2) E) (hfi : f * S.i = S.i * f)
   obtain ⟨x, hx, y, hy, rfl⟩ := Submodule.mem_sup.mp hsup
   rw [LinearMap.zero_apply, map_add, hf x hx, hfY y hy, add_zero]
 
+omit [Finite E] in
 theorem t_sq_ne_one (hX : S.X ≠ ⊥) : S.t ^ 2 ≠ 1 := by
   intro hsq
   have h1 : S.t * S.t = 1 := by
@@ -414,6 +435,7 @@ theorem t_sq_ne_one (hX : S.X ≠ ⊥) : S.t ^ 2 ≠ 1 := by
   obtain ⟨x, hxX, hx0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hX
   exact hx0 (S.D_inj_X x hxX (by simp [hD0]))
 
+omit [Finite E] in
 theorem t_pow_three_gen : S.t ^ 3 = S.D ^ 2 * S.t + S.D + S.t := by
   calc S.t ^ 3 = S.t * (S.t * S.t) := pow_three S.t
     _ = S.t * (S.D * S.t + 1) := by rw [S.t_sq]
@@ -424,6 +446,7 @@ theorem t_pow_three_gen : S.t ^ 3 = S.D ^ 2 * S.t + S.D + S.t := by
     _ = S.D * S.D * S.t + S.D + S.t := by noncomm_ring
     _ = S.D ^ 2 * S.t + S.D + S.t := by rw [sq]
 
+omit [Finite E] in
 theorem t4B_of (hD2 : S.D ^ 2 = S.D + 1) (t3B : S.t ^ 3 = S.D * S.t + S.D) :
     S.t ^ 4 = S.t + S.D := by
   calc S.t ^ 4 = S.t * S.t ^ 3 := pow_succ' S.t 3
@@ -439,6 +462,7 @@ theorem t4B_of (hD2 : S.D ^ 2 = S.D + 1) (t3B : S.t ^ 3 = S.D * S.t + S.D) :
     _ = (S.D * S.t + S.D * S.t) + (S.t + S.D) := by abel
     _ = S.t + S.D := by rw [add_self_End, zero_add]
 
+omit [Finite E] in
 theorem t5B_of (t4 : S.t ^ 4 = S.t + S.D) : S.t ^ 5 = 1 := by
   calc S.t ^ 5 = S.t * S.t ^ 4 := pow_succ' S.t 4
     _ = S.t * (S.t + S.D) := by rw [t4]

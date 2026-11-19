@@ -25,8 +25,9 @@ private theorem omegaOneOf_map_sylowMap {X Y : Type*} [Group X] [Finite X] [Grou
     (omegaOneOf (Sylow.mapSurjective (f := e.toMonoidHom) e.surjective T : Sylow 2 Y) :
         Subgroup Y) = (omegaOneOf (T : Subgroup X)).map e.toMonoidHom := by
   rw [Sylow.coe_mapSurjective (f := e.toMonoidHom) e.surjective]
-  exact (omegaOneOf_map_mulEquiv e T.isPGroup').symm
+  exact (omegaOneOf_map_mulEquiv e T.isPGroup).symm
 
+omit [Finite F] in
 private theorem exists_sup_three_omegaOne_eq_top_unitarySU
     (h : UnitaryFieldData 2 n F) (hn : 2 ≤ n)
     (T T' : Sylow 2 ↥(unitarySU 2 n F 3)) (hTT' : T ≠ T') :
@@ -47,6 +48,7 @@ private theorem exists_sup_three_omegaOne_eq_top_unitarySU
     rw [hΩ, hΩ', hΩ'']
     exact sup_three_isotropicTransvectionGroup_eq_top h hn hL hL' hL₃ hspan⟩
 
+omit [Finite F] in
 private theorem exists_sup_three_omegaOne_eq_top_unitaryPSU
     (h : UnitaryFieldData 2 n F) (hn : 2 ≤ n)
     (T T' : Sylow 2 (unitaryPSU h 3)) (hTT' : T ≠ T') :
@@ -81,7 +83,7 @@ private theorem exists_sup_three_omegaOne_eq_top_of_mulEquiv {X Y : Type*}
     (T T' : Sylow 2 X) (hTT' : T ≠ T') :
     ∃ T'' : Sylow 2 X, omegaOneOf (T : Subgroup X) ⊔ omegaOneOf (T' : Subgroup X) ⊔
       omegaOneOf (T'' : Subgroup X) = ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let f : X →* Y := e.toMonoidHom
   let T₁ : Sylow 2 Y := Sylow.mapSurjective (f := f) e.surjective T
   let T₁' : Sylow 2 Y := Sylow.mapSurjective (f := f) e.surjective T'
@@ -119,12 +121,12 @@ theorem exists_sup_three_omegaOne_eq_top {n : ℕ} (hn : 2 ≤ n) {X : Type} [Gr
       omegaOneOf (T'' : Subgroup X) = ⊤ := by
   let h : UnitaryFieldData 2 n F := unitaryFieldDataOfCard hFc
   rcases hX with ⟨⟨eSU⟩⟩ | ⟨⟨ePSU⟩⟩
-  · haveI : Finite ↥(unitarySU 2 n F 3) := model3U4_finite_group h
+  · have : Finite ↥(unitarySU 2 n F 3) := model3U4_finite_group h
     let e : X ≃* ↥(unitarySU 2 n F 3) := eSU
     exact exists_sup_three_omegaOne_eq_top_of_mulEquiv e
       (fun T T' hne => exists_sup_three_omegaOne_eq_top_unitarySU h hn T T' hne) T T' hTT'
-  · haveI : Finite ↥(unitarySU 2 n F 3) := model3U4_finite_group h
-    haveI : Finite (unitaryPSU h 3) :=
+  · have : Finite ↥(unitarySU 2 n F 3) := model3U4_finite_group h
+    have : Finite (unitaryPSU h 3) :=
       Finite.of_surjective (unitaryProj h 3) (unitaryProj_surjective h 3)
     let e : X ≃* unitaryPSU h 3 := ePSU.trans (unitaryPSUEquivStated hFc).symm
     exact exists_sup_three_omegaOne_eq_top_of_mulEquiv e

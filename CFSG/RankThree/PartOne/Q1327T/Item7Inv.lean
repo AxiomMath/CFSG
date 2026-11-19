@@ -97,7 +97,7 @@ theorem exists_inv_of_prod_sl2 {K₂ : Type} [Field K₂] [Finite K₂] [CharP K
     rw [Subgroup.card_map_of_injective hμ, Sylow.card_eq_multiplicity PH, Nat.card_prod,
       Nat.factorization_mul Nat.card_pos.ne' Nat.card_pos.ne', Finsupp.add_apply, hord]
   have hPH : IsPGroup p (PH : Subgroup (Matrix.SpecialLinearGroup (Fin 2) K ×
-      Matrix.SpecialLinearGroup (Fin 2) K₂)) := PH.isPGroup'
+      Matrix.SpecialLinearGroup (Fin 2) K₂)) := PH.isPGroup
   obtain ⟨w, hw⟩ := exists_inv_of_isPGroup_prod hp hp2 hPH
   refine exists_inv_of_sylow (Sylow.ofCard _ hP₀card) (g₀ := μ w) (fun y hy => ?_) hE
   rw [Sylow.coe_ofCard] at hy

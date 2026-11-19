@@ -54,7 +54,7 @@ theorem primeResidual_coprime_index (p : ℕ) [Fact p.Prime]
     (G : Type*) [Group G] [Finite G] : p.Coprime (primeResidual p G).index := by
   let P : Sylow p G := Classical.choice inferInstance
   exact (Fact.out : p.Prime).coprime_iff_not_dvd.mpr P.not_dvd_index |>.of_dvd_right
-    (Subgroup.index_dvd_of_le (pSubgroup_le_residual p (P : Subgroup G) P.isPGroup'))
+    (Subgroup.index_dvd_of_le (pSubgroup_le_residual p (P : Subgroup G) P.isPGroup))
 
 theorem primeResidual_le_normal_of_coprime_index {G : Type*} [Group G] [Finite G]
     (p : ℕ) [Fact p.Prime] (N : Subgroup G) [N.Normal] (hindex : p.Coprime N.index) :
@@ -116,7 +116,7 @@ theorem primeResidual_map_surjective {G H : Type*} [Group G] [Finite G] [Group H
     rw [Sylow.coe_mapSurjective] at hle
     exact top_unique hle
   have hambient := pSubgroup_le_residual p ((S : Subgroup V).map V.subtype)
-    (S.isPGroup'.map V.subtype)
+    (S.isPGroup.map V.subtype)
   intro x hx
   have htarget : (⟨x, hx⟩ : P) ∈ (S : Subgroup V).map restriction := by
     rw [himage]

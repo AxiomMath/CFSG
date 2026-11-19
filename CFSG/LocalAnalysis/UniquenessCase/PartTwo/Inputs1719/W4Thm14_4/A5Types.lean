@@ -25,8 +25,8 @@ theorem eq_one_of_fixed_of_binaryNaturalSL {W : Type} [CommGroup W] {L : Subgrou
     {I : Subgroup W} (hI : BinaryNaturalSL L I ⊥ 2 2) {z : MulAut W} (hz : z ∈ L)
     (hz3 : orderOf z = 3) {u : W} (hu : u ∈ I) (hzu : z u = u) : u = 1 := by
   obtain ⟨K, hKfield, hKfin, hKcard, π, hπ⟩ := hI
-  letI := hKfield
-  haveI := hKfin
+  let := hKfield
+  have := hKfin
   have hbot : u ∈ (⊥ : Subgroup W) :=
     lred2_natural_fixed (V := W) (L := L) (U := I) (Z := ⊥) hKcard hπ hz hz3 hu hzu
   exact Subgroup.mem_bot.mp hbot
@@ -107,14 +107,14 @@ theorem exists_endo_of_binaryNaturalSL {W : Type} [CommGroup W] {L : Subgroup (M
       (∃ u, f u ≠ 1) ∧ ∃ u, f u ≠ (u : W) := by
   classical
   obtain ⟨K, hKfield, hKfin, hKchar, hKcard, -, ⟨D⟩⟩ := natural24_data hI
-  letI := hKfield
-  haveI := hKfin
-  haveI := hKchar
-  haveI : Fintype K := Fintype.ofFinite K
+  let := hKfield
+  have := hKfin
+  have := hKchar
+  have : Fintype K := Fintype.ofFinite K
   have hcard : Fintype.card K = 4 := by simpa [Nat.card_eq_fintype_card] using hKcard
   have hsub : Fintype.card {x : K // x ≠ 0} = 3 := by
     have h := Fintype.card_subtype_compl (α := K) (p := fun x : K => x = 0)
-    simpa [hcard] using h
+    simp [hcard]
   have hlt : 1 < Fintype.card {x : K // x ≠ 0} := by rw [hsub]; norm_num
   obtain ⟨ω, hω⟩ := Fintype.exists_ne_of_one_lt_card hlt (⟨1, one_ne_zero⟩ : {x : K // x ≠ 0})
   have hω0 : (ω : K) ≠ 0 := ω.2

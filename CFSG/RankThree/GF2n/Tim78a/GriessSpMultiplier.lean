@@ -104,10 +104,10 @@ private theorem statedClassicalModel_statedSp {n f : ℕ} (hn : 2 ≤ n) (hf : 1
     (hne2 : (n, f) ≠ (2, 1)) :
     StatedClassicalModel (StatedSp n (GaloisField 2 f)) .PSp n 2 f := by
   classical
-  haveI : NeZero n := ⟨by omega⟩
+  have : NeZero n := ⟨by omega⟩
   have hK : Nat.card (GaloisField 2 f) = 2 ^ f := by
     rw [GaloisField.card 2 f (by omega)]
-  haveI : CharP (GaloisField 2 f) 2 :=
+  have : CharP (GaloisField 2 f) 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two hf hK
   have hadm : StatedLieAdmissible .PSp n 2 f := by
@@ -134,7 +134,7 @@ private theorem genericOrders_psp_two_pow_eq_one {m f : ℕ} (hf : 1 ≤ f) :
 private theorem exceptionalOrders_psp_two_pow_eq_one {m f : ℕ} (hf : 2 ≤ f) :
     CFSG.Blueprint.Multiplier.exceptionalOrders .PSp m 2 f = (1, 1) := by
   unfold CFSG.Blueprint.Multiplier.exceptionalOrders
-  split <;> simp_all <;> omega
+  split <;> simp_all
 
 private theorem exceptionalOrders_psp_two_eq_one {m : ℕ} (hm : m ≠ 3) :
     CFSG.Blueprint.Multiplier.exceptionalOrders .PSp m 2 1 = (1, 1) := by
@@ -176,7 +176,7 @@ private theorem commutator_and_subsingleton_statedSp {n f : ℕ} (hn : 2 ≤ n) 
         intro h
         exact hne3 (by rw [h]))
     · exact exceptionalOrders_psp_two_pow_eq_one hf2
-  haveI : Subsingleton (CFSG.Blueprint.Multiplier.generic .PSp n 2 f ×
+  have : Subsingleton (CFSG.Blueprint.Multiplier.generic .PSp n 2 f ×
       CFSG.Blueprint.Multiplier.exceptional .PSp n 2 f) := by
     unfold CFSG.Blueprint.Multiplier.generic CFSG.Blueprint.Multiplier.exceptional
     rw [hg, he]
@@ -188,16 +188,16 @@ private theorem ker_eq_bot_of_griess_subsingleton {Γ X : Type} [Group Γ] [Grou
     (φ : Γ →* X) (hφ : Function.Surjective φ)
     (hcen : φ.ker ≤ Subgroup.center Γ) (hcom : φ.ker ≤ commutator Γ) :
     φ.ker = ⊥ := by
-  haveI : Group.IsPerfect X := Group.isPerfect_def.2 hX
-  haveI : Group.IsPerfect Γ := CFSG.Holt.H78.isPerfect_of_ker_le_commutator φ hφ hcom
+  have : Group.IsPerfect X := Group.isPerfect_def.2 hX
+  have : Group.IsPerfect Γ := CFSG.Holt.H78.isPerfect_of_ker_le_commutator φ hφ hcom
   let ψ := hopfMultiplierToKer φ hφ hcen
   have hψ : Function.Surjective ψ := hopfMultiplierToKer_surjective φ hφ hcen
-  haveI : Subsingleton (hopfMultiplier X) := by
+  have : Subsingleton (hopfMultiplier X) := by
     refine ⟨fun a b => ?_⟩
     obtain ⟨a', rfl⟩ := (hopfMultiplierEquivGriess X).surjective a
     obtain ⟨b', rfl⟩ := (hopfMultiplierEquivGriess X).surjective b
     rw [Subsingleton.elim a' b']
-  haveI : Subsingleton φ.ker := hψ.subsingleton
+  have : Subsingleton φ.ker := hψ.subsingleton
   exact Subgroup.eq_bot_of_subsingleton _
 
 private theorem ker_eq_bot_statedSp_one {f : ℕ} (hf3 : 3 ≤ f) {Γ : Type} [Group Γ]
@@ -208,14 +208,14 @@ private theorem ker_eq_bot_statedSp_one {f : ℕ} (hf3 : 3 ≤ f) {Γ : Type} [G
   let K := GaloisField 2 f
   have hKcard : Nat.card K = 2 ^ f := by
     rw [GaloisField.card 2 f (by omega)]
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two (by omega) hKcard
   have hK4 : 4 ≤ Nat.card K := by
     rw [hKcard]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) (by omega)
-  haveI : Group.IsPerfect (StatedSp 1 K) :=
+  have : Group.IsPerfect (StatedSp 1 K) :=
     CFSG.LieType.Steinberg.CentralExt.SpClosed.isPerfect_statedSp 1 K hK4
   let e : Matrix.SpecialLinearGroup (Fin 2) K ≃* StatedSp 1 K :=
     CFSG.ClassicalInvolution.Models.SymplecticPairs.longBlockEquivOne K
@@ -244,7 +244,7 @@ private theorem ker_eq_bot_statedSp_one {f : ℕ} (hf3 : 3 ≤ f) {Γ : Type} [G
     have h1 := hσ' (e.symm g)
     change e.symm (φ (σ' (e.symm g))) = e.symm g at h1
     simpa [σ] using e.symm.injective h1
-  haveI : Group.IsPerfect Γ := CFSG.Holt.H78.isPerfect_of_ker_le_commutator φ hφ hcom
+  have : Group.IsPerfect Γ := CFSG.Holt.H78.isPerfect_of_ker_le_commutator φ hφ hcom
   exact CFSG.LieType.Steinberg.CentralExt.SL2Closed.ker_eq_bot_of_section φ hcen σ hσ
 
 theorem griessSpMultiplierStatement_holds : GriessSpMultiplierStatement := by

@@ -36,7 +36,7 @@ theorem l05nLC_check_one {p N allow : ℕ} (d : GGTWLData)
   have hni' : ni ∈ [1, 2] := by rcases hni with rfl | rfl <;> simp
   have hb := List.all_eq_true.mp ha mi hmi'
   have hd := List.all_eq_true.mp hb ni hni'
-  rw [if_pos hpat] at hd
+  rw [ite_eq_left hpat] at hd
   cases hlook : d.one.lookup (posn, c0, mi, ni) with
   | none => rw [hlook] at hd; simp at hd
   | some wits =>
@@ -67,7 +67,7 @@ theorem l05nLC_check_two {p N allow : ℕ} (d : GGTWLData)
   have hall := List.all_eq_true.mp h1.2 posn hpos
   have ha := List.all_eq_true.mp (Bool.and_eq_true_iff.mp hall).2 c hc
   have hb := List.all_eq_true.mp ha c2 hc2
-  rw [if_pos hpat] at hb
+  rw [ite_eq_left hpat] at hb
   cases hlook : d.two.lookup (posn, c, ggTWNCode c2) with
   | none => rw [hlook] at hb; simp at hb
   | some wits =>
@@ -99,7 +99,7 @@ theorem l05nLC_cases1_extract {p N allow : ℕ} (posn c0 mi ni : ℕ)
   have hc : (ggDepANDot p la lh == 2 % p && ggDepANDot p la (ggTWNX N) != 0) = true := by
     rw [Bool.and_eq_true]
     exact ⟨beq_iff_eq.mpr hd, bne_iff_ne.mpr hz⟩
-  rw [if_pos hc] at h2
+  rw [ite_eq_left hc] at h2
   cases hfind : exc.find?
       (fun e => ggTWLVecEq p e.1.1 lh && ggTWLVecEq p e.1.2 la) with
   | none =>
@@ -139,9 +139,9 @@ theorem l05nLC_cases2_extract {p N allow : ℕ} (posn c : ℕ) (c2 : Option ℕ)
       simp only [ggTWLCases2] at h
       have e1 := List.all_eq_true.mp h lh1 hlh1
       have e2 := List.all_eq_true.mp e1 la1 hla1
-      rw [if_pos (beq_iff_eq.mpr hd1)] at e2
+      rw [ite_eq_left (beq_iff_eq.mpr hd1)] at e2
       have e3 := List.all_eq_true.mp e2 lh2 hlh2
-      rw [if_pos (beq_iff_eq.mpr hd2)] at e3
+      rw [ite_eq_left (beq_iff_eq.mpr hd2)] at e3
       have e4 := List.all_eq_true.mp e3 la2 hla2
       have hor : (ggDepANDot p la1 (ggTWNX N) != 0 ||
           ggDepANDot p la2 (ggTWNX N) != 0) = true := by
@@ -153,7 +153,7 @@ theorem l05nLC_cases2_extract {p N allow : ℕ} (posn c : ℕ) (c2 : Option ℕ)
             (ggDepANDot p la1 (ggTWNZ p N posn) * ggDepANDot p la2 (ggTWNX N)) % p) = true := by
         rw [Bool.and_eq_true, Bool.and_eq_true, Bool.and_eq_true]
         exact ⟨⟨⟨beq_iff_eq.mpr hd3, beq_iff_eq.mpr hd4⟩, hor⟩, beq_iff_eq.mpr hdet⟩
-      rw [if_pos hcond] at e4
+      rw [ite_eq_left hcond] at e4
       cases hfind : exc.find? (fun e => ggTWLVecEq p e.1.1 lh1 && ggTWLVecEq p e.1.2.1 la1 &&
           ggTWLVecEq p e.1.2.2.1 lh2 && ggTWLVecEq p e.1.2.2.2 la2) with
       | none => rw [hfind] at e4; exact Or.inl (List.any_eq_true.mp e4)
@@ -169,9 +169,9 @@ theorem l05nLC_cases2_extract {p N allow : ℕ} (posn c : ℕ) (c2 : Option ℕ)
       simp only [ggTWLCases2] at h
       have e1 := List.all_eq_true.mp h lh1 hlh1
       have e2 := List.all_eq_true.mp e1 la1 hla1
-      rw [if_pos (beq_iff_eq.mpr hd1)] at e2
+      rw [ite_eq_left (beq_iff_eq.mpr hd1)] at e2
       have e3 := List.all_eq_true.mp e2 lh2 hlh2
-      rw [if_pos (beq_iff_eq.mpr hd2)] at e3
+      rw [ite_eq_left (beq_iff_eq.mpr hd2)] at e3
       have e4 := List.all_eq_true.mp e3 la2 hla2
       have hor : (ggDepANDot p la1 (ggTWNX N) != 0 ||
           ggDepANDot p la2 (ggTWNX N) != 0) = true := by
@@ -183,7 +183,7 @@ theorem l05nLC_cases2_extract {p N allow : ℕ} (posn c : ℕ) (c2 : Option ℕ)
             (ggDepANDot p la1 (ggTWNZ p N posn) * ggDepANDot p la2 (ggTWNX N)) % p) = true := by
         rw [Bool.and_eq_true, Bool.and_eq_true, Bool.and_eq_true]
         exact ⟨⟨⟨beq_iff_eq.mpr hd3, beq_iff_eq.mpr hd4⟩, hor⟩, beq_iff_eq.mpr hdet⟩
-      rw [if_pos hcond] at e4
+      rw [ite_eq_left hcond] at e4
       cases hfind : exc.find? (fun e => ggTWLVecEq p e.1.1 lh1 && ggTWLVecEq p e.1.2.1 la1 &&
           ggTWLVecEq p e.1.2.2.1 lh2 && ggTWLVecEq p e.1.2.2.2 la2) with
       | none => rw [hfind] at e4; exact Or.inl (List.any_eq_true.mp e4)

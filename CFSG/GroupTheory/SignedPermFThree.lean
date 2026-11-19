@@ -60,14 +60,14 @@ private lemma stdBasis_injective : Function.Injective (stdBasis : Fin 3 → Fin 
   by_contra hne
   have h1 : (1 : ZMod 3) = 0 := by
     have h' := congrFun h j
-    simpa [stdBasis, hne] using h'
+    simp [stdBasis, hne] at h'
   exact one_ne_zero h1
 
 private lemma stdBasis_ne_neg_of_ne {j k : Fin 3} (h : j ≠ k) : stdBasis j ≠ -stdBasis k := by
   intro hc
   have h1 : (1 : ZMod 3) = 0 := by
     have h' := congrFun hc j
-    simpa [stdBasis, h] using h'
+    simp [stdBasis, h] at h'
   exact one_ne_zero h1
 
 private lemma zmod_smul_eq_nsmul_val (a : ZMod 3) (x : Fin 3 → ZMod 3) :

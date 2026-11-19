@@ -216,7 +216,7 @@ private theorem not_isChevSimple_fi22 (hb : LieOrderBridge) {q : ℕ} :
 theorem false_of_fi22Cfg_of_comps (hb : LieOrderBridge) {q : ℕ} {S : Type} [Group S] [Finite S]
     {α : MulAut S} (h : LieCompsExport q α) (hF : Fi22Cfg S α) : False := by
   obtain ⟨hsimp, -⟩ := fi22_facts
-  haveI := hsimp
+  have := hsimp
   have hna := fi22_noncomm
   obtain ⟨H, hHsub, N, hN, -, ⟨e⟩⟩ := hF
   have hfix : fixedSub α = fixSubgroup α := by ext s; exact Iff.rfl
@@ -254,9 +254,9 @@ theorem false_of_fi22Cfg_of_unipotent (hQ : YS08.LieQ.LieQConstrainedInner 5) {S
     (hS : IsChevOfChar 5 S) {x : S} (hx1 : x ≠ 1) (hx5 : x ^ 5 = 1)
     (hF : Fi22Cfg S (MulAut.conj x)) : False := by
   obtain ⟨hsimp, hcard⟩ := fi22_facts
-  haveI := hsimp
+  have := hsimp
   have hnaF := fi22_noncomm
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   set Q : Subgroup S := Subgroup.zpowers x with hQdef
   have hQne : Q ≠ ⊥ := fun h => hx1 (Subgroup.zpowers_eq_bot.1 h)
   have hQp : IsPGroup 5 ↥Q := by

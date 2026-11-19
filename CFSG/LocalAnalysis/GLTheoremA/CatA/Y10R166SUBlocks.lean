@@ -64,9 +64,9 @@ theorem centralizer_diagSU_eq_unitaryBlockDiag {I : Finset (Fin n)} {l ν : K}
       rw [hdi, hdj]
       by_cases hi : i ∈ I <;> by_cases hj : j ∈ I
       · exact absurd hij (by simp [hi, hj])
-      · simp only [hi, hj, if_true, if_false]
+      · simp only [hi, hj, ite_true, ite_false]
         exact sub_ne_zero.2 (Ne.symm hlν)
-      · simp only [hi, hj, if_true, if_false]
+      · simp only [hi, hj, ite_true, ite_false]
         exact sub_ne_zero.2 hlν
       · exact absurd hij (by simp [hi, hj])
     have h2 : MA i j * (d j - d i) = 0 := by
@@ -85,7 +85,7 @@ theorem centralizer_diagSU_eq_unitaryBlockDiag {I : Finset (Fin n)} {l ν : K}
           by_cases hi : i ∈ I <;> by_cases hj : j ∈ I <;> simp_all
         rw [hdij, mul_comm]
     refine Subtype.ext (Units.ext ?_)
-    simp only [Subgroup.coe_mul, Units.val_mul, coe_diagSU, hMA]
+    simp only [Subgroup.coe_mul, Units.val_mul, coe_diagSU]
     exact hmat
 
 
@@ -107,7 +107,7 @@ theorem mul_eq_mul_of_unitaryProj_commute_diagSU {I : Finset (Fin n)} (hI : n < 
     obtain ⟨i, hi⟩ := Finset.card_pos.1 (by omega : 0 < I.card)
     have hli : h.norm l = 1 := by
       have := hd i
-      rwa [hv i, if_pos hi] at this
+      rwa [hv i, ite_eq_left hi] at this
     rintro rfl
     rw [show h.norm (0 : K) = 0 by simp [UnitaryFieldData.norm]] at hli
     exact zero_ne_one hli
@@ -130,8 +130,8 @@ theorem mul_eq_mul_of_unitaryProj_commute_diagSU {I : Finset (Fin n)} (hI : n < 
       simpa [mul_assoc] using h
     have hzero : ∀ i ∈ I, ∀ j ∈ I, MA i j = 0 := by
       intro i hi j hj
-      have hdi : d i = l := by rw [hv i, if_pos hi]
-      have hdj : d j = l := by rw [hv j, if_pos hj]
+      have hdi : d i = l := by rw [hv i, ite_eq_left hi]
+      have hdj : d j = l := by rw [hv j, ite_eq_left hj]
       have h := hentry i j
       rw [hdi, hdj] at h
       have h' : MA i j * (l * ((c : K) - 1)) = 0 := by
@@ -286,8 +286,8 @@ theorem diagFiveLastEntries_norm {ζ : K} (hζ : h.norm ζ = 1) :
     ∀ i, h.norm (diagFiveLastEntries ζ i) = 1 := by
   intro i
   by_cases hi : i = (5 : Fin 6)
-  · rw [diagFiveLastEntries, if_pos hi, norm_inv_eq, unitaryNorm_pow_eq_one h hζ 5, inv_one]
-  · rw [diagFiveLastEntries, if_neg hi]; exact hζ
+  · rw [diagFiveLastEntries, ite_eq_left hi, norm_inv_eq, unitaryNorm_pow_eq_one h hζ 5, inv_one]
+  · rw [diagFiveLastEntries, ite_eq_right hi]; exact hζ
 
 theorem diagFiveLastEntries_prod {ζ : K} (hζ : h.norm ζ = 1) :
     ∏ i, diagFiveLastEntries ζ i = 1 := by
@@ -308,7 +308,7 @@ theorem coe_diagFiveLast (ζ : K) (hζ : h.norm ζ = 1) :
 
 private theorem compl_erase_five : ((Finset.univ : Finset (Fin 6)).erase 5)ᶜ = {5} := by
   ext i
-  simp [Finset.mem_erase, eq_comm]
+  simp
 
 private theorem diagFiveLast_ne_inv {ζ : K} (hζ : h.norm ζ = 1) (hζ6 : ζ ^ 6 ≠ 1) :
     ζ ≠ (ζ ^ 5)⁻¹ := by
@@ -327,9 +327,9 @@ private theorem diagFiveLastEntries_eq {ζ : K} :
   intro i
   rw [diagFiveLastEntries]
   by_cases hi : i = (5 : Fin 6)
-  · rw [if_pos hi, if_neg]
+  · rw [ite_eq_left hi, ite_eq_right]
     simp [hi]
-  · rw [if_neg hi, if_pos]
+  · rw [ite_eq_right hi, ite_eq_left]
     simp [Finset.mem_erase, hi]
 
 theorem centralizer_diagFiveLast {ζ : K} (hζ : h.norm ζ = 1) (hζ6 : ζ ^ 6 ≠ 1) :

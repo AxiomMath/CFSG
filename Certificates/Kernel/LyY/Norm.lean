@@ -44,8 +44,8 @@ theorem lblCnt_eq (k : Nat) :
       change nIf(Nat.beq (lget TL m) k, 1, 0) = _
       rw [Raw.Orb.beq_dec]
       by_cases e : lget TL m = k
-      · rw [decide_eq_true e, if_pos e]
-      · rw [decide_eq_false e, if_neg e]
+      · rw [decide_eq_true e, ite_eq_left e]
+      · rw [decide_eq_false e, ite_eq_right e]
   unfold lblCnt
   rw [h, Finset.card_filter,
     ← Fin.sum_univ_eq_sum_range (fun i => if lget TL i = k then 1 else 0)]

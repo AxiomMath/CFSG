@@ -118,6 +118,7 @@ open CFSG.RankThree.GF2n.Stroth80.Classify (pointRad orthSubgroup orthSubgroup_e
 
 variable [Finite G]
 
+omit [Finite G] in
 theorem four_le_card_of_cfg {M Q Z B : Subgroup G} (hc : SmithOrthCfg M Q Z B)
     (C : OrthCtx M Q Z B) : 4 ≤ Fintype.card C.ι := by
   obtain ⟨n, hw', -, h4⟩ := hc.orth.exists_width
@@ -125,6 +126,7 @@ theorem four_le_card_of_cfg {M Q Z B : Subgroup G} (hc : SmithOrthCfg M Q Z B)
   rw [width_eq_of_width hZ (width_of_tensor C.hD C.φ) hw']
   exact h4
 
+omit [Finite G] in
 theorem omegaGroup_le_elementaryGroup_of_cfg {M Q Z B : Subgroup G} (hc : SmithOrthCfg M Q Z B)
     (C : OrthCtx M Q Z B) :
     OrthogonalInvolutions.omegaGroup C.qU (polarBilin_nondegenerate_of_hnd C.hF.nondeg) ≤
@@ -132,6 +134,7 @@ theorem omegaGroup_le_elementaryGroup_of_cfg {M Q Z B : Subgroup G} (hc : SmithO
   omegaGroup_le_elementaryGroup_of_four_le _
     (by rw [Module.finrank_fintype_fun_eq_card]; exact four_le_card_of_cfg hc C)
 
+omit [Finite G] in
 theorem actsAsTensor_of_change {Q Z : Subgroup G} {K : Type} [Field K] {γ : G → K}
     {M₀ : Tim79.QuadModel Q Z K γ} {ι : Type} [Fintype ι] [DecidableEq ι]
     {φ : M₀.E ≃ₗ[K] (ι → K) × (ι → K)} (h : GL (Fin 2) K)
@@ -148,7 +151,7 @@ theorem actsAsTensor_of_change {Q Z : Subgroup G} {K : Type} [Field K] {γ : G �
   have hc := hs.change h⁻¹ (fun x y => map_add o x y) (fun c x => map_smul o c x)
   rw [hback] at hc
   refine ⟨_, ?_, hc⟩
-  simp only [Matrix.det_mul, hdet', hg, det_units_inv_eq_one h⁻¹ hdet', one_mul, mul_one]
+  simp only [Matrix.det_mul, hdet', hg, det_units_inv_eq_one h⁻¹ hdet', mul_one]
 
 theorem lA_act_elementary {M Q Z B A : Subgroup G} (hcB : Ctx M Q Z B) (hcA : Ctx M Q Z A)
     (hno : NoA2 Q Z (LB M Q A)) (hLA : LB M Q A ≤ Lgen M (LB M Q B)) (C : OrthCtx M Q Z B)
@@ -166,7 +169,7 @@ theorem lA_act_elementary {M Q Z B A : Subgroup G} (hcB : Ctx M Q Z B) (hcA : Ct
   have hz1' : (z : G) ≠ 1 := fun h => hz1 (Subtype.ext h)
   have haA : g₀ * (z : G) * g₀⁻¹ ∈ A := by
     rw [hg₀, mem_conjSubgroup]
-    simpa [mul_assoc] using z.2
+    simp [mul_assoc]
   have ha1 : g₀ * (z : G) * g₀⁻¹ ≠ 1 := by
     intro h
     apply hz1'
@@ -355,7 +358,7 @@ theorem exists_normalized_involution_of_sim {M Q Z B : Subgroup G} (hc : SmithOr
   obtain ⟨g, o, ρ, hg, hρ, hq, hact⟩ := hsim w hw
   have hsQ := (hc.ctx.conj_mem_Q_of_mem_M hw.1).1
   obtain ⟨u, hu0, -⟩ := exists_singular_of_ctx hc.ctx C
-  haveI : Nonempty C.ι := by
+  have : Nonempty C.ι := by
     by_contra h
     exact hu0 (funext fun i => (h ⟨i⟩).elim)
   set ℓ : (C.ι → C.K) →ₗ[C.K] (C.ι → C.K) := (o : (C.ι → C.K) →ₗ[C.K] (C.ι → C.K))
@@ -419,7 +422,7 @@ theorem orthNormalized_mul {M Q Z B : Subgroup G} (hc : Ctx M Q Z B) (C : OrthCt
     (iso₂ : ∀ v, C.qU (o₂ v) = C.qU v) (iso₃ : ∀ v, C.qU (o₃ v) = C.qU v) : o₃ = o₁ * o₂ := by
   classical
   obtain ⟨u, hu0, -⟩ := exists_singular_of_ctx hc C
-  haveI : Nonempty C.ι := by
+  have : Nonempty C.ι := by
     by_contra h
     exact hu0 (funext fun i => (h ⟨i⟩).elim)
   obtain ⟨v₀, hv₀⟩ := exists_map_ne_zero_of_ctx hc C
@@ -571,7 +574,7 @@ theorem lgen_involution_normalized {M Q Z B : Subgroup G} (hc : SmithOrthCfg M Q
   classical
   obtain ⟨g, o, hg, hiso, heven, hact⟩ := lgen_act_even hc hno C hw
   obtain ⟨u, hu0, -⟩ := exists_singular_of_ctx hc.ctx C
-  haveI : Nonempty C.ι := by
+  have : Nonempty C.ι := by
     by_contra h
     exact hu0 (funext fun i => (h ⟨i⟩).elim)
   have hwM : w ∈ M := Lgen_le hc.ctx.LB_le_M hw
@@ -600,7 +603,7 @@ theorem mem_Lgen_iff_normalized_even {M Q Z B : Subgroup G} (hc : SmithOrthCfg M
     (hno : NoA2 Q Z (LB M Q B)) (C : OrthCtx M Q Z B)
     {w : G} (hw : w ∈ M) (hw2 : w * w = 1)
     {g : Matrix (Fin 2) (Fin 2) C.K} {o : (C.ι → C.K) ≃ₗ[C.K] (C.ι → C.K)} (hgg : g * g = 1)
-    (hoo : ∀ v, o (o v) = v) (hiso : ∀ v, C.qU (o v) = C.qU v)
+    (_hoo : ∀ v, o (o v) = v) (hiso : ∀ v, C.qU (o v) = C.qU v)
     (hact : ActsAsTensor Q Z C.M₀ C.φ w g o) :
     w ∈ Lgen M (LB M Q B) ↔ Even (Module.finrank C.K (OrthogonalInvolutions.commSpace o)) := by
   constructor

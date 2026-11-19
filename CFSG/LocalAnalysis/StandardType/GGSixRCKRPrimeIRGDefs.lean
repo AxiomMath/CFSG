@@ -83,7 +83,7 @@ theorem irg_map_conj_subgroup_mulAut
       (MulAut.conj (α u)).toMonoidHom.comp α.toMonoidHom := by
     ext x
     simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulAut.conj_apply, map_mul,
-      map_inv, MulAut.coe_mul, Function.comp_apply]
+      map_inv]
   calc
     (((A.map (MulAut.conj u).toMonoidHom).map mk).map θ.toMonoidHom)
         = (A.map (MulAut.conj u).toMonoidHom).map (θ.toMonoidHom.comp mk) := by
@@ -92,14 +92,14 @@ theorem irg_map_conj_subgroup_mulAut
     _ = ((A.map (MulAut.conj u).toMonoidHom).map α.toMonoidHom).map mk := by
           simp only [Subgroup.map_map, MonoidHom.comp_assoc]
     _ = (A.map (α.toMonoidHom.comp (MulAut.conj u).toMonoidHom)).map mk := by
-          simp only [Subgroup.map_map, MonoidHom.comp_assoc]
+          simp only [Subgroup.map_map]
     _ = (A.map ((MulAut.conj (α u)).toMonoidHom.comp α.toMonoidHom)).map mk := by rw [hconj]
     _ = ((A.map α.toMonoidHom).map (MulAut.conj (α u)).toMonoidHom).map mk := by
-          simp only [Subgroup.map_map, MonoidHom.comp_assoc]
+          simp only [Subgroup.map_map]
     _ = ((B.map (MulAut.conj t).toMonoidHom).map (MulAut.conj (α u)).toMonoidHom).map mk := by
           rw [h]
     _ = (B.map ((MulAut.conj (α u)).toMonoidHom.comp (MulAut.conj t).toMonoidHom)).map mk := by
-          simp only [Subgroup.map_map, MonoidHom.comp_assoc]
+          simp only [Subgroup.map_map]
     _ = (B.map (MulAut.conj (α u * t)).toMonoidHom).map mk := by
           have hfun : (MulAut.conj (α u)).toMonoidHom.comp (MulAut.conj t).toMonoidHom =
               (MulAut.conj (α u * t)).toMonoidHom := by

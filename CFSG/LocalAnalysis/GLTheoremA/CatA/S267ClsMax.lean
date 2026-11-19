@@ -17,7 +17,7 @@ theorem exists_maximal_elemAbelian {G : Type*} [Group G] [Finite G] {p : ℕ} {K
     ∃ A : Subgroup G, A₁ ≤ A ∧ IsElemAbelian p A ∧ A ≤ K ∧
       ∀ A' : Subgroup G, A ≤ A' → IsElemAbelian p A' → A' ≤ K → A' ≤ A := by
   classical
-  haveI : Finite (Subgroup G) :=
+  have : Finite (Subgroup G) :=
     Finite.of_injective (fun H : Subgroup G => (H : Set G)) SetLike.coe_injective
   obtain ⟨A, hA, hmax⟩ := Set.exists_max_image {A : Subgroup G | A₁ ≤ A ∧ IsElemAbelian p A ∧ A ≤ K}
     (fun A => Nat.card A) (Set.toFinite _) ⟨A₁, le_rfl, hA₁, hA₁K⟩
@@ -28,6 +28,7 @@ section Card
 
 variable {p : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S B : Subgroup Ω}
 
+omit [Finite Ω] in
 theorem card_eq_of_inner_split (hB : IsElemAbelian p B)
     (hBC : Nat.card ↥(B ⊓ Subgroup.centralizer (S : Set Ω)) = p) {b : Ω} (hbB : b ∈ B)
     (hBb : B = B ⊓ (S ⊔ Subgroup.centralizer (S : Set Ω)) ⊔ Subgroup.zpowers b)

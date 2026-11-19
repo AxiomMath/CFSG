@@ -307,12 +307,14 @@ theorem IsSigma3Family.conjBy_mem {I : Finset (Subgroup 𝔄)} (hI : IsSigma3Fam
     (hL : L ∈ I) : conjBy g L ∈ I :=
   Sigma3Dec.conjBy_mem_aux hI hg hL
 
+omit [Finite 𝔄] in
 theorem IsSigma3Family.eq_one_of_two_pow_of_centralizes {I : Finset (Subgroup 𝔄)}
     (hI : IsSigma3Family I) {s : 𝔄} (hsJ : s ∈ (⨆ L ∈ I, L : Subgroup 𝔄)) {k : ℕ}
     (hs : s ^ (2 ^ k) = 1)
     (hc : ∀ e ∈ (⨆ L ∈ I, L : Subgroup 𝔄), e ^ 3 = 1 → s * e * s⁻¹ = e) : s = 1 :=
   Sigma3Dec.eq_one_aux hI hsJ hs hc
 
+omit [Finite 𝔄] in
 theorem IsSigma3Family.conj_eq_of_components {I : Finset (Subgroup 𝔄)} (hI : IsSigma3Family I)
     {g : 𝔄} (hg : ∀ L ∈ I, ∀ a ∈ L, a ^ 3 = 1 → g * a * g⁻¹ = a) :
     ∀ e ∈ (⨆ L ∈ I, L : Subgroup 𝔄), e ^ 3 = 1 → g * e * g⁻¹ = e :=

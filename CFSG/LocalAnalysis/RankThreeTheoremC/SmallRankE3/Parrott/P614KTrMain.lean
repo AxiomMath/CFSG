@@ -16,7 +16,7 @@ open P614KTr
 
 theorem kFactTransvRankOne_holds : KFactTransvRankOne := by
   intro V _ _ hV X K τ hO2 hτX hτK hτ hKX hKn hKs hKna hrank hX
-  haveI : Finite (MulAut V) := MulEquiv.finite_left
+  have : Finite (MulAut V) := MulEquiv.finite_left
   have hττ : τ * τ = 1 := transvection_mul_self hV hτ
   obtain ⟨r, W, hW⟩ :=
     CFSG.HardMathSupport.Solomon.Coordinator.input28_5_holds V hV X hO2 τ hτX hτ

@@ -33,7 +33,6 @@ theorem repT_mulTab (ha : RepT a g) (hb : RepT b h) :
 theorem hasArr_of_repT (h : RepT a g) : HasArr g a := by
   intro i
   have h' := h i
-  unfold RepT at h'
   rw [h']
 
 end Tables
@@ -477,8 +476,8 @@ theorem closure_card_lower :
         show ((Native.fixOctClosure ()).1[q.1]!)[k]! =
           (Classical.choose (hrep q.1 q.2) ⟨k, hk24'⟩).val from
           (Classical.choose_spec (hrep q.1 q.2)).2 ⟨k, hk24'⟩, hσ]
-    have hget : (Native.fixOctClosure ()).1.toList[p.1]'(by simpa using p.2) =
-        (Native.fixOctClosure ()).1.toList[q.1]'(by simpa using q.2) := by
+    have hget : (Native.fixOctClosure ()).1.toList[p.1]'(by simp) =
+        (Native.fixOctClosure ()).1.toList[q.1]'(by simp) := by
       rw [Array.getElem_toList, Array.getElem_toList,
         ← getElem!_pos _ p.1 p.2, ← getElem!_pos _ q.1 q.2]
       exact hL'

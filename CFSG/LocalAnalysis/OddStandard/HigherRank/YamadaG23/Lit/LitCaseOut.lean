@@ -15,11 +15,12 @@ open Subgroup CFSG.OddStandard.HigherRank.G2Three
 variable {X G : Type} [Group X] [Finite X] [Group G] [Finite G] {π : X →* G} {Z : Subgroup X}
   [Z.Normal] {τ : X ≃* X} {σ : G ≃* G}
 
+omit [Finite X] [Finite G] in
 theorem lit_sigma_nontriv (d : LitTData π Z τ σ) {H : Subgroup X} (hH : ⁅H, H⁆ = H)
     (hτH : ∀ x ∈ H, τ x ∈ H) (hcent : ∀ x ∈ H, ∀ y ∈ π.ker, x * y = y * x) {z : X}
     (hzH : z ∈ H) (hz : τ z ≠ z) : ∃ x, σ x ≠ x := by
   by_contra h
-  push_neg at h
+  push Not at h
   have hmem : ∀ x ∈ H, τ x * x⁻¹ ∈ H := fun x hx => H.mul_mem (hτH x hx) (H.inv_mem hx)
   have hcent' : ∀ x ∈ H, ∀ y ∈ H, (τ x * x⁻¹) * y = y * (τ x * x⁻¹) := by
     intro x hx y hy
@@ -30,6 +31,7 @@ theorem lit_sigma_nontriv (d : LitTData π Z τ σ) {H : Subgroup X} (hH : ⁅H,
     exact (hcent y hy (τ x * x⁻¹) hker).symm
   exact hz (lit_perfect_central_action τ hH hmem hcent' z hzH)
 
+omit [Finite X] in
 theorem lit_caseM22 (hM : GomiOuterM22) (d : LitTData π Z τ σ) {M : Subgroup G} [M.Normal]
     (hM22 : CFSG.Blueprint.NativeSporadic.IsSporadic ↥M .M22)
     (hC : centralizer (M : Set G) = ⊥) (h72 : 72 ∣ Nat.card ↥((litTSub τ Z).map π))
@@ -43,11 +45,12 @@ theorem lit_caseM22 (hM : GomiOuterM22) (d : LitTData π Z τ σ) {M : Subgroup 
     dvd_trans (dvd_trans (by norm_num : 9 ∣ 72) h72) (Subgroup.card_dvd_of_le hle)
   exact (hM G M σ inferInstance hM22 hC d.invol_G hσ) h9
 
+omit [Finite G] in
 theorem lit_solv_centPre (d : LitTData π Z τ σ) (hZc : ∀ z ∈ Z, ∀ x : X, z * x = x * z)
     (hTs : Group.IsSolvable ↥(litTSub τ Z)) {H : Subgroup X} (hτH : ∀ x, x ∈ H ↔ τ x ∈ H)
     (hcen : ∀ x ∈ center ↥H, (x : X) ∈ π.ker) :
     Group.IsSolvable ↥(litTSub (litRestrict τ H hτH) (center ↥H)) := by
-  haveI hPnorm : (litP Z).Normal := by rw [← d.ker]; infer_instance
+  have hPnorm : (litP Z).Normal := by rw [← d.ker]; infer_instance
   have hsup : Group.IsSolvable ↥(litTSub τ Z ⊔ litP Z) :=
     lit_solvable_sup hTs (lit_solvable_litP hZc)
   let S : Subgroup ↥H := litTSub (litRestrict τ H hτH) (center ↥H)
@@ -76,10 +79,11 @@ theorem lit_solv_centPre (d : LitTData π Z τ σ) (hZc : ∀ z ∈ Z, ∀ x : X
     have h1 : f a = f b :=
       congrArg (fun w : ↥(litTSub τ Z ⊔ litP Z) => (w : X)) hab
     exact (H.subtype_injective.comp S.subtype_injective) h1
-  haveI : Group.IsSolvable ↥(litTSub τ Z ⊔ litP Z) := hsup
+  have : Group.IsSolvable ↥(litTSub τ Z ⊔ litP Z) := hsup
   change Group.IsSolvable ↥S
   exact Group.isSolvable_of_isSolvable_injective (f := g) hginj
 
+omit [Finite G] in
 theorem lit_casePSLU (hI : GomiOuterPSLU4) (d : LitTData π Z τ σ)
     (hZc : ∀ z ∈ Z, ∀ x : X, z * x = x * z) (hTs : Group.IsSolvable ↥(litTSub τ Z))
     {M : Subgroup G} (hMs : IsSimpleGroup ↥M) (hMn : ¬ ∀ a ∈ M, ∀ b ∈ M, a * b = b * a)

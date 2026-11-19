@@ -47,7 +47,7 @@ theorem noElemNine_statedProj_statedSU {K : Type} [Field K] [Finite K] {n : ℕ}
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine CFSG.Quasithin.F134.noElemNine_of_isCyclic fun Q hQ => ?_
   exact CFSG.Quasithin.F134.isCyclic_of_isPGroup_of_surjective (QuotientGroup.mk'_surjective _)
-    (fun S => isCyclic_isPGroup_three_statedSU hn hK S.isPGroup') Q hQ
+    (fun S => isCyclic_isPGroup_three_statedSU hn hK S.isPGroup) Q hQ
 
 theorem noElemNine_of_isPSL_three_one {X : Type} [Group X] (h : IsPSL 3 2 1 X) :
     CFSG.Quasithin.F134.NoElemNine X := by
@@ -58,7 +58,7 @@ theorem noElemNine_of_isPSL_three_one {X : Type} [Group X] (h : IsPSL 3 2 1 X) :
     (CFSG.Quasithin.F134.noElemNine_of_isCyclic fun Q hQ => ?_)
   exact CFSG.Quasithin.F134.isCyclic_of_isPGroup_of_surjective (QuotientGroup.mk'_surjective _)
     (fun S => CFSG.SectionRank.OddCover.isCyclic_of_isPGroup_of_le_GL_three (by omega) (by omega)
-      S.isPGroup') Q hQ
+      S.isPGroup) Q hQ
 
 theorem noElemNine_of_isPSL_two_two {X : Type} [Group X] {n : ℕ} (h : IsPSL 2 2 n X) :
     CFSG.Quasithin.F134.NoElemNine X := by

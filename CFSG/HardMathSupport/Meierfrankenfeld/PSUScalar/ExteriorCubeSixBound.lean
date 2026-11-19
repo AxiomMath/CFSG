@@ -300,7 +300,7 @@ theorem card_le_sq_of_exteriorPower_three_of_le_statedSU {K : Type} [Field K] [F
     · simp [hFE]
     · intro j _ hj
       have hji : i ≠ j := fun h => hj h.symm
-      rw [hFE, if_neg hji, mul_zero]
+      rw [hFE, ite_eq_right hji, mul_zero]
     · intro hi
       exact absurd (Finset.mem_univ i) hi
   have hNF : ∀ (a : A) (j : Fin 3),
@@ -432,7 +432,7 @@ theorem card_le_sq_of_exteriorPower_three_of_le_statedSU {K : Type} [Field K] [F
       simp only [Fin.sum_univ_three] <;>
       simp [hzE, h120, h210, h021, h201, h102, h012, cross_apply, add_smul,
         CharTwo.sub_eq_add] <;>
-      try rw [← neg_smul, CharTwo.neg_eq] <;>
+      try rw [← neg_smul, CharTwo.neg_eq]; try
       try abel
   let col : A → Fin 3 → (Fin 3 → K) := fun a i l => M a l i
   have hcol_eq : ∀ (a : A) (i : Fin 3), N a (F i) = ∑ l, col a i l • E l := by

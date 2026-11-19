@@ -75,6 +75,7 @@ theorem burnsideC135_centralizer_U_le' {R : Subgroup G} (hMS : IsMSPair X R)
     exact h3
   exact le_pCoreOf_of_le_normalizer 2 inf_le_left hGY hY2
 
+omit [Finite G] in
 theorem burnsideC135_commute_U [CharP F 2] {Q : Subgroup G} (hα : IsModO2Surj L α)
     (hLQ : L ≤ Subgroup.normalizer (Q : Set G))
     (hU : IsSumOfNaturalModulesVia L (centerOf Q) ⊥ α false 1) {t u : G}
@@ -175,6 +176,7 @@ theorem burnsideC135_commute_U [CharP F 2] {Q : Subgroup G} (hα : IsModO2Surj L
   calc t * u = t * u * t⁻¹ * t := by group
     _ = u * t := by rw [h2]
 
+omit [Finite G] in
 theorem burnsideC135_comm_L_of_triv {Q : Subgroup G} (hα : IsModO2Surj L α)
     (h2 : IsSumOfNaturalModulesVia L Q (centerOf Q) α true 2) {t : G}
     (htL : t ∈ Subgroup.normalizer (L : Set G)) (htQ : t ∈ Subgroup.normalizer (Q : Set G))

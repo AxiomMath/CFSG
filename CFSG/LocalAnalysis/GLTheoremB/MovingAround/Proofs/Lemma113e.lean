@@ -13,17 +13,17 @@ namespace Lemma113e
 
 @[expose] def InputB_order3 : Prop :=
   ∀ {G : Type} [Group G] [Finite G] {m : ℕ} {B M E A : Subgroup G} {a e : G} {K Q : Subgroup G}
-    (h : Cfg113 G m B M E A a e K Q) (hA : Claim113A (M := M) E A e K Q),
+    (_h : Cfg113 G m B M E A a e K Q) (_hA : Claim113A (M := M) E A e K Q),
     ∀ x ∈ Q, x ^ 3 = 1 → x ≠ 1 → x ∈ E ∨ ∃ q ∈ Q, x ∈ GLBConj q A
 
 @[expose] def InputB_fusA : Prop :=
   ∀ {G : Type} [Group G] [Finite G] {m : ℕ} {B M E A : Subgroup G} {a e : G} {K Q : Subgroup G}
-    (h : Cfg113 G m B M E A a e K Q) (hA : Claim113A (M := M) E A e K Q) (x : G),
+    (_h : Cfg113 G m B M E A a e K Q) (_hA : Claim113A (M := M) E A e K Q) (x : G),
     x⁻¹ * e * x ∈ A → ∃ n ∈ Subgroup.normalizer (A : Set G), n⁻¹ * e * n = x⁻¹ * e * x
 
 @[expose] def InputB_core : Prop :=
   ∀ {G : Type} [Group G] [Finite G] {m : ℕ} {B M E A : Subgroup G} {a e : G} {K Q : Subgroup G}
-    (h : Cfg113 G m B M E A a e K Q) (hA : Claim113A (M := M) E A e K Q),
+    (_h : Cfg113 G m B M E A a e K Q) (_hA : Claim113A (M := M) E A e K Q),
     Subgroup.normalizer ((E ⊓ A : Subgroup G) : Set G) ≤
         Subgroup.normalizer ((Subgroup.zpowers e : Subgroup G) : Set G) →
       Subgroup.normalizer (A : Set G) ≤ Subgroup.normalizer ((E ⊓ A : Subgroup G) : Set G)
@@ -32,6 +32,7 @@ section Helpers
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem mem_GLBConj_iff' {H : Subgroup G} {g x : G} :
     x ∈ GLBConj g H ↔ g * x * g⁻¹ ∈ H := by
   unfold GLBConj
@@ -48,12 +49,14 @@ private theorem mem_GLBConj_iff' {H : Subgroup G} {g x : G} :
     simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, inv_inv]
     group
 
+omit [Finite G] in
 private theorem GLBConj_eq_self_of_mem_normalizer {H : Subgroup G} {x : G}
     (hx : x ∈ Subgroup.normalizer (H : Set G)) : GLBConj x H = H := by
   ext y
   rw [mem_GLBConj_iff']
   exact (Subgroup.mem_normalizer_iff.1 hx y).symm
 
+omit [Finite G] in
 private theorem centralizer_of_conj_eq {e x n : G} (h : n⁻¹ * e * n = x⁻¹ * e * x) :
     x * n⁻¹ ∈ Subgroup.centralizer ({e} : Set G) := by
   rw [Subgroup.mem_centralizer_iff]
@@ -66,6 +69,7 @@ private theorem centralizer_of_conj_eq {e x n : G} (h : n⁻¹ * e * n = x⁻¹ 
     _ = x * (n⁻¹ * e * n) * n⁻¹ := by rw [hex]
     _ = x * n⁻¹ * e := by group
 
+omit [Finite G] in
 private theorem isPGroup_of_isElemAbelian {p : ℕ} [Fact p.Prime] {F : Subgroup G}
     (hF : IsElemAbelian p F) : IsPGroup p F := by
   rw [IsPGroup.iff_orderOf]
@@ -88,6 +92,7 @@ private theorem card_eq_pow_pRank_of_isElemAbelian {p : ℕ} [Fact p.Prime] {F :
     exact Subgroup.card_le_of_le hE'F
   rw [hn, le_antisymm h2 h1]
 
+omit [Finite G] in
 private theorem mem_centralizer_of_mem_centerOf {Q : Subgroup G} {z q : G} (hz : z ∈ centerOf Q)
     (hq : q ∈ Q) : z * q = q * z := by
   obtain ⟨w, hw, rfl⟩ := Subgroup.mem_map.1 hz
@@ -99,7 +104,7 @@ private theorem exists_normalizer_of_conj_mem {e : G} {Q E' : Subgroup G}
     (hQS : IsSylowIn 3 (Subgroup.centralizer ({e} : Set G)) Q) (hE' : IsElemAbelian 3 E')
     (hWC : PieceB_WC E' Q) {x : G} (hx : x⁻¹ * e * x ∈ E') :
     ∃ n ∈ Subgroup.normalizer (E' : Set G), n⁻¹ * e * n = x⁻¹ * e * x := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hSC : E'.map (MulAut.conj x).toMonoidHom ≤ Subgroup.centralizer ({e} : Set G) := by
     rintro _ ⟨s, hs, rfl⟩
     rw [Subgroup.mem_centralizer_iff]
@@ -145,7 +150,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem pieceB_WC_of {m : ℕ} {B M E A : Subgroup G} {a e : G} {K Q : Subgroup G}
     (h : Cfg113 G m B M E A a e K Q) (hA : Claim113A (M := M) E A e K Q) : PieceB_WC E Q := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hEsc : IsSCp 3 M E := h.pair.1.1.1.1
   have hEab : IsElemAbelian 3 E := hEsc.2.1
   have hEQ : E ≤ Q := le_trans le_sup_left h.hQ.2
@@ -203,7 +208,7 @@ theorem pieceB_fus_of (hIa : InputB_order3) (hIb : InputB_fusA) {m : ℕ} {B M E
     {a e : G} {K Q : Subgroup G} (h : Cfg113 G m B M E A a e K Q)
     (hA : Claim113A (M := M) E A e K Q) : PieceB_fus E A e := by
   intro hNE hNA
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hEsc : IsSCp 3 M E := h.pair.1.1.1.1
   have hEab : IsElemAbelian 3 E := hEsc.2.1
   have heE : e ∈ E := (Subgroup.mem_inf.1 h.he.1).1

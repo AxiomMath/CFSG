@@ -10,6 +10,7 @@ section SemiField
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2]
 
+omit [Finite F] in
 theorem semi_exists_trace_one (θ : F →+* F) (hθ : θ ≠ RingHom.id F) (hθθ : ∀ r, θ (θ r) = r) :
     ∃ t : F, t + θ t = 1 := by
   obtain ⟨c₀, hc₀⟩ : ∃ c₀ : F, θ c₀ ≠ c₀ := by
@@ -36,8 +37,10 @@ theorem semi_exists_trace_one (θ : F →+* F) (hθ : θ ≠ RingHom.id F) (hθ�
     show θ (-x) = -x
     rw [map_neg, show θ x = x from hx]
 
+omit [Finite F] [CharP F 2] in
 theorem semi_mem_fix {θ : F →+* F} {x : F} : x ∈ semi_fix θ ↔ θ x = x := Iff.rfl
 
+omit [Finite F] [CharP F 2] in
 theorem semi_sq_add_mem {θ : F →+* F} {x : F} (hx : θ x = x) :
     θ (x ^ 2 + x) = x ^ 2 + x := by
   rw [map_add, map_pow, hx]
@@ -53,14 +56,17 @@ theorem semi_sq_add_mem {θ : F →+* F} {x : F} (hx : θ x = x) :
       rw [AddSubgroup.coe_add]
       linear_combination ((s : F) * (s' : F)) * h2)
 
+omit [Finite F] in
 theorem semi_P_val {θ : F →+* F} (s : semi_fix θ) :
     ((semi_P θ s : semi_fix θ) : F) = (s : F) ^ 2 + (s : F) := rfl
 
+omit [Finite F] in
 theorem semi_mem_ker_P {θ : F →+* F} (x : semi_fix θ) :
     x ∈ (semi_P θ).ker ↔ (x : F) ^ 2 + (x : F) = 0 := by
   rw [AddMonoidHom.mem_ker, Subtype.ext_iff]
   exact Iff.rfl
 
+omit [Finite F] in
 theorem semi_sq_add_eq_zero_iff (u : F) : u ^ 2 + u = 0 ↔ u = 0 ∨ u = 1 := by
   have h2 : (2 : F) = 0 := CharTwo.two_eq_zero
   constructor
@@ -73,6 +79,7 @@ theorem semi_sq_add_eq_zero_iff (u : F) : u ^ 2 + u = 0 ↔ u = 0 ∨ u = 1 := b
     · linear_combination (u + 1) * h0
     · linear_combination (u + 2) * h0 + h2
 
+omit [Finite F] in
 theorem semi_card_ker_P (θ : F →+* F) : Nat.card (semi_P θ).ker = 2 := by
   have h2 : (2 : F) = 0 := CharTwo.two_eq_zero
   have h1 : (1 : F) ∈ semi_fix θ := semi_mem_fix.mpr (map_one θ)
@@ -100,6 +107,7 @@ theorem semi_index_range_P (θ : F →+* F) : (semi_P θ).range.index = 2 := by
     omega
   exact Nat.eq_of_mul_eq_mul_left hpos hmul
 
+omit [Finite F] in
 theorem semi_sq_add_ne {θ : F →+* F} {t : F} (hθt : θ t = t + 1) {s : F} (hs : θ s = s) :
     s ^ 2 + s ≠ t ^ 2 + t := by
   have h2 : (2 : F) = 0 := CharTwo.two_eq_zero

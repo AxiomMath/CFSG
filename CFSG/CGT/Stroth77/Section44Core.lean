@@ -187,9 +187,8 @@ theorem t201_hxl (hm : 1 ≤ m) :
       (dD.c : G) ^ 2 ^ (m - 1) * ((dD.a : G) * (dD.b : G)⁻¹) ^ 2 ^ m * dD.u *
         ((dD.c : G) ^ 2 ^ (m - 1) * dD.cab * dD.uv) := by
   rw [x_eq, l_eq, dD.nf_mul_nf, dD.nf_mul_nf]
-  simp only [SigmaFourAction.d8Act, Bool.false_eq_true, ↓reduceIte, Bool.false_and,
-    Bool.and_false, Bool.xor_false, Bool.false_xor, Bool.xor_true, Bool.true_xor, Bool.not_false,
-    Bool.not_true, AddMonoidHom.comp_apply, AddMonoidHom.id_apply]
+  simp only [SigmaFourAction.d8Act, Bool.false_eq_true, ↓reduceIte, Bool.and_false, Bool.xor_false, Bool.xor_true, Bool.not_false,
+    AddMonoidHom.comp_apply, AddMonoidHom.id_apply]
   rw [t201_φuv, t201_φu, ← Torus.ofInt_add, ← Torus.ofInt_add, nf_eq_iff]
   obtain ⟨k, rfl⟩ := Nat.exists_eq_add_of_le' hm
   simp only [Nat.add_sub_cancel, Pi.add_apply, Matrix.cons_val_zero, Matrix.cons_val_one,
@@ -222,9 +221,8 @@ theorem t201_hxlu (hm : 1 ≤ m) :
   rw [show ∀ a b c d : G, a * b * (c * d) = a * (b * c) * d from fun _ _ _ _ => by group,
     dD.d8_mul_d8, mul_assoc, dD.d8_mul_ofTorus, ← mul_assoc, ← dD.ofTorus_add, dD.d8_mul_ofTorus,
     mul_assoc, dD.d8_mul_d8]
-  simp only [SigmaFourAction.d8Act, Bool.false_eq_true, ↓reduceIte, Bool.false_and,
-    Bool.and_false, Bool.true_and, Bool.and_true, Bool.xor_false, Bool.false_xor, Bool.xor_true,
-    Bool.true_xor, Bool.not_false, Bool.not_true, AddMonoidHom.comp_apply, AddMonoidHom.id_apply]
+  simp only [SigmaFourAction.d8Act, Bool.false_eq_true, ↓reduceIte, Bool.and_false, Bool.and_true, Bool.xor_false, Bool.xor_true,
+    Bool.not_false, Bool.not_true, AddMonoidHom.comp_apply, AddMonoidHom.id_apply]
   rw [t201_φuv, t201_φu, t201_φt, ← Torus.ofInt_add, ← Torus.ofInt_add, t201_φt, nf_eq_iff]
   obtain ⟨k, rfl⟩ := Nat.exists_eq_add_of_le' hm
   simp only [Nat.add_sub_cancel, Pi.add_apply, Matrix.cons_val_zero, Matrix.cons_val_one,
@@ -244,7 +242,7 @@ theorem t201_hf2 (hm : 1 ≤ m) :
     AddMonoidHom.comp_apply, AddMonoidHom.id_apply, dD.d8_fff, mul_one]
   rw [t201_φt, ← Torus.ofInt_add, ofTorus_ofInt_eq_one_iff]
   obtain ⟨k, rfl⟩ := Nat.exists_eq_add_of_le' hm
-  simp only [Nat.add_sub_cancel, Pi.add_apply, Matrix.cons_val_zero, Matrix.cons_val_one,
+  simp only [Pi.add_apply, Matrix.cons_val_zero, Matrix.cons_val_one,
     Matrix.cons_val_two, Matrix.head_cons, Matrix.tail_cons]
   refine ⟨⟨-(1 + 4 * 2 ^ k), by ring⟩, ⟨-(1 + 2 ^ k), by ring⟩, ⟨-(2 ^ k), by ring⟩⟩
 
@@ -253,8 +251,8 @@ theorem t201_hxf (hm : 1 ≤ m) :
       (dD.a : G)⁻¹ * (dD.b : G) ^ 2 ^ m * dD.t * ((dD.c : G) ^ 2 ^ (m - 1) * dD.cab * dD.uv) := by
   rw [x_eq, f_eq, dD.nf_mul_nf, dD.nf_mul_nf]
   simp only [SigmaFourAction.d8Act, Bool.false_eq_true, ↓reduceIte, Bool.false_and,
-    Bool.and_false, Bool.xor_false, Bool.false_xor, Bool.xor_true, Bool.true_xor, Bool.not_false,
-    Bool.not_true, AddMonoidHom.comp_apply, AddMonoidHom.id_apply]
+    Bool.and_false, Bool.xor_false, Bool.xor_true, Bool.not_false,
+    AddMonoidHom.comp_apply, AddMonoidHom.id_apply]
   rw [t201_φuv, t201_φt, ← Torus.ofInt_add, ← Torus.ofInt_add, nf_eq_iff]
   obtain ⟨k, rfl⟩ := Nat.exists_eq_add_of_le' hm
   simp only [Nat.add_sub_cancel, Pi.add_apply, Matrix.cons_val_zero, Matrix.cons_val_one,
@@ -389,7 +387,7 @@ theorem zb_mul_f (hm : 1 ≤ m) :
     AddMonoidHom.id_apply]
   exact (t201_zb_comm hm).2
 
-theorem za_zb (hm : 1 ≤ m) :
+theorem za_zb (_hm : 1 ≤ m) :
     (dD.a : G) ^ 2 ^ (m + 1) * (dD.a : G) ^ 2 ^ (m + 1) = 1 ∧
       (dD.b : G) ^ 2 ^ (m + 1) * (dD.b : G) ^ 2 ^ (m + 1) = 1 ∧
       (dD.a : G) ^ 2 ^ (m + 1) ≠ 1 ∧ (dD.b : G) ^ 2 ^ (m + 1) ≠ 1 ∧
@@ -454,7 +452,7 @@ theorem t201_h3 (hm : 1 ≤ m) : ∀ y ∈ D, y * y = 1 → y ≠ 1 →
   rw [dD.ofTorus_mul_self, dD.ofTorus_eq_one_iff] at hy2
   have hk : ∀ i, 1 ≤ (StrothTypeIndex.t201 m).k i := by
     intro i
-    fin_cases i <;> simp [StrothTypeIndex.k, Type201.k] <;> omega
+    fin_cases i <;> simp [StrothTypeIndex.k, Type201.k]; omega
   obtain ⟨ε, hε, rfl⟩ := (Torus.two_zsmul_eq_zero_iff hk v).mp (by rw [two_zsmul]; exact hy2)
   have hv : (fun i => ε i * 2 ^ ((StrothTypeIndex.t201 m).k i - 1) : Fin 3 → ℤ) =
       ![ε 0 * 2 ^ (m - 1), ε 1 * 2 ^ (m + 1), ε 2 * 2 ^ (m + 1)] := by

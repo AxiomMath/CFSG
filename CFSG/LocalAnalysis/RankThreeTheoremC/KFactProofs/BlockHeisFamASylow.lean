@@ -56,6 +56,7 @@ section Linear
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem heisFamA_index_statedSL_dvd (n : ℕ) : (StatedSL n K).index ∣ Nat.card K - 1 := by
   rw [statedSL_eq_ker_det, Subgroup.index_ker, ← Nat.card_units]
   exact Subgroup.card_subgroup_dvd_card _
@@ -74,7 +75,7 @@ theorem heisFamA_not_dvd_card_scalars {n p : ℕ} (hp : p.Prime)
     (h : ¬ p ∣ Nat.gcd n (Nat.card K - 1)) :
     ¬ p ∣ Nat.card ((StatedScalars (Fin n) K).subgroupOf (StatedSL n K)) := by
   intro hdvd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' p hdvd
   have hxS : ((x : StatedSL n K) : GL (Fin n) K) ∈ StatedScalars (Fin n) K :=
     Subgroup.mem_subgroupOf.1 x.2
@@ -119,8 +120,8 @@ theorem heisFamA_sylow_GL {n p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hpK : ¬ p
     ∀ P : Sylow p (GL (Fin n) K), Nonempty (↥P ≃* HomC p
       (padicValNat p (Nat.card K ^ orderOf (Nat.card K : ZMod p) - 1))
       (n / orderOf (Nat.card K : ZMod p))) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  letI : Fintype K := Fintype.ofFinite K
+  have : Fact p.Prime := ⟨hp⟩
+  let : Fintype K := Fintype.ofFinite K
   have hc : Fintype.card K = Nat.card K := Nat.card_eq_fintype_card.symm
   have hpK' : ¬ p ∣ Fintype.card K := by rwa [hc]
   have h := fun P => sylow_GL (hp.odd_of_ne_two hp2) K hpK' n P
@@ -139,7 +140,7 @@ theorem heisFamA_sylow_psl_of_ne_one {n p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hlt : n / orderOf (Nat.card K : ZMod p) < p) :
     ∀ S : Sylow p (StatedProj (StatedSL n K)),
       HeisSylGood p (2 ≤ padicValNat p (Nat.card K ^ orderOf (Nat.card K : ZMod p) - 1)) S := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq1 : ¬ p ∣ Nat.card K - 1 := fun hd => he (heisFamA_orderOf_eq_one hd)
   have hSL := sylowShape_of_injective (StatedSL n K).subtype (StatedSL n K).subtype_injective
     (heisFamA_factorization_statedSL hq1) (heisFamA_sylow_GL hp hp2 hpK hlt)
@@ -152,7 +153,7 @@ theorem heisFamA_sylow_psl_of_ker {n p : ℕ} (hp : p.Prime) {A : Prop}
     (hker : ∀ T : Sylow p (GeneralLinearGroup.det : GL (Fin n) K →* Kˣ).ker,
       HeisSylGood p A T) :
     ∀ S : Sylow p (StatedProj (StatedSL n K)), HeisSylGood p A S := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hSL : ∀ S : Sylow p (StatedSL n K), HeisSylGood p A S :=
     heisSylGood_sylow_of_mulEquiv (MulEquiv.subgroupCongr (statedSL_eq_ker_det n K)) hker
   obtain ⟨T₁⟩ := (inferInstance : Nonempty (Sylow p (StatedSL n K)))
@@ -166,7 +167,7 @@ theorem heisFamA_sylow_psl_of_eq_one {n p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hlt : n / orderOf (Nat.card K : ZMod p) < p) :
     ∀ S : Sylow p (StatedProj (StatedSL n K)),
       HeisSylGood p (2 ≤ padicValNat p (Nat.card K ^ orderOf (Nat.card K : ZMod p) - 1)) S := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hGL := heisFamA_sylow_GL hp hp2 hpK hlt
   rw [he, Nat.div_one, pow_one] at hGL
   rw [he, pow_one]
@@ -176,7 +177,7 @@ theorem heisFamA_sylow_psl_of_eq_one {n p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     rw [pow_one] at h1
     rw [← ZMod.natCast_eq_zero_iff, Nat.cast_sub (by omega), h1, Nat.cast_one, sub_self]
   have ha : 1 ≤ padicValNat p (Nat.card K - 1) := one_le_padicValNat_of_dvd (by omega) hq1
-  haveI : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
+  have : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
   let δ : GL (Fin n) K →* Kˣ := GeneralLinearGroup.det
   have hrange : (Nat.card δ.range).factorization p = padicValNat p (Nat.card K - 1) := by
     rw [MonoidHom.range_eq_top.mpr GeneralLinearGroup.det_surjective, Subgroup.card_top,

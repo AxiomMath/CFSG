@@ -88,17 +88,21 @@ theorem ambRepF_diag_hw (fs : List FK) (D : SL(4, k)) (d : Fin 4 → k)
     simp [hwIdx, hwFac]
   rw [this, mul_one]
   ext x
-  by_cases hx : x = ambEq fs (hwIdx fs) <;> simp [Pi.single_apply, hx]
+  by_cases hx : x = ambEq fs (hwIdx fs) <;> simp [hx]
 
+omit [CharP k 2] in
 theorem hwFac_N (d : Fin 4 → k) : hwFac d FK.N = d 0 := rfl
 
+omit [CharP k 2] in
 theorem hwFac_W (d : Fin 4 → k) : hwFac d FK.W = d 0 * d 1 := rfl
 
+omit [CharP k 2] in
 theorem hwFac_S (d : Fin 4 → k) : hwFac d FK.S = (d 3)⁻¹ := rfl
 
 @[expose] def wtLoc (a b c : Bool) (d : Fin 4 → k) : k :=
   (if a then d 0 else 1) * (if b then d 0 * d 1 else 1) * (if c then d 0 * d 1 * d 2 else 1)
 
+omit [CharP k 2] in
 theorem prod_hwFac (a b c : Bool) (d : Fin 4 → k) (hdet : ∏ i, d i = 1) :
     (∏ f : Fin (fsOf a b c).length, hwFac d ((fsOf a b c).get f)) = wtLoc a b c d := by
   have h3 : (d 3)⁻¹ = d 0 * d 1 * d 2 := by
@@ -107,7 +111,7 @@ theorem prod_hwFac (a b c : Bool) (d : Fin 4 → k) (hdet : ∏ i, d i = 1) :
     linear_combination hdet
   simp only [List.get_eq_getElem, Fin.prod_univ_fun_getElem]
   cases a <;> cases b <;> cases c <;>
-    simp [fsOf, wtLoc, hwFac_N, hwFac_W, hwFac_S, h3] <;> ring
+    simp [fsOf, wtLoc, hwFac_N, hwFac_W, hwFac_S, h3]; ring
 
 end Diag
 

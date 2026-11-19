@@ -37,11 +37,11 @@ theorem exists_conj_to_zD {K : Type} [Field K] [Finite K] (hK5 : 5 ∣ Nat.card 
       D.g * griessZ hζ * D.g⁻¹) :
     ∃ g : adjointGroup Tag.E8 K, g * z₀ * g⁻¹ = zD := by
   classical
-  haveI : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
   obtain ⟨p, hpK⟩ := CharP.exists K
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨m, hpp, hcard⟩ := FiniteField.card K p
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have hq : Nat.card K = p ^ (m : ℕ) := by rw [Nat.card_eq_fintype_card, hcard]
   have hp5 : p ≠ 5 := by
     rintro rfl
@@ -49,7 +49,7 @@ theorem exists_conj_to_zD {K : Type} [Field K] [Finite K] (hK5 : 5 ∣ Nat.card 
     have h1 : 5 ∣ 5 ^ (m : ℕ) := dvd_pow_self 5 m.ne_zero
     have := (Nat.dvd_add_right h1).1 hK5
     omega
-  haveI : CharP D.L p := charP_of_injective_algebraMap (algebraMap K D.L).injective p
+  have : CharP D.L p := charP_of_injective_algebraMap (algebraMap K D.L).injective p
   have hFr : D.Fr = iterateFrobenius D.L p m :=
     RingHom.ext fun x => by rw [D.hFr, hq, iterateFrobenius_def]
   have hFDz : entrywiseFrobGL Tag.E8 D.L p m D.g = D.g * D.nW := by
@@ -85,7 +85,7 @@ theorem e8TwoFiveNonToral_holds : E8TwoFiveNonToral := by
   obtain ⟨Fr, hFr, g, hg, hlang⟩ := exists_langLevi_algebraicClosure TwClass.e8Ten.tag K
     TwClass.e8Ten.w e8Ten_w_theta
   let D : LangE8Ten K := ⟨AlgebraicClosure K, Fr, hFr, g, hg, hlang⟩
-  haveI : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
   obtain ⟨ω, hω⟩ := exists_fifth_root_langLevi K hnd D
   have hζ : IsPrimitiveRoot (ω : D.L) 5 :=
     IsPrimitiveRoot.coe_units_iff.2 (IsPrimitiveRoot.iff_orderOf.2 hω)
@@ -149,7 +149,7 @@ theorem e8TwoFiveNonToral_holds : E8TwoFiveNonToral := by
     obtain ⟨x, hx, rfl⟩ := Subgroup.mem_map.1 hy
     refine Subgroup.mem_map.2 ⟨k * x * k⁻¹, Subgroup.mem_map.2 ⟨x, hx, ?_⟩, ?_⟩
     · simp [MulAut.conj_apply]
-    · simp only [cubeHom_apply, Subgroup.coe_mul, Subgroup.coe_inv, map_mul, map_inv]
+    · simp only [cubeHom_apply, map_mul, map_inv]
       group
   obtain ⟨c⟩ := cubeData_of_nontoral D hζ h5 hE5' hEc' hcard' hzDE hΦzD hntE
   have hH : HyperGen 5 (⊤ : Subgroup (adjointGroup Tag.E8 K)) E := hyperGen_of_cubeData hK5 c

@@ -38,7 +38,7 @@ variable {Ω : Type} [Group Ω] [Finite Ω]
 private theorem mem_centralizer_of_centMod {p : ℕ} (hp : p.Prime) {L : Subgroup Ω}
     (hq : CFSG.Open.IsQuasisimple ↥L) (hpL : p ∣ Nat.card L) {x : Ω} (hc : CentMod p L x) :
     x ∈ Subgroup.centralizer (L : Set Ω) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcore : GLAPPrimeCore p ↥L ≤ Subgroup.center ↥L := by
     refine le_center_of_normal_of_isQuasisimple hq (GLAPPrimeCore.normal p _) fun htop => ?_
     have hcop : Nat.Coprime p (Nat.card (GLAPPrimeCore p ↥L)) := CFSG.pPrimeCore_coprime_card

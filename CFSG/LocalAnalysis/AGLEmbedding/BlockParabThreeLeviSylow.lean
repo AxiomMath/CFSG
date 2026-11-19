@@ -34,7 +34,7 @@ theorem exists_conj_mem_of_card_dvd_two_pow {J H : Subgroup G} (hHJ : H ≤ J) {
   have hPJ : P ≤ J := hPH.trans hHJ
   have hcardP : Nat.card P = Nat.card (PH : Subgroup H) :=
     Subgroup.card_map_of_injective H.subtype_injective
-  have hP3 : IsPGroup 3 P := PH.isPGroup'.map _
+  have hP3 : IsPGroup 3 P := PH.isPGroup.map _
   obtain ⟨b, hb⟩ := hP3.exists_card_eq
   have hidx : ¬ 3 ∣ (PH : Subgroup H).index := PH.not_dvd_index
   have hHcard : Nat.card H = 3 ^ b * (PH : Subgroup H).index := by

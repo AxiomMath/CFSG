@@ -94,6 +94,7 @@ variable {G : Type} [Group G] [Finite G]
       CFSG.pCore 2 ↥(CFSG.RankThree.PartOne.pElementSubgroup p M)) ≃*
         (TauCeti.CFSGIndex.lie d).Group)
 
+omit [Finite G] in
 theorem U4Shape.exists_shapeAt {p : ℕ} {M : Subgroup G} (h : U4Shape p M) :
     ∃ n, U4ShapeAt n p M := by
   obtain ⟨d, ⟨q, hq2, hd, hpq⟩, he⟩ := h

@@ -10,29 +10,29 @@ namespace CFSG.Sporadic.Co1.Module.CoTwo
 open CFSG.Blueprint CFSG.Sporadic.SmallF2 CFSG.Sporadic.SmallF2.Native
   CFSG.Sporadic.Co1.OddNative CFSG.Sporadic.Co1.CoTwoNative Matrix
 
-@[expose] def r1Rows : Array ℕ := #[
+def r1Rows : Array ℕ := #[
   6443285, 8321246, 2875888, 13983493, 5801249, 8111945, 8004069, 16162380, 7354701, 12707832,
   13309648, 1268580, 13918176, 1969956, 1269621, 7132552, 13378065, 16325408, 9439089, 4511905,
   12835784, 15414465, 10209144, 8204137]
 
-@[expose] def r2Rows : Array ℕ := #[
+def r2Rows : Array ℕ := #[
   5430789, 16211874, 16113284, 7245828, 8145312, 14956876, 3925996, 13705196, 14722288, 13982232,
   14375996, 15205048, 4967892, 14532908, 3176993, 920409, 14544565, 10409352, 1764600, 16209549,
   7219016, 16713760, 10928361, 7246776]
 
-@[expose] def wRows : Array ℕ := #[
+def wRows : Array ℕ := #[
   1, 4, 8, 16, 32, 66, 128, 256, 512, 1026, 2048, 4098, 24576, 32770, 65538, 139264, 270338,
   532480, 1056770, 2097152, 4194304, 8396802]
 
-@[expose] def mt1 : Array ℕ := #[
+def mt1 : Array ℕ := #[
   2838717, 5349, 3416528, 1135363, 3382570, 4005874, 928546, 3521983, 3530580, 3750748, 2530500,
   966341, 4095157, 1450330, 3970838, 3430353, 666086, 1090456, 1695070, 2662643, 3075069, 3508966]
 
-@[expose] def mt2 : Array ℕ := #[
+def mt2 : Array ℕ := #[
   1208321, 150135, 3647344, 2191232, 3757800, 1386736, 3394794, 2402424, 2520419, 510691, 621403,
   2265943, 1477531, 3262631, 674658, 3865237, 3912110, 2670236, 951259, 4068542, 3035103, 2070370]
 
-@[expose] def nortonCert : NortonCert where
+def nortonCert : NortonCert where
   ell := 21
   theta := [[0, 0, 0], [0, 0, 1], [1, 0, 0]]
   P := #[
@@ -63,7 +63,7 @@ open CFSG.Blueprint CFSG.Sporadic.SmallF2 CFSG.Sporadic.SmallF2.Native
     1818544, 2127529, 1954754, 1234576, 2571811, 2664849, 527874, 1845334, 2261223, 1115360,
     987902]
 
-@[expose] def genRows (l : ℕ) : Array ℕ :=
+def genRows (l : ℕ) : Array ℕ :=
   if l = 0 then transposeRows 22 mt1 else transposeRows 22 mt2
 
 end CFSG.Sporadic.Co1.Module.CoTwo

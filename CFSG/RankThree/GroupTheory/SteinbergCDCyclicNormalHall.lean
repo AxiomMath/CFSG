@@ -30,7 +30,7 @@ theorem exists_normal_odd_two_power_index_of_odd_commutator [Finite G]
     ∃ Q₀ : Subgroup G, Q₀.Normal ∧ Odd (Nat.card Q₀) ∧ ∃ k : ℕ, Q₀.index = 2 ^ k := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨T⟩ : Nonempty (Sylow 2 G) := inferInstance
-  obtain ⟨k, hk⟩ := T.isPGroup'.exists_card_eq
+  obtain ⟨k, hk⟩ := T.isPGroup.exists_card_eq
   have hNC : normalizer (T : Set G) ≤ centralizer (T : Set G) := by
     intro n hn
     rw [mem_centralizer_iff]
@@ -64,7 +64,7 @@ theorem cyclic_normal_odd_derived_quotient_normal_hall_odd {M : Type*} [Group M]
     have hle : (S : Subgroup P).map ((QuotientGroup.mk' D).comp P.subtype) ≤ Q₀ := by
       rintro _ ⟨x, -, rfl⟩
       exact x.2
-    have hbot := eq_bot_of_isPGroup_two_of_odd (S.isPGroup'.map _)
+    have hbot := eq_bot_of_isPGroup_two_of_odd (S.isPGroup.map _)
       (Odd.of_dvd_nat hQ₀odd (Subgroup.card_dvd_of_le hle))
     rintro _ ⟨x, hx, rfl⟩
     have hmem : (QuotientGroup.mk' D).comp P.subtype x ∈
@@ -79,7 +79,7 @@ theorem cyclic_normal_odd_derived_quotient_normal_hall_odd {M : Type*} [Group M]
     refine isCyclic_of_injective f fun x y hxy => ?_
     exact Subtype.ext (Subtype.ext (congrArg (fun z : D => (z : M)) hxy))
   obtain ⟨-, -, -, ⟨hKn, hKodd, hKidx, -⟩, -⟩ := CFSG.cyclic_sylow_normal_odd_complement S hScyc
-  obtain ⟨a, ha⟩ := S.isPGroup'.exists_card_eq
+  obtain ⟨a, ha⟩ := S.isPGroup.exists_card_eq
   set K := pPrimeCore 2 P with hKdef
   set B : Subgroup M := K.map P.subtype with hBdef
   have hBodd : Odd (Nat.card B) := by

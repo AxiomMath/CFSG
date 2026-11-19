@@ -75,6 +75,7 @@ theorem sq_mul_mem_commutator_commutator_of_reach (hS : Setup X E) {d e : X} (hd
         (hS.mul_mem_commutator hbc.1 hbc.2.1)
         ih (sq_mul_mem_commutator_commutator_of_commRel hS hbc)
 
+omit [Finite X] in
 theorem commutator_le_commutator_commutator_of_connected (hS : Setup X E)
     (hconn : ¬ Disconnected E) : commutator X ≤ ⁅commutator X, commutator X⁆ := by
   have hreach : ∀ d ∈ E, ∀ e ∈ E, Reach E d e :=
@@ -97,7 +98,7 @@ theorem commutator_le_commutator_commutator_of_connected (hS : Setup X E)
     have h := Subgroup.isMulCommutative_closure hpair
     rwa [hclosure] at h
   have hQ : IsMulCommutative (X ⧸ ⁅commutator X, commutator X⁆) := by
-    haveI := htop
+    have := htop
     exact Function.Surjective.isMulCommutative
       (f := Subgroup.subtype (⊤ : Subgroup (X ⧸ ⁅commutator X, commutator X⁆)))
       (fun x => ⟨⟨x, Subgroup.mem_top x⟩, rfl⟩)

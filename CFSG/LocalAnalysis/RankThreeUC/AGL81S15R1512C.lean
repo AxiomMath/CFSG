@@ -145,20 +145,20 @@ theorem isGroupOf1512_of_lie_gen (hKSMOdd : KSMOdd) (hKSMU4 : KSMU4) (hK541 : K5
       exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inl (isSLThreeOver_of_K541 hK541 hX hLs.1 hcomm
           Q.exponent_pos (isLThreeOfExp_of_A2 hQ rfl e'))))))
     · exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl (Or.inl (isLieIdxOver_of_quotCenter
-        hKSMOdd hKSMU4 hS hodd hd (fun Q' h => by first | cases h | simp at h)
-        (fun Q' h => by first | cases h | simp at h) e hQ rfl trivial)))))))
+        hKSMOdd hKSMU4 hS hodd hd (fun Q' h => by first | cases h)
+        (fun Q' h => by first | cases h) e hQ rfl trivial)))))))
     · exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl
         (isLieIdxOver_of_quotCenter hKSMOdd hKSMU4 hS hodd hd
-        (fun Q' h => by first | cases h | simp at h)
-        (fun Q' h => by first | cases h | simp at h) e hQ rfl (show Q.card = 2 from hd))))))))))))
+        (fun Q' h => by first | cases h)
+        (fun Q' h => by first | cases h) e hQ rfl (show Q.card = 2 from hd))))))))))))
     · exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
         (Or.inl (isLieIdxOver_of_quotCenter hKSMOdd hKSMU4 hS hodd hd
-        (fun Q' h => by first | cases h | simp at h)
-        (fun Q' h => by first | cases h | simp at h) e hQ rfl (show Q.card = 2 from hd)))))))))))))
+        (fun Q' h => by first | cases h)
+        (fun Q' h => by first | cases h) e hQ rfl (show Q.card = 2 from hd)))))))))))))
     · exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
         (Or.inr (Or.inl (isLieIdxOver_of_quotCenter hKSMOdd hKSMU4 hS hodd hd
-        (fun Q' h => by first | cases h | simp at h)
-        (fun Q' h => by first | cases h | simp at h) e hQ rfl (show Q.card = 2 from hd))))))))))))))
+        (fun Q' h => by first | cases h)
+        (fun Q' h => by first | cases h) e hQ rfl (show Q.card = 2 from hd))))))))))))))
     · exact (hd : False).elim
   | twistedA l Q =>
     have hQ : Q.p = 2 := hdr.1
@@ -167,8 +167,8 @@ theorem isGroupOf1512_of_lie_gen (hKSMOdd : KSMOdd) (hKSMU4 : KSMU4) (hK541 : K5
     · exact (hd : False).elim
     · exact (hd : False).elim
     · exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl (isLieIdxOver_of_quotCenter
-        hKSMOdd hKSMU4 hS hodd hd (fun Q' h => by first | cases h | simp at h)
-        (fun Q' h => by first | cases h | simp at h) e hQ rfl trivial)))))))
+        hKSMOdd hKSMU4 hS hodd hd (fun Q' h => by first | cases h)
+        (fun Q' h => by first | cases h) e hQ rfl trivial)))))))
     · have hc : Q.card = 4 := hd
       have h5m : mRankChev (.twistedA 4 Q) 5
           (Nat.card (Subgroup.center ↥(barO2 L))) ≤ 3 := by
@@ -189,12 +189,12 @@ theorem isGroupOf1512_of_lie_gen (hKSMOdd : KSMOdd) (hKSMU4 : KSMU4) (hK541 : K5
     · exact (hd : False).elim
     · exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl (Or.inl
         (isLieIdxOver_of_quotCenter hKSMOdd hKSMU4 hS hodd hd
-        (fun Q' h => by first | cases h | simp at h)
-        (fun Q' h => by first | cases h | simp at h) e hQ rfl trivial)))))))))
+        (fun Q' h => by first | cases h)
+        (fun Q' h => by first | cases h) e hQ rfl trivial)))))))))
     · exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl
         (isLieIdxOver_of_quotCenter hKSMOdd hKSMU4 hS hodd hd
-        (fun Q' h => by first | cases h | simp at h)
-        (fun Q' h => by first | cases h | simp at h) e hQ rfl trivial)))))))))
+        (fun Q' h => by first | cases h)
+        (fun Q' h => by first | cases h) e hQ rfl trivial)))))))))
     · exact (hd : False).elim
   | twistedD l Q =>
     have hQ : Q.p = 2 := hdr.1
@@ -205,14 +205,14 @@ theorem isGroupOf1512_of_lie_gen (hKSMOdd : KSMOdd) (hKSMU4 : KSMU4) (hK541 : K5
     · exact (hd : False).elim
     · exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl
         (isLieIdxOver_of_quotCenter hKSMOdd hKSMU4 hS hodd hd
-        (fun Q' h => by first | cases h | simp at h)
-        (fun Q' h => by first | cases h | simp at h) e hQ rfl trivial))))))))))
+        (fun Q' h => by first | cases h)
+        (fun Q' h => by first | cases h) e hQ rfl trivial))))))))))
     · exact (hd : False).elim
   | G2 Q =>
     have hQ : Q.p = 2 := hdr
     exact Or.inr (Or.inr (Or.inr (Or.inl (Or.inl (isLieIdxOver_of_quotCenter hKSMOdd hKSMU4 hS
-        hodd hd (fun Q' h => by first | cases h | simp at h)
-        (fun Q' h => by first | cases h | simp at h) e hQ rfl trivial)))))
+        hodd hd (fun Q' h => by first | cases h)
+        (fun Q' h => by first | cases h) e hQ rfl trivial)))))
   | C _ _ => exact (hd : False).elim
   | D _ _ => exact (hd : False).elim
   | E6 _ => exact (hd : False).elim

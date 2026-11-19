@@ -200,6 +200,7 @@ theorem fold_eq : ∀ (w : List ℕ) (s : List ℕ × ℕ), s.1.length = m → (
     rw [← mul_assoc, h.step_eq hs (hw l List.mem_cons_self)]
     exact fold_eq w _ (by rw [length_step, hs]) fun l' hl' => hw l' (List.mem_cons_of_mem _ hl')
 
+omit h in
 theorem pr_zero : ∀ (k n : ℕ), pr q k (List.replicate n 0) = 1
   | _, 0 => rfl
   | k, n + 1 => by simp [List.replicate_succ, pr, pr_zero (k + 1) n]
@@ -215,7 +216,7 @@ theorem pr_mod : ∀ (k : ℕ) (a : List ℕ), k + a.length ≤ m + 1 →
 theorem ev_eq_nf {w : List ℕ} (hw : ∀ l ∈ w, l ≤ m) :
     ev q w = pr q 0 (nf m p D w).1 * q m ^ (nf m p D w).2 := by
   have := h.fold_eq w (List.replicate m 0, 0) (by simp) hw
-  rw [h.pr_zero, pow_zero, one_mul, one_mul] at this
+  rw [CFSG.KC.ClassTwo.Cfg.pr_zero, pow_zero, one_mul, one_mul] at this
   rw [this, nf]
   simp only
   rw [h.pr_mod 0 _ (by rw [length_fold]; simp), ← pow_eq_pow_mod _ (h.pow m le_rfl)]

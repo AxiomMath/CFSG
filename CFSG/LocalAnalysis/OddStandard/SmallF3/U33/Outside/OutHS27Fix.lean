@@ -71,7 +71,7 @@ theorem hs27_card_T {T : Type} [Group T] [Finite T] (hT : IsPGroup 2 T) {t : T}
     {α : MulAut T} (hα1 : α ≠ 1) (hα3 : ∃ n : ℕ, orderOf α = 3 ^ n) (hαt : α t = t) :
     Nat.card T = 2 * Nat.card ↥(commAut α) := by
   obtain ⟨hN, hinf, hsup, -⟩ := iv2_2_7 T hT t ht hC α hα1 hα3 hαt
-  haveI : (commAut α).Normal := hN
+  have : (commAut α).Normal := hN
   have hdisj : Disjoint (commAut α) (zpowers t) := disjoint_iff.mpr hinf
   have hnorm : zpowers t ≤ Subgroup.normalizer (commAut α : Set T) := by
     rw [Subgroup.normalizer_eq_top]
@@ -95,7 +95,7 @@ theorem hs27_card_cent_inter {T : Type} [Group T] [Finite T] (hT : IsPGroup 2 T)
   have hC8' : Nat.card C = 8 := by rw [hCdef]; exact hC8
   have htC : t ∈ C := by rw [hCdef]; exact L27.mem_cent.mpr rfl
   have hBle : Subgroup.zpowers t ≤ C := Subgroup.zpowers_le.mpr htC
-  haveI : (commAut α).Normal := hN
+  have : (commAut α).Normal := hN
   have hnormA : Subgroup.zpowers t ≤ Subgroup.normalizer (commAut α : Set T) := by
     rw [Subgroup.normalizer_eq_top]
     exact le_top

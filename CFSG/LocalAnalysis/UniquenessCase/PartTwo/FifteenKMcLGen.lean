@@ -76,7 +76,6 @@ theorem s15k_mcl_card_commSub {W : Type} [CommGroup W] {J : Subgroup (MulAut W)}
         exact h1 }
   have hgH : D.ρ j ∈ H := by
     intro v
-    change (D.ρ j : D.V →ₗ[ZMod 2] D.V) v + v ∈ C
     have hmem : ((LinearMap.id : D.V →ₗ[ZMod 2] D.V) +
         (D.ρ j : D.V →ₗ[ZMod 2] D.V)) v ∈ C :=
       LinearMap.mem_range_self _ v

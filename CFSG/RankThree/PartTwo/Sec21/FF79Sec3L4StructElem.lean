@@ -10,12 +10,14 @@ open CFSG CFSG.RankThree.PartTwo.Sec21 Subgroup
 
 variable {H : Type} [Group H] [Finite H]
 
+omit [Finite H] in
 theorem commute_of_mem_closure_comm {s : Set H} (hc : ∀ x ∈ s, ∀ y ∈ s, x * y = y * x)
     {g h : H} (hg : g ∈ closure s) (hh : h ∈ closure s) : g * h = h * g := by
-  haveI : IsMulCommutative (closure s) :=
+  have : IsMulCommutative (closure s) :=
     isMulCommutative_closure (fun x hx y hy _ => hc x hx y hy)
   exact congrArg Subtype.val (mul_comm' (⟨g, hg⟩ : closure s) ⟨h, hh⟩)
 
+omit [Finite H] in
 theorem pow_three_of_mem_closure_comm {s : Set H} (hc : ∀ x ∈ s, ∀ y ∈ s, x * y = y * x)
     (h3 : ∀ x ∈ s, x ^ 3 = 1) {g : H} (hg : g ∈ closure s) : g ^ 3 = 1 := by
   refine closure_induction (p := fun g _ => g ^ 3 = 1) (fun x hx => h3 x hx) (one_pow 3)
@@ -23,6 +25,7 @@ theorem pow_three_of_mem_closure_comm {s : Set H} (hc : ∀ x ∈ s, ∀ y ∈ s
   have hcm : Commute x y := commute_of_mem_closure_comm hc hx hy
   rw [hcm.mul_pow, h1, h2, one_mul]
 
+omit [Finite H] in
 theorem isPGroup_three_closure_comm {s : Set H} (hc : ∀ x ∈ s, ∀ y ∈ s, x * y = y * x)
     (h3 : ∀ x ∈ s, x ^ 3 = 1) : IsPGroup 3 (closure s) := fun g =>
   ⟨1, Subtype.ext (by simpa using pow_three_of_mem_closure_comm hc h3 g.2)⟩
@@ -30,7 +33,7 @@ theorem isPGroup_three_closure_comm {s : Set H} (hc : ∀ x ∈ s, ∀ y ∈ s, 
 theorem exists_isElemAb_of_card_le {s : Set H} (hc : ∀ x ∈ s, ∀ y ∈ s, x * y = y * x)
     (h3 : ∀ x ∈ s, x ^ 3 = 1) {k : ℕ} (hk : 3 ^ k ≤ Nat.card (closure s)) :
     ∃ T : Subgroup H, T ≤ closure s ∧ IsElemAb 3 k T := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨m, hm⟩ := (isPGroup_three_closure_comm hc h3).exists_card_eq
   have hkm : k ≤ m := by
     rw [hm] at hk
@@ -55,7 +58,7 @@ theorem exists_isElemAb_of_card_le {s : Set H} (hc : ∀ x ∈ s, ∀ y ∈ s, x
 
 theorem three_mul_card_le {X Y : Subgroup H} (hY : IsPGroup 3 Y) (hXY : X < Y) :
     3 * Nat.card X ≤ Nat.card Y := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hX : IsPGroup 3 X := hY.to_le hXY.le
   obtain ⟨a, ha⟩ := hX.exists_card_eq
   obtain ⟨b, hb⟩ := hY.exists_card_eq

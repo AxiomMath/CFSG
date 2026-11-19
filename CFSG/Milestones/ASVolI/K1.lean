@@ -536,7 +536,7 @@ private theorem burnsideKA_exists_conj_le {V : Type} [CommGroup V] [Finite V] {G
     (hT : IsSylowTwoOf T G) (hA : IsPGroup 2 A) (hAG : A ≤ G) :
     ∃ g ∈ G, B1.conjAut g A ≤ T := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hTG, hT2, hTidx⟩ := hT
   have hTs : IsPGroup 2 (T.subgroupOf G) :=
     IsPGroup.of_surjective hT2 (Subgroup.subgroupOfEquivOfLe hTG).symm.toMonoidHom
@@ -594,7 +594,7 @@ private theorem burnsideKA_hatA6_unique {V : Type} [CommGroup V] [Finite V]
     (hP : B42TypeHatA6 ↥L) (hcard : Nat.card V = 2 ^ 6) (hT2 : IsPGroup 2 T) (hTG : T ≤ G)
     (hAT : IsFFStarOffender T A) (hA'T : IsFFStarOffender T A') : A = A' := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hA : IsFFStarOffender G A := ⟨hAT.1.trans hTG, hAT.2⟩
   have hA' : IsFFStarOffender G A' := ⟨hA'T.1.trans hTG, hA'T.2⟩
   obtain ⟨hAL, hA4, hA16, hAcomm⟩ := offender_facts hV hHyp hP hA
@@ -1020,7 +1020,7 @@ private theorem burnsideKA_alt7_unique {V : Type} [CommGroup V] [Finite V]
     (hT2 : IsPGroup 2 T) (hTG : T ≤ G) (hAT : IsFFStarOffender T A)
     (hA'T : IsFFStarOffender T A') : A = A' := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hA : IsFFStarOffender G A := ⟨hAT.1.trans hTG, hAT.2⟩
   have hA' : IsFFStarOffender G A' := ⟨hA'T.1.trans hTG, hA'T.2⟩
   have hTL : T ≤ L := hGL ▸ hTG
@@ -1052,7 +1052,7 @@ private theorem burnsideKA_isAlt6_or_isHat {V : Type} [CommGroup V] [Finite V]
     IsAlt 6 ↥L ∨ IsHat ↥L ↥(alternatingGroup (Fin 6)) := by
   obtain ⟨e⟩ := h
   have hq : CFSG.IsQuasisimple ↥L := hK.hyp.2.2.1
-  haveI : Group.IsPerfect ↥L := hq.1
+  have : Group.IsPerfect ↥L := hq.1
   have hW : ∀ w : V, w * w = 1 := fun w => by simpa [pow_two] using hK.elem2 w
   have hodd := Setup.Family.odd_card_center_of_irreducible hW (HatA6.irr_of_b4Hyp hK.hyp)
   let π : ↥L →* alternatingGroup (Fin 6) :=
@@ -1100,8 +1100,8 @@ private theorem burnsideKA_bijective_of_alternatingNatural {V : Type} [CommGroup
   obtain ⟨π, hR⟩ := h
   have hsimple : IsSimpleGroup ↥(alternatingGroup (Fin n)) :=
     alternatingGroup.isSimpleGroup (by rw [Nat.card_eq_fintype_card, Fintype.card_fin]; exact hn)
-  haveI : IsSimpleGroup (FFModel.altDn n).Gam := hsimple
-  haveI : Nontrivial ↥L := CFSG.LocalCores.isQuasisimple_nontrivial hB.2.2.1
+  have : IsSimpleGroup (FFModel.altDn n).Gam := hsimple
+  have : Nontrivial ↥L := CFSG.LocalCores.isQuasisimple_nontrivial hB.2.2.1
   exact ⟨π, ⟨CFSG.QuasithinUnique.Bridge.injective_of_surjective_of_simple π hR.1, hR.1⟩, hR⟩
 
 private theorem burnsideKA_card_alt_ne : Nat.card (alternatingGroup (Fin 6)) ≠
@@ -3051,7 +3051,7 @@ private theorem burnsideKC_tv_mulVec (a b x : Fin 5 → ZMod 2) :
   rw [add_mulVec, one_mulVec]
   congr 1
   ext i
-  simp [vecMulVec, mulVec, dotProduct, Finset.sum_mul, Finset.mul_sum, mul_comm, mul_left_comm]
+  simp [vecMulVec, mulVec, dotProduct, Finset.mul_sum, mul_comm, mul_left_comm]
 
 open CFSG.Quasithin CFSG.Quasithin.B42Ln CFSG.Quasithin.JonesParshall CFSG.Quasithin.JonesParshall.Curtis Matrix in
 private theorem burnsideKC_conj_R4_eq {T : Subgroup G5} (hT : IsPGroup 2 T) {h h' : G5}
@@ -3339,14 +3339,13 @@ private theorem burnsideKC_fieldAutom_conj {ι : Type} [Fintype ι] [DecidableEq
   funext i
   have h := RingHom.map_mulVec (σ.toRingHom) (x : Matrix ι ι K) v i
   simp only [RingEquiv.toRingHom_eq_coe, RingEquiv.coe_toRingHom] at h
-  simp only [Units.coe_map, MonoidHom.coe_coe, RingHom.mapMatrix_apply, RingEquiv.toRingHom_eq_coe,
-    RingEquiv.coe_toRingHom]
+  simp only [Units.coe_map, RingEquiv.toRingHom_eq_coe]
   rw [h]
   rfl
 
 open CFSG.Quasithin CFSG.Quasithin.H Matrix in
 private theorem burnsideKC_trivialOnDynkin_natural {V : Type} [CommGroup V] [Finite V]
-    {G L : Subgroup (MulAut V)} (hLG : L ≤ G)
+    {G L : Subgroup (MulAut V)} (_hLG : L ≤ G)
     (hGN : G ≤ Subgroup.normalizer (L : Set (MulAut V))) {n : ℕ} (hn : 2 ≤ n) {K : Type}
     [Field K] [Finite K] {π : ↥(StatedSL n K) →* ↥L}
     (hπ : (FFModel.nat (StatedSL n K)).RealizesVia L ⊤ ⊥ π) :
@@ -3368,7 +3367,7 @@ private theorem burnsideKC_trivialOnDynkin_natural {V : Type} [CommGroup V] [Fin
       Subgroup.map_equiv_normalizer_eq L (MulAut.congr e)
     rw [natNorm, ← hLe, ← h1]
     exact ⟨g, hGN hg, rfl⟩
-  haveI : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
+  have : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
   obtain ⟨σ, hσ⟩ := exists_semilinear hΓ hĝ
   obtain ⟨A, hA⟩ := burnsideKC_exists_matrix_of_semilinear hσ
   refine ⟨A, σ, fun x => ?_⟩
@@ -3378,7 +3377,7 @@ private theorem burnsideKC_trivialOnDynkin_natural {V : Type} [CommGroup V] [Fin
   have hxσmat : (xσ : Matrix (Fin n) (Fin n) K) =
       ((x : GL (Fin n) K) : Matrix (Fin n) (Fin n) K).map σ := by
     rw [hxσ]
-    simp only [Units.coe_map, MonoidHom.coe_coe, RingEquiv.toRingHom_eq_coe]
+    simp only [Units.coe_map, RingEquiv.toRingHom_eq_coe]
     rfl
   have hdet : (A * xσ * A⁻¹ : GL (Fin n) K) ∈ StatedSL n K := by
     rw [CFSG.Open.StatedAPI.mem_statedSL_iff]
@@ -3945,7 +3944,7 @@ private theorem burnsideKC_nine_model {V : Type} [CommGroup V] [Finite V] {L : S
 
 open CFSG.Quasithin CFSG.Quasithin.H Matrix in
 private theorem burnsideKC_trivialOnDynkinVia_nine {V : Type} [CommGroup V] [Finite V]
-    {G L : Subgroup (MulAut V)} (hLG : L ≤ G)
+    {G L : Subgroup (MulAut V)} (_hLG : L ≤ G)
     (hGN : G ≤ Subgroup.normalizer (L : Set (MulAut V))) {s : ℕ} (hs : 1 ≤ s) {F : Type}
     [Field F] [Finite F] [CharP F 2] (hF : Nat.card F = 2 ^ (2 * s))
     {π : ↥(StatedSL 3 F) →* ↥L}
@@ -4124,7 +4123,7 @@ private theorem burnsideKC_oTwoPrime_le_of_odd {V : Type} [CommGroup V] [Finite 
       Subgroup.map_equiv_normalizer_eq L (MulAut.congr e)
     rw [natNorm, ← hLe, ← h1]
     exact ⟨g, hGN hgG, rfl⟩
-  haveI : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
+  have : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
   obtain ⟨σ, hσ⟩ := exists_semilinear hΓ hĝ
   have hgk' : (congrHom e g) ^ (2 ^ k) = 1 := by rw [← map_pow, hgk, map_one]
   have hσk : σ ^ (2 ^ k) = 1 := by
@@ -4180,7 +4179,7 @@ private theorem burnsideKC_up3_scalar {F : Type} [Field F] {x y z : F}
   have h01 := congrFun (congrFun hc 0) 1
   have h02 := congrFun (congrFun hc 0) 2
   have h12 := congrFun (congrFun hc 1) 2
-  simp [up3_coe, upMat, Matrix.scalar_apply, Matrix.diagonal_apply] at h01 h02 h12
+  simp [up3_coe, upMat, Matrix.scalar_apply] at h01 h02 h12
   rw [h01, h02, h12]
   exact up3_zero
 
@@ -4312,8 +4311,8 @@ private theorem burnsideKC_classify {V : Type} [CommGroup V] [Finite V] {L : Sub
     by_contra hcon
     rw [not_or] at hcon
     obtain ⟨h1, h2⟩ := hcon
-    obtain ⟨a, haUB, haQ1⟩ := SetLike.not_le_iff_exists.mp h1
-    obtain ⟨b, hbUB, hbQ2⟩ := SetLike.not_le_iff_exists.mp h2
+    obtain ⟨a, haUB, haQ1⟩ := IsConcreteLE.not_le_iff_exists.mp h1
+    obtain ⟨b, hbUB, hbQ2⟩ := IsConcreteLE.not_le_iff_exists.mp h2
     have ha2 : a ∈ burnsideKC_Q2 F :=
       ((hQ a ((hUBmem a).1 haUB).1 ((hUBmem a).1 haUB).2)).resolve_left haQ1
     have hb1 : b ∈ burnsideKC_Q1 F :=
@@ -4555,7 +4554,7 @@ private theorem burnsideKC_planeUnipotent_W0 (F : Type) [Field F] [CharP F 2] :
     have e01 := congrFun e1 0
     have e11 := congrFun e1 1
     have e21 := congrFun e1 2
-    simp [Matrix.mulVec, dotProduct, Pi.single_apply, Fin.sum_univ_three] at e00 e10 e20 e01 e11 e21 e2
+    simp [Matrix.mulVec, dotProduct, Pi.single_apply] at e00 e10 e20 e01 e11 e21 e2
     refine ⟨up3 (M 1 2) (M 0 2) 0, ⟨M 1 2, M 0 2, rfl⟩, ?_⟩
     apply Subtype.ext
     apply Units.ext
@@ -4563,7 +4562,7 @@ private theorem burnsideKC_planeUnipotent_W0 (F : Type) [Field F] [CharP F 2] :
       Matrix (Fin 3) (Fin 3) F) = M
     rw [specialLinearGroupEquivStatedSL_coe, up3_coe]
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [upMat, e00, e10, e20, e01, e11, e21] <;> linear_combination -e2
+    fin_cases i <;> fin_cases j <;> simp [upMat, e00, e10, e20, e01, e11, e21]; linear_combination -e2
   · rintro _ ⟨u, ⟨x, y, rfl⟩, rfl⟩
     refine Subgroup.subset_closure ⟨?_, ?_⟩
     · intro v hv
@@ -4577,7 +4576,7 @@ private theorem burnsideKC_planeUnipotent_W0 (F : Type) [Field F] [CharP F 2] :
       show (((specialLinearGroupEquivStatedSL 3 F (up3 x y 0) : GL (Fin 3) F) :
         Matrix (Fin 3) (Fin 3) F)) *ᵥ v - v ∈ burnsideKC_W0 F
       rw [specialLinearGroupEquivStatedSL_coe, up3_coe, burnsideKC_mem_W0]
-      simp [upMat, Matrix.mulVec, dotProduct, Fin.sum_univ_three]
+      simp [upMat, dotProduct, Fin.sum_univ_three]
 
 
 open CFSG.ASVolI.ChIJK CFSG.Assembly.LowTwoRank CFSG.Open.StatedAPI in
@@ -4605,7 +4604,7 @@ private theorem burnsideKC_transport {V : Type} [CommGroup V] {L : Subgroup (Mul
       ⟨fun v hv => hx1 v (burnsideKC_mem_W0.mpr hv), fun v => burnsideKC_mem_W0.mp (hx2 v)⟩
     refine ⟨_, ⟨y, ⟨fun v hv => key.1 v (burnsideKC_mem_Wmat.mp hv),
       fun v => burnsideKC_mem_Wmat.mpr (key.2 v)⟩, rfl⟩, ?_⟩
-    simp only [Subgroup.coe_subtype, MulEquiv.coe_toMonoidHom, MonoidHom.coe_coe]
+    simp only [Subgroup.coe_subtype, MulEquiv.coe_toMonoidHom]
     rw [hy2]
     rfl
   · rintro ⟨_, ⟨y, hy, rfl⟩, rfl⟩
@@ -4651,13 +4650,13 @@ private theorem burnsideKC_transport {V : Type} [CommGroup V] {L : Subgroup (Mul
       exact key.1 v hv
     · rw [hx]
       exact burnsideKC_mem_W0.mpr (key.2 v)
-    · simp only [Subgroup.coe_subtype, MulEquiv.coe_toMonoidHom, MonoidHom.coe_coe]
+    · simp only [Subgroup.coe_subtype, MulEquiv.coe_toMonoidHom]
       rw [hy'2]
       rfl
 open CFSG.Quasithin.H in
 private theorem burnsideKC_conj_eq_congrHom {V : Type} [CommGroup V] (g : MulAut V) :
     (MulAut.conj g).toMonoidHom = congrHom (g : V ≃* V) :=
-  MonoidHom.ext fun x => MulEquiv.ext fun v => rfl
+  MonoidHom.ext fun _x => MulEquiv.ext fun _v => rfl
 
 open CFSG.Open.StatedAPI in
 open scoped MatrixGroups in
@@ -5182,7 +5181,7 @@ private theorem burnsideKC_map_conj_inv {Ω : Type} [Group Ω] (g : Ω) (A : Sub
   · rintro ⟨_, ⟨a, ha, rfl⟩, rfl⟩
     simpa [MulAut.conj_apply, mul_assoc] using ha
   · intro hx
-    exact ⟨g⁻¹ * x * g, ⟨x, hx, by simp [MulAut.conj_apply]⟩, by simp [MulAut.conj_apply, mul_assoc]⟩
+    exact ⟨g⁻¹ * x * g, ⟨x, hx, by simp⟩, by simp [MulAut.conj_apply, mul_assoc]⟩
 
 open CFSG.Quasithin in
 private theorem burnsideKC_rAV_conj {V : Type} [CommGroup V] [Finite V] (g : MulAut V)
@@ -5358,7 +5357,7 @@ theorem as_K_3_2_1
       have := Finite.one_lt_card (α := K)
       rw [hKcard, hr0] at this
       omega
-    haveI : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two hr1 hKcard
+    have : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two hr1 hKcard
     obtain ⟨e, he⟩ := CFSG.Quasithin.H.exists_mulEquiv_of_realizesVia (StatedSL 3 K) hπ
     obtain ⟨hle, hq⟩ := burnsideKC_natural3 hV hHyp hr1 hKcard π hπ.1 e he
     refine ⟨hTriv, ?_, fun T hT A hA => hle A ⟨hA.1.trans hT.1, hA.2⟩,
@@ -5788,7 +5787,7 @@ private theorem burnsideKD_center_eq_bot_of_nat {V : Type} [CommGroup V] [Finite
 private theorem burnsideKD_exists_conj_le_sylow {Ω : Type} [Group Ω] [Finite Ω]
     {G T R : Subgroup Ω} (hT : CFSG.QuasithinUnique.IsSylowTwoOf T G) (hRG : R ≤ G)
     (hR : IsPGroup 2 R) : ∃ x ∈ G, ∀ r ∈ R, x * r * x⁻¹ ∈ T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hT2 : IsPGroup 2 (T.subgroupOf G) := hT.2.1.comap_subtype
   let P : Sylow 2 ↥G := hT2.toSylow hT.2.2
   have hR2 : IsPGroup 2 (R.subgroupOf G) := hR.comap_subtype
@@ -5873,7 +5872,7 @@ private theorem burnsideKD_mem_radical_iff {K : Type} [Field K] (g : ↥(StatedS
     have hcol1 : ∀ (j : Fin 2) (x : Fin 2 ⊕ Fin 2),
         A x (Sum.inl j) = if x = Sum.inl j then 1 else 0 := by
       intro j x
-      have := congrFun (h1 (Pi.single (Sum.inl j) 1) (fun k => by simp [Pi.single_apply])) x
+      have := congrFun (h1 (Pi.single (Sum.inl j) 1) (fun k => by simp)) x
       simpa [Matrix.mulVec, dotProduct, Pi.single_apply] using this
     have hcol2 : ∀ (j i : Fin 2), A (Sum.inr i) (Sum.inr j) = if i = j then 1 else 0 := by
       intro j i
@@ -5884,7 +5883,7 @@ private theorem burnsideKD_mem_radical_iff {K : Type} [Field K] (g : ↥(StatedS
       ext (i | i) (j | j)
       · simp [hcol1 j (Sum.inl i), Matrix.one_apply]
       · rfl
-      · simp [hcol1 j (Sum.inr i), Matrix.one_apply]
+      · simp [hcol1 j (Sum.inr i)]
       · simp [hcol2 j i, Matrix.one_apply]
     have hg := (mem_statedSp_iff).mp g.2
     rw [← hA, hAeq, Matrix.fromBlocks_transpose, Matrix.fromBlocks_multiply,
@@ -5970,7 +5969,7 @@ private theorem burnsideKD_marked_props {V : Type} [CommGroup V] [Finite V] (hV 
     (isElemAbelian2_map_congrHom e').1 (hXm ▸ isElemAbelian2_radImage)
   have hq : IsQuadratic X :=
     burnsideKD_isQuadratic_of_map e' (hXm ▸ burnsideKD_isQuadratic_radImage)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard : Nat.card X = 2 ^ (3 * r) := by
     rw [← card_map_congrHom e' X, hXm, card_radImage, hK, ← pow_mul, mul_comm]
   have hrk : rk ↥X = 3 * r := by
@@ -6160,7 +6159,7 @@ private theorem burnsideKD_witt_conj {K : Type} [Field K] [Finite K] [CharP K 2]
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [wittMat, wittInv, uJMat, rootMat, Matrix.mul_apply, Fin.sum_univ_three] <;>
-    first | ring1 | linear_combination h2
+    linear_combination h2
 
 open CFSG.Quasithin CFSG.Quasithin.B45U3 CFSG.Quasithin.H CFSG.Quasithin.H.SU3 in
 open scoped Matrix in
@@ -6266,7 +6265,7 @@ private theorem burnsideKD_omegaOne_sylow {K : Type} [Field K] [Finite K] [CharP
     ∃ x : MulAut (StdMod (Fin 3) K), x ∈ natImage (StatedSU 3 (2 ^ n) K) ∧
       CFSG.ASVolI.ChIJK.omegaOne (Th ⊓ natImage (StatedSU 3 (2 ^ n) K)) =
         (rootImage K n).map (congrHom x) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : Finite (MulAut (StdMod (Fin 3) K)) := MulEquiv.finite_left
   have hN : ((natImage (StatedSU 3 (2 ^ n) K)).subgroupOf Gh).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hLG).mpr hGN
@@ -6418,7 +6417,7 @@ private theorem burnsideKD_K33_T {V : Type} [CommGroup V] [Finite V] (hV : ∀ v
       rAV (CFSG.ASVolI.ChIJK.omegaOne (T ⊓ L)) = 2 ∧
       Qset T = {CFSG.ASVolI.ChIJK.omegaOne (T ⊓ L)} := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : Finite (MulAut (StdMod (Fin 3) K)) := MulEquiv.finite_left
   set X := CFSG.ASVolI.ChIJK.omegaOne (T ⊓ L) with hXdef
   have hGe : G.map (congrHom e) ≤ natNorm (StatedSU 3 (2 ^ s) K) := by
@@ -6584,7 +6583,7 @@ theorem as_K_3_3 : K_3_3 := by
       hperf hirr ⟨e'⟩ hsmall
   obtain ⟨hq, hqh⟩ := B45U3.qOf_qhatOf_eq_two hLG hGN hs2 hnat
   obtain ⟨K, _, _, hK, hreal⟩ := id hnat
-  haveI : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     Nat.prime_two (by omega : 1 ≤ 2 * s) (H.SU3.card_eq_two_pow hK)
   obtain ⟨π, hπ⟩ : ∃ π : ↥(CFSG.Open.StatedSU 3 (2 ^ s) K) →* ↥L,
       (FFModel.nat (CFSG.Open.StatedSU 3 (2 ^ s) K)).RealizesVia L ⊤ ⊥ π := id hreal
@@ -6615,7 +6614,7 @@ theorem as_K_3_3 : K_3_3 := by
       exact (burnsideKD_gcd_three s).1 hs
     have hZ : Subgroup.center ↥L = ⊥ := Subgroup.eq_bot_of_card_eq _ h1
     have hq1 : CFSG.IsQuasisimple ↥L := hHyp.2.2.1
-    haveI : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hq1.2.1
+    have : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hq1.2.1
     let e₁ : ↥L ≃* ↥L ⧸ Subgroup.center ↥L :=
       QuotientGroup.quotientBot.symm.trans (QuotientGroup.quotientMulEquivOfEq hZ.symm)
     exact e₁.isSimpleGroup
@@ -6673,7 +6672,7 @@ theorem as_K_3_4_1 : K_3_4_1 := by
     CFSG.Quasithin.B42L2.le_normalizer_of_b4Hyp hHyp
   have hLG : L ≤ G := (CFSG.Quasithin.FFC.b4hyp_data hHyp).1
   obtain ⟨K, _, _, hK, hreal⟩ := hnat
-  haveI : CharP K 2 := CFSG.QuasithinUnique.Setup.X7b.charP_two_of_card_pow hK
+  have : CharP K 2 := CFSG.QuasithinUnique.Setup.X7b.charP_two_of_card_pow hK
   obtain ⟨π, hπ⟩ : ∃ π : ↥(CFSG.Open.StatedSp 2 K) →* ↥L,
       (CFSG.Quasithin.FFModel.nat (CFSG.Open.StatedSp 2 K)).RealizesVia L ⊤ ⊥ π := id hreal
   have hZ : Subgroup.center ↥L = ⊥ := burnsideKD_center_eq_bot_of_nat hreal
@@ -6719,11 +6718,11 @@ open CFSG.Quasithin CFSG.Quasithin.B45Sp4 in
 private theorem burnsideK3_card_hermSub {F : Type} [Field F] [CharP F 2] (a : ℕ) :
     Nat.card ↥(hermSub a (Fin 2 ⊕ Fin 2) F) = Nat.card ↥(hermA a (Fin 2 ⊕ Fin 2) F) :=
   Nat.card_congr
-    { toFun := fun x => ⟨Multiplicative.toAdd (x : Multiplicative (Matrix (Fin 2 ⊕ Fin 2)
-        (Fin 2 ⊕ Fin 2) F)), x.2⟩
-      invFun := fun y => ⟨Multiplicative.ofAdd (y : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) F), y.2⟩
-      left_inv := fun x => rfl
-      right_inv := fun y => rfl }
+    { toFun := fun _x => ⟨Multiplicative.toAdd (_x : Multiplicative (Matrix (Fin 2 ⊕ Fin 2)
+        (Fin 2 ⊕ Fin 2) F)), _x.2⟩
+      invFun := fun _y => ⟨Multiplicative.ofAdd (_y : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) F), _y.2⟩
+      left_inv := fun _x => rfl
+      right_inv := fun _y => rfl }
 
 open CFSG.Quasithin CFSG.Quasithin.B45Sp4 in
 private theorem burnsideK3_card_of_twisted {V : Type} [CommGroup V] [Finite V]
@@ -7089,10 +7088,10 @@ private theorem burnsideK3_dynkin {V : Type} [CommGroup V] [Finite V] {G L : Sub
         a * (4 - 2 * (if p % 2 = 0 then rk0 y else rk1 y)) ^ 2 = a * 16 := hp y hyy
     rw [hdy] at hpy
     by_cases hpe : p % 2 = 0
-    · simp only [hpe, if_true, hx0, hy0] at hpx hpy
+    · simp only [hpe, ite_true, hx0, hy0] at hpx hpy
       norm_num at hpx hpy
       omega
-    · simp only [hpe, if_false, hx1, hy1] at hpx hpy
+    · simp only [hpe, ite_false, hx1, hy1] at hpx hpy
       norm_num at hpx hpy
       omega
   obtain ⟨k, rfl⟩ := hjeven
@@ -7705,7 +7704,7 @@ private theorem burnsideK3_mem_radical_iff {K : Type} [Field K] (g : ↥(StatedS
     have hcol1 : ∀ (j : Fin 2) (x : Fin 2 ⊕ Fin 2),
         A x (Sum.inl j) = if x = Sum.inl j then 1 else 0 := by
       intro j x
-      have := congrFun (h1 (Pi.single (Sum.inl j) 1) (fun k => by simp [Pi.single_apply])) x
+      have := congrFun (h1 (Pi.single (Sum.inl j) 1) (fun k => by simp)) x
       simpa [Matrix.mulVec, dotProduct, Pi.single_apply] using this
     have hcol2 : ∀ (j i : Fin 2), A (Sum.inr i) (Sum.inr j) = if i = j then 1 else 0 := by
       intro j i
@@ -7716,7 +7715,7 @@ private theorem burnsideK3_mem_radical_iff {K : Type} [Field K] (g : ↥(StatedS
       ext (i | i) (j | j)
       · simp [hcol1 j (Sum.inl i), Matrix.one_apply]
       · rfl
-      · simp [hcol1 j (Sum.inr i), Matrix.one_apply]
+      · simp [hcol1 j (Sum.inr i)]
       · simp [hcol2 j i, Matrix.one_apply]
     have hg := (mem_statedSp_iff).mp g.2
     rw [← hA, hAeq, Matrix.fromBlocks_transpose, Matrix.fromBlocks_multiply,
@@ -7765,32 +7764,39 @@ variable {F : Type} [Field F] [CharP F 2] {ι : Type} [Fintype ι] [DecidableEq 
 @[expose] def burnsideK3_S (a b : ι → F) : Matrix ι ι F :=
   Matrix.vecMulVec a b + Matrix.vecMulVec b a
 
+omit [CharP F 2] [Fintype ι] [DecidableEq ι] in
 private theorem burnsideK3_S_apply (a b : ι → F) (i j : ι) :
     burnsideK3_S a b i j = a i * b j + b i * a j := by
   simp [burnsideK3_S, Matrix.vecMulVec_apply]
 
+omit [Fintype ι] [DecidableEq ι] in
 private theorem burnsideK3_S_diag (a b : ι → F) (i : ι) : burnsideK3_S a b i i = 0 := by
   rw [burnsideK3_S_apply, mul_comm (b i) (a i), CharTwo.add_self_eq_zero]
 
+omit [CharP F 2] [Fintype ι] [DecidableEq ι] in
 private theorem burnsideK3_S_comm (a b : ι → F) : burnsideK3_S a b = burnsideK3_S b a := by
   unfold burnsideK3_S
   rw [add_comm]
 
+omit [CharP F 2] [Fintype ι] [DecidableEq ι] in
 private theorem burnsideK3_S_smul_left (c : F) (a b : ι → F) :
     burnsideK3_S (c • a) b = c • burnsideK3_S a b := by
   ext i j
   simp [burnsideK3_S_apply, mul_add, mul_assoc, mul_left_comm]
 
+omit [CharP F 2] [Fintype ι] [DecidableEq ι] in
 private theorem burnsideK3_S_add_right (a b b' : ι → F) :
     burnsideK3_S a (b + b') = burnsideK3_S a b + burnsideK3_S a b' := by
   ext i j
   simp only [burnsideK3_S_apply, Pi.add_apply, Matrix.add_apply]
   ring
 
+omit [CharP F 2] [Fintype ι] [DecidableEq ι] in
 private theorem burnsideK3_S_smul_right (c : F) (a b : ι → F) :
     burnsideK3_S a (c • b) = c • burnsideK3_S a b := by
   rw [burnsideK3_S_comm, burnsideK3_S_smul_left, burnsideK3_S_comm]
 
+omit [Fintype ι] [DecidableEq ι] in
 private theorem burnsideK3_S_eq_zero {a b : ι → F} (ha : a ≠ 0) (h : burnsideK3_S a b = 0) :
     ∃ l : F, b = l • a := by
   obtain ⟨i, hi⟩ : ∃ i, a i ≠ 0 := by
@@ -7808,6 +7814,7 @@ private theorem burnsideK3_S_eq_zero {a b : ι → F} (ha : a ≠ 0) (h : burnsi
   linear_combination h2
 
 
+omit [CharP F 2] [DecidableEq ι] in
 private theorem burnsideK3_Phi_S (n : Matrix ι ι F) (a b : ι → F) :
     n * burnsideK3_S a b + burnsideK3_S a b * nᵀ =
       burnsideK3_S (n *ᵥ a) b + burnsideK3_S (n *ᵥ b) a := by
@@ -7816,10 +7823,12 @@ private theorem burnsideK3_Phi_S (n : Matrix ι ι F) (a b : ι → F) :
     Matrix.vecMul_transpose]
   abel
 
+omit [CharP F 2] [DecidableEq ι] in
 private theorem burnsideK3_Phi_sq (n : Matrix ι ι F) (w : ι → F) :
     n * Matrix.vecMulVec w w + Matrix.vecMulVec w w * nᵀ = burnsideK3_S (n *ᵥ w) w := by
   simp only [burnsideK3_S, Matrix.mul_vecMulVec, Matrix.vecMulVec_mul, Matrix.vecMul_transpose]
 
+omit [DecidableEq ι] in
 private theorem burnsideK3_T_eq {n : Matrix ι ι F} (hnn : n * n = 0) {w : ι → F} (hv : n *ᵥ w ≠ 0)
     (x : ι → F) (c : F)
     (h : burnsideK3_S (n *ᵥ w) x + burnsideK3_S (n *ᵥ x) w = c • burnsideK3_S (n *ᵥ w) w) :
@@ -7868,10 +7877,12 @@ private theorem burnsideK3_T_eq {n : Matrix ι ι F} (hnn : n * n = 0) {w : ι �
   rw [h4]
   ring
 
+omit [CharP F 2] [Fintype ι] [DecidableEq ι] in
 private theorem burnsideK3_S_add_left (a a' b : ι → F) :
     burnsideK3_S (a + a') b = burnsideK3_S a b + burnsideK3_S a' b := by
   rw [burnsideK3_S_comm, burnsideK3_S_add_right, burnsideK3_S_comm b a, burnsideK3_S_comm b a']
 
+omit [CharP F 2] [Fintype ι] [DecidableEq ι] in
 private theorem burnsideK3_S_transpose (a b : ι → F) : (burnsideK3_S a b)ᵀ = burnsideK3_S a b := by
   ext i j
   simp only [Matrix.transpose_apply, burnsideK3_S_apply]
@@ -7881,15 +7892,17 @@ variable (F ι) in
 @[expose] def burnsideK3_Sym : Submodule F (Matrix ι ι F) where
   carrier := {Y | Yᵀ = Y}
   add_mem' := fun {Y Z} hY hZ => by
-    simp only [Set.mem_setOf_eq] at *
+    simp only [Set.mem_ofPred_eq] at *
     rw [Matrix.transpose_add, hY, hZ]
   zero_mem' := by simp
   smul_mem' := fun c Y hY => by
-    simp only [Set.mem_setOf_eq] at *
+    simp only [Set.mem_ofPred_eq] at *
     rw [Matrix.transpose_smul, hY]
 
+omit [CharP F 2] [Fintype ι] [DecidableEq ι] in
 private theorem burnsideK3_mem_Sym {Y : Matrix ι ι F} : Y ∈ burnsideK3_Sym F ι ↔ Yᵀ = Y := Iff.rfl
 
+omit [CharP F 2] [DecidableEq ι] in
 private theorem burnsideK3_finrank_sym (hι : Fintype.card ι = 4) :
     Module.finrank F (burnsideK3_Sym F ι) ≤ 10 := by
   classical
@@ -8094,7 +8107,7 @@ private theorem burnsideK3_tw_fromBlocks (a : ℕ) (P X Q A B C' D : Matrix (Fin
         (Q * C' * (frobPow a P)ᵀ + Q * D * (frobPow a X)ᵀ) (Q * D * (frobPow a Q)ᵀ) := by
   rw [tw_apply, frobPow_fromBlocks, frobPow_zero', Matrix.fromBlocks_transpose,
     Matrix.fromBlocks_multiply, Matrix.fromBlocks_multiply]
-  simp only [Matrix.zero_mul, Matrix.mul_zero, zero_add, add_zero, Matrix.transpose_zero]
+  simp only [Matrix.zero_mul, Matrix.mul_zero, zero_add, Matrix.transpose_zero]
 
 private theorem burnsideK3_fix_tau_lam {a : ℕ} {C : Matrix (Fin 2) (Fin 2) K} (hC : Cᵀ = C) (t : K)
     {Y : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K}
@@ -8153,7 +8166,7 @@ private theorem burnsideK3_ii_shape [CharP K 2] {a : ℕ} {θ : K} (hθ : θ ^ 2
   have b01 := ev hBC2 0 1
   have b10 := ev hBC2 1 0
   have b11 := ev hBC2 1 1
-  simp [sym2, Matrix.mul_apply, Fin.sum_univ_two, h0, h1'] at a00 a01 a10 a11 b00 b01 b10 b11
+  simp [sym2, Matrix.mul_apply, Fin.sum_univ_two, h0] at a00 a01 a10 a11 b00 b01 b10 b11
   obtain ⟨p1, p2⟩ := burnsideK3_pair_zero hθ a00 b00
   obtain ⟨p3, p4⟩ := burnsideK3_pair_zero hθ a01 b01
   obtain ⟨p5, p6⟩ := burnsideK3_pair_zero hθ a10 b10
@@ -8182,10 +8195,10 @@ private theorem burnsideK3_ii_block [CharP K 2] {a : ℕ} {θ : K} (hθ : θ ^ 2
   have e01 := congrFun (congrFun h4 0) 1
   simp only [Matrix.add_apply, Matrix.mul_apply, Fin.sum_univ_two, Matrix.transpose_apply,
     frobPow, Matrix.map_apply, unitri, Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero,
-    Matrix.cons_val_one, Matrix.head_cons, Matrix.zero_apply, mul_zero, zero_mul, add_zero,
+    Matrix.cons_val_one, Matrix.zero_apply, mul_zero, zero_mul, add_zero,
     zero_add, h0, h1', Matrix.cons_val_fin_one, Matrix.empty_val', Fin.isValue,
-    Matrix.cons_val, one_mul, mul_one, Matrix.of_apply, Matrix.transpose_apply, Matrix.map_apply,
-    Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons] at e00 e01
+    one_mul, mul_one, Matrix.of_apply, Matrix.transpose_apply, Matrix.map_apply,
+    Matrix.cons_val_zero, Matrix.cons_val_one] at e00 e01
   have hA11 : Y.toBlocks₁₁ 1 1 = 0 := by
     have : t * Y.toBlocks₁₁ 1 1 = 0 := by linear_combination (-1 : K) * e01
     exact (mul_eq_zero.mp this).resolve_left ht
@@ -8406,7 +8419,7 @@ private theorem burnsideK3_st_small [CharP K 2] [Finite K] {E : Subgroup (Stated
 private theorem burnsideK3_i2_shape [CharP K 2] {a : ℕ} {θ : K} (hθ : θ ^ 2 ^ a ≠ θ)
     {E : Subgroup (StatedSp 2 K)} (h1 : tau (sym2_transpose 1 0 0) ∈ E)
     (h2 : tau (sym2_transpose θ 0 0) ∈ E) {C : Matrix (Fin 2) (Fin 2) K} (hC : Cᵀ = C) {t : K}
-    (ht : t ≠ 0) (hg : tau hC * lam t ∈ E) {Y : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K}
+    (_ht : t ≠ 0) (hg : tau hC * lam t ∈ E) {Y : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K}
     (hY : Y ∈ matFix a _ K (spM '' (E : Set (StatedSp 2 K)))) :
     Y.toBlocks₂₂ 0 0 = 0 ∧ Y.toBlocks₂₂ 0 1 = 0 ∧ Y.toBlocks₂₂ 1 0 = 0 ∧
       Y.toBlocks₁₂ 0 0 = 0 ∧ Y.toBlocks₁₂ 1 0 = 0 ∧ Y.toBlocks₂₁ 0 0 = 0 ∧ Y.toBlocks₂₁ 0 1 = 0 ∧
@@ -8434,15 +8447,15 @@ private theorem burnsideK3_i2_shape [CharP K 2] {a : ℕ} {θ : K} (hθ : θ ^ 2
   have b00 := ev hBC2 0 0
   have b01 := ev hBC2 0 1
   have b10 := ev hBC2 1 0
-  simp [sym2, Matrix.mul_apply, Fin.sum_univ_two, h0, h1'] at d00 d01 d10 a00 a01 a10 b00 b01 b10
+  simp [sym2, Matrix.mul_apply, Fin.sum_univ_two, h0] at d00 d01 d10 a00 a01 a10 b00 b01 b10
   obtain ⟨hC00, hB00⟩ := burnsideK3_pair_zero hθ a00 b00
   have e1 := congrFun (congrFun hBeq 0) 1
   have e2 := congrFun (congrFun hCeq 1) 0
   simp only [Matrix.add_apply, Matrix.mul_apply, Fin.sum_univ_two, Matrix.transpose_apply,
     frobPow, Matrix.map_apply, unitri, Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero,
-    Matrix.cons_val_one, Matrix.head_cons, Matrix.zero_apply, mul_zero, zero_mul, add_zero,
-    zero_add, h0, h1', Matrix.cons_val_fin_one, Matrix.empty_val', Fin.isValue,
-    Matrix.cons_val, one_mul, mul_one, d00, d01, d10, hB00, a10, hC00, a01] at e1 e2
+    Matrix.cons_val_one, mul_zero, zero_mul, add_zero,
+    zero_add, h1', Matrix.cons_val_fin_one, Matrix.empty_val', Fin.isValue,
+    one_mul, mul_one, d00, d01, d10, hB00, a10, hC00, a01] at e1 e2
   refine ⟨d00, d01, d10, hB00, a10, hC00, a01, ?_, ?_⟩
   · linear_combination (-1 : K) * e1 - (C 0 1 * D 1 1) * (CharTwo.two_eq_zero (R := K))
   · linear_combination (-1 : K) * e2 - (C 0 1 ^ 2 ^ a * D 1 1) * (CharTwo.two_eq_zero (R := K))
@@ -8667,7 +8680,7 @@ private theorem burnsideK3_i1_card [CharP K 2] [Finite K] {a : ℕ} (ha : 1 ≤ 
   have hdet' : IsUnit C₁.det := by
     rw [isUnit_iff_ne_zero, hC₁, Matrix.det_fin_two]
     simp only [sym2, Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.head_cons, Matrix.empty_val', Matrix.cons_val_fin_one]
+      Matrix.empty_val', Matrix.cons_val_fin_one]
     intro h
     exact hdet (by linear_combination h)
   have hGC : C₁⁻¹ * C₁ = 1 := Matrix.nonsing_inv_mul C₁ hdet'
@@ -8752,7 +8765,7 @@ private theorem burnsideK3_i1_card [CharP K 2] [Finite K] {a : ℕ} (ha : 1 ≤ 
     have e01 := congrFun (congrFun hC 0) 1
     have e11 := congrFun (congrFun hC 1) 1
     simp only [sym2, Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.head_cons, Matrix.empty_val', Matrix.cons_val_fin_one] at e00 e01 e11
+      Matrix.empty_val', Matrix.cons_val_fin_one] at e00 e01 e11
     exact Subtype.ext (radB_eq_of_radA_radD (hER x.2) (hER y.2) e00 e01 e11)
   have h1 := Nat.card_le_card_of_injective _ hlinj
   have h2 := burnsideK3_card_fixF (K := K) ha
@@ -8942,11 +8955,12 @@ open scoped Matrix
 
 variable {V : Type} [CommGroup V] [Finite V] {L : Subgroup (MulAut V)} {a : ℕ}
 
+omit [Finite V] in
 private theorem burnsideK3_noInvol (C : burnsideK3_Ctx V L a) (c : C.W ≃ₗ[ZMod 2] C.W) (hcc : c * c = 1)
     (hcomm : ∀ x, c * burnsideK3_pi C.θ C.θL x = burnsideK3_pi C.θ C.θL x * c) : c = 1 := by
   obtain ⟨hnt, hirr⟩ := (CFSG.QuasithinUnique.Setup.X7.isIrreducible_iff
     (repOf (burnsideK3_pi C.θ C.θL))).mp C.irr.out
-  haveI := hnt
+  have := hnt
   exact eq_one_of_commute_simple_summands (burnsideK3_pi C.θ C.θL)
     (fun _ : Unit => (⊤ : Submodule (ZMod 2) C.W)) (by simp) (fun _ => top_ne_bot)
     (fun _ _ _ _ => Submodule.mem_top) (fun _ W _ hW => hirr W hW) c hcc hcomm
@@ -9118,6 +9132,7 @@ private theorem burnsideK3_conj_form {G : Type} [Group G] [Finite G] (Z : Subgro
 @[expose] noncomputable def burnsideK3_tau (C : burnsideK3_Ctx V L a) : C.W ≃ₗ[ZMod 2] C.W :=
   burnsideK3_zmodEquiv (C.φ.trans ((burnsideK3_T0 a).trans C.φ.symm))
 
+omit [Finite V] in
 private theorem burnsideK3_phi_tau (C : burnsideK3_Ctx V L a) (w : C.W) :
     ((C.φ (burnsideK3_tau C w) : ↥(hermA a (Fin 2 ⊕ Fin 2) C.K)) :
       Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) C.K) =
@@ -9128,6 +9143,7 @@ private theorem burnsideK3_phi_tau (C : burnsideK3_Ctx V L a) (w : C.W) :
   rw [AddEquiv.apply_symm_apply]
   rfl
 
+omit [Finite V] in
 private theorem burnsideK3_tau_sq (C : burnsideK3_Ctx V L a) : burnsideK3_tau C * burnsideK3_tau C = 1 := by
   ext w
   apply C.φ.injective
@@ -9138,6 +9154,7 @@ private theorem burnsideK3_tau_sq (C : burnsideK3_Ctx V L a) : burnsideK3_tau C 
   rfl
 
 open CFSG.LocalAnalysis.ComponentInitial.SymplecticHigher (fieldSp coe_fieldSp) in
+omit [Finite V] in
 private theorem burnsideK3_tau_pi (C : burnsideK3_Ctx V L a) (ha : 1 ≤ a) (g : antiSp C.K) :
     burnsideK3_tau C * burnsideK3_pi C.θ C.θL g =
       burnsideK3_pi C.θ C.θL ((minorAut C.K ^ (2 * a)) g) * burnsideK3_tau C := by
@@ -9163,6 +9180,7 @@ private theorem burnsideK3_tau_pi (C : burnsideK3_Ctx V L a) (ha : 1 ≤ a) (g :
 
 open CFSG.LocalAnalysis.ComponentInitial.SymplecticHigher (fieldSp coe_fieldSp) in
 open CFSG.ComponentClassification.OuterAutomorphisms (inner Outer) in
+omit [Finite V] in
 private theorem burnsideK3_heart (C : burnsideK3_Ctx V L a) (ha : 1 ≤ a)
     (b : C.W ≃ₗ[ZMod 2] C.W) (hbb : b * b = 1) (α : MulAut (antiSp C.K))
     (hα : ∀ x, burnsideK3_pi C.θ C.θL (α x) = b * burnsideK3_pi C.θ C.θL x * b⁻¹)
@@ -9329,7 +9347,7 @@ private theorem burnsideK3_heart (C : burnsideK3_Ctx V L a) (ha : 1 ≤ a)
   exact Subtype.ext (F₁.injective h2)
 
 open CFSG.ComponentClassification.OuterAutomorphisms (inner Outer) in
-private theorem burnsideK3_out (hV : ∀ v : V, v ^ 2 = 1)
+private theorem burnsideK3_out (_hV : ∀ v : V, v ^ 2 = 1)
     {G : Subgroup (MulAut V)} (hHyp : B4Hyp G L) (ha : 1 ≤ a) (C : burnsideK3_Ctx V L a)
     (hVcard : Nat.card V = 2 ^ (16 * a)) :
     ∀ A : Subgroup (MulAut V), IsA2 G A → ¬ A ≤ L →
@@ -9447,7 +9465,7 @@ private theorem burnsideK3_out (hV : ∀ v : V, v ^ 2 = 1)
     have h24' := (hN24 _ hθθ hout).2.1 Ê hfix hÊsq
     have h3a : Nat.card Ê ≤ 2 ^ (3 * a) := by
       have h : (if Even (2 * a) then 3 * (2 * a / 2) else 2 * (2 * a)) = 3 * a := by
-        rw [if_pos (even_two_mul a)]
+        rw [ite_eq_left (even_two_mul a)]
         omega
       rw [h] at h24'
       exact h24'

@@ -25,10 +25,10 @@ theorem exists_fixedField_basis {K : Type} [Field K] [Finite K] [CharP K 2] (σ 
     ∃ b : Fin f → K, (∀ j, σ (b j) = b j) ∧ (∀ j, b j ≠ 0) ∧
       ∀ e : K, σ e = e → e ∈ AddSubgroup.closure (Set.range b) := by
   let k := trialityFixedField K σ.toRingHom
-  haveI : CharP k 2 :=
+  have : CharP k 2 :=
     ((Subfield.subtype k).charP_iff (Subfield.subtype_injective k) 2).2
       (inferInstance : CharP K 2)
-  letI : Algebra (ZMod 2) k := ZMod.algebra k 2
+  let : Algebra (ZMod 2) k := ZMod.algebra k 2
   have hk' : Nat.card k = 2 ^ f := hk
   have hfin : Module.finrank (ZMod 2) k = f := by
     apply Nat.pow_right_injective (le_refl 2)
@@ -56,7 +56,7 @@ theorem exists_fixedField_basis {K : Type} [Field K] [Finite K] [CharP K 2] (σ 
     refine AddSubgroup.sum_mem _ fun j _ => ?_
     rcases w183_zmod_two_eq_zero_or_one (B.repr e' j) with hc | hc
     · rw [hc, zero_smul]
-      simpa using AddSubgroup.zero_mem (AddSubgroup.closure (Set.range (fun j => (B j : K))))
+      simp
     · rw [hc, one_smul]
       exact AddSubgroup.subset_closure (Set.mem_range_self j)
 

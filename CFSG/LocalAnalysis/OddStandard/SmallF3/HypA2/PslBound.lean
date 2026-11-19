@@ -16,7 +16,7 @@ private lemma ordA_one_eq (q : ℕ) :
 theorem eight_le_of_lieModel_psl_two_three {X : Type} [Group X] {e : ℕ}
     (h : LieModel X .PSL 2 3 e) (hb : classSBound ≤ Nat.card X) : 8 ≤ e := by
   by_contra hle
-  push_neg at hle
+  push Not at hle
   have hcard : Nat.card X = CFSG.Open.ordA 1 (3 ^ e) := by
     simpa using CFSG.GH74.card_of_lieModel_PSL (G := X) (n := 2) (p := 3) (f := e)
       (by norm_num) h

@@ -66,7 +66,6 @@ theorem A5_mul (h2 : (2 : R) = 0) (s p r t m s' p' r' t' m' : R) :
   fin_cases i <;> fin_cases j <;>
     simp [A5, Matrix.mul_apply, Fin.sum_univ_five] <;>
     first
-      | rfl
       | linear_combination (p * r') * h4
       | linear_combination (p * m') * h4
       | linear_combination (m * r') * h4

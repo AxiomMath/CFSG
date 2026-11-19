@@ -22,7 +22,7 @@ theorem exists_isoLie_A1_of_gls3ConclusionPlus {X : Type} [Group X] [Finite X]
     ∃ q : TauCeti.PrimePower, q.p = 3 ∧ IsoLie ↥K (.A 1 q) ∧ P ≤ K ∧
       CFSG.Open.IsElemAbelian 3 P ∧ Nat.card ↥P = q.card := by
   subst hp3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨E, hEP, hE, hEcard⟩ := CFSG.SectionRank.exists_pRank (by norm_num : 1 < 3) P
   have hE27 : 27 ≤ Nat.card ↥E := by
     rw [hEcard]
@@ -80,19 +80,19 @@ theorem exists_isoLie_A1_of_config (hG3 : Gls3StronglyThreeEmbeddedPlus)
       ((H ⊓ k.M).subgroupOf H).map (QuotientGroup.mk' (CFSG.pPrimeCore k.p ↥H)) ≤
         normalizer ((P : Subgroup (↥H ⧸ CFSG.pPrimeCore k.p ↥H)) :
           Set (↥H ⧸ CFSG.pPrimeCore k.p ↥H)) := by
-  haveI : Fact k.p.Prime := ⟨k.prime⟩
+  have : Fact k.p.Prime := ⟨k.prime⟩
   obtain ⟨h, hR, hU⟩ := k.rows3_of_config hG3 hRee hp3 hH P
   obtain ⟨hNK, hNP⟩ := k.inf_eq_and_le_normalizer_quotient hG3 hp3 hH P hPN
   obtain ⟨-, -, hKn, -⟩ := CFSG.RankThree.PartOne.Sec1511.spe_fstar k.prime
     (CFSG.pPrimeCore_quotient_eq_bot k.prime) (k.isStronglyPEmbedded_map_quotient_pPrimeCore hH)
-  haveI := hKn
+  have := hKn
   have hr : 3 ≤ CFSG.Open.pRank k.p (P : Subgroup (↥H ⧸ CFSG.pPrimeCore k.p ↥H)) := by
     rw [(CFSG.SectionRank.pRank_sylow P).1, CFSG.SectionRank.pRank_quotient_eq _
       ((k.prime.coprime_iff_not_dvd).mp (CFSG.pPrimeCore_coprime_card (p := k.p) (G := ↥H))),
       ← CFSG.SectionRank.pRank_eq_pRank_top_subgroup H]
     exact h3.trans (CFSG.SectionRank.pRank_mono k.prime.one_lt inf_le_left)
   obtain ⟨q, hq3, hI, hPK, hEl, hcard⟩ :=
-    exists_isoLie_A1_of_gls3ConclusionPlus h hp3 P.isPGroup' hr hR hU
+    exists_isoLie_A1_of_gls3ConclusionPlus h hp3 P.isPGroup hr hR hU
   rw [inf_of_le_left hPK] at hNK hNP
   exact ⟨q, hq3, hI, hPK, hEl, hcard, hNK, hNP⟩
 

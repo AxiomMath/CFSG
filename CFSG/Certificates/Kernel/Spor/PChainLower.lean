@@ -84,7 +84,7 @@ theorem card_ge (H : ChainHyp n NL m letters base Q qb L B QL QB CNT PTS POS PAR
     (hn : 0 < n) : ((List.range m).map CNT).prod ≤ Nat.card (grp n NL letters) := by
   rw [card_chain (grp n NL letters) (bF hn B) m, prod_range_map]
   refine le_trans ?_ (Nat.le_mul_of_pos_right _ Nat.card_pos)
-  refine Finset.prod_le_prod' fun l hl => ?_
+  refine Finset.prod_le_prod fun l hl => ?_
   have hl' := Finset.mem_range.1 hl
   rw [← dSet_card H hn hl', ← Set.ncard_coe_finset]
   exact Set.ncard_le_ncard (dSet_sub_orbit H hn hl') (Set.toFinite _)

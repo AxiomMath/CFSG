@@ -243,7 +243,7 @@ theorem Hyp.isCyclic_kernel (hd : d.Hyp) :
       (centralizer (d.L : Set G) ⊓ centralizer ({d.t} : Set G) : Subgroup G) :=
     ((S : Subgroup (centralizer (d.L : Set G))).equivMapOfInjective _
       (subtype_injective _)).trans (MulEquiv.subgroupCongr hCH.symm)
-  exact ⟨e.isCyclic.1 hcyc, S.isPGroup'.of_equiv e⟩
+  exact ⟨e.isCyclic.1 hcyc, S.isPGroup.of_equiv e⟩
 
 theorem Hyp.eq_t_of_mem_kernel (hd : d.Hyp) {x : G}
     (hx : x ∈ centralizer (d.L : Set G) ⊓ centralizer ({d.t} : Set G)) (hx2 : orderOf x = 2) :

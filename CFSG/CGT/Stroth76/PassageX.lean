@@ -12,18 +12,22 @@ section General
 
 variable {Y : Type*} [Group Y] [Finite Y] (K : Config Y) {O : Subgroup Y} [O.Normal]
 
+omit [Finite Y] in
 theorem config_mk_injOn_A (hO : ¬ 2 ∣ Nat.card O) : Set.InjOn (QuotientGroup.mk' O) K.A :=
   injOn_of_isPGroup hO K.isPGroup_A
 
+omit [Finite Y] in
 theorem config_map_normal [K.A.Normal] (hinj : Set.InjOn (QuotientGroup.mk' O) K.A) :
     (K.map (QuotientGroup.mk' O) hinj).A.Normal :=
   (inferInstance : K.A.Normal).map _ (QuotientGroup.mk'_surjective O)
 
+omit [Finite Y] in
 theorem config_odd_orderOf_map_ρ (hρ : Odd (orderOf K.ρ))
     (hinj : Set.InjOn (QuotientGroup.mk' O) K.A) :
     Odd (orderOf (K.map (QuotientGroup.mk' O) hinj).ρ) :=
   hρ.of_dvd_nat (orderOf_map_dvd _ _)
 
+omit [Finite Y] in
 theorem config_centralizer_map [K.A.Normal] (hO : ¬ 2 ∣ Nat.card O) {Q : Subgroup Y}
     (hQC : Q ≤ Subgroup.centralizer (K.A : Set Y))
     (hZ : Subgroup.centralizer (K.A : Set Y) ≤ Q ⊔ O)
@@ -32,6 +36,7 @@ theorem config_centralizer_map [K.A.Normal] (hO : ¬ 2 ∣ Nat.card O) {Q : Subg
       Q.map (QuotientGroup.mk' O) :=
   centralizer_map_mk' K.isPGroup_A hO hQC hZ
 
+omit [Finite Y] in
 theorem config_map_T (hinj : Set.InjOn (QuotientGroup.mk' O) K.A) :
     (K.A ⊔ Subgroup.closure {K.uv, K.t, K.u}).map (QuotientGroup.mk' O) =
       (K.map (QuotientGroup.mk' O) hinj).A ⊔
@@ -41,6 +46,7 @@ theorem config_map_T (hinj : Set.InjOn (QuotientGroup.mk' O) K.A) :
     Set.image_singleton]
   rfl
 
+omit [Finite Y] in
 theorem config_map_E (hinj : Set.InjOn (QuotientGroup.mk' O) K.A) :
     (Subgroup.closure {K.x ^ 2, K.y ^ 2, K.uv, K.t}).map (QuotientGroup.mk' O) =
       Subgroup.closure {(K.map (QuotientGroup.mk' O) hinj).x ^ 2,
@@ -50,10 +56,12 @@ theorem config_map_E (hinj : Set.InjOn (QuotientGroup.mk' O) K.A) :
     Set.image_singleton, map_pow, map_pow]
   rfl
 
+omit [Finite Y] in
 theorem card_map_mk'_of_isPGroup (hO : ¬ 2 ∣ Nat.card O) {R : Subgroup Y}
     (hR : IsPGroup 2 R) : Nat.card (R.map (QuotientGroup.mk' O)) = Nat.card R :=
   Nat.card_image_of_injOn (injOn_of_isPGroup hO hR)
 
+omit [Finite Y] in
 theorem eq_of_map_eq_of_le_isPGroup (hO : ¬ 2 ∣ Nat.card O) {P R R' : Subgroup Y}
     (hP : IsPGroup 2 P) (hR : R ≤ P) (hR' : R' ≤ P)
     (h : R.map (QuotientGroup.mk' O) = R'.map (QuotientGroup.mk' O)) : R = R' := by
@@ -66,6 +74,7 @@ theorem eq_of_map_eq_of_le_isPGroup (hO : ¬ 2 ∣ Nat.card O) {P R R' : Subgrou
 
 variable [K.A.Normal]
 
+omit [K.A.Normal] in
 theorem config_T_le_map_sylow (P : Sylow 2 Y)
     (hTP : K.A ⊔ Subgroup.closure {K.uv, K.t, K.u} ≤ P)
     (hinj : Set.InjOn (QuotientGroup.mk' O) K.A) :
@@ -76,6 +85,7 @@ theorem config_T_le_map_sylow (P : Sylow 2 Y)
   rw [← config_map_T K hinj]
   exact Subgroup.map_mono hTP
 
+omit [Finite Y] [K.A.Normal] in
 theorem config_E_le_sylow (P : Sylow 2 Y) (hTP : K.A ⊔ Subgroup.closure {K.uv, K.t, K.u} ≤ P) :
     Subgroup.closure {K.x ^ 2, K.y ^ 2, K.uv, K.t} ≤ (P : Subgroup Y) := by
   have hAP : K.A ≤ P := le_sup_left.trans hTP
@@ -88,6 +98,7 @@ theorem config_E_le_sylow (P : Sylow 2 Y) (hTP : K.A ⊔ Subgroup.closure {K.uv,
   · exact hTP K.uv_mem_T
   · exact hTP K.t_mem_T
 
+omit [K.A.Normal] in
 theorem config_hE_map_sylow (hO : ¬ 2 ∣ Nat.card O) (P : Sylow 2 Y)
     (hTP : K.A ⊔ Subgroup.closure {K.uv, K.t, K.u} ≤ P)
     (hE : ∀ g ∈ (P : Subgroup Y),
@@ -104,10 +115,11 @@ theorem config_hE_map_sylow (hO : ¬ 2 ∣ Nat.card O) (P : Sylow 2 Y)
   intro g hg hgN
   obtain ⟨g', hg', rfl⟩ := Subgroup.mem_map.mp hg
   rw [← config_map_E K hinj] at hgN
-  have := hE g' hg' (mem_normalizer_of_map hO P.isPGroup' (config_E_le_sylow K P hTP) hg' hgN)
+  have := hE g' hg' (mem_normalizer_of_map hO P.isPGroup (config_E_le_sylow K P hTP) hg' hgN)
   rw [← config_map_T K hinj]
   exact Subgroup.mem_map_of_mem _ this
 
+omit [Finite Y] [K.A.Normal] in
 theorem config_hE_map_centralizer (hO : ¬ 2 ∣ Nat.card O) (P : Sylow 2 Y)
     (hTP : K.A ⊔ Subgroup.closure {K.uv, K.t, K.u} ≤ P) {Q : Subgroup Y}
     (hQP : Q ≤ (P : Subgroup Y))
@@ -124,7 +136,7 @@ theorem config_hE_map_centralizer (hO : ¬ 2 ∣ Nat.card O) (P : Sylow 2 Y)
   obtain ⟨q, hq, rfl⟩ := Subgroup.mem_map.mp hg
   rw [← config_map_E K hinj] at hgN
   exact Subgroup.mem_map_of_mem _
-    (hQE q hq (mem_normalizer_of_map hO P.isPGroup' (config_E_le_sylow K P hTP) (hQP hq) hgN))
+    (hQE q hq (mem_normalizer_of_map hO P.isPGroup (config_E_le_sylow K P hTP) (hQP hq) hgN))
 
 end General
 
@@ -183,7 +195,7 @@ theorem frame_isPGroup_centralizerN :
     IsPGroup 2 (Subgroup.centralizer (F.configN.A : Set (Subgroup.normalizer (F.A : Set G))) ⊓
         (frameSylowN F : Subgroup (Subgroup.normalizer (F.A : Set G))) :
           Subgroup (Subgroup.normalizer (F.A : Set G))) :=
-  (frameSylowN F).isPGroup'.to_le inf_le_right
+  (frameSylowN F).isPGroup.to_le inf_le_right
 
 theorem frame_card_sylowN_dvd (h11 : ¬ 2 ^ 11 ∣ Nat.card G) :
     Nat.card (frameSylowN F : Subgroup (Subgroup.normalizer (F.A : Set G))) ∣ 2 ^ 10 := by
@@ -200,7 +212,7 @@ theorem frame_injOn_configN_A (hO : ¬ 2 ∣ Nat.card O) :
 theorem frame_injOn_sylowN (hO : ¬ 2 ∣ Nat.card O) :
     Set.InjOn (QuotientGroup.mk' O)
       (frameSylowN F : Subgroup (Subgroup.normalizer (F.A : Set G))) :=
-  injOn_of_isPGroup hO (frameSylowN F).isPGroup'
+  injOn_of_isPGroup hO (frameSylowN F).isPGroup
 
 theorem frame_configX_normal (hinj : Set.InjOn (QuotientGroup.mk' O) F.configN.A) :
     (F.configN.map (QuotientGroup.mk' O) hinj).A.Normal :=
@@ -278,7 +290,7 @@ theorem frame_card_sylowX_dvd (h11 : ¬ 2 ^ 11 ∣ Nat.card G) (hO : ¬ 2 ∣ Na
   rw [show (((frameSylowN F).mapSurjective (QuotientGroup.mk'_surjective O) :
       Subgroup (Subgroup.normalizer (F.A : Set G) ⧸ O))) =
       (frameSylowN F : Subgroup (Subgroup.normalizer (F.A : Set G))).map (QuotientGroup.mk' O)
-      from rfl, card_map_mk'_of_isPGroup hO (frameSylowN F).isPGroup']
+      from rfl, card_map_mk'_of_isPGroup hO (frameSylowN F).isPGroup]
   exact frame_card_sylowN_dvd F h11
 
 theorem frame_hE_sylowX (hO : ¬ 2 ∣ Nat.card O)
@@ -326,7 +338,7 @@ theorem frame_sylowN_eq_of_sylowX_eq (hO : ¬ 2 ∣ Nat.card O)
     rw [Subgroup.map_sup, MonoidHom.map_closure, Set.image_insert_eq, Set.image_insert_eq,
       Set.image_singleton]
     exact h.symm
-  have hPN := eq_of_map_eq_of_le_isPGroup hO (frameSylowN F).isPGroup' le_rfl hR hmap.symm
+  have hPN := eq_of_map_eq_of_le_isPGroup hO (frameSylowN F).isPGroup le_rfl hR hmap.symm
   rw [← frame_map_sylowN F, hPN, Subgroup.map_sup, frame_map_centralizer_inf_sylowN F,
     MonoidHom.map_closure, Set.image_insert_eq, Set.image_insert_eq, Set.image_singleton]
   rfl

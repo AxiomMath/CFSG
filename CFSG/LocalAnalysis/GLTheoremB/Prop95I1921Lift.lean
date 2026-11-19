@@ -33,7 +33,7 @@ theorem exists_subgroup_two_elements {G : Type*} [Group G] [Finite G] {H Z : Sub
     rw [Subgroup.mem_center_iff]
     intro g
     exact Subtype.ext (Subgroup.mem_center_iff.1 (hZc (Subgroup.mem_subgroupOf.1 hn)) (g : G))
-  haveI hNn : N.Normal := Subgroup.normal_of_le_center hNc
+  have hNn : N.Normal := Subgroup.normal_of_le_center hNc
   have hQ2 : IsPGroup 2 (↥H ⧸ N) := by
     intro q
     refine QuotientGroup.induction_on q ?_
@@ -42,18 +42,18 @@ theorem exists_subgroup_two_elements {G : Type*} [Group G] [Finite G] {H Z : Sub
     refine ⟨n, ?_⟩
     rw [← QuotientGroup.mk_pow, QuotientGroup.eq_one_iff]
     exact Subgroup.mem_subgroupOf.2 (by simpa using hn)
-  haveI : Group.IsNilpotent (↥H ⧸ N) := hQ2.isNilpotent
-  haveI : Group.IsNilpotent ↥H := Subgroup.isNilpotent_of_ker_le_center (QuotientGroup.mk' N)
+  have : Group.IsNilpotent (↥H ⧸ N) := hQ2.isNilpotent
+  have : Group.IsNilpotent ↥H := Subgroup.isNilpotent_of_ker_le_center (QuotientGroup.mk' N)
     (by rw [QuotientGroup.ker_mk']; exact hNc)
   let S : Sylow 2 ↥H := default
-  haveI hSn : S.Normal := inferInstance
-  haveI : Finite (Sylow 2 ↥H) := inferInstance
-  haveI : Unique (Sylow 2 ↥H) := Sylow.unique_of_normal S hSn
+  have hSn : S.Normal := inferInstance
+  have : Finite (Sylow 2 ↥H) := inferInstance
+  have : Unique (Sylow 2 ↥H) := Sylow.unique_of_normal S hSn
   refine ⟨(S : Subgroup ↥H).map H.subtype, fun g => ?_⟩
   constructor
   · rintro ⟨s, hs, rfl⟩
     refine ⟨s.2, ?_⟩
-    obtain ⟨n, hn⟩ := S.isPGroup' ⟨s, hs⟩
+    obtain ⟨n, hn⟩ := S.isPGroup ⟨s, hs⟩
     refine ⟨n, ?_⟩
     simpa using congrArg (fun y : ↥(S : Subgroup ↥H) => (((y : ↥H)) : G)) hn
   · rintro ⟨hgH, n, hn⟩

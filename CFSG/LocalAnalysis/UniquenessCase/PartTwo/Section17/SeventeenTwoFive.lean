@@ -71,7 +71,7 @@ private theorem exists_invariant_five {D : Data G} {Dsub X : Subgroup G} {q : �
   let D' : Subgroup G := (S : Subgroup K).map K.subtype
   have hD'K : D' ≤ K := Subgroup.map_subtype_le _
   have hD'M : D' ≤ D.M := hD'K.trans hKle
-  have hD'5 : IsPGroup 5 ↥D' := S.isPGroup'.map K.subtype
+  have hD'5 : IsPGroup 5 ↥D' := S.isPGroup.map K.subtype
   have hD'cardS : Nat.card ↥(S : Subgroup K) = 5 ^ (Nat.card K).factorization 5 :=
     S.card_eq_multiplicity
   have hfac : (Nat.card K).factorization 5 = 2 := by

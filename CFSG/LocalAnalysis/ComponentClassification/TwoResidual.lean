@@ -42,7 +42,7 @@ theorem characteristic (G : Type*) [Group G] : (subgroup G).Characteristic := by
 
 theorem odd_index (G : Type*) [Group G] [Finite G] : Odd (subgroup G).index := by
   let sylow : Sylow 2 G := Classical.choice inferInstance
-  have hle := twoSubgroup_le (sylow : Subgroup G) sylow.isPGroup'
+  have hle := twoSubgroup_le (sylow : Subgroup G) sylow.isPGroup
   apply Nat.coprime_two_left.mp
   apply Nat.Coprime.of_dvd_right (Subgroup.index_dvd_of_le hle)
   exact Nat.prime_two.coprime_iff_not_dvd.mpr sylow.not_dvd_index
@@ -120,7 +120,7 @@ theorem image_of_surjective {G H : Type*} [Group G] [Finite G] [Group H]
     rw [Sylow.coe_mapSurjective] at hle
     exact top_unique hle
   let ambientSylow := (sylow : Subgroup preimage).map preimage.subtype
-  have hambientTwo : IsPGroup 2 ambientSylow := sylow.isPGroup'.map preimage.subtype
+  have hambientTwo : IsPGroup 2 ambientSylow := sylow.isPGroup.map preimage.subtype
   have hambientLe := twoSubgroup_le ambientSylow hambientTwo
   intro element hmem
   have htarget : (⟨element, hmem⟩ : twoSubgroup) ∈ (sylow : Subgroup preimage).map restriction := by

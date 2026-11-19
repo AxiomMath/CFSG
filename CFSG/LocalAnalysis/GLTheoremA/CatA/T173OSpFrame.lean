@@ -18,7 +18,7 @@ open CFSG.Open CFSG.SectionRank
 theorem twoLocalPrimeRank_statedSp_eq {F : Type} [Field F] [Finite F] [CharP F 2]
     {ℓ p : ℕ} (hℓ : 1 ≤ ℓ) (hp : p.Prime) (hp2 : p ≠ 2) (hpq : p ∣ Nat.card F - 1) :
     GLATwoLocalRank p ↥(StatedSp ℓ F) = ℓ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hodd : Odd p := hp.odd_of_ne_two hp2
   have hq2 : 1 ≤ Nat.card F := Nat.card_pos
   have hp_sq : p ∣ Nat.card F ^ 2 - 1 := by

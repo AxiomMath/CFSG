@@ -191,10 +191,10 @@ private theorem tree_spec :
   obtain ⟨hcol, hrest⟩ := hall (p - 1) (by omega)
   rw [show p - 1 + 1 = p by omega] at hcol hrest
   refine ⟨hcol, fun hd => ?_, fun hd => ?_⟩
-  · rw [if_pos (show (stabTree ()).2.2.1[p]! = 0 from hd)] at hrest
+  · rw [ite_eq_left (show (stabTree ()).2.2.1[p]! = 0 from hd)] at hrest
     simp only [Bool.or_eq_true, beq_iff_eq] at hrest
     exact hrest
-  · rw [if_neg (show ¬ (stabTree ()).2.2.1[p]! = 0 from hd)] at hrest
+  · rw [ite_eq_right (show ¬ (stabTree ()).2.2.1[p]! = 0 from hd)] at hrest
     simp only [Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq] at hrest
     obtain ⟨⟨⟨⟨h1, h2⟩, h3⟩, h4⟩, h5⟩ := hrest
     exact ⟨h1, h2, h3, h4, h5⟩
@@ -233,8 +233,8 @@ private theorem class_subset {B : Set (Fin 136)}
       (x : ℕ) = if colOf x = 1 then r₁ else r₂ := by
     intro x hx hd
     rcases (hall x (hpos x hx) x.2).2.1 hd with h | h
-    · rw [h, hc1, if_pos rfl]
-    · rw [h, hc2, if_neg (by decide)]
+    · rw [h, hc1, ite_eq_left rfl]
+    · rw [h, hc2, ite_eq_right (by decide)]
   have hdesc : ∀ n, ∀ x : Fin 136, depOf x = n → x ∈ B → x ≠ 0 →
       ∃ y : Fin 136, (y : ℕ) = (if colOf x = 1 then r₁ else r₂) ∧ y ∈ B := by
     intro n
@@ -285,7 +285,7 @@ private theorem eq_univ_of_dvd {B : Set (Fin 136)}
       (Finset.univ.filter fun x : Fin 136 => colOf x = colOf p)) := by
     ext y
     simp only [Finset.coe_insert, Finset.coe_filter, Finset.mem_univ, true_and,
-      Set.mem_insert_iff, Set.mem_setOf_eq]
+      Set.mem_insert_iff, Set.mem_ofPred_eq]
     constructor
     · intro hy
       by_cases hy0 : y = 0
@@ -300,7 +300,7 @@ private theorem eq_univ_of_dvd {B : Set (Fin 136)}
           exact h0B
         · have hpz : colOf z = colOf p ∨ colOf z = colOf y := by
             rcases hcol z hz0 with hz | hz <;> rcases hcol p hp0 with hpc | hpc <;>
-              rcases hcol y hy0 with hyc' | hyc' <;> first | omega | (left; omega) | (right; omega)
+              rcases hcol y hy0 with hyc' | hyc' <;> first | omega
           rcases hpz with h | h
           · exact hmeet p hp hp0 z h
           · exact hmeet y hy hy0 z h
@@ -328,7 +328,7 @@ section Coatom
 theorem isCoatom_stabZero :
     IsCoatom ((MulAction.stabilizer (Equiv.Perm (Fin 136)) (0 : Fin 136)).comap rhoO) := by
   set H₀ := (MulAction.stabilizer (Equiv.Perm (Fin 136)) (0 : Fin 136)).comap rhoO with hH₀
-  letI : MulAction ↥(⁅O8, O8⁆) (Fin 136) := MulAction.compHom (Fin 136) rhoO
+  let : MulAction ↥(⁅O8, O8⁆) (Fin 136) := MulAction.compHom (Fin 136) rhoO
   have hsmul : ∀ (g : ↥(⁅O8, O8⁆)) (j : Fin 136), g • j = rhoO g j := fun _ _ => rfl
   have hmemH : ∀ g, g ∈ H₀ ↔ rhoO g 0 = 0 := fun g => Iff.rfl
   have hstab : MulAction.stabilizer ↥(⁅O8, O8⁆) (0 : Fin 136) = H₀ := by
@@ -370,7 +370,7 @@ theorem isCoatom_stabZero :
         show rhoO g⁻¹ (k • (0 : Fin 136)) = (sgen j)⁻¹ (k • (0 : Fin 136))
         rw [map_inv, hg]
     have h0B : (0 : Fin 136) ∈ B := MulAction.mem_orbit_self 0
-    obtain ⟨k, hkK, hkH⟩ := SetLike.exists_of_lt hK
+    obtain ⟨k, hkK, hkH⟩ := _root_.IsConcreteLE.exists_of_lt hK
     have hp : rhoO k 0 ∈ B := ⟨⟨k, hkK⟩, rfl⟩
     have hp0 : rhoO k 0 ≠ 0 := fun h => hkH ((hmemH k).mpr h)
     have hdvd : B.ncard ∣ 136 := by

@@ -14,6 +14,7 @@ variable {G : Type} [Group G] [Finite G]
 @[expose] def sec8t84g3b_Z (Q U U' : Subgroup G) : Subgroup G :=
   twoRes (Q ⊓ centralizer (U' : Set G)) ⊔ U
 
+omit [Finite G] in
 theorem sec8t84g3b_Z_le {Q U U' K : Subgroup G}
     (h1 : ∀ y ∈ Q, y ∈ centralizer (U' : Set G) → Odd (orderOf y) → y ∈ K) (h2 : U ≤ K) :
     sec8t84g3b_Z Q U U' ≤ K := by
@@ -23,11 +24,13 @@ theorem sec8t84g3b_Z_le {Q U U' K : Subgroup G}
   rintro y ⟨⟨hyQ, hyC⟩, hyodd⟩
   exact h1 y hyQ hyC hyodd
 
+omit [Finite G] in
 theorem sec8t84g3b_conj_conj {γ : G} (hγ2 : γ * γ = 1) (x : G) :
     γ * (γ * x * γ⁻¹) * γ⁻¹ = x := by
   calc γ * (γ * x * γ⁻¹) * γ⁻¹ = (γ * γ) * x * (γ⁻¹ * γ⁻¹) := by group
     _ = x := by rw [hγ2, ← mul_inv_rev, hγ2, inv_one]; simp
 
+omit [Finite G] in
 theorem sec8t84g3b_Z_conj {Q U U' : Subgroup G} {γ : G} (hγ2 : γ * γ = 1)
     (hQ : ∀ x ∈ Q, γ * x * γ⁻¹ ∈ Q) (hU : ∀ u ∈ U, γ * u * γ⁻¹ ∈ U)
     (hU' : ∀ u ∈ U', γ * u * γ⁻¹ ∈ U') :
@@ -69,12 +72,15 @@ theorem sec8t84g3b_odd_of_pow {Q : Subgroup G} {y : G} {k : ℕ} (hk : Odd k)
     orderOf_dvd_of_pow_eq_one (by rw [pow_mul]; exact pow_orderOf_eq_one _)
   exact Odd.of_dvd_nat (hk.mul h2) h3
 
+omit [Finite G] in
 theorem sec8t84g3b_Q_le_E {E E0 : Subgroup G} : sec8t84g_Q E E0 ≤ normalizer (E : Set G) :=
   inf_le_left
 
+omit [Finite G] in
 theorem sec8t84g3b_Q_le_E0 {E E0 : Subgroup G} : sec8t84g_Q E E0 ≤ normalizer (E0 : Set G) :=
   inf_le_right
 
+omit [Finite G] in
 theorem sec8t84g3b_conj_W {E E0 : Subgroup G} {y : G} (hy : y ∈ sec8t84g_Q E E0) :
     ∀ x ∈ E ⊔ E0, y * x * y⁻¹ ∈ E ⊔ E0 := by
   refine sec8t84g3b_conj_sup (fun e he => ?_) (fun e he => ?_)

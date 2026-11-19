@@ -28,7 +28,7 @@ theorem normalizerQuotient_prodMulEquiv {A B : Type*} [Group A] [Group B]
         (Subgroup.mem_prod.mpr ⟨hx, T.one_mem⟩))).1
     · intro hx
       exact (Subgroup.mem_prod.mp ((hg (x, 1)).mpr
-        (Subgroup.mem_prod.mpr ⟨hx, by simpa using T.one_mem⟩))).1
+        (Subgroup.mem_prod.mpr ⟨hx, by simp⟩))).1
   have hsnd : ∀ g ∈ N, g.2 ∈ Subgroup.normalizer (T : Set B) := by
     intro g hg
     rw [Subgroup.mem_normalizer_iff] at hg ⊢
@@ -39,7 +39,7 @@ theorem normalizerQuotient_prodMulEquiv {A B : Type*} [Group A] [Group B]
         (Subgroup.mem_prod.mpr ⟨S.one_mem, hy⟩))).2
     · intro hy
       exact (Subgroup.mem_prod.mp ((hg (1, y)).mpr
-        (Subgroup.mem_prod.mpr ⟨by simpa using S.one_mem, hy⟩))).2
+        (Subgroup.mem_prod.mpr ⟨by simp, hy⟩))).2
   let f : N →* normalizerQuotient S × normalizerQuotient T :=
     { toFun := fun g =>
         (normalizerQuotientMk S ⟨g.1.1, hfst g g.2⟩,

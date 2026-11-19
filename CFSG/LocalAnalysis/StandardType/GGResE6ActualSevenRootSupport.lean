@@ -160,12 +160,14 @@ variable {K : Type*} [Field K]
     Matrix (Fin 7) (Fin 7) K :=
   (gram7Block C c d).submatrix (fun i => finSumFinEquiv.symm i) (fun i => finSumFinEquiv.symm i)
 
+omit [Field K] in
 theorem gram7Block_symm (C : Matrix (Fin 6) (Fin 6) K) (c : Fin 6 → K) (d : K)
     (hC : C.IsSymm) : (gram7Block C c d).IsSymm := by
   apply Matrix.IsSymm.fromBlocks hC _ (by ext i j; rfl)
   ext i j
   rfl
 
+omit [Field K] in
 theorem gram7_symm (C : Matrix (Fin 6) (Fin 6) K) (c : Fin 6 → K) (d : K)
     (hC : C.IsSymm) : (gram7 C c d).IsSymm := by
   have h := (gram7Block_symm C c d hC).submatrix (fun i => finSumFinEquiv.symm i)
@@ -216,12 +218,11 @@ variable {K : Type*} [Field K]
 theorem reflection7_apply (M : Matrix (Fin 7) (Fin 7) K) (i : Fin 6) (x : Fin 7 → K) :
     reflection7 M i x = x - (Matrix.mulVec M x) (Fin.castSucc i) • Pi.single (Fin.castSucc i) 1 := by
   ext r
-  simp only [reflection7, Matrix.toLin'_apply, Matrix.sub_mulVec, Matrix.one_mulVec,
-    Matrix.mulVec, Matrix.of_apply, Pi.sub_apply, Pi.smul_apply, Pi.single_apply, dotProduct]
+  simp only [reflection7, Matrix.toLin'_apply, Matrix.mulVec, Pi.sub_apply, Pi.smul_apply, Pi.single_apply, dotProduct]
   simp only [Matrix.sub_apply, Matrix.one_apply]
   by_cases h : r = Fin.castSucc i
   · simp only [h]
-    simp only [sub_mul, one_mul]
+    simp only [sub_mul]
     rw [Finset.sum_sub_distrib]
     congr 1
     · rw [Finset.sum_eq_single (Fin.castSucc i)]
@@ -276,7 +277,6 @@ theorem gram7_castSucc_castSucc (c : Fin 6 → ZMod 3) (b : ZMod 3) (i j : Fin 6
   simp only [gram7, Matrix.submatrix_apply]
   rw [show finSumFinEquiv.symm i.castSucc = Sum.inl i from by decide +kernel +revert]
   rw [show finSumFinEquiv.symm j.castSucc = Sum.inl j from by decide +kernel +revert]
-  change gram7Block cartanE6ModThree c b (Sum.inl i) (Sum.inl j) = cartanE6ModThree i j
   simp [gram7Block, Matrix.fromBlocks_apply₁₁]
 
 theorem gram7_castSucc_last (c : Fin 6 → ZMod 3) (b : ZMod 3) (i : Fin 6) :
@@ -285,7 +285,6 @@ theorem gram7_castSucc_last (c : Fin 6 → ZMod 3) (b : ZMod 3) (i : Fin 6) :
   rw [show finSumFinEquiv.symm i.castSucc = Sum.inl i from by decide +kernel +revert]
   rw [show finSumFinEquiv.symm (Fin.last 6) = Sum.inr (0 : Fin 1) from by
     decide +kernel +revert]
-  change gram7Block cartanE6ModThree c b (Sum.inl i) (Sum.inr (0 : Fin 1)) = c i
   simp [gram7Block, Matrix.fromBlocks_apply₁₂]
 
 theorem gram7_last_last (c : Fin 6 → ZMod 3) (b : ZMod 3) :
@@ -293,7 +292,6 @@ theorem gram7_last_last (c : Fin 6 → ZMod 3) (b : ZMod 3) :
   simp only [gram7, Matrix.submatrix_apply]
   rw [show finSumFinEquiv.symm (Fin.last 6) = Sum.inr (0 : Fin 1) from by
     decide +kernel +revert]
-  change gram7Block cartanE6ModThree c b (Sum.inr (0 : Fin 1)) (Sum.inr (0 : Fin 1)) = b
   simp [gram7Block, Matrix.fromBlocks_apply₂₂]
 
 end E6Seven
@@ -321,7 +319,7 @@ theorem e6_Bform_H_H_eq_e6dot
     simp [cartanE6ModThree]
   simp only [Fintype.linearCombination_apply, map_sum, map_smul, hB,
     LinearMap.sum_apply, LinearMap.smul_apply,
-    apply_linearCombination_eq_cartanE6ModThree hpair, hpair,
+    hpair,
     cartanE6ModThree_symm, e6dot, Cmul,
     Finset.mul_sum, Finset.sum_mul, smul_eq_mul]
   conv_rhs => rw [Finset.sum_comm]
@@ -430,13 +428,13 @@ theorem exists_seven_chart_form
     rw [hform_h i]
     exact hpair i j
   · intro i
-    change Bform (h i) z = α i z
     rw [hform_h i]
   · change B7 cartanE6ModThree c b (chart z) (chart z) = b
     rw [hchart_z, B7_single_single]
     exact gram7_last_last c b
   · rfl
 
+omit [Finite G] in
 theorem chart_generator_invariant
     {V : Type} [AddCommGroup V] [Module (ZMod 3) V] {Bs : Subgroup G}
     (h : Fin 6 → V) (α : Fin 6 → Module.Dual (ZMod 3) V)
@@ -463,7 +461,7 @@ theorem chart_generator_invariant
     congr 1
     have hB : (B7 cartanE6ModThree c b) (Pi.single i.castSucc 1) (chart w) =
         (Matrix.mulVec (gram7 cartanE6ModThree c b) (chart w)) i.castSucc := by
-      simp [B7, Matrix.toBilin'_apply', single_one_dotProduct]
+      simp [B7, Matrix.toBilin'_apply']
     rw [← hB]
     have := congrArg (fun f : V →ₗ[ZMod 3] ZMod 3 => f w) (hform_h i)
     simpa [LinearMap.BilinForm.comp_apply, hchart_h i] using this.symm
@@ -488,6 +486,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 variable {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
   {B Bs L D J K : Subgroup G} {x y : G}
 
+omit [Finite G] in
 theorem ggIsTransvection_mul_of_same_functional
     {V : Type} [AddCommGroup V] [Module (ZMod p) V] (ι : Additive ↥Bs ≃+ V)
     {φ ψ : MulAut ↥Bs} {yV zV : V} {f : Module.Dual (ZMod p) V}
@@ -540,8 +539,7 @@ variable {K V : Type*} [Field K] [AddCommGroup V] [Module K V]
 theorem reflection_mul_reflection_same_coroot {f f' : Module.Dual K V} {y : V}
     (hfy : f y = 2) (hfy' : f' y = 2) (v : V) :
     (reflection hfy * reflection hfy') v = v + ((f' - f) v) • y := by
-  simp only [LinearEquiv.mul_apply, reflection_apply, LinearMap.sub_apply, smul_eq_mul,
-    map_sub, map_smul, hfy, hfy', mul_zero, sub_zero, zero_smul]
+  simp only [LinearEquiv.mul_apply, reflection_apply, LinearMap.sub_apply, map_sub, map_smul, hfy]
   module
 
 theorem reflection_conj_eq {f g : Module.Dual K V} {y z : V}
@@ -550,12 +548,12 @@ theorem reflection_conj_eq {f g : Module.Dual K V} {y z : V}
       v - ((g - (g y) • f) v) • z := by
   rw [reflection_inv]
   simp only [LinearEquiv.mul_apply, reflection_apply, smul_eq_mul, map_sub, map_smul,
-    LinearMap.sub_apply, LinearMap.smul_apply, hfy, hgz, hfz, mul_zero, sub_zero, zero_smul]
+    LinearMap.sub_apply, LinearMap.smul_apply, hfy, hfz, sub_zero, zero_smul]
   module
 
 theorem reflection_commutator_apply {f g : Module.Dual K V} {y z : V}
-    (h2 : (2 : K) ≠ 0) (hfy : f y = 2) (hgz : g z = 2) (hfz : f z = 0)
-    (hgy : g y ≠ 0) (v : V) :
+    (_h2 : (2 : K) ≠ 0) (hfy : f y = 2) (hgz : g z = 2) (hfz : f z = 0)
+    (_hgy : g y ≠ 0) (v : V) :
     (reflection hfy * reflection hgz * (reflection hfy)⁻¹ * (reflection hgz)⁻¹) v =
       v + (g y * f v) • z := by
   rw [reflection_inv hgz]
@@ -901,8 +899,8 @@ theorem e6_actual_independent_six_chart
       intro i j hij
       exact e.injective (Sum.inl.inj hij)
     simpa [h', Function.comp_def] using hind.comp e e.injective
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Module.Finite (ZMod 3) V := Module.Finite.of_finite
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Module.Finite (ZMod 3) V := Module.Finite.of_finite
   have hVcard : Nat.card V = 3 ^ 6 := by
     rw [← Nat.card_congr ι.toEquiv, Nat.card_congr Additive.toMul, hcard]
   have hdim : Module.finrank (ZMod 3) V = 6 := by
@@ -948,9 +946,9 @@ theorem e6_actual_independent_six_chart
     have hi : h' i ≠ 0 := by
       intro h0
       have hsum : (∑ j : Fin 6, (Pi.single i (1 : ZMod 3) : Fin 6 → ZMod 3) j • h' j) = 0 := by
-        simpa [h0] using congrArg (fun z => z) h0
+        simp [h0]
       have hcoord := (Fintype.linearIndependent_iff.mp hli') (Pi.single i 1) hsum i
-      simpa using hcoord
+      simp at hcoord
     exact (smul_eq_zero.mp hzero).resolve_right hi
   have hker : ∀ v : V, (∀ i : Fin 6, α' i v = 0) ↔
       v ∈ Submodule.span (ZMod 3) {xV} :=
@@ -1066,12 +1064,12 @@ theorem e6SelVec_eq_root (k : Fin 16) :
   e6Eval (e6CH h) root
 
 private def e6Norm (v : Fin 6 → ZMod 3) : Fin 6 → ZMod 3 :=
-  if h0 : v 0 ≠ 0 then (v 0)⁻¹ • v
-  else if h1 : v 1 ≠ 0 then (v 1)⁻¹ • v
-  else if h2 : v 2 ≠ 0 then (v 2)⁻¹ • v
-  else if h3 : v 3 ≠ 0 then (v 3)⁻¹ • v
-  else if h4 : v 4 ≠ 0 then (v 4)⁻¹ • v
-  else if h5 : v 5 ≠ 0 then (v 5)⁻¹ • v
+  if _h0 : v 0 ≠ 0 then (v 0)⁻¹ • v
+  else if _h1 : v 1 ≠ 0 then (v 1)⁻¹ • v
+  else if _h2 : v 2 ≠ 0 then (v 2)⁻¹ • v
+  else if _h3 : v 3 ≠ 0 then (v 3)⁻¹ • v
+  else if _h4 : v 4 ≠ 0 then (v 4)⁻¹ • v
+  else if _h5 : v 5 ≠ 0 then (v 5)⁻¹ • v
   else 0
 
 private theorem e6Norm_scale :
@@ -1261,7 +1259,7 @@ theorem C_symm : ∀ i j : Fin 6, C i j = C j i := by
 theorem e6dot_Cmul_s (i : Fin 6) (u v : Fin 6 → ZMod 3) :
     e6dot (Cmul u) (s i v) = e6dot (Cmul (s i u)) v := by
   fin_cases i <;>
-    simp [e6dot, Cmul, s, sDual, C, Cℤ, unitRoot, Pi.single_apply, Fin.sum_univ_six] <;>
+    simp [e6dot, Cmul, s, C, Cℤ, unitRoot, Pi.single_apply, Fin.sum_univ_six] <;>
     ring
 
 theorem e6dot_Cmul_foldl : ∀ (w : List (Fin 6)) (u v : Fin 6 → ZMod 3),
@@ -1295,7 +1293,7 @@ theorem s_sub (i : Fin 6) (u v : Fin 6 → ZMod 3) : s i (u - v) = s i u - s i v
 
 theorem s_smul (i : Fin 6) (c : ZMod 3) (v : Fin 6 → ZMod 3) :
     s i (c • v) = c • s i v := by
-  simp only [s, Cmul_smul, Pi.sub_apply, Pi.smul_apply, smul_eq_mul, smul_smul]
+  simp only [s, Cmul_smul, Pi.smul_apply, smul_eq_mul]
   ext j
   simp only [Pi.sub_apply, Pi.smul_apply, smul_eq_mul]
   ring
@@ -1346,8 +1344,7 @@ theorem applyWord_applyWord_reverse (w : List (Fin 6)) (v : Fin 6 → ZMod 3) :
 theorem e6dot_Cmul_unitRoot (i : Fin 6) (v : Fin 6 → ZMod 3) :
     e6dot (Cmul (unitRoot i)) v = Cmul v i := by
   fin_cases i <;>
-    simp [e6dot, Cmul, unitRoot, Pi.single_apply, Fin.sum_univ_six, C, Cℤ] <;>
-    ring
+    simp [e6dot, Cmul, unitRoot, Pi.single_apply, Fin.sum_univ_six, C, Cℤ]
 
 theorem applyWord_conj_s (w : List (Fin 6)) (i0 : Fin 6)
     (x beta : Fin 6 → ZMod 3)
@@ -1362,7 +1359,7 @@ theorem applyWord_conj_s (w : List (Fin 6)) (i0 : Fin 6)
   rw [hfun x]
 
 theorem s_add (i : Fin 6) (u v : Fin 6 → ZMod 3) : s i (u + v) = s i u + s i v := by
-  simp only [s, Cmul_add, Pi.add_apply, add_mul, add_smul]
+  simp only [s, Cmul_add, Pi.add_apply, add_smul]
   module
 
 theorem applyWord_add : ∀ (w : List (Fin 6)) (u v : Fin 6 → ZMod 3),
@@ -1403,12 +1400,15 @@ theorem norm_cases (x : ZMod 3) : x = 0 ∨ x = 1 ∨ x = 2 := by
   have h : ∀ y : ZMod 3, y = 0 ∨ y = 1 ∨ y = 2 := by decide
   exact h x
 
+omit [Finite G] in
 @[simp] theorem e6WordAut_nil {ι : Type} (φ : ι → MulAut ↥Bs) :
     e6WordAut φ ([] : List ι) = 1 := rfl
 
+omit [Finite G] in
 @[simp] theorem e6WordAut_cons {ι : Type} (φ : ι → MulAut ↥Bs) (i : ι) (is : List ι) :
     e6WordAut φ (i :: is) = e6WordAut φ is * φ i := rfl
 
+omit [Finite G] in
 theorem e6WordAut_append {ι : Type} (φ : ι → MulAut ↥Bs) (w₁ w₂ : List ι) :
     e6WordAut φ (w₁ ++ w₂) = e6WordAut φ w₂ * e6WordAut φ w₁ := by
   induction w₁ with
@@ -1416,6 +1416,7 @@ theorem e6WordAut_append {ι : Type} (φ : ι → MulAut ↥Bs) (w₁ w₂ : Lis
   | cons i is ih =>
       rw [List.cons_append, e6WordAut_cons, e6WordAut_cons, ih, mul_assoc]
 
+omit [Finite G] in
 theorem e6WordAut_reverse {ι : Type} (φ : ι → MulAut ↥Bs)
     (hinv : ∀ i, φ i * φ i = 1) (w : List ι) :
     e6WordAut φ w.reverse = (e6WordAut φ w)⁻¹ := by
@@ -1423,11 +1424,12 @@ theorem e6WordAut_reverse {ι : Type} (φ : ι → MulAut ↥Bs)
   | nil => rfl
   | cons i is ih =>
       rw [List.reverse_cons, e6WordAut_append, ih]
-      simp only [e6WordAut_cons, e6WordAut_nil, one_mul, mul_one]
+      simp only [e6WordAut_cons, e6WordAut_nil, one_mul]
       rw [mul_inv_rev]
       have hi : (φ i)⁻¹ = φ i := inv_eq_of_mul_eq_one_right (hinv i)
       rw [hi]
 
+omit [Finite G] in
 theorem e6WordAut_act {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
     {ι : Additive ↥Bs ≃+ V} {φL : Fin 6 → MulAut ↥Bs}
     {ec : V ≃ₗ[ZMod 3] (Fin 6 → ZMod 3)}
@@ -1439,6 +1441,7 @@ theorem e6WordAut_act {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
   | cons i is ih =>
       rw [e6WordAut_cons, map_mul, LinearEquiv.mul_apply, ih, hact, applyWord_cons]
 
+omit [Finite G] in
 theorem e6WordAut_mem {A : Subgroup (MulAut ↥Bs)} {φL : Fin 6 → MulAut ↥Bs}
     (hgen : ∀ i, φL i ∈ A) (w : List (Fin 6)) : e6WordAut φL w ∈ A := by
   induction w with
@@ -1447,6 +1450,7 @@ theorem e6WordAut_mem {A : Subgroup (MulAut ↥Bs)} {φL : Fin 6 → MulAut ↥B
       rw [e6WordAut_cons]
       exact mul_mem ih (hgen i)
 
+omit [Finite G] in
 theorem e6RootRefl_mem {A : Subgroup (MulAut ↥Bs)} {φL : Fin 6 → MulAut ↥Bs}
     (hgen : ∀ i, φL i ∈ A) (i0 : Fin 6) (w : List (Fin 6)) :
     e6RootRefl φL i0 w ∈ A := by
@@ -1454,6 +1458,7 @@ theorem e6RootRefl_mem {A : Subgroup (MulAut ↥Bs)} {φL : Fin 6 → MulAut ↥
   exact mul_mem (mul_mem (e6WordAut_mem hgen w) (hgen i0))
     (inv_mem (e6WordAut_mem hgen w))
 
+omit [Finite G] in
 theorem e6RootRefl_act {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
     {ι : Additive ↥Bs ≃+ V} {φL : Fin 6 → MulAut ↥Bs}
     {ec : V ≃ₗ[ZMod 3] (Fin 6 → ZMod 3)}
@@ -1540,7 +1545,7 @@ theorem e6_added_mem_of_chart
     apply ec.injective
     rw [map_sub, map_smul,
       e6RootRefl_act hact hinv 0 (rootPath m) (rootVec m) (rootVec_applyWord m) v]
-    simp [ar, e6dotLin, ψ]
+    simp [ar, e6dotLin]
   have hselfu : ∀ m, ar m (ec.symm (rootVec m)) = 2 := by
     intro m
     simp [ar, e6dotLin, e6dot_Cmul_self, norm_rootVec m]
@@ -1801,7 +1806,7 @@ theorem e6RootRefl_apply_full
     (hB : ∀ i, B (h i) = α i)
     (hlin : ∀ i v, ggLin (p := 3) ι (φL i) v = v - α i v • h i)
     (hgenB : ∀ i, ∀ u v, B (ggLin (p := 3) ι (φL i) u) (ggLin (p := 3) ι (φL i) v) = B u v)
-    (hinv : ∀ i, φL i * φL i = 1)
+    (_hinv : ∀ i, φL i * φL i = 1)
     (i0 : Fin 6) (w : List (Fin 6)) (beta : Fin 6 → ZMod 3)
     (hbeta : applyWord w (unitRoot i0) = beta) (v : V) :
     ggLin (p := 3) ι (e6RootRefl φL i0 w) v =
@@ -1895,7 +1900,6 @@ theorem e6_fullRootAction_sameWitness
   have hRootSelf : ∀ m, Bform (H (rootVec m)) (H (rootVec m)) = 2 := by
     intro m
     have hg0 : ggLin (p := 3) ι (e6WordAut φL (rootPath m)) (h 0) = H (rootVec m) := by
-      change ggLin (p := 3) ι (e6WordAut φL (rootPath m)) (h 0) = H (rootVec m)
       rw [← hUnit 0]
       rw [e6WordAut_act_linearCombination (h := h) (α := α)
         (hpair := hpair) (hlin := hlin) (φL := φL) (w := rootPath m)
@@ -1924,7 +1928,7 @@ theorem e6_raw_chart_root_actions
     {Λ : Type} [Fintype Λ] [DecidableEq Λ]
     {Λa : Type} [Fintype Λa] [DecidableEq Λa]
     {ML : CoxeterMatrix Λ} {CL : Matrix Λ Λ ℤ}
-    (hML : GGIsWeylMatrix ML) (hCL : GGIntCartan ML CL)
+    (_hML : GGIsWeylMatrix ML) (hCL : GGIntCartan ML CL)
     {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
     (ι : Additive ↥Bs ≃+ V)
     (φ : Λ ⊕ Λa → MulAut ↥Bs) (hV : Λ ⊕ Λa → V)
@@ -1972,8 +1976,8 @@ theorem e6_raw_chart_root_actions
     simp [cartanE6ModThree]
   have hVcard : Nat.card V = 3 ^ 7 := by
     rw [← Nat.card_congr ι.toEquiv, Nat.card_congr Additive.toMul, hcard]
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Module.Finite (ZMod 3) V := Module.Finite.of_finite
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Module.Finite (ZMod 3) V := Module.Finite.of_finite
   have hVpow : Nat.card V = 3 ^ Module.finrank (ZMod 3) V := by
     simpa using (Module.natCard_eq_pow_finrank (K := ZMod 3) (V := V))
   have hdim : Module.finrank (ZMod 3) V = 7 := by
@@ -2032,11 +2036,11 @@ theorem e6_raw_radical_alignment
     {B Bs L D J K : Subgroup G} {x y : G}
     (hFix : GGTBFixInput)
     (hH : GGResHyp 3 B Bs x L D J y K)
-    (hcard : Nat.card Bs = 3 ^ 7)
+    (_hcard : Nat.card Bs = 3 ^ 7)
     {Λ : Type} [Fintype Λ] [DecidableEq Λ]
     {Λa : Type} [Fintype Λa] [DecidableEq Λa]
     {ML : CoxeterMatrix Λ} {CL : Matrix Λ Λ ℤ}
-    (hML : GGIsWeylMatrix ML) (hCL : GGIntCartan ML CL)
+    (_hML : GGIsWeylMatrix ML) (hCL : GGIntCartan ML CL)
     {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
     (ι : Additive ↥Bs ≃+ V)
     (φ : Λ ⊕ Λa → MulAut ↥Bs) (hV : Λ ⊕ Λa → V)
@@ -2117,7 +2121,7 @@ theorem e6_restriction_proportional_sameWitness
     (hH : GGResHyp 3 B Bs x L D J y K)
     {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
     (ι : Additive ↥Bs ≃+ V)
-    (h : Fin 6 → V) (α : Fin 6 → Module.Dual (ZMod 3) V)
+    (h : Fin 6 → V) (_α : Fin 6 → Module.Dual (ZMod 3) V)
     (Bform : LinearMap.BilinForm (ZMod 3) V)
     (rootRefl : Fin 72 → MulAut ↥Bs)
     (hRootMem : ∀ m, rootRefl m ∈ ggAutomizer L Bs)
@@ -2368,11 +2372,11 @@ theorem toBilin_block_congruence
         (arow a * cartanE6ModThree + scM lam * crow c)
         (arow a * ccol c + scM lam * scM d) := by
     rw [hG, Matrix.fromBlocks_multiply]
-    simp only [add_zero, zero_add, Matrix.one_mul, Matrix.zero_mul, Matrix.mul_zero]
+    simp only [add_zero, Matrix.one_mul, Matrix.zero_mul]
   have hcong : (blockM a lam)ᵀ * gram7Block cartanE6ModThree c d * blockM a lam =
       gram7Block cartanE6ModThree canonicalCoupling 2 := by
     rw [hMt, hMG, blockM, Matrix.fromBlocks_multiply]
-    simp only [add_zero, zero_add, Matrix.mul_one, Matrix.mul_zero, Matrix.zero_mul]
+    simp only [add_zero, Matrix.mul_one, Matrix.mul_zero]
     rw [h1, h3, h2, hGn]
   let TE : ((Fin 6 ⊕ Fin 1) → ZMod 3) ≃ₗ[ZMod 3] ((Fin 6 ⊕ Fin 1) → ZMod 3) :=
     Matrix.toLin'OfInv (M := blockMinv a lam) (M' := blockM a lam)
@@ -2388,14 +2392,14 @@ theorem toBilin_block_congruence
       rcases σ with j | j
       · simp [blockM, Matrix.col_apply, Matrix.fromBlocks_apply₁₁, Matrix.one_apply,
           Pi.single_apply]
-      · simp [blockM, Matrix.col_apply, Matrix.fromBlocks_apply₂₁, Pi.single_apply]
+      · simp [blockM, Matrix.col_apply, Matrix.fromBlocks_apply₂₁]
     rw [hTE, Matrix.mulVec_single_one, hcol]
   · have hrv : blockM a lam *ᵥ Sum.elim cartanE6KernelVec (0 : Fin 1 → ZMod 3) =
         Sum.elim cartanE6KernelVec (0 : Fin 1 → ZMod 3) := by
       have hci : (Sum.elim cartanE6KernelVec (0 : Fin 1 → ZMod 3)) ∘ Sum.inl = cartanE6KernelVec := rfl
       have hcr : (Sum.elim cartanE6KernelVec (0 : Fin 1 → ZMod 3)) ∘ Sum.inr = (0 : Fin 1 → ZMod 3) := rfl
       rw [blockM, Matrix.fromBlocks_mulVec, hci, hcr]
-      simp only [Matrix.mulVec_zero, Matrix.one_mulVec, Matrix.zero_mulVec, add_zero, zero_add]
+      simp only [Matrix.mulVec_zero, Matrix.one_mulVec, Matrix.zero_mulVec, add_zero]
     rw [hTE, hrv]
   · intro x y
     rw [hTE, hTE]
@@ -2495,8 +2499,7 @@ theorem exists_seven_gram_normalize (c : Fin 6 → ZMod 3) (d : ZMod 3)
   have hTapply : ∀ (x : Fin 7 → ZMod 3) (j : Fin 7),
       T x j = TW (fun k => x (e k)) (e.symm j) := by
     intro x j
-    simp only [T, LinearEquiv.trans_apply, LinearEquiv.funCongrLeft_apply,
-      LinearMap.funLeft_apply]
+    simp only [T, LinearEquiv.trans_apply, LinearEquiv.funCongrLeft_apply]
     rfl
   have hTcomp : ∀ x : Fin 7 → ZMod 3,
       (fun k => T x (e k)) = TW (fun k => x (e k)) := by

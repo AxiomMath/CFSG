@@ -18,10 +18,10 @@ theorem exists_complement {E : Type} [Group E] [Finite E] {p : ℕ} (hp : p.Prim
     (hHD : ∀ h : H, D.map h.val.toMonoidHom = D) :
     ∃ R : Subgroup E, R ⊓ D = ⊥ ∧ R ⊔ D = ⊤ ∧ Nat.card R = p ∧
       ∀ h : H, R.map h.val.toMonoidHom = R := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  letI : CommGroup E := { ‹Group E› with mul_comm := fun a b => IsMulCommutative.is_comm.comm a b }
-  letI := moduleOf hE
-  haveI : NeZero (Nat.card H : ZMod p) := by
+  have : Fact p.Prime := ⟨hp⟩
+  let : CommGroup E := { ‹Group E› with mul_comm := fun a b => IsMulCommutative.is_comm.comm a b }
+  let := moduleOf hE
+  have : NeZero (Nat.card H : ZMod p) := by
     refine ⟨?_⟩
     rw [Ne, ZMod.natCast_eq_zero_iff]
     intro h
@@ -61,7 +61,7 @@ theorem exists_complement {E : Type} [Group E] [Finite E] {p : ℕ} (hp : p.Prim
     rw [e.map_inf, hRe, e.map_bot, ← hDe, inf_comm, hinf]
   · apply e.injective
     rw [e.map_sup, hRe, e.map_top, ← hDe, sup_comm, hsup]
-  · haveI : Module.Finite (ZMod p) (Additive E) := Module.Finite.of_finite
+  · have : Module.Finite (ZMod p) (Additive E) := Module.Finite.of_finite
     have hcard : ∀ S : Subgroup E, Nat.card S = p ^ Module.finrank (ZMod p) (e S) := by
       intro S
       have := Module.natCard_eq_pow_finrank (K := ZMod p) (V := e S)

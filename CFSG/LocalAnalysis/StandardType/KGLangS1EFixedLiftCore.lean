@@ -20,12 +20,12 @@ theorem kgLangS1EFixedLift_descent (k : Type) [Field k] [Finite k] (L : Type) [F
       (c' g' : ModGL Tag.E6 k'), ι.comp κ = algebraMap k L ∧ c' ∈ adjointGroup Tag.E6 k' ∧
         g' ∈ adjointGroup Tag.E6 k' ∧ baseChangeGL ι c' = c ∧ baseChangeGL ι g' = g := by
   classical
-  haveI : CharP k 2 := RingHom.charP (algebraMap k L) (algebraMap k L).injective 2
-  letI : Algebra (ZMod 2) k := ZMod.algebra k 2
-  letI : Algebra (ZMod 2) L := ZMod.algebra L 2
-  haveI : IsScalarTower (ZMod 2) k L := IsScalarTower.of_algebraMap_eq' (RingHom.ext_zmod _ _)
-  haveI : Algebra.IsAlgebraic (ZMod 2) k := Algebra.IsAlgebraic.of_finite (ZMod 2) k
-  haveI : Algebra.IsAlgebraic (ZMod 2) L := Algebra.IsAlgebraic.trans (ZMod 2) k L
+  have : CharP k 2 := RingHom.charP (algebraMap k L) (algebraMap k L).injective 2
+  let : Algebra (ZMod 2) k := ZMod.algebra k 2
+  let : Algebra (ZMod 2) L := ZMod.algebra L 2
+  have : IsScalarTower (ZMod 2) k L := IsScalarTower.of_algebraMap_eq' (RingHom.ext_zmod _ _)
+  have : Algebra.IsAlgebraic (ZMod 2) k := Algebra.IsAlgebraic.of_finite (ZMod 2) k
+  have : Algebra.IsAlgebraic (ZMod 2) L := Algebra.IsAlgebraic.trans (ZMod 2) k L
   have hS : (↑({c, g} : Finset (ModGL Tag.E6 L)) : Set (ModGL Tag.E6 L)) ⊆
       ↑(adjointGroup Tag.E6 L) := by
     intro s hs

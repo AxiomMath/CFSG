@@ -31,6 +31,7 @@ private def hermBlkSub (S : Subgroup (HMod 1 K)) : AddSubgroup (Matrix (Fin 2) (
     ext i j
     simp [hermBlk, mat_inv]
 
+omit [Finite K] in
 private theorem mem_hermBlkSub {S : Subgroup (HMod 1 K)} {B : Matrix (Fin 2) (Fin 2) K} :
     B ∈ hermBlkSub S ↔ ∃ X ∈ S, hermBlk X = B :=
   Iff.rfl

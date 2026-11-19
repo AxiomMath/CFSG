@@ -36,26 +36,26 @@ theorem minN_eq (a b : Nat) : minN a b = min a b := by
   rw [Nat.min_def]
   by_cases h : a ≤ b
   · have hb : Nat.ble a b = true := by rw [Nat.ble_eq]; exact h
-    rw [if_pos h, hb]
+    rw [ite_eq_left h, hb]
   · have hb : Nat.ble a b = false := by
       cases e : Nat.ble a b
       · rfl
       · rw [Nat.ble_eq] at e
         exact absurd e h
-    rw [if_neg h, hb]
+    rw [ite_eq_right h, hb]
 
 theorem maxN_eq (a b : Nat) : maxN a b = max a b := by
   unfold maxN
   rw [Nat.max_def]
   by_cases h : a ≤ b
   · have hb : Nat.ble a b = true := by rw [Nat.ble_eq]; exact h
-    rw [if_pos h, hb]
+    rw [ite_eq_left h, hb]
   · have hb : Nat.ble a b = false := by
       cases e : Nat.ble a b
       · rfl
       · rw [Nat.ble_eq] at e
         exact absurd e h
-    rw [if_neg h, hb]
+    rw [ite_eq_right h, hb]
 
 theorem key2N_eq (x1 x2 : Nat) : key2N x1 x2 = key3 x1 x2 (x1 ^^^ x2) := by
   unfold key2N keyLH
@@ -122,8 +122,8 @@ theorem clsN_eq (k : Nat) : clsN k = clsK k := by
   unfold clsN clsK clsP
   rw [nIf_eq, beqN]
   by_cases hk : (k == 4098) = true
-  · rw [if_pos hk, if_pos hk]
-  · rw [if_neg hk, if_neg hk]
+  · rw [ite_eq_left hk, ite_eq_left hk]
+  · rw [ite_eq_right hk, ite_eq_right hk]
     unfold clsUW
     rw [clsMR_eq, meetN_eq, rowN_eq, rowN_eq, rankR_eq, bfB_eq, bfB_eq, bfB_eq, bfB_eq]
     rfl

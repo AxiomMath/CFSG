@@ -228,7 +228,7 @@ theorem c13_CQ_ttau (hc : Ctx13C t L S x₁ x₂ lam rho tau om) {v₀ v₂ : G}
     rw [mul_inv_rev, mul_inv_rev, hv₂i, hv₀i]
     group
   have key_b : t * (x₂ * v₀ * v₂) * t⁻¹ = (x₂ * v₀ * v₂)⁻¹ := by
-    haveI : IsMulCommutative ↥(ctxQ t tau x₁ x₂ rho) :=
+    have : IsMulCommutative ↥(ctxQ t tau x₁ x₂ rho) :=
       IsMulCommutative.of_comm (fun a b => Subtype.ext (hc.Q_comm a.1 a.2 b.1 b.2))
     have hsub : (⟨x₂, hx2Q⟩ : ↥(ctxQ t tau x₁ x₂ rho)) *
           (⟨v₀, hv₀Q⟩ * ⟨(x₁ * x₂) ^ 2, hzQ⟩) * (⟨v₂, hv₂Q⟩ * ⟨x₁ ^ 2, hyQ⟩) =
@@ -318,7 +318,7 @@ theorem c13_CQ_ttau (hc : Ctx13C t L S x₁ x₂ lam rho tau om) {v₀ v₂ : G}
       16 * Nat.card ↥(closure ({x₁ * v₂, x₂ * v₀ * v₂} : Set G) ⊓ orbitGrp rho v₀) := by
     omega
   have hpos : 0 < Nat.card ↥(closure ({x₁ * v₂, x₂ * v₀ * v₂} : Set G) ⊓ orbitGrp rho v₀) := by
-    haveI : Nonempty ↥(closure ({x₁ * v₂, x₂ * v₀ * v₂} : Set G) ⊓ orbitGrp rho v₀) :=
+    have : Nonempty ↥(closure ({x₁ * v₂, x₂ * v₀ * v₂} : Set G) ⊓ orbitGrp rho v₀) :=
       ⟨⟨1, Subgroup.mem_inf.mpr ⟨Subgroup.one_mem _, Subgroup.one_mem _⟩⟩⟩
     exact Nat.card_pos
   have hge : 16 ≤ Nat.card ↥(closure ({x₁ * v₂, x₂ * v₀ * v₂} : Set G)) := by

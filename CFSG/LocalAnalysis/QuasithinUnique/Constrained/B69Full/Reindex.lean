@@ -52,6 +52,7 @@ theorem canonFamily_inf_sup_comm {α : Type*} [Lattice α] {a b c d e : α}
     (h : (b ⊔ a) ⊓ (d ⊔ c) = e) : (a ⊔ b) ⊓ (c ⊔ d) = e := by
   rwa [sup_comm a b, sup_comm c d]
 
+omit [Finite V] in
 theorem canonFamily_of {X T M : Subgroup (MulAut V)} {𝓗 : Finset (Subgroup (MulAut V))}
     (h : StructConcl X T M 𝓗) (hperm : ∀ g ∈ X, ∀ H ∈ 𝓗, B6.conjSub g H ∈ 𝓗) (hTX : T ≤ X) :
     ∃ (s : ℕ) (Hs : Fin s → Subgroup (MulAut V)), Function.Injective Hs ∧

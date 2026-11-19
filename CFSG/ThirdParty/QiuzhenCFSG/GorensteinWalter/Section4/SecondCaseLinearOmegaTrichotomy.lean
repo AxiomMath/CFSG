@@ -99,7 +99,7 @@ public theorem normalizer_P_eq (od : SecondCaseLinearOmegaView c w d)
         have h : od.p < 1 := by simpa using hgt
         omega
       · exfalso
-        have h : od.p < od.p := by simpa using hgt
+        have h : od.p < od.p := by simp at hgt
         omega
       · rfl
     simpa [hk2] using heq
@@ -646,7 +646,7 @@ public theorem relIndex_eq_p_of_lt (od : SecondCaseLinearOmegaView c w d)
       by_contra hn0
       have : n = 0 := Nat.eq_zero_of_not_pos hn0
       rw [hn, this] at hindexGt
-      simpa using hindexGt
+      simp at hindexGt
     by_contra hn1
     have hnTwo : 2 ≤ n := by omega
     have hpow : od.p ^ 2 ≤ od.p ^ n :=

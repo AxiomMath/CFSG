@@ -64,16 +64,16 @@ theorem rckBlockModel_PSU {n g : ℕ} {s : GL (Fin n) (PSUF g)} (hsU : s ∈ GUs
       exact hodd
     obtain ⟨K, hKfield, hKfin, hKalg, hKmod, hKtower, π, hπ⟩ :=
       rckBlockCoord_exists ({s} : Set (GL (Fin n) (PSUF g))) hSpair hSodd he
-    letI : Field K := hKfield
-    letI : Finite K := hKfin
-    letI : Algebra (PSUF g) K := hKalg
-    letI : Module K (LinearMap.range (Matrix.mulVecLin ε)) := hKmod
-    letI : IsScalarTower (PSUF g) K (LinearMap.range (Matrix.mulVecLin ε)) := hKtower
+    let : Field K := hKfield
+    let : Finite K := hKfin
+    let : Algebra (PSUF g) K := hKalg
+    let : Module K (LinearMap.range (Matrix.mulVecLin ε)) := hKmod
+    let : IsScalarTower (PSUF g) K (LinearMap.range (Matrix.mulVecLin ε)) := hKtower
     obtain ⟨ρ, B, hρ, hρ1, hBh, hBl, htr⟩ := rckSD_formDescent hsU hε hπ
-    haveI : CharP K 2 := charP_of_injective_algebraMap (algebraMap (PSUF g) K).injective 2
-    haveI : Finite (LinearMap.range (Matrix.mulVecLin ε)) :=
+    have : CharP K 2 := charP_of_injective_algebraMap (algebraMap (PSUF g) K).injective 2
+    have : Finite (LinearMap.range (Matrix.mulVecLin ε)) :=
       Finite.of_injective Subtype.val Subtype.coe_injective
-    haveI : Module.Finite K (LinearMap.range (Matrix.mulVecLin ε)) := Module.Finite.of_finite
+    have : Module.Finite K (LinearMap.range (Matrix.mulVecLin ε)) := Module.Finite.of_finite
     obtain ⟨Φ₁⟩ := rckSD_blockEquiv hε hπ htr
     obtain ⟨i, hcard, ⟨Φ₂⟩⟩ :=
       ClassicalBlocks.nonempty_sesqUnitaryGroup_mulEquiv_GUFull ρ hρ hρ1 B hBh hBl
@@ -85,9 +85,9 @@ theorem rckBlockModel_PSU {n g : ℕ} {s : GL (Fin n) (PSUF g)} (hsU : s ∈ GUs
       exact Or.inr ⟨m', Q', E', hE'f, hE'fin, hE'char, hm'3, hcard', ⟨Φ'⟩⟩
   · obtain ⟨m, K, hKfield, hKfin, hKchar, hm1, ⟨Φ⟩⟩ :=
       rckDP_blockEquiv_PSU hsU hodd hε he heε hpair hεeq
-    letI : Field K := hKfield
-    letI : Finite K := hKfin
-    letI : CharP K 2 := hKchar
+    let : Field K := hKfield
+    let : Finite K := hKfin
+    let : CharP K 2 := hKchar
     exact Or.inl (rckBlockModel_linearCase (m := m) hCo (Φ := Φ))
 
 end CFSG.StandardType.RCKRP

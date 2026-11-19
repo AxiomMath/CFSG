@@ -113,7 +113,7 @@ theorem six_seven_false (h49 : d.Thm49Statement) (hd : d.Hyp) (h11 : Node11 d z�
     sup_le (fun y hy => mem_centralizer_singleton_iff.2 (hR₁t y hy))
       (zpowers_le.2 d.t_mem_centralizer)
   have hts2 : Nat.card (zpowers d.t) = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     rw [Nat.card_zpowers, orderOf_eq_prime (by rw [pow_two]; exact ht2) hd.t_ne_one]
   have hbot : R₁ ⊓ zpowers d.t = ⊥ := by
     refine eq_bot_iff.2 fun a ha => ?_

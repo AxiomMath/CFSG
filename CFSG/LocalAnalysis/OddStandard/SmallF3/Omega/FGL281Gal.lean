@@ -15,9 +15,9 @@ theorem fg_pow_three_of_fixed {K : Type*} [Field K] [Finite K] (hK : Nat.card K 
   have hcard : Nat.card (K ≃+* K) = 4 := card_ringAut K Nat.prime_three hK'
   have : Fintype K := Fintype.ofFinite K
   have hchar : CharP K 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK'])
-  haveI : ExpChar K 3 := ExpChar.prime Nat.prime_three
+  have : ExpChar K 3 := ExpChar.prime Nat.prime_three
   let φ : K ≃+* K := frobeniusEquiv K 3
   have hφ : ∀ s : K, φ s = s ^ 3 := fun s => rfl
   let S : Subgroup (K ≃+* K) :=

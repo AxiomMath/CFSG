@@ -60,7 +60,7 @@ theorem real_Q8 (h : Hyp Γ) (hD : (cfgOf Γ).1 = mD) : Real Γ (rep 6) psiQ8 :=
   have hm : rep 6 ∈ Om Γ := (cfgOf_fst h 6).1 (by rw [hD]; rfl)
   have hr := cfgOf_snd h 6 hm
   have hopt := cfgOf_opt h 6 (by decide)
-  rw [(cfgOf_fst h 6).2 hm, optL, if_pos rfl, okL_six] at hopt
+  rw [(cfgOf_fst h 6).2 hm, optL, ite_eq_left rfl, okL_six] at hopt
   have hOm := mem_Om_iff_pat h hD
   obtain ⟨r, hrΓ, hr1, -⟩ := real_refl h hr
   simp only [List.mem_cons, List.not_mem_nil, or_false] at hopt
@@ -97,7 +97,7 @@ theorem real_e23 (h : Hyp Γ) (hD : (cfgOf Γ).1 = mD) : Real Γ (e 2 + e 3) ![0
   have hm : rep 2 ∈ Om Γ := (cfgOf_fst h 2).1 (by rw [hD]; rfl)
   have hr := cfgOf_snd h 2 hm
   have hopt := cfgOf_opt h 2 (by decide)
-  rw [(cfgOf_fst h 2).2 hm, optL, if_pos rfl] at hopt
+  rw [(cfgOf_fst h 2).2 hm, optL, ite_eq_left rfl] at hopt
   have hk : okL 2 = [![0, 0, 2, 2]] := rfl
   rw [hk, List.mem_singleton] at hopt
   rw [hopt, h2] at hr

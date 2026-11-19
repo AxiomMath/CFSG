@@ -21,7 +21,7 @@ theorem noSig_conj {S : Type*} [Group S] {p : ℕ} {E : Subgroup (MulAut S)} (c 
     · rintro ⟨t, ht, rfl⟩
       simpa [MulAut.conj_apply, mul_assoc] using ht
     · intro hy
-      exact ⟨c * y * c⁻¹, hy, by simp [MulAut.conj_apply, mul_assoc]⟩
+      exact ⟨c * y * c⁻¹, hy, by simp [mul_assoc]⟩
   have hnorm : E ≤ Subgroup.normalizer (T0 : Set (MulAut S)) := by
     intro f hf
     rw [Subgroup.mem_normalizer_iff]
@@ -70,7 +70,7 @@ theorem noSig_conj_iff {S : Type*} [Group S] {p : ℕ} {E : Subgroup (MulAut S)}
     · rintro ⟨_, ⟨y, hy, rfl⟩, rfl⟩
       simpa [MulAut.conj_apply, mul_assoc] using hy
     · intro hx
-      exact ⟨c * x * c⁻¹, ⟨x, hx, rfl⟩, by simp [MulAut.conj_apply, mul_assoc]⟩
+      exact ⟨c * x * c⁻¹, ⟨x, hx, rfl⟩, by simp [mul_assoc]⟩
   rwa [heq] at this
 
 theorem noSig_planes_of_autModel_rank {M : Type*} [Group M] [Finite M] {P R : Subgroup M}
@@ -82,7 +82,7 @@ theorem noSig_planes_of_autModel_rank {M : Type*} [Group M] [Finite M] {P R : Su
       RankOK p (R ⊓ Subgroup.centralizer ({y} : Set M) : Subgroup M)) :
     ∀ Ê : Subgroup (MulAut ↥P), IsElemAbelian p Ê → Nat.card Ê = p ^ 2 → NoSig p Ê := by
   intro Ê hÊ hÊ2
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcen : Subgroup.center ↥P = ⊥ := autModel_center_eq_bot h
   have hinj : Function.Injective (MulAut.conj : ↥P →* MulAut ↥P) :=
     conj_injective_of_center_bot_sg hcen

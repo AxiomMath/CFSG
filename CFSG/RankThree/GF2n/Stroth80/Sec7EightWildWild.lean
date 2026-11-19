@@ -27,6 +27,7 @@ section Assembly
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem conjSubgroup_eq_of_forall_mem {A R : Subgroup G}
     (h : ∀ r ∈ R, ∀ p ∈ A, r * p * r⁻¹ ∈ A) : ∀ r ∈ R, conjSubgroup r A = A := by
   intro r hr
@@ -44,7 +45,7 @@ theorem step76EightKWildWild_of_witness (h52a : Stroth52aStatement) (hA : Sec7AE
     (hTW : Step76EightKTameWildStatement) : Step76EightKWildWildStatement := by
   intro G _ _ M Q Z B hc n t hs hno h4 Z0 hZ0 g₁ hg₁ hΓ₁ hw₁ g₂ hg₂ hΓ₂ hw₂ a ha b hb
   classical
-  haveI : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
+  have : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
   have ht : t ∈ LB M Q B := hs.toSec5.mem
   have htM : t ∈ M := hc.LB_le_M ht
   have htZ0 : t ∈ Z0 := IsCentrePre.mem_of_mem_LB (hc := hc) ht hZ0

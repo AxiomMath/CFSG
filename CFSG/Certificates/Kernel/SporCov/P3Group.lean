@@ -10,7 +10,7 @@ import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
 import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
 import Mathlib.Combinatorics.Enumerative.DyckWord
 import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.Int.Star
+import Mathlib.Algebra.Order.Star.Int
 import Mathlib.Data.NNRat.Floor
 import Mathlib.Data.Nat.Choose.Multinomial
 import Mathlib.Geometry.Euclidean.Volume.Basic
@@ -191,8 +191,10 @@ theorem nf_pow (a b c : ℤ) :
     rw [pow_succ, hc', hR.nf_mul, show ((n + 1 : ℕ) : ℤ) * a = n * a + a by push_cast; ring,
       show ((n + 1 : ℕ) : ℤ) * b = n * b + b by push_cast; ring]
 
+omit hR in
 theorem g₁_mem : g₁ ∈ closure ({g₁, g₂} : Set G) := subset_closure (by simp)
 
+omit hR in
 theorem g₂_mem : g₂ ∈ closure ({g₁, g₂} : Set G) := subset_closure (by simp)
 
 theorem z_mem : z ∈ closure ({g₁, g₂} : Set G) := by
@@ -200,7 +202,7 @@ theorem z_mem : z ∈ closure ({g₁, g₂} : Set G) := by
     rw [hR.rel]
     group
   rw [e]
-  exact mul_mem (mul_mem hR.g₁_mem hR.g₂_mem) (inv_mem (mul_mem hR.g₂_mem hR.g₁_mem))
+  exact mul_mem (mul_mem P3Rel.g₁_mem P3Rel.g₂_mem) (inv_mem (mul_mem P3Rel.g₂_mem P3Rel.g₁_mem))
 
 theorem le_centralizer : closure ({g₁, g₂} : Set G) ≤ centralizer {z} := by
   rw [closure_le]
@@ -273,7 +275,7 @@ theorem card_eq [Finite G] (hp : p.Prime) (hz : z ≠ 1) (hval : (Nat.card G).fa
     exact (hp.pow_dvd_iff_le_factorization Nat.card_pos.ne').1 hd
   have hnc : ¬ (∀ x y : S, x * y = y * x) := by
     intro hc
-    have e : g₁ * g₂ = g₂ * g₁ := congrArg Subtype.val (hc ⟨g₁, hR.g₁_mem⟩ ⟨g₂, hR.g₂_mem⟩)
+    have e : g₁ * g₂ = g₂ * g₁ := congrArg Subtype.val (hc ⟨g₁, P3Rel.g₁_mem⟩ ⟨g₂, P3Rel.g₂_mem⟩)
     exact hz (hR.z_eq_one_of_comm e)
   interval_cases n
   · exfalso
@@ -285,7 +287,7 @@ theorem card_eq [Finite G] (hp : p.Prime) (hz : z ≠ 1) (hval : (Nat.card G).fa
     apply hnc
     have := isCyclic_of_prime_card (p := p) (by simpa using hn)
     exact fun x y => (IsCyclic.commGroup (α := S)).mul_comm x y
-  · exact absurd (IsPGroup.commutative_of_card_eq_prime_sq hn) hnc
+  · exact absurd ((IsPGroup.isMulCommutative_of_card_eq_prime_sq hn).is_comm.comm) hnc
   · exact hn
 
 theorem z_mem_of_le [Finite G] (hp : p.Prime) (hz : z ≠ 1)
@@ -329,7 +331,7 @@ theorem z_mem_of_le [Finite G] (hp : p.Prime) (hz : z ≠ 1)
   · have he : E = T := eq_of_le_of_card_ge hET (le_of_eq (by rw [hjT, hcard]))
     exact hzE (by rw [he]; exact hzT)
   · have he : T = S := eq_of_le_of_card_ge hTS (le_of_eq (by rw [hjT, hS]))
-    have e := hTc g₁ (by rw [he]; exact hR.g₁_mem) g₂ (by rw [he]; exact hR.g₂_mem)
+    have e := hTc g₁ (by rw [he]; exact P3Rel.g₁_mem) g₂ (by rw [he]; exact P3Rel.g₂_mem)
     exact hz (hR.z_eq_one_of_comm e)
 
 theorem mem_lines [Finite G] (hp : p.Prime) (hz : z ≠ 1)
@@ -443,7 +445,7 @@ theorem exists_conj_lines [Finite G] (hp : p.Prime) (hz : z ≠ 1)
   obtain ⟨P, hEP⟩ := hEp.exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq G Sy P
   set f : G →* G := (MulAut.conj g⁻¹).toMonoidHom with hfdef
-  have hf : ∀ x, f x = g⁻¹ * x * g := fun x => by simp [hfdef, MulAut.conj_apply]
+  have hf : ∀ x, f x = g⁻¹ * x * g := fun x => by simp [hfdef]
   have hE'S : E.map f ≤ closure ({g₁, g₂} : Set G) := by
     rintro _ ⟨x, hx, rfl⟩
     have hxP : x ∈ (P : Subgroup G) := hEP hx

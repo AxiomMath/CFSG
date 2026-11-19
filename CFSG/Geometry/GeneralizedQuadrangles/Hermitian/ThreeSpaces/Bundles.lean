@@ -21,9 +21,9 @@ theorem inter_eq_of_mem_threeBundle (hΓ : IsThasQuadrangle Γ c q) {T : Set V}
   classical
   have hP : IsGeneralizedPolygon Γ 4 := hΓ.gp
   have hEβ : IsThreespace Γ c q E ∧ T ⊆ E := by
-    simpa only [threeBundle, Set.mem_setOf_eq] using hE
+    simpa only [threeBundle, Set.mem_ofPred_eq] using hE
   have hE'β : IsThreespace Γ c q E' ∧ T ⊆ E' := by
-    simpa only [threeBundle, Set.mem_setOf_eq] using hE'
+    simpa only [threeBundle, Set.mem_ofPred_eq] using hE'
   refine Set.Subset.antisymm ?_ ?_
   · intro x hx
     by_contra hxT
@@ -97,8 +97,8 @@ theorem inter_eq_of_mem_lineBundle (hΓ : IsThasQuadrangle Γ c q) {L : V} (hL :
         simp
       · exact le_of_eq (dist_eq_two_of_adj_of_adj_of_ne hP hzL.symm hyL hzy)
 
-private theorem cone_line_subset (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
-    {x y z w : V} (hxy : Γ.dist x y = 4) (hx0 : c x = 0)
+private theorem cone_line_subset (hP : IsGeneralizedPolygon Γ 4) (_hT : IsThick Γ)
+    {x y z w : V} (_hxy : Γ.dist x y = 4) (hx0 : c x = 0)
     (hz : z ∈ traceSet Γ x y) (hw : w ∈ spanSet Γ x y) (hzw : Γ.dist z w = 2) :
     Γ.neighborSet (commonNeighbor hP hzw) ⊆ ptPerp Γ c {z} ∩ clSet Γ x y := by
   have hz0 : c z = 0 := color_eq_zero_of_dist_eq_two hP hx0 hz.1
@@ -211,7 +211,7 @@ theorem ncard_of_isConePlane (hΓ : IsThasQuadrangle Γ c q) {T : Set V}
     subst t
     rw [Finset.mem_coe, Finset.mem_biUnion] at hU
     obtain ⟨w, -, hwU⟩ := hU
-    have hwU' : z ∈ Γ.neighborSet (K w) \ {z} := by simpa using hwU
+    have hwU' : z ∈ Γ.neighborSet (K w) \ {z} := by simp at hwU
     exact (Set.notMem_of_mem_sdiff hwU') (by simp)
   have hpair : ((Finset.univ : Finset S) : Set S).PairwiseDisjoint
       (fun w : S => ((Γ.neighborSet (K w)) \ {z}).toFinset) := by
@@ -251,7 +251,7 @@ theorem ncard_of_isConePlane (hΓ : IsThasQuadrangle Γ c q) {T : Set V}
       rw [mem_neighborSet]
       exact (hzK w).symm
     have hLcard : (Γ.neighborSet (K w)).ncard = q ^ 2 + 1 := by
-      rw [SimpleGraph.ncard_neighborSet, hΓ.deg (K w), if_neg (by rw [hKline w]; decide)]
+      rw [SimpleGraph.ncard_neighborSet, hΓ.deg (K w), ite_eq_right (by rw [hKline w]; decide)]
     rw [Set.ncard_sdiff hzsub, hLcard, Set.ncard_singleton]
     omega
   have hUcard : U.card = Fintype.card S * q ^ 2 := by
@@ -285,7 +285,7 @@ theorem ncard_abs_threeBundle (hΓ : IsThasQuadrangle Γ c q) {T : Set V}
     constructor
     · rintro ⟨hE, u, hu0, rfl⟩
       have hEβ : IsThreespace Γ c q (ptPerp Γ c {u}) ∧ traceSet Γ y z ⊆ ptPerp Γ c {u} := by
-        simpa only [threeBundle, Set.mem_setOf_eq] using hE
+        simpa only [threeBundle, Set.mem_ofPred_eq] using hE
       refine ⟨u, ?_, rfl⟩
       rw [mem_spanSet]
       intro t ht

@@ -27,7 +27,7 @@ theorem isSymplecticTransvection_or_isUnitaryTransvection_of_meetsSq
   classical
   have hZ : Subgroup.center G = ⊥ := hrad _ inferInstance inferInstance
   have hP : CFSG.pCore 2 G = ⊥ := by
-    haveI : Group.IsNilpotent (CFSG.pCore 2 G) := CFSG.pCore_isPGroup.isNilpotent
+    have : Group.IsNilpotent (CFSG.pCore 2 G) := CFSG.pCore_isPGroup.isNilpotent
     exact hrad _ CFSG.pCore_normal inferInstance
   obtain ⟨f, hf, hcard, hconcl⟩ :=
     CFSG.Timmesfeld.Transvection.transvectionStatement_of_oddUnitary

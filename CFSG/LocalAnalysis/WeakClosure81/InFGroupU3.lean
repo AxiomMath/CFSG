@@ -18,7 +18,7 @@ variable {Q : Type} [Group Q] [Finite Q] {C : Subgroup Q} {n : ℕ}
 private lemma map_perfectCore_conj_centralizer (h : Setting C n) (s t : Q) :
     (perfectCore (C ⊓ centralizer ({s} : Set Q))).map (MulAut.conj t).toMonoidHom =
       perfectCore (C ⊓ centralizer ({t * s * t⁻¹} : Set Q)) := by
-  haveI : C.Normal := h.normal
+  have : C.Normal := h.normal
   have hC : C.map (MulAut.conj t).toMonoidHom = C := by
     simpa using Subgroup.Normal.map_conj_eq C t
   rw [CFSG.Quasithin.map_perfectCore (MulAut.conj t).toMonoidHom,
@@ -79,6 +79,7 @@ private lemma map_perfectCore_conj_le_genEi
   rw [map_perfectCore_conj_centralizer h s (t : Q)]
   exact le_genEi_of_card_gt h hT hΩ hAΩ hAT hAel hcard hsA hsC t
 
+omit [Finite Q] in
 private lemma le_normalizer_iSup_map_conj (J T : Subgroup Q) :
     T ≤ normalizer ((⨆ t : ↥T, J.map (MulAut.conj (t : Q)).toMonoidHom :
       Subgroup Q) : Set Q) := by
@@ -119,8 +120,8 @@ private lemma le_normalizer_iSup_map_conj (J T : Subgroup Q) :
 private lemma sup_eq_top_of_setting (h : Setting C n) {T : Subgroup Q}
     (hT : IsSylowIn 2 T ⊤) : C ⊔ T = ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : C.Normal := h.normal
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : C.Normal := h.normal
   have hquot : IsPGroup 2 (Q ⧸ C) := by
     intro x
     obtain ⟨y, rfl⟩ := QuotientGroup.mk'_surjective C x
@@ -158,7 +159,7 @@ private lemma le_sup_iSup_map_conj_of_sylow
       have hmap : J.map (MulAut.conj (1 : Q)).toMonoidHom = J := by
         have hone : (MulAut.conj (1 : Q)).toMonoidHom = MonoidHom.id Q := by
           ext x
-          simp [MulAut.conj_apply]
+          simp
         rw [hone, Subgroup.map_id]
       rwa [hmap] at hle
     exact hJM.trans le_sup_left
@@ -182,10 +183,10 @@ private lemma inFOmega_of_card_gt
     (hΩ : IsOmegaColl Ω) (hAΩ : A ∈ Ω) (hAT : A ≤ T) (hAel : IsElemAbelian 2 A)
     (hcard : 2 ^ n < Nat.card A) : InFOmega n T Ω := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : C.Normal := h.normal
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : C.Normal := h.normal
   have hAC : ¬ A ≤ C := fun hle => (not_le_of_gt hcard) (h.card_le_of_le hle hAel)
-  obtain ⟨s, hsA, hsC⟩ := SetLike.not_le_iff_exists.mp hAC
+  obtain ⟨s, hsA, hsC⟩ := IsConcreteLE.not_le_iff_exists.mp hAC
   have hs2 : s ^ 2 = 1 := hAel.2 s hsA
   set J : Subgroup Q := perfectCore (C ⊓ centralizer ({s} : Set Q)) with hJdef
   set M : Subgroup Q := ⨆ t : ↥T, J.map (MulAut.conj (t : Q)).toMonoidHom with hMdef
@@ -222,7 +223,7 @@ theorem Setting.inFGroup
     (h : Setting C n) :
     InFGroup n Q := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro T hT Ω hΩ
   have hT' : IsSylowIn 2 T ⊤ := CFSG.ABGLocalTools.isSylowOf_iff.mp hT
   have hΩ' : E1.IsInvColl (⊤ : Subgroup Q) Ω :=

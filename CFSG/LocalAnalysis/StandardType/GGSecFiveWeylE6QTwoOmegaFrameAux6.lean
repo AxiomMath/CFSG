@@ -50,8 +50,8 @@ theorem nine_dvd_card_closure_rootRefl
     9 ∣ Nat.card (Subgroup.closure {r : V ≃ₗ[ZMod 3] V | ∃ u : V, ∃ hu : B u u = 2, B u y = 0 ∧
       r = rootRefl (B := B) u hu}) := by
   classical
-  letI : Fintype V := Fintype.ofFinite V
-  haveI : Fintype (V ≃ₗ[ZMod 3] V) :=
+  let : Fintype V := Fintype.ofFinite V
+  have : Fintype (V ≃ₗ[ZMod 3] V) :=
     Fintype.ofInjective (fun e : V ≃ₗ[ZMod 3] V => (e : V → V))
       (fun e1 e2 h => by
         ext x
@@ -99,7 +99,7 @@ theorem nine_dvd_card_closure_rootRefl
     show B (f 0 - f 1 + f 2 - f 3 + f 4) y = 0
     rw [← hfy]
     simp only [LinearMap.BilinForm.add_left, LinearMap.BilinForm.add_right,
-      LinearMap.BilinForm.sub_left, LinearMap.BilinForm.sub_right, hf]
+      LinearMap.BilinForm.sub_left, hf]
     decide
   let ρ : V ≃ₗ[ZMod 3] V := rootRefl (B := B) a ha * rootRefl (B := B) b hb
   let σ : V ≃ₗ[ZMod 3] V := rootRefl (B := B) c hc * rootRefl (B := B) d hd

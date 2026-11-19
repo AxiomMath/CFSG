@@ -134,7 +134,7 @@ theorem kq_rec {f : ℕ → ℕ} {u : ℕ} (hu : u < 729) : ∀ n, (∀ j < n, f
     intro _
     have := fld_mul_low (w := 12) (K := 729) (c := 1) (by norm_num) (by norm_num) hu
     rw [one_mul] at this
-    rw [if_pos (fun j hj => absurd hj (Nat.not_lt_zero _))]
+    rw [ite_eq_left (fun j hj => absurd hj (Nat.not_lt_zero _))]
     exact this
   | succ n ih =>
     intro hf
@@ -144,18 +144,18 @@ theorem kq_rec {f : ℕ → ℕ} {u : ℕ} (hu : u < 729) : ∀ n, (∀ j < n, f
     obtain h | h : fld (f n) 12 u = 0 ∨ fld (f n) 12 u = 1 := by
       have := hf n (by omega)
       omega
-    · rw [h, if_neg (fun hB : ∀ j < n + 1, fld (f j) 12 u = 1 => by
+    · rw [h, ite_eq_right (fun hB : ∀ j < n + 1, fld (f j) 12 u = 1 => by
         have := hB n (Nat.lt_succ_self n)
         omega)]
       split_ifs <;> rfl
     · rw [h]
       by_cases hA : ∀ j < n, fld (f j) 12 u = 1
-      · rw [if_pos hA, if_pos (fun j hj => by
+      · rw [ite_eq_left hA, ite_eq_left (fun j hj => by
           rcases Nat.lt_succ_iff_lt_or_eq.1 hj with hj | rfl
           · exact hA j hj
           · exact h)]
         rfl
-      · rw [if_neg hA, if_neg (fun hB => hA fun j hj => hB j (by omega))]
+      · rw [ite_eq_right hA, ite_eq_right (fun hB => hA fun j hj => hB j (by omega))]
         rfl
 
 theorem kq_lane
@@ -206,7 +206,6 @@ theorem kq_lane
     rw [kq, strictN_eq, strictN_eq]
     rfl
   have e := kq_rec (f := fun j => kj U RC s (tf t j) j) hu 6 (fun j hj => by
-      change fld (kj U RC s (tf t j) j) 12 u ≤ 1
       rw [kj_lane htab hs.1 (by omega) (fun m hm => rc_le hrc (hw ⟨j, hj⟩).1 hm) hj hu]
       split_ifs <;> norm_num)
   rw [e0, e]
@@ -347,17 +346,17 @@ theorem card_redPairs (K : Set (Fin 6 → ZMod 3)) : Nat.card (RedPairs K) =
       obtain ⟨a, ha, rfl⟩ := v3_surj x1
       obtain ⟨b, hb, rfl⟩ := v3_surj x2
       refine ⟨(a, b), ?_, rfl⟩
-      simp only [S, Finset.coe_filter, Finset.mem_product, Finset.mem_range, Set.mem_setOf_eq]
+      simp only [S, Finset.coe_filter, Finset.mem_product, Finset.mem_range, Set.mem_ofPred_eq]
       exact ⟨⟨ha, hb⟩, h1, h2, h3⟩
     · simp only [Set.mem_image, S, Finset.coe_filter, Finset.mem_product, Finset.mem_range,
-        Set.mem_setOf_eq, Prod.exists]
+        Set.mem_ofPred_eq, Prod.exists]
       rintro ⟨a, b, hab, he⟩
       simp only [f, Prod.mk.injEq] at he
       obtain ⟨rfl, rfl⟩ := he
       exact ⟨hab.2.1, hab.2.2.1, hab.2.2.2⟩
   have hinj : Set.InjOn f ↑S := by
     simp only [Set.InjOn, S, Finset.coe_filter, Finset.mem_product, Finset.mem_range,
-      Set.mem_setOf_eq, Prod.forall]
+      Set.mem_ofPred_eq, Prod.forall]
     intro a b hab a' b' hab' he
     simp only [f, Prod.mk.injEq] at he
     rw [v3_inj hab.1.1 hab'.1.1 he.1, v3_inj hab.1.2 hab'.1.2 he.2]
@@ -447,14 +446,14 @@ theorem pop_link {Kq X : ℕ} {P : ℕ → Prop} {B : ℕ → Bool} (hK : Kq ≤
     · have hP : ¬ P u := fun hp => by
         have := h1.2 hp
         omega
-      rw [h, if_neg (fun hc : P u ∧ B u = true => hP hc.1)]
+      rw [h, ite_eq_right (fun hc : P u ∧ B u = true => hP hc.1)]
       split_ifs <;> rfl
     · have hP : P u := h1.1 h
       rw [h]
       by_cases hB : B u = true
-      · rw [if_pos hB, if_pos ⟨hP, hB⟩]
+      · rw [ite_eq_left hB, ite_eq_left ⟨hP, hB⟩]
         rfl
-      · rw [if_neg hB, if_neg (fun hc => hB hc.2)]
+      · rw [ite_eq_right hB, ite_eq_right (fun hc => hB hc.2)]
         rfl
   have hl1 : ∀ i, fld (Kq &&& X) 12 i ≤ 1 := fun i => by
     rcases lt_or_ge i 729 with h | h
@@ -477,9 +476,9 @@ open CFSG.KC.TcRes.Lane in
 theorem sweepRaw_of_checks
     {vec : ℕ → Fin Tag.E6.rank → ℤ} {rt : ℕ → ℕ → ℕ} {adj : ℕ → ℕ → Bool} {neg : ℕ → ℕ}
     {V REPS START : ℕ} {U RC L M LF : ℕ → ℕ} (hvec : vec = vecOf 6 V)
-    (hD : DatumRaw Tag.E6 72 vec rt adj neg)
+    (_hD : DatumRaw Tag.E6 72 vec rt adj neg)
     (htab : ∀ i < 9, tabsOK U L M i = true) (hrc : ∀ g < 72, rcOK RC V g = true)
-    {q : ℕ} (hq : q < 75) (hsw : swOK U RC L M LF REPS START q = true) {w : WeylGroup Tag.E6}
+    {q : ℕ} (_hq : q < 75) (hsw : swOK U RC L M LF REPS START q = true) {w : WeylGroup Tag.E6}
     (hw : TupleOf vec 72 (Nat.land (Nat.shiftRight REPS (q / 3 * 42)) M42) w) :
     SweepRaw (KSet w (sOf (q % 3) : ZMod 3)) (fld START 16 q) (fld START 16 (q + 1))
       (fun p => (v3 (pu1 (prec LF p)), v3 (pu2 (prec LF p)))) := by

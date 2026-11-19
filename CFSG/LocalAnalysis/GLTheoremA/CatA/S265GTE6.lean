@@ -83,7 +83,7 @@ private theorem card_le_three_mul_card_map_twE6 (cfg : QUCfg 3 S B T x b) {C : T
   have hcard : Nat.card ↥(B ⊓ Φ.ker) ≤ 3 := by
     calc Nat.card ↥(B ⊓ Φ.ker) ≤ Nat.card (Subgroup.zpowers x) := Subgroup.card_le_of_le hle
       _ = 3 := by
-        haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+        have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
         rw [Nat.card_zpowers]
         exact orderOf_eq_prime (cfg.elem.2 x cfg.xB) cfg.x1
   rw [card_eq_card_inf_ker_mul_card_map_twE6 Φ B]
@@ -98,8 +98,8 @@ theorem qUFamCTE6_holds : S265C.QUFamCTE6 := by
   intro Ω _ _ S B T x b hN hJcat hF hL
   have cfg := hN.cfg
   have hp : (3 : ℕ).Prime := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
-  haveI hSn : S.Normal := cfg.normal
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
+  have hSn : S.Normal := cfg.normal
   have hnorm : ∀ g : Ω, g ∈ Subgroup.normalizer (S : Set Ω) := fun g => by
     rw [Subgroup.normalizer_eq_top_iff.2 hSn]
     exact Subgroup.mem_top _

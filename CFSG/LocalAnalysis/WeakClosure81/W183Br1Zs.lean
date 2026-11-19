@@ -13,6 +13,7 @@ open CFSG.SignalizerFunctorTheorem.Quadratic CFSG.Quasithin.G11 CFSG.Quasithin C
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem w183_sp_congr {J E : Subgroup G} (M : ModDataE J E) {S S' : Subgroup G}
     (h : S ⊓ E = S' ⊓ E) : M.sp S = M.sp S' := by
   ext w
@@ -40,7 +41,7 @@ theorem br1_zs_eq (x : Ctx188 D V₀ V H i j) (M : ModDataE H (eOmegaZ H D.T)) :
         ⟨x.hyp.pCoreOf_le_T (x.hyp.eOmegaZ_le_pCoreOf hzE), hzC⟩,
         x.hyp.isElemAbelian_eOmegaZ.2 z hzE⟩, hzE⟩
 
-theorem br1_zs_gen (x : Ctx188 D V₀ V H i j) (M : ModDataE H (eOmegaZ H D.T)) :
+theorem br1_zs_gen (_x : Ctx188 D V₀ V H i j) (M : ModDataE H (eOmegaZ H D.T)) :
     (⨆ y ∈ M.img H, conjSub y (packZsU D H M)) = ⊤ := by
   have htop : M.sp (eOmegaZ H D.T) = ⊤ := by
     refine le_antisymm le_top ?_
@@ -56,7 +57,7 @@ theorem br1_zs_gen (x : Ctx188 D V₀ V H i j) (M : ModDataE H (eOmegaZ H D.T)) 
     intro g hg
     rw [eOmegaZ, CFSG.Quasithin.conjClosure] at hg
     induction hg using Subgroup.closure_induction with
-    | mem x hx =>
+    | mem _x hx =>
         obtain ⟨h, hh, z, hz, rfl⟩ := hx
         have hzE : z ∈ eOmegaZ H D.T := Hyp183.omegaOneCenterOf_le_eOmegaZ H D.T hz
         have hzZ : M.ι z ∈ packZsU D H M := M.mem_sp.mpr ⟨z, ⟨hz, hzE⟩, rfl⟩
@@ -83,7 +84,7 @@ theorem br1_zs_nofix (x : Ctx188 D V₀ V H i j) (M : ModDataE H (eOmegaZ H D.T)
   intro w hw hw0
   rw [packZsU, M.mem_sp] at hw
   obtain ⟨z, ⟨hzΩ, hzE⟩, rfl⟩ := hw
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hz2 : z ^ 2 = 1 := x.hyp.isElemAbelian_eOmegaZ.2 z hzE
   have hzT : z ∈ D.T := CFSG.Quasithin.A4.omegaOneCenterOf_le D.T hzΩ
   have hzC : z ∈ Subgroup.centralizer (D.T : Set G) :=

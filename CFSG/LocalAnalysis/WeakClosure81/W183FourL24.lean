@@ -45,7 +45,7 @@ private theorem w183four24_nonab_of_simple_of_card {X : Type} [Group X] (hs : Is
   have hcomm : IsMulCommutative X := IsMulCommutative.of_comm (fun a b => by
     by_contra hab
     exact hnab ⟨a, b, hab⟩)
-  letI : IsMulCommutative X := hcomm
+  let : IsMulCommutative X := hcomm
   have hp : (Nat.card X).Prime := CommGroup.is_simple_iff_prime_card.mp hs
   rw [hcard] at hp
   exact hn hp
@@ -61,7 +61,8 @@ private theorem w183four24_simple_nonab_of_shape {X : Type} [Group X]
     exact ⟨hs, w183four24_nonab_of_simple_of_card hs (w183four24_card_psu_3_2_2 h3)
       (by norm_num)⟩
 
-theorem w183four24_three_dvd (hO : LieOrderFormulasInput) {K L : Subgroup G}
+omit [Finite G] in
+theorem w183four24_three_dvd (_hO : LieOrderFormulasInput) {K L : Subgroup G}
     (hX : HasQuotShape L (K : Set G) (fun X _ => IsL2 X 2 ∨ IsU3 X 2)) :
     3 ∣ K.relIndex L := by
   obtain ⟨X, hXg, φ, hs, hk, hP⟩ := hX
@@ -107,7 +108,7 @@ theorem w183four24_one_comp (rows : Br1Rows) {D : Data G} {V₀ V H : Subgroup G
     (hK : kerMV V H ≤ Subgroup.centralizer (eOmegaZ H D.T : Set G)) {L : Subgroup G}
     (hLH : L ≤ H) (hLn : H ≤ Subgroup.normalizer (L : Set G)) (hLT : L ⊔ D.T = H)
     (hX : HasQuotShape L (kerMV V H : Set G) (fun X _ => IsL2 X 2 ∨ IsU3 X 2)) {g : G}
-    (hgT : vInH V H g ≤ D.T) (hgK : ¬ vInH V H g ≤ kerMV V H)
+    (_hgT : vInH V H g ≤ D.T) (hgK : ¬ vInH V H g ≤ kerMV V H)
     (hgi : E3.mQuot (conjSubgroup V g) (vInH V H g) ≤ i)
     (hA : 3 ≤ (Subgroup.centralizer (eOmegaZ H D.T : Set G)).relIndex (vInH V H g)) :
     False := by
@@ -147,7 +148,7 @@ theorem w183four24_two_comp (rows : Br1Rows) {D : Data G} {V₀ V H : Subgroup G
     (hX : HasQuotShape L (kerMV V H : Set G) (fun X _ => IsL2 X 2)) {t : G} (htT : t ∈ D.T)
     (hne : conjSubgroup L t ≠ L)
     (hall : ∀ s ∈ D.T, conjSubgroup L s = L ∨ conjSubgroup L s = conjSubgroup L t) {g : G}
-    (hgT : vInH V H g ≤ D.T) (hgK : ¬ vInH V H g ≤ kerMV V H)
+    (_hgT : vInH V H g ≤ D.T) (hgK : ¬ vInH V H g ≤ kerMV V H)
     (hgi : E3.mQuot (conjSubgroup V g) (vInH V H g) ≤ i)
     (hA : 3 ≤ (Subgroup.centralizer (eOmegaZ H D.T : Set G)).relIndex (vInH V H g)) :
     False := by

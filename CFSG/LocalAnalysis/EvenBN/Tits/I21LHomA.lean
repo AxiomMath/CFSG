@@ -21,12 +21,14 @@ variable {V : Type*} [AddCommGroup V] [Module (ZMod 2) V] [Module.Finite (ZMod 2
 @[expose] def er (ρ : G →* (V ≃ₗ[ZMod 2] V)) : G →* Module.End (ZMod 2) V :=
   (LinearEquiv.automorphismGroup.toLinearMapMonoidHom).comp ρ
 
+omit [Module.Finite (ZMod 2) V] in
 theorem er_apply (ρ : G →* (V ≃ₗ[ZMod 2] V)) (g : G) (v : V) : er ρ g v = ρ g v := rfl
 
 @[expose] def comm (ρ : G →* (V ≃ₗ[ZMod 2] V)) (M : Subgroup G) :
     Subalgebra (ZMod 2) (Module.End (ZMod 2) V) :=
   Subalgebra.centralizer (ZMod 2) (er ρ '' (M : Set G))
 
+omit [Module.Finite (ZMod 2) V] in
 theorem mem_comm (ρ : G →* (V ≃ₗ[ZMod 2] V)) (M : Subgroup G) (z : Module.End (ZMod 2) V) :
     z ∈ comm ρ M ↔ ∀ m ∈ M, er ρ m * z = z * er ρ m := by
   simp [comm, Subalgebra.mem_centralizer_iff]
@@ -35,6 +37,7 @@ theorem mem_comm (ρ : G →* (V ≃ₗ[ZMod 2] V)) (M : Subgroup G) (z : Module
     Subalgebra (ZMod 2) (Module.End (ZMod 2) V) :=
   comm ρ M ⊓ Subalgebra.centralizer (ZMod 2) (comm ρ M : Set (Module.End (ZMod 2) V))
 
+omit [Module.Finite (ZMod 2) V] in
 theorem mem_cz (ρ : G →* (V ≃ₗ[ZMod 2] V)) (M : Subgroup G) (z : Module.End (ZMod 2) V) :
     z ∈ cz ρ M ↔ z ∈ comm ρ M ∧ ∀ f ∈ comm ρ M, f * z = z * f := by
   simp [cz, Subalgebra.mem_centralizer_iff]
@@ -43,29 +46,36 @@ theorem mem_cz (ρ : G →* (V ≃ₗ[ZMod 2] V)) (M : Subgroup G) (z : Module.E
     Module.End (ZMod 2) V ≃ₐ[ZMod 2] Module.End (ZMod 2) V :=
   (ρ g).conjAlgEquiv (ZMod 2)
 
+omit [Module.Finite (ZMod 2) V] in
 theorem cj_apply (ρ : G →* (V ≃ₗ[ZMod 2] V)) (g : G) (f : Module.End (ZMod 2) V) :
     cj ρ g f = er ρ g * f * er ρ g⁻¹ := by
   ext v
   simp [cj, er_apply, LinearEquiv.conjAlgEquiv_apply]
 
+omit [Module.Finite (ZMod 2) V] in
 theorem cj_er (ρ : G →* (V ≃ₗ[ZMod 2] V)) (g h : G) : cj ρ g (er ρ h) = er ρ (g * h * g⁻¹) := by
   rw [cj_apply, ← map_mul, ← map_mul]
 
+omit [Module.Finite (ZMod 2) V] in
 theorem er_inv_mul_cancel_left (ρ : G →* (V ≃ₗ[ZMod 2] V)) (g : G) (x : Module.End (ZMod 2) V) :
     er ρ g⁻¹ * (er ρ g * x) = x := by
   rw [← mul_assoc, ← map_mul, inv_mul_cancel, map_one, one_mul]
 
+omit [Module.Finite (ZMod 2) V] in
 theorem er_mul_inv_cancel_left (ρ : G →* (V ≃ₗ[ZMod 2] V)) (g : G) (x : Module.End (ZMod 2) V) :
     er ρ g * (er ρ g⁻¹ * x) = x := by
   rw [← mul_assoc, ← map_mul, mul_inv_cancel, map_one, one_mul]
 
+omit [Module.Finite (ZMod 2) V] in
 theorem cj_mul (ρ : G →* (V ≃ₗ[ZMod 2] V)) (g h : G) (f : Module.End (ZMod 2) V) :
     cj ρ (g * h) f = cj ρ g (cj ρ h f) := by
   simp only [cj_apply, mul_inv_rev, map_mul, mul_assoc, er_inv_mul_cancel_left]
 
+omit [Module.Finite (ZMod 2) V] in
 theorem cj_one (ρ : G →* (V ≃ₗ[ZMod 2] V)) (f : Module.End (ZMod 2) V) : cj ρ 1 f = f := by
   simp [cj_apply]
 
+omit [Module.Finite (ZMod 2) V] in
 theorem cj_mem_comm (ρ : G →* (V ≃ₗ[ZMod 2] V)) (M : Subgroup G) [M.Normal] (g : G)
     {z : Module.End (ZMod 2) V} (hz : z ∈ comm ρ M) : cj ρ g z ∈ comm ρ M := by
   rw [mem_comm] at hz ⊢
@@ -75,6 +85,7 @@ theorem cj_mem_comm (ρ : G →* (V ≃ₗ[ZMod 2] V)) (M : Subgroup G) [M.Norma
     rw [cj_er]; congr 1; group
   rw [e1, ← map_mul, ← map_mul, hz _ hm']
 
+omit [Module.Finite (ZMod 2) V] in
 theorem cj_mem_cz (ρ : G →* (V ≃ₗ[ZMod 2] V)) (M : Subgroup G) [M.Normal] (g : G)
     {z : Module.End (ZMod 2) V} (hz : z ∈ cz ρ M) : cj ρ g z ∈ cz ρ M := by
   rw [mem_cz] at hz ⊢
@@ -83,12 +94,13 @@ theorem cj_mem_cz (ρ : G →* (V ≃ₗ[ZMod 2] V)) (M : Subgroup G) [M.Normal]
   have e1 : f = cj ρ g (cj ρ g⁻¹ f) := by rw [← cj_mul]; simp [cj_one]
   rw [e1, ← map_mul, ← map_mul, hz.2 _ hf']
 
+omit [Module.Finite (ZMod 2) V] in
 theorem exists_inv_compl (ρ : G →* (V ≃ₗ[ZMod 2] V)) (M : Subgroup G) (hodd : Odd (Nat.card M))
     (U : Submodule (ZMod 2) V) (hU : ∀ m ∈ M, ∀ u ∈ U, ρ m u ∈ U) :
     ∃ C : Submodule (ZMod 2) V, IsCompl U C ∧ ∀ m ∈ M, ∀ u ∈ C, ρ m u ∈ C := by
-  haveI : Finite M := Nat.finite_of_card_ne_zero (by
+  have : Finite M := Nat.finite_of_card_ne_zero (by
     intro h; rw [h] at hodd; exact absurd hodd (by decide))
-  haveI : Fintype M := Fintype.ofFinite M
+  have : Fintype M := Fintype.ofFinite M
   obtain ⟨π₀, hπ₀⟩ := LinearMap.exists_leftInverse_of_injective U.subtype (by simp)
   let X : Module.End (ZMod 2) V := U.subtype ∘ₗ π₀
   let P : Module.End (ZMod 2) V := ∑ m : M, er ρ m * X * er ρ (m : G)⁻¹
@@ -117,7 +129,7 @@ theorem exists_inv_compl (ρ : G →* (V ≃ₗ[ZMod 2] V)) (M : Subgroup G) (ho
     simp only [P, Finset.mul_sum, Finset.sum_mul]
     refine Fintype.sum_equiv (Equiv.mulLeft (⟨g, hg⟩ : M)) _ _ ?_
     intro m
-    simp only [Equiv.coe_mulLeft, Subgroup.coe_mul, map_mul, mul_assoc, map_inv, mul_inv_rev]
+    simp only [Equiv.coe_mulLeft, Subgroup.coe_mul, map_mul, mul_assoc, mul_inv_rev]
     have h1 : er ρ g⁻¹ * er ρ g = 1 := by rw [← map_mul, inv_mul_cancel, map_one]
     rw [h1, mul_one]
   let f : V →ₗ[ZMod 2] U := P.codRestrict U hP1
@@ -132,30 +144,36 @@ theorem exists_inv_compl (ρ : G →* (V ≃ₗ[ZMod 2] V)) (M : Subgroup G) (ho
 
 @[expose] noncomputable def proj {K R : Submodule (ZMod 2) V} (h : IsCompl K R) :
     Module.End (ZMod 2) V :=
-  K.subtype ∘ₗ K.linearProjOfIsCompl R h
+  K.subtype ∘ₗ K.projectionOnto R h
 
+omit [Module.Finite (ZMod 2) V] in
 theorem proj_mem {K R : Submodule (ZMod 2) V} (h : IsCompl K R) (v : V) : proj h v ∈ K :=
-  (K.linearProjOfIsCompl R h v).2
+  (K.projectionOnto R h v).2
 
+omit [Module.Finite (ZMod 2) V] in
 theorem proj_left {K R : Submodule (ZMod 2) V} (h : IsCompl K R) {x : V} (hx : x ∈ K) :
     proj h x = x := by
-  have := Submodule.linearProjOfIsCompl_apply_left h ⟨x, hx⟩
+  have := Submodule.projectionOnto_apply_left h ⟨x, hx⟩
   exact congrArg Subtype.val this
 
+omit [Module.Finite (ZMod 2) V] in
 theorem proj_right {K R : Submodule (ZMod 2) V} (h : IsCompl K R) {x : V} (hx : x ∈ R) :
     proj h x = 0 := by
-  have := Submodule.linearProjOfIsCompl_apply_right h ⟨x, hx⟩
+  have := Submodule.projectionOnto_apply_right h ⟨x, hx⟩
   exact congrArg Subtype.val this
 
+omit [Module.Finite (ZMod 2) V] in
 theorem proj_idem {K R : Submodule (ZMod 2) V} (h : IsCompl K R) : proj h * proj h = proj h := by
   ext v
   exact proj_left h (proj_mem h v)
 
+omit [Module.Finite (ZMod 2) V] in
 theorem exists_add {K R : Submodule (ZMod 2) V} (h : IsCompl K R) (v : V) :
     ∃ k ∈ K, ∃ r ∈ R, k + r = v := by
   have : v ∈ K ⊔ R := by rw [h.sup_eq_top]; trivial
   exact Submodule.mem_sup.mp this
 
+omit [Module.Finite (ZMod 2) V] in
 theorem proj_comm {K R : Submodule (ZMod 2) V} (h : IsCompl K R) (f : Module.End (ZMod 2) V)
     (hK : ∀ k ∈ K, f k ∈ K) (hR : ∀ r ∈ R, f r ∈ R) : f * proj h = proj h * f := by
   ext v
@@ -163,12 +181,14 @@ theorem proj_comm {K R : Submodule (ZMod 2) V} (h : IsCompl K R) (f : Module.End
   simp only [Module.End.mul_apply, map_add, proj_left h hk, proj_right h hr, add_zero,
     proj_left h (hK k hk), proj_right h (hR r hr), map_zero]
 
+omit [Module.Finite (ZMod 2) V] in
 theorem mem_of_proj_eq_zero {K R : Submodule (ZMod 2) V} (h : IsCompl K R) {w : V}
     (hw : proj h w = 0) : w ∈ R := by
   obtain ⟨k, hk, r, hr, rfl⟩ := exists_add h w
   rw [map_add, proj_left h hk, proj_right h hr, add_zero] at hw
   rw [hw, zero_add]; exact hr
 
+omit [Module.Finite (ZMod 2) V] in
 theorem eq_zero_of_nilpotent (ρ : G →* (V ≃ₗ[ZMod 2] V)) (M : Subgroup G)
     (hodd : Odd (Nat.card M)) {z : Module.End (ZMod 2) V} (hz : z ∈ cz ρ M) (hn : IsNilpotent z) :
     z = 0 := by
@@ -223,6 +243,7 @@ theorem eq_zero_of_nilpotent (ρ : G →* (V ≃ₗ[ZMod 2] V)) (M : Subgroup G)
 @[expose] def InjZ (ρ : G →* (V ≃ₗ[ZMod 2] V)) (M : Subgroup G) : Prop :=
   ∀ z ∈ cz ρ M, z ≠ 0 → Function.Injective z
 
+omit [Module.Finite (ZMod 2) V] in
 theorem preserve_of_comm (z f : Module.End (ZMod 2) V) (hf : f * z = z * f) (n : ℕ) :
     (∀ k ∈ LinearMap.ker (z ^ n), f k ∈ LinearMap.ker (z ^ n)) ∧
       (∀ r ∈ LinearMap.range (z ^ n), f r ∈ LinearMap.range (z ^ n)) := by
@@ -280,6 +301,7 @@ theorem injZ_of_simple (ρ : G →* (V ≃ₗ[ZMod 2] V)) (M : Subgroup G) (hodd
       simpa using this
     exact hz0 (eq_zero_of_nilpotent ρ M hodd hz ⟨n, hzn⟩)
 
+omit [Module.Finite (ZMod 2) V] in
 theorem simple_of_irreducible (ρ : G →* (V ≃ₗ[ZMod 2] V))
     (hirr : ∀ U : Submodule (ZMod 2) V, (∀ g : G, ∀ u ∈ U, ρ g u ∈ U) → U = ⊥ ∨ U = ⊤) :
     Simple ρ ⊤ := by
@@ -318,6 +340,7 @@ theorem isField_cz (ρ : G →* (V ≃ₗ[ZMod 2] V)) (M : Subgroup G) [Nontrivi
     show (a : Module.End (ZMod 2) V) * (a : Module.End (ZMod 2) V) ^ (orderOf u - 1) = 1
     rw [← pow_succ', Nat.sub_add_cancel hpos, hpow]
 
+omit [Module.Finite (ZMod 2) V] in
 theorem er_mem_cz (ρ : G →* (V ≃ₗ[ZMod 2] V)) (M : Subgroup G)
     (hab : ∀ a ∈ M, ∀ b ∈ M, a * b = b * a) {g : G} (hg : g ∈ M) : er ρ g ∈ cz ρ M := by
   rw [mem_cz]
@@ -328,7 +351,7 @@ theorem er_mem_cz (ρ : G →* (V ≃ₗ[ZMod 2] V)) (M : Subgroup G)
 theorem isCyclic_of_injZ (ρ : G →* (V ≃ₗ[ZMod 2] V)) [Finite G] [Nontrivial V]
     (hinj : InjZ ρ ⊤) (hρ : Function.Injective ρ) (hab : ∀ a b : G, a * b = b * a) :
     IsCyclic G := by
-  letI : Field (cz ρ ⊤) := (isField_cz ρ ⊤ hinj).toField
+  let : Field (cz ρ ⊤) := (isField_cz ρ ⊤ hinj).toField
   let f : G →* cz ρ ⊤ :=
     { toFun := fun g => ⟨er ρ g, er_mem_cz ρ ⊤ (fun a _ b _ => hab a b) (Subgroup.mem_top g)⟩
       map_one' := Subtype.ext (map_one _)

@@ -82,7 +82,7 @@ theorem hasLabel_ktilde {p : ℕ} (hp : p.Prime) {W K : Subgroup G} (hK : GLAPCo
     apply Subgroup.map_injective K.subtype_injective
     rw [commutator_def, Subgroup.map_commutator, Subgroup.map_top, Subgroup.range_subtype]
     exact h1
-  haveI : Group.IsPerfect (↥K ⧸ Vc p K) :=
+  have : Group.IsPerfect (↥K ⧸ Vc p K) :=
     Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' (Vc p K)) (QuotientGroup.mk'_surjective _)
   have hqs : CFSG.Open.IsQuasisimple (↥K ⧸ GLAPPrimeCore p ↥K) :=
     isQuasisimple_pQuot_of_glaPComponent hp hK
@@ -92,7 +92,8 @@ theorem hasLabel_ktilde {p : ℕ} (hp : p.Prime) {W K : Subgroup G} (hK : GLAPCo
     ⟨Group.IsPerfect.commutator_eq_top, (MulEquiv.isSimpleGroup_congr e).2 hqs.2⟩
   exact CFSG.StandardType.ChevTwo.ys08_holds _ hq (isChevSimple_two_of_equiv e hchev)
 
-theorem mem_normalizer_T {M K : Subgroup G} [Finite G] {g : G} (hgM : g ∈ M)
+omit [Finite G] in
+theorem mem_normalizer_T {M K : Subgroup G} {g : G} (hgM : g ∈ M)
     (hgK : g ∈ Subgroup.normalizer (K : Set G)) :
     g ∈ Subgroup.normalizer ((pCoreOf 2 M ⊓ K : Subgroup G) : Set G) := by
   have hP : g ∈ Subgroup.normalizer (pCoreOf 2 M : Set G) := le_normalizer_pCoreOf 2 M hgM
@@ -103,7 +104,8 @@ theorem mem_normalizer_T {M K : Subgroup G} [Finite G] {g : G} (hgM : g ∈ M)
 @[expose] def Ttilde (p : ℕ) (M K : Subgroup G) : Subgroup (↥K ⧸ Vc p K) :=
   ((pCoreOf 2 M ⊓ K : Subgroup G).subgroupOf K).map (QuotientGroup.mk' (Vc p K))
 
-theorem conj_mem_ttilde (p : ℕ) {M K : Subgroup G} [Finite G] (k : K)
+omit [Finite G] in
+theorem conj_mem_ttilde (p : ℕ) {M K : Subgroup G} (k : K)
     (hk : (k : G) ∈ Subgroup.normalizer ((pCoreOf 2 M ⊓ K : Subgroup G) : Set G))
     {y : ↥K ⧸ Vc p K} (hy : y ∈ Ttilde p M K) :
     (QuotientGroup.mk k : ↥K ⧸ Vc p K) * y * (QuotientGroup.mk k)⁻¹ ∈ Ttilde p M K := by
@@ -117,8 +119,8 @@ theorem conj_mem_ttilde (p : ℕ) {M K : Subgroup G} [Finite G] (k : K)
 
 theorem i2315bAt_of_seitzGen (h : SeitzGen) : I2315bAt G := by
   intro p q hp hp2 hq hq2 hqp W K V M Fo hK hchev hWN hVq hVK hWV hVO hFoq hFoW hFomax hrk hFoM
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hKW : K ≤ W := hK.1
   have hlab := hasLabel_ktilde hp hK hchev
   have hVc : ¬ q ∣ Nat.card (Vc p K) := by
@@ -149,7 +151,7 @@ theorem i2315bAt_of_seitzGen (h : SeitzGen) : I2315bAt G := by
     have := hFoM E hEFo h2 h3
     intro e he
     exact this ⟨Subgroup.le_normalizer he, hEW he⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hT2G : IsPGroup 2 ↥(pCoreOf 2 M ⊓ K : Subgroup G) :=
     IsPGroup.to_le (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 M) inf_le_left
   have hT2 : IsPGroup 2 ↥(Ttilde p M K) :=

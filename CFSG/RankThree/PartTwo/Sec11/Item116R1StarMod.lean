@@ -207,7 +207,7 @@ theorem finrank_eq_four_of_fixed_two {K : Type*} [Field K] (h2 : (2 : K) ≠ 0) 
   obtain ⟨s₀, hs₀c, hs₀o⟩ :=
     CFSG.RankThree.PartOne.FixedRank36.exists_noncentral_involution hS hcard
   have hs₀1 : s₀ ≠ 1 := fun h => hs₀c (h ▸ Subgroup.one_mem _)
-  haveI : Nontrivial W := Submodule.nontrivial_iff_ne_bot.2 hW.2.1
+  have : Nontrivial W := Submodule.nontrivial_iff_ne_bot.2 hW.2.1
   have hρzW : restrictRep ρ W hW.1 z = -1 := by
     refine LinearMap.ext fun y => Subtype.ext ?_
     show ρ z y = -(y : V)
@@ -239,7 +239,7 @@ theorem finrank_eq_four_of_fixed_two {K : Type*} [Field K] (h2 : (2 : K) ≠ 0) 
     obtain ⟨Y, hYle, hY⟩ := exists_isMinInv_le hW'inv hW'0
     have hdisj : W ⊓ Y = ⊥ :=
       le_bot_iff.1 ((inf_le_inf_left W hYle).trans (disjoint_iff.1 hW'compl.1).le)
-    haveI : Nontrivial Y := Submodule.nontrivial_iff_ne_bot.2 hY.2.1
+    have : Nontrivial Y := Submodule.nontrivial_iff_ne_bot.2 hY.2.1
     have hY1 : 0 < Module.finrank K Y := Module.finrank_pos
     rcases eq_or_neg_of_isMinInv hY (T := ρ z) hTsq hTc (fun y hy => hY.1 z y hy) with
       hzY | hzY
@@ -312,7 +312,7 @@ namespace CFSG.RankThree.PartTwo.Sec11
 theorem h7_orbit_pow_five {V : Type*} [Group V] [Finite V] (hV : Nat.card V = 16)
     (f : MulAut V) {k : ℕ} (hf : f ^ (5 ^ k) = 1) (hfix : ∀ q : V, f q = q → q = 1) :
     f ^ 5 = 1 := by
-  letI : Fintype V := Fintype.ofFinite V
+  let : Fintype V := Fintype.ofFinite V
   have hcard : Fintype.card V = 16 := by
     rw [← Nat.card_eq_fintype_card]
     exact hV
@@ -383,7 +383,7 @@ theorem h7_center_gen {S : Type*} [Group S] [Finite S] (hS : IsExtraspecialPGrou
 theorem pow_five_eq_one_of_fpf {S : Type*} [Group S] [Finite S] (hS : IsExtraspecialPGroup 2 S)
     (hcard : Nat.card S = 32) (γ : MulAut S) {k : ℕ} (hγ : γ ^ (5 ^ k) = 1)
     (hfpf : ∀ s : S, γ s * s⁻¹ ∈ Subgroup.center S → s ∈ Subgroup.center S) : γ ^ 5 = 1 := by
-  haveI : Finite (S ⧸ Subgroup.center S) := Finite.of_surjective _ QuotientGroup.mk_surjective
+  have : Finite (S ⧸ Subgroup.center S) := Finite.of_surjective _ QuotientGroup.mk_surjective
   let ψ := CFSG.OrderReductions.FrattiniAutomorphisms.quotientAutomorphism (Subgroup.center S)
   have hψg : ∀ (β : MulAut S) (s : S), ψ β (s : S ⧸ Subgroup.center S) =
       ((β s : S) : S ⧸ Subgroup.center S) :=
@@ -440,7 +440,7 @@ theorem qd32_of_fpf {S : Type*} [Group S] [Finite S] (hS : IsExtraspecialPGroup 
     Nonempty (S ≃* QD32) := by
   have h5 : γ ^ 5 = 1 := pow_five_eq_one_of_fpf hS hcard γ hγ hfpf
   obtain ⟨z, hz⟩ := h7_center_gen hS
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hγ1 : γ ≠ 1 := by
     intro h
     have hall : ∀ s : S, s ∈ Subgroup.center S := fun s => hfpf s (by simp [h])
@@ -527,7 +527,7 @@ open scoped commutatorElement IsMulCommutative
 namespace CFSG.RankThree.PartTwo.Sec11
 
 theorem irr_to_module {G : Type} [Group G] [Finite G] {p : ℕ} [hp : Fact p.Prime] {D L : Subgroup G}
-    (hD : IsPGroup p D) (hLD : L ≤ Subgroup.normalizer (D : Set G))
+    (_hD : IsPGroup p D) (hLD : L ≤ Subgroup.normalizer (D : Set G))
     [IsElementaryAbelian p (↥D ⧸ frattini ↥D)] (hirr : IsFrattiniIrreducibleFor L D) :
     ∀ W : Submodule (ZMod p) (Additive (↥D ⧸ frattini ↥D)),
       (∀ (l : ↥L) (w : Additive (↥D ⧸ frattini ↥D)), w ∈ W →

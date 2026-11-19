@@ -230,7 +230,7 @@ theorem dCheck_of {i N Nd nd dsz cnt : Nat} {TC TD DG : Nat → Nat} {SKc : List
       rw [hkey j hj, Bool.or_eq_true]
       by_cases hc : (allN nd fun l => keyCommK (TC j) (DG l)) = true
       · right
-        rw [bIf_eq, if_pos hc, anyNP_eq, List.any_eq_true] at hpj
+        rw [bIf_eq, ite_eq_left hc, anyNP_eq, List.any_eq_true] at hpj
         obtain ⟨e, he, hq⟩ := hpj
         rw [List.any_eq_true]
         refine ⟨e, he, ?_⟩

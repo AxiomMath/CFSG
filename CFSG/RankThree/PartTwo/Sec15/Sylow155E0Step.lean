@@ -69,7 +69,7 @@ theorem delta_le_n155_of_a5_of_host
     (hBXW : b155 A M X ≤ X ⊔ w155 A M X) (hBN : b155 A M X ≤ n155 A K) [(ker148 A M).Normal]
     (hφ : Nonempty (↥(img148 A M (w155 A M X)) ≃* alternatingGroup (Fin 5)))
     (hNO : Sylow155B2.InnerOn A M X) : delta A (lB A) M ≤ n155 A K := by
-  haveI : ((pPrimeCoreOf 3 M).subgroupOf (w155 A M X)).Normal :=
+  have : ((pPrimeCoreOf 3 M).subgroupOf (w155 A M X)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (Sylow155B2.w155_le_normalizer A M X)
   obtain ⟨ψ⟩ := Sylow155R.nonempty_quot_equiv_img148 (A := A) (Sylow155B2.w155_le_m A M X)
   obtain ⟨φ'⟩ := hφ
@@ -91,13 +91,13 @@ theorem delta_le_n155_of_tripleCover_of_host
     (hφ : Sec4.IsTripleCover ↥(img148 A M (w155 A M X)) (alternatingGroup (Fin 6)) ∧
       CFSG.IsQuasisimple ↥(img148 A M (w155 A M X))) :
     delta A (lB A) M ≤ n155 A K := by
-  haveI : ((pPrimeCoreOf 3 M).subgroupOf (w155 A M X)).Normal :=
+  have : ((pPrimeCoreOf 3 M).subgroupOf (w155 A M X)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (Sylow155B2.w155_le_normalizer A M X)
   obtain ⟨ψ⟩ := Sylow155R.nonempty_quot_equiv_img148 (A := A) (Sylow155B2.w155_le_m A M X)
   have htc := Proof15Res8Diag.isTripleCover_congr ψ.symm hφ.1
   have hcard := Res7DescFix.card_eq_of_isTripleCover_a6 htc
   have hperf : commutator (↥(w155 A M X) ⧸ (pPrimeCoreOf 3 M).subgroupOf (w155 A M X)) = ⊤ := by
-    haveI := hφ.2.1
+    have := hφ.2.1
     exact Group.isPerfect_def.mp
       (Group.IsPerfect.ofSurjective (f := ψ.symm.toMonoidHom) ψ.symm.surjective)
   obtain ⟨hZ, ⟨e⟩⟩ := htc
@@ -120,9 +120,9 @@ theorem Sylow155E0.delta_le_n155_of_cases_of_host
     (hH : delta A (lB A) (CFSG.Open.pCoreOf 2 Y ⊔ pPrimeCoreOf 3 (u155 A M X)) ≤ n155 A K)
     (hBN : b155 A M X ≤ n155 A K) :
     delta A (lB A) M ≤ n155 A K := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hf : Proof155Wx.Facts155W A X Y M P := Proof155Wx.facts155W_of h h148 h149 hC hE hRP
-  letI : (ker148 A M).Normal := ker148_normal hf.mem_m2.1.2
+  let : (ker148 A M).Normal := ker148_normal hf.mem_m2.1.2
   by_cases hWO : w155 A M X ≤ pPrimeCoreOf 3 M
   · exact Sylow155E0.delta_le_n155_of_w_le_of_host h h146 hC hE hRP hIX hH hBXW
       (Sylow155C3.w155_le_pPrimeCoreOf_of_coprime (Nat.Coprime.coprime_dvd_right

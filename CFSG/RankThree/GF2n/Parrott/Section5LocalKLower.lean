@@ -29,7 +29,7 @@ open scoped commutatorElement
 variable {G : Type} [Group G] [Finite G] {z : G}
 variable [hN : ((J z).subgroupOf (H z)).Normal] (D : QuotientData (z := z) hN)
 
-private def k52ZSub (h : Tim79a.ParrottHyp z) : Subgroup (J z) :=
+private def k52ZSub (_h : Tim79a.ParrottHyp z) : Subgroup (J z) :=
   (Subgroup.zpowers z).subgroupOf (J z)
 
 private instance zSub_normal (h : Tim79a.ParrottHyp z) : (k52ZSub (z := z) h).Normal := by
@@ -46,11 +46,13 @@ private abbrev JModZ (h : Tim79a.ParrottHyp z) : Type := J z ⧸ k52ZSub (z := z
 private noncomputable def k52jm (h : Tim79a.ParrottHyp z) : J z →* JModZ h :=
   QuotientGroup.mk' (k52ZSub (z := z) h)
 
+omit hN [Finite G] in
 private theorem jm_eq_one_iff (h : Tim79a.ParrottHyp z) (a : J z) :
     k52jm h a = 1 ↔ (a : G) ∈ Subgroup.zpowers z := by
   change (QuotientGroup.mk a : J z ⧸ k52ZSub h) = 1 ↔ _
   rw [QuotientGroup.eq_one_iff, k52ZSub, Subgroup.mem_subgroupOf]
 
+omit hN [Finite G] in
 private theorem jm_eq_iff (h : Tim79a.ParrottHyp z) (a b : J z) :
     k52jm h a = k52jm h b ↔ ((a * b⁻¹ : J z) : G) ∈ Subgroup.zpowers z := by
   constructor
@@ -70,9 +72,12 @@ private instance jm_commutative (h : Tim79a.ParrottHyp z) : IsMulCommutative (JM
   intro a _ b _
   exact Subgroup.mem_subgroupOf.mpr (commutator_mem_zpowers_z h a.2 b.2)
 
+omit hN [Finite G] in
 private theorem jm_mul_comm (h : Tim79a.ParrottHyp z) (a b : JModZ h) : a * b = b * a :=
   (IsMulCommutative.is_comm).comm a b
 
+omit hN in
+omit [Finite G] in
 private theorem jm_conj_mem_J (h : Tim79a.ParrottHyp z) {g : ↥(H z)} (hg : (g : G) ∈ J z)
     (a : J z) : k52jm h (conjJ' z g a) = k52jm h a := by
   rw [jm_eq_iff]
@@ -135,6 +140,7 @@ private theorem jm_conj_centerIn (h : Tim79a.ParrottHyp z) {c : J z}
   have hc' := conj_centerIn_mul_inv_mem_zpowers h hc g
   simpa [conjJ'_apply_coe, mul_assoc] using hc'
 
+omit hN [Finite G] in
 private theorem jm_surjective (h : Tim79a.ParrottHyp z) : Function.Surjective (k52jm h) :=
   QuotientGroup.mk'_surjective _
 
@@ -151,28 +157,39 @@ private noncomputable def k52ConjJM (h : Tim79a.ParrottHyp z) (g : ↥(H z)) :
     rw [hcomm, mul_inv_cancel_right]
     exact haz)
 
+omit hN in
+omit [Finite G] in
 private theorem conjJM_apply (h : Tim79a.ParrottHyp z) (g : ↥(H z)) (a : J z) :
     k52ConjJM h g (k52jm h a) = k52jm h (conjJ' z g a) :=
   QuotientGroup.lift_mk' _ _ a
 
+omit hN in
+omit [Finite G] in
 private theorem conjJM_mul (h : Tim79a.ParrottHyp z) (g g' : ↥(H z)) (a : JModZ h) :
     k52ConjJM h (g * g') a = k52ConjJM h g (k52ConjJM h g' a) := by
   obtain ⟨b, rfl⟩ := jm_surjective h a
   rw [conjJM_apply, map_mul, MulAut.mul_apply, conjJM_apply, conjJM_apply]
 
+omit hN in
+omit [Finite G] in
 private theorem conjJM_one (h : Tim79a.ParrottHyp z) (a : JModZ h) :
     k52ConjJM h 1 a = a := by
   obtain ⟨b, rfl⟩ := jm_surjective h a
   rw [conjJM_apply, map_one, MulAut.one_apply]
 
+omit hN in
+omit [Finite G] in
 private theorem conjJM_inv_left (h : Tim79a.ParrottHyp z) (g : ↥(H z)) (a : JModZ h) :
     k52ConjJM h g (k52ConjJM h g⁻¹ a) = a := by
   rw [← conjJM_mul, mul_inv_cancel, conjJM_one]
 
+omit hN in
+omit [Finite G] in
 private theorem conjJM_inv_right (h : Tim79a.ParrottHyp z) (g : ↥(H z)) (a : JModZ h) :
     k52ConjJM h g⁻¹ (k52ConjJM h g a) = a := by
   rw [← conjJM_mul, inv_mul_cancel, conjJM_one]
 
+omit [Finite G] in
 private theorem conjJM_congr (h : Tim79a.ParrottHyp z) {g g' : ↥(H z)}
     (hq : qH D g = qH D g') : k52ConjJM h g = k52ConjJM h g' := by
   apply MonoidHom.ext
@@ -193,6 +210,8 @@ private theorem conjJM_centerIn (h : Tim79a.ParrottHyp z) {c : J z}
     k52ConjJM h g (k52jm h c) = k52jm h c := by
   rw [conjJM_apply, jm_conj_centerIn h hc g]
 
+omit hN in
+omit [Finite G] in
 private theorem conjJM_three (h : Tim79a.ParrottHyp z) {x : ↥(H z)}
     (hx3J : x ^ 3 ∈ (J z).subgroupOf (H z)) (a : JModZ h) :
     k52ConjJM h x (k52ConjJM h x (k52ConjJM h x a)) = a := by
@@ -203,6 +222,7 @@ private theorem conjJM_three (h : Tim79a.ParrottHyp z) {x : ↥(H z)}
   obtain ⟨b, rfl⟩ := jm_surjective h a
   rw [conjJM_apply, jm_conj_mem_J h (Subgroup.mem_subgroupOf.mp hx3J) b]
 
+omit hN [Finite G] in
 private theorem conjJM_inv_apply (h : Tim79a.ParrottHyp z) {x : ↥(H z)}
     (hx3J : x ^ 3 ∈ (J z).subgroupOf (H z)) (a : JModZ h) :
     k52ConjJM h x⁻¹ a = k52ConjJM h x (k52ConjJM h x a) := by
@@ -225,6 +245,7 @@ private noncomputable def k52C (jx : J z) (y : ↥(H z)) : J z := jx⁻¹ * k52U
 private noncomputable def k52N (jx : J z) (x : ↥(H z)) : J z :=
   jx * conjJ' z x jx * conjJ' z x (conjJ' z x jx)
 
+omit hN [Finite G] in
 private theorem k52C_mem_centerIn (h : Tim79a.ParrottHyp z) {j : G} (hj : j ∈ J z)
     {y : ↥(H z)} (hyj : conjV h y (QuotientV.pi z ⟨j, hj⟩) = QuotientV.pi z ⟨j, hj⟩) :
     ((k52C (k52Jx hj) y : J z) : G) ∈ centerIn (J z) := by
@@ -234,6 +255,7 @@ private theorem k52C_mem_centerIn (h : Tim79a.ParrottHyp z) {j : G} (hj : j ∈ 
   rw [← conjV_mk h y ⟨j, hj⟩, hyj]
   simp
 
+omit hN [Finite G] in
 private theorem k52N_mem_centerIn (h : Tim79a.ParrottHyp z) {j : G} (hj : j ∈ J z)
     {x : ↥(H z)}
     (htr : QuotientV.pi z ⟨j, hj⟩ * conjV h x (QuotientV.pi z ⟨j, hj⟩) *
@@ -246,7 +268,8 @@ private theorem k52N_mem_centerIn (h : Tim79a.ParrottHyp z) {j : G} (hj : j ∈ 
     ← conjV_mk h x ⟨j, hj⟩]
   exact htr
 
-private theorem k52_trace_expansion (h : Tim79a.ParrottHyp z) {j : G} (hj : j ∈ J z)
+omit hN [Finite G] in
+private theorem k52_trace_expansion (_h : Tim79a.ParrottHyp z) {j : G} (hj : j ∈ J z)
     {x y : ↥(H z)} :
     conjJ' z y (k52N (k52Jx hj) x) =
       k52U (k52Jx hj) y * conjJ' z (y * x * y⁻¹) (k52U (k52Jx hj) y) *
@@ -268,6 +291,8 @@ private theorem k52_trace_expansion (h : Tim79a.ParrottHyp z) {j : G} (hj : j �
       conjJ' z y (conjJ' z x (conjJ' z x (k52Jx hj))) = _
   rw [show conjJ' z y (k52Jx hj) = k52U (k52Jx hj) y from rfl, hA, hB]
 
+omit hN in
+omit [Finite G] in
 private theorem k52_Njm (h : Tim79a.ParrottHyp z) {j : G} (hj : j ∈ J z) {x : ↥(H z)} :
     k52jm h (k52N (k52Jx hj) x) =
       k52jm h (k52Jx hj) * k52ConjJM h x (k52jm h (k52Jx hj)) *
@@ -276,6 +301,7 @@ private theorem k52_Njm (h : Tim79a.ParrottHyp z) {j : G} (hj : j ∈ J z) {x : 
   rw [map_mul, map_mul, ← conjJM_apply h x (k52Jx hj),
     ← conjJM_apply h x (conjJ' z x (k52Jx hj)), ← conjJM_apply h x (k52Jx hj)]
 
+omit hN [Finite G] in
 private theorem k52_Ujm (h : Tim79a.ParrottHyp z) {j : G} (hj : j ∈ J z) {y : ↥(H z)} :
     k52jm h (k52U (k52Jx hj) y) =
       k52jm h (k52Jx hj) * k52jm h (k52C (k52Jx hj) y) := by
@@ -284,13 +310,13 @@ private theorem k52_Ujm (h : Tim79a.ParrottHyp z) {j : G} (hj : j ∈ J z) {y : 
   rw [hU, map_mul]
 
 private theorem k52_key_same (h : Tim79a.ParrottHyp z) {j : G} (hj : j ∈ J z)
-    {x y : ↥(H z)} (hxZ : conjZ z x = 1)
+    {x y : ↥(H z)} (_hxZ : conjZ z x = 1)
     (hyj : conjV h y (QuotientV.pi z ⟨j, hj⟩) = QuotientV.pi z ⟨j, hj⟩)
     (hcase : qH D (y * x * y⁻¹) = qH D x) :
     k52jm h (conjJ' z y (k52N (k52Jx hj) x)) =
       k52jm h (k52N (k52Jx hj) x) * k52jm h (k52C (k52Jx hj) y) := by
-  haveI : IsMulCommutative (JModZ h) := jm_commutative h
-  letI : CommGroup (JModZ h) :=
+  have : IsMulCommutative (JModZ h) := jm_commutative h
+  let : CommGroup (JModZ h) :=
     { (inferInstance : Group (JModZ h)) with
       mul_comm := fun a b => jm_mul_comm h a b }
   have hc_mem : ((k52C (k52Jx hj) y : J z) : G) ∈ centerIn (J z) :=
@@ -316,13 +342,13 @@ private theorem k52_key_same (h : Tim79a.ParrottHyp z) {j : G} (hj : j ∈ J z)
   exact jm_word _ _ _ _ hc_sq
 
 private theorem k52_key_inv (h : Tim79a.ParrottHyp z) {j : G} (hj : j ∈ J z)
-    {x y : ↥(H z)} (hxZ : conjZ z x = 1) (hx3 : qH D x ^ 3 = 1)
+    {x y : ↥(H z)} (_hxZ : conjZ z x = 1) (hx3 : qH D x ^ 3 = 1)
     (hyj : conjV h y (QuotientV.pi z ⟨j, hj⟩) = QuotientV.pi z ⟨j, hj⟩)
     (hcase : qH D (y * x * y⁻¹) = qH D x⁻¹) :
     k52jm h (conjJ' z y (k52N (k52Jx hj) x)) =
       k52jm h (k52N (k52Jx hj) x) * k52jm h (k52C (k52Jx hj) y) := by
-  haveI : IsMulCommutative (JModZ h) := jm_commutative h
-  letI : CommGroup (JModZ h) :=
+  have : IsMulCommutative (JModZ h) := jm_commutative h
+  let : CommGroup (JModZ h) :=
     { (inferInstance : Group (JModZ h)) with
       mul_comm := fun a b => jm_mul_comm h a b }
   have hc_mem : ((k52C (k52Jx hj) y : J z) : G) ∈ centerIn (J z) :=
@@ -411,19 +437,20 @@ theorem conj_eq_or_eq_mul_z_of_trace (h : Tim79a.ParrottHyp z) {j : G} (hj : j �
   · left; rw [← hUcoe, hUc, h1, mul_one]
   · right; rw [← hUcoe, hUc, hz]
 
-private def k52GoodSet (h : Tim79a.ParrottHyp z) (j' : G) : Set ↥(H z) :=
+private def k52GoodSet (_h : Tim79a.ParrottHyp z) (j' : G) : Set ↥(H z) :=
   {y | ∃ e ∈ Subgroup.zpowers z, (y : G) * j' * (y : G)⁻¹ = j' * e}
 
+omit hN [Finite G] in
 private theorem k52GoodSet_mul (h : Tim79a.ParrottHyp z) (j' : G) (y u : ↥(H z))
     (hy : y ∈ k52GoodSet h j') (hu : u ∈ k52GoodSet h j') :
     y * u ∈ k52GoodSet h j' := by
-  simp only [k52GoodSet, Set.mem_setOf_eq] at hy hu ⊢
+  simp only [k52GoodSet, Set.mem_ofPred_eq] at hy hu ⊢
   rcases hy with ⟨e, he, hy⟩
   rcases hu with ⟨f, hf, hu⟩
   refine ⟨e * f, Subgroup.mul_mem _ he hf, ?_⟩
   have hyu : ((y * u : ↥(H z)) : G) * j' * ((y * u : ↥(H z)) : G)⁻¹ =
       (y : G) * ((u : G) * j' * (u : G)⁻¹) * (y : G)⁻¹ := by
-    simp only [Subgroup.coe_mul, Subgroup.coe_inv]
+    simp only [Subgroup.coe_mul]
     group
   rw [hyu, hu]
   have hfy : (y : G) * f = f * (y : G) :=
@@ -438,9 +465,10 @@ private theorem k52GoodSet_mul (h : Tim79a.ParrottHyp z) (j' : G) (y u : ↥(H z
     _ = (j' * e) * f := by rw [hy]
     _ = j' * (e * f) := by group
 
+omit hN [Finite G] in
 private theorem k52GoodSet_inv (h : Tim79a.ParrottHyp z) (j' : G) (y : ↥(H z))
     (hy : y ∈ k52GoodSet h j') : y⁻¹ ∈ k52GoodSet h j' := by
-  simp only [k52GoodSet, Set.mem_setOf_eq] at hy ⊢
+  simp only [k52GoodSet, Set.mem_ofPred_eq] at hy ⊢
   rcases hy with ⟨e, he, hy⟩
   refine ⟨e⁻¹, Subgroup.inv_mem _ he, ?_⟩
   have hey : (e : G) * (y : G) = (y : G) * e :=
@@ -464,10 +492,11 @@ private def k52GoodSubgroup (h : Tim79a.ParrottHyp z) (j' : G) : Subgroup ↥(H 
   one_mem' := ⟨1, Subgroup.one_mem _, by simp⟩
   inv_mem' := fun {y} hy => k52GoodSet_inv h j' y hy
 
+omit hN [Finite G] in
 private theorem J_le_goodSubgroup (h : Tim79a.ParrottHyp z) {j' : G} (hj' : j' ∈ J z) :
     (J z).subgroupOf (H z) ≤ k52GoodSubgroup h j' := by
   intro y hy
-  simp only [k52GoodSubgroup, k52GoodSet, Set.mem_setOf_eq]
+  simp only [k52GoodSubgroup, k52GoodSet]
   have hyJ : (y : G) ∈ J z := Subgroup.mem_subgroupOf.mp hy
   have hc := commutator_mem_zpowers_z h hyJ hj'
   refine ⟨⁅(y : G), j'⁆, hc, ?_⟩
@@ -492,9 +521,9 @@ private theorem gen_mem_goodSubgroup (h : Tim79a.ParrottHyp z) {v₀ : QuotientV
     (by rw [hπj']; exact hyv)
     (by rw [hπj']; exact htr)
   rcases hmain with h1 | h1
-  · simp only [k52GoodSubgroup, k52GoodSet, Set.mem_setOf_eq]
+  · simp only [k52GoodSubgroup, k52GoodSet]
     exact ⟨1, Subgroup.one_mem _, by rw [h1, mul_one]⟩
-  · simp only [k52GoodSubgroup, k52GoodSet, Set.mem_setOf_eq]
+  · simp only [k52GoodSubgroup, k52GoodSet]
     exact ⟨z, Subgroup.mem_zpowers z, by rw [h1]⟩
 
 private theorem sylowTwoH_le_goodSubgroup (h : Tim79a.ParrottHyp z) {v₀ : QuotientV.V z}
@@ -517,13 +546,14 @@ private def k52ZH (z : G) : ↥(H z) := ⟨z, z_mem_H⟩
 private noncomputable def k52CT (D : QuotientData (z := z) hN) {j' : G} (hj' : j' ∈ J z) : Subgroup ↥(H z) :=
   sylowTwoH D ⊓ Subgroup.centralizer ({k52JH hj'} : Set ↥(H z))
 
+omit [Finite G] in
 private theorem k52_hfmem (h : Tim79a.ParrottHyp z) {j' : G} (hj' : j' ∈ J z)
     (hTgood : sylowTwoH D ≤ k52GoodSubgroup h j') :
     ∀ y : ↥(sylowTwoH D), y.1 * k52JH hj' * y.1⁻¹ = k52JH hj' ∨
       y.1 * k52JH hj' * y.1⁻¹ = k52JH hj' * k52ZH z := by
   intro y
   have hygood : y.1 ∈ k52GoodSubgroup h j' := hTgood y.2
-  simp only [k52GoodSubgroup, k52GoodSet, Set.mem_setOf_eq] at hygood
+  simp only [k52GoodSubgroup, k52GoodSet] at hygood
   rcases hygood with ⟨e, he, heq⟩
   have heJ : e ∈ J z := Subgroup.zpowers_le_of_mem (z_mem_J h) he
   let eH : ↥(H z) := ⟨e, J_le_H heJ⟩
@@ -536,6 +566,8 @@ private theorem k52_hfmem (h : Tim79a.ParrottHyp z) {j' : G} (hj' : j' ∈ J z)
   · right
     rw [heqH, show eH = k52ZH z from Subtype.ext hz]
 
+omit hN in
+omit [Finite G] in
 private theorem k52_hconj (h : Tim79a.ParrottHyp z) {j' : G} (hj' : j' ∈ J z)
     (hzH2 : k52ZH z * k52ZH z = 1) :
     ∀ a b : ↥(H z), a * k52JH hj' * a⁻¹ = k52JH hj' * k52ZH z →
@@ -599,19 +631,19 @@ private theorem k52_injection_exists (h : Tim79a.ParrottHyp z) {j' : G} (hj' : j
     by_cases ha : a.1 * k52JH hj' * a.1⁻¹ = k52JH hj'
     · by_cases hb : b.1 * k52JH hj' * b.1⁻¹ = k52JH hj'
       · have h1 := congrArg (fun p : ↥(k52CT D hj') × Fin 2 => (p.1 : ↥(k52CT D hj'))) hab
-        simp only [F, dif_pos ha, dif_pos hb] at h1
+        simp only [F, dite_eq_left ha, dite_eq_left hb] at h1
         exact Subtype.ext (congrArg (fun x : ↥(k52CT D hj') => (x : ↥(H z))) h1)
       · exfalso
         have h2 := congrArg (fun p : ↥(k52CT D hj') × Fin 2 => p.2) hab
-        simp only [F, dif_pos ha, dif_neg hb] at h2
+        simp only [F, dite_eq_left ha, dite_eq_right hb] at h2
         exact absurd h2 (by decide)
     · by_cases hb : b.1 * k52JH hj' * b.1⁻¹ = k52JH hj'
       · exfalso
         have h2 := congrArg (fun p : ↥(k52CT D hj') × Fin 2 => p.2) hab
-        simp only [F, dif_neg ha, dif_pos hb] at h2
+        simp only [F, dite_eq_right ha, dite_eq_left hb] at h2
         exact absurd h2 (by decide)
       · have h1 := congrArg (fun p : ↥(k52CT D hj') × Fin 2 => (p.1 : ↥(k52CT D hj'))) hab
-        simp only [F, dif_neg ha, dif_neg hb] at h1
+        simp only [F, dite_eq_right ha, dite_eq_right hb] at h1
         have h2 : y₀.1⁻¹ * a.1 = y₀.1⁻¹ * b.1 :=
           congrArg (fun x : ↥(k52CT D hj') => (x : ↥(H z))) h1
         exact Subtype.ext (mul_left_cancel h2)
@@ -670,6 +702,7 @@ private theorem two_pow_sixteen_le_card_CT (h : Tim79a.ParrottHyp z) {j' : G} (h
       Subgroup.centralizer ({⟨j', J_le_H hj'⟩} : Set ↥(H z))) := by
   simpa [k52CT, k52JH] using k52_ct_sixteen D h hj' hTgood
 
+omit hN in
 private theorem k52_find_j' (h : Tim79a.ParrottHyp z) {v₀ : QuotientV.V z}
     (htrans : ∀ v : QuotientV.V z, v ≠ 1 → qVZMod h v = 0 → ∃ g : ↥(H z), conjV h g v = v₀)
     {j : G} (hj : j ∈ J z) (hj2 : orderOf j = 2) (hjZ : j ∉ centerIn (J z)) :
@@ -721,6 +754,7 @@ private theorem k52_dvd_Cj' (h : Tim79a.ParrottHyp z) {j' : G} (hj' : j' ∈ J z
   rw [← h1] at hdvdCT
   exact hdvdCT.trans (Subgroup.card_dvd_of_le hCTleCj')
 
+omit [Finite G] hN in
 private theorem k52_map_inf_centralizer {j j' g : G} (hgH : g ∈ H z)
     (hj'def : j' = g * j * g⁻¹) :
     (H z ⊓ Subgroup.centralizer ({j} : Set G)).map (MulAut.conj g).toMonoidHom =
@@ -754,6 +788,7 @@ private theorem k52_map_inf_centralizer {j j' g : G} (hgH : g ∈ H z)
           _ = j * (g⁻¹ * x * g) := by group
     · exact MulEquiv.apply_symm_apply φ x
 
+omit [Finite G] hN in
 private theorem k52_card_eq_conj {j j' g : G} (hgH : g ∈ H z) (hj'def : j' = g * j * g⁻¹) :
     Nat.card ↥(H z ⊓ Subgroup.centralizer ({j} : Set G)) =
       Nat.card ↥(H z ⊓ Subgroup.centralizer ({j'} : Set G)) := by
@@ -765,6 +800,7 @@ private theorem k52_card_eq_conj {j j' g : G} (hgH : g ∈ H z) (hj'def : j' = g
   rw [k52_map_inf_centralizer hgH hj'def] at hcardmap
   exact hcardmap.symm
 
+omit hN in
 private theorem k52_factorization_ge_sixteen {j j' : G}
     (hcard_eq : Nat.card ↥(H z ⊓ Subgroup.centralizer ({j} : Set G)) =
       Nat.card ↥(H z ⊓ Subgroup.centralizer ({j'} : Set G)))

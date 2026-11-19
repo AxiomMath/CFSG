@@ -84,14 +84,14 @@ private theorem ncard_opposite_fullLines (hΓ : IsThasQuadrangle Γ c q) {E : Se
         have h1 : c' v = 1 := (hdc0 v).mp h
         rw [hv0] at h1
         exact absurd h1 (by decide)
-      rw [hv, if_pos hv0, if_neg hdc]
+      rw [hv, ite_eq_left hv0, ite_eq_right hdc]
     · have hv1 : c' v = 1 := by
         have hfin : ∀ a : Fin 2, a = 0 ∨ a = 1 := by decide
         rcases hfin (c' v) with h | h
         · exact absurd h hv0
         · exact h
       have hdc : dc v = 0 := (hdc0 v).mpr hv1
-      rw [hv, if_neg hv0, if_pos hdc]
+      rw [hv, ite_eq_right hv0, ite_eq_left hdc]
   let L' : subquadrangleSet Γ c E :=
     ⟨L, mem_subquadrangleSet.mpr (Or.inr (mem_subquadrangleLines.mp hL))⟩
   have hL'1 : c' L' = 1 := by
@@ -112,11 +112,11 @@ private theorem ncard_opposite_fullLines (hΓ : IsThasQuadrangle Γ c q) {E : Se
     constructor
     · rintro ⟨hML, hdist⟩
       refine ⟨⟨M, mem_subquadrangleSet.mpr (Or.inr (mem_subquadrangleLines.mp hML))⟩, ?_, rfl⟩
-      simp only [Set.mem_setOf_eq]
+      simp only [Set.mem_ofPred_eq]
       rw [dist_subquadrangleGraph_of_isFullSubquadrangle hP hT c hΓ.deg hF _ _, hdist]
     · rintro ⟨M', hM'dist, rfl⟩
       have hdist' : (Γ.induce (subquadrangleSet Γ c E)).dist L' M' = 4 := by
-        simpa only [Set.mem_setOf_eq] using hM'dist
+        simpa only [Set.mem_ofPred_eq] using hM'dist
       have hM'1 : c' M' = 1 := by
         have heven : Even ((Γ.induce (subquadrangleSet Γ c E)).dist L' M') := by
           rw [hdist']
@@ -152,7 +152,7 @@ private theorem card_pairs_in_subquadrangle (hΓ : IsThasQuadrangle Γ c q) {E :
         Γ.dist p.1 p.2 = 4} := by
     ext p
     simp only [PairF, Finset.mem_coe, Finset.mem_filter, Finset.mem_product, LinesE,
-      Set.Finite.mem_toFinset, Set.mem_setOf_eq]
+      Set.Finite.mem_toFinset, Set.mem_ofPred_eq]
     tauto
   have hmap : (PairF : Set (V × V)).MapsTo Prod.fst (LinesE : Set V) := by
     intro p hp
@@ -184,7 +184,7 @@ private theorem card_pairs_in_subquadrangle (hΓ : IsThasQuadrangle Γ c q) {E :
       congr 1
       ext M
       simp only [Finset.mem_coe, Finset.mem_filter, LinesE, Set.Finite.mem_toFinset,
-        Set.mem_setOf_eq]
+        Set.mem_ofPred_eq]
     rw [hcardset]
     exact ncard_opposite_fullLines hΓ hF hLmem
   rw [← hcoe, Set.ncard_coe_finset, hsum, Finset.sum_congr rfl hfiber, Finset.sum_const,
@@ -210,14 +210,14 @@ private theorem ncard_opposite_lines (hΓ : IsThasQuadrangle Γ c q) {L : V} (hL
         have h1 : c v = 1 := (hdc0 v).mp h
         rw [hv0] at h1
         exact absurd h1 (by decide)
-      rw [hΓ.deg v, if_pos hv0, if_neg hdc]
+      rw [hΓ.deg v, ite_eq_left hv0, ite_eq_right hdc]
     · have hv1 : c v = 1 := by
         have hfin : ∀ a : Fin 2, a = 0 ∨ a = 1 := by decide
         rcases hfin (c v) with h | h
         · exact absurd h hv0
         · exact h
       have hdc : dc v = 0 := (hdc0 v).mpr hv1
-      rw [hΓ.deg v, if_neg hv0, if_pos hdc]
+      rw [hΓ.deg v, ite_eq_right hv0, ite_eq_left hdc]
   have hdcL : dc L = 0 := (hdc0 L).mpr hL
   have hcount : {M : V | Γ.dist L M = 4}.ncard = (q ^ 3) ^ 2 * q ^ 2 := by
     rw [Set.ncard_eq_toFinset_card]
@@ -253,7 +253,7 @@ private theorem card_pairs_all (hΓ : IsThasQuadrangle Γ c q) :
       {p : V × V | c p.1 = 1 ∧ c p.2 = 1 ∧ Γ.dist p.1 p.2 = 4} := by
     ext p
     simp only [PairF, Finset.mem_coe, Finset.mem_filter, Finset.mem_product, Lines,
-      mem_lineFinset, Set.mem_setOf_eq]
+      mem_lineFinset, Set.mem_ofPred_eq]
     tauto
   have hmap : (PairF : Set (V × V)).MapsTo Prod.fst (Lines : Set V) := by
     intro p hp
@@ -284,7 +284,7 @@ private theorem card_pairs_all (hΓ : IsThasQuadrangle Γ c q) :
       congr 1
       ext M
       simp only [Finset.mem_coe, Finset.mem_filter, Lines, mem_lineFinset,
-        Set.mem_setOf_eq]
+        Set.mem_ofPred_eq]
     rw [hcardset]
     exact ncard_opposite_lines hΓ hL1
   rw [← hcoe, Set.ncard_coe_finset, hsum, Finset.sum_congr rfl hfiber, Finset.sum_const,

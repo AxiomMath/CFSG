@@ -30,7 +30,7 @@ theorem ggTwOmPlus_label_of_rec {r f : ℕ} (hr : 3 ≤ r)
     LargeEvenLabelAll ⟨.D, r + 1, f⟩ fun R _ I _ => P R I := by
   intro Q hQ
   dsimp only [LargeEvenRawDatum] at hQ ⊢
-  rw [if_neg (by omega)] at hQ ⊢
+  rw [ite_eq_right (by omega)] at hQ ⊢
   obtain ⟨K, _, _, hK, hQ'⟩ := hQ
   have : CharP K 2 := charP_two_of_card hK
   exact ⟨K, inferInstance, inferInstance, hK, hQ', h K hK⟩

@@ -164,8 +164,6 @@ theorem Q_cen : ∀ q ∈ Qk, (∀ r ∈ Qk, q * r = r * q) → q = 1 ∨ q = el
         (hc _ (elemW_getD_mem qWordsK (TKQW i)))) ‹¬commP _ _ = true›
     | exact Or.inl (eq_of_repC (by rw [← Nat.eq_of_beq_eq_true h]; exact hr) repC_idK)
     | exact Or.inr (eq_of_repC (by rw [← Nat.eq_of_beq_eq_true h]; exact hr) repc)
-    | exact Or.inr (eq_of_repC (by rw [← Nat.eq_of_beq_eq_true ((bAnd_iff _ _).1 h).2]; exact hr)
-        repc)
 
 theorem Q_comm : ∀ q ∈ Qk, ∀ r ∈ Qk, q * r = r * q ∨ q * r = elemW cWordK * (r * q) := by
   intro q hq r hr
@@ -175,7 +173,7 @@ theorem Q_comm : ∀ q ∈ Qk, ∀ r ∈ Qk, q * r = r * q ∨ q * r = elemW cWo
   unfold qCommK at h
   simp only [strictB_app] at h
   have h' := allN_spec h j (by rw [← cQ]; exact hj)
-  simp only [strictB_app, bIf26773] at h'
+  simp only [bIf26773] at h'
   split_ifs at h' with h1
   · exact Or.inl ((eqB_iff (repC_pc hri hrj) (repC_pc hrj hri)).1 h1)
   · exact Or.inr ((eqB_iff (repC_pc hri hrj) (repC_pc repc (repC_pc hrj hri))).1 h')
@@ -209,7 +207,7 @@ theorem zpow4_cases {M : Type*} [Group M] {x : M} (hx : orderOf x = 4) (k : ℤ)
     right
     left
     rw [h]
-    simp [zpow_two, pow_two]
+    simp [pow_two]
   · right
     right
     right

@@ -26,18 +26,18 @@ open CFSG CFSG.Assembly
 attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
 theorem ggTW_card_dichotomy (hFix : GGTBFixInput) {G : Type} [Group G] [Finite G] {p N k : ℕ}
-    [Fact p.Prime] (hp : 3 ≤ p) (hpN : p ∣ N) (hN : N = 5 ∨ N = 6 ∨ N = 7 ∨ N = 9 ∨ N = 10)
+    [Fact p.Prime] (_hp : 3 ≤ p) (hpN : p ∣ N) (hN : N = 5 ∨ N = 6 ∨ N = 7 ∨ N = 9 ∨ N = 10)
     {B Bs : Subgroup G} {x y : G} {L D J K : Subgroup G} (hH : GGResHyp p B Bs x L D J y K)
-    (hxL : x ∉ L) (hk : k = 1 ∨ k = 2) (hA : GGTWAligned p N k Bs L J K) :
+    (hxL : x ∉ L) (_hk : k = 1 ∨ k = 2) (hA : GGTWAligned p N k Bs L J K) :
     Nat.card ↥Bs = p ^ (N - 1) ∨ Nat.card ↥Bs = p ^ N := by
   classical
   obtain ⟨pos, Λ, hΛf, hΛd, b₁, b₂, Λa, hΛaf, hΛad, ML, CL, MK, CK, V, hVadd, hVmod,
     ι, φ, h, α, e, hb12, hcardΛa, hpos, hMLeq, hMLweyl, hCLcartan, hMKweyl, hCKcartan,
     hk2, hform, hrefl, hpairL, hpairK, hAL, hAK, hAJ⟩ := hA
-  letI : AddCommGroup V := hVadd
-  letI : Module (ZMod p) V := hVmod
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Module.Finite (ZMod p) V := Module.Finite.of_finite
+  let : AddCommGroup V := hVadd
+  let : Module (ZMod p) V := hVmod
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Module.Finite (ZMod p) V := Module.Finite.of_finite
   have hp2 : p ≠ 2 := by
     have hβ : p ∈ LargeEvenBeta 4 G := hH.1.1.2.2.2.2.2.1
     exact hβ.2.1
@@ -75,10 +75,10 @@ theorem ggTW_card_le_oneNode (hFix : GGTBFixInput) {G : Type} [Group G] [Finite 
   obtain ⟨pos, Λ, hΛf, hΛd, b₁, b₂, Λa, hΛaf, hΛad, ML, CL, MK, CK, V, hVadd, hVmod,
     ι, φ, h, α, e, hb12, hcardΛa, hpos, hMLeq, hMLweyl, hCLcartan, hMKweyl, hCKcartan,
     hk2, hform, hrefl, hpairL, hpairK, hKall, hLgen, hJgen⟩ := hA
-  letI : AddCommGroup V := hVadd
-  letI : Module (ZMod p) V := hVmod
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Module.Finite (ZMod p) V := Module.Finite.of_finite
+  let : AddCommGroup V := hVadd
+  let : Module (ZMod p) V := hVmod
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Module.Finite (ZMod p) V := Module.Finite.of_finite
   obtain ⟨hCfg, hOp, hInner, hNoTr, hNbr, hReflK, hScal⟩ := hH
   have hx : x ∈ Bs := hCfg.tableB_facts.2.2.1
   let xV : V := ι (Additive.ofMul (⟨x, hx⟩ : ↥Bs))

@@ -186,9 +186,7 @@ theorem prep_RW : ∀ m < 16,
     · have hd := CFSG.KC.Misc.RuBase.allN_iff.1 h1 (m - 1) (by omega)
       have e : Nat.succ (m - 1) = m := by omega
       rw [sB] at hd
-      beta_reduce at hd
       rw [e, sB] at hd
-      beta_reduce at hd
       obtain ⟨hi4, hi2, hi3⟩ := hiB_tab m hm hpos
       obtain ⟨i, hi⟩ : ∃ i, hiB m = i := ⟨_, rfl⟩
       rw [hi] at hd hi4 hi2 hi3
@@ -325,11 +323,10 @@ theorem ncard_fix_uV32EK {g : Equiv.Perm (Fin 4060)} (hg : g ∈ uV32E) (hE : g 
   have h := CFSG.KC.Misc.RuBase.allN_iff.1 ch7233fv_ok (m - 1) (by omega)
   have e : Nat.succ (m - 1) = m := by omega
   rw [sB] at h
-  beta_reduce at h
   rw [e, CFSG.KC.Misc.RuBase.bIf_eq] at h
   have hP := ptR_mAp m pV32E
   split_ifs at h with hin
-  · exact absurd (mem_of_inSp pE ebasisK.1 (mProd_mem bF hbsJ (wGv_mem _) m 5) hP hin) hE
+  · exact absurd (mem_of_inSp pE ebasisK.1 (mProd_mem (wGv_mem _) m 5) hP hin) hE
   · rw [ncard_fix hP, Nat.eq_of_beq_eq_true h]
 
 theorem mem_norm_of_normB {o r : Nat} {ws : List (List Int)}
@@ -400,7 +397,7 @@ theorem conj_x16_not_normK :
   have h1 := normB_of_mem p16 ebasisK.2.2.2.1 hA hAI h
   have h2 := ch7233gx_ok
   unfold ch7233gx at h2
-  rw [CFSG.KC.Misc.RuBase.bIf_eq, if_pos h1] at h2
+  rw [CFSG.KC.Misc.RuBase.bIf_eq, ite_eq_left h1] at h2
   exact Bool.false_ne_true h2
 
 theorem conj_k16_u32K : ∀ i, k16 * v32 i * k16⁻¹ ∈ uV32p := by
@@ -444,10 +441,9 @@ theorem conj64_distinctK {i j : Nat} (hi : i < 20) (hj : j < 20) (hij : i ≠ j)
       u64.map (MulAut.conj (wG (conj64W.getD j []))).toMonoidHom := by
   intro heq
   have h := CFSG.KC.Misc.RuBase.allN_iff.1 (cd_all i hi) j hj
-  rw [CFSG.KC.Misc.RuBase.bIf_eq, if_neg (by rw [Nat.beq_eq]; exact hij)] at h
+  rw [CFSG.KC.Misc.RuBase.bIf_eq, ite_eq_right (by rw [Nat.beq_eq]; exact hij)] at h
   obtain ⟨k, hk, h⟩ := anyK_iff.1 h
   rw [sB] at h
-  beta_reduce at h
   rw [CFSG.KC.Misc.RuBase.bIf_eq] at h
   have hci := ptR_wF (conj64W_letters i hi)
   have hcj := ptR_wF (conj64W_letters j hj)
@@ -468,7 +464,7 @@ theorem conj64_distinctK {i j : Nat} (hi : i < 20) (hj : j < 20) (hij : i ≠ j)
   have hin := inSp_of_mem p64 ebasisK.2.1
     (ptR_comp hcj.2 (ptR_comp hci.1 (ptR_comp (p64 k hk) (ptR_comp hci.2 hcj.1)))) hy
   split_ifs at h with hin'
-  all_goals first | exact Bool.false_ne_true h | exact hin' hin | exact absurd hin hin'
+  all_goals exact hin' hin
 
 theorem ns_memP : ∀ g ∈ [ruNs0, ruNs1], g ∈ ruP := by
   intro g hg
@@ -607,7 +603,6 @@ theorem commut_not_centK :
   unfold ch7233cq at h
   obtain ⟨i, hi, h⟩ := anyK_iff.1 h
   rw [sB] at h
-  beta_reduce at h
   rw [CFSG.KC.Misc.RuBase.bIf_eq] at h
   have hx : PtR (apP (Q 14)) x32 ∧ PtR (apP (Q 15)) x32⁻¹ :=
     ptR_QW (k := 14) (Or.inr (Or.inr (Or.inl rfl)))
@@ -619,7 +614,7 @@ theorem commut_not_centK :
   have hB := ptR_comp hv hC
   rw [hcomm] at hB
   have e := img4_eq_of_eq (ptR_comp hC hv) hB
-  rw [if_pos (by rw [Nat.beq_eq]; exact e)] at h
+  rw [ite_eq_left (by rw [Nat.beq_eq]; exact e)] at h
   exact Bool.false_ne_true h
 
 theorem ptR_jA : (∀ k < 6, PtR (jA k) (ruJGens.getD k 1)) ∧
@@ -700,10 +695,9 @@ theorem exists_conj_r30K {v : Equiv.Perm (Fin 4060)} (hv : v ∈ u32) (h1 : v �
   have h := CFSG.KC.Misc.RuBase.allN_iff.1 ch7233r30_ok (m - 1) (by omega)
   have e : Nat.succ (m - 1) = m := by omega
   rw [sB] at h
-  beta_reduce at h
   rw [e, CFSG.KC.Misc.RuBase.bIf_eq] at h
   have hP := ptR_mAp m p32
-  have hmP := mProd_mem bF hbsJ (wGv_mem basis32W) m 5
+  have hmP := mProd_mem (wGv_mem basis32W) m 5
   split_ifs at h with hzI
   · exact absurd (eq_of_img4 bF hbsJ hmP ruZ_mem hP ptR_Z (Nat.eq_of_beq_eq_true hzI)) hz
   · obtain ⟨w, hw, h⟩ := anyK_iff.1 h

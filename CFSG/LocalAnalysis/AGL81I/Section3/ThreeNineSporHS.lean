@@ -93,7 +93,7 @@ theorem conclusion_of_hs
   obtain ⟨θ⟩ : Nonempty (↥K ≃* ↥hs100P) := ⟨e.trans CFSG.RankThree.Native.hs100Equiv⟩
   obtain ⟨Ebar, -, hEc, -, hN⟩ := h.exists_barE hZ hout5
   obtain ⟨S, hES⟩ := (IsPGroup.of_card hEc).exists_le_sylow
-  have hNS := hN S S.isPGroup' hES
+  have hNS := hN S S.isPGroup hES
   have hSc : Nat.card ((S : Subgroup ↥K).map θ.toMonoidHom) = 5 ^ 3 := by
     rw [Subgroup.card_map_of_injective θ.injective, Sylow.card_eq_multiplicity, hcK,
       SporCent.factorization_eq_of_pow_dvd (e := 3) Nat.prime_five (by norm_num) (by norm_num)

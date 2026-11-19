@@ -58,13 +58,12 @@ theorem mem_closureE_of_fixed {β : X} (hβ : β ∈ K.A) (hβ2 : β * β = 1) {
   have h20 : (0 : ZMod 4).val = 0 := rfl
   have h22 : (2 : ZMod 4).val = 2 := rfl
   rcases hcases with rfl | rfl | rfl | rfl
-  · simpa [Config.ev, h0, h20] using
-      (Subgroup.one_mem (Subgroup.closure {K.x ^ 2, K.y ^ 2, K.uv, K.t}))
+  · simp [Config.ev, h0, h20]
   · simpa [Config.ev, h0, h20, h22] using hx
   · simpa [Config.ev, h0, h20, h22] using hy
   · simpa [Config.ev, h0, h22] using mul_mem hx hy
 
-theorem conj_mul_mem_closureE {B : Subgroup X} (hAB : K.A ≤ B)
+theorem conj_mul_mem_closureE {B : Subgroup X} (_hAB : K.A ≤ B)
     (hB2 : ∀ b ∈ B, b * b = 1 → b ∈ K.A) {z : X} (hz : z * z = 1)
     (hzB : z ∈ Subgroup.centralizer (B : Set X)) {g : X} (hg : g = K.uv ∨ g = K.t)
     (hgB : z⁻¹ * (g⁻¹ * z * g) ∈ B) :
@@ -179,7 +178,7 @@ theorem mulAut_eq_one_of_rels {M : Type*} [Group M] [Finite M] (hM : Nat.card M 
     {f g r : MulAut M} (hf : f * f = 1) (hfg : f * g = g * f) (hg : g = r * f * r⁻¹)
     (hgf : g * f = r * g * r⁻¹) : f = 1 := by
   classical
-  haveI := Fintype.ofFinite M
+  have := Fintype.ofFinite M
   have hk : Nat.card {m : M // m ≠ 1} ≤ 3 := by
     rw [Nat.card_eq_fintype_card, Fintype.card_subtype_compl, Fintype.card_subtype_eq]
     rw [Nat.card_eq_fintype_card] at hM
@@ -199,11 +198,13 @@ section Quotient
 
 variable {X : Type*} [Group X] [Finite X] {B C : Subgroup X}
 
+omit [Finite X] in
 theorem conjByAutQuotient_congr [(B.subgroupOf C).Normal] {g h : X} (hgh : g = h)
     {hgC : g ∈ Subgroup.normalizer C} {hgB : g ∈ Subgroup.normalizer B} :
     conjByAutQuotient g hgC hgB = conjByAutQuotient h (hgh ▸ hgC) (hgh ▸ hgB) := by
   subst hgh; rfl
 
+omit [Finite X] in
 theorem conj_mul_mem_of_conjByAutQuotient_eq_one [(B.subgroupOf C).Normal] {g : X}
     (hgC : g ∈ Subgroup.normalizer C) (hgB : g ∈ Subgroup.normalizer B)
     (h1 : conjByAutQuotient g hgC hgB = 1) {z : X} (hz : z ∈ C) :
@@ -227,7 +228,7 @@ theorem conj_mem_of_card_le_four (hBC : B ≤ C) (hCB : C ≤ Subgroup.centraliz
     (huv2 : uv * uv = 1) (huvt : uv * t = t * uv) (hρuv : ρ⁻¹ * uv * ρ = t)
     (hρt : ρ⁻¹ * t * ρ = uv * t) :
     ∀ z ∈ C, z⁻¹ * (uv⁻¹ * z * uv) ∈ B ∧ z⁻¹ * (t⁻¹ * z * t) ∈ B := by
-  haveI hN : (B.subgroupOf C).Normal :=
+  have hN : (B.subgroupOf C).Normal :=
     Subgroup.normal_of_le_center (subgroupOf_le_center hBC hCB)
   have hM : Nat.card (C ⧸ B.subgroupOf C) ≤ 4 := by
     have h1 := (B.subgroupOf C).card_mul_index

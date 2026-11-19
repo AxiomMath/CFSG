@@ -24,6 +24,7 @@ open CFSG.LocalAnalysis.ComponentInitial.LinearFlag
 open CFSG.ComponentClassification.CatalogueBHigherLinearAction (slConjugation toGL_slConjugation)
 open CFSG.ComponentClassification.CatalogueBHigherLinearField (slFieldAut)
 
+omit [Finite K] in
 private theorem toGL_slFieldAut (σ : K ≃+* K) (g : SpecialLinearGroup (Fin 3) K) :
     Matrix.SpecialLinearGroup.toGL (slFieldAut (Fin 3) K σ g) =
       GeneralLinearGroup.map (σ : K →+* K) (Matrix.SpecialLinearGroup.toGL g) := by
@@ -76,6 +77,7 @@ private theorem classify_linear (α : MulAut (SpecialLinearGroup (Fin 3) K)) (h�
     rw [Units.val_mul, Units.val_mul] at h2
     exact h2
 
+omit [Finite K] in
 private theorem linear_conj : ConjProp
     (Matrix.SpecialLinearGroup.toGL : SpecialLinearGroup (Fin 3) K →* GL (Fin 3) K) ⊤ := by
   intro θ _
@@ -94,6 +96,7 @@ private theorem linear_frame (h3 : 3 ∣ Nat.card K - 1) : FrameProp
   obtain ⟨θ, ε, hfr⟩ := frame_exists hω T Q hQab hQn hu hu3 g.2 hnsc
   exact ⟨θ, Subgroup.mem_top θ, ε, hfr⟩
 
+omit [Finite K] in
 private theorem linear_block : BlockProp
     (Matrix.SpecialLinearGroup.toGL : SpecialLinearGroup (Fin 3) K →* GL (Fin 3) K) := by
   intro H hH

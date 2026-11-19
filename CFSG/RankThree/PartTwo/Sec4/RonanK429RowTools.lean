@@ -19,17 +19,17 @@ theorem noCfgS429_of_autNoE27 {S : Type} [Group S] [Finite S] (h : AutNoE27 S) :
   fun A _ _ hc => h A hc.isE27
 
 theorem AutNoE27.of_mulEquiv {S T : Type} [Group S] [Group T] (e : S ≃* T) (h : AutNoE27 T) :
-    AutNoE27 S := fun A hA => h _ (hA.map (MulAut.congr e))
+    AutNoE27 S := fun _A hA => h _ (hA.map (MulAut.congr e))
 
 theorem NoE27.of_mulEquiv {S T : Type} [Group S] [Group T] (e : S ≃* T) (h : NoE27 T) :
-    NoE27 S := fun D hD => h _ (hD.map e)
+    NoE27 S := fun _D hD => h _ (hD.map e)
 
 theorem noE27_of_not_dvd {S : Type} [Group S] [Finite S] (h : ¬ 27 ∣ Nat.card S) : NoE27 S :=
   fun D hD => h (hD.2 ▸ Subgroup.card_subgroup_dvd_card D)
 
 theorem center_eq_bot_of_isSimpleGroup {S : Type} [Group S] (hs : IsSimpleGroup S)
     (hna : ∃ a b : S, a * b ≠ b * a) : Subgroup.center S = ⊥ := by
-  haveI := hs
+  have := hs
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center S) with h | h
   · exact h
   · exfalso

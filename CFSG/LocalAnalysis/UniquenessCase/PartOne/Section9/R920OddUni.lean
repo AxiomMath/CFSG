@@ -81,7 +81,7 @@ theorem false_of_lieChar (S : Slice D L D₃ Y H q) (hq : 7 < q)
   obtain ⟨f, hf⟩ := hchev
   have hq2 : q ≠ 2 := by omega
   have hq3 : q ≠ 3 := by omega
-  haveI : Fact q.Prime := ⟨S.prime⟩
+  have : Fact q.Prime := ⟨S.prime⟩
   have hmodel : LieModel (F09.Lbar9 Y H) .PSL 2 q f ∨ LieModel (F09.Lbar9 Y H) .PSL 3 q f ∨
       LieModel (F09.Lbar9 Y H) .PSU 3 q f :=
     hf.imp id (Or.imp And.right And.right)
@@ -113,7 +113,7 @@ theorem false_of_lieChar (S : Slice D L D₃ Y H q) (hq : 7 < q)
     obtain ⟨u, -, hu, hns⟩ := exists_mem_orderOf_eq_not_isSolvable_inf S.prime S.gt
       S.isL2Odd_bar2_tbar9 (IsPGroup.of_card hQ)
       ((hQN.trans (hNW _ hAX hA)).trans (S.wbar9_le_normalizer_tbar9 hyp)) (dvd_of_eq hQ.symm)
-    haveI := isSolvable_centralizer_of_lieModel S.prime hq3 hmodel hu
+    have := isSolvable_centralizer_of_lieModel S.prime hq3 hmodel hu
     exact hns (Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective inf_le_left))
   · have h1 : LieModel (F09.Lbar9 Y H) .PSL 2 q 1 := by
       rcases hf with h | ⟨-, h⟩ | ⟨-, h⟩

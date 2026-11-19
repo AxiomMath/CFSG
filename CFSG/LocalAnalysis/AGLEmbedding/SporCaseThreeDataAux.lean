@@ -203,7 +203,7 @@ theorem pRank_le_two_of_not_dvd_card (hZp : IsPGroup p (Subgroup.center K))
     conv_lhs => rw [← hTZ]
     exact h
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp
-    (T.isPGroup'.map (QuotientGroup.mk' (Subgroup.center K)))
+    (T.isPGroup.map (QuotientGroup.mk' (Subgroup.center K)))
   have hk2 : k ≤ 2 := by
     by_contra hk3
     exact h3 ((pow_dvd_pow p (by omega)).trans (hk ▸ Subgroup.card_subgroup_dvd_card _))

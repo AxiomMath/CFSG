@@ -192,7 +192,7 @@ theorem exists_langSetup_of_toral_datum_of_prime_conj {τ : Tag} {L : Type} [Fie
     have : u = D.g0 * (D.g0⁻¹ * u * D.g0) * D.g0⁻¹ := by group
     rw [this, h]
     group
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hqpow : IsPrimePow D.q ∧ ((D.q : ℕ) : L) = 0 := by
     rw [hDq]
     exact ⟨hℓ.isPrimePow.pow (by omega), (CharP.cast_eq_zero_iff L ℓ _).2
@@ -242,15 +242,15 @@ theorem exists_langSetup_F4_conj {K : Type} [Field K] [Finite K] (hpK : ¬ 3 ∣
     intro h
     rw [h, orderOf_one] at hx
     omega
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, hℓ, hf⟩ := FiniteField.card K (ringChar K)
-  haveI : Fact (ringChar K).Prime := ⟨hℓ⟩
-  haveI : CharP K (ringChar K) := ringChar.charP K
+  have : Fact (ringChar K).Prime := ⟨hℓ⟩
+  have : CharP K (ringChar K) := ringChar.charP K
   set ℓ := ringChar K with hℓdef
   have hqK : Nat.card K = ℓ ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hf
   have hf1 : 1 ≤ (f : ℕ) := f.pos
   set L := AlgebraicClosure K with hLdef
-  haveI : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective _
+  have : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective _
   set ι₁ : K →+* L := algebraMap K L with hι₁
   have hFr : ∀ c : L, iterateFrobenius L ℓ (f : ℕ) c = c ^ Nat.card K := fun c => by
     rw [hqK]

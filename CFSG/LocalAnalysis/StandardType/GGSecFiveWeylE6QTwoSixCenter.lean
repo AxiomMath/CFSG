@@ -141,7 +141,7 @@ theorem mem_zpowers_of_mem_center
     have hc : Nat.card ψb.ker = 1 ∨ Nat.card ψb.ker = 3 := by
       obtain ⟨m, hm⟩ := hψbodd
       omega
-    rcases hc with h | h <;> rw [h] <;> norm_num
+    rcases hc with h | h <;> rw [h]; norm_num
   have hq3 : (⟨USixTwo.qmk ↥L ⟨z, hzL⟩, hqmem⟩ : ψb.ker) ^ 3 = 1 :=
     orderOf_dvd_iff_pow_eq_one.mp ((orderOf_dvd_natCard _).trans hc3)
   have hz3l : (⟨z, hzL⟩ : ↥L) ^ 3 ∈ USixTwo.zTwo ↥L := by

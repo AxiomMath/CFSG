@@ -30,14 +30,14 @@ theorem glaPLayer_ne_bot_of_diagonal_four (h : UnitaryFieldData 2 3 K) {n : ℕ}
     GLAPLayer 3 (fixSubgroup (primeFormFieldHom h (isPrimeFormGram_idGram (K := K) (n := n)) σ) ⊓
       fixSubgroup (primeFormConjHom h (idGram K n) X₀)) ≠ ⊥ := by
   classical
-  haveI := h.finite
+  have := h.finite
   have h₀ : UnitaryFieldData 2 1 (fixSubfield σ) :=
     fixSubfield_unitaryFieldData h Nat.prime_three (by decide) hσ
   have hbar₀ : ∀ c : fixSubfield σ, (h₀.bar c : K) = h.bar c :=
     fixSubfield_unitaryFieldData_bar h Nat.prime_three (by decide) hσ
   set K₀ := fixSubfield σ
-  haveI : Finite K₀ := h₀.finite
-  haveI : CharP K₀ 2 := h₀.charP
+  have : Finite K₀ := h₀.finite
+  have : CharP K₀ 2 := h₀.charP
   set hC := isPrimeFormGram_idGram (K := K) (n := n)
   set J : Finset (Fin n) := Finset.univ.filter fun l => e l = 1 with hJ
   have hJe : ∀ l, l ∈ J ↔ e l = 1 := fun l => by simp [hJ]
@@ -77,7 +77,7 @@ theorem glaPLayer_ne_bot_of_diagonal_four (h : UnitaryFieldData 2 3 K) {n : ℕ}
       have h1 := congrArg (fun x : GL (Fin n) K => (x : Matrix (Fin n) (Fin n) K) c c) hν
       simp only [GeneralLinearGroup.coe_scalar, Matrix.scalar_apply,
         Matrix.diagonal_apply_eq] at h1
-      rw [hιcoe, coe_subfieldGL, Matrix.map_apply, hgc, if_pos rfl] at h1
+      rw [hιcoe, coe_subfieldGL, Matrix.map_apply, hgc, ite_eq_left rfl] at h1
       simpa using h1.symm
     have hg1 : ((g : Su K₀ 2 1 n) : GL (Fin n) K₀) = 1 := by
       apply subfieldGL_injective K₀ n
@@ -116,8 +116,8 @@ theorem glaPLayer_ne_bot_of_diagonal_four (h : UnitaryFieldData 2 3 K) {n : ℕ}
     rw [Subgroup.normal_subgroupOf_iff hLH]
     rintro _ y ⟨g, rfl⟩ hy
     obtain ⟨Y, rfl⟩ := QuotientGroup.mk_surjective y
-    haveI : Finite (fixSubfield σ) := h₀.finite
-    haveI : CharP (fixSubfield σ) 2 := h₀.charP
+    have : Finite (fixSubfield σ) := h₀.finite
+    have : CharP (fixSubfield σ) 2 := h₀.charP
     obtain ⟨Z, hZJ, hZ⟩ := exists_coordBlockSU_eq_conj h (σ := σ) h₀ hbar₀ hX₀ hJe hJc
       (Subgroup.mem_inf.1 hy).1 (Subgroup.mem_inf.1 hy).2 g.2
     refine ⟨⟨Z, hZJ⟩, ?_⟩
@@ -125,9 +125,9 @@ theorem glaPLayer_ne_bot_of_diagonal_four (h : UnitaryFieldData 2 3 K) {n : ℕ}
     congr 1
     exact Subtype.ext hZ
   obtain ⟨hsimp, ⟨a, b, hab⟩, h3⟩ := simple_coordBlockSU_of_card_four h₀ hJ4
-  haveI : IsSimpleGroup ↥Bk := hsimp
+  have : IsSimpleGroup ↥Bk := hsimp
   set eJ := MonoidHom.ofInjective hψinj
-  haveI : IsSimpleGroup ψ.range := eJ.symm.isSimpleGroup
+  have : IsSimpleGroup ψ.range := eJ.symm.isSimpleGroup
   have hnc : ∃ a b : ψ.range, a * b ≠ b * a :=
     ⟨eJ a, eJ b, fun h' => hab (eJ.injective (by rw [map_mul, map_mul]; exact h'))⟩
   have h3L : 3 ∣ Nat.card ψ.range := by

@@ -17,19 +17,19 @@ private lemma orbit_rearr {G : Type*} [CommGroup G] (τ : G →* G) (a b a₁ b�
   have key : (a * a₁⁻¹)⁻¹ * τ ((a * a₁⁻¹) * (b * b₁⁻¹)⁻¹) * τ (τ (b * b₁⁻¹))
       = ((a⁻¹ * τ a) * ((τ b)⁻¹ * τ (τ b))) *
         (((a₁⁻¹ * τ a₁) * ((τ b₁)⁻¹ * τ (τ b₁))))⁻¹ := by
-    simp only [map_mul, map_inv, map_one, mul_inv_rev, inv_inv]
+    simp only [map_mul, map_inv, mul_inv_rev, inv_inv]
     simp only [mul_assoc, mul_left_comm, mul_comm]
   rw [key, h, mul_inv_cancel]
 
 theorem card_inf_le_two_of_orbit {Y : Type} [Group Y] {D W : Subgroup Y} {τ : Y ≃* Y}
-    (hcomm : ∀ a ∈ D, ∀ b ∈ D, a * b = b * a) (hW : W ≤ D) (hWc : Nat.card W = 4)
-    (hcube : ∀ y, τ (τ (τ y)) = y) (hτ : ∀ d ∈ D, τ d ∈ D) (hcom : ∀ d ∈ D, d⁻¹ * τ d ∈ W)
+    (hcomm : ∀ a ∈ D, ∀ b ∈ D, a * b = b * a) (_hW : W ≤ D) (hWc : Nat.card W = 4)
+    (_hcube : ∀ y, τ (τ (τ y)) = y) (hτ : ∀ d ∈ D, τ d ∈ D) (hcom : ∀ d ∈ D, d⁻¹ * τ d ∈ W)
     {J : Subgroup Y}
     (hind : ∀ x ∈ J, ∀ y ∈ J.map τ.toMonoidHom, ∀ w ∈ (J.map τ.toMonoidHom).map τ.toMonoidHom,
       x * y * w = 1 → x = 1 ∧ y = 1 ∧ w = 1) :
     Nat.card ↥(D ⊓ J) ≤ 2 := by
   classical
-  haveI hDcomm' : IsMulCommutative (D : Subgroup Y) :=
+  have hDcomm' : IsMulCommutative (D : Subgroup Y) :=
     ⟨⟨fun x y => Subtype.ext (hcomm x x.2 y y.2)⟩⟩
   let τD : ↥D →* ↥D :=
     { toFun := fun x => ⟨τ x, hτ x x.2⟩
@@ -90,10 +90,10 @@ theorem four_le_card_inf_component (hN11b : S_N11b) {Y : Type} [Group Y] [Finite
     {J : Subgroup Y} (hJ : IsComponentOf J ⊤) : 4 ≤ Nat.card ↥((D : Subgroup Y) ⊓ J) := by
   have hZY := GoldY.center_eq_bot hY.o2 hY.odd hY.layer
   have hZJ := GoldY.component_center_eq_bot hZY hY.layer hJ
-  haveI hJnorm : J.Normal := GoldY.component_normal hY.layer hJ
+  have hJnorm : J.Normal := GoldY.component_normal hY.layer hJ
   obtain ⟨TQ, -, hcardΩ, hcomm⟩ := GoldY.exists_sylow_quotient J hZJ D
   have htype := hY.comps J hJ
-  haveI : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := hJ.2.2.2
+  have : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := hJ.2.2.2
   have hDcomm' : IsMulCommutative (D : Subgroup Y) :=
     ⟨⟨fun x y => Subtype.ext (hDcomm x x.2 y y.2)⟩⟩
   have hΩcomm : IsMulCommutative (Omega1 (D : Subgroup Y)) :=

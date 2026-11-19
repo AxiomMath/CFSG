@@ -139,23 +139,23 @@ private def p9uUOdd_correct {n : ℕ} {K : Type} [Field K] (a b c l₀ : Fin n) 
 private lemma p9uUOdd_correct_a {n : ℕ} {K : Type} [Field K] (a b c l₀ : Fin n)
     (d : Fin n → K) : p9uUOdd_correct a b c l₀ d a = d a := by
   unfold p9uUOdd_correct
-  rw [if_pos rfl]
+  rw [ite_eq_left rfl]
 
 private lemma p9uUOdd_correct_b {n : ℕ} {K : Type} [Field K] (a b c l₀ : Fin n)
     (d : Fin n → K) (hab : a ≠ b) : p9uUOdd_correct a b c l₀ d b = d b := by
   unfold p9uUOdd_correct
-  rw [if_neg (Ne.symm hab), if_pos rfl]
+  rw [ite_eq_right (Ne.symm hab), ite_eq_left rfl]
 
 private lemma p9uUOdd_correct_c {n : ℕ} {K : Type} [Field K] (a b c l₀ : Fin n)
     (d : Fin n → K) (hac : a ≠ c) (hbc : b ≠ c) : p9uUOdd_correct a b c l₀ d c = d c := by
   unfold p9uUOdd_correct
-  rw [if_neg (Ne.symm hac), if_neg (Ne.symm hbc), if_pos rfl]
+  rw [ite_eq_right (Ne.symm hac), ite_eq_right (Ne.symm hbc), ite_eq_left rfl]
 
 private lemma p9uUOdd_correct_l {n : ℕ} {K : Type} [Field K] (a b c l₀ : Fin n)
     (d : Fin n → K) (hal : a ≠ l₀) (hbl : b ≠ l₀) (hcl : c ≠ l₀) :
     p9uUOdd_correct a b c l₀ d l₀ = (d a * d b * d c)⁻¹ := by
   unfold p9uUOdd_correct
-  rw [if_neg (Ne.symm hal), if_neg (Ne.symm hbl), if_neg (Ne.symm hcl), if_pos rfl]
+  rw [ite_eq_right (Ne.symm hal), ite_eq_right (Ne.symm hbl), ite_eq_right (Ne.symm hcl), ite_eq_left rfl]
 
 private lemma p9uUOdd_correct_prod {n : ℕ} {K : Type} [Field K] (a b c l₀ : Fin n)
     (d : Fin n → K) (hab : a ≠ b) (hac : a ≠ c) (hbc : b ≠ c) (hal : a ≠ l₀)
@@ -176,12 +176,12 @@ private lemma p9uUOdd_correct_prod {n : ℕ} {K : Type} [Field K] (a b c l₀ : 
   · intro x _ hx
     simp only [Finset.mem_insert, Finset.mem_singleton, not_or] at hx
     obtain ⟨hxa, hxb, hxc, hxl⟩ := hx
-    simp only [p9uUOdd_correct, if_neg hxa, if_neg hxb, if_neg hxc, if_neg hxl]
+    simp only [p9uUOdd_correct, ite_eq_right hxa, ite_eq_right hxb, ite_eq_right hxc, ite_eq_right hxl]
 
 theorem qtwoDL1_baseU_oddC {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs L : Subgroup G}
     {K : Type} [Field K] [Finite K] [CharP K 2] {n : ℕ} {ψ : Su K 2 1 n →* G}
     (hodd : Odd (Nat.card ↥(Subgroup.centralizer (Bs : Set G))))
-    (hK : Nat.card K = 4) (h : GGNSLocalHyp p B Bs K 1 n ψ) (hrange : ψ.range = L)
+    (_hK : Nat.card K = 4) (h : GGNSLocalHyp p B Bs K 1 n ψ) (hrange : ψ.range = L)
     (hd : GGActsDiagonally (p := 2) (f := 1) ψ Bs)
     {a b c : Fin n} (hab : a ≠ b) (hbc : b ≠ c) (hac : a ≠ c) {r r' : MulAut ↥Bs}
     (hr : ∀ s : ↥Bs, ((r s : ↥Bs) : G) =
@@ -236,7 +236,7 @@ theorem qtwoDL1_baseU_oddC {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs L : S
         show (d a * d b * d c) ^ 3 = 1 by
           rw [mul_pow, mul_pow, hd3 a, hd3 b, hd3 c, mul_one, one_mul],
         inv_one]
-    · simp only [e, p9uUOdd_correct, if_neg hia, if_neg hib, if_neg hic, if_neg hil, one_pow]
+    · simp only [e, p9uUOdd_correct, ite_eq_right hia, ite_eq_right hib, ite_eq_right hic, ite_eq_right hil, one_pow]
   have hedet : ∏ i, e i = 1 := by
     rw [show e = p9uUOdd_correct a b c l₀ d from rfl]
     exact p9uUOdd_correct_prod a b c l₀ d hab hac hbc (Ne.symm hl₀a) (Ne.symm hl₀b)
@@ -299,7 +299,7 @@ theorem qtwoDL1_baseU_oddC {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs L : S
     intro x y hxy hx hy r hr
     have hδxy : δf x = δf y := by
       rcases hx with rfl | rfl | rfl <;> rcases hy with rfl | rfl | rfl <;>
-        simp_all [hδa, hδb, hδc]
+        simp_all
     let P : Su K 2 1 n := ggPermSU (Equiv.swap x y)
     have hPval : (((P : Su K 2 1 n) : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) =
         (Equiv.swap x y).permMatrix K := rfl
@@ -350,7 +350,6 @@ theorem qtwoDL1_baseU_oddC {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs L : S
         (p9uUOdd_centralizer_of_conj_eq (hBsN B'.2) hconj)
     have hrz : r z = z := by
       apply Subtype.ext
-      change ((r z : ↥Bs) : G) = (z : G)
       rw [hr z]
       have hcomm := (Subgroup.mem_centralizer_iff.mp hzmem)
         (ψ (ggPermSU (Equiv.swap x y))) ⟨P, rfl⟩

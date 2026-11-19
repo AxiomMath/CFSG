@@ -77,6 +77,7 @@ section Situations
 
 variable {G : Type} [Group G] [Finite G] {M Q Z : Subgroup G}
 
+omit [Finite G] in
 theorem exists_sit_conj {X : Subgroup G} {x m : G} (hs : Sit M Q Z X x) (hm : m ∈ M) :
     ∃ X' : Subgroup G, Sit M Q Z X' (m⁻¹ * x * m) := by
   obtain ⟨g, hg⟩ := hs.conj

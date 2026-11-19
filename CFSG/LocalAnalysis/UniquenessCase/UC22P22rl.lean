@@ -22,9 +22,11 @@ abbrev uc22p22rKt (K : Subgroup G) : Type := Bar2 K ⧸ Subgroup.center (Bar2 K)
 noncomputable def uc22p22rPsi (K : Subgroup G) : ↥K →* uc22p22rKt K :=
   (QuotientGroup.mk' (Subgroup.center (Bar2 K))).comp (QuotientGroup.mk' (CFSG.pCore 2 ↥K))
 
+omit [Finite G] in
 theorem uc22p22rPsi_surjective (K : Subgroup G) : Function.Surjective (uc22p22rPsi K) :=
   (QuotientGroup.mk'_surjective _).comp (QuotientGroup.mk'_surjective _)
 
+omit [Finite G] in
 theorem uc22p22r_sup_le_normalizer {K X : Subgroup G} (hXK : X ≤ normalizer (K : Set G)) :
     K ⊔ X ≤ normalizer (K : Set G) :=
   sup_le Subgroup.le_normalizer hXK
@@ -33,6 +35,7 @@ noncomputable def uc22p22rRho0 (K X : Subgroup G) (hXK : X ≤ normalizer (K : S
     ↥(K ⊔ X) →* MulAut ↥K :=
   K.normalizerMonoidHom.comp (Subgroup.inclusion (uc22p22r_sup_le_normalizer hXK))
 
+omit [Finite G] in
 theorem uc22p22rRho0_apply {K X : Subgroup G} (hXK : X ≤ normalizer (K : Set G)) (n : ↥(K ⊔ X))
     (k : ↥K) : ((uc22p22rRho0 K X hXK n k : ↥K) : G) = (n : G) * (k : G) * (n : G)⁻¹ := by
   simp [uc22p22rRho0]
@@ -49,6 +52,7 @@ noncomputable def uc22p22rRho (K X : Subgroup G) (hXK : X ≤ normalizer (K : Se
   quotAutHom (Subgroup.center (Bar2 K)) (uc22p22rRho1 K X hXK) (fun γ =>
     Subgroup.characteristic_iff_map_eq.1 inferInstance (uc22p22rRho1 K X hXK γ))
 
+omit [Finite G] in
 theorem uc22p22rRho_psi {K X : Subgroup G} (hXK : X ≤ normalizer (K : Set G)) (n : ↥(K ⊔ X)) (k : ↥K) :
     uc22p22rRho K X hXK n (uc22p22rPsi K k) = uc22p22rPsi K (uc22p22rRho0 K X hXK n k) := by
   unfold uc22p22rRho uc22p22rPsi
@@ -59,22 +63,25 @@ section KtFacts
 
 variable {K : Subgroup G}
 
+omit [Finite G] in
 theorem uc22p22r_center_Kt (hKq : CFSG.Open.IsQuasisimple (Bar2 K)) :
     Subgroup.center (uc22p22rKt K) = ⊥ := by
-  haveI : Group.IsPerfect (Bar2 K) := ⟨hKq.1⟩
+  have : Group.IsPerfect (Bar2 K) := ⟨hKq.1⟩
   exact Group.IsPerfect.center_quotient_center_eq_bot (Bar2 K)
 
+omit [Finite G] in
 theorem uc22p22r_Kt_simple (hKq : CFSG.Open.IsQuasisimple (Bar2 K)) : IsSimpleGroup (uc22p22rKt K) :=
   hKq.2
 
+omit [Finite G] in
 theorem uc22p22r_Kt_nonab (hKq : CFSG.Open.IsQuasisimple (Bar2 K)) :
     ∃ a b : uc22p22rKt K, a * b ≠ b * a := by
-  haveI : Group.IsPerfect (Bar2 K) := ⟨hKq.1⟩
-  haveI : IsSimpleGroup (uc22p22rKt K) := hKq.2
+  have : Group.IsPerfect (Bar2 K) := ⟨hKq.1⟩
+  have : IsSimpleGroup (uc22p22rKt K) := hKq.2
   by_contra hcon
   push Not at hcon
-  haveI : IsMulCommutative (uc22p22rKt K) := ⟨⟨fun a b => hcon a b⟩⟩
-  haveI : Group.IsPerfect (uc22p22rKt K) := inferInstance
+  have : IsMulCommutative (uc22p22rKt K) := ⟨⟨fun a b => hcon a b⟩⟩
+  have : Group.IsPerfect (uc22p22rKt K) := inferInstance
   have h1 : commutator (uc22p22rKt K) = ⊥ := commutator_eq_bot _
   have h2 : commutator (uc22p22rKt K) = ⊤ := Group.IsPerfect.commutator_eq_top
   have : (⊥ : Subgroup (uc22p22rKt K)) = ⊤ := h1.symm.trans h2
@@ -83,12 +90,13 @@ theorem uc22p22r_Kt_nonab (hKq : CFSG.Open.IsQuasisimple (Bar2 K)) :
 def uc22p22rZK (K : Subgroup G) : Subgroup ↥K :=
   (Subgroup.center (Bar2 K)).comap (QuotientGroup.mk' (CFSG.pCore 2 ↥K))
 
+omit [Finite G] in
 theorem uc22p22rZK_eq_ker (K : Subgroup G) : uc22p22rZK K = (uc22p22rPsi K).ker := by
   ext k
   simp [uc22p22rZK, uc22p22rPsi, MonoidHom.mem_ker, QuotientGroup.eq_one_iff]
 
 theorem uc22p22rZK_isSolvable (K : Subgroup G) : Group.IsSolvable ↥(uc22p22rZK K) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hle : CFSG.pCore 2 ↥K ≤ uc22p22rZK K := by
     intro z hz
     show (QuotientGroup.mk' (CFSG.pCore 2 ↥K)) z ∈ Subgroup.center (Bar2 K)
@@ -100,8 +108,8 @@ theorem uc22p22rZK_isSolvable (K : Subgroup G) : Group.IsSolvable ↥(uc22p22rZK
     ((QuotientGroup.mk' (CFSG.pCore 2 ↥K)).comp (uc22p22rZK K).subtype).codRestrict
       (Subgroup.center (Bar2 K)) (fun z => z.2)
   have hnil : Group.IsNilpotent ↥(CFSG.pCore 2 ↥K) := CFSG.pCore_isNilpotent
-  haveI : Group.IsSolvable ↥(CFSG.pCore 2 ↥K) := inferInstance
-  haveI : Group.IsSolvable ↥(Subgroup.center (Bar2 K)) := inferInstance
+  have : Group.IsSolvable ↥(CFSG.pCore 2 ↥K) := inferInstance
+  have : Group.IsSolvable ↥(Subgroup.center (Bar2 K)) := inferInstance
   refine Group.isSolvable_of_ker_le_range f g ?_
   intro z hz
   have h1 : (QuotientGroup.mk' (CFSG.pCore 2 ↥K)) (z : ↥K) = 1 := by
@@ -116,7 +124,7 @@ theorem uc22p22rZK_le_oinf {K H : Subgroup G} (hKH : IsSubnormal K H) :
       Subgroup.comap_map_eq_self_of_injective K.subtype_injective _
     rw [h, uc22p22rZK_eq_ker]
     exact MonoidHom.normal_ker _
-  · haveI := uc22p22rZK_isSolvable K
+  · have := uc22p22rZK_isSolvable K
     exact CFSG.SignalizerFunctorTheorem.Nonsolvable.isSolvable_of_mulEquiv
       (Subgroup.equivMapOfInjective (uc22p22rZK K) K.subtype K.subtype_injective)
 
@@ -126,6 +134,7 @@ section GroupPart
 
 variable {K X : Subgroup G} (hXK : X ≤ normalizer (K : Set G))
 
+omit [Finite G] in
 theorem uc22p22rRho_incl (n : ↥(K ⊔ X)) (k : ↥K) (hnk : (n : G) = (k : G)) :
     uc22p22rRho K X hXK n = MulAut.conj (uc22p22rPsi K k) := by
   ext a
@@ -135,12 +144,14 @@ theorem uc22p22rRho_incl (n : ↥(K ⊔ X)) (k : ↥K) (hnk : (n : G) = (k : G))
     Subtype.ext (by rw [uc22p22rRho0_apply]; simp [hnk])
   rw [h, map_mul, map_mul, map_inv, MulAut.conj_apply]
 
+omit [Finite G] in
 theorem uc22p22r_conj_range_le :
     (MulAut.conj : uc22p22rKt K →* MulAut (uc22p22rKt K)).range ≤ (uc22p22rRho K X hXK).range := by
   rintro _ ⟨a, rfl⟩
   obtain ⟨k, rfl⟩ := uc22p22rPsi_surjective K a
   exact ⟨⟨(k : G), Subgroup.mem_sup_left k.2⟩, (uc22p22rRho_incl hXK _ k rfl)⟩
 
+omit [Finite G] in
 theorem uc22p22r_conj_injective (hKq : CFSG.Open.IsQuasisimple (Bar2 K)) :
     Function.Injective (MulAut.conj : uc22p22rKt K →* MulAut (uc22p22rKt K)) := by
   intro a b hab
@@ -167,6 +178,7 @@ noncomputable def uc22p22rSEquiv (hKq : CFSG.Open.IsQuasisimple (Bar2 K)) :
   (MonoidHom.ofInjective (uc22p22r_conj_injective hKq)).trans
     (Subgroup.subgroupOfEquivOfLe (uc22p22r_conj_range_le hXK)).symm
 
+omit [Finite G] in
 theorem uc22p22rS_normal : (uc22p22rS K X hXK).Normal := by
   constructor
   intro n hn g
@@ -186,6 +198,7 @@ section Images
 
 variable {K X : Subgroup G} (hXK : X ≤ normalizer (K : Set G))
 
+omit [Finite G] in
 theorem uc22p22rS_centralizer (hKq : CFSG.Open.IsQuasisimple (Bar2 K)) :
     centralizer ((uc22p22rS K X hXK : Subgroup (uc22p22rGh K X hXK)) : Set (uc22p22rGh K X hXK)) = ⊥ := by
   rw [eq_bot_iff]
@@ -207,11 +220,13 @@ theorem uc22p22rS_centralizer (hKq : CFSG.Open.IsQuasisimple (Bar2 K)) :
   have h3 := uc22p22r_conj_injective hKq h2
   simpa using h3
 
+omit [Finite G] in
 theorem uc22p22rS_simple (hKq : CFSG.Open.IsQuasisimple (Bar2 K)) :
     IsSimpleGroup ↥(uc22p22rS K X hXK) := by
-  haveI := uc22p22r_Kt_simple hKq
+  have := uc22p22r_Kt_simple hKq
   exact (uc22p22rSEquiv hXK hKq).symm.isSimpleGroup
 
+omit [Finite G] in
 theorem uc22p22rS_nonab (hKq : CFSG.Open.IsQuasisimple (Bar2 K)) :
     ∃ a b : ↥(uc22p22rS K X hXK), a * b ≠ b * a := by
   obtain ⟨a, b, hab⟩ := uc22p22r_Kt_nonab hKq
@@ -229,9 +244,11 @@ noncomputable def uc22p22rPi (K X : Subgroup G) (hXK : X ≤ normalizer (K : Set
     ↥(K ⊔ X) →* uc22p22rGh K X hXK :=
   (uc22p22rRho K X hXK).rangeRestrict
 
+omit [Finite G] in
 theorem uc22p22rPi_surjective : Function.Surjective (uc22p22rPi K X hXK) :=
   MonoidHom.rangeRestrict_surjective _
 
+omit [Finite G] in
 theorem uc22p22rPi_eq_one_iff (n : ↥(K ⊔ X)) :
     uc22p22rPi K X hXK n = 1 ↔ uc22p22rRho K X hXK n = 1 := by
   constructor
@@ -242,17 +259,20 @@ theorem uc22p22rPi_eq_one_iff (n : ↥(K ⊔ X)) :
     apply Subtype.ext
     simpa [uc22p22rPi] using h
 
+omit [Finite G] in
 theorem uc22p22rPi_mem_S (n : ↥(K ⊔ X)) (hn : (n : G) ∈ K) : uc22p22rPi K X hXK n ∈ uc22p22rS K X hXK :=
   Subgroup.mem_subgroupOf.2 ⟨uc22p22rPsi K ⟨n, hn⟩, (uc22p22rRho_incl hXK n ⟨n, hn⟩ rfl).symm⟩
 
 noncomputable def uc22p22rImg (A : Subgroup G) : Subgroup (uc22p22rGh K X hXK) :=
   (A.subgroupOf (K ⊔ X)).map (uc22p22rPi K X hXK)
 
+omit [Finite G] in
 theorem uc22p22r_mem_img {A : Subgroup G} {g : uc22p22rGh K X hXK} :
     g ∈ uc22p22rImg hXK A ↔ ∃ n : ↥(K ⊔ X), (n : G) ∈ A ∧ uc22p22rPi K X hXK n = g := by
   unfold uc22p22rImg
   simp only [Subgroup.mem_map, Subgroup.mem_subgroupOf]
 
+omit [Finite G] in
 theorem uc22p22r_zpowers_comm {x : G} : ∀ a ∈ Subgroup.zpowers x, ∀ b ∈ Subgroup.zpowers x, a * b = b * a := by
   intro a ha b hb
   obtain ⟨i, rfl⟩ := Subgroup.mem_zpowers_iff.1 ha
@@ -317,7 +337,7 @@ theorem uc22p22r_ker_le {M : Subgroup G} (hXc : ∀ a ∈ X, ∀ b ∈ X, a * b 
         obtain ⟨c, hc, hcψ⟩ := hcomm y hy
         have hcZ : (c : G) ∈ Z0 := ⟨c, by rw [uc22p22rZK_eq_ker]; exact hcψ, rfl⟩
         have h : (MulAut.conj (n : G)).toMonoidHom y = (c : G) * y := by
-          simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply]
+          simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply]
           rw [hc]
           group
         rw [h]
@@ -331,11 +351,13 @@ section Nontrivial
 
 variable {K X : Subgroup G} (hXK : X ≤ normalizer (K : Set G))
 
+omit [Finite G] in
 theorem uc22p22rRho1_mk (n : ↥(K ⊔ X)) (k : ↥K) :
     uc22p22rRho1 K X hXK n (QuotientGroup.mk k : Bar2 K) =
       (QuotientGroup.mk (uc22p22rRho0 K X hXK n k) : Bar2 K) :=
   quotAutHom_mk _ _ _ n k
 
+omit [Finite G] in
 theorem uc22p22rRho_mk (n : ↥(K ⊔ X)) (k : Bar2 K) :
     uc22p22rRho K X hXK n (QuotientGroup.mk k : uc22p22rKt K) =
       (QuotientGroup.mk (uc22p22rRho1 K X hXK n k) : uc22p22rKt K) :=
@@ -421,15 +443,16 @@ section Last
 
 variable {K X : Subgroup G} (hXK : X ≤ normalizer (K : Set G))
 
+omit [Finite G] in
 theorem uc22p22r_img_mono {A B : Subgroup G} (h : A ≤ B) : uc22p22rImg hXK A ≤ uc22p22rImg hXK B :=
-  Subgroup.map_mono fun n hn => h hn
+  Subgroup.map_mono fun _n hn => h hn
 
 theorem uc22p22r_sylow_img {T' : Subgroup G} {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) (hXq : Nat.card X = q)
     (hT' : CFSG.ABGLocalTools.IsSylowOf 2 T' K) :
     CFSG.ABGLocalTools.IsSylowOf 2 (uc22p22rImg hXK T') ⊤ := by
   have hT'K := hT'.le
   have hKN : K ≤ K ⊔ X := le_sup_left
-  haveI : (K.subgroupOf (K ⊔ X)).Normal :=
+  have : (K.subgroupOf (K ⊔ X)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hKN).2 (uc22p22r_sup_le_normalizer hXK)
   have hsurj : Function.Surjective ((QuotientGroup.mk' (K.subgroupOf (K ⊔ X))).comp
       (Subgroup.inclusion (le_sup_right : X ≤ K ⊔ X))) := by
@@ -473,6 +496,7 @@ section Closing
 
 variable {K X : Subgroup G} (hXK : X ≤ normalizer (K : Set G))
 
+omit [Finite G] in
 theorem uc22p22r_permutes_img {T' : Subgroup G} (hT'K : T' ≤ K) (hperm : Permutes X T') :
     Permutes (uc22p22rImg hXK X) (uc22p22rImg hXK T') := by
   unfold Permutes at hperm ⊢

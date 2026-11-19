@@ -22,11 +22,13 @@ open CFSG.LocalAnalysis.RankThreeUC.AGL81C
 variable {G : Type} [Group G] [Finite G]
 variable {M Q H E : Subgroup G}
 
+omit [Finite G] in
 private lemma kSub_eq_sSup (hple : ¬ pLayerIn 3 H ≤ M) :
     kSub 3 M H = sSup {Y : Subgroup G | IsPComponentIn 3 Y H ∧ ¬ Y ≤ M} := by
   unfold kSub
-  rw [if_neg hple]
+  rw [ite_eq_right hple]
 
+omit [Finite G] in
 private lemma kSub_eq_of_forall_isPComponentIn_eq (hple : ¬ pLayerIn 3 H ≤ M)
     {L : Subgroup G} (hL : IsPComponentIn 3 L H) (hLM : ¬ L ≤ M)
     (hall : ∀ Y : Subgroup G, IsPComponentIn 3 Y H → ¬ Y ≤ M → Y = L) :
@@ -134,7 +136,7 @@ theorem nineSixMoreoverGen_of_kFactThreeFiveCentral
     (hK35c : KFactThreeFiveCentral) : NineSixMoreoverGen := by
   intro G _ _ M Q H E h hH2 h3 hple L hL htype
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hL2 : 2 ≤ CFSG.Open.pRank 3 (starImg 3 H L) := by
     rcases htype with h34 | h11
     · exact two_le_pRank_starImg_of_isL34Type hL.isPComponentIn h34

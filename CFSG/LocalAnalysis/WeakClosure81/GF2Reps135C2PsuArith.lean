@@ -16,7 +16,7 @@ private theorem c2suar_labelStar_ne_of_natural {n : ℕ} (hn : 3 ≤ n) (j : Fin
   intro h
   have h1 := congrArg Fin.val h
   rw [labelStar_eq_of_ne_zero hj0] at h1
-  simp only [Fin.val_mk] at h1
+  simp only at h1
   omega
 
 private theorem c2suar_labelStar_ne_five {n : ℕ} (hn5 : n = 5) (j : Fin n)
@@ -25,7 +25,7 @@ private theorem c2suar_labelStar_ne_five {n : ℕ} (hn5 : n = 5) (j : Fin n)
   intro h
   have h1 := congrArg Fin.val h
   rw [labelStar_eq_of_ne_zero hj0] at h1
-  simp only [Fin.val_mk] at h1
+  simp only at h1
   omega
 
 theorem w135c2_psu_classify_three {n f s : ℕ} (hn : 3 ≤ n) (hnf : ¬ (n = 3 ∧ f = 1))

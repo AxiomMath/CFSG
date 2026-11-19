@@ -66,7 +66,7 @@ theorem letter_sound (i : ℕ) :
       have e : LK.getD (4 + j) oneK = qK j := by fin_cases j <;> rfl
       rw [e]
       exact q_sound j
-  · rw [List.getD_eq_default _ _ (by simp [LK]; omega), Array.getD, dif_neg (by rw [LA_size]; omega)]
+  · rw [List.getD_eq_default _ _ (by simp [LK]; omega), Array.getD, dite_eq_right (by rw [LA_size]; omega)]
     exact one_sound
 
 theorem adOfK_sound : ∀ t : WT,

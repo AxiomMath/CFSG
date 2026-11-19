@@ -16,7 +16,7 @@ theorem card_two_subgroup_le_quot {Y : Type} [Group Y] [Finite Y] {a : Y} [(zpow
   have hquot : Nat.card Y = Nat.card (Y ⧸ zpowers a) * 3 := by
     rw [Subgroup.card_eq_card_quotient_mul_card_subgroup, Nat.card_zpowers, ha3]
   have hSY : 2 ^ (Nat.card Y).factorization 2 ≤ 64 := by
-    have h := hY (default : Sylow 2 Y) (default : Sylow 2 Y).isPGroup'
+    have h := hY (default : Sylow 2 Y) (default : Sylow 2 Y).isPGroup
     rwa [Sylow.card_eq_multiplicity (default : Sylow 2 Y)] at h
   have hv2 : (Nat.card Y).factorization 2
       = (Nat.card (Y ⧸ zpowers a)).factorization 2 := by

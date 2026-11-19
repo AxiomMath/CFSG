@@ -28,18 +28,18 @@ private theorem det_pairMat {a b : ι} (hab : a ≠ b) (g : Matrix (Fin 2) (Fin 
     by_cases hxa : x = a
     · rw [hxa]
       by_cases hya : y = a
-      · rw [hya]; simp [U, V, pairMat, hab, Ne.symm hab, sub_add_cancel]
+      · rw [hya]; simp [U, V, pairMat, hab, sub_add_cancel]
       by_cases hyb : y = b
       · rw [hyb]; simp [U, V, pairMat, hab, Ne.symm hab]
-      · simp [U, V, pairMat, hya, hyb, Ne.symm hya, Ne.symm hyb, hab, Ne.symm hab]
+      · simp [U, V, pairMat, hya, hyb, Ne.symm hya, hab]
     by_cases hxb : x = b
     · rw [hxb]
       by_cases hya : y = a
-      · rw [hya]; simp [U, V, pairMat, hab, Ne.symm hab]
+      · rw [hya]; simp [U, V, pairMat, Ne.symm hab]
       by_cases hyb : y = b
-      · rw [hyb]; simp [U, V, pairMat, hab, Ne.symm hab, sub_add_cancel]
-      · simp [U, V, pairMat, hya, hyb, Ne.symm hya, Ne.symm hyb, hab, Ne.symm hab]
-    · simp [U, V, pairMat, hxa, hxb, Ne.symm hxa, Ne.symm hxb, hab, Ne.symm hab]
+      · rw [hyb]; simp [U, V, pairMat, Ne.symm hab, sub_add_cancel]
+      · simp [U, V, pairMat, hya, hyb, Ne.symm hyb, Ne.symm hab]
+    · simp [U, V, pairMat, hxa, hxb]
   have hVU : g = V * U + 1 := by
     ext i j
     rw [Matrix.add_apply, mul_apply,
@@ -196,7 +196,7 @@ private theorem card_eq_two_or_four_of_bounds {K : Type} [Field K] [Finite K]
     (hor : ringChar K = 2 ∨ 6 * Nat.card K ≤ 18) :
     Nat.card K = 2 ∨ Nat.card K = 4 := by
   have : Fintype K := Fintype.ofFinite K
-  haveI := ringChar.charP K
+  have := ringChar.charP K
   obtain ⟨n, hpn, hn⟩ := FiniteField.card K (ringChar K)
   have hq : Nat.card K = ringChar K ^ (n : ℕ) := by
     rw [Nat.card_eq_fintype_card, hn]
@@ -347,7 +347,7 @@ private theorem psl_aux {n : ℕ} (hn : 4 ≤ n) (h3 : ringChar K ≠ 3)
     have hg1 : ((v.1 : SL2 K) : Matrix (Fin 2) (Fin 2) K) = 1 := by
       ext i j
       fin_cases i <;> fin_cases j <;>
-        simp [Matrix.one_apply, hg00, hg01, hg10, hg11, hμ1]
+        simp [hg00, hg01, hg10, hg11, hμ1]
     have hv1sl2 : (v.1 : SL2 K) = 1 := Subtype.ext hg1
     have hv1 : v.1 = 1 := Subtype.ext (by simpa using hv1sl2)
     have hh01' : ((hU v.2 : SL2 K) : Matrix (Fin 2) (Fin 2) K) 0 1 = v.2.toAdd := by
@@ -373,7 +373,7 @@ private theorem psl_aux {n : ℕ} (hn : 4 ≤ n) (h3 : ringChar K ≠ 3)
     have hg : ((v.1 : SL2 K) : Matrix (Fin 2) (Fin 2) K) = (μ : K) • 1 := by
       ext i j
       fin_cases i <;> fin_cases j <;>
-        simp [Matrix.smul_apply, Matrix.one_apply, hg00, hg01, hg10, hg11]
+        simp [Matrix.smul_apply, hg00, hg01, hg10, hg11]
     have hμ2 : (μ : K) ^ 2 = 1 := by
       have hdet := (v.1 : SL2 K).2
       rw [hg, Matrix.det_smul, Matrix.det_one, mul_one] at hdet
@@ -606,7 +606,7 @@ private theorem psp_aux (h3 : ringChar K ≠ 3)
     have hg1 : ((v.1 : SL2 K) : Matrix (Fin 2) (Fin 2) K) = 1 := by
       ext i j
       fin_cases i <;> fin_cases j <;>
-        simp [Matrix.one_apply, hg00, hg01, hg10, hg11, hμ1]
+        simp [hg00, hg01, hg10, hg11, hμ1]
     have hv1sl2 : (v.1 : SL2 K) = 1 := Subtype.ext hg1
     have hv1 : v.1 = 1 := Subtype.ext (by simpa using hv1sl2)
     have hh01' : ((hU v.2 : SL2 K) : Matrix (Fin 2) (Fin 2) K) 0 1 = v.2.toAdd := by
@@ -632,7 +632,7 @@ private theorem psp_aux (h3 : ringChar K ≠ 3)
     have hg : ((v.1 : SL2 K) : Matrix (Fin 2) (Fin 2) K) = (μ : K) • 1 := by
       ext i j
       fin_cases i <;> fin_cases j <;>
-        simp [Matrix.smul_apply, Matrix.one_apply, hg00, hg01, hg10, hg11]
+        simp [Matrix.smul_apply, hg00, hg01, hg10, hg11]
     have hμ2 : (μ : K) ^ 2 = 1 := by
       have hdet := (v.1 : SL2 K).2
       rw [hg, Matrix.det_smul, Matrix.det_one, mul_one] at hdet

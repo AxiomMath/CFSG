@@ -18,7 +18,7 @@ variable {G : Type*} [Group G]
 
 private theorem exists_involution_of_card {W : Subgroup G} (hW : IsElemAbelian 2 W)
     (hW4 : Nat.card W = 2 ^ 4) : ∃ w ∈ W, orderOf w = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨w, hwW, hw1⟩ : ∃ w ∈ W, w ≠ 1 := by
     by_contra hall
     push Not at hall

@@ -64,8 +64,8 @@ theorem proper_full_core_no_three_even_components
     · rwa [Subgroup.commutator_comm]
   have htwo := commuting_two_subgroups_join_isPGroup (P ⊔ Q) R
     (commuting_two_subgroups_join_isPGroup P Q
-      (TL.isPGroup'.map L.subtype) (TM.isPGroup'.map M.subtype) hPQ)
-    (TN.isPGroup'.map N.subtype) hPQR
+      (TL.isPGroup.map L.subtype) (TM.isPGroup.map M.subtype) hPQ)
+    (TN.isPGroup.map N.subtype) hPQR
   obtain ⟨a, ha⟩ := pGroup_conjugate_into_sylow_within_overgroup
     2 Nat.prime_two S ⊤ le_top ((P ⊔ Q) ⊔ R) htwo le_top
   let e : MulAut G := MulAut.conj (a : G)

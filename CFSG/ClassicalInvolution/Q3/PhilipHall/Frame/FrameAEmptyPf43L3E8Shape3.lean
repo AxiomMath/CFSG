@@ -17,9 +17,9 @@ variable {X : Type} [Group X] {E : Subgroup X}
 theorem eq_bot_of_le_normalizer (h : FaithfulL3E8 X E) {P D : Subgroup X}
     (hP : Nonempty (↥P ≃* QuaternionGroup 2)) (hD : Odd (Nat.card D))
     (hPD : P ≤ Subgroup.normalizer (D : Set X)) : D = ⊥ := by
-  haveI := h.normal
+  have := h.normal
   obtain ⟨e⟩ := h.quotient
-  haveI : Finite D := Nat.finite_of_card_ne_zero hD.pos.ne'
+  have : Finite D := Nat.finite_of_card_ne_zero hD.pos.ne'
   let f : X →* L3Two := e.toMonoidHom.comp (QuotientGroup.mk' E)
   have hf : ∀ x : X, f x = 1 ↔ x ∈ E := fun x => by
     show e (QuotientGroup.mk' E x) = 1 ↔ _

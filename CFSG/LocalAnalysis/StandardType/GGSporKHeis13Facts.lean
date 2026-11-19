@@ -95,7 +95,7 @@ theorem heis13_sylow_facts {G : Type} [Group G] [Finite G] {x y c : G}
         Subgroup.centralizer (Subgroup.closure ({x, y} : Set G) : Set G) = Subgroup.zpowers c := by
   set S : Subgroup G := Subgroup.closure ({x, y} : Set G) with hSdef
   have hp : Nat.Prime 13 := by norm_num
-  haveI : Fact (Nat.Prime 13) := ⟨hp⟩
+  have : Fact (Nat.Prime 13) := ⟨hp⟩
   have hcx' : Commute c x := hcx
   have hcy' : Commute c y := hcy
   have hxS : x ∈ S := Subgroup.subset_closure (by simp)
@@ -158,10 +158,10 @@ theorem heis13_sylow_facts {G : Type} [Group G] [Finite G] {x y c : G}
     by_contra hne
     apply hSnc
     interval_cases n
-    · haveI : Subsingleton S := (Nat.card_eq_one_iff_unique.mp (by simpa using hn)).1
+    · have : Subsingleton S := (Nat.card_eq_one_iff_unique.mp (by simpa using hn)).1
       intro a b
       exact Subsingleton.elim _ _
-    · haveI : IsCyclic S := isCyclic_of_prime_card (by simpa using hn)
+    · have : IsCyclic S := isCyclic_of_prime_card (by simpa using hn)
       intro a b
       exact mul_comm' a b
     · intro a b
@@ -199,7 +199,7 @@ theorem heis13_sylow_facts {G : Type} [Group G] [Finite G] {x y c : G}
       have h13 : (13 : ℕ) ^ 3 = 13 ^ 2 * 13 := by norm_num
       rw [hcard] at *
       omega
-    haveI : IsPGroup 13 (S ⧸ Z') := hpg.to_quotient Z'
+    have : IsPGroup 13 (S ⧸ Z') := hpg.to_quotient Z'
     have hcq : ∀ u v : S ⧸ Z', u * v = v * u := fun u v =>
       (IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 13) hqcard).is_comm.comm u v
     have h1 : QuotientGroup.mk' Z' ⁅(⟨a, ha⟩ : S), ⟨b, hb⟩⁆ = 1 := by
@@ -233,7 +233,7 @@ theorem heis13_sylow_facts {G : Type} [Group G] [Finite G] {x y c : G}
         refine Subgroup.mem_center_iff.2 fun b => ?_
         have := Subgroup.mem_centralizer_iff.1 ha.2 (b : G) b.2
         exact Subtype.ext (by simpa using this)
-      haveI : Z'.Normal := ⟨fun n hn g => by
+      have : Z'.Normal := ⟨fun n hn g => by
         have := Subgroup.mem_center_iff.1 (hZ'c hn) g
         rw [this, mul_inv_cancel_right]; exact hn⟩
       have hq : Nat.card (S ⧸ Z') * 13 ^ m = 13 ^ 3 := by
@@ -243,17 +243,17 @@ theorem heis13_sylow_facts {G : Type} [Group G] [Finite G] {x y c : G}
       have hm3 : m ≤ 3 := by
         have : 13 ^ m ∣ 13 ^ 3 := ⟨Nat.card (S ⧸ Z'), by rw [← hq]; ring⟩
         exact (Nat.pow_dvd_pow_iff_le_right (by norm_num)).1 this
-      haveI : IsCyclic (S ⧸ Z') := by
+      have : IsCyclic (S ⧸ Z') := by
         interval_cases m
         · have hq' : Nat.card (S ⧸ Z') * 169 = 2197 := by simpa using hq
           have hq13 : Nat.card (S ⧸ Z') = 13 := by omega
           exact isCyclic_of_prime_card hq13
         · have hq' : Nat.card (S ⧸ Z') * 2197 = 2197 := by simpa using hq
           have hq1 : Nat.card (S ⧸ Z') = 1 := by omega
-          haveI : Subsingleton (S ⧸ Z') := (Nat.card_eq_one_iff_unique.mp hq1).1
+          have : Subsingleton (S ⧸ Z') := (Nat.card_eq_one_iff_unique.mp hq1).1
           infer_instance
-      exact hSnc (fun a b => commutative_of_cyclic_center_quotient (QuotientGroup.mk' Z')
-        (by rw [QuotientGroup.ker_mk']; exact hZ'c) a b)
+      exact hSnc (fun a b => (MonoidHom.isMulCommutative_of_isCyclic_of_ker_le_center (QuotientGroup.mk' Z')
+        (by rw [QuotientGroup.ker_mk']; exact hZ'c)).is_comm.comm a b)
     exact (Subgroup.eq_of_le_of_card_ge hzle (by rw [hzcard]; exact hle)).symm
   have hcomm2 : Subgroup.zpowers c ≤ ⁅S, S⁆ := by
     have h9 : c ^ 9 ∈ ⁅S, S⁆ := by

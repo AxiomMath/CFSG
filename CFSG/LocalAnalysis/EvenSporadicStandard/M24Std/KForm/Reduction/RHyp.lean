@@ -18,7 +18,7 @@ theorem rhyp_top {A : Type*} [Group A] [IsSimpleGroup A] (hnab : ∃ a b : A, a 
     obtain ⟨a, b, hab⟩ := hnab
     exact ⟨a, mem_top a, b, mem_top b, hab⟩
   min := fun N hN hNne => by
-    haveI : N.Normal := hN
+    have : N.Normal := hN
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal N with h | h
     · exact absurd h hNne
     · exact h.ge
@@ -32,7 +32,7 @@ theorem rhyp_top {A : Type*} [Group A] [IsSimpleGroup A] (hnab : ∃ a b : A, a 
 
 theorem rhyp_alt8 :
     RHyp (alternatingGroup (Fin 8)) (⊤ : Subgroup (alternatingGroup (Fin 8))) := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin 8)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (alternatingGroup (Fin 8)) := alternatingGroup.isSimpleGroup (by simp)
   refine rhyp_top ?_
   by_contra hcon
   have hcom : ∀ a b : alternatingGroup (Fin 8), a * b = b * a := by
@@ -63,7 +63,7 @@ theorem rhyp_perm6 : RHyp (Equiv.Perm (Fin 6)) (alternatingGroup (Fin 6)) where
         (Equiv.Perm.swap_isSwap_iff.mpr (by decide))
     · decide
   min := fun N hN hNne => by
-    haveI : N.Normal := hN
+    have : N.Normal := hN
     exact Equiv.Perm.alternatingGroup_le_of_normal (α := Fin 6) (by simp)
       ((Subgroup.nontrivial_iff_ne_bot N).mpr hNne)
   center := fun x h => CFSG.perm_eq_one_of_forall_commute (by simp) fun y => (h y).symm

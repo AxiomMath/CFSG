@@ -11,18 +11,22 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem mem_conjSetOf_self (X F : Subgroup G) : F ∈ conjSetOf X F := by
   refine ⟨1, X.one_mem, ?_⟩
   simp [MulAut.one_def]
 
+omit [Finite G] in
 private theorem le_conjClosure_self (X F : Subgroup G) : F ≤ conjClosure X F := by
   rw [conjClosure]
   exact le_iSup₂_of_le F (mem_conjSetOf_self X F) le_rfl
 
+omit [Finite G] in
 private theorem conj_mul_eq_commutator_mul (u f : G) : u * f * u⁻¹ = ⁅u, f⁆ * f := by
   rw [commutatorElement_def]
   group
 
+omit [Finite G] in
 private theorem map_conj_le_of_commutator_le {K X F : Subgroup G}
     (h : ∀ x ∈ X, ⁅K, F.map (MulAut.conj x).toMonoidHom⁆ ≤ F)
     {u : G} (hu : u ∈ K) :
@@ -53,6 +57,7 @@ private theorem map_conj_le_of_commutator_le {K X F : Subgroup G}
   obtain ⟨x, hx, rfl⟩ := hK
   exact hgen x hx
 
+omit [Finite G] in
 theorem le_normalizer_conjClosure_of_commutator_le {K X F : Subgroup G}
     (h : ∀ x ∈ X, ⁅K, F.map (MulAut.conj x).toMonoidHom⁆ ≤ F) :
     K ≤ Subgroup.normalizer (conjClosure X F : Set G) := by

@@ -121,8 +121,8 @@ theorem toE_nu (σ : MulAut E) (v : EVec E h) :
 
 theorem finrank_eq [Finite E] {n : ℕ} (hcard : Nat.card E = 2 ^ n) :
     finrank (ZMod 2) (EVec E h) = n := by
-  haveI : Finite (EVec E h) := Finite.of_equiv E (equivE h)
-  haveI : Module.Finite (ZMod 2) (EVec E h) := Module.Finite.of_finite
+  have : Finite (EVec E h) := Finite.of_equiv E (equivE h)
+  have : Module.Finite (ZMod 2) (EVec E h) := Module.Finite.of_finite
   have h1 := Module.natCard_eq_pow_finrank (K := ZMod 2) (V := EVec E h)
   have h2 : Nat.card (EVec E h) = Nat.card E := Nat.card_congr (equivE h).symm
   rw [h2, hcard, Nat.card_zmod] at h1
@@ -130,8 +130,8 @@ theorem finrank_eq [Finite E] {n : ℕ} (hcard : Nat.card E = 2 ^ n) :
 
 theorem natCard_twist [Finite E] (σ : MulAut E) :
     Nat.card {x : E // ∃ w : E, x = w * σ w} = 2 ^ rk (mulAutToGL h σ) := by
-  haveI : Finite (EVec E h) := Finite.of_equiv E (equivE h)
-  haveI : Module.Finite (ZMod 2) (EVec E h) := Module.Finite.of_finite
+  have : Finite (EVec E h) := Finite.of_equiv E (equivE h)
+  have : Module.Finite (ZMod 2) (EVec E h) := Module.Finite.of_finite
   have h1 := Module.natCard_eq_pow_finrank (K := ZMod 2)
     (V := LinearMap.range (nu (mulAutToGL h σ)))
   rw [Nat.card_zmod] at h1

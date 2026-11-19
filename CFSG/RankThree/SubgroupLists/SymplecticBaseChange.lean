@@ -31,7 +31,7 @@ theorem mapGL_injective (φ : K →+* K') : Function.Injective (mapGL φ) := by
 theorem spGram_map (φ : K →+* K') : (spGram 2 K).map φ = spGram 2 K' := by
   ext i j
   rcases i with i | i <;> rcases j with j | j <;> fin_cases i <;> fin_cases j <;>
-    simp [spGram, Matrix.fromBlocks, Matrix.one_apply]
+    simp [spGram, Matrix.fromBlocks]
 
 theorem map_mem_statedSp (φ : K →+* K') {x : GL V₄ K} (hx : x ∈ StatedSp 2 K) :
     mapGL φ x ∈ StatedSp 2 K' := by
@@ -143,11 +143,11 @@ theorem exists_isNCInv_smul_map [Finite K] {p : ℕ} [Fact p.Prime] [CharP K p] 
         simp only [f, Polynomial.IsRoot, Polynomial.eval_sub, Polynomial.eval_pow,
           Polynomial.eval_X, Polynomial.eval_C, sub_eq_zero] at hx
         rw [← hx, pow_two]
-    haveI : Fact (Irreducible f) := ⟨hfirr⟩
+    have : Fact (Irreducible f) := ⟨hfirr⟩
     set K' := AdjoinRoot f
-    haveI : Module.Finite K K' := (AdjoinRoot.powerBasis hfmon.ne_zero).finite
-    haveI : Finite K' := Module.finite_of_finite K
-    haveI : CharP K' p := charP_of_injective_algebraMap (algebraMap K K').injective p
+    have : Module.Finite K K' := (AdjoinRoot.powerBasis hfmon.ne_zero).finite
+    have : Finite K' := Module.finite_of_finite K
+    have : CharP K' p := charP_of_injective_algebraMap (algebraMap K K').injective p
     set φ : K →+* K' := AdjoinRoot.of f
     set ξ : K' := AdjoinRoot.root f
     have hξ : ξ * ξ = φ c := by

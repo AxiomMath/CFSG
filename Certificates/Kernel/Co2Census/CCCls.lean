@@ -40,7 +40,7 @@ theorem cls_le_gen {M : Type*} [Group M] [Finite M] (π : M →* K)
     h.choose else 1
   have hlift' : ∀ s ∈ KS, π (lift s) * sElt nr * (π (lift s))⁻¹ = s := by
     intro s hs
-    simp only [lift, dif_pos (hl s hs)]
+    simp only [lift, dite_eq_left (hl s hs)]
     exact (hl s hs).choose_spec
   let Φ : K × ℕ → M := fun p => lift p.1 * elt (fld21 (F p.2) 0) nr * (lift p.1)⁻¹
   have hmaps : Set.MapsTo Φ (KS ×ˢ FS) (conjSet (elt er nr)) := by
@@ -70,11 +70,11 @@ theorem cls_le_gen {M : Type*} [Group M] [Finite M] (π : M →* K)
   exact this
 
 theorem cc_cls_le {QK : ℕ → ℕ}
-    (hQK : ∀ e < 512, QK e = KernelCo2SmithS.nfS (e / 256) (e % 256)) {F : ℕ → ℕ}
+    (hQK : ∀ _e < 512, QK _e = KernelCo2SmithS.nfS (_e / 256) (_e % 256)) {F : ℕ → ℕ}
     {er nr nf slot : ℕ} (her : er < 512) (hnr : nr < 1451520)
     (hslot : slot < 5) (hrep : s0Rep slot = sElt nr) (hF : ∀ j < nf, fibOKC QK F er nr j = true) :
     s0Sizes.getD slot 0 * nf ≤ (conjSet (cE er nr)).ncard :=
-  cls_le_gen piC cE piC_cE (fun e e' he he' h => (cE_injOn he he' hnr hnr h).1)
+  cls_le_gen piC cE piC_cE (fun _e _e' he he' h => (cE_injOn he he' hnr hnr h).1)
     (fun w hw => ⟨⟨w, S0_le_Cz hw⟩, piC_S0 hw⟩) hslot hrep
     (fun j hj => fibOKC_spec hQK her (hF j hj))
 

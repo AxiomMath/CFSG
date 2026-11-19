@@ -75,7 +75,7 @@ private theorem mem_commutator_of_centralizes {p : ℕ} [Fact p.Prime] {P A : Su
     (hP : IsPGroup p P) (hA : Nat.Coprime p (Nat.card A))
     (hAP : A ≤ Subgroup.normalizer (P : Set G)) (hPA : ⁅P, A⁆ = P) {r : G} (hr : r ∈ P)
     (hcent : ∀ b ∈ A, b * r = r * b) : r ∈ ⁅P, P⁆ := by
-  haveI hfin : Finite (Abelianization P) :=
+  have hfin : Finite (Abelianization P) :=
     Quotient.finite _
   let ρ : A →* MulAut P := P.normalizerMonoidHom.comp (Subgroup.inclusion hAP)
   let φ : A →* AddMonoid.End (Additive (Abelianization P)) := (abelianizationEnd P).comp ρ

@@ -175,7 +175,7 @@ theorem false_of_commuting_lifts (hC : HypothesisC D)
       rw [← hhe] at h'
       exact hne (Subtype.ext (mul_left_cancel (mul_right_cancel h')))
     have hzc : Commute (h * (b : G) * h⁻¹) hC.d :=
-      hodd.commute_of_isPGroup S.isPGroup' hz.2 hC.hd hz.1 huS
+      hodd.commute_of_isPGroup S.isPGroup hz.2 hC.hd hz.1 huS
     exact Subgroup.subset_closure (mem_DalphaStar_of_alpha_eq_singleton hC hα hz.2 hzu hzc)
   have hz1 := key b₁ (by simp [hT4def]) hb₁ hne₁
   have hz2 := key b₂ (by simp [hT4def]) hb₂ hne₂

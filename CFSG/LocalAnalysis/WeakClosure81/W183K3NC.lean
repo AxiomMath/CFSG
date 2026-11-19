@@ -15,6 +15,7 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
   {VA : Subgroup (LGL 2 V) → Submodule (ZMod 2) V} {𝒢 : Set (Subgroup (LGL 2 V))}
   {Zs : Submodule (ZMod 2) V} {m i₀ : ℕ} {δ : Subgroup (LGL 2 V) → ℕ}
 
+omit [Finite V] in
 private theorem w183K3NC_isSylowIn_imgOf_range {R L N : Subgroup (LGL 2 V)}
     (hcore : QuasiCore R L N) {T : Subgroup (LGL 2 V)} (hTR : IsSylowIn 2 T R) :
     IsSylowIn 2 (imgOf (psiQuot R L hcore.normal) T)
@@ -75,7 +76,7 @@ theorem w183k3_false_of_dynkin (hc : Br1Base Y Γ VA T 𝒢 Zs m i₀ δ) (hL : 
     simpa [inf_eq_left.2 hTY] using hc.sylow
   obtain ⟨D₀, hD₀⟩ := hne
   have hD₀card : 8 ≤ Nat.card D₀ := by
-    haveI : Nonempty ↥D₀ := (OneMemClass.coe_nonempty D₀).to_subtype
+    have : Nonempty ↥D₀ := (OneMemClass.coe_nonempty D₀).to_subtype
     have h := hrk D₀ hD₀
     dsimp only [mRank] at h
     have h2 : 2 ^ 3 ≤ Nat.card D₀ := Nat.pow_le_of_le_log Nat.card_pos.ne' h

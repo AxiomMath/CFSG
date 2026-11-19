@@ -25,7 +25,7 @@ private lemma qTwoLMDivCoordInner_su_oneVec_ne_one {m : ℕ} (hm : 0 < m) (h3 : 
   intro h
   have h0 : Multiplicative.ofAdd (1 : ZMod 3) = 1 := by
     have h1 := congrFun (congrArg Subtype.val h) ⟨0, hm⟩
-    simpa [qTwoOneVec] using h1
+    simp [qTwoOneVec] at h1
   exact one_ne_zero (ofAdd_eq_one.mp h0)
 
 theorem qTwoLMDivCoordInner_su_assembly {B Bs L : Subgroup G} {x : G} (hG : GGThmIHyp 3 B x L)
@@ -48,7 +48,7 @@ theorem qTwoLMDivCoordInner_su_assembly {B Bs L : Subgroup G} {x : G} (hG : GGTh
     have hS : CFSG.Assembly.LargeEvenSStar 3 B x L := hG.2.2.2.2.2.2.1
     obtain ⟨⟨-, -, -⟩, hxB, hx1, -, -⟩ := hS
     have hxBs : x ∈ Bs := hBs.1 hxB
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hxord : orderOf x = 3 := orderOf_eq_prime (hBs.2.1.2 x hxBs) hx1
     have hv1ne : qTwoOneVec m h3 ≠ 1 := qTwoLMDivCoordInner_su_oneVec_ne_one (by omega) h3
     have hτ1mem : ((τ (qTwoOneVec m h3) : ↥L) : G) ∈ Subgroup.zpowers x := by

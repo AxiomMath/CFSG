@@ -66,7 +66,7 @@ theorem eq_one_of_frobenius (hC : ∀ c : C, c * c = 1) (a b : MulAut C)
       rw [happ, ← pow_succ']; exact h3
     have e2 : b (b v) = (b ^ 2) v := by rw [pow_two]; rfl
     rw [map_mul, map_mul, e1, e2]
-    simp only [mul_comm, mul_left_comm, mul_assoc]
+    simp only [mul_comm, mul_left_comm]
   have hk1 : ∀ k : ℕ, a ^ k * b * a ^ (6 * k) = a ^ (6 * k) * b := by
     intro k
     rw [mul_assoc, hbn a b hba (6 * k), ← mul_assoc, ← pow_add]
@@ -163,7 +163,7 @@ private theorem exists_sylow_three_eq_zpowers (hcard : Nat.card S = 168) {g : S}
   refine ⟨Q, ?_⟩
   symm
   refine Subgroup.eq_of_le_of_card_ge hQ ?_
-  obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 Q.isPGroup'
+  obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 Q.isPGroup
   have hdvd : Nat.card (Q : Subgroup S) ∣ 168 := hcard ▸ Subgroup.card_subgroup_dvd_card _
   rw [hn] at hdvd ⊢
   rw [hz]

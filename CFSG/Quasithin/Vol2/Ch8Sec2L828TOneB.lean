@@ -41,7 +41,7 @@ theorem step828OneB_of (hthree : Stmt8_2_9_three) (h8283 : Step828Three) (h825 :
         have : Nat.card (DihedralGroup 0) = 0 := Nat.card_eq_zero_of_infinite
         rw [Nat.card_congr e.toEquiv, this] at hpos
         exact lt_irrefl 0 hpos
-      haveI : NeZero m := ⟨hm0⟩
+      have : NeZero m := ⟨hm0⟩
       rw [DihedralGroup.nat_card, DihedralGroup.nat_card] at hcard
       have : m = 3 := by omega
       rw [this]

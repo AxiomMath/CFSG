@@ -74,23 +74,23 @@ theorem not_dvd_index_of_normalizer_maximal {G : Type*} [Group G] [Finite G]
     (P : Subgroup G) (hP : IsPGroup 3 P)
     (h : ∀ S : Subgroup G, IsPGroup 3 S → P ≤ S → S ≤ Subgroup.normalizer (P : Set G) → S = P) :
     ¬ 3 ∣ P.index := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Q, hPQ⟩ := hP.exists_le_sylow
-  have hQ3 : IsPGroup 3 (Q : Subgroup G) := Q.isPGroup'
+  have hQ3 : IsPGroup 3 (Q : Subgroup G) := Q.isPGroup
   have hPR : P = (Q : Subgroup G) := by
     by_contra hne
     have hlt : P < (Q : Subgroup G) := lt_of_le_of_ne hPQ hne
-    haveI : Group.IsNilpotent (Q : Subgroup G) := hQ3.isNilpotent
+    have : Group.IsNilpotent (Q : Subgroup G) := hQ3.isNilpotent
     have hnc : NormalizerCondition (Q : Subgroup G) :=
       Group.normalizerCondition_of_isNilpotent
     have hHtop : P.subgroupOf (Q : Subgroup G) < ⊤ := by
-      obtain ⟨x, hxQ, hxP⟩ := SetLike.exists_of_lt hlt
+      obtain ⟨x, hxQ, hxP⟩ := _root_.IsConcreteLE.exists_of_lt hlt
       refine lt_top_iff_ne_top.mpr fun hTop => hxP ?_
       have hmem : (⟨x, hxQ⟩ : (Q : Subgroup G)) ∈ P.subgroupOf (Q : Subgroup G) := by
         rw [hTop]
         exact Subgroup.mem_top _
       exact Subgroup.mem_subgroupOf.mp hmem
-    obtain ⟨q, hqN, hqH⟩ := SetLike.exists_of_lt (hnc _ hHtop)
+    obtain ⟨q, hqN, hqH⟩ := _root_.IsConcreteLE.exists_of_lt (hnc _ hHtop)
     have hqP : (q : G) ∈ Subgroup.normalizer (P : Set G) :=
       aux_SylowGlobal_mem_normalizer P (Q : Subgroup G) hPQ q hqN
     have hqQ : (q : G) ∈ (Q : Subgroup G) := q.2

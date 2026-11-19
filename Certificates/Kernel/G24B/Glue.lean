@@ -26,7 +26,7 @@ open CFSG.LieType.Multipliers.G24 (toMat_ofMat)
 theorem psi_apply (y : Y) : psi y = blowMat (toGL y : Matrix (Fin 14) (Fin 14) F4) := rfl
 
 theorem psi_injective (hC : ChevFacts) : Function.Injective (psi : Y →* _) :=
-  fun x y h => hC.toGL_injective (Units.ext (blowMat_injective h))
+  fun _x _y h => hC.toGL_injective (Units.ext (blowMat_injective h))
 
 theorem lettersOf_eq (w : List (Fin 6 × Bool)) : lettersOf w = encG w := by
   induction w with

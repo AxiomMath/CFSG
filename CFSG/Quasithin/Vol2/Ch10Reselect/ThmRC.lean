@@ -23,7 +23,7 @@ theorem false_of_caseIV_lineJ (h37 : Vol2Native.A37ForSQTKCat)
     (hJfsu : FSU G T L (M.lineJ w)) {x : G} (hx : x ∈ T)
     [IsMulCommutative ↥(fsuVM T L (CFSG.conjugate (M.lineJ w) x))]
     (hiv : Case3_2_6_iv T L (CFSG.conjugate (M.lineJ w) x)) : False := by
-  haveI : Nontrivial K := Finite.one_lt_card_iff_nontrivial.mp (by omega)
+  have : Nontrivial K := Finite.one_lt_card_iff_nontrivial.mp (by omega)
   obtain ⟨t, ht, htn⟩ := Set.not_subset.mp (not_le_normalizer_of_lt hlt)
   have hLU : L ≤ Subgroup.normalizer (fsuUL T L I : Set G) := L_le_normalizer_fsuUL T L I
   have hJ := jData_of_line hfsu hlt hA M hw0 hw

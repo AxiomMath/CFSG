@@ -143,7 +143,7 @@ theorem dihedral_central_involution_transfer_kernel {H : Type*} [Group H] [Finit
     rw [hrelS] at h2
     omega
   have hP1 : IsPGroup 2 ((A.map (S : Subgroup H).subtype).subgroupOf T.ker) :=
-    (S.isPGroup'.to_le hA'S).of_equiv (Subgroup.subgroupOfEquivOfLe hA'K).symm
+    (S.isPGroup.to_le hA'S).of_equiv (Subgroup.subgroupOfEquivOfLe hA'K).symm
   have hP2 : ¬ 2 ∣ ((A.map (S : Subgroup H).subtype).subgroupOf T.ker).index := by
     rw [← Subgroup.relIndex, hrelK]
     exact S.not_dvd_index

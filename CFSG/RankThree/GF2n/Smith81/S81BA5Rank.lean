@@ -113,33 +113,33 @@ private theorem a8_frame (X Y A P T R : Submodule K (Fin 6 → K)) (a p t r : �
   have hmemA : ∀ i : Fin 6, i.val < a → col i ∈ A := by
     intro i hi
     have hc : col i = (bA ⟨i.val, hi⟩ : Fin 6 → K) := by
-      simp only [col, dif_pos hi]
+      simp only [col, dite_eq_left hi]
     rw [hc]
     exact (bA _).2
   have hmemP : ∀ i : Fin 6, ¬ i.val < a → i.val < 3 → col i ∈ P := by
     intro i h1 h2
     have hc : col i = (bP ⟨i.val - a, by omega⟩ : Fin 6 → K) := by
-      simp only [col, dif_neg h1, dif_pos h2]
+      simp only [col, dite_eq_right h1, dite_eq_left h2]
     rw [hc]
     exact (bP _).2
   have hmemT : ∀ i : Fin 6, ¬ i.val < a → ¬ i.val < 3 → i.val < 6 - a → col i ∈ T := by
     intro i h1 h2 h3
     have hc : col i = (bT ⟨i.val - 3, by omega⟩ : Fin 6 → K) := by
-      simp only [col, dif_neg h1, dif_neg h2, dif_pos h3]
+      simp only [col, dite_eq_right h1, dite_eq_right h2, dite_eq_left h3]
     rw [hc]
     exact (bT _).2
   have hcolA : ∀ (i : Fin 6) (j : Fin a), i.val = j.val → col i = (bA j : Fin 6 → K) := by
     intro i j hi
     have h1 : i.val < a := by have := j.isLt; omega
     have hij : (⟨i.val, h1⟩ : Fin a) = j := Fin.ext hi
-    simp only [col, dif_pos h1, hij]
+    simp only [col, dite_eq_left h1, hij]
   have hcolP : ∀ (i : Fin 6) (j : Fin p), i.val = a + j.val → col i = (bP j : Fin 6 → K) := by
     intro i j hi
     have hj := j.isLt
     have h1 : ¬ i.val < a := by omega
     have h2 : i.val < 3 := by omega
     have hij : (⟨i.val - a, by omega⟩ : Fin p) = j := Fin.ext (by show i.val - a = j.val; omega)
-    simp only [col, dif_neg h1, dif_pos h2, hij]
+    simp only [col, dite_eq_right h1, dite_eq_left h2, hij]
   have hcolT : ∀ (i : Fin 6) (j : Fin t), i.val = 3 + j.val → col i = (bT j : Fin 6 → K) := by
     intro i j hi
     have hj := j.isLt
@@ -147,7 +147,7 @@ private theorem a8_frame (X Y A P T R : Submodule K (Fin 6 → K)) (a p t r : �
     have h2 : ¬ i.val < 3 := by omega
     have h3 : i.val < 6 - a := by omega
     have hij : (⟨i.val - 3, by omega⟩ : Fin t) = j := Fin.ext (by show i.val - 3 = j.val; omega)
-    simp only [col, dif_neg h1, dif_neg h2, dif_pos h3, hij]
+    simp only [col, dite_eq_right h1, dite_eq_right h2, dite_eq_left h3, hij]
   have hcolR : ∀ (i : Fin 6) (j : Fin r), i.val = 6 - a + j.val → col i = (bR j : Fin 6 → K) := by
     intro i j hi
     have hj := j.isLt
@@ -157,7 +157,7 @@ private theorem a8_frame (X Y A P T R : Submodule K (Fin 6 → K)) (a p t r : �
     have h3 : ¬ i.val < 6 - a := by omega
     have hij : (⟨i.val - (6 - a), by omega⟩ : Fin r) = j :=
       Fin.ext (by show i.val - (6 - a) = j.val; omega)
-    simp only [col, dif_neg h1, dif_neg h2, dif_neg h3, hij]
+    simp only [col, dite_eq_right h1, dite_eq_right h2, dite_eq_right h3, hij]
   have hX_sub : X ≤ Submodule.span K (col '' {i : Fin 6 | i.val < 3}) := by
     rw [← hXP]
     apply sup_le
@@ -213,7 +213,7 @@ private theorem a8_frame (X Y A P T R : Submodule K (Fin 6 → K)) (a p t r : �
     funext r
     rfl
   have hMunit : IsUnit M := by
-    rw [← Matrix.linearIndependent_cols_iff_isUnit, hMcol]
+    rw [← Matrix.linearIndependent_col_iff_isUnit, hMcol]
     exact hLI
   refine ⟨M, (Matrix.isUnit_iff_isUnit_det M).1 hMunit, ?_, ?_⟩
   · rw [hMcol]
@@ -303,9 +303,9 @@ theorem exists_pair_equiv {G G' : GL (Fin 6) K}
   have hd : ∀ j, d j ≠ 0 := by
     intro j
     by_cases hj : j = 0
-    · simp only [hd_def, hj, if_true]
+    · simp only [hd_def, hj, ite_true]
       exact hc
-    · simp only [hd_def, hj, if_false]
+    · simp only [hd_def, hj, ite_false]
       exact one_ne_zero
   set N : Matrix (Fin 6) (Fin 6) K := M' * Matrix.diagonal d with hN_def
   have hNdet : N.det = M.det := by
@@ -372,8 +372,8 @@ theorem U0_norm : ∀ h ∈ Gam K, (∃ c : K, c ≠ 0 ∧ h (p0 K) = c • p0 K
   rw [U0_eq_Urad, conjSub_Urad]
   exact congrArg (Urad K) hG
 
-theorem class_invariant {G G' : GL (Fin 6) K} (hG : (G : Matrix (Fin 6) (Fin 6) K).det = 1)
-    (hG' : (G' : Matrix (Fin 6) (Fin 6) K).det = 1)
+theorem class_invariant {G G' : GL (Fin 6) K} (_hG : (G : Matrix (Fin 6) (Fin 6) K).det = 1)
+    (_hG' : (G' : Matrix (Fin 6) (Fin 6) K).det = 1)
     (hk : Module.finrank K ↥(imgS0 G ⊓ S0 K) = Module.finrank K ↥(imgS0 G' ⊓ S0 K)) :
     (rho K G (p0 K) ∈ Wsp (Submodule.span K {p0 K}) (U0 K) ↔
       rho K G' (p0 K) ∈ Wsp (Submodule.span K {p0 K}) (U0 K)) ∧
@@ -438,7 +438,7 @@ private theorem nfMemCsub {I : Finset (Fin 6)} {v : Fin 6 → K} :
       have hij : i ≠ j := by
         rintro rfl
         exact hi hj
-      simp [e, Pi.single_apply, hij]
+      simp [e, hij]
     | zero => intro j _; rfl
     | add x y _ _ hx hy => intro j hj; simp [hx j hj, hy j hj]
     | smul a x _ hx => intro j hj; simp [hx j hj]
@@ -580,7 +580,7 @@ private theorem nfCube013NotMem : cubeBasis K S013 ∉ Wsp (Submodule.span K {p0
     show 2 ≤ (({0, 1, 3} : Finset (Fin 6)).filter (fun i : Fin 6 => i.val % 2 = 1)).card
     decide
   have h1 := coord_eq_zero_of_mem_W0 hmem S013 hodd
-  rw [coord_cubeBasis, if_pos rfl] at h1
+  rw [coord_cubeBasis, ite_eq_left rfl] at h1
   exact one_ne_zero h1
 
 private theorem nfCube135NotMem : cubeBasis K S135 ∉ Wsp (Submodule.span K {p0 K}) (U0 K) := by
@@ -589,7 +589,7 @@ private theorem nfCube135NotMem : cubeBasis K S135 ∉ Wsp (Submodule.span K {p0
     show 2 ≤ (({1, 3, 5} : Finset (Fin 6)).filter (fun i : Fin 6 => i.val % 2 = 1)).card
     decide
   have h1 := coord_eq_zero_of_mem_W0 hmem S135 hodd
-  rw [coord_cubeBasis, if_pos rfl] at h1
+  rw [coord_cubeBasis, ite_eq_left rfl] at h1
   exact one_ne_zero h1
 
 private theorem nfBeta013 : beta K (p0 K) (cubeBasis K S013) = 0 := by
@@ -784,7 +784,7 @@ theorem a5_rank4 : ∀ g₁ ∈ Gam K, ∀ g₂ ∈ Gam K,
 theorem U0_card [Finite K] : Nat.card (U0 K) = Nat.card K ^ 9 := by
   have h := card_Urad_inf (S0 K) (S0 K) finrank_S0 finrank_S0
   rw [inf_idem (Urad K (S0 K)), inf_idem (S0 K), sup_idem (S0 K), finrank_S0] at h
-  rw [U0_eq_Urad, h] <;> norm_num
+  rw [U0_eq_Urad, h]
 
 theorem a5_U_inter_Q [Finite K] : ∀ g ∈ Gam K,
     g (p0 K) ∈ Wsp (Submodule.span K {p0 K}) (U0 K) → g (p0 K) ∉ Submodule.span K {p0 K} →

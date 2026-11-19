@@ -100,7 +100,7 @@ theorem noncentralSylow_selected_proper_normalizer
   obtain ⟨hsimple, hnonab⟩ := minimalLocalFailure_nonabelian_simple h
   let := hsimple
   have hMproper : M ≠ ⊤ :=
-    prime_subgroup_normalizer_ne_top hnonab p hp U (P.isPGroup'.map V.subtype) hUne
+    prime_subgroup_normalizer_ne_top hnonab p hp U (P.isPGroup.map V.subtype) hUne
   have hMescape : ¬ M ≤ H := fun hMH =>
     pair_flip_not_mem_point hbeta htfiber (hMH htU)
   refine ⟨hV, p, hp, hpodd, hpm, P, hUne, hUnoncentral, t, htfiber, hzU, htU,

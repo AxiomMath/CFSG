@@ -34,7 +34,7 @@ private theorem lwld_Ufun_zero {n b₀ : ℕ} (hn : b₀ ≤ n)
     (jb : Fin b₀) : ∀ i < n - b₀, lwld_Ufun hn X gb gRb jb i = 0 := by
   intro i hi
   dsimp only [lwld_Ufun]
-  rw [dif_pos (by omega : i < n), if_neg (by omega : ¬ i = n - b₀ + jb),
+  rw [dite_eq_left (by omega : i < n), ite_eq_right (by omega : ¬ i = n - b₀ + jb),
     lwd_extend_eq_zero_of_not_mem hn _ (lwd_not_mem_shift hn hi)]
   ring
 
@@ -48,7 +48,7 @@ private theorem lwld_Ufun_tail {n b₀ : ℕ} (hn : b₀ ≤ n)
   intro i hi
   rw [List.mem_range] at hi
   dsimp only [lwld_Ufun]
-  rw [dif_pos (by omega : n - b₀ + i < n), dif_pos hi]
+  rw [dite_eq_left (by omega : n - b₀ + i < n), dite_eq_left hi]
   have hext : lwd_extend hn ((Pi.single none 1 : Option (Fin b₀) → ℤ) - gb)
       (some ⟨n - b₀ + i, by omega⟩) = - gb (some ⟨i, hi⟩) := by
     rw [show (some ⟨n - b₀ + i, by omega⟩ : Option (Fin n)) =
@@ -59,12 +59,12 @@ private theorem lwld_Ufun_tail {n b₀ : ℕ} (hn : b₀ ≤ n)
   · have hc : (n - b₀ + i : ℕ) = n - b₀ + (jb : ℕ) := by
       have h' : (i : ℕ) = (jb : ℕ) := by simpa using Fin.ext_iff.mp h
       omega
-    rw [if_pos hc, if_pos h]
+    rw [ite_eq_left hc, ite_eq_left h]
     ring
   · have hc : ¬ ((n - b₀ + i : ℕ) = n - b₀ + (jb : ℕ)) := by
       intro hc'
       exact h (Fin.ext (show (i : ℕ) = (jb : ℕ) from by omega))
-    rw [if_neg hc, if_neg h]
+    rw [ite_eq_right hc, ite_eq_right h]
     ring
 
 private theorem lwld_word_embed {n b₀ : ℕ} (hb : 5 ≤ b₀) (hn : b₀ ≤ n)
@@ -202,9 +202,9 @@ private theorem lwld_cast_identity {n b₀ : ℕ} (hn : b₀ ≤ n) {p : ℕ}
     rw [show ((lwd_single hn (some jb)) (some ⟨i, hi⟩) : ZMod p) =
         (((lwd_single hn (some jb)) (some ⟨i, hi⟩) : ℤ) : ZMod p) from rfl, hsingle]
     by_cases h : i = n - b₀ + (jb : ℕ)
-    · rw [if_pos h, if_pos h]
+    · rw [ite_eq_left h, ite_eq_left h]
       norm_num
-    · rw [if_neg h, if_neg h]
+    · rw [ite_eq_right h, ite_eq_right h]
       norm_num
   have hpair : (∑ i', c i' * ∑ j, Xn i' j * lwd_single hn (some jb) j : ℤ) =
       ∑ i', c i' * Xn i' (lwd_shift hn (some jb)) := by
@@ -253,7 +253,7 @@ private theorem lwld_cast_identity {n b₀ : ℕ} (hn : b₀ ≤ n) {p : ℕ}
             (some ⟨i, hi⟩) : ZMod p) := by rw [h2Pfull, h4w]
   rw [mul_sub, h4Pw, hsingleZ]
   unfold lwld_Ufun
-  rw [dif_pos hi]
+  rw [dite_eq_left hi]
   push_cast
   ring
 
@@ -270,8 +270,8 @@ private theorem lwld_lineTest_of_block {n b₀ : ℕ} (hb : 5 ≤ b₀) (hn : b�
     {p : ℕ} (hp : p.Prime) (h5 : 5 ≤ p)
     {k : Fin n} (hk : k = ⟨n - b₀ + kb, by omega⟩) :
     GGLineTest (ggAttachCartan (CartanMatrix.D n) k) p := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨by omega⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨by omega⟩
   let Xb : Matrix (Option (Fin b₀)) (Option (Fin b₀)) ℤ := ggAttachCartan (CartanMatrix.D b₀) kb
   let Xn : Matrix (Option (Fin n)) (Option (Fin n)) ℤ := ggAttachCartan (CartanMatrix.D n) k
   have hX : ∀ i j : Option (Fin b₀), Xn (lwd_shift hn i) (lwd_shift hn j) = Xb i j := by
@@ -325,7 +325,7 @@ private theorem lwld_lineTest_of_block {n b₀ : ℕ} (hb : 5 ≤ b₀) (hn : b�
       rw [hci]
       have hvli : (if h : i < n then (v (some ⟨i, h⟩) : ℤ) else 0) =
           (v (some ⟨i, hi⟩) : ℤ) := by
-        rw [dif_pos hi]
+        rw [dite_eq_left hi]
       rw [hvli]
       ring
 
@@ -374,7 +374,7 @@ theorem ggLineTest_D_cell {Λ : Type} [Fintype Λ] [DecidableEq Λ] {C : Matrix 
     (gb := lwd_gb5) (gRb := lwd_gb5) (hgb := lwd_gb5_eq) (hgRb := lwd_gRb5_eq)
     (hgRb_none := lwd_gb5_none) (hP1 := lwd_hP1_5) (hP2 := lwd_hP2_5)
     (hblock0 := lwld_hblock5) (hp := hp) (h5 := h5) (k := ⟨n - 3, by omega⟩)
-    (hk := Fin.ext (by simp only [Fin.val_mk]; omega))
+    (hk := Fin.ext (by simp only; omega))
 
 theorem ggLineTest_D_cell_one {Λ : Type} [Fintype Λ] [DecidableEq Λ] {C : Matrix Λ Λ ℤ}
     {b : Λ} {n : ℕ} (hn : 9 ≤ n) (e : Fin n ≃ Λ)
@@ -390,7 +390,7 @@ theorem ggLineTest_D_cell_one {Λ : Type} [Fintype Λ] [DecidableEq Λ] {C : Mat
       (ψγb := lwd_psig8a) (gb := lwd_gb8a) (gRb := lwd_gb8a) (hgb := lwd_gb8a_eq)
       (hgRb := lwd_gRb8a_eq) (hgRb_none := lwd_gb8a_none) (hP1 := lwd_hP1_8a)
       (hP2 := lwd_hP2_8a) (hblock0 := lwld_hblock8a) (hp := hp) (h5 := h5)
-      (k := ⟨n - 2, by omega⟩) (hk := Fin.ext (by simp only [Fin.val_mk]; omega))
+      (k := ⟨n - 2, by omega⟩) (hk := Fin.ext (by simp only; omega))
   · refine ggLineTest_of_equiv e
       (X := ggAttachCartan (CartanMatrix.D n) ⟨n - 1, by omega⟩)
       (ggAttachCartan_map_equiv e hC hb) ?_
@@ -399,6 +399,6 @@ theorem ggLineTest_D_cell_one {Λ : Type} [Fintype Λ] [DecidableEq Λ] {C : Mat
       (ψγb := lwd_psig8) (gb := lwd_gb8) (gRb := lwd_gb8) (hgb := lwd_gb8_eq)
       (hgRb := lwd_gRb8_eq) (hgRb_none := lwd_gb8_none) (hP1 := lwd_hP1_8)
       (hP2 := lwd_hP2_8) (hblock0 := lwld_hblock8) (hp := hp) (h5 := h5)
-      (k := ⟨n - 1, by omega⟩) (hk := Fin.ext (by simp only [Fin.val_mk]; omega))
+      (k := ⟨n - 1, by omega⟩) (hk := Fin.ext (by simp only; omega))
 
 end CFSG.StandardType

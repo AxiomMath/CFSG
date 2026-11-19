@@ -42,7 +42,7 @@ theorem cl24_mem_D (hK : ∀ c : K, c = 0 ∨ c = 1 ∨ c = -1) (P : HypPair Q) 
 theorem cl24_card_Rorb_mul_card_D (hK : ∀ c : K, c = 0 ∨ c = 1 ∨ c = -1)
     (P : HypPair Q) [Finite P.perp] (y : X) :
     Nat.card (cl24_Rorb P y) * Nat.card (cl24_D hK P y) = Nat.card P.perp := by
-  letI : MulAction (Multiplicative P.perp) X := MulAction.compHom X (cl24_epsHom P)
+  let : MulAction (Multiplicative P.perp) X := MulAction.compHom X (cl24_epsHom P)
   have horb : MulAction.orbit (Multiplicative P.perp) y = cl24_Rorb P y := by
     ext x
     constructor

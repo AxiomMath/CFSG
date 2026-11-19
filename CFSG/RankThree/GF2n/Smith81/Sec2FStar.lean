@@ -64,7 +64,7 @@ theorem exists_sylow_of_normal (H : StrothHyp M Q Z) {X : Subgroup G} [X.Normal]
       Subgroup.normalizer (((P : Subgroup ↥X).map X.subtype : Subgroup G) : Set G) ≤ M ∧
       Subgroup.normalizer (((P : Subgroup ↥X).map X.subtype : Subgroup G) : Set G) ⊔ X = ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQ2 : IsPGroup 2 (Q.subgroupOf X) := by
     intro y
     obtain ⟨k, hk⟩ := isPGroup_Q' H (⟨(y : G), y.2⟩ : Q)
@@ -74,7 +74,7 @@ theorem exists_sylow_of_normal (H : StrothHyp M Q Z) {X : Subgroup G} [X.Normal]
   have hQP' : Q ≤ (P : Subgroup ↥X).map X.subtype := by
     rw [← Subgroup.map_subgroupOf_eq_of_le hQX]
     exact Subgroup.map_mono hQP
-  have hP'2 : IsPGroup 2 ((P : Subgroup ↥X).map X.subtype) := P.isPGroup'.map X.subtype
+  have hP'2 : IsPGroup 2 ((P : Subgroup ↥X).map X.subtype) := P.isPGroup.map X.subtype
   exact ⟨P, hQP', normalizer_le_M_of_le H hP'2 hQP', hfr⟩
 
 theorem exists_mul_of_normal (H : StrothHyp M Q Z) {X : Subgroup G} [X.Normal] (hQX : Q ≤ X)
@@ -89,7 +89,7 @@ theorem exists_mul_of_normal (H : StrothHyp M Q Z) {X : Subgroup G} [X.Normal] (
 
 theorem exists_mul_of_normalClosure (H : StrothHyp M Q Z) {z : G} (hz : z ∈ Z) (hz1 : z ≠ 1)
     (g : G) : ∃ x ∈ Subgroup.normalClosure ({z} : Set G), ∃ m ∈ M, g = x * m := by
-  haveI : (Subgroup.normalClosure ({z} : Set G)).Normal := Subgroup.normalClosure_normal
+  have : (Subgroup.normalClosure ({z} : Set G)).Normal := Subgroup.normalClosure_normal
   exact exists_mul_of_normal H (Q_le_normalClosure H hz hz1) g
 
 theorem exists_involution_center_sylow (H : StrothHyp M Q Z) {X : Subgroup G} [X.Normal]
@@ -98,7 +98,7 @@ theorem exists_involution_center_sylow (H : StrothHyp M Q Z) {X : Subgroup G} [X
       ∀ p ∈ (P : Subgroup ↥X).map X.subtype, p * z₀ = z₀ * p := by
   obtain ⟨P, hQP', -, -⟩ := exists_sylow_of_normal H hQX
   set P' : Subgroup G := (P : Subgroup ↥X).map X.subtype with hP'
-  have hP'2 : IsPGroup 2 P' := P.isPGroup'.map X.subtype
+  have hP'2 : IsPGroup 2 P' := P.isPGroup.map X.subtype
   have hZne : Z ≠ ⊥ := by
     intro h
     have := H.q4
@@ -122,7 +122,7 @@ theorem exists_pow_conj_of_cartan (H : StrothHyp M Q Z) {k : G} (hkM : k ∈ M)
     {z z' : G} (hz : z ∈ Z) (hz1 : z ≠ 1) (hz' : z' ∈ Z) (hz1' : z' ≠ 1) :
     ∃ i : ℕ, k ^ i * z * (k ^ i)⁻¹ = z' := by
   classical
-  haveI : Fintype G := Fintype.ofFinite G
+  have : Fintype G := Fintype.ofFinite G
   set q := Nat.card Z with hq
   have hq4 : 4 ≤ q := H.q4
   have hconjZ : ∀ (m : G), m ∈ M → ∀ v ∈ Z, m * v * m⁻¹ ∈ Z := fun m hm v hv =>

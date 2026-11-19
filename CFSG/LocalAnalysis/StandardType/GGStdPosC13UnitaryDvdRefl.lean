@@ -20,10 +20,10 @@ theorem unitDvd_swap_mem_reflSet {K : Type} [Field K] {n d p : ℕ} {L' : Type} 
     {i j : Fin d} (hij : i ≠ j) :
     ggConjAut A (hN (Equiv.swap i j)) ∈ ggTorusReflSet p A := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : Finite (MulAut L') :=
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : Finite (MulAut L') :=
     Finite.of_injective (fun f : MulAut L' => (f : L' → L')) DFunLike.coe_injective
-  haveI : Finite ↥A := Subtype.finite
+  have : Finite ↥A := Subtype.finite
   have hc : ∀ a b : ↥A, a * b = b * a := fun a b => Subtype.ext (hA.comm a.2 b.2)
   refine ⟨φ (permSU hM.field (Equiv.swap i j)), hN (Equiv.swap i j),
     weyl_W_prop hM.field hd hM.ker hA.2 hdiag _ ⟨Equiv.swap i j, rfl⟩, rfl, ?_, ?_⟩

@@ -28,7 +28,7 @@ private noncomputable def barImageHom {L K : Subgroup G} {J : Subgroup (Bar2 L)}
 private theorem barImageHom_surjective {L K : Subgroup G} {J : Subgroup (Bar2 L)} (hKL : K ≤ L)
     (hJ : barImage L K = J) : Function.Surjective (barImageHom hKL hJ) := by
   intro y
-  have hy : (y : Bar2 L) ∈ barImage L K := by simpa [hJ] using y.2
+  have hy : (y : Bar2 L) ∈ barImage L K := by simp [hJ]
   obtain ⟨x, hx, hxval⟩ := Subgroup.mem_map.mp hy
   have hxK : x.1 ∈ K := by
     rw [Subgroup.mem_subgroupOf] at hx
@@ -42,9 +42,9 @@ private theorem barImageHom_surjective {L K : Subgroup G} {J : Subgroup (Bar2 L)
 private theorem not_isPGroup_two_of_isQuasisimple {Q : Type*} [Group Q] [Finite Q]
     (hQ : CFSG.Open.IsQuasisimple Q) : ¬ IsPGroup 2 Q := by
   intro h2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Nontrivial Q := nontrivial_of_isQuasisimple hQ
-  haveI : Group.IsPerfect Q := Group.isPerfect_def.mpr hQ.1
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Nontrivial Q := nontrivial_of_isQuasisimple hQ
+  have : Group.IsPerfect Q := Group.isPerfect_def.mpr hQ.1
   exact Group.IsPerfect.not_isNilpotent Q h2.isNilpotent
 
 private theorem commutator_eq_bot_of_le_center_subgroupOf {X : Type*} [Group X]
@@ -64,7 +64,7 @@ private theorem commutator_eq_bot_of_le_center_subgroupOf {X : Type*} [Group X]
 private theorem commutator_eq_bot_of_normal_twoGroup {X : Type*} [Group X] [Finite X]
     {N K : Subgroup X} [N.Normal] [K.Normal] (hN : IsPGroup 2 N)
     (hK : CFSG.Open.IsQuasisimple ↥K) : ⁅N, K⁆ = ⊥ := by
-  haveI hMnormal : (N.subgroupOf K).Normal :=
+  have hMnormal : (N.subgroupOf K).Normal :=
     show (N.comap K.subtype).Normal from (inferInstance : N.Normal).comap K.subtype
   have hM2 : IsPGroup 2 (N.subgroupOf K) := hN.comap_subtype
   have hMK : N.subgroupOf K ≤ Subgroup.center ↥K := by
@@ -94,16 +94,16 @@ private theorem commutator_eq_bot_of_normal_twoGroup {X : Type*} [Group X] [Fini
 private theorem center_quotient_center_eq_bot_of_isSimpleGroup {X : Type*} [Group X]
     [IsSimpleGroup X] : Subgroup.center (X ⧸ Subgroup.center X) = ⊥ := by
   by_cases hc : IsMulCommutative X
-  · haveI : IsMulCommutative X := hc
+  · have : IsMulCommutative X := hc
     have htop : Subgroup.center X = ⊤ := Subgroup.center_eq_top
-    haveI : Subsingleton (X ⧸ Subgroup.center X) := by
+    have : Subsingleton (X ⧸ Subgroup.center X) := by
       rw [htop]
       exact QuotientGroup.subsingleton_quotient_top
     refine le_antisymm ?_ bot_le
     intro x hx
     have hx1 : x = 1 := Subsingleton.elim x 1
-    simpa [hx1]
-  · haveI : Group.IsPerfect X := TauCeti.IsSimpleGroup.isPerfect_of_not_isMulCommutative hc
+    simp [hx1]
+  · have : Group.IsPerfect X := TauCeti.IsSimpleGroup.isPerfect_of_not_isMulCommutative hc
     exact Group.IsPerfect.center_quotient_center_eq_bot X
 
 private theorem exists_surjective_quotient_center_of_barImage_eq [Finite G]
@@ -121,7 +121,7 @@ private theorem exists_surjective_quotient_center_of_barImage_eq [Finite G]
   have hQnormal : (P.map κ).Normal :=
     (CFSG.pCore_normal (p := 2) (G := ↥K)).map κ hκ
   have hQ2 : IsPGroup 2 (P.map κ) := hP2.map κ
-  haveI : (P.map κ).Normal := hQnormal
+  have : (P.map κ).Normal := hQnormal
   have hQcenter : P.map κ ≤ Subgroup.center ↥J := by
     rcases hJq with hq | hs
     · rcases CFSG.LieType.CurtisTits.le_center_or_eq_top_of_isQuasisimple
@@ -133,7 +133,7 @@ private theorem exists_surjective_quotient_center_of_barImage_eq [Finite G]
             exact hQ2
           exact IsPGroup.of_equiv htop Subgroup.topEquiv
         exact absurd hJ2 (not_isPGroup_two_of_isQuasisimple hq)
-    · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (P.map κ) with h | h
       · rw [h]
         exact bot_le
@@ -144,7 +144,7 @@ private theorem exists_surjective_quotient_center_of_barImage_eq [Finite G]
           exact IsPGroup.of_equiv htop Subgroup.topEquiv
         have hne : Subgroup.center ↥J ≠ ⊥ := by
           intro hbot
-          haveI : Nontrivial (Subgroup.center ↥J) := hJ2.center_nontrivial
+          have : Nontrivial (Subgroup.center ↥J) := hJ2.center_nontrivial
           obtain ⟨a, b, hab⟩ := (inferInstance : Nontrivial (Subgroup.center ↥J))
           have ha : (a : ↥J) = 1 := by simpa [hbot] using a.2
           have hb : (b : ↥J) = 1 := by simpa [hbot] using b.2
@@ -175,7 +175,7 @@ theorem exists_surjective_single [Finite G] {L K : Subgroup G} (hK : K ∈ calC 
   have hJq : CFSG.Open.IsQuasisimple ↥(⊤ : Subgroup (Bar2 L)) ∨
       IsSimpleGroup ↥(⊤ : Subgroup (Bar2 L)) := by
     rcases hX with hs | hq
-    · exact Or.inr (by haveI := hs; exact MulEquiv.isSimpleGroup Subgroup.topEquiv)
+    · exact Or.inr (by have := hs; exact MulEquiv.isSimpleGroup Subgroup.topEquiv)
     · exact Or.inl (CFSG.Open.IsQuasisimple.of_mulEquiv Subgroup.topEquiv hq)
   obtain ⟨ψ, hψ⟩ := exists_surjective_quotient_center_of_barImage_eq hK.1.le htop hJq
   let e : (↥(⊤ : Subgroup (Bar2 L)) ⧸ Subgroup.center ↥(⊤ : Subgroup (Bar2 L))) ≃*
@@ -184,7 +184,7 @@ theorem exists_surjective_single [Finite G] {L K : Subgroup G} (hK : K ∈ calC 
   refine ⟨⟨e.toMonoidHom.comp ψ, ?_⟩, ?_⟩
   · exact e.surjective.comp hψ
   · rcases hX with hs | hq
-    · haveI := hs
+    · have := hs
       exact center_quotient_center_eq_bot_of_isSimpleGroup
     · exact center_quotient_center_eq_bot hq
 
@@ -194,10 +194,10 @@ theorem exists_surjective_sup [Finite G] {L K : Subgroup G} (hK : K ∈ calC L)
     ∃ K' ∈ ({K₁, K₂} : Set (Subgroup (Bar2 L))),
       ∃ ψ : Bar2 K →* ↥K' ⧸ center ↥K', Function.Surjective ψ := by
   have hK₁perf : ⁅K₁, K₁⁆ = K₁ := by
-    haveI : Group.IsPerfect ↥K₁ := Group.isPerfect_def.mpr h₁.1
+    have : Group.IsPerfect ↥K₁ := Group.isPerfect_def.mpr h₁.1
     exact Subgroup.isPerfect_iff.mp inferInstance
   have hK₂perf : ⁅K₂, K₂⁆ = K₂ := by
-    haveI : Group.IsPerfect ↥K₂ := Group.isPerfect_def.mpr h₂.1
+    have : Group.IsPerfect ↥K₂ := Group.isPerfect_def.mpr h₂.1
     exact Subgroup.isPerfect_iff.mp inferInstance
   have hπsub : CFSG.Open.IsSubnormal (barImage L K) ⊤ := isSubnormal_barImage hK.1
   have hπperf : ⁅barImage L K, barImage L K⁆ = barImage L K :=
@@ -216,8 +216,8 @@ theorem exists_surjective_sup [Finite G] {L K : Subgroup G} (hK : K ∈ calC L)
     have hK₂normal : K₂.Normal :=
       TauCeti.normal_of_commute_of_sup_eq_top
         (fun a ha b hb => (hcomm b hb a ha).symm) (by rw [sup_comm]; exact hsup)
-    haveI : K₁.Normal := hK₁normal
-    haveI : K₂.Normal := hK₂normal
+    have : K₁.Normal := hK₁normal
+    have : K₂.Normal := hK₂normal
     let κ : ↥K →* Bar2 L :=
       Subgroup.topEquiv.toMonoidHom.comp (barImageHom hK.1.le htop)
     have hκ : Function.Surjective κ :=
@@ -225,7 +225,7 @@ theorem exists_surjective_sup [Finite G] {L K : Subgroup G} (hK : K ∈ calC L)
     let P : Subgroup ↥K := CFSG.pCore 2 ↥K
     let N : Subgroup (Bar2 L) := P.map κ
     have hNnormal : N.Normal := (CFSG.pCore_normal (p := 2) (G := ↥K)).map κ hκ
-    haveI : N.Normal := hNnormal
+    have : N.Normal := hNnormal
     have hN2 : IsPGroup 2 N := (CFSG.pCore_isPGroup (p := 2) (G := ↥K)).map κ
     let q : Bar2 L →* Bar2 L ⧸ N := QuotientGroup.mk' N
     let ρ : ↥K →* Bar2 L ⧸ N := q.comp κ
@@ -246,7 +246,7 @@ theorem exists_surjective_sup [Finite G] {L K : Subgroup G} (hK : K ∈ calC L)
     have hP₁normal : P₁.Normal := hK₁normal.map q (QuotientGroup.mk'_surjective N)
     let M : Subgroup (Bar2 K) := P₁.comap ρbar
     have hMnormal : M.Normal := hP₁normal.comap ρbar
-    haveI : M.Normal := hMnormal
+    have : M.Normal := hMnormal
     have hP₁map : M.map ρbar = P₁ := by
       rw [Subgroup.map_comap_eq (f := ρbar) (H := P₁),
         MonoidHom.range_eq_top.mpr hρbar]
@@ -306,7 +306,7 @@ theorem exists_surjective_sup [Finite G] {L K : Subgroup G} (hK : K ∈ calC L)
             _ = ⊥ := hcomm₁₂
         exact le_antisymm hle bot_le
       obtain ⟨a, b, hab⟩ := (nontrivial_of_isQuasisimple h₂).exists_pair_ne
-      haveI : Subsingleton ↥K₂ := by
+      have : Subsingleton ↥K₂ := by
         rw [hK₂bot]
         infer_instance
       exact hab (Subsingleton.elim a b)

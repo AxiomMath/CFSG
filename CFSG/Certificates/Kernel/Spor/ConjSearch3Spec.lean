@@ -134,9 +134,9 @@ theorem valid_root (H : Hyp n L base gens us) {j : Nat} (hj : j < us.size) {x : 
   rw [beq_iff_eq, H.tr0 _ (us_lt H hj hp), H.tr0 p hp, hx p hp]
 
 theorem valid_child (H : Hyp n L base gens us) {x y t t' : Tri} {j k : Nat}
-    (hk : k < gens.size) (hv : Valid n L us x j t) (hx : InR L x)
+    (hk : k < gens.size) (hv : Valid n L us x j t) (_hx : InR L x)
     (hy : Agr n L (conjA n L gens k x) y)
-    (ht' : Agr n L (compA n gens[k]! (prod3 n L t.1 t.2.1 t.2.2)) t') (hy' : InR L y)
+    (ht' : Agr n L (compA n gens[k]! (prod3 n L t.1 t.2.1 t.2.2)) t') (_hy' : InR L y)
     (hti : InR L t') : Valid n L us y j t' := by
   obtain ⟨hj, ht, hok⟩ := hv
   refine ⟨hj, hti, allLt_iff.2 fun p hp => ?_⟩
@@ -315,7 +315,7 @@ theorem loop1_spec (H : Hyp n L base gens us) :
   obtain ⟨x, hx, ha⟩ := H.us j hj
   have hc : coords3 n L base us[j]! = x := H.coord _ x hx ha
   by_cases h : s.2.1[idx3 L (coords3 n L base us[j]!)]! = true
-  · refine ⟨s, by rw [body1, if_neg (by rw [h]; decide)], hI, fun j' hj' => ?_⟩
+  · refine ⟨s, by rw [body1, ite_eq_right (by rw [h]; decide)], hI, fun j' hj' => ?_⟩
     rcases Nat.lt_or_ge j' j with a | a
     · exact hr j' a
     · have : j' = j := by omega
@@ -325,7 +325,7 @@ theorem loop1_spec (H : Hyp n L base gens us) :
     have h' : s.2.1[idx3 L x]! = false := by rw [← hc]; exact h0
     obtain ⟨hI', hmono⟩ := qi_push hI hx h' (valid_root H hj ha)
     refine ⟨(s.1.set! (idx3 L x) (j, 0, 0, 0), s.2.1.set! (idx3 L x) true, s.2.2.push (x, j, 0, 0, 0)),
-      by rw [body1, if_pos (by rw [h0]; rfl), hc], hI', fun j' hj' => ?_⟩
+      by rw [body1, ite_eq_left (by rw [h0]; rfl), hc], hI', fun j' hj' => ?_⟩
     rcases Nat.lt_or_ge j' j with a | a
     · exact hmono _ (hr j' a)
     · have : j' = j := by omega
@@ -354,7 +354,7 @@ theorem inner_spec (H : Hyp n L base gens us) {W : Array (Nat × Nat × Nat × N
   have hcy' : coords3 n L base (compA n gens[k]! (compA n
       (prod3 n L Q[h]!.1.1 Q[h]!.1.2.1 Q[h]!.1.2.2) (Array.map (invCand n) gens)[k]!)) = y := hcy
   by_cases hs : s.2.1[idx3 L y]! = true
-  · refine ⟨s, by rw [innerBody, if_neg (by rw [hcy', hs]; decide)], hI', hle, hpre, hmono,
+  · refine ⟨s, by rw [innerBody, ite_eq_right (by rw [hcy', hs]; decide)], hI', hle, hpre, hmono,
       fun k' hk' => ?_⟩
     rcases Nat.lt_or_ge k' k with a | a
     · exact hcl k' a
@@ -366,7 +366,7 @@ theorem inner_spec (H : Hyp n L base gens us) {W : Array (Nat × Nat × Nat × N
     obtain ⟨hI'', hmono'⟩ := qi_push hI' hy hs' (valid_child H hk hv hx hay hat' hy ht')
     refine ⟨(s.1.set! (idx3 L y) (Q[h]!.2.1, t'.1, t'.2.1, t'.2.2), s.2.1.set! (idx3 L y) true,
         s.2.2.push (y, Q[h]!.2.1, t')),
-      by rw [innerBody, if_pos (by rw [hcy', hs']; rfl), hcy', hct], hI'',
+      by rw [innerBody, ite_eq_left (by rw [hcy', hs']; rfl), hcy', hct], hI'',
       by simp only [Array.size_push]; omega, fun q hq => by rw [push_lt (by omega), hpre q hq],
       fun i hi => hmono' i (hmono i hi), fun k' hk' => ?_⟩
     rcases Nat.lt_or_ge k' k with a | a
@@ -393,7 +393,7 @@ theorem outer_spec (H : Hyp n L base gens us) {s0 : St} (h0 : QI n L us s0.1 s0.
   rw [Nat.zero_add]
   by_cases hc : s.2.2.2 < s.2.2.1.size
   · obtain ⟨hI', hle', hpre, hmono, hcl'⟩ := inner_spec (h := s.2.2.2) H hI hc
-    refine ⟨_, by rw [outerBody, if_pos hc], ?_⟩
+    refine ⟨_, by rw [outerBody, ite_eq_left hc], ?_⟩
     dsimp only
     generalize Id.run (forIn (List.range' 0 gens.size) (s.1, s.2.1, s.2.2.1)
       (innerBody n L base gens s.2.2.1 s.2.2.2)) = t at hI' hle' hpre hmono hcl' ⊢
@@ -407,7 +407,7 @@ theorem outer_spec (H : Hyp n L base gens us) {s0 : St} (h0 : QI n L us s0.1 s0.
       subst this
       rw [hpre _ hc]
       exact hcl' k hk
-  · refine ⟨s, by rw [outerBody, if_neg hc], hI, hroot, hle, Or.inl (by omega), hcl⟩
+  · refine ⟨s, by rw [outerBody, ite_eq_right hc], hI, hroot, hle, Or.inl (by omega), hcl⟩
 
 theorem conjSearch3_spec (H : Hyp n L base gens us) :
     ∃ Sn : Array Bool,

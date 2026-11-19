@@ -94,7 +94,7 @@ open CFSG.Sporadic.Th.Native CFSG.Sporadic.Th.Max3
 @[expose] def checkE687011 (_ : Unit := ()) : Bool :=
   let C := rowsWJ 2
   let D := rowsWJ 3
-  let E := rowsWJ 4
+  let _E := rowsWJ 4
   let U := rowsWJ 7
   let UI := rowsUI U
   let E0 := rowsE0 C D

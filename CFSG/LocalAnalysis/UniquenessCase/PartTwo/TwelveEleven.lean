@@ -18,7 +18,7 @@ namespace TwelveEleven
 
 theorem fstar_eq_pCoreOf_of_charTwo {H : Subgroup G} (hH : CFSG.QuasithinUnique.CharTwo H) :
     Fstar H = pCoreOf 2 H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h := (CFSG.isCharacteristicP_iff_generalizedFitting_eq_pCore ↥H 2).1
     (CFSG.QuasithinUnique.charTwo_iff_isCharacteristicP.1 hH)
   unfold Fstar pCoreOf
@@ -61,7 +61,7 @@ theorem rankThreeGamma_centerOf_le (D : Data G) (hcu : CentralizersUnique D.M D.
     calc x * c * x⁻¹ * (x * z * x⁻¹) = x * (c * z) * x⁻¹ := by group
       _ = x * (z * c) * x⁻¹ := by rw [hc]
       _ = x * z * x⁻¹ * (x * c * x⁻¹) := by group
-  · simp [MulAut.conj_apply, mul_assoc]
+  · simp [mul_assoc]
 
 end TwelveEleven
 

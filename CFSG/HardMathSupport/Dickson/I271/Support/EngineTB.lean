@@ -15,7 +15,7 @@ theorem glaPLayer_top_eq_bot_of_coprime_quotient {Y : Type} [Group Y] [Finite Y]
     (hp : p.Prime) {N M : Subgroup Y} [N.Normal] (hNp : IsPGroup p N) (hNM : N ≤ M)
     (hexp : ∀ x ∈ M, ∃ n : ℕ, Nat.Coprime p n ∧ x ^ n ∈ N) (hab : commutator Y ≤ M) :
     GLAPLayer p (⊤ : Subgroup Y) = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   unfold GLAPLayer
   refine eq_bot_iff.2 (sSup_le fun L hL => ?_)
   exfalso
@@ -26,7 +26,7 @@ theorem glaPLayer_top_eq_bot_of_coprime_quotient {Y : Type} [Group Y] [Finite Y]
       (Subgroup.topEquiv.symm : Y ≃* ↥(⊤ : Subgroup Y)).toMonoidHom with hφ
   have hφs : Function.Surjective φ :=
     (QuotientGroup.mk'_surjective _).comp (MulEquiv.surjective _)
-  haveI : (N.map φ).Normal := Subgroup.Normal.map ‹N.Normal› φ hφs
+  have : (N.map φ).Normal := Subgroup.Normal.map ‹N.Normal› φ hφs
   have hO : GLAPPrimeCore p Z = ⊥ := glaPPrimeCore_quotient_eq_bot hp
   have hexpZ : ∀ x ∈ M.map φ, ∃ n : ℕ, Nat.Coprime p n ∧ x ^ n ∈ N.map φ := by
     rintro _ ⟨m, hm, rfl⟩
@@ -44,10 +44,10 @@ theorem glaPLayer_top_eq_bot_of_coprime_quotient {Y : Type} [Group Y] [Finite Y]
     (hNp.map φ).to_le hle
   set K' : Subgroup Z := (L.subgroupOf (⊤ : Subgroup Y)).map
       (QuotientGroup.mk' (GLAPPrimeCore p ↥(⊤ : Subgroup Y))) with hK'
-  haveI : Group.IsNilpotent ↥K' := hpg.isNilpotent
+  have : Group.IsNilpotent ↥K' := hpg.isNilpotent
   have hq : CFSG.Open.IsQuasisimple ↥K' := hcomp.2.2
-  haveI : Group.IsPerfect ↥K' := ⟨hq.1⟩
-  haveI := CFSG.ComponentClassification.Quasisimple.nontrivial hq
+  have : Group.IsPerfect ↥K' := ⟨hq.1⟩
+  have := CFSG.ComponentClassification.Quasisimple.nontrivial hq
   exact Group.IsPerfect.not_isSolvable _ (inferInstance : Group.IsSolvable ↥K')
 
 theorem centralizes_pCore_of_isSCp_coprime (i20 : Input20_1) {Q : Type} [Group Q] [Finite Q]
@@ -65,7 +65,7 @@ theorem centralizes_pCore_of_isSCp_coprime (i20 : Input20_1) {Q : Type} [Group Q
   have hPW : P ⊔ W ≤ Y := sup_le hPY hWY
   have hWPn : W ≤ Subgroup.normalizer (P : Set Q) := (Subgroup.normalizer_eq_top_iff.2 hPn) ▸ le_top
   have hlayer : GLAPLayer p (⊤ : Subgroup ↥Y) = ⊥ := by
-    haveI : (P.subgroupOf Y).Normal := inferInstance
+    have : (P.subgroupOf Y).Normal := inferInstance
     have hNp : IsPGroup p ↥(P.subgroupOf Y) :=
       hPp.of_equiv (Subgroup.subgroupOfEquivOfLe hPY).symm
     have hNM : P.subgroupOf Y ≤ (P ⊔ W).subgroupOf Y := fun x hx =>
@@ -82,7 +82,7 @@ theorem centralizes_pCore_of_isSCp_coprime (i20 : Input20_1) {Q : Type} [Group Q
       have : Y = (P ⊔ W) ⊔ B := by rw [hY, sup_assoc]
       rw [this]
       exact sup_le Subgroup.le_normalizer hBPW
-    haveI hMn : ((P ⊔ W).subgroupOf Y).Normal :=
+    have hMn : ((P ⊔ W).subgroupOf Y).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer hPW).2 hYN
     have hMB : (P ⊔ W).subgroupOf Y ⊔ B.subgroupOf Y = ⊤ := by
       rw [← Subgroup.subgroupOf_sup hPW hBY]

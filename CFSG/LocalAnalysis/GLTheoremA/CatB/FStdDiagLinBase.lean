@@ -29,7 +29,7 @@ theorem fstdLin_glaPComponent {G : Type} [Group G] [Finite G] {X I : Subgroup G}
 theorem fstdLin_ne_top {G : Type} [Group G] [Finite G] {I : Subgroup G} (h : SmallOrd I) :
     GLAPPrimeCore 3 ↥I ≠ ⊤ := by
   intro htop
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcop : Nat.Coprime 3 (Nat.card ↥I) := by
     have h' := CFSG.pPrimeCore_coprime_card (p := 3) (G := ↥I)
     have htop' : CFSG.pPrimeCore 3 ↥I = ⊤ := htop

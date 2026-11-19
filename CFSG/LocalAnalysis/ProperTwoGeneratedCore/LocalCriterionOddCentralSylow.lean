@@ -15,7 +15,7 @@ theorem odd_sylow_times_odd_normal_subgroup
   let : Fact p.Prime := ⟨hp⟩
   have hPodd : Odd (Nat.card ((P : Subgroup B).map B.subtype : Subgroup K)) := by
     rw [Subgroup.card_map_of_injective B.subtype_injective]
-    obtain ⟨n, hn⟩ := P.isPGroup'.exists_card_eq
+    obtain ⟨n, hn⟩ := P.isPGroup.exists_card_eq
     rw [hn]
     exact hpodd.pow
   rw [sup_comm]
@@ -108,7 +108,7 @@ theorem odd_central_quotient_invariant_two_sylow_fixed
   let U := (P : Subgroup B).map B.subtype
   let C := Subgroup.centralizer ({t} : Set K)
   have hUC : U ≤ C := odd_central_quotient_normalized_two_subgroup_centralized
-    J U t hJodd (P.isPGroup'.map B.subtype) hPnorm hcentral
+    J U t hJodd (P.isPGroup.map B.subtype) hPnorm hcentral
   obtain ⟨R, hRimage⟩ := sylow_restriction_same_ambient_image 2 B (B ⊓ C)
     inf_le_left P (le_inf (Subgroup.map_subtype_le _) hUC)
   refine ⟨R, ?_⟩

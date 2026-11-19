@@ -40,7 +40,7 @@ theorem prod_reflect_mem_omegaGroup
         (reflect_mem_orthogonalGroup Q a) (hmemO l)
       rw [hmul, ih hl']
       have h1 : Module.finrank K (commSpace (reflect Q a)) = 1 := by
-        letI : Invertible (Q a) := invertibleOfNonzero ha
+        let : Invertible (Q a) := invertibleOfNonzero ha
         rw [reflect_eq_reflection]
         exact finrank_commSpace_reflection hQ a
       rw [h1, List.length_cons]

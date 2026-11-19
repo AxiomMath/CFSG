@@ -25,7 +25,7 @@ open scoped commutatorElement
 theorem gramSU_idGram_eq : gramSU hF4 (idGram F4 5) = StatedSU 5 (2 ^ 1) F4 := by
   ext g
   rw [mem_gramSU_iff_unitary, mem_primeFormUnitary, mem_M5_iff]
-  simp only [idGram, Units.val_one, Matrix.mul_one, hF4_bar, bar_apply, pow_one]
+  simp only [idGram, Units.val_one, Matrix.mul_one, hF4_bar, pow_one]
   exact ⟨fun h => ⟨h.2, h.1⟩, fun h => ⟨h.2, h.1⟩⟩
 
 @[expose] noncomputable def eGram : M5 ≃* gramSU hF4 (idGram F4 5) :=
@@ -100,7 +100,7 @@ theorem exists_conj_of_pow_three (α : MulAut M5) (hα : α ^ 3 = 1) :
 
 theorem F4_omega_primitive : IsPrimitiveRoot F4.ω 3 := by
   rw [IsPrimitiveRoot.iff_orderOf]
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact orderOf_eq_prime (by decide) (by decide)
 
 theorem mem_primeFormUnitary_of_M5 (s : M5) :
@@ -151,7 +151,7 @@ theorem permMat_mul_apply (σ : Equiv.Perm (Fin 5)) (M : Matrix (Fin 5) (Fin 5) 
   rw [Finset.sum_eq_single (σ.symm a)]
   · simp
   · intro c _ hc
-    rw [if_neg]
+    rw [ite_eq_right]
     intro h
     exact hc (by rw [h, Equiv.symm_apply_apply])
   · intro h
@@ -168,7 +168,7 @@ theorem permMat_transpose_mul (σ : Equiv.Perm (Fin 5)) :
   rw [Finset.sum_eq_single (σ a)]
   · simp [σ.injective.eq_iff]
   · intro c _ hc
-    rw [if_neg (fun h => hc h), zero_mul]
+    rw [ite_eq_right (fun h => hc h), zero_mul]
   · intro h
     exact absurd (Finset.mem_univ _) h
 
@@ -176,10 +176,10 @@ theorem permMat_swap_mul_self (j : Fin 5) :
     permMat (Equiv.swap j 4) * permMat (Equiv.swap j 4) = 1 := by
   ext a b
   rw [permMat_mul_apply, swap_symm_eq, Matrix.one_apply]
-  simp only [permMat, Matrix.of_apply, Equiv.swap_apply_self]
+  simp only [permMat, Matrix.of_apply]
   by_cases hab : a = b
   · subst hab; simp
-  · rw [if_neg hab, if_neg]
+  · rw [ite_eq_right hab, ite_eq_right]
     intro h
     apply hab
     have := congrArg (Equiv.swap j 4) h
@@ -212,7 +212,7 @@ theorem permMat_swap_diag (j : Fin 5) (d : Fin 5 → F4) :
       Matrix.diagonal (fun i => d (Equiv.swap j 4 i)) := by
   ext a b
   rw [Matrix.mul_assoc, permMat_mul_apply, Matrix.diagonal_mul, swap_symm_eq]
-  by_cases hab : a = b <;> simp [hab, Matrix.diagonal_apply, permMat]
+  by_cases hab : a = b <;> simp [hab, permMat]
 
 @[expose] def permU (j : Fin 5) : primeFormUnitary hF4 (idGram F4 5) := ⟨permGL j, permGL_mem j⟩
 
@@ -326,7 +326,7 @@ theorem normal_form (s : M5) (hs : s ^ 3 = 1) :
 theorem kLevel_le_two_of_chev {p : ℕ} {S : Type} [Group S] (h : IsChevSimple p S) :
     kLevel p S ≤ 2 := by
   unfold kLevel
-  rw [if_pos h]
+  rw [ite_eq_left h]
   norm_num
 
 theorem catalog_ambiguous_of_u4two {S : Type} [Group S]
@@ -357,7 +357,6 @@ theorem map_centralizer_equiv {G G' : Type} [Group G] [Group G'] (e : G ≃* G')
     refine ⟨e.symm x, ?_, by simp⟩
     rw [SetLike.mem_coe, Subgroup.mem_centralizer_singleton_iff]
     apply e.injective
-    change e (e.symm x * s) = e (s * e.symm x)
     rw [map_mul, map_mul, MulEquiv.apply_symm_apply]
     exact hx
 

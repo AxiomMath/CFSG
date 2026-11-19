@@ -24,7 +24,7 @@ theorem inf_centralizer_le_frattini_map {U : Subgroup G} {g : G} (hU2 : IsPGroup
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Z := Subgroup.zpowers g with hZ
   have hZU : Z ≤ Subgroup.normalizer (U : Set G) := Subgroup.zpowers_le.mpr hgU
-  haveI : Subgroup.Normalizes Z U := ⟨hZU⟩
+  have : Subgroup.Normalizes Z U := ⟨hZU⟩
   have htop : commutatorAction (A := ↥Z) (G := ↥U) = ⊤ := by
     apply Subgroup.map_injective U.subtype_injective
     rw [commutatorAction_subgroup_conj_map_eq_commutator U Z hZU, hUU, Subgroup.map_top,
@@ -33,7 +33,7 @@ theorem inf_centralizer_le_frattini_map {U : Subgroup G} {g : G} (hU2 : IsPGroup
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hU2
     rw [hk, hZ, Nat.card_zpowers]
     exact Nat.Coprime.pow_right k (Nat.coprime_two_right.mpr hodd)
-  letI : MulDistribMulAction ↥Z (↥U ⧸ frattini ↥U) :=
+  let : MulDistribMulAction ↥Z (↥U ⧸ frattini ↥U) :=
     RankThree.GroupTheory.SteinbergBY.frattiniQuotientAction ↥Z ↥U
   have hbot : fixedPointSubgroup ↥Z (↥U ⧸ frattini ↥U) = ⊥ :=
     RankThree.GroupTheory.SteinbergBY.fixedPointSubgroup_quotient_eq_bot hcop htop (frattini U)

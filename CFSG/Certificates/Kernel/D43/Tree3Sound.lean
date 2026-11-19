@@ -81,9 +81,7 @@ theorem disjChk_spec {Ra Rb Qb : ℕ → ℕ} {oa ℓb ob sb t : ℕ}
   intro t' ht' e
   unfold disjChk at h
   rw [tree_strictB] at h
-  beta_reduce at h
   rw [tree_strictB] at h
-  beta_reduce at h
   rw [e, hpos t' ht', Nat.blt_eq.mpr ht', Nat.beq_refl] at h
   exact absurd h (by decide)
 
@@ -114,7 +112,6 @@ theorem memChk_spec {R Q : ℕ → ℕ} {ℓ o s q : ℕ}
       (fun u => Bool.rec (motive := fun _ => Bool) false (Nat.beq (ptAt R o u) q) (Nat.blt u s)) =
         true) : ∃ t < s, ptAt R o t = q := by
   rw [tree_strictB] at h
-  beta_reduce at h
   obtain ⟨h1, h2⟩ := tree_bAnd h
   exact ⟨_, Nat.le_of_ble_eq_true h1, Nat.eq_of_beq_eq_true h2⟩
 
@@ -128,7 +125,6 @@ theorem movesB_spec {F W : ℕ → ℕ} {γ : ℕ → G} (hγ : TabRep F γ) {j 
     (h : movesB F W j p = true) : lG γ W j • p ≠ p := by
   unfold movesB at h
   rw [tree_strictB] at h
-  beta_reduce at h
   obtain ⟨h1, h2⟩ := tree_bAnd h
   have hlt : lAp F W j p < 26572 := Nat.le_of_ble_eq_true h1
   intro e
@@ -187,7 +183,6 @@ theorem lineAll_spec {F W : ℕ → ℕ} {γ : ℕ → G} (hγ : TabRep F γ) (h
     intro q hq
     unfold lineChk at hq
     rw [tree_strictB] at hq
-    beta_reduce at hq
     obtain ⟨hq1, hq2⟩ := tree_bAnd hq
     rw [← lAp_spec hγ (Nat.le_of_ble_eq_true hq1)]
     exact hq2
@@ -305,9 +300,7 @@ theorem le_boolRec {n a b : ℕ} (c : Bool) (ha : n ≤ a) (hb : n ≤ b) :
 theorem letAp_ge (F W : ℕ → ℕ) (d p : ℕ) (hp : 26572 ≤ p) : 26572 ≤ letAp F W d p := by
   unfold letAp
   rw [tree_strictN]
-  beta_reduce
   rw [tree_strictN]
-  beta_reduce
   exact le_boolRec _ (wAp_ge F _ _ _ hp) (wAp_ge F _ _ _ hp)
 
 theorem evRF_ge (F W : ℕ → ℕ) : ∀ (f w p : ℕ), 26572 ≤ p → 26572 ≤ evRF F W f w p
@@ -322,9 +315,7 @@ theorem evRF_ge (F W : ℕ → ℕ) : ∀ (f w p : ℕ), 26572 ≤ p → 26572 �
 theorem letAp_pos (F W : ℕ → ℕ) (j p : ℕ) : letAp F W (2 * j + 1) p = lAp F W j p := by
   unfold letAp
   rw [tree_strictN]
-  beta_reduce
   rw [tree_strictN]
-  beta_reduce
   have e1 : Nat.sub (2 * j + 1) (nat_lit 1) = 2 * j := Nat.add_sub_cancel (2 * j) 1
   rw [e1]
   have e2 : Nat.shiftRight (2 * j) (nat_lit 1) = j :=
@@ -337,9 +328,7 @@ theorem letAp_neg (F W : ℕ → ℕ) (j p : ℕ) :
     letAp F W (2 * j + 2) p = wAp F 24 (wInv (W j)) p := by
   unfold letAp
   rw [tree_strictN]
-  beta_reduce
   rw [tree_strictN]
-  beta_reduce
   have e1 : Nat.sub (2 * j + 2) (nat_lit 1) = 2 * j + 1 := by
     change 2 * j + 2 - 1 = 2 * j + 1
     omega
@@ -442,7 +431,6 @@ theorem brelChunks_spec {F W : ℕ → ℕ} {B : ℕ} {R : ℕ → ℕ} {n C : �
   · have hu' := tree_allBlk hc u hu
     beta_reduce at hu'
     rw [tree_strictB] at hu'
-    beta_reduce at hu'
     rw [Nat.zero_add] at hu'
     exact Nat.eq_of_beq_eq_true hu'
 
@@ -492,7 +480,6 @@ theorem distinctAll_lt {KK : ℕ → ℕ} {n : ℕ} (h : distinctAll KK n = true
   have hi := tree_allBlk h i (by omega)
   beta_reduce at hi
   rw [Nat.zero_add, tree_strictB] at hi
-  beta_reduce at hi
   have hj' := tree_allBlk hi (j - (i + 1)) (by omega)
   beta_reduce at hj'
   have e2 : Nat.add i (nat_lit 1) + (j - (i + 1)) = j := by change i + 1 + (j - (i + 1)) = j; omega

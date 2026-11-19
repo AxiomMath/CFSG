@@ -75,7 +75,7 @@ theorem support_mul_subset' {α : Type*} [Fintype α] [DecidableEq α] (σ τ : 
   simp [Equiv.Perm.mul_apply, h.1, h.2]
 
 theorem maps_into_of_fix_outside {α : Type*} [Fintype α] [DecidableEq α] (σ : Equiv.Perm α)
-    (S : Finset α) (hσ : ∀ t, t ∉ S → σ t = t) {t : α} (ht : t ∈ S) (hσt : σ t ≠ t) :
+    (S : Finset α) (hσ : ∀ t, t ∉ S → σ t = t) {t : α} (_ht : t ∈ S) (hσt : σ t ≠ t) :
     σ t ∈ S := by
   by_contra h
   have h1 := hσ (σ t) h

@@ -128,7 +128,7 @@ theorem burnsideF4n_N1hat_tits {E : Type} [Group E] {M₁ M₂ : Subgroup E} {Y 
     ∃ a : (RankTwoAmalgam.ofSubgroups M₁ M₂).G1, w = xi1 M₁ M₂ a ∧
       f1 (c := β) a ∈ N1set β GLKind.Tits cc y := by
   obtain ⟨hdom, g, hg, hgw⟩ := hw
-  rw [liftDom1, if_pos rfl] at hdom
+  rw [liftDom1, ite_eq_left rfl] at hdom
   obtain ⟨a, rfl⟩ := hdom
   refine ⟨a, rfl, ?_⟩
   have : g = f1 (c := β) a := Subtype.ext (hgw.trans (theta_ξ1 β a))
@@ -140,7 +140,7 @@ theorem burnsideF4n_N2hat_tits {E : Type} [Group E] {M₁ M₂ : Subgroup E} {Y 
     ∃ b : (RankTwoAmalgam.ofSubgroups M₁ M₂).G2, w = xi2 M₁ M₂ b ∧
       f2 (c := β) b ∈ N2set β GLKind.Tits cc y y' := by
   obtain ⟨hdom, g, hg, hgw⟩ := hw
-  rw [liftDom2, if_pos rfl] at hdom
+  rw [liftDom2, ite_eq_left rfl] at hdom
   obtain ⟨b, rfl⟩ := hdom
   refine ⟨b, rfl, ?_⟩
   have : g = f2 (c := β) b := Subtype.ext (hgw.trans (theta_ξ2 β b))
@@ -151,7 +151,7 @@ theorem burnsideF4n_N1hat_g2d {E : Type} [Group E] {M₁ M₂ : Subgroup E} {Y :
     ∃ b : (RankTwoAmalgam.ofSubgroups M₁ M₂).G2, w = xi2 M₁ M₂ b ∧
       f2 (c := β) b ∈ N1set β GLKind.G2d cc y := by
   obtain ⟨hdom, g, hg, hgw⟩ := hw
-  rw [liftDom1, if_neg (by decide)] at hdom
+  rw [liftDom1, ite_eq_right (by decide)] at hdom
   obtain ⟨b, rfl⟩ := hdom
   refine ⟨b, rfl, ?_⟩
   have : g = f2 (c := β) b := Subtype.ext (hgw.trans (theta_ξ2 β b))
@@ -164,7 +164,7 @@ theorem burnsideF4n_N2hat_g2d {E : Type} [Group E] {M₁ M₂ : Subgroup E} {Y :
       f1 (c := β) h • β.lv = cc ∧ w = xi1 M₁ M₂ h * xi2 M₁ M₂ b * (xi1 M₁ M₂ h)⁻¹ ∧
       f1 (c := β) h * f2 (c := β) b * (f1 (c := β) h)⁻¹ ∈ N2set β GLKind.G2d cc y y' := by
   obtain ⟨hdom, g, hg, hgw⟩ := hw
-  rw [liftDom2, if_neg (by decide)] at hdom
+  rw [liftDom2, ite_eq_right (by decide)] at hdom
   obtain ⟨h, hh, b, rfl⟩ := hdom
   refine ⟨h, b, hh, rfl, ?_⟩
   have : g = f1 (c := β) h * f2 (c := β) b * (f1 (c := β) h)⁻¹ := by
@@ -314,7 +314,7 @@ theorem burnsideF4n_ker_eq
     {Y' : Type} [Group Y'] (ρ : Cpl M₁ M₂ Y') (hρ : ρ.IsFaithful)
     {st : GHat M₁ M₂ × GHat M₁ M₂} (hst : st ∈ PhatFor κ β cc y y' ρ) :
     ρ.toCompletion.hat.ker = Subgroup.normalClosure {(st.1 * st.2) ^ m0Of κ} := by
-  haveI : Finite E := hyp.finite
+  have : Finite E := hyp.finite
   set N := Subgroup.normalClosure ({(st.1 * st.2) ^ m0Of κ} : Set (GHat M₁ M₂)) with hNdef
   have hpow : ρ.theta ((st.1 * st.2) ^ m0Of κ) = 1 := by
     rw [map_pow, map_mul]
@@ -354,7 +354,7 @@ theorem burnsideF4n_ker_eq
   have c1 := (h413 κ p f E Gp M₁ M₂ hyp _ _ hρs hsms).2
   have c2 := (h413 κ p f E Gp M₁ M₂ hyp _ ρ hρ hsm).2
   rw [card_G0] at c1 c2
-  haveI : Finite (GHat M₁ M₂ ⧸ N) :=
+  have : Finite (GHat M₁ M₂ ⧸ N) :=
     Nat.finite_of_card_ne_zero (by rw [c1]; exact Nat.card_pos.ne')
   have hsurj : Function.Surjective π := by
     intro z

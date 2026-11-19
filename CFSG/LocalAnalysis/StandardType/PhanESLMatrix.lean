@@ -80,7 +80,7 @@ theorem slSigma_torusHom (a : Fldˣ) :
   rw [coe_slSigma, WeakCT.coe_torusHom, Matrix.adjugate_fin_two, WeakCT.coe_torusHom]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.transpose_apply, Matrix.map_apply, WeakCT.coe_torusHom, Units.coe_map,
+    simp [Matrix.transpose_apply, Matrix.map_apply, Units.coe_map,
       Units.val_inv_eq_inv_val, map_inv₀]
 
 private theorem hmbMat_slSigma_blk_zero (A : SL(2, Fld)) :
@@ -144,7 +144,7 @@ private theorem hmbMat_map_adjugate_transpose (hθ : ∀ c, θ (θ c) = c) {m : 
 theorem slSigma_slSigma (hθ : ∀ c, θ (θ c) = c) (m : ℕ) (A : SL(m, Fld)) :
     slSigma θ m (slSigma θ m A) = A := by
   by_cases hm : m ≤ 1
-  · haveI : Subsingleton (Fin m) := ⟨fun a b => Fin.ext (by
+  · have : Subsingleton (Fin m) := ⟨fun a b => Fin.ext (by
       have ha := a.isLt
       have hb := b.isLt
       omega)⟩
@@ -160,11 +160,11 @@ variable (Fld) in
 @[expose] def sl2Borel : Subgroup SL(2, Fld) where
   carrier := {A | (A : Matrix (Fin 2) (Fin 2) Fld) 1 0 = 0}
   mul_mem' {A B} hA hB := by
-    simp only [Set.mem_setOf_eq] at hA hB ⊢
+    simp only [Set.mem_ofPred_eq] at hA hB ⊢
     simp [Matrix.SpecialLinearGroup.coe_mul, Matrix.mul_apply, Fin.sum_univ_two, hA, hB]
   one_mem' := by simp
   inv_mem' {A} hA := by
-    simp only [Set.mem_setOf_eq] at hA ⊢
+    simp only [Set.mem_ofPred_eq] at hA ⊢
     simp [Matrix.SpecialLinearGroup.coe_inv, Matrix.adjugate_fin_two, hA]
 
 private theorem hmbMat_slSigma_apply_zero_one (Y : SL(2, Fld)) (hY : Y ∈ sl2Borel Fld) :

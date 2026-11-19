@@ -82,8 +82,8 @@ end Transfer
 theorem QUNL.false_of_sp68 {Ω : Type} [Group Ω] [Finite Ω] {S B T : Subgroup Ω} {x b : Ω}
     (h : QUNL 3 S B T x b) (hS : StatedClassicalModel (PSimple 3 S) .PSp 3 2 3)
     (hr : Nat.card B < 27 * Nat.card (Dgrp b x)) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := h.cfg.normal
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := h.cfg.normal
   obtain ⟨-, K, _, _, hK, ⟨e⟩⟩ := hS
   have hK8 : Nat.card K = 8 := by rw [hK]; norm_num
   obtain ⟨Φ⟩ := nonempty_mulEquiv_of_sp68 h.cfg.comp h.cfg.core hK8 e

@@ -106,12 +106,12 @@ theorem a2System_blockSL2_rev (n : ℕ) :
 theorem framePermFun_involutive (n : ℕ) : Function.Involutive (framePermFun n) := by
   intro k
   by_cases hk : (k : ℕ) < 2
-  · rw [show framePermFun n k = k from by rw [framePermFun, dif_pos hk]]
-    rw [framePermFun, dif_pos hk]
+  · rw [show framePermFun n k = k from by rw [framePermFun, dite_eq_left hk]]
+    rw [framePermFun, dite_eq_left hk]
   · have h1 : ¬ ((n + 2 - (k : ℕ) : ℕ) < 2) := by have := k.isLt; omega
     rw [show framePermFun n k = ⟨n + 2 - k, by have := k.isLt; omega⟩ from
-      by rw [framePermFun, dif_neg hk]]
-    rw [framePermFun, dif_neg h1]
+      by rw [framePermFun, dite_eq_right hk]]
+    rw [framePermFun, dite_eq_right h1]
     exact Fin.ext (by simp only; omega)
 
 @[expose] def framePerm (n : ℕ) : Equiv.Perm (Fin (n + 1)) :=
@@ -225,16 +225,16 @@ private theorem framePerm_apply (n : ℕ) (k : Fin (n + 1)) :
   exact congrFun (Function.Involutive.coe_toPerm (framePermFun_involutive n)) k
 
 private theorem framePerm_zero (n : ℕ) : framePerm n 0 = 0 := by
-  rw [framePerm_apply, framePermFun, dif_pos (by simp)]
+  rw [framePerm_apply, framePermFun, dite_eq_left (by simp)]
 
 private theorem framePerm_one (n : ℕ) [NeZero n] :
     framePerm n ⟨1, by have := NeZero.pos n; omega⟩ =
       ⟨1, by have := NeZero.pos n; omega⟩ := by
-  rw [framePerm_apply, framePermFun, dif_pos (by simp)]
+  rw [framePerm_apply, framePermFun, dite_eq_left (by simp)]
 
 private theorem framePerm_of_two_le {n : ℕ} {k : Fin (n + 1)} (hk : 2 ≤ (k : ℕ)) :
     framePerm n k = ⟨n + 2 - k, by have := k.isLt; omega⟩ := by
-  rw [framePerm_apply, framePermFun, dif_neg (by omega)]
+  rw [framePerm_apply, framePermFun, dite_eq_right (by omega)]
 
 theorem frameSys_zero (n : ℕ) [NeZero n] : frameSys n 0 = (blockSL2 (ZMod 2) n 0).range := by
   have hfix : ∀ A : SL(2, ZMod 2), ggPermSL (F := ZMod 2) (framePerm n) * blockSL2 (ZMod 2) n 0 A *

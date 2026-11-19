@@ -344,7 +344,7 @@ theorem commSpace_eichler_mul_eichlerPairProd [FiniteDimensional K V]
 omit [CharP K 2] in
 private theorem exists_nat_family {r : ℕ} (hr : 0 < r) (P : Fin r → HypPair Q) :
     ∃ P' : ℕ → HypPair Q, ∀ i (h : i < r), P' i = P ⟨i, h⟩ :=
-  ⟨fun i => if h : i < r then P ⟨i, h⟩ else P ⟨0, hr⟩, fun _ h => dif_pos h⟩
+  ⟨fun i => if h : i < r then P ⟨i, h⟩ else P ⟨0, hr⟩, fun _ h => dite_eq_left h⟩
 
 omit [CharP K 2] in
 private theorem exists_rootCFrame_of_pairs {m : ℕ} (hm2 : 2 ≤ m) {P : Fin m → HypPair Q}

@@ -197,7 +197,7 @@ theorem exists_noncyclic_three_group_of_alt_six {J L : Subgroup G} (hJL : J ≤ 
     exact pow_eq_one_of_mem_sup_zpowers huv hu3 hv3 x.2
   have hnc : ¬ IsCyclic S := by
     intro hcyc
-    haveI : IsCyclic ↥S := hcyc
+    have : IsCyclic ↥S := hcyc
     obtain ⟨gS, hgS⟩ := IsCyclic.exists_generator (α := ↥S)
     have hcard : orderOf gS = Nat.card ↥S := orderOf_eq_card_of_forall_mem_zpowers hgS
     have hg3 : (gS : G) ^ 3 = 1 :=
@@ -210,8 +210,8 @@ theorem exists_noncyclic_three_group_of_alt_six {J L : Subgroup G} (hJL : J ≤ 
       intro h0
       rw [h0] at hdvd
       exact (by decide : ¬ (0 ∣ 3)) hdvd
-    haveI : Finite ↥S := Nat.finite_of_card_ne_zero hne
-    letI : Fintype ↥S := Fintype.ofFinite ↥S
+    have : Finite ↥S := Nat.finite_of_card_ne_zero hne
+    let : Fintype ↥S := Fintype.ofFinite ↥S
     let uS : ↥S := ⟨u, Subgroup.mem_sup_left (Subgroup.mem_zpowers u)⟩
     let vS : ↥S := ⟨v, Subgroup.mem_sup_right (Subgroup.mem_zpowers v)⟩
     have huS_ne_one : uS ≠ 1 := by

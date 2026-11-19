@@ -47,6 +47,7 @@ theorem Coord95.isSingV_of_mem_comm_sup (C : Coord95 hc t K) (hs : Sec9Hyp hc n 
 
 end Coord
 
+omit [Finite G] in
 theorem exists_notCN_conj95 {hc : Ctx M Q Z B} {t g : G}
     (hgL : conjSubgroup g (LB M Q B) = LB M Q B) (hnot : ¬ conjSubgroup g (N1 hc t) ≤ N1 hc t) :
     ∃ x ∈ conjSubgroup g (N1 hc t), x ∉ hc.CN t := by
@@ -84,6 +85,7 @@ theorem B_le_inf_conj95 (h34 : Stroth34Statement) {hc : Ctx M Q Z B} {n : ℕ} {
   have h2 := hBV h1
   simpa using h2
 
+omit [Finite G] in
 theorem isSingV_conj95 {hc : Ctx M Q Z B} {t z : G} (hzM : z ∈ M)
     (hzBZ : z ∈ Subgroup.normalizer ((B ⊔ Z : Subgroup G) : Set G)) {u : G}
     (hu : IsSingV M Q Z B t (z⁻¹ * u * z)) :

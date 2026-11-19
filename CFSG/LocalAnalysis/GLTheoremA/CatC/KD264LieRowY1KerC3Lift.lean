@@ -35,7 +35,7 @@ theorem lift_exists (K : Type) [Field K] [Finite K] (E : Subgroup (StatedProj (S
         P.map (QuotientGroup.mk' ((StatedScalars (Fin 3 ⊕ Fin 3) K).subgroupOf
           (StatedSp 3 K))) = E := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set π := QuotientGroup.mk' ((StatedScalars (Fin 3 ⊕ Fin 3) K).subgroupOf (StatedSp 3 K))
     with hπ
   set E' : Subgroup (StatedSp 3 K) := E.comap π with hE'

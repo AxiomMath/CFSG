@@ -126,7 +126,7 @@ theorem uc22s206m_two_le_pRank {Y : Type} [Group Y] [Finite Y] {r : ℕ} (hr : r
     (hbv : Commute b v) (hd : Commute (a * u) (b * v)) {Z₁ Z₂ : Subgroup Y} (haZ : a ∉ Z₁)
     (huZ : u ∈ Z₁) (hdZ₁ : b * v ∈ Z₁) (hbZ : b ∉ Z₂) (hvZ : v ∈ Z₂) (hdZ₂ : a * u ∈ Z₂)
     {H : Subgroup Y} (h₁ : a * u ∈ H) (h₂ : b * v ∈ H) : 2 ≤ pRank r H := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hker : ∀ m n : ℤ, (a * u) ^ m * (b * v) ^ n = 1 → (r : ℤ) ∣ m ∧ (r : ℤ) ∣ n := by
     intro m n h
     refine ⟨?_, ?_⟩
@@ -207,7 +207,7 @@ theorem uc22s206m_diag {Y : Type} [Group Y] [Finite Y] {x y : Y} (hx3 : x ^ 3 = 
       ∃ E : Subgroup Y, E ≤ centralizer (zpowers x : Set Y) ∧ IsElemAbelian r E ∧
         Nat.card E = r ^ 2 := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨s, hs⟩ : ∃ s : ConjAct Y, ConjAct.toConjAct x = s := ⟨_, rfl⟩
   obtain ⟨t, ht⟩ : ∃ t : ConjAct Y, ConjAct.toConjAct y = t := ⟨_, rfl⟩
   have hsc : ∀ c : Y, s • c = x * c * x⁻¹ := fun c => by rw [← hs, ConjAct.toConjAct_smul]

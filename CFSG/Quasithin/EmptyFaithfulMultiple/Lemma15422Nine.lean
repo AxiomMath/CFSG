@@ -385,7 +385,7 @@ theorem inf_eq_bot_of_psl_nine
     rw [Nat.card_congr (e.trans ψ).toEquiv, nat_card_alternatingGroup, Nat.card_fin]
     rfl
   have hP₀card : Nat.card (P₀ : Subgroup N₀) = 8 := by
-    refine AltSix.card_eq_eight_of_isSylowTwoOf (K := ⊤) ⟨le_top, P₀.isPGroup', ?_⟩ ?_
+    refine AltSix.card_eq_eight_of_isSylowTwoOf (K := ⊤) ⟨le_top, P₀.isPGroup, ?_⟩ ?_
     · change ¬ 2 ∣ (P₀ : Subgroup N₀).relIndex ⊤
       rw [Subgroup.relIndex_top_right]
       exact P₀.not_dvd_index

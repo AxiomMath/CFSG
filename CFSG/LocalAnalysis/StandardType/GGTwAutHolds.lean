@@ -20,7 +20,7 @@ namespace CFSG.StandardType
 
 open CFSG.Assembly TableB
 
-theorem ggTwSL_label_of_rec {r f ε : ℕ} (hr : 1 ≤ r) (hε : ε ≤ 1)
+theorem ggTwSL_label_of_rec {r f ε : ℕ} (_hr : 1 ≤ r) (hε : ε ≤ 1)
     {P : (R : Type) → [Group R] → Set (MulAut R) → Prop}
     (h : ∀ (K : Type) [Field K] [Finite K] [CharP K 2], Nat.card K = 2 ^ f →
       P (LargeEvenProj (LargeEvenSLGroup (Fin (2 * r - 1 + ε + 1)) K))
@@ -48,7 +48,7 @@ theorem ggTwSL_label {r f : ℕ} (hr : 3 ≤ r) (h3 : 3 ∣ 2 ^ f + 1)
       (ggTwSL_rankLE_rec (d := 2 * r - 1 + ε + 1) hr (by omega) (by rw [hK]; exact h3))
       (ggTwSL_scRank_rec (d := 2 * r - 1 + ε + 1) hr (by omega) (by rw [hK]; exact h3))
 
-theorem ggTwSU_label_of_rec {r f ε : ℕ} (hr : 1 ≤ r) (hε : ε ≤ 1)
+theorem ggTwSU_label_of_rec {r f ε : ℕ} (_hr : 1 ≤ r) (hε : ε ≤ 1)
     {P : (R : Type) → [Group R] → Set (MulAut R) → Prop}
     (h : ∀ (K : Type) [Field K] [Finite K] [CharP K 2], Nat.card K = (2 ^ f) ^ 2 →
       P (LargeEvenProj (LargeEvenSUGroup (Fin (2 * r - 1 + ε + 1)) K (2 ^ f)))
@@ -86,13 +86,13 @@ theorem ggTwOm_label_of_rec {r f : ℕ} (hr : 3 ≤ r)
     LargeEvenLabelAll ⟨.twD, r + 1, f⟩ fun R _ I _ => P R I := by
   intro Q hQ
   dsimp only [LargeEvenRawDatum] at hQ ⊢
-  rw [if_neg (by omega), if_neg (by omega)] at hQ ⊢
+  rw [ite_eq_right (by omega), ite_eq_right (by omega)] at hQ ⊢
   obtain ⟨K, _, _, hK, b, c, hbc, hQ'⟩ := hQ
   have : CharP K 2 := charP_two_of_card hK
   exact ⟨K, inferInstance, inferInstance, hK, b, c, hbc, hQ', h K hK b c hbc⟩
 
 theorem ggTwOm_label
-    {r f : ℕ} (hf : 1 ≤ f) (hr : 3 ≤ r)
+    {r f : ℕ} (_hf : 1 ≤ f) (hr : 3 ≤ r)
     (h3 : 3 ∣ 2 ^ f - 1 ∨ (Odd r ∧ 3 ∣ 2 ^ f + 1)) :
     LargeEvenLabelAll ⟨.twD, r + 1, f⟩ fun R _ I _ =>
       GGTorusAutCardSC 3 R I r (2 ^ r * r.factorial) :=

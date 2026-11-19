@@ -180,7 +180,7 @@ theorem orderOf_ne_four (w : PSL2 Fr.K₀) : orderOf w ≠ 4 := by
     rw [Nat.card_zpowers, hw]; norm_num)
   obtain ⟨S, hS⟩ := hw2.exists_le_sylow
   obtain ⟨m, hm, ⟨φ⟩⟩ := psl2_odd_hasDihedralSylowTwo_model Fr.K₀ Fr.K₀_odd S
-  have hle := Fr.card_le_four S.isPGroup'
+  have hle := Fr.card_le_four S.isPGroup
   have hcard : Nat.card S = 2 * 2 ^ m := by
     rw [Nat.card_congr φ.toEquiv, DihedralGroup.nat_card]
   have hm1 : m = 1 := by

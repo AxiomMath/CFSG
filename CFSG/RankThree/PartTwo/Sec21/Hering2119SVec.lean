@@ -16,7 +16,7 @@ structure IsElem3 (D : Subgroup G) : Prop where
   comm : ∀ x ∈ D, ∀ y ∈ D, x * y = y * x
   pow3 : ∀ x ∈ D, x ^ 3 = 1
 
-@[expose] def commGroupOfElem3 (D : Subgroup G) (h : IsElem3 D) : CommGroup D :=
+@[instance_reducible, expose] def commGroupOfElem3 (D : Subgroup G) (h : IsElem3 D) : CommGroup D :=
   { (inferInstance : Group D) with
     mul_comm := fun x y => Subtype.ext (h.comm x x.2 y y.2) }
 
@@ -82,7 +82,7 @@ theorem conjAdd_one (v : Vec D) :
   rfl
 
 @[expose] def conjLin (n : Subgroup.normalizer (D : Set G)) : Vec D ≃ₗ[F3] Vec D :=
-  LinearEquiv.ofLinear ((conjAdd D n).toZModLinearMap 3) ((conjAdd D n⁻¹).toZModLinearMap 3)
+  LinearEquiv.ofLinearMap ((conjAdd D n).toZModLinearMap 3) ((conjAdd D n⁻¹).toZModLinearMap 3)
     (LinearMap.ext fun v => by
       simp only [LinearMap.comp_apply, AddMonoidHom.coe_toZModLinearMap, LinearMap.id_apply]
       rw [← conjAdd_mul, mul_inv_cancel, conjAdd_one])

@@ -18,16 +18,19 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type} [AddCommGroup V]
 @[expose] def quadKer (x : V ≃ₗ[F] V) (t : F) : Submodule F V :=
   LinearMap.ker (x.toLinearMap ∘ₗ x.toLinearMap + t • x.toLinearMap + LinearMap.id)
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem mem_quadKer_iff {x : V ≃ₗ[F] V} {t : F} {v : V} :
     v ∈ quadKer x t ↔ x (x v) + t • x v + v = 0 := by
   simp [quadKer, LinearMap.mem_ker]
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem apply_comm_of_isElemAbelian (hBb : IsElemAbelian p Bb) {b c : ↥(orthDerived Q)} (hb : b ∈ Bb)
     (hc : c ∈ Bb) (v : V) :
     (b : V ≃ₗ[F] V) ((c : V ≃ₗ[F] V) v) = (c : V ≃ₗ[F] V) ((b : V ≃ₗ[F] V) v) := by
   have hcomm : (⟨b, hb⟩ : ↥Bb) * ⟨c, hc⟩ = ⟨c, hc⟩ * ⟨b, hb⟩ := hBb.1.is_comm.comm _ _
   exact congrArg (fun z : ↥Bb => ((z : ↥(orthDerived Q)) : V ≃ₗ[F] V) v) hcomm
 
+omit [Finite F] [FiniteDimensional F V] in
 private theorem polar_eq_zero_of_eigen_aux1 {x : V ≃ₗ[F] V} {t : F}
     (ht : ∀ c : F, c * c + t * c + 1 ≠ 0) {w : V} (hw : w ∈ quadKer x t) (hxw : x w = w) :
     w = 0 := by
@@ -42,6 +45,7 @@ private theorem polar_eq_zero_of_eigen_aux1 {x : V ≃ₗ[F] V} {t : F}
   rw [h0, h3, sub_zero] at h4
   exact (smul_eq_zero.1 h4).resolve_left ht0
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem polar_eq_zero_of_eigen_aux2 (hBb : IsElemAbelian p Bb) {b g : ↥(orthDerived Q)}
     (hb : b ∈ Bb) (hg : g ∈ Bb) (n : ℕ) (x : V) :
     (b : V ≃ₗ[F] V) (((g : V ≃ₗ[F] V) ^ n) x) =
@@ -52,10 +56,12 @@ private theorem polar_eq_zero_of_eigen_aux2 (hBb : IsElemAbelian p Bb) {b g : �
     simp only [pow_succ', LinearEquiv.mul_apply,
       apply_comm_of_isElemAbelian hBb hb hg (((g : V ≃ₗ[F] V) ^ n) x), ih x]
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem polar_eq_zero_of_eigen_aux3 (e : V ≃ₗ[F] V) (n : ℕ) :
     ((e ^ n : V ≃ₗ[F] V) : V →ₗ[F] V) = (e : V →ₗ[F] V) ^ n :=
   map_pow (LinearEquiv.automorphismGroup.toLinearMapMonoidHom (R := F) (M := V)) e n
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem polar_eq_zero_of_eigen_aux8 {g : ↥(orthDerived Q)} {t : F} {y : V}
     (hy : y ∈ quadKer (g : V ≃ₗ[F] V) t) {k : ℕ} :
     (∑ j ∈ Finset.range p, ((((g : V ≃ₗ[F] V) ^ k) ^ j : V ≃ₗ[F] V)) y) ∈
@@ -75,6 +81,7 @@ private theorem polar_eq_zero_of_eigen_aux8 {g : ↥(orthDerived Q)} {t : F} {y 
   rw [← pow_mul]
   exact hGpow_mem (k * j)
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem polar_eq_zero_of_eigen_aux9 (hp : p.Prime) {g : ↥(orthDerived Q)}
     (hGp : (g : V ≃ₗ[F] V) ^ p = 1) {y : V} {k : ℕ} (hpk : ¬ p ∣ k) :
     (g : V ≃ₗ[F] V) (∑ j ∈ Finset.range p, ((((g : V ≃ₗ[F] V) ^ k) ^ j : V ≃ₗ[F] V)) y) =
@@ -133,6 +140,7 @@ private theorem exists_eigencomponents_aux2 {M : Type*} [AddCommMonoid M] (f : �
   rw [h1, Finset.sum_range_reflect (fun t => f (t + 1)) p]
   exact exists_eigencomponents_aux1 f hp hf
 
+omit [Finite F] [FiniteDimensional F V] in
 private theorem exists_eigencomponents_aux3 (hp : p.Prime) {g : ↥(orthDerived Q)}
     (hGp : (g : V ≃ₗ[F] V) ^ p = 1) {t : F} (ht : ∀ c : F, c * c + t * c + 1 ≠ 0) {y : V}
     (hy : y ∈ quadKer (g : V ≃ₗ[F] V) t) {k : ℕ} (hpk : ¬ p ∣ k) :
@@ -140,6 +148,7 @@ private theorem exists_eigencomponents_aux3 (hp : p.Prime) {g : ↥(orthDerived 
   polar_eq_zero_of_eigen_aux1 ht (polar_eq_zero_of_eigen_aux8 (k := k) hy)
     (polar_eq_zero_of_eigen_aux9 (k := k) hp hGp hpk)
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_eigencomponents_aux4 (hBb : IsElemAbelian p Bb) {g b : ↥(orthDerived Q)}
     (hg : g ∈ Bb) (hb : b ∈ Bb) (hGp : (g : V ≃ₗ[F] V) ^ p = 1)
     (hBp : (b : V ≃ₗ[F] V) ^ p = 1) (hp : 0 < p) {m : Fin p} {v : V} :
@@ -180,6 +189,7 @@ private theorem exists_eigencomponents_aux4 (hBb : IsElemAbelian p Bb) {g b : �
   congr 1
   rw [Finset.sum_congr rfl (fun k _ => hterm k), hshift]
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_eigencomponents_aux5 (hBb : IsElemAbelian p Bb) {g b : ↥(orthDerived Q)}
     (hg : g ∈ Bb) (hb : b ∈ Bb) {t : F} {N : Submodule F V}
     (hN : ∀ b ∈ Bb, ∀ v ∈ N, (b : V ≃ₗ[F] V) v ∈ N) {v : V} (hvN : v ∈ N)
@@ -228,6 +238,7 @@ private theorem exists_eigencomponents_aux5 (hBb : IsElemAbelian p Bb) {g b : �
   · exact (quadKer (g : V ≃ₗ[F] V) t).smul_mem _
       (Submodule.sum_mem _ fun k _ => hGNQ _ _ (hBNQ k))
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_eigencomponents_aux6 (hBb : IsElemAbelian p Bb) {g b : ↥(orthDerived Q)}
     (hg : g ∈ Bb) (hb : b ∈ Bb) {c : ↥(orthDerived Q)} (hc : c ∈ Bb) {v : V}
     (hcv : (c : V ≃ₗ[F] V) v = v) {m : Fin p} :
@@ -241,6 +252,7 @@ private theorem exists_eigencomponents_aux6 (hBb : IsElemAbelian p Bb) {g b : �
   rw [polar_eq_zero_of_eigen_aux2 hBb hc hg ((p - (m : ℕ)) * k) (((b : V ≃ₗ[F] V) ^ k) v),
     polar_eq_zero_of_eigen_aux2 hBb hc hb k v, hcv]
 
+omit [Finite F] [FiniteDimensional F V] in
 private theorem exists_eigencomponents_aux7 (hp : p.Prime) (hBb : IsElemAbelian p Bb)
     {g b : ↥(orthDerived Q)} (hg : g ∈ Bb) (hb : b ∈ Bb) (hGp : (g : V ≃ₗ[F] V) ^ p = 1)
     {t : F} (ht : ∀ c : F, c * c + t * c + 1 ≠ 0) {v : V}
@@ -277,9 +289,10 @@ private theorem exists_eigencomponents_aux7 (hp : p.Prime) (hBb : IsElemAbelian 
     (fun t => (((g : V ≃ₗ[F] V) ^ k) ^ t) (((b : V ≃ₗ[F] V) ^ k) v)) hp.pos (by simp [hGkp])]
   exact exists_eigencomponents_aux3 hp hGp ht hBkQ hpk
 
+omit [Finite F] [FiniteDimensional F V] in
 private theorem exists_eigencomponents_aux8 (hp : p.Prime) (hBb : IsElemAbelian p Bb)
     {g b : ↥(orthDerived Q)} (hg : g ∈ Bb) (hb : b ∈ Bb) (hGp : (g : V ≃ₗ[F] V) ^ p = 1)
-    {t : F} (ht : ∀ c : F, c * c + t * c + 1 ≠ 0) (hBp : (b : V ≃ₗ[F] V) ^ p = 1)
+    {t : F} (ht : ∀ c : F, c * c + t * c + 1 ≠ 0) (_hBp : (b : V ≃ₗ[F] V) ^ p = 1)
     (hpF : (p : F) ≠ 0) {v : V} (hvQ : v ∈ quadKer (g : V ≃ₗ[F] V) t) :
     (∑ m : Fin p, (p : F)⁻¹ • ∑ k ∈ Finset.range p,
         (((g : V ≃ₗ[F] V) ^ ((p - (m : ℕ)) * k)) (((b : V ≃ₗ[F] V) ^ k) v))) = v := by
@@ -310,6 +323,7 @@ private theorem exists_eigencomponents_aux8 (hp : p.Prime) (hBb : IsElemAbelian 
     Fintype.card_fin, ← Nat.cast_smul_eq_nsmul F p v, smul_smul, inv_mul_cancel₀ hpF,
     one_smul]
 
+omit [Finite F] [FiniteDimensional F V] in
 theorem exists_eigencomponents (hp : p.Prime) (hp2 : p ≠ 2) (hBb : IsElemAbelian p Bb)
     {g : ↥(orthDerived Q)} (hg : g ∈ Bb) {t : F} (ht : ∀ c : F, c * c + t * c + 1 ≠ 0)
     {N : Submodule F V} (hN : ∀ b ∈ Bb, ∀ v ∈ N, (b : V ≃ₗ[F] V) v ∈ N)
@@ -338,6 +352,7 @@ theorem exists_eigencomponents (hp : p.Prime) (hp2 : p ≠ 2) (hBb : IsElemAbeli
   · intro c hc hcv m
     exact exists_eigencomponents_aux6 hBb hg hb hc hcv
 
+omit [Finite F] [FiniteDimensional F V] in
 private theorem polar_eq_zero_of_eigen_aux4 {g : ↥(orthDerived Q)} {t : F}
     (ht : ∀ c : F, c * c + t * c + 1 ≠ 0) {x y : V}
     (hx : x ∈ quadKer (g : V ≃ₗ[F] V) t) (hp2eq : p = 2)
@@ -377,6 +392,7 @@ private theorem polar_eq_zero_of_eigen_aux5 (hp : p.Prime) {m m' : ℕ}
   rw [hkz] at h0
   exact hne (sub_eq_zero.mp h0).symm
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem polar_eq_zero_of_eigen_aux6 (hp : p.Prime) {g : ↥(orthDerived Q)}
     (hGp : (g : V ≃ₗ[F] V) ^ p = 1) {m m' : ℕ} :
     (g : V ≃ₗ[F] V) ^ m' =
@@ -391,6 +407,7 @@ private theorem polar_eq_zero_of_eigen_aux6 (hp : p.Prime) {g : ↥(orthDerived 
     _ = (g : V ≃ₗ[F] V) ^ (m + (m' + (p - 1) * m)) := by rw [hmk]
     _ = (g : V ≃ₗ[F] V) ^ m * (g : V ≃ₗ[F] V) ^ (m' + (p - 1) * m) := by rw [pow_add]
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem polar_eq_zero_of_eigen_aux7 (hBb : IsElemAbelian p Bb) {g : ↥(orthDerived Q)}
     (hg : g ∈ Bb) {b : ↥(orthDerived Q)} (hb : b ∈ Bb)
     (hGO : (g : V ≃ₗ[F] V) ∈ TauCeti.QuadraticMap.orthogonalGroup Q)
@@ -424,6 +441,7 @@ private theorem polar_eq_zero_of_eigen_aux7 (hBb : IsElemAbelian p Bb) {g : ↥(
     have hs := hstep ((((g : V ≃ₗ[F] V) ^ (m' + (p - 1) * m)) ^ j) y) hz
     rw [pow_succ', LinearEquiv.mul_apply, ← hs, ih]
 
+omit [Finite F] [FiniteDimensional F V] in
 private theorem polar_eq_zero_of_eigen_aux10 (hp : p.Prime) (hp2ne : p ≠ 2)
     {rho : V ≃ₗ[F] V} {x y : V}
     (hW0 : (∑ j ∈ Finset.range p, ((rho ^ j : V ≃ₗ[F] V)) y) = 0)
@@ -453,7 +471,7 @@ theorem polar_eq_zero_of_eigen (hp : p.Prime) (hBb : IsElemAbelian p Bb) {g : �
     {m m' : ℕ} (hmm' : ¬ m ≡ m' [MOD p])
     (hbx : (b : V ≃ₗ[F] V) x = ((g : V ≃ₗ[F] V) ^ m) x)
     (hby : (b : V ≃ₗ[F] V) y = ((g : V ≃ₗ[F] V) ^ m') y) : QuadraticMap.polar Q x y = 0 := by
-  haveI : Finite V := Module.finite_of_finite F
+  have : Finite V := Module.finite_of_finite F
   have hGp : (g : V ≃ₗ[F] V) ^ p = 1 := by
     have := congrArg (fun z : ↥(orthDerived Q) => (z : V ≃ₗ[F] V)) (hBb.2 g hg)
     simpa using this
@@ -483,13 +501,14 @@ private def exists_stab_max_vector_aux1 (Bb : Subgroup ↥(orthDerived Q)) (v : 
     rw [Subgroup.coe_inv]
     exact (LinearEquiv.symm_apply_eq (a : V ≃ₗ[F] V)).2 ha.2.symm⟩
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private lemma exists_stab_max_vector_aux2 {b : ↥(orthDerived Q)} {v : V} :
     b ∈ exists_stab_max_vector_aux1 Bb v ↔ b ∈ Bb ∧ (b : V ≃ₗ[F] V) v = v := Iff.rfl
 
 private theorem exists_stab_max_vector_aux3 (hp : p.Prime) (hBb : IsElemAbelian p Bb)
     {g b : ↥(orthDerived Q)} (hg : g ∈ Bb) (hb : b ∈ Bb) {t : F}
     (ht : ∀ c : F, c * c + t * c + 1 ≠ 0) {N : Submodule F V}
-    (hN : ∀ b ∈ Bb, ∀ v ∈ N, (b : V ≃ₗ[F] V) v ∈ N) {v : V} (hvQ : Q v ≠ 0)
+    (_hN : ∀ b ∈ Bb, ∀ v ∈ N, (b : V ≃ₗ[F] V) v ∈ N) {v : V} (hvQ : Q v ≠ 0)
     {w : Fin p → V} (hwmem : ∀ m, w m ∈ N ⊓ quadKer (g : V ≃ₗ[F] V) t)
     (hweig : ∀ m : Fin p, (b : V ≃ₗ[F] V) (w m) = ((g : V ≃ₗ[F] V) ^ (m : ℕ)) (w m))
     (hwsum : ∑ m, w m = v)
@@ -499,8 +518,8 @@ private theorem exists_stab_max_vector_aux3 (hp : p.Prime) (hBb : IsElemAbelian 
         Nat.card (exists_stab_max_vector_aux1 Bb v)) :
     ∃ m : Fin p, Q (w m) ≠ 0 ∧
       exists_stab_max_vector_aux1 Bb v = exists_stab_max_vector_aux1 Bb (w m) := by
-  haveI : Finite V := Module.finite_of_finite F
-  haveI : Finite ↥(orthDerived Q) :=
+  have : Finite V := Module.finite_of_finite F
+  have : Finite ↥(orthDerived Q) :=
     Finite.of_injective (fun z : ↥(orthDerived Q) => ((z : V ≃ₗ[F] V) : V → V))
       fun a b h => Subtype.ext (LinearEquiv.ext (congrFun h))
   have horth : ∀ i j : Fin p, i ≠ j → QuadraticMap.polar Q (w i) (w j) = 0 := fun i j hij =>
@@ -528,6 +547,7 @@ private theorem exists_stab_max_vector_aux3 (hp : p.Prime) (hBb : IsElemAbelian 
   rw [exists_stab_max_vector_aux2] at hc ⊢
   exact ⟨hc.1, hwfix c hc.1 hc.2 m⟩
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_stab_max_vector_aux4 (hBb : IsElemAbelian p Bb) {g b : ↥(orthDerived Q)}
     (hb : b ∈ Bb) (hg : g ∈ Bb) (hGp : (g : V ≃ₗ[F] V) ^ p = 1) {v : V} {m : Fin p}
     {w : Fin p → V}
@@ -569,8 +589,8 @@ theorem exists_stab_max_vector (hp : p.Prime) (hp2 : p ≠ 2) (hBb : IsElemAbeli
     ∃ v ∈ N ⊓ quadKer (g : V ≃ₗ[F] V) t, Q v ≠ 0 ∧
       ∀ b ∈ Bb, ∃ m : ℕ, (b : V ≃ₗ[F] V) v = ((g : V ≃ₗ[F] V) ^ m) v := by
   classical
-  haveI : Finite V := Module.finite_of_finite F
-  haveI : Finite ↥(orthDerived Q) :=
+  have : Finite V := Module.finite_of_finite F
+  have : Finite ↥(orthDerived Q) :=
     Finite.of_injective (fun z : ↥(orthDerived Q) => ((z : V ≃ₗ[F] V) : V → V))
       fun a b h => Subtype.ext (LinearEquiv.ext (congrFun h))
   have hGp : (g : V ≃ₗ[F] V) ^ p = 1 := by

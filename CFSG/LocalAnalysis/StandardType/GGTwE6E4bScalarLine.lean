@@ -21,33 +21,35 @@ local instance : NeZero Tag.E6.rank := ⟨by decide⟩
 
 variable {L : Type} [Field L] [IsAlgClosed L] [CharP L 2]
 
+omit [IsAlgClosed L] [CharP L 2] in
 theorem rootVec_mem_Vlong_of_mem_fixedA2E6 {γ : Fin Tag.E6.rank → ℤ}
     (hγ : γ ∈ fixedA2E6) :
     rootVec Tag.E6 L γ ∈ Vlong L := by
   rw [Vlong_eq_span_fixedA2E6]
   exact Submodule.subset_span ⟨γ, hγ, rfl⟩
 
+omit [IsAlgClosed L] [CharP L 2] in
 theorem rootChar_diagTuple_gamma1_gen (s u : Lˣ) :
     rootChar (diagTuple s u) gamma1 = s ^ 2 * u⁻¹ := by
   rw [rootChar_gamma1, diagTuple_explicit]
   simp
 
+omit [IsAlgClosed L] [CharP L 2] in
 theorem rootChar_diagTuple_gamma2_gen (s u : Lˣ) :
     rootChar (diagTuple s u) gamma2 = s⁻¹ * u ^ 2 := by
   rw [rootChar_gamma2]
   simp [diagTuple_explicit]
   apply Units.ext
-  simp only [Units.val_mul, Units.val_inv_eq_inv_val, Units.val_zpow_eq_zpow_val,
-    Units.val_pow_eq_pow_val]
+  simp only [Units.val_mul, Units.val_inv_eq_inv_val, Units.val_pow_eq_pow_val]
   field_simp
 
+omit [IsAlgClosed L] [CharP L 2] in
 theorem rootChar_diagTuple_gamma3_gen (s u : Lˣ) :
     rootChar (diagTuple s u) gamma3 = s * u := by
   rw [rootChar_gamma3]
   simp [diagTuple_explicit]
   apply Units.ext
-  simp only [Units.val_mul, Units.val_inv_eq_inv_val, Units.val_zpow_eq_zpow_val,
-    Units.val_pow_eq_pow_val]
+  simp only [Units.val_mul, Units.val_inv_eq_inv_val, Units.val_pow_eq_pow_val]
   field_simp
 
 theorem fixedA2Scalar_frameOmega_pow (n : ℕ) :
@@ -87,15 +89,13 @@ theorem frameA_mem_VlongFixer : frameA (L := L) ∈ VlongFixer L := by
   induction hv using Submodule.span_induction with
   | mem x hx =>
       obtain ⟨γ, hγ, rfl⟩ := hx
-      change (frameA (L := L) : Module.End L (RootModule .E6 L))
-        (rootVec Tag.E6 L γ) = rootVec Tag.E6 L γ
       rw [frameA_eq_rootDiagUnit]
       change rootDiag (frameTorusTuple (L := L) frameExpA) (rootVec Tag.E6 L γ) =
         rootVec Tag.E6 L γ
       rw [rootDiag_rootVec _ (isRoot_of_mem_fixedA2E6 hγ)]
       have hchar : rootChar (frameTorusTuple (L := L) frameExpA) γ = 1 := by
         have hω : (frameOmega (L := L)) ^ 3 = 1 := frameOmega_pow_three (L := L)
-        rw [Set.mem_setOf_eq] at hγ
+        rw [Set.mem_ofPred_eq] at hγ
         rw [frameTorusTuple_frameExpA_eq_diagTuple]
         rw [mem_fixedA2E6] at hγ
         rcases hγ with rfl | rfl | rfl | rfl | rfl | rfl
@@ -135,8 +135,6 @@ theorem frameX_mem_VlongFixer : frameX (L := L) ∈ VlongFixer L := by
   induction hv using Submodule.span_induction with
   | mem x hx =>
       obtain ⟨γ, hγ, rfl⟩ := hx
-      change (frameX (L := L) : Module.End L (RootModule .E6 L))
-        (rootVec Tag.E6 L γ) = rootVec Tag.E6 L γ
       rw [frameX_eq_rootDiagUnit]
       change rootDiag (frameTorusTuple (L := L) frameExpX) (rootVec Tag.E6 L γ) =
         rootVec Tag.E6 L γ
@@ -168,7 +166,7 @@ theorem frameX_mem_VlongFixer : frameX (L := L) ∈ VlongFixer L := by
           frameTorusTuple_frameExpX_values.2.2.2]
         simpa [one_pow] using hprod
       have hchar : rootChar (frameTorusTuple (L := L) frameExpX) γ = 1 := by
-        rw [Set.mem_setOf_eq] at hγ
+        rw [Set.mem_ofPred_eq] at hγ
         rw [mem_fixedA2E6] at hγ
         rcases hγ with rfl | rfl | rfl | rfl | rfl | rfl
         · exact hchar1
@@ -384,6 +382,7 @@ theorem fixedA2Torus_inter_VlongFixer_eq_zpowers_frameA :
       · rw [h, frameA_inv_eq_sq]
         exact ⟨frameA_sq_mem_fixedA2Torus, pow_mem frameA_mem_VlongFixer 2⟩
 
+omit [CharP L 2] in
 theorem normalizer_fixedA2Torus_normalizes_VlongFixer
     (R : ModGL .E6 L) (hRS : R ∈ Subgroup.normalizer (fixedA2Torus L)) :
     R ∈ Subgroup.normalizer (VlongFixer L) := by

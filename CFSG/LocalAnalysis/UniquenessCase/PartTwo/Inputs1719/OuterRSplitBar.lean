@@ -29,6 +29,7 @@ theorem conjClosure_le_opp {M L : Subgroup G} (hL : L ∈ calC M) (hs : IsSimple
   rw [← hN]
   exact Subgroup.map_mono hLopp
 
+omit [Finite G] in
 theorem mk_not_mem_barImage {M N : Subgroup G} (hMN : pCoreOf 2 M ≤ Subgroup.normalizer (N : Set G))
     {r : ℕ} (hr2 : r ≠ 2) (hr : r.Prime) {x : G} (hxM : x ∈ M) {k : ℕ}
     (hk : orderOf x = r ^ k) (hxN : x ∉ N) :
@@ -70,6 +71,7 @@ theorem le_pRank_of_bar2 {M : Subgroup G} {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 
   rw [← h1]
   exact CFSG.SectionRank.le_pRank hr.one_lt (htop ▸ le_top) hE hk
 
+omit [Finite G] in
 theorem center_barImage_eq_bot {M L : Subgroup G} (hL : L ∈ calC M)
     (hZ : Subgroup.center (Bar2 L) = ⊥) : Subgroup.center ↥(barImage M L) = ⊥ := by
   obtain ⟨e⟩ := s13_bar_equiv hL
@@ -84,6 +86,7 @@ theorem exists_pow_pow_not_mem {X : Type*} [Group X] {P : Subgroup X} {y : X} {r
     · exact ih h
     · exact ⟨k, h, by rw [← pow_mul, ← pow_succ]; exact hk⟩
 
+omit [Finite G] in
 theorem exists_orderOf_mk_eq {M : Subgroup G} {x : G} (hxM : x ∈ M) {r i : ℕ} (hr : r.Prime)
     (hi : orderOf x = r ^ i) :
     ∃ k : ℕ, orderOf (QuotientGroup.mk' (CFSG.pCore 2 ↥M) (⟨x, hxM⟩ : ↥M)) = r ^ k := by

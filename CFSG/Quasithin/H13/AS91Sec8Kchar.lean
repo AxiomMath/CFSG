@@ -35,7 +35,7 @@ theorem exists_derived_mul_R (k : ↥c.K) :
   rw [hφk, Subgroup.mem_subgroupOf] at h1
   simpa using h1
 
-theorem kchar' (hJ : HypJ4 G z) {y : G ⧸ c.G1} (hy : y ∈ c.ptsL) (hyx : y ≠ c.x0)
+theorem kchar' (_hJ : HypJ4 G z) {y : G ⧸ c.G1} (hy : y ∈ c.ptsL) (hyx : y ≠ c.x0)
     (M : Subgroup G) (hM : M = c.G1 ⊓ stabilizer G y) (hLU : c.G1 ⊓ stabilizer G y ≤ c.G2)
     (φ : ↥M ≃* ↥M) (k : ↥M) (hk : (k : G) ∈ c.K) : ((φ k : ↥M) : G) ∈ c.K := by
   classical
@@ -104,14 +104,14 @@ theorem kchar' (hJ : HypJ4 G z) {y : G ⧸ c.G1} (hy : y ∈ c.ptsL) (hyx : y �
     map_derivedSeries_le_derivedSeries φ.toMonoidHom 2 (Subgroup.mem_map_of_mem φ.toMonoidHom haM)
   have hφaK : ((φ (ι a) : ↥M) : G) ∈ c.K := hkerK _ (hA hφa)
   let P : Subgroup ↥M := c.R.subgroupOf M
-  haveI hPn : P.Normal := ⟨fun n hn m => by
+  have hPn : P.Normal := ⟨fun n hn m => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     simpa using c.R_conj_G2 (hMG2 m.2) hn⟩
   have hRM : c.R ≤ M := (c.R_le_K).trans hKM
   have hPp : IsPGroup 2 P := by
     refine IsPGroup.of_card (n := 15) ?_
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hRM).toEquiv, c.card_R]
-  haveI : (P.map φ.toMonoidHom).Normal := hPn.map φ.toMonoidHom φ.surjective
+  have : (P.map φ.toMonoidHom).Normal := hPn.map φ.toMonoidHom φ.surjective
   have hφP : IsPGroup 2 (P.map φ.toMonoidHom) := hPp.map φ.toMonoidHom
   have hφr : φ r ∈ P.map φ.toMonoidHom :=
     Subgroup.mem_map_of_mem φ.toMonoidHom (by rw [Subgroup.mem_subgroupOf]; exact hrR)

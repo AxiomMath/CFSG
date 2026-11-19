@@ -87,7 +87,7 @@ theorem typeLayer_fieldAut_pspW (hD : LieSOutTypeW T tm tf tN) {r : ℕ} (hr : 2
       rw [this, hkcard', h2]; norm_num⟩
   have hmodelk : StatedClassicalModel (StatedProj (StatedSp r ↥k)) .PSp r 2 (g / 3) :=
     ⟨hadm, ↥k, inferInstance, inferInstance, hkcard', ⟨MulEquiv.refl _⟩⟩
-  haveI hsk : IsSimpleGroup (StatedProj (StatedSp r ↥k)) :=
+  have hsk : IsSimpleGroup (StatedProj (StatedSp r ↥k)) :=
     CFSG.ClassicalGroups.Symplectic.isSimpleGroup_of_statedClassicalModel_PSp _ r 2 (g / 3)
       hmodelk
   have hmodel : Blueprint.LieModel (StatedProj (StatedSp r ↥k)) .PSp r 2 (g / 3) :=

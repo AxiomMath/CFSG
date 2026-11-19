@@ -44,7 +44,7 @@ theorem kf1422_cube_mem_inf {Y : Type} [Group Y] {J E P : Subgroup Y}
   exact Subgroup.mem_inf.2 ⟨hNΩ _ h3 h9, (Subgroup.mem_inf.1 h3).2⟩
 
 theorem kf1422_conj_div_mem {Y : Type} [Group Y] {J E P : Subgroup Y} (hJ : J.Normal)
-    (hEc : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a) (hEe : ∀ a ∈ E, a ^ 3 = 1) (hEP : E ≤ P)
+    (hEc : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a) (_hEe : ∀ a ∈ E, a ^ 3 = 1) (hEP : E ≤ P)
     (hNc : ∀ x ∈ P ⊓ J, ∀ y ∈ P ⊓ J, x * y = y * x)
     (hN9 : ∀ x ∈ P ⊓ J, x ^ 9 = 1) (hNΩ : ∀ x ∈ P ⊓ J, x ^ 3 = 1 → x ∈ E) {f n : Y}
     (hf : f ∈ E) (hn : n ∈ P ⊓ J) : f * n * f⁻¹ * n⁻¹ ∈ E ⊓ J := by
@@ -102,7 +102,7 @@ theorem kf1422_covering {Y : Type} [Group Y] [Finite Y] {J E : Subgroup Y}
     (hE27 : Nat.card E = 27) (hEJ : Nat.card (E ⊓ J : Subgroup Y) = 9) {x : Y} (hx : x ∈ E)
     (hxJ : x ∉ J) {y : Y} (hy : y ∈ E) (hyJ : y ∉ J) :
     (∃ b ∈ E ⊓ J, y = b * x) ∨ (∃ b ∈ E ⊓ J, y⁻¹ = b * x) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hxB : x ∉ E ⊓ J := fun h => hxJ (Subgroup.mem_inf.1 h).2
   have hzE : Subgroup.zpowers x ≤ E := Subgroup.zpowers_le.2 hx
   have hHE : (E ⊓ J) ⊔ Subgroup.zpowers x ≤ E := sup_le inf_le_left hzE
@@ -311,7 +311,7 @@ theorem kf1422Sp48_center : ∀ (S : Type) [Group S] [Finite S],
   intro S _ _ hS α β hα3 hαc hβ
   obtain ⟨e⟩ := hS
   have hK : Nat.card (GaloisField 2 3) = 2 ^ 3 := GaloisField.card 2 3 (by norm_num)
-  haveI : CharP (GaloisField 2 3) 2 :=
+  have : CharP (GaloisField 2 3) 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
       (by norm_num) hK
   obtain ⟨Fr, hFr, hord, hzp, -, -⟩ :=
@@ -323,8 +323,8 @@ theorem kf1422Sp48_center : ∀ (S : Type) [Group S] [Finite S],
   have hcomm : ∀ a b : CFSG.ComponentClassification.OuterAutomorphisms.Outer
       (StatedProj (StatedSp 2 (GaloisField 2 3))), a * b = b * a := by
     intro a b
-    haveI := hcyc
-    exact IsCyclic.commutative.is_comm.comm a b
+    have := hcyc
+    exact _root_.IsCyclic.isMulCommutative.is_comm.comm a b
   set e' := e.trans (CFSG.RankThree.PartTwo.Sec4.projSpEquivStatedProj 2 (GaloisField 2 3))
     with he'
   set q := QuotientGroup.mk' (CFSG.ComponentClassification.OuterAutomorphisms.inner

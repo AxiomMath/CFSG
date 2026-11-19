@@ -49,7 +49,7 @@ theorem card_outer_adjointGroup_G2_dvd
     ·
       subst hp3
       have hK3 : Nat.card K = 3 ^ f := hK
-      haveI : CharP K CFSG.LieType.Ree.ReeTag.G2.prime :=
+      have : CharP K CFSG.LieType.Ree.ReeTag.G2.prime :=
         finite_field_prime_power_characteristic Nat.prime_three hf hK3
       let Θ : MulAut (adjointGroup CFSG.LieType.Ree.ReeTag.G2.tag K) →*
           Multiplicative (ZMod (2 * f)) :=
@@ -112,7 +112,7 @@ theorem card_outer_reeTitsModel_twistedF4_dvd
 
 theorem not_dvd_card_outer_lieModel_G2
     {X : Type} [Group X] [Finite X] {p f r : ℕ} (h : CFSG.Blueprint.LieModel X .G2 0 p f)
-    (hp : p.Prime) (hr : r.Prime) (hr3 : 3 < r) (hrd : r ∣ p ^ f - 1)
+    (hp : p.Prime) (hr : r.Prime) (hr3 : 3 < r) (_hrd : r ∣ p ^ f - 1)
     (hrf : ¬ r ∣ f) :
     ¬ r ∣ Nat.card (CFSG.ComponentClassification.OuterAutomorphisms.Outer X) := by
   have hc : ChevalleyExceptionalModel X .G2 p f :=
@@ -137,7 +137,7 @@ theorem not_dvd_card_outer_lieModel_G2
 
 theorem not_dvd_card_outer_lieModel_trialityD4
     {X : Type} [Group X] [Finite X] {p f r : ℕ} (h : CFSG.Blueprint.LieModel X .trialityD4 0 p f)
-    (hp : p.Prime) (hr : r.Prime) (hr3 : 3 < r) (hrd : r ∣ p ^ f - 1)
+    (hp : p.Prime) (hr : r.Prime) (hr3 : 3 < r) (_hrd : r ∣ p ^ f - 1)
     (hrf : ¬ r ∣ f) :
     ¬ r ∣ Nat.card (CFSG.ComponentClassification.OuterAutomorphisms.Outer X) := by
   have hc : ChevalleyExceptionalModel X .trialityD4 p f :=
@@ -153,7 +153,7 @@ theorem not_dvd_card_outer_lieModel_trialityD4
 
 theorem not_dvd_card_outer_lieModel_twistedF4
     {X : Type} [Group X] [Finite X] {p f r : ℕ} (h : CFSG.Blueprint.LieModel X .twistedF4 0 p f)
-    (hp : p.Prime) (hr : r.Prime) (hr3 : 3 < r) (hrd : r ∣ p ^ f - 1)
+    (_hp : p.Prime) (_hr : r.Prime) (_hr3 : 3 < r) (_hrd : r ∣ p ^ f - 1)
     (hrf : ¬ r ∣ f) :
     ¬ r ∣ Nat.card (CFSG.ComponentClassification.OuterAutomorphisms.Outer X) := by
   have hRT : ReeTitsModel X .twistedF4 p f :=

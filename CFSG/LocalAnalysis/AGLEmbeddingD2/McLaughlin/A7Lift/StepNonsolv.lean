@@ -63,6 +63,7 @@ noncomputable def wP_mulEquiv_of_le_alternating (c : SevenCtx0 T L)
     rw [show (⟨(w : X ⧸ gnC T), (c.wP_le_L A) hw⟩ : ↥L) = w from Subtype.ext rfl]
     exact congrArg Subtype.val (c.eL.apply_symm_apply ⟨(a : Perm (Fin 7)), hA a.2⟩)
 
+omit [Finite X] in
 theorem le_normalizer_wP (c : SevenCtx0 T L) {R : Subgroup X} (hRL : R ≤ nL T L)
     {A : Subgroup (Perm (Fin 7))}
     (hRA : c.img R ≤ Subgroup.normalizer (A : Set (Perm (Fin 7)))) :
@@ -95,6 +96,7 @@ theorem le_normalizer_wP (c : SevenCtx0 T L) {R : Subgroup X} (hRL : R ≤ nL T 
     have := key r⁻¹ (Rs.inv_mem hr) _ h
     simpa [mul_assoc] using this
 
+omit [Finite X] in
 theorem wP_sup_eq (c : SevenCtx0 T L) {R : Subgroup X} (hRL : R ≤ nL T L)
     {P A : Subgroup (Perm (Fin 7))} (hPA7 : P ≤ alternatingGroup (Fin 7))
     (hPAR : P = A ⊔ c.img R)

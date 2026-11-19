@@ -65,7 +65,7 @@ theorem mul_inv_mem_zpowers_of_refl {V : Type*} [CommGroup V] [Finite V] {z : V}
   have hrange : Nat.card d.range = 3 := by
     have h1 := d.ker.card_mul_index
     rw [Subgroup.index_ker, hker] at h1
-    haveI : Nonempty {b : V // φ b = b} := ⟨⟨1, map_one φ⟩⟩
+    have : Nonempty {b : V // φ b = b} := ⟨⟨1, map_one φ⟩⟩
     exact Nat.eq_of_mul_eq_mul_left Nat.card_pos (h1.trans hφc.symm)
   have hzinv : z⁻¹ = z * z := inv_eq_of_mul_eq_one_right (by rw [← pow_three]; exact hz3)
   have hzr : z ∈ d.range := ⟨z, by
@@ -74,7 +74,7 @@ theorem mul_inv_mem_zpowers_of_refl {V : Type*} [CommGroup V] [Finite V] {z : V}
   have hle : Subgroup.zpowers z ≤ d.range := (Subgroup.zpowers_le).mpr hzr
   have hcz : Nat.card (Subgroup.zpowers z) = 3 := by
     rw [Nat.card_zpowers]
-    haveI := Fact.mk Nat.prime_three
+    have := Fact.mk Nat.prime_three
     exact orderOf_eq_prime hz3 hz1
   have heq := Subgroup.eq_of_le_of_card_ge hle (by rw [hrange, hcz])
   rw [heq]
@@ -116,7 +116,7 @@ theorem ggFrameA4_of_weylOfType {ι : Type} {M : CoxeterMatrix ι}
       g * z * g⁻¹ ∉ Subgroup.zpowers z := by
   by_contra hcon
   simp only [not_exists, not_and, not_not] at hcon
-  letI : CommGroup ↥Bs :=
+  let : CommGroup ↥Bs :=
     { (inferInstance : Group ↥Bs) with mul_comm := fun a b => hBsE.1.is_comm.comm a b }
   let z' : ↥Bs := ⟨z, hzBs⟩
   have hz'3 : z' ^ 3 = 1 := Subtype.ext (by rw [SubgroupClass.coe_pow]; exact hBsE.2 z hzBs)

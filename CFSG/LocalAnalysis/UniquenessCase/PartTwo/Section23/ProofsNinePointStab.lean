@@ -28,6 +28,7 @@ open scoped Pointwise
 variable {G : Type} [Group G] [Finite G]
 variable {D : Data G} {Ch : Choice2011 G}
 
+omit [Finite G] in
 theorem Hinf_eq_bot_of_isSolvable {H : Subgroup G} (h : Group.IsSolvable ↥H) :
     Hinf H = ⊥ := by
   obtain ⟨n, hn⟩ := Group.IsSolvable.solvable (G := ↥H)
@@ -126,11 +127,11 @@ private theorem isSolvable_map_barImage (c : Ctx23L D Ch) (hO2 : S23_9_O2L D Ch)
   have hNsolv : Group.IsSolvable ↥(Subgroup.normalizer
       ((P : Subgroup (Matrix.SpecialLinearGroup (Fin 2) F)) :
         Set (Matrix.SpecialLinearGroup (Fin 2) F))) :=
-    CFSG.Quasithin.E1.RootLift.isSolvable_normalizer P.isPGroup' hPcard
+    CFSG.Quasithin.E1.RootLift.isSolvable_normalizer P.isPGroup hPcard
   have hRle : R ≤ Subgroup.normalizer
       ((P : Subgroup (Matrix.SpecialLinearGroup (Fin 2) F)) :
         Set (Matrix.SpecialLinearGroup (Fin 2) F)) :=
-    (CFSG.Quasithin.E1.RootLift.le_normalizer_or_eq_top P.isPGroup' hPcard hPleR).resolve_right
+    (CFSG.Quasithin.E1.RootLift.le_normalizer_or_eq_top P.isPGroup hPcard hPleR).resolve_right
       hRne
   exact Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hRle)
     (Subgroup.inclusion_injective hRle)
@@ -140,10 +141,10 @@ private theorem isSolvable_barImage (c : Ctx23L D Ch) (hO2 : S23_9_O2L D Ch)
     Group.IsSolvable ↥(barImageInf c) := by
   obtain ⟨F, hF, hFfin, hFchar, -, ⟨e⟩⟩ :=
     P22y.exists_equiv_sl2 (P22fin.isL2Ev_of_isL2 hL2).1
-  letI : Field F := hF
-  letI : Finite F := hFfin
-  letI : CharP F 2 := hFchar
-  haveI : Group.IsSolvable ↥((barImageInf c).map e.toMonoidHom) :=
+  let : Field F := hF
+  let : Finite F := hFfin
+  let : CharP F 2 := hFchar
+  have : Group.IsSolvable ↥((barImageInf c).map e.toMonoidHom) :=
     isSolvable_map_barImage c hO2 h1930 e
   let ee := Subgroup.equivMapOfInjective (barImageInf c) e.toMonoidHom e.injective
   exact Group.isSolvable_of_surjective (f := ee.symm.toMonoidHom) ee.symm.surjective
@@ -160,13 +161,13 @@ private theorem isSolvable_inf_of_isSolvable_barImage (c : Ctx23L D Ch)
       rw [MonoidHom.ker_domRestrict, show (barMap c).ker = CFSG.pCore 2 ↥c.L from
         QuotientGroup.ker_mk' _]
       exact CFSG.pCore_isPGroup.comap_of_injective A.subtype A.subtype_injective
-    haveI : Group.IsNilpotent ↥((barMap c).domRestrict A).ker := hKp.isNilpotent
+    have : Group.IsNilpotent ↥((barMap c).domRestrict A).ker := hKp.isNilpotent
     exact IsNilpotent.to_isSolvable
   have hAsolv : Group.IsSolvable ↥A := by
-    haveI : Group.IsSolvable ((barMap c).domRestrict A).ker := hker
-    haveI : Group.IsSolvable ((barMap c).domRestrict A).range := hrange
+    have : Group.IsSolvable ((barMap c).domRestrict A).ker := hker
+    have : Group.IsSolvable ((barMap c).domRestrict A).range := hrange
     exact CFSG.isSolvable_of_solvable_ker_range ((barMap c).domRestrict A)
-  haveI : Group.IsSolvable ↥A := hAsolv
+  have : Group.IsSolvable ↥A := hAsolv
   exact Group.isSolvable_of_surjective
     (f := (Subgroup.subgroupOfEquivOfLe (inf_le_right : D.M ⊓ c.L ≤ c.L)).toMonoidHom)
     (Subgroup.subgroupOfEquivOfLe (inf_le_right : D.M ⊓ c.L ≤ c.L)).surjective
@@ -190,8 +191,8 @@ theorem s23_9_PointStab_of (D : Data G) (Ch : Choice2011 G) (h4 : S23_4 D Ch)
   · intro a hO
     have hO' := hO
     obtain ⟨-, K, hK, hKfin, b, d, hKcard, -, -⟩ := hO'
-    letI : Field K := hK
-    letI : Finite K := hKfin
+    let : Field K := hK
+    let : Finite K := hKfin
     have hK2 : 2 ≤ Nat.card K := by
       have h := Finite.one_lt_card (α := K)
       omega

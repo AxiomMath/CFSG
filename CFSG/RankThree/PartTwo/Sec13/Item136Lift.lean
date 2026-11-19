@@ -25,7 +25,7 @@ theorem exists_isPGroup_le_map_eq {M : Subgroup H}
   have hEY : E ≤ Y := le_inf hEM (Subgroup.map_le_iff_le_comap.mp hEB)
   have hE' : IsPGroup 3 (E.subgroupOf Y) := hE.of_equiv (Subgroup.subgroupOfEquivOfLe hEY).symm
   obtain ⟨Q, hQ⟩ := hE'.exists_le_sylow
-  refine ⟨(Q : Subgroup Y).map Y.subtype, ?_, ?_, Q.isPGroup'.map _, ?_⟩
+  refine ⟨(Q : Subgroup Y).map Y.subtype, ?_, ?_, Q.isPGroup.map _, ?_⟩
   · intro x hx
     exact ⟨⟨x, hEY hx⟩, hQ (Subgroup.mem_subgroupOf.mpr hx), rfl⟩
   · rintro _ ⟨y, -, rfl⟩

@@ -20,6 +20,7 @@ private theorem quadSign_restrict_congr' {A B : Submodule (ZMod 3) V} (h : A = B
     quadSign (Q.restrict A) = quadSign (Q.restrict B) := by
   rw [h]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem mem_fixSp_of_polar_eq_zero (hQ : Q.Nondegenerate) {g : OGroup Q} (hg : g * g = 1) {w : V}
     (hw : ∀ v ∈ commSp g, QuadraticMap.polar Q v w = 0) : w ∈ fixSp g := by
   have hB : Q.polarBilin.Nondegenerate := QuadraticMap.nondegenerate_polar_iff.mpr hQ
@@ -32,11 +33,13 @@ theorem mem_fixSp_of_polar_eq_zero (hQ : Q.Nondegenerate) {g : OGroup Q} (hg : g
     exact hw _ (sub_mem_commSpace _ y)
   exact sub_eq_zero.mp h0
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem commSp_le_fixSp_of_orth (hQ : Q.Nondegenerate) {g h : OGroup Q} (hg : g * g = 1)
     (horth : ∀ v ∈ commSp g, ∀ w ∈ commSp h, QuadraticMap.polar Q v w = 0) :
     commSp h ≤ fixSp g :=
   fun w hw => mem_fixSp_of_polar_eq_zero hQ hg fun v hv => horth v hv w hw
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem mul_comm_of_orth (hQ : Q.Nondegenerate) {g h : OGroup Q} (hg : g * g = 1)
     (hh : h * h = 1)
     (horth : ∀ v ∈ commSp g, ∀ w ∈ commSp h, QuadraticMap.polar Q v w = 0) :
@@ -63,6 +66,7 @@ theorem mul_comm_of_orth (hQ : Q.Nondegenerate) {g h : OGroup Q} (hg : g * g = 1
   rw [e3, e4]
   abel
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem mul_mul_self_of_orth (hQ : Q.Nondegenerate) {g h : OGroup Q} (hg : g * g = 1)
     (hh : h * h = 1)
     (horth : ∀ v ∈ commSp g, ∀ w ∈ commSp h, QuadraticMap.polar Q v w = 0) :
@@ -73,6 +77,7 @@ theorem mul_mul_self_of_orth (hQ : Q.Nondegenerate) {g h : OGroup Q} (hg : g * g
     _ = (g * g) * (h * h) := by group
     _ = 1 := by rw [hg, hh, mul_one]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem commSp_mul_of_orth (hQ : Q.Nondegenerate) {g h : OGroup Q} (hg : g * g = 1)
     (hh : h * h = 1)
     (horth : ∀ v ∈ commSp g, ∀ w ∈ commSp h, QuadraticMap.polar Q v w = 0) :

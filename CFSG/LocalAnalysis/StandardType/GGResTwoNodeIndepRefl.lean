@@ -35,7 +35,7 @@ private theorem l6aR_moves {p : ℕ} [Fact p.Prime] {G : Type} [Group G] [Finite
     intro w
     show ggLin (p := p) ι (1 : MulAut ↥Bs) w - w ∈ U
     rw [map_one]
-    simpa using (Submodule.zero_mem U : (0 : V) ∈ U)
+    simp
   have hmulQ : ∀ a b : MulAut ↥Bs, Q a → Q b → Q (a * b) := by
     intro a b ha hb w
     have h1 : ggLin (p := p) ι b w - w ∈ U := hb w
@@ -71,7 +71,7 @@ private theorem l6aR_moves {p : ℕ} [Fact p.Prime] {G : Type} [Group G] [Finite
   · intro x _ hx
     exact hinvQ x hx
 
-theorem ggIndep_card_A1 {p N : ℕ} [Fact p.Prime] (hp : p ≠ 2) (hN : 5 ≤ N)
+theorem ggIndep_card_A1 {p N : ℕ} [Fact p.Prime] (_hp : p ≠ 2) (hN : 5 ≤ N)
     {G : Type} [Group G] [Finite G] {Bs : Subgroup G} {V : Type} [AddCommGroup V]
     [Module (ZMod p) V] {z : G} (hz : z ∈ Bs) (ι : Additive ↥Bs ≃+ V)
     {Λ : Type} [Fintype Λ] {φ : Λ → MulAut ↥Bs} {h : Λ → V}
@@ -202,8 +202,8 @@ theorem ggIndep_card
         ggLin (p := p) ι (φ (e i))) ∪ {ggLin (p := p) ι t})) ≤
       p ^ Module.finrank (ZMod p) ↥W * (6 * (p - 1) * Nat.factorial N) := by
   classical
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Module.Finite (ZMod p) V := Module.Finite.of_finite
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Module.Finite (ZMod p) V := Module.Finite.of_finite
   let r : Fin (N - 1) → (V ≃ₗ[ZMod p] V) := fun i => ggLin (p := p) ι (φ (e i))
   let ra : V ≃ₗ[ZMod p] V := ggLin (p := p) ι t
   let R : Subgroup (V ≃ₗ[ZMod p] V) := Subgroup.closure (Set.range r ∪ {ra})
@@ -258,7 +258,7 @@ theorem ggIndep_card
       have hh := congrArg (fun z : W => (z : V)) h
       have h1 := congrArg (fun v : V => v + z') hh
       simpa using h1
-  haveI : Finite W := Finite.of_injective (fun u : W => (u : V)) Subtype.val_injective
+  have : Finite W := Finite.of_injective (fun u : W => (u : V)) Subtype.val_injective
   have hWcard : Nat.card W = p ^ Module.finrank (ZMod p) ↥W :=
     (FiniteField.pow_finrank_eq_natCard p W).symm
   let A' : Subgroup (MulAut ↥Bs) := A₁ ⊔ A₂
@@ -322,14 +322,14 @@ theorem ggIndep_card
       _ ≤ (p - 1) * 6 * Nat.card ↥A₁ := hstab
   have hAl : Nat.card ↥A₁ ≤ Nat.factorial N := ggIndep_card_A1 hp hN hz ι hφ hA₁ e F
   have hRcard : Nat.card ↥R = Nat.card orb * Nat.card ↥(MulAction.stabilizer (↥R) z') := by
-    haveI : Finite (V ≃ₗ[ZMod p] V) :=
+    have : Finite (V ≃ₗ[ZMod p] V) :=
       Finite.of_injective (fun g : V ≃ₗ[ZMod p] V => (g : V → V))
         (fun _ _ h => LinearEquiv.ext (congrFun h))
-    haveI : Finite ↥R := Finite.of_injective (fun g : ↥R => (g : V ≃ₗ[ZMod p] V))
+    have : Finite ↥R := Finite.of_injective (fun g : ↥R => (g : V ≃ₗ[ZMod p] V))
       Subtype.val_injective
-    haveI : Fintype ↥R := Fintype.ofFinite ↥R
-    haveI : Fintype orb := Fintype.ofFinite orb
-    haveI : Fintype ↥(MulAction.stabilizer (↥R) z') := Fintype.ofFinite _
+    have : Fintype ↥R := Fintype.ofFinite ↥R
+    have : Fintype orb := Fintype.ofFinite orb
+    have : Fintype ↥(MulAction.stabilizer (↥R) z') := Fintype.ofFinite _
     have hOS := MulAction.card_orbit_mul_card_stabilizer_eq_card_group (G := ↥R) z'
     simp only [← Nat.card_eq_fintype_card] at hOS
     exact hOS.symm

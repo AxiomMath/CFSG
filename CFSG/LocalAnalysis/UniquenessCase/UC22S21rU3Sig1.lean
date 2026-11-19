@@ -49,7 +49,7 @@ theorem s21_22Use_of_s21_22Sig1
     (hn3 : H1930 D → ∀ c : Ctx21 D Ch, 3 ≤ c.n) (h869P : F08.R869NPair D)
     (h8100E : R8100E D)
     (h76 : ∀ p ∈ D.sig, IsStronglyPEmbedded p D.M → Conclusion76 D.M p)
-    (h614 : UC6.R6_14 D) (h847 : F08.R847 D) (h869 : F08.R869NS5 D) (hGL : GL3Excl.GL3Excl)
+    (h614 : UC6.R6_14 D) (h847 : F08.R847 D) (h869 : F08.R869NS5 D) (hGL : CFSG.LocalAnalysis.UniquenessCase.GL3Excl)
     (hU : R8101U3 D) (hsig : S21_22Sig1 D Ch) : S21_22Use D Ch := by
   intro h1930 c H₁ hH₁ H₂ hH₂ hL hfX
   exact s21_22Use_of_s21_22U3_U4 D Ch st hr77 he h21EB

@@ -50,7 +50,7 @@ public theorem secondCase_a7_sylow_le_component
       rw [Subgroup.mem_bot]
       have hxS : x ∈ (SE : Subgroup d.E) := (Subgroup.mem_inf.mp hx).1
       have hxZ : x ∈ Z := (Subgroup.mem_inf.mp hx).2
-      rcases SE.isPGroup'.exists_card_eq with ⟨n, hn⟩
+      rcases SE.isPGroup.exists_card_eq with ⟨n, hn⟩
       have hdvd : orderOf x ∣ 2 ^ n := by
         have hd : orderOf x ∣ Nat.card (SE : Subgroup d.E) :=
           Subgroup.orderOf_dvd_natCard (SE : Subgroup d.E) hxS
@@ -104,7 +104,7 @@ public theorem secondCase_a7_sylow_le_component
     have hmapSQ : (SQ : Subgroup (d.E ⧸ Z)) =
         (SE : Subgroup d.E).map qE :=
       (Sylow.coe_mapSurjective (QuotientGroup.mk'_surjective Z) SE).symm
-    rw [hformula, ← hmapSQ, show qE.ker = Z by simpa [qE] using QuotientGroup.ker_mk' Z,
+    rw [hformula, ← hmapSQ, show qE.ker = Z by simp [qE],
       hSEker, hcardSQ]
     simp
   let Aamb : Subgroup G := (SM0 : Subgroup w.M).map w.M.subtype

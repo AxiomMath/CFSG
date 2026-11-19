@@ -109,6 +109,7 @@ theorem exists_mem_W_not_mem_Y [Finite G] (hK : 4 ≤ Nat.card K) : ∃ w ∈ d.
   have hq : 1 < Nat.card K := by omega
   exact absurd h3 (not_le.2 (Nat.pow_lt_pow_right hq (by norm_num)))
 
+omit [Finite K] in
 theorem twoElementaryProduct_F : Common.TwoElementaryProduct d.F d.W d.X where
   le_left := d.inclusions.2.2.2.2.1
   le_right := d.inclusions.2.2.2.1

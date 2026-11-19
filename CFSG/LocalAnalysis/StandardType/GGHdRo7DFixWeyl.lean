@@ -21,7 +21,7 @@ private noncomputable def hdRo7DFixAux_bU {p : ℕ} {V : Type} [AddCommGroup V]
   let v : Fin n → LinearMap.ker (b.coord 0) := fun j =>
     ⟨b j.succ, by
       rw [LinearMap.mem_ker, Module.Basis.coord_apply, Module.Basis.repr_self_apply,
-        if_neg (Fin.succ_ne_zero j)]⟩
+        ite_eq_right (Fin.succ_ne_zero j)]⟩
   Module.Basis.mk
     (v := v)
     (LinearIndependent.of_comp (LinearMap.ker (b.coord 0)).subtype (by
@@ -52,7 +52,7 @@ private lemma hdRo7DFixAux_bU_apply {p : ℕ} {V : Type} [AddCommGroup V]
 private lemma hdRo7DFixAux_b_mem_U {p : ℕ} {V : Type} [AddCommGroup V]
     [Module (ZMod p) V] {n : ℕ} (b : Module.Basis (Fin (n + 1)) (ZMod p) V)
     {i : Fin (n + 1)} (hi : i ≠ 0) : b i ∈ LinearMap.ker (b.coord 0) := by
-  rw [LinearMap.mem_ker, Module.Basis.coord_apply, Module.Basis.repr_self_apply, if_neg hi]
+  rw [LinearMap.mem_ker, Module.Basis.coord_apply, Module.Basis.repr_self_apply, ite_eq_right hi]
 
 private lemma hdRo7DFixAux_c2sp_fix0 {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V]
     [Module (ZMod p) V] {n : ℕ} {b : Module.Basis (Fin (n + 1)) (ZMod p) V}
@@ -127,7 +127,7 @@ private lemma hdRo7DFixAux_prod_sign {p : ℕ} [Fact p.Prime] {n : ℕ} (hn : 0 
     have hv := congrArg Fin.val h
     rw [Fin.val_zero, Fin.val_last] at hv
     omega
-  rw [if_neg h0, one_mul]
+  rw [ite_eq_right h0, one_mul]
   exact hdRo7DFixAux_prod_sign_succ hn
 
 private lemma hdRo7DFixAux_prod_pm_one {p : ℕ} [Fact p.Prime] {n : ℕ}

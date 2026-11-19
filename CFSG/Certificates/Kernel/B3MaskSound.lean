@@ -355,7 +355,7 @@ theorem tmTestBit_orN_nIf {m w : ℕ} {p : ℕ → Bool} :
     · simp at h
   · rintro ⟨hw, hp⟩
     refine ⟨w, hw, ?_⟩
-    rw [tmNIf, if_pos hp]
+    rw [tmNIf, ite_eq_left hp]
     exact tmTestBit_one.2 rfl
 
 theorem tmInv_lt (d : Dat) {s : ℕ} (h : bit d.invM s = true) : s < d.nT := by
@@ -529,7 +529,7 @@ theorem decT_pmul {n a b : ℕ} (hb : ∀ p < n, pt b p < n) :
 
 theorem decT_pswap {n a b : ℕ} (hn : n ≤ 8) (ha : a < n) (hb : b < n) :
     decT n (pswap n a b) = tab (swapN n a b) := by
-  have hs : swapN n a b = Equiv.swap ⟨a, ha⟩ ⟨b, hb⟩ := dif_pos ⟨ha, hb⟩
+  have hs : swapN n a b = Equiv.swap ⟨a, ha⟩ ⟨b, hb⟩ := dite_eq_left ⟨ha, hb⟩
   rw [hs]
   apply List.ext_getElem
   · rw [decT_length, length_tab]
@@ -672,12 +672,12 @@ theorem tmOrN_shift {w : ℕ} {g : ℕ → ℕ} : ∀ z, (∀ x < z, g x < 2 ^ w
         nlinarith
     · rw [tmEnt_lor_shift h1, h2, tmEnt_small hgz]
       by_cases hy : y < z
-      · rw [if_pos hy, if_pos hy, if_pos (by omega)]
-      · rw [if_neg hy]
+      · rw [ite_eq_left hy, ite_eq_left hy, ite_eq_left (by omega)]
+      · rw [ite_eq_right hy]
         by_cases hyz : y = z
         · subst hyz
-          rw [if_pos (Nat.sub_self y), if_pos (Nat.lt_succ_self y)]
-        · rw [if_neg (by omega), if_neg (by omega)]
+          rw [ite_eq_left (Nat.sub_self y), ite_eq_left (Nat.lt_succ_self y)]
+        · rw [ite_eq_right (by omega), ite_eq_right (by omega)]
 
 theorem tmSpanP_cons (d : Dat) (s : ℕ) (c : List ℕ) :
     d.spanP (s :: c) = Nat.lor (d.spanP c) (Nat.shiftLeft (orN (2 ^ c.length)
@@ -723,7 +723,7 @@ theorem tmSpanE_cons (d : Dat) (s : ℕ) (c : List ℕ) (y : ℕ) :
 
 theorem tmSpanE_zero (d : Dat) : ∀ b, spanE d b 0 = 0
   | [] => tmSpanE_nil d 0
-  | s :: c => by rw [tmSpanE_cons, if_pos (Nat.two_pow_pos _), tmSpanE_zero d c]
+  | s :: c => by rw [tmSpanE_cons, ite_eq_left (Nat.two_pow_pos _), tmSpanE_zero d c]
 
 theorem tmSpanE_lt (d : Dat) (hnT : 0 < d.nT) (hmt : ∀ i < d.nT, ∀ j < d.nT, d.mt i j < d.nT) :
     ∀ b : List ℕ, (∀ s ∈ b, s < d.nT) → ∀ x, spanE d b x < d.nT
@@ -746,11 +746,11 @@ theorem tmSpanL_cons (d : Dat)
   congr 1
   · refine List.map_congr_left fun x hx => ?_
     rw [List.mem_range] at hx
-    rw [tmSpanE_cons, if_pos hx]
+    rw [tmSpanE_cons, ite_eq_left hx]
   · refine List.map_congr_left fun x hx => ?_
     rw [List.mem_range] at hx
     simp only [Function.comp_apply]
-    rw [tmSpanE_cons, if_neg (by omega), Nat.add_sub_cancel_left, if_pos hx, hmul s hs _ (hc x)]
+    rw [tmSpanE_cons, ite_eq_right (by omega), Nat.add_sub_cancel_left, ite_eq_left hx, hmul s hs _ (hc x)]
 
 theorem chainOK_of_done {G : List Tab} {idt : Tab} :
     ∀ (L done : List Tab), (∀ x ∈ L, x = idt ∨ ∃ g ∈ G, ∃ y ∈ done, mulT g y = x) →
@@ -782,7 +782,7 @@ theorem chainOK_append {G : List Tab} {idt : Tab} (L2 : List Tab) :
   | [], _ => by simp [chainOK]
   | x :: L1, done => by
     simp only [List.cons_append, chainOK, chainOK_append L2 L1 (x :: done), Bool.and_assoc,
-      List.reverse_cons, List.append_assoc, List.singleton_append, List.nil_append]
+      List.reverse_cons, List.append_assoc, List.nil_append]
 
 theorem tmSpanL_chain (d : Dat) (hnT : 0 < d.nT)
     (hmt : ∀ i < d.nT, ∀ j < d.nT, d.mt i j < d.nT)
@@ -1030,7 +1030,7 @@ include hn8 hT
 theorem eaG_tab {y : ℕ} (hy : y < d.nT) : tab (eaG d y) = d.tl y := by
   have h : isTab d.n (d.tl y) = true := (tmIsTab ((tmFacts d hn8 hT).2.1 y hy)).1
   unfold eaG
-  rw [dif_pos h]
+  rw [dite_eq_left h]
   exact (exists_tab_eq h).choose_spec
 
 theorem eaG_mul {i j : ℕ} (hi : i < d.nT) (hj : j < d.nT) :
@@ -1066,19 +1066,19 @@ theorem eaSp_cons {s : ℕ} {c : List ℕ} {y : ℕ} :
     rw [List.length_cons, Nat.pow_succ] at hx
     rw [tmSpanE_cons]
     by_cases h1 : x < 2 ^ c.length
-    · rw [if_pos h1]
+    · rw [ite_eq_left h1]
       exact Or.inl ⟨x, h1, rfl⟩
-    · rw [if_neg h1, if_pos (by omega)]
+    · rw [ite_eq_right h1, ite_eq_left (by omega)]
       exact Or.inr ⟨_, ⟨x - 2 ^ c.length, by omega, rfl⟩, rfl⟩
   · rintro (⟨x, hx, rfl⟩ | ⟨_, ⟨x, hx, rfl⟩, rfl⟩)
     · refine ⟨x, ?_, ?_⟩
       · rw [List.length_cons, Nat.pow_succ]
         omega
-      · rw [tmSpanE_cons, if_pos hx]
+      · rw [tmSpanE_cons, ite_eq_left hx]
     · refine ⟨x + 2 ^ c.length, ?_, ?_⟩
       · rw [List.length_cons, Nat.pow_succ]
         omega
-      · rw [tmSpanE_cons, if_neg (by omega), if_pos (by omega), Nat.add_sub_cancel]
+      · rw [tmSpanE_cons, ite_eq_right (by omega), ite_eq_left (by omega), Nat.add_sub_cancel]
 
 theorem eaSp_lt {b : List ℕ} (hb : ∀ s ∈ b, s < d.nT) {y : ℕ} (h : eaSp d b y) : y < d.nT := by
   obtain ⟨hnT, -, hmt, -⟩ := tmFacts d hn8 hT
@@ -1167,6 +1167,7 @@ theorem eaSp_facts : ∀ b : List ℕ, (∀ s ∈ b, s < d.nT) → (∀ s ∈ b,
         rw [hg, eaG_mul d hn8 hT (hlt u hu) (hlt u' hu'), mul_assoc,
           (hsc u hu).symm.left_comm, ← mul_assoc, hss, one_mul]
 
+omit hn8 hT in
 theorem eaSp_zero (b : List ℕ) : eaSp d b 0 := ⟨0, Nat.two_pow_pos _, tmSpanE_zero d b⟩
 
 theorem eaSp_gen : ∀ b : List ℕ, (∀ s ∈ b, s < d.nT) → ∀ s ∈ b, eaSp d b s
@@ -1175,7 +1176,7 @@ theorem eaSp_gen : ∀ b : List ℕ, (∀ s ∈ b, s < d.nT) → ∀ s ∈ b, ea
     obtain ⟨hnT, -, hmt, -⟩ := tmFacts d hn8 hT
     have hb' : ∀ x ∈ c, x < d.nT := fun x hx => hb x (List.mem_cons_of_mem _ hx)
     rcases List.mem_cons.1 hs with rfl | hs
-    · refine (eaSp_cons d).2 (Or.inr ⟨0, eaSp_zero d hn8 hT c, ?_⟩)
+    · refine (eaSp_cons d).2 (Or.inr ⟨0, eaSp_zero d c, ?_⟩)
       have ht := hb s List.mem_cons_self
       refine eaG_inj d hn8 hT (hmt s ht 0 hnT) ht ?_
       rw [eaG_mul d hn8 hT ht hnT, eaG_zero d hn8 hT, mul_one]
@@ -1242,7 +1243,7 @@ theorem eaM_facts (h : chkEAM d = true) {j : ℕ} (hj : j < d.nD) :
     by rw [hpop, tmOne], fun u hu hsq hnot hc => ?_⟩
   have hu0 : 0 < u := by
     rcases Nat.eq_zero_or_pos u with rfl | h
-    · rw [(hbit 0).2 (eaSp_zero d hn8 hT b)] at hnot
+    · rw [(hbit 0).2 (eaSp_zero d b)] at hnot
       exact absurd hnot (by decide)
     · exact h
   have huu : d.mt u u = 0 := by
@@ -1364,7 +1365,7 @@ theorem chkEAM_sound (d : Dat) (hn8 : d.n ≤ 8) (hbp : chkBP = true) (hT : chkT
       fun a ha b hb => ?_, fun a ha => ?_⟩
     · obtain ⟨y, hy, rfl⟩ := (hDL j hj t).1 ht
       exact (tmIsTab (hperm y (hSplt j hj y hy))).1
-    · exact (hDL j hj _).2 ⟨0, eaSp_zero d hn8 hT _, hid⟩
+    · exact (hDL j hj _).2 ⟨0, eaSp_zero d _, hid⟩
     · obtain ⟨y, hy, rfl⟩ := (hDL j hj a).1 ha
       obtain ⟨y', hy', rfl⟩ := (hDL j hj b).1 hb
       rw [hmul y (hSplt j hj y hy) y' (hSplt j hj y' hy')]
@@ -1473,8 +1474,8 @@ theorem chkEAM_sound (d : Dat) (hn8 : d.n ≤ 8) (hbp : chkBP = true) (hT : chkT
     · exact tmSpanL_iff d (fun x => tmSpanE_lt d hnT hmt _ (hblt j hj) x)
         (fun y => (hF j hj).2.2.1 y) t
 
-theorem chkNamedM_sound (d : Dat) (hn : 5 ≤ d.n) (hn8 : d.n ≤ 8) (hbp : chkBP = true)
-    (hT : chkTM d = true) (hEA : chkEAM d = true) (h : chkNamedM d = true)
+theorem chkNamedM_sound (d : Dat) (hn : 5 ≤ d.n) (hn8 : d.n ≤ 8) (_hbp : chkBP = true)
+    (hT : chkTM d = true) (_hEA : chkEAM d = true) (h : chkNamedM d = true)
     (hAmT : ∀ b ∈ d.Am, ∀ x ∈ b, x < d.nT) (hA0T : ∀ x ∈ d.A0, x < d.nT) :
     (∀ i < d.n / 2, d.ix i < d.nD ∧ ∃ S : List Tab,
       chainOK ((gensAm d.n (i + 1)).map tab) (idT d.n) [] S = true ∧
@@ -1513,7 +1514,7 @@ theorem chkNamedM_sound (d : Dat) (hn : 5 ≤ d.n) (hn8 : d.n ≤ 8) (hbp : chkB
     have hiA : i < d.Am.length := by rw [hAmLen]; exact hi
     have h1 := tmAllI hAmTab i hiA
     have h2 := tmAllI hAmSpan i hiA
-    simp only [Bool.and_eq_true, Nat.beq_eq, tmLenL, tmAdd, tmMul] at h1 h2
+    simp only [Bool.and_eq_true, Nat.beq_eq] at h1 h2
     obtain ⟨hlen, hent⟩ := h1
     have hbT : ∀ s ∈ d.Am[i], s < d.nT := hAmT _ (List.getElem_mem _)
     have hmap : d.Am[i].map d.tl = (gensAm d.n (i + 1)).map tab := by
@@ -1577,15 +1578,15 @@ theorem chkNamedM_sound (d : Dat) (hn : 5 ≤ d.n) (hn8 : d.n ≤ 8) (hbp : chkB
       List.mem_range, decide_eq_true_eq, List.not_mem_nil, or_false] at hσ
     rcases hσ with (rfl | rfl) | ⟨i, ⟨hi, h2i⟩, rfl⟩
     · have e := hent 0 (by omega)
-      rw [if_pos rfl] at e
+      rw [ite_eq_left rfl] at e
       rw [← e]
       exact hgen _ (List.getElem_mem _)
     · have e := hent 1 (by omega)
-      rw [if_neg (by omega), if_pos rfl] at e
+      rw [ite_eq_right (by omega), ite_eq_left rfl] at e
       rw [← e]
       exact hgen _ (List.getElem_mem _)
     · have e := hent i (by omega)
-      rw [if_neg (by omega), if_neg (by omega)] at e
+      rw [ite_eq_right (by omega), ite_eq_right (by omega)] at e
       rw [← e]
       exact hgen _ (List.getElem_mem _)
   ·
@@ -1750,10 +1751,10 @@ theorem mmPackL (w : ℕ) :
     rw [e, tmEnt_lor_shift (by rwa [Nat.mul_one])]
     cases i with
     | zero =>
-      rw [if_pos Nat.one_pos, tmEnt_small hx, if_pos rfl]
+      rw [ite_eq_left Nat.one_pos, tmEnt_small hx, ite_eq_left rfl]
       simp
     | succ i =>
-      rw [if_neg (by omega), Nat.add_sub_cancel,
+      rw [ite_eq_right (by omega), Nat.add_sub_cancel,
         mmPackL w L (fun y hy => hL y (List.mem_cons_of_mem _ hy)) i]
       simp
 
@@ -2024,6 +2025,7 @@ theorem mmRep (hbp : chkBP = true) (c j : ℕ) (hc : c = 2 → d.n = 8) :
     refine ⟨(mmSub d hn8 hT (tmEnt_lt _ _ _)).2 a, ?_, fun h => e ((hE _).1 h)⟩
     exact (congrArg (2 * ·) (hl j)).symm.trans (b.trans (hl _))
 
+omit hn8 hT in
 theorem mmNamed (hbp : chkBP = true) (hN : chkNamedM d = true) :
     (∀ i < d.h + 2, d.ix i < d.nD) ∧ (∀ i < d.h, (d.DL (d.ix i)).length = 2 ^ (i + 1)) ∧
       (d.DL (d.ix d.h)).length = 2 ^ d.h := by
@@ -2036,7 +2038,7 @@ theorem mmNamed (hbp : chkBP = true) (hN : chkNamedM d = true) :
     rw [tmLget, List.getD_eq_getElem _ _ (by rw [hnmwLen]; exact hi)]
     exact hnmwD _ (List.getElem_mem _)
   · have h2 := tmAllI hAmSpan i (by rw [hAmLen]; exact hi)
-    simp only [Bool.and_eq_true, Nat.beq_eq, tmLenL, tmAdd, tmMul] at h2
+    simp only [Bool.and_eq_true, Nat.beq_eq] at h2
     exact (mmLen d hbp (tmEnt_lt _ _ _)).trans (h2.2.trans (tmOne _))
   · exact (mmLen d hbp (tmEnt_lt _ _ _)).trans (hA0pop.trans (tmOne _))
 
@@ -2111,9 +2113,8 @@ theorem mmClos {S : List ℕ} {ch : List (ℕ × ℕ × ℕ)} {J : ℕ} (h : d.c
       (∀ t, t ∈ Sc ↔ t ∈ d.mL J) ∧ subOK d.n (d.mL J) = true ∧ ∀ s ∈ S, bit J s = true := by
   obtain ⟨hnT, hperm, hmt, hmul, hid, -⟩ := tmFacts d hn8 hT
   unfold Dat.closOK at h
-  simp only [mmBOr, mmBIfF, tmBAnd, tmBImp, tmBeq, Bool.or_eq_true, Bool.and_eq_true,
-    Bool.not_eq_true', beq_iff_eq, beq_eq_false_iff_ne, ne_eq, mmAnyN, tmAllN, tmMul, tmAdd,
-    tmLetB, tmAllL, Nat.blt_eq, Nat.ble_eq] at h
+  simp only [tmBAnd, tmBImp, tmBeq, Bool.or_eq_true, Bool.and_eq_true,
+    Bool.not_eq_true', beq_iff_eq, tmAllN, tmLetB, tmAllL] at h
   obtain ⟨h0, hSJ, hcl, hch⟩ := h
   have hSJ' : ∀ s ∈ S, bit J s = true := by
     intro s hs
@@ -2200,6 +2201,7 @@ theorem mmClos {S : List ℕ} {ch : List (ℕ × ℕ × ℕ)} {J : ℕ} (h : d.c
       rw [← eaG_tab d hn8 hT hyl, ← tab_inv, hinv, eaG_tab d hn8 hT hzl]
       exact (hmemJ _).2 ⟨z, hz, rfl⟩
 
+omit hT in
 theorem mmPinv {a : ℕ} (h : isPerm d.n a = true) :
     decT d.n (pinv d.n a) = invT (decT d.n a) ∧ ∀ p < d.n, pt (pinv d.n a) p < d.n := by
   obtain ⟨hTb, -, -⟩ := tmIsTab h
@@ -2213,7 +2215,7 @@ theorem mmPinv {a : ℕ} (h : isPerm d.n a = true) :
   let f : ℕ → ℕ := fun p => if hp : p < d.n then (σ⁻¹ ⟨p, hp⟩ : ℕ) else 0
   have hf : ∀ p < d.n, f p < 8 := by
     intro p hp
-    simp only [f, dif_pos hp]
+    simp only [f, dite_eq_left hp]
     exact lt_of_lt_of_le (σ⁻¹ ⟨p, hp⟩).isLt hn8
   have e : pinv d.n a = sumN d.n (fun p => Nat.shiftLeft (f p) (Nat.mul 3 p)) := by
     unfold pinv
@@ -2221,7 +2223,7 @@ theorem mmPinv {a : ℕ} (h : isPerm d.n a = true) :
     refine (Equiv.sum_comp σ⁻¹ _).symm.trans (Finset.sum_congr rfl fun p _ => ?_)
     have hσσ : σ (σ⁻¹ p) = p := by simp
     rw [hpa (σ⁻¹ p), hσσ]
-    simp only [f, dif_pos p.isLt, Fin.eta]
+    simp only [f, dite_eq_left p.isLt, Fin.eta]
   have key : ∀ p < d.n, pt (pinv d.n a) p = f p := by
     intro p hp
     rw [e]
@@ -2234,10 +2236,10 @@ theorem mmPinv {a : ℕ} (h : isPerm d.n a = true) :
       rw [getElem_tab]
       simp only [decT, List.getElem_map, List.getElem_range]
       rw [key p hp]
-      simp only [f, dif_pos hp]
+      simp only [f, dite_eq_left hp]
   refine ⟨by rw [hinv, tab_inv, hσ], fun p hp => ?_⟩
   rw [key p hp]
-  simp only [f, dif_pos hp]
+  simp only [f, dite_eq_left hp]
   exact (σ⁻¹ ⟨p, hp⟩).isLt
 
 end MM
@@ -2272,7 +2274,7 @@ theorem mmRkPair {n : ℕ} {k : Mod} {L : List Tab} {r s : ℕ} (hL : L.length =
   rw [hL, Nat.log_pow (by norm_num), ← hc, Nat.mul_div_cancel_left _ (mmCntF_pos n k L),
     Nat.log_pow (by norm_num)]
 
-theorem chkModM_sound (d : Dat) (k : Mod) (hn : 5 ≤ d.n) (hn8 : d.n ≤ 8) (hbp : chkBP = true)
+theorem chkModM_sound (d : Dat) (k : Mod) (_hn : 5 ≤ d.n) (hn8 : d.n ≤ 8) (hbp : chkBP = true)
     (hT : chkTM d = true) (hEA : chkEAM d = true) (hN : chkNamedM d = true)
     (h : chkModM d (mIdx k) = true)
     (hF : ∀ j < d.nD, lget (lget d.FV (mIdx k) []) j 0 = Fval d.n k (d.DL j)) :
@@ -2288,7 +2290,7 @@ theorem chkModM_sound (d : Dat) (k : Mod) (hn : 5 ≤ d.n) (hn8 : d.n ≤ 8) (hb
     exact (subOK_spec (hsubD j hj)).2.1
   have hdm : ∀ j, d.dm j < 2 ^ d.nT := fun j => tmEnt_lt _ _ _
   have hl : ∀ j, (d.DL j).length = popc d.nb (d.dm j) := fun j => mmLen d hbp (hdm j)
-  obtain ⟨hix, hlA, hlA0⟩ := mmNamed d hn8 hT hbp hN
+  obtain ⟨hix, hlA, hlA0⟩ := mmNamed d hbp hN
   have hD : 0 < d.nD := lt_of_le_of_lt (Nat.zero_le _) (hix 0 (by omega))
   have hD0 : d.dm 0 = 1 := by
     have h' := hEA
@@ -2360,7 +2362,7 @@ theorem chkModM_sound (d : Dat) (k : Mod) (hn : 5 ≤ d.n) (hn8 : d.n ≤ 8) (hb
       split_ifs at e with ho
       · exact ⟨hj, ((hOM j).1 ho).2, by rw [tmBit]; exact e⟩
       · simp at e
-    · rw [tmNIf, if_pos ((hOM j).2 ⟨hj, ho⟩), ← tmBit]
+    · rw [tmNIf, ite_eq_left ((hOM j).2 ⟨hj, ho⟩), ← tmBit]
       exact e
   have hcntL : ∀ j < d.nD, ∀ r s, (d.DL j).length = 2 ^ r →
       ent (packL 16 (lget d.FV (mIdx k) [])) 16 j * one s = one r * popc d.vb (d.wM (mIdx k)) →
@@ -2389,8 +2391,7 @@ theorem chkModM_sound (d : Dat) (k : Mod) (hn : 5 ≤ d.n) (hn8 : d.n ≤ 8) (hb
   ·
     intro j hj ho
     unfold Dat.covOK at hcov
-    simp only [tmBAnd, tmBeq, Bool.and_eq_true, beq_iff_eq, mmAnyN, tmLetB, tmAllL, tmLget,
-      Nat.beq_eq] at hcov
+    simp only [tmBAnd, tmBeq, Bool.and_eq_true, beq_iff_eq, mmAnyN, tmLetB, tmAllL, tmLget] at hcov
     obtain ⟨hcv, hcvs⟩ := hcov
     have hj' := (hOM j).2 ⟨hj, ho⟩
     rw [← hcv, tmBit, tmTestBit_orL] at hj'
@@ -2400,7 +2401,7 @@ theorem chkModM_sound (d : Dat) (k : Mod) (hn : 5 ≤ d.n) (hn8 : d.n ≤ 8) (hb
     rw [hxj] at hxpop hxb
     obtain ⟨hr, hrep⟩ := (hRM _).1 hxr
     obtain ⟨hgT, -, -⟩ := tmIsTab hxp
-    obtain ⟨hinvE, hinvlt⟩ := mmPinv d hn8 hT hxp
+    obtain ⟨hinvE, hinvlt⟩ := mmPinv d hn8 hxp
     refine ⟨_, hr, hrep, decT d.n (x.getD 2 0), hgT, fun b' hb' => ?_, by rw [hl, hl, hxpop]⟩
     rw [Dat.bas, tmLget] at hb'
     obtain ⟨b, hbm, rfl⟩ := List.mem_map.1 hb'
@@ -2582,9 +2583,9 @@ theorem chkModM_sound (d : Dat) (k : Mod) (hn : 5 ≤ d.n) (hn8 : d.n ≤ 8) (hb
         ∃ j < d.nD, RepL d (caseOf d.n (mIdx k)) (d.DL j) ∧ qWit d.n k a b (d.DL j) = true := by
       intro a b hq
       unfold Dat.qOK at hq
-      simp only [mmBOr, mmBIfF, tmBAnd, tmBImp, tmBeq, Bool.or_eq_true, Bool.and_eq_true,
-        Bool.not_eq_true', beq_iff_eq, beq_eq_false_iff_ne, ne_eq, mmAnyN, tmAllN, tmMul, tmAdd,
-        tmLetB, tmAllL, Nat.blt_eq, Nat.ble_eq, rkOK, tmLget] at hq
+      simp only [tmBAnd, tmBImp, tmBeq, Bool.or_eq_true, Bool.and_eq_true,
+        Bool.not_eq_true', beq_iff_eq, mmAnyN, tmAllN, tmMul, tmAdd,
+        tmLetB, Nat.blt_eq, Nat.ble_eq, rkOK] at hq
       obtain ⟨hq1, j, hj, hRj, s, -, hrkj, hle⟩ := hq
       refine ⟨fun j' hj' hR => ?_, j, hj, ((hRM j).1 hRj).2, ?_⟩
       · rcases hq1 j' hj' with h1 | ⟨hpos, s', -, hrk', hle'⟩
@@ -2602,13 +2603,13 @@ theorem chkModM_sound (d : Dat) (k : Mod) (hn : 5 ≤ d.n) (hn8 : d.n ≤ 8) (hb
     by_cases hc0 : caseOf d.n (mIdx k) = 0
     · have e : Nat.beq (caseOf d.n (mIdx k)) 0 = true := by rw [Nat.beq_eq]; exact hc0
       simp only [e] at hq
-      rw [if_pos hc0, if_pos hc0]
+      rw [ite_eq_left hc0, ite_eq_left hc0]
       exact hqgen 1 1 hq
     · have e : Nat.beq (caseOf d.n (mIdx k)) 0 = false := by
         rw [tmBeq]
         exact beq_eq_false_iff_ne.2 hc0
       simp only [e] at hq
-      rw [if_neg hc0, if_neg hc0]
+      rw [ite_eq_right hc0, ite_eq_right hc0]
       exact hqgen _ _ hq
   ·
     intro hc0 j hj ho
@@ -2644,7 +2645,7 @@ theorem closure_map_tab (gensP : List (Gp n)) :
     Subgroup.closure {x : Gp n | tab x ∈ gensP.map tab} = Subgroup.closure {g | g ∈ gensP} := by
   congr 1
   ext x
-  simp only [Set.mem_setOf_eq, List.mem_map]
+  simp only [Set.mem_ofPred_eq, List.mem_map]
   constructor
   · rintro ⟨y, hy, hxy⟩
     rwa [← tab_injective hxy]
@@ -2929,10 +2930,10 @@ theorem rank_E8T (hn : 5 ≤ n) (k : Mod) {T : List Tab} {D : List (List Tab)}
 
 theorem t12_sq (hn : 4 ≤ n) : (ti n 0 * ti n 1) * (ti n 0 * ti n 1) = 1 := by
   unfold ti swapN
-  rw [dif_pos (by omega), dif_pos (by omega)]
+  rw [dite_eq_left (by omega), dite_eq_left (by omega)]
   ext i
   simp only [Equiv.Perm.mul_apply, Equiv.Perm.one_apply, Equiv.swap_apply_def]
-  split_ifs <;> simp_all [Fin.ext_iff] <;> omega
+  split_ifs <;> simp_all [Fin.ext_iff]
 
 theorem isConj_iff_dt {T : List Tab} (hn : 4 ≤ n)
     (hsupp : suppCardT (CFSG.Quasithin.B3.t12 n) = 4)
@@ -3274,7 +3275,7 @@ theorem ranks_BM (d : Dat) (hd : Ok d) (k : Mod) (hc : caseOf d.n (mIdx k) ≠ 0
   · have hj : d.n / 2 - 1 < d.n / 2 := by omega
     have h1 := (hrk _ hj).2.2
     have he : d.n / 2 - 1 + 1 = d.n / 2 := by omega
-    rw [if_pos he] at h1
+    rw [ite_eq_left he] at h1
     have hD : Dsub d.n = Am d.n (d.n / 2 - 1 + 1) := by
       unfold Dsub
       rw [he]

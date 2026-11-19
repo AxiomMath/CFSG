@@ -136,7 +136,7 @@ theorem exists_conj_mem_zpowers_of_pRank {X : Subgroup G} (hX : CFSG.Open.pRank 
     rw [← hg, Sylow.coe_subgroup_smul, Subgroup.pointwise_smul_def]
     exact ⟨_, hyS' (Subgroup.mem_zpowers _), rfl⟩
   set SG : Subgroup G := (S : Subgroup ↥X).map X.subtype with hSG
-  have hSG3 : IsPGroup 3 SG := S.isPGroup'.map X.subtype
+  have hSG3 : IsPGroup 3 SG := S.isPGroup.map X.subtype
   have hSGX : SG ≤ X := Subgroup.map_subtype_le _
   have hcSG : c ∈ SG := ⟨⟨c, hcX⟩, hcS (Subgroup.mem_zpowers _), rfl⟩
   have hySG : (g : G) * y * (g : G)⁻¹ ∈ SG := ⟨_, hz, by simp⟩

@@ -50,7 +50,7 @@ theorem blt_and (w j : ℕ) : Nat.blt 0 (Nat.land w (Nat.shiftLeft 1 j)) = w.tes
     rw [Nat.testBit_and, Nat.testBit_two_pow]
     by_cases hij : j = i
     · subst hij
-      cases hw : w.testBit j <;> simp [hw]
+      cases hw : w.testBit j <;> simp
     · cases hw : w.testBit j <;> simp [hij]
   rw [h]
   cases hw : w.testBit j
@@ -135,7 +135,6 @@ theorem popK_aux (W : ℕ) : ∀ n, (Nat.rec (motive := fun _ => ℕ) 0 (fun v i
       rcases Nat.mod_two_eq_zero_or_one (W / 2 ^ n) with h | h <;> simp [h]
     change letN _ _ = _
     rw [letN_eq, popK_aux W n]
-    beta_reduce
     rw [e, List.range_succ, List.countP_append, List.countP_singleton]
     rfl
 
@@ -176,8 +175,8 @@ theorem actN_code (a a' b1 b b2 : F4) (s t : Bool) (X : M2) :
   simp only [Bool.toNat_true, Bool.toNat_false, hb0, hb1, gmap, frob, code, Bool.false_eq_true,
     ↓reduceIte, Matrix.mul_apply, Fin.sum_univ_two, Matrix.transpose_apply, Matrix.map_apply,
     Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
-    Matrix.head_cons, Matrix.empty_val', Matrix.cons_val_fin_one, one_mul, zero_mul, mul_zero,
-    zero_add, add_zero, code_val_add, ← fm_code] <;>
+    Matrix.empty_val', Matrix.cons_val_fin_one, one_mul, zero_mul, mul_zero,
+    zero_add, code_val_add, ← fm_code] <;>
   rfl
 
 theorem act_mk (a a' b1 b b2 : F4) (s t : Bool) {v : ℕ} (hv : v < 256) :
@@ -619,7 +618,6 @@ theorem spanAdd_aux {p : Par} (hp : p ∈ params) (U : Subgroup VM4) : ∀ n, n 
   | n + 1, hn => by
     change letN _ _ = _
     rw [letN_eq, spanAdd_aux hp U n (by omega)]
-    beta_reduce
     have hn8 : n < 8 := by omega
     rw [lane_recL hp hn8, or_xlate_mset _ (cmp_lt p (pow_lt_256 hn8)),
       sumOne_mset _ (cmp_lt p (pow_lt_256 hn8))]
@@ -758,11 +756,8 @@ theorem mem_rec_aux : ∀ n, ∀ i < n,
     unfold matJ at h ⊢
     dsimp only
     rw [letRec_eq]
-    beta_reduce
     rw [letRec_eq]
-    beta_reduce
     rw [letRec_eq]
-    beta_reduce
     rcases Nat.lt_succ_iff_lt_or_eq.mp hi with hi | hin
     · have ih := mem_rec_aux n i hi (by unfold matJ; exact h)
       unfold matJ at ih
@@ -810,7 +805,7 @@ theorem mem_invRecsK {g : MulAut VM4} {p : Par} (hp : p ∈ params) (hg : Realiz
     have hd : ∀ x y : ℕ, Nat.div x y = x / y := fun _ _ => rfl
     have hmo : ∀ x y : ℕ, Nat.mod x y = x % y := fun _ _ => rfl
     simp only [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.head_cons, Matrix.empty_val', Matrix.cons_val_fin_one, hd, hmo, Nat.succ_eq_add_one]
+      Matrix.empty_val', Matrix.cons_val_fin_one, hd, hmo, Nat.succ_eq_add_one]
     congr 1 <;> omega
   have hi : Nat.sub 1727 (1727 - j) = j := by rw [Nat.sub_eq]; omega
   have h := mem_rec_aux 1728 (1727 - j) (by omega) (by rw [hi, hmat]; exact hm)
@@ -1051,7 +1046,7 @@ theorem fixV_mem {D : List (ℕ × (ℕ × ℕ))} {R : List ℕ} (hD : D = invRe
             rw [testBit_mset]
             refine ⟨hw1, ?_⟩
             rw [hx]
-            simp only [fixK, Set.mem_setOf_eq]
+            simp only [fixK, Set.mem_ofPred_eq]
             intro g' hg'
             exact (mem_fixV.mp hmem) g' (hS g' (Finset.mem_insert_of_mem hg'))
           rw [this]

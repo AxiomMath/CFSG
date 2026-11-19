@@ -12,6 +12,7 @@ open CFSG.Open (pCoreOf)
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem map_centralizer_singleton_mulAut (α : MulAut X) (x : X) :
     (Subgroup.centralizer ({x} : Set X)).map α.toMonoidHom =
       Subgroup.centralizer ({α x} : Set X) := by
@@ -26,16 +27,19 @@ theorem map_centralizer_singleton_mulAut (α : MulAut X) (x : X) :
     have h' := congrArg α.symm h
     simpa only [map_mul, MulEquiv.symm_apply_apply] using h'
 
+omit [Finite X] in
 theorem map_hessU_mulAut (α : MulAut X) (x : X) :
     (pCoreOf 2 (Subgroup.centralizer ({x} : Set X))).map α.toMonoidHom =
       pCoreOf 2 (Subgroup.centralizer ({α x} : Set X)) := by
   rw [map_pCoreOf_mulAut, map_centralizer_singleton_mulAut]
 
+omit [Finite X] in
 theorem map_conj_zpowers (g y : X) :
     (Subgroup.zpowers y).map (MulAut.conj g).toMonoidHom = Subgroup.zpowers (g * y * g⁻¹) := by
   rw [MonoidHom.map_zpowers]
   rfl
 
+omit [Finite X] in
 theorem map_mulAut_zpowers (α : MulAut X) (y : X) :
     (Subgroup.zpowers y).map α.toMonoidHom = Subgroup.zpowers (α y) := by
   rw [MonoidHom.map_zpowers]
@@ -48,11 +52,13 @@ theorem map_mulAut_zpowers (α : MulAut X) (y : X) :
   ∃ n ∈ Subgroup.closure (hessInv x ∪ hessInv x') ⊓ Subgroup.normalizer (E : Set X),
     Subgroup.zpowers (n * x * n⁻¹) = Subgroup.zpowers x'
 
+omit [Finite X] in
 theorem hessInv_eq_of_zpowers_eq {x y : X} (h : Subgroup.zpowers x = Subgroup.zpowers y) :
     hessInv x = hessInv y := by
   unfold hessInv
   rw [centralizer_singleton_eq_of_zpowers_eq h]
 
+omit [Finite X] in
 theorem image_hessInv (α : MulAut X) (x : X) : α.toMonoidHom '' hessInv x = hessInv (α x) := by
   ext u
   constructor
@@ -66,7 +72,6 @@ theorem image_hessInv (α : MulAut X) (x : X) : α.toMonoidHom '' hessInv x = he
     obtain ⟨v, hv, rfl⟩ := hu
     refine ⟨v, ⟨hv, ?_⟩, rfl⟩
     apply α.injective
-    change α (v ^ 2) = α 1
     rw [map_pow, map_one]
     exact hu2
 
@@ -74,12 +79,14 @@ namespace HessPair
 
 variable {E : Subgroup X} {x x' y y' : X}
 
+omit [Finite X] in
 theorem congr_right (h : Subgroup.zpowers x' = Subgroup.zpowers y') (hp : HessPair E x x') :
     HessPair E x y' := by
   obtain ⟨n, hn, hnz⟩ := hp
   refine ⟨n, ?_, hnz.trans h⟩
   rwa [← hessInv_eq_of_zpowers_eq h]
 
+omit [Finite X] in
 theorem map (α : MulAut X) (hαE : E.map α.toMonoidHom = E) (hp : HessPair E x x') :
     HessPair E (α x) (α x') := by
   obtain ⟨n, hn', hnz⟩ := hp
@@ -91,6 +98,7 @@ theorem map (α : MulAut X) (hαE : E.map α.toMonoidHom = E) (hp : HessPair E x
     rwa [Subgroup.map_equiv_normalizer_eq, hαE] at h
   · rw [← map_inv, ← map_mul, ← map_mul, ← map_mulAut_zpowers, hnz, map_mulAut_zpowers]
 
+omit [Finite X] in
 theorem conj {w : X} (hw : w ∈ Subgroup.normalizer (E : Set X)) (hp : HessPair E x x') :
     HessPair E (w * x * w⁻¹) (w * x' * w⁻¹) := by
   have hE : E.map (MulAut.conj w).toMonoidHom = E := by
@@ -101,6 +109,7 @@ theorem conj {w : X} (hw : w ∈ Subgroup.normalizer (E : Set X)) (hp : HessPair
     exact this.symm
   exact hp.map (MulAut.conj w) hE
 
+omit [Finite X] in
 theorem exists_mem_layer (hp : HessPair E x x')
     (hU : ∀ a ∈ pCoreOf 2 (Subgroup.centralizer ({x} : Set X)),
       ∀ b ∈ pCoreOf 2 (Subgroup.centralizer ({x} : Set X)), a * b = b * a)
@@ -120,6 +129,7 @@ theorem exists_mem_layer (hp : HessPair E x x')
 
 end HessPair
 
+omit [Finite X] in
 theorem exists_pow_mul_pow_of_mem_sup {d c x : X} (hdc : d * c = c * d) (hd3 : d ^ 3 = 1)
     (hc3 : c ^ 3 = 1) (hx : x ∈ Subgroup.zpowers d ⊔ Subgroup.zpowers c) :
     ∃ i j : ℕ, x = d ^ i * c ^ j := by
@@ -147,6 +157,7 @@ theorem exists_pow_mul_pow_of_mem_sup {d c x : X} (hdc : d * c = c * d) (hd3 : d
     sup_le (Subgroup.zpowers_le.mpr ⟨1, 0, by simp⟩) (Subgroup.zpowers_le.mpr ⟨0, 1, by simp⟩)
   exact hle hx
 
+omit [Finite X] in
 theorem exists_zpowers_eq_mul_pow {d c x : X} (hdc : d * c = c * d) (hd3 : d ^ 3 = 1)
     (hc3 : c ^ 3 = 1) (hx : x ∈ Subgroup.zpowers d ⊔ Subgroup.zpowers c)
     (hxd : x ∉ Subgroup.zpowers d) :
@@ -188,6 +199,7 @@ theorem exists_zpowers_eq_mul_pow {d c x : X} (hdc : d * c = c * d) (hd3 : d ^ 3
     exact (TauCeti.zpowers_eq_zpowers_of_mem_zpowers Nat.prime_three hx3 hne
       (Subgroup.npow_mem_zpowers _ 2)).symm
 
+omit [Finite X] in
 theorem hessPair_of_transitive {E : Subgroup X} {d c : X} (hE : E = Subgroup.zpowers d ⊔
       Subgroup.zpowers c) (hdc : d * c = c * d) (hd3 : d ^ 3 = 1) (hc3 : c ^ 3 = 1) (hd1 : d ≠ 1)
     (htr : ∀ y₀ ∈ E, y₀ ≠ 1 → ∀ y₁ ∈ E, y₁ ≠ 1 →

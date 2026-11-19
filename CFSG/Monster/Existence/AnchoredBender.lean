@@ -200,7 +200,7 @@ theorem eq_top_of_anchored_involutions
     · exact hab' (eq_of_isCyclic_of_orderOf_eq_two ha' hb')
     · have : NeZero (2 ^ (r - 2)) := ⟨by positivity⟩
       exact hab' (eq_of_mulEquiv_quaternion_of_orderOf_eq_two e ha' hb')
-  · have hTN : (T : Subgroup E) ≤ N := le_of_isPGroup_two_of_odd_index hidx T.isPGroup'
+  · have hTN : (T : Subgroup E) ≤ N := le_of_isPGroup_two_of_odd_index hidx T.isPGroup
     let T₁ : Sylow 2 N := T.subtype hTN
     let f : N →* N ⧸ M₀.subgroupOf N := QuotientGroup.mk' _
     let T₂ : Sylow 2 (N ⧸ M₀.subgroupOf N) := T₁.mapSurjective (QuotientGroup.mk'_surjective _)
@@ -209,7 +209,7 @@ theorem eq_top_of_anchored_involutions
       intro y hy
       rw [MonoidHom.mem_ker, MonoidHom.comp_apply, QuotientGroup.mk'_apply,
         QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf] at hy
-      obtain ⟨k, hk⟩ := T₁.isPGroup' y
+      obtain ⟨k, hk⟩ := T₁.isPGroup y
       have hk' : (((y : N) : E)) ^ 2 ^ k = 1 := by
         have := congrArg (fun z : T₁ => ((z : N) : E)) hk
         simpa using this

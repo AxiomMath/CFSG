@@ -18,7 +18,7 @@ theorem exists_fixed_involution_of_qsCfg_twE6 {Ω : Type} [Group Ω] [Finite Ω]
     (hTB : ¬ (⁅T, B⁆ : Subgroup Ω) ≤ Subgroup.centralizer (S : Set Ω)) :
     ∃ v : PSimple 3 S, v * v = 1 ∧ v ≠ 1 ∧
       ∀ b ∈ B, ∀ hb : b ∈ Subgroup.normalizer (S : Set Ω), chevAut 3 S ⟨b, hb⟩ v = v := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : Nat.Prime 3 := Nat.prime_three
   have hSN : ∀ g : Ω, g ∈ Subgroup.normalizer (S : Set Ω) := fun g =>
     (Subgroup.normalizer_eq_top_iff.2 hc.normal) ▸ Subgroup.mem_top g

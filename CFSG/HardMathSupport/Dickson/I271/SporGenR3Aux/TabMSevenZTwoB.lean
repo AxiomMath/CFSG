@@ -21,8 +21,8 @@ section TwoB
 theorem card_cent_dvd_of_conj_sJ (k : cent xGriess) {c : J24} {m : ℕ} (hm1 : 1 ≤ m)
     (hm6 : m ≤ 6) (hc : c * cosetEquivJ24 (QuotientGroup.mk k) * c⁻¹ = sJ ^ m) :
     Nat.card (Subgroup.centralizer ({k} : Set (cent xGriess))) ∣ 35280 := by
-  haveI : Finite (cent xGriess) := finite_cent_xGriess
-  haveI : Finite J24 := finite_J24
+  have : Finite (cent xGriess) := finite_cent_xGriess
+  have : Finite J24 := finite_J24
   set j : J24 := cosetEquivJ24 (QuotientGroup.mk k) with hj
   have hfix : fixCount (((j : J24) : GL (Fin 24) (ZMod 2)) : Matrix (Fin 24) (Fin 24) (ZMod 2)) ≤
       1 := by
@@ -43,7 +43,7 @@ theorem exists_conj_pow_of_conj_tJ {k k' : cent xGriess} (hk : orderOf k = 7)
     (hc : c * cosetEquivJ24 (QuotientGroup.mk k) * c⁻¹ = tJ ^ m)
     (hc' : c' * cosetEquivJ24 (QuotientGroup.mk k') * c'⁻¹ = tJ ^ m') :
     ∃ g : cent xGriess, ∃ n : ℕ, g * k * g⁻¹ = k' ^ n := by
-  haveI : Finite (cent xGriess) := finite_cent_xGriess
+  have : Finite (cent xGriess) := finite_cent_xGriess
   set j : J24 := cosetEquivJ24 (QuotientGroup.mk k) with hj
   set j' : J24 := cosetEquivJ24 (QuotientGroup.mk k') with hj'
   have hcop : Nat.Coprime m' (orderOf tJ) := by
@@ -72,7 +72,7 @@ theorem card_dvd_or_conj_tJ (k : cent xGriess) (hk : orderOf k = 7) :
     Nat.card (Subgroup.centralizer ({k} : Set (cent xGriess))) ∣ 35280 ∨
       ∃ c : J24, ∃ m : ℕ, 1 ≤ m ∧ m ≤ 6 ∧
         c * cosetEquivJ24 (QuotientGroup.mk k) * c⁻¹ = tJ ^ m := by
-  haveI : Finite (cent xGriess) := finite_cent_xGriess
+  have : Finite (cent xGriess) := finite_cent_xGriess
   have hj := @orderOf_image_prime (cent xGriess) ↥J24 _ (Subgroup.toGroup J24) _ 7
     (by norm_num) (by norm_num) cosetEquivJ24 k hk
   obtain ⟨c, m, hm1, hm6, h | h⟩ := exists_conj_pow_sJ_or_tJ _ hj

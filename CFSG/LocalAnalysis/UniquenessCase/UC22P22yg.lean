@@ -43,21 +43,21 @@ theorem isQuasisimple_of_isSimpleGroup {X : Type} [Group X] [IsSimpleGroup X]
     · exact h
   · have e : X ⧸ Subgroup.center X ≃* X :=
       (QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot
-    haveI : Nontrivial (X ⧸ Subgroup.center X) := e.toEquiv.nontrivial
+    have : Nontrivial (X ⧸ Subgroup.center X) := e.toEquiv.nontrivial
     exact IsSimpleGroup.isSimpleGroup_of_surjective e.symm.toMonoidHom e.symm.surjective
 
 theorem isSimpleGroup_of_isL2Ev {X : Type} [Group X] {n : ℕ} (h : IsL2Ev X n) (hn : 2 ≤ n) :
     IsSimpleGroup X := by
   obtain ⟨F, _, _, hF, ⟨e⟩⟩ := h
-  haveI := charP_two_of_card hF
+  have := charP_two_of_card hF
   have h4 : 4 ≤ Nat.card F := by
     rw [hF]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn
-  haveI := isSimpleGroup_sl2 h4
+  have := isSimpleGroup_sl2 h4
   let e' : X ≃* Matrix.SpecialLinearGroup (Fin 2) F :=
     e.trans (CFSG.Assembly.LowTwoRank.specialLinearGroupEquivStatedSL 2 F).symm
-  haveI : Nontrivial X := e'.toEquiv.nontrivial
+  have : Nontrivial X := e'.toEquiv.nontrivial
   exact IsSimpleGroup.isSimpleGroup_of_surjective e'.symm.toMonoidHom e'.symm.surjective
 
 theorem three_dvd_card_of_isL2Ev {X : Type} [Group X] {n : ℕ} (h : IsL2Ev X n) : 3 ∣ Nat.card X := by
@@ -151,7 +151,7 @@ theorem eq_bot_of_isPGroup_two {A : Type} [Group A] [Finite A] {ι : Type} [Fint
       intro x
       exact and_congr (Subgroup.mem_normalizer_iff.1 (hnorm (le_iSup T i ht)) x)
         (Subgroup.mem_normalizer_iff.1 (Subgroup.le_normalizer ht) x)
-    haveI := hS i
+    have := hS i
     rcases hn.eq_bot_or_eq_top with h | h
     · rw [eq_bot_iff]
       intro x hx
@@ -160,7 +160,7 @@ theorem eq_bot_of_isPGroup_two {A : Type} [Group A] [Finite A] {ι : Type} [Fint
       rw [Subgroup.mem_bot]
       exact congrArg Subtype.val hxs
     · exfalso
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       obtain ⟨a, ha⟩ := exists_prime_orderOf_dvd_card' 3 (h3 i)
       have haB : (a : A) ∈ B := by
         have : a ∈ (B ⊓ T i).subgroupOf (T i) := h ▸ Subgroup.mem_top a
@@ -204,10 +204,10 @@ theorem uc22p22yg_three_lt_pRank (D : Data G) (Ch : Choice2011 G) (h51 : S22_5_1
     (Nb : Fin m → Subgroup (MBar D.M D.U)) (hNb : NbarSplit D Nb) (S : Finset (Fin m))
     (hS4 : 4 ≤ S.card) (hS6 : ∀ k ∈ S, 6 < Nat.card (Nb k)) : 3 < CFSG.Open.pRank 3 D.M := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcl := h51 hH c m Nb hNb
   have hMU : D.M ≤ normalizer (D.U : Set G) := (uc22p22e_inCalV_U D).2.2.1
-  haveI hN := cTilde_bot_normal D.M D.U hMU
+  have hN := cTilde_bot_normal D.M D.U hMU
   set e := mbarEquiv D.M D.U with he
   set T : ↥S → Subgroup (F11.MBar11 D.M ⊥ D.U) := fun k => (Nb k).map e.toMonoidHom with hT
   have hTL : ∀ k : ↥S, ∃ n, 2 ≤ n ∧ IsL2Ev ↥(T k) n := by
@@ -226,7 +226,7 @@ theorem uc22p22yg_three_lt_pRank (D : Data G) (Ch : Choice2011 G) (h51 : S22_5_1
     obtain ⟨n, -, hn⟩ := hTL k
     exact three_dvd_card_of_isL2Ev hn
   have hTq : ∀ k, CFSG.Open.IsQuasisimple ↥(T k) := fun k => by
-    haveI := hTS k
+    have := hTS k
     exact isQuasisimple_of_isSimpleGroup (hTZ k)
   have hTcomm : ∀ k l, k ≠ l → ∀ x ∈ T k, ∀ y ∈ T l, x * y = y * x := by
     rintro k l hkl _ ⟨x, hx, rfl⟩ _ ⟨y, hy, rfl⟩
@@ -286,13 +286,13 @@ theorem uc22p22yg_three_lt_pRank (D : Data G) (Ch : Choice2011 G) (h51 : S22_5_1
     have hle : f.ker.map Y.subtype ≤ OInf Y := by
       rintro _ ⟨y, hy, rfl⟩
       exact hYC ⟨y.2, (hfker y).1 hy⟩
-    haveI := uc22p20a_isSolvable_oinf Y
-    exact solvable_of_solvable_injective (f := (Subgroup.inclusion hle).comp
+    have := uc22p20a_isSolvable_oinf Y
+    exact Group.isSolvable_of_isSolvable_injective (f := (Subgroup.inclusion hle).comp
       (f.ker.equivMapOfInjective Y.subtype Y.subtype_injective).toMonoidHom)
       ((Subgroup.inclusion_injective hle).comp (MulEquiv.injective _))
   have hR : CFSG.pCore 2 ↥Y ≤ f.ker := by
     rw [← Subgroup.map_eq_bot_iff]
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hfr : f.range = ⨆ k, T k := hfrange.trans hX
     refine eq_bot_of_isPGroup_two hTcomm' hTind hTS hT3 hTZ (CFSG.pCore_isPGroup.map f) ?_ ?_
     · rw [← hfr]

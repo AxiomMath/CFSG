@@ -37,7 +37,7 @@ theorem bar_mem_of_sq_eq_one {Mb : Type} [Group Mb] {B K : Subgroup Mb}
 
 theorem bar_exists_involution {Mb : Type} [Group Mb] [Finite Mb] {H : Subgroup Mb}
     (hH : Even (Nat.card H)) : ∃ t ∈ H, t ^ 2 = 1 ∧ t ≠ 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := H) 2 (even_iff_two_dvd.mp hH)
   have h1 : orderOf (x : Mb) = 2 := (Subgroup.orderOf_coe x).trans hx
   refine ⟨x, x.2, ?_, ?_⟩
@@ -138,9 +138,9 @@ theorem bar_commutator_ne_bot {Mb : Type} [Group Mb] [Finite Mb] {R B : Subgroup
     exact h
   let e : R ≃* conjSubgroup g R :=
     Subgroup.equivMapOfInjective R (MulAut.conj g).toMonoidHom (MulAut.conj g).injective
-  haveI := hRs
-  haveI := hBc
-  haveI : IsSimpleGroup (conjSubgroup g R) := e.symm.isSimpleGroup
+  have := hRs
+  have := hBc
+  have : IsSimpleGroup (conjSubgroup g R) := e.symm.isSimpleGroup
   have hcard : Nat.card (conjSubgroup g R) = Nat.card R := (Nat.card_congr e.toEquiv).symm
   obtain ⟨t, htR, ht2, ht1⟩ := bar_exists_involution (hcard ▸ hRe)
   have htB : t ∈ B := h2 t (hle htR) ht2
@@ -174,7 +174,7 @@ theorem bar_commutator_ne_bot {Mb : Type} [Group Mb] [Finite Mb] {R B : Subgroup
 theorem bar_exists_card_pow {Mb : Type} [Group Mb] [Finite Mb] {B : Subgroup Mb}
     (hBe : IsElemAbelian 2 B) (hB4 : 4 ≤ Nat.card B) :
     ∃ k : ℕ, 2 ≤ k ∧ Nat.card B = 2 ^ k := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp : IsPGroup 2 B := fun x => ⟨1, Subtype.ext (by simpa using hBe.2 x x.2)⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hp
   refine ⟨k, ?_, hk⟩
@@ -213,7 +213,7 @@ theorem standardComponent_of_bar {Mb : Type} [Group Mb] [Finite Mb] (R B : Subgr
     refine dvd_trans ?_ hdvd
     rw [hk]
     exact dvd_pow_self 2 (by omega)
-  haveI := hRs
+  have := hRs
   refine And.intro (bar_isQuasisimple hRn) (And.intro hEven (And.intro ?_ (And.intro hNC ?_)))
   · intro g hg
     exact bar_odd_card_inf_conj hTI h2 hNB hg

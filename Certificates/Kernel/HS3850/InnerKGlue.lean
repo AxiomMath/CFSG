@@ -155,7 +155,7 @@ theorem c1_size : c1Tabs.size = 7680 := by rw [c1Tabs_eq, Array.size_ofFn, cnt_A
 
 theorem inC1_of {t : Tab} {i : Nat} (hi : i < 7680) (h : c1Tabs[i]! = t) : inC1 t = true := by
   unfold inC1
-  rw [Array.contains_iff]
+  rw [_root_.Array.contains_iff_mem]
   rw [← h, getElem!_pos _ i (by rw [c1_size]; exact hi)]
   exact Array.getElem_mem _
 
@@ -392,7 +392,7 @@ theorem eOK_true : eOK = true := by
   · exact eAll fun a ha => by rw [isInv_eq (cnE ha)]; exact allN_spec h2 a ha
   · have e : eEnum.tabs[x]! = tT1 := by
       rw [eTabs_get hx', Nat.eq_of_beq_eq_true hx5, tT1, (cent_parts (k := 5) (by norm_num)).1]
-    rw [Array.contains_iff, ← e, getElem!_pos eEnum.tabs x (by rw [eSize]; exact hx')]
+    rw [_root_.Array.contains_iff_mem, ← e, getElem!_pos eEnum.tabs x (by rw [eSize]; exact hx')]
     exact Array.getElem_mem _
   · exact eAll fun a ha => by
       have h5 := allN_spec h4 a ha

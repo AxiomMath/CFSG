@@ -64,7 +64,7 @@ theorem scalar_injective {ι : Type*} [Fintype ι] [DecidableEq ι] [Nonempty ι
 theorem pow_eq_one_of_scalar {k : ℕ} {c : Fˣ} {z : SU (unitaryInvolution F 2 f) n}
     (hc : (z : GL (Fin n) F) = Matrix.GeneralLinearGroup.scalar (Fin n) c) (hn : 0 < n)
     (hk : z ^ k = 1) : c ^ k = 1 := by
-  haveI : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
+  have : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
   have hk' : (z : GL (Fin n) F) ^ k = 1 := by
     have := congrArg (fun w : SU (unitaryInvolution F 2 f) n => (w : GL (Fin n) F)) hk
     simpa using this

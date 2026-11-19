@@ -216,7 +216,7 @@ private theorem exists_nontriv_of_card_nine (F : AddSubgroup (Coords 3))
       Nat.card_le_card_of_injective (Set.inclusion hle) (Set.inclusion_injective hle)
     rw [hF, hcl] at hlecard
     omega
-  obtain ⟨w, hwF, hwcl⟩ := SetLike.not_le_iff_exists.mp hnotle
+  obtain ⟨w, hwF, hwcl⟩ := IsConcreteLE.not_le_iff_exists.mp hnotle
   refine ⟨v, v.2, hvne', w, hwF, ?_⟩
   intro a ha
   apply hwcl

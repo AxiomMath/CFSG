@@ -155,6 +155,7 @@ theorem exists_invt_le {p e : ℕ} (hy : y ^ p = 1) (hp0 : 0 < p)
 
 variable [Module.Finite K V]
 
+omit [Module.Finite K V] in
 theorem isSemisimple_of_pow_eq_one {p : ℕ} (hy : y ^ p = 1) (hp0 : (p : K) ≠ 0) :
     y.IsSemisimple := by
   have hsep : (X ^ p - C (1 : K) : K[X]).Separable := separable_X_pow_sub_C 1 hp0 one_ne_zero

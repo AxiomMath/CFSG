@@ -73,7 +73,7 @@ variable {Y : Type*} [Group Y]
 theorem outCls_of_mem {N : Subgroup Y} {g : Y} (hg : g ∈ Subgroup.normalizer (N : Set Y)) :
     outCls N g = QuotientGroup.mk' (inner ↥N) (N.normalizerMonoidHom ⟨g, hg⟩) := by
   unfold outCls
-  rw [dif_pos hg]
+  rw [dite_eq_left hg]
 
 theorem outCls_mul {N : Subgroup Y} {g h : Y} (hg : g ∈ Subgroup.normalizer (N : Set Y))
     (hh : h ∈ Subgroup.normalizer (N : Set Y)) : outCls N (g * h) = outCls N g * outCls N h := by
@@ -123,7 +123,7 @@ theorem outCls_mul_swap (N : Subgroup Y) (hcomm : ∀ a b : Outer ↥N, a * b = 
       t⁻¹ * x ∈ Subgroup.normalizer (N : Set Y))
     (hTA : ∀ x ∈ T', ∀ a ∈ A, x * a * x⁻¹ ∈ A) (hAT : A ≤ ⁅A, T'⁆) :
     ∀ a ∈ A, outCls N a * outCls N (t⁻¹ * a * t) = 1 := by
-  letI : CommGroup (Outer ↥N) := { (inferInstance : Group (Outer ↥N)) with mul_comm := hcomm }
+  let : CommGroup (Outer ↥N) := { (inferInstance : Group (Outer ↥N)) with mul_comm := hcomm }
   set Nn : Subgroup Y := Subgroup.normalizer (N : Set Y) with hNn
   have htinv : t⁻¹ ∈ T' := T'.inv_mem htT
   have hconjA : ∀ a ∈ A, t⁻¹ * a * t ∈ A := fun a ha => by

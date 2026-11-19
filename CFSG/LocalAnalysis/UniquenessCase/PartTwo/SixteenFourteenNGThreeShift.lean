@@ -69,8 +69,8 @@ theorem s1614_shift {W : Type} [CommGroup W] [Finite W] (hW : ∀ x : W, x * x =
     ∃ c e : ℕ, ¬ 3 ∣ c ∧ u * (x₀ : MulAut W) * u⁻¹ =
       (x₀ : MulAut W) * (x₁ : MulAut W) ^ c * (ℓ : MulAut W) ^ e := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI hExtra : CFSG.IsExtraspecial 3 ↥L := hL.1
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hExtra : CFSG.IsExtraspecial 3 ↥L := hL.1
   have hLcard : Nat.card ↥L = 27 := by rw [hL.2.1]; norm_num
   have hnc : ∃ a b : ↥L, a * b ≠ b * a := ⟨x₀, x₁, hx⟩
   have hZcard : Nat.card (Subgroup.center ↥L) = 3 :=
@@ -278,7 +278,7 @@ theorem s1614_shift {W : Type} [CommGroup W] [Finite W] (hW : ∀ x : W, x * x =
     have hvx₀ : v * (x₀ : MulAut W) * v⁻¹ = (x₀ : MulAut W) := by
       have hx₀'val' : (x₀' : MulAut W) = (x₀ : MulAut W) * (ℓ : MulAut W) ^ e := by
         rw [hx₀'step3]
-        simp [Subgroup.coe_mul, Subgroup.coe_pow]
+        simp [Subgroup.coe_mul]
       calc v * (x₀ : MulAut W) * v⁻¹
           = (w : MulAut W) * (x₀' : MulAut W) * (w : MulAut W)⁻¹ := by
               rw [hv_def]
@@ -408,7 +408,7 @@ theorem s1614_shift {W : Type} [CommGroup W] [Finite W] (hW : ∀ x : W, x * x =
   · have hfin : (x₀' : MulAut W) = (x₀ : MulAut W) * (x₁ : MulAut W) ^ c *
         (ℓ : MulAut W) ^ e := by
       rw [hx₀'eq]
-      simp [Subgroup.coe_mul, Subgroup.coe_pow]
+      simp [Subgroup.coe_mul]
     simpa [x₀'] using hfin
 
 end CFSG.LocalAnalysis.UniquenessCase.PartTwo

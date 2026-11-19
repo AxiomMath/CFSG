@@ -53,7 +53,7 @@ theorem card_fixSubgroup_conjNormal_ne {n : ℕ} (h8 : 8 ≤ n) (h12 : n ≤ 12)
     Nat.card (fixSubgroup (MulAut.conjNormal π : MulAut (alternatingGroup (Fin n)))) ≠ 1344 := by
   intro hcard
   set σ : MulAut (alternatingGroup (Fin n)) := MulAut.conjNormal π with hσ
-  haveI : Fact (Nat.Prime 7) := ⟨by decide⟩
+  have : Fact (Nat.Prime 7) := ⟨by decide⟩
   have h7 : 7 ∣ Nat.card (fixSubgroup σ) := by
     rw [hcard]
     norm_num

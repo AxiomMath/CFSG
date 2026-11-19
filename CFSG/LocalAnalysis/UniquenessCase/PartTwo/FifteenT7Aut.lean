@@ -38,7 +38,7 @@ theorem s15_T7_inducesTransvection {W : Type} [CommGroup W] [Finite W]
       (b := (⟨u₀, hu₀U⟩ : U)⁻¹)).2
     have h2 : ((⟨u, hu⟩ : U) * (⟨u₀, hu₀U⟩ : U)⁻¹) ∈ K.subgroupOf U := by
       apply h1
-      simp only [Subgroup.mem_subgroupOf, Subgroup.coe_inv, inv_mem_iff]
+      simp only [Subgroup.mem_subgroupOf, inv_mem_iff]
       exact iff_of_false huK hu₀K
     simpa [Subgroup.mem_subgroupOf] using h2
   have hA_U : Subgroup.zpowers φ ≤ stabSub U := Subgroup.zpowers_le.2 hφ
@@ -89,13 +89,14 @@ theorem s15_T7_inducesTransvection {W : Type} [CommGroup W] [Finite W]
       exact (hAB ha).2 u hu
     · exact Subgroup.zpowers_le.2
         (Subgroup.subset_closure ⟨φ, Subgroup.mem_zpowers φ, u₀, hu₀U, rfl⟩)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hord : orderOf c = 2 := orderOf_eq_prime hc2 hc1
   rw [hS]
   unfold rk
   rw [Nat.card_zpowers, hord]
   exact padicValNat_self
 
+omit [Finite G] in
 theorem s15_T7_actTil_congr {V₀ V₁ V : Subgroup G} (hV : IsElemAbelian 2 V) (h01 : V₀ ≤ V₁)
     {x y : stabTil V₀ V} {x' y' : stabTil V₁ V} (hx : (x : G) = x') (hy : (y : G) = y')
     (hxy : actTil V₀ V hV x = actTil V₀ V hV y) : actTil V₁ V hV x' = actTil V₁ V hV y' := by
@@ -111,6 +112,7 @@ theorem s15_T7_actTil_congr {V₀ V₁ V : Subgroup G} (hV : IsElemAbelian 2 V) 
   rw [map_mul, map_inv, inv_mul_eq_one] at h2
   exact h2.symm
 
+omit [Finite G] in
 theorem s15_T7_barSub_le_of_barSub_le {M V₀ V₁ V X Y : Subgroup G} (hV : IsElemAbelian 2 V)
     (h01 : V₀ ≤ V₁) (hM : M ≤ stabTil V₀ V) (hM₁ : M ≤ stabTil V₁ V) (hX : X ≤ M) (hY : Y ≤ M)
     (h : barSub V₀ V hV X ≤ barSub V₀ V hV Y) : barSub V₁ V hV X ≤ barSub V₁ V hV Y := by
@@ -123,12 +125,14 @@ theorem s15_T7_barSub_le_of_barSub_le {M V₀ V₁ V X Y : Subgroup G} (hV : IsE
   exact (s15_T7_actTil_congr hV h01 (x := ⟨x, hx0⟩) (y := y) (x' := x) (y' := ⟨y, hy1⟩) rfl rfl
     hxy.symm).symm
 
+omit [Finite G] in
 theorem s15_T7_actTil_mkTil_eq_iff (V₀ V : Subgroup G) (hV : IsElemAbelian 2 V)
     (g : stabTil V₀ V) (z : IntMod V hV) :
     actTil V₀ V hV g (mkTil V₀ V hV z) = mkTil V₀ V hV z ↔
       (g : G) * z.val * (g : G)⁻¹ * (z.val)⁻¹ ∈ V₀ := by
   rw [actTil_mk, mkTil_eq_iff, actStab_apply_val]
 
+omit [Finite G] in
 theorem s15_T7_actTil_mem_centSub_iff (V₀ V U : Subgroup G) (hV : IsElemAbelian 2 V)
     (hU : U ≤ V) (g : stabTil V₀ V) :
     actTil V₀ V hV g ∈ centSub (imgTil V₀ V hV U) ↔
@@ -218,7 +222,7 @@ theorem s15_T7_mQuot_imgTil_axis {D : Data G} {V₀ V L : Subgroup G} (h : Hyp15
   exact (s15_LP_mQuot_imgTil_le h.isElemAbelian hKE (s15_T7_wSub_sup_v1Sub_le h)).trans hK
 
 theorem s15_T7_barSub_fixes_axis {D : Data G} {V₀ V L : Subgroup G} (h : Hyp151 D V₀ V L)
-    {F K : Subgroup G} (hFM : F ≤ D.M)
+    {F K : Subgroup G} (_hFM : F ≤ D.M)
     (hKE : K ≤ wSub V₀ V h.isElemAbelian L ⊔ v1Sub D.M V₀ V h.isElemAbelian L)
     (hFK : ∀ x ∈ F, ∀ k ∈ K, x * k * x⁻¹ * k⁻¹ ∈ v1Sub D.M V₀ V h.isElemAbelian L) :
     ∀ φ ∈ barSub (v1Sub D.M V₀ V h.isElemAbelian L) V h.isElemAbelian F,
@@ -321,17 +325,20 @@ theorem s15_T7_exists_transvection (D : Data G) {V₀ V L : Subgroup G} (h : Hyp
 
 @[expose] noncomputable def s15T7Kappa (V₀ V₁ V : Subgroup G) (hV : IsElemAbelian 2 V)
     (h01 : V₀ ≤ V₁) : Vtil V₀ V hV →* Vtil V₁ V hV :=
-  QuotientGroup.map (modNull V₀ V hV) (modNull V₁ V hV) (MonoidHom.id _) (fun x hx => h01 hx)
+  QuotientGroup.map (modNull V₀ V hV) (modNull V₁ V hV) (MonoidHom.id _) (fun _x hx => h01 hx)
 
+omit [Finite G] in
 theorem s15_T7_kappa_mk (V₀ V₁ V : Subgroup G) (hV : IsElemAbelian 2 V) (h01 : V₀ ≤ V₁)
     (x : IntMod V hV) : s15T7Kappa V₀ V₁ V hV h01 (mkTil V₀ V hV x) = mkTil V₁ V hV x := rfl
 
+omit [Finite G] in
 theorem s15_T7_kappa_surjective (V₀ V₁ V : Subgroup G) (hV : IsElemAbelian 2 V) (h01 : V₀ ≤ V₁) :
     Function.Surjective (s15T7Kappa V₀ V₁ V hV h01) := by
   intro q
   obtain ⟨x, rfl⟩ := mkTil_surjective V₁ V hV q
   exact ⟨mkTil V₀ V hV x, rfl⟩
 
+omit [Finite G] in
 theorem s15_T7_kappa_act (V₀ V₁ V : Subgroup G) (hV : IsElemAbelian 2 V) (h01 : V₀ ≤ V₁)
     {g : G} (hg₀ : g ∈ stabTil V₀ V) (hg₁ : g ∈ stabTil V₁ V) (q : Vtil V₀ V hV) :
     s15T7Kappa V₀ V₁ V hV h01 (actTil V₀ V hV ⟨g, hg₀⟩ q) =
@@ -340,6 +347,7 @@ theorem s15_T7_kappa_act (V₀ V₁ V : Subgroup G) (hV : IsElemAbelian 2 V) (h0
   rw [actTil_mk, s15_T7_kappa_mk, s15_T7_kappa_mk, actTil_mk]
   congr 1
 
+omit [Finite G] in
 theorem s15_T7_imgTil_preTil_eq_map (V₀ V₁ V : Subgroup G) (hV : IsElemAbelian 2 V)
     (h01 : V₀ ≤ V₁) (S : Subgroup (Vtil V₀ V hV)) :
     imgTil V₁ V hV (preTil V₀ V hV S) = S.map (s15T7Kappa V₀ V₁ V hV h01) := by
@@ -355,6 +363,7 @@ theorem s15_T7_imgTil_preTil_eq_map (V₀ V₁ V : Subgroup G) (hV : IsElemAbeli
     obtain ⟨x, rfl⟩ := mkTil_surjective V₀ V hV z
     exact ⟨x, (mem_preTil V₀ V hV S).2 ⟨x, rfl, hz⟩, rfl⟩
 
+omit [Finite G] in
 theorem s15_T7_kappa_map_commSub {M V₀ V₁ V L : Subgroup G} (hV : IsElemAbelian 2 V)
     (h01 : V₀ ≤ V₁) (hM₀ : M ≤ stabTil V₀ V) (hM₁ : M ≤ stabTil V₁ V) (hL : L ≤ M) :
     (commSub ⊤ (barSub V₀ V hV L)).map (s15T7Kappa V₀ V₁ V hV h01) =
@@ -388,8 +397,9 @@ theorem s15_T7_wStar_eq_commSub (D : Data G) {V₀ V L : Subgroup G} (h : Hyp151
     s15_T7_kappa_map_commSub h.isElemAbelian (s15_Infra_le_v1Sub _ V₀ V _ L) hMs₀
       (s15_T7_le_stabTil_v1Sub h) h.le]
 
+omit [Finite G] in
 theorem s15_T7_isElemAbelian_barSub (p : ℕ) {M V₀ V₁ V X : Subgroup G} (hV : IsElemAbelian 2 V)
-    (h01 : V₀ ≤ V₁) (hM : M ≤ stabTil V₀ V) (hM₁ : M ≤ stabTil V₁ V) (hX : X ≤ M)
+    (h01 : V₀ ≤ V₁) (hM : M ≤ stabTil V₀ V) (_hM₁ : M ≤ stabTil V₁ V) (hX : X ≤ M)
     (h : IsElemAbelian p (barSub V₀ V hV X)) : IsElemAbelian p (barSub V₁ V hV X) := by
   have hc := h.1
   refine ⟨⟨⟨fun a b => ?_⟩⟩, fun φ hφ => ?_⟩
@@ -413,6 +423,7 @@ theorem s15_T7_isElemAbelian_barSub (p : ℕ) {M V₀ V₁ V X : Subgroup G} (hV
     rw [← map_pow, ← map_one (actTil V₁ V hV)]
     exact s15_T7_actTil_congr hV h01 (x := ⟨x, hx0⟩ ^ p) (y := 1) (x' := x ^ p) (y' := 1) rfl rfl h1
 
+omit [Finite G] in
 theorem s15_T7_barSub_eq_of_barSub_eq {M V₀ V₁ V X Y : Subgroup G} (hV : IsElemAbelian 2 V)
     (h01 : V₀ ≤ V₁) (hM : M ≤ stabTil V₀ V) (hM₁ : M ≤ stabTil V₁ V) (hX : X ≤ M) (hY : Y ≤ M)
     (h : barSub V₀ V hV X = barSub V₀ V hV Y) : barSub V₁ V hV X = barSub V₁ V hV Y :=

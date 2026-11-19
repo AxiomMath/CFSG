@@ -723,7 +723,7 @@ theorem land_one_of_testBit {A B p : ℕ} (h : A.testBit p = B.testBit p) :
   rw [Nat.testBit_eq_decide_div_mod_eq, Nat.testBit_eq_decide_div_mod_eq] at h
   rcases Nat.mod_two_eq_zero_or_one (A / 2 ^ p) with h1 | h1 <;>
     rcases Nat.mod_two_eq_zero_or_one (B / 2 ^ p) with h2 | h2 <;>
-    rw [h1, h2] at h ⊢ <;> first | rfl | exact absurd h (by decide)
+    rw [h1, h2] at h ⊢ <;> (exact absurd h (by decide))
 
 @[expose] noncomputable def colN (A n : ℕ) : ℕ :=
   Nat.rec (motive := fun _ => ℕ) 0 (fun r acc => Nat.lor acc

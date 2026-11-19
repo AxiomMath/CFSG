@@ -125,7 +125,7 @@ theorem lyR_le_centralizer : lyR ρ ≤ centralizer ({t} : Set G) := by
   rintro _ ⟨h, -, rfl⟩
   exact h.2
 
-private theorem mul_comm_of_sq {E : Type*} [Group E] {a b z : E} (hz : ∀ x, x * z = z * x)
+private theorem mul_comm_of_sq {E : Type*} [Group E] {a b z : E} (_hz : ∀ x, x * z = z * x)
     (ha : a * a = 1) (hb : b * b = 1) (hab : (a * b) ^ 2 = z) : a * b = b * a * z := by
   rw [← hab, pow_two]
   symm

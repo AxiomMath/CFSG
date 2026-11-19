@@ -211,7 +211,7 @@ theorem even_center_section_global_rank_central_cover {G : Type u} [Group G] [Fi
   set T : Sylow 2 C := default with hT
   set R : Subgroup K := (T : Subgroup C).map C.subtype with hR
   have hRn : R.Normal := hCsyl 2 T
-  have hRp : IsPGroup 2 R := T.isPGroup'.map _
+  have hRp : IsPGroup 2 R := T.isPGroup.map _
   have hRC : R ≤ C := Subgroup.map_subtype_le _
   have hRne : R ≠ ⊥ := by
     rw [hR, Ne, Subgroup.map_eq_bot_iff_of_injective _ C.subtype_injective]

@@ -14,6 +14,7 @@ open Subgroup CFSG.Assembly.LowTwoRank
 
 variable {X : Type} [Group X] [Finite X] {L S : Subgroup X}
 
+omit [Finite X] in
 private theorem relIndex_centralizer_conj' {I : Subgroup X} (hI : I.Normal) (g x : X) :
     (centralizer ({g * x * g⁻¹} : Set X)).relIndex I =
       (centralizer ({x} : Set X)).relIndex I := by

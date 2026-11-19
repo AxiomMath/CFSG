@@ -26,7 +26,7 @@ theorem rootSpan_a2Roots_eq_range {Ω : Type} [Field Ω]
   congr 1
   rw [frame_roots_eq (hneg := hfr.neg) (hadd := hfr.add) rfl rfl]
   ext r
-  simp [a2Roots, e6A2Roots, neg_add]
+  simp [a2Roots, e6A2Roots]
   tauto
 
 theorem exists_block_conj_diag {Ω : Type} [Field Ω] [IsAlgClosed Ω]
@@ -80,8 +80,7 @@ theorem exists_block_conj_diag {Ω : Type} [Field Ω] [IsAlgClosed Ω]
     fin_cases i <;> fin_cases j <;>
       first
       | exact absurd rfl hij
-      | (simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
-          Matrix.cons_val_two, Matrix.tail_cons] at h'
+      | (simp only at h'
          first
          | exact hω1 h'
          | exact hω1 h'.symm
@@ -231,7 +230,7 @@ theorem exists_torus_lang {Ω : Type} [Field Ω] [IsAlgClosed Ω] {Fr : Ω →+*
   rw [inv_inv, ← rootDiagUnit_mul]
   congr 1
   funext i
-  simp only [hbu, Pi.inv_apply, Pi.pow_apply, Pi.mul_apply, Units.val_mul,
+  simp only [hbu, Pi.pow_apply, Pi.mul_apply, Units.val_mul,
     Units.val_pow_eq_pow_val, Units.val_mk0, Units.ext_iff]
   have hbi := hb i
   rw [← hbi]

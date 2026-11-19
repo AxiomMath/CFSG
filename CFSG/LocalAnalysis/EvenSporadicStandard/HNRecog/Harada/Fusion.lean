@@ -49,7 +49,7 @@ theorem harada_exists_u [Finite G] [IsSimpleGroup G] (hnonab : ∃ a b : G, a * 
   · exact HarCoreData.conj_z_eq hD.core hun
 
 theorem harada_not_isConj_t_z [Finite G] (hD : HData G t z b z₁ S Eg T T' W0 ι) {u : G}
-    (hu : u ∈ normalizer (S : Set G)) (huz : u * z * u⁻¹ = z)
+    (_hu : u ∈ normalizer (S : Set G)) (huz : u * z * u⁻¹ = z)
     (hcard : Nat.card ↥(S ⊔ Subgroup.zpowers u) = 2 ^ 12) : ¬ IsConj t z := by
   intro hconj
   rw [isConj_iff] at hconj

@@ -47,8 +47,8 @@ theorem sec4F_sign_hom (T : Subgroup G) (X : Set G) (hXf : X.Finite)
       g * a * g⁻¹ = b → g * b * g⁻¹ = a →
         (∀ e ∈ X, e ≠ a → e ≠ b → g * e * g⁻¹ = e) → ψ ⟨g, hg⟩ = -1 := by
   classical
-  haveI : Finite ↥X := hXf
-  haveI : Fintype ↥X := Fintype.ofFinite ↥X
+  have : Finite ↥X := hXf
+  have : Fintype ↥X := Fintype.ofFinite ↥X
   refine ⟨Equiv.Perm.sign.comp (sec4F_conjHom T X hX), ?_⟩
   intro g hg a b ha hb hab h1 h2 hfix
   have hπ : sec4F_conjHom T X hX ⟨g, hg⟩ = Equiv.swap ⟨a, ha⟩ ⟨b, hb⟩ := by

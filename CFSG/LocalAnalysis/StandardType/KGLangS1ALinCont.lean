@@ -169,7 +169,7 @@ theorem kgLangS1A_lin_cont
     change θ' (QuotientGroup.mk (κ (slConjugation d F g₀ h))) = _
     rw [hκ]
     exact LinearFlag.conjAut_proj g₀ h
-  haveI hSLperf : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin d) F) :=
+  have hSLperf : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin d) F) :=
     CFSG.LinearGroups.special_linear_dimension_at_least_three_perfect hd
   have hSL : commutator (Matrix.SpecialLinearGroup (Fin d) F) = ⊤ :=
     Group.IsPerfect.commutator_eq_top
@@ -409,7 +409,7 @@ theorem kgLangS1A_lin_cont
     simp only [map_mul, map_inv, map_pow, hAe β₀ (hB₀A hβ₀), hBk β₀ hβ₀]
   refine ⟨k, eK ^ j, ?_, ?_, ?_, ?_, ?_⟩
   · intro h
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have horder : orderOf eK = p := orderOf_eq_prime heKp heKne
     exact hjp (by rw [← horder, orderOf_dvd_iff_pow_eq_one]; exact h)
   · rw [← pow_mul, mul_comm, pow_mul, heKp, one_pow]

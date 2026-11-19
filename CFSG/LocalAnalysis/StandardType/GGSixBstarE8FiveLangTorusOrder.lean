@@ -95,9 +95,9 @@ theorem conj_mem_adjEmb_range_of_mem_twistedTorus {K : Type} [Field K] [Finite K
   have hcardT : Nat.card (twistedTorus n Fr) = (Nat.card K * Nat.card K + 1) ^ 4 := by
     rw [hn]
     exact natCard_twistedTorus_E8W (L := L) (ℓ := ℓ) (Fr := Fr) (q := Nat.card K) hFr hℓK
-  haveI hTfin : Finite (twistedTorus n Fr) :=
+  have hTfin : Finite (twistedTorus n Fr) :=
     Nat.finite_of_card_ne_zero (by rw [hcardT]; exact pow_ne_zero _ (Nat.succ_ne_zero _))
-  haveI hXfin : Finite X :=
+  have hXfin : Finite X :=
     Finite.of_surjective ((MulAut.conj g₀).toMonoidHom.subgroupMap (twistedTorus n Fr))
       ((MulAut.conj g₀).toMonoidHom.subgroupMap_surjective (twistedTorus n Fr))
   have hXC : X ≤ adjointGroup Tag.E8 L := by

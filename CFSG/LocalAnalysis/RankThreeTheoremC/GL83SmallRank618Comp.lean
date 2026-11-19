@@ -131,7 +131,7 @@ private theorem comp618_eq_one_of_mem_center {E : Type} [Group E] [Finite E] {p 
     have h := htriv
     rw [show tr z = _ from MonoidHom.transfer_eq_pow (MonoidHom.id S) z hkey] at h
     exact congrArg Subtype.val h
-  obtain ⟨n, hn⟩ := S.isPGroup' ⟨z, hzS⟩
+  obtain ⟨n, hn⟩ := S.isPGroup ⟨z, hzS⟩
   have h1 : orderOf z ∣ (S : Subgroup E).index := orderOf_dvd_of_pow_eq_one hpow
   have h2 : orderOf z ∣ p ^ n :=
     orderOf_dvd_of_pow_eq_one (by simpa using congrArg Subtype.val hn)

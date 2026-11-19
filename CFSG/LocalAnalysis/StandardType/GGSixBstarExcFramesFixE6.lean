@@ -63,7 +63,7 @@ theorem exists_inner_on_torusPow_E6 {K : Type} [Field K] [Finite K] {p : ℕ} [F
     units_map_entrywise_eq_self hσp hv'
   refine Subtype.ext ?_
   rw [hexpr v, hq, hfix]
-  simp only [mul_one, one_mul, inv_one]
+  simp only [mul_one, inv_one]
   rw [mul_assoc (g : ModGL .E6 K) (rootDiagUnit .E6 a) (v : ModGL .E6 K),
     rootDiagUnit_mul_comm_of_mem_torusGroup a hv'.1,
     Subgroup.coe_mul, Subgroup.coe_mul, Subgroup.coe_inv]

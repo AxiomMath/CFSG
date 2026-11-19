@@ -13,6 +13,7 @@ open CFSG.Open CFSG.ABGLocalTools Subgroup
 
 variable {Γ : Type} [Group Γ] [Finite Γ]
 
+omit [Finite Γ] in
 theorem uc22r8100b_exists_sylow_mem {q : ℕ} [Fact q.Prime] {K : Subgroup Γ} {t : Γ} (ht : t ∈ K)
     (hto : orderOf t = q) : ∃ S : Subgroup Γ, IsSylowOf q S K ∧ t ∈ S := by
   have hP : IsPGroup q (Subgroup.zpowers (⟨t, ht⟩ : K)) := by
@@ -26,7 +27,7 @@ theorem uc22r8100b_centralizes {n m p q : ℕ} {K S : Subgroup Γ} (hK : IsL2 K 
     (hp : p.Prime) (hp2 : p ≠ 2) (hq : q.Prime) (hqm : q ∣ 2 ^ m - 1) (hS : IsSylowOf q S K)
     {d : Γ} (hdK : d ∈ normalizer (K : Set Γ)) (hdS : d ∈ normalizer (S : Set Γ))
     (hdp : d ^ p = 1) {t : Γ} (htS : t ∈ S) (hto : orderOf t = q) : d * t = t * d := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨Q, rfl⟩ := hS
   have htK : t ∈ K := Subgroup.map_subtype_le _ htS
   have hmem : ∀ y : K, y ∈ (Q : Subgroup K) ↔ (y : Γ) ∈ (Q : Subgroup K).map K.subtype :=
@@ -46,10 +47,11 @@ theorem uc22r8100b_centralizes {n m p q : ℕ} {K S : Subgroup Γ} (hK : IsL2 K 
     ((Subgroup.orderOf_coe (⟨t, htK⟩ : K)).symm.trans hto)
   exact mul_inv_eq_iff_eq_mul.1 (congrArg Subtype.val hfix)
 
+omit [Finite Γ] in
 theorem uc22r8100b_card_inf_le {K B : Subgroup Γ} {n p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hK : IsL2 K n) (hB : IsElemAbelian p B) : Nat.card (B ⊓ K : Subgroup Γ) ≤ p := by
   have h1 : IsElemAbelian p ((B ⊓ K).subgroupOf K) := (hB.mono inf_le_left).subgroupOf K
-  haveI := h1.isElementaryAbelian
+  have := h1.isElementaryAbelian
   have h2 := uc22p22g_rank hp hp2 hK ((B ⊓ K).subgroupOf K)
   rwa [Nat.card_congr (Subgroup.subgroupOfEquivOfLe (inf_le_right : B ⊓ K ≤ K)).toEquiv] at h2
 
@@ -61,8 +63,8 @@ theorem uc22r8100b_exists_centralizing_D {K₁ K₂ A₀ : Subgroup Γ} {n m p q
     (ht₁ : t₁ ∈ K₁) (ht₂ : t₂ ∈ K₂) (hto₁ : orderOf t₁ = q) (hto₂ : orderOf t₂ = q) :
     ∃ D : Subgroup Γ, IsElemAbelian p D ∧ Nat.card D = p ^ 2 ∧
       ∀ d ∈ D, d * t₁ = t₁ * d ∧ d * t₂ = t₂ * d := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hqn : q ∣ 2 ^ n - 1 :=
     hqm.trans (Nat.pow_sub_one_dvd_pow_sub_one 2 ⟨p, by rw [hn, mul_comm]⟩)
   obtain ⟨S₁, hS₁, ht₁S⟩ := uc22r8100b_exists_sylow_mem ht₁ hto₁

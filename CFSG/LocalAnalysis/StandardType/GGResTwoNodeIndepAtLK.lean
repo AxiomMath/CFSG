@@ -28,7 +28,7 @@ theorem ggTwoNodeIndepAtL_weyl (hKG : GGReflClassLargeInput') (hOrb : GGResCentB
     (hpm1 : 5 ≤ p → GGIndepPm1 p N ι (ggAutomizer L Bs ⊔ ggAutomizer K Bs)) :
     GGWeylReflectionGroup p (ggAutomizer L Bs ⊔ ggAutomizer K Bs) := by
   have hp2 : p ≠ 2 := by omega
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
   have F := ggXDatumA_indep_frame hFix hp2 hH hx (by omega) hpN e hML hCL hφ hpair hAL hind
   exact ggIndep_pos_weyl hKG hp hN hH.2.2.2.1 hx
     (sup_le (ggAutomizer_mono Bs le_top) (ggAutomizer_mono Bs le_top))
@@ -54,7 +54,7 @@ theorem ggTwoNodeIndepAtK_weyl (hKG : GGReflClassLargeInput') (hOrbK : GGResCent
     (hpm1 : 5 ≤ p → GGIndepPm1 p N ι (ggAutomizer K Bs ⊔ ggAutomizer L Bs)) :
     GGWeylReflectionGroup p (ggAutomizer K Bs ⊔ ggAutomizer L Bs) := by
   have hp2 : p ≠ 2 := by omega
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
   have F := ggXDatumA_indep_frame_K hp2 hH hy hstrong (by omega) hpN e hMK hCK hφ hpair hAK hind
   have hstab : Nat.card ↥((ggAutomizer K Bs ⊔ ggAutomizer L Bs) ⊓
       MulAction.stabilizer (MulAut ↥Bs) (⟨y, hy⟩ : ↥Bs)) ≤ (p - 1) * 6 * Nat.card ↥(ggAutomizer K Bs) := by

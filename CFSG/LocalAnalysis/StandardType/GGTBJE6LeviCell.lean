@@ -74,7 +74,7 @@ theorem ggTBJE6Levi_of_frame
     (hrange : ι₀.range = E) {m : ℕ} (wt : GGTorusTorWit m 6 ↥X (ggGamma X hN).range)
     (hact : ∀ k s, ψ (wt.n k) * ι₀ (Multiplicative.ofAdd s) * (ψ (wt.n k))⁻¹ =
       ι₀ (Multiplicative.ofAdd (TableBExc.torusAct .E6 p (simple .E6 k) s)))
-    (hwt : wt.Holds CartanMatrix.E₆ CoxeterMatrix.E₆)
+    (hwt : wt.Holds (CartanMatrix.E 6) CoxeterMatrix.E₆)
     {F : Type} [Field F] {ζ : Fˣ} (hζ : ζ ^ p = 1) (hζo : orderOf ζ = p)
     (hClass : ∀ (t : Fin Tag.E6.rank → ZMod p), ι₀ (Multiplicative.ofAdd t) ≠ 1 →
       ∀ (Y : Subgroup H),
@@ -410,7 +410,6 @@ theorem ggTBJE6Levi_of_frame
     have hwstab : w ∈ rootCharStabilizerSubgroup a := by
       rw [mem_rootCharStabilizerSubgroup]
       intro c
-      change rootChar a (w • c) = rootChar a c
       rw [NoOffE8Five.rootChar_zetaVec hζ, NoOffE8Five.rootChar_zetaVec hζ,
         e6lf_sum_frameCoord_smul w c s_g hwinv]
     have hwfix : ∀ c ∈ kernelRoots (rootCharHom a), c ∉ componentRoots (rootCharHom a) i →
@@ -465,7 +464,7 @@ theorem ggTBJE6Levi_of_frame
         s = rootReflection γ} := by
     congr 1
     ext s
-    simp only [Set.mem_image, Set.mem_setOf_eq]
+    simp only [Set.mem_image, Set.mem_ofPred_eq]
     exact ⟨fun ⟨γ, hγ, e⟩ => ⟨γ, hγ, e.symm⟩, fun ⟨γ, hγ, e⟩ => ⟨γ, hγ, e.symm⟩⟩
   have hpar : Subgroup.closure (rootReflection '' componentRoots (rootCharHom a) i) =
       Subgroup.closure ((fun j : Fin 6 => v₀ * simple .E6 j * v₀⁻¹) '' {j : Fin 6 | j ∉ S}) := by
@@ -508,8 +507,8 @@ theorem ggTBJE6Levi_of_coverModel
   let : Field Fq := hFqF
   let : Finite Fq := hFqFin
   let : CharP Fq 2 := hFqChar
-  haveI : Finite (ModGL .E6 Fq) := finite_modGL
-  haveI : Finite ↥(adjointGroup .E6 Fq) := Subtype.finite
+  have : Finite (ModGL .E6 Fq) := finite_modGL
+  have : Finite ↥(adjointGroup .E6 Fq) := Subtype.finite
   refine ggTBJE6Levi_of_frame hp2 hp3 hBs hSC hJX hgBs hJg hgX hcomp hN hZp ψ hψs hψk Λ hΛi hΛc
     hΛn hA ι₀ hι₀ hrange wt hact hwt hζ hζo (fun t _ Y hY => ?_) bX hbX1 hbXc hcardJ
   obtain ⟨i, hYspan, hCENT⟩ := e8Split_class hK4 hcoe hY

@@ -12,11 +12,11 @@ theorem lit_mem_iff_of_simple {G : Type} [Group G] [Finite G] {M : Subgroup G} [
     (hs : IsSimpleGroup ↥M) (hC : centralizer (M : Set G) = ⊥) (σ : G ≃* G) :
     ∀ x, x ∈ M ↔ σ x ∈ M := by
   set M' : Subgroup G := M.map σ.toMonoidHom with hM'
-  haveI : M'.Normal := Subgroup.Normal.map inferInstance σ.toMonoidHom σ.surjective
+  have : M'.Normal := Subgroup.Normal.map inferInstance σ.toMonoidHom σ.surjective
   have hcard : Nat.card M' = Nat.card M := Subgroup.card_map_of_injective σ.injective
   have hmem : ∀ x, x ∈ M' ↔ σ.symm x ∈ M := fun x => Subgroup.mem_map_equiv
   have hMM' : M = M' := by
-    haveI : (M ⊓ M').Normal := inferInstance
+    have : (M ⊓ M').Normal := inferInstance
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((M ⊓ M').subgroupOf M) with h | h
     · exfalso
       have hinf : ∀ x, x ∈ M → x ∈ M' → x = 1 := by
@@ -42,8 +42,8 @@ theorem lit_mem_iff_of_simple {G : Type} [Group G] [Finite G] {M : Subgroup G} [
         rw [hC] at hxC
         exact hxC
       have h1 : Nat.card M = 1 := by rw [← hcard, hbot]; exact Subgroup.card_bot
-      haveI : Subsingleton ↥M := (Nat.card_eq_one_iff_unique.mp h1).1
-      haveI := hs.toNontrivial
+      have : Subsingleton ↥M := (Nat.card_eq_one_iff_unique.mp h1).1
+      have := hs.toNontrivial
       exact false_of_nontrivial_of_subsingleton ↥M
     · have hle : M ≤ M' := by
         have := Subgroup.subgroupOf_eq_top.mp h
@@ -76,7 +76,7 @@ theorem lit_restrict_one {G : Type} [Group G] {M : Subgroup G} [M.Normal]
 
 theorem lit_card_le_mulAut {G : Type} [Group G] [Finite G] {M : Subgroup G} [M.Normal]
     (hC : centralizer (M : Set G) = ⊥) : Nat.card G ≤ Nat.card (MulAut ↥M) := by
-  haveI : Finite (MulAut ↥M) :=
+  have : Finite (MulAut ↥M) :=
     Finite.of_injective (fun α : MulAut ↥M => (α : ↥M → ↥M)) DFunLike.coe_injective
   refine Nat.card_le_card_of_injective (MulAut.conjNormal (H := M)) ?_
   rw [injective_iff_map_eq_one]

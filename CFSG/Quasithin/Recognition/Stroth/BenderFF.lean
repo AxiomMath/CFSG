@@ -52,7 +52,7 @@ private theorem pCore_eq_bot_of_quasisimple_of_center_pow_three {Q : Type} [Grou
     have hPQ : IsPGroup 2 Q := IsPGroup.of_equiv htopP Subgroup.topEquiv
     have hsub : Subsingleton Q :=
       CFSG.Quasithin.H13.C1294.subsingleton_of_perfect_isPGroup hPQ hQ.1.commutator_eq_top
-    haveI : Nontrivial Q := CFSG.LocalCores.isQuasisimple_nontrivial hQ
+    have : Nontrivial Q := CFSG.LocalCores.isQuasisimple_nontrivial hQ
     obtain ⟨a, b, hab⟩ := (inferInstance : Nontrivial Q).exists_pair_ne
     exact hab (Subsingleton.elim a b)
   · rw [eq_bot_iff]
@@ -71,6 +71,7 @@ private theorem pCore_eq_bot_of_quasisimple_of_center_pow_three {Q : Type} [Grou
       have : 3 ∣ 2 := hprime.dvd_of_dvd_pow hdvd2
       omega
 
+omit [Finite G] in
 private theorem omegaOneCenter_pCore_facts (H : Subgroup G) :
     IsElemAbelian 2 (CFSG.Quasithin.omegaOneCenterOf (CFSG.Open.pCoreOf 2 H)) ∧
       CFSG.Quasithin.omegaOneCenterOf (CFSG.Open.pCoreOf 2 H) ≤ H ∧
@@ -83,6 +84,7 @@ private theorem omegaOneCenter_pCore_facts (H : Subgroup G) :
    CFSG.Quasithin.SmithC27.le_normalizer_omegaOneCenterOf_pCoreOf H,
    CFSG.Quasithin.SmithC27.pCoreOf_le_centralizer_omegaOneCenterOf H⟩
 
+omit [Finite G] in
 private theorem Csub_facts {H V : Subgroup G}
     (hHN : H ≤ Subgroup.normalizer (V : Set G))
     (hRV : CFSG.Open.pCoreOf 2 H ≤ Subgroup.centralizer (V : Set G))
@@ -109,6 +111,7 @@ private theorem Csub_facts {H V : Subgroup G}
     simpa [Subgroup.mem_subgroupOf] using hmem
   exact ⟨hRC, hCsub_normal, hCsub_ne_top⟩
 
+omit [Finite G] in
 private theorem centralFactor_center {H : Subgroup G} {Rsub Csub : Subgroup ↥H}
     [Rsub.Normal] (hCsub_normal : Csub.Normal) (hRC : Rsub ≤ Csub)
     {Q : Type} [Group Q] (eQ : (↥H ⧸ Rsub) ≃* Q) (hQ : CFSG.IsQuasisimple Q)
@@ -178,6 +181,7 @@ private theorem autI_isQuasisimple {V : Subgroup G} (hV : IsElemAbelian 2 V)
         (Subgroup.mul_mem _ hx hk) (Subgroup.inv_mem _ hx)) hHq
   exact ⟨hHq, hCent3star, hO2, hLF⟩
 
+omit [Finite G] in
 private theorem autI_centerQuot {V : Subgroup G} (hV : IsElemAbelian 2 V)
     {H : Subgroup G} {Q : Type} [Group Q] (hQ : CFSG.IsQuasisimple Q)
     {Csub : Subgroup ↥H} [Csub.Normal] {D' : Subgroup Q} [D'.Normal]
@@ -218,6 +222,7 @@ private theorem not_isFFModule_autI {V : Subgroup G} (hV : IsElemAbelian 2 V)
     (fun w => by rw [← pow_two]; exact CFSG.Quasithin.IntMod.sq_eq_one w)
     hLF hHq hO2 hNoFF ⟨eY⟩) hFF
 
+omit [Finite G] in
 private theorem eq_top_subgroupOf_of_central_factor {H : Subgroup G}
     {Rsub Csub Nsub : Subgroup ↥H} [Rsub.Normal]
     (hQbar : CFSG.IsQuasisimple (↥H ⧸ Rsub))
@@ -228,7 +233,7 @@ private theorem eq_top_subgroupOf_of_central_factor {H : Subgroup G}
   let mkR : ↥H →* ↥H ⧸ Rsub := QuotientGroup.mk' Rsub
   let D : Subgroup (↥H ⧸ Rsub) := Csub.map mkR
   let Nbar : Subgroup (↥H ⧸ Rsub) := Nsub.map mkR
-  haveI : Group.IsPerfect (↥H ⧸ Rsub) := hQbar.1
+  have : Group.IsPerfect (↥H ⧸ Rsub) := hQbar.1
   have htopD : (⊤ : Subgroup (↥H ⧸ Rsub)) = Nbar ⊔ D := by
     calc (⊤ : Subgroup (↥H ⧸ Rsub)) = (⊤ : Subgroup ↥H).map mkR :=
           (Subgroup.map_top_of_surjective _ (QuotientGroup.mk'_surjective Rsub)).symm
@@ -238,6 +243,7 @@ private theorem eq_top_subgroupOf_of_central_factor {H : Subgroup G}
     CFSG.GroupTheory.eq_top_of_sup_le_center_of_isPerfect hD_center htopD.symm
   exact (map_mk'_eq_top_iff hRN).1 hNbar_top
 
+omit [Finite G] in
 private theorem le_normalizer_thompsonJ_of_subgroupOf_eq_top {H T : Subgroup G}
     (hNtop : (H ⊓ Subgroup.normalizer (thompsonJ T : Set G)).subgroupOf H = ⊤) :
     H ≤ Subgroup.normalizer (thompsonJ T : Set G) := by
@@ -284,8 +290,8 @@ private theorem le_centralizer_or_le_normalizer_of_quasisimple
       simpa [D', D, mkR] using (centralFactor_center hCsub_normal hRC eQ hQ hCsub_ne_top).1
     have hD_normal : D.Normal := hCsub_normal.map _ (QuotientGroup.mk'_surjective Rsub)
     have hD'_normal : D'.Normal := hD_normal.map _ eQ.surjective
-    haveI : Csub.Normal := hCsub_normal
-    haveI : D'.Normal := hD'_normal
+    have : Csub.Normal := hCsub_normal
+    have : D'.Normal := hD'_normal
     have hquot : Nonempty (↥H ⧸ Csub ≃* Q ⧸ D') :=
       ⟨(QuotientGroup.quotientQuotientEquivQuotient Rsub Csub hRC).symm.trans
         (QuotientGroup.congr D D' eQ rfl)⟩
@@ -374,13 +380,13 @@ theorem le_centralizer_or_le_normalizer_thompsonJ
         ⟨QuotientGroup.quotientBot.symm.trans
           (QuotientGroup.quotientMulEquivOfEq (center_sz a ha)).symm⟩
   ·
-    letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    letI : Fintype F := Fintype.ofFinite F
+    let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    let : Fintype F := Fintype.ofFinite F
     have hcard' : Nat.card F = 2 ^ (2 * n) := by
       rw [hcard, ← pow_mul, Nat.mul_comm n 2]
     have hcard'' : Fintype.card F = 2 ^ (2 * n) := by
       rw [← Nat.card_eq_fintype_card]; exact hcard'
-    haveI : CharP F 2 := charP_of_card_eq_prime_pow (f := 2 * n) hcard''
+    have : CharP F 2 := charP_of_card_eq_prime_pow (f := 2 * n) hcard''
     have hnq : ((3 : ℕ), 2 ^ n) ≠ (3, 2) := by
       intro h
       have h2 : 2 ^ n = 2 := congrArg Prod.snd h
@@ -402,7 +408,7 @@ theorem le_centralizer_or_le_normalizer_thompsonJ
       have hSimple : IsSimpleGroup (StatedProj (StatedSU 3 (2 ^ n) F)) :=
         CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU F 2 n hcard 3
           (by norm_num) hnq
-      haveI := hSimple
+      have := hSimple
       have hnc := CFSG.Quasithin.F6.InspRest.exists_noncomm_statedProj
         (H := StatedSU 3 (2 ^ n) F) hSUq hSimple
       have hQ : CFSG.IsQuasisimple (StatedProj (StatedSU 3 (2 ^ n) F)) :=

@@ -115,6 +115,7 @@ theorem ggQTwoDUnitSix_conj_mem_coordBlockSU_erase (hK : Nat.card K = 4) {ω : K
   exact Subgroup.mem_subgroupOf.mp ((qtwoDB39_coordBlock_normal (c := k) hK hω1).conj_mem
     ⟨v, hvF⟩ (Subgroup.mem_subgroupOf.mpr hv) ⟨w, hw⟩)
 
+omit [Finite G] in
 theorem ggQTwoDUnitSix_P_comp_L (hK : Nat.card K = 4) (hD : NsQuot.Datum p N f L Bs Z)
     (hψr : ψ.range = NsQuot.img N f L) (hψk : ψ.ker ≤ Subgroup.center (Su K 2 1 6))
     {a c : Fin 6} (hac : a ≠ c) {P : Subgroup G} (hPL : P ≤ L) [Group.IsPerfect ↥P]

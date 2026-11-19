@@ -218,7 +218,7 @@ theorem exists_perfect_lift_le (hP : IsParabolicTwo L J)
     exact Subgroup.comap_mono hVJ
   have hsub : (W'.map L.subtype).subgroupOf L = W' := by
     ext w
-    simp [Subgroup.mem_subgroupOf, Subgroup.mem_map]
+    simp
   refine ⟨W'.map L.subtype, ?_, ?_, ?_⟩
   · rintro _ ⟨w, hw, rfl⟩
     exact Subgroup.mem_subgroupOf.1 (hW'J hw)

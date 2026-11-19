@@ -103,6 +103,7 @@ namespace T723
 @[expose] def stabToG₀ (α : CosetGeom G₀ G₁ G₂) : ↥(stab α) →* ↥G₀ :=
   Subgroup.inclusion (CosetGeom.stab_le α)
 
+omit [Finite G] in
 theorem stabToG₀_smul_mem (α : CosetGeom G₀ G₁ G₂) (h : ↥(stab α)) {δ : CosetGeom G₀ G₁ G₂}
     (hδ : δ ∈ nbrs α) : stabToG₀ α h • δ ∈ nbrs α :=
   IsLocalReg.smul_mem_nbrs (g := stabToG₀ α h) hδ h.2
@@ -133,11 +134,13 @@ scoped instance instDistribMulActionAdditive (α : CosetGeom G₀ G₁ G₂) (W 
   smul_zero h := map_zero _
   smul_add h m n := map_add _ m n
 
+omit [Finite G] in
 theorem smul_eq_of_mem_ballStab (α : CosetGeom G₀ G₁ G₂) {h : ↥(stab α)}
     (hh : (h : G) ∈ ballStab 1 α) (ω : ↥(nbrs α)) : h • ω = ω :=
   Subtype.ext (CosetGeom.smul_eq_of_mem_stab (g := stabToG₀ α h)
     (CosetGeom.mem_ballStab.mp hh ω.1 (CosetGeom.dist_eq_one_iff_adj.mpr ω.2).le))
 
+omit [Finite G] in
 theorem mem_ballStab_of_forall_smul_eq (hG : G₀ = G₁ ⊔ G₂) (α : CosetGeom G₀ G₁ G₂)
     {h : ↥(stab α)} (hfix : ∀ ω : ↥(nbrs α), h • ω = ω) : (h : G) ∈ ballStab 1 α := by
   refine CosetGeom.mem_ballStab.mpr fun δ hδ => ?_
@@ -146,6 +149,7 @@ theorem mem_ballStab_of_forall_smul_eq (hG : G₀ = G₁ ⊔ G₂) (α : CosetGe
   · exact CosetGeom.mem_stab_of_smul_eq (g := stabToG₀ α h)
       (congrArg Subtype.val (hfix ⟨δ, hadj⟩))
 
+omit [Finite G] in
 theorem exists_unipotentH {α : CosetGeom G₀ G₁ G₂} {L : Subgroup G} (hL : BenderLocal α L)
     {β : CosetGeom G₀ G₁ G₂} (hβ : β ∈ nbrs α) :
     ∃ U : Subgroup ↥(stab α), U ≤ L.subgroupOf (stab α) ∧ IsPGroup 2 U ∧
@@ -181,11 +185,13 @@ theorem exists_unipotentH {α : CosetGeom G₀ G₁ G₂} {L : Subgroup G} (hL :
       Subtype.ext hny
     rw [e, mul_smul, smul_eq_of_mem_ballStab α hn]
 
+omit [Finite G] in
 theorem exists_mem_smul_eq {α : CosetGeom G₀ G₁ G₂} {L : Subgroup G} (hL : BenderLocal α L)
     (μ ν : ↥(nbrs α)) : ∃ l ∈ L.subgroupOf (stab α), l • μ = ν := by
   obtain ⟨g, hgL, hg⟩ := hL.trans μ.1 μ.2 ν.1 ν.2
   exact ⟨⟨(g : G), hL.le_stab hgL⟩, hgL, Subtype.ext hg⟩
 
+omit [Finite G] in
 theorem card_fixedBy_nbrs (α : CosetGeom G₀ G₁ G₂) (z : ↥(stab α)) :
     Nat.card (MulAction.fixedBy ↥(nbrs α) z) =
       Nat.card {δ | δ ∈ nbrs α ∧ (z : G) ∈ stab δ} := by
@@ -214,10 +220,11 @@ theorem card_form {α : CosetGeom G₀ G₁ G₂} {L : Subgroup G} (hL : BenderL
     {β : CosetGeom G₀ G₁ G₂} (hβ : β ∈ nbrs α) (hne : 1 < Nat.card (nbrs α)) :
     ∃ u : ℕ, Nat.card (nbrs α) = 2 ^ u + 1 := by
   obtain ⟨U, -, hU2, hUfix, hUtrans, -, -⟩ := exists_unipotentH hL hβ
-  haveI : Nontrivial ↥(nbrs α) := Finite.one_lt_card_iff_nontrivial.mp hne
+  have : Nontrivial ↥(nbrs α) := Finite.one_lt_card_iff_nontrivial.mp hne
   obtain ⟨μ, hμ⟩ := exists_ne (⟨β, hβ⟩ : ↥(nbrs α))
   exact PermBound.exists_card_eq_two_pow_add_one hU2 hUfix hUtrans ⟨μ, hμ⟩
 
+omit [Finite G] in
 theorem subgroupOf_odd_gen {K L : Subgroup G} (hLK : L ≤ K)
     (h : L ≤ Subgroup.closure {x : G | x ∈ L ∧ Odd (orderOf x)}) :
     L.subgroupOf K ≤ Subgroup.closure {x : ↥K | x ∈ L.subgroupOf K ∧ Odd (orderOf x)} := by
@@ -244,9 +251,11 @@ open scoped IsMulCommutative
     AddSubgroup (Additive ↥W) :=
   Subgroup.toAddSubgroup ((Vv Z μ).subgroupOf W)
 
+omit [Finite G] in
 theorem mem_Vmod {Z W : Subgroup G} {μ : CosetGeom G₀ G₁ G₂} {v : Additive ↥W} :
     v ∈ Vmod Z W μ ↔ ((Additive.toMul v : ↥W) : G) ∈ Vv Z μ := Iff.rfl
 
+omit [Finite G] in
 theorem iSup_Vmod_eq_top (α : CosetGeom G₀ G₁ G₂) :
     ⨆ μ : ↥(nbrs α), Vmod Z (Wv Z α) μ.1 = ⊤ := by
   have h1 : ⨆ μ : ↥(nbrs α), (Vv Z μ.1).subgroupOf (Wv Z α) = ⊤ := by
@@ -326,8 +335,8 @@ theorem lower_bound (hc : CritAmalgam G₀ G₁ G₂ T Z) {p : ℕ} {X₀ : Subg
     2 ^ ((Nat.card (nbrs α) - Nat.card {δ | δ ∈ nbrs α ∧ z ∈ stab δ}) / 2) ≤
       Nat.card (ConjAut.commSubgroup (Wv Z α) z) := by
   have hWab : IsElemAbelian 2 (Wv Z α) := isElemAbelian_Wv hc hb hα
-  haveI : IsMulCommutative ↥(Wv Z α) := hWab.1
-  haveI : Fact (stab α ≤ Subgroup.normalizer (Wv Z α : Set G)) := ⟨stab_le_normalizer_Wv hc α⟩
+  have : IsMulCommutative ↥(Wv Z α) := hWab.1
+  have : Fact (stab α ≤ Subgroup.normalizer (Wv Z α : Set G)) := ⟨stab_le_normalizer_Wv hc α⟩
   have hsq : ∀ v ∈ Wv Z α, v * v = 1 := fun v hv => by rw [← pow_two]; exact hWab.2 v hv
   obtain ⟨U, hUL, hU2, hUfix, hUtrans, -, -⟩ := exists_unipotentH hL hβ
   obtain ⟨hV, hstab, hK⟩ := avg_inputs hc hloc hp hα hL
@@ -362,7 +371,7 @@ theorem theorem723_bound (hc : CritAmalgam G₀ G₁ G₂ T Z) {p : ℕ} {X₀ :
   have hG := hc.amalgam.gen
   obtain ⟨α', hdist, hnZ⟩ := exists_dist_eq_critB hc
   have hα' : vtype α' = false := CosetGeom.vtype_eq_false_of_even hG (by rw [hdist]; exact hb)
-  obtain ⟨z, hzZ, hzn⟩ := SetLike.not_le_iff_exists.mp hnZ
+  obtain ⟨z, hzZ, hzn⟩ := IsConcreteLE.not_le_iff_exists.mp hnZ
   set b := critB G₀ G₁ G₂ Z with hbdef
   obtain ⟨β, hβ, hβd⟩ := CosetGeom.exists_adj_dist_eq hG (α := γ₀ G₀ G₁ G₂) (δ := α')
     (d := b - 1) (by rw [hdist]; omega)
@@ -389,7 +398,7 @@ theorem theorem723_bound (hc : CritAmalgam G₀ G₁ G₂ T Z) {p : ℕ} {X₀ :
   have hcard : Nat.card (nbrs α₂) = Nat.card (nbrs α') :=
     (card_nbrs_eq hc hvα₂).trans (card_nbrs_eq hc hα').symm
   have hne : 1 < Nat.card (nbrs α₂) := by
-    haveI : Nontrivial ↥(nbrs α₂) :=
+    have : Nontrivial ↥(nbrs α₂) :=
       ⟨⟨⟨α₁, hα₁α₂⟩, ⟨α₃, hα₃⟩, fun h => hne13 (congrArg Subtype.val h)⟩⟩
     exact Finite.one_lt_card
   have hW : Wv Z α' ≤ stab α₂ :=

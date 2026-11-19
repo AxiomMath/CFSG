@@ -107,7 +107,7 @@ theorem exists_dData_L (hd : Sec19DataT p f K z S W L t V) {b : G}
   have hWN : W ≤ Subgroup.normalizer (RL : Set G) := fun w hw =>
     mem_normalizer_iff_conjSub_eq.mpr (hWRL w hw)
   have hP : IsPGroup 2 ↥(W ⊔ RL) :=
-    IsPGroup.to_sup_of_normal_right' (S.isPGroup'.to_le hd.hWS) hRL.2.1 hWN
+    IsPGroup.to_sup_of_normal_right' (S.isPGroup.to_le hd.hWS) hRL.2.1 hWN
   obtain ⟨S₁, hS₁⟩ := hP.exists_le_sylow
   obtain ⟨η, hη, hWη⟩ := hd.hW
   have hηS₁ : ∀ U ∈ η, U ≤ (S₁ : Subgroup G) := fun U hU =>
@@ -143,7 +143,7 @@ theorem exists_conj_eq_t_of_centralizes (hd : Sec19DataT p f K z S W L t V) {b :
   have hq := ht.branch.five
   have hΩ := hypOmegaMod_of_tightD ht
   have hWc := S1911.comm_of_mem hd.toSec19Data
-  have hW2 : IsPGroup 2 W := S.isPGroup'.to_le hd.hWS
+  have hW2 : IsPGroup 2 W := S.isPGroup.to_le hd.hWS
   have hbt : b ∈ Subgroup.centralizer ({t} : Set G) :=
     Subgroup.mem_centralizer_singleton_iff.mpr
       (Subgroup.mem_centralizer_iff.mp hbW t (S1911.mem_W hd)).symm

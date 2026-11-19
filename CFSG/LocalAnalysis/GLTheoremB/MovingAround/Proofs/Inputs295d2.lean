@@ -46,7 +46,7 @@ theorem three_dvd_card_matrixProjectiveDerived {k : Type} [Field k] [Finite k]
     (hT : ∃ U : Submodule k (Fin d → k), Module.finrank k U = 3 ∧ ∀ u ∈ U, Q u = 0) :
     3 ∣ Nat.card (matrixProjectiveDerived Q) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hdim : 3 ≤ Module.finrank k (Fin d → k) := by
     obtain ⟨U, hU, -⟩ := hT
     rw [← hU]
@@ -105,7 +105,7 @@ theorem not_isPSolvable_fixSubgroup_fieldAutT {K : Type} [Field K] [Finite K] {k
     Subgroup.ext fun t => fieldAutT_apply_iff S t
   have e : matrixProjectiveDerived Q₀ ≃* ↥(subfieldDerivedImage k S.hext) := inclEquiv k S.hext hd
   have hJs : IsSimpleGroup ↥(subfieldDerivedImage k S.hext) := by
-    haveI := hsimp
+    have := hsimp
     exact e.symm.isSimpleGroup
   have hJnc : ¬ IsMulCommutative ↥(subfieldDerivedImage k S.hext) := by
     rintro ⟨hc⟩
@@ -148,6 +148,7 @@ section Gates
 
 variable {K : Type} [Field K] [Finite K] {d : ℕ} {Q : QuadraticForm K (Fin d → K)} {f : ℕ}
 
+omit [Finite K] in
 theorem mem_E_of_top_omega (hg : OrthogonalGates Q f) (htop : projectivePointFamilyAut Q = ⊤)
     (β : MulAut (matrixProjectiveDerived Q)) : β ∈ matrixProjectiveImage Q := by
   have h1 : β ∈ projectivePointFamilyAut Q := htop ▸ Subgroup.mem_top β
@@ -173,7 +174,7 @@ theorem not_isPSolvable_of_gates_omega {G : Type} [Group G]
     refine ⟨e.symm t, (MulAut.congr e).injective ?_⟩
     rw [CFSG.ComponentClassification.OuterAutomorphisms.congr_conj, MulEquiv.apply_symm_apply, ht]
   · have hne1 : MulAut.congr e β ≠ 1 := fun h => hD (h ▸ one_mem _)
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hord : orderOf (MulAut.congr e β) = 3 := orderOf_eq_prime hβ' hne1
     intro hs
     apply hdesc _ hE hD hord
@@ -353,7 +354,7 @@ open scoped MatrixGroups
 
 
 theorem exists_kernelRoot_of_chain {τ : Tag} {L : Type} [Field L] (a : Fin τ.rank → Lˣ)
-    (hap : ∀ l, a l ^ 3 = 1) {i j k : Fin τ.rank} (hij : i ≠ j) (hjk : j ≠ k) (hik : i ≠ k)
+    (hap : ∀ l, a l ^ 3 = 1) {i j k : Fin τ.rank} (_hij : i ≠ j) (_hjk : j ≠ k) (_hik : i ≠ k)
     (h1 : IsRoot τ (Pi.single i 1 + Pi.single j 1)) (h2 : IsRoot τ (Pi.single j 1 + Pi.single k 1))
     (h3 : IsRoot τ (Pi.single i 1 + Pi.single j 1 + Pi.single k 1)) :
     ∃ γ, γ ∈ kernelRoots (rootCharHom a) := by
@@ -477,7 +478,7 @@ theorem exists_sl2_hom_simplyLaced {τ : Tag} {L : Type} [Field L] [IsAlgClosed 
   classical
   obtain ⟨hs0, hs, hmin⟩ := outer_componentOrbitLength_spec S hT i
   set s := componentOrbitLength S.ρ (componentRoots (rootCharHom a) i) with hsdef
-  haveI : NeZero s := ⟨hs0.ne'⟩
+  have : NeZero s := ⟨hs0.ne'⟩
   obtain ⟨θ, hθ⟩ := exists_mem_componentRoots i
   have hθr : IsRoot τ θ := isRoot_of_mem_componentRoots hθ
   have hneg : -θ ∈ componentRoots (rootCharHom a) i :=
@@ -488,8 +489,8 @@ theorem exists_sl2_hom_simplyLaced {τ : Tag} {L : Type} [Field L] [IsAlgClosed 
   obtain ⟨w, hw, hwθ⟩ := exists_weyl_smul_eq_of_mem_componentRoots hτ hθ hρθ
   obtain ⟨σ, z, hσ, hnorm, hz⟩ := exists_untwist_root S hτ hT i hs0 hθ hw hwθ.symm
   obtain ⟨r, e, hr, hchar, he, hq⟩ := exists_char_pow S
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : CharP L r := hchar
+  have : Fact r.Prime := ⟨hr⟩
+  have : CharP L r := hchar
   have hσ' : ∀ c, σ c = c ^ (r ^ (e * s)) := fun c => by rw [hσ, hq, ← pow_mul]
   have hQ4 : 4 ≤ r ^ (e * s) := by
     calc 4 ≤ S.D.q := hq4
@@ -675,7 +676,7 @@ theorem not_isPSolvable_centralizer_twE6 {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 
     ¬ CFSG.HallHigman.IsPSolvable 3
       ↥(Subgroup.centralizer ({y} : Set ↥(twistedE6RootGroup K σ))) := by
   classical
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by
+  have : Finite K := Nat.finite_of_card_ne_zero (by
     rw [hK]
     exact pow_ne_zero _ (pow_ne_zero _ hℓ.ne_zero))
   have hy3 : y ^ 3 = 1 := by rw [← hy]; exact pow_orderOf_eq_one y
@@ -711,7 +712,7 @@ theorem inner295At_untwE {τ : Tag} (hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8)
   intro S _ _ _ _ ⟨e⟩ _ _ _ x hx
   obtain ⟨K, _, _, hK, -, ⟨eK⟩⟩ := CFSG.LieType.SeitzGeneration.exists_catEquiv_adjointGroup hB q hv
   let e' : S ≃* ↥(adjointGroup τ K) := e.trans eK
-  haveI : Finite ↥(adjointGroup τ K) := Finite.of_equiv S e'.toEquiv
+  have : Finite ↥(adjointGroup τ K) := Finite.of_equiv S e'.toEquiv
   have hK3 : ¬ 3 ∣ Nat.card K := by
     rw [hK]
     exact CFSG.LieType.SeitzGeneration.not_dvd_card_of_ne Nat.prime_three (Ne.symm hp3)
@@ -726,7 +727,7 @@ theorem inner295At_twistedE6 (q : TauCeti.PrimePower)
   intro S _ _ _ _ ⟨e⟩ _ _ _ x hx
   obtain ⟨K, _, σ, hK, hσ, ⟨eK⟩⟩ := CFSG.LieType.SeitzGeneration.exists_catEquiv_twistedE6 q hv
   let e' : S ≃* ↥(twistedE6RootGroup K σ) := e.trans eK
-  haveI : Finite ↥(twistedE6RootGroup K σ) := Finite.of_equiv S e'.toEquiv
+  have : Finite ↥(twistedE6RootGroup K σ) := Finite.of_equiv S e'.toEquiv
   have hq4 : 4 ≤ q.p ^ q.exponent := by
     rw [← TauCeti.PrimePower.card_def]
     exact Inputs295c.four_le_card_of hp3 hq2
@@ -736,7 +737,7 @@ theorem inner295At_twistedE6 (q : TauCeti.PrimePower)
 
 theorem three_dvd_card_adjointGroup (τ : Tag) (k : Type) [Field k] [Finite k] :
     3 ∣ Nat.card ↥(adjointGroup τ k) := by
-  haveI : Finite (ModGL τ k) := finite_modGL
+  have : Finite (ModGL τ k) := finite_modGL
   let f : SL(2, k) →* ↥(adjointGroup τ k) :=
     (rootSL2 τ k 0).codRestrict _ fun A => CFSG.LieType.Chevalley.rootSL2_mem_adjointGroup 0 A
   have hf : Function.Injective f := fun A B h =>
@@ -749,8 +750,8 @@ theorem not_isPSolvable_fixSubgroup_entrywise (τ : Tag) {K : Type} [Field K] [F
     (σ : K ≃+* K) (hk : τ = .G2 → 3 ≤ Nat.card (fixSubfield σ)) :
     ¬ CFSG.HallHigman.IsPSolvable 3 ↥(fixSubgroup (entrywiseAdjointAut τ σ)) := by
   classical
-  haveI : Finite (fixSubfield σ) := Subtype.finite
-  haveI : Finite (ModGL τ K) := finite_modGL
+  have : Finite (fixSubfield σ) := Subtype.finite
+  have : Finite (ModGL τ K) := finite_modGL
   obtain ⟨ι, hι, hJC, -, -⟩ :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieComp.ExcCopy.exists_fixed_structure τ σ
   have hperf := CFSG.HardMathSupport.Solomon.Coordinator.LieComp.ExcCopy.isPerfect_adjointGroup τ
@@ -759,13 +760,13 @@ theorem not_isPSolvable_fixSubgroup_entrywise (τ : Tag) {K : Type} [Field K] [F
     CFSG.HardMathSupport.Solomon.Coordinator.LieComp.ExcCopy.isSimpleGroup_adjointGroup_of_perfect
       τ (fixSubfield σ) hperf
   let e : ↥(adjointGroup τ (fixSubfield σ)) ≃* ι.range := MonoidHom.ofInjective hι
-  haveI := hs
+  have := hs
   have hJs : IsSimpleGroup ι.range := e.symm.isSimpleGroup
   have hJnc : ¬ IsMulCommutative ι.range := by
     rintro ⟨hc⟩
     obtain ⟨x, y, hxy⟩ := hnc
     exact hxy (e.injective (by rw [map_mul, map_mul]; exact hc.comm _ _))
-  haveI : Finite (ModGL τ (fixSubfield σ)) := finite_modGL
+  have : Finite (ModGL τ (fixSubfield σ)) := finite_modGL
   have hJ3 : 3 ∣ Nat.card ι.range := by
     rw [← Nat.card_congr e.toEquiv]
     exact three_dvd_card_adjointGroup τ _
@@ -813,7 +814,7 @@ theorem outer295At_untwE {τ : Tag} (hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8)
   intro S _ _ _ _ ⟨e⟩ _ _ _ α hα hout
   obtain ⟨K, _, _, hK, -, ⟨eK⟩⟩ := CFSG.LieType.SeitzGeneration.exists_catEquiv_adjointGroup hB q hv
   let e' : S ≃* ↥(adjointGroup τ K) := e.trans eK
-  haveI : Finite ↥(adjointGroup τ K) := Finite.of_equiv S e'.toEquiv
+  have : Finite ↥(adjointGroup τ K) := Finite.of_equiv S e'.toEquiv
   have hK3 : ¬ 3 ∣ Nat.card K := by
     rw [hK]
     exact CFSG.LieType.SeitzGeneration.not_dvd_card_of_ne Nat.prime_three (Ne.symm hp3)
@@ -844,7 +845,7 @@ theorem exists_sl2_hom_inner {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] {p�
   have : NeZero s := ⟨hs0.ne'⟩
   obtain ⟨σ, z, hσ, hnorm, hz⟩ := exists_untwistT S hT i hs0 hinner
   obtain ⟨r, e, hr, hchar, he, hq⟩ := exists_char_pow S
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hσ' : ∀ c, σ c = c ^ (r ^ (e * s)) := fun c => by rw [hσ, hq, ← pow_mul]
   have hQ4 : 4 ≤ r ^ (e * s) := by
     calc 4 ≤ S.D.q := hq4
@@ -969,8 +970,8 @@ theorem exists_qs_hom_F4 {L : Type} [Field L] [IsAlgClosed L] {p₀ : ℕ}
         intro γ
         rw [Function.iterate_succ_apply', Function.iterate_succ_apply', ih, S.frob.neg_eq]
     obtain ⟨r, e, hr, hchar, he, hq⟩ := exists_char_pow S
-    haveI : Fact r.Prime := ⟨hr⟩
-    haveI : CharP L r := hchar
+    have : Fact r.Prime := ⟨hr⟩
+    have : CharP L r := hchar
     have hr3 : r ≠ 3 := fun h => hℓp (by rw [ringChar.eq L r, h])
     have hes : 0 < e * s := Nat.mul_pos he hs0
     have hQ4 : 4 ≤ r ^ (e * s) := by
@@ -1094,7 +1095,7 @@ theorem at_F4 (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeIndex.F4 q).Valid) 
     obtain ⟨K, _, _, hK, -, ⟨eK⟩⟩ := CFSG.LieType.SeitzGeneration.exists_catEquiv_adjointGroup
       CFSG.TauCetiBridge.Even.chevalleyBridgesAll.f4 q hv
     let e' : S ≃* ↥(adjointGroup .F4 K) := e.trans eK
-    haveI : Finite ↥(adjointGroup .F4 K) := Finite.of_equiv S e'.toEquiv
+    have : Finite ↥(adjointGroup .F4 K) := Finite.of_equiv S e'.toEquiv
     have hK3 : ¬ 3 ∣ Nat.card K := by
       rw [hK]
       exact CFSG.LieType.SeitzGeneration.not_dvd_card_of_ne Nat.prime_three (Ne.symm hp3)
@@ -1138,7 +1139,7 @@ theorem eq_zero_or_eq_one_of_card_two {K : Type} [Field K] [Finite K] (hK : Nat.
   by_cases hx : x = 0
   · exact Or.inl hx
   · right
-    haveI := units_subsingleton_of_card_two hK
+    have := units_subsingleton_of_card_two hK
     have := Subsingleton.elim (Units.mk0 x hx) 1
     simpa using congrArg Units.val this
 
@@ -1156,7 +1157,7 @@ theorem mem_range_conj_of_inndiag_card_two {τ : Tag} {K : Type} [Field K] [Fini
       (rootDiagUnit τ b * j) * c * (rootDiagUnit τ b * j)⁻¹) :
     β ∈ (MulAut.conj : ↥(adjointGroup τ K) →* MulAut ↥(adjointGroup τ K)).range := by
   have hb : b = 1 := by
-    haveI := units_subsingleton_of_card_two hK
+    have := units_subsingleton_of_card_two hK
     exact Subsingleton.elim _ _
   subst hb
   have hd1 : rootDiagUnit τ (1 : Fin τ.rank → Kˣ) = 1 := Units.ext rootDiag_one
@@ -1287,15 +1288,15 @@ theorem not_isPSolvable_fixSubgroup_twE6 {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 
     set Jf := CFSG.RankThree.Chevalley.subfieldRootGroupImage TwistTag.E6 (fixSubfield κ)
       (CFSG.LieType.Chevalley.fixSubfieldRestrict T κ) with hJdef
     set δ := fieldActor (t := TwistTag.E6) σ ε with hδdef
-    haveI : Finite (fixSubfield κ) := Subtype.finite
-    haveI : Finite C := Subtype.finite
+    have : Finite (fixSubfield κ) := Subtype.finite
+    have : Finite C := Subtype.finite
     have hJδ : Jf.subgroupOf C ≤ fixSubgroup δ := by
       rw [← hder]
       intro x hx
       have hx' := Subgroup.commutator_le_self _ hx
       exact hx'
     have eJC : Jf.subgroupOf C ≃* Jf := Subgroup.subgroupOfEquivOfLe hJC
-    haveI := hsimpleJ
+    have := hsimpleJ
     have hJs : IsSimpleGroup (Jf.subgroupOf C) := eJC.isSimpleGroup
     have hJnc : ¬ IsMulCommutative (Jf.subgroupOf C) := by
       rintro ⟨hc⟩
@@ -1318,7 +1319,7 @@ theorem not_isPSolvable_fixSubgroup_twE6 {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 
       (graphFixedRootGroup TwistTag.E6 (fixSubfield κ)
         (CFSG.LieType.Chevalley.fixSubfieldRestrict T κ).toRingHom).equivMapOfInjective
         (baseChangeGL (fixSubfield κ).subtype) (baseChangeGL_injective _)
-    haveI : Finite ↥(graphFixedRootGroup TwistTag.E6 (fixSubfield κ)
+    have : Finite ↥(graphFixedRootGroup TwistTag.E6 (fixSubfield κ)
         (CFSG.LieType.Chevalley.fixSubfieldRestrict T κ).toRingHom) :=
       Finite.of_equiv _ (eXJ.trans eJC.symm).toEquiv.symm
     have hJ3 : 3 ∣ Nat.card ↥(Jf.subgroupOf C) := by
@@ -1347,11 +1348,11 @@ theorem outer295At_twistedE6 (q : TauCeti.PrimePower)
     Inputs295c.Outer295At ⟨.twistedE6 q, hv⟩ := by
   intro S _ _ _ _ ⟨e⟩ _ _ _ α hα hout
   obtain ⟨K, _, σ, hK, hσ, ⟨eK⟩⟩ := CFSG.LieType.SeitzGeneration.exists_catEquiv_twistedE6 q hv
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by
+  have : Finite K := Nat.finite_of_card_ne_zero (by
     rw [hK]
     exact pow_ne_zero _ (pow_ne_zero _ q.prime_p.ne_zero))
   let e' : S ≃* ↥(twistedE6RootGroup K σ) := e.trans eK
-  haveI : Finite ↥(twistedE6RootGroup K σ) := Finite.of_equiv S e'.toEquiv
+  have : Finite ↥(twistedE6RootGroup K σ) := Finite.of_equiv S e'.toEquiv
   have hq4 : 4 ≤ q.p ^ q.exponent := by
     rw [← TauCeti.PrimePower.card_def]
     exact Inputs295c.four_le_card_of hp3 hq2
@@ -1374,7 +1375,7 @@ section BlocksQS
 theorem not_isPSolvable_of_quasisimple_le {G : Type} [Group G] [Finite G] {R C : Subgroup G}
     (hR : CFSG.IsQuasisimple ↥R) (h3 : 3 ∣ Nat.card R) (hRC : R ≤ C) :
     ¬ CFSG.HallHigman.IsPSolvable 3 ↥C := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro hs
   exact Inputs295c.not_three_dvd_card_of_isPSolvable hR (isPSolvable_of_le hs hRC) h3
 
@@ -1470,8 +1471,8 @@ theorem inner295At_of_projSp_four {d : TauCeti.ValidLieTypeIndex} {r : ℕ} (hr 
     Inputs295c.Inner295At d := by
   intro K _ _ _ _ ⟨e⟩ _ _ _ x hx
   obtain ⟨F, _, ℓ, f, hℓ, hf, hF, hℓ3, hq4, ⟨g⟩⟩ := h K e
-  haveI : Finite F := Nat.finite_of_card_ne_zero (by rw [hF]; positivity)
-  haveI : Finite (StatedProj (StatedSp r F)) :=
+  have : Finite F := Nat.finite_of_card_ne_zero (by rw [hF]; positivity)
+  have : Finite (StatedProj (StatedSp r F)) :=
     CFSG.ClassicalGroups.Symplectic.finite_statedProj_statedSp r F
   have hgx : orderOf (g x) = 3 := by rw [MulEquiv.orderOf_eq]; exact hx
   exact Or.inr (Or.inr fun hs => not_isPSolvable_centralizer_psp hℓ hf hF hℓ3 hq4 hr hgx
@@ -1531,7 +1532,7 @@ theorem not_isPSolvable_fixSubgroup_primeFormConjHom {ℓ f n : ℕ} {K : Type} 
     {c : Kˣ} (hyp : (y : GL (Fin n) K) ^ 3 = GeneralLinearGroup.scalar (Fin n) c)
     (hq : (4 ≤ ℓ ^ f ∧ 4 ≤ n) ∨ (ℓ ^ f = 2 ∧ 10 ≤ n) ∨ (4 ≤ n ∧ ∀ μ : K, μ ^ 3 ≠ c)) :
     ¬ CFSG.HallHigman.IsPSolvable 3 ↥(fixSubgroup (primeFormConjHom h (idGram K n) y)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hℓ := h.prime
   have : CharP K ℓ := h.charP
   have h3K : ((3 : ℕ) : K) ≠ 0 := by
@@ -1637,7 +1638,7 @@ theorem not_isPSolvable_centralizer_primeFormP {ℓ f n : ℕ} {K : Type} [Field
     {z : primeFormP h (idGram K n)} (hz : z ^ 3 = 1) :
     ¬ CFSG.HallHigman.IsPSolvable 3
       ↥(Subgroup.centralizer ({z} : Set (primeFormP h (idGram K n)))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨s, rfl⟩ := QuotientGroup.mk_surjective z
   set y : primeFormUnitary h (idGram K n) :=
     ⟨((s : gramSU h (idGram K n)) : GL (Fin n) K), s.2.1⟩ with hy
@@ -1702,8 +1703,8 @@ theorem four_le_pRank_fixSubgroup_primeFormConjHom {ℓ f n : ℕ} {K : Type} [F
     (y : primeFormUnitary h (idGram K n)) (hy3 : (y : GL (Fin n) K) ^ 3 = 1) :
     4 ≤ CFSG.Open.pRank 3 (fixSubgroup (primeFormConjHom h (idGram K n) y)) := by
   classical
-  haveI : Fact ℓ.Prime := ⟨h.prime⟩
-  haveI : CharP K ℓ := h.charP
+  have : Fact ℓ.Prime := ⟨h.prime⟩
+  have : CharP K ℓ := h.charP
   have hK : Nat.card K = (ℓ ^ f) ^ 2 := by rw [h.card, ← pow_mul, mul_comm]
   set σ := unitaryInvolution K ℓ f with hσdef
   have hσ : IsUnitaryInvolution σ := isUnitaryInvolution_unitaryInvolution hK
@@ -1790,7 +1791,7 @@ theorem eq_two_of_pow_eq_two {ℓ f : ℕ} (hℓ : ℓ.Prime) (h : ℓ ^ f = 2) 
 theorem excl295At_primeFormP_two {ℓ f n : ℕ} {K : Type} [Field K] [Finite K]
     {h : UnitaryFieldData ℓ f K} (hq : ℓ ^ f = 2) (hn : 5 ≤ n)
     {z : primeFormP h (idGram K n)} (hz : orderOf z = 3) : Inputs295.Excl295At z := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hz3 : z ^ 3 = 1 := by rw [← hz]; exact pow_orderOf_eq_one z
   obtain ⟨hℓ2, hf1⟩ := eq_two_of_pow_eq_two h.prime hq
   have hℓ3 : ℓ ≠ 3 := by omega
@@ -1816,7 +1817,7 @@ theorem outerExcl295_primeFormP_two {ℓ f n : ℕ} {K : Type} [Field K] [Finite
     (h : UnitaryFieldData ℓ f K) (hq : ℓ ^ f = 2) (hn : 5 ≤ n)
     (β : MulAut (primeFormP h (idGram K n))) (hβ3 : β ^ 3 = 1) : Inputs295c.OuterExcl295 β := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hℓ2, hf1⟩ := eq_two_of_pow_eq_two h.prime hq
   have hℓ3 : ℓ ≠ 3 := by omega
   have hK4 : Nat.card K = 4 := by rw [h.card, hℓ2, hf1]; norm_num
@@ -1854,7 +1855,7 @@ theorem at_typeTwistedA_two {r : ℕ} {q : TauCeti.PrimePower}
   · obtain ⟨-, -, -, -, F, _, h, ⟨θ⟩⟩ :=
       CFSG.RankThree.PartOne.exists_primeFormP_of_statedClassicalModel_PSU
         (CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA r q hv e)
-    haveI := h.finite
+    have := h.finite
     have hβ := outerExcl295_primeFormP_two h (by rw [← hqc]; exact hq2) (by omega)
       (MulAut.congr θ α) (congr_pow_three_eq_one θ hα)
     rcases hβ with ⟨P, hP, hPp, hPc⟩ | hβ | hβ
@@ -1879,7 +1880,7 @@ theorem at_typeTwistedA_two {r : ℕ} {q : TauCeti.PrimePower}
   · obtain ⟨-, -, -, -, F, _, h, ⟨θ⟩⟩ :=
       CFSG.RankThree.PartOne.exists_primeFormP_of_statedClassicalModel_PSU
         (CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA r q hv e)
-    haveI := h.finite
+    have := h.finite
     have hθx : orderOf (θ x) = 3 := by rw [MulEquiv.orderOf_eq]; exact hx
     exact Inputs295.Excl295At.of_equiv θ
       (excl295At_primeFormP_two (by rw [← hqc]; exact hq2) (by omega) hθx)
@@ -1892,7 +1893,7 @@ theorem inner295At_typeTwistedA_four {r : ℕ} {q : TauCeti.PrimePower}
   obtain ⟨-, -, -, -, F, _, h, ⟨θ⟩⟩ :=
     CFSG.RankThree.PartOne.exists_primeFormP_of_statedClassicalModel_PSU
       (CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA r q hv e)
-  haveI := h.finite
+  have := h.finite
   have hqc : q.card = q.p ^ q.exponent := TauCeti.PrimePower.card_def q
   have hθx : (θ x) ^ 3 = 1 := by rw [← map_pow, ← hx, pow_orderOf_eq_one, map_one]
   exact Or.inr (Or.inr fun hs => not_isPSolvable_centralizer_primeFormP hp3
@@ -1905,7 +1906,7 @@ theorem not_isPSolvable_fixSubgroup_primeFormP_of_dvd {ℓ f n : ℕ} {K : Type}
     (β : MulAut (primeFormP h (idGram K n))) (hβ3 : β ^ 3 = 1) :
     ¬ CFSG.HallHigman.IsPSolvable 3 ↥(fixSubgroup β) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hn4 : 4 ≤ n := by omega
   have hn3 : 3 ≤ n := by omega
   have hne : ¬ (n = 3 ∧ ℓ ^ f = 2) := by omega
@@ -1935,7 +1936,7 @@ theorem not_isPSolvable_fixSubgroup_primeFormP_of_dvd {ℓ f n : ℕ} {K : Type}
     rw [hβeq, Inputs295c.fixSubgroup_conj]
     set h₀ := fixSubfield_unitaryFieldData h Nat.prime_three (by norm_num) hσord with hh₀
     have hbar := fixSubfield_unitaryFieldData_bar h Nat.prime_three (by norm_num) hσord
-    haveI := h₀.finite
+    have := h₀.finite
     have hinj := subfieldPSU_injective h h₀ hbar n (by omega)
     have hJle : (subfieldPSU h h₀ hbar n).range ≤
         fixSubgroup (primeFormFieldHom h isPrimeFormGram_one σ) := by
@@ -1967,7 +1968,7 @@ theorem not_isPSolvable_fixSubgroup_primeFormP_of_dvd {ℓ f n : ℕ} {K : Type}
     have hq₀ : ¬ (n = 3 ∧ ℓ ^ (f / 3) = 2) := by omega
     let eJ := MonoidHom.ofInjective hinj
     have hJs : IsSimpleGroup ↥(subfieldPSU h h₀ hbar n).range := by
-      haveI := isSimpleGroup_primeFormP_one h₀ hn3 hq₀
+      have := isSimpleGroup_primeFormP_one h₀ hn3 hq₀
       exact eJ.symm.isSimpleGroup
     have hJnc : ¬ IsMulCommutative ↥(subfieldPSU h h₀ hbar n).range := by
       rintro ⟨hc⟩
@@ -1992,7 +1993,7 @@ theorem outer295At_typeTwistedA_dvd {r : ℕ} {q : TauCeti.PrimePower}
   obtain ⟨-, -, -, -, F, _, h, ⟨θ⟩⟩ :=
     CFSG.RankThree.PartOne.exists_primeFormP_of_statedClassicalModel_PSU
       (CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA r q hv e)
-  haveI := h.finite
+  have := h.finite
   have hqc : q.card = q.p ^ q.exponent := TauCeti.PrimePower.card_def q
   have hns := not_isPSolvable_fixSubgroup_primeFormP_of_dvd h hp3 (by rw [← hqc]; omega)
     (by rwa [← hqc]) (MulAut.congr θ α) (congr_pow_three_eq_one θ hα)
@@ -2148,7 +2149,7 @@ theorem not_isPSolvable_centralizer_pomega {ι : Type} [Fintype ι] [DecidableEq
     ¬ CFSG.HallHigman.IsPSolvable 3
       ↥(Subgroup.centralizer ({a} : Set (StatedProj (StatedOmega Q₀)))) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hΩ := statedOmega_eq_comap hQ0
   have hne : Nonempty ι := Fintype.card_pos_iff.mp (by omega)
   have hdim : ((2 : K) ≠ 0 ∧ 7 ≤ Module.finrank K (ι → K)) ∨

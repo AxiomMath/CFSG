@@ -13,14 +13,14 @@ open scoped commutatorElement
 
 private theorem isCyclic_map_of_isCyclic {L' R : Type} [Group L'] [Group R] (P : Subgroup L')
     (hP : IsCyclic P) (ψ : L' →* R) : IsCyclic (P.map ψ) := by
-  haveI : IsCyclic P := hP
+  have : IsCyclic P := hP
   exact isCyclic_of_surjective (ψ.subgroupMap P) (MonoidHom.subgroupMap_surjective ψ P)
 
 theorem exists_isPGroup_le_of_le_map {L' R : Type} [Group L'] [Finite L'] [Group R] (ψ : L' →* R)
     {X : Subgroup L'} {E : Subgroup R} (hE : E ≤ X.map ψ) (hE3 : IsPGroup 3 E) :
     ∃ P : Subgroup L', P ≤ X ∧ IsPGroup 3 P ∧ P.map ψ = E := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let Y : Subgroup L' := X ⊓ E.comap ψ
   have hYmap : Y.map ψ = E := by
     refine le_antisymm ?_ ?_
@@ -32,7 +32,7 @@ theorem exists_isPGroup_le_of_le_map {L' R : Type} [Group L'] [Finite L'] [Group
   obtain ⟨S⟩ : Nonempty (Sylow 3 ↥Y) := Sylow.nonempty
   refine ⟨(S : Subgroup ↥Y).map Y.subtype, ?_, ?_, ?_⟩
   · exact (Subgroup.map_subtype_le (H := Y) (S : Subgroup ↥Y)).trans inf_le_left
-  · exact (S.isPGroup').map Y.subtype
+  · exact (S.isPGroup).map Y.subtype
   · let f : ↥Y →* ↥(Y.map ψ) := ψ.subgroupMap Y
     have hf : Function.Surjective f := MonoidHom.subgroupMap_surjective ψ Y
     have hE3' : IsPGroup 3 (Y.map ψ) := by
@@ -64,7 +64,7 @@ theorem exists_isPGroup_le_of_le_map {L' R : Type} [Group L'] [Finite L'] [Group
 theorem exists_lift_pgroup_other {L' R : Type} [Group L'] [Finite L'] [Group R] {ψ : L' →* R}
     (hψ : Function.Surjective ψ) (hker : ψ.ker ≤ Subgroup.center L')
     {a : MulAut L'} {ab : MulAut R} (hc : ∀ l, ab (ψ l) = ψ (a l))
-    {J₁ : Subgroup L'} (hJ₁ : IsComponentOf J₁ (ggFix a)) {Pb : Subgroup R} (hPb : IsPGroup 3 Pb)
+    {J₁ : Subgroup L'} (_hJ₁ : IsComponentOf J₁ (ggFix a)) {Pb : Subgroup R} (hPb : IsPGroup 3 Pb)
     (hle : Pb ≤ ⨆ (B : Subgroup R) (_ : IsComponentOf B (ggFix ab) ∧ B ≠ J₁.map ψ ∧
       3 ∣ Nat.card B), B) :
     ∃ P : Subgroup L', IsPGroup 3 P ∧ P.map ψ = Pb ∧

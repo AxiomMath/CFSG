@@ -13,6 +13,7 @@ open CFSG.RankThree.PartTwo.Sec21.FF79
 variable {H : Type} [Group H] [Finite H]
 variable {b t b₁ b₂ : H} {J : Subgroup H}
 
+omit [Finite H] in
 private theorem eq_or_eq_inv_of_mem_zpowers' {b : H} (hb : orderOf b = 3) {x : H}
     (hx : x ∈ Subgroup.zpowers b) (hx1 : x ≠ 1) : x = b ∨ x = b⁻¹ := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hx
@@ -27,6 +28,7 @@ private theorem eq_or_eq_inv_of_mem_zpowers' {b : H} (hb : orderOf b = 3) {x : H
     rw [show (2 : ℤ) = ((2 : ℕ) : ℤ) from rfl, zpow_natCast]
     exact eq_inv_of_mul_eq_one_left (by rw [← pow_succ, hb3])
 
+omit [Finite H] in
 theorem conj_eq_self_of_odd_of_mem_zpowers {b g : H} (hb : orderOf b = 3)
     (hg : Odd (orderOf g)) (hmem : g * b * g⁻¹ ∈ Subgroup.zpowers b) :
     g * b * g⁻¹ = b := by
@@ -82,13 +84,13 @@ theorem conj_eq_self_of_odd_of_mem_zpowers {b g : H} (hb : orderOf b = 3)
 
 theorem odd_card_oddCore' (X : Type*) [Group X] [Finite X] : Odd (Nat.card (CFSG.oddCore X)) := by
   rw [CFSG.QuasiDihedralFusion.oddCore_eq_pPrimeCore X]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact Nat.coprime_two_left.1 (CFSG.pPrimeCore_coprime_card (p := 2) (G := X))
 
 theorem FS79Hyp.pgroup_le_cen (h : FS79Hyp b t b₁ b₂ J) {S : Subgroup H} (hS : IsPGroup 3 S)
     (hbS : b ∈ S) : S ≤ Cen b := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hTop : IsPGroup 3 (⊤ : Subgroup ↥S) := hS.of_equiv Subgroup.topEquiv.symm
   let P : Sylow 3 ↥S := hTop.toSylow (by simp [Subgroup.index_top])
   have hPtop : (P : Subgroup ↥S) = ⊤ := rfl
@@ -131,7 +133,7 @@ theorem FS79Hyp.inf_oddCore_eq_bot (h : FS79Hyp b t b₁ b₂ J) :
     exact ⟨J.mul_mem (J.mul_mem g.2 x.2) (J.inv_mem g.2) , by
       simpa using (CFSG.oddCore_normal H).conj_mem _ hx.2 (g : H)⟩⟩
   let N : Subgroup (Equiv.Perm (Fin 6)) := Kj.map e.toMonoidHom
-  haveI hNn : N.Normal := Subgroup.Normal.map hKjn e.toMonoidHom e.surjective
+  have hNn : N.Normal := Subgroup.Normal.map hKjn e.toMonoidHom e.surjective
   have hcardN : Nat.card N = Nat.card K := by
     rw [Subgroup.card_map_of_injective e.injective]
     exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe (inf_le_left : K ≤ J)).toEquiv
@@ -160,7 +162,7 @@ theorem FS79Hyp.inf_oddCore_eq_bot (h : FS79Hyp b t b₁ b₂ J) :
 theorem FS79Hyp.isSylowOf_zpowers_oddCore (h : FS79Hyp b t b₁ b₂ J) (hb : b ∈ CFSG.oddCore H) :
     IsSylowOf 3 (Subgroup.zpowers b) (CFSG.oddCore H) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set O : Subgroup H := CFSG.oddCore H with hO
   set B : Subgroup H := Subgroup.closure ({b, b₁, b₂} : Set H) with hB
   set B₁ : Subgroup H := Subgroup.closure ({b₁, b₂} : Set H) with hB₁
@@ -171,7 +173,7 @@ theorem FS79Hyp.isSylowOf_zpowers_oddCore (h : FS79Hyp b t b₁ b₂ J) (hb : b 
     hb3.of_equiv (Subgroup.subgroupOfEquivOfLe hbO).symm
   obtain ⟨P, hAP⟩ := hA.exists_le_sylow
   set S : Subgroup H := (P : Subgroup ↥O).map O.subtype with hSdef
-  have hS3 : IsPGroup 3 S := P.isPGroup'.map O.subtype
+  have hS3 : IsPGroup 3 S := P.isPGroup.map O.subtype
   have hSO : S ≤ O := by
     rintro _ ⟨x, -, rfl⟩
     exact x.2

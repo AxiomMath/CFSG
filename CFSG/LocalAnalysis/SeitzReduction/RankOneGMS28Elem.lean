@@ -115,7 +115,7 @@ theorem exists_mem_normalizer_of_not_isSylowOf [Finite D] {S : Subgroup D} (hS :
       rw [htop]
       trivial
     exact mem_subgroupOf.mp this
-  have : Group.IsNilpotent (T : Subgroup D) := T.isPGroup'.isNilpotent
+  have : Group.IsNilpotent (T : Subgroup D) := T.isPGroup.isNilpotent
   have hlt := Group.normalizerCondition_of_isNilpotent (G := (T : Subgroup D)) I hIlt
   obtain ⟨x, hxN, hxI⟩ := IsConcreteLE.exists_of_lt hlt
   have hxN' : (x : D) ∈ normalizer (S : Set D) := by
@@ -423,7 +423,7 @@ theorem isSylowOf_top [Finite D] (hV₁ : IsV₁ U R P V₁) (hS : Setup J R X U
     have h1 := (rightConjugate_eq_self_iff _ _).mp (hV₁.rightConjugate_eq hS hinv hle)
     simpa using inv_mem h1
   have hp : IsPGroup 2 (V₁ ⊔ P ⊔ zpowers z : Subgroup D) :=
-    S.isPGroup'.to_le (sup_le hS₀S (zpowers_le.mpr hzS))
+    S.isPGroup.to_le (sup_le hS₀S (zpowers_le.mpr hzS))
   have heq := hS₀.eq_of_le le_sup_left (sup_le hS₀.le (zpowers_le.mpr hzV)) hp
   exact hzS₀ (heq ▸ mem_sup_right (mem_zpowers z))
 

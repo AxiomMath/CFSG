@@ -46,11 +46,11 @@ private theorem langRatLS_solve {A : Type*} [AddCommGroup A]
         refine Finset.sum_congr rfl fun k _ => ?_
         by_cases h : j = k
         · subst h
-          simp [Matrix.smul_apply, Matrix.one_apply, Matrix.det_transpose, smul_eq_mul]
-        · simp [Matrix.smul_apply, Matrix.one_apply, Matrix.det_transpose, smul_eq_mul, h]
+          simp [Matrix.smul_apply, Matrix.det_transpose]
+        · simp [Matrix.smul_apply, Matrix.det_transpose, h]
     _ = G.det • s j := by
         rw [Finset.sum_eq_single j
-          (fun b _ hbj => by simp only [if_neg (Ne.symm hbj), zero_smul])
+          (fun b _ hbj => by simp only [ite_eq_right (Ne.symm hbj), zero_smul])
           (fun hj => absurd (Finset.mem_univ j) hj)]
         simp
     _ = t j := hs j

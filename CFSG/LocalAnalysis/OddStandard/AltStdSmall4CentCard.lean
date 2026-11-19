@@ -154,9 +154,9 @@ theorem sec4CentSylowCard_holds : Sec4CentSylowCard := by
   · rw [range_rhoC_of_inner c hin, factorization_alt n c.n_cases]
     by_cases h9 : n ≤ 9
     · have hA : IsASmall L n z := ⟨by have := c.hn8; omega, hin⟩
-      rw [if_pos h9]
+      rw [ite_eq_left h9]
       exact ⟨fun _ => rfl, fun h => absurd hA h⟩
-    · rw [if_neg h9]
+    · rw [ite_eq_right h9]
       exact ⟨fun h => absurd h.1 (by omega), fun _ => rfl⟩
   · have hA : ¬ IsASmall L n z := fun h => huO (h.2 huC)
     rw [range_rhoC_of_outer c huC huO, Subgroup.card_top,

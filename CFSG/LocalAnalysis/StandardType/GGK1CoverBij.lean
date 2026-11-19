@@ -167,7 +167,7 @@ private theorem ggK1Cb_core_component {L' R : Type} [Group L'] [Group R] (ψ : L
     rw [← MonoidHom.ker_eq_bot_iff, QuotientGroup.ker_map, hcen]
     ext q
     obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective q
-    simp [Subgroup.mem_map, QuotientGroup.eq_one_iff]
+    simp [QuotientGroup.eq_one_iff]
   have hgsurj : Function.Surjective g := by
     intro q
     obtain ⟨y, rfl⟩ := QuotientGroup.mk_surjective q
@@ -176,7 +176,7 @@ private theorem ggK1Cb_core_component {L' R : Type} [Group L'] [Group R] (ψ : L
   let eqv : (↥Q ⧸ Subgroup.center ↥Q) ≃* (↥K ⧸ Subgroup.center ↥K) :=
     MulEquiv.ofBijective g ⟨hginj, hgsurj⟩
   have hQsimple : IsSimpleGroup (↥Q ⧸ Subgroup.center ↥Q) := by
-    haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hKsimple
+    have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hKsimple
     exact eqv.isSimpleGroup
   exact ⟨⟨hQleC', hsubQ, hQperf, hQsimple⟩, hQK⟩
 

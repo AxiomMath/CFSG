@@ -14,6 +14,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem s16t_sumOfTwo_of_eq {V₀ V₁ V : Subgroup G} (hV : IsElemAbelian 2 V) (L : Subgroup G)
     (h : V₁ = V₀)
     (hs : SumOfTwoInequiv (fun H U Z => AlternatingNatural H U Z 6) (barSub V₁ V hV L)
@@ -58,7 +59,7 @@ theorem s16t_no_calO1_of_case168_1 (D : Data G) (hin : In10 D)
     rw [hk]
   have hrm : ((D.k + 2 : ℕ) : ℕ∞) ≤ rMV D.M V - (mSub V₀ : ℕ∞) := by
     have h2 : ((mBar D.M V₀ V hV : ℕ) : ℕ∞) ≤ rMV D.M V - (mSub V₀ : ℕ∞) :=
-      ENat.le_sub_of_add_le_right (by exact_mod_cast ENat.coe_ne_top _) h162
+      ENat.le_sub_of_add_le_right (by exact_mod_cast ENat.natCast_ne_top _) h162
     exact le_trans (by exact_mod_cast (by omega : D.k + 2 ≤ mBar D.M V₀ V hV)) h2
   have hBA := six_ten_calABar_of_ne_bot hH.hyp62 (j := 2) (by norm_num) hO1.1
     (le_min hβ hrm) hB

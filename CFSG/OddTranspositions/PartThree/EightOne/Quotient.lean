@@ -17,7 +17,7 @@ open CFSG.Timmesfeld.Bridge.Asc72
 
 theorem odd_card_oddCore {X : Type} [Group X] [Finite X] :
     Odd (Nat.card (CFSG.oddCore X)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h : CFSG.oddCore X = CFSG.pPrimeCore 2 X :=
     (CFSG.oddCore_eq_piCore X).trans (CFSG.pPrimeCore_eq_piCore X 2).symm
   rw [h]
@@ -29,9 +29,9 @@ theorem not_mem_of_isBenderGroup {G : Type} [Group G] [Finite G] {D : Set G} (hS
   rintro hdR
   rcases hS.subset_or_disjoint R with hsub | hdisj
   · have htop : R = ⊤ := hS.eq_top_of_subset R hsub
-    haveI hsimple : IsSimpleGroup (G ⧸ R) :=
+    have hsimple : IsSimpleGroup (G ⧸ R) :=
       CFSG.Timmesfeld.Bridge.Asc72.IsBenderGroup.isSimpleGroup hB
-    haveI : Subsingleton (G ⧸ R) := QuotientGroup.subsingleton_iff.mpr htop
+    have : Subsingleton (G ⧸ R) := QuotientGroup.subsingleton_iff.mpr htop
     obtain ⟨x, y, hxy⟩ := (inferInstance : Nontrivial (G ⧸ R)).exists_pair_ne
     exact hxy (Subsingleton.elim x y)
   · exact hdisj d hd hdR
@@ -48,7 +48,7 @@ theorem setup_quotient_of_le_solvableRadical {G : Type} [Group G] [Finite G] {D 
 theorem map_solvableRadical_eq {G : Type} [Group G] [Finite G] {Q : Subgroup G} [Q.Normal]
     (hQ : Q ≤ CFSG.solvableRadical G) :
     (CFSG.solvableRadical G).map (QuotientGroup.mk' Q) = CFSG.solvableRadical (G ⧸ Q) := by
-  haveI hRs : Group.IsSolvable ↥(CFSG.solvableRadical G) :=
+  have hRs : Group.IsSolvable ↥(CFSG.solvableRadical G) :=
     CFSG.SignalizerFunctorTheorem.Nonsolvable.isSolvable_solvableRadical
   have hQs : Group.IsSolvable ↥Q :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hQ)
@@ -62,7 +62,7 @@ theorem map_solvableRadical_eq {G : Type} [Group G] [Finite G] {Q : Subgroup G} 
 theorem nonempty_mulEquiv_quotient_solvableRadical {G : Type} [Group G] [Finite G]
     {Q : Subgroup G} [Q.Normal] (hQ : Q ≤ CFSG.solvableRadical G) :
     Nonempty ((G ⧸ Q) ⧸ CFSG.solvableRadical (G ⧸ Q) ≃* G ⧸ CFSG.solvableRadical G) := by
-  haveI hRs : Group.IsSolvable ↥(CFSG.solvableRadical G) :=
+  have hRs : Group.IsSolvable ↥(CFSG.solvableRadical G) :=
     CFSG.SignalizerFunctorTheorem.Nonsolvable.isSolvable_solvableRadical
   have hQs : Group.IsSolvable ↥Q :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hQ)
@@ -75,10 +75,10 @@ theorem nonempty_mulEquiv_quotient_solvableRadical {G : Type} [Group G] [Finite 
 
 theorem oddCore_le_of_isBenderGroup {G : Type} [Group G] [Finite G] {R : Subgroup G} [R.Normal]
     (hB : CFSG.BenderSuzuki.IsBenderGroup (G ⧸ R)) : CFSG.oddCore G ≤ R := by
-  haveI hsimple : IsSimpleGroup (G ⧸ R) :=
+  have hsimple : IsSimpleGroup (G ⧸ R) :=
     CFSG.Timmesfeld.Bridge.Asc72.IsBenderGroup.isSimpleGroup hB
   set K : Subgroup (G ⧸ R) := (CFSG.oddCore G).map (QuotientGroup.mk' R) with hK
-  haveI hKn : K.Normal :=
+  have hKn : K.Normal :=
     (CFSG.oddCore_normal (G := G)).map (QuotientGroup.mk' R) (QuotientGroup.mk'_surjective R)
   have hKodd : Odd (Nat.card K) := by
     refine (odd_card_oddCore (X := G)).of_dvd_nat ?_
@@ -93,7 +93,7 @@ theorem oddCore_le_of_isBenderGroup {G : Type} [Group G] [Finite G] {R : Subgrou
         (Subgroup.card_subgroup_dvd_card (Subgroup.center (P : Subgroup (G ⧸ R)))))
     have hPne : Nat.card (P : Subgroup (G ⧸ R)) ≠ 1 := by omega
     have h2P : 2 ∣ Nat.card (P : Subgroup (G ⧸ R)) := by
-      rcases (Sylow.isPGroup' P).card_eq_or_dvd with h | h
+      rcases (Sylow.isPGroup P).card_eq_or_dvd with h | h
       · exact absurd h hPne
       · exact h
     intro hodd
@@ -108,7 +108,7 @@ theorem oddCore_le_of_isBenderGroup {G : Type} [Group G] [Finite G] {R : Subgrou
 
 theorem isPGroup_two_of_le_center {X : Type} [Group X] [Finite X] {E : Subgroup X}
     (hEc : E ≤ Subgroup.center X) (hO : CFSG.oddCore X = ⊥) : IsPGroup 2 E := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [IsPGroup.iff_orderOf]
   intro e
   have hdvd : orderOf (e : X) ∣ Nat.card E := Subgroup.orderOf_dvd_natCard E e.2

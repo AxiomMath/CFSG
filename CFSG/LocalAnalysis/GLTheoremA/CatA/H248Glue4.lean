@@ -12,7 +12,7 @@ open scoped Pointwise
 theorem card_le_pow_factorization {K : Type} [Group K] [Finite K] {q : ℕ} (hq : q.Prime)
     {W H : Subgroup K} (hHW : H ≤ W) (hH : IsPGroup q H) :
     Nat.card H ≤ q ^ (Nat.card W).factorization q := by
-  haveI := Fact.mk hq
+  have := Fact.mk hq
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hH
   have hdvd : Nat.card H ∣ Nat.card W := Subgroup.card_dvd_of_le hHW
   have hWne : Nat.card W ≠ 0 := Nat.card_pos.ne'
@@ -32,10 +32,10 @@ theorem card_inf_normal {K : Type} [Group K] [Finite K] {q : ℕ} (hq : q.Prime)
     (W : Subgroup K) [W.Normal] (Q : Subgroup K) (hQ : IsPGroup q Q)
     (hcard : Nat.card Q = q ^ (Nat.card K).factorization q) :
     Nat.card (Q ⊓ W : Subgroup K) = q ^ (Nat.card W).factorization q := by
-  haveI := Fact.mk hq
+  have := Fact.mk hq
   obtain ⟨PW⟩ : Nonempty (Sylow q W) := Sylow.nonempty
   let R : Subgroup K := PW.toSubgroup.map W.subtype
-  have hR : IsPGroup q R := PW.isPGroup'.map W.subtype
+  have hR : IsPGroup q R := PW.isPGroup.map W.subtype
   have hRcard : Nat.card R = q ^ (Nat.card W).factorization q := by
     rw [← Sylow.card_eq_multiplicity PW]
     exact Nat.card_congr (Subgroup.equivMapOfInjective PW.toSubgroup W.subtype
@@ -70,7 +70,7 @@ theorem card_inf_normal {K : Type} [Group K] [Finite K] {q : ℕ} (hq : q.Prime)
           simpa using this⟩
       left_inv := fun y => by
         apply Subtype.ext
-        simp only [mul_assoc, inv_mul_cancel_left, mul_inv_cancel_left, Subgroup.coe_mul]
+        simp only [mul_assoc, inv_mul_cancel_left]
         group
       right_inv := fun x => by
         apply Subtype.ext
@@ -79,7 +79,7 @@ theorem card_inf_normal {K : Type} [Group K] [Finite K] {q : ℕ} (hq : q.Prime)
   have hQW : Nat.card (Q ⊓ W : Subgroup K) = Nat.card (Q' ⊓ W : Subgroup K) :=
     Nat.card_congr e
   rw [hQW]
-  have hQ'W : IsPGroup q (Q' ⊓ W : Subgroup K) := Q'.isPGroup'.to_le inf_le_left
+  have hQ'W : IsPGroup q (Q' ⊓ W : Subgroup K) := Q'.isPGroup.to_le inf_le_left
   have hRW : R ≤ W := by
     intro x hx
     obtain ⟨y, hy, rfl⟩ := Subgroup.mem_map.mp hx

@@ -132,13 +132,13 @@ theorem card_centralizer_A8_two_four {t : alternatingGroup (Fin 8)}
     Nat.card ↥(Subgroup.centralizer ({t} : Set (alternatingGroup (Fin 8)))) = 192 := by
   refine card_centralizer_A8_of_ncard (k := 105) ?_ (by norm_num)
   rw [conjugatesOf_A8_two_four ht, Set.ncard_eq_toFinset_card', Set.toFinset_ofPred,
-    AlternatingGroup.card_of_cycleType, if_pos (by decide)]
+    AlternatingGroup.card_of_cycleType, ite_eq_left (by decide)]
   norm_num
 
 theorem ncard_conjugatesOf_A8_two_two {t : alternatingGroup (Fin 8)}
     (ht : (t : Equiv.Perm (Fin 8)).cycleType = {2, 2}) : (conjugatesOf t).ncard = 210 := by
   rw [conjugatesOf_A8_two_two ht, Set.ncard_eq_toFinset_card', Set.toFinset_ofPred,
-    AlternatingGroup.card_of_cycleType, if_pos (by decide)]
+    AlternatingGroup.card_of_cycleType, ite_eq_left (by decide)]
   norm_num
 
 theorem card_centralizer_A8_two_two {t : alternatingGroup (Fin 8)}

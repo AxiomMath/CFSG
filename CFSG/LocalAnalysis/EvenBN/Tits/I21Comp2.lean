@@ -100,24 +100,26 @@ section Layer
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem layer_normal : (CFSG.layer G).Normal := by
-  haveI := CFSG.LocalCores.layer_characteristic (G := G)
+  have := CFSG.LocalCores.layer_characteristic (G := G)
   infer_instance
 
+omit [Finite G] in
 theorem layer_center_normal : (centralizer (CFSG.layer G : Set G) ⊓ CFSG.layer G).Normal := by
-  haveI := layer_normal (G := G)
+  have := layer_normal (G := G)
   infer_instance
 
 theorem isPGroup_two_of_normal_comm (hO : standardComponentOddCore G = ⊥) {A : Subgroup G}
     (hA : A.Normal) (hcomm : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a) : IsPGroup 2 A := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : IsMulCommutative A :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsMulCommutative A :=
     isMulCommutative_iff.mpr fun a b => Subtype.ext (hcomm a a.2 b b.2)
   exact CFSG.isPGroup_of_nilpotent_normal A hA inferInstance (I21.Comp.pPrimeCore_eq_bot hO)
 
 theorem layer_center_isPGroup (hO : standardComponentOddCore G = ⊥) :
     IsPGroup 2 (centralizer (CFSG.layer G : Set G) ⊓ CFSG.layer G : Subgroup G) :=
-  isPGroup_two_of_normal_comm hO layer_center_normal fun a ha b hb =>
+  isPGroup_two_of_normal_comm hO layer_center_normal fun _a ha b hb =>
     (mem_centralizer_iff.mp ha.1 b hb.2).symm
 
 end Layer
@@ -128,7 +130,7 @@ variable {G : Type} [Group G] [Finite G] {t u x : G}
 
 theorem comm_of_mem_pCore {q e : G} (hq : q ∈ CFSG.pCore 2 G) (he : e ∈ CFSG.layer G) :
     e * q = q * e := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h1 : q ∈ centralizer (CFSG.layer G : Set G) :=
     commutator_eq_bot_iff_le_centralizer.mp (CFSG.LocalCores.fitting_layer_commute (G := G))
       (CFSG.pCore_le_fitting G 2 hq)
@@ -156,9 +158,9 @@ theorem exists_fixed_involution_mem (ht : t * t = 1) {Q : Subgroup G}
 theorem false_of_component_centralizes_conj (h : Sec622Bar G t u x) {L : Subgroup G}
     (hL : CFSG.IsComponent L) {g s : G} (hgs : g * t * g⁻¹ = s) (hLs : ∀ l ∈ L, l * s = s * l) :
     False := by
-  haveI : Nontrivial L := CFSG.LocalCores.isQuasisimple_nontrivial hL.1
-  haveI : Group.IsPerfect L := hL.1.1
-  haveI := sec622_centralizer_solvable h
+  have : Nontrivial L := CFSG.LocalCores.isQuasisimple_nontrivial hL.1
+  have : Group.IsPerfect L := hL.1.1
+  have := sec622_centralizer_solvable h
   have ht : t = g⁻¹ * s * g := by
     rw [← hgs]
     group
@@ -182,6 +184,7 @@ theorem false_of_component_centralizes_conj (h : Sec622Bar G t u x) {L : Subgrou
     simpa using this
   exact Group.IsPerfect.not_isSolvable L (Group.isSolvable_of_isSolvable_injective hφ)
 
+omit [Finite G] in
 theorem sq_mem_of_zj_mem (h : Sec622Bar G t u x) {Q : Subgroup G} (hQ : Q.Normal) {j : ℕ}
     (hj : x ^ j * u ^ 2 ∈ Q) : u ^ 2 ∈ Q := by
   have hc := h.crel
@@ -266,11 +269,11 @@ theorem sec622_T_of_central_layer (h : Sec622Bar G t u x)
     mem_inf.mpr ⟨mem_centralizer_iff.mpr fun e he => hz.2 e he, hz.1⟩⟩
 
 theorem sec622_pCore_two (h : Sec622Bar G t u x)
-    (hN : ∃ N : Subgroup G, N.Normal ∧ N.index = 2 ∧ t ∉ N)
+    (_hN : ∃ N : Subgroup G, N.Normal ∧ N.index = 2 ∧ t ∉ N)
     (hfus : ∀ j : ℕ, ∃ g : G, g * t * g⁻¹ = t * (x ^ j * u ^ 2)) {L : Subgroup G}
     (hL : CFSG.IsComponent L) (hLE : CFSG.layer G = L) (hQ : CFSG.pCore 2 G ≠ ⊥) :
     Sec622T1 u := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQn : (CFSG.pCore 2 G).Normal := CFSG.pCore_normal
   have hQ2 : IsPGroup 2 (CFSG.pCore 2 G) := CFSG.pCore_isPGroup
   have heven : 2 ∣ Nat.card (CFSG.pCore 2 G) := by
@@ -297,7 +300,7 @@ theorem sec622_layer_simple (h : Sec622Bar G t u x) {L : Subgroup G} (hL : CFSG.
     (hLE : CFSG.layer G = L) (hQ : CFSG.pCore 2 G = ⊥) :
     L.Normal ∧ IsSimpleGroup L ∧ (∃ a b : L, a * b ≠ b * a) ∧ CFSG.generalizedFitting G = L ∧
       centralizer (L : Set G) = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hLn : L.Normal := hLE ▸ I21.Comp2.layer_normal
   have hle : (centralizer (CFSG.layer G : Set G) ⊓ CFSG.layer G : Subgroup G) ≤
       CFSG.pCore 2 G :=
@@ -315,7 +318,7 @@ theorem sec622_layer_simple (h : Sec622Bar G t u x) {L : Subgroup G} (hL : CFSG.
   have hinj : Function.Injective (QuotientGroup.mk' (center L)) := by
     rw [← MonoidHom.ker_eq_bot_iff, QuotientGroup.ker_mk']
     exact hcen
-  haveI : IsSimpleGroup (L ⧸ center L) := hL.1.2.1
+  have : IsSimpleGroup (L ⧸ center L) := hL.1.2.1
   let e : L ≃* L ⧸ center L :=
     MulEquiv.ofBijective (QuotientGroup.mk' (center L)) ⟨hinj, QuotientGroup.mk'_surjective _⟩
   have hna : ∃ a b : L, a * b ≠ b * a := by

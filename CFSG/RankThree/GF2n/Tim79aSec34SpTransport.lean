@@ -73,6 +73,7 @@ theorem not_commuting_tilde (hs : Sec3Setup M V Q P H) {y : ↥(xOf V H)}
     (hcomm u (by rw [OneMemClass.coe_one, conjSubgroup_one]; exact hu) w hw)]
   exact (wOf V H).one_mem
 
+omit [Finite G] in
 theorem classicalRootSp_tilde (h3 : Sec23Three V H) : ClassicalRootSp (XbarZ V H) (VZ V H) := by
   obtain ⟨f, hf, -, hT⟩ := h3
   exact ⟨f, rootClassZ V H, hf, hT, VZ_mem_rootClassZ V H⟩

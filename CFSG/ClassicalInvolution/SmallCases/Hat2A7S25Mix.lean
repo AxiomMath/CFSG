@@ -54,7 +54,7 @@ theorem a7Mix25_proved : A7Mix25 := by
     ⟨h.hzR, h.std.1.hz.ne_one, h.std.1.hz.sq, fun y hy hy2 =>
       h.std.1.hz.unique y (h.hRsyl.1 hy) hy2⟩
   set V : Subgroup G := (S : Subgroup G) ⊓ Subgroup.normalizer (R : Set G) with hV
-  have hV2 : IsPGroup 2 ↥V := S.isPGroup'.to_le inf_le_left
+  have hV2 : IsPGroup 2 ↥V := S.isPGroup.to_le inf_le_left
   have hRV : R ≤ V := le_inf h.hR.2.2 Subgroup.le_normalizer
   have hVR : ∀ y ∈ V, conjSub y R = R := fun y hy => mem_normalizer_iff_conjSub_eq.mp hy.2
   have haV : a ∈ V := ⟨haS, mem_normalizer_iff_conjSub_eq.mpr haR⟩

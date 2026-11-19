@@ -27,6 +27,7 @@ theorem LeviStd.oddCore_le_centralizer_normalClosure (hS : LeviStd K X Yh Nf) :
   rw [Subgroup.le_centralizer_iff]
   exact Subgroup.normalClosure_le_normal (Subgroup.le_centralizer_iff.mp hS.oddCore_le_centralizer)
 
+omit [Finite 𝔊] in
 theorem LeviStd.isPerfect_normalClosure (hS : LeviStd K X Yh Nf) :
     Group.IsPerfect (Subgroup.normalClosure (X : Set 𝔊)) := by
   rw [Subgroup.isPerfect_iff]
@@ -37,7 +38,8 @@ theorem LeviStd.isPerfect_normalClosure (hS : LeviStd K X Yh Nf) :
   rw [hS.commutator_eq] at hXW
   exact Subgroup.normalClosure_le_normal hXW
 
-theorem LeviStd.map_normalClosure (hS : LeviStd K X Yh Nf) :
+omit [Finite 𝔊] in
+theorem LeviStd.map_normalClosure (_hS : LeviStd K X Yh Nf) :
     oddBar (Subgroup.normalClosure (X : Set 𝔊)) =
       Subgroup.normalClosure (oddBar X : Set (𝔊 ⧸ standardComponentOddCore 𝔊)) := by
   rw [oddBar, Subgroup.map_normalClosure _ _ (QuotientGroup.mk'_surjective _)]
@@ -92,11 +94,11 @@ private theorem card_quotient_subgroupOf_sup_eq {G : Type*} [Group G] [Finite G]
     (hOn : O.Normal) :
     Nat.card ((X ⊔ O : Subgroup G) ⧸ X.subgroupOf (X ⊔ O)) = Nat.card O := by
   classical
-  haveI := hOn
+  have := hOn
   set Q : Subgroup G := X ⊔ O
   have hOQ : O ≤ Q := le_sup_right
   have hQN : Q ≤ Subgroup.normalizer (X : Set G) := sup_le Subgroup.le_normalizer hOX
-  haveI : (X.subgroupOf Q).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hQN
+  have : (X.subgroupOf Q).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hQN
   let σ : O →* (Q ⧸ X.subgroupOf Q) :=
     (QuotientGroup.mk' (X.subgroupOf Q)).comp (Subgroup.inclusion hOQ)
   have hσker : σ.ker = ⊥ := by
@@ -114,10 +116,10 @@ private theorem card_dvd_of_le_sup_of_inf_eq_bot {G : Type*} [Group G] [Finite G
     {X O C : Subgroup G} (hOX : O ≤ Subgroup.normalizer (X : Set G)) (hCX : C ≤ X ⊔ O)
     (hXO : X ⊓ O = ⊥) (hOn : O.Normal) (hCbot : C ⊓ X = ⊥) : Nat.card C ∣ Nat.card O := by
   classical
-  haveI := hOn
+  have := hOn
   set Q : Subgroup G := X ⊔ O
   have hQN : Q ≤ Subgroup.normalizer (X : Set G) := sup_le Subgroup.le_normalizer hOX
-  haveI : (X.subgroupOf Q).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hQN
+  have : (X.subgroupOf Q).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hQN
   let ψ : C →* (Q ⧸ X.subgroupOf Q) :=
     (QuotientGroup.mk' (X.subgroupOf Q)).comp (Subgroup.inclusion hCX)
   have hψinj : Function.Injective ψ := by
@@ -143,7 +145,7 @@ private theorem le_of_le_sup_of_isSimpleGroup_of_odd {G : Type*} [Group G] [Fini
     (hCX : C ≤ X ⊔ O) (hCs : IsSimpleGroup C) (hCeven : Even (Nat.card C))
     (hXO : X ⊓ O = ⊥) (hOodd : Odd (Nat.card O)) (hOn : O.Normal) : C ≤ X := by
   classical
-  haveI := hOn
+  have := hOn
   have hCXn : C ≤ Subgroup.normalizer (X : Set G) :=
     hCX.trans (sup_le Subgroup.le_normalizer hOX)
   have hNX : ((C ⊓ X).subgroupOf C).Normal := by
@@ -165,7 +167,7 @@ private theorem normal_of_normalClosure_oddBar {𝔊 : Type} [Group 𝔊] [Finit
     (hS : LeviStd K X Yh Nf)
     (hleft : Subgroup.normalClosure (oddBar X) = oddBar X) : X.Normal := by
   classical
-  haveI hXsimple : IsSimpleGroup X := hS.isSimpleGroup
+  have hXsimple : IsSimpleGroup X := hS.isSimpleGroup
   have hmap : oddBar (Subgroup.normalClosure (X : Set 𝔊)) =
       Subgroup.normalClosure (oddBar X) := LeviStd.map_normalClosure hS
   have hWn : (Subgroup.normalClosure (X : Set 𝔊)).Normal := Subgroup.normalClosure_normal
@@ -219,7 +221,7 @@ private theorem exists_mem_normalClosure_mk' {𝔊 : Type} [Group 𝔊] [Finite 
   have hWn : W.Normal := Subgroup.normalClosure_normal
   have hWbar_le : Subgroup.normalClosure (oddBar X) ≤
       W.map (QuotientGroup.mk' (standardComponentOddCore 𝔊)) := by
-    haveI : (W.map (QuotientGroup.mk' (standardComponentOddCore 𝔊))).Normal :=
+    have : (W.map (QuotientGroup.mk' (standardComponentOddCore 𝔊))).Normal :=
       hWn.map _ (QuotientGroup.mk'_surjective _)
     refine Subgroup.normalClosure_le_normal ?_
     intro z hz
@@ -284,7 +286,7 @@ theorem LeviStd.normal_or (hS : LeviStd K X Yh Nf) (hAS : Tim79a.AschbacherSeitz
         NativeSporadic.IsSporadic (Subgroup.normalClosure (X : Set 𝔊)) .M12 ∨
         NativeSporadic.IsSporadic (Subgroup.normalClosure (X : Set 𝔊)) .J2)) := by
   classical
-  haveI hperfect : Group.IsPerfect (Subgroup.normalClosure (X : Set 𝔊)) :=
+  have hperfect : Group.IsPerfect (Subgroup.normalClosure (X : Set 𝔊)) :=
     LeviStd.isPerfect_normalClosure hS
   obtain ⟨f, hf2, hcardK, hSp, hOquot, hstd, hrank⟩ := hS.std_hyps
   rw [CFSG.SectionRank.pRank_coe_eq_openPRank] at hrank

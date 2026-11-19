@@ -16,7 +16,7 @@ section Conj
 variable {K W : Type*} [Field K] [AddCommGroup W] [Module K W]
 
 noncomputable def glEquiv (c : LinearMap.GeneralLinearGroup K W) : W ≃ₗ[K] W :=
-  LinearEquiv.ofLinear c ↑c⁻¹ c.mul_inv c.inv_mul
+  LinearEquiv.ofLinearMap c ↑c⁻¹ c.mul_inv c.inv_mul
 
 theorem glEquiv_injective (c : LinearMap.GeneralLinearGroup K W) :
     Function.Injective (c : Module.End K W) :=
@@ -158,7 +158,7 @@ theorem echelon_li : ∀ l : List ℕ, echelon l = true →
         Fin.cons (bitVec K x) (fun i : Fin l.length => bitVec K (l.get i)) := by
       funext i
       cases i using Fin.cases <;> rfl
-    rw [e, linearIndependent_fin_cons]
+    rw [e, linearIndependent_finCons]
     refine ⟨echelon_li l h', fun hmem => ?_⟩
     have h0 : Submodule.span K (Set.range fun i : Fin l.length => bitVec K (l.get i)) ≤
         LinearMap.ker (posCoord ReeTag.F4.tag K p) := by

@@ -353,8 +353,8 @@ theorem c1_rep_surv {q : ℕ}
     intro g hg
     rw [(phq_spec e6D ch715750all.e6_root ch715750all.p_pw hq hw g hg).2, hφ, c1Eps]
     by_cases h0 : q % 3 = 0
-    · rw [if_pos h0, if_pos h0, one_smul]
-    · rw [if_neg h0, if_neg h0, neg_one_smul]
+    · rw [ite_eq_left h0, ite_eq_left h0, one_smul]
+    · rw [ite_eq_right h0, ite_eq_right h0, neg_one_smul]
   have hΦ : ∀ g, g ∈ PhiP (vecOf Tag.E6.rank E6.V) (v3 (pu1 (prec C1P.LF p)))
       (v3 (pu2 (prec C1P.LF p))) ↔ g < 72 ∧ ∀ v ∈ (P : Set (Fin Tag.E6.rank → ZMod 3)),
         ∑ m, v m * ((vecOf Tag.E6.rank E6.V g m : ℤ) : ZMod 3) = 0 := by
@@ -550,11 +550,11 @@ theorem c1_surv {b : ℕ} (hb : b < 3)
         by_cases hm : m = j
         · subst hm
           simp
-        · simp [Pi.single_apply, hm]
+        · simp [hm]
       rw [hs, smul_comm, he]
     have hneg : ∀ γ, IsRoot Tag.E6 γ → tcrConjPerm h ρ γ = -γ := by
       intro γ hγ
-      rw [hρ' γ hγ, hid', c1Eps, if_neg hb0, neg_one_smul]
+      rw [hρ' γ hγ, hid', c1Eps, ite_eq_right hb0, neg_one_smul]
     have h1 : componentOrbitLength (tcrConjPerm h ρ)
         (componentRoots (tcChiPl Tag.E6 3 (P.map (tcrDualLin h 3))) iJ') = 1 := by
       refine componentOrbitLength_eq_one_of_neg
@@ -659,7 +659,7 @@ theorem certificate715750_of_checks :
       by_cases h1 : F = 1
       · subst h1
         simpa using flagTransfer_refl 3 1
-      · rw [if_neg h1]
+      · rw [ite_eq_right h1]
         rcases hF with h | ⟨h3, h2⟩
         · exact absurd h h1
         · exact flagTransfer_three h2 h3
@@ -668,9 +668,9 @@ theorem certificate715750_of_checks :
       (by rw [show c1Flags 0 = [1, 3] from rfl]; split_ifs <;> simp) hflag P hP2
       (fun v hv j => by simpa using hfrob v hv j) iJ ix hS
     by_cases h1 : F = 1
-    · rw [if_pos h1] at hal
+    · rw [ite_eq_left h1] at hal
       exact ⟨h1, tcC1_row_of_allowed hdJ hdx (by simpa [c1Eps] using hal)⟩
-    · rw [if_neg h1] at hal
+    · rw [ite_eq_right h1] at hal
       simp [c1Eps, tcrAllowedC1_one_three] at hal
   · intro w ρ hρ F hF P hP2 hfrob iJ hJ2 x hxP hx0 ix hJx hne hsplit hoth
     have hS : SurvHyp ρ F P iJ x ix := ⟨hJ2, hxP, hx0, hJx, hne, hsplit, hoth⟩
@@ -678,7 +678,7 @@ theorem certificate715750_of_checks :
       by_cases h1 : F = 1
       · subst h1
         simpa using flagTransfer_refl 3 1
-      · rw [if_neg h1]
+      · rw [ite_eq_right h1]
         rcases hF with h | ⟨h3, h2⟩
         · exact absurd h h1
         · exact flagTransfer_three h2 h3
@@ -687,9 +687,9 @@ theorem certificate715750_of_checks :
       (by rw [show c1Flags 1 = [1, 3] from rfl]; split_ifs <;> simp) hflag P hP2
       (fun v hv j => by simpa using hfrob v hv j) iJ ix hS
     by_cases h1 : F = 1
-    · rw [if_pos h1] at hal
+    · rw [ite_eq_left h1] at hal
       exact ⟨h1, tcC1_row_of_allowed_negOne hdJ hdx (by simpa [c1Eps] using hal)⟩
-    · rw [if_neg h1] at hal
+    · rw [ite_eq_right h1] at hal
       simp [c1Eps, tcrAllowedC1_neg_one_three] at hal
   · intro w ρ hρ F hF P hP2 hfrob iJ hJ2 x hxP hx0 ix hJx hne hsplit hoth
     have hS : SurvHyp ρ F P iJ x ix := ⟨hJ2, hxP, hx0, hJx, hne, hsplit, hoth⟩
@@ -846,7 +846,7 @@ theorem lam_inj {vec : ℕ → Fin Tag.E8.rank → ℤ} {T0 B PV MW r : ℕ}
       lam B c (⟨fld PV 3 k % 8, Nat.mod_lt _ (by norm_num)⟩ : Fin 8) = c k := by
     intro c k
     simp only [lam, Finset.sum_apply, Pi.smul_apply, smul_eq_mul, hK.piv, mul_ite, mul_one,
-      mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+      mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
   intro c d hcd
   funext k
   rw [← hpiv c k, ← hpiv d k]
@@ -881,7 +881,7 @@ theorem vecMul_amat (vec : ℕ → Fin Tag.E8.rank → ℤ) (T0 r : ℕ) (v : Fi
     Matrix.vecMul v (amat vec T0 r) j =
       ∑ m, v m * ((vec (fld T0 8 j) m : ℤ) : ZMod 5) - v j * (r : ZMod 5) := by
   simp only [Matrix.vecMul, dotProduct, amat, mul_sub, Finset.sum_sub_distrib, mul_ite, mul_zero,
-    Finset.sum_ite_eq', Finset.sum_ite_eq, Finset.mem_univ, if_true]
+    Finset.sum_ite_eq', Finset.mem_univ, ite_true]
 
 theorem c2_phi0_surv {s : ℕ}
     (hs : s < 2) (ψ : AddMonoid.End (Fin Tag.E8.rank → ℤ))
@@ -1176,7 +1176,7 @@ theorem certificate715751_of_checks :
   · have hfl' : FlagTransfer 5 F (if F = 1 then 1 else 5) := by
       rcases hF with rfl | ⟨h4, h5⟩
       · simpa using flagTransfer_refl 5 1
-      · rw [if_neg (by omega)]
+      · rw [ite_eq_right (by omega)]
         exact flagTransfer_five (by omega) (by norm_num) (by omega) (by omega) (by norm_num)
     exact c2_phi0_surv (s := 0) (by norm_num) ψ hiso' hroot' hh hρ'
       (by rw [show c2Flags 0 = [1, 5] from rfl]; split_ifs <;> simp) hfl' _ hP2'
@@ -1260,7 +1260,6 @@ theorem weyl_of_lw :
       (fun m hm => (hf' m hm).1) hstep
     refine ⟨s * h', fun m => ?_⟩
     rw [mul_smul, hh' m]
-    beta_reduce
     rw [(hf' m m.2).2, hss]
 
 theorem weyl_eq_end
@@ -1270,7 +1269,7 @@ theorem weyl_eq_end
   have hx : x = ∑ m, x m • vecOf Tag.E8.rank E8.V m := by
     funext k
     simp only [e8D.simple, Finset.sum_apply, Pi.smul_apply, Pi.single_apply, smul_eq_mul, mul_ite,
-      mul_one, mul_zero, Finset.sum_ite_eq, Finset.mem_univ, if_true]
+      mul_one, mul_zero, Finset.sum_ite_eq, Finset.mem_univ, ite_true]
   have e : h • x = tcrWEnd Tag.E8 h x := rfl
   rw [e, hx, map_sum, map_sum]
   refine Finset.sum_congr rfl fun m _ => ?_
@@ -1352,8 +1351,8 @@ theorem c3_lincomb {V COLS XM : ℕ} {d : ℤ}
       ∑ i ∈ Finset.range 8, ((fld (fld V 128 (fld COLS 8 i)) 16 m : ℤ) - 7) * Yv V XM e i := by
   have h1 : d * ((fld (fld V 128 e) 16 m : ℤ) - 7) = ∑ j ∈ Finset.range 8,
       (if m = j then d else 0) * ((fld (fld V 128 e) 16 j : ℤ) - 7) := by
-    rw [Finset.sum_eq_single m (fun j _ hj => by rw [if_neg (Ne.symm hj), zero_mul])
-      (fun h => absurd (Finset.mem_range.2 hm) h), if_pos rfl]
+    rw [Finset.sum_eq_single m (fun j _ hj => by rw [ite_eq_right (Ne.symm hj), zero_mul])
+      (fun h => absurd (Finset.mem_range.2 hm) h), ite_eq_left rfl]
   rw [h1]
   have h2 : ∀ j ∈ Finset.range 8, (if m = j then d else 0) * ((fld (fld V 128 e) 16 j : ℤ) - 7) =
       ∑ k ∈ Finset.range 8, ((fld (fld V 128 (fld COLS 8 k)) 16 m : ℤ) - 7) *
@@ -1407,7 +1406,7 @@ theorem c3_bx : c3d ≠ 0 ∧ c3d.natAbs ∣ 30 ^ 64 ∧ ∀ i < 8, ∀ j < 8,
   bx_spec (fun k hk m hm => (root_lanes (n := 8) (by norm_num)
     (ch715750all.e8_root _ ((cols_spec ch715752.cols).1 k hk))).1 m hm) ch715752.bx
 
-theorem c3_unit {p : ℕ} [hp : Fact p.Prime] (h7 : 7 ≤ p) {n : ℤ} (h0 : n ≠ 0)
+theorem c3_unit {p : ℕ} [hp : Fact p.Prime] (h7 : 7 ≤ p) {n : ℤ} (_h0 : n ≠ 0)
     (hs : n.natAbs ∣ 30 ^ 64) : (n : ZMod p) ≠ 0 := by
   intro h
   rw [ZMod.intCast_zmod_eq_zero_iff_dvd] at h
@@ -1710,7 +1709,7 @@ theorem c3_lineΦ (hp : 13 ≤ p)
   have hR : ∀ k < 12, fld C3.REPS 8 k < 240 := fun k hk => (c3_reps k hk).1
   have hcls := cls_spec c3_hVl hR ch715752.cls
   intro g
-  simp only [mset, Set.mem_setOf_eq, Set.mem_singleton_iff, forall_eq, Lane.bit_iff, Lane.nlor,
+  simp only [mset, Set.mem_ofPred_eq, Set.mem_singleton_iff, forall_eq, Lane.bit_iff, Lane.nlor,
     Nat.testBit_or, Bool.or_eq_true]
   refine and_congr_right fun hg => ?_
   have hpb := pbE_spec c3_hVl hg (pbW_spec ch715750all.c3_root g hg)
@@ -1748,7 +1747,7 @@ theorem c3_lineSG (hp : 13 ≤ p)
     ∀ g, g ∈ mset 240 C3.SG ↔
       g < 240 ∧ ∀ v ∈ ({u} : Set (Fin Tag.E8.rank → ZMod p)), c3pr g v = 0 := by
   intro g
-  simp only [mset, Set.mem_setOf_eq, Set.mem_singleton_iff, forall_eq, Lane.bit_iff]
+  simp only [mset, Set.mem_ofPred_eq, Set.mem_singleton_iff, forall_eq, Lane.bit_iff]
   refine and_congr_right fun hg => ⟨fun hs => (c3_ker_iff hp hF4 hρ hφ hP2 hfrob h0 h2 hg).2 hs u hu,
     fun h0g => ?_⟩
   by_contra hs
@@ -1767,7 +1766,7 @@ theorem c3_planeΦ (hp : 13 ≤ p)
     ∀ g, g ∈ mset 240 C3.SG ↔
       g < 240 ∧ ∀ v ∈ (P : Set (Fin Tag.E8.rank → ZMod p)), c3pr g v = 0 := by
   intro g
-  simp only [mset, Set.mem_setOf_eq, Lane.bit_iff, SetLike.mem_coe]
+  simp only [mset, Set.mem_ofPred_eq, Lane.bit_iff, SetLike.mem_coe]
   exact and_congr_right fun hg => (c3_ker_iff hp hF4 hρ hφ hP2 hfrob h0 h2 hg).symm
 
 end C3Plane

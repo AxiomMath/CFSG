@@ -22,9 +22,9 @@ variable {F : Type} [Field F]
 
 private theorem exists_unit_orderOf_five [Finite F] (h : UnitaryFieldData 2 2 F) :
     ∃ ζ : Fˣ, orderOf ζ = 5 := by
-  haveI := h.finite
-  haveI : Fintype Fˣ := Fintype.ofFinite _
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have := h.finite
+  have : Fintype Fˣ := Fintype.ofFinite _
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   refine exists_prime_orderOf_dvd_card (G := Fˣ) 5 ?_
   have hfac : 5 ∣ Nat.card Fˣ := by
     rw [Nat.card_units, h.card]
@@ -66,7 +66,6 @@ private theorem multiplier_unitarySU_six_four [Finite F] (h : UnitaryFieldData 2
     omega
   have hoddJ : Odd (Nat.card (Subgroup.center
       ↥(unitaryBlock h ({0, 1, 2, 3, 4} : Finset (Fin 6))))) := by
-    change Odd (Nat.card (Subgroup.center ↥(unitaryBlock h {0,1,2,3,4})))
     exact hodd
   have hdvd : 3 * 5 ∣ Nat.card (↥(unitaryBlock h ({0, 1, 2, 3, 4} : Finset (Fin 6))) ⧸
       Subgroup.center ↥(unitaryBlock h ({0, 1, 2, 3, 4} : Finset (Fin 6)))) := by
@@ -171,7 +170,7 @@ private theorem evenRank_le_pRank_inf_unitaryBlock [Finite F] (h : UnitaryFieldD
   have hE : IsElemAbelian 5 (fiveLineSubgroup h) := isElemAbelian_fiveLineSubgroup h
   have hEcard : Nat.card (fiveLineSubgroup h) = 5 ^ 3 := card_fiveLineSubgroup h
   have hpE : CFSG.Open.pRank 5 (fiveLineSubgroup h) = 3 := by
-    haveI : IsElementaryAbelian 5 ↥(fiveLineSubgroup h) := hE.isElementaryAbelian
+    have : IsElementaryAbelian 5 ↥(fiveLineSubgroup h) := hE.isElementaryAbelian
     have h3 := CFSG.pRank_eq_of_card_eq_pow (A := ↥(fiveLineSubgroup h)) (p := 5) (k := 3)
       (by norm_num) hEcard
     rw [CFSG.SectionRank.pRank_eq_pRank_top_subgroup,
@@ -185,12 +184,12 @@ private theorem evenRank_le_pRank_inf_unitaryBlock [Finite F] (h : UnitaryFieldD
   norm_num
 
 theorem twA5FourModelAt_holds :
-    ∀ (F : Type) [Field F] [Finite F] (hF : UnitaryFieldData 2 2 F),
+    ∀ (F : Type) [Field F] [Finite F] (_hF : UnitaryFieldData 2 2 F),
       ∃ (q : ℕ) (B' : Subgroup (unitarySU 2 2 F 6)) (x' : unitarySU 2 2 F 6)
         (J : Subgroup (unitarySU 2 2 F 6)),
         Concl166S (unitarySU 2 2 F 6) 3 q B' x' J := by
   intro F _ _ h
-  haveI := h.finite
+  have := h.finite
   classical
   obtain ⟨ζu, hζu⟩ := exists_unit_orderOf_five (F := F) h
   let x : unitarySU 2 2 F 6 := diagFiveLast h (ζu : Fˣ) (norm_zeta hζu)

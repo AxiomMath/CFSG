@@ -91,7 +91,7 @@ theorem exists_sq_eq [Finite K] [CharP K 2] (κ : Kˣ) : ∃ ρ : Kˣ, ρ * ρ =
   obtain ⟨r, hr⟩ := FiniteField.isSquare_of_char_two hK (κ : K)
   have hr0 : r ≠ 0 := by
     rintro rfl
-    exact κ.ne_zero (by simpa using hr)
+    exact κ.ne_zero (by simp at hr)
   exact ⟨Units.mk0 r hr0, Units.ext (by simpa using hr.symm)⟩
 
 theorem exists_sq_one_lift [Finite K] [CharP K 2] {b : GL (Fin 3) K}
@@ -178,7 +178,7 @@ theorem eq_uniGL_of_comm [CharP K 2] {D b : GL (Fin 3) K} {e₀ : K} (he₀ : e�
   refine ⟨(b : Matrix (Fin 3) (Fin 3) K) 1 2, ?_⟩
   apply Units.ext
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [uniGL, uniM, h00, h01, h02, h10, h20, h21, h11, h1122]
+  fin_cases i <;> fin_cases j <;> simp [uniGL, uniM, h00, h01, h02, h10, h20, h21, h11]
   · rw [← h1122, h11]
 
 theorem conj_uniGL {g : GL (Fin 3) K}
@@ -219,7 +219,7 @@ theorem comm_diag_of_block {P : GL (Fin 3) K} {D : GL (Fin 3) K} {e₀ : K}
   rw [Units.val_mul, Units.val_mul, hD]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_diagonal, Matrix.diagonal_mul, h01, h02, h10, h20] <;> ring
+    simp [Matrix.mul_diagonal, Matrix.diagonal_mul, h01, h02, h10, h20]; ring
 
 theorem exists_basis_change [CharP K 2] {D a : GL (Fin 3) K} {e₀ : K} (he₀ : e₀ ≠ 1)
     (hD : (D : Matrix (Fin 3) (Fin 3) K) = Matrix.diagonal ![e₀, 1, 1])
@@ -291,7 +291,7 @@ theorem diag_conj_uni {D : GL (Fin 3) K} {e₀ : K}
   rw [Units.val_mul, Units.val_mul, hD]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [uniGL, uniM, Matrix.mul_apply, Fin.sum_univ_three, Matrix.diagonal_apply]
+    simp [uniGL, uniM, Matrix.mul_apply, Matrix.diagonal_apply]
 
 theorem det_conj_uniGL (P : GL (Fin 3) K) (a b c : K) :
     ((P * uniGL a b c * P⁻¹ : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K).det = 1 := by

@@ -114,10 +114,10 @@ theorem s16k_false_of_sum_two_sl (h : S16kBase D V₀ V L hV)
   obtain ⟨I₁, I₂, hZ₁, hZ₂, -, -, hsup, hN₁, hN₂⟩ := s16k_sum_two_data hr hS
   obtain ⟨K₁, hK₁f, hK₁fin, hK₁card, hR₁⟩ := hN₁
   obtain ⟨K₂, hK₂f, hK₂fin, hK₂card, hR₂⟩ := hN₂
-  letI : Field K₁ := hK₁f
-  letI : Finite K₁ := hK₁fin
-  letI : Field K₂ := hK₂f
-  letI : Finite K₂ := hK₂fin
+  let : Field K₁ := hK₁f
+  let : Finite K₁ := hK₁fin
+  let : Field K₂ := hK₂f
+  let : Finite K₂ := hK₂fin
   obtain ⟨π₁, h₁⟩ := hR₁
   obtain ⟨π₂, h₂⟩ := hR₂
   have hK₁ : Nat.card K₁ = 2 := by simpa using hK₁card
@@ -150,10 +150,10 @@ theorem s16k_false_of_sum_two_sp (h : S16kBase D V₀ V L hV)
   obtain ⟨I₁, I₂, hZ₁, hZ₂, -, -, hsup, hN₁, hN₂⟩ := s16k_sum_two_data hr hS
   obtain ⟨-, K₁, hK₁f, hK₁fin, hK₁card, hR₁⟩ := hN₁
   obtain ⟨-, K₂, hK₂f, hK₂fin, hK₂card, hR₂⟩ := hN₂
-  letI : Field K₁ := hK₁f
-  letI : Finite K₁ := hK₁fin
-  letI : Field K₂ := hK₂f
-  letI : Finite K₂ := hK₂fin
+  let : Field K₁ := hK₁f
+  let : Finite K₁ := hK₁fin
+  let : Field K₂ := hK₂f
+  let : Finite K₂ := hK₂fin
   obtain ⟨π₁, h₁⟩ := hR₁
   obtain ⟨π₂, h₂⟩ := hR₂
   have hK₁ : Nat.card K₁ = 2 := by simpa using hK₁card
@@ -186,10 +186,10 @@ theorem s16k_false_of_sum_two_omegaPlus (h : S16kBase D V₀ V L hV)
   obtain ⟨I₁, I₂, hZ₁, hZ₂, hind₁, hind₂, hsup, hN₁, hN₂⟩ := s16k_sum_two_data hr hS
   obtain ⟨hEven, K₁, hK₁f, hK₁fin, hK₁card, hR₁⟩ := hN₁
   obtain ⟨-, K₂, hK₂f, hK₂fin, hK₂card, hR₂⟩ := hN₂
-  letI : Field K₁ := hK₁f
-  letI : Finite K₁ := hK₁fin
-  letI : Field K₂ := hK₂f
-  letI : Finite K₂ := hK₂fin
+  let : Field K₁ := hK₁f
+  let : Finite K₁ := hK₁fin
+  let : Field K₂ := hK₂f
+  let : Finite K₂ := hK₂fin
   obtain ⟨π₁, h₁⟩ := hR₁
   obtain ⟨π₂, h₂⟩ := hR₂
   have hK₁ : Nat.card K₁ = 2 := by simpa using hK₁card
@@ -231,10 +231,10 @@ theorem s16k_false_of_sum_two_omegaMinus (h : S16kBase D V₀ V L hV)
   obtain ⟨I₁, I₂, hZ₁, hZ₂, -, -, hsup, hN₁, hN₂⟩ := s16k_sum_two_data hr hS
   obtain ⟨-, K₁, hK₁f, hK₁fin, b₁, c₁, hK₁card, hirr₁, hR₁⟩ := hN₁
   obtain ⟨-, K₂, hK₂f, hK₂fin, b₂, c₂, hK₂card, hirr₂, hR₂⟩ := hN₂
-  letI : Field K₁ := hK₁f
-  letI : Finite K₁ := hK₁fin
-  letI : Field K₂ := hK₂f
-  letI : Finite K₂ := hK₂fin
+  let : Field K₁ := hK₁f
+  let : Finite K₁ := hK₁fin
+  let : Field K₂ := hK₂f
+  let : Finite K₂ := hK₂fin
   obtain ⟨π₁, h₁⟩ := hR₁
   obtain ⟨π₂, h₂⟩ := hR₂
   have hK₁ : Nat.card K₁ = 2 := by simpa using hK₁card

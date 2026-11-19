@@ -66,7 +66,7 @@ theorem mem_factorCentralizer {H H₀ D : Subgroup M} [H.Normal] [H₀.Normal]
   exact ⟨fun h d hd => h ⟨d, hd⟩, fun h d => h d d.2⟩
 
 theorem factorCentralizer_mono {H H₀ D D' : Subgroup M} [H.Normal] [H₀.Normal] (h : D ≤ D') :
-    factorCentralizer H H₀ D' ≤ factorCentralizer H H₀ D := fun x hx =>
+    factorCentralizer H H₀ D' ≤ factorCentralizer H H₀ D := fun _x hx =>
   mem_factorCentralizer.2 fun d hd => mem_factorCentralizer.1 hx d (h hd)
 
 @[simp]
@@ -146,6 +146,7 @@ variable [Finite M] [Group.IsSolvable M] {H A U B H₀ : Subgroup M} [H.Normal] 
 
 include hs
 
+omit [Finite M] [Group.IsSolvable M] [H.Normal] [H₀.Normal] in
 theorem isCyclic_B : IsCyclic ↥B :=
   haveI := Fact.mk hs.prime_q
   isCyclic_of_prime_card hs.card_B

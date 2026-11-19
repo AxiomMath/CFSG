@@ -32,12 +32,12 @@ private theorem l10se6r_inner_range
   have hmapadj : (((ggU .E6 n f).D).rootGroup β).map π0 =
       (adjDatum (rootOperatorFamily .E6) (GaloisField 2 f)).rootGroup β :=
     CFSG.ClassicalInvolution.ModelFacts.map_e6Isogeny_rootGroup (k := GaloisField 2 f) hβ'
-  haveI : Finite ((ggU .E6 n f).K) :=
+  have : Finite ((ggU .E6 n f).K) :=
     CFSG.ClassicalInvolution.ModelFacts.ChevAut.finite_minGroup e6Data_valid (GaloisField 2 f)
-  haveI : Group.IsPerfect ((ggU .E6 n f).K) :=
+  have : Group.IsPerfect ((ggU .E6 n f).K) :=
     CFSG.LieType.CurtisTits.isPerfect_e6 (GaloisField 2 f)
-  haveI : Finite ↥φ.range := Finite.of_surjective φ.rangeRestrict φ.rangeRestrict_surjective
-  haveI : Group.IsPerfect ↥φ.range := Group.IsPerfect.range (f := φ)
+  have : Finite ↥φ.range := Finite.of_surjective φ.rangeRestrict φ.rangeRestrict_surjective
+  have : Group.IsPerfect ↥φ.range := Group.IsPerfect.range (f := φ)
   have hkerπ0 : φ.ker ≤ π0.ker :=
     hker.trans (center_le_ker_e6Isogeny (K := GaloisField 2 f))
   let π' : ↥φ.range →* ↥(adjointGroup .E6 (GaloisField 2 f)) :=

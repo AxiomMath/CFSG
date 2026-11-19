@@ -145,8 +145,8 @@ theorem card_closure_cab_le201 (hc : c ^ 2 ^ m = 1) (ha : a ^ 2 ^ (m + 2) = 1)
     all_goals first
       | exact Commute.refl _
       | exact hca | exact hca.symm | exact hcb | exact hcb.symm | exact hab | exact hab.symm
-  haveI : IsMulCommutative K := Subgroup.isMulCommutative_closure hpair
-  letI : CommGroup K := IsMulCommutative.instCommGroup
+  have : IsMulCommutative K := Subgroup.isMulCommutative_closure hpair
+  let : CommGroup K := IsMulCommutative.instCommGroup
   let c' : K := ⟨c, Subgroup.subset_closure (by simp)⟩
   let a' : K := ⟨a, Subgroup.subset_closure (by simp)⟩
   let b' : K := ⟨b, Subgroup.subset_closure (by simp)⟩
@@ -213,8 +213,7 @@ theorem t_mul_word201 (h : Rel201 m c a b uv t u f) (α β γ : Fin 2) :
 theorem u_mul_word201 (h : Rel201 m c a b uv t u f) (α β γ : Fin 2) :
     u * word201 uv t u α β γ = word201 uv t u (α + β) β (γ + 1) := by
   fin_cases α <;> fin_cases β <;> fin_cases γ <;>
-    simp [word201, mul_assoc, h.u_mul_uv, h.u_mul_t, h.u_mul_u, h.u_sq, h.uv_mul_uv, h.uv_sq,
-      h.u_uv, h.u_t']
+    simp [word201, mul_assoc, h.u_mul_uv, h.u_mul_t, h.u_sq, h.uv_mul_uv, h.u_uv, h.u_t']
 
 @[expose] def normalForm201 (c a b uv t u f : H) : Set H :=
   {x | ∃ d ∈ Subgroup.closure ({c, a, b} : Set H), ∃ δ α β γ : Fin 2,
@@ -285,7 +284,7 @@ theorem Rel201.conj_mem (h : Rel201 m c a b uv t u f) {g : H} (hg : g = uv ∨ g
     · rw [h.f_b]
       exact K.mul_mem (K.inv_mem hb) (K.pow_mem hb _)
 
-theorem mul_f_eq201 (h : Rel201 m c a b uv t u f) {g k : H} (hk : f⁻¹ * g * f = k * g) :
+theorem mul_f_eq201 (_h : Rel201 m c a b uv t u f) {g k : H} (hk : f⁻¹ * g * f = k * g) :
     g * f = (f * k * f⁻¹) * f * g := by
   have : g * f = f * (f⁻¹ * g * f) := by group
   rw [this, hk]
@@ -346,10 +345,10 @@ theorem Rel201.mul_mem_normalForm (h : Rel201 m c a b uv t u f) {g x : H}
     have hfdK : f * d * f⁻¹ ∈ K := hfK hd
     fin_cases δ
     · refine ⟨f * d * f⁻¹, hfdK, 1, α, β, γ, ?_⟩
-      simp only [Fin.isValue, Fin.val_zero, pow_zero, mul_one, Fin.val_one, pow_one]
+      simp only [Fin.isValue, pow_zero, mul_one, Fin.val_one, pow_one]
       group
     · refine ⟨f * d * f⁻¹, hfdK, 0, α, β, γ, ?_⟩
-      simp only [Fin.isValue, Fin.val_one, pow_one, Fin.val_zero, pow_zero, mul_one]
+      simp only [Fin.isValue, pow_one, Fin.val_zero, pow_zero, mul_one]
       calc f * (d * f * word201 uv t u α β γ) = f * d * f⁻¹ * (f * f) * word201 uv t u α β γ := by
             group
         _ = f * d * f⁻¹ * word201 uv t u α β γ := by rw [h.f_sq, mul_one]

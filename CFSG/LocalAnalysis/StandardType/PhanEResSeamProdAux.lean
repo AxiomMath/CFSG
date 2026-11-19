@@ -27,12 +27,12 @@ variable {M : ChevModel2 D n H Fld} {m : ℕ}
 private theorem hmbSP_cutTypes_zero_eq_univ (m : ℕ) :
     cutTypes m [0, m + 1] = Set.univ := by
   ext j
-  simp only [cutTypes, Set.mem_setOf_eq, Set.mem_univ, iff_true]
+  simp only [cutTypes, Set.mem_ofPred_eq, Set.mem_univ, iff_true]
   intro i hi
   have hi' : i < 2 := by simpa using hi
   interval_cases i
   · simp
-  · simp only [List.getD_cons_zero, List.getD_cons_succ, List.getD_nil]
+  · simp only [List.getD_cons_zero, List.getD_cons_succ]
     have hj : j.val < m := j.isLt
     omega
 
@@ -80,7 +80,7 @@ theorem hmbSP_commutes_rankOne (hext : SteinbergExtras D n H) {i j : Fin D.rank}
 
 theorem hmbSP_commute (hext : SteinbergExtras D n H) {M : ChevModel2 D n H Fld} {m₁ : ℕ}
     (L₁ : SLPath M m₁) (L₂ : SLPath M 1) {J₁ : Set (Fin D.rank)} {z : Fin D.rank}
-    (hJ₁ : Set.range L₁.e = J₁) (hz₂ : L₂.e 0 = z) (hz : z ∉ J₁)
+    (hJ₁ : Set.range L₁.e = J₁) (hz₂ : L₂.e 0 = z) (_hz : z ∉ J₁)
     (hcomm : ∀ i ∈ J₁, coxeterMatrix D.isFiniteType i z = 2)
     (A₁ : SpecialLinearGroup (Fin (m₁ + 1)) Fld) (A₂ : SpecialLinearGroup (Fin 2) Fld) :
     L₁.ε A₁ * L₂.ε A₂ = L₂.ε A₂ * L₁.ε A₁ := by

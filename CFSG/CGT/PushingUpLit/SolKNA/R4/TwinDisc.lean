@@ -17,7 +17,7 @@ open CFSG.ClassicalInvolution.Q3 CFSG.ClassicalInvolution.Q3.PhilipHall.Quaterni
 open CFSG.ClassicalInvolution.Q3.PhilipHall.Frame
 
 
-theorem twinDiscInputsR_of {r n : ℕ} (hr : 4 ≤ r) (hNo : NoQ16E4) (hT : Thm1RTwinInO2 r n)
+theorem twinDiscInputsR_of {r n : ℕ} (hr : 4 ≤ r) (_hNo : NoQ16E4) (hT : Thm1RTwinInO2 r n)
     (h4 : Thm4RTwinBelow r n) (hE : TwinThmER r n) (hN : Disc15R r n) : TwinDiscInputsR r n := by
   have hB : TwinDiscBaseR r n := twinDiscBaseR_of h4 hT
   have hM : DStarConnectedTwinR r n := dstarConnectedTwinR_of hr hT

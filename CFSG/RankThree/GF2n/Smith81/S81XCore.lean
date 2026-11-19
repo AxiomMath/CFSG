@@ -59,7 +59,7 @@ theorem Fe2Geom.beta_inv_smul (hG : Fe2Geom Γ p₀ U₀ β n) {s : V ≃ₗ[K] 
   exact h.symm
 
 theorem Fe2Geom.special_mul_iff (hG : Fe2Geom Γ p₀ U₀ β n) {s₁ s₂ Q : V ≃ₗ[K] V} (h₁ : s₁ ∈ Γ)
-    (h₂ : s₂ ∈ Γ) {c₁ c₂ : K} (hc₁ : c₁ ≠ 0) (hc₂ : c₂ ≠ 0) (e₁ : s₁ p₀ = c₁ • p₀)
+    (_h₂ : s₂ ∈ Γ) {c₁ c₂ : K} (hc₁ : c₁ ≠ 0) (hc₂ : c₂ ≠ 0) (e₁ : s₁ p₀ = c₁ • p₀)
     (e₂ : s₂ p₀ = c₂ • p₀) :
     SpecialAt β p₀ U₀ (s₁⁻¹ * Q * s₂) ↔ SpecialAt β p₀ U₀ Q := by
   have hP : (s₁⁻¹ * Q * s₂) p₀ = c₂ • s₁⁻¹ (Q p₀) := by
@@ -203,7 +203,7 @@ theorem fe2_le_and_map_eq_of_radical {α β : Type} [Group α] [Finite α] [Grou
     obtain ⟨t, htT, htf⟩ := hsurj u hu
     exact Subgroup.mem_map.mpr
       ⟨t, Subgroup.mem_subgroupOf.mpr (Subgroup.mem_inf.mpr ⟨htT, t.2⟩), htf⟩
-  haveI := finite_map_aux f ((T ⊓ L).subgroupOf L)
+  have := finite_map_aux f ((T ⊓ L).subgroupOf L)
   have hle1 : Nat.card ↥T ≤ Nat.card ↥(T ⊓ L) := by
     rw [hA]
     exact hcard.trans (Nat.mul_le_mul le_rfl (Subgroup.card_le_of_le hRle))
@@ -212,7 +212,7 @@ theorem fe2_le_and_map_eq_of_radical {α β : Type} [Group α] [Finite α] [Grou
     rw [← hTL]
     exact inf_le_right
   rw [hTL] at hA hRle
-  haveI := finite_map_aux f (T.subgroupOf L)
+  have := finite_map_aux f (T.subgroupOf L)
   have hQpos : 0 < Nat.card ↥Q := Nat.card_pos
   have hcardM : Nat.card ↥((T.subgroupOf L).map f) ≤ Nat.card ↥R := by
     refine Nat.le_of_mul_le_mul_left ?_ hQpos
@@ -221,6 +221,7 @@ theorem fe2_le_and_map_eq_of_radical {α β : Type} [Group α] [Finite α] [Grou
   have hRM : R = (T.subgroupOf L).map f := Subgroup.eq_of_le_of_card_ge hRle hcardM
   exact ⟨hTL', hRM.symm⟩
 
+omit [Finite K] in
 theorem fe2_LB_le_Lgen_and_map_eq (d : EUniData M Q Z B M₀ ψ φ Γ p₀ U₀) (hLM : LB M Q B ≤ M)
     {X : Subgroup G} {g : V ≃ₗ[K] V} (hX : d.IsPt X g) {m : ℕ}
     (hc : Nat.card ↥(LB M Q X) = Nat.card Q * Nat.card Z ^ (m - 1))
@@ -350,7 +351,7 @@ theorem fe2_generic
     (hform : ∀ e f : M₀.E, M₀.B e f = lam * β (ψ e) (ψ f))
     {R : (V ≃ₗ[K] V) → Prop} (hRconj : ∀ g ∈ Γ, ∀ u, R u → R (g * u * g⁻¹))
     (hT : ∀ g ∈ Γ, SpecialAt β p₀ U₀ g → ∀ u ∈ U₀ ⊓ conjSub g U₀, u ≠ 1 → R u)
-    {z : G} (hz : z ∈ Z) (hz1 : z ≠ 1) {t : G} (hzt : IsConj z t) (htM : t ∈ M) (htQ : t ∉ Q) :
+    {z : G} (hz : z ∈ Z) (_hz1 : z ≠ 1) {t : G} (hzt : IsConj z t) (htM : t ∈ M) (htQ : t ∉ Q) :
     ∃ htL : t ∈ Lgen M (LB M Q B), φ ⟨t, htL⟩ ≠ 1 ∧ R (φ ⟨t, htL⟩) := by
   have H : StrothHyp M Q Z := hc.ctx.hyp
   obtain ⟨X, hs⟩ : ∃ X : Subgroup G, Sit M Q Z X t := exists_sit_of_isConj H hz hzt htM htQ

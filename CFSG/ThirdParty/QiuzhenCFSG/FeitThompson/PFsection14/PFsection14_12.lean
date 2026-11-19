@@ -28,7 +28,7 @@ public theorem section14_characteristicSubgroupIn_of_le_cyclic
     {U H : Subgroup G}
     (hUH : U ≤ H) (hcyc : IsCyclic H) :
     characteristicSubgroupIn U H := by
-  haveI : IsCyclic H := hcyc
+  have : IsCyclic H := hcyc
   exact ⟨hUH, section12_subgroup_characteristic_of_cyclic (U.subgroupOf H)⟩
 
 public theorem section14_isHallSubgroup_map_of_surjective

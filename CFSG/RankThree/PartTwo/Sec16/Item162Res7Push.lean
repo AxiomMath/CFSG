@@ -153,7 +153,7 @@ private theorem exists_centralizer_factorization {A : Subgroup G} {c : G} {L : S
   have hU_NK : U ≤ Subgroup.normalizer (K : Set G) := inf_le_left.trans hWK
   have hU_NT : U ≤ Subgroup.normalizer (T : Set G) := inf_le_left.trans hWT
   have hA_Czp : A ≤ Subgroup.centralizer (Subgroup.zpowers c : Set G) := by
-    haveI : IsMulCommutative A := hA.1.1
+    have : IsMulCommutative A := hA.1.1
     refine (Subgroup.le_centralizer (H := A)).trans (Subgroup.centralizer_le ?_)
     intro x hx
     exact Subgroup.zpowers_le.mpr hcA hx

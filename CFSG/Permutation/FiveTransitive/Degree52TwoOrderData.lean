@@ -25,7 +25,7 @@ theorem exists_orbit_data
         Nat.card (orbit (sylowImage X P s S) y) ≤ 2 := by
   classical
   let Q := sylowImage X P s S
-  have hQ : IsPGroup 2 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup 2 Q := S.isPGroup.map (fixingSubgroup P s).subtype
   have hX : Nat.card X = 52 := by rwa [Nat.card_eq_fintype_card]
   obtain ⟨hF,him⟩ := Degree52TwoEntrance.fixed_six_and_image P hcard h5 hnotAlt s hs S
   have hfixed : Nat.card (fixedPoints Q X) = 6 := by

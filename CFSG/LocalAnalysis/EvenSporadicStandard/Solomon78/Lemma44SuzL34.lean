@@ -314,9 +314,9 @@ private theorem suzL34GenTab_tabRep
     (hb : CFSG.Monster.B.Co2.Rep 1782 suzArrB b)
     (l : Nat) : TabRep (suzL34GenTab l) (suzSigmaGen ha hb l) := by
   by_cases hl : l = 1
-  · simp only [suzL34GenTab, suzSigmaGen, hl, if_true]
+  · simp only [suzL34GenTab, suzSigmaGen, hl, ite_true]
     exact suzSigmaA_tabRep ha
-  · simp only [suzL34GenTab, suzSigmaGen, hl, if_false]
+  · simp only [suzL34GenTab, suzSigmaGen, hl, ite_false]
     exact suzSigmaB_tabRep hb
 
 private theorem suzL34WordTab_tabRep
@@ -355,9 +355,9 @@ private theorem suzSigmaWord_mem
       simp only [suzSigmaWord]
       refine Subgroup.mul_mem _ ?_ ih
       by_cases hl : l = 1
-      · simp only [suzSigmaGen, hl, if_true]
+      · simp only [suzSigmaGen, hl, ite_true]
         exact Subgroup.subset_closure (by simp)
-      · simp only [suzSigmaGen, hl, if_false]
+      · simp only [suzSigmaGen, hl, ite_false]
         exact Subgroup.subset_closure (by simp)
 
 private theorem suzG_mem_closure

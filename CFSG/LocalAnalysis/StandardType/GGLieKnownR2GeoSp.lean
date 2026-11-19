@@ -33,8 +33,7 @@ private theorem J_mulVec_single {n : ℕ} {F : Type} [Field F] [CharP F 2] (b : 
       Pi.single b.swap 1 := by
   ext k
   rcases b with i | i <;> rcases k with k | k <;>
-    simp [Matrix.mulVec, dotProduct, Pi.single_apply, Matrix.fromBlocks, Fintype.sum_sum_type,
-      Matrix.one_apply, CharTwo.neg_eq, eq_comm]
+    simp [Matrix.mulVec, dotProduct, Pi.single_apply, Matrix.fromBlocks, Matrix.one_apply, CharTwo.neg_eq, eq_comm]
 
 private theorem vecMul_J {n : ℕ} {F : Type} [Field F] [CharP F 2] (v : Fin n ⊕ Fin n → F) :
     v ᵥ* (fromBlocks 0 1 (-1) 0 : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) =
@@ -170,11 +169,11 @@ private theorem exists_long_index {n : ℕ} {F : Type} [Field F]
   · exact ⟨i, Or.inl hr⟩
   · exact ⟨i, Or.inr hr⟩
   · have h := hev i
-    simp [stdVec, Pi.single_apply, hij] at h
+    simp [stdVec, hij] at h
   · have h := hev i
-    simp [stdVec, Pi.single_apply, hij.ne] at h
+    simp [stdVec, hij.ne] at h
   · have h := hev i
-    simp [stdVec, Pi.single_apply, hij.ne] at h
+    simp [stdVec, hij.ne] at h
 
 theorem ggLongRoot_of_allEven {n : ℕ} {F : Type} [Field F]
     {β : Fin (rootDatum n F).rank → ℤ} (hβ : β ∈ (rootDatum n F).roots)
@@ -333,9 +332,9 @@ theorem exists_altSiegelGroup_eq_conj_rootGroup_Sp (n : ℕ) (F : Type) [Field F
     · rw [pairing, single_dot_J_single]
       simp
     · rw [pairing, single_dot_J_single]
-      simp [hij', hij'.symm]
+      simp [hij']
     · rw [pairing, single_dot_J_single]
-      simp [hij', hij'.symm]
+      simp [hij'.symm]
     · refine map_conj_rootGroup hr u _ fun c => ?_
       change mat n F u * (c • (Matrix.single (Sum.inl i) (Sum.inr j) 1 +
         Matrix.single (Sum.inl j) (Sum.inr i) 1)) * mat n F u⁻¹ = _
@@ -363,9 +362,9 @@ theorem exists_altSiegelGroup_eq_conj_rootGroup_Sp (n : ℕ) (F : Type) [Field F
     · rw [pairing, single_dot_J_single]
       simp
     · rw [pairing, single_dot_J_single]
-      simp [hij', hij'.symm]
+      simp [hij']
     · rw [pairing, single_dot_J_single]
-      simp [hij', hij'.symm]
+      simp [hij'.symm]
     · refine map_conj_rootGroup hr u _ fun c => ?_
       change mat n F u * (c • (Matrix.single (Sum.inr i) (Sum.inl j) 1 +
         Matrix.single (Sum.inr j) (Sum.inl i) 1)) * mat n F u⁻¹ = _

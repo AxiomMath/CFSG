@@ -346,16 +346,16 @@ private theorem normalizerOrbitHom_ker_isSolvable
       (fun z : cycleKer =>
         (((z : Subgroup.centralizer
           ({g} : Set (Equiv.Perm Y))) : Equiv.Perm Y))) hab
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   have hcycleKerP : IsPGroup p cycleKer := by
     apply IsPGroup.of_card
     exact cycleFactor_ker_card_eq_prime_pow hp horder hsum
   have hDP : IsPGroup p D :=
     hcycleKerP.of_injective rotateMap hrotateInjective
-  letI : Group.IsNilpotent D := hDP.isNilpotent
-  letI : Group.IsSolvable D :=
+  let : Group.IsNilpotent D := hDP.isNilpotent
+  let : Group.IsSolvable D :=
     IsNilpotent.to_isSolvable
-  letI : Group.IsSolvable (MulAut R) := by
+  let : Group.IsSolvable (MulAut R) := by
     exact
       Group.isSolvable_of_isSolvable_injective
         (f := (IsCyclic.mulAutMulEquiv R).toMonoidHom)
@@ -403,7 +403,7 @@ theorem orbitHomOfLeNormalizer_ker_isSolvable
     apply K.subtype_injective
     exact congrArg
       (fun z : ν.ker => ((z : N) : Equiv.Perm Y)) hab
-  letI : Group.IsSolvable ν.ker := by
+  let : Group.IsSolvable ν.ker := by
     simpa only [R, N, ν] using
       normalizerOrbitHom_ker_isSolvable hp horder hsum
   have hDsolvable : Group.IsSolvable D :=

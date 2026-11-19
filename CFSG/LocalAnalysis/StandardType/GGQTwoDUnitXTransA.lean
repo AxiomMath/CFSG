@@ -67,14 +67,14 @@ theorem qtwoDB20_mul_dTau (m : ℕ) {U : DVec m ≃ₗ[ZMod 3] DVec m}
 theorem qtwoDB20_dSign_mem_dEven (m : ℕ) {a b : Fin m} (hab : a ≠ b) :
     dSign m a b ∈ dEven m := by
   have h : dSign m a b = (dPerm m (Equiv.swap a b))⁻¹ * dTau m true a b := by
-    rw [dTau, if_pos rfl, ← mul_assoc, inv_mul_cancel, one_mul]
+    rw [dTau, ite_eq_left rfl, ← mul_assoc, inv_mul_cancel, one_mul]
   rw [h]
   exact (dEven m).mul_mem ((dEven m).inv_mem (dPerm_mem_dEven m _))
     (dTau_mem_dEven m true hab)
 
 theorem qtwoDB20_dSign_fixes_single {m : ℕ} {a b c : Fin m} (hca : c ≠ a) (hcb : c ≠ b) :
     dSign m a b (Pi.single c (1 : ZMod 3)) = Pi.single c (1 : ZMod 3) := by
-  rw [← qtwoDB20_dBasis_apply, dSign_apply, if_neg (by tauto), one_smul,
+  rw [← qtwoDB20_dBasis_apply, dSign_apply, ite_eq_right (by tauto), one_smul,
     qtwoDB20_dBasis_apply]
 
 theorem qtwoDB20_dTau_fixes_single {m : ℕ} {i j c : Fin m} {sgn : Bool}
@@ -85,13 +85,13 @@ theorem qtwoDB20_dTau_fixes_single {m : ℕ} {i j c : Fin m} {sgn : Bool}
     subst hci
     rw [← qtwoDB20_dBasis_apply, dTau_apply_left m sgn hij] at h
     have h2 := congrFun h c
-    simp [qtwoDB20_dBasis_apply, Pi.single_eq_of_ne' (Ne.symm hij),
+    simp [Pi.single_eq_of_ne' (Ne.symm hij),
       Pi.single_eq_same] at h2
   · intro hcj
     subst hcj
     rw [← qtwoDB20_dBasis_apply, dTau_apply_right m sgn hij] at h
     have h2 := congrFun h c
-    simp [qtwoDB20_dBasis_apply, Pi.single_eq_of_ne' hij, Pi.single_eq_same] at h2
+    simp [Pi.single_eq_of_ne' hij, Pi.single_eq_same] at h2
 
 theorem qtwoDB20_oTwoPrime_le_inf {X : Type} [Group X] {C X' : Subgroup X}
     (h : ggOTwoPrime C ≤ X' ⊓ C) :
@@ -102,7 +102,7 @@ theorem qtwoDB20_oTwoPrime_le_inf {X : Type} [Group X] {C X' : Subgroup X}
   have hy : y ∈ ggOTwoPrime C := Subgroup.subset_closure ⟨hyC, k, hk⟩
   exact Subgroup.subset_closure ⟨h hy, k, hk⟩
 
-theorem qtwoDB20_X_le_centralizer (hbase : QTwoUnitBase p B Bs x L ψ ε)
+theorem qtwoDB20_X_le_centralizer (_hbase : QTwoUnitBase p B Bs x L ψ ε)
     (hcoords : QTwoUnitCoords Bs x L 𝒦 M e e' ψ ε βL ω)
     (hdel : QTwoUnitDel Bs βL a b c α g b') :
     qtwoDelX ψ c g ≤ Subgroup.centralizer ({(b' : G)} : Set G) := by
@@ -184,6 +184,7 @@ theorem qtwoDB20_X_le_centralizer (hbase : QTwoUnitBase p B Bs x L ψ ε)
   rw [qtwoDelX]
   exact sup_le hJ₁ hJ₂
 
+omit [Finite G] in
 theorem qtwoDB20_fixes_b'
     (hXc : qtwoDelX ψ c g ≤ Subgroup.centralizer ({(b' : G)} : Set G))
     {r : MulAut ↥Bs} (hr : r ∈ ggAutomizer (qtwoDelX ψ c g) Bs) :
@@ -237,7 +238,7 @@ theorem qtwoDB20_normal_form_one (hm : 4 ≤ m) {i j : Fin m} {sgn : Bool}
     have hε : qtwoDB20_sg false = (fun p => if p = j ∨ p = k then (-1 : ZMod 3) else 1) i *
         (fun p => if p = j ∨ p = k then (-1 : ZMod 3) else 1) j *
         qtwoDB20_sg true := by
-      simp [qtwoDB20_sg, hij, hik, hkj]
+      simp [qtwoDB20_sg, hij, hik]
     have hU : ∀ p : Fin m, dSign m j k (dBasis m p) =
         (fun q => if q = j ∨ q = k then (-1 : ZMod 3) else 1) p •
           dBasis m ((1 : Equiv.Perm (Fin m)) p) := by
@@ -265,8 +266,8 @@ theorem qtwoDB20_dSign_comm_dPerm {m : ℕ} {c d : Fin m} {σ : Equiv.Perm (Fin 
       · left; rw [h, hσc]
       · right; rw [h, hσd]
   by_cases h : i = c ∨ i = d
-  · rw [if_pos (hiff.mpr h), if_pos h]
-  · rw [if_neg (fun hh => h (hiff.mp hh)), if_neg h]
+  · rw [ite_eq_left (hiff.mpr h), ite_eq_left h]
+  · rw [ite_eq_right (fun hh => h (hiff.mp hh)), ite_eq_right h]
 
 theorem qtwoDB20_dTau_false (m : ℕ) (a b : Fin m) :
     dTau m false a b = dPerm m (Equiv.swap a b) := by
@@ -327,22 +328,22 @@ theorem qtwoDB20_normal_form_pair_lin (hm : 6 ≤ m) {i j i' j' : Fin m} {sgn sg
     rw [h2, h1]
     group
   have hDc : D (dBasis m c) = -dBasis m c := by
-    rw [show D = dSign m c d from rfl, dSign_apply, if_pos (Or.inl rfl)]
+    rw [show D = dSign m c d from rfl, dSign_apply, ite_eq_left (Or.inl rfl)]
     funext i
     simp
   let V' : DVec m ≃ₗ[ZMod 3] DVec m := if κ = 1 then U⁻¹ else D * U⁻¹
   have hV'mem : V' ∈ dEven m := by
     by_cases hκ1 : κ = 1
-    · rw [show V' = U⁻¹ from if_pos hκ1]
+    · rw [show V' = U⁻¹ from ite_eq_left hκ1]
       exact (dEven m).inv_mem hU
-    · rw [show V' = D * U⁻¹ from if_neg hκ1]
+    · rw [show V' = D * U⁻¹ from ite_eq_right hκ1]
       exact (dEven m).mul_mem hDmem ((dEven m).inv_mem hU)
   have hV'fix : V' (dBasis m c) = dBasis m c := by
     by_cases hκ1 : κ = 1
     · have hUc : U (dBasis m c) = dBasis m c := by
         rw [hκ1] at hUκ
         simpa only [one_smul] using hUκ
-      rw [show V' = U⁻¹ from if_pos hκ1]
+      rw [show V' = U⁻¹ from ite_eq_left hκ1]
       calc U⁻¹ (dBasis m c) = U⁻¹ (U (dBasis m c)) := by rw [hUc]
         _ = dBasis m c := U.symm_apply_apply _
     · have hκm : κ = -1 := hκ.resolve_left hκ1
@@ -359,23 +360,23 @@ theorem qtwoDB20_normal_form_pair_lin (hm : 6 ≤ m) {i j i' j' : Fin m} {sgn sg
         have h1 : U (U⁻¹ (dBasis m c)) = dBasis m c := U.apply_symm_apply _
         rw [h1, show U (-(dBasis m c)) = -U (dBasis m c) from map_neg U (dBasis m c), hUc]
         exact (neg_neg (dBasis m c)).symm
-      rw [show V' = D * U⁻¹ from if_neg hκ1, LinearEquiv.mul_apply, hUinv]
+      rw [show V' = D * U⁻¹ from ite_eq_right hκ1, LinearEquiv.mul_apply, hUinv]
       rw [show D (-(dBasis m c)) = -D (dBasis m c) from map_neg D (dBasis m c), hDc]
       exact neg_neg (dBasis m c)
   have hV'conj1 : V' * dTau m sgn i j * V'⁻¹ = dTau m false p₀ p₁ := by
     by_cases hκ1 : κ = 1
-    · rw [show V' = U⁻¹ from if_pos hκ1]
+    · rw [show V' = U⁻¹ from ite_eq_left hκ1]
       exact hVconj1
-    · rw [show V' = D * U⁻¹ from if_neg hκ1]
+    · rw [show V' = D * U⁻¹ from ite_eq_right hκ1]
       calc D * U⁻¹ * dTau m sgn i j * (D * U⁻¹)⁻¹
           = D * (U⁻¹ * dTau m sgn i j * U) * D⁻¹ := by group
         _ = D * dTau m false p₀ p₁ * D⁻¹ := by rw [hVconj1]
         _ = dTau m false p₀ p₁ := hDcomm1
   have hV'conj2 : V' * dTau m sgn' i' j' * V'⁻¹ = dTau m false p₁ p₂ := by
     by_cases hκ1 : κ = 1
-    · rw [show V' = U⁻¹ from if_pos hκ1]
+    · rw [show V' = U⁻¹ from ite_eq_left hκ1]
       exact hVconj2
-    · rw [show V' = D * U⁻¹ from if_neg hκ1]
+    · rw [show V' = D * U⁻¹ from ite_eq_right hκ1]
       calc D * U⁻¹ * dTau m sgn' i' j' * (D * U⁻¹)⁻¹
           = D * (U⁻¹ * dTau m sgn' i' j' * U) * D⁻¹ := by group
         _ = D * dTau m false p₁ p₂ * D⁻¹ := by rw [hVconj2]

@@ -64,7 +64,7 @@ theorem exists_isPGroup_map_eq {p : ℕ} [Fact p.Prime] {X W : Type} [Group X] [
   obtain ⟨P⟩ : Nonempty (Sylow p V) := inferInstance
   have hQtop : (⊤ : Subgroup E) = (Sylow.mapSurjective hψ P).toSubgroup :=
     (Sylow.mapSurjective hψ P).maximal_isPGroup.eq_of_ge (hE.to_subgroup ⊤) le_top
-  refine ⟨P.toSubgroup.map V.subtype, ?_, P.isPGroup'.map V.subtype, ?_⟩
+  refine ⟨P.toSubgroup.map V.subtype, ?_, P.isPGroup.map V.subtype, ?_⟩
   · intro u hu
     obtain ⟨v, -, rfl⟩ := Subgroup.mem_map.mp hu
     exact (Subgroup.mem_inf.mp v.2).1

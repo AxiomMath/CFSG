@@ -55,12 +55,12 @@ theorem card_Qsub (F : UFrame z ι ιd) (P : Subgroup (Perm (Fin 8))) :
     Nat.card (Qsub ι P) = Nat.card P := by
   simpa only [Qsub] using Subgroup.card_map_of_injective (injective_comp_liftS8 F)
 
-theorem isPGroup_Qsub (F : UFrame z ι ιd) {P : Subgroup (Perm (Fin 8))} (hP : IsPGroup 2 P) :
+theorem isPGroup_Qsub (_F : UFrame z ι ιd) {P : Subgroup (Perm (Fin 8))} (hP : IsPGroup 2 P) :
     IsPGroup 2 (Qsub ι P) := by
   change IsPGroup 2 (P.map (ι.comp liftS8))
   exact hP.map (ι.comp liftS8)
 
-theorem card_Tstar (F : UFrame z ι ιd) {P : Subgroup (Perm (Fin 8))} (hP : IsPGroup 2 P)
+theorem card_Tstar (F : UFrame z ι ιd) {P : Subgroup (Perm (Fin 8))} (_hP : IsPGroup 2 P)
     (hc : Nat.card P = 2 ^ 7) : Nat.card (Dsub z ιd ⊔ Qsub ι P : Subgroup G) = 2 ^ 10 := by
   rw [card_sup_of_commute (comm_Dsub_Qsub F P) (Dsub_inf_Qsub F P),
     card_Dsub F, card_Qsub F P, hc]

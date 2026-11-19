@@ -78,10 +78,10 @@ private def pairVec (p q : Fin 12) : G6.PermMod 12 :=
 private theorem toAdd_pairVec (p q i : Fin 12) :
     Multiplicative.toAdd (pairVec p q) i = evec p i + evec q i := rfl
 
-private theorem pairVec_mem_coreMod (p q : Fin 12) (hpq : p ≠ q) :
+private theorem pairVec_mem_coreMod (p q : Fin 12) (_hpq : p ≠ q) :
     pairVec p q ∈ G6.coreMod 12 := by
   rw [G6.mem_coreMod]
-  simp only [toAdd_pairVec, Pi.add_apply]
+  simp only [toAdd_pairVec]
   rw [Finset.sum_add_distrib]
   have hp : ∑ i, evec p i = 1 := by
     rw [Finset.sum_eq_single p]
@@ -107,8 +107,8 @@ private theorem toAdd_pairVec_eq_one_iff {p q : Fin 12} (hpq : p ≠ q) {i : Fin
   constructor
   · intro h
     by_contra hc
-    push_neg at hc
-    rw [evec, if_neg hc.1, evec, if_neg hc.2, add_zero] at h
+    push Not at hc
+    rw [evec, ite_eq_right hc.1, evec, ite_eq_right hc.2, add_zero] at h
     exact zero_ne_one h
   · rintro (rfl | rfl)
     · simp [evec, hpq]
@@ -139,7 +139,7 @@ theorem eq_one_of_mem_zpowers_allOnes (σ : Equiv.Perm (Fin 12))
         rw [toAdd_comm, toAdd_pairVec, toAdd_pairVec]
         have h1p : evec i p + evec j p = 0 := by
           show (if p = i then (1 : ZMod 2) else 0) + (if p = j then 1 else 0) = 0
-          rw [if_neg hpi, if_neg hpj, add_zero]
+          rw [ite_eq_right hpi, ite_eq_right hpj, add_zero]
         have hne1 : σ⁻¹ p ≠ i := by
           intro hh; apply hpsi
           have := congrArg σ hh
@@ -151,7 +151,7 @@ theorem eq_one_of_mem_zpowers_allOnes (σ : Equiv.Perm (Fin 12))
         have h2p : evec i (σ⁻¹ p) + evec j (σ⁻¹ p) = 0 := by
           show (if σ⁻¹ p = i then (1 : ZMod 2) else 0) +
             (if σ⁻¹ p = j then 1 else 0) = 0
-          rw [if_neg hne1, if_neg hne2, add_zero]
+          rw [ite_eq_right hne1, ite_eq_right hne2, add_zero]
         rw [h1p, h2p, add_zero]
       have hp1 : Multiplicative.toAdd
           (G6.permAct 12 σ (pairVec i j) * (pairVec i j)⁻¹) p = 1 := h1 p
@@ -190,7 +190,7 @@ theorem mem_zpowers_allOnes_of_order_eleven (σ : Equiv.Perm (Fin 12)) (h11 : σ
   have hsum : ∑ i, Multiplicative.toAdd x i = 0 := G6.mem_coreMod.mp hx
   have hne : ∃ i0, σ i0 ≠ i0 := by
     by_contra h'
-    push_neg at h'
+    push Not at h'
     exact h1 (Equiv.ext h')
   rcases (mem_zpowers_allOnes_iff (G6.permAct 12 σ x * x⁻¹)).mp h with hc | hc
   ·
@@ -279,7 +279,7 @@ theorem mem_zpowers_allOnes_of_order_eleven (σ : Equiv.Perm (Fin 12)) (h11 : σ
       have hh := hpow 11
       rw [h11] at hh
       rw [ZMod.natCast_eq_one_iff_odd.mpr (by norm_num : Odd 11)] at hh
-      simpa using hh
+      simp at hh
     exact zmod2_ne_add_one (Multiplicative.toAdd x i0) hcontra
 
 private theorem zmod2_cancel_pair (x y z : ZMod 2) : (x + y) + (z + y) = z + x := by
@@ -301,9 +301,9 @@ private theorem evec_comp {γ : Equiv.Perm (Fin 12)} (hγ : γ * γ = 1) (p i : 
       have h' := congrArg γ h
       rw [apply_apply_self hγ] at h'
       exact h'
-    rw [if_pos h, if_pos hi]
+    rw [ite_eq_left h, ite_eq_left hi]
   · have hi : i ≠ γ p := fun hh => h (by rw [hh, apply_apply_self hγ])
-    rw [if_neg h, if_neg hi]
+    rw [ite_eq_right h, ite_eq_right hi]
 
 private theorem toAdd_comm_pairVec_fixed {γ : Equiv.Perm (Fin 12)} (hγ : γ * γ = 1)
     {p q f i : Fin 12} (hp : γ p = q) (hf : γ f = f) :
@@ -378,12 +378,12 @@ theorem exists_independent_commutators (γ : Equiv.Perm (Fin 12)) (hγ : γ * γ
         rw [toAdd_prod_apply, Finset.sum_apply]
         exact Finset.sum_congr rfl (fun s _ => hcommA s i)
       rw [mem_zpowers_allOnes_iff]
-      push_neg
+      push Not
       constructor
       · intro hzero
         have hh := congrFun hzero (a k0)
         rw [hprod_eval, sum_pairVec_eval_left hne hdisj S hk0] at hh
-        exact (by decide : (1 : ZMod 2) ≠ 0) (by simpa using hh)
+        exact (by decide : (1 : ZMod 2) ≠ 0) (by simp at hh)
       · refine ⟨f, ?_⟩
         rw [hprod_eval, sum_pairVec_eval_other S (fun s => ⟨(haf s).symm, (hbf s).symm⟩)]
         decide
@@ -445,19 +445,13 @@ theorem exists_independent_commutators (γ : Equiv.Perm (Fin 12)) (hγ : γ * γ
         | exact (hdisj _ _ (by decide)).1
         | exact (hdisj _ _ (by decide)).2.1
         | exact (hdisj _ _ (by decide)).2.2
-        | exact Ne.symm ((hdisj _ _ (by decide)).1)
-        | exact Ne.symm ((hdisj _ _ (by decide)).2.1)
-        | exact Ne.symm ((hdisj _ _ (by decide)).2.2)
         | exact hcA _
         | exact hcB _
-        | exact hgcA _
         | exact hgcB _
         | exact Ne.symm (hcA _)
-        | exact Ne.symm (hcB _)
         | exact Ne.symm (hgcA _)
         | exact Ne.symm (hgcB _)
         | exact hcgc
-        | exact Ne.symm hcgc
         | exact absurd rfl hkl
     have hpx_not_common : ∀ s, px s ≠ a 0 ∧ px s ≠ b 0 := by
       intro s
@@ -521,12 +515,12 @@ theorem exists_independent_commutators (γ : Equiv.Perm (Fin 12)) (hγ : γ * γ
         intro s _
         simp [evec, Pi.add_apply, he_a 0, he_b 0, he_px s, he_py s]
       rw [mem_zpowers_allOnes_iff]
-      push_neg
+      push Not
       constructor
       · intro hzero
         have hh := congrFun hzero (px k0)
         rw [h1pt] at hh
-        exact (by decide : (1 : ZMod 2) ≠ 0) (by simpa using hh)
+        exact (by decide : (1 : ZMod 2) ≠ 0) (by simp at hh)
       · exact ⟨e, by rw [h0pt]; decide⟩
 
 private def aPairX (k : Fin 4) : Fin 12 := ![0, 2, 4, 5] k
@@ -550,7 +544,7 @@ private theorem toAdd_aPair_pow (k : Fin 4) (f : ZMod 2) :
       fun i => f * (evec (aPairX k) i + evec (aPairY k) i) := by
   funext i
   rw [toAdd_pow]
-  simp only [Pi.smul_apply, Pi.add_apply, aPair, toAdd_pairVec]
+  simp only [Pi.smul_apply, aPair, toAdd_pairVec]
   rw [nsmul_eq_mul, ZMod.natCast_zmod_val]
 
 private theorem m12gA_inv_apply' (i : Fin 12) :

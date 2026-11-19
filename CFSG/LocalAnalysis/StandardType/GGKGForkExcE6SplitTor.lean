@@ -125,8 +125,8 @@ theorem exists_conj_into_splitTorus
     obtain ⟨k, hk⟩ := IsPGroup.exists_pow_pow_eq_one hP0pg ⟨x, hx⟩
     exact ⟨k, by simpa using congrArg Subtype.val hk⟩
   obtain ⟨P, hQ_le_P⟩ := IsPGroup.exists_le_sylow hQpg
-  haveI : Fact p.Prime := ⟨hp⟩
-  have hPpg : IsPGroup p (P : Subgroup (adjointGroup .E6 K)) := Sylow.isPGroup' P
+  have : Fact p.Prime := ⟨hp⟩
+  have hPpg : IsPGroup p (P : Subgroup (adjointGroup .E6 K)) := Sylow.isPGroup P
   have hPcard : Nat.card (P : Subgroup (adjointGroup .E6 K)) =
       p ^ (6 * padicValNat p (Nat.card K - 1) + padicValNat p 51840) := by
     have h1 := Sylow.card_eq_multiplicity P
@@ -134,7 +134,7 @@ theorem exists_conj_into_splitTorus
       padicValNat_card_adjointGroup_split (K := K) (p := p) hp hp5 hpq] at h1
     exact h1
   obtain ⟨Q', hEQ'⟩ := IsPGroup.exists_le_sylow hE.isPGroup
-  haveI : MulAction.IsPretransitive (adjointGroup .E6 K) (Sylow p (adjointGroup .E6 K)) :=
+  have : MulAction.IsPretransitive (adjointGroup .E6 K) (Sylow p (adjointGroup .E6 K)) :=
     Sylow.isPretransitive_of_finite
   obtain ⟨y, hy⟩ := MulAction.exists_smul_eq (adjointGroup .E6 K) P Q'
   have hQ'map : (Q' : Subgroup (adjointGroup .E6 K)) =
@@ -177,7 +177,7 @@ theorem exists_conj_into_splitTorus
   by_cases hp_eq : p = 5
   · have hp5eq : p = 5 := hp_eq
     have hpad5 : padicValNat 5 51840 = 1 := by
-      haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+      have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
       have h : 51840 = 5 * 10368 := by norm_num
       rw [h, padicValNat.mul (by norm_num) (by norm_num), padicValNat_self]
       have hz : padicValNat 5 10368 = 0 := by
@@ -282,7 +282,7 @@ theorem exists_conj_into_splitTorus
               (u * e * u⁻¹) he
             simpa [mul_assoc] using h
         have hu5T : u ^ 5 ∈ T := by
-          haveI : (T.subgroupOf (P : Subgroup (adjointGroup .E6 K))).Normal := hTnorm
+          have : (T.subgroupOf (P : Subgroup (adjointGroup .E6 K))).Normal := hTnorm
           have hmem := Subgroup.pow_index_mem (T.subgroupOf (P : Subgroup (adjointGroup .E6 K)))
             (⟨u, huP⟩ : (P : Subgroup (adjointGroup .E6 K)))
           rw [hidx5] at hmem

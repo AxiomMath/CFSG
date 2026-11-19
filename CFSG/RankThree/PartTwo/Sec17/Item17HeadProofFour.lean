@@ -306,7 +306,7 @@ theorem exists_lift_of_quotient [Finite Q] {N : Subgroup Q} [N.Normal] (hN : IsP
     (P.mapSurjective hf).maximal_isPGroup.eq_of_le
       (IsPGroup.of_equiv hEp Subgroup.topEquiv.symm) le_top
   set T : Subgroup Q := (P : Subgroup E').map E'.subtype with hT
-  have hTq : IsPGroup q T := P.isPGroup'.map E'.subtype
+  have hTq : IsPGroup q T := P.isPGroup.map E'.subtype
   have hinj : ∀ a ∈ T, ∀ b ∈ T, π a = π b → a = b := by
     intro a ha b hb hab
     have hmem : a⁻¹ * b ∈ T := T.mul_mem (T.inv_mem ha) hb

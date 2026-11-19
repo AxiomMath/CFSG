@@ -22,7 +22,7 @@ theorem ggF4TwoNonToralSolvInput_of_cent
   have hP : IsPGroup 3 E := fun x => ⟨1, by
     apply Subtype.ext
     simpa using hE.2 x x.2⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨n, hn⟩ := hP.exists_card_eq
   have hn3 : 3 ≤ n := by
     rw [hn] at hcard3
@@ -67,6 +67,6 @@ theorem ggF4TwoNonToralSolvInput_of_cent
     have h1 : D.c * (x : adjointGroup .F4 K) * D.c⁻¹ = D.c * (y : adjointGroup .F4 K) * D.c⁻¹ :=
       congrArg Subtype.val hxy
     exact Subtype.ext (mul_left_cancel (mul_right_cancel h1))
-  exact solvable_of_solvable_injective hf
+  exact Group.isSolvable_of_isSolvable_injective hf
 
 end CFSG.StandardType.F4TwoNonToral

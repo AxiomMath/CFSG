@@ -46,19 +46,19 @@ theorem poly_extract {M : Type*} [AddCommGroup M] [Module L M] (U : Submodule L 
     have h1 := hφU _ (h c hc)
     rw [map_sum] at h1
     simp only [map_smul, smul_eq_mul] at h1
-    rw [hP, Polynomial.eval_finset_sum]
+    rw [hP, Polynomial.eval_finsetSum]
     simp only [Polynomial.eval_mul, Polynomial.eval_C, Polynomial.eval_pow, Polynomial.eval_X]
     rw [← h1]
     refine Finset.sum_congr rfl fun i _ => ?_
     ring
   have hP0 : P = 0 := Polynomial.eq_zero_of_natDegree_lt_card_of_eval_eq_zero' P C hev hdeg
   have hcoeff : P.coeff (e i₀) = φ (v i₀) := by
-    rw [hP, Polynomial.finset_sum_coeff]
+    rw [hP, Polynomial.finsetSum_coeff]
     simp only [Polynomial.coeff_C_mul_X_pow]
     rw [Finset.sum_eq_single i₀]
     · simp
     · intro j _ hj
-      rw [if_neg]
+      rw [ite_eq_right]
       intro h'
       exact hj (he h').symm
     · intro h'

@@ -52,7 +52,7 @@ theorem eq_one_of_mem_center_of_mem_sylow {G : Type*} [Group G] [Finite G] {p : 
     Abelianization.commutator_subset_ker _ (hG ▸ Subgroup.mem_top z)
   rw [MonoidHom.mem_ker, hτ] at hker
   have h1 : z ^ (S : Subgroup G).index = 1 := congrArg Subtype.val hker
-  obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp S.isPGroup'
+  obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp S.isPGroup
   have h2 : z ^ p ^ n = 1 := by
     have := pow_card_eq_one' (x := (⟨z, hzS⟩ : (S : Subgroup G)))
     rw [hn] at this

@@ -34,7 +34,7 @@ theorem l41_e8_of (h : L41GPh5 t L S x₁ x₂ lam rho)
   have hVeq : (𝒮 : Subgroup G) ⊓ l41N t x₁ x₂ = l41V S t x₁ x₂ :=
     eq_of_isPGroup_of_odd_relIndex (H := l41N t x₁ x₂)
       (le_inf h𝒮.le h.normalizerFacts.V_le) inf_le_right
-      ((show IsPGroup 2 (𝒮 : Subgroup G) from 𝒮.isPGroup').to_le inf_le_left)
+      ((show IsPGroup 2 (𝒮 : Subgroup G) from 𝒮.isPGroup).to_le inf_le_left)
       h.normalizerFacts.V_sylow
   have hEV : E ≤ l41V S t x₁ x₂ := by
     intro e he

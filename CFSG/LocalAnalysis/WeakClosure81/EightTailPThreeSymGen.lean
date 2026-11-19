@@ -19,7 +19,7 @@ theorem exists_mem_setNormalizer_conj_eq {Y : Type} [Group Y] [Finite Y] {m : �
     {s : Y} (hs : s ∈ symT t (P : Subgroup Y)) :
     ∃ x ∈ Subgroup.normalizer (symT t (P : Subgroup Y)), x * t * x⁻¹ = s := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_cases hst : s = t
   · exact ⟨1, Subgroup.one_mem _, by simp [hst]⟩
   · have hmatch := symT_matching h

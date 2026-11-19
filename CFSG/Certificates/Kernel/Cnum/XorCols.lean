@@ -95,12 +95,12 @@ theorem ca_id : ∀ (n v acc : Nat), ca (fun i => 2 ^ i) v n acc = acc ^^^ v % 2
     rcases Nat.lt_trichotomy j n with h | rfl | h
     · have h1 : n ≠ j := by omega
       have h2 : j < n + 1 := by omega
-      split <;> simp [Nat.testBit_xor, Nat.testBit_mod_two_pow, Nat.testBit_two_pow, h, h1, h2]
-    · split <;> rename_i hb <;> simp [Nat.testBit_xor, Nat.testBit_mod_two_pow, Nat.testBit_two_pow, hb]
+      split <;> simp [Nat.testBit_xor, Nat.testBit_mod_two_pow, h, h1, h2]
+    · split <;> rename_i hb <;> simp [Nat.testBit_xor, Nat.testBit_mod_two_pow, hb]
     · have h1 : n ≠ j := by omega
       have h2 : ¬ j < n + 1 := by omega
       have h3 : ¬ j < n := by omega
-      split <;> simp [Nat.testBit_xor, Nat.testBit_mod_two_pow, Nat.testBit_two_pow, h1, h2, h3]
+      split <;> simp [Nat.testBit_xor, Nat.testBit_mod_two_pow, h1, h2, h3]
 
 theorem lin_eq {g : Nat → Nat} (hg : ∀ a b, g (a ^^^ b) = g a ^^^ g b) {n v : Nat} (hv : v < 2 ^ n) :
     g v = ca (fun i => g (2 ^ i)) v n 0 := by

@@ -14,6 +14,7 @@ open scoped commutatorElement
 
 variable {K : Type} [Group K] [Finite K]
 
+omit [Finite K] in
 theorem ext2Decomp_zpowers_eq {t : K} (ht : t ^ 2 = 1) {g : K} (hg : g ∈ zpowers t) :
     g = 1 ∨ g = t := by
   obtain ⟨n, rfl⟩ := Subgroup.mem_zpowers_iff.mp hg
@@ -26,12 +27,14 @@ theorem ext2Decomp_zpowers_eq {t : K} (ht : t ^ 2 = 1) {g : K} (hg : g ∈ zpowe
     have hn : n = 2 * (n / 2) + 1 := by omega
     rw [hn, zpow_add, zpow_mul, ht', one_zpow, one_mul, zpow_one]
 
+omit [Finite K] in
 theorem ext2Decomp_comm_zpowers {R : Subgroup K} {t : K} (hR : IsExt2 R t) {r g : K} (hr : r ∈ R)
     (hg : g ∈ zpowers t) : r * g = g * r := by
   obtain ⟨n, rfl⟩ := Subgroup.mem_zpowers_iff.mp hg
   have hc : Commute r t := hR.t_comm r hr
   exact (hc.zpow_right n).eq
 
+omit [Finite K] in
 theorem ext2Decomp_comm_mul {R : Subgroup K} {t : K} (hR : IsExt2 R t) {a b h : K} (ha : a ∈ R)
     (hb : b ∈ R) (hh : h ∈ R) : ⁅a * b, h⁆ = ⁅a, h⁆ * ⁅b, h⁆ := by
   have hbh : ⁅b, h⁆ ∈ zpowers t := hR.comm_mem b hb h hh
@@ -58,6 +61,7 @@ theorem ext2Decomp_comm_mul {R : Subgroup K} {t : K} (hR : IsExt2 R t) {a b h : 
     (hy : y ∈ R) : ↥R →* ↥(zpowers t) × ↥(zpowers t) :=
   (ext2Decomp_commHom hR hx).prod (ext2Decomp_commHom hR hy)
 
+omit [Finite K] in
 theorem ext2Decomp_phi_eq_iff {R : Subgroup K} {t : K} (hR : IsExt2 R t) {x y : K} (hx : x ∈ R)
     (hy : y ∈ R) (r s : ↥R) :
     ext2Decomp_phi hR hx hy r = ext2Decomp_phi hR hx hy s ↔ ⁅(r : K), x⁆ = ⁅(s : K), x⁆ ∧
@@ -65,6 +69,7 @@ theorem ext2Decomp_phi_eq_iff {R : Subgroup K} {t : K} (hR : IsExt2 R t) {x y : 
   rw [Prod.ext_iff, Subtype.ext_iff, Subtype.ext_iff]
   rfl
 
+omit [Finite K] in
 theorem ext2Decomp_phi_eq_one {R : Subgroup K} {t : K} (hR : IsExt2 R t) {x y : K} (hx : x ∈ R)
     (hy : y ∈ R) (r : ↥R) :
     ext2Decomp_phi hR hx hy r = 1 ↔ (r : K) ∈ centralizer ({x, y} : Set K) := by
@@ -80,11 +85,13 @@ theorem ext2Decomp_phi_eq_one {R : Subgroup K} {t : K} (hR : IsExt2 R t) {x y : 
   · rintro ⟨h1, h2⟩
     exact ⟨h1.symm, h2.symm⟩
 
+omit [Finite K] in
 theorem ext2Decomp_commutator_swap {t : K} (ht : t ^ 2 = 1) {x y : K} (hxy : ⁅x, y⁆ = t) :
     ⁅y, x⁆ = t := by
   rw [← commutatorElement_inv, hxy]
   exact inv_eq_of_mul_eq_one_right (by rw [← pow_two]; exact ht)
 
+omit [Finite K] in
 theorem ext2Decomp_rep {R : Subgroup K} {t : K} (hR : IsExt2 R t) {x y : K} (hx : x ∈ R)
     (hy : y ∈ R) (hxy : ⁅x, y⁆ = t) (a b : ↥(zpowers t)) :
     ∃ q : ↥R, ((q : K) = 1 ∨ (q : K) = x ∨ (q : K) = y ∨ (q : K) = x * y) ∧
@@ -107,23 +114,26 @@ theorem ext2Decomp_rep {R : Subgroup K} {t : K} (hR : IsExt2 R t) {x y : K} (hx 
     rw [ext2Decomp_comm_mul hR hx hy hx, ext2Decomp_comm_mul hR hx hy hy, ha, hb]
     simp [hxy, hyx]
 
+omit [Finite K] in
 theorem ext2Decomp_phi_surjective {R : Subgroup K} {t : K} (hR : IsExt2 R t) {x y : K} (hx : x ∈ R)
     (hy : y ∈ R) (hxy : ⁅x, y⁆ = t) : Function.Surjective (ext2Decomp_phi hR hx hy) := by
   rintro ⟨a, b⟩
   obtain ⟨q, -, hq⟩ := ext2Decomp_rep hR hx hy hxy a b
   exact ⟨q, hq⟩
 
+omit [Finite K] in
 theorem ext2Decomp_card_ker {R : Subgroup K} {t : K} (hR : IsExt2 R t) {x y : K} (hx : x ∈ R)
     (hy : y ∈ R) :
     Nat.card (ext2Decomp_phi hR hx hy).ker = Nat.card ↥(R ⊓ centralizer ({x, y} : Set K)) :=
   Nat.card_congr
-    { toFun := fun r => ⟨(r.1 : K), Subgroup.mem_inf.mpr ⟨r.1.2,
-        (ext2Decomp_phi_eq_one hR hx hy r.1).mp (MonoidHom.mem_ker.mp r.2)⟩⟩
-      invFun := fun s => ⟨⟨(s : K), (Subgroup.mem_inf.mp s.2).1⟩, MonoidHom.mem_ker.mpr
-        ((ext2Decomp_phi_eq_one hR hx hy _).mpr (Subgroup.mem_inf.mp s.2).2)⟩
-      left_inv := fun r => rfl
-      right_inv := fun s => rfl }
+    { toFun := fun _r => ⟨(_r.1 : K), Subgroup.mem_inf.mpr ⟨_r.1.2,
+        (ext2Decomp_phi_eq_one hR hx hy _r.1).mp (MonoidHom.mem_ker.mp _r.2)⟩⟩
+      invFun := fun _s => ⟨⟨(_s : K), (Subgroup.mem_inf.mp _s.2).1⟩, MonoidHom.mem_ker.mpr
+        ((ext2Decomp_phi_eq_one hR hx hy _).mpr (Subgroup.mem_inf.mp _s.2).2)⟩
+      left_inv := fun _r => rfl
+      right_inv := fun _s => rfl }
 
+omit [Finite K] in
 theorem ext2Decomp_decomp_card {R : Subgroup K} {t : K} (hR : IsExt2 R t) {x y : K} (hx : x ∈ R)
     (hy : y ∈ R) (hxy : ⁅x, y⁆ = t) :
     4 * Nat.card ↥(R ⊓ centralizer ({x, y} : Set K)) = Nat.card R := by
@@ -134,6 +144,7 @@ theorem ext2Decomp_decomp_card {R : Subgroup K} {t : K} (hR : IsExt2 R t) {x y :
   rw [h2] at h1
   omega
 
+omit [Finite K] in
 theorem ext2Decomp_split {R : Subgroup K} {t : K} (hR : IsExt2 R t) {x y : K} (hx : x ∈ R)
     (hy : y ∈ R) (hxy : ⁅x, y⁆ = t) {r : K} (hr : r ∈ R) :
     ∃ q c : K, (q = 1 ∨ q = x ∨ q = y ∨ q = x * y) ∧
@@ -147,6 +158,7 @@ theorem ext2Decomp_split {R : Subgroup K} {t : K} (hR : IsExt2 R t) {x y : K} (h
     (ext2Decomp_phi_eq_one hR hx hy _).mp hc⟩, ?_⟩
   simp
 
+omit [Finite K] in
 theorem IsExt2.decomp {R : Subgroup K} {t : K} (hR : IsExt2 R t) {x y : K} (hx : x ∈ R)
     (hy : y ∈ R) (hxy : ⁅x, y⁆ = t) :
     IsExt2 (R ⊓ centralizer ({x, y} : Set K)) t ∧
@@ -221,6 +233,7 @@ open scoped commutatorElement
 
 variable {K : Type} [Group K] [Finite K]
 
+omit [Finite K] in
 theorem noncentral_mem_zpowers_iff {t : K} (ht2 : t ^ 2 = 1) (ht1 : t ≠ 1) (x : K) :
     x ∈ Subgroup.zpowers t ↔ x = 1 ∨ x = t := by
   have hord : orderOf t = 2 := orderOf_eq_prime ht2 ht1

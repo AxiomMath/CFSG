@@ -13,6 +13,7 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau : G}
 
+omit [Finite G] in
 private lemma mem_normalizer_of_normalIn' {H Y : Subgroup G} {g : G}
     (hN : NormalIn Y H) (hg : g ∈ H) : g ∈ Subgroup.normalizer (Y : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -23,6 +24,7 @@ private lemma mem_normalizer_of_normalIn' {H Y : Subgroup G} {g : G}
   have heq : g⁻¹ * (g * h * g⁻¹) * (g⁻¹)⁻¹ = h := by group
   rwa [heq] at hconj
 
+omit [Finite G] in
 private lemma conj_mem_centralizer' {H Y : Subgroup G} {g k : G}
     (hN : NormalIn Y H) (hg : g ∈ H) (hk : k ∈ centralizer (Y : Set G)) :
     g * k * g⁻¹ ∈ centralizer (Y : Set G) := by
@@ -57,7 +59,7 @@ theorem exit_D {ℰ : Subgroup G} (hℰ : IsPGroup 2 ℰ)
   · by_contra hle
     have hE0D : ctxE0N t tau x₁ x₂ rho ≤
         ℰ ⊓ centralizer ((ctxYq t tau x₁ x₂ rho : Subgroup G) : Set G) :=
-      le_inf (hw.E0_le_ctxVN.trans hVℰ) hE0cent
+      le_inf (CFSG.OddStandard.SmallF3.HarrisU33.Ctx4Z.E0_le_ctxVN.trans hVℰ) hE0cent
     have hne : ctxE0N t tau x₁ x₂ rho ≠
         ℰ ⊓ centralizer ((ctxYq t tau x₁ x₂ rho : Subgroup G) : Set G) :=
       fun h => hle (le_of_eq h.symm)
@@ -67,7 +69,7 @@ theorem exit_D {ℰ : Subgroup G} (hℰ : IsPGroup 2 ℰ)
     have hD2 : IsPGroup 2
         (ℰ ⊓ centralizer ((ctxYq t tau x₁ x₂ rho : Subgroup G) : Set G) : Subgroup G) :=
       hℰ.to_le inf_le_left
-    have htd : t ∈ ℰ := hVℰ (hw.E8_le_ctxVN (Subgroup.subset_closure (by simp)))
+    have htd : t ∈ ℰ := hVℰ (CFSG.OddStandard.SmallF3.HarrisU33.Ctx4Z.E8_le_ctxVN (Subgroup.subset_closure (by simp)))
     have htN : ∀ n ∈ ℰ ⊓ centralizer ((ctxYq t tau x₁ x₂ rho : Subgroup G) : Set G),
         t * n * t⁻¹ ∈ ℰ ⊓ centralizer ((ctxYq t tau x₁ x₂ rho : Subgroup G) : Set G) := by
       intro n hn
@@ -103,13 +105,13 @@ theorem exit_D {ℰ : Subgroup G} (hℰ : IsPGroup 2 ℰ)
       rw [Subgroup.mem_centralizer_singleton_iff]
       exact hcomm
     have hnx0ℰ : n * x₀ ∈ ℰ :=
-      ℰ.mul_mem hnD.1 (hVℰ (hw.E0_le_ctxVN hx0E0))
+      ℰ.mul_mem hnD.1 (hVℰ (CFSG.OddStandard.SmallF3.HarrisU33.Ctx4Z.E0_le_ctxVN hx0E0))
     have hnx0S : n * x₀ ∈ S := by
       rw [← S4B.c17_cent_eq hw.toCtx10 hℰ (hw.S_le_ctxVN.trans hVℰ)]
       exact ⟨hnx0ℰ, hnx0cent⟩
     have hnV : n ∈ ctxVN t tau x₁ x₂ lam rho := by
       have hnx0V : n * x₀ ∈ ctxVN t tau x₁ x₂ lam rho := hw.S_le_ctxVN hnx0S
-      have hx0V : x₀ ∈ ctxVN t tau x₁ x₂ lam rho := hw.E0_le_ctxVN hx0E0
+      have hx0V : x₀ ∈ ctxVN t tau x₁ x₂ lam rho := CFSG.OddStandard.SmallF3.HarrisU33.Ctx4Z.E0_le_ctxVN hx0E0
       have hn_eq : n = (n * x₀) * x₀⁻¹ := by group
       rw [hn_eq]
       exact Subgroup.mul_mem _ hnx0V (Subgroup.inv_mem _ hx0V)
@@ -117,7 +119,7 @@ theorem exit_D {ℰ : Subgroup G} (hℰ : IsPGroup 2 ℰ)
       rw [← hw.cent_Y_ctxVN]
       exact ⟨hnV, hnD.2⟩
     exact hnE0 hnE0'
-  · exact le_inf (hw.E0_le_ctxVN.trans hVℰ) hE0cent
+  · exact le_inf (CFSG.OddStandard.SmallF3.HarrisU33.Ctx4Z.E0_le_ctxVN.trans hVℰ) hE0cent
 
 theorem exit_normal {ℰ : Subgroup G} (hℰ : IsPGroup 2 ℰ)
     (hVℰ : ctxVN t tau x₁ x₂ lam rho ≤ ℰ) : NormalIn (ctxE0N t tau x₁ x₂ rho) ℰ := by
@@ -184,13 +186,13 @@ theorem exit_hC {ℰ : Subgroup G} (hℰ : IsPGroup 2 ℰ)
     rw [Subgroup.mem_centralizer_singleton_iff]
     exact hcomm
   have hx0xℰ : x₀⁻¹ * x ∈ ℰ :=
-    ℰ.mul_mem (ℰ.inv_mem (hVℰ (hw.E0_le_ctxVN hx0E0))) hx
+    ℰ.mul_mem (ℰ.inv_mem (hVℰ (CFSG.OddStandard.SmallF3.HarrisU33.Ctx4Z.E0_le_ctxVN hx0E0))) hx
   have hx0xS : x₀⁻¹ * x ∈ S := by
     rw [← S4B.c17_cent_eq hw.toCtx10 hℰ (hw.S_le_ctxVN.trans hVℰ)]
     exact ⟨hx0xℰ, hcent⟩
   have hxV : x ∈ ctxVN t tau x₁ x₂ lam rho := by
     have hx0xV : x₀⁻¹ * x ∈ ctxVN t tau x₁ x₂ lam rho := hw.S_le_ctxVN hx0xS
-    have hx0V : x₀ ∈ ctxVN t tau x₁ x₂ lam rho := hw.E0_le_ctxVN hx0E0
+    have hx0V : x₀ ∈ ctxVN t tau x₁ x₂ lam rho := CFSG.OddStandard.SmallF3.HarrisU33.Ctx4Z.E0_le_ctxVN hx0E0
     have hx_eq : x = x₀ * (x₀⁻¹ * x) := by group
     rw [hx_eq]
     exact Subgroup.mul_mem _ hx0V hx0xV

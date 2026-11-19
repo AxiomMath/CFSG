@@ -132,11 +132,11 @@ variable {τ : L ≃+* L} {m : ℕ} {s : Matrix (Fin n) (Fin n) L} {F : Finset L
 
 theorem Bl_of_selfDual (H : PrimaryHyp τ s m F a b) {f : ↥(Fset s b F)} (h : piI H f = f) :
     Bl H f = unitaryBlock τ s b F f.1 :=
-  if_pos h
+  ite_eq_left h
 
 theorem Bl_of_isRep (H : PrimaryHyp τ s m F a b) {f : ↥(Fset s b F)} (hr : IsRep H f) :
     Bl H f = ⊤ := by
-  rw [Bl, if_neg (piI_ne_of_isRep H hr), if_pos hr]
+  rw [Bl, ite_eq_right (piI_ne_of_isRep H hr), ite_eq_left hr]
 
 @[expose] noncomputable def fullW (H : PrimaryHyp τ s m F a b)
     (w : (f : Activ H) → ↥(Bl H f.1)) (f : ↥(Fset s b F)) :
@@ -149,13 +149,13 @@ theorem Bl_of_isRep (H : PrimaryHyp τ s m F a b) {f : ↥(Fset s b F)} (hr : Is
 theorem fullW_act (H : PrimaryHyp τ s m F a b) (w : (f : Activ H) → ↥(Bl H f.1))
     {f : ↥(Fset s b F)} (h : IsAct H f) : fullW H w f = (w ⟨f, h⟩).1 := by
   unfold fullW
-  rw [dif_pos h]
+  rw [dite_eq_left h]
 
 theorem fullW_nact (H : PrimaryHyp τ s m F a b) (w : (f : Activ H) → ↥(Bl H f.1))
     {f : ↥(Fset s b F)} (h : ¬ IsAct H f) :
     fullW H w f = natUnit H (piI H f) f (adjM_piI H f) (w ⟨piI H f, isAct_piI H h⟩).1 := by
   unfold fullW
-  rw [dif_neg h]
+  rw [dite_eq_right h]
 
 theorem natUnit_index_eq (H : PrimaryHyp τ s m F a b) (w : (f : Activ H) → ↥(Bl H f.1))
     {z g t : ↥(Fset s b F)} (hz : z = g) (hzA : IsAct H z) (hgA : IsAct H g)

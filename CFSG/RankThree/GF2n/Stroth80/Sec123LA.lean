@@ -13,6 +13,7 @@ section Frame
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
   {E : Type} [AddCommGroup E] [Module K E] [FiniteDimensional K E]
 
+omit [Finite K] [FiniteDimensional K E] in
 theorem exists_frame_symm (B : LinearMap.BilinForm K E) (halt : ∀ e : E, B e e = 0)
     (x y : E) : B x y = B y x := by
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
@@ -20,6 +21,7 @@ theorem exists_frame_symm (B : LinearMap.BilinForm K E) (halt : ∀ e : E, B e e
   simp only [map_add, LinearMap.add_apply, halt, zero_add, add_zero] at h
   linear_combination h - B y x * h2
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K E] in
 theorem exists_frame_orth (B : LinearMap.BilinForm K E) (a : K) (T : E →ₗ[K] E)
     (hTB : ∀ x y : E, B (T x) (T y) = a * B x y) (x y : E) (α β : K)
     (hx : T x = α • x) (hy : T y = β • y) : (α * β - a) * B x y = 0 := by
@@ -27,6 +29,7 @@ theorem exists_frame_orth (B : LinearMap.BilinForm K E) (a : K) (T : E →ₗ[K]
   simp only [hx, hy, map_smul, LinearMap.smul_apply, smul_eq_mul] at h
   linear_combination h
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K E] in
 theorem exists_frame_eig_end (T : E →ₗ[K] E) (N : ℕ) (hT : T ^ N = 1) (ζ : K)
     (hζ0 : ζ ≠ 0) (hζN : ζ ^ N = 1) :
     T * (∑ j ∈ Finset.range N, (ζ • T) ^ j) = ζ⁻¹ • (∑ j ∈ Finset.range N, (ζ • T) ^ j) := by
@@ -38,6 +41,7 @@ theorem exists_frame_eig_end (T : E →ₗ[K] E) (N : ℕ) (hT : T ^ N = 1) (ζ 
         rw [smul_smul, inv_mul_cancel₀ hζ0, one_smul]
     _ = ζ⁻¹ • (∑ j ∈ Finset.range N, (ζ • T) ^ j) := by rw [← hg]
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K E] in
 theorem exists_frame_sum_proj [Fintype K] [DecidableEq K] (T : E →ₗ[K] E) :
     (∑ ζ : Kˣ, ∑ j ∈ Finset.range (Fintype.card K - 1), ((ζ : K) • T) ^ j) = -1 := by
   have hNpos : 0 < Fintype.card K - 1 := by
@@ -49,14 +53,16 @@ theorem exists_frame_sum_proj [Fintype K] [DecidableEq K] (T : E →ₗ[K] E) :
   rw [Finset.sum_eq_single_of_mem 0 (Finset.mem_range.2 hNpos)]
   · simp
   · intro j hj hj0
-    rw [if_neg (Nat.not_dvd_of_pos_of_lt (Nat.pos_of_ne_zero hj0) (Finset.mem_range.1 hj)),
+    rw [ite_eq_right (Nat.not_dvd_of_pos_of_lt (Nat.pos_of_ne_zero hj0) (Finset.mem_range.1 hj)),
       zero_smul]
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K E] in
 theorem exists_frame_proj_apply [Fintype K] [DecidableEq K] (T : E →ₗ[K] E) (f : E) :
     (∑ ζ : Kˣ, (∑ j ∈ Finset.range (Fintype.card K - 1), ((ζ : K) • T) ^ j) f) = -f := by
   have h := congrArg (fun F : E →ₗ[K] E => F f) (exists_frame_sum_proj T)
   simpa only [LinearMap.sum_apply, LinearMap.neg_apply, Module.End.one_apply] using h
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K E] in
 theorem exists_frame_eig [Fintype K] [DecidableEq K] (B : LinearMap.BilinForm K E) (a : K)
     (ha0 : a ≠ 0) (hN : ∀ e : E, (∀ f, B e f = 0) → e = 0)
     (T : E →ₗ[K] E) (hT : T ^ (Fintype.card K - 1) = 1)
@@ -110,6 +116,7 @@ theorem exists_frame_eig [Fintype K] [DecidableEq K] (B : LinearMap.BilinForm K 
   · rw [hBsum]
     exact neg_ne_zero.2 hf
 
+omit [FiniteDimensional K E] in
 theorem exists_frame
     (B : LinearMap.BilinForm K E) (Qf : E → K)
     (hQs : ∀ (c : K) (e : E), Qf (c • e) = c ^ 2 * Qf e)
@@ -120,11 +127,11 @@ theorem exists_frame
     (T : E →ₗ[K] E) (hT : T ^ (Nat.card K - 1) = 1)
     (hTB : ∀ x y : E, B (T x) (T y) = a * B x y) (hTQ : ∀ x : E, Qf (T x) = a * Qf x)
     (b u : E) (hb0 : b ≠ 0) (hbQ : Qf b = 0) (hTb : T b = a⁻¹ • b)
-    (huQ : Qf u = 0) (hub : B u b = 0) (hTu : T u = u) (hu0 : u ≠ 0) :
+    (_huQ : Qf u = 0) (_hub : B u b = 0) (hTu : T u = u) (hu0 : u ≠ 0) :
     ∃ u₂ c : E, T u₂ = a • u₂ ∧ T c = (a ^ 2) • c ∧ Qf u₂ = 0 ∧ Qf c = 0 ∧
       B b c = 1 ∧ B u u₂ = 1 ∧ B b u₂ = 0 ∧ B u c = 0 ∧ B u₂ c = 0 := by
   classical
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   rw [Nat.card_eq_fintype_card] at hT
   have hsym : ∀ x y : E, B x y = B y x := exists_frame_symm B halt
   have hTu' : T u = (1 : K) • u := by rw [one_smul]; exact hTu
@@ -194,6 +201,7 @@ section Gram
 variable {K : Type} [Field K]
   {E : Type} [AddCommGroup E] [Module K E] [FiniteDimensional K E]
 
+omit [FiniteDimensional K E] in
 theorem gram_basis (B : LinearMap.BilinForm K E) (hdim : finrank K E = 4)
     (b u u₂ c : E)
     (hbc : B b c = 1) (hcb : B c b = 1) (huu : B u u₂ = 1) (huu' : B u₂ u = 1)
@@ -232,7 +240,7 @@ theorem comm_involution_trivial
     (hQa : ∀ e f : E, Qf (e + f) = Qf e + Qf f + B e f)
     (b u u₂ c : E) (hli : LinearIndependent K ![b, u, u₂, c])
     (hspan : Submodule.span K {b, u, u₂, c} = ⊤)
-    (hbQ : Qf b = 0) (hcQ : Qf c = 0) (hbc : B b c = 1) (hcb : B c b = 1)
+    (hbQ : Qf b = 0) (hcQ : Qf c = 0) (hbc : B b c = 1) (_hcb : B c b = 1)
     (e₁ e₂ e₃ e₄ : K) (P : E →ₗ[K] E)
     (hP1 : P b = e₁ • b) (hP2 : P u = e₂ • u) (hP3 : P u₂ = e₃ • u₂) (hP4 : P c = e₄ • c)
     (h21 : e₂ ≠ e₁) (h23 : e₂ ≠ e₃) (h24 : e₂ ≠ e₄) (h31 : e₃ ≠ e₁) (h34 : e₃ ≠ e₄)

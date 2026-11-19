@@ -62,7 +62,7 @@ private theorem ltqF4s_three_dvd (n : ℕ) : 3 ∣ 2 ^ n - 1 ∨ 3 ∣ 2 ^ n + 1
       refine ⟨2 * k - 1, ?_⟩
       rw [pow_succ]; omega
 
-private theorem ltqF4s_kacRE {lab : LargeEvenLabel} (hΛ : LargeEvenInLambda2 lab)
+private theorem ltqF4s_kacRE {lab : LargeEvenLabel} (_hΛ : LargeEvenInLambda2 lab)
     (htag : lab.tag = .F4) : GGKacRE lab 3 := by
   refine ⟨by norm_num, by norm_num, ltqF4s_three_dvd lab.n, ?_⟩
   exact Or.inl ⟨htag, rfl⟩
@@ -244,7 +244,7 @@ theorem ggTablePKnownRK_b36JExc_F4
     rw [show ggFixSub σ = ggAutFixedSubgroup σ from by
       ext x; simp [ggFixSub, ggAutFixedSubgroup]]
     exact hcore.2.2.2.1
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨o, ho, hqs, hdvd, hΛo, hlabelo⟩ := ha J hJfix
   have hfixeq : ∀ J' : Subgroup X, IsComponentOf J' (ggFixSub σ) → J' = J := by
     intro J' hJ'

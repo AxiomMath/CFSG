@@ -56,7 +56,7 @@ theorem le_pRank_of_linTwo {p : ℕ} {d : TauCeti.ValidLieTypeIndex} {q : TauCet
     (hq : q.p = p) (hd : d.1 = .A 1 q) (e : S ≃* (TauCeti.CFSGIndex.lie d).Group) :
     q.exponent ≤ Open.pRank p (⊤ : Subgroup S) := by
   subst hq
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   obtain ⟨b⟩ := CFSG.AGLEmbedding.nonempty_mulEquiv_psl2GF_of_isLinTwoIndex
     (p := q.p) (n := q.exponent) ⟨q, hd, rfl, rfl⟩
   have h := CFSG.Quasithin.H13.S3320.le_pRank_of_psl2 q.exponent_pos (e.trans b)

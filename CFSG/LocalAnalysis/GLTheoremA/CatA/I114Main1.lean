@@ -78,7 +78,7 @@ theorem gen_y {K U : Subgroup Y} {x y : Y} (hKK₂ : ElemCommute K (cj x K))
   · exact cj_eq_of_cent (cent_of_le (cj_mono (x * x) hUK) hg3)
 
 theorem gen_y1 {K U : Subgroup Y} {x y : Y} (hKK₂ : ElemCommute K (cj x K))
-    (hKK₃ : ElemCommute K (cj (x * x) K)) (hyK : y ∈ K) (hyU : cj y U = U) (hUK : U ≤ K) :
+    (_hKK₃ : ElemCommute K (cj (x * x) K)) (hyK : y ∈ K) (hyU : cj y U = U) (hUK : U ≤ K) :
     x * y * x⁻¹ ∈ Subgroup.normalizer ((WU x U : Subgroup Y) : Set Y) := by
   have hy₁K : x * y * x⁻¹ ∈ cj x K := conj_mem_cj x hyK
   have f23 : ElemCommute (cj x K) (cj (x * x) K) := commute_K₂_K₃ hKK₂

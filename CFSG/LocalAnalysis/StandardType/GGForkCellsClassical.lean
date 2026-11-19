@@ -11,7 +11,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 private theorem eq_of_neg_one_eq_ite {m : ℕ} {j k : Fin m}
     (h : (-1 : ℤ) = if j = k then -1 else 0) : j = k := by
   by_contra hne
-  rw [if_neg hne] at h
+  rw [ite_eq_right hne] at h
   omega
 
 private theorem ggLeafPos_transpose {m : ℕ} {C₀ : Matrix (Fin m) (Fin m) ℤ} {i k : Fin m} :
@@ -24,25 +24,25 @@ private theorem A_apply_of_adj (n : ℕ) {i j : Fin n}
     (h : i.val + 1 = j.val ∨ j.val + 1 = i.val) (hne : i ≠ j) :
     CartanMatrix.A n i j = -1 := by
   simp only [CartanMatrix.A, Matrix.of_apply]
-  rw [if_neg hne, if_pos h]
+  rw [ite_eq_right hne, ite_eq_left h]
 
 private theorem B_apply_of_adj (n : ℕ) {i j : Fin n}
     (h : i.val + 1 = j.val) (hj : j.val ≠ n - 1) (hne : i ≠ j) :
     CartanMatrix.B n i j = -1 := by
   simp only [CartanMatrix.B, Matrix.of_apply]
-  rw [if_neg hne, if_pos h, if_neg hj]
+  rw [ite_eq_right hne, ite_eq_left h, ite_eq_right hj]
 
 private theorem B_apply_of_adj' (n : ℕ) {i j : Fin n}
     (h : j.val + 1 = i.val) (h' : i.val + 1 ≠ j.val) (hne : i ≠ j) :
     CartanMatrix.B n i j = -1 := by
   simp only [CartanMatrix.B, Matrix.of_apply]
-  rw [if_neg hne, if_neg h', if_pos h]
+  rw [ite_eq_right hne, ite_eq_right h', ite_eq_left h]
 
 private theorem B_apply_of_adj2 (n : ℕ) {i j : Fin n}
     (h : i.val + 1 = j.val) (hj : j.val = n - 1) (hne : i ≠ j) :
     CartanMatrix.B n i j = -2 := by
   simp only [CartanMatrix.B, Matrix.of_apply]
-  rw [if_neg hne, if_pos h, if_pos hj]
+  rw [ite_eq_right hne, ite_eq_left h, ite_eq_left hj]
 
 theorem ggLeafPos_A {n : ℕ} (hn : 2 ≤ n) {i k : Fin n} (h : GGLeafPos (CartanMatrix.A n) i k) :
     (i.val = 0 ∧ k.val = 1) ∨ (i.val + 1 = n ∧ k.val + 2 = n) := by
@@ -103,7 +103,7 @@ theorem ggLeafPos_A {n : ℕ} (hn : 2 ≤ n) {i k : Fin n} (h : GGLeafPos (Carta
       have hjk := eq_of_neg_one_eq_ite hk
       refine ⟨by omega, ?_⟩
       rw [← hjk]
-      simp only [Fin.val_mk]
+      simp only
       omega
 
 theorem ggLeafPos_B {n : ℕ} (hn : 3 ≤ n) {i k : Fin n} (h : GGLeafPos (CartanMatrix.B n) i k) :
@@ -125,8 +125,8 @@ theorem ggLeafPos_B {n : ℕ} (hn : 3 ≤ n) {i k : Fin n} (h : GGLeafPos (Carta
           have hk := hrow (⟨i.val + 1, h2lt⟩ : Fin n) hji
           rw [hA] at hk
           by_cases hjk : (⟨i.val + 1, h2lt⟩ : Fin n) = k
-          · rw [if_pos hjk] at hk; omega
-          · rw [if_neg hjk] at hk; omega
+          · rw [ite_eq_left hjk] at hk; omega
+          · rw [ite_eq_right hjk] at hk; omega
         · exfalso
           have h1lt : i.val - 1 < n := by omega
           have h2lt : i.val + 1 < n := by omega
@@ -166,8 +166,8 @@ theorem ggLeafPos_B {n : ℕ} (hn : 3 ≤ n) {i k : Fin n} (h : GGLeafPos (Carta
         have hk := hcol (⟨n - 2, h2lt⟩ : Fin n) hji
         rw [hA] at hk
         by_cases hjk : (⟨n - 2, h2lt⟩ : Fin n) = k
-        · rw [if_pos hjk] at hk; omega
-        · rw [if_neg hjk] at hk; omega
+        · rw [ite_eq_left hjk] at hk; omega
+        · rw [ite_eq_right hjk] at hk; omega
   · refine ⟨hi0, ?_⟩
     have h1n : 1 < n := by omega
     have hji : (⟨1, h1n⟩ : Fin n) ≠ i := by
@@ -216,7 +216,7 @@ theorem cartanMatrix_A_rev (n : ℕ) (i j : Fin n) :
         · right; omega
         · left; omega
     simp only [CartanMatrix.A, Matrix.of_apply]
-    rw [if_neg hrev, if_neg hij, if_congr harith rfl rfl]
+    rw [ite_eq_right hrev, ite_eq_right hij, if_congr harith rfl rfl]
 
 theorem ggForkCell_A {Λ : Type} [Fintype Λ] [DecidableEq Λ] {C : Matrix Λ Λ ℤ} {b c : Λ} {n : ℕ}
     (hn : 1 ≤ n) (e : Fin n ≃ Λ) (hC : ∀ i j, C (e i) (e j) = CartanMatrix.A n i j)

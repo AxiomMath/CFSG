@@ -30,9 +30,9 @@ theorem HasIndepPair.of_mulEquiv {p : ℕ} {G H : Type*} [Group G] [Group H] (ψ
 
 theorem hasIndepPair_of_elemAbelian_sq {p : ℕ} (hp : p.Prime) {G : Type*} [Group G]
     {E : Subgroup G} (hE : IsElemAbelian p E) (hEc : Nat.card E = p ^ 2) : HasIndepPair p G := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := hE.1
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hEc]; exact (pow_pos hp.pos 2).ne')
+  have : Fact p.Prime := ⟨hp⟩
+  have := hE.1
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hEc]; exact (pow_pos hp.pos 2).ne')
   have hdvd : p ∣ Nat.card E := by rw [hEc]; exact dvd_pow_self p two_ne_zero
   obtain ⟨u, hu⟩ := exists_prime_orderOf_dvd_card' p hdvd
   have hcardu : Nat.card (Subgroup.zpowers u) = p := by rw [Nat.card_zpowers, hu]

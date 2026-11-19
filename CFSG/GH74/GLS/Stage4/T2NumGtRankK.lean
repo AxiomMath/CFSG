@@ -14,7 +14,7 @@ theorem ng_isCyclic_pSubgroup_of_surjective {X Y : Type} [Group X] [Finite X] [G
     (hψ : Function.Surjective ψ) (P : Subgroup Y) (hP : IsPGroup p ↥P) : IsCyclic ↥P := by
   obtain ⟨S, hPS⟩ := hP.exists_le_sylow
   obtain ⟨T, hT⟩ := Sylow.mapSurjective_surjective hψ p S
-  have hcycT : IsCyclic ↥(T : Subgroup X) := hX _ T.isPGroup'
+  have hcycT : IsCyclic ↥(T : Subgroup X) := hX _ T.isPGroup
   have hmap : (T : Subgroup X).map ψ = (S : Subgroup Y) := by
     rw [← Sylow.coe_mapSurjective hψ, hT]
   have hS : IsCyclic ↥(S : Subgroup Y) := by

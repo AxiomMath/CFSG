@@ -97,7 +97,7 @@ theorem tabData_of_checkP (mat : G →* MP p d) (hinj : Function.Injective mat)
       ∀ i < T.elts.size, mat (tabElt g T.par i) = toMat p d T.elts[i]! := by
   unfold tabOKP at hc
   simp only [Bool.and_eq_true, beq_iff_eq, List.all_eq_true, List.mem_range, Bool.or_eq_true,
-    decide_eq_true_eq, Bool.not_eq_true'] at hc
+    decide_eq_true_eq] at hc
   obtain ⟨⟨⟨⟨hpar, h0⟩, htree⟩, hleft⟩, hdist⟩ := hc
   have heq : ∀ i < T.elts.size, mat (tabElt g T.par i) = toMat p d T.elts[i]! := by
     intro i

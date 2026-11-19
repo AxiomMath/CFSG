@@ -76,11 +76,11 @@ theorem exists_cube_split_mem (hK : PiField π p f K) (hq : ModThree π (p ^ f))
     ∃ b ∈ B, b ∉ zPi π 3 (p ^ f) K ∧ ∃ μ : Kˣ,
       (b : GL (Fin 3) K) ^ 3 = (GeneralLinearGroup.scalar (Fin 3) μ) ^ 3 := by
   classical
-  haveI : Finite K := hK.finite
+  have : Finite K := hK.finite
   set Z : Subgroup (GL (Fin 3) K) := zPi π 3 (p ^ f) K with hZdef
   set cubes : Subgroup Kˣ := (powMonoidHom (3 : ℕ) : Kˣ →* Kˣ).range with hcubes
   have hquot : Nat.card (Kˣ ⧸ cubes) = 3 := by
-    haveI : IsCyclic Kˣ := inferInstance
+    have : IsCyclic Kˣ := inferInstance
     have hindex : cubes.index = Nat.card (powMonoidHom (3 : ℕ) : Kˣ →* Kˣ).ker :=
       Subgroup.index_range
     rw [← Subgroup.index_eq_card, hindex, IsCyclic.card_powMonoidHom_ker]
@@ -144,7 +144,7 @@ theorem exists_cube_split_mem (hK : PiField π p f K) (hq : ModThree π (p ^ f))
     intro heq
     rw [heq] at hlt
     exact lt_irrefl _ hlt
-  obtain ⟨b, hbker, hbZ⟩ := SetLike.exists_of_lt (lt_of_le_of_ne hZker hne)
+  obtain ⟨b, hbker, hbZ⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne hZker hne)
   have hbZ' : b.1 ∉ Z := fun hb' => hbZ (by simpa [Subgroup.mem_subgroupOf] using hb')
   rw [MonoidHom.mem_ker] at hbker
   have hψ : ψ b ∈ cubes := by

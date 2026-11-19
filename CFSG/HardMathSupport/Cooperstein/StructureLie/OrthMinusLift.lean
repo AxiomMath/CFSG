@@ -22,11 +22,11 @@ theorem iota_ne_pl (x : Fin (n - 1) ⊕ Fin (n - 1)) (u : Fin 2) : iota x ≠ pl
 
 theorem PlaneId.col_plane (hG : PlaneId G) (x : Fin (n - 1) ⊕ Fin (n - 1)) (u : Fin 2) :
     G (iota x) (pl n u) = 0 := by
-  rw [hG _ _ (Or.inr ⟨u, rfl⟩), if_neg (iota_ne_pl x u)]
+  rw [hG _ _ (Or.inr ⟨u, rfl⟩), ite_eq_right (iota_ne_pl x u)]
 
 theorem PlaneId.row_plane (hG : PlaneId G) (x : Fin (n - 1) ⊕ Fin (n - 1)) (u : Fin 2) :
     G (pl n u) (iota x) = 0 := by
-  rw [hG _ _ (Or.inl ⟨u, rfl⟩), if_neg (iota_ne_pl x u).symm]
+  rw [hG _ _ (Or.inl ⟨u, rfl⟩), ite_eq_right (iota_ne_pl x u).symm]
 
 theorem planeId_mul (hG : PlaneId G) (hX : PlaneId X) : PlaneId (G * X) := by
   rintro x y (⟨u, rfl⟩ | ⟨u, rfl⟩)
@@ -45,7 +45,7 @@ theorem restr_mul (hG : PlaneId G) (hX : PlaneId X) : restr (G * X) = restr G * 
   have h2 := hX.row_plane y
   simp only [pl] at h1 h2
   rcases x with a | a <;> rcases y with a' | a' <;>
-    simp [restr, Matrix.mul_apply, Fintype.sum_sum_type, iota_ne_pl, h1, h2, iota, pl] at h1 h2 ⊢ <;>
+    simp [restr, Matrix.mul_apply, Fintype.sum_sum_type, iota] at h1 h2 ⊢ <;>
     simp [h1, h2]
 
 theorem eq_one_of_restr_one (hG : PlaneId G) (h : restr G = 1) : G = 1 := by
@@ -54,11 +54,11 @@ theorem eq_one_of_restr_one (hG : PlaneId G) (h : restr G = 1) : G = 1 := by
   · rcases y with a' | a' | u'
     · simpa [restr, iota, Matrix.one_apply] using congrFun (congrFun h (.inl a)) (.inl a')
     · simpa [restr, iota, Matrix.one_apply] using congrFun (congrFun h (.inl a)) (.inr a')
-    · exact (hG _ _ (Or.inr ⟨u', rfl⟩)).trans (by simp [Matrix.one_apply, pl])
+    · exact (hG _ _ (Or.inr ⟨u', rfl⟩)).trans (by simp [pl])
   · rcases y with a' | a' | u'
     · simpa [restr, iota, Matrix.one_apply] using congrFun (congrFun h (.inr a)) (.inl a')
     · simpa [restr, iota, Matrix.one_apply] using congrFun (congrFun h (.inr a)) (.inr a')
-    · exact (hG _ _ (Or.inr ⟨u', rfl⟩)).trans (by simp [Matrix.one_apply, pl])
+    · exact (hG _ _ (Or.inr ⟨u', rfl⟩)).trans (by simp [pl])
   · exact (hG _ _ (Or.inl ⟨u, rfl⟩)).trans (by rw [Matrix.one_apply]; rfl)
 
 section LongRoot
@@ -87,7 +87,7 @@ theorem restr_longRoot {a b' : Fin (n - 1)} (hab : a ≠ b') (r : K) (z y : Fin 
   have e2 : kap a false ≠ kap b' false := fun e => hab (kap_inj e).1
   by_cases h1 : z = kap a true <;> by_cases h2 : y = kap b' false <;>
     by_cases h3 : z = kap b' true <;> by_cases h4 : y = kap a false <;>
-    simp [h1, h2, h3, h4, eq_comm, e1, e2, e1.symm, e2.symm]
+    simp [h1, h2, h3, h4, eq_comm, e1, e2]
 
 end LongRoot
 
@@ -136,7 +136,7 @@ theorem lift_minus [CharP K 2] [Finite K] (hirr : ∀ s : K, s ^ 2 + b * s + c �
           rw [bar_bar] at this
           rw [this]
           have : x ≠ y := fun e => hd x hxy.1 (by rw [e]; exact hxy.2)
-          simp [Matrix.one_apply, this]
+          simp [this]
         · rw [hS.delta x y hxy]
           simp [Matrix.one_apply]
       have h2 : mat n k = 1 := eq_one_of_restr_one hP h1

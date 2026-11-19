@@ -25,9 +25,9 @@ theorem case48Facts
   e16_1 := sh1_E16_unique
   noCHat := sh1_S0_no_cHat
   notge := sh0_R1_not_ge
-  engine0 := fun E hE a b ha haa hbb hab =>
+  engine0 := fun _E hE a b ha haa hbb hab =>
     mem_R1subP.2 (engine0 hE a b (mem_R1subP.1 ha) haa hbb hab)
-  engine1 := fun E hE hR => engine1 hE hR
+  engine1 := fun _E hE hR => engine1 hE hR
 
 theorem s_case48
     : S_Case48 := s_case48_of_facts case48Facts

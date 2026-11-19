@@ -48,10 +48,10 @@ theorem lin_isElemAbelian_map {p : ℕ} {G G' : Type} [Group G] [Group G'] (f : 
     rw [Units.val_mul, Matrix.mul_apply]
     rcases hij with hi | hj
     · simp only [hgI i _ (Or.inl hi), ite_mul, one_mul, zero_mul, Finset.sum_ite_eq,
-        Finset.mem_univ, if_true]
+        Finset.mem_univ, ite_true]
       exact hhI i j (Or.inl hi)
     · simp only [hhI _ j (Or.inr hj), mul_ite, mul_one, mul_zero, Finset.sum_ite_eq',
-        Finset.mem_univ, if_true]
+        Finset.mem_univ, ite_true]
       exact hgI i j (Or.inr hj)
   inv_mem' := by
     rintro g ⟨hg, hgI⟩
@@ -60,12 +60,12 @@ theorem lin_isElemAbelian_map {p : ℕ} {G G' : Type} [Group G] [Group G'] (f : 
     · have h1 := congrFun (congrFun (Units.mul_inv g) i) j
       rw [Matrix.mul_apply] at h1
       simp only [hgI i _ (Or.inl hi), ite_mul, one_mul, zero_mul, Finset.sum_ite_eq,
-        Finset.mem_univ, if_true, Matrix.one_apply] at h1
+        Finset.mem_univ, ite_true, Matrix.one_apply] at h1
       exact h1
     · have h1 := congrFun (congrFun (Units.inv_mul g) i) j
       rw [Matrix.mul_apply] at h1
       simp only [hgI _ j (Or.inr hj), mul_ite, mul_one, mul_zero, Finset.sum_ite_eq',
-        Finset.mem_univ, if_true, Matrix.one_apply] at h1
+        Finset.mem_univ, ite_true, Matrix.one_apply] at h1
       exact h1
 
 @[expose] def LinBlockSub (d : ℕ) (F : Type) [Field F] (I : Finset (Fin d)) :

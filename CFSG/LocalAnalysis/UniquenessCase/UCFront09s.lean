@@ -32,7 +32,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem exists_hyp97_of_mem_calY2_9 (D : Data G) {X D₃ : Subgroup G} (hX : X ∈ calY2_9 D)
     (hD₃X : D₃ ≤ Opp 3 X) (hD₃ : Nat.card D₃ = 3) :
     ∃ Y H S : Subgroup G, X ≤ Y ∧ Hyp97 D Y H D₃ S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Y, hXY, hY⟩ := Finite.exists_le_maximal (p := (· ∈ calY2_9 D)) hX
   have hY2 : Y ∈ calY2_9 D := hY.prop
   obtain ⟨N, hN, hNM⟩ : ∃ N ∈ calMOf Y, N ≠ D.M := by
@@ -68,7 +68,7 @@ theorem r923K1_holds
     (hKF : KFactShape92NoFaithfulA5) (D : Data G) (h92 : R92 D) (hE3 : R922A5 D) :
     R923K1 D := by
   intro hk L _ hLM hLN hA5 hUM X hX hXL hcov hZ
-  haveI := D.standing.simple
+  have := D.standing.simple
   have hM : IsStronglyPEmbedded 3 D.M := by
     by_contra h
     have := D.k_eq_two_iff.2 h

@@ -76,7 +76,7 @@ theorem s9c_claim_i {E : Type} [Field E] [CharP E 2] {d : ℕ} {N : Subgroup (GL
   exact hz
 
 theorem s9c_claim_j {E : Type} [Field E] [CharP E 2] {d r : ℕ} {N : Subgroup (GL (Fin d) E)}
-    {A B : Submodule E (Fin d → E)} (hA : S9cInv N A) (hB : S9cInv N B) (hAB : A < B) (x : N)
+    {A B : Submodule E (Fin d → E)} (hA : S9cInv N A) (hB : S9cInv N B) (_hAB : A < B) (x : N)
     (Y : ℕ → Submodule E (Fin d → E)) (hY0 : Y 0 = ⊥) (hYr : Y r = ⊤) (i₀ : ℕ) (hi₀ : i₀ < r)
     (hYA : Y i₀ = A) (hYB : Y (i₀ + 1) = B) (hYinv : ∀ i, i ≤ r → S9cInv N (Y i))
     (htriv : ∀ i, i < r → i ≠ i₀ → ∀ v ∈ Y (i + 1),

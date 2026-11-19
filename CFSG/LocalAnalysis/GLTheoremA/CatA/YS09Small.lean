@@ -26,7 +26,7 @@ variable {G : Type} [Group G] [Finite G]
 
 private theorem i113_card_le_three_of_isL2 {L : Subgroup G} (hL2 : IsLTwoOddPow (barOf 3 L))
     {W : Subgroup G} (hWL : W ≤ L) (hW : IsElemAbelian 3 W) : Nat.card W ≤ 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hL2' : IsL2TwoPowOdd (barOf 3 L) := isL2TwoPowOdd_of_isLTwoOddPow hL2
   obtain ⟨k, hk⟩ := exists_card_eq_pow_of_isElemAbelian Nat.prime_three hW
   have hWsub : Nat.card ↥(W.subgroupOf L) = 3 ^ k := by
@@ -65,7 +65,7 @@ private theorem i113_card_le_nine_of_max {L : Subgroup G}
     (hmax : ∀ R : Subgroup G, R ≤ L → IsPGroup 3 ↥R →
       (∀ S : Subgroup G, S ≤ L → IsPGroup 3 ↥S → R ≤ S → S = R) → IsThreeOnePlusTwo R)
     {W : Subgroup G} (hWL : W ≤ L) (hW : IsElemAbelian 3 W) : Nat.card W ≤ 3 ^ 2 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hW3 : IsPGroup 3 ↥W := fun g => ⟨1, by rw [pow_one]; exact Subtype.ext (hW.2 g.1 g.2)⟩
   obtain ⟨S, hSmem, hSmax⟩ := Set.Finite.exists_maximal
     (s := {S : Subgroup G | S ≤ L ∧ IsPGroup 3 ↥S ∧ W ≤ S}) (Set.toFinite _) ⟨W, hWL, hW3, le_rfl⟩
@@ -143,8 +143,8 @@ theorem levelU38At_holds (G : Type) [Group G] [Finite G] : LevelU38At G := by
   have hk2 : catalogIs (PSimple 3 L) (k2 3) := S10.catalogIs_imp k2_three_of_isU3eight hU
   unfold kLevel
   by_cases h1 : IsChevSimple 3 (PSimple 3 L)
-  · rw [if_pos h1] <;> norm_num
-  · rw [if_neg h1, if_pos hk2] <;> norm_num
+  · rw [ite_eq_left h1]; norm_num
+  · rw [ite_eq_right h1, ite_eq_left hk2]
 
 end LevelU38
 

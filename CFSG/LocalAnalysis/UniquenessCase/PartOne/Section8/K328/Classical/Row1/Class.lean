@@ -125,7 +125,7 @@ private theorem k328r1c_exists_conj {F : Type} [Field F] {μ : F} (hμ1 : μ ≠
     Fin.snoc (α := fun _ => Fin 4 → F) (fun i : Fin 3 => ((b i : ↥(T.eigenspace μ)) : Fin 4 → F))
       (w' : Fin 4 → F)
   have hind : LinearIndependent F c := by
-    refine linearIndependent_fin_snoc.2 ⟨?_, ?_⟩
+    refine linearIndependent_finSnoc.2 ⟨?_, ?_⟩
     · exact b.linearIndependent.map' (T.eigenspace μ).subtype (Submodule.ker_subtype _)
     · intro hmem
       have hmem' : (w' : Fin 4 → F) ∈ T.eigenspace μ :=
@@ -136,7 +136,7 @@ private theorem k328r1c_exists_conj {F : Type} [Field F] {μ : F} (hμ1 : μ ≠
         rw [sub_smul, ← h, one_smul, sub_self]
       exact hw0 ((smul_eq_zero.1 this).resolve_left (sub_ne_zero.2 hμ1))
   let B : Matrix (Fin 4) (Fin 4) F := Matrix.of fun i j => c j i
-  have hunit : IsUnit B := Matrix.linearIndependent_cols_iff_isUnit.1 hind
+  have hunit : IsUnit B := Matrix.linearIndependent_col_iff_isUnit.1 hind
   have hdet : B.det ≠ 0 := ((Matrix.isUnit_iff_isUnit_det B).1 hunit).ne_zero
   have hd : ∀ j' : Fin 3, (![μ, μ, μ, 1] : Fin 4 → F) (Fin.castSucc j') = μ := fun j' => by
     fin_cases j' <;> rfl

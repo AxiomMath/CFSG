@@ -83,7 +83,7 @@ theorem false_of_alt_quotient (hR : Red28 W K S) (h1 : Hyp28One W K S) {m : ℕ}
     intro y
     obtain ⟨k, rfl⟩ := hs y
     exact ⟨toBar W K k, by rw [← MonoidHom.comp_apply, hφb]⟩
-  haveI : IsSimpleGroup ↥(alternatingGroup (Fin m)) :=
+  have : IsSimpleGroup ↥(alternatingGroup (Fin m)) :=
     alternatingGroup.isSimpleGroup (by rw [Nat.card_eq_fintype_card, Fintype.card_fin]; exact hm)
   obtain ⟨e⟩ := quasisimple_quot_iso hR.quasi φb hsurj
   exact h1.2.1 ⟨hR.quasi, m, hm, ⟨e⟩⟩

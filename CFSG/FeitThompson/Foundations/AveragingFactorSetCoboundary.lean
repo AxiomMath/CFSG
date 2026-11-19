@@ -30,15 +30,18 @@ omit [Group Q] in
 theorem factorSetAverage_apply (h : (Nat.card Q).Coprime (Nat.card A)) (c : Q → Q → A) (x : Q) :
     factorSetAverage h c x = (nsmulCoprimeAddAut h).symm (∑ z, c x z) := (rfl)
 
+omit [Group Q] in
 theorem nsmul_factorSetAverage (h : (Nat.card Q).Coprime (Nat.card A)) (c : Q → Q → A) (x : Q) :
     Nat.card Q • factorSetAverage h c x = ∑ z, c x z := by
   rw [factorSetAverage_apply, nsmul_nsmulCoprimeAddAut_symm]
 
+omit [Group Q] in
 theorem eq_factorSetAverage (h : (Nat.card Q).Coprime (Nat.card A)) (c : Q → Q → A) (x : Q) {a : A}
     (ha : Nat.card Q • a = ∑ z, c x z) : a = factorSetAverage h c x := by
   refine (Nat.Coprime.nsmul_right_bijective (G := A) (n := Nat.card Q) h.symm).injective ?_
   rw [ha, nsmul_factorSetAverage]
 
+omit [Group Q] in
 theorem factorSetAverage_add (h : (Nat.card Q).Coprime (Nat.card A)) (c d : Q → Q → A) (x : Q) :
     factorSetAverage h (fun u v => c u v + d u v) x
       = factorSetAverage h c x + factorSetAverage h d x := by

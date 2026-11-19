@@ -10,7 +10,7 @@ namespace CFSG.Open
 
 open scoped MatrixGroups in
 theorem _root_.CFSG.Milestones.cl_lit_borel_tits_local_parabolic
-    (r k n : ℕ) [Fact r.Prime] (hk : 0 < k) (hn : 2 ≤ n) (hsmall : n = 2 → 4 ≤ r ^ k)
+    (r k n : ℕ) [Fact r.Prime] (_hk : 0 < k) (_hn : 2 ≤ n) (_hsmall : n = 2 → 4 ≤ r ^ k)
     (U : Subgroup PSL(n, GaloisField r k)) (hU : U ≠ ⊥) (hUr : IsPGroup r U) :
     ∃ (S : Sylow r PSL(n, GaloisField r k)) (P : Subgroup PSL(n, GaloisField r k)),
       P ≠ ⊤ ∧

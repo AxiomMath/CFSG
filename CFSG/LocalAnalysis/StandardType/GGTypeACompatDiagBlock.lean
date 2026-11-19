@@ -151,7 +151,7 @@ theorem exists_eq_map_blockSpecialLinear_erase {X : Type} [Group X] [Finite X] {
     exact hcomm.symm
   have hgD : g ∈ D := hCJ (Subgroup.mem_inf.mpr ⟨hgB, hgcentJ⟩)
   have hcomm_zw : Commute z w := by
-    haveI : IsMulCommutative Bs := hBs.1
+    have : IsMulCommutative Bs := hBs.1
     have h := mul_comm' (⟨z, hzB⟩ : Bs) (⟨w, hwB⟩ : Bs)
     exact (commute_iff_eq z w).mpr (Subtype.ext_iff.mp h)
   obtain ⟨a, k, hg_eq⟩ :=

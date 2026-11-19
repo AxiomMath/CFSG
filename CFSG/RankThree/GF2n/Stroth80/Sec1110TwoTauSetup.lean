@@ -87,7 +87,7 @@ private theorem xbar_le_bar_LB_of_le_normalizer [Finite G]
       exact hLa
     rw [hbot] at hmem
     exact mem_Xbar_ne_one_of_isA2 hc haLB hA2 (Subgroup.mem_bot.mp hmem)
-  haveI hSn : S.Normal :=
+  have hSn : S.Normal :=
     ⟨fun n hn g => by
       rw [Subgroup.mem_subgroupOf] at hn ⊢
       have h := (Subgroup.mem_normalizer_iff.mp (hX g.2) (n : Mbar M Q)).mp hn
@@ -189,7 +189,7 @@ theorem exists_lagrangian_img_inf_QB_of_lieModel [Finite G]
     have h := hD.finrank_E hw hKgt1
     omega
   have hK2 : (2 : K) = 0 := by
-    haveI : CharP K 2 := charP_two_of_globalModelData hD hZ
+    have : CharP K 2 := charP_two_of_globalModelData hD hZ
     exact CharP.cast_eq_zero K 2
   have hDcard : Nat.card ↥(Q ⊓ QB B) = Nat.card K ^ (3 + 1) := by
     rw [card_inf_QB_eq_of_two hc hw hn hx hZ hLm2 hcenter, hn3, hD.card]

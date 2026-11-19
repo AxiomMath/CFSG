@@ -195,7 +195,7 @@ theorem exists_two_aniso_perp_orth {k : ℕ} (hk : 4 ≤ k) (ε : Bool)
     ·
       rw [hb'0]
       obtain ⟨w₁, hw₁, hw₁ne⟩ := exists_aniso_perp_five (k := k) ε (m := 1) (by omega) ![a]
-        (fun i j hij => by fin_cases i <;> fin_cases j <;> exact absurd rfl hij)
+        (fun i j hij => by fin_cases i; fin_cases j; exact absurd rfl hij)
         (fun i => by fin_cases i; simpa using ha)
       have hw₁a : fiveForm k ε w₁ a = 0 := by simpa using hw₁ 0
       have haw₁ : fiveForm k ε a w₁ = 0 := by rw [fiveForm_comm k ε a w₁]; exact hw₁a

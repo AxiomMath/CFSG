@@ -171,7 +171,7 @@ theorem e6_kind_twoD_of_rank_five_label
   | exc =>
       exfalso
       simp only [twistKind, hr] at hk
-      split_ifs at hk <;> simp_all
+      split_ifs at hk; simp_all
 
 theorem b2SatQ2On_r1_holds (Omega : Type) [Field Omega] [IsAlgClosed Omega] [CharP Omega 2] :
     B2SatQ2On Omega GGE6ThreeR1Labels1585 := by

@@ -17,7 +17,7 @@ theorem k18_E32_not_conj (hc : Ctx13 t L S x₁ x₂ lam rho tau om) {w : G}
   intro hgw
   obtain ⟨B, hB, hBe, hB32⟩ := l17_E32 hc
   have hwB : w ∈ B := hB hw
-  haveI : IsMulCommutative ↥B := hBe.1
+  have : IsMulCommutative ↥B := hBe.1
   have hBc : B ≤ centralizer ({g * t * g⁻¹} : Set G) := by
     intro b hb
     rw [hgw, Subgroup.mem_centralizer_singleton_iff]

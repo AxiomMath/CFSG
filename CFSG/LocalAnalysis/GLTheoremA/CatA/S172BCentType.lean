@@ -135,16 +135,16 @@ private theorem catalogIs_pSimple_top_orthDerived_minus_aux1
     (hR : (QuadraticMap.polarBilin R).Nondegenerate)
     {m : ℕ} (hm : 4 ≤ m) (hdim : finrank (ZMod 2) W = 2 * m) :
     Nonempty (PSimple 3 (⊤ : Subgroup ↥(orthDerived R)) ≃* ↥(orthDerived R)) := by
-  haveI : Nontrivial W := Module.nontrivial_of_finrank_pos (by omega : 0 < finrank (ZMod 2) W)
-  haveI : Finite W := Module.finite_of_finite (ZMod 2)
-  haveI : Finite (W ≃ₗ[ZMod 2] W) := finite_linearEquiv
+  have : Nontrivial W := Module.nontrivial_of_finrank_pos (by omega : 0 < finrank (ZMod 2) W)
+  have : Finite W := Module.finite_of_finite (ZMod 2)
+  have : Finite (W ≃ₗ[ZMod 2] W) := finite_linearEquiv
   have hT := CFSG.RankThree.PartOne.exists_threeSingular_of_dim R hR hm hdim
   have hZ := CFSG.RankThree.PartOne.center_orthDerived_eq_bot hR hT
   have hq := CFSG.RankThree.PartOne.KCOrthogonal.isQuasisimple_orthDerived hR hT
-  haveI hsimple : IsSimpleGroup (↥(orthDerived R) ⧸ Subgroup.center ↥(orthDerived R)) := hq.2.1
+  have hsimple : IsSimpleGroup (↥(orthDerived R) ⧸ Subgroup.center ↥(orthDerived R)) := hq.2.1
   let e : (↥(orthDerived R) ⧸ Subgroup.center ↥(orthDerived R)) ≃* ↥(orthDerived R) :=
     (QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot
-  haveI : IsSimpleGroup ↥(orthDerived R) := e.symm.isSimpleGroup
+  have : IsSimpleGroup ↥(orthDerived R) := e.symm.isSimpleGroup
   obtain ⟨a, b, hab⟩ := hq.2.2
   have hncR : ∃ x y : ↥(orthDerived R), x * y ≠ y * x :=
     ⟨e a, e b, fun h => hab (by simpa using congrArg e.symm h)⟩
@@ -174,7 +174,7 @@ private theorem catalogIs_pSimple_top_orthDerived_minus_aux1
       fun h => hxy (by simpa using congrArg Subgroup.topEquiv h)⟩
   have hdvd : 3 ∣ Nat.card ↥(⊤ : Subgroup ↥(orthDerived R)) := by
     rwa [Subgroup.card_top]
-  haveI : IsSimpleGroup ↥(⊤ : Subgroup ↥(orthDerived R)) := Subgroup.topEquiv.isSimpleGroup
+  have : IsSimpleGroup ↥(⊤ : Subgroup ↥(orthDerived R)) := Subgroup.topEquiv.isSimpleGroup
   exact ⟨(CFSG.LocalAnalysis.GLTheoremA.H1429Sub.pSimple_equiv_self (T := ↥(orthDerived R))
     (J := ⊤) inferInstance hnc hdvd).trans Subgroup.topEquiv⟩
 
@@ -188,9 +188,9 @@ private theorem catalogIs_pSimple_top_orthDerived_minus_aux2
       TauCeti.ValidLieTypeIndex.Group ⟨TauCeti.LieTypeIndex.twistedD m q, hv⟩) := by
   obtain ⟨b, c, hirr, ⟨φ⟩⟩ :=
     CFSG.RankThree.PartTwo.Census.Carrier.SpinD.exists_typeTwistedDGroupEquivStatedProj m q hv hp
-  haveI : Finite ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨TauCeti.LieTypeIndex.twistedD m q, hv⟩) :=
+  have : Finite ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨TauCeti.LieTypeIndex.twistedD m q, hv⟩) :=
     CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField _
-  haveI : Fintype ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨TauCeti.LieTypeIndex.twistedD m q, hv⟩) :=
+  have : Fintype ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨TauCeti.LieTypeIndex.twistedD m q, hv⟩) :=
     Fintype.ofFinite _
   have hK' : Fintype.card ↥(TauCeti.ValidLieTypeIndex.fixedField
       ⟨TauCeti.LieTypeIndex.twistedD m q, hv⟩) = 2 := by
@@ -325,7 +325,7 @@ private theorem card_pSimple_glaLayer_top_orthDerived_aux3 {G : Type} [Group G] 
     rw [hcenter] at h1
     exact (Subgroup.map_eq_bot_iff_of_injective _ (Subgroup.topEquiv (G := G)).injective).1 h1
   have hsimpleK : IsSimpleGroup ↥(⊤ : Subgroup G) := by
-    haveI := hsimple
+    have := hsimple
     exact (Subgroup.topEquiv (G := G)).isSimpleGroup
   have hdvdK : 3 ∣ Nat.card ↥(⊤ : Subgroup G) := by
     rw [Nat.card_congr (Subgroup.topEquiv (G := G)).toEquiv]
@@ -360,7 +360,7 @@ private theorem card_pSimple_glaLayer_top_orthDerived_aux4
   have hr1 : r ≠ 1 := by
     intro h
     have h2 := congrArg (fun g : ↥(orthDerived Q) => (g : V ≃ₗ[ZMod 2] V) a) h
-    simp only [Subtype.coe_mk, OneMemClass.coe_one, LinearEquiv.coe_one, id_eq] at h2
+    simp only [OneMemClass.coe_one, LinearEquiv.coe_one, id_eq] at h2
     rw [rot_apply_left hab] at h2
     exact hab.ne h2.symm
   have hord : orderOf r = 3 := orderOf_eq_prime hr3 hr1
@@ -371,9 +371,9 @@ theorem card_pSimple_glaLayer_top_orthDerived (hQ : (QuadraticMap.polarBilin Q).
     {n : ℕ} (hdim : finrank (ZMod 2) V = 2 * n) (hn : 4 ≤ n) :
     Nat.card (PSimple 3 (GLALayer (⊤ : Subgroup ↥(orthDerived Q)))) =
       Nat.card ↥(orthDerived Q) := by
-  haveI : Finite V := Module.finite_of_finite (ZMod 2)
-  haveI : Finite (V ≃ₗ[ZMod 2] V) := finite_linearEquiv
-  haveI : Nontrivial V := Module.nontrivial_of_finrank_pos (by rw [hdim]; omega)
+  have : Finite V := Module.finite_of_finite (ZMod 2)
+  have : Finite (V ≃ₗ[ZMod 2] V) := finite_linearEquiv
+  have : Nontrivial V := Module.nontrivial_of_finrank_pos (by rw [hdim]; omega)
   have hT : ∃ U : Submodule (ZMod 2) V, finrank (ZMod 2) U = 3 ∧ ∀ u ∈ U, Q u = 0 :=
     CFSG.RankThree.PartOne.exists_threeSingular_of_dim Q hQ hn hdim
   have hq : CFSG.IsQuasisimple ↥(orthDerived Q) := isQuasisimple_orthDerived hQ hT
@@ -385,7 +385,7 @@ theorem card_pSimple_glaLayer_top_orthDerived (hQ : (QuadraticMap.polarBilin Q).
       CFSG.RankThree.Classical.orthogonal_high_Witt_derived_quotient_and_odd_lifts hQ hT
     rw [hc, hscal]
   have hsimple : IsSimpleGroup ↥(orthDerived Q) := by
-    haveI := hq.2.1
+    have := hq.2.1
     exact ((QuotientGroup.quotientMulEquivOfEq hcenter).trans
       QuotientGroup.quotientBot).symm.isSimpleGroup
   have hcomp : IsComponentOf (⊤ : Subgroup ↥(orthDerived Q)) ⊤ :=
@@ -422,8 +422,8 @@ theorem not_layerIs_top_isUnA (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {
     (hn : 5 ≤ n) (hb : CatDistinct.OrderBridge) :
     ¬ LayerIs 3 (⊤ : Subgroup ↥(orthDerived Q)) (isUnA (n - 1) 2) := by
   intro hL
-  haveI : Finite V := Module.finite_of_finite (ZMod 2)
-  haveI : Finite (V ≃ₗ[ZMod 2] V) := finite_linearEquiv
+  have : Finite V := Module.finite_of_finite (ZMod 2)
+  have : Finite (V ≃ₗ[ZMod 2] V) := finite_linearEquiv
   have hcard := card_pSimple_glaLayer_top_orthDerived hQ hdim (by omega)
   have hv := v2_card_orthDerived hQ hdim hplus (by omega)
   obtain ⟨-, -, hu⟩ := CFSG.LocalAnalysis.GLTheoremA.S172.v2_isUnA (f := 1) hb le_rfl hL.2

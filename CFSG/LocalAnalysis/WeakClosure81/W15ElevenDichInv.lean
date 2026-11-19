@@ -14,6 +14,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private lemma b15_W15ElevenDichInv_zpow_eq_one_or_self {v : G} (hv : v * v = 1) (n : ℤ) :
     v ^ n = 1 ∨ v ^ n = v := by
   have hv2 : v ^ (2 : ℤ) = 1 := by
@@ -24,17 +25,20 @@ private lemma b15_W15ElevenDichInv_zpow_eq_one_or_self {v : G} (hv : v * v = 1) 
   · right
     rw [hk, zpow_add, zpow_mul, hv2, one_zpow, one_mul, zpow_one]
 
+omit [Finite G] in
 private lemma b15_W15ElevenDichInv_mul_comm_of_mem {I : Subgroup G} (hI : IsElemAbelian 2 I)
     {x y : G} (hx : x ∈ I) (hy : y ∈ I) : x * y = y * x := by
-  haveI : IsMulCommutative I := hI.1
+  have : IsMulCommutative I := hI.1
   simpa using congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : I) (⟨y, hy⟩ : I))
 
+omit [Finite G] in
 private lemma b15_W15ElevenDichInv_inv_eq_of_mem {I : Subgroup G} (hI : IsElemAbelian 2 I)
     {x : G} (hx : x ∈ I) : x⁻¹ = x := by
   have h := hI.2 x hx
   rw [pow_two] at h
   exact inv_eq_of_mul_eq_one_right h
 
+omit [Finite G] in
 theorem commutator_zpowers_le_inf_centralizer_of_mul_self {I : Subgroup G}
     (hI : IsElemAbelian 2 I) {a : G} (haN : a ∈ normalizer (I : Set G)) (ha : a * a = 1) :
     ⁅I, zpowers a⁆ ≤ I ⊓ centralizer ({a} : Set G) := by
@@ -76,11 +80,12 @@ theorem commutator_zpowers_le_inf_centralizer_of_mul_self {I : Subgroup G}
     · rw [hcommut]
       exact Subgroup.mem_centralizer_singleton_iff.mpr hcomm
 
+omit [Finite G] in
 theorem card_inf_centralizer_mul_card_commutator_zpowers {I : Subgroup G}
     (hI : IsElemAbelian 2 I) {a : G} (haN : a ∈ normalizer (I : Set G)) (ha : a * a = 1) :
     Nat.card ↥(I ⊓ centralizer ({a} : Set G)) * Nat.card ↥⁅I, zpowers a⁆ = Nat.card ↥I := by
   classical
-  haveI : IsMulCommutative I := hI.1
+  have : IsMulCommutative I := hI.1
   have ha_inv : a⁻¹ = a := inv_eq_of_mul_eq_one_right ha
   let c : I →* I :=
     ((MulAut.conj a).toMonoidHom.comp I.subtype).codRestrict I
@@ -169,7 +174,7 @@ theorem inf_centralizer_le_commutator_of_inv_mod {I : Subgroup G} (hI : IsElemAb
     (hcz : I ⊓ centralizer ({z} : Set G) = ⊥) (hinv : z * (a * z * a⁻¹) ∈ I) :
     I ⊓ centralizer ({a} : Set G) ≤ ⁅I, zpowers a⁆ := by
   classical
-  haveI : IsMulCommutative I := hI.1
+  have : IsMulCommutative I := hI.1
   have ha_inv : a⁻¹ = a := inv_eq_of_mul_eq_one_right ha
   let w : G := a * z * a⁻¹
   have hw_eq : w = a * z * a⁻¹ := rfl
@@ -268,7 +273,6 @@ theorem inf_centralizer_le_commutator_of_inv_mod {I : Subgroup G} (hI : IsElemAb
   have hx_def : x = s ^ Nat.card ↥I := rfl
   have hx_pow : x ^ p = 1 := by
     rw [hx_def]
-    change (s ^ Nat.card ↥I) ^ p = 1
     rw [← pow_mul, mul_comm, pow_mul]
     exact congrArg (fun t : I => (t : G))
       (pow_card_eq_one' (G := ↥I) (x := ⟨s ^ p, hspI⟩))
@@ -345,7 +349,7 @@ theorem card_modEq_one_of_isPGroup_inf_centralizer_eq_bot {p : ℕ} [Fact p.Prim
     (hX : IsPGroup p ↥X) (hXN : X ≤ normalizer (I : Set G))
     (hcent : I ⊓ centralizer (X : Set G) = ⊥) : Nat.card ↥I ≡ 1 [MOD p] := by
   classical
-  letI : Subgroup.Normalizes X I := ⟨hXN⟩
+  let : Subgroup.Normalizes X I := ⟨hXN⟩
   have hmod := hX.card_modEq_card_fixedPoints (↥I)
   have hfixed : MulAction.fixedPoints ↥X ↥I = {1} := by
     ext i
@@ -378,6 +382,7 @@ theorem card_modEq_one_of_isPGroup_inf_centralizer_eq_bot {p : ℕ} [Fact p.Prim
     exact Nat.card_unique
   rwa [hcard] at hmod
 
+omit [Finite G] in
 theorem inf_centralizer_le_of_mul_mem_centralizer {I A : Subgroup G} {a v : G} (ha : a ∈ A)
     (hav : a * v ∈ centralizer (I : Set G)) :
     I ⊓ centralizer (A : Set G) ≤ I ⊓ centralizer ({v} : Set G) := by

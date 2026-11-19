@@ -18,7 +18,7 @@ theorem Hyp1921.not_mem_of_mem_sectionCentralizer_of (h : Hyp1921 G A M N L)
       x ∈ CFSG.Open.pCoreOf 2 L)
     {c : G} (hc : c ∈ sectionCentralizer A L (CFSG.Open.pCoreOf 2 L)) (hc1 : c ≠ 1) :
     c ∉ L := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hc' : c ∈ A ∧ ∀ x ∈ L, c * x * c⁻¹ * x⁻¹ ∈ CFSG.Open.pCoreOf 2 L := hc
   intro hcL
   have hc2 : c ∈ CFSG.Open.pCoreOf 2 L := hZ c hcL hc'.2
@@ -33,7 +33,7 @@ theorem Hyp1921.not_mem_of_mem_sectionCentralizer_of (h : Hyp1921 G A M N L)
   exact hc1 hone
 
 theorem Hyp1921.isE27_inf_Q_sup_zpowers_of (h : Hyp1921 G A M N L)
-    (hNL : N ≤ Subgroup.normalizer (L : Set G)) {Q : Subgroup G} (hQ : IsSylowOf 3 Q N)
+    (hNL : N ≤ Subgroup.normalizer (L : Set G)) {Q : Subgroup G} (_hQ : IsSylowOf 3 Q N)
     (hAQ : A ≤ Q)
     (hQL9 : Nat.card (Q ⊓ L : Subgroup G) = 9)
     (hQLE : CFSG.Open.IsElemAbelian 3 (Q ⊓ L : Subgroup G))
@@ -41,7 +41,7 @@ theorem Hyp1921.isE27_inf_Q_sup_zpowers_of (h : Hyp1921 G A M N L)
     {c : G} (hc : c ∈ sectionCentralizer A L (CFSG.Open.pCoreOf 2 L)) (hcL : c ∉ L) :
     IsE27 ((Q ⊓ L : Subgroup G) ⊔ Subgroup.zpowers c) ∧
       (Q ⊓ L : Subgroup G) ⊔ Subgroup.zpowers c ≤ Q := by
-  clear hQ
+  clear _hQ
   have hc' : c ∈ A ∧ ∀ x ∈ L, c * x * c⁻¹ * x⁻¹ ∈ CFSG.Open.pCoreOf 2 L := hc
   have hcA : c ∈ A := hc'.1
   have hcQ : c ∈ Q := hAQ hcA
@@ -74,7 +74,7 @@ theorem Hyp1921.normalizer_inf_Q_le_of (hET : partTwoE G ⊆ partTwoT G) (h : Hy
     {c : G} (hE : IsE27 ((Q ⊓ L : Subgroup G) ⊔ Subgroup.zpowers c))
     (hEQ : (Q ⊓ L : Subgroup G) ⊔ Subgroup.zpowers c ≤ Q) :
     Subgroup.normalizer ((Q ⊓ L : Subgroup G) : Set G) ≤ M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hA3 : IsE27 A := isE27_of_mem_partTwoE h.mem_partTwoE
   have hPQ : IsPGroup 3 Q := (CFSG.ABGLocalTools.isSylowOf_iff.mp hQ).2.1
   have hQM : Q ≤ M :=

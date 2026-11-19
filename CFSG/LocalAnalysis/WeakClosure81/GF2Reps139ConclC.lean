@@ -17,7 +17,7 @@ variable {W : Type} [CommGroup W] [Finite W] {G X D : Subgroup (MulAut W)} {s : 
   {Y : Subgroup W} {n : ℕ}
 
 theorem Std139.concl_of_shapeCover (hw2 : ∀ w : W, w ^ 2 = 1)
-    (S : Std139 G X D s Y n) (hn : 3 ≤ n) {K : Subgroup (MulAut W)} (hK : Comp139 G X D K)
+    (S : Std139 G X D s Y n) (_hn : 3 ≤ n) {K : Subgroup (MulAut W)} (hK : Comp139 G X D K)
     (h : ShapeCover K X n) : Concl139 W G X n := by
   obtain ⟨hn3, hHat, hXcenter, hWcard⟩ := h
   have hXK : X ≤ K := by

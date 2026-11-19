@@ -177,7 +177,7 @@ theorem r_exists_conj_into_sylow {S : Sylow 2 G} {b : G} (hb2 : b * b = 1) {m : 
   have h2 : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set C : Subgroup G := Subgroup.centralizer ({b} : Set G) with hC
   set Q' : Subgroup ↥C := (S : Subgroup G).subgroupOf C with hQ'
-  have hQ'2 : IsPGroup 2 Q' := S.isPGroup'.comap_subtype
+  have hQ'2 : IsPGroup 2 Q' := S.isPGroup.comap_subtype
   have hmax : ∀ P' : Subgroup ↥C, IsPGroup 2 P' → Nat.card P' ≤ Nat.card Q' := by
     intro P' hP'
     have hP'G : IsPGroup 2 (P'.map C.subtype) := hP'.map _
@@ -193,7 +193,7 @@ theorem r_exists_conj_into_sylow {S : Sylow 2 G} {b : G} (hb2 : b * b = 1) {m : 
     rw [← e1, e2]
     exact h1
   obtain ⟨P₀, hQP₀⟩ := hQ'2.exists_le_sylow
-  have hP₀card : Nat.card (P₀ : Subgroup ↥C) ≤ Nat.card Q' := hmax _ P₀.isPGroup'
+  have hP₀card : Nat.card (P₀ : Subgroup ↥C) ≤ Nat.card Q' := hmax _ P₀.isPGroup
   have hP₀eq : Q' = (P₀ : Subgroup ↥C) := Subgroup.eq_of_le_of_card_ge hQP₀ hP₀card
   have hP'' : IsPGroup 2 (P.subgroupOf C) := hP.comap_subtype
   obtain ⟨P₁, hP''P₁⟩ := hP''.exists_le_sylow

@@ -55,7 +55,7 @@ theorem commData_card_le_of_sylow {G : Type} [Group G] [Finite G] {p : ℕ} [Fac
   have hP' : IsPGroup p (P.subgroupOf N) :=
     hP.of_equiv (Subgroup.subgroupOfEquivOfLe hPN).symm
   obtain ⟨T, hPT⟩ := hP'.exists_le_sylow
-  haveI : Finite (Sylow p N) := Sylow.finite_of_finiteIndex S₀
+  have : Finite (Sylow p N) := Sylow.finite_of_finiteIndex S₀
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq N S₀ T
   have hPT' : P.subgroupOf N ≤ ((g • S₀ : Sylow p N) : Subgroup N) := by
     rw [hg]
@@ -119,7 +119,7 @@ theorem commData_sup_zpowers_inf_centralizer {G : Type} [Group G] [Finite G] {p 
     (Subgroup.closure (Set.range q) ⊔ Subgroup.zpowers x) ⊓
         Subgroup.centralizer (Subgroup.closure (Set.range q) : Set G) = Subgroup.zpowers z := by
   classical
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).pos.ne'⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).pos.ne'⟩
   set Q : Subgroup G := Subgroup.closure (Set.range q) with hQ
   have hxQ : ∀ g ∈ Q, x⁻¹ * g * x ∈ Q := fun g hg => CommData.conj_mem hx hg
   have hxN : Subgroup.zpowers x ≤ Subgroup.normalizer (Q : Set G) :=
@@ -155,8 +155,8 @@ theorem commData_sup_zpowers_inf_centralizer {G : Type} [Group G] [Finite G] {p 
       rw [hfun]
       ext i j
       by_cases h : i = j
-      · subst h; simp [Matrix.one_apply]
-      · simp [Matrix.one_apply, Pi.single_eq_of_ne, h, Ne.symm h]
+      · subst h; simp
+      · simp [Pi.single_eq_of_ne, h, Ne.symm h]
     have hxk_conj : ∀ i, (x ^ k)⁻¹ * q i * x ^ k ∈ Q :=
       fun i => conj_pow_mem hxQ k (Subgroup.subset_closure ⟨i, rfl⟩)
     have hy_conj : ∀ i, y⁻¹ * q i * y ∈ Q := by

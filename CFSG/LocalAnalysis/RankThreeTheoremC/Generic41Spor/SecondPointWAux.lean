@@ -17,6 +17,7 @@ open CFSG.LocalAnalysis.RankThreeTheoremC.Generic49U3 (u3_core_conj card_inf_cen
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem spw_mem_sup_of_commute {A B : Subgroup G} (h : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a)
     {s : G} (hs : s ∈ A ⊔ B) : ∃ a ∈ A, ∃ b ∈ B, s = a * b := by
   have hr := MonoidHom.noncommCoprod_range A.subtype B.subtype (fun a b => h a a.2 b b.2)
@@ -50,6 +51,7 @@ theorem spw_mem_zpowers_of_mem_zpowers {p : ℕ} [Fact p.Prime] {x a : G} (hxo :
   rw [heq]
   exact mem_zpowers a
 
+omit [Finite G] in
 theorem spw_exists_noncomm_commutator_central {p : ℕ} [Fact p.Prime] {A : Subgroup G}
     (hcard : Nat.card A = p ^ 3) (hnc : ¬ IsMulCommutative A) :
     ∃ s ∈ A, ∃ t ∈ A, s * t * s⁻¹ * t⁻¹ ≠ 1 ∧
@@ -110,6 +112,7 @@ theorem spw_central_mem_commutator {p : ℕ} [Fact p.Prime] {P T : Subgroup G} (
   have htw : t ∈ zpowers w := by rw [hzw]; exact htZ
   exact (zpowers_le.2 hwP) htw
 
+omit [Finite G] in
 theorem spw_mem_of_centralizes {p : ℕ} [Fact p.Prime] (P : Sylow p G) {x : G} (hxp : x ^ p = 1)
     (hxC : (P : Subgroup G) ≤ Subgroup.centralizer ({x} : Set G)) : x ∈ (P : Subgroup G) := by
   have hcomm : ∀ a ∈ (P : Subgroup G), ∀ b ∈ zpowers x, a * b = b * a := by
@@ -120,7 +123,7 @@ theorem spw_mem_of_centralizes {p : ℕ} [Fact p.Prime] (P : Sylow p G) {x : G} 
   have hH : IsPGroup p ↥((P : Subgroup G) ⊔ zpowers x) := by
     intro g
     obtain ⟨a, ha, b, hb, hab⟩ := spw_mem_sup_of_commute hcomm g.2
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨a, ha⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨a, ha⟩
     have hak : a ^ p ^ k = 1 := congrArg Subtype.val hk
     obtain ⟨i, rfl⟩ := mem_zpowers_iff.1 hb
     have hbp : (x ^ i) ^ p = 1 := by
@@ -151,6 +154,7 @@ theorem spw_inf_zpowers_eq_bot {p : ℕ} [Fact p.Prime] {T : Subgroup G} {y : G}
     have : y ∈ T ⊓ zpowers y := by rw [heq]; exact mem_zpowers y
     exact this.1
 
+omit [Finite G] in
 theorem spw_zpowers_conj (g x : G) :
     (zpowers x).map (MulAut.conj g).toMonoidHom = zpowers (g * x * g⁻¹) := by
   rw [MonoidHom.map_zpowers]
@@ -160,6 +164,7 @@ theorem spw_zpowers_conj (g x : G) :
   ∀ S : Sylow p K, ∀ t ∈ (S : Subgroup K), t ≠ 1 → ∀ k : ℕ, ¬ p ∣ k →
     ∃ n ∈ normalizer ((S : Subgroup K) : Set K), n * t * n⁻¹ = t ^ k
 
+omit [Finite G] in
 private theorem spw_conj_hom (J H : Subgroup G) (hH : H ≤ Subgroup.normalizer (J : Set G)) :
     ∃ ι : H →* MulAut J, ∀ (c : H) (j : J), ((ι c j : J) : G) = (c : G) * j * (c : G)⁻¹ := by
   let f : ∀ c : G, c ∈ Subgroup.normalizer (J : Set G) → MulAut J := fun c hc =>

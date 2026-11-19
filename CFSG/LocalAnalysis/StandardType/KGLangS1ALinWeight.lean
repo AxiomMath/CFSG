@@ -27,7 +27,7 @@ private lemma kgLangS1ALinWeightAux_exists_weight {d p : ℕ} (hd : 2 ≤ d)
         simp [hne]
       · by_cases h1 : i = i1
         · subst h1
-          simp [h0, hne]
+          simp [h0]
         · simp [h0, h1]
     rw [Finset.sum_congr rfl (fun i _ => hpt i), Finset.sum_add_distrib]
     rw [Finset.sum_ite_eq' Finset.univ i0 (fun _ => (1:ℤ)),
@@ -36,7 +36,7 @@ private lemma kgLangS1ALinWeightAux_exists_weight {d p : ℕ} (hd : 2 ≤ d)
   · refine ⟨i0, i1, ?_⟩
     have hval : (if i0 = i0 then (1:ℤ) else if i0 = i1 then -1 else 0) -
         (if i1 = i0 then (1:ℤ) else if i1 = i1 then -1 else 0) = 2 := by
-      rw [if_pos rfl, if_neg (Ne.symm hne), if_pos rfl]
+      rw [ite_eq_left rfl, ite_eq_right (Ne.symm hne), ite_eq_left rfl]
       norm_num
     change ¬ (p : ℤ) ∣ (if i0 = i0 then (1:ℤ) else if i0 = i1 then -1 else 0) -
         (if i1 = i0 then (1:ℤ) else if i1 = i1 then -1 else 0)
@@ -81,7 +81,7 @@ private lemma kgLangS1ALinWeightAux_weight_two_classes {d p : ℕ} {β : Type} [
     have hj' : w j = b₂ := (Finset.mem_filter.mp hj).2
     have hval : (if w i = b₁ then (1:ℤ) else -1) -
         (if w j = b₁ then (1:ℤ) else -1) = 2 := by
-      rw [if_pos hi', if_neg (fun h => hb (h.symm.trans hj'))]
+      rw [ite_eq_left hi', ite_eq_right (fun h => hb (h.symm.trans hj'))]
       norm_num
     rw [hval]
     exact h2
@@ -112,7 +112,7 @@ theorem kgLangS1A_weight_of_diag {d p : ℕ} {K : Type} [Field K] [Finite K] (hp
   have hp3 : 3 ≤ p := by have := hp.two_le; omega
   have hd3 : 3 ≤ d := by rcases hd with h | h <;> omega
   let i₀ : Fin d := ⟨0, by omega⟩
-  haveI : Nonempty (Fin d) := ⟨i₀⟩
+  have : Nonempty (Fin d) := ⟨i₀⟩
   have hKpos : 0 < Nat.card K - 1 := by
     have := Finite.one_lt_card (α := K); omega
   have hp_dvd_two : ¬ (p : ℤ) ∣ 2 := by

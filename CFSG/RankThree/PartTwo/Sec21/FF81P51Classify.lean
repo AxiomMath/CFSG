@@ -53,9 +53,9 @@ theorem mkCfg_toV (m₁ m₂ m₄ m₅ m₆ : Bool) (p₁ p₂ p₄ p₅ p₆ : 
 theorem mem_optL {k : Fin 7} {m : Bool} {p : V} (h : p ∈ optL k m) :
     ∃ q ∈ optLD k m, q.toV = p := by
   cases m
-  · simp only [optL, optLD, Bool.false_eq_true, if_false, List.mem_singleton] at h ⊢
+  · simp only [optL, optLD, Bool.false_eq_true, ite_false, List.mem_singleton] at h ⊢
     exact ⟨V4.zero, rfl, h ▸ V4.toV_zero⟩
-  · simp only [optL, optLD, if_true, okL_eq, List.mem_map] at h ⊢
+  · simp only [optL, optLD, ite_true, okL_eq, List.mem_map] at h ⊢
     exact h
 
 theorem classify : ∀ m₁ m₂ m₄ m₅ m₆ : Bool, ∀ p₁ ∈ optL 1 m₁, ∀ p₂ ∈ optL 2 m₂,

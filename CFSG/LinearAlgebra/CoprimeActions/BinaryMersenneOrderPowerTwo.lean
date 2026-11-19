@@ -31,7 +31,7 @@ theorem exponent_is_two_power (e : ℕ) (he : 0 < e)
   have hl3 : 3 ≤ l := by have := hl.two_le; omega
   have hge : 2 ^ 2 ≤ 2 ^ l := Nat.pow_le_pow_right (by norm_num) hl.two_le
   obtain ⟨r, hr, hrl⟩ := Nat.exists_prime_and_dvd (show 2 ^ l - 1 ≠ 1 by omega)
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨j, hj⟩ := h r hr (hrl.trans hdvd)
   have h2l : (2 : ZMod r) ^ l = 1 := by
     have : ((2 ^ l - 1 : ℕ) : ZMod r) = 0 := (ZMod.natCast_eq_zero_iff _ _).2 hrl

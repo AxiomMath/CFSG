@@ -128,7 +128,7 @@ theorem EStand.three_le {K R W : Subgroup G} {S : Sylow 2 G} (h : EStand r Ω K 
   exact mul_left_cancel (mul_right_cancel h2)
 
 instance instPrintedQuotCent (r : ℕ) : PrintedQuotCent r :=
-  ⟨fun G _ _ Ω K S R W H N _ c hNc hN2 _ hmeet =>
+  ⟨fun _G _ _ _Ω _K _S _R _W _H _N _ c hNc hN2 _ hmeet =>
     c.quotCent_exists_W c.stand.three_le hNc hN2 hmeet⟩
 
 end QuotCentMain

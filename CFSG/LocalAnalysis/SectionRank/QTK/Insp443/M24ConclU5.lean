@@ -43,7 +43,7 @@ theorem surjective_e3Hom_u5 :
   exact Subgroup.eq_top_of_card_eq _ h2
 
 theorem pCoreOf_Lq : pCoreOf 2 Lq = eSub basis_et := by
-  haveI : IsSimpleGroup ↥(StatedSL 3 (ZMod 2)) := E8.isSimpleGroup_statedSL3
+  have : IsSimpleGroup ↥(StatedSL 3 (ZMod 2)) := E8.isSimpleGroup_statedSL3
   exact pCoreOf_eq_of_surj et_le_Lq (IsPGroup.of_card (n := 6) (card_eSub basis_et)) _
     surjective_e3Hom_u5 ker_e3Hom_u5 (noNormalTwo_of_simple not_isPGroup_sl3)
 
@@ -107,7 +107,7 @@ theorem conclK_m24_u5 (MK : Subgroup G₀) :
     (isNaturalSection_iff_isSumOfNaturalModules_one _ _ bot_le).mp hsec
   have hcommV : IsMulCommutative ↥(eSub basis_u5) :=
     IsMulCommutative.of_setLike_mul_comm fun x hx y hy => eSub_comm basis_u5 x y hx hy
-  letI : IsMulCommutative ↥(eSub basis_u5) := hcommV
+  let : IsMulCommutative ↥(eSub basis_u5) := hcommV
   have hFFL : IsFFModule (autOn Lq (eSub basis_u5)) :=
     FFn.isFFModule_autOn_of_sum (n := 2) (k := 1) (by decide) le_rfl (by norm_num) hsum
   have hFF : IsFFModule (autOn (Subgroup.normalizer (eSub basis_u5 : Set G₀))

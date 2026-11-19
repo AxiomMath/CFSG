@@ -25,7 +25,7 @@ theorem gap129ClaimEX_of_hess (hN : Sec11.Item1134E27N) (hST : Sec21.Item1134E27
     (hL3 : Gap129HessL3) (hD4 : Gap129HessD4) :
     Gap129ClaimEX := by
   intro G _ _ A c L b a K S cfg q hq x hxD hxb Y hY hXY h3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hstd := cfg.std
   have hst : PartTwoStanding G := hstd.toPartTwoStanding
   have hAe : CFSG.Assembly.IsElemAbelian 3 A := hstd.isE27.1
@@ -50,8 +50,8 @@ theorem gap129ClaimEX_of_hess (hN : Sec11.Item1134E27N) (hST : Sec21.Item1134E27
   obtain ⟨-, -, δ, -, hδ13, F, hFf, hFfin, hFcard, φK, hφK, hkerK⟩ :=
     exists_sl2_quotient_of_fix hTL hCen G A c L b a K S cfg q hq x hxD hxb
   obtain ⟨hq4, -, -⟩ := hCen.2 G A c L b a K S cfg q hq
-  haveI : Finite F := Finite.of_fintype F
-  haveI hqp : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Finite F := Finite.of_fintype F
+  have hqp : Fact q.p.Prime := ⟨q.prime_p⟩
   have hF4 : 4 ≤ Nat.card F := by
     rw [Nat.card_eq_fintype_card, hFcard]
     refine hq4.trans (Nat.le_self_pow ?_ _)

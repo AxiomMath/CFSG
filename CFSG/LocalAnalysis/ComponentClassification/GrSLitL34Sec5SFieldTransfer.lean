@@ -16,8 +16,8 @@ variable {G : Type} [Group G] [Finite G] {M : Subgroup G} {B : Type} [CommGroup 
 private theorem pow_eq_of_sq_eq_one {N : Type*} [Monoid N] {b : N} (hb : b ^ 2 = 1) (n : ℕ) :
     b ^ n = if Even n then 1 else b := by
   obtain ⟨k, rfl | rfl⟩ := Nat.even_or_odd' n
-  · rw [if_pos (even_two_mul k), pow_mul, hb, one_pow]
-  · rw [if_neg (Nat.not_even_iff_odd.mpr (odd_two_mul_add_one k)), pow_succ, pow_mul, hb,
+  · rw [ite_eq_left (even_two_mul k), pow_mul, hb, one_pow]
+  · rw [ite_eq_right (Nat.not_even_iff_odd.mpr (odd_two_mul_add_one k)), pow_succ, pow_mul, hb,
       one_pow, one_mul]
 
 omit [Finite G] in
@@ -69,7 +69,7 @@ theorem hom_eq_one_of_involution_fusion
     fun q => transfer_factor_eq hfus χ ht _ _ _
   rw [Fintype.prod_congr _ _ hfac, Finset.prod_pow_eq_pow_sum,
     ← Subgroup.index_eq_sum_minimalPeriod, pow_eq_of_sq_eq_one hχ2,
-    if_neg (Nat.not_even_iff_odd.mpr hidx)] at hprod
+    ite_eq_right (Nat.not_even_iff_odd.mpr hidx)] at hprod
   rw [← hprod, htr]
 
 
@@ -172,7 +172,7 @@ theorem exists_involution_lift_centralizing
   have hφi : Function.Injective φ := by
     rw [injective_iff_map_eq_one]
     intro x hx
-    obtain ⟨n, hn⟩ := T.isPGroup' x
+    obtain ⟨n, hn⟩ := T.isPGroup x
     have hxK : (((x : ↥H) : M)) ∈ π.ker := congrArg Subtype.val hx
     have hx' : (((x : ↥H) : M)) ^ 2 ^ n = 1 := by
       simpa using congrArg (fun y : ↥(T : Subgroup ↥H) => ((y : ↥H) : M)) hn

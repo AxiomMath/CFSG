@@ -55,7 +55,7 @@ theorem up7a8_psimple_root {G : Type} [Group G] [Finite G] {X K J : Subgroup G} 
     (hncent : ¬ CentMod 3 K y) (hJ : GLAPComponent 3 (K ⊓ Subgroup.centralizer ({y} : Set G)) J)
     (e : PSimple 3 K ≃* alternatingGroup (Fin n)) :
     ∃ m k : ℕ, 5 ≤ m ∧ 0 < k ∧ n = m + 3 * k ∧ Nonempty (PSimple 3 J ≃* alternatingGroup (Fin m)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hyp' : IsPGroup 3 (Subgroup.zpowers y) := isPGroup_zpowers_of_pow_eq_one hyp
   have hα3 : chevAut 3 K ⟨y, hyN⟩ ^ 3 = 1 := chevAut_pow_eq_one 3 K hyN hyp
   have hα1 : chevAut 3 K ⟨y, hyN⟩ ≠ 1 := fun h =>
@@ -66,7 +66,7 @@ theorem up7a8_psimple_root {G : Type} [Group G] [Finite G] {X K J : Subgroup G} 
   have hβ1 : MulAut.congr e (chevAut 3 K ⟨y, hyN⟩) ≠ 1 := fun h =>
     hα1 ((MulAut.congr e).injective (h.trans (map_one _).symm))
   obtain ⟨m, k, hm5, hk0, hnk, ⟨eI⟩⟩ := up7a8_kdAltExact hn Nat.prime_three (by norm_num) hβ3 hβ1 hJe
-  haveI : IsSimpleGroup (alternatingGroup (Fin m)) :=
+  have : IsSimpleGroup (alternatingGroup (Fin m)) :=
     alternatingGroup.isSimpleGroup (by rw [Nat.card_eq_fintype_card, Fintype.card_fin]; omega)
   have hcA : Subgroup.center (alternatingGroup (Fin m)) = ⊥ :=
     alternatingGroup.center_eq_bot (by rw [Nat.card_eq_fintype_card, Fintype.card_fin]; omega)
@@ -85,7 +85,7 @@ theorem up7a8_imageMod_alt {G : Type} [Group G] [Finite G] {X K J : Subgroup G} 
     (hncent : ¬ CentMod 3 K y) (hJ : GLAPComponent 3 (K ⊓ Subgroup.centralizer ({y} : Set G)) J)
     (eK : PQuot 3 K ≃* alternatingGroup (Fin n)) :
     ∃ m : ℕ, 5 ≤ m ∧ Nonempty (↥(imageMod 3 K J) ≃* alternatingGroup (Fin m)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hyp' : IsPGroup 3 (Subgroup.zpowers y) := isPGroup_zpowers_of_pow_eq_one hyp
   have hJt := glaPComponent_map_pQuotHom Nat.prime_three hyN hyp' hJ
   obtain ⟨hJte, -⟩ := chevQ_transport Nat.prime_three eK hJt

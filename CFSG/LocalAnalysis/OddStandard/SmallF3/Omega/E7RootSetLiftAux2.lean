@@ -83,11 +83,11 @@ theorem e7LiftP11_exists_weyl_of_image_rootSet (g : OGroup qForm)
   have hf_red : ∀ γ (h : γ ∈ e7LiftP11_Ψ),
       redV (f γ) = (g : V ≃ₗ[ZMod 3] V) (redV γ) := by
     intro γ h
-    simp only [f, dif_pos h]
+    simp only [f, dite_eq_left h]
     exact (Classical.choose_spec (hex γ h)).2
   have hf_root : ∀ γ (h : γ ∈ e7LiftP11_Ψ), f γ ∈ e7LiftP11_Ψ := by
     intro γ h
-    have h' : f γ = Classical.choose (hex γ h) := by simp only [f, dif_pos h]
+    have h' : f γ = Classical.choose (hex γ h) := by simp only [f, dite_eq_left h]
     rw [h']
     exact (Classical.choose_spec (hex γ h)).1
   have hmaps : Set.MapsTo f e7LiftP11_Ψ e7LiftP11_Ψ := fun γ h => hf_root γ h

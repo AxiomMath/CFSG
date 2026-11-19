@@ -38,7 +38,7 @@ theorem center_eq_bot_of_isQuasisimple_of_isSimple {Q : Type*} [Group Q]
     have : Group.IsPerfect Q := hq.1
     have hcomm : ∀ a b : Q, a * b = b * a := fun a b =>
       (Subgroup.mem_center_iff.mp (h ▸ Subgroup.mem_top b) a)
-    exact Group.IsPerfect.not_isSolvable Q (isSolvable_of_comm hcomm)
+    exact Group.IsPerfect.not_isSolvable Q (_root_.Group.isSolvable_of_comm hcomm)
 
 @[expose] noncomputable def Item154L3Point (P : ℕ → Prop) : Prop :=
   ∀ (G : Type) [Group G] [Finite G] (A : Subgroup G) (c : G) (L : Subgroup G),

@@ -15,8 +15,8 @@ section Radical
 theorem orbitUnion_J0_eq :
     TwistTag.E6.orbitUnion TwE6LongRoot.J0 = {i : Fin TwistTag.E6.tag.rank | i ≠ 1} := by
   ext i
-  rw [TwistTag.mem_orbitUnion, Set.mem_setOf_eq]
-  simp only [TwE6LongRoot.J0, TwE6LongRoot.a2, Set.mem_setOf_eq]
+  rw [TwistTag.mem_orbitUnion, Set.mem_ofPred_eq]
+  simp only [TwE6LongRoot.J0, TwE6LongRoot.a2, Set.mem_ofPred_eq]
   revert i
   decide
 
@@ -48,9 +48,9 @@ theorem mem_rootSpan_of_baseChangeGL_mem {τ : Tag} {K : Type} [Field K] [Finite
   classical
   set L := AlgebraicClosure K
   set ι : K →+* L := algebraMap K L
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, hp, hcard⟩ := FiniteField.card K (ringChar K)
-  haveI : Fact (ringChar K).Prime := ⟨hp⟩
+  have : Fact (ringChar K).Prime := ⟨hp⟩
   let Fr : L →+* L := iterateFrobenius L (ringChar K) n
   have hFr : ∀ c, Fr c = c ^ Nat.card K := fun c => by
     rw [iterateFrobenius_def, Nat.card_eq_fintype_card, hcard]

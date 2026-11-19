@@ -56,7 +56,7 @@ theorem eq_bot_of_normal_coprime_three {K : Type} [Field K] [Finite K] [CharP K 
     (hK : 4 ≤ Nat.card K) (N : Subgroup SL(2, K)) (hN : N.Normal)
     (hcop : Nat.Coprime 3 (Nat.card N)) : N = ⊥ := by
   classical
-  haveI : IsSimpleGroup PSL(2, K) := Matrix.ProjectiveSpecialLinearGroup.rank_two_simple hK
+  have : IsSimpleGroup PSL(2, K) := Matrix.ProjectiveSpecialLinearGroup.rank_two_simple hK
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
   have hcen : ∀ A : SL(2, K), A ∈ Subgroup.center SL(2, K) → A = 1 := by
     intro A hA
@@ -85,7 +85,7 @@ theorem eq_bot_of_normal_coprime_three {K : Type} [Field K] [Finite K] [CharP K 
   set π : SL(2, K) →* PSL(2, K) := QuotientGroup.mk' (Subgroup.center SL(2, K)) with hπ
   have hπ1 : ∀ A, π A = 1 → A = 1 := fun A hA => hcen A ((QuotientGroup.eq_one_iff A).1 hA)
   have hmapN : (N.map π).Normal := hN.map π (QuotientGroup.mk'_surjective _)
-  haveI := hmapN
+  have := hmapN
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (N.map π) with h | h
   · rw [eq_bot_iff]
     intro A hA
@@ -283,7 +283,7 @@ theorem eq_bot_of_le_rootSpan8 [IsAlgClosed L] {K : Type} [Field K] [Finite K] [
       (g : ModGL τ L) ∈ rootSpan τ L {α, -α} → ∀ m ∈ N, g * m * g⁻¹ ∈ N)
     (hcop : Nat.Coprime 3 (Nat.card N)) : N = ⊥ := by
   classical
-  haveI : CharP K 2 := (Algebra.charP_iff K L 2).2 inferInstance
+  have : CharP K 2 := (Algebra.charP_iff K L 2).2 inferInstance
   have hFr : ∀ c : L, iterateFrobenius L 2 3 c = c ^ Nat.card K := fun c => by
     rw [hK, iterateFrobenius_three_apply]
   obtain ⟨P, hP, -⟩ := exists_twisted_rootSL2 (τ := τ) (K := K) hFr hα (hw₀ α)
@@ -399,9 +399,9 @@ theorem oPrimeCoreTrivialAt_eight (K : Type) [Field K] [Finite K] (hK : Nat.card
     OPrimeCoreTrivialAt 3 ↥(adjointGroup Tag.F4 K) := by
   classical
   have hchar : CharP K 2 := finite_field_prime_power_characteristic Nat.prime_two (by norm_num) hK
-  haveI : CharP K 2 := hchar
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP K 2 := hchar
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   obtain ⟨Fr, hFr, g0, hg0C, hg0⟩ := exists_lang_data Tag.F4 K f4Neg
   have hFr2 : Fr = iterateFrobenius (AlgebraicClosure K) 2 3 :=
@@ -410,7 +410,7 @@ theorem oPrimeCoreTrivialAt_eight (K : Type) [Field K] [Finite K] (hK : Nat.card
   set L := AlgebraicClosure K with hL
   set n := canonicalRep (coxeterSystem Tag.F4) L f4Neg with hn
   set W := twModel n (iterateFrobenius L 2 3) with hW
-  haveI : Finite W := finite_twModelF4 K L hFr hg0C hg0
+  have : Finite W := finite_twModelF4 K L hFr hg0C hg0
   let e : adjointGroup Tag.F4 K ≃* W := twModelEquivF4 K L hFr hg0C hg0
   have htorL : ∀ a : Fin Tag.F4.rank → Lˣ, rootDiagUnit Tag.F4 a ∈ torusGroup Tag.F4 L :=
     rootDiagUnit_mem_torusGroup_of_unimodular exists_mul_cartan_F4.choose_spec

@@ -17,11 +17,11 @@ theorem exists_hopf_cover_package {Y : Type} [Group Y] [Finite Y] (hY : IsQuasis
       Function.Surjective π ∧ Group.IsPerfect S ∧ π.ker ≤ M ∧ M ≤ center S ∧
         (∀ s : S, π s ∈ center Y → s ∈ M) ∧
         Nat.card M = Nat.card π.ker * Nat.card ↥(center Y) := by
-  haveI hperfY : Group.IsPerfect Y := hY.1
-  haveI hperfQ : Group.IsPerfect (Y ⧸ center Y) :=
+  have hperfY : Group.IsPerfect Y := hY.1
+  have hperfQ : Group.IsPerfect (Y ⧸ center Y) :=
     Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' (center Y))
       (QuotientGroup.mk'_surjective (center Y))
-  haveI hfinQ : Finite (Y ⧸ center Y) :=
+  have hfinQ : Finite (Y ⧸ center Y) :=
     Finite.of_surjective (QuotientGroup.mk' (center Y))
       (QuotientGroup.mk'_surjective (center Y))
   let q : Y →* Y ⧸ center Y := QuotientGroup.mk' (center Y)
@@ -73,7 +73,7 @@ theorem exists_hopf_cover_data {Y : Type} [Group Y] [Finite Y] (hY : IsQuasisimp
     ∃ (S : Type) (_ : Group S) (_ : Finite S) (π : S →* Y), Function.Surjective π ∧
       Group.IsPerfect S ∧ π.ker ≤ center S ∧
       ∀ s : S, π s = z → s ∈ center S ∧ s ^ 2 ≠ 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S, _, _, π, M, e, hπs, hSp, hkerM, hMc, hMlift, hcard⟩ := exists_hopf_cover_package hY
   have hz1 : z ≠ 1 := by
     intro h

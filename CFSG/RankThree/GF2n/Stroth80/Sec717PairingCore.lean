@@ -112,10 +112,10 @@ theorem sec717_pairing_trivial {K : Type} [Field K] [Finite K] [CharP K 2] [Fini
     simpa using hRA r⁻¹ (R.inv_mem hr) a ha
   have hRB' : ∀ r ∈ R, ∀ b ∈ B, r⁻¹ * b * r ∈ B := fun r hr b hb => by
     simpa using hRB r⁻¹ (R.inv_mem hr) b hb
-  haveI hBn : (B.subgroupOf A).Normal := ⟨fun n hn g => by
+  have hBn : (B.subgroupOf A).Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     simpa using hRB (g : G) (hAR g.2) _ hn⟩
-  haveI hQn : (Q.subgroupOf Z0).Normal := ⟨fun n hn g => by
+  have hQn : (Q.subgroupOf Z0).Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     simpa using hQR (g : G) (hZ0R (g : G) g.2) _ hn⟩
   have hXcomm : ∀ a b : A ⧸ B.subgroupOf A, a * b = b * a := by
@@ -132,7 +132,7 @@ theorem sec717_pairing_trivial {K : Type} [Field K] [Finite K] [CharP K 2] [Fini
       group
     rw [key]
     exact hZB (hAcomm _ (A.inv_mem b.2) _ (A.inv_mem a.2))
-  letI : CommGroup (A ⧸ B.subgroupOf A) := sec717CommGroup hXcomm
+  let : CommGroup (A ⧸ B.subgroupOf A) := sec717CommGroup hXcomm
   have hYcomm : ∀ y1 y2 : Z0 ⧸ Q.subgroupOf Z0, y1 * y2 = y2 * y1 := by
     intro y1 y2
     induction y1 using QuotientGroup.induction_on with
@@ -149,7 +149,7 @@ theorem sec717_pairing_trivial {K : Type} [Field K] [Finite K] [CharP K 2] [Fini
       group
     rw [key]
     exact h
-  letI : CommGroup (Z0 ⧸ Q.subgroupOf Z0) := sec717CommGroup hYcomm
+  let : CommGroup (Z0 ⧸ Q.subgroupOf Z0) := sec717CommGroup hYcomm
   have hmkconj : ∀ (r : G) (hr : r ∈ R) (z : Z0),
       (QuotientGroup.mk (sec717Zconj hRZ r hr z) : Z0 ⧸ Q.subgroupOf Z0) =
         QuotientGroup.mk z := by

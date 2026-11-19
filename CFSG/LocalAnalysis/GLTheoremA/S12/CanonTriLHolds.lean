@@ -213,7 +213,7 @@ theorem false_of_G2_of_quot_heldSU {J : Type} [Group J] [Finite J] {m a k : ℕ}
     False := by
   obtain ⟨φ⟩ := hφ
   obtain ⟨hlab, hs, hhas⟩ := CFSG.LocalAnalysis.GLTheoremA.Y10GInnLin.ggHasLabel_of_hasLabel hJ
-  haveI := hs
+  have := hs
   have hk : 1 ≤ k := by
     by_contra hk0
     have h2 : 2 ≤ Nat.card E := Finite.one_lt_card
@@ -228,10 +228,10 @@ theorem false_of_G2_of_quot_heldSU {J : Type} [Group J] [Finite J] {m a k : ℕ}
     exact false_of_canonLabel_G2 h (by simp)
   · by_cases h31 : a = 3 ∧ k = 1
     · obtain ⟨rfl, rfl⟩ := h31
-      haveI := CFSG.LocalAnalysis.GLTheoremA.Y10GInnUni.isSolvable_quot_heldSU_three_two τ' hτ'
+      have := CFSG.LocalAnalysis.GLTheoremA.Y10GInnUni.isSolvable_quot_heldSU_three_two τ' hτ'
         (fun x => by simpa using hτ'k x) (by simpa using hE)
       exact CFSG.LocalAnalysis.GLTheoremA.Y10GInnUni.not_isSolvable_quot_center
-        (solvable_of_surjective (f := φ.symm.toMonoidHom) φ.symm.surjective)
+        (Group.isSolvable_of_surjective (f := φ.symm.toMonoidHom) φ.symm.surjective)
     · have hak : (a, 2 ^ k) ≠ (3, 2) := by
         intro h
         obtain ⟨h1, h2⟩ := Prod.mk.inj h
@@ -300,7 +300,7 @@ theorem false_of_G2_orth {S : Type} [Group S] [Finite S] {labL : GLALabel} {β :
       CFSG.HardMathSupport.Solomon.Coordinator.LieComp.suFactorFacts_holds
       CFSG.HardMathSupport.Solomon.Coordinator.LieComp.omegaFactorField_holds
       hp hp2 (Or.inr ht) hG hp2 a hap K hK
-  letI := inst
+  let := inst
   obtain ⟨eJ⟩ := CFSG.LocalAnalysis.GLTheoremA.Y10GInnLin.center_quot_equiv_of_surjective
     hXLie.perfect g hg hker
   unfold CFSG.HardMathSupport.Solomon.Coordinator.LieComp.OrthFactorOver at hfac
@@ -312,7 +312,7 @@ theorem false_of_G2_orth {S : Type} [Group S] [Finite S] {labL : GLALabel} {β :
       CFSG.LocalAnalysis.GLTheoremA.Y10GCenterQuot.uniCase_of_factor eJ hSU
     exact false_of_G2_of_quot_heldSU τ hτ hb hτk hE hKl hφ
   · obtain ⟨K', _, _, hK'card, hK'ring, s, hs2, hne, ⟨eX⟩⟩ := hSp
-    haveI : Finite K' := Finite.of_fintype K'
+    have : Finite K' := Finite.of_fintype K'
     have hchar : CharP K' 2 := ringChar.of_eq hK'ring
     have hne' : ¬(s = 2 ∧ Nat.card K' = 2) := fun h => hne (by rw [h.1, h.2])
     obtain ⟨eXZ⟩ := CFSG.LocalAnalysis.GLTheoremA.Y10GCenterQuot.nonempty_centerQuot_sp
@@ -386,7 +386,7 @@ theorem false_of_G2_symp {S : Type} [Group S] [Finite S] {labL : GLALabel} {β :
       omega
     · exact h0
   have h2 : (2 : F) = 0 := by
-    haveI := Fintype.ofFinite F
+    have := Fintype.ofFinite F
     obtain ⟨q, hq, k, hqp, hqcard⟩ := FiniteField.card' F
     have hc := hcard
     rw [Nat.card_eq_fintype_card, hqcard] at hc
@@ -432,7 +432,7 @@ theorem false_of_G2_symp {S : Type} [Group S] [Finite S] {labL : GLALabel} {β :
       (fun h => h.elim) (fun h => h.elim) (fun h => h.elim)
       hp hp2 Nat.prime_two hn hcard (by omega) hp2 (fun h => h.elim) x hxp
   obtain ⟨X, inst, hXfin, ⟨hXLie, -⟩, hfac, f, hf, hker⟩ := hcomp _ hK'
-  letI := inst
+  let := inst
   obtain ⟨eJ⟩ := CFSG.LocalAnalysis.GLTheoremA.Y10GInnLin.center_quot_equiv_of_surjective
     hXLie.perfect f hf hker
   unfold CFSG.HardMathSupport.Solomon.Coordinator.LieComp.SpFactorOver at hfac
@@ -464,10 +464,10 @@ theorem false_of_G2_symp {S : Type} [Group S] [Finite S] {labL : GLALabel} {β :
     let eC : ↥(commutator ↥(StatedSp 2 F)) ≃*
         ↥(commutator ↥CFSG.ComponentClassification.PresentationLocal.sympFour) :=
       (f₀.subgroupMap _).trans (MulEquiv.subgroupCongr hmap)
-    haveI : IsSimpleGroup
+    have : IsSimpleGroup
         ↥(commutator ↥CFSG.ComponentClassification.PresentationLocal.sympFour) :=
       CFSG.ComponentClassification.PresentationLocal.isSimpleGroup_commutator_sympFour
-    haveI : Group.IsPerfect
+    have : Group.IsPerfect
         ↥(commutator ↥CFSG.ComponentClassification.PresentationLocal.sympFour) :=
       CFSG.ComponentClassification.PresentationLocal.isPerfect_commutator_sympFour
     have hcenC : Subgroup.center
@@ -487,15 +487,15 @@ theorem false_of_G2_symp {S : Type} [Group S] [Finite S] {labL : GLALabel} {β :
 
 theorem two_eq_zero_of_card {F : Type} [Field F] [Finite F] {n : ℕ} (hcard : Nat.card F = 2 ^ n) :
     (2 : F) = 0 := by
-  haveI := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hcard
+  have := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hcard
   exact_mod_cast CharP.cast_eq_zero F 2
 
 theorem exists_card_eq_two_pow {F E : Type} [Field F] [Field E] [Algebra F E] [Finite E]
     (h2 : (2 : F) = 0) : ∃ k : ℕ, Nat.card E = 2 ^ k := by
-  haveI : CharP F 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
+  have : CharP F 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
   have hcharE : ringChar E = 2 := by rw [← Algebra.ringChar_eq F E, ringChar.eq F 2]
-  haveI : CharP E 2 := ringChar.of_eq hcharE
-  haveI := Fintype.ofFinite E
+  have : CharP E 2 := ringChar.of_eq hcharE
+  have := Fintype.ofFinite E
   obtain ⟨k, -, hk⟩ := FiniteField.card E 2
   exact ⟨k, by rw [Nat.card_eq_fintype_card, hk]⟩
 
@@ -540,8 +540,8 @@ theorem false_of_G2_lin {S : Type} [Group S] [Finite S] {labL : GLALabel} {β : 
     CFSG.LocalAnalysis.GLTheoremA.Y10GInnLin.ker_projMk_le_center hM.2.2.1 hMJ
   obtain ⟨eMZ⟩ := CFSG.LocalAnalysis.GLTheoremA.Y10GCenterQuot.nonempty_centerQuot_of_mulEquiv
     (Subgroup.equivMapOfInjective M _ hMinj)
-  letI := hEf
-  letI := hEalg
+  let := hEf
+  let := hEalg
   obtain ⟨k, hk⟩ := exists_card_eq_two_pow (F := F) (E := E) h2
   exact false_of_G2_of_quot_statedSL ha hk hJl ⟨(eJM.trans eMZ).trans eM⟩
 
@@ -658,11 +658,11 @@ theorem false_of_G2_uni {S : Type} [Group S] [Finite S] {labL : GLALabel} {β : 
     (Subgroup.equivMapOfInjective M _ hMinj)
   rcases hsized with ⟨a, dd, E, hE, hEfin, τ', hτ', ha2, hτ'Q, hcardE, ⟨eM⟩⟩ |
     ⟨b, e', E, hE, hEfin, hb2, hcardE, ⟨eM⟩⟩
-  · letI := hE
+  · let := hE
     have hpw : Q ^ dd = 2 ^ (labL.n * dd) := by rw [← hQdef, ← pow_mul]
     rw [hpw] at hτ'Q hcardE
     exact false_of_G2_of_quot_heldSU τ' hτ' ha2 hτ'Q hcardE hJl ⟨(eJM.trans eMZ).trans eM⟩
-  · letI := hE
+  · let := hE
     have hpw : Q ^ (2 * e') = 2 ^ (labL.n * (2 * e')) := by rw [← hQdef, ← pow_mul]
     rw [hpw] at hcardE
     exact false_of_G2_of_quot_statedSL hb2 hcardE hJl ⟨(eJM.trans eMZ).trans eM⟩
@@ -690,7 +690,7 @@ theorem two_le_of_G2 {X : Type} [Group X] {m : ℕ}
   simp only [CFSG.Assembly.LargeEvenInLambda2] at h
   exact h.2.2
 
-theorem ordG2_le_ordG2 {q q' : ℕ} (hq : 1 ≤ q) (hqq : q ≤ q') : ordG2 q ≤ ordG2 q' := by
+theorem ordG2_le_ordG2 {q q' : ℕ} (_hq : 1 ≤ q) (hqq : q ≤ q') : ordG2 q ≤ ordG2 q' := by
   unfold ordG2
   have h6 : q ^ 6 ≤ q' ^ 6 := Nat.pow_le_pow_left hqq 6
   have h2 : q ^ 2 ≤ q' ^ 2 := Nat.pow_le_pow_left hqq 2
@@ -995,7 +995,7 @@ theorem false_of_G2_trialityModel {q : TauCeti.PrimePower} {K : Type} [Field K] 
     (hJ : CFSG.Open.IsComponentOf J (fixSubgroup β)) {m : ℕ}
     (hJl : HasLabel ↥J (fun l : GLALabel => l = ⟨.G2, 0, m⟩)) : False := by
   classical
-  haveI : Finite ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := Subtype.finite
+  have : Finite ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := Subtype.finite
   have hpq : p ≠ q.p := by rw [hq2]; exact hp2
   have hβinn : β ∈ (MulAut.conj : ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) →*
       MulAut ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom)).range :=
@@ -1213,10 +1213,10 @@ theorem spRange_f4_B3_two {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) 
     ∃ Ψ : StatedSp 3 K →* ModGL .F4 K, Ψ.ker ≤ Subgroup.center (StatedSp 3 K) ∧
       Ψ.range = subsystemGroup .F4 K f4LeviB3 := by
   classical
-  haveI : CharP K 2 := by
+  have : CharP K 2 := by
     have := ringChar_eq_of_natCard_eq_pow Nat.prime_two (f := 1) (by rw [hK]; norm_num) Nat.one_pos
     rw [← this]
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     exact ringChar.charP K
   have hsq := CompsPF4Small.sq_eq_self_of_card_two hK
   have hK' : Nat.card K = 2 ^ 1 := by rw [hK]; norm_num
@@ -1289,10 +1289,10 @@ theorem spRange_f4_levi {J : Set (Fin (Tag.rank .F4))} (hJ : J = f4LeviB3 ∨ J 
     ∃ Ψ : StatedSp 3 K →* ModGL .F4 K, Ψ.ker ≤ Subgroup.center (StatedSp 3 K) ∧
       Ψ.range = subsystemGroup .F4 K J := by
   rcases hJ with rfl | rfl
-  · haveI : CharP K 2 := by
+  · have : CharP K 2 := by
       have := ringChar_eq_of_natCard_eq_pow Nat.prime_two hK hf
       rw [← this]
-      haveI : Fintype K := Fintype.ofFinite K
+      have : Fintype K := Fintype.ofFinite K
       exact ringChar.charP K
     by_cases hK4 : 4 ≤ Nat.card K
     · exact spRange_f4_B3_even hf hK hK4
@@ -1334,8 +1334,8 @@ theorem exists_spCover_of_spRange {τ : Tag} {L : Type} [Field L] [IsAlgClosed L
   classical
   obtain ⟨σ, hfin, hcard, f, hf1, hker, hf2⟩ := exists_inner_cover S hT i hinner
   obtain ⟨hne, Ψ, hΨker, hΨrange⟩ := hrec (fixSubfield σ) hfin hcard
-  haveI := hfin
-  haveI : Fintype ↥(fixSubfield σ) := Fintype.ofFinite _
+  have := hfin
+  have : Fintype ↥(fixSubfield σ) := Fintype.ofFinite _
   have hne' : (m, Fintype.card ↥(fixSubfield σ)) ≠ (2, 2) := fun h =>
     hne ⟨(Prod.mk.inj h).1, by rw [Nat.card_eq_fintype_card]; exact (Prod.mk.inj h).2⟩
   have hSpPerf : commutator (StatedSp m ↥(fixSubfield σ)) = ⊤ :=
@@ -1383,9 +1383,9 @@ theorem exists_spCover_of_spRange {τ : Tag} {L : Type} [Field L] [IsAlgClosed L
 
 theorem card_subfield_eq_two_pow {L : Type} [Field L] (hch : ringChar L = 2) (K : Subfield L)
     [Finite ↥K] : ∃ k : ℕ, Nat.card ↥K = 2 ^ k := by
-  haveI : Fintype ↥K := Fintype.ofFinite _
+  have : Fintype ↥K := Fintype.ofFinite _
   have h1 : ringChar ↥K = 2 := by rw [ringChar_subfield' K, hch]
-  haveI : CharP ↥K 2 := ringChar.of_eq h1
+  have : CharP ↥K 2 := ringChar.of_eq h1
   obtain ⟨k, -, hk⟩ := FiniteField.card ↥K 2
   exact ⟨k, by rw [Nat.card_eq_fintype_card, hk]⟩
 
@@ -1394,7 +1394,7 @@ theorem false_of_G2_of_spCover {R : Type} [Group R] {m k mm : ℕ} {K : Type} [F
     (g : StatedSp m K →* R) (hg : Function.Surjective g) (hker : g.ker ≤ Subgroup.center (StatedSp m K))
     (hRl : CFSG.LocalAnalysis.GLTheoremA.Y10F.HasLabel R (fun l : GLALabel => l = ⟨.G2, 0, mm⟩)) :
     False := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hne' : (m, Fintype.card K) ≠ (2, 2) := fun h =>
     hne ⟨(Prod.mk.inj h).1, by rw [Nat.card_eq_fintype_card]; exact (Prod.mk.inj h).2⟩
   have hSpPerf : commutator (StatedSp m K) = ⊤ := (spFactorFacts_holds K m hm hne').perfect
@@ -1420,7 +1420,7 @@ theorem exists_sp42_equiv_rationalComponent {L : Type} [Field L] [IsAlgClosed L]
   obtain ⟨hs0, -, -⟩ := outer_componentOrbitLength_spec S hT i
   obtain ⟨K', hfin, C, D, hC, hD, hcard, f, hf1, hker, hf2⟩ :=
     exists_inner_cover_derived_two S hT i hinner hQ
-  haveI : Fintype ↥K' := Fintype.ofFinite _
+  have : Fintype ↥K' := Fintype.ofFinite _
   have hcard' : Fintype.card ↥K' = 2 := by rw [← Nat.card_eq_fintype_card]; exact hcard
   have hch : ringChar L = 2 := by
     have h2 := ringChar_eq_of_natCard_eq_pow Nat.prime_two (K := ↥K') (f := 1)
@@ -1484,7 +1484,7 @@ theorem exists_sp42_equiv_rationalComponent {L : Type} [Field L] [IsAlgClosed L]
     intro h
     have hsimple : IsSimpleGroup (↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) ⧸
       Subgroup.center ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i)) := hqs.2.1
-    haveI := hsimple.toNontrivial
+    have := hsimple.toNontrivial
     obtain ⟨x, hx⟩ := exists_ne (1 : ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) ⧸
       Subgroup.center ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i))
     obtain ⟨g, rfl⟩ := QuotientGroup.mk_surjective x
@@ -1522,10 +1522,10 @@ theorem false_of_G2_of_sp42 {R F : Type} [Group R] [Field F] [Finite F] (hK2 : N
   let eC : ↥(commutator ↥(StatedSp 2 F)) ≃*
       ↥(commutator ↥CFSG.ComponentClassification.PresentationLocal.sympFour) :=
     (f₀.subgroupMap _).trans (MulEquiv.subgroupCongr hmap)
-  haveI : IsSimpleGroup
+  have : IsSimpleGroup
       ↥(commutator ↥CFSG.ComponentClassification.PresentationLocal.sympFour) :=
     CFSG.ComponentClassification.PresentationLocal.isSimpleGroup_commutator_sympFour
-  haveI : Group.IsPerfect
+  have : Group.IsPerfect
       ↥(commutator ↥CFSG.ComponentClassification.PresentationLocal.sympFour) :=
     CFSG.ComponentClassification.PresentationLocal.isPerfect_commutator_sympFour
   have hcenC : Subgroup.center
@@ -1566,7 +1566,7 @@ theorem false_of_G2_f4_class_nonA {L : Type} [Field L] [IsAlgClosed L] {p₀ : �
   · by_cases hQ : 3 ≤ S.D.q ^ componentOrbitLength S.ρ (componentRoots (rootCharHom a) i)
     · obtain ⟨K', hfin, hne, g, hg, hker⟩ := exists_spCover_of_spRange S hT i hinner (m := 2) le_rfl
         (fun K' hfin hcardK' => by
-          haveI := hfin
+          have := hfin
           obtain ⟨k, hk⟩ := card_subfield_eq_two_pow hch K'
           have h3 : 3 ≤ Nat.card ↥K' := hcardK' ▸ hQ
           have h4 : 4 ≤ Nat.card ↥K' := by
@@ -1575,7 +1575,7 @@ theorem false_of_G2_f4_class_nonA {L : Type} [Field L] [IsAlgClosed L] {p₀ : �
             · interval_cases k <;> omega
             · calc 4 = 2 ^ 2 := by norm_num
                 _ ≤ 2 ^ k := Nat.pow_le_pow_right (by norm_num) hk2
-          haveI : CharP ↥K' 2 := ringChar.of_eq (by rw [ringChar_subfield' K', hch])
+          have : CharP ↥K' 2 := ringChar.of_eq (by rw [ringChar_subfield' K', hch])
           refine ⟨fun h => by omega, ?_⟩
           obtain ⟨Ψ, hΨker, hΨrange⟩ := spRange_f4_B2 h4
           rw [CFSG.RankThree.Chevalley.subsystemGroup_eq_iSup_rootSubgroup (τ := Tag.F4)
@@ -1585,16 +1585,16 @@ theorem false_of_G2_f4_class_nonA {L : Type} [Field L] [IsAlgClosed L] {p₀ : �
           rw [hr']
           show _ = rootSpan Tag.F4 ↥K' (componentRoots (rootCharHom a) i)
           rw [hroots])
-      haveI := hfin
+      have := hfin
       obtain ⟨k, hk⟩ := card_subfield_eq_two_pow hch K'
       exact false_of_G2_of_spCover le_rfl hne hk g hg hker hRl
     · obtain ⟨K', hfin, hK2, ⟨eR⟩⟩ :=
         exists_sp42_equiv_rationalComponent S hT i v hroots hinner (not_le.1 hQ) hqs
-      haveI := hfin
+      have := hfin
       exact false_of_G2_of_sp42 hK2 eR hRl
   · obtain ⟨K', hfin, hne, g, hg, hker⟩ := exists_spCover_of_spRange S hT i hinner (m := 3)
       (by norm_num) (fun K' hfin hcardK' => by
-        haveI := hfin
+        have := hfin
         obtain ⟨k, hk⟩ := card_subfield_eq_two_pow hch K'
         have hk0 : 0 < k := by
           rcases Nat.eq_zero_or_pos k with h0 | h0
@@ -1611,7 +1611,7 @@ theorem false_of_G2_f4_class_nonA {L : Type} [Field L] [IsAlgClosed L] {p₀ : �
         rw [hr']
         show _ = rootSpan Tag.F4 ↥K' (componentRoots (rootCharHom a) i)
         rw [hroots])
-    haveI := hfin
+    have := hfin
     obtain ⟨k, hk⟩ := card_subfield_eq_two_pow hch K'
     exact false_of_G2_of_spCover (by norm_num) hne hk g hg hker hRl
 
@@ -1624,7 +1624,7 @@ theorem false_of_G2_adjointF4 {K : Type} [Field K] [Finite K] (hK2 : ringChar K 
     False := by
   classical
   obtain ⟨h, hh, hβh, hp1, hh1⟩ := exists_inndiag_of_mem_innAutDerived_F4 β hβmem hβp hβ1
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, hℓ, hcardK⟩ := FiniteField.card K (ringChar K)
   have hK : Nat.card K = ringChar K ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hcardK
   have hpℓ : p ≠ ringChar K := by rw [hK2]; exact hp2
@@ -1699,7 +1699,7 @@ theorem false_of_G2_F4 {S : Type} [Group S] [Finite S] {labL : GLALabel} {β : M
     (CFSG.LocalAnalysis.GLTheoremA.CanonInn.quotCenterEquivOfBot hcen).symm.trans
       (e₀.trans ((QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot))
   have hK2 : ringChar K = 2 := by
-    haveI := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
+    have := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
     exact ringChar.eq K 2
   have hβ'mem : MulAut.congr ψ β ∈ innAutDerived _ := (mem_innAutDerived_congr ψ).2 hβmem
   have hβ'p : (MulAut.congr ψ β) ^ p = 1 := by rw [← map_pow, hβp, map_one]
@@ -1813,7 +1813,7 @@ theorem notG2_innerRecog_E6 {τ : Tag} (hτ : τ = .D4 ∨ τ = .E6 ∨ τ = .E7
     commutator ↥(rootSpan τ K (rootsOfFam β (Set.range l))) = ⊤ ∧
       NotG2LieType p ↥(rootSpan τ K (rootsOfFam β (Set.range l))) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨U, ρ, hgen, hcomm, hρ, hψ⟩ := weakCT_data hτ β hroot l (edgeE 6) hgram hframe
   have hadm : StatedLieAdmissible .E6 0 p f := ⟨hp, hf, rfl⟩
   obtain ⟨-, -, -, hqs, -, hmodel⟩ := weakCT_e6_of_frame p f hadm hK U hgen hcomm hρ hψ
@@ -1831,7 +1831,7 @@ theorem notG2_innerRecog_E7 {τ : Tag} (hτ : τ = .D4 ∨ τ = .E6 ∨ τ = .E7
     commutator ↥(rootSpan τ K (rootsOfFam β (Set.range l))) = ⊤ ∧
       NotG2LieType p ↥(rootSpan τ K (rootsOfFam β (Set.range l))) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨U, ρ, hgen, hcomm, hρ, hψ⟩ := weakCT_data hτ β hroot l (edgeE 7) hgram hframe
   have hadm : StatedLieAdmissible .E7 0 p f := ⟨hp, hf, rfl⟩
   obtain ⟨-, -, -, hqs, -, hmodel⟩ := weakCT_e7_of_frame p f hadm hK U hgen hcomm hρ hψ
@@ -1849,7 +1849,7 @@ theorem notG2_innerRecog_E8 {τ : Tag} (hτ : τ = .D4 ∨ τ = .E6 ∨ τ = .E7
     commutator ↥(rootSpan τ K (rootsOfFam β (Set.range l))) = ⊤ ∧
       NotG2LieType p ↥(rootSpan τ K (rootsOfFam β (Set.range l))) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨U, ρ, hgen, hcomm, hρ, hψ⟩ := weakCT_data hτ β hroot l (edgeE 8) hgram hframe
   have hadm : StatedLieAdmissible .E8 0 p f := ⟨hp, hf, rfl⟩
   obtain ⟨-, -, -, hqs, -, hmodel⟩ := weakCT_e8_of_frame p f hadm hK U hgen hcomm hρ hψ
@@ -1933,8 +1933,8 @@ theorem notG2_of_tree (K : KacData τ) {L : Type} [Field L] [IsAlgClosed L]
     show rootSpan τ K' (componentRoots (rootCharHom a) i) = _
     rw [hroots, hset]
   rw [hcomp]
-  haveI : Fintype ↥K' := Fintype.ofFinite ↥K'
-  haveI : CharP ↥K' (ringChar ↥K') := ringChar.charP ↥K'
+  have : Fintype ↥K' := Fintype.ofFinite ↥K'
+  have : CharP ↥K' (ringChar ↥K') := ringChar.charP ↥K'
   obtain ⟨f, hprime, hcardK⟩ := FiniteField.card ↥K' (ringChar ↥K')
   have hring : ringChar ↥K' = ringChar L := ringChar_subfield' K'
   rw [hring] at hprime hcardK

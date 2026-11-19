@@ -12,7 +12,7 @@ open TauCeti
 section
 
 theorem e6InnerDiagLowerBound_holds : CFSG.HardMathSupport.Lang.E27.E6InnerDiagLowerBound :=
-  fun {_ _} [Fact _] hf K _ hK _ g a hα3 hα =>
+  fun {_ _} [Fact _] hf K _ hK _ _g _a hα3 hα =>
     CFSG.HardMathSupport.Lang.E6Descent.twentySeven_dvd_fixedSubgroup_E6 hf K hK _ hα3 hα
 
 theorem e27LieOuterAut_of_open_two

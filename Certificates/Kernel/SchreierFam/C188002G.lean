@@ -35,7 +35,7 @@ theorem fold_other (f : Nat → Nat) (p : Nat) :
   | x :: L, t, h => by
     rw [List.foldl_cons, fold_other f p L _ (fun j hj => h j (List.mem_cons_of_mem x hj))]
     have hx := h x List.mem_cons_self
-    simp [Array.set!_eq_setIfInBounds, getElem!_def, Array.getElem?_setIfInBounds, hx]
+    simp [Array.set!_eq_setIfInBounds, getElem!_def, hx]
 
 theorem fold_size (f : Nat → Nat) :
     ∀ (L : List Nat) (t : Array Nat), (L.foldl (fun t i => t.set! (f i) i) t).size = t.size
@@ -52,7 +52,7 @@ theorem foldl_set_get (f : Nat → Nat) :
     rcases List.mem_cons.1 hi with rfl | hi
     · rw [fold_other f (f i) L _ (fun j hj e => hnd.1 (List.mem_map.2 ⟨j, hj, e⟩))]
       have hs := hlt i List.mem_cons_self
-      simp [Array.set!_eq_setIfInBounds, getElem!_def, Array.getElem?_setIfInBounds, hs]
+      simp [Array.set!_eq_setIfInBounds, hs]
     · exact foldl_set_get f L _ hnd.2
         (fun j hj => by rw [Array.size_set!]; exact hlt j (List.mem_cons_of_mem x hj)) i hi
 
@@ -147,7 +147,7 @@ theorem gens : Certificates.Cert188002Gens := by
   have hk := k.2
   have hj := j.2
   have h := List.all_eq_true.1 (genAll hk) j.val (List.mem_range.2 hj)
-  have hg : genMatN k.val = genMat k := by rw [genMatN, dif_pos hk]
+  have hg : genMatN k.val = genMat k := by rw [genMatN, dite_eq_left hk]
   rw [actK, hg] at h
   simp only [Bool.and_eq_true, Bool.not_eq_true'] at h
   obtain ⟨⟨hnz, hlt⟩, heq⟩ := h

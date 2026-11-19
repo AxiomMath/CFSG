@@ -171,7 +171,7 @@ theorem sec7Adm_of_conj_tame (hSV : Sec7SVStatement) (hSW : Sec7SWStatement)
     rw [mem_conjSubgroup]
     simpa [mul_assoc] using htZ0
   have hxM : g * t * g⁻¹ ∈ M := hyM _ hxmem
-  have hx : ConjMod M Q t (g * t * g⁻¹) := ⟨hxM, g, hg, by simpa using Q.one_mem⟩
+  have hx : ConjMod M Q t (g * t * g⁻¹) := ⟨hxM, g, hg, by simp⟩
   have hxt : ⁅g * t * g⁻¹, t⁆ ∈ Q := hcomm _ hxmem
   exact ⟨hyM y hy, hcomm y hy,
     hSV G M Q Z B hc n t hs Z0 hZ0 g hg (hV G M Q Z B hc n t hs hno _ hx hxt) y hy,
@@ -218,7 +218,7 @@ theorem step76Eight_of_K (hKst : Step76EightKStatement) (h34 : Stroth34Statement
     (h52a : Stroth52aStatement) (hA : Sec7AExistsStatement) (hV : Step71VanishStatement) :
     Step76EEightStatement := by
   intro G _ _ M Q Z B hc n t hs hno h4 Z0 hZ0
-  haveI : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
+  have : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
   have hSV := sec7SV_of_parts h34 h310chi hZc hZV
   have hSW := sec7SW_of_parts h34 h310chi hZc hZV
   have hQZ0 : Q ≤ Z0 := hc.Q_le_centre hs.toSec5.mem hZ0

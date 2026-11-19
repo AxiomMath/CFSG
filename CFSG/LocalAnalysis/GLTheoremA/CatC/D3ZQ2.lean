@@ -21,15 +21,11 @@ theorem graph_mul_normal (ε : ℕ) (a : Fin Tag.D4.rank → Kˣ) (σ : K ≃+* 
       exactNormalAut Tag.D4 K (fun j => a ((d4Rho ^ ε).symm j)) σ 0 * d4Graph K ε := by
   refine mulAut_ext_adjX_adjY (fun i c => ?_) fun i c => ?_
   · rw [MulAut.mul_apply, MulAut.mul_apply, d4Graph_adjX]
-    change d4Graph K ε (exactNormalAut Tag.D4 K a σ 0 (adjX Tag.D4 K i c)) = _
     rw [exactNormalAut_adjX, d4Graph_adjX]
-    change _ = exactNormalAut Tag.D4 K _ σ 0 (adjX Tag.D4 K ((d4Rho ^ ε) i) c)
     rw [exactNormalAut_adjX]
     simp [exactPerm_D4]
   · rw [MulAut.mul_apply, MulAut.mul_apply, d4Graph_adjY]
-    change d4Graph K ε (exactNormalAut Tag.D4 K a σ 0 (adjY Tag.D4 K i c)) = _
     rw [exactNormalAut_adjY, d4Graph_adjY]
-    change _ = exactNormalAut Tag.D4 K _ σ 0 (adjY Tag.D4 K ((d4Rho ^ ε) i) c)
     rw [exactNormalAut_adjY]
     simp [exactPerm_D4]
 
@@ -182,7 +178,7 @@ theorem a4_inndiag {ε : ℕ} (hε : ε = 1 ∨ ε = 2) {g : adjointGroup Tag.D4
       (((hasField_diag d').mul hN₁f).mul hN₂f).mul hNf
     rw [hcancel] at h1
     simpa using h1.unique h2
-  haveI : IsCyclic (RingAut K) :=
+  have : IsCyclic (RingAut K) :=
     CFSG.ComponentClassification.CatalogueSchreierLinearTwo.fieldAut_isCyclic K
   have hcomm : ∀ ρ τ : K ≃+* K, ρ * τ = τ * ρ := fun ρ τ =>
     (IsCyclic.commGroup (α := RingAut K)).mul_comm ρ τ

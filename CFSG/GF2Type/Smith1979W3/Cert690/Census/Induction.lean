@@ -137,7 +137,7 @@ theorem lList_induction (C : Subgroup G) {ι : Type*} (Λ : ι → Set G) (A : S
     {t : G} (htA : t ∈ A) (htY : t ∈ Y) :
     ∃ j, ∃ c ∈ C, (fun x => c * x * c⁻¹) '' (Y : Set G) = Λ j := by
   classical
-  haveI : Finite Y := hYfin
+  have : Finite Y := hYfin
   have ht2 : t * t = 1 := hinv t htY
   have hcommY : ∀ y ∈ Y, ∀ z ∈ Y, y * z = z * y := by
     intro y hy z hz
@@ -168,7 +168,7 @@ theorem lList_induction (C : Subgroup G) {ι : Type*} (Λ : ι → Set G) (A : S
               intro a b hab
               apply Subtype.ext
               exact congrArg (fun x : Y => (x : G)) hab)
-        haveI : Finite Y' := hY'fin
+        have : Finite Y' := hY'fin
         obtain ⟨u, huY, huY'⟩ : ∃ u ∈ Y, u ∉ Y' := by
           by_contra! h
           exact hYY (le_antisymm hY'Y h)
@@ -218,7 +218,7 @@ theorem lList_induction (C : Subgroup G) {ι : Type*} (Λ : ι → Set G) (A : S
               intro a b hab
               apply Subtype.ext
               exact congrArg (fun x : Y => (x : G)) hab)
-        haveI : Finite Y'' := hY''fin
+        have : Finite Y'' := hY''fin
         have hY''set : (Y'' : Set G) = (Y' : Set G) ∪ (fun y => y * u) '' (Y' : Set G) :=
           sup_zpowers_eq_union hu2 (fun y hy => hcommY y (hY'Y hy) u huY)
         have hφY'' : (fun x => c * x * c⁻¹) '' (Y'' : Set G) =

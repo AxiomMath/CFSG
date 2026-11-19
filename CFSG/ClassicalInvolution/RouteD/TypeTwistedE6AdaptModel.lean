@@ -151,7 +151,6 @@ theorem false_of_commutes_linear_pair (hodd : Odd (Nat.card K))
           | exact T.bc | exact T.bc.symm | exact F.orth | exact F.orth.symm
           | exact o01 | exact o01.symm | exact o02 | exact o02.symm
           | exact o03 | exact o03.symm | exact o04 | exact o04.symm
-          | exact p01 | exact p01.symm | exact p02 | exact p02.symm
           | exact p03 | exact p03.symm | exact p04 | exact p04.symm
       exact hfam _ (isHypFam_of_pairs P hP)
 

@@ -49,7 +49,7 @@ theorem le_pRank_normalizerQuotient_of_borelWit {K : Type} [Group K] [Finite K] 
     (S : Subgroup K) (hS : IsSylowTwoOf S ⊤) :
     k ≤ CFSG.Open.pRank ℓ (⊤ : Subgroup (normalizerQuotient S)) ∧
       ℓ ^ k ∣ Nat.card (normalizerQuotient S) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, hS2, hSi⟩ := hS
   have hidx : ¬ 2 ∣ S.index := by
     rw [← Subgroup.relIndex_top_right (H := S)]

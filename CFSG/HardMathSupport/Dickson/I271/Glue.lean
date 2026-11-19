@@ -127,10 +127,10 @@ theorem caseA_of_planeGen {p : ℕ} {K B : Subgroup X} (hH : I271Hyp p K B)
     (hc : 2 ≤ CFSG.Open.pRank p (B ⊓ Subgroup.centralizer (K : Set X)))
     (hZ : CFSG.Open.pRank p (Subgroup.center ↥K) ≤ 1)
     (E : Subgroup (MulAut (↥K ⧸ Subgroup.center ↥K))) (hE : E ≤ autImage B K)
-    (hEel : IsElemAbelian p E) (hEcard : Nat.card E = p ^ 2)
+    (hEel : IsElemAbelian p E) (_hEcard : Nat.card E = p ^ 2)
     (hgen : Subgroup.closure {s : ↥K ⧸ Subgroup.center ↥K | ∃ e ∈ E, e ≠ 1 ∧ e s = s} = ⊤) :
     I271CaseA p K B := by
-  haveI : Fact p.Prime := ⟨hH.prime⟩
+  have : Fact p.Prime := ⟨hH.prime⟩
   have hperf : commutator ↥K = ⊤ := (i116e_isQuasisimple hH.core hH.comp).1
   have hlift := centerLift_of_hyp hH hBN hZ
   have hBel : IsElemAbelian p B := hH.scp.2.1
@@ -160,7 +160,7 @@ theorem caseA_of_hyperGen3 {p : ℕ} {K B : Subgroup X} (hH : I271Hyp p K B)
     (hgen : Subgroup.closure {s : ↥K ⧸ Subgroup.center ↥K |
       ∃ F ≤ E, F.relIndex E = p ∧ ∀ f ∈ F, f s = s} = ⊤) :
     I271CaseA p K B := by
-  haveI : Fact p.Prime := ⟨hH.prime⟩
+  have : Fact p.Prime := ⟨hH.prime⟩
   have hperf : commutator ↥K = ⊤ := (i116e_isQuasisimple hH.core hH.comp).1
   have hlift := centerLift_of_hyp hH hBN hZ
   have hBel : IsElemAbelian p B := hH.scp.2.1

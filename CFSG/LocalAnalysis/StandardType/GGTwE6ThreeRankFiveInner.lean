@@ -87,7 +87,7 @@ theorem conj_rootDiagUnit_mem_Cgrp_of_nine_dvd {ℓ f : ℕ} [Fact ℓ.Prime] (h
     {ζ : Ωˣ} (hζ : ζ ^ 3 = 1) (v : Fin Tag.E6.rank → ZMod 3) :
     g * rootDiagUnit Tag.E6 (TableBExc.E6Three.zetaVec ζ hζ v) * g⁻¹ ∈ TwistedDiag.Cgrp K σ Ω := by
   classical
-  haveI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
   obtain ⟨η, hη9, hη3⟩ := exists_pow_nine_eq_one_and_pow_three_eq (Ω := Ω) hζ
   set b : Fin Tag.E6.rank → Ωˣ := fun i => η ^ (v i).val with hb
   have hb3 : b ^ 3 = TableBExc.E6Three.zetaVec ζ hζ v := by
@@ -115,7 +115,7 @@ theorem conj_rootDiagUnit_mem_Cgrp_of_nine_dvd {ℓ f : ℕ} [Fact ℓ.Prime] (h
   have h3 : 3 ∣ ℓ ^ f + 1 := dvd_trans (by norm_num : 3 ∣ 9) h9
   obtain ⟨-, -, hCnorm, hCidx, -⟩ := TwistedDiag.cgrp_facts hf K hK σ hσ h3 Ω Fr hFr
   have hx3C : (g * rootDiagUnit Tag.E6 b * g⁻¹) ^ 3 ∈ TwistedDiag.Cgrp K σ Ω := by
-    haveI : ((TwistedDiag.Cgrp K σ Ω).subgroupOf (TwistedDiag.Rgrp Ω Fr)).Normal := hCnorm
+    have : ((TwistedDiag.Cgrp K σ Ω).subgroupOf (TwistedDiag.Rgrp Ω Fr)).Normal := hCnorm
     have h := Subgroup.pow_index_mem ((TwistedDiag.Cgrp K σ Ω).subgroupOf
       (TwistedDiag.Rgrp Ω Fr)) (⟨g * rootDiagUnit Tag.E6 b * g⁻¹, hxR⟩ :
         TwistedDiag.Rgrp Ω Fr)

@@ -29,7 +29,7 @@ private theorem mem_normalizer_of_forall_conj_mem' {H : Subgroup G} [Finite H] {
     exact mul_left_cancel (mul_right_cancel hval)
   exact hzy ▸ z.2
 
-theorem comm_mem_of_relIndex_two [Finite G] {W M : Subgroup G} {x : G} (hMW : M ≤ W)
+theorem comm_mem_of_relIndex_two [Finite G] {W M : Subgroup G} {x : G} (_hMW : M ≤ W)
     (h2 : M.relIndex W = 2) (hxW : ∀ w ∈ W, x * w * x⁻¹ ∈ W)
     (hxM : ∀ m ∈ M, x * m * x⁻¹ ∈ M) : ∀ w ∈ W, ⁅x, w⁆ ∈ M := by
   have hxM' : x ∈ normalizer (M : Set G) := mem_normalizer_of_forall_conj_mem' hxM
@@ -47,7 +47,7 @@ theorem comm_mem_of_relIndex_two [Finite G] {W M : Subgroup G} {x : G} (hMW : M 
     rw [Subgroup.mem_subgroupOf] at hmem
     simpa [commutatorElement_def] using hmem
 
-theorem comm_mem_of_comm_mul_eq_one {A' B' M : Subgroup G} {x y t : G} (hMA : M ≤ A')
+theorem comm_mem_of_comm_mul_eq_one {A' B' M : Subgroup G} {x y t : G} (_hMA : M ≤ A')
     (hMB : M ≤ B') (hAB : ∀ g ∈ A', g ∈ B' → g ∈ M) (hxB : ∀ b ∈ B', ⁅x, b⁆ ∈ M)
     (hxM : ∀ m ∈ M, x⁻¹ * m * x ∈ M) (hxt : ⁅x, t⁆ ∈ A') (hyt : ⁅y, t⁆ ∈ B')
     (h : ⁅x * y, t⁆ = 1) : ⁅x, t⁆ ∈ M ∧ ⁅y, t⁆ ∈ M := by

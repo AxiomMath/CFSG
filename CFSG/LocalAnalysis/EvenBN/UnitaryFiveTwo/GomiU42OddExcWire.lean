@@ -28,7 +28,7 @@ theorem gomi_exists_simple_component_congr {A B : Type*} [Group A] [Group B] (φ
       φ.injective).trans
       (MulEquiv.subgroupCongr (CFSG.LocalAnalysis.SteinbergBM.map_eqLocus_mulAut_congr φ α))
   let eL : L ≃* L.map Ψ.toMonoidHom := L.equivMapOfInjective Ψ.toMonoidHom Ψ.injective
-  haveI := hLs
+  have := hLs
   refine ⟨L.map Ψ.toMonoidHom, CFSG.LocalCores.isComponent_map_mulEquiv Ψ hL,
     eL.symm.isSimpleGroup, ?_, Subgroup.card_map_of_injective Ψ.injective⟩
   obtain ⟨x, y, hxy⟩ := hLnab

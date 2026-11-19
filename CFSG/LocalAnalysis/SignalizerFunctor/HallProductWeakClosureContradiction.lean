@@ -83,7 +83,7 @@ theorem incomplete_abelian_hall_product_weak_closure_contradiction (kernel : Sub
   let target := (sylow : Subgroup parent).map parent.subtype
   let weak := relativeWeakClosure parent kernel target
   let localParent := parent ⊓ Subgroup.normalizer (weak : Set GroupType)
-  have weak_prime : IsPGroup kernelPrime weak := (sylow.isPGroup'.map parent.subtype).to_le
+  have weak_prime : IsPGroup kernelPrime weak := (sylow.isPGroup.map parent.subtype).to_le
     (relative_weak_closure_le parent kernel target)
   have weak_coprime := prime_coprime_pgroup_card groupPrime kernelPrime datum.groupPrime_prime kernelPrime_prime
     kernelPrime_distinct.symm weak_prime

@@ -218,7 +218,7 @@ theorem disjoint_X0_zpowers_proj_swapSp [Finite K] (h2 : (2 : K) ≠ 0) :
   rw [disjoint_iff]
   let g := proj 2 K (swapSp K)
   have hord : orderOf g = 2 := orderOf_proj_swapSp h2
-  haveI : Finite (Subgroup.zpowers g) := by
+  have : Finite (Subgroup.zpowers g) := by
     rw [finite_zpowers, ← orderOf_pos_iff, hord]
     norm_num
   have hdvd : Nat.card ↥(X0 K ⊓ Subgroup.zpowers g) ∣ 2 := by

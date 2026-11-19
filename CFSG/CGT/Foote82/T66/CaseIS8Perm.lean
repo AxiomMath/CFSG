@@ -13,8 +13,8 @@ open Equiv Equiv.Perm
 
 variable {α : Type*} [DecidableEq α]
 
-theorem swap_mul_swap_mul_self {a b d e : α} (had : a ≠ d) (hab : a ≠ b) (hae : a ≠ e)
-    (hdb : d ≠ b) (hde : d ≠ e) (hbe : b ≠ e) :
+theorem swap_mul_swap_mul_self {a b d e : α} (_had : a ≠ d) (hab : a ≠ b) (hae : a ≠ e)
+    (hdb : d ≠ b) (hde : d ≠ e) (_hbe : b ≠ e) :
     (swap a d * swap b e) * (swap a d * swap b e) = 1 := by
   have hc : swap a d * swap b e = swap b e * swap a d := by
     refine (Equiv.Perm.Disjoint.commute ?_).eq

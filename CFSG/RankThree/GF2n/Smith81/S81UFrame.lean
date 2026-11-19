@@ -30,30 +30,22 @@ theorem frameMat_mul_frameInv {ω : F} (hω : ω + σ ω = 1) :
   have h2 : (2 : F) = 0 := CharTwo.two_eq_zero
   ext i k
   fin_cases i <;> fin_cases k <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_six, frameMat, frameInv, Matrix.one_apply,
-      CharTwo.add_self_eq_zero]
+    simp [Matrix.mul_apply, Fin.sum_univ_six, frameMat, frameInv, CharTwo.add_self_eq_zero]
   all_goals
     first
     | linear_combination hω
-    | linear_combination h2
-    | linear_combination (ω * σ ω) * h2
-    | linear_combination ω * h2
-    | linear_combination σ ω * h2
 
 theorem frameInv_mul_frameMat {ω : F} (hω : ω + σ ω = 1) :
     frameInv σ ω * frameMat σ ω = 1 := by
   have h2 : (2 : F) = 0 := CharTwo.two_eq_zero
   ext i k
   fin_cases i <;> fin_cases k <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_six, frameMat, frameInv, Matrix.one_apply,
-      CharTwo.add_self_eq_zero]
+    simp [Matrix.mul_apply, Fin.sum_univ_six, frameMat, frameInv, CharTwo.add_self_eq_zero]
   all_goals
     first
     | linear_combination hω
     | linear_combination h2
     | linear_combination (ω * σ ω) * h2
-    | linear_combination ω * h2
-    | linear_combination σ ω * h2
 
 theorem conjTr_frameMat_mul (hσ : ∀ c, σ (σ c) = c) {ω : F} (hω : ω + σ ω = 1) :
     conjTr σ (frameMat σ ω) * frameMat σ ω = hypGram F := by
@@ -67,8 +59,6 @@ theorem conjTr_frameMat_mul (hσ : ∀ c, σ (σ c) = c) {ω : F} (hω : ω + σ
     | linear_combination hω
     | linear_combination h2
     | linear_combination (ω * σ ω) * h2
-    | linear_combination ω * h2
-    | linear_combination σ ω * h2
 
 @[expose] noncomputable def frameGL (σ : F ≃+* F) (ω : F) (hω : ω + σ ω = 1) : GL (Fin 6) F where
   val := frameMat σ ω
@@ -79,6 +69,7 @@ theorem conjTr_frameMat_mul (hσ : ∀ c, σ (σ c) = c) {ω : F} (hω : ω + σ
 theorem frameGL_val (ω : F) (hω : ω + σ ω = 1) :
     ((frameGL σ ω hω : GL (Fin 6) F) : Matrix (Fin 6) (Fin 6) F) = frameMat σ ω := rfl
 
+omit [CharP F 2] in
 theorem frameMat_mulVec_even (ω : F) (j : Fin 3) :
     (frameMat σ ω).mulVec (Pi.single (⟨2 * j.val, by omega⟩ : Fin 6) (1 : F)) = e3uT0Vec j := by
   funext r
@@ -86,11 +77,12 @@ theorem frameMat_mulVec_even (ω : F) (j : Fin 3) :
   have h2 : (2 * j.val) % 2 = 0 := by omega
   simp [Matrix.mulVec, dotProduct, Pi.single_apply, frameMat, e3uT0Vec, h1, h2]
 
+omit [CharP F 2] in
 theorem pt0_eq_ιMulti_T0 : pt0 F = exteriorPower.ιMulti F 3 e3uT0Vec := by
   unfold pt0
   congr 1
   funext i
-  fin_cases i <;> funext r <;> fin_cases r <;> simp [e3uT0Vec, Pi.single_apply]
+  fin_cases i <;> funext r <;> fin_cases r <;> simp [e3uT0Vec]
 
 theorem rho_frameGL_p0 (ω : F) (hω : ω + σ ω = 1) :
     rho F (frameGL σ ω hω : GL (Fin 6) F) (p0 F) = pt0 F := by
@@ -136,7 +128,7 @@ theorem frame_conj_mem_SUid (hσ : ∀ c, σ (σ c) = c) {ω : F} (hω : ω + σ
           simp only [conjTr_mul, Matrix.mul_assoc]
       _ = 1 := by rw [hS, conjTr_one, Matrix.one_mul]
 
-theorem frame_conj_unip_of_mem_U0Sub (hσ : IsUnitaryInvolution σ) {ω : F} (hω : ω + σ ω = 1)
+theorem frame_conj_unip_of_mem_U0Sub (_hσ : IsUnitaryInvolution σ) {ω : F} (hω : ω + σ ω = 1)
     {g : SUid σ 6} (hg : g ∈ e3uU0Sub σ) :
     (frameGL σ ω hω)⁻¹ * (g : GL (Fin 6) F) * frameGL σ ω hω ∈ UnipGL F (S0 F) := by
   have hfix : ∀ i : Fin 3, ((g : GL (Fin 6) F) : Matrix (Fin 6) (Fin 6) F).mulVec (e3uT0Vec i) =
@@ -290,28 +282,28 @@ private theorem longRoot_hyp_conj {a b : Fin 6} (ha : a.val % 2 = 0) (hb : b.val
       rw [Fin.ext_iff]; omega
     simp only [hypGram, Matrix.of_apply]
     by_cases h : b = y
-    · rw [if_pos h, if_pos (key.mpr h)]
+    · rw [ite_eq_left h, ite_eq_left (key.mpr h)]
     · have hP : ¬ (a.val / 2 = y.val / 2 ∧ a.val % 2 ≠ y.val % 2) := fun hk => h (key.mp hk)
-      rw [if_neg h, if_neg hP]
+      rw [ite_eq_right h, ite_eq_right hP]
   have hB : ∀ x : Fin 6, hypGram F x a = if b = x then 1 else 0 := by
     intro x
     have key : (x.val / 2 = a.val / 2 ∧ x.val % 2 ≠ a.val % 2) ↔ b = x := by
       rw [Fin.ext_iff]; omega
     simp only [hypGram, Matrix.of_apply]
     by_cases h : b = x
-    · rw [if_pos h, if_pos (key.mpr h)]
+    · rw [ite_eq_left h, ite_eq_left (key.mpr h)]
     · have hP : ¬ (x.val / 2 = a.val / 2 ∧ x.val % 2 ≠ a.val % 2) := fun hk => h (key.mp hk)
-      rw [if_neg h, if_neg hP]
+      rw [ite_eq_right h, ite_eq_right hP]
   have H1 : Matrix.single b a (1 : F) * hypGram F = Matrix.single b b (1 : F) := by
     ext x y
     by_cases hx : x = b
     · rw [hx]; simp [hA, Matrix.single_apply]
-    · simp [hx, Ne.symm hx, Matrix.single_apply]
+    · simp [hx, Ne.symm hx]
   have H2 : hypGram F * Matrix.single a b (1 : F) = Matrix.single b b (1 : F) := by
     ext x y
     by_cases hy : y = b
     · rw [hy]; simp [hB, Matrix.single_apply]
-    · simp [hy, Ne.symm hy, Matrix.single_apply]
+    · simp [hy, Ne.symm hy]
   have hsum : Matrix.single b b (1 : F) + Matrix.single b b (1 : F) = 0 := by
     rw [← Matrix.single_add, CharTwo.add_self_eq_zero, Matrix.single_zero]
   have h0 : Matrix.single b b (1 : F) * Matrix.single a b (1 : F) = 0 := by
@@ -331,7 +323,7 @@ private theorem longRoot_mulVec_fix {ω : F} (hω : ω + σ ω = 1) {a b : Fin 6
     have h2 : b.val = 2 * i.val := congrArg Fin.val h
     omega
   have hv : ((Pi.single (⟨2 * i.val, by omega⟩ : Fin 6) (1 : F) : Fin 6 → F)) b = 0 := by
-    rw [Pi.single_apply, if_neg hbi]
+    rw [Pi.single_apply, ite_eq_right hbi]
   have hTp : Matrix.transvection a b (1 : F) *ᵥ
       (Pi.single (⟨2 * i.val, by omega⟩ : Fin 6) (1 : F) : Fin 6 → F) =
       (Pi.single (⟨2 * i.val, by omega⟩ : Fin 6) (1 : F) : Fin 6 → F) := by
@@ -370,7 +362,8 @@ theorem exists_longRoot (hσ : IsUnitaryInvolution σ) {ω : F} (hω : ω + σ �
         (by intro h; have := congrArg Fin.val h; simp at this) 1 * (frameGL σ ω hω)⁻¹ := by
   exact longRoot_exists hσ hω (by simp) (by simp) _
 
-theorem smul_mem_Fq_of_mem_Wsub (hσ : ∀ c, σ (σ c) = c) {v p : Cube F} (hv : v ∈ Wsub σ)
+omit [CharP F 2] in
+theorem smul_mem_Fq_of_mem_Wsub (_hσ : ∀ c, σ (σ c) = c) {v p : Cube F} (hv : v ∈ Wsub σ)
     (hp : p ∈ Wsub σ) (hp0 : p ≠ 0) {c : F} (h : v = c • p) : σ c = c := by
   have hv' : theta σ v = v := mem_Wsub_iff.mp hv
   have hp' : theta σ p = p := mem_Wsub_iff.mp hp
@@ -391,7 +384,7 @@ theorem smul_mem_Fq_of_mem_Wsub (hσ : ∀ c, σ (σ c) = c) {v p : Cube F} (hv 
     else if i.val = 4 then (if j.val = 4 then a else c)
     else (if j.val = 4 then b else d)
 
-theorem pairBlock_unitary (hσ : ∀ c, σ (σ c) = c) {a b c d : F} (ha : σ a = a) (hb : σ b = b)
+theorem pairBlock_unitary (_hσ : ∀ c, σ (σ c) = c) {a b c d : F} (ha : σ a = a) (hb : σ b = b)
     (hc : σ c = c) (hd : σ d = d) (hdet : a * d + b * c = 1) :
     conjTr σ (pairBlock a b c d) * hypGram F * pairBlock a b c d = hypGram F ∧
       (pairBlock a b c d).det = 1 ∧ (pairBlock a b c d).det ≠ 0 := by
@@ -425,33 +418,40 @@ private noncomputable def u6lR0 (L : Type) [Field L] : Cube L :=
 private def u6lJ : Set.powersetCard (Fin 6) 3 :=
   tripleSet 0 2 5 (by decide) (by decide) (by decide)
 
+omit [CharP F 2] in
 private theorem u6l_mem_S0_iff {v : Fin 6 → F} : v ∈ S0 F ↔ ∀ j : Fin 6, j.val % 2 = 1 → v j = 0 :=
   Iff.rfl
 
+omit [CharP F 2] in
 private theorem u6l_mem_UnipGL_iff {X : GL (Fin 6) F} :
     X ∈ UnipGL F (S0 F) ↔ (X : Matrix (Fin 6) (Fin 6) F).det = 1 ∧
       (∀ v : Fin 6 → F, (X : Matrix (Fin 6) (Fin 6) F).mulVec v - v ∈ S0 F) ∧
       ∀ s ∈ S0 F, (X : Matrix (Fin 6) (Fin 6) F).mulVec s = s :=
   Iff.rfl
 
+omit [CharP F 2] in
 private theorem u6l_e_mem_S0 {i : Fin 6} (hi : i.val % 2 = 0) : e F i ∈ S0 F := by
   refine u6l_mem_S0_iff.mpr fun j hj => ?_
   have hji : j ≠ i := fun h => by subst h; omega
-  simp [e, Pi.single_apply, hji]
+  simp [e, hji]
 
+omit [CharP F 2] in
 private theorem u6l_pair_e0 (a b c d : F) : (pairBlock a b c d).mulVec (e F 0) = e F 0 := by
   funext j
-  fin_cases j <;> simp [Matrix.mulVec, dotProduct, Fin.sum_univ_six, pairBlock, e, Pi.single_apply]
+  fin_cases j <;> simp [Matrix.mulVec, dotProduct, pairBlock, e, Pi.single_apply]
 
+omit [CharP F 2] in
 private theorem u6l_pair_e2 (a b c d : F) : (pairBlock a b c d).mulVec (e F 2) = e F 2 := by
   funext j
-  fin_cases j <;> simp [Matrix.mulVec, dotProduct, Fin.sum_univ_six, pairBlock, e, Pi.single_apply]
+  fin_cases j <;> simp [Matrix.mulVec, dotProduct, pairBlock, e, Pi.single_apply]
 
+omit [CharP F 2] in
 private theorem u6l_pair_e4 (a b c d : F) :
     (pairBlock a b c d).mulVec (e F 4) = a • e F 4 + b • e F 5 := by
   funext j
-  fin_cases j <;> simp [Matrix.mulVec, dotProduct, Fin.sum_univ_six, pairBlock, e, Pi.single_apply]
+  fin_cases j <;> simp [Matrix.mulVec, dotProduct, pairBlock, e, Pi.single_apply]
 
+omit [CharP F 2] in
 private theorem u6l_pair_rho (g : GL (Fin 6) F) {a b c d : F}
     (hg : (g : Matrix (Fin 6) (Fin 6) F) = pairBlock a b c d) :
     rho F g (p0 F) = a • p0 F + b • u6lR0 F := by
@@ -472,10 +472,12 @@ private theorem u6l_pair_rho (g : GL (Fin 6) F) {a b c d : F}
     · exact h4
   rw [hv, ι3_add_thd, ι3_smul_thd, ι3_smul_thd]
 
+omit [CharP F 2] in
 private theorem u6l_rho_inv_rho (S : GL (Fin 6) F) (v : Cube F) :
     rho F S⁻¹ (rho F S v) = v := by
   rw [← rho_mul_apply, inv_mul_cancel, rho_one, Module.End.one_apply]
 
+omit [CharP F 2] in
 private theorem u6l_rho_conj (S X : GL (Fin 6) F) (v : Cube F) :
     rho F (S * X * S⁻¹) (rho F S v) = rho F S (rho F X v) := by
   rw [rho_mul_apply, rho_mul_apply, u6l_rho_inv_rho]
@@ -497,6 +499,7 @@ private theorem u6l_rho_conj_pt0 {ω : F} (hω : ω + σ ω = 1) {a b c d : F} {
     _ = a • pt0 F + b • rho F (frameGL σ ω hω) (u6lR0 F) := by
         rw [map_add, map_smul, map_smul, rho_frameGL_p0]
 
+omit [CharP F 2] in
 private theorem u6l_iota_e02 (t : Fin 6 → F) (ht : ∀ j : Fin 6, j.val % 2 = 1 → t j = 0) :
     ιMulti F 3 ![e F 0, e F 2, e F 5 + t] =
       ιMulti F 3 ![e F 0, e F 2, e F 5] + t 4 • ιMulti F 3 ![e F 0, e F 2, e F 4] := by
@@ -505,10 +508,11 @@ private theorem u6l_iota_e02 (t : Fin 6 → F) (ht : ∀ j : Fin 6, j.val % 2 = 
     have h3 := ht 3 (by decide)
     have h5 := ht 5 (by decide)
     funext j
-    fin_cases j <;> simp [e, Pi.single_apply, h1, h3, h5]
+    fin_cases j <;> simp [e, h1, h3, h5]
   conv_lhs => rw [hdec]
   simp only [ι3_add_thd, ι3_smul_thd, ι3_eq_fst_thd, ι3_eq_snd_thd, smul_zero, add_zero, zero_add]
 
+omit [CharP F 2] in
 private theorem u6l_rho_unip_r0 {X : GL (Fin 6) F} (hX : X ∈ UnipGL F (S0 F)) :
     ∃ s : F, rho F X (u6lR0 F) - u6lR0 F = s • p0 F := by
   obtain ⟨-, hX2, hX3⟩ := u6l_mem_UnipGL_iff.mp hX
@@ -534,17 +538,20 @@ private theorem u6l_pt0_diff {ω : F} (hω : ω + σ ω = 1) {X : GL (Fin 6) F} 
       s • pt0 F := by
   rw [← map_sub, hs, map_smul, rho_frameGL_p0]
 
+omit [CharP F 2] in
 private theorem u6l_coord_r0 : coord F (u6lR0 F) u6lJ = 1 := by
   unfold u6lR0
   rw [coord_ιMulti_e_sorted (i := 0) (j := 2) (k := 5) (by decide) (by decide)]
   have h : u6lJ.val = ({0, 2, 5} : Finset (Fin 6)) := rfl
-  rw [if_pos h]
+  rw [ite_eq_left h]
 
+omit [CharP F 2] in
 private theorem u6l_coord_p0 : coord F (p0 F) u6lJ = 0 := by
   rw [p0_eq, coord_ιMulti_e_sorted (i := 0) (j := 2) (k := 4) (by decide) (by decide)]
   have h : ¬ (u6lJ.val = ({0, 2, 4} : Finset (Fin 6))) := by decide
-  rw [if_neg h]
+  rw [ite_eq_right h]
 
+omit [CharP F 2] in
 private theorem u6l_exists_cd {a b : F} (ha : σ a = a) (hb : σ b = b) (h : a ≠ 0 ∨ b ≠ 0) :
     ∃ c d : F, σ c = c ∧ σ d = d ∧ a * d + b * c = 1 := by
   rcases h with h | h
@@ -573,6 +580,7 @@ open CFSG.RankThree.GF2n.Smith81.U6Cube CFSG.RankThree.GF2n.Smith81.A5Cube
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {σ : F ≃+* F} {K : Type} [Field K]
   {e : K ≃+* Fσ σ}
 
+omit [Finite F] in
 theorem u6_U0_fix : ∀ u ∈ e3uU0 σ e, u (e3uP0 σ e) = e3uP0 σ e := by
   intro u hu
   have hu' : u ∈ (e3uU0Sub σ).map (e3uWact σ e) := hu
@@ -597,6 +605,7 @@ theorem exists_pair_of_two_odd (s : Finset (Fin 6)) (hs : s.card = 3)
   revert s
   decide
 
+omit [Finite F] [CharP F 2] in
 private theorem coord_eq_zero_of_root_fix {a b : Fin 6} (hab : a.val + 1 = b.val) (hne : a ≠ b)
     (t : F) (ξ : Cube F) (I : Set.powersetCard (Fin 6) 3) (hbI : b ∈ I.val) (haI : a ∉ I.val)
     (c : Fin 6) (hcI : c ∈ I.val) (hc : c.val % 2 = 1) (hcb : c ≠ b)
@@ -614,9 +623,9 @@ private theorem coord_eq_zero_of_root_fix {a b : Fin 6} (hab : a.val + 1 = b.val
       exact hcJ
     exact odd_not_mem_S024 c hc hcS
   have hp0 : coord F (p0 F) J = 0 := by
-    rw [p0, coord_cubeBasis, if_neg hSJ]
+    rw [p0, coord_cubeBasis, ite_eq_right hSJ]
   have key := coord_rho_transvGL (Or.inl hab) hne 1 ξ J
-  rw [dif_pos hJc, one_mul] at key
+  rw [dite_eq_left hJc, one_mul] at key
   have hW : coord F ξ (replSet J b a hJc.1 hJc.2) = coord F ξ I := by
     rw [hIJ]
   have h1 : coord F (rho F (transvGL F a b hne 1) ξ - ξ) J = coord F (t • p0 F) J := by
@@ -624,6 +633,7 @@ private theorem coord_eq_zero_of_root_fix {a b : Fin 6} (hab : a.val + 1 = b.val
   rw [coord_sub, coord_smul, hp0, mul_zero] at h1
   linear_combination h1 - key - hW
 
+omit [Finite F] in
 theorem coord_hat_eq_zero_of_mem_Wsp (hσ : IsUnitaryInvolution σ) {ω : F} (hω : ω + σ ω = 1)
     {ξ : E3UWspace σ e} (hξ : ξ ∈ Wsp (Submodule.span K {e3uP0 σ e}) (e3uU0 σ e))
     (I : Set.powersetCard (Fin 6) 3)
@@ -654,15 +664,19 @@ theorem coord_hat_eq_zero_of_mem_Wsp (hσ : IsUnitaryInvolution σ) {ω : F} (h�
   exact coord_eq_zero_of_root_fix (a := ⟨2 * j.val, by omega⟩) (b := ⟨2 * j.val + 1, by omega⟩)
     rfl hne _ _ I hbI haI c hcI hc hcb hmain
 
+omit [Finite F] [CharP F 2] in
 private theorem u6W_e3uVal_sub (w w' : E3UWspace σ e) :
     e3uVal (w - w') = e3uVal w - e3uVal w' := rfl
 
+omit [Finite F] [CharP F 2] in
 private theorem u6W_e3uVal_mem (w : E3UWspace σ e) : e3uVal w ∈ U6Cube.Wsub σ :=
   U6Cube.mem_Wform_iff.mp (show U6Cube.Wform σ from w).2
 
+omit [Finite F] [CharP F 2] in
 private theorem u6W_e3uVal_eq_zero {w : E3UWspace σ e} (h : e3uVal w = 0) : w = 0 :=
   Subtype.ext h
 
+omit [Finite F] in
 private theorem u6W_descent {ω : F} (hω : ω + σ ω = 1)
     {x y : Cube F} (hx : x ∈ U6Cube.Wsub σ) (hy : y ∈ U6Cube.Wsub σ) (h : x + ω • y = 0) :
     x = 0 ∧ y = 0 := by
@@ -746,6 +760,7 @@ theorem u6_W_le (hσ : IsUnitaryInvolution σ) [Finite K] (hF : Nat.card F = Nat
   rw [h10] at key
   exact Nat.mul_self_le_mul_self_iff.mp key
 
+omit [Finite F] in
 theorem u6_line (hσ : IsUnitaryInvolution σ) :
     ∃ g₁ ∈ e3uGam σ e, g₁ (e3uP0 σ e) ∈ Wsp (Submodule.span K {e3uP0 σ e}) (e3uU0 σ e) ∧
       g₁ (e3uP0 σ e) ∉ Submodule.span K {e3uP0 σ e} ∧
@@ -833,19 +848,23 @@ theorem u6_line (hσ : IsUnitaryInvolution σ) :
       rw [hadd, hsmul, hsmul, hP0, hP1]
     exact hL.trans hR.symm
 
+omit [Finite F] [CharP F 2] in
 private theorem u6ML_rho_conj (S s : GL (Fin 6) F) (v : Cube F) :
     rho F (S⁻¹ * s * S) v = rho F S⁻¹ (rho F s (rho F S v)) := by
   rw [rho_mul_apply, rho_mul_apply]
 
+omit [Finite F] [CharP F 2] in
 private theorem u6ML_rho_comm {S X Z : GL (Fin 6) F} (h : S * X = Z * S) (v : Cube F) :
     rho F S (rho F X v) = rho F Z (rho F S v) := by
   rw [← rho_mul_apply, ← rho_mul_apply, h]
 
+omit [Finite F] [CharP F 2] in
 private theorem u6ML_det_conj (S s : GL (Fin 6) F) (hs : (s : Matrix (Fin 6) (Fin 6) F).det = 1) :
     ((S⁻¹ * s * S : GL (Fin 6) F) : Matrix (Fin 6) (Fin 6) F).det = 1 := by
   rw [Units.val_mul, Units.val_mul, Matrix.det_mul, Matrix.det_mul, hs, mul_one,
     ← Matrix.det_mul, ← Units.val_mul, inv_mul_cancel, Units.val_one, Matrix.det_one]
 
+omit [Finite F] [CharP F 2] in
 private theorem u6ML_rho_ne_zero (s : GL (Fin 6) F) {v : Cube F} (hv : v ≠ 0) :
     rho F s v ≠ 0 := by
   intro h
@@ -854,18 +873,24 @@ private theorem u6ML_rho_ne_zero (s : GL (Fin 6) F) {v : Cube F} (hv : v ≠ 0) 
     rw [← rho_mul_apply, inv_mul_cancel, rho_one, Module.End.one_apply]
   rw [← h2, h, map_zero]
 
+omit [Finite F] [CharP F 2] in
 private theorem u6ML_val_add (x y : E3UWspace σ e) : e3uVal (x + y) = e3uVal x + e3uVal y := rfl
 
+omit [Finite F] [CharP F 2] in
 private theorem u6ML_val_sub (x y : E3UWspace σ e) : e3uVal (x - y) = e3uVal x - e3uVal y := rfl
 
+omit [Finite F] [CharP F 2] in
 private theorem u6ML_val_smul (c : K) (x : E3UWspace σ e) :
     e3uVal (c • x) = ((e c : Fσ σ) : F) • e3uVal x := rfl
 
+omit [Finite F] [CharP F 2] in
 private theorem u6ML_val_p0 : e3uVal (e3uP0 σ e) = pt0 F := rfl
 
+omit [Finite F] [CharP F 2] in
 private theorem u6ML_val_mem (x : E3UWspace σ e) : e3uVal x ∈ Wsub σ :=
   mem_Wform_iff.mp (show Wform σ from x).2
 
+omit [Finite F] [CharP F 2] in
 private theorem u6ML_inj {x y : E3UWspace σ e} (h : e3uVal x = e3uVal y) : x = y :=
   Subtype.ext h
 

@@ -12,9 +12,10 @@ section Abstract
 
 variable {H : Type*} [Group H] [Finite H]
 
+omit [Finite H] in
 theorem eq_one_of_pgroup_of_coprime {P Q : Subgroup H} (hP : IsPGroup 3 P)
     (hQ : Nat.Coprime 3 (Nat.card Q)) {x : H} (hxP : x ∈ P) (hxQ : x ∈ Q) : x = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, hk⟩ := hP ⟨x, hxP⟩
   have h1 : orderOf x ∣ 3 ^ k := by
     have : orderOf (⟨x, hxP⟩ : P) ∣ 3 ^ k := orderOf_dvd_of_pow_eq_one hk
@@ -33,7 +34,7 @@ theorem sylow_lift_pgroup (Q : Subgroup H) [Q.Normal] (hQ : Nat.Coprime 3 (Nat.c
     ∃ P : Subgroup H, P ≤ D ∧ c₀ ∈ P ∧ IsPGroup 3 P ∧ Nat.card P = Nat.card T ∧
       P.map (QuotientGroup.mk' Q) = T := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let c' : ↥D := ⟨c₀, hc₀D⟩
   have hz : IsPGroup 3 (Subgroup.zpowers c') := by
     obtain ⟨k, hk⟩ := hc₀3 ⟨c₀, Subgroup.mem_zpowers c₀⟩
@@ -96,8 +97,8 @@ theorem cq_lift_pgroup {U : Subgroup G} {b : G} (hb : b ∈ Nor U) (hb3 : b ^ 3 
     (hc₀ : (QuotientGroup.mk c₀ : CQ U) ∈ T) :
     ∃ T' : Subgroup G, T' ≤ Cen b ⊓ CenS U ∧ (c₀ : G) ∈ T' ∧ IsPGroup 3 T' ∧
       Nat.card T' = Nat.card T ∧ cqImg U T' = T := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : (pPrimeCore 3 ↥(CenS U)).Normal := pPrimeCore_normal
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : (pPrimeCore 3 ↥(CenS U)).Normal := pPrimeCore_normal
   let D : Subgroup ↥(CenS U) :=
     T.comap (QuotientGroup.mk' (pPrimeCore 3 ↥(CenS U))) ⊓ (Cen b).subgroupOf (CenS U)
   have hDmem : ∀ c : ↥(CenS U), c ∈ D ↔

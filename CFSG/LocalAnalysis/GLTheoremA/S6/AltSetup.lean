@@ -30,11 +30,13 @@ theorem AltSetup.toCommon {B : Subgroup G} {x : G} {L : Subgroup G} {n : ℕ} {y
     {J : Subgroup G} (S : AltSetup p B x L n y J) : AltCommon p B x L n :=
   ⟨S.alt, S.three_mul_le, S.seven_lt, S.B_eq, S.rank_L, S.rank_B⟩
 
+omit [Finite G] in
 theorem altDxy_eq_closure (x y : G) : altDxy x y = Subgroup.closure {x, y} := by
   unfold altDxy
   rw [Subgroup.zpowers_eq_closure, Subgroup.zpowers_eq_closure, ← Subgroup.closure_union,
     Set.singleton_union]
 
+omit [Finite G] in
 theorem mem_centralizer_altDxy_iff {x y g : G} :
     g ∈ Subgroup.centralizer (altDxy x y : Set G) ↔ g * x = x * g ∧ g * y = y * g := by
   rw [altDxy_eq_closure, Subgroup.centralizer_closure, Subgroup.mem_centralizer_iff]
@@ -46,6 +48,7 @@ theorem mem_centralizer_altDxy_iff {x y g : G} :
     · exact h1.symm
     · exact h2.symm
 
+omit [Finite G] in
 theorem inf_centralizer_altDxy_eq {x y : G} {L : Subgroup G}
     (hxL : L ≤ Subgroup.centralizer ({x} : Set G)) :
     L ⊓ Subgroup.centralizer (altDxy x y : Set G) = L ⊓ Subgroup.centralizer ({y} : Set G) := by
@@ -101,7 +104,7 @@ theorem exists_pCycle (hp : p.Prime) (hp2 : p ≠ 2) {n : ℕ} (hpn : p ≤ n) :
 theorem center_pQuot_eq_bot_of_alt (hp : p.Prime) (hp2 : p ≠ 2) {X L : Subgroup G}
     (hL : GLAPComponent p X L) {n : ℕ} (hn : 8 ≤ n)
     (f : PSimple p L ≃* ↥(alternatingGroup (Fin n))) : Subgroup.center (PQuot p L) = ⊥ := by
-  haveI : Group.IsPerfect (PQuot p L) :=
+  have : Group.IsPerfect (PQuot p L) :=
     CFSG.HardMathSupport.Timmesfeld.Balance.Alt.isPerfect_barOf hL
   exact CFSG.HardMathSupport.Timmesfeld.Balance.Alt.center_eq_bot_of_odd hn f
     (CFSG.HardMathSupport.Timmesfeld.Balance.Alt.odd_card_center_barOf hp hp2 L)
@@ -112,7 +115,7 @@ theorem card_autBar_mul (hc : S6Ctx G p) {B : Subgroup G} {x : G} {L : Subgroup 
   have hCME : CentModEqZpowers p B L x := (IsSStarMax.inT hc h).2.2.2.2.2
   have hxB : x ∈ B := (IsSStarMax.essential h).1
   have hxo : orderOf x = p := by
-    haveI : Fact p.Prime := ⟨hc.prime⟩
+    have : Fact p.Prime := ⟨hc.prime⟩
     exact orderOf_eq_prime ((IsSStarMax.bmax h).1.2 x hxB) (IsSStarMax.essential h).2.1
   let φ : ↥B →* MulAut (barOf p L) := (barAut p L).comp (Subgroup.inclusion hBN)
   have hrange : φ.range = autBar p B L := by
@@ -138,8 +141,8 @@ theorem card_autBar_mul (hc : S6Ctx G p) {B : Subgroup G} {x : G} {L : Subgroup 
 theorem three_mul_le_of_alt (hc : S6Ctx G p) {B : Subgroup G} {x : G}
     {L : Subgroup G} (h : IsSStarMax p B x L) {n : ℕ} (hn : 5 ≤ n)
     (f : PSimple p L ≃* ↥(alternatingGroup (Fin n))) : 3 * p ≤ n := by
-  haveI : Fact p.Prime := ⟨hc.prime⟩
-  haveI : Group.IsPerfect (PQuot p L) :=
+  have : Fact p.Prime := ⟨hc.prime⟩
+  have : Group.IsPerfect (PQuot p L) :=
     CFSG.HardMathSupport.Timmesfeld.Balance.Alt.isPerfect_barOf (IsSStarMax.component h)
   have hcard := card_autBar_mul hc h
   have hel : IsElemAbelian p (autBar p B L) :=
@@ -162,7 +165,7 @@ theorem three_mul_le_of_alt (hc : S6Ctx G p) {B : Subgroup G} {x : G}
 
 theorem pRank_eq_pRank_pQuot (hp : p.Prime) (L : Subgroup G) :
     CFSG.Open.pRank p L = CFSG.Open.pRank p (⊤ : Subgroup (PQuot p L)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h1 := CFSG.SectionRank.pRank_quotient_eq (G := ↥L) (p := p) (GLAPPrimeCore p ↥L)
     ((Nat.Prime.coprime_iff_not_dvd hp).1 (coprime_card_gLAPPrimeCore_aux p ↥L))
   rw [CFSG.SectionRank.pRank_eq_pRank_top_subgroup L]
@@ -173,6 +176,7 @@ theorem pRank_eq_div_of_alt (hc : S6Ctx G p) {L : Subgroup G} {n : ℕ}
   rw [pRank_eq_pRank_pQuot hc.prime L, CFSG.SectionRank.pRank_top_eq_of_mulEquiv hc.prime.one_lt e,
     (CFSG.Quasithin.H13.A7.section_rank_alternating_odd_prime_rank).1 n p hc.prime hc.odd]
 
+omit [Finite G] in
 theorem mem_glaPPrimeCoreOf_of_centMod {L : Subgroup G} (hZ : Subgroup.center (PQuot p L) = ⊥)
     {g : G} (hgL : g ∈ L) (hcm : CentMod p L g) : g ∈ GLAPPrimeCoreOf p L := by
   have ha : g ∈ Subgroup.normalizer (L : Set G) := Subgroup.le_normalizer hgL
@@ -190,6 +194,7 @@ theorem mem_glaPPrimeCoreOf_of_centMod {L : Subgroup G} (hZ : Subgroup.center (P
   rw [hZ, Subgroup.mem_bot] at hcen
   exact (chev_mem_glaPPrimeCoreOf_iff hgL).2 ((QuotientGroup.eq_one_iff _).1 hcen)
 
+omit [Finite G] in
 theorem barAut_eq_conj_of_mem {L : Subgroup G} {l : G} (hl : l ∈ L) :
     barAut p L ⟨l, Subgroup.le_normalizer hl⟩ =
       MulAut.conj (QuotientGroup.mk (⟨l, hl⟩ : ↥L) : PQuot p L) := by
@@ -265,7 +270,7 @@ theorem exists_pSubgroup_centMod (hc : S6Ctx G p) {B : Subgroup G} {x : G} {L : 
     ∃ S : Subgroup G, IsPGroup p S ∧ (∀ g ∈ S, CentMod p L g) ∧ S ≤ B ⊔ L ∧ S ⊓ L = ⊥ ∧
       Nat.card ↥S * Nat.card ↥(B ⊓ L : Subgroup G) = Nat.card ↥B := by
   classical
-  haveI : Fact p.Prime := ⟨hc.prime⟩
+  have : Fact p.Prime := ⟨hc.prime⟩
   have hBN : B ≤ Subgroup.normalizer (L : Set G) := IsSStarMax.normalizes h
   have hBel : IsElemAbelian p B := (IsSStarMax.bmax h).1
   obtain ⟨Y, hYdef⟩ : ∃ Y : Subgroup G, Y = centModSubgroup p L ⊓ (B ⊔ L) := ⟨_, rfl⟩
@@ -386,7 +391,7 @@ theorem isDirectZpowersInf_of_decomp (hc : S6Ctx G p) {B : Subgroup G} {x : G} {
   have hxB : x ∈ B := (IsSStarMax.essential h).1
   have hxL : L ≤ Subgroup.centralizer ({x} : Set G) := (IsSStarMax.component h).1
   have hxo : orderOf x = p := by
-    haveI : Fact p.Prime := ⟨hc.prime⟩
+    have : Fact p.Prime := ⟨hc.prime⟩
     exact orderOf_eq_prime ((IsSStarMax.bmax h).1.2 x hxB) (IsSStarMax.essential h).2.1
   have hinf : Subgroup.zpowers x ⊓ (B ⊓ L) = ⊥ := by
     rw [eq_bot_iff]
@@ -409,7 +414,7 @@ theorem isDirectZpowersInf_of_decomp (hc : S6Ctx G p) {B : Subgroup G} {x : G} {
 theorem card_eq_mul_of_isDirectZpowersInf (hc : S6Ctx G p) {B : Subgroup G} {x : G}
     {L : Subgroup G} (h : IsSStarMax p B x L) (hdir : IsDirectZpowersInf B x L) :
     Nat.card ↥B = p * Nat.card ↥(B ⊓ L : Subgroup G) := by
-  haveI : Fact p.Prime := ⟨hc.prime⟩
+  have : Fact p.Prime := ⟨hc.prime⟩
   have hBel : IsElemAbelian p B := (IsSStarMax.bmax h).1
   have hxB : x ∈ B := (IsSStarMax.essential h).1
   have hx1 : x ≠ 1 := (IsSStarMax.essential h).2.1
@@ -444,7 +449,7 @@ theorem exists_cycle_lift (hp : p.Prime) {L : Subgroup G} {n : ℕ}
     (hσ : ((σ : ↥(alternatingGroup (Fin n))) : Equiv.Perm (Fin n)).cycleType = {p}) :
     ∃ y : G, y ∈ L ∧ orderOf y = p ∧
       permOfMod p L n e y = ((σ : ↥(alternatingGroup (Fin n))) : Equiv.Perm (Fin n)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨y₀, hy₀⟩ := QuotientGroup.mk_surjective (e.symm σ)
   have hσp : σ ^ p = 1 := Subtype.ext (by simpa using pow_eq_one_of_cycleType_eq hσ)
   have hσ1 : σ ≠ 1 := by

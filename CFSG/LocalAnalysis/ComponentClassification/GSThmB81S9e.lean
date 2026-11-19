@@ -94,7 +94,7 @@ theorem centralizer_eq_of_q3 (hNine : CF81L2NineCent) (hSp : CF81Sp4Three) {v : 
   have hTS : (T : Subgroup ↥W).map W.subtype ≤ h.S := by
     obtain ⟨R, hR⟩ := H₁.S_sylow_C
     have hT2 : IsPGroup 2 (((T : Subgroup ↥W).map W.subtype).subgroupOf
-        (centralizer ({h.a} : Set H))) := (T.isPGroup'.map _).comap_subtype
+        (centralizer ({h.a} : Set H))) := (T.isPGroup.map _).comap_subtype
     have hle : (R : Subgroup ↥(centralizer ({h.a} : Set H))) ≤
         ((T : Subgroup ↥W).map W.subtype).subgroupOf (centralizer ({h.a} : Set H)) := by
       rw [hR]

@@ -56,7 +56,7 @@ theorem centralizes_of_quotEquivTo {Γ : Type} [Group Γ] [Finite Γ] {H M N Q :
     _ = q * m := by rw [hmul]
 
 theorem commute_of_central {Γ : Type} [Group Γ] [Finite Γ] {M1 M2 P : Subgroup Γ}
-    (hPM2 : P ≤ M2) (hcomm : ∀ a ∈ M1, ∀ b ∈ M2, a * b * a⁻¹ * b⁻¹ ∈ P)
+    (_hPM2 : P ≤ M2) (hcomm : ∀ a ∈ M1, ∀ b ∈ M2, a * b * a⁻¹ * b⁻¹ ∈ P)
     (hPc : ∀ p ∈ P, ∀ m ∈ M1 ⊔ M2, m * p = p * m)
     (hPcomm : ∀ p ∈ P, ∀ q ∈ P, p * q = q * p)
     (h2 : QuotEquivTo M2 P (alternatingGroup (Fin 6))) :

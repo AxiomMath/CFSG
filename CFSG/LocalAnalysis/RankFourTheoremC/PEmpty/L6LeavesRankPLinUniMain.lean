@@ -16,7 +16,7 @@ open CFSG.LocalAnalysis.RankFourTheoremC (exists_cover_linear exists_cover_unita
 theorem gl83I66TwoLinUni_of_griess (hGA : CFSG.Open.GriessAllModelsStatement) :
     GL83I66TwoLinUni := by
   intro K _ _ f hf hf5 hq _ hZp hLU K' _ φ hsurj hker z hz hS
-  haveI := Fact.mk hf
+  have := Fact.mk hf
   have hf2 : f ≠ 2 := by omega
   obtain ⟨S, hzS, hcenS⟩ := hS
   have hz1 : z ≠ 1 := by
@@ -35,8 +35,8 @@ theorem gl83I66TwoLinUni_of_griess (hGA : CFSG.Open.GriessAllModelsStatement) :
   ·
     have hn0 : 0 < n := by
       rcases Nat.eq_zero_or_pos n with rfl | h
-      · haveI := hq.2.1
-        haveI : Subsingleton (CFSG.Open.StatedProj (CFSG.Open.StatedSL 0 F)) := inferInstance
+      · have := hq.2.1
+        have : Subsingleton (CFSG.Open.StatedProj (CFSG.Open.StatedSL 0 F)) := inferInstance
         exact absurd e.injective.subsingleton (not_subsingleton _)
       · exact h
     have hn5 : 5 ≤ n := hf5.trans (Nat.le_of_dvd hn0 hfn)
@@ -54,14 +54,14 @@ theorem gl83I66TwoLinUni_of_griess (hGA : CFSG.Open.GriessAllModelsStatement) :
   ·
     have hn0 : 0 < n := by
       rcases Nat.eq_zero_or_pos n with rfl | h
-      · haveI := hq.2.1
-        haveI : Subsingleton (CFSG.Open.StatedProj (CFSG.Open.StatedSU 0 q F)) := inferInstance
+      · have := hq.2.1
+        have : Subsingleton (CFSG.Open.StatedProj (CFSG.Open.StatedSU 0 q F)) := inferInstance
         exact absurd e.injective.subsingleton (not_subsingleton _)
       · exact h
     have hn5 : 5 ≤ n := hf5.trans (Nat.le_of_dvd hn0 hfn)
     obtain ⟨r, m, hr, hchar, -, hFr⟩ := exists_char_pow_card F
-    haveI : Fact r.Prime := ⟨hr⟩
-    haveI := hchar
+    have : Fact r.Prime := ⟨hr⟩
+    have := hchar
     obtain ⟨f', -, hqf⟩ : ∃ f' ≤ m, q = r ^ f' := by
       refine (Nat.dvd_prime_pow hr).1 ?_
       rw [← hFr, hFq]

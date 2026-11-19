@@ -44,10 +44,10 @@ private theorem two_pow_twelve_dvd_of_inner {τ : Tag} {L : Type} [Field L] [IsA
   classical
   have hk : twistKind S.ρ (rootCharHom a) i = .inner := by
     unfold twistKind
-    rw [if_pos hinner]
+    rw [ite_eq_left hinner]
   obtain ⟨D⟩ := nonempty_innerData S hT i hk
-  haveI := D.hKfin
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := D.hKfin
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hperf := isPerfect_componentRootSpan_of_big hτ D (by omega)
   obtain ⟨g, hg, hgk⟩ := exists_surjective_central_of_perfect D hperf
   have hΨ := isRootComponent_componentRoots (χ := rootCharHom a) i
@@ -102,7 +102,7 @@ section Main
 theorem e6TwoD4NotSmall_holds : E6TwoD4NotSmall := by
   intro L _ _ p₀ S hq2 a hT hap h1 i hrank hcard hqs
   classical
-  haveI : CharP L 2 := charP_two_of_langSetup_q_eq_two S hq2
+  have : CharP L 2 := charP_two_of_langSetup_q_eq_two S hq2
   have h3L : ((3 : ℕ) : L) ≠ 0 := by
     have h2 : ((2 : ℕ) : L) = 0 := CharP.cast_eq_zero L 2
     have h3 : ((3 : ℕ) : L) = 1 := by
@@ -135,11 +135,11 @@ theorem e6TwoD4NotSmall_holds : E6TwoD4NotSmall := by
     have hs := componentOrbitLength_eq_one hfin hρ'
     rw [hs, Function.iterate_one] at hinner
     have hsub := kernelRoots_subset_of_ncard24 h3L hap i hcard
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hq21 : S.D.q = 2 ^ 1 := by rw [hq2, pow_one]
     obtain ⟨⟨e⟩, hZ⟩ := d4t2out_rationalComponent_equiv (ℓ := 2) (f := 1) S
       ⟨t, ht, Fr, hFr, hΦ⟩ (by norm_num) hq21 (by norm_num) hT hap i v hv hsub hρ' hinner
-    haveI := finite_rationalComponent S a i
+    have := finite_rationalComponent S a i
     have hcardR : Nat.card ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) =
         CFSG.Open.orderTrialityD4 (2 ^ 1) := by
       have h := CFSG.HardMathSupport.Solomon.Coordinator.lieOrderBridge_holds _ _ ⟨e⟩

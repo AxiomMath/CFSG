@@ -27,6 +27,7 @@ section Char2
 
 variable {F : Type} [Field F] [Finite F]
 
+omit [Finite F] in
 theorem two_eq_zero_of_natCard (h4 : Nat.card F = 4) : (2 : F) = 0 := by
   have h1 : addOrderOf (1 : F) ∣ 4 := by
     have := addOrderOf_dvd_natCard (1 : F)
@@ -38,7 +39,7 @@ theorem two_eq_zero_of_natCard (h4 : Nat.card F = 4) : (2 : F) = 0 := by
 
 theorem exists_sq_add_add_one (h4 : Nat.card F = 4) : ∃ w : F, w ≠ 0 ∧ w ^ 2 + w + 1 = 0 := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hcard : Fintype.card F = 4 := by rw [← Nat.card_eq_fintype_card]; exact h4
   have hs : ({0, 1} : Finset F).card < (Finset.univ : Finset F).card := by
     rw [Finset.card_univ, hcard]
@@ -148,7 +149,7 @@ theorem c3_mulVec {w : F} (h2 : (2 : F) = 0) (hw : w ^ 2 + w + 1 = 0) :
   have hv : ((c3 : SL(2, F)) : Matrix (Fin 2) (Fin 2) F) *ᵥ vecV w = ![-w, 1 - w] := by
     rw [hc]
     ext i
-    fin_cases i <;> simp [Matrix.mulVec, dotProduct, Fin.sum_univ_two, vecV] <;> ring
+    fin_cases i <;> simp [Matrix.mulVec, dotProduct, Fin.sum_univ_two, vecV]; ring
   rw [hv]
   ext i
   fin_cases i
@@ -168,7 +169,7 @@ theorem transv_mem (h2 : (2 : F) = 0) (w : F) : transv h2 w ∈ stabV w := by
       ![1 + 2 * w, w ^ 2 + (1 + w) * w] := by
     rw [hc]
     ext i
-    fin_cases i <;> simp [Matrix.mulVec, dotProduct, Fin.sum_univ_two, vecV] <;> ring
+    fin_cases i <;> simp [Matrix.mulVec, dotProduct, Fin.sum_univ_two, vecV]; ring
   rw [hv]
   ext i
   fin_cases i
@@ -183,7 +184,7 @@ theorem transv_ne_one (h2 : (2 : F) = 0) (w : F) : transv h2 w ≠ 1 := by
   simp [transv] at h01
 
 theorem mem_normalizer_map {S : Type} [Group S] {ψ : SL(2, F) →* S}
-    (hψ : Function.Injective ψ) {w μ : F} (hμ : μ ≠ 0) {g : SL(2, F)}
+    (_hψ : Function.Injective ψ) {w μ : F} (hμ : μ ≠ 0) {g : SL(2, F)}
     (hg : (g : Matrix (Fin 2) (Fin 2) F) *ᵥ vecV w = μ • vecV w) :
     ψ g ∈ Subgroup.normalizer (((stabV w).map ψ : Subgroup S) : Set S) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -318,7 +319,7 @@ variable {X : Type} [Group X]
 theorem exponent_eq_of_commute_u1 {K : Type} [Field K] {φ : SL(2, K) →* X}
     (hφ : Function.Injective φ) {n : ℕ} {y : X} (hy : ∀ B : SL(2, K), Commute y (φ B))
     (hn : φ c3 ^ n = y) : 3 ∣ n := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h1 : Commute (φ (c3 ^ n)) (φ u1) := by
     rw [map_pow, hn]
     exact hy u1
@@ -521,7 +522,7 @@ theorem twE6FourRank_of_inner_conj (hConj : TwE6FourRankInnerConj) : TwE6FourRan
   obtain ⟨A, U, hA, hAcard, hU0, hU2, hAN, hcen⟩ := TwE6FourRankAux.partI_index d hd e
   refine ⟨⟨A, hA, hAcard, U, hU0, hU2, hAN⟩, ?_⟩
   intro E hE hEcard hEinn
-  haveI : IsMulCommutative A := hA.1
+  have : IsMulCommutative A := hA.1
   let κ : A →* MulAut S := (MulAut.conj : S →* MulAut S).comp A.subtype
   have hκinj : Function.Injective κ := by
     rw [injective_iff_map_eq_one]

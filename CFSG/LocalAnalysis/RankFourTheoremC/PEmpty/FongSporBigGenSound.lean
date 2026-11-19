@@ -81,7 +81,7 @@ theorem GClaim.genW_of_check {M V : Type} {O : Ops M V} {pf d : ℕ} (Sp : OpsSp
     exact h'.1.1
   simp only [GClaim.wf, Bool.and_eq_true, decide_eq_true_eq, List.all_eq_true] at hwf
   obtain ⟨⟨⟨hp, hprog⟩, hmsj⟩, hwreg⟩ := hwf
-  haveI : Fact c.p.Prime := ⟨hp⟩
+  have : Fact c.p.Prime := ⟨hp⟩
   have hn2' : 2 ≤ (⟨c.nregs, c.prog, c.facts⟩ : MCert).nregs := hn2
   have hprog' : ∀ op ∈ (⟨c.nregs, c.prog, c.facts⟩ : MCert).prog, 2 ≤ opTarget op := hprog
   have fa : MFact.ord 0 c.oa ∈ (⟨c.nregs, c.prog, c.facts⟩ : MCert).facts := by

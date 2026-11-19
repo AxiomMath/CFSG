@@ -154,11 +154,11 @@ theorem normalizesRGroup_of_posStable_frame {K : Type} [Field K] [Finite K]
       (∀ δ ∈ l, δ ∈ familyKernel a ∧ IsOrthTriple ω₁ δ) ∧
         (l.map (tripleRefl ω₁)).prod • β ∈ ({d, ω₁ • d, ω₁ ^ 2 • d} : Set (Fin Tag.E8.rank → ℤ))) :
     NormalizesRGroup (ringChar K) E₀ := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨⟨e, he⟩, hℓ, hf⟩ := FiniteField.card K (ringChar K)
-  haveI : Fact (ringChar K).Prime := ⟨hℓ⟩
-  haveI : CharP K (ringChar K) := ringChar.charP K
-  haveI : CharP (AlgebraicClosure K) (ringChar K) :=
+  have : Fact (ringChar K).Prime := ⟨hℓ⟩
+  have : CharP K (ringChar K) := ringChar.charP K
+  have : CharP (AlgebraicClosure K) (ringChar K) :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective _
   have hcard : Nat.card K = ringChar K ^ e := by
     rw [Nat.card_eq_fintype_card]

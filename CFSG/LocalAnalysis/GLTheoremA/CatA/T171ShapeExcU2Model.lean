@@ -34,7 +34,7 @@ theorem mem_centralizer_of_action_trivial {G : Type} [Group G] [Finite G] {L : S
       QuotientGroup.mk' (Subgroup.center ↥L) l
     rw [onCenterQuotient_apply_mk]
     exact (hZ l (φd l) (hφd l)).symm
-  haveI : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hperf
+  have : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hperf
   have hconj1 : φd = 1 := centerQuotientHom_injective ↥L (by rw [hcen, map_one])
   rw [Subgroup.mem_centralizer_iff]
   intro y hy
@@ -117,7 +117,7 @@ theorem indAut_of_adjointModel {G : Type} [Group G] [Finite G] {p : ℕ}
   have hbN : b ∈ Subgroup.normalizer (L : Set G) :=
     S171.normalizer_of_innerDiagMarking hS.idiag hS.b_mem
   have hLself : GLAPComponent p L L := glaPComponent_self_of_dvd_card hS.prime hS.qs hpL
-  haveI hperfL : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hS.qs.1
+  have hperfL : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hS.qs.1
   have hdin : InducesInnerMod p L d := inducesInnerMod_of_mem_not_shape hS hshape hS.d_mem
   obtain ⟨eP, heP⟩ := exists_pSimpleEquivCenterQuot_mk hS.prime hS.qs hpL
   obtain ⟨r, hr⟩ : ∃ r : PSimple p L, MulAut.conj r = MI.indAut p L d hdN :=
@@ -227,16 +227,16 @@ theorem indAut_of_adjointModel {G : Type} [Group G] [Finite G] {p : ℕ}
       obtain ⟨K, hKf, hKfin, hKcard, hKchar, ⟨eAd⟩⟩ :=
         CFSG.LieType.SeitzGeneration.exists_catEquiv_adjointGroup
           CFSG.TauCetiBridge.Even.chevalleyBridgesAll.g2 q hv
-      letI := hKf
-      letI := hKfin
-      haveI : CharP K 2 := by rw [← hq2]; exact hKchar
+      let := hKf
+      let := hKfin
+      have : CharP K 2 := by rw [← hq2]; exact hKchar
       have h4 : 4 ≤ Nat.card K := by
         rw [hKcard, TauCeti.PrimePower.card_def, hq2]
         have hr := (TauCeti.LieTypeIndex.inStandardRange_iff _).1
           ((TauCeti.LieTypeIndex.valid_iff _).1 hv).1
         have hq3 : 3 ≤ 2 ^ q.exponent := by
           have h := hr
-          simp only [TauCeti.LieTypeIndex.inStandardRange_iff] at h
+          simp only at h
           rw [TauCeti.PrimePower.card_def, hq2] at h
           exact h
         have h2 : 2 ≤ q.exponent := by
@@ -255,9 +255,9 @@ theorem indAut_of_adjointModel {G : Type} [Group G] [Finite G] {p : ℕ}
       obtain ⟨K, hKf, hKfin, hKcard, hKchar, ⟨eAd⟩⟩ :=
         CFSG.LieType.SeitzGeneration.exists_catEquiv_adjointGroup
           CFSG.TauCetiBridge.Even.chevalleyBridgesAll.f4 q hv
-      letI := hKf
-      letI := hKfin
-      haveI : CharP K 2 := by rw [← hq2]; exact hKchar
+      let := hKf
+      let := hKfin
+      have : CharP K 2 := by rw [← hq2]; exact hKchar
       exact key .F4 K (Or.inr (Or.inl rfl)) (fun h => absurd h (by decide))
         (fun h _ => absurd h (by decide)) ⟨eCat.trans eAd⟩
     | E6 q =>
@@ -266,9 +266,9 @@ theorem indAut_of_adjointModel {G : Type} [Group G] [Finite G] {p : ℕ}
       obtain ⟨K, hKf, hKfin, hKcard, hKchar, ⟨eAd⟩⟩ :=
         CFSG.LieType.SeitzGeneration.exists_catEquiv_adjointGroup
           CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e6 q hv
-      letI := hKf
-      letI := hKfin
-      haveI : CharP K 2 := by rw [← hq2]; exact hKchar
+      let := hKf
+      let := hKfin
+      have : CharP K 2 := by rw [← hq2]; exact hKchar
       exact key .E6 K (Or.inr (Or.inr (Or.inl rfl))) (fun h => absurd h (by decide))
         (fun _ hp3 h3 => by
           rw [hKcard] at h3
@@ -280,9 +280,9 @@ theorem indAut_of_adjointModel {G : Type} [Group G] [Finite G] {p : ℕ}
       obtain ⟨K, hKf, hKfin, hKcard, hKchar, ⟨eAd⟩⟩ :=
         CFSG.LieType.SeitzGeneration.exists_catEquiv_adjointGroup
           CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e7 q hv
-      letI := hKf
-      letI := hKfin
-      haveI : CharP K 2 := by rw [← hq2]; exact hKchar
+      let := hKf
+      let := hKfin
+      have : CharP K 2 := by rw [← hq2]; exact hKchar
       exact key .E7 K (Or.inr (Or.inr (Or.inr (Or.inl rfl))))
         (fun h => absurd h (by decide)) (fun h _ => absurd h (by decide)) ⟨eCat.trans eAd⟩
     | E8 q =>
@@ -291,9 +291,9 @@ theorem indAut_of_adjointModel {G : Type} [Group G] [Finite G] {p : ℕ}
       obtain ⟨K, hKf, hKfin, hKcard, hKchar, ⟨eAd⟩⟩ :=
         CFSG.LieType.SeitzGeneration.exists_catEquiv_adjointGroup
           CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e8 q hv
-      letI := hKf
-      letI := hKfin
-      haveI : CharP K 2 := by rw [← hq2]; exact hKchar
+      let := hKf
+      let := hKfin
+      have : CharP K 2 := by rw [← hq2]; exact hKchar
       exact key .E8 K (Or.inr (Or.inr (Or.inr (Or.inr rfl))))
         (fun h => absurd h (by decide)) (fun h _ => absurd h (by decide)) ⟨eCat.trans eAd⟩
     | _ => exact hPexc.elim

@@ -19,8 +19,8 @@ section General
 
 theorem pCore_two_eq_bot_of_simple {T : Type*} [Group T] [Finite T] [IsSimpleGroup T]
     [Group.IsPerfect T] : CFSG.pCore 2 T = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := CFSG.LieType.BorelTits.pCore_characteristic 2 (G := T)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := CFSG.LieType.BorelTits.pCore_characteristic 2 (G := T)
   have hN : (CFSG.pCore 2 T).Normal := inferInstance
   rcases hN.eq_bot_or_eq_top with h | h
   · exact h
@@ -29,7 +29,7 @@ theorem pCore_two_eq_bot_of_simple {T : Type*} [Group T] [Finite T] [IsSimpleGro
       have h1 := CFSG.LieType.BorelTits.pCore_isPGroup 2 (G := T)
       rw [h] at h1
       exact h1.of_equiv Subgroup.topEquiv
-    haveI : Nontrivial T := IsSimpleGroup.toNontrivial
+    have : Nontrivial T := IsSimpleGroup.toNontrivial
     exact Group.IsPerfect.not_isNilpotent T hp.isNilpotent
 
 theorem pCoreOf_eq_bot_of_mulEquiv {M T : Type*} [Group M] [Group T] {H : Subgroup M}
@@ -104,7 +104,7 @@ theorem isWeaklyLocallyOTwoBalancedWrtP_of_outTwo {M : Type} [Group M] [Finite M
     (hcore : ∀ x : MulAut M, orderOf x = p →
       pCoreOf 2 (innerAut M ⊓ Subgroup.centralizer ({x} : Set (MulAut M))) = ⊥) :
     IsWeaklyLocallyOTwoBalancedWrtP p 1 M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine BalanceFromYS.isWeaklyLocallyOTwoBalancedWrtP_of_card_le_two hp fun x hx H hH _ => ?_
   refine hOut _ (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 _) ?_
   rw [eq_bot_iff, ← hcore x hx]
@@ -129,7 +129,7 @@ variable {K : Type} [Field K] [Finite K]
 
 theorem conjAut_mem_innerAut_three [CharP K 3] (A : GL (Fin 3) K) :
     conjAut 3 K A ∈ innerAut (projectiveSL 3 K) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcop := CFSG.GH74.GLS.Stage2.Bender.Thm1.Ln.coprime_card_units (K := K) 3
   set d : Kˣ := Matrix.GeneralLinearGroup.det A with hd
   set μ : Kˣ := (powCoprime hcop).symm d with hμ
@@ -162,7 +162,7 @@ theorem mem_innerAut_of_semilinear_of_pow_two [CharP K 3] (hodd : Odd (Nat.card 
     {α : MulAut (projectiveSL 3 K)} (hα : α ∈ semilinearAutGroup 3 K) {k : ℕ}
     (hk : α ^ (2 ^ k) = 1) : α ∈ innerAut (projectiveSL 3 K) := by
   obtain ⟨A, σ, rfl⟩ := mem_semilinearAutGroup_iff.1 hα
-  haveI : (innerAut (projectiveSL 3 K)).Normal :=
+  have : (innerAut (projectiveSL 3 K)).Normal :=
     CFSG.ComponentClassification.OuterAutomorphisms.inner_normal _
   let π := QuotientGroup.mk' (innerAut (projectiveSL 3 K))
   have h1 : π (conjAut 3 K A) = 1 := (QuotientGroup.eq_one_iff _).2 (conjAut_mem_innerAut_three A)
@@ -231,8 +231,8 @@ theorem center_projectiveSL_three_eq_bot (k : Type*) [Field k] :
     Subgroup.center (projectiveSL 3 k) = ⊥ := by
   obtain ⟨hs, hp⟩ := psl_three_simple_perfect k
   let e := LinearCover.projectiveSpecialLinearEquivProjectiveSL 3 k
-  haveI : IsSimpleGroup (projectiveSL 3 k) := e.symm.isSimpleGroup
-  haveI : Nontrivial (Matrix.ProjectiveSpecialLinearGroup (Fin 3) k) := IsSimpleGroup.toNontrivial
+  have : IsSimpleGroup (projectiveSL 3 k) := e.symm.isSimpleGroup
+  have : Nontrivial (Matrix.ProjectiveSpecialLinearGroup (Fin 3) k) := IsSimpleGroup.toNontrivial
   obtain ⟨a, b, hab⟩ := exists_mul_ne_of_perfect (G := Matrix.ProjectiveSpecialLinearGroup (Fin 3) k)
   refine CFSG.HardMathSupport.Timmesfeld.Coordinator.center_eq_bot_of_isSimpleGroup
     ⟨e a, e b, fun h => hab (e.injective (by rw [map_mul, map_mul, h]))⟩
@@ -278,14 +278,15 @@ theorem pCoreOf_innerAut_centralizer_eq_bot_of_outer [CharP K 3] (hK : Nat.card 
       MonoidHom.range_eq_map, Subgroup.map_map, Subgroup.map_map]
     rfl
   obtain ⟨hs, hp⟩ := psl_three_simple_perfect k
-  haveI : Finite k := inferInstance
-  haveI : Finite (Matrix.ProjectiveSpecialLinearGroup (Fin 3) k) := inferInstance
+  have : Finite k := inferInstance
+  have : Finite (Matrix.ProjectiveSpecialLinearGroup (Fin 3) k) := inferInstance
   let e : ↥(innerAut (projectiveSL 3 K) ⊓ Subgroup.centralizer ({x} : Set _)) ≃*
       Matrix.ProjectiveSpecialLinearGroup (Fin 3) k :=
     ((MulEquiv.subgroupCongr heq).trans (MonoidHom.ofInjective hφ).symm).trans
       (LinearCover.projectiveSpecialLinearEquivProjectiveSL 3 k).symm
   exact pCoreOf_eq_bot_of_mulEquiv e pCore_two_eq_bot_of_simple
 
+omit [Finite K] in
 theorem proj_three_injective [CharP K 3] : Function.Injective (proj 3 K) := by
   rw [injective_iff_map_eq_one]
   intro A hA
@@ -295,7 +296,7 @@ theorem proj_three_injective [CharP K 3] : Function.Injective (proj 3 K) := by
 theorem false_of_commute_of_orderOf [CharP K 3] (hK : Nat.card K = 3 ^ 13) {s g : projectiveSL 3 K}
     (hs : orderOf s = 2) (hg : orderOf g = 13) (hsg : s * g = g * s) : False := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨S', rfl⟩ := proj_surjective 3 K s
   obtain ⟨G', rfl⟩ := proj_surjective 3 K g
   have hinj := proj_three_injective (K := K)
@@ -337,7 +338,7 @@ open CFSG.HardMathSupport.Solomon.Coordinator (fixSubgroup mem_fixSubgroup) in
 theorem pCoreOf_innerAut_centralizer_eq_bot_of_inner [CharP K 3] (hK : Nat.card K = 3 ^ 13)
     {x : MulAut (projectiveSL 3 K)} (hx : orderOf x = 13) (hin : x ∈ innerAut (projectiveSL 3 K)) :
     pCoreOf 2 (innerAut (projectiveSL 3 K) ⊓ Subgroup.centralizer ({x} : Set _)) = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hinj := CFSG.HardMathSupport.Timmesfeld.SporadicBalance.conj_injective_of_center_eq_bot
     (center_projectiveSL_three_eq_bot K)
   obtain ⟨g, rfl⟩ := hin
@@ -346,9 +347,9 @@ theorem pCoreOf_innerAut_centralizer_eq_bot_of_inner [CharP K 3] (hK : Nat.card 
     ({MulAut.conj g} : Set (MulAut (projectiveSL 3 K)))) with hQ
   by_contra hne
   have hQ2 : IsPGroup 2 Q := CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 _
-  haveI : Finite (MulAut (projectiveSL 3 K)) := inferInstance
+  have : Finite (MulAut (projectiveSL 3 K)) := inferInstance
   obtain ⟨t, ht⟩ : ∃ t : Q, orderOf t = 2 := by
-    haveI : Nontrivial Q := (Subgroup.nontrivial_iff_ne_bot Q).2 hne
+    have : Nontrivial Q := (Subgroup.nontrivial_iff_ne_bot Q).2 hne
     obtain ⟨k, hk⟩ := hQ2.exists_card_eq
     have hk0 : k ≠ 0 := by
       rintro rfl
@@ -383,7 +384,7 @@ theorem isWeaklyLocallyOTwoBalancedWrtP_projectiveSL_three [CharP K 3] (hK : Nat
 theorem input19_18b_holds : BalanceFromYS.Input19_18b := by
   intro S _ _ hL
   obtain ⟨F, _, _, hF, ⟨e⟩⟩ := hL
-  haveI : CharP F 3 := finite_field_prime_power_characteristic Nat.prime_three (by norm_num) hF
+  have : CharP F 3 := finite_field_prime_power_characteristic Nat.prime_three (by norm_num) hF
   let e' : S ≃* projectiveSL 3 F :=
     e.trans ((LinearCover.projectiveSpecialLinearEquivProjectiveSL 3 F).symm.trans
       (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 3 F)).symm
@@ -638,7 +639,7 @@ end TrialityD4
 theorem input7_1Chev3_holds :
     BalanceFromYS.Input7_1Chev3 := by
   intro p hp hp3 S _ _ hS hlie x hx
-  haveI := hS
+  have := hS
   obtain ⟨idx, ⟨e⟩, hfo⟩ := hlie
   obtain ⟨t, n, hMq⟩ := exists_lieModel_of_fieldOrder_three idx hfo e
   obtain ⟨-, hnt, -⟩ := CFSG.LieType.Catalog.lieModel_finite_simple _ t n 3 1 hMq

@@ -23,7 +23,7 @@ open CFSG.ComponentClassification.OuterAutomorphisms CFSG.Blueprint
 
 theorem sylow_normal_of_not_dvd_card {X : Type*} [Group X] {p : ℕ} [Fact p.Prime]
     (h : ¬ p ∣ Nat.card X) : ∀ S : Sylow p X, (S : Subgroup X).Normal := by
-  haveI : Finite X := Nat.finite_of_card_ne_zero fun h0 => h (by rw [h0]; exact dvd_zero p)
+  have : Finite X := Nat.finite_of_card_ne_zero fun h0 => h (by rw [h0]; exact dvd_zero p)
   exact sylow_normal_of_not_dvd h
 
 private theorem not_dvd_card_outer_of_mulEquiv' {G H : Type*} [Group G] [Group H] (e : G ≃* H)

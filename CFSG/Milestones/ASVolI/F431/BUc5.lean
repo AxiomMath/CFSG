@@ -203,7 +203,7 @@ theorem burnsideF4m_Q5_sylow :
     have hxU : ∀ y, x.1 y ∈ U ↔ y ∈ U := fun y => (x.2 y).symm
     obtain ⟨e, he, σ', ⟨σ, hσ⟩, hxe⟩ := u5_normal_form h x.1 hxU
     subst hσ
-    obtain ⟨k, hk⟩ := P.isPGroup' (⟨x, hx⟩ : (P : Subgroup ↥G₁))
+    obtain ⟨k, hk⟩ := P.isPGroup (⟨x, hx⟩ : (P : Subgroup ↥G₁))
     have hxk : x.1 ^ 2 ^ k = 1 := by
       have h1 : x ^ 2 ^ k = 1 := congrArg Subtype.val hk
       have h2 := congrArg Subtype.val h1
@@ -222,7 +222,7 @@ theorem burnsideF4m_Q5_sylow :
       change x.1 * (fa5 h σ)⁻¹ = e
       rw [hxe]
       group
-    obtain ⟨k', hk'⟩ := P.isPGroup' (⟨e', he'P⟩ : (P : Subgroup ↥G₁))
+    obtain ⟨k', hk'⟩ := P.isPGroup (⟨e', he'P⟩ : (P : Subgroup ↥G₁))
     have hek : e ^ 2 ^ k' = 1 := by
       have h1 : e' ^ 2 ^ k' = 1 := congrArg Subtype.val hk'
       have h2 := congrArg Subtype.val h1

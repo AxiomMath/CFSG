@@ -128,11 +128,11 @@ theorem exists_hyperplane_fix [Finite F] (hF3 : ¬ 3 ∣ Nat.card F) {ι : Type}
     ∃ H : Subgroup (GL ι F), H ≤ E ∧ Nat.card E = 3 * Nat.card H ∧
       ∃ v : ι → F, v ≠ 0 ∧ ∀ h ∈ H, (h : Matrix ι ι F) *ᵥ v = v := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : IsElementaryAbelian 3 ↥E :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsElementaryAbelian 3 ↥E :=
     (CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian 3 E).2 hE
-  haveI : Nontrivial ↥E := (Subgroup.nontrivial_iff_ne_bot E).2 hE1
-  letI : MulDistribMulAction ↥E (Multiplicative (ι → F)) :=
+  have : Nontrivial ↥E := (Subgroup.nontrivial_iff_ne_bot E).2 hE1
+  let : MulDistribMulAction ↥E (Multiplicative (ι → F)) :=
     MulDistribMulAction.compHom _ ((vecAct ι F).comp E.subtype)
   have hcop : ¬ 3 ∣ Nat.card (Multiplicative (ι → F)) := by
     rw [show Nat.card (Multiplicative (ι → F)) = Nat.card (ι → F) from rfl, Nat.card_fun]
@@ -200,7 +200,7 @@ theorem exists_plane_closure_centralizers_eq_top (hn : 1 ≤ n) {D : Subgroup (S
   have hD'ne : D.map f ≠ ⊥ := fun h => by
     rw [h, Subgroup.card_bot] at hD'c
     omega
-  haveI : Nonempty (Fin n ⊕ Fin n) := ⟨Sum.inl ⟨0, by omega⟩⟩
+  have : Nonempty (Fin n ⊕ Fin n) := ⟨Sum.inl ⟨0, by omega⟩⟩
   obtain ⟨H, hHD, hHc, v, hv0, hHv⟩ :=
     exists_hyperplane_fix (F := ZMod 2) (by rw [Nat.card_zmod]; norm_num) hD'el hD'ne
   have hHr : H ≤ f.range := hHD.trans (Subgroup.map_le_range f D)

@@ -63,6 +63,7 @@ theorem matrix_eq_of_mulVec_eq (A B : Matrix ι ι K) (h : ∀ x : ι → K, A *
   have := congrFun (h (Pi.single j 1)) i
   simpa [Matrix.mulVec_single_one] using this
 
+omit [DecidableEq ι] in
 theorem vecMulVec_mulVec_basis (u v x : ι → K) :
     Matrix.vecMulVec u v *ᵥ x = (v ⬝ᵥ x) • u := by
   ext i
@@ -71,6 +72,7 @@ theorem vecMulVec_mulVec_basis (u v x : ι → K) :
   refine Finset.sum_congr rfl fun j _ => ?_
   ring
 
+omit [DecidableEq ι] in
 theorem dotProduct_eq_form (b : Module.Basis ι K V) (φ : V →ₗ[K] K) (x : ι → K) :
     (fun i => φ (b i)) ⬝ᵥ x = φ (b.equivFun.symm x) := by
   rw [Module.Basis.equivFun_symm_apply, map_sum, dotProduct]
@@ -89,6 +91,7 @@ theorem toGL_eq_one_add_of_transv (b : Module.Basis ι K V) (φ : V →ₗ[K] K)
   rw [hL, Matrix.add_mulVec, Matrix.one_mulVec, vecMulVec_mulVec_basis,
     dotProduct_eq_form b φ (b.equivFun w), b.equivFun.symm_apply_apply]
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem form_eq_zero_of_basis (b : Module.Basis ι K V) {φ : V →ₗ[K] K}
     (h : ∀ i, φ (b i) = 0) : φ = 0 :=
   b.ext fun i => by rw [h i, LinearMap.zero_apply]
@@ -107,6 +110,7 @@ section Transport
 variable {K V : Type} [Field K] [CharP K 2] [AddCommGroup V] [Module K V]
   {ι : Type} [Fintype ι] [DecidableEq ι] {F : LinearMap.BilinForm K V}
 
+omit [CharP K 2] in
 theorem natIrred_map (b : Module.Basis ι K V) (X : Subgroup (V ≃ₗ[K] V))
     (hirr : ∀ U : Submodule K V, (∀ g ∈ X, ∀ u ∈ U, g u ∈ U) → U = ⊥ ∨ U = ⊤) :
     NatIrred (X.map b.toGL.toMonoidHom) := by
@@ -141,6 +145,7 @@ theorem natIrred_map (b : Module.Basis ι K V) (X : Subgroup (V ≃ₗ[K] V))
     have hx2 : b.equivFun (b.equivFun.symm x) ∈ S := hx
     rwa [LinearEquiv.apply_symm_apply] at hx2
 
+omit [CharP K 2] in
 theorem genByTransvLines_map (hnd : F.Nondegenerate) (halt : F.IsAlt)
     (b : Module.Basis ι K V) (X : Subgroup (V ≃ₗ[K] V)) (Y : Set V) (hY0 : ∀ y ∈ Y, y ≠ 0)
     (htr : ∀ y ∈ Y, ∀ c : K, ∃ g ∈ X, ∀ v, g v = v + (c * F v y) • y)
@@ -211,12 +216,13 @@ section Nonisom
 variable {K V : Type} [Field K] [CharP K 2] [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {F : LinearMap.BilinForm K V}
 
-theorem exists_nonisom_transv (hnd : F.Nondegenerate) (halt : F.IsAlt)
+omit [FiniteDimensional K V] in
+theorem exists_nonisom_transv (hnd : F.Nondegenerate) (_halt : F.IsAlt)
     (hdim : 3 ≤ Module.finrank K V) :
     ∃ (y₀ : V) (φ : V →ₗ[K] K), φ y₀ = 0 ∧ ∃ g : V ≃ₗ[K] V,
       (∀ w, g w = w + φ w • y₀) ∧ ¬ IsIsom F g := by
   classical
-  haveI : Nontrivial V := Module.nontrivial_of_finrank_pos (R := K) (by omega)
+  have : Nontrivial V := Module.nontrivial_of_finrank_pos (R := K) (by omega)
   obtain ⟨y₀, hy₀⟩ := exists_ne (0 : V)
   have hex : ∃ w, F w y₀ ≠ 0 := by
     by_contra hcon
@@ -257,12 +263,13 @@ theorem exists_nonisom_transv (hnd : F.Nondegenerate) (halt : F.IsAlt)
   refine ⟨y₀, φ, hφy₀, g₀, hg₀, fun hiso => ?_⟩
   have key : F (g₀ w₀) (g₀ v₀) = F w₀ v₀ + φ v₀ := by
     rw [hg₀, hg₀]
-    simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul,
+    simp only [map_add, map_smul, smul_eq_mul,
       hφw₀, hFw₀, zero_smul, add_zero, mul_one]
   have h1 := hiso w₀ v₀
   rw [key] at h1
   exact hv₀ (by linear_combination h1)
 
+omit [CharP K 2] [FiniteDimensional K V] in
 theorem isIsom_conj_iff {F' : LinearMap.BilinForm K V} (φ : V ≃ₗ[K] V)
     (hφ : ∀ x y, F (φ x) (φ y) = F' x y) (h : V ≃ₗ[K] V) :
     IsIsom F' h ↔ IsIsom F (φ * h * φ⁻¹) := by
@@ -371,8 +378,8 @@ theorem eq_symp_of_transvections (hMcL : McLaughlinStatement) (hnd : F.Nondegene
       exact Nat.card_congr
         (Subgroup.equivMapOfInjective (sympSubgroup F') (MulAut.conj φ).toMonoidHom
           (MulAut.conj φ).injective).toEquiv
-    haveI : Finite V := Module.finite_of_finite K
-    haveI : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun g : V ≃ₗ[K] V => (g : V → V))
+    have : Finite V := Module.finite_of_finite K
+    have : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun g : V ≃ₗ[K] V => (g : V → V))
       (fun g h hgh => LinearEquiv.ext fun x => congrFun hgh x)
     have hc2 : Nat.card (sympSubgroup F) ≤ Nat.card X :=
       le_of_eq (by rw [hXeq, hcard])

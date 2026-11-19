@@ -26,13 +26,13 @@ private lemma ggKacA12_conj_not_mem_zpowers {L' : Type} [Group L'] {e : MulAut L
          one_mem' := by intro s _; rfl
          mul_mem' := by
            intro φ ψ hφ hψ s hs
-           simp only [Set.mem_setOf_eq] at hφ hψ ⊢
+           simp only [Set.mem_ofPred_eq] at hφ hψ ⊢
            rw [MulAut.mul_apply, hψ s hs, hφ s hs]
          inv_mem' := by
            intro φ hφ s hs
            apply φ.injective
-           simp only [Set.mem_setOf_eq] at hφ ⊢
-           simpa [hφ s hs] } : Subgroup (MulAut L')) := by
+           simp only [Set.mem_ofPred_eq] at hφ ⊢
+           simp [hφ s hs] } : Subgroup (MulAut L')) := by
     apply Subgroup.zpowers_le.mpr
     intro s hs
     exact mem_ggFixSub.mp (hSfix hs)
@@ -62,7 +62,7 @@ private lemma ggKacA12_aut_fixes {L' : Type} [Group L'] {p : ℕ} (hp : p = 3)
     {t0 : ↥S} (ht0 : t0 ∈ commutator ↥S) (ht0ne : t0 ≠ 1)
     (hcard : Nat.card ↥(commutator ↥S) = 3) :
     ∀ a ∈ A, a (t0 : L') = (t0 : L') := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hKmap := ggKacA12_map_commutator_subtype S
   have htC : (t0 : L') ∈ ⁅S, S⁆ := by
     have : (t0 : L') ∈ Subgroup.map S.subtype (commutator ↥S) :=

@@ -215,6 +215,7 @@ theorem TBJOmData.fixes_outside_signed_rankOne (hp2 : p ≠ 2)
     | inv y hy ih =>
       simpa using congrArg (fun z => y⁻¹ z) ih.symm
 
+omit [Finite K] in
 theorem TBJOmData.commute_signed_rankOne_of_disjoint (hp2 : p ≠ 2)
     (Δ : TBJOmData Q p A r)
     (hfix : ∀ v : V, (∀ a ∈ A, a v = v) → v = 0)
@@ -314,7 +315,7 @@ theorem TBJOmData.pair_signed_le (hp2 : p ≠ 2)
       rw [hwconj]
       congr 1
       funext l
-      simp only [OrthNs.dinv_apply_eq, if_neg hab, if_neg hab.symm, or_comm]
+      simp only [OrthNs.dinv_apply_eq, ite_eq_right hab, ite_eq_right hab.symm, or_comm]
     have hV := Δ.rankOne_map_dinv (i := c) (j := b) (k := a)
       hbc.symm hab.symm hac.symm w hwΩ hwconj'
     rw [Δ.rankOne_comm_index c b, Δ.rankOnePos_comm_index c b] at hV
@@ -347,7 +348,7 @@ theorem TBJOmData.pair_signed_le (hp2 : p ≠ 2)
       rw [hwconj]
       congr 1
       funext l
-      simp only [OrthNs.dinv_apply_eq, if_neg hac, if_neg hac.symm, or_comm]
+      simp only [OrthNs.dinv_apply_eq, ite_eq_right hac, ite_eq_right hac.symm, or_comm]
     have hV := Δ.rankOne_map_dinv (i := b) (j := c) (k := a)
       hbc hac.symm hab.symm w hwΩ hwconj'
     have hH₀ := Δ.reflFixed_map_dinv (i := b) (j := a) (k := c)

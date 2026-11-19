@@ -44,7 +44,7 @@ def phi5Companion (K : Type) [Field K] : Matrix (Fin 4) (Fin 4) K :=
 
 theorem det_phi5Companion (K : Type) [Field K] : (phi5Companion K).det = 1 := by
   have h32 : Fin.succAbove (3 : Fin 4) (2 : Fin 3) = 2 := by decide
-  simp [phi5Companion, Matrix.det_succ_row_zero, Fin.sum_univ_succ, h32] <;> norm_num
+  simp [phi5Companion, Matrix.det_succ_row_zero, Fin.sum_univ_succ, h32]; norm_num
 
 theorem phi5Companion_pow_five (K : Type) [Field K] : phi5Companion K ^ 5 = 1 := by
   ext i j
@@ -93,7 +93,7 @@ theorem orderOf_proj_blockSL_phi5 {K : Type} [Field K] (m : ℕ) :
     obtain ⟨c, -, hc⟩ := mem_scalars.mp (proj_eq_one_iff.mp h)
     have h0 := congrFun (congrFun hc (Fin.castAdd m 0)) (Fin.castAdd m 0)
     rw [coe_blockSL, blockMat_inl_inl, coe_phi5SL] at h0
-    simp [phi5Companion] at h0 <;> first | exact c.ne_zero h0 | exact c.ne_zero h0.symm
+    simp [phi5Companion] at h0; exact c.ne_zero h0.symm
 
 @[expose] def torusFive {K : Type} [Field K] (c : K) (m : ℕ) : Fin (4 + (m + 1)) → K :=
   Fin.addCases (motive := fun _ => K) (fun _ => c)

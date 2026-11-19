@@ -111,8 +111,8 @@ theorem dichLieCross_Tits : DichLieCrossAt .Tits := by
   have hcard : Nat.card K = 17971200 := by
     rw [Nat.card_congr e.toEquiv]
     exact CFSG.Sporadic.Schreier.Tits.card_titsD
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP (ZMod 2) CFSG.LieType.Ree.ReeTag.F4.prime := ZMod.charP 2
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP (ZMod 2) CFSG.LieType.Ree.ReeTag.F4.prime := ZMod.charP 2
   obtain ⟨x, y, -, hx, hy, hz, -, -, hc, -⟩ :=
     Tits_sylow3_cubic_witness (K := ZMod 2) (by simp)
   have hpair := CFSG.RankThree.PartOne.CTP.hasNoncommPair_of_cubic Nat.prime_three hx hy hz hc

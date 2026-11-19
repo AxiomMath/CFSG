@@ -31,7 +31,7 @@ theorem le_of_isSylowOf_centralizer {p : ℕ} [Fact p.Prime] [Finite A] {V P : S
 theorem le_and_isPGroup_of_isSylowOf {p : ℕ} {P K : Subgroup A} (hP : IsSylowOf p P K) :
     P ≤ K ∧ IsPGroup p P := by
   obtain ⟨Q, rfl⟩ := hP
-  exact ⟨map_subtype_le _, Q.isPGroup'.map _⟩
+  exact ⟨map_subtype_le _, Q.isPGroup.map _⟩
 
 theorem exists_eq_zpowers_sup {C : Type*} [Group C] [IsCyclic C] (χ : A →* C)
     {V P : Subgroup A} (hVP : V ≤ P) (hker : ∀ x ∈ P, χ x = 1 → x ∈ V) :

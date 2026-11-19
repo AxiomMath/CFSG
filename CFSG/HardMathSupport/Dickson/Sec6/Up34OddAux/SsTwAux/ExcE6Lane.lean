@@ -60,7 +60,7 @@ theorem ssTw_pgroup_e6 {tau : Tag} [M27Ok tau] [E6Sub tau] {L : Type} [Field L] 
     ∃ V : Subgroup ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i), IsPGroup l V ∧
       8 ≤ Nat.card V := by
   classical
-  haveI : Fact l.Prime := ⟨hl⟩
+  have : Fact l.Prime := ⟨hl⟩
   obtain ⟨f, hf, hq⟩ := ssTw_exists_f S (ℓ := l)
   have hτ' : ∀ t : TwistTag, t.tag ≠ tau := by
     rcases M27Ok.isE7E8 (τ := tau) with rfl | rfl

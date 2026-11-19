@@ -107,6 +107,7 @@ theorem f112_parabolic_inf_eq_bigB {L1 L2 S : Subgroup G}
     (L1 ⊔ bigB L1 L2 S) ⊓ (L2 ⊔ bigB L1 L2 S) = bigB L1 L2 S :=
   (prop_F19_of_listed rankOneListedFacts hF.1).1
 
+omit [Finite G] in
 theorem f112_parabolic_sup_eq (L1 L2 S : Subgroup G) :
     (L1 ⊔ bigB L1 L2 S) ⊔ (L2 ⊔ bigB L1 L2 S) = L1 ⊔ L2 ⊔ S := by
   have hB1 : borelOf L1 S ≤ L1 := F1.borelOf_le L1 S
@@ -143,6 +144,7 @@ theorem f112_isSylowTwoOf_P2 {L1 L2 S : Subgroup G}
     (hF : F112HypW L1 L2 S) : IsSylowTwoOf S ((L2 ⊔ bigB L1 L2 S)) :=
   F112W.isSylowTwoOf_parabolic' (Hyp111R.of_hyp111 rankOneListedFacts hF.1)
 
+omit [Finite G] in
 theorem f112Completion_isFaithful (L1 L2 S : Subgroup G) :
     (f112Completion L1 L2 S).IsFaithful :=
   RankTwoAmalgam.inclusionCompletion_isFaithful ((L1 ⊔ bigB L1 L2 S)) ((L2 ⊔ bigB L1 L2 S))
@@ -286,30 +288,35 @@ section F112Vertices
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem range_f112Completion_φ1 (L1 L2 S : Subgroup G) :
     (f112Completion L1 L2 S).φ1.range =
       ((L1 ⊔ bigB L1 L2 S)).subgroupOf ((L1 ⊔ bigB L1 L2 S) ⊔ (L2 ⊔ bigB L1 L2 S)) :=
   Subgroup.inclusion_range (le_sup_left : (L1 ⊔ bigB L1 L2 S) ≤
     (L1 ⊔ bigB L1 L2 S) ⊔ (L2 ⊔ bigB L1 L2 S))
 
+omit [Finite G] in
 private theorem range_f112Completion_φ2 (L1 L2 S : Subgroup G) :
     (f112Completion L1 L2 S).φ2.range =
       ((L2 ⊔ bigB L1 L2 S)).subgroupOf ((L1 ⊔ bigB L1 L2 S) ⊔ (L2 ⊔ bigB L1 L2 S)) :=
   Subgroup.inclusion_range (le_sup_right : (L2 ⊔ bigB L1 L2 S) ≤
     (L1 ⊔ bigB L1 L2 S) ⊔ (L2 ⊔ bigB L1 L2 S))
 
+omit [Finite G] in
 private theorem range_f112Completion_equiv_left (L1 L2 S : Subgroup G) :
     Nonempty (↥((f112Completion L1 L2 S).φ1.range) ≃* ↥((L1 ⊔ bigB L1 L2 S))) :=
   ⟨(MulEquiv.subgroupCongr (range_f112Completion_φ1 L1 L2 S)).trans
     (Subgroup.subgroupOfEquivOfLe (le_sup_left : (L1 ⊔ bigB L1 L2 S) ≤
       (L1 ⊔ bigB L1 L2 S) ⊔ (L2 ⊔ bigB L1 L2 S)))⟩
 
+omit [Finite G] in
 private theorem range_f112Completion_equiv_right (L1 L2 S : Subgroup G) :
     Nonempty (↥((f112Completion L1 L2 S).φ2.range) ≃* ↥((L2 ⊔ bigB L1 L2 S))) :=
   ⟨(MulEquiv.subgroupCongr (range_f112Completion_φ2 L1 L2 S)).trans
     (Subgroup.subgroupOfEquivOfLe (le_sup_right : (L2 ⊔ bigB L1 L2 S) ≤
       (L1 ⊔ bigB L1 L2 S) ⊔ (L2 ⊔ bigB L1 L2 S)))⟩
 
+omit [Finite G] in
 theorem f112_stabilizer_Θγ₀ (L1 L2 S : Subgroup G) :
     MulAction.stabilizer ↥((f112Completion L1 L2 S).φ1.range ⊔
         (f112Completion L1 L2 S).φ2.range)
@@ -324,6 +331,7 @@ theorem f112_stabilizer_Θγ₀ (L1 L2 S : Subgroup G) :
     ((f112Completion L1 L2 S).coverData (f112Completion_isFaithful L1 L2 S)).Θ_γ₀]
   exact stabilizer_cosetGeom_γ₀ _ _
 
+omit [Finite G] in
 theorem f112_stabilizer_Θγ₁ (L1 L2 S : Subgroup G) :
     MulAction.stabilizer ↥((f112Completion L1 L2 S).φ1.range ⊔
         (f112Completion L1 L2 S).φ2.range)
@@ -361,6 +369,7 @@ noncomputable def f112RangeEquiv1 (L1 L2 S : Subgroup G) :
     (Subgroup.subgroupOfEquivOfLe (le_sup_right : L2 ⊔ bigB L1 L2 S ≤
       L1 ⊔ bigB L1 L2 S ⊔ (L2 ⊔ bigB L1 L2 S)))
 
+omit [Finite G] in
 private theorem coe_f112RangeEquiv0 (L1 L2 S : Subgroup G)
     (a : ↥((f112Completion L1 L2 S).φ1.range)) :
     ((f112RangeEquiv0 L1 L2 S a : ↥(L1 ⊔ bigB L1 L2 S)) : G) =
@@ -369,6 +378,7 @@ private theorem coe_f112RangeEquiv0 (L1 L2 S : Subgroup G)
         ↥((f112Completion L1 L2 S).φ1.range ⊔ (f112Completion L1 L2 S).φ2.range)) : G) :=
   rfl
 
+omit [Finite G] in
 private theorem coe_f112RangeEquiv1 (L1 L2 S : Subgroup G)
     (a : ↥((f112Completion L1 L2 S).φ2.range)) :
     ((f112RangeEquiv1 L1 L2 S a : ↥(L2 ⊔ bigB L1 L2 S)) : G) =
@@ -399,26 +409,29 @@ private theorem coe_f112RangeEquiv1 (L1 L2 S : Subgroup G)
             (f112Completion L1 L2 S).φ1.range ⊔ (f112Completion L1 L2 S).φ2.range)).trans
         (f112RangeEquiv1 L1 L2 S)))
 
+omit [Finite G] in
 theorem coe_f112StabEquiv0 (L1 L2 S : Subgroup G)
     (h : MulAction.stabilizer (f112Acting L1 L2 S) (f112Gamma0 L1 L2 S)) :
     ((f112StabEquiv0 L1 L2 S h : ↥(L1 ⊔ bigB L1 L2 S)) : G) =
       (((f112Completion L1 L2 S).theta0 (f112Completion_isFaithful L1 L2 S) h :
         ↥((f112Completion L1 L2 S).φ1.range ⊔ (f112Completion L1 L2 S).φ2.range)) : G) := by
-  simp [f112StabEquiv0, GraphCovering.StabIso.coe_restrict, MulEquiv.subgroupCongr_apply,
+  simp [f112StabEquiv0, MulEquiv.subgroupCongr_apply,
     Subgroup.subgroupOfEquivOfLe_apply_coe, coe_f112RangeEquiv0, coe_stabIso_equiv,
     RankTwoAmalgam.Completion.coe_theta0]
 
+omit [Finite G] in
 theorem coe_f112StabEquiv1 (L1 L2 S : Subgroup G)
     (h : MulAction.stabilizer (f112Acting L1 L2 S) (f112Gamma1 L1 L2 S)) :
     ((f112StabEquiv1 L1 L2 S h : ↥(L2 ⊔ bigB L1 L2 S)) : G) =
       (((f112Completion L1 L2 S).theta0 (f112Completion_isFaithful L1 L2 S) h :
         ↥((f112Completion L1 L2 S).φ1.range ⊔ (f112Completion L1 L2 S).φ2.range)) : G) := by
-  simp [f112StabEquiv1, GraphCovering.StabIso.coe_restrict, MulEquiv.subgroupCongr_apply,
+  simp [f112StabEquiv1, MulEquiv.subgroupCongr_apply,
     Subgroup.subgroupOfEquivOfLe_apply_coe, coe_f112RangeEquiv1, coe_stabIso_equiv,
     RankTwoAmalgam.Completion.coe_theta0]
 
+omit [Finite G] in
 theorem f112_stabilizer_equiv {L1 L2 S : Subgroup G}
-    (hF : F112HypW L1 L2 S) (v : f112Gamma L1 L2 S) :
+    (_hF : F112HypW L1 L2 S) (v : f112Gamma L1 L2 S) :
     Nonempty (MulAction.stabilizer (f112Acting L1 L2 S) v ≃* ↥(L1 ⊔ bigB L1 L2 S)) ∨
       Nonempty (MulAction.stabilizer (f112Acting L1 L2 S) v ≃* ↥(L2 ⊔ bigB L1 L2 S)) := by
   rcases stabilizer_equiv_of_completion (f112Completion L1 L2 S)
@@ -433,8 +446,8 @@ theorem f112_stabilizer_equiv {L1 L2 S : Subgroup G}
 private theorem sylow_card_eq_of_mulEquiv {W : Type*} [Group W] [Finite W]
     {X : Type*} [Group X] {P S : Subgroup X} (hS : IsSylowTwoOf S P) (e : W ≃* ↥P)
     (T : Sylow 2 W) : Nat.card T = Nat.card S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite ↥P := Finite.of_injective e.symm e.symm.injective
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite ↥P := Finite.of_injective e.symm e.symm.injective
   obtain ⟨S', hS'⟩ := F7.isSylowTwoOf_exists_sylow hS
   have h1 : Nat.card T = Nat.card S' := by
     rw [Sylow.card_eq_multiplicity T, Sylow.card_eq_multiplicity S',
@@ -650,8 +663,9 @@ theorem f112_natCard_neighborSet {L1 L2 S : Subgroup G}
   · exact Or.inl (f112_natCard_neighborSet_of_vtype_false hF hv)
   · exact Or.inr (f112_natCard_neighborSet_of_vtype_true hF hv)
 
+omit [Finite G] in
 theorem f112_stabilizer_transitive_on_nbrs {L1 L2 S : Subgroup G}
-    (hF : F112HypW L1 L2 S) {v w w' : f112Gamma L1 L2 S}
+    (_hF : F112HypW L1 L2 S) {v w w' : f112Gamma L1 L2 S}
     (hw : w ∈ (f112Amalgam L1 L2 S).graphHat.neighborSet v)
     (hw' : w' ∈ (f112Amalgam L1 L2 S).graphHat.neighborSet v) :
     ∃ g : f112Acting L1 L2 S,
@@ -683,6 +697,7 @@ section TreeFacts
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem f112_graphHat_connected (L1 L2 S : Subgroup G) :
     (f112Amalgam L1 L2 S).graphHat.Connected :=
   CosetGeom.connected (G₀ := (f112Amalgam L1 L2 S).Ghat1 ⊔ (f112Amalgam L1 L2 S).Ghat2)
@@ -763,7 +778,7 @@ private theorem pCoreOf_le_normalCore_map {L P Q : Subgroup G}
     pCoreOf 2 L ≤ L ⊓ (Q.subgroupOf P).normalCore.map P.subtype := by
   have hpPsub : (pCoreOf 2 P).subgroupOf P = pCore 2 ↥P :=
     Subgroup.comap_map_eq_self_of_injective P.subtype_injective (pCore 2 ↥P)
-  haveI : ((pCoreOf 2 P).subgroupOf P).Normal := by
+  have : ((pCoreOf 2 P).subgroupOf P).Normal := by
     rw [hpPsub]
     exact pCore_normal
   have hle : (pCoreOf 2 P).subgroupOf P ≤ Q.subgroupOf P := fun z hz =>
@@ -839,8 +854,8 @@ private theorem inf_normalCore_map_le_pCoreOf {L P Q : Subgroup G}
         exact Subgroup.mem_top _
       exact Subgroup.mem_subgroupOf.mp this
     exact hproper.ne (le_antisymm inf_le_left hLle)
-  haveI : IsSimpleGroup (L ⧸ pCore 2 ↥L) := hsimple
-  haveI : Nbar.Normal := hNbarNormal
+  have : IsSimpleGroup (L ⧸ pCore 2 ↥L) := hsimple
+  have : Nbar.Normal := hNbarNormal
   have hNbarBot : Nbar = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal Nbar with h | h
     · exact h
@@ -917,7 +932,7 @@ theorem f112_exists_normal_iso_oTwoQuot_left {L1 L2 S : Subgroup G}
     ∃ N : Subgroup (↥((L1 ⊔ bigB L1 L2 S)) ⧸ f112K1 L1 L2 S),
       N.Normal ∧ Nonempty (↥N ≃* oTwoQuot ↥L1) := by
   classical
-  haveI : (f112K1 L1 L2 S).Normal := Subgroup.normalCore_normal _
+  have : (f112K1 L1 L2 S).Normal := Subgroup.normalCore_normal _
   let ψ : ↥L1 →* ↥((L1 ⊔ bigB L1 L2 S)) ⧸ f112K1 L1 L2 S :=
     (QuotientGroup.mk' (f112K1 L1 L2 S)).comp
       (Subgroup.inclusion (le_sup_left : L1 ≤ (L1 ⊔ bigB L1 L2 S)))
@@ -967,7 +982,7 @@ theorem f112_exists_normal_iso_oTwoQuot_right {L1 L2 S : Subgroup G}
     ∃ N : Subgroup (↥((L2 ⊔ bigB L1 L2 S)) ⧸ f112K2 L1 L2 S),
       N.Normal ∧ Nonempty (↥N ≃* oTwoQuot ↥L2) := by
   classical
-  haveI : (f112K2 L1 L2 S).Normal := Subgroup.normalCore_normal _
+  have : (f112K2 L1 L2 S).Normal := Subgroup.normalCore_normal _
   let ψ : ↥L2 →* ↥((L2 ⊔ bigB L1 L2 S)) ⧸ f112K2 L1 L2 S :=
     (QuotientGroup.mk' (f112K2 L1 L2 S)).comp
       (Subgroup.inclusion (le_sup_left : L2 ≤ (L2 ⊔ bigB L1 L2 S)))

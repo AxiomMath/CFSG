@@ -3,7 +3,7 @@ module
 public import CFSG.LieType.SeitzGeneration.Basic
 public import CFSG.LieType.Seitz.Defs
 public import Mathlib.Algebra.Order.Ring.Star
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 
 public section
 

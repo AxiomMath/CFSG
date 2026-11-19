@@ -33,7 +33,7 @@ theorem levSU_antiM : levSU antiM isUnit_det_antiM = vSU := by
   rw [mat_levSU, det_antiM, map_one, div_one, CFSG.ClassicalGroups.UnitaryFlag.oddDiag,
     barInvT_antiM, mat_vSU]
   fin_cases i <;> fin_cases j <;>
-    simp [yIdx, blk3, antiM, vMat, Matrix.fromBlocks]
+    simp [yIdx, antiM, vMat]
 
 @[expose] def antiSL : Matrix.SpecialLinearGroup (Fin 2) F4 := ⟨antiM, det_antiM⟩
 
@@ -100,14 +100,14 @@ theorem barInvT_diagOmM : barInvT hF4 diagOmM = !![1, 0; 0, F4.ω] := barInvT_eq
   rw [hF4_bar]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [diagOmM, Matrix.mul_apply, Fin.sum_univ_two, bar_apply] <;> decide)
+    simp [diagOmM, Matrix.mul_apply, Fin.sum_univ_two, bar_apply]; decide)
 
 theorem levSU_diagOmM : levSU diagOmM isUnit_det_diagOmM = e₁SU := by
   refine ext_mat ?_
   ext i j
   rw [mat_levSU, det_diagOmM, CFSG.ClassicalGroups.UnitaryFlag.oddDiag, barInvT_diagOmM, mat_e₁SU]
   fin_cases i <;> fin_cases j <;>
-    simp [yIdx, blk3, diagOmM, e₁Mat, Matrix.diagonal, Matrix.fromBlocks, bar_apply] <;> decide
+    simp [yIdx, diagOmM, e₁Mat, Matrix.diagonal]; decide
 
 theorem e₁SU_mem_levHom_range : e₁SU ∈ levHom.range :=
   ⟨Matrix.GeneralLinearGroup.mkOfDetNeZero diagOmM isUnit_det_diagOmM.ne_zero, by

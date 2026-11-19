@@ -45,7 +45,7 @@ private theorem lemA {p : ℕ} (hp : p.Prime) {P E K : Subgroup G} (hPab : IsMul
         simpa using this
       · show φ k (φ k⁻¹ x) = x
         rw [← MulAut.mul_apply, ← map_mul]; simp
-  haveI : Finite P := inferInstance
+  have : Finite P := inferInstance
   obtain ⟨R', h1, h2, h3, h4⟩ := CFSG.LinearAlgebra.CoprimeActions.CoprimeElementaryAbelianInvariantHyperplaneComplement.exists_complement
     hp (fun x => Subtype.ext (hPexp x x.2)) H hHc (E.subgroupOf P) hDidx hHD
   have hsub : (E.subgroupOf P).map P.subtype = E := by
@@ -111,6 +111,7 @@ private theorem card_mul_card_inf_of_supplement {D H M : Subgroup G} (hDM : D �
   rw [← h1, ← h2]
   ring
 
+omit [Finite G] in
 private theorem sup_supp {B T : Subgroup G} (h : (T : Set G) * (B : Set G) = (B : Set G) * (T : Set G)) :
     ∀ x ∈ B ⊔ T, ∃ d ∈ B, ∃ c ∈ T, x = d * c := by
   let K : Subgroup G :=

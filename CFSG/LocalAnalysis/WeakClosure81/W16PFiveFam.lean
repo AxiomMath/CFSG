@@ -16,12 +16,14 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] {M V₀ V U S H : Subgroup G}
 
+omit [Finite G] in
 private theorem conjSub_eq_conjSubgroup (g : G) (A : Subgroup G) :
     A1b.conjSub g A = conjSubgroup A g⁻¹ := by
   ext x
   rw [A1b.mem_conjSub_iff, mem_conjSubgroup_iff]
   simp
 
+omit [Finite G] in
 theorem IsMinFam16.fam16 (hH : IsMinFam16 M U S H) : Fam16 M U S H :=
   hH.1
 

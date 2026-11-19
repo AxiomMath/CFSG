@@ -45,13 +45,13 @@ theorem uc22ine229_nParamSingle_of_prod {X : Type} [Group X] {n : ℕ}
 theorem uc22ine229_shape_quot {X : Type} [Group X] (hq : CFSG.Open.IsQuasisimple X) {n : ℕ}
     (h : NParamSingle X n) : InE229Shape n (X ⧸ Subgroup.center X) := by
   rcases h with h | h | h | h | h
-  · haveI := CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_twistedB2 h
+  · have := CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_twistedB2 h
     exact Or.inl (LieModel.quotient_center (uc22p21k_center_eq_bot hq) h)
-  · haveI := LieModel.isSimpleGroup_of_mem_classicalTags (by decide) h
+  · have := LieModel.isSimpleGroup_of_mem_classicalTags (by decide) h
     exact Or.inr (Or.inl (LieModel.quotient_center (uc22p21k_center_eq_bot hq) h))
   · exact Or.inr (Or.inr (Or.inl h.2))
   · exact Or.inr (Or.inr (Or.inr (Or.inl h.2)))
-  · haveI := LieModel.isSimpleGroup_of_mem_classicalTags (by decide) h
+  · have := LieModel.isSimpleGroup_of_mem_classicalTags (by decide) h
     exact Or.inr (Or.inr (Or.inr (Or.inr
       (LieModel.quotient_center (uc22p21k_center_eq_bot hq) h))))
 
@@ -59,7 +59,7 @@ theorem uc22ine229_cfShape (D : Data G) {L : Subgroup G} (hL : L ∈ calL D.T D.
     (hn : NParam L n) : CFShape ↥(L ⊔ D.T) (fun X _ => InE229Shape n X) := by
   intro Λ _ hcf hnc
   have hTs : Group.IsSolvable ↥D.T := by
-    haveI : Group.IsNilpotent ↥D.T := D.sylowM.isPGroup.isNilpotent
+    have : Group.IsNilpotent ↥D.T := D.sylowM.isPGroup.isNilpotent
     infer_instance
   obtain ⟨K, hK, hLK⟩ := hL.2.2.2
   have hsSup : sSup (CFSG.Quasithin.cComp L) = L := by

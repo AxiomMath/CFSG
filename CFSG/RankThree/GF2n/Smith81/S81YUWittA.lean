@@ -14,12 +14,14 @@ open CFSG.RankThree.GF2n.Smith81.U6Cube CFSG.RankThree.GF2n.Smith81.A5Cube
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {σ : F ≃+* F}
 
+omit [Finite F] [CharP F 2] in
 private theorem u6w2_inv_mul (g : SUid σ 6) :
     (((g⁻¹ : SUid σ 6) : GL (Fin 6) F) : Matrix (Fin 6) (Fin 6) F) *
       ((g : GL (Fin 6) F) : Matrix (Fin 6) (Fin 6) F) = 1 := by
   rw [Subgroup.coe_inv]
   exact Units.inv_mul _
 
+omit [Finite F] in
 theorem u6_witt_two (hσ : IsUnitaryInvolution σ) {u u' : Fin 3 → Fin 6 → F}
     (hu : ιMulti F 3 u ≠ 0) (hiu : ∀ i j, ∑ k, σ (u i k) * u j k = 0)
     (hu' : ιMulti F 3 u' ≠ 0) (hiu' : ∀ i j, ∑ k, σ (u' i k) * u' j k = 0) :
@@ -53,6 +55,7 @@ theorem u6_witt_two (hσ : IsUnitaryInvolution σ) {u u' : Fin 3 → Fin 6 → F
   · rw [Subgroup.coe_mul, Units.val_mul, ← Matrix.mulVec_mulVec, hA1, h₂1]
   · rw [Subgroup.coe_mul, Units.val_mul, ← Matrix.mulVec_mulVec, hA2, h₂2]
 
+omit [Finite F] [CharP F 2] in
 private theorem ordered_basis_core {v : Fin 3 → Fin 6 → F} (hv : LinearIndependent F v)
     {a : Fin 6 → F} {α : Fin 3 → F} (hα : ∑ l, α l • v l = a) {i j k : Fin 3}
     (hij : i ≠ j) (hik : i ≠ k) (hjk : j ≠ k) (hcov : ∀ l, l = i ∨ l = j ∨ l = k)
@@ -132,6 +135,7 @@ private theorem ordered_basis_core {v : Fin 3 → Fin 6 → F} (hv : LinearIndep
     · rw [h]
       exact hmem_k
 
+omit [Finite F] [CharP F 2] in
 theorem exists_ordered_basis {v : Fin 3 → Fin 6 → F} (hv : LinearIndependent F v)
     {a : Fin 6 → F} (ha : a ≠ 0) (hav : a ∈ Submodule.span F (Set.range v)) :
     ∃ X Y : Fin 6 → F, X ∈ Submodule.span F (Set.range v) ∧ Y ∈ Submodule.span F (Set.range v) ∧

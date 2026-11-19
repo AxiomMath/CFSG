@@ -41,7 +41,7 @@ theorem rankOneData_psl2 (m : ℕ) (hm : 2 ≤ m) :
     calc
       4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ m := Nat.pow_le_pow_right (by norm_num) hm
-  haveI : IsSimpleGroup (PSL2MatrixGroup K) :=
+  have : IsSimpleGroup (PSL2MatrixGroup K) :=
     Matrix.ProjectiveSpecialLinearGroup.rank_two_simple hq4
   obtain ⟨-, h2tr, hcardΩ, hUB, hTB, hUnorm, hinf, hsup, hTzero, hTcyc, hTcard,
     ⟨S, hS⟩, hUcard, hreg, hSE, htwoRank, htwoRank', hinv, hcomm, hswap, hstd⟩ :=
@@ -83,7 +83,7 @@ theorem rankOneData_psl2 (m : ℕ) (hm : 2 ≤ m) :
   have hdata : RankOneData (PSL2MatrixGroup K) U B := by
     refine ⟨?_, hUbot, ⟨S, ?_⟩, hUB', ?_, ?_, ?_⟩
     · rw [← hS]
-      exact S.isPGroup'
+      exact S.isPGroup
     · rw [hS, hUdef]
     · intro M hUM hM
       rcases le_B_or_eq_top_of_bruhat hsup'.symm hTnorm hnT hnsq hUbot hbruhat M hUM with h | h
@@ -116,7 +116,7 @@ theorem card_eq_of_hasNormalCopy_psl2 :
   obtain ⟨M, hMnormal, hMequiv⟩ := hcopy
   let φ : ↥M ≃* Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 m) :=
     Classical.choice hMequiv
-  letI : M.Normal := hMnormal
+  let : M.Normal := hMnormal
   obtain ⟨U, B, hdata, hUcard⟩ := rankOneData_psl2 m hm
   let U' : Subgroup M := U.map φ.symm.toMonoidHom
   let B' : Subgroup M := B.map φ.symm.toMonoidHom

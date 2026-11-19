@@ -90,8 +90,8 @@ theorem exists_normal_card_four_of_card_156 (hcard : Nat.card A = 156) {c : A}
     (hc : orderOf c = 13) (hcc : ∀ g : A, g * c = c * g)
     (hNE : ∀ g z : A, orderOf z = 3 → g * z * g⁻¹ ∈ zpowers z → g ^ 39 = 1) :
     ∃ V : Subgroup A, V.Normal ∧ Nat.card V = 4 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' 3 (show 3 ∣ Nat.card A by rw [hcard]; norm_num)
   have hYcard : Nat.card (zpowers z) = 3 := by rw [Nat.card_zpowers, hz]
   have hYp : IsPGroup 3 (zpowers z) := IsPGroup.of_card (n := 1) (by rw [hYcard, pow_one])
@@ -110,7 +110,7 @@ theorem exists_normal_card_four_of_card_156 (hcard : Nat.card A = 156) {c : A}
     obtain ⟨k, rfl⟩ := mem_zpowers_iff.1 hh
     exact (Commute.zpow_left (show Commute z g from hcomm.symm) k).eq
   set K : Subgroup A := (MonoidHom.transferSylow P hP).ker with hK
-  haveI hKn : K.Normal := MonoidHom.normal_ker _
+  have hKn : K.Normal := MonoidHom.normal_ker _
   have hcompl : K.IsComplement' (P : Subgroup A) := MonoidHom.ker_transferSylow_isComplement' P hP
   have hK52 : Nat.card K = 52 := by
     have h := hcompl.card_mul_card
@@ -169,6 +169,7 @@ theorem exists_normal_card_four_of_card_156 (hcard : Nat.card A = 156) {c : A}
     exact sup_le le_rfl hKN
   exact ⟨V, Subgroup.normalizer_eq_top_iff.1 hnorm, hV4⟩
 
+omit [Finite A] in
 theorem mem_of_pow_four_eq_one (hcard : Nat.card A = 156) {V : Subgroup A} [V.Normal]
     (hV4 : Nat.card V = 4) {g : A} (hg : g ^ 4 = 1) : g ∈ V := by
   have hidx : V.index = 39 := by
@@ -194,10 +195,10 @@ theorem klein_of_card_156 (hcard : Nat.card A = 156) {c : A}
     (hNE : ∀ g z : A, orderOf z = 3 → g * z * g⁻¹ ∈ zpowers z → g ^ 39 = 1) :
     (∀ g : A, g ^ 4 = 1 → g ^ 2 = 1) ∧
       ∀ s t : A, s ≠ 1 → s ^ 2 = 1 → t ≠ 1 → t ^ 2 = 1 → ∃ a : A, a * s * a⁻¹ = t := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨V, hVn, hV4⟩ := exists_normal_card_four_of_card_156 hcard hc hcc hNE
-  haveI := hVn
+  have := hVn
   have hmem : ∀ g : A, g ^ 4 = 1 → g ∈ V := fun g hg => mem_of_pow_four_eq_one hcard hV4 hg
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' 3 (show 3 ∣ Nat.card A by rw [hcard]; norm_num)
   have hz3 : z ^ 3 = 1 := pow_three_eq_one_of_orderOf_eq_three hz
@@ -239,7 +240,7 @@ theorem klein_of_card_156 (hcard : Nat.card A = 156) {c : A}
         _ = z * s * z⁻¹ := by group
     set S : Set A := (V : Set A) \ {1} with hS
     have hS3 : S.ncard = 3 := by
-      rw [hS, Set.ncard_diff_singleton_of_mem (show (1 : A) ∈ (V : Set A) from V.one_mem),
+      rw [hS, Set.ncard_sdiff_singleton_of_mem (show (1 : A) ∈ (V : Set A) from V.one_mem),
         ← Nat.card_coe_set_eq]
       have : Nat.card (V : Set A) = 4 := hV4
       omega

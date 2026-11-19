@@ -31,7 +31,7 @@ private theorem two_dvd_ordSuzuki_pow {n : ℕ} (hn : 0 < n) :
 theorem k146ModSz_holds : K146ModSz := by
   intro U _ _ hU N S n hSN hnorm hSz hirr
   classical
-  haveI : Finite (MulAut U) :=
+  have : Finite (MulAut U) :=
     Finite.of_injective (fun φ : MulAut U => (φ : U → U)) DFunLike.coe_injective
   have hs : IsSimpleGroup ↥S := UC22.uc22p22r_lieModel_isSimple_twistedB2 hSz
   obtain ⟨-, -, -, hBS⟩ :=
@@ -49,8 +49,8 @@ theorem k146ModSz_holds : K146ModSz := by
     exact hx hxc
   have hperf : Group.IsPerfect ↥S :=
     CFSG.GH74.Generic.S45.isPerfect_of_isSimpleGroup_of_nonabelian hs hnab
-  obtain ⟨x0, -, hx0⟩ := SetLike.exists_of_lt hirr.1
-  haveI : Nontrivial U := ⟨⟨x0, 1, fun h => hx0 (h ▸ Subgroup.one_mem _)⟩⟩
+  obtain ⟨x0, -, hx0⟩ := _root_.IsConcreteLE.exists_of_lt hirr.1
+  have : Nontrivial U := ⟨⟨x0, 1, fun h => hx0 (h ▸ Subgroup.one_mem _)⟩⟩
   let α : CFSG.QuasithinUnique.Setup.Family.CQ S ≃* CFSG.Blueprint.suzukiGroup a K :=
     (QuotientGroup.quotientMulEquivOfEq hZ).trans (QuotientGroup.quotientBot.trans e)
   have hStroth := CFSG.Quasithin.Stroth.suzuki_pow_le_index_fixV a ha (hn ▸ hK) U
@@ -65,7 +65,7 @@ theorem k146ModSz_holds : K146ModSz := by
     exact even_iff_two_dvd.mpr (h2.trans (Subgroup.card_dvd_of_le hSN))
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   unfold E3.mParam
-  rw [if_pos heven]
+  rw [ite_eq_left heven]
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥N) 2 (even_iff_two_dvd.mp heven)
   refine le_csInf ⟨_, (x : MulAut U), x.2, by rw [Subgroup.orderOf_coe, hx], rfl⟩ ?_
   rintro _ ⟨t, htN, ht2, rfl⟩

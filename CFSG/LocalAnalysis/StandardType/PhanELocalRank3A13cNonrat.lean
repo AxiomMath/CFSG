@@ -12,6 +12,7 @@ open CFSG.Monster.B.Geometry Module
 
 variable {K : Type} [Field K] [Finite K] (f : ℕ) [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 theorem finrank_Vtail : finrank K (Vtail : Submodule K (Fin 4 → K)) = 3 := by
   have hsup : (Vtail : Submodule K (Fin 4 → K)) ⊔ Vsub 4 1 = ⊤ := by
     rw [Submodule.eq_top_iff']
@@ -82,7 +83,7 @@ theorem card_rat_le (hK : Nat.card K = (2 ^ f) ^ 2) :
       Set.rangeFactorization_surjective
   have hcard3 : Nat.card (K × (Fin 3 → Fx)) = Nat.card K * (Nat.card Fx) ^ 3 := by
     rw [Nat.card_prod, Nat.card_pi]
-    simp [Finset.prod_const, Nat.card_fin]
+    simp [Finset.prod_const]
   calc
     Nat.card {v : Fin 4 → K // v ∈ (Vtail : Submodule K (Fin 4 → K)) ∧
         sgS K f 4 (Submodule.span K {v}) = Submodule.span K {v}}
@@ -101,7 +102,7 @@ theorem exists_nonrat_point_avoid (hK : Nat.card K = (2 ^ f) ^ 2) (hq : 4 ≤ 2 
     ∃ t : Submodule K (Fin 4 → K), t ≤ Vtail ∧ finrank K t = 1 ∧ sgS K f 4 t ≠ t ∧
       ∀ T ∈ S, ¬ t ≤ T := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   let R : Finset (Fin 4 → K) :=
     Finset.univ.filter (fun v => v ∈ (Vtail : Submodule K (Fin 4 → K)) ∧
       sgS K f 4 (Submodule.span K {v}) = Submodule.span K {v})

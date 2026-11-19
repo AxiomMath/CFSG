@@ -28,7 +28,7 @@ theorem D1CzReduced.card_le_of_autThree (hc : D1CzReduced 3 M z T Pbar K)
   set φ : (Pbar : Subgroup (D1CzQuot 3 z)) →* MulAut K :=
     (MulAut.conjNormal (H := K)).comp (Pbar : Subgroup (D1CzQuot 3 z)).subtype with hφ
   have hr : IsPGroup 3 φ.range :=
-    Pbar.isPGroup'.of_surjective φ.rangeRestrict φ.rangeRestrict_surjective
+    Pbar.isPGroup.of_surjective φ.rangeRestrict φ.rangeRestrict_surjective
   have hr27 : Nat.card φ.range ≤ 27 := h28 K hK φ.range hr
   have hkereq : φ.ker = (Subgroup.centralizer (K : Set (D1CzQuot 3 z))).subgroupOf
       (Pbar : Subgroup (D1CzQuot 3 z)) := by
@@ -106,7 +106,7 @@ theorem D1CzReduced.rstruct (hc : D1CzReduced 3 M z T Pbar K) (hL2 : KFactCaseTw
           ((Pbar : Subgroup (D1CzQuot 3 z)) ⊓ Subgroup.centralizer (K : Set (D1CzQuot 3 z))) :=
     fun g hg hgc hg3 => (sup_le_sup (Subgroup.zpowers_le.mpr htA)
       (Subgroup.zpowers_le.mpr hzY)) (hΩ g hg hgc hg3)
-  exact rstruct_of_cyclic Pbar.isPGroup' inf_le_left inf_le_left hAD hcomm hcyc hYcyc hA9 hzY
+  exact rstruct_of_cyclic Pbar.isPGroup inf_le_left inf_le_left hAD hcomm hcyc hYcyc hA9 hzY
     hc.order hwA hwo (fun g _ => Subgroup.mem_center_iff.mp hc.center g |>.symm)
     (D1CzReduced.card_le_of_autThree hc h28 hK) hrk hΩ'
 
@@ -148,7 +148,7 @@ theorem D1CaseTwoDataAt.rstruct (hAut : KFactCycAut) (hSc : KFactSeitzCyc)
   set π := QuotientGroup.mk' (primeComplementCore (G := C) 3) with hπ
   have hO := primeComplementCore_coprime (G := C) 3
   have hinj : ∀ x ∈ (S₀ : Subgroup C), ∀ y ∈ (S₀ : Subgroup C), π x = π y → x = y :=
-    fun x hx y hy hxy => eq_of_mk_eq_of_isPGroup hp _ hO S₀.isPGroup' hx hy hxy
+    fun x hx y hy hxy => eq_of_mk_eq_of_isPGroup hp _ hO S₀.isPGroup hx hy hxy
   have hmemP : ∀ x ∈ (S₀ : Subgroup C), π x ∈ (Pbar : Subgroup (D1CzQuot 3 (z : G))) :=
     fun x hx => by
       rw [hc.sylow_eq]
@@ -179,7 +179,7 @@ theorem D1CaseTwoDataAt.rstruct (hAut : KFactCycAut) (hSc : KFactSeitzCyc)
     exact ⟨y₀, hRS y₀ hy₀S, by simpa using congrArg Subtype.val h1⟩
   · right
     have hcardR : Nat.card R = Nat.card (Pbar : Subgroup (D1CzQuot 3 (z : G))) := by
-      rw [hc.sylow_eq, card_map_mk_of_isPGroup hp _ hO S₀.isPGroup', ← hT,
+      rw [hc.sylow_eq, card_map_mk_of_isPGroup hp _ hO S₀.isPGroup, ← hT,
         Subgroup.card_map_of_injective C.subtype_injective]
     refine ⟨hcardR.trans hcard, ?_⟩
     rw [hc.sylow_eq] at haP

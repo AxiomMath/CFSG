@@ -22,7 +22,7 @@ theorem exists_map_list {l l' : List (Fin N)} (hl : l.Nodup) (hl' : l'.Nodup)
   let x : Fin l.length ↪ Fin N := ⟨l.get, List.nodup_iff_injective_get.1 hl⟩
   let y : Fin l.length ↪ Fin N := ⟨fun i => l'.get (Fin.cast hlen i),
     (List.nodup_iff_injective_get.1 hl').comp (Fin.cast_injective hlen)⟩
-  haveI := alternatingGroup.isMultiplyPretransitive (α := Fin N)
+  have := alternatingGroup.isMultiplyPretransitive (α := Fin N)
   have hk : MulAction.IsMultiplyPretransitive (alternatingGroup (Fin N)) (Fin N) l.length :=
     MulAction.isMultiplyPretransitive_of_le (n := Nat.card (Fin N) - 2)
       (by rw [Nat.card_eq_fintype_card, Fintype.card_fin]; omega) (Nat.sub_le _ _)
@@ -99,7 +99,7 @@ variable {φ : ↥G ≃* alternatingGroup (Fin N)} {F : Finset (Fin N)}
 theorem exists_five (hF : 5 ≤ F.card) :
     ∃ f₀ ∈ F, ∃ f₁ ∈ F, ∃ f₂ ∈ F, ∃ f₃ ∈ F, ∃ f₄ ∈ F, [f₀, f₁, f₂, f₃, f₄].Nodup := by
   obtain ⟨f₀, h₀, -⟩ := exists_mem_not_mem_list (S := F) []
-      (by simp only [List.length_cons, List.length_nil]; omega)
+      (by simp only [List.length_nil]; omega)
   obtain ⟨f₁, h₁, n₁⟩ := exists_mem_not_mem_list (S := F) [f₀]
       (by simp only [List.length_cons, List.length_nil]; omega)
   obtain ⟨f₂, h₂, n₂⟩ := exists_mem_not_mem_list (S := F) [f₀, f₁]
@@ -109,9 +109,8 @@ theorem exists_five (hF : 5 ≤ F.card) :
   obtain ⟨f₄, h₄, n₄⟩ := exists_mem_not_mem_list (S := F) [f₀, f₁, f₂, f₃]
       (by simp only [List.length_cons, List.length_nil]; omega)
   refine ⟨f₀, h₀, f₁, h₁, f₂, h₂, f₃, h₃, f₄, h₄, ?_⟩
-  simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false, not_or,
-    not_false_eq_true] at n₁ n₂ n₃ n₄
-  simp only [List.nodup_cons, List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false,
+  simp only [List.mem_cons, List.not_mem_nil, or_false, not_or] at n₁ n₂ n₃ n₄
+  simp only [List.nodup_cons, List.mem_cons, List.not_mem_nil, or_false,
     not_or, List.nodup_nil, and_true, not_false_eq_true]
   refine ⟨⟨fun h => n₁ h.symm, fun h => n₂.1 h.symm, fun h => n₃.1 h.symm, fun h => n₄.1 h.symm⟩,
     ⟨fun h => n₂.2 h.symm, fun h => n₃.2.1 h.symm, fun h => n₄.2.1 h.symm⟩,
@@ -120,7 +119,7 @@ theorem exists_five (hF : 5 ≤ F.card) :
 theorem HeartW.base_one (h : HeartW φ F θ) {f₀ f₁ f₂ f₃ f₄ : Fin N} (h₀ : f₀ ∈ F) (h₁ : f₁ ∈ F)
     (h₂ : f₂ ∈ F) (h₃ : f₃ ∈ F) (h₄ : f₄ ∈ F) (hnd : [f₀, f₁, f₂, f₃, f₄].Nodup) :
     ∃ x, UniqV (I4 φ f₀ f₁ f₂ f₃) x ∧ UniqV (I4 φ f₀ f₁ f₂ f₄) x := by
-  simp only [List.nodup_cons, List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false,
+  simp only [List.nodup_cons, List.mem_cons, List.not_mem_nil, or_false,
     not_or, List.nodup_nil, and_true, not_false_eq_true] at hnd
   obtain ⟨⟨h01, h02, h03, h04⟩, ⟨h12, h13, h14⟩, ⟨h23, h24⟩, h34⟩ := hnd
   obtain ⟨x, hx, hxT, hx0, hxu⟩ :=
@@ -135,7 +134,7 @@ theorem HeartW.base_add (h : HeartW φ F θ) {f₀ f₁ f₂ f₃ f₄ : Fin N} 
     (h₂ : f₂ ∈ F) (h₃ : f₃ ∈ F) (h₄ : f₄ ∈ F) (hnd : [f₀, f₁, f₂, f₃, f₄].Nodup) :
     ∃ x₁ x₂ x₃, UniqV (I4 φ f₀ f₁ f₂ f₃) x₁ ∧ UniqV (I4 φ f₁ f₂ f₀ f₃) x₂ ∧
       UniqV (I4 φ f₂ f₀ f₁ f₃) x₃ ∧ x₁ + x₂ = x₃ := by
-  simp only [List.nodup_cons, List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false,
+  simp only [List.nodup_cons, List.mem_cons, List.not_mem_nil, or_false,
     not_or, List.nodup_nil, and_true, not_false_eq_true] at hnd
   obtain ⟨⟨h01, h02, h03, h04⟩, ⟨h12, h13, h14⟩, ⟨h23, h24⟩, h34⟩ := hnd
   obtain ⟨x₁, hx₁, hT₁, h0₁, hu₁⟩ :=
@@ -163,7 +162,7 @@ theorem HeartW.exists_uniqV (h : HeartW φ F θ) (hF : 5 ≤ F.card) (hN : 7 ≤
     (hnd : [a, b, c, d].Nodup) : ∃ v, UniqV (I4 φ a b c d) v := by
   obtain ⟨f₀, h₀, f₁, h₁, f₂, h₂, f₃, h₃, f₄, h₄, hf⟩ := exists_five hF
   obtain ⟨x, hx, -⟩ := h.base_one h₀ h₁ h₂ h₃ h₄ hf
-  simp only [List.nodup_cons, List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false,
+  simp only [List.nodup_cons, List.mem_cons, List.not_mem_nil, or_false,
     not_or, List.nodup_nil, and_true, not_false_eq_true] at hf
   obtain ⟨⟨h01, h02, h03, -⟩, ⟨h12, h13, -⟩, ⟨h23, -⟩, -⟩ := hf
   obtain ⟨g, hg⟩ := exists_map_list φ (nodup4 h01 h02 h03 h12 h13 h23) hnd rfl
@@ -183,7 +182,7 @@ theorem HeartW.uniqV_of_uniqV (h : HeartW φ F θ) (hF : 5 ≤ F.card) (hN : 7 �
       (by simp only [List.length_cons, List.length_nil]; omega)
   simp only [List.map_cons, List.map_nil, List.cons.injEq, and_true] at hg
   obtain ⟨ga, gb, gc, gd, gd'⟩ := hg
-  simp only [List.nodup_cons, List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false,
+  simp only [List.nodup_cons, List.mem_cons, List.not_mem_nil, or_false,
     not_or, List.nodup_nil, and_true, not_false_eq_true] at hf
   have t1 := uniqV_conj g hf.1.1 hf.1.2.1 hf.1.2.2.1 hx
   have t2 := uniqV_conj g hf.1.1 hf.1.2.1 hf.1.2.2.2 hx'
@@ -196,7 +195,7 @@ theorem HeartW.add_eq_of_uniqV (h : HeartW φ F θ) (hF : 5 ≤ F.card) (hN : 7 
     (h₂ : UniqV (I4 φ b c a d) v₂) (h₃ : UniqV (I4 φ c a b d) v₃) : v₁ + v₂ = v₃ := by
   obtain ⟨f₀, hf₀, f₁, hf₁, f₂, hf₂, f₃, hf₃, f₄, hf₄, hf⟩ := exists_five hF
   obtain ⟨x₁, x₂, x₃, hx₁, hx₂, hx₃, hx⟩ := h.base_add hf₀ hf₁ hf₂ hf₃ hf₄ hf
-  simp only [List.nodup_cons, List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false,
+  simp only [List.nodup_cons, List.mem_cons, List.not_mem_nil, or_false,
     not_or, List.nodup_nil, and_true, not_false_eq_true] at hf
   obtain ⟨⟨h01, h02, h03, -⟩, ⟨h12, h13, -⟩, ⟨h23, -⟩, -⟩ := hf
   obtain ⟨g, hg⟩ := exists_map_list φ (nodup4 h01 h02 h03 h12 h13 h23) hnd rfl
@@ -222,7 +221,7 @@ open Classical in
 variable {φ} {F : Finset (Fin N)} {θ : (Fin N → ZMod 2) →ₗ[ZMod 2] V}
 
 theorem vab_self (a : Fin N) : vab φ a a = (0 : V) := by
-  rw [vab, dif_neg]
+  rw [vab, dite_eq_right]
   rintro ⟨v, c, d, hnd, -⟩
   simp at hnd
 
@@ -232,7 +231,7 @@ theorem HeartW.uniqV_move (h : HeartW φ F θ) (hF : 5 ≤ F.card) (hN : 7 ≤ N
   by_cases hdd : d' = d
   · rwa [hdd]
   refine h.uniqV_of_uniqV hF hN ?_ hv
-  simp only [List.nodup_cons, List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false,
+  simp only [List.nodup_cons, List.mem_cons, List.not_mem_nil, or_false,
     not_or, List.nodup_nil, and_true, not_false_eq_true] at hnd ⊢
   exact ⟨⟨hnd.1.1, hnd.1.2.1, hnd.1.2.2, Ne.symm hd'a⟩, ⟨hnd.2.1.1, hnd.2.1.2, Ne.symm hd'b⟩,
     ⟨hnd.2.2, Ne.symm hd'c⟩, Ne.symm hdd⟩
@@ -240,7 +239,7 @@ theorem HeartW.uniqV_move (h : HeartW φ F θ) (hF : 5 ≤ F.card) (hN : 7 ≤ N
 theorem HeartW.uniqV_chain (h : HeartW φ F θ) (hF : 5 ≤ F.card) (hN : 7 ≤ N)
     {a b c d c' d' : Fin N} (hnd : [a, b, c, d].Nodup) (hnd' : [a, b, c', d'].Nodup) {v : V}
     (hv : UniqV (I4 φ a b c d) v) : UniqV (I4 φ a b c' d') v := by
-  simp only [List.nodup_cons, List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false,
+  simp only [List.nodup_cons, List.mem_cons, List.not_mem_nil, or_false,
     not_or, List.nodup_nil, and_true, not_false_eq_true] at hnd hnd'
   obtain ⟨⟨hab, hac, had⟩, ⟨hbc, hbd⟩, hcd⟩ := hnd
   obtain ⟨⟨-, hac', had'⟩, ⟨hbc', hbd'⟩, hcd'⟩ := hnd'
@@ -261,7 +260,7 @@ theorem HeartW.uniqV_vab (h : HeartW φ F θ) (hF : 5 ≤ F.card) (hN : 7 ≤ N)
   have hex : ∃ v, ∃ c d, [a, b, c, d].Nodup ∧ UniqV (I4 φ a b c d) v := by
     obtain ⟨v, hv⟩ := h.exists_uniqV hF hN hnd
     exact ⟨v, c, d, hnd, hv⟩
-  rw [vab, dif_pos hex]
+  rw [vab, dite_eq_left hex]
   obtain ⟨c₀, d₀, hnd₀, hv₀⟩ := hex.choose_spec
   exact h.uniqV_chain hF hN hnd₀ hnd hv₀
 
@@ -271,8 +270,7 @@ theorem exists_two (hN : 4 ≤ N) (a b : Fin N) :
     (by simp only [List.length_cons, List.length_nil, Finset.card_univ, Fintype.card_fin]; omega)
   obtain ⟨d, -, hd⟩ := exists_mem_not_mem_list (S := Finset.univ) [a, b, c]
     (by simp only [List.length_cons, List.length_nil, Finset.card_univ, Fintype.card_fin]; omega)
-  simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false, not_or,
-    not_false_eq_true] at hc hd
+  simp only [List.mem_cons, List.not_mem_nil, or_false, not_or] at hc hd
   exact ⟨c, d, hc.1, hc.2, hd.1, hd.2.1, fun h => hd.2.2 h.symm⟩
 
 theorem HeartW.vab_ne_zero (h : HeartW φ F θ) (hF : 5 ≤ F.card) (hN : 7 ≤ N) {a b : Fin N}
@@ -316,8 +314,7 @@ theorem HeartW.vab_add (h : HeartW φ F θ) (hF : 5 ≤ F.card) (hN : 7 ≤ N) (
   · rw [← hac, vab_self, h.vab_comm hF hN b a, add_self_V]
   obtain ⟨d, -, hd⟩ := exists_mem_not_mem_list (S := Finset.univ) [a, b, c]
     (by simp only [List.length_cons, List.length_nil, Finset.card_univ, Fintype.card_fin]; omega)
-  simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false, not_or,
-    not_false_eq_true] at hd
+  simp only [List.mem_cons, List.not_mem_nil, or_false, not_or] at hd
   obtain ⟨hda, hdb, hdc⟩ := hd
   have h1 := h.uniqV_vab hF hN (nodup4 hab hac (Ne.symm hda) hbc (Ne.symm hdb) (Ne.symm hdc))
   have h2 := h.uniqV_vab hF hN (a := b) (b := c) (c := a) (d := d)
@@ -349,7 +346,7 @@ theorem HeartW.thetaV_ev_add (h : HeartW φ F θ) (hF : 5 ≤ F.card) (hN : 7 �
   · rw [hab, add_self, map_zero, vab_self]
   rw [map_add, thetaV_apply, thetaV_apply]
   simp only [ev, Pi.single_apply, ite_smul, one_smul, zero_smul, Finset.sum_ite_eq',
-    Finset.mem_univ, if_true]
+    Finset.mem_univ, ite_true]
   rw [h.vab_comm hF hN b i₀, h.vab_add hF hN]
 
 theorem HeartW.apply_thetaV (h : HeartW φ F θ) (hF : 5 ≤ F.card) (hN : 7 ≤ N) (i₀ : Fin N)

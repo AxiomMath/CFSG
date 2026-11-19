@@ -206,7 +206,7 @@ theorem ggTBJ_linMinus_of_frame
           have hcomm := hfix z (hJeq ▸ hz)
             (fun j => if j ∈ S then ofAdd (1 : ZMod p) else 1) (by
               intro j hj l hl
-              rw [if_pos hj, if_pos hl])
+              rw [ite_eq_left hj, ite_eq_left hl])
           rw [← haT, hcomm, mul_assoc, mul_inv_cancel, mul_one]
       · unfold permSupportedAut
         rw [MonoidHom.map_closure, Subgroup.closure_le]

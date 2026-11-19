@@ -43,7 +43,7 @@ variable {K : Type} [Field K]
 
 private theorem eq_zero_or_one [Finite K] (hK : Nat.card K = 2) (x : K) : x = 0 ∨ x = 1 := by
   classical
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have h := FiniteField.pow_card x
   rw [← Nat.card_eq_fintype_card, hK] at h
   have h0 : x * (x - 1) = 0 := by linear_combination h
@@ -75,8 +75,8 @@ theorem false_of_conjAct [Finite K] [CharP K 2] (hK : Nat.card K = 2)
     (hE : IsElemAbelian 3 E) (hcard : Nat.card E = 3 ^ 4)
     (ht : conjAct (coordinateQuadPlus 4 K) g ^ 2 = 1) (ht1 : conjAct (coordinateQuadPlus 4 K) g ≠ 1)
     (hfix : ∀ e ∈ E, conjAct (coordinateQuadPlus 4 K) g e = e) : False := by
-  letI : Algebra (ZMod 2) K := ZMod.algebra K 2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Algebra (ZMod 2) K := ZMod.algebra K 2
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set t := conjAct (coordinateQuadPlus 4 K) g with htdef
   set L : GL (Fin (2 * 4)) K := g.val.left with hL
   have hσ : g.val.right = 1 := ringEquiv_eq_one hK _
@@ -233,9 +233,9 @@ theorem exists_om8_of_isD4two {S : Type} [Group S]
   rw [h1, h2] at hm
   obtain ⟨-, K₀, _, _, hK₀, ⟨eK⟩⟩ := hm.statedClassicalModel (by decide)
   have hK₀' : Nat.card K₀ = 2 := hK₀.trans (by norm_num)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K₀ := Fintype.ofFinite K₀
-  haveI : CharP K₀ 2 := charP_of_card_eq_prime_pow (f := 1)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K₀ := Fintype.ofFinite K₀
+  have : CharP K₀ 2 := charP_of_card_eq_prime_pow (f := 1)
     (by rw [← Nat.card_eq_fintype_card, hK₀])
   have hS := CFSG.LocalAnalysis.GLTheoremA.D4Y.matrixDerivedScalars_eq_bot_charTwo
     (coordinateQuadPlus 4 K₀)

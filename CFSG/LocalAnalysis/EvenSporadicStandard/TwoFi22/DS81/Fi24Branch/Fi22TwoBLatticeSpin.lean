@@ -64,7 +64,7 @@ theorem ins_mem {r : ℕ} (hr : P r) :
       · exact hB b (List.mem_cons_self ..)
       · exact ins_mem hr (fun b' hb' => hB b' (List.mem_cons_of_mem _ hb')) b hb
 
-theorem addVec_mem (h0 : P 0) (hx : ∀ a b, P a → P b → P (a ^^^ b)) {B : List ℕ}
+theorem addVec_mem (_h0 : P 0) (hx : ∀ a b, P a → P b → P (a ^^^ b)) {B : List ℕ}
     (hB : ∀ b ∈ B, P b) {v : ℕ} (hv : P v) : ∀ b ∈ addVec B v, P b := by
   have hr : P (reduce B v) := reduce_mem hx B hB v hv
   unfold addVec

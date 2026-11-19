@@ -54,7 +54,7 @@ private lemma omSevenC_zpow_mapsTo {U : Subgroup W} {t : MulAut W}
       exact ih _ (omSevenC_inv_mapsTo ht u hu)
 
 private lemma omSevenC_mul_mem_sup {U : Subgroup W} {t t' : MulAut W}
-    (ht : ∀ u ∈ U, t u ∈ U) (ht' : ∀ u ∈ U, t' u ∈ U) {u : W} (hu : u ∈ U) :
+    (_ht : ∀ u ∈ U, t u ∈ U) (ht' : ∀ u ∈ U, t' u ∈ U) {u : W} (hu : u ∈ U) :
     (t * t') u * u⁻¹ ∈ commSub U (zpowers t) ⊔ commSub U (zpowers t') := by
   have h1 : t (t' u) * (t' u)⁻¹ ∈ commSub U (zpowers t) :=
     Subgroup.subset_closure ⟨t, Subgroup.mem_zpowers t, t' u, ht' u hu, rfl⟩
@@ -75,7 +75,7 @@ theorem commSub_zpowers_mul_le {U : Subgroup W} {t t' : MulAut W} (ht : ∀ u �
   clear hx
   have hstab : ∀ u ∈ U, (t * t') u ∈ U := fun u hu => ht _ (ht' u hu)
   induction k using Int.induction_on with
-  | zero => simpa using Subgroup.one_mem _
+  | zero => simp
   | succ i ih =>
       have hw1 : ((t * t') ^ (i : ℤ)) w ∈ U := omSevenC_zpow_mapsTo hstab (i : ℤ) w hw
       have hz : (t * t') ^ ((i : ℤ) + 1) = (t * t') * (t * t') ^ (i : ℤ) := by

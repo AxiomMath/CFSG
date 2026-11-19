@@ -55,7 +55,7 @@ private theorem normalizer_zpowers_le_map {K : Subgroup X} [K.Normal] (hK2 : IsP
     have hmem : z⁻¹ * a ∈ CFSG.FiveTransitive.SylowPreimageNormalizer.ambient π V R ⊓ K :=
       ⟨Subgroup.mul_mem _ (Subgroup.inv_mem _ hzA) ha, hk⟩
     have hdisj : Disjoint (CFSG.FiveTransitive.SylowPreimageNormalizer.ambient π V R) K :=
-      IsPGroup.disjoint_of_ne 3 2 (by norm_num) _ _ (R.isPGroup'.map _) hK2
+      IsPGroup.disjoint_of_ne 3 2 (by norm_num) _ _ (R.isPGroup.map _) hK2
     have h1 : z⁻¹ * a = 1 := Subgroup.mem_bot.1 (hdisj.le_bot hmem)
     have haz : a = z := by
       calc a = z * (z⁻¹ * a) := by group
@@ -67,7 +67,7 @@ private theorem normalizer_zpowers_le_map {K : Subgroup X} [K.Normal] (hK2 : IsP
   exact hN.ge
 
 theorem sup_normalizer_eq_top_of_gen1412 (h : Hyp1411 X L S)
-    (hK : CFSG.pPrimeCore 3 X = CFSG.pCore 2 X) {x : X} (hxL : x ∈ L) (hx3 : orderOf x = 3)
+    (hK : CFSG.pPrimeCore 3 X = CFSG.pCore 2 X) {x : X} (_hxL : x ∈ L) (hx3 : orderOf x = 3)
     {M : Subgroup X} (hSM : S ≤ M) {Ω : Subgroup (X ⧸ CFSG.pPrimeCore 3 X)}
     (hΩM : Ω ≤ M.map (QuotientGroup.mk' (CFSG.pPrimeCore 3 X)))
     (hgen : L.map (QuotientGroup.mk' (CFSG.pPrimeCore 3 X)) ≤

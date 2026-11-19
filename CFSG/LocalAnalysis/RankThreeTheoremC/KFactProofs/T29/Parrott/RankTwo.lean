@@ -56,8 +56,8 @@ theorem orderOf_card_zmod_three_one {q : ℕ} (hq : q % 3 = 1) : orderOf (q : ZM
 
 theorem noE27_projSp_two {F : Type} [Field F] [Finite F] (hF : ¬ 3 ∣ Nat.card F) :
     NoE27 (StatedProj (StatedSp 2 F)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fintype F := Fintype.ofFinite F
   have hF' : ¬ 3 ∣ Fintype.card F := by rwa [← Nat.card_eq_fintype_card]
   have hmod : Fintype.card F % 3 = 1 ∨ Fintype.card F % 3 = 2 := by omega
   have hSp : NoE27 ↥(StatedSp 2 F) := by

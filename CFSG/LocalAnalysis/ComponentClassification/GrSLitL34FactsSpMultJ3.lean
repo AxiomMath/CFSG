@@ -134,7 +134,7 @@ theorem map_lift_mk {m : ℕ} {E G F : Type*} [Group E] [Group G] [FunLike F E G
     [MonoidHomClass F E G] (φ : F) (k : Fin m → E) (w : List (Fin m × Bool)) :
     φ (FreeGroup.lift k (FreeGroup.mk w)) = FreeGroup.lift (fun i => φ (k i)) (FreeGroup.mk w) := by
   rw [CFSG.Certificates.lift_mk_eq_signedProd, CFSG.Certificates.lift_mk_eq_signedProd]
-  exact CFSG.Certificates.map_signedProd (MonoidHomClass.toMonoidHom φ) k w
+  exact CFSG.Certificates.map_signedProd (MonoidHom.ofClass φ) k w
 
 theorem injective_of_surjective_card_le {A B : Type*} [Group A] [Group B] (hA : Finite A)
     (f : A →* B) (hf : Function.Surjective f) (h : Nat.card A ≤ Nat.card B) :

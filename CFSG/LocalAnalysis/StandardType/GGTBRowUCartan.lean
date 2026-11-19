@@ -27,11 +27,11 @@ theorem ggCartanA_pathTree {k : ℕ} (root : Fin k) (hroot : root.1 = 0) :
         simpa [ggPathPar] using h
     have hC : CartanMatrix.A k i j ≠ 0 ↔ i.1 + 1 = j.1 ∨ j.1 + 1 = i.1 := by
       simp only [CartanMatrix.A, Matrix.of_apply]
-      rw [if_neg hij]
+      rw [ite_eq_right hij]
       by_cases h : i.1 + 1 = j.1 ∨ j.1 + 1 = i.1
-      · rw [if_pos h]
+      · rw [ite_eq_left h]
         exact ⟨fun _ => h, fun _ => by norm_num⟩
-      · rw [if_neg h]
+      · rw [ite_eq_right h]
         exact ⟨fun h0 => absurd rfl h0, fun h0 => absurd h0 h⟩
     have hrel : ((i ≠ root ∧ ggPathPar k i = j) ∨ (j ≠ root ∧ ggPathPar k j = i)) ↔
         (i.1 + 1 = j.1 ∨ j.1 + 1 = i.1) := by

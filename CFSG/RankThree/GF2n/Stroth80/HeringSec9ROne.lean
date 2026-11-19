@@ -13,18 +13,19 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
 namespace HS9
 
+omit [Finite G] in
 theorem eq_of_normal_of_ne_Q {Y Q K : Subgroup G} {q : ℕ} (h4 : 4 ≤ q)
     (hq2 : ∃ s : ℕ, q = 2 ^ s) (h : QuotSat Y Q (IsSLModel 2 q)) (hQK : Q ≤ K) (hKY : K ≤ Y)
     (hnorm : ∀ y ∈ Y, ∀ k ∈ K, y * k * y⁻¹ ∈ K) (hne : ¬ K ≤ Q) : K = Y := by
   obtain ⟨hn, hmod⟩ := h
-  haveI := hn
+  have := hn
   obtain ⟨-, hsimple⟩ := isSLModel_two_data h4 hq2 hmod
-  haveI := hsimple
+  have := hsimple
   let K' : Subgroup ↥Y := K.subgroupOf Y
-  haveI hK'n : K'.Normal := ⟨fun k hk y => by
+  have hK'n : K'.Normal := ⟨fun k hk y => by
     rw [Subgroup.mem_subgroupOf] at hk ⊢
     exact hnorm y y.2 k hk⟩
-  haveI hmapn : (K'.map (QuotientGroup.mk' (Q.subgroupOf Y))).Normal :=
+  have hmapn : (K'.map (QuotientGroup.mk' (Q.subgroupOf Y))).Normal :=
     Subgroup.Normal.map hK'n _ (QuotientGroup.mk'_surjective _)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
     (K'.map (QuotientGroup.mk' (Q.subgroupOf Y))) with hbot | htop
@@ -48,6 +49,7 @@ theorem eq_of_normal_of_ne_Q {Y Q K : Subgroup G} {q : ℕ} (h4 : 4 ≤ q)
     rw [e]
     exact K.mul_mem hk (hQK (Subgroup.mem_subgroupOf.mp hq))
 
+omit [Finite G] in
 theorem one_part_a (hc : Ctx M Q Z B) {t : G} {X Y : Subgroup G}
     (hsplit : Split95 M Q Z B t X Y) (h4 : Sec4Concl M Q Z B X Y) {e : G}
     (heL : e ∈ LB M Q B) (heX : e ∈ X) : (LB M Q B ⊓ X) ⊔ Y ≤ Rt M (LB M Q B) e := by

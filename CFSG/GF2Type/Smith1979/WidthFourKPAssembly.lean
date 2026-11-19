@@ -54,7 +54,7 @@ theorem smith1979WidthFourCharTwoKP_of_leaves
       · have hno : S11.NoA2All S := fun g h1 h2 hA => hα ⟨g, h1, h2, hA⟩
         obtain ⟨H, C⟩ :=
           W4O83.hyp4_cons311_of_w4 Smith1980Orth.timInputs_holds.hTI hS4 hno hirr g₀ hg₀Q hg₀ne
-        haveI : (generalizedFitting (Subgroup.centralizer ({z} : Set G))).Normal :=
+        have : (generalizedFitting (Subgroup.centralizer ({z} : Set G))).Normal :=
           CFSG.Holt.General.NoRelevant.generalizedFitting_normal
         let Mbar := Subgroup.centralizer ({z} : Set G) ⧸
           generalizedFitting (Subgroup.centralizer ({z} : Set G))

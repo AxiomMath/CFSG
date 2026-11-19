@@ -52,7 +52,7 @@ theorem uc22s216_eq_J1_of_isSpor {D : Data G} {Ch : Choice2011 G} (h3 : S21_3 D 
   have hBN : c.B0 ≤ normalizer (L : Set G) := h5 hH c₀ L hL
   have hthin := uc22s216_not_thin8_of_isSpor hrank hL hsJ hs
   obtain ⟨-, hBab, -, -, -, -, -, -, -, hBT, -, -⟩ := c.hB0
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hBo : Odd (Nat.card ↥c.B0) := by
     by_contra h
     rw [Nat.not_odd_iff_even, even_iff_two_dvd] at h
@@ -64,19 +64,19 @@ theorem uc22s216_eq_J1_of_isSpor {D : Data G} {Ch : Choice2011 G} (h3 : S21_3 D 
     (uc22s216_center_barInf_eq_bot hL)
     (fun σ hσ => uc22s216_mem_range_conj_of_isSpor hout hL hs hσ)
     (uc22p2214_isSylowOf_inf D.sylowM hL.1) D.sylowM.isPGroup hBN hBT hBab hBo
-  haveI := hBφab
+  have := hBφab
   have hB3 : IsPGroup 3 ↥Bφ :=
     F10.isPGroup_three_of_permutes_spor hK hsJ hs hS inferInstance hBφo hperm
   obtain ⟨p, hp, hpd, hp3⟩ := uc22p20o_prime_sub_one_ne_three (hn3 hH c)
   have hpB : p ∣ Nat.card ↥c.B0 := by
     have hpi : p ∈ piSet c.B0 := by rw [c.hpi]; exact ⟨hp, hpd⟩
     exact hpi.2
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨b, hb⟩ := exists_prime_orderOf_dvd_card' (G := ↥c.B0) p hpB
   rw [← Subgroup.orderOf_coe] at hb
   obtain ⟨x, hx, hbx, hxo⟩ := hact (b : G) b.2
   have hx1 : x = 1 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨k, hk⟩ := hB3.exists_card_eq
     have h1 : orderOf x ∣ 3 ^ k := hk ▸ Subgroup.orderOf_dvd_natCard Bφ hx
     have hcop : Nat.Coprime (3 ^ k) p :=
@@ -105,7 +105,7 @@ theorem s21_6Inf_of_k105Spor {D : Data G} {Ch : Choice2011 G} (h3 : S21_3 D Ch)
   refine ⟨uc22s216_isJ1_bar2_of_isJ1_barInf hL hJ, ?_⟩
   have hBN : c.B ≤ normalizer (L : Set G) := h5 hH c L hL
   obtain ⟨-, hBab, -, -, -, -, -, -, -, hBT, -, -⟩ := c.hB
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hBo : Odd (Nat.card ↥c.B) := by
     by_contra h
     rw [Nat.not_odd_iff_even, even_iff_two_dvd] at h
@@ -117,7 +117,7 @@ theorem s21_6Inf_of_k105Spor {D : Data G} {Ch : Choice2011 G} (h3 : S21_3 D Ch)
     (uc22s216_center_barInf_eq_bot hL)
     (fun σ hσ => uc22s216_mem_range_conj_of_isSpor hout hL hs hσ)
     (uc22p2214_isSylowOf_inf D.sylowM hL.1) D.sylowM.isPGroup hBN hBT hBab hBo
-  haveI := hBφab
+  have := hBφab
   by_cases h7 : 7 ∈ piSet c.B
   · exact Or.inr h7
   left

@@ -86,7 +86,6 @@ theorem ggExcReflTBWeylDatum_of_weylOfType {p : ℕ} [Fact p.Prime] (hp2 : p ≠
       hsimple_apply hAL
   first
     | exact ⟨Λ, M, C, V, ιV, φ, h, α, hM, hC, h3, hpair, hsimple_apply, hAL, htb'⟩
-    | exact ⟨Λ, M, C, V, ιV, φ, h, α, hM, hC, h3, hpair, hsimple_apply, hAL, htb', _hRC⟩
 
 end CFSG.StandardType
 

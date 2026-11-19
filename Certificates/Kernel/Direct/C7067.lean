@@ -34,7 +34,7 @@ theorem coord_sum_add (σ : Perm (Fin 6)) (f : Fin 2 ⊕ Fin 2 → ZMod 2) (t : 
     simp [perm6, ones]
   have h2 : ∀ r, ones ⬝ᵥ dualBas r = 0 := by decide
   rw [h1]
-  simp only [coord, add_dotProduct, smul_dotProduct, h2, smul_zero, add_zero, smul_eq_mul]
+  simp only [coord, add_dotProduct, smul_dotProduct, h2, smul_eq_mul]
   rw [sum_dotProduct]
   simp [smul_dotProduct]
 

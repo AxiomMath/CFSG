@@ -49,6 +49,7 @@ theorem shape3_card : Nat.card (QuaternionGroup 2) = 2 ^ (2 + 1) := by
   rw [Nat.card_eq_fintype_card, QuaternionGroup.card]
   norm_num
 
+omit [Finite K] in
 theorem shape3 {R : Subgroup K} (e : ↥R ≃* QuaternionGroup 2) :
     ∃ i j t : K, RShape 3 2 R t ∧ i ∈ R ∧ j ∈ R ∧ i ^ 2 = t ∧ j ^ 2 = t ∧
       j * i * j⁻¹ = t * i := by
@@ -190,6 +191,7 @@ theorem shape5_d8_rel : (DihedralGroup.r 1 : DihedralGroup 4) * DihedralGroup.sr
     (DihedralGroup.r 1)⁻¹ = DihedralGroup.r 2 * DihedralGroup.sr 0 := by
   decide
 
+omit [Finite K] in
 theorem shape5_card_sup_mul_inf {A B : Subgroup K} (hAB : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a) :
     Nat.card ↥(A ⊔ B : Subgroup K) * Nat.card ↥(A ⊓ B : Subgroup K) =
       Nat.card ↥A * Nat.card ↥B := by
@@ -243,6 +245,7 @@ theorem shape5_q8_a2_central : ∀ y : QuaternionGroup 2,
 theorem shape5_q8_a2_sq : (QuaternionGroup.a 2 : QuaternionGroup 2) ^ 2 = 1 := by
   decide
 
+omit [Finite K] in
 theorem shape5_sup_decomp {A B : Subgroup K} (hAB : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a) {y : K}
     (hy : y ∈ A ⊔ B) : ∃ a ∈ A, ∃ b ∈ B, y = a * b := by
   let φ : (↥A × ↥B) →* K :=
@@ -264,6 +267,7 @@ theorem shape5_sup_decomp {A B : Subgroup K} (hAB : ∀ a ∈ A, ∀ b ∈ B, a 
   obtain ⟨p, hp⟩ := MonoidHom.mem_range.mp (hle hy)
   exact ⟨(p.1 : K), p.1.2, (p.2 : K), p.2.2, hp.symm⟩
 
+omit [Finite K] in
 theorem shape5_comm_decomp {A B : Subgroup K} (hAB : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a)
     {a1 a2 b1 b2 : K} (ha1 : a1 ∈ A) (ha2 : a2 ∈ A) (hb1 : b1 ∈ B) (hb2 : b2 ∈ B) :
     ⁅a1 * b1, a2 * b2⁆ = ⁅a1, a2⁆ * ⁅b1, b2⁆ := by
@@ -278,6 +282,7 @@ theorem shape5_comm_decomp {A B : Subgroup K} (hAB : ∀ a ∈ A, ∀ b ∈ B, a
   rw [sw ha2 hb1, sw ha1i hb1i, sw ha1i hb2, sw ha1i hb1, ← hAB _ ha2i _ hb2i,
     sw ha2i hb1i, sw ha2i hb2, sw ha2i hb1]
 
+omit [Finite K] in
 theorem shape5 {R A B : Subgroup K} (eA : ↥A ≃* QuaternionGroup 2) (eB : ↥B ≃* DihedralGroup 4)
     (hAB : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a) (hR : A ⊔ B = R)
     (hcard : Nat.card ↥(A ⊓ B : Subgroup K) = 2) :

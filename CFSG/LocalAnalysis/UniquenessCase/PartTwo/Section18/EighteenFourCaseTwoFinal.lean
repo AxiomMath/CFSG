@@ -131,10 +131,10 @@ theorem gap_18_4_ii_W {D : Data G} {V : Subgroup G} {hV : IsElemAbelian 2 V}
     (hK1 : K_OmegaPlusFour_twoNat_inv)
     (hp125 : Hyp125 D ⊥ V) (hX : IsOmegaPlus ↥X 4 2)
     (hsum : SumOfNat (fun H U Z => NatOmegaPlus H U Z 4 2) X ⊤ ⊥ 2)
-    (hm4 : mBar D.M ⊥ V hV = 4) (hr4 : (4 : ℕ∞) < rMV D.M V)
+    (hm4 : mBar D.M ⊥ V hV = 4) (_hr4 : (4 : ℕ∞) < rMV D.M V)
     (hMN : Mbar D.M ⊥ V hV ≤
       Subgroup.normalizer (X : Set (MulAut (Vtil (⊥ : Subgroup G) V hV))))
-    (B : Subgroup G) (g : G) (hB : B ≤ conjSubgroup V g) (hBM : B ≤ D.M)
+    (B : Subgroup G) (g : G) (hB : B ≤ conjSubgroup V g) (_hBM : B ≤ D.M)
     (hmVgB : E3.mQuot (conjSubgroup V g) B = 4)
     (hWle : V ⊓ Subgroup.centralizer (B : Set G) ≤ conjSubgroup D.M g) :
     E3.mQuot (V ⊓ Subgroup.centralizer (B : Set G))

@@ -88,13 +88,13 @@ theorem no_surjection_slThreePi_psl2 {D : Type} [Group D] [Finite D] {n : ℕ} (
   have hQ := Hering129KRes.isQuasisimple_of_isSLThreePiAt hD hq2
   have hZ3 : Nat.card (Subgroup.center D) = 3 := card_center_eq_three_of_isSLThreePi ⟨_, hD⟩
   have hSs : IsSimpleGroup (projSL 2 (GaloisField p m)) := isSimpleGroup_projSL_two h4
-  haveI hDp : Group.IsPerfect D := hQ.1
-  haveI hSp : Group.IsPerfect (projSL 2 (GaloisField p m)) :=
+  have hDp : Group.IsPerfect D := hQ.1
+  have hSp : Group.IsPerfect (projSL 2 (GaloisField p m)) :=
     Group.IsPerfect.ofSurjective (f := φ) hφ
   have hnc : ∃ a b : projSL 2 (GaloisField p m), a * b ≠ b * a := by
     by_contra hcon
     push Not at hcon
-    letI : CommGroup (projSL 2 (GaloisField p m)) :=
+    let : CommGroup (projSL 2 (GaloisField p m)) :=
       { (inferInstance : Group (projSL 2 (GaloisField p m))) with mul_comm := hcon }
     exact Group.IsPerfect.not_isSolvable (projSL 2 (GaloisField p m)) inferInstance
   have hZS : Subgroup.center (projSL 2 (GaloisField p m)) = ⊥ :=
@@ -161,7 +161,7 @@ variable {n : ℕ} {X : Type} [Field X] [Finite X] {σ : X ≃+* X}
 
 theorem d4_resCent_threeB' (P : D4Par n X σ) {t : C0 σ} (htB : t ∈ Bsub σ)
     (ht : orderOf t = 3) : resCent (⊤ : Subgroup (C0 σ)) t = Asub σ := by
-  haveI : Finite (C0 σ) := finite_C0 (σ := σ)
+  have : Finite (C0 σ) := finite_C0 (σ := σ)
   have ht3 : t ^ 3 = 1 := by rw [← ht]; exact pow_orderOf_eq_one t
   have ht1 : t ≠ 1 := by
     rintro rfl
@@ -194,22 +194,23 @@ theorem d4_resCent_threeB' (P : D4Par n X σ) {t : C0 σ} (htB : t ∈ Bsub σ)
     ∀ (p m : ℕ) (_ : Fact p.Prime), 4 ≤ p ^ m →
       ∀ φ : Xm →* projSL 2 (GaloisField p m), Function.Surjective φ → False
 
+omit [Finite X] in
 theorem threeAExcl_of_solvable (σ : X ≃+* X)
     (hs : ∀ a ∈ Asub σ, orderOf a = 3 →
       Group.IsSolvable ↥(Subgroup.centralizer ({a} : Set (C0 σ)))) : ThreeAExcl σ := by
   intro a haA ha3 Xm hXC hXp hXs p m _ h4 φ hφ
-  haveI := hs a haA ha3
-  haveI : Group.IsSolvable ↥Xm :=
+  have := hs a haA ha3
+  have : Group.IsSolvable ↥Xm :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hXC)
       (Subgroup.inclusion_injective hXC)
-  haveI := hXp
-  haveI : Nontrivial (projSL 2 (GaloisField p m)) := (isSimpleGroup_projSL_two h4).toNontrivial
-  haveI : Nontrivial ↥Xm := hφ.nontrivial
+  have := hXp
+  have : Nontrivial (projSL 2 (GaloisField p m)) := (isSimpleGroup_projSL_two h4).toNontrivial
+  have : Nontrivial ↥Xm := hφ.nontrivial
   exact Group.IsPerfect.not_isSolvable ↥Xm ‹_›
 
 theorem threeAExcl_of_two_le (P : D4Par n X σ) (hn : 2 ≤ n) : ThreeAExcl σ := by
   intro a haA ha3 Xm hXC hXp hXs p m _ h4 φ hφ
-  haveI : Finite (C0 σ) := finite_C0 (σ := σ)
+  have : Finite (C0 σ) := finite_C0 (σ := σ)
   have hA : IsThreeA a (2 ^ n) := Hering129L.d4_isThreeA P hn haA ha3
   have hq2 : 2 < 2 ^ n := by
     calc 2 < 2 ^ 2 := by norm_num
@@ -227,9 +228,9 @@ theorem threeAExcl_of_two_le (P : D4Par n X σ) (hn : 2 ≤ n) : ThreeAExcl σ :
     rw [heq]
     exact hXs.comap _
   have hQ : CFSG.IsQuasisimple ↥D := Hering129KRes.isQuasisimple_of_isSLThreePiAt hA.2.2 hq2
-  haveI hSs : Nontrivial (projSL 2 (GaloisField p m)) := (isSimpleGroup_projSL_two h4).toNontrivial
+  have hSs : Nontrivial (projSL 2 (GaloisField p m)) := (isSimpleGroup_projSL_two h4).toNontrivial
   have hP' : Group.IsPerfect (Xm.subgroupOf D) := by
-    haveI := hXp
+    have := hXp
     exact Group.IsPerfect.ofSurjective (f := (Subgroup.subgroupOfEquivOfLe hXD).symm.toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hXD).symm.surjective
   have hne : Xm.subgroupOf D ≠ ⊥ := by
@@ -259,8 +260,8 @@ theorem threeAExcl_of_two_le (P : D4Par n X σ) (hn : 2 ≤ n) : ThreeAExcl σ :
 
 theorem exists_conj_std (P : D4Par n X σ) (hex : ThreeAExcl σ) {c y : C0 σ}
     (hpd : PairData c y) : ∃ γ : C0 σ, γ * c * γ⁻¹ = zStd P ∧ γ * y * γ⁻¹ = tStd P := by
-  haveI : Finite (C0 σ) := finite_C0 (σ := σ)
-  haveI := P.charP
+  have : Finite (C0 σ) := finite_C0 (σ := σ)
+  have := P.charP
   have hy3 : orderOf y = 3 := orderOf_eq_prime hpd.y3 hpd.y1
   have h3 : ¬ 3 ∣ 2 ^ n := fun h => by
     have := Nat.Prime.dvd_of_dvd_pow Nat.prime_three h
@@ -273,7 +274,7 @@ theorem exists_conj_std (P : D4Par n X σ) (hex : ThreeAExcl σ) {c y : C0 σ}
     rw [centralizer_conj_eq_map]
     exact Subgroup.map_mono hXC
   have hperf : Group.IsPerfect (Xk.map cg.toMonoidHom) := by
-    haveI := hXp
+    have := hXp
     exact Group.IsPerfect.ofSurjective
       (f := (Xk.equivMapOfInjective cg.toMonoidHom cg.injective).toMonoidHom)
       (Xk.equivMapOfInjective cg.toMonoidHom cg.injective).surjective
@@ -295,7 +296,7 @@ theorem exists_conj_std (P : D4Par n X σ) (hex : ThreeAExcl σ) {c y : C0 σ}
     have hc1o : orderOf (g * c * g⁻¹) = 3 := by
       rw [orderOf_conj_eq]
       exact orderOf_eq_prime hpd.c3 hpd.c1
-    haveI : CharP ↥(fixSubfield σ) 2 := inferInstance
+    have : CharP ↥(fixSubfield σ) 2 := inferInstance
     set b := (bsubEquiv P).symm ⟨g * y * g⁻¹, hB⟩ with hb
     have hb3 : b ^ 3 = 1 := by
       apply (bsubEquiv P).injective
@@ -374,6 +375,7 @@ open CFSG.Assembly.RankThreeEven (projSL)
 
 variable {K K' : Type} [Group K] [Group K'] [Finite K] [Finite K']
 
+omit [Finite K] [Finite K'] in
 theorem PairData.map (e : K ≃* K') {c y : K} (h : PairData c y) : PairData (e c) (e y) := by
   refine ⟨?_, ?_, ?_, ?_, ?_, ?_⟩
   · rw [← map_pow, h.c3, map_one]
@@ -389,7 +391,7 @@ theorem PairData.map (e : K ≃* K') {c y : K} (h : PairData c y) : PairData (e 
       hφ.comp (Xk.equivMapOfInjective e.toMonoidHom e.injective).symm.surjective⟩
     · rw [Hering129L.centralizer_map_equiv_eq e y]
       exact Subgroup.map_mono hXC
-    · haveI := hXp
+    · have := hXp
       exact Group.IsPerfect.ofSurjective
         (f := (Xk.equivMapOfInjective e.toMonoidHom e.injective).toMonoidHom)
         (Xk.equivMapOfInjective e.toMonoidHom e.injective).surjective
@@ -408,7 +410,7 @@ open CFSG.Assembly.RankThreeEven (projSL)
 theorem gap129HessD4_of (hKF : KF_D4_HESS) (hTwo : TwoThreeAExcl) : Gap129HessD4 := by
   intro P _ _ Yh Bh xh bh ch hD hex
   obtain ⟨r, hr, hp2, ⟨e⟩⟩ := hex
-  haveI := hD.normal
+  have := hD.normal
   obtain ⟨hZ, ⟨a⟩⟩ := exists_act_of_d4 hD hp2 e
   have hpd := pairData_of_hess hD hZ a
   obtain ⟨Kf, hKf1, hKf2, σ, hK, hσ, ⟨eM⟩⟩ := Hering129KModels.exists_d4_model e
@@ -425,7 +427,7 @@ theorem gap129HessD4_of (hKF : KF_D4_HESS) (hTwo : TwoThreeAExcl) : Gap129HessD4
         rw [← h1]
         exact Ppar
       exact hTwo Kf σ Ppar1
-  haveI : Finite (C0 σ) := finite_C0 (σ := σ)
+  have : Finite (C0 σ) := finite_C0 (σ := σ)
   obtain ⟨F, hF⟩ := exists_hessF_of_pairData hKF Ppar hexcl (hpd.map eM)
   have hF' := HessF.map eM.symm hF
   rw [MulEquiv.symm_apply_apply, MulEquiv.symm_apply_apply] at hF'

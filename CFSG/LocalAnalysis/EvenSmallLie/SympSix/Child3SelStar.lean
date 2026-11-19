@@ -57,7 +57,7 @@ theorem not_four_dvd_card_of_centralizer {X : Type} [Group X] [Finite X] {t : X}
     rw [orderOf_one] at ht
     exact absurd ht (by norm_num)
   set C : Subgroup X := (S : Subgroup X) ⊓ centralizer ({t} : Set X) with hCdef
-  have hCp : IsPGroup 2 C := S.isPGroup'.to_le inf_le_left
+  have hCp : IsPGroup 2 C := S.isPGroup.to_le inf_le_left
   obtain ⟨k, hk⟩ := hCp.exists_card_eq
   have hk1 : k ≤ 1 := by
     by_contra hk2
@@ -75,7 +75,7 @@ theorem not_four_dvd_card_of_centralizer {X : Type} [Group X] [Finite X] {t : X}
     calc 2 ^ k ≤ 2 ^ 1 := Nat.pow_le_pow_right (by norm_num) hk1
       _ = 2 := pow_one 2
   have : Nontrivial (S : Subgroup X) := ⟨⟨⟨t, htS⟩, 1, fun h' => ht1 (congrArg Subtype.val h')⟩⟩
-  have hZ := S.isPGroup'.center_nontrivial
+  have hZ := S.isPGroup.center_nontrivial
   obtain ⟨z, hz1⟩ := exists_ne (1 : center (S : Subgroup X))
   have hzS : ((z : (S : Subgroup X)) : X) ∈ C := by
     refine mem_inf.2 ⟨(z : (S : Subgroup X)).2, ?_⟩

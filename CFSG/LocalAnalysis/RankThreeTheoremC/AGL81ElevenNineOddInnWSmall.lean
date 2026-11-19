@@ -20,6 +20,7 @@ open CFSG.Open CFSG.AGLEmbedding CFSG.LocalAnalysis.RankThreeTheoremC.TenThreeTh
 
 variable {Q : Type} [Group Q] [Finite Q]
 
+omit [Finite Q] in
 theorem exists_gens_of_mulEquiv_perm_three {T : Subgroup Q} (e : T ≃* Perm (Fin 3)) :
     ∃ x t : Q, x ∈ T ∧ t ∈ T ∧ orderOf x = 3 ∧ t * t = 1 ∧ t * x * t⁻¹ = x⁻¹ ∧
       (∀ y ∈ T, ∃ i j : ℕ, y = x ^ j * t ^ i) := by
@@ -49,7 +50,7 @@ theorem zpowers_eq_of_isSubnormal (hrk : Open.pRank 3 (wSup Q) ≤ 1) {x y : Q}
     (hx : orderOf x = 3) (hy : orderOf y = 3) (hxs : (zpowers x).IsSubnormal)
     (hys : (zpowers y).IsSubnormal) (hxW : x ∈ wSup Q) (hyW : y ∈ wSup Q) :
     zpowers x = zpowers y := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set P₀ := CFSG.pCore 3 Q ⊓ wSup Q with hP₀
   have hx3 : IsPGroup 3 (zpowers x) := IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hx]; rfl)
   have hy3 : IsPGroup 3 (zpowers y) := IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hy]; rfl)
@@ -67,9 +68,9 @@ theorem zpowers_eq_of_isSubnormal (hrk : Open.pRank 3 (wSup Q) ≤ 1) {x y : Q}
         decide)
     rw [← MonoidHom.range_eq_map, Subgroup.range_subtype] at h1
     exact h1.trans ((CFSG.SectionRank.pRank_mono (by norm_num) inf_le_right).trans hrk)
-  haveI hcyc : IsCyclic ↥(⊤ : Subgroup ↥P₀) :=
+  have hcyc : IsCyclic ↥(⊤ : Subgroup ↥P₀) :=
     CFSG.RankThree.PartTwo.Sec4.RonanK432.isCyclic_of_pRank_le_one hrk' (hP3.to_subgroup ⊤)
-  haveI : IsCyclic ↥P₀ := isCyclic_of_surjective (Subgroup.topEquiv (G := ↥P₀)).toMonoidHom
+  have : IsCyclic ↥P₀ := isCyclic_of_surjective (Subgroup.topEquiv (G := ↥P₀)).toMonoidHom
     (Subgroup.topEquiv (G := ↥P₀)).surjective
   have hcard : Nat.card ((zpowers x).subgroupOf P₀) = Nat.card ((zpowers y).subgroupOf P₀) := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hxP).toEquiv,
@@ -93,6 +94,7 @@ theorem isSubnormal_zpowers_of_gens {T : Subgroup Q} {x t : Q} (hx : x ∈ T)
   obtain ⟨i, j, rfl⟩ := hw y hy
   exact mul_mem (pow_mem (le_normalizer (mem_zpowers x)) _) (pow_mem ht _)
 
+omit [Finite Q] in
 theorem card_eq_six_of_mulEquiv {T : Subgroup Q} (e : T ≃* Perm (Fin 3)) : Nat.card T = 6 := by
   rw [Nat.card_congr e.toEquiv, Nat.card_perm, Nat.card_fin]
   rfl
@@ -174,7 +176,7 @@ theorem eq_of_isSubnormal_of_mulEquiv_perm_three (hO : CFSG.pCore 2 Q = ⊥)
       rw [← conj_zpow, h1]
       exact zpow_mem (mem_zpowers v) k
     have hNs : (zpowers v).IsSubnormal := Subgroup.IsSubnormal.step _ _ hND hD hNn
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hN2 : IsPGroup 2 (zpowers v) := IsPGroup.of_card (n := 1) (by
       rw [Nat.card_zpowers, orderOf_eq_prime hv2 hv1]
       rfl)
@@ -236,6 +238,7 @@ theorem eq_of_isSubnormal_of_mulEquiv_perm_three (hO : CFSG.pCore 2 Q = ⊥)
   exact (Subgroup.eq_of_le_of_card_ge hle
     (by rw [card_eq_six_of_mulEquiv e₁, card_eq_six_of_mulEquiv e₂])).symm
 
+omit [Finite Q] in
 theorem oddInnW_of_wSup_eq {T₀ : Subgroup Q} (h : wSup Q = T₀) (e : T₀ ≃* Perm (Fin 3)) :
     OddInnW Q := by
   intro α _
@@ -266,9 +269,9 @@ theorem oddInnW_of_card_dvd_seventyTwo (hQ : Nat.card Q ∣ 72) (hO : CFSG.pCore
     rintro T ⟨hsub, hc | hs⟩
     · exfalso
       obtain ⟨-, -, hperf, hsimp⟩ := hc
-      haveI : Group.IsPerfect T := Group.isPerfect_def.mpr hperf
-      haveI : Nontrivial T := (QuotientGroup.mk'_surjective (Subgroup.center T)).nontrivial
-      haveI : Group.IsSolvable Q := ToralReduce.isSolvable_of_card_dvd_seventyTwo hQ
+      have : Group.IsPerfect T := Group.isPerfect_def.mpr hperf
+      have : Nontrivial T := (QuotientGroup.mk'_surjective (Subgroup.center T)).nontrivial
+      have : Group.IsSolvable Q := ToralReduce.isSolvable_of_card_dvd_seventyTwo hQ
       exact Group.IsPerfect.not_isSolvable (G := T) (subgroup_solvable_of_solvable T)
     · refine ⟨(CFSG.Adapters.isSubnormal_top_iff T).mp hsub, ?_⟩
       rcases hs with hs | ⟨K, _, _, hK, ⟨e⟩⟩

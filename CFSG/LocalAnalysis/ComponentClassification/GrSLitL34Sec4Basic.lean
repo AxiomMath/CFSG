@@ -185,7 +185,7 @@ theorem centralizer_le_normalizer_of_solomon (hSol : SolomonFixedLayerStep) [Fin
     (hmax : GSWeakMaximalComponent J) (hL34 : IsL34Type (J ⧸ Open.fusionZStar J)) :
     centralizer ({a} : Set G) ≤ normalizer (J : Set G) := by
   obtain ⟨hsimple, hnab, hK, -, hUo, -, -, -⟩ := id hbase
-  haveI := hsimple
+  have := hsimple
   intro c hc
   have htop : GeneralizedFitting.subgroup G = ⊤ := GSLit.generalizedFitting_eq_top_of_simple
   let eF : GeneralizedFitting.subgroup G ≃* G :=
@@ -274,7 +274,7 @@ theorem exists_normalizer_conj_eq [Finite G] (T : Sylow 2 G) {a x : G}
       _ = g * (x * z) * g⁻¹ := by rw [hzx]
       _ = g * x * g⁻¹ * (g * z * g⁻¹) := by group
   have hVp : IsPGroup 2 (P.map (MulAut.conj g).toMonoidHom) :=
-    (T.isPGroup'.to_le inf_le_left).map _
+    (T.isPGroup.to_le inf_le_left).map _
   obtain ⟨c, hc, hcT⟩ := exists_conj_le_sylow T hTa hV hVp
   have hca : c⁻¹ * a * c = a := by
     have := mem_centralizer_singleton_iff.mp hc
@@ -435,7 +435,7 @@ theorem isElemTwo_sup_zpowers [Finite G] {E : Subgroup G} {t : G} (hE : IsElemTw
 
 theorem isPGroup_of_isSylowTwoIn {S H : Subgroup G} (h : IsSylowTwoIn S H) : IsPGroup 2 S := by
   obtain ⟨hSH, P, hP⟩ := h
-  have h1 := P.isPGroup'
+  have h1 := P.isPGroup
   rw [hP] at h1
   exact h1.of_equiv (subgroupOfEquivOfLe hSH)
 

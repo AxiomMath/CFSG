@@ -26,7 +26,7 @@ variable {W : Type} [CommGroup W]
 private theorem s16h_e3_natural_ne_bot {H : Subgroup (MulAut W)} {U Z : Subgroup W}
     (h : BinaryNaturalSL H U Z 3 1) : U ≠ ⊥ := by
   obtain ⟨K, hK, _, _, π, hπ⟩ := h
-  letI : Field K := hK
+  let : Field K := hK
   obtain ⟨β, hβs, -, -⟩ := FFModel.RealizesVia.coord
     (D := FFModel.nat (StatedSL 3 K)) rfl rfl hπ
   have hm : Multiplicative.ofAdd (fun _ : Fin 3 => (1 : K)) ≠ 1 := by
@@ -36,7 +36,7 @@ private theorem s16h_e3_natural_ne_bot {H : Subgroup (MulAut W)} {U Z : Subgroup
     exact one_ne_zero (congrFun h2 0)
   obtain ⟨u, hu⟩ := hβs (Multiplicative.ofAdd (fun _ : Fin 3 => (1 : K)))
   intro hU
-  haveI : Subsingleton ↥U := by rw [hU]; infer_instance
+  have : Subsingleton ↥U := by rw [hU]; infer_instance
   have hu1 : u = 1 := Subsingleton.elim u 1
   have hbu : β u = 1 := by rw [hu1, map_one]
   exact hm (hu.symm.trans hbu)
@@ -58,7 +58,7 @@ theorem s16h_e3_trans_of_l3_three [Finite W] {A L : Subgroup (MulAut W)} {t : Mu
     have hstable : ∀ i, StableUnder L (I i) := fun i => c23_binaryNatural_stable (hnat i)
     have hne : ∀ i, I i ≠ ⊥ := fun i => s16h_e3_natural_ne_bot (hnat i)
     have hirrOn : IsIrrOn L (commSub ⊤ L) ⊥ := by
-      rw [irrSet, Set.mem_setOf_eq] at hirr
+      rw [irrSet, Set.mem_ofPred_eq] at hirr
       have h := hirr.2
       rwa [hZ] at h
     have hI0or : I 0 = ⊥ ∨ I 0 = commSub ⊤ L :=

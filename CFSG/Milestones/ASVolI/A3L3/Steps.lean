@@ -207,7 +207,7 @@ theorem burnsideA315y_lift_sylow {X : Type} [Group X] [Finite X] {p : ℕ} [Fact
     {d : PGL2 (ZMod p)} (hdD : d ∈ (S.subgroupOf M).map θ)
     (hdR : d ∈ (Matrix.ProjectiveSpecialLinearGroup.toPGL (n := Fin 2) (R := ZMod p)).range) :
     ∃ t : ↥M, (t : X) ∈ S ⊓ K ∧ θ t = d := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set fK : ↥K →* PGL2 (ZMod p) := θ.comp (Subgroup.inclusion hKM) with hfKdef
   have hfK : ∀ k : ↥K, fK k =
       Matrix.ProjectiveSpecialLinearGroup.toPGL (QuotientGroup.mk (e k)) := fun k => hθK k k.2

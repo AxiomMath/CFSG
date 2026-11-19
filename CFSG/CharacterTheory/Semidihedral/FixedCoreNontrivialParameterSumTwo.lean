@@ -206,7 +206,7 @@ theorem exists_oddPart_centralizer_torusU
   have hcycG := h.isCyclic_of_isPGroup_le_centralizer_torusU hne
     ((S₀ : Subgroup (Subgroup.centralizer (torusU G t s₀ d : Set G))).map
       (Subgroup.centralizer (torusU G t s₀ d : Set G)).subtype)
-    (S₀.isPGroup'.map _) (Subgroup.map_subtype_le _) ⟨_, hvS, rfl⟩
+    (S₀.isPGroup.map _) (Subgroup.map_subtype_le _) ⟨_, hvS, rfl⟩
   have hcyc : IsCyclic (S₀ : Subgroup (Subgroup.centralizer (torusU G t s₀ d : Set G))) :=
     isCyclic_of_surjective ι₀.symm.toMonoidHom ι₀.symm.surjective
   obtain ⟨N, -, -, -, -, hmem, -⟩ :=

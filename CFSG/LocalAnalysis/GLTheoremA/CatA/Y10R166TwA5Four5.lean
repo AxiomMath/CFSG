@@ -21,6 +21,7 @@ open Matrix
 
 variable {K : Type} [Group K] [Finite K]
 
+omit [Finite K] in
 private theorem innerDiagMarking_of_pow_five_twA_four {B J : Subgroup K} {n : ℕ}
     (hn : 1 ≤ n) (hcop : Nat.Coprime 5 (2 * n))
     (hJ : HasLabel ↥J (fun l : GLALabel => l = ⟨.twA, 4, n⟩))
@@ -29,13 +30,13 @@ private theorem innerDiagMarking_of_pow_five_twA_four {B J : Subgroup K} {n : �
     InnerDiagMarking B J := by
   obtain ⟨hcomm, lab, hlab, hraw⟩ := hJ
   obtain ⟨R0, hgR, I0, F0, hQ0⟩ := CFSG.StandardType.largeEvenRawDatum_exists hraw
-  letI : Group R0 := hgR
+  let : Group R0 := hgR
   obtain ⟨-, -, -, hlab_eq⟩ := hQ0
   subst hlab_eq
   obtain ⟨F, hFf, hFfin, hFcard, hQ⟩ :=
     (CFSG.LocalAnalysis.GLTheoremA.rawDatum_twA_four_iff n _).1 hraw
-  letI : Field F := hFf
-  letI : Finite F := hFfin
+  let : Field F := hFf
+  let : Finite F := hFfin
   obtain ⟨hs, hna, θ, -⟩ := hQ
   refine ⟨hcomm, ⟨.twA, 4, n⟩, hlab, ?_⟩
   refine (CFSG.LocalAnalysis.GLTheoremA.rawDatum_twA_four_iff n _).2
@@ -114,19 +115,19 @@ variable {F : Type} [Field F]
 private theorem fiveTorus_le_unitaryBlockDiag (h : UnitaryFieldData 2 2 F) :
     unitaryTorusSU h ({0, 1} : Finset (Fin 6)) ≤
       unitaryBlockDiag h ({0, 1, 2, 3, 4} : Finset (Fin 6)) := by
-  haveI := h.finite
+  have := h.finite
   intro b hb
   obtain ⟨c, hc, rfl⟩ := (mem_unitaryTorusSU h).1 hb
   rw [mem_unitaryBlockDiag]
   intro i j hij
   rw [coe_torusDiagSU]
   fin_cases i <;> fin_cases j <;>
-    simp_all [Matrix.diagonal_apply]
+    simp_all
 
 theorem innerDiagMarking_fiveTorus (h : UnitaryFieldData 2 2 F) :
     InnerDiagMarking (unitaryTorusSU h ({0, 1} : Finset (Fin 6)))
       (unitaryBlock h ({0, 1, 2, 3, 4} : Finset (Fin 6))) := by
-  haveI := h.finite
+  have := h.finite
   refine innerDiagMarking_of_pow_five_twA_four (n := 2) (by norm_num) (by norm_num)
     (hasLabel_unitaryBlock_four h) ?_ ?_
   · intro b hb

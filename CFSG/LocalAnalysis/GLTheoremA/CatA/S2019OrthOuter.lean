@@ -45,8 +45,8 @@ theorem s2019FixCentralizes_of_nonLocalized_of_solvable {G : Type} [Group G] [Fi
   · subst h
     by_cases hT : T = ⊥
     · rw [hT, Subgroup.commutator_bot_left]
-    · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-      haveI : Group.IsNilpotent ↥T := hT2.isNilpotent
+    · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Group.IsNilpotent ↥T := hT2.isNilpotent
       exact absurd hLT (hJn T hT inferInstance)
 
 private theorem le_pow_sub_four {c d : ℕ} (hc : 3 ≤ c) (hd : 6 ≤ d) : d ≤ c ^ (d - 4) := by
@@ -75,17 +75,17 @@ theorem s2019FixCentralizes_fieldAutT (S : SubfieldSetup k Q₀ Q σ p) (h2 : (2
   have hfix : fixSubgroup (fieldAutT Q σ S.hQσ) = subfieldFixedGroup k Q₀ Q :=
     Subgroup.ext fun t => fieldAutT_apply_iff S t
   have hJn := subfieldDerivedImage_normal k S.hext
-  haveI := hJn
+  have := hJn
   have hquot := fixedGroup_quotient_isPGroup k S.hext S.hnd₀ S.hT₀
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := IsPGroup.isNilpotent hquot
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := IsPGroup.isNilpotent hquot
   have hk3 : 3 ≤ Nat.card k := by
     have h2k := two_ne_zero_of_subfield k h2
     have h1 : 1 < Nat.card k := Finite.one_lt_card
     by_contra hlt
     have hk2 : Nat.card k = 2 := by omega
     apply h2k
-    haveI := Fintype.ofFinite k
+    have := Fintype.ofFinite k
     have := FiniteField.cast_card_eq_zero k
     rwa [← Nat.card_eq_fintype_card, hk2, Nat.cast_ofNat] at this
   have hNL := CFSG.SignalizerFunctorTheorem.NonLocal.Orth.nonLocalized_orthogonalSubfield k
@@ -114,9 +114,9 @@ end Field
 
 private theorem two_ne_zero_of_card_eq_pow {K : Type} [Field K] [Finite K] {q f : ℕ} (hq : q.Prime)
     (hq2 : q ≠ 2) (hK : Nat.card K = q ^ f) : (2 : K) ≠ 0 := by
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K q := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
+  have : Fact q.Prime := ⟨hq⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K q := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
   intro h
   have h' : ((2 : ℕ) : K) = 0 := by exact_mod_cast h
   rw [CharP.cast_eq_zero_iff K q] at h'
@@ -147,12 +147,12 @@ theorem s2019FixCentralizes_omega_odd_of_not_inner {G : Type} [Group G] {n q f :
       (.inl rfl) n q f hG) K hK).2
   have h2 := two_ne_zero_of_card_eq_pow hq hq2 hK
   set e' := coordinateOddWitnessEquiv K e
-  haveI : Finite G := Finite.of_equiv _ e.toEquiv.symm
-  haveI : Finite (matrixProjectiveDerived (coordinateQuadOdd n K)) := Finite.of_equiv _ e'.toEquiv
+  have : Finite G := Finite.of_equiv _ e.toEquiv.symm
+  have : Finite (matrixProjectiveDerived (coordinateQuadOdd n K)) := Finite.of_equiv _ e'.toEquiv
   have hβ' : MulAut.congr e' β ^ p = 1 := by rw [← map_pow, hβ, map_one]
   have hE := mem_E_of_pow_eq_one_omega hgates hp (Or.inr htop) hβ'
   have hD := not_mem_D_of_not_inner hgates hp hp2 e' β hβ hnot
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hord : orderOf (MulAut.congr e' β) = p := orderOf_eq_prime hβ' fun h => hD (h ▸ one_mem _)
   refine s2019FixCentralizes_of_congr hp e' β ?_
   have hdesc := orthogonal_prime_semilinear_actual_fixed_form_descent' G .POmegaOdd (Or.inl rfl)
@@ -188,12 +188,12 @@ theorem s2019FixCentralizes_omega_plus_of_not_inner {G : Type} [Group G] {n q f 
       exact (orthogonal_geometry_plus_point_family_orbit hG hK e).2.2.2.2.1 h5
   have h2 := two_ne_zero_of_card_eq_pow hq hq2 hK
   set e' := coordinatePlusWitnessEquiv K e
-  haveI : Finite G := Finite.of_equiv _ e.toEquiv.symm
-  haveI : Finite (matrixProjectiveDerived (coordinateQuadPlus n K)) := Finite.of_equiv _ e'.toEquiv
+  have : Finite G := Finite.of_equiv _ e.toEquiv.symm
+  have : Finite (matrixProjectiveDerived (coordinateQuadPlus n K)) := Finite.of_equiv _ e'.toEquiv
   have hβ' : MulAut.congr e' β ^ p = 1 := by rw [← map_pow, hβ, map_one]
   have hE := mem_E_of_pow_eq_one_omega hgates hp hEA hβ'
   have hD := not_mem_D_of_not_inner hgates hp hp2 e' β hβ hnot
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hord : orderOf (MulAut.congr e' β) = p := orderOf_eq_prime hβ' fun h => hD (h ▸ one_mem _)
   refine s2019FixCentralizes_of_congr hp e' β ?_
   have hdesc := orthogonal_prime_semilinear_actual_fixed_form_descent' G .POmegaPlus
@@ -225,13 +225,13 @@ theorem s2019FixCentralizes_omega_minus_of_not_inner {G : Type} [Group G] {n q f
       hn1 K hK b c hirr).2
   have h2 := two_ne_zero_of_card_eq_pow hq hq2 hK
   set e' := coordinateMinusWitnessEquiv K hn1 b c e
-  haveI : Finite G := Finite.of_equiv _ e.toEquiv.symm
-  haveI : Finite (matrixProjectiveDerived (coordinateQuadMinus n K hn1 b c)) :=
+  have : Finite G := Finite.of_equiv _ e.toEquiv.symm
+  have : Finite (matrixProjectiveDerived (coordinateQuadMinus n K hn1 b c)) :=
     Finite.of_equiv _ e'.toEquiv
   have hβ' : MulAut.congr e' β ^ p = 1 := by rw [← map_pow, hβ, map_one]
   have hE := mem_E_of_pow_eq_one_omega hgates hp (Or.inr htop) hβ'
   have hD := not_mem_D_of_not_inner hgates hp hp2 e' β hβ hnot
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hord : orderOf (MulAut.congr e' β) = p := orderOf_eq_prime hβ' fun h => hD (h ▸ one_mem _)
   refine s2019FixCentralizes_of_congr hp e' β ?_
   have hdesc := orthogonal_prime_semilinear_actual_fixed_form_descent' G .POmegaMinus

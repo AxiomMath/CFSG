@@ -34,13 +34,13 @@ variable {Q : Type} [Group Q] {P : Type} [Group P]
 theorem kf43_comp_stable [Finite Q] (hcard : Nat.card (KF43CompSet Q) ≤ 4) (hP : Group.IsPerfect P)
     (φ : P →* MulAut Q) (p : P) (L : KF43CompSet Q) :
     L.1.map (φ p).toMonoidHom = L.1 := by
-  letI := kf43CompAction φ
-  haveI := hP
+  let := kf43CompAction φ
+  have := hP
   let ψ : P →* Equiv.Perm (KF43CompSet Q) := MulAction.toPermHom P (KF43CompSet Q)
-  haveI : Finite (KF43CompSet Q) := inferInstance
+  have : Finite (KF43CompSet Q) := inferInstance
   have hsolv : Group.IsSolvable (Equiv.Perm (KF43CompSet Q)) := Equiv.Perm.isSolvable hcard
-  haveI : Group.IsSolvable ψ.range := inferInstance
-  haveI : Group.IsPerfect ψ.range := Group.IsPerfect.range ψ
+  have : Group.IsSolvable ψ.range := inferInstance
+  have : Group.IsPerfect ψ.range := Group.IsPerfect.range ψ
   have hψ : ψ p = 1 := by
     rcases subsingleton_or_nontrivial ψ.range with hs | hn
     · exact congrArg Subtype.val (Subsingleton.elim (⟨ψ p, ψ.mem_range.2 ⟨p, rfl⟩⟩ : ψ.range) 1)
@@ -97,7 +97,7 @@ theorem kf43_action_trivial_of_radical_free [Finite Q] (hSz : LemmaSz) (hrad : s
   have hcard : Nat.card (KF43CompSet Q) ≤ 4 := by
     by_contra hlt
     replace hlt := not_le.1 hlt
-    haveI : Fintype (KF43CompSet Q) := Fintype.ofFinite _
+    have : Fintype (KF43CompSet Q) := Fintype.ofFinite _
     obtain ⟨e⟩ := Function.Embedding.nonempty_of_card_le (α := Fin 4) (β := KF43CompSet Q)
       (by rw [Fintype.card_fin, ← Nat.card_eq_fintype_card]; omega)
     have hne : ∀ i j, i ≠ j → (e i).1 ≠ (e j).1 := fun i j hij h =>

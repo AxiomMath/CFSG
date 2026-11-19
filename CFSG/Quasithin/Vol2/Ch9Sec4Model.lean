@@ -206,7 +206,7 @@ theorem eq_smul_one_of_commute {Y : Matrix (Fin 2) (Fin 2) K}
   simp [u, l, Matrix.mul_apply, Fin.sum_univ_two] at hu00 hu01 hl01
   ext i j
   fin_cases i <;> fin_cases j <;> simp <;>
-    first | exact hl01 | exact hu00 | exact hl01.symm | exact hu00.symm |
+    first | exact hl01 | exact hu00 |
       linear_combination hu01
 
 theorem trace_eq_zero_of_commute_of_sq [CharP K 2] {g : SpecialLinearGroup (Fin 2) K}

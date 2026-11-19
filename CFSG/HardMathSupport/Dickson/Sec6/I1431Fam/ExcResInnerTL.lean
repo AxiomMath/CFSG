@@ -73,17 +73,17 @@ theorem excres_inner_not_typeL2 {τ : Tag} (hτ : τ = .F4 ∨ τ = .E6 ∨ τ =
     (hT : rootDiagUnit τ a ∈ S.D.torus) (i : KernelComponent (rootCharHom a))
     (hk : twistKind S.ρ (rootCharHom a) i = .inner)
     (hA2 : HasA2Pair τ (componentRoots (rootCharHom a) i))
-    (hQS : CFSG.IsQuasisimple (rationalComponent S.ρ S.Γ (rootCharHom a) i)) {q : ℕ}
+    (_hQS : CFSG.IsQuasisimple (rationalComponent S.ρ S.Γ (rootCharHom a) i)) {q : ℕ}
     (hq10 : 10 ≤ q) : ¬ IsTypeL2 q ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) := by
   classical
   intro hq
   obtain ⟨hs0, hs, hmin⟩ := outer_componentOrbitLength_spec S hT i
   set s := componentOrbitLength S.ρ (componentRoots (rootCharHom a) i) with hsdef
-  haveI : NeZero s := ⟨hs0.ne'⟩
+  have : NeZero s := ⟨hs0.ne'⟩
   have hinner := twistInner_of_twistKind_eq_innerT S rootAutIsWeyl_holds hT i hk
   obtain ⟨σ, z, hσ, hnorm, hz⟩ := exists_untwistT S hT i hs0 hinner
   obtain ⟨r, e, hr, hchar, he, hq'⟩ := exists_char_pow S
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hr3 : r ≠ 3 := by
     rintro rfl
     exact hL3 (by simpa using CharP.cast_eq_zero L 3)

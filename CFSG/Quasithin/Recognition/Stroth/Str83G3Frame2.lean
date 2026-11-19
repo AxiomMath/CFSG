@@ -13,6 +13,7 @@ open CFSG.Open CFSG.Quasithin CFSG.QuasithinUnique CFSG.LieType.BorelTits
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem sup_eq_of_S_eq {L1 L2 S : Subgroup G}
     (hS1 : S = (S ⊓ L1) ⊔ Q1 L1 L2 S) : L1 ⊔ S = L1 ⊔ Q1 L1 L2 S := by
   have h1 : L1 ⊔ S = L1 ⊔ ((S ⊓ L1) ⊔ Q1 L1 L2 S) :=
@@ -67,7 +68,7 @@ private theorem relIndex_centralizer_zTilde_le_q_of_not_le_q1
     {L1 L2 S : Subgroup G} {q : ℕ} (hF : Hyp111 L1 L2 S)
     (hS1 : S = (S ⊓ L1) ⊔ Q1 L1 L2 S) (hq : IsSzU3Quot (oTwoQuot ↥L1) q)
     {A : Subgroup G} (hA : IsMaxElemAbelian S A) {t : G} (htA : t ∈ A)
-    (htQ : t ∉ Q1 L1 L2 S) :
+    (_htQ : t ∉ Q1 L1 L2 S) :
     (zTilde L1 L2 S q ⊓ Subgroup.centralizer ({t} : Set G)).relIndex
       (zTilde L1 L2 S q) ≤ q := by
   have hcardA : Nat.card A = 2 ^ CFSG.Open.pRank 2 S := by
@@ -127,6 +128,7 @@ private theorem relIndex_centralizer_zTilde_le_q_of_not_le_q1
     exact inf_le_inf_left _ (Subgroup.centralizer_le (Set.singleton_subset_iff.mpr htA))
   exact hmono.trans h1
 
+omit [Finite G] in
 private theorem exists_maxElemAbelian_not_le_pCoreOf {L1 L2 S : Subgroup G}
     (hJ : ¬ thompsonJ S ≤ Q1 L1 L2 S) :
     ∃ A : Subgroup G, IsMaxElemAbelian S A ∧ ¬ A ≤ Q1 L1 L2 S := by
@@ -360,7 +362,7 @@ theorem str83_not_jAtLeast_le_of_caseIa
     (hB : bigB L1 L2 S ≤ Subgroup.normalizer (S : Set G)) (ha : 1 ≤ a)
     (hSz : Nonempty (oTwoQuot ↥L1 ≃* Sz a))
     (hL2 : IsL2Quot (2 * a + 1) (oTwoQuot ↥L2))
-    (hJ2 : thompsonJ S ≤ Q2 L1 L2 S) (hJ1 : ¬ thompsonJ S ≤ Q1 L1 L2 S) :
+    (_hJ2 : thompsonJ S ≤ Q2 L1 L2 S) (hJ1 : ¬ thompsonJ S ≤ Q1 L1 L2 S) :
     ¬ jAtLeast (2 ^ CFSG.Open.pRank 2 S) (2 ^ (2 * a + 1)) S ≤ Q2 L1 L2 S := by
   have hS1 : S = (S ⊓ L1) ⊔ Q1 L1 L2 S :=
     eq_sup_pCoreOf_of_bender_left hF.1 hB (Or.inl ⟨a, ha, hSz⟩)

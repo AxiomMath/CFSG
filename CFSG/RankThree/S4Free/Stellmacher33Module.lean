@@ -74,7 +74,7 @@ theorem commutator_le_of_le_kerMod {V₀ V₁ R : Subgroup K} [V₀.Normal] [V�
 theorem commutator_pResidual_eq [Finite K] {V₀ : Subgroup K} [V₀.Normal]
     (hV₀2 : ∀ x ∈ V₀, x * x = 1) :
     ⁅⁅V₀, pResidual 2 K⁆, pResidual 2 K⁆ = ⁅V₀, pResidual 2 K⁆ := by
-  haveI : (pResidual 2 K).Normal := normal_pResidual 2 K
+  have : (pResidual 2 K).Normal := normal_pResidual 2 K
   set R := pResidual 2 K with hR
   set V := ⁅V₀, R⁆ with hV
   refine le_antisymm (commutator_le_left _ _) ?_
@@ -149,9 +149,9 @@ theorem sq_relIndex_le_of_thmA {𝒦 : HostClass} (hThmA : ThmA.{u} 𝒦) {K : T
     (hEc : ∀ e₁ ∈ E, ∀ e₂ ∈ E, e₁ * e₂ * e₁⁻¹ * e₂⁻¹ ∈ oTwo K) :
     ((oTwo K).relIndex E) ^ 2 ≤ (centMod V V₁ E).relIndex V := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : (pResidual 2 K).Normal := normal_pResidual 2 K
+  have : (pResidual 2 K).Normal := normal_pResidual 2 K
   obtain ⟨Tsyl, hTsyl⟩ := hTsyl
-  have hT2 : IsPGroup 2 T := hTsyl ▸ Tsyl.isPGroup'
+  have hT2 : IsPGroup 2 T := hTsyl ▸ Tsyl.isPGroup
   have hO2 : IsPGroup 2 (oTwo K) := Stell.oTwo_isPGroup K
   have hVV₀ : V ≤ V₀ := hVdef ▸ commutator_le_left _ _
   have hVT : V ≤ T := hVV₀.trans hV₀T
@@ -177,7 +177,7 @@ theorem sq_relIndex_le_of_thmA {𝒦 : HostClass} (hThmA : ThmA.{u} 𝒦) {K : T
     rw [e]
     exact inv_mem (commutator_mem_commutator hv ho)
   have hTC : T ⊓ kerMod V V₁ ≤ oTwo K := (hM _ inferInstance).resolve_right hRC
-  letI : CommGroup (↥V ⧸ (V₁.subgroupOf V)) :=
+  let : CommGroup (↥V ⧸ (V₁.subgroupOf V)) :=
     { (inferInstance : Group (↥V ⧸ (V₁.subgroupOf V))) with
       mul_comm := fun a b => by
         induction a using QuotientGroup.induction_on with
@@ -249,7 +249,7 @@ theorem sq_relIndex_le_of_thmA {𝒦 : HostClass} (hThmA : ThmA.{u} 𝒦) {K : T
       have e : (g * (v : K) * g⁻¹)⁻¹ * v = g * (v : K)⁻¹ * g⁻¹ * (v : K)⁻¹⁻¹ := by group
       rw [e]
       exact h2
-  haveI : Finite ↥ρ.range := Finite.of_surjective _ ρ.rangeRestrict_surjective
+  have : Finite ↥ρ.range := Finite.of_surjective _ ρ.rangeRestrict_surjective
   have hKH : 𝒦.Holds ρ.range :=
     (hK.quotient ρ.ker).of_mulEquiv (QuotientGroup.quotientKerEquivRange ρ)
   have hker' : ∀ g, ρ.rangeRestrict g = 1 ↔ g ∈ kerMod V V₁ := fun g => by
@@ -261,7 +261,7 @@ theorem sq_relIndex_le_of_thmA {𝒦 : HostClass} (hThmA : ThmA.{u} 𝒦) {K : T
     suffices hN : CFSG.pCore 2 ↥ρ.range = ⊥ by
       rw [CFSG.Open.pCoreOf, hN, Subgroup.map_bot]
     set N' := (CFSG.pCore 2 ↥ρ.range).comap ρ.rangeRestrict with hN'
-    haveI : N'.Normal := hNn.comap _
+    have : N'.Normal := hNn.comap _
     have hRN : ¬ pResidual 2 K ≤ N' := by
       intro hle
       apply hRC

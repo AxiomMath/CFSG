@@ -76,7 +76,7 @@ theorem autWeaklyClosed_congr {S T : Type} [Group S] [Group T] (e : S ≃* T) {�
   have hρ : Function.Injective (MulAut.congr e).toMonoidHom := (MulAut.congr e).injective
   have eq1 : MulAut.conj (e x) * MulAut.congr e σ * (MulAut.conj (e x))⁻¹ =
       (MulAut.congr e).toMonoidHom (MulAut.conj x * σ * (MulAut.conj x)⁻¹) := by
-    simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, map_mul, map_inv]
+    simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, map_mul, map_inv]
     rw [← KFacts.congr_mulAutConj]
   rw [eq1] at hy ⊢
   have h1 : MulAut.conj x * σ * (MulAut.conj x)⁻¹ ∈ Subgroup.normalizer

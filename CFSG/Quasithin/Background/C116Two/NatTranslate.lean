@@ -18,17 +18,21 @@ variable {G : Type} [Group G] [Finite G] {L : Subgroup G} {V : Type} [CommGroup 
   map_one' := Subtype.ext (by simp)
   map_mul' u v := Subtype.ext (by simp [mul_assoc])
 
+omit [Finite G] in
 theorem conjU_apply (L : Subgroup G) {b : G} (hb : b ∈ Subgroup.normalizer (L : Set G))
     (u : ↥(blockU L)) : ((conjU L hb u : ↥(blockU L)) : G) = b * u * b⁻¹ := rfl
 
+omit [Finite G] in
 theorem beta_eq_iff_mem_blockZ (D : ModData L V) (u v : ↥(blockU L)) :
     D.β u = D.β v ↔ ((u * v⁻¹ : ↥(blockU L)) : G) ∈ blockZ L := by
   rw [← Subgroup.mem_subgroupOf, ← D.ker, MonoidHom.mem_ker, map_mul, map_inv, mul_inv_eq_one]
 
+omit [Finite G] in
 theorem beta_eq_one_iff (D : ModData L V) (u : ↥(blockU L)) :
     D.β u = 1 ↔ (u : G) ∈ blockZ L := by
   rw [← MonoidHom.mem_ker, D.ker, Subgroup.mem_subgroupOf]
 
+omit [Finite G] in
 theorem beta_conjU_of_beta_eq (D : ModData L V) (b : ↥(Subgroup.normalizer (L : Set G)))
     {u v : ↥(blockU L)} (h : D.β u = D.β v) :
     D.β (conjU L b.2 u) = D.β (conjU L b.2 v) := by
@@ -45,16 +49,19 @@ theorem conjL_mem_blockU (ℓ : ↥L) (x : ↥(blockU L)) :
 noncomputable def descAct (D : ModData L V) (b : ↥(Subgroup.normalizer (L : Set G))) (v : V) : V :=
   D.β (conjU L b.2 (Function.surjInv D.surj v))
 
+omit [Finite G] in
 theorem descAct_beta (D : ModData L V) (b : ↥(Subgroup.normalizer (L : Set G)))
     (u : ↥(blockU L)) : descAct D b (D.β u) = D.β (conjU L b.2 u) :=
   beta_conjU_of_beta_eq D b (Function.surjInv_eq D.surj (D.β u))
 
+omit [Finite G] in
 theorem descAct_one (D : ModData L V) (v : V) : descAct D 1 v = v := by
   obtain ⟨u, rfl⟩ := D.surj v
   rw [descAct_beta]
   congr 1
   exact Subtype.ext (by simp [conjU_apply])
 
+omit [Finite G] in
 theorem descAct_mul (D : ModData L V) (b b' : ↥(Subgroup.normalizer (L : Set G))) (v : V) :
     descAct D (b * b') v = descAct D b (descAct D b' v) := by
   obtain ⟨u, rfl⟩ := D.surj v
@@ -79,6 +86,7 @@ noncomputable def descAut (D : ModData L V) (b : ↥(Subgroup.normalizer (L : Se
     rw [← map_mul D.β, descAct_beta, descAct_beta, descAct_beta, map_mul (conjU L b.2),
       map_mul D.β]
 
+omit [Finite G] in
 theorem exists_conjAut (D : ModData L V) :
     ∃ Φ : ↥(Subgroup.normalizer (L : Set G)) →* MulAut V,
       ∀ (b : ↥(Subgroup.normalizer (L : Set G))) (u : ↥(blockU L)),
@@ -92,6 +100,7 @@ theorem beta_rho_conj (D : ModData L V) (ℓ : ↥L) (x : ↥(blockU L)) :
     D.ρ ℓ (D.β x) = D.β ⟨(ℓ : G) * x * (ℓ : G)⁻¹, conjL_mem_blockU ℓ x⟩ :=
   (D.equiv ℓ x ⟨(ℓ : G) * x * (ℓ : G)⁻¹, conjL_mem_blockU ℓ x⟩ rfl).symm
 
+omit [Finite G] in
 theorem comm_mem_blockZ_iff (D : ModData L V)
     {Φ : ↥(Subgroup.normalizer (L : Set G)) →* MulAut V}
     (hΦ : ∀ (b : ↥(Subgroup.normalizer (L : Set G))) (u : ↥(blockU L)),
@@ -123,6 +132,7 @@ theorem conjAut_normalizes (D : ModData L V)
   rw [key ⟨(b : G) * ℓ * (b : G)⁻¹, (Subgroup.mem_normalizer_iff.mp b.2 ℓ).mp ℓ.2⟩ rfl,
     mul_assoc, mul_inv_cancel, mul_one]
 
+omit [Finite G] in
 theorem conjAut_eq_one_iff (D : ModData L V)
     {Φ : ↥(Subgroup.normalizer (L : Set G)) →* MulAut V}
     (hΦ : ∀ (b : ↥(Subgroup.normalizer (L : Set G))) (u : ↥(blockU L)),
@@ -139,6 +149,7 @@ theorem conjAut_eq_one_iff (D : ModData L V)
     rw [MulAut.one_apply]
     exact (comm_mem_blockZ_iff D hΦ b x).mp (h (x : G) x.2)
 
+omit [Finite G] in
 theorem card_blockU_eq (D : ModData L V) :
     Nat.card ↥(blockU L) = Nat.card ↥(blockZ L) * Nat.card V := by
   have hZU : blockZ L ≤ blockU L := inf_le_left
@@ -152,6 +163,7 @@ theorem card_blockU_eq (D : ModData L V) :
     exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hZU).toEquiv
   rw [h1, h2, h3, mul_comm]
 
+omit [Finite G] in
 theorem card_fixSet_eq (D : ModData L V)
     {Φ : ↥(Subgroup.normalizer (L : Set G)) →* MulAut V}
     (hΦ : ∀ (b : ↥(Subgroup.normalizer (L : Set G))) (u : ↥(blockU L)),

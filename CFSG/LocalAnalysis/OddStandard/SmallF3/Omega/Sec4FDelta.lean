@@ -183,7 +183,7 @@ theorem Sec4FSetup.exists_conj_pt (h : Sec4FSetup t L S z A B φ) (p : Option (F
   have hmem : sec4MPt t φ p ∈ conjClassIn ⊤ t ∩ (A : Set G) :=
     ⟨Sec4FSetup.pt_mem_conj h p, sec4MPt_mem_A h.data p⟩
   rw [h.weak] at hmem
-  simpa only [conjClassIn, Set.mem_setOf_eq] using hmem
+  simpa only [conjClassIn, Set.mem_ofPred_eq] using hmem
 
 theorem Sec4FSetup.pt_injective (h : Sec4FSetup t L S z A B φ) :
     Function.Injective (sec4MPt t φ) :=

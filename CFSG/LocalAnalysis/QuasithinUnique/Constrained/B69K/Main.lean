@@ -40,7 +40,7 @@ theorem odd_card_center_comp {X L : Subgroup (MulAut V)} (hO2 : pCoreOf 2 X = �
     (hL : CFSG.Open.IsComponentOf L X) : Odd (Nat.card ↥(Subgroup.center ↥L)) := by
   by_contra hev
   rw [Nat.not_odd_iff_even, even_iff_two_dvd] at hev
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' 2 hev
   have h1 := B69.odd_orderOf_of_mem_center_comp hO2 hL z.2
   have h2 : orderOf (z : ↥L) = 2 := by rw [Subgroup.orderOf_coe, hz]

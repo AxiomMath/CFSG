@@ -114,7 +114,7 @@ private lemma swp_entry_scalar {G : Type} [Group G] {Bs : Subgroup G}
   have h : ((η : GL (Fin m) F) : Matrix (Fin m) (Fin m) F) =
       ((W : GL (Fin m) F) : Matrix (Fin m) (Fin m) F) := by
     apply congrArg (fun x : GL (Fin m) F => ((x : GL (Fin m) F) : Matrix (Fin m) (Fin m) F))
-    dsimp [η, W]; simp only [Subgroup.coe_mul, Subgroup.coe_inv, hU, hP]
+    dsimp [η, W]; simp only [hU, hP]
   rw [← h]; exact hc
 
 private lemma swp_entry_eq {G : Type} [Group G] {Bs : Subgroup G}
@@ -170,7 +170,7 @@ private lemma swp_entry_eq {G : Type} [Group G] {Bs : Subgroup G}
       exact congrArg TauCeti.diagGL (by funext t; simp [Pi.mul_apply])
     rw [← show ((U⁻¹ * V : GL (Fin m) F) : Matrix (Fin m) (Fin m) F) =
       (U⁻¹ : Matrix (Fin m) (Fin m) F) * (V : Matrix (Fin m) (Fin m) F) from by
-        simp [Units.val_mul, Units.val_inv_eq_inv_val], hEgl]
+        simp [Units.val_mul], hEgl]
   exact swp_diag_entry_eq hm U V (s : GL (Fin m) F) e cc i j hij
     (by simpa [s] using permSU_coe hU (Equiv.swap i j)) hscalar hE
 
@@ -272,7 +272,7 @@ theorem exists_swap_of_unitaryModel {G : Type} [Group G] [Finite G] {B Bs : Subg
         (TauCeti.diagGL (fun i => ζ ^ (u b i).val))⁻¹ →
       ((φ s' : ↥L) : G) = b⁻¹ * φ s * b)
     (hdet : ¬ 3 ∣ m ∨ ∀ b ∈ Bs, ∑ i, u b i = 0)
-    {a c : Fin m} (hac : a ≠ c) :
+    {a c : Fin m} (_hac : a ≠ c) :
     ∃ g ∈ L, g ∈ Subgroup.normalizer (Bs : Set G) ∧ g ^ 2 = 1 ∧
       ∀ b ∈ Bs, ∃ k : ZMod 3, ∀ i, u (g * b * g⁻¹) i = u b (Equiv.swap a c i) + k := by
   classical

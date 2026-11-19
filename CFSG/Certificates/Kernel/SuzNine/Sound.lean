@@ -79,10 +79,10 @@ theorem fldK_packP {n : ℕ} {v p : ℕ → ℕ} (hv : ∀ i < n, v i < 2 ^ 11)
     refine ⟨fun i hi => ?_, fun t ht => ?_⟩
     · rw [packP_succ, fldK_lor, fldK_shiftLeft (hv n (by omega))]
       rcases Nat.lt_succ_iff_lt_or_eq.1 hi with hi' | rfl
-      · rw [ih1 i hi', if_neg (fun e => by have := hp n (by omega) i hi e; omega), Nat.or_zero]
-      · rw [if_pos rfl, ih2 _ (fun j hj e => by have := hp j (by omega) i (by omega) e; omega),
+      · rw [ih1 i hi', ite_eq_right (fun e => by have := hp n (by omega) i hi e; omega), Nat.or_zero]
+      · rw [ite_eq_left rfl, ih2 _ (fun j hj e => by have := hp j (by omega) i (by omega) e; omega),
           Nat.zero_or]
-    · rw [packP_succ, fldK_lor, fldK_shiftLeft (hv n (by omega)), if_neg (ht n (by omega)),
+    · rw [packP_succ, fldK_lor, fldK_shiftLeft (hv n (by omega)), ite_eq_right (ht n (by omega)),
         ih2 t (fun i hi => ht i (by omega)), Nat.zero_or]
 
 theorem fldK_shl_zero (k : ℕ) : fldK (k <<< 11) 0 = 0 := by
@@ -114,9 +114,9 @@ theorem fldK_listKey : ∀ (L : List ℕ), (∀ x ∈ L, x < 2 ^ 11) → ∀ t, 
       rwa [Nat.mul_zero, Nat.shiftLeft_zero] at this
     rw [ha']
     cases t with
-    | zero => rw [fldK_shl_zero, if_pos rfl, Nat.zero_or]; rfl
+    | zero => rw [fldK_shl_zero, ite_eq_left rfl, Nat.zero_or]; rfl
     | succ s =>
-      rw [fldK_shl_succ, if_neg (by omega), Nat.or_zero,
+      rw [fldK_shl_succ, ite_eq_right (by omega), Nat.or_zero,
         fldK_listKey L (fun x hx => hL x (List.mem_cons_of_mem a hx)) s]
       rfl
 
@@ -153,7 +153,7 @@ theorem countP_lt_getD : ∀ {M : List ℕ}, M.Pairwise (· < ·) → ∀ r < M.
       have hr' : r < M.length := by simpa using hr
       have ha : a < M.getD r 0 := hM.1 _ (getD_mem' hr')
       simp only [List.countP_cons, List.getD_cons_succ, countP_lt_getD hM.2 r hr', ha,
-        decide_true, if_true]
+        decide_true, ite_true]
 
 theorem setK_listKey {L M : List ℕ} {g : ℕ} {f : ℕ → ℕ} (hL : ∀ x ∈ L, x < 2 ^ 11)
     (hLd : L.Nodup) (hg : ∀ x ∈ L, fldK g x = f x)
@@ -229,7 +229,7 @@ theorem setK_listKey {L M : List ℕ} {g : ℕ} {f : ℕ → ℕ} (hL : ∀ x �
 theorem ptList_pairwise {n : ℕ} (s : Finset (Fin n)) : (ptList s).Pairwise (· < ·) := by
   have h1 : (s.sort (· ≤ ·)).Pairwise (· < ·) :=
     ((s.pairwise_sort (· ≤ ·)).and (s.sort_nodup (· ≤ ·))).imp fun h => lt_of_le_of_ne h.1 h.2
-  exact h1.map _ (fun a b h => Fin.lt_iff_val_lt_val.1 h)
+  exact h1.map _ (fun a b h => Fin.lt_def.1 h)
 
 theorem ptList_nodup {n : ℕ} (s : Finset (Fin n)) : (ptList s).Nodup :=
   (ptList_pairwise s).imp (fun h => ne_of_lt h)

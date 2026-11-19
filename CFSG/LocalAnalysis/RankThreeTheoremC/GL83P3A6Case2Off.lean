@@ -17,15 +17,15 @@ variable {G : Type} [Group G]
 
 theorem elemAbelian_mono {p : ℕ} {A B : Subgroup G} (hA : IsElemAbelian p A) (hBA : B ≤ A) :
     IsElemAbelian p B := by
-  haveI := hA.1
+  have := hA.1
   exact ⟨IsMulCommutative.of_setLike_mul_comm fun a ha b hb =>
     setLike_mul_comm (hBA ha) (hBA hb), fun z hz => hA.2 z (hBA hz)⟩
 
 theorem elemAbelian_sup [Finite G] {p : ℕ} {A B : Subgroup G} (hA : IsElemAbelian p A)
     (hB : IsElemAbelian p B) (hAB : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a) :
     IsElemAbelian p (A ⊔ B) := by
-  haveI := hA.1
-  haveI := hB.1
+  have := hA.1
+  have := hB.1
   obtain ⟨-, hset⟩ := CFSG.GroupTheory.card_sup_mul_card_inf_of_commute A B hAB
   have hdec : ∀ g ∈ A ⊔ B, ∃ a ∈ A, ∃ b ∈ B, g = a * b := fun g hg => by
     have : g ∈ (A : Set G) * (B : Set G) := by rw [← hset]; exact hg
@@ -60,7 +60,7 @@ theorem offender [Finite G] {Y A W : Subgroup G} (hA : IsElemAbelian 2 A) (hAY :
   obtain ⟨hprod, -⟩ := CFSG.GroupTheory.card_sup_mul_card_inf_of_commute C W hcomm
   have hCW : (C ⊓ W : Subgroup G) ≤ W ⊓ centralizer (A : Set G) := by
     intro z hz
-    haveI := hA.1
+    have := hA.1
     exact ⟨hz.2, mem_centralizer_iff.mpr fun a ha => setLike_mul_comm ha hz.1.1⟩
   have h2 : Nat.card (C ⊓ W : Subgroup G) ≤ Nat.card (W ⊓ centralizer (A : Set G) : Subgroup G) :=
     Subgroup.card_le_of_le hCW
@@ -75,11 +75,13 @@ section Lift
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem exists_isSylowOf_of_le {p : ℕ} [Fact p.Prime] {S K : Subgroup X} (hS : IsPGroup p S)
     (hSK : S ≤ K) : ∃ P : Subgroup X, IsSylowOf p P K ∧ S ≤ P := by
   obtain ⟨Q, hQ⟩ := (hS.comap_subtype (K := K)).exists_le_sylow
   exact ⟨(Q : Subgroup K).map K.subtype, ⟨Q, rfl⟩, fun s hs => ⟨⟨s, hSK hs⟩, hQ hs, rfl⟩⟩
 
+omit [Finite X] in
 theorem isPGroup_zpowers_three {x : X} (hx3 : x ^ 3 = 1) : IsPGroup 3 (zpowers x) := by
   rcases (Nat.dvd_prime Nat.prime_three).mp (orderOf_dvd_of_pow_eq_one hx3) with h | h
   · exact IsPGroup.of_card (n := 0) (by rw [Nat.card_zpowers, h]; rfl)
@@ -87,7 +89,7 @@ theorem isPGroup_zpowers_three {x : X} (hx3 : x ^ 3 = 1) : IsPGroup 3 (zpowers x
 
 theorem lift_three_abs {K D : Subgroup X} [K.Normal] (hK : ¬ 3 ∣ Nat.card K) {x : X}
     (hx3 : x ^ 3 = 1) (hx : x ∈ D ⊔ K) : ∃ κ ∈ K, ∃ x' ∈ D, x = κ * x' * κ⁻¹ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨S, hS⟩ := exists_isSylowOf (G := X) 3 D
   set Z : Subgroup X := D ⊔ K with hZ
   have hSZ : IsSylowOf 3 S Z := by
@@ -124,7 +126,7 @@ theorem lift_three {G : Type} [Group G] [Finite G] {H K D : Subgroup G} (hKH : K
     (hDH : D ≤ H) (hKn : ∀ h ∈ H, ∀ k ∈ K, h * k * h⁻¹ ∈ K) (hK : ¬ 3 ∣ Nat.card K)
     {x : G} (hxH : x ∈ H) (hx3 : x ^ 3 = 1) (hx : x ∈ D ⊔ K) :
     ∃ κ ∈ K, ∃ x' ∈ D, x = κ * x' * κ⁻¹ := by
-  haveI : (K.subgroupOf H).Normal :=
+  have : (K.subgroupOf H).Normal :=
     ⟨fun k hk h => by
       have := hKn h h.2 k (Subgroup.mem_subgroupOf.mp hk)
       simpa [Subgroup.mem_subgroupOf] using this⟩
@@ -180,7 +182,7 @@ theorem card_le_pow {G : Type} [Group G] [Finite G] {H K W : Subgroup G} {ι : T
   rw [← h1, hcent]
   calc (⨅ i, centralizer (B i : Set G)).relIndex W
       ≤ ∏ i, (centralizer (B i : Set G)).relIndex W := Subgroup.relIndex_iInf_le _
-    _ ≤ ∏ _i : ι, b := Finset.prod_le_prod' fun i _ => hB i
+    _ ≤ ∏ _i : ι, b := Finset.prod_le_prod fun i _ => hB i
     _ = b ^ Fintype.card ι := by simp
 
 section Conj

@@ -14,12 +14,12 @@ theorem commutator_eq_top_of_normalizer_le {C : Type*} [Group C] [Finite C] (S L
     (hLperf : ⁅L, L⁆ = L)
     (hnorm : ∀ p : C, p ∈ Subgroup.normalizer (S : Set C) → p ∈ L) :
     commutator C = ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hLC : L ≤ commutator C :=
     calc L = ⁅L, L⁆ := hLperf.symm
       _ ≤ commutator C := Subgroup.commutator_mono le_top le_top
   let P : Sylow 2 C := Sylow.ofCard S hS
-  haveI : Finite (Sylow 2 C) := Sylow.finite_of_finiteIndex P
+  have : Finite (Sylow 2 C) := Sylow.finite_of_finiteIndex P
   have hPN : (P : Subgroup C) ≤ commutator C := hSL.trans hLC
   have hfrat := Sylow.normalizer_sup_eq_top' P hPN
   have hle : Subgroup.normalizer (P : Set C) ≤ commutator C := fun p hp => hLC (hnorm p hp)
@@ -71,10 +71,10 @@ theorem center_quotient_eq_bot_of_commutators_mem_center {C : Type*} [Group C]
 
 theorem eq_top_of_isPGroup_quotient_of_isPerfect {K : Type*} [Group K] [Finite K]
     [Group.IsPerfect K] (N : Subgroup K) [N.Normal] (hN : IsPGroup 2 (K ⧸ N)) : N = ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Subsingleton (K ⧸ N) := by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Subsingleton (K ⧸ N) := by
     by_contra hns
-    haveI : Nontrivial (K ⧸ N) := not_subsingleton_iff_nontrivial.1 hns
+    have : Nontrivial (K ⧸ N) := not_subsingleton_iff_nontrivial.1 hns
     exact Group.IsPerfect.not_isNilpotent (K ⧸ N) hN.isNilpotent
   exact eq_top_iff.2 fun k _ => (QuotientGroup.eq_one_iff k).1 (Subsingleton.elim _ _)
 
@@ -83,7 +83,7 @@ theorem odd_normal_quotient_eq_bot_of_central_order_two {C : Type*} [Group C] [F
     (hO : ∀ Q : Subgroup C, Q.Normal → Odd (Nat.card Q) → Q = ⊥)
     (Qbar : Subgroup (C ⧸ Z)) [Qbar.Normal] (hodd : Odd (Nat.card Qbar)) : Qbar = ⊥ := by
   obtain ⟨Q, hQ⟩ : ∃ Q : Subgroup C, Q = Qbar.comap (QuotientGroup.mk' Z) := ⟨_, rfl⟩
-  haveI hQn : Q.Normal := by
+  have hQn : Q.Normal := by
     rw [hQ]
     exact Subgroup.Normal.comap inferInstance _
   have hQmem : ∀ x : C, x ∈ Q ↔ (x : C ⧸ Z) ∈ Qbar := fun x => by rw [hQ]; rfl
@@ -112,7 +112,7 @@ theorem odd_normal_quotient_eq_bot_of_central_order_two {C : Type*} [Group C] [F
   have hA : Nat.card Z = 2 ^ (Nat.card Q).factorization 2 := by rw [hfac, hZ2, pow_one]
   obtain ⟨K₀, hK₀Q, hK₀odd, hQK₀, -⟩ :=
     exists_normal_twoComplement Q Z hZQ (fun a ha h _ => hZc a ha h) hA
-  haveI hK₀n : K₀.Normal := ⟨fun k hk g => by
+  have hK₀n : K₀.Normal := ⟨fun k hk g => by
     have hkQ : k ∈ Q := hK₀Q hk
     have hconj : g * k * g⁻¹ ∈ Q := hQn.conj_mem k hkQ g
     have hs : SemiconjBy g k (g * k * g⁻¹) := (inv_mul_cancel_right (g * k) g).symm
@@ -132,7 +132,7 @@ theorem fusionSimple_quotient {C : Type} [Group C] [Finite C]
     (hZ2 : Nat.card (Subgroup.center C) = 2)
     (hZZ : ∀ z : C, (∀ y : C, ⁅z, y⁆ ∈ Subgroup.center C) → z ∈ Subgroup.center C) :
     CFSG.EvenSporadicStandard.M12Std.FusionSimple (C ⧸ Subgroup.center C) := by
-  haveI : Group.IsPerfect C := Group.isPerfect_def.2 hperf
+  have : Group.IsPerfect C := Group.isPerfect_def.2 hperf
   unfold CFSG.EvenSporadicStandard.M12Std.FusionSimple
   exact ⟨fun Qbar _ hodd => odd_normal_quotient_eq_bot_of_central_order_two (Subgroup.center C)
       (fun z hz g => (Subgroup.mem_center_iff.1 hz g).symm) hZ2 hO Qbar hodd,
@@ -193,7 +193,7 @@ theorem exists_normal_isPGroup_of_commutators_mem_pair {C : Type*} [Group C] [Fi
         rw [hconjw, Commute.mul_pow ((hcc w).symm), pow_orderOf_eq_one, mul_one,
           hcpow _ ho] at h2
         exact hc1 h2
-    haveI : (Subgroup.zpowers w).Normal := ⟨fun n hn g => by
+    have : (Subgroup.zpowers w).Normal := ⟨fun n hn g => by
       obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 hn
       rw [← conj_zpow, hcen g]
       exact Subgroup.zpow_mem_zpowers w k⟩
@@ -215,14 +215,14 @@ theorem second_center_le {C : Type*} [Group C] [Finite C] (c : C) (L S E N : Sub
     (hc : c ∈ Subgroup.center C) (hc2 : c * c = 1) (hc1 : c ≠ 1)
     (hO : ∀ Q : Subgroup C, Q.Normal → Odd (Nat.card Q) → Q = ⊥)
     (hS : Nat.card S = 2 ^ (Nat.card C).factorization 2) (hSL : S ≤ L)
-    (hcE : c ∈ E) (hEL : E ≤ L)
+    (hcE : c ∈ E) (_hEL : E ≤ L)
     (hZLE : ∀ z ∈ L, (∀ ℓ ∈ L, ⁅z, ℓ⁆ ∈ E) → z ∈ E)
     (hZN : ∀ y ∈ E, (∀ n ∈ N, ⁅y, n⁆ = 1 ∨ ⁅y, n⁆ = c) →
       y = 1 ∨ y = c ∨ y = y₀ ∨ y = y₀ * c)
     (hh : ⁅y₀, h⁆ ≠ 1 ∧ ⁅y₀, h⁆ ≠ c) :
     ∀ z : C, (∀ y : C, ⁅z, y⁆ = 1 ∨ ⁅z, y⁆ = c) → z = 1 ∨ z = c := by
   intro z hz
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨W, hWn, hWp, hzW⟩ := exists_normal_isPGroup_of_commutators_mem_pair c hc hc2 hc1 hO
   have hWS : W ≤ S := hWp.le_sylow_of_normal (Sylow.ofCard S hS)
   have hzE : z ∈ E := by

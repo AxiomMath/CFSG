@@ -37,7 +37,7 @@ theorem three_fixed_card_and_image
     rcases Degree36SmallPrimeFixed.three_fixed_card_cases P hcard h5 hnotAlt s hs S hS with h | h
     · exact h
     · exact (Degree36ThreeGroupTwelveExclusion.false_of_five_transitive
-        P hcard h5 hnotAlt Q (S.isPGroup'.map (fixingSubgroup P s).subtype) h hNtrans).elim
+        P hcard h5 hnotAlt Q (S.isPGroup.map (fixingSubgroup P s).subtype) h hNtrans).elim
   refine ⟨hF,?_⟩
   apply Equiv.Perm.eq_top_of_isMultiplyPretransitive
   change IsMultiplyPretransitive (toPermHom N F).range F (Nat.card F - 1)
@@ -62,7 +62,7 @@ theorem five_entrance
   have hfixeq : (sylowFixedPoints X P s S : Set X) = fixedPoints Q X :=
     FixedNormalizerAction.fixed_eq Q
   have hQbound := Degree36SmallPrimeBound.five_card_le_625
-    P hcard h5 hnotAlt Q (S.isPGroup'.map (fixingSubgroup P s).subtype)
+    P hcard h5 hnotAlt Q (S.isPGroup.map (fixingSubgroup P s).subtype)
     (by rw [← hfixeq,hF.1])
   exact ⟨hF.1,hF.2,by rwa [hQcard] at hQbound⟩
 
@@ -83,7 +83,7 @@ theorem three_entrance
   have hfixeq : (sylowFixedPoints X P s S : Set X) = fixedPoints Q X :=
     FixedNormalizerAction.fixed_eq Q
   have hQbound := Degree36SmallPrimeBound.three_card_le_6561
-    P hcard h5 hnotAlt Q (S.isPGroup'.map (fixingSubgroup P s).subtype)
+    P hcard h5 hnotAlt Q (S.isPGroup.map (fixingSubgroup P s).subtype)
     (by rw [← hfixeq,hF.1])
   exact ⟨hF.1,hF.2,by rwa [hQcard] at hQbound⟩
 

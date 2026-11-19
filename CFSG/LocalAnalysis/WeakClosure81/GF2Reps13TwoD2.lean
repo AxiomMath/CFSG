@@ -42,7 +42,7 @@ private theorem w16g_conj_commutator_self_inv {A : Type*} [Group A] {t a : A}
 
 private theorem w16g_exp_three_of_inverts_center {Q : Type} [Group Q] [Finite Q]
     (hQ : Nat.card Q = 27) (hnc : ∃ u v : Q, u * v ≠ v * u) (σ : Q →* Q)
-    (hσ : ∀ x, σ (σ x) = x) (hZfix : ∀ z ∈ Subgroup.center Q, σ z = z)
+    (_hσ : ∀ x, σ (σ x) = x) (hZfix : ∀ z ∈ Subgroup.center Q, σ z = z)
     (hinv : ∀ x : Q, σ x * x ∈ Subgroup.center Q) : ∀ x : Q, x ^ 3 = 1 := by
   intro x
   have hc := hinv x
@@ -129,7 +129,7 @@ private theorem w16g_inverts_center_quotient {W : Type} [CommGroup W] [Finite W]
     rw [Subgroup.commutator_le]
     intro a ha b hb
     rcases w16g_zpowers_eq_one_or_self htt hb with hb1 | hbt
-    · rw [hb1]; simpa using B.one_mem
+    · rw [hb1]; simp
     · rw [hbt]
       apply Subgroup.mem_map.mpr
       have hmem : ⁅a, t⁆ ∈ P := by
@@ -274,7 +274,7 @@ private theorem w16g_hom_eq_one_of_generated
     exact ⟨⟨g * (m : G) * g⁻¹, hN.conj_mem (m : G) m.2 g⟩, by
       rw [MonoidHom.mem_ker, hinv g m]
       exact MonoidHom.mem_ker.mp hm, rfl⟩
-  haveI : K.Normal := hKN
+  have : K.Normal := hKN
   have hNK : ⁅N, ⊤⁆ ≤ K := by
     rw [Subgroup.commutator_le]
     intro a ha b hb
@@ -332,7 +332,7 @@ private theorem w16g_hom_eq_one_of_generated
       rwa [hTop] at h
     rw [hEq]
     exact sup_le hNK hYN
-  haveI : IsMulCommutative (G ⧸ K) := by
+  have : IsMulCommutative (G ⧸ K) := by
     rw [Subgroup.Normal.quotient_commutative_iff_commutator_le]
     simpa [_root_.commutator_def] using hGG
   have hτK : K ≤ K.comap τ := by
@@ -449,11 +449,11 @@ theorem w16h_central_card_le (h : Cfg132 t P) {z : MulAut W} (hzP : z ∈ P) (hz
     (htU : ∃ σ : Equiv.Perm (Fin 3), ∀ i, ∀ u ∈ U i, t u ∈ U (σ i)) :
     Nat.card P ≤ 27 := by
   classical
-  haveI : Finite (W → W) := inferInstance
-  haveI : Finite (MulAut W) :=
+  have : Finite (W → W) := inferInstance
+  have : Finite (MulAut W) :=
     Finite.of_injective (fun f : MulAut W => (f : W → W))
       (fun f g h => MulEquiv.ext (fun w => congrFun h w))
-  haveI : Finite ↥P := Subtype.finite
+  have : Finite ↥P := Subtype.finite
   have hUi_ne : ∀ i, U i ≠ ⊥ := by
     intro i hbot
     have h2 := hrk i
@@ -498,7 +498,7 @@ theorem w16h_central_card_le (h : Cfg132 t P) {z : MulAut W} (hzP : z ∈ P) (hz
     rw [heq]
     calc Nat.card cH.range ≤ Nat.card (Multiplicative (ZMod 3)) :=
           Subgroup.card_le_card_group _
-      _ = 3 := by simp [Nat.card_zmod]
+      _ = 3 := by simp
   have hcard_eq : Nat.card ↥P = Nat.card (↥P ⧸ P₁) * Nat.card P₁ :=
     Subgroup.card_eq_card_quotient_mul_card_subgroup P₁
   have hP₁_le : Nat.card P₁ ≤ 9 := by
@@ -653,7 +653,7 @@ theorem w16h_central_card_le (h : Cfg132 t P) {z : MulAut W} (hzP : z ∈ P) (hz
       show θ i (eZ (eZ.symm (Classical.choose (hex i x)))) = resAt i x
       rw [MulEquiv.apply_symm_apply]
       exact Classical.choose_spec (hex i x)
-    haveI hP₁norm : P₁.Normal := MonoidHom.normal_ker cH
+    have hP₁norm : P₁.Normal := MonoidHom.normal_ker cH
     have hker_c : ∀ x : ↥P, x ∈ P₁ → c x = 0 := by
       intro x hx
       have h := MonoidHom.mem_ker.mp hx
@@ -762,7 +762,7 @@ theorem w16h_central_card_le (h : Cfg132 t P) {z : MulAut W} (hzP : z ∈ P) (hz
       have hord : orderOf (cH yP) = 3 := orderOf_eq_prime h3 hne
       refine Subgroup.eq_of_le_of_card_ge le_top ?_
       rw [Nat.card_zpowers, hord]
-      simp [Nat.card_zmod]
+      simp
     have hTop : P₁ ⊔ Subgroup.zpowers yP = ⊤ := by
       rw [eq_top_iff]
       intro g _
@@ -952,7 +952,7 @@ theorem w16h_central_card_le (h : Cfg132 t P) {z : MulAut W} (hzP : z ∈ P) (hz
       exact Subtype.ext (Subtype.ext (MulEquiv.ext hxy))
     have hle := Nat.card_le_card_of_injective (fun x : P₁ => (φ 0 x, φ 1 x)) hinj
     rw [Nat.card_prod] at hle
-    have hM : Nat.card (Multiplicative (ZMod 3)) = 3 := by simp [Nat.card_zmod]
+    have hM : Nat.card (Multiplicative (ZMod 3)) = 3 := by simp
     rw [hM] at hle
     omega
   calc Nat.card P = Nat.card ↥P := rfl
@@ -962,11 +962,11 @@ theorem w16h_central_card_le (h : Cfg132 t P) {z : MulAut W} (hzP : z ∈ P) (hz
     _ = 27 := by norm_num
 
 theorem w16h_central_extraspecial (h : Cfg132 t P)
-    {z : MulAut W} (hzP : z ∈ P) (hz3 : orderOf z = 3) (hzc : ∀ y ∈ P, y * z = z * y)
-    (hZP : ∀ x ∈ P, (∀ y ∈ P, y * x = x * y) → x ∈ Subgroup.zpowers z)
+    {z : MulAut W} (_hzP : z ∈ P) (_hz3 : orderOf z = 3) (_hzc : ∀ y ∈ P, y * z = z * y)
+    (_hZP : ∀ x ∈ P, (∀ y ∈ P, y * x = x * y) → x ∈ Subgroup.zpowers z)
     (hZ : ∀ z ∈ P, (∀ y ∈ P, y * z = z * y) → t * z * t⁻¹ = z)
     (hcard : Nat.card P ≤ 27) : IsPOnePlusTwo 3 ↥P := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have htt : t * t = 1 := by rw [← pow_two, ← h.ht]; exact pow_orderOf_eq_one t
   have hnc : ∃ u v : ↥P, u * v ≠ v * u := by
     by_contra hcon
@@ -1005,20 +1005,20 @@ theorem w16h_central_extraspecial (h : Cfg132 t P)
     have hk_ne1 : k ≠ 1 := by
       intro h1
       have hcard3 : Nat.card ↥P = 3 := by rw [hk, h1]; norm_num
-      haveI : IsCyclic ↥P := isCyclic_of_prime_card hcard3
+      have : IsCyclic ↥P := isCyclic_of_prime_card hcard3
       obtain ⟨u, v, huv⟩ := hnc
       exact huv ((IsMulCommutative.is_comm (M := ↥P)).comm u v)
     have hk_ne2 : k ≠ 2 := by
       intro h2
       have hcard9 : Nat.card ↥P = 3 ^ 2 := by rw [hk, h2]
-      haveI : IsMulCommutative ↥P :=
+      have : IsMulCommutative ↥P :=
         IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3) hcard9
       obtain ⟨u, v, huv⟩ := hnc
       exact huv ((IsMulCommutative.is_comm (M := ↥P)).comm u v)
     have hk3 : k = 3 := by omega
     rw [hk, hk3]; norm_num
-  haveI : Finite ↥P := Nat.finite_of_card_ne_zero (by rw [hcard27]; norm_num)
-  haveI : IsMulCommutative (↥P ⧸ Subgroup.center ↥P) :=
+  have : Finite ↥P := Nat.finite_of_card_ne_zero (by rw [hcard27]; norm_num)
+  have : IsMulCommutative (↥P ⧸ Subgroup.center ↥P) :=
     SmD6Grp.isMulCommutative_quotient_center hcard27 hnc
   have hQcomm : ∀ a b : ↥P ⧸ Subgroup.center ↥P, a * b = b * a := fun a b =>
     (IsMulCommutative.is_comm (M := ↥P ⧸ Subgroup.center ↥P)).comm a b
@@ -1040,7 +1040,7 @@ theorem w16h_central (h : Cfg132 t P) (hind : NoDecomp132 t P)
   refine ⟨w16h_central_extraspecial h hzP hz3 hzc hZP hZ hcard, ?_⟩
   have hcommTop : commSub ⊤ P = ⊤ := by
     have hzle : Subgroup.zpowers z ≤ P := Subgroup.zpowers_le.mpr hzP
-    haveI : Finite (Subgroup.zpowers z) :=
+    have : Finite (Subgroup.zpowers z) :=
       Nat.finite_of_card_ne_zero (by rw [Nat.card_zpowers, hz3]; norm_num)
     have hodd : Odd (Nat.card (Subgroup.zpowers z)) := by
       rw [Nat.card_zpowers, hz3]; norm_num

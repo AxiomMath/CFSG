@@ -91,10 +91,10 @@ private theorem mem_normalizer_of_normalizes_E0 (C : ThCore G) {tM : ↥Max3.M}
     {E₀ : Subgroup ↥Max3.M} (hE₀t : ∀ x ∈ E₀, x * tM = tM * x)
     {Y : Type*} [Group Y] (π : CT C tM →* Y) (Ē : Subgroup Y)
     (hĒ : Ē = ((E₀.map (phi C)).subgroupOf (CT C tM)).map π) [Finite ↥Ē]
-    {n : ↥Max3.M} (hn : n * tM = tM * n) (hnE : ∀ x ∈ E₀, n * x * n⁻¹ ∈ E₀)
+    {n : ↥Max3.M} (_hn : n * tM = tM * n) (hnE : ∀ x ∈ E₀, n * x * n⁻¹ ∈ E₀)
     (hnCT : (phi C) n ∈ CT C tM) :
     π (⟨(phi C) n, hnCT⟩ : CT C tM) ∈ Subgroup.normalizer (Ē : Set Y) := by
-  haveI : Finite ↥(((E₀.map (phi C)).subgroupOf (CT C tM)).map π) := hĒ ▸ ‹Finite ↥Ē›
+  have : Finite ↥(((E₀.map (phi C)).subgroupOf (CT C tM)).map π) := hĒ ▸ ‹Finite ↥Ē›
   have hEG_le_CT : E₀.map (phi C) ≤ CT C tM := by
     rintro _ ⟨x, hx, rfl⟩
     rw [Subgroup.mem_centralizer_singleton_iff]
@@ -306,7 +306,7 @@ private theorem exists_Ebar (C : ThCore G)
   have hπt : π tCT = 1 := by
     rw [← MonoidHom.mem_ker, hker']
     exact Subgroup.mem_zpowers tCT
-  haveI : Finite Y := Finite.of_surjective π hπ
+  have : Finite Y := Finite.of_surjective π hπ
   have hEG_le_CT : E₀.map (phi C) ≤ (CT C tM) := by
     rintro _ ⟨x, hx, rfl⟩
     rw [Subgroup.mem_centralizer_singleton_iff]
@@ -481,18 +481,18 @@ private theorem dvd_index_of_transitive {Y : Type*} [Group Y] [Finite Y] {V : Su
     rw [hOrbit_z]
     have hset : {v : ↥V | (v : Y) ≠ 1} = (Set.univ : Set ↥V) \ {1} := by
       ext v
-      simp only [Set.mem_setOf_eq, Set.mem_diff, Set.mem_univ, Set.mem_singleton_iff, true_and]
+      simp only [Set.mem_ofPred_eq, Set.mem_sdiff, Set.mem_univ, Set.mem_singleton_iff, true_and]
       constructor
       · intro h hv
         exact h (by rw [hv]; rfl)
       · intro h hv
         exact h (Subtype.ext hv)
-    rw [hset, Set.ncard_diff_singleton_of_mem (Set.mem_univ (1 : ↥V)), Set.ncard_univ,
+    rw [hset, Set.ncard_sdiff_singleton_of_mem (Set.mem_univ (1 : ↥V)), Set.ncard_univ,
       show Nat.card ↥V = 8 from h8]
   let S : Subgroup ↥N := MulAction.stabilizer ↥N zV
   have hS_index : S.index = 7 := by
     rw [MulAction.index_stabilizer, hcard_orbit_z]
-  letI : MulAction ↥S ↥V := MulAction.compHom ↥V S.subtype
+  let : MulAction ↥S ↥V := MulAction.compHom ↥V S.subtype
   have hS_smul : ∀ (s : ↥S) (v : ↥V),
       ((s • v : ↥V) : Y) = (s : Y) * (v : Y) * (s : Y)⁻¹ := by
     intro s v
@@ -549,15 +549,15 @@ private theorem dvd_index_of_transitive {Y : Type*} [Group Y] [Finite Y] {V : Su
         constructor
         · intro h hv; exact h (congrArg (fun w : ↥V => (w : Y)) hv)
         · intro h hv; exact h (Subtype.ext hv)
-      simp only [Set.mem_setOf_eq, Set.mem_diff, Set.mem_univ, Set.mem_singleton_iff, true_and,
+      simp only [Set.mem_ofPred_eq, Set.mem_sdiff, Set.mem_univ, Set.mem_singleton_iff, true_and,
         h1, h2]
     rw [hset]
     have hzVmem : zV ∈ (Set.univ : Set ↥V) \ {1} := by
-      simp only [Set.mem_diff, Set.mem_univ, Set.mem_singleton_iff, true_and]
+      simp only [Set.mem_sdiff, Set.mem_univ, Set.mem_singleton_iff, true_and]
       intro h
       exact hz₀1 (Subtype.ext_iff.mp h)
-    rw [Set.ncard_diff_singleton_of_mem hzVmem,
-      Set.ncard_diff_singleton_of_mem (Set.mem_univ (1 : ↥V)), Set.ncard_univ,
+    rw [Set.ncard_sdiff_singleton_of_mem hzVmem,
+      Set.ncard_sdiff_singleton_of_mem (Set.mem_univ (1 : ↥V)), Set.ncard_univ,
       show Nat.card ↥V = 8 from h8]
   let T : Subgroup ↥S := MulAction.stabilizer ↥S eV
   have hT_index : T.index = 6 := by
@@ -748,7 +748,7 @@ theorem exists_g23Two_quot (C : ThCore G)
   have hπt : π tCT = 1 := by
     rw [← MonoidHom.mem_ker, hker']
     exact Subgroup.mem_zpowers tCT
-  haveI : Finite Y := Finite.of_surjective π hπ
+  have : Finite Y := Finite.of_surjective π hπ
   let zG : G := C.z
   let e : G := (C.ψ e₀ : G)
   let zM : ↥Max3.M := ⟨Max3.z, Max3.z_mem_M⟩
@@ -941,7 +941,7 @@ theorem exists_g23Two_quot (C : ThCore G)
       rfl
     rw [hmemY, hsub]
     exact Subgroup.mem_map_of_mem π (Subgroup.mem_subgroupOf.mpr hmem)
-  haveI : Finite ↥Ē := Nat.finite_of_card_ne_zero (by rw [hcard_Ē]; norm_num)
+  have : Finite ↥Ē := Nat.finite_of_card_ne_zero (by rw [hcard_Ē]; norm_num)
   have hnY_norm : nY ∈ Subgroup.normalizer (Ē : Set Y) :=
     mem_normalizer_of_mapsTo hnY_maps
   have hnY_z : nY * zbar * nY⁻¹ = π (⟨e * zG, (CT C tM).mul_mem he_CT hzG_CT⟩ : CT C tM) := by
@@ -1005,7 +1005,7 @@ theorem exists_g23Two_quot (C : ThCore G)
         have hzG_eq : (C.ψ zM : G) = zG := hψa
         simpa [e, map_mul, hzG_eq] using
           congrArg (fun z : ↥Max3.M => (C.ψ z : G)) h
-      simp only [Subgroup.coe_mul]
+      simp only
       calc e * zG * (e * zG) = e * (zG * e) * zG := by group
         _ = e * (e * zG) * zG := by rw [← hz_comm]
         _ = (e * e) * (zG * zG) := by group
@@ -1076,7 +1076,7 @@ theorem exists_g23Two_quot (C : ThCore G)
         have hzG_eq : (C.ψ zM : G) = zG := hψa
         simpa [map_mul, hzG_eq] using
           congrArg (fun z : ↥Max3.M => (C.ψ z : G)) h
-      simp [map_mul, map_inv, hz_comm]
+      simp [hz_comm]
     · rw [hvπ]
       change π nCT' * ebarY * (π nCT')⁻¹ =
         π (⟨(phi C) w, hEG_le_CT (Subgroup.mem_map_of_mem (phi C) hwE)⟩ : CT C tM)

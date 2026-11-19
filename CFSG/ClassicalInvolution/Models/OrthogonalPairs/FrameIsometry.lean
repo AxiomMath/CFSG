@@ -65,6 +65,7 @@ variable {K V W : Type} [Field K] [CharP K 2] [Finite K]
   [AddCommGroup V] [Module K V] [AddCommGroup W] [Module K W]
   [FiniteDimensional K W] {Q : QuadraticForm K V} {Q' : QuadraticForm K W}
 
+omit [Finite K] in
 theorem exists_matched_isometry (e : Q.IsometryEquiv Q')
     (hQ' : (polarBilin Q').Nondegenerate) (F : Frame Q) (F' : Frame Q') :
     ∃ e' : Q.IsometryEquiv Q',

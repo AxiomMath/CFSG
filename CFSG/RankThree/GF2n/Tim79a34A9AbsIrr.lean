@@ -201,8 +201,8 @@ theorem rho8a_algebraMap_surjective :
 
 theorem rho8a_absIrr :
     CFSG.Theory.Representation.IsAbsolutelyIrreducible (A9Mod.endHom rho8a) := by
-  haveI : FiniteDimensional (ZMod 2) V8 := inferInstance
-  haveI : Representation.IsIrreducible (A9Mod.endHom rho8a) := rho8a_irreducible
+  have : FiniteDimensional (ZMod 2) V8 := inferInstance
+  have : Representation.IsIrreducible (A9Mod.endHom rho8a) := rho8a_irreducible
   exact (CFSG.Theory.Representation.isAbsolutelyIrreducible_iff_surjective _).mpr
     rho8a_algebraMap_surjective
 
@@ -268,8 +268,8 @@ theorem ext9_eq_indicator (x : V8) :
     ext9 x = fun j => if j ∈ supp9 x then 1 else 0 := by
   funext j
   by_cases h : j ∈ supp9 x
-  · rw [if_pos h, (mem_supp9 x j).mp h]
-  · rw [if_neg h]
+  · rw [ite_eq_left h, (mem_supp9 x j).mp h]
+  · rw [ite_eq_right h]
     rcases CFSG.Certificates.ExtraspecialNF.zmod_two_cases (ext9 x j) with h0 | h1
     · exact h0
     · exact absurd ((mem_supp9 x j).mpr h1) h
@@ -371,10 +371,10 @@ theorem rho8p_exists_weight_two (y : V8) (hy : y ≠ 0) (hcard : 4 ≤ (supp9 y)
     simp only [Finset.mem_symmDiff, Finset.mem_union, Finset.mem_erase,
       Finset.mem_singleton]
     by_cases hjc : j = c
-    · subst hjc; simp [hcA, hcb, hb]
+    · subst hjc; simp [hcA, hcb]
     · by_cases hjb : j = b
       · subst hjb; simp [hb]
-      · by_cases hjA : j ∈ supp9 y <;> simp [hjc, hjb, hjA, hb]
+      · by_cases hjA : j ∈ supp9 y <;> simp [hjc, hjb, hjA]
   have hz : (y + (A9Mod.endHom rho8p) σ y) ≠ 0 := by
     intro h
     have h2 : (supp9 (y + (A9Mod.endHom rho8p) σ y)).card = 2 := by
@@ -451,8 +451,8 @@ theorem rho8p_algebraMap_surjective :
 
 theorem rho8p_absIrr :
     CFSG.Theory.Representation.IsAbsolutelyIrreducible (A9Mod.endHom rho8p) := by
-  haveI : FiniteDimensional (ZMod 2) V8 := inferInstance
-  haveI : Representation.IsIrreducible (A9Mod.endHom rho8p) := rho8p_irreducible
+  have : FiniteDimensional (ZMod 2) V8 := inferInstance
+  have : Representation.IsIrreducible (A9Mod.endHom rho8p) := rho8p_irreducible
   exact (CFSG.Theory.Representation.isAbsolutelyIrreducible_iff_surjective _).mpr
     rho8p_algebraMap_surjective
 

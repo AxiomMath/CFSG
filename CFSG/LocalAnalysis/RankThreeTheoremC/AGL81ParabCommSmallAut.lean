@@ -30,7 +30,7 @@ theorem commutator_centralizes_of_quotAut_comm {A : Type} [Group A] {Y B : Subgr
     (hY : Open.IsQuasisimple ↥Y) (hBY : B ≤ Subgroup.normalizer (Y : Set A))
     (hcomm : ∀ a b : ↥B, quotAut hBY a * quotAut hBY b = quotAut hBY b * quotAut hBY a) :
     ∀ c ∈ ⁅B, B⁆, ∀ y ∈ Y, c * y = y * c := by
-  haveI : Group.IsPerfect ↥Y := Group.isPerfect_def.mpr hY.1
+  have : Group.IsPerfect ↥Y := Group.isPerfect_def.mpr hY.1
   let φ : ↥B →* MulAut ↥Y := Y.normalizerMonoidHom.comp (Subgroup.inclusion hBY)
   have hle : ⁅B, B⁆ ≤ (quotAut hBY).ker.map B.subtype := by
     rw [Subgroup.commutator_le]
@@ -66,7 +66,7 @@ theorem parabCommGroupOn_of_aut {𝔉 : ∀ (X : Type) [Group X], Prop}
 theorem isPGroup_commutative_of_dvd {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.Prime)
     {S : Subgroup G} (hS : IsPGroup p ↥S) (h3 : ¬ p ^ 3 ∣ Nat.card G) :
     ∀ a ∈ S, ∀ b ∈ S, a * b = b * a := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hS
   have hdvd : p ^ k ∣ Nat.card G := hk ▸ Subgroup.card_subgroup_dvd_card S
   have hk2 : k ≤ 2 := by
@@ -75,11 +75,11 @@ theorem isPGroup_commutative_of_dvd {G : Type} [Group G] [Finite G] {p : ℕ} (h
   have hcomm : ∀ x y : ↥S, x * y = y * x := by
     interval_cases k
     · intro x y
-      haveI : Subsingleton ↥S := (Nat.card_eq_one_iff_unique.mp (by simpa using hk)).1
+      have : Subsingleton ↥S := (Nat.card_eq_one_iff_unique.mp (by simpa using hk)).1
       exact Subsingleton.elim _ _
-    · haveI : IsCyclic ↥S := isCyclic_of_prime_card (by simpa using hk)
+    · have : IsCyclic ↥S := isCyclic_of_prime_card (by simpa using hk)
       exact fun x y => mul_comm' x y
-    · exact IsPGroup.commutative_of_card_eq_prime_sq hk
+    · exact (IsPGroup.isMulCommutative_of_card_eq_prime_sq hk).is_comm.comm
   intro a ha b hb
   exact congrArg Subtype.val (hcomm ⟨a, ha⟩ ⟨b, hb⟩)
 
@@ -87,7 +87,7 @@ theorem card_mulAut_alternatingGroup {n : ℕ} (hn : n = 5 ∨ 7 ≤ n) :
     Nat.card (MulAut ↥(alternatingGroup (Fin n))) = Nat.factorial n := by
   have hle := CFSG.Quasithin.FFC.card_mulAut_alternating_le hn
   have hn4 : 4 ≤ n := by omega
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
   have hdvd := Subgroup.card_dvd_of_injective _
     (GroupTheory.AutAlternating.conjNormal_injective_alternatingGroup n hn4)
   rw [Nat.card_perm, Nat.card_fin] at hdvd

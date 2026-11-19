@@ -112,7 +112,7 @@ public theorem exists_factor
       ↥(centralizerTwoPrimeResidual Y ⊓ M))).trans
       (inf_le_left.trans (centralizerTwoPrimeResidual_le_centralizer Y))
   · obtain ⟨P, rfl⟩ := hSsylow
-    exact P.isPGroup'.map
+    exact P.isPGroup.map
       (centralizerTwoPrimeResidual Y ⊓ M).subtype
   · change (S.subgroupOf (normalizerIn M Y)).Normal
     exact hSnormal

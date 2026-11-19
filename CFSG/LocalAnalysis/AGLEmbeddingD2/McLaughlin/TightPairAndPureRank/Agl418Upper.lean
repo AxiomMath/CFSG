@@ -53,13 +53,13 @@ theorem not_three_dvd_card_scalars {K : Type} [Field K] [Finite K] {n : ℕ} (hn
 theorem orderOf_two_zmod_three : orderOf (2 : ZMod 3) = 2 := by
   have h2 : (2 : ZMod 3) ^ 2 = 1 := by decide
   have h1 : (2 : ZMod 3) ≠ 1 := by decide
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact orderOf_eq_prime h2 h1
 
 theorem orderOf_neg_one_zmod_three : orderOf (-1 : ZMod 3) = 2 := by
   have h2 : (-1 : ZMod 3) ^ 2 = 1 := by decide
   have h1 : (-1 : ZMod 3) ≠ 1 := by decide
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact orderOf_eq_prime h2 h1
 
 theorem pRank_three_psl_three_le_one {K : Type} [Field K] [Finite K] {f : ℕ}

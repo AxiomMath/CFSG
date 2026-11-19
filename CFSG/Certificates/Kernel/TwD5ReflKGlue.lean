@@ -40,8 +40,8 @@ theorem applyL_eq (gens refls : List ℕ) (g x : ℕ) : applyL gens refls g x =
     Bool.eq_iff_iff.mpr (by simp [Nat.blt_eq])
   rw [e]
   by_cases hg : g < gens.length
-  · rw [decide_eq_true hg, if_pos hg]
-  · rw [decide_eq_false hg, if_neg hg]
+  · rw [decide_eq_true hg, ite_eq_left hg]
+  · rw [decide_eq_false hg, ite_eq_right hg]
     rfl
 
 @[expose] noncomputable def letM (gens refls : List ℕ) (g : ℕ) :
@@ -69,9 +69,9 @@ theorem applyW_spec {fx : Bool} {gens refls : List ℕ} (hg : allL gens (validH 
     rw [hw, ← Matrix.mulVec_mulVec, ← h2, applyL_eq]
     unfold letM
     by_cases hlt : g < gens.length
-    · rw [if_pos hlt, if_pos hlt]
+    · rw [ite_eq_left hlt, ite_eq_left hlt]
       exact act_spec (gens_sound hg _ (getN_mem_of_lt hlt)) _
-    · rw [if_neg hlt, if_neg hlt]
+    · rw [ite_eq_right hlt, ite_eq_right hlt]
       exact ⟨reflV_lt _ _, decV_reflV _ _⟩
 
 theorem wordM_mem {fx : Bool} {gens refls : List ℕ} (hg : allL gens (validH fx) = true)
@@ -351,8 +351,6 @@ theorem lines_of {fx : Bool} {m : ℕ} {good : Fin m → Matrix (Fin 6) (Fin 6) 
     first
       | exact List.nodup_append.mpr ⟨hlP.imp ne_of_lt, hgP.imp ne_of_lt,
           fun a ha b hb hab => dj a ha (hab ▸ hb)⟩
-      | exact List.nodup_append.mpr ⟨hlP.imp ne_of_lt, hgP.imp ne_of_lt,
-          fun a ha hb => dj a ha hb⟩
   have hcard : ∀ y : Fin 6 → ZMod 3,
       {s | s ∈ ReflSet (HS fx) (good c) ∧ s *ᵥ y = y}.ncard =
         ((LH ++ LG c).filter fun e => dot (encV y) (e.1 % 729) == 0).length := by
@@ -361,7 +359,7 @@ theorem lines_of {fx : Bool} {m : ℕ} {good : Fin m → Matrix (Fin 6) (Fin 6) 
         reflK '' ↑((((LH ++ LG c).map Prod.fst).filter
           fun k => dot (encV y) (k % 729) == 0).toFinset) := by
       ext s
-      simp only [Set.mem_setOf_eq, Set.mem_image, Finset.mem_coe, List.mem_toFinset,
+      simp only [Set.mem_ofPred_eq, Set.mem_image, Finset.mem_coe, List.mem_toFinset,
         List.mem_filter, beq_iff_eq]
       constructor
       · rintro ⟨hs, hfix⟩

@@ -33,11 +33,10 @@ open scoped commutatorElement
 
 theorem smu_exists_card_eq_two_pow (K : Type) [Field K] [Finite K] [CharP K 2] :
     ∃ f : ℕ, 1 ≤ f ∧ Nat.card K = 2 ^ f := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   obtain ⟨n, -, hn⟩ := FiniteField.card K 2
   refine ⟨n, n.pos, ?_⟩
   first
-    | exact hn
     | rw [Nat.card_eq_fintype_card]; exact hn
 
 theorem smu_commutator_quasisimple {r : ℕ} {K : Type} [Field K] {ℓ f p : ℕ}
@@ -156,19 +155,19 @@ theorem smu_isSolvable_specialBlock {r : ℕ} {K : Type} [Field K] {ℓ f p : �
   have hSU : Group.IsSolvable ↥(sesqSpecialUnitaryGroup Hf) := by
     obtain ⟨e1⟩ := CFSG.RankThree.CentralLift.nonempty_sesqSpecialUnitaryGroup_mulEquiv_gramSU hE e
       (G := 1) (fun i j => by rw [he i j, Matrix.one_apply])
-    haveI : Group.IsSolvable ↥(gramSU hE (1 : Matrix (Fin (Module.finrank (AdjoinRoot (h : K[X]))
+    have : Group.IsSolvable ↥(gramSU hE (1 : Matrix (Fin (Module.finrank (AdjoinRoot (h : K[X]))
         (primaryComponent (spEnd x) (h : K[X])))) (Fin (Module.finrank (AdjoinRoot (h : K[X]))
           (primaryComponent (spEnd x) (h : K[X])))) (AdjoinRoot (h : K[X])))) := by
       rw [← unitarySU_eq_gramSU hE]
       exact CFSG.StandardType.WitSU.isSolvable_unitarySU_two_one hE hm1 hm3
     exact Group.isSolvable_of_isSolvable_injective (f := e1.toMonoidHom) e1.injective
-  haveI : Group.IsSolvable ↥(sesqSpecialUnitaryGroup Hf) := hSU
+  have : Group.IsSolvable ↥(sesqSpecialUnitaryGroup Hf) := hSU
   have hkerSolv : Group.IsSolvable D.ker := by
     rw [hker]
     exact Group.isSolvable_of_isSolvable_injective
       (f := (Subgroup.subgroupOfEquivOfLe (sesqSpecialUnitaryGroup_le Hf)).toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe (sesqSpecialUnitaryGroup_le Hf)).injective
-  haveI : Group.IsSolvable D.ker := hkerSolv
+  have : Group.IsSolvable D.ker := hkerSolv
   obtain ⟨e2⟩ := nonempty_kerImage_mulEquiv (orbitFactor (spForm r K) (spLin r K x) (h : K[X])) ψ D
   have hImgSolv : Group.IsSolvable
       ↥(kerImage (orbitFactor (spForm r K) (spLin r K x) (h : K[X])) ψ D) :=
@@ -266,7 +265,7 @@ theorem smu_two_le_primaryMultiplicity (hp : p.Prime) (hp2 : p ≠ 2) (hpq : p �
       (smuQuad ((ζ c : Matrix (Fin 2) (Fin 2) K).trace)) := by
   classical
   have hirr := irreducible_smuQuad hp hp2 hpq hζ hc
-  haveI : Fact (Irreducible (smuQuad ((ζ c : Matrix (Fin 2) (Fin 2) K).trace))) := ⟨hirr⟩
+  have : Fact (Irreducible (smuQuad ((ζ c : Matrix (Fin 2) (Fin 2) K).trace))) := ⟨hirr⟩
   obtain ⟨a, ha, b, hb, hab⟩ := Finset.one_lt_card.mp hS2
   let idx : Fin 4 → Fin m ⊕ Fin m := ![Sum.inl a, Sum.inr a, Sum.inl b, Sum.inr b]
   have hidx : Function.Injective idx := by
@@ -315,7 +314,7 @@ theorem mem_component_of_involution {K : Type} [Field K] [Finite K] [CharP K 2]
       ((n : GL (Fin m ⊕ Fin m) K) : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) K) *ᵥ v = v) :
     n ∈ J₀ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨f, hf1, hK⟩ := smu_exists_card_eq_two_pow K
   have hSne : S.Nonempty := Finset.card_pos.mp (by omega)
   obtain ⟨i₀, hi₀⟩ := hSne
@@ -393,21 +392,21 @@ theorem mem_component_of_involution {K : Type} [Field K] [Finite K] [CharP K 2]
         by_contra hlt
         have hm1 : 1 ≤ primaryMultiplicity (spEnd g) (smuQuad t) := by omega
         have hm3 : primaryMultiplicity (spEnd g) (smuQuad t) ≤ 3 := by omega
-        haveI : Group.IsSolvable Sb :=
+        have : Group.IsSolvable Sb :=
           smu_isSolvable_specialBlock (ℓ := 2) (f := f) (p := p) hself hdeg hSelf h2f hm1 hm3
         have hcl : ⁅orbitFactor (spForm m K) (spLin m K g) (smuQuad t),
             orbitFactor (spForm m K) (spLin m K g) (smuQuad t)⁆ ≤ Sb :=
           smu_commutator_le_specialBlock (x := g) (smuQuad t)
         have hmap_le : J₀.map (spLin m K) ≤ Sb := h1.trans hcl
-        haveI : Group.IsSolvable ↥(J₀.map (spLin m K)) :=
+        have : Group.IsSolvable ↥(J₀.map (spLin m K)) :=
           Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hmap_le)
             (by intro a b hab; exact Subtype.ext (by simpa using congrArg Subtype.val hab))
-        haveI : Group.IsSolvable ↥J₀ :=
+        have : Group.IsSolvable ↥J₀ :=
           Group.isSolvable_of_isSolvable_injective
             (f := (Subgroup.equivMapOfInjective J₀ (spLin m K) spLin_injective).toMonoidHom)
             (Subgroup.equivMapOfInjective J₀ (spLin m K) spLin_injective).injective
-        haveI : Nontrivial (J₀ ⧸ Subgroup.center ↥J₀) := hJ.2.2.2.toNontrivial
-        haveI : Nontrivial ↥J₀ := (QuotientGroup.mk'_surjective (Subgroup.center ↥J₀)).nontrivial
+        have : Nontrivial (J₀ ⧸ Subgroup.center ↥J₀) := hJ.2.2.2.toNontrivial
+        have : Nontrivial ↥J₀ := (QuotientGroup.mk'_surjective (Subgroup.center ↥J₀)).nontrivial
         exact absurd hJ.2.2.1
           (ne_of_lt (Group.IsSolvable.commutator_lt_top_of_nontrivial ↥J₀))
       obtain ⟨hcomm, hquasi⟩ :=
@@ -451,8 +450,8 @@ theorem mem_component_of_involution {K : Type} [Field K] [Finite K] [CharP K 2]
     rw [← map_mul, hn2, map_one]
   have hdet := congrArg (blockDetHom (spLin m K g) (smuQuad t)) hsq1
   rw [map_mul, map_one] at hdet
-  haveI : Fact (Irreducible (smuQuad t)) := ⟨hirr⟩
-  haveI : CharP (AdjoinRoot (smuQuad t)) 2 :=
+  have : Fact (Irreducible (smuQuad t)) := ⟨hirr⟩
+  have : CharP (AdjoinRoot (smuQuad t)) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AdjoinRoot (smuQuad t))).injective 2
   exact ggTBJSpB_eq_one_of_mul_self hdet
 

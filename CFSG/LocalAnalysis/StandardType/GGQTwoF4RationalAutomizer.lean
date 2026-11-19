@@ -256,8 +256,8 @@ theorem four_dvd_aut_of_quasisimple_F4 {L : Type} [Field L] [IsAlgClosed L] [Cha
         (Equiv.refl _) (-1) (Or.inr rfl) (by rw [hq]; norm_num) hρ' hT ha3 i
         ⟨rfl, Or.inr ⟨by rw [rationalRoots_eq_of_rho_neg S hρ i]; exact hsix.1,
           by intro γ hγ; rfl⟩⟩
-    haveI : Group.IsPerfect ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) := hQ.1
-    haveI : Nontrivial ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) :=
+    have : Group.IsPerfect ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) := hQ.1
+    have : Nontrivial ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) :=
       CFSG.LocalCores.isQuasisimple_nontrivial hQ
     exact False.elim ((Group.IsPerfect.not_isSolvable
       (G := ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i))) hsolv)

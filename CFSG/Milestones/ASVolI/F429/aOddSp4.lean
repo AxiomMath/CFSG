@@ -44,6 +44,7 @@ open Matrix CFSG.Open CFSG.ASVolI.ChF CFSG.Assembly.LowTwoRank
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 theorem burnsideF429a_coe_xl (t : K) :
     (((burnsideF4gSpInv_xl t : StatedSp 2 K) : GL (Fin 2 ⊕ Fin 2) K) :
       Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K) = 1 + t • rootE K := by
@@ -51,6 +52,7 @@ theorem burnsideF429a_coe_xl (t : K) :
   rw [pairRootMat_inl_inr_self]
   rfl
 
+omit [Finite K] [CharP K 2] in
 theorem burnsideF429a_fieldSp_xl_one (σ : K ≃+* K) :
     fieldSp 2 K σ (burnsideF4gSpInv_xl 1) = burnsideF4gSpInv_xl 1 := by
   apply CFSG.LocalAnalysis.ComponentInitial.SymplecticTorusWeyl.statedSp_ext
@@ -126,7 +128,7 @@ theorem burnsideF429a_Sp_inner_of_odd {f : ℕ} (hK : Nat.card K = 2 ^ f) (hf : 
       rw [hβ] at hyx
       exact burnsideF429a_Sp_tau_not_mem_Xl A σ t hyx.symm
   rw [hε0, pow_zero, mul_one] at hβ
-  haveI : (inner (StatedProj (StatedSp 2 K))).Normal := inner_normal _
+  have : (inner (StatedProj (StatedSp 2 K))).Normal := inner_normal _
   have hcA : conjAut 2 K A ∈ inner (StatedProj (StatedSp 2 K)) :=
     CFSG.RankThree.PartTwo.KFacts.conjAut_mem_inner_of_charTwo A
   have hπA : QuotientGroup.mk' (inner (StatedProj (StatedSp 2 K))) (conjAut 2 K A) = 1 :=
@@ -160,15 +162,15 @@ theorem burnsideF429a_two_le_Sp4 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : 
     (hyp : HypF_4_4 .Sp4 2 f Gp M₁ M₂) (hf : Odd f) :
     ∀ r ∈ M₁ ⊓ M₂, ∀ k : ℕ, r ^ 2 ^ k = 1 → r ∈ Gp := by
   intro r hr k hk
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   obtain ⟨marking, h1, h2⟩ := burnsideF4g_marking (c := .Sp4) hyp.toHypF_4_4g
   obtain ⟨e, he⟩ := burnsideF4gSpOne_parabolic_eq marking
   have hK : Nat.card marking.field = 2 ^ f := by simpa using marking.field_card
-  haveI : CharP marking.field 2 := burnsideF4gSp_charP_of_card hK
+  have : CharP marking.field 2 := burnsideF4gSp_charP_of_card hK
   have e0 := he false
   have e1 := he true
-  simp only [Bool.false_eq_true, if_false, if_true] at e0 e1
+  simp only [Bool.false_eq_true, ite_false, ite_true] at e0 e1
   refine burnsideF429a_mem_of_model₂ hyp.centralizer_trivial e (h1.trans e0) (h2.trans e1) hr
     (fun β hβ₁ _ hβr => ?_)
   exact burnsideF429a_Sp_inner_of_odd hK hf hβ₁ (burnsideF429a_pow_eq_one_of_intertwine _ hβr hk)

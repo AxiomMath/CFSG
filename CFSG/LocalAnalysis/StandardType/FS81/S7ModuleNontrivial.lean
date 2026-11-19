@@ -63,7 +63,7 @@ private lemma heisCoord_commutator_E7 {μ γ : Fin (Tag.rank .E7) → ℤ}
   have hXcoord : Heis.heisCoord .E7 (ZMod 2)
       (pinnedX .E7 (ZMod 2) γ 1 * pinnedX .E7 (ZMod 2) μ 1 *
         (pinnedX .E7 (ZMod 2) γ 1)⁻¹) (μ + γ) = 1 := by
-    rw [hkey.2 (μ + γ), hsingle, if_pos hν_root]
+    rw [hkey.2 (μ + γ), hsingle, ite_eq_left hν_root]
     have hsub : μ + γ - γ = μ := by abel
     rw [hsub, Pi.single_eq_of_ne hne, Pi.single_eq_same]
     norm_num
@@ -162,7 +162,7 @@ private lemma modW_commutator_notMem_zpowers_E8 {γ₇ : Fin (Tag.rank .E7) → 
       heisCoord_conj_deg_zero_E8 hδ_root hδ0 hwQ, Pi.add_apply, Pi.add_apply,
       Heis.heisCoord_inv hwQ]
     have hsub : ν + δ - δ = ν := by abel
-    rw [hsub, if_pos hνδ_root, Pi.neg_apply, hw_ν]
+    rw [hsub, ite_eq_left hνδ_root, Pi.neg_apply, hw_ν]
     ring
   have hzero := heisCoord_eq_zero_of_mem_zpowers_pinnedElt_highRoot (τ := .E8)
     (K := GaloisField 2 1) hc
@@ -246,7 +246,7 @@ theorem exists_perpLevi_E7_not_trivial_on_modW :
     rw [(Heis.heisCoord_spec .E8 (GaloisField 2 1)).mul _ hkey_y.1 _ (inv_mem hμQ),
       heisCoord_conj_deg_zero_E8 hθ'_root hθ'0 hμQ, Heis.heisCoord_inv hμQ, hsingle_y]
     simp only [Pi.add_apply, Pi.neg_apply, Pi.single_apply]
-    rw [if_pos hν_root]
+    rw [ite_eq_left hν_root]
     have hsubν : ν - θ' = μ := by rw [hνdef]; abel
     rw [hsubν]
     simp [hne_ν']

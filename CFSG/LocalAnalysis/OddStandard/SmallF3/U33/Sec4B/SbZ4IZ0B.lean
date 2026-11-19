@@ -17,17 +17,21 @@ namespace ZEData
 
 variable {Q Y V V' B K : Subgroup H} {ρ t τ l : H}
 
+omit [Finite H] in
 theorem K_le_Vc (K : Subgroup H) (t τ l : H) : K ≤ z4iVc K t τ l := by
   show K ≤ K ⊔ z4iT3 t τ l
   exact le_sup_left
 
+omit [Finite H] in
 theorem T3_le_Vc (K : Subgroup H) (t τ l : H) : z4iT3 t τ l ≤ z4iVc K t τ l := by
   show z4iT3 t τ l ≤ K ⊔ z4iT3 t τ l
   exact le_sup_right
 
+omit [Finite H] in
 theorem Q_le_Vc (h : ZEData Q Y V V' B K ρ t τ l) : Q ≤ z4iVc K t τ l :=
   h.Q_le_K.trans (K_le_Vc K t τ l)
 
+omit [Finite H] in
 theorem mem_Vc_iff (h : ZEData Q Y V V' B K ρ t τ l) {x : H} :
     x ∈ z4iVc K t τ l ↔ ∃ k ∈ K, ∃ s ∈ z4iT3 t τ l, x = k * s := by
   show x ∈ K ⊔ z4iT3 t τ l ↔ ∃ k ∈ K, ∃ s ∈ z4iT3 t τ l, x = k * s

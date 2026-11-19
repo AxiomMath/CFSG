@@ -17,7 +17,7 @@ open CFSG.Blueprint (LieModel)
 private theorem r95_card_gl2_lt_168 {F : Type} [Field F] [Finite F]
     (hq : Nat.card F = 2 ∨ Nat.card F = 3) :
     Nat.card (Matrix.GeneralLinearGroup (Fin 2) F) < 168 := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   rw [Matrix.card_GL_field (n := 2), Fin.prod_univ_two]
   rcases hq with hq | hq
   · have h2 : Fintype.card F = 2 := by rw [← Nat.card_eq_fintype_card]; exact hq
@@ -30,8 +30,8 @@ theorem r95_gl2_section_psl2 {F : Type} [Field F] [Finite F]
     (hnc : ¬ IsMulCommutative Qm) (π : ↥G →* Qm) (hπ : Function.Surjective π) :
     ∃ (X : Subgroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) F)) (π' : ↥X →* Qm),
       Function.Surjective π' := by
-  haveI : Finite ↥G := inferInstance
-  haveI : Group.IsPerfect Qm := TauCeti.IsSimpleGroup.isPerfect_of_not_isMulCommutative hnc
+  have : Finite ↥G := inferInstance
+  have : Group.IsPerfect Qm := TauCeti.IsSimpleGroup.isPerfect_of_not_isMulCommutative hnc
   have hZ : Subgroup.center Qm = ⊥ :=
     TauCeti.IsSimpleGroup.center_eq_bot_of_not_isMulCommutative hnc
   obtain ⟨⟨k, hk, -⟩, -, hPperf, -⟩ := CFSG.perfect_residual_characterization (G := ↥G)
@@ -39,7 +39,7 @@ theorem r95_gl2_section_psl2 {F : Type} [Field F] [Finite F]
   have hPmap : P.map π = ⊤ := by
     change (CFSG.perfectResidual ↥G).map π = ⊤
     rw [hk, map_derivedSeries_eq hπ, Group.IsPerfect.derivedSeries_eq_top]
-  haveI : Group.IsPerfect ↥P := hPperf
+  have : Group.IsPerfect ↥P := hPperf
   let πP : ↥P →* Qm := π.comp P.subtype
   have hπP : Function.Surjective πP := by
     intro y
@@ -48,7 +48,7 @@ theorem r95_gl2_section_psl2 {F : Type} [Field F] [Finite F]
     exact ⟨⟨x, hx⟩, hxy⟩
   let ι : ↥P →* Matrix.GeneralLinearGroup (Fin 2) F := G.subtype.comp P.subtype
   have hιinj : Function.Injective ι := G.subtype_injective.comp P.subtype_injective
-  haveI : Group.IsPerfect ↥(P.map G.subtype) := Group.IsPerfect.map (f := G.subtype)
+  have : Group.IsPerfect ↥(P.map G.subtype) := Group.IsPerfect.map (f := G.subtype)
   have hdet : ∀ x : ↥P,
       ((ι x : Matrix.GeneralLinearGroup (Fin 2) F) : Matrix (Fin 2) (Fin 2) F).det = 1 := by
     intro x
@@ -112,11 +112,11 @@ theorem r95_gl2_char_seven {F : Type} [Field F] [Finite F] {p f : ℕ}
     (π : ↥G →* Qm) (hπ : Function.Surjective π) (hm : LieModel Qm .PSL 3 2 1) : p = 7 := by
   obtain ⟨hsimple, hcard⟩ :=
     CFSG.Quasithin.H13.U3.GC137.SQ.simple_card_of_lieModel_psl_three_two hm
-  haveI : IsSimpleGroup Qm := hsimple
-  haveI : Finite Qm := Finite.of_surjective π hπ
+  have : IsSimpleGroup Qm := hsimple
+  have : Finite Qm := Finite.of_surjective π hπ
   have hnc : ¬ IsMulCommutative Qm := by
     intro hc
-    haveI : IsMulCommutative Qm := hc
+    have : IsMulCommutative Qm := hc
     have hprime : (Nat.card Qm).Prime := (Group.is_simple_iff_prime_card (α := Qm)).mp hsimple
     rw [hcard] at hprime
     norm_num at hprime
@@ -139,7 +139,7 @@ theorem r95_gl2_char_seven {F : Type} [Field F] [Finite F] {p f : ℕ}
       · subst hf0; simp at h4
       · exact hfp
     obtain ⟨X, π', hπ'⟩ := r95_gl2_section_psl2 hnc π hπ
-    haveI : Finite (Matrix.ProjectiveSpecialLinearGroup (Fin 2) F) := inferInstance
+    have : Finite (Matrix.ProjectiveSpecialLinearGroup (Fin 2) F) := inferInstance
     have hLM : LieModel (Matrix.ProjectiveSpecialLinearGroup (Fin 2) F) .PSL 2 p f :=
       CFSG.GH74.Generic.BProg.B2.L2Cover.lieModel_psl2_of_equiv
         (Y := Matrix.ProjectiveSpecialLinearGroup (Fin 2) F) hp hf hF (by omega) (by omega)

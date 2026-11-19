@@ -28,7 +28,7 @@ private theorem a8x_isElementaryAbelian_of_sq {E : Subgroup X} (hE : ∀ x ∈ E
 
 theorem not_g2_of_e16
     (hE : ∃ E : Subgroup X, Nat.card E = 16 ∧ ∀ x ∈ E, x ^ 2 = 1) {p f : ℕ} (hp : p.Prime)
-    (hp2 : p ≠ 2) (hf : 1 ≤ f) : ¬ LieModel X .G2 0 p f := by
+    (hp2 : p ≠ 2) (_hf : 1 ≤ f) : ¬ LieModel X .G2 0 p f := by
   intro hL
   have hm : ChevalleyExceptionalModel X .G2 p f := by
     rcases hL with ⟨ht, -⟩ | ⟨-, -, hm⟩ | ⟨-, ht, -⟩ | ⟨-, ht, -⟩

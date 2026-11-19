@@ -26,13 +26,13 @@ theorem eq_one_of_commutator_eq_top {K M : Type} [Group K] [Group M] (hK : commu
   let S : Subgroup K :=
     { carrier := {a | c a = 1}
       mul_mem' := fun {a b} ha hb => by
-        simp only [Set.mem_setOf_eq] at ha hb ⊢
+        simp only [Set.mem_ofPred_eq] at ha hb ⊢
         rw [hmul, ha, hb, mul_one]
       one_mem' := by
-        simp only [Set.mem_setOf_eq]
+        simp only [Set.mem_ofPred_eq]
         exact hone
       inv_mem' := fun {a} ha => by
-        simp only [Set.mem_setOf_eq] at ha ⊢
+        simp only [Set.mem_ofPred_eq] at ha ⊢
         rw [hinv, ha, inv_one] }
   have hS : commutator K ≤ S := by
     unfold commutator
@@ -48,7 +48,7 @@ theorem eq_one_of_commutator_eq_top {K M : Type} [Group K] [Group M] (hK : commu
 
 theorem exists_noncentral_of_quasisimple {K : Type} [Group K] (hK : CFSG.Open.IsQuasisimple K) :
     ∃ x : K, x ∉ Subgroup.center K := by
-  haveI : Nontrivial (K ⧸ Subgroup.center K) := hK.2.toNontrivial
+  have : Nontrivial (K ⧸ Subgroup.center K) := hK.2.toNontrivial
   obtain ⟨y, hy⟩ := exists_ne (1 : K ⧸ Subgroup.center K)
   obtain ⟨x, rfl⟩ := QuotientGroup.mk'_surjective (Subgroup.center K) y
   exact ⟨x, fun hx => hy ((QuotientGroup.eq_one_iff x).2 hx)⟩
@@ -73,7 +73,7 @@ theorem quasisimple_dichot {J : Subgroup G} (hJ : CFSG.Open.IsQuasisimple J) {M 
     simpa using this
   let Z : Subgroup J := Subgroup.center J
   let K : Subgroup (J ⧸ Z) := Mj.map (QuotientGroup.mk' Z)
-  haveI hKn : K.Normal :=
+  have hKn : K.Normal :=
     Subgroup.Normal.map hMn (QuotientGroup.mk' Z) (QuotientGroup.mk'_surjective Z)
   rcases hJ.2.eq_bot_or_eq_top_of_normal K with hK | hK
   · left

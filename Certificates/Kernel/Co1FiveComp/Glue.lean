@@ -170,7 +170,7 @@ theorem cenOK_true : cenOK gRows = true := by
     rfl
   have htQ : gE 68 ∈ Qsub := by
     rw [← hqt]
-    exact Subgroup.subset_closure ⟨1, by rw [Set.mem_setOf_eq, h3]; norm_num, rfl⟩
+    exact Subgroup.subset_closure ⟨1, by rw [Set.mem_ofPred_eq, h3]; norm_num, rfl⟩
   have htrep : MRep (U (QM 1)) ((gE 68 : ↥GA) : GL24) := by
     have h := rep_gE hflag 68
     rw [gRows_eq, rowAt_rs (by norm_num)] at h

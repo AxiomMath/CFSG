@@ -20,7 +20,7 @@ theorem sup_zpowers_card_nine {G : Type*} [Group G] [Finite G] {a b : G}
     (hab : a * b = b * a) (hb : b ∉ Subgroup.zpowers a) :
     Nat.card (Subgroup.zpowers a ⊔ Subgroup.zpowers b : Subgroup G) = 9 ∧
       IsElemAbelian 3 (Subgroup.zpowers a ⊔ Subgroup.zpowers b : Subgroup G) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hb1 : b ≠ 1 := by
     rintro rfl
     exact hb (Subgroup.one_mem _)

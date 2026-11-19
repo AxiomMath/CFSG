@@ -13,6 +13,7 @@ open Subgroup CFSG.Blueprint
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private lemma isElemAbelian_of_le {E : Subgroup G} (hE : CFSG.Open.IsElemAbelian 2 E)
     {H : Subgroup G} (hH : H ≤ E) : CFSG.Open.IsElemAbelian 2 H := by
   refine ⟨?_, ?_⟩
@@ -44,6 +45,7 @@ private lemma inf_zpowers_eq_bot_of_notMem {W : Subgroup G} {v : G} (hv2 : v ^ 2
   · exact h1
   · exact absurd h2 hne
 
+omit [Finite G] in
 private lemma mem_sup_zpowers_iff {H : Subgroup G} {v z : G}
     (hcomm : ∀ h ∈ H, v * h = h * v) (hv2 : v ^ 2 = 1) :
     z ∈ H ⊔ Subgroup.zpowers v ↔ z ∈ H ∨ ∃ h ∈ H, z = h * v := by
@@ -151,7 +153,7 @@ theorem sec8t84_no_e32 {G : Type} [Group G] [Finite G] {P B1 B2 : Subgroup G}
     norm_num at this
   obtain ⟨x, hxQ', hxW⟩ : ∃ x, x ∈ Q' ∧ x ∉ W := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hWneQ' (le_antisymm hWleQ' (fun y hy => h y hy))
   have hxQ : x ∈ Q := hQ'leQ hxQ'
   have hx2 : x ^ 2 = 1 := hQ.2 x hxQ
@@ -168,7 +170,7 @@ theorem sec8t84_no_e32 {G : Type} [Group G] [Finite G] {P B1 B2 : Subgroup G}
     norm_num at this
   obtain ⟨y, hyQ', hyA1⟩ : ∃ y, y ∈ Q' ∧ y ∉ A1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hA1neQ' (le_antisymm hA1leQ' (fun y hy => h y hy))
   have hyQ : y ∈ Q := hQ'leQ hyQ'
   have hy2 : y ^ 2 = 1 := hQ.2 y hyQ

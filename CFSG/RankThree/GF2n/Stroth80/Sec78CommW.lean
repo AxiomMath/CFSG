@@ -86,7 +86,7 @@ theorem sec7ctr_comm_W_le_Z (h52a : Stroth52aStatement) (hirr : Sec7VtIrredState
   have hSec := sec7ctr_secHyp hc hRM
   have hP := hSec.normP
   obtain ⟨Md, iA, iD, κ, hκ⟩ := exists_sectionModule hSec
-  haveI : Finite Md := hκ.finite
+  have : Finite Md := hκ.finite
   have hsR : s ∈ Rt M (LB M Q B) t := hZ0.le hsZ
   have hsM : s ∈ M := hRM hsR
   have hsc : ∀ ρ ∈ Rt M (LB M Q B) t, ⁅ρ⁻¹, s⁆ ∈ Q := fun ρ hρ => by

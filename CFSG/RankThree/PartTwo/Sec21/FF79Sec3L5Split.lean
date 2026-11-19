@@ -30,7 +30,7 @@ theorem s35_factorization_20160 : (20160 : ℕ).factorization 3 = 2 := by
 
 theorem s35_card_sylow_inf {H : Type} [Group H] [Finite H] {S L : Subgroup H} [L.Normal]
     (hS : IsSylowOf 3 S ⊤) (hL : Nat.card L = 20160) : Nat.card ↥(S ⊓ L) = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hS' : CFSG.ABGLocalTools.IsSylowOf 3 S (⊤ : Subgroup H) := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
     refine ⟨le_top, hS.2.1, ?_⟩
@@ -50,7 +50,7 @@ theorem s35_layer_center {H : Type} [Group H] [Finite H]
     (hL : StatedClassicalModel ↥(⊤ : Subgroup ↥(layer H)) .PSL 3 2 2) :
     ∀ z ∈ layer H, z ∈ Subgroup.center H → z = 1 := by
   intro z hzL hzc
-  haveI : IsSimpleGroup ↥(⊤ : Subgroup ↥(layer H)) :=
+  have : IsSimpleGroup ↥(⊤ : Subgroup ↥(layer H)) :=
     (CFSG.LieType.Simplicity.fam_PSL_simplicity _ 3 2 2 hL).2
   set X := ↥(⊤ : Subgroup ↥(layer H)) with hX
   have hc : Nat.card X = 20160 := CFSG.Open.StatedAPI.card_of_statedClassicalModel_psl_three_four hL
@@ -65,7 +65,7 @@ theorem s35_layer_center {H : Type} [Group H] [Finite H]
     rw [h, Subgroup.mem_bot] at hz
     exact congrArg (fun w : X => ((w : ↥(layer H)) : H)) hz
   · exfalso
-    letI : CommGroup X :=
+    let : CommGroup X :=
       { (inferInstance : Group X) with
         mul_comm := fun a b => by
           have : a ∈ Subgroup.center X := by rw [h]; trivial
@@ -76,7 +76,7 @@ theorem s35_layer_center {H : Type} [Group H] [Finite H]
 
 theorem s35_comm_card27 {G : Type*} [Group G] {P : Subgroup G} (hP : Nat.card P = 27) {x y : G}
     (hx : x ∈ P) (hy : y ∈ P) : ⁅⁅x, y⁆, y⁆ = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h := (AGLEmbeddingD2.Wilson.Proving.commute_commutatorElement_of_card_eq_prime_cube
     (p := 3) (by simpa using hP) hx hy).2
   rw [commutatorElement_def, h.eq.symm]

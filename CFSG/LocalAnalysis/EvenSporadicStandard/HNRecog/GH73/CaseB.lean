@@ -17,14 +17,14 @@ theorem caseB {X : Type} [Group X] [Finite X] [Group.IsPerfect X]
   classical
   obtain ⟨L, hL⟩ : ∃ L : Subgroup X, CFSG.IsComponent L := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hE (CFSG.LocalCores.layer_eq_bot_of_forall h)
   obtain ⟨hLnorm, hLsimple, C, hCnorm, hdisj, hsup, hcomm⟩ :=
     component_splits hK hS D.gen_four hZ L hL
-  haveI : L.Normal := hLnorm
-  haveI : C.Normal := hCnorm
-  haveI : IsSimpleGroup ↥L := hLsimple
-  haveI : Group.IsPerfect ↥L := hL.1.1
+  have : L.Normal := hLnorm
+  have : C.Normal := hCnorm
+  have : IsSimpleGroup ↥L := hLsimple
+  have : Group.IsPerfect ↥L := hL.1.1
   have hLCbot : L ⊓ C = ⊥ := disjoint_iff.mp hdisj
   have hLC : ⁅L, C⁆ = ⊥ := Subgroup.commutator_eq_bot_of_disjoint hdisj
   have hCL : ⁅C, L⁆ = ⊥ := Subgroup.commutator_comm L C ▸ hLC
@@ -61,8 +61,8 @@ theorem caseB {X : Type} [Group X] [Finite X] [Group.IsPerfect X]
     Subgroup.isPerfect_iff.mpr (le_antisymm hDleC hCleD)
   have hCbot : C = ⊥ := by
     by_contra hCne
-    haveI : Group.IsPerfect ↥C := hCperfect
-    haveI : Nontrivial ↥C := (Subgroup.nontrivial_iff_ne_bot C).mpr hCne
+    have : Group.IsPerfect ↥C := hCperfect
+    have : Nontrivial ↥C := (Subgroup.nontrivial_iff_ne_bot C).mpr hCne
     have hL4 : 4 ∣ Nat.card ↥L := perfect_four_dvd_card
     have hC4 : 4 ∣ Nat.card ↥C := perfect_four_dvd_card
     have hL2 : 2 ∣ Nat.card ↥L := dvd_trans (by norm_num : 2 ∣ 4) hL4
@@ -98,8 +98,8 @@ theorem caseB {X : Type} [Group X] [Finite X] [Group.IsPerfect X]
       hPS (Subgroup.mem_sup_left (Subgroup.mem_zpowers (g : X)))
     have hhS : (k : X) ∈ (S : Subgroup X) :=
       hPS (Subgroup.mem_sup_right (Subgroup.mem_zpowers (k : X)))
-    haveI : Group.IsNilpotent ↥(S : Subgroup X) :=
-      IsPGroup.isNilpotent (show IsPGroup 2 (S : Subgroup X) from S.isPGroup')
+    have : Group.IsNilpotent ↥(S : Subgroup X) :=
+      IsPGroup.isNilpotent (show IsPGroup 2 (S : Subgroup X) from S.isPGroup)
     have hLSL : L.subgroupOf (S : Subgroup X) ≠ ⊥ := by
       refine Subgroup.ne_bot_iff_exists_ne_one.mpr ⟨⟨⟨(g : X), hgS⟩, g.2⟩, ?_⟩
       intro hEq
@@ -152,7 +152,7 @@ theorem caseB {X : Type} [Group X] [Finite X] [Group.IsPerfect X]
     have hfinj : Function.Injective f := by
       intro i j hij
       fin_cases i <;> fin_cases j <;>
-        simp_all [f, hzLne1, hzCne1, hzLneC, Ne.symm hzLneC]
+        simp_all [f, Ne.symm hzLneC]
     have h3 : 3 ≤ Nat.card (Subgroup.center ↥(S : Subgroup X)) := by
       have hleNat := Nat.card_le_card_of_injective f hfinj
       simpa only [Nat.card_fin] using hleNat

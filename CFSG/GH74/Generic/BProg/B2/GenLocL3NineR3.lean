@@ -211,11 +211,11 @@ theorem rank3_cases [Finite K] (hK : Nat.card K = 9)
       exact hm (isSquare_of_mid (v 0) (v 2) (v 1) h2' (by simpa [mul_comm] using h1))
 
 @[expose] def ExcE3 (K : Type) [Field K] : Prop :=
-  ∀ (D : Subgroup (MulAut (LinearFlag.projectiveSL 3 K))) (hfs : D ≤ frameStab 3 K), IsRank23 ↥D →
+  ∀ (D : Subgroup (MulAut (LinearFlag.projectiveSL 3 K))) (_hfs : D ≤ frameStab 3 K), IsRank23 ↥D →
     Nat.card ↥D = 8 → ShapeE3 D → gammaAct D.subtype = ⊤
 
 @[expose] def ExcE2 (K : Type) [Field K] : Prop :=
-  ∀ (D : Subgroup (MulAut (LinearFlag.projectiveSL 3 K))) (hfs : D ≤ frameStab 3 K), IsRank23 ↥D →
+  ∀ (D : Subgroup (MulAut (LinearFlag.projectiveSL 3 K))) (_hfs : D ≤ frameStab 3 K), IsRank23 ↥D →
     Nat.card ↥D = 8 → ShapeE2 D → gammaAct D.subtype = ⊤
 
 theorem rank3_of_exc [Finite K] (hK : Nat.card K = 9) (hE3 : ExcE3 K)

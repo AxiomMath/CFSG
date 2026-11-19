@@ -31,7 +31,7 @@ theorem el_conj (hn : 2 ≤ n) {d e : Fin 4 → ZMod (2 ^ n)} {π : Fin81.R0} (h
 
 theorem exists_hh_of_two_mul (hn : 1 ≤ n) {x : ZMod (2 ^ n)} (hx : 2 * x = 0) :
     ∃ b : ℕ, b < 2 ∧ x = hh n * (b : ZMod (2 ^ n)) := by
-  haveI : NeZero (2 ^ n) := ⟨by positivity⟩
+  have : NeZero (2 ^ n) := ⟨by positivity⟩
   have hx' : ((2 * x.val : ℕ) : ZMod (2 ^ n)) = 0 := by
     rw [Nat.cast_mul, ZMod.natCast_zmod_val]
     exact_mod_cast hx
@@ -111,7 +111,7 @@ theorem pow_two_pow_pred_of_mem_A (hn : 2 ≤ n) {a : L4Model n} (ha : a ∈ A n
   obtain ⟨d, π, hd, rfl⟩ := exists_eq_el a
   rw [el_mem_A] at ha
   subst ha
-  haveI : NeZero (2 ^ n) := ⟨by positivity⟩
+  have : NeZero (2 ^ n) := ⟨by positivity⟩
   have hpar : ((d 0).val + (d 1).val + (d 2).val + (d 3).val) % 2 = 0 := by
     have hs := detSum_one_iff.1 hd
     rw [Fin.sum_univ_four] at hs

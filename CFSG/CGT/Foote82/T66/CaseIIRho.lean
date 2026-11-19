@@ -72,6 +72,7 @@ theorem cycleType_of_orderOf_two_odd {σ : Perm (Fin 6)} (h : orderOf σ = 2)
   right_inv l := Subtype.ext (by simp [mul_assoc])
   map_mul' a b := Subtype.ext (by simp [mul_assoc])
 
+omit [Finite V] in
 theorem conjL_coe (L : Subgroup (GLV V)) (n : ↥(Subgroup.normalizer (L : Set (GLV V)))) (l : ↥L) :
     ((conjL L n l : ↥L) : GLV V) = (n : GLV V) * l * (n : GLV V)⁻¹ := rfl
 
@@ -111,12 +112,14 @@ theorem rho_apply (hL : Nonempty (↥L ≃* alternatingGroup (Fin 6)))
   simp only [MulEquiv.trans_apply, MulEquiv.symm_apply_apply]
   rfl
 
+omit [Finite V] d in
 theorem conj_mem_VL (n : ↥(Subgroup.normalizer (L : Set (GLV V)))) (w : ↥(commSpace L ⊤)) :
     (n : GLV V) w ∈ commSpace L ⊤ :=
   invariant_commSpace (K' := Subgroup.normalizer (L : Set (GLV V)))
     (fun _ hn _ hl => (Subgroup.mem_normalizer_iff.1 hn _).1 hl)
     (invariant_top _) n n.2 w w.2
 
+omit [Finite V] d in
 theorem conj_mem_fixed (n : ↥(Subgroup.normalizer (L : Set (GLV V)))) {w : V}
     (hw : w ∈ fixedSpace L) : (n : GLV V) w ∈ fixedSpace L :=
   invariant_fixedSpace (K' := Subgroup.normalizer (L : Set (GLV V)))
@@ -141,16 +144,16 @@ theorem isThreeCycle_rho (hL : Nonempty (↥L ≃* alternatingGroup (Fin 6)))
   · exact h
   · exfalso
     obtain ⟨w₀, hw₀, hfix⟩ := d.exists_fixed ℓ₀ (by rw [hℓ₀]; rfl)
-    set w' : ↥(commSpace L ⊤) := ⟨(n : GLV V) w₀, d.conj_mem_VL n w₀⟩
-    have h1 : β ⟨(ℓ' : GLV V) w', d.conj_mem ℓ' w'⟩ = β w' := by
+    set w' : ↥(commSpace L ⊤) := ⟨(n : GLV V) w₀, AD.conj_mem_VL n w₀⟩
+    have h1 : β ⟨(ℓ' : GLV V) w', CFSG.CGT.Foote82.CaseII.AD.conj_mem ℓ' w'⟩ = β w' := by
       rw [← sub_eq_zero, ← map_sub, d.beta_eq_zero_iff]
       have h2 : ((ℓ₀ : GLV V) w₀ - w₀) ∈ fixedSpace L := by
-        have : β ⟨(ℓ₀ : GLV V) w₀ - w₀, d.sub_mem ℓ₀ w₀⟩ = 0 := by
-          rw [show (⟨(ℓ₀ : GLV V) w₀ - w₀, d.sub_mem ℓ₀ w₀⟩ : ↥(commSpace L ⊤)) =
-            ⟨(ℓ₀ : GLV V) w₀, d.conj_mem ℓ₀ w₀⟩ - w₀ from rfl, map_sub, hfix, sub_self]
+        have : β ⟨(ℓ₀ : GLV V) w₀ - w₀, CFSG.CGT.Foote82.CaseII.AD.sub_mem ℓ₀ w₀⟩ = 0 := by
+          rw [show (⟨(ℓ₀ : GLV V) w₀ - w₀, CFSG.CGT.Foote82.CaseII.AD.sub_mem ℓ₀ w₀⟩ : ↥(commSpace L ⊤)) =
+            ⟨(ℓ₀ : GLV V) w₀, CFSG.CGT.Foote82.CaseII.AD.conj_mem ℓ₀ w₀⟩ - w₀ from rfl, map_sub, hfix, sub_self]
         exact (d.beta_eq_zero_iff _).1 this
-      have h3 := d.conj_mem_fixed n h2
-      have e : ((⟨(ℓ' : GLV V) w', d.conj_mem ℓ' w'⟩ - w' : ↥(commSpace L ⊤)) : V) =
+      have h3 := AD.conj_mem_fixed n h2
+      have e : ((⟨(ℓ' : GLV V) w', CFSG.CGT.Foote82.CaseII.AD.conj_mem ℓ' w'⟩ - w' : ↥(commSpace L ⊤)) : V) =
           (n : GLV V) ((ℓ₀ : GLV V) w₀ - w₀) := by
         simp [w', hℓ', conjL_coe]
       rw [e]
@@ -158,7 +161,7 @@ theorem isThreeCycle_rho (hL : Nonempty (↥L ≃* alternatingGroup (Fin 6)))
     have h0 := d.eq_zero_of_fixed ℓ' h w' h1
     apply hw₀
     rw [d.beta_eq_zero_iff] at h0 ⊢
-    have h4 := d.conj_mem_fixed n⁻¹ h0
+    have h4 := AD.conj_mem_fixed n⁻¹ h0
     have e : ((n⁻¹ : ↥(Subgroup.normalizer (L : Set (GLV V)))) : GLV V) (w' : V) = w₀ := by
       show ((n : GLV V)⁻¹) ((n : GLV V) w₀) = w₀
       simp
@@ -235,7 +238,7 @@ theorem finrank_c₀ (hL : Nonempty (↥L ≃* alternatingGroup (Fin 6))) {ℓ�
       have h1 := d.beta_sub ℓ₀ ⟨q, hPW hq⟩ hx hβq
       have e : (⟨p, hPW p.2⟩ : ↥(commSpace L ⊤)) =
           ⟨(ℓ₀ : GLV V) (⟨q, hPW hq⟩ : ↥(commSpace L ⊤)) - (⟨q, hPW hq⟩ : ↥(commSpace L ⊤)),
-            d.sub_mem ℓ₀ _⟩ := Subtype.ext hpq
+            CFSG.CGT.Foote82.CaseII.AD.sub_mem ℓ₀ _⟩ := Subtype.ext hpq
       rw [hgapp, e, h1]
       exact hmk_congr (by rw [hℓ₀, ← c3₀_eq]; exact hk.symm) _ _
     · rintro ⟨k, rfl⟩
@@ -247,7 +250,7 @@ theorem finrank_c₀ (hL : Nonempty (↥L ≃* alternatingGroup (Fin 6))) {ℓ�
       rw [hgapp]
       have h1 := d.beta_sub ℓ₀ w hx hw
       rw [show (⟨((⟨_, hpP⟩ : ↥P) : V), hPW hpP⟩ : ↥(commSpace L ⊤)) =
-        ⟨(ℓ₀ : GLV V) w - w, d.sub_mem ℓ₀ w⟩ from rfl, h1]
+        ⟨(ℓ₀ : GLV V) w - w, CFSG.CGT.Foote82.CaseII.AD.sub_mem ℓ₀ w⟩ from rfl, h1]
       exact hmk_congr (by rw [hℓ₀, ← c3₀_eq]; exact hk) _ _
   have hinj4 : Function.Injective fun k : Fin 4 => hmk (c3y k) (hy k) := by
     intro k l hkl

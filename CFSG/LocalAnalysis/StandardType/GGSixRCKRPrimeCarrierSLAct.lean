@@ -173,15 +173,13 @@ private lemma conjSLn_eq_smul_of_forall_range_conj (hν : 3 ≤ ν)
     apply Units.ext
     rw [Matrix.SpecialLinearGroup.coe_GL_coe_matrix]
     rw [show U₁ = conjSLn (B * H) X from rfl, coe_conjSLn]
-    simp only [Matrix.SpecialLinearGroup.coe_GL_coe_matrix, Units.val_mul,
-      Units.val_inv_eq_inv_val]
+    simp only [Matrix.SpecialLinearGroup.coe_GL_coe_matrix, Units.val_mul]
   have htoGL₂ : Matrix.SpecialLinearGroup.toGL U₂ =
       H * Matrix.SpecialLinearGroup.toGL X' * H⁻¹ := by
     apply Units.ext
     rw [Matrix.SpecialLinearGroup.coe_GL_coe_matrix]
     rw [show U₂ = conjSLn H X' from rfl, coe_conjSLn]
-    simp only [Matrix.SpecialLinearGroup.coe_GL_coe_matrix, Units.val_mul,
-      Units.val_inv_eq_inv_val]
+    simp only [Matrix.SpecialLinearGroup.coe_GL_coe_matrix, Units.val_mul]
   have hGL1 : (B * H : GL (Fin ν) L) * Matrix.SpecialLinearGroup.toGL X * (B * H)⁻¹ =
       (H * Matrix.SpecialLinearGroup.toGL X' * H⁻¹) * Matrix.SpecialLinearGroup.toGL S := by
     rw [← htoGL₁, ← htoGL₂]
@@ -384,7 +382,7 @@ theorem exists_conjSLn_of_mem_torus_split {τ : Tag} {L : Type} [Field L] [IsAlg
       Si.mul_mem (Si.mul_mem hpsi h1) (Si.inv_mem hpsi)
     have h3 : z * (ψ (ι Y) * (z⁻¹ * g * z) * (ψ (ι Y))⁻¹) * z⁻¹ ∈ Si := hzS _ h2
     rw [hfact Y g hg]
-    convert h3 using 2 <;> group
+    convert h3 using 2
   have hAB : ∀ X : SL(ν, ↥K), ∀ g ∈ Si,
       (b⁻¹ * f X * b) * g * (b⁻¹ * f X * b)⁻¹ =
         f (conjSLn M X) * g * (f (conjSLn M X))⁻¹ := by

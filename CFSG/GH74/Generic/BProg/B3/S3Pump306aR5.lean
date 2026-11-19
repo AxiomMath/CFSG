@@ -329,7 +329,6 @@ theorem not_gen4_of_two_alt [Finite Y] (hn : 6 ≤ n) {ι₁ ι₂ : alternating
     intro i j
     fin_cases i <;> fin_cases j <;> simp [x] <;>
       first
-      | rfl
       | exact c01
       | exact c01.symm
       | exact c23

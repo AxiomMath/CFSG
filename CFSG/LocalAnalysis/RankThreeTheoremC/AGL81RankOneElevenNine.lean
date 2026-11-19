@@ -43,12 +43,15 @@ def centModTwo (J : Subgroup G) : Subgroup G where
     rw [e] at h1
     exact inv_inv (b⁻¹ * x * b⁻¹⁻¹ * x⁻¹) ▸ (pCoreOf 2 J).inv_mem h1
 
+omit [Finite G] in
 theorem mem_centModTwo {J : Subgroup G} {b : G} (hb : b ∈ Subgroup.normalizer (J : Set G))
     (hbJ : ∀ x ∈ J, b * x * b⁻¹ * x⁻¹ ∈ pCoreOf 2 J) : b ∈ centModTwo J := ⟨hb, hbJ⟩
 
+omit [Finite G] in
 theorem comm_of_mem_centModTwo {J : Subgroup G} {b : G} (hb : b ∈ centModTwo J) :
     ∀ x ∈ J, b * x * b⁻¹ * x⁻¹ ∈ pCoreOf 2 J := hb.2
 
+omit [Finite G] in
 theorem le_normalizer_inf {H M L : Subgroup G} (hML : M ≤ Subgroup.normalizer (L : Set G)) :
     H ⊓ M ≤ Subgroup.normalizer ((H ⊓ L : Subgroup G) : Set G) := fun b hb => by
   rw [Subgroup.mem_normalizer_iff]
@@ -57,6 +60,7 @@ theorem le_normalizer_inf {H M L : Subgroup G} (hML : M ≤ Subgroup.normalizer 
   have h2 := Subgroup.mem_normalizer_iff.mp (hML hb.2) y
   exact ⟨fun hy => ⟨h1.mp hy.1, h2.mp hy.2⟩, fun hy => ⟨h1.mpr hy.1, h2.mpr hy.2⟩⟩
 
+omit [Finite G] in
 theorem pow_inv_mul_mem {X Y : Subgroup G} (hXY : X ≤ Y) (hXn : (X.subgroupOf Y).Normal)
     {u a : G} (hu : u ∈ X) (ha : a ∈ Y) {n : ℕ} (han : a ^ n ∈ X) : (u⁻¹ * a) ^ n ∈ X := by
   let u' : Y := ⟨u, hXY hu⟩
@@ -76,7 +80,7 @@ theorem exists_conj_le_of_maximal {p : ℕ} [Fact p.Prime] {Y W S : Subgroup G} 
     (hSY : S ≤ Y) (hS : IsPGroup p S) : ∃ h ∈ Y, ∀ s ∈ S, h * s * h⁻¹ ∈ W := by
   obtain ⟨Q, hQ⟩ := (hW.comap_subtype (K := Y)).exists_le_sylow
   have hQW : (Q : Subgroup Y).map Y.subtype = W := by
-    refine hmax _ (Q.isPGroup'.map _) (Subgroup.map_subtype_le _) fun w hw => ?_
+    refine hmax _ (Q.isPGroup.map _) (Subgroup.map_subtype_le _) fun w hw => ?_
     exact ⟨⟨w, hWY hw⟩, hQ (Subgroup.mem_subgroupOf.mpr hw), rfl⟩
   obtain ⟨Q', hQ'⟩ := (hS.comap_subtype (K := Y)).exists_le_sylow
   obtain ⟨c, hc⟩ := MulAction.exists_smul_eq Y Q' Q
@@ -91,7 +95,7 @@ theorem exists_conj_le_of_maximal {p : ℕ} [Fact p.Prime] {Y W S : Subgroup G} 
 theorem index_ne_three_alt (N : Subgroup (alternatingGroup (Fin 10))) [hN : N.Normal] :
     N.index ≠ 3 := by
   intro h3
-  haveI : IsSimpleGroup (alternatingGroup (Fin 10)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (alternatingGroup (Fin 10)) := alternatingGroup.isSimpleGroup (by simp)
   rcases hN.eq_bot_or_eq_top with h | h
   · rw [h, Subgroup.index_bot, nat_card_alternatingGroup, Nat.card_fin] at h3
     revert h3
@@ -102,7 +106,7 @@ theorem index_ne_three_alt (N : Subgroup (alternatingGroup (Fin 10))) [hN : N.No
 theorem index_ne_three_perm (N : Subgroup (Equiv.Perm (Fin 10))) [hN : N.Normal] :
     N.index ≠ 3 := by
   intro h3
-  haveI : IsSimpleGroup (alternatingGroup (Fin 10)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (alternatingGroup (Fin 10)) := alternatingGroup.isSimpleGroup (by simp)
   rcases (inferInstance : (N.subgroupOf (alternatingGroup (Fin 10))).Normal).eq_bot_or_eq_top
     with h | h
   · rw [Subgroup.subgroupOf_eq_bot] at h
@@ -136,18 +140,18 @@ theorem not_hasNormalIndex_three {M : Subgroup G}
     rcases h with h | h
     · obtain ⟨e⟩ := h
       have h2 := Subgroup.index_map_equiv N₀ e
-      haveI := hN₀.map
+      have := hN₀.map
         (e : M ⧸ primeComplementCore (G := M) 3 →* alternatingGroup (Fin 10)) e.surjective
       exact h2 ▸ index_ne_three_alt _
     · obtain ⟨e⟩ := h
       have h2 := Subgroup.index_map_equiv N₀ e
-      haveI := hN₀.map
+      have := hN₀.map
         (e : M ⧸ primeComplementCore (G := M) 3 →* Equiv.Perm (Fin 10)) e.surjective
       exact h2 ▸ index_ne_three_perm _
   set O := primeComplementCore (G := M) 3 with hO
   set N' := N.subgroupOf M with hN'
   have hq := QuotientGroup.mk'_surjective O
-  haveI : (N'.map (QuotientGroup.mk' O)).Normal := hNn.map _ hq
+  have : (N'.map (QuotientGroup.mk' O)).Normal := hNn.map _ hq
   have hdvd : (N'.map (QuotientGroup.mk' O)).index ∣ 3 := by
     have := Subgroup.index_map_dvd N' hq
     rwa [hNi] at this
@@ -191,7 +195,7 @@ theorem RankOneSylowData.z_mem_jZero [Fact p.Prime] (hW : RankOneSylowData p M H
     have hg1 : g = 1 := Subtype.ext this
     rw [hg1, orderOf_one] at hg
     exact (Fact.out : p.Prime).one_lt.ne hg
-  haveI := hW.cyclic
+  have := hW.cyclic
   have hgp : (g : G) ^ p = 1 := by
     rw [← Subgroup.coe_pow, ← hg, pow_orderOf_eq_one, OneMemClass.coe_one]
   have hpow : ∃ k : ℕ, (h * (g : G) * h⁻¹) ^ (p ^ k) = 1 :=
@@ -211,7 +215,7 @@ theorem RankOneSylowData.elevenNine (hS : Setting G) {P : Sylow p G}
     ∃ a ∈ W, orderOf a = p ∧ a ∉ hyp111Pre p H K ⊔ d1PlusCore p H K ∧
       ∀ x ∈ jZero H L, a * x * a⁻¹ * x⁻¹ ∈ pCoreOf 2 (jZero H L) := by
   obtain ⟨H₁, R₁, hesc⟩ := hd.escape
-  haveI : Fact p.Prime := ⟨hesc.prime⟩
+  have : Fact p.Prime := ⟨hesc.prime⟩
   have hML : M ≤ Subgroup.normalizer (L : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hL.le).mp hLn
   have hzJ := hW.z_mem_jZero hML hL.le hJX hpJ
@@ -245,7 +249,7 @@ theorem RankOneSylowData.elevenNine (hS : Setting G) {P : Sylow p G}
         (by rw [← ha₀p, pow_orderOf_eq_one]; exact Subgroup.one_mem _)
     have ha₁p : (u⁻¹ * a₀) ^ p = 1 := by
       by_contra hne
-      haveI := hW.cyclic
+      have := hW.cyclic
       obtain ⟨k, hk⟩ := hW.pgroup ⟨_, hpow.1⟩
       have hzpow := mem_zpowers_of_isCyclic_of_orderOf_eq (A := W ⊓ d1PlusCore p H K)
         hW.z_mem ⟨hpow.1, hJX hpow.2⟩ hW.z_order hne ⟨k, congrArg Subtype.val hk⟩

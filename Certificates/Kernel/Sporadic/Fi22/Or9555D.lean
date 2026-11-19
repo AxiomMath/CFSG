@@ -26,7 +26,7 @@ meta def gen : Array Nat × Array (Array Nat) × Array Nat × Array Nat := Id.ru
     let mut order : Array Nat := #[]
     let mut stack : Array Nat := #[0]
     for _ in [0:2 * m + 2] do
-      if h : stack.size > 0 then
+      if _h : stack.size > 0 then
         let v := stack.back!
         stack := stack.pop
         order := order.push v

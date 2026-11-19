@@ -27,7 +27,7 @@ theorem isOddTransp_of_embedding (G : Type) [Group G] [Finite G] {V H E : Subgro
     rwa [← map_mul, orderOf_injective ι hι] at this
 
 theorem commute_of_commute_fitting {Y : Type} [Group Y] [Finite Y] {X T : Subgroup Y}
-    (hX : Odd (Nat.card X)) (hsol : IsSolvable X) (hT : IsPGroup 2 T)
+    (hX : Odd (Nat.card X)) (hsol : Group.IsSolvable X) (hT : IsPGroup 2 T)
     (hTX : T ≤ Subgroup.normalizer (X : Set Y))
     (hF : ∀ t ∈ T, ∀ f ∈ (CFSG.fittingSubgroup X).map X.subtype, Commute t f) :
     ∀ t ∈ T, ∀ x ∈ X, Commute t x := by

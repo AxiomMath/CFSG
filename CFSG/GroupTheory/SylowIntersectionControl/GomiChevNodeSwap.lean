@@ -134,6 +134,7 @@ theorem card_rootGroup_eq_of_card_map_parJ_eq (h : BorelQuotient D n H π M) {i 
   have := Nat.eq_of_mul_eq_mul_left hB hcardij
   omega
 
+omit [Finite K] in
 theorem rank_eq_two_of_map_parJ_ne_of_sup_eq_top (h : BorelQuotient D n H π M) (α : MulAut K)
     (hα : ((posUnipotent D).map π).map α.toMonoidHom = (posUnipotent D).map π) {i : Fin D.rank}
     (hne : ((parJ D H {i}).map π).map α.toMonoidHom ≠ (parJ D H {i}).map π)

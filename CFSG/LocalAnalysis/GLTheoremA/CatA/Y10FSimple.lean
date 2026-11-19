@@ -15,9 +15,9 @@ open CFSG.HardMathSupport.Solomon.Coordinator (fixSubgroup mem_fixSubgroup
 theorem center_centerQuot_eq_bot {K : Type} [Group K] (hK : CFSG.Open.IsQuasisimple K) :
     Subgroup.center (K ⧸ Subgroup.center K) = ⊥ := by
   obtain ⟨hperf, hsimple⟩ := hK
-  haveI : IsSimpleGroup (K ⧸ Subgroup.center K) := hsimple
-  haveI : Group.IsPerfect K := ⟨hperf⟩
-  haveI : Group.IsPerfect (K ⧸ Subgroup.center K) :=
+  have : IsSimpleGroup (K ⧸ Subgroup.center K) := hsimple
+  have : Group.IsPerfect K := ⟨hperf⟩
+  have : Group.IsPerfect (K ⧸ Subgroup.center K) :=
     Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' (Subgroup.center K))
       (QuotientGroup.mk'_surjective _)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center (K ⧸ Subgroup.center K))
@@ -45,8 +45,8 @@ theorem hasLabel_centerQuot {K : Type} [Group K] {S : GLALabel → Prop} (h : Ha
     HasLabel (K ⧸ Subgroup.center K) S := by
   have hq := hasLabel_isQuasisimple h
   have hbot := center_centerQuot_eq_bot hq
-  haveI : Group.IsPerfect K := ⟨hq.1⟩
-  haveI : Group.IsPerfect (K ⧸ Subgroup.center K) :=
+  have : Group.IsPerfect K := ⟨hq.1⟩
+  have : Group.IsPerfect (K ⧸ Subgroup.center K) :=
     Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' (Subgroup.center K))
       (QuotientGroup.mk'_surjective _)
   refine hasLabel_of_equiv_centerQuot (X := K) Group.IsPerfect.commutator_eq_top ?_ h
@@ -76,7 +76,7 @@ theorem simple_transfer {K : Type} [Group K] [Finite K] {p : ℕ} (hp : p.Prime)
     have hφsurj : Function.Surjective φ := by
       rintro ⟨_, ⟨j, hj, rfl⟩⟩
       exact ⟨⟨j, hj⟩, rfl⟩
-    haveI hperf : Group.IsPerfect ↥J := ⟨hqJ.1⟩
+    have hperf : Group.IsPerfect ↥J := ⟨hqJ.1⟩
     have hker : φ.ker ≤ Subgroup.center ↥J := by
       intro j hj
       have hj1 : π (j : K) = 1 := congrArg Subtype.val (MonoidHom.mem_ker.1 hj)

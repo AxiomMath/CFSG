@@ -82,7 +82,7 @@ theorem a2l_f4_datum_three {K : Type} [Field K] [Finite K] (hK : Nat.card K = 3)
     finite_field_prime_power_characteristic Nat.prime_three le_rfl hK'
   have hK2 : ringChar K ≠ 2 := by rw [ringChar.eq K 3]; norm_num
   have h2 : (2 : K) ≠ 0 := Ring.two_ne_zero hK2
-  haveI : Finite (ModGL .F4 K) := finite_modGL
+  have : Finite (ModGL .F4 K) := finite_modGL
   have ha : ∀ i, bitsTuple (K := K) f4BitsC3 i = 1 ∨ bitsTuple (K := K) f4BitsC3 i = -1 :=
     bitsTuple_mem _
   obtain ⟨hSX, hSn, -⟩ :=
@@ -138,7 +138,7 @@ theorem a2l_f4_datum_three {K : Type} [Field K] [Finite K] (hK : Nat.card K = 3)
     rw [Subgroup.mem_center_iff]
     intro g
     exact Subtype.ext (hconj g g.2).symm
-  haveI := hcp
+  have := hcp
   obtain ⟨F, _, _, φ, hFcard, hφinj, hφneg⟩ := a2l_exists_weil_sl2_27 K hK
   have hneg : ((φ (a2lNegOne F) : StatedSp 3 K) : GL (Fin 3 ⊕ Fin 3) K) =
       Matrix.GeneralLinearGroup.scalar (Fin 3 ⊕ Fin 3) (-1 : Kˣ) := hφneg _ rfl
@@ -156,7 +156,7 @@ theorem a2l_f4_datum_three {K : Type} [Field K] [Finite K] (hK : Nat.card K = 3)
   have hzN : z ∈ N := ⟨a2lNegOne F, hΨneg'⟩
   have hφ'inj : Function.Injective (Ψ.comp φ) := hΨinj.comp hφinj
   have hN : HarrisLit.IsSLTwoOver 27 ↥N := by
-    haveI := Fintype.ofFinite F
+    have := Fintype.ofFinite F
     exact ⟨F, inferInstance, inferInstance, by rw [← Nat.card_eq_fintype_card, hFcard],
       ⟨(MonoidHom.ofInjective hφ'inj).symm⟩⟩
   have hZ2 : IsPGroup 2 ↥(center ↥L) :=

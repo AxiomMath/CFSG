@@ -31,11 +31,11 @@ private theorem root_data_sz {X Ω : Type} [Group X] [Finite X]
       Nat.card (U ⊓ Subgroup.centralizer (U : Set X) : Subgroup X) = 2 ^ (2 * a + 1) ∧
       (∀ α β : Ω, α ≠ x → β ≠ x → ∃! r : U, (r : X) • α = β) := by
   classical
-  letI : N.Normal := hN
+  let : N.Normal := hN
   let q := 2 ^ (2 * a + 1)
   obtain ⟨ω, β, Q, T, ψ, P, hψT, hψQ, hψB⟩ :=
     exists_szPointAction (X := X) (Ω := Ω) h2 ha N hN e hΩ
-  haveI : MulAction.IsPretransitive ↥N Ω :=
+  have : MulAction.IsPretransitive ↥N Ω :=
     MulAction.isPretransitive_of_is_two_pretransitive (h2 := P.isMultiplyPretransitive)
   obtain ⟨n, hn⟩ := MulAction.exists_smul_eq (↥N) ω x
   subst hn
@@ -49,7 +49,7 @@ private theorem root_data_sz {X Ω : Type} [Group X] [Finite X]
   have hQ'le : Q' ≤ MulAction.stabilizer ↥N (n • ω) := P'.le_stabilizer_left
   have hQ'2 : IsPGroup 2 Q' := by
     rw [← hS]
-    exact S.isPGroup'
+    exact S.isPGroup
   have hUle : U ≤ MulAction.stabilizer X (n • ω) := by
     intro u hu
     rcases Subgroup.mem_map.mp hu with ⟨s, hs, rfl⟩
@@ -64,7 +64,7 @@ private theorem root_data_sz {X Ω : Type} [Group X] [Finite X]
     (Subgroup.normal_subgroupOf_iff_le_normalizer hUle).mpr hUnormX
   have hU2 : IsPGroup 2 U := by
     rw [hUeq]
-    exact S.isPGroup'.map N.subtype
+    exact S.isPGroup.map N.subtype
   have hUcard : Nat.card U = q ^ 2 := by
     rw [hUeq, Subgroup.card_map_of_injective (K := (S : Subgroup ↥N)) N.subtype_injective, hS]
     exact P'.card_U
@@ -270,7 +270,7 @@ theorem rankOneNonabelian_sz {X Ω : Type} [Group X] [Finite X]
   have hq1 : 1 < 2 ^ (2 * a + 1) := one_lt_pow' (by norm_num) (by omega)
   have hlt : 2 ^ (2 * a + 1) < (2 ^ (2 * a + 1)) ^ 2 := by
     have := Nat.mul_lt_mul_of_pos_left hq1 (pow_pos (by norm_num : (0 : ℕ) < 2) (2 * a + 1))
-    simpa [pow_two, mul_comm, mul_left_comm, mul_assoc] using this
+    simp [pow_two, mul_comm]
   exact (ne_of_gt hlt) hcard
 
 end CFSG.Quasithin.Stroth.WeissDelta

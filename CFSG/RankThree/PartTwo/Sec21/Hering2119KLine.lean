@@ -141,14 +141,14 @@ theorem mem_DQ_of_fix {b : G} (hb : b ∈ Q)
         rintro y y' ⟨hy, hy1⟩ ⟨hy', hy1'⟩
         refine ⟨Q.mul_mem hy hy', ?_⟩
         have e : x * (y * y') * x⁻¹ = (x * y * x⁻¹) * (x * y' * x⁻¹) := by group
-        rw [e, hS.Phi_mul (hS.conj_mem h.hxN hy) (hS.conj_mem h.hxN hy'), hS.Phi_mul hy hy', hy1,
+        rw [e, hS.Phi_mul (CFSG.RankThree.PartTwo.Sec21.Hering2119S.SympBasis.conj_mem h.hxN hy) (CFSG.RankThree.PartTwo.Sec21.Hering2119S.SympBasis.conj_mem h.hxN hy'), hS.Phi_mul hy hy', hy1,
           hy1']
       one_mem' := ⟨Q.one_mem, by simp [hS.Phi_one]⟩
       inv_mem' := by
         rintro y ⟨hy, hy1⟩
         refine ⟨Q.inv_mem hy, ?_⟩
         have e : x * y⁻¹ * x⁻¹ = (x * y * x⁻¹)⁻¹ := by group
-        rw [e, hS.Phi_inv (hS.conj_mem h.hxN hy), hS.Phi_inv hy, hy1] }
+        rw [e, hS.Phi_inv (CFSG.RankThree.PartTwo.Sec21.Hering2119S.SympBasis.conj_mem h.hxN hy), hS.Phi_inv hy, hy1] }
   have hCQ : C ≤ Q := fun y hy => hy.1
   have hCN : C ≤ Subgroup.normalizer (A : Set G) := hCQ.trans hS.hQS.le
   have hDQC : D ⊓ Q ≤ C := by
@@ -228,7 +228,7 @@ theorem T_sq : Mg d a₀ a₁ f₀ f₁ t * Mg d a₀ a₁ f₀ f₁ t = 1 := by
   intro v
   obtain ⟨b, hb, rfl⟩ : ∃ b ∈ Q, Phi d a₀ a₁ f₀ f₁ b = v := ⟨_, h.hS.rep_mem v, h.hS.Phi_rep v⟩
   rw [← Matrix.mulVec_mulVec, Matrix.one_mulVec, ← h.T_Phi hb,
-    ← h.T_Phi (h.hS.conj_mem h.htN hb), h.t_sq_conj hb]
+    ← h.T_Phi (CFSG.RankThree.PartTwo.Sec21.Hering2119S.SympBasis.conj_mem h.htN hb), h.t_sq_conj hb]
 
 theorem T_fixa : (Mg d a₀ a₁ f₀ f₁ t).mulVec (Phi d a₀ a₁ f₀ f₁ e) = Phi d a₀ a₁ f₀ f₁ e := by
   rw [← h.T_Phi h.heQ]

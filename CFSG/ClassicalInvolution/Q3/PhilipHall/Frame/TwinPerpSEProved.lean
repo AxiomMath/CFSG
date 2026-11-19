@@ -139,9 +139,9 @@ theorem TwinPerp.twinPerp233E_proved
   have hLEnd : CFSG.ClassicalInvolution.Q3.TC.Thin.DLeafEnd 3
       (CFSG.ClassicalInvolution.Q3.TC.Thin.PackIH 3) :=
     CFSG.ClassicalInvolution.Q3.Sec13.dLeafEnd_three _
-  haveI : TwinThmEW.PrintedQuotOdd := TwinThmEW.printedQuotOdd_proved
-  haveI : TwinThmEW.PrintedQuotCent := TwinThmEW.printedQuotCent_proved
-  haveI : TwinThmEW.PrintedHull := TwinThmEW.printedHull_proved
+  have : TwinThmEW.PrintedQuotOdd := TwinThmEW.printedQuotOdd_proved
+  have : TwinThmEW.PrintedQuotCent := TwinThmEW.printedQuotCent_proved
+  have : TwinThmEW.PrintedHull := TwinThmEW.printedHull_proved
   have hWF : TwinThmEW.WFreeToAll := TwinThmEW.wFreeToAll_proved
   have hEQ : TwinThmEW.ThmEQ8 := TwinThmEW.thmEQ8_of_dLeafEnd hLEnd
   have hLemLCore : ∀ n, TwinPerp23.LemL.LemLCoreTwo n := fun _ =>

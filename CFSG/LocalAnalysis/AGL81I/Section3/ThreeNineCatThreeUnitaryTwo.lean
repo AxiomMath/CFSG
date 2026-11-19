@@ -147,7 +147,7 @@ theorem tPair_swap {ω : Fˣ} (hω : ω ^ 3 = 1) {a b : Fin n} (hab : a ≠ b) :
     simp [hab, h1]
   · by_cases hkb : k = b
     · subst hkb
-      simp only [hka, if_true, if_false]
+      simp only [hka, ite_true, ite_false]
       rw [← mul_inv, h1, inv_inv]
     · simp [hka, hkb]
 
@@ -271,7 +271,7 @@ theorem hasLiftableTriple_statedSU_two [CharP F 2] {ω : Fˣ} (hω : ω ^ 3 = 1)
       have h1 := congrArg (fun g : GL (Fin n) F => (g : Matrix (Fin n) (Fin n) F) k k) hu
       simp only [Subgroup.coe_mul, Subgroup.coe_pow, Y, yE, ← map_pow, ← map_mul,
         Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, Matrix.diagonal_apply_eq,
-        diagGL_apply, if_true] at h1
+        diagGL_apply, ite_true] at h1
       exact h1.symm
     have key : ∀ i : Fin 3,
         ((tPair ω (aI hn 0) (bI hn 0) ^ a.val * tPair ω (aI hn 1) (bI hn 1) ^ b.val *

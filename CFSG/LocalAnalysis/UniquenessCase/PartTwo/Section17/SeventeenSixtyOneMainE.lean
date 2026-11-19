@@ -159,7 +159,7 @@ theorem false_of_two_thin_components_17_61_e3
       obtain ⟨x, hx, rfl⟩ := Subgroup.mem_map.mp hy
       exact Subgroup.mem_map_of_mem _ (hK₂le hx)
     have hbot : barImage D.M K₂ = ⊥ := le_bot_iff.mp (hinter ▸ le_inf le_rfl hK₂X)
-    haveI := isSimpleGroup_bar_of_isL2_or_isSz hshape₂
+    have := isSimpleGroup_bar_of_isL2_or_isSz hshape₂
     have hcard : 1 < Nat.card (barImage D.M K₂) := by
       rw [card_barImage_eq_card_bar hK₂calM]
       exact Finite.one_lt_card

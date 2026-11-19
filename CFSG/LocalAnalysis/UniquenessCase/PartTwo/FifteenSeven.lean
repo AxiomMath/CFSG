@@ -124,6 +124,7 @@ theorem s15_Seven_barSub_ne_bot_of_ne_one {D : Data G} {V₀ V L : Subgroup G}
   show x.val * (1 : G)⁻¹ ∈ _
   simpa using s15_Infra_le_v1Sub D.M V₀ V hV L hx
 
+omit [Finite G] in
 theorem s15_Seven_preBarSub_mono {M V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
     {X Y : Subgroup (MulAut (Vtil V₀ V hV))} (h : X ≤ Y) :
     preBarSub M V₀ V hV X ≤ preBarSub M V₀ V hV Y := by
@@ -143,7 +144,7 @@ theorem fifteen_seven_prime (D : Data G) {V₀ V L : Subgroup G}
   intro hvA
   have hL : barSub V₀ V hV L ≠ ⊥ := s15_Seven_barSub_ne_bot_of_ne_one h.hyp125 hV hw hw1
   have hind := sSupIndep_wStarConj D h hV hL
-  obtain ⟨a, haA, haE⟩ := (SetLike.lt_iff_le_and_exists.1 hEA).2
+  obtain ⟨a, haA, haE⟩ := (IsConcreteLE.lt_iff_le_and_exists.1 hEA).2
   have hstabB : ∀ e ∈ A, (wStar D.M V₀ V hV L).map e.toMonoidHom = wStar D.M V₀ V hV L →
       e ∈ B := by
     intro e he hmap

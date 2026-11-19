@@ -33,7 +33,7 @@ theorem irreducible_kpoly (hp : p.Prime) {c : Fˣ} (hc : ¬ ∃ μ : Fˣ, μ ^ p
 theorem exists_algebraMap_of_pow [Finite F] {E : Type*} [Field E] [Algebra F E] {e : E}
     (h : e ^ (Nat.card F - 1) = 1) : ∃ b : F, algebraMap F E b = e := by
   classical
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   by_contra hne
   push Not at hne
   have hQ : 1 < Nat.card F := Finite.one_lt_card
@@ -83,7 +83,7 @@ theorem geom_modEq {Q ℓ : ℕ} (hQ : Q ≡ 1 [MOD ℓ]) (k : ℕ) :
 
 theorem exists_prime_dvd_geom {Q : ℕ} (hQ : 1 < Q) (hp : p.Prime) (hp2 : p ≠ 2) (hpQ : p ∣ Q - 1) :
     ∃ ℓ : ℕ, ℓ.Prime ∧ ℓ ≠ p ∧ ℓ ∣ Q ^ p - 1 ∧ ¬ ℓ ∣ Q - 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp3 := three_le_of_prime_ne_two hp hp2
   set N := ∑ i ∈ Finset.range p, Q ^ i with hN
   have hmul := sub_one_mul_geom hQ.le p
@@ -156,7 +156,7 @@ theorem singer_setup [Finite F] [NeZero p] (hp : p.Prime) {c : Fˣ} (hc : ¬ ∃
       (∀ e, φ e * companionMat p (c : F) = companionMat p (c : F) * φ e) := by
   classical
   set f : F[X] := X ^ p - C (c : F) with hf
-  haveI : Fact (Irreducible f) := ⟨irreducible_kpoly hp hc⟩
+  have : Fact (Irreducible f) := ⟨irreducible_kpoly hp hc⟩
   have hf0 : f ≠ 0 := X_pow_sub_C_ne_zero (NeZero.pos p) _
   have hfC : aeval (companionMat p (c : F)) f = 0 := by
     rw [hf, map_sub, map_pow, aeval_X, aeval_C,
@@ -170,8 +170,8 @@ theorem singer_setup [Finite F] [NeZero p] (hp : p.Prime) {c : Fˣ} (hc : ¬ ∃
   have hφmk : ∀ g : F[X], φ (AdjoinRoot.mk f g) = aeval (companionMat p (c : F)) g := fun g => rfl
   have hroot : φ (AdjoinRoot.root f) = companionMat p (c : F) := by
     rw [← AdjoinRoot.mk_X, hφmk, aeval_X]
-  haveI : Module.Finite F (AdjoinRoot f) := (AdjoinRoot.powerBasis hf0).finite
-  haveI : Finite (AdjoinRoot f) := Module.finite_of_finite F
+  have : Module.Finite F (AdjoinRoot f) := (AdjoinRoot.powerBasis hf0).finite
+  have : Finite (AdjoinRoot f) := Module.finite_of_finite F
   refine ⟨AdjoinRoot f, inferInstance, inferInstance, inferInstance, φ, ?_, ?_, ?_, ?_⟩
   · exact (φ : AdjoinRoot f →+* Matrix (Fin p) (Fin p) F).injective
   · rw [Module.natCard_eq_pow_finrank (K := F), (AdjoinRoot.powerBasis hf0).finrank,
@@ -190,7 +190,7 @@ theorem eq_scalar_of_two_comm_companion [Finite F] (hp : p.Prime) (hQ : Odd (Nat
     (hu : u ^ 2 ^ k = Matrix.GeneralLinearGroup.scalar (Fin p) a) :
     ∃ b : Fˣ, u = Matrix.GeneralLinearGroup.scalar (Fin p) b := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨E, _, _, _, φ, hφ, hcard, hrange, -⟩ := singer_setup hp hc
   have hUC : ((M⁻¹ * u * M : GL (Fin p) F) : Matrix (Fin p) (Fin p) F) * companionMat p (c : F) =
       companionMat p (c : F) * ((M⁻¹ * u * M : GL (Fin p) F) : Matrix (Fin p) (Fin p) F) := by
@@ -255,12 +255,12 @@ theorem exists_singer_elt [Finite F] (hp : p.Prime) (hp2 : p ≠ 2) (hpF : p ∣
     ∃ ℓ : ℕ, Nat.Coprime p ℓ ∧ ∃ u : GL (Fin p) F, (u : Matrix (Fin p) (Fin p) F).det = 1 ∧
       u * g = g * u ∧ u ^ ℓ = 1 ∧ ∀ b : Fˣ, u ≠ Matrix.GeneralLinearGroup.scalar (Fin p) b := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨E, _, _, _, φ, hφ, hcard, -, hcomm⟩ := singer_setup hp hc
   set Q := Nat.card F with hQdef
   have hQ1 : 1 < Q := Finite.one_lt_card
   obtain ⟨ℓ, hℓ, hℓp, hℓdvd, hℓQ⟩ := exists_prime_dvd_geom hQ1 hp hp2 hpF
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hEu : Nat.card Eˣ = Q ^ p - 1 := by rw [Nat.card_units, hcard]
   obtain ⟨e, he⟩ := exists_prime_orderOf_dvd_card' ℓ (hEu ▸ hℓdvd)
   let u₀ : GL (Fin p) F :=
@@ -335,7 +335,7 @@ theorem eq_scalar_of_comm_pair (hp : p.Prime) {M y x g : GL (Fin p) F} {δ : Fin
     (hx : ((M⁻¹ * x * M : GL (Fin p) F) : Matrix (Fin p) (Fin p) F) = companionMat p c)
     (hgy : g * y = y * g) (hgx : g * x = x * g) :
     ∃ a : Fˣ, g = Matrix.GeneralLinearGroup.scalar (Fin p) a := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hconj : ∀ u v : GL (Fin p) F, u * v = v * u →
       ((M⁻¹ * u * M : GL (Fin p) F) : Matrix (Fin p) (Fin p) F) *
         ((M⁻¹ * v * M : GL (Fin p) F) : Matrix (Fin p) (Fin p) F) =
@@ -392,7 +392,7 @@ theorem eq_scalar_of_comm_pair (hp : p.Prime) {M y x g : GL (Fin p) F} {δ : Fin
     ext i j
     by_cases hij : i = j
     · subst hij; simp [hconst i]
-    · simp [diagonal_apply_ne _ hij, hij]
+    · simp [hij]
   calc g = M * (M⁻¹ * g * M) * M⁻¹ := by group
     _ = M * Matrix.GeneralLinearGroup.scalar (Fin p) (Units.mk0 _ ht0) * M⁻¹ := by rw [h1]
     _ = _ := by rw [← Matrix.GeneralLinearGroup.scalar_commute _ M, mul_inv_cancel_right]
@@ -509,7 +509,7 @@ theorem pow_eq_one_of_comm_scalar {x g : GL (Fin p) F} {c : Fˣ}
 
 theorem isPrimitiveRoot_of_pow (hp : p.Prime) {c : Fˣ} (hcp : c ^ p = 1) (hc1 : c ≠ 1) :
     IsPrimitiveRoot (c : F) p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   apply IsPrimitiveRoot.coe_units_iff.2
   rw [← orderOf_eq_prime hcp hc1]
   exact IsPrimitiveRoot.orderOf c
@@ -576,10 +576,10 @@ theorem innDiag_core [Finite F] (hp : p.Prime) (hp2 : p ≠ 2) (hQodd : Odd (Nat
     (hJW : ∀ α ∈ A, α ≠ 1 → ∀ y ∈ GLAPPrimeCoreOf p (fixSub α),
       MulAut.conj y ∈ Subgroup.normalizer (W : Set (MulAut Y))) : W = ⊥ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Group.IsPerfect Y := ⟨hY.1⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : Finite (MulAut Y) :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : Group.IsPerfect Y := ⟨hY.1⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : Finite (MulAut Y) :=
     Finite.of_injective (fun β : MulAut Y => (β : Y → Y)) fun _ _ h => MulEquiv.ext (congrFun h)
   have hpodd : Odd p := hp.odd_of_ne_two hp2
   have hZ := isPGroup_center hp hYO
@@ -797,7 +797,7 @@ variable {F : Type} [Field F] {p : ℕ}
 
 theorem neg_one_ne_one_of_odd [Finite F] (hQ : Odd (Nat.card F)) : (-1 : F) ≠ 1 := by
   classical
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   apply Ring.neg_one_ne_one_of_char_ne_two
   intro h
   have h1 := FiniteField.even_card_iff_char_two.1 h
@@ -808,7 +808,7 @@ theorem neg_one_ne_one_of_odd [Finite F] (hQ : Odd (Nat.card F)) : (-1 : F) ≠ 
 theorem richD_SL [Finite F] (hp : p.Prime) (hp2 : p ≠ 2) (hQ : Odd (Nat.card F)) :
     RichD (StatedSL p F) ⊤ := by
   intro g _ M δ₀ w _ _ hg
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hev : Even (p - 1) := by
     obtain ⟨k, hk⟩ := hp.odd_of_ne_two hp2
     exact ⟨k, by omega⟩
@@ -847,7 +847,7 @@ theorem richD_SL [Finite F] (hp : p.Prime) (hp2 : p ≠ 2) (hQ : Odd (Nat.card F
       have := congrFun (congrFun h2 ⟨p - 1, by omega⟩) ⟨p - 1, by omega⟩
       simpa using this
     have hp1 : (0 : ℕ) ≠ p - 1 := by have := hp.two_le; omega
-    simp only [hDu, if_neg hp1, if_pos rfl, hlast, Units.val_neg, Units.val_one] at h0 hl
+    simp only [hDu, ite_eq_right hp1, ite_eq_left rfl, hlast, Units.val_neg, Units.val_one] at h0 hl
     exact neg_one_ne_one_of_odd hQ (h0.trans hl.symm)
 
 theorem richS_SL [Finite F] (hp : p.Prime) (hp2 : p ≠ 2) (hpF : p ∣ Nat.card F - 1) :
@@ -1027,7 +1027,7 @@ theorem richD_SU (h : UnitaryFieldData q n F) [Finite F] (hp : p.Prime) (hp2 : p
     RichD (StatedSU p (q ^ n) F) (GUn p (q ^ n) F) := by
   classical
   intro g hg M δ₀ w hδ₀ hw hMg
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hp0 := hp.pos
   set Q := q ^ n with hQdef
   have hgU := (mem_gUn_iff h).1 hg
@@ -1159,7 +1159,7 @@ theorem richD_SU (h : UnitaryFieldData q n F) [Finite F] (hp : p.Prime) (hp2 : p
       have := congrFun (congrFun h2 ⟨p - 1, by omega⟩) ⟨p - 1, by omega⟩
       simpa using this
     have hp1 : (0 : ℕ) ≠ p - 1 := by have := hp.two_le; omega
-    simp only [hDu, if_neg hp1, if_pos rfl, hlast, Units.val_neg, Units.val_one] at h0 hl
+    simp only [hDu, ite_eq_right hp1, ite_eq_left rfl, hlast, Units.val_neg, Units.val_one] at h0 hl
     exact neg_one_ne_one_of_odd hQ (h0.trans hl.symm)
 
 end RichD
@@ -1199,7 +1199,7 @@ theorem pow_ge_mul {Q : ℕ} (hQ : 3 ≤ Q) {p : ℕ} (hp : 3 ≤ p) : (Q + 1) *
 
 theorem exists_prime_dvd_geomU {Q p : ℕ} (hQ3 : 3 ≤ Q) (hp : p.Prime) (hp2 : p ≠ 2) (hpQ : p ∣ Q + 1) :
     ∃ ℓ : ℕ, ℓ.Prime ∧ ℓ ≠ p ∧ ℓ ∣ Q ^ p + 1 ∧ ¬ ℓ ∣ Q + 1 ∧ ¬ ℓ ∣ Q - 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpodd : Odd p := hp.odd_of_ne_two hp2
   have hp3 := three_le_of_prime_ne_two hp hp2
   obtain ⟨N, hN⟩ : Q + 1 ∣ Q ^ p + 1 := by
@@ -1305,7 +1305,7 @@ theorem richS_SU (h : UnitaryFieldData q n F) [Finite F] (hp : p.Prime) (hp2 : p
     RichS (StatedSU p (q ^ n) F) (GUn p (q ^ n) F) := by
   classical
   intro g hg M c hc hMg
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨E, _, _, _, φ, hφ, hcard, hrange, hcomm⟩ := singer_setup hp hc
   set Q := q ^ n with hQdef
   have hFcard : Nat.card F = Q ^ 2 := by rw [h.card, hQdef, ← pow_mul, mul_comm]
@@ -1444,7 +1444,7 @@ theorem richS_SU (h : UnitaryFieldData q n F) [Finite F] (hp : p.Prime) (hp2 : p
     rw [show 2 * (n * p) / 2 = n * p by omega, pow_mul] at this
     exact this
   obtain ⟨ℓ, hℓ, hℓp, hℓdvd, hℓQ1, hℓQ2⟩ := exists_prime_dvd_geomU hQ3 hp hp2 hpQ
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hQp1 : 1 ≤ Q ^ p := Nat.one_le_pow _ _ (by omega)
   have hEu : Nat.card Eˣ = (Q ^ p + 1) * (Q ^ p - 1) := by
     rw [Nat.card_units, hcard, hFcard, ← pow_mul, mul_comm 2 p, pow_mul]

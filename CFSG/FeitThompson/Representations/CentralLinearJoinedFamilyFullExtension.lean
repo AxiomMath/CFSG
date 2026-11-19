@@ -105,6 +105,7 @@ theorem isCoherentExtensionOf_self {τ₀ : charSpanZero T₀ →+ virtualChars 
     IsCoherentExtensionOf tau ν₀ T₀ :=
   ⟨ν₀, h.inner_eq, fun f => by rw [h.eq_on_zero f, hτ₀ f], fun _ _ _ => by congr 1⟩
 
+omit [Group L] in
 theorem coe_insert_insert_star (T : Finset (L → ℂ)) (χ : L → ℂ) :
     ((insert χ (insert (star χ) T) : Finset (L → ℂ)) : Set (L → ℂ)) = insertPair χ T := by
   classical
@@ -143,7 +144,7 @@ theorem isCoherentExtensionOf_of_forall_threshold (hc : IsSubcoherent S tau R)
     (hν₀ : IsCoherentWith (T₀f : Set (L → ℂ)) (subTauHom hc hT₀S) ν₀)
     (hthr : ∀ χ ∈ S, ∃ ψ ∈ T₀f, ∃ d : ℕ, 1 ≤ d ∧ χ 1 = (d : ℂ) * ψ 1 ∧
       2 * χ 1 * ψ 1 < ∑ γ ∈ T₀f, γ 1 ^ 2 / cfInner γ γ)
-    (hT₀ne : T₀f.Nonempty) :
+    (_hT₀ne : T₀f.Nonempty) :
     IsCoherentExtensionOf tau ν₀ (S : Set (L → ℂ)) := by
   classical
   have hstart : IsCoherentExtensionOf tau ν₀ (T₀f : Set (L → ℂ)) :=
@@ -233,6 +234,7 @@ theorem disjoint_indFamDetect_kerLayerIndFam_commutator (hZP' : Z ≤ ⁅P, P⁆
   disjoint_indFamDetect_kerLayerIndFam hZP'
 
 omit [Z.Normal] in
+omit [P.Normal] in
 theorem kerLayerIndFam_bot_eq_union :
     kerLayerIndFam (⊥ : Subgroup L) P
       = indFamDetect P (Z.subgroupOf P) ∪ kerLayerIndFam Z P := by
@@ -253,7 +255,7 @@ theorem kerLayerIndFam_bot_eq_union :
     · intro n hn; rw [show n = 1 from Subtype.ext (Subgroup.mem_bot.1 hn)]
     · intro h; exact hθ.2 (by rw [h]; intro x _; exact mem_charValueKernel.2 rfl)
 
-omit [Z.Normal] in
+omit [Z.Normal] [P.Normal] in
 theorem indFamDetect_subset_kerLayerIndFam_bot :
     indFamDetect P (Z.subgroupOf P) ⊆ kerLayerIndFam (⊥ : Subgroup L) P := by
   rw [kerLayerIndFam_bot_eq_union (Z := Z)]
@@ -312,6 +314,7 @@ omit [P.Normal] [Z.Normal] in
   ext f
   simp [mem_joinedFamily]
 
+omit [Z.Normal] [P.Normal] in
 theorem joinedFamily_subset : joinedFamily P Z ⊆ fullFamily P := by
   intro f hf
   rcases mem_joinedFamily.1 hf with h | h
@@ -341,6 +344,7 @@ theorem subgroupOf_le_center (hZcent : Z ≤ Subgroup.centralizer (P : Set L)) :
   exact Subtype.ext (Subgroup.mem_centralizer_iff.1 (hZcent hxZ) (y : L) y.2)
 
 omit [Z.Normal] in
+omit [P.Normal] in
 theorem exists_degree_sq_le_relIndex (hZcent : Z ≤ Subgroup.centralizer (P : Set L))
     {ψ : L → ℂ} (hψ : ψ ∈ kerLayerIndFam (⊥ : Subgroup L) P) :
     ∃ d : ℕ, ψ 1 = (P.index : ℂ) * (d : ℂ) ∧ d ^ 2 ≤ Z.relIndex P := by
@@ -436,6 +440,7 @@ variable {L G : Type*} [Group L] [Fintype L] [Group G] [Fintype G]
   {tau : (L → ℂ) → (G → ℂ)} {R : (L → ℂ) → Finset (G → ℂ)}
 
 omit [Group G] [Fintype G] [Z.Normal] in
+omit [P.Normal] in
 theorem exists_degree_ratio {ψ η : L → ℂ} (hψ : ψ ∈ kerLayerIndFam (⊥ : Subgroup L) P)
     (hη : η ∈ kerLayerIndFam ⁅P, P⁆ P) :
     ∃ d : ℕ, 1 ≤ d ∧ ψ 1 = (d : ℂ) * η 1 := by
@@ -471,6 +476,7 @@ theorem star_mem_joinedFamily {γ : L → ℂ} (hγ : γ ∈ joinedFamily P Z) :
     exact DisjointCoherentFamilies.star_mem_indFam P (fun _ hθ => star_mem_irrDetect hθ) h
   · exact Or.inr (FrobeniusQuotientLayer.conj_mem_kerLayerIndFam_commutator h)
 
+omit [Z.Normal] [P.Normal] in
 theorem isCoherentExtensionOf_of_joined_eq_full (hc : IsSubcoherent (fullFamily P) tau R)
     {ν₀ : Submodule.span ℤ (joinedFamily P Z : Set (L → ℂ)) →+ virtualChars G}
     (hν₀ : IsCoherentWith (joinedFamily P Z : Set (L → ℂ))

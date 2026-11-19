@@ -92,7 +92,7 @@ theorem burnsideF48s_L3_marking {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
 @[expose] def burnsideF48s_restrictAut {G : Type*} [Group G] (ψ : G ≃* G) (H : Subgroup G)
     (hH : ∀ x, ψ x ∈ H ↔ x ∈ H) : MulAut ↥H where
   toFun x := ⟨ψ (x : G), (hH x).2 x.2⟩
-  invFun x := ⟨ψ.symm (x : G), (hH _).1 (by simpa using x.2)⟩
+  invFun x := ⟨ψ.symm (x : G), (hH _).1 (by simp)⟩
   left_inv x := Subtype.ext (ψ.symm_apply_apply (x : G))
   right_inv x := Subtype.ext (ψ.apply_symm_apply (x : G))
   map_mul' x y := Subtype.ext (map_mul ψ (x : G) (y : G))
@@ -180,7 +180,7 @@ theorem burnsideF48s_L3_aut_inner (ψ : burnsideF4c_SL ≃* burnsideF4c_SL)
 
 theorem burnsideF48s_L3_Gp_top {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
     (hyp : HypF_4_4 .L3 2 1 Gp M₁ M₂) : Gp = ⊤ := by
-  haveI : Gp.Normal := hyp.normal
+  have : Gp.Normal := hyp.normal
   obtain ⟨θ, hθP, hθL⟩ := burnsideF48s_L3_marking hyp.toHypF_4_4g
   have hconj : ∀ {M : Subgroup E} {e : E}, e ∈ M → ∀ y : E, e * y * e⁻¹ ∈ M ↔ y ∈ M := by
     intro M e he y

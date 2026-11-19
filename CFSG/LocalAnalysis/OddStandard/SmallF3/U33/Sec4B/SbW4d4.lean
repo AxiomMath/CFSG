@@ -33,7 +33,7 @@ theorem w4_commutator_mem_V_of_gens
     simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at ha
     rcases ha with rfl | rfl | rfl | rfl
     exacts [ht, htau, hy, hz]
-  · simpa using one_mem (fourGrp x₁ x₂)
+  · simp
   · intro a b ha hb pa pb
     have hconj : a * (g * b * g⁻¹ * b⁻¹) * a⁻¹ ∈ fourGrp x₁ x₂ :=
       w4_conj_mem_V_of_mem_X hc ha pb
@@ -84,6 +84,7 @@ theorem w4_O_eq_R
     ctxO t tau x₁ x₂ = ctxR t tau x₁ x₂ :=
   le_antisymm (w4_O_le_R hc) (w4_R_le_O hc)
 
+omit [Finite G] in
 private theorem w4_comm_of_commutator {a b : G} (h : a * b * a⁻¹ * b⁻¹ = 1) : a * b = b * a := by
   have h1 : a * b * a⁻¹ = b := by
     have := congrArg (· * b) h
@@ -119,7 +120,7 @@ theorem w4_exists_hom
       ∀ g : ↥(ctxR t tau x₁ x₂), φ g = 1 → (g : G) ∈ ctxX t tau x₁ x₂ := by
   have htX : t ∈ ctxX t tau x₁ x₂ := Subgroup.subset_closure (by simp)
   have htauX : tau ∈ ctxX t tau x₁ x₂ := Subgroup.subset_closure (by simp)
-  haveI : IsMulCommutative ↥(fourGrp x₁ x₂) := (hc.wreath.fourGrp_eq_omega).2.1.1
+  have : IsMulCommutative ↥(fourGrp x₁ x₂) := (hc.wreath.fourGrp_eq_omega).2.1.1
   refine ⟨MonoidHom.mk' (fun g : ↥(ctxR t tau x₁ x₂) =>
       (⟨(g : G) * t * (g : G)⁻¹ * t⁻¹, g.2.2.1 t htX⟩,
        ⟨(g : G) * tau * (g : G)⁻¹ * tau⁻¹, g.2.2.1 tau htauX⟩)) ?_, ?_⟩
@@ -170,7 +171,7 @@ theorem w4_R_quot
       ∀ a ∈ ctxR t tau x₁ x₂, ∀ b ∈ ctxR t tau x₁ x₂,
         a * b * a⁻¹ * b⁻¹ ∈ ctxX t tau x₁ x₂ := by
   obtain ⟨φ, hφ⟩ := w4_exists_hom hc
-  haveI : IsMulCommutative ↥(fourGrp x₁ x₂) := (hc.wreath.fourGrp_eq_omega).2.1.1
+  have : IsMulCommutative ↥(fourGrp x₁ x₂) := (hc.wreath.fourGrp_eq_omega).2.1.1
   have hExpV : ∀ x ∈ fourGrp x₁ x₂, x ^ 2 = 1 :=
     fun x hx => (hc.wreath.fourGrp_eq_omega.2.1).2 x hx
   have hsq_prod : ∀ z : ↥(fourGrp x₁ x₂) × ↥(fourGrp x₁ x₂), z ^ 2 = 1 := by

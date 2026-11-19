@@ -43,6 +43,7 @@ private theorem hall_two_p {L T : Subgroup G} {p : ℕ} (hp : p.Prime) (hTL : T 
     have := hH.p_in_pi_of_p_dvd_index ⟨q, hq⟩ hdvd
     exact ⟨fun h2 => this (Or.inl (Subtype.ext h2)), fun hpq => this (Or.inr (Subtype.ext hpq))⟩
 
+omit [Finite G] in
 private theorem exists_isSylowOf_ge {p : ℕ} [Fact p.Prime] {K U : Subgroup G} (hUK : U ≤ K)
     (hU : IsPGroup p U) : ∃ S : Subgroup G, IsSylowOf p S K ∧ U ≤ S := by
   have hU' : IsPGroup p (U.subgroupOf K) := hU.comap_subtype
@@ -66,7 +67,7 @@ private theorem mul_eq_of_two_p {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {K₀ Y
     (hπ : ∀ q : ℕ, q.Prime → q ∣ Nat.card K₀ → q = 2 ∨ q = p)
     (hY : IsSylowOf 2 Y K₀) (hS : IsSylowOf p S K₀) :
     ∀ w ∈ K₀, ∃ y ∈ Y, ∃ s ∈ S, w = y * s := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp : p.Prime := Fact.out
   have hcardK : Nat.card K₀ = Nat.card Y * Nat.card S := by
     rw [hY.card_eq, hS.card_eq]
@@ -111,7 +112,7 @@ theorem exists_permutable_conj_sylow {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2)
     ∃ l ∈ L, U ≤ V.map (MulAut.conj l).toMonoidHom ∧
       ∀ w ∈ Y ⊔ V.map (MulAut.conj l).toMonoidHom,
         ∃ y ∈ Y, ∃ s ∈ V.map (MulAut.conj l).toMonoidHom, w = y * s := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp : p.Prime := Fact.out
   have hYL : Y ≤ L := hY.le
   have hTL : Y ⊔ U ≤ L := sup_le hYL hUL

@@ -13,7 +13,7 @@ open Matrix CFSG.ClassicalGroups.UnitaryFlag CFSG.LocalAnalysis.ComponentInitial
 variable {K : Type} [Field K] {n d p : ℕ} {L' : Type} [Group L']
   {φ : ↥(unitarySU 2 n K d) →* L'}
 
-theorem heart_end_pow [Finite K] (hM : UnitTB.Model φ) (hp : p.Prime) (hp2 : p ≠ 2)
+theorem heart_end_pow [Finite K] (hM : UnitTB.Model φ) (hp : p.Prime) (_hp2 : p ≠ 2)
     (hpq : p ∣ 2 ^ n + 1) (hd : 5 ≤ d) {A : Subgroup (MulAut L')} (hA : IsElemAbelian p A)
     (hsc : GGTorusSelfCent p A) (hdiag : ∀ a ∈ A, ∃ t : Fin d → K, ActsDiagU φ a t)
     (f : MulAut L' → MulAut L')
@@ -124,19 +124,19 @@ theorem heart_end_pow [Finite K] (hM : UnitTB.Model φ) (hp : p.Prime) (hp2 : p 
       funext k
       by_cases hki : k = i₀
       · rw [hki, ggPairVec_apply]
-        simp only [if_true, h01, if_false, mul_one]
+        simp only [ite_true, h01, ite_false, mul_one]
         rw [hc]
         field_simp [hw.ne_zero k₂]
       · by_cases hkj : k = j₀
         · rw [hkj, ggPairVec_apply]
-          simp only [if_true, h01.symm, if_false, one_mul, inv_pow]
+          simp only [ite_true, h01.symm, ite_false, one_mul, inv_pow]
           rw [hc]
           have e1 := hw.ne_zero k₂
           have e2 := hw.ne_zero i₀
           field_simp
           linear_combination hw_sq
         · rw [ggPairVec_apply]
-          simp only [hki, hkj, if_false, mul_one, one_pow, one_mul]
+          simp only [hki, hkj, ite_false, mul_one, one_pow, one_mul]
           exact (hw_out k hki hkj).symm
     rw [e] at h2
     exact actsDiagU_unique hM.surj hw h2

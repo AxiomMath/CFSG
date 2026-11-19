@@ -35,7 +35,7 @@ private theorem normal_inf_N :
 
 private theorem inf_N_ne_top : t.Ky ⊓ t.d.N ≠ t.Ky := by
   intro h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hZN : t.Z ≤ t.d.N := by
     intro z hz
     have hz' : z ∈ t.Ky ⊓ t.d.N := by
@@ -89,14 +89,14 @@ private theorem commutator_eq_bot_of_le_center
     (Subgroup.mem_center_iff.mp (h hmem) ⟨z, t.Z_le_Ky hz⟩)
 
 private theorem card_Ky_ge_sixty : 60 ≤ Nat.card ↥t.Ky := by
-  haveI hperf : Group.IsPerfect ↥t.Ky := Subgroup.isPerfect_iff.mpr t.commutator_Ky
+  have hperf : Group.IsPerfect ↥t.Ky := Subgroup.isPerfect_iff.mpr t.commutator_Ky
   have h3 : 3 ≤ Nat.card ↥t.Ky := by
     have h := Nat.card_le_card_of_injective
       (f := fun z : ↥t.Z => (⟨(z : G), t.Z_le_Ky z.2⟩ : ↥t.Ky)) (by
         intro a b hab
         exact Subtype.ext (congrArg (fun x : ↥t.Ky => (x : G)) hab))
     rwa [t.card_Z] at h
-  haveI : Nontrivial ↥t.Ky := Finite.one_lt_card_iff_nontrivial.mp (by omega)
+  have : Nontrivial ↥t.Ky := Finite.one_lt_card_iff_nontrivial.mp (by omega)
   by_contra h60
   exact (Group.IsPerfect.not_isSolvable ↥t.Ky)
     (CFSG.GroupTheory.groups_order_below_sixty_solvable (by omega))
@@ -104,13 +104,13 @@ private theorem card_Ky_ge_sixty : 60 ≤ Nat.card ↥t.Ky := by
 theorem not_nonempty_mulEquiv_SL2 :
     ¬ ∃ (F : Type) (_ : Field F) (_ : Finite F), Nonempty (↥t.Ky ≃* SL(2, F)) := by
   rintro ⟨F, hF, hFin, ⟨e⟩⟩
-  letI : Field F := hF
-  letI : Finite F := hFin
+  let : Field F := hF
+  let : Finite F := hFin
   let N₀ : Subgroup ↥t.Ky := (t.Ky ⊓ t.d.N).subgroupOf t.Ky
-  haveI hN₀normal : N₀.Normal := t.normal_inf_N
+  have hN₀normal : N₀.Normal := t.normal_inf_N
   have hN₀ne : N₀ ≠ ⊤ := t.subgroupOf_inf_N_ne_top
   have h60Ky : 60 ≤ Nat.card ↥t.Ky := t.card_Ky_ge_sixty
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   have hcardSL : Nat.card (Matrix.SpecialLinearGroup (Fin 2) F) =
       Nat.card F * (Nat.card F ^ 2 - 1) := by
     rw [Matrix.card_SL_field, ← Nat.card_eq_fintype_card, Fin.prod_univ_two]
@@ -145,9 +145,9 @@ theorem not_nonempty_mulEquiv_SL2 :
 theorem not_lieModel_PSL2 :
     ¬ ∃ n : ℕ, CFSG.Blueprint.LieModel ↥t.Ky .PSL 2 2 n := by
   rintro ⟨n, hn⟩
-  haveI hsimple : IsSimpleGroup ↥t.Ky := CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hn
+  have hsimple : IsSimpleGroup ↥t.Ky := CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hn
   let N₀ : Subgroup ↥t.Ky := (t.Ky ⊓ t.d.N).subgroupOf t.Ky
-  haveI hN₀normal : N₀.Normal := t.normal_inf_N
+  have hN₀normal : N₀.Normal := t.normal_inf_N
   have hN₀ne : N₀ ≠ ⊤ := t.subgroupOf_inf_N_ne_top
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal N₀ with hbot | htop
   · have hN₁bot : t.Ky ⊓ t.d.N = ⊥ := t.inf_N_eq_bot_of_subgroupOf_eq_bot hbot

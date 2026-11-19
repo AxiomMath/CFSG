@@ -22,7 +22,7 @@ theorem exists_isPGroup_map_eq_of_surjective {H K : Type*} [Group H] [Group K] [
   have htop : ((T.mapSurjective hψ : Sylow p E) : Subgroup E) = ⊤ :=
     ((T.mapSurjective hψ).maximal_isPGroup.eq_of_ge (hE.to_subgroup ⊤) le_top).symm
   rw [Sylow.coe_mapSurjective] at htop
-  refine ⟨(T : Subgroup W).map W.subtype, T.isPGroup'.map _, le_antisymm ?_ ?_⟩
+  refine ⟨(T : Subgroup W).map W.subtype, T.isPGroup.map _, le_antisymm ?_ ?_⟩
   · rintro _ ⟨_, ⟨w, -, rfl⟩, rfl⟩
     exact w.2
   · intro e he
@@ -123,7 +123,7 @@ theorem exists_pGroup_le_centralizer_of_fixed {K : Subgroup G} {a : G}
   refine ⟨Q', ?_, ?_, ?_⟩
   · rintro _ ⟨_, ⟨_, ⟨w, -, rfl⟩, rfl⟩, rfl⟩
     exact Subgroup.mem_subgroupOf.mp (w : C).2
-  · exact ((T.isPGroup'.map _).map _).map _
+  · exact ((T.isPGroup.map _).map _).map _
   · have h1 : Nat.card Q' = Nat.card T := by
       rw [hQ', Subgroup.card_map_of_injective K.subtype_injective,
         Subgroup.card_map_of_injective C.subtype_injective,

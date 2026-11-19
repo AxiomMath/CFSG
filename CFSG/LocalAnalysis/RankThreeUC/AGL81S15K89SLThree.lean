@@ -70,11 +70,11 @@ theorem exists_psl_embedding (K : Type) [Field K] [CharP K 2] :
     intro i j hij
     apply hf
     rw [hent i j]
-    simp [Matrix.scalar_apply, Matrix.diagonal_apply, hij]
+    simp [Matrix.scalar_apply, hij]
   have hdiag : ∀ i : Fin 3, f ((g : Matrix (Fin 3) (Fin 3) (ZMod 2)) i i) = r := by
     intro i
     rw [hent i i]
-    simp [Matrix.scalar_apply, Matrix.diagonal_apply]
+    simp [Matrix.scalar_apply]
   have hd0 : (g : Matrix (Fin 3) (Fin 3) (ZMod 2)) 0 0 = 1 := by
     have h3 : f (((g : Matrix (Fin 3) (Fin 3) (ZMod 2)) 0 0) ^ 3) = 1 := by
       rw [map_pow, hdiag 0]
@@ -103,8 +103,8 @@ theorem exists_isLThreeTwo_sub (S : Type) [Group S] (h : IsLThreeTwoPow S) :
   · obtain ⟨d1, hv⟩ := d
     have hd' : d1 = TauCeti.LieTypeIndex.A 2 Q := hd
     subst hd'
-    haveI : Fact Q.p.Prime := ⟨Q.prime_p⟩
-    haveI : CharP (GaloisField Q.p Q.exponent) 2 := by
+    have : Fact Q.p.Prime := ⟨Q.prime_p⟩
+    have : CharP (GaloisField Q.p Q.exponent) 2 := by
       rw [← hQ]
       infer_instance
     let eP : S ≃* PSL(3, GaloisField Q.p Q.exponent) :=

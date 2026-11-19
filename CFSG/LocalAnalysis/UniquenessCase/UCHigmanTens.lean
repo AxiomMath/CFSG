@@ -22,7 +22,7 @@ variable {K : Type} [Field K] [CharP K 2] {k : Type} [Field k] [Algebra K k]
   (algebraMap K k).comp (iterateFrobenius K 2 i)
 
 theorem frobK_apply (i : ℕ) (a : K) : frobK k i a = algebraMap K k (a ^ 2 ^ i) := by
-  haveI : ExpChar K 2 := ExpChar.prime Nat.prime_two
+  have : ExpChar K 2 := ExpChar.prime Nat.prime_two
   simp [frobK, iterateFrobenius_def]
 
 @[expose] def Amat (i : ℕ) (g : SL(2, K)) : Matrix (Fin 2) (Fin 2) k :=
@@ -57,7 +57,7 @@ theorem kron_one (S : Finset ℕ) : kron S (fun _ => (1 : Matrix (Fin 2) (Fin 2)
   · subst h
     simp
   · obtain ⟨i, hi⟩ := Function.ne_iff.1 h
-    rw [if_neg h]
+    rw [ite_eq_right h]
     exact Finset.prod_eq_zero (Finset.mem_univ i) (by simp [hi])
 
 @[expose] def TRep (S : Finset ℕ) : Representation k SL(2, K) ((↥S → Fin 2) → k) where
@@ -96,7 +96,7 @@ theorem TRep_single (S : Finset ℕ) (g : SL(2, K)) (ε₀ ε' : ↥S → Fin 2)
   rw [TRep_apply, Finset.sum_eq_single ε₀]
   · simp
   · intro b _ hb
-    simp [Pi.single_apply, hb]
+    simp [hb]
   · simp
 
 @[expose] def wt (S : Finset ℕ) : ℕ := ∑ i ∈ S, 2 ^ i
@@ -136,11 +136,11 @@ theorem TRep_h_delta0 (S : Finset ℕ) (c : Kˣ) :
     Pi.single_apply]
   by_cases h : ε' = 0
   · subst h
-    simp only [Pi.zero_apply, implies_true, if_true, smul_eq_mul, mul_one]
+    simp only [Pi.zero_apply, implies_true, ite_true, smul_eq_mul, mul_one]
     rw [Finset.prod_pow_eq_pow_sum, wt, ← Finset.sum_coe_sort S]
   · have h' : ¬ ∀ i ∈ (Finset.univ : Finset ↥S), ε' i = 0 := fun hh =>
       h (funext fun i => hh i (Finset.mem_univ i))
-    rw [if_neg h', if_neg h, smul_zero]
+    rw [ite_eq_right h', ite_eq_right h, smul_zero]
 
 theorem TRep_w_delta0 (S : Finset ℕ) :
     TRep S (wMat : SL(2, K)) (Pi.single (0 : ↥S → Fin 2) (1 : k)) =
@@ -178,16 +178,17 @@ theorem TRep_u_row0 (S : Finset ℕ) (a : K) (Φ : (↥S → Fin 2) → k) :
     rcases fin2_cases (ε i) with h | h <;> simp [h]
   rw [Finset.prod_congr rfl fun i _ => this i, Finset.prod_pow_eq_pow_sum, eR]
 
+omit [CharP K 2] in
 theorem monomial_indep [Finite K] {ι : Type*} [Fintype ι] (ex : ι → ℕ)
     (hinj : Function.Injective ex) (hlt : ∀ i, ex i < Nat.card K) (c : ι → k)
     (h : ∀ a : K, ∑ i, c i * algebraMap K k a ^ ex i = 0) : ∀ i, c i = 0 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   set P : Polynomial k := ∑ i, Polynomial.C (c i) * Polynomial.X ^ ex i with hPdef
   have hroot : ∀ x ∈ (Finset.univ : Finset K).image (algebraMap K k), P.eval x = 0 := by
     intro x hx
     obtain ⟨a, -, rfl⟩ := Finset.mem_image.1 hx
-    simp only [hPdef, Polynomial.eval_finset_sum, Polynomial.eval_mul, Polynomial.eval_C,
+    simp only [hPdef, Polynomial.eval_finsetSum, Polynomial.eval_mul, Polynomial.eval_C,
       Polynomial.eval_pow, Polynomial.eval_X]
     exact h a
   have hcard : ((Finset.univ : Finset K).image (algebraMap K k)).card = Nat.card K := by
@@ -205,7 +206,7 @@ theorem monomial_indep [Finite K] {ι : Type*} [Fintype ι] (ex : ι → ℕ)
   have hP : P = 0 := Polynomial.eq_zero_of_natDegree_lt_card_of_eval_eq_zero' P _ hroot hdeg
   intro i
   have h1 := congrArg (fun p : Polynomial k => p.coeff (ex i)) hP
-  simp only [hPdef, Polynomial.finset_sum_coeff, Polynomial.coeff_C_mul, Polynomial.coeff_X_pow,
+  simp only [hPdef, Polynomial.finsetSum_coeff, Polynomial.coeff_C_mul, Polynomial.coeff_X_pow,
     Polynomial.coeff_zero] at h1
   rw [Finset.sum_eq_single i] at h1
   · simpa using h1
@@ -239,7 +240,7 @@ theorem eP_lt (S : Finset ℕ) {n : ℕ} (hS : ∀ i ∈ S, i < n) (p : ↥S →
   exact hS i i.2
 
 theorem eP_true (S : Finset ℕ) : eP S (fun _ => True) = wt S := by
-  simp only [eP, if_true, wt]
+  simp only [eP, ite_true, wt]
   exact Finset.sum_coe_sort S (fun i => 2 ^ i)
 
 theorem eP_le_wt (S : Finset ℕ) (p : ↥S → Prop) [DecidablePred p] : eP S p ≤ wt S := by
@@ -328,7 +329,7 @@ theorem fixed_eq_smul [Finite K] {n : ℕ} (hn : Nat.card K = 2 ^ n) (S : Finset
       · subst h; simp [hc, eR_zero]
       · simp [hc, h, mul_comm]
     rw [Finset.sum_congr rfl fun ε _ => h2 ε, Finset.sum_add_distrib] at h1
-    simp only [Finset.sum_ite_eq', Finset.mem_univ, if_true] at h1
+    simp only [Finset.sum_ite_eq', Finset.mem_univ, ite_true] at h1
     linear_combination -h1
   have hc0 := monomial_indep (K := K) (k := k) (eR S) (eR_injective S)
     (fun ε => by rw [hn]; exact eR_lt S hS ε) c hzero
@@ -336,8 +337,8 @@ theorem fixed_eq_smul [Finite K] {n : ℕ} (hn : Nat.card K = 2 ^ n) (S : Finset
   by_cases h : ε = 0
   · subst h; simp
   · have := hc0 ε
-    simp only [hc, if_neg h] at this
-    simp [Pi.single_apply, h, this]
+    simp only [hc, ite_eq_right h] at this
+    simp [h, this]
 
 theorem orbitSpan_eq_top [Finite K] {n : ℕ} (hn : Nat.card K = 2 ^ n) (S : Finset ℕ)
     (hS : ∀ i ∈ S, i < n) :
@@ -406,7 +407,7 @@ theorem sum_pow_card_sub_one (K : Type) [Field K] [Fintype K] [DecidableEq K] :
     ∑ x : K, x ^ (Fintype.card K - 1) = -1 := by
   have hpos : 1 < Fintype.card K := Fintype.one_lt_card
   rw [sum_pow_eq_units K (by omega), FiniteField.sum_pow_units K (Fintype.card K - 1),
-    if_pos dvd_rfl]
+    ite_eq_left dvd_rfl]
 
 @[expose] noncomputable def uEquiv (K : Type) [Field K] [CharP K 2] : K ≃ ↥(Usub K) :=
   Equiv.ofBijective (fun a => ⟨uMat a, a, rfl⟩) ⟨fun a b h => by
@@ -414,11 +415,12 @@ theorem sum_pow_card_sub_one (K : Type) [Field K] [Fintype K] [DecidableEq K] :
     have h2 := congrArg (fun g : SL(2, K) => (g : Matrix (Fin 2) (Fin 2) K) 0 1) h1
     simpa using h2, fun ⟨_, a, rfl⟩ => ⟨a, rfl⟩⟩
 
+omit [Algebra K k] in
 theorem heckeT_sl2 [Fintype K] {V : Type*} [AddCommGroup V] [Module k V]
     (ρ : Representation k SL(2, K) V) (v : V) :
     (sl2Datum (K := K)).heckeT ρ 0 v = ∑ a : K, ρ (uMat a * wMat) v := by
   classical
-  letI : Fintype ↥((sl2Datum (K := K)).X 0) := (inferInstance : Fintype ↥(Usub K))
+  let : Fintype ↥((sl2Datum (K := K)).X 0) := (inferInstance : Fintype ↥(Usub K))
   rw [CFSG.Quasithin.SmithCurtis.CurtisDatum.heckeT_apply]
   exact (Fintype.sum_equiv (uEquiv K : K ≃ ↥((sl2Datum (K := K)).X 0))
     (fun a => ρ (uMat a * wMat) v)
@@ -429,7 +431,7 @@ theorem heckeT_delta0 [Finite K] [CharP k 2] {n : ℕ} (hn : Nat.card K = 2 ^ n)
     (sl2Datum (K := K)).heckeT (TRep (K := K) (k := k) S) 0 (Pi.single (0 : ↥S → Fin 2) (1 : k)) =
       (if S = Finset.range n then (1 : k) else 0) • Pi.single (0 : ↥S → Fin 2) (1 : k) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   rw [heckeT_sl2]
   have hq : Fintype.card K = 2 ^ n := by rw [← Nat.card_eq_fintype_card, hn]
   have h1 : ∀ a : K, TRep (K := K) (k := k) S (uMat a * wMat) (Pi.single (0 : ↥S → Fin 2) (1 : k)) =
@@ -533,12 +535,12 @@ theorem exists_fixed_vec [CharP k 2] {ω : k} (hω : ω ^ 2 + ω + 1 = 0) (d : S
   have hv : ∀ i : ↥S, (Amat (i : ℕ) d : Matrix (Fin 2) (Fin 2) k) *ᵥ v i = l i • v i := by
     intro i
     by_cases hi : i ∈ P
-    · simp only [v, l, if_pos hi]; exact hvp i
-    · simp only [v, l, if_neg hi]; exact hvm i
+    · simp only [v, l, ite_eq_left hi]; exact hvp i
+    · simp only [v, l, ite_eq_right hi]; exact hvm i
   have hl : ∏ i : ↥S, l i = 1 := by
     rw [← Finset.prod_mul_prod_compl P l]
-    rw [Finset.prod_congr rfl fun i hi => (if_pos hi : l i = ω),
-      Finset.prod_congr rfl fun i hi => (if_neg (Finset.mem_compl.1 hi) : l i = ω + 1),
+    rw [Finset.prod_congr rfl fun i hi => (ite_eq_left hi : l i = ω),
+      Finset.prod_congr rfl fun i hi => (ite_eq_right (Finset.mem_compl.1 hi) : l i = ω + 1),
       Finset.prod_const, Finset.prod_const, Finset.card_compl, Fintype.card_coe, hP, hω2,
       ← pow_mul, ← pow_add]
     have : r + 2 * (S.card - r) = 3 * (2 * S.card / 3) := by omega
@@ -605,7 +607,7 @@ theorem delta0_ne_zero (S : Finset ℕ) :
 theorem TRep_isSimple [Finite K] [CharP k 2] {n : ℕ} (hn : Nat.card K = 2 ^ n) (S : Finset ℕ)
     (hS : ∀ i ∈ S, i < n) :
     CFSG.Quasithin.SmithCurtis.IsSimpleRep (TRep (K := K) (k := k) S) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine (sl2Datum (K := K)).isSimpleRep_of_fixU (TRep (K := K) (k := k) S)
     (y := Pi.single (0 : ↥S → Fin 2) (1 : k)) ?_ (orbitSpan_eq_top hn S hS)
   intro x hx

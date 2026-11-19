@@ -173,7 +173,7 @@ private theorem powM_smul (B : Matrix (Fin n) (Fin n) ℤ) (a : Fin n → G) (e 
 private theorem powM_one (a : Fin n → G) : powM (1 : Matrix (Fin n) (Fin n) ℤ) a = a := by
   funext i
   simp only [powM, Matrix.one_apply]
-  rw [Finset.prod_eq_single i (fun j _ hj => by rw [if_neg (Ne.symm hj), zpow_zero])
+  rw [Finset.prod_eq_single i (fun j _ hj => by rw [ite_eq_right (Ne.symm hj), zpow_zero])
     (by simp)]
   simp
 
@@ -287,7 +287,7 @@ private theorem eq_one_of_powM_eq (L : Type*) [Field L] [IsAlgClosed L] [CharP L
   have : NeZero ((m : ℕ) : L) := ⟨by
     rw [Ne, CharP.cast_eq_zero_iff L 2]
     exact fun h => (Nat.not_even_iff_odd.2 hm) (even_iff_two_dvd.2 h)⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L m
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L m
   have hu := hζ.isUnit (by omega)
   have hζu : IsPrimitiveRoot hu.unit m := IsPrimitiveRoot.coe_units_iff.1 (by simpa using hζ)
   have hv := congrFun (hP (Pi.mulSingle j hu.unit)) i

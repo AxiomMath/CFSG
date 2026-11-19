@@ -194,7 +194,7 @@ theorem ggQ2_reflKill {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2)
         have hfr' : Module.finrank (ZMod p) ↥(U ⊔ E) + 1 = Module.finrank (ZMod p) V := hfr
         rw [htop', finrank_top] at hfr'
         omega
-      obtain ⟨v0, _, hv0⟩ := SetLike.exists_of_lt hPtop
+      obtain ⟨v0, _, hv0⟩ := _root_.IsConcreteLE.exists_of_lt hPtop
       obtain ⟨ψ0, hψ0ne, hPle⟩ := Submodule.exists_le_ker_of_lt_top (U ⊔ E) hPtop
       have hkerψ0 : LinearMap.ker ψ0 = U ⊔ E := by
         have hfrP : Module.finrank (ZMod p) ↥(U ⊔ E) + 1 = Module.finrank (ZMod p) V := hfr

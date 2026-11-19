@@ -42,7 +42,6 @@ private theorem exists_toAddCoords_of_ggTorusModelAt {p : ℕ} {G : Type} [Group
         rwa [MulEquiv.apply_symm_apply] at h2
       · intro h
         change s i (ε f) = ε f at h
-        change ε.symm (s i (ε f)) = f
         rw [h, MulEquiv.symm_apply_apply]
     have h2 : Nat.card (Fin k → Multiplicative (ZMod p)) = p ^ k := by
       rw [← Nat.card_congr ε.toEquiv,
@@ -76,7 +75,7 @@ theorem ggTorusRootGenAvoid_map_conj_of_torusModelAt {p : ℕ} (hp : p.Prime) {G
   classical
   obtain ⟨k, τ, ι, w, s, S, hι, hτ, hτE, hws, hs, hfix, hsinj, hwS, hcomp, hdvd, hgen⟩ :=
     exists_toAddCoords_of_ggTorusModelAt h
-  haveI : Nonempty ι := hι
+  have : Nonempty ι := hι
   let f : ι → (Fin k → ZMod p) → Fin k → ZMod p :=
     fun i t => Multiplicative.toAdd (s i (Multiplicative.ofAdd t))
   have hss : ∀ i u, s i (s i u) = u := by
@@ -126,12 +125,12 @@ theorem ggTorusRootGenAvoid_map_conj_of_torusModelAt {p : ℕ} (hp : p.Prime) {G
       constructor
       · rintro ⟨u, hu, rfl⟩
         refine ⟨u, ?_, rfl⟩
-        rw [Set.mem_setOf_eq] at hu ⊢
+        rw [Set.mem_ofPred_eq] at hu ⊢
         exact Multiplicative.toAdd.injective (by simpa only [f, ofAdd_toAdd] using hu)
       · rintro ⟨u, hu, rfl⟩
         refine ⟨u, ?_, rfl⟩
-        rw [Set.mem_setOf_eq] at hu ⊢
-        simpa only [f, hu, ofAdd_toAdd]
+        rw [Set.mem_ofPred_eq] at hu ⊢
+        simp only [f, hu, ofAdd_toAdd]
     rw [htor]
     exact hcomp i
   have hgenf : ∀ j, (⨆ (i : ι) (_ : f i ≠ f j), S i) = ⊤ := by

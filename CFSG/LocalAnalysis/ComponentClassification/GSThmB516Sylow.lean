@@ -65,7 +65,7 @@ theorem card_le_of_isPGroup_of_sylow {G : Type*} [Group G] [Finite G] {C B Y : S
 theorem isPGroup_of_sylow {G : Type*} [Group G] {C B : Subgroup G} (hBC : B ≤ C)
     (hBsyl : ∃ R : Sylow 2 ↥C, (R : Subgroup ↥C) = B.subgroupOf C) : IsPGroup 2 B := by
   obtain ⟨R, hR⟩ := hBsyl
-  have h1 : IsPGroup 2 (B.subgroupOf C) := hR ▸ R.isPGroup'
+  have h1 : IsPGroup 2 (B.subgroupOf C) := hR ▸ R.isPGroup
   exact h1.of_equiv (subgroupOfEquivOfLe hBC)
 
 theorem isPGroup_zpowers_of_sq_eq_one {G : Type*} [Group G] {e : G} (he2 : e ^ 2 = 1) :
@@ -96,7 +96,7 @@ theorem eq_of_involution_of_isCyclic_sylow {G : Type*} [Group G] [Finite G] {C B
   have hPB : (P : Subgroup ↥X) = B.subgroupOf X := by
     refine le_antisymm_iff.mpr ⟨?_, hP⟩
     have hcard := card_le_of_isPGroup_of_sylow hBC hBsyl
-      ((map_subtype_le _).trans inf_le_left) (P.isPGroup'.map X.subtype)
+      ((map_subtype_le _).trans inf_le_left) (P.isPGroup.map X.subtype)
     have hc1 : Nat.card ((P : Subgroup ↥X).map X.subtype) = Nat.card (P : Subgroup ↥X) :=
       Subgroup.card_map_of_injective X.subtype_injective
     have hc2 : Nat.card (B.subgroupOf X) = Nat.card B := by
@@ -206,7 +206,7 @@ theorem exists_conj_mem_normalizer_of_sylow {G : Type*} [Group G] [Finite G]
   obtain ⟨P, hP⟩ := ((isPGroup_of_sylow hBA hBsyl).comap_subtype (K := Y)).exists_le_sylow
   replace hP : B.subgroupOf Y ≤ P := hP
   set P' : Subgroup G := (P : Subgroup ↥Y).map Y.subtype with hP'
-  have hP'2 : IsPGroup 2 P' := P.isPGroup'.map Y.subtype
+  have hP'2 : IsPGroup 2 P' := P.isPGroup.map Y.subtype
   have hBP' : B ≤ P' := fun g hg => ⟨⟨g, hBY hg⟩, hP (mem_subgroupOf.mpr hg), rfl⟩
   have hPA : P' ⊓ A = B := by
     refine (Subgroup.eq_of_le_of_card_ge (le_inf hBP' hBA) ?_).symm

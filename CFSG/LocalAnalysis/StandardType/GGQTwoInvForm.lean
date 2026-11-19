@@ -23,7 +23,7 @@ private lemma ggQ2x_Bn_three {n : ℕ} {i j : Fin n} (h : CoxeterMatrix.B n i j 
     ggQ2x_sgn n i = ggQ2x_sgn n j := by
   unfold ggQ2x_sgn
   rw [CoxeterMatrix.B] at h
-  simp only [CoxeterMatrix.M, Matrix.of_apply] at h
+  simp only [Matrix.of_apply] at h
   split_ifs at h with hij hdouble hsimple
   · omega
   · omega
@@ -39,19 +39,19 @@ private lemma ggQ2x_Bn_three {n : ℕ} {i j : Fin n} (h : CoxeterMatrix.B n i j 
       · omega
       · have : (i : ℕ) = n - 2 := by omega
         exact hdouble (Or.inr ⟨hj, this⟩)
-    rw [if_pos (by omega : (i : ℕ) + 1 < n), if_pos (by omega : (j : ℕ) + 1 < n)]
+    rw [ite_eq_left (by omega : (i : ℕ) + 1 < n), ite_eq_left (by omega : (j : ℕ) + 1 < n)]
   · omega
 
 private lemma ggQ2x_Bn_four {n : ℕ} {i j : Fin n} (h : CoxeterMatrix.B n i j = 4) :
     ggQ2x_sgn n i = -ggQ2x_sgn n j := by
   unfold ggQ2x_sgn
   rw [CoxeterMatrix.B] at h
-  simp only [CoxeterMatrix.M, Matrix.of_apply] at h
+  simp only [Matrix.of_apply] at h
   split_ifs at h with hij hdouble hsimple
   · omega
   · rcases hdouble with ⟨hi, hj⟩ | ⟨hj, hi⟩
-    · rw [if_neg (by omega : ¬ (i : ℕ) + 1 < n), if_pos (by omega : (j : ℕ) + 1 < n)]
-    · rw [if_neg (by omega : ¬ (j : ℕ) + 1 < n), if_pos (by omega : (i : ℕ) + 1 < n)]
+    · rw [ite_eq_right (by omega : ¬ (i : ℕ) + 1 < n), ite_eq_left (by omega : (j : ℕ) + 1 < n)]
+    · rw [ite_eq_right (by omega : ¬ (j : ℕ) + 1 < n), ite_eq_left (by omega : (i : ℕ) + 1 < n)]
       decide
   · omega
   · omega
@@ -59,7 +59,7 @@ private lemma ggQ2x_Bn_four {n : ℕ} {i j : Fin n} (h : CoxeterMatrix.B n i j =
 private lemma ggQ2x_Bn_ne_six (n : ℕ) (i j : Fin n) : CoxeterMatrix.B n i j ≠ 6 := by
   intro h
   rw [CoxeterMatrix.B] at h
-  simp only [CoxeterMatrix.M, Matrix.of_apply] at h
+  simp only [Matrix.of_apply] at h
   split_ifs at h <;> omega
 
 private def ggQ2x_sgn4 (i : Fin 4) : ZMod 3 := if (i : ℕ) < 2 then 1 else -1
@@ -126,7 +126,7 @@ private theorem ggQ2x_cartan_symm_of_simple {ι : Type} [Fintype ι] (M : Coxete
 private lemma ggQ2x_A_values (n : ℕ) (i j : Fin n) :
     CoxeterMatrix.A n i j ≠ 4 ∧ CoxeterMatrix.A n i j ≠ 6 := by
   rw [CoxeterMatrix.A]
-  simp only [CoxeterMatrix.M, Matrix.of_apply]
+  simp only [Matrix.of_apply]
   split_ifs <;> omega
 
 private lemma ggQ2x_D_values (n : ℕ) (i j : Fin n) :
@@ -244,7 +244,7 @@ theorem ggQ2_exists_invariantForm {p : ℕ} [Fact p.Prime] (hp : p = 3) (D : GGQ
       (∀ γ, d γ ≠ 0) ∧ ∀ γ v, β γ.1.2 v = d γ * γ.1.1 v := by
   subst p
   classical
-  haveI : Nonempty D.ι := Fintype.card_pos_iff.mp (by omega)
+  have : Nonempty D.ι := Fintype.card_pos_iff.mp (by omega)
   obtain ⟨d₀, hd₀ne, hd₀symm⟩ :=
     ggQ2x_symmetrizer_weyl D.coxeter D.cartan D.isWeyl D.isCartan h4
   let b : Basis D.ι (ZMod 3) D.V := basisOfLinearIndependentOfCardEqFinrank hbas.1 hbas.2

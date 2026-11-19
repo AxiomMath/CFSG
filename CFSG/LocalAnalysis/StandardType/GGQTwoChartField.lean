@@ -59,8 +59,8 @@ theorem qTwoChart_fieldTransport {F0 : Type} [Field F0] [Finite F0] [CharP F0 2]
     ∃ e : Su F0 2 1 t ≃* Su K 2 1 t,
       ∀ J : Finset (Fin t),
         (coordBlockSU F0 2 1 J).map e.toMonoidHom = coordBlockSU K 2 1 J := by
-  haveI := Fintype.ofFinite F0
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite F0
+  have := Fintype.ofFinite K
   have hcard : Fintype.card F0 = Fintype.card K := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hF0, hK]
   let φ : F0 ≃+* K := FiniteField.ringEquivOfCardEq hcard

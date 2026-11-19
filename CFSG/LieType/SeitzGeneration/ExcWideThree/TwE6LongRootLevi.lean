@@ -15,7 +15,7 @@ namespace LeviAux
 theorem exists_unit_sq_ne_one_of_four_le {F : Type*} [Field F] [Finite F] (h : 4 ≤ Nat.card F) :
     ∃ u : Fˣ, (u : F) ^ 2 ≠ 1 := by
   classical
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   exact exists_unit_sq_ne_one ⟨Finset.univ, by rw [Finset.card_univ, ← Nat.card_eq_fintype_card]; exact h⟩
 
 theorem two_le_of_card_eq_sq {K : Type} [Field K] [Finite K] {q : ℕ} (hK : Nat.card K = q ^ 2) :
@@ -29,7 +29,7 @@ theorem q_cases {K : Type} [Field K] [Finite K] {q : ℕ} (hr : ringChar K ≠ 3
     (hK : Nat.card K = q ^ 2) :
     ∃ p f : ℕ, p.Prime ∧ 1 ≤ f ∧ q = p ^ f ∧ ((q = 2 ∧ (2 : K) = 0) ∨ 4 ≤ q) := by
   have hq2 := two_le_of_card_eq_sq hK
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   obtain ⟨p, hpK, n, hp, hcard⟩ := FiniteField.card' K
   rw [← Nat.card_eq_fintype_card, hK] at hcard
   have hdvd : q ∣ p ^ (n : ℕ) := ⟨q, by rw [← hcard]; ring⟩
@@ -61,7 +61,7 @@ theorem q_cases {K : Type} [Field K] [Finite K] {q : ℕ} (hr : ringChar K ≠ 3
 
 theorem sigma_sigma {K : Type} [Field K] [Finite K] (σ : K ≃+* K) {q : ℕ}
     (hσ : ∀ c, σ c = c ^ q) (hK : Nat.card K = q ^ 2) (c : K) : σ (σ c) = c := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   rw [hσ, hσ, ← pow_mul, ← pow_two, ← hK, Nat.card_eq_fintype_card]
   exact FiniteField.pow_card c
 
@@ -72,6 +72,7 @@ variable {K : Type} [Field K] [Finite K] (σ : K ≃+* K) {q : ℕ}
 local notation "LeviJ" => twE6LongRootLevi (twE6RootSubgroup K σ e6HighestRoot)
   (twE6RootSubgroup K σ (-e6HighestRoot))
 
+omit [Finite K] in
 theorem card_orbitField_eq (hσ : ∀ c, σ c = c ^ q) (hK : Nat.card K = q ^ 2) {p f : ℕ}
     (hp : p.Prime) (hf : 1 ≤ f) (hq : q = p ^ f) (a : Fin TwistTag.E6.foldedTag.rank) :
     Nat.card (orbitField TwistTag.E6 K σ.toRingHom a) = q ^ (TwistTag.E6.orbit a).card := by
@@ -117,7 +118,7 @@ theorem xG_mem_levi (hr : ringChar K ≠ 3) (hσ : ∀ c, σ c = c ^ q) (hK : Na
         rw [this, xG_zero]
         exact one_mem _
       · classical
-        haveI := Fintype.ofFinite K
+        have := Fintype.ofFinite K
         obtain ⟨w, -, hw⟩ := Finset.exists_mem_notMem_of_card_lt_card
           (s := ({0, 1} : Finset K)) (t := Finset.univ)
           (by

@@ -47,7 +47,7 @@ theorem stroth1111_of_117_1110
     (h117 : Stroth117Statement) (h118 : Stroth118Statement) (h119 : Stroth119Statement)
     (h1110 : Stroth1110Statement) : Stroth1111Statement := by
   intro G _ _ M Q Z B hc n hw hn ha
-  haveI : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
+  have : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
   have hL : IsLmChar2 (XbarMod M Q Z B) := by
     rcases h117 G M Q Z B hc n hw hn ha with hl | hsp | hom
     · exact hl

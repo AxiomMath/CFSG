@@ -104,7 +104,7 @@ theorem mem_trivialOnQuot_of_good (h6 : Layer6Twin p f) (hyp : Hyp25 p f Ω K K'
   have hzE : z ∈ E := Subgroup.mem_sup_right (Subgroup.mem_zpowers z)
   have hEA : E ≤ (S : Subgroup G) ⊓ Subgroup.centralizer ((R ⊔ R' : Subgroup G) : Set G) :=
     sup_le (Subgroup.zpowers_le.mpr heA) (Subgroup.zpowers_le.mpr hzA)
-  have hE2 : IsPGroup 2 E := S.isPGroup'.to_le (hEA.trans inf_le_left)
+  have hE2 : IsPGroup 2 E := S.isPGroup.to_le (hEA.trans inf_le_left)
   have hEb : E ≤ Subgroup.centralizer ({b} : Set G) :=
     sup_le (Subgroup.zpowers_le.mpr heb) (Subgroup.zpowers_le.mpr
       (Subgroup.mem_centralizer_singleton_iff.mpr (hzS b hbA.1).symm))

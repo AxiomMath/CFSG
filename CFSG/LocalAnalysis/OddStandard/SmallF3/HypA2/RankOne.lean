@@ -22,8 +22,8 @@ private theorem ordA_one_le_252_of_odd_le_seven {q : ℕ} (hq : Odd q) (hq7 : q 
 theorem centralDatum_of_pRank_le_one (hGr : TBLit.GriessMultipliersOdd) (hD : DihedralStd)
     {K : Type} [Group K] [Finite K] (hK : IsQuasisimple K) (hO : oddCore K = ⊥)
     (hbig : 20160 ≤ Nat.card (K ⧸ center K)) (h1 : CFSG.pRank 2 K ≤ 1) : CentralDatum K := by
-  haveI : IsSimpleGroup (K ⧸ center K) := hK.2.1
-  haveI : Finite (K ⧸ center K) :=
+  have : IsSimpleGroup (K ⧸ center K) := hK.2.1
+  have : Finite (K ⧸ center K) :=
     Finite.of_surjective (QuotientGroup.mk' (center K)) (QuotientGroup.mk'_surjective (center K))
   have hnonab : ∃ a b : K ⧸ center K, a * b ≠ b * a := hK.2.2
   have hev : Even (Nat.card K) := by

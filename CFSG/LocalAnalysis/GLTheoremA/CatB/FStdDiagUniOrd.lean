@@ -71,8 +71,8 @@ theorem fstdUni_block {a m : ℕ} {E : Type} [Field E] [Finite E] (τ' : E ≃+*
           decide +kernel
         have hF : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 1 E :=
           ⟨Nat.prime_two, le_rfl, by rw [hE]; norm_num⟩
-        haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-        haveI : CharP E 2 :=
+        have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+        have : CharP E 2 :=
           (CharP.charP_iff_prime_eq_zero Nat.prime_two).2 (Y10GInnUni.two_eq_zero_of_card hE)
         have hSU : Nat.card ↥(heldSU 4 E τ' hτ') = 25920 := by
           have h := CFSG.RankThree.PartOne.KFU.card_statedSU_eq hF (n := 4) (by norm_num)

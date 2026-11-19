@@ -19,7 +19,7 @@ theorem a1_centralizer_card
     (α : Fin Tag.E6.rank → ℤ) (hJ : J ≤ rootSpan .E6 L {α, -α}) :
     Nat.card B ≤ 3 * Nat.card
       (B ⊓ Subgroup.centralizer (J : Set (ModGL .E6 L)) : Subgroup (ModGL .E6 L)) := by
-  haveI : Finite ↥(B ⊓ Subgroup.centralizer (J : Set (ModGL .E6 L))) :=
+  have : Finite ↥(B ⊓ Subgroup.centralizer (J : Set (ModGL .E6 L))) :=
     finite_inf_centralizer B J
   by_cases hα : IsRoot .E6 α
   · have hb := rank_one_bound B hBT hB3 α hα
@@ -58,7 +58,7 @@ theorem a2_centralizer_card
     (hαβ : IsRoot .E6 (α + β)) (hJ : J ≤ rootSpan .E6 L (a2roots α β)) :
     Nat.card B ≤ 9 * Nat.card
       (B ⊓ Subgroup.centralizer (J : Set (ModGL .E6 L)) : Subgroup (ModGL .E6 L)) := by
-  haveI : Finite ↥(B ⊓ Subgroup.centralizer (J : Set (ModGL .E6 L))) :=
+  have : Finite ↥(B ⊓ Subgroup.centralizer (J : Set (ModGL .E6 L))) :=
     finite_inf_centralizer B J
   have hb := rank_two_bound B hBT hB3 α β hα hβ hαβ
   have hcent : Subgroup.centralizer
@@ -80,7 +80,7 @@ theorem a2_centralizer_card_of_root_zero
       rootDiagUnit .E6 t ∈ B → rootChar t γ = 1) :
     Nat.card B ≤ 3 * Nat.card
       (B ⊓ Subgroup.centralizer (J : Set (ModGL .E6 L)) : Subgroup (ModGL .E6 L)) := by
-  haveI : Finite ↥(B ⊓ Subgroup.centralizer (J : Set (ModGL .E6 L))) :=
+  have : Finite ↥(B ⊓ Subgroup.centralizer (J : Set (ModGL .E6 L))) :=
     finite_inf_centralizer B J
   let f : (Fin Tag.E6.rank → Lˣ) →* ModGL .E6 L := rootDiagUnitHom .E6 L
   let T : Subgroup (Fin Tag.E6.rank → Lˣ) := B.comap f

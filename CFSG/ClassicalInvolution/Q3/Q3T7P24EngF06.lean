@@ -64,7 +64,7 @@ include C in
 theorem inf_S_eq_R' : K' ⊓ (S : Subgroup G) = R' := by
   have hR'syl : IsSylow2In R' K' := T7C.isSylow2In_of_mem_RSet_of_le
     C.hyp C.hK'tw.1 C.hd.hR'.1 C.hd.hR'.2.1
-  exact hR'syl.2.2 _ inf_le_left S.isPGroup'.to_inf_right (le_inf C.hd.hR'.2.1 C.hd.hR'.2.2)
+  exact hR'syl.2.2 _ inf_le_left S.isPGroup.to_inf_right (le_inf C.hd.hR'.2.1 C.hd.hR'.2.2)
 
 theorem card_R' : Nat.card ↥R' = 2 * Nat.card ↥(Subgroup.zpowers C.D.x₂) := by
   have h := Q3CL.Thompson.D_card C.D.c.hΩ C.D.c.hW C.D.F.ρ'.hR
@@ -122,7 +122,7 @@ theorem r_mul_x₁_zpow (k : ℤ) : C.D.F.ρ.r * C.D.x₁ ^ k = C.D.x₁ ^ (-k) 
 
 include C in
 theorem inf_S_eq_R : K ⊓ (S : Subgroup G) = R :=
-  C.hRsyl.2.2 _ inf_le_left S.isPGroup'.to_inf_right (le_inf C.hd.hR.2.1 C.hd.hR.2.2)
+  C.hRsyl.2.2 _ inf_le_left S.isPGroup.to_inf_right (le_inf C.hd.hR.2.1 C.hd.hR.2.2)
 
 theorem card_R : Nat.card ↥R = 2 * Nat.card ↥(Subgroup.zpowers C.D.x₁) := by
   have h := Q3CL.Thompson.D_card C.D.c.hΩ C.D.c.hW C.D.F.ρ.hR

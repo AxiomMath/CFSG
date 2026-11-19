@@ -110,7 +110,7 @@ theorem eY_mul_eq (X Y : Finset (Fin 24)) : eY X * eY Y = eY (symmDiff X Y) := b
   apply Multiplicative.toAdd.injective
   funext i
   simp only [toAdd_mul, Pi.add_apply, toAdd_eY, Finset.mem_symmDiff]
-  by_cases hx : i ∈ X <;> by_cases hy : i ∈ Y <;> simp [hx, hy] <;> decide
+  by_cases hx : i ∈ X <;> by_cases hy : i ∈ Y <;> simp [hx, hy]; decide
 
 theorem eq_of_inter_nonempty {X Y : Finset (Fin 24)} (hX : X.card = 4) (hY : Y.card = 4)
     (h : eY X * eY Y ∈ golayC) (hne : (X ∩ Y).Nonempty) : X = Y := by

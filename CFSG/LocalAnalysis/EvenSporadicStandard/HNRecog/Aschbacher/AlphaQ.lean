@@ -18,11 +18,11 @@ variable {C C' : Type} [Group C] [Group C'] [Finite C] [Finite C'] {Q : Subgroup
 theorem AschbacherHyp.map_mem_of_mem (hC : AschbacherHyp C Q) (hC' : AschbacherHyp C' Q')
     (α : ↥(commutator C) ≃* ↥(commutator C')) {l : ↥(commutator C)} (hl : (l : C) ∈ Q) :
     ((α l : ↥(commutator C')) : C') ∈ Q' := by
-  haveI : Finite Q := hC.plus.finite
-  haveI : Finite Q' := hC'.plus.finite
-  letI : Module (ZMod 2) (Additive (Abelianization Q)) :=
+  have : Finite Q := hC.plus.finite
+  have : Finite Q' := hC'.plus.finite
+  let : Module (ZMod 2) (Additive (Abelianization Q)) :=
     CFSG.GroupTheory.extraspecialQuotientModule hC.plus.isExtraspecialPGroup
-  letI : Module (ZMod 2) (Additive (Abelianization Q')) :=
+  let : Module (ZMod 2) (Additive (Abelianization Q')) :=
     CFSG.GroupTheory.extraspecialQuotientModule hC'.plus.isExtraspecialPGroup
   obtain ⟨θ, -, hθsurj, hθker, -, -, -⟩ := hC.exists_hom
   obtain ⟨θ', -, hθ'surj, hθ'ker, -, -, -⟩ := hC'.exists_hom
@@ -30,9 +30,9 @@ theorem AschbacherHyp.map_mem_of_mem (hC : AschbacherHyp C Q) (hC' : AschbacherH
     θ'.comp α.toMonoidHom
   have hfsurj : Function.Surjective f := hθ'surj.comp α.surjective
   let QL : Subgroup ↥(commutator C) := Q.subgroupOf (commutator C)
-  haveI hQLn : QL.Normal := (inferInstance : Q.Normal).subgroupOf (commutator C)
+  have hQLn : QL.Normal := (inferInstance : Q.Normal).subgroupOf (commutator C)
   let K : Subgroup (alternatingGroup (Fin 5) × alternatingGroup (Fin 5)) := QL.map f
-  haveI hKn : K.Normal := hQLn.map f hfsurj
+  have hKn : K.Normal := hQLn.map f hfsurj
   have hcard : Nat.card Q = 2 ^ 9 := by simpa using hC.plus.2.1
   have hK : ∀ p ∈ K, ∃ k : ℕ, p ^ (2 ^ k) = 1 := by
     intro p hp

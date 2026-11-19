@@ -39,7 +39,7 @@ theorem closK_sound {X CA CB IMG : ℕ → ℕ} {N S hi nc : ℕ}
   obtain ⟨hS0, hc, e⟩ := chunk_at hN hi
   have h1 := allBelow_g2 (h _ hc) hS (i % S) (Nat.mod_lt _ hS0)
   dsimp only at h1
-  rw [e, Nat.blt_eq.mpr hi, cond_true] at h1
+  rw [e, Nat.blt_eq.mpr hi, _root_.Bool.cond_true] at h1
   simp only [clStep, Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq] at h1
   obtain ⟨⟨⟨⟨a0, b0⟩, a1, b1⟩, a2, b2⟩, a3, b3⟩ := h1
   interval_cases k
@@ -57,14 +57,14 @@ theorem forK_sound {X HA HB LAB HP HS ROOTS : ℕ → ℕ} {N nh m S hi nc : ℕ
   obtain ⟨hS0, hc, e⟩ := chunk_at hN hi
   have h1 := allBelow_g2 (h _ hc) hS (i % S) (Nat.mod_lt _ hS0)
   dsimp only at h1
-  rw [e, Nat.blt_eq.mpr hi, cond_true] at h1
+  rw [e, Nat.blt_eq.mpr hi, _root_.Bool.cond_true] at h1
   unfold forStep at h1
   rw [Bool.and_eq_true, Bool.and_eq_true, Nat.blt_eq] at h1
   obtain ⟨⟨hcan, hl⟩, hr⟩ := h1
   refine ⟨hcan, hl, ?_⟩
   by_cases hroot : ROOTS (LAB i) = i
   · exact Or.inl hroot
-  · rw [primBeq_false hroot, cond_false] at hr
+  · rw [primBeq_false hroot, Bool.cond_false] at hr
     simp only [Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq] at hr
     obtain ⟨⟨⟨a, b⟩, c⟩, d⟩ := hr
     exact Or.inr ⟨a, b, c, d⟩
@@ -87,7 +87,7 @@ theorem rootK_sound {X GA GB RA RB RL RC ROOTS : ℕ → ℕ} {N m hi : ℕ}
   rw [Bool.and_eq_true, Nat.beq_eq] at h
   refine ⟨h.1, fun q hq hq0 => ?_⟩
   have h1 := allBelow_g2 h.2 hm q hq
-  rw [primBeq_false (by omega : q ≠ 0), cond_false] at h1
+  rw [primBeq_false (by omega : q ≠ 0), Bool.cond_false] at h1
   simp only [Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq] at h1
   obtain ⟨⟨⟨a, b⟩, c⟩, d⟩ := h1
   exact ⟨a, b, c, d⟩
@@ -110,7 +110,7 @@ theorem trK_sound {X RA RB LAB TP TD EU EV : ℕ → ℕ} {N m hi : ℕ}
     rw [Nat.add_comm, Nat.add_mul_mod_self_right, Nat.mod_eq_of_lt hq]
   dsimp only at h1
   rw [ed, em, primBeq_false (by omega : j ≠ 0), primBeq_false (by omega : q ≠ 0), Bool.or_false,
-    cond_false] at h1
+    Bool.cond_false] at h1
   simp only [Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq] at h1
   obtain ⟨⟨⟨⟨⟨⟨a, b⟩, c⟩, d⟩, e⟩, f⟩, g⟩ := h1
   exact ⟨a, b, c, d, e, f, g⟩

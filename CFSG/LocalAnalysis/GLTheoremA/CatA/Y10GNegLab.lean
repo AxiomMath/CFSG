@@ -41,8 +41,8 @@ theorem transport_twA52 {S : Type} [Group S] [Finite S]
     all_goals omega
   obtain ⟨-, F, hFi, hFf, hF, ⟨e⟩⟩ := hsc6
   have hF' : Nat.card F = (2 ^ 2) ^ 2 := hF
-  haveI : CharP F 2 := CFSG.LocalAnalysis.GLTheoremA.SFM12.charP_two_of_card hF'
-  haveI : Finite F := hFf
+  have : CharP F 2 := CFSG.LocalAnalysis.GLTheoremA.SFM12.charP_two_of_card hF'
+  have : Finite F := hFf
   let Φ0 : S ≃* S ⧸ Subgroup.center S :=
     QuotientGroup.quotientBot.symm.trans (QuotientGroup.quotientMulEquivOfEq hZ.symm)
   exact ⟨F, hFi, inferInstance, inferInstance, hFf, hF',

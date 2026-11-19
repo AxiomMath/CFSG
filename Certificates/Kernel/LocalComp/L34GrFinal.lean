@@ -287,7 +287,6 @@ theorem Y_facts {x₀ : Equiv.Perm (Fin 42)}
   have hYq := CFSG.KS.Raw.Orb.allN_iff.1 hY q hq
   beta_reduce at hYq
   rw [CFSG.KC.L34Norm.strictB_eq] at hYq
-  beta_reduce at hYq
   rw [inY_of cX0 hx₀ hb hi hrep hρx] at hYq
   have hP : yPt (pidn 42 6) X0 (L34R.T (L34N.J q / 32)) = true := hYq
   unfold yPt at hP
@@ -310,14 +309,12 @@ theorem Y_facts {x₀ : Equiv.Perm (Fin 42)}
     have hBq := CFSG.KS.Raw.Orb.allN_iff.1 hB q' hq'
     beta_reduce at hBq
     rw [CFSG.KC.L34Norm.strictB_eq] at hBq
-    beta_reduce at hBq
     rw [inY_of cX0 hx₀ hb' hi' hrep' hρ'x] at hBq
     have hBq' : strictB (L34R.T (L34N.J q' / 32)) (fun r' =>
         orB (notB (Nat.beq (sq r') (pidn 42 6))) (orB (Nat.beq r' (pidn 42 6))
           (orB (notB (commPt 42 6 (L34R.T (L34N.J q / 32)) r'))
             (Nat.beq (L34R.T (L34N.J q / 32)) r')))) = true := hBq
     rw [CFSG.KC.L34Norm.strictB_eq] at hBq'
-    beta_reduce at hBq'
     have h3 := orB_not hBq' ((beqP cs' cE hs' hE).2 (by rw [← pow_two]; exact h2'))
     rcases CFSG.KC.L34KSnd.orB_iff.1 h3 with h | h
     · exact absurd ((beqP cr' cE hrep' hE).1 h) h1'
@@ -327,7 +324,6 @@ theorem Y_facts {x₀ : Equiv.Perm (Fin 42)}
     have hCk := CFSG.KS.Raw.Orb.allN_iff.1 hC k hk
     beta_reduce at hCk
     rw [CFSG.KC.L34Norm.strictB_eq] at hCk
-    beta_reduce at hCk
     have h3 := orB_not hCk (CFSG.KC.L34KSnd.andB_iff.2
       ⟨(commP ct cX0 hτrep hx₀).2 hτx, (commP ct cr hτrep hrep).2 hτρ⟩)
     obtain ⟨csx, hsx⟩ := sqP cX0 hx₀
@@ -372,7 +368,6 @@ theorem conj_x0 {x₀ : Equiv.Perm (Fin 42)}
     exact Bool.noConfusion h
   obtain ⟨q, hq, h⟩ := CFSG.KC.L34Norm.anyN_iff.1 h
   rw [CFSG.KC.L34Norm.strictB_eq] at h
-  beta_reduce at h
   obtain ⟨hb, hc⟩ := CFSG.KC.L34KSnd.andB_iff.1 h
   have hi := J_lt hq
   have hb' : L34N.J q / 4 % 2 = 1 := Nat.eq_of_beq_eq_true hb
@@ -401,7 +396,7 @@ theorem spec :
   refine ⟨T0, T0_le_S, card_T0, fun x hxS hxN hx3 hx1 => ?_⟩
   obtain ⟨g, hgR, hgS, rfl⟩ := conj_x0 cX0 hx₀ hxS hxN hx3 hx1
   let κ : Equiv.Perm (Fin 42) →* Equiv.Perm (Fin 42) := (MulAut.conj g⁻¹).toMonoidHom
-  have hκ : ∀ y, κ y = g⁻¹ * y * g⁻¹⁻¹ := fun y => by simp [κ, MulAut.conj_apply]
+  have hκ : ∀ y, κ y = g⁻¹ * y * g⁻¹⁻¹ := fun y => by simp [κ]
   have hκ' : ∀ y, κ y = g⁻¹ * y * g := fun y => by rw [hκ, inv_inv]
   have hκinj : Function.Injective κ := (MulAut.conj g⁻¹).injective
   have hκ1 : ∀ y, κ y = 1 → y = 1 := fun y hy => hκinj (by rw [hy, map_one])

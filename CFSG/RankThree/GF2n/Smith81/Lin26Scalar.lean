@@ -23,6 +23,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z : Subgroup G}
       LinearMap.det (U.restrict h₁) = 1 →
       ∃ s ∈ M, ∀ x ∈ Q, R.M₀.π (s * x * s⁻¹) = U (R.M₀.π x)
 
+omit [Finite G] in
 theorem RestModel.B_of_qf (R : RestModel M Q Z n V₁ V₂) (g : R.M₀.E →ₗ[R.K] R.M₀.E) (ν : R.K)
     (h : ∀ e, R.M₀.Qf (g e) = ν * R.M₀.Qf e) (e e' : R.M₀.E) :
     R.M₀.B (g e) (g e') = ν * R.M₀.B e e' := by
@@ -30,6 +31,7 @@ theorem RestModel.B_of_qf (R : RestModel M Q Z n V₁ V₂) (g : R.M₀.E →ₗ
   rw [← map_add g, h (e + e'), h e, h e', R.M₀.Qf_add e e'] at h1
   linear_combination -h1
 
+omit [Finite G] in
 theorem RestModel.perfect (R : RestModel M Q Z n V₁ V₂) :
     (∀ a ∈ R.W₁, (∀ b ∈ R.W₂, R.M₀.B a b = 0) → a = 0) ∧
       (∀ b ∈ R.W₂, (∀ a ∈ R.W₁, R.M₀.B a b = 0) → b = 0) := by

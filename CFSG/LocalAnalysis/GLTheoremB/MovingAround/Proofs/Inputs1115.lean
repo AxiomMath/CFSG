@@ -144,6 +144,7 @@ theorem exists_glaPComponent_cover {p : ℕ} (hp : p.Prime) {X Y K : Subgroup G}
   exact CFSG.HardMathSupport.Solomon.LocalBalance.Lemma53Ns.eq_of_perfect_subnormal_of_quasisimple
     hK.2.2.1.2.2 hle hsn hperf hne
 
+omit [Finite G] in
 theorem le_glaPPrimeCoreOf_of_le_normalizer {p : ℕ} {X N : Subgroup G} (hNX : N ≤ X)
     (hXN : X ≤ Subgroup.normalizer (N : Set G)) (hc : Nat.Coprime p (Nat.card N)) :
     N ≤ GLAPPrimeCoreOf p X := by
@@ -154,13 +155,14 @@ theorem le_glaPPrimeCoreOf_of_le_normalizer {p : ℕ} {X N : Subgroup G} (hNX : 
   calc N = (N.subgroupOf X).map X.subtype := (Subgroup.map_subgroupOf_eq_of_le hNX).symm
     _ ≤ GLAPPrimeCoreOf p X := Subgroup.map_mono hle
 
+omit [Finite G] in
 theorem le_of_isPGroup_le_sup {p : ℕ} {N O P : Subgroup G}
     (hO : p.Coprime (Nat.card O)) (hON : O ≤ Subgroup.normalizer (N : Set G))
     (hP : IsPGroup p ↥P) (hPNO : P ≤ N ⊔ O) : P ≤ N := by
   have hNA : N ≤ N ⊔ O := le_sup_left
   have hOA : O ≤ N ⊔ O := le_sup_right
   have hAN : N ⊔ O ≤ Subgroup.normalizer (N : Set G) := sup_le Subgroup.le_normalizer hON
-  haveI : (N.subgroupOf (N ⊔ O)).Normal :=
+  have : (N.subgroupOf (N ⊔ O)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNA).2 hAN
   have hidx : p.Coprime (N.subgroupOf (N ⊔ O)).index := by
     have htop : O.subgroupOf (N ⊔ O) ⊔ N.subgroupOf (N ⊔ O) = ⊤ := by
@@ -188,7 +190,7 @@ theorem le_of_isPGroup_le_sup {p : ℕ} {N O P : Subgroup G}
 omit [Finite G] in
 theorem ne_bot_of_isQuasisimple {K : Subgroup G} (hK : CFSG.Open.IsQuasisimple ↥K) : K ≠ ⊥ := by
   intro hbot
-  haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hK.2
+  have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hK.2
   obtain ⟨x, y, hxy⟩ := exists_pair_ne (↥K ⧸ Subgroup.center ↥K)
   apply hxy
   obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective x
@@ -203,7 +205,7 @@ theorem commutator_eq_bot_of_normalizes_coprime {Γ : Type} [Group Γ] [Finite �
     ⁅K, U⁆ = ⊥ := by
   have hUH : U ≤ U ⊔ K := le_sup_left
   have hKH : K ≤ U ⊔ K := le_sup_right
-  haveI hnorm : (U.subgroupOf (U ⊔ K)).Normal :=
+  have hnorm : (U.subgroupOf (U ⊔ K)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hUH).2 (sup_le Subgroup.le_normalizer hKU)
   rcases CFSG.ComponentClassification.LocalComponents.normal_contains_or_commutes
       (K.subgroupOf (U ⊔ K)) (U.subgroupOf (U ⊔ K))
@@ -261,17 +263,17 @@ theorem twoLocal_ne_top {m p : ℕ} (hS : GLStanding G m p) {H : Subgroup G} (hH
   intro htop
   obtain ⟨P, hP1, hP2, hHP⟩ := hH
   have hPn : P.Normal := Subgroup.normalizer_eq_top_iff.1 (hHP ▸ htop)
-  haveI := hS.simple
+  have := hS.simple
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal P with hb | ht
   · exact hP1 hb
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hG2 : IsPGroup 2 G := by
       rw [ht] at hP2
       exact hP2.of_equiv Subgroup.topEquiv
-    haveI : Nontrivial G := by
+    have : Nontrivial G := by
       obtain ⟨a, b, hab⟩ := hS.nonabelian
       exact ⟨⟨a * b, b * a, hab⟩⟩
-    haveI := hG2.center_nontrivial
+    have := hG2.center_nontrivial
     have hZ : Subgroup.center G = ⊤ := by
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center G) with hz | hz
       · exfalso
@@ -371,6 +373,7 @@ theorem layer_cg_le_layer (hS : CFSG.ComponentClassification.CatalogueRelativeB.
     Nat.prime_three (Subgroup.zpowers_le.2 haH) ha
   rwa [Subgroup.zpowers_eq_closure, Subgroup.centralizer_closure] at h
 
+omit [Finite G] in
 theorem jLayer_perfect {a : G} (H : Subgroup G) :
     ⁅Lemma1115.jLayer a H, Lemma1115.jLayer a H⁆ = Lemma1115.jLayer a H := by
   refine le_antisymm (Subgroup.commutator_le_self _) ?_
@@ -419,7 +422,7 @@ theorem input1115TNorm_of_inputs
     refine le_antisymm (hLJ' l hl) ?_
     have := gLBConj_mono l (hLJ' l⁻¹ (L.inv_mem hl))
     rwa [gLBConj_gLBConj_inv] at this
-  haveI hJn : (J.subgroupOf L).Normal :=
+  have hJn : (J.subgroupOf L).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hJL).2 hLNJ
   have hA0K : E ⊓ A ≤ K := by
     rw [(h1112 h).2.1]
@@ -591,7 +594,7 @@ theorem mk_eq_mk {p : ℕ} {X : Subgroup G} {x y : G} (hx : x ∈ X) (hy : y ∈
 
 theorem le_of_pElements {p : ℕ} (hp : p.Prime) {Y J N : Subgroup G} (hJ : GLAPComponent p Y J)
     (h : ∀ x ∈ J, (∃ k : ℕ, x ^ p ^ k = 1) → x ∈ N) : J ≤ N := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hJY : J ≤ Y := hJ.1
   have h1 : CFSG.IsPComponent p (J.subgroupOf Y) :=
     ((CFSG.HardMathSupport.Solomon.Coordinator.i183_glaPComponent_iff_isPComponent hp).1 hJ).2
@@ -614,7 +617,7 @@ theorem le_of_pElements {p : ℕ} (hp : p.Prime) {Y J N : Subgroup G} (hJ : GLAP
 theorem cover_transfer {m : ℕ} {B M E A : Subgroup G} {a : G} {K : Subgroup G}
     (h : Cex117 G m 3 B M E A a K) {H : Subgroup G} (hH : InHFamily A K a H) {N : Subgroup G}
     (haT : a ∈ N) (hcov : Covers 3 H (N ⊓ H) (Lemma1115.jLayer a H)) : Covers 3 (Cg a) N K := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hAH : A ≤ H := hH.2.1
   have ha : a ∈ A := h.ha.1
   have haH : a ∈ H := hAH ha
@@ -800,7 +803,7 @@ theorem lemma1115_ii_of_pushUp
   obtain ⟨rfl, -, -⟩ := h1111 h
   have hT2 : IsPGroup 2 ↥T := hT.2.1
   have hcopT : Nat.Coprime 3 (Nat.card T) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hT2
     rw [hn]
     exact Nat.Coprime.pow_right n (by norm_num)

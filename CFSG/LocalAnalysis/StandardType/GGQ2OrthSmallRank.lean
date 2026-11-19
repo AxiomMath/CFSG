@@ -125,13 +125,13 @@ theorem orthSmallRankVacuous_of_existsUnitFrame (hU : UnitPlacement.ExistsUnitFr
   have hbot := osr_centralizer_inf_eq_bot hE hC
   by_cases ht : Even t
   · have hlab' := hlab
-    simp only [planeAmbientLabel, if_pos ht] at hlab'
+    simp only [planeAmbientLabel, ite_eq_left ht] at hlab'
     have hrank : t + δ.val = 3 := by
       have h3 := osr_le_of_inLambda2_D hlab'
       omega
     have hraw' := hraw
-    simp only [planeAmbientLabel, if_pos ht] at hraw'
-    simp only [LargeEvenRawDatumLegacy, if_pos hrank] at hraw'
+    simp only [planeAmbientLabel, ite_eq_left ht] at hraw'
+    simp only [LargeEvenRawDatumLegacy, ite_eq_left hrank] at hraw'
     obtain ⟨K, _, _, hK, hQK⟩ := hraw'
     obtain ⟨_, _, θ, _, hEN, hInd⟩ := hQK
     have hK2 : Nat.card K = 2 := by
@@ -139,11 +139,11 @@ theorem orthSmallRankVacuous_of_existsUnitFrame (hU : UnitPlacement.ExistsUnitFr
       exact hK
     exact card_lt_three_pow_four_of_linearRecipe (Or.inl ⟨rfl, hK2⟩) hperf hE hEN hbot hInd
   · have hlab' := hlab
-    simp only [planeAmbientLabel, if_neg ht] at hlab'
+    simp only [planeAmbientLabel, ite_eq_right ht] at hlab'
     have hraw' := hraw
-    simp only [planeAmbientLabel, if_neg ht] at hraw'
+    simp only [planeAmbientLabel, ite_eq_right ht] at hraw'
     by_cases h2 : t + δ.val = 2
-    · simp only [LargeEvenRawDatumLegacy, if_pos h2] at hraw'
+    · simp only [LargeEvenRawDatumLegacy, ite_eq_left h2] at hraw'
       obtain ⟨K, _, _, hK, hQK⟩ := hraw'
       obtain ⟨_, _, θ, _, hEN, hInd⟩ := hQK
       have hK4 : Nat.card K = 4 := by
@@ -153,7 +153,7 @@ theorem orthSmallRankVacuous_of_existsUnitFrame (hU : UnitPlacement.ExistsUnitFr
     · have h3 : t + δ.val = 3 := by
         have h2' := osr_le_of_inLambda2_twD hlab'
         omega
-      simp only [LargeEvenRawDatumLegacy, if_neg h2, if_pos h3] at hraw'
+      simp only [LargeEvenRawDatumLegacy, ite_eq_right h2, ite_eq_left h3] at hraw'
       obtain ⟨K, _, _, hK, hQK⟩ := hraw'
       obtain ⟨_, _, θ, _, hEN, hInd⟩ := hQK
       have hK4 : Nat.card K = 4 := by

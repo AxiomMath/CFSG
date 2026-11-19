@@ -24,7 +24,7 @@ open CFSG.Open CFSG.LieType.Chevalley CFSG.LieType.Steinberg.Adjoint CFSG.LieTyp
 private theorem asmComp_not_isSolvable_of_isQuasisimple {C : Type*} [Group C]
     (hQ : CFSG.IsQuasisimple C) : ¬ Group.IsSolvable C := by
   obtain ⟨hperf, hsimple, -⟩ := hQ
-  haveI : IsSimpleGroup (C ⧸ Subgroup.center C) := hsimple
+  have : IsSimpleGroup (C ⧸ Subgroup.center C) := hsimple
   have : Nontrivial C := (QuotientGroup.mk_surjective (s := Subgroup.center C)).nontrivial
   exact Group.IsPerfect.not_isSolvable C
 
@@ -39,7 +39,7 @@ private theorem asmComp_a_eq_corootPair
     (b' : Bs)
     (hb' : Multiplicative.toAdd (coord b') = corootCoord p S α) :
     B.a b' = fun j => B.ζ ^ corootPair (ggLangReidx B.rank_eq α) (Pi.single j 1) := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hζ : B.ζ ^ p = 1 := by
     have h := pow_orderOf_eq_one B.ζ
     rwa [B.ζ_order] at h

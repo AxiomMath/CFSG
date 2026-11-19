@@ -127,7 +127,7 @@ theorem cp_4B_AB_mem (h : F5Std a z) {y : G} (hy : y ∈ orb4B a a) {t : G}
 
 theorem cp_isInvReps_4B (h : F5Std a z) {y : G} (hy : y ∈ orb4B a a) :
     IsInvReps a y (InvIn (Gxy a y)) := by
-  refine ⟨fun t ht => ht, fun t ht => ⟨t, ht, ⟨1, Subgroup.one_mem _, by simp [ConjIn]⟩⟩, ?_⟩
+  refine ⟨fun t ht => ht, fun t ht => ⟨t, ht, ⟨1, Subgroup.one_mem _, by simp⟩⟩, ?_⟩
   obtain ⟨hcinv, hceq⟩ := cp_central_inv h hy.1 (k := 2) (Or.inl hy.2)
   apply le_antisymm
   · rw [Subgroup.closure_le]

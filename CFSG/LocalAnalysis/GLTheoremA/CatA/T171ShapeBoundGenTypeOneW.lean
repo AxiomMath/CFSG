@@ -80,8 +80,8 @@ theorem linTypeOne_commuting_of_wSetup (hLB : LinBlockInnDiag)
 
 theorem uniTypeOne_commuting_of_wSetup (hUB : UniBlockInnDiag)
     {G : Type} [Group G] [Finite G] {p N n : ℕ} {L J A : Subgroup G} {d b : G}
-    {K : Type} [Field K] [Finite K] (h : UnitaryFieldData 2 n K) (hp : p.Prime)
-    (hpq : p ∣ 2 ^ n + 1) (hN : 3 ≤ N) (hNq : (N, 2 ^ n) ≠ (3, 2))
+    {K : Type} [Field K] [Finite K] (h : UnitaryFieldData 2 n K) (_hp : p.Prime)
+    (_hpq : p ∣ 2 ^ n + 1) (hN : 3 ≤ N) (hNq : (N, 2 ^ n) ≠ (3, 2))
     {θ : ↥L ⧸ Subgroup.center ↥L ≃* LargeEvenProj (unitarySU 2 n K N)}
     {hact : ∀ a ∈ A, ∃ φ ∈ LargeEvenMatConjImage
       (LargeEvenProjMk (unitarySU 2 n K N)) (LargeEvenGUSet (Fin N) K (2 ^ n)),

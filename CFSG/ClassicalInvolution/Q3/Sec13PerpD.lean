@@ -86,6 +86,7 @@ private theorem perpD_exists_rep (h : EndHyp Ω) {W : Subgroup G} (hW : W ∈ WS
     ⟨le_rfl, h.thmD.two R hRΩ, fun _ hVR _ hRV => le_antisymm hVR hRV⟩
   exact ⟨⟨R, R, r, hRΩ, hR, hRR, hr, hrW⟩, rfl⟩
 
+omit [Finite G] in
 private theorem perpD_rep_K_mem (h : EndHyp Ω) {W : Subgroup G} (ρ : Thompson.Rep Ω W) :
     ρ.K ∈ DSet Ω W := by
   have hRK : ρ.R = ρ.K :=
@@ -93,6 +94,7 @@ private theorem perpD_rep_K_mem (h : EndHyp Ω) {W : Subgroup G} (ρ : Thompson.
   rw [← hRK]
   exact ρ.hR
 
+omit [Finite G] in
 private theorem perpD_mem_KPerp_iff {R T : Subgroup G} :
     T ∈ KPerp Ω R ↔ T = R ∨ T ∈ omegaNbr Ω R :=
   Iff.rfl
@@ -158,6 +160,7 @@ private theorem perpD_ncard_eq (h : EndHyp Ω) {W : Subgroup G} (hW : W ∈ WSet
   rw [← himg]
   exact hinj.ncard_image.symm
 
+omit [Finite G] in
 private theorem perpD_not_S3_and_S4 {W : Subgroup G} (h3 : MuIsoS3 Ω W) (h4 : MuIsoS4 Ω W) :
     False := by
   obtain ⟨e3⟩ := h3
@@ -228,6 +231,7 @@ theorem dSet_class_ncard (h : EndHyp Ω) {W : Subgroup G} (hW : W ∈ WSet Ω)
     · exact ((Q3CL.Wyl.not_muIsoS3_or_S4 hw).2 (hcl.2.1 hk)).elim
     · exact hk
 
+omit [Finite G] in
 private theorem perpD_isPGroup_sup_finset {C : Set (Subgroup G)}
     (h2 : ∀ T ∈ C, IsPGroup 2 (T : Subgroup G))
     (hcomm : ∀ R ∈ C, ∀ T ∈ C, R ≠ T → ∀ x ∈ R, ∀ y ∈ T, x * y = y * x) :
@@ -249,6 +253,7 @@ private theorem perpD_isPGroup_sup_finset {C : Set (Subgroup G)}
     rw [Finset.sup_insert]
     exact IsPGroup.to_sup_of_normal_left' (h2 R hRC) (ih hFC) hN
 
+omit [Finite G] in
 private theorem perpD_le_normalizer_of_invariant {S : Subgroup G} {η : Set (Subgroup G)}
     (hinv : ∀ s ∈ S, ∀ V ∈ η, conjSub s V ∈ η) :
     S ≤ Subgroup.normalizer ((⨆ V ∈ η, V : Subgroup G) : Set G) := by
@@ -283,6 +288,7 @@ private theorem perpD_clique_sub_kPerp (h : EndHyp Ω) {C : Set (Subgroup G)} (h
   · refine Or.inr ((TC.mem_omegaNbr_iff h.thmD.hyp h.thmD.two).mpr ⟨hC hT, hTR, ?_⟩)
     exact Asc77.AscL62.le_normalizer_of_commutes (hcomm T hT R hR hTR)
 
+omit [Finite G] in
 private theorem perpD_le_normalizer_conj_iff (g : G) (X V : Subgroup G) :
     X ≤ Subgroup.normalizer ((conjSub g V : Subgroup G) : Set G) ↔
       conjSub g⁻¹ X ≤ Subgroup.normalizer (V : Set G) := by
@@ -291,6 +297,7 @@ private theorem perpD_le_normalizer_conj_iff (g : G) (X V : Subgroup G) :
   rw [inv_inv] at h
   exact h.symm
 
+omit [Finite G] in
 private theorem perpD_mem_dSet_conj_iff (h : EndHyp Ω) (g : G) (X V : Subgroup G) :
     X ∈ DSet Ω (conjSub g V) ↔ conjSub g⁻¹ X ∈ DSet Ω V := by
   rw [h.mem_dSet_iff, h.mem_dSet_iff, perpD_le_normalizer_conj_iff]

@@ -134,7 +134,7 @@ private theorem sp4TwoNat_involution_aux (K : Type) [Field K] [Finite K]
     · obtain ⟨c, hBc⟩ := hBscalar
       have hc0 : c ≠ 0 := by
         rintro rfl
-        have hB0 : (B : Matrix (Fin 2) (Fin 2) K) = 0 := by simpa using hBc
+        have hB0 : (B : Matrix (Fin 2) (Fin 2) K) = 0 := by simp at hBc
         have hone : (1 : Matrix (Fin 2) (Fin 2) K) = 0 := by
           calc (1 : Matrix (Fin 2) (Fin 2) K)
               = (B : Matrix (Fin 2) (Fin 2) K) *
@@ -195,7 +195,7 @@ private theorem sp4TwoNat_involution_aux (K : Type) [Field K] [Finite K]
           rw [Finset.sum_eq_single p.1]
           · simp [Pi.smul_apply]
           · intro b _ hb
-            simp [Matrix.one_apply, hb, Ne.symm hb]
+            simp [Ne.symm hb]
           · intro hp
             exact (hp (Finset.mem_univ _)).elim
         rw [hsum, hAlin' c (fun i => v (p.1, i))]

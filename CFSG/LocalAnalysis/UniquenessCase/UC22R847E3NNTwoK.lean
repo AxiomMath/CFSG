@@ -221,7 +221,7 @@ theorem R847E3.isAlt_of_kf7Use {D : Data G} (hKF7 : KF7Use D) {p : ℕ} (hp : p 
         (QuotientGroup.mk' (CFSG.pPrimeCore p ↥H))) :=
       Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hle)
         (Subgroup.inclusion_injective hle)
-    exact absurd (solvable_of_surjective hf) (Group.IsPerfect.not_isSolvable S)
+    exact absurd (Group.isSolvable_of_surjective hf) (Group.IsPerfect.not_isSolvable S)
   · obtain ⟨P, hPperf, hPmap⟩ := PartOne.Section9.exists_perfect_map_eq_top f hf
     let N := (W.subgroupOf H).map (QuotientGroup.mk' (CFSG.pPrimeCore p ↥H))
     let e := P.equivMapOfInjective N.subtype N.subtype_injective

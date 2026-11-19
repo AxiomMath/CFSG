@@ -12,6 +12,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem s16c1_actTil_fix_of_mem_centralizer {V₀ V : Subgroup G} {hV : IsElemAbelian 2 V}
     {x : IntMod V hV} {g : stabTil V₀ V} (hg : (g : G) ∈ centralizer ({x.val} : Set G)) :
     actTil V₀ V hV g (mkTil V₀ V hV x) = mkTil V₀ V hV x := by
@@ -31,8 +32,9 @@ private theorem s16c1_subgroupOf_perfectCore {H K : Subgroup G} (hHK : H ≤ K) 
   rw [h1]
   exact Subgroup.comap_map_eq_self_of_injective K.subtype_injective _
 
+omit [Finite G] in
 theorem s16c1_barSub_cent_le {V₀ V L : Subgroup G} {hV : IsElemAbelian 2 V}
-    (hL : L ≤ stabTil V₀ V) (x : IntMod V hV) :
+    (_hL : L ≤ stabTil V₀ V) (x : IntMod V hV) :
     barSub V₀ V hV (centralizer ({x.val} : Set G) ⊓ L) ≤
       ptCent (lBar V₀ V hV L) (mkTil V₀ V hV x) := by
   intro φ hφ
@@ -111,7 +113,7 @@ theorem s16c1_relIndex_cent_le_card {V₀ V L : Subgroup G} {hV : IsElemAbelian 
 theorem s16c1_barSub_perfectCore {V₀ V : Subgroup G} {hV : IsElemAbelian 2 V} {K : Subgroup G}
     (hK : K ≤ stabTil V₀ V) :
     barSub V₀ V hV (perfectCore K) = perfectCore (barSub V₀ V hV K) := by
-  haveI : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
+  have : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
   unfold barSub
   rw [s16c1_subgroupOf_perfectCore hK, map_perfectCore]
 
@@ -121,13 +123,13 @@ theorem s16c1_barSub_xInf_eq {V₀ V L : Subgroup G} {hV : IsElemAbelian 2 V}
         ptCent (lBar V₀ V hV L) (mkTil V₀ V hV x)⁆ =
       ptCent (lBar V₀ V hV L) (mkTil V₀ V hV x)) :
     barSub V₀ V hV (xInf L x.val) = ptCent (lBar V₀ V hV L) (mkTil V₀ V hV x) := by
-  haveI : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
+  have : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
   have hBP : barSub V₀ V hV (centralizer ({x.val} : Set G) ⊓ L) ≤
       ptCent (lBar V₀ V hV L) (mkTil V₀ V hV x) := s16c1_barSub_cent_le hL x
   have hidx : (barSub V₀ V hV (centralizer ({x.val} : Set G) ⊓ L)).relIndex
       (ptCent (lBar V₀ V hV L) (mkTil V₀ V hV x)) ≤ 4 :=
     le_trans (s16c1_relIndex_cent_le_card hL x) hcard
-  haveI : Finite ↥(ptCent (lBar V₀ V hV L) (mkTil V₀ V hV x)) := Subtype.finite
+  have : Finite ↥(ptCent (lBar V₀ V hV L) (mkTil V₀ V hV x)) := Subtype.finite
   have hPB : ptCent (lBar V₀ V hV L) (mkTil V₀ V hV x) ≤
       barSub V₀ V hV (centralizer ({x.val} : Set G) ⊓ L) :=
     CFSG.Quasithin.Background.Harris.R1.perfect_le_of_index_le_four

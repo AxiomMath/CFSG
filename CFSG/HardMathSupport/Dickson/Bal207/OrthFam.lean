@@ -67,11 +67,11 @@ theorem mulAut_congr_conj {S S' : Type*} [Group S] [Group S'] (e : S ≃* S') (s
 
 theorem compShape_of_unique {T : ∀ (Q : Type) [Group Q], Prop} {S : Type} [Group S]
     {β : MulAut S} (hl : PerfectInLayer β)
-    (hT : ∀ L : Subgroup S, IsComponentOf L (Solomon.Coordinator.fixSubgroup β) →
-      T (↥L ⧸ Subgroup.center ↥L))
-    (hu : ∀ L L' : Subgroup S, IsComponentOf L (Solomon.Coordinator.fixSubgroup β) →
-      IsComponentOf L' (Solomon.Coordinator.fixSubgroup β) → L = L') : CompShape T β :=
-  ⟨hl, hT, fun _ hω L hL => hu _ _ (isComponentOf_map_of_commute_w hω hL) hL⟩
+    (hT : ∀ _L : Subgroup S, IsComponentOf _L (Solomon.Coordinator.fixSubgroup β) →
+      T (↥_L ⧸ Subgroup.center ↥_L))
+    (hu : ∀ _L L' : Subgroup S, IsComponentOf _L (Solomon.Coordinator.fixSubgroup β) →
+      IsComponentOf L' (Solomon.Coordinator.fixSubgroup β) → _L = L') : CompShape T β :=
+  ⟨hl, hT, fun _ hω _L hL => hu _ _ (isComponentOf_map_of_commute_w hω hL) hL⟩
 
 theorem exists_coords_of_model {S : Type} [Group S] {t : StatedLieTag} {n f : ℕ}
     (hcase : (t = .POmegaPlus ∧ Even n ∧ (6 ≤ n ∨ (n = 4 ∧ f = 1))) ∨
@@ -88,12 +88,12 @@ theorem exists_coords_of_model {S : Type} [Group S] {t : StatedLieTag} {n f : �
   have hd : 0 < 2 * n := by rcases hcase with ⟨-, -, h | ⟨h, -⟩⟩ | ⟨-, -, h⟩ <;> omega
   have hchar : ∀ {F : Type} [Field F] [Finite F], Nat.card F = 2 ^ f → CharP F 2 := by
     intro F _ _ hF
-    haveI := Fintype.ofFinite F
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have := Fintype.ofFinite F
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact charP_of_card_eq_prime_pow (f := f) (by rw [Fintype.card_eq_nat_card, hF])
   rcases hcase with ⟨rfl, hev, h6⟩ | ⟨rfl, hodd, h5⟩
   · obtain ⟨F, _, _, hF, ⟨e₀⟩⟩ := hM.2
-    haveI := hchar hF
+    have := hchar hF
     have hreg := regular_coordinateQuadPlus n F (by rcases h6 with h | ⟨h, -⟩ <;> omega)
     refine ⟨F, inferInstance, inferInstance, inferInstance, coordinateQuadPlus n F,
       (coordinatePlusWitnessEquiv F e₀).trans (coordBridge (coordinateQuadPlus n F) hd), hF,
@@ -103,7 +103,7 @@ theorem exists_coords_of_model {S : Type} [Group S] {t : StatedLieTag} {n f : �
       (Or.inr (Or.inl rfl)) n 2 f hM F hF e₀).1 g).mp
   · have hn1 : 1 ≤ n := by omega
     obtain ⟨F, _, _, hF, b, c, hirr, ⟨e₀⟩⟩ := hM.2
-    haveI := hchar hF
+    have := hchar hF
     have hreg := regular_coordinateQuadMinus n F b c (by omega : 4 ≤ n) hirr
     refine ⟨F, inferInstance, inferInstance, inferInstance, coordinateQuadMinus n F hn1 b c,
       (coordinateMinusWitnessEquiv F hn1 b c e₀).trans (coordBridge _ hd), hF, hreg.1, hreg.2,

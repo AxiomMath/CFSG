@@ -40,7 +40,7 @@ theorem nine3_orth63_rank_eq (K : Type) [Field K] (r : GL (Fin 2 ⊕ Fin 2 ⊕ F
         LinearMap.id =
       ((r : Matrix (Fin 2 ⊕ Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2 ⊕ Fin 2) K) - 1).mulVecLin := by
     ext x
-    simp [Matrix.sub_mulVec, toLinEquiv_apply, Matrix.one_mulVec]
+    simp [toLinEquiv_apply]
   rw [Matrix.rank, CFSG.RankThree.OrthogonalInvolutions.commSpace]
   exact (congrArg (fun m : (Fin 2 ⊕ Fin 2 ⊕ Fin 2 → K) →ₗ[K]
       (Fin 2 ⊕ Fin 2 ⊕ Fin 2 → K) => Module.finrank K (LinearMap.range m)) h).symm

@@ -18,6 +18,7 @@ section Congr
 
 variable {X Y : Type} [Group X] [Group Y] [Finite X] [Finite Y]
 
+omit [Finite Y] in
 theorem ModelB.congr (e : X ≃* Y) {ψ : MulAut X} (hM : ModelB X ψ) :
     ModelB Y (MulAut.congr e ψ) := by
   classical
@@ -128,7 +129,7 @@ theorem concA_of_outer (H : P3Hyp q S B) (hZ : Subgroup.center ↥S = ⊥) {X : 
     (hmodel : ∀ β : MulAut X, β ^ 3 = 1 → β ∉ (MulAut.conj : X →* MulAut X).range →
       ∃ (g : X) (ψ : MulAut X), β = MulAut.conj g * ψ ∧ ModelB X ψ) :
     S267ConcA 3 S B := by
-  haveI : S.Normal := H.normal
+  have : S.Normal := H.normal
   obtain ⟨b₁, hb₁, β, hβout, hβφ⟩ := H.exists_outer_mem φ hφ hφS hZX hX
   have hb₁3 : b₁ ^ 3 = 1 := H.elem.2 b₁ hb₁
   have hβk : ∀ k : ℕ, ∀ x, φ ((β ^ k) x) = b₁ ^ k * φ x * (b₁ ^ k)⁻¹ := by

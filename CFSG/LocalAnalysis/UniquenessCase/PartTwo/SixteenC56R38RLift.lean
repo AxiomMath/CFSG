@@ -19,7 +19,7 @@ theorem three_le_pRank_of_Lstar {M V₀ V Lst : Subgroup G} {hV : IsElemAbelian 
     (hcomm : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x) (hexp : ∀ x ∈ E, x ^ q = 1)
     (hcard : Nat.card E = q ^ 3) : 3 ≤ CFSG.Open.pRank q M := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   let π : ↥M →* MulAut (Vtil V₀ V hV) := (actTil V₀ V hV).comp (Subgroup.inclusion hMs)
   have hLn' : (Lst.subgroupOf M).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hLM).2 hLn

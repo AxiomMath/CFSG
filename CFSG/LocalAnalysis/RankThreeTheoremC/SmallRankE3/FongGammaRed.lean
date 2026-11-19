@@ -33,7 +33,7 @@ theorem gammaPara_pointwise {A : Type} [Group A] [Finite A] {K K₀ B H N : Subg
       ¬ CFSG.HallHigman.IsPSolvable p ↥(K₀ ⊓ centralizer ({y} : Set A)) := by
   classical
   obtain ⟨hNH, hNn, -, -, -⟩ := id hsec
-  haveI : (N.subgroupOf H).Normal := hNn
+  have : (N.subgroupOf H).Normal := hNn
   have hJ : IsSimpleGroup (↥H ⧸ N.subgroupOf H) :=
     CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.L613.isSimpleGroup_quotient_of_section hsec
   have hJnc : ¬ ∀ a b : ↥H ⧸ N.subgroupOf H, a * b = b * a :=

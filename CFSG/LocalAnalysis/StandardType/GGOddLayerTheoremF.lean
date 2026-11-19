@@ -184,7 +184,7 @@ theorem central_involution_trivial_of_split [Finite G] {X E : Subgroup G} (hEX :
     exact ⟨fun ⟨a, b⟩ => ⟨h1.mp a, h2.mp b⟩, fun ⟨a, b⟩ => ⟨h1.mpr a, h2.mpr b⟩⟩
   have hEV : E ≤ centralizer (V : Set G) := hcent V hVp inf_le_right hVn
   have hVs : Group.IsSolvable V := by
-    haveI : Group.IsNilpotent V := hVp.isNilpotent
+    have : Group.IsNilpotent V := hVp.isNilpotent
     infer_instance
   have hEC : E ≤ C ⊓ X := by
     refine le_of_perfect_of_centralizes_of_split (V := V) (C := C ⊓ X) ?_ ?_ hEV hperf hVs
@@ -204,7 +204,7 @@ theorem central_involution_trivial_of_split [Finite G] {X E : Subgroup G} (hEX :
 
 theorem exists_fixed_complement_split [Finite G] {A Q M P : Subgroup G} (hQp : IsPGroup 2 Q)
     (hA : Odd (Nat.card A)) (hAP : A ≤ P) (hQP : Q ≤ P) (hPQ : P ≤ normalizer (Q : Set G))
-    (hMP : M ≤ P) (hQM : Q ⊓ M = ⊥) (hdecP : ∀ x ∈ P, ∃ u ∈ Q, ∃ m ∈ M, x = u * m) :
+    (_hMP : M ≤ P) (hQM : Q ⊓ M = ⊥) (hdecP : ∀ x ∈ P, ∃ u ∈ Q, ∃ m ∈ M, x = u * m) :
     ∃ C : Subgroup G, Q ⊓ C = ⊥ ∧
       ∀ x ∈ P, x ∈ centralizer (A : Set G) →
         ∃ u ∈ Q, ∃ c ∈ C ⊓ centralizer (A : Set G), x = u * c := by
@@ -268,7 +268,7 @@ theorem exists_fixed_complement_split [Finite G] {A Q M P : Subgroup G} (hQp : I
     have hAC : ∀ a ∈ A, a ∈ M.map (MulAut.conj e).toMonoidHom := by
       intro a ha
       have hz : e⁻¹ * a * e ∈ Z := by
-        rw [hZe]; exact ⟨a, ha, by simp [MulAut.conj_apply]⟩
+        rw [hZe]; exact ⟨a, ha, by simp⟩
       exact ⟨e⁻¹ * a * e, hz.2, by simp [MulAut.conj_apply, mul_assoc]⟩
     refine ⟨e * u * e⁻¹, huQ, c, ⟨hcC, ?_⟩, hxdec⟩
     show c ∈ centralizer (A : Set G)

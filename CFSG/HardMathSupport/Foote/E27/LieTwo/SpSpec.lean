@@ -29,7 +29,7 @@ theorem JFin_zmod_two_apply (r : ℕ) (i j : Fin (r + r)) :
     simp only [finSumFinEquiv_apply_left, finSumFinEquiv_apply_right, Matrix.J,
       Matrix.fromBlocks_apply₁₁, Matrix.fromBlocks_apply₁₂, Matrix.fromBlocks_apply₂₁,
       Matrix.fromBlocks_apply₂₂, Matrix.zero_apply, Matrix.one_apply, Matrix.neg_apply,
-      Fin.coe_castAdd, Fin.coe_natAdd]
+      Fin.val_castAdd, Fin.val_natAdd]
   · have hc : ¬ (a.val + r = b.val ∨ b.val + r = a.val) := by
       have := a.isLt
       have := b.isLt

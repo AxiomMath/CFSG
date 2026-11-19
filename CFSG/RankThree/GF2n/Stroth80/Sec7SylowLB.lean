@@ -23,7 +23,7 @@ theorem sec7SylowLB_of_34 (h34 : Stroth34Statement) : Sec7SylowLBStatement := by
   have hLp : IsPGroup 2 L := CFSG.Open.IsElemAbelian.isPGroup (Ctx.isElemAbelian_bar_LB hc)
   obtain ⟨S⟩ : Nonempty (Sylow 2 NL) := inferInstance
   set S' : Subgroup (Mbar M Q) := S.toSubgroup.map NL.subtype with hS'
-  have hS'p : IsPGroup 2 S' := S.isPGroup'.map _
+  have hS'p : IsPGroup 2 S' := S.isPGroup.map _
   have hS'NL : S' ≤ NL := by
     rintro _ ⟨x, -, rfl⟩
     exact x.2
@@ -39,7 +39,7 @@ theorem sec7SylowLB_of_34 (h34 : Stroth34Statement) : Sec7SylowLBStatement := by
   have hmax : P.toSubgroup ⊓ NL ≤ S' := by
     intro x hx
     have hp : IsPGroup 2 ((P.toSubgroup ⊓ NL).subgroupOf NL) :=
-      (P.isPGroup'.to_le inf_le_left).comap_of_injective NL.subtype Subtype.val_injective
+      (P.isPGroup.to_le inf_le_left).comap_of_injective NL.subtype Subtype.val_injective
     have hle : S.toSubgroup ≤ (P.toSubgroup ⊓ NL).subgroupOf NL := by
       intro y hy
       exact Subgroup.mem_subgroupOf.mpr ⟨hSP ⟨y, hy, rfl⟩, y.2⟩
@@ -48,7 +48,7 @@ theorem sec7SylowLB_of_34 (h34 : Stroth34Statement) : Sec7SylowLBStatement := by
       Subgroup.mem_subgroupOf.mpr hx
     rw [heq] at hxs
     exact ⟨_, hxs, rfl⟩
-  haveI : Group.IsNilpotent P := P.isPGroup'.isNilpotent
+  have : Group.IsNilpotent P := P.isPGroup.isNilpotent
   set H : Subgroup P := S'.subgroupOf P.toSubgroup with hH
   have hNH : Subgroup.normalizer (H : Set P) ≤ H := by
     intro y hy

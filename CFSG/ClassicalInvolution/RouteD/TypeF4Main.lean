@@ -89,12 +89,12 @@ theorem routeD_typeF4 [Finite G] (hp2 : p ≠ 2) (hq : 5 ≤ p ^ f)
   refine routeD_typeF4_of_chain hp2 hq hΩ hK hsingle hconn hz hshape hP1 ![β, j 0, j 1, j 2]
     hβ ?_ ?_ ?_
   · intro i k hik a ha b hb
-    fin_cases i <;> fin_cases k <;> first | (exfalso; revert hik; simp; done) | skip
+    fin_cases i <;> fin_cases k <;> try (exfalso; revert hik; simp; done)
     · exact hβ1 a ha b hb
     · exact hβ2 a ha b hb
     · exact hj₀₂ a ha b hb
   · intro i k hik hi1
-    fin_cases i <;> fin_cases k <;> first | (exfalso; revert hik; simp; done) | skip
+    fin_cases i <;> fin_cases k <;> try (exfalso; revert hik; simp; done)
     · exact hβj₀
     · exact (hi1 rfl).elim
     · exact hj₁₂

@@ -15,7 +15,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem exists_elemAbelian_card_of_le_pRank {M : Subgroup G} {p : ℕ} (hp : p.Prime) {k : ℕ}
     (hk : k ≤ Open.pRank p M) :
     ∃ A : Subgroup G, A ≤ M ∧ IsElemAbelian p A ∧ Nat.card A = p ^ k := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨E, hEM, hEel, hEcard⟩ := CFSG.PreuniquenessRankFour.Helpers.pRank_attained p hp M
   have hdvd : p ^ k ∣ Nat.card E := by
     rw [hEcard]
@@ -28,7 +28,7 @@ theorem exists_elemAbelian_card_of_le_pRank {M : Subgroup G} {p : ℕ} (hp : p.P
 theorem exists_card_p_sq {A : Subgroup G} {p : ℕ} (hp : p.Prime) (hA : IsElemAbelian p A)
     (hcard : p ^ 2 ≤ Nat.card A) :
     ∃ A₂ : Subgroup G, A₂ ≤ A ∧ IsElemAbelian p A₂ ∧ Nat.card A₂ = p ^ 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨j, hj⟩ := (hA.isPGroup).exists_card_eq
   have hj2 : 2 ≤ j := by
     by_contra h

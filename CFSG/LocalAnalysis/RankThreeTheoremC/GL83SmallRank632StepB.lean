@@ -21,7 +21,7 @@ private theorem stepB_card_dvd_eighty_one (hS : Setting G) {P : Sylow 3 G} {M : 
   obtain ⟨b, hb, hgx⟩ := hd.g_act
   have hzc : ∀ a : (P : Subgroup G), a * ⟨z, hd.central.mem⟩ = ⟨z, hd.central.mem⟩ * a :=
     fun a => Subtype.ext (mem_centralizer_iff.mp hd.central.centralizes a a.2)
-  exact card_dvd_eighty_one_of_fixed_data P.isPGroup' ρ hV hV2 hρ (g := ⟨g, hd.g_mem⟩)
+  exact card_dvd_eighty_one_of_fixed_data P.isPGroup ρ hV hV2 hρ (g := ⟨g, hd.g_mem⟩)
     (Subtype.ext hd.point.pow_eq_one) (Subtype.ext hd.central.pow_eq_one) hzc
     (hzc ⟨x, hd.point.mem⟩) hb (Subtype.ext hgx) hfree hnear
 

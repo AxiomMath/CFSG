@@ -67,9 +67,9 @@ theorem testBit_stepM {T : ℕ → ℕ} {M x : ℕ} (h : (stepM T M).testBit x =
     rw [List.foldl_cons] at h
     rcases ih _ (fun l' hl' => hL l' (List.mem_cons_of_mem _ hl')) h with h' | h'
     · cases hb : M.testBit l
-      · rw [hb, cond_false] at h'
+      · rw [hb, Bool.cond_false] at h'
         exact Or.inl h'
-      · rw [hb, cond_true, Nat.testBit_lor, Bool.or_eq_true] at h'
+      · rw [hb, _root_.Bool.cond_true, Nat.testBit_lor, Bool.or_eq_true] at h'
         rcases h' with h' | h'
         · exact Or.inl h'
         · exact Or.inr ⟨l, hL l List.mem_cons_self, hb, testBit_imgBits h'⟩

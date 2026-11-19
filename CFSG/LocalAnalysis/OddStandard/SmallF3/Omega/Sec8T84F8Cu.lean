@@ -31,6 +31,7 @@ theorem sec8t84_conj_u {t : G} {S S' M0 : Subgroup G}
   have hv := Subgroup.mem_inf.mp hvH
   exact ⟨v, hv.2, hv.1, hveq⟩
 
+omit [Finite G] in
 theorem sec8t84_S_le_normalizer {t : G} {L S : Subgroup G}
     (hSC : S ≤ centralizer ({t} : Set G)) (hSL : S ≤ normalizer (L : Set G)) :
     S ≤ normalizer ((zpowers t ⊔ (S ⊓ L) : Subgroup G) : Set G) := by

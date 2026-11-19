@@ -11,6 +11,7 @@ open CFSG.RankThree.PartOne (pElementSubgroup)
 
 variable {Q : Type} [Group Q] [Finite Q]
 
+omit [Finite Q] in
 theorem s13_Thirteen4Q_pElementSubgroup_le (p : ℕ) (X : Subgroup Q) :
     pElementSubgroup p X ≤ X :=
   (Subgroup.closure_le _).2 fun _ hx => hx.1
@@ -20,7 +21,7 @@ theorem s13_Thirteen4Q_pRank_bot {p : ℕ} (hp : 1 < p) :
   refine Nat.le_antisymm (CFSG.SectionRank.pRank_le hp ?_) (Nat.zero_le _)
   intro E hE _
   rw [le_bot_iff.mp hE]
-  simp [Subgroup.card_bot]
+  simp
 
 theorem s13_Thirteen4Q_pRank_eq_zero_of_le_one {p : ℕ} (hp : p ≤ 1) (H : Subgroup Q) :
     CFSG.Open.pRank p H = 0 := by

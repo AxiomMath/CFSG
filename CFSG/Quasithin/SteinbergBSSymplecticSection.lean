@@ -109,7 +109,7 @@ qrc_original_single_even_symplectic_section_confines_the_whole_image_to_both_cen
       CFSG.QuasithinUnique.Setup.X7b.mem_antiUnipotentCenter_iff_central, fun _ =>
         mem_rootLong_iff_glMat, fun _ => mem_rootShort_iff_glMat⟩
   refine ⟨hZU, ?_⟩
-  have hTsyl : IsSylowTwoOf (T : Subgroup H) ⊤ := ⟨le_top, T.isPGroup', by
+  have hTsyl : IsSylowTwoOf (T : Subgroup H) ⊤ := ⟨le_top, T.isPGroup, by
     show ¬ 2 ∣ (T : Subgroup H).relIndex ⊤
     rw [relIndex_top_right]
     exact T.not_dvd_index⟩
@@ -195,7 +195,7 @@ qrc_original_single_even_symplectic_section_confines_the_whole_image_to_both_cen
   have hRsyl : IsSylowOf 2 R ⊤ := by
     rw [isSylowOf_iff]
     refine ⟨le_top, ?_, ?_⟩
-    · exact (T.mapSurjective hπs).isPGroup'
+    · exact (T.mapSurjective hπs).isPGroup
     · rw [relIndex_top_right]
       exact (T.mapSurjective hπs).not_dvd_index
   have hJM : J ≤ M := kerIn_le
@@ -215,7 +215,7 @@ qrc_original_single_even_symplectic_section_confines_the_whole_image_to_both_cen
   have hVDQ : V ⊓ J = V ⊓ Q := by
     refine le_antisymm (fun v hv => ?_) (inf_le_inf_left V (hQR ▸ hRJ))
     obtain ⟨hvV, hvJ⟩ := mem_inf.1 hv
-    obtain ⟨n, hn⟩ := T.isPGroup' ⟨v, hVT hvV⟩
+    obtain ⟨n, hn⟩ := T.isPGroup ⟨v, hVT hvV⟩
     have hvn : v ^ 2 ^ n = 1 := congrArg Subtype.val hn
     have h1 := map_eq_one_of_odd_card hodd (QuotientGroup.mk' (CFSG.Open.pCore 2 H))
       (mem_map_of_mem _ hvJ) hvn

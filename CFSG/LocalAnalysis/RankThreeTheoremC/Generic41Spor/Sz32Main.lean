@@ -39,7 +39,7 @@ theorem sz32_false (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLocal G) 
     (hSz : Sz32Facts) (hSz' : Sz32OpenFacts) (hdata : Sz32DataFacts) (hI6103 : KFactI6103Five)
     (hI122 : KFactI122Five) (hI713 : KFactI713Out) (hNonab : KFactNonabF5) {P : Sylow 5 G}
     {M : Subgroup G} {x : G} {J : Subgroup G} (hc : PointConfig IsSz32Type G 5 P M x J) : False := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨a, c, y, hA⟩ := sz32_Q_decomp hS hD1 hU0 hSz hdata hc
   have hL33 := lemma33_of_lemma32 hS hc (sz32_lemma32 hS hD1 hU0 hK.sig hSz hdata hc hA)
   have hL := sz32_lines_fusion hS hD1 hU0 hSz hSz' hdata hc hA hL33

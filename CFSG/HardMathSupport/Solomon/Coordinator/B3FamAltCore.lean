@@ -40,7 +40,7 @@ theorem cycle_pow_eq_one {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {σ : Perm Ω}
 
 theorem conj_mem_cycleFactors {σ o c : Perm Ω} (ho : o * σ = σ * o)
     (hc : c ∈ σ.cycleFactorsFinset) : o * c * o⁻¹ ∈ σ.cycleFactorsFinset := by
-  have := Subgroup.Centralizer.toConjAct_smul_mem_cycleFactorsFinset
+  have := Subgroup.Centralizer.conj_smul_mem_cycleFactorsFinset
     (g := σ) (k := o) (c := c) (Subgroup.mem_centralizer_singleton_iff.2 ho) hc
   simpa [ConjAct.toConjAct_smul] using this
 

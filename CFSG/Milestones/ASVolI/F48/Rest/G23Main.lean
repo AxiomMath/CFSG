@@ -102,7 +102,7 @@ theorem burnsideF48t_g23_eq_top {E : Type} [Group E] [Finite E] {Gp M₁ M₂ : 
     (hε : burnsideF48_img ε burnsideF48t_g23P1 = Gp ⊓ M₁ ∨
       burnsideF48_img ε burnsideF48t_g23P1 = Gp ⊓ M₂) : Gp = ⊤ := by
   classical
-  haveI hN : Gp.Normal := hyp.normal
+  have hN : Gp.Normal := hyp.normal
   by_contra hne
   obtain ⟨e, he⟩ : ∃ e : E, e ∉ Gp := by
     by_contra h
@@ -175,7 +175,7 @@ theorem burnsideF48t_g23_eq_top {E : Type} [Group E] [Finite E] {Gp M₁ M₂ : 
         _ = (ε x : E) * g := by group
     rw [hyp.centralizer_trivial, Subgroup.mem_bot] at hc
     exact ε.injective ((Subtype.ext hc).trans (map_one ε).symm)
-  haveI : Finite (MulAut ↥burnsideF48t_g23X) :=
+  have : Finite (MulAut ↥burnsideF48t_g23X) :=
     Finite.of_injective (fun φ : MulAut ↥burnsideF48t_g23X => (φ : ↥burnsideF48t_g23X →
       ↥burnsideF48t_g23X)) DFunLike.coe_injective
   have hM := burnsideF48t_g23_lieModel hyp.model
@@ -258,8 +258,8 @@ theorem burnsideF48t_g23_chart {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
       ((M₁ = burnsideF48t_g23P1.map θ.toMonoidHom ∧ M₂ = burnsideF48t_g23P2.map θ.toMonoidHom) ∨
         (M₁ = burnsideF48t_g23P2.map θ.toMonoidHom ∧
           M₂ = burnsideF48t_g23P1.map θ.toMonoidHom)) := by
-  haveI : Finite E := hyp.finite
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite E := hyp.finite
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hP := burnsideF48_parabolics_of_compat ChF.nativeChartCompatibility hyp
   obtain ⟨ε₀⟩ := burnsideF48t_g23_equiv_X hyp.model
   obtain ⟨ε, hεB, hε⟩ := burnsideF48t_identify ε₀ burnsideF48t_g23_sylow burnsideF48t_g23_B_eq
@@ -282,8 +282,8 @@ theorem burnsideF48t_g23_chart {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
 
 theorem burnsideF48t_small_G2_three (h45 : F_4_5) (h46 : F_4_6) {E : Type} [Group E]
     {Gp M₁ M₂ : Subgroup E} (hyp : HypF_4_4 .G2 3 1 Gp M₁ M₂) : F48Concl .G2 3 1 Gp M₁ M₂ := by
-  haveI : Finite E := hyp.finite
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite E := hyp.finite
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hext := burnsideF48s_isLieExtGroup_E ChF.nativeChartCompatibility hyp
   have hP := burnsideF48_parabolics_of_compat ChF.nativeChartCompatibility hyp
   obtain ⟨hGp, θ, hBθ, hor⟩ := burnsideF48t_g23_chart hyp

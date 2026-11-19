@@ -15,11 +15,11 @@ private theorem levTwoS2d_dot_single {n : ℕ} (p q : Fin n) (s t : ℤ) :
       = if p = q then (s : ℚ) * (t : ℚ) else 0 := by
   by_cases h : p = q
   · subst h
-    rw [if_pos rfl, Finset.sum_eq_single p]
+    rw [ite_eq_left rfl, Finset.sum_eq_single p]
     · simp
     · intro b _ hb; simp [Pi.single_eq_of_ne hb]
     · intro hp; exact absurd (Finset.mem_univ p) hp
-  · rw [if_neg h, Finset.sum_eq_zero]
+  · rw [ite_eq_right h, Finset.sum_eq_zero]
     intro k _
     by_cases hk : k = p
     · subst hk; simp [Pi.single_eq_of_ne h]

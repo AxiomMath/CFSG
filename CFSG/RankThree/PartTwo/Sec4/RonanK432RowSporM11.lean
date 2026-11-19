@@ -47,7 +47,7 @@ theorem outerRow_m11 :
     OuterRow NativeSporadic.M11 := by
   apply outerRow_of_not_three_dvd_outer
   have h2 : Nat.card (Outer NativeSporadic.M11) ≤ 2 := CFSG.Sporadic.Schreier.at_m11_schreier.1
-  haveI : Finite (NativeSporadic.Carrier .M11) := inferInstanceAs (Finite NativeSporadic.M11)
+  have : Finite (NativeSporadic.Carrier .M11) := inferInstanceAs (Finite NativeSporadic.M11)
   exact CFSG.Quasithin.A318P.not_dvd_outer_of_carrier (S := NativeSporadic.M11) (s := .M11)
     (MulEquiv.refl _) h2 Nat.prime_three (by norm_num)
 

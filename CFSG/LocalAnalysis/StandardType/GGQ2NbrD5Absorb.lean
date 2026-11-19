@@ -120,7 +120,7 @@ private noncomputable def lup10c_theta (M : GGQTwoAmbModel 3 Bs x y L H)
         (κ.toLinearMap ∘ₗ (ggLin (p := 3) M.model ψ).toLinearMap ∘ₗ κ.symm.toLinearMap) ∘ₗ
         (κ.toLinearMap ∘ₗ (ggLin (p := 3) M.model φ).toLinearMap ∘ₗ κ.symm.toLinearMap) := by
       refine LinearMap.ext fun v => ?_
-      simp [map_mul, LinearEquiv.mul_apply]
+      simp [map_mul]
     rw [h, LinearMap.toMatrix'_comp]
 
 private theorem lup10c_theta_mulVec (M : GGQTwoAmbModel 3 Bs x y L H)
@@ -179,6 +179,7 @@ private theorem lup10c_finish (M : GGQTwoAmbModel 3 Bs x y L H)
 
 end Theta
 
+omit [Finite G] in
 theorem lup10d_absorb_amb_gen {p : ℕ} [Fact p.Prime]
     {Bs : Subgroup G} {u v : G} {X Y : Subgroup G} (T : Subgroup G) (D : Subgroup G)
     (hp : p = 3) (hu : u ≠ 1) (hXT : X ≤ T) (hYT : Y ≤ T)
@@ -187,7 +188,7 @@ theorem lup10d_absorb_amb_gen {p : ℕ} [Fact p.Prime]
     (hV : Submodule.span (ZMod p)
       (insert M.xV (Set.range fun i : {k // k ≠ M.a} => M.coroot i)) = ⊤)
     (hbas : M.toLin.Basis) (hTF : lup10fa_TwistFacts)
-    {φ : MulAut ↥Bs} (hφ : φ ∈ ggAutomizer ⊤ Bs)
+    {φ : MulAut ↥Bs} (_hφ : φ ∈ ggAutomizer ⊤ Bs)
     (hφx : ggLin (p := p) M.model φ M.xV ∈ Submodule.span (ZMod p) {M.xV})
     (π : {k // k ≠ M.a} ≃ {k // k ≠ M.a}) (μ : {k // k ≠ M.a} → ZMod p) (c : ZMod p)
     (w : M.V ≃ₗ[ZMod p] M.V) (hSc : M.toLin.ScaledAut M.a π μ)
@@ -279,7 +280,7 @@ theorem lup10d_absorb_amb_gen {p : ℕ} [Fact p.Prime]
 
 theorem lup10d_absorb_swapped {p : ℕ} [Fact p.Prime]
     {B Bs : Subgroup G} {x : G} {L D J : Subgroup G}
-    (hS : GGQTwoSetting p B Bs x L D J) (hp : p = 3)
+    (_hS : GGQTwoSetting p B Bs x L D J) (hp : p = 3)
     {y : G} {K : Subgroup G} (hnb : GGNbr p B x D J y K)
     (M : GGQTwoAmbModel p Bs y x K (L ⊔ K)) (e : Fin 5 ≃ M.ι)
     (hecart : ∀ i j, M.cartan (e i) (e j) = CartanMatrix.D 5 i j) (he0 : M.a = e 0)

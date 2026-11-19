@@ -25,12 +25,12 @@ theorem burnsideF48dE_card_mulAut {H : Type} [Group H] [Finite H]
     CFSG.SignalizerFunctorTheorem.CatalogBridge.triality_normalForm_data
       (ℓ := 3) (f := 1) Nat.prime_three le_rfl K (by rw [hK]; rfl) σ' fun c => hσ c
   let e : H ≃* graphFixedRootGroup TwistTag.D4 K σ'.toRingHom := ψ.trans χ
-  haveI : Finite (graphFixedRootGroup TwistTag.D4 K σ'.toRingHom) := Finite.of_equiv H e.toEquiv
-  haveI : Finite (MulAut (graphFixedRootGroup TwistTag.D4 K σ'.toRingHom)) :=
+  have : Finite (graphFixedRootGroup TwistTag.D4 K σ'.toRingHom) := Finite.of_equiv H e.toEquiv
+  have : Finite (MulAut (graphFixedRootGroup TwistTag.D4 K σ'.toRingHom)) :=
     Finite.of_injective (fun f : MulAut (graphFixedRootGroup TwistTag.D4 K σ'.toRingHom) =>
       (f : graphFixedRootGroup TwistTag.D4 K σ'.toRingHom →
         graphFixedRootGroup TwistTag.D4 K σ'.toRingHom)) DFunLike.coe_injective
-  haveI : Finite (K ≃+* K) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite (K ≃+* K) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have h1 : Nat.card (MulAut (graphFixedRootGroup TwistTag.D4 K σ'.toRingHom)) =
       Nat.card Θ.ker * Nat.card Θ.range := by
     rw [Subgroup.card_eq_card_quotient_mul_card_subgroup Θ.ker,
@@ -133,7 +133,7 @@ theorem burnsideF48dE_self_P2 (hM : burnsideF48d_ModelFacts) : ∀ g : ↥burnsi
 theorem burnsideF48dE_X_conj_iff (hM : burnsideF48d_ModelFacts) (g z : ↥burnsideF48dE_Xh) :
     (z : Equiv.Perm (Fin 26572)) ∈ burnsideF48d_X ↔
       ((g * z * g⁻¹ : ↥burnsideF48dE_Xh) : Equiv.Perm (Fin 26572)) ∈ burnsideF48d_X := by
-  haveI := burnsideF48dE_normal hM
+  have := burnsideF48dE_normal hM
   constructor
   · intro h
     exact (burnsideF48dE_normal hM).conj_mem z (show z ∈ burnsideF48dE_Xs from h) g
@@ -221,12 +221,12 @@ theorem burnsideF48dE_card_E (hM : burnsideF48d_ModelFacts) {E : Type} [Group E]
     (ε' : ↥burnsideF48dE_Xs ≃* ↥Gp) :
     Nat.card (MulAut ↥Gp) = Nat.card ↥burnsideF48dE_Xh ∧
       Nat.card ↥burnsideF48dE_Xh = Nat.card E := by
-  haveI : Finite E := hyp.finite
-  haveI := hyp.normal
-  haveI := burnsideF48dE_normal hM
+  have : Finite E := hyp.finite
+  have := hyp.normal
+  have := burnsideF48dE_normal hM
   have hcGp : Nat.card ↥Gp = 20560831566912 := by
     rw [← Nat.card_congr ε'.toEquiv, burnsideF48dE_card_Xs hM]
-  haveI : Finite (MulAut ↥Gp) :=
+  have : Finite (MulAut ↥Gp) :=
     Finite.of_injective (fun f : MulAut ↥Gp => (f : ↥Gp → ↥Gp)) DFunLike.coe_injective
   have hle : Nat.card (MulAut ↥Gp) ≤ Nat.card ↥burnsideF48dE_Xh := by
     rw [burnsideF48dE_card_Xh hM]
@@ -262,10 +262,10 @@ theorem burnsideF48dE_chart (hM : burnsideF48d_ModelFacts) {E : Type} [Group E]
       ((M₁ = burnsideF48dE_P1.map θ.toMonoidHom ∧ M₂ = burnsideF48dE_P2.map θ.toMonoidHom) ∨
         (M₁ = burnsideF48dE_P2.map θ.toMonoidHom ∧ M₂ = burnsideF48dE_P1.map θ.toMonoidHom)) ∧
       burnsideF48dE_Xs.map θ.toMonoidHom = Gp := by
-  haveI : Finite E := hyp.finite
-  haveI := hyp.normal
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := burnsideF48dE_normal hM
+  have : Finite E := hyp.finite
+  have := hyp.normal
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := burnsideF48dE_normal hM
   have hP := burnsideF48_parabolics_of_compat ChF.nativeChartCompatibility hyp
   obtain ⟨ε₀⟩ := hM.equiv_X ↥Gp hyp.model
   obtain ⟨ε, hεB, hε⟩ := burnsideF48t_identify ε₀ hM.sylow hM.B_eq hM.P1_ne_P2 hM.P1_max

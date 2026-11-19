@@ -98,7 +98,7 @@ public theorem secondCase_psl2_hAcont
         rw [hsub]
         rw [map_mul, map_mul, map_inv]
       rw [hq]
-      simpa [t0, MulAut.conj_apply, mul_assoc]
+      simp [t0, MulAut.conj_apply, mul_assoc]
     have hinl : pGammaL2ToMulAutPSL2 K ad.primePower ad.fieldCardGtThree
         (SemidirectProduct.inl (psl2ToPGL t0)) = MulAut.conj t0 := by
       rw [pGammaL2ToMulAutPSL2_inl]
@@ -135,7 +135,7 @@ public theorem secondCase_psl2_hAcont
     rcases MonoidHom.mem_range.mp hxrange with ⟨m, rfl⟩
     have hcomm : f m * f tM = f tM * f m := by
       rw [Subgroup.mem_centralizer_iff] at hxcent
-      have hz : f tM ∈ ({tau} : Set (PGammaL2 K)) := by simpa [tau]
+      have hz : f tM ∈ ({tau} : Set (PGammaL2 K)) := by simp [tau]
       exact (hxcent (f tM) hz).symm
     let j : d.E := ⟨(m : G) * (c.t : G) * (m : G)⁻¹,
       d.E_normal.2 (m : G) m.2 (c.t : G) (d.t_mem_E)⟩

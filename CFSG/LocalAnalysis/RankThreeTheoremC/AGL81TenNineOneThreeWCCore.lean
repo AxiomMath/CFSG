@@ -19,10 +19,12 @@ variable {B : Type} [Group B] [Finite B] {K : Subgroup B} [K.Normal]
     K →* (MulAut.conjNormal (H := K)).range :=
   ((MulAut.conjNormal (H := K)).comp K.subtype).codRestrict _ fun k => ⟨k, rfl⟩
 
+omit [Finite B] in
 theorem innHom_apply (k x : K) : ((innHom K k : MulAut K) x) = k * x * k⁻¹ := by
   apply Subtype.ext
   exact MulAut.conjNormal_apply (k : B) x
 
+omit [Finite B] in
 theorem innHom_injective (hZ : ∀ k : K, (∀ x : K, k * x = x * k) → k = 1) :
     Function.Injective (innHom K) := by
   rw [← MonoidHom.ker_eq_bot_iff, eq_bot_iff]
@@ -101,6 +103,7 @@ theorem inner_of_index_two {X : Type*} [Group X] [Finite X]
   obtain ⟨g, rfl⟩ := hφ
   exact ⟨g, fun x => MulAut.conj_apply g x⟩
 
+omit [K.Normal] in
 theorem move_of_transitive
     (htr : ∀ (T : Sylow 3 K) (a b : K), a ∈ (T : Subgroup K) → b ∈ (T : Subgroup K) → a ≠ 1 →
       b ≠ 1 → ∃ n ∈ normalizer ((T : Subgroup K) : Set K), n * a * n⁻¹ = b)
@@ -118,6 +121,7 @@ theorem move_of_transitive
   obtain ⟨n, hn, hnab⟩ := htr T a b ha hbT ha1 hb1
   exact ⟨n, hn, hnab ▸ hba⟩
 
+omit [Finite B] [K.Normal] in
 theorem move_of_irred
     (hirr : ∀ (T : Sylow 3 K) (V : Subgroup K), V ≤ (T : Subgroup K) → V ≠ ⊥ →
       normalizer ((T : Subgroup K) : Set K) ≤ normalizer (V : Set K) → V = T)

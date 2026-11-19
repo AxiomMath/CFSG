@@ -143,7 +143,7 @@ theorem thirtyTwo_dvd_card_centralizer_sp (hF : Nat.card F = 4) (s : StatedSp 2 
     rw [← hc, Sylow.coe_subgroup_smul, hU]
   let eQ : ↥(Q : Subgroup (StatedSp 2 F)) ≃* ↥(unipotent 2 F) :=
     (MulEquiv.subgroupCongr hQU).trans (Subgroup.equivSMul (MulAut.conj c) (unipotent 2 F)).symm
-  have hQ2 : IsPGroup 2 ↥(Q : Subgroup (StatedSp 2 F)) := Q.isPGroup'
+  have hQ2 : IsPGroup 2 ↥(Q : Subgroup (StatedSp 2 F)) := Q.isPGroup
   have hcardQ : Nat.card ↥(Q : Subgroup (StatedSp 2 F)) = 256 := by
     rw [Nat.card_congr eQ.toEquiv, hcardU]
   have hZQ : 16 ≤ Nat.card ↥(Subgroup.center ↥(Q : Subgroup (StatedSp 2 F))) := by

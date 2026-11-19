@@ -210,6 +210,7 @@ private theorem zStar_lift_of_central_normal_two {t : G}
   change c ∈ LX
   exact ⟨ck, hckL, rfl⟩
 
+omit [Fintype G] in
 theorem zStar_lift_of_odd_normal {t : G}
     (M : Subgroup G) [M.Normal] (hModd : Odd (Nat.card M))
     (hquot :

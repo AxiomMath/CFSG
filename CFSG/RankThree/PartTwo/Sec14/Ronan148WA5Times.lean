@@ -14,6 +14,7 @@ open scoped commutatorElement
 
 variable {Q : Type} [Group Q] [Finite Q]
 
+omit [Finite Q] in
 theorem commute_of_inf_eq_bot {U V : Subgroup Q} (hUV : U ≤ Subgroup.normalizer (V : Set Q))
     (hVU : V ≤ Subgroup.normalizer (U : Set Q)) (hint : U ⊓ V = ⊥) :
     ∀ u ∈ U, ∀ v ∈ V, u * v = v * u := by
@@ -161,7 +162,7 @@ theorem exists_subgroups_of_isA6CoverTimesA5 {Z : Subgroup Q} (h : IsA6CoverTime
 theorem false_of_isA6CoverTimesA5_of_le {Aq Bq Z : Subgroup Q} {j : Q}
     (hAab : ∀ x ∈ Aq, ∀ y ∈ Aq, x * y = y * x) (hAp : IsPGroup 3 Aq)
     (hF3 : ∀ w : Q, w ∈ Subgroup.centralizer (Aq : Set Q) → w ^ 3 = 1 → w ∈ Aq)
-    (hBA : Bq ≤ Aq) (hB9 : Nat.card Bq = 9) (hAeq : Bq ⊔ Subgroup.zpowers j = Aq)
+    (_hBA : Bq ≤ Aq) (hB9 : Nat.card Bq = 9) (hAeq : Bq ⊔ Subgroup.zpowers j = Aq)
     (hAZB : Aq ⊓ Z ≤ Bq) (hjZ : ∀ z ∈ Z, j * z = z * j)
     (hAN : Aq ≤ Subgroup.normalizer (Z : Set Q)) (h : IsA6CoverTimesA5 ↥Z) : False := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩

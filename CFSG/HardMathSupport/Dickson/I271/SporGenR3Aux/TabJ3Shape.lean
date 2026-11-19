@@ -233,7 +233,7 @@ theorem splitShapeAt_j3B (y : ↥j3P)
       Subgroup.centralizer ({j3tXB} : Set (Equiv.Perm (Fin 6156)))) : SplitShapeAt 3 y := by
   refine Or.inl (pConstrainedShape_of_map_injective j3P.subtype j3P.subtype_injective ?_)
   rw [map_centralizer_subtype', hy]
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : IsPGroup 3 ↥(centralizer ({j3tXB} : Set (Equiv.Perm (Fin 6156))) ⊓ j3P) :=
     IsPGroup.of_card (n := 5) (by rw [Census228Spor.card_centralizer_XB]; norm_num)
   exact ⟨_, le_rfl, fun g hg q hq => Subgroup.mul_mem _ (Subgroup.mul_mem _ hg hq)
@@ -272,7 +272,7 @@ theorem centShapeSplit_j3P : CentShapeSplit 3 ↥j3P := by
 
 theorem centShapeSplit_J3 : CentShapeSplit 3 (NativeSporadic.Carrier .J3) := by
   have e : NativeSporadic.Carrier .J3 ≃* ↥j3P := Sec21.Item228CensusProof.j3CarrierEquiv
-  haveI : Finite (NativeSporadic.Carrier .J3) := Finite.of_equiv ↥j3P e.symm.toEquiv
+  have : Finite (NativeSporadic.Carrier .J3) := Finite.of_equiv ↥j3P e.symm.toEquiv
   exact CentShapeSplit.of_equiv Nat.prime_three e.symm centShapeSplit_j3P
 
 end Main

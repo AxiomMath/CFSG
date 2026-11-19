@@ -57,19 +57,19 @@ theorem uTransLe_four_aux {σ : F ≃+* F} (hσ : ∀ c, σ (σ c) = c) {l : F} 
   have s1 : UTransLe L ![1 + l, 1 + l, l, 1] := by
     refine uTransLe_of_eq_uTrans hσ hae hv iso_ae h1tr ?_
     ext i
-    fin_cases i <;> simp [uForm_fin_four] <;> grind
+    fin_cases i <;> simp [uForm_fin_four]
   have s2 : UTransLe L ![1 + l + N, 1 + l, l, 1] := by
     refine uTransLe_of_eq_uTrans hσ ha s1 iso_a hNtr ?_
     ext i
-    fin_cases i <;> simp [uForm_fin_four] <;> grind
+    fin_cases i <;> simp [uForm_fin_four]
   have s3 : UTransLe L ![1, 1, 0, N⁻¹] := by
     refine uTransLe_of_eq_uTrans hσ hd hae iso_d hNitr ?_
     ext i
-    fin_cases i <;> simp [uForm_fin_four] <;> grind
+    fin_cases i <;> simp [uForm_fin_four]
   have s4 : UTransLe L ![0, N * l, l, 1] := by
     refine uTransLe_of_eq_uTrans hσ he hv iso_e hNtr ?_
     ext i
-    fin_cases i <;> simp [uForm_fin_four] <;> grind
+    fin_cases i <;> simp [uForm_fin_four]
   have iso_z : uForm σ (![1, 1, 0, N⁻¹] : Fin 4 → F) ![1, 1, 0, N⁻¹] = 0 := by
     simp only [uForm_fin_four]
     simp [hσNi]
@@ -80,12 +80,12 @@ theorem uTransLe_four_aux {σ : F ≃+* F} (hσ : ∀ c, σ (σ c) = c) {l : F} 
     fin_cases i <;> simp [uForm_fin_four, hσNi] <;> grind
   have iso_x : uForm σ (![1 + l + N, 1 + l, l, 1] : Fin 4 → F) ![1 + l + N, 1 + l, l, 1] = 0 := by
     simp only [uForm_fin_four]
-    simp [hσN, hσ]
+    simp [hσN]
     grind
   have s6 : UTransLe L ![0, 0, N, 0] := by
     refine uTransLe_of_eq_uTrans hσ s2 s5 iso_x hNitr ?_
     ext i
-    fin_cases i <;> simp [uForm_fin_four, hσN, hσ] <;> grind
+    fin_cases i <;> simp [uForm_fin_four, hσN] <;> grind
   have hf : UTransLe L ![0, 0, 1, 0] := by
     refine uTransLe_of_smul hσ hN0 ?_
     convert s6 using 1
@@ -96,18 +96,18 @@ theorem uTransLe_four_aux {σ : F ≃+* F} (hσ : ∀ c, σ (σ c) = c) {l : F} 
     have t1 : UTransLe L ![1, 1, 1, 0] := by
       refine uTransLe_of_eq_uTrans hσ hf hae iso_f h1tr ?_
       ext i
-      fin_cases i <;> simp [uForm_fin_four] <;> grind
+      fin_cases i <;> simp [uForm_fin_four]
     refine uTransLe_of_eq_uTrans hσ he t1 iso_e h1tr ?_
     ext i
-    fin_cases i <;> simp [uForm_fin_four] <;> grind
+    fin_cases i <;> simp [uForm_fin_four]; grind
   ·
     have t1 : UTransLe L ![1, 0, l, 1] := by
       refine uTransLe_of_eq_uTrans hσ ha hv iso_a h1tr ?_
       ext i
-      fin_cases i <;> simp [uForm_fin_four] <;> grind
+      fin_cases i <;> simp [uForm_fin_four]
     refine uTransLe_of_eq_uTrans hσ hd t1 iso_d h1tr ?_
     ext i
-    fin_cases i <;> simp [uForm_fin_four] <;> grind
+    fin_cases i <;> simp [uForm_fin_four]; grind
 
 @[expose] def SUFrameGen (σ : F ≃+* F) (m k : ℕ) : Prop :=
   ∃ U : List (Fin m → F), U.length ≤ k ∧ (∀ u ∈ U, u ≠ 0 ∧ uForm σ u u = 0) ∧
@@ -151,7 +151,7 @@ theorem eq_top_of_uTransLe_four (hF : Nat.card F = (2 ^ f) ^ 2) {l : F}
     have hv3 : v 3 = 0 := by simpa [uForm_fin_four] using hv.1
     have hv0 : v 0 = 0 := by simpa [uForm_fin_four] using hv.2
     rw [uForm_fin_four, hv3, hv0] at hvv
-    simp only [map_zero, zero_mul, mul_zero, add_zero, zero_add] at hvv
+    simp only [map_zero, mul_zero, add_zero, zero_add] at hvv
     by_cases hv2 : v 2 = 0
     · have hveq : v = v 1 • (![0, 1, 0, 0] : Fin 4 → F) := by
         ext i
@@ -168,7 +168,7 @@ theorem eq_top_of_uTransLe_four (hF : Nat.card F = (2 ^ f) ^ 2) {l : F}
       have ht := uTransLe_smul hσ (uTransLe_uTrans hσ he hf iso_e hc) (v 2)
       convert ht using 1
       ext i
-      fin_cases i <;> simp [uForm_fin_four, hv0, hv3, hcdef] <;> field_simp
+      fin_cases i <;> simp [uForm_fin_four, hv0, hv3, hcdef]; field_simp
   ·
     intro ν
     obtain ⟨c₂, hc₂def⟩ : ∃ c : F, c = ν + unitaryInvolution F 2 f ν := ⟨_, rfl⟩
@@ -210,11 +210,10 @@ theorem suFrameGen_four (hF : Nat.card F = (2 ^ f) ^ 2) :
     rcases hu with rfl | rfl | rfl | rfl | rfl
     all_goals refine ⟨fun h => ?_, ?_⟩
     all_goals first
-      | (simp only [uForm_fin_four]; simp; done)
-      | (simp only [uForm_fin_four]; simp; grind)
+      | (simp only [uForm_fin_four]; simp)
       | (have := congrFun h 0; simp at this; done)
       | (have := congrFun h 1; simp at this; done)
-      | (have := congrFun h 3; simp at this; done)
+      | (have := congrFun h 3; simp at this)
   · exact eq_top_of_uTransLe_four hF hl (hL _ (by simp)) (hL _ (by simp)) (hL _ (by simp))
       (hL _ (by simp)) (hL _ (by simp))
 

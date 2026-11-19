@@ -36,6 +36,7 @@ theorem s13_eight_W6_cost_ge_two (h : Cfg133 A t 3) {z : MulAut W} {N : Subgroup
   rw [hcost, hrk (i₀ + 1)] at h2
   exact h2
 
+omit [Finite W] in
 theorem w16g_normalizes_kerOn {X : Subgroup (MulAut W)} {s : MulAut W} (hs2 : s * s = 1)
     (hsX : ∀ x ∈ X, s * x * s⁻¹ ∈ X) {U : Subgroup W} (hsU : ∀ u ∈ U, s u ∈ U) :
     ∀ x ∈ s13KerOn X U, s * x * s⁻¹ ∈ s13KerOn X U := by

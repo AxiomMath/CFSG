@@ -103,7 +103,7 @@ theorem invariantTwoMaximalWithin_le_sup_of_isSylow {n : ℕ} (hS : KFactSetting
       have hmem : (⟨z, hzN₀⟩ : N₀) ∈ (zpowers z).subgroupOf N₀ := mem_zpowers z
       rw [hbot, mem_bot] at hmem
       exact hz1 (congrArg Subtype.val hmem)
-  have hDp : IsPGroup p D := P.isPGroup'.to_le hDP
+  have hDp : IsPGroup p D := P.isPGroup.to_le hDP
   have hDC : D ≤ centralizer (D : Set G) := fun d hd =>
     mem_centralizer_iff.mpr fun d' hd' =>
       congrArg Subtype.val (hab.is_comm.comm ⟨d', hd'⟩ ⟨d, hd⟩)
@@ -239,7 +239,7 @@ theorem invariantTwoMaximalWithin_le_sup {n : ℕ} (hS : KFactSetting n G) (hD1 
 theorem gl83InvariantTwoWithin_of_kfactsC {n : ℕ} (hS : KFactSetting n G) (hD1 : TheoremD1 G)
     (h212 : KFactLemma212Ge n) (h213 : KFactLemma213GeC n) : GL83InvariantTwoWithin G :=
   hS.obstruction.gl83InvariantTwoWithin_of_nonConstrained hD1
-    fun p hp P M D hext hPD hab z hzD hz1 hzc hzp hN₀M hcon T hT =>
+    fun _p hp _P _M _D hext hPD hab _z hzD hz1 hzc hzp hN₀M hcon _T hT =>
       invariantTwoMaximalWithin_le_sup hS hD1 h212 h213 hp hext hPD hab hzD hz1 hzc hzp hN₀M
         hcon hT
 

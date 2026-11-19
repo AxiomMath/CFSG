@@ -136,8 +136,7 @@ theorem kds_inv_of_idem {P : Matrix (Fin 3) (Fin 3) K} (hP : P * P = P) (h0 : P 
       (∀ σ : K →+* K, (P.map σ)ᵀ = P → (t.map σ)ᵀ = t) := by
   set s : Matrix (Fin 3) (Fin 3) K := (2 : K) • P - 1 with hs_def
   have hs : s * s = 1 := by
-    simp only [hs_def, sub_mul, mul_sub, smul_mul_assoc, mul_smul_comm, hP, one_mul, mul_one,
-      smul_smul]
+    simp only [hs_def, sub_mul, mul_sub, smul_mul_assoc, mul_smul_comm, hP, one_mul, mul_one]
     module
   have hdet : s.det * s.det = 1 := by rw [← det_mul, hs, det_one]
   have hsc : ∀ M : Matrix (Fin 3) (Fin 3) K, Commute P M → Commute s M := fun M hM =>

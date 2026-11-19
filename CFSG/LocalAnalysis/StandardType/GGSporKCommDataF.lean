@@ -169,7 +169,7 @@ theorem bmPCentralF1At_F4At_of_commData {G : Type} [Group G] [Finite G] {p : ℕ
     (hg1 : LargeEvenPPrimeCore p ↥(Subgroup.centralizer ({z} : Set G)) = ⊥)
     (hno : ∀ C : Subgroup G, ¬ LargeEvenPComponent p (Subgroup.centralizer ({z} : Set G)) C) :
     BMPCentralF1At p z ∧ BMPCentralF4At p z := by
-  haveI hpf : Fact p.Prime := ⟨hp⟩
+  have hpf : Fact p.Prime := ⟨hp⟩
   have hzo : orderOf z = p := hD.orderOf_z
   obtain ⟨S, hS⟩ := CFSG.ABGLocalTools.exists_isSylowOf p L
   have hSL : S ≤ L := hS.le
@@ -178,7 +178,7 @@ theorem bmPCentralF1At_F4At_of_commData {G : Type} [Group G] [Finite G] {p : ℕ
     IsPGroup.of_card (n := n + 1) hD.card_eq
   have hQS : Subgroup.closure (Set.range q) ≤ S := by
     obtain ⟨P, rfl⟩ := hS
-    haveI : ((Subgroup.closure (Set.range q)).subgroupOf L).Normal :=
+    have : ((Subgroup.closure (Set.range q)).subgroupOf L).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer hQL).mpr hLN
     have hp' : IsPGroup p ((Subgroup.closure (Set.range q)).subgroupOf L) :=
       hQp.of_equiv (Subgroup.subgroupOfEquivOfLe hQL).symm

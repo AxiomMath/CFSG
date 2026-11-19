@@ -46,7 +46,7 @@ public theorem CFSG.lemma_12_1_f
   apply Subgroup.card_eq_one.mp
   apply section12_card_eq_one_of_no_prime_dvd
   intro p hpdiv
-  haveI : Fact p.val.Prime := ⟨p.2⟩
+  have : Fact p.val.Prime := ⟨p.2⟩
   have hpC : p.val ∣ Nat.card C := by
     rwa [hCcard]
   have hpE3 : p.val ∣ Nat.card E₃ := by
@@ -69,7 +69,7 @@ public theorem CFSG.lemma_12_1_f
         C.subtype_injective).1 (by simpa [Qmap] using hQmap_bot)
     exact hQ_ne_bot hQ_bot
   have hQmap_p : IsPGroup p.val Qmap :=
-    IsPGroup.map Q.isPGroup' C.subtype
+    IsPGroup.map Q.isPGroup C.subtype
   obtain ⟨P, hQmap_le_P⟩ := IsPGroup.exists_le_sylow (G := E) (p := p.val) hQmap_p
   have hnilE : Group.IsNilpotent (ambientDerivedSubgroup E) :=
     lemma_12_1_a (M := M) (E := E) (E₁₂ := E₁₂) (E₁ := E₁) (E₂ := E₂)

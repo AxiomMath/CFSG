@@ -100,7 +100,7 @@ theorem u33 : E8GenFacts ↥U33.QA.originalSubgroup ∧
       apply hQK
       rw [Subgroup.closure_le]
       intro g hg
-      simp only [List.mem_cons, List.not_mem_nil, or_false, Set.mem_setOf_eq] at hg
+      simp only [List.mem_cons, List.not_mem_nil, or_false, Set.mem_ofPred_eq] at hg
       rcases hg with rfl | rfl | rfl
       · exact hgP 0 (by norm_num) (by norm_num)
       · exact hgP 1 (by norm_num) (by norm_num)
@@ -175,7 +175,7 @@ theorem l33 : E8GenFacts ↥L33.QA.originalSubgroup ∧
       apply hQK
       rw [Subgroup.closure_le]
       intro g hg
-      simp only [List.mem_cons, List.not_mem_nil, or_false, Set.mem_setOf_eq] at hg
+      simp only [List.mem_cons, List.not_mem_nil, or_false, Set.mem_ofPred_eq] at hg
       rcases hg with rfl | rfl | rfl
       · exact hgP 0 (by norm_num) (by norm_num)
       · exact hgP 1 (by norm_num) (by norm_num)

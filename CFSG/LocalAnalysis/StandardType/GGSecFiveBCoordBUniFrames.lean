@@ -47,7 +47,7 @@ theorem GGSecFiveBCoordBUniCell.exists_frames_of_diag (hMp : GGInnerDiagMpInput)
           ∃ (σ : ↥(unitarySU 2 f F (m + 1)) →* G) (χ : Multiplicative (ZMod p) →* Fˣ),
             GGSecFiveBPermUniLFrame Bs K eta' π σ χ := by
   obtain ⟨hp, hp2⟩ := ggRouteCfg_prime hR
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hf, hEv, hpq, hK𝒦, -, ⟨eLs⟩, eta', -, hAL', hAK'⟩ := hcell
   have hmo : Odd m := by
     obtain ⟨j, hj⟩ := hEv
@@ -93,7 +93,7 @@ theorem GGSecFiveBCoordBUniCell.exists_frames
   obtain ⟨hf2, -, hpq, hK𝒦, hsu, -, ⟨etaCell, -⟩⟩ := hcell
   obtain ⟨hψ, hψker, hψrange⟩ := hsu
   have hp : p.Prime := (GGConfig.tableB_facts hR.1.1).1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨y, hNy⟩ := hR.2.2.2.1.2 K hK𝒦
   have hf1 : 1 ≤ f := by omega
   have hn4 : 4 ≤ m + 1 := by omega

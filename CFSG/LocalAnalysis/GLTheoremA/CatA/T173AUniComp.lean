@@ -55,14 +55,14 @@ private theorem not_solvable_of_open_isQuasisimple {Q : Type*} [Group Q]
       exact hperf
   rw [htop] at hn
   have hall : ∀ x : Q, x = 1 := fun x => Subgroup.mem_bot.1 (hn ▸ Subgroup.mem_top x)
-  haveI : Subsingleton Q := ⟨fun a b => by rw [hall a, hall b]⟩
-  haveI : Subsingleton (Q ⧸ Subgroup.center Q) := inferInstance
+  have : Subsingleton Q := ⟨fun a b => by rw [hall a, hall b]⟩
+  have : Subsingleton (Q ⧸ Subgroup.center Q) := inferInstance
   exact not_subsingleton (Q ⧸ Subgroup.center Q) inferInstance
 
 theorem uni_component_support {p n d : ℕ} {F : Type} [Field F] [Finite F]
     (h : UniArith p n d F) {Q : Type} [Group Q] {ψ : Q ≃* UniPSU n d F} {Bbar : Subgroup Q}
     {A : Subgroup (GL (Fin d) F)} (hfr : UniDiagFrame p n d F ψ Bbar A) {y : Q} (hy : y ∈ Bbar)
-    (hy1 : y ≠ 1) {Kbar : Subgroup Q}
+    (_hy1 : y ≠ 1) {Kbar : Subgroup Q}
     (hK : CFSG.Open.IsComponentOf Kbar (Subgroup.centralizer ({y} : Set Q))) :
     ∃ I : Finset (Fin d), 2 ≤ I.card ∧
       (Kbar.map ψ.toMonoidHom : Set (UniPSU n d F)) = UniBlockImage n d F I := by
@@ -179,10 +179,10 @@ theorem uni_component_support {p n d : ℕ} {F : Type} [Field F] [Finite F]
         have hlt' : I.card < 4 := not_le.mp hlt
         have hk1 : 1 ≤ I.card := by omega
         have hk3 : I.card ≤ 3 := by omega
-        haveI : Group.IsSolvable ↥(CFSG.ClassicalGroups.UnitaryFlag.unitarySU 2 1 F I.card) :=
+        have : Group.IsSolvable ↥(CFSG.ClassicalGroups.UnitaryFlag.unitarySU 2 1 F I.card) :=
           CFSG.StandardType.WitSU.isSolvable_unitarySU_two_one hUF hk1 hk3
         let e := CFSG.StandardType.TableBUE.blockSUEquiv (K := F) (n := 1) I hUF
-        haveI : Group.IsSolvable ↥(CFSG.StandardType.TableBUE.blockSU (K := F) (n := 1) I) :=
+        have : Group.IsSolvable ↥(CFSG.StandardType.TableBUE.blockSU (K := F) (n := 1) I) :=
           Group.isSolvable_of_isSolvable_injective (f := e.symm.toMonoidHom)
             (fun x y h => e.symm.injective h)
         have hsolv : Group.IsSolvable
@@ -192,11 +192,11 @@ theorem uni_component_support {p n d : ℕ} {F : Type} [Field F] [Finite F]
               (CFSG.StandardType.TableBUE.blockSU (K := F) (n := 1) I).subtype).rangeRestrict)
             (MonoidHom.rangeRestrict_surjective _)
           rwa [MonoidHom.range_comp, Subgroup.range_subtype] at hres
-        haveI : Group.IsSolvable
+        have : Group.IsSolvable
             ↥((CFSG.StandardType.TableBUE.blockSU (K := F) (n := 1) I).map π') := hsolv
         have hsolvJ : Group.IsSolvable ↥J := by
           let eJ := Subgroup.subgroupOfEquivOfLe hJI'
-          haveI : Group.IsSolvable ↥(J.subgroupOf
+          have : Group.IsSolvable ↥(J.subgroupOf
               ((CFSG.StandardType.TableBUE.blockSU (K := F) (n := 1) I).map π')) :=
             Group.isSolvable_of_isSolvable_injective
               (f := (J.subgroupOf

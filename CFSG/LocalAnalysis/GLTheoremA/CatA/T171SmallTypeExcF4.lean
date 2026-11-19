@@ -14,8 +14,8 @@ theorem noSmall_of_isF4two {S : Type} [Group S] (h : catalogIs S S9.isF4two) :
     HStdExcl.NoSmall S := by
   obtain ⟨K, hfield, hfinite, hK, ⟨e⟩⟩ :=
     CFSG.LocalAnalysis.GLTheoremA.CatB.I2610.exists_adjointGroup_of_catalogIs_isF4two h
-  letI : Field K := hfield
-  letI : Finite K := hfinite
+  let : Field K := hfield
+  let : Finite K := hfinite
   exact noSmall_of_mulEquiv e (CFSG.LocalAnalysis.GLTheoremA.HStdExcl.exclF4_holds K hK)
 
 theorem noSmall_lie_F4 (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeIndex.F4 q).Valid)

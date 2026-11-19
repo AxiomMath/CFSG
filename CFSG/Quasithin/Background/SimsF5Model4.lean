@@ -650,7 +650,7 @@ theorem m4_rho3_not_mem_Tf : rhoDot ^ 3 ∉ TDot ⊓ Subgroup.centralizer ({fDot
   rwa [this] at h2
 
 theorem m4_xor_aux {b : GL6} (hb : b ∈ RDot) :
-    Xor' (b * rhoDot ∈ TDot ⊓ Subgroup.centralizer ({fDot} : Set GL6))
+    Xor (b * rhoDot ∈ TDot ⊓ Subgroup.centralizer ({fDot} : Set GL6))
       (b ∈ TDot ⊓ Subgroup.centralizer ({fDot} : Set GL6)) := by
   obtain ⟨t, ht, y, hy, rfl⟩ := m4_mem_RDot_iff.1 hb
   have hr4 := m4_rho_pow_four
@@ -714,7 +714,7 @@ theorem eq_RDot (R : Subgroup GL6)
     (hcard : Nat.card ↥(MDot ⊓ Subgroup.centralizer ({fDot} : Set GL6)) = 2880)
     (hR : IsSylowOf 2 R (MDot ⊓ Subgroup.centralizer ({fDot} : Set GL6)))
     (hTR : TDot ⊓ Subgroup.centralizer ({fDot} : Set GL6) ≤ R) : R = RDot := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hRC, hRp, hRidx⟩ := hR
   set C := MDot ⊓ Subgroup.centralizer ({fDot} : Set GL6) with hC
   have hR64 : Nat.card ↥R = 64 := by
@@ -739,7 +739,7 @@ theorem eq_RDot (R : Subgroup GL6)
   have hYC : Subgroup.zpowers rhoDot ≤ C := m4_Y_le_C
   have hYle : Subgroup.zpowers rhoDot ≤ R := by
     let N : Subgroup ↥C := (Subgroup.zpowers rhoDot).subgroupOf C
-    haveI hN : N.Normal := ⟨fun n hn g => by
+    have hN : N.Normal := ⟨fun n hn g => by
       rw [Subgroup.mem_subgroupOf] at hn ⊢
       simpa using m4_Y_normal g.2 hn⟩
     have hNcard : Nat.card ↥N = 4 := by
@@ -847,7 +847,7 @@ theorem m4_card_Z2S4 : Nat.card (Multiplicative (ZMod 2) × Equiv.Perm (Fin 4)) 
     rfl
   have h2 : Nat.card (Multiplicative (ZMod 2)) = 2 := by
     rw [Nat.card_congr (Multiplicative.toAdd : Multiplicative (ZMod 2) ≃ ZMod 2)]
-    simp [Nat.card_zmod]
+    simp
   rw [Nat.card_prod, h2, h24]
 
 @[expose] def m4Z (a : GL6) : Subgroup GL6 := Subgroup.zpowers a ⊔ Subgroup.zpowers fDot

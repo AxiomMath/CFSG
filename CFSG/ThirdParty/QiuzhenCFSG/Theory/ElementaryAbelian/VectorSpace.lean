@@ -44,7 +44,7 @@ public theorem IsElementaryAbelian.exists_isCompl (p : ℕ) [hp : Fact p.Prime]
     (A : Type u) [Group A]
     [h : IsElementaryAbelian p A] (B : Subgroup A) :
     ∃ C : Subgroup A, IsCompl B C := by
-  letI : Module (ZMod p) (Additive A) := IsElementaryAbelian.isVectorSpace (p := p) (G := A)
+  let : Module (ZMod p) (Additive A) := IsElementaryAbelian.isVectorSpace (p := p) (G := A)
   let φ : AddSubgroup (Additive A) ≃o Submodule (ZMod p) (Additive A) :=
     AddSubgroup.toZModSubmodule (n := p)
   let ψ : AddSubgroup (Additive A) ≃o Subgroup A :=

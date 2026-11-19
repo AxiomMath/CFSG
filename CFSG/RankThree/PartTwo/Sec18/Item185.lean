@@ -54,7 +54,7 @@ private theorem exists_elemAbelian_lift {X : Type} [Group X] [Finite X] {N : Sub
     [N.Normal] (hN : IsPGroup 2 N) {p : ℕ} [hp : Fact p.Prime] (hp2 : p ≠ 2)
     {E : Subgroup (X ⧸ N)} (hE : IsElemAbelian p E) :
     ∃ F : Subgroup X, IsElemAbelian p F ∧ Nat.card F = Nat.card E := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let E₀ : Subgroup X := E.comap (QuotientGroup.mk' N)
   have hNE₀ : N ≤ E₀ := fun n hn => by
     show (n : X ⧸ N) ∈ E
@@ -109,7 +109,7 @@ private theorem exists_conj_of_planeQ8 {G : Type} [Group G] [Finite G] {A B T : 
   have hcomm : ∀ a ∈ A ⊓ T, ∀ b ∈ A ⊓ T, a * b = b * a := fun a ha b hb =>
     congrArg Subtype.val (hQ.isElemAbelian.1.is_comm.comm ⟨a, ha.1⟩ ⟨b, hb.1⟩)
   have h3 : ∀ b : ↥(A ⊓ T), b ^ 3 = 1 := fun b => Subtype.ext (hQ.isElemAbelian.2 (b : G) b.2.1)
-  letI : CommGroup ↥(A ⊓ T) :=
+  let : CommGroup ↥(A ⊓ T) :=
     { (inferInstance : Group ↥(A ⊓ T)) with
       mul_comm := fun a b => Subtype.ext (hcomm a a.2 b b.2) }
   obtain ⟨f, hf⟩ := hQ.quaternion
@@ -158,7 +158,7 @@ private theorem inf_oTwoP_eq_bot {G : Type} [Group G] {A B T M : Subgroup G} {c 
       have h' := conj_mem_oTwoP_map (M.inv_mem htM) hh
       have e : t⁻¹ * (t * h * t⁻¹) * t⁻¹⁻¹ = h := by group
       rwa [e] at h'
-    simp only [SetLike.mem_coe, Subgroup.mem_inf]
+    simp only [Subgroup.mem_inf]
     exact and_congr hB hO
   rcases Sec13.eq_bot_or_eq_of_isIrreducibleOn hQ.irreducible inf_le_left hKV with h | h
   · exact h
@@ -171,8 +171,8 @@ private theorem comm_oTwoP_of_planeQ8 {G : Type} [Group G] [Finite G] {A B T M :
     ∀ p : ℕ, p.Prime → 3 < p → ∀ b ∈ B, ∀ y ∈ (Sec4.oTwoP p ↥M).map M.subtype,
       b * y * b⁻¹ * y⁻¹ ∈ CFSG.Open.pCoreOf 2 M := by
   intro p hp hp3 b hb y hy
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hBA : B ≤ A := by rw [hQ.eq_sup]; exact le_sup_right
   have hAM : A ≤ M := (Subgroup.le_normalizer (H := A)).trans hWM
   have hBM : B ≤ M := hBA.trans hAM
@@ -215,7 +215,7 @@ private theorem comm_oTwoP_of_planeQ8 {G : Type} [Group G] [Finite G] {A B T M :
     have hsT : (s : G) ∈ T := Subgroup.mem_subgroupOf.mp hs
     rw [Subgroup.mem_normalizer_iff]
     intro x
-    simp only [SetLike.mem_coe, Subgroup.mem_subgroupOf]
+    simp only [Subgroup.mem_subgroupOf]
     exact Subgroup.mem_normalizer_iff.mp (hQ.le_normalizer_plane hsT) (x : G)
   have hS₁N : (T.subgroupOf M).map (QuotientGroup.mk' (CFSG.pCore 2 ↥M)) ≤
       Subgroup.normalizer (((B.subgroupOf M).map (QuotientGroup.mk' (CFSG.pCore 2 ↥M)) :
@@ -262,7 +262,7 @@ theorem item185_of
     (hF1 : LeafF1) (hOut : LeafOuter) (hIn : LeafInner) : Item185 := by
   intro G _ _ A M H c hH
   by_contra hnot
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P, hP⟩ := CFSG.ABGLocalTools.exists_isSylowOf 3 (Subgroup.normalizer (A : Set G))
   have hC := ctx_of h1812 h184 h1842 h1846 hH hP
   have hWM : Subgroup.normalizer (A : Set G) ≤ M := Rem187QProof.normalizer_le hH.toSec18Std

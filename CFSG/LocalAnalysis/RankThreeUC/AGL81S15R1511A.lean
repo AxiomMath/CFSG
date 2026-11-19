@@ -60,7 +60,7 @@ theorem two_le_pRank_of_two_components {Y : Type} [Group Y] [Finite Y] {B Ls Is 
     (hy : ¬ pElementSubgroup q (B ⊓ Ls) ≤ (Subgroup.center ↥Ls).map Ls.subtype)
     (hy' : ¬ pElementSubgroup q (B ⊓ Is) ≤ (Subgroup.center ↥Is).map Is.subtype) :
     2 ≤ CFSG.Open.pRank q B := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨a, haM, haZ, i, hi⟩ := exists_pElement_not_mem q _ _ hy
   obtain ⟨b, hbM, hbZ, j, hj⟩ := exists_pElement_not_mem q _ _ hy'
   have haB : a ∈ B := (Subgroup.mem_inf.1 haM).1
@@ -126,10 +126,11 @@ theorem gnYComponent_unique {T T₁ T₂ : Subgroup X} (hthree : GNThree T T₁ 
     (normalizer (T₁ : Set X)) h2
   omega
 
+omit [Finite X] in
 theorem IsGNPair.le_normalizer₁ {T T₁ T₂ : Subgroup X} (h : IsGNPair T T₁ T₂) :
     T ≤ normalizer (T₁ : Set X) := by
   have hle : T₁ ≤ T := h.le_center.trans (omegaOneCenterOf_le_subgroup T)
-  haveI := h.char₁
+  have := h.char₁
   have hn : (T₁.subgroupOf T).Normal := inferInstance
   intro t ht
   rw [Subgroup.mem_normalizer_iff]
@@ -142,10 +143,11 @@ theorem IsGNPair.le_normalizer₁ {T T₁ T₂ : Subgroup X} (h : IsGNPair T T�
     have := h1 (t * x * t⁻¹) t⁻¹ hx (T.inv_mem ht)
     simpa [mul_assoc] using this
 
+omit [Finite X] in
 theorem IsGNPair.le_normalizer₂ {T T₁ T₂ : Subgroup X} (h : IsGNPair T T₁ T₂) :
     T ≤ normalizer (T₂ : Set X) := by
   have hle : T₂ ≤ T := h.le₂
-  haveI := h.char₂
+  have := h.char₂
   have hn : (T₂.subgroupOf T).Normal := inferInstance
   intro t ht
   rw [Subgroup.mem_normalizer_iff]
@@ -163,6 +165,7 @@ theorem isComponentOf_conj_aux {Y : Type} [Group Y] {L : Subgroup Y}
     CFSG.Open.IsComponentOf (L.map (MulAut.conj g).toMonoidHom) ⊤ :=
   (CFSG.ComponentClassification.LocalComponents.equiv_iff (MulAut.conj g) L).mpr hL
 
+omit [Finite X] in
 theorem map_conj_eq_of_conj_mem {K : Subgroup X} {t : X} (h1 : ∀ x ∈ K, t * x * t⁻¹ ∈ K)
     (h2 : ∀ x ∈ K, t⁻¹ * x * t ∈ K) : K.map (MulAut.conj t).toMonoidHom = K := by
   apply le_antisymm
@@ -173,6 +176,7 @@ theorem map_conj_eq_of_conj_mem {K : Subgroup X} {t : X} (h1 : ∀ x ∈ K, t * 
     simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
     group
 
+omit [Finite X] in
 theorem conj_mem_centralizer_of_mem_normalizer {S : Subgroup X} {t : X}
     (ht : t ∈ normalizer (S : Set X)) : ∀ x ∈ centralizer (S : Set X), t * x * t⁻¹ ∈ centralizer (S : Set X) := by
   intro x hx
@@ -187,6 +191,7 @@ theorem conj_mem_centralizer_of_mem_normalizer {S : Subgroup X} {t : X}
     _ = t * (x * (t⁻¹ * h * t)) * t⁻¹ := by rw [h1]
     _ = t * x * t⁻¹ * h := by group
 
+omit [Finite X] in
 theorem gnImg_map_conj_eq {T K : Subgroup X} {t : X}
     (hK : K.map (MulAut.conj t).toMonoidHom = K) :
     (gnImg T K).map (MulAut.conj (toStar T t)).toMonoidHom = gnImg T K := by
@@ -198,6 +203,7 @@ theorem gnImg_map_conj_eq {T K : Subgroup X} {t : X}
     simp [MulAut.conj_apply]
   rw [hcomm, ← Subgroup.map_map, hK]
 
+omit [Finite X] in
 theorem gnYComponent_conj {T T₁ T₂ : Subgroup X} (h : IsGNPair T T₁ T₂)
     {Ls : Subgroup (X ⧸ gnC T)} (hLs : GNYComponent T T₁ T₂ Ls) {t : X} (ht : t ∈ T) :
     GNYComponent T T₁ T₂ (Ls.map (MulAut.conj (toStar T t)).toMonoidHom) := by
@@ -225,6 +231,7 @@ theorem gnYComponent_conj {T T₁ T₂ : Subgroup X} (h : IsGNPair T T₁ T₂)
     rw [← gnImg_map_conj_eq (T := T) hNmap] at hle
     exact (Subgroup.map_le_map_iff_of_injective (MulAut.conj (toStar T t)).injective).1 hle
 
+omit [Finite X] in
 theorem gnImg_le_normalizer_of_unique {T T₁ T₂ : Subgroup X} (h : IsGNPair T T₁ T₂)
     {Ls : Subgroup (X ⧸ gnC T)} (hLs : GNYComponent T T₁ T₂ Ls)
     (huniq : ∀ Is, GNYComponent T T₁ T₂ Is → Is = Ls) :
@@ -268,7 +275,7 @@ theorem gnShape_classical {T T₁ T₂ : Subgroup X} (halt7 : GNAlt7 T T₁ T₂
 theorem exists_pPow_lift {Y Z : Type} [Group Y] [Group Z] [Finite Y] [Finite Z] (f : Y →* Z)
     (hf : Function.Surjective f) {q : ℕ} (hq : q.Prime) {z : Z} (hz : ∃ k : ℕ, orderOf z = q ^ k) :
     ∃ y : Y, f y = z ∧ ∃ k : ℕ, orderOf y = q ^ k := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨k, hk⟩ := hz
   let U : Subgroup Y := (Subgroup.zpowers z).comap f
   let g : U →* Subgroup.zpowers z := (f.comp U.subtype).codRestrict _ (fun u => u.2)
@@ -292,7 +299,7 @@ theorem exists_pPow_lift {Y Z : Type} [Group Y] [Group Z] [Finite Y] [Finite Z] 
 
 theorem one_le_pRank_of_dvd {Y : Type} [Group Y] [Finite Y] (A : Subgroup Y) {q : ℕ}
     (hq : q.Prime) (h : q ∣ Nat.card A) : 1 ≤ CFSG.Open.pRank q A := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := A) q h
   have hxq : (x.1 : Y) ^ q = 1 := by
     have := pow_orderOf_eq_one x
@@ -341,6 +348,7 @@ theorem mS_mN_eq_one {T T₁ T₂ : Subgroup X} (hthree : GNThree T T₁ T₂)
   obtain ⟨b1, b2⟩ := key T₂ ((hthree Ls hLs).2 (Or.inl hcl)) h₂
   exact ⟨a1, b1, a2, b2⟩
 
+omit [Finite X] in
 theorem Y0_eq_comap_of_unique {T T₁ T₂ : Subgroup X} {Ls : Subgroup (X ⧸ gnC T)}
     (hLs : GNYComponent T T₁ T₂ Ls) (huniq : ∀ Is, GNYComponent T T₁ T₂ Is → Is = Ls) :
     Y0 T T₁ T₂ = Ls.comap (toStar T) := by
@@ -354,7 +362,7 @@ theorem Y0_eq_comap_of_unique {T T₁ T₂ : Subgroup X} {Ls : Subgroup (X ⧸ g
 theorem three_le_pRank_of_le_comap {T : Subgroup X} {Ls : Subgroup (X ⧸ gnC T)}
     (hC : ¬ 3 ∣ Nat.card (gnC T)) (hle : pElementSubgroup 3 (⊤ : Subgroup X) ≤ Ls.comap (toStar T))
     (hX : 3 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup X)) : 3 ≤ CFSG.Open.pRank 3 Ls := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨E, -, hE, hEcard⟩ := CFSG.SectionRank.exists_pRank (by norm_num : 1 < 3) (⊤ : Subgroup X)
   have hEle : E ≤ Ls.comap (toStar T) := by
     intro x hx
@@ -447,7 +455,7 @@ theorem pElementSubgroup_eq_of_isComponent {Y : Type} [Group Y] [Finite Y] {Ls :
         refine ⟨k, ?_⟩
         have := orderOf_injective (MulAut.conj (g : Y)).toMonoidHom (MulAut.conj (g : Y)).injective x
         simpa [MulAut.conj_apply, hk] using this
-      | one => simpa using Subgroup.one_mem _
+      | one => simp
       | mul x y _ _ hx hy =>
         have : (g : Y) * (x * y) * (g : Y)⁻¹ = ((g : Y) * x * (g : Y)⁻¹) * ((g : Y) * y * (g : Y)⁻¹) := by group
         rw [this]
@@ -458,8 +466,8 @@ theorem pElementSubgroup_eq_of_isComponent {Y : Type} [Group Y] [Finite Y] {Ls :
         exact Subgroup.inv_mem _ hx
     show ((g * n * g⁻¹ : ↥Ls) : Y) ∈ pElementSubgroup 3 Ls
     simpa using key _ hn'
-  haveI := hOn
-  haveI : (O.map (QuotientGroup.mk' (Subgroup.center ↥Ls))).Normal :=
+  have := hOn
+  have : (O.map (QuotientGroup.mk' (Subgroup.center ↥Ls))).Normal :=
     hOn.map _ (QuotientGroup.mk'_surjective _)
   have hbt := hsimp.eq_bot_or_eq_top_of_normal (O.map (QuotientGroup.mk' (Subgroup.center ↥Ls)))
   rcases hbt with hbot | htop

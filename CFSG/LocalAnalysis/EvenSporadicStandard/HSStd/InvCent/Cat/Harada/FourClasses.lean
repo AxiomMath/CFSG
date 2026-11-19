@@ -26,7 +26,7 @@ variable {G : Type*} [Group G] {t v : G} {J : Subgroup G} (h : TwoCfg t v J)
 
 include h
 
-theorem exists_four_classes (htop : centralizer ({t} : Set G) ≠ ⊤) :
+theorem exists_four_classes (_htop : centralizer ({t} : Set G) ≠ ⊤) :
     ∃ x : ↥(fourGroup t v) → ↥(centralizer ({t} : Set G)), (∀ a, orderOf (x a) = 4) ∧
       ∀ (a b : ↥(fourGroup t v)) (y : ↥(centralizer ({t} : Set G))),
         y * x a * y⁻¹ = x b → a = b := by
@@ -119,8 +119,8 @@ theorem false_of_fewFour {M : Type*} [Group M] {Q : Subgroup M}
     exact hcov _ (e (x a)).2 h4
   choose f hf c hc hfc using hex
   have hcardV : Nat.card ↥(fourGroup t v) = 4 := h.card_fourGroup htop
-  haveI : Finite ↥(fourGroup t v) := Nat.finite_of_card_ne_zero (by rw [hcardV]; norm_num)
-  haveI : Fintype ↥(fourGroup t v) := Fintype.ofFinite _
+  have : Finite ↥(fourGroup t v) := Nat.finite_of_card_ne_zero (by rw [hcardV]; norm_num)
+  have : Fintype ↥(fourGroup t v) := Fintype.ofFinite _
   have hlt : reps.card < (Finset.univ : Finset ↥(fourGroup t v)).card := by
     rw [Finset.card_univ, ← Nat.card_eq_fintype_card, hcardV]
     omega

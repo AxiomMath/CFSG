@@ -34,7 +34,7 @@ theorem tw_mem_sylow_of_commute {p : ℕ} [Fact p.Prime] (P : Sylow p G) {x : G}
     obtain ⟨i, rfl⟩ := Subgroup.mem_zpowers_iff.1 hz'
     exact ((Commute.zpow_right (show Commute s x from hc s hs) i).eq).symm
   have hQ : IsPGroup p ((P : Subgroup G) ⊔ Subgroup.zpowers x : Subgroup G) :=
-    P.isPGroup'.to_sup_of_normal_right' hz hnorm
+    P.isPGroup.to_sup_of_normal_right' hz hnorm
   have hQeq : ((P : Subgroup G) ⊔ Subgroup.zpowers x : Subgroup G) = (P : Subgroup G) :=
     (P.maximal_isPGroup.eq_of_le hQ le_sup_left).symm
   rw [← hQeq]
@@ -119,15 +119,18 @@ section Model
 variable {τ : Tag} {L : Type} [Field L] [IsAlgClosed L]
   (D : LangDatum τ L)
 
+omit [IsAlgClosed L] in
 theorem tw_mem_model {y : ModGL τ L} (hy : y ∈ monomialSubgroup τ L)
     (hf : D.n * D.Φ y * D.n⁻¹ = y) : y ∈ D.model :=
   ⟨monomialSubgroup_le_adjointGroup' hy, hf⟩
 
+omit [IsAlgClosed L] in
 theorem tw_Γ_le_model : D.Γ ≤ D.model := by
   refine Subgroup.commutator_le.2 fun a ha b hb => ?_
   rw [commutatorElement_def]
   exact mul_mem (mul_mem (mul_mem ha hb) (inv_mem ha)) (inv_mem hb)
 
+omit [IsAlgClosed L] in
 theorem tw_model_conj_mem_Γ {y g : ModGL τ L} (hy : y ∈ D.model) (hg : g ∈ D.Γ) :
     y * g * y⁻¹ ∈ D.Γ := by
   have hgM : g ∈ D.model := tw_Γ_le_model D hg
@@ -135,10 +138,12 @@ theorem tw_model_conj_mem_Γ {y g : ModGL τ L} (hy : y ∈ D.model) (hg : g ∈
     (Subgroup.mem_subgroupOf.2 hg) ⟨y, hy⟩
   exact Subgroup.mem_subgroupOf.1 h
 
+omit [IsAlgClosed L] in
 theorem tw_commutator_mem_Γ {y₁ y₂ : ModGL τ L} (h₁ : y₁ ∈ D.model) (h₂ : y₂ ∈ D.model) :
     ⁅y₁, y₂⁆ ∈ D.Γ :=
   Subgroup.commutator_mem_commutator h₁ h₂
 
+omit [IsAlgClosed L] in
 theorem tw_conj_mem_torus {y t : ModGL τ L} (hy : y ∈ monomialSubgroup τ L)
     (hf : D.n * D.Φ y * D.n⁻¹ = y) (ht : t ∈ D.torus) : y * t * y⁻¹ ∈ D.torus := by
   obtain ⟨ht1, ht2⟩ := mem_twistedTorusOf.1 ht
@@ -167,7 +172,7 @@ theorem tw_conj_mem_sylow (S₀ : Sylow p D.Γ)
   have hzT : y * (s' : ModGL τ L) * y⁻¹ ∈ D.torus := tw_conj_mem_torus D hy hf hs'T
   have hzΓ : y * (s' : ModGL τ L) * y⁻¹ ∈ D.Γ := tw_model_conj_mem_Γ D hyM s'.2
   set z : D.Γ := ⟨y * (s' : ModGL τ L) * y⁻¹, hzΓ⟩ with hz
-  obtain ⟨k, hk⟩ := S₀.isPGroup' ⟨s', hs'S⟩
+  obtain ⟨k, hk⟩ := S₀.isPGroup ⟨s', hs'S⟩
   have hs'k : (s' : ModGL τ L) ^ p ^ k = 1 := by
     have := congrArg Subtype.val hk
     simpa using congrArg Subtype.val this

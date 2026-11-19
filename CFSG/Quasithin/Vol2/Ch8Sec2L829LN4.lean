@@ -84,9 +84,9 @@ theorem invUnder_sup [Finite W] {S₁ S₂ S₃ : Subgroup (W ≃ₗ[ZMod 2] W)}
 @[expose] noncomputable def toSubmoduleA (S : Subgroup (W ≃ₗ[ZMod 2] W)) (P : Submodule (ZMod 2) W)
     (hP : InvUnder S P) : Submodule (algOf S) W where
   carrier := P
-  add_mem' := fun {x y} hx hy => P.add_mem hx hy
+  add_mem' := fun {_x _y} hx hy => P.add_mem hx hy
   zero_mem' := P.zero_mem
-  smul_mem' := fun a {x} hx => invUnder_algOf S hP a a.2 x hx
+  smul_mem' := fun a {_x} hx => invUnder_algOf S hP a a.2 _x hx
 
 theorem invUnder_of_submoduleA (S : Subgroup (W ≃ₗ[ZMod 2] W)) (Q : Submodule (algOf S) W) :
     ∀ s ∈ S, ∀ w ∈ Q, s w ∈ Q := by

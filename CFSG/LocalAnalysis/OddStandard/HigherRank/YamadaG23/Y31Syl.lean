@@ -25,8 +25,8 @@ private lemma conj_mem_centralizer_of_mem_normalizer {G : Type} [Group G] {L : S
 
 private theorem isSylowIn_map_subtype {G : Type} [Group G] [Finite G] {V : Subgroup G}
     (P : Sylow 2 ↥V) : IsSylowIn 2 V ((P : Subgroup ↥V).map V.subtype) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  refine ⟨Subgroup.map_subtype_le _, P.isPGroup'.map V.subtype, ?_⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  refine ⟨Subgroup.map_subtype_le _, P.isPGroup.map V.subtype, ?_⟩
   have h := Subgroup.relIndex_map_map_of_injective (f := V.subtype)
     (P : Subgroup ↥V) (⊤ : Subgroup ↥V) V.subtype_injective
   rw [Subgroup.map_top V.subtype, Subgroup.range_subtype, Subgroup.relIndex_top_right] at h
@@ -37,7 +37,7 @@ theorem s3_sylow_cent (hS : HRSetting G L)
     (hQ : s.T ⊓ centralizer (L : Set G) = zpowers s.t) :
     IsSylowIn 2 (centralizer (L : Set G)) (zpowers s.t) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let C : Subgroup G := centralizer (L : Set G)
   have htC : s.t ∈ C := s.t_mem
   have hztC : zpowers s.t ≤ C := Subgroup.zpowers_le.mpr s.t_mem
@@ -48,12 +48,12 @@ theorem s3_sylow_cent (hS : HRSetting G L)
   obtain ⟨P₁, hP₀P₁⟩ := hP₀pg.exists_le_sylow
   let P : Subgroup G := (P₁ : Subgroup ↥C).map C.subtype
   have hPsylow : IsSylowIn 2 C P := isSylowIn_map_subtype (V := C) P₁
-  have hPpg : IsPGroup 2 P := P₁.isPGroup'.map C.subtype
+  have hPpg : IsPGroup 2 P := P₁.isPGroup.map C.subtype
   have hPC : P ≤ C := Subgroup.map_subtype_le (P₁ : Subgroup ↥C)
   have htP : s.t ∈ P := by
     refine Subgroup.mem_map.mpr ⟨⟨s.t, htC⟩, hP₀P₁ ?_, rfl⟩
-    simpa [Subgroup.mem_subgroupOf] using Subgroup.zpow_mem_zpowers s.t 1
-  haveI : IsCyclic ↥P := cyc_of_isPGroup_cent hS hPpg hPC
+    simp [Subgroup.mem_subgroupOf]
+  have : IsCyclic ↥P := cyc_of_isPGroup_cent hS hPpg hPC
   have hPH : P ≤ s.H := by
     intro p hp
     change p ∈ centralizer ({s.t} : Set G)

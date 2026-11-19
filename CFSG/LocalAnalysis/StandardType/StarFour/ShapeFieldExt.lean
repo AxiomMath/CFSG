@@ -15,6 +15,7 @@ open CFSG.Assembly CFSG.Blueprint CFSG.StandardType
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type} [AddCommGroup V] [Module F V]
   [Module.Finite F V] {X : Type} [Group X]
 
+omit [Finite F] [CharP F 2] [Module.Finite F V] in
 theorem two_le_finrank_of_fieldExt
     {P : Type} [CommGroup P] (η : P →* SpecialLinearGroup F V)
     (fr : SemiFrame F (groupRep η)) (i : Fin fr.r) (hm : 3 ≤ fr.m i)

@@ -56,10 +56,10 @@ theorem centralizer_decomp_frame_four {K V : Type} [Field K] [Finite K] [CharP K
           (leviFix (elementaryGroup Q) (framePair F k true)
             (flipPair (framePair F l true))).comap σ := by
   classical
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
+  have : Finite V := Module.finite_of_finite K
+  have : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
     fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
-  haveI : Finite U := Finite.of_injective σ hσ
+  have : Finite U := Finite.of_injective σ hσ
   have hEich : ∀ a b : V, eichler Q a b ∈ elementaryGroup Q := eichler_mem_elementaryGroup Q
   have h₁₂ := orth₁₂ F hij s t hc
   have h₁₃ := orth₁₃ F hjk t true
@@ -254,10 +254,10 @@ theorem isSolvable_centralizer_frame_four_two {K V : Type} [Field K] [Finite K] 
     (hx : σ x = eichler Q (F.vec j t) (c • F.vec i s)) :
     Group.IsSolvable (Subgroup.centralizer ({x} : Set U)) := by
   classical
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
+  have : Finite V := Module.finite_of_finite K
+  have : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
     fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
-  haveI : Finite U := Finite.of_injective σ hσ
+  have : Finite U := Finite.of_injective σ hσ
   have hEich : ∀ a b : V, eichler Q a b ∈ elementaryGroup Q := eichler_mem_elementaryGroup Q
   have h₁₂ := orth₁₂ F hij s t hc
   have h₁₃ := orth₁₃ F hjk t true

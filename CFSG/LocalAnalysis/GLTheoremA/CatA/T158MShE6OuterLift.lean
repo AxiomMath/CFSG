@@ -89,7 +89,7 @@ theorem exists_fixed_lift_of_mem_Γ (S : LangSetup Tag.E6 L p₀) {ω : List (Fi
   have hcomm : ∀ x, π (F₁ x) = S.D.step (π x) := by
     intro x
     simp only [hπ, hF₁, MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulAut.conj_apply,
-      Subgroup.coe_subtype, map_mul, map_inv, Subgroup.coe_mul, Subgroup.coe_inv]
+      Subgroup.coe_subtype, map_mul, map_inv]
     rw [hπN, h₁, baseChangeGL_canonicalRep, h₂, LangDatum.step,
       MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulAut.conj_apply, hn]
   have hMπ : ∀ y ∈ S.D.model, ∃ x, π x = y := by

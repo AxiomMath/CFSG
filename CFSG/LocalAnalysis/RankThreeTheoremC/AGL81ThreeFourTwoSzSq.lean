@@ -69,15 +69,15 @@ theorem isSolvable_outer_prod_self_of_comm [Finite L] [IsSimpleGroup L]
       · exact absurd ⟨h, hS.snd_of_fst h⟩ hb
       · have h' := hS.snd_of_swap h
         exact ⟨fun s => by simpa [swapAut] using h' s, fun t => by simpa [swapAut] using h t⟩
-  haveI hPn : P.Normal := Subgroup.normal_of_index_eq_two hidx
+  have hPn : P.Normal := Subgroup.normal_of_index_eq_two hidx
   set Q : Subgroup (Outer (L × L)) := P.map (QuotientGroup.mk' (inner (L × L))) with hQ
-  haveI : Q.Normal := hPn.map _ (QuotientGroup.mk'_surjective _)
+  have : Q.Normal := hPn.map _ (QuotientGroup.mk'_surjective _)
   have hcomm : ∀ x y : MulAut L, (x * y)⁻¹ * (y * x) ∈ inner L := by
     intro x y
     rw [← QuotientGroup.eq, QuotientGroup.mk_mul, QuotientGroup.mk_mul]
     exact hOut _ _
-  haveI : Group.IsSolvable Q := by
-    refine isSolvable_of_comm ?_
+  have : Group.IsSolvable Q := by
+    refine _root_.Group.isSolvable_of_comm ?_
     rintro ⟨_, φ, hφ, rfl⟩ ⟨_, ψ, hψ, rfl⟩
     apply Subtype.ext
     simp only [Subgroup.coe_mul, QuotientGroup.mk'_apply]
@@ -87,13 +87,13 @@ theorem isSolvable_outer_prod_self_of_comm [Finite L] [IsSimpleGroup L]
       (by rw [map_mul, map_inv, map_mul, map_mul]; exact hcomm _ _)
       (by rw [map_mul, map_inv, map_mul, map_mul]; exact hcomm _ _)
     simpa using h
-  haveI : Group.IsSolvable (Outer (L × L) ⧸ Q) := by
+  have : Group.IsSolvable (Outer (L × L) ⧸ Q) := by
     have hcard : Nat.card (Outer (L × L) ⧸ Q) = 2 := by
       rw [← Subgroup.index_eq_card, hQ, Subgroup.index_map_eq _ (QuotientGroup.mk'_surjective _)
         (by rw [QuotientGroup.ker_mk']; exact hIP), hidx]
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Finite (Outer (L × L) ⧸ Q) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
-    haveI : Group.IsNilpotent (Outer (L × L) ⧸ Q) :=
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Finite (Outer (L × L) ⧸ Q) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+    have : Group.IsNilpotent (Outer (L × L) ⧸ Q) :=
       (IsPGroup.of_card (p := 2) (n := 1) (by rw [hcard]; norm_num)).isNilpotent
     infer_instance
   exact Group.isSolvable_of_subgroup_quotient Q
@@ -110,7 +110,7 @@ private noncomputable def fstEmb (e : K ≃* A × A) : A →* Y :=
 private theorem fstEmb_apply (e : K ≃* A × A) (a : A) : fstEmb e a = (e.symm (a, 1) : Y) := rfl
 
 private theorem fstEmb_injective (e : K ≃* A × A) : Function.Injective (fstEmb e) :=
-  K.subtype_injective.comp (e.symm.injective.comp fun a b h => congrArg Prod.fst h)
+  K.subtype_injective.comp (e.symm.injective.comp fun _a _b h => congrArg Prod.fst h)
 
 private theorem range_fstEmb_le (e : K ≃* A × A) : (fstEmb e).range ≤ K := by
   rintro _ ⟨a, rfl⟩
@@ -150,11 +150,11 @@ private theorem range_fstEmb_inf_eq_bot (e : K ≃* A × A) :
 private theorem isComponentOf_range_fstEmb [IsSimpleGroup A] (hAnab : ∃ a b : A, a * b ≠ b * a)
     [K.Normal] (e : K ≃* A × A) : CFSG.Open.IsComponentOf (fstEmb e).range ⊤ := by
   let eA : A ≃* (fstEmb e).range := MonoidHom.ofInjective (fstEmb_injective e)
-  haveI : IsSimpleGroup (fstEmb e).range := eA.symm.isSimpleGroup
+  have : IsSimpleGroup (fstEmb e).range := eA.symm.isSimpleGroup
   have hnab' : ∃ a b : (fstEmb e).range, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hAnab
     exact ⟨eA a, eA b, fun h => hab (eA.injective (by rw [map_mul, map_mul, h]))⟩
-  haveI : Group.IsPerfect (fstEmb e).range :=
+  have : Group.IsPerfect (fstEmb e).range :=
     ⟨CFSG.ComponentClassification.Helpers.commutator_eq_top _ hnab'⟩
   refine ⟨le_top, ?_, CFSG.ComponentClassification.Quasisimple.simple_of_perfect _⟩
   refine CFSG.Open.IsSubnormal.step (range_fstEmb_le e) ⟨fun n hn g => ?_⟩
@@ -172,7 +172,7 @@ private theorem sylow_le_normalizer_range_fstEmb [Finite A] (hS : SimpleCentrele
     intro r hr a
     set φ : MulAut (A × A) := MulAut.congr e (MulAut.conjNormal r) with hφ
     have hodd : Odd (orderOf φ) := by
-      obtain ⟨n, hn⟩ := R.isPGroup' ⟨r, hr⟩
+      obtain ⟨n, hn⟩ := R.isPGroup ⟨r, hr⟩
       have hrn : r ^ 5 ^ n = 1 := by simpa using congrArg Subtype.val hn
       have h1 : orderOf φ ∣ 5 ^ n :=
         (orderOf_map_dvd ((MulAut.congr e).toMonoidHom.comp MulAut.conjNormal) r).trans
@@ -225,7 +225,7 @@ private theorem factor_data {A : Type} [Group A] [Finite A] (hA : IsSz32Type 5 A
     ∃ (P : Sylow 5 A) (z : A), z ∈ (P : Subgroup A) ∧ orderOf z = 5 ∧
       (∀ g ∈ (R : Subgroup Y), g * ι z = ι z * g) ∧
       (P : Subgroup A).map ι = (R : Subgroup Y) ⊓ ι.range := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨T⟩ : Nonempty (Sylow 5 A) := inferInstance
   have hAc : Nat.card A = 32537600 := (sz32_data A hA T).card_group
   have hfac : (Nat.card A).factorization 5 = 2 := by
@@ -248,7 +248,7 @@ private theorem factor_data {A : Type} [Group A] [Finite A] (hA : IsSz32Type 5 A
     rw [h, Subgroup.card_bot] at hcard
     norm_num at hcard
   obtain ⟨w, hw, hw5, hwR⟩ :=
-    exists_orderOf_eq_mem_center_of_le_sylow R.isPGroup' inf_le_left hRι' hne
+    exists_orderOf_eq_mem_center_of_le_sylow R.isPGroup inf_le_left hRι' hne
   obtain ⟨z, hz⟩ := (Subgroup.mem_inf.mp hw).2
   refine ⟨P, z, ?_, ?_, ?_, hmap⟩
   · show z ∈ P₀
@@ -264,7 +264,7 @@ private theorem normalizer_normalizer_sz32 {A : Type} [Group A] [Finite A] [IsSi
   rcases D.maximal (Subgroup.le_normalizer (H := normalizer (P : Set A))) with h | h
   · exact h
   · exfalso
-    haveI : (normalizer (P : Set A)).Normal := Subgroup.normalizer_eq_top_iff.mp h
+    have : (normalizer (P : Set A)).Normal := Subgroup.normalizer_eq_top_iff.mp h
     have h100 := D.card_normalizer
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (normalizer (P : Set A)) with h1 | h1
     · rw [h1, Subgroup.card_bot] at h100
@@ -280,7 +280,7 @@ private theorem szSq_inf_isSolvable {A : Type} [Group A] [Finite A] [IsSimpleGro
     (hcore : (if 3 ≤ CFSG.pRank 5 (R : Subgroup Y) then
       CFSG.Open.GLBWeakCore 5 (R : Subgroup Y) else CFSG.Open.GLBCore 5 1 E) ≤ Y₀) :
     Group.IsSolvable (K ⊓ Y₀ : Subgroup Y) := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hS : SimpleCentreless A := simpleCentreless_of_nonabelian hAnab
   set e' : K ≃* A × A := e.trans MulEquiv.prodComm with he'
   obtain ⟨P₁, z₁, hz₁P, hz₁5, hz₁R, hP₁⟩ := factor_data hA R (fstEmb e) (fstEmb_injective e)
@@ -293,7 +293,7 @@ private theorem szSq_inf_isSolvable {A : Type} [Group A] [Finite A] [IsSimpleGro
       z ∈ (P : Subgroup A) → ∀ a ∈ normalizer ((P : Subgroup A) : Set A),
         fstEmb f a ∈ normalizer ((zpowers (fstEmb f z) : Subgroup Y) : Set Y) := by
     intro f P z D hz a ha
-    haveI := D.isCyclic
+    have := D.isCyclic
     have h1 := mem_normalizer_zpowers_of_cyclic_normalizer D.isCyclic hz ha
     have h2 := Subgroup.le_normalizer_map (fstEmb f) (Subgroup.mem_map_of_mem (fstEmb f) h1)
     rwa [MonoidHom.map_zpowers] at h2
@@ -310,7 +310,7 @@ private theorem szSq_inf_isSolvable {A : Type} [Group A] [Finite A] [IsSimpleGro
     rw [hP₂] at h
     exact (Subgroup.mem_inf.mp h).1
   by_cases h3 : 3 ≤ CFSG.pRank 5 (R : Subgroup Y)
-  · rw [if_pos h3] at hcore
+  · rw [ite_eq_left h3] at hcore
     have h3' : 3 ≤ CFSG.Open.pRank 5 (R : Subgroup Y) := by
       rwa [CFSG.SectionRank.pRank_coe_eq_openPRank] at h3
     set X : Subgroup Y := zpowers (fstEmb e z₁) ⊔ zpowers (fstEmb e' z₂) with hXdef
@@ -382,8 +382,8 @@ private theorem szSq_inf_isSolvable {A : Type} [Group A] [Finite A] [IsSimpleGro
         rwa [hB₁, normalizer_normalizer_sz32 D₁] at h1
       · have h1 := fst_mem_normalizer_comap e' ⟨x, (Subgroup.mem_inf.mp x.2).1⟩ hx
         rwa [hB₂, normalizer_normalizer_sz32 D₂] at h1
-    haveI := D₁.isSolvable_normalizer
-    haveI := D₂.isSolvable_normalizer
+    have := D₁.isSolvable_normalizer
+    have := D₂.isSolvable_normalizer
     let φ : ↥(K ⊓ Y₀) →* ↥(normalizer ((P₁ : Subgroup A) : Set A)) ×
         ↥(normalizer ((P₂ : Subgroup A) : Set A)) :=
       (Subgroup.prodEquiv _ _).toMonoidHom.comp
@@ -397,7 +397,7 @@ private theorem szSq_inf_isSolvable {A : Type} [Group A] [Finite A] [IsSimpleGro
       exact congrArg Subtype.val this
     exact Subgroup.inclusion_injective inf_le_left (e.injective h1)
   · exfalso
-    rw [if_neg h3] at hcore
+    rw [ite_eq_right h3] at hcore
     have h2 : CFSG.Open.pRank 5 (R : Subgroup Y) ≤ 2 := by
       rw [← CFSG.SectionRank.pRank_coe_eq_openPRank]
       omega
@@ -417,28 +417,28 @@ private theorem szSq_inf_isSolvable {A : Type} [Group A] [Finite A] [IsSimpleGro
 theorem threeFourTwoSzSq_holds : ThreeFourTwoSzSq := by
   intro d hd
   obtain ⟨hAfin, hAs, hAnab, -⟩ := sz32_finite_simple_outer hd (MulEquiv.refl _)
-  haveI := hAfin
-  haveI := hAs
+  have := hAfin
+  have := hAs
   have hA : IsSz32Type 5 (TauCeti.CFSGIndex.lie d).Group := isSz32Type_of_mulEquiv' hd
     (MulEquiv.refl _)
   have hZA : center (TauCeti.CFSGIndex.lie d).Group = ⊥ :=
     CFSG.ComponentClassification.Helpers.center_eq_bot _ hAnab
   have hOutA : ∀ a b : Outer (TauCeti.CFSGIndex.lie d).Group, a * b = b * a := by
-    haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-    haveI : IsCyclic (Outer (TauCeti.CFSGIndex.lie d).Group) :=
+    have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+    have : IsCyclic (Outer (TauCeti.CFSGIndex.lie d).Group) :=
       isCyclic_of_prime_card (sz32_outer _ hA)
-    exact fun a b => (IsCyclic.commutative.is_comm.comm a b)
+    exact fun a b => (_root_.IsCyclic.isMulCommutative.is_comm.comm a b)
   refine threeFourTwoNoneAt_of_forall_of_center_eq_bot
     (by rw [Subgroup.center_prod, hZA, Subgroup.bot_prod_bot])
     (isSolvable_outer_prod_self_of_comm hAnab hOutA) ?_
   intro Y _ _ K Y₀ E R _ _ hKn hKX _ _ hcomp hER hE hEc hcore _ J hJ hne hJp _ _
-  haveI := hKn
+  have := hKn
   obtain ⟨e⟩ := hKX
   have hsolv := szSq_inf_isSolvable hA hAnab R e hcomp hER hE hEc hcore
-  haveI : Group.IsSolvable J :=
+  have : Group.IsSolvable J :=
     Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hJ)
-  haveI : Group.IsPerfect J := Subgroup.isPerfect_iff.mpr hJp
-  haveI : Nontrivial J := (Subgroup.nontrivial_iff_ne_bot J).mpr hne
+  have : Group.IsPerfect J := Subgroup.isPerfect_iff.mpr hJp
+  have : Nontrivial J := (Subgroup.nontrivial_iff_ne_bot J).mpr hne
   exact Group.IsPerfect.not_isSolvable J inferInstance
 
 end Entry

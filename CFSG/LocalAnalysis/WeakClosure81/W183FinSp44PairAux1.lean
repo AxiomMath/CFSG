@@ -27,7 +27,7 @@ theorem w183finSp44Pair_map_map_symm (σ : G ≃* H) (A : Subgroup H) :
     simp
   rw [h, Subgroup.map_id]
 
-theorem w183finSp44Pair_mOfG_map (σ : G ≃* H) {A B : Subgroup G} (hBA : B ≤ A) :
+theorem w183finSp44Pair_mOfG_map (σ : G ≃* H) {A B : Subgroup G} (_hBA : B ≤ A) :
     mOfG (A.map σ.toMonoidHom) (B.map σ.toMonoidHom) = mOfG A B := by
   change Nat.log 2 ((B.map σ.toMonoidHom).relIndex (A.map σ.toMonoidHom)) =
     Nat.log 2 (B.relIndex A)
@@ -384,8 +384,8 @@ theorem w183finSp44Pair_exists_conj_of_isSylowIn (p : ℕ) [Fact p.Prime] {P Q :
     simpa [Subgroup.relIndex_top_right] using hQ.not_dvd_relIndex
   let P' : Sylow p G := hP.isPGroup.toSylow hPidx
   let Q' : Sylow p G := hQ.isPGroup.toSylow hQidx
-  haveI : P'.FiniteIndex := ⟨fun h0 => hPidx (h0 ▸ dvd_zero p)⟩
-  haveI : Finite (Sylow p G) := P'.finite_of_finiteIndex
+  have : P'.FiniteIndex := ⟨fun h0 => hPidx (h0 ▸ dvd_zero p)⟩
+  have : Finite (Sylow p G) := P'.finite_of_finiteIndex
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq G Q' P'
   refine ⟨g, ?_⟩
   have h1 : ((g • Q' : Sylow p G) : Subgroup G) = ((P' : Sylow p G) : Subgroup G) :=

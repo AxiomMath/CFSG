@@ -41,13 +41,14 @@ private lemma exists_linearIndependent_pair {W : Type} [AddCommGroup W] [Module 
     have h2 : Module.finrank E (⊤ : Submodule E W) = Module.finrank E W := finrank_top E W
     rw [htop, h2] at h1
     omega
-  obtain ⟨y, hy⟩ := SetLike.exists_not_mem_of_ne_top (Submodule.span E {x}) hne
+  obtain ⟨y, hy⟩ := SetLike.exists_notMem_of_ne_top (Submodule.span E {x}) hne
   refine ⟨y, linearIndependent_pair_of_forall_ne_smul hx ?_⟩
   intro c hc
   apply hy
   rw [hc]
   exact Submodule.smul_mem _ _ (Submodule.subset_span (by simp))
 
+omit [Module.Finite E V] in
 private theorem exists_specialLinear_apply_eq_of_independent {v w : V}
     (h : LinearIndependent E ![v, w]) :
     ∃ g : SpecialLinearGroup E V, g v = w := by
@@ -91,6 +92,7 @@ theorem exists_specialLinear_apply_eq (hV : 2 ≤ Module.finrank E V) {v w : V} 
     change (↑g₂ : V ≃ₗ[E] V) ((↑g₁ : V ≃ₗ[E] V) v) = w
     rw [hg₁', hg₂', hc]
 
+omit [Module.Finite E V] in
 private theorem exists_specialLinear_comp_eq_of_independent {l l' : Module.Dual E V}
     (h : LinearIndependent E ![l, l']) :
     ∃ g : SpecialLinearGroup E V, ∀ v, l' (g v) = l v := by
@@ -132,7 +134,7 @@ private theorem exists_specialLinear_comp_eq_of_independent {l l' : Module.Dual 
       rw [h1]
       exact add_neg_cancel _
     exact hc0 ((LinearIndependent.pair_iff.mp h) c (-(1 + c)) hzero).1
-  obtain ⟨w, hwd, hwl⟩ := SetLike.not_le_iff_exists.mp hnotle
+  obtain ⟨w, hwd, hwl⟩ := IsConcreteLE.not_le_iff_exists.mp hnotle
   have hdw : d w = 0 := hwd
   have hlw : l' w ≠ 0 := hwl
   set F : Module.Dual E V := (l' w)⁻¹ • d with hF

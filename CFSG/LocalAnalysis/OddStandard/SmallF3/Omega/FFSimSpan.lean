@@ -17,7 +17,7 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMo
 
 theorem ff_span_nonsingular (hQ : Q.Nondegenerate) :
     Submodule.span (ZMod 3) {u : V | Q u ≠ 0} = ⊤ := by
-  haveI : Invertible (2 : ZMod 3) := invertibleOfNonzero (by decide)
+  have : Invertible (2 : ZMod 3) := invertibleOfNonzero (by decide)
   obtain ⟨b, -, haniso⟩ := hQ.exists_orthogonal_basis
   rw [eq_top_iff, ← b.span_eq]
   apply Submodule.span_mono
@@ -32,10 +32,11 @@ theorem ff_eq_smul_of_eigen (hQ : Q.Nondegenerate) {γ : V ≃ₗ[ZMod 3] V} {c 
     simpa using hc u hu
   simpa using congrArg (fun f : V →ₗ[ZMod 3] V => f v) hmap
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ff_mk_eq_one_of_smul (h0 : 0 < Module.finrank (ZMod 3) V) (γ : simGroup Q)
     {c : ZMod 3} (hc : ∀ v : V, (γ : V ≃ₗ[ZMod 3] V) v = c • v) :
     (QuotientGroup.mk γ : ProjSim Q) = 1 := by
-  haveI : Nontrivial V := Module.nontrivial_of_finrank_pos h0
+  have : Nontrivial V := Module.nontrivial_of_finrank_pos h0
   obtain ⟨v0, hv0⟩ := exists_ne (0 : V)
   have hc0 : c ≠ 0 := by
     intro hc_eq

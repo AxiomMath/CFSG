@@ -70,7 +70,7 @@ theorem exists_T₁ (hnot : ¬ SectRank4 X) :
     A.isPGroup_T.comap_of_injective _ (subtype_injective _)
   obtain ⟨Q, hQ⟩ := hTp.exists_le_sylow
   set T₁ : Subgroup X := (Q : Subgroup N).map N.subtype with hT₁
-  have hT₁p : IsPGroup 2 T₁ := Q.isPGroup'.map _
+  have hT₁p : IsPGroup 2 T₁ := Q.isPGroup.map _
   have hT₁N : T₁ ≤ N := map_subtype_le _
   have hTT₁ : A.T ≤ T₁ := fun g hg => ⟨⟨g, hTN hg⟩, hQ hg, rfl⟩
   have hcardT₁ : Nat.card T₁ = 2 ^ (Nat.card N).factorization 2 := by

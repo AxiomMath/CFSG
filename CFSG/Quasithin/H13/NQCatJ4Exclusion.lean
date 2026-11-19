@@ -270,7 +270,7 @@ theorem not_permutable_j4Q
       have h3 := Nat.pow_right_injective (by norm_num : 2 ≤ 11) hqm
       omega
   have hUp : IsPGroup 2 ((U : Subgroup Sporadic.J4.J).subgroupOf H) :=
-    U.isPGroup'.of_equiv (subgroupOfEquivOfLe hUH).symm
+    U.isPGroup.of_equiv (subgroupOfEquivOfLe hUH).symm
   have h32 := card_two_subgroup_le hsolv hprimes hD2 ⟨e, he, hecard⟩ hUp
   rw [Nat.card_congr (subgroupOfEquivOfLe hUH).toEquiv, hU21] at h32
   norm_num at h32

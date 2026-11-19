@@ -63,8 +63,8 @@ theorem qtwoDB3_exists_Hab (hbase : QTwoUnitBase p B Bs x L ψ ε) (hm : 5 ≤ m
   have hF0units : Nat.card F0ˣ = 3 := by
     rw [Nat.card_units, hbase.card_field]
   have hrange : Nat.card ↥r.range = 3 := by
-    haveI : Fintype F0 := Fintype.ofFinite F0
-    haveI : Fintype F0ˣ := Fintype.ofFinite F0ˣ
+    have : Fintype F0 := Fintype.ofFinite F0
+    have : Fintype F0ˣ := Fintype.ofFinite F0ˣ
     have hcard3 : Fintype.card F0ˣ = 3 := by
       rw [← Nat.card_eq_fintype_card, hF0units]
     obtain ⟨ω, hω⟩ := Fintype.exists_ne_of_one_lt_card (by rw [hcard3]; norm_num) (1 : F0ˣ)
@@ -142,6 +142,7 @@ private theorem qtwoDB3_a2_perm_mulVec (σ : Equiv.Perm (Fin m)) (i : Fin m) :
   simp only [Function.comp_apply, Pi.single_apply]
   exact if_congr (Equiv.eq_symm_apply σ).symm rfl rfl
 
+omit [Finite G] in
 private theorem qtwoDB3_a2_conj_induces {b : G} {c : Fin m → F0ˣ}
     (hc : qTwoChartTwoThree_induces ψ b c) (σ : Equiv.Perm (Fin m)) :
     qTwoChartTwoThree_induces ψ
@@ -156,6 +157,7 @@ private theorem qtwoDB3_a2_conj_induces {b : G} {c : Fin m → F0ˣ}
   rw [h'] at h
   exact h
 
+omit [Finite G] in
 private theorem qtwoDB3_a2_comm_induces {s : G} {c : Fin m → F0ˣ}
     (hc : qTwoChartTwoThree_induces ψ s c) (σ : Equiv.Perm (Fin m)) :
     qTwoChartTwoThree_induces ψ
@@ -206,6 +208,7 @@ private noncomputable def qtwoDB3_a2_M (Q : Subgroup G) : Subgroup (Fin m → F0
 private def qtwoDB3_a2_d (i j : Fin m) (t : F0ˣ) : Fin m → F0ˣ :=
   Function.update (Function.update (fun _ => 1) i t) j t⁻¹
 
+omit [Finite F0] [CharP F0 2] in
 private theorem qtwoDB3_a2_d_eq (i j : Fin m) (hij : i ≠ j) (t : F0ˣ) :
     (fun k => Function.update (fun _ : Fin m => (1 : F0ˣ)) i t k *
       (Function.update (fun _ : Fin m => (1 : F0ˣ)) i t (Equiv.swap i j k))⁻¹) =
@@ -250,6 +253,7 @@ private def qtwoDB3_a2_C1 : Subgroup (Fin m → F0ˣ) where
     change (∏ i, (c i)⁻¹) = 1
     rw [Finset.prod_inv_distrib, hc1, inv_one]
 
+omit [Finite F0] [CharP F0 2] in
 private theorem qtwoDB3_a2_prod_d_eq (j0 : Fin m) (c : Fin m → F0ˣ)
     (hc : ∏ i, c i = 1) :
     (∏ k ∈ Finset.univ.erase j0, qtwoDB3_a2_d k j0 (c k)) = c := by
@@ -286,6 +290,7 @@ private theorem qtwoDB3_a2_C1_le_M (hbase : QTwoUnitBase p B Bs x L ψ ε)
   exact (qtwoDB3_a2_M (ψ := ψ) Q).prod_mem fun k hk =>
     qtwoDB3_a2_d_mem_M hbase Q hQ (Finset.mem_erase.mp hk).1 (c k)
 
+omit [Finite F0] [CharP F0 2] in
 private theorem qtwoDB3_a2_prod_scalar (l : F0ˣ) (c : Fin m → F0ˣ) :
     (∏ i, l * c i) = l ^ m * ∏ i, c i := by
   rw [Finset.prod_mul_distrib]
@@ -452,7 +457,7 @@ theorem qtwoDB3_card_inf (hbase : QTwoUnitBase p B Bs x L ψ ε) (hm : 5 ≤ m) 
     exact ⟨(⟨a, ha⟩, ⟨b, hb⟩), Subtype.ext hab⟩
   have hcardQ : Nat.card ↥Q ≤ 3 * Nat.card ↥S := by
     have hxcard : Nat.card ↥(Subgroup.zpowers x) = 3 := by
-      haveI : Fintype G := Fintype.ofFinite G
+      have : Fintype G := Fintype.ofFinite G
       rw [Nat.card_eq_fintype_card, Fintype.card_zpowers, hbase.x_order]
     have hle := Nat.card_le_card_of_surjective f hsurj
     rw [Nat.card_prod, hxcard] at hle

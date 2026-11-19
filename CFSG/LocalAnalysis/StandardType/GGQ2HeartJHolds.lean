@@ -104,7 +104,7 @@ theorem ggQ2HeartJCentralizes_holds :
     intro γ
     change γ ∈ kernelRoots (rootCharHom (TableBExc.E6Three.zetaVec (τ := Tag.E6) ζ hζ
       (Multiplicative.toAdd (κ yB)))) ↔ _
-    rw [kernelRoots_rootCharHom, Set.mem_setOf_eq]
+    rw [kernelRoots_rootCharHom, Set.mem_ofPred_eq]
     exact and_congr_right fun _ => ggQ2HeartJHoldsAux_rootChar_eq_one_iff hζo hζ _ γ
   have hΦker : ∀ w : {a : M.Λ → ℤ // CFSG.ClassicalInvolution.RouteD.RRoot M.cartan a ∧
       M.rootForm a (M.model (Additive.ofMul yB)) = 0}, Φ w.1 ∈ kernelRoots χ := by

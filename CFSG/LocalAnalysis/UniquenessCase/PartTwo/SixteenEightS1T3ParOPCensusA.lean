@@ -16,7 +16,7 @@ private theorem s16t3_gcd_three_pow_six_succ (k : ℕ) : Nat.gcd (3 ^ (k + 1)) 6
 
 theorem s16t3_pow_three_of_card_dvd_six {G : Type*} [Group G] [Finite G]
     (hcard : Nat.card G ∣ 6) (g : G) (k : ℕ) (hg : g ^ 3 ^ k = 1) : g ^ 3 = 1 := by
-  haveI := Fintype.ofFinite G
+  have := Fintype.ofFinite G
   have h2 : orderOf g ∣ 6 := by
     have h : orderOf g ∣ Nat.card G := by
       simpa only [Nat.card_eq_fintype_card] using orderOf_dvd_card (x := g)
@@ -42,7 +42,7 @@ theorem s16t3_range_toGL_eq_top {K : Type} [Field K] (hK : Nat.card K = 2) (k : 
 
 private theorem s16t3_card_GL (K : Type) [Field K] [Finite K] (hK : Nat.card K = 2) (k : ℕ) :
     Nat.card (GL (Fin k) K) = ∏ i : Fin k, (2 ^ k - 2 ^ (i : ℕ)) := by
-  letI := Fintype.ofFinite K
+  let := Fintype.ofFinite K
   have hK' : Fintype.card K = 2 := by rw [← Nat.card_eq_fintype_card]; exact hK
   rw [Matrix.card_GL_field (n := k) (𝔽 := K), hK']
 
@@ -161,8 +161,8 @@ theorem s16t3_plus_block_card (K : Type) [Field K] [Finite K] (hK : Nat.card K =
         if b % 2 = 0 then 6 else 1 := by
     intro b hb
     by_cases he : b % 2 = 0
-    · rw [if_pos he, s16t3_plus_blen_even hb he, s16t3_card_GL_two hK]
-    · rw [if_neg he, s16t3_plus_blen_odd hb he, s16t3_card_GL_one hK le_rfl]
+    · rw [ite_eq_left he, s16t3_plus_blen_even hb he, s16t3_card_GL_two hK]
+    · rw [ite_eq_right he, s16t3_plus_blen_odd hb he, s16t3_card_GL_one hK le_rfl]
   rw [Nat.card_pi, Finset.prod_coe_sort (s := s16t3PlusCuts m)
     (f := fun b => Nat.card (GL (Fin (b - predCut (s16t3PlusCuts m) b)) K)),
     Finset.prod_congr rfl hstep]

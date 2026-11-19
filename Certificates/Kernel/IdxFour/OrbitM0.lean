@@ -36,7 +36,7 @@ theorem not_inO1701 {x : V12} (h : inO378 x) : ¬inO1701 x := fun h' =>
   (singular_cases (ne_zero_of_inO378 h).1 (ne_zero_of_inO378 h).2).2 ⟨h, h'⟩
 
 theorem ncard_sing : {x : V12 | inO378 x ∨ inO1701 x}.ncard = 2079 := by
-  rw [Set.setOf_or, Set.ncard_union_eq (s := {a | inO378 a}) (t := {a | inO1701 a})
+  rw [Set.ofPred_or, Set.ncard_union_eq (s := {a | inO378 a}) (t := {a | inO1701 a})
       (Set.disjoint_left.2 fun _ h1 h2 => not_inO1701 h1 h2),
     ← Nat.card_coe_set_eq, ← Nat.card_coe_set_eq]
   change Nat.card {v : V12 // inO378 v} + Nat.card {v : V12 // inO1701 v} = 2079

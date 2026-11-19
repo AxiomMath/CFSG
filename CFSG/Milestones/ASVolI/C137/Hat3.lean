@@ -150,7 +150,7 @@ theorem burnsideC137_le_normalizer_toG_fixV [Finite G] {U K : Subgroup G} (hU : 
     simpa [mul_assoc] using this
 
 theorem burnsideC137_autI_o2Z_le_centralizer [Finite G] {U L : Subgroup G} (hU : IsElemAbelian 2 U)
-    (hLN : L ≤ normalizer (U : Set G)) (hOL : pCoreOf 2 L ≤ centralizer (U : Set G)) :
+    (_hLN : L ≤ normalizer (U : Set G)) (hOL : pCoreOf 2 L ≤ centralizer (U : Set G)) :
     autI hU (H13.A6.o2Z L) ≤
       centralizer ((autI hU L : Subgroup (MulAut (IntMod U hU))) : Set (MulAut (IntMod U hU))) := by
   intro φ hφ

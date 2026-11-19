@@ -35,7 +35,7 @@ private theorem card_eigenbasis_eq {V : Type*} [AddCommGroup V] [Module K V]
     rw [map_sum]
     simp only [map_smul, hf, smul_smul]
     rw [map_sum]
-    rw [Finsupp.finset_sum_apply]
+    rw [_root_.Finsupp.finsetSum_apply]
     simp [Module.Basis.repr_self, Finsupp.single_apply, mul_comm]
   have hker : LinearMap.ker (f - lam • 1) = Submodule.span K (b '' {i | μ i = lam}) := by
     ext v
@@ -393,10 +393,10 @@ theorem injective_of_ker_le_center (hK : Nat.card K = 4)
   have hcase : ∀ j : Fin d, Nat.card (χ j).ker - 1 = if χ j = 1 then 8 else 2 := by
     intro j
     by_cases hχ : χ j = 1
-    · rw [if_pos hχ]
+    · rw [ite_eq_left hχ]
       have htop : (χ j).ker = ⊤ := (MonoidHom.ker_eq_top_iff).mpr hχ
       rw [htop, Subgroup.card_top, hNcard]
-    · rw [if_neg hχ]
+    · rw [ite_eq_right hχ]
       have hKunits : Nat.card Kˣ = 3 := by
         rw [Nat.card_units, hK]
       have hKprime : Fact (Nat.card Kˣ).Prime := ⟨by rw [hKunits]; norm_num⟩

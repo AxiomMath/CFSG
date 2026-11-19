@@ -262,7 +262,7 @@ theorem prod_complement {C : Type*} [CommGroup C] (c : ℕ → C) {i j k : ℕ} 
     Finset.prod_singleton] at hprod
   simp only [Finset.prod_range_succ, Finset.prod_range_zero, one_mul] at hprod
   calc c i * c j * c k * (c p * c q) = c p * c q * (c i * (c j * c k)) := by
-        simp only [mul_comm, mul_left_comm, mul_assoc]
+        simp only [mul_comm, mul_left_comm]
     _ = _ := hprod
 
 theorem FiveData.no_triple (h : FiveData E x z ℓ₀) {i j k : ℕ} (hi : i < 5) (hj : j < 5)
@@ -270,7 +270,7 @@ theorem FiveData.no_triple (h : FiveData E x z ℓ₀) {i j k : ℕ} (hi : i < 5
     cj x ℓ₀ i * cj x ℓ₀ j ≠ cj x ℓ₀ k ∧ cj x ℓ₀ i * cj x ℓ₀ j ≠ cj x ℓ₀ k * z := by
   have key : ∀ w : G, (w = 1 ∨ w = z) → cj x ℓ₀ i * cj x ℓ₀ j * cj x ℓ₀ k = w → False := by
     intro w hw htri
-    letI : CommGroup ↥E :=
+    let : CommGroup ↥E :=
       { (inferInstance : Group ↥E) with mul_comm := fun a b => Subtype.ext (h.comm a a.2 b b.2) }
     let c : ℕ → ↥E := fun r => ⟨cj x ℓ₀ r, h.mem r⟩
     obtain ⟨p, q, hp5, hq5, hpq, hprod⟩ := prod_complement c hi hj hk hij hjk hik

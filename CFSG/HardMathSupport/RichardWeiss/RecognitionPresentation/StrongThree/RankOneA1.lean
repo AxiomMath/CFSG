@@ -20,7 +20,7 @@ variable {F : Type} [Field F]
   map_one' := by rw [diag_one, map_one]
   map_mul' a b := by rw [diag_mul, map_mul]
 
-theorem borel_eq_sup (hF : ringChar F ≠ 2) : borel F = unipotent F ⊔ (diagPSL (F := F)).range := by
+theorem borel_eq_sup (_hF : ringChar F ≠ 2) : borel F = unipotent F ⊔ (diagPSL (F := F)).range := by
   apply le_antisymm
   · rintro g ⟨A, hA, rfl⟩
     have hdet := det_entries A
@@ -77,7 +77,7 @@ theorem psl2GF_normalizer_eq_sup_cyclic {p n : ℕ} [Fact p.Prime] (hp2 : p ≠ 
     rw [← hg, Sylow.coe_subgroup_smul, Subgroup.pointwise_smul_def, hU]
     rfl
   refine ⟨(diagPSL (F := GaloisField p n)).range.map (MulAut.conj g).toMonoidHom, ?_, ?_⟩
-  · haveI : IsCyclic (diagPSL (F := GaloisField p n)).range :=
+  · have : IsCyclic (diagPSL (F := GaloisField p n)).range :=
       isCyclic_of_surjective (diagPSL (F := GaloisField p n)).rangeRestrict
         (diagPSL (F := GaloisField p n)).rangeRestrict_surjective
     exact isCyclic_of_surjective
@@ -131,7 +131,7 @@ variable {X : Type} [Group X] [Finite X]
 theorem sylow_le_of_index {K : Subgroup X} [K.Normal] (P : Sylow 3 X) (hidx : ¬ 3 ∣ K.index) :
     (P : Subgroup X) ≤ K := by
   have hp : IsPGroup 3 ((P : Subgroup X).map (QuotientGroup.mk' K)) :=
-    P.isPGroup'.map (QuotientGroup.mk' K)
+    P.isPGroup.map (QuotientGroup.mk' K)
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 hp
   have hdvd : Nat.card ((P : Subgroup X).map (QuotientGroup.mk' K)) ∣ K.index :=
     Subgroup.card_subgroup_dvd_card _
@@ -147,6 +147,7 @@ theorem sylow_le_of_index {K : Subgroup X} [K.Normal] (P : Sylow 3 X) (hidx : ¬
   rw [hbot, Subgroup.mem_bot] at this
   exact (QuotientGroup.eq_one_iff x).1 this
 
+omit [Finite X] in
 theorem isElemAbelian_of_subgroupOf {p : ℕ} {K S : Subgroup X} (hS : S ≤ K)
     (h : CFSG.Open.IsElemAbelian p (S.subgroupOf K)) : CFSG.Open.IsElemAbelian p S := by
   refine ⟨⟨⟨fun a b => ?_⟩⟩, fun x hx => ?_⟩
@@ -226,6 +227,7 @@ section Helpers2
 
 variable {X : Type} [Group X] [Finite X] {K : Subgroup X}
 
+omit [Finite X] in
 theorem map_normalizer_eq_inf {P : Subgroup X} {T : Subgroup ↥K} (hT : T.map K.subtype = P) :
     (Subgroup.normalizer (T : Set ↥K)).map K.subtype = K ⊓ Subgroup.normalizer (P : Set X) := by
   ext x
@@ -290,7 +292,7 @@ theorem gls3ConclusionPlus_A1_of_index {X : Type} [Group X] [Finite X] {K : Subg
     (e₀ : ↥K ≃* (CFSGIndex.lie d).Group) (hidx : ¬ 3 ∣ K.index) (P : Sylow 3 X) :
     Gls3ConclusionPlus X K (P : Subgroup X) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp2 : (3 : ℕ) ≠ 2 := by norm_num
   obtain ⟨d0, hv⟩ := d
   simp only at hd

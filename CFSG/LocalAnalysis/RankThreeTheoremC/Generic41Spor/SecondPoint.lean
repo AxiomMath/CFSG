@@ -16,9 +16,9 @@ open CFSG.LocalAnalysis.RankThreeTheoremC.Generic49U3 (u3S u3T u3ZT u3U0 U3LineW
 
 variable {G : Type} [Group G] [Finite G]
 
-theorem second_point_false (hS : Setting G) (hU0 : FullCoreLocal G) (hD1 : TheoremD1 G) {p : ℕ}
-    [Fact p.Prime] (h5 : 5 ≤ p) (hp : p ∈ rankThreeSigmaA G) {P : Sylow p G} {M : Subgroup G}
-    (hM : IsCoreMaxLocal p P M) {x u : G} (hxp : x ^ p = 1)
+theorem second_point_false (hS : Setting G) (_hU0 : FullCoreLocal G) (_hD1 : TheoremD1 G) {p : ℕ}
+    [Fact p.Prime] (h5 : 5 ≤ p) (_hp : p ∈ rankThreeSigmaA G) {P : Sylow p G} {M : Subgroup G}
+    (_hM : IsCoreMaxLocal p P M) {x u : G} (hxp : x ^ p = 1)
     (hxC : (P : Subgroup G) ≤ Subgroup.centralizer ({x} : Set G))
     (hwc : U3LineWC x (P : Subgroup G))
     (hxD : x ∉ ⁅(P : Subgroup G), (P : Subgroup G)⁆)
@@ -31,7 +31,7 @@ theorem second_point_false (hS : Setting G) (hU0 : FullCoreLocal G) (hD1 : Theor
     {Q : Type} [Group Q] [Finite Q] (ψ : ↥J →* Q) (hψ : Function.Surjective ψ)
     (hker : ψ.ker = (rankThreePrimeCore p J).subgroupOf J) (hQ : SecondPointFacts p Q) : False := by
   classical
-  have hp : p.Prime := Fact.out
+  have _hp : p.Prime := Fact.out
   have hp2 : p ≠ 2 := by omega
   have hxP : x ∈ (P : Subgroup G) := spw_mem_of_centralizes P hxp hxC
   have hx1 : x ≠ 1 := by
@@ -116,7 +116,7 @@ theorem second_point_false (hS : Setting G) (hU0 : FullCoreLocal G) (hD1 : Theor
       Nat.card_congr (Subgroup.subgroupOfEquivOfLe hOJ).toEquiv
     rw [this]
     exact CFSG.AGLEmbedding.glbPrimeCore_coprime p J
-  have hTp : IsPGroup p (T.subgroupOf J) := (P.isPGroup'.to_le hTP).comap_subtype
+  have hTp : IsPGroup p (T.subgroupOf J) := (P.isPGroup.to_le hTP).comap_subtype
   have hkey : ∀ n ∈ Subgroup.normalizer ((Tsyl' : Subgroup Q) : Set Q), ∃ k : ℤ,
       n * ψ ⟨t, htJ⟩ * n⁻¹ = (ψ ⟨t, htJ⟩) ^ k ∧ z ^ k = z := by
     intro n hn
@@ -255,7 +255,7 @@ theorem spw_lift {p : ℕ} [Fact p.Prime] {P : Sylow p G} {u : G}
     exact CFSG.AGLEmbedding.glbPrimeCore_coprime p J
   have hTJ : u3T P u J ≤ J := inf_le_right
   have hTP : u3T P u J ≤ (P : Subgroup G) := inf_le_left.trans inf_le_left
-  have hTp : IsPGroup p ((u3T P u J).subgroupOf J) := (P.isPGroup'.to_le hTP).comap_subtype
+  have hTp : IsPGroup p ((u3T P u J).subgroupOf J) := (P.isPGroup.to_le hTP).comap_subtype
   obtain ⟨j', rfl⟩ := hψ n
   have hj' : ψ j' ∈ Subgroup.normalizer ((((u3T P u J).subgroupOf J).map ψ : Subgroup Q) : Set Q) := by
     rw [← hTsyl']
@@ -287,7 +287,7 @@ theorem second_point_false_ab (hS : Setting G) {p : ℕ} [Fact p.Prime] (h5 : 5 
   classical
   have hp : p.Prime := Fact.out
   have hp2 : p ≠ 2 := by omega
-  haveI := hPab
+  have := hPab
   set D : Set (Subgroup G) := conjLines x (P : Subgroup G) with hDdef
   have hPc : ∀ a ∈ (P : Subgroup G), ∀ b ∈ (P : Subgroup G), a * b = b * a := fun a ha b hb =>
     congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : (P : Subgroup G)) ⟨b, hb⟩)
@@ -434,7 +434,7 @@ theorem second_point_false_ab (hS : Setting G) {p : ℕ} [Fact p.Prime] (h5 : 5 
       exact Subgroup.zpow_mem _ (Subgroup.mem_zpowers _) k
     have hnotT : ∃ A ∈ D, ¬ A ≤ T := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have hD2 := hD₂ T hTP hTcard hcon
       have : Subgroup.zpowers (h₀ * t * h₀⁻¹) ∈ ({Subgroup.zpowers x} : Set (Subgroup G)) :=
         hD2 ▸ ht'D

@@ -23,7 +23,7 @@ instance : Finite F9 := Module.finite_of_finite (ZMod 3)
 
 theorem natCard_F9 : Nat.card F9 = (3 ^ 1) ^ 2 := by
   rw [Nat.card_congr (QuadraticAlgebra.equivProd (-1 : ZMod 3) 0), Nat.card_prod]
-  simp [Nat.card_zmod]
+  simp
 
 noncomputable abbrev σ9 : F9 ≃+* F9 := unitaryInvolution F9 3 1
 

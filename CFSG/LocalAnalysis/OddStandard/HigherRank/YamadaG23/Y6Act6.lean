@@ -13,6 +13,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {A C0 V : Subgroup G} {a₁ b₁ a₂ b₂ z t u : G}
 
+omit [Finite G] in
 theorem y6_card_orbit_stab {X C : Subgroup G} {n : ℕ} (ψ : ↥X →* Equiv.Perm (Fin n)) (i : Fin n)
     (hsurj : ∀ j : Fin n, ∃ x : ↥X, ψ x i = j) (hCX : C ≤ X)
     (hC : ∀ x : ↥X, (x : G) ∈ C ↔ ψ x i = i) : Nat.card ↥X = n * Nat.card ↥C := by

@@ -33,13 +33,13 @@ open CFSG.Assembly.RankThreeEven (projSL projSU)
 open CFSG.ComponentClassification.OuterAutomorphisms (Outer)
 
 instance finite_projSL_three (K : Type) [Field K] [Finite K] : Finite (projSL 3 K) := by
-  haveI : Finite (Matrix.ProjGenLinGroup (Fin 3) K) :=
+  have : Finite (Matrix.ProjGenLinGroup (Fin 3) K) :=
     Finite.of_surjective (Matrix.ProjGenLinGroup.mk : Matrix.GeneralLinearGroup (Fin 3) K →* _)
       Matrix.ProjGenLinGroup.mk_surjective
   infer_instance
 
 instance finite_projSU_three (p f : ℕ) [Fact p.Prime] : Finite (projSU 3 p f) := by
-  haveI : Finite (Matrix.ProjGenLinGroup (Fin 3) (GaloisField p (2 * f))) :=
+  have : Finite (Matrix.ProjGenLinGroup (Fin 3) (GaloisField p (2 * f))) :=
     Finite.of_surjective
       (Matrix.ProjGenLinGroup.mk : Matrix.GeneralLinearGroup (Fin 3) (GaloisField p (2 * f)) →* _)
       Matrix.ProjGenLinGroup.mk_surjective
@@ -47,7 +47,7 @@ instance finite_projSU_three (p f : ℕ) [Fact p.Prime] : Finite (projSU 3 p f) 
 
 theorem listRow_projSL_three_of_mod_two (K : Type) [Field K] [Finite K]
     (hK : Nat.card K % 3 = 2) : ListRow (projSL 3 K) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨T⟩ := (inferInstance : Nonempty (Sylow 3 (projSL 3 K)))
   exact listRow_of_pRank_le_one
     (CFSG.AGLEmbedding.pRank_le_one_of_isCyclic_sylow Nat.prime_three T
@@ -55,7 +55,7 @@ theorem listRow_projSL_three_of_mod_two (K : Type) [Field K] [Finite K]
 
 theorem listRow_projSU_three_of_mod_one (p f : ℕ) [Fact p.Prime] (hf : f ≠ 0)
     (hq : p ^ f % 3 = 1) : ListRow (projSU 3 p f) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨T⟩ := (inferInstance : Nonempty (Sylow 3 (projSU 3 p f)))
   exact listRow_of_pRank_le_one
     (CFSG.AGLEmbedding.pRank_le_one_of_isCyclic_sylow Nat.prime_three T
@@ -96,8 +96,7 @@ theorem outerRow_projSU_three_of_mod_one (p e : ℕ) [Fact p.Prime] (he : 1 ≤ 
 
 theorem rowOf_two_SL_of_mod_two : ∀ (p e : ℕ) [Fact p.Prime], 3 < p → 1 ≤ e → e ≤ 2 →
     p ^ e % 3 = 2 → RowOf (projSL 3 (GaloisField p e)) := by
-  intro p e _ _ he he2 hmod
-  intro S _ _ _ _ ⟨eS⟩
+  intro p e _ _ he he2 hmod S _ _ _ _ ⟨eS⟩
   have hK : Nat.card (GaloisField p e) % 3 = 2 := by
     rw [GaloisField.card p e (by omega)]
     exact hmod
@@ -107,8 +106,7 @@ theorem rowOf_two_SL_of_mod_two : ∀ (p e : ℕ) [Fact p.Prime], 3 < p → 1 �
 
 theorem rowOf_two_SU_of_mod_one : ∀ (p e : ℕ) [Fact p.Prime], 3 < p → 1 ≤ e → e ≤ 2 →
     p ^ e % 3 = 1 → RowOf (projSU 3 p e) := by
-  intro p e _ _ he he2 hmod
-  intro S _ _ _ _ ⟨eS⟩
+  intro p e _ _ he he2 hmod S _ _ _ _ ⟨eS⟩
   exact GoodRow.of_mulEquiv eS.symm
     ⟨listRow_projSU_three_of_mod_one p e (by omega) hmod,
       outerRow_projSU_three_of_mod_one p e he he2 hmod⟩

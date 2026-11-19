@@ -150,7 +150,7 @@ theorem ggSecFivePZData_of_not_mem
     intro i j hij
     have hij' : σ.symm i ≠ σ.symm j := fun h => hij (σ.symm.injective h)
     rw [hM, CoxeterMatrix.reindex_apply]
-    simp only [CoxeterMatrix.A, Matrix.of_apply, if_neg hij']
+    simp only [CoxeterMatrix.A, Matrix.of_apply, ite_eq_right hij']
     split_ifs <;> omega
   have hns : ¬ GGSplitLie 3 L :=
     ggSecFive_not_split_of_not_tier1 hcfg hReg hsix.1 (Or.inl (Or.inl ⟨m, σ, by omega, hM⟩))

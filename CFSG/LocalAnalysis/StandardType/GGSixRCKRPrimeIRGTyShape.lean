@@ -38,9 +38,9 @@ private theorem irgTS_sp4_two_false
     exact e.injective ((Subgroup.mem_bot.mp hz).trans (map_one e).symm)
   have hker : φ.ker = ⊥ := (Subgroup.eq_bot_iff_forall _).mpr (fun x hx => hcen x (hk hx))
   have hinj : Function.Injective φ := (MonoidHom.ker_eq_bot_iff φ).mp hker
-  haveI : Group.IsPerfect ↥φ.range := Group.isPerfect_def.2 hqs.1
+  have : Group.IsPerfect ↥φ.range := Group.isPerfect_def.2 hqs.1
   let f : ↥φ.range ≃* Equiv.Perm (Fin 6) := (MonoidHom.ofInjective hinj).symm.trans e
-  haveI : Group.IsPerfect (Equiv.Perm (Fin 6)) :=
+  have : Group.IsPerfect (Equiv.Perm (Fin 6)) :=
     Group.IsPerfect.ofSurjective (f := f.toMonoidHom) f.surjective
   have hc : commutator (Equiv.Perm (Fin 6)) = ⊤ := Group.isPerfect_def.1 inferInstance
   have hle := Abelianization.commutator_subset_ker (Equiv.Perm.sign : Equiv.Perm (Fin 6) →* ℤˣ)
@@ -65,9 +65,9 @@ theorem irg_hyp_shape
   subst hr
   have hns : ¬ Group.IsSolvable ↥φ'.range := by
     intro hs
-    haveI : Group.IsPerfect ↥φ'.range := ⟨hqs.1⟩
-    haveI : Nontrivial ↥φ'.range := by
-      haveI := hqs.2
+    have : Group.IsPerfect ↥φ'.range := ⟨hqs.1⟩
+    have : Nontrivial ↥φ'.range := by
+      have := hqs.2
       obtain ⟨a, b, hab⟩ := exists_pair_ne (↥φ'.range ⧸ Subgroup.center ↥φ'.range)
       obtain ⟨a, rfl⟩ := QuotientGroup.mk_surjective a
       obtain ⟨b, rfl⟩ := QuotientGroup.mk_surjective b
@@ -79,7 +79,7 @@ theorem irg_hyp_shape
   ·
     rcases m with _ | k
     · exfalso
-      haveI : Subsingleton (ggU .PSL 0 g').K := by
+      have : Subsingleton (ggU .PSL 0 g').K := by
         show Subsingleton (Matrix.SpecialLinearGroup (Fin 1) (ZMod 2))
         infer_instance
       exact hsolv inferInstance
@@ -92,7 +92,7 @@ theorem irg_hyp_shape
         have hK : Nat.card (GaloisField 2 g') = 2 := by
           rw [GaloisField.card 2 g' (by omega)]
           exact hpow
-        haveI : Group.IsSolvable (Matrix.SpecialLinearGroup (Fin (1 + 1)) (GaloisField 2 g')) :=
+        have : Group.IsSolvable (Matrix.SpecialLinearGroup (Fin (1 + 1)) (GaloisField 2 g')) :=
           CFSG.StandardType.isSolvable_specialLinear_of_card_eq_two (ι := Fin (1 + 1))
             (Q := GaloisField 2 g') (by simp) hK
         exact hsolv (inferInstanceAs (Group.IsSolvable
@@ -138,7 +138,7 @@ theorem irg_hyp_shape
         exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr ⟨rfl, rfl⟩))))
       · exfalso
         have hnot : ¬ 3 ≤ m := by omega
-        haveI : Subsingleton (ggU .POmegaPlus m g').K := by
+        have : Subsingleton (ggU .POmegaPlus m g').K := by
           have hU : ggU .POmegaPlus m g' = trivialUniversal := by
             simp only [ggU, lieUniversal, hnot, ↓reduceDIte]
           rw [hU]

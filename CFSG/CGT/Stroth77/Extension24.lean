@@ -25,11 +25,13 @@ theorem torus_endo_ext_Idx4 {k : Fin 3 → ℕ} (f g : Torus k →+ Torus k)
     · simp [gen, Pi.single_eq_of_ne hij]
   rw [e, map_zsmul, map_zsmul, h j]
 
+omit [Finite S] in
 theorem ofMul_conjBy_toMul_Idx4 {k : Fin 3 → ℕ} (E : Torus k ≃+ Additive C) {g : S}
     (hg : g ∈ Subgroup.normalizer C) (v : Torus k) :
     Additive.ofMul (conjBy hg (Additive.toMul (E v))) = E (conjTorusIdx4 E hg v) := by
   rw [conjTorusIdx4_apply, AddEquiv.apply_symm_apply]
 
+omit [Finite S] in
 theorem hasStrothTypeOver_of_conjTorus_Idx4 {τ : StrothTypeIndex} (D : StrothTypeData B τ)
     (hL : D.L ≤ Subgroup.normalizer C) (τ' : StrothTypeIndex) (E : Torus τ'.k ≃+ Additive C)
     (h : ∀ j : Fin 3,
@@ -68,6 +70,7 @@ theorem hasStrothTypeOver_of_conjTorus_Idx4 {τ : StrothTypeIndex} (D : StrothTy
     ρ_conj := conj_of (hL D.ρ_mem_L) (torus_endo_ext_Idx4 _ _ fun j => (h j).2.2.2) },
     rfl, rfl, rfl, rfl⟩
 
+omit [Finite S] in
 theorem hasStrothType_of_conjTorus_Idx4 {τ : StrothTypeIndex} (D : StrothTypeData B τ)
     (hL : D.L ≤ Subgroup.normalizer C) (τ' : StrothTypeIndex) (E : Torus τ'.k ≃+ Additive C)
     (h : ∀ j : Fin 3,
@@ -83,6 +86,7 @@ section Normalize
 variable {s : ℕ} (D : StrothTypeData B (StrothTypeIndex.t300 (s + 1))) (hBC : B ≤ C)
   (hL : D.L ≤ Subgroup.normalizer C)
 
+omit [Finite S] in
 theorem conjTorus_ρ_two300 {e : C} (E : Torus (Type100.k (s + 1)) ≃+ Additive C)
     (hE0 : E (𝔤 s 0) = Additive.ofMul ⟨D.c, hBC D.c.2⟩) (hE1 : E (𝔤 s 1) = Additive.ofMul e)
     (hE2 : E (𝔤 s 2) = Additive.ofMul (conjBy (hL D.ρ_mem_L) e))

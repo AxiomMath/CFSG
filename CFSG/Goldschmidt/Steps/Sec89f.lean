@@ -37,7 +37,7 @@ theorem exists_mem_commutator_not_mem (hset : GoldSetting G S A)
       Sec8.mem_normalizer_commutator (Subgroup.le_normalizer hs)
   set H := (D.subgroupOf (S : Subgroup G)).map (QuotientGroup.mk' A') with hH
   have : H.Normal := Subgroup.Normal.map hDn _ (QuotientGroup.mk'_surjective A')
-  have : Group.IsNilpotent ((S : Subgroup G) ⧸ A') := (S.isPGroup'.to_quotient A').isNilpotent
+  have : Group.IsNilpotent ((S : Subgroup G) ⧸ A') := (S.isPGroup.to_quotient A').isNilpotent
   have hH1 : H ≠ ⊥ := by
     obtain ⟨z, hzD, hzA⟩ := Set.not_subset.mp hD
     intro h
@@ -143,7 +143,7 @@ theorem exists_T1 (hset : GoldSetting G S A) (h4 : Nat.card A = 4)
     by_contra hno
     push Not at hno
     have key := mem_of_forall_sq (A := A) (Z := X) hXsq (fun y hy hy2 => hinvD y hy.1 hy2) hno
-    obtain ⟨k, hk⟩ := S.isPGroup' ⟨z, hDS hzD⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨z, hDS hzD⟩
     exact hzA (key k z ⟨hzD, hzS⟩ (by simpa using congrArg Subtype.val hk))
   refine ⟨T₁, inf_le_left, fun a ha => ⟨hset.le ha, Subgroup.mem_centralizer_iff.mpr
       fun y hy => (comm_of_mem hset h4 (hXS y hy) ha).symm⟩,

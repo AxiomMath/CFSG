@@ -23,7 +23,7 @@ private theorem c2_conj_v : D.c2 * D.v * D.c2⁻¹ = D.t * D.v := by
   have h1 : D.c2 = D.i1 1 * D.i2 cM := by rw [map_one, one_mul]; rfl
   have h2 : D.v = D.i1 hM * D.i2 hM := rfl
   rw [h1, h2, D.conj_prod, hcm, D.i2_neg]
-  simp only [one_mul, mul_one, inv_one, map_one]
+  simp only [one_mul, mul_one, inv_one]
   rw [← mul_assoc, (D.t_commute_i1 hM).eq.symm, mul_assoc]
 
 private theorem commute_t_v : Commute D.t D.v :=
@@ -261,7 +261,7 @@ private theorem card_centralizer_P1_inf_t [Finite G] :
       120 * Nat.card ↥(D.V ⊓ centralizer {D.t}) := by
   have hcardL2 : Nat.card D.i2.range = 120 := by
     rw [← Nat.card_congr (MonoidHom.ofInjective D.inj2).toEquiv]
-    haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+    have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
     have h := Matrix.card_SL_field (𝔽 := ZMod 5) 2
     rw [ZMod.card] at h
     refine h.trans ?_
@@ -469,7 +469,7 @@ private theorem isKleinFour_closure_t_v [Finite G] :
 private theorem V_inf_centralizer_t [Finite G] : D.V ⊓ centralizer {D.t} = D.P1 := by
   obtain ⟨hP1, -, -, -, -, -, -⟩ := D.diagonal_unipotent_local_data
   obtain ⟨-, -, -, hV5⟩ := D.third_root_centralizer_and_five_group
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hH5 : ∃ k, Nat.card ↥(D.V ⊓ centralizer {D.t}) = 5 ^ k :=
     IsPGroup.iff_card.mp (hV5.to_le inf_le_left)
   have hPH : D.P1 ≤ D.V ⊓ centralizer {D.t} := fun x hx =>
@@ -518,7 +518,7 @@ private theorem P4_le_centralizer_v [Finite G] : D.P4 ≤ centralizer {D.v} := b
 
 private theorem V_inf_centralizer_tv [Finite G] : D.V ⊓ centralizer {D.t * D.v} = D.P3 := by
   obtain ⟨-, -, -, hV5⟩ := D.third_root_centralizer_and_five_group
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hH5 : ∃ k, Nat.card ↥(D.V ⊓ centralizer {D.t * D.v}) = 5 ^ k :=
     IsPGroup.iff_card.mp (hV5.to_le inf_le_left)
   have hdvd : Nat.card ↥(D.V ⊓ centralizer {D.t * D.v}) ∣ 480 := by
@@ -531,7 +531,7 @@ private theorem V_inf_centralizer_tv [Finite G] : D.V ⊓ centralizer {D.t * D.v
 
 private theorem V_inf_centralizer_v [Finite G] : D.V ⊓ centralizer {D.v} = D.P4 := by
   obtain ⟨-, -, -, hV5⟩ := D.third_root_centralizer_and_five_group
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hH5 : ∃ k, Nat.card ↥(D.V ⊓ centralizer {D.v}) = 5 ^ k :=
     IsPGroup.iff_card.mp (hV5.to_le inf_le_left)
   have hdvd : Nat.card ↥(D.V ⊓ centralizer {D.v}) ∣ 480 := by
@@ -602,7 +602,7 @@ private theorem v_ne_one : D.v ≠ 1 := by
   exact absurd hv (by norm_num)
 
 private theorem card_V [Finite G] : Nat.card D.V = 125 := by
-  haveI : IsKleinFour ↥(closure {D.t, D.v}) := isKleinFour_closure_t_v D
+  have : IsKleinFour ↥(closure {D.t, D.v}) := isKleinFour_closure_t_v D
   have hBV := CFSG.ABGLocalTools.card_mul_card_centralizer_four_sq
     (T := closure {D.t, D.v}) (K := D.V) D.odd_card_V (closure_t_v_le_normalizer_V D)
     (subset_closure (by simp)) (subset_closure (by simp)) (t_ne_one D) (v_ne_one D)
@@ -613,7 +613,7 @@ private theorem card_V [Finite G] : Nat.card D.V = 125 := by
 
 private theorem V_eq_mul [Finite G] :
     (D.V : Set G) = (D.P1 : Set G) * (D.P3 : Set G) * (D.P4 : Set G) := by
-  haveI : IsKleinFour ↥(closure {D.t, D.v}) := isKleinFour_closure_t_v D
+  have : IsKleinFour ↥(closure {D.t, D.v}) := isKleinFour_closure_t_v D
   have htvT : D.t * D.v ∈ closure {D.t, D.v} :=
     Subgroup.mul_mem _ (subset_closure (by simp)) (subset_closure (by simp))
   have htv_ne_one : D.t * D.v ≠ 1 := by
@@ -1029,8 +1029,8 @@ private theorem index_P1P3_U [Finite G] :
   omega
 
 private theorem commutator_U_le [Finite G] : ⁅D.U, D.U⁆ ≤ D.P1 ⊔ D.P3 := by
-  haveI hN : ((D.P1 ⊔ D.P3).subgroupOf D.U).Normal := P1P3_normal_in_U D
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have hN : ((D.P1 ⊔ D.P3).subgroupOf D.U).Normal := P1P3_normal_in_U D
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hHU : D.P1 ⊔ D.P3 ≤ D.U :=
     (P1P3_le_V D).trans (le_sup_right : D.V ≤ D.P2 ⊔ D.V)
   have hq : IsMulCommutative (D.U ⧸ (D.P1 ⊔ D.P3).subgroupOf D.U) :=

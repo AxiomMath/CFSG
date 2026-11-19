@@ -38,7 +38,7 @@ theorem hermPerp_comm (hB : B.IsSymm) {W : Submodule K V} {y : V} :
     y ∈ hermPerp B W ↔ ∀ w ∈ W, B y w = 0 :=
   ⟨fun hy w hw => hB.eq_iff.1 (hy w hw), fun hy w hw => hB.eq_iff.1 (hy w hw)⟩
 
-theorem hermNondeg_bot : HermNondeg B (⊥ : Submodule K V) := fun w hw _ =>
+theorem hermNondeg_bot : HermNondeg B (⊥ : Submodule K V) := fun _w hw _ =>
   (Submodule.mem_bot K).1 hw
 
 theorem hermNondeg_disjoint (hB : B.IsSymm) {W : Submodule K V} (hW : HermNondeg B W) :
@@ -90,6 +90,7 @@ theorem hermNondeg_perp (hB : B.IsSymm) (hBl : B.SeparatingLeft) {W : Submodule 
   obtain ⟨w, hw, z', hz', rfl⟩ := Submodule.mem_sup.1 hv
   rw [map_add, hzz z' hz', (hermPerp_comm hB).1 hz w hw, add_zero]
 
+omit [FiniteDimensional K V] in
 theorem hermNondeg_sup (hB : B.IsSymm) {W₁ W₂ : Submodule K V} (h₁ : HermNondeg B W₁)
     (h₂ : HermNondeg B W₂) (hperp : W₂ ≤ hermPerp B W₁) : HermNondeg B (W₁ ⊔ W₂) := by
   intro x hx hxx
@@ -104,6 +105,7 @@ theorem hermNondeg_sup (hB : B.IsSymm) {W₁ W₂ : Submodule K V} (h₁ : HermN
     rwa [map_add, LinearMap.add_apply, h12 a ha, zero_add] at this
   rw [e1, e2, add_zero]
 
+omit [FiniteDimensional K V] in
 theorem exists_anisotropic (hB : B.IsSymm) {Z : Submodule K V} (hZ : HermNondeg B Z)
     (hZ0 : Z ≠ ⊥) : ∃ y ∈ Z, B y y ≠ 0 := by
   by_contra hcon
@@ -171,8 +173,8 @@ theorem HermOddData.adjoint_poly (hd : HermOddData B u p s) (hp : 0 < p) (g : Po
 
 theorem HermOddData.aeval_adj_eq (hd : HermOddData B u p s) (hp : 0 < p) (g : Polynomial K) :
     Polynomial.aeval u (hermAdjPoly h p g) = (Polynomial.aeval u g) ^ (ℓ ^ s) := by
-  haveI : CharP K ℓ := h.charP
-  haveI : Fact ℓ.Prime := ⟨h.prime⟩
+  have : CharP K ℓ := h.charP
+  have : Fact ℓ.Prime := ⟨h.prime⟩
   let Fr : Polynomial K →+* Polynomial K := iterateFrobenius (Polynomial K) ℓ s
   let I : Ideal (Polynomial K) := Ideal.span {Polynomial.X ^ p - 1}
   let π : Polynomial K →+* Polynomial K ⧸ I := Ideal.Quotient.mk I

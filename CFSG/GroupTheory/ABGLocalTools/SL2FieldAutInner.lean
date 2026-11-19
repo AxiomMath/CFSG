@@ -110,7 +110,7 @@ theorem mulAut_eq_one_of_card_three (h3 : Nat.card F = 3) {p : ℕ} [Fact p.Prim
     norm_num
   have hU3 : ∀ U : Sylow 3 (SpecialLinearGroup (Fin 2) F), Nat.card U = 3 := by
     intro U
-    obtain ⟨k, hk⟩ := U.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := U.isPGroup.exists_card_eq
     have hdvd : 3 ^ k ∣ 24 := by
       rw [← hk, ← hcard]
       exact Subgroup.card_subgroup_dvd_card (U : Subgroup (SpecialLinearGroup (Fin 2) F))

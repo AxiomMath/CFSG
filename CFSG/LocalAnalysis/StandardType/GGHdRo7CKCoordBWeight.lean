@@ -286,7 +286,7 @@ theorem hdRo7CKCoordAux_weight_two {n : ℕ} (hn : 5 ≤ n)
       intro h
       have h0 : Pi.single k (1 : ZMod 3) = 0 := β.map_eq_zero_iff.mp h
       have := congrFun h0 k
-      simpa [Pi.single_eq_same] using this
+      simp [Pi.single_eq_same] at this
     have hpos : 0 < (hdRo7CKCoordAux_supp (β (Pi.single k 1))).card :=
       Finset.card_pos.mpr (hdRo7CKCoordAux_supp_nonempty hne0)
     omega

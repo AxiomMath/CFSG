@@ -36,9 +36,9 @@ theorem e6TwoModel165At_two_three (F : Type) [Field F] [Finite F] [CharP F 2] (n
 
 theorem e6Model165At_two : E6Model165At 2 := by
   intro F hField hFinite hChar n p q hcard hn hp hp2 hrk hq hq2 hqp hqdiv
-  letI : Field F := hField
-  letI : Finite F := hFinite
-  letI : CharP F 2 := hChar
+  let : Field F := hField
+  let : Finite F := hFinite
+  let : CharP F 2 := hChar
   by_cases hp3 : p = 3
   · subst hp3
     exact e6TwoModel165At_two_three F n q hcard hn hrk hq hq2 hqp hqdiv

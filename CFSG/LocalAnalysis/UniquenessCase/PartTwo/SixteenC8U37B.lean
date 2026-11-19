@@ -24,7 +24,7 @@ theorem u37_exists_outer_of_centralizer_structure
     ∃ g ∈ X, g ∈ normalizer (E : Set A) ∧ g ∈ normalizer (D₃ : Set A) ∧
       ¬ ∃ e ∈ E, ∀ x ∈ E, g * x * g⁻¹ = e * x * e⁻¹ := by
   have hcenter2 : Nat.card (center ↥E) = 2 := hEsl.2.1
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' 2 (G := center ↥E) (by rw [hcenter2])
   let zX : ↥X := ⟨((z : ↥E) : A), hE (z : ↥E).2⟩
   have hzX : orderOf zX = 2 := by
@@ -38,8 +38,8 @@ theorem u37_exists_outer_of_centralizer_structure
         rw [Subgroup.mem_centralizer_singleton_iff]
         exact Subtype.coe_injective
           (congrArg (Subtype.val : ↥E → A) (Subgroup.mem_center_iff.mp z.2 x))⟩
-      map_one' := by ext <;> rfl
-      map_mul' := by intro a b; ext <;> rfl }
+      map_one' := by ext; rfl
+      map_mul' := by intro a b; ext; rfl }
   have hιinj : Function.Injective ι := by
     intro a b hab
     apply Subtype.ext
@@ -59,7 +59,7 @@ theorem u37_exists_outer_of_centralizer_structure
     rw [← hcardE]
     convert h using 1
     rfl
-  haveI hperfE : Group.IsPerfect ↥E := hEsl.1.1
+  have hperfE : Group.IsPerfect ↥E := hEsl.1.1
   have hperfE₀ : Group.IsPerfect ↥E₀ := by
     have := Group.IsPerfect.range (θ.toMonoidHom.comp ι)
     simpa [E₀] using this

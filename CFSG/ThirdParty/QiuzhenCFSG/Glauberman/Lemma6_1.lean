@@ -177,7 +177,7 @@ private lemma sylow_map_le_pCore {G : Type*} [Group G] [Finite G] {N : Subgroup 
   have : N.Normal := hN
   have : (P : Subgroup (↥N)).Characteristic := hP_char
   have : ((P : Subgroup (↥N)).map N.subtype).Normal := inferInstance
-  have hpg : IsPGroup p ((P : Subgroup (↥N)).map N.subtype) := IsPGroup.map P.isPGroup' N.subtype
+  have hpg : IsPGroup p ((P : Subgroup (↥N)).map N.subtype) := IsPGroup.map P.isPGroup N.subtype
   exact le_sSup ⟨inferInstance, hpg⟩
 
 /-! ## Lemma 6.1 (Baer's lemma) -/

@@ -317,6 +317,7 @@ theorem exists_conj_mem_centralizer_of_class_v (h : Tim79a.ParrottHyp z)
   · calc j * (c₁ : G) * y * (j * (c₁ : G))⁻¹ = j * ((c₁ : G) * y * (c₁ : G)⁻¹) * j⁻¹ := by group
       _ = j * (Y : G) * j⁻¹ := by rw [hYcoe]
 
+omit [Finite G] in
 theorem inv_mul_mem_J_or_isConj_of_mem_X {ρ : ↥(H z)} (hqρ : qH D ρ = s1A * s2A⁻¹) {x : G}
     (hxH : x ∈ H z) (hqx : qH D ⟨x, hxH⟩ = uA * vA * tA) {X : Subgroup G}
     (hX : IsSylowOf 2 X (centralizer ({(ρ : G)} : Set G) ⊓ H z ⊓ centralizer ({x} : Set G))) :

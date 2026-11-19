@@ -26,8 +26,8 @@ theorem exists_layer_of_u8_model {T : Type} [Group T] {K : Type} [Field K]
     (hEV : ∀ c ∈ Eb, ∀ v ∈ V, c * v * c⁻¹ ∈ V) :
     ∃ c ∈ Eb, c ∉ Subgroup.zpowers β ∧ GLAPLayer 3 (fixSubgroup β ⊓ fixSubgroup c) ≠ ⊥ := by
   classical
-  haveI := h.finite
-  haveI : Finite T := Finite.of_equiv _ e.symm.toEquiv
+  have := h.finite
+  have : Finite T := Finite.of_equiv _ e.symm.toEquiv
   have hn3 : 3 ≤ n := by omega
   have hne : ¬(n = 3 ∧ 2 ^ 3 = 2) := fun h' => by have := h'.1; omega
   obtain ⟨σ, hσdef⟩ : ∃ σ : K ≃+* K, primeFormFieldFactor h

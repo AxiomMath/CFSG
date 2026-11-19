@@ -27,7 +27,7 @@ theorem kStar_eq_of_forall_isComponent_iff (h : NineSettingGen G M p Q H E k)
   have hset : {C : Subgroup (StarGroup p H) |
       CFSG.IsComponent C ∧ ¬ C ≤ starImg p H M} = {J} := by
     ext C
-    simp only [Set.mem_setOf_eq, Set.mem_singleton_iff]
+    simp only [Set.mem_ofPred_eq, Set.mem_singleton_iff]
     constructor
     · rintro ⟨hC, -⟩
       exact (hJu C).mp hC

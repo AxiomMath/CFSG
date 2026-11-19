@@ -67,7 +67,7 @@ private theorem e6TwoRatLabelD_tag_eq_twD_of_markTag {lab : LargeEvenLabel}
   cases tag <;> simp only [markTag] at h <;>
     first
       | rfl
-      | (split_ifs at h <;> simp_all)
+      | (split_ifs at h)
       | simp_all
 
 private theorem e6TwoRatLabelD_rank_ne_of_markTag {lab : LargeEvenLabel}
@@ -78,12 +78,12 @@ private theorem e6TwoRatLabelD_rank_ne_of_markTag {lab : LargeEvenLabel}
   simp only [markTag] at h
   have h2 : ¬ rank = 2 := by
     intro hr
-    rw [if_pos hr] at h
+    rw [ite_eq_left hr] at h
     exact absurd h (by decide)
   have h3 : ¬ rank = 3 := by
-    rw [if_neg h2] at h
+    rw [ite_eq_right h2] at h
     intro hr
-    rw [if_pos hr] at h
+    rw [ite_eq_left hr] at h
     exact absurd h (by decide)
   exact ⟨h2, h3⟩
 
@@ -93,14 +93,14 @@ private theorem e6TwoRatLabelD_markRank_eq_self_of_markTag {lab : LargeEvenLabel
   obtain ⟨tag, rank, n⟩ := lab
   subst htag
   simp only [markRank]
-  rw [if_neg h2, if_neg h3]
+  rw [ite_eq_right h2, ite_eq_right h3]
 
 private theorem e6TwoRatLabelD_markDeg_eq_n_of_markTag {lab : LargeEvenLabel}
     (htag : lab.tag = .twD) (h2 : lab.rank ≠ 2) : markDeg lab = lab.n := by
   obtain ⟨tag, rank, n⟩ := lab
   subst htag
   simp only [markDeg]
-  rw [if_neg h2]
+  rw [ite_eq_right h2]
 
 private theorem e6TwoRatLabelD_label
     {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] [CharP L 2] {p₀ : ℕ}

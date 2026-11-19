@@ -22,7 +22,7 @@ theorem two_le_pRank_centralizer_map_mk_of_coprime {H : Type} [Group H] [Finite 
     (h : 2 ≤ CFSG.Open.pRank p (centralizer (A₀ : Set H))) :
     2 ≤ CFSG.Open.pRank p
       (centralizer ((A₀.map (QuotientGroup.mk' N) : Subgroup (H ⧸ N)) : Set (H ⧸ N))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rwa [CoprimeTransport.pRank_centralizer_map_mk_eq (s := 3) hN3 hNp hA₀.isPGroup]
 
 theorem signedModelK6c_of_lieModel_psp (hF : Sp6K6cFacts) {Y : Type} [Group Y] {r f : ℕ}
@@ -185,7 +185,7 @@ theorem signedModelK7_of_lieModel_psl {n : ℕ} (hF : SLK7Facts n) (hn : n = 6 �
   obtain ⟨c₀, h₀, ha, hb⟩ := hF hn K hK2
   have hN3 : ¬ 3 ∣ Nat.card ((StatedScalars (Fin n) K).subgroupOf (StatedSL n K)) :=
     ModelUnpack.not_dvd_card_scalars_of_not_dvd_card_sub_one Nat.prime_three (by omega) _
-  haveI := ModelUnpack.isCyclic_scalars_subgroupOf (StatedSL n K)
+  have := ModelUnpack.isCyclic_scalars_subgroupOf (StatedSL n K)
   unfold SignedModelK7
   refine ⟨StatedSL n K, inferInstance, inferInstance, _, inferInstance, c₀, e, h₀, hN3,
     WeirSylow.uniqueElemSylow_statedProj_statedSL_of_mod_three_eq_two K hK2 hn,
@@ -195,7 +195,7 @@ theorem signedModelK7_of_lieModel_psl {n : ℕ} (hF : SLK7Facts n) (hn : n = 6 �
     exact ⟨ModelUnpack.not_dvd_card_scalars_of_not_dvd_card_sub_one hp
       (not_dvd_sub_one_of_dvd_add_one hp5 Nat.card_pos hpq) _, ha p hp hp5 hpq⟩
   · rw [qPlusPi_of_mod_two hq, ← hK] at hpq
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     obtain ⟨h2, h3⟩ := hb p hp hp5 hpq
     rcases hn with rfl | rfl
     · exact two_le_pRank_centralizer_map_mk_of_coprime hN3

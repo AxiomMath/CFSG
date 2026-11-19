@@ -16,9 +16,9 @@ theorem eq_bot_or_fstar_le_of_normal {H N : Subgroup G} {n : ℕ} (hn : 5 ≤ n)
     (e : ↥(Fstar H) ≃* alternatingGroup (Fin n)) (hNH : N ≤ H) (hN : (N.subgroupOf H).Normal) :
     N = ⊥ ∨ Fstar H ≤ N := by
   classical
-  haveI : IsSimpleGroup ↥(alternatingGroup (Fin n)) :=
+  have : IsSimpleGroup ↥(alternatingGroup (Fin n)) :=
     alternatingGroup.isSimpleGroup (by simpa [Nat.card_fin] using hn)
-  haveI : IsSimpleGroup ↥(Fstar H) := e.isSimpleGroup
+  have : IsSimpleGroup ↥(Fstar H) := e.isSimpleGroup
   obtain ⟨φ, hφinj, -, hφapp⟩ := exists_injective_conj_apply_of_fstar_alt hn e
   have hCn : ((N ⊓ Fstar H).subgroupOf (Fstar H)).Normal := by
     rw [Subgroup.normal_subgroupOf_iff (inf_le_right : N ⊓ Fstar H ≤ Fstar H)]
@@ -27,7 +27,7 @@ theorem eq_bot_or_fstar_le_of_normal {H N : Subgroup G} {n : ℕ} (hn : 5 ≤ n)
     exact Subgroup.mem_inf.mpr
       ⟨(Subgroup.normal_subgroupOf_iff hNH).1 hN x g hxN (fstar_le_group H hg),
         conj_mem_fstar (fstar_le_group H hg) hxF⟩
-  haveI := hCn
+  have := hCn
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((N ⊓ Fstar H).subgroupOf (Fstar H)) with
     hCbot | hCtop
   · left
@@ -91,8 +91,8 @@ theorem kerMOf_eq_bot_of_fstar_alt {H M A : Subgroup G} {n : ℕ} (hn : 5 ≤ n)
   obtain ⟨X, hX⟩ := exists_isMinNormalOver hYlt hYn
   obtain ⟨-, hQnil⟩ := five_four_three h hM hX
   have hYsol : Group.IsSolvable ↥Y := by
-    haveI : Group.IsNilpotent ↥(pCore 2 ↥Y) := pCore_isNilpotent
-    haveI : Group.IsNilpotent (↥Y ⧸ pCore 2 ↥Y) := hQnil
+    have : Group.IsNilpotent ↥(pCore 2 ↥Y) := pCore_isNilpotent
+    have : Group.IsNilpotent (↥Y ⧸ pCore 2 ↥Y) := hQnil
     refine Group.isSolvable_of_ker_le_range (pCore 2 ↥Y).subtype
       (QuotientGroup.mk' (pCore 2 ↥Y))
       (le_of_eq ((QuotientGroup.ker_mk' (pCore 2 ↥Y)).trans
@@ -100,14 +100,14 @@ theorem kerMOf_eq_bot_of_fstar_alt {H M A : Subgroup G} {n : ℕ} (hn : 5 ≤ n)
   rcases eq_bot_or_fstar_le_of_normal hn e hYH hYn with hYbot | hFY
   · exact hYbot
   · exfalso
-    haveI : Group.IsSolvable ↥Y := hYsol
+    have : Group.IsSolvable ↥Y := hYsol
     have hFsol : Group.IsSolvable ↥(Fstar H) :=
       Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hFY)
         (Subgroup.inclusion_injective hFY)
-    haveI : Group.IsSolvable ↥(Fstar H) := hFsol
+    have : Group.IsSolvable ↥(Fstar H) := hFsol
     have hAsol : Group.IsSolvable ↥(alternatingGroup (Fin n)) :=
       Group.isSolvable_of_isSolvable_injective (f := e.symm.toMonoidHom) e.symm.injective
-    haveI : IsSimpleGroup ↥(alternatingGroup (Fin n)) :=
+    have : IsSimpleGroup ↥(alternatingGroup (Fin n)) :=
       alternatingGroup.isSimpleGroup (by simpa [Nat.card_fin] using hn)
     have hcommA : ∀ a b : ↥(alternatingGroup (Fin n)), a * b = b * a :=
       IsSimpleGroup.comm_iff_isSolvable.mpr hAsol
@@ -122,7 +122,7 @@ theorem ne_bot_of_maxOver_eq_singleton {H M A : Subgroup G} {n : ℕ} (hn : 5 �
   intro hAbot
   rw [hAbot] at hM
   obtain ⟨hMmax, -, hunique⟩ := isUniqueMaxOver_iff.mp (show IsUniqueMaxOver H ⊥ M from hM)
-  obtain ⟨x, hxH, hxM⟩ := SetLike.exists_of_lt hMmax.1
+  obtain ⟨x, hxH, hxM⟩ := _root_.IsConcreteLE.exists_of_lt hMmax.1
   have hzx : Subgroup.zpowers x = H := by
     by_contra hne
     have hlt : Subgroup.zpowers x < H :=

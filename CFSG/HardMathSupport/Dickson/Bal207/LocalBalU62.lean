@@ -24,7 +24,7 @@ variable {K : Type} [Field K]
 
 theorem u62lb_isLocallyBalancedAbs_primeForm (h : UnitaryFieldData 2 1 K) :
     IsLocallyBalancedAbs 3 1 (primeFormP h (idGram K 6)) := by
-  haveI := excU62_finite h
+  have := excU62_finite h
   have hinj : Function.Injective (MulAut.conj : primeFormP h (idGram K 6) →*
       MulAut (primeFormP h (idGram K 6))) :=
     CFSG.RankThree.PartOne.KCUnitaryRegular.conj_injective_primeFormP h

@@ -58,7 +58,7 @@ theorem sl2_sq_eq_one_of_fixed {K : Type} [Field K] [CharP K 2] (γ : Matrix.Spe
   have hsq : (γ : Matrix (Fin 2) (Fin 2) K) * (γ : Matrix (Fin 2) (Fin 2) K) = 1 := by
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.one_apply, q1, q2, q3, q4]
+      simp [Matrix.mul_apply, Fin.sum_univ_two, q1, q2, q3, q4]
   rw [pow_two]
   exact Subtype.ext (by simpa using hsq)
 

@@ -30,12 +30,12 @@ private lemma torusMat_mulVec (a : ℕ) (x : (F a)ˣ) (v : Fin 4 → F a) :
     torusMat a x *ᵥ v = ![(x : F a) ^ (1 + 2 ^ a) * v 0, (x : F a) ^ (2 ^ a) * v 1,
       ((x : F a) ^ (2 ^ a))⁻¹ * v 2, ((x : F a) ^ (1 + 2 ^ a))⁻¹ * v 3] := by
   ext i
-  fin_cases i <;> simp [torusMat, Matrix.mulVec, Fin.sum_univ_four] <;> rfl
+  fin_cases i <;> simp [torusMat, Matrix.mulVec] <;> rfl
 
 private lemma exists_pow_two_pow_ne_self (a : ℕ) {k : ℕ} (hk0 : 0 < k) (hk : k < 2 * a + 1) :
     ∃ u : F a, u ^ (2 ^ k) ≠ u := by
   classical
-  haveI : Fintype (F a) := Fintype.ofFinite (F a)
+  have : Fintype (F a) := Fintype.ofFinite (F a)
   by_contra h
   rw [not_exists] at h
   simp only [ne_eq, not_not] at h
@@ -145,7 +145,7 @@ theorem exists_eq_mulVec_sub_of_rootSz_torusSz {a : ℕ} (ha : 1 ≤ a)
     intro u c
     have h1 : rootSz a u 0 * rootSz a c 0 = rootSz a (u + c) (u * c ^ 2 ^ (a + 1)) := by
       rw [rootSz_mul_rootSz]
-      congr 1 <;> ring
+      congr 1; ring
     have h := hδ (rootSz a u 0) (rootSz a c 0)
     rw [h1, hdep (u + c) (u * c ^ 2 ^ (a + 1)), hvec c, mat_rootSz u 0, hvec u] at h
     have e := congrFun h 0
@@ -156,7 +156,7 @@ theorem exists_eq_mulVec_sub_of_rootSz_torusSz {a : ℕ} (ha : 1 ≤ a)
     intro u c
     have h1 : rootSz a u 0 * rootSz a c 0 = rootSz a (u + c) (u * c ^ 2 ^ (a + 1)) := by
       rw [rootSz_mul_rootSz]
-      congr 1 <;> ring
+      congr 1; ring
     have h := hδ (rootSz a u 0) (rootSz a c 0)
     rw [h1, hdep (u + c) (u * c ^ 2 ^ (a + 1)), hvec c, mat_rootSz u 0, hvec u] at h
     have e := congrFun h 1
@@ -347,8 +347,8 @@ theorem exists_eq_mulVec_sub_of_rootSz_torusSz {a : ℕ} (ha : 1 ≤ a)
       rw [hassoc] at h2
       have hconj : torusSz a x * rootSz a x⁻¹ 0 * (torusSz a x)⁻¹ = rootSz a 1 0 := by
         have hc' := torusSz_mul_rootSz a x x⁻¹ 0
-        simp only [Units.val_mul, Units.val_inv_eq_inv_val, mul_inv_cancel₀ (Units.ne_zero x),
-          Units.val_one, mul_zero] at hc'
+        simp only [mul_inv_cancel₀ (Units.ne_zero x),
+          mul_zero] at hc'
         calc torusSz a x * rootSz a x⁻¹ 0 * (torusSz a x)⁻¹
             = (rootSz a 1 0 * torusSz a x) * (torusSz a x)⁻¹ := by rw [hc']
           _ = rootSz a 1 0 := by rw [mul_assoc, mul_inv_cancel, mul_one]
@@ -402,7 +402,7 @@ theorem exists_eq_mulVec_sub_of_rootSz_torusSz {a : ℕ} (ha : 1 ≤ a)
           (δ₁ (torusSz a x)) 0 + 0 := by rw [add_zero]; simpa using e
       exact add_left_cancel hh
     exact ⟨h1, h2, h3⟩
-  haveI : Fintype (F a) := Fintype.ofFinite (F a)
+  have : Fintype (F a) := Fintype.ofFinite (F a)
   have hodd : Odd (Fintype.card (F a)ˣ) := by
     rw [Fintype.card_units]
     have hcard : Fintype.card (F a) = 2 ^ (2 * a + 1) := by

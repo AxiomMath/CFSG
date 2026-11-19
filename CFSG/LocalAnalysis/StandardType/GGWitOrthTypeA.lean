@@ -18,7 +18,7 @@ theorem owTA_linWeyl_of_typeA {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {U : Type
     (s : Fin n → U ≃ₗ[ZMod p] U) (hs : ∀ i v, s i v = v - α i v • h i)
     (hs_mem : ∀ i, s i ∈ ClassRefl p Q c)
     (hgen : closure (Set.range s) = A) : LinWeyl p A := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hM : CoxeterMatrix.A n = (CoxeterMatrix.A n).reindex (Equiv.refl (Fin n)) := by
     ext i j; simp [CoxeterMatrix.reindex_apply]
   obtain ⟨f, hf⟩ := ggCoxeterIso_of_typeA_odd (e := Equiv.refl (Fin n))

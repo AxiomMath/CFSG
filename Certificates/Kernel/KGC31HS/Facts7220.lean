@@ -398,7 +398,7 @@ theorem pf_countP (F : Nat → Bool) : ∀ (Ls : List (List Nat)) (g : Nat) (acc
     (pfilterProducts 100 7 (fun _ => true) Ls g acc).countP F =
       pcountProducts 100 7 F Ls g + acc.countP F
   | [], g, acc => by
-    simp only [pfilterProducts, pcountProducts, if_true, List.countP_cons]
+    simp only [pfilterProducts, pcountProducts, ite_true, List.countP_cons]
     omega
   | T :: Ts, g, acc => by
     simp only [pfilterProducts, pcountProducts]

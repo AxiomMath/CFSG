@@ -331,16 +331,16 @@ private theorem d4f_ntpD4Labels_of_graphAut
           ggTriD4_pgu_two_solvable (n := 1) rfl hK
         have hsolvGC : Group.IsSolvable ↥(graphCentralizer TwistTag.D4.tag F
             (d4TrialityY0 F * (diagramMap TwistTag.D4 F)⁻¹)) := by
-          haveI := hsolvK
+          have := hsolvK
           exact Group.isSolvable_of_isSolvable_injective (f := ePU.toMonoidHom)
             ePU.injective
         have hsolvQ : Group.IsSolvable
             ↥(ggFix (MulAut.conj γ' * theta : MulAut (Om8 F))) := by
-          haveI := hsolvGC
+          have := hsolvGC
           exact Group.isSolvable_of_isSolvable_injective (f := eGC.toMonoidHom) eGC.injective
         have hsolvTop : Group.IsSolvable
             ↥(⊤ : Subgroup ↥(ggFix (MulAut.conj γ' * theta : MulAut (Om8 F)))) := by
-          haveI := hsolvQ
+          have := hsolvQ
           exact Group.isSolvable_of_isSolvable_injective
             (f := Subgroup.topEquiv.toMonoidHom)
             (fun x y h => Subgroup.topEquiv.injective (by simpa using h))
@@ -382,8 +382,8 @@ theorem ntpD4_fix_untwisted
     NTPD4Labels (2 ^ f₀) Kc := by
   obtain ⟨γ, ε, hε, hβ⟩ := hγ
   have hnN : n ∈ Subgroup.normalizer R := by
-    haveI : Finite (Om8 F) := inferInstance
-    haveI : Finite ↥R := Finite.of_injective (e : ↥R → Om8 F) e.injective
+    have : Finite (Om8 F) := inferInstance
+    have : Finite ↥R := Finite.of_injective (e : ↥R → Om8 F) e.injective
     rw [Subgroup.mem_normalizer_iff]
     intro r
     refine ⟨fun hr => hnR r hr, fun hr => ?_⟩
@@ -524,7 +524,7 @@ private theorem d4f_compsWith_P_projImage
       ggTriD4_pgu_two_solvable (n := 1) rfl hF'
     have hsolvTop : Group.IsSolvable
         ↥(⊤ : Subgroup ↥(projImage (Sec4.glPi false 3 (2 ^ 1) F))) := by
-      haveI := hsolv
+      have := hsolv
       exact Group.isSolvable_of_isSolvable_injective
         (f := Subgroup.topEquiv.toMonoidHom)
         (fun x y h => Subgroup.topEquiv.injective (by simpa using h))
@@ -555,10 +555,10 @@ theorem ntpD4_fix_triality
     (hout : ¬ ∃ r₀ : ↥R, ∀ r : ↥R, (⟨n * r * n⁻¹, hnR r r.2⟩ : ↥R) = r₀ * r * r₀⁻¹)
     (Kc : Subgroup X) (hKc : IsComponentOf Kc (R ⊓ Subgroup.centralizer ({n} : Set X))) :
     NTPD4Labels (2 ^ f₀) Kc := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hnN : n ∈ Subgroup.normalizer R := by
-    haveI : Finite (↥(graphFixedRootGroup TwistTag.D4 K₃ Fr.toRingHom)) := inferInstance
-    haveI : Finite ↥R :=
+    have : Finite (↥(graphFixedRootGroup TwistTag.D4 K₃ Fr.toRingHom)) := inferInstance
+    have : Finite ↥R :=
       Finite.of_injective (e : ↥R → ↥(graphFixedRootGroup TwistTag.D4 K₃ Fr.toRingHom))
         e.injective
     rw [Subgroup.mem_normalizer_iff]

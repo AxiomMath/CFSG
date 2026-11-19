@@ -59,7 +59,7 @@ private theorem pk5_main {V : Type} [AddCommGroup V] [Module (ZMod 3) V] (h : Fi
       · simp [pk5_d]
       · intro b _ hb
         have hbval : (b : ℕ) ≠ 0 := fun hh => hb (Fin.ext (by simpa using hh))
-        rw [if_neg hbval, mul_zero]
+        rw [ite_eq_right hbval, mul_zero]
       · intro hh; exact absurd (Finset.mem_univ 0) hh
     have h2 : ∑ k : Fin 8, pk5_d k * (c * u k) = c * du := by
       rw [show du = ∑ k : Fin 8, pk5_d k * u k from rfl, Finset.mul_sum]
@@ -105,11 +105,11 @@ private theorem pk5_main {V : Type} [AddCommGroup V] [Module (ZMod 3) V] (h : Fi
     funext j
     by_cases hj : j = 8
     · subst hj
-      simp only [pk5_Tinv, Pi.add_apply, Pi.sub_apply, Pi.smul_apply, smul_eq_mul,
+      simp only [pk5_Tinv, Pi.add_apply, Pi.smul_apply, smul_eq_mul,
         Pi.single_eq_same, hmvT8]
       ring
-    · have hs : s8 j = 0 := by simp [s8, Pi.single_apply, hj]
-      have h8 : s8 8 = 1 := by simp [s8, Pi.single_apply]
+    · have hs : s8 j = 0 := by simp [s8, hj]
+      have h8 : s8 8 = 1 := by simp [s8]
       change s8 j + s8 8 * mvT j + (c - 1) * s8 8 * s8 j = mvT j + c * s8 j
       rw [hs, h8]
       ring
@@ -125,12 +125,12 @@ private theorem pk5_main {V : Type} [AddCommGroup V] [Module (ZMod 3) V] (h : Fi
         = (Pi.single (Fin.castSucc j) (1 : ZMod 3) : Fin 9 → ZMod 3) := by
       rw [hT]
       apply pk5_T_fix
-      fin_cases j <;> simp [Pi.single_apply]
+      fin_cases j <;> simp
     conv_lhs => rw [← hfix]
     rw [LinearEquiv.symm_apply_apply]
   have hmvT_decomp : mvT = mv + μ • s7 := by
     funext j
-    fin_cases j <;> simp [mvT, mv, m, w2, pk5_mvW, s7, Pi.single_apply]
+    fin_cases j <;> simp [mvT, mv, m, w2, pk5_mvW, s7]
   have hEx : E x = s7 := by
     funext j
     fin_cases j <;> (rw [C.x_eq]; decide)
@@ -154,7 +154,7 @@ private theorem pk5_main {V : Type} [AddCommGroup V] [Module (ZMod 3) V] (h : Fi
       (by intro hh; exact absurd (Finset.mem_univ _) hh)]
     have h8 : j.val ≠ 8 := by omega
     simp only [Pi.single_eq_same, mul_one, Fin.val_castSucc]
-    rw [if_neg h8, add_zero]
+    rw [ite_eq_right h8, add_zero]
   have hα8_getD7 : ∀ i : Fin 8, (alpha8 i.val)[7]?.getD 0 = 0 := by
     decide +kernel
   have hα_e0 (i : Fin 8) :
@@ -173,25 +173,25 @@ private theorem pk5_main {V : Type} [AddCommGroup V] [Module (ZMod 3) V] (h : Fi
       have hj7 : j.val < 7 := j.isLt
       have hg : ((((alpha8 i.val).getD j.val 0 : ℕ) : ZMod 3)
           + (if j.val = 8 then u i else 0)) = ((cl i.val j.val : ℕ) : ZMod 3) := by
-        rw [if_neg (by omega), add_zero, pk5_alpha8_getD i.val j.val hj7]
+        rw [ite_eq_right (by omega), add_zero, pk5_alpha8_getD i.val j.val hj7]
       have hmv : mv (Fin.castSucc (Fin.castSucc j)) = m (Fin.castSucc j) := by
         show pk5_mvW w2 (Fin.castSucc (Fin.castSucc j)) = pk5_mFunW w2 (Fin.castSucc j)
-        simp only [pk5_mvW, Fin.val_castSucc, dif_pos hj7]
+        simp only [pk5_mvW, Fin.val_castSucc, dite_eq_left hj7]
         rfl
       simp only [Fin.val_castSucc]
       rw [hg, hmv]
     have hsum_s7 : ∑ j : Fin 9, ((((alpha8 i.val).getD j.val 0 : ℕ) : ZMod 3)
         + (if j.val = 8 then u i else 0)) * s7 j = 0 := by
       rw [Finset.sum_eq_single (7 : Fin 9)
-        (by intro b _ hb; simp [s7, Pi.single_apply, hb])
+        (by intro b _ hb; simp [s7, hb])
         (by intro hh; exact absurd (Finset.mem_univ 7) hh)]
-      simp [s7, Pi.single_apply, hα8_getD7 i]
+      simp [s7, hα8_getD7 i]
     have hsum_s8 : ∑ j : Fin 9, ((((alpha8 i.val).getD j.val 0 : ℕ) : ZMod 3)
         + (if j.val = 8 then u i else 0)) * s8 j = u i := by
       rw [Finset.sum_eq_single (8 : Fin 9)
-        (by intro b _ hb; simp [s8, Pi.single_apply, hb])
+        (by intro b _ hb; simp [s8, hb])
         (by intro hh; exact absurd (Finset.mem_univ 8) hh)]
-      simp [s8, Pi.single_apply, alpha8]
+      simp [s8, alpha8]
     have hsplit_sum : ∑ j : Fin 9, ((((alpha8 i.val).getD j.val 0 : ℕ) : ZMod 3)
         + (if j.val = 8 then u i else 0)) * (mv + μ • s7 + c • s8) j
         = (∑ j : Fin 9, ((((alpha8 i.val).getD j.val 0 : ℕ) : ZMod 3)
@@ -226,7 +226,7 @@ private theorem pk5_main {V : Type} [AddCommGroup V] [Module (ZMod 3) V] (h : Fi
   have hPvec8 (v : Vec) (hv : v.length = 8) (a : ℕ) (k : Fin 8) :
       P.vec (v ++ [a]) (Fin.castSucc k) = ((v.getD k.val 0 : ℕ) : ZMod 3) := by
     simp only [Pt.vec, Fin.val_castSucc]
-    rw [List.getD_append v [a] 0 k.val (by simpa [hv] using k.isLt)]
+    rw [List.getD_append v [a] 0 k.val (by simp [hv])]
   have hPvec_last (v : Vec) (hv : v.length = 8) (a : ℕ) :
       P.vec (v ++ [a]) (Fin.last 8) = (a : ZMod 3) := by
     simp only [Pt.vec, Fin.val_last]

@@ -122,7 +122,7 @@ theorem ssexc_suN_exists_pSubgroup {ℓ f : ℕ} (hℓ : ℓ.Prime) (h5 : 5 ≤ 
   have hdvdC : ℓ ^ 2 ∣ Nat.card ↥(fixSubgroup (stdUnitaryEquiv (ν := ν) σ)) := by
     rw [← Nat.card_congr e.toEquiv]
     exact hℓdvd.trans hdvdN
-  haveI : Finite ↥(fixSubgroup (stdUnitaryEquiv (ν := ν) σ)) :=
+  have : Finite ↥(fixSubgroup (stdUnitaryEquiv (ν := ν) σ)) :=
     (stdUnitary_fixSubgroup hℓ hf σ hσ hν).1
   obtain ⟨V, hV⟩ :=
     Sylow.exists_subgroup_card_pow_prime (G := ↥(fixSubgroup (stdUnitaryEquiv (ν := ν) σ))) ℓ hdvdC
@@ -146,7 +146,7 @@ theorem ssexc_suN_exists_hom (hT : rootDiagUnit τ ta ∈ S.D.torus)
     (hΨ : componentRoots (rootCharHom ta) i = frameRoots σ) (π : Equiv.Perm (Fin ν))
     (hπ : ∀ a b, a ≠ b → (S.ρ : (Fin τ.rank → ℤ) → _)^[componentOrbitLength S.ρ
       (componentRoots (rootCharHom ta) i)] (σ a b) = σ (π b) (π a))
-    {r e : ℕ} (hr : r.Prime) (hchar : CharP L r) (he : 0 < e) (hq : S.D.q = r ^ e) :
+    {r e : ℕ} (hr : r.Prime) (hchar : CharP L r) (_he : 0 < e) (hq : S.D.q = r ^ e) :
     ∃ σQ : L ≃+* L,
       (∀ c, σQ c = c ^ (r ^ (e * componentOrbitLength S.ρ (componentRoots (rootCharHom ta) i)))) ∧
       ∃ f : ↥(fixSubgroup (stdUnitaryEquiv (ν := ν) σQ)) →* ModGL τ L,
@@ -440,11 +440,11 @@ theorem ssexc_not_L34_suN {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] (S : L
     omega
   obtain ⟨σQ, hσc, f, hf1, hfker, hf2⟩ :=
     ssexc_suN_exists_hom S hT i hν hψ hΨ π hπ hr hchar he hq
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : CharP L r := hchar
+  have : Fact r.Prime := ⟨hr⟩
+  have : CharP L r := hchar
   have hes : 0 < e * s := Nat.mul_pos he hs0
   obtain ⟨hfin, hqsC, -⟩ := stdUnitary_fixSubgroup (ν := ν) hr hes σQ hσc hν
-  haveI := hfin
+  have := hfin
   have hne : (ν, r ^ (e * s)) ≠ (3, 2) := by
     intro h
     have h' : r ^ (e * s) = 2 := congrArg Prod.snd h

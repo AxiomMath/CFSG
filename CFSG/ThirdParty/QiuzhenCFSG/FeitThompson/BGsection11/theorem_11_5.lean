@@ -83,7 +83,7 @@ private theorem CFSG.section11_zpowers_mem_prime_order_subgroups
     {A : Subgroup G} {p : Nat.Primes} (a : A) (ha_ne : a ≠ 1)
     [IsElementaryAbelian p.val A] :
     Subgroup.zpowers (a : G) ∈ section10PrimeOrderSubgroupsIn p A := by
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   have hpowA : a ^ p.val = 1 := by
     exact Monoid.exponent_dvd_iff_forall_pow_eq_one.mp
       (IsElementaryAbelian.exponent_dvd_p p.val A) a
@@ -106,13 +106,13 @@ private theorem CFSG.section11_exists_prime_order_subgroup_centralizer_ne_bot
     ∃ X ∈ section10PrimeOrderSubgroupsIn p A,
       subgroupCentralizerIn Q X ≠ ⊥ := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   rcases h11.A_rank_two with ⟨hAcard, hAelem⟩
-  letI : IsElementaryAbelian p.val A := hAelem
-  letI : IsMulCommutative A := hAelem.toIsMulCommutative
-  letI : CommGroup A := IsMulCommutative.instCommGroup
-  haveI : Fact (IsPGroup p.val A) := ⟨IsElementaryAbelian.isPGroup p.val A⟩
-  haveI : Subgroup.Normalizes A Q := ⟨hAQ⟩
+  let : IsElementaryAbelian p.val A := hAelem
+  let : IsMulCommutative A := hAelem.toIsMulCommutative
+  let : CommGroup A := IsMulCommutative.instCommGroup
+  have : Fact (IsPGroup p.val A) := ⟨IsElementaryAbelian.isPGroup p.val A⟩
+  have : Subgroup.Normalizes A Q := ⟨hAQ⟩
   have hcopAQ : Nat.Coprime (Nat.card A) (Nat.card Q) :=
     section11_coprime_A_of_isPiSubgroup_sigma h11 hQσ
   have hp_dvd_A : p.val ∣ Nat.card A := by
@@ -122,7 +122,7 @@ private theorem CFSG.section11_exists_prime_order_subgroup_centralizer_ne_bot
     hcopAQ.coprime_dvd_left hp_dvd_A
   have hQ_nontrivial : Nontrivial Q := by
     exact Q.nontrivial_iff_ne_bot.mpr hQ_ne_bot
-  letI : Nontrivial Q := hQ_nontrivial
+  let : Nontrivial Q := hQ_nontrivial
   have hsup :
       (⨆ (a : A) (_ : a ≠ 1), fixedPointSubgroup (↥(Subgroup.zpowers a)) Q) =
         ⊤ :=
@@ -177,7 +177,7 @@ public theorem CFSG.section11_isMulCommutative_sylow_of_sylow
     {p : Nat.Primes} (P Q : Sylow p.val G)
     (hP : IsMulCommutative (P : Subgroup G)) :
     IsMulCommutative (Q : Subgroup G) := by
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   let e : P ≃* Q := Sylow.equiv P Q
   refine Subgroup.le_centralizer_iff_isMulCommutative.mp ?_
   intro x hx y hy
@@ -282,8 +282,8 @@ public theorem CFSG.section11_omega1Z_characteristic
     (Ω₁Z p.val P).Characteristic := by
   let C : Subgroup P := Subgroup.center P
   let Ω : Subgroup C := omega₁ (G := C) (p := p.val)
-  letI : C.Characteristic := Subgroup.centerCharacteristic
-  letI : Ω.Characteristic := by
+  let : C.Characteristic := Subgroup.centerCharacteristic
+  let : Ω.Characteristic := by
     simpa [Ω] using omega₁_characteristic (G := C) (p := p.val)
   simpa [Ω₁Z, C, Ω] using
     (characteristic_map_subtype_of_characteristic (G := P) C Ω)
@@ -293,7 +293,7 @@ public theorem CFSG.section11_normalizer_le_normalizer_omegaOneCenter
     (p : Nat.Primes) (P : Subgroup G) :
     Subgroup.normalizer (P : Set G) ≤
       Subgroup.normalizer (section10OmegaOneCenter p P : Set G) := by
-  letI : (Ω₁Z p.val P).Characteristic := section11_omega1Z_characteristic p P
+  let : (Ω₁Z p.val P).Characteristic := section11_omega1Z_characteristic p P
   simpa [section10OmegaOneCenter] using
     section11_normalizer_le_normalizer_map_subtype_of_characteristic
       (G := G) P (Ω₁Z p.val P)
@@ -304,7 +304,7 @@ public theorem CFSG.section11_normalizer_le_normalizer_omegaOne
     Subgroup.normalizer (P : Set G) ≤
       Subgroup.normalizer (section11OmegaOne p P : Set G) := by
   let Ω : Subgroup P := omega₁ (G := P) (p := p.val)
-  letI : Ω.Characteristic := by
+  let : Ω.Characteristic := by
     simpa [Ω] using omega₁_characteristic (G := P) (p := p.val)
   simpa [section11OmegaOne, Ω] using
     section11_normalizer_le_normalizer_map_subtype_of_characteristic
@@ -316,7 +316,7 @@ public theorem CFSG.section11_ambientSylow_ne_bot_of_prime_dvd
     {H : Subgroup G} {q : Nat.Primes} (Q : Sylow q.val H)
     (hqH : q.val ∣ Nat.card H) :
     section10AmbientSylowSubgroup H Q ≠ ⊥ := by
-  haveI : Fact q.val.Prime := ⟨q.property⟩
+  have : Fact q.val.Prime := ⟨q.property⟩
   have hQ_ne : (Q : Subgroup H) ≠ ⊥ :=
     Sylow.ne_bot_of_dvd_card (G := H) (p := q.val) Q hqH
   intro hbot
@@ -354,7 +354,7 @@ public theorem CFSG.section11_isMulCommutative_ambient_of_sylow
     {M : Subgroup G} {p : Nat.Primes} {P : Sylow p.val M}
     (hcomm : IsMulCommutative (P : Subgroup M)) :
     IsMulCommutative (section10AmbientSylowSubgroup M P) := by
-  letI : IsMulCommutative (P : Subgroup M) := hcomm
+  let : IsMulCommutative (P : Subgroup M) := hcomm
   change IsMulCommutative ((P : Subgroup M).map M.subtype)
   exact Subgroup.map_isMulCommutative (f := M.subtype) (H := (P : Subgroup M))
 
@@ -363,7 +363,7 @@ public theorem CFSG.section11_omega1_isElementaryAbelian_of_commutative
     {p : ℕ} [Fact p.Prime]
     (H : Type*) [Group H] [IsMulCommutative H] :
     IsElementaryAbelian p (omega₁ (G := H) (p := p)) := by
-  letI : CommGroup H := IsMulCommutative.instCommGroup
+  let : CommGroup H := IsMulCommutative.instCommGroup
   refine
     { toIsMulCommutative := by infer_instance
       exponent_dvd_p := ?_ }
@@ -412,7 +412,7 @@ public theorem CFSG.theorem_11_5
     (h11 : section11Data M A0 A p P) :
     ∀ P' : Sylow p.val M, IsMulCommutative (P' : Subgroup M) := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   let Pamb : Subgroup G := section10AmbientSylowSubgroup M P
   have hPamb_le_M : Pamb ≤ M := by
     simpa [Pamb] using section11_ambientSylow_le M P
@@ -436,7 +436,7 @@ public theorem CFSG.theorem_11_5
       exact hK_ne ((Subgroup.card_eq_one (H := K)).1 hcard)
     obtain ⟨q0, hq0prime, hq0dvd⟩ := Nat.exists_prime_and_dvd hK_card_ne_one
     let q : Nat.Primes := ⟨q0, hq0prime⟩
-    haveI : Fact q.val.Prime := ⟨q.property⟩
+    have : Fact q.val.Prime := ⟨q.property⟩
     have hqK : q.val ∣ Nat.card K := by
       simpa [q] using hq0dvd
     have hqσ : q ∈ section10SigmaPrimes M := by
@@ -451,7 +451,7 @@ public theorem CFSG.theorem_11_5
       Group.IsNilpotent.sylow_normal hnilK q.val Q1
     have hQ1_char : ((Q1 : Subgroup K)).Characteristic :=
       Sylow.characteristic_of_normal Q1 hQ1_normal
-    letI : ((Q1 : Subgroup K)).Characteristic := hQ1_char
+    let : ((Q1 : Subgroup K)).Characteristic := hQ1_char
     have hA_norm_K : A ≤ Subgroup.normalizer (K : Set G) :=
       h11.A_le_M.trans (by simpa [K] using section11_msigma_le_normalizer M)
     have hM_norm_K : M ≤ Subgroup.normalizer (K : Set G) := by
@@ -481,7 +481,7 @@ public theorem CFSG.theorem_11_5
       Group.IsNilpotent.sylow_normal hnilKg q.val Q2
     have hQ2_char : ((Q2 : Subgroup Kg)).Characteristic :=
       Sylow.characteristic_of_normal Q2 hQ2_normal
-    letI : ((Q2 : Subgroup Kg)).Characteristic := hQ2_char
+    let : ((Q2 : Subgroup Kg)).Characteristic := hQ2_char
     have hMg_norm_Kg : M.conjBy g ≤ Subgroup.normalizer (Kg : Set G) := by
       simpa [K, Kg] using
         section11_conjBy_le_normalizer_conjBy_of_le_normalizer

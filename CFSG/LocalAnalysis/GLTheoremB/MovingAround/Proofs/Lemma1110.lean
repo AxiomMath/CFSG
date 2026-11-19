@@ -177,7 +177,7 @@ end Glue3
 
 @[expose] def Lemma1110CaseB : Prop :=
   ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A : Subgroup G} {a : G} {K : Subgroup G}
-    (h : Cex117 G m p B M E A a K), Type117b p K →
+    (_h : Cex117 G m p B M E A a K), Type117b p K →
     (∀ R : Subgroup G, IsSylowIn 5 M R → E ⊔ A ≤ R → omegaOne 5 (centerOf R) ≤ E ⊓ A) →
     (∃ S : Subgroup (MulAut (barOf 5 K)), S ≤ innerAut (barOf 5 K) ∧ IsPGroup 5 S ∧
       Nat.card S = 5 ^ (Nat.card (innerAut (barOf 5 K))).factorization 5) →
@@ -190,7 +190,7 @@ theorem lemma1110_of_inputs (h118 : Lemma118Statement) (h119 : Lemma119Statement
   intro G _ _ m p B M E A a K h
   rcases h118 h with hb | hc
   · obtain ⟨rfl, hfi⟩ := hb
-    haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     have hsc := h104ii h.toCex117Base.toSec11.toSec10Fails h.pair
     have hEsc : IsSCp 5 ⊤ E := hsc.1
     have hAsc : IsSCp 5 ⊤ A := hsc.2

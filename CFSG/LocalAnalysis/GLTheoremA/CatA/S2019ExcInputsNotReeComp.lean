@@ -89,7 +89,7 @@ theorem fixCompsEquiv_of_derived_eq_simple {β : MulAut S} {N : Subgroup S}
       rw [commutatorElement_def]
       exact (fixSubgroup β).mul_mem ((fixSubgroup β).mul_mem ((fixSubgroup β).mul_mem ha hb)
         ((fixSubgroup β).inv_mem ha)) ((fixSubgroup β).inv_mem hb)
-  haveI hNn : (N.subgroupOf (fixSubgroup β)).Normal := by
+  have hNn : (N.subgroupOf (fixSubgroup β)).Normal := by
     rw [← hder]
     have h := Subgroup.normal_subgroupOf_commutator_sup (fixSubgroup β) (fixSubgroup β)
     rwa [sup_idem] at h

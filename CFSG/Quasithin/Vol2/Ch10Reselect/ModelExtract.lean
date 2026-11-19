@@ -12,7 +12,7 @@ open Matrix CFSG.Quasithin CFSG.Assembly.LowTwoRank
 private theorem subgroupOf_bot_top_eq_bot (A : Type) [CommGroup A] :
     (⊥ : Subgroup A).subgroupOf ⊤ = ⊥ := by
   ext x
-  simp [Subgroup.mem_subgroupOf]
+  simp
 
 private noncomputable def quotTopBotEquiv (A : Type) [CommGroup A] :
     ↥(⊤ : Subgroup A) ⧸ ((⊥ : Subgroup A).subgroupOf ⊤) ≃* A :=
@@ -70,7 +70,7 @@ private theorem nat_gamma_eq_one {V : Type} [CommGroup V] {K : Type} [Field K]
     obtain ⟨u, hu⟩ := hsurj (Multiplicative.ofAdd y)
     have hu' : ((π γ : ↥H) : MulAut V) (u : V) ∈ U' := by
       rw [hγ]
-      simpa using u.2
+      simp
     have hsub : (⟨((π γ : ↥H) : MulAut V) (u : V), hu'⟩ : ↥U') = u := by
       apply Subtype.ext
       show ((π γ : ↥H) : MulAut V) (u : V) = (u : V)

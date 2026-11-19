@@ -16,6 +16,7 @@ namespace E214N
 
 variable {Γ : Type} [Group Γ] [Finite Γ]
 
+omit [Finite Γ] in
 theorem sq_eq_one_of_conj {X T M V : Subgroup Γ} {g : Γ} (hp : E2.Pair X T M V g)
     (hconj : ∀ x ∈ (kerIn M X ⊓ V) ⊔ B6.conjSub g (kerIn M X ⊓ V), x ∉ V ⊓ B6.conjSub g V →
       ∀ b ∈ (kerIn M X ⊓ V) ⊔ B6.conjSub g (kerIn M X ⊓ V), b ∉ V ⊓ B6.conjSub g V →

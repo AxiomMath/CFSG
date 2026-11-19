@@ -74,8 +74,8 @@ theorem sec85_exists_fpf (h34 : Stroth34Statement) (h51 : Stroth51Statement)
   obtain ⟨r, hr, -, hopp, -⟩ := sec8_Z0_data h51 hA hc hs hZ0
   obtain ⟨m, hm2, hmSp⟩ := hs.sp
   obtain ⟨K, fK, finK, hchar, φ, hn, ψ, u, u', hpts, -⟩ := sec8_natdata h34 hRoot hs hr hmSp
-  haveI := hn
-  haveI := hchar
+  have := hn
+  have := hchar
   have hrR : r ∈ Rt M (LB M Q B) t := hr.mem
   have hrM : r ∈ M := hc.Rt_le_M t hrR
   have hRM := hc.Rt_le_M t
@@ -95,7 +95,7 @@ theorem sec85_exists_fpf (h34 : Stroth34Statement) (h51 : Stroth51Statement)
   have hsec : SecHyp (Rt M (LB M Q B) t) (hc.CN t) Z0 := SecHyp.of_isOppDecomp hopp hP hI
   have hN : ∀ c ∈ hc.CN t, ∀ d ∈ hc.CN t, ⁅c, d⁆ ∈ Z0 := hopp.2.2.2.2.2.2.1
   obtain ⟨Mo, iMo, iAct, κ, hκ, hkerAct⟩ := exists_sectionModule_ker hpts.ker hsec hN
-  haveI : Finite Mo := hκ.finite
+  have : Finite Mo := hκ.finite
   have hdec := isCompl_fixedSub_of_isOppDecomp hP hκ hopp hLR hLCR
   obtain ⟨a, ha, b, hb, hna, hnb, hab3⟩ := exists_transvection_pair_order_three (K := K) hpts.uu'
   have ha' : a ∈ ((LB M Q B).subgroupOf (Rt M (LB M Q B) t)).map φ := by

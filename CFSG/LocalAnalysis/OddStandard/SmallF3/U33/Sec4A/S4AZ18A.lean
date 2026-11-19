@@ -25,8 +25,8 @@ theorem z18_thompson_finish (hG : IsSimpleGroup G) (h4 : 4 ∣ Nat.card G) {P M 
     omega
   obtain ⟨N, hN, hN2⟩ := CFSG.ThompsonIndexTwo.exists_normal_index_two_of_thompson hP hPidx hMP
     hMidx htP htM hmin hdisj
-  haveI := hG
-  haveI := hN
+  have := hG
+  have := hN
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal N with rfl | rfl
   · rw [Subgroup.index_bot] at hN2
     rw [hN2] at h4

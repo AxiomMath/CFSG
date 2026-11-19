@@ -301,7 +301,7 @@ theorem solomonTimmesfeldTight_of_solK (hE2 : SolK.SolomonTimmesfeldTight)
   rw [hRG] at h27
   have hsyl : CFSG.ABGLocalTools.IsSylowOf 2 RG K := ⟨R, hRG⟩
   have hRGK : RG ≤ K := by rw [← hRG]; exact Subgroup.map_subtype_le _
-  have hRG2 : IsPGroup 2 RG := by rw [← hRG]; exact R.isPGroup'.map _
+  have hRG2 : IsPGroup 2 RG := by rw [← hRG]; exact R.isPGroup.map _
   have hnat : NatBlock L n := h.natBlock
   rcases h27 with ⟨hRO, hab, -⟩ | ⟨-, hdih⟩ | ⟨hQ8, hgrp⟩ | ⟨⟨H, -, hHR, ⟨hHe⟩, -⟩, hL34⟩ |
       hSz | ⟨hRO6, hel, -⟩

@@ -18,6 +18,7 @@ private theorem s16n9b_rk_add_one_le_of_lt {V : Type*} [CommGroup V] [Finite V]
     exact h.ne (eq_of_le_of_rk_le hV h.le (le_of_eq heq.symm))
   omega
 
+omit [Finite T] in
 private theorem s16n9b_fix_mul_of_fix_mul {A B : Subgroup T} (hd : Disjoint A B) {φ : MulAut T}
     (hA : A.map φ.toMonoidHom = A) (hB : B.map φ.toMonoidHom = B) {y z : T}
     (hy : y ∈ A) (hz : z ∈ B) (hfix : φ (y * z) = y * z) : φ y = y ∧ φ z = z := by
@@ -43,6 +44,7 @@ private theorem s16n9b_fix_mul_of_fix_mul {A B : Subgroup T} (hd : Disjoint A B)
     exact inv_mul_cancel y
   exact mul_inv_eq_one.1 hz'
 
+omit [Finite T] in
 private theorem s16n9b_fixV_inf_sup_le {A B : Subgroup T} (hd : Disjoint A B) {φ : MulAut T}
     (hA : A.map φ.toMonoidHom = A) (hB : B.map φ.toMonoidHom = B) :
     fixV (Subgroup.zpowers φ) ⊓ (A ⊔ B) ≤
@@ -55,10 +57,12 @@ private theorem s16n9b_fixV_inf_sup_le {A B : Subgroup T} (hd : Disjoint A B) {�
   exact Subgroup.mul_mem_sup ⟨mem_fixV_zpowers_iff_apply.mpr hyfix, hy⟩
     ⟨mem_fixV_zpowers_iff_apply.mpr hzfix, hz⟩
 
+omit [Finite T] in
 private theorem s16n9b_mem_biSup_of_mem {ι : Type*} {Y : ι → Subgroup T} {S : Set ι} {j : ι}
     (hj : j ∈ S) {x : T} (hx : x ∈ Y j) : x ∈ ⨆ j ∈ S, Y j :=
   (le_iSup₂ (f := fun j (_ : j ∈ S) => Y j) j hj) hx
 
+omit [Finite T] in
 private theorem s16n9b_mul_mem_biSup {ι : Type*} {Y : ι → Subgroup T} {S : Set ι} {i j k : ι}
     (hi : i ∈ S) (hj : j ∈ S) (hk : k ∈ S) {x y z : T} (hx : x ∈ Y i) (hy : y ∈ Y j)
     (hz : z ∈ Y k) : x * y * z ∈ ⨆ j ∈ S, Y j :=
@@ -66,6 +70,7 @@ private theorem s16n9b_mul_mem_biSup {ι : Type*} {Y : ι → Subgroup T} {S : S
     (Subgroup.mul_mem _ (s16n9b_mem_biSup_of_mem hi hx) (s16n9b_mem_biSup_of_mem hj hy))
     (s16n9b_mem_biSup_of_mem hk hz)
 
+omit [Finite T] in
 private theorem s16n9b_eq_one_of_mem_biSup {ι : Type*} {Y : ι → Subgroup T} (hind : iSupIndep Y)
     {i : ι} {S : Set ι} (hi : i ∉ S) {x : T} (hxi : x ∈ Y i) (hxS : x ∈ ⨆ j ∈ S, Y j) :
     x = 1 := by
@@ -73,6 +78,7 @@ private theorem s16n9b_eq_one_of_mem_biSup {ι : Type*} {Y : ι → Subgroup T} 
   rw [(hind.disjoint_biSup (x := i) (y := S) hi).eq_bot, Subgroup.mem_bot] at hmem
   exact hmem
 
+omit [Finite T] in
 theorem s16n9b_case4_rank_supp {φ : MulAut T} {W Q : Subgroup T}
     (hW : W.map φ.toMonoidHom ≤ W) (hQ : Q ≤ fixV (Subgroup.zpowers φ)) (hWQ : W ⊔ Q = ⊤)
     (U : Subgroup T) : s16n9bCommOn U φ ≤ W := by
@@ -88,7 +94,7 @@ theorem s16n9b_case4_rank_supp {φ : MulAut T} {W Q : Subgroup T}
   rw [heq]
   exact W.mul_mem hφw (W.inv_mem hw)
 
-theorem s16n9b_case4_rank_count (hT : ∀ t : T, t ^ 2 = 1) {φ : MulAut T} {W : Subgroup T}
+theorem s16n9b_case4_rank_count (_hT : ∀ t : T, t ^ 2 = 1) {φ : MulAut T} {W : Subgroup T}
     (hW : W.map φ.toMonoidHom ≤ W) {U : Subgroup T}
     (h : rkIdx U + rk ↥(fixV (Subgroup.zpowers φ) ⊓ W) < rk ↥W) :
     ∃ z ∈ s16n9bCommOn U φ, z ≠ 1 ∧ z ∈ W := by
@@ -220,7 +226,7 @@ theorem s16n9b_case4_rank_id (hT : ∀ t : T, t ^ 2 = 1) {ι : Type} [Fintype ι
       obtain ⟨z, hzS, hz1⟩ := s16n9b_exists_commOn hUφ
       exact ⟨a, a, z, hzS, hz1, Subgroup.mem_sup_left (hle hzS)⟩
 
-theorem s16n9b_case4_rank_moved (hT : ∀ t : T, t ^ 2 = 1) {ι : Type} [Fintype ι]
+theorem s16n9b_case4_rank_moved (_hT : ∀ t : T, t ^ 2 = 1) {ι : Type} [Fintype ι]
     {Y : ι → Subgroup T} (hind : iSupIndep Y) (hinj : Function.Injective Y) {d : ℕ}
     (hrk : ∀ i, rk ↥(Y i) = d) {φ : MulAut T}
     (hperm : ∀ i, ∃ j, (Y i).map φ.toMonoidHom = Y j)

@@ -19,7 +19,7 @@ private theorem l93_three_S1 {p : ℕ} (hp : p.Prime) {L : Subgroup G}
     (hZ : ¬ p ∣ Nat.card (Subgroup.center (PQuot p L))) :
     ∀ g ∈ L, (∀ l ∈ L, ⁅l, g⁆ ∈ GLAPPrimeCoreOf p L) → g ∈ GLAPPrimeCoreOf p L := by
   intro g hgL hg
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set O' : Subgroup ↥L := GLAPPrimeCore p ↥L with hO'
   set Z : Subgroup (PQuot p L) := Subgroup.center (PQuot p L) with hZdef
   set Zt : Subgroup ↥L := Z.comap (QuotientGroup.mk' O') with hZt
@@ -52,7 +52,8 @@ private theorem l93_three_S1 {p : ℕ} (hp : p.Prime) {L : Subgroup G}
     mk_mem_center_of_mem_centModSubgroup hgL (mem_centModSubgroup.2 ⟨Subgroup.le_normalizer hgL, hg⟩)
   exact Subgroup.mem_map.2 ⟨⟨g, hgL⟩, hZtle hmem, rfl⟩
 
-private theorem l93_inter_eq_bot {p : ℕ} (hp : p.Prime) {P O : Subgroup G} (hP : IsPGroup p P)
+omit [Finite G] in
+private theorem l93_inter_eq_bot {p : ℕ} (_hp : p.Prime) {P O : Subgroup G} (hP : IsPGroup p P)
     (hO : Nat.Coprime p (Nat.card O)) : P ⊓ O = ⊥ := by
   rw [eq_bot_iff]
   intro g hg
@@ -69,6 +70,7 @@ private theorem l93_inter_eq_bot {p : ℕ} (hp : p.Prime) {P O : Subgroup G} (hP
   have h1 : orderOf g = 1 := Nat.Coprime.eq_one_of_dvd (Nat.Coprime.pow_right k hcop) hord1
   exact Subgroup.mem_bot.2 (orderOf_eq_one_iff.1 h1)
 
+omit [Finite G] in
 private theorem l93_B_le_normalizer_C {p : ℕ} {B L : Subgroup G}
     (hBL : B ≤ Subgroup.normalizer (L : Set G)) :
     B ≤ Subgroup.normalizer ((centModSubgroup p L : Subgroup G) : Set G) := by
@@ -84,6 +86,7 @@ private theorem l93_B_le_normalizer_C {p : ℕ} {B L : Subgroup G}
     rw [e] at h1
     exact h1
 
+omit [Finite G] in
 private theorem l93_three_S2 {p : ℕ} {B L : Subgroup G}
     (hBL : B ≤ Subgroup.normalizer (L : Set G))
     (hBO : B ≤ Subgroup.normalizer (GLAPPrimeCoreOf p L : Set G))
@@ -111,6 +114,7 @@ private theorem l93_three_S2 {p : ℕ} {B L : Subgroup G}
   exact Subgroup.inv_mem _ hmem
 
 open scoped Pointwise in
+omit [Finite G] in
 private theorem l93_mod {p : ℕ} {B L : Subgroup G}
     (hBL : B ≤ Subgroup.normalizer (L : Set G))
     (hBab : ∀ b ∈ B, ∀ b' ∈ B, b * b' = b' * b) (hBexp : ∀ b ∈ B, b ^ p = 1) :
@@ -123,7 +127,7 @@ private theorem l93_mod {p : ℕ} {B L : Subgroup G}
   have hKN : B ⊔ centModSubgroup p L ≤
       Subgroup.normalizer ((centModSubgroup p L : Subgroup G) : Set G) :=
     sup_le hBC Subgroup.le_normalizer
-  haveI hCnorm : ((centModSubgroup p L).subgroupOf (B ⊔ centModSubgroup p L)).Normal :=
+  have hCnorm : ((centModSubgroup p L).subgroupOf (B ⊔ centModSubgroup p L)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hCK).2 hKN
   set K : Subgroup G := B ⊔ centModSubgroup p L with hK
   set q : K →* K ⧸ (centModSubgroup p L).subgroupOf K := QuotientGroup.mk' _ with hq
@@ -175,6 +179,7 @@ private theorem l93_mod {p : ℕ} {B L : Subgroup G}
     rw [hq, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff] at h1
     exact Subgroup.mem_subgroupOf.1 h1
 
+omit [Finite G] in
 private theorem l93_closure {p : ℕ} {O Y : Subgroup G} {S : Set G}
     (hY : Subgroup.closure S = Y) (hOY : O ≤ Y) (hYN : Y ≤ Subgroup.normalizer (O : Set G))
     (hSc : ∀ g ∈ S, ∀ h ∈ S, ⁅g, h⁆ ∈ O) (hSp : ∀ g ∈ S, g ^ p ∈ O) :
@@ -224,7 +229,7 @@ private theorem l93_closure {p : ℕ} {O Y : Subgroup G} {S : Set G}
       rw [inv_inv] at h1
       rw [e]
       exact h1
-  haveI hNn : (O.subgroupOf Y).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hOY).2 hYN
+  have hNn : (O.subgroupOf Y).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hOY).2 hYN
   have mulp : ∀ x (hx : x ∈ Y) w (hw : w ∈ Y), x ^ p ∈ O → w ^ p ∈ O → (x * w) ^ p ∈ O := by
     intro x hx w hw hxp hwp
     set qY : Y →* Y ⧸ O.subgroupOf Y := QuotientGroup.mk' _ with hqY
@@ -264,8 +269,8 @@ theorem l93_exists_two_group_of_le_sup {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) 
     ∃ T₀ : Subgroup G, T₀ ≤ L ∧ IsPGroup 2 T₀ ∧ B ≤ Subgroup.normalizer (T₀ : Set G) ∧
       ¬ T₀ ≤ GLAPPrimeCoreOf p L := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hBCx : B ≤ Subgroup.centralizer ({x} : Set G) := isElemAbelian_le_centralizer h.bmax.1 h.mem
   have hBp : IsPGroup p ↥B := isPGroup_of_isElemAbelian h.bmax.1
   set Cx : Subgroup G := Subgroup.centralizer ({x} : Set G) with hCx
@@ -368,11 +373,11 @@ theorem l93_nonInner_or_center {p : ℕ} (hc : S9Ctx G p) {B : Subgroup G} {x : 
     (∃ b ∈ B, ¬ InducesInnerMod p L b) ∨ p ∣ Nat.card (Subgroup.center (PQuot p L)) := by
   classical
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨hinner, hZ⟩ := hcon
   obtain ⟨A, hAC, hAel, hA2⟩ := hA
   have hp : p.Prime := hc.ctx.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hB : IsElemAbelian p B := h.bmax.1
   have hBab : ∀ b ∈ B, ∀ b' ∈ B, b * b' = b' * b :=
     fun b hb b' hb' => isElemAbelian_commute hB hb hb'
@@ -568,7 +573,7 @@ theorem l93_exists_invariant_elemAbelian_of_noncyclic {p : ℕ} (hp : p.Prime) (
     ∃ U : Subgroup G, U ≤ P ∧ IsElemAbelian p U ∧ Nat.card U = p ^ 2 ∧ x ∈ U ∧
       B ≤ Subgroup.normalizer (U : Set G) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hTN : P ⊔ B ≤ Subgroup.normalizer (P : Set G) := sup_le Subgroup.le_normalizer hBP
   have hTp : IsPGroup p ↥(P ⊔ B : Subgroup G) := by
     obtain ⟨a, ha⟩ := (IsPGroup.iff_card).1 hP
@@ -587,7 +592,7 @@ theorem l93_exists_invariant_elemAbelian_of_noncyclic {p : ℕ} (hp : p.Prime) (
     ⟨⟨⟨fun a b => Subtype.ext (hVcomm a a.2 b b.2)⟩⟩, fun a ha => hVexp a ha⟩
   by_cases hxV : x ∈ V
   · exact ⟨V, hVP, hVel, hVcard, hxV, hBV⟩
-  letI : MulDistribMulAction ↥B ↥V := Subgroup.conjMulDistribMulActionOfLeNormalizer B V hBV
+  let : MulDistribMulAction ↥B ↥V := Subgroup.conjMulDistribMulActionOfLeNormalizer B V hBV
   have hsmul : ∀ (a : ↥B) (k : ↥V), ((a • k : ↥V) : G) = (a : G) * (k : G) * (a : G)⁻¹ :=
     fun a k => rfl
   have hBp : IsPGroup p ↥B := isPGroup_of_isElemAbelian hB
@@ -602,11 +607,11 @@ theorem l93_exists_invariant_elemAbelian_of_noncyclic {p : ℕ} (hp : p.Prime) (
   have hdvd : p ∣ Nat.card (MulAction.fixedPoints ↥B ↥V) :=
     Nat.modEq_zero_iff_dvd.1 (hmod.symm.trans (Nat.modEq_zero_iff_dvd.2 (dvd_pow_self p two_ne_zero)))
   have hpos : 0 < Nat.card (MulAction.fixedPoints ↥B ↥V) := by
-    haveI : Nonempty (MulAction.fixedPoints ↥B ↥V) := ⟨⟨1, h1mem⟩⟩
+    have : Nonempty (MulAction.fixedPoints ↥B ↥V) := ⟨⟨1, h1mem⟩⟩
     exact Nat.card_pos
   have hge : p ≤ Nat.card (MulAction.fixedPoints ↥B ↥V) := Nat.le_of_dvd hpos hdvd
   have hnt : 1 < Nat.card (MulAction.fixedPoints ↥B ↥V) := lt_of_lt_of_le hp.one_lt hge
-  haveI : Nontrivial (MulAction.fixedPoints ↥B ↥V) := (Finite.one_lt_card_iff_nontrivial).1 hnt
+  have : Nontrivial (MulAction.fixedPoints ↥B ↥V) := (Finite.one_lt_card_iff_nontrivial).1 hnt
   obtain ⟨y, hy⟩ := exists_ne (⟨1, h1mem⟩ : MulAction.fixedPoints ↥B ↥V)
   have hu1 : ((y : ↥V) : G) ≠ 1 := by
     intro h
@@ -657,7 +662,7 @@ theorem l93_exists_invariant_elemAbelian_of_noncyclic {p : ℕ} (hp : p.Prime) (
       ← Subgroup.zpowers_eq_closure]
   have hpair : Set.Pairwise ({x, u} : Set G) Commute :=
     Set.pairwise_pair.2 (fun _ => ⟨hxu, hxu.symm⟩)
-  haveI hUcomm : IsMulCommutative (Subgroup.closure ({x, u} : Set G)) :=
+  have hUcomm : IsMulCommutative (Subgroup.closure ({x, u} : Set G)) :=
     Subgroup.isMulCommutative_closure hpair
   have hUcomm' : ∀ g ∈ Subgroup.closure ({x, u} : Set G), ∀ h ∈ Subgroup.closure ({x, u} : Set G),
       Commute g h := fun g hg h hh =>

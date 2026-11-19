@@ -1073,7 +1073,7 @@ theorem eqRows_eq {X Y : Array V2} (_hX : WfA X) (_hY : WfA Y) :
       have hbound : 128 * i + b < 128 * 112 := by omega
       have hdiv : (128 * i + b) / 128 = i := by omega
       have hmod : (128 * i + b) % 128 = b := by omega
-      simp only [if_pos hbound, hdiv, hmod] at h
+      simp only [ite_eq_left hbound, hdiv, hmod] at h
       rw [Array.getD_eq_getD_getElem?, Array.getElem?_eq_getElem hi, Option.getD_some,
         Array.getD_eq_getD_getElem?, Array.getElem?_eq_getElem hj, Option.getD_some] at h
       simpa only [hrepr] using h

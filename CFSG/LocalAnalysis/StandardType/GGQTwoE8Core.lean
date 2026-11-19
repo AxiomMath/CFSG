@@ -25,7 +25,7 @@ private lemma ggQ2xE8c_getD_eq_getElem' {α : Type} (l : List α) (d : α) (i : 
 
 private lemma ggQ2xE8c_getD_ofFn {n : ℕ} (f : Fin n → ℕ) (i : Fin n) :
     (List.ofFn f).getD (i : ℕ) 0 = f i := by
-  rw [ggQ2xE8c_getD_eq_getElem' _ _ _ (by simpa [List.length_ofFn] using i.isLt)]
+  rw [ggQ2xE8c_getD_eq_getElem' _ _ _ (by simp [List.length_ofFn])]
   rw [List.getElem_ofFn]
 
 private lemma ggQ2xE8c_ofDigits_digid (b : ℕ) (hb : 1 < b) :
@@ -53,7 +53,7 @@ private lemma ggQ2xE8c_dig_enc (v : Fin 8 → ZMod 3) (i : Fin 8) :
     ggQ2xE8c_dig (ggQ2xE8c_enc v) i = (v i).val := by
   unfold ggQ2xE8c_dig ggQ2xE8c_enc
   rw [ggQ2xE8c_ofDigits_digid 3 (by norm_num)
-      (List.ofFn (fun i : Fin 8 => (v i).val)) ?_ (i:ℕ) (by simpa [List.length_ofFn] using i.isLt)]
+      (List.ofFn (fun i : Fin 8 => (v i).val)) ?_ (i:ℕ) (by simp)]
   · exact ggQ2xE8c_getD_ofFn (fun i : Fin 8 => (v i).val) i
   · intro x hx
     rw [List.mem_ofFn] at hx
@@ -92,7 +92,7 @@ private noncomputable def ggQ2xE8c_dec (m : ℕ) : Fin 8 → ZMod 3 :=
 private lemma ggQ2xE8c_enc_dec (m : ℕ) (hm : m < 3 ^ 8) :
     ggQ2xE8c_enc (ggQ2xE8c_dec m) = m := by
   unfold ggQ2xE8c_dec
-  rw [dif_pos hm]
+  rw [dite_eq_left hm]
   exact Classical.choose_spec (ggQ2xE8c_enc_surj m hm)
 
 private def ggQ2xE8c_cartan : List (List Nat) :=
@@ -572,7 +572,7 @@ private lemma ggQ2xE8c_eq_of_dig_eq : ∀ (n a b : ℕ), a < 3 ^ n → b < 3 ^ n
   induction n with
   | zero =>
       intro a b ha hb _
-      interval_cases a <;> interval_cases b <;> rfl
+      interval_cases a; interval_cases b; rfl
   | succ n ih =>
       intro a b ha hb h
       have h0 : a % 3 = b % 3 := by
@@ -605,8 +605,8 @@ private lemma ggQ2xE8c_enc_single (j : Fin 8) :
     rw [show ggQ2xE8c_dig (3 ^ (j : ℕ)) i = ggQ2xE8c_dig (3 ^ (j : ℕ)) (⟨i, hi⟩ : Fin 8) from rfl,
       ggQ2xE8c_dig_pow3]
     by_cases hij : (⟨i, hi⟩ : Fin 8) = j
-    · rw [hij, Pi.single_eq_same, if_pos rfl]; decide
-    · rw [Pi.single_eq_of_ne hij, if_neg hij]; decide
+    · rw [hij, Pi.single_eq_same, ite_eq_left rfl]; decide
+    · rw [Pi.single_eq_of_ne hij, ite_eq_right hij]; decide
 
 private lemma ggQ2xE8c_zmod3_val_sub (x y : ZMod 3) :
     (x - y).val = (x.val + 3 - y.val) % 3 := by
@@ -724,11 +724,11 @@ private lemma ggQ2xE8c_enc_simple (j : Fin 8) (v : Fin 8 → ZMod 3) :
     funext k
     by_cases hkj : k = j
     · rw [hkj]
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       simp only [ggESimple, Pi.sub_apply, Pi.smul_apply, Pi.single_eq_same, smul_eq_mul, mul_one]
       rw [ggQ2xE8c_zmod3_val_sub, ggQ2xE8c_dig_enc v j, ggQ2xE8c_dotC_val j v]
     · have hkjn : (k : ℕ) ≠ (j : ℕ) := fun h => hkj (Fin.ext h)
-      rw [if_neg hkjn]
+      rw [ite_eq_right hkjn]
       simp only [ggESimple, Pi.sub_apply, Pi.smul_apply, Pi.single_eq_of_ne hkj,
         smul_eq_mul, mul_zero, sub_zero]
       rw [ggQ2xE8c_dig_enc v k]
@@ -799,15 +799,15 @@ private lemma ggQ2xE8c_okVec_spec (a v : ℕ) (h : ggQ2xE8c_okVec a v = true)
       ggQ2xE8c_distOf a (ggQ2xE8c_sref (j : ℕ) v) + 1 = ggQ2xE8c_distOf a v) := by
   have hb0 : (ggQ2xE8c_beta v v == 0) = false := beq_eq_false_iff_ne.mpr hβ
   unfold ggQ2xE8c_okVec at h
-  simp only [hb0, hr, Bool.false_or, Bool.false_eq_true, if_false] at h
+  simp only [hb0, hr, Bool.false_or, Bool.false_eq_true, ite_false] at h
   by_cases h0 : ggQ2xE8c_distOf a v = 0
   · left
     refine ⟨h0, ?_⟩
-    simpa only [h0, beq_self_eq_true, if_true] using h
+    simpa only [h0, beq_self_eq_true, ite_true] using h
   · right
     refine ⟨h0, ?_⟩
     have hb1 : (ggQ2xE8c_distOf a v == 0) = false := beq_eq_false_iff_ne.mpr h0
-    simp only [hb1, Bool.false_eq_true, if_false] at h
+    simp only [hb1, Bool.false_eq_true, ite_false] at h
     obtain ⟨j, hj, hjj⟩ := List.any_eq_true.mp h
     rw [List.mem_range] at hj
     simp only [Bool.and_eq_true, Bool.not_eq_true', beq_iff_eq] at hjj
@@ -820,15 +820,15 @@ private lemma ggQ2xE8c_okLam_spec (a v : ℕ) (h : ggQ2xE8c_okLam a v = true)
       ggQ2xE8c_lamBit a (ggQ2xE8c_sref (j : ℕ) v) = true ∧
       ggQ2xE8c_lamDistOf a (ggQ2xE8c_sref (j : ℕ) v) + 1 = ggQ2xE8c_lamDistOf a v) := by
   unfold ggQ2xE8c_okLam at h
-  simp only [hb, Bool.not_true, Bool.false_eq_true, if_false] at h
+  simp only [hb, Bool.not_true, Bool.false_eq_true, ite_false] at h
   by_cases h0 : ggQ2xE8c_lamDistOf a v = 0
   · left
     refine ⟨h0, ?_⟩
-    simpa only [h0, beq_self_eq_true, if_true] using h
+    simpa only [h0, beq_self_eq_true, ite_true] using h
   · right
     refine ⟨h0, ?_⟩
     have hb1 : (ggQ2xE8c_lamDistOf a v == 0) = false := beq_eq_false_iff_ne.mpr h0
-    simp only [hb1, Bool.false_eq_true, if_false] at h
+    simp only [hb1, Bool.false_eq_true, ite_false] at h
     obtain ⟨j, hj, hjj⟩ := List.any_eq_true.mp h
     rw [List.mem_range] at hj
     simp only [Bool.and_eq_true, beq_iff_eq] at hjj
@@ -841,15 +841,15 @@ private lemma ggQ2xE8c_okRoot_spec (v : ℕ) (h : ggQ2xE8c_okRoot v = true)
       ggQ2xE8c_rootBit (ggQ2xE8c_sref (j : ℕ) v) = true ∧
       ggQ2xE8c_rootDistOf (ggQ2xE8c_sref (j : ℕ) v) + 1 = ggQ2xE8c_rootDistOf v) := by
   unfold ggQ2xE8c_okRoot at h
-  simp only [hb, Bool.not_true, Bool.false_eq_true, if_false] at h
+  simp only [hb, Bool.not_true, Bool.false_eq_true, ite_false] at h
   by_cases h0 : ggQ2xE8c_rootDistOf v = 0
   · left
     refine ⟨h0, ?_⟩
-    simpa only [h0, beq_self_eq_true, if_true] using h
+    simpa only [h0, beq_self_eq_true, ite_true] using h
   · right
     refine ⟨h0, ?_⟩
     have hb1 : (ggQ2xE8c_rootDistOf v == 0) = false := beq_eq_false_iff_ne.mpr h0
-    simp only [hb1, Bool.false_eq_true, if_false] at h
+    simp only [hb1, Bool.false_eq_true, ite_false] at h
     obtain ⟨j, hj, hjj⟩ := List.any_eq_true.mp h
     rw [List.mem_range] at hj
     simp only [Bool.and_eq_true, beq_iff_eq] at hjj

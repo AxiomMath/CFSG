@@ -42,7 +42,7 @@ private theorem e4_span_pair_eq {L : Submodule F (Fin 6 → F)} {x y : Fin 6 →
 
 private theorem e4_exists_gen [Finite F] [CharP F 2] {L a : Submodule F (Fin 6 → F)}
     (ha : a ∈ IsoPtsOn σ L) : ∃ w ∈ L, w ≠ 0 ∧ herm σ w w = 0 ∧ a = Submodule.span F {w} := by
-  simp only [IsoPtsOn, Set.mem_setOf_eq] at ha
+  simp only [IsoPtsOn, Set.mem_ofPred_eq] at ha
   obtain ⟨haL, hafin, hai⟩ := ha
   have ha0 : a ≠ ⊥ := by
     rintro rfl
@@ -55,8 +55,8 @@ private theorem e4_card_le_cover {X : Type} (P Q R : X → Prop) (hQ : ∀ x, Q 
     (hR : ∀ x, R x → P x) (hcov : ∀ x, P x → Q x ∨ R x)
     (hQ0 : Nat.card {x // Q x} ≠ 0) (hR0 : Nat.card {x // R x} ≠ 0) :
     Nat.card {x // P x} ≤ Nat.card {x // Q x} + Nat.card {x // R x} := by
-  haveI := Nat.finite_of_card_ne_zero hQ0
-  haveI := Nat.finite_of_card_ne_zero hR0
+  have := Nat.finite_of_card_ne_zero hQ0
+  have := Nat.finite_of_card_ne_zero hR0
   let g : {x // Q x} ⊕ {x // R x} → {x // P x} :=
     Sum.elim (fun a => ⟨a.1, hQ a.1 a.2⟩) (fun b => ⟨b.1, hR b.1 b.2⟩)
   have hg : Function.Surjective g := by
@@ -70,7 +70,7 @@ private theorem e4_card_le_cover {X : Type} (P Q R : X → Prop) (hQ : ∀ x, Q 
 theorem lemmaE_caseII [Finite F] [CharP F 2] (hσ : IsUnitaryInvolution σ)
     {S : Set (Fin 6 → F)} (hS : ClosedPts σ S) {P4 : Submodule F (Fin 6 → F)}
     (h4 : finrank F P4 = 4) (hn4 : NonDeg σ P4) {p₄ : Fin 6 → F} (hp4P : p₄ ∈ P4) (hp40 : p₄ ≠ 0)
-    (hp4i : herm σ p₄ p₄ = 0)
+    (_hp4i : herm σ p₄ p₄ = 0)
     (hI : ∀ p'' ∈ P4, p'' ≠ 0 → herm σ p'' p'' = 0 → herm σ p'' p₄ ≠ 0 → p'' ∈ S)
     {p : Fin 6 → F} (hpP : p ∈ P4) (hp0 : p ≠ 0) (hpi : herm σ p p = 0)
     (hp4p : herm σ p₄ p = 0) : p ∈ S := by
@@ -125,7 +125,7 @@ theorem lemmaE_caseII [Finite F] [CharP F 2] (hσ : IsUnitaryInvolution σ)
     nlinarith
   obtain ⟨y, hyL, hpy⟩ : ∃ y ∈ L, herm σ p y ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hL1
     intro v hv
     exact Submodule.mem_inf.2 ⟨hLP4 hv, e4_mem_orth_span (hcon v hv)⟩
@@ -150,7 +150,7 @@ theorem lemmaE_caseII [Finite F] [CharP F 2] (hσ : IsUnitaryInvolution σ)
     exact hcardL
   have hTfin : (IsoPtsOn σ L).Finite := Set.finite_of_ncard_ne_zero (by omega)
   have hpmem : Submodule.span F {p} ∈ IsoPtsOn σ L := by
-    simp only [IsoPtsOn, Set.mem_setOf_eq]
+    simp only [IsoPtsOn, Set.mem_ofPred_eq]
     refine ⟨(Submodule.span_singleton_le_iff_mem p L).2 hpL, finrank_span_singleton hp0, ?_⟩
     intro v hv
     obtain ⟨c', rfl⟩ := Submodule.mem_span_singleton.1 hv
@@ -159,13 +159,13 @@ theorem lemmaE_caseII [Finite F] [CharP F 2] (hσ : IsUnitaryInvolution σ)
     rw [Set.ncard_sdiff_singleton_of_mem hpmem, hTcard]
     omega
   obtain ⟨A, B, hA, hB, hAB⟩ :=
-    (Set.one_lt_ncard_iff (hTfin.subset Set.diff_subset)).1 hTd
-  have hA1 : A ∈ IsoPtsOn σ L := ((Set.mem_diff A).1 hA).1
-  have hB1 : B ∈ IsoPtsOn σ L := ((Set.mem_diff B).1 hB).1
+    (Set.one_lt_ncard_iff (hTfin.subset Set.sdiff_subset)).1 hTd
+  have hA1 : A ∈ IsoPtsOn σ L := ((Set.mem_sdiff A).1 hA).1
+  have hB1 : B ∈ IsoPtsOn σ L := ((Set.mem_sdiff B).1 hB).1
   have hA2 : A ≠ Submodule.span F {p} := fun h =>
-    ((Set.mem_diff A).1 hA).2 (Set.mem_singleton_iff.2 h)
+    ((Set.mem_sdiff A).1 hA).2 (Set.mem_singleton_iff.2 h)
   have hB2 : B ≠ Submodule.span F {p} := fun h =>
-    ((Set.mem_diff B).1 hB).2 (Set.mem_singleton_iff.2 h)
+    ((Set.mem_sdiff B).1 hB).2 (Set.mem_singleton_iff.2 h)
   obtain ⟨w1, hw1L, hw10, hw1i, hAw⟩ := e4_exists_gen hA1
   obtain ⟨w2, hw2L, hw20, hw2i, hBw⟩ := e4_exists_gen hB1
   have hw1p : w1 ∉ Submodule.span F {p} := by

@@ -24,7 +24,7 @@ theorem isScalar_of_commute_single {d : ℕ} (M : Matrix (Fin d) (Fin d) K)
   have hoff : ∀ x y : Fin d, x ≠ y → M x y = 0 := by
     intro x y hxy
     have h := congrFun (congrFun (hcomm y x (Ne.symm hxy)) x) x
-    simp [Matrix.mul_apply, Matrix.single_apply, hxy, Ne.symm hxy] at h
+    simp [Matrix.mul_apply, Matrix.single_apply, Ne.symm hxy] at h
     exact h
   have hdiag : ∀ i j : Fin d, i ≠ j → M i i = M j j := by
     intro i j hij
@@ -38,9 +38,9 @@ theorem isScalar_of_commute_single {d : ℕ} (M : Matrix (Fin d) (Fin d) K)
     · subst hxy
       by_cases hx : x = i0
       · subst hx; simp
-      · simp [Matrix.smul_apply, Matrix.one_apply, hx]
+      · simp [Matrix.smul_apply]
         exact hdiag x i0 hx
-    · simp [Matrix.smul_apply, Matrix.one_apply, hxy, hoff x y hxy]
+    · simp [Matrix.smul_apply, hxy, hoff x y hxy]
   · refine ⟨0, ?_⟩
     ext x; exact (hd ⟨x⟩).elim
 

@@ -73,7 +73,7 @@ private theorem szp_eq_top_or_pair
     by_contra hc
     push Not at hc
     obtain ⟨hc1, hc2⟩ := hc
-    haveI : Finite (Sylow 2 X) := CFSG.GroupTheory.SuzukiTorusData.sylow_finite
+    have : Finite (Sylow 2 X) := CFSG.GroupTheory.SuzukiTorusData.sylow_finite
     have hQ₁ : t • Q₁ = Q₁ := hfix Q₁ (Or.inl rfl)
     have hQ₂ : t • Q₂ = Q₂ := hfix Q₂ (Or.inr (Or.inl rfl))
     let f : Fin 3 → {P : Sylow 2 X // t • P = P} := ![⟨Q₁, hQ₁⟩, ⟨Q₂, hQ₂⟩, ⟨P, hP⟩]
@@ -104,12 +104,14 @@ namespace Track
 
 variable {L1 L2 S : Subgroup G} (t : Track L1 L2 S)
 
+omit [Finite G] in
 private theorem szp_Gv_zero_eq : t.Gv 0 = (L1 ⊔ S) ⊔ t.K := by
   calc t.Gv 0 = P1 L1 L2 S := t.Gv_zero
     _ = L1 ⊔ bigB L1 L2 S := rfl
     _ = L1 ⊔ (S ⊔ t.K) := by rw [← t.sup_K_eq_bigB]
     _ = (L1 ⊔ S) ⊔ t.K := by rw [sup_assoc]
 
+omit [Finite G] in
 private theorem szp_K_le_normalizer_sup {a f : ℕ} (hfr : Frame L1 L2 S a f) :
     t.K ≤ normalizer ((L1 ⊔ S : Subgroup G) : Set G) := by
   have hKL1 : t.K ≤ normalizer (L1 : Set G) := by
@@ -138,6 +140,7 @@ private theorem szp_vertex {a f : ℕ} (hfr : Frame L1 L2 S a f) :
   · exact ⟨(CFSG.Quasithin.F112R.oTwoQuotCongr (MulEquiv.subgroupCongr hsup)).trans
       ((oTwoQuotSupEquiv hH).trans (Classical.choice hfr.hSz))⟩
 
+omit [Finite G] in
 private theorem szp_mem_bigB {a f : ℕ} (hfr : Frame L1 L2 S a f)
     {l : G} (hl : l ∈ L1 ⊔ S) (hlN : l ∈ normalizer (S : Set G)) : l ∈ bigB L1 L2 S := by
   have hH : Hyp111 L1 L2 S := hfr.hF.1
@@ -199,6 +202,7 @@ private theorem szp_mk_mem_normalizer_iff {a f : ℕ}
       (X := (L1 ⊔ S) ⊓ bigB L1 L2 S) (Y := S) (inf_le_right.trans hfr.hN)
     exact hle (mem_imageOTwoQuot_iff.mpr ⟨l, l.2, ⟨l.2, hlB⟩, rfl⟩)
 
+omit [Finite G] in
 private theorem szp_conj_mem_Gv_one_iff {u : G} (hu : t.x₁⁻¹ * u ∈ t.Gv 1) (z : G) :
     u⁻¹ * z * u ∈ t.Gv 1 ↔ z ∈ t.Gv (-1) := by
   have hmap := t.map_Gv_x₁ 1

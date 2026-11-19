@@ -109,8 +109,8 @@ section M12
 theorem center_eq_bot_and_card_quotient_of_isSporadic_m12 {L : Type} [Group L]
     (hL : IsSporadic L .M12) : center L = ⊥ ∧ Nat.card (L ⧸ center L) = 95040 := by
   obtain ⟨e⟩ := hL
-  haveI : IsSimpleGroup (Carrier .M12) := CFSG.Sporadic.Mathieu.fam_m12_simplicity.2.2
-  haveI : IsSimpleGroup L := e.isSimpleGroup
+  have : IsSimpleGroup (Carrier .M12) := CFSG.Sporadic.Mathieu.fam_m12_simplicity.2.2
+  have : IsSimpleGroup L := e.isSimpleGroup
   have hcard : Nat.card L = 95040 :=
     (Nat.card_congr e.toEquiv).trans CFSG.Sporadic.Mathieu.card_M12
   have hna : ∃ a b : L, a * b ≠ b * a :=

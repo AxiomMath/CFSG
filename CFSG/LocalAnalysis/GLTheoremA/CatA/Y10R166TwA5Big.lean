@@ -70,10 +70,10 @@ theorem exists_mulEquiv_unitaryPSU_of_hasLabel_twA {X : Type} [Group X] [Finite 
   obtain ⟨F, hFld, hFin, hChar, C, hCn, hFcard, hCcen, ⟨e⟩⟩ :=
     exists_mulEquiv_statedSU_quot_of_isLabel
       CFSG.ComponentClassification.TBLit.griessMultipliersAllModels_holds hX ht hn
-  letI : Field F := hFld
-  letI : Finite F := hFin
-  haveI : CharP F 2 := hChar
-  haveI : C.Normal := hCn
+  let : Field F := hFld
+  let : Finite F := hFin
+  have : CharP F 2 := hChar
+  have : C.Normal := hCn
   have hcard2 : Nat.card F = 2 ^ (2 * lab.n) := by
     rw [hFcard, show 2 * lab.n = lab.n * 2 by omega, pow_mul]
   let h' : UnitaryFieldData 2 lab.n F := ⟨Nat.prime_two, by omega, hcard2⟩

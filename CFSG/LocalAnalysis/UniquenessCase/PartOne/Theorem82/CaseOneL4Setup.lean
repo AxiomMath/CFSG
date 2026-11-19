@@ -30,7 +30,7 @@ private lemma exists_coords_data {c : Counterexample4 G} (h : Case811Sylow c) (h
       (∀ σ : Equiv.Perm (Fin 4), ∃ n ∈ c.L, ∀ v,
         n * e v * n⁻¹ = e (Multiplicative.ofAdd fun i => Multiplicative.toAdd v (σ i))) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨c₀, hc₀⟩ := (hK6c c.Lbar .l4 r 1 hlie h.Abar h.isElemAbelian_Abar h.card_Abar).1 rfl
   obtain ⟨a, ha_range, ha_apply, hXinj, ha_memA⟩ := h.exists_coords_lift hc₀.1
   have ha_memX : ∀ v, a v ∈ h.A.subgroupOf c.L := by
@@ -83,7 +83,7 @@ private lemma mem_L_of_mul_ker {c : Counterexample4 G} {r m : ℕ} (hr : r.Prime
     {l : ↥c.L} (hx : x = (x * (l : G)⁻¹) * (l : G))
     (hkC : x * (l : G)⁻¹ ∈ C) : x ∈ c.L := by
   classical
-  haveI : ((c.L).subgroupOf c.S.M).Normal :=
+  have : ((c.L).subgroupOf c.S.M).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer c.hyp81.1).mpr c.le_normalizer_L
   let q : ↥c.S.M →* (↥c.S.M ⧸ (c.L).subgroupOf c.S.M) :=
     QuotientGroup.mk' ((c.L).subgroupOf c.S.M)
@@ -135,7 +135,7 @@ private lemma mem_L_of_kernel {c : Counterexample4 G} (hK6L4 : K6L4) {r : ℕ}
         c.S.M.subtype) = 0) :
     ∀ x ∈ c.S.M, IsPGroup r (Subgroup.zpowers x) → x ∈ c.L := by
   classical
-  haveI : Fact r.Prime := ⟨hr.1.1⟩
+  have : Fact r.Prime := ⟨hr.1.1⟩
   have hr5 : 5 ≤ r := c.five_le_of_mem_sigma hr
   have hr2 : r ≠ 2 := by omega
   let N : Subgroup ↥c.L := CFSG.Open.pCore 2 ↥c.L
@@ -200,7 +200,7 @@ private lemma map_zpowers_subgroupOf {c : Counterexample4 G} {V : Type*} [Group 
     · rw [map_zpow, ha_apply, hn]
 
 private lemma factorization_centralizer_eq {c : Counterexample4 G} {r : ℕ}
-    (h : Case811Sylow c)
+    (_h : Case811Sylow c)
     (hmemL : ∀ x ∈ c.S.M, IsPGroup r (Subgroup.zpowers x) → x ∈ c.L)
     (hr : r ∈ uniqueFourSigma c.S.M) {V : Type*} [Group V]
     (a : V →* ↥c.L) (c₀ : V →* c.Lbar)
@@ -209,7 +209,7 @@ private lemma factorization_centralizer_eq {c : Counterexample4 G} {r : ℕ}
     (Nat.card ↥(c.S.M ⊓ Subgroup.centralizer ({(a v : G)} : Set G))).factorization r =
       (Nat.card ↥(Subgroup.centralizer ({c₀ v} : Set c.Lbar))).factorization r := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hr5 : 5 ≤ r := c.five_le_of_mem_sigma hr
   have hr2 : r ≠ 2 := by omega
   let H : Subgroup G := c.L ⊓ Subgroup.centralizer ({(a v : G)} : Set G)
@@ -229,16 +229,16 @@ private lemma factorization_centralizer_eq {c : Counterexample4 G} {r : ℕ}
     map_zpowers_subgroupOf a c₀ ha_apply v
   let HL : Subgroup ↥c.L := H.subgroupOf c.L
   have hmapHL : HL.map (QuotientGroup.mk' (CFSG.Open.pCore 2 ↥c.L)) = CLbar := by
-    have h := hcent
-    rw [hmapZp] at h
+    have _h := hcent
+    rw [hmapZp] at _h
     have hcentG : Subgroup.centralizer (Subgroup.zpowers (a v : G) : Set G) =
         Subgroup.centralizer ({(a v : G)} : Set G) := by
       rw [Subgroup.zpowers_eq_closure, Subgroup.centralizer_closure]
-    rw [hcentG] at h
+    rw [hcentG] at _h
     have hcent' : Subgroup.centralizer (Subgroup.zpowers (c₀ v) : Set c.Lbar) = CLbar := by
       rw [Subgroup.zpowers_eq_closure, Subgroup.centralizer_closure]
-    rw [hcent'] at h
-    exact h.symm
+    rw [hcent'] at _h
+    exact _h.symm
   have hcard := CFSG.GroupTheory.FT63ChII.card_eq_card_map_mul_card_inf
     (G := ↥c.L) (QuotientGroup.mk' (CFSG.Open.pCore 2 ↥c.L)) HL
   rw [hmapHL] at hcard
@@ -267,8 +267,8 @@ private lemma pRank_centralizer_eq {c : Counterexample4 G} {r : ℕ}
     CFSG.Open.pRank r (c.L ⊓ Subgroup.centralizer ({(a v : G)} : Set G)) =
       CFSG.Open.pRank r (Subgroup.centralizer ({c₀ v} : Set c.Lbar)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  haveI : Fact r.Prime := ⟨hr.1.1⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact r.Prime := ⟨hr.1.1⟩
   have hr5 : 5 ≤ r := c.five_le_of_mem_sigma hr
   have hr2 : r ≠ 2 := by omega
   have hBL : Subgroup.zpowers (a v : G) ≤ c.L := Subgroup.zpowers_le.mpr (a v).2
@@ -297,8 +297,8 @@ private lemma dvd_card_centralizer_of_K6L4 {c : Counterexample4 G} (h : Case811S
     ∀ X : Subgroup G, X ≤ h.A → Nat.card X = 3 →
       r ∣ Nat.card ↥(c.L ⊓ Subgroup.centralizer (X : Set G)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  haveI : Fact r.Prime := ⟨hr.1.1⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact r.Prime := ⟨hr.1.1⟩
   have hr5 : 5 ≤ r := c.five_le_of_mem_sigma hr
   have hr2 : r ≠ 2 := by omega
   let π : ↥c.L →* c.Lbar := QuotientGroup.mk' (CFSG.Open.pCore 2 ↥c.L)
@@ -326,7 +326,7 @@ private lemma map_centralizer_subgroupOf {c : Counterexample4 G} {r : ℕ}
         (QuotientGroup.mk' (CFSG.Open.pCore 2 ↥c.L)) =
       Subgroup.centralizer ({c₀ v} : Set c.Lbar) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hr2 : r ≠ 2 := by have := c.five_le_of_mem_sigma hr; omega
   have hBL : Subgroup.zpowers (a v : G) ≤ c.L := Subgroup.zpowers_le.mpr (a v).2
   have hB3 : IsPGroup 3 (Subgroup.zpowers (a v : G)) := by
@@ -359,7 +359,7 @@ private lemma exists_perfect_a1 {c : Counterexample4 G} (h : Case811Sylow c) (hK
       ⁅K, K⁆ = K ∧ 3600 < Nat.card K ∧
       ∀ N : Subgroup G, N ≤ K → (N.subgroupOf K).Normal → Odd (Nat.card N) → N = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hr5 : 5 ≤ r := c.five_le_of_mem_sigma hr
   let π : ↥c.L →* c.Lbar := QuotientGroup.mk' (CFSG.Open.pCore 2 ↥c.L)
   have hK6 := (hK6L4 c.Lbar r hlie hr5).2 h.Abar h.isElemAbelian_Abar h.card_Abar c₀ hc₀
@@ -509,11 +509,11 @@ private lemma exists_nonsolvable_a3 {c : Counterexample4 G} (h : Case811Sylow c)
     (hv3 : orderOf (a Case811L4.vA3 : G) = 3) :
     ∃ K : Subgroup G,
       K ≤ c.L ⊓ Subgroup.centralizer ({(a Case811L4.vA3 : G)} : Set G) ∧
-      ¬ IsSolvable ↥K ∧
+      ¬ Group.IsSolvable ↥K ∧
       ∀ N : Subgroup G, N ≤ K → (N.subgroupOf K).Normal → Odd (Nat.card N) →
         N ≤ Subgroup.centralizer (K : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hr5 : 5 ≤ r := c.five_le_of_mem_sigma hr
   let π : ↥c.L →* c.Lbar := QuotientGroup.mk' (CFSG.Open.pCore 2 ↥c.L)
   have hK6 := (hK6L4 c.Lbar r hlie hr5).2 h.Abar h.isElemAbelian_Abar h.card_Abar c₀ hc₀
@@ -557,10 +557,10 @@ private lemma exists_nonsolvable_a3 {c : Counterexample4 G} (h : Case811Sylow c)
   have hK_solv_of_KG : Group.IsSolvable ↥KG → Group.IsSolvable ↥K := by
     intro hsolv
     let e : ↥K ≃* ↥KG := Subgroup.equivMapOfInjective K c.L.subtype c.L.subtype_injective
-    haveI : Group.IsSolvable ↥KG := hsolv
+    have : Group.IsSolvable ↥KG := hsolv
     exact Group.isSolvable_of_isSolvable_injective (G := ↥K) (G' := ↥KG)
       (f := e.toMonoidHom) e.injective
-  have hKG_nonsolv : ¬ IsSolvable ↥KG := fun hsolv =>
+  have hKG_nonsolv : ¬ Group.IsSolvable ↥KG := fun hsolv =>
     hKbar_nonsolv (hKbar_solv_of_K (hK_solv_of_KG hsolv))
   have hKG_le_L : KG ≤ c.L := Subgroup.map_subtype_le K
   refine ⟨KG, hKG_le, hKG_nonsolv, ?_⟩
@@ -654,7 +654,7 @@ private lemma exists_nonsolvable_a3 {c : Counterexample4 G} (h : Case811Sylow c)
   exact hnk.symm
 
 
-private lemma map_centralizer_conj {c : Counterexample4 G} (h : Case811Sylow c) {x y : G}
+private lemma map_centralizer_conj {c : Counterexample4 G} (_h : Case811Sylow c) {x y : G}
     (hxM : x ∈ c.S.M) :
     (c.L ⊓ Subgroup.centralizer ({y} : Set G)).map (MulAut.conj x).toMonoidHom =
       c.L ⊓ Subgroup.centralizer ({MulAut.conj x y} : Set G) := by
@@ -701,14 +701,14 @@ private lemma map_centralizer_conj {c : Counterexample4 G} (h : Case811Sylow c) 
 
 
 private lemma factorization_three_centralizer_eq {c : Counterexample4 G} (h : Case811Sylow c)
-    {r : ℕ} (hr : r ∈ uniqueFourSigma c.S.M) {V : Type*} [Group V]
+    {r : ℕ} (_hr : r ∈ uniqueFourSigma c.S.M) {V : Type*} [Group V]
     (a : V →* ↥c.L) (c₀ : V →* c.Lbar)
-    (ha_apply : ∀ v, QuotientGroup.mk' (CFSG.Open.pCore 2 ↥c.L) (a v) = c₀ v) (v : V)
-    (hv3 : orderOf (a v : G) = 3) :
+    (_ha_apply : ∀ v, QuotientGroup.mk' (CFSG.Open.pCore 2 ↥c.L) (a v) = c₀ v) (v : V)
+    (_hv3 : orderOf (a v : G) = 3) :
     (Nat.card ↥(c.S.M ⊓ Subgroup.centralizer ({(a v : G)} : Set G))).factorization 3 =
       (Nat.card ↥(c.L ⊓ Subgroup.centralizer ({(a v : G)} : Set G))).factorization 3 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   let K : Subgroup G := c.S.M ⊓ Subgroup.centralizer ({(a v : G)} : Set G)
   let H : Subgroup G := c.L ⊓ Subgroup.centralizer ({(a v : G)} : Set G)
   have hHK : H ≤ K := inf_le_inf c.hyp81.1 le_rfl
@@ -794,7 +794,7 @@ private lemma exists_sylow_a2 {c : Counterexample4 G} (h : Case811Sylow c)
       CFSG.ABGLocalTools.IsSylowOf 3 Q
         (c.S.M ⊓ Subgroup.centralizer ({(a Case811L4.vA2 : G)} : Set G)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hr5 : 5 ≤ r := c.five_le_of_mem_sigma hr
   let π : ↥c.L →* c.Lbar := QuotientGroup.mk' (CFSG.Open.pCore 2 ↥c.L)
   let N : Subgroup ↥c.L := CFSG.Open.pCore 2 ↥c.L
@@ -805,7 +805,7 @@ private lemma exists_sylow_a2 {c : Counterexample4 G} (h : Case811Sylow c)
   let CLbarA : Subgroup c.Lbar := Subgroup.centralizer (h.Abar : Set c.Lbar)
   have hcommAbar : IsMulCommutative ↥CLbarA :=
     hK6d c.Lbar r hlie hr5 h.Abar h.isElemAbelian_Abar h.card_Abar
-  haveI : IsMulCommutative ↥h.Abar := h.isElemAbelian_Abar.1
+  have : IsMulCommutative ↥h.Abar := h.isElemAbelian_Abar.1
   have hAbar_le_cent : h.Abar ≤ CLbarA := by
     intro x hx
     refine Subgroup.mem_centralizer_iff.mpr ?_
@@ -849,7 +849,7 @@ private lemma exists_sylow_a2 {c : Counterexample4 G} (h : Case811Sylow c)
   have ha_memA : (a Case811L4.vA2 : G) ∈ h.A := by
     have hv : a Case811L4.vA2 ∈ a.range := MonoidHom.mem_range.mpr ⟨_, rfl⟩
     rwa [ha_range] at hv
-  haveI : IsMulCommutative ↥h.A := h.elemAbelian.1
+  have : IsMulCommutative ↥h.A := h.elemAbelian.1
   have hAL_le_HL2 : AL ≤ HL2 := by
     intro x hx
     have hxA : (x : G) ∈ h.A := hx
@@ -869,7 +869,7 @@ private lemma exists_sylow_a2 {c : Counterexample4 G} (h : Case811Sylow c)
   obtain ⟨S, hS_ge⟩ := (hX3.comap_subtype (K := Q0)).exists_le_sylow
   let QL : Subgroup ↥c.L := (S : Subgroup ↥Q0).map Q0.subtype
   have hQL_le_Q0 : QL ≤ Q0 := Subgroup.map_subtype_le _
-  have hQL3 : IsPGroup 3 ↥QL := S.isPGroup'.map Q0.subtype
+  have hQL3 : IsPGroup 3 ↥QL := S.isPGroup.map Q0.subtype
   have hAL_le_QL : AL ≤ QL := by
     rw [← Subgroup.map_subgroupOf_eq_of_le hAL_le_Q0]
     exact Subgroup.map_mono hS_ge
@@ -948,14 +948,14 @@ private lemma exists_sylow_a2 {c : Counterexample4 G} (h : Case811Sylow c)
       ⟨x, hQbar_sylow.le x.2⟩ ⟨y, hQbar_sylow.le y.2⟩
     simpa using congrArg Subtype.val h
   have hQL_comm : IsMulCommutative ↥QL := by
-    haveI := hQbar_comm
+    have := hQbar_comm
     exact Function.Surjective.isMulCommutative e.symm.surjective
   let Q : Subgroup G := QL.map c.L.subtype
   have hQ_card : Nat.card ↥Q = Nat.card ↥QL :=
     Subgroup.card_map_of_injective c.L.subtype_injective
   have hQ_comm : IsMulCommutative ↥Q := by
     let eQ : ↥QL ≃* ↥Q := Subgroup.equivMapOfInjective QL c.L.subtype c.L.subtype_injective
-    haveI := hQL_comm
+    have := hQL_comm
     exact Function.Surjective.isMulCommutative eQ.surjective
   have hQ_le_H2 : Q ≤ H2 := by
     have hmapHL2 : HL2.map c.L.subtype = H2 :=

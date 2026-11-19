@@ -126,7 +126,7 @@ theorem lamM_one : ∀ B : List ℕ, lamM B 1 = 0
   | [] => rfl
   | d :: B => by
     have hn : ¬ ((1 : GL) (vecOf d) = vecOf d + vecOf a0) := ne_add_a0 (vecOf d)
-    simp only [lamM_cons, lamM_one B, hn, if_false, mul_zero, add_zero]
+    simp only [lamM_cons, lamM_one B, hn, ite_false, mul_zero, add_zero]
 
 theorem lamM_inj {B : List ℕ} {g h : GL}
     (hg : ∀ b ∈ B, g (vecOf b) = vecOf b ∨ g (vecOf b) = vecOf b + vecOf a0)
@@ -176,9 +176,9 @@ theorem rhoL_eq {P : ℕ} {G : GL} (hP : IsP G P) :
     congr 1
     have key := xor_a0_iff hP (hB d List.mem_cons_self)
     cases hc : Nat.beq (ap12 P d ^^^ d) 3072
-    · rw [if_neg fun h => Nat.ne_of_beq_eq_false hc (key.2 h)]
+    · rw [ite_eq_right fun h => Nat.ne_of_beq_eq_false hc (key.2 h)]
       rfl
-    · rw [if_pos (key.1 (Nat.eq_of_beq_eq_true hc))]
+    · rw [ite_eq_left (key.1 (Nat.eq_of_beq_eq_true hc))]
       rfl
 
 theorem lamM_injL {R5 : List ℕ} {L : Subgroup GL} (H : Hyp (vecOf a0) (spanOf (R5 ++ [a0])) L)
@@ -372,8 +372,6 @@ theorem t1_false (ht : thetaOK = true) {R5 : List ℕ} (hlen : R5.length = 5)
     simp only [ψ] at e
     split_ifs at e
     all_goals first
-      | exact (Sum.inl_ne_inr e).elim
-      | exact (Sum.inr_ne_inl e).elim
       | exact Subtype.ext (lamM_injL H l.2 l'.2 (congrArg Subtype.val (Sum.inl.inj e)))
       | exact Subtype.ext (mul_left_cancel (lamM_injL H (mul_mem (inv_mem hg₀) l.2)
           (mul_mem (inv_mem hg₀) l'.2) (congrArg Subtype.val (Sum.inr.inj e))))
@@ -422,7 +420,7 @@ theorem t1_spec (ht : thetaOK = true) (h0 : t1OK (nthD [] dReps 0) W0 = true)
     ∀ rep ∈ dReps, rep ≠ d0 → ∀ L : Subgroup GL, ¬ Hyp (vecOf a0) (spanOf rep) L := by
   intro rep hrep hne L H
   have hrep' := hrep
-  simp only [dReps, List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false] at hrep'
+  simp only [dReps, List.mem_cons, List.not_mem_nil, or_false] at hrep'
   rcases hrep' with rfl | rfl | rfl | rfl | rfl | rfl
   · exact t1_false ht (R5 := [960, 48, 9, 5, 3]) rfl (by decide) h0 H
   · exact hne rfl
@@ -664,7 +662,7 @@ theorem ker_spec (hTH : ∀ v, linP THP v = theta0 v) (ht : thetaOK = true) (hb1
     intro x hx
     rcases List.mem_append.1 hx with h | h
     · exact (by decide : ∀ b ∈ B10, b < 4096) x h
-    · simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false] at h
+    · simp only [List.mem_cons, List.not_mem_nil, or_false] at h
       rcases h with rfl | rfl
       exacts [hy, theta0N_lt hy]
   have hP : IsP g (candB (XB ^^^ dn)) := rowsBP_isP hcoef hlt hF
@@ -673,7 +671,7 @@ theorem ker_spec (hTH : ∀ v, linP THP v = theta0 v) (ht : thetaOK = true) (hb1
     exact hperp _ (by simp [f0_vecOf, hf])
   have hkT := kerT_of hTH hspan hP hg hu hfix' hperpB
   have hk := (recAll_iff (fun d => kerAt THP K0P (candB (XB ^^^ d))) SD0).1 hker dn hdn
-  simp only [kerAt, hkT, cond_true, Bool.or_eq_true, Nat.beq_eq] at hk
+  simp only [kerAt, hkT, _root_.Bool.cond_true, Bool.or_eq_true, Nat.beq_eq] at hk
   rcases hk with h | h
   · left
     rw [h] at hP
@@ -847,9 +845,9 @@ theorem t2_spec (hpin : pinOK = true) (ht : thetaOK = true) (hb10 : b10OK = true
     simp only at hb
     by_cases hP : ∃ l ∈ L, (∀ x, l x = linOfRows cBasis[i]! x) ∧
         lamM [961, 48, 9, 5, 3] l = nthD 0 RHO i
-    · rw [if_neg (by rw [hb, decide_eq_true hP]; decide)]
+    · rw [ite_eq_right (by rw [hb, decide_eq_true hP]; decide)]
       exact hP
-    · rw [if_pos (by rw [hb, decide_eq_false hP]; rfl)]
+    · rw [ite_eq_left (by rw [hb, decide_eq_false hP]; rfl)]
       exact (hgen1 i hi).resolve_left hP
   have hF : List.Forall₂ (fun g ρ => ∃ l ∈ L, (∀ x, l x = linOfRows g x) ∧
       lamM [961, 48, 9, 5, 3] l = ρ)

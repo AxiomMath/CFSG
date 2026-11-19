@@ -11,10 +11,11 @@ open CFSG.Quasithin CFSG.Open Subgroup
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 theorem s16c167_norm_exists_subgroup_card_eight {L : Subgroup (MulAut W)} (hL : IsPSL 3 2 1 ↥L) :
     ∃ P : Subgroup (MulAut W), P ≤ L ∧ Nat.card ↥P = 8 := by
   have hcard : Nat.card ↥L = 168 := card_eq_168_of_isPSL_three_two hL
-  haveI : Finite ↥L := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite ↥L := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hdvd : 2 ^ 3 ∣ Nat.card ↥L := by rw [hcard]; norm_num
   obtain ⟨K, hK⟩ := Sylow.exists_subgroup_card_pow_prime (G := ↥L) 2 (n := 3) hdvd
   exact ⟨K.map L.subtype, Subgroup.map_subtype_le K,
@@ -52,7 +53,7 @@ theorem s16c167_norm_two_le_card_inf_fixV {V : Subgroup W} (hc : Nat.card ↥V =
   have hne' : (⟨(1 : ↥V), h1V⟩ : ↥(fixV (autSub P V))) ≠ ⟨b, hbV⟩ := by
     intro h
     exact hne (Subtype.ext_iff.mp h)
-  haveI : Nontrivial ↥(fixV (autSub P V)) := ⟨_, _, hne'⟩
+  have : Nontrivial ↥(fixV (autSub P V)) := ⟨_, _, hne'⟩
   have h2 : 2 ≤ Nat.card ↥(fixV (autSub P V)) := by
     have := Finite.one_lt_card_iff_nontrivial.mpr
       (inferInstance : Nontrivial ↥(fixV (autSub P V)))

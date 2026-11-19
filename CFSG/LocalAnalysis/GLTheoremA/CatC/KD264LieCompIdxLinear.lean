@@ -21,7 +21,7 @@ open Matrix
 theorem exists_eq_scalar_of_conjAut_eq_one {n : ℕ} (hn : 2 ≤ n) {k : Type} [Field k] [Finite k]
     {A : GL (Fin n) k} (h : conjAut n k A = 1) :
     ∃ c : kˣ, A = Matrix.GeneralLinearGroup.scalar (Fin n) c := by
-  haveI : Fintype k := Fintype.ofFinite k
+  have : Fintype k := Fintype.ofFinite k
   rcases Nat.lt_or_ge n 3 with h3 | h3
   · have hn2 : n = 2 := by omega
     subst hn2
@@ -55,11 +55,11 @@ theorem exists_commutator_eq_scalar_of_commute_conjAut {n : ℕ} (hn : 2 ≤ n) 
   rw [h]
   group
 
-theorem compIdxAt_projectiveSL {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {n : ℕ} (hn : 2 ≤ n)
+theorem compIdxAt_projectiveSL {p : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2) {n : ℕ} (hn : 2 ≤ n)
     {k : Type 0} [Field k] [Finite k] {q : TauCeti.PrimePower} (hcard : Nat.card k = q.card)
     (hpq : p ≠ q.p) : CompIdxAt p (.A (n - 1) q) (projectiveSL n k) := by
   intro β hβmem hβp _ K hK
-  haveI : Fintype k := Fintype.ofFinite k
+  have : Fintype k := Fintype.ofFinite k
   obtain ⟨A, rfl⟩ := mem_linearAutGroup_iff.1
     (innAutDerived_projectiveSL_le_linearAutGroup hn hβmem)
   obtain ⟨f, hℓ, hf⟩ := FiniteField.card k (ringChar k)
@@ -104,7 +104,7 @@ theorem lieCompIdx_linear : LieCompIdx isLinearIdx := by
     have hpq : p ≠ q.p := by
       rw [TauCeti.LieTypeIndex.characteristic_A] at hpc
       exact hpc
-    haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+    have : Fact q.p.Prime := ⟨q.prime_p⟩
     let k := GaloisField q.p q.exponent
     have hcard : Nat.card k = q.card := by
       dsimp only [k]
@@ -233,7 +233,7 @@ theorem lieCompAlg_linear_of_eight (h : LinearCompAlgEight) : LieCompAlg isLinea
   obtain ⟨e, hv⟩ := d
   cases e with
   | A n q =>
-    haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+    have : Fact q.p.Prime := ⟨q.prime_p⟩
     let k := GaloisField q.p q.exponent
     have hq8 : q.p ^ q.exponent = 8 := by
       rw [← TauCeti.PrimePower.card_def q]

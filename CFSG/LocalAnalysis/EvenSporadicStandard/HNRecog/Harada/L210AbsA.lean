@@ -15,6 +15,7 @@ open Subgroup CFSG.Open
 variable {X : Type} [Group X] [Finite X] {A : Subgroup X} {w : X}
   {ψ : ↥(normalizer (A : Set X)) →* A5WrTwo}
 
+omit [Finite X] in
 private lemma normal_subgroupOf_of_invariant {B : Subgroup X}
     (hBN : B ≤ normalizer (A : Set X))
     (hinv : ∀ n ∈ normalizer (A : Set X), ∀ b ∈ B, n * b * n⁻¹ ∈ B) :
@@ -23,21 +24,24 @@ private lemma normal_subgroupOf_of_invariant {B : Subgroup X}
       (K := normalizer (A : Set X)) hBN).mpr
     ((Subgroup.le_normalizer_iff (H := normalizer (A : Set X)) (K := B)).mpr hinv)
 
+omit [Finite X] in
 private lemma map_normal_subgroupOf_of_invariant {B : Subgroup X}
     (hψ : Function.Surjective ψ) (hBN : B ≤ normalizer (A : Set X))
     (hinv : ∀ n ∈ normalizer (A : Set X), ∀ b ∈ B, n * b * n⁻¹ ∈ B) :
     ((B.subgroupOf (normalizer (A : Set X))).map ψ).Normal :=
   Subgroup.Normal.map (normal_subgroupOf_of_invariant hBN hinv) ψ hψ
 
+omit [Finite X] in
 theorem Abs210.hirr (h : Abs210 A w ψ) : ∀ B : Subgroup X, B ≤ A →
     (∀ n ∈ normalizer (A : Set X), ∀ b ∈ B, n * b * n⁻¹ ∈ B) → B = ⊥ ∨ B = A := by
   intro B hBA hinv
   exact L28_irreducible h.toL28Hyp hBA (fun n _ b hb => hinv (n : X) n.2 b hb)
 
+omit [Finite X] in
 theorem Abs210.hO2 (h : Abs210 A w ψ) : ∀ P : Subgroup X, A ≤ P → P ≤ normalizer (A : Set X) →
     (∀ n ∈ normalizer (A : Set X), ∀ p ∈ P, n * p * n⁻¹ ∈ P) → IsPGroup 2 P → P = A := by
   intro P hAP hPN hinv hP
-  haveI : ((P.subgroupOf (normalizer (A : Set X))).map ψ).Normal :=
+  have : ((P.subgroupOf (normalizer (A : Set X))).map ψ).Normal :=
     map_normal_subgroupOf_of_invariant h.surj hPN hinv
   have hPg : IsPGroup 2 (P.subgroupOf (normalizer (A : Set X))) :=
     IsPGroup.comap_subtype (K := normalizer (A : Set X)) hP
@@ -55,11 +59,12 @@ theorem Abs210.hO2 (h : Abs210 A w ψ) : ∀ P : Subgroup X, A ≤ P → P ≤ n
     hle (by rw [Subgroup.mem_subgroupOf]; exact hp)
   rwa [Subgroup.mem_subgroupOf] at hmem
 
+omit [Finite X] in
 theorem Abs210.hinv (h : Abs210 A w ψ) : ∀ B : Subgroup X, A ≤ B → B ≤ normalizer (A : Set X) →
     (∀ n ∈ normalizer (A : Set X), ∀ b ∈ B, n * b * n⁻¹ ∈ B) → B ≠ A →
       ∃ q ∈ B, q ∉ A ∧ q * q = 1 := by
   intro B hAB hBN hinv hBAne
-  haveI : ((B.subgroupOf (normalizer (A : Set X))).map ψ).Normal :=
+  have : ((B.subgroupOf (normalizer (A : Set X))).map ψ).Normal :=
     map_normal_subgroupOf_of_invariant h.surj hBN hinv
   have hne : (B.subgroupOf (normalizer (A : Set X))).map ψ ≠ ⊥ := by
     intro hbot

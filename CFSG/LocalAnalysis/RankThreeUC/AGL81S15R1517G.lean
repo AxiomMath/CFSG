@@ -37,7 +37,7 @@ theorem pRank_normalizer_le_one_aux_order9 {X : Type} [Group X] [Finite X] {Q : 
 theorem pRank_normalizer_le_one_aux_gamma {M E : Subgroup G}
     (hstrong3 : CFSG.RankThree.PartOne.IsStronglyPEmbedded 3 M) (hEM : E ≤ M)
     (hE : IsElemAbelian 3 E) : rankThreeGamma 1 3 E ≤ M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine sSup_le ?_
   rintro N ⟨Q, hQE, hQ1, rfl⟩
   exact hstrong3.normalizer_le (pRank_normalizer_le_one_aux_ne_bot hQ1)
@@ -51,6 +51,7 @@ theorem pRank_normalizer_le_one_aux_maxTwoLocal {L : Subgroup G} (hL : IsTwoLoca
   refine ⟨M, ⟨hM, fun H hH hMH => ?_⟩, hLM⟩
   exact (Subgroup.eq_of_le_of_card_ge hMH (hmax H ⟨hH, hLM.trans hMH⟩)).symm
 
+omit [Finite G] in
 theorem pRank_normalizer_le_one_aux_char {S K : Subgroup G} (hKS : K ≤ S)
     (hchar : (K.subgroupOf S).Characteristic) :
     Subgroup.normalizer (S : Set G) ≤ Subgroup.normalizer (K : Set G) := by

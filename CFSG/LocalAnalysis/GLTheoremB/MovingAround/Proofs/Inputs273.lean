@@ -169,7 +169,7 @@ theorem alt_iso (hp : p.Prime) (hp2 : p ≠ 2) {K : Type} [Group K] [Finite K]
   rcases SchurFacts.center_eq_bot_or_of_isAltType hp hp2 hq hOK ⟨e⟩ with hZ | ⟨rfl, h67⟩
   · exact ⟨(equivCenterQuotOfBot hZ).trans e⟩
   · exfalso
-    haveI : Group.IsPerfect K := ⟨hq.1⟩
+    have : Group.IsPerfect K := ⟨hq.1⟩
     have h1 := CFSG.SectionRank.pRank_top_le_of_injective Nat.prime_three.one_lt
       (CFSG.ComponentClassification.PerfectAutomorphisms.centerQuotientHom K)
       (CFSG.ComponentClassification.PerfectAutomorphisms.centerQuotientHom_injective K)
@@ -211,7 +211,7 @@ theorem isLocallyBalancedAbs_alt_of_dvd {n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hpn : p ∣ n) :
     CFSG.HardMathSupport.Timmesfeld.Coordinator.IsLocallyBalancedAbs p 1 ↥(alternatingGroup (Fin n)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set Φ : Perm (Fin n) ≃* MulAut ↥(alternatingGroup (Fin n)) :=
     MulEquiv.ofBijective (MulAut.conjNormal (H := alternatingGroup (Fin n)))
       (CFSG.GroupTheory.AutAlternating.aut_alternatingGroup_bijective_conj n hn5 hn6) with hΦ
@@ -316,7 +316,7 @@ theorem ne_six_of_dvd {K : Type} [Group K] [Finite K] {n : ℕ} (hp : p.Prime) (
 
 theorem input27_3Alt_of_regular (h : Input27_3AltRegular) : Input27_3Alt := by
   intro p hp hp2 X _ _ hXK hO K hK hKh hT E A hE hA' hEA hEAp hr hc hKΓ hN hC1 hAut hA2
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hKc, hOK⟩ := comp_facts hO hK
   obtain ⟨n, hn⟩ := hT
   obtain ⟨hn5, ⟨eK⟩⟩ := alt_iso hp hp2 hKh.1 hOK hn fun h2 => (hA2 h2).1
@@ -357,7 +357,7 @@ theorem input27_3Alt_of_regular (h : Input27_3AltRegular) : Input27_3Alt := by
 
 theorem input27_4Alt_of_dvdComp (h : Input27_4AltDvdComp) : Input27_4Alt := by
   intro p hp hp2 X _ _ hXK hO K hK hKh hT E A hE hA' hEA hEAp hr hc hKs hKΓ hN hC1 hAut hA2
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hKc, hOK⟩ := comp_facts hO hK
   obtain ⟨n, hn⟩ := hT
   obtain ⟨hn5, ⟨eK⟩⟩ := alt_iso hp hp2 hKh.1 hOK hn fun h2 => (hA2 h2).1
@@ -385,7 +385,7 @@ variable {X : Type} [Group X] [Finite X] {p : ℕ}
 
 theorem isPGroup_center_of_core {Y : Type} [Group Y] [Finite Y] (hp : p.Prime)
     (hO : GLAPPrimeCore p Y = ⊥) : IsPGroup p ↥(Subgroup.center Y) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro z
   have hn0 : orderOf (z : Y) ≠ 0 := (orderOf_pos (z : Y)).ne'
   obtain ⟨a, m, hm, hnm⟩ := Nat.exists_eq_pow_mul_and_not_dvd hn0 p hp.ne_one
@@ -394,7 +394,7 @@ theorem isPGroup_center_of_core {Y : Type} [Group Y] [Finite Y] (hp : p.Prime)
     rw [hy, orderOf_pow_of_dvd (pow_ne_zero a hp.ne_zero) ⟨m, hnm⟩, hnm,
       Nat.mul_div_cancel_left _ (pow_pos hp.pos a)]
   have hyZ : y ∈ Subgroup.center Y := Subgroup.pow_mem _ z.2 _
-  haveI hN : (Subgroup.zpowers y).Normal :=
+  have hN : (Subgroup.zpowers y).Normal :=
     Subgroup.normal_of_le_center (Subgroup.zpowers_le.2 hyZ)
   have hcop : Nat.Coprime p (Nat.card (Subgroup.zpowers y)) := by
     rw [Nat.card_zpowers, hyo]
@@ -445,7 +445,7 @@ theorem index_innerAut_dvd {Y : Type*} [Group Y] (hperf : commutator Y = ⊤) :
 
 theorem pRank_le_two_of_noCube {S : Type} [Group S] [Finite S] (hp : p.Prime)
     (h : NoElemAbelianCubeAut p S) : CFSG.Open.pRank p (⊤ : Subgroup (MulAut S)) ≤ 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine CFSG.SectionRank.pRank_le hp.one_lt fun E _ hE => ?_
   rw [Inputs27.card_eq_pow_pRank hp hE]
   apply Nat.pow_le_pow_right hp.pos
@@ -458,14 +458,14 @@ theorem pRank_le_two_of_noCube {S : Type} [Group S] [Finite S] (hp : p.Prime)
 
 theorem isMulCommutative_of_card_le_sq {Q : Type*} [Group Q] [Finite Q] (hp : p.Prime) {k : ℕ}
     (hk : Nat.card Q = p ^ k) (hk2 : k ≤ 2) : IsMulCommutative Q := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rcases (by omega : k = 0 ∨ k = 1 ∨ k = 2) with rfl | rfl | rfl
   · rw [pow_zero] at hk
-    haveI : Subsingleton Q := (Nat.card_eq_one_iff_unique.1 hk).1
-    haveI : IsCyclic Q := isCyclic_of_subsingleton
+    have : Subsingleton Q := (Nat.card_eq_one_iff_unique.1 hk).1
+    have : IsCyclic Q := isCyclic_of_subsingleton
     infer_instance
   · rw [pow_one] at hk
-    haveI : IsCyclic Q := isCyclic_of_prime_card hk
+    have : IsCyclic Q := isCyclic_of_prime_card hk
     infer_instance
   · exact IsPGroup.isMulCommutative_of_card_eq_prime_sq hk
 
@@ -477,9 +477,9 @@ theorem spor_false_of_rank (hOut : SporadicOuterLeTwo)
     (h3 : 5 ≤ p → ¬ p ^ 3 ∣ Nat.card (↥K ⧸ Subgroup.center ↥K))
     (hA2 : CFSG.Open.pRank p (⊤ : Subgroup (MulAut ↥K)) ≤ 2 →
       5 ≤ p ∧ (p ∣ (innerAut ↥K).index ∨ ∃ P : Sylow p ↥K, ¬ IsMulCommutative ↥(P : Subgroup ↥K))) : False := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hperf : commutator ↥K = ⊤ := hq.1
-  haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hq.2
+  have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hq.2
   have hnab := Prop1116Design.not_isCommutative_barQuot ↥K hq
   have hout : Nat.card (Outer (↥K ⧸ Subgroup.center ↥K)) ≤ 2 := hOut _ inferInstance hnab s ⟨e⟩
   obtain ⟨hp5, hOS⟩ := hA2 ((pRank_mulAut_le_quot hp hperf).trans hrk)
@@ -511,7 +511,7 @@ theorem spor_false_of_rank (hOut : SporadicOuterLeTwo)
           omega
     have hcardK : Nat.card ↥K = Nat.card (↥K ⧸ Subgroup.center ↥K) :=
       Nat.card_congr (equivCenterQuotOfBot hZ).toEquiv
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 P.isPGroup'
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 P.isPGroup
     have hk2 : k ≤ 2 := by
       by_contra hk3
       push Not at hk3
@@ -528,8 +528,8 @@ theorem spor_balanced (hOne : SporadicLocalOneData) (hCube : SporOneBalanceCube)
     (hA2 : CFSG.Open.pRank p (⊤ : Subgroup (MulAut ↥K)) ≤ 2 →
       5 ≤ p ∧ (p ∣ (innerAut ↥K).index ∨ ∃ P : Sylow p ↥K, ¬ IsMulCommutative ↥(P : Subgroup ↥K))) :
     IsLocallyBalancedAbs p 1 (↥K ⧸ Subgroup.center ↥K) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hq.2
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hq.2
   have hnab := Prop1116Design.not_isCommutative_barQuot ↥K hq
   have hcen : Subgroup.center (↥K ⧸ Subgroup.center ↥K) = ⊥ :=
     CFSG.HardMathSupport.Timmesfeld.Coordinator.center_eq_bot_of_isSimpleGroup hnab
@@ -580,11 +580,13 @@ noncomputable def autBarQuot {K : Subgroup X} (hOK : GLAPPrimeCore p ↥K = ⊥)
     MulAut (barOf p K) →* MulAut (↥K ⧸ Subgroup.center ↥K) :=
   (autCenterQuot ↥K).comp (MulAut.congr (barOfEquivOfCore hOK)).toMonoidHom
 
+omit [Finite X] in
 theorem autBarQuot_injective {K : Subgroup X} (hOK : GLAPPrimeCore p ↥K = ⊥)
     (hperf : commutator ↥K = ⊤) : Function.Injective (autBarQuot hOK) :=
   (CFSG.HardMathSupport.Timmesfeld.Coordinator.autCenterQuot_injective_of_perfect hperf).comp
     (MulAut.congr (barOfEquivOfCore hOK)).injective
 
+omit [Finite X] in
 theorem map_innerAut_autBarQuot {K : Subgroup X} (hOK : GLAPPrimeCore p ↥K = ⊥) :
     (innerAut (barOf p K)).map (autBarQuot hOK) = innerAut (↥K ⧸ Subgroup.center ↥K) := by
   have h1 : (innerAut (barOf p K)).map (MulAut.congr (barOfEquivOfCore hOK)).toMonoidHom = innerAut ↥K :=
@@ -592,6 +594,7 @@ theorem map_innerAut_autBarQuot {K : Subgroup X} (hOK : GLAPPrimeCore p ↥K = �
   rw [autBarQuot, ← Subgroup.map_map, h1]
   exact map_innerAut_autCenterQuot ↥K
 
+omit [Finite X] in
 theorem isCompLocallyBalanced_of_coreFree (hp : p.Prime) {K A : Subgroup X} (hperf : commutator ↥K = ⊤)
     (hOK : GLAPPrimeCore p ↥K = ⊥)
     (h : ∀ d ∈ (autBar p A K).map (autBarQuot hOK), orderOf d = p →
@@ -599,7 +602,7 @@ theorem isCompLocallyBalanced_of_coreFree (hp : p.Prime) {K A : Subgroup X} (hpe
         d ∈ Subgroup.normalizer (H : Set (MulAut (↥K ⧸ Subgroup.center ↥K))) →
         GLAPPrimeCoreOf p (H ⊓ Subgroup.centralizer ({d} : Set (MulAut (↥K ⧸ Subgroup.center ↥K)))) = ⊥) :
     CFSG.HardMathSupport.Solomon.LocalBalance.IsCompLocallyBalanced p 1 A K := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro D hD H hH hDH
   obtain ⟨hDA, hDel, hDc⟩ := hD
   have hDne : D ≠ ⊥ := by
@@ -654,12 +657,12 @@ theorem isCompLocallyBalanced_of_coreFree (hp : p.Prime) {K A : Subgroup X} (hpe
 theorem input27_3ChevP_of (hDC : DefCharInnerCoreFree) (hOC : DefCharOuterCoreFree) (hL28 : L28AutRank)
     (hL227 : Input27_3L227) : Input27_3ChevP := by
   intro p hp hp2 X _ _ hXK hO K hK hKh hT E A hE hA' hEA hEAp hr hc hKΓ hN hC1 hAut hA2
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hKc, hOK⟩ := comp_facts hO hK
   obtain ⟨hchev, halt⟩ := hT
   have hq : CFSG.Open.IsQuasisimple ↥K := hKh.1
   have hperf : commutator ↥K = ⊤ := hq.1
-  haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hq.2
+  have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hq.2
   have hnab := Prop1116Design.not_isCommutative_barQuot ↥K hq
   rcases hchev with ⟨i, hi, ⟨e⟩⟩ | ⟨i, hi, ⟨e⟩⟩
   · cases i with
@@ -725,6 +728,7 @@ open Equiv Equiv.Perm
 
 variable {X : Type} [Group X] [Finite X] {p : ℕ}
 
+omit [Finite X] in
 theorem sup_inf_centralizer_le {A B : Subgroup X} {a : X} (hc : ∀ x ∈ A, ∀ y ∈ B, x * y = y * x)
     (hd : A ⊓ B = ⊥) (haA : a ∈ Subgroup.normalizer (A : Set X))
     (haB : a ∈ Subgroup.normalizer (B : Set X)) :
@@ -760,6 +764,7 @@ theorem sup_inf_centralizer_le {A B : Subgroup X} {a : X} (hc : ∀ x ∈ A, ∀
   · calc v * a = a * v * a⁻¹ * a := by rw [hva]
       _ = a * v := by group
 
+omit [Finite X] in
 theorem sSup_inf_centralizer_le {a : X} (𝓛 : Finset (Subgroup X))
     (hcomm : ∀ L ∈ 𝓛, ∀ L' ∈ 𝓛, L ≠ L' → ∀ x ∈ L, ∀ y ∈ L', x * y = y * x)
     (hZ : ∀ L ∈ 𝓛, L ⊓ Subgroup.centralizer (L : Set X) = ⊥)
@@ -895,7 +900,7 @@ theorem center_eq_bot_of_alt {Y : Type*} [Group Y] {n : ℕ} (hn5 : 5 ≤ n) (e 
 theorem input27_4AltDvdComp_holds : Input27_4AltDvdComp := by
   intro p hp hp2 X _ _ hO K hK n hn5 hpn ⟨eK⟩ A hA a ha ha1 J hJ
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpodd : Odd p := hp.odd_of_ne_two hp2
   obtain ⟨hKc, hOK⟩ := comp_facts hO hK
   have hZK : Subgroup.center ↥K = ⊥ := center_eq_bot_of_alt hn5 eK
@@ -1072,7 +1077,7 @@ theorem mem_innerAut_of_pglAction_pow_three {F : Type} [Field F] [Finite F] (g :
       have h2 := congrArg (fun M : GL (Fin 2) F => ((Matrix.GeneralLinearGroup.det M : Fˣ) : F)) hc
       simp only [map_pow, Units.val_pow_eq_pow_val] at h2
       rw [← h2]
-      simp [Matrix.GeneralLinearGroup.scalar, Matrix.det_smul]
+      simp [Matrix.GeneralLinearGroup.scalar]
     refine ⟨(c : F) * ((A.det : Fˣ) : F)⁻¹, ?_⟩
     have hne : ((A.det : Fˣ) : F) ≠ 0 := Units.ne_zero _
     field_simp
@@ -1152,7 +1157,7 @@ theorem card_L227_and_aut {S : Type} [Group S] (e : S ≃* PSL(2, GaloisField 3 
 theorem card_le_nine_of_not_le_inner {S : Type} [Group S] [Finite S] (hS : IsSimpleGroup S)
     (hnab : ∃ a b : S, a * b ≠ b * a) (e : S ≃* PSL(2, GaloisField 3 3)) {D : Subgroup (MulAut S)}
     (hD : IsElemAbelian 3 D) (hDI : ¬ D ≤ innerAut S) : Nat.card D ≤ 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨φ, hφD, hφI⟩ := Set.not_subset.1 hDI
   have hφ1 : φ ≠ 1 := fun h => hφI (h ▸ (innerAut S).one_mem)
   have hφ3 : orderOf φ = 3 := orderOf_eq_prime (hD.2 φ hφD) hφ1
@@ -1193,7 +1198,7 @@ theorem card_le_nine_of_not_le_inner {S : Type} [Group S] [Finite S] (hS : IsSim
       have : 3 ^ 2 ∣ 12 := (Nat.pow_dvd_pow 3 h2).trans hd12
       norm_num at this
   have h2 : (innerAut S).relIndex D ≤ 3 := by
-    haveI : (innerAut S).Normal := Inputs27.innerAut_normal_local S
+    have : (innerAut S).Normal := Inputs27.innerAut_normal_local S
     have hidx : (innerAut S).index = 6 := by
       have h0 := Subgroup.card_mul_index (innerAut S)
       have hinn : Nat.card (innerAut S) = 9828 := by
@@ -1263,6 +1268,7 @@ theorem card_le_card_autBar_mul {K B : Subgroup X} (hOK : GLAPPrimeCore p ↥K =
           _ ≤ _ := Subgroup.card_le_of_le hgle
     _ = _ := mul_comm _ _
 
+omit [Finite X] in
 theorem exists_inner_of_barAut_mem {K : Subgroup X} (hOK : GLAPPrimeCore p ↥K = ⊥)
     (γ : ↥(Subgroup.normalizer (K : Set X))) (hγ : barAut p K γ ∈ innerAut (barOf p K)) :
     ∃ k ∈ K, ∀ x ∈ K, (γ : X) * x * (γ : X)⁻¹ = k * x * k⁻¹ := by
@@ -1278,6 +1284,7 @@ theorem exists_inner_of_barAut_mem {K : Subgroup X} (hOK : GLAPPrimeCore p ↥K 
   simp only [Subgroup.coe_mul, Subgroup.coe_inv] at h2
   exact h2.symm
 
+omit [Finite X] in
 theorem isElemAbelian_autBar {B : Subgroup X} (hB : IsElemAbelian p B) (K : Subgroup X) :
     IsElemAbelian p (autBar p B K) :=
   CFSG.SectionRank.isElemAbelian_map (Inputs27.isElemAbelian_subgroupOf
@@ -1306,10 +1313,10 @@ theorem l227_cases (hC3 : CFSG.HardMathSupport.Solomon.Coordinator.L2CentreThree
     (hC1 : CFSG.Open.pRank 3 (E ⊓ Subgroup.centralizer (K : Set X)) = 1) :
     CFSG.Open.pRank 3 E = 3 ∨ (Nat.card E = 3 ^ 4 ∧ A ≤ Subgroup.normalizer (K : Set X) ∧
       (¬ autBar 3 A K ≤ innerAut (barOf 3 K) → Nat.card A = 3 ^ 3)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp := Nat.prime_three
   obtain ⟨hKc, hOK⟩ := comp_facts hO hK
-  haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hq.2
+  have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hq.2
   have hnab := Prop1116Design.not_isCommutative_barQuot ↥K hq
   have hZ : Subgroup.center ↥K = ⊥ := center_eq_bot_of_l227 hC3 hq hOK hL
   obtain ⟨eL⟩ := hL
@@ -1447,6 +1454,7 @@ open CFSG.Yardstones.Md0ec50421ce4 (PSimple)
 
 variable {X : Type} [Group X] [Finite X] {p : ℕ}
 
+omit [Finite X] in
 theorem exists_pow_mem_iSup_inf_centralizer {a : X} {e : ℕ} (𝓛 : Finset (Subgroup X))
     (hcomm : ∀ L ∈ 𝓛, ∀ L' ∈ 𝓛, L ≠ L' → ∀ x ∈ L, ∀ y ∈ L', x * y = y * x)
     (hZ : ∀ L ∈ 𝓛, ∀ z ∈ L ⊓ Subgroup.centralizer (L : Set X), z ^ e = 1)
@@ -1524,9 +1532,9 @@ theorem exists_pow_mem_iSup_inf_centralizer {a : X} {e : ℕ} (𝓛 : Finset (Su
 
 theorem le_of_perfect_of_pow_mem (hp : p.Prime) {J N : Subgroup X} (hJ : ⁅J, J⁆ = J)
     (hJN : J ≤ Subgroup.normalizer (N : Set X)) (hpow : ∀ j ∈ J, ∃ m : ℕ, j ^ (p ^ m) ∈ N) : J ≤ N := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set N' : Subgroup ↥J := N.subgroupOf J with hN'
-  haveI : N'.Normal := by
+  have : N'.Normal := by
     refine ⟨fun n hn g => ?_⟩
     rw [hN', Subgroup.mem_subgroupOf] at hn ⊢
     simp only [Subgroup.coe_mul, Subgroup.coe_inv]
@@ -1547,7 +1555,7 @@ theorem le_of_perfect_of_pow_mem (hp : p.Prime) {J N : Subgroup X} (hJ : ⁅J, J
       rw [_root_.commutator_def, _root_.commutator_def, Subgroup.map_commutator,
         Subgroup.map_top_of_surjective _ hs]
     rw [← h1, htopJ, Subgroup.map_top_of_surjective _ hs]
-  haveI : Group.IsNilpotent (↥J ⧸ N') := hQp.isNilpotent
+  have : Group.IsNilpotent (↥J ⧸ N') := hQp.isNilpotent
   have hder : ∀ n, derivedSeries (↥J ⧸ N') n = ⊤ := by
     intro n
     induction n with
@@ -1561,11 +1569,13 @@ theorem le_of_perfect_of_pow_mem (hp : p.Prime) {J N : Subgroup X} (hJ : ⁅J, J
   rw [Subgroup.mem_bot, QuotientGroup.eq_one_iff, hN', Subgroup.mem_subgroupOf] at hq
   exact hq
 
+omit [Finite X] in
 theorem glaPComponent_conj {K : Subgroup X} (hK : GLAPComponent p ⊤ K) (g : X) :
     GLAPComponent p ⊤ (GLBConj g K) := by
   have h1 := glaPComponent_gLBConj hK g
   rwa [show GLBConj g (⊤ : Subgroup X) = ⊤ from Subgroup.map_top_of_surjective _ (MulEquiv.surjective _)] at h1
 
+omit [Finite X] in
 theorem nonempty_conj_center_quot (K : Subgroup X) (g : X) :
     Nonempty ((↥(GLBConj g K) ⧸ Subgroup.center ↥(GLBConj g K)) ≃* ↥K ⧸ Subgroup.center ↥K) :=
   ⟨Lemma1315b.centerQuotEquiv
@@ -1578,7 +1588,7 @@ theorem exists_conj_of_mem_normalizer (hp : p.Prime) (hO : GLAPPrimeCore p X = �
     ∃ g ∈ A, a ∈ Subgroup.normalizer ((GLBConj g K : Subgroup X) : Set X) ∧
       GLAPComponent p (GLBConj g K ⊓ Subgroup.centralizer ({a} : Set X)) J := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hKc, hOK⟩ := comp_facts hO hK
   set Ks : Subgroup X := ⨆ g ∈ A, GLBConj g K with hKs
   set Y : Subgroup X := Ks ⊓ Subgroup.centralizer ({a} : Set X) with hY
@@ -1681,7 +1691,7 @@ theorem nonempty_pSimple_equiv_of_not_mem_normalizer (hp : p.Prime) (hp2 : p ≠
     (ha1 : a ≠ 1) (haN : a ∉ Subgroup.normalizer (K : Set X)) {J : Subgroup X}
     (hJ : GLAPComponent p (GLAPLayer p ((⨆ g ∈ A, GLBConj g K) ⊓ Subgroup.centralizer ({a} : Set X))) J) :
     Nonempty (PSimple p J ≃* ↥K ⧸ Subgroup.center ↥K) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hKc, hOK⟩ := comp_facts hO hK
   set Ks : Subgroup X := ⨆ g ∈ A, GLBConj g K with hKs
   set Y : Subgroup X := Ks ⊓ Subgroup.centralizer ({a} : Set X) with hY
@@ -1736,7 +1746,7 @@ theorem input27_4ChevP_of (hC3 : CFSG.HardMathSupport.Solomon.Coordinator.L2Cent
     (hKD : ∀ p : ℕ, p.Prime → p ≠ 2 → CFSG.LocalAnalysis.GLTheoremA.KDChevDownQ p p)
     (hUp : Input27_4L227Up) : Input27_4ChevP := by
   intro p hp hp2 X _ _ _ hO K hK hKh hT E A hE hA' hEA hEAp hr _ _ _ hN hC1 _ _
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hKc, hOK⟩ := comp_facts hO hK
   obtain ⟨hchev, -⟩ := hT
   have hq : CFSG.Open.IsQuasisimple ↥K := hKh.1
@@ -1836,6 +1846,7 @@ theorem coordinator_of_isLTwoTwentySeven {S : Type} [Group S] (h : IsLTwoTwentyS
   rw [GaloisField.card 3 3 (by norm_num)]
   norm_num
 
+omit [Finite X] in
 theorem isPGroup_zpowers_of_pow {p : ℕ} {a : X} (ha : a ^ p = 1) : IsPGroup p (Subgroup.zpowers a) := by
   rintro ⟨x, hx⟩
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 hx
@@ -1851,7 +1862,7 @@ theorem barAut_mem_innerAut_of_transfer {p : ℕ} (hp : p.Prime) {L J : Subgroup
     (hβ : ∀ x ∈ chevTransfer p L J,
       chevAut p L ⟨b, hbL⟩ x * (i * x * i⁻¹)⁻¹ ∈ GLAPPrimeCoreOf p (chevTransfer p L J)) :
     barAut p J ⟨b, hbJ⟩ ∈ innerAut (barOf p J) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set I : Subgroup (PSimple p L) := chevTransfer p L J with hIdef
   have hJL : J ≤ L := hJ.1.trans inf_le_left
   have hmemI : ∀ j : ↥J, (chevQuotHom p L).comp (Subgroup.inclusion hJL) j ∈ I := fun j =>
@@ -1867,14 +1878,14 @@ theorem barAut_mem_innerAut_of_transfer {p : ℕ} (hp : p.Prime) {L J : Subgroup
   have hqI : CFSG.Open.IsQuasisimple (PQuot p I) :=
     CFSG.LocalAnalysis.GLTheoremA.isQuasisimple_pQuot_of_glaPComponent hp hI
   have hnt : Nontrivial (↥I ⧸ GLAPPrimeCore p ↥I) := by
-    haveI : IsSimpleGroup (PQuot p I ⧸ Subgroup.center (PQuot p I)) := hqI.2
+    have : IsSimpleGroup (PQuot p I ⧸ Subgroup.center (PQuot p I)) := hqI.2
     by_contra h
     rw [not_nontrivial_iff_subsingleton] at h
-    haveI := h
+    have := h
     have hs : Subsingleton (PQuot p I ⧸ Subgroup.center (PQuot p I)) :=
       (QuotientGroup.mk'_surjective (Subgroup.center (PQuot p I))).subsingleton
     exact (not_nontrivial_iff_subsingleton.2 hs) inferInstance
-  haveI : Group.IsPerfect (barOf p J) := ⟨hqJ.1⟩
+  have : Group.IsPerfect (barOf p J) := ⟨hqJ.1⟩
   have hΨs := CFSG.LocalAnalysis.GLTheoremA.pQuotMapOfSurjective_surjective hp πJ hπs
   have hker := CFSG.LocalAnalysis.GLTheoremA.ker_pQuotMapOfSurjective_le_center hp πJ hπs hqJ hnt
   refine CFSG.LocalAnalysis.GLTheoremA.chev_mem_inner_of_central_surjective
@@ -1912,11 +1923,11 @@ theorem input27_4L227Up_of (hInner : CFSG.LocalAnalysis.GLTheoremA.KDChevInner 3
     (hAmb : CFSG.LocalAnalysis.GLTheoremA.KDAmbSolv 3)
     (hOC : CFSG.HardMathSupport.Dickson.DefCharOuter.Export.OuterCentAll) : Input27_4L227Up := by
   intro X _ _ hO L hL hLchev hLnot a b haL hbL hab ha3 hb3 J hJ hJL hbJ hout
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp := Nat.prime_three
   obtain ⟨-, hOL⟩ := comp_facts hO hL
   obtain ⟨hSs, hSna⟩ := CFSG.LocalAnalysis.GLTheoremA.chev_pSimple_simple_nonabelian hp hL
-  haveI : IsSimpleGroup (PSimple 3 L) := hSs
+  have : IsSimpleGroup (PSimple 3 L) := hSs
   have eS : PSimple 3 L ≃* ↥L ⧸ Subgroup.center ↥L := Lemma1315b.centerQuotEquiv (barOfEquivOfCore hOL)
   have hSchev : IsChevSimple 3 (PSimple 3 L) :=
     CFSG.HardMathSupport.Dickson.I271.isChevSimple_of_mulEquiv eS.symm hLchev
@@ -1969,13 +1980,13 @@ theorem input27_4L227Up_of (hInner : CFSG.LocalAnalysis.GLTheoremA.KDChevInner 3
     | alternating _ _ => exact absurd hi (by simp [onLie])
     | sporadic _ => exact absurd hi (by simp [onLie])
   ·
-    haveI : Finite i.Group := Finite.of_equiv _ e.toEquiv
+    have : Finite i.Group := Finite.of_equiv _ e.toEquiv
     have hα1' : MulAut.congr e α ≠ 1 := fun h =>
       hα1 ((MulAut.congr e).injective (h.trans (map_one _).symm))
     have hαp : MulAut.congr e α ^ 3 = 1 := by rw [← map_pow, hα3, map_one]
     have hsolv := hAmb i hi (MulAut.congr e α) hαp hα1'
     rw [CFSG.HardMathSupport.Dickson.I271.fixSubgroup_congr] at hsolv
-    haveI : Group.IsSolvable ↥((fixSubgroup α).map e.toMonoidHom) := hsolv
+    have : Group.IsSolvable ↥((fixSubgroup α).map e.toMonoidHom) := hsolv
     have hsolvα : Group.IsSolvable ↥(fixSubgroup α) :=
       Group.isSolvable_of_isSolvable_injective
         (f := ((fixSubgroup α).equivMapOfInjective e.toMonoidHom e.injective).toMonoidHom)
@@ -2016,7 +2027,7 @@ theorem input27_4Spor_of (hOne : SporadicLocalOneData) (hCube : SporOneBalanceCu
     (hSpM : CFSG.HardMathSupport.Timmesfeld.Tables.Multiplier.SporadicMultipliers) (hDown : Input27_4SporDown) :
     Input27_4Spor := by
   intro p hp hp2 X _ _ _ hO K hK hKh hT E A _ hA' _ _ _ _ _ _ _ _ _ hA2
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, hOK⟩ := comp_facts hO hK
   obtain ⟨s, ⟨e⟩⟩ := hT
   have hq : CFSG.Open.IsQuasisimple ↥K := hKh.1
@@ -2037,7 +2048,7 @@ theorem input27_4Spor_of (hOne : SporadicLocalOneData) (hCube : SporOneBalanceCu
     have eS : PSimple p (GLBConj g K) ≃* ↥K ⧸ Subgroup.center ↥K :=
       (Lemma1315b.centerQuotEquiv (barOfEquivOfCore hOL)).trans eLK
     obtain ⟨hSs, hSna⟩ := CFSG.LocalAnalysis.GLTheoremA.chev_pSimple_simple_nonabelian hp hLc
-    haveI : IsSimpleGroup (PSimple p (GLBConj g K)) := hSs
+    have : IsSimpleGroup (PSimple p (GLBConj g K)) := hSs
     have hap3 : a ^ p = 1 := hA'.2.1.2 a ha
     have hap := isPGroup_zpowers_of_pow hap3
     have hI := CFSG.LocalAnalysis.GLTheoremA.glaPComponent_chevTransfer hp haL hap hJL
@@ -2105,7 +2116,7 @@ theorem input27_3AltRegular_of_two (h23 : Lemma129e.Input23_5) (h2 : Input27_3Al
       exact ⟨e1, h1, h1', ψ, by simpa using h3⟩
     exact h2 p hp hp2 X hXK hO K hKc n δ ⟨ψ0⟩ hδ1 hδp hnr E A hE hA' hEA hEAp hr hc hKΓ hN hC1 hEr hdisj he1'
   refine Or.inl ?_
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp3 : 3 ≤ p := by have := hp.two_le; omega
   have hpr : p ^ 3 ≤ p ^ r := Nat.pow_le_pow_right hp.pos hr3
   have h27 : 27 ≤ p ^ 3 := by

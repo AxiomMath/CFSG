@@ -73,7 +73,7 @@ theorem exists_linearEquiv_not_preserves_alt {K V : Type*} [Field K] [AddCommGro
     have h := hcon x y
     change B (x + g x • w) (y + g y • w) = B x y at h
     simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul,
-      hB.self_eq_zero, mul_zero, add_zero, zero_add] at h
+      hB.self_eq_zero, mul_zero, add_zero] at h
     rw [← hB.neg_eq w x] at h
     linear_combination h
   obtain ⟨y0, hy0⟩ : ∃ y0 : V, B w y0 ≠ 0 := by
@@ -148,7 +148,7 @@ theorem false_of_hyp (hA : MaxEA S A) (hM : S.M ≤ normalizer (A : Set G))
     (hbad : ∀ g : G, g * S.z * g⁻¹ ∈ A → g * S.z * g⁻¹ ≠ S.z → ¬ A ≤ S.Qa g)
     (h3 : 3 ≤ S.width) {g : G} (hxA : g * S.z * g⁻¹ ∈ A) (hxz : g * S.z * g⁻¹ ≠ S.z)
     (hsp : finrank (ZMod 2) (spanD S) ≤ finrank (ZMod 2) (axisD S g) + 1) : False := by
-  haveI : FiniteDimensional (ZMod 2) S.Qt := finiteDimensional_Qt (S := S)
+  have : FiniteDimensional (ZMod 2) S.Qt := finiteDimensional_Qt (S := S)
   have hWs : ∀ v ∈ spanD S, S.q v = 0 := q_spanD hII
   have hxQ : g * S.z * g⁻¹ ∈ S.QG := hA.le_QG hxA
   have hx0 : S.cl (g * S.z * g⁻¹) ≠ 0 := (cl_ne_zero_iff hxQ).mpr hxz
@@ -243,7 +243,7 @@ theorem false_of_hyp (hA : MaxEA S A) (hM : S.M ≤ normalizer (A : Set G))
       hfam.eq_of_eq (cl_conj_mem_spanD hxQ) hcD hx0 hc0 hH
     exact hcS (by rw [hceq]; exact Submodule.mem_span_singleton_self _)
   ·
-    obtain ⟨y, hy, hyQ⟩ := SetLike.not_le_iff_exists.mp hleQ
+    obtain ⟨y, hy, hyQ⟩ := IsConcreteLE.not_le_iff_exists.mp hleQ
     have hyG : y ∈ conjSub A g := hy.1
     have hyK : y ∈ conjSub A (repD S c) := hy.2
     have hyM : y ∈ S.M := hA.conjSub_le_M hM hxA hxz hyG
@@ -310,9 +310,9 @@ theorem false_of_spConfig_of_surjective (hA : MaxEA S A)
     (hM : S.M ≤ normalizer (A : Set G)) (h3 : 3 ≤ S.width) (hS : SpConfig S A hM)
     (hsurj : Function.Surjective (resAt S A hM)) : False := by
   obtain ⟨ω, hnd, hωa, hrange⟩ := hS
-  haveI : Finite (Additive S.Q) := inferInstanceAs (Finite S.Q)
-  haveI : FiniteDimensional (ZMod 2) S.Qt := Module.Finite.of_finite
-  haveI : FiniteDimensional (ZMod 2) (S.clSub A) := Module.Finite.of_finite
+  have : Finite (Additive S.Q) := inferInstanceAs (Finite S.Q)
+  have : FiniteDimensional (ZMod 2) S.Qt := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) (S.clSub A) := Module.Finite.of_finite
   have hdim : finrank (ZMod 2) (S.clSub A) = S.width := hA.finrank_clSub
   have h3' : 3 ≤ finrank (ZMod 2) (S.clSub A) := by rw [hdim]; exact h3
   obtain ⟨f, x, y, hxy⟩ := exists_linearEquiv_not_preserves_alt ω hωa hnd h3'

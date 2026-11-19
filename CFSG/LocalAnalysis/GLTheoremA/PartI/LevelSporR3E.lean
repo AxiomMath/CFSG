@@ -52,8 +52,8 @@ theorem kdSporRow_of_levelOK {name : TauCeti.SporadicName} {p : ℕ} {Q : Type} 
     (hp : p.Prime) (hp2 : p ≠ 2) (h : ∀ k : Q, orderOf k = p → LevelOK p k) :
     KDSporRow name p := by
   set G := (TauCeti.CFSGIndex.sporadic name).Group
-  haveI : IsSimpleGroup G := (MulEquiv.isSimpleGroup_congr b).1 inferInstance
-  haveI : Finite G := Finite.of_equiv _ b.toEquiv
+  have : IsSimpleGroup G := (MulEquiv.isSimpleGroup_congr b).1 inferInstance
+  have : Finite G := Finite.of_equiv _ b.toEquiv
   have hncG : ∃ a c : G, a * c ≠ c * a := by
     obtain ⟨a, c, hac⟩ := hnc
     refine ⟨b a, b c, fun h' => hac ?_⟩
@@ -87,7 +87,7 @@ theorem levelOK_of_lines {n p : ℕ} (hp : p.Prime) {P Q : Subgroup (Equiv.Perm 
     (hmem : ∀ j, line j ∈ P)
     (hline : ∀ j, LevelOK p (⟨line j, hmem j⟩ : ↥P)) :
     ∀ k : ↥P, orderOf k = p → LevelOK p k := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro k hk
   have hko : orderOf (k : Equiv.Perm (Fin n)) = p := by rw [Subgroup.orderOf_coe]; exact hk
   obtain ⟨g, hgP, hgQ⟩ :=
@@ -119,7 +119,7 @@ theorem kdSporRow_Ru_five
     (hOut : CFSG.HardMathSupport.Timmesfeld.Coordinator.SporadicOuterLeTwo)
     (hbr : CFSG.HardMathSupport.Timmesfeld.Tables.Census.SporadicBridges) :
     KDSporRow .Ru 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨⟨hQP, hQsyl, -, -⟩, ⟨hlinesSet, -⟩, htrans, hrecmem, ⟨hrec0, hrec1⟩, ⟨hC0, hC0c⟩,
     ⟨hC1, hC1c⟩, ⟨hAC, hAn, -, hAcard, -, -, hAc⟩,
     ⟨hDs, ⟨g1, hg1, h1, hh1, hgh⟩, hDcard, hDP, hDcent, -⟩⟩ :=
@@ -229,7 +229,7 @@ theorem levelOK_of_pgroup_record (hp : p.Prime) (hPR : P ≤ R) {x : Equiv.Perm 
     (hAn : (A.subgroupOf C).Normal) (hAP : A ≤ P) (hAp : IsPGroup p ↥A)
     (hAc : Subgroup.centralizer (A : Set (Equiv.Perm (Fin n))) ⊓ C ≤ A) :
     LevelOK p (⟨x, hxP⟩ : ↥P) := by
-  haveI : Finite ↥P := inferInstance
+  have : Finite ↥P := inferInstance
   refine levelOK_of_shapeRkAt (Good := fun _ _ => False) (Rk := fun _ _ => True) hp
     (Or.inl ?_) fun _ _ h => h.elim
   refine CFSG.HardMathSupport.Dickson.I271.pConstrainedShape_of_map_injective P.subtype
@@ -253,12 +253,12 @@ theorem levelOK_of_derived_record (hp : p.Prime) (hPR : P ≤ R) {x : Equiv.Perm
     (hxo : orderOf x = p)
     (hcore : GLAPPrimeCoreOf p (Subgroup.centralizer ({x} : Set (Equiv.Perm (Fin n))) ⊓ P) = ⊥)
     (hpD : p ∣ Nat.card ↥D) (hlev : kLevel p ↥D ≤ 2) : LevelOK p (⟨x, hxP⟩ : ↥P) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set k : ↥P := ⟨x, hxP⟩ with hk
   set Cq : Subgroup ↥P := Subgroup.centralizer ({k} : Set ↥P) with hCq
   set L : Subgroup ↥P := D.subgroupOf P with hL
   let eL : ↥L ≃* ↥D := Subgroup.subgroupOfEquivOfLe hDP
-  haveI hLs : IsSimpleGroup ↥L := (MulEquiv.isSimpleGroup_congr eL).2 hDs
+  have hLs : IsSimpleGroup ↥L := (MulEquiv.isSimpleGroup_congr eL).2 hDs
   have hLnab : ∃ a b : ↥L, a * b ≠ b * a := by
     obtain ⟨g, hg, h, hh, hgh⟩ := hDnab
     refine ⟨eL.symm ⟨g, hg⟩, eL.symm ⟨h, hh⟩, fun he => hgh ?_⟩
@@ -358,7 +358,7 @@ theorem kdSporRow_HS_five
     (hOut : CFSG.HardMathSupport.Timmesfeld.Coordinator.SporadicOuterLeTwo)
     (hbr : CFSG.HardMathSupport.Timmesfeld.Tables.Census.SporadicBridges) :
     KDSporRow .HS 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨⟨hQP, hQsyl, -, -⟩, ⟨hlinesSet, -⟩, htrans, hrecmem, -, ⟨hC0, -⟩, ⟨hC2, -⟩,
     ⟨hC23, -⟩, ⟨hA0C, hA0n, hA0P, hA0card, -, -, hA0c⟩, ⟨hA23C, hA23n, hA23P, hA23card, -, -, hA23c⟩,
     ⟨hDs, hDnab, hDcard, hDP, hDcent, -⟩⟩ := R3E_HS_full_five_centralizer_structures

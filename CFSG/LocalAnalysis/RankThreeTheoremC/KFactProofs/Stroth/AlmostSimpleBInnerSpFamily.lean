@@ -36,17 +36,17 @@ theorem oddPCoreInClosure_spSupported_factor [Finite K] [CharP K 2] {p ℓ f : �
           (fun v => spForm_isAlt (v : Fin r ⊕ Fin r → K)) blocks.fixed_nondegenerate)
     · obtain ⟨d, -, -, σ, -, -, -, -, -, hE, -, Hf, hHf, hHfl, -, -, φ, -⟩ :=
         (blocks.selfDual h h1 hself).exists_half
-      haveI : Fact (Irreducible (h : K[X])) := ⟨irreducible_of_mem_primaryFactors h.2⟩
-      haveI : Finite (AdjoinRoot (h : K[X])) := Module.finite_of_finite K
-      haveI : CharP (AdjoinRoot (h : K[X])) 2 :=
+      have : Fact (Irreducible (h : K[X])) := ⟨irreducible_of_mem_primaryFactors h.2⟩
+      have : Finite (AdjoinRoot (h : K[X])) := Module.finite_of_finite K
+      have : CharP (AdjoinRoot (h : K[X])) 2 :=
         charP_of_injective_ringHom (AdjoinRoot.of (h : K[X])).injective 2
       exact OddPCoreInClosure.of_mulEquiv φ.symm
         (oddPCoreInClosure_sesqUnitaryGroup hp hp2 hℓ hHf hHfl)
   · have hP := blocks.paired h (fun e => hself e.symm)
     obtain ⟨φ, -, -⟩ := hP.factor
-    haveI : Fact (Irreducible (h : K[X])) := ⟨irreducible_of_mem_primaryFactors h.2⟩
-    haveI : Finite (AdjoinRoot (h : K[X])) := Module.finite_of_finite K
-    haveI : CharP (AdjoinRoot (h : K[X])) 2 :=
+    have : Fact (Irreducible (h : K[X])) := ⟨irreducible_of_mem_primaryFactors h.2⟩
+    have : Finite (AdjoinRoot (h : K[X])) := Module.finite_of_finite K
+    have : CharP (AdjoinRoot (h : K[X])) 2 :=
       charP_of_injective_ringHom (AdjoinRoot.of (h : K[X])).injective 2
     exact OddPCoreInClosure.of_mulEquiv φ.symm (oddPCoreInClosure_generalLinearGroup hp hp2)
 
@@ -55,14 +55,14 @@ theorem oddPCoreInClosure_centralizer_statedSp {p ℓ f : ℕ} (hp : p.Prime) (h
     (x : ↥(StatedSp r K)) (hx : x ^ p = 1) :
     OddPCoreInClosure p ↥(Subgroup.centralizer ({x} : Set ↥(StatedSp r K))) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq0 : ℓ ^ f ≠ 0 := pow_ne_zero f hℓp.ne_zero
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; exact hq0)
-  haveI := Fintype.ofFinite K
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; exact hq0)
+  have := Fintype.ofFinite K
   have hcardK : Fintype.card K = ℓ ^ f := by rw [Fintype.card_eq_nat_card, hK]
-  haveI : Fact ℓ.Prime := ⟨hℓp⟩
-  haveI hcharK : CharP K ℓ := charP_of_card_eq_prime_pow (f := f) hcardK
-  haveI : CharP K 2 := hℓ ▸ hcharK
+  have : Fact ℓ.Prime := ⟨hℓp⟩
+  have hcharK : CharP K ℓ := charP_of_card_eq_prime_pow (f := f) hcardK
+  have : CharP K 2 := hℓ ▸ hcharK
   by_cases hx1 : x = 1
   · subst hx1
     have htop : Subgroup.centralizer ({1} : Set ↥(StatedSp r K)) = ⊤ := by
@@ -88,7 +88,7 @@ theorem oddPCoreInClosure_centralizer_statedSp {p ℓ f : ℕ} (hp : p.Prime) (h
     have hxp : orderOf x = p := orderOf_eq_prime hx hx1
     have blocks := (symplectic_cross_prime_primary_centralizer_blocks hℓp hf hK hp hp2 hpℓ hr _
       ha).2 x rfl hxp
-    haveI : Finite ↥(reciprocalOrbits (spEnd x)) :=
+    have : Finite ↥(reciprocalOrbits (spEnd x)) :=
       (Set.Finite.image _ (Finset.finite_toSet _)).to_subtype
     obtain ⟨hcomm, hind, hjoin⟩ := blocks.directProduct
     have hprod := OddPCoreInClosure.of_noncommPiCoprod hp
@@ -102,12 +102,12 @@ theorem oddPCoreInClosure_centralizer_statedSp {p ℓ f : ℕ} (hp : p.Prime) (h
 theorem pClosureOdd_statedProj_sp {p ℓ f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hℓ : ℓ = 2)
     (hℓp : ℓ.Prime) (hf : 1 ≤ f) [Finite K] (hK : Nat.card K = ℓ ^ f) {r : ℕ} (hr : 1 ≤ r) :
     PClosureOdd p (StatedProj (StatedSp r K)) := by
-  haveI : CharP K 2 := by
+  have : CharP K 2 := by
     classical
-    haveI := Fintype.ofFinite K
+    have := Fintype.ofFinite K
     have hcardK : Fintype.card K = ℓ ^ f := by rw [Fintype.card_eq_nat_card, hK]
-    haveI : Fact ℓ.Prime := ⟨hℓp⟩
-    haveI hcharK : CharP K ℓ := charP_of_card_eq_prime_pow (f := f) hcardK
+    have : Fact ℓ.Prime := ⟨hℓp⟩
+    have hcharK : CharP K ℓ := charP_of_card_eq_prime_pow (f := f) hcardK
     exact hℓ ▸ hcharK
   have hZ : (StatedScalars (Fin r ⊕ Fin r) K).subgroupOf (StatedSp r K) = ⊥ :=
     CFSG.Open.StatedAPI.statedScalars_subgroupOf_statedSp_eq_bot

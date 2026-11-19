@@ -40,9 +40,9 @@ private theorem cartanChar_foldWt {k : Type} [Field k] (b : Fin Tag.F4.rank → 
         rw [Finset.prod_zpow_eq_zpow_sum, foldWt_mul_cartan]
     _ = b (e6IndexToF4 l) := by
         refine (Finset.prod_eq_single (e6IndexToF4 l) (fun j _ hj => ?_) (fun h => ?_)).trans ?_
-        · rw [if_neg (Ne.symm hj), zpow_zero]
+        · rw [ite_eq_right (Ne.symm hj), zpow_zero]
         · exact absurd (Finset.mem_univ _) h
-        · rw [if_pos rfl, zpow_one]
+        · rw [ite_eq_left rfl, zpow_one]
 
 end Fold
 

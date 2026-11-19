@@ -132,7 +132,7 @@ theorem comm_sq_eq_one (L : Lem) (cfg : GCfg M V Q P H Φ ψ a T) {F : Subgroup 
     exact haG1 this
 
 theorem root_pair (L : Lem) (cfg : GCfg M V Q P H Φ ψ a T) {t0 t1 : G}
-    (K : Coord P V M (P ⊓ wOf V H) t0 t1) {v₀ : G} (hv₀ : v₀ ∈ V) (hv₀W : v₀ ∉ wOf V H)
+    (K : Coord P V M (P ⊓ wOf V H) t0 t1) {v₀ : G} (hv₀ : v₀ ∈ V) (_hv₀W : v₀ ∉ wOf V H)
     (LF : TwoGame.LocalFacts V M (ψG a) v₀) (bM : M) {β : Fin 2 ⊕ Fin 2 → GaloisField 2 1}
     (hbβ : (bM : G) = ψG β) (hb : ⇑(K.act bM) = bS)
     {y : Fin 2 ⊕ Fin 2 → GaloisField 2 1} (hy : spForm a y = 0) (hy0 : y ≠ 0) (hya : y ≠ a)
@@ -334,7 +334,7 @@ theorem exists_not_stab (L : Lem) (cfg : GCfg M V Q P H Φ ψ a T) {t0 t1 : G}
   exact Subgroup.mul_mem _ (H_le_normalizer_wOf V H (xOf_le_H hc.V_le_H hmX))
     (Q_le_normalizer_W cfg hkQ)
 
-theorem exists_rho_act (L : Lem) (cfg : GCfg M V Q P H Φ ψ a T) {t0 t1 : G}
+theorem exists_rho_act (_L : Lem) (_cfg : GCfg M V Q P H Φ ψ a T) {t0 t1 : G}
     (K : Coord P V M (P ⊓ wOf V H) t0 t1) (bM s0 s1 : M) (hb : ⇑(K.act bM) = bS)
     (h0 : ⇑(K.act s0) = tS0) (h1 : ⇑(K.act s1) = tS1)
     (hg : ∃ g : M, ¬ Stab4 (K.act g)) : ∃ m : M, ⇑(K.act m) = rho0 := by

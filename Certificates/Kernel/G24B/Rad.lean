@@ -27,7 +27,7 @@ theorem commute_of_commK (hC : ChevFacts) {x z : Y} {X Z : ℕ} (hx : psi x = pk
     (hz : psi z = pkMat 28 Z) (h : commK X Z = true) : x * z = z * x :=
   psi_injective hC (by rw [map_mul, map_mul, hx, hz, ← pkMat_mulF2, ← pkMat_mulF2, beq_iff'.mp h])
 
-theorem commK_of_commute (hC : ChevFacts) {x z : Y} {X Z : ℕ} (hx : psi x = pkMat 28 X)
+theorem commK_of_commute (_hC : ChevFacts) {x z : Y} {X Z : ℕ} (hx : psi x = pkMat 28 X)
     (hz : psi z = pkMat 28 Z) (h : x * z = z * x) : commK X Z = true := by
   have e : pkMat 28 (mulF2 28 X Z) = pkMat 28 (mulF2 28 Z X) := by
     rw [pkMat_mulF2, pkMat_mulF2, ← hx, ← hz, ← map_mul, ← map_mul, h]
@@ -175,8 +175,8 @@ theorem psi_signedProd {m : ℕ} {x : Fin m → Y} {G Gi : ℕ → ℕ}
     rw [CFSG.Certificates.signedProd_cons, map_mul, psi_signedProd hG hGi w, pkMat_mulF2]
     obtain ⟨i, b⟩ := l
     cases b
-    · rw [if_neg Bool.false_ne_true, hGi i]
-    · rw [if_pos rfl, hG i]
+    · rw [ite_eq_right Bool.false_ne_true, hGi i]
+    · rw [ite_eq_left rfl, hG i]
 
 theorem r10RelsK_spec {m : ℕ} {G Gi : ℕ → ℕ} :
     ∀ {rels : List (List (Fin m × Bool))}, r10RelsK G Gi rels = true →
@@ -208,7 +208,7 @@ theorem rels_sub (hC : ChevFacts) {m : ℕ} {K : Subgroup Y} {x : Fin m → ↥K
   rw [OneMemClass.coe_one]
   exact e.trans (rels_of_check hC hG hGi h w hw)
 
-theorem psi_inv_of (hC : ChevFacts) {x : Y} {X P : ℕ} (hx : psi x = pkMat 28 X)
+theorem psi_inv_of (_hC : ChevFacts) {x : Y} {X P : ℕ} (hx : psi x = pkMat 28 X)
     (h : mulF2 28 P X = oneF2 28) : psi x⁻¹ = pkMat 28 P := by
   have h1 : pkMat 28 P * psi x = 1 := by rw [hx, ← pkMat_mulF2, h, pkMat_oneF2]
   calc psi x⁻¹ = (pkMat 28 P * psi x) * psi x⁻¹ := by rw [h1, one_mul]

@@ -22,9 +22,9 @@ open Polynomial CFSG.Open CFSG.LocalAnalysis.GLTheoremB CFSG.LocalAnalysis.Compo
 theorem s2019UniInner_five : S2019UniInner (5 ≤ ·) := by
   intro p q hp hp2 hq hq2 hqp hq5 f K _ h n A c hA L hL T hT2 hLT
   classical
-  haveI := h.finite
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : CharP K q := h.charP
+  have := h.finite
+  have : Fact q.Prime := ⟨hq⟩
+  have : CharP K q := h.charP
   have hq' : 2 ≤ q ^ f := by
     have := Nat.one_lt_pow (by have := h.one_le; omega : f ≠ 0) h.prime.one_lt
     omega

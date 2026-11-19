@@ -304,6 +304,7 @@ theorem nu_star_eq (hξS : ξ ∈ S) (hξIrr : ξ ∈ Irr ↥L) :
   rw [hval, hvalstar, star_smul, hstarε]
 
 include hodd hW hW2 hW1 hD hVA hS hSstar hνiso hS0 hντ in
+omit [Fintype ↥W] in
 theorem sub_star_nu_apply_eq_zero (hξS : ξ ∈ S) (hξIrr : ξ ∈ Irr ↥L) {v : G}
     (hv : v ∈ cyclicTIDiff W W1 W2) :
     ((ν ⟨ξ, Submodule.subset_span hξS⟩ : G → ℂ)

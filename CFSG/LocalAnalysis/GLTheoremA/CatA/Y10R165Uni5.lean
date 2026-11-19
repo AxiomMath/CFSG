@@ -15,6 +15,7 @@ variable {K V : Type} [Field K] [AddCommGroup V] [Module K V] [FiniteDimensional
 variable {ℓ f p : ℕ} {h : UnitaryFieldData ℓ f K}
 variable {B : V →ₛₗ[h.bar] V →ₗ[K] K}
 
+omit [FiniteDimensional K V] in
 theorem separatingLeft_domRestrict_orthogonalBilin {U : Submodule K V}
     (hrefl : B.IsRefl) (hBn : B.SeparatingLeft)
     (hc : IsCompl U (Submodule.orthogonalBilin B U)) :

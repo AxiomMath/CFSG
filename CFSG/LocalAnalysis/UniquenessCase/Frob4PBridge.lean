@@ -20,7 +20,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem frob4P_core_le_of_sylow (hU : uniqueFourUnique G) {M : Subgroup G}
     (hM : uniqueFourIsMaxTwoLocal M) {p : ℕ} (hp : p ∈ uniqueFourSigma M) (P : Sylow p G)
     (hPM : (P : Subgroup G) ≤ M) : GLBCore p 2 (P : Subgroup G) ≤ M := by
-  haveI : Fact p.Prime := ⟨hp.1.1⟩
+  have : Fact p.Prime := ⟨hp.1.1⟩
   obtain ⟨Q, hQM, hQΓ⟩ :=
     CFSG.LocalAnalysis.UniqueFourCatalog.exists_sylow_le_of_uniqueFour hU hM hp
   exact uc22p22q_gamma_two_of_exists (uc22p22q_isSylowOf_of_sylow Q hQM) hQΓ
@@ -31,7 +31,7 @@ theorem frob4P_preuniqueness (hU : uniqueFourUnique G) : GLBPreuniqueness G := b
   refine ⟨?_, fun P => ?_⟩
   · have := CFSG.PreuniquenessRankFour.Helpers.betaFour_globalRank hq
     omega
-  · obtain ⟨N, hN, hqN, hPN⟩ := UC6.exists_sigma_ge hU (q := q) hq P.isPGroup'
+  · obtain ⟨N, hN, hqN, hPN⟩ := UC6.exists_sigma_ge hU (q := q) hq P.isPGroup
     exact ⟨N, hN.1, (CFSG.PreuniquenessRankFour.Helpers.weakCore_le_fullCore q _).trans
       (frob4P_core_le_of_sylow hU hN hqN P hPN)⟩
 
@@ -60,7 +60,7 @@ theorem frob4P_frobLocal (hS : Standing4 G) (hU : uniqueFourUnique G) (S : Setup
   classical
   have hpσ : p ∈ uniqueFourSigma S.M := hH.mem_sig2.1
   have hp : p.Prime := hpσ.1.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hPtop : CFSG.ABGLocalTools.IsSylowOf p P ⊤ :=
     uc22p22q_isSylowOf_top (UC6.dataOfSetup4 hS hU S) (sigma23Std_ofSetup4 hS hU S) hpσ hH.sylow
   obtain ⟨P', hP'⟩ : ∃ P' : Sylow p G, (P' : Subgroup G) = P := by
@@ -68,7 +68,7 @@ theorem frob4P_frobLocal (hS : Standing4 G) (hU : uniqueFourUnique G) (S : Setup
     obtain ⟨-, hPp, hdvd⟩ := hPtop
     exact ⟨hPp.toSylow (by simpa [Subgroup.relIndex_top_right] using hdvd), rfl⟩
   obtain ⟨x, hx⟩ : ∃ x : G, zpowers x = P₀ := by
-    haveI : IsCyclic ↥P₀ := isCyclic_of_prime_card (p := p) hH.card
+    have : IsCyclic ↥P₀ := isCyclic_of_prime_card (p := p) hH.card
     obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := ↥P₀)
     refine ⟨(g : G), le_antisymm ?_ ?_⟩
     · rw [zpowers_le]; exact g.2

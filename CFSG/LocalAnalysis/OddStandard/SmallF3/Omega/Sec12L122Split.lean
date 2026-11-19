@@ -29,7 +29,7 @@ theorem le_normalizer_pre_B0
     (hSN : S ≤ normalizer (L : Set G)) : S ≤ normalizer (F.pre B0 : Set G) := by
   intro s hs
   rw [Subgroup.mem_normalizer_iff_map_conj_eq]
-  haveI : IsMulCommutative (F.pre B0) := F.isElemAbelian_pre_B0.1
+  have : IsMulCommutative (F.pre B0) := F.isElemAbelian_pre_B0.1
   refine F.eq_pre_B0_of_abelian hF inf_le_right ?_ inferInstance ?_
   · rintro _ ⟨b, hb, rfl⟩
     have hbP : b ∈ S ⊓ L := F.pre_B0_le hF inf_le_right hb

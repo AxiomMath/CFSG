@@ -12,7 +12,7 @@ namespace CFSG.LocalAnalysis.RankThreeUC.Section5
 theorem pCore_eq_bot_of_faithful_irreducible {k G V : Type*} [Field k] [Group G] [Finite G]
     [AddCommGroup V] [Module k V] (p : ℕ) [Fact p.Prime] [CharP k p] (ρ : Representation k G V)
     (hρ : Function.Injective ρ) (hirr : ρ.IsIrreducible) : CFSG.pCore p G = ⊥ := by
-  haveI : Nontrivial V := hirr.nontrivial
+  have : Nontrivial V := hirr.nontrivial
   have hNp : IsPGroup p (CFSG.pCore p G) := CFSG.pCore_isPGroup
   have hfix : Representation.invariants (ρ.comp (CFSG.pCore p G).subtype) ≠ ⊥ :=
     Representation.invariants_ne_bot_of_forall_pow_eq_one p (ρ.comp (CFSG.pCore p G).subtype)

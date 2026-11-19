@@ -26,16 +26,16 @@ theorem proj_val {L : Type} [Field L] {ζ : L} (hζ : IsPrimitiveRoot ζ 3) (h3 
     (3 : L)⁻¹ * (1 + u + u ^ 2) = if u = 1 then 1 else 0 := by
   rcases mu3_cases hζ hu with h | h | h
   · subst h
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     have : (1 : L) + 1 + 1 ^ 2 = 3 := by norm_num
     rw [this, inv_mul_cancel₀ h3]
   · subst h
-    rw [if_neg (hζ.ne_one (by norm_num)), one_add_add_sq_eq_zero hζ, mul_zero]
+    rw [ite_eq_right (hζ.ne_one (by norm_num)), one_add_add_sq_eq_zero hζ, mul_zero]
   · subst h
     have h4 : (ζ ^ 2) ^ 2 = ζ := by
       have h3' : ζ ^ 3 = 1 := hζ.pow_eq_one
       linear_combination ζ * h3'
-    rw [if_neg (sq_ne_one_of_prim hζ), h4]
+    rw [ite_eq_right (sq_ne_one_of_prim hζ), h4]
     have : 1 + ζ ^ 2 + ζ = 0 := by linear_combination one_add_add_sq_eq_zero hζ
     rw [this, mul_zero]
 
@@ -51,7 +51,7 @@ theorem conj_pow {L : Type} [Field L] (A : Matrix.GeneralLinearGroup (Fin 6) L)
       ((A⁻¹ : Matrix.GeneralLinearGroup (Fin 6) L) : Matrix (Fin 6) (Fin 6) L) = 1 :=
     Units.mul_inv A
   induction n with
-  | zero => simp [hA]
+  | zero => simp
   | succ n ih =>
     rw [pow_succ, pow_succ, ← ih]
     rw [show (A : Matrix (Fin 6) (Fin 6) L) * B ^ n *
@@ -137,10 +137,10 @@ theorem bridge_frame (K : Type) [Field K] [Finite K] (hnr : ∀ r : K, r ^ 2 + r
           emat ((g : Matrix.SpecialLinearGroup (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) *
           (S : Matrix (Fin 6) (Fin 6) K) = blk6 1 0 := by
   classical
-  haveI : Fact (Irreducible (KA7.quad K)) := ⟨KA7.quad_irreducible hnr⟩
-  haveI : Module.Finite K (AdjoinRoot (KA7.quad K)) :=
+  have : Fact (Irreducible (KA7.quad K)) := ⟨KA7.quad_irreducible hnr⟩
+  have : Module.Finite K (AdjoinRoot (KA7.quad K)) :=
     Polynomial.Monic.finite_adjoinRoot (quad_monic K)
-  haveI : Finite (AdjoinRoot (KA7.quad K)) := Module.finite_of_finite K
+  have : Finite (AdjoinRoot (KA7.quad K)) := Module.finite_of_finite K
   have hζ : IsPrimitiveRoot (AdjoinRoot.root (KA7.quad K)) 3 := KA7.prim_root_quad hnr
   obtain ⟨A, hoff, hmul, hcube, hsymm, hfaithful⟩ :=
     diag_eigen hζ (KA7.sigmaQuad K) (KA7.sigmaQuad_zeta K) (KA7.sigmaQuad_sigmaQuad K) P hcomm hpow
@@ -218,9 +218,8 @@ theorem bridge_frame (K : Type) [Field K] [Finite K] (hnr : ∀ r : K, r ^ 2 + r
         (gm.map (algebraMap K (AdjoinRoot (KA7.quad K)))) ^ 2) := by
     ext i j
     simp only [emat, Matrix.map_apply, Matrix.smul_apply, Matrix.add_apply, Matrix.one_apply,
-      pow_two, Matrix.mul_apply, Fin.sum_univ_six, smul_eq_mul, map_mul, map_add, map_sum,
-      map_inv₀, map_ofNat]
-    simp [Matrix.one_apply, apply_ite]
+      pow_two, Matrix.mul_apply, Fin.sum_univ_six, smul_eq_mul, map_mul, map_add, map_inv₀, map_ofNat]
+    simp [apply_ite]
   have h3L : (3 : AdjoinRoot (KA7.quad K)) ≠ 0 := by
     intro h
     apply h3K

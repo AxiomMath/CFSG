@@ -184,7 +184,7 @@ theorem card_eq_of_dvd_of_le [Finite Γ] {H : Subgroup Γ} {N : ℕ} (hd : N ∣
   le_antisymm hle (Nat.le_of_dvd Nat.card_pos hd)
 
 theorem lat_overgroups_of [Finite Γ] {B Mt : Subgroup Γ} {Q : ℕ → Subgroup Γ} {nM nR i₀ : ℕ}
-    {ρ : ℕ → Γ} (hi₀ : i₀ < nM) (hB : Q i₀ = B) (hBQ : ∀ i < nM, B ≤ Q i)
+    {ρ : ℕ → Γ} (hi₀ : i₀ < nM) (hB : Q i₀ = B) (_hBQ : ∀ i < nM, B ≤ Q i)
     (hcov : ∀ σ ∈ Mt, ∃ j < nR, ∃ π ∈ B, ∃ κ ∈ B, σ = π * ρ j * κ)
     (hrep : ∀ j < nR, ∃ t < nM, B ⊔ Subgroup.closure {ρ j} = Q t)
     (hjoin : ∀ a < nM, ∀ b < nM, ∃ c < nM, Q a ⊔ Q b = Q c) :

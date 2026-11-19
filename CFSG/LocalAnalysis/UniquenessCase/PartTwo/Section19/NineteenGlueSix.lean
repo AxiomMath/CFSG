@@ -89,6 +89,6 @@ theorem nineteen_glue_six (D : Data G) {V₀ V : Subgroup G} {p : ℕ} {L A : Su
   exact Subgroup.mem_bot.mpr (congrArg Subtype.val hx1)
 
 theorem nineteen_glue_six_closed (D : Data G) : R19_glue_6 D :=
-  fun V₀ V p L A t B r A₀ H h => nineteen_glue_six D h
+  fun _V₀ _V _p _L _A _t _B _r _A₀ _H h => nineteen_glue_six D h
 
 end CFSG.LocalAnalysis.UniquenessCase.PartTwo.S19

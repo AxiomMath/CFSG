@@ -31,7 +31,7 @@ theorem owR33_classRefl_scale3 (w : Fin 3 → ZMod 3) (c : ZMod 3) (hc : c ≠ 0
     ring
   rw [hQ, hcinv]
   ext t
-  simp only [ClassRefl, Set.mem_setOf_eq]
+  simp only [ClassRefl, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨hrefl, hiso, a, ha, hta⟩
     refine ⟨hrefl, ?_, a, ?_, hta⟩
@@ -104,7 +104,7 @@ theorem owR33_formP_norm {p : ℕ} (W : Fin 3 → ZMod p) (y z : Fin 3 → ZMod 
         ring
 
 theorem owR33_bilin {p : ℕ} (W : Fin 3 → ZMod p) (b : Fin 3 → ZMod p)
-    (hb : (∑ k, W k * (b k * b k)) = 1) (v x : Fin 3 → ZMod p) :
+    (_hb : (∑ k, W k * (b k * b k)) = 1) (v x : Fin 3 → ZMod p) :
     ∑ k, W k * (owR33_formP p W b v k * x k)
       = ∑ k, W k * (v k * owR33_formP p W b x k) := by
   simp only [owR33_formP, owR33_alphaLinP, LinearMap.coe_mk, AddHom.coe_mk, Pi.sub_apply,
@@ -158,7 +158,7 @@ theorem owR33_reflP_conj {p : ℕ} (W : Fin 3 → ZMod p) (b x : Fin 3 → ZMod 
 theorem owR33_alphaLinP_neg {p : ℕ} (W : Fin 3 → ZMod p) (y : Fin 3 → ZMod p) :
     owR33_alphaLinP p W (-y) = -owR33_alphaLinP p W y := by
   ext v
-  simp [owR33_alphaLinP, Finset.sum_neg_distrib, mul_neg, neg_mul]
+  simp [owR33_alphaLinP, Finset.sum_neg_distrib, mul_neg]
 
 theorem owR33_refl_neg {p : ℕ} (W : Fin 3 → ZMod p) (y : Fin 3 → ZMod p)
     (hy : (∑ k, W k * (y k * y k)) = 1) :

@@ -90,8 +90,8 @@ private theorem altCover_exists_four {n : ℕ} (hn : 6 ≤ n) {a b c d a' b' c' 
     (hcd' : c' ≠ d') :
     ∃ σ : alternatingGroup (Fin n), (σ : Perm (Fin n)) a = a' ∧ (σ : Perm (Fin n)) b = b' ∧
       (σ : Perm (Fin n)) c = c' ∧ (σ : Perm (Fin n)) d = d' := by
-  haveI := alternatingGroup.isMultiplyPretransitive (Fin n)
-  haveI : MulAction.IsMultiplyPretransitive (alternatingGroup (Fin n)) (Fin n) 4 :=
+  have := alternatingGroup.isMultiplyPretransitive (Fin n)
+  have : MulAction.IsMultiplyPretransitive (alternatingGroup (Fin n)) (Fin n) 4 :=
     MulAction.isMultiplyPretransitive_of_le (n := Nat.card (Fin n) - 2)
       (by rw [Nat.card_fin]; omega) (Nat.sub_le _ _)
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq (alternatingGroup (Fin n))

@@ -73,7 +73,7 @@ theorem not_dvd_card_centralizer_of_sylow [Finite Y] {p n m : ℕ} (hp : p.Prime
     (hmax : ¬ p ^ (n + 1) ∣ Nat.card (Subgroup.centralizer ({r} : Set Y)))
     (hb : ¬ m ∣ Nat.card (Subgroup.centralizer (Fr : Set Y))) :
     ¬ m ∣ Nat.card (Subgroup.centralizer (F : Set Y)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨g, hg⟩ := isConj_iff.1 hc
   set F' : Subgroup Y := F.map (MulAut.conj g).toMonoidHom with hF'def
   have hF'C : F' ≤ Subgroup.centralizer ({r} : Set Y) := by

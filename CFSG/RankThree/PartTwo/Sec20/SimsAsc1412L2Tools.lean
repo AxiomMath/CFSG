@@ -46,7 +46,8 @@ private theorem false_of_orderOf_eq_three {G : Type*} [Group G] {H : Subgroup G}
   · have h2 : 2 ∣ 3 := hk ▸ dvd_pow_self 2 (Nat.succ_ne_zero k)
     omega
 
-theorem isSimpleGroup_and_center_eq_bot_of_L2 {p f : ℕ} [Fact p.Prime] (hp2 : p ≠ 2)
+omit [Finite X] in
+theorem isSimpleGroup_and_center_eq_bot_of_L2 {p f : ℕ} [Fact p.Prime] (_hp2 : p ≠ 2)
     (hq : 9 < p ^ f)
     (e : ↥(L.map (QuotientGroup.mk' (CFSG.pPrimeCore 3 X))) ≃*
       CFSG.Assembly.RankThreeEven.projSL 2 (GaloisField p f)) :
@@ -73,7 +74,7 @@ theorem exists_conjAct_psl2 (h : Hyp1411 X L S) {F : Type} [Field F]
   set K := CFSG.pPrimeCore 3 X with hK
   set π := QuotientGroup.mk' K with hπ
   intro ε hZ
-  haveI : (L.map π).Normal := h.2.1.map π (QuotientGroup.mk'_surjective _)
+  have : (L.map π).Normal := h.2.1.map π (QuotientGroup.mk'_surjective _)
   have hF : CFSG.generalizedFitting (X ⧸ K) = L.map π := h.2.2.2.1
   let Φ : X ⧸ K →* MulAut (PSL2 F) := (MulAut.congr ε).toMonoidHom.comp MulAut.conjNormal
   have hΦ : ∀ (y : X ⧸ K) (n : ↥(L.map π)),
@@ -104,6 +105,7 @@ theorem exists_conjAct_psl2 (h : Hyp1411 X L S) {F : Type} [Field F]
   rw [hZ, Subgroup.mem_bot] at hzc
   exact congrArg Subtype.val hzc
 
+omit [Finite X] in
 theorem orderOf_mk_eq_three_of_pPrimeCore_eq (hKQ : CFSG.pPrimeCore 3 X = CFSG.pCore 2 X) {x : X}
     (hx : orderOf x = 3) : orderOf (QuotientGroup.mk' (CFSG.pPrimeCore 3 X) x) = 3 := by
   have hx3 : (QuotientGroup.mk' (CFSG.pPrimeCore 3 X) x) ^ 3 = 1 := by
@@ -170,6 +172,7 @@ theorem mem_map_normalizer_of_mem_normalizer (hKQ : CFSG.pPrimeCore 3 X = CFSG.p
   have := Subgroup.mul_mem _ h1 h2
   rwa [← map_mul, mul_inv_cancel_left] at this
 
+omit [Finite X] in
 theorem commute_mk_of_conj_mem_zpowers (hS2 : IsPGroup 2 S) {x : X}
     (hx3 : orderOf (QuotientGroup.mk' (CFSG.pPrimeCore 3 X) x) = 3)
     (hxS : x ∈ Subgroup.normalizer (S : Set X)) {s : X} (hs : s ∈ S)
@@ -292,7 +295,7 @@ theorem noSmallEight1412_of_inner (h : Hyp1411 X L S)
   have hr5 : 5 ≤ p ^ m := hp5.trans (Nat.le_self_pow hm0 p)
   have hqr : p ^ f = (p ^ m) ^ 2 := by
     rw [hm, ← two_mul, pow_mul', sq]
-  letI : Fintype (GaloisField p f) := Fintype.ofFinite _
+  let : Fintype (GaloisField p f) := Fintype.ofFinite _
   classical
   have hqc : Fintype.card (GaloisField p f) = (p ^ m) ^ 2 := by
     rw [← Nat.card_eq_fintype_card, hcard, hqr]

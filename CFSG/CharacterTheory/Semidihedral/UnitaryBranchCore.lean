@@ -527,7 +527,7 @@ theorem exists_sylow_of_centralizer_data {G : Type} [Group G] [Finite G]
         rw [htop, Subgroup.card_top, hPcard, hQ₀card] at h1
         have := Nat.pow_right_injective (le_refl 2 |>.trans hp.two_le) h1
         omega
-      have : Group.IsNilpotent P := (Sylow.isPGroup' P).isNilpotent
+      have : Group.IsNilpotent P := (Sylow.isPGroup P).isNilpotent
       obtain ⟨g, hgN, hgQ₀⟩ :=
         IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hlt)
       have hgQ₀' : (g : G) ∉ Q₀ := fun h => hgQ₀ h
@@ -591,7 +591,7 @@ theorem exists_sylow_of_centralizer_data {G : Type} [Group G] [Finite G]
       set Y := Q₀ ⊔ Subgroup.zpowers (g : G)
       have hYP : Y ≤ P := sup_le hP ((Subgroup.zpowers_le).mpr g.2)
       have hYN : Y ≤ N := sup_le hQ₀N ((Subgroup.zpowers_le).mpr hgNx)
-      have hYeq := eq_of_isPGroup_of_le hp hQ₀card hQ₀N hQ₀syl ((Sylow.isPGroup' P).to_le hYP)
+      have hYeq := eq_of_isPGroup_of_le hp hQ₀card hQ₀N hQ₀syl ((Sylow.isPGroup P).to_le hYP)
         hYN le_sup_left
       exact hgQ₀' (hYeq ▸ Subgroup.mem_sup_right (Subgroup.mem_zpowers (g : G)))
   have he : e = 3 * f := le_antisymm he3 h3f

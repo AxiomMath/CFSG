@@ -111,11 +111,11 @@ theorem part_dec : ∀ cs ∈ allCs,
 
 theorem getD_set_ne' (L : List (Option Bool)) {y z : ℕ} (v : Option Bool) (h : y ≠ z) :
     (L.set y v).getD z none = L.getD z none := by
-  simp [List.getD_eq_getElem?_getD, List.getElem?_set, h]
+  simp [List.getD_eq_getElem?_getD, h]
 
 theorem getD_set_eq' (L : List (Option Bool)) {y : ℕ} (v : Option Bool) (hy : y < L.length) :
     (L.set y v).getD y none = v := by
-  simp [List.getD_eq_getElem?_getD, List.getElem?_set, hy]
+  simp [List.getD_eq_getElem?_getD, hy]
 
 theorem propStep_inv (P : ℕ → Bool) (cs : List Bool) (x : ℕ) (b : Bool) (hb : P x = b)
     (hD : ∀ j ∈ [0, 1, 2, 3], gimg j x ∈ pt16)

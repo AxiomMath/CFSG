@@ -31,9 +31,9 @@ private theorem isSolvable_supportedFixedDerived_of_finrank_le_two
   classical
   set R := Q.comp (fixedSpace x).subtype with hR
   have hRnd : (QuadraticMap.polarBilin R).Nondegenerate := hx.polarBilin_fixed_nondegenerate
-  haveI : Group.IsSolvable ↥(orthDerived R) := by
+  have : Group.IsSolvable ↥(orthDerived R) := by
     rcases Nat.lt_or_ge (Module.finrank K (fixedSpace x)) 2 with h1 | h2'
-    · refine isSolvable_of_comm fun a b => ?_
+    · refine _root_.Group.isSolvable_of_comm fun a b => ?_
       have ha1 : (a : fixedSpace x ≃ₗ[K] fixedSpace x) = 1 :=
         eq_one_of_dicksonHom_eq_one_of_finrank_le_one hRnd (by omega)
           (dicksonHom_apply_orthDerived_eq_one hRnd a.2)
@@ -44,7 +44,7 @@ private theorem isSolvable_supportedFixedDerived_of_finrank_le_two
       show (a : fixedSpace x ≃ₗ[K] fixedSpace x) * b = b * a
       rw [ha1, hb1]
     · have hdim : Module.finrank K (fixedSpace x) = 2 := by omega
-      refine isSolvable_of_comm fun a b => ?_
+      refine _root_.Group.isSolvable_of_comm fun a b => ?_
       have ha : dicksonHom R hRnd
           ⟨(a : fixedSpace x ≃ₗ[K] fixedSpace x), orthDerived_le_orthogonalGroup a.2⟩ = 1 :=
         dicksonHom_apply_orthDerived_eq_one hRnd a.2
@@ -66,8 +66,8 @@ private theorem supportedFixedDerived_le_sup_centralizer_of_quasisimple
     (hFn : (F.subgroupOf (supportedFixedDerived Q x)).Normal) :
     supportedFixedDerived Q x ≤ F ⊔ Subgroup.centralizer (F : Set (V ≃ₗ[K] V)) := by
   classical
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
+  have : Finite V := Module.finite_of_finite K
+  have : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
     fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
   obtain ⟨n, Ff, hFf, hcomm, hsup, -⟩ := exists_fixedFactors_comm hx
   have hFcomp : CFSG.Open.IsComponentOf F (supportedFixedDerived Q x) :=
@@ -111,13 +111,13 @@ theorem orthFixedBlock_holds {K V : Type} [Field K] [Finite K] [CharP K 2] [AddC
     by_contra hlt
     push Not at hlt
     have h2 : Module.finrank K (fixedSpace (x : V ≃ₗ[K] V)) ≤ 2 := by omega
-    haveI hsol := isSolvable_supportedFixedDerived_of_finrank_le_two hx h2
+    have hsol := isSolvable_supportedFixedDerived_of_finrank_le_two hx h2
     exact (CFSG.Quasithin.EmptyFaithfulMultiple.Insp15418.not_isQuasisimple_of_isSolvable
       (F.subgroupOf (supportedFixedDerived Q (x : V ≃ₗ[K] V)))) hFq'
   have hlist : FixedLayerListed Q (x : V ≃ₗ[K] V) := by
     refine ⟨hdim3, ?_⟩
     intro hS
-    haveI hsol := isSolvable_supportedFixedDerived_of_smallFixedException hx hdim3 hS
+    have hsol := isSolvable_supportedFixedDerived_of_smallFixedException hx hdim3 hS
     exact (CFSG.Quasithin.EmptyFaithfulMultiple.Insp15418.not_isQuasisimple_of_isSolvable
       (F.subgroupOf (supportedFixedDerived Q (x : V ≃ₗ[K] V)))) hFq'
   have hX1 : (X - 1 : K[X]) ∈ primaryFactors (x : V ≃ₗ[K] V).toLinearMap :=

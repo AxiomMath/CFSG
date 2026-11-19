@@ -31,15 +31,18 @@ variable (K) in
   map_zero' := by rw [Matrix.mul_zero, Matrix.zero_mul]
   map_add' C D := by rw [Matrix.mul_add, Matrix.add_mul]
 
+omit [Field K] in
 private lemma transpose_symm (a b c : K) :
     (!![a, b; b, c] : Matrix (Fin 2) (Fin 2) K)ᵀ = !![a, b; b, c] := by
   ext i j
   fin_cases i <;> fin_cases j <;> rfl
 
+omit [Field K] in
 private lemma entry_symm {S : Matrix (Fin 2) (Fin 2) K} (hS : Sᵀ = S) : S 1 0 = S 0 1 := by
   have h := congrFun (congrFun hS 0) 1
   simpa [Matrix.transpose_apply] using h
 
+omit [Field K] in
 private lemma eq_of_symm {S : Matrix (Fin 2) (Fin 2) K} (hS : Sᵀ = S) :
     S = !![S 0 0, S 0 1; S 0 1, S 1 1] := by
   nth_rw 1 [Matrix.eta_fin_two S]
@@ -378,8 +381,8 @@ private lemma dot_quad {S₀ : Matrix (Fin 2) (Fin 2) K} (hS₀ : S₀ᵀ = S₀
     (![1, ρ] : Fin 2 → K) ⬝ᵥ (S₀ *ᵥ ![1, ρ]) =
       S₀ 0 0 + 2 * ρ * S₀ 0 1 + ρ ^ 2 * S₀ 1 1 := by
   have h10 : S₀ 1 0 = S₀ 0 1 := entry_symm hS₀
-  simp only [dotProduct, mulVec, Fin.sum_univ_two, Matrix.cons_val', Matrix.cons_val_zero,
-    Matrix.head_cons, Matrix.cons_val_one, Matrix.empty_val', Matrix.cons_val_fin_one, h10]
+  simp only [dotProduct, mulVec, Fin.sum_univ_two, Matrix.cons_val_zero,
+    Matrix.cons_val_one, Matrix.cons_val_fin_one, h10]
   ring
 
 private lemma quad_form_ne_zero {S₀ : Matrix (Fin 2) (Fin 2) K} (hS₀ : S₀ᵀ = S₀)
@@ -487,15 +490,15 @@ private lemma count_of_pivot {p e : ℕ} [Fact p.Prime] [CharP K p] [Finite K]
     have hcρ : c ρ ≠ 0 := hc ρ
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [mv, mu, Matrix.mul_apply, Fin.sum_univ_two, Matrix.one_apply] <;>
-      field_simp <;> ring
+      simp [mv, mu, Matrix.mul_apply, Fin.sum_univ_two] <;>
+      field_simp; ring
   have hmul' : ∀ ρ, mu ρ * mv ρ = 1 := by
     intro ρ
     have hcρ : c ρ ≠ 0 := hc ρ
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [mv, mu, Matrix.mul_apply, Fin.sum_univ_two, Matrix.one_apply] <;>
-      field_simp <;> ring
+      simp [mv, mu, Matrix.mul_apply, Fin.sum_univ_two] <;>
+      field_simp; ring
   let g : K → GL (Fin 2) K := fun ρ => glOf (mv ρ) (mu ρ) (hmul ρ) (hmul' ρ)
   let Hf : K → AddSubgroup (Matrix (Fin 2) (Fin 2) K) := fun ρ => H.map (levAct (g ρ))
   let M : K → Matrix (Fin 2) (Fin 2) K := fun ρ => !![c ρ ^ 2 * T 0 0, ρ * c ρ ^ 2 * T 0 0;
@@ -580,8 +583,8 @@ theorem le_ncard_levAct [Finite K] {p e : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) [C
     p ^ e ≤ {H : AddSubgroup (Matrix (Fin 2) (Fin 2) K) |
       S₀ ∉ H ∧ ∃ g : GL (Fin 2) K, H = H₀.map (levAct g)}.ncard := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  letI : Algebra (ZMod p) K := ZMod.algebra K p
+  have : Fact p.Prime := ⟨hp⟩
+  let : Algebra (ZMod p) K := ZMod.algebra K p
   have h2 : (2 : K) ≠ 0 := two_ne_zero_of_ne_two hp hp2
   have h3' : 3 < Nat.card K := by rw [hK]; exact h3
   have h4 : 4 < Nat.card K := by
@@ -605,30 +608,22 @@ theorem le_ncard_levAct [Finite K] {p e : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) [C
         refine ⟨glOf !![1, 0; -1, 1] !![1, 0; 1, 1] ?_ ?_, ?_⟩
         · ext i j
           fin_cases i <;> fin_cases j <;>
-            simp only [Matrix.mul_apply, Fin.sum_univ_two, Matrix.cons_val', Matrix.cons_val_zero,
-              Matrix.head_cons, Matrix.cons_val_one, Matrix.empty_val', Matrix.cons_val_fin_one,
-              Matrix.one_apply]
+            simp only [Matrix.mul_apply, Fin.sum_univ_two, Matrix.one_apply]
           all_goals norm_num
         · ext i j
           fin_cases i <;> fin_cases j <;>
-            simp only [Matrix.mul_apply, Fin.sum_univ_two, Matrix.cons_val', Matrix.cons_val_zero,
-              Matrix.head_cons, Matrix.cons_val_one, Matrix.empty_val', Matrix.cons_val_fin_one,
-              Matrix.one_apply]
+            simp only [Matrix.mul_apply, Fin.sum_univ_two, Matrix.one_apply]
           all_goals norm_num
         · rw [coe_glOf_inv, conj_shear_entry hT, hT0, h11, zero_add, add_zero]
           exact mul_ne_zero h2 h01
       · refine ⟨glOf !![0, 1; 1, 0] !![0, 1; 1, 0] ?_ ?_, ?_⟩
         · ext i j
           fin_cases i <;> fin_cases j <;>
-            simp only [Matrix.mul_apply, Fin.sum_univ_two, Matrix.cons_val', Matrix.cons_val_zero,
-              Matrix.head_cons, Matrix.cons_val_one, Matrix.empty_val', Matrix.cons_val_fin_one,
-              Matrix.one_apply]
+            simp only [Matrix.mul_apply, Fin.sum_univ_two, Matrix.one_apply]
           all_goals norm_num
         · ext i j
           fin_cases i <;> fin_cases j <;>
-            simp only [Matrix.mul_apply, Fin.sum_univ_two, Matrix.cons_val', Matrix.cons_val_zero,
-              Matrix.head_cons, Matrix.cons_val_one, Matrix.empty_val', Matrix.cons_val_fin_one,
-              Matrix.one_apply]
+            simp only [Matrix.mul_apply, Fin.sum_univ_two, Matrix.one_apply]
           all_goals norm_num
         · rw [coe_glOf_inv, conj_swap_entry]
           exact h11

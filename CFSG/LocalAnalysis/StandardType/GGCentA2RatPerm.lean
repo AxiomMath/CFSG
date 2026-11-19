@@ -18,13 +18,13 @@ private lemma ntpA2rat_iterate_image {X I : Type*} (ρ : Equiv.Perm X) (Ψ : I �
     rw [Function.iterate_succ_apply']
 
 theorem ntpA2rat_orbitUnion_eq_iUnion {X I : Type*} (hI : Nat.card I = 3)
-    (ρ : Equiv.Perm X) (Ψ : I → Set X) (hΨ : Function.Injective Ψ) (ρb : Equiv.Perm I)
+    (ρ : Equiv.Perm X) (Ψ : I → Set X) (_hΨ : Function.Injective Ψ) (ρb : Equiv.Perm I)
     (hρb : ∀ i, ⇑ρ '' Ψ i = Ψ (ρb i))
     (horb : ∀ i, sInf {s : ℕ | 0 < s ∧ (⇑ρ)^[s] '' Ψ i = Ψ i} = 3) (i : I) :
     {γ | ∃ (k : ℕ) (δ : X), δ ∈ Ψ i ∧ γ = (⇑ρ)^[k] δ} = ⋃ j, Ψ j := by
   classical
   have hfin : Finite I := Nat.finite_of_card_ne_zero (by rw [hI]; exact Nat.succ_ne_zero 2)
-  letI := Fintype.ofFinite I
+  let := Fintype.ofFinite I
   have hcard : Fintype.card I = 3 := by
     rw [← Nat.card_eq_fintype_card, hI]
   have hP1 : ¬ (1 ∈ {s : ℕ | 0 < s ∧ (⇑ρ)^[s] '' Ψ i = Ψ i}) := by
@@ -62,7 +62,7 @@ theorem ntpA2rat_orbitUnion_eq_iUnion {X I : Type*} (hI : Nat.card I = 3)
   have hL : {γ | ∃ (k : ℕ) (δ : X), δ ∈ Ψ i ∧ γ = (⇑ρ)^[k] δ}
       = ⋃ k : ℕ, (⇑ρ)^[k] '' Ψ i := by
     ext γ
-    simp only [Set.mem_setOf_eq, Set.mem_iUnion, Set.mem_image]
+    simp only [Set.mem_ofPred_eq, Set.mem_iUnion, Set.mem_image]
     constructor
     · rintro ⟨k, δ, hδ, rfl⟩
       exact ⟨k, δ, hδ, rfl⟩

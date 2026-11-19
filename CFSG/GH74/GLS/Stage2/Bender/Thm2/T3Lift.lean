@@ -104,7 +104,7 @@ theorem not_dvd_card_of_nonsolvable_quotient
     Subgroup.mem_map_of_mem _ (hP (Subgroup.mem_zpowers y))
   have hy0 : orderOf ((y : ↥E) : C) = ℓ := by
     rw [Subgroup.orderOf_coe, hy]
-  have hQp : IsPGroup ℓ ↥((P : Subgroup ↥E).map E.subtype) := P.isPGroup'.map E.subtype
+  have hQp : IsPGroup ℓ ↥((P : Subgroup ↥E).map E.subtype) := P.isPGroup.map E.subtype
   have hne : ((y : ↥E) : C) ≠ 1 := by
     intro h
     rw [h, orderOf_one] at hy0

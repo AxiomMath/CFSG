@@ -47,6 +47,7 @@ section Lift
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem fieldOn_subfield {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {L : Subgroup G} {g : G}
     (hF : FieldOn p g L) :
     ∃ lab : LargeEvenLabel, LargeEvenInLambda2 lab ∧ ¬ (lab.tag = .triD4 ∧ p = 3) ∧

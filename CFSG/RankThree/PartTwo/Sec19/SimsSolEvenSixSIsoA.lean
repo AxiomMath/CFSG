@@ -51,6 +51,7 @@ theorem card_Q_eq_card_R_mul (D : C.PiData) :
   rw [hRQ] at h
   exact h
 
+omit [Finite G] in
 theorem psiA_le_M (ψ : Equiv.Perm (Fin 6) →* ↥M) :
     (alternatingGroup (Fin 6)).map (M.subtype.comp ψ) ≤ M := by
   rintro _ ⟨σ, -, rfl⟩
@@ -113,7 +114,7 @@ theorem X_le_commutator_sup (hR : Nat.card ↥(Rc X) ≤ 2)
     obtain ⟨q, hq, a, ha, hxqa⟩ := exists_mul_psiA hR hψ ⟨x, hx⟩
     rw [show x = q * a from hxqa]
     exact Subgroup.mul_mem _ (hQn hq) (hAn ha)
-  haveI : ((⁅Q, A⁆ ⊔ A).subgroupOf X).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hXn
+  have : ((⁅Q, A⁆ ⊔ A).subgroupOf X).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hXn
   have h2 : IsPGroup 2 (↥X ⧸ (⁅Q, A⁆ ⊔ A).subgroupOf X) := by
     intro g
     refine ⟨1, ?_⟩
@@ -176,18 +177,20 @@ variable (hR2 : Nat.card ↥(Rc X) = 2) (hsurj : Function.Surjective C.θ)
 include hR2 hsurj hel hQX hψ
 
 include D in
+omit D hsurj in
 theorem sixIsoA_le_commutator :
     CFSG.Open.pCoreOf 2 M ≤
       ⁅CFSG.Open.pCoreOf 2 M, (alternatingGroup (Fin 6)).map (M.subtype.comp ψ)⁆ :=
   SixSIsoAAux.Q_le_commutator hR2.le hel hQX hψ
 
 include D in
+omit D hsurj in
 theorem sixIsoA_eq_blockU : CFSG.Open.pCoreOf 2 M = blockU X := by
   refine le_antisymm ?_ C.S.W_le_Q
   have hQY : CFSG.Open.pCoreOf 2 M ≤ CFSG.Open.pCoreOf 2 X :=
     le_pCoreOf_of_normalized hQX (fun k hk _ ha => pCoreOf_normalized M (C.S.le hk) ha)
       (isPGroup_pCoreOf' M)
-  refine (sixIsoA_le_commutator D hR2 hsurj hel hQX hψ).trans ?_
+  refine (sixIsoA_le_commutator hR2 hel hQX hψ).trans ?_
   rw [blockU, blockQ]
   exact Subgroup.commutator_mono hQY (SixSIsoAAux.psiA_le_X hR2.le hQX hψ)
 

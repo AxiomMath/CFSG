@@ -421,7 +421,7 @@ theorem w192_mul_mem_inner {φ ψ : MulAut G192} (hφ : φ ∉ inner G192) (hψ 
   have hφh2 : φ h2 = c * (e * g2 * e⁻¹) * c⁻¹ := by
     rw [he2]
     conv_lhs => rw [h2_eq]
-    simp only [wh2, map_mul, map_inv]
+    simp only [wh2, map_mul]
     rw [← hc1, ← hc2]
     group
   refine ⟨φ d * c * e, hext _ _ ?_ ?_⟩

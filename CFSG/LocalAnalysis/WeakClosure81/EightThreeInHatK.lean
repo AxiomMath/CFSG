@@ -15,6 +15,7 @@ namespace AmbientH
 
 variable {V H T : Subgroup G}
 
+omit [Finite G] in
 private theorem conjClosure_eq_iSup_conjSubgroup (V H : Subgroup G) :
     conjClosure V H = ⨆ g : ↥H, conjSubgroup V (g : G) := by
   refine le_antisymm ?_ ?_
@@ -26,6 +27,7 @@ private theorem conjClosure_eq_iSup_conjSubgroup (V H : Subgroup G) :
     rwa [h]
   · exact iSup_le fun g => conjSubgroup_le_conjClosure V H g.2
 
+omit [Finite G] in
 private theorem subgroupOf_conjClosure_eq_iSup_conjSubgroup (hVH : V ≤ H) :
     (conjClosure V H).subgroupOf H =
       ⨆ g : ↥H, conjSubgroup (V.subgroupOf H) g := by
@@ -54,7 +56,8 @@ theorem kSub_eq (h : Hyp83 V H T) :
       (conjClosure V H).subgroupOf H := by
   rw [kSub_eq_iSup_conjSubgroup h, subgroupOf_conjClosure_eq_iSup_conjSubgroup h.le_H]
 
-private theorem kGen_eq_iSup_conjSubgroup (h : Hyp83 V H T) :
+omit [Finite G] in
+private theorem kGen_eq_iSup_conjSubgroup (_h : Hyp83 V H T) :
     kGen (V.subgroupOf H) (⊤ : Subgroup ↥H) (T.subgroupOf H) =
       ⨆ k : ↥H, ⨆ (_ : k ∈ kSub (V.subgroupOf H) (⊤ : Subgroup ↥H)
           (eSub (V.subgroupOf H) (⊤ : Subgroup ↥H) (T.subgroupOf H))),

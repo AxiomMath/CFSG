@@ -109,7 +109,7 @@ theorem ggStdSubNotTriD4Input_of_tablePThree
     obtain ⟨hJperf, lab, hlab, hraw⟩ := hJinn
     obtain ⟨R, _, I, F, hsimple, hnonab, θ, hConj, hInn, hrank⟩ :=
       largeEvenRawDatum_exists hraw
-    haveI : IsSimpleGroup R := hsimple
+    have : IsSimpleGroup R := hsimple
     have hZ : Subgroup.center R = ⊥ :=
       center_eq_bot_of_isSimpleGroup_of_nonabelian hnonab
     have hBJ : B ≤ Subgroup.normalizer (J : Set G) := le_normalizer_of_stdSub hS hst hDJ.1

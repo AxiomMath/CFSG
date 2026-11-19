@@ -242,7 +242,7 @@ private theorem spPlaneSL2Hom_planeEmb (hk : 0 < k) (g : Matrix.SpecialLinearGro
         ((g : Matrix (Fin 2) (Fin 2) F) *ᵥ a) :=
   spPlane_spSL2Hom_planeEmb (spForm_single_inl_zero_inr_zero (F := F) hk) g a
 
-private theorem spPlane_exists_smul_of_perpMem_eq (hk : 0 < k) {c : F} (hc : c ≠ 0)
+private theorem spPlane_exists_smul_of_perpMem_eq (_hk : 0 < k) {c : F} (hc : c ≠ 0)
     {z u : Fin k ⊕ Fin k → F} (hz : z ≠ 0)
     (hperp : perpMem {x | ∃ b, b ≠ 0 ∧ x = spTransvection b c} (spTransvection u c) =
       perpMem {x | ∃ b, b ≠ 0 ∧ x = spTransvection b c} (spTransvection z c)) :
@@ -389,7 +389,7 @@ private theorem spPlane_rootGroup_le_closure [Finite F] [CharP F 2] (hk : 0 < k)
     rw [hVmem]
     exact ⟨mu, hmu0, by rw [hdmu, ← spTransvection_smul]⟩
 
-private theorem spPlane_rootGroup_image_le_closure (hk : 0 < k) {c : F}
+private theorem spPlane_rootGroup_image_le_closure (_hk : 0 < k) {c : F}
     {z w : Fin k ⊕ Fin k → F} {C : Subgroup ↥(StatedSp k F)} (hyC : spTransvection w c ∈ C)
     (hXz : ∀ d : F, spTransvection z d ∈ C) :
     ∀ d : F, spTransvection (spEnd (spTransvection w c) z) d ∈ C := by
@@ -415,7 +415,7 @@ private theorem spPlane_closure_range_u2_l2 :
   rw [hu, hl]
   exact CFSG.StandardType.RankOneXfer.closure_sl2Upper_sl2Lower_eq_top
 
-private theorem spPlane_planeSL2_le_closure_of_map (hk : 0 < k) {c : F}
+private theorem spPlane_planeSL2_le_closure_of_map (hk : 0 < k) {_c : F}
     {z z' : Fin k ⊕ Fin k → F} {s : Matrix.SpecialLinearGroup (Fin 2) F} {mu : F}
     (hse : spEnd (spPlaneSL2Hom hk s) (Pi.single (Sum.inl ⟨0, hk⟩) 1) = z)
     (hsf : spEnd (spPlaneSL2Hom hk s) (Pi.single (Sum.inr ⟨0, hk⟩) 1) = mu • z')
@@ -493,7 +493,7 @@ private theorem spPlane_planeSL2_le_closure [Finite F] [CharP F 2] (hk : 0 < k) 
       rwa [← ha, ← hz'a']
     rwa [h] at h2
   obtain ⟨s, mu, hmu0, hse, hsf⟩ := spPlane_exists_sl2_map_pair hk ha hz'a' hdet
-  refine spPlane_planeSL2_le_closure_of_map (c := c) hk hse hsf
+  refine spPlane_planeSL2_le_closure_of_map (_c := c) hk hse hsf
     (spPlane_rootGroup_le_closure hk hc hz) ?_
   exact spPlane_rootGroup_image_le_closure hk (c := c) (z := z) (w := w)
     (Subgroup.subset_closure (by simp)) (spPlane_rootGroup_le_closure hk hc hz)
@@ -607,8 +607,8 @@ theorem exists_orderOf_mul_eq_card_add_one_planeSL2 [Finite F] [CharP F 2] (hk :
 theorem pos_of_isSymplecticTransvection {X : Type} [Group X] {s : X} {m f : ℕ}
     (hs : IsSymplecticTransvection X m f s) : 0 < f := by
   obtain ⟨k, -, F, hF, hFfin, hFcard, e, he⟩ := hs
-  letI : Finite F := hFfin
-  letI : Field F := hF
+  let : Finite F := hFfin
+  let : Field F := hF
   have h2 : 1 < Nat.card F := Finite.one_lt_card
   rw [hFcard] at h2
   have hf0 : f ≠ 0 := by
@@ -724,9 +724,9 @@ theorem exists_subgroup_of_isSymplecticTransvection {X : Type} [Group X]
         orderOf (x * y) = 2 ^ f + 1 := by
   obtain ⟨k', hk', F, hF, hFfin, hFcard, e, he⟩ := hs
   obtain rfl : k = k' := by omega
-  letI : Finite F := hFfin
-  letI : Field F := hF
-  haveI : CharP F 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hFcard
+  let : Finite F := hFfin
+  let : Field F := hF
+  have : CharP F 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hFcard
   set S : Set X := {x | IsConj s x} with hS
   let ψ : X ≃* X ⧸ Subgroup.center X :=
     (QuotientGroup.quotientBot (G := X)).symm.trans (QuotientGroup.quotientMulEquivOfEq hZ.symm)

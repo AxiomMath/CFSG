@@ -18,9 +18,9 @@ theorem transvection02_mem_Q2 (a : K) :
     SpecialLinearGroup.transvection (by decide : (0 : Fin 3) ≠ 2) a ∈ Q2 K := by
   refine ⟨mem_unitriangular.2 ⟨fun i k hik => ?_, fun i => ?_⟩, ?_⟩ <;>
     rw [Matrix.SpecialLinearGroup.transvection_coe]
-  · fin_cases i <;> fin_cases k <;> simp_all [Matrix.transvection, Matrix.single_apply]
-  · fin_cases i <;> simp [Matrix.transvection, Matrix.single_apply]
-  · simp [Matrix.transvection, Matrix.single_apply]
+  · fin_cases i <;> fin_cases k <;> simp_all
+  · fin_cases i <;> simp
+  · simp
 
 theorem lt_card_rhoQ2 (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2) :
     2 ^ n < Nat.card ↥((Q2 K).map (rho hK)) := by

@@ -48,7 +48,7 @@ private theorem stabilizer_factor_sixteen_impossible
     (hPcard : Nat.card P = 360360 * 16) :
     False := by
   classical
-  letI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 11) := ⟨by norm_num⟩
   let S11 : Sylow 11 P := Sylow.nonempty.some
   have hS11card : Nat.card S11 = 11 := by
     rw [S11.card_eq_multiplicity, hPcard]
@@ -175,17 +175,17 @@ private theorem stabilizer_factor_sixteen_impossible
     ext i
     exact hg i
   have hP4 : MulAction.IsMultiplyPretransitive P X 4 := by
-    letI : MulAction.IsMultiplyPretransitive P X 5 := hP5
+    let : MulAction.IsMultiplyPretransitive P X 5 := hP5
     exact MulAction.isMultiplyPretransitive_of_le
       (G := P) (α := X) (m := 4) (n := 5) (by omega) (by
         rw [Nat.card_eq_fintype_card, hcard]
         omega)
-  letI : MulAction.IsMultiplyPretransitive P X 4 := hP4
-  letI : Nonempty (Fin 4 ↪ X) :=
+  let : MulAction.IsMultiplyPretransitive P X 4 := hP4
+  let : Nonempty (Fin 4 ↪ X) :=
     Fintype.card_pos_iff.mp (by
       rw [Fintype.card_embedding_eq, Fintype.card_fin, hcard]
       norm_num)
-  letI : Unique
+  let : Unique
       (MulAction.orbitRel.Quotient P (Fin 4 ↪ X)) :=
     Classical.choice
       ((MulAction.pretransitive_iff_unique_quotient_of_nonempty

@@ -18,7 +18,7 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMo
 theorem ffOutFFE8CentModel_elemAb2_map {H K : Type} [Group H] [Group K] (f : H →* K)
     (hf : Function.Injective f) {U : Subgroup H} {k : ℕ} (h : IsElemAb2 U k) :
     IsElemAb2 (U.map f) k := by
-  haveI : IsMulCommutative U := h.1.1
+  have : IsMulCommutative U := h.1.1
   refine ⟨⟨inferInstance, ?_⟩, ?_⟩
   · intro x hx
     obtain ⟨u, hu, rfl⟩ := Subgroup.mem_map.mp hx
@@ -42,6 +42,7 @@ theorem ffOutFFE8CentModel_normalE16_map {H K : Type} [Group H] [Group K] (f : H
   exact ⟨p * b * p⁻¹, (Subgroup.normal_subgroupOf_iff h.1).mp h.2.2 b p hb hp,
     by simp only [map_mul, map_inv]⟩
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffOutFFE8CentModel_ffSim_eq_iff (t s : OGroup Q) :
     ffSim Q t = ffSim Q s ↔ s = t ∨ s = piOrth Q * t := by
   have h1 : ffSim Q t = ffSim Q s ↔ (orthToSim Q t)⁻¹ * orthToSim Q s ∈ piSim Q :=
@@ -71,6 +72,7 @@ theorem ffOutFFE8CentModel_mem_ffB1Sim_iff (hQ : Q.Nondegenerate)
     exact ⟨omegaToProj hQ ⟨g, ffB0p_le_omega hQ fr hg⟩,
       (mem_ffStar_iff hQ).mpr ⟨⟨g, ffB0p_le_omega hQ fr hg⟩, hg, rfl⟩, rfl⟩
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffOutFFE8CentModel_ffSim_simAct (γ : simGroup Q) (t : OGroup Q) :
     ffSim Q (simAct Q γ t) =
       (QuotientGroup.mk γ : ProjSim Q) * ffSim Q t * (QuotientGroup.mk γ : ProjSim Q)⁻¹ := by

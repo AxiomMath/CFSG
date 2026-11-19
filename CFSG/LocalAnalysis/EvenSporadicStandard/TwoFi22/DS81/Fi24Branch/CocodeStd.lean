@@ -60,7 +60,7 @@ theorem exists_equiv_std
       (S44.XE E).map (@CFSG.Quasithin.H.congrHom ↥E W11 (commGroupOfM24Out hm) _ e) =
         img11 AutPerm ∧
       e ⟨z, hz.1⟩ = CFSG.Quasithin.H.Coc24.z0 ∧ e ⟨t, hm.t_mem⟩ = CocodeModelPair.t0 := by
-  letI := commGroupOfM24Out hm
+  let := commGroupOfM24Out hm
   obtain ⟨e₁, he₁⟩ := exists_equiv_w11 hm
   obtain ⟨⟨g, hg⟩, hgz⟩ := apply_z_mem_orbit_z0 hm hz e₁ he₁
   have hgz' : g CFSG.Quasithin.H.Coc24.z0 = e₁ ⟨z, hz.1⟩ := hgz

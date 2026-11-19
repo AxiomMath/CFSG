@@ -64,7 +64,7 @@ public theorem exists_monoidHom_rightInverse_of_surjective_isPGroup_ker
     (hker : IsPGroup p φ.ker) (hcop : Nat.Coprime p (Nat.card Q)) :
     ∃ σ : Q →* E, Function.RightInverse σ φ := by
   classical
-  haveI : φ.ker.Normal := inferInstance
+  have : φ.ker.Normal := inferInstance
   have hkerCard : Nat.Coprime (Nat.card φ.ker) φ.ker.index := by
     rcases (IsPGroup.iff_card (p := p) (G := φ.ker)).1 hker with ⟨n, hcard⟩
     have hindex : φ.ker.index = Nat.card Q := by
@@ -162,7 +162,7 @@ private theorem zmod_prime_pow_isUnit_of_castHom_isUnit
     IsUnit x := by
   have hp0 : p ≠ 0 := (Fact.out : Nat.Prime p).ne_zero
   have hpe0 : p ^ e ≠ 0 := pow_ne_zero e hp0
-  haveI : NeZero (p ^ e) := ⟨hpe0⟩
+  have : NeZero (p ^ e) := ⟨hpe0⟩
   have hxval : IsUnit ((x.val : ℕ) : ZMod (p ^ e)) := by
     refine (ZMod.isUnit_iff_coprime x.val (p ^ e)).2 ?_
     apply (Fact.out : Nat.Prime p).coprime_pow_of_not_dvd
@@ -658,17 +658,17 @@ public theorem
         (G := G) (V := V) (p := p) A L D C) := by
   classical
   intro C
-  letI : Group L.cover := L.instGroupCover
-  letI : Finite L.cover := L.instFiniteCover
-  letI : MulDistribMulAction A L.cover := homocyclicFrattiniCoverSubgroupAction A L
+  let : Group L.cover := L.instGroupCover
+  let : Finite L.cover := L.instFiniteCover
+  let : MulDistribMulAction A L.cover := homocyclicFrattiniCoverSubgroupAction A L
   let hΦinv : IsInvariant A L.cover (frattini L.cover) :=
     isInvariant_of_characteristic (frattini L.cover)
-  letI : IsInvariant A L.cover (frattini L.cover) := hΦinv
-  letI : MulDistribMulAction A (frattini L.cover) :=
+  let : IsInvariant A L.cover (frattini L.cover) := hΦinv
+  let : MulDistribMulAction A (frattini L.cover) :=
     instMulDistribMulAction_subtype (A := A) (G := L.cover) (H := frattini L.cover)
-  haveI : Fact (IsPGroup p L.cover) := ⟨L.cover_isPGroup⟩
-  haveI : IsMulCommutative L.cover := L.cover_commutative
-  haveI : IsElementaryAbelian p L.cover :=
+  have : Fact (IsPGroup p L.cover) := ⟨L.cover_isPGroup⟩
+  have : IsMulCommutative L.cover := L.cover_commutative
+  have : IsElementaryAbelian p L.cover :=
     { toIsMulCommutative := L.cover_commutative
       exponent_dvd_p := by
         rw [L.cover_exponent]
@@ -718,7 +718,7 @@ private noncomputable def
         (K := (D.fixedSubgroup.toAddSubgroup : AddSubgroup (Additive L.cover)))
     let φ : L.cover →* L.cover := powMonoidHom p
     let hkerInv : IsInvariant A L.cover φ.ker := by
-      haveI : φ.ker.Characteristic := by
+      have : φ.ker.Characteristic := by
         simpa [φ] using powMonoidHom_ker_characteristic (H := L.cover) p
       exact isInvariant_of_characteristic φ.ker
     letI : IsInvariant A L.cover φ.ker := hkerInv
@@ -811,62 +811,62 @@ public theorem
         (G := G) (V := V) (p := p) A L D C) := by
   classical
   intro C
-  letI : Group L.cover := L.instGroupCover
-  letI : Finite L.cover := L.instFiniteCover
-  letI : Fintype L.cover := L.instFintypeCover
-  letI : MulDistribMulAction A L.cover := homocyclicFrattiniCoverSubgroupAction A L
-  haveI : Fact (IsPGroup p L.cover) := ⟨L.cover_isPGroup⟩
-  letI : IsMulCommutative L.cover := L.cover_commutative
-  letI : CommGroup L.cover := IsMulCommutative.instCommGroup
+  let : Group L.cover := L.instGroupCover
+  let : Finite L.cover := L.instFiniteCover
+  let : Fintype L.cover := L.instFintypeCover
+  let : MulDistribMulAction A L.cover := homocyclicFrattiniCoverSubgroupAction A L
+  have : Fact (IsPGroup p L.cover) := ⟨L.cover_isPGroup⟩
+  let : IsMulCommutative L.cover := L.cover_commutative
+  let : CommGroup L.cover := IsMulCommutative.instCommGroup
   have he0 : 0 < e := lt_trans Nat.zero_lt_one he
-  haveI : Nontrivial (ZMod (p ^ e)) := by
+  have : Nontrivial (ZMod (p ^ e)) := by
     rw [ZMod.nontrivial_iff]
     exact ne_of_gt
       (Nat.one_lt_pow (Nat.ne_of_gt he0) (Fact.out : p.Prime).one_lt)
-  haveI : IsLocalRing (ZMod (p ^ e)) :=
+  have : IsLocalRing (ZMod (p ^ e)) :=
     zmod_prime_pow_isLocalRing (Fact.out : p.Prime) he0
-  letI : Module (ZMod (p ^ e)) (Additive L.cover) :=
+  let : Module (ZMod (p ^ e)) (Additive L.cover) :=
     L.additiveCoverZModModule
-  letI : Module (ZMod (p ^ e)) (Additive D.fixedSubgroup) :=
+  let : Module (ZMod (p ^ e)) (Additive D.fixedSubgroup) :=
     AddSubgroupClass.instZModModule
       (K := (D.fixedSubgroup.toAddSubgroup : AddSubgroup (Additive L.cover)))
-  haveI : Module.Finite (ZMod (p ^ e)) (Additive D.fixedSubgroup) :=
+  have : Module.Finite (ZMod (p ^ e)) (Additive D.fixedSubgroup) :=
     Module.Finite.of_finite
-  haveI : Module.Projective (ZMod (p ^ e)) (Additive D.fixedSubgroup) :=
+  have : Module.Projective (ZMod (p ^ e)) (Additive D.fixedSubgroup) :=
     D.projective_fixedSubgroup
-  haveI : Module.Flat (ZMod (p ^ e)) (Additive D.fixedSubgroup) :=
+  have : Module.Flat (ZMod (p ^ e)) (Additive D.fixedSubgroup) :=
     Module.Flat.of_projective
-  haveI : Module.Free (ZMod (p ^ e)) (Additive D.fixedSubgroup) :=
+  have : Module.Free (ZMod (p ^ e)) (Additive D.fixedSubgroup) :=
     Module.free_of_flat_of_isLocalRing
   let φ : L.cover →* L.cover := powMonoidHom p
-  haveI : φ.ker.Characteristic := by
+  have : φ.ker.Characteristic := by
     simpa [φ] using powMonoidHom_ker_characteristic (H := L.cover) p
-  haveI : φ.range.Characteristic := by
+  have : φ.range.Characteristic := by
     simpa [φ] using powMonoidHom_range_characteristic (H := L.cover) p
   let hkerInv : IsInvariant A L.cover φ.ker := isInvariant_of_characteristic φ.ker
   let hrangeInv : IsInvariant A L.cover φ.range := isInvariant_of_characteristic φ.range
   let hΦinv : IsInvariant A L.cover (frattini L.cover) :=
     isInvariant_of_characteristic (frattini L.cover)
-  letI : IsInvariant A L.cover φ.ker := hkerInv
-  letI : IsInvariant A L.cover φ.range := hrangeInv
-  letI : IsInvariant A L.cover (frattini L.cover) := hΦinv
-  letI : MulDistribMulAction A φ.ker :=
+  let : IsInvariant A L.cover φ.ker := hkerInv
+  let : IsInvariant A L.cover φ.range := hrangeInv
+  let : IsInvariant A L.cover (frattini L.cover) := hΦinv
+  let : MulDistribMulAction A φ.ker :=
     instMulDistribMulAction_subtype (A := A) (G := L.cover) (H := φ.ker)
-  letI : MulDistribMulAction A φ.range :=
+  let : MulDistribMulAction A φ.range :=
     instMulDistribMulAction_subtype (A := A) (G := L.cover) (H := φ.range)
-  letI : MulDistribMulAction A (frattini L.cover) :=
+  let : MulDistribMulAction A (frattini L.cover) :=
     instMulDistribMulAction_subtype (A := A) (G := L.cover) (H := frattini L.cover)
-  letI : MulDistribMulAction A (L.cover ⧸ φ.ker) :=
+  let : MulDistribMulAction A (L.cover ⧸ φ.ker) :=
     quotientMulDistribMulAction (A := A) (G := L.cover) φ.ker hkerInv
-  letI : MulDistribMulAction A (L.cover ⧸ frattini L.cover) :=
+  let : MulDistribMulAction A (L.cover ⧸ frattini L.cover) :=
     quotientMulDistribMulAction (A := A) (G := L.cover) (frattini L.cover) hΦinv
   let r := fixedSubspaceFinrank (G := G) (V := V) (p := p) A
   have hΦ : frattini L.cover = φ.range := by
     simpa [φ] using
       (frattini_eq_powMonoidHom_range_of_isPGroup_commutative
         (R := L.cover) (p := p))
-  have hsolv : IsSolvable L.cover := by
-    exact isSolvable_of_comm fun x y =>
+  have hsolv : Group.IsSolvable L.cover := by
+    exact _root_.Group.isSolvable_of_comm fun x y =>
       (IsMulCommutative.is_comm (M := L.cover)).comm x y
   have hfactorKer :
       Nat.card (fixedPointSubgroup A L.cover) =
@@ -933,8 +933,8 @@ public theorem
           Nat.card (fixedPointSubgroup A φ.range) * p ^ r :=
       hfactorKerRange.symm.trans hfactorRange
     have hrange_pos : 0 < Nat.card (fixedPointSubgroup A φ.range) := by
-      haveI : Finite φ.range := inferInstance
-      haveI : Finite (fixedPointSubgroup A φ.range) := inferInstance
+      have : Finite φ.range := inferInstance
+      have : Finite (fixedPointSubgroup A φ.range) := inferInstance
       exact Nat.card_pos
     apply Nat.mul_right_cancel hrange_pos
     exact hprod.trans (Nat.mul_comm (Nat.card (fixedPointSubgroup A φ.range)) (p ^ r))
@@ -1080,11 +1080,11 @@ public theorem
         (G := G) (V := V) (p := p) A L D C) := by
   classical
   intro C
-  haveI : Nontrivial (ZMod (p ^ e)) := by
+  have : Nontrivial (ZMod (p ^ e)) := by
     rw [ZMod.nontrivial_iff]
     exact ne_of_gt
       (Nat.one_lt_pow (Nat.ne_of_gt he) (Fact.out : p.Prime).one_lt)
-  haveI : IsLocalRing (ZMod (p ^ e)) :=
+  have : IsLocalRing (ZMod (p ^ e)) :=
     zmod_prime_pow_isLocalRing (Fact.out : p.Prime) he
   rcases exists_homocyclic_frattini_cover_subgroup_fixed_factor_card_data
       (G := G) (V := V) (p := p) A he L D C with
@@ -1114,11 +1114,11 @@ public theorem
         (G := G) (V := V) (p := p) A L D C) := by
   classical
   intro C
-  haveI : Nontrivial (ZMod (p ^ e)) := by
+  have : Nontrivial (ZMod (p ^ e)) := by
     rw [ZMod.nontrivial_iff]
     exact ne_of_gt
       (Nat.one_lt_pow (Nat.ne_of_gt he) (Fact.out : p.Prime).one_lt)
-  haveI : IsLocalRing (ZMod (p ^ e)) :=
+  have : IsLocalRing (ZMod (p ^ e)) :=
     zmod_prime_pow_isLocalRing (Fact.out : p.Prime) he
   rcases exists_homocyclic_frattini_cover_subgroup_fixed_factor_finrank_data
       (G := G) (V := V) (p := p) A he L D C with
@@ -1150,11 +1150,11 @@ public theorem
   classical
   intro C
   by_cases he : 0 < e
-  · haveI : Nontrivial (ZMod (p ^ e)) := by
+  · have : Nontrivial (ZMod (p ^ e)) := by
       rw [ZMod.nontrivial_iff]
       exact ne_of_gt
         (Nat.one_lt_pow (Nat.ne_of_gt he) (Fact.out : p.Prime).one_lt)
-    haveI : IsLocalRing (ZMod (p ^ e)) :=
+    have : IsLocalRing (ZMod (p ^ e)) :=
       zmod_prime_pow_isLocalRing (Fact.out : p.Prime) he
     rcases exists_homocyclic_frattini_cover_subgroup_factor_finrank_data
         (G := G) (V := V) (p := p) A he L D C with
@@ -1162,19 +1162,19 @@ public theorem
     exact ⟨H.toFactorCoordinateEquivs⟩
   · have he0 : e = 0 := Nat.eq_zero_of_not_pos he
     subst e
-    letI : Group L.cover := L.instGroupCover
-    haveI : Subsingleton L.cover := by
+    let : Group L.cover := L.instGroupCover
+    have : Subsingleton L.cover := by
       refine ⟨fun x y => ?_⟩
       have hpow : ∀ z : L.cover, z ^ (p ^ 0) = 1 :=
         Monoid.exponent_dvd_iff_forall_pow_eq_one.mp (by rw [L.cover_exponent])
       have hxy : x * y⁻¹ = 1 := by simpa using (hpow (x * y⁻¹))
       simpa using congr_arg (fun z => z * y) hxy
-    haveI : Subsingleton (Additive D.commutatorSubgroup) := inferInstance
-    haveI : Subsingleton (Additive D.fixedSubgroup) := inferInstance
-    haveI : Subsingleton (ZMod (p ^ 0)) := by
+    have : Subsingleton (Additive D.commutatorSubgroup) := inferInstance
+    have : Subsingleton (Additive D.fixedSubgroup) := inferInstance
+    have : Subsingleton (ZMod (p ^ 0)) := by
       exact ZMod.subsingleton_iff.2 (by simp)
-    haveI : Subsingleton (C.leftIndex → ZMod (p ^ 0)) := inferInstance
-    haveI : Subsingleton (C.rightIndex → ZMod (p ^ 0)) := inferInstance
+    have : Subsingleton (C.leftIndex → ZMod (p ^ 0)) := inferInstance
+    have : Subsingleton (C.rightIndex → ZMod (p ^ 0)) := inferInstance
     exact ⟨{
       leftCoordinateEquiv :=
         AddEquiv.ofBijective
@@ -1482,7 +1482,7 @@ public theorem
         A (p ^ e) L.toCommonMatrixLift.matrixLift
         (fixedSubspaceFinrank (G := G) (V := V) (p := p) A)) := by
   classical
-  letI : Fintype L.toCommonMatrixLift.matrixIndex := L.toCommonMatrixLift.instFintypeMatrixIndex
+  let : Fintype L.toCommonMatrixLift.matrixIndex := L.toCommonMatrixLift.instFintypeMatrixIndex
   rcases exists_homocyclic_frattini_cover_subgroup_chosen_split_rectangular_block_matrices
       (G := G) (V := V) (p := p) A L D with
     ⟨M⟩
@@ -1536,7 +1536,7 @@ public theorem
         A (p ^ e) L.toCommonMatrixLift.matrixLift
         (fixedSubspaceFinrank (G := G) (V := V) (p := p) A)) := by
   classical
-  letI : Fintype L.toCommonMatrixLift.matrixIndex := L.toCommonMatrixLift.instFintypeMatrixIndex
+  let : Fintype L.toCommonMatrixLift.matrixIndex := L.toCommonMatrixLift.instFintypeMatrixIndex
   rcases exists_homocyclic_frattini_cover_subgroup_action_decomposition_prime_power
       (G := G) (V := V) (p := p) hcop A L with
     ⟨D⟩
@@ -1561,7 +1561,7 @@ public theorem
       (HomocyclicFrattiniCoverRectangularCommonLiftBlockData
         (G := G) (V := V) (p := p) A L) := by
   classical
-  letI : Fintype L.toCommonMatrixLift.matrixIndex := L.toCommonMatrixLift.instFintypeMatrixIndex
+  let : Fintype L.toCommonMatrixLift.matrixIndex := L.toCommonMatrixLift.instFintypeMatrixIndex
   rcases exists_rectangular_reindexed_block_trace_data_of_homocyclic_frattini_cover_prime_power
       (G := G) (V := V) (p := p) hcop A L with
     ⟨D⟩
@@ -1780,7 +1780,7 @@ public theorem exists_trace_sum_function_prime_power_of_elementaryAbelian_minima
   rcases exists_matrix_trace_model_prime_power_of_elementaryAbelian_minimal_pos
       (G := G) (V := V) (ι := ι) (p := p) hcop hminv A he with
     ⟨κ, hκ, M, htrace⟩
-  letI : Fintype κ := hκ
+  let : Fintype κ := hκ
   exact exists_trace_sum_function_of_matrix_trace_model
     (A := A)
     (r := fun i => fixedSubspaceFinrank (G := G) (V := V) (p := p) (A i))
@@ -1848,8 +1848,8 @@ public theorem fixedSubspace_finrank_sum_modEq_prime_power_of_coeff_sum_eq_eleme
               (⊤ : Subgroup (↥(A i)))) *
           (n i * Nat.card (A i))) [MOD p ^ e] := by
   classical
-  letI : CommGroup V := IsMulCommutative.instCommGroup
-  letI : Fintype G := Fintype.ofFinite G
+  let : CommGroup V := IsMulCommutative.instCommGroup
+  let : Fintype G := Fintype.ofFinite G
   let r : ι → ℕ := fun i =>
     fixedSubspaceFinrank (G := G) (V := V) (p := p) (A i)
   obtain ⟨F, hF⟩ :=
@@ -1892,7 +1892,7 @@ public theorem fixedSubspace_finrank_sum_eq_of_coeff_sum_eq_elementaryAbelian_mi
               (⊤ : Subgroup (↥(A i)))) *
           (n i * Nat.card (A i)) := by
   classical
-  letI : CommGroup V := IsMulCommutative.instCommGroup
+  let : CommGroup V := IsMulCommutative.instCommGroup
   exact
     nat_eq_of_modEq_prime_power_all (Fact.out : Nat.Prime p).one_lt
       (fun e =>
@@ -1910,7 +1910,7 @@ public theorem fixedPointSubgroup_product_card_eq_of_coeff_sum_eq
     {G V ι : Type u} [Group G] [Finite G] [Group V] [Finite V]
     [MulDistribMulAction G V] [Fintype ι]
     (hcop : Nat.Coprime (Nat.card V) (Nat.card G))
-    (hsolv : IsSolvable V)
+    (hsolv : Group.IsSolvable V)
     (A : ι → Subgroup G)
     [∀ (g : G) (i : ι), Decidable (g ∈ A i)]
     (m n : ι → ℕ)
@@ -1953,10 +1953,10 @@ public theorem fixedPointSubgroup_card_identity_kernel_fixed_bot_of_frobenius
     letI : MulDistribMulAction (↥R) M := MulDistribMulAction.compHom M R.subtype
     Nat.card M = Nat.card (fixedPointSubgroup (↥R) M) ^ Nat.card R := by
   classical
-  letI : Fintype K := Fintype.ofFinite K
-  letI : MulDistribMulAction (↥R) M := MulDistribMulAction.compHom M R.subtype
-  have hsolvM : IsSolvable M :=
-    isSolvable_of_comm fun x y => (IsMulCommutative.is_comm (M := M)).comm x y
+  let : Fintype K := Fintype.ofFinite K
+  let : MulDistribMulAction (↥R) M := MulDistribMulAction.compHom M R.subtype
+  have hsolvM : Group.IsSolvable M :=
+    _root_.Group.isSolvable_of_comm fun x y => (IsMulCommutative.is_comm (M := M)).comm x y
   have hprod :=
     fixedPointSubgroup_product_card_eq_of_coeff_sum_eq
       (G := A) (V := M) (ι := FrobeniusProductIndex K) hcop hsolvM
@@ -2036,7 +2036,7 @@ public theorem fixedSubspace_complement_finrank_identity_kernel_fixed_bot
           (⊤ : Subgroup (E.subgroupOf UE))) *
         Nat.card E := by
   classical
-  letI : CommGroup M := IsMulCommutative.instCommGroup
+  let : CommGroup M := IsMulCommutative.instCommGroup
   exact
     fixedSubspace_complement_finrank_identity_of_card_identity
       (UE := UE) (E := E) (M := M) (p := p)
@@ -2074,8 +2074,8 @@ public theorem fixedSubspace_finrank_identity_kernel_fixed_bot_reduced
             (⊤ : Subgroup (E.conjBy (u : G)))) *
         Nat.card (E.conjBy (u : G)) := by
   classical
-  letI : CommGroup M := IsMulCommutative.instCommGroup
-  letI : Fintype U := Fintype.ofFinite U
+  let : CommGroup M := IsMulCommutative.instCommGroup
+  let : Fintype U := Fintype.ofFinite U
   exact
     fixedSubspace_finrank_identity_kernel_fixed_bot_reduced_of_complement_finrank
       (p := p) UE U E hEact hcomp hEcompat
@@ -2121,7 +2121,7 @@ public theorem fixedSubspace_finrank_identity_minimal_invariant
           Representation (ZMod p) U (Additive M)).fixedSubspace
           (⊤ : Subgroup U)) * Nat.card U := by
   classical
-  letI : CommGroup M := IsMulCommutative.instCommGroup
+  let : CommGroup M := IsMulCommutative.instCommGroup
   exact
     fixedSubspace_finrank_identity_minimal_invariant_of_kernel_fixed_bot_case
       (p := p) UE U E hEact hcomp hfrob hUcompat hEcompat hminv
@@ -2167,7 +2167,7 @@ public theorem fixedPointSubgroup_product_identity_action_chiefFactor
     (hEact : ∀ u : U, MulDistribMulAction (↥(E.conjBy (u : G))) M)
     (hcomp : section12ComplementIn UE U E)
     (hfrob : section12FrobeniusJoinWithKernel U E)
-    (hsolvM : IsSolvable M)
+    (hsolvM : Group.IsSolvable M)
     (hcop : Nat.Coprime (Nat.card M) (Nat.card UE))
     (hUcompat : ∀ (u : U) (m : M),
       u • m = (⟨(u : G), hcomp.1 u.2⟩ : UE) • m)
@@ -2199,7 +2199,7 @@ public theorem fixedPointSubgroup_product_identity_action
     (hEact : ∀ u : U, MulDistribMulAction (↥(E.conjBy (u : G))) M)
     (hcomp : section12ComplementIn UE U E)
     (hfrob : section12FrobeniusJoinWithKernel U E)
-    (hsolvM : IsSolvable M)
+    (hsolvM : Group.IsSolvable M)
     (hcop : Nat.Coprime (Nat.card M) (Nat.card UE))
     (hUcompat : ∀ (u : U) (m : M),
       u • m = (⟨(u : G), hcomp.1 u.2⟩ : UE) • m)

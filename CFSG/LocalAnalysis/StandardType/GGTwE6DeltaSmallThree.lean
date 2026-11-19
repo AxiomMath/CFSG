@@ -19,8 +19,8 @@ theorem ggTwE6DeltaSmallThreeInput_of_cube (hC : GGTwE6CubeNodeInput) :
   intro L' _ _ ψ hψ hker hperf hodd A hA hAI _ _ hadm a ha ha1 hcomp hcent hsm
   exfalso
   classical
-  haveI := TwE6Delta.finite_recipeR hK
-  haveI := TwE6Delta.finite_mulAut_recipeR hK
+  have := TwE6Delta.finite_recipeR hK
+  have := TwE6Delta.finite_mulAut_recipeR hK
   have hkc : ψ.ker = Subgroup.center L' := BstarDesc.ker_eq_center hψ hker hcenR
   have hρinj := BstarDesc.descAut_injective hψ hkc hperf
   have hρa : ∀ b : MulAut L', ∀ l, BstarDesc.descAut hψ hkc b (ψ l) = ψ (b l) :=

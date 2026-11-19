@@ -94,7 +94,7 @@ theorem census_all (hG : GOK) {k : ℕ} (hk : k < 125) (hk0 : k ≠ 0) :
     Fused (φ hG (Multiplicative.ofAdd (vec3 k))) := by
   have h := (Certificates.certificate17327 : censusCheck () = true)
   simp only [censusCheck, Bool.and_eq_true, beq_iff_eq, List.all_eq_true, List.mem_range,
-    Bool.or_eq_true, List.any_eq_true, decide_eq_true_eq, and_assoc] at h
+    Bool.or_eq_true, List.any_eq_true, and_assoc] at h
   obtain ⟨hD, -, hr1, hr5, hr6, hchain, hcover⟩ := h
   have roots : ∀ j ∈ [1, 5, 6], j < 125 ∧ Fused (φ hG (Multiplicative.ofAdd (vec3 j))) := by
     intro j hj

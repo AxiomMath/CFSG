@@ -281,7 +281,7 @@ theorem four_dvd_card_of_isPerfect {Q : Type*} [Group Q] [Finite Q] [Nontrivial 
     exact not_subsingleton Q this
   by_contra hnot4
   let P : Sylow 2 Q := Classical.choice inferInstance
-  obtain ⟨m, hm⟩ := IsPGroup.iff_card.mp P.isPGroup'
+  obtain ⟨m, hm⟩ := IsPGroup.iff_card.mp P.isPGroup
   have hm1 : m ≤ 1 := by
     by_contra h
     have h4 : 2 ^ 2 ∣ Nat.card Q :=
@@ -296,7 +296,7 @@ theorem four_dvd_card_of_isPerfect {Q : Type*} [Group Q] [Finite Q] [Nontrivial 
   have hmin : (Nat.card Q).minFac = 2 := (Nat.minFac_eq_two_iff _).mpr h2
   have hcomp := IsCyclic.isComplement' hmin hPcyc
   have : Group.IsSolvable (P : Subgroup Q) := by
-    have := P.isPGroup'.isNilpotent
+    have := P.isPGroup.isNilpotent
     infer_instance
   rw [CFSG.ComponentClassification.SolvableKernelContainment.hom_eq_one
     (MonoidHom.transferSylow P (hPcyc.normalizer_le_centralizer hmin)), MonoidHom.ker_one]

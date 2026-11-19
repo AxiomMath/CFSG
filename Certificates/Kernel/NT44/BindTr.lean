@@ -18,13 +18,13 @@ open CFSG.KS (mask)
 open CFSG.KC.Misc.Clos (allR)
 
 theorem nt44_tr_bind : rowsBind 4 8 nt44Tr ((tr ()).toList.map Array.toList) 0 = true := by
-  simp only [tr, Array.toList_append, List.toList_toArray]
+  simp only [tr, Array.toList_append]
   quickRfl
 
 theorem nt44_parent : (decide ((parent ()).toList.getD 0 [] = []) &&
     allR 1 255 (parentAt (parent ()).toList nt44Tr fun i => pg 8 (mask 8) (nt44Par 0) i)) =
       true := by
-  simp only [parent, Array.toList_append, List.toList_toArray]
+  simp only [parent, Array.toList_append]
   quickRfl
 
 end CertificateChecks.KernelNT44

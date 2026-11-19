@@ -28,7 +28,7 @@ theorem excluded
   let F := sylowFixedPoints X P s S
   let _ : Fintype F := Fintype.ofFinite _
   let rho : N →* Equiv.Perm F := toPermHom N F
-  have hQ : IsPGroup 7 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup 7 Q := S.isPGroup.map (fixingSubgroup P s).subtype
   have hQcard : Nat.card Q = Nat.card S := Nat.card_congr
     ((S : Subgroup (fixingSubgroup P s)).equivMapOfInjective
       (fixingSubgroup P s).subtype Subtype.val_injective).toEquiv.symm

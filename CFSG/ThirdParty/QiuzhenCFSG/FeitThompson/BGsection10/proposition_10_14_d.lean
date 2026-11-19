@@ -94,7 +94,7 @@ private theorem CFSG.section10_pSubgroup_le_pCore_of_nilpotent
   obtain ⟨S, hB_le_S⟩ := IsPGroup.exists_le_sylow (G := R) (p := p) hBp
   have hS_normal : (S : Subgroup R).Normal :=
     Group.IsNilpotent.sylow_normal (p := p) inferInstance S
-  exact hB_le_S.trans (le_sSup ⟨hS_normal, S.isPGroup'⟩)
+  exact hB_le_S.trans (le_sSup ⟨hS_normal, S.isPGroup⟩)
 
 public theorem CFSG.section10_pCore_ne_bot_of_dvd_card_nilpotent
     {H : Type*} [Group H] [Finite H] [Group.IsNilpotent H]
@@ -103,7 +103,7 @@ public theorem CFSG.section10_pCore_ne_bot_of_dvd_card_nilpotent
   classical
   let S : Sylow q H := Classical.choice inferInstance
   have hS_le : (S : Subgroup H) ≤ pCore q H :=
-    section10_pSubgroup_le_pCore_of_nilpotent (p := q) (R := H) S.isPGroup'
+    section10_pSubgroup_le_pCore_of_nilpotent (p := q) (R := H) S.isPGroup
   have hqS : q ∣ Nat.card (S : Subgroup H) :=
     Sylow.dvd_card_of_dvd_card S hq
   intro hbot
@@ -124,7 +124,7 @@ public theorem CFSG.section10_sylow_map_subtype_of_normalizer_le
   classical
   let PG : Subgroup G := (P : Subgroup M).map M.subtype
   have hPGp : IsPGroup p PG := by
-    exact IsPGroup.map (p := p) (H := (P : Subgroup M)) P.isPGroup' M.subtype
+    exact IsPGroup.map (p := p) (H := (P : Subgroup M)) P.isPGroup M.subtype
   suffices hnot : ¬ p ∣ PG.index by
     exact ⟨hPGp.toSylow hnot, rfl⟩
   intro hpidx

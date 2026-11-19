@@ -85,7 +85,7 @@ private theorem l05nQ2_aut_eq_one_or_transvection {G : Type} [Group G] [Finite G
     (hψ : ∀ b : ↥Bs, ((b⁻¹ * ψ b : ↥Bs) : G) ∈ Subgroup.zpowers y) :
     ψ = 1 ∨ GGIsTransvection p ψ := by
   classical
-  haveI : IsMulCommutative ↥Bs := hBs.1
+  have : IsMulCommutative ↥Bs := hBs.1
   let c : ↥Bs := ⟨y, hyBs⟩
   have hψc : ψ c = c := by simpa only [c] using hψy
   have hcp : c ^ p = 1 := by
@@ -217,7 +217,7 @@ theorem ggNbr_mem_normalizer {G : Type} [Group G] [Finite G] {p : ℕ}
       intro φ hφ
       simpa using h φ hφ
     obtain ⟨ν₀, hν₀mem, hν₀ne⟩ := hex
-    simp only [ggInduced, Set.mem_setOf_eq] at hν₀mem
+    simp only [ggInduced, Set.mem_ofPred_eq] at hν₀mem
     obtain ⟨n₀, hn₀K, hn₀N, hn₀act⟩ := hν₀mem
     set n : G := g * n₀ * g⁻¹ with hn_def
     have hnK' : n ∈ K.map (MulAut.conj g).toMonoidHom := by
@@ -257,7 +257,7 @@ theorem ggNbr_mem_normalizer {G : Type} [Group G] [Finite G] {p : ℕ}
         _ = (g * n₀ * g⁻¹) * (b : G) * (g * n₀ * g⁻¹)⁻¹ := by group
         _ = n * (b : G) * n⁻¹ := by rw [hn_def]
     have hνmem : ν ∈ ggInduced ⊤ Bs := by
-      simp only [ggInduced, Set.mem_setOf_eq]
+      simp only [ggInduced, Set.mem_ofPred_eq]
       exact ⟨n, Subgroup.mem_top n, hnN, hνact⟩
     have hνmove : ∀ b : ↥Bs, ((b⁻¹ * ν b : ↥Bs) : G) ∈ Subgroup.zpowers y := by
       intro b

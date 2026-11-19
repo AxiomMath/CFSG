@@ -16,6 +16,7 @@ open Subgroup CFSG.Blueprint
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {z g : G} {B : Subgroup G}
 
+omit [Finite G] in
 private theorem simple_oddCore_Om6M {L : Subgroup G} (hL : IsOm6M L) :
     IsSimpleGroup (L ⧸ oddCore L) :=
   (CFSG.LieType.Simplicity.fam_classical_converse (L ⧸ oddCore L)

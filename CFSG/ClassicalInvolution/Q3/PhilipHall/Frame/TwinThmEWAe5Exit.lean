@@ -113,7 +113,7 @@ theorem ae5ExitQ8_proved : AE5ExitQ8 := by
   have hKperp : K' ∈ KPerp Ω K := by
     refine Set.mem_insert_of_mem _ ⟨hK'Ω, hK'ne, R', hR', hR'K', fun x hx => ?_⟩
     exact hΩ.le_normalizer_of_twin hK'Ω hK hK'ne hzK' hzK (hR'K' hx)
-  have hRR'2 : IsPGroup 2 ↥(R ⊔ R') := S.isPGroup'.to_le (sup_le hRS hR'S)
+  have hRR'2 : IsPGroup 2 ↥(R ⊔ R') := S.isPGroup.to_le (sup_le hRS hR'S)
   have hcomm' : Commutes R R' :=
     hΩ.commutes_of_twin_of_isPGroup hK hK'Ω (Ne.symm hK'ne) hzK hzK' hRK hR'K' hRR'2
   have hcommKK : Commutes K K' := by rw [← hRK', ← hR'K'']; exact hcomm'

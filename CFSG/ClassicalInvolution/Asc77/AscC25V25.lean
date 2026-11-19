@@ -102,7 +102,7 @@ theorem rset_props {F : Type} [Field F] [Finite F] (hF : ringChar F ≠ 2) {K : 
   have hρJ : Function.Surjective ρJ :=
     hρ.comp (eL.surjective.comp eJ.symm.surjective)
   obtain ⟨⟨x, hx, y, hy, hxy⟩, h8⟩ := sylow_nonabelian_of_surj hF ρJ hρJ P
-  refine ⟨(P.isPGroup').map _, ⟨(x : ↥(Subgroup.centralizer ({a} : Set G))),
+  refine ⟨(P.isPGroup).map _, ⟨(x : ↥(Subgroup.centralizer ({a} : Set G))),
     Subgroup.mem_map_of_mem _ hx, (y : ↥(Subgroup.centralizer ({a} : Set G))),
     Subgroup.mem_map_of_mem _ hy, fun h => hxy (Subtype.ext h)⟩, ?_⟩
   rw [← Nat.card_congr (Subgroup.equivMapOfInjective (P : Subgroup _) _

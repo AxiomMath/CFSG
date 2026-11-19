@@ -21,7 +21,7 @@ theorem normal_two_complement_of_normal_cyclic_sylow {H : Type u} [Group H] [Fin
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, -, -, ⟨-, hodd, hindex, -⟩, hchar⟩ := CFSG.cyclic_sylow_normal_odd_complement Q hQ
   obtain ⟨k, hk⟩ := hD
-  obtain ⟨j, hj⟩ := Q.isPGroup'.exists_card_eq
+  obtain ⟨j, hj⟩ := Q.isPGroup.exists_card_eq
   refine ⟨(CFSG.pPrimeCore 2 D).map D.subtype, ?_, ?_, j + k, ?_⟩
   · have h := CFSG.SignalizerFunctor.Helpers.characteristic_subgroup_map_normalized ⊤ D
       (by rw [Subgroup.normalizer_eq_top_iff.mpr inferInstance]) (CFSG.pPrimeCore 2 D)

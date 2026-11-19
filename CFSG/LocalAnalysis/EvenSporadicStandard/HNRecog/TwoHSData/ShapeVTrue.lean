@@ -84,7 +84,7 @@ theorem sylow_two_five_P (hP : Nat.card ↥P1408 = 177408000) (ρ : ↥P1408) (h
     ∃ u : ↥P1408, IsConj pZ₁ u ∧
       (T : Subgroup ↥(centralizer ({ρ} : Set ↥P1408))).map
         (centralizer ({ρ} : Set ↥P1408)).subtype = closure ({pA, u} : Set ↥P1408) := by
-  haveI : Finite ↥P1408 := Nat.finite_of_card_ne_zero (by rw [hP]; norm_num)
+  have : Finite ↥P1408 := Nat.finite_of_card_ne_zero (by rw [hP]; norm_num)
   obtain ⟨d, hd, hconj, hcard⟩ := card_centralizer_of_primeFacts (primeFacts5 hP) hρ
   have h100 := hB.card_eq
   rw [h100] at hcard
@@ -109,7 +109,7 @@ theorem centralizer_five_of_A8_P (hP : Nat.card ↥P1408 = 177408000) (c : ↥P1
     (hc : orderOf c = 2) (hA8 : IsShapeTwoTwoTimesA8 ↥(centralizer ({c} : Set ↥P1408)))
     (ρ : ↥P1408) (hρ : orderOf ρ = 5) (hρc : ρ * c = c * ρ) :
     IsShapeCentralizerFiveC ↥(centralizer ({ρ} : Set ↥P1408)) := by
-  haveI : Finite ↥P1408 := Nat.finite_of_card_ne_zero (by rw [hP]; norm_num)
+  have : Finite ↥P1408 := Nat.finite_of_card_ne_zero (by rw [hP]; norm_num)
   have hcard := hA8.card_eq
   obtain ⟨x, hx⟩ := isConj_iff.1 (isConj_pB_of_card_centralizer hP hc hcard)
   have hρ'o : orderOf (x⁻¹ * ρ * x) = 5 := by rw [orderOf_conj_inv, hρ]

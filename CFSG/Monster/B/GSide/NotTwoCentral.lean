@@ -366,7 +366,7 @@ theorem not_mem_dH_of_mem_RA_of_sylow
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, r, hr, hZT⟩ := native_H_sylow_two_center T
   have hZP := center_map_iotaPsi ψ hψ hZT
-  rw [← IsPGroup.toSylow_coe (T.isPGroup'.map (iotaPsi ψ)) hTsyl] at hZP
+  rw [← IsPGroup.toSylow_coe (T.isPGroup.map (iotaPsi ψ)) hTsyl] at hZP
   have hrD := not_isConj_of_center_eq_four _ hZP (iotaPsi_ne_one_of_mem_RA ψ hr)
     (iotaPsi_ne_of_mem_RA ψ hψ hr) (not_isConj_mul_of_mem_RA ψ hψ hr)
   intro hyD
@@ -562,8 +562,8 @@ theorem two_dvd_index_centralizer_of_native
       (Subgroup.centralizer {d} ⊓ Subgroup.centralizer {iotaPsi ψ β})) := by
     rw [inf_centralizer_iotaPsi, Subgroup.relIndex_map_map_of_injective _ _ hι]
     exact hXsyl
-  exact two_dvd_index_centralizer_of_extremal _ (T.isPGroup'.map _) hTd hTodd hKT
-    (map_sq_eq_one_gen _ hβ2) (fun L hL => absurd hL (hG L)) ((T.isPGroup'.to_le hXT).map _)
+  exact two_dvd_index_centralizer_of_extremal _ (T.isPGroup.map _) hTd hTodd hKT
+    (map_sq_eq_one_gen _ hβ2) (fun L hL => absurd hL (hG L)) ((T.isPGroup.to_le hXT).map _)
     ⟨cV0, hcX, iotaPsi_cV0 ψ hψ⟩ (map_le_centralizer_iotaPsi ψ X) (map_le_centralizer_gen _ hXβ)
     hXsylG (U := (centerInfCommutator X).map (iotaPsi ψ))
     (fun x hx u hu => by

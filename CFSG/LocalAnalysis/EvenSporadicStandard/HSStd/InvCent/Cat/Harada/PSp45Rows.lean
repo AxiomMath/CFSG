@@ -36,7 +36,7 @@ theorem no_order_fifteen_z2s5 {C : Type*} [Group C]
 theorem noZ2S5PSp45_holds :
     NoZ2S5PSp45 := by
   intro G _ _ S hSn hS hcent t ht _ ⟨ζ⟩
-  haveI := hSn
+  have := hSn
   obtain ⟨ψ, hψ⟩ := exists_pgsp45Emb S hS hcent
   have hN : Nat.card ↥(centralizer ({t} : Set G)) = 240 := card_centralizer_of_equiv ζ
   have hno15 : ∀ c ∈ centralizer ({t} : Set G), c ^ 15 = 1 → c ^ 3 = 1 ∨ c ^ 5 = 1 := by

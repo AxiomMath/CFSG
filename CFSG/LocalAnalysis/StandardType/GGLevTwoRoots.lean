@@ -270,7 +270,7 @@ theorem twoCover_of_tcRoot {Φ : Set (ι → ℤ)} (hΦ : ∀ β ∈ Φ, IsRt hR
   set S : Set (ι → ℤ) := {β | IsRt hR β ∧ rRefl hR β ∈ T} with hSdef
   have hSdef' : ∀ β, β ∈ S ↔ IsRt hR β ∧ rRefl hR β ∈ T := by
     intro β
-    simp only [hSdef, Set.mem_setOf_eq]
+    simp only [hSdef, Set.mem_ofPred_eq]
   have hS : ∀ β ∈ S, IsRt hR β := fun β hβ => ((hSdef' β).mp hβ).1
   obtain ⟨S', hS'sub, hcard, hCl⟩ := h S hS
   refine ⟨S'.image (rRefl hR), ?_, ?_, ?_⟩

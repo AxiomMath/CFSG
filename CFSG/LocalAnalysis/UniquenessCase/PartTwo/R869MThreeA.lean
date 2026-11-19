@@ -69,7 +69,7 @@ theorem exists_gamma_le_of_not_dvd (hSE : StronglyEmbeddedFive) (hSE3 : Strongly
   have : Fact q.Prime := ⟨hq⟩
   obtain ⟨R₀, hR₀⟩ := CFSG.GroupTheory.exists_sylow_le_normalizer_of_isPGroup hσ.1 hq
     hBel.isPGroup (hBM.trans hML) hLp
-  have hRp : IsPGroup q ((R₀ : Subgroup ↥L).map L.subtype) := R₀.isPGroup'.map _
+  have hRp : IsPGroup q ((R₀ : Subgroup ↥L).map L.subtype) := R₀.isPGroup.map _
   have hRr : CFSG.Open.pRank q ((R₀ : Subgroup ↥L).map L.subtype) = CFSG.Open.pRank q L :=
     CFSG.LocalAnalysis.RankFourTheoremC.pRank_eq_of_isSylowOf hq ⟨R₀, rfl⟩
   have hRnc : ¬ IsCyclic ((R₀ : Subgroup ↥L).map L.subtype) :=

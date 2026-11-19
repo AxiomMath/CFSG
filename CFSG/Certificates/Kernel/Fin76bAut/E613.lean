@@ -35,13 +35,13 @@ theorem eKlGen_fields {A B e : ℕ} (he : e < 64) (ha : eG A e < 64) (hb : eG B 
       (Nat.shiftLeft (eG B e) (Nat.mul 6 2)) < 2 ^ (6 * 3) := pack_lt h2 hb
   rw [e1]
   refine ⟨?_, ?_, ?_, ?_⟩
-  · rw [eG_pack h3 hab (by norm_num), if_pos (by norm_num), eG_pack h2 hb (by norm_num),
-      if_pos (by norm_num), eG_pack h1 ha (by norm_num), if_pos (by norm_num), eG_zero_of_lt he]
-  · rw [eG_pack h3 hab (by norm_num), if_pos (by norm_num), eG_pack h2 hb (by norm_num),
-      if_pos (by norm_num), eG_pack h1 ha (by norm_num), if_neg (by norm_num)]
-  · rw [eG_pack h3 hab (by norm_num), if_pos (by norm_num), eG_pack h2 hb (by norm_num),
-      if_neg (by norm_num)]
-  · rw [eG_pack h3 hab (by norm_num), if_neg (by norm_num)]
+  · rw [eG_pack h3 hab (by norm_num), ite_eq_left (by norm_num), eG_pack h2 hb (by norm_num),
+      ite_eq_left (by norm_num), eG_pack h1 ha (by norm_num), ite_eq_left (by norm_num), eG_zero_of_lt he]
+  · rw [eG_pack h3 hab (by norm_num), ite_eq_left (by norm_num), eG_pack h2 hb (by norm_num),
+      ite_eq_left (by norm_num), eG_pack h1 ha (by norm_num), ite_eq_right (by norm_num)]
+  · rw [eG_pack h3 hab (by norm_num), ite_eq_left (by norm_num), eG_pack h2 hb (by norm_num),
+      ite_eq_right (by norm_num)]
+  · rw [eG_pack h3 hab (by norm_num), ite_eq_right (by norm_num)]
 
 @[expose] def kX {Γ : Type*} [Group Γ] (α β : Γ) (b : ℕ) : Γ :=
   if b = 0 then 1 else if b = 1 then α else if b = 2 then β else α * β
@@ -242,7 +242,7 @@ theorem fix_of_eFixK {ρ : MulAut H} {p : ℕ} (hρ : Acts R ρ p) (h : eFixK ET
       Set.ncard_coe_finset, ← h4]
   · obtain ⟨k, hk, rfl⟩ := R.surj e
     have h1 := hsq k hk
-    rw [bIf_eq, if_pos (beq_t.2 ((hfix k hk).1 he))] at h1
+    rw [bIf_eq, ite_eq_left (beq_t.2 ((hfix k hk).1 he))] at h1
     rw [← R.mul _ _ hk hk, hM k hk k hk, beq_t.1 h1, R.one]
 
 theorem coc_of_eCocK {ρ : MulAut H} {p : ℕ} (hρ : Acts R ρ p) (h : eCocK ET p = true) :
@@ -254,7 +254,7 @@ theorem coc_of_eCocK {ρ : MulAut H} {p : ℕ} (hρ : Acts R ρ p) (h : eCocK ET
   have h0 : eMul ET k (eG p k) = 0 := by
     apply R.inj _ _ (tmul_lt R hM hk hpk) R.pos
     rw [← hM k hk _ hpk, R.mul _ _ hk hpk, ← hρ.elt_eq hk, he, R.one]
-  rw [bIf_eq, if_pos (beq_t.2 h0), eAnyN_iff] at h1
+  rw [bIf_eq, ite_eq_left (beq_t.2 h0), eAnyN_iff] at h1
   obtain ⟨c, hc, hcc⟩ := h1
   refine ⟨elt c, ?_⟩
   rw [hρ.elt_eq hc, ← R.mul _ _ hk (hρ.lt hc), hM k hk _ (hρ.lt hc), beq_t.1 hcc]
@@ -320,6 +320,7 @@ variable {H : Type u} [Group H] {M : Array (Array ℕ)} {elt : ℕ → H} (R : R
 
 include R hM pd hcan htup hpr hπ hker hinn hcls
 
+omit hcls in
 theorem eBInv_of_isB {φ : MulAut H} {i : ℕ} (hi : i < cnt) (hφ : Φ i = φ) (hb : IsB π φ) :
     eBInv ET PR (T i) = true := by
   subst hφ
@@ -336,9 +337,9 @@ theorem fix_coc_of_checks (hfix : e613FixK ET PR T nr REP = true) {φ : MulAut H
   obtain ⟨ρ, hρ⟩ : ∃ ρ, ρ = Φ (REP (ICL q)) := ⟨_, rfl⟩
   rw [← hχ, ← hρ] at hconj
   have hbρ := isB_conj hconj hb
-  have hB := eBInv_of_isB R hM pd hcan htup hpr hπ hker hinn hcls hrep hρ.symm hbρ
+  have hB := eBInv_of_isB R hM pd hcan htup hpr hπ hker hinn hrep hρ.symm hbρ
   have hfc := allN_iff.1 hfix (ICL q) hl
-  rw [strictB_eq, bIf_eq, if_pos hB, bAnd_eq, Bool.and_eq_true] at hfc
+  rw [strictB_eq, bIf_eq, ite_eq_left hB, bAnd_eq, Bool.and_eq_true] at hfc
   have hA : Acts R ρ (T (REP (ICL q))) := hρ ▸ pd.acts _ hrep
   obtain ⟨hf4, hfsq⟩ := fix_of_eFixK R hM hA hfc.1
   have hcoc := coc_of_eCocK R hM hA hfc.2
@@ -374,6 +375,7 @@ theorem fix_coc_of_checks (hfix : e613FixK ET PR T nr REP = true) {φ : MulAut H
     have := congrArg χ hc'
     rwa [map_mul, MulAut.apply_inv_self] at this
 
+omit hcan hpr hπ hker hcls in
 theorem klein_of_check {α β : MulAut H} {A B : ℕ} (hA : Acts R α A) (hB : Acts R β B)
     (hα : IsB π α) (hβ : IsB π β) (hc : α * β = β * α) (hne : α ≠ β)
     (hnn : α * β ∉ (MulAut.conj : H →* MulAut H).range)
@@ -493,7 +495,7 @@ theorem klein_of_check {α β : MulAut H} {A B : ℕ} (hA : Acts R α A) (hB : A
     have h1 := allN_iff.1 hfix k hk
     rw [hA.elt_eq hk] at he
     have hk' : eG A k = k := R.inj _ _ (hA.lt hk) hk he
-    rw [bIf_eq, if_pos (beq_t.2 hk')] at h1
+    rw [bIf_eq, ite_eq_left (beq_t.2 hk')] at h1
     rw [hB.elt_eq hk, beq_t.1 h1]
   · obtain ⟨e, he, hg⟩ := eAnyN_iff.1 hge
     have hAe := hA.lt he
@@ -528,7 +530,7 @@ theorem klein_of_check {α β : MulAut H} {A B : ℕ} (hA : Acts R α A) (hB : A
       apply beq_t.2
       rw [← hσact s hs _ (hS j hj), ← hσact s hs _ (sg_lt R _ _), ← sg_mul, hψ2, sg_one R (hS j hj)]
     have h16 := allN_iff.1 hcnt s hs
-    rw [bIf_eq, if_pos hsq, Nat.ble_eq, eCnt_eq_card] at h16
+    rw [bIf_eq, ite_eq_left hsq, Nat.ble_eq, eCnt_eq_card] at h16
     refine le_trans h16 ?_
     have hinjF : Set.InjOn σ ↑((Finset.range 64).filter fun s' =>
         eKlComm GN kg T INN A B (eC A B) s s' = true) :=
@@ -596,21 +598,21 @@ theorem klein_of_checks (hkl : e613KlK ET GN kg f PR T nr REP nv IV INN = true)
       group
     rw [← e]
     exact inn_conj hm)
-  have hBA := eBInv_of_isB R hM pd hcan htup hpr hπ hker hinn hcls hrep hρ.symm hbρ
-  have hBB := eBInv_of_isB R hM pd hcan htup hpr hπ hker hinn hcls hiv.1 hφq' hb2
+  have hBA := eBInv_of_isB R hM pd hcan htup hpr hπ hker hinn hrep hρ.symm hbρ
+  have hBB := eBInv_of_isB R hM pd hcan htup hpr hπ hker hinn hiv.1 hφq' hb2
   have hpart : eKlPart ET GN kg PR (T (REP (ICL q))) (T (IV q')) = true := by
     unfold eKlPart
     rw [bAnd_eq, bAnd_eq, bAnd_eq, Bool.and_eq_true, Bool.and_eq_true, Bool.and_eq_true, bIf_eq,
       bIf_eq]
     refine ⟨hBB, ?_, (hA.comm_iff hM htup hB).1 hcomm, ?_⟩
-    · rw [if_neg fun e => hne' (hA.ext hB fun a _ => by rw [beq_t.1 e])]
-    · rw [if_neg fun e => hnn' ((pi_ker R hM (tup_ctr htup) hpr pd hπ hker hinn _).1
+    · rw [ite_eq_right fun e => hne' (hA.ext hB fun a _ => by rw [beq_t.1 e])]
+    · rw [ite_eq_right fun e => hnn' ((pi_ker R hM (tup_ctr htup) hpr pd hπ hker hinn _).1
         ((pi_eq_one_iff R hM hpr hπ (hA.mul hB)).2 e))]
   have hk := allN_iff.1 hkl (ICL q) hl
-  rw [strictB_eq, bIf_eq, if_pos hBA] at hk
+  rw [strictB_eq, bIf_eq, ite_eq_left hBA] at hk
   have hk2 := allN_iff.1 hk q' hq'
-  rw [strictB_eq, bIf_eq, if_pos hpart] at hk2
-  have hKF := klein_of_check R hM pd hcan htup hpr hπ hker hinn hcls hA hB hbρ hb2 hcomm hne' hnn'
+  rw [strictB_eq, bIf_eq, ite_eq_left hpart] at hk2
+  have hKF := klein_of_check R hM pd htup hinn hA hB hbρ hb2 hcomm hne' hnn'
     hk2
   have hKF' := klein_conj χ hKF
   have e1 : χ * ρ * χ⁻¹ = φ₁ := by rw [hconj, mul_inv_cancel_right]

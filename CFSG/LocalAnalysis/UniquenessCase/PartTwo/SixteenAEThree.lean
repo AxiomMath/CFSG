@@ -29,7 +29,7 @@ theorem s16ae_exists_index_two_fix_ne_of_klein {W : Type} [CommGroup W] [Finite 
     refine iSup₂_le ?_
     rintro t ⟨htA, ht1⟩
     refine (hall (Subgroup.zpowers t) (Subgroup.zpowers_le.2 htA) ?_).le
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have ht2 : orderOf t = 2 := orderOf_eq_prime (by simpa [pow_two] using hA.2 t htA) ht1
     have hzc : Nat.card ↥(Subgroup.zpowers t) = 2 := by rw [Nat.card_zpowers, ht2]
     have hrel : (Subgroup.zpowers t).relIndex A = 2 := by
@@ -60,7 +60,7 @@ theorem s16ae_calABar_eq_empty_of_case168_3 (D : Data G) {V L : Subgroup G}
       intro x
       refine ⟨1, ?_⟩
       simpa [pow_two] using hWsq x
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hp
     have h6 : rk ↥(⊤ : Subgroup (Vtil ⊥ V hV)) = 6 := h3.2.1
     unfold rk at h6

@@ -32,7 +32,7 @@ theorem two_pow_sub_one_odd {m : ℕ} (hm : 1 ≤ m) : ¬ 2 ∣ 2 ^ m - 1 := by
 theorem prod_two_pow_sub_one_odd {f a : ℕ} (hf : 1 ≤ f) :
     ¬ 2 ∣ ∏ j ∈ Finset.Icc 2 a, ((2 ^ f) ^ j - 1) := by
   intro h
-  obtain ⟨j, hj, hdvd⟩ := (Nat.prime_two.prime.dvd_finset_prod_iff _).mp h
+  obtain ⟨j, hj, hdvd⟩ := (Nat.prime_two.prime.dvd_finsetProd_iff _).mp h
   rw [← pow_mul] at hdvd
   exact two_pow_sub_one_odd (by nlinarith [(Finset.mem_Icc.mp hj).1]) hdvd
 
@@ -94,7 +94,7 @@ theorem le_of_primitive_dvd_card_statedProj {K : Type} [Field K] [Finite K] {b g
   · exfalso
     rw [hK, ← pow_mul] at h1
     exact hr2 (hr.dvd_of_dvd_pow h1)
-  · obtain ⟨j, hj, hdvdj⟩ := (hr.prime.dvd_finset_prod_iff _).mp h1
+  · obtain ⟨j, hj, hdvdj⟩ := (hr.prime.dvd_finsetProd_iff _).mp h1
     rw [hK, ← pow_mul] at hdvdj
     have hj' := Finset.mem_Icc.mp hj
     by_contra hlt

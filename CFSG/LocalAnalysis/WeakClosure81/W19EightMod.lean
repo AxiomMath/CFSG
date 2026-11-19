@@ -31,6 +31,7 @@ structure ModData (H E F : Subgroup G) where
 
 attribute [instance] ModData.addCommGroup ModData.module ModData.finite
 
+omit [Finite G] in
 theorem commutator_mem_of_le_normalizer {H E : Subgroup G} (hEn : H ≤ normalizer (E : Set G))
     {h : G} (hh : h ∈ H) {e : G} (he : e ∈ E) : ⁅h, e⁆ ∈ E := by
   rw [commutatorElement_def]
@@ -40,10 +41,12 @@ namespace ModData
 
 variable {H E F : Subgroup G} (M : ModData H E F)
 
+omit [Finite G] in
 theorem nontrivial (hFE : F < E) : Nontrivial M.W := by
-  obtain ⟨e, he, heF⟩ := SetLike.exists_of_lt hFE
+  obtain ⟨e, he, heF⟩ := _root_.IsConcreteLE.exists_of_lt hFE
   exact ⟨⟨M.ι e, 0, fun h => heF ((M.ι_eq_zero e he).1 h)⟩⟩
 
+omit [Finite G] in
 theorem ρ_sub_ι (hEn : H ≤ normalizer (E : Set G)) (h : ↥H) {e : G} (he : e ∈ E) :
     M.ρ h (M.ι e) - M.ι e = M.ι ⁅(h : G), e⁆ := by
   have hmul : (h : G) * e * (h : G)⁻¹ = ⁅(h : G), e⁆ * e := by
@@ -52,6 +55,7 @@ theorem ρ_sub_ι (hEn : H ≤ normalizer (E : Set G)) (h : ↥H) {e : G} (he : 
   rw [M.ρ_ι h e he, hmul, M.ι_mul _ (commutator_mem_of_le_normalizer hEn h.2 he) e he]
   abel
 
+omit [Finite G] in
 theorem ρ_ι_eq_iff (hEn : H ≤ normalizer (E : Set G)) (h : ↥H) {e : G} (he : e ∈ E) :
     M.ρ h (M.ι e) = M.ι e ↔ ⁅(h : G), e⁆ ∈ F := by
   rw [← sub_eq_zero, M.ρ_sub_ι hEn h he,
@@ -60,12 +64,14 @@ theorem ρ_ι_eq_iff (hEn : H ≤ normalizer (E : Set G)) (h : ↥H) {e : G} (he
 @[expose] def img (S : Subgroup G) : Subgroup (LGL 2 M.W) :=
   (S.subgroupOf H).map M.ρ
 
+omit [Finite G] in
 theorem mem_img {S : Subgroup G} {r : LGL 2 M.W} :
     r ∈ M.img S ↔ ∃ h : ↥H, (h : G) ∈ S ∧ M.ρ h = r := by
   unfold img
   rw [Subgroup.mem_map]
   exact ⟨fun ⟨h, hh, e⟩ => ⟨h, hh, e⟩, fun ⟨h, hh, e⟩ => ⟨h, hh, e⟩⟩
 
+omit [Finite G] in
 theorem exists_hyperplane_of_two_orbit {A : Subgroup G} (hAH : A ≤ H) (hA : IsElemAbelian 2 A)
     {a₁ : ↥H} (ha₁ : (a₁ : G) ∈ A) {w : M.W} (hmv : M.ρ a₁ w ≠ w)
     (horb : ∀ b : ↥H, (b : G) ∈ A → M.ρ b w = w ∨ M.ρ b w = M.ρ a₁ w) :

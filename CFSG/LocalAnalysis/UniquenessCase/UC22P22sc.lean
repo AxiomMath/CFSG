@@ -39,10 +39,10 @@ noncomputable def slMapEquiv {R S : Type} [CommRing R] [CommRing S] (f : R ≃+*
 
 theorem exists_mulEquiv_projSL {X : Type} [Group X] {n : ℕ} (h : IsL2Ev X n) (hn : 1 ≤ n) :
     Nonempty (X ≃* CFSG.Assembly.RankThreeEven.projSL 2 (GaloisField 2 n)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨F, _, _, _, hF, ⟨e⟩⟩ := P22y.exists_equiv_sl2 h
-  haveI := Fintype.ofFinite F
-  haveI : Fintype (GaloisField 2 n) := Fintype.ofFinite _
+  have := Fintype.ofFinite F
+  have : Fintype (GaloisField 2 n) := Fintype.ofFinite _
   have hcard : Fintype.card F = Fintype.card (GaloisField 2 n) := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hF, GaloisField.card 2 n (by omega)]
   exact ⟨e.trans ((slMapEquiv (FiniteField.ringEquivOfCardEq hcard)).trans

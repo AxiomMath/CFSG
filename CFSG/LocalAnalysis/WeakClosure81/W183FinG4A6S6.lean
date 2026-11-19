@@ -78,7 +78,7 @@ theorem w183finG4A6_model_s6_normal :
     have h := Subgroup.index_mul_card (H := A6Facts.s6.subgroupOf A6Models.autA6)
     rw [hcardH, A6Facts.card_autA6] at h
     exact Nat.eq_of_mul_eq_mul_right (by norm_num : 0 < 720) (by rw [h])
-  haveI hN : (A6Facts.s6.subgroupOf A6Models.autA6).Normal :=
+  have hN : (A6Facts.s6.subgroupOf A6Models.autA6).Normal :=
     Subgroup.normal_of_index_eq_two hindex
   intro g hg x hx
   have hmem := hN.conj_mem (⟨x, A6Facts.s6_le_autA6 hx⟩ : ↥A6Models.autA6) hx ⟨g, hg⟩

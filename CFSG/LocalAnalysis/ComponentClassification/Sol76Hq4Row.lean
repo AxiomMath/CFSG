@@ -57,9 +57,8 @@ theorem table_odd_of_not_row {t : StatedLieTag} {n p f : ℕ} (hadm : StatedLieA
   have hf : 1 ≤ f := hadm.2.1
   refine ⟨?_, ?_, ?_⟩
   · cases t
-    all_goals first
+    all_goals try first
       | (show ¬ 2 ∣ 1; norm_num)
-      | skip
     simp only [genericOrders]
     split_ifs with hq hn
     · norm_num

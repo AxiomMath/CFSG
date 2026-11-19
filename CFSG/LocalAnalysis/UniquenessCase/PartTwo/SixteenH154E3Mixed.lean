@@ -18,10 +18,10 @@ private theorem s16h_e3_false_of_sl2_sl3 {X : Type} [Group X] {a : ℕ} (ha : a 
     (h2 : IsSLn X 2 a) (h3 : IsSLn X 3 1) : False := by
   obtain ⟨K, hF, hfin, hK, ⟨e⟩⟩ := h2
   obtain ⟨K', hF', hfin', hK', ⟨e'⟩⟩ := h3
-  letI := hF
-  letI := hfin
-  letI := hF'
-  letI := hfin'
+  let := hF
+  let := hfin
+  let := hF'
+  let := hfin'
   have h168 : Nat.card X = 168 := by
     rw [Nat.card_congr e'.toEquiv,
       CFSG.Open.StatedAPI.card_statedSL_three_of_card_eq_two (K := K') (by simpa using hK')]

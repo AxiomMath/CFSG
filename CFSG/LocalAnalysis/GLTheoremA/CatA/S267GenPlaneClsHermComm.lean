@@ -43,7 +43,7 @@ include hℓ
 
 include hE in
 theorem hermComm_two_ne_zero : (2 : E) ≠ 0 := by
-  haveI := hE.charP
+  have := hE.charP
   intro h2
   have := (CharP.cast_eq_zero_iff E ℓ 2).mp (by exact_mod_cast h2)
   exact hℓ ((Nat.prime_dvd_prime_iff_eq hE.prime Nat.prime_two).mp this)
@@ -103,6 +103,7 @@ variable (hE : UnitaryFieldData ℓ f E) (hℓ : ℓ ≠ 2) {H : W →ₛₗ[hE.
     s (v + (c * H u v) • u) = s v + (c * H u (s v)) • u)
 include hE hℓ hH hHl hs hcomm
 
+omit hℓ hH in
 theorem hermComm_line {u : W} (hu : H u u = 0) : ∃ a : E, s u = a • u := by
   by_cases hu0 : u = 0
   · exact ⟨0, by rw [hu0, map_zero, smul_zero]⟩
@@ -121,11 +122,12 @@ theorem hermComm_line {u : W} (hu : H u u = 0) : ∃ a : E, s u = a • u := by
   refine ⟨(θ c₀)⁻¹ * (c₀ * H u (s v₀)), ?_⟩
   rw [mul_smul, ← h2, smul_smul, inv_mul_cancel₀ hθ, one_smul]
 
+omit hℓ in
 theorem hermComm_rel {u u' : W} (hu : H u u = 0) (hu' : H u' u' = 0) (hd : H u u' ≠ 0)
     {a a' : E} (ha : s u = a • u) (ha' : s u' = a' • u') {μ : E}
     (hμ : μ * H u u' + hE.bar (μ * H u u') = 0) : a * μ = θ μ * a' := by
   have hw : H (u + μ • u') (u + μ • u') = 0 := by rw [herm_add_smul_self hE hH hu hu']; exact hμ
-  obtain ⟨b, hb⟩ := hermComm_line hE hℓ hH hHl θ s hs hcomm hw
+  obtain ⟨b, hb⟩ := hermComm_line hE hHl θ s hs hcomm hw
   rw [map_add, hs, ha, ha', smul_add, smul_smul, smul_smul] at hb
   have hind : ∀ x y : E, x • u + y • u' = 0 → x = 0 ∧ y = 0 := by
     intro x y hxy
@@ -162,8 +164,8 @@ theorem hermComm [FiniteDimensional E W] (hW : 2 ≤ Module.finrank E W)
       rw [← finrank_top E W, ← hspan, finrank_bot]
     omega
   obtain ⟨u', hu'i, huu'⟩ := exists_isotropic_partner_herm hE hℓ hH hHl hu0 hu
-  obtain ⟨a, ha⟩ := hermComm_line hE hℓ hH hHl θ s hs hcomm hu
-  obtain ⟨a', ha'⟩ := hermComm_line hE hℓ hH hHl θ s hs hcomm hu'i
+  obtain ⟨a, ha⟩ := hermComm_line hE hHl θ s hs hcomm hu
+  obtain ⟨a', ha'⟩ := hermComm_line hE hHl θ s hs hcomm hu'i
   have ha0 : a ≠ 0 := by
     rintro rfl
     rw [zero_smul] at ha
@@ -171,7 +173,7 @@ theorem hermComm [FiniteDimensional E W] (hW : 2 ≤ Module.finrank E W)
   obtain ⟨c₀, hc₀, hc₀t⟩ := hermComm_exists_traceZero hE
   have hd : H u u' ≠ 0 := by rw [huu']; exact one_ne_zero
   have hrel : ∀ μ : E, μ + hE.bar μ = 0 → a * μ = θ μ * a' := fun μ hμ =>
-    hermComm_rel hE hℓ hH hHl θ s hs hcomm hu hu'i hd ha ha' (by rw [huu', mul_one]; exact hμ)
+    hermComm_rel hE hH hHl θ s hs hcomm hu hu'i hd ha ha' (by rw [huu', mul_one]; exact hμ)
   refine ⟨fun e he => ?_, fun hθ => ?_⟩
   ·
     have h1 := hrel c₀ hc₀t
@@ -191,13 +193,13 @@ theorem hermComm [FiniteDimensional E W] (hW : 2 ≤ Module.finrank E W)
         have hμ : (c₀ / H w₁ w₂) * H w₁ w₂ + hE.bar ((c₀ / H w₁ w₂) * H w₁ w₂) = 0 := by
           rw [div_mul_cancel₀ _ h₁₂]
           exact hc₀t
-        have h := hermComm_rel hE hℓ hH hHl (RingHom.id E) s hs hcomm h₁ h₂ h₁₂ hb₁ hb₂ hμ
+        have h := hermComm_rel hE hH hHl (RingHom.id E) s hs hcomm h₁ h₂ h₁₂ hb₁ hb₂ hμ
         rw [RingHom.id_apply, mul_comm (c₀ / H w₁ w₂)] at h
         exact mul_right_cancel₀ (div_ne_zero hc₀ h₁₂) h
       intro w hw0 hw
-      obtain ⟨b, hb⟩ := hermComm_line hE hℓ hH hHl (RingHom.id E) s hs hcomm hw
+      obtain ⟨b, hb⟩ := hermComm_line hE hHl (RingHom.id E) s hs hcomm hw
       obtain ⟨w₃, hw₃, hu₃, hw₃'⟩ := exists_isotropic_common hE hℓ hH hHl hu0 hu hw0 hw
-      obtain ⟨b₃, hb₃⟩ := hermComm_line hE hℓ hH hHl (RingHom.id E) s hs hcomm hw₃
+      obtain ⟨b₃, hb₃⟩ := hermComm_line hE hHl (RingHom.id E) s hs hcomm hw₃
       have e1 := hpair hu hw₃ hu₃ ha hb₃
       have e2 := hpair hw hw₃ hw₃' hb hb₃
       rw [hb, e2, ← e1]

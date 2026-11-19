@@ -11,6 +11,7 @@ open CFSG CFSG.CGT.Timmesfeld75
 variable {G : Type} [Group G] {QF V : Subgroup G} {K : Type} [Field K] [Finite K] [CharP K 2]
   {γ : G → K}
 
+omit [Finite K] [CharP K 2] in
 theorem exists_symplectic_frame (M₀ : Tim79.QuadModel QF V K γ) (Y : Submodule K M₀.E)
     (hY : Y ⊓ M₀.B.orthogonal Y = ⊥) (hdim : Module.finrank K Y = 4)
     {w v : M₀.E} (hw : w ∈ Y) (hv : v ∈ Y) (hw0 : w ≠ 0) (hwv : M₀.B w v = 0)
@@ -101,7 +102,7 @@ theorem exists_symplectic_frame (M₀ : Tim79.QuadModel QF V K γ) (Y : Submodul
     fin_cases i <;> simp [h0, h1, h2, h3]
   have hrange : Set.range ![w, v, a, b'] = ({w, v, a, b'} : Set M₀.E) := by
     ext x
-    simp <;> tauto
+    simp; tauto
   have hfr : Module.finrank K (Submodule.span K (Set.range ![w, v, a, b'])) = 4 := by
     rw [finrank_span_eq_card hli]
     simp

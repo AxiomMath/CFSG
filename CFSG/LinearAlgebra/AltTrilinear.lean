@@ -100,7 +100,6 @@ private theorem exists_radical_of_basis_of_eq_zero (h : IsAltTrilinForm τ) (b :
   all_goals first
     | exact absurd hjk (by decide)
     | exact h.self₁₂ _ _
-    | exact h.self₁₃ _ _
     | exact h₀₁₂
     | exact h₀₁₃
     | exact h₀₂₃

@@ -59,7 +59,7 @@ theorem five_point_stabilizer_card_not_five_exponent_three
         1860480 * Nat.card (fixingSubgroup P s) := by
     rw [hindex] at hindexCard
     exact hindexCard.symm
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   let S : Sylow 5 P := Sylow.nonempty.some
   have hfactorizationOrbit :
       (1860480 : ℕ).factorization 5 = 1 := by

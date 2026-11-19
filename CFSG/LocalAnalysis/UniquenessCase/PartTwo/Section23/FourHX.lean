@@ -25,7 +25,7 @@ end Data
 
 theorem exists_le_calLStar (D : Data G) {L : Subgroup G} (hL : L ∈ calL D.T D.M) :
     ∃ L' ∈ calLStar D.T D.M, L ≤ L' := by
-  haveI : Finite (Subgroup G) := Finite.of_injective _ SetLike.coe_injective
+  have : Finite (Subgroup G) := Finite.of_injective _ SetLike.coe_injective
   obtain ⟨L', hLL', hmax⟩ := Finite.exists_le_maximal hL
   exact ⟨L', hmax, hLL'⟩
 

@@ -38,12 +38,12 @@ private theorem aor_exists_finset_closure_eq_of_map {G G' : Type*} [Group G] [Gr
   let g : G' → G := fun y => if hy : y ∈ s then Classical.choose (hpre y hy) else 1
   have hgH : ∀ y (hy : y ∈ s), g y ∈ H := by
     intro y hy
-    have : g y = Classical.choose (hpre y hy) := by simp only [g, dif_pos hy]
+    have : g y = Classical.choose (hpre y hy) := by simp only [g, dite_eq_left hy]
     rw [this]
     exact (Classical.choose_spec (hpre y hy)).1
   have hgf : ∀ y (hy : y ∈ s), f (g y) = y := by
     intro y hy
-    have : g y = Classical.choose (hpre y hy) := by simp only [g, dif_pos hy]
+    have : g y = Classical.choose (hpre y hy) := by simp only [g, dite_eq_left hy]
     rw [this]
     exact (Classical.choose_spec (hpre y hy)).2
   have hgle : Subgroup.closure ((s.image g : Finset G) : Set G) ≤ H := by
@@ -85,7 +85,7 @@ private theorem aor_exists_finset_closure_eq_of_map {G G' : Type*} [Group G] [Gr
 theorem aor_gen_log {S : Type} [Group S] [Finite S] (P : Subgroup S) :
     ∃ s : Finset S, s.card ≤ Nat.log 2 (Nat.card P) ∧ Subgroup.closure (s : Set S) = P := by
   classical
-  haveI : Fintype S := Fintype.ofFinite S
+  have : Fintype S := Fintype.ofFinite S
   have key : ∀ n : ℕ, ∀ P : Subgroup S, Nat.card P = n →
       ∃ s : Finset S, s.card ≤ Nat.log 2 (Nat.card P) ∧
         Subgroup.closure (s : Set S) = P := by
@@ -161,7 +161,7 @@ theorem aor_gen_of_quot {S : Type} [Group S] (U : Subgroup S) [U.Normal] [IsCycl
   obtain ⟨s, hs, hsH⟩ := hQ (P.map (QuotientGroup.mk' U))
   let K : Subgroup S := P ⊓ (QuotientGroup.mk' U).ker
   have hK : K = P ⊓ U := by simp [K, hker]
-  haveI : IsCyclic K := by
+  have : IsCyclic K := by
     rw [hK]
     exact Subgroup.isCyclic_of_le inf_le_right
   obtain ⟨r, hr, hrH⟩ := aor_exists_finset_closure_eq_of_isCyclic K

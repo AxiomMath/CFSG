@@ -53,7 +53,7 @@ open CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.P64Asm
 
 theorem s622KFactSimple_holds : S622KFactSimple := by
   intro A _ _ p x z Q M hp hp5 _ hxo hzo hxz hxnz hQsyl hBQ hQz hQ2 hxfr hwc hQM hNz hΓ2 _ hnc
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   set X : Subgroup A := centralizer ({x} : Set A) with hX
   have hxX : x ∈ X := Subgroup.mem_centralizer_singleton_iff.mpr rfl

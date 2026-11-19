@@ -143,9 +143,9 @@ theorem sec35_conj_P {b g : G} (hg : g ∈ Cen b) {U : Subgroup G} (hP : FF79Sec
   have hcen : (Cen b).map φ.toMonoidHom = Cen b := by
     rw [map_cen_mulEquiv, hφb]
   have hCS : (CenS U).map φ.toMonoidHom = CenS (conjBy g U) := map_cenS_mulEquiv φ U
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine ⟨⟨?_, ?_⟩, ?_, ?_, ?_⟩
-  · haveI := hE
+  · have := hE
     exact IsElementaryAbelian.map φ.toMonoidHom
   · rw [show conjBy g U = U.map φ.toMonoidHom from rfl,
       Subgroup.card_map_of_injective φ.injective, hc]

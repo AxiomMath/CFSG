@@ -81,7 +81,7 @@ theorem exists_mem_sq_comm_mem [Finite G] {P B N : Subgroup G} (hP : IsPGroup 2 
   have hQnil : Group.IsNilpotent (P ⧸ B.subgroupOf P) := hQ.isNilpotent
   set N' := (N.subgroupOf P).map (QuotientGroup.mk' (B.subgroupOf P)) with hN'
   have hN'nn : N'.Normal := hN'n.map _ (QuotientGroup.mk'_surjective _)
-  obtain ⟨n, hnN, hnB⟩ := SetLike.exists_of_lt hBN
+  obtain ⟨n, hnN, hnB⟩ := _root_.IsConcreteLE.exists_of_lt hBN
   have hN'ne : N' ≠ ⊥ := by
     intro h
     have hmem : (QuotientGroup.mk' (B.subgroupOf P) ⟨n, hNP hnN⟩) ∈ N' :=

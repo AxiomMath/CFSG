@@ -22,7 +22,7 @@ theorem commute_of_sub_one_pow_of_normalizes {k : ℕ} (hk : k + 2 ≤ q)
   by_cases hx1 : x = 1
   · intro g _
     rw [hx1, mul_one, one_mul]
-  haveI := finite_generalLinearGroup (F := F) (V := V)
+  have := finite_generalLinearGroup (F := F) (V := V)
   have hxo : orderOf x = q := orderOf_eq_prime hxq hx1
   have hle : Subgroup.zpowers x ≤
       Subgroup.normalizer (Tt : Set (LinearMap.GeneralLinearGroup F V)) := by
@@ -30,7 +30,7 @@ theorem commute_of_sub_one_pow_of_normalizes {k : ℕ} (hk : k + 2 ≤ q)
     exact mem_normalizer_of_pow_eq_one hq.out.pos hxq hnorm
   set G : Subgroup (LinearMap.GeneralLinearGroup F V) := Subgroup.zpowers x ⊔ Tt with hG
   set NG : Subgroup ↥G := Tt.subgroupOf G with hNG
-  haveI : NG.Normal := Subgroup.normal_subgroupOf_sup_of_le_normalizer hle
+  have : NG.Normal := Subgroup.normal_subgroupOf_sup_of_le_normalizer hle
   have hxG : x ∈ G := Subgroup.mem_sup_left (Subgroup.mem_zpowers x)
   have hTG : Tt ≤ G := le_sup_right
   have hidx : NG.index ∣ q := by

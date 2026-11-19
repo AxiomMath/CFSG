@@ -330,14 +330,14 @@ theorem mulVec_homComp {Γ : Type*} [AddCommGroup Γ] [DecidableEq Γ] (deg : I 
   funext i
   simp only [Matrix.mulVec, dotProduct, homComp]
   by_cases hi : deg i = e + δ
-  · rw [if_pos hi]
+  · rw [ite_eq_left hi]
     refine Finset.sum_congr rfl fun j _ => ?_
     by_cases hij : A i j = 0
     · simp [hij]
     · have hd := hA i j hij
       have hje : deg j = e := add_right_cancel (hd.symm.trans hi)
       simp [hje]
-  · rw [if_neg hi]
+  · rw [ite_eq_right hi]
     refine Finset.sum_eq_zero fun j _ => ?_
     by_cases hje : deg j = e
     · have hzero : A i j = 0 := by
@@ -412,10 +412,10 @@ theorem homComp_homComp {Γ : Type*} [DecidableEq Γ] (deg : I → Γ) (e e' : �
     homComp deg e (homComp deg e' w) = if e = e' then homComp deg e w else 0 := by
   by_cases he : e = e'
   · subst e'
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     funext i
     by_cases hi : deg i = e <;> simp [homComp, hi]
-  · rw [if_neg he]
+  · rw [ite_eq_right he]
     funext i
     by_cases hi : deg i = e
     · simp [homComp, hi, he]
@@ -472,7 +472,7 @@ theorem mulVec_homComp_mem_dotRad [DecidableEq I] (deg : I → ℤ) {C : Submodu
     refine Finset.sum_eq_zero fun e' he' => ?_
     have hgt : e < e' := (Finset.mem_filter.mp he').2
     change homComp deg e (homComp deg e' w) = 0
-    rw [homComp_homComp, if_neg (ne_of_lt hgt)]
+    rw [homComp_homComp, ite_eq_right (ne_of_lt hgt)]
   have hte : homComp deg e t = homComp deg e w := by
     change homCompLin deg e t = homCompLin deg e w
     rw [show t = w - s from rfl, map_sub]
@@ -491,7 +491,7 @@ theorem mulVec_homComp_mem_dotRad [DecidableEq I] (deg : I → ℤ) {C : Submodu
     funext i
     change (if deg i = e - h then (A₂ *ᵥ t) i else 0) = 0
     by_cases hi : deg i = e - h
-    · rw [if_pos hi]
+    · rw [ite_eq_left hi]
       simp only [Matrix.mulVec, dotProduct]
       refine Finset.sum_eq_zero fun j _ => ?_
       by_cases hij : A₂ i j = 0
@@ -501,7 +501,7 @@ theorem mulVec_homComp_mem_dotRad [DecidableEq I] (deg : I → ℤ) {C : Submodu
           rw [hi] at this
           linarith
         rw [ht_zero j hlt, mul_zero]
-    · rw [if_neg hi]
+    · rw [ite_eq_right hi]
   have hAt : A *ᵥ t - t = A₁ *ᵥ t + A₂ *ᵥ t := by
     rw [hA, Matrix.add_mulVec, Matrix.add_mulVec, Matrix.one_mulVec]
     abel

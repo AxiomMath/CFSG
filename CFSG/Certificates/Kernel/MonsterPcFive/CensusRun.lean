@@ -122,7 +122,7 @@ theorem exists_ptVec (m : ℕ) {c : ℕ} (hc : c < 625) (hJ : ∀ i < 4, inJ m i
   have h3 : inJ m 3 = false → c % 5 = 0 := hJ 3 (by norm_num)
   unfold ptCnt ptVec
   cases hb0 : inJ m 0 <;> cases hb1 : inJ m 1 <;> cases hb2 : inJ m 2 <;> cases hb3 : inJ m 3 <;>
-    simp only [hb0, hb1, hb2, hb3, cond_true, cond_false, forall_const, Bool.true_eq_false,
+    simp only [hb0, hb1, hb2, hb3, _root_.Bool.cond_true, Bool.cond_false, forall_const, Bool.true_eq_false,
       false_implies] at h0 h1 h2 h3 ⊢
   · exact ⟨0, by norm_num, by omega⟩
   · exact ⟨c % 5, by omega, by omega⟩

@@ -417,8 +417,8 @@ theorem map_conj_mul_pCoreOf_sup_eq_of_notMem {D : Data G} {V₀ V L : Subgroup 
 
 
 theorem isPGroup_W17 {D : Data G} {V₀ V L : Subgroup G} {r q : ℕ}
-    (hC : Ctx17_6 D V₀ V L r q) {X : Subgroup G} (h7 : IsL2Over17 (Bar2 L) 7)
-    (h7S : IsL2Over17 (Bar2 (L ⊔ NTL17 D L)) 7) (hXL : X ≤ L)
+    (hC : Ctx17_6 D V₀ V L r q) {X : Subgroup G} (_h7 : IsL2Over17 (Bar2 L) 7)
+    (_h7S : IsL2Over17 (Bar2 (L ⊔ NTL17 D L)) 7) (hXL : X ≤ L)
     {t : G} (htT : t ∈ D.T) (htS : t ∉ NTL17 D L) :
     IsPGroup 2 (W17 D X L t) := by
   have hP1L : P17 D X L ≤ L :=
@@ -466,8 +466,8 @@ theorem isPGroup_W17 {D : Data G} {V₀ V L : Subgroup G} {r q : ℕ}
   exact h
 
 theorem le_normalizer_W17_of_X {D : Data G} {V₀ V L : Subgroup G} {r q : ℕ}
-    (hC : Ctx17_6 D V₀ V L r q) {X : Subgroup G} (h7 : IsL2Over17 (Bar2 L) 7)
-    (h7S : IsL2Over17 (Bar2 (L ⊔ NTL17 D L)) 7) (hXL : X ≤ L)
+    (hC : Ctx17_6 D V₀ V L r q) {X : Subgroup G} (_h7 : IsL2Over17 (Bar2 L) 7)
+    (_h7S : IsL2Over17 (Bar2 (L ⊔ NTL17 D L)) 7) (hXL : X ≤ L)
     {t : G} (htT : t ∈ D.T) (htS : t ∉ NTL17 D L) :
     X ≤ Subgroup.normalizer ((W17 D X L t : Subgroup G) : Set G) := by
   have hP1L : P17 D X L ≤ L :=
@@ -753,7 +753,7 @@ theorem exists_inverting_of_permutes {D : Data G} {V₀ V L : Subgroup G} {r q :
     (⟨(y : G) * x * (y : G)⁻¹ * x, hzP1⟩ : ↥P1)).mpr hzcore
 
 @[expose] def Gap17_15_swapStep1 (D : Data G) (V₀ V L : Subgroup G) (r q : ℕ)
-    (hC : Ctx17_6 D V₀ V L r q) : Prop :=
+    (_hC : Ctx17_6 D V₀ V L r q) : Prop :=
   IsL2Over17 (Bar2 L) 7 → ¬ IsL2Over17 (Bar2 (L ⊔ D.T)) 7 →
     IsL2Over17 (Bar2 (L ⊔ NTL17 D L)) 7 →
     ¬ (L.subgroupOf (L ⊔ D.T)).Normal →

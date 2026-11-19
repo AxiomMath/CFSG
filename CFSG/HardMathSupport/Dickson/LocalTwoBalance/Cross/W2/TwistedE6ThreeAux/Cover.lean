@@ -60,7 +60,7 @@ private theorem phi3_cover_setup (hℓ : ℓ.Prime) (hf : 1 ≤ f) (hK : Nat.car
   exact ⟨inferInstance, hζ, hr⟩
 
 theorem exists_mem_torsion_kernel (hℓ : ℓ.Prime) (hf : 1 ≤ f)
-    (hK : Nat.card K = (ℓ ^ f) ^ 2) (hσ : ∀ c, σ c = c ^ (ℓ ^ f))
+    (hK : Nat.card K = (ℓ ^ f) ^ 2) (_hσ : ∀ c, σ c = c ^ (ℓ ^ f))
     (hFr : ∀ c, Fr c = c ^ (ℓ ^ f)) {p : ℕ} (hp : p.Prime) (hp3 : 3 < p)
     (hpq : p ∣ (ℓ ^ f) ^ 2 + ℓ ^ f + 1) {α : Fin Tag.E6.rank → ℤ} (hα : IsRoot Tag.E6 α) :
     ∃ y ∈ phi3TorusTorsion Ω Fr p, y ≠ 1 ∧ α ∈ torusRootKernel y := by
@@ -75,10 +75,10 @@ theorem exists_mem_torsion_kernel (hℓ : ℓ.Prime) (hf : 1 ≤ f)
   exact hk ab.1 ab.2 hab hline
 
 theorem exists_A2_in_torsion (hℓ : ℓ.Prime) (hf : 1 ≤ f)
-    (hK : Nat.card K = (ℓ ^ f) ^ 2) (hσ : ∀ c, σ c = c ^ (ℓ ^ f))
+    (hK : Nat.card K = (ℓ ^ f) ^ 2) (_hσ : ∀ c, σ c = c ^ (ℓ ^ f))
     (hFr : ∀ c, Fr c = c ^ (ℓ ^ f)) {p : ℕ} (hp : p.Prime) (hp3 : 3 < p)
-    (hpq : p ∣ (ℓ ^ f) ^ 2 + ℓ ^ f + 1) (hg : g ∈ adjointGroup Tag.E6 Ω)
-    (hgn : g⁻¹ * twistE6 Ω Fr g = canonicalRep (coxeterSystem Tag.E6) Ω phi3V) :
+    (hpq : p ∣ (ℓ ^ f) ^ 2 + ℓ ^ f + 1) (_hg : g ∈ adjointGroup Tag.E6 Ω)
+    (_hgn : g⁻¹ * twistE6 Ω Fr g = canonicalRep (coxeterSystem Tag.E6) Ω phi3V) :
     ∃ y ∈ phi3TorusTorsion Ω Fr p, y ≠ 1 ∧
       ∃ w : WeylGroup Tag.E6, (w • ·) '' torusRootKernel y = parabolicRoots Tag.E6 support13 := by
   obtain ⟨hΩ, ⟨ζ, hζ⟩, hr⟩ := phi3_cover_setup (K := K) (Ω := Ω) hℓ hf hK hp hpq

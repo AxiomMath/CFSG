@@ -25,7 +25,7 @@ theorem exists_fixed_of_trivial (hB : D321Base M Mp T L V t) (h3 : D321Three Mp 
     ∃ J : Subgroup (W ⧸ modFix Mp (⊤ : Subgroup W)),
       XMod.IsIrr ↥(L.subgroupOf M) J ∧ J ≤ tilde Mp ⊤ (commV L) ∧
       ∀ g : ↥M, (g : MulAut W) ∈ Subgroup.normalizer (L : Set (MulAut W)) → g • J = J := by
-  letI := qAct hB.hD.hyp.Mp_normal
+  let := qAct hB.hD.hyp.Mp_normal
   obtain ⟨K, _, _, hK, π, Ψ, hΨ, hrange, hπL, hπs⟩ := exists_coord hB h3
   obtain ⟨hN1, hNU⟩ := normalizer_hyps hB hrange hπL hπs
   have hC : ∀ c : ↥M, (∀ γ, c * π γ = π γ * c) → ∀ X, c • Ψ X = Ψ X := by
@@ -54,7 +54,7 @@ theorem exists_pow_eq_one_not_mem (hB : D321Base M Mp T L V t) (h3 : D321Three M
   have hB' := hB.swap
   have h3' : D321Three Mp (conjAutSub t L) :=
     d321Three_conjAutSub (hB.hD.hyp.Mp_normal hB.t_mem) h3
-  letI := qAct hB'.hD.hyp.Mp_normal
+  let := qAct hB'.hD.hyp.Mp_normal
   obtain ⟨K, _, _, hK, π, Ψ, hΨ, hrange, hπL, hπs⟩ := exists_coord hB' h3'
   obtain ⟨hN1, hNU⟩ := normalizer_hyps hB' hrange hπL hπs
   set N := (Subgroup.normalizer

@@ -379,7 +379,7 @@ theorem barSub_ne_bot_of_natSpn {W : Type} [CommGroup W] [Finite W]
     (h : NatSpn H ⊤ (CFSG.Quasithin.fixV H) 4 f) : H ≠ ⊥ := by
   intro hH
   obtain ⟨-, K, hKfield, hKfin, hKcard, π, hreal⟩ := h
-  letI := hKfield
+  let := hKfield
   have hs : ((Multiplicative.ofAdd (fun _ : Fin 2 ⊕ Fin 2 => (1 : K))) :
       Multiplicative (Fin 2 ⊕ Fin 2 → K)) ∉
       (CFSG.Quasithin.FFModel.nat (StatedSp 2 K)).ker := by
@@ -388,7 +388,7 @@ theorem barSub_ne_bot_of_natSpn {W : Type} [CommGroup W] [Finite W]
     intro h1
     have h2 := congrArg (fun x : Multiplicative (Fin 2 ⊕ Fin 2 → K) =>
       (Multiplicative.toAdd x) (Sum.inl 0)) h1
-    simpa using h2
+    simp at h2
   exact false_of_realizesVia_fixV_eq_top
     (D := CFSG.Quasithin.FFModel.nat (StatedSp 2 K)) hreal hH
     (s := Multiplicative.ofAdd (fun _ : Fin 2 ⊕ Fin 2 => (1 : K)))
@@ -399,7 +399,7 @@ theorem barSub_ne_bot_of_g2Natural {W : Type} [CommGroup W] [Finite W]
     (h : CFSG.Quasithin.G2Natural H ⊤ (CFSG.Quasithin.fixV H) f) : H ≠ ⊥ := by
   intro hH
   obtain ⟨K, hKfield, hKfin, hKcard, π, hreal⟩ := h
-  letI := hKfield
+  let := hKfield
   let x : CFSG.Open.quasithinZorn K := (0, fun _ => 1, fun _ => 0, 0)
   have hxO : x ∈ CFSG.Quasithin.zornO0 K := by
     show x.1 + x.2.2.2 = 0
@@ -437,7 +437,7 @@ theorem exists_pElement_centVec_of_pointStabilizer {W : Type} [CommGroup W] [Fin
       p ∈ CFSG.LocalAnalysis.UniquenessCase.UC22.piSet (centVec H u))
     (w : W) :
     ∃ xbar : ↥H, (xbar : MulAut W) ∈ centVec H w ∧ orderOf xbar = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hget : ∀ u : W, u ∉ CFSG.Quasithin.fixV H →
       ∃ xbar : ↥H, (xbar : MulAut W) ∈ centVec H u ∧ orderOf xbar = p := by
     intro u hu
@@ -469,7 +469,7 @@ theorem two_le_pRank_of_pointStabilizer {D : Data G} {V₀ V : Subgroup G} {p : 
   have hV := h.hyp125.isElemAbelian
   have hp : p.Prime := (D.sig_prime p h.hp).1
   have hp2 : p ≠ 2 := (D.sig_prime p h.hp).2
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set S : Subgroup (MulAut (Vtil V₀ V hV)) := barSub V₀ V hV L with hSdef
   have hLS : L ≤ stabTil V₀ V :=
     h.hL.1.1.le.trans

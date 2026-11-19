@@ -54,7 +54,7 @@ theorem involutionOddCore_eq_bot_of_borelSetup {T : Sylow 2 X} {D : Subgroup X}
     exact ClassicalInvolution.Balance.oddCoreCentralizer_le_centralizer _
   have hOT : ∀ y ∈ O, y ∈ (T : Subgroup X) → y = 1 := by
     intro y hyO hyT
-    obtain ⟨n, hn⟩ := (IsPGroup.iff_orderOf.mp T.isPGroup') ⟨y, hyT⟩
+    obtain ⟨n, hn⟩ := (IsPGroup.iff_orderOf.mp T.isPGroup) ⟨y, hyT⟩
     rw [Subgroup.orderOf_mk] at hn
     have hdvd : orderOf y ∣ Nat.card O := by
       have := orderOf_dvd_natCard (⟨y, hyO⟩ : O)
@@ -165,7 +165,7 @@ theorem isInvolutionCoreFree_of_isBenderGroup
         have heven : Even (Nat.card (sylowCenter (T₀ : Subgroup X))) := by
           have hp := (CFSG.ComponentClassification.AschbacherToolkit.Bender.sylowCenter_le
             (T₀ : Subgroup X))
-          obtain ⟨n, hn⟩ := (IsPGroup.iff_card.mp ((T₀.isPGroup').to_le hp))
+          obtain ⟨n, hn⟩ := (IsPGroup.iff_card.mp ((T₀.isPGroup).to_le hp))
           rw [hn] at h4 ⊢
           rcases n with _ | n
           · norm_num at h4

@@ -47,6 +47,7 @@ theorem isElemAbelian2_map_congr_iff (φ : V ≃* V') {B : Subgroup (MulAut V)} 
 
 variable [Finite V] [Finite V']
 
+omit [Finite V] [Finite V'] in
 theorem agt_top_map_congr_iff (φ : V ≃* V') {T : Subgroup (MulAut V)} {e : ℚ} :
     AGt (T.map (MulAut.congr φ).toMonoidHom) ⊤ e ↔ AGt T ⊤ e := by
   set Φ := (MulAut.congr φ).toMonoidHom with hΦ
@@ -310,9 +311,9 @@ theorem AGtOne.step (h24 : Hyp29.{u} 𝒦) [Finite S] {U : Subgroup S} (hU : AGt
   have hUel : CFSG.Open.IsElemAbelian 2 (U.map ι) := isElemAbelian_of_le hKel hUK
   have hUel' : CFSG.Open.IsElemAbelian 2 U :=
     isElemAbelian_of_le isElemAbelian_stellW hUW
-  haveI : IsMulCommutative K := hKel.1
-  haveI : IsMulCommutative (U.map ι) := hUel.1
-  haveI : IsMulCommutative U := hUel'.1
+  have : IsMulCommutative K := hKel.1
+  have : IsMulCommutative (U.map ι) := hUel.1
+  have : IsMulCommutative U := hUel'.1
   have hrange : K ≤ ι.range := hKW.trans (Subgroup.map_le_range _ _)
   have hKmap : (K.comap ι).map ι = K := by
     rw [Subgroup.map_comap_eq, inf_eq_right.mpr hrange]
@@ -321,7 +322,7 @@ theorem AGtOne.step (h24 : Hyp29.{u} 𝒦) [Finite S] {U : Subgroup S} (hU : AGt
   have hnormS : ∀ {T : Subgroup S}, T.Normal → (⊤ : Subgroup S) ≤ normalizer (T : Set S) :=
     fun hT x _ => by rw [normalizer_eq_top_iff.mpr hT]; exact Subgroup.mem_top x
   obtain ⟨P, hP⟩ := hι.admissible.sylow
-  have hS2 : IsPGroup 2 ι.range := hP ▸ P.isPGroup'
+  have hS2 : IsPGroup 2 ι.range := hP ▸ P.isPGroup
   have hSi : ¬ 2 ∣ ι.range.relIndex ⊤ := by
     rw [Subgroup.relIndex_top_right, ← hP]
     have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩

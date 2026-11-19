@@ -17,7 +17,7 @@ theorem isSylowTwoOf_P0 :
   have hF : J4Facts := j4Facts
   have hM := hF.mat
   let P0s : Sylow 2 J := Sylow.ofCard P0 (by rw [card_P0 hM hF, card_J_factorization hF])
-  have h := K1.isSylowTwoOf_top_iff.2 ⟨P0s.isPGroup', P0s.not_dvd_index⟩
+  have h := K1.isSylowTwoOf_top_iff.2 ⟨P0s.isPGroup, P0s.not_dvd_index⟩
   rwa [Sylow.coe_ofCard] at h
 
 theorem z0L_closed : 0 ∈ z0L ∧ ∀ x ∈ z0L, ∀ y ∈ z0L, x ^^^ y ∈ z0L := by

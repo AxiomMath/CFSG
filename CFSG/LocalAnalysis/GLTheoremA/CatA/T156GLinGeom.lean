@@ -108,7 +108,7 @@ theorem exists_descend_of_commute' (hd : 2 ≤ d) (hKok : SLOK d K) {σ : K ≃+
     ext i j
     rw [Matrix.mul_diagonal, Matrix.diagonal_mul]
     ring
-  haveI : Nonempty (Fin d) := ⟨⟨0, by omega⟩⟩
+  have : Nonempty (Fin d) := ⟨⟨0, by omega⟩⟩
   exact exists_descend_of_map_eq_smul σ A c hmat
 
 theorem exists_conj_of_commute' (hd : 2 ≤ d) (hKok : SLOK d K) {σ : K ≃+* K}
@@ -175,6 +175,7 @@ theorem exists_conj_of_commute' (hd : 2 ≤ d) (hKok : SLOK d K) {σ : K ≃+* K
       rw [hx', conjA_val])
   simpa only [subfieldHom, MonoidHom.comp_apply] using hφx
 
+omit [Finite K] in
 theorem eq_one_of_fixes_subfield' (hd : 2 ≤ d) (σ : K ≃+* K) (hk : SLOK d (fixF σ))
     {φ : MulAut (LargeEvenProj SLK)}
     (hφ : φ ∈ LargeEvenMatConjImage (LargeEvenProjMk SLK) Set.univ)

@@ -49,7 +49,7 @@ theorem not_le_linearAutGroup_of_card (h3 : (3 : F) ≠ 0)
   rw [inf_eq_left.mpr hL] at h9
   omega
 
-theorem card_le_three_mul_card_inf_linear (h3 : (3 : F) ≠ 0)
+theorem card_le_three_mul_card_inf_linear (_h3 : (3 : F) ≠ 0)
     {E : Subgroup (MulAut (projectiveSL 3 F))} (hE : IsElemAbelian 3 E) :
     Nat.card E ≤ 3 * Nat.card (E ⊓ linearAutGroup 3 F : Subgroup _) := by
   have : Fintype F := Fintype.ofFinite F
@@ -195,6 +195,7 @@ section LineProps
 
 variable {F : Type} [Field F] [Finite F]
 
+omit [Finite F] in
 theorem fieldLine_fixes_lineSub {σ : F ≃+* F} {k : Subfield F} (hk : ∀ x, x ∈ k ↔ σ x = x)
     {H : GL (Fin 3) F} {l : projectiveSL 3 F} (hl : l ∈ lineSub H k) :
     fieldLine H σ l = l := by
@@ -471,7 +472,7 @@ theorem seitz27_projectiveSL_cubic (hA : Sec19.SeitzThreeLThreePi)
   have hψ1 : fieldLine H' σ' ≠ 1 := fun h => hψN (by rw [h]; exact (linearAutGroup 3 F).one_mem)
   have hne := slSub_conj_ne h3 hk hk' hyA.2 hy1 hψH
   have hgen := lineSub_sup_eq_top hFk hk3 hne
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact seitzHyperGamma_eq_top_of_two_subfield_lines hA (p := 2) (m := m) (by omega)
     (by omega) (by omega) hZ hE hc hphiE hψE hφ1 hψ1
     (isoLThreePi_lineSub H k hkcard hmod) (isoLThreePi_lineSub H' k hkcard hmod)

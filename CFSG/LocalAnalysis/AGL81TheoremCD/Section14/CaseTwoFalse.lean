@@ -46,7 +46,7 @@ private lemma caseTwo_factA {M H E Q J : Subgroup G} (h : S14Choice G M H E Q J)
     (huU : u ∈ Subgroup.closure ({u₁, u₂} : Set G)) (hu1 : u ≠ 1) :
     CFSG.Open.pRank p (M ⊓ Subgroup.centralizer ({u} : Set G)) ≤ 1 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hUQ : Subgroup.closure ({u₁, u₂} : Set G) ≤ Q :=
     (Subgroup.closure_le Q).mpr (by
       rintro x (rfl | rfl)
@@ -141,11 +141,11 @@ private lemma caseTwo_stepFour (hGL4 : KFactA9NotInvolvedGL4)
         p ∣ Nat.card ↥((CFSG.pPrimeCore 3 ↥M) ⊓
           Subgroup.centralizer ({(⟨u₁, hu₁M⟩ : ↥M)} : Set ↥M))) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp' : p.Prime := CFSG.RankThreeCoreUniqueness.Helpers.sigmaA_prime p hp.1
   let O : Subgroup ↥M := CFSG.pPrimeCore 3 ↥M
   let Lb : Subgroup (↥M ⧸ O) := oPPrimeHull 3 (⊤ : Subgroup (↥M ⧸ O))
-  haveI : O.Normal := CFSG.pPrimeCore_normal
+  have : O.Normal := CFSG.pPrimeCore_normal
   have hO3 : ¬ 3 ∣ Nat.card ↥O :=
     (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mp
       (CFSG.pPrimeCore_coprime_card (p := 3) (G := ↥M))
@@ -189,7 +189,7 @@ private lemma caseTwo_stepFive {M H E Q J : Subgroup G} (h : S14Choice G M H E Q
       Nonempty (↥M ⧸ CFSG.pPrimeCore 3 ↥M ≃* Equiv.Perm (Fin 11))) :
     p = 5 ∧ 5 ∣ Nat.card ↥(CFSG.pPrimeCore 3 ↥M) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp' : p.Prime := CFSG.RankThreeCoreUniqueness.Helpers.sigmaA_prime p hp.1
   have hp2 : p ≠ 2 := CFSG.RankThreeCoreUniqueness.Helpers.sigmaA_odd p hp.1
   have hp3 : p ≠ 3 := fun h3 => h.hypCGen.not_mem_sigmaSet (h3 ▸ hp)
@@ -233,6 +233,7 @@ private lemma caseTwo_stepFive {M H E Q J : Subgroup G} (h : S14Choice G M H E Q
     exact hpE.trans (Subgroup.card_dvd_of_le hEO)
   exact ⟨hp_eq, by simpa [O] using hp_eq ▸ hpdvd⟩
 
+omit [Finite G] in
 private lemma caseTwo_normalizer_inf {M : Subgroup G} {u₁M yM : ↥M}
     (hycomm : yM * u₁M = u₁M * yM) :
     yM ∈ Subgroup.normalizer
@@ -269,7 +270,7 @@ private lemma caseTwo_stepSix {M : Subgroup G} {u₁M yM : ↥M}
     rw [show P = Subgroup.zpowers yM from rfl, Nat.card_zpowers, hyord]
   have hP5 : IsPGroup 5 P := IsPGroup.of_card (n := 1) (by simpa using hPcard)
   have hPW : P ≤ Subgroup.normalizer (W : Set ↥M) := Subgroup.zpowers_le.mpr hyN'
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨z, hzW, hzord, hzcent⟩ :=
     CFSG.Quasithin.exists_orderOf_eq_of_isPGroup_normalizer hP5 hPW hW5'
   have hzy : Commute yM z :=

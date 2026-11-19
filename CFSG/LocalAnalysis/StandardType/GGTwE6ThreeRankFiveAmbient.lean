@@ -102,11 +102,11 @@ section Ambient
     {L : Type} [Field L] [Algebra K L] [IsAlgClosure K L] (Fr : L →+* L)
     (hFr : ∀ c, Fr c = c ^ (2 ^ n)) :
     ↥(RecipeExcLang.twInndiagGroup K σ) →* ↥(TwistedDiag.Rgrp L Fr) where
-  toFun w := ⟨baseChangeGL (algebraMap K L) (w : ModGL TwistTag.E6.tag K),
+  toFun _w := ⟨baseChangeGL (algebraMap K L) (_w : ModGL TwistTag.E6.tag K),
     RecipeExcLang.baseChangeGL_mem_twistedFixed_of_mem_twInndiag hn hK hσ (L := L) (Fr := Fr)
-      hFr w.2⟩
+      hFr _w.2⟩
   map_one' := Subtype.ext (map_one _)
-  map_mul' := fun w v => Subtype.ext (map_mul _ _ _)
+  map_mul' := fun _w _v => Subtype.ext (map_mul _ _ _)
 
 @[expose] noncomputable def twInndiagEquivRgrp {K : Type} [Field K] [Finite K] {n : ℕ} (hn : 1 ≤ n)
     (hK : Nat.card K = (2 ^ n) ^ 2) (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ (2 ^ n))
@@ -182,9 +182,6 @@ theorem rgrpConjAut_injective {K : Type} [Field K] [Finite K] {n : ℕ} (hn : 1 
   have h2 : (twInndiagEquivRgrp hn hK σ hσ Fr hFr).symm x =
       (twInndiagEquivRgrp hn hK σ hσ Fr hFr).symm y := by
     apply twConj_injective hn hK σ hσ
-    change (RecipeExcLang.twConj K σ)
-        ((twInndiagEquivRgrp hn hK σ hσ Fr hFr).symm x) =
-      (RecipeExcLang.twConj K σ) ((twInndiagEquivRgrp hn hK σ hσ Fr hFr).symm y)
     exact hxy
   exact (twInndiagEquivRgrp hn hK σ hσ Fr hFr).symm.injective h2
 

@@ -17,6 +17,7 @@ section Types
 
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 
+omit [Finite V] in
 theorem altNatural_of_omegaPlus {L : Subgroup (GLV V)} (h : IsOmegaPlusModule L 3) :
     IsAltNaturalModule L 8 := by
   obtain ⟨φ, ψ, hψ⟩ := CFSG.RankThree.PartTwo.Sec19.SimsItem316Small.omegaPlusTwo_three_model
@@ -37,12 +38,15 @@ theorem evenWeightPerm_one {n : ℕ} (x : evenWeight n) : evenWeightPerm 1 x = x
   funext i
   rfl
 
+omit [Finite V] in
 theorem invariant_fixedSpace_self (L : Subgroup (GLV V)) : Invariant L (fixedSpace L) :=
   fun k hk u hu l hl => by rw [hu k hk]; exact hu l hl
 
+omit [Finite V] in
 theorem invariant_commSpace_self (L : Subgroup (GLV V)) : Invariant L (commSpace L ⊤) :=
   fun _ hk _ hu => apply_mem_commSpace hk hu
 
+omit [Finite V] in
 theorem injective_of_altNatural {L : Subgroup (GLV V)} (hfaith : FaithfulTildeV L) {n : ℕ}
     (α : ↥L →* alternatingGroup (Fin n)) (β : ↥(commSpace L ⊤) →+ altHeart n)
     (hβk : β.ker = ((fixedSpace L).comap (commSpace L ⊤).subtype).toAddSubgroup)
@@ -169,6 +173,7 @@ theorem isComponentOf_map_equiv {Γ Δ : Type*} [Group Γ] [Group Δ] (f : Γ �
   ⟨Subgroup.map_mono hQ.1, hQ.2.1.map f.toMonoidHom,
     CFSG.Open.IsQuasisimple.of_mulEquiv (Q.equivMapOfInjective _ f.injective).symm hQ.2.2⟩
 
+omit [Finite V] in
 theorem centralizer_subgroupOf {z : GLV V} (hz : z ∈ G) :
     (G ⊓ Subgroup.centralizer ({z} : Set (GLV V))).subgroupOf G =
       Subgroup.centralizer ({(⟨z, hz⟩ : ↥G)} : Set ↥G) := by
@@ -200,14 +205,14 @@ theorem orderOf_swap01 (n : ℕ) : orderOf (Equiv.swap (0 : Fin (n + 2)) 1) = 2 
   · intro h
     have := congrArg (fun σ : Equiv.Perm (Fin (n + 2)) => σ 0) h
     simp only [Equiv.swap_apply_left, Equiv.Perm.one_apply] at this
-    exact absurd this (by simp [Fin.ext_iff])
+    exact absurd this (by simp)
 
 theorem fixed_zpowers_swap01 (n : ℕ) :
     {i : Fin (n + 2) | ∀ r ∈ Subgroup.zpowers (Equiv.swap (0 : Fin (n + 2)) 1), r i = i} =
       {k | k ≠ 0 ∧ k ≠ 1} := by
-  have h01 : (0 : Fin (n + 2)) ≠ 1 := by simp [Fin.ext_iff]
+  have h01 : (0 : Fin (n + 2)) ≠ 1 := by simp
   ext i
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   constructor
   · intro h
     have hi := h _ (Subgroup.mem_zpowers _)
@@ -277,7 +282,7 @@ theorem exists_perm_equiv (hc : OddTranspConf G L z) {n : ℕ} (hn : 7 ≤ n)
   have hswap : (φ₀ (θ t)).IsSwap := (hφ₀ (θ t)).1 (by rw [hθ]; exact self_mem_cls)
   obtain ⟨a, b, hab, hsw⟩ := hswap
   obtain ⟨c, hc'⟩ := isConj_iff.1
-    (Equiv.Perm.isConj_swap hab (show (0 : Fin (n + 2)) ≠ 1 by simp [Fin.ext_iff]))
+    (Equiv.Perm.isConj_swap hab (show (0 : Fin (n + 2)) ≠ 1 by simp))
   let φ : ↥G ≃* Equiv.Perm (Fin (n + 2)) := (θ.trans φ₀).trans (MulAut.conj c)
   have hφt : φ t = Equiv.swap 0 1 := by
     show c * φ₀ (θ t) * c⁻¹ = _
@@ -328,7 +333,7 @@ variable {G L : Subgroup (GLV V)} {z : GLV V}
     have h1 : k.1.val ≠ 1 := fun h => k.2.2 (Fin.ext (by rw [h]; simp))
     apply Subtype.ext
     apply Fin.ext
-    simp only [Fin.coe_addNat]
+    simp only [Fin.val_addNat]
     omega
 
 theorem extendDomain_mem_altOn {n : ℕ} (σ : alternatingGroup (Fin n)) :
@@ -340,7 +345,7 @@ theorem extendDomain_mem_altOn {n : ℕ} (σ : alternatingGroup (Fin n)) :
     intro k hk
     exact Equiv.Perm.extendDomain_apply_not_subtype _ _ hk
 
-theorem exists_threeCycle (hc : OddTranspConf G L z) {n : ℕ} (hn : 7 ≤ n)
+theorem exists_threeCycle (_hc : OddTranspConf G L z) {n : ℕ} (hn : 7 ≤ n)
     (φ : ↥G ≃* Equiv.Perm (Fin (n + 2)))
     (hφL : (L.subgroupOf G).map φ.toMonoidHom = altOn {k | k ≠ 0 ∧ k ≠ 1})
     (α : ↥L →* alternatingGroup (Fin n)) (hα : Function.Injective α)
@@ -352,9 +357,9 @@ theorem exists_threeCycle (hc : OddTranspConf G L z) {n : ℕ} (hn : 7 ≤ n)
     ∃ c : Equiv.Perm (Fin (n + 2)), c.IsThreeCycle ∧ c 0 = 0 ∧ c 1 = 1 ∧
       Module.finrank (ZMod 2) ↥(commSpace (Subgroup.zpowers ((φ.symm c : ↥G) : GLV V)) ⊤) = 2 := by
   have hmem₂ : ∀ c ∈ altOn {k : Fin (n + 2) | k ≠ 0 ∧ k ≠ 1}, ((φ.symm c : ↥G) : GLV V) ∈ L := by
-    intro c hc
-    rw [← hφL, Subgroup.mem_map_equiv] at hc
-    exact hc
+    intro c _hc
+    rw [← hφL, Subgroup.mem_map_equiv] at _hc
+    exact _hc
   let ψf : alternatingGroup (Fin n) → alternatingGroup (Fin n) := fun σ =>
     α ⟨_, hmem₂ _ (extendDomain_mem_altOn σ)⟩
   have ψ_mul : ∀ σ τ, ψf (σ * τ) = ψf σ * ψf τ := by

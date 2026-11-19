@@ -934,7 +934,7 @@ private theorem linear_exists_conj_of_not_mem (hd : IsLinearDecomposition ι L E
       rw [hle]
       exact ht
     exact htL (Subgroup.mem_inf.mp htLT).1
-  obtain ⟨v, hvS, hvN, hvT⟩ := exists_mem_normalizer_not_mem S.isPGroup' hTS hST
+  obtain ⟨v, hvS, hvN, hvT⟩ := exists_mem_normalizer_not_mem S.isPGroup hTS hST
   have hvC : v ∉ Subgroup.centralizer (T : Set K) := by
     intro hvC
     have : v ∈ L ⊓ Subgroup.centralizer (T : Set K) := ⟨hd.sylow_le S hvS, hvC⟩
@@ -1534,7 +1534,7 @@ private theorem dq_not_hasWreathedSylow {G : Type} [Group G] [Finite G] {n : ℕ
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P⟩ : Nonempty (Sylow 2 K) := inferInstance
   obtain ⟨e⟩ := hW P
-  have hP' : IsPGroup 2 ((P : Subgroup K).map K.subtype) := P.isPGroup'.map K.subtype
+  have hP' : IsPGroup 2 ((P : Subgroup K).map K.subtype) := P.isPGroup.map K.subtype
   obtain ⟨S', hS'⟩ := hP'.exists_le_sylow
   obtain ⟨f'⟩ := hG.2 S'
   let ι : Wreath (2 ^ m) →* SemidihedralGroup n :=

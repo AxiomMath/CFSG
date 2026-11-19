@@ -31,7 +31,7 @@ variable {G : Type} [Group G]
 theorem omegaCenter_le (D : Subgroup G) : omegaCenter D ≤ D := fun _ hv => hv.1
 
 theorem isElemAbelian_omegaCenter (D : Subgroup G) : IsElemAbelian 2 (omegaCenter D) :=
-  ⟨⟨⟨fun a b => Subtype.ext (b.2.2.2 a a.2.1)⟩⟩, fun x hx => hx.2.1⟩
+  ⟨⟨⟨fun a b => Subtype.ext (b.2.2.2 a a.2.1)⟩⟩, fun _x hx => hx.2.1⟩
 
 theorem mem_normalizer_omegaCenter {D : Subgroup G} {h : G} (hh : h ∈ normalizer (D : Set G)) :
     h ∈ normalizer (omegaCenter D : Set G) := by
@@ -78,9 +78,9 @@ variable [Finite G]
 
 theorem omegaCenter_ne_bot {S : Subgroup G} (hS : IsPGroup 2 S) (hS1 : S ≠ ⊥) :
     omegaCenter S ≠ ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Nontrivial ↥S := (Subgroup.nontrivial_iff_ne_bot S).mpr hS1
-  haveI := hS.center_nontrivial
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Nontrivial ↥S := (Subgroup.nontrivial_iff_ne_bot S).mpr hS1
+  have := hS.center_nontrivial
   have hc : IsPGroup 2 (Subgroup.center ↥S) := hS.to_subgroup _
   have h1 : Nat.card (Subgroup.center ↥S) ≠ 1 := (Finite.one_lt_card (α := Subgroup.center ↥S)).ne'
   have h2 : 2 ∣ Nat.card (Subgroup.center ↥S) := hc.card_eq_or_dvd.resolve_left h1
@@ -165,7 +165,7 @@ theorem isTransvection_of_card_le {W : Type} [CommGroup W] [Finite W] {τ : MulA
     rw [MonoidHom.mem_ker, hδ, mem_fixedSub, mul_inv_eq_one]
   have hrange : Set.range (fun v : W => τ v * v⁻¹) = (δ.range : Set W) := by
     ext w
-    simp [MonoidHom.mem_range, hδ]
+    simp [hδ]
   have hprod : Nat.card δ.ker * Nat.card δ.range = Nat.card W := by
     rw [← Subgroup.index_ker]
     exact Subgroup.card_mul_index _
@@ -190,7 +190,7 @@ theorem isTransvection_of_card_le {W : Type} [CommGroup W] [Finite W] {τ : MulA
 
 theorem card_le_two_of_sq {C : Type*} [Group C] [Finite C] [IsCyclic C] (R : Subgroup C)
     (hR : ∀ x ∈ R, x ^ 2 = 1) : Nat.card R ≤ 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_cases hbot : R = ⊥
   · rw [hbot, Subgroup.card_bot]
     norm_num

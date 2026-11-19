@@ -31,7 +31,7 @@ theorem seventeen_two_four (D : Data G) {V₀ V : Subgroup G} (hV : Hyp125 D V�
     (hx : DataExt D) (h61 : UC6.R6_1 D) (h127 : R127 D) (h1214 : F12.R1214 D)
     (h115 : F11.R115 D) : R17_2_4At D V₀ V := by
   intro p Dsub hp hp2 hDM hDp hDnc hexp hclass hnormal
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hDcard, hV0, hk, hm4⟩ :=
     h2 p Dsub hp hp2 hDM hDp hDnc hexp hclass hnormal
   subst hV0
@@ -146,8 +146,8 @@ theorem seventeen_two_four (D : Data G) {V₀ V : Subgroup G} (hV : Hyp125 D V�
         · exact Or.inr ((Nat.prime_dvd_prime_iff_eq hp (by norm_num)).1 h5')
       omega
     ·
-      letI : Module (ZMod 2) (Additive W) := CFSG.GroupTheory.elemModule 2 hWsq
-      haveI : Module.Finite (ZMod 2) (Additive W) := Module.Finite.of_finite
+      let : Module (ZMod 2) (Additive W) := CFSG.GroupTheory.elemModule 2 hWsq
+      have : Module.Finite (ZMod 2) (Additive W) := Module.Finite.of_finite
       let ρ : Representation (ZMod 2) ↥Mb (Additive W) :=
         { toFun := fun y =>
             (MulEquiv.toAdditive (y : MulAut W)).toLinearEquiv (ZMod.map_smul (n := 2) _)
@@ -194,7 +194,7 @@ theorem seventeen_two_four (D : Data G) {V₀ V : Subgroup G} (hV : Hyp125 D V�
         have h1 : Additive.toMul u = 1 := Subgroup.mem_bot.1 hw
         rw [show u = Additive.ofMul (Additive.toMul u) from rfl, h1]
         rfl
-      haveI : Fintype ↥X := Fintype.ofFinite ↥X
+      have : Fintype ↥X := Fintype.ofFinite ↥X
       have hN : ∀ u ∈ (⊤ : Submodule (ZMod 2) (Additive W)), normOp ρ X u = 0 := by
         intro u _
         have h := mem_fixedSpace_normOp ρ X u
@@ -234,7 +234,7 @@ theorem seventeen_two_four (D : Data G) {V₀ V : Subgroup G} (hV : Hyp125 D V�
               (mem_fixV_zpowers t w.1).1 w.2
             have h1 : ρ t' (Additive.ofMul w.1) = Additive.ofMul (t w.1) := rfl
             rw [LinearMap.sub_apply, Module.End.one_apply, sub_eq_zero, h1, hw]
-        haveI : Module.Finite (ZMod 2)
+        have : Module.Finite (ZMod 2)
             ↥(LinearMap.ker ((ρ t' : Additive W →ₗ[ZMod 2] Additive W) - 1)) :=
           Module.Finite.of_finite
         have h1 : Nat.card (LinearMap.ker
@@ -328,7 +328,7 @@ theorem seventeen_two_four (D : Data G) {V₀ V : Subgroup G} (hV : Hyp125 D V�
         have hq1 : 1 < q := hqp.one_lt
         have hCtN : ((F11.CTilde D.M ⊥ V).subgroupOf D.M).Normal :=
           cTilde_bot_normal D.M V hMnorm
-        haveI : ((F11.CTilde D.M ⊥ V).subgroupOf D.M).Normal := hCtN
+        have : ((F11.CTilde D.M ⊥ V).subgroupOf D.M).Normal := hCtN
         have h115' := h115 (⊥ : Subgroup G) V (Hyp125.hyp11 h127 hV) (by simp) q hqsig
         obtain ⟨-, h115le, h115ge⟩ := h115'
         have hle : CFSG.Open.pRank q D.M - 1 ≤
@@ -341,14 +341,14 @@ theorem seventeen_two_four (D : Data G) {V₀ V : Subgroup G} (hV : Hyp125 D V�
           omega
         obtain ⟨E, -, hE_elem, hE_card⟩ :=
           CFSG.SectionRank.exists_pRank (G := Mb) hq1 (⊤ : Subgroup Mb)
-        haveI : IsMulCommutative E := hE_elem.1
+        have : IsMulCommutative E := hE_elem.1
         let Db' : Subgroup Mb := Db.subgroupOf Mb
         have hDb'_card : Nat.card Db' = 17 := by
           dsimp [Db']
           rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hDb_le).toEquiv, hDb_card]
-        haveI : Db'.Normal := hnormSub
-        haveI : Fact (Nat.Prime 17) := ⟨by norm_num⟩
-        haveI : IsCyclic Db' := isCyclic_of_prime_card hDb'_card
+        have : Db'.Normal := hnormSub
+        have : Fact (Nat.Prime 17) := ⟨by norm_num⟩
+        have : IsCyclic Db' := isCyclic_of_prime_card hDb'_card
         have hAut_card : Nat.card (MulAut Db') = 16 := by
           have h := Nat.card_congr (IsCyclic.mulAutMulEquiv Db').toEquiv
           rw [h, hDb'_card, Nat.card_units, Nat.card_zmod]
@@ -381,7 +381,7 @@ theorem seventeen_two_four (D : Data G) {V₀ V : Subgroup G} (hV : Hyp125 D V�
           have h := hcentral e he d hd
           rwa [mul_inv_eq_iff_eq_mul] at h
         let A : Subgroup Mb := E ⊔ Db'
-        haveI : IsMulCommutative A := by
+        have : IsMulCommutative A := by
           dsimp [A]
           exact CFSG.OddStandard.SmallF3.HarrisU33.isMulCommutative_sup_of_commute
             hEDcomm hE_elem.1 (IsCyclic.isMulCommutative (α := Db'))
@@ -415,7 +415,7 @@ theorem seventeen_two_four (D : Data G) {V₀ V : Subgroup G} (hV : Hyp125 D V�
             { carrier := {w : W | Additive.ofMul w ∈ U}
               one_mem' := by
                 change Additive.ofMul (1 : W) ∈ U
-                simpa using U.zero_mem
+                simp
               mul_mem' := fun {a b} ha hb => by
                 change Additive.ofMul (a * b) ∈ U
                 change Additive.ofMul a + Additive.ofMul b ∈ U
@@ -465,11 +465,11 @@ theorem seventeen_two_four (D : Data G) {V₀ V : Subgroup G} (hV : Hyp125 D V�
           apply Subtype.ext
           apply hρE_inj
           exact congrArg Subtype.val h
-        haveI : IsCyclic O := hOcyc
+        have : IsCyclic O := hOcyc
         have hEcyc : IsCyclic E := isCyclic_of_injective eToO heToO_inj
         have hEnotcyc : ¬ IsCyclic E := by
           intro hcyc
-          haveI : IsCyclic E := hcyc
+          have : IsCyclic E := hcyc
           obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := E)
           have hgord : orderOf g = Nat.card E := orderOf_eq_card_of_forall_mem_zpowers hg
           have hgq : orderOf g ∣ q := by
@@ -485,7 +485,7 @@ theorem seventeen_two_four (D : Data G) {V₀ V : Subgroup G} (hV : Hyp125 D V�
     have hrkW : rk W = 4 := by
       have h := hmParam
       unfold E3.mParam at h
-      rw [if_neg hEven] at h
+      rw [ite_eq_right hEven] at h
       exact h
     have hdvd : orderOf (2 : ZMod p) ∣ rk W := by
       have h := CFSG.GroupTheory.orderOf_two_dvd_rk_of_inf_fixV_eq_bot hWsq hDb_p

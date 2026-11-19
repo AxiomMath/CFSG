@@ -41,7 +41,7 @@ private theorem uc22s23sl3_CME_le_CMETilde {D : Data G} {Ch : Choice2011 G}
       rw [← hcomm]
       group
     rw [hxu]
-    simpa using D.Z.one_mem
+    simp
 
 private def uc22s23sl3_conjAut {D : Data G} {Ch : Choice2011 G} (c : Ctx2311 D Ch) (x : G)
     (hxE : ∀ u ∈ c.E, x * u * x⁻¹ ∈ c.E)
@@ -117,7 +117,7 @@ private theorem uc22s23sl3_frattiniAut_eq_one {D : Data G} {Ch : Choice2011 G}
 private theorem uc22s23sl3_odd_mem_CME {D : Data G} {Ch : Choice2011 G} (c : Ctx2311 D Ch)
     (h151 : S23_15_1 D Ch) (hE2 : IsPGroup 2 ↥c.E) (h1930 : H1930 D)
     {x : G} (hx : x ∈ c.CMETilde) (hxodd : (orderOf x).Coprime 2) : x ∈ c.CME := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hMnorm : D.M ≤ Subgroup.normalizer (c.E : Set G) :=
     uc22p22v_le_normalizer_conjClosure D.M c.V
   rw [Ctx2311.CMETilde, CFSG.Quasithin.mem_centralizerMod] at hx

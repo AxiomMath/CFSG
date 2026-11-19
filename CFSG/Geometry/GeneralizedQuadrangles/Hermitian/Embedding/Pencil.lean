@@ -130,9 +130,9 @@ theorem finrank_perpSpan_inf_add_two (hP : IsGeneralizedPolygon Γ 4) (hT : IsTh
     (hp : c p = 0) (hq : c q = 0) (hpq : p ≠ q)
     (hpL : Γ.Adj p L) (hqL : Γ.Adj q L) :
     finrank K ↥(perpSpan c ι p ⊓ perpSpan c ι q) + 2 = finrank K A := by
-  haveI : FiniteDimensional K (perpSpan c ι p) :=
+  have : FiniteDimensional K (perpSpan c ι p) :=
     Submodule.finiteDimensional_of_le (perpSpan_le_ambient hι p)
-  haveI : FiniteDimensional K (perpSpan c ι q) :=
+  have : FiniteDimensional K (perpSpan c ι q) :=
     Submodule.finiteDimensional_of_le (perpSpan_le_ambient hι q)
   have hpne : perpSpan c ι p ≠ perpSpan c ι q :=
     perpSpan_ne_of_adj hP hT hι hp hq hpq hpL hqL

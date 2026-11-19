@@ -37,7 +37,7 @@ open CFSG.Open CFSG.Yardstones.Md0ec50421ce4
   ∀ Bb : Subgroup G₀, IsElemAbelian p Bb → Nat.card Bb = p ^ m →
     ∀ d ∈ Bb, LayerIs p (Subgroup.centralizer {d}) QK →
       Bb ⊓ Subgroup.centralizer (GLALayer (Subgroup.centralizer {d}) : Set G₀) = Subgroup.zpowers d →
-      ∀ e ∈ Bb, e ∉ Subgroup.zpowers d → IsSolvable ↥(Subgroup.centralizer ({d, e} : Set G₀))
+      ∀ e ∈ Bb, e ∉ Subgroup.zpowers d → Group.IsSolvable ↥(Subgroup.centralizer ({d, e} : Set G₀))
 
 end CFSG.LocalAnalysis.GLTheoremA.S172X
 

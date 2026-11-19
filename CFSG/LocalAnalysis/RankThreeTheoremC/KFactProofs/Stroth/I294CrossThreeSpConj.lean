@@ -44,7 +44,7 @@ theorem matrix_of_basis_mem_J (b : Basis (Fin 3 ⊕ Fin 3) K (Fin 3 ⊕ Fin 3 �
   set P : Matrix (Fin 3 ⊕ Fin 3) (Fin 3 ⊕ Fin 3) K := Matrix.of fun r c => b c r with hP
   have hcol : ∀ c, P *ᵥ Pi.single c 1 = b c := fun c => by
     ext r
-    simp [hP, Matrix.mulVec_single_one]
+    simp [hP]
   ext x y
   have h1 := hb x y
   rw [← hcol x, ← hcol y] at h1

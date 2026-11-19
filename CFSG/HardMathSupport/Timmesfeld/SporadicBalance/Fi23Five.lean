@@ -146,14 +146,14 @@ theorem fi23_local_five {s : J} (hs : orderOf s = 5) {e : J} (he : e ∈ D23)
 
 theorem gLAPPrimeCoreOf_fi23_five_eq_bot {s : J} (hs : orderOf s = 5)
     (hT0 : ∃ e ∈ D23, e * s = s * e)
-    (hT1 : ∀ x ∈ D23, x * s = s * x → ∃ y ∈ D23, y * s = s * y ∧ y ≠ x ∧ x * y = y * x)
-    (hT2 : ∀ x ∈ D23, x * s = s * x → ∀ y ∈ D23, y * s = s * y → x * y ≠ y * x →
-      ∃ z ∈ D23, z * s = s * z ∧ z * x = x * z ∧ z * y = y * z) :
+    (hT1 : ∀ _x ∈ D23, _x * s = s * _x → ∃ _y ∈ D23, _y * s = s * _y ∧ _y ≠ _x ∧ _x * _y = _y * _x)
+    (hT2 : ∀ _x ∈ D23, _x * s = s * _x → ∀ _y ∈ D23, _y * s = s * _y → _x * _y ≠ _y * _x →
+      ∃ z ∈ D23, z * s = s * z ∧ z * _x = _x * z ∧ z * _y = _y * z) :
     GLAPPrimeCoreOf 5 (Subgroup.centralizer ({s} : Set J)) = ⊥ :=
   @gLAPPrimeCoreOf_eq_bot_of_fixed_graph J (inferInstance : Group J) inferInstance D23 5
-    (fun x hx => D23_mul_self hx) (fun x hx => D23_ne_one hx)
-    (fun x hx y hy hxy => D23_cube hx hy hxy) (fun x hx g => D23_conj hx g) s hT0 hT1 hT2
-    (fun x hx hxs n hn hnx => fi23_local_five hs hx hxs n hn hnx)
+    (fun _x hx => D23_mul_self hx) (fun _x hx => D23_ne_one hx)
+    (fun _x hx _y hy hxy => D23_cube hx hy hxy) (fun _x hx g => D23_conj hx g) s hT0 hT1 hT2
+    (fun _x hx hxs n hn hnx => fi23_local_five hs hx hxs n hn hnx)
 
 end Local
 

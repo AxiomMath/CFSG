@@ -69,11 +69,12 @@ theorem m42_Opp_orderOf (p : ℕ) [Fact p.Prime] {H : Subgroup G} {x : G} (hx : 
     Nat.Coprime p (orderOf x) :=
   (m42_Opp_coprime p H).coprime_dvd_right (Subgroup.orderOf_dvd_natCard _ hx)
 
+omit [Finite G] in
 theorem m42_le_Opp {p : ℕ} {H N : Subgroup G} (hNH : N ≤ H)
     (hN : ∀ h ∈ H, ∀ n ∈ N, h * n * h⁻¹ ∈ N) (hc : Nat.Coprime p (Nat.card N)) :
     N ≤ Opp p H := by
   let N' : Subgroup ↥H := N.subgroupOf H
-  haveI : N'.Normal := ⟨fun n hn g => by
+  have : N'.Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     simpa using hN g.1 g.2 n hn⟩
   have hcard : Nat.card N' = Nat.card N :=
@@ -82,6 +83,7 @@ theorem m42_le_Opp {p : ℕ} {H N : Subgroup G} (hNH : N ≤ H)
   intro x hx
   exact Subgroup.mem_map.mpr ⟨⟨x, hNH hx⟩, hle hx, rfl⟩
 
+omit [Finite G] in
 theorem m42_Opp_normalizes (p : ℕ) (H : Subgroup G) : H ≤ Nor (Opp p H) := by
   intro g hg
   rw [Subgroup.mem_normalizer_iff]
@@ -91,16 +93,19 @@ theorem m42_Opp_normalizes (p : ℕ) (H : Subgroup G) : H ≤ Nor (Opp p H) := b
   have e : g⁻¹ * (g * z * g⁻¹) * g⁻¹⁻¹ = z := by group
   rwa [e] at this
 
+omit [Finite G] in
 theorem m42_Lay_le (H : Subgroup G) : Lay H ≤ H := Subgroup.map_subtype_le _
 
+omit [Finite G] in
 theorem m42_Lay_conj_mem {H : Subgroup G} {g z : G} (hg : g ∈ H) (hz : z ∈ Lay H) :
     g * z * g⁻¹ ∈ Lay H := by
   obtain ⟨z', hz', rfl⟩ := Subgroup.mem_map.mp hz
   refine Subgroup.mem_map.mpr ⟨⟨g, hg⟩ * z' * ⟨g, hg⟩⁻¹, ?_, by simp⟩
-  haveI : (CFSG.layer ↥H).Characteristic := CFSG.LocalCores.layer_characteristic
-  haveI : (CFSG.layer ↥H).Normal := inferInstance
+  have : (CFSG.layer ↥H).Characteristic := CFSG.LocalCores.layer_characteristic
+  have : (CFSG.layer ↥H).Normal := inferInstance
   exact this.conj_mem z' hz' ⟨g, hg⟩
 
+omit [Finite G] in
 theorem m42_Lay_map (φ : G ≃* G) (M : Subgroup G) :
     (Lay M).map φ.toMonoidHom = Lay (M.map φ.toMonoidHom) := by
   let e : ↥M ≃* ↥(M.map φ.toMonoidHom) := M.equivMapOfInjective φ.toMonoidHom φ.injective
@@ -118,6 +123,7 @@ theorem m42_Lay_map (φ : G ≃* G) (M : Subgroup G) :
         rw [Subgroup.map_map]
     _ = Lay (M.map φ.toMonoidHom) := by rw [h1]; rfl
 
+omit [Finite G] in
 theorem m42_Lay_conj_mem_of_normalizes {M : Subgroup G} {g z : G}
     (hg : ∀ m, m ∈ M ↔ g * m * g⁻¹ ∈ M) (hz : z ∈ Lay M) : g * z * g⁻¹ ∈ Lay M := by
   have hM : M.map (MulAut.conj g).toMonoidHom = M := by
@@ -134,10 +140,11 @@ theorem m42_Lay_conj_mem_of_normalizes {M : Subgroup G} {g z : G}
   rw [← this]
   exact ⟨z, hz, by simp⟩
 
+omit [Finite G] in
 theorem m42_simple_inf {S N : Subgroup G} [IsSimpleGroup S]
     (hS : ∀ s ∈ S, ∀ n ∈ N ⊓ S, s * n * s⁻¹ ∈ N ⊓ S) : N ⊓ S = ⊥ ∨ S ≤ N := by
   let T : Subgroup ↥S := (N ⊓ S).subgroupOf S
-  haveI : T.Normal := ⟨fun n hn g => by
+  have : T.Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     simpa using hS g.1 g.2 n hn⟩
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal T with h | h
@@ -152,6 +159,7 @@ theorem m42_simple_inf {S N : Subgroup G} [IsSimpleGroup S]
     have : (⟨x, hx⟩ : ↥S) ∈ T := by rw [h]; exact Subgroup.mem_top _
     exact (Subgroup.mem_subgroupOf.mp this).1
 
+omit [Finite G] in
 theorem m42_comm_of_normal {S N Y : Subgroup G} [IsSimpleGroup S] (hSY : S ≤ Y) (hNY : N ≤ Y)
     (hSn : ∀ y ∈ Y, ∀ s ∈ S, y * s * y⁻¹ ∈ S) (hNn : ∀ y ∈ Y, ∀ n ∈ N, y * n * y⁻¹ ∈ N)
     (hSN : ¬ S ≤ N) : ∀ s ∈ S, ∀ n ∈ N, s * n = n * s := by
@@ -173,6 +181,7 @@ theorem m42_comm_of_normal {S N Y : Subgroup G} [IsSimpleGroup S] (hSY : S ≤ Y
   exact this
 
 
+omit [Finite G] in
 theorem m42_Opp_map (p : ℕ) (φ : G ≃* G) (M : Subgroup G) :
     (Opp p M).map φ.toMonoidHom = Opp p (M.map φ.toMonoidHom) := by
   let e : ↥M ≃* ↥(M.map φ.toMonoidHom) := M.equivMapOfInjective φ.toMonoidHom φ.injective
@@ -190,6 +199,7 @@ theorem m42_Opp_map (p : ℕ) (φ : G ≃* G) (M : Subgroup G) :
         rw [Subgroup.map_map]
     _ = Opp p (M.map φ.toMonoidHom) := by rw [h1]; rfl
 
+omit [Finite G] in
 theorem m42_Opp_conj_mem_of_normalizes {p : ℕ} {M : Subgroup G} {g z : G}
     (hg : ∀ m, m ∈ M ↔ g * m * g⁻¹ ∈ M) (hz : z ∈ Opp p M) : g * z * g⁻¹ ∈ Opp p M := by
   have hM : M.map (MulAut.conj g).toMonoidHom = M := by

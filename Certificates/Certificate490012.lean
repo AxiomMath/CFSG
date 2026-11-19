@@ -25,7 +25,7 @@ theorem certificate490012 :
     intro y hy
     rw [T22.len] at hy
     rw [fixTab_get FixTab22.tab y (by simp [hMc]; omega)]
-    simp [fixMasks, List.getD_eq_getElem?_getD, List.getElem?_take, hy]
+    simp [fixMasks, List.getD_eq_getElem?_getD, hy]
   have hA := forallGreedyAll_fixT T22.gtabs (by rw [T22.len]; exact T22.lenOK.2) pos22s2_eq
     T22.Mc FixTab22.F22 10 hFs _
     (fun L S st => pred22E 9 T22.Mc FixTab22.F22 71 L S st && predOffK T22.P L S st)
@@ -48,7 +48,7 @@ theorem certificate490012 :
     rw [List.all_map]
     refine all_congr_mem fun x hx => all_congr_mem fun i hi => ?_
     have hlt : ∀ i ∈ offPts22, i < 24 := by decide
-    simp only [Function.comp_apply]
+    simp only
     rw [T22.arr_get x (hlt i hi), show inv22s2 = T22s2.invols from rfl,
       pk_idxOf T22.packed T22.invData (Or.inl (hR x hx))]
   rw [Bool.and_eq_true] at hp

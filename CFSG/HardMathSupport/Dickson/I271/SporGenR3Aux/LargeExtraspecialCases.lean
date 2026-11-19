@@ -37,6 +37,7 @@ section Counting
 
 variable [Finite G]
 
+omit [Finite G] in
 theorem card_eq_pow_mul_of_relIndex {p a : ℕ} {w : G} (hw : orderOf w = p) {Q : Subgroup G}
     (hwQ : w ∈ Q) (hrel : (Subgroup.zpowers w).relIndex Q = p ^ a) :
     Nat.card Q = p ^ a * p := by

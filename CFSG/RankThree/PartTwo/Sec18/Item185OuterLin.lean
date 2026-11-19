@@ -175,7 +175,7 @@ private theorem false_of_fixedFactsAt_lin {S : Type} [Group S] [Finite S] {σ : 
     (hBO : B ≤ oTwoThreeFixed σ) : False := by
   unfold FixedFactsAt at hF
   rcases hF with ⟨N, hN, hsimp, hna, hcent⟩ | hnd
-  · haveI := hN
+  · have := hN
     have hO := oTwoP_le_centralizer_of_simple_normal N hsimp hna
     rw [hcent] at hO
     have hB0 : B ≤ ⊥ := by
@@ -198,12 +198,12 @@ private theorem fixedFactsAt_of_quasisimple_lin {S : Type} [Group S] {σ : MulAu
     FixedFactsAt σ := by
   obtain ⟨-, hsimp, a, b, hab⟩ := hq
   have hsC : IsSimpleGroup (fixedSubgroup σ) := by
-    haveI := hsimp
+    have := hsimp
     exact ((QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot).symm.isSimpleGroup
   unfold FixedFactsAt
   left
   refine ⟨⊤, inferInstance, ?_, ?_, ?_⟩
-  · haveI := hsC
+  · have := hsC
     exact Subgroup.topEquiv.isSimpleGroup
   · rintro h
     obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective a
@@ -237,7 +237,7 @@ private theorem noOmega_projSL_odd_lin {n : ℕ} (hn : 1 ≤ n) (hodd : Odd n) :
 
 private theorem noOmega_projectiveSL_even_lin (hK2 : GapL3Field) {n : ℕ} (hn : 1 ≤ n)
     (heven : Even n) (h3 : 3 ∣ n) : NoOmega (projectiveSL 3 (GaloisField 2 n)) := by
-  haveI : Finite (projectiveSL 3 (GaloisField 2 n)) :=
+  have : Finite (projectiveSL 3 (GaloisField 2 n)) :=
     Finite.of_equiv (projSL 3 (GaloisField 2 n)) (Sec4.projSLEquivProjectiveSL 3 _).toEquiv
   have hcard : Nat.card (GaloisField 2 n) = 2 ^ n := GaloisField.card 2 n (by omega)
   have hK3 : 3 ∣ Nat.card (GaloisField 2 n) - 1 := by
@@ -252,7 +252,7 @@ private theorem noOmega_projectiveSL_even_lin (hK2 : GapL3Field) {n : ℕ} (hn :
 
 private theorem noOmega_unitaryPSU_even_lin {n : ℕ} (hn : 2 ≤ n) (heven : Even n)
     (hU : UnitaryFieldData 2 n (GaloisField 2 (2 * n))) : NoOmega (unitaryPSU hU 3) := by
-  haveI : Finite (unitaryPSU hU 3) :=
+  have : Finite (unitaryPSU hU 3) :=
     Finite.of_equiv (projSU 3 2 n) (Sec4.projSUEquivUnitaryPSU 2 n hU).toEquiv
   have hq : 2 ^ n % 3 = 1 := two_pow_mod_three_of_even_lin heven
   have hq2 : 2 < 2 ^ n := two_lt_two_pow_lin hn
@@ -264,7 +264,7 @@ private theorem noOmega_unitaryPSU_even_lin {n : ℕ} (hn : 2 ≤ n) (heven : Ev
 private theorem noOmega_unitaryPSU_odd_lin {n : ℕ} (hn : 2 ≤ n) (hodd : Odd n) (h3 : 3 ∣ n)
     (h9 : 9 ≤ n) (hU : UnitaryFieldData 2 n (GaloisField 2 (2 * n))) (hK3 : GapU3Field) :
     NoOmega (unitaryPSU hU 3) := by
-  haveI : Finite (unitaryPSU hU 3) :=
+  have : Finite (unitaryPSU hU 3) :=
     Finite.of_equiv (projSU 3 2 n) (Sec4.projSUEquivUnitaryPSU 2 n hU).toEquiv
   have hq2 : 2 < 2 ^ n := two_lt_two_pow_lin hn
   have hZ : Subgroup.center (unitaryPSU hU 3) = ⊥ :=
@@ -284,11 +284,11 @@ theorem not_isSimpleGroup_projSL_two_two_one :
   have h6 : Nat.card (projSL 2 (GaloisField 2 1)) = 6 := by
     rw [Sec8.Item812Res2.card_projSL_two (le_refl 1)]
     norm_num
-  haveI : Finite (projSL 2 (GaloisField 2 1)) :=
+  have : Finite (projSL 2 (GaloisField 2 1)) :=
     Nat.finite_of_card_ne_zero (by rw [h6]; norm_num)
   obtain ⟨P, hPn, hP3, -⟩ :=
     Quasithin.B1Red.exists_normal_card_three_of_card_six (Y := projSL 2 (GaloisField 2 1)) h6
-  haveI := hPn
+  have := hPn
   rcases hS.eq_bot_or_eq_top_of_normal P with h | h
   · rw [h, Subgroup.card_bot] at hP3
     norm_num at hP3
@@ -306,7 +306,7 @@ theorem autNoE27_or_noOmega_projSL_three_two (hK2 : GapL3Field) {n : ℕ} (hn : 
   by_cases h3 : 3 ∣ n
   · right
     rcases Nat.even_or_odd n with heven | hodd
-    · haveI : Finite (projectiveSL 3 (GaloisField 2 n)) :=
+    · have : Finite (projectiveSL 3 (GaloisField 2 n)) :=
         Finite.of_equiv (projSL 3 (GaloisField 2 n))
           (Sec4.projSLEquivProjectiveSL 3 (GaloisField 2 n)).toEquiv
       exact NoOmega.of_mulEquiv (Sec4.projSLEquivProjectiveSL 3 (GaloisField 2 n))

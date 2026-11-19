@@ -39,7 +39,7 @@ theorem s16e_mbar_index_ne_three_of_opRes (D : Data G)
       exact x.2
     obtain ⟨m, hm⟩ := hx
     exact ⟨m, Subtype.ext hm⟩
-  haveI : (N.comap ψ).Normal := Subgroup.normal_comap ψ
+  have : (N.comap ψ).Normal := Subgroup.normal_comap ψ
   have hidx' : (N.comap ψ).index = 3 := by
     rw [Subgroup.index_comap_of_surjective N hψ]
     exact hidx

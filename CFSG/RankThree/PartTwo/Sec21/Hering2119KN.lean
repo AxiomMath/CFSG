@@ -16,10 +16,12 @@ variable {G : Type} [Group G] [Finite G]
 @[expose] def NQ (Q : Subgroup G) (d : G) : Subgroup G :=
   Subgroup.normalizer (Q : Set G) ⊓ Subgroup.normalizer (Subgroup.zpowers d : Set G)
 
+omit [Finite G] in
 theorem NQ_conj_d {Q : Subgroup G} {d g : G} (hg : g ∈ NQ Q d) :
     g * d * g⁻¹ ∈ Subgroup.zpowers d :=
   (Subgroup.mem_normalizer_iff.mp hg.2 d).mp (Subgroup.mem_zpowers d)
 
+omit [Finite G] in
 theorem Q_le_NQ {Q : Subgroup G} {d : G} (hdc : ∀ q ∈ Q, q * d * q⁻¹ = d) : Q ≤ NQ Q d := by
   intro q hq
   have hcomm : q * d = d * q := by
@@ -44,6 +46,7 @@ theorem Q_le_NQ {Q : Subgroup G} {d : G} (hdc : ∀ q ∈ Q, q * d * q⁻¹ = d)
     rw [e2] at hx
     exact hx
 
+omit [Finite G] in
 theorem isPGroup_zpowers_of_pow {g : G} {n : ℕ} (h : g ^ (3 ^ n) = 1) :
     IsPGroup 3 (Subgroup.zpowers g) := by
   have hd : orderOf g ∣ 3 ^ n := orderOf_dvd_of_pow_eq_one h
@@ -69,7 +72,7 @@ theorem mem_Q_of_Mg_one {g : G} (hg : g ∈ NQ Q d) (hM : Mg d a₀ a₁ f₀ f�
     have hbQ := h.hAQ hb
     have h1 := h.Mg_apply hg.1 (NQ_conj_d hg) hbQ
     rw [hM, Matrix.one_mulVec] at h1
-    have hz := h.Phi_eq hbQ (h.conj_mem hg.1 hbQ) h1.symm
+    have hz := h.Phi_eq hbQ (CFSG.RankThree.PartTwo.Sec21.Hering2119S.SympBasis.conj_mem hg.1 hbQ) h1.symm
     have : g * b * g⁻¹ = b * (b⁻¹ * (g * b * g⁻¹)) := by group
     rw [this]
     exact A.mul_mem hb (Subgroup.zpowers_le.mpr h.hdA hz)
@@ -135,7 +138,7 @@ theorem no_fix3 {f g : G} (hfQ : f ∈ Q) (hfd : f ∉ Subgroup.zpowers d)
   by_contra hgQ
   obtain ⟨n, hn⟩ := hg3
   have hz : f⁻¹ * (g * f * g⁻¹) ∈ Subgroup.zpowers d :=
-    h.Phi_eq hfQ (h.conj_mem hg.1 hfQ) (by rw [h.Mg_apply hg.1 (NQ_conj_d hg) hfQ, hfix])
+    h.Phi_eq hfQ (CFSG.RankThree.PartTwo.Sec21.Hering2119S.SympBasis.conj_mem hg.1 hfQ) (by rw [h.Mg_apply hg.1 (NQ_conj_d hg) hfQ, hfix])
   obtain ⟨q, hqQ, hqcm⟩ := h.exists_cm hfQ hfd (Subgroup.inv_mem _ hz)
   set z := f⁻¹ * (g * f * g⁻¹) with hzdef
   have hgf : g * f * g⁻¹ = f * z := by rw [hzdef]; group

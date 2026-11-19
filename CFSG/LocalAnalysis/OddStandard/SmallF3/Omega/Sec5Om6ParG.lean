@@ -21,7 +21,8 @@ theorem Om6Par.simAct_t {x : simGroup Q} (hL : ∀ u ∈ D.L, simAct Q x u ∈ D
   · exact absurd ((MulEquiv.map_eq_one_iff _).mp h) D.ne_one
   · exact h
 
-theorem om6par_comm_t {y : simGroup Q} (hy : simAct Q y t = t) (v : V) :
+omit [FiniteDimensional (ZMod 3) V] in
+theorem om6par_comm_t [FiniteDimensional (ZMod 3) V] {y : simGroup Q} (hy : simAct Q y t = t) (v : V) :
     (y : V ≃ₗ[ZMod 3] V) ((t : V ≃ₗ[ZMod 3] V) v) =
       (t : V ≃ₗ[ZMod 3] V) ((y : V ≃ₗ[ZMod 3] V) v) := by
   have h1 := congrArg (fun s : OGroup Q => (s : V ≃ₗ[ZMod 3] V)) hy
@@ -64,7 +65,7 @@ theorem Om6Par.quad_iota (X : Mat2) : Q (D.iota X) = X.det := by
   rw [← detForm_apply]
   exact D.e.map_app X
 
-theorem Om6Par.iota_injective : Function.Injective D.iota := fun X Y h =>
+theorem Om6Par.iota_injective : Function.Injective D.iota := fun _X _Y h =>
   D.e.toLinearEquiv.injective (Subtype.ext h)
 
 theorem om6par_comm_four_right : ∀ m n : Mat2, m * n = 1 →
@@ -83,6 +84,7 @@ theorem Om6Par.conj_apply {x : simGroup Q} {σ : Mat2 ≃ₗ[ZMod 3] Mat2}
   rw [D.theta_apply_W a⁻¹ X, hσ, D.theta_apply_W a]
   exact hσ' _
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem om6par_simAct_apply (x : simGroup Q) (u : OGroup Q) (v : V) :
     (x : V ≃ₗ[ZMod 3] V) ((u : V ≃ₗ[ZMod 3] V) v) =
       ((simAct Q x u : OGroup Q) : V ≃ₗ[ZMod 3] V) ((x : V ≃ₗ[ZMod 3] V) v) := by
@@ -126,6 +128,7 @@ theorem om6par_symm_form {σ : Mat2 ≃ₗ[ZMod 3] Mat2} {G G' m m' : Mat2} (hGG
   calc Z = (G * G') * Z * (m' * m) := by rw [hGG', hm'm, Matrix.one_mul, Matrix.mul_one]
     _ = G * (G' * Z * m') * m := by simp only [Matrix.mul_assoc]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem om6par_simAct_inv_mem {x : simGroup Q} {H : Subgroup (OGroup Q)}
     (hH : ∀ u : OGroup Q, simAct Q x u ∈ H ↔ u ∈ H) {u : OGroup Q} (hu : u ∈ H) :
     simAct Q x⁻¹ u ∈ H :=
@@ -214,15 +217,15 @@ theorem Om6Par.exists_left {x : simGroup Q} {σ : Mat2 ≃ₗ[ZMod 3] Mat2}
   exact h1
 
 theorem om6par_xor_neg_one : ∀ a b c : ZMod 3, a * b = c → c ≠ 0 →
-    (Xor' (a = -1) (b = -1) ↔ c = -1) := by
-  simp only [Xor']
+    (Xor (a = -1) (b = -1) ↔ c = -1) := by
+  simp only [Xor]
   decide
 
 theorem Om6Par.lhs_iff {x : simGroup Q} {c : (ZMod 3)ˣ}
     (hc : IsSimilitude Q (x : V ≃ₗ[ZMod 3] V) c)
     (hL : ∀ u : OGroup Q, simAct Q x u ∈ D.L ↔ u ∈ D.L)
     (hR : ∀ u : OGroup Q, simAct Q x u ∈ D.R ↔ u ∈ D.R) :
-    Xor' (∃ u ∈ D.L, ¬ (simAct Q x⁻¹ u * u⁻¹) ^ 4 = 1)
+    Xor (∃ u ∈ D.L, ¬ (simAct Q x⁻¹ u * u⁻¹) ^ 4 = 1)
       (∃ u ∈ D.R, ¬ (simAct Q x⁻¹ u * u⁻¹) ^ 4 = 1) ↔ (c : ZMod 3) = -1 := by
   obtain ⟨σ, hσ⟩ := D.exists_sigma
     (D.simAct_t (fun u hu => (hL u).mpr hu) (fun u hu => (hR u).mpr hu))

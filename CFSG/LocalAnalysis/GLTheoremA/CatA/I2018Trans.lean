@@ -55,6 +55,7 @@ theorem le_normalizer_of_commutator_eq {S : Type} [Group S] {A B : Subgroup S} (
     rw [e2] at hk
     exact hk
 
+omit [Finite G] in
 theorem chevTransfer_ne_bot {K J S₀ : Subgroup G} (hJK : J ≤ K) (hS₀K : S₀ ≤ K)
     (hJS : ⁅S₀, J⁆ = S₀) (hn : ¬ S₀ ≤ GLAPPrimeCoreOf 3 K) : chevTransfer 3 K S₀ ≠ ⊥ := by
   intro h
@@ -81,6 +82,7 @@ theorem chevTransfer_ne_bot {K J S₀ : Subgroup G} (hJK : J ≤ K) (hS₀K : S�
   have hG := (mem_glaPPrimeCoreOf_iff (p := 3) (C := K) ⁅(⟨s, hsK⟩ : ↥K), ⟨j, hjK⟩⁆).2 hmemK
   simpa [commutatorElement_def] using hG
 
+omit [Finite G] in
 theorem chevTransfer_commutator {K J S₀ : Subgroup G} (hJK : J ≤ K) (hS₀K : S₀ ≤ K)
     (hJS : ⁅S₀, J⁆ = S₀) :
     ⁅chevTransfer 3 K S₀, chevTransfer 3 K J⁆ = chevTransfer 3 K S₀ := by
@@ -91,7 +93,8 @@ theorem chevTransfer_commutator {K J S₀ : Subgroup G} (hJK : J ≤ K) (hS₀K 
   unfold chevTransfer
   rw [← Subgroup.map_commutator, hA]
 
-theorem isPGroup_chevTransfer {K S₀ : Subgroup G} (hS₀2 : IsPGroup 2 S₀) (hS₀K : S₀ ≤ K) :
+omit [Finite G] in
+theorem isPGroup_chevTransfer {K S₀ : Subgroup G} (hS₀2 : IsPGroup 2 S₀) (_hS₀K : S₀ ≤ K) :
     IsPGroup 2 (chevTransfer 3 K S₀) := by
   rw [isPGroup_iff_pow_pow_eq_one]
   rintro ⟨g, hg⟩
@@ -120,6 +123,7 @@ theorem twoPart_pSimple_le_card2 (K : Subgroup G) :
   rw [Subgroup.card_eq_card_quotient_mul_card_subgroup (Subgroup.center (PQuot 3 K))]
   exact Dvd.intro _ rfl
 
+omit [Finite G] in
 theorem gla_marking_of_raw {K : Subgroup G} (hq : CFSG.Open.IsQuasisimple (PQuot 3 K))
     (lab : CFSG.Assembly.LargeEvenLabel) (hlab : CFSG.Assembly.LargeEvenInLambda2 lab)
     (hbd : (lab.n = 1 ∧ 2 ^ 6 < card2 3 K) ∨ (lab.n = 3 ∧ 2 ^ 18 < card2 3 K))

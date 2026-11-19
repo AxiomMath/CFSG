@@ -18,7 +18,7 @@ theorem ggL45TorusHRaw_of_vac {p : ℕ} {lab : LargeEvenLabel} {R : Type} [Group
   · refine hno ⟨E.map (ggInducedAut θ), ?_, ?_, ?_⟩
     · rw [IsElemAbelian]
       constructor
-      · haveI : IsMulCommutative E := hE.1
+      · have : IsMulCommutative E := hE.1
         exact Subgroup.map_isMulCommutative (H := E) (ggInducedAut θ)
       · intro x hx
         obtain ⟨e, he, rfl⟩ := Subgroup.mem_map.mp hx

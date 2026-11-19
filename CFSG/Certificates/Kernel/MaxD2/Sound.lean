@@ -43,7 +43,7 @@ structure Pk where
   kw : Nat
   PT : Nat → Nat
   FS : Nat → Nat
-  KS : Nat → Nat
+  KSt : Nat → Nat
   RB : Nat → Nat
   H : Nat → Nat
   CN : Nat → Nat
@@ -89,9 +89,9 @@ structure HypsM (D : Data) (K : Pk) : Prop where
     wordEqK K.n K.w (mask K.w) (pidn K.n K.w) K.Gp K.GIp K.kG (D.repW[i]!) (K.REP (i + 1)) = true
   hRi : ∀ i < K.nr, permOK K.n K.w (mask K.w) (K.n * K.w) (K.REP i) (K.REPI i) = true
   hPts : PtsOK K.n K.np D.fpPts K.PT
-  hS : ∀ s < K.cnt, sortK K.w K.np K.kw K.cnt K.PT K.NT K.FS K.KS s = true
+  hS : ∀ s < K.cnt, sortK K.w K.np K.kw K.cnt K.PT K.NT K.FS K.KSt s = true
   hTest : ∀ i, 0 < i → i < K.nr →
-    repK K.n K.w K.np K.kw K.cnt K.PT K.NT K.FS K.KS K.REP K.REPI K.RB K.H i = true
+    repK K.n K.w K.np K.kw K.cnt K.PT K.NT K.FS K.KSt K.REP K.REPI K.RB K.H i = true
   hCnt : ∀ i, 0 < i → i < K.nr → posCnt K.cnt K.H i = K.CN i
   hSum : (List.range K.nr).foldl
     (fun s i => s + D.nOrder * D.nOrder / (if i = 0 then K.cnt else K.CN i)) 0 = D.gOrder
@@ -99,7 +99,7 @@ structure HypsM (D : Data) (K : Pk) : Prop where
   hM : K.n ≤ 64 * K.hi
   hMK : ∀ i < K.nr, K.MK i = mkeyK K.n K.w K.hi K.cw K.nl K.L (K.REP i)
   hMd : ∀ i < K.nr, ∀ j < K.nr, i < j → K.MK i ≠ K.MK j ∨
-    pairK K.n K.w K.np K.kw K.cnt K.PT K.NT K.FS K.KS K.REP K.REPI K.RB2 K.H2 (K.PQ i j) i j =
+    pairK K.n K.w K.np K.kw K.cnt K.PT K.NT K.FS K.KSt K.REP K.REPI K.RB2 K.H2 (K.PQ i j) i j =
       true
   hGl : D.genW.length = D.repW.length
   hGen : ∀ i < D.repW.length, (D.genW[i]!).length = K.kG ∧ ∀ j < K.kG,
@@ -145,9 +145,9 @@ structure Hyps (D : Data) (K : Pk) : Prop where
     wordEqK K.n K.w (mask K.w) (pidn K.n K.w) K.Gp K.GIp K.kG (D.repW[i]!) (K.REP (i + 1)) = true
   hRi : ∀ i < K.nr, permOK K.n K.w (mask K.w) (K.n * K.w) (K.REP i) (K.REPI i) = true
   hPts : PtsOK K.n K.np D.fpPts K.PT
-  hS : ∀ s < K.cnt, sortK K.w K.np K.kw K.cnt K.PT K.NT K.FS K.KS s = true
+  hS : ∀ s < K.cnt, sortK K.w K.np K.kw K.cnt K.PT K.NT K.FS K.KSt s = true
   hTest : ∀ i, 0 < i → i < K.nr →
-    repK K.n K.w K.np K.kw K.cnt K.PT K.NT K.FS K.KS K.REP K.REPI K.RB K.H i = true
+    repK K.n K.w K.np K.kw K.cnt K.PT K.NT K.FS K.KSt K.REP K.REPI K.RB K.H i = true
   hCnt : ∀ i, 0 < i → i < K.nr → posCnt K.cnt K.H i = K.CN i
   hSum : (List.range K.nr).foldl
     (fun s i => s + D.nOrder * D.nOrder / (if i = 0 then K.cnt else K.CN i)) 0 = D.gOrder
@@ -155,7 +155,7 @@ structure Hyps (D : Data) (K : Pk) : Prop where
   hM : K.n ≤ 64 * K.hi
   hMK : ∀ i < K.nr, K.MK i = mkeyK K.n K.w K.hi K.cw K.nl K.L (K.REP i)
   hMd : ∀ i < K.nr, ∀ j < K.nr, i < j → K.MK i ≠ K.MK j ∨
-    pairK K.n K.w K.np K.kw K.cnt K.PT K.NT K.FS K.KS K.REP K.REPI K.RB2 K.H2 (K.PQ i j) i j =
+    pairK K.n K.w K.np K.kw K.cnt K.PT K.NT K.FS K.KSt K.REP K.REPI K.RB2 K.H2 (K.PQ i j) i j =
       true
   hGl : D.genW.length = D.repW.length
   hGen : ∀ i < D.repW.length, (D.genW[i]!).length = K.kG ∧ ∀ j < K.kG,

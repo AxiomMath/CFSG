@@ -22,7 +22,7 @@ theorem Y1431Cfg.mem_innerAut_of_outDerived {Y P : Type} [Group Y] [Finite Y] [G
   simp only [d4Vocab] at h
   split_ifs at h with hd
   · exact h
-  · haveI : Group.IsPerfect Y := ⟨c.quasisimple.1⟩
+  · have : Group.IsPerfect Y := ⟨c.quasisimple.1⟩
     have h1 : MulAut.congr e (centerDescend Y a) ∈ innAutDerived P :=
       (mem_innAutDerived_congr e).2 (centerDescend_mem_innAutDerived h)
     have h3 : (MulAut.congr e (centerDescend Y a)) ^ 3 = 1 := by
@@ -38,7 +38,7 @@ theorem Y1431Cfg.exists_inner_pair {V : InndiagVocab} {Y : Type} [Group Y] [Fini
   have hξ3 : ξ ^ 3 = 1 := c.pow_three
   have hξo : orderOf ξ = 3 := orderOf_eq_prime hξ3 c.ne_one
   have hzc : Nat.card (Subgroup.zpowers ξ) = 3 := by rw [Nat.card_zpowers, hξo]
-  haveI : Finite (Subgroup.zpowers ξ) := Nat.finite_of_card_ne_zero (by rw [hzc]; norm_num)
+  have : Finite (Subgroup.zpowers ξ) := Nat.finite_of_card_ne_zero (by rw [hzc]; norm_num)
   obtain ⟨η, hη, hηξ⟩ : ∃ η ∈ Â, η ∉ Subgroup.zpowers ξ := by
     by_contra hcon
     push Not at hcon

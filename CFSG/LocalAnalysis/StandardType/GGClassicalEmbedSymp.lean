@@ -93,9 +93,9 @@ private theorem ems_scalar_of_map_scalar (m : ℕ) (K K' : Type) [Field K] [Fiel
   rw [hmap i j]
   by_cases hij : i = j
   · subst hij
-    rw [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, if_pos rfl, hc]
+    rw [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, ite_eq_left rfl, hc]
     simp
-  · rw [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, if_neg hij]
+  · rw [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, ite_eq_right hij]
     simp [hij]
 
 private theorem ems_mapPGL_ker (m : ℕ) (K K' : Type) [Field K] [Field K'] [Algebra K K']

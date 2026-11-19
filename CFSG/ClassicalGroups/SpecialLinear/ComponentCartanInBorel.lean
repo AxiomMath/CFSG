@@ -24,7 +24,7 @@ theorem exists_elemAbelian_diagTorus_meet_ker_eq_bot
       T ≤ diagTorus n F ∧
       CFSG.Open.IsElemAbelian q T ∧ Nat.card T = q ^ 3 ∧ T ⊓ pi.ker = ⊥ := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hdvd' : q ∣ Nat.card Fˣ := by rwa [Nat.card_units]
   obtain ⟨t, ht⟩ := exists_prime_orderOf_dvd_card' q hdvd'
   rcases (show n = 4 ∨ 5 ≤ n by omega) with h4 | h5
@@ -120,10 +120,10 @@ theorem exists_cartan_in_borel_of_linear_component
   classical
   obtain ⟨F, hFld, hFfin, hFchar, π, hFcard, hπsurj, hker⟩ :=
     exists_central_cover_specialLinear_of_ne_two_four hL m (by omega) Q hQ hv e hne
-  letI : Field F := hFld
-  letI : Finite F := hFfin
-  letI : CharP F 2 := hFchar
-  haveI : Fintype F := Fintype.ofFinite F
+  let : Field F := hFld
+  let : Finite F := hFfin
+  let : CharP F 2 := hFchar
+  have : Fintype F := Fintype.ofFinite F
   let SL := SpecialLinearGroup (Fin (m + 1)) F
   have hdvdF : q ∣ Nat.card F - 1 := by rw [hFcard]; exact hdvd
   have hn : 4 ≤ m + 1 := by omega

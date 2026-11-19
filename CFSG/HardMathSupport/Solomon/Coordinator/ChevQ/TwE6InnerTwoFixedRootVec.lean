@@ -32,7 +32,7 @@ private theorem fg_step (i : Fin Tag.E6.rank) (γ : Fin Tag.E6.rank → ℤ)
   set C : L := ∑ m, t m * ((Tag.E6.cartan m i).natAbs : L) with hC
   refine ⟨fun m => t m - if m = i then C else 0, ?_, ?_⟩
   · simp only [map_sum, map_smul, weylElt_hVec, smul_sub, Finset.sum_sub_distrib, sub_smul,
-      ite_smul, zero_smul, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+      ite_smul, zero_smul, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
     congr 1
     rw [hC, Finset.sum_smul]
     exact Finset.sum_congr rfl fun m _ => by rw [smul_smul]
@@ -57,7 +57,7 @@ private theorem fg_step (i : Fin Tag.E6.rank) (γ : Fin Tag.E6.rank → ℤ)
       push_cast
       ring
     simp only [sub_mul, Finset.sum_sub_distrib, ite_mul, zero_mul, Finset.sum_ite_eq',
-      Finset.mem_univ, if_true]
+      Finset.mem_univ, ite_true]
     rw [e1, cartanPair_reflect, fg_cartan_self]
     push_cast
     linear_combination ((cartanPair Tag.E6 γ i : ℤ) : L) * hCs

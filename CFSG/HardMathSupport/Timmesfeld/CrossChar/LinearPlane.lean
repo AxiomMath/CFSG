@@ -219,6 +219,7 @@ theorem conj_toPSL_conj (c s : SpecialLinearGroup (Fin n) F) :
       (MulAut.conj (toPSL n F c))⁻¹ = MulAut.conj (toPSL n F (c * s * c⁻¹)) := by
   simp [map_mul, map_inv]
 
+omit [Finite F] in
 theorem blockPSL_isComponent
     (hinj : Function.Injective (MulAut.conj : PSLn →* MulAut PSLn))
     {H : Subgroup (MulAut PSLn)} (hH : innerAut PSLn ≤ H) (hgood : GoodBlock h) :
@@ -568,7 +569,7 @@ theorem transvection_mem_blockImage (a : SpecialLinearGroup (Fin n) F) (P : GL (
   have hAD : (a : Matrix (Fin n) (Fin n) F) =
       ((P⁻¹ : GL (Fin n) F) : Matrix (Fin n) (Fin n) F) * (D * (P : Matrix (Fin n) (Fin n) F)) := by
     have hcoe : ((SpecialLinearGroup.toGL a : GL (Fin n) F) : Matrix (Fin n) (Fin n) F) = a := rfl
-    simp only [hDdef, Units.val_mul, hcoe, Matrix.mul_assoc, hPP'', hPP''']
+    simp only [hDdef, Units.val_mul, hcoe, Matrix.mul_assoc, hPP''']
     rw [hPP, Matrix.mul_one]
   set E : Matrix (Fin n) (Fin n) F := Matrix.single i j c with hE
   set Bm : Matrix (Fin n) (Fin n) F := ((P⁻¹ : GL (Fin n) F) : Matrix (Fin n) (Fin n) F) *
@@ -578,10 +579,10 @@ theorem transvection_mem_blockImage (a : SpecialLinearGroup (Fin n) F) (P : GL (
     rwa [← hDdiag] at this
   have hcommM : Bm * (a : Matrix (Fin n) (Fin n) F) = (a : Matrix (Fin n) (Fin n) F) * Bm := by
     rw [hAD]
-    simp only [hBm, Matrix.mul_assoc, hPP'', hPP''']
+    simp only [hBm, Matrix.mul_assoc, hPP'']
     rw [← Matrix.mul_assoc E, ← Matrix.mul_assoc D, hED]
   have hBB : Bm * Bm = 0 := by
-    simp only [hBm, Matrix.mul_assoc, hPP'', hPP''']
+    simp only [hBm, Matrix.mul_assoc, hPP'']
     rw [← Matrix.mul_assoc E, hE, Matrix.single_mul_single_of_ne c i j i hij.symm c,
       Matrix.zero_mul,
       Matrix.mul_zero]

@@ -97,7 +97,7 @@ theorem eq_map_unitriangular [Finite G] (hF : Nat.card F = 4) (hn : 1 ≤ n) (φ
   have : CharP F 2 := charP_two_of_card_four hF
   set f := K.subtype.comp φ with hf
   obtain ⟨PU, hPU⟩ := exists_sylow_unitriangular (K := F) 2 hn
-  have hU2 : IsPGroup 2 (unitriangular n F) := hPU ▸ PU.isPGroup'
+  have hU2 : IsPGroup 2 (unitriangular n F) := hPU ▸ PU.isPGroup
   have hrange : f.range = K := by
     rw [hf, MonoidHom.range_comp, MonoidHom.range_eq_top.mpr hφ, ← MonoidHom.range_eq_map,
       range_subtype]

@@ -221,10 +221,10 @@ theorem exists_conj_rep (hv : (Hlist ()).all validE = true) (ho : orbOK (Hlist (
     refine ⟨E, hval, ?_⟩
     by_cases hc : x = 0 ∨ y = 0
     · left
-      rw [if_pos hc] at hEb
+      rw [ite_eq_left hc] at hEb
       exact ⟨hx0.mp hc, hEb⟩
     · right
-      rw [if_neg hc] at hEb
+      rw [ite_eq_right hc] at hEb
       exact ⟨fun h => hc (hx0.mpr h), hEb⟩
 
 end LocalTest

@@ -89,7 +89,7 @@ private theorem fit3_exists_pGroup {F : Subgroup G} [Group.IsNilpotent F] {q : �
     exact hg
   obtain ⟨S, hS⟩ := hzp.exists_le_sylow
   have hSc : (S : Subgroup F).Characteristic := Sylow.characteristic_of_normal S inferInstance
-  exact ⟨(S : Subgroup F).map F.subtype, S.isPGroup'.map F.subtype, Subgroup.map_subtype_le _,
+  exact ⟨(S : Subgroup F).map F.subtype, S.isPGroup.map F.subtype, Subgroup.map_subtype_le _,
     ⟨⟨g, hgF⟩, hS (mem_zpowers _), rfl⟩, fit3_normalizer_le_of_characteristic _⟩
 
 theorem fitting628_three (hS : Setting G) (hU0 : FullCoreLocal G)

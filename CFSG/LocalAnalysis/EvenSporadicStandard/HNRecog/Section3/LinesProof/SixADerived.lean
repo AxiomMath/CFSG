@@ -24,7 +24,7 @@ private lemma lines_four_u_inv_mul_mem {b t : G} (hb2 : b ^ 2 = 1) (ht2 : t ^ 2 
   have htbb : t * b * b = t := by rw [mul_assoc, ← pow_two, hb2, mul_one]
   have htbt : t * b * t = b := by rw [mul_assoc, hbt, ← mul_assoc, ← pow_two, ht2, one_mul]
   fin_cases i <;> fin_cases j <;>
-    simp_all [lines_four_u, hbi, hti, htbi, hbt, ht1, hb1, htbb, htbt, pow_two]
+    simp_all [lines_four_u, pow_two]
 
 theorem lines_four_mul_card_le [Finite G] {K N : Subgroup G} {b t : G} (hb : b ∈ K) (ht : t ∈ K)
     (hb2 : b ^ 2 = 1) (ht2 : t ^ 2 = 1) (hbt : b * t = t * b) (hbN : b ∉ N) (htN : t ∉ N)
@@ -32,7 +32,7 @@ theorem lines_four_mul_card_le [Finite G] {K N : Subgroup G} {b t : G} (hb : b �
   have hu : ∀ i : Fin 4, lines_four_u b t i ∈ K := by
     intro i
     fin_cases i
-    · simpa [lines_four_u] using K.one_mem
+    · simp [lines_four_u]
     · simpa [lines_four_u] using hb
     · simpa [lines_four_u] using ht
     · simpa [lines_four_u] using K.mul_mem ht hb

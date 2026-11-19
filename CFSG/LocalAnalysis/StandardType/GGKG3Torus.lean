@@ -89,9 +89,9 @@ theorem exists_eq_k3Tor {L : Type} [Field L] {ζ : Lˣ} (hζ : orderOf ζ = 7)
 
 theorem k3_exists_zeta {L : Type} [Field L] [IsAlgClosed L] (h2 : ((2 : ℕ) : L) = 0) :
     ∃ ζ : Lˣ, orderOf ζ = 7 := by
-  haveI : CharP L 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
+  have : CharP L 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
   have : NeZero ((7 : ℕ) : L) := NeZero.of_not_dvd L (p := 2) (by norm_num)
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L 7
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L 7
   have hu : IsUnit ζ := hζ.isUnit (by norm_num)
   have hζu : IsPrimitiveRoot hu.unit 7 := IsPrimitiveRoot.coe_units_iff.1 (by simpa using hζ)
   exact ⟨hu.unit, hζu.eq_orderOf.symm⟩

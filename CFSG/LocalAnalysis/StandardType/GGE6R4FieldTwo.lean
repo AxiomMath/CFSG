@@ -61,7 +61,7 @@ theorem e6_kind_suN_of_rank_five_label
         (by simp [LargeEvenInLambda2]) (by simp [LargeEvenInLambda2]) hlabel h
       simp [GGLabelIso] at hh
   · rcases hcounts with h30 | h40
-    · simp only [twistKind, if_neg hInner, hr, h30]
+    · simp only [twistKind, ite_eq_right hInner, hr, h30]
       norm_num
     · exfalso
       have hD : (componentRoots (rootCharHom a) i).ncard = 2 * compRank (componentRoots (rootCharHom a) i) *

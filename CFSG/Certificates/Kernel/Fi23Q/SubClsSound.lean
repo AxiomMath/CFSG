@@ -115,10 +115,10 @@ theorem testBit_foldr_if (l : List ℕ) (P : ℕ → Prop) [DecidablePred P] (G 
   | cons a t ih =>
     rw [List.foldr_cons]
     by_cases hp : P a
-    · rw [if_pos hp, testBit_lor', Bool.or_eq_true, ih]
+    · rw [ite_eq_left hp, testBit_lor', Bool.or_eq_true, ih]
       simp only [List.mem_cons, exists_eq_or_imp, hp, true_and]
       exact or_comm
-    · rw [if_neg hp, ih]
+    · rw [ite_eq_right hp, ih]
       simp only [List.mem_cons, exists_eq_or_imp, hp, false_and, false_or]
 
 theorem testBit_one_shiftLeft (y x : ℕ) : (Nat.shiftLeft 1 y).testBit x = true ↔ x = y := by
@@ -154,8 +154,7 @@ theorem covE_iff {NPV : List ℕ} {fin : ℕ → Bool} {b w : ℕ} :
     covE NPV fin b w = true ↔ ∃ k < NPV.length, lowV (NPV.getD k 0) 4 = b ∧
       fin (sub3 (Nat.shiftRight (NPV.getD k 0) 8) w) = true := by
   unfold covE
-  simp only [anyN_iff, CFSG.KS.PK.bAnd_eq, CFSG.KS.PK.bIf_eq, iteF_iff, Bool.and_eq_true,
-    Nat.beq_eq]
+  simp only [anyN_iff, CFSG.KS.PK.bIf_eq, iteF_iff, Nat.beq_eq]
 
 theorem shiftLeft4 (i : ℕ) : Nat.shiftLeft i 4 = 16 * i := by
   change i <<< 4 = _
@@ -172,13 +171,13 @@ theorem clsEK_sound {CJ : ℕ} (h : clsEK CJ = true) :
     (∀ k < 4, ∀ j, 4 ≤ j → j < 9 → lowV (f32 CJ (16 * k + j)) 4 = 0) := by
   unfold clsEK at h
   simp only [CFSG.KS.PK.allN_iff, CFSG.KS.PK.bIf_eq, Nat.blt_eq, Nat.ble_eq, shiftLeft4,
-    Nat.add_eq, one_shiftLeft2, Nat.beq_eq] at h
+    Nat.add_eq, one_shiftLeft2] at h
   refine ⟨fun i j hi hij hj => ?_, fun k hk j hj hj9 => ?_⟩
   · have := h i (by omega) j hj
-    simp only [hij, ↓reduceIte, show ¬ i < 4 by omega, decide_eq_true_eq, Nat.beq_eq] at this
+    simp only [hij, ↓reduceIte, show ¬ i < 4 by omega, Nat.beq_eq] at this
     exact this
   · have := h k (by omega) j hj9
-    simp only [show k < j by omega, hk, hj, ↓reduceIte, decide_eq_true_eq, Nat.beq_eq] at this
+    simp only [show k < j by omega, hk, hj, ↓reduceIte, Nat.beq_eq] at this
     exact this
 
 theorem clsRK_sound {PW CJ R : ℕ} (h : clsRK PW CJ R = true) :
@@ -203,8 +202,8 @@ theorem clsLK_sound {R : ℕ} {L : List ℕ} (h : clsLK R L = true) :
         ∃ j < L.length, L.getD j 0 =
           closM R (L.getD i 0) (vec3 4 ia) (muT R (vec3 4 ia) (vec3 4 ia)) := by
   unfold clsLK at h
-  simp only [CFSG.KS.PK.bAnd_eq, CFSG.KS.PK.bIf_eq, iteF_iff, iteT_iff, iteT2_iff,
-    Bool.and_eq_true, CFSG.KS.PK.allN_iff, CFSG.KS.PK.strictB_eq, allT_iff, anyN_iff,
+  simp only [CFSG.KS.PK.bIf_eq, iteF_iff, iteT_iff, iteT2_iff,
+    CFSG.KS.PK.allN_iff, CFSG.KS.PK.strictB_eq, allT_iff, anyN_iff,
     Nat.beq_eq] at h
   refine ⟨h.1, fun i hi => ⟨(h.2 i hi).1, fun ia hia hb h3 hc => ?_⟩⟩
   exact (h.2 i hi).2 ia hia (by rw [hb]; decide) h3 hc
@@ -226,8 +225,8 @@ theorem clsGK_sound {Mt : ℕ} {NPV B K X : List ℕ} (h : clsGK Mt NPV B K X = 
       fixB Mt (B.getD i 0) (Nat.shiftRight (NPV.getD (X.getD i 0) 0) 8) = true := by
   intro i hi hk
   unfold clsGK at h
-  simp only [CFSG.KS.PK.allN_iff, CFSG.KS.PK.bIf_eq, CFSG.KS.PK.bAnd_eq, iteF_iff, iteT_iff,
-    Nat.beq_eq, Bool.and_eq_true, Nat.blt_eq] at h
+  simp only [CFSG.KS.PK.allN_iff, CFSG.KS.PK.bIf_eq, iteF_iff, iteT_iff,
+    Nat.beq_eq, Nat.blt_eq] at h
   exact h i hi hk
 
 theorem clsHK_sound {NPV : List ℕ} (h : clsHK NPV = true) :
@@ -235,8 +234,8 @@ theorem clsHK_sound {NPV : List ℕ} (h : clsHK NPV = true) :
       dot3 (vec3 5 i) (Nat.shiftRight (NPV.getD k 0) 8) = 0 := by
   intro i hi h0
   unfold clsHK at h
-  simp only [allE_iff, CFSG.KS.PK.bIf_eq, CFSG.KS.PK.bAnd_eq, iteF_iff, iteT2_iff, anyN_iff,
-    Nat.beq_eq, Bool.and_eq_true] at h
+  simp only [allE_iff, CFSG.KS.PK.bIf_eq, iteF_iff, iteT2_iff, anyN_iff,
+    Nat.beq_eq] at h
   exact h i hi h0
 
 theorem bad2_sound {PW CJ Mt : ℕ} {NPV : List ℕ} {m bd b : ℕ}
@@ -246,8 +245,7 @@ theorem bad2_sound {PW CJ Mt : ℕ} {NPV : List ℕ} {m bd b : ℕ}
         ∃ k < NPV.length, lowV (NPV.getD k 0) 4 = b ∧
           fixB Mt bd (sub3 (Nat.shiftRight (NPV.getD k 0) 8) (vec3 5 i)) = true := by
   unfold bad2 at h
-  simp only [CFSG.KS.PK.bAnd_eq, CFSG.KS.PK.bIf_eq, iteF_iff, iteT_iff, Bool.and_eq_true,
-    CFSG.KS.PK.strictB_eq, Nat.beq_eq, allE_iff] at h
+  simp only [CFSG.KS.PK.bIf_eq, iteF_iff, iteT_iff, CFSG.KS.PK.strictB_eq, Nat.beq_eq, allE_iff] at h
   exact ⟨h.1, h.2.1, fun i hi hc => covE_iff.1 (h.2.2 i hi hc)⟩
 
 theorem clsAK_sound {PW CJ Mt : ℕ} {NPV L B K X : List ℕ}
@@ -274,8 +272,7 @@ theorem bad3_sound {PW CJ Mt : ℕ} {NPV : List ℕ} {m bd a1 a2 a3 c p : ℕ}
         (sub3 (Nat.shiftRight (mulV PW CJ 9 a2 a3) 8) (Nat.shiftRight (mulV PW CJ 9 a3 a2) 8))
         = true := by
   unfold bad3 cubeK commK at h
-  simp only [CFSG.KS.PK.bAnd_eq, CFSG.KS.PK.bIf_eq, iteF_iff, Bool.and_eq_true,
-    CFSG.KS.PK.strictB_eq, Nat.beq_eq, Bool.not_eq_true', Nat.blt_eq] at h
+  simp only [CFSG.KS.PK.bIf_eq, iteF_iff, CFSG.KS.PK.strictB_eq, Nat.beq_eq, Bool.not_eq_true', Nat.blt_eq] at h
   obtain ⟨h1, h2, h3, hc, hp, hp5, hf, y1, y2, y3, u12, u13, u23, hL⟩ := h
   refine ⟨h1, h2, h3, ?_, hp, hp5, hf, y1, y2, y3, u12, u13, u23, hL⟩
   intro e
@@ -295,8 +292,8 @@ theorem bad3L_sound {Mt : ℕ} {NPV : List ℕ} {a1 a2 a3 c p t1 t2 t3 g12 g13 g
         covE NPV (inC1 c) a3 (vec3 5 i3) = true := by
   intro i1 h1 i2 h2 i3 h3 p1 p2 p3 c1 c2 c3 m12 m13 m23
   unfold bad3L at h
-  simp only [allE_iff, CFSG.KS.PK.bIf_eq, CFSG.KS.PK.bAnd_eq, iteT_iff, iteF_iff,
-    Bool.and_eq_true, Nat.beq_eq, Bool.not_eq_true', and_imp] at h
+  simp only [allE_iff, CFSG.KS.PK.bIf_eq, iteT_iff, iteF_iff,
+    Nat.beq_eq, Bool.not_eq_true', and_imp] at h
   by_cases v1 : covE NPV (inC1 c) a1 (vec3 5 i1) = true
   · exact Or.inl v1
   by_cases v2 : covE NPV (inC1 c) a2 (vec3 5 i2) = true

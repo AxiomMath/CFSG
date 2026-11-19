@@ -17,6 +17,7 @@ variable {G : Type*} [Group G] [Finite G]
 @[expose] def LitMinNormal (M : Subgroup G) : Prop :=
   M.Normal ∧ M ≠ ⊥ ∧ ∀ K : Subgroup G, K.Normal → K ≤ M → K = ⊥ ∨ K = M
 
+omit [Finite G] in
 private lemma lit_pow_two_of_mem {T : Subgroup G} (hT : IsPGroup 2 T) {x : G} (hx : x ∈ T) :
     ∃ k : ℕ, x ^ 2 ^ k = 1 := by
   obtain ⟨k, hk⟩ := hT ⟨x, hx⟩
@@ -38,13 +39,13 @@ theorem lit_exists_minNormal_le {K : Subgroup G} [K.Normal] (hK : K ≠ ⊥) :
 
 theorem lit_exists_normalizer_gt {T A : Subgroup G} (hT : IsPGroup 2 T) (hAT : A ≤ T)
     (hne : A ≠ T) : ∃ x ∈ T, x ∉ A ∧ x ∈ normalizer (A : Set G) := by
-  haveI : Group.IsNilpotent ↥T := hT.isNilpotent
+  have : Group.IsNilpotent ↥T := hT.isNilpotent
   have hcond : NormalizerCondition ↥T := Group.normalizerCondition_of_isNilpotent
   have hne' : A.subgroupOf T ≠ ⊤ := fun h' =>
     hne (le_antisymm hAT (Subgroup.subgroupOf_eq_top.mp h'))
   have hlt : A.subgroupOf T < normalizer (A.subgroupOf T : Set ↥T) :=
     hcond (A.subgroupOf T) (lt_top_iff_ne_top.mpr hne')
-  obtain ⟨y, hy, hyA⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨y, hy, hyA⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   have hfwd : ∀ (z : ↥T), z ∈ normalizer (A.subgroupOf T : Set ↥T) → ∀ u ∈ A,
       (z : G) * u * (z : G)⁻¹ ∈ A := by
     intro z hz u hu
@@ -62,7 +63,7 @@ theorem lit_exists_normalizer_gt {T A : Subgroup G} (hT : IsPGroup 2 T) (hAT : A
 variable {A : Subgroup G} {φ : ↥(normalizer (A : Set G)) →* Equiv.Perm (Fin 6)}
 
 theorem lit_mono_le (h : LitBar A φ) {M : Subgroup G} (hM : LitMinNormal M) : A ≤ M := by
-  haveI : M.Normal := hM.1
+  have : M.Normal := hM.1
   have hA2 : IsPGroup 2 A := IsPGroup.of_card (n := 4) (by rw [h.card]; norm_num)
   obtain ⟨T, hAT⟩ := hA2.exists_le_sylow
   have hMeven : Even (Nat.card M) := by
@@ -80,7 +81,7 @@ theorem lit_mono_le (h : LitBar A φ) {M : Subgroup G} (hM : LitMinNormal M) : A
       le_rfl (fun m hm l hl => hM.1.conj_mem l hl m) hMeven
     rwa [inf_of_le_left hUleM] at h
   obtain ⟨z, hzU, hz1, hzcent⟩ :=
-    lit_normal_inf_center (T := (T : Subgroup G)) (N := U) T.isPGroup' hUleT
+    lit_normal_inf_center (T := (T : Subgroup G)) (N := U) T.isPGroup hUleT
       (fun t ht n hn =>
         ⟨hM.1.conj_mem n hn.1 t,
           (T : Subgroup G).mul_mem ((T : Subgroup G).mul_mem ht hn.2)
@@ -89,7 +90,7 @@ theorem lit_mono_le (h : LitBar A φ) {M : Subgroup G} (hM : LitMinNormal M) : A
   have hzA : z ∈ A := by
     have hzC : z ∈ centralizer (A : Set G) :=
       mem_centralizer_iff.mpr fun a ha => (hzcent a (hAT ha)).symm
-    exact h.two_mem z hzC (lit_pow_two_of_mem T.isPGroup' (hUleT hzU))
+    exact h.two_mem z hzC (lit_pow_two_of_mem T.isPGroup (hUleT hzU))
   have hWne : A ⊓ M ≠ ⊥ := by
     intro hWbot
     exact hz1 (Subgroup.mem_bot.mp (hWbot ▸ Subgroup.mem_inf.mpr ⟨hzA, hUleM hzU⟩))
@@ -109,7 +110,7 @@ theorem lit_mono_le (h : LitBar A φ) {M : Subgroup G} (hM : LitMinNormal M) : A
 
 theorem lit_mono_five (h : LitBar A φ) {M : Subgroup G} (hM : LitMinNormal M) :
     ∀ σ ∈ alternatingGroup (Fin 6), ∃ g : ↥(normalizer (A : Set G)), (g : G) ∈ M ∧ φ g = σ := by
-  haveI : M.Normal := hM.1
+  have : M.Normal := hM.1
   have hAM : A ≤ M := lit_mono_le h hM
   have hA2 : IsPGroup 2 A := IsPGroup.of_card (n := 4) (by rw [h.card]; norm_num)
   obtain ⟨T, hAT⟩ := hA2.exists_le_sylow
@@ -128,7 +129,7 @@ theorem lit_mono_five (h : LitBar A φ) {M : Subgroup G} (hM : LitMinNormal M) :
     have hxcent : x ∈ centralizer (A : Set G) :=
       mem_centralizer_iff.mpr fun a ha => ((h.ker ⟨x, hxN⟩).mp h1 a ha).symm
     have hxT : x ∈ (T : Subgroup G) := (inf_le_right : U ≤ (T : Subgroup G)) hxU
-    exact hxA (h.two_mem x hxcent (lit_pow_two_of_mem T.isPGroup' hxT))
+    exact hxA (h.two_mem x hxcent (lit_pow_two_of_mem T.isPGroup hxT))
   let Q : Subgroup ↥(normalizer (A : Set G)) := M.subgroupOf (normalizer (A : Set G))
   have hQnorm : Q.Normal := hM.1.subgroupOf (normalizer (A : Set G))
   let E : Subgroup (Equiv.Perm (Fin 6)) := Q.map φ
@@ -139,7 +140,7 @@ theorem lit_mono_five (h : LitBar A φ) {M : Subgroup G} (hM : LitMinNormal M) :
     have hxE : φ ⟨x, hxN⟩ ∈ E := ⟨⟨x, hxN⟩, hxQ, rfl⟩
     intro hEbot
     exact hφ_ne (Subgroup.mem_bot.mp (hEbot ▸ hxE))
-  haveI : E.Normal := hEnorm
+  have : E.Normal := hEnorm
   have hAlt : alternatingGroup (Fin 6) ≤ E := lit_normal_perm6 E hEne
   intro σ hσ
   obtain ⟨g, hgQ, hgφ⟩ := Subgroup.mem_map.mp (hAlt hσ)

@@ -174,6 +174,7 @@ theorem u_conj {c : ℕ} (hc : c < 10) (h4 : c ≠ 4) :
     u hsw * psiG hsw (yGen 4 3 2 c) * u hsw = psiG hsw (yGen 4 3 2 (th432 c)) := by
   rw [psiG, MonoidHom.comp_apply, u_conj_inl, sigma_psi hsw hc h4, MonoidHom.comp_apply]
 
+omit hsw in
 theorem commute_48 : Commute (yGen 4 4 2 4) (yGen 4 4 2 8) := by
   have h : [4, 8, 4, 8] ∈ yRels 4 4 2 := by decide
   have h1 := evalWord_yGen_of_mem h
@@ -193,7 +194,7 @@ theorem rel4 : (psiG hsw (yGen 4 3 2 4) * u hsw) ^ 4 = 1 := by
     simp only [e1, psiG, MonoidHom.comp_apply, psi442_yGen (show 4 < 10 by norm_num)]
     rfl
   have hc : e1 * e2 = e2 * e1 := by
-    rw [he1, ← map_mul, ← map_mul, Commute.eq (commute_48 hsw)]
+    rw [he1, ← map_mul, ← map_mul, Commute.eq (commute_48)]
   have h1sq : e1 * e1 = 1 := by rw [he1, ← map_mul, yGen_mul_self, map_one]
   have h2sq : e2 * e2 = 1 := by rw [← map_mul, yGen_mul_self, map_one]
   calc (e1 * u hsw) ^ 4 = e1 * (u hsw * e1 * u hsw) * e1 * (u hsw * e1 * u hsw) := by

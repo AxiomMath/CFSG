@@ -38,18 +38,18 @@ theorem ggTwoNodeIndepAtK_smallA (hPos : LR6SmallRankPosB) (hExcl : LR6SmallRank
     hb, hΛa, hWML, hCLL, hWMK, hCK, hφ, hrefl, hpairLL, hpairCK, ⟨fL, hfL⟩, ⟨fK, hfK⟩,
     hclosL, hclosK, hdel, hJ'⟩ :=
     ggResTwoNodeDatum_of_sides_card_one ggWeylSimpleSystemsConjInput_holds hp2 hXs hYs
-  letI := iΛf
-  letI := iΛd
-  letI := iΛaf
-  letI := iΛad
-  letI := iVadd
-  letI := iVmod
+  let := iΛf
+  let := iΛd
+  let := iΛaf
+  let := iΛad
+  let := iVadd
+  let := iVmod
   obtain ⟨Λ₁, iΛ₁f, iΛ₁d, M₁, C₁, V₁, iV₁add, iV₁mod, ι₁, φ₁, h₁, α₁, e₁, hM₁, hWM₁, hC₁,
     hφ₁, hrefl₁, hpair₁, ⟨f₁, hf₁⟩, hclos₁, hind₁⟩ := hXd
-  letI := iΛ₁f
-  letI := iΛ₁d
-  letI := iV₁add
-  letI := iV₁mod
+  let := iΛ₁f
+  let := iΛ₁d
+  let := iV₁add
+  let := iV₁mod
   obtain ⟨e, hML⟩ :=
     ggTW_typeA_of_datum (p := p) (n := N - 1) hp2 (by omega) hBs (ggAutomizer K Bs) e₁ hM₁
       hWM₁ f₁ φ₁ hf₁ hrefl₁ hWML fL (fun i => φ (Sum.inl i)) (fun i => hfL i)
@@ -63,8 +63,8 @@ theorem ggTwoNodeIndepAtK_smallA (hPos : LR6SmallRankPosB) (hExcl : LR6SmallRank
       (fun i : Fin (N - 1) => α (Sum.inl (e i))) (ι (Additive.ofMul ⟨y, hy⟩)) :=
     ggXDatumA_indep_frame_K (p := p) hp2 hH hy hstrong hN5 hpN e hML hCLL
       (fun i w => hφ (Sum.inl i) w) hpairLL hclosL hind
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Module.Finite (ZMod p) V := Module.Finite.of_finite
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Module.Finite (ZMod p) V := Module.Finite.of_finite
   have hcard1 : Fintype.card Λa = 1 := by simpa using hΛa
   obtain ⟨a₀, ha₀⟩ := Fintype.card_eq_one_iff.mp hcard1
   let r : Fin (N - 1) → (V ≃ₗ[ZMod p] V) := fun i => ggLin (p := p) ι (φ (Sum.inl (e i)))

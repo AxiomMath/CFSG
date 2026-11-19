@@ -12,6 +12,7 @@ open scoped commutatorElement Matrix
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem sec8_Rt_eq_comm_mul_CN (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec8Hyp hc n t) :
     ∀ r ∈ Rt M (LB M Q B) t, ∃ a ∈ ⁅Rt M (LB M Q B) t, Rt M (LB M Q B) t⁆,
       ∃ k ∈ hc.CN t, r = a * k := by
@@ -19,7 +20,7 @@ theorem sec8_Rt_eq_comm_mul_CN (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec8Hy
   obtain ⟨jj, kk, hZ2, -⟩ := hc.hyp.cp
   have hq4 : 4 ≤ Nat.card Z := hc.hyp.q4
   obtain ⟨m, hm2, K', hF, hFin, hcard, hnat⟩ := hs.sp
-  haveI : CharP K' 2 := charP_two_of_card_eq_two_pow (hcard.trans hZ2)
+  have : CharP K' 2 := charP_two_of_card_eq_two_pow (hcard.trans hZ2)
   have hK4 : 4 ≤ Nat.card K' := by rw [hcard]; exact hq4
   obtain ⟨φ, hφr, hφk, -⟩ := hnat
   obtain ⟨hS, h16, -⟩ := endg_sp_facts hK4 hm2
@@ -37,7 +38,7 @@ theorem sec8_Rt_eq_comm_mul_CN (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec8Hy
   have hSperf : commutator ↥(StatedSp m K') = ⊤ := by
     rcases hS.eq_bot_or_eq_top_of_normal (commutator ↥(StatedSp m K')) with h | h
     · exfalso
-      haveI : IsMulCommutative ↥(StatedSp m K') := ⟨⟨fun a b => by
+      have : IsMulCommutative ↥(StatedSp m K') := ⟨⟨fun a b => by
         have h1 : ⁅a, b⁆ ∈ commutator ↥(StatedSp m K') := by
           rw [commutator_def]
           exact Subgroup.commutator_mem_commutator (Subgroup.mem_top a) (Subgroup.mem_top b)

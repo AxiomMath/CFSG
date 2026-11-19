@@ -36,7 +36,7 @@ theorem psu4_hyp_false_of_gate (hgate : GateU4) {r : ℕ} [Fact r.Prime] (hr3 : 
   have hKc : Nat.card K = (r ^ 1) ^ 2 := by
     rw [GaloisField.card r (2 * 1) (by norm_num)]
     ring
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hKf : Fintype.card K = r ^ 2 := by rw [Fintype.card_eq_nat_card, hKc, pow_one]
   have hp : p.Prime := h.prime
   have hp7 := h.seven_le

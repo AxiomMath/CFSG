@@ -29,7 +29,7 @@ theorem commutator_eq_bot_of_evenLieType
     ⁅GLAPLayer 2 (fixSubgroup β), GLAPPrimeCoreOf 2 (fixSubgroup β)⁆ = ⊥ := by
   by_cases hcore : β ≠ 1 → CFSG.oddCore ↥(centralizer ({β} : Set (MulAut S))) = ⊥
   · exact commutator_eq_bot_of_oddCore hnc β hcore
-  push_neg at hcore
+  push Not at hcore
   obtain ⟨h1, hne⟩ := hcore
   have hord : orderOf β = 2 := orderOf_eq_prime hβ h1
   have hF := CFSG.ComponentClassification.CatLeaf.generalizedFitting_mulAut_eq_range hnc

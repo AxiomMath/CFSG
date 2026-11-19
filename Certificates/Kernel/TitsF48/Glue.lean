@@ -238,7 +238,7 @@ theorem facts4191 :
       have h1 : π nH ⟨x, hx⟩ = n ⟨x, hx⟩ := hN n hnH ⟨x, hx⟩ (by rw [near_iff hx]; exact hl)
       have h2 : n (n ⟨x, hx⟩) = ⟨x, hx⟩ := by
         rw [← Equiv.Perm.mul_apply, hnn, Equiv.Perm.one_apply]
-      rw [ev, dif_pos hx, hσ, Equiv.Perm.mul_apply, h1, h2]
+      rw [ev, dite_eq_left hx, hσ, Equiv.Perm.mul_apply, h1, h2]
     have hc : ∀ j < 6, σ * fE j = fE j * σ := by
       intro j hj
       have hcH : n * (fE j * n) ∈ titsH :=
@@ -308,7 +308,7 @@ theorem facts4191 :
       simpa [vCode] using this
     obtain ⟨k, hk, e⟩ := (nbOK.1 0 (by norm_num) _).1 hadj
     rw [degK_eq] at hk
-    simp only [show (0 : ℕ) < 1755 by norm_num, if_true] at hk
+    simp only [show (0 : ℕ) < 1755 by norm_num, ite_true] at hk
     rw [nbK_pt (by norm_num)] at e
     have hpk : plK CFSG.KD.TitsOct.PL 0 k = v := by omega
     have htH := gE_mem (i := 1) (by norm_num)

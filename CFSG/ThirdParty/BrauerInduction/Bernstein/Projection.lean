@@ -163,7 +163,7 @@ lemma nuStar_projects_E
           have hz :
               nu_ext (k := k) (G := G) (hd.2 : k) = (z : k) := by
             unfold nu_ext
-            rw [dif_pos hd.2.property]
+            rw [dite_eq_left hd.2.property]
           rw [hz, Int.cast_smul_eq_zsmul]
           have h_gen :
               ClassFun.ind E (ClassFun.character hd.1)
@@ -269,7 +269,7 @@ lemma nuStarLinear_maps_JGlobalIdeal [IsAlgClosed k]
       JIdeal (k := k) (G := G) p)
     P x hx ?_ hzero hadd
   intro hp y hy
-  letI : Fact p.Prime := hp
+  let : Fact p.Prime := hp
   exact
     nuStarLinear_maps_JIdeal B p hy
 

@@ -23,7 +23,7 @@ namespace Weir
 
 theorem card_le_of_homo {a m : ℕ} (hm : m ≤ 2) {E : Subgroup (Homo 3 a m)}
     (hE : ∀ x ∈ E, x ^ 3 = 1) : Nat.card E ≤ 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rcases Nat.eq_zero_or_pos a with rfl | ha
   · have h1 : Nat.card (Homo 3 0 m) = 1 := by
       rw [Nat.card_pi]
@@ -41,7 +41,7 @@ theorem card_le_of_homo {a m : ℕ} (hm : m ≤ 2) {E : Subgroup (Homo 3 a m)}
 
 theorem noE27_of_sigma {G : Type} [Group G] [Finite G] {e a N : ℕ} (hlt : N / e < 3)
     (h : ∀ P : Sylow 3 G, Nonempty (↥P ≃* sigmaModel 3 e a N)) : NoE27 G := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rintro ⟨E, hE, hc⟩
   obtain ⟨P, hEP⟩ := (IsPGroup.of_card (n := 3) (by rw [hc]; norm_num) :
     IsPGroup 3 E).exists_le_sylow
@@ -66,8 +66,8 @@ theorem NoE27.of_injective {G H : Type} [Group G] [Group H] {φ : G →* H}
 
 theorem NoE27.of_surjective {G H : Type} [Group G] [Group H] [Finite G] {π : G →* H}
     (hπ : Function.Surjective π) (hker : ¬ 3 ∣ Nat.card π.ker) (h : NoE27 G) : NoE27 H := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite H := Finite.of_surjective π hπ
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite H := Finite.of_surjective π hπ
   rintro ⟨E, hE, hc⟩
   obtain ⟨Q, hEQ⟩ := (IsPGroup.of_card (n := 3) (by rw [hc]; norm_num) :
     IsPGroup 3 E).exists_le_sylow
@@ -78,7 +78,7 @@ theorem NoE27.of_surjective {G H : Type} [Group G] [Group H] [Finite G] {π : G 
     have hm : a * b⁻¹ ∈ (S : Subgroup G) ⊓ π.ker := by
       refine Subgroup.mem_inf.2 ⟨mul_mem ha (inv_mem hb), ?_⟩
       rw [MonoidHom.mem_ker, map_mul, map_inv, hab, mul_inv_cancel]
-    have hp : IsPGroup 3 ↥((S : Subgroup G) ⊓ π.ker) := S.isPGroup'.to_le inf_le_left
+    have hp : IsPGroup 3 ↥((S : Subgroup G) ⊓ π.ker) := S.isPGroup.to_le inf_le_left
     have hbot : (S : Subgroup G) ⊓ π.ker = ⊥ := by
       by_contra hne
       obtain ⟨k, hk⟩ := hp.exists_card_eq
@@ -120,8 +120,8 @@ theorem orderOf_card_zmod_three {q : ℕ} (hq : q % 3 = 2) : orderOf (q : ZMod 3
 
 theorem noE27_projSL (hF : ¬ 3 ∣ Nat.card F) {n : ℕ} (hn3 : ¬ 3 ∣ n)
     (hlt : n / orderOf (Nat.card F : ZMod 3) < 3) : NoE27 (StatedProj (StatedSL n F)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fintype F := Fintype.ofFinite F
   have hF' : ¬ 3 ∣ Fintype.card F := by rwa [← Nat.card_eq_fintype_card]
   have hGL : NoE27 (GL (Fin n) F) := by
     refine Weir.noE27_of_sigma (by rwa [← Nat.card_eq_fintype_card]) fun P =>
@@ -140,8 +140,8 @@ variable {L : Type} [Field L] [Finite L]
 theorem noE27_projSU {ℓ f n : ℕ} (hL : Nat.card L = (ℓ ^ f) ^ 2) (hq3 : ¬ 3 ∣ ℓ ^ f)
     (hn : 1 ≤ n) (hn3 : ¬ 3 ∣ n) (hlt : n / orderOf (-((ℓ ^ f : ℕ) : ZMod 3)) < 3) :
     NoE27 (StatedProj (StatedSU n (ℓ ^ f) L)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fintype L := Fintype.ofFinite L
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fintype L := Fintype.ofFinite L
   have hLc : Fintype.card L = (ℓ ^ f) ^ 2 := by rw [Fintype.card_eq_nat_card]; exact hL
   have hGU : NoE27 ↥(CFSG.Quasithin.StatedGU n (ℓ ^ f) L) :=
     Weir.noE27_of_sigma hlt fun P =>

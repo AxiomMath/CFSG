@@ -61,7 +61,7 @@ theorem gl83InvariantTwoSylow_of_within (hS : Setting G) (hR : TransitivityReduc
       (normalizer ((zpowers z : Subgroup G) : Set G)) ≤ M :=
     sup_le (CFSG.ABGTheoremB.pPrimeCoreIn_le p M)
       ((CFSG.ABGTheoremB.pPrimeCoreIn_le p _).trans hN₀M)
-  exact isSylowOf_of_invariantTwoMaximalWithin hprime (P.isPGroup'.to_le hDP) hXM
+  exact isSylowOf_of_invariantTwoMaximalWithin hprime (P.isPGroup.to_le hDP) hXM
     (coprime_card_pPrimeCoreIn_sup hN₀M)
     (le_normalizer_pPrimeCoreIn_sup (hDP.trans hPM) hDN₀) hT hTX
 

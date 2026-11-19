@@ -37,7 +37,7 @@ theorem mem_zpowers_of_pSubgroups_cyclic {C : Type} [Group C] [Finite C] {p : �
   have hQp : IsPGroup p (Subgroup.zpowers a ⊔ Subgroup.zpowers b : Subgroup C) :=
     hpa.to_sup_of_normal_right' hpb hnorm
   set Q : Subgroup C := Subgroup.zpowers a ⊔ Subgroup.zpowers b with hQ
-  haveI : IsCyclic Q := hcyc Q hQp
+  have : IsCyclic Q := hcyc Q hQp
   have haQ : Subgroup.zpowers a ≤ Q := le_sup_left
   have hbQ : Subgroup.zpowers b ≤ Q := le_sup_right
   have h1 : (Subgroup.zpowers b).subgroupOf Q ≤ (Subgroup.zpowers a).subgroupOf Q := by

@@ -22,16 +22,16 @@ theorem linTwo_catalog_facts {p : ℕ} (hp : p.Prime) {q : TauCeti.PrimePower}
     IsSimpleGroup (TauCeti.CFSGIndex.lie d).Group ∧
       (∃ a b : (TauCeti.CFSGIndex.lie d).Group, a * b ≠ b * a) ∧
       Group.IsSolvable (Outer (TauCeti.CFSGIndex.lie d).Group) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨eP⟩ := nonempty_mulEquiv_psl2GF_of_isLinTwoIndex (p := p) (n := q.exponent)
     (d := d) ⟨q, hd, hqp, rfl⟩
   obtain ⟨x, hv⟩ := d
   change x = _ at hd
   subst hd
   have hS := CFSG.Open.StatedAPI.statedClassicalModel_of_mulEquiv_typeA hv (MulEquiv.refl _)
-  haveI := CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel hS
+  have := CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel hS
   refine ⟨inferInstance, ?_, classical_model_outer_solvable hS⟩
-  haveI : Finite (TauCeti.CFSGIndex.lie ⟨.A 1 q, hv⟩).Group := Finite.of_equiv _ eP.symm.toEquiv
+  have : Finite (TauCeti.CFSGIndex.lie ⟨.A 1 q, hv⟩).Group := Finite.of_equiv _ eP.symm.toEquiv
   have hT := (psl2GF_sylow p q.exponent (by omega) (default : Sylow p (PSL2GF p q.exponent))).2
   refine exists_mul_ne_of_sq_dvd_card hp ?_ Nat.card_pos.ne'
   rw [Nat.card_congr eP.toEquiv]
@@ -42,8 +42,8 @@ theorem linTwo_isSolvable_of_sylow_le {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hd : d.1 = .A 1 q) {L : Type} [Group L] [Finite L]
     (hL : Nonempty (L ≃* (TauCeti.CFSGIndex.lie d).Group)) (T : Sylow p L) (H : Subgroup L)
     (hTH : (T : Subgroup L) ≤ H) (hH : H ≠ ⊤) : Group.IsSolvable H := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := CFSG.Adapters.certificate43_holds
+  have : Fact p.Prime := ⟨hp⟩
+  have := CFSG.Adapters.certificate43_holds
   obtain ⟨e₁⟩ := hL
   obtain ⟨e₂⟩ := nonempty_mulEquiv_psl2GF_of_isLinTwoIndex (p := p) (n := q.exponent)
     (d := d) ⟨q, hd, hqp, rfl⟩
@@ -55,7 +55,7 @@ theorem threeFourTwoLinTwo_inf {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {q : Tau
     {Y : Type} [Group Y] [Finite Y] {K Y₀ : Subgroup Y} (R : Sylow p Y) (hK : K.Normal)
     (hKX : Nonempty (K ≃* (TauCeti.CFSGIndex.lie d).Group)) (hRY₀ : (R : Subgroup Y) ≤ Y₀)
     (hKY₀ : ¬ K ≤ Y₀) : Group.IsSolvable (K ⊓ Y₀ : Subgroup Y) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact isSolvable_inf_of_forall_sylow_le R
     (fun T H hTH hH => linTwo_isSolvable_of_sylow_le hp hp2 hqp hq2 hd hKX T H hTH hH) hRY₀ hKY₀
 

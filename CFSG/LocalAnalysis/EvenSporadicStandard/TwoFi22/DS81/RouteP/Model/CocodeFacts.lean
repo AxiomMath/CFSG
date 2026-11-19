@@ -16,9 +16,9 @@ open CFSG.RankThree.PartTwo.Sec4.Census.Karpilovsky.Coordinator
 
 @[expose] noncomputable def epsAt (k : ℕ) : Q3 := if h : k < 11 then epsElt ⟨k, h⟩ else 1
 
-theorem epsAt_of_lt {k : ℕ} (h : k < 11) : epsAt k = epsElt ⟨k, h⟩ := dif_pos h
+theorem epsAt_of_lt {k : ℕ} (h : k < 11) : epsAt k = epsElt ⟨k, h⟩ := dite_eq_left h
 
-theorem epsAt_of_ge {k : ℕ} (h : 11 ≤ k) : epsAt k = 1 := dif_neg (by omega)
+theorem epsAt_of_ge {k : ℕ} (h : 11 ≤ k) : epsAt k = 1 := dite_eq_right (by omega)
 
 @[expose] noncomputable def epsListFrom : ℕ → ℕ → List Q3
   | 0, _ => []
@@ -49,15 +49,15 @@ theorem getD_epsListFrom :
     have h : s + (j + 1) = s + 1 + j := by omega
     rw [h]
     by_cases hj : j < k
-    · rw [if_pos hj, if_pos (by omega)]
-    · rw [if_neg hj, if_neg (by omega)]
+    · rw [ite_eq_left hj, ite_eq_left (by omega)]
+    · rw [ite_eq_right hj, ite_eq_right (by omega)]
 
 theorem length_epsList : epsList.length = 11 := length_epsListFrom 11 0
 
 theorem mem_epsList {x : Q3} (hx : x ∈ epsList) : ∃ i, x = epsAt i := mem_epsListFrom 11 0 x hx
 
 theorem getD_epsList {j : ℕ} (hj : j < 11) : epsList.getD j 1 = epsElt ⟨j, hj⟩ := by
-  rw [epsList, getD_epsListFrom, if_pos hj, Nat.zero_add, epsAt_of_lt hj]
+  rw [epsList, getD_epsListFrom, ite_eq_left hj, Nat.zero_add, epsAt_of_lt hj]
 
 theorem epsAt_mem_E0 (k : ℕ) : epsAt k ∈ E0 := by
   by_cases h : k < 11
@@ -126,7 +126,7 @@ theorem exists_epsMask_of_mem_E0 {x : Q3} (hx : x ∈ E0) : ∃ m < 2 ^ 11, epsM
 
 theorem epsMask_injOn {a b : ℕ} (ha : a < 2 ^ 11) (hb : b < 2 ^ 11)
     (h : epsMask a = epsMask b) : a = b := by
-  haveI : Finite E0 := finite_and_card_E0_le.1
+  have : Finite E0 := finite_and_card_E0_le.1
   let f : Fin (2 ^ 11) → ↥E0 := fun m => ⟨epsMask m, epsMask_mem_E0 m⟩
   have hsurj : Function.Surjective f := by
     rintro ⟨x, hx⟩
@@ -156,7 +156,7 @@ end Certs
 
 theorem getElem_epsList {i : ℕ} (hi : i < epsList.length) : epsList[i] = epsAt i := by
   have h11 : i < 11 := by simpa [length_epsList] using hi
-  rw [← List.getD_eq_getElem _ 1 hi, epsList, getD_epsListFrom, if_pos h11, Nat.zero_add]
+  rw [← List.getD_eq_getElem _ 1 hi, epsList, getD_epsListFrom, ite_eq_left h11, Nat.zero_add]
 
 theorem map_epsList_conj (g : Q3) {cs : List ℕ} (hcs : cs.length = 11)
     (h : ∀ j < 11, g * epsAt j * g⁻¹ = epsMask cs[j]!) :
@@ -207,11 +207,11 @@ theorem cocodeG_neg_two : cocodeG (-2) = bElt⁻¹ := by simp [cocodeG]
 
 theorem cocodeG_eps (s : ℕ) : cocodeG ((s : ℤ) + 3) = epsAt s := by
   unfold cocodeG
-  rw [if_neg (by omega), if_neg (by omega), if_neg (by omega), if_neg (by omega)]
+  rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by omega)]
   by_cases hs : s < 11
   · have h : ((s : ℤ) + 3 - 3).toNat = s := by omega
-    rw [if_pos ⟨by omega, by omega⟩, h]
-  · rw [if_neg (by omega), epsAt_of_ge (by omega)]
+    rw [ite_eq_left ⟨by omega, by omega⟩, h]
+  · rw [ite_eq_right (by omega), epsAt_of_ge (by omega)]
 
 theorem wordG_append (u v : List ℤ) :
     wordG cocodeG (u ++ v) = wordG cocodeG u * wordG cocodeG v := by

@@ -38,7 +38,7 @@ theorem exists_isFzT2 {t x₁ x₂ : G} {S : Subgroup G} (hS : IsPGroup 2 S)
   refine ⟨(Q : Subgroup (fzN2 t x₁ x₂)).map (fzN2 t x₁ x₂).subtype, ⟨?_, ?_, ?_, ?_⟩⟩
   · rintro _ ⟨q, -, rfl⟩
     exact q.2
-  · exact Q.isPGroup'.map _
+  · exact Q.isPGroup.map _
   · have hrel : ((Q : Subgroup (fzN2 t x₁ x₂)).map (fzN2 t x₁ x₂).subtype).relIndex
         (fzN2 t x₁ x₂) = (Q : Subgroup (fzN2 t x₁ x₂)).index := by
       have h := Subgroup.relIndex_map_map_of_injective

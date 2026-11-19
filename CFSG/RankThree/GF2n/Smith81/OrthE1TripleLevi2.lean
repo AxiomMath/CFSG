@@ -33,8 +33,8 @@ theorem lv2_gram_expand (P Q R T : Matrix (Fin 2) (Fin 2) K) :
         (Qᵀ * T - Tᵀ * Q) := by
   rw [lv2J_def, Matrix.fromBlocks_transpose, Matrix.fromBlocks_multiply,
     Matrix.fromBlocks_multiply]
-  simp only [Matrix.mul_zero, Matrix.zero_mul, Matrix.mul_one, Matrix.one_mul, zero_add, add_zero,
-    Matrix.mul_neg, Matrix.neg_mul, Matrix.transpose_zero]
+  simp only [Matrix.mul_zero, Matrix.mul_one, zero_add, add_zero,
+    Matrix.mul_neg, Matrix.neg_mul]
   refine Matrix.fromBlocks_inj.mpr ⟨?_, ?_, ?_, ?_⟩ <;> abel
 
 theorem lv2_gram_iff (P Q R T : Matrix (Fin 2) (Fin 2) K) :
@@ -50,13 +50,13 @@ theorem lv2_gram_iff (P Q R T : Matrix (Fin 2) (Fin 2) K) :
 theorem lv2Blk_one : lv2Blk (1 : Matrix (Fin 2) (Fin 2) K) = 1 := by
   ext i j
   rcases i with i | i <;> rcases j with j | j <;> fin_cases i <;> fin_cases j <;>
-    simp [lv2Blk, Matrix.one_apply, Matrix.fromBlocks]
+    simp [lv2Blk, Matrix.fromBlocks]
 
 theorem lv2Blk_mul (A B : Matrix (Fin 2) (Fin 2) K) : lv2Blk (A * B) = lv2Blk A * lv2Blk B := by
   ext i j
   rcases i with i | i <;> rcases j with j | j <;> fin_cases i <;> fin_cases j <;>
     simp [lv2Blk, Matrix.mul_apply, Fintype.sum_sum_type, Fin.sum_univ_two, S0,
-      Matrix.one_apply] <;> ring
+      Matrix.one_apply]
 
 theorem lv2Blk_gram (A : Matrix (Fin 2) (Fin 2) K) (hA : A.det = 1) :
     (lv2Blk A)ᵀ * lv2J * lv2Blk A = lv2J := by
@@ -66,13 +66,11 @@ theorem lv2Blk_gram (A : Matrix (Fin 2) (Fin 2) K) (hA : A.det = 1) :
   ext i j
   rcases i with i | i <;> rcases j with j | j <;> fin_cases i <;> fin_cases j <;>
     simp [lv2Blk, Matrix.fromBlocks, Matrix.mul_apply, Fintype.sum_sum_type, Fin.sum_univ_two,
-      S0, Matrix.one_apply, Matrix.fromBlocks_multiply] <;>
+      S0, Matrix.one_apply] <;>
     first
     | ring1
     | linear_combination h2
     | linear_combination (-1 : K) * h2
-    | linear_combination (2 : K) * h2
-    | linear_combination (-2 : K) * h2
 
 theorem lv2_inv_transpose [CharP K 2] (A : Matrix (Fin 2) (Fin 2) K) (hA : A.det = 1) :
     (A⁻¹)ᵀ = S0 * A * S0 := by
@@ -87,7 +85,7 @@ theorem lv2Blk_comm_levi [CharP K 2] (h A : Matrix (Fin 2) (Fin 2) K) (hA : A.de
   rw [lv2_inv_transpose A hA]
   ext i j
   rcases i with i | i <;> rcases j with j | j <;> fin_cases i <;> fin_cases j <;>
-    simp [lv2Blk, Matrix.fromBlocks_multiply, Matrix.mul_apply, Fintype.sum_sum_type,
+    simp [lv2Blk, Matrix.mul_apply, Fintype.sum_sum_type,
       Fin.sum_univ_two, S0, Matrix.one_apply, Matrix.fromBlocks, Matrix.vecMul, dotProduct] <;>
     ring
 
@@ -164,13 +162,13 @@ theorem lv2u1_inv_T [CharP K 2] : ((lv2u1 : Matrix (Fin 2) (Fin 2) K)⁻¹)ᵀ =
   rw [lv2_inv_transpose _ lv2u1_det]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [lv2u1, lv2l1, S0, Matrix.mul_apply, Fin.sum_univ_two, Matrix.vecMul, dotProduct]
+    simp [lv2u1, lv2l1, S0, Matrix.mul_apply, Fin.sum_univ_two]
 
 theorem lv2l1_inv_T [CharP K 2] : ((lv2l1 : Matrix (Fin 2) (Fin 2) K)⁻¹)ᵀ = lv2u1 := by
   rw [lv2_inv_transpose _ lv2l1_det]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [lv2u1, lv2l1, S0, Matrix.mul_apply, Fin.sum_univ_two, Matrix.vecMul, dotProduct]
+    simp [lv2u1, lv2l1, S0, Matrix.mul_apply, Fin.sum_univ_two]
 
 theorem lv2_comm_diag (A B P Q R T : Matrix (Fin 2) (Fin 2) K)
     (h : Matrix.fromBlocks A 0 0 B * Matrix.fromBlocks P Q R T =
@@ -204,8 +202,8 @@ theorem lv2_blocks_of_comm (P Q R T : Matrix (Fin 2) (Fin 2) K)
   have l1 := ent _ _ h8 0 0
   have l2 := ent _ _ h8 0 1
   simp only [lv2u1, lv2l1, Matrix.mul_apply, Fin.sum_univ_two, Matrix.of_apply, Matrix.cons_val',
-    Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, Matrix.empty_val',
-    Matrix.cons_val_fin_one, Matrix.head_fin_const]
+    Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.empty_val',
+    Matrix.cons_val_fin_one]
     at a1 a2 b1 b2 c1 c2 d1 d2 f1 f2 g1 g2 k1 k2 l1 l2
   refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
   · linear_combination a1
@@ -228,7 +226,7 @@ theorem lv2_fromBlocks_eq_blk (P Q R T : Matrix (Fin 2) (Fin 2) K) (h10 : P 1 0 
     Matrix.fromBlocks P Q R T = lv2Blk !![P 0 0, Q 0 1; R 0 1, T 0 0] := by
   ext i j
   rcases i with i | i <;> rcases j with j | j <;> fin_cases i <;> fin_cases j <;>
-    simp [lv2Blk, S0, Matrix.one_apply, h10, h01, h11, hq00, hq11, hqs, hr00, hr11, hrs, ht10,
+    simp [lv2Blk, S0, h10, h01, h11, hq00, hq11, hqs, hr00, hr11, hrs, ht10,
       ht01, ht11]
 
 theorem lv2_centralizer_blocks (g : ↥(StatedSp 2 K)) [CharP K 2]
@@ -260,7 +258,7 @@ theorem lv2_centralizer_blocks (g : ↥(StatedSp 2 K)) [CharP K 2]
   refine ⟨P, Q, R, T, hM, e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11, e12, ?_⟩
   have h00 := congrFun (congrFun g2 0) 0
   simp only [Matrix.sub_apply, Matrix.mul_apply, Fin.sum_univ_two, Matrix.transpose_apply,
-    Matrix.one_apply_eq, Matrix.one_apply_ne, Fin.zero_eta, Fin.isValue] at h00
+    Matrix.one_apply_eq, Fin.isValue] at h00
   simp only [e1, e10, e7, e4, e9, e6] at h00
   linear_combination h00
 
@@ -399,14 +397,14 @@ theorem lv2Nm_card : Nat.card (lv2Nm K) = Nat.card K := by
 theorem lv2Blk_unipSL (s : K) : lv2Blk (unipSL s : Matrix (Fin 2) (Fin 2) K) = lv2up s := by
   ext i j
   rcases i with i | i <;> rcases j with j | j <;> fin_cases i <;> fin_cases j <;>
-    simp [lv2Blk, lv2up, uS, unipSL_apply, S0, Matrix.one_apply]
+    simp [lv2Blk, lv2up, uS, unipSL_apply, S0]
 
 theorem lv2Blk_lowSL [CharP K 2] (c : K) :
     lv2Blk (lowSL c : Matrix (Fin 2) (Fin 2) K) = lv2low c := by
   rw [lowSL_apply]
   ext i j
   rcases i with i | i <;> rcases j with j | j <;> fin_cases i <;> fin_cases j <;>
-    simp [lv2Blk, lv2low, S0, Matrix.one_apply]
+    simp [lv2Blk, lv2low, S0]
 
 theorem lv2Theta_unipSL [CharP K 2] (s : K) : lv2Theta (unipSL s) = lv2upE s :=
   Subtype.ext (Units.ext (lv2Blk_unipSL s))
@@ -435,8 +433,6 @@ theorem lv2_SL_fact_of_ne [CharP K 2] (g : Matrix.SpecialLinearGroup (Fin 2) K)
     | ring1
     | linear_combination hdet
     | linear_combination (-1 : K) * hdet
-    | linear_combination (2 : K) * hdet
-    | linear_combination (-2 : K) * hdet
 
 theorem lv2_lowSL_mul_neg [CharP K 2] (μ : K) : lowSL μ * lowSL (-μ) = 1 := by
   apply Subtype.ext
@@ -523,7 +519,7 @@ theorem lv2up_alt [CharP K 2] (μ : K) (v : Fin 2 ⊕ Fin 2 → K) :
     rw [Matrix.fromBlocks_mulVec]
     funext i
     rcases i with i | i <;>
-      simp [Matrix.mulVec, dotProduct, Fin.sum_univ_two, S0, mul_add, Matrix.smul_apply]
+      simp [dotProduct, Fin.sum_univ_two, S0]
   rw [hw, lv2_sympPair_elim]
   simp only [dotProduct, Fin.sum_univ_two, Pi.add_apply, Pi.smul_apply, Matrix.mulVec, S0,
     smul_eq_mul]
@@ -680,7 +676,7 @@ theorem lv2_perp_line [CharP K 2] (a y : Fin 2 → K) (ha : a ≠ 0) (hay : a �
     refine ⟨y 1 / a 0, ?_⟩
     funext i
     fin_cases i
-    · simp [S0, Matrix.mulVec, dotProduct, Fin.sum_univ_two, hy0, h1]
+    · simp [S0, Matrix.mulVec, dotProduct, Fin.sum_univ_two, hy0]
       field_simp
     · simp [S0, Matrix.mulVec, dotProduct, Fin.sum_univ_two, hy0, h1]
   · refine ⟨y 0 / a 1, ?_⟩
@@ -697,7 +693,7 @@ theorem lv2up_fix [CharP K 2] (μ : K) (x : Fin 2 → K) :
   unfold lv2up uS
   rw [Matrix.fromBlocks_mulVec]
   funext i
-  rcases i with i | i <;> simp [Matrix.mulVec, dotProduct, Fin.sum_univ_two]
+  rcases i with i | i <;> simp
 
 theorem lv2_N_le_K [CharP K 2] (a : Fin 2 → K) (ha : a ≠ 0) (n : ↥(StatedSp 2 K))
     (hn : n ∈ lv2N K) : n ∈ lv2K (Sum.elim a 0) := by
@@ -707,7 +703,7 @@ theorem lv2_N_le_K [CharP K 2] (a : Fin 2 → K) (ha : a ≠ 0) (n : ↥(StatedS
     ⟨fun i => v (Sum.inl i), fun i => v (Sum.inr i), by
       funext i; rcases i with i | i <;> rfl⟩
   rw [lv2_sympPair_elim] at hv
-  simp only [dotProduct_zero, zero_dotProduct, sub_zero] at hv
+  simp only [zero_dotProduct, sub_zero] at hv
   obtain ⟨c, hc⟩ := lv2_perp_line a y ha hv
   refine ⟨μ * c, ?_⟩
   have hc0 : y 1 = c * a 0 := by
@@ -719,7 +715,7 @@ theorem lv2_N_le_K [CharP K 2] (a : Fin 2 → K) (ha : a ≠ 0) (n : ↥(StatedS
   rw [Matrix.fromBlocks_mulVec]
   funext i
   rcases i with i | i <;> fin_cases i <;>
-    simp [Matrix.mulVec, dotProduct, Fin.sum_univ_two, S0, hc0, hc1, smul_eq_mul,
+    simp [dotProduct, Fin.sum_univ_two, S0, hc0, hc1, smul_eq_mul,
       Matrix.vecHead, Matrix.vecTail] <;> ring
 
 theorem lv2_conj_N_mem_K [CharP K 2] (W : ↥(StatedSp 2 K)) (c a : Fin 2 → K) (hc : c ≠ 0)
@@ -772,7 +768,7 @@ theorem lv2_eq_of_two_group {G : Type*} [Group G] [Finite G] (T H N : Subgroup G
   exact Subgroup.eq_of_le_of_card_ge hNH (by omega)
 
 theorem lv2_two_dvd_card [Finite K] [CharP K 2] : 2 ∣ Nat.card K := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   obtain ⟨n, -, hcard⟩ := FiniteField.card K 2
   rw [Nat.card_eq_fintype_card, hcard]
   exact dvd_pow_self 2 (PNat.ne_zero n)
@@ -810,7 +806,7 @@ theorem lv2Theta_injective [CharP K 2] : Function.Injective (lv2Theta (K := K)) 
   have e01 := congrFun (congrFun hm (Sum.inl 0)) (Sum.inr 1)
   have e10 := congrFun (congrFun hm (Sum.inr 0)) (Sum.inl 1)
   have e11 := congrFun (congrFun hm (Sum.inr 1)) (Sum.inr 1)
-  simp [lv2Blk, S0, Matrix.one_apply] at e00 e01 e10 e11
+  simp [lv2Blk, S0] at e00 e01 e10 e11
   apply Matrix.SpecialLinearGroup.ext
   intro i j
   fin_cases i <;> fin_cases j <;> simp_all
@@ -882,7 +878,7 @@ theorem lv2_step3 [Finite K] [CharP K 2] (𝔄 : Subgroup ↥(StatedSp 2 K))
     rw [hW'def, lv2m_mul, hu, lv2_uSp_inv_m, hWm]
     unfold uS
     rw [Matrix.fromBlocks_multiply]
-    simp [hSR, Matrix.neg_mul, sub_eq_add_neg]
+    simp [hSR, sub_eq_add_neg]
   set 𝔄' : Subgroup ↥(StatedSp 2 K) := 𝔄.map (MulAut.conj u⁻¹).toMonoidHom with h𝔄'
   have hmem' : ∀ g, g ∈ 𝔄' ↔ ∃ h ∈ 𝔄, u⁻¹ * h * u = g := by
     intro g
@@ -908,7 +904,7 @@ theorem lv2_step3 [Finite K] [CharP K 2] (𝔄 : Subgroup ↥(StatedSp 2 K))
       intro z
       have hWa : lv2m W' *ᵥ Sum.elim (R⁻¹ *ᵥ z) (0 : Fin 2 → K) = Sum.elim (0 : Fin 2 → K) z := by
         rw [hW'm, lv2_fromBlocks_mulVec_elim]
-        simp only [Matrix.zero_mulVec, Matrix.mulVec_zero, add_zero, zero_add, Matrix.mulVec_mulVec,
+        simp only [Matrix.zero_mulVec, Matrix.mulVec_zero, add_zero, Matrix.mulVec_mulVec,
           hR1, Matrix.one_mulVec, Matrix.zero_mul]
       have hinv : lv2m W'⁻¹ *ᵥ Sum.elim (0 : Fin 2 → K) z = Sum.elim (R⁻¹ *ᵥ z) 0 := by
         rw [← hWa, Matrix.mulVec_mulVec, lv2m_inv_mul, Matrix.one_mulVec]
@@ -1009,7 +1005,7 @@ theorem lv2_decomp [Finite K] [CharP K 2] (S : Matrix (Fin 2) (Fin 2) K) (hS : S
   refine ⟨![r0, r1], S 0 1 - r0 * r1, ?_⟩
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [S0, Matrix.vecMulVec_apply, h01] <;>
+    simp [S0, h01] <;>
     first
     | ring1
     | linear_combination (-1 : K) * hr0
@@ -1110,7 +1106,7 @@ theorem lv2_step4 [Finite K] [CharP K 2] (hK : 4 ≤ Nat.card K) (𝔄 : Subgrou
     have hs0 : (Matrix.single 0 0 (1 : K) : Matrix (Fin 2) (Fin 2) K)ᵀ =
         Matrix.single 0 0 (1 : K) := by
       ext i j
-      fin_cases i <;> fin_cases j <;> simp [Matrix.single_apply]
+      fin_cases i <;> fin_cases j <;> simp
     set f : ↥(StatedSp 2 K) := levSp A hA with hfdef
     set x0 : ↥(StatedSp 2 K) := uSp (Matrix.single 0 0 (1 : K)) hs0 with hx0def
     have hxf : x = f * x0 * f⁻¹ := (lv2_uSp_conj_single A hA v hA0 hA1 hvs hs0).symm

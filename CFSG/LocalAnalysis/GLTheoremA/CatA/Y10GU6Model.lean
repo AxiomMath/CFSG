@@ -38,7 +38,7 @@ theorem model_fix [Finite F] (hF : Nat.card F = (2 ^ 2) ^ 2) {g : ↥(StatedSU 6
   have hgd : (g' : GL (Fin 6) F).val = Matrix.diagonal d := hPd
   have hd5 : ∀ k, d k ^ 5 = 1 := by
     have h5 := congrArg (fun x : ↥(StatedSU 6 (2 ^ 2) F) => ((x : GL (Fin 6) F).val)) hg'5
-    simp only [Subgroup.coe_pow, Units.val_pow_eq_pow_val, hgd, Units.val_one, one_pow] at h5
+    simp only [Subgroup.coe_pow, Units.val_pow_eq_pow_val, hgd] at h5
     intro k
     have h6 := congrFun (congrFun h5 k) k
     rw [Matrix.diagonal_pow] at h6

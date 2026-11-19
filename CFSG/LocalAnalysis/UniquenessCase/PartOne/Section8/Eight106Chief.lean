@@ -31,12 +31,12 @@ private theorem isSLn_of_isL2 {X : Type} [Group X] {m : ℕ} (h : IsL2 X m) :
 private theorem eq_top_of_le_normalizer_of_isL2 {K B D : Subgroup G} {m : ℕ} (hK : ⁅K, K⁆ = K)
     (hL2 : IsL2 (Bar2 K) m) (hBK : B ≤ K) (hKn : K ≤ normalizer (B : Set G))
     (hDB : D ≤ B) (hD3 : Nat.card D = 3) : B = K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hsimple : IsSimpleGroup (Bar2 K) := CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hL2
   have hBnorm : (B.subgroupOf K).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hBK).mpr hKn
-  haveI := hBnorm
+  have := hBnorm
   have hDK : D ≤ K := hDB.trans hBK
   have hD3K : Nat.card (D.subgroupOf K) = 3 := by
     rw [← hD3]
@@ -66,7 +66,7 @@ private theorem eq_top_of_le_normalizer_of_isL2 {K B D : Subgroup G} {m : ℕ} (
       have hp : IsPGroup 2 ↥((CFSG.pCore 2 ↥K).map q) := CFSG.pCore_isPGroup.map q
       rw [hmap] at hp
       exact hp.of_equiv Subgroup.topEquiv
-    haveI : Group.IsPerfect ↥K := Subgroup.isPerfect_iff.mpr hK
+    have : Group.IsPerfect ↥K := Subgroup.isPerfect_iff.mpr hK
     have htop : B.subgroupOf K = ⊤ :=
       CFSG.ComponentClassification.LiteratureLocal.eq_top_of_isPGroup_quotient_of_perfect
         (p := 2) (B.subgroupOf K) hP
@@ -109,11 +109,11 @@ theorem false_of_isChiefFactorUnder_of_isL2 (hK462 : UCK.K462) {K : Subgroup G} 
     (hD3 : Nat.card D = 3) (hfix : ∀ w ∈ W₁, (∀ d ∈ D, w * d * w⁻¹ * d⁻¹ ∈ W₂) → w ∈ W₂) :
     False := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨N, hNnormal, hN3, hcases⟩ :=
     chief_quot_cases_of_isL2 hK462 hK hKk hL2 hr hW hDK hD3 hfix
-  letI := hNnormal
+  let := hNnormal
   have hsimple : IsSimpleGroup (Bar2 K) := CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hL2
   have h3dvd : 3 ∣ Nat.card (Bar2 K) :=
     CFSG.LocalAnalysis.UniquenessCase.PartTwo.S17.three_dvd_card_of_isL2Even hL2

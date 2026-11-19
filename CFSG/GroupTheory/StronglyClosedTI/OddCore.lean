@@ -49,7 +49,7 @@ theorem commute_normalClosure_of_odd_normal (hY2 : ∀ y ∈ Y, y * y = 1) (hY4 
     (hTI : ∀ y ∈ Y, y ≠ 1 → ∀ g : G, g * y = y * g → g ∈ normalizer (Y : Set G))
     {O : Subgroup G} (hOn : O.Normal) (hOodd : Odd (Nat.card O)) :
     ∀ o ∈ O, ∀ x ∈ normalClosure (Y : Set G), o * x = x * o := by
-  haveI := hOn
+  have := hOn
   intro o ho x hx
   have hC : normalClosure (Y : Set G) ≤ centralizer (O : Set G) := by
     refine normalClosure_le_normal ?_
@@ -67,7 +67,7 @@ variable {X : Type*} [Group X] [Finite X]
 
 theorem isNilpotent_comap_pCore {C : Subgroup X} [C.Normal] (hC : C ≤ center X) :
     Group.IsNilpotent ↥((CFSG.pCore 2 (X ⧸ C)).comap (QuotientGroup.mk' C)) := by
-  haveI : Group.IsNilpotent ↥(CFSG.pCore 2 (X ⧸ C)) := CFSG.pCore_isNilpotent
+  have : Group.IsNilpotent ↥(CFSG.pCore 2 (X ⧸ C)) := CFSG.pCore_isNilpotent
   refine Subgroup.isNilpotent_of_ker_le_center
     ((QuotientGroup.mk' C).subgroupComap (CFSG.pCore 2 (X ⧸ C))) ?_
   intro x hx

@@ -46,7 +46,7 @@ private lemma ggKGEb_sum_single_mul {τ : Tag} (j : Fin τ.rank) (v : Fin τ.ran
   rw [Finset.sum_eq_single j]
   · simp
   · intro k _ hk
-    simp [Pi.single_apply, hk]
+    simp [hk]
   · intro hj
     exact absurd (Finset.mem_univ j) hj
 
@@ -99,7 +99,7 @@ private lemma ggKGEb_reflect_neg {τ : Tag} (i : Fin τ.rank) (v : Fin τ.rank �
     simp only [reflect, Pi.neg_apply, Pi.sub_apply, Pi.smul_apply, smul_eq_mul, Pi.single_eq_same,
       mul_one, mul_neg, Finset.sum_neg_distrib]
     ring
-  · simp [reflect, Pi.single_apply, hj, Ne.symm hj]
+  · simp [reflect, hj]
 
 private lemma ggKGEb_isRoot_neg {τ : Tag} {v : Fin τ.rank → ℤ} (hv : IsRoot τ v) :
     IsRoot τ (-v) := by
@@ -144,8 +144,8 @@ theorem ggKGExc_familyKernel_killRoot {τ : Tag}
     have hnot : ¬ ∀ i, (p : ℤ) ∣ γ i := ggKGExc_root_not_dvd hp.two_le hγ
     push Not at hnot
     obtain ⟨j₀, hj₀⟩ := hnot
-    haveI : NeZero p := ⟨hp.ne_zero⟩
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : NeZero p := ⟨hp.ne_zero⟩
+    have : Fact p.Prime := ⟨hp⟩
     let cbar : ZMod p := (β j₀ : ZMod p) * (γ j₀ : ZMod p)⁻¹
     let c : ℤ := (cbar.val : ℤ)
     have hγ₀ : (γ j₀ : ZMod p) ≠ 0 := by
@@ -153,7 +153,7 @@ theorem ggKGExc_familyKernel_killRoot {τ : Tag}
       exact hj₀ ((ZMod.intCast_zmod_eq_zero_iff_dvd (γ j₀) p).1 h)
     have hc : (c : ZMod p) = cbar := by
       have h := ZMod.natCast_zmod_val cbar
-      simpa [c] using h
+      simp [c]
     have key : ∀ e : Fin τ.rank → ℤ, (p : ℤ) ∣ ∑ k, e k * γ k →
         (p : ℤ) ∣ ∑ k, e k * β k := by
       intro e he

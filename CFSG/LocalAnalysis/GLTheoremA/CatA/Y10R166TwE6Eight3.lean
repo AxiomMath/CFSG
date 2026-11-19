@@ -72,7 +72,7 @@ theorem not_isRoot_of_twE6Deg_gt {γ : Fin Tag.E6.rank → ℤ} (h : 2 < twE6Deg
 theorem reflect_twE6Six (v : Fin Tag.E6.rank → ℤ) :
     reflect Tag.E6 twE6Six v = v - twE6Deg v • twE6A6 := by
   funext j
-  simp [reflect, twE6Deg, twE6A6, twE6Six, Pi.smul_apply]
+  simp [reflect, twE6Deg, twE6A6, twE6Six]
 
 theorem isRoot_A6_sub {γ : Fin Tag.E6.rank → ℤ} (hγ : IsRoot Tag.E6 γ)
     (hdeg : twE6Deg γ = 1) : IsRoot Tag.E6 (twE6A6 - γ) := by
@@ -89,7 +89,7 @@ theorem radicalRoots_A6 :
     rfl
   ext γ
   rw [radicalRoots]
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   rw [h γ]
 
 @[expose] def twE6Five : Fin 5 → (Fin Tag.E6.rank → ℤ)
@@ -144,6 +144,7 @@ theorem isPGroup_twE6UPlus : IsPGroup 2 (twE6UPlus Ω) := by
 theorem isPGroup_twE6SBar (Fr : Ω →+* Ω) : IsPGroup 2 (twE6SBar Fr) :=
   ((isPGroup_twE6UPlus (Ω := Ω)).map (MulAut.conj (twE6G Ω)).toMonoidHom).to_le inf_le_left
 
+omit [CharP Ω 2] in
 theorem commute_pinnedX_of_deg {α β : Fin Tag.E6.rank → ℤ} (hα : IsRoot Tag.E6 α)
     (hβ : IsRoot Tag.E6 β) (hdeg : 3 ≤ (twE6Deg α + twE6Deg β).natAbs)
     (h : ¬ IsRoot Tag.E6 (α + β)) (c d : Ω) :
@@ -201,6 +202,7 @@ theorem weylElt_six_conj {β : Fin Tag.E6.rank → ℤ} (hβ : IsRoot Tag.E6 β)
   rw [hw] at h
   simpa [twE6Six, twE6A6] using h
 
+omit [CharP Ω 2] in
 theorem commute_pinnedX_of_not_root {α β : Fin Tag.E6.rank → ℤ} (hα : IsRoot Tag.E6 α)
     (hβ : IsRoot Tag.E6 β) (hαβ : α ≠ β) (hαβ' : α ≠ -β)
     (h : ¬ IsRoot Tag.E6 (α + β)) (c d : Ω) :
@@ -212,6 +214,7 @@ theorem commute_pinnedX_of_not_root {α β : Fin Tag.E6.rank → ℤ} (hα : IsR
 @[expose] def twE6U {γ : Fin Tag.E6.rank → ℤ} (e : Ω) : ModGL Tag.E6 Ω :=
   pinnedX Tag.E6 Ω γ 1 * pinnedX Tag.E6 Ω (twE6A6 - γ) 1 * pinnedX Tag.E6 Ω twE6A6 e
 
+omit [CharP Ω 2] in
 theorem twE6U_mem {γ : Fin Tag.E6.rank → ℤ} (hγ : IsRoot Tag.E6 γ)
     (hdeg : twE6Deg γ = 1) (e : Ω) : twE6U (γ := γ) e ∈ twE6UPlus Ω := by
   rw [twE6U, twE6UPlus]

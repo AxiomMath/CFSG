@@ -66,7 +66,7 @@ theorem exists_pw {u : F16ˣ} (hu : u ^ 5 = 1) : ∃ a, pw a = u := by
 @[expose] noncomputable def ldg (n : Fin 4 → ZMod 5) : GL (Fin 4) F16 := diagU (dv n)
 
 theorem dv_add (n m : Fin 4 → ZMod 5) : dv (n + m) = dv n * dv m :=
-  funext fun i => pw_add _ _
+  funext fun _i => pw_add _ _
 
 theorem ldg_mul (n m : Fin 4 → ZMod 5) : ldg n * ldg m = ldg (n + m) := by
   unfold ldg
@@ -77,7 +77,7 @@ theorem ldg_zero : ldg 0 = 1 := by
   have : dv 0 = 1 := funext fun i => pw_zero
   rw [this, diagU_one]
 
-theorem ldg_injective : Function.Injective ldg := fun n m h =>
+theorem ldg_injective : Function.Injective ldg := fun _n _m h =>
   funext fun i => pw_injective (congrFun (diagU_injective h) i)
 
 theorem prod_dv (n : Fin 4 → ZMod 5) : ∏ i, dv n i = pw (∑ i, n i) := by

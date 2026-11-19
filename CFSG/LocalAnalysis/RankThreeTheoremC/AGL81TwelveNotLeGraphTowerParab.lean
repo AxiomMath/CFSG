@@ -16,6 +16,7 @@ section Helpers
 
 variable {A : Type} [Group A] [Finite A] {Y P : Subgroup A}
 
+omit [Finite A] in
 theorem normal_subgroupOf_pCoreOf (H : Subgroup A) : ((pCoreOf 2 H).subgroupOf H).Normal := by
   rw [CFSG.openPCoreOf_subgroupOf]
   exact CFSG.pCore_normal
@@ -83,7 +84,7 @@ theorem exists_tower (hP : IsParabolicTwo Y P) :
   refine ⟨T, S, hT, hTP', hS, ⟨(preHatOf_le P _).trans hPY, T, hT, hYN⟩,
     fun t ht => hYN ⟨hT.1 ht, Subgroup.le_normalizer ht⟩, ?_⟩
   intro K hK hperf
-  haveI := isSolvable_towerHat S
+  have := isSolvable_towerHat S
   exact not_three_dvd_of_perfect_le_preHatOf hK hperf
 
 theorem false_of_isSylowTwoOf_pCoreOf_tower {T : Subgroup A} {S : Sylow 2 (↥P ⧸ CFSG.pCore 2 ↥P)}

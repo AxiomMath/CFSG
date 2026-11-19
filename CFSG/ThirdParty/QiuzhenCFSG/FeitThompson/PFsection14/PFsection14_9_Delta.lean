@@ -697,8 +697,8 @@ public theorem section14_real_virtual_principal_orthogonal_scalarProduct_even_so
   have hoddG : Odd (Nat.card G) := IsMinCE.odd_order
   rcases Theory.Character.irreducible_characters_form_basis (G := G) with
     ⟨ι, hι, χ, hχ, b, hb⟩
-  letI : Fintype ι := hι
-  letI : DecidableEq ι := Classical.decEq ι
+  let : Fintype ι := hι
+  let : DecidableEq ι := Classical.decEq ι
   rcases section14_complete_family_conjugate_pairing
       (G := G) (χ := χ) hχ hoddG with
     ⟨i0, pair, hi0, hpair_spec, hpair_pair, hpair_ne, hpair_ne_i0⟩

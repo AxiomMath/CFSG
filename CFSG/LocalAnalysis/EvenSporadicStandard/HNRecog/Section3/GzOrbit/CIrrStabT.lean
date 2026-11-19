@@ -52,7 +52,7 @@ theorem exists_mul_mem_centralizer {C : Type} [Group C] {Q : Subgroup C} [Q.Norm
     (hQ : IsPlusExtraspecial 4 Q) {q : C} (hqQ : q ∈ Q) (hq : q ∉ centerOf Q) {g : C}
     (hg : ⁅g, q⁆ ∈ centerOf Q) :
     ∃ y ∈ Q, y * g ∈ Subgroup.centralizer ({q} : Set C) := by
-  haveI hExt : CFSG.IsExtraspecial 2 ↥Q := hQ.1
+  have hExt : CFSG.IsExtraspecial 2 ↥Q := hQ.1
   have hcard : Nat.card (Subgroup.center ↥Q) = 2 := hExt.center_order_p
   by_cases hζ1 : ⁅g, q⁆ = 1
   · refine ⟨1, Q.one_mem, ?_⟩
@@ -61,7 +61,7 @@ theorem exists_mul_mem_centralizer {C : Type} [Group C] {Q : Subgroup C} [Q.Norm
   · have hq_not_cent : q ∉ Subgroup.centralizer (Q : Set C) := fun h =>
       hq (Subgroup.mem_inf.mpr ⟨hqQ, h⟩)
     rw [Subgroup.mem_centralizer_iff] at hq_not_cent
-    push_neg at hq_not_cent
+    push Not at hq_not_cent
     obtain ⟨y₀, hy₀Q, hy₀ne⟩ := hq_not_cent
     have hζ₀1 : ⁅y₀, q⁆ ≠ 1 := fun h =>
       hy₀ne (commutatorElement_eq_one_iff_mul_comm.mp h)

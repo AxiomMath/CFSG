@@ -125,10 +125,10 @@ theorem exists_phi6_plane_with_involution {ℓ f : ℕ} [Fact ℓ.Prime] (hf : 1
   have : Finite (graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := inferInstance
   let S : Sylow r (graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := default
   obtain ⟨φ⟩ := hshape ((S : Subgroup (graphFixedRootGroup TwistTag.D4 K σ.toRingHom)))
-    S.isPGroup' S.not_dvd_index
+    S.isPGroup S.not_dvd_index
   obtain ⟨E₁, hE₁S, hE₁p, hE₁c⟩ := exists_plane_of_sylowShape_gen he
     (S : Subgroup (graphFixedRootGroup TwistTag.D4 K σ.toRingHom)) φ
-  have hE₁P : IsPGroup r E₁ := S.isPGroup'.to_le hE₁S
+  have hE₁P : IsPGroup r E₁ := S.isPGroup.to_le hE₁S
   obtain ⟨c, hc⟩ := hconj E₁ hE₁P
   have htor : ∀ y ∈ E₁.map (MulAut.conj c).toMonoidHom,
       F.g0⁻¹ * triEmb K σ (AlgebraicClosure K) y * F.g0 ∈

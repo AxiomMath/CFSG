@@ -24,7 +24,7 @@ theorem centData_frameConj (hC : CentData z ι) (c : Perm (Fin 10)) :
     CentData z (frameConj ι c) :=
   centData_comp_conj hC c
 
-theorem isConj_z_frameConj_τ₀ (hC : CentData z ι) (hx : IsConj z (ι τ₀)) (c : Perm (Fin 10)) :
+theorem isConj_z_frameConj_τ₀ (_hC : CentData z ι) (hx : IsConj z (ι τ₀)) (c : Perm (Fin 10)) :
     IsConj z (frameConj ι c τ₀) := by
   have hτ : frameConj ι c τ₀ = ι c * ι τ₀ * (ι c)⁻¹ := by
     simp only [frameConj_apply, map_mul, map_inv]

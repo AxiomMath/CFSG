@@ -127,7 +127,7 @@ theorem smallG2Der_holds :
     simpa only [map_pow] using hφ3
   have hu'1 : eR u ≠ 1 := fun h => hu1 (eR.injective (by rw [h, map_one]))
   have hu'3 : (eR u) ^ 3 = 1 := by rw [← map_pow, hu3, map_one]
-  haveI hsol : Group.IsSolvable
+  have hsol : Group.IsSolvable
       (Subgroup.centralizer ({eR u} : Set (CFSG.Open.StatedSU 3 3 F9))) :=
     ltrke3_su3_centralizer_solvable hu'1 hu'3
   have hle : (J.map ψ).map eR.toMonoidHom ≤
@@ -154,11 +154,11 @@ theorem smallG2Der_holds :
       apply Subtype.ext
       change (x : L') * (y : L') = (y : L') * (x : L')
       exact (Subgroup.mem_center_iff.mp (hJcenter x.2) (y : L')).symm
-    haveI : Subsingleton ↥J :=
+    have : Subsingleton ↥J :=
       ltrke3_perfect_commutative_bot hJcomp.2.2.1 hJcomm
     exact hanon ⟨1, fun j j' _ => Subsingleton.elim _ _⟩
-  haveI hJnt : Nontrivial ↥(J.map ψ) := (Subgroup.nontrivial_iff_ne_bot _).2 hJmap_ne
-  haveI hJnt' : Nontrivial ↥((J.map ψ).map eR.toMonoidHom) := by
+  have hJnt : Nontrivial ↥(J.map ψ) := (Subgroup.nontrivial_iff_ne_bot _).2 hJmap_ne
+  have hJnt' : Nontrivial ↥((J.map ψ).map eR.toMonoidHom) := by
     rw [Subgroup.nontrivial_iff_ne_bot]
     intro hbot
     have hle' := (Subgroup.map_eq_bot_iff _).mp hbot
@@ -168,11 +168,11 @@ theorem smallG2Der_holds :
       rw [Subgroup.mem_bot]
       exact eR.injective (by simpa using hx)
     exact hJmap_ne (le_bot_iff.mp (hle'.trans hker_le))
-  haveI hJperf : Group.IsPerfect ↥J := Group.IsPerfect.mk hJcomp.2.2.1
-  haveI hperf1 : Group.IsPerfect ↥(J.map ψ) := Group.IsPerfect.map ψ
-  haveI hperf : Group.IsPerfect ↥((J.map ψ).map eR.toMonoidHom) :=
+  have hJperf : Group.IsPerfect ↥J := Group.IsPerfect.mk hJcomp.2.2.1
+  have hperf1 : Group.IsPerfect ↥(J.map ψ) := Group.IsPerfect.map ψ
+  have hperf : Group.IsPerfect ↥((J.map ψ).map eR.toMonoidHom) :=
     Group.IsPerfect.map eR.toMonoidHom
-  haveI hsolmap : Group.IsSolvable ↥((J.map ψ).map eR.toMonoidHom) :=
+  have hsolmap : Group.IsSolvable ↥((J.map ψ).map eR.toMonoidHom) :=
     Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hle)
   exact Group.IsPerfect.not_isSolvable ↥((J.map ψ).map eR.toMonoidHom) hsolmap
 

@@ -16,7 +16,7 @@ theorem torPhi_one (p : ℕ) : torPhi p (1 : rootsOfUnity p F × rootsOfUnity p 
   refine (congrArg (proj 3 F) ?_).trans (map_one (proj 3 F))
   apply Subtype.ext
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [diagonal_apply]
+  fin_cases i <;> fin_cases j <;> simp
 
 theorem torPhi_mul (p : ℕ) (x y : rootsOfUnity p F × rootsOfUnity p F) :
     torPhi p (x * y) = torPhi p x * torPhi p y := by
@@ -28,7 +28,7 @@ theorem torPhi_mul (p : ℕ) (x y : rootsOfUnity p F × rootsOfUnity p F) :
     diagonal_mul_diagonal]
   congr 1
   funext i
-  fin_cases i <;> simp <;> ring
+  fin_cases i <;> simp; ring
 
 @[expose] noncomputable def torHom (p : ℕ) (F : Type) [Field F] :
     (rootsOfUnity p F × rootsOfUnity p F) →* projectiveSL 3 F where
@@ -119,7 +119,7 @@ theorem torHom_injective {p : ℕ} (hp : p.Prime) (hp3 : p ≠ 3) :
 theorem natCard_rootsOfUnity_of_dvd [Finite F] {p : ℕ} (hp : p.Prime)
     (hpF : p ∣ Nat.card F - 1) : Nat.card (rootsOfUnity p F) = p := by
   have : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hdvd : p ∣ Nat.card Fˣ := by rwa [Nat.card_units]
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' p hdvd
   have hxp : x ^ p = 1 := by rw [← hx]; exact pow_orderOf_eq_one x
@@ -185,7 +185,7 @@ theorem xSL_add (s t : F) : xSL (s + t) = xSL s * xSL t := by
   rw [Matrix.SpecialLinearGroup.coe_mul]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [coe_xSL, Matrix.mul_apply, Fin.sum_univ_three] <;> ring
+    simp [coe_xSL, Matrix.mul_apply, Fin.sum_univ_three]; ring
 
 theorem xSL_zero : xSL (0 : F) = 1 := by
   apply Subtype.ext
@@ -226,8 +226,8 @@ theorem slConjugation_diagUnits_xSL (a b c : Fˣ) (t : F) :
     coe_diagUnits]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_three, diagonal_apply, ha, hb, hc] <;>
-      (try field_simp) <;> ring
+    simp [Matrix.mul_apply, diagonal_apply, ha, hb, hc];
+      (try field_simp)
 
 theorem conjAut_diagUnits_xHom (a b c : Fˣ) (t : F) :
     conjAut 3 F (diagUnits a b c) (xHom F (Multiplicative.ofAdd t)) =
@@ -270,8 +270,8 @@ theorem diagSL_mul_xSL (a b c : F) (h : a * b * c = 1) (hb : b ≠ 0) (t : F) :
     coe_xSL, coe_xSL]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_three, diagonal_apply] <;>
-      (try field_simp) <;> ring
+    simp [Matrix.mul_apply, diagonal_apply];
+      (try field_simp)
 
 theorem diagSL_xSL_conj (a b c : F) (h : a * b * c = 1) (hb : b ≠ 0) (t : F) :
     diagSL a b c h * xSL t * (diagSL a b c h)⁻¹ = xSL (a * b⁻¹ * t) := by
@@ -313,6 +313,6 @@ theorem rootSub_ne_bot : rootSub F ≠ ⊥ := by
     LinearFlag.mem_scalars] at hmem
   obtain ⟨c, -, hc⟩ := hmem
   have h01 := congrFun (congrFun hc 0) 1
-  simp [coe_xSL, Matrix.scalar_apply, Matrix.diagonal_apply] at h01
+  simp [coe_xSL, Matrix.scalar_apply] at h01
 
 end CFSG.RankThree.PartTwo.Sec21.Hering2119

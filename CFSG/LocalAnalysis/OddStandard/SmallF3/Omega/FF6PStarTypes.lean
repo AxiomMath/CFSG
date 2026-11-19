@@ -99,7 +99,7 @@ private theorem ffOutFF6PStarTypes_conjClassIn_eq (hQ : Q.Nondegenerate)
 private theorem ffOutFF6PStarTypes_conjClassIn_eq_O (hQ : Q.Nondegenerate)
     (hdim : Module.finrank (ZMod 3) V = 6) (hsgn : quadSign Q = 1)
     (fr : PFrame Q (Option (Fin 5)) ffC) {ψ : (Fin 5 → ZMod 2) → ↥(omegaProj hQ)}
-    (hψ : IsPermModuleVia IsEvenVec ψ (ffB1p hQ fr) (ffOutFF6PStarTypes_N hQ fr) ⊤)
+    (_hψ : IsPermModuleVia IsEvenVec ψ (ffB1p hQ fr) (ffOutFF6PStarTypes_N hQ fr) ⊤)
     {v : Fin 5 → ZMod 2} {J : Finset (Fin 5)} (hJe : Even J.card)
     (hJv : (ψ v : ProjOrth Q) = toProj Q (fr.signChange (ffOpt J))) :
     conjClassIn (ffOutFF6PStarTypes_N hQ fr) (ψ v) =
@@ -263,7 +263,7 @@ theorem ff6p_star_types_hasType (hQ : Q.Nondegenerate)
       omega
     have hs := ff6p_simHasType_signChange hQ fr (K := ffOpt J) hne0 hneu
     have hcardK : (ffOpt J).card = 2 := by rw [ffOpt_card]; exact hJ2
-    have hif : (if none ∈ ffOpt J then (-1 : ℤˣ) else 1) = 1 := if_neg (none_notMem_ffOpt J)
+    have hif : (if none ∈ ffOpt J then (-1 : ℤˣ) else 1) = 1 := ite_eq_right (none_notMem_ffOpt J)
     rw [hcardK, hif, show (-1 : ℤˣ) ^ (2 / 2) = -1 from by decide, one_mul] at hs
     rw [ffOmegaToSim_apply, hJv]
     exact hs
@@ -282,7 +282,7 @@ theorem ff6p_star_types_hasType (hQ : Q.Nondegenerate)
       omega
     have hs := ff6p_simHasType_signChange hQ fr (K := ffOpt J) hne0 hneu
     have hcardK : (ffOpt J).card = 4 := by rw [ffOpt_card]; exact hJ4
-    have hif : (if none ∈ ffOpt J then (-1 : ℤˣ) else 1) = 1 := if_neg (none_notMem_ffOpt J)
+    have hif : (if none ∈ ffOpt J then (-1 : ℤˣ) else 1) = 1 := ite_eq_right (none_notMem_ffOpt J)
     rw [hcardK, hif, show (-1 : ℤˣ) ^ (4 / 2) = 1 from by decide, one_mul] at hs
     rw [ffOmegaToSim_apply, hJv]
     exact hs

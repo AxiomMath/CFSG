@@ -25,13 +25,13 @@ open CFSG.LinearAlgebra.CoprimeActions CFSG.GroupTheory.CoprimeActionSupport
 
 theorem conclusion {F : Type*} [Field F] [IsAlgClosed F]
     {W : Type*} [AddCommGroup W] [Module F W] [FiniteDimensional F W] [Nontrivial W]
-    {q : ℕ} (hq : q.Prime) (hqF : (q : F) ≠ 0)
+    {q : ℕ} (hq : q.Prime) (_hqF : (q : F) ≠ 0)
     {E : Type*} [Group E] [Finite E] (hE : CFSG.IsExtraspecialPGroup q E)
     {d : ℕ} (hd : 0 < d) (hcard : Nat.card E = q ^ (1 + 2 * d))
-    {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) (hrq : r ≠ q) (hrF : (r : F) ≠ 0)
+    {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) (_hrq : r ≠ q) (hrF : (r : F) ≠ 0)
     (σ : Representation F E W) (hfaith : Function.Injective σ) (hirr : σ.IsIrreducible)
     (α : MulAut E) (hαr : α ^ r = 1)
-    (hαZ : ∀ z : Subgroup.center E, α (z : E) = z)
+    (_hαZ : ∀ z : Subgroup.center E, α (z : E) = z)
     (hfix : ∀ x : E ⧸ Subgroup.center E, quotientHom E α x = x ↔ x = 1)
     (T : W ≃ₗ[F] W) (hTr : T ^ r = 1)
     (hker : LinearMap.ker (T.toLinearMap - LinearMap.id) = ⊥)

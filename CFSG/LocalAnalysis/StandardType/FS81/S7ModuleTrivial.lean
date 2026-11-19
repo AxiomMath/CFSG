@@ -203,8 +203,8 @@ private theorem heisCoord_conj_eq_of_forall (β : Fin (Tag.rank .E8) → ℤ)
       pinnedX .E8 (GaloisField 2 1) β s * (w : E8M) *
         (pinnedX .E8 (GaloisField 2 1) β s)⁻¹ from rfl, hconj]
   by_cases hν : ν ∈ rootFinset .E8
-  · rw [if_pos hν, hfix ν hν, mul_zero, add_zero]
-  · rw [if_neg hν, add_zero]
+  · rw [ite_eq_left hν, hfix ν hν, mul_zero, add_zero]
+  · rw [ite_eq_right hν, add_zero]
 
 private theorem commutator_eq_mul_conj_inv (q : E8G) :
     ⁅q, EPilot.pinnedElt .E8 e7Theta 1⁆ =
@@ -227,7 +227,7 @@ private theorem heisCoord_commutator_e7Incl_s7 {q : E8G} (hq : q ∈ Qθ) :
   rw [(heisCoord_spec .E8 (GaloisField 2 1)).mul _ hqM _ (inv_mem hform.1),
     Pi.add_apply, heisCoord_inv hform.1, Pi.neg_apply, hform.2 ν]
   by_cases hν : ν ∈ rootFinset .E8
-  · rw [if_pos hν, one_mul]
+  · rw [ite_eq_left hν, one_mul]
     have hzero : heisCoord .E8 (GaloisField 2 1) (q : E8M) (ν - e7Theta) = 0 := by
       by_contra hne
       have hD : ν - e7Theta ∈ Deg1 .E8 := by
@@ -241,7 +241,7 @@ private theorem heisCoord_commutator_e7Incl_s7 {q : E8G} (hq : q ∈ Qθ) :
         exact hdeg
       exact hνT ⟨hν, hν1, mem_rootFinset.2 (CoordAux.mem_Deg1.1 hD).1⟩
     rw [hzero, add_zero, add_neg_cancel]
-  · rw [if_neg hν, add_zero, add_neg_cancel]
+  · rw [ite_eq_right hν, add_zero, add_neg_cancel]
 
 private theorem commutator_e7Incl_s7_mem_highRadical {q : E8G} (hq : q ∈ Qθ) :
     ⁅q, e7Incl s₇⁆ ∈ Qθ := by

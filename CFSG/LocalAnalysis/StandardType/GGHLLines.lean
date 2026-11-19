@@ -117,7 +117,7 @@ private lemma l05nHC_diagram_perm {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGr
       obtain ⟨i, rfl⟩ := hx
       rw [l05nHC_diagram_conj_gen hlin hπ1 hπ2 i]
       exact Submonoid.subset_closure ⟨π i, rfl⟩
-    · simpa using Submonoid.one_mem (Submonoid.closure (Set.range r))
+    · simp
     · intro a b ha hb iha ihb
       rw [show g * (a * b) * g⁻¹ = (g * a * g⁻¹) * (g * b * g⁻¹) by group]
       exact Submonoid.mul_mem _ iha ihb

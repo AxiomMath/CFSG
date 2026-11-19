@@ -60,7 +60,7 @@ theorem isSolvable_suBlock_of_card_le_three {m : ℕ}
     (TableBUE.blockSUEquiv I hU).symm.toMonoidHom.comp f
   have hg : Function.Injective g := fun a b hab =>
     hf ((TableBUE.blockSUEquiv I hU).symm.injective hab)
-  haveI : Group.IsSolvable ↥(unitarySU 2 1 (GaloisField 2 (2 * 1)) I.card) := by
+  have : Group.IsSolvable ↥(unitarySU 2 1 (GaloisField 2 (2 * 1)) I.card) := by
     rcases Nat.eq_zero_or_pos I.card with h0 | hpos
     · rw [h0]
       infer_instance
@@ -105,12 +105,12 @@ theorem ggSUSix_exists_d_frame {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs :
       have h1 : Group.IsSolvable
           ↥((ψ.comp (UFusion.suBlock (σ := unitaryInvolution (GaloisField 2 (2 * 1)) 2 1)
             Q I₀).subtype).range) :=
-        solvable_of_surjective (MonoidHom.rangeRestrict_surjective _)
+        Group.isSolvable_of_surjective (MonoidHom.rangeRestrict_surjective _)
       rw [MonoidHom.range_comp, Subgroup.range_subtype] at h1
       exact h1
-    haveI : Group.IsSolvable ↥(UFusion.uFrameBlock ψ Q I₀) := hsolMap
+    have : Group.IsSolvable ↥(UFusion.uFrameBlock ψ Q I₀) := hsolMap
     have hsolJ : Group.IsSolvable ↥J :=
-      solvable_of_solvable_injective (Subgroup.inclusion_injective hJI)
+      Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hJI)
     exact SmallU.not_isComponentOf_of_solvable hJ hsolJ
   have hcardD : Nat.card D = 9 := by
     rw [hctx.card_d, hp]
@@ -263,7 +263,7 @@ theorem ggSUSix_exists_d_frame {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs :
       rw [hJeq]
       exact Finset.mem_insert_of_mem (Finset.mem_singleton_self _)
     exact (Finset.mem_sdiff.mp h).2
-  haveI : Fintype (GaloisField 2 (2 * 1))ˣ := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 (2 * 1))ˣ := Fintype.ofFinite _
   have hunits : 1 < Fintype.card (GaloisField 2 (2 * 1))ˣ := by
     rw [← Nat.card_eq_fintype_card, hcardF]
     norm_num

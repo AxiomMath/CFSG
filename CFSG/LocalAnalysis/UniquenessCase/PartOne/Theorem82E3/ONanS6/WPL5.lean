@@ -92,10 +92,10 @@ theorem components_step2_of_le_normalizer
   have hU0K_bot : ⁅U0, K⁆ = ⊥ := by
     rcases CFSG.LocalCores.quasisimple_normal_subgroups hK.1 hnormal with htop | hcenter
     · exfalso
-      haveI : Group.IsPerfect K := hK.1.1
-      haveI : Nontrivial K := CFSG.LocalCores.isQuasisimple_nontrivial hK.1
+      have : Group.IsPerfect K := hK.1.1
+      have : Nontrivial K := CFSG.LocalCores.isQuasisimple_nontrivial hK.1
       have htop2 : IsPGroup 2 (⊤ : Subgroup K) := htop ▸ h2
-      haveI : Group.IsNilpotent ↥(⊤ : Subgroup K) := htop2.isNilpotent
+      have : Group.IsNilpotent ↥(⊤ : Subgroup K) := htop2.isNilpotent
       have hnil : Group.IsNilpotent K :=
         Group.nilpotent_of_mulEquiv (Subgroup.topEquiv (G := K))
       exact Group.IsPerfect.not_isNilpotent K hnil

@@ -229,7 +229,7 @@ theorem no_sandwich_R0 (B : Set (Subgroup WP)) (N : Subgroup WP)
   have hNn : (N.subgroupOf T0).Normal := hT ▸ hS.normal
   have hR0N : R0 ≤ N := by
     have := hS.twins_le 1 h1
-    rwa [show conjSub (1 : WP) R0 = R0 by ext x; simp [mem_conjSub_iff]] at this
+    rwa [show conjSub (1 : WP) R0 = R0 by ext x; simp] at this
   have hR0'N : R0' ≤ N := hS.twins_le s1 hs1
   have hcard := card_le_of_avoid hNle hNn hR0N hR0'N hD
   have hT0 : Nat.card T0 = 110592 := classPkg0.2.2.1

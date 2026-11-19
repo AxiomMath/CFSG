@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem card_img_eq_of_inf_eq_bot {K : Type} [Field K] {γ : G → K}
     (M₀ : Tim79.QuadModel Q Z K γ) {S : Subgroup G} (hSQ : S ≤ Q) (hSZ : S ⊓ Z = ⊥) :
     Nat.card (M₀.img S) = Nat.card S := by
@@ -30,6 +31,7 @@ theorem card_img_eq_of_inf_eq_bot {K : Type} [Field K] {γ : G → K}
     exact ⟨⟨x, hxS⟩, rfl⟩
 
 
+omit [Finite G] in
 theorem exists_comm_eq_of_smul_mem {K : Type} [Field K] {γ : G → K}
     (M₀ : Tim79.QuadModel Q Z K γ) (R : Tim79.GammaReg Q Z γ) {S : Subgroup G} (hSQ : S ≤ Q)
     (hK : ∀ (s : K) (e : M₀.E), e ∈ M₀.img S → s • e ∈ M₀.img S) {h α : G} (hh : h ∈ Q)
@@ -70,6 +72,7 @@ theorem exists_line_avoiding {K E : Type} [Field K] [Finite K] [AddCommGroup E] 
     Nat.mul_lt_mul_of_pos_right h2 hT
   exact lt_irrefl _ (lt_of_le_of_lt (hcard.trans h1) h3)
 
+omit [Finite G] in
 private theorem exists_line_le_of_avoiding {K : Type} [Field K] {γ : G → K}
     (M₀ : Tim79.QuadModel Q Z K γ) {A : Subgroup G} (hAQ : A ≤ Q)
     (hK : ∀ (s : K) (e : M₀.E), e ∈ M₀.img A → s • e ∈ M₀.img A) {e : M₀.E}
@@ -95,6 +98,7 @@ private theorem exists_line_le_of_avoiding {K : Type} [Field K] {γ : G → K}
       exact ⟨x, ⟨hxA, s, hx⟩, hxQ, hx⟩
   exact ⟨L, fun x hx => hx.1, hLimg⟩
 
+omit [Finite G] in
 private theorem line_inf_eq_bot_of_avoiding {K : Type} [Field K] {γ : G → K}
     (M₀ : Tim79.QuadModel Q Z K γ) {A A₀ : Subgroup G} (hAQ : A ≤ Q)
     (hAZ : A ⊓ Z = ⊥) (hA₀ : A₀ ≤ A) {L : Subgroup G} (hLA : L ≤ A) {e : M₀.E}
@@ -109,6 +113,7 @@ private theorem line_inf_eq_bot_of_avoiding {K : Type} [Field K] {γ : G → K}
   have h : x ∈ A ⊓ Z := ⟨hA₀ hxA₀, hxZ⟩
   rwa [hAZ] at h
 
+omit [Finite G] in
 private theorem line_inf_Z_eq_bot_of_le {A L : Subgroup G} (hAZ : A ⊓ Z = ⊥) (hLA : L ≤ A) :
     L ⊓ Z = ⊥ := by
   rw [eq_bot_iff]
@@ -116,8 +121,9 @@ private theorem line_inf_Z_eq_bot_of_le {A L : Subgroup G} (hAZ : A ⊓ Z = ⊥)
   have h : x ∈ A ⊓ Z := ⟨hLA hxL, hxZ⟩
   rwa [hAZ] at h
 
+omit [Finite G] in
 private theorem card_line_of_image {K : Type} [Field K] {γ : G → K}
-    (M₀ : Tim79.QuadModel Q Z K γ) {A : Subgroup G} (hAQ : A ≤ Q) (hAZ : A ⊓ Z = ⊥)
+    (M₀ : Tim79.QuadModel Q Z K γ) {A : Subgroup G} (hAQ : A ≤ Q) (_hAZ : A ⊓ Z = ⊥)
     {L : Subgroup G} (hLA : L ≤ A) (hLZ : L ⊓ Z = ⊥) {e : M₀.E} (he0 : e ≠ 0)
     (hLimg : ∀ v : M₀.E, v ∈ M₀.img L ↔ ∃ s : K, v = s • e) :
     Nat.card L = Nat.card K := by
@@ -130,12 +136,13 @@ private theorem card_line_of_image {K : Type} [Field K] {γ : G → K}
     obtain ⟨s, rfl⟩ := (hLimg v).mp hv
     exact ⟨s, rfl⟩
 
+omit [Finite G] in
 theorem exists_isLine_le {K : Type} [Field K] [Finite K] {γ : G → K}
     (M₀ : Tim79.QuadModel Q Z K γ) {A A₀ : Subgroup G} (hAQ : A ≤ Q) (hAZ : A ⊓ Z = ⊥)
     (hA₀ : A₀ ≤ A) (hK : ∀ (s : K) (e : M₀.E), e ∈ M₀.img A → s • e ∈ M₀.img A)
     (hcard : Nat.card K * Nat.card A₀ ≤ Nat.card A) :
     ∃ L : Subgroup G, L ≤ A ∧ M₀.IsLine L ∧ L ⊓ A₀ = ⊥ ∧ Nat.card L = Nat.card K := by
-  haveI : Finite M₀.E := Module.finite_of_finite K
+  have : Finite M₀.E := Module.finite_of_finite K
   let S : Submodule K M₀.E :=
     { carrier := (M₀.img A : Set M₀.E)
       add_mem' := fun ha hb => (M₀.img A).add_mem ha hb
@@ -201,6 +208,7 @@ theorem Ctx.mem_QB_conj_iff {X : Subgroup G} (hX : Ctx M Q Z X) {k a : G} (hk : 
   · intro h
     exact (QB X).mul_mem h (hZX hζ)
 
+omit [Finite G] in
 theorem Sit.le_QB {X : Subgroup G} {x : G} (hs : Sit M Q Z X x) : X ≤ QB X := by
   obtain ⟨g, hgY, hQBY, -⟩ := hs.QB_eq
   rw [hQBY, hgY]

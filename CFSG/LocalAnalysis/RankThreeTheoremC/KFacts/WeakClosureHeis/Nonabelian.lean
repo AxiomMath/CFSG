@@ -24,7 +24,7 @@ private lemma nonab_card_eq_snd_mul_inl {A B : Type*} [Group A] [Group B]
       (S.comap (MonoidHom.inl A B)).map (MonoidHom.inl A B) := by
     ext ⟨a, b⟩
     simp only [Subgroup.mem_inf, MonoidHom.mem_ker, Subgroup.mem_map, Subgroup.mem_comap,
-      MonoidHom.coe_snd, MonoidHom.inl_apply, Function.comp_apply]
+      MonoidHom.coe_snd, MonoidHom.inl_apply]
     constructor
     · rintro ⟨hb, hS⟩
       subst hb
@@ -47,7 +47,7 @@ private lemma nonab_card_eq_fst_mul_inr {A B : Type*} [Group A] [Group B]
       (S.comap (MonoidHom.inr A B)).map (MonoidHom.inr A B) := by
     ext ⟨a, b⟩
     simp only [Subgroup.mem_inf, MonoidHom.mem_ker, Subgroup.mem_map, Subgroup.mem_comap,
-      MonoidHom.coe_fst, MonoidHom.inr_apply, Function.comp_apply]
+      MonoidHom.coe_fst, MonoidHom.inr_apply]
     constructor
     · rintro ⟨ha, hS⟩
       subst ha
@@ -81,16 +81,16 @@ private lemma nonab_card_le_mul_of_pow_mem {p : ℕ} (hp : 0 < p) {A : Type*} [G
 private lemma nonab_isMulCommutative_of_card_dvd_lt {p : ℕ} (hp : p.Prime) {G : Type*} [Group G]
     (H : Subgroup G) (hdvd : Nat.card H ∣ p ^ 3) (hne : Nat.card H ≠ p ^ 3) :
     IsMulCommutative H := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   obtain ⟨j, hj, hcard⟩ := (Nat.dvd_prime_pow hp).1 hdvd
   have hj3 : j ≠ 3 := fun h => hne (h ▸ hcard)
   have hj' : j ≤ 2 := by omega
   interval_cases j
   · have : Nat.card H = 1 := by simpa using hcard
-    haveI : Subsingleton H := (Nat.card_eq_one_iff_unique.1 this).1
+    have : Subsingleton H := (Nat.card_eq_one_iff_unique.1 this).1
     exact ⟨⟨fun a b => Subsingleton.elim _ _⟩⟩
   · have : Nat.card H = p := by simpa using hcard
-    haveI : IsCyclic H := isCyclic_of_prime_card this
+    have : IsCyclic H := isCyclic_of_prime_card this
     infer_instance
   · exact IsPGroup.isMulCommutative_of_card_eq_prime_sq (by simpa using hcard)
 
@@ -111,7 +111,7 @@ private theorem nonab_card_eq_of_prod {p : ℕ} (hp : p.Prime) {A B : Type*} [Gr
     (hBe : ∀ b : B, b ^ p = 1) {S : Subgroup (A × B)} (hSn : ¬ IsMulCommutative S)
     (hS : ∀ E : Subgroup (A × B), E ≤ S → CFSG.Open.IsElemAbelian p E → Nat.card E ≠ p ^ 3) :
     Nat.card S = p ^ 3 := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hT : Nat.card (S.map (MonoidHom.snd A B)) = p ^ 3 := by
     by_contra hne
     apply hSn
@@ -134,7 +134,7 @@ private theorem nonab_card_eq_of_prod {p : ℕ} (hp : p.Prime) {A B : Type*} [Gr
     intro a ha
     obtain ⟨⟨a', b'⟩, hab', rfl⟩ := Subgroup.mem_map.1 ha
     have hmem : (a', b') ^ p ∈ S := S.pow_mem hab' p
-    simp only [Subgroup.mem_comap, MonoidHom.inl_apply, MonoidHom.coe_fst, Function.comp_apply]
+    simp only [Subgroup.mem_comap, MonoidHom.inl_apply, MonoidHom.coe_fst]
     simpa [Prod.pow_mk, hBe b'] using hmem
   by_contra hne
   have hKA : Nat.card (S.comap (MonoidHom.inl A B)) ≠ 1 := by
@@ -187,7 +187,7 @@ private theorem nonab_card_eq_of_prod {p : ℕ} (hp : p.Prime) {A B : Type*} [Gr
     simpa using this
   have hEcard : Nat.card E = p ^ 3 := by
     rw [nonab_card_subgroup_prod, hA''card, hB''card]; ring
-  haveI : IsMulCommutative B'' := IsPGroup.isMulCommutative_of_card_eq_prime_sq hB''card
+  have : IsMulCommutative B'' := IsPGroup.isMulCommutative_of_card_eq_prime_sq hB''card
   have hEab : CFSG.Open.IsElemAbelian p E := by
     refine ⟨?_, ?_⟩
     · refine isMulCommutative_iff.2 ?_
@@ -216,8 +216,8 @@ private lemma nonab_le_pRank {p : ℕ} (hp : p.Prime) {X : Type*} [Group X] [Fin
 theorem card_eq_of_nonabelian_pRank_le_two {p : ℕ} (hp : p.Prime) {X : Type*} [Group X] [Finite X]
     {Q Q₀ Q₁ : Subgroup X} (h : HeisShape p Q Q₀ Q₁) {S : Subgroup X} (hSQ : S ≤ Q)
     (hSn : ¬ IsMulCommutative S) (hS : CFSG.Open.pRank p S ≤ 2) : Nat.card S = p ^ 3 := by
-  haveI := Fact.mk hp
-  haveI := h.cyc
+  have := Fact.mk hp
+  have := h.cyc
   let φ : ↥Q₀ × ↥Q₁ →* X :=
     MonoidHom.noncommCoprod Q₀.subtype Q₁.subtype (fun a b => h.comm a.1 a.2 b.1 b.2)
   have hφ : ∀ x : ↥Q₀ × ↥Q₁, φ x = (x.1 : X) * (x.2 : X) := fun x => rfl
@@ -239,7 +239,7 @@ theorem card_eq_of_nonabelian_pRank_le_two {p : ℕ} (hp : p.Prime) {X : Type*} 
   refine nonab_card_eq_of_prod hp h.left_pgrp h.card
     (fun b => Subtype.ext (by simpa using h.exp b.1 b.2)) ?_ ?_
   · intro hc
-    haveI : IsMulCommutative S' := hc
+    have : IsMulCommutative S' := hc
     have : IsMulCommutative (S'.map φ) := inferInstance
     rw [hmap] at this
     exact hSn this
@@ -247,7 +247,7 @@ theorem card_eq_of_nonabelian_pRank_le_two {p : ℕ} (hp : p.Prime) {X : Type*} 
     have hEmap : E.map φ ≤ S := hmap ▸ Subgroup.map_mono hES'
     have hab : CFSG.Open.IsElemAbelian p (E.map φ) := by
       refine ⟨?_, ?_⟩
-      · haveI := hE.1
+      · have := hE.1
         infer_instance
       · rintro _ ⟨y, hy, rfl⟩
         rw [← map_pow, hE.2 y hy, map_one]

@@ -157,7 +157,7 @@ theorem Hyp.K_mem (H : Hyp z t s f0 f2 q) :
   have hle : Subgroup.closure {g | g ∈ [cs0, cs1]} ≤ Subgroup.centralizer ({s} : Set H6) := by
     rw [Subgroup.closure_le]
     intro g hg
-    simp only [List.mem_cons, List.not_mem_nil, or_false, Set.mem_setOf_eq] at hg
+    simp only [List.mem_cons, List.not_mem_nil, or_false, Set.mem_ofPred_eq] at hg
     rcases hg with rfl | rfl
     · exact H.cs0_mem
     · exact H.cs1_mem
@@ -212,7 +212,7 @@ theorem Hyp.normal_cases (H : Hyp z t s f0 f2 q) {R : Subgroup H6}
     have hle : Subgroup.closure {g | g ∈ gens} ≤ R := by
       rw [Subgroup.closure_le]
       intro g hg
-      simp only [gens, Set.mem_setOf_eq, List.mem_map, List.mem_range] at hg
+      simp only [gens, Set.mem_ofPred_eq, List.mem_map, List.mem_range] at hg
       obtain ⟨l, hl, rfl⟩ := hg
       exact (Subgroup.mem_normalizer_iff.mp (hN (hkgC _ (hkl l hl))) x).mp hxR
     have hc32 : 32 ≤ Nat.card R := h32.trans (Subgroup.card_le_of_le hle)

@@ -159,14 +159,14 @@ theorem wv_hp : ∀ L : List Nat, (∀ c ∈ L, c = 0 ∨ c = 1) → ActsAs (hp 
     have ih := wv_hp L (fun d hd => hL d (List.mem_cons_of_mem c hd)) x hx
     rw [hp, Equiv.Perm.mul_apply, wv_cons, ← ih]
     rcases hL c List.mem_cons_self with rfl | rfl
-    · rw [if_pos rfl, tb_e (Fin.isLt _)]
+    · rw [ite_eq_left rfl, tb_e (Fin.isLt _)]
       exact wp_acts eW okE _ _
-    · rw [if_neg one_ne_zero, tb_f (Fin.isLt _)]
+    · rw [ite_eq_right one_ne_zero, tb_f (Fin.isLt _)]
       exact wp_acts fW okF _ _
 
 theorem hp_replicate : ∀ n : Nat, hp (List.replicate n 1) = pf ^ n
   | 0 => by rw [List.replicate_zero, hp, pow_zero]
-  | n + 1 => by rw [List.replicate_succ, hp, if_neg one_ne_zero, hp_replicate n, pow_succ']
+  | n + 1 => by rw [List.replicate_succ, hp, ite_eq_right one_ne_zero, hp_replicate n, pow_succ']
 
 theorem small_parts : eqB G (powW 5 eW) [] = true ∧ eqB G (powW 5 fW) [] = true ∧
     eqB G (eW ++ fW) (fW ++ eW) = true ∧ eqB G eW [] = false ∧
@@ -210,7 +210,7 @@ theorem hcomm : Commute pe pf := by
 
 theorem dTable_eq : dTable orbLit = dTab orbLit := by
   have h : RW (dTable orbLit) [43] := rw_of_acts (powT_size (dWordTable orbLit) 7) (by decide)
-    fun i hi => by rw [KernelFi23C.dTable_ap hi, wa_cons, wa_nil, lf_eq, if_pos (by norm_num)]
+    fun i hi => by rw [KernelFi23C.dTable_ap hi, wa_cons, wa_nil, lf_eq, ite_eq_left (by norm_num)]
   exact beq_iff_eq.1 (RW.beq h rw_dTab rfl)
 
 theorem eLetters_ok : ∀ z ∈ eLetters, z = 1 ∨ z = -1 ∨ z = 2 ∨ z = -2 := by decide
@@ -313,11 +313,11 @@ theorem rep_pow (a b : Nat) (ha : a < 5) (hb : b < 5) (hab : a + b ≠ 0) :
   unfold repW
   split_ifs with h0
   · subst h0
-    have e : hp [1] = pf := by rw [hp, hp, if_neg one_ne_zero, mul_one]
+    have e : hp [1] = pf := by rw [hp, hp, ite_eq_right one_ne_zero, mul_one]
     rw [e]
     exact ⟨hf5, b, by omega, hb, by rw [pow_zero, one_mul]⟩
   · have e : hp (0 :: List.replicate ((b * a ^ 3) % 5) 1) = pe * pf ^ ((b * a ^ 3) % 5) := by
-      rw [hp, if_pos rfl, hp_replicate]
+      rw [hp, ite_eq_left rfl, hp_replicate]
     rw [e]
     have hc : Commute pe (pf ^ ((b * a ^ 3) % 5)) := hcomm.pow_right _
     refine ⟨?_, a, by omega, ha, ?_⟩

@@ -76,7 +76,7 @@ theorem nfR_mul (h : RRel m b x) (a c : RV) : nfR b x a * nfR b x c = nfR b x (m
   have xq := h.xq
   unfold nfR mulR
   simp only [mul_assoc, w01, w02, w03, w04, w05, w12, w13, w14, w15, w23, w24, w25, w34, w35, w45,
-    xx, qq, xq, ← pow_add]
+    qq, xq, ← pow_add]
   rw [pow_mod_five (h.b5 0) (a.a0 + c.a0), pow_mod_five (h.b5 1) (a.a1 + c.a1),
     pow_mod_five (h.b5 2) (a.a2 + c.a2), pow_mod_five (h.b5 3) (a.a3 + c.a3),
     pow_mod_five (h.b5 4) (a.a4 + c.a4), pow_mod_five (h.b5 5) (a.a5 + c.a5), pow_mod_five h.x5]
@@ -156,12 +156,12 @@ theorem applyT_red (T : RT) (a : RV) : (applyT T a).red := mulR_red _ _ _
 theorem phi1At_red (k : ℕ) {a : RV} (ha : a.red) : (phi1At k a).red := by
   unfold phi1At
   cases k.beq 0 <;> cases k.beq 1 <;> cases k.beq 2 <;> cases k.beq 3 <;>
-    simp only [cond_true, cond_false] <;> first | exact ha | exact applyT_red _ _
+    simp only [_root_.Bool.cond_true, Bool.cond_false] <;> first | exact ha | exact applyT_red _ _
 
 theorem phi2At_red (k : ℕ) {a : RV} (ha : a.red) : (phi2At k a).red := by
   unfold phi2At
   cases k.beq 0 <;> cases k.beq 1 <;> cases k.beq 2 <;> cases k.beq 3 <;>
-    simp only [cond_true, cond_false] <;> first | exact ha | exact applyT_red _ _
+    simp only [_root_.Bool.cond_true, Bool.cond_false] <;> first | exact ha | exact applyT_red _ _
 
 theorem allBelow_spec {f : ℕ → Bool} : ∀ {k : ℕ}, allBelow f k = true → ∀ n < k, f n = true
   | 0, _, n, hn => absurd hn (Nat.not_lt_zero n)
@@ -442,7 +442,7 @@ theorem PcHyp.u1_pow_add (H : PcHyp u2 u1 b x) (e f : ℕ) (he : e < 5) (hf : f 
   · have h' : Nat.blt (e + f) 5 = true := by
       rw [Nat.blt_eq]
       exact h
-    rw [h', cond_true, nfR_one, mul_one, Nat.mod_eq_of_lt h]
+    rw [h', _root_.Bool.cond_true, nfR_one, mul_one, Nat.mod_eq_of_lt h]
   · have h' : Nat.blt (e + f) 5 = false := by
       rw [Bool.eq_false_iff]
       intro h2
@@ -450,7 +450,7 @@ theorem PcHyp.u1_pow_add (H : PcHyp u2 u1 b x) (e f : ℕ) (he : e < 5) (hf : f 
       exact h h2
     have hx2 : nfR b x CFSG.KC.MonPcFive.x2 = x ^ 2 := by
       simp [nfR, CFSG.KC.MonPcFive.x2]
-    rw [h', cond_false, hx2, ← H.u15, ← pow_add]
+    rw [h', Bool.cond_false, hx2, ← H.u15, ← pow_add]
     congr 1
     omega
 

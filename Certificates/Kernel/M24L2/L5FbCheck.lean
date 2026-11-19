@@ -20,8 +20,8 @@ private theorem any_filter_self {α : Type} (f g : α → Bool) (h : ∀ e, f e 
     have ih := any_filter_self f g h W
     by_cases hf : f e = true
     · have hg := h e hf
-      simp [List.filter_cons, hg, hf]
-    · cases hg : g e <;> simp [List.filter_cons, hg, hf, ih]
+      simp [hg, hf]
+    · cases hg : g e <;> simp [hg, hf, ih]
 
 private theorem fbLWit_filter (G p : Nat) (W : List ((Nat × Nat) × Nat)) (x y : Nat) :
     fbLWit G p W x y = fbLWit G p (W.filter fun e => Nat.beq e.1.1 x) x y := by

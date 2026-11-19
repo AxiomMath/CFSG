@@ -29,7 +29,7 @@ private theorem ne_zero_of_linearIndependent_pair {c d : Fin (m' + 2) → K}
   have h1 := (hli μ (-1) (by rw [h]; module)).2
   exact one_ne_zero (neg_eq_zero.mp h1)
 
-omit [Finite K] [FiniteDimensional K V] in
+omit [Finite K] [FiniteDimensional K V] [CharP K 2] in
 private theorem SLSetting.axisInf_center_le_movedSpace (hs : SLSetting Qf ρ)
     {c a : Fin (m' + 2) → K} (h : a ⬝ᵥ c = 0) (hc : c ≠ 0) (ha : a ≠ 0) :
     axisInf ((tvCenterSL c).map ρ) ≤ movedSpace (ρ (tvSL c a h)) :=

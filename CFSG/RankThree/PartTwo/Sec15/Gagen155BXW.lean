@@ -29,7 +29,7 @@ theorem step155BXW_of
     exact fun z hz => (sup_le (hXY.trans (le_sup_right.trans hAY))
       (le_sup_left.trans hAY)) hz
   obtain ⟨hXM, hAM, hM2, -⟩ := facts_of_mem_maximalTwoLocalsContaining h hMX
-  letI : (ker148 A M).Normal := ker148_normal hM2.1.2
+  let : (ker148 A M).Normal := ker148_normal hM2.1.2
   set I := delta A (lB A) M with hI
   set I₀ := oPrimeResidualOf 3 I with hI₀
   obtain ⟨heq149, -, -⟩ := h149 M hM2.1
@@ -83,7 +83,7 @@ theorem step155BXW_of
   set E' := E.map D.subtype with hE'
   have hE'p : Group.IsPerfect ↥E' := by
     rw [hE']
-    haveI : Group.IsPerfect ↥E := hEp
+    have : Group.IsPerfect ↥E := hEp
     exact Group.IsPerfect.map D.subtype
   have hE'B : E' ≤ img148 A M (b155 A M X) := by
     rw [hE']

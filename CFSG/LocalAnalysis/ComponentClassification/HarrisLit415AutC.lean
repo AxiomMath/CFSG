@@ -223,7 +223,7 @@ theorem odd_mul_of_commute_nonsplit {U : Subgroup (PGL2 F)} {s w u : PGL2 F} {b 
   obtain ⟨P⟩ : Nonempty (Sylow 2 ↥L) := inferInstance
   have hPc : ∀ a ∈ (P : Subgroup ↥L), ∀ c : ↥L, a * c = c * a := by
     intro a ha c
-    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp P.isPGroup' ⟨a, ha⟩
+    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp P.isPGroup ⟨a, ha⟩
     have hak : (a : PGammaL2 F) ^ 2 ^ k = 1 := by
       rw [← hk, Subgroup.orderOf_mk, ← Subgroup.orderOf_coe]
       exact pow_orderOf_eq_one _
@@ -244,7 +244,7 @@ theorem odd_mul_of_commute_nonsplit {U : Subgroup (PGL2 F)} {s w u : PGL2 F} {b 
   have hmemK : ∀ a : ↥L, Odd (orderOf a) → a ∈ (MonoidHom.transferSylow P hP).ker := by
     intro a ha
     rw [MonoidHom.mem_ker]
-    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp P.isPGroup' (MonoidHom.transferSylow P hP a)
+    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp P.isPGroup (MonoidHom.transferSylow P hP a)
     have h1 : orderOf (MonoidHom.transferSylow P hP a) ∣ orderOf a := orderOf_map_dvd _ _
     rw [hk] at h1
     rcases k with _ | k

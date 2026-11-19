@@ -23,7 +23,7 @@ private lemma s16k_exists_three_const {α : Type*} [Fintype α] [DecidableEq α]
     ∃ a b c : α, a ≠ b ∧ a ≠ c ∧ b ≠ c ∧ f a = f b ∧ f a = f c := by
   obtain ⟨y, hy⟩ :=
     Fintype.exists_lt_card_fiber_of_mul_lt_card (f := f) (n := 2) (by
-      have hcard : Fintype.card (ZMod 2 × ZMod 2) = 4 := by simp [ZMod.card]
+      have hcard : Fintype.card (ZMod 2 × ZMod 2) = 4 := by simp
       rw [hcard]; omega)
   obtain ⟨a, ha, b, hb, c, hc, hab, hac, hbc⟩ := Finset.two_lt_card.mp hy
   simp only [Finset.mem_filter, Finset.mem_univ, true_and] at ha hb hc
@@ -57,8 +57,8 @@ private lemma s16k_swap_mul_swap_maps_const {α β : Type*} [DecidableEq α] {p 
           Equiv.swap_apply_of_ne_of_ne hip hiq]
 
 theorem s16k_alt_pair_fix {n : ℕ} (hn : 12 ≤ n) (m₁ m₂ : (FFModel.altDn n).Amb)
-    (h₁ : m₁ ∈ (FFModel.altDn n).sec) (h₂ : m₂ ∈ (FFModel.altDn n).sec)
-    (hm : m₁ ∉ (FFModel.altDn n).ker ∨ m₂ ∉ (FFModel.altDn n).ker) :
+    (_h₁ : m₁ ∈ (FFModel.altDn n).sec) (_h₂ : m₂ ∈ (FFModel.altDn n).sec)
+    (_hm : m₁ ∉ (FFModel.altDn n).ker ∨ m₂ ∉ (FFModel.altDn n).ker) :
     ∃ B : Subgroup (FFModel.altDn n).Gam, IsPGroup 3 B ∧ ¬ IsCyclic ↥B ∧ ∀ γ ∈ B,
       (FFModel.altDn n).act γ m₁ * m₁⁻¹ ∈ (FFModel.altDn n).ker ∧
         (FFModel.altDn n).act γ m₂ * m₂⁻¹ ∈ (FFModel.altDn n).ker := by
@@ -174,12 +174,12 @@ theorem s16k_alt_pair_fix {n : ℕ} (hn : 12 ≤ n) (m₁ m₂ : (FFModel.altDn 
   obtain ⟨hel, hcard⟩ :=
     CFSG.GH74.Uniqueness.SU.SU1.isElemAbelian_card_sup_zpowers Nat.prime_three hpow₁ hpow₂
       hg₁ne hg₂notmem hcom
-  haveI hGam : Finite (FFModel.altDn n).Gam :=
+  have hGam : Finite (FFModel.altDn n).Gam :=
     inferInstanceAs (Finite ↥(alternatingGroup (Fin n)))
-  haveI : Finite ↥B := Subtype.finite
+  have : Finite ↥B := Subtype.finite
   refine ⟨B, ?_, ?_, ?_⟩
   · exact hel.isPGroup
-  · haveI : CFSG.IsElementaryAbelian 3 ↥B := hel.isElementaryAbelian
+  · have : CFSG.IsElementaryAbelian 3 ↥B := hel.isElementaryAbelian
     refine CFSG.IsElementaryAbelian.not_isCyclic_of_card_eq_prime_sq (A := ↥B) (p := 3) ?_
     exact hcard
   · intro γ hγ

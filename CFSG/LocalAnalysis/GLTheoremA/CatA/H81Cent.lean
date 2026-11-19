@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem coprime_ker_subtype {p : ℕ} (L : Subgroup G) (A : Subgroup ↥L) :
     Nat.Coprime p (Nat.card ↥(A ⊓ (L.subtype : ↥L →* G).ker)) := by
   have hk : (L.subtype : ↥L →* G).ker = ⊥ := (MonoidHom.ker_eq_bot_iff _).2 L.subtype_injective
@@ -69,6 +70,7 @@ theorem centMod_to_alpha {p : ℕ} (hp : p.Prime) {L : Subgroup G} {b : G}
   rw [eL]
   exact mem_glaPPrimeCoreOf_iff'.2 ⟨_, hmemO, rfl⟩
 
+omit [Finite G] in
 theorem centMod_of_alpha_conj {p : ℕ} {L : Subgroup G} {b : G}
     (hb : b ∈ Subgroup.normalizer (L : Set G)) (w : ↥L)
     (hα : alphaPQ p L b hb = MulAut.conj (QuotientGroup.mk w : PQuot p L)) :

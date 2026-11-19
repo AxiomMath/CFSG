@@ -17,7 +17,7 @@ open CFSG.LieType.Multipliers CFSG.LieType.Multipliers.L34
 
 variable {E : Type*} [Group E]
 
-@[expose] def fixT0 (q : E →* Equiv.Perm (Fin 42)) (β : E ≃* E) : Subgroup E where
+def fixT0 (q : E →* Equiv.Perm (Fin 42)) (β : E ≃* E) : Subgroup E where
   carrier := {e | q e ∈ T0 ∧ β e = e}
   one_mem' := ⟨by rw [map_one]; exact T0.one_mem, map_one β⟩
   mul_mem' := fun {a b} ha hb => ⟨by rw [map_mul]; exact T0.mul_mem ha.1 hb.1,

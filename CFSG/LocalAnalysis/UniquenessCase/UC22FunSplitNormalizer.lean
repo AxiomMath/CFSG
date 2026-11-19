@@ -30,9 +30,9 @@ theorem normalizes_fundamental_of_permuting
   obtain ⟨_, _, hL2, hΩ⟩ := fundamental_ambient_of_lieModel hp hp2 hadm hX hA1 hK.1
   let H : Subgroup X := B ⊔ (P : Subgroup X)
   have hHsolv : Group.IsSolvable H :=
-    isSolvable_of_eq_sup hBab hBo P.isPGroup' rfl hperm
+    isSolvable_of_eq_sup hBab hBo P.isPGroup rfl hperm
   have hH3 : ¬ 3 ∣ Nat.card H :=
-    not_three_dvd_card_of_eq_sup hBo P.isPGroup' rfl hperm hB3
+    not_three_dvd_card_of_eq_sup hBo P.isPGroup rfl hperm hB3
   have hfix : ∀ J ∈ FunSet (fundPred (p ^ f)) X (P : Subgroup X),
       ∀ z : X, CFSG.ClassicalInvolution.Generic.IsUniqueInvolution J z →
         ∀ o ∈ (classicalInvolutionOddCore H).map H.subtype, o * z = z * o := by

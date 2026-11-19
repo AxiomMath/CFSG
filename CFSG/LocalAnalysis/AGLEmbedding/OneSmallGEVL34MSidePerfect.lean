@@ -136,7 +136,7 @@ theorem L34MSide.coprime_card_of_perfect_le_centralizer (hUE : KFactUPrimeExc)
   obtain ⟨S⟩ := (inferInstance : Nonempty (Sylow 3 W))
   have hS9 := Sylow.pow_dvd_card_of_pow_dvd_card S h9
   have hSb := hbound ((S : Subgroup W).map W.subtype)
-    (fun x hx => by obtain ⟨w, -, rfl⟩ := hx; exact hWC w.2) (S.isPGroup'.map _)
+    (fun x hx => by obtain ⟨w, -, rfl⟩ := hx; exact hWC w.2) (S.isPGroup.map _)
   rw [Subgroup.card_map_of_injective W.subtype_injective] at hSb
   have := Nat.le_of_dvd Nat.card_pos hS9
   omega

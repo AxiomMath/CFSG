@@ -46,7 +46,7 @@ theorem burnsideC135_mem_normalizer_inf {A B : Subgroup G} {g : G}
     g ∈ Subgroup.normalizer ((A ⊓ B : Subgroup G) : Set G) := by
   rw [Subgroup.mem_normalizer_iff] at hA hB ⊢
   intro x
-  simp only [SetLike.mem_coe, Subgroup.mem_inf] at hA hB ⊢
+  simp only [Subgroup.mem_inf] at hA hB ⊢
   exact and_congr (hA x) (hB x)
 
 variable [Finite G]
@@ -59,6 +59,7 @@ variable {X R L : Subgroup G} {F : Type} [Field F] [Fintype F] [CharP F 2]
   (H : burnsideC135_H1 X R L α β βU)
 include H
 
+omit [CharP F 2] in
 theorem normV : X ≤ Subgroup.normalizer
     ((pCoreOf 2 X ⊓ Subgroup.centralizer (burnsideC135_Wc β 1 : Set G) : Subgroup G) : Set G) :=
   fun _ hx => burnsideC135_mem_normalizer_inf (le_normalizer_pCoreOf 2 X hx)
@@ -74,17 +75,17 @@ theorem mem_W₁_of_commute {q : G} (hq : q ∈ c134Q X L)
     (hqc : q ∈ Subgroup.centralizer (burnsideC135_Wc β 1 : Set G)) : q ∈ burnsideC135_Wc β 1 := by
   classical
   obtain ⟨hsq₁, -⟩ := burnsideC135_W_sq H.dsg
-  refine H.mem_W₁_iff.mpr ⟨hq, ?_⟩
+  refine CFSG.ASVolI.burnsideC135_H1.mem_W₁_iff.mpr ⟨hq, ?_⟩
   set y := burnsideC135_qc β q 1 with hy
   obtain ⟨q₂, hq₂0, hq₂1⟩ := H.exists_coords 0 y
   have hq₂Q : ((q₂ : ↥(c134Q X L)) : G) ∈ c134Q X L := q₂.2
   have hq₂W : ((q₂ : ↥(c134Q X L)) : G) ∈ burnsideC135_Wc β 0 :=
-    H.mem_W₂_iff.mpr ⟨hq₂Q, by rw [burnsideC135_qc_of_mem hq₂Q]; exact hq₂0⟩
+    CFSG.ASVolI.burnsideC135_H1.mem_W₂_iff.mpr ⟨hq₂Q, by rw [burnsideC135_qc_of_mem hq₂Q]; exact hq₂0⟩
   have hq₂c : burnsideC135_qc β q₂ 1 = y := by rw [burnsideC135_qc_of_mem hq₂Q]; exact hq₂1
   set q₁ := q * ((q₂ : ↥(c134Q X L)) : G)⁻¹ with hq₁def
   have hq₁Q : q₁ ∈ c134Q X L := (c134Q X L).mul_mem hq ((c134Q X L).inv_mem hq₂Q)
   have hq₁W : q₁ ∈ burnsideC135_Wc β 1 := by
-    refine H.mem_W₁_iff.mpr ⟨hq₁Q, ?_⟩
+    refine CFSG.ASVolI.burnsideC135_H1.mem_W₁_iff.mpr ⟨hq₁Q, ?_⟩
     rw [burnsideC135_qc_mul hq ((c134Q X L).inv_mem hq₂Q), burnsideC135_qc_inv hq₂Q]
     simp [hq₂c, hy]
   have hq12 : q = q₁ * q₂ := by rw [hq₁def]; group
@@ -93,7 +94,7 @@ theorem mem_W₁_of_commute {q : G} (hq : q ∈ c134Q X L)
     obtain ⟨w, hw0, hw1⟩ := H.exists_coords x 0
     have hwQ : ((w : ↥(c134Q X L)) : G) ∈ c134Q X L := w.2
     have hwW : ((w : ↥(c134Q X L)) : G) ∈ burnsideC135_Wc β 1 :=
-      H.mem_W₁_iff.mpr ⟨hwQ, by rw [burnsideC135_qc_of_mem hwQ]; exact hw1⟩
+      CFSG.ASVolI.burnsideC135_H1.mem_W₁_iff.mpr ⟨hwQ, by rw [burnsideC135_qc_of_mem hwQ]; exact hw1⟩
     have hwc : burnsideC135_qc β w 0 = x := by rw [burnsideC135_qc_of_mem hwQ]; exact hw0
     have hU := H.comm _ hwQ _ hq₂Q
     have h1 : ((w : ↥(c134Q X L)) : G) * q₂ * ((w : ↥(c134Q X L)) : G)⁻¹ *
@@ -101,7 +102,7 @@ theorem mem_W₁_of_commute {q : G} (hq : q ∈ c134Q X L)
       have h2 : ((w : ↥(c134Q X L)) : G) * q * ((w : ↥(c134Q X L)) : G)⁻¹ * q⁻¹ = 1 := by
         rw [Subgroup.mem_centralizer_iff.mp hqc _ hwW]
         group
-      rw [hq12, comm_mul_right' (H.U_comm' hU hq₁Q),
+      rw [hq12, comm_mul_right' (CFSG.ASVolI.burnsideC135_H1.U_comm' hU hq₁Q),
         burnsideC135_comm_of_sq hsq₁ hwW hq₁W] at h2
       simpa using h2
     have h2 := H.uc_comm hwW hq₂W
@@ -243,12 +244,12 @@ theorem exists_mul_mem_E {v : G}
     · exact hs0 y
     · exact hs1 y
   have hsW : ∀ y, ((s y : ↥(c134Q X L)) : G) ∈ burnsideC135_Wc β 0 := fun y =>
-    H.mem_W₂_iff.mpr ⟨hsQ y, by rw [hsc]; rfl⟩
+    CFSG.ASVolI.burnsideC135_H1.mem_W₂_iff.mpr ⟨hsQ y, by rw [hsc]; rfl⟩
   have hqcW : ∀ q ∈ burnsideC135_Wc β 0, burnsideC135_qc β q = ![0, burnsideC135_qc β q 1] := by
     intro q hq
     funext i
     rcases (by decide : ∀ i : Fin 2, i = 0 ∨ i = 1) i with rfl | rfl
-    · exact (H.mem_W₂_iff.mp hq).2
+    · exact (CFSG.ASVolI.burnsideC135_H1.mem_W₂_iff.mp hq).2
     · rfl
   let D : (Fin 3 → F) → (Fin 3 → F) := fun y =>
     burnsideC135_uc βU (v * s y * v⁻¹ * ((s y : ↥(c134Q X L)) : G)⁻¹)
@@ -266,7 +267,7 @@ theorem exists_mul_mem_E {v : G}
       rfl
     have h2 := hDw _ hmul
     rw [h1] at h2
-    rw [← h2, comm_mul_right' (H.U_comm' (htriv _ (hsQ y')) (hsQ y)),
+    rw [← h2, comm_mul_right' (CFSG.ASVolI.burnsideC135_H1.U_comm' (htriv _ (hsQ y')) (hsQ y)),
       burnsideC135_uc_mul (htriv _ (hsQ y)) (htriv _ (hsQ y'))]
   have hrel : ∀ γ : Matrix.SpecialLinearGroup (Fin 3) F, ∃ x : Fin 3 → F, ∀ y,
       (γ : Matrix (Fin 3) (Fin 3) F) *ᵥ D ((γ : Matrix (Fin 3) (Fin 3) F)ᵀ *ᵥ y) =
@@ -312,13 +313,13 @@ theorem exists_mul_mem_E {v : G}
       H.comm c hcQ _ (hsQ y)
     rw [e2, comm_mul_left' (H.T_comm_U hvT hcqU), burnsideC135_uc_mul hcqU (htriv _ (hsQ y)),
       H.uc_comm hcW (hsW y), hsc]
-    simp only [Matrix.cons_val_one, Matrix.head_cons, Matrix.cons_val_zero]
+    simp only [Matrix.cons_val_one, Matrix.cons_val_zero]
     exact add_comm _ _
   obtain ⟨y₀, hy₀⟩ := burnsideC135_weight H.card D hDadd hrel
   obtain ⟨w₀, hw₀0, hw₀1⟩ := H.exists_coords (-y₀) 0
   have hw₀Q : ((w₀ : ↥(c134Q X L)) : G) ∈ c134Q X L := w₀.2
   have hw₀W : ((w₀ : ↥(c134Q X L)) : G) ∈ burnsideC135_Wc β 1 :=
-    H.mem_W₁_iff.mpr ⟨hw₀Q, by rw [burnsideC135_qc_of_mem hw₀Q]; exact hw₀1⟩
+    CFSG.ASVolI.burnsideC135_H1.mem_W₁_iff.mpr ⟨hw₀Q, by rw [burnsideC135_qc_of_mem hw₀Q]; exact hw₀1⟩
   have hw₀c : burnsideC135_qc β w₀ 0 = -y₀ := by rw [burnsideC135_qc_of_mem hw₀Q]; exact hw₀0
   refine ⟨w₀, hw₀W, ?_⟩
   have hW₂ : ∀ q ∈ burnsideC135_Wc β 0, (v * w₀) * q = q * (v * w₀) := by
@@ -344,19 +345,21 @@ theorem exists_mul_mem_E {v : G}
   obtain ⟨q₂, hq₂0, hq₂1⟩ := H.exists_coords 0 (burnsideC135_qc β q 1)
   have hq₂Q : ((q₂ : ↥(c134Q X L)) : G) ∈ c134Q X L := q₂.2
   have hq₂W : ((q₂ : ↥(c134Q X L)) : G) ∈ burnsideC135_Wc β 0 :=
-    H.mem_W₂_iff.mpr ⟨hq₂Q, by rw [burnsideC135_qc_of_mem hq₂Q]; exact hq₂0⟩
+    CFSG.ASVolI.burnsideC135_H1.mem_W₂_iff.mpr ⟨hq₂Q, by rw [burnsideC135_qc_of_mem hq₂Q]; exact hq₂0⟩
   have hq₁W : q * ((q₂ : ↥(c134Q X L)) : G)⁻¹ ∈ burnsideC135_Wc β 1 := by
-    refine H.mem_W₁_iff.mpr ⟨(c134Q X L).mul_mem hq ((c134Q X L).inv_mem hq₂Q), ?_⟩
+    refine CFSG.ASVolI.burnsideC135_H1.mem_W₁_iff.mpr ⟨(c134Q X L).mul_mem hq ((c134Q X L).inv_mem hq₂Q), ?_⟩
     rw [burnsideC135_qc_mul hq ((c134Q X L).inv_mem hq₂Q), burnsideC135_qc_inv hq₂Q,
       burnsideC135_qc_of_mem hq₂Q]
     simp [hq₂1]
   have e : q = (q * ((q₂ : ↥(c134Q X L)) : G)⁻¹) * q₂ := by group
   rw [e, mul_assoc, ← hW₂ _ hq₂W, ← mul_assoc, hW₁ _ hq₁W, mul_assoc]
 
+omit [Finite G] [Fintype F] [CharP F 2] H in
 theorem E_le_V : pCoreOf 2 X ⊓ Subgroup.centralizer (c134Q X L : Set G) ≤
     pCoreOf 2 X ⊓ Subgroup.centralizer (burnsideC135_Wc β 1 : Set G) :=
   inf_le_inf_left _ (Subgroup.centralizer_le (burnsideC135_Wc_le 1))
 
+omit [CharP F 2] in
 theorem normE : X ≤ Subgroup.normalizer
     ((pCoreOf 2 X ⊓ Subgroup.centralizer (c134Q X L : Set G) : Subgroup G) : Set G) :=
   fun _ hx => burnsideC135_mem_normalizer_inf (le_normalizer_pCoreOf 2 X hx)
@@ -366,13 +369,14 @@ theorem T_comm_E {t e : G} (ht : t ∈ pCoreOf 2 X)
     (he : e ∈ pCoreOf 2 X ⊓ Subgroup.centralizer (c134Q X L : Set G)) : t * e = e * t := by
   obtain ⟨v, hv, q, hq, rfl⟩ := H.exists_V_mul ht
   have hve : v * e = e * v :=
-    congrArg Subtype.val (H.isElemAbelian_V.1.is_comm.comm ⟨v, hv⟩ ⟨e, H.E_le_V he⟩)
+    congrArg Subtype.val (H.isElemAbelian_V.1.is_comm.comm ⟨v, hv⟩ ⟨e, CFSG.ASVolI.burnsideC135_H1.E_le_V he⟩)
   have hqe : q * e = e * q := (Subgroup.mem_centralizer_iff.mp he.2 q hq).symm.symm
   calc v * q * e = v * (q * e) := by group
     _ = v * (e * q) := by rw [hqe]
     _ = (v * e) * q := by group
     _ = e * (v * q) := by rw [hve]; group
 
+omit [CharP F 2] in
 theorem comm_L_mem_U {e l : G} (he : e ∈ pCoreOf 2 X ⊓ Subgroup.centralizer (c134Q X L : Set G))
     (hl : l ∈ L) : l * e * l⁻¹ * e⁻¹ ∈ centerOf (c134Q X L) := by
   have heT : e⁻¹ ∈ pCoreOf 2 X := (pCoreOf 2 X).inv_mem he.1
@@ -464,7 +468,7 @@ theorem mem_U_of_commute {e l : G}
     set k := g * e * g⁻¹ * e⁻¹ with hk
     have hkU : k ∈ centerOf (c134Q X L) := H.comm_L_mem_U he hg
     have hke : k * e = e * k := Subgroup.mem_centralizer_iff.mp he.2 k hkU.1
-    have hku : k * u₀ = u₀ * k := H.U_comm' hkU hu₀U.1 |>.symm
+    have hku : k * u₀ = u₀ * k := CFSG.ASVolI.burnsideC135_H1.U_comm' hkU hu₀U.1 |>.symm
     have hge : g * e = k * e * g := by rw [hk]; group
     have hgu : g * u₀ = k * u₀ * g := by rw [h1]; group
     calc g * (e * (u₀ : G)⁻¹) = (g * e) * (u₀ : G)⁻¹ := by group
@@ -493,6 +497,7 @@ theorem mem_U_of_commute {e l : G}
   exact hu₀U
 
 
+omit [CharP F 2] in
 theorem uc_inj {a b : G} (ha : a ∈ centerOf (c134Q X L)) (hb : b ∈ centerOf (c134Q X L))
     (h : burnsideC135_uc βU a = burnsideC135_uc βU b) : a = b := by
   have h1 : a * b⁻¹ = 1 := by
@@ -501,10 +506,12 @@ theorem uc_inj {a b : G} (ha : a ∈ centerOf (c134Q X L)) (hb : b ∈ centerOf 
       add_neg_cancel]
   exact mul_inv_eq_one.mp h1
 
+omit [Finite G] [Fintype F] [CharP F 2] H in
 theorem uc_one : burnsideC135_uc βU (1 : G) = 0 := by
   rw [burnsideC135_uc_of_mem (centerOf (c134Q X L)).one_mem]
   exact congrArg Multiplicative.toAdd (map_one βU)
 
+omit [CharP F 2] in
 theorem mem_mul {x : G} (hx : x ∈ X) : ∃ l ∈ L, ∃ t ∈ pCoreOf 2 X, x = l * t := by
   classical
   have hxU : x ∈ Subgroup.normalizer (centerOf (c134Q X L) : Set G) := H.normU hx
@@ -554,7 +561,7 @@ theorem mem_mul {x : G} (hx : x ∈ X) : ∃ l ∈ L, ∃ t ∈ pCoreOf 2 X, x =
         have := congrArg (fun g => x⁻¹ * g * x) h2
         simpa [mul_assoc] using this
       apply hv0
-      rw [← hsc v, h3, H.uc_one]
+      rw [← hsc v, h3, CFSG.ASVolI.burnsideC135_H1.uc_one]
     · exact h
   set γ₀ : Matrix.SpecialLinearGroup (Fin 3) F := ⟨M, hdet⟩ with hγ₀
   obtain ⟨l, hl⟩ := slNat_surjective H.surj.1 γ₀

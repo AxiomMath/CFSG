@@ -28,8 +28,7 @@ theorem modelFacts_parts :
     simp only [yoshQCheck, Bool.and_eq_true] at h0
     exact h0.2
   unfold modelFactsCheck fusionCheck at h
-  simp only [Bool.and_eq_true, List.all_eq_true, List.mem_cons, List.mem_singleton,
-    List.not_mem_nil, or_false] at h
+  simp only [Bool.and_eq_true, List.all_eq_true, List.mem_cons, List.not_mem_nil, or_false] at h
   obtain ⟨⟨⟨⟨h1, h2⟩, h3⟩, h4⟩, h5⟩ := h
   refine ⟨fun α hα => ?_, fun α k hα hk => ?_, fun k hk => h3 k (by omega),
     fun k hk => h4 k (by omega), h5⟩
@@ -38,15 +37,15 @@ theorem modelFacts_parts :
   · exact h2 α (by omega) k (by omega)
 
 theorem modelChecks : ModelChecks where
-  fusion α k hα hk :=
-    ⟨hα, size_nGens α k, nModelOK α k hα hk, (modelFacts_parts.1 α hα).1,
-      ((modelFacts_parts.1 α hα).2 k hk).1, ((modelFacts_parts.1 α hα).2 k hk).2⟩
-  ue α k hα hk := (modelFacts_parts.2.1 α k hα hk).1
-  es α k hα hk := (modelFacts_parts.2.1 α k hα hk).2
-  l6 k hk := modelFacts_parts.2.2.1 k hk
-  l7 k hk := (modelFacts_parts.2.2.2.1 k hk).1
-  l8 k hk := (modelFacts_parts.2.2.2.1 k hk).2
-  sylowHom k hk := sylowHomCheck_of_all modelFacts_parts.2.2.2.2 hk
+  fusion α _k hα hk :=
+    ⟨hα, size_nGens α _k, nModelOK α _k hα hk, (modelFacts_parts.1 α hα).1,
+      ((modelFacts_parts.1 α hα).2 _k hk).1, ((modelFacts_parts.1 α hα).2 _k hk).2⟩
+  ue α _k hα hk := (modelFacts_parts.2.1 α _k hα hk).1
+  es α _k hα hk := (modelFacts_parts.2.1 α _k hα hk).2
+  l6 _k hk := modelFacts_parts.2.2.1 _k hk
+  l7 _k hk := (modelFacts_parts.2.2.2.1 _k hk).1
+  l8 _k hk := (modelFacts_parts.2.2.2.1 _k hk).2
+  sylowHom _k hk := sylowHomCheck_of_all modelFacts_parts.2.2.2.2 hk
 
 end Cert
 

@@ -24,25 +24,31 @@ variable {K : Type} [Field K] [CharP K 2]
 @[expose] def wMat : SL(2, K) := ⟨!![0, 1; 1, 0], by
   rw [Matrix.det_fin_two_of]; simp [CharTwo.neg_eq]⟩
 
+omit [CharP K 2] in
 @[simp] theorem coe_uMat (a : K) :
     ((uMat a : SL(2, K)) : Matrix (Fin 2) (Fin 2) K) = !![1, a; 0, 1] := rfl
 
+omit [CharP K 2] in
 @[simp] theorem coe_lMat (a : K) :
     ((lMat a : SL(2, K)) : Matrix (Fin 2) (Fin 2) K) = !![1, 0; a, 1] := rfl
 
+omit [CharP K 2] in
 @[simp] theorem coe_hMat (c : Kˣ) :
     ((hMat c : SL(2, K)) : Matrix (Fin 2) (Fin 2) K) = !![(c : K), 0; 0, ((c⁻¹ : Kˣ) : K)] := rfl
 
 @[simp] theorem coe_wMat : ((wMat : SL(2, K)) : Matrix (Fin 2) (Fin 2) K) = !![0, 1; 1, 0] := rfl
 
+omit [CharP K 2] in
 theorem uMat_mul (a b : K) : uMat a * uMat b = uMat (a + b) := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two, add_comm]
 
+omit [CharP K 2] in
 theorem lMat_mul (a b : K) : lMat a * lMat b = lMat (a + b) := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two, add_comm]
 
+omit [CharP K 2] in
 theorem hMat_mul (c d : Kˣ) : hMat c * hMat d = hMat (c * d) := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two, mul_comm]
@@ -51,26 +57,31 @@ theorem wMat_mul_self : (wMat : SL(2, K)) * wMat = 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two]
 
+omit [CharP K 2] in
 theorem uMat_zero : (uMat 0 : SL(2, K)) = 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp
 
+omit [CharP K 2] in
 theorem lMat_zero : (lMat 0 : SL(2, K)) = 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp
 
+omit [CharP K 2] in
 theorem hMat_one : (hMat 1 : SL(2, K)) = 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp
 
+omit [CharP K 2] in
 theorem hMat_mul_uMat (c : Kˣ) (a : K) : hMat c * uMat a = uMat ((c : K) ^ 2 * a) * hMat c := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two] <;> field_simp
+  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two]; field_simp
 
+omit [CharP K 2] in
 theorem hMat_mul_lMat (c : Kˣ) (a : K) :
     hMat c * lMat a = lMat (((c⁻¹ : Kˣ) : K) ^ 2 * a) * hMat c := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two] <;> field_simp
+  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two]; field_simp
 
 theorem wMat_mul_uMat (a : K) : wMat * uMat a = lMat a * wMat := by
   ext i j
@@ -87,14 +98,14 @@ theorem wMat_mul_hMat (c : Kˣ) : wMat * hMat c = hMat c⁻¹ * wMat := by
 theorem uMat_mul_wMat (a : Kˣ) :
     uMat (a : K) * wMat = lMat ((a⁻¹ : Kˣ) : K) * hMat a * uMat ((a⁻¹ : Kˣ) : K) := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two] <;>
-    first | rfl | (field_simp; ring_nf; simp [CharTwo.two_eq_zero])
+  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two];
+    (field_simp; ring_nf; simp [CharTwo.two_eq_zero])
 
 theorem lMat_bruhat (c : Kˣ) :
     lMat (c : K) = uMat ((c⁻¹ : Kˣ) : K) * wMat * hMat c * uMat ((c⁻¹ : Kˣ) : K) := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two] <;>
-    first | rfl | (field_simp; ring_nf; simp [CharTwo.two_eq_zero])
+  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two];
+    (field_simp; ring_nf; simp [CharTwo.two_eq_zero])
 
 theorem uMat_two (a : K) : uMat a * uMat a = 1 := by
   rw [uMat_mul, CharTwo.add_self_eq_zero, uMat_zero]
@@ -102,6 +113,7 @@ theorem uMat_two (a : K) : uMat a * uMat a = 1 := by
 theorem lMat_two (a : K) : lMat a * lMat a = 1 := by
   rw [lMat_mul, CharTwo.add_self_eq_zero, lMat_zero]
 
+omit [CharP K 2] in
 theorem uMat_eq_one_iff (a : K) : (uMat a : SL(2, K)) = 1 ↔ a = 0 := by
   constructor
   · intro h
@@ -110,6 +122,7 @@ theorem uMat_eq_one_iff (a : K) : (uMat a : SL(2, K)) = 1 ↔ a = 0 := by
   · rintro rfl
     exact uMat_zero
 
+omit [CharP K 2] in
 theorem uMat_ne_lMat (a b : K) (h : (uMat a : SL(2, K)) = lMat b) : a = 0 ∧ b = 0 := by
   have h1 := congrArg (fun g : SL(2, K) => (g : Matrix (Fin 2) (Fin 2) K) 0 1) h
   have h2 := congrArg (fun g : SL(2, K) => (g : Matrix (Fin 2) (Fin 2) K) 1 0) h
@@ -197,9 +210,11 @@ variable {K : Type} [Field K] [CharP K 2]
 theorem wMat_inv : (wMat : SL(2, K))⁻¹ = wMat :=
   inv_eq_of_mul_eq_one_right wMat_mul_self
 
+omit [CharP K 2] in
 theorem conj_U (c : Kˣ) (a : K) : hMat c * uMat a * (hMat c)⁻¹ = uMat ((c : K) ^ 2 * a) := by
   rw [hMat_mul_uMat, mul_assoc, mul_inv_cancel, mul_one]
 
+omit [CharP K 2] in
 theorem conj_L (c : Kˣ) (a : K) :
     hMat c * lMat a * (hMat c)⁻¹ = lMat (((c⁻¹ : Kˣ) : K) ^ 2 * a) := by
   rw [hMat_mul_lMat, mul_assoc, mul_inv_cancel, mul_one]
@@ -217,9 +232,10 @@ theorem wconj_H (c : Kˣ) : wMat * hMat c * wMat⁻¹ = hMat c⁻¹ := by
   open Classical in
   if h : (g : Matrix (Fin 2) (Fin 2) K) 0 1 ≠ 0 then hMat (Units.mk0 _ h) else 1
 
+omit [CharP K 2] in
 theorem phiFn_uMat (a : Kˣ) : phiFn (uMat (a : K)) = hMat a := by
   unfold phiFn
-  rw [dif_pos (by simpa using a.ne_zero)]
+  rw [dite_eq_left (by simp)]
   congr 1
   ext
   simp
@@ -327,7 +343,7 @@ theorem cover_aux (g : SL(2, K)) :
     refine ⟨hMat c, ⟨_, rfl⟩, uMat ((g : Matrix (Fin 2) (Fin 2) K) 1 1 /
       (g : Matrix (Fin 2) (Fin 2) K) 1 0), ⟨_, rfl⟩, ?_⟩
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two, hc, h00, hγ]
+    fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two, hc, h00]
     · rw [h00] at hdet
       have h1 : -((g : Matrix (Fin 2) (Fin 2) K) 0 1 * (g : Matrix (Fin 2) (Fin 2) K) 1 0) = 1 := by
         simpa using hdet
@@ -389,7 +405,7 @@ theorem heckeDeg_one :
   H_normL := Hsub_normL
   H_normX := fun _ => Hsub_normU
   H_normQ := fun _ h _ q hq => by
-    rw [Subgroup.mem_bot.1 hq]; simp [Subgroup.one_mem]
+    rw [Subgroup.mem_bot.1 hq]; simp
   X_le := fun _ => le_rfl
   X_ne_bot := fun _ => by
     intro h
@@ -400,20 +416,20 @@ theorem heckeDeg_one :
   U_eq := fun _ u hu => ⟨u, hu, 1, Subgroup.one_mem _, (mul_one u).symm⟩
   Us_le := fun _ => bot_le
   X_normUs := fun _ _ _ v hv => by
-    rw [Subgroup.mem_bot.1 hv]; simp [Subgroup.one_mem]
+    rw [Subgroup.mem_bot.1 hv]; simp
   n_normUs := fun _ v hv => by
-    rw [Subgroup.mem_bot.1 hv]; simp [Subgroup.one_mem]
+    rw [Subgroup.mem_bot.1 hv]; simp
   n_normUs' := fun _ v hv => by
-    rw [Subgroup.mem_bot.1 hv]; simp [Subgroup.one_mem]
+    rw [Subgroup.mem_bot.1 hv]; simp
   Y_le := fun _ => le_rfl
   Q_le := fun _ => bot_le
   L_le := fun _ => by simp
   X_normQ := fun _ _ _ q hq => by
-    rw [Subgroup.mem_bot.1 hq]; simp [Subgroup.one_mem]
+    rw [Subgroup.mem_bot.1 hq]; simp
   Y_normQ := fun _ _ _ q hq => by
-    rw [Subgroup.mem_bot.1 hq]; simp [Subgroup.one_mem]
+    rw [Subgroup.mem_bot.1 hq]; simp
   n_normQ := fun _ q hq => by
-    rw [Subgroup.mem_bot.1 hq]; simp [Subgroup.one_mem]
+    rw [Subgroup.mem_bot.1 hq]; simp
   n_conjX := fun _ => wconj_Usub
   n_conjY := fun _ => wconj_Lsub
   n_sq := fun _ => by

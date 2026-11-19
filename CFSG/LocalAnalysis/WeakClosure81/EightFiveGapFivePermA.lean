@@ -99,7 +99,7 @@ theorem w85g_exists_commuting_conj_four {α : Type} [Fintype α] [DecidableEq α
     (hτ : τ * τ = 1) (hs : Perm.sign τ = -1)
     {a b c d : α} (hab : a ≠ b) (hac : a ≠ c) (had : a ≠ d)
     (hbc : b ≠ c) (hbd : b ≠ d) (hcd : c ≠ d)
-    (hta : τ a = b) (htb : τ b = a) (htc : τ c = d) (htd : τ d = c) :
+    (hta : τ a = b) (_htb : τ b = a) (htc : τ c = d) (_htd : τ d = c) :
     ∃ c' ∈ alternatingGroup α, c' * τ * c'⁻¹ ≠ τ ∧
       τ * (c' * τ * c'⁻¹) = (c' * τ * c'⁻¹) * τ := by
   have hτi : τ⁻¹ = τ := inv_eq_of_mul_eq_one_right hτ
@@ -115,9 +115,9 @@ theorem w85g_exists_commuting_conj_four {α : Type} [Fintype α] [DecidableEq α
   · intro h
     rw [hconj] at h
     have h1 : (swap a c * τ * swap a c) a = d := by
-      simp [Equiv.Perm.mul_apply, Equiv.swap_inv, Equiv.swap_apply_of_ne_of_ne,
-        Ne.symm hac, Ne.symm had, Ne.symm hbc, Ne.symm hbd, Ne.symm hcd,
-        hbc, hbd, hcd, hab, hac, had, hta, htb, htc, htd, hτi]
+      simp [Equiv.Perm.mul_apply, Equiv.swap_apply_of_ne_of_ne,
+        Ne.symm had, Ne.symm hcd,
+        htc]
     rw [h, hta] at h1
     exact hbd h1
   · rw [hconj]
@@ -156,9 +156,8 @@ theorem w85g_exists_commuting_conj_swap {α : Type} [Fintype α] [DecidableEq α
   obtain ⟨hfa, hfb⟩ := hf
   have h1 : (swap a e * swap b f) * swap a b * (swap a e * swap b f)⁻¹ = swap e f := by
     rw [← Equiv.swap_apply_apply]
-    simp [Equiv.Perm.mul_apply, Equiv.swap_inv, Equiv.swap_apply_of_ne_of_ne,
-      Ne.symm hea, Ne.symm heb, Ne.symm hef, Ne.symm hfa, Ne.symm hfb,
-      hea, heb, hef, hfa, hfb, hab]
+    simp [Equiv.Perm.mul_apply, Equiv.swap_apply_of_ne_of_ne,
+      Ne.symm hef, Ne.symm hfa, hfa, hab]
   refine ⟨swap a e * swap b f, ?_, ?_, ?_⟩
   · rw [Equiv.Perm.mem_alternatingGroup, map_mul,
       Equiv.Perm.sign_swap (Ne.symm hea), Equiv.Perm.sign_swap (Ne.symm hfb)]
@@ -171,8 +170,7 @@ theorem w85g_exists_commuting_conj_swap {α : Type} [Fintype α] [DecidableEq α
     exact h2 (by rw [← h])
   · have hcomm : swap a b * swap e f = swap e f * swap a b := by
       have hnd : [e, f, a, b].Nodup := by
-        simp [List.nodup_cons, Ne.symm hea, Ne.symm heb, Ne.symm hef, Ne.symm hfa,
-          Ne.symm hfb, hab, *]
+        simp [List.nodup_cons, *]
       exact (Equiv.Perm.disjoint_swap_swap hnd).commute.symm
     rw [h1]
     exact hcomm

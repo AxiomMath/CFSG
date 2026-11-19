@@ -29,7 +29,7 @@ theorem mem_Q_of_comm_comm (htau : ∀ a ∈ ctxQ t tau x₁ x₂ rho, tau * a *
     rwa [hV.comm_v₁ hg.toZ4Pre] at hc
   have hsO : s ∈ ctxO t tau x₁ x₂ := hg.mem_O_of_comm_y hs hy
   have h₁ : s * (x₂ * x₁⁻¹) = (x₂ * x₁⁻¹) * s := by
-    have hc := h lam hg.toZ4Pre.lam_mem_U x₁ hx₁U
+    have hc := h lam CFSG.OddStandard.SmallF3.HarrisU33.Z4Pre.lam_mem_U x₁ hx₁U
     have hcomm : z4Comm lam x₁ = x₂ * x₁⁻¹ := by
       unfold z4Comm
       rw [hg.lam_conj_x₁]

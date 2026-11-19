@@ -49,10 +49,10 @@ theorem u42Layer_fieldAutT {G : Prop} (S : SubfieldSetup k Q₀ Q σ p)
   have hfix : fixSubgroup (fieldAutT Q σ S.hQσ) = subfieldFixedGroup k Q₀ Q :=
     Subgroup.ext fun t => fieldAutT_apply_iff S t
   have hJn := subfieldDerivedImage_normal k S.hext
-  haveI := hJn
+  have := hJn
   have hquot := fixedGroup_quotient_isPGroup k S.hext S.hnd₀ S.hT₀
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := IsPGroup.isNilpotent hquot
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := IsPGroup.isNilpotent hquot
   exact u42Layer_of_fixed_normal_simple _ _ _ hfix (subfieldDerivedImage_le k S.hext)
     inferInstance hJs hJnab fun hT => hG (catalogIs_of_mulEquiv e.symm hT)
 
@@ -94,6 +94,7 @@ section Descent
 variable {K : Type} [Field K] [Finite K] {k : Subfield K} {d : ℕ}
   {Q₀ : QuadraticForm k (Fin d → k)} {Q : QuadraticForm K (Fin d → K)} {σ : K ≃+* K} {p : ℕ}
 
+omit [Finite K] in
 theorem u42Layer_of_fieldDescent {G : Prop} {Q' : QuadraticForm K (Fin d → K)}
     {Q₀' : QuadraticForm k (Fin d → k)} (S : SubfieldSetup k Q₀' Q' σ p) (U : similarityPairs Q)
     (Θ : matrixProjectiveDerived Q ≃* matrixProjectiveDerived Q') (g' : similarityPairs Q')
@@ -109,7 +110,7 @@ theorem u42Layer_of_fieldDescent {G : Prop} {Q' : QuadraticForm K (Fin d → K)}
         Θ (matrixProjectiveConjugationHom Q U (Θ.symm x)) := rfl
     rw [h1, hΘ, MulEquiv.apply_symm_apply, hg']
     rfl
-  haveI : Finite (matrixProjectiveDerived Q') := Finite.of_equiv _ Θ.toEquiv
+  have : Finite (matrixProjectiveDerived Q') := Finite.of_equiv _ Θ.toEquiv
   exact u42Layer_congr Θ (hcongr ▸ hfield)
 
 end Descent
@@ -133,7 +134,7 @@ theorem u42Layer_of_gates_outer {G : Prop} {H : Type} [Group H] [Finite H]
   · have hne1 : MulAut.congr e β ≠ 1 := fun h => hD (h ▸ one_mem _)
     have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hord : orderOf (MulAut.congr e β) = 3 := orderOf_eq_prime hβ' hne1
-    haveI : Finite (matrixProjectiveDerived Q) := Finite.of_equiv H e.toEquiv
+    have : Finite (matrixProjectiveDerived Q) := Finite.of_equiv H e.toEquiv
     exact u42Layer_congr e (hdesc _ hE hD hord)
 
 end Gates
@@ -153,7 +154,7 @@ theorem u42Layer_omega_plus_of_E {H : Type} [Group H] [Finite H] {n f : ℕ}
   obtain ⟨-, -, hn4⟩ := hG.1
   have hgates := orthogonal_large_prime_semilinear_field_and_diagonal_gates H .POmegaPlus
     (Or.inr (Or.inl rfl)) n 2 f hG K hK e
-  haveI : Finite (matrixProjectiveDerived (coordinateQuadPlus n K)) :=
+  have : Finite (matrixProjectiveDerived (coordinateQuadPlus n K)) :=
     Finite.of_equiv H (coordinatePlusWitnessEquiv K e).toEquiv
   refine u42Layer_of_gates_outer (coordinatePlusWitnessEquiv K e) hgates β hβ hE hout ?_
   intro a haE haD hap
@@ -200,7 +201,7 @@ theorem u42Layer_omega_minus_outer {H : Type} [Group H] [Finite H] {n f : ℕ}
   have htop : projectivePointFamilyAut (coordinateQuadMinus n K hn1 b c) = ⊤ :=
     ((orthogonal_geometry_tail_model_point_family_invariant H .POmegaMinus (.inr rfl) n 2 f hG)
       hn1 K hK b c hirr).2
-  haveI : Finite (matrixProjectiveDerived (coordinateQuadMinus n K hn1 b c)) :=
+  have : Finite (matrixProjectiveDerived (coordinateQuadMinus n K hn1 b c)) :=
     Finite.of_equiv H (coordinateMinusWitnessEquiv K hn1 b c e).toEquiv
   refine u42Layer_of_gates_outer (coordinateMinusWitnessEquiv K hn1 b c e) hgates β hβ
     (mem_E_of_pow_eq_one_three hgates htop) hout ?_

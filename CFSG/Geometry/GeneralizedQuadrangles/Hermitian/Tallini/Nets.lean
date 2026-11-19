@@ -17,6 +17,7 @@ section NetsAux
 
 variable {Γ : SimpleGraph V} [Fintype V] [DecidableRel Γ.Adj]
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 private theorem isStarLine_ne_singleton {c : Γ.Coloring (Fin 2)} {L : Set V}
     (hL : IsStarLine Γ c L) (x : V) : L ≠ {x} := by
   intro hEq
@@ -25,6 +26,7 @@ private theorem isStarLine_ne_singleton {c : Γ.Coloring (Fin 2)} {L : Set V}
   have hb' : b ∈ ({x} : Set V) := hEq ▸ mem_starLine_right hb
   exact hab (by simpa using ha'.trans hb'.symm)
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 private theorem ptPerp_pair_eq (c : Γ.Coloring (Fin 2)) (x y : V) :
     ptPerp Γ c {x, y} = ptPerp Γ c {x} ∩ ptPerp Γ c {y} := by
   ext z

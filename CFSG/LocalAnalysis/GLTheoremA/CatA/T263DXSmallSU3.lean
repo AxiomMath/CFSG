@@ -22,10 +22,11 @@ section Matrices
 variable {L : Type} [Field L] [CharP L 2]
 
 private theorem eq_one_of_pow_two_pow {x : L} {n : ℕ} (h : x ^ 2 ^ n = 1) : x = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h4 : (x - 1) ^ 2 ^ n = 0 := by rw [sub_pow_char_pow, one_pow, h, sub_self]
   exact sub_eq_zero.1 ((pow_eq_zero_iff (pow_ne_zero _ two_ne_zero)).1 h4)
 
+omit [CharP L 2] in
 private theorem exists_omega [IsAlgClosed L] : ∃ ω : L, ω ^ 2 + ω + 1 = 0 := by
   have hdeg : (Polynomial.X ^ 2 + Polynomial.X + 1 : Polynomial L).degree = 2 := by
     compute_degree!
@@ -84,7 +85,7 @@ private theorem mat_diag_eq_one (X : SL(3, L))
   rw [hD] at hX
   have hinj : Function.Injective (![ω, ω ^ 2, 1] : Fin 3 → L) := by
     intro i j hij
-    fin_cases i <;> fin_cases j <;> simp_all <;> grind
+    fin_cases i <;> fin_cases j <;> simp_all; grind
   have hoff : ∀ i j : Fin 3, i ≠ j → (X : Matrix (Fin 3) (Fin 3) L) i j = 0 := by
     intro i j hij
     have h1 := congrFun (congrFun hX i) j
@@ -153,12 +154,12 @@ private theorem exists_su3_elements [IsAlgClosed L] :
     ?_, ?_, ?_⟩
   · ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [A, Matrix.mul_apply, Fin.sum_univ_three, Matrix.one_apply]
+      simp [A, Matrix.mul_apply, Fin.sum_univ_three]
   · intro hc
     obtain ⟨r, -, hr⟩ := Matrix.SpecialLinearGroup.mem_center_iff.1 hc
     have h12 := congrFun (congrFun hr 1) 2
     have e1 : (Matrix.scalar (Fin 3) r : Matrix (Fin 3) (Fin 3) L) 1 2 = 0 := by
-      simp [Matrix.scalar_apply, Matrix.diagonal_apply]
+      simp [Matrix.scalar_apply]
     have e2 : (P : Matrix (Fin 3) (Fin 3) L) 1 2 = 1 := by simp [P]
     rw [e1, e2] at h12
     exact zero_ne_one h12
@@ -238,8 +239,8 @@ private theorem su3_data {τ : Tag} {K : Type} [Field K] [Finite K]
         y ∈ rootSpan τ (AlgebraicClosure K) (componentRoots (rootCharHom a) i) →
         S.D.step y = y → y ^ 2 ^ n = 1 → ∃ X ∈ C, θ X = y ∧ X ^ 2 ^ n = 1 := by
   classical
-  haveI : CharP K 2 := hK2 ▸ ringChar.charP K
-  haveI hL2 : CharP (AlgebraicClosure K) 2 :=
+  have : CharP K 2 := hK2 ▸ ringChar.charP K
+  have hL2 : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have hν : 3 ≤ 3 := le_rfl
   obtain ⟨r, e, σQ, z, hr, hchar, he, hq, hσc, hconj, hnormz⟩ :=
@@ -247,7 +248,7 @@ private theorem su3_data {τ : Tag} {K : Type} [Field K] [Finite K]
       π hπ
   have hr2 : r = 2 := CharP.eq (AlgebraicClosure K) hchar hL2
   subst hr2
-  haveI : Fact (Nat.Prime 2) := ⟨hr⟩
+  have : Fact (Nat.Prime 2) := ⟨hr⟩
   have he1 : e = 1 := by
     have h2 : (2 : ℕ) ^ e = 2 ^ 1 := by rw [← hq, hq2]; norm_num
     exact Nat.pow_right_injective le_rfl h2
@@ -357,8 +358,8 @@ private theorem smallSU3_core {τ : Tag} {K : Type} [Field K] [Finite K] (hK2 : 
       Nat.card (twoClosure S i) ∣ 216 ∧
       (p = 7 → 8 ∣ Nat.card (twoClosure S i) → ∃ x ∈ twoClosure S i, orderOf x = 4) := by
   classical
-  haveI : CharP K 2 := hK2 ▸ ringChar.charP K
-  haveI hL2 : CharP (AlgebraicClosure K) 2 :=
+  have : CharP K 2 := hK2 ▸ ringChar.charP K
+  have hL2 : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   obtain ⟨ν, ψ, σ, hν, hψ, hΨ, π, hπ⟩ := exists_unitary_frame hK2 S hp hp2 hT hap i hk
   have hnorm : ∀ x y, x ≠ y → iform (σ x y) (σ x y) = 2 * 1 := fun x y hxy => by
@@ -436,7 +437,7 @@ private theorem smallSU3_core {τ : Tag} {K : Type} [Field K] [Finite K] (hK2 : 
     hgen h hhC 2 (by
       rw [show (2 : ℕ) ^ 2 = 2 * 2 from rfl, pow_mul, pow_two h, hhh, pow_two, hPP])
   have hord : orderOf (θ h) = 4 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hsq : θ h ^ 2 = θ P := by rw [← map_pow, pow_two, hhh]
     have hne : θ h ^ 2 ^ 1 ≠ 1 := by
       rw [pow_one, hsq]

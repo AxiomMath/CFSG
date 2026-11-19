@@ -45,13 +45,11 @@ theorem u9_char_two {Γ : Type} [Group Γ] [Finite Γ] {A K : Subgroup Γ} (hI :
       ⟨ht, hn, hf⟩ | ⟨ht, hn, hf⟩ | ⟨ht, hn, hf⟩
     · rw [ht, hn, hf] at hcard
       simp [CFSG.ComponentClassification.CatLeaf.lieOrderDivisor,
-        CFSG.ComponentClassification.CatLeaf.lieOrderNumerator, Finset.prod_Icc_succ_top,
-        Nat.even_iff] at hcard
+        CFSG.ComponentClassification.CatLeaf.lieOrderNumerator] at hcard
       omega
     · rw [ht, hn, hf] at hcard
       simp [CFSG.ComponentClassification.CatLeaf.lieOrderDivisor,
-        CFSG.ComponentClassification.CatLeaf.lieOrderNumerator, Finset.prod_Icc_succ_top,
-        Nat.even_iff] at hcard
+        CFSG.ComponentClassification.CatLeaf.lieOrderNumerator, Finset.prod_Icc_succ_top] at hcard
       omega
     · rw [ht, hn, hf] at hcard
       simp [CFSG.ComponentClassification.CatLeaf.lieOrderDivisor,
@@ -62,12 +60,11 @@ theorem u9_char_two {Γ : Type} [Group Γ] [Finite Γ] {A K : Subgroup Γ} (hI :
     obtain ⟨-, hcard, -⟩ := hO (PSimple 3 K) _ _ _ _ hM.admissible hM
     obtain ⟨tag, rank, nn⟩ := lab
     cases tag
-    all_goals first | exact absurd rfl hc | skip
+    all_goals try exact absurd rfl hc
     case B2der =>
       simp [CFSG.StandardType.markTag, CFSG.StandardType.markRank, CFSG.StandardType.markDeg,
         CFSG.StandardType.markChar, CFSG.ComponentClassification.CatLeaf.lieOrderDivisor,
-        CFSG.ComponentClassification.CatLeaf.lieOrderNumerator, Finset.prod_Icc_succ_top,
-        Nat.even_iff] at hcard
+        CFSG.ComponentClassification.CatLeaf.lieOrderNumerator] at hcard
       omega
     case G2der =>
       simp [CFSG.StandardType.markTag, CFSG.StandardType.markRank, CFSG.StandardType.markDeg,

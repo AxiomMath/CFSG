@@ -20,17 +20,22 @@ open scoped MatrixGroups
 
 variable {G : Type} [Group G] [Finite G] {z : G} (e : ↥(Cz z) ≃* L52.Hc)
 
+omit [Finite G] in
 theorem card_T : Nat.card (tr e L52.Tm) = 1024 := by
   rw [card_tr, L52.card_Tm]; norm_num
 
+omit [Finite G] in
 theorem card_Q : Nat.card (tr e L52.Qh) = 2 ^ 7 := by
   rw [card_tr, L52.card_Qh]; norm_num
 
+omit [Finite G] in
 theorem Q_le_T : tr e L52.Qh ≤ tr e L52.Tm := tr_mono e L52.Qh_le_Tm
 
+omit [Finite G] in
 theorem lt_card_Q_T : Nat.card (tr e L52.Qh) < Nat.card (tr e L52.Tm) := by
   rw [card_Q, card_T]; norm_num
 
+omit [Finite G] in
 theorem centerIn_T (hz : orderOf z = 2) : centerIn (tr e L52.Tm) = zpowers z := by
   show centerIn (frame0 e hz).T = zpowers z
   apply le_antisymm
@@ -99,13 +104,16 @@ theorem isSylowOf_T_normalizer_J (hF6 : L52.F6Model) (S : Setting G z e)
       simp
     rw [this]; norm_num
 
+omit [Finite G] in
 theorem pCoreOf_Cz : pCoreOf 2 (Cz z) = tr e L52.Qh := (tr_Qh_eq e).symm
 
+omit [Finite G] in
 theorem isExtraspecial_Q : CFSG.IsExtraspecialPGroup 2 ↥(tr e L52.Qh) :=
   CFSG.LargeExtraspecial.isExtraspecialPGroup_of_mulEquiv
     (Subgroup.equivMapOfInjective L52.Qh (emb e) (emb_injective e))
     L52.isExtraspecialPGroup_Qh
 
+omit [Finite G] in
 theorem centerIn_Q (hz : orderOf z = 2) : centerIn (tr e L52.Qh) = zpowers z := by
   have h : tr e (L52.Qh ⊓ centralizer (L52.Qh : Set L52.Hc)) = centerIn (tr e L52.Qh) := by
     ext x
@@ -120,6 +128,7 @@ theorem centerIn_Q (hz : orderOf z = 2) : centerIn (tr e L52.Qh) = zpowers z := 
       exact (emb_mul_comm e).1 this
   rw [← h, L52.inf_centralizer_Qh, tr_zpowers_zt e hz]
 
+omit [Finite G] in
 theorem nonempty_iso_cornerTransvection {z' : G} (e' : ↥(Cz z') ≃* L52.Hc) :
     Nonempty (↥(Cz z') ≃*
       ↥(centralizer ({CFSG.LargeExtraspecial.DW.cornerTransvection (N := 5) (by norm_num)} :

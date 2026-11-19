@@ -22,7 +22,7 @@ private noncomputable def naturalRep (K : Type) [Field K] (d : ℕ) :
 private lemma naturalRep_apply {K : Type} [Field K] (d : ℕ) (g : ↥(StatedSL d K))
     (v : Fin d → K) :
     naturalRep K d g v = ((g : GL (Fin d) K) : Matrix (Fin d) (Fin d) K) *ᵥ v := by
-  simp [naturalRep, Matrix.GeneralLinearGroup.coe_toLin, Matrix.mulVecLin_apply]
+  simp [naturalRep, Matrix.GeneralLinearGroup.coe_toLin]
 
 private lemma naturalRep_injective {K : Type} [Field K] (d : ℕ) :
     Function.Injective (naturalRep K d) := by
@@ -119,7 +119,7 @@ private lemma submodule_eq_bot_or_top_of_statedSL_invariant {K : Type} [Field K]
 
 private lemma naturalRep_isIrreducible {K : Type} [Field K] (d : ℕ) (hd : 2 ≤ d) :
     (naturalRep K d).IsIrreducible := by
-  haveI : Nontrivial (Subrepresentation (naturalRep K d)) := by
+  have : Nontrivial (Subrepresentation (naturalRep K d)) := by
     have hne : (⊥ : Submodule K (Fin d → K)) ≠ ⊤ := by
       intro htop
       have hmem : Pi.single ⟨0, by omega⟩ (1 : K) ∈ (⊥ : Submodule K (Fin d → K)) := by
@@ -143,7 +143,7 @@ theorem pCore_statedSL_eq_bot {K : Type} [Field K] [Finite K] (p : ℕ) [Fact p.
   rcases Nat.lt_or_ge d 2 with hd | hd
   · have hle : d ≤ 1 := by omega
     rcases Nat.le_one_iff_eq_zero_or_eq_one.mp hle with rfl | rfl
-    · haveI : Subsingleton ↥(StatedSL 0 K) :=
+    · have : Subsingleton ↥(StatedSL 0 K) :=
         ⟨fun a b => Subtype.ext (Units.ext (funext fun i => Fin.elim0 i))⟩
       rw [Subgroup.eq_bot_iff_forall]
       intro x _

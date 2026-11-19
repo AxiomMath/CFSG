@@ -18,7 +18,7 @@ theorem sec4F_dihedral {G : Type} [Group G] {y p κ : G} (hy : y * y = 1) (hp : 
   have hy' : y⁻¹ = y := inv_eq_of_mul_eq_one_right hy
   have hp' : p⁻¹ = p := inv_eq_of_mul_eq_one_right hp
   rw [← hκ]
-  simp only [mul_inv_rev, hy', hp', inv_inv]
+  simp only [mul_inv_rev, hy', hp']
   group
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {z : G} {A B P : Subgroup G}

@@ -101,7 +101,7 @@ theorem kFactU3Involution : KFactU3Involution := by
     rw [← Finite.one_lt_card_iff_nontrivial, hcard]
     exact one_lt_pow₀ hp.one_lt (by norm_num)
   obtain ⟨u₀, hu₀, hu₀1⟩ : ∃ u₀ ∈ Subgroup.center ↥(U : Subgroup L), u₀ ≠ 1 := by
-    have := U.isPGroup'.center_nontrivial
+    have := U.isPGroup.center_nontrivial
     obtain ⟨⟨u₀, hu₀⟩, h1⟩ := exists_ne (1 : Subgroup.center ↥(U : Subgroup L))
     exact ⟨u₀, hu₀, fun h => h1 (Subtype.ext h)⟩
   have hu1 : (u₀ : L) ≠ 1 := fun h => hu₀1 (Subtype.ext h)

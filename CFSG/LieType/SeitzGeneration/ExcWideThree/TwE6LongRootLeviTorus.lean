@@ -20,6 +20,7 @@ section Torus
 
 variable {K : Type} [Field K] [Finite K] (σ : K ≃+* K)
 
+omit [Finite K] in
 theorem hG_inv_mul_xG_mul (a : Fin TwistTag.E6.foldedTag.rank)
     (u : (orbitField TwistTag.E6 K σ.toRingHom a)ˣ) (c : orbitField TwistTag.E6 K σ.toRingHom a) :
     (hG σ a u)⁻¹ * xG σ a c * hG σ a u =
@@ -39,6 +40,7 @@ theorem hG_inv_mul_xG_mul (a : Fin TwistTag.E6.foldedTag.rank)
         orbitField TwistTag.E6 K σ.toRingHom a)) ^ 2 * c) * (hG σ a u)⁻¹) * hG σ a u := by rw [h]
     _ = _ := by group
 
+omit [Finite K] in
 theorem hG_inv_mul_yG_mul (a : Fin TwistTag.E6.foldedTag.rank)
     (u : (orbitField TwistTag.E6 K σ.toRingHom a)ˣ) (c : orbitField TwistTag.E6 K σ.toRingHom a) :
     (hG σ a u)⁻¹ * yG σ a c * hG σ a u =
@@ -60,6 +62,7 @@ local notation "Xpos" => twE6RootSubgroup K σ e6HighestRoot
 
 local notation "Xneg" => twE6RootSubgroup K σ (-e6HighestRoot)
 
+omit [Finite K] in
 theorem torus_mul_X0_mul_inv (u : (orbitField TwistTag.E6 K σ.toRingHom a2)ˣ)
     (c : orbitField TwistTag.E6 K σ.toRingHom a2) :
     (n0G σ * hG σ a2 u * (n0G σ)⁻¹) * (n0G σ * xG σ a2 c * (n0G σ)⁻¹) *
@@ -68,6 +71,7 @@ theorem torus_mul_X0_mul_inv (u : (orbitField TwistTag.E6 K σ.toRingHom a2)ˣ)
   rw [← hG_mul_xG_mul_inv σ a2 u c]
   group
 
+omit [Finite K] in
 theorem torus_mul_X0m_mul_inv (u : (orbitField TwistTag.E6 K σ.toRingHom a2)ˣ)
     (c : orbitField TwistTag.E6 K σ.toRingHom a2) :
     (n0G σ * hG σ a2 u * (n0G σ)⁻¹) * (n0G σ * yG σ a2 c * (n0G σ)⁻¹) *

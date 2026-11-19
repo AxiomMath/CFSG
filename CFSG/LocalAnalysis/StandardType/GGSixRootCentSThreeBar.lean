@@ -11,10 +11,11 @@ open CFSG.Assembly
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem ggRCS_orderOf_bar {r : G} {e : ↥(Subgroup.centralizer ({r} : Set G))}
     (he3 : orderOf (e : G) = 3) : orderOf (QuotientGroup.mk e : GGRCSNbar r) = 3 := by
   let P := CFSG.Assembly.pCore 2 ↥(Subgroup.centralizer ({r} : Set G))
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have he3N : orderOf e = 3 := by
     rw [← Subgroup.orderOf_coe e]
     exact he3
@@ -52,8 +53,8 @@ theorem ggRCS_centralizer_bar_le {M : Subgroup G} {r : G}
   let H := Subgroup.centralizer ({r} : Set G)
   let N := ↥H
   let P := CFSG.Assembly.pCore 2 N
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have he3N : orderOf e = 3 := by
     rw [← Subgroup.orderOf_coe e]
     exact he3

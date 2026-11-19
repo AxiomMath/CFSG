@@ -13,6 +13,7 @@ namespace StrothWeakTypeData
 variable {G : Type} [Group G] [Finite G] {D : Subgroup G} {m : ℕ}
   (dD : StrothWeakTypeData D (.t100 m))
 
+omit [Finite G] in
 theorem t100_exists_u_comm (hm : 1 ≤ m)
     (hfus : ∀ g : G, g⁻¹ * dD.u * g ≠ (dD.c : G) ^ 2 ^ (m - 1) * dD.u) {f : G}
     (hfN : f ∈ Subgroup.normalizer (D : Set G)) (hu : dD.u⁻¹ * f * dD.u * f⁻¹ ∈ D) :

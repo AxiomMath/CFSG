@@ -94,7 +94,7 @@ theorem nk_suzukiU_involution (a : ℕ) (K : Type) [Field K]
     [Finite K] (hK : Nat.card K = 2 ^ (2 * a + 1)) (u v : K)
     (hsq : suzukiSElt a K u v * suzukiSElt a K u v = 1) (hne : suzukiSElt a K u v ≠ 1) :
     u = 0 ∧ v ≠ 0 := by
-  haveI : CharP K 2 := (suzuki_frobenius_exponents a K hK).1
+  have : CharP K 2 := (suzuki_frobenius_exponents a K hK).1
   rw [suzukiSElt_mul hK, CharTwo.add_self_eq_zero u, CharTwo.add_self_eq_zero v, zero_add,
     ← suzukiSElt_zero_zero hK] at hsq
   obtain ⟨-, h2⟩ := suzukiSElt_inj.1 hsq
@@ -109,7 +109,7 @@ theorem nk_suzukiU_involution (a : ℕ) (K : Type) [Field K]
 theorem nk_suzuki_involution_isConj (a : ℕ) (K : Type) [Field K]
     [Finite K] (hK : Nat.card K = 2 ^ (2 * a + 1)) (s : suzukiGroup a K) (hs : orderOf s = 2) :
     IsConj s (suzukiSElt a K 0 1) := by
-  haveI : Finite (suzukiGroup a K) := nk_finite_suzukiGroup a K hK
+  have : Finite (suzukiGroup a K) := nk_finite_suzukiGroup a K hK
   have hs2 : s ^ 2 = 1 := by
     rw [← hs]
     exact pow_orderOf_eq_one s
@@ -147,7 +147,7 @@ theorem nk_suzuki_involution_isConj (a : ℕ) (K : Type) [Field K]
 theorem nk_UIn_of_mulEquiv (a : ℕ) (ha : 1 ≤ a) (K : Type)
     [Field K] [Finite K] (hK : Nat.card K = 2 ^ (2 * a + 1)) (X : Type) [Group X]
     (E : X ≃* suzukiGroup a K) : UIn X := by
-  haveI : Finite Kˣ := Finite.of_injective (fun u : Kˣ => (u : K)) Units.val_injective
+  have : Finite Kˣ := Finite.of_injective (fun u : Kˣ => (u : K)) Units.val_injective
   have hE : ∀ x : X, orderOf (E x) = orderOf x := fun x =>
     orderOf_injective E.toMonoidHom E.injective x
   have hEs : ∀ g : suzukiGroup a K, orderOf (E.symm g) = orderOf g := fun g =>
@@ -182,7 +182,7 @@ theorem nk_UIn_of_mulEquiv (a : ℕ) (ha : 1 ≤ a) (K : Type)
     have hνsq : orderOf (ν * ν) = orderOf ν := by
       rw [← pow_two]
       exact hcop2.orderOf_pow
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hW2 : suzukiWElt a K ^ 2 = 1 := by
       rw [pow_two]
       exact suzukiWElt_mul_self

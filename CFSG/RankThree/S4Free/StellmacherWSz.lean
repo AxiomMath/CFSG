@@ -59,7 +59,7 @@ theorem szSections_of_kProper (hSz : CFSG.RankThree.PartTwo.KFacts.KPSz) {G : Ty
   have hUtop : U ≠ ⊤ := by
     rintro rfl
     exact hU3 (by rwa [Subgroup.card_top])
-  haveI := hsimple
+  have := hsimple
   have hcat : InCatalog (↥H ⧸ K) :=
     CFSG.ComponentClassification.CatalogueKProper.simple_section_of_surjective G hK U hUtop ↥U
       (MonoidHom.id ↥U) Function.surjective_id H (↥H ⧸ K) hnab (QuotientGroup.mk' K)

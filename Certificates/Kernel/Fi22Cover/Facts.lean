@@ -141,7 +141,7 @@ theorem gsOf_get {ng : Nat} {G : Nat → Nat} {k : Nat} (hk : k < ng) :
     (gsOf ng G)[k]! = unpack 3510 12 (G k) := by
   rw [getElem!_pos _ k (by simpa using hk), Array.getElem_ofFn]
 
-theorem hps : ∀ p ∈ List.range 3510, p < 3510 := fun p hp => List.mem_range.1 hp
+theorem hps : ∀ _p ∈ List.range 3510, _p < 3510 := fun _p hp => List.mem_range.1 hp
 
 theorem enum_facts {ng N : Nat} {G T E SS : Nat → Nat} (hk : bfsK 3510 12 ng G N T E SS = true)
     (hp : ∀ k < ng, pk (G k) = true) :
@@ -158,7 +158,7 @@ theorem enum_facts {ng N : Nat} {G T E SS : Nat → Nat} (hk : bfsK 3510 12 ng G
     rw [hpts, Array.toList_ofFn, List.mem_ofFn]
     exact ⟨⟨j, hj⟩, rfl⟩
   · ext x
-    simp only [permsA, Set.mem_image, Set.mem_setOf_eq, hs]
+    simp only [permsA, Set.mem_image, Set.mem_ofPred_eq, hs]
     constructor <;> rintro ⟨k, hk, rfl⟩ <;> exact ⟨k, hk, by rw [gsOf_get hk]⟩
 
 theorem conj_mem {n ng N : Nat} {G T : Nat → Nat} {gn : Equiv.Perm (Fin 3510)}

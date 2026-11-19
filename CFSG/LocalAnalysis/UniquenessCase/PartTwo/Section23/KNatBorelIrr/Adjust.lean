@@ -17,13 +17,13 @@ private theorem inv_mul_val_L03 {Γ : Subgroup (GL ι K)} (y : ↥Γ) :
     (((y⁻¹ : ↥Γ) : GL ι K) : Matrix ι ι K) * (((y : ↥Γ) : GL ι K) : Matrix ι ι K) = 1 := by
   have h : ((y⁻¹ : ↥Γ) : GL ι K) * ((y : ↥Γ) : GL ι K) = 1 := by
     rw [← Subgroup.coe_mul, inv_mul_cancel, Subgroup.coe_one]
-  simpa using congrArg (fun u : GL ι K => (u : Matrix ι ι K)) h
+  simp
 
 private theorem mul_inv_val_L03 {Γ : Subgroup (GL ι K)} (y : ↥Γ) :
     (((y : ↥Γ) : GL ι K) : Matrix ι ι K) * (((y⁻¹ : ↥Γ) : GL ι K) : Matrix ι ι K) = 1 := by
   have h : ((y : ↥Γ) : GL ι K) * ((y⁻¹ : ↥Γ) : GL ι K) = 1 := by
     rw [← Subgroup.coe_mul, mul_inv_cancel, Subgroup.coe_one]
-  simpa using congrArg (fun u : GL ι K => (u : Matrix ι ι K)) h
+  simp
 
 private noncomputable def adjustMulEquiv_L03 {Γ : Subgroup (GL ι K)} (y : ↥Γ) :
     Multiplicative (ι → K) ≃* Multiplicative (ι → K) where
@@ -91,11 +91,11 @@ theorem exists_adjusted_natEquiv [Finite W] [Finite K] {Γ : Subgroup (GL ι K)}
       (U : Subgroup ↥Γ).map π.toMonoidHom = S.subgroupOf H := by
   classical
   obtain ⟨π₀, e₀, he₀⟩ := KTabC.exists_natEquiv hreal
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite ↥H := inferInstance
-  haveI : Finite ↥Γ := inferInstance
-  haveI : U.FiniteIndex := Subgroup.finiteIndex_of_finite
-  haveI : Finite (Sylow 2 ↥Γ) := Sylow.finite_of_finiteIndex U
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite ↥H := inferInstance
+  have : Finite ↥Γ := inferInstance
+  have : U.FiniteIndex := Subgroup.finiteIndex_of_finite
+  have : Finite (Sylow 2 ↥Γ) := Sylow.finite_of_finiteIndex U
   let S' : Sylow 2 ↥H := hS.toSylow
   let U₁ : Sylow 2 ↥Γ := S'.mapSurjective (f := π₀.symm.toMonoidHom) π₀.symm.surjective
   obtain ⟨y, hy⟩ := MulAction.exists_smul_eq (↥Γ) U U₁

@@ -18,6 +18,7 @@ open scoped commutatorElement
 variable {X : Type} [Group X] [Finite X] {T : Subgroup X} {L : Subgroup (X ⧸ gnC T)} {n : ℕ}
   {g : ↥L →* alternatingGroup (Fin n)}
 
+omit [Finite X] in
 theorem isMaxElemAbelian_conjSub_of_conjSub_le {A : Subgroup X} (hA : IsMaxElemAbelian T A) {c : X}
     (hcT : B6.conjSub c A ≤ T) : IsMaxElemAbelian T (B6.conjSub c A) := by
   obtain ⟨hAT, hAe, hmax⟩ := hA

@@ -32,7 +32,7 @@ theorem trace_coordBlock01 (A : SL2F4) :
       Matrix.trace (A : Matrix (Fin 2) (Fin 2) F4) := by
   rw [Matrix.trace, Matrix.trace_fin_two]
   simp only [Matrix.diag_apply, coordBlock01, pairEmbed_apply]
-  simp [Fin.sum_univ_succ, CharTwo.two_eq_zero]
+  simp [Fin.sum_univ_succ]
   ring_nf
   change ((4 : ℕ) : F4) = 0
   rw [CharP.cast_eq_zero_iff F4 2]

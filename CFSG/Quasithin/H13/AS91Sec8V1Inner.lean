@@ -101,7 +101,7 @@ theorem map_E_I_of_aut (hOff : M24G.SextStabOffender) (r : ResM24T c)
     (c.E.subgroupOf (c.G3 ⊓ c.G1)).map θ.toMonoidHom = c.E.subgroupOf (c.G3 ⊓ c.G1) := by
   classical
   set EI : Subgroup ↥(c.G3 ⊓ c.G1) := c.E.subgroupOf (c.G3 ⊓ c.G1) with hEI
-  haveI hEnorm : EI.Normal := c.normal_E_subgroupOf
+  have hEnorm : EI.Normal := c.normal_E_subgroupOf
   set E' : Subgroup ↥(c.G3 ⊓ c.G1) := EI.map θ.toMonoidHom with hE'
   set B : Subgroup ↥M24G.sextStab := E'.map (c.phiS r hU) with hB
   have hE'el : CFSG.Open.IsElemAbelian 2 E' := by
@@ -190,7 +190,7 @@ theorem autQuotient_phiS (r : ResM24T c) (hU : r.U₀ = M24G.sextFin 0)
       c.E.subgroupOf (c.G3 ⊓ c.G1)) (h : ↥(c.G3 ⊓ c.G1)) :
     c.autQuotient r hU θ hθ (c.phiS r hU h) = c.phiS r hU (θ h) := by
   classical
-  haveI hEnorm : (c.E.subgroupOf (c.G3 ⊓ c.G1)).Normal := c.normal_E_subgroupOf
+  have hEnorm : (c.E.subgroupOf (c.G3 ⊓ c.G1)).Normal := c.normal_E_subgroupOf
   have hsymm : (c.quotientEquivS r hU).symm (c.phiS r hU h) = QuotientGroup.mk h := by
     rw [← c.quotientEquivS_mk r hU h, MulEquiv.symm_apply_apply]
   unfold autQuotient
@@ -240,7 +240,6 @@ theorem conjAut_mul_mem_E (r : ResM24T c) (hU : r.U₀ = M24G.sextFin 0)
     (h : ↥(c.G3 ⊓ c.G1)) :
     h⁻¹ * c.conjAut g θ h ∈ c.E.subgroupOf (c.G3 ⊓ c.G1) := by
   rw [Subgroup.mem_subgroupOf, ← c.phiS_eq_one_iff r hU]
-  change c.phiS r hU (h⁻¹ * c.conjAut g θ h) = 1
   rw [map_mul, map_inv, c.phiS_conjAut r hU g θ hθ n hg hθbar h, inv_mul_cancel]
 
 theorem conjAut_map_E_I (g : ↥(c.G3 ⊓ c.G1))
@@ -249,7 +248,7 @@ theorem conjAut_map_E_I (g : ↥(c.G3 ⊓ c.G1))
       c.E.subgroupOf (c.G3 ⊓ c.G1)) :
     (c.E.subgroupOf (c.G3 ⊓ c.G1)).map (↑(c.conjAut g θ)) =
       c.E.subgroupOf (c.G3 ⊓ c.G1) := by
-  haveI hEnorm : (c.E.subgroupOf (c.G3 ⊓ c.G1)).Normal := c.normal_E_subgroupOf
+  have hEnorm : (c.E.subgroupOf (c.G3 ⊓ c.G1)).Normal := c.normal_E_subgroupOf
   refine Subgroup.eq_of_le_of_card_ge ?_ ?_
   · intro x hx
     obtain ⟨y, hy, rfl⟩ := Subgroup.mem_map.mp hx
@@ -434,7 +433,6 @@ theorem cocycleOfAut_phiS (hEnd : M24G.SextStabEndScalar) (r : ResM24T c)
   have ha : c.phiS r hU a = c.phiS r hU h := Function.surjInv_eq _ _
   have he : a⁻¹ * h ∈ c.E.subgroupOf (c.G3 ⊓ c.G1) := by
     rw [Subgroup.mem_subgroupOf, ← c.phiS_eq_one_iff r hU]
-    change c.phiS r hU (a⁻¹ * h) = 1
     rw [map_mul, map_inv, ha, inv_mul_cancel]
   let e : ↥c.E := ⟨((a⁻¹ * h : ↥(c.G3 ⊓ c.G1)) : G), Subgroup.mem_subgroupOf.mp he⟩
   have hh : h = a * ⟨(e : G), c.E_le_G3_inf_G1 e.2⟩ := by
@@ -516,7 +514,7 @@ theorem isInnerCocycle_of_aut (hOff : M24G.SextStabOffender)
       rw [c.cocycleOfAut_phiS hEnd r hU g θ hθ n hg hn h]
       unfold cocycleFun
       rw [MulEquiv.symm_apply_apply]
-      simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_mk]
+      simp only [Subgroup.coe_mul, Subgroup.coe_inv]
       group
     have h1 : ((θ h : ↥(c.G3 ⊓ c.G1)) : G) =
         (g : G) * ((c.conjAut g θ h : ↥(c.G3 ⊓ c.G1)) : G) * (g : G)⁻¹ := by

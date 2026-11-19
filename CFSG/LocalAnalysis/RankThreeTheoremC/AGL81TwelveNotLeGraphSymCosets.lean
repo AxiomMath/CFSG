@@ -97,7 +97,7 @@ theorem eq_of_two_cosets [Finite R] (hO2 : CFSG.pCore 2 R = ⊥) {X X' H K : Sub
     (hK2 : IsPGroup 2 K) (T : Sylow 2 R) (hKT : K ≤ (T : Subgroup R))
     (hcard : Nat.card (T : Subgroup R) ≤ 2 * Nat.card K) : X = X' := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hO2' := eq_bot_of_subnormal_isPGroup_two hO2
   obtain ⟨s, hsT, hsX, hs2, hs1⟩ := exists_involution_mem_sylow hX hXs T
   obtain ⟨s', hs'T, hs'X', hs'2, hs'1⟩ := exists_involution_mem_sylow hX' hXs' T

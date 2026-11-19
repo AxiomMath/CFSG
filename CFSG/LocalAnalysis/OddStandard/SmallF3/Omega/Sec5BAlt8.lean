@@ -111,7 +111,7 @@ private lemma T67_mem {H : Subgroup (Equiv.Perm (Fin 8))}
     intro h
     apply h67
     have := congrArg (⇑x⁻¹) h
-    simpa using this
+    simp at this
   obtain ⟨d, hd6, hda, hdb⟩ := exists_third (x 6) (x 7) hx6 hx7 hab
   have hT : T (x 6) (x 7) d ∈ H :=
     T_mem_X h6 (x 6) (x 7) d hx6 hx7 hd6 hab (Ne.symm hda) (Ne.symm hdb)
@@ -170,8 +170,8 @@ private lemma T6_mem {H : Subgroup (Equiv.Perm (Fin 8))}
     ∀ u v : Fin 6, u ≠ v → T 6 (cast6 u) (cast6 v) ∈ H := by
   intro u v huv
   obtain ⟨w, hw6, hwv, hwu⟩ :=
-    exists_third (cast6 v) (cast6 u) (by simpa [cast6] using v.isLt)
-      (by simpa [cast6] using u.isLt) (cast6_ne huv.symm)
+    exists_third (cast6 v) (cast6 u) (by simp [cast6])
+      (by simp [cast6]) (cast6_ne huv.symm)
   let w' : Fin 6 := ⟨w.val, hw6⟩
   have hwcast : cast6 w' = w := by simp [cast6, w']
   have hwv' : w' ≠ v := fun h => hwv (by rw [← hwcast, h])
@@ -224,19 +224,19 @@ theorem sec5b_alt8_le {H : Subgroup (Equiv.Perm (Fin 8))}
   have ha1 : a ≠ σ a := by
     intro hh
     have hmem : a ∈ [σ a, σ (σ a)] := by
-      simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false]
+      simp only [List.mem_cons, List.not_mem_nil, or_false]
       exact Or.inl hh
     exact (List.nodup_cons.mp hnodup).1 hmem
   have ha2 : a ≠ σ (σ a) := by
     intro hh
     have hmem : a ∈ [σ a, σ (σ a)] := by
-      simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false]
+      simp only [List.mem_cons, List.not_mem_nil, or_false]
       exact Or.inr hh
     exact (List.nodup_cons.mp hnodup).1 hmem
   have h12 : σ a ≠ σ (σ a) := by
     intro hh
     have hmem : σ a ∈ [σ (σ a)] := by
-      simp only [List.mem_singleton, List.not_mem_nil, or_false]
+      simp only [List.mem_singleton]
       exact hh
     exact (List.nodup_cons.mp (List.nodup_cons.mp hnodup).2).1 hmem
   have heq : σ = T a (σ a) (σ (σ a)) := by

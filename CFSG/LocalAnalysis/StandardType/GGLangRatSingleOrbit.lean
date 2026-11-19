@@ -125,9 +125,9 @@ theorem perfect_le_rationalComponent_of_single_orbit
     Subgroup.mem_inf.2 ⟨hΓ (Subgroup.mem_inf.1 (hP hx)).1, (Subgroup.mem_inf.1 (hP hx)).2⟩
   have hPU : P ≤ rootSpan τ L (rootCharKernel a) :=
     perfect_le_rootSpan_kernel hp a hap hPX hperf
-  haveI : Finite (KernelComponent (rootCharHom a)) :=
+  have : Finite (KernelComponent (rootCharHom a)) :=
     (root_character_kernel_orthogonal_central_product τ L (rootCharHom a)).2.1
-  haveI : Finite (Set.range (rationalRoots S.ρ (rootCharHom a))) :=
+  have : Finite (Set.range (rationalRoots S.ρ (rootCharHom a))) :=
     (Set.finite_range _).to_subtype
   let A : Set.range (rationalRoots S.ρ (rootCharHom a)) → Subgroup (ModGL τ L) :=
     fun O => rootSpan τ L O.1

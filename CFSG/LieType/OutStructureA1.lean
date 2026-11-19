@@ -37,13 +37,13 @@ theorem exists_fieldPart_coordinateG (K : Type) [Field K] [Finite K] {p p₀ f :
       ∀ x : MulAut (coordinateG K), (∃ k : ℕ, x ^ (p ^ k) = 1) →
         x ∈ inner (coordinateG K) ⊔ F := by
   classical
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   let G := coordinateG K
   let Q := Outer G
   let mk : MulAut G →* Q := QuotientGroup.mk' (inner G)
   let Ψ : (K ≃+* K) →* MulAut G := (coordinateConjugationEquiv K).toMonoidHom.comp (fieldLift K)
   let φ : (K ≃+* K) →* Q := mk.comp Ψ
-  haveI hQcomm : IsMulCommutative Q :=
+  have hQcomm : IsMulCommutative Q :=
     IsMulCommutative.of_comm fun a b =>
       (coordinateOuterEquivPSL K).injective (by
         rw [map_mul, map_mul]
@@ -83,10 +83,10 @@ theorem exists_fieldPart_coordinateG (K : Type) [Field K] [Finite K] {p p₀ f :
   have hDG : Nat.card (CoordinateQuotientDG K) ∣ 2 := by
     rw [← Nat.card_congr (pglQuotientEquivCoordinateDG K).toEquiv]
     exact (card_pgl_quotient_psl_dvd K).trans (Nat.gcd_dvd_left 2 _)
-  haveI hfinAut : Finite (K ≃+* K) :=
+  have hfinAut : Finite (K ≃+* K) :=
     Finite.of_injective (fun σ : K ≃+* K => (σ : K → K))
       (fun σ τ h => RingEquiv.ext fun x => congrFun h x)
-  haveI : IsCyclic (K ≃+* K) := fieldAut_isCyclic K
+  have : IsCyclic (K ≃+* K) := fieldAut_isCyclic K
   let S : Sylow p (K ≃+* K) := default
   let C : Subgroup Q := (S : Subgroup (K ≃+* K)).map φ
   have hCcard : Nat.card C = p ^ Nat.factorization f p := by
@@ -117,7 +117,7 @@ theorem exists_fieldPart_coordinateG (K : Type) [Field K] [Finite K] {p p₀ f :
     rcases (Nat.dvd_prime Nat.prime_two).mp h2 with h1 | h1
     · exact hp.ne_one h1
     · exact hp2 h1
-  have hCp : IsPGroup p C := (S.isPGroup').map φ
+  have hCp : IsPGroup p C := (S.isPGroup).map φ
   have hCidx : ¬ p ∣ C.index := by
     rw [← Subgroup.relIndex_mul_index hCle]
     intro h
@@ -219,7 +219,7 @@ theorem i713ClauseFor_lie_A1 (q : TauCeti.PrimePower)
     (hv : (TauCeti.LieTypeIndex.A 1 q).Valid) :
     I713ClauseFor (TauCeti.CFSGIndex.lie ⟨.A 1 q, hv⟩) := by
   intro K _ _ hK hnab ⟨e⟩ p hp hp2 hpRank
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   obtain ⟨e2⟩ := CFSG.AGLEmbedding.nonempty_mulEquiv_psl2GF_of_isLinTwoIndex
     (p := q.p) (n := q.exponent) (d := ⟨.A 1 q, hv⟩) ⟨q, rfl, rfl, rfl⟩
   let e3 : K ≃* coordinateG (GaloisField q.p q.exponent) :=

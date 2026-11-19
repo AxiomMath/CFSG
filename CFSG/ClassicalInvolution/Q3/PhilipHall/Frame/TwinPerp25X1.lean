@@ -160,7 +160,7 @@ theorem good_iff_actW (hLF : LayerFacts hyp hw) (hwA : w ∈ cA S R R') (hxA : x
     by_contra hβz
     set F := Subgroup.closure ({w, x} : Set G) with hF
     have hFA : F ≤ cA S R R' := closure_pair_le hwA hxA
-    have hF2 : IsPGroup 2 F := S.isPGroup'.to_le (hFA.trans inf_le_left)
+    have hF2 : IsPGroup 2 F := S.isPGroup.to_le (hFA.trans inf_le_left)
     have hFb : F ≤ Subgroup.centralizer ({w} : Set G) :=
       closure_pair_le (Subgroup.mem_centralizer_singleton_iff.mpr rfl) hx
     have hFY : ∀ e ∈ F, conjSub e (TwinDisc.coreLayer Ω w) = TwinDisc.coreLayer Ω w :=

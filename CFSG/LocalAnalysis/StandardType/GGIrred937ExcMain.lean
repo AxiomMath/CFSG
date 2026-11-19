@@ -21,7 +21,7 @@ theorem ggSCWeylIrred_adjoint_E8_add
     GGSCWeylIrred p 7 (adjointGroup .E8 K) := by
   intro E hE hr hr3 hSC
   have hp : p.Prime := by rcases hp35 with rfl | rfl <;> norm_num
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hrank : Tag.E8.rank - 1 = 7 := by decide
   have hr' : p ^ (Tag.E8.rank - 1) ≤ Nat.card E := by rw [hrank]; exact hr
   have hSC' : ∀ x ∈ Subgroup.centralizer (E : Set (adjointGroup .E8 K)),
@@ -41,7 +41,7 @@ theorem ggSCWeylIrred_adjoint_E7_add
     GGSCWeylIrred p 6 (adjointGroup .E7 K) := by
   intro E hE hr hr3 hSC
   have hp : p.Prime := by rcases hp35 with rfl | rfl <;> norm_num
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hrank : Tag.E7.rank - 1 = 6 := by decide
   have hr' : p ^ (Tag.E7.rank - 1) ≤ Nat.card E := by rw [hrank]; exact hr
   have hSC' : ∀ x ∈ Subgroup.centralizer (E : Set (adjointGroup .E7 K)),

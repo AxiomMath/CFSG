@@ -19,10 +19,10 @@ theorem uc22r899c4_exists_normalizing_copy {M X : Subgroup G} {p r : ℕ} (hp : 
     (hDN : D ≤ normalizer (barImage M X : Set (Bar2 M))) :
     ∃ A : Subgroup G, A ≤ M ⊓ normalizer (X : Set G) ∧ IsElemAbelian p A ∧
       Nat.card A = Nat.card D ∧ ∀ a : ↥M, (a : G) ∈ A → uc22p21cPi M a ∈ D := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hPn : (CFSG.pCore 2 ↥M).Normal := CFSG.pCore_normal
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact r.Prime := ⟨hr⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hPn : (CFSG.pCore 2 ↥M).Normal := CFSG.pCore_normal
   have hT : IsPGroup r (X.subgroupOf M) := hX.comap_of_injective M.subtype M.subtype_injective
   have hO : ¬ r ∣ Nat.card (CFSG.pCore 2 ↥M) := by
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 (CFSG.pCore_isPGroup (p := 2) (G := ↥M))
@@ -42,7 +42,7 @@ theorem uc22r899c4_exists_normalizing_copy {M X : Subgroup G} {p r : ℕ} (hp : 
   have hQY : Q ≤ Y := Subgroup.map_subtype_le _
   have hdisj : Disjoint Q (uc22p21cPi M).ker := by
     refine Subgroup.disjoint_def.2 fun {x} hxQ hxk => ?_
-    obtain ⟨k, hk⟩ := (P.isPGroup'.map Y.subtype) ⟨x, hxQ⟩
+    obtain ⟨k, hk⟩ := (P.isPGroup.map Y.subtype) ⟨x, hxQ⟩
     exact uc22r8100b_eq_one_of_mem_pCore
       ((QuotientGroup.eq_one_iff _).1 (MonoidHom.mem_ker.1 hxk)) (hp.odd_of_ne_two hp2).pow
       (by simpa using congrArg Subtype.val hk)

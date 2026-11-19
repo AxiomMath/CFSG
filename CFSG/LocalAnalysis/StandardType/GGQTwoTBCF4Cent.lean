@@ -67,7 +67,7 @@ theorem ggTBC_F4Two_centralizer_le {K : Type} [Field K] [Finite K] [CharP K 2]
     (hcard : Nat.card H = 3 ^ 4) :
     Subgroup.centralizer (H : Set (adjointGroup .F4 K)) ≤ H := by
   classical
-  haveI : Finite (adjointGroup .F4 K) := generated_group_finite .F4 K
+  have : Finite (adjointGroup .F4 K) := generated_group_finite .F4 K
   obtain ⟨c, hc⟩ := F4TwoNonToral.exists_conj_frame_of_card_F4 K hK H hH
     (le_of_eq hcard.symm)
   suffices hframe : Subgroup.centralizer ((tE K).range : Set (adjointGroup .F4 K)) ≤
@@ -157,7 +157,7 @@ theorem ggTBC_F4Two_centralizer_le {K : Type} [Field K] [Finite K] [CharP K 2]
     have hz'D : z' ∈ D := by
       have hmem : ((c3LeviEquiv K Z : C3Levi K) : adjointGroup .F4 K) ∈ C3Levi K :=
         (c3LeviEquiv K Z).2
-      simpa [hz'def, hφdef, hDdef] using hmem
+      simp [hz'def, hφdef, hDdef]
     have hDleC : D ≤ Subgroup.centralizer (N : Set (adjointGroup .F4 K)) :=
       Subgroup.le_centralizer_iff.1 hXcomm
     have hz'N : ∀ y ∈ N, y * z' = z' * y := fun y hy =>

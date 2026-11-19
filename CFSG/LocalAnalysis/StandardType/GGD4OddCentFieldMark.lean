@@ -93,7 +93,7 @@ theorem largeEvenMarking_D4_of_mulEquiv {X : Type} [Group X] (hX : commutator X 
     (hP : ∀ hZ : Subgroup.center X = ⊥,
       P ⟨.D, 4, n⟩ (D4Recipe K) (LargeEvenInnSet (D4Recipe K)) (D4FieldSet K) (markIso f hZ)) :
     LargeEvenMarking X P := by
-  haveI : IsSimpleGroup (D4Recipe K) := hs
+  have : IsSimpleGroup (D4Recipe K) := hs
   have hZ : Subgroup.center X = ⊥ :=
     center_eq_bot_of_mulEquiv f (center_eq_bot_of_simple_nonabelian hna)
   refine ⟨hX, ⟨.D, 4, n⟩, ⟨hn, by norm_num⟩, ?_⟩

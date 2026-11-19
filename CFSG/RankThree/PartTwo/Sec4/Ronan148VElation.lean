@@ -49,7 +49,7 @@ theorem eq_zero_of_one_add_vecMulVec_eq_smul_one {v y : Fin 3 → F} {c : F} (hv
       c • 1 + vecMulVec v (0 : Fin 3 → F) := by
     rw [one_smul, h]
     ext i j
-    simp [vecMulVec_apply]
+    simp
   obtain ⟨-, h2⟩ := eq_of_smul_one_add_vecMulVec_eq h1
   have h3 : vecMulVec v y = 0 := by
     rw [h2]
@@ -94,7 +94,7 @@ variable [CharP F 2]
   one_mem' := ⟨0, zero_dotProduct v, by
     rw [Matrix.SpecialLinearGroup.coe_one]
     ext i j
-    simp [vecMulVec_apply]⟩
+    simp⟩
   inv_mem' := by
     rintro a ⟨y, hy, ha⟩
     have haa : a * a = 1 := by
@@ -103,7 +103,7 @@ variable [CharP F 2]
       rw [Matrix.SpecialLinearGroup.coe_mul, ha, one_add_vecMulVec_mul hy, hyy,
         Matrix.SpecialLinearGroup.coe_one]
       ext i j
-      simp [vecMulVec_apply]
+      simp
     rw [inv_eq_of_mul_eq_one_right haa]
     exact ⟨y, hy, ha⟩
 
@@ -119,7 +119,7 @@ theorem mul_self_of_mem_elationLine {v : Fin 3 → F} {g : SpecialLinearGroup (F
   rw [Matrix.SpecialLinearGroup.coe_mul, ha, one_add_vecMulVec_mul hy, hyy,
     Matrix.SpecialLinearGroup.coe_one]
   ext i j
-  simp [vecMulVec_apply]
+  simp
 
 theorem conj_mem_elationLine {v : Fin 3 → F} {G : SpecialLinearGroup (Fin 3) F} {a : F}
     (hGv : (G : Matrix (Fin 3) (Fin 3) F) *ᵥ v = a • v) {g : SpecialLinearGroup (Fin 3) F}
@@ -432,6 +432,7 @@ theorem exists_homology_lift {z t : projectiveSL 3 F} (hz3 : z ^ 3 = 1) (hz1 : z
   rw [hμ1, one_smul] at hμ
   exact exists_homology_of_commute hc0 hc hZs hμ.symm (by rw [hd, hs, sq]) hTs
 
+omit [Finite F] [CharP F 2] in
 theorem coe_conj_homology {Z g : SpecialLinearGroup (Fin 3) F} {κ : F} {v φ y : Fin 3 → F}
     (hκ : κ ≠ 0) (hZ : (Z : Matrix (Fin 3) (Fin 3) F) = κ • 1 + vecMulVec v φ)
     (hy : y ⬝ᵥ v = 0) (hg : (g : Matrix (Fin 3) (Fin 3) F) = 1 + vecMulVec v y) :
@@ -443,6 +444,7 @@ theorem coe_conj_homology {Z g : SpecialLinearGroup (Fin 3) F} {κ : F} {v φ y 
   rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_mul, hg, hZ,
     homology_mul_elation hκ hy, ← hZ, mul_assoc, hZZi, mul_one]
 
+omit [Finite F] in
 theorem eq_one_of_commutator_commute {Z g : SpecialLinearGroup (Fin 3) F} {κ : F}
     {v φ : Fin 3 → F} (hκ : κ ≠ 0) (hv : v ≠ 0) (hφv : φ ⬝ᵥ v ≠ 0)
     (hZ : (Z : Matrix (Fin 3) (Fin 3) F) = κ • 1 + vecMulVec v φ) (hg : g ∈ elationLine v)
@@ -494,7 +496,7 @@ theorem eq_one_of_commutator_commute {Z g : SpecialLinearGroup (Fin 3) F} {κ : 
   apply proj_eq_one_of_eq_smul_one (a := 1)
   rw [hgy, hy0, one_smul]
   ext i j
-  simp [vecMulVec_apply]
+  simp
 
 theorem exists_elation_model {τ : F ≃+* F} (hτ : orderOf τ = 3) {z t : projectiveSL 3 F}
     (hz3 : z ^ 3 = 1) (hz1 : z ≠ 1) (ht2 : t ^ 2 = 1) (ht1 : t ≠ 1) (hzt : z * t = t * z)
@@ -540,7 +542,7 @@ theorem exists_elation_model {τ : F ≃+* F} (hτ : orderOf τ = 3) {z t : proj
         linear_combination (v i) * hyfix i
       · rw [Matrix.map_apply, Matrix.add_apply, Matrix.add_apply, Matrix.one_apply_ne hij,
           vecMulVec_apply, vecMulVec_apply, Pi.smul_apply, smul_eq_mul]
-        simp only [RingEquiv.toRingHom_eq_coe, RingHom.coe_coe, map_add, map_zero, map_mul, ha,
+        simp only [RingEquiv.toRingHom_eq_coe, RingHom.coe_coe, map_mul, ha,
           he, zero_add]
         linear_combination (v i) * hyfix j
     · intro h1

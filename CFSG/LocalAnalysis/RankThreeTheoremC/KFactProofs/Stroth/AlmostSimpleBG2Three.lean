@@ -193,12 +193,12 @@ theorem mem_center_of_rootChar_g2a_eq_one (K : Type) [Field K] [Finite K] [CharP
   simp only [Matrix.SpecialLinearGroup.coe_mul, CFSG.LinearGroups.coe_transvection] at e01 e12
   have h01 : (s : Matrix (Fin 3) (Fin 3) K) 0 0 = (s : Matrix (Fin 3) (Fin 3) K) 1 1 := by
     have := e01
-    simp [Matrix.mul_add, Matrix.add_mul, Matrix.mul_apply, Fin.sum_univ_three,
+    simp [Matrix.mul_apply, Fin.sum_univ_three,
       Matrix.single_apply] at this
     linear_combination this
   have h12 : (s : Matrix (Fin 3) (Fin 3) K) 1 1 = (s : Matrix (Fin 3) (Fin 3) K) 2 2 := by
     have := e12
-    simp [Matrix.mul_add, Matrix.add_mul, Matrix.mul_apply, Fin.sum_univ_three,
+    simp [Matrix.mul_apply, Fin.sum_univ_three,
       Matrix.single_apply] at this
     linear_combination this
   rw [Matrix.SpecialLinearGroup.mem_center_iff]
@@ -259,7 +259,7 @@ theorem oddPCoreInClosure_three_of_central_image (K : Type) [Field K] [Finite K]
       LinearFlag.card_SL_eq (by norm_num), show Finset.Icc 2 3 = {2, 3} by decide,
       Finset.prod_pair (by norm_num)]
   refine OddPCoreInClosure.of_odd_core fun N hN hcop => ?_
-  haveI := hN
+  have := hN
   refine odd_card_of_normal_of_big_p_part Nat.prime_three hp3K
     (Subgroup.centralizer ({x} : Set (adjointGroup .G2 K))) ?_ N hcop
   have hdvd : Nat.card T' ∣ Nat.card (Subgroup.centralizer ({x} : Set (adjointGroup .G2 K))) :=

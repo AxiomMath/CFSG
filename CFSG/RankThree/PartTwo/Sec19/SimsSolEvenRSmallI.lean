@@ -15,7 +15,7 @@ variable {n : ℕ}
 
 private theorem zmod_two_ite_eq {p q : Prop} [Decidable p] [Decidable q] :
     ((if p then (1 : ZMod 2) else 0) + if q then 1 else 0) = 1 ↔ (p ↔ ¬ q) := by
-  by_cases hp : p <;> by_cases hq : q <;> simp [hp, hq] <;> decide
+  by_cases hp : p <;> by_cases hq : q <;> simp [hp, hq]
 
 theorem pairEW_eq_iff {a b c d : Fin n} (hab : a ≠ b) :
     pairEW a b = pairEW c d ↔ (a = c ∧ b = d) ∨ (a = d ∧ b = c) := by
@@ -23,8 +23,8 @@ theorem pairEW_eq_iff {a b c d : Fin n} (hab : a ≠ b) :
   · intro h
     have ha := congrArg (fun v : evenWeight n => (v : Fin n → ZMod 2) a) h
     have hb := congrArg (fun v : evenWeight n => (v : Fin n → ZMod 2) b) h
-    simp only [pairEW_apply, if_neg hab, if_neg (Ne.symm hab)] at ha hb
-    simp only [if_true, add_zero, zero_add] at ha hb
+    simp only [pairEW_apply, ite_eq_right hab, ite_eq_right (Ne.symm hab)] at ha hb
+    simp only [ite_true, add_zero, zero_add] at ha hb
     have ha' := zmod_two_ite_eq.1 ha.symm
     have hb' := zmod_two_ite_eq.1 hb.symm
     by_cases hac : a = c

@@ -43,6 +43,7 @@ theorem isTypeL2_of_threeComponent {C J : Subgroup S} (hJ : GLAPComponent 3 C J)
     · exact h
   exact (isTypeL2_congr_of_central ⟨hJc.2.2.1⟩ π hπ hker).2 hT
 
+omit [Finite S] in
 theorem map_centralizer_singleton {T : Type} [Group T] (e : S ≃* T) (g : S) :
     (Subgroup.centralizer ({g} : Set S)).map (e : S →* T) =
       Subgroup.centralizer ({e g} : Set T) := by
@@ -51,7 +52,7 @@ theorem map_centralizer_singleton {T : Type} [Group T] (e : S ≃* T) (g : S) :
   constructor
   · rintro ⟨y, hy, rfl⟩
     rw [Subgroup.mem_centralizer_singleton_iff] at hy
-    simp only [MulEquiv.coe_toMonoidHom, MonoidHom.coe_coe]
+    simp only [_root_.MonoidHom.coe_ofClass]
     rw [← map_mul, ← map_mul, hy]
   · intro hx
     refine ⟨e.symm x, ?_, by simp⟩
@@ -71,7 +72,7 @@ theorem d4RootSL2_of_blocks (hO : CFSG.ComponentClassification.CatLeaf.LieOrderF
     (T4 : ∀ (K : Type) [Field K] [Finite K], SixNotL2 K) : D4RootSL2 := by
   intro K _ _ hK3 g J q hg hJ hT hq0
   obtain ⟨q0, hq0, hqq⟩ := hq0
-  haveI := CFSG.HardMathSupport.Dickson.Sec6.I923.D4Aux.finite_adjointD4 K
+  have := CFSG.HardMathSupport.Dickson.Sec6.I923.D4Aux.finite_adjointD4 K
   have hq64 : 64 ≤ q := by
     rw [hqq]
     calc 64 = 4 ^ 3 := by norm_num

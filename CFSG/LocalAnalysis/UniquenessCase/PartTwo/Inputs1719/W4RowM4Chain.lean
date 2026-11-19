@@ -86,6 +86,7 @@ section Closure
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 private theorem conj_mem_closure_conj {Y : Subgroup (MulAut W)} {t : MulAut W} {y : MulAut W}
     (hy : y ∈ Y) {x : MulAut W}
     (hx : x ∈ Subgroup.closure ((fun h => h * t * h⁻¹) '' (Y : Set (MulAut W)))) :
@@ -182,6 +183,7 @@ section TheoremA
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 private theorem fixV_antitone' {X X' : Subgroup (MulAut W)} (h : X ≤ X') : fixV X' ≤ fixV X :=
   fun _ hv x hx => hv x (h hx)
 

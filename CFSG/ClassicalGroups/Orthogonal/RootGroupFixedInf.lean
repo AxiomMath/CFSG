@@ -66,7 +66,7 @@ theorem Lom_inf_ne_bot_of_polar_eq_zero [CharP K 2] [FiniteDimensional K V]
     have hsw : Eom Q u u' = Eom Q u' u := by
       refine Gom.ext' fun x => ?_
       rw [Eom_app hu h, Eom_app hu' h', hu', hu]
-      simp only [zero_mul, zero_smul, add_zero, sub_zero]
+      simp only [zero_mul, add_zero]
       rw [sub_eq_add_of_exp2 hV, sub_eq_add_of_exp2 hV]
       abel
     have hg1 : Eom Q u u' ∈ Lom Q u := Eom_mem_Lom h
@@ -81,7 +81,7 @@ theorem Lom_inf_ne_bot_of_polar_eq_zero [CharP K 2] [FiniteDimensional K V]
       have h1 := congrArg (fun g : Gom Q => g.app y) hg3
       simp only [Gom.app_one] at h1
       rw [Eom_app hu h y, hu'] at h1
-      simp only [zero_mul, zero_smul, add_zero, sub_zero] at h1
+      simp only [zero_mul, add_zero] at h1
       rw [sub_eq_add_of_exp2 hV, add_assoc] at h1
       simpa using h1
     refine hu0 (hQ.2 u fun y => ?_)

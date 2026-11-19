@@ -54,8 +54,8 @@ theorem w1369_mcl_nat_card {M : Type} [CommGroup M] [Finite M]
     ⟨m, hOM, hNatOM⟩ | ⟨n, hAlt, hNatAlt⟩
   · unfold BinaryNaturalSL at hNat
     obtain ⟨K, hKfield, hKfinite, hKcard, hReal⟩ := hNat
-    letI : Field K := hKfield
-    letI : Finite K := hKfinite
+    let : Field K := hKfield
+    let : Finite K := hKfinite
     have hm : m = 3 := w1369_card_sl_eq_168 hSL hcard
     subst hm
     have hV : Nat.card M = Nat.card K ^ Fintype.card (Fin 3) :=

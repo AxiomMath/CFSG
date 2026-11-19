@@ -15,7 +15,7 @@ theorem not_central_of_irred {G : Type} [Group G] [Finite G] {R N Z0 : Subgroup 
     ¬ ∀ r ∈ R, ∀ n ∈ N, ⁅n, r⁆ ∈ Z0 := by
   intro hall
   obtain ⟨-, hsq, hlt, hmin⟩ := hirr
-  obtain ⟨n, hnN, hnZ⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨n, hnN, hnZ⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   have hZN : Z0 ≤ N := hlt.le
   have hAN : Z0 ⊔ Subgroup.zpowers n ≤ N := sup_le hZN (Subgroup.zpowers_le.mpr hnN)
   have hnorm : n ∈ Subgroup.normalizer (Z0 : Set G) :=

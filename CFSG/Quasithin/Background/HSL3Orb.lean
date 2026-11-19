@@ -283,6 +283,7 @@ theorem exists_dot_eq_one_of_card (hK : Nat.card K = 2) {U : Subgroup (PairMod K
     exists_dot_eq_one_of_two hK (exists_two_of_card_V₁ h1) (exists_two_of_card_V₂ h2)
   exact ⟨a, b, hab, ha, hb⟩
 
+omit [CharP K 2] in
 theorem three_le_of_hyperplane (hK : Nat.card K = 2) {U : Subgroup (PairMod K)}
     (hU : Nat.card U * 2 = 2 ^ 6) :
     3 ≤ Nat.card ↥(U ⊓ V₁ K) ∧ 3 ≤ Nat.card ↥(U ⊓ V₂ K) := by
@@ -321,6 +322,7 @@ theorem card_fixV_le_four (hK : Nat.card K = 2) {x : MulAut (StdMod (Fin 3) K)} 
     exact Nat.mul_le_mul_left _ (by omega)
   omega
 
+omit [CharP K 2] in
 theorem three_le_of_fix (hK : Nat.card K = 2) {p : MulAut (PairMod K)} (hpN : p ∈ pairNorm K)
     (hp1 : p ≠ 1) {U : Subgroup (PairMod K)} (hU : ∀ u ∈ U, p u = u)
     (hU16 : Nat.card U * 4 = 2 ^ 6) :

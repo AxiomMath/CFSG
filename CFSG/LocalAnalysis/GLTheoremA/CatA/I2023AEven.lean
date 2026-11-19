@@ -44,6 +44,7 @@ theorem mem_stabU_of_forward {S : Type} [Group S] [Finite S] {U : Subgroup S} {�
 @[expose] def preimL (L : Subgroup G) (U : Subgroup (PQuot 3 L)) : Subgroup G :=
   (U.comap (QuotientGroup.mk' (GLAPPrimeCore 3 ↥L))).map L.subtype
 
+omit [Finite G] in
 theorem mem_preimL {L : Subgroup G} {U : Subgroup (PQuot 3 L)} {y : G} :
     y ∈ preimL L U ↔ ∃ l : ↥L, (QuotientGroup.mk l : PQuot 3 L) ∈ U ∧ (l : G) = y := by
   constructor
@@ -52,11 +53,13 @@ theorem mem_preimL {L : Subgroup G} {U : Subgroup (PQuot 3 L)} {y : G} :
   · rintro ⟨l, hl, rfl⟩
     exact ⟨l, hl, rfl⟩
 
+omit [Finite G] in
 theorem preimL_le {L : Subgroup G} {U : Subgroup (PQuot 3 L)} : preimL L U ≤ L := by
   rintro y hy
   obtain ⟨l, -, rfl⟩ := mem_preimL.1 hy
   exact l.2
 
+omit [Finite G] in
 theorem card_preimL {L : Subgroup G} {U : Subgroup (PQuot 3 L)} :
     Nat.card (preimL L U) = Nat.card (GLAPPrimeCore 3 ↥L) * Nat.card U := by
   have h1 : Nat.card (preimL L U) =
@@ -87,7 +90,7 @@ theorem starOut_even {q : TauCeti.PrimePower} {B : Subgroup G} {x : G} {L : Subg
       StarOut B x L (rho L ⟨bs, hc.hXN hbs⟩) := by
   classical
   have hp3 : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨bs, hbs, ⟨g', hg'⟩, hbs3, hψ3, hψout, hψfac, -⟩ :=
     exists_bs hc.hL hc.hXN hc.hZ F (hc.hBcx hb₀) (hc.hBel.2 b₀ hb₀) hnon
   have hbsN : bs ∈ Subgroup.normalizer (L : Set G) := hc.hXN hbs

@@ -17,6 +17,7 @@ section Basic
 
 variable {Y : Type} [Group Y] [Finite Y]
 
+omit [Finite Y] in
 theorem glaPPrimeCoreOf_eq_bot_p {p : ℕ} {K : Subgroup Y} (hcore : GLAPPrimeCore p ↥K = ⊥) :
     GLAPPrimeCoreOf p K = ⊥ := by
   unfold GLAPPrimeCoreOf
@@ -41,8 +42,9 @@ noncomputable def pSimpleEquiv {p : ℕ} {K : Subgroup Y} (hcore : GLAPPrimeCore
   QuotientGroup.congr (Subgroup.center (PQuot p K)) (Subgroup.center ↥K) e1
     (Subgroup.map_center_eq e1)
 
+omit [Finite Y] in
 theorem centMod_iff_centralizer {p : ℕ} {K : Subgroup Y} (hcore : GLAPPrimeCore p ↥K = ⊥) {g : Y}
-    (hg : g ∈ Subgroup.normalizer (K : Set Y)) :
+    (_hg : g ∈ Subgroup.normalizer (K : Set Y)) :
     CentMod p K g ↔ g ∈ Subgroup.centralizer (K : Set Y) := by
   constructor
   · intro h
@@ -63,6 +65,7 @@ variable {Y : Type} [Group Y] [Finite Y] {p : ℕ}
     ↥B →* MulAut (PSimple p K) :=
   (chevAut p K).comp (Subgroup.inclusion hBK)
 
+omit [Finite Y] in
 theorem actionHom_apply (K B : Subgroup Y) (hBK : B ≤ Subgroup.normalizer (K : Set Y)) (p : ℕ)
     (b : ↥B) : actionHom K B hBK p b = chevAut p K ⟨(b : Y), hBK b.2⟩ := rfl
 
@@ -82,6 +85,7 @@ section Cent
 
 variable {Y : Type} [Group Y] [Finite Y] {p : ℕ}
 
+omit [Finite Y] in
 private theorem normalizer_of_normal {K : Subgroup Y} (hK : K.Normal) {g : Y} :
     g ∈ Subgroup.normalizer (K : Set Y) :=
   Subgroup.normalizer_eq_top_iff.2 hK ▸ Subgroup.mem_top g
@@ -107,7 +111,7 @@ theorem card_actionHom (hp : p.Prime) {K B : Subgroup Y} (h : KHyp p K B)
 theorem card_B_eq (hp : p.Prime) {K B : Subgroup Y} (h : KHyp p K B) :
     ∃ ψ : ↥B →* MulAut (PSimple p K), (∀ b : ↥B, ψ b = 1 ↔ (b : Y) ∈ Subgroup.centralizer (K : Set Y)) ∧
       Nat.card ↥(B ⊓ Subgroup.centralizer (K : Set Y)) * Nat.card ↥ψ.range = Nat.card B :=
-  ⟨actionHom K B (fun g _ => normalizer_of_normal h.normal) p, actionHom_eq_one_iff hp h,
+  ⟨actionHom K B (fun _g _ => normalizer_of_normal h.normal) p, actionHom_eq_one_iff hp h,
     card_actionHom hp h _⟩
 
 theorem exists_centralizing (hp : p.Prime) (hp2 : p ≠ 2) {K B : Subgroup Y} (h : KHyp p K B)
@@ -115,7 +119,7 @@ theorem exists_centralizing (hp : p.Prime) (hp2 : p ≠ 2) {K B : Subgroup Y} (h
     ∃ b ∈ B, b ∉ Subgroup.centralizer (K : Set Y) ∧ ∃ w ∈ K, orderOf w = 2 ∧ b * w = w * b := by
   classical
   have : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨T, hTK, hT2, hTne, hBT⟩ := h.twogrp
   obtain ⟨k, hk⟩ := hT2.exists_card_eq
   have hcop : Nat.Coprime p (Nat.card T) := by
@@ -144,7 +148,7 @@ theorem exists_centralizing (hp : p.Prime) (hp2 : p ≠ 2) {K B : Subgroup Y} (h
     have : Nat.card H ≤ Nat.card ↥(B ⊓ Subgroup.centralizer (K : Set Y)) :=
       Subgroup.card_le_of_le (le_inf hHB hHC)
     omega
-  obtain ⟨b, hbH, hbC⟩ := SetLike.not_le_iff_exists.1 hHnc
+  obtain ⟨b, hbH, hbC⟩ := IsConcreteLE.not_le_iff_exists.1 hHnc
   set U : Subgroup Y := T ⊓ Subgroup.centralizer (H : Set Y) with hU
   have hUp : IsPGroup 2 ↥U := hT2.to_le inf_le_left
   obtain ⟨j, hj⟩ := hUp.exists_card_eq
@@ -158,7 +162,7 @@ theorem exists_centralizing (hp : p.Prime) (hp2 : p ≠ 2) {K B : Subgroup Y} (h
   have h2U : 2 ∣ Nat.card U := by
     rw [hj]
     exact dvd_pow_self 2 hj0
-  haveI : Fintype U := Fintype.ofFinite U
+  have : Fintype U := Fintype.ofFinite U
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card (G := ↥U) 2 (by rwa [← Nat.card_eq_fintype_card])
   refine ⟨b, hHB hbH, hbC, (x : Y), hTK x.2.1, ?_, ?_⟩
   · rw [Subgroup.orderOf_coe, hx]
@@ -170,6 +174,7 @@ section Vacuity
 
 variable {Y : Type} [Group Y] [Finite Y] {p : ℕ}
 
+omit [Finite Y] in
 theorem pSimpleEquiv_chevQuotHom {K : Subgroup Y} (hcore : GLAPPrimeCore p ↥K = ⊥) (k : ↥K) :
     pSimpleEquiv hcore (chevQuotHom p K k) = QuotientGroup.mk k := by
   simp [pSimpleEquiv, chevQuotHom, pQuotHom]

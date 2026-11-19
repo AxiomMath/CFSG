@@ -19,6 +19,7 @@ namespace Track
 
 variable {L1 L2 S : Subgroup G} (t : Track L1 L2 S)
 
+omit [Finite G] in
 private theorem cif_commutator_eq_one {e k : G} (h : k * e * k⁻¹ = e) : ⁅e, k⁆ = 1 := by
   have hke : k * e = e * k := by
     calc k * e = k * e * k⁻¹ * k := by group
@@ -80,7 +81,7 @@ theorem caseI_of_centerOf_LX_eq_QT {a f : ℕ}
   have hpow : 4 ≤ 2 ^ f := by
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hfr.hf
-  haveI : Nontrivial t.D2 := by
+  have : Nontrivial t.D2 := by
     rw [← Finite.one_lt_card_iff_nontrivial, hD2card]
     omega
   obtain ⟨⟨k, hkD⟩, hk1⟩ := exists_ne (1 : t.D2)
@@ -199,7 +200,7 @@ theorem caseI_of_centerOf_LX_eq_QT {a f : ℕ}
     exact Q2_le_S hfr.hF
   have hQS : (t.Qv 1).relIndex S = 2 ^ f := by
     have h := (t.relIndex_Qv_pCoreOf hfr 1).1
-    rw [sub_self, t.pCoreOf_Gw_zero_one hfr, if_neg Int.not_even_one] at h
+    rw [sub_self, t.pCoreOf_Gw_zero_one hfr, ite_eq_right Int.not_even_one] at h
     exact h
   have hrel : (t.PX t.QT ⊓ t.Qv 1).relIndex (t.PX t.QT) = 2 ^ f := by
     rw [← hidx]

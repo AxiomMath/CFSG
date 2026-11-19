@@ -35,7 +35,7 @@ theorem bar_L1 {D N₁ : Subgroup G} (hN : N₁ ≤ normalizer (D : Set G)) :
     calc bar D (L1 D N₁) ≤ bar D (lift (normalClosure ((bar D N₁ : Subgroup (Bar D)) :
           Set (Bar D)))) := bar_mono hle
       _ = _ := bar_lift _
-  · haveI : (bar D (L1 D N₁)).Normal := ⟨by
+  · have : (bar D (L1 D N₁)).Normal := ⟨by
       intro x hx g
       obtain ⟨g₀, rfl⟩ := proj_surjective g
       obtain ⟨y, hy, rfl⟩ := hx
@@ -47,6 +47,7 @@ theorem bar_L1 {D N₁ : Subgroup G} (hN : N₁ ≤ normalizer (D : Set G)) :
       exact proj_mem_bar (x := g₀ * y * g₀⁻¹) hconj⟩
     exact normalClosure_le_normal (bar_mono (le_sup_closure D N₁))
 
+omit [Finite G] in
 theorem lift_bar_eq_sup {D M : Subgroup G} (hM : M ≤ normalizer (D : Set G)) :
     lift (bar D M) = D ⊔ M := by
   apply le_antisymm
@@ -75,7 +76,7 @@ namespace Data
 variable {G : Type} [Group G] [Finite G] {f : ℕ} {K : Type} [Field K]
   {h : UnitaryFieldData 2 f K} {d : Data G h}
 
-theorem sec39_lOne (hp : d.CaseHyp) (k : d.Know92) (he : d.Sec39e)
+theorem sec39_lOne (hp : d.CaseHyp) (_k : d.Know92) (_he : d.Sec39e)
     (hr : d.Sec39Reduced) (hl : d.Sec39Layer) : d.L₁ = d.D ⊔ d.M₁ := by
   have hN₁D : d.N₁ ≤ normalizer (d.D : Set G) := hp.hyp.N₁_le_normalizer_D
   calc d.L₁ = lift (bar d.D d.L₁) := (lift_bar d.D_le_L₁ hp.hyp.L₁_le_normalizer_D).symm

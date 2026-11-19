@@ -25,7 +25,7 @@ theorem pI_image_eq_commutator' (hK2 : K2ONanCentralizer) (c : Ctx82E3 D)
         Subgroup.centralizer ({(QuotientGroup.mk (⟨x, hx.2⟩ : ↥c.L) : c.Lbar)} :
           Set c.Lbar)⁆ := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let N : Subgroup ↥c.L := CFSG.pCore 2 ↥c.L
   let q : ↥c.L →* c.Lbar := QuotientGroup.mk' N
   let xL : ↥c.L := ⟨x, hx.2⟩
@@ -93,7 +93,7 @@ theorem pI_image_eq_commutator' (hK2 : K2ONanCentralizer) (c : Ctx82E3 D)
       rw [Nat.card_zpowers, hxL3]
       norm_num
     exact IsPGroup.of_card hcard
-  haveI : Fact (IsPGroup 3 ↥(Subgroup.zpowers xL)) := ⟨hxT⟩
+  have : Fact (IsPGroup 3 ↥(Subgroup.zpowers xL)) := ⟨hxT⟩
   have hcentmap : Subgroup.centralizer ({xb} : Set c.Lbar) =
       (Subgroup.centralizer ({xL} : Set ↥c.L)).map q := by
     have h1 := CFSG.centralizer_map_quotient_eq_map_centralizer (G := ↥c.L) 3
@@ -187,8 +187,8 @@ theorem pCore_two_pI_image' (hK2 : K2ONanCentralizer) (c : Ctx82E3 D)
     (CFSG.pCore 2 ↥(pI x c.L)).map (pI x c.L).subtype =
       pI x c.L ⊓ (CFSG.pCore 2 ↥c.L).map c.L.subtype := by
   classical
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let I : Subgroup G := pI x c.L
   let N : Subgroup ↥c.L := CFSG.pCore 2 ↥c.L
   let q : ↥c.L →* c.Lbar := QuotientGroup.mk' N
@@ -252,8 +252,8 @@ theorem pCore_two_pI_image' (hK2 : K2ONanCentralizer) (c : Ctx82E3 D)
   let Z : Subgroup c.Lbar := Subgroup.center c.Lbar
   let ZJ : Subgroup ↥J := Z.subgroupOf J
   obtain ⟨e⟩ := hAlt
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by norm_num)
-  haveI : IsSimpleGroup (↥J ⧸ ZJ) := e.isSimpleGroup
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by norm_num)
+  have : IsSimpleGroup (↥J ⧸ ZJ) := e.isSimpleGroup
   have hncA6 : ∃ a b : alternatingGroup (Fin 6), a * b ≠ b * a := by
     refine ⟨⟨Equiv.swap (0 : Fin 6) 1 * Equiv.swap 0 2, ?_⟩,
       ⟨Equiv.swap (0 : Fin 6) 3 * Equiv.swap 0 4, ?_⟩, ?_⟩
@@ -339,21 +339,21 @@ theorem pCore_two_pI_image' (hK2 : K2ONanCentralizer) (c : Ctx82E3 D)
     exact CFSG.RankThree.GroupTheory.SteinbergBY.inf_inSubgroup_pCore_le
       (p := 2) (X := c.L) (Y := I) hIleL ⟨hyI, hyO⟩
 
-@[expose] def Step41ThreeCase (c : Ctx82E3 D) (P : Subgroup G) (x : G) : Prop :=
+@[expose] def Step41ThreeCase (c : Ctx82E3 D) (_P : Subgroup G) (x : G) : Prop :=
   ((pI x c.L ⊓ ((pDK x).map (pH x).subtype)).subgroupOf c.L).map
       (QuotientGroup.mk' (CFSG.pCore 2 ↥c.L)) = ⊥
 
-theorem image_inf_dK_eq_bot' (hK2 : K2ONanCentralizer) (c : Ctx82E3 D)
-    (hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar)
-    {P : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
-    {x : G} (hx : x ∈ P ⊓ c.L) (hx3 : orderOf x = 3) (hxZ : x ∉ zSub P c.L)
+theorem image_inf_dK_eq_bot' (_hK2 : K2ONanCentralizer) (c : Ctx82E3 D)
+    (_hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar)
+    {P : Subgroup G} (_hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
+    {x : G} (_hx : x ∈ P ⊓ c.L) (_hx3 : orderOf x = 3) (_hxZ : x ∉ zSub P c.L)
     (hStep : Step41ThreeCase c P x) :
     ((pI x c.L ⊓ ((pDK x).map (pH x).subtype)).subgroupOf c.L).map
         (QuotientGroup.mk' (CFSG.pCore 2 ↥c.L)) = ⊥ :=
   hStep
 
 theorem propositionH_step41'' (hK2 : K2ONanCentralizer) (c : Ctx82E3 D)
-    (hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (h7 : D.sig = {7})
+    (hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (_h7 : D.sig = {7})
     {P : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
     {x : G} (hx : x ∈ P ⊓ c.L) (hx3 : orderOf x = 3) (hxZ : x ∉ zSub P c.L)
     (hStep : Step41ThreeCase c P x) :
@@ -375,7 +375,7 @@ theorem propositionH_step41'' (hK2 : K2ONanCentralizer) (c : Ctx82E3 D)
 theorem not_isPSolvable_three_alt_six :
     ¬ CFSG.HallHigman.IsPSolvable 3 (alternatingGroup (Fin 6)) := by
   intro h
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hs : IsSimpleGroup (alternatingGroup (Fin 6)) :=
     alternatingGroup.isSimpleGroup (by norm_num)
   let e : (↥(⊤ : Subgroup (alternatingGroup (Fin 6))) ⧸
@@ -400,11 +400,11 @@ theorem not_isPSolvable_three_alt_six :
           Set c.Lbar)⁆,
     Function.Surjective f
 
-@[expose] def Step42Opp (c : Ctx82E3 D) (P : Subgroup G) (x : G) : Prop :=
+@[expose] def Step42Opp (c : Ctx82E3 D) (_P : Subgroup G) (x : G) : Prop :=
   pIbar x c.L ≤ Opp 3 (⊤ : Subgroup (pX x))
 
 theorem propositionH_step42'' (hK2 : K2ONanCentralizer) (c : Ctx82E3 D)
-    (hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (h7 : D.sig = {7})
+    (hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (_h7 : D.sig = {7})
     {P : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
     {x : G} (hx : x ∈ P ⊓ c.L) (hx3 : orderOf x = 3) (hxZ : x ∉ zSub P c.L)
     (hSurj : Step42Surjection c hx) (hOpp : Step42Opp c P x) :
@@ -412,8 +412,8 @@ theorem propositionH_step42'' (hK2 : K2ONanCentralizer) (c : Ctx82E3 D)
       360 < Nat.card ↥(pIbar x c.L) ∧
       pIbar x c.L ≤ Opp 3 (⊤ : Subgroup (pX x)) := by
   classical
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let N : Subgroup ↥c.L := CFSG.pCore 2 ↥c.L
   let q : ↥c.L →* c.Lbar := QuotientGroup.mk' N
   let xL : ↥c.L := ⟨x, hx.2⟩

@@ -41,7 +41,7 @@ private theorem sixTwo_scalar_mem {K : Type} [Field K] {c : Kˣ} (hc : c ^ 3 = 1
 theorem isQuasisimple_statedSU_six_two {K : Type} [Field K] [Finite K] (hK : Nat.card K = 4) :
     CFSG.Open.IsQuasisimple (StatedSU 6 2 K) ∧
       Subgroup.center (StatedSU 6 2 K) = (StatedScalars (Fin 6) K).subgroupOf (StatedSU 6 2 K) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hq, hc⟩ := CFSG.LieType.Universal.Unitary.isQuasisimple_statedSU_of_card
     (p := 2) (f := 1) (n := 6) (F := K) (by norm_num [hK]) (by norm_num) (by decide)
   exact ⟨⟨Group.isPerfect_def.mp hq.1, hq.2.1⟩, hc⟩

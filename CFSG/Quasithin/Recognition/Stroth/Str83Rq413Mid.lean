@@ -91,7 +91,7 @@ theorem IsMaxArc.false_of_inf_Qv_le {a f : ℕ}
     (h₁ : t.IsFixRadius (ε + 1) b₁) (hb₁ : Odd b₁) (hε : Even ε) (hf : f = 2 * (2 * a + 1))
     (hZ : t.Zv ε ≤ t.Zv (ε + 1))
     (hH : t.Zv (ε + 1) ⊓ t.Qv (ε + 1 + b₁) ≤ t.Qv (ε + 2 + b₁)) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hodd_b₁Z : Odd (b₁ : ℤ) := (Int.odd_coe_nat b₁).mpr hb₁
   obtain ⟨m, hm⟩ := hb₁
   have hb1pos : 1 ≤ b₁ := IsFixRadius.one_le t hfr h₁
@@ -146,12 +146,12 @@ theorem IsMaxArc.false_of_inf_Qv_le {a f : ℕ}
     have hle : t.Zv (ε + 1) ⊓ t.Qv (ε + 1 + b₁)
         ≤ t.Gw (ε + 1 - (b₁ : ℤ)) ((ε + 1 - (b₁ : ℤ)) + 1) := by
       refine hH_Gw.trans (win_mono le_rfl ?_)
-      push_cast; omega
+      omega
     exact t.le_pCoreOf_Gw hfr (by omega) ((t.isPGroup_Zv (ε + 1)).to_le hHZ) hle
   have hHcard_le : Nat.card (t.Zv (ε + 1) ⊓ t.Qv (ε + 1 + b₁) : Subgroup G) ≤ 2 ^ (2 * a + 1) := by
     have hrel_le := t.relIndex_Qv_le_of_sq_mem hfr (ε + 1 - (b₁ : ℤ)) hA
       (fun x hx => by rw [hHsq x hx]; exact (t.Qv (ε + 1 - (b₁ : ℤ))).one_mem)
-    rw [if_pos heven_e] at hrel_le
+    rw [ite_eq_left heven_e] at hrel_le
     have hcard_eq : Nat.card (t.Zv (ε + 1) ⊓ t.Qv (ε + 1 + b₁) : Subgroup G) =
         (t.Qv (ε + 1 - (b₁ : ℤ))).relIndex (t.Zv (ε + 1) ⊓ t.Qv (ε + 1 + b₁)) := by
       have h := Subgroup.inf_relIndex_left (t.Zv (ε + 1) ⊓ t.Qv (ε + 1 + b₁))
@@ -163,13 +163,13 @@ theorem IsMaxArc.false_of_inf_Qv_le {a f : ℕ}
       pCoreOf 2 (t.Gw ((ε + 1 + b₁) - 1) (ε + 1 + b₁)) := by
     refine t.le_pCoreOf_Gw hfr (by omega) (t.isPGroup_Zv _) ?_
     refine h₁.le_Gw.trans (win_mono ?_ le_rfl)
-    push_cast; omega
+    omega
   have hsqA2 : ∀ x ∈ t.Zv (ε + 1), x ^ 2 ∈ t.Qv (ε + 1 + b₁) := by
     intro x hx
     rw [A4.sq_eq_one_of_mem_omegaOneCenterOf ((t.Zv_eq (ε + 1)) ▸ hx)]
     exact (t.Qv (ε + 1 + b₁)).one_mem
   have hrel_le2 := t.relIndex_Qv_le_of_sq_mem_left hfr (ε + 1 + b₁) hA2 hsqA2
-  rw [if_pos heven_w] at hrel_le2
+  rw [ite_eq_left heven_w] at hrel_le2
   have hHrelZ : (t.Zv (ε + 1) ⊓ t.Qv (ε + 1 + b₁)).relIndex (t.Zv (ε + 1))
       ≤ 2 ^ (2 * a + 1) := by
     have h := Subgroup.inf_relIndex_left (t.Zv (ε + 1)) (t.Qv (ε + 1 + b₁))
@@ -195,7 +195,7 @@ theorem IsMaxArc.false_of_inf_Qv_le {a f : ℕ}
   have hCle : t.Lv (ε + 1) ≤ centralizer (t.Zv (ε + 1) : Set G) := by
     by_contra hC
     have hle := t.le_card_Zv_of_not_le_centralizer hfr (ε + 1) hC
-    rw [if_neg hnot_evenε1] at hle
+    rw [ite_eq_right hnot_evenε1] at hle
     exact absurd hle (not_le.mpr hcard_lt)
   exact false_of_Zv_le_of_le_centralizer t hfr (u := ε) (v := ε + 1) (Or.inr rfl) hZ hCle
 
@@ -206,7 +206,7 @@ theorem IsFixRadius.false_of_commutator_inf_eq_bot
     (hH : ¬ t.Zv (ε + 1) ⊓ t.Qv (ε + 1 + b₁) ≤ t.Qv (ε + 2 + b₁))
     (hX : ⁅t.Zv (ε + 2 + b₁) ⊓ t.Gv (ε + 1), t.Zv (ε + 1) ⊓ t.Qv (ε + 1 + b₁)⁆ = ⊥) :
     False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let H : Subgroup G := t.Zv (ε + 1) ⊓ t.Qv (ε + 1 + b₁)
   let W : Subgroup G := t.Zv (ε + 2 + b₁)
   obtain ⟨m, hm⟩ := hb₁
@@ -263,7 +263,7 @@ theorem IsFixRadius.false_of_commutator_inf_eq_bot
   have hε2 : Even (ε + 2) := Even.add hε even_two
   have hrelQv : (t.Qv (ε + 2)).relIndex W ≤ 2 ^ (2 * a + 1) := by
     have h := t.relIndex_Qv_le_of_sq_mem (A := W) hfr (ε + 2) hW_pc hsq
-    rwa [if_pos hε2] at h
+    rwa [ite_eq_left hε2] at h
   have hQvGv : t.Qv (ε + 2) ≤ t.Gv (ε + 1) := by
     have h := (t.Qv_le_Gv hfr (ε + 2)).1
     rwa [show ε + 2 - 1 = ε + 1 by ring] at h
@@ -277,8 +277,8 @@ theorem IsFixRadius.false_of_commutator_inf_eq_bot
     have hle : W ⊓ t.Qv (ε + 2) ≤ W ⊓ centralizer (H : Set G) :=
       le_inf inf_le_left hcent
     have hne : (W ⊓ t.Qv (ε + 2)).relIndex W ≠ 0 := by
-      haveI : Nonempty W := ⟨⟨1, W.one_mem⟩⟩
-      haveI : Finite W := inferInstance
+      have : Nonempty W := ⟨⟨1, W.one_mem⟩⟩
+      have : Finite W := inferInstance
       have hpos : 0 < Nat.card W := Nat.card_pos
       intro h
       exact (Nat.ne_of_gt hpos)

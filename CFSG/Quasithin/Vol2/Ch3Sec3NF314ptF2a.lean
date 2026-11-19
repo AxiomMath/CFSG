@@ -66,7 +66,7 @@ theorem f2_zpow_dvd {G : Type} [Group G] {N : Subgroup G} {x : G} {q : ℕ} (hq 
 theorem f2_not_dvd_card {G : Type} [Group G] [Finite G] {H N : Subgroup G} (hNH : N ≤ H)
     (hN2 : IsPGroup 2 N) {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) :
     ¬ q ∣ Nat.card (N.subgroupOf H) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hN2
   rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hNH).toEquiv, hn]
   intro h
@@ -147,7 +147,7 @@ theorem f2_alg {Q : Type} [Group Q] {q : ℕ} (hq : q.Prime) {X Y W : Q}
     rw [hYB1, one_mul] at hYW1
     exact hYW1
 
-theorem f2_indep {G : Type} [Group G] {H N A B C : Subgroup G} (hNH : N ≤ H)
+theorem f2_indep {G : Type} [Group G] {H N A B C : Subgroup G} (_hNH : N ≤ H)
     (hN : ∀ h ∈ H, ∀ n ∈ N, h * n * h⁻¹ ∈ N) (hN2 : IsPGroup 2 N)
     (hAH : A ≤ H) (hBH : B ≤ H) (hCH : C ≤ H)
     {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2)
@@ -157,9 +157,9 @@ theorem f2_indep {G : Type} [Group G] {H N A B C : Subgroup G} (hNH : N ≤ H)
     {x y w : G} (hx : x ∈ A) (hy : y ∈ B) (hw : w ∈ C)
     (hox : orderOf x = q) (hoy : orderOf y = q) (how : orderOf w = q) :
     ∀ a b c : ℕ, x ^ a * y ^ b * w ^ c ∈ N → q ∣ a ∧ q ∣ b ∧ q ∣ c := by
-  haveI hfact : Fact q.Prime := ⟨hq⟩
-  haveI : NeZero q := ⟨hq.ne_zero⟩
-  haveI hNn : (N.subgroupOf H).Normal := f2_normal_subgroupOf hN
+  have hfact : Fact q.Prime := ⟨hq⟩
+  have : NeZero q := ⟨hq.ne_zero⟩
+  have hNn : (N.subgroupOf H).Normal := f2_normal_subgroupOf hN
   intro a b c habc
   obtain ⟨x₁, hx₁⟩ : ∃ x₁ : ↥H, (x₁ : G) = x := ⟨⟨x, hAH hx⟩, rfl⟩
   obtain ⟨y₁, hy₁⟩ : ∃ y₁ : ↥H, (y₁ : G) = y := ⟨⟨y, hBH hy⟩, rfl⟩
@@ -248,9 +248,9 @@ theorem f2_pRank_ge_three {G : Type} [Group G] [Finite G] {H N : Subgroup G} (hN
     (hxy : ⁅x, y⁆ ∈ N) (hxw : ⁅x, w⁆ ∈ N) (hyw : ⁅y, w⁆ ∈ N)
     (hind : ∀ a b c : ℕ, x ^ a * y ^ b * w ^ c ∈ N → q ∣ a ∧ q ∣ b ∧ q ∣ c) :
     3 ≤ CFSG.Open.pRank q H := by
-  haveI hfact : Fact q.Prime := ⟨hq⟩
-  haveI : NeZero q := ⟨hq.ne_zero⟩
-  haveI hNn : (N.subgroupOf H).Normal := f2_normal_subgroupOf hN
+  have hfact : Fact q.Prime := ⟨hq⟩
+  have : NeZero q := ⟨hq.ne_zero⟩
+  have hNn : (N.subgroupOf H).Normal := f2_normal_subgroupOf hN
   obtain ⟨x₁, hx₁⟩ : ∃ x₁ : ↥H, (x₁ : G) = x := ⟨⟨x, hx⟩, rfl⟩
   obtain ⟨y₁, hy₁⟩ : ∃ y₁ : ↥H, (y₁ : G) = y := ⟨⟨y, hy⟩, rfl⟩
   obtain ⟨w₁, hw₁⟩ : ∃ w₁ : ↥H, (w₁ : G) = w := ⟨⟨w, hw⟩, rfl⟩

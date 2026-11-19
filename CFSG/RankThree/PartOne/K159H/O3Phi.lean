@@ -129,9 +129,9 @@ theorem rEl_eq_phi_upper (qA : QuadraticForm K A) (hab : coordIdx a ≠ coordIdx
     by_cases ca : c = a
     · rw [ca]; simp [*]; try ring
     by_cases cb : c = b
-    · rw [cb]; simp [*]; try ring
+    · rw [cb]; simp [*]
     by_cases cas : c = a.swap
-    · rw [cas]; simp [*]; try ring
+    · rw [cas]; simp [*]
     by_cases cbs : c = b.swap
     · rw [cbs]; simp [*]
       linear_combination (-(t * v.1 a.swap)) * h2
@@ -161,7 +161,7 @@ theorem rEl_eq_phi_lower (qA : QuadraticForm K A) (hab : coordIdx a ≠ coordIdx
   · simp only [Prod.fst_sub, Prod.fst_add, Pi.sub_apply, Pi.add_apply, Prod.smul_fst, Pi.smul_apply, hypVec_fst,
       smul_eq_mul, phi_fst, phiFun]
     by_cases ca : c = a
-    · rw [ca]; simp [*]; try ring
+    · rw [ca]; simp [*]
     by_cases cb : c = b
     · rw [cb]; simp [*]; try ring
     by_cases cas : c = a.swap

@@ -43,7 +43,7 @@ theorem sylowSeven_element_centralizer_card_le_fourteen
     Nat.card
         (Subgroup.centralizer ({(u : P)} : Set P)) ≤ 14 := by
   classical
-  letI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have huorder : orderOf u = 7 :=
     Degree15.orderOf_eq_prime_of_card_eq_prime hScard hu
   let g : Equiv.Perm X := (u : P)
@@ -171,7 +171,7 @@ theorem sylowSeven_element_centralizer_card_le_fourteen
       ∀ q : ℕ, q.Prime → (q = 2 ∨ q = 3 ∨ q = 5) →
         ¬q ∣ Nat.card cycleMap.ker := by
     intro q hq hqCases hqdvd
-    letI : Fact q.Prime := ⟨hq⟩
+    let : Fact q.Prime := ⟨hq⟩
     obtain ⟨v, hvorder⟩ :=
       exists_prime_orderOf_dvd_card'
         (G := cycleMap.ker) q hqdvd

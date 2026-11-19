@@ -60,7 +60,7 @@ theorem conj_axis_mem_zpowers_of_mk {P : Sylow 3 G} {M R : Subgroup G}
   set mk := QuotientGroup.mk' (CFSG.pCore 2 ↥M) with hmkdef
   have hwM : w ∈ M := hPM (hRP hwR)
   have hzM : z ∈ M := hPM (hRP hzR)
-  have hP3 : IsPGroup 3 ((P : Subgroup G).subgroupOf M) := P.isPGroup'.comap_subtype
+  have hP3 : IsPGroup 3 ((P : Subgroup G).subgroupOf M) := P.isPGroup.comap_subtype
   have hinj : ∀ a b : ↥M, (a : G) ∈ (P : Subgroup G) → (b : G) ∈ (P : Subgroup G) →
       mk a = mk b → a = b := fun a b ha hb hab =>
     eq_of_mk_pCore_two_eq_of_isPGroup_three hP3 ha hb hab

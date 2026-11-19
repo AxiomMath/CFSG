@@ -45,8 +45,8 @@ private theorem tzClass_eq_twA_two_of_iso {lab : LargeEvenLabel} {m : ℕ}
   rcases h with h | h | h | h | h | h | h | h
   · exact h
   · rcases h.2.1 with hB | hB
-    · exact absurd (by simpa using hB) tzClass_twA_ne_B
-    · exact absurd (by simpa using hB) tzClass_twA_ne_C
+    · exact absurd (by simp at hB) tzClass_twA_ne_B
+    · exact absurd (by simp at hB) tzClass_twA_ne_C
   · exact absurd (congrArg LargeEvenLabel.tag h.2) tzClass_twA_ne_A
   · exact absurd (congrArg LargeEvenLabel.tag h.2) tzClass_twA_ne_D
   · exact absurd (congrArg LargeEvenLabel.rank h.2) tzClass_two_ne_three
@@ -101,12 +101,12 @@ theorem tableZ_classA2
       intro hinner
       have htag : lab.tag = .A := htagA hinner
       rw [hlabeq] at htag
-      exact tzClass_twA_ne_A (by simpa using htag)
+      exact tzClass_twA_ne_A (by simp at htag)
     have hni : ¬ twistInner (componentRoots (rootCharHom a) i)
         ((S.ρ : (Fin Tag.E6.rank → ℤ) → (Fin Tag.E6.rank → ℤ))^[
           componentOrbitLength S.ρ (componentRoots (rootCharHom a) i)]) := by
       intro hti
-      exact htk (by unfold twistKind; rw [if_pos hti])
+      exact htk (by unfold twistKind; rw [ite_eq_left hti])
     rw [hs3] at hni
     exact ⟨hs3, hncard6, hni⟩
   · obtain ⟨v, μ, x, c, -, hc, -, hlen, -, hrank, hncard⟩ :=
@@ -134,7 +134,7 @@ theorem tableZ_classA2
           ggLabelRigidInput_holds lab ⟨.twA, 2, 3 * n⟩ _ hlabΛ hΛ hlabHas hlab
         have hlabeq : lab = ⟨.twA, 2, 3 * n⟩ := tzClass_eq_twA_two_of_iso hiso
         rw [hlabeq] at htagD
-        exact tzClass_twA_ne_D (by simpa using htagD)
+        exact tzClass_twA_ne_D (by simp at htagD)
       · obtain ⟨lab, -, hc1, hc2, hc3, hRL⟩ :=
           rationalLabel_outerD S Nat.prime_three hT hap h1 i hD hinner hQS
         obtain ⟨hlabΛ, hlabHas⟩ := hRL
@@ -148,15 +148,15 @@ theorem tableZ_classA2
             · rw [hlabeq] at hD4
               exact tzClass_twA_ne_twD (by simpa using hD4.1)
             · rw [hlabeq] at htri
-              exact tzClass_twA_ne_triD4 (by simpa using htri)
+              exact tzClass_twA_ne_triD4 (by simp at htri)
           · obtain ⟨htag, -⟩ := hc1 hk2 hr
             rw [hlabeq] at htag
-            exact tzClass_twA_ne_twD (by simpa using htag)
+            exact tzClass_twA_ne_twD (by simp at htag)
         · rcases hc3 hkexc hr4 with hD4 | htri
           · rw [hlabeq] at hD4
             exact tzClass_twA_ne_twD (by simpa using hD4.1)
           · rw [hlabeq] at htri
-            exact tzClass_twA_ne_triD4 (by simpa using htri)
+            exact tzClass_twA_ne_triD4 (by simp at htri)
     · exact (CFSG.HardMathSupport.Solomon.Coordinator.LieComp.false_of_e6Class_E
         S Nat.prime_three h3L hTp h1 i hE.1 hE.2).elim
 
@@ -172,8 +172,8 @@ private theorem tzClass_eq_triD4_of_iso {lab : LargeEvenLabel} {m : ℕ}
   rcases h with h | h | h | h | h | h | h | h
   · exact h
   · rcases h.2.1 with hB | hB
-    · exact absurd (by simpa using hB) tzClass_triD4_ne_B
-    · exact absurd (by simpa using hB) tzClass_triD4_ne_C
+    · exact absurd (by simp at hB) tzClass_triD4_ne_B
+    · exact absurd (by simp at hB) tzClass_triD4_ne_C
   · exact absurd (congrArg LargeEvenLabel.tag h.2) tzClass_triD4_ne_A
   · exact absurd (congrArg LargeEvenLabel.tag h.2) tzClass_triD4_ne_D
   · exact absurd (congrArg LargeEvenLabel.tag h.2) tzClass_triD4_ne_twA
@@ -243,7 +243,7 @@ theorem tableZ_classTriD4
           ggLabelRigidInput_holds lab ⟨.triD4, 0, n⟩ _ hlabΛ hΛ hlabHas hlab
         have hlabeq : lab = ⟨.triD4, 0, n⟩ := tzClass_eq_triD4_of_iso hiso
         rw [hlabeq] at htagD
-        exact absurd (by simpa using htagD) tzClass_triD4_ne_D
+        exact absurd (by simp at htagD) tzClass_triD4_ne_D
       · obtain ⟨lab, hdeg, hc1, -, -, hRL⟩ :=
           rationalLabel_outerD S Nat.prime_three hT hap h1 i hD hinner hQS
         obtain ⟨hlabΛ, hlabHas⟩ := hRL
@@ -265,7 +265,7 @@ theorem tableZ_classTriD4
             · exact hr
             · obtain ⟨htag, -⟩ := hc1 hk2 hr
               rw [hlabeq] at htag
-              exact absurd (by simpa using htag) tzClass_triD4_ne_twD
+              exact absurd (by simp at htag) tzClass_triD4_ne_twD
           · exact hr4
         have hncard24 : (componentRoots (rootCharHom a) i).ncard = 24 := by
           rw [hD.2, hr4]

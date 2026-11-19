@@ -52,7 +52,7 @@ theorem SG.exists_component_tyF_conj {Ω : Type} [Group Ω] [Finite Ω] {S B T :
   obtain ⟨-, -, -, -, -, hKc, -⟩ := hc.std
   have hKS : K ≤ S := hKc.1.trans inf_le_left
   have hKq : CFSG.Open.IsQuasisimple ↥K := hKc.2.2
-  haveI : Group.IsPerfect ↥K := ⟨hKq.1⟩
+  have : Group.IsPerfect ↥K := ⟨hKq.1⟩
   set g : ↥K →* R := Φ.toMonoidHom.comp ((chevQuotHom 3 S).comp (Subgroup.inclusion hKS))
     with hg
   have hJ : ((K.subgroupOf S).map (chevQuotHom 3 S)).map Φ.toMonoidHom = g.range := by
@@ -70,7 +70,7 @@ theorem SG.exists_component_tyF_conj {Ω : Type} [Group Ω] [Finite Ω] {S B T :
     refine Subgroup.mem_center_iff.2 fun k' => Subtype.ext ?_
     exact congrArg (fun s : ↥S => (s : Ω))
       (Subgroup.mem_center_iff.1 hk' (Subgroup.inclusion hKS k'))
-  haveI := nontrivial_of_tyF_three hcat
+  have := nontrivial_of_tyF_three hcat
   have hne : GLAPPrimeCore 3 ↥K ≠ ⊤ := fun htop => by
     have h1 : ∀ y : PQuot 3 K, y = 1 := fun y => by
       obtain ⟨k, rfl⟩ := QuotientGroup.mk_surjective y
@@ -136,7 +136,7 @@ theorem SG.false_of_conj_centralizer {Ω : Type} [Group Ω] [Finite Ω] {S B T :
   have hidx := Subgroup.relIndex_mul_card (Y.map MulAut.conj) XA
   rw [inf_of_le_left hYXA, Subgroup.card_map_of_injective hinj, hYc, hXAc] at hidx
   have hY3 : (Y.map MulAut.conj).relIndex XA ≤ 3 := by omega
-  haveI := hAs
+  have := hAs
   refine SG.false_of_simple_fix_congr h hcat hB Φ hdD hdx hdN (hr ▸ hpl r (hXe.2 r hrX)) hAnc
     hA3 (hr ▸ hfix r hrY) (Y := Y.map MulAut.conj) hY3 ?_
   rintro _ ⟨y, hy, rfl⟩

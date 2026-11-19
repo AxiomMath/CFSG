@@ -20,10 +20,10 @@ theorem c3b_false_of_witness
     (hJ : CFSG.Open.IsSubnormal J (centralizer ({z} : Set G))) (Sy : Sylow 2 J)
     (hSy : ∃ r : ℕ, 3 ≤ r ∧ Nonempty ((Sy : Subgroup J) ≃* QuaternionGroup (2 ^ (r - 2))))
     (hw : CFSG.Open.classicalInvolutionWitness J) : False := by
-  haveI : IsSimpleGroup G := hS.simple
+  have : IsSimpleGroup G := hS.simple
   have hnab : ∃ a b : G, a * b ≠ b * a := c3b_nonabelian_of_inF hS.inF
   obtain ⟨hFs, hFnab⟩ := c3b_genFittingFStar_simple hnab
-  haveI := hFs
+  have := hFs
   obtain ⟨eF⟩ := c3b_nonempty_genFittingFStar_equiv hnab
   rcases (hCI G hFnab z hz J hzJ hJ Sy hSy).1 hw with
     ⟨τ, n, p, f, hp, hp2, hadm, hm⟩ | hM11

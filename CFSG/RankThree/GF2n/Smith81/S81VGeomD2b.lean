@@ -96,7 +96,7 @@ theorem Recipe.closure [Finite F] [CharP F 2] (hσ : IsUnitaryInvolution σ)
     rw [Fintype.linearIndependent_iff]
     intro g hg
     rw [Fin.sum_univ_two] at hg
-    simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons] at hg
+    simp only [Matrix.cons_val_zero, Matrix.cons_val_one] at hg
     have hg1 : g 1 = 0 := by
       have h' := congrArg (herm σ w₂) hg
       simpa [herm_add_right, herm_smul_right, v9, e_w2c] using h'
@@ -146,7 +146,7 @@ theorem Recipe.closure [Finite F] [CharP F 2] (hσ : IsUnitaryInvolution σ)
     simp [herm_add_left, herm_add_right, herm_smul_left, herm_smul_right, hinv, h.u₁u₁,
       h.u₁w₂, v5, h.w₂w₂]
   have hzw : herm σ (u₁ + σ θ • w₂) (w₁ + w₂) = 1 := by
-    simp [herm_add_left, herm_add_right, herm_smul_left, herm_smul_right, hinv, h.u₁w₁,
+    simp [herm_add_left, herm_add_right, herm_smul_left, hinv, h.u₁w₁,
       h.u₁w₂, v6, h.w₂w₂]
   have hne56 : Submodule.span F {p, c, w₁ + w₂} ≠ Submodule.span F {p, c, u₁ + σ θ • w₂} := by
     intro heq

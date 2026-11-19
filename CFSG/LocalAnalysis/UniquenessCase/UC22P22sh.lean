@@ -164,6 +164,7 @@ section Binary
 
 variable {G : Type} [Group G] [Finite G] {V : Subgroup G} (hV : CFSG.Open.IsElemAbelian 2 V)
 
+omit [Finite G] in
 theorem uc22p22sh_natural_of_binary {L : Subgroup G} (hLN : L ≤ normalizer (V : Set G))
     {J : Subgroup (MulAut (IntMod V hV))} (hLJ : autI hV L ≤ J)
     (hfix : ∀ w ∈ ⁅V, L⁆, w ∈ centralizer (L : Set G) → ∀ hw : w ∈ V, IntMod.mk hV ⟨w, hw⟩ ∈ fixV J)
@@ -173,7 +174,7 @@ theorem uc22p22sh_natural_of_binary {L : Subgroup G} (hLN : L ≤ normalizer (V 
   dsimp only [CFSG.Quasithin.BinaryNaturalSL, CFSG.Quasithin.FFModel.Realizes,
     CFSG.Quasithin.FFModel.RealizesVia, CFSG.Quasithin.FFModel.nat] at hnat
   obtain ⟨K, _, _, hK, π, hπs, -, -, -, -, -, -, β₀, hβ₀s, hβ₀1, hβ₀eq⟩ := hnat
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hVL : ⁅V, L⁆ ≤ V := Subgroup.le_normalizer_iff_commutator_le_left.mp hLN
   have hπi : Function.Injective π := by
     rw [← MonoidHom.ker_eq_bot_iff, eq_bot_iff]
@@ -280,7 +281,7 @@ namespace P22s
 
 theorem pCoreOf_le_of_isSubnormal {G : Type} [Group G] [Finite G] {A B : Subgroup G}
     (h : CFSG.Open.IsSubnormal A B) : pCoreOf 2 A ≤ pCoreOf 2 B := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   induction h with
   | refl A => exact le_rfl
   | @step A M B hAM hn _ ih =>
@@ -308,7 +309,7 @@ theorem uc22p22sh_natural (h69 : CFSG.ASVolI.B_6_9) (hTC : CFSG.RankThree.PartOn
       centralizer (VZ D.T (c.L0 ⊔ D.T) : Set G))
     (hne : ¬ L ≤ centralizer (VZ D.T (c.L0 ⊔ D.T) : Set G)) :
     ∃ e : ℕ, 2 ≤ e ∧ NatSL2 L (VZ D.T (c.L0 ⊔ D.T)) e := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set H : Subgroup G := c.L0 ⊔ D.T with hHdef
   set V₀ : Subgroup G := VZ D.T H with hV₀
   obtain ⟨hU, -, hFF, hred⟩ := uc22p22se_ffModule c hS7

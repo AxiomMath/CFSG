@@ -214,7 +214,7 @@ namespace TitsInput
 variable {Z : Type u} [Group Z] {Xp Xq Xe : Subgroup Z} {s : Z}
 
 theorem mem_e (D : TitsInput Xp Xq Xe s) : s ∈ Xe :=
-  (D.mem_e_iff s).2 (Or.inr ⟨by simpa using Xp.one_mem, D.mul_self_mem_p⟩)
+  (D.mem_e_iff s).2 (Or.inr ⟨by simp, D.mul_self_mem_p⟩)
 
 theorem of_action {Ω : Type*} [MulAction Z Ω] {x₀ : Ω} (hXp : Xp = MulAction.stabilizer Z x₀)
     (hs : s • x₀ ≠ x₀) (hs₂ : s • s • x₀ = x₀) (hq : s ∈ Xq)

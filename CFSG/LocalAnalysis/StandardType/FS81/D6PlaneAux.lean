@@ -219,13 +219,13 @@ theorem d6PlaneFmat_inv_mul (A : d6PlaneSL) :
 
 @[expose] noncomputable def d6PlaneNle (A : d6PlaneSL) :
     (Fin 4 → ZMod 2) ≃ₗ[ZMod 2] (Fin 4 → ZMod 2) :=
-  LinearEquiv.ofLinear (Matrix.toLin' (d6PlaneNmat A)) (Matrix.toLin' (d6PlaneNmat A⁻¹))
+  LinearEquiv.ofLinearMap (Matrix.toLin' (d6PlaneNmat A)) (Matrix.toLin' (d6PlaneNmat A⁻¹))
     (by rw [← Matrix.toLin'_mul, d6PlaneNmat_mul_inv, Matrix.toLin'_one])
     (by rw [← Matrix.toLin'_mul, d6PlaneNmat_inv_mul, Matrix.toLin'_one])
 
 @[expose] noncomputable def d6PlaneFle (A : d6PlaneSL) :
     (Fin 4 → ZMod 2) ≃ₗ[ZMod 2] (Fin 4 → ZMod 2) :=
-  LinearEquiv.ofLinear (Matrix.toLin' (d6PlaneFmat A)) (Matrix.toLin' (d6PlaneFmat A⁻¹))
+  LinearEquiv.ofLinearMap (Matrix.toLin' (d6PlaneFmat A)) (Matrix.toLin' (d6PlaneFmat A⁻¹))
     (by rw [← Matrix.toLin'_mul, d6PlaneFmat_mul_inv, Matrix.toLin'_one])
     (by rw [← Matrix.toLin'_mul, d6PlaneFmat_inv_mul, Matrix.toLin'_one])
 

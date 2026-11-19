@@ -104,7 +104,7 @@ theorem noCfgS429_of_not_dvd_sixteen_five
     {S : Type} [Group S] [Finite S]
     (h16 : ¬ 16 ∣ Nat.card S) (h5 : ¬ 5 ∣ Nat.card S) : NoCfgS429 S := by
   intro A σ K hc
-  haveI : Group.IsPerfect K := hc.isPerfect
+  have : Group.IsPerfect K := hc.isPerfect
   have hdvd : Nat.card (K ⧸ CFSG.pCore 2 K) ∣ Nat.card S :=
     (Subgroup.card_quotient_dvd_card _).trans (Subgroup.card_subgroup_dvd_card K)
   rcases sixteen_or_five_dvd_card_of_isType429 hc.isType with h | h
@@ -121,7 +121,7 @@ theorem rowSOf429_three :
     norm_num
   have hno : NoCfgS429 RonanK432.Ree27 :=
     noCfgS429_of_not_dvd_sixteen_five (by rw [hcard]; norm_num) (by rw [hcard]; norm_num)
-  haveI : Finite (TauCeti.CFSGIndex.lie ⟨.reeG2 1, hr⟩).Group := Finite.of_equiv _ f.toEquiv
+  have : Finite (TauCeti.CFSGIndex.lie ⟨.reeG2 1, hr⟩).Group := Finite.of_equiv _ f.toEquiv
   exact rowSOf429_of_noCfgS429 (hno.of_mulEquiv f.symm)
 
 end CFSG.RankThree.PartTwo.Sec4.RonanK429

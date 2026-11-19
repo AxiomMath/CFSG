@@ -27,7 +27,7 @@ theorem hj_pCore_eq_bot_of_res1 (hfix : J2AutFixNine) (hE25 : J2HasE25) (h415 : 
     {Yc : Subgroup (Res1Q A L)} (hY : Res1AtOf A c L M Yc) (hsimple : IsSimpleGroup ↥Yc)
     (hYF : Res1HJYFacts ↥Yc) :
     CFSG.pCore 2 ↥L = ⊥ ∧ aschbacherSolvableCore 3 ↥L = ⊥ := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨c', hc', -, hcA, hc3, -, hhyp, hAeq⟩ := hj_exists_res1C_lift hS hY
   obtain ⟨U, -, hcU, -⟩ := hj_exists_sylow_two_normalized hS h142 hY hsimple hYF hC c' hc' hcA
   obtain ⟨-, hyYc, hy3⟩ := hj_orderOf_mk_eq_three hY c' hc' hc3
@@ -37,6 +37,7 @@ theorem hj_pCore_eq_bot_of_res1 (hfix : J2AutFixNine) (hE25 : J2HasE25) (h415 : 
     hj_exists_five_lift hfix hE25 h415 hS hθ hJ hAeq c' hc' hhyp t' ht'5 htc
   exact ⟨h5, hθ0⟩
 
+omit [Finite G] in
 theorem pCoreOf_two_eq_bot_of_pCore {L : Subgroup G} (h : CFSG.pCore 2 ↥L = ⊥) :
     CFSG.Open.pCoreOf 2 L = ⊥ := by
   change (CFSG.pCore 2 ↥L).map L.subtype = ⊥
@@ -64,7 +65,7 @@ theorem hj_pCoreOf_le_of_ctx155 (h154 : Item154R) (h415 : Sec4.Item4_15)
       apply hLX
       rw [hfac, hO2L, sup_bot_eq]
       exact inf_le_right
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact Sylow155R1.pCoreOf_le_pCoreOf_of_le_sup hC.le_k hKX.le
 
 theorem res1L112InPtJ2K_j2_of (hfix : J2AutFixNine) (hE25 : J2HasE25) (h415 : Sec4.Item4_15)

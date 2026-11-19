@@ -788,8 +788,8 @@ end Sec6L51B
 
 theorem sec6Lemma51_b
     {X : Type} [Group X] [Finite X] (hc : SolCEx X) {n : ℕ}
-    (hn : IsMaxAhatDeg X n) (H : Subgroup X) (hH : H ≠ ⊤) (t : X) (htH : t ∈ H)
-    (ht : orderOf t = 2) :
+    (hn : IsMaxAhatDeg X n) (H : Subgroup X) (hH : H ≠ ⊤) (t : X) (_htH : t ∈ H)
+    (_ht : orderOf t = 2) :
     Sec6K X n (H ⊓ cen t) ≤ Sec6K X n H ∧ Sec6M X n (H ⊓ cen t) ≤ Sec6M X n H :=
   Sec6L51B.sec6K_le_of_le hc.toSolMinCEx hn hH inf_le_left
 

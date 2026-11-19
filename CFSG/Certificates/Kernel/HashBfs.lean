@@ -48,6 +48,7 @@ def outerH (st : Nat → α → α) (k : Nat) (_x : Nat) (s : HSt α) : Id (ForI
       (s1.1, s1.2.1, s1.2.2.1, s1.2.2.2, s.2.2.2.2 + 1)))
   else pure (ForInStep.yield (s.1, s.2.1, s.2.2.1, s.2.2.2.1, s.2.2.2.2))
 
+omit [LawfulBEq α] in
 theorem hashBfs_eq_loop (root : α) (st : Nat → α → α) (k cap : Nat) :
     hashBfs root st k cap =
       ((Id.run (forIn (List.range' 0 cap) ((#[root], #[0], #[0],
@@ -79,6 +80,7 @@ theorem forIn_rel {β γ : Type} (Rl : Nat → β → γ → Prop)
 def SeenRel (κ : α → Nat) (A : Std.HashSet α) (K : Std.HashSet Nat) : Prop :=
   ∀ y, A.contains y = K.contains (κ y)
 
+omit [Inhabited α] in
 theorem seenRel_insert {κ : α → Nat} (hκ : Function.Injective κ) {A : Std.HashSet α}
     {K : Std.HashSet Nat} (h : SeenRel κ A K) (x : α) :
     SeenRel κ (A.insert x) (K.insert (κ x)) := by

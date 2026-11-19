@@ -16,11 +16,10 @@ theorem lieOrderFormula_le_of_k2Lie_five {d : LieTypeIndex} (h : k2Lie 5 d) :
     lieOrderFormula d ≤ CFSG.Open.ordTwistedF4 32 := by
   unfold k2Lie at h
   split at h
-  all_goals first
+  all_goals try first
     | exact h.elim
     | (exfalso; have h1 := h.1; omega)
     | (exfalso; rcases h with h | h <;> (have h1 := h.1; omega))
-    | skip
   · norm_num [lieOrderFormula, CFSG.Open.orderTits, CFSG.Open.ordTwistedF4]
   · rename_i k
     obtain rfl : k = 2 := by
@@ -61,7 +60,7 @@ theorem i137Order5_holds :
       · exact Or.inr h2
       · exfalso
         unfold fullCoverLevel at hlev
-        rw [if_neg h1, if_neg h2] at hlev
+        rw [ite_eq_right h1, ite_eq_right h2] at hlev
         split_ifs at hlev <;> omega
   rcases h12 with ⟨-, h5⟩ | ⟨-, hc⟩
   ·

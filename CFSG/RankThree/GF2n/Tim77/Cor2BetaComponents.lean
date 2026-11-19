@@ -26,6 +26,7 @@ structure Cor2BetaB4Core (K : Subgroup Y) : Prop where
 
 variable {K : Subgroup Y}
 
+omit [Finite Y] in
 theorem Cor2BetaB4Core.normal (h : Cor2BetaB4Core K) : K.Normal := by
   refine ⟨fun x hx y => ?_⟩
   obtain ⟨k, hk, c, hc, rfl⟩ := h.fac y
@@ -37,6 +38,7 @@ theorem Cor2BetaB4Core.normal (h : Cor2BetaB4Core K) : K.Normal := by
   rw [this]
   exact K.mul_mem (K.mul_mem hk hx) (K.inv_mem hk)
 
+omit [Finite Y] in
 theorem Cor2BetaB4Core.central_mem (h : Cor2BetaB4Core K) (P : Sylow 2 Y) {z : Y} (hz : z ∈ K)
     (hzc : ∀ k ∈ K, k * z = z * k) : z ∈ (P : Subgroup Y) := by
   have hcen : ∀ y : Y, y * z = z * y := by
@@ -56,7 +58,7 @@ theorem Cor2BetaB4Core.central_mem (h : Cor2BetaB4Core K) (P : Sylow 2 Y) {z : Y
     rw [Subgroup.coe_pow, ← hm, ← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast, hn,
       one_zpow]
     rfl
-  haveI : (Subgroup.zpowers z).Normal := by
+  have : (Subgroup.zpowers z).Normal := by
     refine ⟨fun x hx g => ?_⟩
     obtain ⟨m, rfl⟩ := Subgroup.mem_zpowers_iff.mp hx
     have : g * z ^ m * g⁻¹ = z ^ m := by
@@ -66,6 +68,7 @@ theorem Cor2BetaB4Core.central_mem (h : Cor2BetaB4Core K) (P : Sylow 2 Y) {z : Y
     exact Subgroup.zpow_mem_zpowers z m
   exact IsPGroup.le_sylow_of_normal hp P (Subgroup.mem_zpowers z)
 
+omit [Finite Y] in
 theorem Cor2BetaB4Core.mem_sylow_of_mul (h : Cor2BetaB4Core K) (P : Sylow 2 Y) {k c : Y}
     (hk : k ∈ K) (hc : c ∈ Subgroup.centralizer (K : Set Y)) (hkc : k * c ∈ (P : Subgroup Y)) :
     k ∈ (P : Subgroup Y) := by
@@ -83,7 +86,7 @@ theorem Cor2BetaB4Core.mem_sylow_of_mul (h : Cor2BetaB4Core K) (P : Sylow 2 Y) {
             _ = (a * c₁) * (b * c₂) := by group
         rw [e]
         exact (P : Subgroup Y).mul_mem hac hbc
-      one_mem' := ⟨K.one_mem, 1, C.one_mem, by simpa using (P : Subgroup Y).one_mem⟩
+      one_mem' := ⟨K.one_mem, 1, C.one_mem, by simp⟩
       inv_mem' := by
         rintro a ⟨ha, c₁, hc₁, hac⟩
         refine ⟨K.inv_mem ha, c₁⁻¹, C.inv_mem hc₁, ?_⟩
@@ -103,7 +106,7 @@ theorem Cor2BetaB4Core.mem_sylow_of_mul (h : Cor2BetaB4Core K) (P : Sylow 2 Y) {
             _ = (a₁ * b₁) * (a₂ * b₂) := by group
         rw [e]
         exact (P : Subgroup Y).mul_mem h₁ h₂
-      one_mem' := ⟨C.one_mem, 1, K.one_mem, by simpa using (P : Subgroup Y).one_mem⟩
+      one_mem' := ⟨C.one_mem, 1, K.one_mem, by simp⟩
       inv_mem' := by
         rintro b ⟨hb, a₁, ha₁, h₁⟩
         refine ⟨C.inv_mem hb, a₁⁻¹, K.inv_mem ha₁, ?_⟩
@@ -115,7 +118,7 @@ theorem Cor2BetaB4Core.mem_sylow_of_mul (h : Cor2BetaB4Core K) (P : Sylow 2 Y) {
   have hπK : IsPGroup 2 πK := by
     intro x
     obtain ⟨hxK, c₁, hc₁, hxc⟩ := x.2
-    obtain ⟨m, hm⟩ := P.isPGroup' ⟨(x : Y) * c₁, hxc⟩
+    obtain ⟨m, hm⟩ := P.isPGroup ⟨(x : Y) * c₁, hxc⟩
     have hm' : ((x : Y) * c₁) ^ 2 ^ m = 1 := by simpa using congrArg Subtype.val hm
     have hcomm : Commute (x : Y) c₁ := hKC _ hxK _ hc₁
     rw [hcomm.mul_pow] at hm'
@@ -133,7 +136,7 @@ theorem Cor2BetaB4Core.mem_sylow_of_mul (h : Cor2BetaB4Core K) (P : Sylow 2 Y) {
   have hπC : IsPGroup 2 πC := by
     intro x
     obtain ⟨hxC, a₁, ha₁, hxa⟩ := x.2
-    obtain ⟨m, hm⟩ := P.isPGroup' ⟨a₁ * (x : Y), hxa⟩
+    obtain ⟨m, hm⟩ := P.isPGroup ⟨a₁ * (x : Y), hxa⟩
     have hm' : (a₁ * (x : Y)) ^ 2 ^ m = 1 := by simpa using congrArg Subtype.val hm
     have hcomm : Commute a₁ (x : Y) := hKC _ ha₁ _ hxC
     rw [hcomm.mul_pow] at hm'
@@ -184,8 +187,8 @@ theorem Cor2BetaB4Core.mem_sylow_of_mul (h : Cor2BetaB4Core K) (P : Sylow 2 Y) {
 
 theorem Cor2BetaB4Core.exists_sylow (h : Cor2BetaB4Core K) (P : Sylow 2 Y) :
     ∃ PK : Sylow 2 ↥K, ∀ x : ↥K, x ∈ (PK : Subgroup ↥K) ↔ (x : Y) ∈ (P : Subgroup Y) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := h.normal
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := h.normal
   obtain ⟨PK, hPK⟩ := CFSG.Glauberman.sylow_inf_normal P (N := K)
   refine ⟨PK, fun x => ?_⟩
   rw [hPK, Subgroup.mem_subgroupOf, Subgroup.mem_inf]
@@ -198,7 +201,7 @@ theorem cor2Beta_b4_mem_smul {A : Type} [Group A] (T : Sylow 2 A) (g y : A) :
 
 theorem Cor2BetaB4Core.exists_conj (h : Cor2BetaB4Core K) (P P' : Sylow 2 Y) :
     ∃ k ∈ K, ∀ x ∈ K, x ∈ (P' : Subgroup Y) → k * x * k⁻¹ ∈ (P : Subgroup Y) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨PK, hPK⟩ := h.exists_sylow P
   obtain ⟨PK', hPK'⟩ := h.exists_sylow P'
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq ↥K PK' PK
@@ -218,6 +221,7 @@ section CentralQuotient
 
 variable {A : Type} [Group A] [Finite A]
 
+omit [Finite A] in
 theorem cor2Beta_b4_lift_normalizer {T : Subgroup A} (hZT : Subgroup.center A ≤ T)
     {n : A ⧸ Subgroup.center A}
     (hn : n ∈ Subgroup.normalizer ((T.map (QuotientGroup.mk' (Subgroup.center A)) :
@@ -237,6 +241,7 @@ theorem cor2Beta_b4_lift_normalizer {T : Subgroup A} (hZT : Subgroup.center A �
   rw [h1] at this
   exact this
 
+omit [Finite A] in
 theorem cor2Beta_b4_abelian (T : Sylow 2 A) (hZT : Subgroup.center A ≤ (T : Subgroup A))
     {τ : A} (hτT : τ ∈ (T : Subgroup A)) (hτc : ∀ x ∈ (T : Subgroup A), x * τ = τ * x)
     (hτZ : τ ∉ Subgroup.center A)
@@ -303,14 +308,14 @@ theorem cor2Beta_b4_isPGroup_pair {M : Type} [Group M] {u v : M} (hu : u * u = 1
 
 theorem cor2Beta_b4_lift_commute (T : Sylow 2 A) (hZT : Subgroup.center A ≤ (T : Subgroup A))
     (hTab : ∀ a ∈ (T : Subgroup A), ∀ b ∈ (T : Subgroup A), a * b = b * a)
-    {τ : A} (hτT : τ ∈ (T : Subgroup A)) (hτ2 : τ * τ ∈ Subgroup.center A) (x₀ : A)
+    {τ : A} (_hτT : τ ∈ (T : Subgroup A)) (hτ2 : τ * τ ∈ Subgroup.center A) (x₀ : A)
     (hy : QuotientGroup.mk' (Subgroup.center A) (x₀ * τ * x₀⁻¹) *
         QuotientGroup.mk' (Subgroup.center A) τ =
       QuotientGroup.mk' (Subgroup.center A) τ *
         QuotientGroup.mk' (Subgroup.center A) (x₀ * τ * x₀⁻¹)) :
     (x₀ * τ * x₀⁻¹) * τ = τ * (x₀ * τ * x₀⁻¹) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set q := QuotientGroup.mk' (Subgroup.center A) with hq
   have hq0 : Function.Surjective q := QuotientGroup.mk'_surjective _
   have hs2 : q τ * q τ = 1 := by
@@ -357,7 +362,7 @@ theorem cor2Beta_b4_isBender [IsSimpleGroup (A ⧸ Subgroup.center A)]
     (hAw : ∀ x : A, (x * τ * x⁻¹) * τ = τ * (x * τ * x⁻¹) → x * τ * x⁻¹ ∈ (T : Subgroup A)) :
     CFSG.BenderSuzuki.IsBenderGroup (A ⧸ Subgroup.center A) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_cases hB : CFSG.Open.fusionIsBenderGroup (A ⧸ Subgroup.center A)
   · exact CFSG.Timmesfeld.Bridge.isBenderGroup_of_fusionIsBenderGroup hB
   set q := QuotientGroup.mk' (Subgroup.center A) with hq
@@ -415,6 +420,7 @@ theorem cor2Beta_b4_exists_two {M : Type} [Group M] (Zc : Subgroup M) (h4 : 4 �
   simp only [Set.mem_insert_iff, Set.mem_singleton_iff, not_or] at hw₁' hw₂'
   exact ⟨w₁, hw₁, w₂, hw₂, hw₁'.1, hw₁'.2, hw₂'.1, hw₂'.2.1, fun h => hw₂'.2.2 h.symm⟩
 
+omit [Finite A] in
 theorem cor2Beta_b4_conj_central (T : Subgroup A) {τ x : A} (hτT : τ ∈ T)
     (hτc : ∀ y ∈ T, y * τ = τ * y) (hx : x ∈ Subgroup.normalizer (T : Set A)) :
     x * τ * x⁻¹ ∈ T ∧ ∀ y ∈ T, y * (x * τ * x⁻¹) = (x * τ * x⁻¹) * y := by
@@ -440,7 +446,7 @@ theorem cor2Beta_b4_two_elements
       x₁ * τ * x₁⁻¹ * τ⁻¹ ∉ Subgroup.center A ∧ x₂ * τ * x₂⁻¹ * τ⁻¹ ∉ Subgroup.center A ∧
       (x₁ * τ * x₁⁻¹ * τ⁻¹) * (x₂ * τ * x₂⁻¹ * τ⁻¹) ∉ Subgroup.center A := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set q := QuotientGroup.mk' (Subgroup.center A) with hq
   have hq0 : Function.Surjective q := QuotientGroup.mk'_surjective _
   set TL := Sylow.mapSurjective hq0 T with hTLdef
@@ -523,6 +529,7 @@ section ClaimData
 
 variable {Y : Type} [Group Y] [Finite Y]
 
+omit [Finite Y] in
 theorem cor2Beta_b4_mul_comm {K : Subgroup Y} {a b c : Y} (ha : a ∈ K) (hb : b ∈ K)
     (hc : c ∈ Subgroup.centralizer (K : Set Y)) (hab : a * b = b * a) :
     (a * c) * (b * c) = (b * c) * (a * c) := by
@@ -556,8 +563,8 @@ theorem cor2Beta_b4_claim {K : Subgroup Y} (hK : Cor2BetaB4Core K)
       ∃ v₁ v₂ : Y, Cor2BetaB4Out K (P : Subgroup Y) t v₁ ∧ Cor2BetaB4Out K (P : Subgroup Y) t v₂ ∧
         v₁ * v₂ = v₂ * v₁ ∧ ∃ k ∈ K, k * (v₁ * v₂) ≠ (v₁ * v₂) * k := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hKn : K.Normal := hK.normal
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hKn : K.Normal := hK.normal
   obtain ⟨τ₀, hτ₀K, c, hc, htτc⟩ := hK.fac t
   have hcK : ∀ k ∈ K, k * c = c * k := fun k hk => Subgroup.mem_centralizer_iff.mp hc k hk
   have hτ₀P : τ₀ ∈ (P : Subgroup Y) := hK.mem_sylow_of_mul P hτ₀K hc (htτc ▸ htP)
@@ -750,7 +757,7 @@ theorem cor2Beta_b4_noncentral_conj {X : Type} [Group X] {t : X} {Kb : Subgroup 
     have : a₁ = t := ha₁
     subst this
     exact (hcon g y hy).symm.symm
-  haveI : Subsingleton (↥Kb ⧸ Subgroup.center ↥Kb) := by
+  have : Subsingleton (↥Kb ⧸ Subgroup.center ↥Kb) := by
     refine ⟨fun a b => ?_⟩
     obtain ⟨a, rfl⟩ := QuotientGroup.mk_surjective a
     obtain ⟨b, rfl⟩ := QuotientGroup.mk_surjective b
@@ -787,13 +794,13 @@ theorem cor2Beta_b4_final {X : Type} [Group X] [Finite X] {Hb Kb : Subgroup X} [
       ∃ V : Subgroup X, V ≤ Kb ∧ V ≤ CFSG.LargeExtraspecial.S11.wcl t ∧ IsKleinFour ↥V ∧
         ∀ v ∈ V, v ≠ 1 → ∃ k ∈ Kb, k * v ≠ v * k := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hWS, hsc⟩ := CFSG.LargeExtraspecial.S11.wcl_stronglyClosed S htS htc hab
   set KY : Subgroup ↥Hb := Kb.subgroupOf Hb with hKY
   let eK : ↥KY ≃* ↥Kb := Subgroup.subgroupOfEquivOfLe hKH
   obtain ⟨eQ⟩ := cor2Beta_b4_quotCenter_equiv eK
-  haveI := hKs
-  haveI hKYs : IsSimpleGroup (↥KY ⧸ Subgroup.center ↥KY) := eQ.isSimpleGroup
+  have := hKs
+  have hKYs : IsSimpleGroup (↥KY ⧸ Subgroup.center ↥KY) := eQ.isSimpleGroup
   have hGtY : goldschmidtSimpleType (↥KY ⧸ Subgroup.center ↥KY) :=
     CFSG.CGT.T75D.goldschmidtSimpleType_of_mulEquiv eQ.symm hGt
   obtain ⟨g₀, y₀, hy₀K, hy₀⟩ := cor2Beta_b4_noncentral_conj (t := t) (hKH.trans hHt) hKs
@@ -979,7 +986,7 @@ theorem cor2Beta_b4_central_two_power {Y : Type} [Group Y] [Finite Y]
     exact Nat.mul_div_cancel_left m (by positivity)
   have hwc : ∀ y : Y, y * w = w * y := fun y =>
     (Commute.pow_right (show Commute y z from hz y) _).eq
-  haveI hRn : (Subgroup.zpowers w).Normal := by
+  have hRn : (Subgroup.zpowers w).Normal := by
     refine ⟨fun x hx g => ?_⟩
     obtain ⟨j, rfl⟩ := Subgroup.mem_zpowers_iff.mp hx
     have : g * w ^ j * g⁻¹ = w ^ j := by
@@ -1006,13 +1013,13 @@ theorem cor2Beta_b4_core_of_goldschmidt {Q Y : Type} [Group Q] [Group Y] [Finite
       goldschmidtSimpleType (↥K' ⧸ Subgroup.center ↥K'))
     (hO : goldschmidtOddCore Y = ⊥) {K : Subgroup Y} (hKc : IsComponentOf K ⊤) :
     Cor2BetaB4Core K ∧ goldschmidtSimpleType (↥K ⧸ Subgroup.center ↥K) := by
-  haveI : Finite Q := Finite.of_equiv Y ψ.symm
+  have : Finite Q := Finite.of_equiv Y ψ.symm
   set K' : Subgroup Q := K.map ψ.symm.toMonoidHom with hK'
   have hK'c : IsComponentOf K' ⊤ :=
     (CFSG.isComponent_iff_open K').mp
       (CFSG.LocalCores.isComponent_map_mulEquiv ψ.symm ((CFSG.isComponent_iff_open K).mpr hKc))
   have hsup := CFSG.CGT.T75D.comp_sup_centralizer ha hK'c
-  haveI hnorm := CFSG.CGT.T75D.comp_normal ha hK'c
+  have hnorm := CFSG.CGT.T75D.comp_normal ha hK'c
   have hfac : ∀ y : Y, ∃ k ∈ K, ∃ c ∈ Subgroup.centralizer (K : Set Y), y = k * c := by
     intro y
     have hy : ψ.symm y ∈ K' ⊔ Subgroup.centralizer (K' : Set Q) := by
@@ -1117,7 +1124,7 @@ theorem cor2Beta_component_data {G : Type} [Group G] [Finite G]
         V ≤ (CFSG.LargeExtraspecial.S11.wcl t).map (QuotientGroup.mk' N) ∧ IsKleinFour ↥V ∧
         ∀ v ∈ V, v ≠ 1 → ∃ k ∈ Kb, k * v ≠ v * k := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hπs : Function.Surjective (QuotientGroup.mk' N) := QuotientGroup.mk'_surjective N
   have hNodd : Odd (Nat.card N) := by
     rw [hN]
@@ -1142,7 +1149,7 @@ theorem cor2Beta_component_data {G : Type} [Group G] [Finite G]
   set M : Subgroup G := Subgroup.normalClosure ((CFSG.LargeExtraspecial.S11.wcl t : Subgroup G) :
     Set G) with hM
   have hMn : M.Normal := inferInstance
-  haveI hHbn : (M.map (QuotientGroup.mk' N)).Normal := hMn.map _ hπs
+  have hHbn : (M.map (QuotientGroup.mk' N)).Normal := hMn.map _ hπs
   have hKH : Kb ≤ M.map (QuotientGroup.mk' N) := hK.1
   have hOY : goldschmidtOddCore ↥(M.map (QuotientGroup.mk' N)) = ⊥ :=
     cor2Beta_b4_oddCore_bot M N hN

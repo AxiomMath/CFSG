@@ -84,7 +84,7 @@ theorem inf_S_eq_of_mem_RSet (hΩ : HM MT Ω) {S : Sylow 2 G}
     {M R' : Subgroup G} (hM : M ∈ Ω) (hR' : R' ∈ RSet Ω) (hR'M : R' ≤ M)
     (hR'S : R' ≤ (S : Subgroup G)) : M ⊓ (S : Subgroup G) = R' := by
   have hsyl : IsSylow2In R' M := hΩ.isSylow2In_of_mem_RSet_of_le hM hR' hR'M
-  exact hsyl.eq_of_le (S.isPGroup'.to_le inf_le_right) inf_le_left (le_inf hR'M hR'S)
+  exact hsyl.eq_of_le (S.isPGroup.to_le inf_le_right) inf_le_left (le_inf hR'M hR'S)
 
 theorem MinCex.inf_W_mem_USet (c : MinCex MT Ω K S R W H) (hA : EtaAbelian Ω) (hM : EtaMeet Ω)
     {M R' : Subgroup G} (hMΩ : M ∈ Ω) (hR' : R' ∈ RSet Ω) (hR'M : R' ≤ M)

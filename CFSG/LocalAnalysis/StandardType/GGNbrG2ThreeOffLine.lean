@@ -146,7 +146,7 @@ private lemma finite_check {K : Type} [Field K]
     (h0 : ∃ k : ℤ, c ^ k = fun j => c j * c g2ia ^ (-Tag.G2.cartan g2ia j))
     (h1 : ∃ k : ℤ, c ^ k = fun j => c j * c g2ir ^ (-Tag.G2.cartan g2ir j)) :
     False := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hcart10 : (-Tag.G2.cartan g2ir g2ia) = ((3:ℕ):ℤ) := by decide
   have hcart11 : (-Tag.G2.cartan g2ir g2ir) = -2 := by decide
   have hcart01 : (-Tag.G2.cartan g2ia g2ir) = 1 := by decide

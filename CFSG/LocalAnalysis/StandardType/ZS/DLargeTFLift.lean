@@ -124,7 +124,7 @@ private theorem blockSucc_le [Module.Finite (ZMod p) W]
     basisClosure f (Matrix.blockSucc '' S) ≤ X := by
   rw [basisClosure, Subgroup.closure_le]
   rintro u hu
-  rw [Set.mem_setOf_eq] at hu
+  rw [Set.mem_ofPred_eq] at hu
   obtain ⟨M, hM, huM⟩ := hu
   have huM' : LinearMap.toMatrix f f (u : W →ₗ[ZMod p] W) = Matrix.blockSucc M := huM.symm
   obtain ⟨huC, huV⟩ := blockSucc_data hX hW hf hflast huM'

@@ -36,7 +36,7 @@ theorem o8mMinor_one {R : Type*} [CommRing R] (i : Fin 3) :
     by_cases hab : a = b
     · subst hab; simp
     · have hne : o8mMT_e i a ≠ o8mMT_e i b := fun h => hab (o8mMT_e_injective i h)
-      rw [if_neg hne, if_neg hab]
+      rw [ite_eq_right hne, ite_eq_right hab]
   rw [hmat, Matrix.det_one]
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {b c : K}

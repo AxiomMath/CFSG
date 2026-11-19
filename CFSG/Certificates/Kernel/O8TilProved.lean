@@ -95,7 +95,7 @@ theorem beq_dig4 {a b : ℕ} (ha : a < 4096) (hb : b < 4096) : (dig4 a == dig4 b
     · rfl
     · exact absurd (Nat.eq_of_beq_eq_true h) e
 
-theorem mv4_beq {A n m : ℕ} (hn : n < 4096) (hm : m < 4096) :
+theorem mv4_beq {A n m : ℕ} (_hn : n < 4096) (hm : m < 4096) :
     (mv4 (dec4M A) (dig4 n) == dig4 m) = Nat.beq (mv4K A n) m := by
   rw [← dig4_mv4K, beq_dig4 (mv4K_lt _ _) hm]
 
@@ -237,7 +237,7 @@ theorem sum4096 (p : ℕ → Bool) :
   rw [sumBelow_sumN, ← sumN_ind]
   apply sumN_congr
   intro i hi
-  rw [nIf_eq, if_pos (by rw [Nat.blt_eq]; omega)]
+  rw [nIf_eq, ite_eq_left (by rw [Nat.blt_eq]; omega)]
 
 theorem mtAt_lt (MT i j : ℕ) : mtAt MT i j < 128 := fget_lt _ _ 7
 
@@ -249,8 +249,8 @@ theorem close_of {TL MT : ℕ} (hc : ∀ c < 16, closeOK TL MT c = true) {i j : 
     strictN_eq] at h1
   exact Nat.eq_of_beq_eq_true (allN_iff.1 (nIf_one h1) j hj)
 
-theorem red2Tab_get (TL : ℕ) {i : ℕ} (hi : i < 128) : fget (red2Tab TL) i 36 = red2K (tilAt TL i) :=
-  fget_orN (fun i _ => red2K_lt _) hi
+theorem red2Tab_get (TL : ℕ) {_i : ℕ} (hi : _i < 128) : fget (red2Tab TL) _i 36 = red2K (tilAt TL _i) :=
+  fget_orN (fun _i _ => red2K_lt _) hi
 
 structure TabFacts (G C U X : ℕ) (UW : List (List ℕ)) (TL MT XI UI : ℕ) : Prop where
   one : tilAt TL 0 = ONE
@@ -351,7 +351,7 @@ theorem til_sound_proved {q : ℕ → Bool} {n0 : ℕ} {G C U : ℕ → Array �
             (Nat.beq (wordRowsK GP w) (bmulK (reflRowsK Q n0) (bmulK (mat GP s) (reflRowsK Q n0))))))
           (wordOf RW s)))) = true := by
       by_contra hne
-      rw [if_neg hne] at hx
+      rw [ite_eq_right hne] at hx
       exact absurd hx (by decide)
     simp only [andB_eq, Bool.and_eq_true] at hx'
     obtain ⟨h1, h2, h3⟩ := hx'
@@ -526,9 +526,9 @@ theorem z_sound_proved {G C : ℕ → Array ℕ} {X : Array ℕ} {UW : List (Lis
       unfold tilGenK tilGenG
       rw [nIf_eq]
       by_cases hg : fget TR (i + 1) 10 / 128 < 6
-      · rw [if_pos hg, if_pos (by rw [Nat.blt_eq]; exact hg), wordOf_eq,
+      · rw [ite_eq_left hg, ite_eq_left (by rw [Nat.blt_eq]; exact hg), wordOf_eq,
           prod4K_eq hG hC _ (letters_of (hfa.gens _ hg).1)]
-      · rw [if_neg hg, if_neg (by rw [Nat.blt_eq]; exact hg), hX]
+      · rw [ite_eq_right hg, ite_eq_right (by rw [Nat.blt_eq]; exact hg), hX]
     rw [htr (i + 1) (by omega)]
     refine ⟨⟨h2, h3⟩, ?_⟩
     dsimp only
@@ -563,11 +563,11 @@ theorem z_sound_proved {G C : ℕ → Array ℕ} {X : Array ℕ} {UW : List (Lis
     dsimp only
     rw [hTr]
     by_cases hb : (x / 16777216 == 1) = true
-    · rw [if_pos hb] at h2
-      rw [if_pos hb, ← dec4M_ONE, ← dec4M_add4K]
+    · rw [ite_eq_left hb] at h2
+      rw [ite_eq_left hb, ← dec4M_ONE, ← dec4M_add4K]
       exact beq_iff_eq.1 ((mv4_beq (Nat.mod_lt _ (by norm_num)) (Nat.mod_lt _ (by norm_num))).trans h2)
-    · rw [if_neg hb] at h2
-      rw [if_neg hb, ← dec4M_ONE, ← dec4M_sub4K]
+    · rw [ite_eq_right hb] at h2
+      rw [ite_eq_right hb, ← dec4M_ONE, ← dec4M_sub4K]
       exact beq_iff_eq.1 ((mv4_beq (Nat.mod_lt _ (by norm_num)) (Nat.mod_lt _ (by norm_num))).trans h2)
   ·
     intro n hn

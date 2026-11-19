@@ -23,8 +23,8 @@ theorem permMatrix_mul_transpose (σ : Equiv.Perm (Fin 3)) :
     refine Finset.sum_congr rfl fun j _ => ?_
     by_cases h : j = σ i <;> simp [h]]
   rw [Finset.sum_ite_eq', Matrix.one_apply]
-  simp only [Finset.mem_univ, if_true]
-  by_cases h : i = k <;> simp [h, Equiv.apply_eq_iff_eq]
+  simp only [Finset.mem_univ, ite_true]
+  by_cases h : i = k <;> simp [h]
 
 theorem permMatrix_transpose_mul (σ : Equiv.Perm (Fin 3)) :
     (permMatrix σ : Matrix (Fin 3) (Fin 3) K)ᵀ * permMatrix σ = 1 := by
@@ -44,7 +44,7 @@ theorem permBlockMatrix_transpose_mul (σ : Equiv.Perm (Fin 3)) :
       fromBlocks (permMatrix σ) 0 0 (permMatrix σ) = fromBlocks 0 1 (-1) 0 := by
   rw [fromBlocks_transpose, fromBlocks_multiply, fromBlocks_multiply]
   simp only [Matrix.transpose_zero, Matrix.zero_mul, Matrix.mul_zero, zero_add, add_zero,
-    Matrix.mul_neg, Matrix.neg_mul, Matrix.mul_one, Matrix.one_mul]
+    Matrix.mul_neg, Matrix.neg_mul, Matrix.mul_one]
   rw [permMatrix_transpose_mul]
   simp
 
@@ -133,7 +133,7 @@ theorem exists_realizer_sign {s : SL(2, K)} (hs : IsCubeRootBlock s) (ε : Fin 3
     · have hε' : ε i = -1 := by
         have : ∀ y : ZMod 3, y ≠ 0 → y ≠ 1 → y = -1 := by decide
         exact this (ε i) (hε i) h
-      simp only [Pi.mul_apply, Pi.inv_apply, if_neg h]
+      simp only [Pi.mul_apply, Pi.inv_apply, ite_eq_right h]
       have hx : ε i * Multiplicative.toAdd v i = -(Multiplicative.toAdd v i) := by
         rw [hε']
         exact neg_one_mul (Multiplicative.toAdd v i)

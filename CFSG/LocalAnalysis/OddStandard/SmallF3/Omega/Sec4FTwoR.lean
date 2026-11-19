@@ -36,7 +36,7 @@ private theorem sec4F_swap_ne_self_iff {Ω : Type*} [DecidableEq Ω] {w w' x : �
       exact hw
   · intro h
     by_contra hx
-    push_neg at hx
+    push Not at hx
     exact h (Equiv.swap_apply_of_ne_of_ne hx.1 hx.2)
 
 theorem Sec4FSetup.R_left (h : Sec4FSetup t L S z A B φ) (hT : Sec4FTwo A P x)

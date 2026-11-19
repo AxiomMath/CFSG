@@ -220,7 +220,7 @@ private theorem ggResLineJLabel_A3_of_iso_twA31 {lab : LargeEvenLabel}
   · simp_all
   · obtain ⟨-, h2⟩ := hA3D3
     rw [h2]
-    exact Or.inr ⟨Or.inr rfl, rfl, by simpa using hpq⟩
+    exact Or.inr ⟨Or.inr rfl, rfl, by simp⟩
   · simp_all
   · simp_all
 
@@ -285,14 +285,14 @@ theorem GGResHyp.hasLabel_twA3_of_unitary_six_two_L
     push Not at hlt
     have hk1 : 1 ≤ S.card := by omega
     have hk3 : S.card ≤ 3 := by omega
-    haveI : Group.IsSolvable ↥(unitarySU 2 1 F S.card) :=
+    have : Group.IsSolvable ↥(unitarySU 2 1 F S.card) :=
       WitSU.isSolvable_unitarySU_two_one hM.field hk1 hk3
-    haveI : Group.IsSolvable ↥Jbar :=
+    have : Group.IsSolvable ↥Jbar :=
       Group.isSolvable_of_surjective (f := χ) hχsurj
-    haveI : Group.IsPerfect ↥Jbar := Group.isPerfect_def.mpr hJq.1
-    haveI hsimple : IsSimpleGroup (↥Jbar ⧸ Subgroup.center ↥Jbar) := hJq.2
-    haveI : Nontrivial (↥Jbar ⧸ Subgroup.center ↥Jbar) := inferInstance
-    haveI : Nontrivial ↥Jbar :=
+    have : Group.IsPerfect ↥Jbar := Group.isPerfect_def.mpr hJq.1
+    have hsimple : IsSimpleGroup (↥Jbar ⧸ Subgroup.center ↥Jbar) := hJq.2
+    have : Nontrivial (↥Jbar ⧸ Subgroup.center ↥Jbar) := inferInstance
+    have : Nontrivial ↥Jbar :=
       (QuotientGroup.mk_surjective (s := Subgroup.center ↥Jbar)).nontrivial
     exact (Group.IsPerfect.not_isSolvable ↥Jbar) inferInstance
   have hBsbar : IsElemAbelian 3 Bbar := isElemAbelian_redB hN hBs
@@ -434,14 +434,14 @@ theorem GGResHyp.unitary_six_two_L_facts
     push Not at hlt
     have hk1 : 1 ≤ S.card := by omega
     have hk3 : S.card ≤ 3 := by omega
-    haveI : Group.IsSolvable ↥(unitarySU 2 1 F S.card) :=
+    have : Group.IsSolvable ↥(unitarySU 2 1 F S.card) :=
       WitSU.isSolvable_unitarySU_two_one hM.field hk1 hk3
-    haveI : Group.IsSolvable ↥Jbar :=
+    have : Group.IsSolvable ↥Jbar :=
       Group.isSolvable_of_surjective (f := χ) hχsurj
-    haveI : Group.IsPerfect ↥Jbar := Group.isPerfect_def.mpr hJq.1
-    haveI hsimple : IsSimpleGroup (↥Jbar ⧸ Subgroup.center ↥Jbar) := hJq.2
-    haveI : Nontrivial (↥Jbar ⧸ Subgroup.center ↥Jbar) := inferInstance
-    haveI : Nontrivial ↥Jbar :=
+    have : Group.IsPerfect ↥Jbar := Group.isPerfect_def.mpr hJq.1
+    have hsimple : IsSimpleGroup (↥Jbar ⧸ Subgroup.center ↥Jbar) := hJq.2
+    have : Nontrivial (↥Jbar ⧸ Subgroup.center ↥Jbar) := inferInstance
+    have : Nontrivial ↥Jbar :=
       (QuotientGroup.mk_surjective (s := Subgroup.center ↥Jbar)).nontrivial
     exact (Group.IsPerfect.not_isSolvable ↥Jbar) inferInstance
   have hd3 : 3 ≤ S.card := by omega
@@ -513,7 +513,7 @@ theorem GGResHyp.unitary_six_two_L_facts
       Subgroup.centralizer (Jbar : Set (RedGrp L)) :=
     ggUnitaryModel_fix_mem_centralizer (K := F) (n := 1) (d := S.card) (p := 3)
       hBJ hBsbar hSCbar hMχ hd3 hχdiagRange bbar hfixbar
-  letI : Group.IsPerfect ↥J := Group.isPerfect_def.mpr hJperf
+  let : Group.IsPerfect ↥J := Group.isPerfect_def.mpr hJperf
   let bJ : ↥(Subgroup.normalizer (J : Set G)) := ⟨(b : G), hNJ b.2⟩
   let α : MulAut ↥J := J.normalizerMonoidHom bJ
   have hαcoe : ∀ jj : ↥J, ((α jj : ↥J) : G) =
@@ -607,7 +607,7 @@ theorem GGResHyp.not_exactThree_L_A_of_unitary_six_two_L_card
     : ¬ GGResLeviDatumExact3 3 Bs L J K ggSelAny (ggTypLADvd 3) := by
   intro hD
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Λ, i1, i2, S, Λa, i3, i4, ML, CL, MK, CK, V, i5, i6, ι, φ, h, α,
     hS3, hA1, hA3, hWML, hCLL, hWMK, hCKK, htyp, hlin, hrefl, hpairL, hpairK, hsel,
     ⟨fL, hfL⟩, ⟨fK, hfK⟩, hclosL, hclosK, hdel, hclosJ⟩ := hD
@@ -660,7 +660,7 @@ theorem GGResHyp.not_exactThree_K_A_of_unitary_six_two_L_bounds
     : ¬ GGResLeviDatumExact3 3 Bs K J L ggSelAny (ggTypLADvd 3) := by
   intro hD
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Λ, i1, i2, S, Λa, i3, i4, ML, CL, MK, CK, V, i5, i6, ι, φ, h, α,
     hS3, hA1, hA3, hWML, hCLL, hWMK, hCKK, htyp, hlin, hrefl, hpairL, hpairK, hsel,
     ⟨fL, hfL⟩, ⟨fK, hfK⟩, hclosL, hclosK, hdel, hclosJ⟩ := hD
@@ -684,7 +684,7 @@ theorem GGResHyp.not_exactThree_K_A_of_unitary_six_two_L_bounds
       (fun i => φ (Sum.inl i)) (fun i => h (Sum.inl i)) (fun i => α (Sum.inl i))
       hWML hCLL (fun i w => hlin (Sum.inl i) w) (fun i => hrefl (Sum.inl i)) hpairL
       haxis S hS3 hclosJ hfwd
-  letI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  let : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
   have hcardBs : Nat.card Bs = 3 ^ n := by
     calc Nat.card Bs = Nat.card V := card_eq_of_ggLin ι
       _ = 3 ^ Module.finrank (ZMod 3) V :=
@@ -769,7 +769,7 @@ theorem GGResHyp.not_exactThree_either_of_unitary_six_two_L
     (hrow : ¬ GGResRowAt ggRowTwoNode 3 J L) :
     ¬ (GGResLeviDatumExact3 3 Bs L J K ggSelAny ggTypAny ∨
       GGResLeviDatumExact3 3 Bs K J L ggSelAny ggTypAny) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rintro (hL | hK)
   · exact hH.not_exactThree_L_of_unitary_six_two_L hMark hL
   · have hfwd := hH.fix_mem_centralizer_J_of_unitary_six_two_L hMark

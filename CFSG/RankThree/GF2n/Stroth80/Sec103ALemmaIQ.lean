@@ -97,7 +97,7 @@ theorem Good101.eq_one_of_mul_mem_QB_conj (h34 : Stroth34Statement)
       hcW
 
 private theorem centralizer_of_comm_mem_QB_of_line (hc : Ctx M Q Z B) {t c : G}
-    {X : Subgroup G} (hX : Ctx M Q Z X) (hcQ : c ∈ Q) {d₀ : G} (hd₀D : d₀ ∈ Q ⊓ QB X)
+    {X : Subgroup G} (hX : Ctx M Q Z X) (hcQ : c ∈ Q) {d₀ : G} (_hd₀D : d₀ ∈ Q ⊓ QB X)
     (hx₀c : ⁅d₀, t⁆ * c = c * ⁅d₀, t⁆) (hx₀X : ⁅d₀, t⁆ ∈ X)
     (hx₀Z : ⁅d₀, t⁆ ∉ Z) : c ∈ Subgroup.centralizer (X : Set G) := by
   obtain ⟨K, _, _, _, γ, M₀, hD⟩ := stroth_globalModelData hc.hyp

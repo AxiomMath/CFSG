@@ -14,6 +14,7 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau : G}
 
+omit [Finite G] in
 private lemma comm_of_commutator_eq_one {a b : G} (h : a * b * a⁻¹ * b⁻¹ = 1) : a * b = b * a := by
   have h1 : a * b * a⁻¹ = b := by
     calc a * b * a⁻¹ = a * b * a⁻¹ * b⁻¹ * b := by group
@@ -22,6 +23,7 @@ private lemma comm_of_commutator_eq_one {a b : G} (h : a * b * a⁻¹ * b⁻¹ =
   calc a * b = a * b * a⁻¹ * a := by group
     _ = b * a := by rw [h1]
 
+omit [Finite G] in
 private lemma inv_comm {a b : G} (h : a * b = b * a) : a⁻¹ * b = b * a⁻¹ := by
   have h2 : b * a⁻¹ = a⁻¹ * b := by
     calc b * a⁻¹ = a⁻¹ * (a * b) * a⁻¹ := by group
@@ -29,6 +31,7 @@ private lemma inv_comm {a b : G} (h : a * b = b * a) : a⁻¹ * b = b * a⁻¹ :
       _ = a⁻¹ * b := by group
   exact h2.symm
 
+omit [Finite G] in
 private lemma conj_mul_comm {a b c : G} (hb : b * c = c * b) (ha : a * c = c * a) :
     (a * b * a⁻¹) * c = c * (a * b * a⁻¹) := by
   have ha' : a⁻¹ * c = c * a⁻¹ := inv_comm ha

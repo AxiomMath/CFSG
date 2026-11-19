@@ -91,6 +91,7 @@ private theorem q13d_B_odd_comm_P (h : Q13Om t L S x₁ x₂ lam rho tau om)
   rw [hb_eq]
   exact hc2.pow_left (m + 1)
 
+omit [Finite G] in
 private theorem q13d_B_odd_conj_pow {b t p0 : G} (hcommb : Commute b p0)
     (hp0eq : b * t * b⁻¹ = t * p0) :
     ∀ j : ℕ, b ^ j * t * (b ^ j)⁻¹ = t * p0 ^ j := by

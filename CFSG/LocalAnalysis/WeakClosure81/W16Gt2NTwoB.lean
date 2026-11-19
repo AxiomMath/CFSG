@@ -30,7 +30,7 @@ theorem isPerfect_hatK (hn : 2 ≤ E3.mQuot V (U ⊔ V₀)) (h1 : W16One G) (h5 
   let Lhat : Subgroup (LGL 2 Mo.W) := Mo.img (V ⊔ conjSubgroup V g)
   let C : Subgroup (LGL 2 Mo.W) := ⁅Khat, Khat⁆
   have hLK : Lhat ≤ Khat := Mo.img_mono c.L_le_conjClosure
-  haveI hperfL : Group.IsPerfect ↥Lhat := isPerfect_hatL hn h1 h5 h15 hS c Mo
+  have hperfL : Group.IsPerfect ↥Lhat := isPerfect_hatL hn h1 h5 h15 hS c Mo
   have hLcomm : ⁅Lhat, Lhat⁆ = Lhat := Subgroup.isPerfect_iff.mp hperfL
   have hLC : Lhat ≤ C := by
     rw [show Lhat = ⁅Lhat, Lhat⁆ from hLcomm.symm]
@@ -81,8 +81,8 @@ theorem ker_hatBar (hn : 2 ≤ E3.mQuot V (U ⊔ V₀)) (h1 : W16One G) (h5 : W1
     (h15 : W16Fifteen G) (hS : Std15 G) (c : Cfg1620 M V₀ V U S R H g B)
     (Mo : ModDataE H (conjClosure (U ⊔ V₀) H)) :
     (hatBar Mo V).ker = Subgroup.center ↥(hatK Mo V) := by
-  haveI hperf : Group.IsPerfect ↥(hatK Mo V) := isPerfect_hatK hn h1 h5 h15 hS c Mo
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hperf : Group.IsPerfect ↥(hatK Mo V) := isPerfect_hatK hn h1 h5 h15 hS c Mo
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   ext k
   constructor
   · intro hk
@@ -127,8 +127,8 @@ theorem odd_card_center_hatX (hn : 2 ≤ E3.mQuot V (U ⊔ V₀)) (h1 : W16One G
     (h15 : W16Fifteen G) (hS : Std15 G) (c : Cfg1620 M V₀ V U S R H g B)
     (Mo : ModDataE H (conjClosure (U ⊔ V₀) H)) :
     Odd (Nat.card (Subgroup.center (hatX Mo V))) := by
-  haveI hperf : Group.IsPerfect ↥(hatK Mo V) := isPerfect_hatK hn h1 h5 h15 hS c Mo
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hperf : Group.IsPerfect ↥(hatK Mo V) := isPerfect_hatK hn h1 h5 h15 hS c Mo
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [← Nat.not_even_iff_odd]
   intro heven
   rw [even_iff_two_dvd] at heven
@@ -222,7 +222,7 @@ theorem hatBarSub_L_ne_top (hn : 2 ≤ E3.mQuot V (U ⊔ V₀)) (h1 : W16One G) 
     (h15 : W16Fifteen G) (hS : Std15 G) (c : Cfg1620 M V₀ V U S R H g B)
     (Mo : ModDataE H (conjClosure (U ⊔ V₀) H)) :
     hatBarSub Mo V (V ⊔ conjSubgroup V g) ≠ ⊤ := by
-  haveI hperf : Group.IsPerfect ↥(hatK Mo V) := isPerfect_hatK hn h1 h5 h15 hS c Mo
+  have hperf : Group.IsPerfect ↥(hatK Mo V) := isPerfect_hatK hn h1 h5 h15 hS c Mo
   let K : Subgroup G := conjClosure V H
   have hKH : K ≤ H := c.conjClosure_le_H
   let Q := ↥(hatK Mo V)

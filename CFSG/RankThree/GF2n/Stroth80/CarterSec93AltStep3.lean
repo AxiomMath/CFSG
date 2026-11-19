@@ -36,7 +36,7 @@ theorem step93L2AltXH_CN_inv_of_cfg (h34 : Stroth34Statement) (h311a : Stroth311
     (hgL : conjSubgroup g (LB M Q B) = LB M Q B) :
     conjSubgroup g (LB M Q B ⊓ hc.CN t) = LB M Q B ⊓ hc.CN t :=
   step93L2AltXH_CN_inv h34 h311a h311bComm h312b hcfg.hs hcfg.hr hcfg.hZ0 hcfg.hsc
-    (fun s hsZ hsQ => (Vt_CN_eq_of_mem_Z0 h34 h311a h311bComm h312b hcfg hsZ hsQ).1)
+    (fun _s hsZ hsQ => (Vt_CN_eq_of_mem_Z0 h34 h311a h311bComm h312b hcfg hsZ hsQ).1)
     hgM hgL
 
 end HS9

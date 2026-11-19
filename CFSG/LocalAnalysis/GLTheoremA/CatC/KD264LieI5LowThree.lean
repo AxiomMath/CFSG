@@ -185,7 +185,7 @@ theorem pRank_ge_two_PSL (hGA : CFSG.Open.GriessAllModelsStatement) {K : Type} [
   have hga : (genericOrders .PSL 3 r f).1 = Nat.gcd 3 (r ^ f - 1) := rfl
   obtain ⟨hfin, hcard⟩ := CFSG.HardMathSupport.Timmesfeld.Tables.Multiplier.finite_and_card_hopf
     hGA hmm
-  haveI := hfin
+  have := hfin
   have hdv : (genericOrders .PSL 3 r f).1 ∣
       Nat.card ((StatedScalars (Fin 3) F).subgroupOf (StatedSL 3 F)) :=
     CFSG.HardMathSupport.Timmesfeld.Tables.Multiplier.dvd_card_scalars (q := r ^ f) (by norm_num)
@@ -223,7 +223,7 @@ theorem pRank_ge_two_PSU (hGA : CFSG.Open.GriessAllModelsStatement) {K : Type} [
   have hga : (genericOrders .PSU 3 r f).1 = Nat.gcd 3 (r ^ f + 1) := rfl
   obtain ⟨hfin, hcard⟩ := CFSG.HardMathSupport.Timmesfeld.Tables.Multiplier.finite_and_card_hopf
     hGA hmm
-  haveI := hfin
+  have := hfin
   have hdv : (genericOrders .PSU 3 r f).1 ∣
       Nat.card ((StatedScalars (Fin 3) F).subgroupOf (StatedSU 3 (r ^ f) F)) :=
     CFSG.HardMathSupport.Timmesfeld.Tables.Multiplier.dvd_card_scalars (q := r ^ f) (by norm_num)

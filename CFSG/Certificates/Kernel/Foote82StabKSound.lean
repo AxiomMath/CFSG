@@ -77,9 +77,9 @@ theorem decQ_push {Q n y : Nat} (hy : y < 2 ^ 8) : (decQ Q n).push y = decQ (pse
     simp only [decQ, Array.getElem_push, Array.size_ofFn, Array.getElem_ofFn,
       CFSG.KC.Census.at'_pset hy]
     by_cases hi : i < n
-    · rw [dif_pos hi, if_neg (by omega)]
+    · rw [dite_eq_left hi, ite_eq_right (by omega)]
     · have : i = n := by simp [decQ] at h1; omega
-      rw [dif_neg hi, if_pos this]
+      rw [dite_eq_right hi, ite_eq_left this]
 
 theorem decQ_one {r : Nat} (hr : r < 2 ^ 8) : #[r] = decQ (pset 8 0 0 r) 1 := by
   apply Array.ext
@@ -99,7 +99,7 @@ theorem innerK_mono (c x : Nat) (t : St) (l : Nat) : (innerK G c x t l).ok = tru
   cases (G l x < 136 && G l x != 0 && at' 8 t.C (G l x) == 0)
   · exact id
   · intro h
-    simp only [cond_true, Bool.and_eq_true] at h
+    simp only [_root_.Bool.cond_true, Bool.and_eq_true] at h
     exact h.1.1.1
 
 theorem innerK_h (c x : Nat) (t : St) (l : Nat) : (innerK G c x t l).h = t.h := by
@@ -119,7 +119,7 @@ theorem innerK_pres {c x : Nat} (hc : c < 2 ^ 8) {l : Nat} (hl : l < 2 ^ 8) {t :
   cases hb : (G l x < 136 && G l x != 0 && at' 8 t.C (G l x) == 0)
   · exact hI
   · rw [hb] at hok
-    simp only [cond_true, Bool.and_eq_true, decide_eq_true_eq] at hok hb
+    simp only [_root_.Bool.cond_true, Bool.and_eq_true, decide_eq_true_eq] at hok hb
     obtain ⟨⟨⟨-, hx⟩, hd⟩, hn⟩ := hok
     have hy : G l x < 136 := hb.1.1
     exact ⟨canon_set hI.1 hy (lt8 hx), canon_set hI.2.1 hy hl,
@@ -130,17 +130,17 @@ theorem queueK_mono (c : Nat) (t : St) (a : Nat) : (queueK G c t a).ok = true �
   unfold queueK
   intro h
   cases hh : decide (t.h < t.n)
-  · rw [hh, cond_false] at h
+  · rw [hh, Bool.cond_false] at h
     exact h
-  · rw [hh, cond_true] at h
+  · rw [hh, _root_.Bool.cond_true] at h
     exact foldl_ok (G := innerK G c (at' 8 t.Q t.h)) (fun t l => innerK_mono c _ t l)
       (List.range' 0 16) ⟨t.P, t.L, t.D, t.C, t.Q, t.n, t.h + 1, t.R, t.ok⟩ h
 
 theorem queueK_R (c : Nat) (t : St) (a : Nat) : (queueK G c t a).R = t.R := by
   unfold queueK
   cases hh : decide (t.h < t.n)
-  · rw [cond_false]
-  · rw [cond_true]
+  · rw [Bool.cond_false]
+  · rw [_root_.Bool.cond_true]
     exact foldl_eq (G := innerK G c (at' 8 t.Q t.h)) St.R (fun t l => innerK_R c _ t l)
       (List.range' 0 16) ⟨t.P, t.L, t.D, t.C, t.Q, t.n, t.h + 1, t.R, t.ok⟩
 
@@ -148,10 +148,10 @@ theorem queueK_pres {c : Nat} (hc : c < 2 ^ 8) (a : Nat) {t : St} (hI : Inv t)
     (hok : (queueK G c t a).ok = true) : Inv (queueK G c t a) := by
   unfold queueK at hok ⊢
   cases hh : decide (t.h < t.n)
-  · rw [cond_false]
+  · rw [Bool.cond_false]
     exact hI
-  · rw [hh, cond_true] at hok
-    rw [cond_true]
+  · rw [hh, _root_.Bool.cond_true] at hok
+    rw [_root_.Bool.cond_true]
     exact foldl_pres (G := innerK G c (at' 8 t.Q t.h)) (I := Inv)
       (fun t l => innerK_mono c _ t l) (List.range' 0 16)
       (fun l hl t hI h => innerK_pres hc
@@ -164,9 +164,9 @@ theorem colK_mono (t : St) (c : Nat) : (colK G t c).ok = true → t.ok = true :=
   generalize (List.range' 1 135).foldl (rootK t.C) 0 = r
   intro h
   cases hr : (r != 0)
-  · rw [hr, cond_false] at h
+  · rw [hr, Bool.cond_false] at h
     exact h
-  · rw [hr, cond_true] at h
+  · rw [hr, _root_.Bool.cond_true] at h
     have := foldl_ok (G := queueK G c) (fun t a => queueK_mono c t a) (List.range' 0 136)
       ⟨t.P, t.L, pset 16 t.D r 0, pset 8 t.C r c, pset 8 0 0 r, 1, 0, t.R.push r,
         t.ok && decide (r < 136)⟩ h
@@ -179,10 +179,10 @@ theorem colK_pres {c : Nat} (hc : c < 2 ^ 8) {t : St} (hI : Inv t) (hok : (colK 
   dsimp only at hok ⊢
   generalize (List.range' 1 135).foldl (rootK t.C) 0 = r at hok ⊢
   cases hr : (r != 0)
-  · rw [cond_false]
+  · rw [Bool.cond_false]
     exact hI
-  · rw [hr, cond_true] at hok
-    rw [cond_true]
+  · rw [hr, _root_.Bool.cond_true] at hok
+    rw [_root_.Bool.cond_true]
     have h1 := foldl_ok (G := queueK G c) (fun t a => queueK_mono c t a) (List.range' 0 136)
       ⟨t.P, t.L, pset 16 t.D r 0, pset 8 t.C r c, pset 8 0 0 r, 1, 0, t.R.push r,
         t.ok && decide (r < 136)⟩ hok
@@ -265,9 +265,9 @@ theorem stabTree_eq (hG : ∀ l < 16, ∀ x, (gs0[l]!)[x]! = G l x) (hok : (stab
     dsimp only at hokc ⊢
     generalize (List.range' 1 135 1).foldl (rootK t.C) 0 = r at hokc ⊢
     cases hr : (r != 0)
-    · simp only [Bool.false_eq_true, ↓reduceIte, cond_false]
+    · simp only [Bool.false_eq_true, ↓reduceIte, Bool.cond_false]
     · rw [hr] at hokc
-      simp only [↓reduceIte, cond_true] at hokc ⊢
+      simp only [↓reduceIte, _root_.Bool.cond_true] at hokc ⊢
       have h1 := foldl_ok (fun t a => queueK_mono c t a) _ _ hokc
       simp only [Bool.and_eq_true, decide_eq_true_eq] at h1
       have hr8 : r < 2 ^ 8 := lt8 (by omega)
@@ -280,14 +280,14 @@ theorem stabTree_eq (hG : ∀ l < 16, ∀ x, (gs0[l]!)[x]! = G l x) (hok : (stab
         ⟨hI.1, hI.2.1, canon_set hI.2.2.1 h1.2 (by norm_num), canon_set hI.2.2.2.1 h1.2 hc8,
           canon_set (by rfl) (by omega) hr8⟩ hokc _ ?hq0]
       case hq0 => rfl
-      · simp only [pure_bind, decL, decC]
+      · simp only [pure_bind, decL]
         rw [foldl_eq St.R (fun t a => queueK_R c t a)]
       case qstep =>
         intro a _ t hI hq
         simp only [decL, decQ_size]
         unfold queueK at hq ⊢
         by_cases hh : t.h < t.n
-        · simp only [hh, decide_true, cond_true, ↓reduceIte] at hq ⊢
+        · simp only [hh, decide_true, _root_.Bool.cond_true, ↓reduceIte] at hq ⊢
           simp only [decQ_get hh]
           rw [forIn_eq (G := innerK G c (at' 8 t.Q t.h)) (dec := decI) (ok := St.ok) (I := Inv)
             (fun t l => innerK_mono c _ t l) (List.range' 0 16 1)
@@ -306,9 +306,9 @@ theorem stabTree_eq (hG : ∀ l < 16, ∀ x, (gs0[l]!)[x]! = G l x) (hok : (stab
             dsimp only at hi ⊢
             cases hb : (G l (at' 8 t.Q t.h) < 136 && G l (at' 8 t.Q t.h) != 0 &&
                 at' 8 u.C (G l (at' 8 t.Q t.h)) == 0)
-            · simp only [Bool.false_eq_true, ↓reduceIte, cond_false]
+            · simp only [Bool.false_eq_true, ↓reduceIte, Bool.cond_false]
             · rw [hb] at hi
-              simp only [↓reduceIte, cond_true] at hi ⊢
+              simp only [↓reduceIte, _root_.Bool.cond_true] at hi ⊢
               simp only [Bool.and_eq_true, decide_eq_true_eq] at hi hb
               obtain ⟨⟨⟨-, hx⟩, hd⟩, hn⟩ := hi
               have hy := hb.1.1
@@ -316,7 +316,7 @@ theorem stabTree_eq (hG : ∀ l < 16, ∀ x, (gs0[l]!)[x]! = G l x) (hok : (stab
                 dec_set hIu.2.1 hy (lt8 (by omega : l < 256)),
                 dec_set hIu.2.2.1 hy (by norm_num; omega), dec_set hIu.2.2.2.1 hy hc8,
                 decQ_push (Q := u.Q) (n := u.n) (lt8 (by omega : G l (at' 8 t.Q t.h) < 256))]
-        · simp only [hh, decide_false, cond_false, ↓reduceIte]
+        · simp only [hh, decide_false, Bool.cond_false, ↓reduceIte]
 
 theorem countP_range (g : ℕ → Bool) :
     ∀ n, (List.range n).countP g = ∑ i ∈ Finset.range n, if g i = true then 1 else 0

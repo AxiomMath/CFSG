@@ -140,7 +140,7 @@ theorem swap_centralizes_fixed_core
   rw [hY] at hd'
   obtain ⟨j, hj, r, hr, hjr⟩ := Set.mem_mul.mp hd'
   have hjrc : Commute j r := (Subgroup.mem_centralizer_iff.mp (hJcent hj) r hr).symm
-  obtain ⟨k, hk⟩ := S.isPGroup' ⟨(d : G), by
+  obtain ⟨k, hk⟩ := S.isPGroup ⟨(d : G), by
     rw [hdG]
     exact (S : Subgroup G).mul_mem (BrauerWong.wreathModelHom_mem S e _)
       (BrauerWong.wreathModelHom_mem S e _)⟩

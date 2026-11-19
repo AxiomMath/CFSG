@@ -24,7 +24,7 @@ theorem inCalEi_one_of_surjective_almostSimple_two_kernel
     {L : Subgroup Γ} (hAS : AlmostSimple L)
     (hcard : Nat.card ((A.subgroupOf K).map π) = 2) :
     InCalEi 1 T A K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hAK : A ≤ K := (le_tA_of_isElemAbelian hAT hA).trans (hτ.trans inf_le_right)
   let A0 : Subgroup ↥K := A.subgroupOf K
   let B : Subgroup Γ := A0.map π

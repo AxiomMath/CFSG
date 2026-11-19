@@ -59,7 +59,7 @@ theorem D1CaseTwoDataAt.isCyclic_d1MapPCore (hd : D1CaseTwoDataAt p P M H R Rbar
   have hp := hd.cfg.red.prime
   by_contra hnc
   have h2 := two_le_pRank_of_isPGroup_not_isCyclic hp hd.cfg.red.ne_two
-    (Rbar.isPGroup'.to_le (hVC.trans inf_le_left)) hnc
+    (Rbar.isPGroup.to_le (hVC.trans inf_le_left)) hnc
   have h1 := hd.cfg.red.pRank_inf_centralizer_le_one_of_not_le hL hLX₀
   have h3 := PreuniquenessRankFour.Helpers.pRank_mono p hp hVC
   omega
@@ -119,7 +119,7 @@ theorem D1CaseTwoDataAt.exists_escape_elt (hAut : KFactCycAut) (hS : KFactSeitzC
   have hK : ∀ y ∈ pCorePreimage p M, y ^ p ∈ pCoreOf 2 M →
       ∃ k : ℤ, ((e : G) ^ k)⁻¹ * y ∈ pCoreOf 2 M :=
     fun y hy hyp => h3.exists_zpow_inv_mul_mem_twoCore h84 hD2 heX.2 hΩ hy hyp
-  have hcen := mem_centralizer_of_forall_exists_zpow hp hp2 P.isPGroup' hd.cfg.ext.sylow_le
+  have hcen := mem_centralizer_of_forall_exists_zpow hp hp2 P.isPGroup hd.cfg.ext.sylow_le
     (hd.cfg.ext.le_P heX.1) heX.2 hep fun y hy hyp => hK y hy (hyp ▸ (pCoreOf 2 M).one_mem)
   exact ⟨e, heX.1, heX.2, hep, hΩ, hK, hcen, (hVC hemV).2⟩
 

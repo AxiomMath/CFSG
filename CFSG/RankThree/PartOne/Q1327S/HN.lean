@@ -62,7 +62,7 @@ theorem false_HN
       rw [hg]
       simpa [mul_assoc] using hw
     obtain ⟨s, hs, hsw⟩ := h1
-    have h2 := Subgroup.mem_centralizer_iff.1 (hcen SQ SQ.isPGroup' hESQ hs) y hy
+    have h2 := Subgroup.mem_centralizer_iff.1 (hcen SQ SQ.isPGroup hESQ hs) y hy
     have h3 : f y * (g * w * g⁻¹) = (g * w * g⁻¹) * f y := by
       rw [← hsw, ← map_mul, ← map_mul, h2]
     rw [hψy]

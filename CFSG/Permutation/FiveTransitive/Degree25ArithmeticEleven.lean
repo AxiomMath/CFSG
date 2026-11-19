@@ -32,13 +32,13 @@ private theorem stabilizer_factor_arithmetic_eleven :
     ∀ a : Fin 15, ∀ b : Fin 7,
       ∀ c : Fin 4, ∀ d : Fin 2,
         stabilizerFactorArithmeticElevenPredicate a b c d := by
-  letI (a : Fin 15) (b : Fin 7)
+  let (a : Fin 15) (b : Fin 7)
       (c : Fin 4) (d : Fin 2) :
       Decidable
         (stabilizerFactorArithmeticElevenPredicate a b c d) := by
     dsimp only [stabilizerFactorArithmeticElevenPredicate]
     infer_instance
-  letI : Decidable
+  let : Decidable
       (∀ a : Fin 15, ∀ b : Fin 7,
         ∀ c : Fin 4, ∀ d : Fin 2,
           stabilizerFactorArithmeticElevenPredicate a b c d) :=

@@ -104,7 +104,6 @@ theorem B0grp_le_of_normal {L : Subgroup G₀} (hLM : L ≤ M2)
       Subtype.ext rfl
     change rho hF (Subgroup.inclusion hLM ⟨_, hml⟩) = _
     rw [e, map_mul, map_mul, map_inv, hm]
-    change _ * rho hF (Subgroup.inclusion hLM l) * _ = _
     rw [show rho hF (Subgroup.inclusion hLM l) = ρL l from rfl, hl]
     rfl
   have hsP : IsSimpleGroup ↥MbarP := isSimpleGroup_MbarP
@@ -120,10 +119,10 @@ theorem B0grp_le_of_normal {L : Subgroup G₀} (hLM : L ≤ M2)
         rw [hb, Subgroup.mem_bot] at hm'
         exact congrArg Subtype.val hm'
       exact (rho_eq_one_iff hF _).mp h1
-    haveI : Group.IsSolvable ↥Kgrp := isSolvable_Kgrp hF
-    haveI : Group.IsSolvable ↥L :=
+    have : Group.IsSolvable ↥Kgrp := isSolvable_Kgrp hF
+    have : Group.IsSolvable ↥L :=
       Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hLK)
-    haveI : Nontrivial ↥L := (Subgroup.nontrivial_iff_ne_bot L).mpr hne
+    have : Nontrivial ↥L := (Subgroup.nontrivial_iff_ne_bot L).mpr hne
     exact absurd (inferInstance : Group.IsSolvable ↥L) (Group.IsPerfect.not_isSolvable (G := ↥L))
   ·
     have hPR : MbarP ≤ ρL.range := fun g hg => by
@@ -146,7 +145,7 @@ theorem B0grp_le_of_normal {L : Subgroup G₀} (hLM : L ≤ M2)
 
 theorem false_of_le_M2 {L V : Subgroup G₀} (hLM : L ≤ M2)
     (hML : M2 ≤ Subgroup.normalizer (L : Set G₀)) (hper : ⁅L, L⁆ = L)
-    (hVO : V ≤ pCoreOf 2 L) (hOC : pCoreOf 2 L ≤ Subgroup.centralizer (V : Set G₀))
+    (_hVO : V ≤ pCoreOf 2 L) (hOC : pCoreOf 2 L ≤ Subgroup.centralizer (V : Set G₀))
     (hLV : L ≤ Subgroup.normalizer (V : Set G₀)) (hVc : V = ⁅V, L⁆) (hVne : V ≠ ⊥) : False := by
   have hF := j4Facts
   have hne : L ≠ ⊥ := fun h => hVne (by rw [hVc, h, Subgroup.commutator_bot_right])

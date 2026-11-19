@@ -72,6 +72,7 @@ private theorem key (A B K : ℕ) (h : kronOK A B K = true) :
     rw [fldW_eq'] at this
     exact this
 
+set_option exponentiation.threshold 26411 in
 theorem kronOK_sound {A B K : ℕ} (h : kronOK A B K = true) :
     LCanon 11 49 49 K ∧ ∀ i j k l : Fin 7, kM K ⟨7 * i + j, by omega⟩ ⟨7 * k + l, by omega⟩ =
       smM A i k * smM B j l := by

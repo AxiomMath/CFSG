@@ -19,11 +19,11 @@ theorem kFactWeakClosureHeis_of_dichotomy (hWC : KFactWeakClosure) (hI : GL83.I_
     (hL : OuterHeisInner) (hD : SylowDichotomy) : Generic49U3.KFactWeakClosureHeis := by
   intro p hp h5 X _ _ K hKn hKs hKnab hKcat hKc hKdvd Q hKQ Q₀ Q₁ hcyc hQ0 hcard hnab hexp hcomm hdisj hsup A
     hAQ hAcard
-  haveI := hKn
-  haveI : Fact p.Prime := ⟨hp⟩
+  have := hKn
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   have hsh : HeisShape p (Q : Subgroup X) Q₀ Q₁ :=
-    ⟨Q.isPGroup', hcyc, hQ0, hcard, hnab, hexp, hcomm, hdisj, hsup⟩
+    ⟨Q.isPGroup, hcyc, hQ0, hcard, hnab, hexp, hcomm, hdisj, hsup⟩
   by_contra hcon
   push Not at hcon
   have hAn : ∀ q ∈ (Q : Subgroup X), A.map (MulAut.conj q).toMonoidHom ≤ A := by
@@ -32,7 +32,7 @@ theorem kFactWeakClosureHeis_of_dichotomy (hWC : KFactWeakClosure) (hI : GL83.I_
     rintro _ ⟨a, ha, rfl⟩
     exact Q.mul_mem (Q.mul_mem hq (hAQ ha)) (Q.inv_mem hq)
   have hAcent : ∀ a ∈ A, ∀ q ∈ (Q : Subgroup X), q * a = a * q :=
-    central_of_normal_of_card_prime Q.isPGroup' hAQ hAcard hAn
+    central_of_normal_of_card_prime Q.isPGroup hAQ hAcard hAn
   have hApow : ∀ a ∈ A, a ^ p = 1 := pow_eq_one_of_card_prime hAcard
   obtain ⟨S, hS⟩ := exists_sylow_map_subtype K Q hKQ
   have hSmem : ∀ s : ↥K, s ∈ (S : Subgroup ↥K) ↔ (s : X) ∈ (Q : Subgroup X) := by
@@ -106,7 +106,7 @@ theorem kFactWeakClosureHeis_of_dichotomy (hWC : KFactWeakClosure) (hI : GL83.I_
       · rw [hcardS, hcardSylow]
         exact Nat.pow_le_pow_right hp.pos ha
       · rw [hcardS]
-        exact pow_three_le_card_of_nonabelian (S.isPGroup') ((isMulCommutative_map_subtype_iff K _).not.1
+        exact pow_three_le_card_of_nonabelian (S.isPGroup) ((isMulCommutative_map_subtype_iff K _).not.1
           (hS ▸ hSn))
     · exact hab (hb S)
     ·

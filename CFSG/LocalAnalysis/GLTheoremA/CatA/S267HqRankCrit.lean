@@ -20,7 +20,7 @@ theorem not_dvd_card_GL_of_prime {F : Type} [Group F] {q s k : ℕ} (hq : q.Prim
   have h1 : s ∣ ∏ i : Fin m, (q ^ m - q ^ (i : ℕ)) := by
     rw [← CFSG.SectionRank.Ccomm.card_GL_zmod]
     exact hsF.trans hdvd
-  obtain ⟨i, -, hi⟩ := (Prime.dvd_finset_prod_iff hs.prime _).1 h1
+  obtain ⟨i, -, hi⟩ := (Prime.dvd_finsetProd_iff hs.prime _).1 h1
   have hi2 := i.2
   have hsplit : q ^ m - q ^ (i : ℕ) = q ^ (i : ℕ) * (q ^ (m - i) - 1) := by
     rw [Nat.mul_sub_one, ← pow_add, Nat.add_sub_cancel' hi2.le]
@@ -137,12 +137,12 @@ theorem le_pRank_caseA_crit {F : Type} [Group F] [Finite F] [IsSimpleGroup F]
     r ≤ CFSG.Open.pRank q (⊤ : Subgroup X) := by
   have : Fact q.Prime := ⟨hq⟩
   set Y : Subgroup X := ψ.ker with hYdef
-  haveI : Nontrivial ↥Y := (nontrivial_iff_ne_bot Y).2 hYne
+  have : Nontrivial ↥Y := (nontrivial_iff_ne_bot Y).2 hYne
   obtain ⟨D, hDchar, -, hDcomm, hDexp, hDfix⟩ :=
     CFSG.SectionRank.Ccomm.odd_critical_exponent_subgroup (p := q) hq2 hY
-  haveI : D.Characteristic := hDchar
+  have : D.Characteristic := hDchar
   set R : Subgroup X := D.map Y.subtype with hRdef
-  haveI hRn : R.Normal := ConjAct.normal_of_characteristic_of_normal
+  have hRn : R.Normal := ConjAct.normal_of_characteristic_of_normal
   have hRY : R ≤ Y := map_subtype_le D
   have hRexp : ∀ x ∈ R, x ^ q = 1 := by
     rintro _ ⟨d, hd, rfl⟩
@@ -321,7 +321,7 @@ private theorem le_pRank_of_surj_crit_aux {F : Type} [Group F] [Finite F] [IsSim
       set P' : Subgroup X := (P : Subgroup φ.ker).map φ.ker.subtype with hP'def
       have hfr : normalizer (P' : Set X) ⊔ φ.ker = ⊤ := Sylow.normalizer_sup_eq_top P
       have hP'Y : P' ≤ φ.ker := map_subtype_le _
-      obtain ⟨m', hm⟩ := IsPGroup.iff_card.1 (P.isPGroup'.map φ.ker.subtype)
+      obtain ⟨m', hm⟩ := IsPGroup.iff_card.1 (P.isPGroup.map φ.ker.subtype)
       have hP'q : ¬ q ∣ Nat.card P' := by
         rw [hm]
         intro h

@@ -20,7 +20,7 @@ private theorem a11lb_card_f2 : Nat.card F2 = 2 := by
   norm_num
 
 private theorem a11lb_ringEquiv_f2_eq_one (σ : F2 ≃+* F2) : σ = 1 := by
-  haveI : Fintype F2 := Fintype.ofFinite F2
+  have : Fintype F2 := Fintype.ofFinite F2
   ext x
   have hx : x ^ 2 = x := by
     have h := FiniteField.pow_card x
@@ -82,7 +82,7 @@ private theorem a11lb_aut_decomp {S : Type} [Group S]
         rw [← h2, inv_inv]
       rw [h3]
       ext x
-      simp [MulAut.conj_apply]
+      simp
   obtain ⟨B, hB⟩ := hgδ
   have hg : g = MulAut.conj B * δ := by
     rw [← hB, mul_assoc, inv_mul_cancel, mul_one]
@@ -124,7 +124,7 @@ private theorem a11lb_delta_inverts (Θ : SL 9 ≃* GLV) (γ : MulAut GLV)
   rw [hΘ i, hγ, a11lb_tC_neg, ← hΘ i, map_inv, MulEquiv.symm_apply_apply]
 
 private theorem a11lb_delta_outer (Θ : SL 9 ≃* GLV) (γ : MulAut GLV)
-    (hΘ : ∀ i : Fin 3, Θ (T9 i) = tC (Pi.single i 1))
+    (_hΘ : ∀ i : Fin 3, Θ (T9 i) = tC (Pi.single i 1))
     (hγ : ∀ c : Fin 3 → ZMod 7, γ (tC c) = tC (-c)) :
     ¬ ∃ A : SL 9, MulAut.congr Θ.symm γ = MulAut.conj A := by
   rintro ⟨A, hA⟩
@@ -194,7 +194,7 @@ private theorem a11lb_card_multiplicative_four :
   have h : Nat.card (Fin 4 → ZMod 7) = 7 ^ 4 := by
     rw [Nat.card_pi, Finset.prod_const, Finset.card_univ, Fintype.card_fin]
     simp [Nat.card_eq_fintype_card, ZMod.card]
-  simpa using h
+  simp
 
 private theorem a11lb_fPow_injective {G : Type} [Group G] (f : Fin 4 → G) (Bs : Subgroup G)
     (hBs : Subgroup.closure (Set.range f) = Bs)
@@ -202,12 +202,12 @@ private theorem a11lb_fPow_injective {G : Type} [Group G] (f : Fin 4 → G) (Bs 
     (hcard : Nat.card Bs = 7 ^ 4) :
     Function.Injective (fPow f) := by
   set C := Subgroup.closure (Set.range f) with hC
-  haveI : IsMulCommutative C := Subgroup.isMulCommutative_closure (fun x hx y hy => by
+  have : IsMulCommutative C := Subgroup.isMulCommutative_closure (fun x hx y hy => by
     rcases hx with ⟨i, rfl⟩
     rcases hy with ⟨j, rfl⟩
     intro _
     exact hcomm i j)
-  letI : CommGroup C := IsMulCommutative.instCommGroup
+  let : CommGroup C := IsMulCommutative.instCommGroup
   let v : Fin 4 → C := fun i => ⟨f i, Subgroup.subset_closure ⟨i, rfl⟩⟩
   have hv : ∀ i, v i ^ 7 = 1 := fun i => Subtype.ext (by simpa [v] using hord i)
   let φ : Multiplicative (Fin 4 → ZMod 7) →* G := C.subtype.comp (a11lb_fPowHom v hv)
@@ -225,7 +225,7 @@ private theorem a11lb_fPow_injective {G : Type} [Group G] (f : Fin 4 → G) (Bs 
     refine ⟨Multiplicative.ofAdd (Pi.single i 1), ?_⟩
     rw [hφ]
     have h1 : (1 : ZMod 7).val = 1 := by decide
-    fin_cases i <;> simp [fPow, Pi.single_apply, h1]
+    fin_cases i <;> simp [fPow, h1]
   have hrange : φ.range = Bs := by
     apply le_antisymm
     · rintro y ⟨a, rfl⟩
@@ -295,7 +295,7 @@ private theorem a11lb_Phi_T9 {G : Type} [Group G] (Φ : Fin 4 → SL 9 →* G) (
 
 private theorem a11lb_fPow_single_smul {G : Type} [Group G] (f : Fin 4 → G) (u : ZMod 7)
     (k : Fin 4) : fPow f (u • ev k) = f k ^ u.val := by
-  fin_cases k <;> simp [fPow, ev, Pi.smul_apply, Pi.single_apply]
+  fin_cases k <;> simp [fPow, ev, Pi.smul_apply]
 
 private theorem a11lb_rho_surj (j : Fin 4) (k : Fin 4) (hk : k ≠ j) :
     ∃ i : Fin 3, a11lb_rho j i = k := ⟨a11lb_rhoInv j k hk, a11lb_rho_inv_left j k hk⟩
@@ -393,14 +393,14 @@ private noncomputable def a11lb_permExtend (j : Fin 4) (π : Equiv.Perm (Fin 3))
     · subst hi; simp
     · have hne : a11lb_rho j (π (a11lb_rhoInv j i hi)) ≠ j := a11lb_rho_ne j _
       dsimp only
-      rw [dif_neg hi, dif_neg hne, a11lb_rho_inv_right, Equiv.symm_apply_apply,
+      rw [dite_eq_right hi, dite_eq_right hne, a11lb_rho_inv_right, Equiv.symm_apply_apply,
         a11lb_rho_inv_left]
   right_inv i := by
     by_cases hi : i = j
     · subst hi; simp
     · have hne : a11lb_rho j (π.symm (a11lb_rhoInv j i hi)) ≠ j := a11lb_rho_ne j _
       dsimp only
-      rw [dif_neg hi, dif_neg hne, a11lb_rho_inv_right, Equiv.apply_symm_apply,
+      rw [dite_eq_right hi, dite_eq_right hne, a11lb_rho_inv_right, Equiv.apply_symm_apply,
         a11lb_rho_inv_left]
 
 private theorem a11lb_permExtend_fix (j : Fin 4) (π : Equiv.Perm (Fin 3)) :
@@ -412,7 +412,7 @@ private theorem a11lb_permExtend_rho (j : Fin 4) (π : Equiv.Perm (Fin 3)) (i : 
   have hne : a11lb_rho j i ≠ j := a11lb_rho_ne j i
   change (if hi : a11lb_rho j i = j then j
     else a11lb_rho j (π (a11lb_rhoInv j (a11lb_rho j i) hi))) = a11lb_rho j (π i)
-  rw [dif_neg hne, a11lb_rho_inv_right]
+  rw [dite_eq_right hne, a11lb_rho_inv_right]
 
 private theorem a11lb_two_pow_val_mem : ∀ km : ZMod 3,
     (2 : ZMod 7) ^ km.val = 1 ∨ (2 : ZMod 7) ^ km.val = 2 ∨ (2 : ZMod 7) ^ km.val = 4 :=
@@ -439,7 +439,7 @@ private theorem a11lb_vecMul_single_monK3 (π : Equiv.Perm (Fin 3)) (k : Fin 3 �
   rw [Finset.sum_eq_single m]
   · by_cases h : π m = i
     · simp [a8MonK3, h]
-    · simp [a8MonK3, h, Pi.single_eq_of_ne (Ne.symm h)]
+    · simp [a8MonK3, h]
   · intro b _ hbm
     rw [Pi.single_eq_of_ne hbm, zero_mul]
   · intro hm; exact absurd (Finset.mem_univ m) hm
@@ -451,7 +451,7 @@ private theorem a11lb_tC_smul (u : ZMod 7) (c : Fin 3 → ZMod 7) :
   apply Multiplicative.toAdd.injective
   simp only [toAdd_pow, toAdd_ofAdd]
   funext i
-  simp only [Pi.smul_apply, Pi.mul_apply]
+  simp only [Pi.smul_apply]
   rw [← ZMod.natCast_zmod_val u]
   simp
 
@@ -467,7 +467,7 @@ private theorem a11lb_finish {G : Type} [Group G]
     (a : MulAut ↥((Φ j).range)) (β : MulAut (SL 9))
     (hae : ∀ x : SL 9, a (e x) = e (β x))
     (ha : ∀ x : ↥((Φ j).range), (a x : G) = h * (x : G) * h⁻¹)
-    (hΦval : ∀ l k : Fin 4, k ≠ l → Φ l (T9' (Equiv.swap l 3 k)) = f k)
+    (_hΦval : ∀ l k : Fin 4, k ≠ l → Φ l (T9' (Equiv.swap l 3 k)) = f k)
     (hf_eq_e : ∀ i : Fin 3, (e (T9 i) : G) = f (a11lb_rho j i))
     {M : Certificates.A8Nbr476.M4} (hM : ConjMat f h M)
     (hfpow_inj : Function.Injective (fPow f)) (hfix : h * f j * h⁻¹ = f j)
@@ -510,16 +510,16 @@ private theorem a11lb_finish {G : Type} [Group G]
     have h1 := hrow (a11lb_rhoInv j i hi)
     rw [a11lb_rho_inv_left j i hi] at h1
     rw [h1]
-    simp only [dif_neg hi]
+    simp only [dite_eq_right hi]
     congr 1
     congr 1
     conv_rhs => rw [← a11lb_rho_inv_left j i hi]
     rw [a11lb_permExtend_rho]
   · rcases hs with rfl | rfl
     · left; intro i hi
-      simpa [dif_neg hi] using a11lb_two_pow_val_mem (k (a11lb_rhoInv j i hi))
+      simpa [dite_eq_right hi] using a11lb_two_pow_val_mem (k (a11lb_rhoInv j i hi))
     · right; intro i hi
-      simpa [dif_neg hi] using a11lb_neg_mul_two_pow_val_mem (k (a11lb_rhoInv j i hi))
+      simpa [dite_eq_right hi] using a11lb_neg_mul_two_pow_val_mem (k (a11lb_rhoInv j i hi))
 
 theorem a11Lemma89BInput_holds :
     ∀ (G : Type) [Group G] [Finite G] (B Bs : Subgroup G) (x : G) (L D J : Subgroup G) (y : G)
@@ -528,7 +528,7 @@ theorem a11Lemma89BInput_holds :
       ∀ (h : G) (j : Fin 4), h ∈ Subgroup.normalizer (Bs : Set G) → h * f j * h⁻¹ = f j →
         ∀ M : Certificates.A8Nbr476.M4, ConjMat f h M → Good9B j M := by
   intro G _inst _fin B Bs x L D J y K φ₃ f n Φ ρ hctx h j hN hfix M hM
-  haveI : Finite (SL 9) := by infer_instance
+  have : Finite (SL 9) := by infer_instance
   obtain ⟨-, -, hFrame, hExtra, hCoh, -⟩ := hctx
   obtain ⟨hGlue, hφ₃K, hNbr, hBs, hx, hy, hD, hnL, hJK, hJ9⟩ := hFrame
   obtain ⟨hφ₃inj, hfT9, hfcomm, hforder, hfcard, hn3, hnconj, hKcomp⟩ := hGlue
@@ -769,7 +769,6 @@ theorem a11Lemma89BInput_holds :
     intro c
     change Θ.symm (γ (Θ (Θ.symm (tC c)))) = Θ.symm (tC (-c))
     rw [MulEquiv.apply_symm_apply, hγ]
-    try rfl
   have hδT : ∀ x ∈ T9torus, δ x ∈ T9torus := by
     have hle : Subgroup.closure (Set.range T9) ≤ T9torus.comap (δ : SL 9 →* SL 9) := by
       apply (Subgroup.closure_le (T9torus.comap (δ : SL 9 →* SL 9))).mpr

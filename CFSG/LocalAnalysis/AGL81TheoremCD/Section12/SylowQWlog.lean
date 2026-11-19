@@ -16,7 +16,7 @@ theorem exists_sylow_QSet_of_twelveCtx
     (hI : CFSG.LocalAnalysis.RankThreeUC.AGL81C.NineNineOneInput) :
     ∃ Q' : Subgroup G, Q ≤ Q' ∧ Q' ∈ CFSG.LocalAnalysis.RankThreeUC.AGL81C.QSet M p ∧
       CFSG.ABGLocalTools.IsSylowOf p Q' H := by
-  haveI : Fact p.Prime := ⟨h.p_prime⟩
+  have : Fact p.Prime := ⟨h.p_prime⟩
   obtain ⟨E₀, hE₀Q, hE₀, hE₀c, hΓ⟩ := h.exists_E_sq
   have hd := h.hypCGen hE₀Q hE₀ hE₀c hΓ
   have hU : NineNineOne M p := hI G M E₀ H E₀ p hd.toNineSettingGen hd.not_mem_sigmaM

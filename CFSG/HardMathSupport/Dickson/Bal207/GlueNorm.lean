@@ -164,7 +164,7 @@ theorem exists_comm_not_mem_core [Finite X] {p : ℕ} (hp : p.Prime) {J : Subgro
     {b : X} (hbJ : b ∈ J) (hb1 : b ≠ 1) (hbp : b ^ p = 1) :
     ∃ y ∈ J, ⁅b, y⁆ ∉ GLAPPrimeCoreOf p J := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hcon
   push Not at hcon
   set b' : ↥J := ⟨b, hbJ⟩ with hb'

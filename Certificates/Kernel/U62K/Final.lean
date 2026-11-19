@@ -56,7 +56,7 @@ theorem pB_E : ∀ {l : List ℕ}, (∀ a ∈ l, a ∈ CFSG.KD.U62K.D.B) → ∀
     have ha := hl a List.mem_cons_self
     by_cases hs : s % 2 = 1
     · have e : pB (a :: l) s = eL a * pB l (s / 2) := by
-        rw [CertificateChecks.KernelFi23T2.pB_cons, if_pos hs]
+        rw [CertificateChecks.KernelFi23T2.pB_cons, ite_eq_left hs]
       have hm : pB (a :: l) s ∈ T' := by
         rw [e]
         exact T'.mul_mem (basis_T' ha) h1
@@ -66,7 +66,7 @@ theorem pB_E : ∀ {l : List ℕ}, (∀ a ∈ l, a ∈ CFSG.KD.U62K.D.B) → ∀
       rw [e']
       exact E.mul_mem (Subgroup.subset_closure ⟨a, ha, rfl⟩) h2
     · have e : pB (a :: l) s = pB l (s / 2) := by
-        rw [CertificateChecks.KernelFi23T2.pB_cons, if_neg hs, one_mul]
+        rw [CertificateChecks.KernelFi23T2.pB_cons, ite_eq_right hs, one_mul]
       have hm : pB (a :: l) s ∈ T' := by
         rw [e]
         exact h1
@@ -155,19 +155,19 @@ theorem mem_closure_sw {g : CFSG.Sporadic.Fi23.J} (hg : g ∈ T') :
     have hsH' : idx 31671 (CFSG.Perm.pairG sylG l) 14566 = 14566 := hsH
     have e1 := (sw_spec (u := l) (by omega)).2
     have e2 := (sw_spec (u := 42 + l) (by omega)).2
-    rw [if_pos hl, if_pos hsH'] at e1
+    rw [ite_eq_left hl, ite_eq_left hsH'] at e1
     have hmove : idx 31671 (t * CFSG.Perm.pairG sylG l) 14566 ≠ 14566 := by
       rw [idx_mul, hsH', ht]; norm_num
-    rw [if_neg (by omega), show 42 + l - 42 = l by omega, if_neg hmove] at e2
+    rw [ite_eq_right (by omega), show 42 + l - 42 = l by omega, ite_eq_right hmove] at e2
     exact ⟨e1 ▸ hsw l (by omega), e2 ▸ hsw (42 + l) (by omega)⟩
   · rintro s ⟨l, hl, rfl⟩ hsH
     have hsH' : idx 31671 (CFSG.Perm.pairG sylG l) 14566 ≠ 14566 := hsH
     have e1 := (sw_spec (u := l) (by omega)).2
     have e2 := (sw_spec (u := 42 + l) (by omega)).2
-    rw [if_pos hl, if_neg hsH'] at e1
+    rw [ite_eq_left hl, ite_eq_right hsH'] at e1
     have hfix : idx 31671 (t * CFSG.Perm.pairG sylG l) 14566 = 14566 := by
       rw [idx_mul, (hswap _ (CertificateChecks.KernelFi23T2.lG_mem hl) hsH').1, htq']
-    rw [if_neg (by omega), show 42 + l - 42 = l by omega, if_pos hfix] at e2
+    rw [ite_eq_right (by omega), show 42 + l - 42 = l by omega, ite_eq_left hfix] at e2
     exact ⟨e1 ▸ hsw l (by omega), e2 ▸ hsw (42 + l) (by omega)⟩
 
 theorem X_large : ∀ y ∈ X, IsLargeInvAt 14 y := by
@@ -189,7 +189,7 @@ theorem X_large : ∀ y ∈ X, IsLargeInvAt 14 y := by
         exact y.2
       exact T'.mul_mem (T'.mul_mem g.2 hyT) (T'.inv_mem g.2)
     refine List.mem_map.2 ⟨z, hz, ?_⟩
-    rw [dif_pos hzT]
+    rw [dite_eq_left hzT]
     refine Subtype.ext ?_
     simp only [Subgroup.coe_mul, Subgroup.coe_inv, hy]
     exact e.symm)

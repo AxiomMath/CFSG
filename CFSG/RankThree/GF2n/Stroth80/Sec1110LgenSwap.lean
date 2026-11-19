@@ -17,6 +17,7 @@ open scoped commutatorElement
 variable {G : Type} [Group G] [Finite G]
   {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 private theorem conj_comm_eq_of_commute {y s d u z b : G} (hys : y * s * y⁻¹ = u * s)
     (hyd : y * d * y⁻¹ = z * b * d) (hsz : s * z * s⁻¹ = z) (hsb : s * b * s⁻¹ = b)
     (huz : Commute u z) (hub : Commute u b) (huc : Commute u ⁅s, d⁆) (hud : Commute u d)
@@ -48,6 +49,7 @@ private theorem conj_comm_eq_of_commute {y s d u z b : G} (hys : y * s * y⁻¹ 
         group
     _ = c := by rw [hA, hB', hC]
 
+omit [Finite G] in
 private theorem Ctx.torus_comm_mem_inf (hc : Ctx M Q Z B) {y : G} (hyM : y ∈ M)
     (hyB : y ∈ Subgroup.normalizer (B : Set G)) {s x : G} (hs : s ∈ QB B ⊓ M) (hx : x ∈ Q)
     (hyl : y * (s * x) * y⁻¹ * (s * x)⁻¹ ∈ Q) : y * s * y⁻¹ * s⁻¹ ∈ Q ⊓ QB B := by
@@ -110,6 +112,7 @@ theorem Ctx.comm_mem_Z_of_torus_comm_mem (hc : Ctx M Q Z B) {y : G} (hyX : y ∈
   rw [e, hc.comm_eq_one_of_torus hyX hyZ hyB hreg hs hu hd, mul_one, hsZ _ hxd]
   exact hxd
 
+omit [Finite G] in
 private theorem mul_pow_mem_of_normalizer {L : Subgroup G} {t : G}
     (ht : t ∈ Subgroup.normalizer (L : Set G)) {l : G} (hl : l ∈ L) {m : ℕ} (hm : t ^ m = 1) :
     (l * t) ^ m ∈ L := by
@@ -128,6 +131,7 @@ private theorem mul_pow_mem_of_normalizer {L : Subgroup G} {t : G}
   rw [he, hm, mul_one]
   exact hl'
 
+omit [Finite G] in
 private theorem mul_pow_conj_eq (t l : G) (k : ℕ) :
     t * (l * t) ^ k * t⁻¹ = l⁻¹ * (l * t) ^ k * l := by
   have h1 : t * (l * t) ^ k * t⁻¹ = (t * (l * t) * t⁻¹) ^ k := conj_pow.symm
@@ -138,6 +142,7 @@ private theorem mul_pow_conj_eq (t l : G) (k : ℕ) :
   congr 1
   group
 
+omit [Finite G] in
 private theorem odd_card_Z_sub_one (hc : Ctx M Q Z B) : Odd (Nat.card Z - 1) := by
   obtain ⟨r, -, hr, -⟩ := hc.hyp.cp
   have hq4 : 4 ≤ Nat.card Z := hc.hyp.q4
@@ -181,6 +186,7 @@ theorem XbarCore.exists_swap_comm_mem_Z (hc : Ctx M Q Z B) (hn : 3 ≤ n)
     (Subgroup.commutator_mem_commutator ((LB M Q B).inv_mem hl) hfL)
   simpa [commutatorElement_def, mul_assoc] using h
 
+omit [Finite G] in
 private theorem inf_le_of_conj_eq {V₁ V₂ D : Subgroup G} {f : G} (hZ₂ : Z ≤ V₂)
     (hinf : V₁ ⊓ V₂ = Z) (hf : conjSubgroup f V₁ = V₂) (hfD : ∀ d ∈ D, ⁅f, d⁆ ∈ Z) :
     V₁ ⊓ D ≤ Z := by
@@ -198,6 +204,7 @@ private theorem inf_le_of_conj_eq {V₁ V₂ D : Subgroup G} {f : G} (hZ₂ : Z 
   rw [← hinf]
   exact Subgroup.mem_inf.mpr ⟨hd₁, h2⟩
 
+omit [(Q.subgroupOf M).Normal] in
 private theorem comm_mem_Z_of_le (hc : Ctx M Q Z B) {V : Subgroup G} (hVQ : V ≤ Q)
     (hD : V ⊓ (Q ⊓ QB B) ≤ Z) {y : G} (hy : y ∈ LB M Q B)
     (hyV : y ∈ Subgroup.normalizer (V : Set G)) {c : G}

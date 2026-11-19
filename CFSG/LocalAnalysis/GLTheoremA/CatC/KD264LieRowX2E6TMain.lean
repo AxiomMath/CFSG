@@ -69,7 +69,7 @@ theorem x2e6TorusComponentP_selA : X2E6TorusComponentP SelA := by
   have hn := hA _ hPhi hrk
   have hp3L : ((3 : ℕ) : Ω) ≠ 0 := by
     have h2 : ((2 : ℕ) : Ω) = 0 := by
-      haveI := charP_two_of_card (K := K) (Ω := Ω) hK
+      have := charP_two_of_card (K := K) (Ω := Ω) hK
       exact CharP.cast_eq_zero Ω 2
     have h3 : ((3 : ℕ) : Ω) = 1 := by
       push_cast at h2 ⊢

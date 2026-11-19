@@ -49,6 +49,7 @@ theorem relPPrimeCore_le_of_le_normal (hp : p.Prime) {K H : Subgroup G}
   · exact CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.AlmostSimple.coprime_card_relPPrimeCore
       hp K
 
+omit [Finite G] in
 theorem kerIn_eq (M K : Subgroup G) :
     CFSG.LocalAnalysis.RankThreeUC.AGL81C.kerIn M K =
       CFSG.LocalAnalysis.RankThreeUC.WeakClosure.kerIn M K := by

@@ -12,12 +12,14 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem relIndex_sup_eq_of_le_normalizer {D T : Subgroup G}
     (hT : T ≤ Subgroup.normalizer (D : Set G)) : D.relIndex (T ⊔ D) = D.relIndex T := by
   have := Subgroup.normal_subgroupOf_of_le_normalizer hT
   have := Subgroup.normal_subgroupOf_sup_of_le_normalizer hT
   exact Nat.card_congr (QuotientGroup.quotientInfEquivProdNormalizerQuotient T D hT).toEquiv.symm
 
+omit [Finite G] in
 theorem card_sup_mul_card_inf_of_le_normalizer {H K : Subgroup G}
     (h : H ≤ normalizer (K : Set G)) :
     Nat.card ↥(H ⊔ K) * Nat.card ↥(H ⊓ K) = Nat.card ↥H * Nat.card ↥K := by
@@ -35,6 +37,7 @@ theorem card_sup_mul_card_inf_of_le_normalizer {H K : Subgroup G}
     _ = Nat.card ↥K * Nat.card ↥H := by rw [h2]
     _ = Nat.card ↥H * Nat.card ↥K := by ring
 
+omit [Finite G] in
 theorem mem_sup_iff_exists_mul_of_le_normalizer {H K : Subgroup G}
     (h : H ≤ normalizer (K : Set G)) {x : G} :
     x ∈ H ⊔ K ↔ ∃ a ∈ H, ∃ b ∈ K, x = a * b := by
@@ -44,6 +47,7 @@ theorem mem_sup_iff_exists_mul_of_le_normalizer {H K : Subgroup G}
   · rintro ⟨a, ha, b, hb, hab⟩; exact ⟨a, ha, b, hb, hab.symm⟩
   · rintro ⟨a, ha, b, hb, rfl⟩; exact ⟨a, ha, b, hb, rfl⟩
 
+omit [Finite G] in
 theorem mem_sup_iff_exists_mul_of_le_normalizer' {H K : Subgroup G}
     (h : H ≤ normalizer (K : Set G)) {x : G} :
     x ∈ H ⊔ K ↔ ∃ b ∈ K, ∃ a ∈ H, x = b * a := by
@@ -55,7 +59,7 @@ theorem mem_sup_iff_exists_mul_of_le_normalizer' {H K : Subgroup G}
   · rintro ⟨b, hb, a, ha, rfl⟩; exact ⟨b, hb, a, ha, rfl⟩
 
 theorem mem_of_comm_mem_of_relIndex_sq {M V Y : Subgroup G} {t : G} (htt : t * t = 1)
-    (hVM : V ≤ M) (hMc : ∀ m ∈ M, ∀ n ∈ M, ⁅m, n⁆ ∈ V) (hMsq : ∀ m ∈ M, m ^ 2 ∈ V)
+    (_hVM : V ≤ M) (hMc : ∀ m ∈ M, ∀ n ∈ M, ⁅m, n⁆ ∈ V) (hMsq : ∀ m ∈ M, m ^ 2 ∈ V)
     (htM : ∀ m ∈ M, t * m * t⁻¹ ∈ M) (htV : ∀ v ∈ V, t * v * t⁻¹ ∈ V)
     (hVY : V ≤ Y) (hYM : Y ≤ M) (hY : ∀ y ∈ Y, ⁅t, y⁆ ∈ V)
     (hYim : ∀ y ∈ Y, ∃ m ∈ M, y⁻¹ * ⁅m, t⁆ ∈ V) (hcard : V.relIndex M = (V.relIndex Y) ^ 2) :
@@ -71,8 +75,8 @@ theorem mem_of_comm_mem_of_relIndex_sq {M V Y : Subgroup G} {t : G} (htt : t * t
   have hV'normal : V'.Normal :=
     Subgroup.commutator_top_left_le_iff.mp
       ((Subgroup.commutator_mono le_rfl le_top).trans hcomm_le)
-  haveI : V'.Normal := hV'normal
-  haveI : IsMulCommutative (↥M ⧸ V') :=
+  have : V'.Normal := hV'normal
+  have : IsMulCommutative (↥M ⧸ V') :=
     Subgroup.Normal.quotient_commutative_iff_commutator_le.mpr hcomm_le
   let mk : ↥M →* (↥M ⧸ V') := QuotientGroup.mk' V'
   let σM : ↥M →* ↥M := MonoidHom.mk'
@@ -135,7 +139,7 @@ theorem mem_of_comm_mem_of_relIndex_sq {M V Y : Subgroup G} {t : G} (htt : t * t
   set n := Nat.card (Y'.map mk) with hn
   have hnpos : 0 < n := by
     rw [hn]
-    haveI : Nonempty (Y'.map mk) := ⟨1⟩
+    have : Nonempty (Y'.map mk) := ⟨1⟩
     exact Nat.card_pos
   have hYker : Y'.map mk ≤ ψ.ker := by
     intro a ha
@@ -259,7 +263,7 @@ theorem mem_of_comm_mem_of_relIndex_sq {M V Y : Subgroup G} {t : G} (htt : t * t
   exact hmm_Y'
 
 theorem mem_normalizer_cent_sup_zpowers {V : Subgroup G} {t x : G} (hV : IsElemAbelian 2 V)
-    (ht : t * t = 1) (htV : ∀ v ∈ V, t * v * t⁻¹ ∈ V) (hxV : ∀ v ∈ V, x * v * x⁻¹ ∈ V)
+    (ht : t * t = 1) (_htV : ∀ v ∈ V, t * v * t⁻¹ ∈ V) (hxV : ∀ v ∈ V, x * v * x⁻¹ ∈ V)
     (hxt : ⁅x, t⁆ ∈ V) : x ∈ normalizer ((centEl V t ⊔ zpowers t : Subgroup G) : Set G) := by
   set w := ⁅x, t⁆ with hwdef
   have hwV : w ∈ V := hxt
@@ -283,7 +287,7 @@ theorem mem_normalizer_cent_sup_zpowers {V : Subgroup G} {t x : G} (hV : IsElemA
     ⟨hwV, Subgroup.mem_centralizer_singleton_iff.mpr hcomm.symm⟩
   have hcommV : ∀ a ∈ V, ∀ b ∈ V, a * b = b * a := by
     intro a ha b hb
-    haveI : IsMulCommutative V := hV.1
+    have : IsMulCommutative V := hV.1
     exact congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : V) ⟨b, hb⟩)
   have hcent_map : (centEl V t).map (MulAut.conj x) ≤ centEl V t := by
     intro y hy

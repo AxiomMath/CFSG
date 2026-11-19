@@ -9,7 +9,7 @@ open CFSG.Open CFSG.Goldschmidt CFSG.GH74.GLS.Th2.P412 Subgroup
 
 namespace CFSG.OddStandard.SmallF3.Omega
 
-@[expose] abbrev Mbar {X : Type} [Group X] (M : Subgroup X) : Type :=
+abbrev Mbar {X : Type} [Group X] (M : Subgroup X) : Type :=
   ↥M ⧸ goldschmidtOddCore ↥M
 
 @[expose] def mbarMk {X : Type} [Group X] (M : Subgroup X) : ↥M →* Mbar M :=

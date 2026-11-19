@@ -143,7 +143,7 @@ theorem lenNodup_sound (K : List X12) {KC : List ℕ} (m : ℕ) (hK : K.map cX =
   exact ⟨h.1, List.Nodup.of_map cX (T2.nodup_of_distinctS h.2)⟩
 
 theorem compl_sound {cA cB : ℕ} (hA : cX m12a = cA) (hB : cX m12b = cB) (C : List Lvl)
-    (W : List (List (List ℕ))) (A pre K : List X12) {AC preC KC : List ℕ} (hAC : A.map cX = AC)
+    (_W : List (List (List ℕ))) (A pre K : List X12) {AC preC KC : List ℕ} (hAC : A.map cX = AC)
     (hp : pre.map cX = preC) (hK : K.map cX = KC) (hC : chainOK 12 C = true)
     (hg : CFSG.KC.LQT.P.allL [cA, cB] (inC 12 C (chainF C)) = true)
     (hcl : ∀ j < 12, chainChunk 12 C (fun s => CFSG.KC.LQT.P.allL [cA, cB]
@@ -165,7 +165,7 @@ theorem compl_sound {cA cB : ℕ} (hA : cX m12a = cA) (hB : cX m12b = cB) (C : L
       (CFSG.KC.LQT.CM.allChain_of_chunks (by norm_num) hcl) σ hσ
     rw [P.allL_iff] at h1
     have h2 : P.code g ∈ [cX m12a, cX m12b] := by
-      simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false] at hg'
+      simp only [List.mem_cons, List.not_mem_nil, or_false] at hg'
       rcases hg' with rfl | rfl
       · exact List.mem_cons_self ..
       · exact List.mem_cons_of_mem _ (List.mem_cons_self ..)

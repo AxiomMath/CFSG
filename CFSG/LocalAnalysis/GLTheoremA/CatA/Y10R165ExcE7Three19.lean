@@ -49,7 +49,7 @@ theorem charpoly_neg_e7T3W :
         -(Matrix.scalar (Fin Tag.E7.rank) (-(n : ℤ)) - e7T3W) := by
       ext i j
       simp only [Matrix.scalar_apply, Matrix.sub_apply, Matrix.neg_apply, Matrix.diagonal_apply]
-      by_cases h : i = j <;> simp [h] <;> ring
+      by_cases h : i = j <;> simp [h]; ring
     have h := congrArg (Polynomial.eval (-(n : ℤ))) charpoly_e7T3W
     rw [Matrix.eval_charpoly] at h
     rw [hdet, Matrix.det_neg, Fintype.card_fin, h, show Tag.E7.rank = 7 from rfl]
@@ -69,7 +69,7 @@ theorem natCard_e7T3_solutions {p : ℕ} (hp : p.Prime) (hp3 : 3 < p) {ε : ℤ}
     (hq : (q : ZMod p) ^ 2 + (ε : ZMod p) * (q : ZMod p) + 1 = 0) :
     Nat.card {z : Fin Tag.E7.rank → ZMod p //
       (modMat p (ε • e7T3W))ᵀ *ᵥ z = (q : ZMod p) • z} = p ^ 3 := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hpq : ¬ p ∣ q := by
     intro h
     have h0 : (q : ZMod p) = 0 := (ZMod.natCast_eq_zero_iff q p).2 h
@@ -202,7 +202,7 @@ theorem natCard_e7T3_fixedPTorsion {p : ℕ} (hp : p.Prime) (hp3 : 3 < p) {ε : 
     (hq : (q : ZMod p) ^ 2 + (ε : ZMod p) * (q : ZMod p) + 1 = 0) :
     Nat.card {b : Fin Tag.E7.rank → Lˣ //
       b ∈ fixedCharTuples (ε • e7T3W) Fr ∧ ∀ i, b i ^ p = 1} = p ^ 3 := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hpq : ¬ p ∣ q := by
     intro h
     have h0 : (q : ZMod p) = 0 := (ZMod.natCast_eq_zero_iff q p).2 h

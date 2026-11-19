@@ -35,7 +35,7 @@ theorem no_hsType_chevalley_G2 {S : Type} [Group S] [Finite S] (hS : IsSimpleGro
     (hK : HSType ↥K) : False := by
   obtain ⟨hadm, K', _, _, hcard, ⟨e⟩⟩ := hM
   obtain ⟨hp, hf, -⟩ := hadm
-  haveI := hS
+  have := hS
   have hcen : Subgroup.center ↥(adjointGroup Tag.G2 K') = ⊥ :=
     CFSG.LieType.Chevalley.center_adjointGroup_eq_bot
   have e1 : ↥(adjointGroup Tag.G2 K') ⧸ Subgroup.center ↥(adjointGroup Tag.G2 K') ≃*

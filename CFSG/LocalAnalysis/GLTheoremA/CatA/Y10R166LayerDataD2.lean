@@ -28,6 +28,7 @@ variable {K : Type} [Field K] [CharP K 2]
     rintro c x ⟨h1, h2⟩
     exact ⟨by simp [Pi.smul_apply, h1], by simp [Pi.smul_apply, h2]⟩
 
+omit [CharP K 2] in
 theorem polar_frameE_rootSpacePoint (n : ℕ) (hn : 4 ≤ n) (y : rootSpacePoint (K := K) n hn) :
     polar (coordinateQuadPlus n K) (frameE n (zeroIdx n hn))
       ((y : rootSpacePoint n hn) : Fin (2 * n) → K) = 0 := by
@@ -36,6 +37,7 @@ theorem polar_frameE_rootSpacePoint (n : ℕ) (hn : 4 ≤ n) (y : rootSpacePoint
   rw [h.polar_left]
   exact y.2.2
 
+omit [CharP K 2] in
 theorem quad_frameE_zero (n : ℕ) (hn : 4 ≤ n) :
     coordinateQuadPlus n K (frameE n (zeroIdx n hn)) = 0 :=
   (isHypCoord_coordinateQuadPlus (K := K) (zeroIdx n hn)).map_left
@@ -69,7 +71,7 @@ theorem quad_frameE_zero (n : ℕ) (hn : 4 ≤ n) :
 
 theorem isPGroup_two_rootGroupPoint (n : ℕ) (hn : 4 ≤ n) :
     IsPGroup 2 (rootGroupPoint (K := K) n hn) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsquares : ∀ y : Multiplicative (rootSpacePoint (K := K) n hn), y ^ 2 = 1 := by
     intro y
     apply Multiplicative.toAdd.injective
@@ -195,6 +197,7 @@ end Action
     · rw [frameF]
       exact Pi.single_eq_of_ne (fun h => hi0 ((plusFrameRight_injective n h)).symm) 1
 
+omit [CharP K 2] in
 theorem coe_torusAction_rootEZ (n : ℕ) (hn : 4 ≤ n) (t : Fin n → Kˣ) (i : Fin n)
     (hi0 : i ≠ zeroIdx n hn) :
     ((torusActionPoint n hn t (rootEZ (K := K) n hn i hi0) : rootSpacePoint (K := K) n hn) :
@@ -203,6 +206,7 @@ theorem coe_torusAction_rootEZ (n : ℕ) (hn : 4 ≤ n) (t : Fin n → Kˣ) (i :
   simp only [torusActionPoint, rootEZ, frameE]
   rw [IsHypFrame.frameLin_single_left (plusFrame (K := K) n) t i, smul_smul]
 
+omit [CharP K 2] in
 theorem coe_torusAction_rootFZ (n : ℕ) (hn : 4 ≤ n) (t : Fin n → Kˣ) (i : Fin n)
     (hi0 : i ≠ zeroIdx n hn) :
     ((torusActionPoint n hn t (rootFZ (K := K) n hn i hi0) : rootSpacePoint (K := K) n hn) :
@@ -212,6 +216,7 @@ theorem coe_torusAction_rootFZ (n : ℕ) (hn : 4 ≤ n) (t : Fin n → Kˣ) (i :
   rw [IsHypFrame.frameLin_single_right (plusFrame (K := K) n) t i, smul_smul]
   simp [Units.val_inv_eq_inv_val]
 
+omit [CharP K 2] in
 theorem eichler_coord_eq_point (n : ℕ) (hn : 4 ≤ n) {z₁ z₂ : Fin (2 * n) → K}
     (h₁ : z₁ ∈ rootSpacePoint (K := K) n hn) (h₂ : z₂ ∈ rootSpacePoint (K := K) n hn)
     (h : eichler (coordinateQuadPlus n K) (frameE n (zeroIdx n hn)) z₁ =
@@ -231,7 +236,7 @@ theorem eichler_coord_eq_point (n : ℕ) (hn : 4 ≤ n) {z₁ z₂ : Fin (2 * n)
       (plusFrameLeft n (zeroIdx n hn)) (1 : K)) idx = 0 :=
     Pi.single_eq_of_ne (M := fun _ : Fin (2 * n) => K) h_ie 1
   simp only [frameE, frameF, Pi.add_apply, Pi.sub_apply, Pi.smul_apply, hf, he,
-    mul_zero, add_zero, sub_zero, zero_add, smul_eq_mul] at hc
+    mul_zero, sub_zero, zero_add, smul_eq_mul] at hc
   have hpolar : polar (coordinateQuadPlus n K)
       (Pi.single (plusFrameRight n (zeroIdx n hn)) (1 : K))
       (Pi.single (plusFrameLeft n (zeroIdx n hn)) (1 : K)) = 1 := by
@@ -249,6 +254,7 @@ variable [Finite K]
     (y : rootSpacePoint (K := K) n hn) : matrixProjectiveDerived (coordinateQuadPlus n K) :=
   (projHom (coordinateQuadPlus n K)) (rootEltPoint n hn y)
 
+omit [Finite K] in
 theorem eichler_eq_of_rootGroupHom_eq_point (n : ℕ) (hn : 4 ≤ n)
     {y₁ y₂ : rootSpacePoint (K := K) n hn}
     (h : rootHomPoint (K := K) n hn y₁ = rootHomPoint (K := K) n hn y₂) :

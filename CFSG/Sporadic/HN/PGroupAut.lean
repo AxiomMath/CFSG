@@ -81,7 +81,7 @@ theorem not_dvd_card_GL {p q r : ℕ} [Fact p.Prime] (hq : q.Prime) (hqp : q ≠
   have hp := (Fact.out : p.Prime)
   rw [Matrix.card_GL_field, ZMod.card]
   intro hd
-  obtain ⟨i, -, hi⟩ := (Prime.dvd_finset_prod_iff hq.prime _).1 hd
+  obtain ⟨i, -, hi⟩ := (Prime.dvd_finsetProd_iff hq.prime _).1 hd
   have hir : (i : ℕ) < r := i.isLt
   have e : p ^ r - p ^ (i : ℕ) = p ^ (i : ℕ) * (p ^ (r - i) - 1) := by
     rw [Nat.mul_sub, mul_one, ← pow_add, Nat.add_sub_cancel' hir.le]

@@ -114,7 +114,7 @@ theorem kfact_main_normalizer (hK : Nat.card K = 8)
       have himg : (Subgroup.normalizer ((Subgroup.zpowers (Ψ.symm (zb M)) : Subgroup Y) :
           Set Y)).map Ψ.toMonoidHom = NA M := by
         rw [Subgroup.map_equiv_normalizer_eq, MonoidHom.map_zpowers]
-        simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulEquiv.apply_symm_apply]
+        simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulEquiv.apply_symm_apply]
         rfl
       intro y hy
       have h1 : Ψ y ∈ Y₀.map Ψ.toMonoidHom :=

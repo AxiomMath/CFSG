@@ -32,7 +32,7 @@ theorem rho_gens_t211 (m : ℕ) (hm : 2 ≤ m) :
 
 theorem hk_t211 (m : ℕ) (hm : 2 ≤ m) : ∀ i, 1 ≤ (StrothTypeIndex.t211 m hm).k i := by
   intro i
-  fin_cases i <;> simp [StrothTypeIndex.k, Type211.k] <;> omega
+  fin_cases i <;> simp [StrothTypeIndex.k, Type211.k]; omega
 
 theorem exists_basis_t211_of_data {m : ℕ} {hm : 2 ≤ m}
     (D : StrothTypeData B (StrothTypeIndex.t211 m hm))
@@ -127,7 +127,7 @@ theorem images_t120_three :
     (StrothTypeIndex.t120 3 le_rfl).action.φρ (gen (StrothTypeIndex.t120 3 le_rfl).k 2) =
         Torus.ofInt (Type120.k 3) ![-2, -1, -1] := by
   refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩ <;>
-    exact (matAct_gen_ofInt_Idx2R _ _ _).trans (by congr 1 <;> decide)
+    exact (matAct_gen_ofInt_Idx2R _ _ _).trans (by congr 1)
 
 theorem images_t130_three :
     (StrothTypeIndex.t130 3 le_rfl).action.φuv (gen (StrothTypeIndex.t130 3 le_rfl).k 0) =
@@ -155,7 +155,7 @@ theorem images_t130_three :
     (StrothTypeIndex.t130 3 le_rfl).action.φρ (gen (StrothTypeIndex.t130 3 le_rfl).k 2) =
         Torus.ofInt (Type120.k 3) ![-2, -1, -1] := by
   refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩ <;>
-    exact (matAct_gen_ofInt_Idx2R _ _ _).trans (by congr 1 <;> decide)
+    exact (matAct_gen_ofInt_Idx2R _ _ _).trans (by congr 1)
 
 theorem hasStrothType_t120_or_t130_of_noInvolutionsCentralizing_t211 {m : ℕ} {hm : 2 ≤ m}
     (hB : HasStrothType B (StrothTypeIndex.t211 m hm))
@@ -178,14 +178,14 @@ theorem hasStrothType_t120_or_t130_of_noInvolutionsCentralizing_t211 {m : ℕ} {
   have TR := conjTorus_gen_Idx2R D hBC hdC E hE0 hE1 hE2 hd2 (hL D.ρ_mem_L) D.ρ_mem _ _
     D.ρ_conj
   obtain ⟨zv, hz, hz0, h⟩ := classify_t211 _ _ _ _ (conjTorusIdx4_rels E D hL)
-    (by rw [TV.1]; congr 1 <;> decide +revert) (by rw [TV.2.1]; congr 1 <;> decide +revert)
-    (by rw [TV.2.2]; congr 1 <;> decide +revert)
-    (by rw [TW.1]; congr 1 <;> decide +revert) (by rw [TW.2.1]; congr 1 <;> decide +revert)
-    (by rw [TW.2.2]; congr 1 <;> decide +revert)
-    (by rw [TU.1]; congr 1 <;> decide +revert) (by rw [TU.2.1]; congr 1 <;> decide +revert)
-    (by rw [TU.2.2]; congr 1 <;> decide +revert)
-    (by rw [TR.1]; congr 1 <;> decide +revert) (by rw [TR.2.1]; congr 1 <;> decide +revert)
-    (by rw [TR.2.2]; congr 1 <;> decide +revert)
+    (by rw [TV.1]; congr 1) (by rw [TV.2.1]; congr 1)
+    (by rw [TV.2.2]; congr 1)
+    (by rw [TW.1]; congr 1) (by rw [TW.2.1]; congr 1)
+    (by rw [TW.2.2]; congr 1)
+    (by rw [TU.1]; congr 1) (by rw [TU.2.1]; congr 1)
+    (by rw [TU.2.2]; congr 1)
+    (by rw [TR.1]; congr 1) (by rw [TR.2.1]; congr 1)
+    (by rw [TR.2.2]; congr 1)
   let E' : Torus (Type120.k 3) ≃+ Additive C := (shearIdx2R _ hk0_t211 zv hz hz0).trans E
   have hE' : ∀ {g : S} (hg : g ∈ Subgroup.normalizer C) (x : Torus (Type120.k 3)),
       conjTorusIdx4 E' hg x =

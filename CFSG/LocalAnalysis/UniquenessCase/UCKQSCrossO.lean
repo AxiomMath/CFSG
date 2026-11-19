@@ -25,13 +25,13 @@ theorem qsOmega_pca_proj {F : Type} [Field F] [Finite F] {ι : Type} [Fintype ι
     (hO : PCentralAbelianAt ↥(TauCeti.QuadraticMap.orthogonalGroup Q) p) :
     PCentralAbelianAt (StatedProj (StatedOmega Q₀)) p := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, -, -, -, -, hsq', -, -, -⟩ :=
     CFSG.RankThree.Classical.orthogonal_high_Witt_derived_quotient_and_odd_lifts hQ hT
   have hsq : ∀ g : ↥(TauCeti.QuadraticMap.orthogonalGroup Q),
       g ^ 2 ∈ commutator ↥(TauCeti.QuadraticMap.orthogonalGroup Q) := fun g =>
     mem_commutator_of_coe_mem (by simpa using hsq' (g : (ι → F) ≃ₗ[F] (ι → F)) g.2)
-  haveI : Nontrivial (ι → F) := by
+  have : Nontrivial (ι → F) := by
     obtain ⟨T, hT3, -⟩ := hT
     refine Module.nontrivial_of_finrank_pos (R := F) ?_
     have := Submodule.finrank_le T
@@ -102,10 +102,10 @@ theorem pcaLieCross_POmegaOdd : PCALieCrossAt .POmegaOdd := by
   have hℓ : ℓ.Prime := hadm.1
   have hℓ2 : ℓ ≠ 2 := hadm.2.2.2
   have hp2 : p ≠ 2 := by omega
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : CharP F ℓ := charP_of_card_eq_prime_pow (p := ℓ) (f := f)
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype F := Fintype.ofFinite F
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : CharP F ℓ := charP_of_card_eq_prime_pow (p := ℓ) (f := f)
     (by rw [← Nat.card_eq_fintype_card]; exact hF)
   have h2 : ringChar F ≠ 2 := by rw [ringChar.eq F ℓ]; exact hℓ2
   have hpq : ¬ p ∣ Fintype.card F := not_dvd_card_of_card_eq_pow hp hℓ hpℓ hF
@@ -127,8 +127,8 @@ theorem pcaLieCross_POmegaPlus : PCALieCrossAt .POmegaPlus := by
   have hn : 4 ≤ n := hadm.2.2
   have hℓ : ℓ.Prime := hadm.1
   have hp2 : p ≠ 2 := by omega
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype F := Fintype.ofFinite F
   have hpq : ¬ p ∣ Fintype.card F := not_dvd_card_of_card_eq_pow hp hℓ hpℓ hF
   obtain ⟨hQnd, hT⟩ := CFSG.ClassicalGroups.Orthogonal.regular_quadPlus (K := F) (n := n)
     (by omega)
@@ -145,8 +145,8 @@ theorem pcaLieCross_POmegaMinus : PCALieCrossAt .POmegaMinus := by
   have hn : 4 ≤ n := hadm.2.2
   have hℓ : ℓ.Prime := hadm.1
   have hp2 : p ≠ 2 := by omega
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype F := Fintype.ofFinite F
   have hpq : ¬ p ∣ Fintype.card F := not_dvd_card_of_card_eq_pow hp hℓ hpℓ hF
   obtain ⟨hQnd, hT⟩ := CFSG.ClassicalGroups.Orthogonal.regular_quadMinus (K := F) (n := n) hn
     hirr

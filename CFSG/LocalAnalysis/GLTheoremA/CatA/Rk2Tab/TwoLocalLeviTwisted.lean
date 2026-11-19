@@ -25,8 +25,8 @@ theorem twoLocal_card_le_of_graphFixedLevi {K : Type} [Field K] [Finite K] [Char
     {R E : Subgroup ↥(graphFixedRootGroup t K σ)} (hR : R ≠ ⊥) (hR2 : IsPGroup 2 R)
     (hER : E ≤ Subgroup.normalizer (R : Set ↥(graphFixedRootGroup t K σ)))
     (hE : IsElemAbelian p E) : Nat.card E ≤ p ^ k := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set σe : K ≃+* K := RingEquiv.ofBijective σ ⟨σ.injective, hσ⟩ with hσedef
   have hσe : σe.toRingHom = σ := rfl
   obtain ⟨S, P, hPtop, hNR, -, -, hNS⟩ := hHolds R hR hR2

@@ -263,7 +263,7 @@ theorem i112DiagAt_holds
       have hsub : Subsingleton (PQuot 3 K ⧸ Subgroup.center (PQuot 3 K)) := by
         rw [h]
         exact QuotientGroup.subsingleton_quotient_top
-      haveI := hQsimp.2.toNontrivial
+      have := hQsimp.2.toNontrivial
       exact not_subsingleton _ hsub
   refine ⟨rfl, ?_, hZ⟩
   obtain ⟨i, hi, ⟨e⟩⟩ := hcat

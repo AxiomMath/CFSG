@@ -91,6 +91,7 @@ section Transfer
 
 variable {X : Type*} [Group X] [Finite X] {K A : Subgroup X}
 
+omit [Finite X] in
 theorem i271h_le_centGenI_of_alt {p n : ℕ} [Group.IsPerfect K]
     (hA : A ≤ Subgroup.normalizer (K : Set X)) (hZ : Subgroup.center K = ⊥) (hn : 5 ≤ n)
     (hn6 : n ≠ 6) (e : K ⧸ Subgroup.center K ≃* alternatingGroup (Fin n))

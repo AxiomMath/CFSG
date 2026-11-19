@@ -222,8 +222,8 @@ theorem ActsDiagU.eq_one_of_const {L' : Type} [Group L'] {φ : ↥(unitarySU 2 n
     ext i j
     by_cases h : i = j
     · subst h
-      simp [Matrix.diagonal_apply, Matrix.one_apply]
-    · simp [Matrix.diagonal_apply, Matrix.one_apply, h]
+      simp
+    · simp [h]
   have hcomm : ∀ s : ↥(unitarySU 2 n K d), conjN D hD s = s := by
     intro s
     apply Subtype.ext
@@ -232,7 +232,7 @@ theorem ActsDiagU.eq_one_of_const {L' : Type} [Group L'] {φ : ↥(unitarySU 2 n
       apply Units.ext
       simp only [Units.val_mul]
       rw [hconst]
-      simp [Matrix.smul_mul, Matrix.mul_smul]
+      simp
     rw [hDs, mul_assoc, mul_inv_cancel, mul_one]
   ext l
   obtain ⟨s, rfl⟩ := hφs l
@@ -333,7 +333,7 @@ theorem const_of_swap_pow {d p : ℕ} {K : Type} [Field K] (hd : 4 ≤ d) (hp : 
       ∀ a b, t (Equiv.swap i j a) * (t (Equiv.swap i j b))⁻¹ = (t a * (t b)⁻¹) ^ k) :
     ∀ a b, t a = t b := by
   have hp0 : p ≠ 0 := hp.ne_zero
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have key : ∀ x : K, x ^ p = 1 → x ≠ 1 → ∀ k : ℕ, x ^ (k + 1) = 1 →
       ∀ y : K, y ^ p = 1 → y ^ k = y⁻¹ := by
     intro x hxp hx1 k hxk y hyp
@@ -436,7 +436,7 @@ theorem moved_of_diag {L' : Type} [Group L'] [Finite (MulAut L')]
     {Λ : Subgroup (MulAut L')} (hΛA : Λ ≤ A) (hΛp : Nat.card Λ = p) :
     ∃ σ : Equiv.Perm (Fin d), ∃ e ∈ Λ,
       MulAut.conj (φ (permSU hK σ)) * e * (MulAut.conj (φ (permSU hK σ)))⁻¹ ∉ Λ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hcon
   push Not at hcon
   obtain ⟨e, heΛ, he1⟩ : ∃ e ∈ Λ, e ≠ 1 := by

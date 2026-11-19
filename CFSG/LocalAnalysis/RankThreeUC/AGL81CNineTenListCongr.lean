@@ -19,8 +19,8 @@ theorem IsExtNotation.of_mulEquiv {PA PB : ∀ (V : Type) [Group V], Prop}
   have hN' : N'.Normal := hN.map e.toMonoidHom e.surjective
   refine ⟨N', hN', ?_, ?_, ?_⟩
   · exact hPB ↥N ↥N' (N.equivMapOfInjective e.toMonoidHom e.injective) hB
-  · haveI : N.Normal := hN
-    haveI : N'.Normal := hN'
+  · have : N.Normal := hN
+    have : N'.Normal := hN'
     exact hPA (X ⧸ N) (X' ⧸ N') (QuotientGroup.congr N N' e rfl) hA
   · intro hcompl
     obtain ⟨H', hH', hinf, hsup⟩ := hcompl
@@ -114,12 +114,12 @@ theorem eq_oPPrimeHull_of_not_sq_dvd {X : Type*} [Group X] [Finite X] {p : ℕ} 
     intro S
     have hSO : (S : Subgroup X) ≤ oPPrimeHull p ⊤ := by
       intro s hs
-      obtain ⟨m, hm⟩ := S.isPGroup'.exists_orderOf_eq_pow (⟨s, hs⟩ : ↥(S : Subgroup X))
+      obtain ⟨m, hm⟩ := S.isPGroup.exists_orderOf_eq_pow (⟨s, hs⟩ : ↥(S : Subgroup X))
       exact Subgroup.subset_closure
         ⟨trivial, ⟨m, (Subgroup.orderOf_coe (⟨s, hs⟩ : ↥(S : Subgroup X))).trans hm⟩⟩
     have hdiv : Nat.card ↥(S : Subgroup X) ∣ Nat.card ↥(oPPrimeHull p (⊤ : Subgroup X)) :=
       Subgroup.card_dvd_of_le hSO
-    obtain ⟨m, hm⟩ := IsPGroup.iff_card.mp S.isPGroup'
+    obtain ⟨m, hm⟩ := IsPGroup.iff_card.mp S.isPGroup
     rw [hm] at hdiv
     have hm_le : m ≤ 1 := by
       by_contra h
@@ -167,7 +167,7 @@ theorem eq_oPPrimeHull_of_not_sq_dvd {X : Type*} [Group X] [Finite X] {p : ℕ} 
 theorem eq_of_normal_of_isQuasisimple {X : Type*} [Group X] {O N : Subgroup X} [N.Normal]
     (hNO : N ≤ O) (hq : CFSG.IsQuasisimple ↥O) (hx : ∃ x ∈ N, ∃ y ∈ O, x * y ≠ y * x) :
     N = O := by
-  haveI : (N.subgroupOf O).Normal := inferInstance
+  have : (N.subgroupOf O).Normal := inferInstance
   have hq' : CFSG.Open.IsQuasisimple ↥O := ⟨hq.1.commutator_eq_top, hq.2.1⟩
   rcases CFSG.ComponentClassification.Quasisimple.normal_le_center_or_eq_top hq'
     (N.subgroupOf O) with hcent | htop

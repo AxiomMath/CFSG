@@ -50,7 +50,7 @@ theorem s16t_l4_zc_quot (hS : S16tL4Setting D V₀ V L hV) {Y : Subgroup G}
   have hker2 : IsPGroup 2 ↥(f.comp g).ker := by
     rw [← MonoidHom.comap_ker]
     exact IsPGroup.comap_of_ker_isPGroup hf2 g hg2
-  haveI := GoldS146P.sl_simple 3 le_rfl
+  have := GoldS146P.sl_simple 3 le_rfl
   have hcard := close16_card_sl_three_two
   refine ⟨f.comp g, ⟨hfs.comp hgs, GoldS146P.sl_simple 3 le_rfl, ?_, ?_, hker2⟩, ?_⟩
   · rintro ⟨⟨h⟩⟩

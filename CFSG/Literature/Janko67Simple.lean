@@ -23,7 +23,7 @@ theorem isSimpleGroup {G : Type} [Group G] [Finite G] (S : Setting G) (f : S.M �
     have : Nontrivial ↥(P : Subgroup G) :=
       Finite.one_lt_card_iff_nontrivial.mp (by rw [hP_card]; norm_num)
     obtain ⟨c, hc_ne⟩ :=
-      Subgroup.ne_bot_iff_exists_ne_one.mp (P.isPGroup'.bot_lt_center).ne'
+      Subgroup.ne_bot_iff_exists_ne_one.mp (P.isPGroup.bot_lt_center).ne'
     have hcomm : ∀ d ∈ (P : Subgroup G), ((c : ↥(P : Subgroup G)) : G) * d =
         d * ((c : ↥(P : Subgroup G)) : G) := by
       intro d hd
@@ -152,7 +152,7 @@ theorem isSimpleGroup {G : Type} [Group G] [Finite G] (S : Setting G) (f : S.M �
     have hSyl : CFSG.ABGLocalTools.IsSylowOf 2 (N ⊓ (P : Subgroup G)) N := by
       have hPG : CFSG.ABGLocalTools.IsSylowOf 2 (P : Subgroup G) (⊤ : Subgroup G) := by
         rw [CFSG.ABGLocalTools.isSylowOf_iff]
-        refine ⟨le_top, P.isPGroup', ?_⟩
+        refine ⟨le_top, P.isPGroup, ?_⟩
         rw [Subgroup.relIndex_top_right]
         exact P.not_dvd_index
       have hnorm : (⊤ : Subgroup G) ≤ Subgroup.normalizer (N : Set G) := by
@@ -177,7 +177,7 @@ theorem isSimpleGroup {G : Type} [Group G] [Finite G] (S : Setting G) (f : S.M �
         Nat.card_congr (Subgroup.subgroupOfEquivOfLe
           (inf_le_right : N ⊓ (P : Subgroup G) ≤ (P : Subgroup G))).toEquiv
       exact Finite.one_lt_card_iff_nontrivial.mp (by rw [hcardK]; exact hgt)
-    have : Group.IsNilpotent ↥(P : Subgroup G) := P.isPGroup'.isNilpotent
+    have : Group.IsNilpotent ↥(P : Subgroup G) := P.isPGroup.isNilpotent
     have hcenter_ne : ((N ⊓ (P : Subgroup G)).subgroupOf (P : Subgroup G)) ⊓
         Subgroup.center ↥(P : Subgroup G) ≠ ⊥ :=
       Group.IsNilpotent.inf_center_ne_bot_of_normal hKne

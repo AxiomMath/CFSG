@@ -11,6 +11,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isChevSimple_two_of_L62 {K : Subgroup G} (h : IsL62Type 3 K) : IsChevSimple 2 (PSimple 3 K) := by
   obtain ⟨⟨i, hi, hiso⟩, -⟩ := h
   refine Or.inl ⟨i, ?_, hiso⟩
@@ -23,6 +24,7 @@ theorem isChevSimple_two_of_L62 {K : Subgroup G} (h : IsL62Type 3 K) : IsChevSim
   | alternating _ _ => exact absurd hi (by simp [onLie])
   | sporadic _ => exact absurd hi (by simp [onLie])
 
+omit [Finite G] in
 theorem le_normalizer_of_isDirectZpowersInf {B K : Subgroup G} {a : G} (hdir : IsDirectZpowersInf B a K)
     (hKa : K ≤ Subgroup.centralizer ({a} : Set G)) : B ≤ Subgroup.normalizer (K : Set G) := by
   have ha : a ∈ Subgroup.centralizer (K : Set G) :=
@@ -53,7 +55,7 @@ theorem l71_facts (hc : S6Ctx G 3) {B : Subgroup G} {x : G} {L : Subgroup G} {y 
     sup_le ((Subgroup.zpowers_le).2 hxB) ((Subgroup.zpowers_le).2 hyB)
   have hBD : B ≤ Subgroup.centralizer (altDxy x y : Set G) := fun b hb =>
     Subgroup.mem_centralizer_iff.2 (fun d hd => isElemAbelian_commute (IsSStarMax.bmax hB).1 (hDB hd) hb)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set N := Subgroup.normalizer (T : Set G) with hNdef
   set C := Subgroup.centralizer ({a} : Set G) ⊓ pCoreOf 2 N with hCdef
   have hgen : GenByPElts 3 I := by rw [D.I_eq]; exact genByPElts_layer hc.prime _
@@ -88,7 +90,8 @@ theorem l71_facts (hc : S6Ctx G 3) {B : Subgroup G} {x : G} {L : Subgroup G} {y 
   exact ⟨hS2, hIN, hID, hSC.trans inf_le_left, hIS, hDS, hBS, hSI, hgen,
     hSC.trans (inf_le_right.trans (CFSG.LieType.BorelTits.pCoreOf_le 2 N))⟩
 
-private theorem y5x_covers_of_imageMod_eq_top {p : ℕ} {L T : Subgroup G} (hT : T ≤ L)
+omit [Finite G] in
+private theorem y5x_covers_of_imageMod_eq_top {p : ℕ} {L T : Subgroup G} (_hT : T ≤ L)
     (h : imageMod p L T = ⊤) : CoversMod p T L := by
   unfold CoversMod
   refine le_antisymm (sup_le inf_le_right (primeCoreOf_le_self p L)) ?_
@@ -103,6 +106,7 @@ private theorem y5x_covers_of_imageMod_eq_top {p : ℕ} {L T : Subgroup G} (hT :
   rw [hl']
   exact Subgroup.mul_mem_sup ⟨Subgroup.mem_subgroupOf.1 ht, htL⟩ ho
 
+omit [Finite G] in
 private theorem y5x_conj_mem_centralizer {S : Subgroup G} {m c : G} (hm : m ∈ Subgroup.normalizer (S : Set G))
     (hc : c ∈ Subgroup.centralizer (S : Set G)) : m * c * m⁻¹ ∈ Subgroup.centralizer (S : Set G) := by
   refine Subgroup.mem_centralizer_iff.2 fun s hs => ?_
@@ -115,7 +119,7 @@ private theorem y5x_conj_mem_centralizer {S : Subgroup G} {m c : G} (hm : m ∈ 
 private theorem y5x_map_eq_bot_of_simple {Γ Q : Type} [Group Γ] [Group Q] [Finite Γ] [Finite Q] [IsSimpleGroup Q]
     {W : Subgroup Γ} [W.Normal] (hW : Nat.Coprime 3 (Nat.card ↥W)) (f : Γ →* Q)
     (hf : Function.Surjective f) (h3 : 3 ∣ Nat.card Q) : W.map f = ⊥ := by
-  haveI : (W.map f).Normal := Subgroup.Normal.map inferInstance f hf
+  have : (W.map f).Normal := Subgroup.Normal.map inferInstance f hf
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (W.map f) with h | h
   · exact h
   · exfalso
@@ -128,6 +132,7 @@ private theorem y5x_map_eq_bot_of_simple {Γ Q : Type} [Group Γ] [Group Q] [Fin
     have := Nat.Coprime.eq_one_of_dvd hW h1
     exact absurd this (by norm_num)
 
+omit [Finite G] in
 private theorem y5x_eq_one_of_two_group_pow {T : Subgroup G} (hT2 : IsPGroup 2 ↥T) {c : G} (hcT : c ∈ T)
     {N : ℕ} (hN : c ^ N = 1) (hcop : Nat.Coprime 2 N) : c = 1 := by
   obtain ⟨m, hm⟩ := hT2 ⟨c, hcT⟩
@@ -139,6 +144,7 @@ private theorem y5x_eq_one_of_two_group_pow {T : Subgroup G} (hT2 : IsPGroup 2 �
   rw [hcop'.gcd_eq_one] at h3
   exact orderOf_eq_one_iff.1 (Nat.dvd_one.1 h3)
 
+omit [Finite G] in
 private theorem y5x_mem_sup_zpowers {K : Subgroup G} {a : G} (hKa : K ≤ Subgroup.centralizer ({a} : Set G)) {h : G}
     (hh : h ∈ K ⊔ Subgroup.zpowers a) : ∃ k ∈ K, ∃ j : ℤ, h = k * a ^ j := by
   have hcomm : ∀ k ∈ K, ∀ j : ℤ, k * a ^ j = a ^ j * k := fun k hk j =>
@@ -168,7 +174,7 @@ private theorem y5x_mem_sup_zpowers {K : Subgroup G} {a : G} (hKa : K ≤ Subgro
 
 private theorem y5x_genByPElts_layer {p : ℕ} (hp : p.Prime) (X : Subgroup G) : GenByPElts p (GLAPLayer p X) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set Λ : Subgroup G := GLAPLayer p X with hΛ
   set S : Set G := {g : G | g ∈ Λ ∧ IsPGroup p (Subgroup.zpowers g)} with hS
   set N : Subgroup G := Subgroup.closure S with hN
@@ -205,7 +211,7 @@ private theorem y5x_genByPElts_layer {p : ℕ} (hp : p.Prime) (X : Subgroup G) :
     obtain ⟨P⟩ := (Sylow.nonempty : Nonempty (Sylow p ↥Λ))
     have hPN : (P : Subgroup ↥Λ) ≤ N.subgroupOf Λ := by
       intro x hx
-      have hxp : IsPGroup p (Subgroup.zpowers x) := P.isPGroup'.to_le (Subgroup.zpowers_le.2 hx)
+      have hxp : IsPGroup p (Subgroup.zpowers x) := P.isPGroup.to_le (Subgroup.zpowers_le.2 hx)
       obtain ⟨m, hm⟩ := (isPGroup_zpowers_iff_exists_pow).1 hxp
       have hm' : (x : G) ^ p ^ m = 1 := congrArg Subtype.val hm
       have hxG : IsPGroup p (Subgroup.zpowers (x : G)) := (isPGroup_zpowers_iff_exists_pow).2 ⟨m, hm'⟩
@@ -218,7 +224,7 @@ private theorem y5x_genByPElts_layer {p : ℕ} (hp : p.Prime) (X : Subgroup G) :
 
 private theorem y5x_exists_fixed {Γ α : Type} [Group Γ] [MulAction Γ α] [Finite α] (hΓ : IsPGroup 3 Γ)
     (h3 : ¬ 3 ∣ Nat.card α) : ∃ a : α, ∀ g : Γ, g • a = a := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hmod := hΓ.card_modEq_card_fixedPoints α
   have hne : Nat.card (MulAction.fixedPoints Γ α) ≠ 0 := by
     intro h0
@@ -230,7 +236,7 @@ private theorem y5x_exists_fixed {Γ α : Type} [Group Γ] [MulAction Γ α] [Fi
 private theorem y5x_two_eq_of_card {SW S W Q : Subgroup G} (hW : Odd (Nat.card ↥W))
     (hSW : Nat.card ↥SW = Nat.card ↥S * Nat.card ↥W) (hQ : Q ≤ SW) (hQ2 : IsPGroup 2 Q) (hSQ : S ≤ Q) :
     Q = S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hQ2
   have hdvd : Nat.card ↥Q ∣ Nat.card ↥S * Nat.card ↥W := hSW ▸ Subgroup.card_dvd_of_le hQ
   rw [hn] at hdvd
@@ -246,10 +252,10 @@ private theorem y5x_frattini {A S M : Subgroup G} (hSA : S ≤ A) (hAM : A ≤ M
     (hmax : ∀ Q : Subgroup G, Q ≤ A → IsPGroup 2 Q → S ≤ Q → Q = S) (g : G) (hg : g ∈ M) :
     ∃ n ∈ M, ∃ h ∈ A, g = n * h ∧ n ∈ Subgroup.normalizer (S : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSM : S ≤ M := hSA.trans hAM
   let Mn : Subgroup ↥M := A.subgroupOf M
-  haveI hMn : Mn.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hAM).2 hMN
+  have hMn : Mn.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hAM).2 hMN
   let Pc : Subgroup ↥Mn := (S.subgroupOf M).subgroupOf Mn
   have hPc' : ∀ y : ↥Mn, y ∈ Pc ↔ ((y : ↥M) : G) ∈ S := fun y =>
     Subgroup.mem_subgroupOf.trans Subgroup.mem_subgroupOf
@@ -322,6 +328,7 @@ private theorem y5x_frattini {A S M : Subgroup G} (hSA : S ≤ A) (hAM : A ≤ M
   have := congrArg (fun z : ↥M => (z : G)) hab
   simpa using this.symm
 
+omit [Finite G] in
 private theorem y5x_primeCore_le (X : Subgroup G) : GLAPPrimeCoreOf 3 X ≤ X := fun x hx => by
   obtain ⟨g, _, rfl⟩ := Subgroup.mem_map.1 hx
   exact g.2
@@ -333,7 +340,7 @@ private theorem y5x_primeCore_coprime (X : Subgroup G) : Nat.Coprime 3 (Nat.card
 private theorem y5x_sup_card {K Sg : Subgroup G} (hS2 : IsPGroup 2 Sg) (hodd : Odd (Nat.card ↥(GLAPPrimeCoreOf 3 K)))
     (hSgW : Sg ≤ Subgroup.normalizer ((GLAPPrimeCoreOf 3 K : Subgroup G) : Set G)) :
     Nat.card ↥(Sg ⊔ GLAPPrimeCoreOf 3 K) = Nat.card ↥Sg * Nat.card ↥(GLAPPrimeCoreOf 3 K) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set W : Subgroup G := GLAPPrimeCoreOf 3 K with hW
   have hWSg : W ⊓ Sg = ⊥ := by
     obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 (hS2.to_le (inf_le_right : W ⊓ Sg ≤ Sg))
@@ -349,7 +356,7 @@ private theorem y5x_sup_card {K Sg : Subgroup G} (hS2 : IsPGroup 2 Sg) (hodd : O
   rw [hWSg, Subgroup.card_bot, mul_one, sup_comm] at h
   rw [h, mul_comm]
 
-theorem l71_maxRank (hc : S6Ctx G 3) (i106 : I106L62At G) {B : Subgroup G} {a : G} {K : Subgroup G}
+theorem l71_maxRank (_hc : S6Ctx G 3) (i106 : I106L62At G) {B : Subgroup G} {a : G} {K : Subgroup G}
     (hdir : IsDirectZpowersInf B a K) (hKa : K ≤ Subgroup.centralizer ({a} : Set G))
     (hL62 : IsL62Type 3 K) (hB : Nat.card ↥B = 3 ^ 4) : IsMaxRankIn 3 B (K ⊔ B) := by
   classical
@@ -365,7 +372,7 @@ theorem l71_maxRank (hc : S6Ctx G 3) (i106 : I106L62At G) {B : Subgroup G} {a : 
     sup_le Subgroup.le_normalizer
       (Subgroup.zpowers_le.2 (Subgroup.centralizer_le_normalizer (K : Set G) ha_cent))
   have hKH : K ≤ H := le_sup_left
-  haveI hKn : (K.subgroupOf H).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hKH).2 hHN
+  have hKn : (K.subgroupOf H).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hKH).2 hHN
   have hzH : Subgroup.zpowers a ≤ H := le_sup_right
   have haH : a ∈ H := hzH (Subgroup.mem_zpowers a)
   set π : ↥H →* ↥H ⧸ K.subgroupOf H := QuotientGroup.mk' (K.subgroupOf H) with hπ
@@ -382,7 +389,7 @@ theorem l71_maxRank (hc : S6Ctx G 3) (i106 : I106L62At G) {B : Subgroup G} {a : 
     have hpi : π h = q0 ^ j := by
       rw [hhe, map_mul, map_zpow, hπK k hk hkH, one_mul, hq0]
     exact hpi.symm
-  haveI : IsCyclic (↥H ⧸ K.subgroupOf H) := ⟨⟨q0, hsurj⟩⟩
+  have : IsCyclic (↥H ⧸ K.subgroupOf H) := ⟨⟨q0, hsurj⟩⟩
   set f : ↥E →* ↥H ⧸ K.subgroupOf H := π.comp (Subgroup.inclusion hEH) with hf
   have hrange : Nat.card f.range ≤ 3 := by
     have hexp : Monoid.exponent f.range ∣ 3 := by
@@ -421,9 +428,9 @@ theorem l71_core_odd (i61 : I61L62At) {X K : Subgroup G} (hK : GLAPComponent 3 X
   have hp : (3 : ℕ).Prime := Nat.prime_three
   set W : Subgroup G := GLAPPrimeCoreOf 3 K with hW
   let W' : Subgroup ↥K := GLAPPrimeCore 3 ↥K
-  haveI : W'.Normal := GLAPPrimeCore.normal 3 ↥K
+  have : W'.Normal := GLAPPrimeCore.normal 3 ↥K
   let N' : Subgroup ↥K := ⁅(⊤ : Subgroup ↥K), W'⁆
-  haveI : N'.Normal := Subgroup.commutator_normal _ _
+  have : N'.Normal := Subgroup.commutator_normal _ _
   have hN'W' : N' ≤ W' := by
     refine Subgroup.commutator_le.2 fun g _ w hw => ?_
     rw [commutatorElement_def]
@@ -440,9 +447,9 @@ theorem l71_core_odd (i61 : I61L62At) {X K : Subgroup G} (hK : GLAPComponent 3 X
   have hZP : Subgroup.center (PQuot 3 K) = ⊥ := hL62.2
   let eP : PSimple 3 K ≃* PQuot 3 K :=
     (QuotientGroup.quotientMulEquivOfEq hZP).trans QuotientGroup.quotientBot
-  haveI : IsSimpleGroup (PSimple 3 K) := (isQuasisimple_pQuot_of_glaPComponent hp hK).2
-  haveI : IsSimpleGroup (PQuot 3 K) := eP.symm.isSimpleGroup
-  haveI : Nontrivial (PQuot 3 K) := isQuasisimple_nontrivial (isQuasisimple_pQuot_of_glaPComponent hp hK)
+  have : IsSimpleGroup (PSimple 3 K) := (isQuasisimple_pQuot_of_glaPComponent hp hK).2
+  have : IsSimpleGroup (PQuot 3 K) := eP.symm.isSimpleGroup
+  have : Nontrivial (PQuot 3 K) := isQuasisimple_nontrivial (isQuasisimple_pQuot_of_glaPComponent hp hK)
   let Q := ↥K ⧸ N'
   let π₁ : Q →* PQuot 3 K := QuotientGroup.map N' W' (MonoidHom.id ↥K) hN'W'
   have hπ₁ : ∀ x : ↥K, π₁ (QuotientGroup.mk x) = QuotientGroup.mk x := fun x =>
@@ -457,7 +464,7 @@ theorem l71_core_odd (i61 : I61L62At) {X K : Subgroup G} (hK : GLAPComponent 3 X
     have := Subgroup.map_commutator (⊤ : Subgroup ↥K) (⊤ : Subgroup ↥K) (QuotientGroup.mk' N')
     rw [Subgroup.map_top_of_surjective _ hsurjQ, hperfK, Subgroup.map_top_of_surjective _ hsurjQ] at this
     exact this.symm
-  haveI : Nontrivial Q := hπs.nontrivial
+  have : Nontrivial Q := hπs.nontrivial
   have hA : π₁.ker ≤ Subgroup.center Q := by
     intro z hz
     obtain ⟨w, rfl⟩ := hsurjQ z
@@ -476,7 +483,7 @@ theorem l71_core_odd (i61 : I61L62At) {X K : Subgroup G} (hK : GLAPComponent 3 X
     rw [e]
     exact N'.inv_mem hm
   have hB : Subgroup.center Q ≤ π₁.ker := by
-    haveI hZm : ((Subgroup.center Q).map π₁).Normal := Subgroup.Normal.map inferInstance π₁ hπs
+    have hZm : ((Subgroup.center Q).map π₁).Normal := Subgroup.Normal.map inferInstance π₁ hπs
     intro z hz
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((Subgroup.center Q).map π₁) with h | h
     · rw [MonoidHom.mem_ker]
@@ -531,6 +538,7 @@ theorem l71_core_odd (i61 : I61L62At) {X K : Subgroup G} (hK : GLAPComponent 3 X
   rw [hWeq]
   exact hodd
 
+omit [Finite G] in
 theorem mem_sup_of_commute {A C : Subgroup G} (hAC : ∀ a ∈ A, ∀ c ∈ C, a * c = c * a) {d : G}
     (hd : d ∈ A ⊔ C) : ∃ a ∈ A, ∃ c ∈ C, d = a * c := by
   rw [Subgroup.sup_eq_closure] at hd
@@ -560,10 +568,11 @@ theorem mem_sup_of_commute {A C : Subgroup G} (hAC : ∀ a ∈ A, ∀ c ∈ C, a
             _ = c⁻¹ * a⁻¹ := by group
         exact this.symm
 
+omit [Finite G] in
 theorem l71_Do_card {B K D : Subgroup G} {a : G} (hBel : IsElemAbelian 3 B) (hdir : IsDirectZpowersInf B a K)
     (hDB : D ≤ B) (haD : a ∈ D) (ha1 : a ≠ 1) (ha3 : a ^ 3 = 1) (hD : Nat.card ↥D = 3 ^ 2) :
     Nat.card ↥(D ⊓ K : Subgroup G) = 3 ∧ D = Subgroup.zpowers a ⊔ (D ⊓ K) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hAD : Subgroup.zpowers a ≤ D := (Subgroup.zpowers_le).2 haD
   have hAB : Subgroup.zpowers a ≤ B := hAD.trans hDB
   have hsplit : D = Subgroup.zpowers a ⊔ (D ⊓ K) := by
@@ -606,8 +615,8 @@ theorem l71_frattini_cent {K Sg Dd : Subgroup G} (hDK : Dd ≤ Subgroup.normaliz
         Subgroup.normalizer ((imageMod 3 K Sg : Subgroup (PQuot 3 K)) : Set (PQuot 3 K)) ≤
       imageMod 3 K (K ⊓ Subgroup.centralizer (Dd : Set G) ⊓ Subgroup.normalizer (Sg : Set G)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set W : Subgroup G := GLAPPrimeCoreOf 3 K with hW
   have hWK : W ≤ K := y5x_primeCore_le K
   have hWcop : Nat.Coprime 3 (Nat.card ↥W) := y5x_primeCore_coprime K
@@ -739,7 +748,7 @@ theorem l71_frattini_cent {K Sg Dd : Subgroup G} (hDK : Dd ≤ Subgroup.normaliz
         show ((a : G) * (b : G)) * (x : G) * ((a : G) * (b : G))⁻¹ =
           (a : G) * ((b : G) * (x : G) * (b : G)⁻¹) * (a : G)⁻¹
         group) }
-  letI := act
+  let := act
   obtain ⟨a, ha⟩ := y5x_exists_fixed hΓ (by rw [hXs_card]; exact hcopT)
   have hfix : ∀ d ∈ Dd, d * a.1 * d⁻¹ = a.1 := fun d hd => congrArg Subtype.val (ha ⟨d, hd⟩)
   obtain ⟨⟨hxK, hxN⟩, hxz⟩ := a.2
@@ -785,6 +794,7 @@ theorem l71_image_cover {K J Sg Dd : Subgroup G} (hDK : Dd ≤ Subgroup.normaliz
   rw [hJim, imageMod_glaPLayer hp hYK]
   exact h2
 
+omit [Finite G] in
 theorem l71_perfect_le_L_cent {x : G} {L P : Subgroup G} {n : ℕ} (hL : IsAltPType 3 L n) (hn : 7 < n)
     (hxL : L ≤ Subgroup.centralizer ({x} : Set G)) (hPN : P ≤ Subgroup.normalizer (L : Set G))
     (hPx : P ≤ Subgroup.centralizer ({x} : Set G)) (hperf : ⁅P, P⁆ = P) :
@@ -806,7 +816,7 @@ theorem l71_perfect_le_L_cent {x : G} {L P : Subgroup G} {n : ℕ} (hL : IsAltPT
   Subgroup.centralizer ((imageMod 3 X L : Subgroup (PQuot 3 X)) : Set (PQuot 3 X))
 
 theorem l71_cbar_layer (hc : S6Ctx G 3) {B : Subgroup G} {x : G} {L : Subgroup G} {n : ℕ} {y : G}
-    {J : Subgroup G} (hB : IsSStarMax 3 B x L) (S : AltSetup 3 B x L n y J) :
+    {J : Subgroup G} (hB : IsSStarMax 3 B x L) (_S : AltSetup 3 B x L n y J) :
     CFSG.ComponentClassification.Layer.subgroup ↥(cbarOf (Subgroup.centralizer ({x} : Set G)) L) = ⊥ := by
   classical
   set X := Subgroup.centralizer ({x} : Set G) with hXdef
@@ -875,23 +885,23 @@ theorem l71_cbar_layer (hc : S6Ctx G 3) {B : Subgroup G} {x : G} {L : Subgroup G
         rw [htop]
         exact Subgroup.mem_top a
       exact Subgroup.mem_bot.1 this
-    haveI hnt : Nontrivial ↥K :=
+    have hnt : Nontrivial ↥K :=
       Function.Surjective.nontrivial (QuotientGroup.mk'_surjective (Subgroup.center ↥K))
     obtain ⟨a, b, hab⟩ := hnt.exists_pair_ne
     exact hab ((hall a).trans (hall b).symm)
   rw [CFSG.ComponentClassification.Layer.subgroup.eq_sSup]
   have hempty : {component : Subgroup ↥C | IsComponentOf component ⊤} = ∅ := by
     ext K
-    simp only [Set.mem_setOf_eq, Set.mem_empty_iff_false, iff_false]
+    simp only [Set.mem_ofPred_eq, Set.mem_empty_iff_false, iff_false]
     exact hnone K
   rw [hempty, sSup_empty]
 
 theorem l71_fitting_pGroup (hc : S6Ctx G 3) {B : Subgroup G} {x : G} {L : Subgroup G} {n : ℕ} {y : G}
-    {J : Subgroup G} (hB : IsSStarMax 3 B x L) (S : AltSetup 3 B x L n y J) :
+    {J : Subgroup G} (hB : IsSStarMax 3 B x L) (_S : AltSetup 3 B x L n y J) :
     IsPGroup 3 ↥(CFSG.ComponentClassification.Fitting.subgroup ↥(cbarOf (Subgroup.centralizer ({x} : Set G)) L)) := by
   classical
   have hp : (3 : ℕ).Prime := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   set X := Subgroup.centralizer ({x} : Set G) with hXdef
   set C := cbarOf X L with hCdef
   have hxL : L ≤ X := (IsSStarMax.component hB).1
@@ -904,13 +914,13 @@ theorem l71_fitting_pGroup (hc : S6Ctx G 3) {B : Subgroup G} {x : G} {L : Subgro
     rw [hCdef]
     unfold cbarOf
     exact Subgroup.normal_centralizer
-  haveI hFc : (CFSG.ComponentClassification.Fitting.subgroup ↥C).Characteristic :=
+  have hFc : (CFSG.ComponentClassification.Fitting.subgroup ↥C).Characteristic :=
     CFSG.ComponentClassification.Fitting.characteristic _
-  haveI hF'n : ((CFSG.ComponentClassification.Fitting.subgroup ↥C).map C.subtype).Normal :=
+  have hF'n : ((CFSG.ComponentClassification.Fitting.subgroup ↥C).map C.subtype).Normal :=
     ConjAct.normal_of_characteristic_of_normal
   have hFnil : Group.IsNilpotent ↥(CFSG.ComponentClassification.Fitting.subgroup ↥C) :=
     CFSG.fittingSubgroup_nilpotent
-  haveI hF'nil : Group.IsNilpotent
+  have hF'nil : Group.IsNilpotent
       ↥((CFSG.ComponentClassification.Fitting.subgroup ↥C).map C.subtype) :=
     (Group.isNilpotent_congr
       (Subgroup.equivMapOfInjective _ C.subtype Subtype.val_injective)).1 hFnil
@@ -974,7 +984,7 @@ private theorem y5x_threeSub_gen {X L : Subgroup G} (hxL : L ≤ X)
     IsCyclic ↥P := by
   classical
   have hp : (3 : ℕ).Prime := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   set P' : Subgroup (PQuot 3 X) := P.map (cbarOf X L).subtype with hP'def
   have hP'3 : IsPGroup 3 ↥P' := hP.map (cbarOf X L).subtype
   have hP'C : P' ≤ cbarOf X L := by
@@ -1066,13 +1076,13 @@ private theorem y5x_threeSub_gen {X L : Subgroup G} (hxL : L ≤ X)
       rfl
     rw [← hval, hsplit, map_mul, hnq, one_mul]
   have hP'cyc : IsCyclic ↥P' := by
-    haveI := hS₀cyc
+    have := hS₀cyc
     exact isCyclic_of_surjective f hfsurj
   exact (MulEquiv.isCyclic (Subgroup.equivMapOfInjective P (cbarOf X L).subtype
     Subtype.val_injective)).2 hP'cyc
 
 theorem l71_threeSubgroup_cyclic (hc : S6Ctx G 3) {B : Subgroup G} {x : G} {L : Subgroup G} {n : ℕ} {y : G}
-    {J : Subgroup G} (hB : IsSStarMax 3 B x L) (S : AltSetup 3 B x L n y J)
+    {J : Subgroup G} (hB : IsSStarMax 3 B x L) (_S : AltSetup 3 B x L n y J)
     (P : Subgroup ↥(cbarOf (Subgroup.centralizer ({x} : Set G)) L)) (hP : IsPGroup 3 ↥P) : IsCyclic ↥P := by
   exact y5x_threeSub_gen (IsSStarMax.component hB).1 (l73_Cx_le_normalizer hc hB)
     (IsSStarMax.component hB).2.1 (IsSStarMax.cycMod hB) P hP
@@ -1089,16 +1099,16 @@ theorem l71_cbar_solvable (hc : S6Ctx G 3) {B : Subgroup G} {x : G} {L : Subgrou
       CFSG.ComponentClassification.Fitting.subgroup Γ := by
     have h := CFSG.ComponentClassification.GeneralizedFitting.centralizer_le Γ
     rwa [CFSG.ComponentClassification.GeneralizedFitting.subgroup.eq_sup, hLay, sup_bot_eq] at h
-  haveI : (CFSG.ComponentClassification.Fitting.subgroup Γ).Normal :=
+  have : (CFSG.ComponentClassification.Fitting.subgroup Γ).Normal :=
     CFSG.ComponentClassification.Fitting.normal Γ
-  haveI : IsCyclic ↥(CFSG.ComponentClassification.Fitting.subgroup Γ) := hcyc
-  haveI hFs : Group.IsSolvable ↥(CFSG.ComponentClassification.Fitting.subgroup Γ) :=
+  have : IsCyclic ↥(CFSG.ComponentClassification.Fitting.subgroup Γ) := hcyc
+  have hFs : Group.IsSolvable ↥(CFSG.ComponentClassification.Fitting.subgroup Γ) :=
     inferInstance
-  haveI hAut : Group.IsSolvable (MulAut ↥(CFSG.ComponentClassification.Fitting.subgroup Γ)) :=
+  have hAut : Group.IsSolvable (MulAut ↥(CFSG.ComponentClassification.Fitting.subgroup Γ)) :=
     Group.isSolvable_of_isSolvable_injective
       (f := (IsCyclic.mulAutMulEquiv ↥(CFSG.ComponentClassification.Fitting.subgroup Γ)).toMonoidHom)
       (IsCyclic.mulAutMulEquiv ↥(CFSG.ComponentClassification.Fitting.subgroup Γ)).injective
-  refine solvable_of_ker_le_range (CFSG.ComponentClassification.Fitting.subgroup Γ).subtype
+  refine Group.isSolvable_of_ker_le_range (CFSG.ComponentClassification.Fitting.subgroup Γ).subtype
     (MulAut.conjNormal : Γ →* MulAut ↥(CFSG.ComponentClassification.Fitting.subgroup Γ)) ?_
   intro g hg
   have hg' : ∀ h ∈ CFSG.ComponentClassification.Fitting.subgroup Γ, h * g = g * h := by
@@ -1140,7 +1150,7 @@ theorem l71_cent_solvable (hc : S6Ctx G 3) {B : Subgroup G} {x : G} {L : Subgrou
     {J : Subgroup G} (hB : IsSStarMax 3 B x L) (S : AltSetup 3 B x L n y J) :
     Group.IsSolvable ↥(imageMod 3 (Subgroup.centralizer ({x} : Set G))
       (centModSubgroup 3 L ⊓ Subgroup.centralizer ({x} : Set G))) := by
-  haveI := l71_cbar_solvable hc hB S
+  have := l71_cbar_solvable hc hB S
   exact Group.isSolvable_of_isSolvable_injective
     (Subgroup.inclusion_injective (imageMod_centMod_le_cbar hc hB))
 
@@ -1157,7 +1167,7 @@ theorem l71_layer_le_L (hc : S6Ctx G 3) {B : Subgroup G} {x : G} {L : Subgroup G
   have hgen : GenByPElts 3 Λ := genByPElts_layer hp Y
   have hA1 := l71_perfect_le_L_cent S.alt (by have := S.seven_lt; omega) hxL (hΛX.trans hXN) hΛX hperf
   have hsol := l71_cent_solvable hc hB S
-  haveI hLn : (imageMod 3 X L).Normal := by
+  have hLn : (imageMod 3 X L).Normal := by
     have h1 : (L.subgroupOf X).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hxL).2 hXN
     exact Subgroup.Normal.map h1 _ (QuotientGroup.mk'_surjective _)
   have himg : imageMod 3 X Λ ≤ imageMod 3 X (GLAPLayer 3 X) := by
@@ -1168,7 +1178,7 @@ theorem l71_layer_le_L (hc : S6Ctx G 3) {B : Subgroup G} {x : G} {L : Subgroup G
   have := le_layer_of_imageMod_le hp (le_refl X) hΛX hgen himg
   rwa [sstarMax_layer_eq hc hB] at this
 
-theorem l71_cover_of_image {K L J Sg Dd : Subgroup G} (hJK : J ≤ K)
+theorem l71_cover_of_image {K L J Sg Dd : Subgroup G} (_hJK : J ≤ K)
     (hJ : GLAPLayer 3 (K ⊓ Subgroup.centralizer (Dd : Set G)) = J)
     (hker : J ⊓ GLAPPrimeCoreOf 3 K = GLAPPrimeCoreOf 3 J)
     (himg : imageMod 3 K J ≤ imageMod 3 K (GLAPLayer 3 (K ⊓ Subgroup.centralizer (Dd : Set G) ⊓
@@ -1325,12 +1335,12 @@ theorem l71_kernel_L {B : Subgroup G} {x : G} {L : Subgroup G} {n : ℕ} {y : G}
     rw [himg, altFix_eq_fixingSubgroup]
   obtain ⟨eA⟩ := nonempty_altFix_equiv (permOfMod 3 L n e y) (m := n - 3) (by rw [hσ3])
   have hcardA : 5 ≤ n - 3 := by omega
-  haveI : IsSimpleGroup ↥(alternatingGroup (Fin (n - 3))) :=
+  have : IsSimpleGroup ↥(alternatingGroup (Fin (n - 3))) :=
     alternatingGroup.isSimpleGroup (by rw [Nat.card_eq_fintype_card, Fintype.card_fin]; exact hcardA)
-  haveI : IsSimpleGroup ↥(altFix (permOfMod 3 L n e y)) := eA.isSimpleGroup
+  have : IsSimpleGroup ↥(altFix (permOfMod 3 L n e y)) := eA.isSimpleGroup
   let eF : ↥(imageMod 3 L J) ≃* ↥(altFix (permOfMod 3 L n e y)) :=
     (Subgroup.equivMapOfInjective _ _ e.injective).trans (MulEquiv.subgroupCongr hF)
-  haveI : IsSimpleGroup ↥(imageMod 3 L J) := eF.isSimpleGroup
+  have : IsSimpleGroup ↥(imageMod 3 L J) := eF.isSimpleGroup
   have h3F : 3 ∣ Nat.card ↥(imageMod 3 L J) := by
     rw [Nat.card_congr eF.toEquiv, Nat.card_congr eA.toEquiv]
     exact p_dvd_card_alternatingGroup Nat.prime_three (by norm_num)
@@ -1344,7 +1354,7 @@ theorem l71_kernel_L {B : Subgroup G} {x : G} {L : Subgroup G} {n : ℕ} {y : G}
     rintro ⟨q, hq⟩
     obtain ⟨x, hx, rfl⟩ := Subgroup.mem_map.1 hq
     exact ⟨⟨x.1, Subgroup.mem_subgroupOf.1 hx⟩, rfl⟩
-  haveI : (GLAPPrimeCore 3 ↥J).Normal := GLAPPrimeCore.normal 3 ↥J
+  have : (GLAPPrimeCore 3 ↥J).Normal := GLAPPrimeCore.normal 3 ↥J
   have hcopW : Nat.Coprime 3 (Nat.card ↥(GLAPPrimeCore 3 ↥J)) :=
     CFSG.HardMathSupport.Solomon.LocalBalance.coprime_card_gLAPPrimeCore_aux 3 ↥J
   have hWbot : (GLAPPrimeCore 3 ↥J).map φ = ⊥ := y5x_map_eq_bot_of_simple hcopW φ hφsurj h3F
@@ -1360,6 +1370,7 @@ theorem l71_kernel_L {B : Subgroup G} {x : G} {L : Subgroup G} {n : ℕ} {y : G}
   obtain ⟨w, hw', rfl⟩ := Subgroup.mem_map.1 hx
   exact hw w hw'
 
+omit [Finite G] in
 theorem coversMod_trans {L T J M₀ : Subgroup G} (hcov : CoversMod 3 (T ⊔ J) L) (hTM : T ≤ M₀) (hTL : T ≤ L)
     (hJL : J ≤ L) (hJM : CoversMod 3 M₀ J) (hkerL : GLAPPrimeCoreOf 3 J ≤ GLAPPrimeCoreOf 3 L) :
     CoversMod 3 M₀ L := by
@@ -1372,6 +1383,7 @@ theorem coversMod_trans {L T J M₀ : Subgroup G} (hcov : CoversMod 3 (T ⊔ J) 
   calc L = ((T ⊔ J) ⊓ L) ⊔ GLAPPrimeCoreOf 3 L := hcov.symm
     _ ≤ (M₀ ⊓ L) ⊔ GLAPPrimeCoreOf 3 L := sup_le (inf_le_left.trans hTJ) le_sup_right
 
+omit [Finite G] in
 theorem l71_cover_M_o {L T Sg : Subgroup G} {n : ℕ} (hn : 5 ≤ n) (hL : IsAltPType 3 L n) (hTL : T ≤ L)
     (hT : T ≤ Subgroup.centralizer (Sg : Set G)) (hTn : ¬ T ≤ GLAPPrimeCoreOf 3 L)
     (hcov : CoversMod 3 (Subgroup.normalizer (Sg : Set G) ⊓ L) L) :
@@ -1386,9 +1398,9 @@ theorem l71_cover_M_o {L T Sg : Subgroup G} {n : ℕ} (hn : 5 ≤ n) (hL : IsAlt
     rwa [inf_eq_left.2 (inf_le_right : N ⊓ L ≤ L)] at h
   have hAn : imageMod 3 L (N ⊓ L) = ⊤ := imageMod_eq_top_of_sup inf_le_right hcov'
   obtain ⟨e⟩ := hL
-  haveI : IsSimpleGroup ↥(alternatingGroup (Fin n)) :=
+  have : IsSimpleGroup ↥(alternatingGroup (Fin n)) :=
     alternatingGroup.isSimpleGroup (by rw [Nat.card_eq_fintype_card, Fintype.card_fin]; exact hn)
-  haveI : IsSimpleGroup (PQuot 3 L) := e.isSimpleGroup
+  have : IsSimpleGroup (PQuot 3 L) := e.isSimpleGroup
   obtain ⟨t, htT, htO⟩ : ∃ t ∈ T, t ∉ O := by
     by_contra hcon
     apply hTn
@@ -1416,7 +1428,7 @@ theorem l71_cover_M_o {L T Sg : Subgroup G} {n : ℕ} (hn : 5 ≤ n) (hL : IsAlt
       Subgroup.mem_map.2 ⟨⟨t, htL⟩, Subgroup.mem_subgroupOf.2 ⟨hT htT, htL⟩, rfl⟩
     rw [hbot, Subgroup.mem_bot, QuotientGroup.eq_one_iff] at hmem
     exact htO (Subgroup.mem_map.2 ⟨⟨t, htL⟩, hmem, rfl⟩)
-  haveI := hAcN
+  have := hAcN
   have hAc_top : imageMod 3 L (C ⊓ L) = ⊤ :=
     (IsSimpleGroup.eq_bot_or_eq_top_of_normal _).resolve_left hAc_ne
   exact y5x_covers_of_imageMod_eq_top inf_le_right hAc_top
@@ -1575,6 +1587,7 @@ theorem l71_I_cent_T (hc : S6Ctx G 3) {B : Subgroup G} {x : G} {L : Subgroup G} 
     exact Subgroup.mem_centralizer_iff.2 fun t ht => (hF2 g hgI hgp t ht).symm
   exact Subgroup.commutator_eq_bot_iff_le_centralizer.2 hIC
 
+omit [Finite G] in
 theorem l71_S_cent_T {I T Sg : Subgroup G} (hIT : (⁅I, T⁆ : Subgroup G) = ⊥)
     (hST : Sg ≤ Subgroup.normalizer (T : Set G)) (hSI : Sg ≤ ⁅Sg, I⁆) :
     Sg ≤ Subgroup.centralizer (T : Set G) := by
@@ -1590,6 +1603,7 @@ theorem l71_S_cent_T {I T Sg : Subgroup G} (hIT : (⁅I, T⁆ : Subgroup G) = �
   rw [← Subgroup.commutator_eq_bot_iff_le_centralizer]
   exact le_bot_iff.1 (h4.trans h3.le)
 
+omit [Finite G] in
 theorem inf_centralizer_sup_eq_of_comm {K A Dd : Subgroup G} (hKA : ∀ g ∈ K, ∀ a ∈ A, a * g = g * a) :
     K ⊓ Subgroup.centralizer ((A ⊔ Dd : Subgroup G) : Set G) = K ⊓ Subgroup.centralizer (Dd : Set G) := by
   apply le_antisymm
@@ -1637,9 +1651,9 @@ theorem l71_false (hc : S6Ctx G 3) (i264 : I264ChevTwoAt G 3) (i61 : I61L62At) (
   have hI7 := D.I_alt7
   have hker : J ⊓ GLAPPrimeCoreOf 3 K = GLAPPrimeCoreOf 3 J := by
     obtain ⟨e8⟩ := hJ8
-    haveI : IsSimpleGroup ↥(alternatingGroup (Fin 8)) :=
+    have : IsSimpleGroup ↥(alternatingGroup (Fin 8)) :=
       alternatingGroup.isSimpleGroup (by rw [Nat.card_eq_fintype_card, Fintype.card_fin]; norm_num)
-    haveI : IsSimpleGroup ↥(imageMod 3 K J) := e8.isSimpleGroup
+    have : IsSimpleGroup ↥(imageMod 3 K J) := e8.isSimpleGroup
     have hdvd : 3 ∣ Nat.card ↥(imageMod 3 K J) := by
       rw [Nat.card_congr e8.toEquiv]
       exact p_dvd_card_alternatingGroup Nat.prime_three (by norm_num)

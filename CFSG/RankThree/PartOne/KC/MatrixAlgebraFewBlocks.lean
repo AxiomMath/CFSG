@@ -97,9 +97,9 @@ theorem matrix_algebra_few_blocks_odd_prime_action_center_two_part_fixed
   have : Finite R := Finite.of_equiv _ e.toEquiv.symm
   have : Finite (Subring.center R)ˣ := Finite.of_injective Units.val Units.val_injective
   refine ⟨fun P a x hx => ?_, fun U C _ hU hC P a y hy => ?_⟩
-  · obtain ⟨k, hk⟩ := P.isPGroup' ⟨x, hx⟩
+  · obtain ⟨k, hk⟩ := P.isPGroup ⟨x, hx⟩
     exact hcore a x k (by simpa using congrArg Subtype.val hk)
-  · obtain ⟨k, hk⟩ := P.isPGroup' ⟨y, hy⟩
+  · obtain ⟨k, hk⟩ := P.isPGroup ⟨y, hy⟩
     have hyk : y ^ 2 ^ k = 1 := by simpa using congrArg Subtype.val hk
     obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective y
     have hxk : ((x : (Subring.center R)ˣ)) ^ 2 ^ k ∈ C := by

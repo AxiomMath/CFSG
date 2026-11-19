@@ -11,10 +11,12 @@ open CFSG.ClassicalGroups.Unitary CFSG.LieType.Universal.Unitary CFSG.RankThree.
 
 variable {F : Type} [Field F] [CharP F 2] {σ : F ≃+* F} {a b : Fin 3 → Fin 6 → F}
 
+omit [CharP F 2] in
 private theorem gu3_map_one (W : Submodule F (Fin 6 → F)) : W.map (gLin (1 : SUid σ 6)) = W := by
   have e : gLin (1 : SUid σ 6) = LinearMap.id := LinearMap.ext (gLin_one)
   rw [e, Submodule.map_id]
 
+omit [CharP F 2] in
 theorem Adj_map (g : SUid σ 6) {x y : Submodule F (Fin 6 → F)} (h : Adj σ x y) :
     Adj σ (x.map (gLin g)) (y.map (gLin g)) := by
   obtain ⟨hx, hy, hxy⟩ : IsPt σ x ∧ IsPt σ y ∧ finrank F ↥(x ⊓ y) = 2 := h
@@ -29,6 +31,7 @@ variable (hσ : IsUnitaryInvolution σ) (hf : Frame σ a b)
 
 include hσ hf
 
+omit [CharP F 2] in
 theorem isPt_Wa : IsPt σ (Wa a) := by
   have hT : IsTotIso σ (Wa a) := by
     intro x hx y hy

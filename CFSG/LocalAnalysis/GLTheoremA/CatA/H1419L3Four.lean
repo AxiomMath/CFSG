@@ -78,7 +78,7 @@ theorem false_of_su_card {q : ℕ} (hq : 5 ≤ q) (h : 20160 * 3 = q ^ 3 * ((q ^
 
 theorem exists_two_pow_of_sq {K : Type} [Field K] [Finite K] [CharP K 2] {q : ℕ}
     (hK : Nat.card K = q ^ 2) (hq : 2 ≤ q) : ∃ j : ℕ, 1 ≤ j ∧ q = 2 ^ j := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, -, hkr⟩ := card_eq_pow_of_charP K 2
   have hdvd : q ∣ 2 ^ k := by
     rw [← hkr, hK]
@@ -130,9 +130,9 @@ theorem pslFour_of_L3Kind {H : Type} [Group H] [Finite H] (hH : IsL3Kind 2 H)
       exact false_of_su_card hq5 (by rw [mul_comm]; exact hpsu')
   · rcases hW with ⟨K, hF, hfin, hchar, hmod, ⟨e⟩⟩ | ⟨K, hF, hfin, q, hchar, hcardK, hq3, hq2, ⟨e⟩⟩
     ·
-      haveI : Finite W := finite_of_stated_sl e
-      haveI : IsSimpleGroup (W ⧸ Subgroup.center W) := sl_quot_simple K e
-      haveI : IsSimpleGroup H := eH.isSimpleGroup
+      have : Finite W := finite_of_stated_sl e
+      have : IsSimpleGroup (W ⧸ Subgroup.center W) := sl_quot_simple K e
+      have : IsSimpleGroup H := eH.isSimpleGroup
       have hZ : Subgroup.center H = ⊥ := center_bot_of_simple (by rw [hcard]; norm_num)
       have hHcard : Nat.card H = 20160 := by
         have h1 : Nat.card (H ⧸ Subgroup.center H) = Nat.card H := by
@@ -154,10 +154,10 @@ theorem pslFour_of_L3Kind {H : Type} [Group H] [Finite H] (hH : IsL3Kind 2 H)
       have hq5 : 5 ≤ q := by omega
       obtain ⟨j, hj, hqj⟩ := exists_two_pow_of_sq (K := K) hcardK (by omega)
       subst hqj
-      haveI : Finite W := Finite.of_equiv _ e.toEquiv.symm
+      have : Finite W := Finite.of_equiv _ e.toEquiv.symm
       have hfac := su_quot_facts 2 j hj hq3 hq2 K hcardK W e
-      haveI : IsSimpleGroup (W ⧸ Subgroup.center W) := hfac.2
-      haveI : IsSimpleGroup H := eH.isSimpleGroup
+      have : IsSimpleGroup (W ⧸ Subgroup.center W) := hfac.2
+      have : IsSimpleGroup H := eH.isSimpleGroup
       have hZ : Subgroup.center H = ⊥ := center_bot_of_simple (by rw [hcard]; norm_num)
       have hHcard : Nat.card H = 20160 := by
         have h1 : Nat.card (H ⧸ Subgroup.center H) = Nat.card H := by

@@ -37,7 +37,7 @@ theorem pow_eq_two_of_two_dvd_of_lt_four {q s : ℕ} (h2 : 2 ∣ q) (hq : IsPrim
 theorem card_fixSubfield_eq_two {L : Type} [Field L] [IsAlgClosed L] [CharP L 2]
     {σ : L ≃+* L} {Q : ℕ} (hσ : ∀ c, σ c = c ^ Q) (hQ : Q = 2) :
     Nat.card ↥(fixSubfield σ) = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hset : (fixSubfield σ : Set L) = {c : L | c ^ 2 = c} := by
     ext c
     show c ∈ fixSubfield σ ↔ _
@@ -55,7 +55,7 @@ theorem isPerfect_CQ_of_isPerfect_componentRootSpan {τ : Tag} {L : Type} [Field
     (hperf : Group.IsPerfect ↥(componentRootSpan ↥(fixSubfield σ) χ i)) :
     Group.IsPerfect ↥(CQ σ i) := by
   rw [CQ_eq_map]
-  haveI := hperf
+  have := hperf
   let e := Subgroup.equivMapOfInjective (componentRootSpan ↥(fixSubfield σ) χ i)
     (baseChangeGL (fixSubfield σ).subtype) (baseChangeGL_injective (fixSubfield σ).subtype)
   exact Group.IsPerfect.ofSurjective (f := e.toMonoidHom) e.surjective
@@ -80,22 +80,22 @@ private theorem false_of_rankOne {τ : Tag} {L : Type} [Field L] [IsAlgClosed L]
     (hrank : ∀ α ∈ componentRoots (rootCharHom a) i,
       ∀ δ ∈ componentRoots (rootCharHom a) i, δ = α ∨ δ = -α) : False := by
   classical
-  haveI hfinK : Finite ↥(fixSubfield σ) := Nat.finite_of_card_ne_zero (by omega)
+  have hfinK : Finite ↥(fixSubfield σ) := Nat.finite_of_card_ne_zero (by omega)
   have hKle : Nat.card ↥(fixSubfield σ) ≤ 3 := by omega
-  haveI : Group.IsSolvable ↥(componentRootSpan ↥(fixSubfield σ) (rootCharHom a) i) :=
+  have : Group.IsSolvable ↥(componentRootSpan ↥(fixSubfield σ) (rootCharHom a) i) :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieSemisimple.isSolvable_componentRootSpan_of_rank_one
       hKle i hrank
   have hsL := CFSG.HardMathSupport.Dickson.Sec6.Up34Exc.exists_unit_sq_ne_one_alg (L := L)
   obtain ⟨f, hf1, -, -⟩ :=
     rationalComponent_eq_range_componentRootSpanT S hT i hs hmin σ z hnorm hz hsL
-  haveI : Group.IsSolvable ↥(f.range) := Group.isSolvable_of_surjective f.rangeRestrict_surjective
+  have : Group.IsSolvable ↥(f.range) := Group.isSolvable_of_surjective f.rangeRestrict_surjective
   have hsolvR : Group.IsSolvable ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) :=
     Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hf1)
-  haveI : Nontrivial (↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) ⧸
+  have : Nontrivial (↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) ⧸
       Subgroup.center ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i)) := hQS.2.1.toNontrivial
-  haveI : Nontrivial ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) :=
+  have : Nontrivial ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) :=
     (QuotientGroup.mk'_surjective (Subgroup.center _)).nontrivial
-  haveI : Group.IsPerfect ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) := hQS.1
+  have : Group.IsPerfect ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) := hQS.1
   exact (Group.IsPerfect.not_isSolvable ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i)) hsolvR
 
 theorem exists_mulEquiv_alternating_of_b2Block {K : Type} [Field K]
@@ -113,7 +113,7 @@ theorem exists_mulEquiv_alternating_of_b2Block {K : Type} [Field K]
     rcases hK2 (1 + 1) with h | h
     · rwa [one_add_one_eq_two] at h
     · exact absurd (by linear_combination h : (1 : K) = 0) one_ne_zero
-  haveI : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
+  have : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
   have hΨc := isRootComponent_componentRoots (χ := χ) i
   have hs : IsRoot .F4 s := hΨc.isRoot s (by rw [hΨ]; simp)
   have hl : IsRoot .F4 l := hΨc.isRoot l (by rw [hΨ]; simp)
@@ -170,7 +170,7 @@ theorem b2Block_derived_card_center {K : Type} [Field K]
   obtain ⟨ψ⟩ := exists_mulEquiv_alternating_of_b2Block hK2 i hss hll hsl hΨ
   have hcard : Nat.card ↥⁅componentRootSpan K χ i, componentRootSpan K χ i⁆ = 360 := by
     rw [Nat.card_congr ψ.toEquiv, CFSG.LargeExtraspecial.S45Q.card_alternatingGroup_six]
-  haveI : Group.IsPerfect (alternatingGroup (Fin 6)) :=
+  have : Group.IsPerfect (alternatingGroup (Fin 6)) :=
     ⟨commutator_alternatingGroup_eq_top (by simp)⟩
   have hperf : Group.IsPerfect ↥⁅componentRootSpan K χ i, componentRootSpan K χ i⁆ :=
     Group.IsPerfect.ofSurjective (f := ψ.symm.toMonoidHom) ψ.symm.surjective
@@ -210,7 +210,7 @@ private theorem false_of_b2Block {L : Type} [Field L] [IsAlgClosed L] [CharP L 2
     (hΨ : componentRoots (rootCharHom a) i =
       {s', -s', l, -l, s' + l, -(s' + l), 2 • s' + l, -(2 • s' + l)}) : False := by
   classical
-  haveI hfinK : Finite ↥(fixSubfield σ) := Nat.finite_of_card_ne_zero (by omega)
+  have hfinK : Finite ↥(fixSubfield σ) := Nat.finite_of_card_ne_zero (by omega)
   have hK2' : ∀ x : ↥(fixSubfield σ), x = 0 ∨ x = 1 := eq_zero_or_one_of_card_two hK2
   obtain ⟨hcardD, hcenterD, hperfD⟩ := b2Block_derived_card_center hK2' i hss hll hsl hΨ
   set C := componentRootSpan ↥(fixSubfield σ) (rootCharHom a) i with hC
@@ -285,7 +285,7 @@ theorem isPerfect_CQ_of_inner_small {τ : Tag} {L : Type} [Field L] [IsAlgClosed
   have hqs : S.D.q ^ s = 2 := pow_eq_two_of_two_dvd_of_lt_four h2dvd S.hqpow.1
     (NeZero.pos s) hQ
   have hK2 : Nat.card ↥(fixSubfield σ) = 2 := card_fixSubfield_eq_two hσ hqs
-  haveI hfinK : Finite ↥(fixSubfield σ) := Nat.finite_of_card_ne_zero (by omega)
+  have hfinK : Finite ↥(fixSubfield σ) := Nat.finite_of_card_ne_zero (by omega)
   have hK2' : ∀ x : ↥(fixSubfield σ), x = 0 ∨ x = 1 := eq_zero_or_one_of_card_two hK2
   have hq2 : S.D.q = 2 := by
     have h1 : S.D.q ≤ S.D.q ^ s := Nat.le_self_pow (NeZero.ne s) S.D.q
@@ -321,7 +321,7 @@ theorem innerKindSmallCompAction_holds : InnerKindSmallCompAction := by
   intro τ L _ _ _ p₀ p S hp hp2 a hT hap hTp h1 hG2 i hkind hQS h360 hQlt y hyZ hyF hyStab
   classical
   obtain ⟨hs0, hs, hmin⟩ := outer_componentOrbitLength_spec S hT i
-  haveI : NeZero (componentOrbitLength S.ρ (componentRoots (rootCharHom a) i)) := ⟨hs0.ne'⟩
+  have : NeZero (componentOrbitLength S.ρ (componentRoots (rootCharHom a) i)) := ⟨hs0.ne'⟩
   have hinner := twistInner_of_twistKind_eq_innerT S rootAutIsWeyl_holds hT i hkind
   obtain ⟨σ, z, hσ, hzZ, hnorm, hz⟩ :=
     CFSG.HardMathSupport.Dickson.Sec6.Up34Exc.exists_untwistT_Z S hT i hs0 hinner

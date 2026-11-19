@@ -33,14 +33,13 @@ private theorem s23Mat_mul_hSL_mul_s23Mat [CharP k 2] (hk : Nat.card k = 4) (hu 
   have hω : (u : k) * u + u + 1 = 0 := val_mul_self_add hk hu
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [LinearFieldFour.s₂₃M, LinearFieldFour.hM, hiM, hu₂, Matrix.smul_apply,
-      Matrix.mul_fin_three]
+    simp [LinearFieldFour.s₂₃M, LinearFieldFour.hM, hiM, hu₂, Matrix.smul_apply]
   all_goals grind
 
 theorem xDiag_torus (hk : Nat.card k = 4) {u : kˣ} (hu : u ≠ 1) :
     xDiag u ∉ (MulAut.conj : projectiveSL 3 k →* MulAut (projectiveSL 3 k)).range ∧
       ∃ t : projectiveSL 3 k, xDiag u t = t ∧ t * aP u * t⁻¹ = (aP u)⁻¹ := by
-  haveI : CharP k 2 := LinearFieldFour.charP_two_of_card_eq_four hk
+  have : CharP k 2 := LinearFieldFour.charP_two_of_card_eq_four hk
   refine ⟨?_, ⟨proj 3 k LinearFieldFour.s₂₃Mat, ?_, ?_⟩⟩
   · intro h
     change conjAut 3 k (diagGL u) ∈
@@ -71,15 +70,15 @@ variable {X : Type*} [Group X]
 theorem pow_three_eq_one_of_isPGroup_zpowers (hk : Nat.card k = 4)
     (χ : X ≃* projectiveSL 3 k) {α : MulAut X}
     (hα : IsPGroup 3 (Subgroup.zpowers α)) : α ^ 3 = 1 := by
-  haveI : CharP k 2 := LinearFieldFour.charP_two_of_card_eq_four hk
-  haveI : Finite (projectiveSL 3 k) :=
+  have : CharP k 2 := LinearFieldFour.charP_two_of_card_eq_four hk
+  have : Finite (projectiveSL 3 k) :=
     Nat.finite_of_card_ne_zero (by rw [card_projectiveSL hk]; norm_num)
-  haveI : Finite X := Finite.of_injective χ χ.injective
-  haveI : Finite (MulAut X) :=
+  have : Finite X := Finite.of_injective χ χ.injective
+  have : Finite (MulAut X) :=
     Finite.of_injective (fun f : MulAut X => (f : X → X)) DFunLike.coe_injective
-  haveI : Finite (MulAut (projectiveSL 3 k)) :=
+  have : Finite (MulAut (projectiveSL 3 k)) :=
     Nat.finite_of_card_ne_zero (by rw [card_mulAut hk]; norm_num)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨u, hu⟩ := exists_units_ne_one hk
   obtain ⟨hS, -⟩ := pglSylow_transposition (k := k) hk hu
   have hfac : (Nat.card (MulAut (projectiveSL 3 k))).factorization 3 = 3 := by
@@ -93,7 +92,7 @@ theorem pow_three_eq_one_of_isPGroup_zpowers (hk : Nat.card k = 4)
   let α' : MulAut (projectiveSL 3 k) := MulAut.congr χ α
   have hmap : (Subgroup.zpowers α).map (MulAut.congr χ).toMonoidHom =
       Subgroup.zpowers α' := by
-    simpa [α'] using MonoidHom.map_zpowers (MulAut.congr χ).toMonoidHom α
+    simp [α']
   have hα' : IsPGroup 3 (Subgroup.zpowers α') := by
     rw [← hmap]
     exact IsPGroup.map hα _
@@ -113,12 +112,12 @@ theorem pow_three_eq_one_of_isPGroup_zpowers (hk : Nat.card k = 4)
 
 theorem card_dvd_27_of_isPGroup (hk : Nat.card k = 4) (χ : X ≃* projectiveSL 3 k)
     {R : Subgroup (MulAut X)} (hR : IsPGroup 3 R) : Nat.card R ∣ 27 := by
-  haveI : Finite (projectiveSL 3 k) :=
+  have : Finite (projectiveSL 3 k) :=
     Nat.finite_of_card_ne_zero (by rw [card_projectiveSL hk]; norm_num)
-  haveI : Finite X := Finite.of_injective χ χ.injective
-  haveI : Finite (MulAut X) :=
+  have : Finite X := Finite.of_injective χ χ.injective
+  have : Finite (MulAut X) :=
     Finite.of_injective (fun f : MulAut X => (f : X → X)) DFunLike.coe_injective
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hR
   have hdvd : Nat.card R ∣ Nat.card (MulAut X) := Subgroup.card_subgroup_dvd_card R
   have hAut : Nat.card (MulAut X) = 241920 := by
@@ -132,10 +131,10 @@ theorem card_dvd_27_of_isPGroup (hk : Nat.card k = 4) (χ : X ≃* projectiveSL 
 
 theorem card_dvd_9_of_isPGroup (hk : Nat.card k = 4) (χ : X ≃* projectiveSL 3 k)
     {Q : Subgroup X} (hQ : IsPGroup 3 Q) : Nat.card Q ∣ 9 := by
-  haveI : Finite (projectiveSL 3 k) :=
+  have : Finite (projectiveSL 3 k) :=
     Nat.finite_of_card_ne_zero (by rw [card_projectiveSL hk]; norm_num)
-  haveI : Finite X := Finite.of_injective χ χ.injective
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite X := Finite.of_injective χ χ.injective
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hQ
   have hdvd : Nat.card Q ∣ Nat.card X := Subgroup.card_subgroup_dvd_card Q
   have hX : Nat.card X = 20160 := by

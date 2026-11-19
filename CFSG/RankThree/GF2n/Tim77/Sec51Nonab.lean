@@ -25,7 +25,7 @@ theorem Prop24Setup.tr_of_mem_Lb [Finite G] {A Ab L Lb M : Subgroup G}
 theorem Prop24Setup.eq_one_of_mem_Ab_of_centralizes [Finite G] {A Ab L Lb M : Subgroup G}
     (S : Prop24Setup A Ab L Lb M) {w : G} (hw : w ∈ Ab) (hc : ∀ x ∈ A, w * x = x * w) :
     w = 1 := by
-  obtain ⟨t, htA, htL⟩ := SetLike.exists_of_lt (lt_of_le_of_ne S.L_le S.ne)
+  obtain ⟨t, htA, htL⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne S.L_le S.ne)
   have ht1 : t ≠ 1 := fun h => htL (h ▸ L.one_mem)
   have hwLb : w ∈ Lb := S.mem_Lb_of_commute hw htA ht1 (hc t htA)
   have hwL : w ∈ L := S.mem_L_of_commute_M htA htL (S.Lb_le_M hwLb) (hc t htA).symm
@@ -72,6 +72,7 @@ theorem v_ctx (H : Sec51Bad A Abar S₀ B S h a b) :
 theorem a_mem_V (H : Sec51Bad A Abar S₀ B S h a b) : a ∈ conjSubgroup h Abar :=
   (conjSubgroup_le_conj_iff h).2 H.ctx.setup.Lb_le H.ha
 
+omit [Finite G] in
 theorem a_ne_one (H : Sec51Bad A Abar S₀ B S h a b) : a ≠ 1 := by
   intro h1
   have h4 := H.hord
@@ -80,6 +81,7 @@ theorem a_ne_one (H : Sec51Bad A Abar S₀ B S h a b) : a ≠ 1 := by
   rw [h4] at h2
   omega
 
+omit [Finite G] in
 theorem b_ne_one (H : Sec51Bad A Abar S₀ B S h a b) : b ≠ 1 := by
   intro h1
   have h4 := H.hord
@@ -88,9 +90,9 @@ theorem b_ne_one (H : Sec51Bad A Abar S₀ B S h a b) : b ≠ 1 := by
   rw [h4] at h2
   omega
 
-theorem w_centralizes (H : Sec51Bad A Abar S₀ B S h a b) {x : G} (hx : x ∈ A) :
-    ((a * b) * (a * b)) * x = x * ((a * b) * (a * b)) :=
-  Sec51Tr.sq_comm (fun x hx y hy => H.ctx.setup.comm_A hx hy) H.ctx.setup.L_le H.ha2 H.hb2
+theorem w_centralizes (H : Sec51Bad A Abar S₀ B S h a b) {_x : G} (hx : _x ∈ A) :
+    ((a * b) * (a * b)) * _x = _x * ((a * b) * (a * b)) :=
+  Sec51Tr.sq_comm (fun _x hx _y hy => H.ctx.setup.comm_A hx hy) H.ctx.setup.L_le H.ha2 H.hb2
     H.tr_a H.tr_b hx
 
 theorem w_mem_normalizer_Abar (H : Sec51Bad A Abar S₀ B S h a b) :
@@ -130,6 +132,7 @@ theorem b_mem_normalizer_conj (H : Sec51Bad A Abar S₀ B S h a b) :
   rw [e, conjSubgroup_map_normalizer] at h2
   exact h2
 
+omit [Finite G] in
 theorem a_mem_S (H : Sec51Bad A Abar S₀ B S h a b) : a ∈ S := by
   obtain ⟨b', hb', rfl⟩ := (mem_conjSubgroup_exists_t77 h _ a).1 H.ha
   exact S.mul_mem (S.mul_mem H.hh (H.hAb0S hb')) (S.inv_mem H.hh)
@@ -162,6 +165,7 @@ theorem abar0_le_L (H : Sec51Bad A Abar S₀ B S h a b) {L L' M' : Subgroup G}
   rw [P.inf_eq_bot, Subgroup.mem_bot, h2, inv_eq_one] at h3
   exact hβL (h3 ▸ L.one_mem)
 
+omit [Finite G] in
 theorem relIndex_abar0 (H : Sec51Bad A Abar S₀ B S h a b) :
     (Section3.Abar0 A Abar).relIndex Abar = 2 := by
   have := H.hq
@@ -173,7 +177,7 @@ theorem L_eq (H : Sec51Bad A Abar S₀ B S h a b) {L L' M' : Subgroup G}
   have hle := H.abar0_le_L P
   refine le_antisymm (fun e he => ?_) hle
   by_contra heAb0
-  obtain ⟨β₀, hβ₀, hβ₀0⟩ := SetLike.exists_of_lt (lt_of_le_of_ne H.ctx.setup.Lb_le
+  obtain ⟨β₀, hβ₀, hβ₀0⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne H.ctx.setup.Lb_le
     H.ctx.setup.Lb_ne)
   have heĀ : e ∈ Abar := P.L_le he
   have hmul : β₀ * e ∈ Section3.Abar0 A Abar :=
@@ -242,7 +246,7 @@ theorem centralizes_fixed (H : Sec51Bad A Abar S₀ B S h a b) {L L' M' : Subgro
   have he'2 : e' * e' = 1 := P.sq_A (P.L_le he'L)
   have hei : e⁻¹ = e := inv_eq_of_mul_eq_one_right he2
   have he'i : e'⁻¹ = e' := inv_eq_of_mul_eq_one_right he'2
-  obtain ⟨α, hαA, hαA0⟩ := SetLike.exists_of_lt (lt_of_le_of_ne hQ.L_le hQ.ne)
+  obtain ⟨α, hαA, hαA0⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne hQ.L_le hQ.ne)
   have hα2 : α * α = 1 := hQ.sq_A hαA
   have hαi : α⁻¹ = α := inv_eq_of_mul_eq_one_right hα2
   have hκ : α * e * α⁻¹ * e⁻¹ ∈ Section3.A0 A Abar := hQ.commutator_mem_L hαA heAb0
@@ -406,7 +410,7 @@ theorem nonab_false (H : Sec51Bad A Abar S₀ B S h a b) {L L' M' : Subgroup G}
   have hLeq := H.L_eq P
   have hai : a⁻¹ = a := inv_eq_of_mul_eq_one_right ha2
   obtain ⟨β, hβĀ, hβ0⟩ :=
-    SetLike.exists_of_lt (lt_of_le_of_ne H.ctx.setup.Lb_le H.ctx.setup.Lb_ne)
+    _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne H.ctx.setup.Lb_le H.ctx.setup.Lb_ne)
   have hβL : β ∉ L := by
     rw [hLeq]
     exact hβ0

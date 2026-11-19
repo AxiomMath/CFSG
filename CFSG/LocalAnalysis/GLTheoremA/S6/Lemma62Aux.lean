@@ -16,6 +16,7 @@ namespace L62
 
 variable {G : Type} [Group G] [Finite G] {p : ℕ}
 
+omit [Finite G] in
 theorem le_of_subnormal_comm_eq {K H J S : Subgroup G} (hKH : IsSubnormal K H) (hJK : J ≤ K)
     (hSH : S ≤ H) (hS : S ≤ ⁅S, J⁆) : S ≤ K := by
   induction hKH generalizing J S with
@@ -32,6 +33,7 @@ theorem le_of_subnormal_comm_eq {K H J S : Subgroup G} (hKH : IsSubnormal K H) (
     rw [commutatorElement_def]
     exact K.mul_mem h1 (K.inv_mem hjK)
 
+omit [Finite G] in
 theorem le_normalizer_closureIn (I H : Subgroup G) :
     H ≤ Subgroup.normalizer (closureIn I H : Set G) := by
   intro h hh
@@ -50,6 +52,7 @@ theorem le_normalizer_closureIn (I H : Subgroup G) :
     rw [e]
     exact le_biSup (fun g' => GLBConj h (GLBConj g' I)) (H.mul_mem hg (H.inv_mem hh))
 
+omit [Finite G] in
 theorem le_normalizer_glaPLayer (p : ℕ) (X : Subgroup G) :
     X ≤ Subgroup.normalizer (GLAPLayer p X : Set G) := by
   have key : ∀ g ∈ X, GLBConj g (GLAPLayer p X) ≤ GLAPLayer p X := by
@@ -111,7 +114,8 @@ theorem exists_family (hp : p.Prime) (hI : Input18_3_4) {A D J : Subgroup G}
     exact hJ
   exact exists_family_gen hp hI hX hDX hDel hJ'
 
-theorem layerClosure_isSubnormal (hp : p.Prime) {A J : Subgroup G} {𝒞 : Set (Subgroup G)}
+omit [Finite G] in
+theorem layerClosure_isSubnormal (_hp : p.Prime) {A J : Subgroup G} {𝒞 : Set (Subgroup G)}
     (hcomp : ∀ C ∈ 𝒞, GLAPComponent p (Subgroup.centralizer (A : Set G)) C)
     (hsup : (⨆ C ∈ 𝒞, C) = layerClosure p A J) :
     IsSubnormal (layerClosure p A J) (Subgroup.centralizer (A : Set G)) := by
@@ -212,11 +216,11 @@ theorem not_isPGroup_two_of_cover (hp : p.Prime) {X J J₀ : Subgroup G} (hJ : G
           _ = (o' : G) := ho'eq.symm
       rw [this]
       exact ho'
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQ2 : IsPGroup 2 (PQuot p J) := IsPGroup.of_surjective h2 f hfs
-  haveI : Group.IsNilpotent (PQuot p J) := hQ2.isNilpotent
-  haveI : Nontrivial (PQuot p J) := isQuasisimple_nontrivial hq
-  exact (IsSolvable.commutator_lt_top_of_nontrivial (PQuot p J)).ne hq.1
+  have : Group.IsNilpotent (PQuot p J) := hQ2.isNilpotent
+  have : Nontrivial (PQuot p J) := isQuasisimple_nontrivial hq
+  exact (Group.IsSolvable.commutator_lt_top_of_nontrivial (PQuot p J)).ne hq.1
 
 theorem partA (hc : S6Ctx G p) {B : Subgroup G} {x : G} {L D J N : Subgroup G}
     (hT : InT p B x L) (hD : InD p B x L D J) (hN : IsTwoLocal N) (hDN : D ≤ N)
@@ -259,7 +263,7 @@ theorem partA (hc : S6Ctx G p) {B : Subgroup G} {x : G} {L D J N : Subgroup G}
     intro y
     simp only [hRdef, Subgroup.mem_inf]
     exact and_congr (h1 y) (h2 y)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hR2 : IsPGroup 2 R :=
     IsPGroup.to_le (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 N) inf_le_left
   have hSR : (⁅J₀, R⁆ : Subgroup G) ≤ R := by
@@ -276,6 +280,7 @@ theorem partA (hc : S6Ctx G p) {B : Subgroup G} {x : G} {L D J N : Subgroup G}
   rw [Subgroup.commutator_comm J₀ R]
   exact le_of_eq key.symm
 
+omit [Finite G] in
 theorem le_sup_of_perfect_cover {J J₀ O Ō : Subgroup G} (hperf : ⁅J, J⁆ = J) (hJ₀ : J₀ ≤ J)
     (hcov : J₀ ⊔ O = J) (hOJ : O ≤ J) (hJO : J ≤ Subgroup.normalizer (O : Set G))
     (hJŌ : J ≤ Subgroup.normalizer (Ō : Set G)) (hcomm : ⁅J, O⁆ ≤ Ō) : J ≤ J₀ ⊔ Ō := by

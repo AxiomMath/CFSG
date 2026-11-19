@@ -403,12 +403,12 @@ theorem not_le_normalizer_of_four_le {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     have hdvd : p ^ 3 ∣ Nat.card E := hEc ▸ pow_dvd_pow p (by omega)
     obtain ⟨E', hE'c, -, hE'E⟩ :=
       Sylow.exists_subgroup_card_pow_prime_le_le hp (H := ⊥) (L := E) (by simp) hdvd bot_le
-    exact not_elemAbelian_cube_le_normalizer_of_isIsolatedPlane hp P.isPGroup' hiso
+    exact not_elemAbelian_cube_le_normalizer_of_isIsolatedPlane hp P.isPGroup hiso
       (le_inf (hE'E.trans hEP) ((hE'E.trans hEP).trans hPD))
       ((CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian p E').2
         (isElemAbelian_mono hE hE'E)) hE'c
   ·
-    have hcard := card_le_of_elemAbelian_normalizing hp P.isPGroup' hDP hPD hDab
+    have hcard := card_le_of_elemAbelian_normalizing hp P.isPGroup hDP hPD hDab
       (hext.card_eq_of_not_isMulCommutative hp hp2 hDab)
       (hext.pow_eq_one_and_commutator_mem hp hp2).1 (hext.pow_eq_one_and_commutator_mem hp hp2).2
       (hext.card_center_eq hp hp2 hDab) (hext.center_le_centralizer hp hp2 hDab)

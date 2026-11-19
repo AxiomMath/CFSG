@@ -14,7 +14,7 @@ section List
 
 theorem componentList42_holds : ComponentList42 := by
   intro G _ _ M hM R _ J hJ
-  haveI : IsSimpleGroup (J ⧸ Subgroup.center J) := hJ.1.2.1
+  have : IsSimpleGroup (J ⧸ Subgroup.center J) := hJ.1.2.1
   exact Sec4.Census.list42_of_simple_section hM (J.comap (QuotientGroup.mk' R)) hJ.1.2.2
     (r5f_map R J) (r5f_map_surjective R J)
 

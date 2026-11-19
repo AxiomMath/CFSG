@@ -15,6 +15,7 @@ open Matrix
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   {hc : Ctx M Q Z B} {t : G} {Y : Subgroup G}
 
+omit [Finite G] in
 private theorem sup_Q_eq_of_bar_eq [(Q.subgroupOf M).Normal] {S T : Subgroup G} (hS : S ≤ M)
     (hT : T ≤ M) (h : bar M Q S = bar M Q T) : S ⊔ Q = T ⊔ Q := by
   have key : ∀ {A B : Subgroup G}, A ≤ M → bar M Q A = bar M Q B → A ≤ B ⊔ Q := by
@@ -29,6 +30,7 @@ private theorem sup_Q_eq_of_bar_eq [(Q.subgroupOf M).Normal] {S T : Subgroup G} 
     exact (B ⊔ Q).mul_mem (Subgroup.mem_sup_left hbB) (Subgroup.mem_sup_right (Q.inv_mem hq))
   exact le_antisymm (sup_le (key hS h) le_sup_right) (sup_le (key hT h.symm) le_sup_right)
 
+omit [Finite G] in
 private theorem mem_normalizer_sup_of_mem_normalizer_bar [(Q.subgroupOf M).Normal]
     (hQM : Q ≤ M) {Y : Subgroup G} (hYM : Y ≤ M) {m : G} (hmM : m ∈ M)
     (hY : HS6.piM M Q m ∈ Subgroup.normalizer ((bar M Q Y : Subgroup (Mbar M Q)) : Set _)) :
@@ -48,6 +50,7 @@ private theorem mem_normalizer_sup_of_mem_normalizer_bar [(Q.subgroupOf M).Norma
     rw [conjSubgroup_sup', hQconj, hsup]
   exact conjSubgroup_eq_self_iff.mp hconj
 
+omit [Finite G] in
 theorem NLY_le_bar_normalizer [(Q.subgroupOf M).Normal] {L : Subgroup G} (hQM : Q ≤ M)
     (hYM : Y ≤ M) :
     Sec108.NLY (bar M Q L) (bar M Q Y) ≤
@@ -59,7 +62,7 @@ theorem NLY_le_bar_normalizer [(Q.subgroupOf M).Normal] {L : Subgroup G} (hQM : 
   rw [← hpi]
   exact HS6.piM_mem_bar ⟨hmM, hmY⟩ hmM
 
-private noncomputable def Sec108Data.chosenT (D : Sec108Data hc t Y)
+private noncomputable def Sec108Data.chosenT (_D : Sec108Data hc t Y)
     (AM : Smith81.Smith23E1.ActionModel M Q Z)
     (m : ↥(M ⊓ Subgroup.normalizer ((Y ⊔ Q : Subgroup G) : Set G))) :
     AM.M₀.E ≃+ AM.M₀.E :=
@@ -160,7 +163,7 @@ private theorem Sec108Data.frameCoord_sum_bV (w : Fin 3 → AM.K) :
   have h1 : (⟨∑ j, w j • (D.bV AM j : AM.M₀.E), hmem⟩ : ↥(AM.Vsp hc t)) =
       ∑ j, w j • D.bV AM j := rfl
   refine (congrArg (fun x : ↥(AM.Vsp hc t) => (D.bV AM).repr x i) h1).trans ?_
-  simp [map_sum, map_smul, Module.Basis.repr_self, Finsupp.smul_apply, Finsupp.single_apply]
+  simp [map_sum, map_smul, Module.Basis.repr_self, Finsupp.single_apply]
 
 private theorem Sec108Data.frameCoord_frameVec (v : Fin 3 → AM.K) :
     D.frameCoord AM (D.frameVec AM v) = v := by
@@ -198,12 +201,14 @@ private theorem Sec108Data.semiFun_eq_chosen
     D.semiFun AM m v =
       D.frameCoord AM (D.chosenT AM m (D.frameVec AM v)) := rfl
 
+omit [Finite G] in
 private theorem Sec108Data.chosenT_apply_pi
     (m : ↥(M ⊓ Subgroup.normalizer ((Y ⊔ Q : Subgroup G) : Set G))) {x : G} (hx : x ∈ Q) :
     D.chosenT AM m (AM.M₀.π x) = AM.M₀.π (m * x * m⁻¹) :=
   ((AM.glob.act m (Subgroup.mem_inf.mp m.2).1).choose_spec.choose_spec.choose_spec.2.1
     x hx).symm
 
+omit [Finite G] in
 private theorem Sec108Data.chosenT_smul
     (m : ↥(M ⊓ Subgroup.normalizer ((Y ⊔ Q : Subgroup G) : Set G))) (c : AM.K)
     (e : AM.M₀.E) :
@@ -240,6 +245,7 @@ private theorem Sec108Data.semiEnd_apply
     (m : ↥(M ⊓ Subgroup.normalizer ((Y ⊔ Q : Subgroup G) : Set G))) (v : Fin 3 → AM.K) :
     (AddMonoid.End.equiv (Fin 3 → AM.K) (D.semiEnd AM m)) v = D.semiFun AM m v := rfl
 
+omit [Finite G] in
 private theorem Sec108Data.chosenT_one_eq_refl :
     D.chosenT AM 1 = AddEquiv.refl AM.M₀.E := by
   refine AddEquiv.ext fun e => ?_
@@ -264,6 +270,7 @@ private theorem Sec108Data.chosenT_mem_Q_eq_refl
   rw [AM.M₀.π_mul _ (hc.hyp.Z_normal.1 hcomm) x hxQ,
     (AM.M₀.π_ker _ (hc.hyp.Z_normal.1 hcomm)).mpr hcomm, zero_add]
 
+omit [Finite G] in
 private theorem Sec108Data.chosenT_mul_apply
     (m m' : ↥(M ⊓ Subgroup.normalizer ((Y ⊔ Q : Subgroup G) : Set G))) (e : AM.M₀.E) :
     D.chosenT AM (m * m') e = D.chosenT AM m (D.chosenT AM m' e) := by
@@ -381,6 +388,7 @@ theorem Sec108Data.semiT_semilinear (g : ↥(Sec108.NLY (bar M Q (LB M Q B)) (ba
     _ = (AM.glob.act m (Subgroup.mem_inf.mp hmS).1).choose c •
           D.semiFun AM ⟨m, hmS⟩ v := by rw [D.semiFun_eq_chosen]
 
+omit [(Q.subgroupOf M).Normal] in
 private theorem Sec108Data.chosenT_mem_Bsp (m : ↥(M ⊓ Subgroup.normalizer
     ((Y ⊔ Q : Subgroup G) : Set G)))
     (hmBZ : (m : G) ∈ Subgroup.normalizer ((B ⊔ Z : Subgroup G) : Set G))
@@ -397,6 +405,7 @@ private theorem Sec108Data.chosenT_mem_Bsp (m : ↥(M ⊓ Subgroup.normalizer
   rw [hb'z, AM.M₀.π_mul _ (hc.le hb'B) _ hzQ,
     (AM.M₀.π_ker _ hzQ).mpr hzZ, add_zero]
 
+omit [(Q.subgroupOf M).Normal] in
 private theorem Sec108Data.chosenT_eq_phi_of_mem_Rt (r : ↥(Rt M (LB M Q B) t))
     (e : AM.M₀.E) :
     D.chosenT AM ⟨r, ⟨hc.Rt_le_M t r.2, D.Rt_le_normalizer_root r.2⟩⟩ e =
@@ -405,6 +414,7 @@ private theorem Sec108Data.chosenT_eq_phi_of_mem_Rt (r : ↥(Rt M (LB M Q B) t))
   rw [D.chosenT_apply_pi AM ⟨r, ⟨hc.Rt_le_M t r.2, D.Rt_le_normalizer_root r.2⟩⟩ hxQ]
   simpa using AM.φ_π ⟨r, D.Rt_le_H0 r.2⟩ x hxQ
 
+omit [(Q.subgroupOf M).Normal] in
 private theorem Sec108Data.phi_frameVec_eq_sum (r : ↥(Rt M (LB M Q B) t))
     (v : Fin 3 → AM.K) :
     AM.φ ⟨r, D.Rt_le_H0 r.2⟩ (D.frameVec AM v) =
@@ -431,6 +441,7 @@ private theorem Sec108Data.phi_frameVec_eq_sum (r : ↥(Rt M (LB M Q B) t))
   refine Finset.sum_congr rfl fun j _ => ?_
   rw [mul_comm]
 
+omit [(Q.subgroupOf M).Normal] in
 private theorem Sec108Data.frameCoord_phi_eq_rhoMat (r : ↥(Rt M (LB M Q B) t))
     (v : Fin 3 → AM.K) :
     D.frameCoord AM (AM.φ ⟨r, D.Rt_le_H0 r.2⟩ (D.frameVec AM v)) =

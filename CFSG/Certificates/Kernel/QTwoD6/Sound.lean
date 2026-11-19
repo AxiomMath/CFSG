@@ -143,7 +143,7 @@ theorem wit_covF (keep : ℕ → ℕ → Bool) (F : ℕ → ℕ) (N : ℕ) (P : 
   | 0, k, lo, h, a, _, _, hk => by
     intro s hs
     simp only [accC] at hk
-    rw [covF_zero, hk, ifN_eq, if_pos rfl] at hs
+    rw [covF_zero, hk, ifN_eq, ite_eq_left rfl] at hs
     unfold stepI at hs
     rw [ifN_eq, andB_eq] at hs
     split at hs
@@ -187,7 +187,7 @@ theorem testBit_cbitK (c k b : ℕ) :
   rw [ifN_eq, ifN_eq]
   by_cases h1 : c = 1
   · subst h1
-    simp only [show Nat.beq 1 1 = true from rfl, if_true]
+    simp only [show Nat.beq 1 1 = true from rfl, ite_true]
     rw [shl_eq, one_mul, Nat.testBit_two_pow]
     simp only [show ((1 : ℕ) == 1) = true from rfl, show ((1 : ℕ) == 2) = false from rfl,
       Bool.true_and, Bool.false_and, Bool.or_false]
@@ -195,12 +195,12 @@ theorem testBit_cbitK (c k b : ℕ) :
   · by_cases h2 : c = 2
     · subst h2
       simp only [show Nat.beq 2 1 = false from rfl, show Nat.beq 2 2 = true from rfl,
-        Bool.false_eq_true, if_true, if_false]
+        Bool.false_eq_true, ite_true, ite_false]
       rw [shl_eq, one_mul, Nat.testBit_two_pow]
       simp only [show ((2 : ℕ) == 1) = false from rfl, show ((2 : ℕ) == 2) = true from rfl,
         Bool.true_and, Bool.false_and, Bool.false_or]
       exact (beq_decide b (k + 7)).symm
-    · rw [if_neg (by simpa [Nat.beq_eq] using h1), if_neg (by simpa [Nat.beq_eq] using h2),
+    · rw [ite_eq_right (by simpa [Nat.beq_eq] using h1), ite_eq_right (by simpa [Nat.beq_eq] using h2),
         Nat.zero_testBit, beq_eq_false_iff_ne.mpr h1, beq_eq_false_iff_ne.mpr h2]
       rfl
 
@@ -290,7 +290,7 @@ theorem pc7_cast (x : ℕ) : (pc7 x : ZMod 3) = ∑ j : Fin 7, b3 (x.testBit j) 
   rw [e]
   simp only [bit_eq, Fin.sum_univ_seven, b3]
   push_cast
-  norm_num <;> ring
+  norm_num; ring
 
 theorem lane3 (pa na pv nv : Bool) (h : ¬(pa = true ∧ na = true)) :
     b3 (pa && pv || na && nv) + 2 * b3 (pa && nv || na && pv) =
@@ -374,24 +374,24 @@ theorem cov_main {keep : ℕ → ℕ → Bool} {F : ℕ → ℕ} {N : ℕ} {G : 
     ∃ i < N, cd (hK (F i)) = hc ∧ cd (aK (F i)) = ac := by
   have hval : ∀ z : ZMod 3, z.val < 3 := fun z => ZMod.val_lt z
   have hdiv : ∀ j (hj : j < 7), j ≠ 0 → pathP hc ac j / 3 = (hc ⟨j, hj⟩).val := fun j hj _ => by
-    simp only [pathP, hj, dif_pos]
+    simp only [pathP, hj, dite_eq_left]
     have := hval (ac ⟨j, hj⟩)
     omega
   have hmod : ∀ j (hj : j < 7), j ≠ 0 → pathP hc ac j % 3 = (ac ⟨j, hj⟩).val := fun j hj _ => by
-    simp only [pathP, hj, dif_pos]
+    simp only [pathP, hj, dite_eq_left]
     have := hval (ac ⟨j, hj⟩)
     omega
   have eH := accC_code7 hc (pathP hc ac) (· / 3) hdiv
   have eA := accC_code7 ac (pathP hc ac) (· % 3) hmod
   have hw := wit_covF keep F N (pathP hc ac) 6 1 0 (cbitK (hc 0).val 0) (cbitK (ac 0).val 0)
     (fun m hm => ⟨Nat.zero_le _, by
-      simp only [pathP, show 1 + m < 7 by omega, dif_pos]
+      simp only [pathP, show 1 + m < 7 by omega, dite_eq_left]
       have := hval (hc ⟨1 + m, by omega⟩)
       have := hval (ac ⟨1 + m, by omega⟩)
       omega⟩)
     (fun m m' h1 h2 => by
       have := hsort (show (⟨m, by omega⟩ : Fin 6) ≤ ⟨m', by omega⟩ from h1)
-      simp only [pathP, show 1 + m < 7 by omega, show 1 + m' < 7 by omega, dif_pos]
+      simp only [pathP, show 1 + m < 7 by omega, show 1 + m' < 7 by omega, dite_eq_left]
       simp only [Fin.succ_mk] at this
       simpa [Nat.add_comm 1 m, Nat.add_comm 1 m'] using this)
     (by rw [eH, eA]; exact hkeep)
@@ -452,7 +452,7 @@ theorem validC_pq {P Q : ℕ} (hP : P < 2 ^ 7) (hQ : Q < 2 ^ 7)
     rw [Nat.shiftLeft_eq]
     calc Q * 2 ^ 7 < 2 ^ 7 * 2 ^ 7 := Nat.mul_lt_mul_of_pos_right hQ (by positivity)
       _ = 2 ^ 14 := by norm_num
-  · rw [testBit_pq hP, testBit_pq hP, if_pos hj, if_neg (by omega), Nat.add_sub_cancel]
+  · rw [testBit_pq hP, testBit_pq hP, ite_eq_left hj, ite_eq_right (by omega), Nat.add_sub_cancel]
     exact h j hj
 
 theorem testBit_xz (x j : ℕ) (hj : j < 7) :
@@ -494,8 +494,8 @@ theorem addV_spec {x y : ℕ} (hx : ValidC x) (hy : ValidC y) :
   refine ⟨validC_pq hP hQ fun j hj => ?_, fun j hj => ?_⟩
   · simp only [testBit_lor', testBit_land', testBit_xz _ _ hj, testBit_pM _ _ hj, testBit_nM _ _ hj]
     exact (lane_add _ _ _ _ (hx.2 j hj) (hy.2 j hj)).2
-  · rw [cast_coordK, cast_coordK, cast_coordK, testBit_pq hP, testBit_pq hP, if_pos hj,
-      if_neg (by omega), Nat.add_sub_cancel]
+  · rw [cast_coordK, cast_coordK, cast_coordK, testBit_pq hP, testBit_pq hP, ite_eq_left hj,
+      ite_eq_right (by omega), Nat.add_sub_cancel]
     simp only [testBit_lor', testBit_land', testBit_xz _ _ hj, testBit_pM _ _ hj, testBit_nM _ _ hj]
     exact (lane_add _ _ _ _ (hx.2 j hj) (hy.2 j hj)).1
 
@@ -506,8 +506,8 @@ theorem negV_spec {x : ℕ} (hx : ValidC x) :
   refine ⟨validC_pq (nM_lt x) (pM_lt x) fun j hj => ?_, fun j hj => ?_⟩
   · rw [testBit_pM _ _ hj, testBit_nM _ _ hj]
     exact fun h => hx.2 j hj ⟨h.2, h.1⟩
-  · rw [cast_coordK, cast_coordK, testBit_pq (nM_lt x), testBit_pq (nM_lt x), if_pos hj,
-      if_neg (by omega), Nat.add_sub_cancel, testBit_pM _ _ hj, testBit_nM _ _ hj]
+  · rw [cast_coordK, cast_coordK, testBit_pq (nM_lt x), testBit_pq (nM_lt x), ite_eq_left hj,
+      ite_eq_right (by omega), Nat.add_sub_cancel, testBit_pM _ _ hj, testBit_nM _ _ hj]
     have := hx.2 j hj
     revert this
     cases x.testBit j <;> cases x.testBit (j + 7) <;> decide
@@ -530,10 +530,10 @@ theorem axpy_spec {v w c : ℕ} (hv : ValidC v) (hw : ValidC w) (hc : c < 3) :
   unfold axpy
   rw [ifN_eq, ifN_eq]
   interval_cases c
-  · simp only [show Nat.beq 0 0 = true from rfl, if_true]
+  · simp only [show Nat.beq 0 0 = true from rfl, ite_true]
     exact ⟨hv, fun j _ => by simp⟩
   · simp only [show Nat.beq 1 0 = false from rfl, show Nat.beq 1 1 = true from rfl,
-      Bool.false_eq_true, if_true, if_false]
+      Bool.false_eq_true, ite_true, ite_false]
     obtain ⟨hn, hnc⟩ := negV_spec hw
     obtain ⟨ha, hac⟩ := addV_spec hv hn
     refine ⟨ha, fun j hj => ?_⟩
@@ -541,7 +541,7 @@ theorem axpy_spec {v w c : ℕ} (hv : ValidC v) (hw : ValidC w) (hc : c < 3) :
     simp only [Nat.cast_one, one_mul]
     ring
   · simp only [show Nat.beq 2 0 = false from rfl, show Nat.beq 2 1 = false from rfl,
-      Bool.false_eq_true, if_false]
+      Bool.false_eq_true, ite_false]
     obtain ⟨ha, hac⟩ := addV_spec hv hw
     refine ⟨ha, fun j hj => ?_⟩
     rw [hac j hj]
@@ -557,8 +557,8 @@ theorem us_ub (i j : Fin 7) : us i (ub j) = if i = j then 1 else 0 := by
 
 theorem decA_decV (a v : ℕ) : decA a (decV v) = ∑ j : Fin 7, cd a j * cd v j := by
   simp only [decA, decV, LinearMap.sum_apply, LinearMap.smul_apply, map_sum, map_smul, us_ub,
-    smul_eq_mul, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq, Finset.mem_univ, if_true]
-  simp only [Finset.sum_ite_eq', Finset.mem_univ, if_true, mul_comm]
+    smul_eq_mul, mul_ite, mul_one, mul_zero]
+  simp only [Finset.sum_ite_eq', Finset.mem_univ, ite_true, mul_comm]
 
 theorem dotK_decA {a v : ℕ} (ha : ValidC a) : (dotK a v : ZMod 3) = decA a (decV v) := by
   rw [dotK_cast (validC_land ha), decA_decV]
@@ -574,7 +574,7 @@ theorem decV_axpy {v w c : ℕ} (hv : ValidC v) (hw : ValidC w) (hc : c < 3) :
 theorem decA_axpy {v w c : ℕ} (hv : ValidC v) (hw : ValidC w) (hc : c < 3) :
     decA (axpy v c w) = decA v - (c : ZMod 3) • decA w := by
   have h := (axpy_spec hv hw hc).2
-  simp only [decA, Finset.smul_sum, ← Finset.sum_sub_distrib, smul_smul, ← sub_smul]
+  simp only [decA, Finset.smul_sum, ← Finset.sum_sub_distrib, smul_smul]
   refine Finset.sum_congr rfl fun j _ => ?_
   rw [cd, cd, cd, h j j.2]
   exact LinearMap.ext fun x => by simp [sub_mul]
@@ -587,7 +587,7 @@ theorem decV_negV {v : ℕ} (hv : ValidC v) : decV (negV v) = -decV v := by
 
 theorem decA_negV {v : ℕ} (hv : ValidC v) : decA (negV v) = -decA v := by
   have h := (negV_spec hv).2
-  simp only [decA, ← Finset.sum_neg_distrib, ← neg_smul]
+  simp only [decA, ← Finset.sum_neg_distrib]
   refine Finset.sum_congr rfl fun j _ => ?_
   rw [cd, cd, h j j.2]
   exact LinearMap.ext fun x => by simp
@@ -738,7 +738,7 @@ theorem smul_eq_zero3 {c : ZMod 3} {x : V7} (h : c • x = 0) : c = 0 ∨ x = 0 
 
 theorem us_decV (v : ℕ) (j : Fin 7) : us j (decV v) = cd v j := by
   simp only [decV, map_sum, map_smul, us_ub, smul_eq_mul, mul_ite, mul_one, mul_zero,
-    Finset.sum_ite_eq', Finset.sum_ite_eq, Finset.mem_univ, if_true]
+    Finset.sum_ite_eq, Finset.mem_univ, ite_true]
 
 theorem lane_bits {x : ℕ} (hx : ValidC x) (j : ℕ) (hj : j < 7) :
     x.testBit j = decide (cd x ⟨j, hj⟩ = 1) ∧ x.testBit (j + 7) = decide (cd x ⟨j, hj⟩ = 2) := by
@@ -791,7 +791,7 @@ theorem pM_negV (x : ℕ) : pM (negV x) = nM x := by
   by_cases hb : b < 7
   · rw [testBit_pM _ _ hb]
     change (Nat.lor (nM x) (Nat.shiftLeft (pM x) 7)).testBit b = _
-    rw [testBit_pq (nM_lt x), if_pos hb]
+    rw [testBit_pq (nM_lt x), ite_eq_left hb]
   · rw [Nat.testBit_lt_two_pow (lt_of_lt_of_le (pM_lt _) (Nat.pow_le_pow_right (by omega)
       (by omega))), Nat.testBit_lt_two_pow (lt_of_lt_of_le (nM_lt x) (Nat.pow_le_pow_right
       (by omega) (by omega)))]
@@ -801,7 +801,7 @@ theorem nM_negV (x : ℕ) : nM (negV x) = pM x := by
   by_cases hb : b < 7
   · rw [testBit_nM _ _ hb]
     change (Nat.lor (nM x) (Nat.shiftLeft (pM x) 7)).testBit (b + 7) = _
-    rw [testBit_pq (nM_lt x), if_neg (by omega), Nat.add_sub_cancel]
+    rw [testBit_pq (nM_lt x), ite_eq_right (by omega), Nat.add_sub_cancel]
   · rw [Nat.testBit_lt_two_pow (lt_of_lt_of_le (nM_lt _) (Nat.pow_le_pow_right (by omega)
       (by omega))), Nat.testBit_lt_two_pow (lt_of_lt_of_le (pM_lt x) (Nat.pow_le_pow_right
       (by omega) (by omega)))]
@@ -1047,7 +1047,7 @@ theorem not_mem_uSpan {v : V7} (h : us 0 v ≠ 0) : v ∉ uSpan := by
   have hle : uSpan ≤ LinearMap.ker (us 0) := by
     refine Submodule.span_le.2 ?_
     rintro _ ⟨j, rfl⟩
-    simp only [SetLike.mem_coe, LinearMap.mem_ker, us_ub, (Fin.succ_ne_zero j).symm, if_false]
+    simp only [SetLike.mem_coe, LinearMap.mem_ker, us_ub, (Fin.succ_ne_zero j).symm, ite_false]
   exact h (hle hv)
 
 theorem epsBit_eq (d i : ℕ) : epsBit d i = cbitK d (i + 1) := by
@@ -1126,7 +1126,7 @@ theorem oneBit_of : ∀ x < 128, (∃ j < 7, x.testBit j = true ∧ ∀ k < 7, x
 theorem eq126 : ∀ x < 128, (∀ j < 7, x.testBit j = decide (j ≠ 0)) → x = 126 := by
   decide +kernel
 
-theorem suppRow_bits {he ae : ℕ} (hhe : ValidC he) (hae : ValidC ae) (i : ℕ) (hi : i < 6) :
+theorem suppRow_bits {he ae : ℕ} (_hhe : ValidC he) (hae : ValidC ae) (i : ℕ) (hi : i < 6) :
     suppRow he ae i < 2 ^ 7 ∧ ∀ j (hj : j < 7), (suppRow he ae i).testBit j =
       decide ((if j = i + 1 then 1 else 0) - cd he ⟨i + 1, by omega⟩ * cd ae ⟨j, hj⟩ ≠ 0) := by
   have ee : Nat.shiftLeft 1 (Nat.succ i) =
@@ -1152,7 +1152,7 @@ theorem suppRow_bits {he ae : ℕ} (hhe : ValidC he) (hae : ValidC ae) (i : ℕ)
     rw [Finset.sum_eq_single (⟨i + 1, by omega⟩ : Fin 7)]
     · simp
     · intro b _ hb
-      rw [if_neg]
+      rw [ite_eq_right]
       exact fun h => hb (Fin.ext h)
     · intro h
       exact absurd (Finset.mem_univ _) h
@@ -1190,7 +1190,7 @@ theorem cd_epsK (row : ℕ → ℕ) (v : ℕ) (j : Fin 7) :
   simp only
   split <;> simp
 
-theorem monoK_of_mono {t : ℕ} (ht : ReflC t) (hh0 : cd (hK t) 0 = 0) (hm : MonoEps (decL t)) :
+theorem monoK_of_mono {t : ℕ} (_ht : ReflC t) (_hh0 : cd (hK t) 0 = 0) (hm : MonoEps (decL t)) :
     monoK t = true := by
   obtain ⟨σ, s, hs, hf⟩ := hm
   have hve : ValidC (epsK cRow (hK t)) := by rw [epsK_eq]; exact validC_code7
@@ -1198,12 +1198,12 @@ theorem monoK_of_mono {t : ℕ} (ht : ReflC t) (hh0 : cd (hK t) 0 = 0) (hm : Mon
   have hhe : ∀ i : Fin 6, cd (epsK cRow (hK t)) ⟨i + 1, by omega⟩ = epsF i (decV (hK t)) := by
     intro i
     rw [cd_epsK]
-    simp only [show (i : ℕ) + 1 ≠ 0 by omega, if_false, Nat.add_sub_cancel]
+    simp only [show (i : ℕ) + 1 ≠ 0 by omega, ite_false, Nat.add_sub_cancel]
     exact dotK_cRow i
   have hae : ∀ m : Fin 6, cd (epsK dRow (aK t)) ⟨m + 1, by omega⟩ = decA (aK t) (epsV m) := by
     intro m
     rw [cd_epsK]
-    simp only [show (m : ℕ) + 1 ≠ 0 by omega, if_false, Nat.add_sub_cancel]
+    simp only [show (m : ℕ) + 1 ≠ 0 by omega, ite_false, Nat.add_sub_cancel]
     exact dotK_dRow m
   have hae0 : cd (epsK dRow (aK t)) ⟨0, by omega⟩ = 0 := by
     rw [cd_epsK]
@@ -1248,8 +1248,8 @@ theorem monoK_of_mono {t : ℕ} (ht : ReflC t) (hh0 : cd (hK t) 0 = 0) (hm : Mon
       rw [decide_eq_decide.2 hex]
       have hsm := hs ⟨m, hm6⟩
       by_cases h : (⟨i, hi⟩ : Fin 6) = σ ⟨m, hm6⟩
-      · rw [if_pos h, mul_one, decide_eq_true hsm, decide_eq_true h.symm]
-      · rw [if_neg h, mul_zero, decide_eq_false (by simp), decide_eq_false (fun h' => h h'.symm)]
+      · rw [ite_eq_left h, mul_one, decide_eq_true hsm, decide_eq_true h.symm]
+      · rw [ite_eq_right h, mul_zero, decide_eq_false (by simp), decide_eq_false (fun h' => h h'.symm)]
   unfold monoK
   rw [letB_eq, letB_eq, andB_eq, Bool.and_eq_true, allN_iff, Nat.beq_eq]
   refine ⟨fun i hi => oneBit_of _ (suppRow_bits hve hva i hi).1 ?_, ?_⟩
@@ -1305,12 +1305,12 @@ theorem hlFact_of_hlK {B : Subgroup (V7 ≃ₗ[ZMod 3] V7)} {t : ℕ} (ht : InN 
 theorem genU_ge (r k : ℕ) (hk : 6 ≤ k) : genU r k = r := by
   unfold genU
   simp only [ifN_eq]
-  rw [if_neg (by simpa [Nat.beq_eq] using (by omega : k ≠ 0)),
-    if_neg (by simpa [Nat.beq_eq] using (by omega : k ≠ 1)),
-    if_neg (by simpa [Nat.beq_eq] using (by omega : k ≠ 2)),
-    if_neg (by simpa [Nat.beq_eq] using (by omega : k ≠ 3)),
-    if_neg (by simpa [Nat.beq_eq] using (by omega : k ≠ 4)),
-    if_neg (by simpa [Nat.beq_eq] using (by omega : k ≠ 5))]
+  rw [ite_eq_right (by simpa [Nat.beq_eq] using (by omega : k ≠ 0)),
+    ite_eq_right (by simpa [Nat.beq_eq] using (by omega : k ≠ 1)),
+    ite_eq_right (by simpa [Nat.beq_eq] using (by omega : k ≠ 2)),
+    ite_eq_right (by simpa [Nat.beq_eq] using (by omega : k ≠ 3)),
+    ite_eq_right (by simpa [Nat.beq_eq] using (by omega : k ≠ 4)),
+    ite_eq_right (by simpa [Nat.beq_eq] using (by omega : k ≠ 5))]
 
 theorem genU_normal : ∀ i : Fin 6, normT (pM (hK (genU 0 i))) (nM (hK (genU 0 i))) = true ∧
     genU 0 i = mkR (hK (genU 0 i)) (aK (genU 0 i)) := by
@@ -1387,11 +1387,11 @@ theorem wit_spec {B : Subgroup (V7 ≃ₗ[ZMod 3] V7)} {e : ℕ → ℕ} (hg : �
 
 theorem genE_lt (e : ℕ → ℕ) (i : ℕ) (hi : i < 6) : genE e i = genU 0 i := by
   unfold genE
-  rw [ifN_eq, if_pos (by simpa using hi)]
+  rw [ifN_eq, ite_eq_left (by simpa using hi)]
 
 theorem genE_ge (e : ℕ → ℕ) (i : ℕ) (hi : 6 ≤ i) : genE e i = e (i - 6) := by
   unfold genE
-  rw [ifN_eq, if_neg (by simpa using hi)]
+  rw [ifN_eq, ite_eq_right (by simpa using hi)]
   rfl
 
 theorem ext2_eq (a b j : ℕ) : ext2 a b j = if j = 0 then a else b := by
@@ -1427,12 +1427,12 @@ theorem scaleV_spec {c v : ℕ} (hv : ValidC v) (hc : c < 3) :
   rw [ifN_eq, ifN_eq]
   interval_cases c
   · simp only [show Nat.beq 0 1 = false from rfl, show Nat.beq 0 2 = false from rfl,
-      Bool.false_eq_true, if_false]
+      Bool.false_eq_true, ite_false]
     exact ⟨validC_zero, by rw [decV_zero, Nat.cast_zero, zero_smul]⟩
-  · simp only [show Nat.beq 1 1 = true from rfl, if_true]
+  · simp only [show Nat.beq 1 1 = true from rfl, ite_true]
     exact ⟨hv, by rw [Nat.cast_one, one_smul]⟩
   · simp only [show Nat.beq 2 1 = false from rfl, show Nat.beq 2 2 = true from rfl,
-      Bool.false_eq_true, if_true, if_false]
+      Bool.false_eq_true, ite_true, ite_false]
     refine ⟨(negV_spec hv).1, ?_⟩
     rw [decV_negV hv]
     have h2 : ((2 : ℕ) : ZMod 3) = -1 := rfl
@@ -1575,10 +1575,10 @@ theorem twA_spec {a : ℕ} (ha : ValidC a) (k : ℕ) :
     LinearMap.comp_apply]
   refine Fin.cases ?_ (fun m => ?_) i
   · rw [twL_ub0, map_smul, decA_ub]
-    simp only [Fin.val_zero, if_true, ZMod.natCast_mod, Nat.cast_mul, smul_eq_mul]
+    simp only [Fin.val_zero, ite_true, ZMod.natCast_mod, Nat.cast_mul, smul_eq_mul]
     rfl
   · rw [twL_ubs, map_smul, ← dotK_decA ha]
-    simp only [Fin.val_succ, Nat.add_one_ne_zero, if_false, ZMod.natCast_mod, Nat.cast_mul,
+    simp only [Fin.val_succ, Nat.add_one_ne_zero, ite_false, ZMod.natCast_mod, Nat.cast_mul,
       smul_eq_mul]
 
 theorem twR_spec (hσ : sigInvK = true) {r : ℕ} (hr : ReflC r) (k : ℕ) :
@@ -1629,7 +1629,7 @@ theorem applyWF_spec {B : Subgroup (V7 ≃ₗ[ZMod 3] V7)} {e : ℕ → ℕ} (hg
           applyWF e fuel (applyR (genE e (Nat.sub (Nat.mod w 16) 1)) v) (Nat.div w 16) := by
         change ifN (Nat.beq w 0) v (letN (applyR (genE e (Nat.sub (Nat.mod w 16) 1)) v)
           fun v' => applyWF e fuel v' (Nat.div w 16)) = _
-        rw [ifN_eq, letN_eq, if_neg (by simpa [Nat.beq_eq] using hw)]
+        rw [ifN_eq, letN_eq, ite_eq_right (by simpa [Nat.beq_eq] using hw)]
       have hA := applyR_spec hR hv
       obtain ⟨h1, h2⟩ := hψv _ hA.1
       rw [e1]

@@ -106,11 +106,13 @@ theorem sec47_comm_of_quot (h : Sec3Ctx A Abar S₀ B)
   rw [← this]
   exact Subgroup.mem_inf.mpr ⟨he, hewA⟩
 
+omit [Finite G] in
 theorem sec47_le_comap {N T : Subgroup G} {g : G} (hT : ∀ t ∈ T, g * t * g⁻¹ ∈ N) :
     T ≤ N.comap (MulAut.conj g).toMonoidHom := fun t ht => by
   rw [Subgroup.mem_comap]
   exact hT t ht
 
+omit [Finite G] in
 theorem sec47_mem_normalizer_of_invol {N : Subgroup G} {g : G} (hg : g * g = 1)
     (hN : ∀ x ∈ N, g * x * g⁻¹ ∈ N) : g ∈ normalizer (N : Set G) := by
   have hinv : g⁻¹ = g := inv_eq_of_mul_eq_one_right hg
@@ -153,12 +155,13 @@ theorem sec47P_centralized_by (h : Sec3Ctx A Abar S₀ B)
     exact sec47P_comm h hS hy hyC he hw.1 hw.2 (conjSubgroup_mono h.setup.L_le hx)
   exact Subgroup.mem_centralizer_iff.mp (hP hx) e (Set.mem_singleton e)
 
+omit [Finite G] in
 theorem sec47_conj_eq_of_comm {g t : G} (h : g * t = t * g) : g * t * g⁻¹ = t := by
   rw [h]
   group
 
 theorem sec47P_comm_A (h : Sec3Ctx A Abar S₀ B)
-    (hS : ∀ b ∈ B, b ≠ 1 → Section3.IsSChoice A Abar S₀ B b)
+    (_hS : ∀ b ∈ B, b ≠ 1 → Section3.IsSChoice A Abar S₀ B b)
     {α x : G} (hα : α ∈ A) (hx : x ∈ sec47P A Abar B) : α * x = x * α := by
   have hP : sec47P A Abar B ≤ Subgroup.centralizer (A : Set G) := by
     refine iSup_le fun w => iSup_le fun hw => ?_
@@ -194,11 +197,13 @@ theorem sec47_fam (h : Sec3Ctx A Abar S₀ B)
 @[expose] def sec47N1 (A Abar B : Subgroup G) (h₀ : G) : Subgroup G :=
   (Section3.A0 A Abar ⊔ sec47P A Abar B) ⊔ conjSubgroup h₀ (Section3.A0 A Abar)
 
+omit [Finite G] in
 theorem sec47_conj_le_P {y : G} (hy : y ∈ Sec45Z A Abar B)
     (hyC : conjSubgroup y A ≤ centralizer (A : Set G)) :
     conjSubgroup y (Section3.A0 A Abar) ≤ sec47P A Abar B :=
   le_iSup_of_le y (le_iSup_of_le ⟨hy, hyC⟩ le_rfl)
 
+omit [Finite G] in
 theorem sec47_comm_conj (h : Sec3Ctx A Abar S₀ B) {h₀ x v : G}
     (hx : x ∈ conjSubgroup h₀ A) (hv : v ∈ conjSubgroup h₀ A) : x * v = v * x :=
   IsElemAbelian.comm (isElemAbelian_conj h.hyp.elemAbelian h₀) hx hv
@@ -212,7 +217,7 @@ theorem sec47_normalizes_fam (h : Sec3Ctx A Abar S₀ B)
     (hS : ∀ b ∈ B, b ≠ 1 → Section3.IsSChoice A Abar S₀ B b) {h₀ : G}
     (hh₀ : h₀ ∈ Sec45Z A Abar B) {y e : G} (hy : y ∈ Sec45Z A Abar B)
     (hyC : conjSubgroup y A ≤ centralizer (A : Set G))
-    (he : e ∈ conjSubgroup y A) (heA : e ∉ conjSubgroup y (Section3.A0 A Abar))
+    (he : e ∈ conjSubgroup y A) (_heA : e ∉ conjSubgroup y (Section3.A0 A Abar))
     (hee : e * e = 1) :
     e ∈ normalizer ((sec47N1 A Abar B h₀ : Subgroup G) : Set G) := by
   have hPN : sec47P A Abar B ≤ sec47N1 A Abar B h₀ := le_sup_right.trans le_sup_left
@@ -363,11 +368,12 @@ theorem sec47_Q_le_of_conj (h : Sec3Ctx A Abar S₀ B) {N : Subgroup G}
   rw [e]
   exact hN _ hbk
 
+omit [Finite G] in
 theorem sec47_A0_le_N1 (h₀ : G) :
     Section3.A0 A Abar ≤ sec47N1 A Abar B h₀ := le_sup_left.trans le_sup_left
 
 theorem sec47_Q_le_N1 (h : Sec3Ctx A Abar S₀ B)
-    (hS : ∀ b ∈ B, b ≠ 1 → Section3.IsSChoice A Abar S₀ B b) {h₀ : G}
+    (_hS : ∀ b ∈ B, b ≠ 1 → Section3.IsSChoice A Abar S₀ B b) {h₀ : G}
     (hN : Sec45Z A Abar B ≤ normalizer ((sec47N1 A Abar B h₀ : Subgroup G) : Set G)) :
     Sec45Q A Abar B ≤ sec47N1 A Abar B h₀ :=
   sec47_Q_le_of_conj h (fun z hz t ht => by
@@ -519,7 +525,7 @@ theorem sec47_gen_Z
       Sec45Z A Abar B ≤ Subgroup.closure ({e : G | e ∈ sec41g_D (Sec45Z A Abar B) A
         (Section3.A0 A Abar) ∧ e * α = α * e} ∪ {α, γ}) ⊔ Sec45Q A Abar B := by
   classical
-  haveI := hsimp
+  have := hsimp
   have hαD : α ∈ sec41g_D (Sec45Z A Abar B) A (Section3.A0 A Abar) :=
     sec41g_mem_D.mpr ⟨1, Subgroup.one_mem _, α, hα, hαA₀, by simp⟩
   have hαα : α * α = 1 := sec46_D_sq h hαD
@@ -634,7 +640,7 @@ theorem sec47_gen_Z
     refine ⟨⁅(πK αZ)⁻¹, πK ⟨g, hg⟩⁆, Subgroup.commutator_mem_commutator (Subgroup.mem_top _)
       (Subgroup.mem_top _), ?_⟩
     rw [e1, map_mul, map_mul, map_inv]
-    simp only [commutatorElement_def, mul_inv_rev, inv_inv, mul_assoc]
+    simp only [commutatorElement_def, inv_inv, mul_assoc]
     group
   have hWtop : WK = ⊤ :=
     sec47_eq_top_of_gen WK EK (πK αZ) hEKgen haW hEKsub hcomm
@@ -688,7 +694,7 @@ theorem sec47_twist_contra
   have hAbne : Section3.Abar0 A Abar ≠ Abar := h.setup.Lb_ne
   obtain ⟨β, hβĀ, hβĀ₀⟩ : ∃ β ∈ Abar, β ∉ Section3.Abar0 A Abar := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have h0 : Section3.Abar0 A Abar ≤ Abar := by
       rw [Sec3Ctx.abar0_eq h]
       exact inf_le_left
@@ -733,8 +739,8 @@ theorem sec47_twist_contra
   have hab : ∀ P : Sylow 2 ↥(A ⊔ Abar), ¬ ((⟨α, hαX⟩ : ↥(A ⊔ Abar)) ∈ P ∧
       (⟨β, hβX⟩ : ↥(A ⊔ Abar)) ∈ P) := by
     rintro P ⟨hαP, hβP⟩
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    have hP2 : IsPGroup 2 (P : Subgroup ↥(A ⊔ Abar)) := P.isPGroup'
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have hP2 : IsPGroup 2 (P : Subgroup ↥(A ⊔ Abar)) := P.isPGroup
     have hmul : (⟨α, hαX⟩ * ⟨β, hβX⟩ : ↥(A ⊔ Abar)) ∈ (P : Subgroup ↥(A ⊔ Abar)) :=
       Subgroup.mul_mem _ hαP hβP
     obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp hP2) ⟨_, hmul⟩
@@ -802,6 +808,7 @@ theorem sec47_Q_le_N1_of_gen (h : Sec3Ctx A Abar S₀ B)
       · exact sec47_normalizes_gamma h hS hh₀ hγ hγγ
   exact sec47_Q_le_N1 h hS hZN
 
+omit [Finite G] in
 theorem sec47_mem_sup_of_comm {X Y Q : Subgroup G} (hQ : ∀ x ∈ Q, ∀ y ∈ Q, x * y = y * x)
     (hX : X ≤ Q) (hY : Y ≤ Q) {x : G} (hx : x ∈ X ⊔ Y) :
     ∃ a ∈ X, ∃ b ∈ Y, a * b = x := by
@@ -858,6 +865,7 @@ theorem sec47_Q_le_normalizer_conj (h : Sec3Ctx A Abar S₀ B)
   have := sec47_conj_A0_normalizes h hS (Subgroup.one_mem _) hh₀
   rwa [conjSubgroup_one] at this
 
+omit [Finite G] in
 theorem sec47_phi_mul {Q : Subgroup G} (hQ : ∀ x ∈ Q, ∀ y ∈ Q, x * y = y * x) {γ : G}
     (hγ : ∀ q ∈ Q, γ * q * γ⁻¹ ∈ Q) {a b : G} (ha : a ∈ Q) (hb : b ∈ Q) :
     (a * b) * γ * (a * b)⁻¹ * γ⁻¹ = (a * γ * a⁻¹ * γ⁻¹) * (b * γ * b⁻¹ * γ⁻¹) := by
@@ -1272,7 +1280,7 @@ theorem sec47_M_perf [hN : ((Sec45Q A Abar B).subgroupOf (Sec45Z A Abar B)).Norm
   exact Subgroup.mul_mem_sup hxG hQm
 
 theorem sec47_comm_of_act (h : Sec3Ctx A Abar S₀ B)
-    (hS : ∀ b ∈ B, b ≠ 1 → Section3.IsSChoice A Abar S₀ B b)
+    (_hS : ∀ b ∈ B, b ≠ 1 → Section3.IsSChoice A Abar S₀ B b)
     [hN : ((Sec45Q A Abar B).subgroupOf (Sec45Z A Abar B)).Normal]
     [hC : ((((Sec45Q A Abar B ⊓ Subgroup.centralizer (Sec45Z A Abar B : Set G)).subgroupOf
           (Sec45Z A Abar B)).subgroupOf ((Sec45Q A Abar B).subgroupOf (Sec45Z A Abar B)))).Normal]
@@ -1339,7 +1347,7 @@ theorem sec47_comm_of_act (h : Sec3Ctx A Abar S₀ B)
 
 theorem sec47_card_two_pow {V : Type} [Group V] [Finite V]
     (hV : CFSG.Open.IsElemAbelian 2 (⊤ : Subgroup V)) : ∃ d : ℕ, Nat.card V = 2 ^ d := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp : IsPGroup 2 V := IsPGroup.iff_orderOf.mpr fun g => by
     have hg : g ^ 2 = 1 := hV.2 g (Subgroup.mem_top g)
     rcases (Nat.dvd_prime Nat.prime_two).mp (orderOf_dvd_of_pow_eq_one hg) with h1 | h1
@@ -1365,12 +1373,12 @@ theorem sec47_hnt_of_act
     ∃ y ∈ commutator (↥(Sec45Z A Abar B) ⧸ (Sec45Q A Abar B).subgroupOf (Sec45Z A Abar B)),
       ρ y ≠ 1 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   exact sec47_twist_contra h hS hα hαA₀ (sec47_M_perf h hS hperf)
     (sec47_comm_of_act h hS ρ hρ hcon)
 
 theorem sec47_conj_Q_le (h : Sec3Ctx A Abar S₀ B)
-    (hS : ∀ b ∈ B, b ≠ 1 → Section3.IsSChoice A Abar S₀ B b) {b : G} (hb : b ∈ B) :
+    (_hS : ∀ b ∈ B, b ≠ 1 → Section3.IsSChoice A Abar S₀ B b) {b : G} (hb : b ∈ B) :
     Sec45Q A Abar B ≤ (Sec45Q A Abar B).comap (MulAut.conj b).toMonoidHom := by
   have hB1 : (1 : G) ∈ B := B.one_mem
   refine sup_le (fun t ht => ?_) (iSup₂_le fun b' hb' => fun t ht => ?_)
@@ -1408,6 +1416,7 @@ def sec47Phi (h : Sec3Ctx A Abar S₀ B) : ↥B →* MulAut ↥(Sec45Z A Abar B)
       (a : G) * ((b : G) * (z : G) * (b : G)⁻¹) * (a : G)⁻¹
     group))
 
+omit [Finite G] in
 theorem sec47_E_conj_B (h : Sec3Ctx A Abar S₀ B) {b e : G} (hb : b ∈ B)
     (he : e ∈ sec41g_D (Sec45Z A Abar B) A (Section3.A0 A Abar)) :
     b * e * b⁻¹ ∈ sec41g_D (Sec45Z A Abar B) A (Section3.A0 A Abar) := by
@@ -1560,10 +1569,12 @@ theorem sec47_comap_elemAbelian {X Y : Type} [Group X] [Group Y] {Z : Subgroup Y
   · rw [map_pow, map_one]
     exact hZ.2 _ (Subgroup.mem_comap.mp hx)
 
+omit [Finite G] in
 theorem sec47_subgroupOf_elemAbelian {Q Z : Subgroup G} (hQ : IsElemAbelian 2 Q) :
     IsElemAbelian 2 (Q.subgroupOf Z) :=
   sec47_comap_elemAbelian (f := Z.subtype) Subtype.val_injective hQ
 
+omit [Finite G] in
 theorem sec47_C_normal {Q Z : Subgroup G} :
     ((Q ⊓ Subgroup.centralizer (Z : Set G)).subgroupOf Z).Normal := by
   refine ⟨fun n hn g => ?_⟩
@@ -1576,6 +1587,7 @@ theorem sec47_C_normal {Q Z : Subgroup G} :
   rw [hgn]
   exact hn
 
+omit [Finite G] in
 theorem sec47_C_le_center {Q Z : Subgroup G} :
     (Q ⊓ Subgroup.centralizer (Z : Set G)).subgroupOf Z ≤ Subgroup.center ↥Z := by
   intro n hn
@@ -1585,6 +1597,7 @@ theorem sec47_C_le_center {Q Z : Subgroup G} :
   apply Subtype.ext
   exact Subgroup.mem_centralizer_iff.mp (Subgroup.mem_inf.mp hn).2 g g.2
 
+omit [Finite G] in
 theorem sec47_C_le_N {Q Z : Subgroup G} :
     (Q ⊓ Subgroup.centralizer (Z : Set G)).subgroupOf Z ≤ Q.subgroupOf Z := by
   intro n hn
@@ -1621,15 +1634,15 @@ theorem sec47_arith_sz {v t k d : ℕ} (hv : v = 2 ^ d) (hvle : v ≤ t ^ 2)
 
 theorem sec47_sz_facts {L : Type} [Group L] [Finite L] {k : ℕ} (hk : 1 ≤ k)
     (e : L ≃* CFSG.Open.Sz k) : IsSimpleGroup L ∧ Group.IsPerfect L := by
-  haveI : IsSimpleGroup (CFSG.Open.Sz k) :=
+  have : IsSimpleGroup (CFSG.Open.Sz k) :=
     CFSG.SignalizerFunctorTheorem.McBride.SzModel.sz_isSimpleGroup (n := k) hk
-  haveI hpS := CFSG.SectionRank.suzukiMatrixGroup_isPerfect k (by omega)
-  haveI : Group.IsPerfect (CFSG.Open.Sz k) :=
+  have hpS := CFSG.SectionRank.suzukiMatrixGroup_isPerfect k (by omega)
+  have : Group.IsPerfect (CFSG.Open.Sz k) :=
     Group.IsPerfect.ofSurjective
       (f := (CFSG.SignalizerFunctorTheorem.McBride.SzModel.szEquiv k).symm.toMonoidHom)
       (CFSG.SignalizerFunctorTheorem.McBride.SzModel.szEquiv k).symm.surjective
-  haveI hs : IsSimpleGroup L := e.isSimpleGroup
-  haveI hp : Group.IsPerfect L := Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom)
+  have hs : IsSimpleGroup L := e.isSimpleGroup
+  have hp : Group.IsPerfect L := Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom)
     e.symm.surjective
   exact ⟨hs, hp⟩
 
@@ -1693,10 +1706,10 @@ theorem sec47_core
     obtain ⟨x, hxA, hx1, hxo⟩ := sec44w_holds G A Abar S₀ B h hq b hb hb1
     exact ⟨b, hb, hb1, Or.inl ⟨⟨x, hxA, hx1, hxo⟩, rfl⟩⟩
   obtain ⟨hQab, hQZ, hZN, hmain⟩ := h46 G A Abar S₀ B h hq
-  haveI hNorm : ((Sec45Q A Abar B).subgroupOf (Sec45Z A Abar B)).Normal :=
+  have hNorm : ((Sec45Q A Abar B).subgroupOf (Sec45Z A Abar B)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hQZ).mpr hZN
   obtain ⟨hrad, hmod⟩ := hmain
-  haveI hCn : ((Sec45Q A Abar B ⊓ Subgroup.centralizer (Sec45Z A Abar B : Set G)).subgroupOf
+  have hCn : ((Sec45Q A Abar B ⊓ Subgroup.centralizer (Sec45Z A Abar B : Set G)).subgroupOf
       (Sec45Z A Abar B)).Normal := sec47_C_normal
   have hA0A : Section3.A0 A Abar ≤ A := by
     rw [h.a0_eq]
@@ -1704,14 +1717,14 @@ theorem sec47_core
   have ht : 0 < Nat.card (Section3.A0 A Abar) := Nat.card_pos
   obtain ⟨α, hα, hαA₀⟩ : ∃ α ∈ A, α ∉ Section3.A0 A Abar := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have h1 : (Section3.A0 A Abar).relIndex A = 1 := Subgroup.relIndex_eq_one.mpr hcon
     have h2 := sec46_relIndex_A h hq
     omega
   by_contra hcon
   obtain ⟨x, hxA, hxB⟩ : ∃ x ∈ Section3.Abar0 A Abar, x ∉ normalizer (B : Set G) := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hcon hc
   obtain ⟨σ₂, hinj⟩ := sec47_sigma_inj h hS hxA hxB
   obtain ⟨g, hgB⟩ := h.nota.conj
@@ -1731,7 +1744,7 @@ theorem sec47_core
     have hf2 : 2 ≤ m := sec47_f_two_le hrad hm
     obtain ⟨e⟩ := id hm
     obtain ⟨hs, hp, -⟩ := sec47_psl2_facts hf2 e
-    haveI := hs
+    have := hs
     have hconj : ∀ x y : sec47Lz A Abar B, orderOf x = 2 → orderOf y = 2 → IsConj x y :=
       fun x y hx hy => isConj_of_orderOf_eq_two_of_mulEquiv_psl2 hf2 e hx hy
     have hLgen : ∀ a g' : sec47Lz A Abar B, orderOf a = 2 → orderOf g' = 2 → ¬ Commute a g' →
@@ -1748,7 +1761,7 @@ theorem sec47_core
     have ha1 : 1 ≤ a := sec47_sz_one_le hrad ha
     obtain ⟨e⟩ := id ha
     obtain ⟨hs, hp⟩ := sec47_sz_facts ha1 e
-    haveI := hs
+    have := hs
     have hconj : ∀ x y : sec47Lz A Abar B, orderOf x = 2 → orderOf y = 2 → IsConj x y :=
       fun x y hx hy => isConj_of_orderOf_eq_two_of_mulEquiv_sz ha1 e hx hy
     have hLgen : ∀ a' g' : sec47Lz A Abar B, orderOf a' = 2 → orderOf g' = 2 → ¬ Commute a' g' →

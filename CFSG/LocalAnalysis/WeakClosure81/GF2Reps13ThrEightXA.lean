@@ -182,7 +182,7 @@ theorem w16g_s13_eight_X_facts (h : Cfg133 A t 3) {z : MulAut W}
       (p := fun x _ => g * x * g⁻¹ ∈ conjClosure A (Subgroup.zpowers z)) ?_ ?_ ?_ ?_ hx
     · rintro c ⟨g', hg', w, hw, rfl⟩
       exact Subgroup.subset_closure ⟨g * g', A.mul_mem hg hg', w, hw, by group⟩
-    · simpa using Subgroup.one_mem (conjClosure A (Subgroup.zpowers z))
+    · simp
     · intro a b _ _ ha hb
       rw [show g * (a * b) * g⁻¹ = (g * a * g⁻¹) * (g * b * g⁻¹) by group]
       exact Subgroup.mul_mem _ ha hb

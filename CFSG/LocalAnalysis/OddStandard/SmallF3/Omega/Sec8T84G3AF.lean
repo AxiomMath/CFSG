@@ -25,6 +25,7 @@ private lemma sec8t84g3a_af_mem_normalizer_of_conj_le {H : Subgroup G} {c : G}
   · exact (Subgroup.card_map_of_injective (f := (MulAut.conj c).toMonoidHom)
       (MulAut.conj c).injective).ge
 
+omit [Finite G] in
 private lemma sec8t84g3a_af_oddCoreIn_le (X : Subgroup G) : oddCoreIn X ≤ X := by
   show (CFSG.oddCore ↥X).map X.subtype ≤ X
   exact Subgroup.map_subtype_le (CFSG.oddCore ↥X)
@@ -37,6 +38,7 @@ private lemma sec8t84g3a_af_odd_card_oddCoreIn (X : Subgroup G) :
   rw [hEq]
   exact CFSG.ComponentClassification.OddCore.odd_card ↥X
 
+omit [Finite G] in
 private lemma sec8t84g3a_af_le_normalizer_oddCoreIn (X : Subgroup G) :
     X ≤ normalizer (oddCoreIn X : Set G) := by
   rw [Subgroup.le_normalizer_iff]
@@ -56,7 +58,7 @@ private noncomputable def sec8t84g3a_af_sylow {A N : Subgroup G}
     maximal_isPGroup.left := hA.of_equiv (Subgroup.subgroupOfEquivOfLe le_sup_left).symm
     maximal_isPGroup.right := by
       intro Q hQ hle
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       intro q hq
       have hqAN : (q : G) ∈ (A : Set G) * (N : Set G) := by
         rw [← Subgroup.coe_mul_of_left_le_normalizer_right A N hAN]
@@ -104,7 +106,7 @@ private lemma sec8t84g3a_af_frattini_aux {A N : Subgroup G} (hAN : A ≤ normali
     (hxH : x ∈ normalizer ((A ⊔ N : Subgroup G) : Set G)) :
     ∃ m ∈ N, x * m ∈ normalizer (A : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS : IsSylow2Of A (A ⊔ N) := by
     let hP := sec8t84g3a_af_sylow hAN hA hNodd
     have h := isSylow2Of_map_sylow hP

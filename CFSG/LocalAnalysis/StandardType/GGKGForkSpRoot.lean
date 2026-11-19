@@ -171,7 +171,7 @@ private theorem ggKGSpR_isSignedPerm_of_conj {K : Type} [Field K] [CharP K 2] {n
     {u : MulAut (Fin n → Multiplicative (ZMod p))}
     (hu : ∀ f, g * spTorus (m := n) hζ f * g⁻¹ = spTorus (m := n) hζ (u f)) :
     IsSignedPerm ⇑u := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hxinj : Function.Injective (CFSG.LocalAnalysis.ComponentInitial.SymplecticFlag.proj n K) :=
     AutPSp.proj_injective (n := n) (K := K)
   obtain ⟨g₀, hg₀⟩ := QuotientGroup.mk'_surjective
@@ -209,7 +209,7 @@ private theorem ggKGSpR_isSignedPerm_of_conj {K : Type} [Field K] [CharP K 2] {n
       (u (Pi.mulSingle i (ofAdd (1 : ZMod p)))) (hGL (Pi.mulSingle i (ofAdd (1 : ZMod p)))) i'
     rw [hii] at h1
     rw [h1] at h2
-    simp only [toAdd_mulSingle, ↓reduceIte, if_neg (Ne.symm hne), mul_one, mul_zero] at h2
+    simp only [toAdd_mulSingle, ↓reduceIte, ite_eq_right (Ne.symm hne), mul_one, mul_zero] at h2
     rcases hε i with h | h <;> rw [h] at h2
     · exact coord_zero_ne_one hp h2.symm
     · exact coord_zero_ne_one hp (neg_eq_zero.mp h2).symm
@@ -395,14 +395,14 @@ private theorem ggKGSpR_statedComp_swap {K : Type} [Field K] [Finite K] {n p : �
         rw [mem_planeCoords] at hx hy
         rcases x with i | i <;> rcases y with j | j
         · exact absurd ⟨hx, hy⟩ hB
-        · have hfi : f₀ i = Multiplicative.ofAdd (1 : ZMod p) := by rw [hf₀]; exact if_pos hx
-          have hfj : f₀ j = Multiplicative.ofAdd (1 : ZMod p) := by rw [hf₀]; exact if_pos hy
+        · have hfi : f₀ i = Multiplicative.ofAdd (1 : ZMod p) := by rw [hf₀]; exact ite_eq_left hx
+          have hfj : f₀ j = Multiplicative.ofAdd (1 : ZMod p) := by rw [hf₀]; exact ite_eq_left hy
           show diagSpEntry (fun k => zmodPowHom hζ (f₀ k)) (Sum.inl i) ≠
             diagSpEntry (fun k => zmodPowHom hζ (f₀ k)) (Sum.inr j)
           rw [diagSpEntry_inl, diagSpEntry_inr, hfi, hfj, hχg]
           exact h3
-        · have hfi : f₀ i = Multiplicative.ofAdd (1 : ZMod p) := by rw [hf₀]; exact if_pos hx
-          have hfj : f₀ j = Multiplicative.ofAdd (1 : ZMod p) := by rw [hf₀]; exact if_pos hy
+        · have hfi : f₀ i = Multiplicative.ofAdd (1 : ZMod p) := by rw [hf₀]; exact ite_eq_left hx
+          have hfj : f₀ j = Multiplicative.ofAdd (1 : ZMod p) := by rw [hf₀]; exact ite_eq_left hy
           show diagSpEntry (fun k => zmodPowHom hζ (f₀ k)) (Sum.inr i) ≠
             diagSpEntry (fun k => zmodPowHom hζ (f₀ k)) (Sum.inl j)
           rw [diagSpEntry_inr, diagSpEntry_inl, hfi, hfj, hχg]
@@ -431,7 +431,7 @@ private theorem ggKGSpR_card_SL2 {K : Type} [Field K] [Finite K] :
 
 private theorem ggKGSpR_four_le_card {K : Type} [Field K] [Finite K] [CharP K 2] {p : ℕ}
     (hp : p.Prime) {ζ : Kˣ} (hζo : orderOf ζ = p) : 4 ≤ Nat.card K := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   obtain ⟨f, -, hfK⟩ := FiniteField.card K 2
   have hf_ne_one : (f : ℕ) ≠ 1 := by
     intro hf1
@@ -679,7 +679,7 @@ private theorem ggKGSpR_dvd_card_sgn {K : Type} [Field K] [CharP K 2] {n p : ℕ
     [NeZero n] (hp : p.Prime) (hp2 : p ≠ 2) {ζ : Kˣ} (hζ : ζ ^ p = 1) (hζo : orderOf ζ = p)
     (i : Fin n) :
     p ∣ Nat.card ((spBlock K ({i} : Finset (Fin n))).map (LargeEvenProjMk _)) := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   change p ∣ Nat.card ((spBlock K ({i} : Finset (Fin n))).map
     (CFSG.LocalAnalysis.ComponentInitial.SymplecticFlag.proj n K))
   rw [Subgroup.card_map_of_injective (AutPSp.proj_injective (n := n) (K := K))]
@@ -714,8 +714,8 @@ theorem ggKGRootDatumAt_spTorus
     (hp : p.Prime) (hp2 : p ≠ 2) {ζ : Kˣ} (hζo : orderOf ζ = p) (hζ : ζ ^ p = 1) :
     GGKGRootDatumAt p (spTorus (m := n) hζ).range := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hτ : Function.Injective (spTorus (m := n) hζ) :=
     spTorus_injective hζ hζo (hp.odd_of_ne_two hp2)
   have hK : 4 ≤ Nat.card K := ggKGSpR_four_le_card hp hζo
@@ -728,7 +728,7 @@ theorem ggKGRootDatumAt_spTorus
   have hnc : ∃ a b : LargeEvenProj (LargeEvenSpGroup K n), a * b ≠ b * a := by
     by_contra h
     push Not at h
-    haveI := hS
+    have := hS
     have htop : Subgroup.center (LargeEvenProj (LargeEvenSpGroup K n)) = ⊤ := by
       rw [eq_top_iff]
       intro x _
@@ -750,7 +750,7 @@ theorem ggKGRootDatumAt_spTorus
     rw [hx1, hy1]
   have hchev : CFSG.Yardstones.Md0ec50421ce4.IsChevSimple 2
       (LargeEvenProj (LargeEvenSpGroup K n)) := by
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     have hdata := CFSG.HardMathSupport.Solomon.Coordinator.LieComp.spFactorFacts_holds K n
       (by omega) (fun h => by have h1 : n = 2 := congrArg Prod.fst h; omega)
     have hchev0 := CFSG.HardMathSupport.Solomon.Coordinator.LieComp.isChevSimple_congr
@@ -832,8 +832,8 @@ theorem ggKGRootDatum_symplectic
     (hp : p.Prime) (hp2 : p ≠ 2) (hpq : p ∣ Nat.card K - 1) :
     GGKGRootDatum p n (LargeEvenProj (LargeEvenSpGroup K n)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨ζ, hζo⟩ := exists_prime_orderOf_dvd_card' p (by rw [Nat.card_units (α := K)]; exact hpq)
   have hζ : ζ ^ p = 1 := by rw [← hζo]; exact pow_orderOf_eq_one ζ
   have hτ : Function.Injective (spTorus (m := n) hζ) :=

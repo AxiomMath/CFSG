@@ -15,7 +15,7 @@ open CFSG.KC.Enum CFSG.KS CFSG.KS.Raw CFSG.KS.Prim CFSG.KS.PEnumB CFSG.KC.BfsPin
 
 noncomputable def treeWB (n w : Nat) (G PAR LAB : Nat → Nat) (c : Nat) : Nat :=
   if c = 0 then pidn n w else
-    if h : PAR c < c then pcomp n w (mask w) (G (LAB c)) (treeWB n w G PAR LAB (PAR c))
+    if _h : PAR c < c then pcomp n w (mask w) (G (LAB c)) (treeWB n w G PAR LAB (PAR c))
     else pidn n w
 termination_by c
 
@@ -61,11 +61,10 @@ theorem bfsBK_spec {cs : List Nat} {nc kp ng N : Nat} {act : Nat → Nat → Nat
   · have e := CFSG.KS.Raw.Orb.allN_iff.1 h4 c hc
     have hb : Nat.beq c 0 = false := Bool.eq_false_iff.2 fun h => hc0 (Nat.eq_of_beq_eq_true h)
     rw [hb] at e
-    simp only [CFSG.KS.Raw.Orb.bIf_eq, CFSG.KS.Raw.Orb.strictB_eq, CFSG.KS.Raw.Orb.bAnd_eq,
-      Bool.and_eq_true, Nat.blt_eq, imgStepK_iff, Bool.false_eq_true, ↓reduceIte] at e
+    simp only [CFSG.KS.Raw.Orb.strictB_eq, Bool.and_eq_true, Nat.blt_eq, imgStepK_iff] at e
     exact e
   · have e := CFSG.KS.Raw.Orb.allN_iff.1 (CFSG.KS.Raw.Orb.allN_iff.1 h5 i hi) k hk
-    simp only [CFSG.KS.Raw.Orb.strictB_eq, CFSG.KS.Raw.Orb.bAnd_eq, Bool.and_eq_true, Nat.blt_eq,
+    simp only [CFSG.KS.Raw.Orb.strictB_eq, Bool.and_eq_true, Nat.blt_eq,
       imgStepK_iff, Nat.add_eq, Nat.mul_eq] at e
     exact e
 
@@ -124,7 +123,6 @@ theorem bfsBK_sound {M : Nat → Prop} {cs : List Nat} {nc kp ng N : Nat}
     rw [← hgd j hj, himg _ hq j hj', PF.pg_pcomp hF.n_lt (hcs j hj'), himg i hi j hj',
       he j hj', hact k hk _ hx]
   · refine distinctK_inj hd a ha b hb ?_
-    change I (a * nc + kp) = I (b * nc + kp)
     rw [← himg a ha kp hkp, ← himg b hb kp hkp, e]
 
 theorem wordR_M {M : Nat → Prop} {bs : List Nat} (hF : BaseFaith n w bs M) {lf L : Nat → Nat}

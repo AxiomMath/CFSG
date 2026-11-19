@@ -152,9 +152,9 @@ theorem char2_lieModel {S : Type} [Group S] (h : Char2Rank2List S) :
         Or.inr (Or.inl ⟨rfl, by decide, h6.2⟩)⟩
     · exact ⟨.trialityD4, 0, f, by simp [Char2Rank2Family, h7.1],
         Or.inr (Or.inl ⟨rfl, by decide, h7.2⟩)⟩
-    · exact ⟨.twistedF4, 0, f, by simp [Char2Rank2Family, h8.1, h8.2.1, h8.2.2],
+    · exact ⟨.twistedF4, 0, f, by simp [Char2Rank2Family, h8.1, h8.2.1],
         Or.inr (Or.inr (Or.inl ⟨rfl, by decide, h8.2.2⟩))⟩
-    · exact ⟨.twistedB2, 0, f, by simp [Char2Rank2Family, h9.1, h9.2.1, h9.2.2],
+    · exact ⟨.twistedB2, 0, f, by simp [Char2Rank2Family, h9.1, h9.2.1],
         Or.inr (Or.inr (Or.inr ⟨rfl, rfl, h9.2.2⟩))⟩
   · exact ⟨.PSU, 5, 2, by simp [Char2Rank2Family], Or.inl ⟨by decide, h5⟩⟩
   · exact ⟨.Tits, 0, 1, by simp [Char2Rank2Family], Or.inr (Or.inr (Or.inl ⟨rfl, by decide, hT⟩))⟩
@@ -184,7 +184,7 @@ theorem char2_branch_false
     (hPSL : CFSG.Quasithin.IsPSL 3 2 2 (L ⧸ Q)) (hnt : ⁅Q, (⊤ : Subgroup L)⁆ ≠ ⊥) : False := by
   obtain ⟨t, n, f, hF, hLM⟩ := char2_lieModel hC
   have hsimp : IsSimpleGroup (L ⧸ Q) := CFSG.Quasithin.H13.A5.isSimpleGroup_of_isPSL34 hPSL
-  haveI := hsimp
+  have := hsimp
   have hQbot : Q ≠ ⊥ := by
     rintro rfl
     exact hnt (by simp)

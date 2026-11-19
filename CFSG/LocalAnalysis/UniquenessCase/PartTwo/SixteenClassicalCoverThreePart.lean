@@ -115,7 +115,7 @@ private theorem s16lc_sp_split {F : Type} [Field F] [Finite F] [CharP F 2] {m : 
     (hπ : Function.Surjective π) (hcen : π.ker ≤ Subgroup.center E)
     (hC : Nat.Coprime 2 (Nat.card π.ker)) :
     ∃ σ : StatedSp m F →* E, ∀ g, π (σ g) = g := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hC' : ¬ 2 ∣ Nat.card π.ker := (Nat.Prime.coprime_iff_not_dvd Nat.prime_two).1 hC
   exact (sp_existsUnique_section_of_sl2_lift (p := 2) m hπ hcen hC'
     fun ρ => s16lc_sl2_lift hπ hcen hC' ρ).exists
@@ -126,7 +126,7 @@ private theorem s16lc_spinPlus_split {F : Type} [Field F] [Finite F] [CharP F 2]
     (hπ : Function.Surjective π) (hcen : π.ker ≤ Subgroup.center E)
     (hC : Nat.Coprime 2 (Nat.card π.ker)) :
     ∃ σ : spinGroup (quadPlus m F) →* E, ∀ g, π (σ g) = g := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hC' : ¬ 2 ∣ Nat.card π.ker := (Nat.Prime.coprime_iff_not_dvd Nat.prime_two).1 hC
   exact (existsUnique_section_of_sl2_lift (p := 2) (SpinPlus.isCTGroupDatum hm)
     (plusDatum_steinbergExtras hm) (SpinPlus.isParametrization hm) (SpinPlus.rankOne hm)
@@ -138,11 +138,11 @@ private theorem s16lc_spinMinus_split {F : Type} [Field F] [Finite F] [CharP F 2
     (hπ : Function.Surjective π) (hcen : π.ker ≤ Subgroup.center E)
     (hC : Nat.Coprime 2 (Nat.card π.ker)) :
     ∃ σ : spinGroup (quadMinus m F b d) →* E, ∀ g, π (σ g) = g := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hC' : ¬ 2 ∣ Nat.card π.ker := (Nat.Prime.coprime_iff_not_dvd Nat.prime_two).1 hC
-  haveI : Fact (∀ r : F, r ^ 2 ≠ -d + b * r) := fact_shortField hirr
-  haveI : Finite (ShortField b d) := finite_shortField (b := b) (c := d)
-  haveI : CharP (ShortField b d) 2 :=
+  have : Fact (∀ r : F, r ^ 2 ≠ -d + b * r) := fact_shortField hirr
+  have : Finite (ShortField b d) := finite_shortField (b := b) (c := d)
+  have : CharP (ShortField b d) 2 :=
     charP_of_injective_algebraMap (algebraMap F (ShortField b d)).injective 2
   exact (existsUnique_section_of_rankOne_lift (p := 2) (minusDatum_isCTGroupDatum m hirr hm)
     (minusDatum_steinbergExtras m hirr) (fun _ hγ => isPGroup_minusRootGroup hirr hγ)
@@ -197,8 +197,8 @@ theorem s16lc_omegaPlus_center_three_free
     (e : (Q ⧸ Subgroup.center Q) ≃*
       StatedProj (StatedOmega (StatedQuadPlus m F))) :
     ¬ 3 ∣ Nat.card (Subgroup.center Q) := by
-  haveI : NeZero m := ⟨by omega⟩
-  haveI : Finite (spinGroup (quadPlus m F)) :=
+  have : NeZero m := ⟨by omega⟩
+  have : Finite (spinGroup (quadPlus m F)) :=
     finite_spinGroup_of_ker (quadPlus m F) (coe_ker_spinMatrix_quadPlus (K := F) (n := m))
   obtain ⟨hbij, hZ⟩ := OrthRest.spinPlus_bij (K := F) (n := m) hm
   let eH : spinGroup (quadPlus m F) ≃*
@@ -225,7 +225,7 @@ theorem s16lc_omegaMinus_center_three_free
     (e : (Q ⧸ Subgroup.center Q) ≃*
       StatedProj (StatedOmega (StatedQuadMinus m F b d))) :
     ¬ 3 ∣ Nat.card (Subgroup.center Q) := by
-  haveI : Finite (spinGroup (quadMinus m F b d)) :=
+  have : Finite (spinGroup (quadMinus m F b d)) :=
     finite_spinGroup_of_ker (quadMinus m F b d) (coe_ker_spinMatrix_quadMinus hirr)
   obtain ⟨hbij, hZ⟩ := OrthRest.spinMinus_bij (K := F) (n := m) hm hirr
   let eH : spinGroup (quadMinus m F b d) ≃*

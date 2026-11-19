@@ -40,7 +40,7 @@ theorem finrank_range_sub_one_eq {V : Type*} [AddCommGroup V] [Module (ZMod 2) V
       (A - 1).mulVecLin ∘ₗ (e : V →ₗ[ZMod 2] (Fin d → ZMod 2)) := by
     apply LinearMap.ext
     intro v
-    simp [h, Matrix.sub_mulVec]
+    simp [h]
   calc finrank (ZMod 2) (LinearMap.range ((f : V →ₗ[ZMod 2] V) - 1))
       = finrank (ZMod 2) (Submodule.map (e : V →ₗ[ZMod 2] (Fin d → ZMod 2))
           (LinearMap.range ((f : V →ₗ[ZMod 2] V) - 1))) :=
@@ -147,7 +147,7 @@ theorem commutant_eq_zero_or_one {V : Type} [AddCommGroup V] [Module (ZMod 2) V]
   have htwo : ∀ c : Module.End (MonoidAlgebra (ZMod 2) SL4) ρ'.asModule, c = 0 ∨ c = 1 := by
     obtain ⟨y₀, hy₀, hyuniq⟩ := (Nat.card_eq_two_iff' (0 : Module.End (MonoidAlgebra (ZMod 2) SL4)
       ρ'.asModule)).1 hcard
-    haveI : Nontrivial (Module.End (MonoidAlgebra (ZMod 2) SL4) ρ'.asModule) :=
+    have : Nontrivial (Module.End (MonoidAlgebra (ZMod 2) SL4) ρ'.asModule) :=
       ⟨⟨y₀, 0, hy₀⟩⟩
     intro c
     by_cases hc : c = 0

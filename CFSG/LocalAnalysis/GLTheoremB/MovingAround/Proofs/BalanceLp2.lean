@@ -68,7 +68,7 @@ theorem eq_scalar_of_heis_two (hp : p.Prime) (hp2 : p ≠ 2) (hpK : (p : K) ≠ 
     (hgB : g * B * g⁻¹ = GeneralLinearGroup.scalar (Fin p) v * B)
     (hg : g ^ (2 ^ k) = GeneralLinearGroup.scalar (Fin p) c) :
     ∃ d : Kˣ, g = GeneralLinearGroup.scalar (Fin p) d := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hp0 := hp.pos
   have hcop : Nat.Coprime p (2 ^ k) :=
     Nat.Coprime.pow_right _ ((Nat.coprime_primes hp Nat.prime_two).2 hp2)
@@ -166,7 +166,7 @@ theorem ringEquiv_eq_one_of_heis (hp : p.Prime) (hp2 : p ≠ 2) (hpq : p ∣ ℓ
   obtain ⟨hcard, hcyc⟩ := card_ringAut_and_isCyclic h.prime K h.card
   have : Finite (RingAut K) :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; have := h.one_le; omega)
-  letI : Fintype (RingAut K) := Fintype.ofFinite _
+  let : Fintype (RingAut K) := Fintype.ofFinite _
   have hinj : Function.Injective h.bar := h.bar.injective
   let barE : K ≃+* K := RingEquiv.ofBijective h.bar ⟨hinj, Finite.injective_iff_surjective.1 hinj⟩
   have hbarE : ∀ x, barE x = x ^ ℓ ^ f := fun x => h.bar_apply x
@@ -307,8 +307,8 @@ theorem localDeltaTwoIn_eq_bot_unitary_heis (hp : p.Prime) (hp2 : p ≠ 2) (hne 
     localDeltaTwoIn H (Subgroup.closure {primeFormConjHom h (idGram K p) A,
       primeFormConjHom h (idGram K p) B}) = ⊥ := by
   have := h.finite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
   have : Finite (primeFormP h (idGram K p)) := CFSG.RankThree.PartOne.KCUnitaryModel.finite_primeFormP
   have hn : 3 ≤ p := by have := hp.two_le; omega
   have hpℓ : ¬ p ∣ ℓ := by
@@ -499,7 +499,7 @@ theorem fourier_A_pow (hω : IsPrimitiveRoot (ω : K) p)
 theorem linearIndependent_pow_of_heis (hp0 : 0 < p) (hω : IsPrimitiveRoot ω p)
     (hAB : A * B * A⁻¹ * B⁻¹ = GeneralLinearGroup.scalar (Fin p) ω) (hpK : (p : K) ≠ 0) :
     LinearIndependent K (fun i : Fin p => (A : Matrix (Fin p) (Fin p) K) ^ (i : ℕ)) := by
-  haveI : Nonempty (Fin p) := ⟨⟨0, hp0⟩⟩
+  have : Nonempty (Fin p) := ⟨⟨0, hp0⟩⟩
   have hω' : IsPrimitiveRoot (ω : K) p := IsPrimitiveRoot.coe_units_iff.2 hω
   rw [Fintype.linearIndependent_iff]
   intro c hc j
@@ -510,10 +510,10 @@ theorem linearIndependent_pow_of_heis (hp0 : 0 < p) (hω : IsPrimitiveRoot ω p)
     intro i
     rw [map_smul, fourier_A_pow hω' hAB i.2 j.2, smul_smul]
     by_cases hij : i = j
-    · rw [if_pos (congrArg Fin.val hij), if_pos hij]
-    · rw [if_neg (fun h => hij (Fin.ext h)), if_neg hij, mul_zero]
+    · rw [ite_eq_left (congrArg Fin.val hij), ite_eq_left hij]
+    · rw [ite_eq_right (fun h => hij (Fin.ext h)), ite_eq_right hij, mul_zero]
   simp only [h2] at h1
-  rw [Finset.sum_eq_single j (fun i _ hij => by rw [if_neg hij, zero_smul]) (by simp), if_pos rfl] at h1
+  rw [Finset.sum_eq_single j (fun i _ hij => by rw [ite_eq_right hij, zero_smul]) (by simp), ite_eq_left rfl] at h1
   have hAj : (A : Matrix (Fin p) (Fin p) K) ^ (j : ℕ) ≠ 0 := by
     rw [← Units.val_pow_eq_pow_val]
     exact Units.ne_zero _
@@ -525,7 +525,7 @@ theorem eq_smul_pow_of_eigen (hp0 : 0 < p) (hω : IsPrimitiveRoot ω p)
     (hAB : A * B * A⁻¹ * B⁻¹ = GeneralLinearGroup.scalar (Fin p) ω) (hpK : (p : K) ≠ 0)
     {Y : Matrix (Fin p) (Fin p) K} (hYA : Y * A = A * Y) {j : ℕ}
     (hY : conjLin B Y = ((ω : K) ^ j)⁻¹ • Y) : ∃ d : K, Y = d • (A : Matrix (Fin p) (Fin p) K) ^ j := by
-  haveI : NeZero p := ⟨hp0.ne'⟩
+  have : NeZero p := ⟨hp0.ne'⟩
   set Ai := ((A⁻¹ : GL (Fin p) K) : Matrix (Fin p) (Fin p) K) with hAi
   have hAiA : Ai * (A : Matrix (Fin p) (Fin p) K) = 1 := by
     rw [hAi, ← Units.val_mul, inv_mul_cancel, Units.val_one]
@@ -625,7 +625,7 @@ theorem det_eq_of_pow_eq_scalar (hp : p.Prime) (hp2 : p ≠ 2) (hω : IsPrimitiv
     have hdeg2 : (X ^ p - C (μ : K)).natDegree = p := natDegree_X_pow_sub_C
     have hg0 : (A : Matrix (Fin p) (Fin p) K).charpoly - (X ^ p - C (μ : K)) ≠ 0 := sub_ne_zero.2 hne
     have hlt : ((A : Matrix (Fin p) (Fin p) K).charpoly - (X ^ p - C (μ : K))).natDegree < p := by
-      have h1 := degree_sub_lt (p := (A : Matrix (Fin p) (Fin p) K).charpoly) (q := X ^ p - C (μ : K))
+      have h1 := degree_sub_lt_left (p := (A : Matrix (Fin p) (Fin p) K).charpoly) (q := X ^ p - C (μ : K))
         (by rw [degree_eq_natDegree hmon1.ne_zero, degree_eq_natDegree hmon2.ne_zero, hdeg1, hdeg2])
         hmon1.ne_zero (by rw [hmon1.leadingCoeff, hmon2.leadingCoeff])
       rw [degree_eq_natDegree hmon1.ne_zero, hdeg1] at h1
@@ -636,7 +636,7 @@ theorem det_eq_of_pow_eq_scalar (hp : p.Prime) (hp2 : p ≠ 2) (hω : IsPrimitiv
       sub_eq_zero, Matrix.algebraMap_eq_diagonal]
     rfl
   rw [Matrix.det_eq_sign_charpoly_coeff, hchar, Fintype.card_fin, coeff_sub, coeff_X_pow, coeff_C_zero,
-    if_neg hp.ne_zero.symm, zero_sub, Odd.neg_one_pow (hp.odd_of_ne_two hp2)]
+    ite_eq_right hp.ne_zero.symm, zero_sub, Odd.neg_one_pow (hp.odd_of_ne_two hp2)]
   ring
 
 theorem isUnit_det_scalar_add {M : Matrix (Fin p) (Fin p) K} {μ : K}
@@ -697,9 +697,9 @@ variable {F : Type} [Field F] [Finite F] {p : ℕ}
 theorem units_pow_facts (hp : p.Prime) (hpF : p ∣ Nat.card F - 1) {μ : Fˣ} (hμ : ∀ c : Fˣ, c ^ p ≠ μ) :
     μ ^ ((Nat.card F - 1) / p) ≠ 1 ∧ ∀ d : Fˣ, ∃ (i : ℕ) (c : Fˣ), d = μ ^ i * c ^ p := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fintype F := Fintype.ofFinite F
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hN : Nat.card Fˣ = Nat.card F - 1 := by
     rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card, Fintype.card_units]
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := Fˣ)
@@ -748,8 +748,8 @@ theorem exists_odd_conjAut_pow_eq_one (hp : p.Prime) (hp2 : p ≠ 2) (hpF : p �
     (hζ : μ ^ ((Nat.card F - 1) / p) ≠ 1) {v : GL (Fin p) F} (hv : v * A = A * v) :
     ∃ m : ℕ, Odd m ∧ conjAut p F (v ^ m) = 1 := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fintype F := Fintype.ofFinite F
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hp0 := hp.pos
   have hQF : Fintype.card F = Nat.card F := Nat.card_eq_fintype_card.symm
   have hQ1 : 1 ≤ Nat.card F := Nat.card_pos
@@ -786,7 +786,7 @@ theorem exists_odd_conjAut_pow_eq_one (hp : p.Prime) (hp2 : p ≠ 2) (hpF : p �
         (((B ^ k)⁻¹ : GL (Fin p) F) : Matrix (Fin p) (Fin p) F) = (A : Matrix (Fin p) (Fin p) F) ^ Nat.card F := by
       have := congrArg Units.val hBk
       rwa [Units.val_mul, Units.val_mul, Units.val_pow_eq_pow_val] at this
-    rw [← aeval_conj_unit, hmat, ← map_pow, ← hQF, ← FiniteField.expand_card, Polynomial.expand_aeval]
+    rw [← aeval_conj_unit, hmat, ← map_pow, ← hQF, ← FiniteField.Polynomial.expand_card, Polynomial.expand_aeval]
   obtain ⟨P, hP⟩ := exists_aeval_of_commute hp0 hω hAB hpK hb (v := (v : Matrix (Fin p) (Fin p) F))
     (by have := congrArg Units.val hv; simpa only [Units.val_mul] using this)
   have hvn : ∀ n : ℕ, ((v ^ n : GL (Fin p) F) : Matrix (Fin p) (Fin p) F) =
@@ -871,7 +871,7 @@ theorem commute_conjAut_of_outer (hp : p.Prime) (hp2 : p ≠ 2) (hpF : p ∣ Nat
     (hΘA : ∀ w, w * A = A * w → Θ w * A = A * Θ w) {w : GL (Fin p) F} (hw : w * A = A * w) :
     t * conjAut p F w = conjAut p F w * t := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : Finite (projectiveSL p F) := finite_projectiveSL
   have hpQ : ¬ p ∣ Nat.card F := fun hd => by
     have hQ1 : 1 ≤ Nat.card F := Nat.card_pos
@@ -923,6 +923,7 @@ theorem commute_conjAut_of_outer (hp : p.Prime) (hp2 : p ≠ 2) (hpF : p ∣ Nat
   exact ((show Commute t (conjAut p F w₀) from htw₀).mul_right
     ((show Commute t (conjAut p F A) from htA).pow_right i)).eq
 
+omit [Finite F] in
 theorem lin_three {A : Matrix (Fin p) (Fin p) F}
     (hind : LinearIndependent F (fun i : Fin p => A ^ (i : ℕ))) (hp3 : 3 ≤ p) {s t u : F}
     (h : s • A ^ 0 + t • A ^ 1 + u • A ^ 2 = 0) : s = 0 ∧ t = 0 ∧ u = 0 := by
@@ -931,6 +932,7 @@ theorem lin_three {A : Matrix (Fin p) (Fin p) F}
   have := Fintype.linearIndependent_iff.1 h3 ![s, t, u] (by simpa [Fin.sum_univ_three] using h)
   exact ⟨this 0, this 1, this 2⟩
 
+omit [Finite F] in
 theorem coe_map_GL (σ : F →+* F) (g : GL (Fin p) F) :
     ((GeneralLinearGroup.map σ g : GL (Fin p) F) : Matrix (Fin p) (Fin p) F) =
       (g : Matrix (Fin p) (Fin p) F).map σ := by
@@ -944,8 +946,8 @@ theorem localDeltaTwoIn_eq_bot_linear_outer (hp : p.Prime) (hp2 : p ≠ 2) (hpF 
     {H : Subgroup (MulAut (projectiveSL p F))} (hH : innerAut (projectiveSL p F) ≤ H) :
     localDeltaTwoIn H (Subgroup.closure {conjAut p F A, conjAut p F B}) = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
   have : Finite (projectiveSL p F) := finite_projectiveSL
   have hn : 3 ≤ p := by have := hp.two_le; omega
   have hp0 := hp.pos

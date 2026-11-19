@@ -113,9 +113,9 @@ theorem eq_one_of_mem_centralizer (S : Sylow 2 G) {Y : Subgroup G}
   have hUne : U ≠ ⊥ := fun hb => ht1 (by
     have : t ∈ U := ⟨htS, htC⟩
     rwa [hb, Subgroup.mem_bot] at this)
-  obtain ⟨u, huU, hu1, hucomm⟩ := exists_ne_one_commute_of_le_normalizer S.isPGroup'
-    (S.isPGroup'.to_le inf_le_left) hUne hSU
-  have hu2 : IsPGroup 2 (Subgroup.zpowers u) := S.isPGroup'.to_le
+  obtain ⟨u, huU, hu1, hucomm⟩ := exists_ne_one_commute_of_le_normalizer S.isPGroup
+    (S.isPGroup.to_le inf_le_left) hUne hSU
+  have hu2 : IsPGroup 2 (Subgroup.zpowers u) := S.isPGroup.to_le
     (Subgroup.zpowers_le.mpr huU.1)
   have hdvd : 2 ∣ Nat.card (Subgroup.zpowers u) := by
     obtain ⟨n, hn⟩ := hu2.exists_card_eq

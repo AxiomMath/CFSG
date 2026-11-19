@@ -373,7 +373,7 @@ theorem card_center_eq_three_of_dvd_of (hGA : CFSG.Open.GriessAllModelsStatement
     rintro ⟨e⟩
     refine ⟨?_, ⟨e⟩⟩
     have hd := halt 6 (by norm_num) e
-    rw [if_pos (Or.inl rfl)] at hd
+    rw [ite_eq_left (Or.inl rfl)] at hd
     have hk6 := Nat.le_of_dvd (by norm_num) hd
     obtain ⟨j, hj⟩ := hodd
     omega
@@ -381,7 +381,7 @@ theorem card_center_eq_three_of_dvd_of (hGA : CFSG.Open.GriessAllModelsStatement
       (↥(barM M L) ⧸ Subgroup.center ↥(barM M L) ≃* alternatingGroup (Fin m)) → False := by
     intro m hm h6 h7 e
     have hd := halt m hm e
-    rw [if_neg (by omega)] at hd
+    rw [ite_eq_right (by omega)] at hd
     have hk2 := Nat.le_of_dvd (by norm_num) hd
     omega
   have hcz : ∀ N : ℕ, 5 ≤ N → (↥(barM M L) ≃* alternatingGroup (Fin N)) → False := by

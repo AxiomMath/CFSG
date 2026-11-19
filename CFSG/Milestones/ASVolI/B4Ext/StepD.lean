@@ -112,13 +112,13 @@ theorem burnsideB49x_eBuild_blocks
   · ext b
     simp only [burnsideB49x_eR, LinearMap.comp_apply, Submodule.subtype_apply,
       burnsideB49x_eBuild_apply, burnsideB49_proj_ker hw₀, hφy, hpr0, hw₀, map_zero,
-      LinearMap.zero_apply, one_mul, zero_add, zero_mul, mul_zero, add_zero]
+      LinearMap.zero_apply, one_mul, zero_add, mul_zero, add_zero]
   · ext a
     simp only [burnsideB49x_eC, LinearMap.comp_apply, Submodule.subtype_apply,
       LinearMap.flip_apply, burnsideB49x_eBuild_apply, burnsideB49_proj_ker hw₀, hφy, hpr0, hw₀,
       map_zero, one_mul, zero_add, zero_mul, mul_zero, add_zero]
   · simp only [burnsideB49x_eA, burnsideB49x_eBuild_apply, hpr0, hw₀, map_zero,
-      LinearMap.zero_apply, mul_one, zero_add, mul_zero, add_zero]
+      mul_one, zero_add, mul_zero, add_zero]
 
 end BlocksD
 
@@ -130,6 +130,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 variable {W : Type*} [AddCommGroup W] [Module (ZMod 2) W] [FiniteDimensional (ZMod 2) W]
   {φ : Dual (ZMod 2) W} {w₀ : W} (hw₀ : φ w₀ = 1)
 
+omit [FiniteDimensional (ZMod 2) W] in
 theorem burnsideB49x_eD_muD (k : ↥(burnsideB49_K φ w₀))
     (β : W →ₗ[ZMod 2] W →ₗ[ZMod 2] ZMod 2) :
     burnsideB49x_eD φ (burnsideB49x_muD W k β) =
@@ -138,6 +139,7 @@ theorem burnsideB49x_eD_muD (k : ↥(burnsideB49_K φ w₀))
   simp only [burnsideB49x_eD, LinearMap.compl₁₂_apply, Submodule.subtype_apply,
     burnsideB49x_muD_apply, burnsideB49_Kres_symm_apply]
 
+omit [FiniteDimensional (ZMod 2) W] in
 theorem burnsideB49x_eR_muD (k : ↥(burnsideB49_K φ w₀))
     (β : W →ₗ[ZMod 2] W →ₗ[ZMod 2] ZMod 2) :
     burnsideB49x_eR φ w₀ (burnsideB49x_muD W k β) =
@@ -147,6 +149,7 @@ theorem burnsideB49x_eR_muD (k : ↥(burnsideB49_K φ w₀))
     burnsideB49x_muD_apply, burnsideB49_KresDual_apply, burnsideB49_Kres_symm_apply,
     burnsideB49x_K_symm_w₀]
 
+omit [FiniteDimensional (ZMod 2) W] in
 theorem burnsideB49x_eC_muD (k : ↥(burnsideB49_K φ w₀))
     (β : W →ₗ[ZMod 2] W →ₗ[ZMod 2] ZMod 2) :
     burnsideB49x_eC φ w₀ (burnsideB49x_muD W k β) =
@@ -156,6 +159,7 @@ theorem burnsideB49x_eC_muD (k : ↥(burnsideB49_K φ w₀))
     burnsideB49x_muD_apply, burnsideB49_KresDual_apply, burnsideB49_Kres_symm_apply,
     burnsideB49x_K_symm_w₀]
 
+omit [FiniteDimensional (ZMod 2) W] in
 theorem burnsideB49x_eA_muD (k : ↥(burnsideB49_K φ w₀))
     (β : W →ₗ[ZMod 2] W →ₗ[ZMod 2] ZMod 2) :
     burnsideB49x_eA w₀ (burnsideB49x_muD W k β) = burnsideB49x_eA w₀ β := by
@@ -327,8 +331,8 @@ theorem burnsideB49x_stepD (hφ : φ ≠ 0) (hdim : 4 ≤ finrank (ZMod 2) ↥(L
     exact sub_self (burnsideB49x_muD W k Y₀ - Y₀)
   have hδ₁Q := burnsideB49x_qstepD hw₀ hdim hδ₁Z hδ₁K
   have hδ₁P := burnsideB49x_vanish_stab hw₀ hδ₁Z hδ₁K hδ₁Q
-  haveI : Finite W := Module.finite_of_finite (ZMod 2)
-  haveI : Finite (W ≃ₗ[ZMod 2] W) :=
+  have : Finite W := Module.finite_of_finite (ZMod 2)
+  have : Finite (W ≃ₗ[ZMod 2] W) :=
     Finite.of_injective (fun f : W ≃ₗ[ZMod 2] W => (f : W → W))
       (fun _ _ h => LinearEquiv.ext (congrFun h))
   refine mem_B1A_of_restrict (fun m => two_add_self m) (burnsideB49_stab_index_odd hφ) hδ

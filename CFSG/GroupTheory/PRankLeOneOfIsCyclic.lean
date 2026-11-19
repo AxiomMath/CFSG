@@ -8,10 +8,10 @@ namespace CFSG
 
 theorem pRank_le_one_of_isCyclic {G : Type} [Group G] [Finite G] {p : Nat} (hp : p.Prime)
     (hG : IsCyclic G) : CFSG.Open.pRank p (⊤ : Subgroup G) ≤ 1 := by
-  haveI : IsCyclic G := hG
+  have : IsCyclic G := hG
   refine CFSG.SectionRank.pRank_le hp.one_lt (H := ⊤) (k := 1) ?_
   intro E _ hE
-  haveI : IsCyclic E := inferInstance
+  have : IsCyclic E := inferInstance
   obtain ⟨g, hg⟩ := isCyclic_iff_exists_zpowers_eq_top.mp (inferInstance : IsCyclic E)
   have hcard : Nat.card E = orderOf g := (orderOf_eq_card_of_zpowers_eq_top hg).symm
   have hgp : g ^ p = 1 := by

@@ -146,7 +146,7 @@ theorem B_inf_F {α : G} (hα : AlphaSpec S z t α) {b : G} (hbB : b ∈ B)
     refine ⟨fun k hk b' => ?_⟩
     rw [mem_subgroupOf] at hk ⊢
     exact ⟨h.Fsub_normal hα (h.W_mem_M (h.B_le_W b'.2)) hk.1, (b' * ⟨_, hk.2⟩ * b'⁻¹).2⟩
-  haveI := hnorm
+  have := hnorm
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((Fsub h hα ⊓ B).subgroupOf B) with h1 | h1
   · have : (⟨b, hbB⟩ : ↥B) ∈ (Fsub h hα ⊓ B).subgroupOf B := mem_subgroupOf.2 ⟨hbF, hbB⟩
     rw [h1, mem_bot] at this

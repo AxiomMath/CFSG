@@ -17,6 +17,7 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
   {Y R T L N : Subgroup (LGL 2 V)} {Γ : Set (Subgroup (LGL 2 V))}
   {VA : Subgroup (LGL 2 V) → Submodule (ZMod 2) V}
 
+omit [Finite V] in
 private theorem w183k3_isSylowIn_imgOf_range {R L N : Subgroup (LGL 2 V)}
     (hcore : QuasiCore R L N) {T : Subgroup (LGL 2 V)} (hTR : IsSylowIn 2 T R) :
     IsSylowIn 2 (imgOf (psiQuot R L hcore.normal) T)
@@ -61,6 +62,7 @@ theorem w183k3_isSylowIn_imgOf_inf (hcore : QuasiCore R L N)
       simpa [ψ, map_inv, mul_assoc] using h
   exact IsSylowIn.inf_normal (w183k3_isSylowIn_imgOf_range hcore hTR) hX₀ hnorm
 
+omit [Finite V] in
 private theorem w183k3_ker_psiQuot_odd (c : QuasiCore R L N) :
     Odd (Nat.card ↥(psiQuot R L c.normal).ker) := by
   let ψ := psiQuot R L c.normal
@@ -79,6 +81,7 @@ private theorem w183k3_ker_psiQuot_odd (c : QuasiCore R L N) :
     exact Subgroup.card_dvd_of_le hle'
   exact Odd.of_dvd_nat c.odd (hdvd1.trans hdvd2)
 
+omit [Finite V] in
 private theorem w183k3_psiQuot_injOn_S (hcore : QuasiCore R L N)
     (hTR : IsSylowIn 2 (T ⊓ R) R) {x y : ↥R}
     (hx : x ∈ (T ⊓ R).subgroupOf R) (hy : y ∈ (T ⊓ R).subgroupOf R)
@@ -92,6 +95,7 @@ private theorem w183k3_psiQuot_injOn_S (hcore : QuasiCore R L N)
   rw [hker, Subgroup.mem_bot] at hmem
   exact inv_mul_eq_one.mp hmem
 
+omit [Finite V] in
 private theorem w183k3_subgroupOf_cj {A R : Subgroup (LGL 2 V)} (hA : A ≤ R) {n : ↥R} :
     (cj (n : LGL 2 V) A).subgroupOf R =
       (A.subgroupOf R).map (MulAut.conj n).toMonoidHom := by
@@ -117,6 +121,7 @@ private theorem w183k3_autConj_one {M : Type} [Group M] (A : Subgroup (MulAut M)
   rw [show MulAut.conj (1 : MulAut M) = 1 from map_one _, MulAut.one_def]
   exact Subgroup.map_id A
 
+omit [Finite V] in
 private theorem w183k3_imgOf_injOn_S (hcore : QuasiCore R L N)
     (hTR : IsSylowIn 2 (T ⊓ R) R) {A C : Subgroup (LGL 2 V)}
     (hA : A ≤ T ⊓ R) (hC : C ≤ T ⊓ R)

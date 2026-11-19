@@ -28,16 +28,16 @@ public theorem huppert_III_8_8_exists_invariant_index_two_of_involutive_aut
     ∃ M : Subgroup P,
       M.Normal ∧ M.index = 2 ∧ ∀ x : P, x ∈ M ↔ φ x ∈ M := by
   classical
-  letI : Nontrivial P := hPne
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (IsPGroup 2 P) := ⟨hP⟩
-  letI : (frattini P).Characteristic := frattini_characteristic
+  let : Nontrivial P := hPne
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (IsPGroup 2 P) := ⟨hP⟩
+  let : (frattini P).Characteristic := frattini_characteristic
   have hΦne : frattini P ≠ ⊤ := by
     intro hΦtop
     have hbotTop : (⊥ : Subgroup P) = ⊤ :=
       frattini_nongenerating (K := (⊥ : Subgroup P)) (by simp [hΦtop])
     exact bot_ne_top hbotTop
-  letI : Nontrivial (P ⧸ frattini P) :=
+  let : Nontrivial (P ⧸ frattini P) :=
     QuotientGroup.nontrivial_iff.mpr hΦne
   have hΦinv : ∀ x : P, x ∈ frattini P ↔ φ x ∈ frattini P :=
     fun x => hkt_characteristic_subgroup_invariant φ (frattini P) x
@@ -50,14 +50,14 @@ public theorem huppert_III_8_8_exists_invariant_index_two_of_involutive_aut
     rw [hφ x]
   have hQelem : IsElementaryAbelian 2 (P ⧸ frattini P) :=
     isElementaryAbelian_quotient_frattini
-  letI : IsElementaryAbelian 2 (P ⧸ frattini P) := hQelem
-  letI : CommGroup (P ⧸ frattini P) := IsMulCommutative.instCommGroup
+  let : IsElementaryAbelian 2 (P ⧸ frattini P) := hQelem
+  let : CommGroup (P ⧸ frattini P) := IsMulCommutative.instCommGroup
   let V := Additive (P ⧸ frattini P)
-  letI : AddCommGroup V := Additive.addCommGroup
-  letI : Module (ZMod 2) V := inferInstance
-  letI : Finite V := inferInstance
-  letI : FiniteDimensional (ZMod 2) V := Module.Finite.of_finite
-  letI : Nontrivial V := inferInstance
+  let : AddCommGroup V := Additive.addCommGroup
+  let : Module (ZMod 2) V := inferInstance
+  let : Finite V := inferInstance
+  let : FiniteDimensional (ZMod 2) V := Module.Finite.of_finite
+  let : Nontrivial V := inferInstance
   let eAdd : V ≃+ V := MulEquiv.toAdditive φQ
   let eLin : V ≃ₗ[ZMod 2] V :=
     eAdd.toLinearEquiv (fun c x => by
@@ -82,14 +82,14 @@ public theorem huppert_III_8_8_exists_invariant_index_two_of_involutive_aut
     apply hg
     rw [hzero]
     simp
-  letI : Nontrivial D := hDnontrivial
-  letI : Finite D := Finite.of_injective
+  let : Nontrivial D := hDnontrivial
+  let : Finite D := Finite.of_injective
     (fun f : D => (f : V → ZMod 2)) (by
       intro f g hfg
       apply LinearMap.ext
       intro x
       exact congrFun hfg x)
-  letI : Fintype D := Fintype.ofFinite D
+  let : Fintype D := Fintype.ofFinite D
   have hfinrankDpos : 0 < Module.finrank (ZMod 2) D := Module.finrank_pos
   have hcardD : Nat.card D = 2 ^ Module.finrank (ZMod 2) D := by
     simpa [D, Nat.card_eq_fintype_card, ZMod.card] using
@@ -158,11 +158,11 @@ public theorem huppert_XI_2_5_invariantIndexTwo_of_pResidual_ne_top
     ∃ M : Subgroup G,
       M.Normal ∧ M.index = 2 ∧ ∀ x : G, x ∈ M ↔ φ x ∈ M := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let R : Subgroup G := hktPResidual 2 G
   have hRnormal : R.Normal := by
     simpa [R] using hktPResidual_normal (Q := G) (q := 2)
-  letI : R.Normal := hRnormal
+  let : R.Normal := hRnormal
   have hRinv : ∀ x : G, x ∈ R ↔ φ x ∈ R := by
     simpa [R] using hktPResidual_invariant (p := 2) φ
   let φQ : MulAut (G ⧸ R) := invariantQuotientAut φ R hRinv

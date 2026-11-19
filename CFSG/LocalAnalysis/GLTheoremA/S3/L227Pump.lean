@@ -19,15 +19,18 @@ variable {G : Type} [Group G] [Finite G]
   ((MulAut.conj : PSimple p K →* MulAut (PSimple p K)).comp (chevQuotHom p K)).comp
     (Subgroup.inclusion hJK)
 
+omit [Finite G] in
 theorem l227InnerHom_apply (p : ℕ) (K J : Subgroup G) (hJK : J ≤ K) (j : ↥J) :
     l227InnerHom p K J hJK j = MulAut.conj (chevQuotHom p K ⟨(j : G), hJK j.2⟩) := rfl
 
+omit [Finite G] in
 theorem range_l227InnerHom (p : ℕ) (K J : Subgroup G) (hJK : J ≤ K) :
     (l227InnerHom p K J hJK).range =
       (chevTransfer p K J).map (MulAut.conj : PSimple p K →* MulAut (PSimple p K)) := by
   unfold chevTransfer l227InnerHom
   rw [Subgroup.map_map, ← MonoidHom.map_range, Subgroup.inclusion_range]
 
+omit [Finite G] in
 theorem l227InnerHom_conj (p : ℕ) {K J : Subgroup G} (hJK : J ≤ K) {g : G}
     (hg : g ∈ Subgroup.normalizer (K : Set G)) (hgJ : g ∈ Subgroup.normalizer (J : Set G))
     (j : ↥J) :
@@ -36,6 +39,7 @@ theorem l227InnerHom_conj (p : ℕ) {K J : Subgroup G} (hJK : J ≤ K) {g : G}
   rw [l227InnerHom_apply, chevToolsY_mulAut_conj_conj, l227InnerHom_apply, chevAut_chevQuotHom]
   rfl
 
+omit [Finite G] in
 theorem l227_mem_normalizer_range (p : ℕ) {K J : Subgroup G} (hJK : J ≤ K) {g : G}
     (hg : g ∈ Subgroup.normalizer (K : Set G)) (hgJ : g ∈ Subgroup.normalizer (J : Set G)) :
     chevAut p K ⟨g, hg⟩ ∈

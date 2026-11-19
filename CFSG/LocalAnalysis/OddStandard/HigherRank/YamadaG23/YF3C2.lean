@@ -86,7 +86,7 @@ theorem f3_c7 {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) :
   obtain ⟨hn, hbody⟩ := secProp_iso (C := s.C₂) (P := f3P s)
     (f3phiHom_aux hH) (f3phiHom_aux_surj hH) (f3phiHom_aux_ker hH)
   obtain ⟨φ, hφ⟩ := hbody
-  haveI : ((s.fr.B ⊔ zpowers s.t).subgroupOf s.C₂).Normal := hn
+  have : ((s.fr.B ⊔ zpowers s.t).subgroupOf s.C₂).Normal := hn
   refine ⟨hn, φ, ?_⟩
   intro n hnmem c c' hcc'
   show ((φ (QuotientGroup.mk' ((f3P s).subgroupOf s.C₂) c') : ↥(cen s.fr.B)) : G) =

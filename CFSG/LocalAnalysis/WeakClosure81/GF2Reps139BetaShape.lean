@@ -16,6 +16,7 @@ open scoped commutatorElement Pointwise Matrix
 variable {W : Type} [CommGroup W] [Finite W] {G X D : Subgroup (MulAut W)} {s : MulAut W}
   {Y : Subgroup W} {n : ℕ}
 
+omit [Finite W] in
 private theorem w1369_le_stabSub_of_stableUnder {K : Subgroup (MulAut W)} {M : Subgroup W}
     (h : StableUnder K M) : K ≤ stabSub M := by
   intro k hk
@@ -25,11 +26,13 @@ private theorem w1369_le_stabSub_of_stableUnder {K : Subgroup (MulAut W)} {M : S
     have h1 := h k⁻¹ (K.inv_mem hk) (k u) hu
     simpa using h1, fun hu => h k hk u hu⟩
 
+omit [Finite W] in
 private theorem w1369_rk_subgroupOf {H K : Subgroup W} (h : H ≤ K) :
     rk ↥(H.subgroupOf K) = rk ↥H := by
   unfold rk
   rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe h).toEquiv]
 
+omit [Finite W] in
 private theorem w1369_autSub_map_conj {K : Subgroup (MulAut W)} {U : Subgroup W}
     (hKU : K ≤ stabSub U) (t : ↥(stabSub U)) :
     (autSub K U).map (MulAut.conj (resHom U t)).toMonoidHom =
@@ -56,6 +59,7 @@ private theorem w1369_autSub_map_conj {K : Subgroup (MulAut W)} {U : Subgroup W}
       resHom U (t * ⟨k, hKU hkK⟩ * t⁻¹)
     rw [map_mul, map_mul, map_inv]
 
+omit [Finite W] in
 private theorem w1369_isIrrOn_autSub {K : Subgroup (MulAut W)} {M : Subgroup W}
     (hKM : K ≤ stabSub M) (h : IsIrrOn K M ⊥) : IsIrrOn (autSub K M) ⊤ ⊥ := by
   refine ⟨?_, fun _ _ _ _ => Subgroup.mem_top _,
@@ -187,7 +191,7 @@ theorem Std139.beta_shape (hw2 : ∀ w : W, w ^ 2 = 1)
     (CFSG.Open.IsQuasisimple.congr hIso).mp hK.comp.2.2
   have hKq : IsQuasisimple ↥(autSub K M) := A3.isQuasisimple_iff_open.mpr hKqOpen
   have hKperf : ⁅autSub K M, autSub K M⁆ = autSub K M := by
-    haveI : Group.IsPerfect ↥(autSub K M) := hKq.1
+    have : Group.IsPerfect ↥(autSub K M) := hKq.1
     exact Subgroup.commutator_eq_self
   have hK1 : autSub K M ≠ ⊥ := by
     intro hbot
@@ -347,7 +351,7 @@ theorem Std139.beta_shape (hw2 : ∀ w : W, w ^ 2 = 1)
     have hNnormal : ((⁅autSub K M, Subgroup.zpowers e⁆).subgroupOf (autSub K M)).Normal :=
       Subgroup.normal_subgroupOf_of_le_normalizer
         (Subgroup.normalizer_commutator_ge_left (autSub K M) (Subgroup.zpowers e))
-    haveI : ((⁅autSub K M, Subgroup.zpowers e⁆).subgroupOf (autSub K M)).Normal := hNnormal
+    have : ((⁅autSub K M, Subgroup.zpowers e⁆).subgroupOf (autSub K M)).Normal := hNnormal
     rcases CFSG.ComponentClassification.Quasisimple.normal_le_center_or_eq_top hKqOpen
       ((⁅autSub K M, Subgroup.zpowers e⁆).subgroupOf (autSub K M)) with hcenter | htop
     · exfalso

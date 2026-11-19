@@ -187,7 +187,7 @@ theorem coverTwE6Cubes_of (hN : CoverTwE6NegDatum) (hD : CoverTwE6DiagNotAll24) 
   obtain ⟨hp3, h3⟩ := hci
   subst hp3
   obtain ⟨k, _, σ, hK, hσ, ⟨φ⟩⟩ := exists_catEquiv_twistedE6 q hv
-  haveI : Finite k := Nat.finite_of_card_ne_zero (by
+  have : Finite k := Nat.finite_of_card_ne_zero (by
     rw [hK]
     exact pow_ne_zero _ (pow_ne_zero _ q.prime_p.ne_zero))
   have hk : ringChar k = q.p := by

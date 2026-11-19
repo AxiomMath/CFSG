@@ -21,6 +21,7 @@ open CFSG.LocalAnalysis.UniquenessCase.UCK (ThreeCover)
 open CFSG.ASVolI.ChIJK (IsWeaklyClosedIn)
 variable {G : Type} [Group G] [Finite G] {D : Data G}
 
+omit [Finite G] in
 theorem normalizer_le_M_of_weaklyClosed {Z P U : Subgroup G} {M : Subgroup G}
     (hWC : IsWeaklyClosedIn Z P)
     (hNZ : Subgroup.normalizer (Z : Set G) ≤ M)
@@ -48,6 +49,7 @@ theorem normalizer_le_M_of_weaklyClosed {Z P U : Subgroup G} {M : Subgroup G}
     have hmem : z ∈ CFSG.conjugate Z g := (CFSG.mem_conjugate_iff Z g z).mpr hz
     rwa [hZeq] at hmem
 
+omit [Finite G] in
 theorem twoCoreCen_normal_in_cen_inf_M {M : Subgroup G} {e : G}
     (hQ : M ≤ Subgroup.normalizer ((CFSG.Open.pCoreOf 2 M : Subgroup G) : Set G)) :
     ((Subgroup.centralizer ({e} : Set G) ⊓ CFSG.Open.pCoreOf 2 M).subgroupOf

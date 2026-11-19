@@ -39,12 +39,12 @@ theorem cl_neg_not_mem_of_sq_eq_neg {V : Type} [AddCommGroup V] [Module (ZMod 3)
     have h := congrArg (fun f : V ≃ₗ[ZMod 3] V => f x) (hc g hg)
     simpa [LinearEquiv.mul_apply] using h
   have hns : ¬ IsSquare (-1 : ZMod 3) := by decide
-  haveI : Fact (¬ IsSquare (-1 : ZMod 3)) := ⟨hns⟩
+  have : Fact (¬ IsSquare (-1 : ZMod 3)) := ⟨hns⟩
   let E := extension (-1 : ZMod 3)
-  letI : Module E V := actionModule Tm (-1) hsq
-  haveI : CharP E 3 :=
+  let : Module E V := actionModule Tm (-1) hsq
+  have : CharP E 3 :=
     CharP.of_ringHom_of_ne_zero (algebraMap (ZMod 3) E) 3 (by norm_num)
-  haveI : Fact (2 < 3) := ⟨by norm_num⟩
+  have : Fact (2 < 3) := ⟨by norm_num⟩
   have hfr : Module.finrank E V = 3 := by
     have h : 6 = 2 * Module.finrank E V := by
       have h' := actionModule_finrank Tm (-1) hsq
@@ -55,7 +55,7 @@ theorem cl_neg_not_mem_of_sq_eq_neg {V : Type} [AddCommGroup V] [Module (ZMod 3)
   let φ : J →* Eˣ :=
     (LinearEquiv.det : (V ≃ₗ[E] V) →* Eˣ).comp
       (ψ.toMonoidHom.comp (Subgroup.inclusion hJle))
-  haveI : Group.IsPerfect J := Subgroup.isPerfect_iff.mpr hJ
+  have : Group.IsPerfect J := Subgroup.isPerfect_iff.mpr hJ
   have hker : φ.ker = ⊤ := by
     rw [eq_top_iff, ← Group.IsPerfect.commutator_eq_top (G := J), _root_.commutator_def,
       Subgroup.commutator_le]
@@ -85,7 +85,7 @@ theorem cl_neg_not_mem_of_sq_eq_neg {V : Type} [AddCommGroup V] [Module (ZMod 3)
     have hmap : ((LinearEquiv.smulOfUnit (-1 : Eˣ) : V ≃ₗ[E] V) : V →ₗ[E] V) =
         (-1 : E) • (1 : V →ₗ[E] V) := by
       ext v
-      simp [LinearEquiv.smulOfUnit, LinearMap.smul_apply]
+      simp [LinearEquiv.smulOfUnit]
     rw [hmap, LinearMap.det_smul, Module.End.one_eq_id, LinearMap.det_id, mul_one] at h
     rw [hfr] at h
     exact h

@@ -57,7 +57,7 @@ private lemma classSumComplex_coeff [DecidableEq (ConjClasses G)] (c : ConjClass
   simp only [MonoidAlgebra.coeff_sum, MonoidAlgebra.coeff_single]
   rw [Finset.sum_apply']
   by_cases hx : ConjClasses.mk x = c
-  · rw [if_pos hx]
+  · rw [ite_eq_left hx]
     have hxmem : x ∈ classSet (G := G) c := (mem_classSet_iff (G := G)).2 hx
     rw [Finset.sum_eq_single x]
     · simp
@@ -65,7 +65,7 @@ private lemma classSumComplex_coeff [DecidableEq (ConjClasses G)] (c : ConjClass
       simp [hyx]
     · intro hxnot
       exact False.elim (hxnot hxmem)
-  · rw [if_neg hx]
+  · rw [ite_eq_right hx]
     refine Finset.sum_eq_zero ?_
     intro y hy
     have hyx : y ≠ x := by
@@ -480,7 +480,7 @@ public lemma scalarProduct_classSumPairCountMul_irreducible
             rw [Finset.sum_eq_single (p.1.1 * p.2.1)]
             · simp
             · intro g hg hne
-              rw [if_neg hne.symm]
+              rw [ite_eq_right hne.symm]
               simp
             · intro hnot
               exact (hnot (Finset.mem_univ (p.1.1 * p.2.1))).elim

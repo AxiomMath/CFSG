@@ -177,7 +177,7 @@ theorem exists_type (hodd : IsOddRadical M T) :
   obtain ⟨S₁⟩ : Nonempty (Sylow 2 ↥Y) := inferInstance
   set P₁ : Subgroup (Sp4 F) := (S₁ : Subgroup ↥Y).map Y.subtype with hP₁
   have hP₁Y : P₁ ≤ Y := Subgroup.map_subtype_le _
-  have hP₁2 : IsPGroup 2 P₁ := S₁.isPGroup'.map Y.subtype
+  have hP₁2 : IsPGroup 2 P₁ := S₁.isPGroup.map Y.subtype
   have hP₁idx : ¬ 2 ∣ P₁.index := by
     rw [← Subgroup.relIndex_mul_index hP₁Y]
     have e : P₁.relIndex Y = (S₁ : Subgroup ↥Y).index := by

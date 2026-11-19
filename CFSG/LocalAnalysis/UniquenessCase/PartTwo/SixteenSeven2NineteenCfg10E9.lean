@@ -106,9 +106,9 @@ theorem s16c167_e9_comps (hsq : ∀ v : V, v * v = 1) (hV : Nat.card V = 16)
         have hne : n % 3 ≠ 0 := fun h => hn (Nat.dvd_of_mod_eq_zero h)
         omega
       rcases hn3 with h1 | h2
-      · have hy : y ^ n = y := by simpa [hmod, h1]
+      · have hy : y ^ n = y := by simp [hmod, h1]
         rwa [hy] at hyc
-      · have hy : y ^ n = y ^ 2 := by simpa [hmod, h2]
+      · have hy : y ^ n = y ^ 2 := by simp [hmod, h2]
         have h2c : (y ^ 2) c = c := by rwa [hy] at hyc
         have h3c : y ((y ^ 2) c) = c := by
           show y (y (y c)) = c
@@ -156,7 +156,7 @@ theorem s16c167_e9_comps (hsq : ∀ v : V, v * v = 1) (hV : Nat.card V = 16)
     have hb1 : b = 1 := by
       have hmem : b ∈ A ⊓ B := ⟨hbA, hb⟩
       rwa [hinf', Subgroup.mem_bot] at hmem
-    simpa [← hab, ha1, hb1]
+    simp [← hab, ha1, hb1]
   refine ⟨A, B, hAcard, hBcard, hinf', hsup', ⟨g, hgP, hA⟩, ⟨h, hhP, hB⟩, ?_⟩
   intro R hRP hcardR
   have htriv : ∀ x ∈ R, (∀ a ∈ A, x a = a) ∨ (∀ b ∈ B, x b = b) := by

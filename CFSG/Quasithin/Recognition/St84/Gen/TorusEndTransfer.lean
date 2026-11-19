@@ -198,11 +198,11 @@ theorem exists_mulEquiv_of_commute_of_card {K K' H H' W W' : Type*} [Group K] [G
   have hτC'in : Function.Injective τC' := by
     intro h h' hh
     exact hτ' (congrArg Subtype.val hh)
-  haveI hEndFin : Finite (EndRing ρ) := finite_endRing ρ
-  haveI hEndFin' : Finite (EndRing ρ') := finite_endRing ρ'
-  haveI hCfin : Finite C :=
+  have hEndFin : Finite (EndRing ρ) := finite_endRing ρ
+  have hEndFin' : Finite (EndRing ρ') := finite_endRing ρ'
+  have hCfin : Finite C :=
     Finite.ofBijective (unitsToCentralizer_bijective ρ)
-  haveI hC'fin : Finite C' :=
+  have hC'fin : Finite C' :=
     Finite.ofBijective (unitsToCentralizer_bijective ρ')
   have hcardC : Nat.card C = Nat.card H := by
     change Nat.card (centralizer ρ) = Nat.card H

@@ -19,7 +19,7 @@ theorem three_ne_zero_of_not_dvd_card (K : Type) [Field K] [Finite K]
   have hp3 : ringChar K = 3 :=
     ((Nat.dvd_prime Nat.prime_three).1 hdvd).resolve_left CharP.ringChar_ne_one
   apply h
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   obtain ⟨n, _, hcard⟩ := FiniteField.card K (ringChar K)
   rw [Nat.card_eq_fintype_card, hcard, hp3]
   exact dvd_pow_self 3 (PNat.ne_zero n)
@@ -52,7 +52,7 @@ theorem KD264Y1KerC3_holds : KD264Y1KerC3 := by
         LieTypeIndex.characteristic_C 3 q,
       show ValidLieTypeIndex.fieldExponent ⟨.C 3 q, hd1⟩ = q.exponent from
         LieTypeIndex.fieldExponent_C 3 q]
-  haveI : Finite ↥(ValidLieTypeIndex.fixedField ⟨.C 3 q, hd1⟩) :=
+  have : Finite ↥(ValidLieTypeIndex.fixedField ⟨.C 3 q, hd1⟩) :=
     Nat.finite_of_card_ne_zero (by rw [hcardK]; positivity)
   have hnd3 : ¬ 3 ∣ Nat.card ↥(ValidLieTypeIndex.fixedField ⟨.C 3 q, hd1⟩) := by
     rw [hcardK]

@@ -308,7 +308,7 @@ theorem halfTorus_comm {n : ℕ} {a b : SpecialLinearGroup (Fin (n + 1)) F2}
     · rcases lt_or_gt_of_ne h with hlt | hgt
       · exact omegaBlock_comm (even_add_two_le_of_lt hk hk' hlt)
       · exact (omegaBlock_comm (k := k') (k' := k) (even_add_two_le_of_lt hk' hk hgt)).symm
-  haveI : IsMulCommutative (halfTorus n) := Subgroup.isMulCommutative_closure hgen
+  have : IsMulCommutative (halfTorus n) := Subgroup.isMulCommutative_closure hgen
   exact setLike_mul_comm ha hb
 
 theorem halfTorus_pow_three {n : ℕ} {a : SpecialLinearGroup (Fin (n + 1)) F2}
@@ -337,7 +337,7 @@ theorem halfTorusK_comm {n : ℕ} {a b : SpecialLinearGroup (Fin (n + 1)) F2}
     · rcases halfTorusK_index_sep hk hk' h with hle | hle
       · exact omegaBlock_comm hle
       · exact (omegaBlock_comm hle).symm
-  haveI : IsMulCommutative (halfTorusK n) := Subgroup.isMulCommutative_closure hgen
+  have : IsMulCommutative (halfTorusK n) := Subgroup.isMulCommutative_closure hgen
   exact setLike_mul_comm ha hb
 
 theorem halfTorusK_pow_three {n : ℕ} {a : SpecialLinearGroup (Fin (n + 1)) F2}
@@ -429,7 +429,7 @@ private theorem cPhi_range (n : ℕ) : (cPhi n).range = halfTorus n := by
       omega
     refine Subgroup.mem_iSup_of_mem i ?_
     refine ⟨Multiplicative.ofAdd (1 : ZMod 3), ?_⟩
-    haveI : Fact (1 < 3) := ⟨by norm_num⟩
+    have : Fact (1 < 3) := ⟨by norm_num⟩
     rw [cCoord_apply, show omegaBlock n k = cG n i by rw [cG, hik], toAdd_ofAdd]
     change cG n i ^ (1 : ZMod 3).val = cG n i
     rw [ZMod.val_one 3, pow_one]
@@ -632,7 +632,7 @@ private theorem cPhi_iSupIndep (n : ℕ) :
     exact (transvection_not_commute_omegaBlock_sq n (cIdx n i) hc).elim
 
 private theorem cPhi_injective (n : ℕ) : Function.Injective (cPhi n) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [cPhi]
   refine MonoidHom.injective_noncommPiCoprod_of_iSupIndep
     (ϕ := cCoord n) (hcomm := cCoord_commute n) (cPhi_iSupIndep n) ?_

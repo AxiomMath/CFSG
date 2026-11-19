@@ -197,7 +197,7 @@ theorem tauM_mulVec (v : Coords 8) : tauM *ᵥ v = -v - v 0 • Pi.single 0 1 :=
   rw [tauM, Matrix.mulVec_diagonal]
   by_cases hi : i = 0
   · subst hi
-    simp only [if_true, Pi.sub_apply, Pi.neg_apply, Pi.smul_apply, Pi.single_eq_same, smul_eq_mul,
+    simp only [ite_true, Pi.sub_apply, Pi.neg_apply, Pi.smul_apply, Pi.single_eq_same, smul_eq_mul,
       mul_one, one_mul]
     rw [zmod3_neg_eq]
     abel_nf
@@ -208,7 +208,7 @@ theorem t0M_mulVec (v : Coords 8) : t0M *ᵥ v = v + v 0 • Pi.single 0 1 := by
   rw [t0M, Matrix.mulVec_diagonal]
   by_cases hi : i = 0
   · subst hi
-    simp only [if_true, Pi.add_apply, Pi.smul_apply, Pi.single_eq_same, smul_eq_mul, mul_one]
+    simp only [ite_true, Pi.add_apply, Pi.smul_apply, Pi.single_eq_same, smul_eq_mul, mul_one]
     rw [zmod3_neg_eq]
     ring
   · simp [hi]

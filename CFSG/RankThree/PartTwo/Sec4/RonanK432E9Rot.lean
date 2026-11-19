@@ -52,7 +52,7 @@ theorem listRow_of_E9_rotation {S : Type} [Group S] [Finite S] {a b r : S}
       rcases hy with rfl | rfl
       · rw [hrot]; exact hbQ
       · rw [hrot']; exact inv_mem haQ
-    | one => simpa using Q.one_mem
+    | one => simp
     | mul y z _ _ hy hz =>
       have : r * (y * z) * r⁻¹ = (r * y * r⁻¹) * (r * z * r⁻¹) := by group
       rw [this]; exact Q.mul_mem hy hz

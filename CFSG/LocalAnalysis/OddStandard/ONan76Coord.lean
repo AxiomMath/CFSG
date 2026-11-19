@@ -128,11 +128,12 @@ theorem vec_add (p q : Vec n) : vec v₁ v₂ v₃ (p + q) = vec v₁ v₂ v₃ 
         v₃ ^ q.2.2.val := by rw [h2]
     _ = _ := by simp only [mul_assoc]
 
+omit hF in
 theorem vec_zero : vec v₁ v₂ v₃ (0 : Vec n) = 1 := by
   simp only [vec, Prod.fst_zero, Prod.snd_zero, pow_val_zero, mul_one]
 
 theorem vec_neg (p : Vec n) : vec v₁ v₂ v₃ (-p) = (vec v₁ v₂ v₃ p)⁻¹ := by
-  rw [eq_inv_iff_mul_eq_one, ← hF.vec_add, neg_add_cancel, hF.vec_zero]
+  rw [eq_inv_iff_mul_eq_one, ← hF.vec_add, neg_add_cancel, CFSG.OddStandard.ONan76.AlperinFrame.vec_zero]
 
 theorem vec_sub (p q : Vec n) :
     vec v₁ v₂ v₃ (p - q) = vec v₁ v₂ v₃ p * (vec v₁ v₂ v₃ q)⁻¹ := by
@@ -140,7 +141,7 @@ theorem vec_sub (p q : Vec n) :
 
 theorem vec_nsmul (k : ℕ) (p : Vec n) : vec v₁ v₂ v₃ (k • p) = vec v₁ v₂ v₃ p ^ k := by
   induction k with
-  | zero => rw [zero_smul, hF.vec_zero, pow_zero]
+  | zero => rw [zero_smul, CFSG.OddStandard.ONan76.AlperinFrame.vec_zero, pow_zero]
   | succ k ih => rw [succ_nsmul, hF.vec_add, ih, pow_succ]
 
 theorem vec_comm (p q : Vec n) :
@@ -151,14 +152,17 @@ theorem vec_mem_V (p : Vec n) : vec v₁ v₂ v₃ p ∈ hF.V := by
   refine mul_mem (mul_mem (pow_mem (subset_closure ?_) _) (pow_mem (subset_closure ?_) _))
     (pow_mem (subset_closure ?_) _) <;> simp
 
+omit hF in
 theorem vec_e1 (hn : 1 ≤ n) : vec v₁ v₂ v₃ ((1, 0, 0) : Vec n) = v₁ := by
   have : Fact (1 < 2 ^ n) := ⟨Nat.one_lt_two_pow (by omega)⟩
   simp [vec, ZMod.val_one]
 
+omit hF in
 theorem vec_e2 (hn : 1 ≤ n) : vec v₁ v₂ v₃ ((0, 1, 0) : Vec n) = v₂ := by
   have : Fact (1 < 2 ^ n) := ⟨Nat.one_lt_two_pow (by omega)⟩
   simp [vec, ZMod.val_one]
 
+omit hF in
 theorem vec_e3 (hn : 1 ≤ n) : vec v₁ v₂ v₃ ((0, 0, 1) : Vec n) = v₃ := by
   have : Fact (1 < 2 ^ n) := ⟨Nat.one_lt_two_pow (by omega)⟩
   simp [vec, ZMod.val_one]
@@ -168,10 +172,10 @@ theorem exists_vec_of_mem_V (hn : 1 ≤ n) {x : G} (hx : x ∈ hF.V) :
   induction hx using closure_induction with
   | mem y hy =>
     rcases hy with rfl | rfl | rfl
-    · exact ⟨_, hF.vec_e1 hn⟩
-    · exact ⟨_, hF.vec_e2 hn⟩
-    · exact ⟨_, hF.vec_e3 hn⟩
-  | one => exact ⟨0, hF.vec_zero⟩
+    · exact ⟨_, CFSG.OddStandard.ONan76.AlperinFrame.vec_e1 hn⟩
+    · exact ⟨_, CFSG.OddStandard.ONan76.AlperinFrame.vec_e2 hn⟩
+    · exact ⟨_, CFSG.OddStandard.ONan76.AlperinFrame.vec_e3 hn⟩
+  | one => exact ⟨0, CFSG.OddStandard.ONan76.AlperinFrame.vec_zero⟩
   | mul y z _ _ hy hz =>
     obtain ⟨p, rfl⟩ := hy
     obtain ⟨q, rfl⟩ := hz
@@ -197,7 +201,7 @@ theorem vec_injective (hn : 1 ≤ n) : Function.Injective (vec v₁ v₂ v₃ (n
   exact hinj (Subtype.ext h)
 
 theorem vec_eq_one_iff (hn : 1 ≤ n) {p : Vec n} : vec v₁ v₂ v₃ p = 1 ↔ p = 0 :=
-  ⟨fun h => hF.vec_injective hn (h.trans hF.vec_zero.symm), fun h => h ▸ hF.vec_zero⟩
+  ⟨fun h => hF.vec_injective hn (h.trans CFSG.OddStandard.ONan76.AlperinFrame.vec_zero.symm), fun h => h ▸ CFSG.OddStandard.ONan76.AlperinFrame.vec_zero⟩
 
 theorem vec_inj (hn : 1 ≤ n) {p q : Vec n} : vec v₁ v₂ v₃ p = vec v₁ v₂ v₃ q ↔ p = q :=
   (hF.vec_injective hn).eq_iff
@@ -221,7 +225,7 @@ theorem conj_s (p : Vec n) : s⁻¹ * vec v₁ v₂ v₃ p * s = vec v₁ v₂ v
   have : vec v₁ v₂ v₃ (actS p) = vec v₁ v₂ v₃ ((0, p.1, p.2.1) + (p.2.2, -p.2.2, p.2.2)) := by
     congr 1
     simp only [actS, Prod.mk_add_mk, zero_add]
-    ext <;> simp [sub_eq_add_neg, add_comm]
+    ext <;> simp [sub_eq_add_neg]
   rw [this, hF.vec_add]
   simp only [vec, pow_val_zero, one_mul]
 

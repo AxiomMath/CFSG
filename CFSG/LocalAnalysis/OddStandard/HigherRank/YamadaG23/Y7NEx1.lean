@@ -21,6 +21,7 @@ private lemma pCoreOf_top_eq_pCore {G : Type*} [Group G] :
   rw [← hfun]
   exact CFSG.pCore_map_iso 2 Subgroup.topEquiv
 
+omit [Finite G] in
 private lemma isMulCommutative_of_isE {F : Subgroup G} (hF : IsE 3 ↥F) :
     IsMulCommutative (F : Subgroup G) := by
   refine IsMulCommutative.of_comm fun a b => ?_
@@ -40,15 +41,15 @@ theorem y7n_pcore_eq {N F : Subgroup G} (hFN : F ≤ N) (hF : IsE 3 ↥F)
     (hq : SecProp N F (fun Y _ _ _ => Nonempty (Y ≃* Matrix.GeneralLinearGroup (Fin 3) (ZMod 2)))) :
     pCoreOf 2 (⊤ : Subgroup ↥N) = F.subgroupOf N := by
   obtain ⟨hn, ⟨e⟩⟩ := hq
-  haveI := hn
+  have := hn
   rw [pCoreOf_top_eq_pCore]
   refine le_antisymm ?_ ?_
   · intro x hx
     let π : ↥N →* (↥N ⧸ F.subgroupOf N) := QuotientGroup.mk' (F.subgroupOf N)
-    haveI : (((CFSG.pCore 2 ↥N).map π).map e.toMonoidHom).Normal :=
+    have : (((CFSG.pCore 2 ↥N).map π).map e.toMonoidHom).Normal :=
       ((CFSG.pCore_normal (G := ↥N) (p := 2)).map π Quotient.mk''_surjective).map
         e.toMonoidHom e.surjective
-    haveI : IsSimpleGroup (Matrix.GeneralLinearGroup (Fin 3) (ZMod 2)) :=
+    have : IsSimpleGroup (Matrix.GeneralLinearGroup (Fin 3) (ZMod 2)) :=
       CFSG.ComponentClassification.GHarris.isSimpleGroup_GL32_gh
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
       (((CFSG.pCore 2 ↥N).map π).map e.toMonoidHom) with hbot | htop
@@ -93,7 +94,7 @@ theorem y7n_isExt26_of_sub {N F : Subgroup G} (hFN : F ≤ N) (hF : IsE 3 ↥F)
     exact hFe
   · rw [h1]
     obtain ⟨hn, ⟨e⟩⟩ := hq
-    haveI := hn
+    have := hn
     unfold SecProp
     refine ⟨hn.subgroupOf (⊤ : Subgroup ↥N), ?_⟩
     have hsub : (Subgroup.topEquiv : ↥(⊤ : Subgroup ↥N) ≃* ↥N).toMonoidHom =
@@ -108,7 +109,7 @@ theorem y7n_isExt26_of_sub {N F : Subgroup G} (hFN : F ≤ N) (hF : IsE 3 ↥F)
     exact ⟨(QuotientGroup.congr ((F.subgroupOf N).subgroupOf (⊤ : Subgroup ↥N))
       (F.subgroupOf N) (Subgroup.topEquiv : ↥(⊤ : Subgroup ↥N) ≃* ↥N) he).trans e⟩
   · rw [h1]
-    haveI := isMulCommutative_of_isE hF
+    have := isMulCommutative_of_isE hF
     refine le_antisymm ?_ ?_
     · intro x hx
       have hxc : (x : G) ∈ centralizer (F : Set G) := by

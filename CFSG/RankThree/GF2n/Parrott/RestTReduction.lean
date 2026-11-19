@@ -37,6 +37,7 @@ variable [hN : ((J z).subgroupOf (H z)).Normal] (D : QuotientData (z := z) hN)
     (v : QuotientV.V z) : Prop :=
   ∀ (e : G) (he : e ∈ E), conjV h ⟨e, hEH he⟩ v = v
 
+omit [Finite G] in
 theorem exists_conj_imageQA45 {E : Subgroup G} (hE : IsParrottE z E) (hEH : E ≤ H z) :
     ∃ g : A45, ∀ a : A45, a ∈ imageQA45 D hEH ↔ g * a * g⁻¹ ∈ sQA45 := by
   obtain ⟨-, hEHJ, -, hEab, hEcard, hFcard, -, -⟩ := hE
@@ -63,6 +64,7 @@ variable (h : Tim79a.ParrottHyp z)
 
 omit
   hN in
+omit [Finite G] in
 theorem fixedByE_pi_of_mem {E : Subgroup G} (hEH : E ≤ H z)
     (hEab : IsElemAbelian 2 E) {x : G} (hxE : x ∈ E) (hxJ : x ∈ J z) :
     FixedByE h E hEH (QuotientV.pi z ⟨x, hxJ⟩) := by
@@ -128,6 +130,7 @@ theorem mem_of_fixedByE (P : GL8)
     (fixedByE_pi_of_mem h hEH hEab hx'E hx'J) hx
   exact ((polarVZMod_pi_eq_zero_iff h ⟨x', hx'J⟩ ⟨x, hxJ⟩).mp hpol).eq
 
+omit [Finite G] in
 theorem fixedByE_conj {E : Subgroup G} (hEH : E ≤ H z) {r : ↥(H z)}
     (hr' : ∀ a ∈ imageQA45 D hEH, (qH D r)⁻¹ * a * qH D r ∈ imageQA45 D hEH)
     {v : QuotientV.V z} (hv : FixedByE h E hEH v) : FixedByE h E hEH (conjV h r v) := by

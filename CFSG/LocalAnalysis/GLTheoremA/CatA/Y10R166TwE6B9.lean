@@ -25,6 +25,7 @@ private theorem commutator_self_le {G : Type*} [Group G] (S : Subgroup G) : ⁅S
   rw [commutatorElement_def]
   exact mul_mem (mul_mem (mul_mem hx hy) (inv_mem hx)) (inv_mem hy)
 
+omit [CharP Ω 2] in
 theorem twE6Block_isSubnormal {Fr : Ω →+* Ω} {ω : Ωˣ} {n : ℕ} {K : Type} [Field K]
     [Algebra K Ω] [IsAlgClosure K Ω] (hFr : ∀ c, Fr c = c ^ (2 ^ n))
     (hK : Nat.card K = (2 ^ n) ^ 2) (hn : 3 ≤ n) (hod : Odd n) (hω : orderOf ω = 3) :
@@ -99,6 +100,7 @@ theorem twE6Block_isSubnormal {Fr : Ω →+* Ω} {ω : Ωˣ} {n : ℕ} {K : Type
   exact CFSG.Open.IsSubnormal.step hLMH hLnormal
     (CFSG.Open.IsSubnormal.step inf_le_right hMHnormal (CFSG.Open.IsSubnormal.refl H))
 
+omit [CharP Ω 2] in
 theorem e3_in_C_packaged {K : Type} [Field K] [Algebra K Ω] [IsAlgClosure K Ω] {n : ℕ}
     {Fr : Ω →+* Ω} {ω : Ωˣ} (hFr : ∀ c, Fr c = c ^ (2 ^ n))
     (hK : Nat.card K = (2 ^ n) ^ 2) (hn : 3 ≤ n) (hod : Odd n)

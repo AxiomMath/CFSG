@@ -46,6 +46,7 @@ theorem qtwoDU5_mk_mem_pLayer_sup_center {H : Subgroup G} {y : ↥H} {t z : G}
     intro h
     exact Subtype.ext (hz h h.2)
 
+omit [Finite G] in
 theorem qtwoDU5_center_range_eq_bot {S : Type} [Group S] (hS : Subgroup.center S = ⊥)
     {θ : S →* G} (hθ : Function.Injective θ) {X : Subgroup G} (hX : θ.range = X) :
     Subgroup.center ↥X = ⊥ := by
@@ -68,6 +69,7 @@ theorem qtwoDU5_center_range_eq_bot {S : Type} [Group S] (hS : Subgroup.center S
   rw [← hu, huc, map_one]
   rfl
 
+omit [Finite G] in
 theorem qtwoDU5_three_dvd_quot {H J : Subgroup G} (hJH : J ≤ H)
     (hZ : Subgroup.center ↥J = ⊥) (h3 : 3 ∣ Nat.card ↥J) :
     3 ∣ Nat.card (↥(J.subgroupOf H) ⧸ Subgroup.center ↥(J.subgroupOf H)) := by
@@ -109,6 +111,7 @@ variable {B Bs : Subgroup G} {x : G} {L D J : Subgroup G} {𝒦 : Finset (Subgro
   {ε : Equiv.Perm (Fin m) ≃* ↥(ggAutomizer L Bs)} {βL : Additive ↥Bs ≃+ DVec m} {ω : F0ˣ}
   {a b c : Fin m} {α : MulAut ↥Bs} {g : G} {b' : ↥Bs}
 
+omit [Finite G] in
 theorem qtwoDU5_exists_del (hcoords : QTwoUnitCoords Bs x L 𝒦 M e e' ψ ε βL ω)
     (hab : a ≠ b) (hca : c ≠ a) (hcb : c ≠ b)
     (hb' : βL (Additive.ofMul b') = Pi.single c 1) :
@@ -118,6 +121,7 @@ theorem qtwoDU5_exists_del (hcoords : QTwoUnitCoords Bs x L 𝒦 M e e' ψ ε β
   obtain ⟨g, -, hgN, hg⟩ := mem_ggAutomizer_iff.mp (ggAutomizerJoin_le_top L Bs 𝒦 hαJ)
   exact ⟨α, g, ⟨hab, hca, hcb, hα, hgN, hg, hb'⟩, hαJ⟩
 
+omit [Finite G] in
 theorem qtwoDU5_conj_b' (hdel : QTwoUnitDel Bs βL a b c α g b') :
     g * (b' : G) * g⁻¹ = (b' : G) := by
   have hαb' : α b' = b' := by
@@ -270,7 +274,7 @@ theorem qtwoDU5_nbr (hBal : GGLBalanceInput)
     (hJJlay (ggQTwoDUnit_torus (by omega) hbase hcoords hdel.hab hdel.hca hdel.hcb hdel.sign
       hdel.norm hdel.conj (α xB * b'⁻¹) (by
         rw [ofMul_mul, map_add, ofMul_inv, map_neg, hdel.sign, hβx', hdel.coord, Pi.add_apply,
-          Pi.neg_apply, qtwoDB17_dSign_one_apply, if_neg (by tauto), Pi.single_eq_same]
+          Pi.neg_apply, qtwoDB17_dSign_one_apply, ite_eq_right (by tauto), Pi.single_eq_same]
         simp)))
     (htH _) hb'H hb'c (by
       change g * x * g⁻¹ = ((α xB : ↥Bs) : G) * (b' : G)⁻¹ * (b' : G)

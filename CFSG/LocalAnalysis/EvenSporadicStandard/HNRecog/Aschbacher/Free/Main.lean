@@ -23,7 +23,7 @@ theorem AschbacherHyp.exists_free_involution [Finite C] (hC : AschbacherHyp C Q)
     4 ≤ finrank (ZMod 2) (LinearMap.range
       ((conjLinEquiv hQn t : Additive (Abelianization Q) →ₗ[ZMod 2] Additive (Abelianization Q)) + 1)) := by
   classical
-  haveI : Finite Q := hC.plus.finite
+  have : Finite Q := hC.plus.finite
   have hE : IsExtraspecialPGroup 2 Q := hC.plus.isExtraspecialPGroup
   obtain ⟨e, θ, σ, hθs, hθk, hθe, hσθ, hσi, hirr⟩ := hC.exists_hom_baseEmb
   let u : A5WrTwo := e (QuotientGroup.mk t)

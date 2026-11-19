@@ -227,7 +227,7 @@ theorem burnsideF48_cartanFPF_of_data_six {κ : ChF.GLKind} {p f : ℕ} {E : Typ
     (hw : ¬ ∃ k ∈ P₁, ∃ l ∈ P₂, ∃ k' ∈ P₁, ∃ l' ∈ P₂, ∃ k'' ∈ P₁, w = k * l * k' * l' * k'')
     (hQ : ∀ q ∈ U, n⁻¹ * q * n ∈ U → h * q * h⁻¹ = q → q = 1) :
     (burnsideF48_setting hyp hp hm).CartanFPF := by
-  haveI : Finite E := hyp.finite
+  have : Finite E := hyp.finite
   set ι : G' → E := fun g => ((ε g : ↥Gp) : E) with hι
   have hmul : ∀ a b, ι (a * b) = ι a * ι b := fun a b => by simp [hι]
   have hinv : ∀ a, ι a⁻¹ = (ι a)⁻¹ := fun a => by simp [hι]

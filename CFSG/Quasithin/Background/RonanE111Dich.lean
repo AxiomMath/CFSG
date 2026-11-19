@@ -34,7 +34,7 @@ theorem isSolvable_of_Y [Finite Q] {S X Y : Subgroup Q} [Y.Normal] (hS : IsSylow
     Group.IsSolvable ↥Y := by
   have h2 : E1.IsTwoClosed (E1.preO2 (⊤ : Subgroup Q) Y) :=
     E1.ten_two hS le_top (top_mem_sFamily hXS hK)
-  haveI : Group.IsSolvable ↥(E1.preO2 (⊤ : Subgroup Q) Y) := E1.isSolvable_of_isTwoClosed h2
+  have : Group.IsSolvable ↥(E1.preO2 (⊤ : Subgroup Q) Y) := E1.isSolvable_of_isTwoClosed h2
   exact Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion (le_preO2_top Y))
     (Subgroup.inclusion_injective _)
 
@@ -50,10 +50,10 @@ theorem isSolvable_of_map_mk {X Y : Subgroup Q} [X.Normal] [Y.Normal] (hYX : Y �
   let e : (↥X ⧸ Y.subgroupOf X) ≃* ↥(X.map (QuotientGroup.mk' Y)) :=
     ((QuotientGroup.quotientMulEquivOfEq hker.symm).trans
       (QuotientGroup.quotientKerEquivRange f)).trans (MulEquiv.subgroupCongr hrange)
-  haveI : Group.IsSolvable ↥(Y.subgroupOf X) :=
+  have : Group.IsSolvable ↥(Y.subgroupOf X) :=
     Group.isSolvable_of_isSolvable_injective (f := (Subgroup.subgroupOfEquivOfLe hYX).toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hYX).injective
-  haveI : Group.IsSolvable (↥X ⧸ Y.subgroupOf X) :=
+  have : Group.IsSolvable (↥X ⧸ Y.subgroupOf X) :=
     Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective
   exact Group.isSolvable_of_subgroup_quotient (Y.subgroupOf X)
 
@@ -120,8 +120,8 @@ theorem commute_of_normal_simple {N K K' : Subgroup G} (hK : K ≤ N) (hK' : K' 
     (hKn : ∀ n ∈ N, ∀ k ∈ K, n * k * n⁻¹ ∈ K) (hK'n : ∀ n ∈ N, ∀ k ∈ K', n * k * n⁻¹ ∈ K')
     (hsK : IsSimpleGroup ↥K) (hsK' : IsSimpleGroup ↥K') (hne : K ≠ K') {x y : G}
     (hx : x ∈ K) (hy : y ∈ K') : x * y = y * x := by
-  haveI := hsK
-  haveI := hsK'
+  have := hsK
+  have := hsK'
   have hI : ((K ⊓ K').subgroupOf K).Normal :=
     normal_subgroupOf_of_conj inf_le_left fun s hs n hn =>
       Subgroup.mem_inf.mpr ⟨K.mul_mem (K.mul_mem hs (Subgroup.mem_inf.mp hn).1) (K.inv_mem hs),
@@ -140,7 +140,7 @@ theorem commute_of_normal_simple {N K K' : Subgroup G} (hK : K ≤ N) (hK' : K' 
     exact mul_inv_eq_iff_eq_mul.mp (mul_inv_eq_one.mp hc)
   · exfalso
     have hle : K ≤ K' := (Subgroup.subgroupOf_eq_top.mp h).trans inf_le_right
-    haveI : (K.subgroupOf K').Normal :=
+    have : (K.subgroupOf K').Normal :=
       normal_subgroupOf_of_conj hle fun s hs n hn => hKn s (hK' hs) n hn
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (K.subgroupOf K') with h2 | h2
     · have hK0 : K = ⊥ := by
@@ -301,7 +301,7 @@ theorem exists_semisimpleMod {S X Y : Subgroup Q} [X.Normal] [Y.Normal]
   have hsimple : ∀ L ∈ Set.range (preimConj Y S0), ∀ N' : Subgroup Q, Y ≤ N' → N' ≤ L →
       (N'.subgroupOf L).Normal → N' = Y ∨ N' = L := by
     rintro _ ⟨g, rfl⟩ N' hYN' hN'L hnorm
-    haveI := hKs g
+    have := hKs g
     have hMK : N'.map (QuotientGroup.mk' Y) ≤ A1b.conjSub g S0 := by
       rw [Subgroup.map_le_iff_le_comap]
       exact hN'L
@@ -314,7 +314,7 @@ theorem exists_semisimpleMod {S X Y : Subgroup Q} [X.Normal] [Y.Normal]
       have h1 := Subgroup.mem_map_of_mem (QuotientGroup.mk' Y)
         (conj_mem_of_subgroupOf hN'L hnorm l hl n hn)
       simpa only [map_mul, map_inv] using h1
-    haveI : ((N'.map (QuotientGroup.mk' Y)).subgroupOf (A1b.conjSub g S0)).Normal :=
+    have : ((N'.map (QuotientGroup.mk' Y)).subgroupOf (A1b.conjSub g S0)).Normal :=
       normal_subgroupOf_of_conj hMK hMn
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
       ((N'.map (QuotientGroup.mk' Y)).subgroupOf (A1b.conjSub g S0)) with h | h
@@ -466,7 +466,7 @@ theorem pGroup_commutator_le [Finite Q] {X Y : Subgroup Q} [X.Normal] [Y.Normal]
     have hle : X.map (QuotientGroup.mk' Y) ≤ W.map (QuotientGroup.mk' Y) := by
       have h3 := inf_le_left (a := W.map (QuotientGroup.mk' Y)) (b := X.map (QuotientGroup.mk' Y))
       rwa [h] at h3
-    haveI : Group.IsSolvable ↥(W.map (QuotientGroup.mk' Y)) :=
+    have : Group.IsSolvable ↥(W.map (QuotientGroup.mk' Y)) :=
       E1.isSolvable_of_isPGroup_two hW2
     exact hXns (isSolvable_of_map_mk hYX hYsolv
       (Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hle)

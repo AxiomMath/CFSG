@@ -32,7 +32,7 @@ theorem card_parabolicSubgroup_eq (τ : Tag) {K : Type} [Field K] [Finite K]
   rw [hcell J, finsum_parabolicWeylGroup_eq]
 
 theorem factorization_card_parabolicSubgroup (τ : Tag) {K : Type} [Field K] [Finite K]
-    [Fintype (WeylGroup τ)] {p : ℕ} (hp : p.Prime) (hpK : ¬ p ∣ Nat.card K)
+    [Fintype (WeylGroup τ)] {p : ℕ} (_hp : p.Prime) (hpK : ¬ p ∣ Nat.card K)
     (J : Set (Fin τ.rank)) :
     (Nat.card (parabolicSubgroup τ K J)).factorization p =
       (Nat.card (torusGroup τ K)).factorization p + (parabolicSum τ J (Nat.card K)).factorization p := by
@@ -58,7 +58,7 @@ theorem noSylowNormalizesTwo_adjoint_of_chains (τ : Tag) {K : Type} [Field K] [
     (hcnt : ∀ i, cntFactors e (fsC i) < cntFactors e fsI) :
     NoSylowNormalizesTwo p (adjointGroup τ K) := by
   classical
-  haveI hfin : Finite (ModGL τ K) := finite_modGL
+  have hfin : Finite (ModGL τ K) := finite_modGL
   refine noSylowNormalizesTwo_adjoint_of_parabolic τ fun J hJ hdvd => ?_
   obtain ⟨i, hi⟩ := (Set.ne_univ_iff_exists_notMem J).1 hJ
   have hsub : J ⊆ ((maskSet τ (coat i) : Finset (Fin τ.rank)) : Set (Fin τ.rank)) := fun k hk => by

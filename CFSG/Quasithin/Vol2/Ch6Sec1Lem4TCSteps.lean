@@ -12,7 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
-@[expose] noncomputable abbrev mk614 (K : Subgroup G) : ↥K →* ModO2 K :=
+noncomputable abbrev mk614 (K : Subgroup G) : ↥K →* ModO2 K :=
   QuotientGroup.mk' (CFSG.pCore 2 ↥K)
 
 @[expose] noncomputable def sylImg614 (K T : Subgroup G) : Subgroup (ModO2 K) :=
@@ -21,6 +21,7 @@ variable {G : Type} [Group G] [Finite G]
 @[expose] noncomputable def hImg614 (K H : Subgroup G) : Subgroup (ModO2 K) :=
   (H.subgroupOf K).map (mk614 K)
 
+omit [Finite G] in
 theorem mk614_eq_one_of_mem_pCoreOf {K : Subgroup G} {x : G} (hxK : x ∈ K)
     (hx : x ∈ pCoreOf 2 K) : mk614 K ⟨x, hxK⟩ = 1 := by
   obtain ⟨y, hy, hyx⟩ := Subgroup.mem_map.mp hx
@@ -111,8 +112,8 @@ theorem not_thompsonJ_le_centralizerMod614 (hT0 : TitsOrderFact) (hB : TitsBasic
     rw [Subgroup.relIndex_top_right, h0, Subgroup.index_bot, hT0 _ htits]
     norm_num
   have hZne : Z ≠ ⊥ := by
-    haveI : Nontrivial ↥S := (Subgroup.nontrivial_iff_ne_bot S).mpr hS_ne
-    haveI := IsPGroup.center_nontrivial hS1.2.1
+    have : Nontrivial ↥S := (Subgroup.nontrivial_iff_ne_bot S).mpr hS_ne
+    have := IsPGroup.center_nontrivial hS1.2.1
     obtain ⟨y, hy⟩ := exists_ne (1 : Subgroup.center ↥S)
     intro hbot
     have hyZ : ((y : ↥S) : ModO2 K) ∈ Z := ⟨(y : ↥S), y.2, rfl⟩
@@ -219,11 +220,12 @@ theorem not_thompsonJ_le_centralizerMod614 (hT0 : TitsOrderFact) (hB : TitsBasic
     exact hzc
   exact hZne hZbot
 
+omit [Finite G] in
 theorem conjAct_apply614 {V : Subgroup G} (n : Subgroup.normalizer (V : Set G)) (v : V) :
     ((conjAct V n : MulAut V) v : G) = (n : G) * (v : G) * (n : G)⁻¹ := by
   rfl
 
-theorem autOn_pCoreOf_le614 {V H : Subgroup G} (hHV : H ≤ Subgroup.normalizer (V : Set G)) :
+theorem autOn_pCoreOf_le614 {V H : Subgroup G} (_hHV : H ≤ Subgroup.normalizer (V : Set G)) :
     autOn (pCoreOf 2 H) V ≤ pCoreOf 2 (autOn H V) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hYA : autOn (pCoreOf 2 H) V ≤ autOn H V :=
@@ -271,7 +273,7 @@ theorem zV_le_omegaOne614 (hO3 : L216CoreFact) {T M L V K X : Subgroup G}
     (h : Hyp611 G T M L V 4) (horth : IsOrthCh5 L V 4) (hXL : X ≤ L)
     (hX2 : X = oTwoUpper X) (hX5 : (X ⊓ T).relIndex X = 5)
     (hXn : ((X ⊓ T).subgroupOf X).Normal) (hTX : T ≤ Subgroup.normalizer (X : Set G))
-    (hXK : X ≤ K) (hTK : T ≤ Subgroup.normalizer (K : Set G))
+    (hXK : X ≤ K) (_hTK : T ≤ Subgroup.normalizer (K : Set G))
     (hCT : CharTwo (K ⊔ T)) :
     (V ⊓ Subgroup.centralizer ((T ⊓ L : Subgroup G) : Set G)) ≤
       quasithinOmegaOneCenter (pCoreOf 2 (K ⊔ T)) := by

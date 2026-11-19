@@ -20,7 +20,7 @@ theorem four_dvd_finrank_of_fiveGroup_fixedPointFree {G W : Type*} [Group G] [Fi
     (hfix : ∀ w : W, (∀ g : G, ρ g w = w) → w = 0) :
     4 ∣ Module.finrank (ZMod 2) W := by
   classical
-  letI : MulAction G W :=
+  let : MulAction G W :=
     { smul := fun g w => ρ g w
       one_smul := by
         intro w
@@ -32,8 +32,8 @@ theorem four_dvd_finrank_of_fiveGroup_fixedPointFree {G W : Type*} [Group G] [Fi
         change (ρ (g * h)) w = (ρ g) ((ρ h) w)
         rw [map_mul]
         rfl }
-  haveI : Fintype W := Fintype.ofFinite W
-  haveI : Module.Finite (ZMod 2) W := Module.Finite.of_finite
+  have : Fintype W := Fintype.ofFinite W
+  have : Module.Finite (ZMod 2) W := Module.Finite.of_finite
   have hmod := hG.card_modEq_card_fixedPoints W
   have hfixSet : MulAction.fixedPoints G W = {0} := by
     ext w
@@ -194,7 +194,7 @@ theorem four_dvd_finrank_range_lineIdem {E : Type*} {U : Type} [Group E] [Fintyp
     apply Subtype.ext
     change f v = 0
     rw [← htop, hzero]
-  haveI : Finite U := Module.finite_of_finite (ZMod 2)
+  have : Finite U := Module.finite_of_finite (ZMod 2)
   have hEisP : IsPGroup 5 E := by
     rw [IsPGroup.iff_card]
     exact ⟨2, by rw [hEcard]; norm_num⟩
@@ -223,7 +223,7 @@ theorem orbit_line_injective {E : Type*} [Group E]
   have hsub : L.map ((c ^ (i : ℕ)).toMonoidHom) = L.map ((c ^ (j : ℕ)).toMonoidHom) :=
     congrArg Subtype.val hij
   fin_cases i <;> fin_cases j <;>
-    simp only [Fin.val_zero, Fin.val_one, Fin.val_two, pow_zero, pow_one] at hsub
+    simp only [pow_zero, pow_one] at hsub
   · rfl
   · exact (h0 (by simpa [MulAut.one_def, MulEquiv.toMonoidHom_refl] using hsub.symm)).elim
   · exact (h2 (by simpa [MulAut.one_def, MulEquiv.toMonoidHom_refl] using hsub.symm)).elim
@@ -409,15 +409,15 @@ theorem twelve_le_finrank_of_fiveSq_orderThree {Γ : Type*} [Group Γ]
   classical
   let E := fiveSqSubgroup a b ha hb hab
   have hEcard : Nat.card E = 25 := card_fiveSqSubgroup ha ha1 hb hab hb'
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hEcard]; norm_num)
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hEcard]; norm_num)
+  have : Fintype E := Fintype.ofFinite E
   have hEcard' : Nat.card E = 5 ^ 2 := by rw [hEcard]; norm_num
   have hexp : ∀ x : E, x ^ 5 = 1 := fun x => pow_five_eq_one x
   let ρE : Representation (ZMod 2) E U := ρ.comp E.subtype
   have hpK : (5 : ZMod 2) ≠ 0 := by decide
   have hcommE : ∀ x y : E, x * y = y * x := fun x y =>
     Subtype.ext (fiveSqSubgroup_comm (x := (x : Γ)) x.2 (y := (y : Γ)) y.2)
-  letI : CommGroup E := { (inferInstance : Group E) with mul_comm := hcommE }
+  let : CommGroup E := { (inferInstance : Group E) with mul_comm := hcommE }
   have hne : ∃ x : E, ρE x ≠ 1 := by
     by_contra h
     push Not at h

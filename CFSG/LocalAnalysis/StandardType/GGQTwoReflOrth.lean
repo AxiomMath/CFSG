@@ -45,7 +45,7 @@ private lemma ggQ2x_rootRefl_mem_weyl (D : GGQ2Lin 3) (γ : ↥D.rootPairs) :
       Module.reflection_apply (w.symm v) (D.root_coroot_self k)]
     rw [map_sub, map_smul, LinearEquiv.apply_symm_apply]
     rw [hq1, hq2]
-    simp only [LinearMap.comp_apply, LinearEquiv.coe_coe, LinearEquiv.symm_apply_apply]
+    simp only [LinearMap.comp_apply, LinearEquiv.coe_coe]
   rw [heq]
   exact Subgroup.mul_mem _ (Subgroup.mul_mem _ hw (ggQ2x_simpleRefl_mem_weyl D k))
     (Subgroup.inv_mem _ hw)
@@ -111,7 +111,7 @@ theorem ggQ2_refl_orthogonal {p : ℕ} [Fact p.Prime] (hp : p = 3) (D : GGQ2Lin 
       exact hTF _ (Subgroup.mul_mem _ hφ'_mem ht) htv
   ·
     push Not at hc
-    haveI : Nonempty D.ι := Fintype.card_pos_iff.mp (by omega)
+    have : Nonempty D.ι := Fintype.card_pos_iff.mp (by omega)
     have hspan : Submodule.span (ZMod 3) (Set.range D.coroot) = ⊤ :=
       hbas.1.span_eq_top_of_card_eq_finrank hbas.2
     let sp : D.ι → ↥D.rootPairs := fun k => ⟨(D.root k, D.coroot k), ggQ2x_simplePair_mem D k⟩

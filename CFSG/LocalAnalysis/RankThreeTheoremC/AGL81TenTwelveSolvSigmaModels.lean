@@ -19,7 +19,7 @@ open CFSG.RankThree.PartTwo.Census.Carrier.Sp6Two
 
 open CFSG.GH74.Uniqueness.SU.SU13.TA.L9 Equiv in
 theorem solvSigmaSylowFacts_alt9 : SolvSigmaSylowFacts (alternatingGroup (Fin 9)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hz : ea * eb * ec ∈ Ebar := mul_mem (mul_mem ea_mem_Ebar eb_mem_Ebar) ec_mem_Ebar
   have hzσ : ew * (ea * eb * ec) = ea * eb * ec * ew := by
     have h := ew_mem_Pst

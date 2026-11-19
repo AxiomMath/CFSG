@@ -160,12 +160,12 @@ theorem pow_le_card_of_fixedFree {ℓ : ℕ} (hℓ : ℓ.Prime) {V : Type*} [Gro
     (m : ℕ) (hfree : ∀ k : ℕ, 0 < k → k < m → ∀ s ∈ S, t ^ k * s * (t ^ k)⁻¹ = s → s = 1) :
     ℓ ^ m ≤ Nat.card V := by
   classical
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : NeZero ℓ := ⟨hℓ.ne_zero⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : NeZero ℓ := ⟨hℓ.ne_zero⟩
   have hVp : IsPGroup ℓ V := fun v => ⟨1, by simpa using hpow v⟩
   obtain ⟨d, hd⟩ := IsPGroup.iff_card.mp hVp
   obtain ⟨e⟩ := CFSG.SectionRank.Ccomm.nonempty_mulEquiv_of_elementary hcomm hpow hd
-  letI : Module (ZMod ℓ) (Fin d → ZMod ℓ) :=
+  let : Module (ZMod ℓ) (Fin d → ZMod ℓ) :=
     Pi.Function.module (Fin d) (ZMod ℓ) (ZMod ℓ)
   let φ : MulAut V ≃* GL (Fin d) (ZMod ℓ) := CFSG.SectionRank.Ccomm.elemAutEquivGL e
   let toEnd : GL (Fin d) (ZMod ℓ) →* Module.End (ZMod ℓ) (Fin d → ZMod ℓ) :=
@@ -207,10 +207,10 @@ theorem pow_le_card_of_fixedFree {ℓ : ℕ} (hℓ : ℓ.Prime) {V : Type*} [Gro
     apply hτS₀
     apply hbase
     exact hsu
-  letI : CommGroup S :=
+  let : CommGroup S :=
     { (inferInstance : Group S) with
       mul_comm := fun a b => Subtype.ext (hScomm a a.2 b b.2) }
-  haveI : Nontrivial S := (Subgroup.nontrivial_iff_ne_bot S).mpr hS
+  have : Nontrivial S := (Subgroup.nontrivial_iff_ne_bot S).mpr hS
   have hcardS : (Nat.card S : AlgebraicClosure (ZMod ℓ)) ≠ 0 := by
     intro h0
     have hdvd : ℓ ∣ Nat.card S :=
@@ -225,7 +225,7 @@ theorem pow_le_card_of_fixedFree {ℓ : ℕ} (hℓ : ℓ.Prime) {V : Type*} [Gro
         S.normalizerMonoidHom (⟨t, ht⟩ ^ k)
       rw [map_pow]
     rw [h1, Subgroup.normalizerMonoidHom_apply_apply_coe]
-    simp [Subgroup.coe_pow]
+    simp
   let σK : TensorProduct (ZMod ℓ) (AlgebraicClosure (ZMod ℓ)) (Fin d → ZMod ℓ) →ₗ[
       AlgebraicClosure (ZMod ℓ)]
       TensorProduct (ZMod ℓ) (AlgebraicClosure (ZMod ℓ)) (Fin d → ZMod ℓ) := τK t
@@ -260,7 +260,7 @@ theorem pow_le_card_of_fixedFree {ℓ : ℕ} (hℓ : ℓ.Prime) {V : Type*} [Gro
   have hdim : Module.finrank (AlgebraicClosure (ZMod ℓ))
       (TensorProduct (ZMod ℓ) (AlgebraicClosure (ZMod ℓ)) (Fin d → ZMod ℓ)) = d := by
     rw [Module.finrank_baseChange]
-    simp [Module.finrank_fin_fun]
+    simp
   have hmd : m ≤ d := by
     rwa [hdim] at hmain
   calc ℓ ^ m ≤ ℓ ^ d := Nat.pow_le_pow_right hℓ.pos hmd

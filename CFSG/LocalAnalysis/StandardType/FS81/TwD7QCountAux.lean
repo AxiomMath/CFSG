@@ -54,7 +54,7 @@ private theorem b_mul_b_ne_one {G : Type} [Group G] {B : Basis3 G 8} {i j : Fin 
     rw [B.vec_add, B.vec_single, B.vec_single, B.vec_zero]; exact h
   have hz : (Pi.single i 1 + Pi.single j 1 : Coords 8) = 0 := B.vec_injective hv
   have hi := congrFun hz i
-  simp [Pi.single_apply, hij, Ne.symm hij] at hi
+  simp [hij] at hi
 
 theorem orderOf_b_mul_b {G : Type} [Group G] (B : Basis3 G 8) {i j : Fin 8} (hij : i ≠ j) :
     orderOf (B.b i * B.b j) = 3 :=
@@ -195,7 +195,7 @@ private theorem orbit_eq_vec_image {G : Type} [Group G] [Finite G] {b₀ : G} {K
   · rintro ⟨e, he, rfl⟩
     have he0 : e ≠ 0 := by
       rintro rfl
-      simp only [PB, Set.mem_setOf_eq] at he
+      simp only [PB, Set.mem_ofPred_eq] at he
       have h : ¬ (wt (0 : Coords 8) = 2 ∨ (wt (0 : Coords 8) = 8 ∧
           ∏ i : Fin 8, (0 : Coords 8) i = -1)) := by decide
       exact h he
@@ -235,7 +235,7 @@ theorem card_normalizer_eq_orbit_mul_centralizer {G : Type} [Group G] [Finite G]
   classical
   let β : G := B.b 0 * B.b 1
   let N : Subgroup G := Subgroup.normalizer (B.span : Set G)
-  letI : MulAction ↥N G :=
+  let : MulAction ↥N G :=
     { smul := fun n x => (n : G) * x * (n : G)⁻¹
       one_smul := fun x => by
         show ((1 : ↥N) : G) * x * ((1 : ↥N) : G)⁻¹ = x

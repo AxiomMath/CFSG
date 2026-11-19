@@ -570,12 +570,12 @@ theorem p23E7LL3_of_lemLId (hL : P23E7LemLId n) :
       (⟨I.φ (ι (F7I.piC YU ⟨f, h⟩)), hΦ1 _⟩ : ↥AE.e64Sub) else 1) ?_ ?_
     · intro f hf
       obtain ⟨hfY, hmem⟩ := hkey f hf.1 hf.2
-      simp only [dif_pos hfY]
+      simp only [dite_eq_left hfY]
       exact hmem
     · intro f hf f' hf' h
       obtain ⟨hfY, -⟩ := hkey f hf.1 hf.2
       obtain ⟨hf'Y, -⟩ := hkey f' hf'.1 hf'.2
-      simp only [dif_pos hfY, dif_pos hf'Y] at h
+      simp only [dite_eq_left hfY, dite_eq_left hf'Y] at h
       exact hinj f hf.1 hf.2 f' hf'.1 hf'.2 hfY hf'Y (congrArg Subtype.val h)
   exact hcount.trans E64F.ncard_twinInv_le
 

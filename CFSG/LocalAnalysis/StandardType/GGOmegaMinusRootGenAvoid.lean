@@ -153,14 +153,14 @@ theorem ggTorusRootGenAvoidKG_statedOmegaMinus
       rw [sgnAut_apply]
       by_cases hki : k = i
       · subst hki
-        rw [Function.update_self, Pi.mulSingle_eq_same, if_pos rfl]
-      · rw [Function.update_of_ne hki, Pi.mulSingle_eq_same, if_neg hki]
+        rw [Function.update_self, Pi.mulSingle_eq_same, ite_eq_left rfl]
+      · rw [Function.update_of_ne hki, Pi.mulSingle_eq_same, ite_eq_right hki]
     have hsp : ∀ (i : Fin m) (σ : Equiv.Perm (Fin m)), sgnAut i ≠
         (permAut σ : MulAut (Fin m → Multiplicative (ZMod p))) := by
       intro i σ h
       have h1 := congrFun (congrArg (fun φ : MulAut (Fin m → Multiplicative (ZMod p)) =>
         φ (Pi.mulSingle i (ofAdd (1 : ZMod p)))) h) i
-      rw [hsgn, if_pos rfl, permAut_mulSingle, Pi.mulSingle_apply] at h1
+      rw [hsgn, ite_eq_left rfl, permAut_mulSingle, Pi.mulSingle_apply] at h1
       split_ifs at h1
       · exact hginv h1
       · exact hg1 (inv_eq_one.mp h1)
@@ -168,10 +168,10 @@ theorem ggTorusRootGenAvoidKG_statedOmegaMinus
     · change sgnAut i = sgnAut i' at h
       have h1 := congrFun (congrArg (fun φ : MulAut (Fin m → Multiplicative (ZMod p)) =>
         φ (Pi.mulSingle i (ofAdd (1 : ZMod p)))) h) i
-      rw [hsgn, hsgn, if_pos rfl] at h1
+      rw [hsgn, hsgn, ite_eq_left rfl] at h1
       by_cases hii : i = i'
       · rw [hii]
-      · rw [if_neg hii] at h1
+      · rw [ite_eq_right hii] at h1
         exact absurd h1 hginv
     · exact absurd h (hsp i σ')
     · exact absurd h.symm (hsp i' σ)

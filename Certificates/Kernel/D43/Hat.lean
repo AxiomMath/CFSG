@@ -54,16 +54,16 @@ theorem exists_ρhat {K : Type} [Field K] (ω : K) (hK : Nat.card K = 27) (hω :
     by_cases h8 : k = 8
     · subst h8
       exact keyChunks_spec keys8 hp
-    · have e : T k = tabAt GX.F k := funext fun q => if_neg h8
+    · have e : T k = tabAt GX.F k := funext fun q => ite_eq_right h8
       rw [e]
       exact keyChunks_spec (hch k (by omega)) hp
   obtain ⟨hwf, hdist⟩ := ord_spec (O := OT) (ordChunks_spec ordAll)
   obtain ⟨ρ, hρ⟩ := exists_ρhat_of_checks hrows hkeys hwf hdist ω hK hω h hg hF
   refine ⟨ρ, fun k hk p => ?_, fun p => ?_⟩
   · rw [hρ k p, gen_tab hk p.2]
-    exact if_neg (by omega)
+    exact ite_eq_right (by omega)
   · rw [hρ 8 p, phi_tab p.2]
-    exact if_pos rfl
+    exact ite_eq_left rfl
 
 theorem rows_all : ∀ k < 9, rowsOK (RL.getD k []) k = true := by
   intro k hk
@@ -77,10 +77,10 @@ theorem frob_facts {K : Type} [Field K] (ω : K) (hK : Nat.card K = 27) (hω : �
     (hg : ∀ k, (g k : Module.End K (RootModule Tag.D4 K)) = burnsideF48d_genEnd ω k) :
     burnsideF48d_frob ^ 3 = 1 ∧ ∀ k < 8, burnsideF48d_frob * burnsideF48d_γ k =
       ((conjW.getD k []).map burnsideF48d_γ).prod * burnsideF48d_frob := by
-  haveI : CharP K 3 := by
-    haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
-    haveI : Fintype K := Fintype.ofFinite K
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : CharP K 3 := by
+    have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
+    have : Fintype K := Fintype.ofFinite K
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact charP_of_card_eq_prime_pow (f := 3) (by rw [← Nat.card_eq_fintype_card, hK]; norm_num)
   let h : Fin 9 → ↥(negPerm K) := fun i =>
     if hi : i.val < 8 then glPerm (g ⟨i.val, hi⟩) else frobPerm hK
@@ -89,12 +89,12 @@ theorem frob_facts {K : Type} [Field K] (ω : K) (hK : Nat.card K = 27) (hω : �
     intro k hk v
     change ((if hi : k.val < 8 then glPerm (g ⟨k.val, hi⟩) else frobPerm hK : ↥(negPerm K)) :
       Equiv.Perm (RootModule Tag.D4 K)) v = _
-    rw [dif_pos hk, glPerm_apply, hg]
+    rw [dite_eq_left hk, glPerm_apply, hg]
   have hF : ∀ v, (h 8 : Equiv.Perm (RootModule Tag.D4 K)) v = frobV v := by
     intro v
     change ((if hi : (8 : Fin 9).val < 8 then glPerm (g ⟨(8 : Fin 9).val, hi⟩) else frobPerm hK :
       ↥(negPerm K)) : Equiv.Perm (RootModule Tag.D4 K)) v = _
-    rw [dif_neg (by decide), frobPerm_apply]
+    rw [dite_eq_right (by decide), frobPerm_apply]
   obtain ⟨ρ, hρg, hρF⟩ := exists_ρhat ω hK hω h hg' hF
   let c : Fin 9 → ↥(Subgroup.closure (Set.range h)) := fun i =>
     ⟨h i, Subgroup.subset_closure ⟨i, rfl⟩⟩
@@ -125,7 +125,7 @@ theorem frob_facts {K : Type} [Field K] (ω : K) (hK : Nat.card K = 27) (hω : �
       intro hw v
       have hi : i < 8 := hw i (List.mem_cons_self ..)
       rw [List.map_cons, List.prod_cons, hmul, ih (fun j hj => hw j (List.mem_cons_of_mem _ hj))]
-      have e : cc i = c ⟨i, by omega⟩ := dif_pos (by omega)
+      have e : cc i = c ⟨i, by omega⟩ := dite_eq_left (by omega)
       rw [e]
       exact hg' ⟨i, by omega⟩ hi _
   refine ⟨?_, fun k hk => ?_⟩
@@ -150,7 +150,7 @@ theorem frob_facts {K : Type} [Field K] (ω : K) (hK : Nat.card K = 27) (hω : �
     rw [e2]
     congr 2
     refine List.map_congr_left fun i hi => ?_
-    have e' : cc i = c ⟨i, by have := hw i hi; omega⟩ := dif_pos (by have := hw i hi; omega)
+    have e' : cc i = c ⟨i, by have := hw i hi; omega⟩ := dite_eq_left (by have := hw i hi; omega)
     change ρ (cc i) = _
     rw [e', hγ ⟨i, _⟩ (hw i hi)]
 

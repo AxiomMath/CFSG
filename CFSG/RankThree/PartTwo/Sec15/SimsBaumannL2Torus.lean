@@ -290,7 +290,7 @@ private theorem sbT_core [Finite F] [CharP F 2] {n : ℕ} (hF : Nat.card F = 2 ^
     rw [sbT_map_tor] at htr
     simpa [sbT_tor, Matrix.trace_fin_two] using htr
   have hg0 : (g : F) ≠ 0 := g.ne_zero
-  have hs0 : σ (g : F) ≠ 0 := by simpa using hg0
+  have hs0 : σ (g : F) ≠ 0 := by simp
   have hsplit : σ (g : F) = g ∨ σ (g : F) = (g : F)⁻¹ := by
     have h : (σ (g : F) - g) * (σ (g : F) - (g : F)⁻¹) = 0 := by
       linear_combination (-(σ (g : F))) * hxx + mul_inv_cancel₀ hg0 - mul_inv_cancel₀ hs0

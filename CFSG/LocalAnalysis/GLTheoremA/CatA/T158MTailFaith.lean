@@ -27,16 +27,18 @@ section Faith
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 private theorem core_le (K : Subgroup X) : GLAPPrimeCoreOf 3 K ≤ K :=
   Subgroup.map_subtype_le _
 
 private theorem not_dvd_card_core (K : Subgroup X) : ¬ 3 ∣ Nat.card (GLAPPrimeCoreOf 3 K) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have e : Nat.card (GLAPPrimeCoreOf 3 K) = Nat.card (CFSG.pPrimeCore 3 ↥K) :=
     Nat.card_congr (Subgroup.equivMapOfInjective _ K.subtype K.subtype_injective).toEquiv.symm
   rw [e]
   exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mp (CFSG.pPrimeCore_coprime_card (p := 3) (G := ↥K))
 
+omit [Finite X] in
 private theorem le_normalizer_of_conj_mem {E T : Subgroup X}
     (h : ∀ e ∈ E, ∀ t ∈ T, e * t * e⁻¹ ∈ T) : E ≤ Subgroup.normalizer (T : Set X) := by
   intro e he
@@ -60,6 +62,7 @@ private theorem card_map_of_inf_ker {L H : Type*} [Group L] [Group H] {f : L →
   rw [← hr]
   exact (Nat.card_congr (MonoidHom.ofInjective hinj).toEquiv).symm
 
+omit [Finite X] in
 private theorem conj_mem_sup {T O : Subgroup X} {g : X} (hT : ∀ t ∈ T, g * t * g⁻¹ ∈ T ⊔ O)
     (hO : ∀ o ∈ O, g * o * g⁻¹ ∈ T ⊔ O) : ∀ y ∈ T ⊔ O, g * y * g⁻¹ ∈ T ⊔ O := by
   intro y hy
@@ -79,8 +82,8 @@ theorem pow_mul_card_le_of_faith {K B T : Subgroup X} (hB : IsElemAbelian 3 B)
       F ⊓ Subgroup.center (PQuot 3 K) = ⊥) :
     3 ^ e * Nat.card ↥(B ⊓ centModSubgroup 3 K) ≤ 3 ^ GLATwoLocalRank 3 X := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set O : Subgroup X := GLAPPrimeCoreOf 3 K with hOdef
   set B₀ : Subgroup X := B ⊓ centModSubgroup 3 K with hB₀def
   have hOK : O ≤ K := core_le K
@@ -257,7 +260,7 @@ theorem pow_mul_card_le_of_faith {K B T : Subgroup X} (hB : IsElemAbelian 3 B)
   have hEY : E ≤ Subgroup.normalizer (Y : Set X) := sup_le (inf_le_left.trans hBY) (hFK.trans hKY)
   obtain ⟨S, hS⟩ := CFSG.GroupTheory.exists_sylow_le_normalizer_of_isPGroup Nat.prime_three
     Nat.prime_two hEel.isPGroup hEY hY3
-  have hS2 : IsPGroup 2 ((S : Subgroup Y).map Y.subtype) := S.isPGroup'.map Y.subtype
+  have hS2 : IsPGroup 2 ((S : Subgroup Y).map Y.subtype) := S.isPGroup.map Y.subtype
   have hS1 : (S : Subgroup Y).map Y.subtype ≠ ⊥ := by
     intro h0
     have hSbot : (S : Subgroup Y) = ⊥ := by

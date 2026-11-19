@@ -98,7 +98,7 @@ noncomputable def G23Data.map (D : G23Data G) (e : G ≃* G') : G23Data G' where
     rw [Subgroup.mem_normalizer_iff]
     intro y
     have hxn := Subgroup.mem_normalizer_iff.mp (D.nor₁ hx) (e.symm y)
-    simp only [SetLike.mem_coe, Subgroup.mem_map_equiv] at hxn ⊢
+    simp only [Subgroup.mem_map_equiv] at hxn ⊢
     rw [hxn]
     simp
   ne := fun h => D.ne (Subgroup.map_injective e.injective h)

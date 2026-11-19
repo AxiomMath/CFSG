@@ -24,8 +24,8 @@ private theorem ggF4H2_conj_injective {E : Type} [Group E]
     (h : CFSG.Blueprint.LieModel E .PSU 4 2 1) :
     Function.Injective (MulAut.conj : E →* MulAut E) := by
   obtain ⟨-, hcard⟩ := card_mulAut_of_lieModel_psu42 h
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by omega)
-  haveI : IsSimpleGroup E :=
+  have : Finite E := Nat.finite_of_card_ne_zero (by omega)
+  have : IsSimpleGroup E :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) h
   obtain ⟨a, b, hab⟩ := not_commutative_of_lieModel_psu42 h
   have hZ : Subgroup.center E = ⊥ := by
@@ -48,10 +48,10 @@ theorem ggF4H2_isSolvable_centralizer_u42
     (h : CFSG.Blueprint.LieModel E .PSU 4 2 1) {g : E} (hg : orderOf g = 3) :
     Group.IsSolvable ↥(Subgroup.centralizer ({g} : Set E)) := by
   obtain ⟨-, hcard⟩ := card_mulAut_of_lieModel_psu42 h
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite E := Nat.finite_of_card_ne_zero (by omega)
   have h5 : ¬ 5 ∣ Nat.card (Subgroup.centralizer ({g} : Set E)) := by
     intro h5
-    haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     obtain ⟨u, hu⟩ := exists_prime_orderOf_dvd_card' 5 h5
     have hu' : orderOf (u : E) = 5 := by rw [Subgroup.orderOf_coe]; exact hu
     have hcomm : Commute g (u : E) := by
@@ -94,7 +94,7 @@ private theorem ggF4H2_isSolvable_of_central_quot {G : Type} [Group G] {L K : Su
     apply Subtype.ext
     apply Subtype.ext
     exact (congrArg (fun l : ↥L => (l : G)) h2).symm
-  haveI : Group.IsSolvable ↥ψ.ker := Group.isSolvable_of_comm hker
+  have : Group.IsSolvable ↥ψ.ker := Group.isSolvable_of_comm hker
   exact Group.isSolvable_of_ker_le_range ψ.ker.subtype ψ (by simp)
 
 theorem ggF4LabelH2_holds :
@@ -125,7 +125,7 @@ theorem ggF4LabelH2_holds :
   have hnt : Nontrivial (↥L ⧸ Subgroup.center ↥L) := by
     obtain ⟨-, lab, -, hraw⟩ := hStd.1
     obtain ⟨R, _, I, F, hRs, -, θ, -⟩ := largeEvenRawDatum_exists hraw
-    haveI := hRs.toNontrivial
+    have := hRs.toNontrivial
     exact θ.toEquiv.nontrivial
   have hdN : d ∈ Subgroup.normalizer (L : Set G) := hBN (hDB hdD)
   have hΛ : LargeEvenInLambda2 (⟨.twA, 3, 1⟩ : LargeEvenLabel) := by
@@ -137,7 +137,6 @@ theorem ggF4LabelH2_holds :
   have hLie : CFSG.Blueprint.LieModel (↥L ⧸ Subgroup.center ↥L) .PSU 4 2 1 := by
     first
       | exact hm
-      | simpa [MarkedModel, markTag, markRank, markChar, markDeg] using hm
   have hα3 : (ggLAut L (MulEquiv.refl (↥L ⧸ Subgroup.center ↥L)) ⟨d, hdN⟩) ^ 3 = 1 := by
     rw [← map_pow]
     have h1 : (⟨d, hdN⟩ : Subgroup.normalizer (L : Set G)) ^ 3 = 1 :=
@@ -156,7 +155,7 @@ theorem ggF4LabelH2_holds :
     exact hdL (mem_centralizer_of_ggLAut_eq_one L (MulEquiv.refl _) hperf hα1)
   have hg3 : g ^ 3 = 1 := hinj (by rw [map_pow, hgα, hα3, map_one])
   have hgord : orderOf g = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact orderOf_eq_prime hg3 hg1
   have hCs := ggF4H2_isSolvable_centralizer_u42 hLie hgord
   have hKL : L ⊓ Subgroup.centralizer (D : Set G) ≤ L := inf_le_left

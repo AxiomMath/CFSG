@@ -126,7 +126,6 @@ private theorem expE_le_fixSub
       weylQuotientHom .E6 L ⟨e, hEM he⟩ = w) :
     expE ζ hζ E ≤ fixSub A := by
   intro x hx a ha
-  change adAct .E6 3 a x = x
   obtain ⟨e, he, hwe⟩ := (hEA a).mp ha
   have hc := conj_rootDiagUnit_of_mem_monoHat
     (x := (⟨e, monomial_le_monoHat (hEM he)⟩ : monoHat .E6 L)) (zetaVec ζ hζ x)
@@ -255,7 +254,7 @@ private theorem card_mul_card_fix_eq_range
     (hAg : ∀ i, A ≠ Subgroup.zpowers (gE6 i)) :
     Nat.card A * Nat.card (fixSub A) = 3 ^ 4 := by
   classical
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite E := Nat.finite_of_card_ne_zero (by omega)
   have hζ : ζ ^ 3 = 1 := by simpa [hζo] using pow_orderOf_eq_one ζ
   have h1 := card_E_eq_card_A_mul_card_expE hζo hζ hEM hE hEA
   have h2 := expE_le_fixSub hζo hζ hEM hE hEA
@@ -292,7 +291,7 @@ private theorem expE_eq_fixSub
     (hAg : ∀ i, A ≠ Subgroup.zpowers (gE6 i)) :
     expE ζ hζ E = fixSub A := by
   classical
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite E := Nat.finite_of_card_ne_zero (by omega)
   have hle : expE ζ hζ E ≤ fixSub A := expE_le_fixSub hζo hζ hEM hE hEA
   have h1 := card_E_eq_card_A_mul_card_expE hζo hζ hEM hE hEA
   have h3 := card_mul_card_fix_eq_range hζo hEM hE hcard hEA hAS hA1 hAg
@@ -311,7 +310,7 @@ private theorem expE_eq_fixSub
   have hApos : 0 < Nat.card A :=
     Nat.pos_of_dvd_of_pos (by
       have h := Subgroup.card_dvd_of_le hAS
-      rwa [card_range_modelHomE6, show (81 : ℕ) = 3 ^ 4 by norm_num] at h) (by norm_num)
+      rw [card_range_modelHomE6, show (81 : ℕ) = 3 ^ 4 by norm_num] at h) (by norm_num)
   have hcards : Nat.card (expE ζ hζ E) = Nat.card (fixSub A) :=
     Nat.mul_left_cancel hApos (hEq.trans h3.symm)
   exact AddSubgroup.eq_of_le_of_card_ge hle (le_of_eq hcards.symm)

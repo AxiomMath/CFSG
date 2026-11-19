@@ -24,7 +24,7 @@ private lemma ratio_eq {Y : Type} [Group Y] {D : Subgroup Y} {W : Fin 4 → Subg
     (hP : IsPlanes D W) {i : Fin 4} {a b : Fin 4 → Y}
     (ha : ∀ j, a j ∈ D) (hb : ∀ j, b j ∈ D) (h : ∀ j, j ≠ i → b j = a j) :
     (a 0 * a 1 * a 2 * a 3)⁻¹ * (b 0 * b 1 * b 2 * b 3) = (a i)⁻¹ * b i := by
-  letI : CommGroup D := { (inferInstance : Group D) with
+  let : CommGroup D := { (inferInstance : Group D) with
     mul_comm := fun x y => Subtype.ext (hP.comm x.1 x.2 y.1 y.2) }
   let av : Fin 4 → D := fun j => ⟨a j, ha j⟩
   let bv : Fin 4 → D := fun j => ⟨b j, hb j⟩
@@ -81,9 +81,9 @@ private lemma planProd_injective {Y : Type} [Group Y] {D : Subgroup Y}
     decide
   have hcard : Nat.card (∀ i : Fin 4, W i) = Nat.card D := by
     rw [hcardG, hP.card_D]
-  haveI : ∀ i, Finite (W i) := fun i =>
+  have : ∀ i, Finite (W i) := fun i =>
     Nat.finite_of_card_ne_zero (by rw [hP.card i]; decide)
-  haveI : Finite (∀ i : Fin 4, W i) := inferInstance
+  have : Finite (∀ i : Fin 4, W i) := inferInstance
   have hbij : Function.Bijective F := hsurj.bijective_of_nat_card_le (le_of_eq hcard)
   intro v u huv
   exact hbij.1 (Subtype.ext huv)
@@ -161,7 +161,7 @@ private lemma plane_le_of_mem_ne_one {Y : Type} [Group Y] {D : Subgroup Y}
     · exact hxW
     · exact hyW
     · exact hzW
-  haveI hWifin : Finite (W i) := Nat.finite_of_card_ne_zero (by rw [hP.card i]; decide)
+  have hWifin : Finite (W i) := Nat.finite_of_card_ne_zero (by rw [hP.card i]; decide)
   have hWn : (W i : Set Y).ncard = 4 := by
     rw [← Nat.card_coe_set_eq]
     simpa using hP.card i
@@ -204,8 +204,8 @@ private lemma extend_mem {Y : Type} [Group Y] {W : Fin 4 → Subgroup Y} {E : Su
     (extend u j : Y) ∈ E := by
   simp only [extend]
   by_cases h : W j ≤ E
-  · rw [dif_pos h]; exact h (u ⟨j, h⟩).2
-  · rw [dif_neg h]; exact E.one_mem
+  · rw [dite_eq_left h]; exact h (u ⟨j, h⟩).2
+  · rw [dite_eq_right h]; exact E.one_mem
 
 private lemma extend_planProd_mem {Y : Type} [Group Y] {W : Fin 4 → Subgroup Y}
     {E : Subgroup Y} (u : ∀ i : {i : Fin 4 // W i ≤ E}, W i.1) :
@@ -221,13 +221,13 @@ theorem card_of_invariant {Y : Type} [Group Y] {D : Subgroup Y} {W : Fin 4 → S
   classical
   let I : Type := {i : Fin 4 // W i ≤ E}
   change Nat.card E = 4 ^ Nat.card I
-  haveI hWi : ∀ i : Fin 4, Finite (W i) := fun i =>
+  have hWi : ∀ i : Fin 4, Finite (W i) := fun i =>
     Nat.finite_of_card_ne_zero (by rw [hP.card i]; decide)
-  haveI hIfin : Finite I := Finite.of_injective (fun i : I => i.1) (fun a b h => Subtype.ext h)
-  haveI hIfintype : Fintype I := Fintype.ofFinite I
-  haveI hPifin : Finite (∀ i : I, W i.1) := by infer_instance
-  haveI hDfin : Finite D := Nat.finite_of_card_ne_zero (by rw [hP.card_D]; decide)
-  haveI hEfin : Finite E := Finite.of_injective (fun e : E => (⟨e.1, hED e.2⟩ : D))
+  have hIfin : Finite I := Finite.of_injective (fun i : I => i.1) (fun a b h => Subtype.ext h)
+  have hIfintype : Fintype I := Fintype.ofFinite I
+  have hPifin : Finite (∀ i : I, W i.1) := by infer_instance
+  have hDfin : Finite D := Nat.finite_of_card_ne_zero (by rw [hP.card_D]; decide)
+  have hEfin : Finite E := Finite.of_injective (fun e : E => (⟨e.1, hED e.2⟩ : D))
     (fun a b h => Subtype.ext (congrArg (fun x : D => (x : Y)) h))
   have hinj1 : Nat.card E ≤ Nat.card (∀ i : I, W i.1) := by
     refine Nat.card_le_card_of_injective
@@ -253,10 +253,10 @@ theorem card_of_invariant {Y : Type} [Group Y] {D : Subgroup Y} {W : Fin 4 → S
     funext i
     have h1 : (extend u i.1 : Y) = (u i : Y) := by
       simp only [extend]
-      rw [dif_pos i.2]
+      rw [dite_eq_left i.2]
     have h2 : (extend u' i.1 : Y) = (u' i : Y) := by
       simp only [extend]
-      rw [dif_pos i.2]
+      rw [dite_eq_left i.2]
     apply Subtype.ext
     rw [← h1, ← h2]
     exact congrArg Subtype.val (congrFun hext i.1)

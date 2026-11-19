@@ -257,10 +257,10 @@ theorem exists_torus_data (K : Type) [Field K] [Finite K] (hK : Nat.card K = 2 ^
         (∀ a ∈ E, σ a = a) → ∀ g ∈ T, σ g = g := by
   classical
   have hchar : CharP K 2 := finite_field_prime_power_characteristic Nat.prime_two (by norm_num) hK
-  haveI : CharP K 2 := hchar
-  haveI : CharP K ReeTag.F4.prime := hchar
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP K 2 := hchar
+  have : CharP K ReeTag.F4.prime := hchar
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   obtain ⟨Fr, hFr, g0, hg0C, hg0⟩ := exists_lang_data Tag.F4 K f4Neg
   have hFr2 : Fr = iterateFrobenius (AlgebraicClosure K) 2 3 :=
@@ -269,7 +269,7 @@ theorem exists_torus_data (K : Type) [Field K] [Finite K] (hK : Nat.card K = 2 ^
   set L := AlgebraicClosure K with hL
   set n := canonicalRep (coxeterSystem Tag.F4) L f4Neg with hn
   set W := twModel n (iterateFrobenius L 2 3) with hW
-  haveI : Finite W := finite_twModelF4 K L hFr hg0C hg0
+  have : Finite W := finite_twModelF4 K L hFr hg0C hg0
   let e : adjointGroup Tag.F4 K ≃* W := twModelEquivF4 K L hFr hg0C hg0
   have htorL : ∀ a : Fin Tag.F4.rank → Lˣ, rootDiagUnit Tag.F4 a ∈ torusGroup Tag.F4 L :=
     rootDiagUnit_mem_torusGroup_of_unimodular exists_mul_cartan_F4.choose_spec
@@ -440,7 +440,7 @@ theorem noOuterFixesCentralizer_eight (K : Type) [Field K] [Finite K] (hK : Nat.
   by_contra hcon
   push Not at hcon
   have hchar : CharP K 2 := finite_field_prime_power_characteristic Nat.prime_two (by norm_num) hK
-  haveI : CharP K ReeTag.F4.prime := hchar
+  have : CharP K ReeTag.F4.prime := hchar
   obtain ⟨E, T, hEel, hEcard, hsE, hTcard, -, hT⟩ := exists_torus_data K hK s hs3
   have hEfix : ∀ a ∈ E, σ a = a := fun a ha => hcon a (by
     have := hEel.1.is_comm.comm (⟨s, hsE⟩ : E) ⟨a, ha⟩

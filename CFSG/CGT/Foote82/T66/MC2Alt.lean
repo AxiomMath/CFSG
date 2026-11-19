@@ -51,21 +51,26 @@ variable {G : Subgroup (GLV V)} {m : ℕ} (ψ : ↥G ≃* alternatingGroup (Fin 
 
 abbrev iota : ↥G →* Equiv.Perm (Fin m) := (alternatingGroup (Fin m)).subtype.comp ψ.toMonoidHom
 
+omit [Finite V] in
 theorem iota_injective : Function.Injective (iota ψ) :=
   (alternatingGroup (Fin m)).subtype_injective.comp ψ.injective
 
+omit [Finite V] in
 theorem iota_mem (g : ↥G) : iota ψ g ∈ alternatingGroup (Fin m) := (ψ g).2
 
+omit [Finite V] in
 theorem iota_symm {σ : Equiv.Perm (Fin m)} (hσ : σ ∈ alternatingGroup (Fin m)) :
     iota ψ (ψ.symm ⟨σ, hσ⟩) = σ := by
   simp
 
 abbrev img (H : Subgroup (GLV V)) : Subgroup (Equiv.Perm (Fin m)) := (H.subgroupOf G).map (iota ψ)
 
+omit [Finite V] in
 theorem mem_img {H : Subgroup (GLV V)} {σ : Equiv.Perm (Fin m)} :
     σ ∈ img ψ H ↔ ∃ g : ↥G, (g : GLV V) ∈ H ∧ iota ψ g = σ := by
   simp only [Subgroup.mem_map, Subgroup.mem_subgroupOf]
 
+omit [Finite V] in
 theorem img_inf_centralizer (t : ↥G) :
     img ψ (G ⊓ Subgroup.centralizer ({(t : GLV V)} : Set (GLV V))) =
       alternatingGroup (Fin m) ⊓ Subgroup.centralizer ({iota ψ t} : Set (Equiv.Perm (Fin m))) := by
@@ -85,6 +90,7 @@ theorem img_inf_centralizer (t : ↥G) :
       exact Subgroup.mem_centralizer_singleton_iff.1 hc
     exact congrArg Subtype.val (iota_injective ψ hc')
 
+omit [Finite V] in
 theorem isComponentOf_img {L K : Subgroup (GLV V)} (hL : L ≤ G) (hK : K ≤ G)
     (h : IsComponentOf L K) : IsComponentOf (img ψ L) (img ψ K) := by
   rw [← CFSG.Assembly.isComponentOf_iff_open] at h ⊢
@@ -96,6 +102,7 @@ theorem isComponentOf_img {L K : Subgroup (GLV V)} (hL : L ≤ G) (hK : K ≤ G)
 
 end Transport
 
+omit [Finite V] in
 theorem tight_false {G L : Subgroup (GLV V)} {s : GLV V} (h : StdForm G L s) (hLG : L ≤ G)
     {m : ℕ} (ψ : ↥G ≃* alternatingGroup (Fin m)) {F : Set (Fin m)} (himg : img ψ L = altOn F)
     {g' u' : Equiv.Perm (Fin m)} (hg' : g' ∈ alternatingGroup (Fin m))
@@ -172,7 +179,7 @@ theorem altSetup {G L : Subgroup (GLV V)} {s : GLV V} (h : StdForm G L s)
   set F : Set (Fin m) := {i | ∀ r ∈ Subgroup.zpowers σt, r i = i} with hF
   have hFc : Fᶜ = (σt.support : Set (Fin m)) := by
     ext i
-    simp only [hF, Set.mem_compl_iff, Set.mem_setOf_eq, Finset.mem_coe, Equiv.Perm.mem_support]
+    simp only [hF, Set.mem_compl_iff, Set.mem_ofPred_eq, Finset.mem_coe, Equiv.Perm.mem_support]
     constructor
     · intro hi hσi
       apply hi
@@ -204,13 +211,16 @@ variable {G L : Subgroup (GLV V)} {m : ℕ} {ψ : ↥G ≃* alternatingGroup (Fi
 abbrev jL (hd : AltData G L ψ F) : ↥L →* Equiv.Perm (Fin m) :=
   (iota ψ).comp (Subgroup.inclusion hd.le)
 
+omit [Finite V] in
 theorem jL_injective (hd : AltData G L ψ F) : Function.Injective hd.jL :=
   (iota_injective ψ).comp (Subgroup.inclusion_injective hd.le)
 
+omit [Finite V] in
 theorem jL_mem (hd : AltData G L ψ F) (ℓ : ↥L) : hd.jL ℓ ∈ altOn F := by
   rw [← hd.img_eq]
   exact (mem_img ψ).2 ⟨Subgroup.inclusion hd.le ℓ, ℓ.2, rfl⟩
 
+omit [Finite V] in
 theorem exists_jL_eq (hd : AltData G L ψ F) {σ : Equiv.Perm (Fin m)} (hσ : σ ∈ altOn F) :
     ∃ ℓ : ↥L, hd.jL ℓ = σ := by
   rw [← hd.img_eq] at hσ
@@ -226,17 +236,21 @@ theorem exists_jL_eq (hd : AltData G L ψ F) {σ : Equiv.Perm (Fin m)} (hσ : σ
       obtain ⟨ℓ, hℓ⟩ := hd.exists_jL_eq σ.2
       exact ⟨ℓ, Subtype.ext hℓ⟩⟩
 
+omit [Finite V] in
 theorem coe_mulEquiv (hd : AltData G L ψ F) (ℓ : ↥L) :
     ((hd.mulEquiv ℓ : ↥(altOn F)) : Equiv.Perm (Fin m)) = hd.jL ℓ :=
   rfl
 
+omit [Finite V] in
 theorem card_L (hd : AltData G L ψ F) : Nat.card ↥L = F.ncard.factorial / 2 := by
   rw [Nat.card_congr hd.mulEquiv.toEquiv, card_altOn (by have := hd.five_le; omega)]
 
+omit [Finite V] in
 theorem isSimpleGroup (hd : AltData G L ψ F) : IsSimpleGroup ↥L := by
   have := isSimpleGroup_altOn hd.five_le
   exact hd.mulEquiv.isSimpleGroup
 
+omit [Finite V] in
 theorem card_eq_of_surjective (hd : AltData G L ψ F) {T : Type*} [Group T] [Nontrivial T]
     (α : ↥L →* T) (hα : Function.Surjective α) : F.ncard.factorial / 2 = Nat.card T := by
   have := hd.isSimpleGroup
@@ -245,6 +259,7 @@ theorem card_eq_of_surjective (hd : AltData G L ψ F) {T : Type*} [Group T] [Non
 
 end AltData
 
+omit [Finite V] in
 theorem isAltNaturalModule_of_omegaPlus_three {L : Subgroup (GLV V)}
     (h : IsOmegaPlusModule L 3) : IsAltNaturalModule L 8 := by
   obtain ⟨φ, ψ, hψ⟩ := CFSG.RankThree.PartTwo.Sec19.SimsItem316Small.omegaPlusTwo_three_model
@@ -261,6 +276,7 @@ theorem isAltNaturalModule_of_omegaPlus_three {L : Subgroup (GLV V)}
     rw [this]
     exact hψ (α ℓ) (β w) x hx
 
+omit [Finite V] in
 theorem case_omegaMinus {G L : Subgroup (GLV V)} {m : ℕ} {ψ : ↥G ≃* alternatingGroup (Fin m)}
     {F : Set (Fin m)} (hd : AltData G L ψ F) {k : ℕ} (hk : k = 2 ∨ k = 3)
     (hO : IsOmegaMinusModule L k) : False := by

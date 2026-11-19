@@ -15,6 +15,7 @@ section UBound
 variable {ι K : Type} [Fintype ι] [DecidableEq ι] [Field K] [Finite K] [CharP K 2]
   {Q : QuadraticForm K (ι → K)} {X : Subgroup (GL ι K)}
 
+omit [Fintype ι] [DecidableEq ι] [Finite K] in
 theorem polar_eichlerG_ne_zero {u w v : ι → K} (hu : Q u = 0) (hw : polar Q u w = 0)
     (hQw : Q w ≠ 0) (hv : polar Q v u ≠ 0) : polar Q v ((eichlerG Q u w).app v) ≠ 0 := by
   show polar Q v (eichler Q u w v) ≠ 0

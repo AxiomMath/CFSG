@@ -191,7 +191,7 @@ elab "#lqt_prog_part " pre:ident dat:ident p:num d:num sA:ident sB:ident i:num K
         else reflBoolTrue
       addThm (pre ++ Name.mkSimple s!"m{k}") ty pf
 
-elab "#lqt_sr_cubx " pre:ident dat:ident dr:ident p:num d:num sA:ident sB:ident : command => do
+elab "#lqt_sr_cubx " pre:ident dat:ident dr:ident p:num d:num _sA:ident _sB:ident : command => do
   let pre := pre.getId
   let D ← liftCoreM <| unsafe evalCub dat.getId
   withSync do
@@ -219,7 +219,7 @@ elab "#lqt_sr_cubx " pre:ident dat:ident dr:ident p:num d:num sA:ident sB:ident 
       #[mkApp2 (mkConst ``Nat.pow) (lit D.r) (lit 3), mkConst (pre ++ `U),
         mkConst (pre ++ `sigma), lit 0, lit 0])
 
-elab "#lqt_sr_secx " pre:ident dat:ident dr:ident p:num d:num sA:ident sB:ident : command => do
+elab "#lqt_sr_secx " pre:ident dat:ident dr:ident p:num d:num _sA:ident _sB:ident : command => do
   let pre := pre.getId
   let D ← liftCoreM <| unsafe evalSecD dat.getId
   withSync do

@@ -36,8 +36,8 @@ theorem ntp_untw_retoralize_exact
   have hyΦ : S.D.Φ y = y := (LangDatum.mem_fix S.D).1 hyfix |>.2
   obtain ⟨hch, _⟩ :=
     S.exists_charP_isAlgebraic_zmod hal Nat.prime_two (by omega) hq
-  haveI := hch
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hch
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hFr_eq : Fr = iterateFrobenius L 2 f := by
     ext cc
     rw [iterateFrobenius_def, hFr]
@@ -56,7 +56,7 @@ theorem ntp_untw_retoralize_exact
         = c * (x : ModGL Tag.E6 L) * c⁻¹ := by group
       _ = rootDiagUnit Tag.E6 a := hca
   have hNpos : 0 < Nat.card S.D.model := by
-    haveI : Finite S.D.model := S.finite
+    have : Finite S.D.model := S.finite
     exact Finite.card_pos_iff.mpr ⟨1⟩
   have hxN : (x : ModGL Tag.E6 L) ^ Nat.card S.D.model = 1 :=
     (orderOf_dvd_iff_pow_eq_one).1 (Subgroup.orderOf_dvd_natCard S.D.model x.2)
@@ -193,7 +193,7 @@ theorem ntp_untw_retoralize_exact
       group
     rw [hcomp]
   have hFinite : Finite D'.model := by
-    haveI : Finite S.D.model := S.finite
+    have : Finite S.D.model := S.finite
     rw [hD'model]
     exact Finite.of_surjective
       ((MulAut.conj (D'.g0⁻¹ * S.D.g0)).toMonoidHom.subgroupMap S.D.model)

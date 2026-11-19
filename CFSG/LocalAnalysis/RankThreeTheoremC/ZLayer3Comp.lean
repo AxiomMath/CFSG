@@ -135,7 +135,7 @@ theorem exists_inf_ne_of_center_ne_bot (h : ZLayerData3 X P z) {K : Subgroup X}
     not_isCyclic_sylow_of_isPerfect hperf T hzcen (fun h1 => h.ne_one' (congrArg Subtype.val h1))
       (Subtype.ext hz3)
   have h2 : 2 ≤ CFSG.Open.pRank 3 (T : Subgroup K) :=
-    two_le_pRank_of_not_isCyclic Nat.prime_three (by norm_num) T.isPGroup' hnc
+    two_le_pRank_of_not_isCyclic Nat.prime_three (by norm_num) T.isPGroup hnc
   obtain ⟨E, hET, hE, hEcard⟩ := pRank_attained 3 (T : Subgroup K) (by omega)
   have hbig : 3 < Nat.card E := by
     rw [hEcard]

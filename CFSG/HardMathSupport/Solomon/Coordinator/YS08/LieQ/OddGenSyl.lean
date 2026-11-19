@@ -99,7 +99,7 @@ theorem sylowRigid_psl2 {F : Type} [Field F] [Finite F] {n : ℕ} (hF : Nat.card
     SylowRigid q (PSL2 F) := by
   intro W α hfix hcop
   obtain ⟨w, hw, rfl⟩ := CFSG.GH74.GLS.Stage2.Signalizer.L46E.l46e_aut_fix_sylow hF W α hfix
-  obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 W.isPGroup') ⟨w, hw⟩
+  obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 W.isPGroup) ⟨w, hw⟩
   have hk' : orderOf w = q ^ k := by
     rw [← Subgroup.orderOf_coe (⟨w, hw⟩ : (W : Subgroup (PSL2 F)))] at hk
     exact hk

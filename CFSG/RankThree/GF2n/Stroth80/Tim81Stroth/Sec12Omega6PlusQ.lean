@@ -16,7 +16,7 @@ theorem sec12Omega6PlusQStatement_of_zcard
     (hZcard : Sec7ZCardStatement) : Sec12Omega6PlusQStatement := by
   intro G _ _ M Q Z B _ _ hc n h12 t ht htQ hp hsub
   obtain ⟨⟨hN', H₂⟩, hN'', hall⟩ := hsub
-  haveI := hN'
+  have := hN'
   have h5 : Sec5Hyp hc n t := h12.toSec5 ht htQ
   have hlarge := h12.large t ht htQ
   have hnot : ¬ OmegaPlusNat hc t 2 := not_omegaPlusNat_two_of (m := 3) le_rfl (Or.inl hp)
@@ -47,7 +47,7 @@ theorem sec12Omega6PlusQStatement_of_zcard
   obtain ⟨hnR, hRq⟩ : QuotSat (bar (H0 M Z) Q (Rt M (LB M Q B) t))
       (bar (H0 M Z) Q (hc.CN t)) (IsOmegaPlus 3 (Nat.card Z)) :=
     quotSat_bar_of (fun X Y _ _ e h => IsOmegaPlus.congr e h) hQN hCNR hRH0 hp.quotSat
-  haveI := hnR
+  have := hnR
   obtain ⟨r0, -, hr0, -⟩ := hc.hyp.cp
   have hqa : ∃ a : ℕ, 2 ≤ a ∧ Nat.card Z = 2 ^ a := by
     refine ⟨r0, ?_, hr0⟩
@@ -56,7 +56,7 @@ theorem sec12Omega6PlusQStatement_of_zcard
     rw [hr0] at h4
     interval_cases r0 <;> simp at h4
   obtain ⟨hRs, hRn, -⟩ := isOmegaPlus_three_facts hqa hRq
-  haveI := hRs
+  have := hRs
   have hnc : ¬ IsMulCommutative (↥(bar (H0 M Z) Q (Rt M (LB M Q B) t)) ⧸
       (bar (H0 M Z) Q (hc.CN t)).subgroupOf (bar (H0 M Z) Q (Rt M (LB M Q B) t))) := fun h => by
     obtain ⟨x, y, hxy⟩ := hRn

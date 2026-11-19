@@ -79,6 +79,7 @@ variable {G : Type} [Group G] [Finite G] {ψ : G →* PGSp45} (h : PGSp45Emb ψ)
 
 include h
 
+omit [Finite G] in
 theorem exists_conj_tau1 {u : G} (hu : orderOf u = 2)
     (hno15 : ∀ c ∈ centralizer ({u} : Set G), c ^ 15 = 1 → c ^ 3 = 1 ∨ c ^ 5 = 1)
     (h13 : ¬ 13 ∣ Nat.card ↥(centralizer ({u} : Set G)))
@@ -174,7 +175,7 @@ theorem exists_conj_tau1 {u : G} (hu : orderOf u = 2)
       apply hne
       have := (hpow _ hso 1).1 (by rw [pow_one, ← hw, h1, map_one])
       simpa using this
-    haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
     have hord : orderOf w = 13 := orderOf_eq_prime hw13 hw1
     apply h13
     have : orderOf (⟨w, hwC⟩ : ↥(centralizer ({u} : Set G))) = 13 := by

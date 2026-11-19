@@ -48,7 +48,7 @@ theorem lieModel_commutator_of_L225 {G : Type} [Group G] [Finite G] {S : Subgrou
     (hSn : S.Normal) (hS : IsSimpleGroup ↥S) (hnab : ∃ a b : ↥S, a * b ≠ b * a)
     (hcent : centralizer (S : Set G) = ⊥) (hL : LieModel ↥S .PSL 2 5 2) :
     LieModel ↥(commutator G) .PSL 2 5 2 := by
-  haveI := hSn
+  have := hSn
   have hperf := perfect_of_simple_nonab hS hnab
   have heq : commutator G = S :=
     le_antisymm (commutator_le_of_card_outer_dvd_four hcent (card_outer_L225 hL))
@@ -59,7 +59,7 @@ theorem lieModel_commutator_of_L35 {G : Type} [Group G] [Finite G] {S : Subgroup
     (hSn : S.Normal) (hS : IsSimpleGroup ↥S) (hnab : ∃ a b : ↥S, a * b ≠ b * a)
     (hcent : centralizer (S : Set G) = ⊥) (hL : LieModel ↥S .PSL 3 5 1) :
     LieModel ↥(commutator G) .PSL 3 5 1 := by
-  haveI := hSn
+  have := hSn
   have hperf := perfect_of_simple_nonab hS hnab
   have heq : commutator G = S :=
     le_antisymm (commutator_le_of_card_outer_dvd_four hcent (card_outer_L35 hL))
@@ -70,7 +70,7 @@ theorem lieModel_commutator_commutator_of_U35 {G : Type} [Group G] [Finite G] {S
     (hSn : S.Normal) (hS : IsSimpleGroup ↥S) (hnab : ∃ a b : ↥S, a * b ≠ b * a)
     (hcent : centralizer (S : Set G) = ⊥) (hL : LieModel ↥S .PSU 3 5 1) :
     LieModel ↥(commutator ↥(commutator G)) .PSU 3 5 1 := by
-  haveI := hSn
+  have := hSn
   have hperf := perfect_of_simple_nonab hS hnab
   have heq : ⁅commutator G, commutator G⁆ = S :=
     le_antisymm (commutator_commutator_le_of_card_outer_dvd_twelve hcent (card_outer_U35 hL))
@@ -82,7 +82,7 @@ theorem lieModel_commutator_commutator_of_L34 {G : Type} [Group G] [Finite G] {S
     (hSn : S.Normal) (hS : IsSimpleGroup ↥S) (hnab : ∃ a b : ↥S, a * b ≠ b * a)
     (hcent : centralizer (S : Set G) = ⊥) (hL : LieModel ↥S .PSL 3 2 2) :
     LieModel ↥(commutator ↥(commutator G)) .PSL 3 2 2 := by
-  haveI := hSn
+  have := hSn
   have hperf := perfect_of_simple_nonab hS hnab
   have heq : ⁅commutator G, commutator G⁆ = S :=
     le_antisymm (commutator_commutator_le_of_card_outer_dvd_twelve hcent (card_outer_L34 hL))

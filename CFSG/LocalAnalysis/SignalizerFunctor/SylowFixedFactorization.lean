@@ -162,7 +162,7 @@ theorem coprime_sylow_order_fixed_factorization
         exact Subtype.ext (right_member.2 actorElement)
     have parent_coprime := coprime.of_dvd_right parent.card_subgroup_dvd_card
     have parent_factorization := prime_power_order_fixed_factorization prime rank groupPrime prime_prime groupPrime_prime_prime
-      exponent large parent_coprime sylow.isPGroup' (first.subgroupOf parent) (second.subgroupOf parent)
+      exponent large parent_coprime sylow.isPGroup (first.subgroupOf parent) (second.subgroupOf parent)
       left_invariant right_invariant left_normalized local_parent
     apply (subgroup_product_eq_subgroup_iff parent _ _ inf_le_left inf_le_left).mpr
     intro element member

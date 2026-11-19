@@ -49,7 +49,7 @@ theorem lift5_mem {ξ : Kˣ} (hξ : orderOf ξ = 25) : lift5 ξ ∈ torusVec25 K
       Finset.univ_eq_empty, Finset.prod_empty, Matrix.cons_val_fin_one]
     group
   · rcases hval i with hi | hi <;> rcases hval j with hj | hj <;> rw [hi, hj] <;>
-      first | rfl | exact h5 | exact h5.symm
+      first | exact h5 | exact h5.symm
 
 theorem lift5_not_mem {ξ : Kˣ} (hξ : orderOf ξ = 25) : lift5 ξ ∉ torusVec 5 5 K := by
   intro h

@@ -135,7 +135,7 @@ theorem not_comm_of_inv
     exact hT (Subgroup.mem_zpowers _)
   have hJT : (⟨s.J, hJN⟩ : N) ∈ (T' : Subgroup N) := hT' (Subgroup.mem_zpowers _)
   set T'' := (T' : Subgroup N).map N.subtype with hT''
-  have hT''2 : IsPGroup 2 T'' := T'.isPGroup'.map _
+  have hT''2 : IsPGroup 2 T'' := T'.isPGroup.map _
   set u' : G := n * u * (n : G)⁻¹ with hu'
   have hu'T : u' ∈ T'' := ⟨_, hun, by simp [hu']⟩
   have hJT'' : s.J ∈ T'' := ⟨_, hJT, rfl⟩

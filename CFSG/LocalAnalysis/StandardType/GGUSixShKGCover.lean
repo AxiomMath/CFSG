@@ -38,7 +38,7 @@ theorem ggUSixSh_perLineSh_of_cover {K : Type} [Field K] [Finite K] {n : ℕ}
     simp only at this
     omega
   have hp3 : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp3⟩
+  have : Fact (Nat.Prime 3) := ⟨hp3⟩
   have hAb : CFSG.Open.IsElemAbelian 3 (TypeA.inducedSub ψ A) :=
     TypeA.isElemAbelian_inducedSub hψ hA
   have hAbI : ∀ x ∈ TypeA.inducedSub ψ A, x ∈ LargeEvenMatConjImage
@@ -68,7 +68,7 @@ theorem ggUSixSh_perLineSh_of_cover {K : Type} [Field K] [Finite K] {n : ℕ}
       push Not at hge
       exact hfr (TableBUD.exists_unitary_frame h hK (by norm_num) hdq hp3 hpq hAb hAbI
         (by rw [hcardAb]; simpa using hge))
-    haveI : Finite (MulAut L') := Finite.of_injective (fun φ : MulAut L' => (φ : L' → L'))
+    have : Finite (MulAut L') := Finite.of_injective (fun φ : MulAut L' => (φ : L' → L'))
       DFunLike.coe_injective
     have hA3 : IsPGroup 3 A := fun g => ⟨1, Subtype.ext (by simpa using hA.2 g.1 g.2)⟩
     obtain ⟨k, hk⟩ := (IsPGroup.iff_card).mp hA3
@@ -174,7 +174,7 @@ theorem ggUSixSh_perLineSh_descent {L' R : Type} [Group L'] [Finite L'] [Group R
   have hZc : Z ≤ Subgroup.center L' := fun z hz => hker hz.1
   have hcen : ∀ y ∈ Z, ∀ g : L', g * y = y * g := fun y hy g =>
     Subgroup.mem_center_iff.mp (hZc hy) g
-  haveI hZn : Z.Normal := ⟨fun y hy g => by rw [hcen y hy g, mul_inv_cancel_right]; exact hy⟩
+  have hZn : Z.Normal := ⟨fun y hy g => by rw [hcen y hy g, mul_inv_cancel_right]; exact hy⟩
   have hZ2 : IsPGroup 2 Z := fun g => ⟨Nat.card L', Subtype.ext (by simpa using g.2.2)⟩
   have hAp : ∀ a ∈ A, a ^ 3 = 1 := hA.2
   have hAc : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a := fun a ha b hb =>
@@ -217,7 +217,7 @@ theorem ggUSixSh_perLineSh_descent {L' R : Type} [Group L'] [Finite L'] [Group R
       have := hρ a l
       rw [ha, MulAut.one_apply] at this
       exact QuotientGroup.eq.mp this
-    letI : CommGroup Z :=
+    let : CommGroup Z :=
       { (inferInstance : Group Z) with mul_comm := fun x y => Subtype.ext (hcen y y.2 x) }
     let f : L' →* Z :=
       { toFun := fun l => ⟨l⁻¹ * a.1 l, hfixl l⟩
@@ -268,7 +268,7 @@ theorem ggUSixSh_perLineSh_descent {L' R : Type} [Group L'] [Finite L'] [Group R
   have hodd : Odd (Nat.card ψ₁.ker) := by
     by_contra hne
     rw [Nat.not_odd_iff_even] at hne
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 2 (even_iff_two_dvd.mp hne)
     obtain ⟨l, hl⟩ := QuotientGroup.mk_surjective x.1
     have hx2 : x.1 ^ 2 = 1 := by

@@ -55,7 +55,7 @@ private theorem CFSG.coprime_card_quotient_pCore
   have hP_le_pcore : (P : Subgroup (G ⧸ pCore p G)) ≤ pCore p (G ⧸ pCore p G) := by
     exact le_sSup
       ⟨Subgroup.normal_of_isMulCommutative (H := (P : Subgroup (G ⧸ pCore p G))),
-        P.isPGroup'⟩
+        P.isPGroup⟩
   have hP_bot : (P : Subgroup (G ⧸ pCore p G)) = ⊥ := by
     exact le_bot_iff.mp (by simpa [hpcore_bot] using hP_le_pcore)
   exact hP_ne_bot hP_bot
@@ -403,7 +403,7 @@ public theorem CFSG.primeRank_fitting_le_groupRank_pCore
       have hSmap_normal : (S.map (fittingSubgroup G).subtype).Normal := by
         infer_instance
       have hSmap_p : IsPGroup q (S.map (fittingSubgroup G).subtype) := by
-        exact IsPGroup.map (p := q) (H := (S : Subgroup (fittingSubgroup G))) S.isPGroup'
+        exact IsPGroup.map (p := q) (H := (S : Subgroup (fittingSubgroup G))) S.isPGroup
           (fittingSubgroup G).subtype
       exact le_sSup ⟨hSmap_normal, hSmap_p⟩
     have hAmap_rank : generatorRank Amap ≤ groupRank (pCore q G) := by
@@ -422,7 +422,7 @@ public theorem CFSG.sylow_map_le_pCore_local
   have hP_char : P.Characteristic :=
     Sylow.characteristic_of_normal P hP_normal_sub
   let _ : (P.map N.subtype).Normal := by infer_instance
-  have hP_p : IsPGroup p (P.map N.subtype) := P.isPGroup'.map N.subtype
+  have hP_p : IsPGroup p (P.map N.subtype) := P.isPGroup.map N.subtype
   exact le_sSup ⟨inferInstance, hP_p⟩
 
 public theorem CFSG.elementaryAbelian_le_pCore_of_le_fitting

@@ -111,7 +111,7 @@ theorem kf_sp6GL6Cen_of
     conv_lhs => rw [hXeq, hgen, MonoidHom.map_closure]
     congr 1
     ext h
-    simp only [Set.mem_image, Set.mem_setOf_eq, cj_apply, inv_inv]
+    simp only [Set.mem_image, Set.mem_ofPred_eq, cj_apply, inv_inv]
     constructor
     · rintro ⟨s, ⟨hs, hs1⟩, rfl⟩
       exact ⟨hmemX s hs, by rw [hrank]; exact hs1⟩

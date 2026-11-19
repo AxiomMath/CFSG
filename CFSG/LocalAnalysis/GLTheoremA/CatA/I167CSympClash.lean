@@ -18,13 +18,13 @@ private theorem i167CS_clash_aux1 {p k : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (h1
   exact hp2 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).mp h3)
 
 private theorem i167CS_clash_aux2 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {lab : GLALabel}
-    {N k : ℕ} (hk : 1 ≤ k) (hpk : p ∣ 2 ^ k + 1)
+    {N k : ℕ} (_hk : 1 ≤ k) (hpk : p ∣ 2 ^ k + 1)
     (hc : canonLabel lab = if N = 3 then ⟨.A, 3, k⟩ else ⟨.D, N, k⟩)
     (hM : (∃ a k' : ℕ, 2 ≤ a ∧ (a = 2 ∨ p ∣ 2 ^ k' - 1) ∧ canonLabel lab = ⟨.A, a - 1, k'⟩) ∨
       (∃ a k' : ℕ, canonLabel lab = ⟨.twA, a - 1, k'⟩ ∨ canonLabel lab = ⟨.A, 1, k'⟩) ∨
       (∃ s n : ℕ, canonLabel lab = ⟨.B, s, n⟩)) : False := by
   by_cases h3 : N = 3
-  · rw [if_pos h3] at hc
+  · rw [ite_eq_left h3] at hc
     rcases hM with ⟨a, k', ha, hd, h⟩ | ⟨a, k', h | h⟩ | ⟨s, n, h⟩
     · rw [hc] at h
       simp at h
@@ -38,7 +38,7 @@ private theorem i167CS_clash_aux2 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {lab 
       simp at h
     · rw [hc] at h
       simp at h
-  · rw [if_neg h3] at hc
+  · rw [ite_eq_right h3] at hc
     rcases hM with ⟨a, k', ha, hd, h⟩ | ⟨a, k', h | h⟩ | ⟨s, n, h⟩ <;>
     · rw [hc] at h
       simp at h

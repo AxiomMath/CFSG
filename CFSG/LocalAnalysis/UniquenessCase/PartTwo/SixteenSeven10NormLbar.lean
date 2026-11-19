@@ -26,7 +26,7 @@ theorem s16c1610_mbar_le_normalizer_lbar (D : Data G) {V₀ V L : Subgroup G}
       intro x
       refine ⟨1, ?_⟩
       simpa [pow_two] using hWsq x
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hp
     have h6 : rk ↥(⊤ : Subgroup (Vtil V₀ V hV)) = 6 := h3.2.1
     unfold rk at h6
@@ -55,7 +55,7 @@ theorem s16c1610_mbar_le_normalizer_lbar (D : Data G) {V₀ V L : Subgroup G}
     simpa [lBar, conjSubgroup_one] using h
   let Lb : Subgroup (MulAut (Vtil V₀ V hV)) := lBar V₀ V hV L
   let Lb₁ : Subgroup (MulAut (Vtil V₀ V hV)) := barSub V₀ V hV (conjSubgroup L (m : G))
-  haveI hEx : CFSG.IsExtraspecial 3 ↥Lb := h3.1.1
+  have hEx : CFSG.IsExtraspecial 3 ↥Lb := h3.1.1
   have hLbcard : Nat.card ↥Lb = 27 := by
     dsimp only [Lb]
     rw [h3.1.2.1]
@@ -148,7 +148,7 @@ theorem s16c1610_mbar_le_normalizer_lbar (D : Data G) {V₀ V L : Subgroup G}
     have hkr : k * r = 3 ^ 6 := hcard
     have hk1 : 1 ≤ k := by
       rw [hk]
-      haveI : Nonempty ↥f.ker := ⟨1⟩
+      have : Nonempty ↥f.ker := ⟨1⟩
       exact Nat.card_pos
     have hk3 : k ≤ 3 := by
       rw [hk]

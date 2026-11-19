@@ -104,7 +104,7 @@ theorem ggShadow_alt_two_components {W : Type} [Group W] [Finite W] {p : ℕ}
       Nat.card (↥C₂ ⧸ Subgroup.center ↥C₂) = 60 := by
   obtain ⟨⟨hp', hp2, hE, hEcard, hfus⟩, ⟨hsimple, hnab, -⟩, -, -⟩ := hyp
   obtain ⟨e⟩ := he
-  haveI : Fact p.Prime := ⟨hp'⟩
+  have : Fact p.Prime := ⟨hp'⟩
   have hout : ¬ p ∣ Nat.card (Outer ↥(CFSG.generalizedFitting W)) := by
     rw [ggCard_outer_congr e]
     exact ggNot_dvd_outer_alternating hp' hp2 (by omega)
@@ -178,7 +178,7 @@ theorem ggShadow_alt_two_components {W : Type} [Group W] [Finite W] {p : ℕ}
     obtain ⟨C', hC', m, hm7, hm8, ⟨eC⟩⟩ := hthird
     obtain ⟨L, hLc, ⟨eL⟩⟩ := ggExists_isComponentOf_of_altImage e hC'
     have eLm : ↥L ≃* ↥(alternatingGroup (Fin m)) := eL.trans eC
-    haveI : IsSimpleGroup ↥(alternatingGroup (Fin m)) :=
+    have : IsSimpleGroup ↥(alternatingGroup (Fin m)) :=
       alternatingGroup.isSimpleGroup (α := Fin m) (by simp only [Nat.card_fin]; omega)
     have hnc : ¬ IsMulCommutative ↥(alternatingGroup (Fin m)) := by
       rw [alternatingGroup.isMulCommutative_iff_card_le_three]
@@ -192,7 +192,7 @@ theorem ggShadow_alt_two_components {W : Type} [Group W] [Finite W] {p : ℕ}
     have hnabL : ∃ a b : ↥L, a * b ≠ b * a := by
       obtain ⟨a, b, hab⟩ := hnabAm
       exact ⟨eLm.symm a, eLm.symm b, fun h => hab (by simpa using congrArg eLm h)⟩
-    haveI : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.mpr (by omega)
+    have : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.mpr (by omega)
     have hZ : Subgroup.center ↥L = ⊥ := ggCenter_eq_bot_of_simple hnabL
     have hcardL : Nat.card (↥L ⧸ Subgroup.center ↥L) = Nat.card ↥L :=
       Nat.card_congr ((QuotientGroup.quotientMulEquivOfEq hZ).trans

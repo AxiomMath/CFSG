@@ -14,7 +14,7 @@ open Subgroup (normalizerQuotient)
 open scoped commutatorElement
 
 theorem isMulCommutative_normalizerQuotient_projUnitriangular {n : ℕ} {K : Type} [Field K]
-    [Finite K] [CharP K 2] (hn : 1 ≤ n) :
+    [Finite K] [CharP K 2] (_hn : 1 ≤ n) :
     IsMulCommutative
       (normalizerQuotient
         (CFSG.LocalAnalysis.ComponentInitial.LinearFlag.projUnitriangular n K)) := by

@@ -30,7 +30,7 @@ theorem inf_cenOn_commOn_eq_bot (hfa : ∀ n ∈ N, (∀ x ∈ commOn ρ N ⊤, 
 
 theorem exists_eq_apply_of_mem_sup (hN : N.Normal) {g : G}
     (hg : g ∈ N ⊔ cenOn ρ ⊤ (commOn ρ N ⊤)) : ∃ n ∈ N, ∀ x ∈ commOn ρ N ⊤, ρ g x = ρ n x := by
-  haveI := hN
+  have := hN
   have h : g ∈ (N : Set G) * (cenOn ρ ⊤ (commOn ρ N ⊤) : Set G) := by
     rw [← Subgroup.normal_mul]
     exact hg
@@ -93,7 +93,7 @@ theorem split_or_pCore_eq_bot (hO : CFSG.pCore 2 G = ⊥) (hN : N.Normal) (ha2 :
   have hRK : R ⊓ K = ⊥ := by
     have hnorm : (R ⊓ K).Normal := ⟨fun x hx g => by
       have hg : g ∈ (N : Set G) * ((K ⊔ Subgroup.zpowers a : Subgroup G) : Set G) := by
-        haveI := hN
+        have := hN
         rw [← Subgroup.normal_mul, hsup]
         exact Subgroup.mem_top g
       obtain ⟨n, hn, k, hk, rfl⟩ := hg
@@ -160,7 +160,7 @@ theorem split_or_pCore_eq_bot (hO : CFSG.pCore 2 G = ⊥) (hN : N.Normal) (ha2 :
     exact fun m hm k hk => (Subgroup.mem_centralizer_iff.1 (hle hm) k hk).symm
   have hMn : (N ⊔ Subgroup.zpowers r).Normal := ⟨fun x hx g => by
     have hg : g ∈ ((N ⊔ Subgroup.zpowers r : Subgroup G) : Set G) * (K : Set G) := by
-      haveI := hK
+      have := hK
       rw [← Subgroup.mul_normal, hMKsup]
       exact Subgroup.mem_top g
     obtain ⟨m, hm, k, hk, rfl⟩ := hg

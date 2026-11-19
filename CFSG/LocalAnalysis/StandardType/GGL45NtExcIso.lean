@@ -10,10 +10,10 @@ namespace CFSG.HardMathSupport.C14Group
 theorem not_dvd_card_of_gen_two {L : Type*} [Group L] [Finite L] {p : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) (hgen : Subgroup.closure {x : L | ∃ k : ℕ, x ^ 2 ^ k = 1} = ⊤)
     (hcen : ∀ x : L, x ^ p = 1 → x ∈ Subgroup.center L) : ¬ p ∣ Nat.card L := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   obtain ⟨N, hNn, hNc, k, hk⟩ :=
     CFSG.Quasithin.Vol2.Ch11.SecS.KF.ito_normalPComplement (p := p) hp2 hcen
-  haveI := hNn
+  have := hNn
   have hle : Subgroup.closure {x : L | ∃ k : ℕ, x ^ 2 ^ k = 1} ≤ N := by
     rw [Subgroup.closure_le]
     rintro x ⟨m, hm⟩
@@ -153,7 +153,7 @@ theorem not_dvd_card_fixed_of_index {S : Type*} [Group S] {p : ℕ} (hp : p.Prim
     intro x hx
     rw [mem_fixG, hG]
     exact Function.iterate_fixed hx p
-  haveI : Finite (fixG G₀) := Finite.of_injective _ (Subgroup.inclusion_injective hle)
+  have : Finite (fixG G₀) := Finite.of_injective _ (Subgroup.inclusion_injective hle)
   set D := Subgroup.closure {x : fixG G₀ | ∃ k : ℕ, x ^ 2 ^ k = 1} with hD
   have hgenD : Subgroup.closure {x : D | ∃ k : ℕ, x ^ 2 ^ k = 1} = ⊤ := by
     rw [eq_top_iff]

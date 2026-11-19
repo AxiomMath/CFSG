@@ -98,7 +98,7 @@ structure Ctx17_6 (D : Data G) (V₀ V L : Subgroup G) (r q : ℕ) : Prop where
     ((∃ X : Subgroup G, F11.InP11 D X) → V₀ = ⊥ ∧ D.k = 2 ∧
       mBar D.M V₀ V hV.isElemAbelian = 4)
 
-@[expose] def R17_2_1At (D : Data G) (V₀ V : Subgroup G) : Prop :=
+@[expose] def R17_2_1At (D : Data G) (_V₀ _V : Subgroup G) : Prop :=
   ∀ (p : ℕ) (Dsub : Subgroup G),
     p.Prime → p ≠ 2 → Dsub ≤ D.M → IsPGroup p ↥Dsub → ¬ IsCyclic ↥Dsub →
     (∀ x ∈ Dsub, x ^ p = 1) → ⁅⁅Dsub, Dsub⁆, Dsub⁆ = ⊥ →
@@ -121,14 +121,14 @@ structure Ctx17_6 (D : Data G) (V₀ V L : Subgroup G) (r q : ℕ) : Prop where
     ¬ IrrOn (D.M ⊓ normalizer (Dsub : Set G)) Dsub ∧
       Nat.card ↥(barSub V₀ V hV.isElemAbelian Dsub) = p
 
-@[expose] def R17_2_4At (D : Data G) (V₀ V : Subgroup G) : Prop :=
+@[expose] def R17_2_4At (D : Data G) (_V₀ _V : Subgroup G) : Prop :=
   ∀ (p : ℕ) (Dsub : Subgroup G),
     p.Prime → p ≠ 2 → Dsub ≤ D.M → IsPGroup p ↥Dsub → ¬ IsCyclic ↥Dsub →
     (∀ x ∈ Dsub, x ^ p = 1) → ⁅⁅Dsub, Dsub⁆, Dsub⁆ = ⊥ →
     ((Dsub ⊔ CFSG.Open.pCoreOf 2 D.M).subgroupOf D.M).Normal →
     p ≤ 5
 
-@[expose] def R17_2_5At (D : Data G) (V₀ V : Subgroup G) : Prop :=
+@[expose] def R17_2_5At (D : Data G) (_V₀ _V : Subgroup G) : Prop :=
   ∀ (p : ℕ) (Dsub : Subgroup G),
     p.Prime → p ≠ 2 → Dsub ≤ D.M → IsPGroup p ↥Dsub → ¬ IsCyclic ↥Dsub →
     (∀ x ∈ Dsub, x ^ p = 1) → ⁅⁅Dsub, Dsub⁆, Dsub⁆ = ⊥ →
@@ -141,25 +141,25 @@ structure Ctx17_6 (D : Data G) (V₀ V L : Subgroup G) (r q : ℕ) : Prop where
   R17_2_1At D V₀ V ∧ R17_2_2At D V₀ V hV ∧ R17_2_3At D V₀ V hV ∧
     R17_2_4At D V₀ V ∧ R17_2_5At D V₀ V
 
-@[expose] def R17_3At (D : Data G) (V₀ V : Subgroup G) : Prop :=
+@[expose] def R17_3At (D : Data G) (_V₀ _V : Subgroup G) : Prop :=
   ∀ L ∈ calC D.M, Thin8 L → ∀ X : Subgroup G,
     (∃ q : ℕ, q.Prime ∧ q ≠ 2 ∧ Nat.card X = q ∧ X ≤ L) →
     normalizer (X : Set G) ≤ D.M
 
-@[expose] def R17_5At (D : Data G) (V₀ V : Subgroup G) : Prop :=
+@[expose] def R17_5At (D : Data G) (_V₀ _V : Subgroup G) : Prop :=
   ∀ L ∈ calC D.M, ∀ n : ℕ, 5 < n →
     ¬ Nonempty (BarO2Z17 L ≃* alternatingGroup (Fin n))
 
-@[expose] def R17_6_1At (D : Data G) (V₀ V : Subgroup G) : Prop :=
+@[expose] def R17_6_1At (D : Data G) (_V₀ _V : Subgroup G) : Prop :=
   ∀ L ∈ calC D.M, ∀ r : ℕ, r ≠ 2 → IsChev (BarInf L) r →
     IsL2Over17 (Bar2 L) r
 
-@[expose] def R17_6_2At (D : Data G) (V₀ V : Subgroup G) : Prop :=
+@[expose] def R17_6_2At (D : Data G) (_V₀ _V : Subgroup G) : Prop :=
   ∀ L ∈ calC D.M, ∀ r : ℕ, r ≠ 2 → IsChev (BarInf L) r → 5 < r →
     ∃ g : G, g ∉ D.M ∧
       3 ∈ piSet (L ⊓ D.M.map (MulAut.conj g).toMonoidHom)
 
-@[expose] def R17_6_3At (D : Data G) (V₀ V : Subgroup G) : Prop :=
+@[expose] def R17_6_3At (D : Data G) (_V₀ _V : Subgroup G) : Prop :=
   ∀ L ∈ calC D.M, ∀ r : ℕ, r ≠ 2 → IsChev (BarInf L) r → 5 < r →
     (∃! K : Subgroup G, K ∈ calC D.M ∧ Thin8 K ∧ CFSG.Open.pRank 3 K = 1) ∧
       ∀ K : Subgroup G, K ∈ calC D.M → ∀ n : ℕ, ¬ IsU3 (Bar2 K) (2 * n)
@@ -168,11 +168,11 @@ structure Ctx17_6 (D : Data G) (V₀ V L : Subgroup G) (r q : ℕ) : Prop where
   R17_6_1At D V₀ V ∧ R17_6_2At D V₀ V ∧ R17_6_3At D V₀ V
 
 @[expose] def R17_7_1At (D : Data G) (V₀ V L : Subgroup G) (r q : ℕ)
-    (hC : Ctx17_6 D V₀ V L r q) : Prop :=
+    (_hC : Ctx17_6 D V₀ V L r q) : Prop :=
   UniqueMax D.M L
 
 @[expose] def R17_7_2At (D : Data G) (V₀ V L : Subgroup G) (r q : ℕ)
-    (hC : Ctx17_6 D V₀ V L r q) : Prop :=
+    (_hC : Ctx17_6 D V₀ V L r q) : Prop :=
   IsL2Over17 (Bar2 L) 7 →
     ∀ g : G, g ∉ D.M →
       3 ∉ piSet (L ⊓ D.M.map (MulAut.conj g).toMonoidHom)
@@ -182,11 +182,11 @@ structure Ctx17_6 (D : Data G) (V₀ V L : Subgroup G) (r q : ℕ) : Prop where
   R17_7_1At D V₀ V L r q hC ∧ R17_7_2At D V₀ V L r q hC
 
 @[expose] def R17_8At (D : Data G) (V₀ V L : Subgroup G) (r q : ℕ)
-    (hC : Ctx17_6 D V₀ V L r q) : Prop :=
+    (_hC : Ctx17_6 D V₀ V L r q) : Prop :=
   ¬ IsL3Odd (Bar2 L) 3 ∧ ¬ LieModel (Bar2 L) .PSU 3 3 1
 
 @[expose] def R17_9At (D : Data G) (V₀ V L : Subgroup G) (r q : ℕ)
-    (hC : Ctx17_6 D V₀ V L r q) : Prop :=
+    (_hC : Ctx17_6 D V₀ V L r q) : Prop :=
   3 < q
 
 @[expose] def R17_10At (D : Data G) (V₀ V L : Subgroup G) (r q : ℕ)
@@ -204,7 +204,7 @@ structure Ctx17_6 (D : Data G) (V₀ V L : Subgroup G) (r q : ℕ) : Prop where
 
 @[expose] def R17_13At (D : Data G)
     (𝔉 : ∀ {X : Type} [Group X], Subgroup X → Subgroup X → Prop)
-    (V₀ V L : Subgroup G) (r q : ℕ) (hC : Ctx17_6 D V₀ V L r q) : Prop :=
+    (V₀ V L : Subgroup G) (r q : ℕ) (_hC : Ctx17_6 D V₀ V L r q) : Prop :=
   iL17_12 D 𝔉 r q L = 1 ∨ (q ≤ 9 ∧ iL17_12 D 𝔉 r q L = 2) ∨
     (q = 9 ∧ iL17_12 D 𝔉 r q L = 3)
 
@@ -226,7 +226,7 @@ structure Ctx17_6 (D : Data G) (V₀ V L : Subgroup G) (r q : ℕ) : Prop where
 
 @[expose] def R17_16At (D : Data G)
     (𝔉 : ∀ {X : Type} [Group X], Subgroup X → Subgroup X → Prop)
-    (V₀ V L : Subgroup G) (r q : ℕ) (hC : Ctx17_6 D V₀ V L r q) : Prop :=
+    (V₀ V L : Subgroup G) (r q : ℕ) (_hC : Ctx17_6 D V₀ V L r q) : Prop :=
   UniqueMax D.M (⨆ H ∈ Delta17_12 D 𝔉 r q L, H)
 
 end CFSG.LocalAnalysis.UniquenessCase.PartTwo.S17

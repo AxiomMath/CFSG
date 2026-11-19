@@ -75,7 +75,7 @@ theorem d11Hyp_of (T : Sylow 2 G) {M₀ M H V : Subgroup G} (hM₀ : InH (T : Su
     (hH : IsHStar (T : Subgroup G) M H) : D11Hyp M₀ H T V (H ⊓ M) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSyl : IsSylowTwoOf (T : Subgroup G) ⊤ := by
-    refine ⟨le_top, T.isPGroup', ?_⟩
+    refine ⟨le_top, T.isPGroup, ?_⟩
     rw [show ((T : Subgroup G).subgroupOf ⊤).index = (T : Subgroup G).index from
       Subgroup.relIndex_top_right _]
     exact T.not_dvd_index
@@ -110,12 +110,12 @@ theorem qhatInt_le_two_of_not_le_pCoreOf (hE213 : InputE213Solvable) {G : Type} 
   have hVT : V ≤ T :=
     (MinParabolic.le_pCoreOf_of_isTwoReduced hV).trans (pCoreOf_two_le_sylow M₀ T hTM₀)
   have hSyl : IsSylowTwoOf (T : Subgroup G) H := by
-    refine A4.isSylowTwoOf_mono ⟨le_top, T.isPGroup', ?_⟩ hTH le_top
+    refine A4.isSylowTwoOf_mono ⟨le_top, T.isPGroup, ?_⟩ hTH le_top
     rw [show ((T : Subgroup G).subgroupOf ⊤).index = (T : Subgroup G).index from
       Subgroup.relIndex_top_right _]
     exact T.not_dvd_index
   have hnN : ¬ H ≤ Subgroup.normalizer ((T : Subgroup G) : Set G) := fun hle =>
-    hVQ (hVT.trans (le_pCoreOf_of_le_normalizer 2 hTH hle T.isPGroup'))
+    hVQ (hVT.trans (le_pCoreOf_of_le_normalizer 2 hTH hle T.isPGroup))
   have hMP : MinParabolic H T (H ⊓ M) := ⟨hSyl, hnN, hH.isUniqueMaxOver T hTM⟩
   have hker := hMP.isSylowTwoOf_pCoreOf_kerIn
   have hV2 : IsPGroup 2 V := fun x => ⟨1, Subtype.ext (by simpa using hV.2.2.1.2 x x.2)⟩

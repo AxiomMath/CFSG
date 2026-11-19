@@ -217,9 +217,9 @@ theorem hmin7OK_spec {c : ℕ} (h : hmin7OK c = true) :
   simp only [letB_eq, Bool.and_eq_true, Nat.blt_eq] at h
   obtain ⟨⟨h1, h2⟩, h3⟩ := h
   refine ⟨h1, h2, fun hk => ?_, fun hk => ?_⟩
-  · rw [if_pos hk, Nat.beq_eq] at h3
+  · rw [ite_eq_left hk, Nat.beq_eq] at h3
     exact h3
-  · rw [if_neg hk] at h3
+  · rw [ite_eq_right hk] at h3
     simp only [Bool.and_eq_true, Bool.not_eq_true', Nat.blt_eq, Nat.beq_eq] at h3
     exact ⟨Nat.ne_of_beq_eq_false h3.1.1, h3.1.2, h3.2⟩
 

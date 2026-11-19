@@ -17,27 +17,32 @@ private noncomputable def layerSection (X : Subgroup G) (ψ : G → G) : G → G
     classical
     exact if h : ∃ x ∈ X, ψ x = a then Classical.choose h else 1
 
+omit [Finite G] in
 private theorem layerSection_mem {X : Subgroup G} {ψ : G → G} {a : G}
     (h : ∃ x ∈ X, ψ x = a) : layerSection X ψ a ∈ X := by
-  rw [layerSection, dif_pos h]
+  rw [layerSection, dite_eq_left h]
   exact (Classical.choose_spec h).1
 
+omit [Finite G] in
 private theorem layerSection_val {X : Subgroup G} {ψ : G → G} {a : G}
     (h : ∃ x ∈ X, ψ x = a) : ψ (layerSection X ψ a) = a := by
-  rw [layerSection, dif_pos h]
+  rw [layerSection, dite_eq_left h]
   exact (Classical.choose_spec h).2
 
+omit [Finite G] in
 private theorem IsLayer.map_eq_one_of_mem {Z₁ Z₂ : Subgroup G} {χ : G → G}
     (hχ : IsLayer L A Z₁ Z₂ χ) {z : G} (hz : z ∈ Z₁) :
     χ z = 1 :=
   (hχ.eq_one_iff z (hχ.le hz)).2 hz
 
+omit [Finite G] in
 private theorem IsLayer.map_mul_ker {Z₁ Z₂ : Subgroup G} {χ : G → G}
     (hχ : IsLayer L A Z₁ Z₂ χ) {p q z : G}
     (hp : p ∈ Z₂) (hq : q ∈ Z₂) (hz : z ∈ Z₁) : χ (p * q * z) = χ p * χ q := by
   rw [hχ.map_mul (p * q) (Z₂.mul_mem hp hq) z (hχ.le hz),
     hχ.map_mul p hp q hq, hχ.map_eq_one_of_mem hz, mul_one]
 
+omit [Finite G] in
 private theorem IsLayer.bilinear_conj_left {X₀ X Y₂ Z₀ Z₁ Z₂ : Subgroup G} {ψ χ : G → G}
     (hX : IsLayer L A X₀ X ψ) (hχ : IsLayer L A Z₁ Z₂ χ) {β : G → G → G}
     (hβl : ∀ x ∈ X, ∀ x' ∈ X, ∀ y ∈ Y₂, (β x y * β x' y)⁻¹ * β (x * x') y ∈ Z₀)
@@ -55,6 +60,7 @@ private theorem IsLayer.bilinear_conj_left {X₀ X Y₂ Z₀ Z₁ Z₂ : Subgrou
   rw [hzdef, hχ.map_mul_ker (hχ.le (hZ hβu)) hβx'y (hZ hz),
     hχ.map_eq_one_of_mem (hZ hβu), one_mul]
 
+omit [Finite G] in
 private theorem IsLayer.bilinear_conj_right {X Y₁ Y₂ Z₀ Z₁ Z₂ : Subgroup G} {ψY χ : G → G}
     (hY : IsLayer L A Y₁ Y₂ ψY) (hχ : IsLayer L A Z₁ Z₂ χ) {β : G → G → G}
     (hβr : ∀ x ∈ X, ∀ y ∈ Y₂, ∀ y' ∈ Y₂, (β x y * β x y')⁻¹ * β x (y * y') ∈ Z₀)

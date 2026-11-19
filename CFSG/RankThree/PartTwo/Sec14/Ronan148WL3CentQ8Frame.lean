@@ -44,6 +44,7 @@ theorem diagOne_mem_glPi (h : UnitaryFieldData p f K) (hq : p ^ f % 3 = 2) {τ :
   · simp
   · simpa using hbar
 
+omit [Field K] in
 private theorem fin2_ext {x y z w x' y' z' w' : K} (h1 : x = x') (h2 : y = y') (h3 : z = z')
     (h4 : w = w') : (!![x, y; z, w] : Matrix (Fin 2) (Fin 2) K) = !![x', y'; z', w'] := by
   subst h1 h2 h3 h4
@@ -89,7 +90,7 @@ theorem exists_quaternion_frame (h : UnitaryFieldData p f K) (hq : p ^ f % 3 = 2
         diagOne τ * (diagOne τ * i₀ * (diagOne τ)⁻¹) * (diagOne τ)⁻¹ ∧
       diagOne τ * i₀ * (diagOne τ)⁻¹ ≠ i₀ := by
   have hfin := h.finite
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   have hchar := h.charP
   have hK : Nat.card K = (p ^ f) ^ 2 := by rw [h.card, ← pow_mul, mul_comm]
   have hτ3 : (τ : K) ^ 3 = 1 := by

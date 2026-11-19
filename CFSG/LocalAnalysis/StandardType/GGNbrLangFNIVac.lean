@@ -24,7 +24,7 @@ theorem kgFieldNotInnerInputOn_not_dvd : KGFieldNotInnerInputOn fun p lab => ¬ 
   have hcop := kgfni_coprime_fieldDegree_of_not_t3 hp hp2 ht3 hpn
   refine LargeEvenLabelAll.mono (fun R _ I F h => ?_) (largeEvenLabelAll_and (largeEvenLabelAll_and hsim hexp) hconj)
   obtain ⟨⟨⟨hs, hna⟩, hpow⟩, hc⟩ := h
-  haveI := hs
+  have := hs
   exact kgFieldNotInnerCont_of_fieldConj_exponent hp hna hc hpow hcop
 
 end CFSG.StandardType

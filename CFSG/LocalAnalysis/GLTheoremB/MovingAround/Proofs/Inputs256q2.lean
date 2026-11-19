@@ -96,8 +96,8 @@ theorem mem_inner_of_orthIdxGF4 {S : Type} [Group S] [Finite S] {d : TauCeti.Val
     have hSC := statedClassicalModel_D_gf4 hv hq4 eS
     have hSC0 := hSC
     obtain ⟨-, K, hKf, hKfin, hK, ⟨e₀⟩⟩ := hSC0
-    letI := hKf
-    letI := hKfin
+    let := hKf
+    let := hKfin
     obtain ⟨-, -, -, hinner⟩ := matrixModel_facts_pomegaPlus hSC hr5 hK e₀
     have h1 : MulAut.congr (coordinatePlusWitnessEquiv K e₀) β ∈
         innAutDerived (CFSG.ComponentClassification.CatalogueBOrthogonalSemilinear.matrixProjectiveDerived
@@ -113,8 +113,8 @@ theorem mem_inner_of_orthIdxGF4 {S : Type} [Group S] [Finite S] {d : TauCeti.Val
     have hSC := statedClassicalModel_twistedD_gf4 hv hq4 eS
     have hSC0 := hSC
     obtain ⟨-, K, hKf, hKfin, hK, b, c, hirr, ⟨e₀⟩⟩ := hSC0
-    letI := hKf
-    letI := hKfin
+    let := hKf
+    let := hKfin
     have hn1 : 1 ≤ r := by omega
     obtain ⟨-, -, -, hinner⟩ := matrixModel_facts_pomegaMinus hSC hK hn1 b c hirr e₀
     have h1 : MulAut.congr (coordinateMinusWitnessEquiv K hn1 b c e₀) β ∈
@@ -162,7 +162,7 @@ theorem TwoEltInPerfect.of_mulEquiv {X Y : Type*} [Group X] [Group Y] (e : X ≃
 theorem twoEltInPerfect_of_isPerfect {X : Type*} [Group X] (h : Group.IsPerfect X) :
     TwoEltInPerfect X := by
   intro x _
-  haveI := h
+  have := h
   exact ⟨⊤, by rw [← commutator_def, Group.IsPerfect.commutator_eq_top], Subgroup.mem_top x⟩
 
 theorem mem_glaLayer_of_twoEltInPerfect {S : Type*} [Group S] {β : MulAut S}
@@ -186,7 +186,7 @@ theorem twoEltInPerfect_projImage_glPi_four {F : Type} [Field F] [Finite F]
   have hK : Sec4.PiField true 2 2 F := ⟨Nat.prime_two, by norm_num, hF⟩
   have hSP : projImage (Sec4.slPi true 3 (2 ^ 2) F) ≤ projImage (Sec4.glPi true 3 (2 ^ 2) F) :=
     Subgroup.map_mono (Sec4.slPi_le_glPi (fun h => absurd h (by decide)))
-  haveI : Group.IsPerfect ↥(projImage (Sec4.slPi true 3 (2 ^ 2) F)) :=
+  have : Group.IsPerfect ↥(projImage (Sec4.slPi true 3 (2 ^ 2) F)) :=
     Sec13.isPerfect_projImage_slPi hK (by norm_num)
   refine ⟨(projImage (Sec4.slPi true 3 (2 ^ 2) F)).subgroupOf
     (projImage (Sec4.glPi true 3 (2 ^ 2) F)), ?_, ?_⟩
@@ -219,9 +219,9 @@ theorem twoEltInPerfect_projImage_glPi_four {F : Type} [Field F] [Finite F]
 theorem ringEquiv_sq_eq_one_of_card_four {F : Type} [Field F] [Finite F] (hF : Nat.card F = 4)
     (σ : F ≃+* F) : σ ^ 2 = 1 := by
   classical
-  haveI := Fintype.ofFinite F
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (f := 2)
+  have := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := charP_of_card_eq_prime_pow (f := 2)
     (by rw [← Nat.card_eq_fintype_card, hF]; norm_num)
   have h2 : (2 : F) = 0 := CharP.cast_eq_zero F 2
   have hcard : Fintype.card F = 4 := by rw [← Nat.card_eq_fintype_card, hF]
@@ -268,9 +268,9 @@ theorem twoEltInPerfect_fixSubgroup_triality_outer_four {K₃ : Type} [Field K�
     (hφ : φ ∉ (MulAut.conj : ↥(graphFixedRootGroup TwistTag.D4 K₃ Fr.toRingHom) →*
       MulAut ↥(graphFixedRootGroup TwistTag.D4 K₃ Fr.toRingHom)).range) :
     TwoEltInPerfect ↥(fixSubgroup φ) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := Fintype.ofFinite K₃
-  haveI : CharP K₃ 2 := charP_of_card_eq_prime_pow (f := 6)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := Fintype.ofFinite K₃
+  have : CharP K₃ 2 := charP_of_card_eq_prime_pow (f := 6)
     (by rw [← Nat.card_eq_fintype_card, hK₃]; norm_num)
   have hK2 : ringChar K₃ = 2 := ringChar.eq K₃ 2
   set σ₀ := fieldActor (t := TwistTag.D4) Fr Fr with hσ₀
@@ -305,12 +305,12 @@ theorem twoEltInPerfect_fixSubgroup_triality_outer_four {K₃ : Type} [Field K�
 theorem twoEltInPerfect_fixSubgroup_d4_noninner_four {S : Type} [Group S]
     (hS : StatedClassicalModel S .POmegaPlus 4 2 2) (β : MulAut S) (hβ3 : β ^ 3 = 1)
     (hinn : β ∉ (MulAut.conj : S →* MulAut S).range) : TwoEltInPerfect ↥(fixSubgroup β) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, F, hFf, hFfin, hF, ⟨eG⟩⟩ := hS
-  letI := hFf
-  letI := hFfin
-  haveI := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (f := 2)
+  let := hFf
+  let := hFfin
+  have := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_card_eq_prime_pow (f := 2)
     (by rw [← Nat.card_eq_fintype_card, hF])
   obtain ⟨eC⟩ := CFSG.HardMathSupport.Lang.Coordinator.D4Bridge.nonempty_statedProj_equiv_adjointGroup F
   set e₂ : S ≃* ↥(adjointGroup Tag.D4 F) := eG.trans eC with he₂
@@ -356,7 +356,7 @@ theorem twoElement_mem_glaLayer_triality_outer_four {S : Type} [Group S]
     (eS : S ≃* (TauCeti.CFSGIndex.lie ⟨.trialityD4 q, hv⟩).Group) (β : MulAut S)
     (hβ : orderOf β = 3) (hinn : β ∉ (MulAut.conj : S →* MulAut S).range) {s : S} (hs : β s = s)
     {m : ℕ} (hsm : s ^ 2 ^ m = 1) : s ∈ GLALayer (fixSubgroup β) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hp2, he2⟩ := CFSG.LocalAnalysis.GLTheoremA.primePower_eq_of_card_eq (r := 2) (s := 2)
     Nat.prime_two (by norm_num) (hq4.trans (by norm_num))
   obtain ⟨F, _, _, σ, hF, hσ, -, ⟨eF⟩⟩ :=

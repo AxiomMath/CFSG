@@ -18,7 +18,7 @@ private theorem fourFive_subgroupOf_le_subgroupOf_iff {G : Type} [Group G] {X Y 
   · exact Subgroup.subgroupOf_mono H
 
 private theorem fourFive_conjSub_subgroupOf {G : Type} [Group G] {X H : Subgroup G}
-    (hX : X ≤ H) (g : ↥H) :
+    (_hX : X ≤ H) (g : ↥H) :
     conjSub g (X.subgroupOf H) = (conjSub (g : G) X).subgroupOf H := by
   ext y
   simp only [mem_conjSub_iff, Subgroup.mem_subgroupOf, Subgroup.coe_mul, Subgroup.coe_inv]

@@ -43,7 +43,7 @@ theorem sig2_eq_empty_of (D : Data G) (Ch : Choice2011 G) (h4 : S23_4 D Ch)
   intro p hp2
   have hpσ : p ∈ D.sig := by rw [D.sig_sub]; exact Or.inl (Or.inr hp2)
   obtain ⟨hp, hp2ne⟩ := D.sig_prime p hpσ
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨P, P0, hH⟩ := hhyp p hp2
   obtain ⟨hfirst, hsc, hInU, -, -⟩ := h613 p P P0 hH
   obtain ⟨h3p, hMsolv, hwc, hΓ, hLie, hfrob⟩ := hfirst
@@ -101,7 +101,7 @@ theorem sig2_eq_empty_of (D : Data G) (Ch : Choice2011 G) (h4 : S23_4 D Ch)
   have hbM : (b : G) ∈ D.M := c.hBM hbB0
   have hborder' : orderOf (b : G) = p := by rw [Subgroup.orderOf_coe, hborder]
   let c' : Ctx23L D Ch := { c with B := c.B0, hB := c.hB0, hle := le_rfl }
-  have hbB' : (b : G) ∈ c'.B := by simpa [c'] using hbB0
+  have hbB' : (b : G) ∈ c'.B := by simp [c']
   have hbZ : (b : G) ∉ Subgroup.centralizer (D.Z : Set G) := by
     intro hbC
     have h543 := h53 h1930 c' (by simpa [c'] using c.hpi)
@@ -119,7 +119,7 @@ theorem sig2_eq_empty_of (D : Data G) (Ch : Choice2011 G) (h4 : S23_4 D Ch)
         have hcard : Nat.card (Subgroup.zpowers (b : G)) = p := by
           rw [Nat.card_zpowers, hborder']
         exact hcard ▸ Subgroup.card_dvd_of_le hbzp
-      rw [hpiC, Set.mem_setOf_eq] at hpC
+      rw [hpiC, Set.mem_ofPred_eq] at hpC
       have hplus : p ∣ 2 ^ m + 1 := hpC.2
       have h2' : p ∣ (2 ^ m + 1) - (2 ^ m - 1) := Nat.dvd_sub hplus hpdvd
       have hsub : (2 ^ m + 1) - (2 ^ m - 1) = 2 := by
@@ -222,7 +222,7 @@ theorem sig3_eq_empty_of (D : Data G) (Ch : Choice2011 G) (h4 : S23_4 D Ch)
   have hq3eq : q = 3 := hstd.sig3_sub hq3
   subst q
   have h3sig : 3 ∈ D.sig := by rw [D.sig_sub]; exact Or.inr hq3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hUZ, hUM, hMN⟩ := h4 h1930 c
   have hZM : D.Z ≤ D.M := by simpa [hUZ] using hUM
   have hMZN : D.M ≤ normalizer (D.Z : Set G) := by simpa [hUZ] using hMN
@@ -284,7 +284,7 @@ theorem sig3_eq_empty_of (D : Data G) (Ch : Choice2011 G) (h4 : S23_4 D Ch)
     exact (le_inf hM_le_NM hM_le_NC).trans Subgroup.inf_normalizer_le_normalizer_inf
   have hK_normal : (K.subgroupOf D.M).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hK_le_M).2 hM_le_NK
-  letI : (K.subgroupOf D.M).Normal := hK_normal
+  let : (K.subgroupOf D.M).Normal := hK_normal
   let Mstar := ↥D.M ⧸ K.subgroupOf D.M
   let q : ↥D.M →* Mstar := QuotientGroup.mk' (K.subgroupOf D.M)
   let Pstar : Subgroup Mstar := (P.subgroupOf D.M).map q
@@ -372,7 +372,7 @@ theorem sig3_eq_empty_of (D : Data G) (Ch : Choice2011 G) (h4 : S23_4 D Ch)
   obtain ⟨Nstar, hNstar_normal, hNstar_ne, hNstar_p⟩ :=
     CFSG.GroupTheory.exists_normal_isPGroup_quotient_of_odd_order_sylow_three hMstar_odd
       PstarSylow (by simpa [hPstar_coe] using hPstar_dvd9) (by simpa [hPstar_coe] using hPstar_ne)
-  letI : Nstar.Normal := hNstar_normal
+  let : Nstar.Normal := hNstar_normal
   let N : Subgroup ↥D.M := Nstar.comap q
   have hKsub_le_N : K.subgroupOf D.M ≤ N := by
     intro x hx
@@ -382,7 +382,7 @@ theorem sig3_eq_empty_of (D : Data G) (Ch : Choice2011 G) (h4 : S23_4 D Ch)
     rw [hx1]
     exact Nstar.one_mem
   have hN_normal : N.Normal := Subgroup.Normal.comap hNstar_normal q
-  letI : N.Normal := hN_normal
+  let : N.Normal := hN_normal
   have hNmap : N.map q = Nstar := by
     rw [show N = Nstar.comap q from rfl]
     exact Subgroup.map_comap_eq_self_of_surjective (QuotientGroup.mk'_surjective _) Nstar

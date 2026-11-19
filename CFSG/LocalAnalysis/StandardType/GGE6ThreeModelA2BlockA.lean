@@ -361,7 +361,7 @@ theorem a2BlockSplitInput_holds :
     have hqeq : q = (q - 1) + 1 := by omega
     have hd'prod : ((fun i => (d' i)⁻¹) 0 : Ω) * (fun i => (d' i)⁻¹) 1 *
         (fun i => (d' i)⁻¹) 2 = 1 := by
-      simp only [Pi.inv_apply, Units.val_inv_eq_inv_val]
+      simp only [Units.val_inv_eq_inv_val]
       calc ((d' 0 : Ω))⁻¹ * ((d' 1 : Ω))⁻¹ * ((d' 2 : Ω))⁻¹ =
           (((d' 0 : Ω) * d' 1 * d' 2))⁻¹ := by rw [mul_inv, mul_inv]
         _ = 1 := by rw [hd'det, inv_one]

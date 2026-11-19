@@ -115,6 +115,7 @@ end Gen
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem eFrame_cent [CharP K 2] {ζ : Kˣ} (hζo : orderOf ζ = 3) (hζ : ζ ^ 3 = 1) :
     (eFrame K ζ hζ).Cent := by
   intro r

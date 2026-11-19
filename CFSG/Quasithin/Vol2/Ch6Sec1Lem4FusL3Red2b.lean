@@ -17,7 +17,7 @@ private theorem piKT614_conj_apply_b {Γ : Type} [Group Γ] {K T : Subgroup Γ}
       piKT614 hTK ⟨k * e * k⁻¹, hke⟩ := by
   have e3 : (⟨k * e * k⁻¹, hke⟩ : ↥(K ⊔ T)) =
       (⟨k, hk⟩ : ↥(K ⊔ T)) * (⟨e, he⟩ : ↥(K ⊔ T)) * (⟨k, hk⟩ : ↥(K ⊔ T))⁻¹ := rfl
-  rw [e3, map_mul, map_mul, map_inv] <;> rfl
+  rw [e3, map_mul, map_mul, map_inv]; rfl
 
 private theorem mem_of_piKT614_mem_of_mem_X614_b {Γ : Type} [Group Γ] [Finite Γ] {K T : Subgroup Γ}
     (hTK : T ≤ Subgroup.normalizer (K : Set Γ)) (hTs : IsSylowTwoOf T (K ⊔ T))
@@ -38,7 +38,7 @@ private theorem mem_of_piKT614_mem_of_mem_X614_b {Γ : Type} [Group Γ] [Finite 
     rw [e1, map_pow, ← he, ← map_pow, ht1, map_one]
   have hxmT : x ^ 2 ^ m ∈ T :=
     mem_of_piKT614_eq_one_of_mem614 hTK hTs hXK hXO hX5 hXn hXN (X.pow_mem hx (2 ^ m)) hxm hπ1
-  haveI : ((X ⊓ T).subgroupOf X).Normal := hXn
+  have : ((X ⊓ T).subgroupOf X).Normal := hXn
   have hQ5 : ((X ⊓ T).subgroupOf X).index = 5 := hX5
   have h2m : (QuotientGroup.mk' ((X ⊓ T).subgroupOf X) (⟨x, hx⟩ : ↥X)) ^ 2 ^ m = 1 := by
     rw [← map_pow, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff]

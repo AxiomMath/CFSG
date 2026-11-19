@@ -24,7 +24,7 @@ theorem aParam_le_two_of_E8GenClosure (hW : ∀ w : W, w ^ 2 = 1) (Y : Subgroup 
   classical
   refine CFSG.Quasithin.RonanE42.aParam_le_of_aSet_empty Y 2 ?_
   intro A hA
-  rw [E3.aSet, Set.mem_setOf_eq] at hA
+  rw [E3.aSet, Set.mem_ofPred_eq] at hA
   obtain ⟨hAY, hAne, hAel, hAfix⟩ := hA
   have hA2 : ∀ a ∈ A, a ^ 2 = 1 := hAel.2
   have hAp : IsPGroup 2 A := hAel.isPGroup
@@ -169,8 +169,7 @@ theorem aParam_le_two_of_E8GenClosure (hW : ∀ w : W, w ^ 2 = 1) (Y : Subgroup 
         have h := congrArg (fun v => (g : MulAut W)⁻¹ v) (hg u hu)
         simpa using h.symm }
   have hAK : A' ≤ K := by
-    intro a ha
-    intro u hu
+    intro a ha u hu
     exact (CFSG.Quasithin.mem_fixV.mp hu) (a : MulAut W) (Subgroup.mem_subgroupOf.mp ha)
   have hKnormal : K.Normal := by
     refine ⟨?conj_mem⟩

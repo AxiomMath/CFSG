@@ -20,12 +20,12 @@ open scoped MatrixGroups
   carrier := {x | σ x = x}
   mul_mem' := by
     intro a b ha hb
-    simp only [Set.mem_setOf_eq] at *
+    simp only [Set.mem_ofPred_eq] at *
     rw [map_mul, ha, hb]
   one_mem' := by simp
   inv_mem' := by
     intro a ha
-    simp only [Set.mem_setOf_eq] at *
+    simp only [Set.mem_ofPred_eq] at *
     rw [map_inv, ha]
 
 theorem mem_fixSub {K : Type} [Group K] {σ : MulAut K} {x : K} :
@@ -39,11 +39,11 @@ theorem mem_fixSub {K : Type} [Group K] {σ : MulAut K} {x : K} :
 
 @[expose] def Cex134_O2Statement : Prop :=
   ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A D T L : Subgroup G}
-    (h : Cex134 G m p B M E A D T L), p = 3 → GLAPPrimeCoreOf p L ≤ pCoreOf 2 L
+    (_h : Cex134 G m p B M E A D T L), p = 3 → GLAPPrimeCoreOf p L ≤ pCoreOf 2 L
 
 @[expose] def Sec13_compStatement : Prop :=
   ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A D T L : Subgroup G}
-    (h : Sec13 G m p B M E A D T), GLAPComponent p (Iof p M D) L →
+    (_h : Sec13 G m p B M E A D T), GLAPComponent p (Iof p M D) L →
       GLAPComponent p M L ∧ ¬ barX p M (gammaStar p D) ≤
         Subgroup.centralizer ((barX p M L : Subgroup (↥M ⧸ GLAPPrimeCore p ↥M)) :
           Set (↥M ⧸ GLAPPrimeCore p ↥M))
@@ -82,8 +82,8 @@ theorem exists_fixed_mem_coset {G : Type} [Group G] [Finite G] (d : G) (hd : d ^
     rw [hiter 3 q, hd]
     simp
   have hf : f ^ 3 ^ 1 = 1 := by simpa using hf3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  letI : Fintype Q := Fintype.ofFinite Q
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fintype Q := Fintype.ofFinite Q
   have hmod := Equiv.Perm.card_fixedPoints_modEq (p := 3) (n := 1) hf
   have hne : Fintype.card (Function.fixedPoints f) ≠ 0 := by
     intro h0
@@ -150,8 +150,8 @@ theorem exists_mk_pCore_of_fixed {G : Type} [Group G] [Finite G] {L : Subgroup G
     ∃ y : ↥L, (y : G) ∈ pCoreOf 2 (L ⊓ Subgroup.centralizer ({d} : Set G)) ∧
       (QuotientGroup.mk y : ↥L ⧸ GLAPPrimeCore 3 ↥L) = k := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set σ := barAut 3 L ⟨d, hdL⟩ with hσ
   set Q : Subgroup G := GLAPPrimeCoreOf 3 L with hQ
   set H : Subgroup G := L ⊓ Subgroup.centralizer ({d} : Set G) with hH
@@ -255,7 +255,7 @@ theorem exists_mk_pCore_of_fixed {G : Type} [Group G] [Finite G] {L : Subgroup G
 
 theorem eq_bot_of_normal_two {X : Type} [Group X] (e : X ≃* alternatingGroup (Fin 7))
     (N : Subgroup X) [N.Normal] (hN : IsPGroup 2 ↥N) : N = ⊥ := by
-  haveI := S7.isSimple_Alt7
+  have := S7.isSimple_Alt7
   have hN' : (N.map e.toMonoidHom).Normal := inferInstance
   have hN2 : IsPGroup 2 ↥(N.map e.toMonoidHom) :=
     hN.of_equiv (Subgroup.equivMapOfInjective N e.toMonoidHom e.injective)
@@ -291,7 +291,7 @@ theorem prop134_of_cex_of_inputs
     Prop134_of_cexStatement := by
   intro G _ _ m p B M E A D T L h
   have hS : GLStanding G m p := h.standing
-  haveI : Fact p.Prime := ⟨hS.prime⟩
+  have : Fact p.Prime := ⟨hS.prime⟩
   have hp2 : p ≠ 2 := hS.ne_two
   have hD : IsEkIn p 2 A D := h.hD
   have hDA : D ≤ A := hD.1
@@ -321,8 +321,8 @@ theorem prop134_of_cex_of_inputs
   have hsub : CFSG.Open.IsSubnormal L M := hLc.2.1
   have hLM : L ≤ M := hLc.1
   have hpr : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hQ2' : GLAPPrimeCoreOf 3 L ≤ pCoreOf 2 L := hO2 h rfl
   have hQ2 : IsPGroup 2 ↥(GLAPPrimeCoreOf 3 L) :=
     (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 L).to_le hQ2'
@@ -427,7 +427,7 @@ theorem prop134_of_cex_of_inputs
     have hN0p : IsPGroup 2 ↥(N₀.subgroupOf (barX 3 M L)) :=
       (hU2.to_le (inf_le_right : N₀ ≤ barX 3 M (pCoreOf 2 (piStar 3 D)))).of_equiv
         (Subgroup.subgroupOfEquivOfLe (inf_le_left : N₀ ≤ barX 3 M L)).symm
-    haveI := hN0normal
+    have := hN0normal
     have hbot := eq_bot_of_normal_two e (N₀.subgroupOf (barX 3 M L)) hN0p
     have hcmem : (⟨g⁻¹ * y⁻¹ * g * y, hcKM⟩ : ↥(barX 3 M L)) ∈ N₀.subgroupOf (barX 3 M L) :=
       Subgroup.mem_subgroupOf.2 (Subgroup.mem_inf.2 ⟨hcKM, hcU⟩)
@@ -449,7 +449,7 @@ theorem prop134_of_cex_of_inputs
 
 
 @[expose] def BStar137Statement : Prop :=
-  ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A D T : Subgroup G} (h : Sec13 G m p B M E A D T),
+  ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A D T : Subgroup G} (_h : Sec13 G m p B M E A D T),
     ∃ y ∈ M, IsPGroup p ↥(A ⊔ GLBConj y B) ∧
       ∀ x ∈ GLBConj y B, ∀ g ∈ gammaStar p D, x * g * x⁻¹ * g⁻¹ ∈ pCoreOf 2 M
 

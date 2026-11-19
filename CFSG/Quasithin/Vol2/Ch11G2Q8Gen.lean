@@ -184,7 +184,7 @@ theorem g2Act_g2A_lSL (a b : F) (w : Ix3 → F) :
   have hA : ((lSL a b : SL3 F) : Matrix (Fin 3) (Fin 3) F) = !![1, 0, 0; a, 1, 0; b, 0, 1] := rfl
   rw [g2Act_g2A, adjugate_lSL, hA]
   funext k
-  rcases k with k | k <;> fin_cases k <;> (simp [q6, CharTwo.neg_eq]; try ring)
+  rcases k with k | k <;> fin_cases k <;> (simp [q6, CharTwo.neg_eq])
 
 theorem comm_x1_x2 (t u : F) :
     ⁅g2X ![0, t, 0], g2X ![0, 0, u]⁆ = g2A (lSL (t * t * u) (t * u * u)) := by

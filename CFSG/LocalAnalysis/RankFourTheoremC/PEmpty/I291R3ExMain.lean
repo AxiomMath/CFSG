@@ -34,7 +34,7 @@ theorem kdR3_false_of_lie {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) {S : Type} [G
     (e : S ≃* (CFSGIndex.lie d).Group) (hm3 : CFSG.Open.pRank 3 (⊤ : Subgroup S) ≤ 1)
     (hmp : 4 ≤ CFSG.Open.pRank p (⊤ : Subgroup S)) {x : S} (hxo : orderOf x = p)
     (hxc : CFSG.Open.pRank p (centralizer ({x} : Set S)) ≤ 2) : False := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hxp : x ^ p = 1 := hxo ▸ pow_orderOf_eq_one x
   have h3 : 3 ≤ CFSG.Open.pRank p (⊤ : Subgroup S) := by omega
   rcases three_rank_le_one_lie d e hm3 with ⟨q, hq3, hdq⟩ | ⟨q, hq3, hdq⟩ | ⟨q, hq3, hdq⟩ |
@@ -44,7 +44,7 @@ theorem kdR3_false_of_lie {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) {S : Type} [G
     obtain rfl : d = .A 1 q := hdq
     by_cases hch : q.p = p
     · subst hch
-      haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+      have : Fact q.p.Prime := ⟨q.prime_p⟩
       obtain ⟨eP⟩ := CFSG.AGLEmbedding.nonempty_mulEquiv_psl2GF_of_isLinTwoIndex (p := q.p)
         (n := q.exponent) (d := ⟨.A 1 q, hv⟩) ⟨q, rfl, rfl, rfl⟩
       exact absurd (three_le_pRank_centralizer_of_psl2GF q.exponent_pos (e.trans eP) h3 hxp)
@@ -56,7 +56,7 @@ theorem kdR3_false_of_lie {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) {S : Type} [G
     obtain rfl : d = .A 2 q := hdq
     by_cases hch : q.p = p
     · subst hch
-      haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+      have : Fact q.p.Prime := ⟨q.prime_p⟩
       obtain ⟨-, K, _, _, hK, ⟨eK⟩⟩ :=
         CFSG.Open.StatedAPI.statedClassicalModel_of_mulEquiv_typeA hv e
       exact absurd (three_le_pRank_centralizer_of_statedSL_three q.exponent_pos hK eK hmp hxp)
@@ -68,7 +68,7 @@ theorem kdR3_false_of_lie {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) {S : Type} [G
     obtain rfl : d = .twistedA 2 q := hdq
     by_cases hch : q.p = p
     · subst hch
-      haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+      have : Fact q.p.Prime := ⟨q.prime_p⟩
       obtain ⟨-, K, _, _, hK, ⟨eK⟩⟩ :=
         CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA 2 q hv e
       exact absurd (three_le_pRank_centralizer_of_statedSU_three (by omega) q.exponent_pos hK eK
@@ -88,8 +88,8 @@ theorem kdR3_false_of_all_in_simple {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) {Y 
     (hmp : 4 ≤ CFSG.Open.pRank p (⊤ : Subgroup Y)) (hall : ∀ y : Y, orderOf y = p → y ∈ S)
     {x : Y} (hxo : orderOf x = p) (hxc : CFSG.Open.pRank p (centralizer ({x} : Set Y)) ≤ 2) :
     False := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := hs
+  have : Fact p.Prime := ⟨hp⟩
+  have := hs
   have hp1 : 1 < p := hp.one_lt
   have hxS : x ∈ S := hall x hxo
   have hEL : ∀ E : Subgroup Y, IsElemAbelian p E → E ≤ S := by
@@ -123,9 +123,9 @@ theorem kdR3_false_of_all_in_simple {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) {Y 
 
 theorem kdR3Exclusion_holds : KDR3Exclusion := by
   intro p hp hp5 Y _ _ hcat _ S hSn hs hn hC hm3 hmp ⟨x, hxo, hxc⟩
-  haveI := hSn
-  haveI := hs
-  haveI : Fact p.Prime := ⟨hp⟩
+  have := hSn
+  have := hs
+  have : Fact p.Prime := ⟨hp⟩
   have hcatS : IsCatalogGroup S := hcat.simple_subgroup S hs hn
   have hlu : ¬ IsLinearOrUnitaryAt p S := by
     intro h

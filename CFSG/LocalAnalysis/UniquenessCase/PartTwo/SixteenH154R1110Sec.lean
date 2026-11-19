@@ -32,10 +32,11 @@ theorem r1110G_of_core_second (D : Data G) (hC : R1110Core D) (hS : R1110Second 
   exact ⟨h1, h2, fun n hn Xbar hXn hXe hXc hXle =>
     ⟨h3 n hn Xbar hXn hXe hXc hXle, hS V₀ V hV p hp hp2 n hn Xbar hXn hXe hXc hXle⟩⟩
 
+omit [Finite G] in
 private theorem s16h_exists_conj_le {p : ℕ} (hp : p.Prime) {K H B : Subgroup G}
     (hBK : B ≤ K) (hB : IsPGroup p B) (hindex : ¬ p ∣ H.relIndex K) :
     ∃ k ∈ K, conjSubgroup B k ≤ H := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let Hk : Subgroup ↥K := H.subgroupOf K
   have hBk : IsPGroup p (B.subgroupOf K) :=
     hB.of_equiv (Subgroup.subgroupOfEquivOfLe hBK).symm
@@ -118,7 +119,7 @@ theorem r1110Second_holds (D : Data G) (hx : DataExt D) (hSg : UC6S846.SigmaStd 
     (h61 : UC6.R6_1 D) (h63 : UC6.R6_3 D) (h77 : F07.R77Eq D) (h1110 : R1110Core D) :
     R1110Second D := by
   intro V₀ V hV _ p hp hp2 n hn Xbar hXn hXe hXc hXd hσ v hvV hv1 hrk
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨P, hP⟩ := CFSG.ABGLocalTools.exists_isSylowOf p (F11.O2p p D.M)
   set Y : Subgroup G := F11.Omega1p p (P ⊓ ⁅D.M, D.M⁆ ⊓ F11.barPreimage11 D.M V₀ V Xbar)
     with hYdef
@@ -134,7 +135,7 @@ theorem r1110Second_holds (D : Data G) (hx : DataExt D) (hSg : UC6S846.SigmaStd 
     intro hbot
     exact hYnc (by rw [hbot]; exact isCyclic_of_subsingleton)
   obtain ⟨y, hy1⟩ := Subgroup.ne_bot_iff_exists_ne_one.1 hYnebot
-  haveI : Fact p'.Prime := ⟨hp'pr⟩
+  have : Fact p'.Prime := ⟨hp'pr⟩
   have hpdvd : orderOf y ∣ p := by
     rw [orderOf_dvd_iff_pow_eq_one]
     exact Subtype.ext (hYexpP y.1 y.2)

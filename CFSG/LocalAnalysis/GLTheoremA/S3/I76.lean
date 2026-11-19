@@ -85,8 +85,7 @@ private theorem i76_inducesInnerMod_of_barAut {p : ℕ} {L : Subgroup G} {a : G}
   simp only [barAut_mk, MulAut.conj_apply, ← QuotientGroup.mk_mul, ← QuotientGroup.mk_inv] at h1
   rw [QuotientGroup.eq] at h1
   refine Subgroup.mem_map.2 ⟨_, Subgroup.inv_mem _ h1, ?_⟩
-  simp only [Subgroup.coe_mul, Subgroup.coe_inv, i76_coe_normalizerMonoidHom, Subgroup.coe_mk,
-    Subgroup.coe_subtype]
+  simp only [Subgroup.coe_mul, Subgroup.coe_inv, i76_coe_normalizerMonoidHom, Subgroup.coe_subtype]
   group
 
 private theorem i76_isElemAbelian_range {p : ℕ} {H M : Type*} [Group H] [Group M]
@@ -98,7 +97,6 @@ private theorem i76_isElemAbelian_range {p : ℕ} {H M : Type*} [Group H] [Group
     change (a : M) * (b : M) = (b : M) * (a : M)
     rw [← hx, ← hz, ← map_mul, ← map_mul, hcomm x z]
   · obtain ⟨x, hx⟩ := MonoidHom.mem_range.1 hy
-    change y ^ p = 1
     rw [← hx, ← map_pow, hpow x, map_one]
 
 private theorem i76_exists_quot_elemAbelian {Q : Type*} [Group Q] [Finite Q] [Group.IsPerfect Q]
@@ -119,7 +117,7 @@ private theorem i76_exists_quot_elemAbelian {Q : Type*} [Group Q] [Finite Q] [Gr
 
 private theorem i76_D4_of_isD4 (d : TauCeti.LieTypeIndex) (hd : d.Valid)
     (h : isD4ThreePowThree d) :
-    ∃ (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeIndex.D 4 q).Valid),
+    ∃ (q : TauCeti.PrimePower) (_hv : (TauCeti.LieTypeIndex.D 4 q).Valid),
       d = TauCeti.LieTypeIndex.D 4 q ∧ q.p = 3 ∧ 3 ∣ q.exponent := by
   cases d with
   | D n q =>
@@ -143,7 +141,7 @@ private theorem i76_exists_D4_of_onLie (i : TauCeti.CFSGIndex) (hi : onLie isD4T
 theorem i76At_of {G : Type} [Group G] [Finite G] {p : ℕ} (h26 : KD26a) (h76 : KD76c p)
     (hD4 : KDD4TwoLocal) (h65 : I65At G p) : I76At G p := by
   intro hp hp2 X K A hX hK hChev hAel hAN hnot
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq : CFSG.Open.IsQuasisimple (PQuot p K) := isQuasisimple_pQuot_of_glaPComponent hp hK
   have hcat : CFSG.Open.IsCatalogGroup (PSimple p K) := by
     rcases hChev with ⟨i, -, e⟩ | ⟨i, -, e⟩ <;> exact ⟨i, e⟩
@@ -210,7 +208,7 @@ theorem i76At_of {G : Type} [Group G] [Finite G] {p : ℕ} (h26 : KD26a) (h76 : 
     have hxni : ¬ InducesInnerMod p K (x : G) := hnot (x : G) x.2 hxnc
     have hcenter : Subgroup.center (PQuot p K) = ⊥ :=
       h65 hp hp2 X K hX hK hChev ⟨(x : G), hAN x.2, hAel.2 _ x.2, hxnc, hxni⟩
-    haveI : Group.IsPerfect (PQuot p K) := ⟨hq.1⟩
+    have : Group.IsPerfect (PQuot p K) := ⟨hq.1⟩
     obtain ⟨D', hD'el, hD'card, hD'I⟩ := i76_exists_quot_elemAbelian hDel hDinner
     have hsimple : IsSimpleGroup (PSimple p K) := hq.2
     have hnon : ∃ a b : PSimple p K, a * b ≠ b * a :=

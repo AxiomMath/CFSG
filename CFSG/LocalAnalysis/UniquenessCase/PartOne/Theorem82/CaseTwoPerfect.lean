@@ -180,8 +180,8 @@ namespace CaseTwoTransitive
 theorem not_three_dvd_card_center (t : CaseTwoTransitive c) :
     ¬ 3 ∣ Nat.card (Subgroup.center (↥c.L ⧸ CFSG.Open.pCore 2 ↥c.L)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let d := t.d
   rw [← t.hdL]
   have hLM : d.L ≤ d.M := by rw [t.hdL, t.hdM]; exact c.hyp81.1
@@ -203,8 +203,8 @@ theorem not_three_dvd_card_center (t : CaseTwoTransitive c) :
     rw [SylowThreeData.Kbar, hinf]
     exact CFSG.openPCoreOf_subgroupOf 2 d.L
   let P : Type := ((↥(d.Lb 0) × ↥(d.Lb 1)) × ↥(d.Lb 2))
-  letI : Group P := inferInstance
-  letI : Finite P := inferInstance
+  let : Group P := inferInstance
+  let : Finite P := inferInstance
   have hLb_eq_map (i : Fin 3) : d.Lb i = ((d.Lf i).subgroupOf d.L).map d.pi := by
     rw [SylowThreeData.Lb, SylowThreeData.phi, MonoidHom.range_comp, Subgroup.inclusion_range]
   have hLb_sup : d.Lb 0 ⊔ d.Lb 1 ⊔ d.Lb 2 = ⊤ := by
@@ -290,7 +290,7 @@ theorem not_three_dvd_card_center (t : CaseTwoTransitive c) :
     rw [← hmapcenter]
     exact Subgroup.card_map_dvd (Subgroup.center P) d.mu
   have hZLb (i : Fin 3) : ¬ 3 ∣ Nat.card (Subgroup.center ↥(d.Lb i)) := by
-    haveI := d.isPerfect_Lb i
+    have := d.isPerfect_Lb i
     exact not_dvd_card_center_of_pRank_eq_one (q := 3) (by norm_num) (d.pRank_Lb i)
   have hZP : ¬ 3 ∣ Nat.card (Subgroup.center P) := by
     intro h3
@@ -366,8 +366,8 @@ theorem le_L_sup_ker_of_perfect (t : CaseTwoTransitive c) (hOut : PerfectAutInne
     Y ≤ c.L ⊔ (CFSG.GroupTheory.conjModPCore 2 c.L c.S.M c.le_normalizer_L).ker.map
       c.S.M.subtype := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let d := t.d
   have hMnormL : d.M ≤ Subgroup.normalizer (d.L : Set G) := by
     rw [t.hdM, t.hdL]; exact c.le_normalizer_L
@@ -381,11 +381,11 @@ theorem le_L_sup_ker_of_perfect (t : CaseTwoTransitive c) (hOut : PerfectAutInne
     (d.permHom t.hinj hperm_d).comp (Subgroup.inclusion hYM')
   have hρrange : ρ.range = ⊥ := by
     by_contra hne
-    haveI : Nontrivial ↥ρ.range := (Subgroup.nontrivial_iff_ne_bot ρ.range).mpr hne
-    haveI : Group.IsPerfect ↥ρ.range := Group.IsPerfect.range ρ
-    haveI : Group.IsSolvable (Equiv.Perm (Fin 3)) :=
+    have : Nontrivial ↥ρ.range := (Subgroup.nontrivial_iff_ne_bot ρ.range).mpr hne
+    have : Group.IsPerfect ↥ρ.range := Group.IsPerfect.range ρ
+    have : Group.IsSolvable (Equiv.Perm (Fin 3)) :=
       Equiv.Perm.isSolvable (by norm_num : Nat.card (Fin 3) ≤ 4)
-    haveI : Group.IsSolvable ↥ρ.range :=
+    have : Group.IsSolvable ↥ρ.range :=
       Group.isSolvable_of_isSolvable_injective (G := ↥ρ.range) (G' := Equiv.Perm (Fin 3))
         (f := ρ.range.subtype) ρ.range.subtype_injective
     have hlt := Group.IsSolvable.commutator_lt_top_of_nontrivial (G := ↥ρ.range)
@@ -415,11 +415,11 @@ theorem le_L_sup_ker_of_perfect (t : CaseTwoTransitive c) (hOut : PerfectAutInne
       (φY i).range ≤ (MulAut.conj : (↥(d.Lf i) ⧸ CFSG.Open.pCore 2 ↥(d.Lf i)) →*
         MulAut (↥(d.Lf i) ⧸ CFSG.Open.pCore 2 ↥(d.Lf i))).range := by
     let X := ↥(d.Lf i) ⧸ CFSG.Open.pCore 2 ↥(d.Lf i)
-    letI : Group X := inferInstance
-    letI : Finite X := inferInstance
+    let : Group X := inferInstance
+    let : Finite X := inferInstance
     obtain ⟨hN, hQ⟩ := (t.hcomp i).2.2.2
     have hQX : CFSG.Open.IsQuasisimple X := hQ
-    haveI : Group.IsPerfect X := ⟨hQX.1⟩
+    have : Group.IsPerfect X := ⟨hQX.1⟩
     have hne : d.Lf i ≠ ⊤ := by
       intro htop
       exact c.M_ne_top (t.hdM ▸ top_le_iff.mp (htop ▸ d.hLM i))
@@ -436,7 +436,7 @@ theorem le_L_sup_ker_of_perfect (t : CaseTwoTransitive c) (hOut : PerfectAutInne
     have hZX : ¬ 3 ∣ Nat.card (Subgroup.center X) :=
       not_dvd_card_center_of_pRank_eq_one (q := 3) (by norm_num) hrankX
     have hφperf : ⁅(φY i).range, (φY i).range⁆ = (φY i).range := by
-      haveI : Group.IsPerfect ↥(φY i).range := Group.IsPerfect.range (φY i)
+      have : Group.IsPerfect ↥(φY i).range := Group.IsPerfect.range (φY i)
       exact Subgroup.isPerfect_iff.mp inferInstance
     exact hOut X hKX hQX hZX hrankX (φY i).range hφperf
   intro g hg

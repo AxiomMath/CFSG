@@ -28,7 +28,7 @@ private theorem exists_langDatum_of_fix_pow_three
     ∃ D' : LangDatum .E6 L, D'.Φ = D.Φ ∧ D'.q = D.q ∧
       y ∈ D'.torus.map (MulAut.conj D'.g0).toMonoidHom := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hyG : y ∈ adjointGroup .E6 L := ((LangDatum.mem_fix (D := D)).1 hy).1
   have hyΦ : D.Φ y = y := ((LangDatum.mem_fix (D := D)).1 hy).2
   have hconj : ∃ g ∈ adjointGroup .E6 L, g⁻¹ * y * g ∈ torusGroup .E6 L :=
@@ -80,7 +80,7 @@ theorem lang_setup_centered_at
       g * β * g⁻¹ = rootDiagUnit .E6 b ∧ rootDiagUnit .E6 b ∈ S'.D.torus ∧
       (∀ j, b j ^ 3 = 1) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨p, f, hp, hf, hqeq⟩ := (isPrimePow_nat_iff _).mp S.hqpow.1
   have hp2 : p = 2 := by
     have h0 : ((p : ℕ) : L) = 0 := by
@@ -125,13 +125,13 @@ theorem lang_setup_centered_at
   have hfix' : D'.fix = S.D.fix := by
     ext x
     rw [LangDatum.mem_fix, LangDatum.mem_fix, hD'Φ]
-  haveI : Finite ↥S.D.model := S.finite
+  have : Finite ↥S.D.model := S.finite
   have hfinS : Finite S.D.fix := by
     rw [← LangDatum.map_conj_model]
     exact Finite.of_surjective
       ((MulAut.conj S.D.g0).toMonoidHom.subgroupMap S.D.model)
       ((MulAut.conj S.D.g0).toMonoidHom.subgroupMap_surjective S.D.model)
-  haveI : Finite ↥S.D.fix := hfinS
+  have : Finite ↥S.D.fix := hfinS
   have hfin' : Finite D'.model := by
     rw [LangDatum.model_eq_map_fixModel]
     change Finite ↥((D'.fix).map (MulAut.conj D'.g0⁻¹).toMonoidHom)

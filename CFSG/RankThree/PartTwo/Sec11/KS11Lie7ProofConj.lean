@@ -118,7 +118,7 @@ theorem exists_central_order_three {G : Type*} [Group G] [Finite G]
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have : Nontrivial (P : Subgroup G) :=
     ⟨⟨⟨x, hxP⟩, 1, fun h => hx1 (congrArg Subtype.val h)⟩⟩
-  have hPg : IsPGroup 3 (P : Subgroup G) := P.isPGroup'
+  have hPg : IsPGroup 3 (P : Subgroup G) := P.isPGroup
   have hcnt := hPg.center_nontrivial
   have hcp : IsPGroup 3 (Subgroup.center (P : Subgroup G)) := hPg.to_subgroup _
   obtain ⟨m, hm0, hmcard⟩ := hcp.nontrivial_iff_card.mp hcnt

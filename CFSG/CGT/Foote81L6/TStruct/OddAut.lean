@@ -18,6 +18,7 @@ section Pi
 
 variable {ι : Type*} [DecidableEq ι] [Fintype ι] {a : ι → ℕ}
 
+omit [Fintype ι] in
 theorem comm_central_mulSingle (y : MulAut (PX a)) {N : ℕ} (hN : Odd N) (hyN : y ^ N = 1)
     {j : ι} (hj : 2 ≤ a j) (hfix : y (zz a j) = zz a j) (g : DihedralGroup (2 ^ a j))
     (z : PX a) :
@@ -184,7 +185,7 @@ theorem comm_central_or_transitive (y : MulAut (PX a)) {N : ℕ} (hN : Odd N) (h
       refine ⟨hall, fun i j => ?_⟩
       obtain ⟨m, hm⟩ := htr i j
       exact ⟨m, by rw [pow_zz y σ hσ m i, hm]⟩
-  · push_neg at hall
+  · push Not at hall
     obtain ⟨i₀, hi₀⟩ := hall
     exact Or.inl (comm_central_of_fix y hN hyN fun j hj =>
       fix_zz_of_le_one (by omega : a i₀ ≤ 1) y hN hyN j hj)

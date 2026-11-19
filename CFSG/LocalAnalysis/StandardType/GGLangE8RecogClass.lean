@@ -21,11 +21,11 @@ theorem recoga_class_exists
     {π : Equiv.Perm (Fin (ggU (absTag .E8) 6 f).D.rank)}
     {coord : Bs →* Multiplicative (Fin (ggU (absTag .E8) 6 f).D.rank → ZMod p)}
     (B : GGLangData L .E8 n' f p Bs S π coord)
-    (hτ : B.τ = .E8) (hp : p.Prime) (hp2 : p ≠ 2)
+    (_hτ : B.τ = .E8) (hp : p.Prime) (hp2 : p ≠ 2)
     {b : Bs} (hb : b ≠ 1) {Jm : Subgroup (GGAutU .E8 n' f)}
     (hJm : CFSG.Assembly.IsComponentOf Jm ((ggPsiU .E8 n' f).range ⊓
       Subgroup.centralizer ({(b : GGAutU .E8 n' f)} : Set (GGAutU .E8 n' f))))
-    {labJ : LargeEvenLabel} (hΛJ : LargeEvenInLambda2 labJ)
+    {labJ : LargeEvenLabel} (_hΛJ : LargeEvenInLambda2 labJ)
     (hJ : GGHasLabel labJ (↥Jm ⧸ Subgroup.center ↥Jm)) :
     ∃ i : KernelComponent (rootCharHom (B.a b)),
       CFSG.IsQuasisimple ↥(recogaR B b i) ∧

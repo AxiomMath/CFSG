@@ -168,7 +168,7 @@ theorem owCr_refl_form {K : Type*} [Field K] {U : Type*} [AddCommGroup U] [Modul
         rwa [← hsum]
       · have h2' := hrel v
         rw [hQa0] at h2'
-        simp only [mul_zero, add_zero] at h2'
+        simp only [mul_zero] at h2'
         have hBv : polarBilin Q v a = 0 := by
           have := (mul_eq_zero.mp h2').resolve_left hv
           simpa using this
@@ -227,7 +227,7 @@ theorem owCr_exists_isotropic_orth {K : Type*} [Field K] [Finite K] (hodd : Odd 
     (h4 : 4 ≤ Module.finrank K U) (a : U) (ha : Q a ≠ 0) :
     ∃ u : U, u ≠ 0 ∧ Q u = 0 ∧ polarBilin Q u a = 0 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hK' : Fintype.card K % 2 = 1 := by
     rw [← Nat.card_eq_fintype_card]
     exact Nat.odd_iff.mp hodd

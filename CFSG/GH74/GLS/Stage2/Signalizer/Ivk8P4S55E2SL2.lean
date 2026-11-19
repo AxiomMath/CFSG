@@ -281,7 +281,7 @@ variable {F : Type} [Field F] [Finite F] {p : ℕ} [Fact p.Prime] [CharP F p]
   inv_mem' := fun {A} hA i j => by
     simp only [Matrix.SpecialLinearGroup.coe_inv, Matrix.adjugate_fin_two]
     fin_cases i <;> fin_cases j <;> simp [Matrix.of_apply] <;>
-      first | exact Subring.neg_mem _ (hA _ _) | exact hA _ _
+      exact hA _ _
 
 omit [Finite F] in
 theorem slU_mem_slPrime : (slU : SL(2, F)) ∈ slPrime F := by

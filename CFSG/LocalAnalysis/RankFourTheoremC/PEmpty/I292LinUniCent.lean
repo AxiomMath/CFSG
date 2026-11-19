@@ -32,7 +32,7 @@ theorem commute_of_fixed_order_p {p q : ℕ} [Fact p.Prime] (hq : q.Prime) (hpq 
     {A : Subgroup Y} [A.Normal] (hAc : ∀ a b : A, a * b = b * a) (hAp : IsPGroup p A)
     {g : Y} (hg : g ^ q = 1) (hfix : ∀ a : A, a ^ p = 1 → MulAut.conjNormal g a = a)
     (a : A) : MulAut.conjNormal g a = a := by
-  letI : CommGroup A := { (inferInstance : Group A) with mul_comm := hAc }
+  let : CommGroup A := { (inferInstance : Group A) with mul_comm := hAc }
   set α : MulAut A := MulAut.conjNormal g with hα
   have hαq : α ^ q = 1 := by rw [hα, ← map_pow, hg, map_one]
   by_contra hne
@@ -81,9 +81,9 @@ theorem pCore_le_centralizer {p : ℕ} [Fact p.Prime] {Y : Type} [Group Y] [Fini
   have hsub : IsSubnormal (CFSG.pCore p Y) ⊤ :=
     ComponentClassification.Components.chain_of_mathlib_subnormal
       (inferInstance : (CFSG.pCore p Y).Normal).isSubnormal
-  haveI : Group.IsNilpotent ↥(CFSG.pCore p Y) :=
+  have : Group.IsNilpotent ↥(CFSG.pCore p Y) :=
     (CFSG.pCore_isPGroup (G := Y) (p := p)).isNilpotent
-  haveI : Group.IsSolvable ↥(CFSG.pCore p Y) := inferInstance
+  have : Group.IsSolvable ↥(CFSG.pCore p Y) := inferInstance
   have hcomm := ComponentClassification.Layer.commutes_with_solvable_subnormal
     (CFSG.pCore p Y) hsub
   have hLle : L ≤ ComponentClassification.Layer.subgroup Y :=
@@ -99,7 +99,7 @@ theorem centralizer_isPGroup {p : ℕ} [hp : Fact p.Prime] {Y : Type} [Group Y] 
     (hLu : ∀ K : Subgroup Y, IsComponentOf K ⊤ → K = L)
     (hcyc : IsCyclic ↥(CFSG.pCore p Y)) (hΩ : ∀ g ∈ CFSG.pCore p Y, g ^ p = 1 → g ∈ L) :
     IsPGroup p (centralizer (L : Set Y)) := by
-  haveI : (CFSG.pCore p Y).Normal := CFSG.pCore_normal
+  have : (CFSG.pCore p Y).Normal := CFSG.pCore_normal
   have hLn : L.Normal := normal_of_unique hL hLu
   set C := centralizer (L : Set Y) with hC
   have hF : CFSG.generalizedFitting Y = CFSG.pCore p Y ⊔ L := by
@@ -108,16 +108,16 @@ theorem centralizer_isPGroup {p : ℕ} [hp : Fact p.Prime] {Y : Type} [Group Y] 
     have := CFSG.Adapters.centralizer_generalizedFitting_le_fittingSubgroup (G := Y)
     rwa [hF, CFSG.Fitting_eq_pcore Y p hcore] at this
   have hAc : ∀ a b : CFSG.pCore p Y, a * b = b * a := by
-    haveI := hcyc
+    have := hcyc
     intro a b
-    letI : CommGroup (CFSG.pCore p Y) := IsCyclic.commGroup
+    let : CommGroup (CFSG.pCore p Y) := IsCyclic.commGroup
     exact mul_comm a b
   have hAp : IsPGroup p (CFSG.pCore p Y) := CFSG.pCore_isPGroup
   rw [IsPGroup.iff_card]
   refine ⟨_, Nat.eq_prime_pow_of_unique_prime_dvd Nat.card_pos.ne' ?_⟩
   intro q hq hqdvd
   by_contra hqp
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' q hqdvd
   have hgC : (g : Y) ∈ C := g.2
   have hgq : (g : Y) ^ q = 1 := by

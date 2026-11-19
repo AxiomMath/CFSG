@@ -35,7 +35,7 @@ private theorem eY_mul_eY (X Y : Finset (Fin 24)) :
   apply Multiplicative.toAdd.injective
   funext i
   simp only [toAdd_mul, Pi.add_apply, toAdd_eY, Finset.mem_symmDiff]
-  by_cases hx : i ∈ X <;> by_cases hy : i ∈ Y <;> simp [hx, hy] <;> decide
+  by_cases hx : i ∈ X <;> by_cases hy : i ∈ Y <;> simp [hx, hy]; decide
 
 private theorem zpow_eq_one_or_self {G : Type*} [Group G] {p : G} (hp : p * p = 1) (k : ℤ) :
     p ^ k = 1 ∨ p ^ k = p := by
@@ -88,12 +88,12 @@ private theorem eq_sdiff_of_symmDiff_eq {T : Finset (Fin 24)} (hTO : T ⊆ O)
 private theorem ker_eq_of_ne22 (hd : d ≠ 22) :
     (mathModel false d a b Γ).ker = golayC := by
   unfold mathModel FFModel.golaySec
-  exact if_neg hd
+  exact ite_eq_right hd
 
 private theorem ker_eq_of_eq22 (hd : d = 22) :
     (mathModel false d a b Γ).ker = golayC ⊔ Subgroup.zpowers (pairVec a b) := by
   unfold mathModel FFModel.golaySec
-  exact if_pos hd
+  exact ite_eq_left hd
 
 namespace PhiData
 
@@ -171,9 +171,9 @@ private theorem evVec_eq_pairInd_of_oSet_pair {x : Multiplicative (Fin 6 → ZMo
   have hmem : evVec (Multiplicative.toAdd x) p ≠ 0 ↔ p = 0 ∨ p = 1 := by
     rw [← o_mem_oSet P x p, hx, o_mem_pair P p]
   by_cases hp : p = 0 ∨ p = 1
-  · rw [if_pos hp]
+  · rw [ite_eq_left hp]
     exact (zmod2_ne_zero_iff _).mp (hmem.mpr hp)
-  · rw [if_neg hp]
+  · rw [ite_eq_right hp]
     by_contra hc
     exact hp (hmem.mp hc)
 
@@ -188,10 +188,10 @@ private theorem evVec_eq_pairInd_add_one_of_oSet_sdiff {x : Multiplicative (Fin 
   · have h0 : evVec (Multiplicative.toAdd x) p = 0 := by
       by_contra hc
       exact (hmem.mp hc) hp
-    rw [h0, if_pos hp]; decide
+    rw [h0, ite_eq_left hp]; decide
   · have h1 : evVec (Multiplicative.toAdd x) p = 1 :=
       (zmod2_ne_zero_iff _).mp (hmem.mpr hp)
-    rw [h1, if_neg hp]; decide
+    rw [h1, ite_eq_right hp]; decide
 
 theorem ker_ne22 (hM : MCtx false d a b O Tr S B T₀ Γ ρ β) (hd : d ≠ 22) : P.φ.ker = ⊥ := by
   rw [Subgroup.eq_bot_iff_forall]

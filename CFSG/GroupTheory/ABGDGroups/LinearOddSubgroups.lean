@@ -68,7 +68,7 @@ theorem psl2_eq_one_of_commute_of_orderOf_eq_prime_pow {p f : ℕ} [Fact p.Prime
     (hpart (u ^ 2) hu2).unique ⟨hu2X, hXmem⟩ ⟨(Q : Subgroup (PSL2 F)).pow_mem huQ 2,
       Or.inl hQmem⟩
   have htQ : t ∈ (Q : Subgroup (PSL2 F)) := hXQ ▸ htX
-  obtain ⟨n, hn⟩ := Q.isPGroup' ⟨t, htQ⟩
+  obtain ⟨n, hn⟩ := Q.isPGroup ⟨t, htQ⟩
   have h2 : 2 ∣ p ^ n := by
     rw [← ht, ← Subgroup.orderOf_mk t htQ]
     exact orderOf_dvd_of_pow_eq_one hn

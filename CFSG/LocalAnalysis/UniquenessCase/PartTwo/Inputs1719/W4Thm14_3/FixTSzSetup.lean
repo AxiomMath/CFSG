@@ -36,8 +36,8 @@ theorem exists_szSection_data {W : Type} [CommGroup W]
   obtain ⟨-, a, -, K, hKfield, hKfin, hn_eq, hKcard, ⟨eL⟩⟩ :=
     (CFSG.Blueprint.LieModel.suzukiModel hL).2
   subst n
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := CFSG.QuasithinUnique.Setup.X7b.charP_two_of_card_pow hKcard
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := CFSG.QuasithinUnique.Setup.X7b.charP_two_of_card_pow hKcard
   have hLW : L ≤ stabSub J := CFSG.Quasithin.B1.le_stabSub_of_invariant hJ.2.2.1
   have hLC : L ≤ stabSub (J ⊓ fixV L) :=
     CFSG.Quasithin.B1.le_stabSub_of_invariant hJ.2.2.2.1
@@ -49,9 +49,9 @@ theorem exists_szSection_data {W : Type} [CommGroup W]
         rw [← QuotientGroup.mk_mul,
           show w * w = 1 from Subtype.ext (by simpa [pow_two] using hW w),
           QuotientGroup.mk_one]
-  letI : AddCommGroup M := hMadd
-  letI : Module (ZMod 2) M := hMmod
-  letI : Finite M := hMfin
+  let : AddCommGroup M := hMadd
+  let : Module (ZMod 2) M := hMmod
+  let : Finite M := hMfin
   let θL : ↥(autSec L J (J ⊓ fixV L)) ≃* ↥(CFSG.Blueprint.suzukiGroup a K) :=
     (B5.secEquiv L hLW hLC hfaith).symm.trans eL
   let π : ↥(CFSG.Blueprint.suzukiGroup a K) ≃* ↥L :=
@@ -67,7 +67,7 @@ theorem exists_szSection_data {W : Type} [CommGroup W]
       θ.injective (by rw [h1, map_one])
     rw [QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf] at h2
     exact h2
-  haveI : Nontrivial M := hntM
+  have : Nontrivial M := hntM
   have hIrrSec := B5.isIrrSec_autSec hJ.2.1 hJ.2.2.2.2 hLW hLC
   have hIrr : ρ.IsIrreducible :=
     CFSG.LocalAnalysis.RankThreeUC.S15.GN15.FFO.PSL.repOf_irreducible θ

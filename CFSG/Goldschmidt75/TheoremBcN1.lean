@@ -70,7 +70,7 @@ theorem rcSet_stronglyClosed_K₁ (P : Sylow p G) {S S₀ : Subgroup G} (hSP : S
   set K := centralizer (S₀ : Set G)
   set K₁ := S ⊔ K
   set Z₀ := S₀ ⊓ centralizer (S : Set G)
-  have hZ₀1 : Z₀ ≠ ⊥ := inf_centralizer_ne_bot (P.isPGroup'.to_le hSP) hS₀S
+  have hZ₀1 : Z₀ ≠ ⊥ := inf_centralizer_ne_bot (P.isPGroup.to_le hSP) hS₀S
     (fun s _ => by rw [normalizer_eq_top_iff.mpr inferInstance]; exact mem_top s) hS₀1
   have hZ₀K : Z₀ ≤ centralizer (K₁ : Set G) := by
     have hle : K₁ ≤ centralizer (Z₀ : Set G) := by
@@ -92,7 +92,7 @@ theorem rcSet_stronglyClosed_K₁ (P : Sylow p G) {S S₀ : Subgroup G} (hSP : S
     exact Subtype.ext (mem_centralizer_iff.mp (hZ₀K hz) y y.2)
   have : Z'.Normal := normal_of_le_center hZ'c
   obtain ⟨T₁, hT₁⟩ :=
-    ((P.isPGroup'.to_inf_left (K := K₁)).comap_subtype (K := K₁)).exists_le_sylow
+    ((P.isPGroup.to_inf_left (K := K₁)).comap_subtype (K := K₁)).exists_le_sylow
   have hST : S.subgroupOf K₁ ≤ T₁ := fun y hy => hT₁ (show (y : G) ∈ (P : Subgroup G) ⊓ K₁
     from ⟨hSP hy, y.2⟩)
   have hSc := stronglyClosed_subgroupOf P hS (le_sup_left : S ≤ K₁) T₁ hST

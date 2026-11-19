@@ -13,18 +13,21 @@ open scoped commutatorElement Matrix
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
 theorem sec9_Q_le_CN (hc : Ctx M Q Z B) {t : G} (ht : t ∈ LB M Q B) : Q ≤ hc.CN t :=
-  fun x hx => Ctx.mem_CN.mpr ⟨hc.Q_le_Rt ht hx,
-    fun v hv => hc.hyp.toHyp79.comm_mem_V hx (hc.Vt_le_Q t hv)⟩
+  fun _x hx => Ctx.mem_CN.mpr ⟨hc.Q_le_Rt ht hx,
+    fun _v hv => hc.hyp.toHyp79.comm_mem_V hx (hc.Vt_le_Q t hv)⟩
 
+omit [Finite G] in
 theorem sec9_CN_le_Rt (hc : Ctx M Q Z B) (t : G) : hc.CN t ≤ Rt M (LB M Q B) t :=
   fun _ hx => (Ctx.mem_CN.mp hx).1
 
+omit [Finite G] in
 theorem CN_le_Sec9R0 (hc : Ctx M Q Z B) (t x : G) : hc.CN t ≤ Sec9R0 hc t x := le_sup_left
 
 theorem Q_le_Sec9R0 (hc : Ctx M Q Z B) {t : G} (ht : t ∈ LB M Q B) (x : G) :
     Q ≤ Sec9R0 hc t x :=
   (sec9_Q_le_CN hc ht).trans (CN_le_Sec9R0 hc t x)
 
+omit [Finite G] in
 theorem Sec9R0_le_Rt (hc : Ctx M Q Z B) {t x : G} (hx : x ∈ Rt M (LB M Q B) t) :
     Sec9R0 hc t x ≤ Rt M (LB M Q B) t := by
   refine sup_le (sec9_CN_le_Rt hc t) (iSup₂_le fun ρ hρ => ?_)
@@ -32,7 +35,8 @@ theorem Sec9R0_le_Rt (hc : Ctx M Q Z B) {t x : G} (hx : x ∈ Rt M (LB M Q B) t)
   exact (Rt M (LB M Q B) t).mul_mem ((Rt M (LB M Q B) t).mul_mem hρ hx)
     ((Rt M (LB M Q B) t).inv_mem hρ)
 
-theorem mem_Sec9R0 (hc : Ctx M Q Z B) (t : G) {x : G} (hx : x ∈ Rt M (LB M Q B) t) :
+omit [Finite G] in
+theorem mem_Sec9R0 (hc : Ctx M Q Z B) (t : G) {x : G} (_hx : x ∈ Rt M (LB M Q B) t) :
     x ∈ Sec9R0 hc t x := by
   refine Subgroup.mem_sup_right ?_
   refine (Subgroup.mem_iSup_of_mem 1 (Subgroup.mem_iSup_of_mem (Subgroup.one_mem _) ?_))

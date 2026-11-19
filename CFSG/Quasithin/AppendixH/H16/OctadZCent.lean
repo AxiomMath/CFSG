@@ -117,7 +117,7 @@ theorem ncard_conjugatesOf_koOne :
       exact ⟨hy.1, by simpa using hy.2⟩
     · intro hy
       exact ⟨hy.1, by simpa using hy.2⟩
-  rw [hT, Set.ncard_diff_singleton_of_mem (show (1 : S24) ∈ (fixO : Set S24) from fixO.one_mem)]
+  rw [hT, Set.ncard_sdiff_singleton_of_mem (show (1 : S24) ∈ (fixO : Set S24) from fixO.one_mem)]
   have hcard_fixO : (fixO : Set S24).ncard = 16 := by
     rw [← Nat.card_coe_set_eq]
     change Nat.card ↥fixO = 16

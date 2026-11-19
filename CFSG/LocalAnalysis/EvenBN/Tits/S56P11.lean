@@ -16,7 +16,7 @@ open scoped Pointwise commutatorElement
 namespace S56
 
 theorem sq_t_mul {G : Type*} [Group G] {t f a u : G} (ht : t * t = 1) (hft : f * t = t * f)
-    (hat : a * t = t * a) (haf : a * f = f * a) (hff : f * f = 1) (huf : u * f = f * u)
+    (_hat : a * t = t * a) (haf : a * f = f * a) (hff : f * f = 1) (huf : u * f = f * u)
     (hu : u * t = t * a * u) (huu : u * u = 1) : (t * f * u) * (t * f * u) = a := by
   have e1 : t * f * t = f := by
     calc t * f * t = f * t * t := by rw [← hft]
@@ -134,7 +134,7 @@ theorem Hyp.s56_eps_eq_one_of_mem_B (hd : d.Hyp) {b : G} (hb : b ∈ d.B) : d.s5
   have h' : d.t * b = b * d.t := h
   rw [s56Eps, show b * d.t * b⁻¹ = d.t by rw [← h']; group, hd.t_mul_self]
 
-theorem Hyp.s56_mem_B_of_eps_one (h49 : d.Thm49Statement) (hd : d.Hyp) {p : G} (hp : p ∈ d.s56P)
+theorem Hyp.s56_mem_B_of_eps_one (_h49 : d.Thm49Statement) (hd : d.Hyp) {p : G} (hp : p ∈ d.s56P)
     (h : d.s56Eps p = 1) : p ∈ d.B := by
   have hpt : p * d.t = d.t * p := by
     have h1 := hd.s56_conj_t p
@@ -319,7 +319,7 @@ theorem s56_P11_le_P (d : Data G) : d.s56P11 ≤ d.s56P := fun _ hg => hg.1
 
 theorem Hyp.s56_P_normalizes_U11 (h49 : d.Thm49Statement) (hd : d.Hyp) {p : G}
     (hp : p ∈ d.s56P) : p ∈ normalizer (d.s56U11 : Set G) :=
-  Subgroup.centralizer_le_normalizer (d.s56U11 : Set G) (mem_centralizer_iff.2 fun u hu =>
+  Subgroup.centralizer_le_normalizer (d.s56U11 : Set G) (mem_centralizer_iff.2 fun _u hu =>
     (hd.s56_P0_comm_U11 h49 ((s56_mem_P_iff d).1 hp).1 hu).symm)
 
 theorem Hyp.s56_mem_P11_iff (h49 : d.Thm49Statement) (hd : d.Hyp) {g : G} :
@@ -341,7 +341,7 @@ theorem Hyp.s56_mem_P11_iff (h49 : d.Thm49Statement) (hd : d.Hyp) {g : G} :
     have hεt : d.t * d.s56Eps g = d.s56Eps g * d.t := (hd.L_comm_t (s56_F_le_L d hεF)).symm
     rcases (hd.s56_mem_B_iff).1 hb with hf | hf
     · rw [s56_P_conj_F d hP hf]
-      simpa using one_mem _
+      simp
     · have hb' : b = d.t * (d.t * b) := by rw [← mul_assoc, hd.t_mul_self, one_mul]
       have hgb : g * b * g⁻¹ = d.t * d.s56Eps g * (d.t * b) :=
         calc g * b * g⁻¹ = g * (d.t * (d.t * b)) * g⁻¹ := by rw [← hb']

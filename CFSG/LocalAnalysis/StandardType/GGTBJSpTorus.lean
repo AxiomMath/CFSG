@@ -92,8 +92,8 @@ theorem ggTBJ_sp_component_model {p m : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) [NeZ
         ∀ j₀ ∈ J₀, spTorusSp hζ f * j₀ = j₀ * spTorusSp hζ f} ≤ p ^ m := by
   classical
   obtain ⟨ζ, hζ, x, σ, Θ, hζo, hψσ, hΘ, hWeyl⟩ := ggTBJ_sp_stdModel hp hp2 hpq ψ₀ A hA
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   let f₀ : Fin m → Multiplicative (ZMod p) := Θ.symm ⟨y, hy⟩
   have hΘf₀ : Θ f₀ = ⟨y, hy⟩ := MulEquiv.apply_symm_apply Θ _
   have hy_eq : y = MulAut.conj (σ f₀) := by
@@ -366,7 +366,7 @@ theorem ggTBJ_sp_inner_model {p m : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) [NeZero 
       have heg : e g ∈ J₀.map e.toMonoidHom := by
         rw [hmap]
         refine ⟨ψ₀ j, ⟨j, hj, rfl⟩, ?_⟩
-        simp [g, MulAut.conj_apply]
+        simp [g]
       have hg : g ∈ J₀ := (Subgroup.mem_map_iff_mem e.injective).mp heg
       exact ⟨g, hg, hνlift j⟩
   exact ⟨ζ, hζ, ν, Θ, J₀, hζo, hνinj, hνrange, hνtorus, hAmap, hJmap,
@@ -390,16 +390,16 @@ theorem ggTBJ_sp_torusJNoncomm {p m : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) [NeZer
   classical
   obtain ⟨ζ, hζ, x, σ, Θ, e, J₀, hζo, hψσ, hΘ, hWeyl, hproj, hmap, hJ₀, hcount_core⟩ :=
     ggTBJ_sp_component_model hp hp2 hpq ψ₀ A hA y hy hJ hcount
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   let f₀ : Fin m → Multiplicative (ZMod p) := Θ.symm ⟨y, hy⟩
   let S' : Subgroup (LargeEvenProj (LargeEvenSpGroup K m)) :=
     (J.map ψ₀).map (MulAut.conj x⁻¹).toMonoidHom
   have hmapS : J₀.map e.toMonoidHom = S' := hmap
   have hK4 : 4 ≤ Nat.card K := by
     have h2 : 2 ≤ Nat.card K := by
-      haveI : Fintype K := Fintype.ofFinite K
-      haveI : Nontrivial K := ⟨0, 1, zero_ne_one⟩
+      have : Fintype K := Fintype.ofFinite K
+      have : Nontrivial K := ⟨0, 1, zero_ne_one⟩
       rw [Nat.card_eq_fintype_card]
       exact Fintype.one_lt_card
     have h3 : 3 ≤ p := by

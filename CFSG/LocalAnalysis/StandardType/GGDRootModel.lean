@@ -35,12 +35,12 @@ namespace CFSG.StandardType
 
 private theorem drm_deps_zero (n : ℕ) (u : ℕ → ℤ) : ggDeps n u 0 = u 0 := by
   unfold ggDeps
-  rw [if_pos rfl]
+  rw [ite_eq_left rfl]
 
 private theorem drm_deps_chain (n : ℕ) (u : ℕ → ℤ) (k : ℕ) (hk : 0 < k) (hkn : k + 3 ≤ n) :
     ggDeps n u k = u k - u (k - 1) := by
   unfold ggDeps
-  rw [if_neg (by omega : ¬ k = 0), if_pos hkn]
+  rw [ite_eq_right (by omega : ¬ k = 0), ite_eq_left hkn]
 
 private theorem drm_sum_chain (n : ℕ) (u : ℕ → ℤ) :
     ∀ i, i + 3 ≤ n → (∑ k ∈ Finset.range (i + 1), ggDeps n u k) = u i := by
@@ -60,14 +60,14 @@ private theorem drm_sum_chain (n : ℕ) (u : ℕ → ℤ) :
 private theorem drm_deps_spin2 (n : ℕ) (hn : 3 ≤ n) (v : ℕ → ℤ) :
     ggDeps n v (n - 2) = v (n - 2) + v (n - 1) - v (n - 3) := by
   unfold ggDeps
-  rw [if_neg (by omega : ¬ (n - 2) = 0), if_neg (by omega : ¬ (n - 2) + 3 ≤ n),
-      if_pos (by omega : (n - 2) + 2 = n)]
+  rw [ite_eq_right (by omega : ¬ (n - 2) = 0), ite_eq_right (by omega : ¬ (n - 2) + 3 ≤ n),
+      ite_eq_left (by omega : (n - 2) + 2 = n)]
 
 private theorem drm_deps_spin (n : ℕ) (hn : 4 ≤ n) (v : ℕ → ℤ) :
     ggDeps n v (n - 1) = v (n - 1) - v (n - 2) := by
   unfold ggDeps
-  rw [if_neg (by omega : ¬ (n - 1) = 0), if_neg (by omega : ¬ (n - 1) + 3 ≤ n),
-      if_neg (by omega : ¬ (n - 1) + 2 = n), if_pos (by omega : (n - 1) + 1 = n)]
+  rw [ite_eq_right (by omega : ¬ (n - 1) = 0), ite_eq_right (by omega : ¬ (n - 1) + 3 ≤ n),
+      ite_eq_right (by omega : ¬ (n - 1) + 2 = n), ite_eq_left (by omega : (n - 1) + 1 = n)]
 
 private theorem drm_sum_spin (n : ℕ) (hn : 4 ≤ n) (u : ℕ → ℤ) :
     (∑ k ∈ Finset.range (n - 1), ggDeps n u k) = u (n - 2) + u (n - 1) := by
@@ -154,9 +154,9 @@ private theorem drm_deps_zero_of_lt (n m : ℕ) (u : ℕ → ℤ) (hz : ∀ i < 
   unfold ggDeps
   by_cases h0 : k = 0
   · subst h0
-    rw [if_pos rfl, hz 0 (by omega)]
+    rw [ite_eq_left rfl, hz 0 (by omega)]
   · have hc : k + 3 ≤ n := by omega
-    rw [if_neg h0, if_pos hc, hz k hk]
+    rw [ite_eq_right h0, ite_eq_left hc, hz k hk]
     have hk1 : k - 1 < m := by omega
     rw [hz (k - 1) hk1]
     ring
@@ -169,11 +169,11 @@ private theorem drm_deps_shift (n m : ℕ) (u : ℕ → ℤ) (hz : ∀ i < m, u 
     simp only [Nat.add_zero]
     have hL : ggDeps (n - m) (fun i => u (m + i)) 0 = u m := by
       unfold ggDeps
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       simp only [Nat.add_zero]
     have hR : ggDeps n u m = u m := by
       unfold ggDeps
-      rw [if_neg (by omega : ¬ m = 0), if_pos (by omega : m + 3 ≤ n)]
+      rw [ite_eq_right (by omega : ¬ m = 0), ite_eq_left (by omega : m + 3 ≤ n)]
       rw [hz (m - 1) (by omega)]
       ring
     rw [hL, hR]
@@ -192,7 +192,7 @@ private theorem drm_deps_shift (n m : ℕ) (u : ℕ → ℤ) (hz : ∀ i < m, u 
             (fun i => u (m + i)) (n - m - 2) + (fun i => u (m + i)) (n - m - 1)
               - (fun i => u (m + i)) (n - m - 3) := by
           unfold ggDeps
-          rw [if_neg (by omega : ¬ k = 0), if_neg hc, if_pos hs2]
+          rw [ite_eq_right (by omega : ¬ k = 0), ite_eq_right hc, ite_eq_left hs2]
         have hmk : m + k = n - 2 := by omega
         have hR : ggDeps n u (m + k) = u (n - 2) + u (n - 1) - u (n - 3) := by
           rw [hmk]
@@ -205,7 +205,7 @@ private theorem drm_deps_shift (n m : ℕ) (u : ℕ → ℤ) (hz : ∀ i < m, u 
         · have hL : ggDeps (n - m) (fun i => u (m + i)) k =
               (fun i => u (m + i)) (n - m - 1) - (fun i => u (m + i)) (n - m - 2) := by
             unfold ggDeps
-            rw [if_neg (by omega : ¬ k = 0), if_neg hc, if_neg hs2, if_pos hs1]
+            rw [ite_eq_right (by omega : ¬ k = 0), ite_eq_right hc, ite_eq_right hs2, ite_eq_left hs1]
           have hmk : m + k = n - 1 := by omega
           have hR : ggDeps n u (m + k) = u (n - 1) - u (n - 2) := by
             rw [hmk]
@@ -215,12 +215,12 @@ private theorem drm_deps_shift (n m : ℕ) (u : ℕ → ℤ) (hz : ∀ i < m, u 
             show m + (n - m - 2) = n - 2 by omega]
         · have hL : ggDeps (n - m) (fun i => u (m + i)) k = 0 := by
             unfold ggDeps
-            rw [if_neg (by omega : ¬ k = 0), if_neg hc, if_neg hs2, if_neg hs1]
+            rw [ite_eq_right (by omega : ¬ k = 0), ite_eq_right hc, ite_eq_right hs2, ite_eq_right hs1]
           have hR : ggDeps n u (m + k) = 0 := by
             unfold ggDeps
-            rw [if_neg (by omega : ¬ m + k = 0), if_neg (by omega : ¬ (m + k) + 3 ≤ n),
-                if_neg (by omega : ¬ (m + k) + 2 = n),
-                if_neg (by omega : ¬ (m + k) + 1 = n)]
+            rw [ite_eq_right (by omega : ¬ m + k = 0), ite_eq_right (by omega : ¬ (m + k) + 3 ≤ n),
+                ite_eq_right (by omega : ¬ (m + k) + 2 = n),
+                ite_eq_right (by omega : ¬ (m + k) + 1 = n)]
           rw [hL, hR]
 
 theorem ggDRoot_tail {n m : ℕ} (hnm : m + 5 ≤ n) {u : ℕ → ℤ} (hu : GGDRoot n u)
@@ -234,39 +234,39 @@ theorem ggDRoot_tail {n m : ℕ} (hnm : m + 5 ≤ n) {u : ℕ → ℤ} (hu : GGD
       have hlt : a < m := by omega
       have hz0 : ggDeps n u a = 0 := drm_deps_zero_of_lt n m u hz hnm hlt
       have hp := hx a
-      rw [hz0, if_pos rfl, if_neg hab] at hp
+      rw [hz0, ite_eq_left rfl, ite_eq_right hab] at hp
       rcases hs with h | h <;> omega
     have hge_b : m ≤ b := by
       by_contra h
       have hlt : b < m := by omega
       have hz0 : ggDeps n u b = 0 := drm_deps_zero_of_lt n m u hz hnm hlt
       have hp := hx b
-      rw [hz0, if_neg (Ne.symm hab), if_pos rfl] at hp
+      rw [hz0, ite_eq_right (Ne.symm hab), ite_eq_left rfl] at hp
       rcases ht with h | h <;> omega
     refine ⟨a - m, b - m, by omega, by omega, by omega, s, t, hs, ht, ?_⟩
     intro k
     rw [drm_deps_shift n m u hz hmpos hnm k, hx (m + k)]
     have h1 : (if m + k = a then s else 0) = (if k = a - m then s else 0) := by
       by_cases h : m + k = a
-      · rw [if_pos h, if_pos (by omega)]
-      · rw [if_neg h, if_neg (by omega)]
+      · rw [ite_eq_left h, ite_eq_left (by omega)]
+      · rw [ite_eq_right h, ite_eq_right (by omega)]
     have h2 : (if m + k = b then t else 0) = (if k = b - m then t else 0) := by
       by_cases h : m + k = b
-      · rw [if_pos h, if_pos (by omega)]
-      · rw [if_neg h, if_neg (by omega)]
+      · rw [ite_eq_left h, ite_eq_left (by omega)]
+      · rw [ite_eq_right h, ite_eq_right (by omega)]
     rw [h1, h2]
 
 private theorem drm_dinv_chain (n : ℕ) (u : ℕ → ℤ) (i : ℕ) (hi : i + 3 ≤ n) :
     ggDinv n (ggDeps n u) i = u i := by
   unfold ggDinv
-  rw [if_pos hi]
+  rw [ite_eq_left hi]
   exact drm_sum_chain n u i hi
 
 private theorem drm_dinv_spin2 (n : ℕ) (hn : 4 ≤ n) (u : ℕ → ℤ) :
     ggDinv n (ggDeps n u) (n - 2) = u (n - 2) := by
   unfold ggDinv
-  rw [if_neg (by omega : ¬ (n - 2) + 3 ≤ n),
-      if_pos (by omega : (n - 2) + 2 = n)]
+  rw [ite_eq_right (by omega : ¬ (n - 2) + 3 ≤ n),
+      ite_eq_left (by omega : (n - 2) + 2 = n)]
   rw [drm_sum_spin n hn u, drm_deps_spin n hn u]
   have h : u (n - 2) + u (n - 1) - (u (n - 1) - u (n - 2)) = 2 * u (n - 2) := by
     ring
@@ -276,9 +276,9 @@ private theorem drm_dinv_spin2 (n : ℕ) (hn : 4 ≤ n) (u : ℕ → ℤ) :
 private theorem drm_dinv_spin1 (n : ℕ) (hn : 4 ≤ n) (u : ℕ → ℤ) :
     ggDinv n (ggDeps n u) (n - 1) = u (n - 1) := by
   unfold ggDinv
-  rw [if_neg (by omega : ¬ (n - 1) + 3 ≤ n),
-      if_neg (by omega : ¬ (n - 1) + 2 = n),
-      if_pos (by omega : (n - 1) + 1 = n)]
+  rw [ite_eq_right (by omega : ¬ (n - 1) + 3 ≤ n),
+      ite_eq_right (by omega : ¬ (n - 1) + 2 = n),
+      ite_eq_left (by omega : (n - 1) + 1 = n)]
   rw [drm_sum_spin n hn u, drm_deps_spin n hn u]
   have h : u (n - 2) + u (n - 1) + (u (n - 1) - u (n - 2)) = 2 * u (n - 1) := by
     ring
@@ -312,7 +312,7 @@ private theorem drm_mem_ggDRootList_of_pair (n a b : ℕ) (s t : ℤ) (ha : a < 
   refine ⟨a, List.mem_range.mpr ha, ?_⟩
   rw [List.mem_flatMap]
   refine ⟨b, List.mem_range.mpr hb, ?_⟩
-  rw [if_pos hab, List.mem_map]
+  rw [ite_eq_left hab, List.mem_map]
   exact ⟨(s, t), drm_pair_mem s t hs ht, rfl⟩
 
 theorem ggDRoot_mem_ggDRootList {n : ℕ} (hn : 4 ≤ n) {u : ℕ → ℤ} (hu : GGDRoot n u) :

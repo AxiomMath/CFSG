@@ -75,7 +75,7 @@ theorem fg_kind2_chi_piOrth_ne_one (hQ : Q.Nondegenerate) {g : OGroup Q} (hgg : 
 
 theorem fg_kind2_mul_eq_one_of_ne_one {H : Type*} [Group H] (h2 : Nat.card H = 2) {u v : H}
     (hu : u ≠ 1) (hv : v ≠ 1) : u * v = 1 := by
-  haveI : Finite H := Nat.finite_of_card_ne_zero (by rw [h2]; norm_num)
+  have : Finite H := Nat.finite_of_card_ne_zero (by rw [h2]; norm_num)
   have hord : ∀ x : H, x ≠ 1 → orderOf x = 2 := fun x hx => by
     have hd : orderOf x ∣ 2 := h2 ▸ orderOf_dvd_natCard x
     exact ((Nat.dvd_prime Nat.prime_two).mp hd).resolve_left

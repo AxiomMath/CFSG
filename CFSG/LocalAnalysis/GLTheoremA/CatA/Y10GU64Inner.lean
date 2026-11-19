@@ -47,7 +47,7 @@ theorem u64InnerPiece_holds : U64InnerPiece := by
   have hd3 : 3 ≤ d := by omega
   have h : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 n K :=
     CFSG.LocalAnalysis.GLTheoremA.Y10F.unitaryFieldData_of_card hn1 hK
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   obtain ⟨A, hA, hβA⟩ := hβ
   obtain ⟨B, hB, hB3, hβB⟩ :=
     CFSG.LieType.SemisimpleCentralizers.OrderThree.exists_mem_statedSU_pow_three_eq_one
@@ -117,7 +117,7 @@ theorem u64InnerPiece_holds : U64InnerPiece := by
         ((y : ↥(fixSubgroup α)) : S)⁻¹ ∈ L₁ ⊔ L₂
     rw [hconj]
     exact mul_mem (hcommut _ _ hyB heB) he
-  have hsolv : IsSolvable (↥(fixSubgroup α) ⧸ (L₁ ⊔ L₂).subgroupOf (fixSubgroup α)) := by
+  have hsolv : Group.IsSolvable (↥(fixSubgroup α) ⧸ (L₁ ⊔ L₂).subgroupOf (fixSubgroup α)) := by
     apply Group.isSolvable_of_comm
     intro p q
     obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective p
@@ -143,21 +143,21 @@ theorem u64InnerPiece_holds : U64InnerPiece := by
   have hSLq :=
     CFSG.LieType.SemisimpleCentralizers.OrderThree.isQuasisimple_or_isSolvable_statedSL hK4 a
   have hLfun : ∀ i : Fin 2, CFSG.Assembly.IsQuasisimple ↥(![L₁, L₂] i) ∨
-      IsSolvable ↥(![L₁, L₂] i) := by
+      Group.IsSolvable ↥(![L₁, L₂] i) := by
     intro i
     fin_cases i
-    · change CFSG.Assembly.IsQuasisimple ↥L₁ ∨ IsSolvable ↥L₁
+    · change CFSG.Assembly.IsQuasisimple ↥L₁ ∨ Group.IsSolvable ↥L₁
       rcases e₁ with ⟨e₁'⟩
       rcases hSUq with hq | hs
       · exact Or.inl (CFSG.Assembly.IsQuasisimple.of_mulEquiv e₁' hq)
-      · haveI : Group.IsSolvable (StatedSU k (2 ^ n) K) := hs
+      · have : Group.IsSolvable (StatedSU k (2 ^ n) K) := hs
         exact Or.inr (Group.isSolvable_of_isSolvable_injective
           (f := (e₁' : ↥L₁ →* StatedSU k (2 ^ n) K)) e₁'.injective)
-    · change CFSG.Assembly.IsQuasisimple ↥L₂ ∨ IsSolvable ↥L₂
+    · change CFSG.Assembly.IsQuasisimple ↥L₂ ∨ Group.IsSolvable ↥L₂
       rcases e₂ with ⟨e₂'⟩
       rcases hSLq with hq | hs
       · exact Or.inl (CFSG.Assembly.IsQuasisimple.of_mulEquiv e₂' hq)
-      · haveI : Group.IsSolvable (StatedSL a K) := hs
+      · have : Group.IsSolvable (StatedSL a K) := hs
         exact Or.inr (Group.isSolvable_of_isSolvable_injective
           (f := (e₂' : ↥L₂ →* StatedSL a K)) e₂'.injective)
   have hE : L₁ ⊔ L₂ = ⨆ i : Fin 2, ![L₁, L₂] i := by
@@ -201,8 +201,8 @@ theorem u64InnerPiece_holds : U64InnerPiece := by
     exact Nat.card_congr eJtJ.toEquiv
   obtain ⟨K₅, hK₅f, hK₅fin, hK₅card, hK₅eq⟩ :=
     nonempty_quotientCenter_model_twA (lab := ⟨.twA, 4, 2⟩) hJl rfl
-  letI : Field K₅ := hK₅f
-  haveI : Finite K₅ := hK₅fin
+  let : Field K₅ := hK₅f
+  have : Finite K₅ := hK₅fin
   have hK₅card' : Nat.card K₅ = (2 ^ 2) ^ 2 := hK₅card
   have hcard_model : Nat.card (J ⧸ Subgroup.center J) =
       Nat.card (StatedProj (StatedSU 5 (2 ^ 2) K₅)) :=

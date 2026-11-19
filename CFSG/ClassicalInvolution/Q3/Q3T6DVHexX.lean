@@ -106,7 +106,7 @@ theorem Std20Three.v_exists_x (d : Std20Three K K' J S R R' W V z t) {s : G} (hs
     have haQ' : (a : G) ∈ Q := haQ
     have haW' : (a : G) ∈ W := haW
     have hodd' : Odd (orderOf (a : G)) := odd_orderOf_of_mem_oddCoreOf C₀ haQ'
-    obtain ⟨k, hk⟩ := S.isPGroup' ⟨(a : G), d.hWS haW'⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨(a : G), d.hWS haW'⟩
     have hk' : (a : G) ^ 2 ^ k = 1 := by simpa using congrArg Subtype.val hk
     have hdvd : orderOf (a : G) ∣ 2 ^ k := orderOf_dvd_of_pow_eq_one hk'
     have hcop : Nat.Coprime (orderOf (a : G)) (2 ^ k) := hodd'.coprime_two_right.pow_right k

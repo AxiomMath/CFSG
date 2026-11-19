@@ -58,6 +58,7 @@ theorem endoE_endoE_inv (g : Gp K) (x : V K) : endoE g (endoE g⁻¹ x) = x := b
 
 variable [CharP K 2]
 
+omit [CharP K 2] in
 theorem w0_ne_zero : (w0 : V K) ≠ 0 := Finsupp.single_ne_zero.2 one_ne_zero
 
 set_option maxRecDepth 20000 in
@@ -68,12 +69,12 @@ theorem single_mem_W0_iff (b : Fin e7Data.d) :
   · intro h γ hγ h1 h2
     have h3 := h (vAut K (e7Data_valid.xu K γ 1)) ⟨γ, hγ, h1, 1, rfl⟩
     rw [vAut_apply, e7Data_valid.xu_apply, add_sub_cancel_left, one_smul, rootOp_single hγ,
-      if_pos h2] at h3
+      ite_eq_left h2] at h3
     obtain ⟨t, ht⟩ := Submodule.mem_span_singleton.1 h3
     have h4 := congrArg (fun f : V K => f (shift γ b)) ht
     have h5 : shift γ b = a7 := by
       by_contra hne
-      simp only [Finsupp.smul_apply, Finsupp.single_apply, if_neg (Ne.symm hne), if_true,
+      simp only [Finsupp.smul_apply, Finsupp.single_apply, ite_eq_right (Ne.symm hne), ite_true,
         smul_eq_mul, mul_zero] at h4
       exact zero_ne_one h4
     have := wt_shift hγ h2
@@ -82,9 +83,9 @@ theorem single_mem_W0_iff (b : Fin e7Data.d) :
   · rintro h s ⟨γ, hγ, h1, c, rfl⟩
     rw [vAut_apply, e7Data_valid.xu_apply, add_sub_cancel_left, rootOp_single hγ]
     by_cases h2 : pr b γ = -1
-    · rw [if_pos h2, shift_eq (h γ hγ h1 h2).symm.symm]
+    · rw [ite_eq_left h2, shift_eq (h γ hγ h1 h2).symm.symm]
       exact Submodule.smul_mem _ c (Submodule.mem_span_singleton_self _)
-    · rw [if_neg h2, smul_zero]
+    · rw [ite_eq_right h2, smul_zero]
       exact Submodule.zero_mem _
 
 theorem bor_line {b : Gp K} (hb : b ∈ Bor K) :
@@ -130,7 +131,7 @@ theorem line_nf {g₀ b₁ b₂ n : Gp K} {σ : Fin e7Data.d → Fin e7Data.d}
   have h1 := hn.weight a7
   rw [show (w0 : V K) = Finsupp.single a7 1 from rfl, h1]
 
-theorem conj_UA7_of_line {g₀ : Gp K} {c : K} (hc : c ≠ 0) (h : endoE g₀ (w0 : V K) = c • w0) :
+theorem conj_UA7_of_line {g₀ : Gp K} {c : K} (_hc : c ≠ 0) (h : endoE g₀ (w0 : V K) = c • w0) :
     ∀ x ∈ UA K a7, g₀ * x * g₀⁻¹ ∈ UA K a7 := by
   obtain ⟨b₁, hb₁, b₂, hb₂, n, σ, ρ, hn, hg⟩ := bruhat_mon g₀
   obtain ⟨κ, hκ, hnf⟩ := line_nf hb₂ hn hg
@@ -148,7 +149,7 @@ theorem conj_UA7_of_line {g₀ : Gp K} {c : K} (hc : c ≠ 0) (h : endoE g₀ (w
     rw [h2] at hL
     have hR : (((κ⁻¹ * c) * c') • (w0 : V K)) (σ a7) = 0 := by
       rw [Finsupp.smul_apply, show (w0 : V K) = Finsupp.single a7 1 from rfl, Finsupp.single_apply,
-        if_neg (Ne.symm hne), smul_zero]
+        ite_eq_right (Ne.symm hne), smul_zero]
     rw [hR] at hL
     exact zero_ne_one hL
   intro x hx
@@ -333,7 +334,7 @@ theorem e7_lemmaS : ∀ g ∈ EAut K, SpecialAt (betaL K) (w0 : V K) (rootRad7 K
         Finsupp.single c₂ 1 := by
       rw [← hx₁]
       exact hm₁.weight x₁
-    rw [e1, e2, beta_single, if_neg (Ne.symm h6)] at e
+    rw [e1, e2, beta_single, ite_eq_right (Ne.symm h6)] at e
     exact e.symm
   · intro hmem
     have := (single_mem_W0_iff x₁).1 hmem

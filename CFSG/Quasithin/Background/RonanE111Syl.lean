@@ -29,8 +29,8 @@ theorem le_sup_of_isTwoQuotient {U S N Y : Subgroup G} (hS : IsSylowIn 2 S U) (h
     refine ⟨fun hz => hZ u hu z hz, fun hz => ?_⟩
     have := hZ u⁻¹ (U.inv_mem hu) _ hz
     simpa [mul_assoc] using this
-  haveI hYn' : (Y.subgroupOf U).Normal := hUnorm hYU hYn
-  haveI hNn' : (N.subgroupOf U).Normal := hUnorm hNU hNn
+  have hYn' : (Y.subgroupOf U).Normal := hUnorm hYU hYn
+  have hNn' : (N.subgroupOf U).Normal := hUnorm hNU hNn
   set π := QuotientGroup.mk' (Y.subgroupOf U) with hπ
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective _
   have hSylS' : IsSylowIn 2 (S.subgroupOf U) ⊤ := by
@@ -46,7 +46,7 @@ theorem le_sup_of_isTwoQuotient {U S N Y : Subgroup G} (hS : IsSylowIn 2 S U) (h
     show (y : _ ⧸ Y.subgroupOf U) ^ 2 ^ k = 1
     rw [← hxy, ← map_pow, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff]
     exact Subgroup.mem_subgroupOf.mpr (by simpa using hk)
-  haveI : ((N.subgroupOf U).map π).Normal := Subgroup.Normal.map hNn' π hπs
+  have : ((N.subgroupOf U).map π).Normal := Subgroup.Normal.map hNn' π hπs
   have hle : (N.subgroupOf U).map π ≤ (S.subgroupOf U).map π :=
     hSylbar.le_of_normal le_top (Subgroup.normal_subgroupOf) hNp
   have hle' : N.subgroupOf U ≤ S.subgroupOf U ⊔ Y.subgroupOf U := by

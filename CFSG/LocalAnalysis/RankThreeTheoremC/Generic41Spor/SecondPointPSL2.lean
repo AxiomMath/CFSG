@@ -109,7 +109,7 @@ theorem psl2_autBound {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {Q : Type} [Group
   exact hcop.dvd_of_dvd_mul_right h1
 
 theorem secondPointFacts_psl2 {p : ℕ} [Fact p.Prime] (h5 : 5 ≤ p) {Q : Type} [Group Q] [Finite Q]
-    (e : Nonempty (Q ≃* PSL(2, GaloisField p 2))) (hz : Subgroup.center Q = ⊥) :
+    (e : Nonempty (Q ≃* PSL(2, GaloisField p 2))) (_hz : Subgroup.center Q = ⊥) :
     SecondPointFacts p Q := by
   obtain ⟨e⟩ := e
   have hp2 : p ≠ 2 := by omega

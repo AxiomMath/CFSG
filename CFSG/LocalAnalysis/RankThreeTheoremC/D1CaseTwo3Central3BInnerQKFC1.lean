@@ -51,7 +51,7 @@ namespace InnerQ.KFC1
 
 variable {X : Type} [Group X] [Finite X] {T : Sylow 3 X} {X₀ : Subgroup X} {x : X}
 
-theorem le_two_of_isElemAbelian (hred : ReducedNongeneration 3 X T X₀)
+theorem le_two_of_isElemAbelian (_hred : ReducedNongeneration 3 X T X₀)
     (hT3 : Open.pRank 3 (T : Subgroup X) = 3) (hxZ : x ∈ center X) (hxo : orderOf x = 3)
     {K : Subgroup X} (hxK : x ∉ K) {E : Subgroup X} (hET : E ≤ (T : Subgroup X) ⊓ K)
     (hE : IsElemAbelian 3 E) {a : ℕ} (ha : Nat.card E = 3 ^ a) : a ≤ 2 := by
@@ -124,7 +124,7 @@ theorem kfc1_local
           CFSG.RankThree.PartOne.Census3.IsoLie K (.twistedA 2 q)) := by
   have hp : (3 : ℕ).Prime := Nat.prime_three
   have : Fact (Nat.Prime 3) := ⟨hp⟩
-  haveI hKn : K.Normal := hred.normal_of_isComponentOf_of_center hxZ hxo hK
+  have hKn : K.Normal := hred.normal_of_isComponentOf_of_center hxZ hxo hK
   have hZK : center K = ⊥ := by
     rcases hred.mem_or_rankOne_of_center hxZ hxo hK with ⟨⟨k, -, hk⟩, -⟩ | ⟨-, hZ, -⟩
     · exact absurd (hk ▸ k.2) hxK
@@ -139,7 +139,7 @@ theorem kfc1_local
     have : (k : X) ∈ (T : Subgroup X) ⊓ K := hTK ▸ ⟨k, hk, rfl⟩
     exact mem_subgroupOf.mpr (hTX₀ this.1)
   have hNM : ∀ D : Subgroup K, D ≤ TK → D ≠ ⊥ → normalizer (D : Set K) ≤ M := fun D hD hD1 =>
-    normalizer_le_subgroupOf hxo hΓ hxK (hD.trans hTKM) (TK.isPGroup'.to_le hD) hD1
+    normalizer_le_subgroupOf hxo hΓ hxK (hD.trans hTKM) (TK.isPGroup.to_le hD) hD1
   have hTK1 : (TK : Subgroup K) ≠ ⊥ := by
     obtain ⟨t, ⟨htT, htK⟩, hto, -⟩ := exists_mem_sylow_inf_component hp (by norm_num)
       hred.core_eq_bot T hK
@@ -152,7 +152,7 @@ theorem kfc1_local
     fun E hE he a ha => le_two_of_isElemAbelian hred hT3 hxZ hxo hxK (E := E.map K.subtype)
       (by rw [← hTK]; exact map_mono hE) (he.map _)
       (by rw [card_map_of_injective K.subtype_injective]; exact ha)
-  haveI hsimple : IsSimpleGroup K :=
+  have hsimple : IsSimpleGroup K :=
     (MulEquiv.isSimpleGroup_congr
       ((QuotientGroup.quotientMulEquivOfEq hZK).trans QuotientGroup.quotientBot)).mp hK.2.2.2
   by_cases hcyc : IsCyclic ((T : Subgroup X) ⊓ K : Subgroup X)
@@ -210,7 +210,7 @@ theorem kfc1_local
       obtain ⟨a, b, hab⟩ := hnab
       exact ⟨⟨a, mem_top a⟩, ⟨b, mem_top b⟩, fun h => hab (congrArg Subtype.val h)⟩
     have hrk : 2 ≤ Open.pRank 3 (TK : Subgroup K) :=
-      two_le_pRank_of_isPGroup_not_isCyclic hp (by norm_num) TK.isPGroup' hncTK
+      two_le_pRank_of_isPGroup_not_isCyclic hp (by norm_num) TK.isPGroup hncTK
     obtain ⟨-, hmax, hrows⟩ := hG3 K hKgrp ⊤ inferInstance hsimpTop hnabTop hcent TK hrk hgamlt
     simp only [inf_top_eq] at hmax hrows
     have hMeq : ∀ N : Subgroup K,
@@ -222,7 +222,7 @@ theorem kfc1_local
       · rw [← heq, hN, top_inf_eq]
     have hcard_le : ∀ E : Subgroup K, E ≤ TK → IsElemAbelian 3 E → Nat.card E ≤ 9 := by
       intro E hE he
-      obtain ⟨a, ha⟩ := (TK.isPGroup'.to_le hE).exists_card_eq
+      obtain ⟨a, ha⟩ := (TK.isPGroup.to_le hE).exists_card_eq
       have := hA E hE he a ha
       rw [ha]
       calc 3 ^ a ≤ 3 ^ 2 := Nat.pow_le_pow_right (by norm_num) this
@@ -334,6 +334,7 @@ theorem le_frattini_of_isCyclic {p : ℕ} [Fact p.Prime] {B D : Subgroup X} (hB 
   intro d hd
   exact ⟨⟨d, hDB hd⟩, hD'le (mem_subgroupOf.mpr hd), rfl⟩
 
+omit [Finite X] in
 theorem coe_mem_normalizer_map {K : Subgroup X} {H : Subgroup K} {n : K}
     (hn : n ∈ normalizer (H : Set K)) :
     (n : X) ∈ normalizer ((H.map K.subtype : Subgroup X) : Set X) := by
@@ -365,7 +366,7 @@ theorem kFactKFC1_of_central
   · exact hZ X T X₀ x hcat hred hT3 hxZ hxo hΓ K hK hxK
   have hp : (3 : ℕ).Prime := Nat.prime_three
   have : Fact (Nat.Prime 3) := ⟨hp⟩
-  haveI hKn : K.Normal := hred.normal_of_isComponentOf_of_center hxZ hxo hK
+  have hKn : K.Normal := hred.normal_of_isComponentOf_of_center hxZ hxo hK
   have hKX₀ : ¬ K ≤ X₀ := hred.not_le_of_not_mem_of_center hxZ hxo hK hKn hxK
   have hTX₀ : (T : Subgroup X) ≤ X₀ := hred.sylow_le
   obtain ⟨TK, hTK⟩ := Walter.exists_sylow_map_eq_inf_of_isSubnormal T
@@ -374,7 +375,7 @@ theorem kFactKFC1_of_central
   obtain ⟨hM, hsq, hcase⟩ := InnerQ.KFC1.kfc1_local hG3 hO hS hcat hred hT3 hxZ hxo hΓ hK hxK TK hTK
   set B := (T : Subgroup X) ⊓ K with hBdef
   have hBK : B ≤ K := inf_le_right
-  have hBp : IsPGroup 3 B := T.isPGroup'.to_le inf_le_left
+  have hBp : IsPGroup 3 B := T.isPGroup.to_le inf_le_left
   have hmemB : ∀ k : K, (k : X) ∈ B ↔ k ∈ (TK : Subgroup K) := fun k => by
     rw [← hTK]
     exact ⟨fun ⟨k', hk', hkk⟩ => (Subtype.ext hkk : k' = k) ▸ hk', fun hk => ⟨k, hk, rfl⟩⟩

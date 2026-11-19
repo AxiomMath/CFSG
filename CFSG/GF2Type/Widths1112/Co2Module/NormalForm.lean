@@ -24,14 +24,14 @@ theorem exists_adapted_basis (hV : Module.finrank (ZMod 2) V = 22) (hnt : ∃ v,
       x ∈ LinearMap.range (eK ρ ι D.w₁) ∧ ρ D.t x = x ∧
       (∀ a, b (Sum.inl a) = ((v0 a : LinearMap.range (piE ρ ι)) : V)) ∧
       ∀ i j, b (Sum.inr (i, j)) = ρ (D.r i) ((ρ (ι D.v₀) ^ (j : ℕ)) x) := by
-  haveI : FiniteDimensional (ZMod 2) V := finiteDimensional_of_finrank_eq_22 hV
+  have : FiniteDimensional (ZMod 2) V := finiteDimensional_of_finrank_eq_22 hV
   have hconst : ∀ w ∈ lineReps, ∀ w' ∈ lineReps, D.cls w = D.cls w' →
       Module.finrank (ZMod 2) (LinearMap.range (eK ρ ι w)) =
         Module.finrank (ZMod 2) (LinearMap.range (eK ρ ι w')) :=
     fun w hw w' hw' hc => finrank_range_eK_eq_of_eqvGen ρ D.n D.An D.hn (D.horbit w hw w' hw' hc)
   obtain ⟨hE, hdim⟩ := finrank_piE_and_eK22 ρ ι hV isLineReps_lineReps D.cls D.h0 D.h1 hconst hnt
   have hw : Module.finrank (ZMod 2) (LinearMap.range (eK ρ ι D.w₁)) = 2 := by
-    rw [hdim D.w₁ D.hw₁R, if_pos D.hw₁cls]
+    rw [hdim D.w₁ D.hw₁R, ite_eq_left D.hw₁cls]
   have hne : LinearMap.range (eK ρ ι D.w₁) ≠ ⊥ := by
     intro h
     rw [h, finrank_bot] at hw
@@ -91,9 +91,9 @@ theorem theta_eq_one (v0 : Module.Basis (Fin 2) (ZMod 2) (LinearMap.range (piE �
     exact (hfix _ (v0 a).2).symm.trans (hθ a)
   refine Matrix.ext fun i j => ?_
   have hj := congrArg (fun w : LinearMap.range (piE ρ ι) => v0.repr w i) (key j)
-  simp only [Module.Basis.repr_self, map_sum, map_smul, Finsupp.finset_sum_apply,
+  simp only [Module.Basis.repr_self, map_sum, map_smul, _root_.Finsupp.finsetSum_apply,
     Finsupp.smul_apply, Finsupp.single_apply, smul_eq_mul, mul_ite, mul_one, mul_zero,
-    Finset.sum_ite_eq', Finset.mem_univ, if_true] at hj
+    Finset.sum_ite_eq', Finset.mem_univ, ite_true] at hj
   rw [Matrix.one_apply, ← hj]
   by_cases h : i = j
   · simp [h]
@@ -141,18 +141,18 @@ theorem toMatrix_rho (v0 : Module.Basis (Fin 2) (ZMod 2) (LinearMap.range (piE �
   rcases c with a | ⟨i, j⟩
   · rw [hcol a, map_sum]
     rcases r with a' | ⟨i', c'⟩
-    · fin_cases a' <;> simp [Xmat, Module.Basis.repr_self, Finsupp.single_apply, map_smul]
-    · simp [Xmat, Module.Basis.repr_self, Finsupp.single_apply, map_smul]
+    · fin_cases a' <;> simp [Xmat, Module.Basis.repr_self, map_smul]
+    · simp [Xmat, Module.Basis.repr_self, map_smul]
   · rw [rho_apply_basis22 ρ ι b D.hv₀ hb1 hx (n := D.m k) (r := D.r) (σ := D.σ k)
       (u := D.u k) (s := fun i j => D.t ^ D.ε k i j * D.pp k i j) hdec' hs i j]
     rw [map_add, map_smul, map_smul]
     rcases r with a' | ⟨i', c'⟩
-    · simp [Xmat, Module.Basis.repr_self, Finsupp.single_apply]
+    · simp [Xmat, Module.Basis.repr_self]
     · rcases eq_or_ne (D.σ k i) i' with h | h
       · subst h
-        fin_cases c' <;> simp [Xmat, cfTab, Module.Basis.repr_self, Finsupp.single_apply]
+        fin_cases c' <;> simp [Xmat, cfTab, Module.Basis.repr_self]
       · fin_cases c' <;>
-          simp [Xmat, cfTab, Module.Basis.repr_self, Finsupp.single_apply, h, Ne.symm h]
+          simp [Xmat, cfTab, Module.Basis.repr_self, Ne.symm h]
 
 theorem toMatrix_reindex {ι₁ ι₂ : Type*} [Fintype ι₁] [DecidableEq ι₁] [Fintype ι₂]
     [DecidableEq ι₂] (b : Module.Basis ι₁ (ZMod 2) V) (e : ι₁ ≃ ι₂)
@@ -193,7 +193,7 @@ theorem normal_form (hV : Module.finrank (ZMod 2) V = 22) (hnt : ∃ v, ρ (ι v
     ∃ b : Module.Basis (Fin 22) (ZMod 2) V,
       (∀ s, LinearMap.toMatrix b b (ρ (D.n s)) = D.X0 s) ∧
       LinearMap.toMatrix b b (ρ D.g) = D.M0 := by
-  haveI := finiteDimensional_of_finrank_eq_22 hV
+  have := finiteDimensional_of_finrank_eq_22 hV
   obtain ⟨hd1, hd0, x, v0, b, hx, htx, hb0, hb1⟩ := exists_adapted_basis D ρ hV hnt
   have hPx : ∀ q ∈ Subgroup.closure (Set.range D.p), ρ q x = x :=
     fun q hq => closure_p_fixes D ρ hd1 q hq x hx

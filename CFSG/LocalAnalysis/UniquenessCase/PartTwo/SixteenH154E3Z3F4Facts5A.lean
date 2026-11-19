@@ -41,9 +41,9 @@ theorem s16h_e3_z3f5_root_cases (y : OmegaField) (hy : y ^ 2 + y + 1 = 0) :
   rw [hAB] at hy
   rcases s16h_e3_z3f5_zmod_two_cases A with rfl | rfl <;>
     rcases s16h_e3_z3f5_zmod_two_cases B with rfl | rfl
-  · exfalso; simpa using hy
+  · exfalso; simp at hy
   · left; simpa using hAB
-  · exfalso; simpa [s16h_e3_z3f5_omegaField_add_self] using hy
+  · exfalso; simp [s16h_e3_z3f5_omegaField_add_self] at hy
   · right
     rw [hAB]
     simp only [map_one, one_mul]

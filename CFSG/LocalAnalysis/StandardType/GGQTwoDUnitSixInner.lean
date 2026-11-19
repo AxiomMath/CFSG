@@ -68,13 +68,13 @@ theorem ggQTwoDUnitSix_torus (hK : Nat.card K = 4) {L Bs : Subgroup G} {Q : Type
     { carrier := {v | ((Additive.toMul (βL.symm v) : ↥Bs) : G) ∈
         J₁ ⊔ J₁.map (MulAut.conj g).toMonoidHom}
       add_mem' := fun {u v} hu hv => by
-        simp only [Set.mem_setOf_eq, map_add, toMul_add, Subgroup.coe_mul] at hu hv ⊢
+        simp only [Set.mem_ofPred_eq, map_add, toMul_add, Subgroup.coe_mul] at hu hv ⊢
         exact Subgroup.mul_mem _ hu hv
       zero_mem' := by
-        simp only [Set.mem_setOf_eq, map_zero, toMul_zero, Subgroup.coe_one]
+        simp only [Set.mem_ofPred_eq, map_zero, toMul_zero, Subgroup.coe_one]
         exact Subgroup.one_mem _
       neg_mem' := fun {v} hv => by
-        simp only [Set.mem_setOf_eq, map_neg, toMul_neg, Subgroup.coe_inv] at hv ⊢
+        simp only [Set.mem_ofPred_eq, map_neg, toMul_neg, Subgroup.coe_inv] at hv ⊢
         exact Subgroup.inv_mem _ hv }
   have hmemA : ∀ s : ↥Bs, (s : G) ∈ J₁ ⊔ J₁.map (MulAut.conj g).toMonoidHom →
       βL (Additive.ofMul s) ∈ A := fun s hs => by

@@ -93,6 +93,7 @@ namespace N
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem subOut_core {K : Subgroup G} (hK : IsLTwoTwentySeven (barOf 3 K)) {x n : G}
     (hx : x ∈ Subgroup.normalizer (K : Set G)) (hn : n ∈ Subgroup.normalizer (K : Set G)) :
     ∃ k ∈ K, ∀ u ∈ K, ∃ z ∈ GLAPPrimeCoreOf 3 K,
@@ -121,13 +122,14 @@ theorem subOut_core {K : Subgroup G} (hK : IsLTwoTwentySeven (barOf 3 K)) {x n :
   refine ⟨((k * ⟨u, hu⟩ * k⁻¹)⁻¹ * K.normalizerMonoidHom γc ⟨u, hu⟩ : ↥K), ?_, ?_⟩
   · exact (Lemma113c.coe_mem_core_iff _).2 hz
   · have h2 : ((K.normalizerMonoidHom γc ⟨u, hu⟩ : ↥K) : G) = (γc : G) * u * (γc : G)⁻¹ := rfl
-    simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_mk, h2, hc]
+    simp only [Subgroup.coe_mul, Subgroup.coe_inv, h2, hc]
     group
 
 namespace CtxN
 
 variable {E A : Subgroup G} {e : G} {K Q : Subgroup G}
 
+omit [Finite G] in
 theorem rhoQ_eq_conj (hQK : Q ≤ Subgroup.normalizer (K : Set G)) {q : G} (hqQ : q ∈ Q) {k : G}
     (hk : k ∈ K)
     (hkey : ∀ u ∈ K, ∃ z ∈ GLAPPrimeCoreOf 3 K, q * u * q⁻¹ = k * u * k⁻¹ * z) :
@@ -142,7 +144,7 @@ theorem rhoQ_eq_conj (hQK : Q ≤ Subgroup.normalizer (K : Set G)) {q : G} (hqQ 
   have hzK : (((⟨k, hk⟩ * u * (⟨k, hk⟩ : ↥K)⁻¹)⁻¹ * (K.normalizerMonoidHom ⟨q, hQK hqQ⟩) u : ↥K) :
       G) = z := by
     have h2 : (((K.normalizerMonoidHom ⟨q, hQK hqQ⟩) u : ↥K) : G) = q * u * q⁻¹ := rfl
-    simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_mk, h2]
+    simp only [Subgroup.coe_mul, Subgroup.coe_inv, h2]
     rw [hzeq]
     group
   exact (Lemma113c.coe_mem_core_iff _).1 (by rw [hzK]; exact hz)
@@ -155,7 +157,7 @@ theorem inner_mem_E (c : Ctx E A e K Q)
     (hin : ∃ k ∈ K, ∀ u ∈ K, ∃ z ∈ GLAPPrimeCoreOf 3 K, q * u * q⁻¹ = k * u * k⁻¹ * z) :
     q ∈ E := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e0⟩ := c.hKI
   set ρ : ↥Q →* MulAut (barOf 3 K) := Lemma113d.rhoQ c.hQK with hρ
   set Inn : Subgroup (MulAut (barOf 3 K)) :=

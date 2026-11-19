@@ -72,7 +72,7 @@ theorem isCyclic_range_inf_inner_of {X : Type} [Group X] (hZ : Subgroup.center X
       rw [map_pow, ← hy, ← map_pow, hexp, map_one]
     rw [pow_one]
     exact Subtype.ext (hinj (h1.trans (map_one _).symm))
-  haveI := hcp B hBp
+  have := hcp B hBp
   have hmap : B.map (MulAut.conj : X →* MulAut X) = φ.range ⊓ (MulAut.conj : X →* MulAut X).range :=
     Subgroup.map_comap_eq_self inf_le_right
   rw [← hmap]
@@ -86,12 +86,12 @@ theorem exists_orderOf_three_index_le_of {X : Type} [Group X] [Finite X] {P : Ty
       ∃ k : ℕ, x ^ k * y ∈ (MulAut.conj : X →* MulAut X).range)
     (hfix : ∀ z ∈ φ.range, z ∉ (MulAut.conj : X →* MulAut X).range → ∃ x : X, orderOf x = 3 ∧ z x = x) :
     ∃ x : X, orderOf x = 3 ∧ ∃ Q : Subgroup P, Q.index ≤ p ∧ ∀ u ∈ Q, φ u x = x := by
-  letI : MulAction (MulAut X) {x : X // orderOf x = 3} :=
+  let : MulAction (MulAut X) {x : X // orderOf x = 3} :=
     { smul := fun f x => ⟨f x.1, (MulEquiv.orderOf_eq f x.1).trans x.2⟩
       one_smul := fun _ => rfl
       mul_smul := fun _ _ _ => rfl }
   obtain ⟨x₀, hx₀⟩ := h3
-  haveI : Nonempty {x : X // orderOf x = 3} := ⟨⟨x₀, hx₀⟩⟩
+  have : Nonempty {x : X // orderOf x = 3} := ⟨⟨x₀, hx₀⟩⟩
   obtain ⟨ω, hω⟩ := uc22p22y_exists_fixed_index_le (Ω := {x : X // orderOf x = 3}) hp hexp hPab φ
     (MulAut.conj : X →* MulAut X).range hcyc hquot fun z hz hzi => by
       obtain ⟨x, hx, hzx⟩ := hfix z hz hzi
@@ -103,7 +103,7 @@ theorem exists_orderOf_three_index_le {X : Type} [Group X] [Finite X] {n : ℕ} 
     [Group P] [Finite P] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hexp : ∀ x : P, x ^ p = 1)
     (hPab : ∀ x y : P, x * y = y * x) (φ : P →* MulAut X) :
     ∃ x : X, orderOf x = 3 ∧ ∃ Q : Subgroup P, Q.index ≤ p ∧ ∀ u ∈ Q, φ u x = x := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hrp : ∀ x ∈ φ.range, x ^ p = 1 := by
     rintro _ ⟨y, rfl⟩
     rw [← map_pow, hexp, map_one]

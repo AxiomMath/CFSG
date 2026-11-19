@@ -128,7 +128,7 @@ private theorem card_subgroupOf_sup_root_Q (D : Sec108Data hc t Y) :
 theorem Sec108Data.card_range_phiHom_le (D : Sec108Data hc t Y)
     (AM : Smith81.Smith23E1.ActionModel M Q Z) :
     Nat.card (D.phiHom AM).range ≤ Nat.card Z ^ 3 := by
-  haveI := hc.normal_Q_in_M
+  have := hc.normal_Q_in_M
   have hNcard : Nat.card ↥(hc.CN t) = Nat.card Z ^ 4 * Nat.card Q := by
     have h := bar_card_mul_card_of_le (M := M) (S := hc.CN t)
       (Ctx.Q_le_CN hc D.good.1.mem_LB)

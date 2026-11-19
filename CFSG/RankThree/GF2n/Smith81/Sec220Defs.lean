@@ -22,7 +22,7 @@ variable {G : Type} [Group G]
 
 theorem mem_Cv {v g : G} : g ∈ Cv v ↔ g * v = v * g := Subgroup.mem_centralizer_singleton_iff
 
-@[expose] def IsDihOddZ (Z : Subgroup G) (z v : G) : Prop :=
+@[expose] def IsDihOddZ (_Z : Subgroup G) (z v : G) : Prop :=
   (∃ x y : G, IsConj z x ∧ IsConj z y ∧ Commute x z ∧ Commute y z ∧ v = x * y) ∧
     Odd (orderOf v) ∧ 1 < orderOf v
 
@@ -57,7 +57,7 @@ theorem mem_Cv {v g : G} : g ∈ Cv v ↔ g * v = v * g := Subgroup.mem_centrali
 
 theorem le_EBlock_of_mem {Z : Subgroup G} {v : G} {A : Subgroup G}
     (hA : A ∈ BlockOf (Nv v) Z v) :
-    A ≤ EBlock Z v := fun x hx =>
+    A ≤ EBlock Z v := fun _x hx =>
   Subgroup.subset_closure (Set.mem_iUnion₂.mpr ⟨A, hA, hx⟩)
 
 section Normality
@@ -83,7 +83,7 @@ theorem N1_le_normalizer_EBlock {v : G} : N1 Z v ≤ Subgroup.normalizer (EBlock
   exact h1 this
 
 theorem dHat_normal {v : G} : ((DHat Z v).subgroupOf (N1 Z v)).Normal :=
-  Subgroup.normal_subgroupOf_of_le_normalizer fun g hg =>
+  Subgroup.normal_subgroupOf_of_le_normalizer fun _g hg =>
     Subgroup.inf_normalizer_le_normalizer_inf
       ⟨mem_normalizer_centralizer (N1_le_normalizer_EBlock hg), Subgroup.le_normalizer hg⟩
 
@@ -93,6 +93,7 @@ section Blocks
 
 variable [Finite G] {M Q Z : Subgroup G}
 
+omit [Finite G] in
 theorem ZConjBy.self (H : Subgroup G) : Z ∈ ZConjBy H Z :=
   ⟨1, H.one_mem, (conjSubgroup_one Z).symm⟩
 

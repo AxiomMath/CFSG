@@ -22,7 +22,7 @@ theorem mem_zpowers_of_isCyclic_of_pow_three {G : Type*} [Group G] {S : Subgroup
     (hS : IsCyclic S) {x c : G} (hxS : x ∈ S) (hcS : c ∈ S) (hx3 : x ^ 3 = 1) (hx1 : x ≠ 1)
     (hc3 : c ^ 3 = 1) : c ∈ Subgroup.zpowers x := by
   classical
-  haveI : Fintype S := Fintype.ofFinite S
+  have : Fintype S := Fintype.ofFinite S
   by_contra hc
   set X : S := ⟨x, hxS⟩ with hX
   set C : S := ⟨c, hcS⟩ with hC

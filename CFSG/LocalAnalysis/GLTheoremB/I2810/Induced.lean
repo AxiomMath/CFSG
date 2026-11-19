@@ -18,10 +18,12 @@ namespace CFSG.LocalAnalysis.GLTheoremB.Prop95Iv.I2810
 section Induced
 variable {X : Type} [Group X] [Finite X] {W K S : Subgroup X} [W.Normal]
 
+omit [Finite X] in
 theorem c_card_indAut (h : Setup28 W K S) {B : Subgroup X} (hB : B ≤ S) :
     Nat.card ↥(indAut W K B) = (kerAct W K S).relIndex B := InducedAux.card_indAut h hB
 
-theorem c_indAut_elemAbelian (h : Setup28 W K S) {A : Subgroup X} (hAS : A ≤ S)
+omit [Finite X] in
+theorem c_indAut_elemAbelian (_h : Setup28 W K S) {A : Subgroup X} (_hAS : A ≤ S)
     (hA : IsElemAbelian 2 A) : IsElemAbelian 2 (indAut W K A) :=
   ((hA.map (QuotientGroup.mk' W)).subgroupOf _).map _
 
@@ -57,13 +59,14 @@ private theorem card_le_four_of_outTwoRank {G : Type} [Group G] (hG : commutator
   rw [hbot, Subgroup.relIndex_bot_left] at hle
   rwa [hP, Subgroup.card_map_of_injective hinj] at hle
 
-theorem c_le_four_one (hOut : Chev2OutTwoRank) (h : Setup28 W K S) (h1 : Hyp28One W K S)
+theorem c_le_four_one (hOut : Chev2OutTwoRank) (_h : Setup28 W K S) (h1 : Hyp28One W K S)
     {E : Subgroup (MulAut ↥(bar W K))} (hE : E ≤ indAut W K S) (hEa : IsElemAbelian 2 E) :
     Nat.card ↥E ≤ 4 := by
   obtain ⟨⟨hq, hchev⟩, _, hnoinn⟩ := h1
   exact card_le_four_of_outTwoRank hq.1.commutator_eq_top (hOut _ hq.2.1 hq.2.2 hchev) hnoinn hE hEa
 
-theorem c_le_four_three (h : Setup28 W K S) (h3 : Hyp28Three W K S) :
+omit [Finite X] in
+theorem c_le_four_three (_h : Setup28 W K S) (h3 : Hyp28Three W K S) :
     Nat.card ↥(indAut W K S) ≤ 4 := by
   obtain ⟨⟨hq, _⟩, _, n, e, V₄, V, hV₄, hVV₄, hact⟩ := h3
   have hT := InducedAux.card_le_of_induces hq.1.commutator_eq_top e (indAut W K S)
@@ -108,8 +111,9 @@ end Induced
 section Toolbox
 variable {X : Type} [Group X] [Finite X] {W K S : Subgroup X} [W.Normal]
 
+omit [Finite X] in
 theorem odd_trivial_of_series {z : X} (hz : Odd (orderOf z)) {P Q : Subgroup X} (hP : IsPGroup 2 ↥P)
-    (hQP : Q ≤ P) (hzP : ∀ x ∈ P, z * x * z⁻¹ ∈ P) (hzQ : ∀ q ∈ Q, z * q * z⁻¹ = q)
+    (hQP : Q ≤ P) (_hzP : ∀ x ∈ P, z * x * z⁻¹ ∈ P) (hzQ : ∀ q ∈ Q, z * q * z⁻¹ = q)
     (hzPQ : ∀ x ∈ P, ⁅z, x⁆ ∈ Q) : ∀ x ∈ P, z * x * z⁻¹ = x := by
   intro x hx
   set c : X := ⁅z, x⁆ with hc
@@ -148,7 +152,7 @@ theorem normal_closure_K (h : Setup28 W K S) (hR : Red28 W K S) {p : X} (hp : p 
   have hvN : ∀ n ∈ K ⊔ S, ∀ v ∈ vOf W K S, n * v * n⁻¹ ∈ vOf W K S := hR.v_nrm
   let E : Subgroup X :=
     { carrier := {x | x ∈ K ∧ ∀ w ∈ kerAct W K S, ⁅x, w⁆ ∈ vOf W K S}
-      one_mem' := ⟨K.one_mem, fun w _ => by simpa using (vOf W K S).one_mem⟩
+      one_mem' := ⟨K.one_mem, fun w _ => by simp⟩
       mul_mem' := by
         rintro a b ⟨haK, ha⟩ ⟨hbK, hb⟩
         refine ⟨K.mul_mem haK hbK, fun w hw => ?_⟩
@@ -223,6 +227,7 @@ theorem K_eq_comm (h : Setup28 W K S) (hR : Red28 W K S) {a : X} (haS : a ∈ S)
   obtain ⟨m, hm, hmz⟩ := hnz
   exact le_antisymm hMK (InducedAux.K_le_of_normal_noncentral h hR.quasi hMK hMn hm hmz)
 
+omit [Finite X] in
 theorem c1_outer (h : Setup28 W K S) (h1 : Hyp28One W K S) {a : X} (haS : a ∈ S)
     (hna : a ∉ kerAct W K S) : ¬ IndInner W K a := by
   rintro ⟨k, hk, hik⟩
@@ -234,6 +239,7 @@ theorem c1_outer (h : Setup28 W K S) (h1 : Hyp28One W K S) {a : X} (haS : a ∈ 
   rw [h1.2.2, Subgroup.mem_bot] at hmem
   exact InducedAux.mem_kerAct_of_indHom_eq_one h haS hmem
 
+omit [Finite X] in
 theorem c2_outer (h : Setup28 W K S) (h2 : Hyp28Two W K S) {a : X} (haS : a ∈ S)
     (hna : a ∉ kerAct W K S) : ¬ IndInner W K a := by
   rintro ⟨k, hk, hik⟩

@@ -20,11 +20,13 @@ private def kerCompToKer {G : Type*} [Group G] {ψ : K →* G} (Y : Subgroup K) 
   map_one' := rfl
   map_mul' _ _ := rfl
 
+omit [Finite K] in
 private theorem kerCompToKer_injective {G : Type*} [Group G] {ψ : K →* G} (Y : Subgroup K) :
     Function.Injective (kerCompToKer (ψ := ψ) Y) := by
   intro a b hab
   exact Subtype.ext (Subtype.ext (congrArg (fun x : ↥ψ.ker => (x : K)) hab))
 
+omit [Finite K] in
 private theorem coprime_card_ker_comp {G : Type*} [Group G] {ψ : K →* G}
     (hcop : Nat.Coprime (Nat.card ψ.ker) 6) (Y : Subgroup K) :
     Nat.Coprime (Nat.card (ψ.comp Y.subtype).ker) 6 := by
@@ -37,14 +39,15 @@ private theorem coprime_card_ker_comp {G : Type*} [Group G] {ψ : K →* G}
     exact Subgroup.card_subgroup_dvd_card _
   exact hcop.coprime_dvd_left hdvd
 
+omit [Finite K] in
 private theorem isSolvable_ker_comp {G : Type*} [Group G] {ψ : K →* G}
-    (hsol : IsSolvable ψ.ker) (Y : Subgroup K) : IsSolvable (ψ.comp Y.subtype).ker := by
-  haveI : Group.IsSolvable ↥ψ.ker := hsol
+    (hsol : Group.IsSolvable ψ.ker) (Y : Subgroup K) : Group.IsSolvable (ψ.comp Y.subtype).ker := by
+  have : Group.IsSolvable ↥ψ.ker := hsol
   exact Group.isSolvable_of_isSolvable_injective (kerCompToKer_injective (ψ := ψ) Y)
 
 theorem commutator_mem_of_card_le_pow_four {r : ℕ} [Fact r.Prime] (hr2 : r ≠ 2) (hr3 : r ≠ 3)
     (ψ : K →* alternatingGroup (Fin 6)) (hcop : Nat.Coprime (Nat.card ψ.ker) 6)
-    (hsol : IsSolvable ψ.ker) {Y A B : Subgroup K} (hY : ⁅Y, Y⁆ = Y) (hYψ : Y.map ψ = ⊤)
+    (hsol : Group.IsSolvable ψ.ker) {Y A B : Subgroup K} (hY : ⁅Y, Y⁆ = Y) (hYψ : Y.map ψ = ⊤)
     (hBA : B ≤ A) (hYA : Y ≤ normalizer (A : Set K)) (hYB : Y ≤ normalizer (B : Set K))
     (hexp : ∀ x ∈ A, x ^ r ∈ B) (hcomm : ∀ x ∈ A, ∀ y ∈ A, ⁅x, y⁆ ∈ B)
     (hcard : Nat.card A ≤ r ^ 4 * Nat.card B) :
@@ -52,9 +55,9 @@ theorem commutator_mem_of_card_le_pow_four {r : ℕ} [Fact r.Prime] (hr2 : r ≠
   classical
   obtain ⟨V, hVadd, hVmod, hVfin, ρ, hdim, htriv⟩ :=
     exists_linearAction_of_section hBA hYA hYB hexp hcomm hcard
-  letI : AddCommGroup V := hVadd
-  letI : Module (ZMod r) V := hVmod
-  letI : FiniteDimensional (ZMod r) V := hVfin
+  let : AddCommGroup V := hVadd
+  let : Module (ZMod r) V := hVmod
+  let : FiniteDimensional (ZMod r) V := hVfin
   let ψY : ↥Y →* alternatingGroup (Fin 6) := ψ.comp Y.subtype
   have hψY : Function.Surjective ψY := by
     intro a
@@ -62,10 +65,10 @@ theorem commutator_mem_of_card_le_pow_four {r : ℕ} [Fact r.Prime] (hr2 : r ≠
     obtain ⟨y, hy, hyψ⟩ := Subgroup.mem_map.mp ha
     exact ⟨⟨y, hy⟩, hyψ⟩
   have hcopY : Nat.Coprime (Nat.card ψY.ker) 6 := coprime_card_ker_comp hcop Y
-  have hsolY : IsSolvable ψY.ker := isSolvable_ker_comp hsol Y
-  haveI hperfY : Group.IsPerfect ↥Y := Subgroup.isPerfect_iff.mpr hY
-  haveI hMnorm : (ρ.ker ⊔ ψY.ker).Normal := inferInstance
-  haveI hMmapN : ((ρ.ker ⊔ ψY.ker).map ψY).Normal := hMnorm.map ψY hψY
+  have hsolY : Group.IsSolvable ψY.ker := isSolvable_ker_comp hsol Y
+  have hperfY : Group.IsPerfect ↥Y := Subgroup.isPerfect_iff.mpr hY
+  have hMnorm : (ρ.ker ⊔ ψY.ker).Normal := inferInstance
+  have hMmapN : ((ρ.ker ⊔ ψY.ker).map ψY).Normal := hMnorm.map ψY hψY
   rcases alternatingGroup.normal_subgroup_eq_bot_or_eq_top (α := Fin 6)
     (N := (ρ.ker ⊔ ψY.ker).map ψY) (by simp) with hbot | htop
   · rw [Subgroup.map_eq_bot_iff] at hbot

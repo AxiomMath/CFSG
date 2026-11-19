@@ -90,7 +90,7 @@ theorem q16BK_sound {ng N nR : ℕ} {G T E S RI C W : ℕ → ℕ} {SK ps : List
   refine ⟨hcard.trans hsize, ?_⟩
   have gd : ∀ i < N, permB n w (T i) = true ∧
       permOfArr n (unpack n w (T i)) ∈ Subgroup.closure (permsA n gs) := fun i hi =>
-    ⟨permB_of_pp (PP_pts hk hp i hi), mem_of_pt hsz hps hok hsize hget hi⟩
+    ⟨permB_of_pp (PP_pts hk hp i hi), mem_of_pt hps hok hsize hget hi⟩
   have ex : ∀ z ∈ Subgroup.closure (permsA n gs), ∃ i < N, permOfArr n (unpack n w (T i)) = z :=
       fun z hz => by
     obtain ⟨i, hi, e⟩ := (hmem z).1 hz

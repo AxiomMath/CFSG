@@ -30,7 +30,7 @@ theorem kgConcl_projectiveSL {n k : ℕ} (hn3 : 3 ≤ n) {F : Type} [Field F] [F
     rw [hcard2]
     exact (Nat.even_pow.mpr ⟨even_two, by omega⟩)
   have hU : UnitaryFieldData 2 k F := ⟨Nat.prime_two, hk, hcard2⟩
-  haveI : CharP F 2 := hU.charP
+  have : CharP F 2 := hU.charP
   have hSD := inf_linearAutGroup_eq_bot hn3 hEven hS hSI
   have hSc : ∀ s ∈ S, ∀ t ∈ S, s * t = t * s := fun s hs t ht =>
     commute_of_mem_S hn3 hcard2 hf hSD hs ht

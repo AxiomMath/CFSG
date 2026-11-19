@@ -33,7 +33,7 @@ theorem exists_pair_of_layer {p : ℕ} (hp : p.Prime)
     {E : Subgroup Y} (hE : IsElemAbelian p E) (hEc : Nat.card E = p ^ p) (hEl : E ≤ layer Y) :
     ∃ a ∈ E, a ≠ 1 ∧ ∃ b ∈ E, b ≠ 1 ∧ ∀ g : Y, g * a * g⁻¹ ∉ zpowers b := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, hEp⟩ := (CFSG.GH74.Uniqueness.SU.SU1.isElemAbelian_iff).mp hE
   let Fc : ComponentIndex Y → Subgroup Y := fun C =>
     (E.subgroupOf (layer Y)).map (coordHom hZ C)
@@ -83,11 +83,11 @@ theorem exists_pair_of_layer {p : ℕ} (hp : p.Prime)
       Finset.card_univ, ← Nat.card_eq_fintype_card, hcard]
   obtain ⟨C₁, C₂, hC12⟩ : ∃ C₁ C₂ : ComponentIndex Y, C₁ ≠ C₂ := by
     have : 1 < Nat.card (ComponentIndex Y) := by rw [hcard]; exact hp.one_lt
-    haveI := Finite.one_lt_card_iff_nontrivial.mp this
+    have := Finite.one_lt_card_iff_nontrivial.mp this
     exact exists_pair_ne _
   have hnt : ∀ C, ∃ c : ↥(Fc C), c ≠ 1 := fun C => by
     have : 1 < Nat.card (Fc C) := by rw [hFeq C]; exact hp.one_lt
-    haveI := Finite.one_lt_card_iff_nontrivial.mp this
+    have := Finite.one_lt_card_iff_nontrivial.mp this
     exact exists_ne _
   obtain ⟨c₁, hc₁⟩ := hnt C₁
   obtain ⟨c₂, hc₂⟩ := hnt C₂

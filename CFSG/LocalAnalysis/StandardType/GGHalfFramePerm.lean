@@ -126,29 +126,20 @@ private theorem nsMat_std_single_coe {n s r : ℕ}
       · subst hjl
         rw [Pi.single_eq_same, pow_one]
         fin_cases x <;> fin_cases y <;>
-          simp [rhoM, Matrix.single_apply, Matrix.one_apply, Equiv.symm_apply_eq,
-            Equiv.apply_symm_apply, Sum.inl.injEq, Prod.mk.injEq, gf2_two, one_add_one_f2]
+          simp [rhoM, Sum.inl.injEq, Prod.mk.injEq, one_add_one_f2]
       · rw [Pi.single_eq_of_ne' hjl, pow_zero]
         fin_cases x <;> fin_cases y <;>
-          simp [Matrix.single_apply, Matrix.one_apply, Equiv.symm_apply_eq,
-            Equiv.apply_symm_apply, Sum.inl.injEq, Prod.mk.injEq, hjl, gf2_two,
-            one_add_one_f2]
+          simp [Sum.inl.injEq, Prod.mk.injEq, hjl]
     · rw [SLNS.nsMat_apply_of_block_ne (stdFrame ε) rhoM (Pi.single j 1) hl x y]
       by_cases hjl : j = l
       · have hjl' : ¬ j = l' := fun h => hl (hjl.symm.trans h)
         fin_cases x <;> fin_cases y <;>
-          simp [Matrix.single_apply, Matrix.one_apply, Equiv.symm_apply_eq,
-            Equiv.apply_symm_apply, Sum.inl.injEq, Prod.mk.injEq, hjl, hjl', hl, Ne.symm hl, gf2_two,
-            one_add_one_f2]
+          simp [Sum.inl.injEq, Prod.mk.injEq, hjl, hl]
       · by_cases hjl' : j = l'
         · fin_cases x <;> fin_cases y <;>
-            simp [Matrix.single_apply, Matrix.one_apply, Equiv.symm_apply_eq,
-              Equiv.apply_symm_apply, Sum.inl.injEq, Prod.mk.injEq, hjl, hjl', hl, Ne.symm hl, gf2_two,
-              one_add_one_f2]
+            simp [Sum.inl.injEq, Prod.mk.injEq, hjl', hl, Ne.symm hl]
         · fin_cases x <;> fin_cases y <;>
-            simp [Matrix.single_apply, Matrix.one_apply, Equiv.symm_apply_eq,
-              Equiv.apply_symm_apply, Sum.inl.injEq, Prod.mk.injEq, hjl, hjl', hl, Ne.symm hl, gf2_two,
-              one_add_one_f2]
+            simp [Sum.inl.injEq, Prod.mk.injEq, hjl, hjl', hl]
   · rw [SLNS.nsMat, Matrix.submatrix_apply, Equiv.apply_symm_apply, Equiv.apply_symm_apply,
         SLNS.nsCore, Matrix.fromBlocks_apply₁₂]
     simp only [Matrix.add_apply, Matrix.one_apply, Matrix.single_apply,
@@ -247,7 +238,7 @@ theorem exists_perm_nsMat_mem_halfTorus {n s r : ℕ}
     · intro j _ hj
       rw [Pi.smul_apply, Pi.single_eq_of_ne' hj, smul_zero]
     · intro hi; exact absurd (Finset.mem_univ i) hi
-  haveI hH : IsMulCommutative (halfTorus n) :=
+  have hH : IsMulCommutative (halfTorus n) :=
     IsMulCommutative.of_comm fun a b => Subtype.ext (halfTorus_comm a.2 b.2)
   let g : Fin s → halfTorus n := fun j => ⟨omegaBlock n (pairIdx ε j), pairIdx_mem ε j⟩
   have hsingle : ∀ j : Fin s, SLNS.nsSL σ det_rhoM (Pi.single j 1) = (↑(g j) : SpecialLinearGroup (Fin (n + 1)) F2) := by

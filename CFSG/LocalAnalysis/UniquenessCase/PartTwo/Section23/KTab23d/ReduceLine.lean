@@ -47,10 +47,10 @@ private theorem mem_lineStab_iff_D13 {Γ : Subgroup (GL ι K)} {H : Subgroup (Mu
         ∃ c : K, v = c • w₀)
     (γ : ↥Γ) :
     γ ∈ lineStab Γ w₀ ↔ π γ ∈ pointStab H S := by
-  letI : MulDistribMulAction ↥H W := MulDistribMulAction.compHom W H.subtype
-  letI : MulAction ↥H W := MulAction.compHom W H.subtype
-  letI : MulAction ↥H (Set W) := Set.mulActionSet
-  letI : MulDistribMulAction ↥S W :=
+  let : MulDistribMulAction ↥H W := MulDistribMulAction.compHom W H.subtype
+  let : MulAction ↥H W := MulAction.compHom W H.subtype
+  let : MulAction ↥H (Set W) := Set.mulActionSet
+  let : MulDistribMulAction ↥S W :=
     MulDistribMulAction.compHom W (H.subtype.comp (S : Subgroup ↥H).subtype)
   have hmem : ∀ y : W, y ∈ (CFSG.fixedPointSubgroup ↥S W : Subgroup W) ↔
       ∃ c : K, Multiplicative.toAdd (e y) = c • w₀ := fun y => by

@@ -45,10 +45,10 @@ private theorem wccu_simple_no_normal_two {C : Type*} [Group C] [Finite C] [IsSi
   rcases Subgroup.Normal.eq_bot_or_eq_top E with h | h
   · exact h
   · exfalso
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hEp' : IsPGroup 2 (⊤ : Subgroup C) := h ▸ hEp
     have hCp : IsPGroup 2 C := hEp'.of_equiv Subgroup.topEquiv
-    haveI : Group.IsNilpotent C := hCp.isNilpotent
+    have : Group.IsNilpotent C := hCp.isNilpotent
     obtain ⟨a, b, hab⟩ := hnab
     exact hab (mul_comm a b)
 
@@ -59,7 +59,7 @@ private theorem wccu_fixed_unitary_isSimple {M : Type} [Group M] [Finite M] (h :
   obtain ⟨φ⟩ := hB.fixed_unitary β hβ hout
   have hpsl : IsSimpleGroup (CFSG.Theory.Comparator.PSL2Model 2) :=
     (psl2Model_simple_nonabelian (f := 2) (by norm_num)).1
-  haveI := hpsl
+  have := hpsl
   exact φ.isSimpleGroup
 
 private theorem wccu_fixed_unitary_nonabelian {M : Type} [Group M] [Finite M] (h : IsU3 M 2)
@@ -86,10 +86,10 @@ theorem outerFixedNotElem_isU3 {M : Type} [Group M] [Finite M] (h : IsU3 M 2) :
 theorem outerFixedNoNormalTwo_isU3 {M : Type} [Group M] [Finite M] (h : IsU3 M 2) :
     OuterFixedNoNormalTwo M := by
   intro β hβ hout E hEp hfix hnorm
-  haveI : IsSimpleGroup (autFixed β) := wccu_fixed_unitary_isSimple h β hβ hout
+  have : IsSimpleGroup (autFixed β) := wccu_fixed_unitary_isSimple h β hβ hout
   have hnabC := wccu_fixed_unitary_nonabelian h β hβ hout
   have hE_le : E ≤ autFixed β := fun x hx => (mem_autFixed_iff).mpr (hfix x hx)
-  haveI : (E.subgroupOf (autFixed β)).Normal := by
+  have : (E.subgroupOf (autFixed β)).Normal := by
     rw [Subgroup.normal_subgroupOf_iff hE_le]
     intro x y hx hy
     exact hnorm y ((mem_autFixed_iff).mp hy) x hx

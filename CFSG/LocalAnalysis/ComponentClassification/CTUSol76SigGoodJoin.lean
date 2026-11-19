@@ -107,7 +107,7 @@ theorem fourGenerated_of_noNormalEight
   classical
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set T : Subgroup Q := (S : Subgroup Q) with hT
-  have hMW := CFSG.Open.Open.macwilliams_four_generator ↥T S.isPGroup' (fun E hEn hEab hE8 => by
+  have hMW := CFSG.Open.Thm.macwilliams_four_generator ↥T S.isPGroup (fun E hEn hEab hE8 => by
     have hA := hS8 (E.map T.subtype) (fun s hs => ?_) (fun a ha => ?_)
     · rw [Subgroup.card_map_of_injective T.subtype_injective, hE8] at hA
       exact absurd hA (by norm_num)

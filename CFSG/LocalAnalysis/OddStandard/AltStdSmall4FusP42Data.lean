@@ -11,8 +11,8 @@ open Equiv
 
 @[expose] def bxor (k l : Fin 16) : Fin 16 :=
   ⟨k.val ^^^ l.val, by
-    have h := Nat.xor_lt_two_pow (n := 4) (x := k.val) (y := l.val) (by simpa using k.2)
-      (by simpa using l.2)
+    have h := Nat.xor_lt_two_pow (n := 4) (x := k.val) (y := l.val) (by simp)
+      (by simp)
     simpa using h⟩
 
 @[expose] def bFun (k : Fin 16) (x : Fin 9) : Fin 9 :=

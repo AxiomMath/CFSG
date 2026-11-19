@@ -77,6 +77,7 @@ theorem commute_mk_of_mem_LB (hc : Ctx M Q Z B) (l l' : ↥M) (hl : (l : G) ∈ 
     rw [eq_inv_iff_mul_eq_one, ← pow_two, h3]
   rw [h4, mul_inv_rev, ha, hc']
 
+omit [(Q.subgroupOf M).Normal] in
 theorem conj_mem_CN (hc : Ctx M Q Z B) {t : G} (ht : t ∈ LB M Q B) {r x : G}
     (hr : r ∈ Rt M (LB M Q B) t) (hx : x ∈ hc.CN t) : r * x * r⁻¹ ∈ hc.CN t := by
   rw [Ctx.mem_CN] at hx ⊢
@@ -93,6 +94,7 @@ theorem conj_mem_CN (hc : Ctx M Q Z B) {t : G} (ht : t ∈ LB M Q B) {r x : G}
   exact (Subgroup.mem_normalizer_iff.mp (hc.hyp.Z_normal.2 (hc.Rt_le_M t hr)) _).mp
     (hx.2 _ hv')
 
+omit [(Q.subgroupOf M).Normal] in
 theorem conj_Wt_eq (hc : Ctx M Q Z B) {t : G} (ht : t ∈ LB M Q B) {r : G}
     (hr : r ∈ Rt M (LB M Q B) t) :
     conjSubgroup r (Wt Q (Vt M (LB M Q B) B Z t)) = Wt Q (Vt M (LB M Q B) B Z t) := by
@@ -105,6 +107,7 @@ theorem conj_Wt_eq (hc : Ctx M Q Z B) {t : G} (ht : t ∈ LB M Q B) {r : G}
     exact conj_mem_Wt (hc.hyp.Q_normal.2 (hc.Rt_le_M t hs)) (hc.Rt_normalizes_Vt ht hs) hx'
   exact Subgroup.eq_of_le_of_card_ge (hle r hr) (by rw [card_conjSubgroup])
 
+omit [(Q.subgroupOf M).Normal] in
 theorem conj_CN_eq (hc : Ctx M Q Z B) {t : G} (ht : t ∈ LB M Q B) {r : G}
     (hr : r ∈ Rt M (LB M Q B) t) : conjSubgroup r (hc.CN t) = hc.CN t := by
   refine Subgroup.eq_of_le_of_card_ge (fun x hx => ?_) (by rw [card_conjSubgroup])
@@ -256,6 +259,7 @@ end Grp
 
 section Orders
 
+omit [(Q.subgroupOf M).Normal] in
 theorem card_Wt_mul_Vt (h310chi : Stroth310ChiStatement) {t : G} (hs : Sec5Hyp hc n t)
     (hSpOm : SpNat hc t ∨ OmegaNat hc t) :
     Nat.card ↥(Wt Q (Vt M (LB M Q B) B Z t)) * Nat.card ↥(Vt M (LB M Q B) B Z t) =
@@ -263,7 +267,7 @@ theorem card_Wt_mul_Vt (h310chi : Stroth310ChiStatement) {t : G} (hs : Sec5Hyp h
   have ht : t ∈ LB M Q B := hs.mem
   obtain ⟨hVU, hWQ1⟩ := h310chi G M Q Z B hc n t hs hSpOm
   have hUt : Nat.card Q * Nat.card Z = Nat.card ↥(Q1 hc t) * Nat.card ↥(Ut Q Z t) := by
-    haveI : (Z.subgroupOf (Ut Q Z t)).Normal :=
+    have : (Z.subgroupOf (Ut Q Z t)).Normal :=
       Subgroup.normal_subgroupOf_of_le_normalizer (fun v hv =>
         hc.hyp.Z_normal.2 (hc.hyp.Q_normal.1 (hc.Ut_le_Q (hc.LB_le_M ht) hv)))
     exact card_mul_card_of_isChiIso (hc.isChiIso_Q1_Ut ht) (fun x hx => hx.1)
@@ -271,6 +275,7 @@ theorem card_Wt_mul_Vt (h310chi : Stroth310ChiStatement) {t : G} (hs : Sec5Hyp h
   rw [← hWQ1, ← hVU] at hUt
   exact hUt.symm
 
+omit [(Q.subgroupOf M).Normal] in
 theorem conj_fix_eq (hc : Ctx M Q Z B) {t r : G} (ht : t ∈ LB M Q B)
     (hr : r ∈ Rt M (LB M Q B) t) :
     conjSubgroup r ((QB B ⊓ Wt Q (Vt M (LB M Q B) B Z t)) ⊔ Vt M (LB M Q B) B Z t) =
@@ -278,11 +283,13 @@ theorem conj_fix_eq (hc : Ctx M Q Z B) {t r : G} (ht : t ∈ LB M Q B)
   rw [conjSubgroup_sup_eq_sup, conjSubgroup_inf, ← QB_conj, conj_Wt_eq hc ht hr,
     conjSubgroup_eq_self_iff.mpr (hc.Rt_normalizes_Vt ht hr)]
 
+omit [(Q.subgroupOf M).Normal] in
 theorem conj_LB_inf_CN (hc : Ctx M Q Z B) {t r : G} (ht : t ∈ LB M Q B)
     (hr : r ∈ Rt M (LB M Q B) t) :
     conjSubgroup r (LB M Q B ⊓ hc.CN t) = LB M Q (conjSubgroup r B) ⊓ hc.CN t := by
   rw [conjSubgroup_inf, ← hc.LB_conj (hc.Rt_le_M t hr), conj_CN_eq hc ht hr]
 
+omit [(Q.subgroupOf M).Normal] in
 theorem card_fix_mul_Z0 (h310chi : Stroth310ChiStatement) (h51 : Stroth51Statement)
     (h52b : Stroth52bStatement) (hNO : Sec7NOrderStatement) (hZc : Sec7ZCardStatement)
     {t r : G} (hs : Sec7Hyp hc n t) (hr : Sec7A hc t r) {Z0 : Subgroup G}
@@ -495,7 +502,7 @@ theorem smul_mem_deltaGrp_LB (h34 : Stroth34Statement) (hRoot : Stroth310RootSta
     rw [M₀.π_mul _ (hAQ ha) _ (sup_le (inf_le_right.trans inf_le_left) (hc.Vt_le_Q t) hc')]
     exact Submodule.add_mem_sup ((hfix₁ a (hA₁W ha)).mpr ha) ((hfix₂ c (hA₂W hc')).mpr hc')
   ·
-    haveI : Finite M₀.E := Module.finite_of_finite K
+    have : Finite M₀.E := Module.finite_of_finite K
     have hfA := Module.natCard_eq_pow_finrank (K := K) (V := ↥(fixSub hS t (LB M Q B) hLR))
     have hfV := Module.natCard_eq_pow_finrank (K := K) (V := ↥(hc.VtSub hS.model t))
     have hle := Submodule.finrank_mono (R := K) hVle

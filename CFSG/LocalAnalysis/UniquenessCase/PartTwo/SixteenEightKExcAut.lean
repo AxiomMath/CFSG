@@ -23,7 +23,7 @@ open CFSG.ComponentClassification.OuterAutomorphisms (Outer inner)
 
 private theorem s16k_pRank_le_of_not_dvd {G : Type} [Group G] [Finite G] {H : Subgroup G}
     {p k : ℕ} (hp : p.Prime) (h : ¬ p ^ (k + 1) ∣ Nat.card H) : CFSG.Open.pRank p H ≤ k := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine CFSG.SectionRank.pRank_le hp.one_lt (fun E hEH hE => ?_)
   obtain ⟨m, hm⟩ := hE.isPGroup.exists_card_eq
   have hdvd : p ^ m ∣ Nat.card H := hm ▸ Subgroup.card_dvd_of_le hEH
@@ -51,7 +51,7 @@ private theorem s16k_not_pow_dvd (N r : ℕ) (hr : 0 < r) (S T : Finset ℕ) (hN
 
 private theorem s16k_card_mulAut_dvd_of_outer_dvd {X : Type} [Group X] [Finite X] {k : ℕ}
     (hk : Nat.card (Outer X) ∣ k) : Nat.card (MulAut X) ∣ k * Nat.card X := by
-  haveI : Finite (MulAut X) :=
+  have : Finite (MulAut X) :=
     Finite.of_injective (fun φ : MulAut X => (φ : X → X)) DFunLike.coe_injective
   have hinner : Nat.card (inner X) ∣ Nat.card X := by
     have h1 : Nat.card (inner X) = Nat.card (X ⧸ (MulAut.conj : X →* MulAut X).ker) :=
@@ -66,8 +66,8 @@ private theorem s16k_pRank_mulAut_le_of_isPGroup_outer {X : Type} [Group X] [Fin
     (hZ : Subgroup.center X = ⊥) (hOut : IsPGroup 2 (Outer X)) {p : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) :
     CFSG.Open.pRank p (⊤ : Subgroup (MulAut X)) ≤ CFSG.Open.pRank p (⊤ : Subgroup X) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (MulAut X) :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (MulAut X) :=
     Finite.of_injective (fun φ : MulAut X => (φ : X → X)) DFunLike.coe_injective
   have hIle : ∀ E : Subgroup (MulAut X), CFSG.Open.IsElemAbelian p E → E ≤ inner X := by
     intro E hE
@@ -154,16 +154,16 @@ theorem s16k_pRank_aut_l34 {X : Type} [Group X] [Finite X] (hX : IsLn X 3 2) {p 
     rw [show (12 * 20160 : ℕ) = 12 * Nat.card X by rw [hcardX]]
     exact s16k_card_mulAut_dvd_of_outer_dvd (X := X) hout
   by_cases hp3 : p = 3
-  · rw [if_pos hp3, hp3]
+  · rw [ite_eq_left hp3, hp3]
     obtain ⟨K, hF, hFin, hK, ⟨e⟩⟩ :=
       CFSG.RankThree.PartOne.AUTSL.exists_projectiveSL_equiv_of_lieModel hX
-    letI : Field K := hF
+    let : Field K := hF
     have hK4 : Nat.card K = 4 := by rw [hK]; norm_num
     have h3eq : CFSG.Open.pRank 3 (⊤ : Subgroup (MulAut X)) = 2 :=
       (CFSG.SectionRank.pRank_eq_open_pRank_top 3 (MulAut X)).symm.trans
         (CFSG.RankThree.PartTwo.KFacts.L34.pRank_three_mulAut_of_mulEquiv hK4 e)
     exact le_of_eq h3eq
-  · rw [if_neg hp3]
+  · rw [ite_eq_right hp3]
     have hnot : ¬ p ^ 2 ∣ 12 * 20160 :=
       s16k_not_pow_dvd (12 * 20160) 2 (by norm_num) {2, 3, 5, 7} {2, 3} (by norm_num)
         (by simp [Nat.primeFactors])
@@ -188,18 +188,18 @@ theorem s16k_pRank_aut_l5 {X : Type} [Group X] [Finite X] (hX : IsLn X 5 1) {p :
   have hout : Nat.card (Outer X) ∣ 2 := by
     obtain ⟨K, hF, hFin, hK, ⟨e⟩⟩ :=
       CFSG.RankThree.PartOne.AUTSL.exists_projectiveSL_equiv_of_lieModel hX
-    letI : Field K := hF
+    let : Field K := hF
     have hK2 : Nat.card K = 2 := by simpa using hK
     obtain ⟨hfin, hle⟩ := CFSG.SeitzReduction.SeitzQ2.card_outer_le_two_of_mulEquiv_PSL_two
       (by norm_num) hK2 e
-    haveI := hfin
+    have := hfin
     have hpos : 0 < Nat.card (Outer X) := Nat.card_pos
     exact (Nat.dvd_prime Nat.prime_two).2 (by omega)
   have hcard : Nat.card (MulAut X) ∣ 2 * 9999360 := by
     rw [show (2 * 9999360 : ℕ) = 2 * Nat.card X by rw [hcardX]]
     exact s16k_card_mulAut_dvd_of_outer_dvd (X := X) hout
   by_cases hp3 : p = 3
-  · rw [if_pos hp3]
+  · rw [ite_eq_left hp3]
     have hnot : ¬ p ^ 3 ∣ 2 * 9999360 :=
       s16k_not_pow_dvd (2 * 9999360) 3 (by norm_num) {2, 3, 5, 7, 31} {2} (by norm_num)
         (by simp [Nat.primeFactors])
@@ -214,7 +214,7 @@ theorem s16k_pRank_aut_l5 {X : Type} [Group X] [Finite X] (hX : IsLn X 5 1) {p :
           · norm_num)
         p hp (by simpa using hp2)
     exact s16k_pRank_top_le_of_not_dvd (k := 2) hp fun hd => hnot (hd.trans hcard)
-  · rw [if_neg hp3]
+  · rw [ite_eq_right hp3]
     have hnot : ¬ p ^ 2 ∣ 2 * 9999360 :=
       s16k_not_pow_dvd (2 * 9999360) 2 (by norm_num) {2, 3, 5, 7, 31} {2, 3} (by norm_num)
         (by simp [Nat.primeFactors])
@@ -240,7 +240,7 @@ theorem s16k_pRank_aut_m22 (hOut : S16kOutM22) {X : Type} [Group X] [Finite X]
     rw [show (2 * 443520 : ℕ) = 2 * Nat.card X by rw [hcardX]]
     exact s16k_card_mulAut_dvd_of_outer_dvd (X := X) hout
   by_cases hp3 : p = 3
-  · rw [if_pos hp3]
+  · rw [ite_eq_left hp3]
     have hnot : ¬ p ^ 3 ∣ 2 * 443520 :=
       s16k_not_pow_dvd (2 * 443520) 3 (by norm_num) {2, 3, 5, 7, 11} {2} (by norm_num)
         (by simp [Nat.primeFactors])
@@ -255,7 +255,7 @@ theorem s16k_pRank_aut_m22 (hOut : S16kOutM22) {X : Type} [Group X] [Finite X]
           · norm_num)
         p hp (by simpa using hp2)
     exact s16k_pRank_top_le_of_not_dvd (k := 2) hp fun hd => hnot (hd.trans hcard)
-  · rw [if_neg hp3]
+  · rw [ite_eq_right hp3]
     have hnot : ¬ p ^ 2 ∣ 2 * 443520 :=
       s16k_not_pow_dvd (2 * 443520) 2 (by norm_num) {2, 3, 5, 7, 11} {2, 3} (by norm_num)
         (by simp [Nat.primeFactors])
@@ -284,12 +284,12 @@ theorem s16k_pRank_aut_u33 {X : Type} [Group X] [Finite X]
   have hcardX : Nat.card X = 6048 :=
     CFSG.Open.StatedAPI.card_of_statedClassicalModel_psu_three_three hPSU
   by_cases hp3 : p = 3
-  · rw [if_pos hp3]
+  · rw [ite_eq_left hp3]
     have h3 : CFSG.Open.pRank p (⊤ : Subgroup X) ≤ 2 := by
       rw [hp3]
       exact le_of_eq (CFSG.Quasithin.pRank_three_psu33 hPSU)
     exact (s16k_pRank_mulAut_le_of_isPGroup_outer hZ hout hp hp2).trans h3
-  · rw [if_neg hp3]
+  · rw [ite_eq_right hp3]
     have hnot : ¬ p ^ 2 ∣ 6048 :=
       s16k_not_pow_dvd 6048 2 (by norm_num) {2, 3, 7} {2, 3} (by norm_num)
         (by simp [Nat.primeFactors])

@@ -23,18 +23,22 @@ abbrev QA : Type := ↥H ⧸ D.subgroupOf H
 
 variable {H D}
 
+omit [Finite G] in
 theorem qmk_surjective : Function.Surjective (qmk H D) := QuotientGroup.mk'_surjective _
 
+omit [Finite G] in
 theorem qmk_eq_one_iff {h : ↥H} : qmk H D h = 1 ↔ (h : G) ∈ D := by
   show QuotientGroup.mk' (D.subgroupOf H) h = 1 ↔ _
   rw [QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff]
   rfl
 
+omit [Finite G] in
 theorem qmk_eq_iff {a b : ↥H} : qmk H D a = qmk H D b ↔ (a : G)⁻¹ * b ∈ D := by
   show QuotientGroup.mk' (D.subgroupOf H) a = QuotientGroup.mk' (D.subgroupOf H) b ↔ _
   rw [QuotientGroup.mk'_apply, QuotientGroup.mk'_apply, QuotientGroup.eq]
   rfl
 
+omit [Finite G] in
 theorem mem_img {U : Subgroup G} {a : QA H D} :
     a ∈ img H D U ↔ ∃ h : ↥H, (h : G) ∈ U ∧ qmk H D h = a := by
   unfold img
@@ -45,6 +49,7 @@ theorem mem_img {U : Subgroup G} {a : QA H D} :
   · rintro ⟨h, hh, rfl⟩
     exact ⟨h, hh, rfl⟩
 
+omit [Finite G] in
 theorem mem_pre {T : Subgroup (QA H D)} {g : G} :
     g ∈ pre H D T ↔ ∃ h : ↥H, (h : G) = g ∧ qmk H D h ∈ T := by
   unfold pre
@@ -55,17 +60,20 @@ theorem mem_pre {T : Subgroup (QA H D)} {g : G} :
   · rintro ⟨h, rfl, hh⟩
     exact ⟨h, hh, rfl⟩
 
+omit [Finite G] in
 theorem pre_le (T : Subgroup (QA H D)) : pre H D T ≤ H := by
   intro g hg
   obtain ⟨h, rfl, -⟩ := mem_pre.mp hg
   exact h.2
 
+omit [Finite G] in
 theorem D_le_pre (hDH : D ≤ H) (T : Subgroup (QA H D)) : D ≤ pre H D T := by
   intro d hd
   refine mem_pre.mpr ⟨⟨d, hDH hd⟩, rfl, ?_⟩
   rw [qmk_eq_one_iff.mpr hd]
   exact T.one_mem
 
+omit [Finite G] in
 theorem img_pre (T : Subgroup (QA H D)) : img H D (pre H D T) = T := by
   ext a
   rw [mem_img]
@@ -79,6 +87,7 @@ theorem img_pre (T : Subgroup (QA H D)) : img H D (pre H D T) = T := by
     obtain ⟨h, rfl⟩ := qmk_surjective a
     exact ⟨h, mem_pre.mpr ⟨h, rfl, ha⟩, rfl⟩
 
+omit [Finite G] in
 theorem mem_pre_img {U : Subgroup G} (hDU : D ≤ U) {g : G} :
     g ∈ pre H D (img H D U) ↔ g ∈ U ∧ g ∈ H := by
   rw [mem_pre]
@@ -93,6 +102,7 @@ theorem mem_pre_img {U : Subgroup G} (hDU : D ≤ U) {g : G} :
   · rintro ⟨hgU, hgH⟩
     exact ⟨⟨g, hgH⟩, rfl, mem_img.mpr ⟨⟨g, hgH⟩, hgU, rfl⟩⟩
 
+omit [Finite G] in
 theorem mem_normalizer_pre {a : ↥H} {T : Subgroup (QA H D)}
     (ha : qmk H D a ∈ normalizer (T : Set (QA H D))) :
     (a : G) ∈ normalizer ((pre H D T : Subgroup G) : Set G) := by
@@ -118,6 +128,7 @@ theorem mem_normalizer_pre {a : ↥H} {T : Subgroup (QA H D)}
         exact hmem)
       exact this
 
+omit [Finite G] in
 theorem qmk_mem_normalizer_img {U : Subgroup G} {a : ↥H}
     (ha : (a : G) ∈ normalizer (U : Set G)) :
     qmk H D a ∈ normalizer ((img H D U : Subgroup (QA H D)) : Set (QA H D)) := by

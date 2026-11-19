@@ -20,8 +20,8 @@ open CFSG CFSG.Assembly
 
 private theorem sympLift_charP {K : Type} [Field K] [Finite K] {n : ℕ}
     (hK : Nat.card K = 2 ^ n) : CharP K 2 := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact charP_of_card_eq_prime_pow (p := 2) (f := n)
     (by rwa [← Nat.card_eq_fintype_card])
 
@@ -55,8 +55,8 @@ theorem sympShape_lift {K : Type} [Field K] [Finite K] {n m : ℕ} (hK : Nat.car
         E ≤ Subgroup.centralizer ({x} : Set (CFSG.Open.StatedSp m K)) ∧
         CFSG.Open.IsElemAbelian 3 E ∧ Nat.card E = Nat.card Ā := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := sympLift_charP hK
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := sympLift_charP hK
   have h2 : (2 : K) = 0 := by simpa using CharP.cast_eq_zero K 2
   have hZ := sympLift_center_eq_bot (K := K) m
   let c := sympLift_conjHom m K
@@ -113,7 +113,7 @@ theorem sympShape_lift {K : Type} [Field K] [Finite K] {n m : ℕ} (hK : Nat.car
   · exact hcx.symm
   ·
     intro g hg
-    haveI : IsMulCommutative E := hEelem.1
+    have : IsMulCommutative E := hEelem.1
     exact Subgroup.mem_centralizer_singleton_iff.mpr
       (congrArg Subtype.val (mul_comm' (⟨g, hg⟩ : E) (⟨x, hxE⟩ : E)))
 

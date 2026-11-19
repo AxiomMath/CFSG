@@ -13,11 +13,11 @@ open CFSG CFSG.Assembly Module QTwoLin
 
 theorem ggQ2_caseI_deg_of_lin {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
     (hp : p = 3) {B Bs : Subgroup G} {x : G} {L D J : Subgroup G}
-    (hS : GGQTwoSetting p B Bs x L D J) {y : G} {K : Subgroup G} (hnb : GGNbr p B x D J y K)
+    (hS : GGQTwoSetting p B Bs x L D J) {y : G} {K : Subgroup G} (_hnb : GGNbr p B x D J y K)
     (M : GGQTwoModel p Bs x y D L J K) (hbas : GGQTwoBasis M)
     (hdeg : (M.cartan.det : ZMod p) = 0) : GGQ2Orbit p B Bs x D J := by
-  haveI : Finite M.V := Finite.of_equiv (Additive ↥Bs) M.model.toEquiv
-  haveI : Module.Finite (ZMod p) M.V := Module.Finite.of_finite
+  have : Finite M.V := Finite.of_equiv (Additive ↥Bs) M.model.toEquiv
+  have : Module.Finite (ZMod p) M.V := Module.Finite.of_finite
   have hcfg : GGConfig p B Bs x L D J := hS.1.1
   have hNT : GGNoTransvection p Bs := hS.1.2.2.2.1
   have hstdPre : LargeEvenStdSubPre p B x L D J := hS.1.1.2.2.1

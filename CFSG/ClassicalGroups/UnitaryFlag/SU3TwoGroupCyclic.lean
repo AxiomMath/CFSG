@@ -288,7 +288,7 @@ private theorem exists_geometry (h : UnitaryFieldData 2 m K) {u : unitarySU 2 m 
     rw [← heq, finrank_span_singleton hy0] at hfr
     omega
   have hlt : K ∙ y < hermPerp h (K ∙ y) := lt_of_le_of_ne hle hne
-  obtain ⟨-, c, hc, hcY⟩ := SetLike.lt_iff_le_and_exists.mp hlt
+  obtain ⟨-, c, hc, hcY⟩ := IsConcreteLE.lt_iff_le_and_exists.mp hlt
   have hcc : stdHermForm h 3 c c ≠ 0 :=
     stdHermForm_self_ne_zero_of_mem_hermPerp h hYmem hc hcY
   have hhyc : stdHermForm h 3 y c = 0 :=
@@ -537,11 +537,11 @@ theorem isCyclic_of_isPGroup_of_forall_sq_eq_one (h : UnitaryFieldData 2 m K) (h
     exact pow_four_eq_one_of_pow_two_pow_eq_one h (by rw [← hk, pow_orderOf_eq_one])
   by_cases hle : S ≤ Subgroup.zpowers z
   · exact hScyc (Subgroup.isCyclic_of_le hle)
-  obtain ⟨u₁, hu₁S, hu₁z⟩ := SetLike.not_le_iff_exists.mp hle
+  obtain ⟨u₁, hu₁S, hu₁z⟩ := IsConcreteLE.not_le_iff_exists.mp hle
   obtain ⟨hu₁sq, hu₁sq_ne⟩ :=
     sq_eq_z_of_notMem_zpowers hz hu₁z (Subgroup.mem_zpowers z) hu₁S (h4 u₁ hu₁S)
   have hSne : ¬ S ≤ Subgroup.zpowers u₁ := fun hle' => hScyc (Subgroup.isCyclic_of_le hle')
-  obtain ⟨u₂, hu₂S, hu₂pow⟩ := SetLike.not_le_iff_exists.mp hSne
+  obtain ⟨u₂, hu₂S, hu₂pow⟩ := IsConcreteLE.not_le_iff_exists.mp hSne
   have hzmem : z ∈ Subgroup.zpowers u₁ := hu₁sq ▸ Subgroup.npow_mem_zpowers u₁ 2
   obtain ⟨hu₂sq, -⟩ :=
     sq_eq_z_of_notMem_zpowers hz hu₂pow hzmem hu₂S (h4 u₂ hu₂S)

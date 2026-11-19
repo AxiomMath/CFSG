@@ -130,7 +130,7 @@ theorem cSideB5_iff (g : SL2 × SL2) : cSideB5 g = true ↔
   · by_cases hS : cSideSwapCent g
     · simp [hA, hS]
     · simp [hA, hS]
-  · simp only [decide_eq_true_eq, Bool.not_eq_true', Bool.or_eq_true, Bool.not_eq_true]
+  · simp only [Bool.not_eq_true', Bool.or_eq_true]
     constructor
     · intro _ h5 h1 h2
       exact absurd ⟨h5, h1, h2⟩ hA

@@ -39,13 +39,13 @@ theorem ggTBJSpB_spIncl_mul {n : ℕ} {K : Type} [Field K] (σ τ : Fin n → Fi
   ext a b
   simp only [Matrix.mul_apply, spIncl_apply]
   rw [Finset.sum_eq_single (Sum.map τ τ b)]
-  · have h1 : (if Sum.map τ τ b = Sum.map τ τ b then (1:K) else 0) = 1 := if_pos rfl
+  · have h1 : (if Sum.map τ τ b = Sum.map τ τ b then (1:K) else 0) = 1 := ite_eq_left rfl
     rw [h1, mul_one]
     have h2 : Sum.map σ σ (Sum.map τ τ b) = Sum.map (σ ∘ τ) (σ ∘ τ) b := by
       cases b <;> rfl
     rw [h2]
   · intro c _ hc
-    have h1 : (if c = Sum.map τ τ b then (1:K) else 0) = 0 := if_neg hc
+    have h1 : (if c = Sum.map τ τ b then (1:K) else 0) = 0 := ite_eq_right hc
     rw [h1, mul_zero]
   · intro h; exact absurd (Finset.mem_univ _) h
 
@@ -63,8 +63,8 @@ theorem ggTBJSpB_permSp_coe_GL {K : Type} [Field K] {m : ℕ} (π : Equiv.Perm (
     change (Equiv.sumCongr π π).symm a = b ↔ _
     rw [Equiv.symm_apply_eq, Equiv.sumCongr_apply]
   by_cases h : a = Sum.map π π b
-  · rw [if_pos (hiff.mpr h), if_pos h]
-  · rw [if_neg (fun h' => h (hiff.mp h')), if_neg h]
+  · rw [ite_eq_left (hiff.mpr h), ite_eq_left h]
+  · rw [ite_eq_right (fun h' => h (hiff.mp h')), ite_eq_right h]
 
 theorem ggTBJSpB_permSp_swap_mul_self {K : Type} [Field K] {m : ℕ} (i k : Fin m) :
     permSp K (Equiv.swap i k) * permSp K (Equiv.swap i k) = 1 := by
@@ -120,7 +120,7 @@ theorem ggTBJSpB_diagonal_mul_eq_mul_of_block {ι : Type} [Fintype ι] [Decidabl
           simpa [hb0] using h
         have hab' : a = b := by
           by_contra hne
-          rw [if_neg hne] at hfix_ab
+          rw [ite_eq_right hne] at hfix_ab
           exact hab hfix_ab
         subst hab'
         rfl
@@ -171,14 +171,14 @@ theorem ggTBJSpB_permutationGL_mem_block {K : Type} [Field K] {m : ℕ} (t : Fin
     · have h' : σ⁻¹ a = b := by
         calc σ⁻¹ a = σ⁻¹ (σ b) := by rw [h]
              _ = b := Equiv.symm_apply_apply σ b
-      rw [if_pos h']
+      rw [ite_eq_left h']
       simp [h, hσt b]
     · have h' : σ⁻¹ a ≠ b := by
         intro e
         apply h
         calc a = σ (σ⁻¹ a) := (Equiv.apply_symm_apply σ a).symm
              _ = σ b := by rw [e]
-      rw [if_neg h']
+      rw [ite_eq_right h']
       simp
   · change (TauCeti.permutationGL σ : GL (Fin m ⊕ Fin m) K) *
       (1 - Matrix.diagonal v) = 1 - Matrix.diagonal v
@@ -196,7 +196,7 @@ theorem ggTBJSpB_permutationGL_mem_block {K : Type} [Field K] {m : ℕ} (t : Fin
       · have hfix' : σ⁻¹ a = a := by
           calc σ⁻¹ a = σ⁻¹ (σ a) := by rw [hfix a hv0]
                _ = a := Equiv.symm_apply_apply σ a
-        rw [if_pos hfix', if_pos rfl, hv0]
+        rw [ite_eq_left hfix', ite_eq_left rfl, hv0]
         simp
       · have hv1 : v a = 1 := by
           rcases hv a with h | h
@@ -204,7 +204,7 @@ theorem ggTBJSpB_permutationGL_mem_block {K : Type} [Field K] {m : ℕ} (t : Fin
           · exact h
         rw [hv1]
         simp
-    · rw [if_neg hab]
+    · rw [ite_eq_right hab]
       have hleft : (if σ⁻¹ a = b then 1 else 0) * (1 - v b) = 0 := by
         by_cases hv0 : v b = 0
         · have hb : σ b = b := hfix b hv0
@@ -214,7 +214,7 @@ theorem ggTBJSpB_permutationGL_mem_block {K : Type} [Field K] {m : ℕ} (t : Fin
             calc a = σ (σ⁻¹ a) := (Equiv.apply_symm_apply σ a).symm
                  _ = σ b := by rw [h]
                  _ = b := hb
-          rw [if_neg hne, zero_mul]
+          rw [ite_eq_right hne, zero_mul]
         · have hv1 : v b = 1 := by
             rcases hv b with h | h
             · exact absurd h hv0
@@ -281,7 +281,7 @@ theorem ggTBJSpB_orderOf_diagSp_dvd {K : Type} [Field K] [Finite K] {m : ℕ}
   let F : Fintype K := Fintype.ofFinite K
   by_cases hab : a = b
   · subst hab
-    rw [if_pos rfl, if_pos rfl, @Nat.card_eq_fintype_card K F]
+    rw [ite_eq_left rfl, ite_eq_left rfl, @Nat.card_eq_fintype_card K F]
     exact @FiniteField.pow_card_sub_one_eq_one K _ F (diagSpEntry t a) (by
       rcases a with i | i <;> simp)
   · simp [hab]

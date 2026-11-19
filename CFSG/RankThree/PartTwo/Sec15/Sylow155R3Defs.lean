@@ -129,7 +129,7 @@ theorem res3NoDatum_of (h43 : Item4_3) (hL2 : Res3NoDatumL3Two) (hLp : Res3NoDat
     hd.center_pGroup.card_eq_or_dvd.resolve_left fun h1 =>
       hd.center_ne (Subgroup.eq_bot_of_card_eq _ h1)
   rcases h43 J hS hq h3 with ⟨p, e, hp, he, hiso⟩ | h | h | h | h | h | h | h | h
-  · haveI := hp
+  · have := hp
     by_cases hp2 : p = 2
     · subst hp2
       exact hL2 J hS hq e he hiso c g V U hd

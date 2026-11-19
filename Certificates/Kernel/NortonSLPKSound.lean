@@ -41,7 +41,7 @@ theorem ofList_ne_empty (l : List Char) :
       intro h
       have := congrArg String.toList h
       simp at this
-    simp [this]
+    simp
 
 theorem tokens_ofList (l : List Char) : tokens (String.ofList l) = (toksK l).map String.ofList := by
   unfold tokens toksK

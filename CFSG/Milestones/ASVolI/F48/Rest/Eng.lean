@@ -163,7 +163,7 @@ theorem burnsideF48t_core [Finite D] (hF : burnsideF48t_Facts G P1 P2 S1 S2 K R1
   have hcomm' : U * V * burnsideF48s_ev G cw = burnsideF48s_ev G cw * (U * V) := by
     rw [hcwc]; exact hcomm
   obtain ⟨hfin, htc⟩ := hF.cand u hu v hv cw hcw hcomm'
-  haveI := hfin
+  have := hfin
   have hlet1 : ∀ l ∈ u, G l.1 ∈ P1 := fun l hl => by
     rw [hF.hP1]; exact burnsideF48t_letter_mem G (hF.XW_let u hu l hl)
   have hlet2 : ∀ l ∈ v, G l.1 ∈ P2 := fun l hl => by

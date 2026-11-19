@@ -15,6 +15,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem subgroupOf_le_pCore (LH V : Subgroup G) (hVpc : V ≤ pCoreOf 2 LH) :
     V.subgroupOf LH ≤ CFSG.pCore 2 ↥LH := by
   intro w hw
@@ -22,10 +23,12 @@ theorem subgroupOf_le_pCore (LH V : Subgroup G) (hVpc : V ≤ pCoreOf 2 LH) :
   have : y = w := Subtype.ext hyw
   exact this ▸ hy
 
+omit [Finite G] in
 theorem card_subgroupOf {LH V : Subgroup G} (hV : V ≤ LH) :
     Nat.card ↥(V.subgroupOf LH) = Nat.card ↥V :=
   Nat.card_congr (Subgroup.subgroupOfEquivOfLe hV).toEquiv
 
+omit [Finite G] in
 theorem subgroupOf_central (LH V : Subgroup G) (hVcent : V ≤ Subgroup.centralizer
       (pCoreOf 2 LH : Set G)) :
     ∀ w ∈ V.subgroupOf LH, ∀ o ∈ CFSG.pCore 2 ↥LH, w * o = o * w := by
@@ -39,10 +42,12 @@ theorem subgroupOf_central (LH V : Subgroup G) (hVcent : V ≤ Subgroup.centrali
   ((QuotientGroup.mk' (Subgroup.center ↥K)).comp (Subgroup.inclusion hLK)).codRestrict
     (imageModCenter K LH) fun x => Subgroup.mem_map_of_mem _ (Subgroup.mem_subgroupOf.mpr x.2)
 
+omit [Finite G] in
 theorem phiImage_val (K LH : Subgroup G) (hLK : LH ≤ K) (x : ↥LH) :
     ((phiImage K LH hLK x : ↥(imageModCenter K LH)) : ↥K ⧸ Subgroup.center ↥K) =
       QuotientGroup.mk' (Subgroup.center ↥K) (Subgroup.inclusion hLK x) := rfl
 
+omit [Finite G] in
 theorem phiImage_surjective (K LH : Subgroup G) (hLK : LH ≤ K) :
     Function.Surjective (phiImage K LH hLK) := by
   rintro ⟨b, hb⟩
@@ -50,6 +55,7 @@ theorem phiImage_surjective (K LH : Subgroup G) (hLK : LH ≤ K) :
   obtain ⟨z, hz, hzb⟩ := Subgroup.mem_map.mp hb
   exact ⟨⟨(z : G), Subgroup.mem_subgroupOf.mp hz⟩, Subtype.ext hzb⟩
 
+omit [Finite G] in
 theorem mem_centerOf_of_phiImage_eq_one (K LH : Subgroup G) (hLK : LH ≤ K) {x : ↥LH}
     (h : phiImage K LH hLK x = 1) : (x : G) ∈ centerOf K := by
   have h2 : QuotientGroup.mk' (Subgroup.center ↥K) (Subgroup.inclusion hLK x) = 1 := by
@@ -60,6 +66,7 @@ theorem mem_centerOf_of_phiImage_eq_one (K LH : Subgroup G) (hLK : LH ≤ K) {x 
   have hc := Subgroup.mem_center_iff.mp h2 ⟨k, hk⟩
   exact congrArg Subtype.val hc
 
+omit [Finite G] in
 theorem isPGroup_ker_phiImage (K LH : Subgroup G) (hLK : LH ≤ K)
     (hZ2 : IsPGroup 2 ↥(centerOf K)) : IsPGroup 2 ↥(phiImage K LH hLK).ker := by
   rw [isPGroup_iff_pow]
@@ -69,6 +76,7 @@ theorem isPGroup_ker_phiImage (K LH : Subgroup G) (hLK : LH ≤ K)
   obtain ⟨k, hk⟩ := (isPGroup_iff_pow.mp hZ2) (x : G) hxZ
   exact ⟨k, Subtype.ext (by simpa using hk)⟩
 
+omit [Finite G] in
 theorem isPGroup_ker_id (LH : Subgroup G) : IsPGroup 2 ↥(MonoidHom.id ↥LH).ker := by
   rw [isPGroup_iff_pow]
   intro x hx

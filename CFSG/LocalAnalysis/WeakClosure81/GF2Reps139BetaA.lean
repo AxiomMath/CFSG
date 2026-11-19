@@ -15,6 +15,7 @@ open scoped commutatorElement Pointwise Matrix
 variable {W : Type} [CommGroup W] [Finite W] {G X D : Subgroup (MulAut W)} {s : MulAut W}
   {Y : Subgroup W} {n : ℕ}
 
+omit [Finite W] in
 private theorem w1369_stableUnder_sup {X : Subgroup (MulAut W)} {A B : Subgroup W}
     (hA : StableUnder X A) (hB : StableUnder X B) : StableUnder X (A ⊔ B) := by
   intro x hx u hu
@@ -22,14 +23,17 @@ private theorem w1369_stableUnder_sup {X : Subgroup (MulAut W)} {A B : Subgroup 
   obtain ⟨a, ha, b, hb, rfl⟩ := hu
   exact ⟨x a, hA x hx a ha, x b, hB x hx b hb, (map_mul x a b).symm⟩
 
+omit [Finite W] in
 private theorem w1369_stableUnder_inf {X : Subgroup (MulAut W)} {A B : Subgroup W}
     (hA : StableUnder X A) (hB : StableUnder X B) : StableUnder X (A ⊓ B) := by
   intro x hx u hu
   exact ⟨hA x hx u hu.1, hB x hx u hu.2⟩
 
+omit [Finite W] in
 private theorem w1369_mem_sup_left {A B : Subgroup W} {a : W} (ha : a ∈ A) : a ∈ A ⊔ B :=
   Subgroup.mem_sup.mpr ⟨a, ha, 1, B.one_mem, mul_one a⟩
 
+omit [Finite W] in
 private theorem w1369_mem_sup_right {A B : Subgroup W} {b : W} (hb : b ∈ B) : b ∈ A ⊔ B :=
   Subgroup.mem_sup.mpr ⟨1, A.one_mem, b, hb, one_mul b⟩
 
@@ -60,6 +64,7 @@ private theorem w1369_stableUnder_zpowers_of_maps {U : Subgroup W} {e : MulAut W
   have hle : Subgroup.zpowers e ≤ T := Subgroup.zpowers_le.mpr he
   exact fun g hg u hu => hle hg u hu
 
+omit [Finite W] in
 private theorem w1369_stableUnder_map_of_commute {K : Subgroup (MulAut W)} {M : Subgroup W}
     (hM : StableUnder K M) {g : MulAut W} (hg : ∀ k ∈ K, k * g = g * k) :
     StableUnder K (M.map g.toMonoidHom) := by
@@ -70,6 +75,7 @@ private theorem w1369_stableUnder_map_of_commute {K : Subgroup (MulAut W)} {M : 
     simpa [MulAut.mul_apply] using h
   exact Subgroup.mem_map.mpr ⟨k m, hM k hk m hm, hkm.symm⟩
 
+omit [Finite W] in
 private theorem w1369_stableUnder_map_of_normalizes {K : Subgroup (MulAut W)} {M : Subgroup W}
     (hM : StableUnder K M) {g : MulAut W}
     (hg : K.map (MulAut.conj g).toMonoidHom = K) :
@@ -228,7 +234,7 @@ theorem Std139.beta_split (hw2 : ∀ w : W, w ^ 2 = 1) (S : Std139 G X D s Y n) 
 
 theorem Std139.beta_cost (hw2 : ∀ w : W, w ^ 2 = 1) (S : Std139 G X D s Y n) (hn : 3 ≤ n)
     {K : Subgroup (MulAut W)} (hK : Comp139 G X D K) {M : Subgroup W} {x : MulAut W}
-    (hM : IsIrrOn K M ⊥) (hx : x ∈ X) (hx1 : x ≠ 1) (hsum : M ⊔ M.map x.toMonoidHom = ⊤)
+    (hM : IsIrrOn K M ⊥) (hx : x ∈ X) (_hx1 : x ≠ 1) (hsum : M ⊔ M.map x.toMonoidHom = ⊤)
     (hint : M ⊓ M.map x.toMonoidHom = ⊥) {e : MulAut W} (he : e ∈ D) (he1 : e ≠ 1) :
     (∀ m ∈ M, e m ∈ M) ∧ rk ↥(commSub M (Subgroup.zpowers e)) = 1 ∧
       fixV (Subgroup.zpowers e) ⊓ M = Y ⊓ M := by

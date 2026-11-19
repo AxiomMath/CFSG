@@ -86,7 +86,7 @@ theorem c23_relIndex_inf_centralizer_eq (D : Data G) {V : Subgroup G} (hV : IsEl
       _ = O.ncard * Nat.card ↥(D.M ⊓ Subgroup.centralizer ({z.val} : Set G)) := hstab
       _ = 49 * Nat.card ↥(Subgroup.centralizer ({z.val} : Set G) ⊓ D.M) := by
             rw [hO, inf_comm]
-  haveI : Nonempty ↥(Subgroup.centralizer ({z.val} : Set G) ⊓ D.M) :=
+  have : Nonempty ↥(Subgroup.centralizer ({z.val} : Set G) ⊓ D.M) :=
     ⟨⟨1, (Subgroup.centralizer ({z.val} : Set G) ⊓ D.M).one_mem⟩⟩
   exact Nat.eq_of_mul_eq_mul_right Nat.card_pos hstep
 

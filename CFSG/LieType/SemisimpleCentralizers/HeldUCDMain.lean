@@ -35,18 +35,18 @@ variable {τ : L ≃+* L} {m : ℕ} {s : Matrix (Fin n) (Fin n) L} {F : Finset L
 
 theorem finite_Bl [Finite L] (H : PrimaryHyp τ s m F a b) (f : ↥(Fset s b F)) :
     Finite ↥(Bl H f) := by
-  haveI := finite_linear_endo (AdjoinRoot f.1) (Vf s b F f.1)
+  have := finite_linear_endo (AdjoinRoot f.1) (Vf s b F f.1)
   exact Subtype.finite
 
 theorem block_top_unitaryOrLinear [Finite L] (H : PrimaryHyp τ s m F a b) (Q : ℕ)
     (hQ : Nat.card L = Q ^ 2) (f : ↥(Fset s b F)) :
     Held.UnitaryOrLinearBlock Q
       ↥(⊤ : Subgroup (LinearMap.GeneralLinearGroup (AdjoinRoot f.1) (Vf s b F f.1))) := by
-  haveI : Fact (Irreducible f.1) := ⟨H.hirr f.1 (mem_Fset.mp f.2).1⟩
+  have : Fact (Irreducible f.1) := ⟨H.hirr f.1 (mem_Fset.mp f.2).1⟩
   have hf0 : f.1 ≠ 0 := (H.hirr f.1 (mem_Fset.mp f.2).1).ne_zero
   let pb := AdjoinRoot.powerBasis (K := L) hf0
-  haveI : Finite (AdjoinRoot f.1) := Finite.of_equiv _ pb.basis.equivFun.toEquiv.symm
-  haveI : Module.Finite (AdjoinRoot f.1) (Vf s b F f.1) :=
+  have : Finite (AdjoinRoot f.1) := Finite.of_equiv _ pb.basis.equivFun.toEquiv.symm
+  have : Module.Finite (AdjoinRoot f.1) (Vf s b F f.1) :=
     Module.Finite.of_restrictScalars_finite L (AdjoinRoot f.1) (Vf s b F f.1)
   have hdim : pb.dim = f.1.natDegree := AdjoinRoot.powerBasis_dim hf0
   have hfin : Nat.card (Fin pb.dim) = pb.dim := by simp
@@ -57,7 +57,7 @@ theorem block_selfDual_unitaryOrLinear [Finite L] (H : PrimaryHyp τ s m F a b) 
     (hQ : Nat.card L = Q ^ 2) (hτQ : ∀ x, τ x = x ^ Q) (f : ↥(Fset s b F))
     (hself : piI H f = f) : Held.UnitaryOrLinearBlock Q ↥(Bl H f) := by
   rw [Bl_of_selfDual H hself]
-  haveI : Fact (Irreducible f.1) := ⟨H.hirr f.1 (mem_Fset.mp f.2).1⟩
+  have : Fact (Irreducible f.1) := ⟨H.hirr f.1 (mem_Fset.mp f.2).1⟩
   have hsa : adjM τ (Pmat s b F f.1) = Pmat s b F f.1 := by
     rw [adjM_piI H f, hself]
   exact selfDual_unitaryOrLinear H (mem_Fset.mp f.2).1 (mem_Fset.mp f.2).2 hsa Q hQ hτQ
@@ -98,11 +98,11 @@ theorem centralizer_decomposition [Finite L] {Q : ℕ} {τ : L ≃+* L} (hτ : �
   choose! a b hab using hcop
   let H : PrimaryHyp τ (s : Matrix (Fin n) (Fin n) L) (orderOf s) F a b :=
     ⟨hτ, hm0, hirr, hmon, hprod, hsm, hs', hab⟩
-  haveI hK : ∀ f : ↥(Fset (s : Matrix (Fin n) (Fin n) L) b F),
+  have hK : ∀ f : ↥(Fset (s : Matrix (Fin n) (Fin n) L) b F),
       Fact (∀ x ∈ Vf (s : Matrix (Fin n) (Fin n) L) b F f.1,
         aeval (s : Matrix (Fin n) (Fin n) L) f.1 *ᵥ x = 0) :=
     fun f => ⟨fun x hx => aeval_factor_mulVec_eq_zero H (mem_Fset.mp f.2).1 hx⟩
-  letI : Fintype (Activ H) := Fintype.ofFinite (Activ H)
+  let : Fintype (Activ H) := Fintype.ofFinite (Activ H)
   let e : Activ H ≃ Fin (Fintype.card (Activ H)) := Fintype.equivFin (Activ H)
   refine ⟨Fintype.card (Activ H), fun k => ↥(Bl H (e.symm k).1), fun k => inferInstance,
     fun k => finite_Bl H (e.symm k).1, fun k => block_unitaryOrLinear H Q hL hτQ (e.symm k),

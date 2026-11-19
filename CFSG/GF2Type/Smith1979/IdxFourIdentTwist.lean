@@ -48,7 +48,7 @@ theorem exists_twist (X E : Subgroup G12) (hXg : X ≤ gammaU) (hEX : E ≤ X)
     mul_mem_D5_of_mem_monGamma (monLin_le_monGamma (R0_le_monLin hr)) hd⟩
   have hEc : Nat.card E = 9797760 := by omega
   have hQ4 : Nat.card Q = 4 * Nat.card (E ⊓ Q : Subgroup G12) := by
-    haveI : (E.subgroupOf X).Normal := ⟨fun n hn g => by
+    have : (E.subgroupOf X).Normal := ⟨fun n hn g => by
       rw [Subgroup.mem_subgroupOf] at hn ⊢
       simpa using hEn g g.2 n hn⟩
     have hsup : E.subgroupOf X ⊔ Q.subgroupOf X = ⊤ := by
@@ -86,7 +86,7 @@ theorem exists_twist (X E : Subgroup G12) (hXg : X ≤ gammaU) (hEX : E ≤ X)
       have := Nat.le_of_dvd (by norm_num) d2
       omega
     interval_cases k <;> omega
-  haveI : (R0.subgroupOf monGamma).Normal := ⟨fun n hn g => by
+  have : (R0.subgroupOf monGamma).Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     simpa using mul_mem_R0_of_mem_monGamma g.2 hn⟩
   obtain ⟨φ, hφ⟩ : ∃ φ : monGamma →* monGamma ⧸ R0.subgroupOf monGamma,
@@ -98,7 +98,7 @@ theorem exists_twist (X E : Subgroup G12) (hXg : X ≤ gammaU) (hEX : E ≤ X)
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe
       (R0_le_Nsub.trans Nsub_le_monGamma)).toEquiv, card_R0, card_monGamma] at h
     omega
-  haveI : Finite (monGamma ⧸ R0.subgroupOf monGamma) :=
+  have : Finite (monGamma ⧸ R0.subgroupOf monGamma) :=
     Nat.finite_of_card_ne_zero (by rw [hD]; norm_num)
   have himage : ∀ H : Subgroup G12, R0 ≤ H → H ≤ monGamma → Nat.card H = 349920 →
       ((H.subgroupOf monGamma).map φ).index = 3 ∧

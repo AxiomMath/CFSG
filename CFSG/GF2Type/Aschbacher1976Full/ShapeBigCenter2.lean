@@ -34,9 +34,9 @@ variable {P : Type*} [Group P] [Finite P] {D E R : Subgroup P} {z : P}
 theorem four_lt_index_frattini (hP : IsPGroup 2 P) (c : CritData D E R z)
     (hk8 : 8 ≤ Nat.card (Zof D)) {w : ℕ} (hw : 1 ≤ w) (hEcard : Nat.card E = 2 ^ (1 + 2 * w))
     (hER : E ⊓ R = zpowers z) : 4 < (frattini P).index := by
-  haveI : Fact (IsPGroup 2 P) := ⟨hP⟩
-  haveI := c.R_normal
-  haveI : Fact (IsPGroup 2 ↥R) := ⟨hP.to_subgroup R⟩
+  have : Fact (IsPGroup 2 P) := ⟨hP⟩
+  have := c.R_normal
+  have : Fact (IsPGroup 2 ↥R) := ⟨hP.to_subgroup R⟩
   obtain ⟨a, k, hag⟩ := exists_gen hP c
   have hk : 3 ≤ k := by
     by_contra hlt
@@ -166,8 +166,8 @@ theorem shape_big_center {z : G} (hsymp : CFSG.Open.GLASymplecticType (Fz z))
     (hmax : ∀ D' : Subgroup ↥(Fz z), ThompsonCritical D' → Nat.card D' ≤ Nat.card D)
     (hk8 : 8 ≤ Nat.card (Zof D)) {w : ℕ} (hw : 1 ≤ w) (hEcard : Nat.card E = 2 ^ (1 + 2 * w))
     (hER : E ⊓ R = zpowers zz) : Asc76Shape z := by
-  haveI := c.char
-  haveI : D.Characteristic := c.crit.1
+  have := c.char
+  have : D.Characteristic := c.crit.1
   refine Asc76Shape.bigCenter ⟨lift (Zof D), lift (Q4 c), isCyclic_lift c.cyc, ?_, ?_, lift_le _,
     ?_, lift_le _, ?_, ?_, ?_, ?_⟩
   · rw [card_lift]

@@ -141,7 +141,7 @@ theorem geom37 (h34 : Stroth34Statement)
   have e : ↥(bar M Q (Lgen M (LB M Q B))) ≃* ↥L := eB.trans (MulEquiv.subgroupCongr hHL)
   subst hn4
   obtain ⟨eL⟩ := hLiso
-  haveI := hLs
+  have := hLs
   exact ⟨rfl, k, hkZ, e.isSimpleGroup, ⟨e.trans eL⟩⟩
 
 end CFSG.RankThree.GF2n.Stroth80

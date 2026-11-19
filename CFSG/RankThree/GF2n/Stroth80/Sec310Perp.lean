@@ -83,7 +83,7 @@ theorem stroth310Perp_of_34 (h34 : Stroth34Statement) :
     have hyC : y ∈ Subgroup.centralizer (B : Set G) := by
       rw [hcent y hyQ]
       by_contra hc0
-      obtain ⟨u₀, hu₀V, hu₀B⟩ := SetLike.not_le_iff_exists.mp hnot
+      obtain ⟨u₀, hu₀V, hu₀B⟩ := IsConcreteLE.not_le_iff_exists.mp hnot
       obtain ⟨x₀, hx₀Q, hx₀⟩ := hrep u₀ hu₀V
       have hu₀Q : u₀ ∈ Q := hVQ u₀ hu₀V
       have hπu₀ := hπrep x₀ hx₀Q u₀ hu₀Q hx₀

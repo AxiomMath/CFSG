@@ -88,7 +88,7 @@ theorem conclK_hs_u16
     exact Hex.ind_mulVec (Hex.mulVec_injective basis_u16 _) (Hex.image_ovoid basis_u16 g) _
   let hcommV : IsMulCommutative ↥(eSub basis_u16) :=
     IsMulCommutative.of_setLike_mul_comm fun x hx y hy => eSub_comm basis_u16 x y hx hy
-  letI : IsMulCommutative ↥(eSub basis_u16) := hcommV
+  let : IsMulCommutative ↥(eSub basis_u16) := hcommV
   have hFFL : IsFFModule (autOn M16 (eSub basis_u16)) :=
     FFn.isFFModule_autOn_of_equiv M16_le_eNorm
       ((FFh.heartAut 6).comp (alternatingGroup (Fin 6)).subtype) α hα
@@ -132,7 +132,7 @@ theorem conclK_hs_u8
   have hQ2 : IsPGroup 2 ↥Q8 := IsPGroup.of_card (n := 6) (by rw [card_Q8]; norm_num)
   have hH2 : ¬ IsPGroup 2 ↥N8 :=
     not_isPGroup_two_of_three_dvd (by rw [card_N8]; norm_num)
-  haveI : IsSimpleGroup ↥(StatedSL 3 (ZMod 2)) := E8.isSimpleGroup_statedSL3
+  have : IsSimpleGroup ↥(StatedSL 3 (ZMod 2)) := E8.isSimpleGroup_statedSL3
   have hO : pCoreOf 2 N8 = Q8 :=
     pCoreOf_eq_of_max Q8_le_N8 N8_le_normalizer_Q8 hQ2
       (simple_of_surj n8Hom n8Hom_surjective ker_n8Hom) hH2
@@ -168,7 +168,7 @@ theorem conclK_hs_u8
     (isNaturalSection_iff_isSumOfNaturalModules_one _ _ bot_le).mp hsec
   let hcommV : IsMulCommutative ↥(eSub basis_u8) :=
     IsMulCommutative.of_setLike_mul_comm fun x hx y hy => eSub_comm basis_u8 x y hx hy
-  letI : IsMulCommutative ↥(eSub basis_u8) := hcommV
+  let : IsMulCommutative ↥(eSub basis_u8) := hcommV
   have hFFN : IsFFModule (autOn N8 (eSub basis_u8)) :=
     FFn.isFFModule_autOn_of_sum (n := 2) (k := 1) (by decide) le_rfl (by norm_num) hsum
   have hFF : IsFFModule (autOn (eNorm basis_u8) (eSub basis_u8)) := N8_eq ▸ hFFN

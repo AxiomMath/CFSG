@@ -120,6 +120,7 @@ open scoped Pointwise
 open CFSG.Quasithin.S152N2
 variable {W : Type*} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 @[simp]
 private theorem torus_projection_coe
     {R P : Subgroup W} (hinf : P ⊓ R = ⊥) (hsup : P ⊔ R = ⊤) (w : W) :

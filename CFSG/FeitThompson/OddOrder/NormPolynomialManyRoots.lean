@@ -111,7 +111,7 @@ theorem p_le_ncard_setOf_isRoot_normPoly [Fact p.Prime] [Finite F] [CharP F p]
     show Nat.card ((⊥ : Subfield F) : Set F) = p from natCard_bot_subfield hp hcard] at h
 
 theorem normPoly_spec_of_config [Fact p.Prime] [Finite F] [CharP F p]
-    (hq : q.Prime) (_hqp : q < p) (hcard : Nat.card F = p ^ q)
+    (hq : q.Prime) (_hqp : q < p) (_hcard : Nat.card F = p ^ q)
     (hmdef : m = (p ^ q - 1) / (p - 1)) (_hcop : Nat.Coprime m (p - 1))
     (hinv : ∀ z ∈ normOneShiftSet F m, z⁻¹ ∈ normOneShiftSet F m)
     {a : F} (ha : a ∈ normOneShiftSet F m) (ha1 : a ≠ 1) :

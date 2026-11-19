@@ -51,7 +51,7 @@ theorem edgeE_or_of_cartanE_eq_neg_one (r : ℕ) (a b : Fin r) (h : Tag.cartanE 
     edgeE r a b ∨ edgeE r b a := by
   unfold Tag.cartanE at h
   simp only [edgeE]
-  split_ifs at h with h1 h2 <;> omega
+  split_ifs at h with h1 h2; omega
 
 theorem not_edgeE_of_cartanE_eq_zero (r : ℕ) (a b : Fin r) (h : Tag.cartanE r a b = 0) :
     ¬ edgeE r a b := by

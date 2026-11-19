@@ -16,6 +16,7 @@ open scoped MatrixGroups
 
 variable {G : Type} [Group G] [Finite G] {M V H : Subgroup G}
 
+omit [Finite G] in
 private theorem subW_self_eq_top
     (hW : Assembly.IsElemAbelian 2 (Tim79a.xOf V H))
     [Module (ZMod 2) (Additive (IntMod (Tim79a.xOf V H) hW))] :
@@ -24,6 +25,7 @@ private theorem subW_self_eq_top
   rw [← ofW_toW hW x, mem_subW_iff]
   simp
 
+omit [Finite G] in
 theorem IsOrthModule.repW_of_subRepW
     (hW : Assembly.IsElemAbelian 2 (Tim79a.xOf V H))
     [Module (ZMod 2) (Additive (IntMod (Tim79a.xOf V H) hW))]

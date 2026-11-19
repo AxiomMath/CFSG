@@ -187,7 +187,7 @@ theorem ggPZ_automizer_le_of_eq_mul {G : Type} [Group G] [Finite G] {p : ℕ} [F
     have hmem : (⟨e, he⟩ : ↥E) ∈ EJ.subgroupOf E ⊔ D.subgroupOf E := by
       rw [← hsupE]; exact Subgroup.mem_top _
     have : IsMulCommutative ↥E := hE.1
-    have : (D.subgroupOf E).Normal := Subgroup.normal_of_comm _
+    have : (D.subgroupOf E).Normal := Subgroup.normal_of_isMulCommutative _
     obtain ⟨y, hy, z, hz, hyz⟩ :=
       (Subgroup.mem_sup_of_normal_right (s := EJ.subgroupOf E) (t := D.subgroupOf E)
         (x := (⟨e, he⟩ : ↥E))).mp hmem

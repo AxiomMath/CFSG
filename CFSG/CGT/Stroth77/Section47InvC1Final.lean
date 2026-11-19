@@ -16,6 +16,7 @@ namespace Stroth47Core
 
 variable {D : Subgroup G} {m : ℕ} (dD : StrothWeakTypeData D (.t200 m)) {e : G}
 
+omit [Finite G] in
 theorem t200inv_sqE_ne_zero (hm : 2 ≤ m) {p : ℕ} (hp : p % 2 = 1)
     (hrel : Rel34inv dD e (2 ^ (m + 1)) ((dD.c : G) ^ 2 ^ (m - 1)) p)
     (x : Fin 3 → ℤ) (i j l : Bool) (hlj : (l && j) = false) :
@@ -40,23 +41,22 @@ theorem t200inv_sqE_ne_zero (hm : 2 ≤ m) {p : ℕ} (hp : p % 2 = 1)
   obtain hi | hi := Bool.eq_false_or_eq_true i <;>
   obtain hj | hj := Bool.eq_false_or_eq_true j <;>
   obtain hl | hl := Bool.eq_false_or_eq_true l <;>
-  simp only [hi, hj, hl, Bool.false_eq_true, Bool.true_eq_false, ↓reduceIte] at * <;>
+  simp only [hi, hj, hl] at * <;>
   (try exact absurd hlj (by decide)) <;>
     simp only [EAction.sqE, EAction.twist, hwuv, hwt, t200invEAction_ve, e0,
       SigmaFourAction.d8Act, AddMonoidHom.comp_apply, AddMonoidHom.id_apply,
-      Bool.false_eq_true, Bool.true_eq_false, Bool.and_false, Bool.and_true, ↓reduceIte,
+      Bool.false_eq_true, Bool.and_false, Bool.and_true, ↓reduceIte,
       map_zero, e4, t200_φuv, t200_φt, t200_φu, t200inv_φe dD hrel, ← Torus.ofInt_add, ← Torus.ofInt_sub,
       add_zero, zero_add] at h0 <;>
     (first
       | rw [t200_ofInt_eq_zero_iff] at h0
-      | rw [eq_comm] at h0; rw [t200_ofInt_eq_zero_iff] at h0) <;>
+) <;>
     obtain ⟨d0, d1, d2⟩ := h0 <;>
     simp only [Pi.add_apply, Pi.sub_apply, Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.cons_val_two, Matrix.head_cons, Matrix.tail_cons, e1, e2, e3, e5] at d0 d1 d2 <;>
+      Matrix.cons_val_two, Matrix.head_cons, Matrix.tail_cons, e1, e2, e3] at d0 d1 d2 <;>
     ring_nf at d0 d1 d2 <;>
     set Q : ℤ := 2 ^ m' with hQdef <;>
-    have hQ2 : (2 : ℤ) ^ (m' * 2) = Q ^ 2 := by rw [hQdef]; exact e5 <;>
-    simp only [hQ2] at d0 d1 d2
+    have hQ2 : (2 : ℤ) ^ (m' * 2) = Q ^ 2 := by rw [hQdef]; exact e5
   ·
     obtain ⟨k0, hk0⟩ := d0
     obtain ⟨k1, hk1⟩ := d1
@@ -122,6 +122,7 @@ theorem t200inv_sqE_ne_zero (hm : 2 ≤ m) {p : ℕ} (hp : p % 2 = 1)
       exact mul_left_cancel₀ (by positivity : (2 * Q : ℤ) ≠ 0) h
     omega
 
+omit [Finite G] in
 theorem t200inv_mem_of_mul_self (hm : 2 ≤ m) {p : ℕ} (hp : p % 2 = 1)
     (hrel : Rel34inv dD e (2 ^ (m + 1)) ((dD.c : G) ^ 2 ^ (m - 1)) p)
     {y : G}
@@ -167,7 +168,7 @@ theorem stroth_4_7_hinv_c1 :
     (Rel34inv dD e (2 ^ (m + 1)) ((dD.c : G) ^ 2 ^ (m - 1)) 1 ∨
       Rel34inv dD e (2 ^ (m + 1)) ((dD.c : G) ^ 2 ^ (m - 1)) 3) → False := by
   intro G _ _ F D m hm dD h hSN hnc e he hS hrel
-  haveI := F.simple
+  have := F.simple
   have hm1 : 1 ≤ m := by omega
   obtain ⟨p, hp, hrelp⟩ : ∃ p : ℕ, p % 2 = 1 ∧
       Rel34inv dD e (2 ^ (m + 1)) ((dD.c : G) ^ 2 ^ (m - 1)) p :=
@@ -212,7 +213,7 @@ theorem stroth_4_7_hinv_c1 :
       rw [pow_mul, pow_two, hrelp.e_sq]
     rcases H47Inv_c₁_pow dD hm1 k with hk | hk
     · rw [h1, hk]
-      simpa using U.one_mem
+      simp
     · rw [h1, hk] at hmem ⊢
       exact hc₁ g hmem
 

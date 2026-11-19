@@ -83,7 +83,7 @@ private theorem omfoi_finrank_commSpace_model {n : ℕ} (hirrQ : ∀ s : K, s ^ 
   have hσ := omqnf_spMonoPerm_mul_self_A (n - 1) k
   have hT2k : finrank K (commSpace T) = 2 * k := by
     rw [omqnf_finrank_commSpace hirrQ hT hσ, omqnf_support_card_A hk]
-    simp only [Pi.one_apply, Finset.prod_const_one, if_true]
+    simp only [Pi.one_apply, Finset.prod_const_one, ite_true]
     omega
   have hhyp : Submodule.map (((T * r : Vm n K ≃ₗ[K] Vm n K) : Vm n K →ₗ[K] Vm n K) - 1)
       (omqnfHyp n K) = Submodule.map ((T : Vm n K →ₗ[K] Vm n K) - 1) (omqnfHyp n K) := by

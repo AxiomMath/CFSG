@@ -143,9 +143,11 @@ variable {S : Type*} [Group S] [Finite S] (φ : Multiplicative (Fin 4 → ZMod 5
 
 @[expose] def phiAdd (c : Fin 4 → ZMod 5) : S := φ (Multiplicative.ofAdd c)
 
+omit [Finite S] in
 theorem phiAdd_add (c d : Fin 4 → ZMod 5) : phiAdd φ (c + d) = phiAdd φ c * phiAdd φ d := by
   simp only [phiAdd, ofAdd_add, map_mul]
 
+omit [Finite S] in
 theorem phiAdd_nsmul (m : ℕ) (c : Fin 4 → ZMod 5) : phiAdd φ (m • c) = phiAdd φ c ^ m := by
   simp only [phiAdd, ofAdd_nsmul, map_pow]
 
@@ -197,8 +199,7 @@ theorem gLAPPrimeCoreOf_centralizer_of_hyperplanes (hinj : Function.Injective φ
     · intro hb
       obtain ⟨a, rfl⟩ := hBA hb
       refine ⟨Multiplicative.toAdd a, ?_, by simp [phiAdd]⟩
-      change Multiplicative.toAdd a ∈ {c | f ⬝ᵥ c = 0}
-      rw [Set.mem_setOf_eq, ← hfker, hmemS₀]
+      rw [Set.mem_ofPred_eq, ← hfker, hmemS₀]
       simpa [phiAdd] using hb
     · rintro ⟨c, hc, rfl⟩
       exact (hmemS₀ c).1 ((hfker c).2 hc)
@@ -212,7 +213,7 @@ theorem gLAPPrimeCoreOf_centralizer_of_hyperplanes (hinj : Function.Injective φ
         Subgroup.centralizer (phiAdd φ '' {c | (0 : Fin 4 → ZMod 5) ⬝ᵥ c = 0}) := by
       ext g
       simp only [Subgroup.mem_inf, Subgroup.mem_centralizer_iff, hBeq, Set.mem_singleton_iff,
-        forall_eq, Set.forall_mem_image, Set.mem_setOf_eq, zero_dotProduct, forall_const]
+        forall_eq, Set.forall_mem_image, Set.mem_ofPred_eq, zero_dotProduct, forall_const]
       constructor
       · rintro ⟨h1, h2⟩ c'
         set k : ZMod 5 := (f ⬝ᵥ c') * (f ⬝ᵥ y)⁻¹ with hk

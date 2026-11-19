@@ -66,6 +66,7 @@ theorem permutesPair_of_hyp8100 {D : Data G} {L : Fin 2 → Subgroup G} {n : Fin
 
 namespace R8100D
 
+omit [Finite G] in
 private theorem rhoL_eq_one_iff (L : Subgroup G) {x : G} (hx : x ∈ normalizer (L : Set G)) :
     UC6S846.rhoL L ⟨x, hx⟩ = 1 ↔ CentralizesBar x L := by
   constructor
@@ -104,6 +105,7 @@ private theorem outHom_congr (L : Subgroup G) {a b : G} (e : a = b)
 private def InnBar (L : Subgroup G) (m : G) : Prop :=
   ∃ l ∈ L, CentralizesBar (l⁻¹ * m) L
 
+omit [Finite G] in
 private theorem outHom_eq_one_iff (L : Subgroup G) {m : G} (hm : m ∈ normalizer (L : Set G)) :
     outHom L ⟨m, hm⟩ = 1 ↔ InnBar L m := by
   rw [outHom_eq_one_iff_range]
@@ -185,6 +187,7 @@ private theorem permutesPair_symm {M L₀ L₁ : Subgroup G} (h : PartTwo.Permut
   · exact Or.inl ⟨h1, h0⟩
   · exact Or.inr ⟨h1, h0⟩
 
+omit [Finite G] in
 private theorem le_normalizer_of_permutesPair {M L₀ L₁ : Subgroup G}
     (hperm : PartTwo.PermutesPair M L₀ L₁) (hne : L₀ ≠ L₁) (hL₁M : L₁ ≤ M) :
     L₁ ≤ normalizer (L₀ : Set G) := by
@@ -195,6 +198,7 @@ private theorem le_normalizer_of_permutesPair {M L₀ L₁ : Subgroup G}
   · exact absurd ((UC6S846.mem_normalizer_iff_map_conj.1 (Subgroup.le_normalizer hl)).symm.trans
       h1) hne.symm
 
+omit [Finite G] in
 private theorem mem_normalizer_of_permutesPair {M L₀ L₁ : Subgroup G}
     (hperm : PartTwo.PermutesPair M L₀ L₁) (hne : L₀ ≠ L₁) {m : G} (hm : m ∈ M)
     (h0 : m ∈ normalizer (L₀ : Set G)) : m ∈ normalizer (L₁ : Set G) := by
@@ -203,6 +207,7 @@ private theorem mem_normalizer_of_permutesPair {M L₀ L₁ : Subgroup G}
   · exact h1
   · exact absurd (h0.symm.trans h1) hne
 
+omit [Finite G] in
 private theorem swap_of_permutesPair {M L₀ L₁ : Subgroup G}
     (hperm : PartTwo.PermutesPair M L₀ L₁) {m : G} (hm : m ∈ M)
     (h0 : m ∉ normalizer (L₀ : Set G)) :
@@ -222,6 +227,7 @@ private theorem map_conj_mul (u v : G) (K : Subgroup G) :
     simp [mul_assoc]
   rw [e]
 
+omit [Finite G] in
 private theorem mul_mem_normalizer_of_swap {M L₀ L₁ : Subgroup G}
     (hperm : PartTwo.PermutesPair M L₀ L₁) {u v : G} (hu : u ∈ M) (hv : v ∈ M)
     (hu0 : u ∉ normalizer (L₀ : Set G)) (hv0 : v ∉ normalizer (L₀ : Set G)) :
@@ -229,6 +235,7 @@ private theorem mul_mem_normalizer_of_swap {M L₀ L₁ : Subgroup G}
   rw [UC6S846.mem_normalizer_iff_map_conj, map_conj_mul, (swap_of_permutesPair hperm hv hv0).1,
     (swap_of_permutesPair hperm hu hu0).2]
 
+omit [Finite G] in
 private theorem conj_mem_normalizer {M L₀ L₁ : Subgroup G}
     (hperm : PartTwo.PermutesPair M L₀ L₁) {g m : G} (hg : g ∈ M) (hm : m ∈ M)
     (hmN : m ∈ normalizer (L₀ : Set G)) : g⁻¹ * (m * g) ∈ normalizer (L₀ : Set G) := by
@@ -240,6 +247,7 @@ private theorem conj_mem_normalizer {M L₀ L₁ : Subgroup G}
       hgN (by simpa using (normalizer (L₀ : Set G)).mul_mem ((normalizer _).inv_mem hmN) h)
     exact mul_mem_normalizer_of_swap hperm (M.inv_mem hg) (M.mul_mem hm hg) h1 h2
 
+omit [Finite G] in
 private theorem mem_normalizer_of_odd {M L₀ L₁ : Subgroup G}
     (hperm : PartTwo.PermutesPair M L₀ L₁) {m : G} (hm : m ∈ M) (hodd : ¬ 2 ∣ orderOf m) :
     m ∈ normalizer (L₀ : Set G) := by
@@ -254,16 +262,19 @@ private theorem mem_normalizer_of_odd {M L₀ L₁ : Subgroup G}
   rw [e]
   exact pow_mem hsq _
 
+omit [Finite G] in
 private theorem conj_mem_pCoreOf {L : Subgroup G} {g x : G} (hg : g ∈ normalizer (L : Set G))
     (hx : x ∈ pCoreOf 2 L) : g * x * g⁻¹ ∈ pCoreOf 2 L :=
   (Subgroup.mem_normalizer_iff.1 (UC6S846.normalizer_le_normalizer_pCoreOf L hg) x).1 hx
 
+omit [Finite G] in
 private theorem inf_le_pCoreOf {L P : Subgroup G} (hP : IsPGroup 2 P)
     (hLP : L ≤ normalizer (P : Set G)) : L ⊓ P ≤ pCoreOf 2 L :=
   uc22p21c_le_pCoreOf inf_le_left (hP.to_le inf_le_right) fun _ hk x hx =>
     ⟨L.mul_mem (L.mul_mem hk hx.1) (L.inv_mem hk),
       (Subgroup.mem_normalizer_iff.1 (hLP hk) x).1 hx.2⟩
 
+omit [Finite G] in
 private theorem inf_pCoreOf_le {M L : Subgroup G} (hLM : L ≤ M) :
     L ⊓ pCoreOf 2 M ≤ pCoreOf 2 L :=
   inf_le_pCoreOf (UC6S846.isPGroup_pCoreOf M) fun _ hx =>
@@ -604,7 +615,7 @@ theorem r8100_sp_or_dihedral {D : Data G}
       have h0 : (Q : Subgroup ↥D.M).map D.M.subtype ≤ normalizer (L 0 : Set G) := by
         rintro _ ⟨q, hq, rfl⟩
         refine mem_normalizer_of_odd hperm q.2 ?_
-        obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.1 Q.isPGroup' ⟨q, hq⟩
+        obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.1 Q.isPGroup ⟨q, hq⟩
         have hk' : orderOf (q : G) = r ^ k := by
           rw [Subgroup.orderOf_coe q, ← hk]
           exact Subgroup.orderOf_coe (⟨q, hq⟩ : ↥(Q : Subgroup ↥D.M))

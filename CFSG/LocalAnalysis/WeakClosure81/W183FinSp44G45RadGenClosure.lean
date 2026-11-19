@@ -145,7 +145,7 @@ private theorem w183finSp44rg_conj_le {P E : Subgroup (MulAut S4)} {q : MulAut S
   le_of_eq (w183finSp44rg_autConj_iSup_self P E hq)
 
 private theorem w183finSp44rg_isSimple_S4 : IsSimpleGroup S4 := by
-  haveI : IsSimpleGroup (StatedProj (StatedSp 2 GF4)) :=
+  have : IsSimpleGroup (StatedProj (StatedSp 2 GF4)) :=
     CFSG.ClassicalGroups.Symplectic.isSimpleGroup_statedProj_statedSp GF4 2 (by norm_num)
       (Or.inl (Or.inr (by rw [Nat.card_eq_fintype_card]; decide)))
   exact (antiProjEquiv GF4).isSimpleGroup
@@ -273,7 +273,7 @@ theorem w183finSp44rg_rad_c12 :
     have h := (Subgroup.mem_normalizer_iff.mp hg (MulAut.conj n)).mp (Subgroup.mem_comap.mp hn)
     rw [Subgroup.mem_comap]
     simpa [map_mul, map_inv] using h
-  haveI := w183finSp44rg_isSimple_S4
+  have := w183finSp44rg_isSimple_S4
   have hne : K.comap (MulAut.conj : S4 →* MulAut S4) ≠ ⊥ := by
     intro hbot
     have hx : MulAut.conj (uElt (1 : GF4) 0 0 0) ∈ K :=

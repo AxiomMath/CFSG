@@ -76,7 +76,7 @@ private theorem exists_conj_levi_of_normalizes_root
         (twistedE6RootGroup F σ).subtype).map (MulAut.conj y).toMonoidHom ≤
         graphFixedParabolicLevi TwistTag.E6 F σ.toRingHom J := by
   have hf1 : 1 ≤ f := by omega
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hmodel : TwistedChevalleyModel ↥(twistedE6RootGroup F σ) .E6 (2 ^ f) :=
     CFSG.HardMathSupport.Dickson.DefCharOuter.Export.excTwistedModel_graphFixedRootGroup
       TwistTag.E6 Nat.prime_two hf1 F hF σ hσ
@@ -124,7 +124,7 @@ theorem map_stdLayer_le_graphFixedParabolicLevi
       graphFixedParabolic TwistTag.E6 F σ.toRingHom J) :
     (stdLayer d).map (twistedE6RootGroup F σ).subtype ≤
       graphFixedParabolicLevi TwistTag.E6 F σ.toRingHom J := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcomp0 : IsComponentOf (stdLayer d)
       (Subgroup.centralizer ({d} : Set ↥(twistedE6RootGroup F σ))) := hd.2.2.2.1
   have hcomp1 : IsComponentOf ((stdLayer d).map (twistedE6RootGroup F σ).subtype)
@@ -142,7 +142,7 @@ theorem map_stdLayer_le_graphFixedParabolicLevi
     diagram_fixed_parabolic_root_radical_Levi_factors (t := TwistTag.E6) (K := F) σ J
   have hQ2 : IsPGroup 2 (graphFixedParabolicRadical TwistTag.E6 F σ.toRingHom J) := hQgrp 2
   have hQs : Group.IsSolvable ↥(graphFixedParabolicRadical TwistTag.E6 F σ.toRingHom J) := by
-    haveI := hQ2.isNilpotent
+    have := hQ2.isNilpotent
     infer_instance
   exact le_of_isComponentOf_centralizer_inf hQP hLP hQn huniq hQs hdL hcomp3
 
@@ -167,8 +167,8 @@ private theorem map_le_su6Levi_of_isPGroup
   have hf1 : 1 ≤ f := by omega
   have hp2 : p ≠ 2 := by omega
   obtain ⟨k, hkfield, hkalg, hkcard⟩ := exists_subfield_twE6 hf1 hF
-  letI : Field k := hkfield
-  letI : Algebra k F := hkalg
+  let : Field k := hkfield
+  let : Algebra k F := hkalg
   have hA5le : graphFixedParabolicLevi TwistTag.E6 F σ.toRingHom twE6MaxA5 ≤
       parabolicLevi TwistTag.E6.tag F setA ⊓ graphFixedRootGroup TwistTag.E6 F σ.toRingHom := by
     rw [graphFixedParabolicLevi, twE6MaxA5_eq_foldedSetA, orbitUnion_foldedSetA]
@@ -185,8 +185,8 @@ private theorem map_le_su6Levi_of_isQuasisimple
     (hq : CFSG.IsQuasisimple ↥E) : E ≤ su6Levi σ.toRingHom := by
   have hf1 : 1 ≤ f := by omega
   obtain ⟨k, hkfield, hkalg, hkcard⟩ := exists_subfield_twE6 hf1 hF
-  letI : Field k := hkfield
-  letI : Algebra k F := hkalg
+  let : Field k := hkfield
+  let : Algebra k F := hkalg
   have hA5le : graphFixedParabolicLevi TwistTag.E6 F σ.toRingHom twE6MaxA5 ≤
       parabolicLevi TwistTag.E6.tag F setA ⊓ graphFixedRootGroup TwistTag.E6 F σ.toRingHom := by
     rw [graphFixedParabolicLevi, twE6MaxA5_eq_foldedSetA, orbitUnion_foldedSetA]
@@ -271,7 +271,7 @@ private theorem exists_conj_levi_subset_A5
     {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) (hpq : p ∣ 2 ^ f + 1)
     {A : Subgroup ↥(twistedE6RootGroup F σ)} {d : ↥(twistedE6RootGroup F σ)}
     (hA : IsElemAbelian p A) (hAcard : Nat.card A = p ^ 5)
-    (hd : IsStdElt p A d) (hV : ¬ StdVanishes A d) :
+    (_hd : IsStdElt p A d) (hV : ¬ StdVanishes A d) :
     ∃ (g : ↥(twistedE6RootGroup F σ)) (J : Set (Fin TwistTag.E6.foldedTag.rank))
       (y : ModGL TwistTag.E6.tag F),
       J ⊆ twE6MaxA5 ∧ y ∈ graphFixedParabolic TwistTag.E6 F σ.toRingHom J ∧
@@ -310,7 +310,7 @@ theorem modelFactO_twistedE6 {f : ℕ} (hf : 2 ≤ f) {F : Type} [Field F] [Fini
     ModelFactO p ↥(twistedE6RootGroup F σ) := by
   classical
   intro A d hA hd
-  haveI : CharP F 2 := charP_two_of_card (by omega : 1 ≤ f) hF
+  have : CharP F 2 := charP_two_of_card (by omega : 1 ≤ f) hF
   have hAcard : Nat.card A = p ^ 5 := card_eq_pow_five_of_isBmax hf hF σ hσ hp hp5 hpq hA
   by_cases hV : StdVanishes A d
   · exact Or.inl hV
@@ -323,8 +323,8 @@ theorem i173OOn_famTwE6 : I173OOn famTwE6 := by
   intro p Ω _ _ S B N D K x lab hcfg hlab hfam hmark
   obtain ⟨F, hF, hFin, σ, hcard, hσ, hpq, hp5, hn, hZ, ⟨M⟩⟩ :=
     exists_model_twE6 hcfg hlab hfam hmark
-  letI : Field F := hF
-  letI : Finite F := hFin
+  let : Field F := hF
+  let : Finite F := hFin
   exact concl_of_modelFactO hcfg M hZ
     (modelFactO_twistedE6 hn hcard σ hσ hcfg.prime hp5 hpq)
 

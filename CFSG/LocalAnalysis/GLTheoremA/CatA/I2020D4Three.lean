@@ -30,7 +30,7 @@ private theorem fixedSubgroup_twistedEntrywiseAut_D4_one_simple {K : Type} [Fiel
     IsSimpleGroup ↥(fixedSubgroup (twistedEntrywiseAut TwistTag.D4 1 σ)) ∧
       ∃ a b : ↥(fixedSubgroup (twistedEntrywiseAut TwistTag.D4 1 σ)), a * b ≠ b * a := by
   classical
-  haveI : CharP (AlgebraicClosure K) q :=
+  have : CharP (AlgebraicClosure K) q :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective q
   obtain ⟨-, -, hfixeq, hsimple, hnc⟩ :=
     triality_both_field_orientations_simple_full_ambient_fixed_group q e (Fact.out : q.Prime) he K
@@ -40,7 +40,7 @@ private theorem fixedSubgroup_twistedEntrywiseAut_D4_one_simple {K : Type} [Fiel
       graphFixedRootGroup TwistTag.D4 K σ.toRingHom :=
     (fixedSubgroupTwistedEntrywiseAutOneEquiv TwistTag.D4 σ).trans
       (MulEquiv.subgroupCongr hfixeq)
-  haveI := hsimple
+  have := hsimple
   refine ⟨eΓ.isSimpleGroup, ?_⟩
   obtain ⟨x, y, hxy⟩ := hnc
   refine ⟨eΓ.symm x, eΓ.symm y, fun h => hxy ?_⟩
@@ -59,7 +59,7 @@ private theorem card_fixedSubgroup_twistedEntrywiseAut_D4_one {K : Type} [Field 
       (q ^ e) ^ 12 * ((q ^ e) ^ 8 + (q ^ e) ^ 4 + 1) * ((q ^ e) ^ 6 - 1) *
         ((q ^ e) ^ 2 - 1) := by
   classical
-  haveI : CharP (AlgebraicClosure K) q :=
+  have : CharP (AlgebraicClosure K) q :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective q
   obtain ⟨-, -, hfixeq, -⟩ :=
     triality_both_field_orientations_simple_full_ambient_fixed_group q e (Fact.out : q.Prime) he K
@@ -159,11 +159,11 @@ theorem noJTypeComponent_d4_graphField {K : Type} [Field K] [Finite K] {q f : �
     (hα : α = MulAut.conj g * (exactNormalAut Tag.D4 K a σ 0 * d4Graph K ε)) :
     NoJTypeComponent 3 q α := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K q := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
-  haveI : Finite (ModGL Tag.D4 K) := finite_modGL
-  haveI : Finite (adjointGroup Tag.D4 K) := Subtype.finite
+  have : Fact q.Prime := ⟨hq⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K q := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
+  have : Finite (ModGL Tag.D4 K) := finite_modGL
+  have : Finite (adjointGroup Tag.D4 K) := Subtype.finite
   have hf : 1 ≤ f := by
     by_contra hf
     have hf0 : f = 0 := by omega
@@ -218,18 +218,18 @@ theorem i2020D4Three_of_graphType (h : I2020D4GraphType) : I2020D4Three := by
   intro q hq hq2 hq3 G _instG _instFin f hG β hβ hnot J hJ hJT
   obtain ⟨-, hf, -⟩ := hG.1
   obtain ⟨K, hfieldK, hfinK, hK, ⟨e⟩⟩ := hG.2
-  letI := hfieldK
-  letI := hfinK
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K q := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
-  haveI : Finite (ModGL Tag.D4 K) := finite_modGL
-  haveI : Finite (adjointGroup Tag.D4 K) := Subtype.finite
+  let := hfieldK
+  let := hfinK
+  have : Fact q.Prime := ⟨hq⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K q := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
+  have : Finite (ModGL Tag.D4 K) := finite_modGL
+  have : Finite (adjointGroup Tag.D4 K) := Subtype.finite
   let Φ : adjointGroup Tag.D4 K ≃* matrixProjectiveDerived (coordinateQuadPlus 4 K) :=
     coordinatePlusWitnessEquiv K (isoAdj K).symm
   let e' : G ≃* matrixProjectiveDerived (coordinateQuadPlus 4 K) :=
     coordinatePlusWitnessEquiv K e
-  haveI : Finite (matrixProjectiveDerived (coordinateQuadPlus 4 K)) := Finite.of_equiv _ e'.toEquiv
+  have : Finite (matrixProjectiveDerived (coordinateQuadPlus 4 K)) := Finite.of_equiv _ e'.toEquiv
   let β' : MulAut (matrixProjectiveDerived (coordinateQuadPlus 4 K)) := MulAut.congr e' β
   have hβ' : β' ^ 3 = 1 := by rw [← map_pow, hβ, map_one]
   have hno : NoJTypeComponent 3 q β := by

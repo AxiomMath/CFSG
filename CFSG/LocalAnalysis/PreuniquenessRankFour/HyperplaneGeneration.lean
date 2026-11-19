@@ -279,7 +279,7 @@ theorem coprime_group_generated_by_prime_fixedSubgroups
     · have hcardOne : Nat.card (sourceSylow : Subgroup source) = 1 := by
         apply Nat.eq_one_iff_not_exists_prime_dvd.mpr
         intro divisor hdivisor hdivides
-        obtain ⟨sourceRank, hcardSource⟩ := IsPGroup.iff_card.mp sourceSylow.isPGroup'
+        obtain ⟨sourceRank, hcardSource⟩ := IsPGroup.iff_card.mp sourceSylow.isPGroup
         have hsame : divisor = sourcePrime :=
           (Nat.prime_dvd_prime_iff_eq hdivisor hsourcePrime).mp
             (hdivisor.dvd_of_dvd_pow (hcardSource ▸ hdivides))
@@ -304,7 +304,7 @@ theorem coprime_group_generated_by_prime_fixedSubgroups
           smul_mul := fun scalar first second =>
             Subtype.ext (smul_mul' scalar (first : source) (second : source)) }
       have hspans := coprime_pGroup_generated_by_prime_fixedSubgroups
-        (acting := acting) actingPrime sourcePrime hequal sourceSylow.isPGroup' hpow
+        (acting := acting) actingPrime sourcePrime hequal sourceSylow.isPGroup hpow
       have hcontained : (⊤ : Subgroup (sourceSylow : Subgroup source)) ≤
           generated.comap (sourceSylow : Subgroup source).subtype := by
         rw [← hspans]

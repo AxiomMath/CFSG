@@ -56,7 +56,7 @@ private theorem blk_scalar_neg_L3mx1 (F : Type) [Field F] :
   rw [coe_blk, hd, inv_one, coe_negDiag3]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [blkMat, Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, Matrix.diagonal_apply]
+    simp [blkMat, Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply]
 
 private def diagUnit3L3mx1 (F : Type) [Field F] (d : F) (hd : d ≠ 0) : GL (Fin 3) F :=
   ⟨Matrix.diagonal ![1, 1, d⁻¹], Matrix.diagonal ![1, 1, d], by
@@ -84,7 +84,7 @@ private theorem conj_L3mx1 (F : Type) [Field F] (h2 : (2 : F) ≠ 0) (s : GL (Fi
     rw [Units.val_mul, Units.val_mul, coe_negDiag3, hc, coe_diagUnit3L3mx1]
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.mul_apply, Fin.sum_univ_three, Matrix.diagonal_apply]
+      simp [Matrix.mul_apply, Matrix.diagonal_apply]
   refine ⟨P * c, ?_, ?_⟩
   · refine (CFSG.GH74.GLS.IVK.Proofs2.linConj_mem_statedSL _).mpr ?_
     rw [Units.val_mul, Matrix.det_mul, hcdet, mul_inv_cancel₀ hd0]
@@ -124,7 +124,6 @@ private theorem scalar_of_comm_unipL3mx1 (F : Type) [Field F] (B : GL (Fin 2) F)
     simp [Matrix.mul_apply, Fin.sum_univ_two] at this
     first
       | linear_combination this
-      | linear_combination -this
   have hdet := Matrix.GeneralLinearGroup.det_ne_zero B
   have hne : (B : Matrix (Fin 2) (Fin 2) F) 0 0 ≠ 0 := by
     intro h0
@@ -135,7 +134,7 @@ private theorem scalar_of_comm_unipL3mx1 (F : Type) [Field F] (B : GL (Fin 2) F)
   rw [Matrix.GeneralLinearGroup.coe_scalar, Units.val_mk0, Matrix.scalar_apply]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.diagonal_apply, hM01, hM10, hab.symm]
+    simp [hM01, hM10, hab.symm]
 
 private theorem scalar_of_commute_L3mx1 (F : Type) [Field F] (B : GL (Fin 2) F)
     (hB : ∀ B' ∈ sl2Of (⊤ : Subgroup (GL (Fin 2) F)), B * B' = B' * B) :
@@ -233,7 +232,7 @@ private theorem sl2_center_L3mx1 (F : Type) [Field F]
 theorem l3ShapeBase_statedSL {F : Type} [Field F] [Finite F] {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
     (hF : Nat.card F = p) : L3ShapeBase F (StatedSL 3 F) ⊤ p := by
   have hfact : Fact p.Prime := ⟨hp⟩
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   have hFc : Fintype.card F = p ^ 1 := by rw [pow_one, ← Nat.card_eq_fintype_card, hF]
   have hchar : CharP F p := charP_of_card_eq_prime_pow hFc
   have h2 : (2 : F) ≠ 0 := by
@@ -245,7 +244,7 @@ theorem l3ShapeBase_statedSL {F : Type} [Field F] [Finite F] {p : ℕ} (hp : p.P
   have hF4 : 4 ≤ Nat.card F := by
     rw [hF]
     omega
-  haveI : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) F) :=
+  have : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) F) :=
     CFSG.ClassicalModels.specialLinear_isPerfect_two_of_four_le_card F hF4
   exact
     { charP := hchar

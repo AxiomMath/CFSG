@@ -33,8 +33,8 @@ theorem sec53b_card_QB_inf_Wt_sp (h34 : Stroth34Statement)
   have hVQB : Nat.card ↥(Vt M (LB M Q B) B Z t ⊓ QB B) = Nat.card Z ^ (2 * m) :=
     card_Vt_inf_QB_sp h34 hRoot hc hs hm hV
   obtain ⟨K, hKf, hKfin, hch, γ, M₀, hD⟩ := stroth_globalModelData hc.hyp
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   have hKZ : Nat.card K = Nat.card Z := hD.card
   have hK2 : 1 < Nat.card K := by
     rw [hKZ]
@@ -281,17 +281,17 @@ theorem sec53b_hboxC (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec5Hyp hc n t) 
       ⟨⟨hlxB, hlxC⟩, hlxQ⟩)
 
 theorem stroth53b_of_51_prod (h51 : Stroth51Statement)
-    (hprod : ∀ (G : Type) [Group G] [Finite G] (M Q Z B : Subgroup G) (hc : Ctx M Q Z B)
-      (n : ℕ) (t : G), Sec5Hyp hc n t → SpNat hc t →
-      ∀ r ∈ Rt M (LB M Q B) t, HypPlane Q Z B (conjSubgroup r B) t →
-        ∀ x ∈ Sec8W1 M Q Z B t r,
-          ∃ a ∈ QB B ⊓ Sec8W1 M Q Z B t r,
-          ∃ b ∈ QB (conjSubgroup r B) ⊓ Sec8W1 M Q Z B t r, x = a * b) :
+    (hprod : ∀ (_G : Type) [Group _G] [Finite _G] (_M _Q _Z _B : Subgroup _G) (hc : Ctx _M _Q _Z _B)
+      (_n : ℕ) (_t : _G), Sec5Hyp hc _n _t → SpNat hc _t →
+      ∀ _r ∈ Rt _M (LB _M _Q _B) _t, HypPlane _Q _Z _B (conjSubgroup _r _B) _t →
+        ∀ x ∈ Sec8W1 _M _Q _Z _B _t _r,
+          ∃ a ∈ QB _B ⊓ Sec8W1 _M _Q _Z _B _t _r,
+          ∃ b ∈ QB (conjSubgroup _r _B) ⊓ Sec8W1 _M _Q _Z _B _t _r, x = a * b) :
     Stroth53bStatement :=
   stroth53b_of_51_decomp h51 hprod
-    (fun G _ _ M Q Z B hc n t hs hsp r hr hplane =>
+    (fun _G _ _ _M _Q _Z _B hc _n _t hs _hsp _r hr _hplane =>
       sec53b_hboxB hc hs hr)
-    (fun G _ _ M Q Z B hc n t hs hsp r hr hplane =>
+    (fun _G _ _ _M _Q _Z _B hc _n _t hs _hsp _r hr _hplane =>
       sec53b_hboxC hc hs hr)
 
 

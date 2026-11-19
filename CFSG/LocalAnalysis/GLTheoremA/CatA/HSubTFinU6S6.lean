@@ -120,7 +120,7 @@ theorem three_dvd_card_of_component_fix (β : MulAut S6) (hβ : β ^ 3 = 1)
     exact Subgroup.mem_center_iff.mp hz g
   have hpf : Group.IsPerfect ↥P := Subgroup.isPerfect_iff.mpr hPperf
   obtain ⟨eQ⟩ := nonempty_quotientCenter_mulEquiv_of_surjective hpf πP hπsurj hπker
-  haveI : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hL.2.2.2
+  have : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hL.2.2.2
   have hPQ : CFSG.Open.IsQuasisimple ↥P := ⟨hpf.commutator_eq_top, MulEquiv.isSimpleGroup eQ⟩
   have hPcomp : IsComponentOf P C := ⟨hP_le_C, hPsub_C, hPQ⟩
   let ι : M6 →* GL (Fin 6) F4 := (StatedSU 6 (2 ^ 1) F4).subtype

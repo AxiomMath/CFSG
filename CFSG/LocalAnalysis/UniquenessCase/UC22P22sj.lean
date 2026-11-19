@@ -32,8 +32,8 @@ theorem comm_mul_central {Q : Type*} [Group Q] {a b c d : Q} (hc : c ∈ center 
 theorem le_center_of_quasisimple {Q : Type*} [Group Q] (hQ : CFSG.Open.IsQuasisimple Q) {N : Subgroup Q}
     (hN : N.Normal) (hne : N ≠ ⊤) : N ≤ center Q := by
   obtain ⟨hcomm, hsimp⟩ := hQ
-  haveI := hsimp
-  haveI hmap : (N.map (QuotientGroup.mk' (center Q))).Normal := hN.map _ (QuotientGroup.mk'_surjective _)
+  have := hsimp
+  have hmap : (N.map (QuotientGroup.mk' (center Q))).Normal := hN.map _ (QuotientGroup.mk'_surjective _)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (N.map (QuotientGroup.mk' (center Q))) with hbot | htop
   · rw [Subgroup.map_eq_bot_iff, QuotientGroup.ker_mk'] at hbot
     exact hbot
@@ -59,7 +59,7 @@ theorem le_center_of_quasisimple {Q : Type*} [Group Q] (hQ : CFSG.Open.IsQuasisi
 theorem not_isPGroup_sl2 {F : Type} [Field F] [Fintype F] {e : ℕ} (hF : Fintype.card F = 2 ^ e) (he : 2 ≤ e) :
     ¬ IsPGroup 2 (Matrix.SpecialLinearGroup (Fin 2) F) := by
   intro h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨m, hm⟩ := IsPGroup.iff_card.mp h
   have hcard : Nat.card (Matrix.SpecialLinearGroup (Fin 2) F) = Nat.card F * (Nat.card F ^ 2 - 1) := by
     rw [← CFSG.Open.StatedAPI.card_statedSL 2 F, CFSG.Open.StatedAPI.card_statedSL_two]
@@ -111,13 +111,13 @@ theorem uc22p22sj_inClassG {G : Type} [Group G] [Finite G] {S L W₁ W₀ : Subg
     (hinn : ∀ b ∈ S, ∃ l ∈ L, ∀ u v : ↥W₁, (v : G) = (l⁻¹ * b) * u * (l⁻¹ * b)⁻¹ → β v = β u) :
     CFSG.RankThree.PartOne.InClassG ↥S ↥(L ⊔ S) (Subgroup.inclusion le_sup_right) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hchp : CharP F 2 := charP_of_card_eq_prime_pow hF
   have h4 : 4 ≤ Nat.card F := by
     rw [Nat.card_eq_fintype_card, hF]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ e := Nat.pow_le_pow_right (by norm_num) he
-  haveI hsimpleSL : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) F) :=
+  have hsimpleSL : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) F) :=
     CFSG.RankThree.PartOne.KFCL.L4.sl2_isSimpleGroup h4
   set H : Subgroup G := L ⊔ S with hHdef
   have hLH : L ≤ H := le_sup_left
@@ -218,7 +218,7 @@ theorem uc22p22sj_inClassG {G : Type} [Group G] [Finite G] {S L W₁ W₀ : Subg
     intro A
     obtain ⟨l, rfl⟩ := hα A
     exact ⟨_, hφL l⟩
-  haveI hL'n : L'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hLH).mpr hHL
+  have hL'n : L'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hLH).mpr hHL
   have hS'2 : IsPGroup 2 S' := hS.of_equiv (Subgroup.subgroupOfEquivOfLe hSH).symm
   have hquot : IsPGroup 2 (↥H ⧸ L') := by
     have hmap : S'.map (QuotientGroup.mk' L') = ⊤ := by
@@ -242,7 +242,7 @@ theorem uc22p22sj_inClassG {G : Type} [Group G] [Finite G] {S L W₁ W₀ : Subg
   have hQ'mem : ∀ x : ↥H, (x : G) ∈ CFSG.Open.pCoreOf 2 L → x ∈ Q' := by
     rintro x ⟨q, hq, hqx⟩
     exact ⟨q, hq, Subtype.ext hqx⟩
-  haveI hQ'n : Q'.Normal := by
+  have hQ'n : Q'.Normal := by
     refine ⟨fun n hn g => ?_⟩
     obtain ⟨q, hq, rfl⟩ := hn
     have hgN := UC6S846.normalizer_le_normalizer_pCoreOf L (hHL g.2)
@@ -251,7 +251,7 @@ theorem uc22p22sj_inClassG {G : Type} [Group G] [Finite G] {S L W₁ W₀ : Subg
     exact hQ'mem _ h1
   have hQ'H : Q' ≤ CFSG.pCore 2 ↥H := CFSG.LieType.BorelTits.le_pCore 2 hQ'n hQ'2
   have hQα : CFSG.pCore 2 ↥L ≤ α.ker := by
-    haveI hn : ((CFSG.pCore 2 ↥L).map α).Normal := Subgroup.Normal.map inferInstance α hα
+    have hn : ((CFSG.pCore 2 ↥L).map α).Normal := Subgroup.Normal.map inferInstance α hα
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((CFSG.pCore 2 ↥L).map α) with hb | ht
     · exact (Subgroup.map_eq_bot_iff _).1 hb
     · exfalso
@@ -353,7 +353,7 @@ theorem uc22p22sj_inClassG {G : Type} [Group G] [Finite G] {S L W₁ W₀ : Subg
       rw [h2, sup_bot_eq] at h1
       exact h1
     have hYLφ : (Y ⊓ L').map φ = ⊤ := by
-      haveI hn : ((Y ⊓ L').map φ).Normal := ⟨fun n hn g => by
+      have hn : ((Y ⊓ L').map φ).Normal := ⟨fun n hn g => by
         obtain ⟨x, hx, rfl⟩ := hn
         have hg : g ∈ Y.map φ := hYφ ▸ Subgroup.mem_top g
         obtain ⟨y, hy, rfl⟩ := hg

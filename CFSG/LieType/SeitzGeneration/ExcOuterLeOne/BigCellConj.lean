@@ -77,10 +77,10 @@ private theorem bruhat_borelGroup_le :
     rintro _ ⟨c, rfl⟩
     exact bruhat_pinnedX_mem (α := α) hα c
 
-theorem exists_bruhat_decomp (hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8 ∨ τ = .F4) (g : ↥(adjointGroup τ K)) :
+theorem exists_bruhat_decomp (_hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8 ∨ τ = .F4) (g : ↥(adjointGroup τ K)) :
     ∃ (w : List (Fin τ.rank)) (b₁ b₂ : ↥(adjointGroup τ K)), b₁ ∈ borelSub τ K ∧ b₂ ∈ borelSub τ K ∧
       g = b₁ * wordProd τ K w * b₂ := by
-  clear hτ
+  clear _hτ
   have hg : (g : ModGL τ K) ∈ (adjointGroup τ K : Set (ModGL τ K)) := g.2
   rw [adjointGroup_eq_iUnion_bruhatCell] at hg
   obtain ⟨w, hw⟩ := Set.mem_iUnion.1 hg
@@ -124,7 +124,7 @@ private theorem neg_height_le_labelWt {θ : Fin τ.rank → ℤ} (hθ : IsMaxHei
     show -height θ ≤ height α
     omega
 
-theorem posRoot_fix (hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8 ∨ τ = .F4) {θ : Fin τ.rank → ℤ}
+theorem posRoot_fix (_hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8 ∨ τ = .F4) {θ : Fin τ.rank → ℤ}
     (hθ : IsMaxHeightRoot τ θ) {γ : Fin τ.rank → ℤ} (hγ : IsRoot τ γ) (hpos : 0 < height γ) (c : K) :
     endHom K (xPar (rootOperatorFamily τ) γ c) (rootVec τ K θ) = rootVec τ K θ ∧
       ∀ x : RootModule τ K, (endHom K (xPar (rootOperatorFamily τ) γ c) x) (negLabel hθ.1) =
@@ -269,9 +269,9 @@ theorem borel_stab (hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8 ∨ τ = .F4) {θ :
       exact posRoot_mem_stabSub hτ hθ hγR hγp c
   exact (mem_stabSub_iff hθ.1).1 (hle hb)
 
-theorem wordProd_stab (hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8 ∨ τ = .F4) {θ : Fin τ.rank → ℤ}
+theorem wordProd_stab (_hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8 ∨ τ = .F4) {θ : Fin τ.rank → ℤ}
     (hθ : IsMaxHeightRoot τ θ) (w : List (Fin τ.rank)) :
-    ∃ (θ' : Fin τ.rank → ℤ) (hθ' : IsRoot τ θ') (ε ε' : ℤ), (ε = 1 ∨ ε = -1) ∧ (ε' = 1 ∨ ε' = -1) ∧
+    ∃ (θ' : Fin τ.rank → ℤ) (_hθ' : IsRoot τ θ') (ε ε' : ℤ), (ε = 1 ∨ ε = -1) ∧ (ε' = 1 ∨ ε' = -1) ∧
       rootNorm τ θ' = rootNorm τ θ ∧
       endHom K (wordProd τ K w) (rootVec τ K θ) = (ε : K) • rootVec τ K θ' ∧
       ∀ c : K, wordProd τ K w * xPar (rootOperatorFamily τ) θ c * (wordProd τ K w)⁻¹ =
@@ -290,14 +290,14 @@ theorem wordProd_stab (hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8 ∨ τ = .F4) {�
     · intro c
       simp [wordProd]
   | cons i w ih =>
-    obtain ⟨θ', hθ', ε, ε', hε, hε', hn, hv, hx⟩ := ih
-    obtain ⟨s, hs, hsv, -⟩ := weyl_step_explicit (K := K) i hθ'
-    obtain ⟨s', hs', hsx⟩ := weylElement_xPar_conj (F := rootOperatorFamily τ) (K := K) i hθ'
+    obtain ⟨θ', _hθ', ε, ε', hε, hε', hn, hv, hx⟩ := ih
+    obtain ⟨s, hs, hsv, -⟩ := weyl_step_explicit (K := K) i _hθ'
+    obtain ⟨s', hs', hsx⟩ := weylElement_xPar_conj (F := rootOperatorFamily τ) (K := K) i _hθ'
     have hw : wordProd τ K (i :: w) =
         CFSG.LieType.Steinberg.weylElement (xPar (rootOperatorFamily τ)) i (1 : Kˣ) * wordProd τ K w := by
       rw [hwe i]
       simp [wordProd]
-    refine ⟨reflect τ i θ', IsRoot.reflect i hθ', ε * s, s' * ε', ?_, ?_, ?_, ?_, ?_⟩
+    refine ⟨reflect τ i θ', IsRoot.reflect i _hθ', ε * s, s' * ε', ?_, ?_, ?_, ?_, ?_⟩
     · rcases hε with rfl | rfl <;> rcases hs with rfl | rfl <;> norm_num
     · rcases hs' with rfl | rfl <;> rcases hε' with rfl | rfl <;> norm_num
     · rw [rootNorm_reflect]
@@ -343,7 +343,7 @@ theorem bigCell_conj_b (hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8 ∨ τ = .F4) {
     apply hlam
     rw [hentry]
     have : (rootVec τ K θ') (negLabel hθ.1) = 0 := by
-      rw [rootVec_eq_single hθ', Finsupp.single_apply, if_neg]
+      rw [rootVec_eq_single hθ', Finsupp.single_apply, ite_eq_right]
       intro h
       apply hne
       have h' := h

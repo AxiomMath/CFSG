@@ -115,7 +115,7 @@ private noncomputable def lambda (H : ThCyc G L R t) (W : ThLocalIn L S A B z)
   map_one' := Subtype.ext (by simp)
   map_mul' v w := by
     apply Subtype.ext
-    simp only [Subgroup.coe_mul, Subtype.coe_mk]
+    simp only [Subgroup.coe_mul]
     have hcv : c.1 * v.1 * c.1⁻¹ ∈ omega1 D hD.comm :=
       (mem_normalizer_iff.1 (ThCyc.normalizer_D_le_normalizer_omega1 hD c.2.1) v.1).1 v.2
     have hcw : c.1 * w.1 * c.1⁻¹ ∈ omega1 D hD.comm :=
@@ -378,7 +378,7 @@ private theorem ThCyc.commutator_t_mem_ker (H : ThCyc G L R t) (W : ThLocalIn L 
   intro v
   rw [MonoidHom.one_apply]
   rw [map_mul, map_mul, map_mul, map_inv, map_inv]
-  simp only [MonoidHom.mul_apply, MonoidHom.one_apply]
+  simp only [MonoidHom.mul_apply]
   change lambda H W W2 hD hV c v * lambda H W W2 hD hV ⟨t, H.t_mem_ThP W W2 hD⟩ v *
       (lambda H W W2 hD hV c v)⁻¹ *
         (lambda H W W2 hD hV ⟨t, H.t_mem_ThP W W2 hD⟩ v)⁻¹ = (1 : ↥A)
@@ -546,7 +546,7 @@ private theorem ThCyc.mem_range_mu_conj (H : ThCyc G L R t) (W : ThLocalIn L S A
   have hlσ : ∀ a (ha : a ∈ A), l * a * l⁻¹ = ((σ ⟨a, ha⟩ : ↥A) : G) := by
     intro a ha
     have h := hl a ha
-    simpa only [dif_pos ha] using h
+    simpa only [dite_eq_left ha] using h
   have hlA : ∀ a ∈ A, l * a * l⁻¹ ∈ A := fun a ha => by
     rw [hlσ a ha]
     exact (σ ⟨a, ha⟩).2
@@ -661,7 +661,7 @@ theorem ThCyc.conj_omega1_eq_or_of_mem_normalizer_D (H : ThCyc G L R t) (W : ThL
       ∀ v ∈ omega1 D hD.comm, v⁻¹ * (x * v * x⁻¹) ∈ A :=
     fun x hx hxA v hv =>
       H.conj_mul_inv_mem_A_of_mem_normalizer_D W W2 hD h4 hb hx hxA hv
-  haveI : Fact (∀ a b : ↥A, a * b = b * a) :=
+  have : Fact (∀ a b : ↥A, a * b = b * a) :=
     ⟨fun a b => Subtype.ext (W.A_comm a.1 a.2 b.1 b.2)⟩
   exact ThCyc.conj_omega1_eq_or_of_mem_normalizer_D_aux H W W2 hD hV h4
     (fun hsq hcard W hconj hid hcardW =>

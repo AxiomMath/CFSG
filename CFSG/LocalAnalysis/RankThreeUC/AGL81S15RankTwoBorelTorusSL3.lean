@@ -23,7 +23,7 @@ theorem hasBorelTorus_specialLinear_three {F : Type} [Field F] [Finite F] [CharP
   have hU₀ : CFSG.QuasithinUnique.IsSylowTwoOf (LinearFlag.unitriangular 3 F) ⊤ := by
     refine ⟨le_top, ?_, ?_⟩
     · rw [← hP]
-      exact P.isPGroup'
+      exact P.isPGroup
     · rw [CFSG.QuasithinUnique.index_subgroupOf_top, ← hP]
       exact P.not_dvd_index
   obtain ⟨E, hE_diag, hE_elem, hE_card⟩ :=

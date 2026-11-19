@@ -181,8 +181,8 @@ private theorem d4Supp_eq_true {x : Fin Tag.E6.rank → ℤ}
   rw [d4Supp, List.all_eq_true]
   intro k _
   by_cases hk : 1 ≤ k.val ∧ k.val ≤ 4
-  · rw [if_pos hk]
-  · rw [if_neg hk, beq_iff_eq]
+  · rw [ite_eq_left hk]
+  · rw [ite_eq_right hk, beq_iff_eq]
     exact h k hk
 
 private theorem mem_d4Roots
@@ -218,19 +218,19 @@ private theorem triD4K_exists_pair
   have hc := triD4KCheck_eq
   rw [triD4KCheck, List.all_eq_true] at hc
   have h0 := hc (b 0) hb0
-  rw [if_pos (by rw [beq_iff_eq]; exact h00)] at h0
+  rw [ite_eq_left (by rw [beq_iff_eq]; exact h00)] at h0
   rw [List.all_eq_true] at h0
   have h1 := h0 (b 1) hb1
-  rw [if_pos (by rw [beq_iff_eq]; exact h01)] at h1
+  rw [ite_eq_left (by rw [beq_iff_eq]; exact h01)] at h1
   rw [List.all_eq_true] at h1
   have h2 := h1 (b 2) hb2
-  rw [if_pos (by
+  rw [ite_eq_left (by
     rw [Bool.and_eq_true, Bool.and_eq_true]
     exact ⟨⟨by rw [beq_iff_eq]; exact h02, by rw [beq_iff_eq]; exact h12⟩,
       by rw [beq_iff_eq]; exact h22⟩)] at h2
   rw [List.all_eq_true] at h2
   have h3 := h2 (b 3) hb3
-  rw [if_pos (by
+  rw [ite_eq_left (by
     rw [Bool.and_eq_true, Bool.and_eq_true, Bool.and_eq_true]
     exact ⟨⟨⟨by rw [beq_iff_eq]; exact h03, by rw [beq_iff_eq]; exact h13⟩,
       by rw [beq_iff_eq]; exact h23⟩, by rw [beq_iff_eq]; exact h33⟩)] at h3
@@ -354,7 +354,7 @@ private theorem key
       triD4KMod2B (fun j => u • (Pi.single (π (d4Idx j)) 1 : Fin Tag.E6.rank → ℤ))) = true) :
     Nat.card X ≤ 3 ^ 4 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set b : Fin 4 → Fin Tag.E6.rank → ℤ :=
     fun j => u • (Pi.single (π (d4Idx j)) 1) with hb
   have hbroot : ∀ j, IsRoot Tag.E6 (b j) := fun j =>
@@ -367,7 +367,7 @@ private theorem key
       intro h
       exact hk (by rw [h]; exact hπJ j)
     have hsingle : (Pi.single (π (d4Idx j)) (1 : ℤ) : Fin Tag.E6.rank → ℤ) k = 0 := by
-      rw [Pi.single_apply, if_neg hne]
+      rw [Pi.single_apply, ite_eq_right hne]
     exact hsingle
   have hbgram : ∀ j m, iform (b j) (b m) = Tag.E6.cartan (d4Idx j) (d4Idx m) := by
     intro j m

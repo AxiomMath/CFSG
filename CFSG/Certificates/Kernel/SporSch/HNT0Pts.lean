@@ -55,7 +55,7 @@ theorem omK_spec {n N : ℕ} {OM : List ℕ} (hN : N ≤ 2 ^ 21) (h : omK n N OM
     have h4 := allN_spec h3 i hi
     rw [strictB_eq] at h4
     have h5 := allN_spec h4 j hj
-    rw [bIf_eq, fldW_packL h21, fldW_packL h21, e, if_pos (Nat.beq_refl _)] at h5
+    rw [bIf_eq, fldW_packL h21, fldW_packL h21, e, ite_eq_left (Nat.beq_refl _)] at h5
     exact Bool.false_ne_true h5
   intro i hi j hj e
   rcases lt_trichotomy i j with hij | rfl | hij
@@ -97,14 +97,14 @@ theorem mulVec_xvec (W : ℕ) (T : ℕ → ℕ) (i : ℕ) (l : Fin 133) :
   rw [Nat.cast_mul, mul_comm]
   rfl
 
-theorem unit_lane (r l : ℕ) (hl : l < 133) :
+theorem unit_lane (r l : ℕ) (_hl : l < 133) :
     1 <<< (13 * r) / 2 ^ (13 * l) % 2 ^ 13 = if l = r then 1 else 0 := by
   rw [Nat.shiftLeft_eq, Nat.one_mul]
   by_cases e : l = r
   · subst e
-    rw [if_pos rfl, Nat.div_self (Nat.two_pow_pos _)]
+    rw [ite_eq_left rfl, Nat.div_self (Nat.two_pow_pos _)]
     norm_num
-  · rw [if_neg e]
+  · rw [ite_eq_right e]
     rcases Nat.lt_or_gt_of_ne e with h | h
     · obtain ⟨d, rfl⟩ : ∃ d, r = l + 1 + d := ⟨r - l - 1, by omega⟩
       rw [show 13 * (l + 1 + d) = 13 * l + 13 * (d + 1) by ring, Nat.pow_add,

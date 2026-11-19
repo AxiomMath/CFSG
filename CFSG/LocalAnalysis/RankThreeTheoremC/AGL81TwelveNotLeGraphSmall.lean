@@ -73,7 +73,7 @@ theorem noTwoSymThree_of_normalizer_index_dvd_three {A : Type} [Group A] [Finite
     rwa [show ((T.map (QuotientGroup.mk' (CFSG.pCore 2 ↥P))).subgroupOf ⊤).index =
       (T.map (QuotientGroup.mk' (CFSG.pCore 2 ↥P))).index from
         Subgroup.relIndex_top_right _] at h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard : Nat.card ((hTb.2.1.toSylow hodd : Sylow 2 (↥P ⧸ CFSG.pCore 2 ↥P)) :
       Subgroup (↥P ⧸ CFSG.pCore 2 ↥P)) ≤ 2 := by
     rw [IsPGroup.toSylow_coe]

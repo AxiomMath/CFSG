@@ -54,9 +54,11 @@ namespace IsSymDirect
 variable {X : Type*} [Group X] [Finite X] {d₀ d₁ : X} {n : ℕ} [NeZero n]
   {φ : X →* Perm (Fin n)}
 
+omit [Finite X] in
 theorem mem₀ (_hφ : IsSymDirect d₀ d₁ φ) : d₀ ∈ Subgroup.normalClosure ({d₀} : Set X) :=
   Subgroup.subset_normalClosure rfl
 
+omit [Finite X] in
 theorem injOn (hφ : IsSymDirect d₀ d₁ φ) {a b : X}
     (ha : a ∈ Subgroup.normalClosure ({d₀} : Set X))
     (hb : b ∈ Subgroup.normalClosure ({d₀} : Set X)) (hab : φ a = φ b) : a = b := by
@@ -67,6 +69,7 @@ theorem injOn (hφ : IsSymDirect d₀ d₁ φ) {a b : X}
   rw [hφ.inf_eq, Subgroup.mem_bot, inv_mul_eq_one] at h2
   exact h2
 
+omit [Finite X] in
 theorem map_normalClosure (hφ : IsSymDirect d₀ d₁ φ) :
     (Subgroup.normalClosure ({d₀} : Set X)).map φ = ⊤ := by
   have h1 := congrArg (Subgroup.map φ) hφ.sup_eq
@@ -76,6 +79,7 @@ theorem map_normalClosure (hφ : IsSymDirect d₀ d₁ φ) :
   rw [h2, sup_bot_eq] at h1
   exact h1
 
+omit [Finite X] in
 theorem exists_mem_eq (hφ : IsSymDirect d₀ d₁ φ) (g : X) :
     ∃ a ∈ Subgroup.normalClosure ({d₀} : Set X), φ a = φ g := by
   have : φ g ∈ (Subgroup.normalClosure ({d₀} : Set X)).map φ := by
@@ -92,28 +96,35 @@ theorem exists_mem_eq (hφ : IsSymDirect d₀ d₁ φ) (g : X) :
       obtain ⟨a, ha, hag⟩ := hφ.exists_mem_eq g
       exact ⟨⟨a, ha⟩, hag⟩⟩
 
+omit [Finite X] in
 theorem normalClosureEquiv_apply (hφ : IsSymDirect d₀ d₁ φ)
     (a : Subgroup.normalClosure ({d₀} : Set X)) : hφ.normalClosureEquiv a = φ a := rfl
 
+omit [Finite X] in
 theorem mul_self₀ (hφ : IsSymDirect d₀ d₁ φ) : d₀ * d₀ = 1 :=
   hφ.injOn (Subgroup.mul_mem _ hφ.mem₀ hφ.mem₀) (Subgroup.one_mem _)
     (by rw [map_mul, hφ.map₀, swap_mul_self, map_one])
 
+omit [Finite X] in
 theorem mul_self₁ (hφ : IsSymDirect d₀ d₁ φ) : d₁ * d₁ = 1 :=
   hφ.injOn (Subgroup.mul_mem _ hφ.mem₁ hφ.mem₁) (Subgroup.one_mem _)
     (by rw [map_mul, hφ.map₁, swap_mul_self, map_one])
 
+omit [Finite X] in
 theorem commute₀₁ (hn : n = 4 ∨ n = 5) (hφ : IsSymDirect d₀ d₁ φ) : d₀ * d₁ = d₁ * d₀ :=
   hφ.injOn (Subgroup.mul_mem _ hφ.mem₀ hφ.mem₁) (Subgroup.mul_mem _ hφ.mem₁ hφ.mem₀)
     (by rw [map_mul, map_mul, hφ.map₀, hφ.map₁, (perm_swap_pair hn).2.1])
 
+omit [Finite X] in
 theorem ne₀₁ (hn : n = 4 ∨ n = 5) (hφ : IsSymDirect d₀ d₁ φ) : d₀ ≠ d₁ := fun h =>
   (perm_swap_pair hn).2.2 (by rw [← hφ.map₀, ← hφ.map₁, h])
 
+omit [Finite X] in
 theorem commute_of_mem_pPrimeCore (hφ : IsSymDirect d₀ d₁ φ) {o : X}
     (ho : o ∈ pPrimeCore 2 X) : o * d₀ = d₀ * o ∧ o * d₁ = d₁ * o :=
   ⟨(hφ.commute d₀ hφ.mem₀ o ho).symm, (hφ.commute d₁ hφ.mem₁ o ho).symm⟩
 
+omit [Finite X] in
 theorem mem_pPrimeCore_of_commute (hn : n = 4 ∨ n = 5) (hφ : IsSymDirect d₀ d₁ φ) {x : X}
     (hx : Odd (orderOf x)) (h0 : x * d₀ = d₀ * x) (h1 : x * d₁ = d₁ * x) :
     x ∈ pPrimeCore 2 X := by
@@ -124,12 +135,14 @@ theorem mem_pPrimeCore_of_commute (hn : n = 4 ∨ n = 5) (hφ : IsSymDirect d₀
   have hodd : Odd (orderOf (φ x)) := hx.of_dvd_nat (orderOf_map_dvd φ x)
   exact eq_one_of_pow_two_pow_of_odd (k := 1) (by rw [pow_one, pow_two]; exact h2) hodd
 
+omit [Finite X] in
 theorem le_pPrimeCore_of_commute (hn : n = 4 ∨ n = 5) (hφ : IsSymDirect d₀ d₁ φ)
     {P : Subgroup X} (hP : Odd (Nat.card P)) (h0 : ∀ p ∈ P, p * d₀ = d₀ * p)
     (h1 : ∀ p ∈ P, p * d₁ = d₁ * p) : P ≤ pPrimeCore 2 X := fun p hp =>
   hφ.mem_pPrimeCore_of_commute hn (hP.of_dvd_nat (Subgroup.orderOf_dvd_natCard P hp))
     (h0 p hp) (h1 p hp)
 
+omit [Finite X] in
 theorem card_pPrimeCore (hφ : IsSymDirect d₀ d₁ φ)
     (hL1 : Nat.card ↥(pPrimeCore 2 X ⊓ Subgroup.centralizer ({d₀} : Set X) ⊓
       Subgroup.centralizer ({d₁} : Set X)) = 1 ∨
@@ -171,6 +184,7 @@ theorem le_normalClosure_of_isPGroup (hφ : IsSymDirect d₀ d₁ φ) {P : Subgr
   obtain ⟨k, hk⟩ := hP ⟨p, hp⟩
   exact hφ.mem_normalClosure_of_pow (by simpa using congrArg Subtype.val hk)
 
+omit [Finite X] in
 theorem exists_normalized_four (hn : n = 4 ∨ n = 5) (hφ : IsSymDirect d₀ d₁ φ)
     {M : Subgroup X} (hM₀ : d₀ ∈ M) (hM₁ : d₁ ∈ M) (ψ : M ≃* Perm (Fin 4)) :
     ∃ ψ' : M ≃* Perm (Fin 4), ψ' ⟨d₀, hM₀⟩ = swap 0 1 ∧ ψ' ⟨d₁, hM₁⟩ = swap 2 3 := by
@@ -213,6 +227,7 @@ theorem exists_normalized_four (hn : n = 4 ∨ n = 5) (hφ : IsSymDirect d₀ d�
   · show σ * ψ ⟨d₁, hM₁⟩ * σ⁻¹ = swap 2 3
     rw [hψ₁, hσ₁]
 
+omit [Finite X] in
 theorem sym_four (hn : n = 4 ∨ n = 5) (hφ : IsSymDirect d₀ d₁ φ) {M : Subgroup X}
     (hM₀ : d₀ ∈ M) (hM₁ : d₁ ∈ M) (ψ : M ≃* Perm (Fin 4)) :
     Subgroup.closure {g | ∃ m ∈ M, g = m * d₀ * m⁻¹} = M ∧
@@ -279,6 +294,7 @@ theorem sym_four (hn : n = 4 ∨ n = 5) (hφ : IsSymDirect d₀ d₁ φ) {M : Su
       · exact Or.inr (Or.inl (by rw [h1]))
       · exact Or.inr (Or.inr (by rw [h1, map_mul]))
 
+omit [Finite X] in
 theorem sym_four_fixes (hn : n = 4 ∨ n = 5) (hφ : IsSymDirect d₀ d₁ φ) {M : Subgroup X}
     (hM₀ : d₀ ∈ M) (hM₁ : d₁ ∈ M) (ψ : M ≃* Perm (Fin 4)) :
     ∃ u ∈ M, (∃ m ∈ M, u = m * (d₀ * d₁) * m⁻¹) ∧ u ≠ d₀ * d₁ ∧

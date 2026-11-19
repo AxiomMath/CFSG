@@ -374,7 +374,7 @@ theorem not_hasWreathedSylow_of_hasSemidihedralSylow {G : Type} [Group G] [Finit
   rintro ⟨m, hm, hW⟩
   obtain ⟨P⟩ : Nonempty (Sylow 2 H) := inferInstance
   obtain ⟨ψ⟩ := hW P
-  have hP2 : IsPGroup 2 ((P : Subgroup H).map H.subtype) := P.isPGroup'.map H.subtype
+  have hP2 : IsPGroup 2 ((P : Subgroup H).map H.subtype) := P.isPGroup.map H.subtype
   obtain ⟨S, hS⟩ := hP2.exists_le_sylow
   obtain ⟨f⟩ := hSD.2 S
   let j₀ : Wreathed.Wreath (2 ^ m) →* G :=

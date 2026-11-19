@@ -243,7 +243,7 @@ theorem two_dim_lt [Module.Finite k V] (T : NodeTab s)
   have hh3 : 3 ≤ Nat.gcd a (2 ^ n - 1) := hgcd3
   have hli : LinearIndependent k v := by
     refine linearIndependent_of_wt ρ v x hv (fun c => ?_)
-    haveI : Subsingleton {q : Bool × (Fin T.A × Fin T.B) // wcls K k (x q) = c} := by
+    have : Subsingleton {q : Bool × (Fin T.A × Fin T.B) // wcls K k (x q) = c} := by
       refine ⟨fun q q' => ?_⟩
       have hd : ∀ i, (((2 ^ n - 1 : ℕ) : ℤ)) ∣ x q.1 i - x q'.1 i := by
         intro i

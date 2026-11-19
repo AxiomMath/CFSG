@@ -798,6 +798,7 @@ variable {M : Subgroup Mat24ˣ} {G : Type*} [Group G] {LT LC LI TL VL NL : ℕ}
   (hnorm : CFSG.KC.relsNorm RR NR = true)
 include hC hrels hnorm
 
+omit hrels hnorm in
 theorem gom_mem {HB GB OB FA : ℕ → ℕ} {Ch Cg : List ℕ} {nH NO osh owd om NB sel I0 shA wdA NFA : ℕ}
     (himp : ImpSem φ x TL FA shA wdA NFA)
     (hhdr : runHdr HB FA LT TL VL NL shA wdA NFA Ch 1 = nH + 1)

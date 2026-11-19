@@ -122,7 +122,7 @@ theorem S_mul (hw0 : w 0 = 1) (hstep : ∀ j < m, ∀ e < 2 ^ j, w (e + 2 ^ j) =
       let φ : R → R := fun x => if h : x ∈ Spm w j then (hconj x h).choose else x
       have hφ : ∀ x ∈ Spm w j, φ x ∈ Spm w j ∧ x * a j = a j * φ x := by
         intro x hx
-        simp only [φ, dif_pos hx]
+        simp only [φ, dite_eq_left hx]
         exact (hconj x hx).choose_spec
       have hmaps : Set.MapsTo φ (Spm w j) (Spm w j) := fun x hx => (hφ x hx).1
       have hinj : Set.InjOn φ (Spm w j) := by

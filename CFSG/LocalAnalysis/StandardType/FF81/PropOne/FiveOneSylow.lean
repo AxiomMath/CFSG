@@ -91,15 +91,15 @@ private theorem commutator_sup_le_of_comm {G : Type} [Group G] {A Q : Subgroup G
     sup_le Subgroup.le_normalizer hQA
   let A' : Subgroup ↥S := A.subgroupOf S
   let Q' : Subgroup ↥S := Q.subgroupOf S
-  haveI : IsMulCommutative Q := hQcomm
+  have : IsMulCommutative Q := hQcomm
   have hA'norm : A'.Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hA_le_S).mpr hS_norA
-  haveI : A'.Normal := hA'norm
+  have : A'.Normal := hA'norm
   have hA'supQ' : A' ⊔ Q' = ⊤ := by
     have h := Subgroup.subgroupOf_sup (A := A) (A' := Q) (B := S) le_sup_left le_sup_right
     rw [show A ⊔ Q = S from rfl, Subgroup.subgroupOf_self] at h
     exact h.symm
-  haveI : IsMulCommutative Q' := inferInstance
+  have : IsMulCommutative Q' := inferInstance
   have hcomm : _root_.commutator ↥S ≤ A' :=
     Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hA'supQ'
   have h1 : (_root_.commutator ↥S).map S.subtype ≤ A'.map S.subtype :=
@@ -133,7 +133,7 @@ private theorem conj_max {G : Type} [Group G] {S : Subgroup G} (m : G)
   have hcomp : (MulAut.conj m⁻¹).toMonoidHom.comp (MulAut.conj m).toMonoidHom = MonoidHom.id G := by
     ext x
     simp only [MonoidHom.comp_apply, MonoidHom.id_apply, MulEquiv.toMonoidHom_eq_coe,
-      MonoidHom.coe_coe, MulAut.conj_apply]
+      _root_.MonoidHom.coe_ofClass, MulAut.conj_apply]
     group
   have hle' : S ≤ P.map (MulAut.conj m⁻¹).toMonoidHom := by
     have h1 : (S.map (MulAut.conj m).toMonoidHom).map (MulAut.conj m⁻¹).toMonoidHom ≤
@@ -146,7 +146,7 @@ private theorem conj_max {G : Type} [Group G] {S : Subgroup G} (m : G)
       MonoidHom.id G from by
     ext x
     simp only [MonoidHom.comp_apply, MonoidHom.id_apply, MulEquiv.toMonoidHom_eq_coe,
-      MonoidHom.coe_coe, MulAut.conj_apply]
+      _root_.MonoidHom.coe_ofClass, MulAut.conj_apply]
     group,
     Subgroup.map_id] at h2
   exact h2
@@ -317,7 +317,7 @@ theorem not_conj_z0 {G : Type} [Group G] [Finite G] {n : ℕ} {b : G} {L : Subgr
     have hxcomm : x * e ^ k = e ^ k * x :=
       ((show Commute x e from
         Subgroup.mem_centralizer_singleton_iff.mp (heCen hx)).pow_right k).eq
-    simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply]
+    simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply]
     rw [← hmk']
     calc m * x * m⁻¹ * (m * e ^ k * m⁻¹) = m * (x * e ^ k) * m⁻¹ := by group
       _ = m * (e ^ k * x) * m⁻¹ := by rw [hxcomm]
@@ -330,8 +330,8 @@ theorem not_conj_z0 {G : Type} [Group G] [Finite G] {n : ℕ} {b : G} {L : Subgr
     rw [Subgroup.mem_centralizer_singleton_iff]
     exact (Subgroup.mem_centralizer_singleton_iff.mp
       (h.hypA.le (hzsL 0))).symm
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  haveI : Finite (Sylow 3 G) := Sylow.finite_of_finiteIndex (default : Sylow 3 G)
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Finite (Sylow 3 G) := Sylow.finite_of_finiteIndex (default : Sylow 3 G)
   have hbH_le : Subgroup.zpowers b ≤ H := Subgroup.zpowers_le.mpr hbH
   let Bp : Subgroup ↥H := (Subgroup.zpowers b).subgroupOf H
   have hbp3 : IsPGroup 3 (Subgroup.zpowers b : Subgroup G) :=
@@ -368,7 +368,7 @@ theorem not_conj_z0 {G : Type} [Group G] [Finite G] {n : ℕ} {b : G} {L : Subgr
   have hcomp2 : H.subtype.comp (MulAut.conj u).toMonoidHom =
       (MulAut.conj (u : G)).toMonoidHom.comp H.subtype := by
     ext x
-    simp only [MonoidHom.comp_apply, MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe,
+    simp only [MonoidHom.comp_apply, MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass,
       MulAut.conj_apply]
     rfl
   have hP₁_eq : P₁ = S.map (MulAut.conj u').toMonoidHom := by
@@ -386,7 +386,7 @@ theorem not_conj_z0 {G : Type} [Group G] [Finite G] {n : ℕ} {b : G} {L : Subgr
           rw [show S' = S.map (MulAut.conj m).toMonoidHom from rfl, Subgroup.map_map]
           apply congrArg (fun f => S.map f)
           ext y
-          simp only [MonoidHom.comp_apply, MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe,
+          simp only [MonoidHom.comp_apply, MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass,
             MulAut.conj_apply]
           rw [show u' = (u : G) * m from rfl]
           group
@@ -395,7 +395,7 @@ theorem not_conj_z0 {G : Type} [Group G] [Finite G] {n : ℕ} {b : G} {L : Subgr
     rw [hP₁_eq] at hd
     obtain ⟨y, hy, rfl⟩ := Subgroup.mem_map.mp hd
     exact ⟨y, hy, by
-      simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply]⟩
+      simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply]⟩
   have hb_repr : ∃ yb ∈ S, b = u' * yb * u'⁻¹ := hrepr b hbP₁
   have hP₁_nor : P₁ ≤ Subgroup.normalizer ((bOne z : Subgroup G) : Set G) := by
     intro d hd
@@ -421,7 +421,7 @@ theorem not_conj_z0 {G : Type} [Group G] [Finite G] {n : ℕ} {b : G} {L : Subgr
       rw [Subgroup.card_map_of_injective (MulAut.conj dG).injective])
     intro x hx
     obtain ⟨y0, hy0, rfl⟩ := Subgroup.mem_map.mp hx
-    simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply]
+    simp only [_root_.MonoidHom.coe_ofClass, MulAut.conj_apply]
     have hzB₂ : dG * y0 * dG⁻¹ ∈ B₂ :=
       (Subgroup.mem_normalizer_iff.mp hdG_N₂ y0).mp (hB₂.B₁_le hy0)
     apply hB₂.fix _ hzB₂

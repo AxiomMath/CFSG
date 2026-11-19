@@ -130,11 +130,11 @@ theorem commutator_mul_comm_of_three_group_k {A' R : Subgroup X} [Finite A'] {m 
   have hcomm : ∀ p q : ψ.range, p * q = q * p := by
     rcases (Nat.dvd_prime Nat.prime_three).1 hrange with h1 | h3
     · intro p q
-      haveI : Subsingleton ψ.range := (Nat.card_eq_one_iff_unique.1 h1).1
+      have : Subsingleton ψ.range := (Nat.card_eq_one_iff_unique.1 h1).1
       exact Subsingleton.elim _ _
-    · haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-      haveI : Finite ψ.range := Nat.finite_of_card_ne_zero (by rw [h3]; norm_num)
-      haveI : IsCyclic ψ.range := isCyclic_of_prime_card h3
+    · have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Finite ψ.range := Nat.finite_of_card_ne_zero (by rw [h3]; norm_num)
+      have : IsCyclic ψ.range := isCyclic_of_prime_card h3
       obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := ψ.range)
       intro p q
       obtain ⟨i, rfl⟩ := Subgroup.mem_zpowers_iff.1 (hg p)
@@ -267,18 +267,21 @@ theorem pow_three_eq_one_of_commute_phi0_k (hK : Nat.card K = 2) {Z₁ Z₂ : SL
   have hc : Commute (uE6Two (K := K) 0 ^ k) (phi0 K M) := hyL _ (hZL M)
   rw [hc.mul_pow, hu3, one_mul, ← map_pow, hM3, map_one]
 
+omit [Finite K] in
 theorem sE6Two_commutator_torus_k (h2 : (2 : K) = 0) (x : Fin 4 → ZMod 3) :
     sE6Two K * torusE6Two h2 (.ofAdd x) * (sE6Two K)⁻¹ * (torusE6Two h2 (.ofAdd x))⁻¹ =
       torusE6Two h2 (.ofAdd (msFun x - x)) := by
   rw [torusE6Two_msAut h2, msAut_ofAdd, ← map_inv, ← map_mul, ← ofAdd_neg, ← ofAdd_add,
     sub_eq_add_neg]
 
+omit [Finite K] in
 theorem tE6Two_commutator_torus_k (h2 : (2 : K) = 0) (x : Fin 4 → ZMod 3) :
     tE6Two K * torusE6Two h2 (.ofAdd x) * (tE6Two K)⁻¹ * (torusE6Two h2 (.ofAdd x))⁻¹ =
       torusE6Two h2 (.ofAdd (mtFun x - x)) := by
   rw [torusE6Two_mtAut h2, mtAut_ofAdd, ← map_inv, ← map_mul, ← ofAdd_neg, ← ofAdd_add,
     sub_eq_add_neg]
 
+omit [Finite K] in
 theorem sE6Two_mem_range_psiHom_k (h2 : (2 : K) = 0) : sE6Two K ∈ (psiHom K h2).range :=
   ⟨SemidirectProduct.inr (Multiplicative.ofAdd 1, 1), by
     rw [psiHom_apply, stHom_apply]
@@ -286,6 +289,7 @@ theorem sE6Two_mem_range_psiHom_k (h2 : (2 : K) = 0) : sE6Two K ∈ (psiHom K h2
       toAdd_ofAdd, toAdd_one, ZMod.val_zero, pow_zero, mul_one]
     exact pow_one _⟩
 
+omit [Finite K] in
 theorem tE6Two_mem_range_psiHom_k (h2 : (2 : K) = 0) : tE6Two K ∈ (psiHom K h2).range :=
   ⟨SemidirectProduct.inr (1, Multiplicative.ofAdd 1), by
     rw [psiHom_apply, stHom_apply]
@@ -293,6 +297,7 @@ theorem tE6Two_mem_range_psiHom_k (h2 : (2 : K) = 0) : tE6Two K ∈ (psiHom K h2
       toAdd_ofAdd, toAdd_one, ZMod.val_zero, pow_zero]
     exact pow_one _⟩
 
+omit [Finite K] in
 theorem torusE6Two_mem_range_psiHom_k (h2 : (2 : K) = 0) (x : Fin 4 → ZMod 3) :
     torusE6Two h2 (.ofAdd x) ∈ (psiHom K h2).range :=
   ⟨SemidirectProduct.inl (.ofAdd x), psiHom_inl h2 _⟩
@@ -311,7 +316,7 @@ theorem commutator_mul_comm_of_mem_psiHom_k (hK : Nat.card K = 2) {v : Fin 4 →
     {j : adjointGroup .E6 K} (hj : j ∈ J) :
     a * b * a⁻¹ * b⁻¹ * j = j * (a * b * a⁻¹ * b⁻¹) := by
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
-  haveI : Finite (adjointGroup .E6 K) := generated_group_finite .E6 K
+  have : Finite (adjointGroup .E6 K) := generated_group_finite .E6 K
   set C := Subgroup.centralizer
     ({torusE6Two CharTwo.two_eq_zero (.ofAdd v)} : Set (adjointGroup .E6 K)) with hC
   set P₀ := (psiHom K CharTwo.two_eq_zero).range with hP₀
@@ -393,6 +398,7 @@ theorem false_of_commute_e6Two_targets_k (hK : Nat.card K = 2) {J : Subgroup (ad
     change (k : adjointGroup .E6 K) ^ 18 = 1
     rw [show (18 : ℕ) = 3 * 6 by norm_num, pow_mul, hk, one_pow]
 
+omit [Finite K] [CharP K 2] in
 theorem torusE6Two_add_comm_k (h2 : (2 : K) = 0) {J : Subgroup (adjointGroup .E6 K)}
     {x y : Fin 4 → ZMod 3}
     (hx : ∀ j ∈ J, torusE6Two h2 (.ofAdd x) * j = j * torusE6Two h2 (.ofAdd x))
@@ -407,11 +413,13 @@ theorem torusE6Two_add_comm_k (h2 : (2 : K) = 0) {J : Subgroup (adjointGroup .E6
     _ = (j * torusE6Two h2 (.ofAdd x)) * torusE6Two h2 (.ofAdd y) := by rw [hx j hj]
     _ = j * (torusE6Two h2 (.ofAdd x) * torusE6Two h2 (.ofAdd y)) := by group
 
+omit [Finite K] [CharP K 2] in
 theorem torusE6Two_comm_k (h2 : (2 : K) = 0) (x y : Fin 4 → ZMod 3) :
     torusE6Two h2 (.ofAdd x) * torusE6Two h2 (.ofAdd y) =
       torusE6Two h2 (.ofAdd y) * torusE6Two h2 (.ofAdd x) := by
   exact ((Commute.all (Multiplicative.ofAdd x) (Multiplicative.ofAdd y)).map (torusE6Two h2)).eq
 
+omit [Finite K] in
 theorem sE6Two_comm_torus_k (h2 : (2 : K) = 0) {v : Fin 4 → ZMod 3} (hv : msFun v = v) :
     sE6Two K * torusE6Two h2 (.ofAdd v) = torusE6Two h2 (.ofAdd v) * sE6Two K := by
   have h := torusE6Two_msAut h2 (.ofAdd v)
@@ -420,6 +428,7 @@ theorem sE6Two_comm_torus_k (h2 : (2 : K) = 0) {v : Fin 4 → ZMod 3} (hv : msFu
       = sE6Two K * torusE6Two h2 (.ofAdd v) * (sE6Two K)⁻¹ * sE6Two K := by group
     _ = torusE6Two h2 (.ofAdd v) * sE6Two K := by rw [h]
 
+omit [Finite K] in
 theorem tE6Two_comm_torus_k (h2 : (2 : K) = 0) {v : Fin 4 → ZMod 3} (hv : mtFun v = v) :
     tE6Two K * torusE6Two h2 (.ofAdd v) = torusE6Two h2 (.ofAdd v) * tE6Two K := by
   have h := torusE6Two_mtAut h2 (.ofAdd v)
@@ -511,12 +520,14 @@ section E6Transport
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 theorem uE6Two_zero_mul_three_eq_k (h2 : (2 : K) = 0) :
     uE6Two (K := K) 0 * uE6Two 3 = torusE6Two h2 (.ofAdd ![1, 0, 0, 1]) := by
   have e : (![1, 0, 0, 1] : Fin 4 → ZMod 3) = Pi.single 0 1 + Pi.single 3 1 := by decide
   rw [e, ofAdd_add, map_mul, torusE6Two_single_eq_pow, torusE6Two_single_eq_pow, ZMod.val_one,
     pow_one, pow_one]
 
+omit [Finite K] [CharP K 2] in
 theorem uE6Two_zero_mul_two_mul_three_eq_k (h2 : (2 : K) = 0) :
     uE6Two (K := K) 0 * uE6Two 2 * uE6Two 3 = torusE6Two h2 (.ofAdd ![1, 0, 1, 1]) := by
   have e : (![1, 0, 1, 1] : Fin 4 → ZMod 3) = Pi.single 0 1 + Pi.single 2 1 + Pi.single 3 1 := by
@@ -524,6 +535,7 @@ theorem uE6Two_zero_mul_two_mul_three_eq_k (h2 : (2 : K) = 0) :
   rw [e, ofAdd_add, ofAdd_add, map_mul, map_mul, torusE6Two_single_eq_pow,
     torusE6Two_single_eq_pow, torusE6Two_single_eq_pow, ZMod.val_one, pow_one, pow_one, pow_one]
 
+omit [Finite K] in
 theorem map_conj_centralizer_genWord_k (h2 : (2 : K) = 0) (w : List (Fin 6))
     (v : Fin 4 → ZMod 3) :
     (Subgroup.centralizer ({torusE6Two h2 (.ofAdd v)} : Set (adjointGroup .E6 K))).map
@@ -707,13 +719,13 @@ theorem noA5Comp_twE6_two_of_exotic (hexo : NoA5TwE6TwoExotic) {K : Type} [Field
   intro hA5
   have hchar : CharP K 2 := charP_two_of_card_four hK4
   have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
-  haveI : Finite (twistedE6RootGroup K σ) := Subtype.finite
+  have : Finite (twistedE6RootGroup K σ) := Subtype.finite
   obtain ⟨g0, hg0C, hg0⟩ := exists_twE6Two_lang K
   have hcL : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   set ι := algebraMap K (AlgebraicClosure K) with hι
   set eΓ := twE6TwoEquiv hK4 σ hσ2 hg0C hg0 with heΓ
-  haveI : Finite ↥(⁅twE6TwoModel (AlgebraicClosure K), twE6TwoModel (AlgebraicClosure K)⁆ :
+  have : Finite ↥(⁅twE6TwoModel (AlgebraicClosure K), twE6TwoModel (AlgebraicClosure K)⁆ :
       Subgroup (ModGL Tag.E6 (AlgebraicClosure K))) := Finite.of_equiv _ eΓ.toEquiv
   have h5Γ : ¬ 5 ^ 9 ∣ Nat.card ↥(⁅twE6TwoModel (AlgebraicClosure K),
       twE6TwoModel (AlgebraicClosure K)⁆ : Subgroup (ModGL Tag.E6 (AlgebraicClosure K))) := by
@@ -813,6 +825,7 @@ open scoped commutatorElement
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [CharP K 2] in
 theorem card_sl6_two (hK : Nat.card K = 2) :
     Nat.card (Matrix.SpecialLinearGroup (Fin 6) K) = 20158709760 ∧
       Nat.card (Subgroup.center (Matrix.SpecialLinearGroup (Fin 6) K)) = 1 := by
@@ -949,11 +962,11 @@ theorem noA5CompOn_twE6_two_of_exotic (hexo : NoA5TwE6TwoExotic) :
   obtain ⟨hp, hexp⟩ := Inputs295d.p_eq_two_of_card_two hq2
   obtain ⟨K, _, σ, hK, hσ, ⟨eK⟩⟩ := CFSG.LieType.SeitzGeneration.exists_catEquiv_twistedE6 q hv
   have hK4 : Nat.card K = 4 := by rw [hK, hp, hexp]; norm_num
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK4]; norm_num)
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK4]; norm_num)
   have hσ2 : ∀ c, σ c = c ^ 2 := fun c => by rw [hσ c, hp, hexp, pow_one]
   obtain ⟨e⟩ := he
   have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
-  haveI : Finite (twistedE6RootGroup K σ) := Subtype.finite
+  have : Finite (twistedE6RootGroup K σ) := Subtype.finite
   have hcard : Nat.card (twistedE6RootGroup K σ) = CFSG.Open.orderTwistedE6 2 := by
     rw [CFSG.HardMathSupport.Solomon.Coordinator.lieOrderBridge_holds ⟨.twistedE6 q, hv⟩ _
       ⟨eK.symm⟩]
@@ -988,7 +1001,7 @@ theorem noA5CompOn_E6_two :
   dsimp only at hq
   subst hq
   obtain ⟨e⟩ := he
-  haveI := hs
+  have := hs
   by_cases hβ1 : β = 1
   · subst hβ1
     have hcard : Nat.card S = lieOrderFormula (TauCeti.LieTypeIndex.E6 q) :=
@@ -1010,7 +1023,7 @@ theorem noA5CompOn_E6_two :
     hβ1 ((MulAut.congr e').injective (h.trans (map_one _).symm))
   have hunits : ∀ u : Kˣ, u = 1 := fun u => by
     have h1 : Nat.card Kˣ = 1 := by rw [Nat.card_units, hK2]
-    haveI : Subsingleton Kˣ := (Nat.card_eq_one_iff_unique.1 h1).1
+    have : Subsingleton Kˣ := (Nat.card_eq_one_iff_unique.1 h1).1
     exact Subsingleton.elim _ _
   rcases CFSG.HardMathSupport.Solomon.Coordinator.LieComp.exists_field_or_inndiag_E
       (Or.inl rfl) Nat.prime_three (by norm_num) _ hβ'3 hβ'1 with
@@ -1126,7 +1139,7 @@ theorem not_nonempty_a5_rationalComponent_d4_k (D : TwE6LineLang K σ 2 h)
   intro hA5
   obtain ⟨eA⟩ := hA5
   obtain ⟨hℓ2, he1⟩ := kys_char_two_of_q_two D rfl
-  haveI := kys_finite_rationalComponent D i
+  have := kys_finite_rationalComponent D i
   have hall : (kernelRoots (rootCharHom D.a)).ncard = 24 := by
     have := D.hker
     omega
@@ -1137,8 +1150,8 @@ theorem not_nonempty_a5_rationalComponent_d4_k (D : TwE6LineLang K σ 2 h)
     intro γ hγ
     rw [hker] at hγ ⊢
     exact outer_rho_mem_kernelRoots D.S D.hT hγ
-  haveI : Fact (ringChar K).Prime := ⟨D.hℓ⟩
-  haveI : CharP (AlgebraicClosure K) (ringChar K) := D.hchar
+  have : Fact (ringChar K).Prime := ⟨D.hℓ⟩
+  have : CharP (AlgebraicClosure K) (ringChar K) := D.hchar
   have h3q : 3 ∣ ringChar K ^ D.e + 1 := by
     rw [hℓ2, he1]
     norm_num
@@ -1212,7 +1225,7 @@ theorem noA5TwE6TwoExotic_holds : NoA5TwE6TwoExotic := by
   classical
   set L := AlgebraicClosure K with hL
   have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
-  haveI : Finite (twistedE6RootGroup K σ) := Subtype.finite
+  have : Finite (twistedE6RootGroup K σ) := Subtype.finite
   obtain ⟨ĝ, hĝ, hĝC, hĝ3, hfout, hm⟩ := kys_exists_inndiag_of_model hK σ hσ hg0C hg0 hmM hmΓ hm3
   set h : twistedE6InndiagGL K σ := ⟨ĝ, hĝ⟩ with hhdef
   have hh1 : h ≠ 1 := fun h1 => hĝC (by

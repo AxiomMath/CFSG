@@ -29,7 +29,7 @@ private theorem map_inf_eq_bot_of_center {J D : Subgroup Ω}
     (hDJ : D ≤ Subgroup.centralizer (J : Set Ω)) {E : Subgroup ↥J} (hE : IsPGroup 3 E)
     (hEZ : E.map (QuotientGroup.mk' (GLAPPrimeCore 3 ↥J)) ⊓ Subgroup.center (PQuot 3 J) = ⊥) :
     E.map J.subtype ⊓ D = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [eq_bot_iff]
   rintro _ ⟨⟨j, hjE, rfl⟩, hjD⟩
   have hjc : j ∈ Subgroup.center ↥J := Subgroup.mem_center_iff.2 fun y =>
@@ -51,7 +51,7 @@ private theorem map_inf_eq_bot_of_center {J D : Subgroup Ω}
     exact Nat.Coprime.pow_left k
       ((Nat.Prime.coprime_iff_not_dvd Nat.prime_three).2 (not_three_dvd_card_primeCore J))
   have hj : j ∈ E ⊓ GLAPPrimeCore 3 ↥J := ⟨hjE, hq⟩
-  rw [Subgroup.inf_eq_bot_of_coprime hcop, Subgroup.mem_bot] at hj
+  rw [(Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcop)), Subgroup.mem_bot] at hj
   rw [Subgroup.mem_bot, hj, map_one]
 
 theorem pow_mul_card_le_of_torusLift_pQuot {J D : Subgroup Ω} (hJ : commutator (PQuot 3 J) = ⊤)
@@ -59,7 +59,7 @@ theorem pow_mul_card_le_of_torusLift_pQuot {J D : Subgroup Ω} (hJ : commutator 
     (hT : CFSG.StandardType.GGTorusLift 3 r R) (hD : IsElemAbelian 3 D)
     (hDJ : D ≤ Subgroup.centralizer (J : Set Ω)) :
     3 ^ r * Nat.card D ≤ 3 ^ GLATwoLocalRank 3 Ω := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set ψ : PQuot 3 J →* R :=
     θ.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center (PQuot 3 J))) with hψ
   have hψs : Function.Surjective ψ :=

@@ -53,11 +53,11 @@ private theorem s16h_exists_complement_of_isPGroup_two {G : Type*} [Group G] [Fi
     (hSidx : ¬ 2 ∣ S.index) :
     ∃ X : Subgroup G, IsComplement' N X ∧ S ≤ X := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨X, hX⟩ := Subgroup.exists_right_complement'_of_coprime hcop
   let P : Sylow 2 X := Sylow.nonempty.some
   let S' : Subgroup G := (P : Subgroup X).map X.subtype
-  have hS'2 : IsPGroup 2 S' := P.isPGroup'.map X.subtype
+  have hS'2 : IsPGroup 2 S' := P.isPGroup.map X.subtype
   have hXindex : X.index = Nat.card N := hX.index_eq_card
   have hS'index : S'.index = (P : Subgroup X).index * X.index :=
     Subgroup.index_map_subtype (P : Subgroup X)
@@ -104,7 +104,7 @@ private theorem s16h_exists_complement_of_isPGroup_two {G : Type*} [Group G] [Fi
       exact ⟨hyN, hy⟩
     rw [Subgroup.mem_bot] at hybot
     rw [← hyx, hybot]
-    simp [MulAut.conj_apply]
+    simp
   exact ⟨MulAut.conj q • X,
     Subgroup.isComplement'_iff_card_mul_and_disjoint.mpr ⟨hcard, hdisj⟩, hSle⟩
 
@@ -115,11 +115,11 @@ theorem s16h_exists_permuting_three_of_ker {A Q : Type*} [Group A] [Finite A] [G
     ∃ Y : Subgroup A, IsPGroup 3 ↥Y ∧ Nat.card ↥Y = 3 ^ y ∧
       (Y : Set A) * (T : Set A) = (T : Set A) * (Y : Set A) ∧ Y ≤ J.comap φ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite ↥φ.range :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite ↥φ.range :=
     Finite.of_surjective (MonoidHom.rangeRestrict φ) (MonoidHom.rangeRestrict_surjective φ)
-  haveI : Finite ↥J :=
+  have : Finite ↥J :=
     Finite.of_injective (Subgroup.inclusion hJr) (Subgroup.inclusion_injective hJr)
   set C : Subgroup A := φ.ker with hCdef
   set H : Subgroup A := J.comap φ with hHdef
@@ -155,8 +155,8 @@ theorem s16h_exists_permuting_three_of_ker {A Q : Type*} [Group A] [Finite A] [G
       rw [Subgroup.relIndex_sup_right (H := T) (K := C)]
       simpa [hC₂def, inf_comm] using (Subgroup.inf_relIndex_right (H := C) (K := T)).symm
     have hEq : C₂.relIndex C = T.relIndex (T ⊔ C) := by
-      haveI : Finite ↥T := inferInstance
-      haveI : (C₂.subgroupOf T).FiniteIndex := Subgroup.finiteIndex_of_finite
+      have : Finite ↥T := inferInstance
+      have : (C₂.subgroupOf T).FiniteIndex := Subgroup.finiteIndex_of_finite
       have hpos : C₂.relIndex T ≠ 0 :=
         Subgroup.FiniteIndex.index_ne_zero (H := C₂.subgroupOf T)
       have h := e2.trans e1.symm
@@ -235,10 +235,10 @@ theorem s16h_exists_permuting_three_of_ker {A Q : Type*} [Group A] [Finite A] [G
   let Q₁ := ↥N₁ ⧸ D
   let q : ↥N₁ →* Q₁ := QuotientGroup.mk' D
   let K : Subgroup Q₁ := E.map q
-  haveI : D.Normal := hD_normal
-  haveI : E.Normal := hE_normal
+  have : D.Normal := hD_normal
+  have : E.Normal := hE_normal
   have hK_normal : K.Normal := QuotientGroup.map_normal (N := D) (M := E)
-  haveI : K.Normal := hK_normal
+  have : K.Normal := hK_normal
   have hKindex : K.index = Nat.card ↥J := by
     have hthird : K.index = Nat.card (↥N₁ ⧸ E) := by
       rw [Subgroup.index_eq_card]
@@ -336,7 +336,7 @@ theorem s16h_exists_permuting_three_of_ker {A Q : Type*} [Group A] [Finite A] [G
     rw [inf_of_le_left hDTN] at hcard
     rw [← hcardT, ← hcard, hDrelT, mul_comm]
   obtain ⟨Xbar, hXcomp, hTbar_le⟩ :=
-    s16h_exists_complement_of_isPGroup_two (N := K) hKodd hKcop PT'.isPGroup'
+    s16h_exists_complement_of_isPGroup_two (N := K) hKodd hKcop PT'.isPGroup
       PT'.not_dvd_index
   set X₁ : Subgroup ↥N₁ := Xbar.comap q with hX₁def
   have hT_X₁ : T.subgroupOf N₁ ≤ X₁ := by
@@ -391,7 +391,7 @@ theorem s16h_exists_permuting_three_of_ker {A Q : Type*} [Group A] [Finite A] [G
     rw [Subgroup.card_subtype X₁ Y₁, hY₁card]
   have hY3 : IsPGroup 3 ↥Y := by
     change IsPGroup 3 ↥(YN.map N₁.subtype)
-    exact (P3.isPGroup'.map X₁.subtype).map N₁.subtype
+    exact (P3.isPGroup.map X₁.subtype).map N₁.subtype
   set XA : Subgroup A := X₁.map N₁.subtype with hXAdef
   have hXAcard : Nat.card ↥XA = Nat.card ↥X₁ := by
     rw [hXAdef]; exact Subgroup.card_subtype N₁ X₁

@@ -157,7 +157,7 @@ theorem isTI_of_cover_uniqueMax (D : Data G) {V₀ V : Subgroup G} (hV : InCalV 
 
 theorem isCyclic_inf_ctilde (D : Data G) (h61 : UC6.R6_1 D) (h63 : UC6.R6_3 D)
     {V₀ V : Subgroup G} (hH : F11.Hyp11 D V₀ V) (h4 : Nat.card V₀ ≤ 4) {p : ℕ} (hp : p.Prime)
-    (hp2 : p ≠ 2) {X : Subgroup G} (hXM : X ≤ D.M) (hX : IsPGroup p X)
+    (hp2 : p ≠ 2) {X : Subgroup G} (_hXM : X ≤ D.M) (hX : IsPGroup p X)
     (hΓ : rankThreeGamma 1 p X ≤ D.M ∨ p ∈ D.sig) :
     IsCyclic ↥(X ⊓ F11.CTilde D.M V₀ V) := by
   by_contra hnc

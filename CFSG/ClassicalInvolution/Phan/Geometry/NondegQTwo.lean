@@ -29,11 +29,11 @@ private theorem ndq_norm_one (hσ : IsUnitaryInvolution σ) (hK : Nat.card K = 4
     one_mem' := by simp
     mul_mem' := by
       intro x y hx hy
-      simp only [Set.mem_setOf_eq] at hx hy ⊢
+      simp only [Set.mem_ofPred_eq] at hx hy ⊢
       rw [Units.val_mul, map_mul, hx, hy]
     inv_mem' := by
       intro x hx
-      simp only [Set.mem_setOf_eq] at hx ⊢
+      simp only [Set.mem_ofPred_eq] at hx ⊢
       rw [Units.val_inv_eq_inv_val, map_inv₀, hx]
   }
   have hH_ne_top : H ≠ ⊤ := by

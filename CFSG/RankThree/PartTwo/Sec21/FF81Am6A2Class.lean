@@ -74,7 +74,7 @@ theorem exists_conj_of_card_six' {X A B : Subgroup H6} (e : Nonempty (↥X ≃* 
 theorem genSet_pair (a b : List ℕ × List ℕ) (ha : pairCheck a = true) (hb : pairCheck b = true)
     (h : [a, b].all pairCheck = true) : genSet [a, b] h = {ofCode a ha, ofCode b hb} := by
   ext g
-  simp only [genSet, List.mem_cons, List.not_mem_nil, or_false, Set.mem_setOf_eq,
+  simp only [genSet, List.mem_cons, List.not_mem_nil, or_false, Set.mem_ofPred_eq,
     Set.mem_insert_iff, Set.mem_singleton_iff]
   constructor
   · rintro ⟨cc, hm, rfl⟩
@@ -279,7 +279,7 @@ theorem classify_L32 {Y S : Subgroup H6} (e : Nonempty (↥Y ≃* G3)) (hS : S �
       S.map (MulAut.conj g).toMonoidHom = K4s := by
   obtain ⟨e⟩ := e
   have hY : Nat.card Y = 168 := by rw [Nat.card_congr e.toEquiv]; exact card_G3
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥Y) 7 (by rw [hY]; norm_num)
   have hx7 : orderOf (x : H6) = 7 := by rw [Subgroup.orderOf_coe]; exact hx
   obtain ⟨g₀, w, hgw, hzw⟩ :=

@@ -31,7 +31,6 @@ theorem inspList_facts
   · obtain ⟨e⟩ := he
     have hc : Nat.card X = 168 := by
       rw [Nat.card_congr e.toEquiv]
-      change Nat.card ↥(CFSG.Assembly.LowTwoRank.StatedSL 3 (ZMod 2)) = 168
       rw [card_statedSL_three1527d, Nat.card_zmod]
       norm_num
     exact ⟨by simp [inspOrders, hc], fun h => by omega, fun h => by omega⟩

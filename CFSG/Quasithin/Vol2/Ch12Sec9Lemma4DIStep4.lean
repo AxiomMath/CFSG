@@ -14,7 +14,7 @@ section Card
 theorem card_GL_four {M : Type} [AddCommGroup M] [Module (ZMod 2) M] [Finite M]
     (h : Module.finrank (ZMod 2) M = 4) : Nat.card (M ≃ₗ[ZMod 2] M) = 20160 := by
   classical
-  haveI : Module.Finite (ZMod 2) M := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) M := Module.Finite.of_finite
   let b := Module.finBasisOfFinrankEq (ZMod 2) M h
   let e : (M ≃ₗ[ZMod 2] M) ≃* GL (Fin 4) (ZMod 2) :=
     (LinearMap.GeneralLinearGroup.generalLinearEquiv (ZMod 2) M).symm.trans
@@ -28,6 +28,7 @@ section Act
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem linAct_eq_one_iff {I : Subgroup G} [IsMulCommutative ↥I]
     [Module (ZMod 2) (Additive ↥I)] (g : Subgroup.normalizer (I : Set G)) :
     linAct (V := I) g = 1 ↔ (g : G) ∈ Subgroup.centralizer (I : Set G) := by
@@ -60,17 +61,18 @@ section Kappa
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem exists_kappa {K₁ I V V₁ : Subgroup G} [IsMulCommutative ↥I]
     [Module (ZMod 2) (Additive ↥I)]
     (D : HatModelU (u128 V V₁)) (hK₁U : K₁ ≤ Subgroup.normalizer (u128 V V₁ : Set G))
     (hKI : K₁ ≤ Subgroup.normalizer (I : Set G))
-    (hker : ∀ k : G, ∀ hk : k ∈ K₁, ∀ hkN : k ∈ Subgroup.normalizer (u128 V V₁ : Set G),
+    (hker : ∀ k : G, ∀ _hk : k ∈ K₁, ∀ hkN : k ∈ Subgroup.normalizer (u128 V V₁ : Set G),
       D.ρ ⟨k, hkN⟩ = 1 ↔ k ∈ pCoreOf 2 K₁)
     (hkerI : K₁ ⊓ Subgroup.centralizer (I : Set G) = pCoreOf 2 K₁) :
     ∃ κ : ↥(D.img K₁) →* (Additive ↥I ≃ₗ[ZMod 2] Additive ↥I),
-      ∀ k : G, ∀ hk : k ∈ K₁, ∀ hkN : k ∈ Subgroup.normalizer (u128 V V₁ : Set G),
+      ∀ k : G, ∀ _hk : k ∈ K₁, ∀ hkN : k ∈ Subgroup.normalizer (u128 V V₁ : Set G),
         ∀ hmem : D.ρ ⟨k, hkN⟩ ∈ D.img K₁,
-          κ ⟨D.ρ ⟨k, hkN⟩, hmem⟩ = linAct (V := I) ⟨k, hKI hk⟩ := by
+          κ ⟨D.ρ ⟨k, hkN⟩, hmem⟩ = linAct (V := I) ⟨k, hKI _hk⟩ := by
   let ρK : ↥K₁ →* (D.V ≃ₗ[ZMod 2] D.V) := D.ρ.comp (Subgroup.inclusion hK₁U)
   let aK : ↥K₁ →* (Additive ↥I ≃ₗ[ZMod 2] Additive ↥I) :=
     (linAct (V := I)).comp (Subgroup.inclusion hKI)
@@ -91,18 +93,18 @@ theorem exists_kappa {K₁ I V V₁ : Subgroup G} [IsMulCommutative ↥I]
     (QuotientGroup.lift ρK.ker aK hle).comp
       (QuotientGroup.quotientKerEquivRange ρK).symm.toMonoidHom
   refine ⟨κ0.comp (MulEquiv.subgroupCongr hrange.symm).toMonoidHom, ?_⟩
-  intro k hk hkN hmem
+  intro k _hk hkN hmem
   have e1 : (MulEquiv.subgroupCongr hrange.symm) ⟨D.ρ ⟨k, hkN⟩, hmem⟩ =
-      ⟨ρK ⟨k, hk⟩, ⟨⟨k, hk⟩, rfl⟩⟩ := rfl
-  have e2 : (QuotientGroup.quotientKerEquivRange ρK).symm ⟨ρK ⟨k, hk⟩, ⟨⟨k, hk⟩, rfl⟩⟩ =
-      ((⟨k, hk⟩ : ↥K₁) : ↥K₁ ⧸ ρK.ker) := by
+      ⟨ρK ⟨k, _hk⟩, ⟨⟨k, _hk⟩, rfl⟩⟩ := rfl
+  have e2 : (QuotientGroup.quotientKerEquivRange ρK).symm ⟨ρK ⟨k, _hk⟩, ⟨⟨k, _hk⟩, rfl⟩⟩ =
+      ((⟨k, _hk⟩ : ↥K₁) : ↥K₁ ⧸ ρK.ker) := by
     apply (QuotientGroup.quotientKerEquivRange ρK).injective
     rw [MulEquiv.apply_symm_apply]
     rfl
   show κ0 (MulEquiv.subgroupCongr hrange.symm ⟨D.ρ ⟨k, hkN⟩, hmem⟩) = _
   rw [e1]
   show (QuotientGroup.lift ρK.ker aK hle)
-      ((QuotientGroup.quotientKerEquivRange ρK).symm ⟨ρK ⟨k, hk⟩, ⟨⟨k, hk⟩, rfl⟩⟩) = _
+      ((QuotientGroup.quotientKerEquivRange ρK).symm ⟨ρK ⟨k, _hk⟩, ⟨⟨k, _hk⟩, rfl⟩⟩) = _
   rw [e2, QuotientGroup.lift_mk]
   rfl
 
@@ -115,14 +117,14 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem kappa_bijective {K₁ I V V₁ : Subgroup G} [IsMulCommutative ↥I]
     [Module (ZMod 2) (Additive ↥I)]
-    (D : HatModelU (u128 V V₁)) (hK₁U : K₁ ≤ Subgroup.normalizer (u128 V V₁ : Set G))
+    (D : HatModelU (u128 V V₁)) (_hK₁U : K₁ ≤ Subgroup.normalizer (u128 V V₁ : Set G))
     (hKI : K₁ ≤ Subgroup.normalizer (I : Set G))
-    (hker : ∀ k : G, ∀ hk : k ∈ K₁, ∀ hkN : k ∈ Subgroup.normalizer (u128 V V₁ : Set G),
+    (hker : ∀ k : G, ∀ _hk : k ∈ K₁, ∀ hkN : k ∈ Subgroup.normalizer (u128 V V₁ : Set G),
       D.ρ ⟨k, hkN⟩ = 1 ↔ k ∈ pCoreOf 2 K₁)
     (hkerI : K₁ ⊓ Subgroup.centralizer (I : Set G) = pCoreOf 2 K₁)
     {κ : ↥(D.img K₁) →* (Additive ↥I ≃ₗ[ZMod 2] Additive ↥I)}
-    (hκ : ∀ k : G, ∀ hk : k ∈ K₁, ∀ hkN : k ∈ Subgroup.normalizer (u128 V V₁ : Set G),
-      ∀ hmem : D.ρ ⟨k, hkN⟩ ∈ D.img K₁, κ ⟨D.ρ ⟨k, hkN⟩, hmem⟩ = linAct (V := I) ⟨k, hKI hk⟩)
+    (hκ : ∀ k : G, ∀ _hk : k ∈ K₁, ∀ hkN : k ∈ Subgroup.normalizer (u128 V V₁ : Set G),
+      ∀ hmem : D.ρ ⟨k, hkN⟩ ∈ D.img K₁, κ ⟨D.ρ ⟨k, hkN⟩, hmem⟩ = linAct (V := I) ⟨k, hKI _hk⟩)
     (hcardΩ : Nat.card (D.img K₁) = 20160)
     (hcardI : Nat.card (Additive ↥I ≃ₗ[ZMod 2] Additive ↥I) = 20160) :
     Function.Bijective κ := by
@@ -132,46 +134,46 @@ theorem kappa_bijective {K₁ I V V₁ : Subgroup G} [IsMulCommutative ↥I]
     rw [MonoidHom.mem_ker] at hx
     rw [Subgroup.mem_bot]
     obtain ⟨γ, hγ⟩ := x
-    obtain ⟨k, hk, hkN, rfl⟩ := (L128A.HatU.mem_img D).1 hγ
-    have hx' := hκ k hk hkN hγ
+    obtain ⟨k, _hk, hkN, rfl⟩ := (L128A.HatU.mem_img D).1 hγ
+    have hx' := hκ k _hk hkN hγ
     rw [hx'] at hx
     have h1 : k ∈ Subgroup.centralizer (I : Set G) :=
-      (linAct_eq_one_iff ⟨k, hKI hk⟩).1 hx
-    have h2 : k ∈ K₁ ⊓ Subgroup.centralizer (I : Set G) := ⟨hk, h1⟩
+      (linAct_eq_one_iff ⟨k, hKI _hk⟩).1 hx
+    have h2 : k ∈ K₁ ⊓ Subgroup.centralizer (I : Set G) := ⟨_hk, h1⟩
     rw [hkerI] at h2
-    have h3 := (hker k hk hkN).2 h2
+    have h3 := (hker k _hk hkN).2 h2
     apply Subtype.ext
     exact h3
-  haveI : Finite (Additive ↥I ≃ₗ[ZMod 2] Additive ↥I) :=
+  have : Finite (Additive ↥I ≃ₗ[ZMod 2] Additive ↥I) :=
     Finite.of_injective (fun f : Additive ↥I ≃ₗ[ZMod 2] Additive ↥I =>
       (f : Additive ↥I → Additive ↥I)) DFunLike.coe_injective
   exact (Nat.bijective_iff_injective_and_card κ).2 ⟨hinj, by rw [hcardΩ, hcardI]⟩
 
 theorem linAct_eq_kappa {K₁ I V V₁ : Subgroup G} [IsMulCommutative ↥I]
     [Module (ZMod 2) (Additive ↥I)] (F0 : FactF0) (hI16 : Nat.card I = 16)
-    (D : HatModelU (u128 V V₁)) (hK₁U : K₁ ≤ Subgroup.normalizer (u128 V V₁ : Set G))
+    (D : HatModelU (u128 V V₁)) (_hK₁U : K₁ ≤ Subgroup.normalizer (u128 V V₁ : Set G))
     (hK₁H : K₁ ≤ Subgroup.normalizer (V₁ : Set G))
     (hKI : K₁ ≤ Subgroup.normalizer (I : Set G))
-    (hker : ∀ k : G, ∀ hk : k ∈ K₁, ∀ hkN : k ∈ Subgroup.normalizer (u128 V V₁ : Set G),
+    (hker : ∀ k : G, ∀ _hk : k ∈ K₁, ∀ hkN : k ∈ Subgroup.normalizer (u128 V V₁ : Set G),
       D.ρ ⟨k, hkN⟩ = 1 ↔ k ∈ pCoreOf 2 K₁)
     (hkerI : K₁ ⊓ Subgroup.centralizer (I : Set G) = pCoreOf 2 K₁)
     (hnormH : ∀ h ∈ Subgroup.normalizer (V₁ : Set G), ∀ k ∈ K₁, h * k * h⁻¹ ∈ K₁)
     {κ : ↥(D.img K₁) →* (Additive ↥I ≃ₗ[ZMod 2] Additive ↥I)}
-    (hκ : ∀ k : G, ∀ hk : k ∈ K₁, ∀ hkN : k ∈ Subgroup.normalizer (u128 V V₁ : Set G),
-      ∀ hmem : D.ρ ⟨k, hkN⟩ ∈ D.img K₁, κ ⟨D.ρ ⟨k, hkN⟩, hmem⟩ = linAct (V := I) ⟨k, hKI hk⟩)
+    (hκ : ∀ k : G, ∀ _hk : k ∈ K₁, ∀ hkN : k ∈ Subgroup.normalizer (u128 V V₁ : Set G),
+      ∀ hmem : D.ρ ⟨k, hkN⟩ ∈ D.img K₁, κ ⟨D.ρ ⟨k, hkN⟩, hmem⟩ = linAct (V := I) ⟨k, hKI _hk⟩)
     (hκbij : Function.Bijective κ)
     (x : G) (hxU : x ∈ Subgroup.normalizer (u128 V V₁ : Set G))
     (hxI : x ∈ Subgroup.normalizer (I : Set G)) (hxH : x ∈ Subgroup.normalizer (V₁ : Set G))
     (hxΩ : D.ρ ⟨x, hxU⟩ ∈ D.img K₁) :
     linAct (V := I) ⟨x, hxI⟩ = κ ⟨D.ρ ⟨x, hxU⟩, hxΩ⟩ := by
-  obtain ⟨k, hk, hkN, hkρ⟩ := (L128A.HatU.mem_img D).1 hxΩ
+  obtain ⟨k, _hk, hkN, hkρ⟩ := (L128A.HatU.mem_img D).1 hxΩ
   set c : G := k⁻¹ * x with hc
   have hcU : c ∈ Subgroup.normalizer (u128 V V₁ : Set G) :=
     Subgroup.mul_mem _ (Subgroup.inv_mem _ hkN) hxU
   have hcI : c ∈ Subgroup.normalizer (I : Set G) :=
-    Subgroup.mul_mem _ (Subgroup.inv_mem _ (hKI hk)) hxI
+    Subgroup.mul_mem _ (Subgroup.inv_mem _ (hKI _hk)) hxI
   have hcH : c ∈ Subgroup.normalizer (V₁ : Set G) :=
-    Subgroup.mul_mem _ (Subgroup.inv_mem _ (hK₁H hk)) hxH
+    Subgroup.mul_mem _ (Subgroup.inv_mem _ (hK₁H _hk)) hxH
   have hρc : D.ρ ⟨c, hcU⟩ = 1 := by
     have e : (⟨c, hcU⟩ : Subgroup.normalizer (u128 V V₁ : Set G)) =
         ⟨k, hkN⟩⁻¹ * ⟨x, hxU⟩ := Subtype.ext (by simp [hc])
@@ -226,7 +228,7 @@ theorem linAct_eq_kappa {K₁ I V V₁ : Subgroup G} [IsMulCommutative ↥I]
     simpa using this)
   rcases hF0 with h0 | hid
   · exfalso
-    haveI : Nontrivial (Additive ↥I) := by
+    have : Nontrivial (Additive ↥I) := by
       rw [← Finite.one_lt_card_iff_nontrivial]
       show 1 < Nat.card ↥I
       rw [hI16]
@@ -240,13 +242,13 @@ theorem linAct_eq_kappa {K₁ I V V₁ : Subgroup G} [IsMulCommutative ↥I]
       intro v
       exact LinearMap.congr_fun hid v
     have hxk : (⟨x, hxI⟩ : Subgroup.normalizer (I : Set G)) =
-        ⟨k, hKI hk⟩ * ⟨c, hcI⟩ := Subtype.ext (by simp [hc])
+        ⟨k, hKI _hk⟩ * ⟨c, hcI⟩ := Subtype.ext (by simp [hc])
     rw [hxk, map_mul]
     have hCc : linAct (V := I) ⟨c, hcI⟩ = 1 := hC1
     rw [hCc, mul_one]
-    have hfinal : κ ⟨D.ρ ⟨x, hxU⟩, hxΩ⟩ = κ ⟨D.ρ ⟨k, hkN⟩, L128A.HatU.rho_mem_img D hk hkN⟩ :=
+    have hfinal : κ ⟨D.ρ ⟨x, hxU⟩, hxΩ⟩ = κ ⟨D.ρ ⟨k, hkN⟩, L128A.HatU.rho_mem_img D _hk hkN⟩ :=
       congrArg κ (Subtype.ext hkρ.symm)
-    rw [hfinal, hκ k hk hkN _]
+    rw [hfinal, hκ k _hk hkN _]
 
 end Bij
 

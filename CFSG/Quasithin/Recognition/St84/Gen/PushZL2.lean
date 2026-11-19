@@ -18,6 +18,7 @@ section Finite
 
 variable [Finite G]
 
+omit [Finite G] in
 theorem isSylowTwoOf_ne_bot_L2 (hquot : IsL2Quot n (oTwoQuot ↥X))
     (hP : IsSylowTwoOf P X) : P ≠ ⊥ := by
   intro hbot
@@ -51,10 +52,10 @@ theorem pushZ_centralizer_eq_L2 (hn : 1 ≤ n) (hchar : CharTwo X)
     rw [GaloisField.card 2 n (by omega)]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn2
-  haveI : IsSimpleGroup
+  have : IsSimpleGroup
       (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 n)) :=
     Matrix.ProjectiveSpecialLinearGroup.rank_two_simple hcardF
-  haveI : IsSimpleGroup (oTwoQuot ↥X) := e.isSimpleGroup
+  have : IsSimpleGroup (oTwoQuot ↥X) := e.isSimpleGroup
   set K : Subgroup G := X ⊓ Subgroup.centralizer (pushZ X P : Set G) with hKdef
   have hKleX : K ≤ X := hKdef ▸ inf_le_left
   have hOle : pCoreOf 2 X ≤ K := by
@@ -75,7 +76,7 @@ theorem pushZ_centralizer_eq_L2 (hn : 1 ≤ n) (hchar : CharTwo X)
   let π : ↥X →* oTwoQuot X := QuotientGroup.mk' (pCore 2 ↥X)
   let QK : Subgroup (oTwoQuot X) := (K.subgroupOf X).map π
   have hQKn : QK.Normal := hKn.map π (QuotientGroup.mk'_surjective _)
-  haveI : QK.Normal := hQKn
+  have : QK.Normal := hQKn
   have hcore_le : pCore 2 ↥X ≤ K.subgroupOf X := fun y hy =>
     Subgroup.mem_subgroupOf.mpr (hOle ⟨y, hy, rfl⟩)
   have hpre : ∀ y : ↥X, π y ∈ QK ↔ y ∈ K.subgroupOf X := by

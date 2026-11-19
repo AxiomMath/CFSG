@@ -76,7 +76,7 @@ theorem uc22pwl_act (φ : MulAut X) {u u' y y' : X} (hy : y ∈ normalizer (U : 
   mul_mem' := by
     rintro y z ⟨hy, hyU⟩ ⟨hz, hzU⟩
     refine ⟨M.mul_mem hy hz, ?_⟩
-    haveI := hM
+    have := hM
     have hc : Commute y z := setLike_mul_comm hy hz
     rw [map_mul, hc.mul_pow]
     exact uc22pwe_mul hyU hzU (pow_mem (hMU hy) N)
@@ -93,6 +93,7 @@ section CongFinite
 
 variable {X : Type} [Group X] [Finite X] {U : Subgroup X}
 
+omit [Finite X] in
 theorem uc22pwe_mem_sup_iff {Z : Subgroup X} (hZ : Z ≤ normalizer (U : Set X)) {x : X} :
     x ∈ Z ⊔ U ↔ ∃ z ∈ Z, x * z⁻¹ ∈ U := by
   constructor
@@ -104,6 +105,7 @@ theorem uc22pwe_mem_sup_iff {Z : Subgroup X} (hZ : Z ≤ normalizer (U : Set X))
     rw [e]
     exact mul_mem (Subgroup.mem_sup_right hxz) (Subgroup.mem_sup_left hz)
 
+omit [Finite X] in
 theorem uc22pwl_zpowers_inv_iff {x₀ : X} (hx₀ : x₀ ∈ normalizer (U : Set X)) (φ : MulAut X) :
     (∀ x ∈ zpowers x₀, φ x ∈ zpowers x₀ ⊔ U) ↔ ∃ c : ℤ, φ x₀ * (x₀ ^ c)⁻¹ ∈ U := by
   have hZ : zpowers x₀ ≤ normalizer (U : Set X) := Subgroup.zpowers_le.2 hx₀
@@ -118,6 +120,7 @@ theorem uc22pwl_zpowers_inv_iff {x₀ : X} (hx₀ : x₀ ∈ normalizer (U : Set
       exact Subgroup.mem_comap.2 ((uc22pwe_mem_sup_iff hZ).2 ⟨x₀ ^ c, zpow_mem (mem_zpowers x₀) c, hc⟩)
     exact fun x hx => Subgroup.mem_comap.1 (hle hx)
 
+omit [Finite X] in
 theorem uc22pwl_inv_range_iff {Γ : Type} [Group Γ] {ρ : Γ →* MulAut X} {W : Subgroup X} :
     uc22pwsInv U (Set.range ρ) W ↔ ∀ g : Γ, ∀ x ∈ W, ρ g x ∈ W ⊔ U := by
   constructor
@@ -126,6 +129,7 @@ theorem uc22pwl_inv_range_iff {Γ : Type} [Group Γ] {ρ : Γ →* MulAut X} {W 
   · rintro hW _ ⟨g, rfl⟩ x hx
     exact hW g x hx
 
+omit [Finite X] in
 theorem uc22pwl_exists_zpowers_eq {W : Subgroup X} (hW : IsCyclic W) : ∃ y ∈ W, W = zpowers y := by
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := ↥W)
   refine ⟨g, g.2, le_antisymm (fun x hx => ?_) (Subgroup.zpowers_le.2 g.2)⟩
@@ -155,7 +159,7 @@ theorem uc22pwl_anti_of {K : Type*} [Field K] {s t x y : K} (ht : t ≠ 0) (h : 
 
 theorem uc22pwl_two_pow_ne_zero {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) (i : ℕ) :
     (((2 ^ i : ℕ) : ℤ) : ZMod q) ≠ 0 := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   push_cast
   refine pow_ne_zero i fun h2 => ?_
   have h2' : ((2 : ℕ) : ZMod q) = 0 := by exact_mod_cast h2
@@ -188,25 +192,32 @@ variable {U : Subgroup X} {q : ℕ} {H H' : X} (P : UC22pwlPair U q H H')
 
 include P
 
+omit [Finite X] in
 theorem zpow_eq_one_iff (i : ℤ) : H ^ i = 1 ↔ (i : ZMod q) = 0 := by
   rw [ZMod.intCast_zmod_eq_zero_iff_dvd, ← P.ord, orderOf_dvd_iff_zpow_eq_one]
 
+omit [Finite X] in
 theorem zpow_eq_one_iff' (i : ℤ) : H' ^ i = 1 ↔ (i : ZMod q) = 0 := by
   rw [ZMod.intCast_zmod_eq_zero_iff_dvd, ← P.ord', orderOf_dvd_iff_zpow_eq_one]
 
+omit [Finite X] in
 theorem mem_normalizer (s t : ℤ) : H ^ s * H' ^ t ∈ normalizer (U : Set X) :=
   mul_mem (zpow_mem P.norm s) (zpow_mem P.norm' t)
 
+omit [Finite X] in
 theorem mul_zpow (s t c : ℤ) : (H ^ s * H' ^ t) ^ c = H ^ (s * c) * H' ^ (t * c) :=
   uc22pwl_mul_zpow P.comm s t c
 
+omit [Finite X] in
 theorem mul_pow (s t : ℤ) (n : ℕ) : (H ^ s * H' ^ t) ^ n = H ^ (s * n) * H' ^ (t * n) := by
   rw [← zpow_natCast, P.mul_zpow]
 
+omit [Finite X] in
 theorem inv_eq (s t : ℤ) : (H ^ s * H' ^ t)⁻¹ = H ^ (-s) * H' ^ (-t) := by
   rw [mul_inv_rev, zpow_neg, zpow_neg]
   exact (P.comm.zpow_zpow s t).inv_inv.symm.eq
 
+omit [Finite X] in
 theorem coord (s t s' t' : ℤ) :
     (H ^ s * H' ^ t) * (H ^ s' * H' ^ t')⁻¹ ∈ U ↔ (s : ZMod q) = s' ∧ (t : ZMod q) = t' := by
   have e : (H ^ s * H' ^ t) * (H ^ s' * H' ^ t')⁻¹ = H ^ (s - s') * H' ^ (t - t') := by
@@ -233,6 +244,7 @@ theorem coord (s t s' t' : ℤ) :
       (P.zpow_eq_one_iff' _).2 (by push_cast; rw [ht, sub_self]), one_mul]
     exact one_mem U
 
+omit [Finite X] in
 theorem eq_iff (s t s' t' : ℤ) :
     H ^ s * H' ^ t = H ^ s' * H' ^ t' ↔ (s : ZMod q) = s' ∧ (t : ZMod q) = t' := by
   constructor
@@ -244,20 +256,24 @@ theorem eq_iff (s t s' t' : ℤ) :
     rw [zpow_sub, mul_inv_eq_one] at h1 h2
     rw [h1, h2]
 
+omit [Finite X] in
 theorem eq_one_iff (s t : ℤ) : H ^ s * H' ^ t = 1 ↔ (s : ZMod q) = 0 ∧ (t : ZMod q) = 0 := by
   have := P.eq_iff s t 0 0
   rwa [zpow_zero, zpow_zero, one_mul, Int.cast_zero] at this
 
+omit [Finite X] in
 theorem pow_q (s t : ℤ) : (H ^ s * H' ^ t) ^ q = 1 := by
   rw [P.mul_pow, P.eq_one_iff]
   push_cast
-  simp [ZMod.natCast_self]
+  simp
 
+omit [Finite X] in
 theorem orderOf_eq {s t : ℤ} (hne : ¬ ((s : ZMod q) = 0 ∧ (t : ZMod q) = 0)) :
     orderOf (H ^ s * H' ^ t) = q := by
-  haveI : Fact q.Prime := ⟨P.prime⟩
+  have : Fact q.Prime := ⟨P.prime⟩
   exact orderOf_eq_prime (P.pow_q s t) fun h => hne ((P.eq_one_iff s t).1 h)
 
+omit [Finite X] in
 theorem card_line {s t : ℤ} (hne : ¬ ((s : ZMod q) = 0 ∧ (t : ZMod q) = 0)) :
     Nat.card (zpowers (H ^ s * H' ^ t)) = q := by
   rw [Nat.card_zpowers, P.orderOf_eq hne]
@@ -269,6 +285,7 @@ theorem line_min {s t : ℤ} (hne : ¬ ((s : ZMod q) = 0 ∧ (t : ZMod q) = 0)) 
   · exact Or.inl (Subgroup.eq_bot_of_card_eq W h1)
   · exact Or.inr (Subgroup.eq_of_le_of_card_ge hW (le_of_eq ((P.card_line hne).trans h1.symm)))
 
+omit [Finite X] in
 theorem line_inv_iff (φ : MulAut X) {s t σ θ : ℤ}
     (hact : φ (H ^ s * H' ^ t) * (H ^ σ * H' ^ θ)⁻¹ ∈ U) :
     (∀ z ∈ zpowers (H ^ s * H' ^ t), φ z ∈ zpowers (H ^ s * H' ^ t) ⊔ U) ↔
@@ -285,39 +302,44 @@ theorem line_inv_iff (φ : MulAut X) {s t σ θ : ℤ}
     rw [P.mul_zpow, P.coord]
     exact ⟨by rw [hcs, Int.cast_mul, mul_comm], by rw [hct, Int.cast_mul, mul_comm]⟩
 
+omit [Finite X] in
 theorem inv_diag_iff {φ : MulAut X} {x y : ℤ} (hD : uc22pwlActD U H H' φ x y) {s t : ℤ}
     (hs : (s : ZMod q) ≠ 0) (ht : (t : ZMod q) ≠ 0) :
     (∀ z ∈ zpowers (H ^ s * H' ^ t), φ z ∈ zpowers (H ^ s * H' ^ t) ⊔ U) ↔ (x : ZMod q) = y := by
-  haveI : Fact q.Prime := ⟨P.prime⟩
+  have : Fact q.Prime := ⟨P.prime⟩
   rw [P.line_inv_iff φ (hD s t)]
   simp only [Int.cast_mul]
   exact uc22pwl_diag_iff hs ht
 
+omit [Finite X] in
 theorem inv_diag_of {φ : MulAut X} {x y : ℤ} (hD : uc22pwlActD U H H' φ x y) (hxy : (x : ZMod q) = y)
     (s t : ℤ) : ∀ z ∈ zpowers (H ^ s * H' ^ t), φ z ∈ zpowers (H ^ s * H' ^ t) ⊔ U := by
   rw [P.line_inv_iff φ (hD s t)]
   exact ⟨x, by rw [Int.cast_mul], by rw [Int.cast_mul, hxy]⟩
 
+omit [Finite X] in
 theorem inv_anti_imp {φ : MulAut X} {x y : ℤ} (hA : uc22pwlActA U H H' φ x y) {s t : ℤ}
     (h : ∀ z ∈ zpowers (H ^ s * H' ^ t), φ z ∈ zpowers (H ^ s * H' ^ t) ⊔ U) :
     (x : ZMod q) * s ^ 2 = y * t ^ 2 := by
-  haveI : Fact q.Prime := ⟨P.prime⟩
+  have : Fact q.Prime := ⟨P.prime⟩
   have h1 := (P.line_inv_iff φ (hA s t)).1 h
   simp only [Int.cast_mul] at h1
   exact uc22pwl_anti_imp h1
 
+omit [Finite X] in
 theorem inv_anti_of {φ : MulAut X} {x y : ℤ} (hA : uc22pwlActA U H H' φ x y) {s t : ℤ}
     (ht : (t : ZMod q) ≠ 0) (h : (x : ZMod q) * s ^ 2 = y * t ^ 2) :
     ∀ z ∈ zpowers (H ^ s * H' ^ t), φ z ∈ zpowers (H ^ s * H' ^ t) ⊔ U := by
-  haveI : Fact q.Prime := ⟨P.prime⟩
+  have : Fact q.Prime := ⟨P.prime⟩
   rw [P.line_inv_iff φ (hA s t)]
   simp only [Int.cast_mul]
   exact uc22pwl_anti_of ht h
 
+omit [Finite X] in
 theorem tau_line {φ : MulAut X} {y : ℤ} (hy : (y : ZMod q) ≠ 0) (hA : uc22pwlActA U H H' φ 1 y) {s t : ℤ}
     (h : ∀ z ∈ zpowers (H ^ s * H' ^ t), φ z ∈ zpowers (H ^ s * H' ^ t) ⊔ U) :
     (s : ZMod q) = 0 ↔ (t : ZMod q) = 0 := by
-  haveI : Fact q.Prime := ⟨P.prime⟩
+  have : Fact q.Prime := ⟨P.prime⟩
   have h1 := P.inv_anti_imp hA h
   simp only [Int.cast_one, one_mul] at h1
   constructor
@@ -342,13 +364,14 @@ variable (P : UC22pwlPair U q H H')
 
 include P
 
+omit [Finite X] in
 theorem inv_of_sq {ρ : Γ →* MulAut X} {τ : Γ}
     (hsh : ∀ g : Γ, (∃ x y : ℤ, uc22pwlActD U H H' (ρ g) x y) ∨ ∃ x y : ℤ, uc22pwlActA U H H' (ρ g) x y)
     {y₀ : ℤ} (hy₀ : (y₀ : ZMod q) ≠ 0) (hτ : uc22pwlActA U H H' (ρ τ) 1 y₀) {s t s' t' : ℤ}
     (hinv : uc22pwsInv U (Set.range ρ) (zpowers (H ^ s * H' ^ t))) (ht : (t : ZMod q) ≠ 0)
     (ht' : (t' : ZMod q) ≠ 0) (hsq : (s' : ZMod q) ^ 2 * t ^ 2 = s ^ 2 * t' ^ 2) :
     uc22pwsInv U (Set.range ρ) (zpowers (H ^ s' * H' ^ t')) := by
-  haveI : Fact q.Prime := ⟨P.prime⟩
+  have : Fact q.Prime := ⟨P.prime⟩
   rw [uc22pwl_inv_range_iff] at hinv ⊢
   have hs : (s : ZMod q) ≠ 0 := fun h0 => ht ((P.tau_line hy₀ hτ (hinv τ)).1 h0)
   intro g
@@ -454,6 +477,7 @@ variable {ρ : Γ →* MulAut X} {τ : Γ} {U A₁ A₂ : Subgroup X} {C : UC22p
 
 include El
 
+omit [Finite X] in
 theorem E_le_normalizer : uc22pwtE h (ρ τ h) a b ≤ normalizer (U : Set X) := by
   refine sup_le (sup_le ?_ ?_) ?_
   · exact Subgroup.zpowers_le.2 (Subgroup.pow_mem _ El.h_norm a)
@@ -464,6 +488,7 @@ theorem eq_one_of_mem (hU : IsPGroup 2 U) {x : X} (hxE : x ∈ uc22pwtE h (ρ τ
     x = 1 :=
   uc22pws_eq_one_of_mem_inf hU El.pair.odd_card_E hxE hxU
 
+omit [Finite X] in
 theorem q_ne_two {q : ℕ} (hqb : q ∣ b) : q ≠ 2 := by
   rintro rfl
   have h2 : 2 ∣ m := El.ab ▸ dvd_mul_of_dvd_right hqb a
@@ -472,7 +497,7 @@ theorem q_ne_two {q : ℕ} (hqb : q ∣ b) : q ≠ 2 := by
 theorem mem_primeFactors_iff {q : ℕ} :
     q ∈ (Nat.card (uc22pwtE h (ρ τ h) a b)).primeFactors ↔ q.Prime ∧ q ∣ m := by
   have h1 := Set.ext_iff.1 El.pair.piSet_E q
-  simp only [piSet, Set.mem_setOf_eq] at h1
+  simp only [piSet, Set.mem_ofPred_eq] at h1
   rw [Nat.mem_primeFactors]
   constructor
   · rintro ⟨hq, hd, -⟩
@@ -508,6 +533,7 @@ theorem pairAt (hU : IsPGroup 2 U) {q : ℕ} (hq : q.Prime) (hqb : q ∣ b) :
   · intro i j hij
     exact El.eq_one_of_mem hU (mul_mem (zpow_mem hHE i) (zpow_mem hH'E j)) hij
 
+omit [Finite X] in
 theorem shape (hGal : ∀ g ∈ uc22pwtStab2 ρ A₁ A₂, ∃ i : ℕ, ρ g h * (h ^ 2 ^ i)⁻¹ ∈ U) (g : Γ) :
     (∃ i j : ℕ, ρ g h * (h ^ 2 ^ i)⁻¹ ∈ U ∧ ρ g (ρ τ h) * ((ρ τ h) ^ 2 ^ j)⁻¹ ∈ U) ∨
       ∃ i k : ℕ, ρ g h * ((ρ τ h) ^ 2 ^ i)⁻¹ ∈ U ∧ ρ g (ρ τ h) * (h ^ 2 ^ k)⁻¹ ∈ U := by
@@ -536,6 +562,7 @@ theorem shape (hGal : ∀ g ∈ uc22pwtStab2 ρ A₁ A₂, ∃ i : ℕ, ρ g h *
       have h3 := uc22pwe_trans h1 (uc22pwe_pow hi₀ (pow_mem El.h_norm (2 ^ i₀)) (2 ^ j))
       rwa [← pow_mul, ← pow_add] at h3
 
+omit [Finite X] in
 theorem actD {g : Γ} {i j : ℕ} (hi : ρ g h * (h ^ 2 ^ i)⁻¹ ∈ U)
     (hj : ρ g (ρ τ h) * ((ρ τ h) ^ 2 ^ j)⁻¹ ∈ U) (N : ℕ) :
     uc22pwlActD U (h ^ N) ((ρ τ h) ^ N) (ρ g) ((2 ^ i : ℕ) : ℤ) ((2 ^ j : ℕ) : ℤ) := by
@@ -543,6 +570,7 @@ theorem actD {g : Γ} {i j : ℕ} (hi : ρ g h * (h ^ 2 ^ i)⁻¹ ∈ U)
   have h1 := uc22pwl_act (ρ g) (pow_mem El.h_norm _) (pow_mem El.h'_norm _) hi hj N s t
   rwa [uc22pwl_pow_pow_zpow h (2 ^ i) N s, uc22pwl_pow_pow_zpow (ρ τ h) (2 ^ j) N t] at h1
 
+omit [Finite X] in
 theorem actA {g : Γ} {i k : ℕ} (hi : ρ g h * ((ρ τ h) ^ 2 ^ i)⁻¹ ∈ U)
     (hk : ρ g (ρ τ h) * (h ^ 2 ^ k)⁻¹ ∈ U) (N : ℕ) :
     uc22pwlActA U (h ^ N) ((ρ τ h) ^ N) (ρ g) ((2 ^ i : ℕ) : ℤ) ((2 ^ k : ℕ) : ℤ) := by
@@ -552,6 +580,7 @@ theorem actA {g : Γ} {i k : ℕ} (hi : ρ g h * ((ρ τ h) ^ 2 ^ i)⁻¹ ∈ U)
   rwa [((El.pair.comm.pow_pow N N).zpow_zpow (((2 ^ k : ℕ) : ℤ) * t)
     (((2 ^ i : ℕ) : ℤ) * s)).symm.eq] at h1
 
+omit [Finite X] in
 theorem shapeAt (hGal : ∀ g ∈ uc22pwtStab2 ρ A₁ A₂, ∃ i : ℕ, ρ g h * (h ^ 2 ^ i)⁻¹ ∈ U) (N : ℕ) (g : Γ) :
     (∃ x y : ℤ, uc22pwlActD U (h ^ N) ((ρ τ h) ^ N) (ρ g) x y) ∨
       ∃ x y : ℤ, uc22pwlActA U (h ^ N) ((ρ τ h) ^ N) (ρ g) x y := by
@@ -559,6 +588,7 @@ theorem shapeAt (hGal : ∀ g ∈ uc22pwtStab2 ρ A₁ A₂, ∃ i : ℕ, ρ g h
   · exact Or.inl ⟨_, _, El.actD hi hj N⟩
   · exact Or.inr ⟨_, _, El.actA hi hk N⟩
 
+omit [Finite X] in
 theorem tauAt (hGal : ∀ g ∈ uc22pwtStab2 ρ A₁ A₂, ∃ i : ℕ, ρ g h * (h ^ 2 ^ i)⁻¹ ∈ U) (N : ℕ) :
     ∃ i₀ : ℕ, uc22pwlActA U (h ^ N) ((ρ τ h) ^ N) (ρ τ) 1 ((2 ^ i₀ : ℕ) : ℤ) := by
   obtain ⟨i₀, hi₀⟩ := hGal _ C.stab_ττ
@@ -663,7 +693,7 @@ theorem coef_of_inv (hU : IsPGroup 2 U) {q : ℕ} (hq : q.Prime) (hqb : q ∣ b)
     (hig : ∀ x ∈ J, ρ g (ρ g x) = x) :
     ∃ c : ℤ, (c : ZMod q) ^ 2 = 1 ∧ ρ g ((h ^ (m / q)) ^ s * ((ρ τ h) ^ (m / q)) ^ t) *
       (((h ^ (m / q)) ^ s * ((ρ τ h) ^ (m / q)) ^ t) ^ c)⁻¹ ∈ U := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨-, -, Pq⟩ := El.pairAt hU hq hqb
   obtain ⟨c, hc⟩ := (uc22pwl_zpowers_inv_iff (Pq.mem_normalizer s t) (ρ g)).1
     ((uc22pwl_inv_range_iff.1 hinv) g)
@@ -676,7 +706,7 @@ theorem coef_of_inv (hU : IsPGroup 2 U) {q : ℕ} (hq : q.Prime) (hqb : q ∣ b)
     rw [zpow_one, zpow_mul, ← hex, ← map_zpow, ← hex, hig _ hxJ]
   rw [Pq.mul_zpow, Pq.mul_zpow, Pq.eq_iff] at h2
   have h3 := h2.2
-  simp only [Int.cast_mul, Int.cast_one, mul_one] at h3
+  simp only [Int.cast_mul, mul_one] at h3
   rw [sq]
   exact mul_left_cancel₀ ht (h3.trans (mul_one _).symm)
 
@@ -686,7 +716,7 @@ theorem dvd_of_inv_diag (hU : IsPGroup 2 U)
     (hWinv : uc22pwsInv U (Set.range ρ) W) (hW0 : W ≠ ⊥) {g : Γ} {i j : ℕ}
     (hi : ρ g h * (h ^ 2 ^ i)⁻¹ ∈ U) (hj : ρ g (ρ τ h) * ((ρ τ h) ^ 2 ^ j)⁻¹ ∈ U)
     (hgW : ∀ x ∈ W, ρ g x = x⁻¹) : q ∣ 2 ^ i + 1 := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨-, -, Pq⟩ := El.pairAt hU hq hqb
   obtain ⟨s, t, hs, hyW⟩ : ∃ s t : ℤ, (s : ZMod q) ≠ 0 ∧
       (h ^ (m / q)) ^ s * ((ρ τ h) ^ (m / q)) ^ t ∈ W := by
@@ -710,7 +740,7 @@ theorem lam_of_inv_anti (hU : IsPGroup 2 U)
     (hWinv : uc22pwsInv U (Set.range ρ) W) (hW0 : W ≠ ⊥) {g : Γ} {i k : ℕ}
     (hi : ρ g h * ((ρ τ h) ^ 2 ^ i)⁻¹ ∈ U) (hk : ρ g (ρ τ h) * (h ^ 2 ^ k)⁻¹ ∈ U)
     (hgW : ∀ x ∈ W, ρ g x = x⁻¹) : uc22pwlLam ρ U h (ρ τ h) m b q := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨-, -, Pq⟩ := El.pairAt hU hq hqb
   rcases El.classify hU hGal hq hqb hWle hWinv hW0 with hW | ⟨s, t, -, ht, hW⟩
   · exfalso
@@ -733,7 +763,7 @@ theorem sel_diag (hU : IsPGroup 2 U)
       (((h ^ (m / q)) ^ S q * ((ρ τ h) ^ (m / q)) ^ T q) ^ 2 ^ i)⁻¹ ∈ U := by
   obtain ⟨hT, hinv⟩ := hST q hΛ
   obtain ⟨hq, hqb, -⟩ := hΛ
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨-, -, Pq⟩ := El.pairAt hU hq hqb
   have hD := El.actD hi hj (m / q)
   obtain ⟨i₀, hτ⟩ := El.tauAt hGal (m / q)
@@ -755,7 +785,7 @@ theorem sel_anti_one (hU : IsPGroup 2 U) {k₀ : ℕ}
       (((h ^ (m / q)) ^ ((2 ^ k₀ : ℕ) : ℤ) * ((ρ τ h) ^ (m / q)) ^ (1 : ℤ)) ^ 2 ^ (i + k₀))⁻¹ ∈ U := by
   have hinv := hk₀ q hΛ
   obtain ⟨hq, hqb, -⟩ := hΛ
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨-, -, Pq⟩ := El.pairAt hU hq hqb
   have hA := El.actA hi hk (m / q)
   have hcrit := Pq.inv_anti_imp hA ((uc22pwl_inv_range_iff.1 hinv) g)
@@ -779,7 +809,7 @@ theorem case_one_of_anti (hU : IsPGroup 2 U)
   obtain ⟨hT, hinv⟩ := hST q hΛ
   obtain ⟨c, hc2, hcU⟩ := hc q hΛ
   obtain ⟨hq, hqb, -⟩ := hΛ
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨-, -, Pq⟩ := El.pairAt hU hq hqb
   have hA := El.actA hi hk (m / q)
   have h1 := uc22pwe_trans (uc22pwe_symm (hA (S q) (T q))) hcU
@@ -845,7 +875,7 @@ theorem uc22pwt_sel_two (El : UC22pwtElem C h w₁ m a b α) (hU : IsPGroup 2 U)
     · obtain ⟨k₀, hk₀⟩ := hcase
       have hST : ∀ q, uc22pwlLam ρ U h (ρ τ h) m b q → ((1 : ℤ) : ZMod q) ≠ 0 ∧ uc22pwsInv U (Set.range ρ)
           (zpowers ((h ^ (m / q)) ^ ((2 ^ k₀ : ℕ) : ℤ) * ((ρ τ h) ^ (m / q)) ^ (1 : ℤ))) := fun q hΛ => by
-        haveI : Fact q.Prime := ⟨hΛ.1⟩
+        have : Fact q.Prime := ⟨hΛ.1⟩
         exact ⟨by simp, hk₀ q hΛ⟩
       refine ⟨fun _ => ((2 ^ k₀ : ℕ) : ℤ), fun _ => 1, hST, fun g _ => ?_⟩
       rcases El.shape hGal g with ⟨i, j, hi, hj⟩ | ⟨i, k, hi, hk⟩
@@ -868,7 +898,7 @@ theorem uc22pwt_sel_two (El : UC22pwtElem C h w₁ m a b α) (hU : IsPGroup 2 U)
       ∀ q, ¬ uc22pwlLam ρ U h (ρ τ h) m b q → F q = F₀ q :=
     ⟨fun q => if uc22pwlLam ρ U h (ρ τ h) m b q then
       zpowers ((h ^ (m / q)) ^ S q * ((ρ τ h) ^ (m / q)) ^ T q) else F₀ q,
-      fun q hq => if_pos hq, fun q hq => if_neg hq⟩
+      fun q hq => ite_eq_left hq, fun q hq => ite_eq_right hq⟩
   have hFp : ∀ p : ℕ, p.Prime → F p ≤ pCoreOf p (uc22pwtE h (ρ τ h) a b) ∧ uc22pwsInv U (Set.range ρ) (F p) ∧
       (p ∣ Nat.card (uc22pwtE h (ρ τ h) a b) → F p ≠ ⊥) ∧
       ∀ W : Subgroup X, W ≤ F p → uc22pwsInv U (Set.range ρ) W → W = ⊥ ∨ W = F p := by
@@ -904,7 +934,7 @@ theorem uc22pwt_sel_two (El : UC22pwtElem C h w₁ m a b α) (hU : IsPGroup 2 U)
       intro q hq hqb
       by_contra hΛ
       have hle := hFJ q hq (hdvdm q hqb)
-      haveI : IsCyclic J := hcyc
+      have : IsCyclic J := hcyc
       have hcycq : IsCyclic ↥(F q) := Subgroup.isCyclic_of_le hle
       obtain ⟨h1, h2, h3, -⟩ := hFp q hq
       exact hΛ (El.lam_of_cyclic hU hGal hq hqb h1 h2 (h3 (hcardE q hq (hdvdm q hqb))) hcycq)

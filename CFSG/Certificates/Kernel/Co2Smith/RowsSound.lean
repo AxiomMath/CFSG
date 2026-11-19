@@ -10,10 +10,12 @@ namespace CFSG.KC.Co2Smith
 
 open CFSG.KC.Co1F2 CFSG.KC.Co2InvS CFSG.Sporadic.SmallF2.Native
 
+set_option exponentiation.threshold 484 in
 theorem cK_eq (A : Nat) : cK A = A % 2 ^ 484 := by
   change A % _ = A % 2 ^ 484
   rw [show (2 : Nat) ^ 484 = nat_lit 49947976805055875702105555676690660891977570282639538413746511354005947821116249921924897649015871538557230897942505966327167610868612564900642816 by decide]
 
+set_option exponentiation.threshold 484 in
 theorem unpack_mod (A : Nat) : unpackR 22 (A % 2 ^ 484) = unpackR 22 A := by
   apply Array.ext
   · simp [unpackR]
@@ -28,6 +30,7 @@ theorem unpack_mod (A : Nat) : unpackR 22 (A % 2 ^ 484) = unpackR 22 A := by
       simp [hj, this]
     · simp [hj]
 
+set_option exponentiation.threshold 484 in
 theorem beq_unpack (A B : Nat) : (unpackR 22 A == unpackR 22 B) = eqK A B := by
   rw [eqK, cK_eq, cK_eq, ← unpack_mod A, ← unpack_mod B]
   exact unpack_beq (Nat.mod_lt _ (by norm_num)) (Nat.mod_lt _ (by norm_num))

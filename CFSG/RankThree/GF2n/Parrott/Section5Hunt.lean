@@ -12,6 +12,7 @@ open CFSG CFSG.Open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem quasisimple_centralizer_of_quotient_psu_six {z₁ : G} (hord : orderOf z₁ = 2)
     [((Subgroup.zpowers z₁).subgroupOf (centralizer ({z₁} : Set G))).Normal]
     {X : Type} [Group X] (hX : CFSG.Blueprint.LieModel X .PSU 6 2 1)
@@ -25,7 +26,7 @@ theorem quasisimple_centralizer_of_quotient_psu_six {z₁ : G} (hord : orderOf z
   classical
   let C : Subgroup G := centralizer ({z₁} : Set G)
   let Z₀ : Subgroup C := (Subgroup.zpowers z₁).subgroupOf C
-  haveI hZ₀n : Z₀.Normal := inferInstance
+  have hZ₀n : Z₀.Normal := inferInstance
   have hzC : z₁ ∈ C := mem_centralizer_singleton_iff.mpr rfl
   have hXsimple : IsSimpleGroup X :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hX
@@ -34,7 +35,7 @@ theorem quasisimple_centralizer_of_quotient_psu_six {z₁ : G} (hord : orderOf z
       (hX.statedClassicalModel (by decide))
   have hXnc : ¬ IsMulCommutative X := by
     intro hcomm
-    haveI : IsMulCommutative X := hcomm
+    have : IsMulCommutative X := hcomm
     have hp : (Nat.card X).Prime := (Group.is_simple_iff_prime_card).mp hXsimple
     rw [hXcard] at hp
     have heven : Even 9196830720 := ⟨4598415360, by norm_num⟩
@@ -51,7 +52,7 @@ theorem quasisimple_centralizer_of_quotient_psu_six {z₁ : G} (hord : orderOf z
     calc e a' * e b' = e (a' * b') := by rw [map_mul]
       _ = e (b' * a') := by rw [hcomm a' b']
       _ = e b' * e a' := by rw [map_mul]
-  haveI : IsSimpleGroup (C ⧸ Z₀) := hQsimple
+  have : IsSimpleGroup (C ⧸ Z₀) := hQsimple
   have hQperfect : Group.IsPerfect (C ⧸ Z₀) :=
     TauCeti.IsSimpleGroup.isPerfect_of_not_isMulCommutative hQnc
   have hZ₀eq : Z₀ = Subgroup.zpowers (⟨z₁, hzC⟩ : C) := by
@@ -112,8 +113,8 @@ theorem fi22_of_centralizer_quotient_psu_six
     (hder : z₁ ∈ ⁅centralizer ({z₁} : Set G), centralizer ({z₁} : Set G)⁆) :
     CFSG.Blueprint.NativeSporadic.IsSporadic G .Fi22 := by
   obtain ⟨hN, X, hXgrp, hX, ⟨e⟩⟩ := hU
-  letI : Group X := hXgrp
-  haveI : ((Subgroup.zpowers z₁).subgroupOf (centralizer ({z₁} : Set G))).Normal := hN
+  let : Group X := hXgrp
+  have : ((Subgroup.zpowers z₁).subgroupOf (centralizer ({z₁} : Set G))).Normal := hN
   have hq := quasisimple_centralizer_of_quotient_psu_six (z₁ := z₁) hord hX e hder
   exact huntM22_of_centralizer hnonab hord hq.1 hq.2.1 hq.2.2
 

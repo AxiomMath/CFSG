@@ -27,10 +27,10 @@ private theorem f4gen_exists_rational_of_fixed
   obtain ⟨E, hEf, hSE, hKE⟩ := exists_finite_subfield_of_finset (K := K) S
   obtain ⟨y', hy', hyy⟩ := hS E hSE
   rw [← hyy] at hyF ⊢
-  haveI : Finite E := hEf
+  have : Finite E := hEf
   obtain ⟨σE, -, hJ, hfix⟩ := exists_subfieldFrobenius_data (τ := .F4) Fr hFr E hKE
-  haveI : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
-  haveI : CharP E 2 := RingHom.charP E.subtype E.subtype_injective 2
+  have : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
+  have : CharP E 2 := RingHom.charP E.subtype E.subtype_injective 2
   have hring : ringChar E = 2 := ringChar.eq E 2
   have hyΓ : y' ∈ fixedFieldImage .F4 σE := by
     rw [← entrywiseFixedGroup_eq_fixedFieldImage_of_ringChar_two (τ := .F4)
@@ -45,8 +45,8 @@ private theorem f4gen_exists_rational_of_fixed
 
 private theorem f4gen_natCard_eq_torsion
     {K L : Type} [Field K] [Finite K] [CharP K 2]
-    [Field L] [Algebra K L] [Algebra.IsAlgebraic K L] [IsAlgClosed L] {p : ℕ} (hp : p.Prime)
-    (hp2 : p ≠ 2) (E : Subgroup (adjointGroup .F4 K)) (hE : IsElemAbelian p E)
+    [Field L] [Algebra K L] [Algebra.IsAlgebraic K L] [IsAlgClosed L] {p : ℕ} (_hp : p.Prime)
+    (_hp2 : p ≠ 2) (E : Subgroup (adjointGroup .F4 K)) (hE : IsElemAbelian p E)
     (hSC : ∀ x ∈ Subgroup.centralizer (E : Set (adjointGroup .F4 K)), x ^ p = 1 → x ∈ E)
     (w : WeylGroup .F4) (Fr : L →+* L) (hFr : ∀ c, Fr c = c ^ Nat.card K) (g0 : ModGL .F4 L)
     (hg0C : g0 ∈ adjointGroup .F4 L)
@@ -157,7 +157,7 @@ private theorem f4gen_false_of_fixed_root
     {β : Fin Tag.F4.rank → ℤ} (hβ : IsRoot .F4 β) (hwβ : w • β = β) : False := by
   classical
   have : Fintype K := Fintype.ofFinite K
-  haveI hCharL : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
+  have hCharL : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
   have hFrι : ∀ c : K, Fr (algebraMap K L c) = algebraMap K L c := by
     intro c
     rw [hFr, ← map_pow, Nat.card_eq_fintype_card]
@@ -303,7 +303,7 @@ theorem card_ge_of_toral_F4_gen
     ExcFramesHalf.exists_langTorus_of_toral (p := 3) Nat.prime_three K hpK E hE htor
   have hcount := f4gen_natCard_eq_torsion (p := 3) Nat.prime_three (by norm_num) E hE hSC w Fr hFr
     g0 hg0C hg0 hEin
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have hcard2 := ExcFramesHalf.natCard_twistedTorus_pTorsion (L := AlgebraicClosure K)
     (τ := .F4) (ℓ := 2) Nat.prime_two Fr hFr (p := 3) Nat.prime_three (by norm_num) w

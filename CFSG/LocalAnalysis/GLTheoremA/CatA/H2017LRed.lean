@@ -27,8 +27,8 @@ theorem fb_contradiction {Q : Type} [Group Q] [Finite Q] {Ibar Rbar : Subgroup Q
         ¬ Nonempty (↥H ≃* ↥(alternatingGroup (Fin 7)))) : False := by
   classical
   obtain ⟨eI⟩ := hI
-  haveI : IsSimpleGroup ↥(alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
-  haveI : IsSimpleGroup ↥Ibar := eI.isSimpleGroup
+  have : IsSimpleGroup ↥(alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup ↥Ibar := eI.isSimpleGroup
   set f : Q →* Q ⧸ Subgroup.center Q := QuotientGroup.mk' (Subgroup.center Q) with hf
   set φ : ↥Ibar →* Q ⧸ Subgroup.center Q := f.comp Ibar.subtype with hφ
   have hcard7 : Nat.card ↥(alternatingGroup (Fin 7)) = 2520 := by
@@ -81,7 +81,7 @@ theorem fb_contradiction {Q : Type} [Group Q] [Finite Q] {Ibar Rbar : Subgroup Q
 theorem i2017Lie_of_facts {G : Type} [Group G] [Finite G] (hA : I2017LieClassification) (hB : I2017LieNoA7)
     (hC : I2017LieRank) (hZ1 : I2017LieCenterL62) (hZ2 : I2017LieRankCenter) : I2017LieAt G := by
   intro X K D J I R hX hK hDN hD hD9 hdz hE hJLay hJC hJA hIJ hIA hRK hR hIDR hnc hLie
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hDp : IsPGroup 3 D := IsPGroup.of_card (p := 3) (n := 2) (by rw [hD9]; norm_num)
   obtain ⟨d, hd, hd1, hdC⟩ := hdz
   have hd3 : d ^ 3 = 1 := hD.2 d hd

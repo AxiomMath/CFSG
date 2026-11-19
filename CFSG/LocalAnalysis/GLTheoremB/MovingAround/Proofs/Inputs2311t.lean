@@ -26,17 +26,17 @@ theorem g2_closure_rElements_eq_top_inputs2311t {K : Type} [Field K] [Finite K]
   rcases (by omega : 3 ∣ Nat.card K + 1 ∨ 3 ∣ Nat.card K - 1) with h | h
   · exact Inputs2311g.g2ThreeUniNative_plus h (by omega) E₀ hexp hcard
   obtain ⟨R, hR1, hRp, hRn⟩ := Inputs2311g.g2ThreeNormalizesR_minus h E₀ hexp hcard
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := Fintype.ofFinite K
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := Fintype.ofFinite K
   obtain ⟨n, hr, hKn⟩ := FiniteField.card K (ringChar K)
-  haveI : Fact (ringChar K).Prime := ⟨hr⟩
-  haveI : CharP K (ringChar K) := ringChar.charP K
+  have : Fact (ringChar K).Prime := ⟨hr⟩
+  have : CharP K (ringChar K) := ringChar.charP K
   have hr3 : ringChar K ≠ 3 := by
     intro h3
     apply hnd
     rw [Nat.card_eq_fintype_card, hKn, h3]
     exact dvd_pow_self 3 (PNat.ne_zero n)
-  haveI : IsSimpleGroup ↥(adjointGroup .G2 K) :=
+  have : IsSimpleGroup ↥(adjointGroup .G2 K) :=
     isSimpleGroup_adjointGroup_of_isQuasisimple
       (CFSG.LieType.Steinberg.Adjoint.isQuasisimple_g2_of_three_le_card K (by omega))
   set S := {k : ↥(adjointGroup .G2 K) | ∃ x ∈ E₀, x ≠ 1 ∧ Commute k x ∧
@@ -47,7 +47,7 @@ theorem g2_closure_rElements_eq_top_inputs2311t {K : Type} [Field K] [Finite K]
     intro a ha b hb
     exact congrArg Subtype.val
       ((IsPGroup.isMulCommutative_of_card_eq_prime_sq hcard).is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
-  haveI hAea : CFSG.IsElementaryAbelian 3 A := by
+  have hAea : CFSG.IsElementaryAbelian 3 A := by
     refine isElementaryAbelian_three_of ?_ ?_
     · rintro _ ⟨a, ha, rfl⟩ _ ⟨b, hb, rfl⟩
       exact congrArg Subtype.val (hEcomm a ha b hb)
@@ -195,7 +195,7 @@ theorem gsub_le_closure_rElements_inputs2311t {ℓ f : ℕ} (hℓ : ℓ.Prime) (
     calc ℓ = ℓ ^ 1 := (pow_one ℓ).symm
       _ ≤ ℓ ^ f := Nat.pow_le_pow_right hℓ.pos hf)
   have hX' : Nat.card X = ℓ ^ (3 * f) := by rw [hX, ← pow_mul]; ring_nf
-  haveI : CharP X ℓ := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have : CharP X ℓ := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     hℓ (k := 3 * f) (by omega) hX'
   have hK2 : ringChar X ≠ 2 := by rw [ringChar.eq X ℓ]; exact hℓ2
   have hσ3 : ∀ c, σ (σ (σ c)) = c := CFSG.LieType.Steinberg.TwistedD4.sigma_three_of_card
@@ -250,7 +250,7 @@ theorem gsub_le_uniPlaneClosure_of_central_tau_inputs2311t {ℓ f : ℕ} (hℓ :
   have hσ2 : σ ^ 2 ≠ 1 := nf1_sq_ne_one σ hσ3 hσ1
   obtain ⟨-, hdec, ⟨Θ, hΘ, -, -, -⟩, hcyc, hcard3, -, hZ, -⟩ :=
     odd_triality_exact_automorphism_normal_form hℓ hℓ2 hf X hX σ hσ
-  haveI : Finite (X ≃+* X) := Nat.finite_of_card_ne_zero (by rw [hcard3]; omega)
+  have : Finite (X ≃+* X) := Nat.finite_of_card_ne_zero (by rw [hcard3]; omega)
   have hinj : Function.Injective (MulAut.conj : C0 σ →* MulAut (C0 σ)) := nf1_conj_injective hZ
   have hτ3 : tauAut σ ^ 3 = 1 := triOdd_tauAut_pow_three σ hσ3
   obtain ⟨nf, hnf, huniq⟩ : ∃ nf : MulAut (C0 σ) → C0 σ × (X ≃+* X),
@@ -461,7 +461,7 @@ theorem exists_gsub_conj_mem_Bsub_or_Asub_inputs2311t {ℓ f : ℕ} (hℓ : ℓ.
     calc ℓ = ℓ ^ 1 := (pow_one ℓ).symm
       _ ≤ ℓ ^ f := Nat.pow_le_pow_right hℓ.pos hf)
   have hX' : Nat.card X = ℓ ^ (3 * f) := by rw [hX, ← pow_mul]; ring_nf
-  haveI : CharP X ℓ := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have : CharP X ℓ := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     hℓ (k := 3 * f) (by omega) hX'
   have hK2 : ringChar X ≠ 2 := by rw [ringChar.eq X ℓ]; exact hℓ2
   have hK3 : ringChar X ≠ 3 := by rw [ringChar.eq X ℓ]; exact hℓ3
@@ -471,7 +471,7 @@ theorem exists_gsub_conj_mem_Bsub_or_Asub_inputs2311t {ℓ f : ℕ} (hℓ : ℓ.
   have hF : Nat.card (CFSG.LieType.Steinberg.TwistedD4.fixedField σ.toRingHom) = ℓ ^ f :=
     CFSG.GH74.GLS.Stage4.Hex.card_fixedField_of_cube σ.toRingHom hq2 hX hσ
   have h3 : Module.finrank (CFSG.LieType.Steinberg.TwistedD4.fixedField σ.toRingHom) X = 3 := by
-    haveI : Module.Finite (CFSG.LieType.Steinberg.TwistedD4.fixedField σ.toRingHom) X :=
+    have : Module.Finite (CFSG.LieType.Steinberg.TwistedD4.fixedField σ.toRingHom) X :=
       Module.Finite.of_finite
     have h := Module.natCard_eq_pow_finrank
       (K := CFSG.LieType.Steinberg.TwistedD4.fixedField σ.toRingHom) (V := X)
@@ -532,7 +532,7 @@ theorem uniPlaneClosure_eq_top_of_central_tau_inputs2311t {ℓ f : ℕ} (hℓ : 
   classical
   have hq2 : 2 ≤ ℓ ^ f := triOdd_two_le_pow hℓ hf
   have hX' : Nat.card X = ℓ ^ (3 * f) := by rw [hX, ← pow_mul]; ring_nf
-  haveI : CharP X ℓ := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have : CharP X ℓ := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     hℓ (k := 3 * f) (by omega) hX'
   have hring : ringChar X = ℓ := ringChar.eq X ℓ
   have hσ3 : σ ^ 3 = 1 := triOdd_sigma_pow_three σ (ℓ ^ f) hX hσ

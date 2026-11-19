@@ -72,7 +72,7 @@ theorem twin_only_two_group (h4 : Thm4RTwinBelow 3 n) (hlt : Nat.card X < n) (hS
       · exact le_sup_left
       · exact le_sup_right
   rw [htop] at hsup
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card.mp hsup)
   exact ⟨k, by rw [← hk]; exact (Subgroup.card_top (G := X)).symm⟩
 

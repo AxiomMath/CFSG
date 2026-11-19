@@ -63,7 +63,7 @@ theorem y6_card_NHA {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) :
   by_cases hRT : s.R = s.T
   · have hNM : N ≤ M := by
       by_contra hNM
-      obtain ⟨x, hxN, hxM⟩ := SetLike.not_le_iff_exists.mp hNM
+      obtain ⟨x, hxN, hxM⟩ := IsConcreteLE.not_le_iff_exists.mp hNM
       have hxH : x ∈ s.H := hNH hxN
       have hMHne : M ≠ s.H := fun h => hxM (h.symm ▸ hxH)
       have hle2 : Nat.card ↥s.H ≤ 2 * Nat.card ↥M :=
@@ -113,7 +113,7 @@ theorem y6_card_NHA {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) :
     change Nat.card ↥N = 9 * Nat.card ↥s.T
     rw [h1152, hTcard.1 hRT]
   · have hlt : s.R < s.T := lt_of_le_of_ne s.R_le_T hRT
-    obtain ⟨x, hxT, hxR⟩ := SetLike.exists_of_lt hlt
+    obtain ⟨x, hxT, hxR⟩ := _root_.IsConcreteLE.exists_of_lt hlt
     have hxN : x ∈ N := s5_T_le_NHA hH hxT
     have hxM : x ∉ M := s3_not_mem_M s hH.hS hxT hxR
     have hNMne : N ⊓ M ≠ N := fun h => hxM (Subgroup.mem_inf.mp (h.symm ▸ hxN)).2

@@ -60,7 +60,7 @@ theorem spUFixConclusion_statedSp [Finite F] {n : ℕ} (hF : Nat.card F = 2 ^ n)
     (hSy : ∃ P : Sylow 2 ↥(StatedSp k F), (P : Subgroup ↥(StatedSp k F)) = Sy) (hRSy : R ≤ Sy)
     (hSyR : Sy ≤ Subgroup.normalizer (R : Set ↥(StatedSp k F))) :
     SpUFixConclusion ↥(StatedSp k F) R Sy := by
-  haveI : CharP F 2 := charP_two_of_card_eq_two_pow hF
+  have : CharP F 2 := charP_two_of_card_eq_two_pow hF
   obtain ⟨a, ha, rfl⟩ := exists_eq_spUFixRootSp hF R hR hRt
   exact (spUFixGeomSp hk ha).spUFixConclusion hSy hRSy hSyR
 

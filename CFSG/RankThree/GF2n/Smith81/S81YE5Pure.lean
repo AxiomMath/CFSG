@@ -30,7 +30,7 @@ theorem e7_pure_sub [CharP K 2] {r : V K ≃ₗ[K] V K} (hr : IsRt5 r) {p : V K}
   have hinv : ∀ z : V K, act7 p₁ (act7 p₁⁻¹ z) = z := by
     intro z
     have h1 : act7 (p₁ * p₁⁻¹) z = z := by
-      rw [mul_inv_cancel, act7_one] <;> rfl
+      rw [mul_inv_cancel, act7_one]; rfl
     rw [act7_mul, LinearEquiv.mul_apply] at h1
     exact h1
   have key : ∀ z : V K, act7 g z - z =
@@ -54,7 +54,7 @@ theorem e7_pure_sub [CharP K 2] {r : V K ≃ₗ[K] V K} (hr : IsRt5 r) {p : V K}
   rw [key, hv, hxv]
   by_cases hμ : pr μ theta = -1
   · right
-    rw [if_pos hμ] at hx2
+    rw [ite_eq_left hμ] at hx2
     obtain ⟨g'', hg''mem, hg''w⟩ := weight_vec_mem_orbit (K := K) (shift theta μ)
     have hY : act7 p₁ (act7 u (Finsupp.single (shift theta μ) 1)) =
         vAut K (((p₁ * u : G7 K) : (Module.End K (V K))ˣ) * g'') (w0 : V K) := by
@@ -69,7 +69,7 @@ theorem e7_pure_sub [CharP K 2] {r : V K ≃ₗ[K] V K} (hr : IsRt5 r) {p : V K}
     simp only [map_smul, smul_smul]
     rw [hY]
   · left
-    rw [if_neg hμ, smul_zero] at hx2
+    rw [ite_eq_right hμ, smul_zero] at hx2
     rw [hx2, map_zero, smul_zero, map_zero]
 
 end CFSG.RankThree.GF2n.Smith81.RootGenE5

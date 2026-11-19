@@ -77,12 +77,12 @@ private theorem transpGL_not_scalar (i j : Fin 6) (hij : i ≠ j) :
       Matrix.GeneralLinearGroup.scalar (Fin 6) c := by
   rintro ⟨c, hc⟩
   have h := congrArg (fun g : GL (Fin 6) F4 => (g : Matrix (Fin 6) (Fin 6) F4) i j) hc
-  rw [transpGL_apply, Equiv.swap_apply_left, if_pos rfl,
+  rw [transpGL_apply, Equiv.swap_apply_left, ite_eq_left rfl,
     Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply,
     Matrix.diagonal_apply_ne _ hij] at h
   exact one_ne_zero h
 
-private theorem diagonal_mul_transpGL (d : Fin 6 → F4) {i j : Fin 6} (hij : i ≠ j)
+private theorem diagonal_mul_transpGL (d : Fin 6 → F4) {i j : Fin 6} (_hij : i ≠ j)
     (hd : d i = d j) :
     Matrix.diagonal d * ((transpGL i j : GL (Fin 6) F4) : Matrix (Fin 6) (Fin 6) F4) =
       ((transpGL i j : GL (Fin 6) F4) : Matrix (Fin 6) (Fin 6) F4) * Matrix.diagonal d := by
@@ -97,14 +97,14 @@ private theorem diagonal_mul_transpGL (d : Fin 6 → F4) {i j : Fin 6} (hij : i 
   ext a b
   rw [Matrix.diagonal_mul, Matrix.mul_diagonal, transpGL_apply]
   by_cases h : Equiv.swap i j a = b
-  · rw [if_pos h, mul_one, one_mul, ← h, hda]
-  · rw [if_neg h, mul_zero, zero_mul]
+  · rw [ite_eq_left h, mul_one, one_mul, ← h, hda]
+  · rw [ite_eq_right h, mul_zero, zero_mul]
 
 private theorem transpGL_comm_of_blocks {d : Fin 6 → F4} {D : GL (Fin 6) F4}
     (hD : (D : Matrix (Fin 6) (Fin 6) F4) = Matrix.diagonal d)
-    {i j : Fin 6} (hij : i ≠ j) (hd : d i = d j) {y : M6} (hy : y ∈ CenD D)
+    {i j : Fin 6} (_hij : i ≠ j) (hd : d i = d j) {y : M6} (hy : y ∈ CenD D)
     (hyid : ∀ a b : Fin 6, d a = d i → d b = d i → mM6 y a b = if a = b then 1 else 0)
-    (hout : ∀ k : Fin 6, k ≠ i → k ≠ j → d k ≠ d i) :
+    (_hout : ∀ k : Fin 6, k ≠ i → k ≠ j → d k ≠ d i) :
     mM6 y * ((transpGL i j : GL (Fin 6) F4) : Matrix (Fin 6) (Fin 6) F4) =
       ((transpGL i j : GL (Fin 6) F4) : Matrix (Fin 6) (Fin 6) F4) * mM6 y := by
   have hswap : ∀ k : Fin 6, Equiv.swap i j (Equiv.swap i j k) = k := by
@@ -122,10 +122,10 @@ private theorem transpGL_comm_of_blocks {d : Fin 6 → F4} {D : GL (Fin 6) F4}
       Matrix (Fin 6) (Fin 6) F4)) a b = mM6 y a (Equiv.swap i j b) := by
     intro a b
     rw [Matrix.mul_apply, Finset.sum_eq_single (Equiv.swap i j b)]
-    · rw [transpGL_apply, if_pos (hswap b), mul_one]
+    · rw [transpGL_apply, ite_eq_left (hswap b), mul_one]
     · intro k _ hk
       rw [transpGL_apply]
-      rw [if_neg, mul_zero]
+      rw [ite_eq_right, mul_zero]
       intro hkb
       exact hk (by rw [← hkb, hswap])
     · intro hk
@@ -134,10 +134,10 @@ private theorem transpGL_comm_of_blocks {d : Fin 6 → F4} {D : GL (Fin 6) F4}
       Matrix (Fin 6) (Fin 6) F4) * mM6 y) a b = mM6 y (Equiv.swap i j a) b := by
     intro a b
     rw [Matrix.mul_apply, Finset.sum_eq_single (Equiv.swap i j a)]
-    · rw [transpGL_apply, if_pos rfl, one_mul]
+    · rw [transpGL_apply, ite_eq_left rfl, one_mul]
     · intro k _ hk
       rw [transpGL_apply]
-      rw [if_neg, zero_mul]
+      rw [ite_eq_right, zero_mul]
       intro hka
       exact hk hka.symm
     · intro hk
@@ -155,8 +155,8 @@ private theorem transpGL_comm_of_blocks {d : Fin 6 → F4} {D : GL (Fin 6) F4}
         · intro h; rw [h, hswap]
         · intro h; rw [← h, hswap]
       by_cases h : a = Equiv.swap i j b
-      · rw [if_pos h, if_pos (hiff.mp h)]
-      · rw [if_neg h, if_neg (fun hh => h (hiff.mpr hh))]
+      · rw [ite_eq_left h, ite_eq_left (hiff.mp h)]
+      · rw [ite_eq_right h, ite_eq_right (fun hh => h (hiff.mpr hh))]
     · rw [hzero a (Equiv.swap i j b) (by rw [hswapd b, hda]; exact fun h => hdb h.symm),
         hzero (Equiv.swap i j a) b (by rw [hswapd a, hda]; exact fun h => hdb h.symm)]
   · by_cases hdb : d b = d i
@@ -275,13 +275,13 @@ theorem exists_perfect_lift_CenD (ĝ : Gu) {J : Subgroup S6}
       show pi6 x ∈ J
       rw [hxπ]
       exact k.2
-    haveI : Group.IsPerfect ↥J := Subgroup.isPerfect_iff.mpr hJperf
+    have : Group.IsPerfect ↥J := Subgroup.isPerfect_iff.mpr hJperf
     obtain ⟨K', hK'map, hK'perf, -⟩ := i7_exists_perfect_cover φ hφ
     refine ⟨K'.map Psub.subtype, ?_, ?_, ?_⟩
     · intro x hx
       obtain ⟨y, -, rfl⟩ := Subgroup.mem_map.mp hx
       exact y.2.1
-    · haveI : Group.IsPerfect ↥K' := hK'perf
+    · have : Group.IsPerfect ↥K' := hK'perf
       exact Group.IsPerfect.map (H := K') Psub.subtype
     · apply le_antisymm
       · intro x hx
@@ -347,7 +347,7 @@ theorem pat4OfSmall_holds : Pat4OfSmall := by
         by_cases hij : i = j
         · subst hij
           simp [hconst i]
-        · simp [Matrix.diagonal_apply_ne _ hij, Matrix.one_apply_ne hij]
+        · simp [Matrix.diagonal_apply_ne _ hij]
       refine ⟨Units.mk0 (d 0) hd0, ?_⟩
       rw [hĝ_eq, hDs, (commute_scalar (Units.mk0 (d 0) hd0) (P : GL (Fin 6) F4)).eq,
         mul_inv_cancel_right]
@@ -365,7 +365,7 @@ theorem pat4OfSmall_holds : Pat4OfSmall := by
           simp
         rw [← hR, ← hmap]
         exact Subgroup.map_mono hJ'le
-      haveI : Group.IsPerfect ↥J' := hJ'perf
+      have : Group.IsPerfect ↥J' := hJ'perf
       have hperf'' : ⁅J'.map (conjM6 P⁻¹).toMonoidHom,
           J'.map (conjM6 P⁻¹).toMonoidHom⁆ = J'.map (conjM6 P⁻¹).toMonoidHom :=
         Subgroup.isPerfect_iff.mp (Group.IsPerfect.map (H := J') (conjM6 P⁻¹).toMonoidHom)
@@ -553,7 +553,7 @@ theorem pat4Inv_holds : Pat4Inv := by
         simp
       rw [← hR, ← hmap]
       exact Subgroup.map_mono hJ'le
-    haveI : Group.IsPerfect ↥J' := hJ'perf
+    have : Group.IsPerfect ↥J' := hJ'perf
     have hJ''perf : ⁅J'.map (conjM6 P⁻¹).toMonoidHom,
         J'.map (conjM6 P⁻¹).toMonoidHom⁆ = J'.map (conjM6 P⁻¹).toMonoidHom :=
       Subgroup.isPerfect_iff.mp (Group.IsPerfect.map (H := J') (conjM6 P⁻¹).toMonoidHom)

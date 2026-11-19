@@ -71,7 +71,7 @@ theorem iSup_eq_top_or_isPGroup [Finite X] {q : ℕ}
 
 theorem isPGroup_prod_of {A B : Type} [Group A] [Group B] [Finite A] [Finite B]
     (hA : IsPGroup 2 A) (hB : IsPGroup 2 B) : IsPGroup 2 (A × B) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨a, ha⟩ := IsPGroup.iff_card.mp hA
   obtain ⟨b, hb⟩ := IsPGroup.iff_card.mp hB
   exact IsPGroup.of_card (n := a + b) (by rw [Nat.card_prod, ha, hb, pow_add])
@@ -177,7 +177,7 @@ theorem fst_injective_of_comap_inr_eq_bot {S : Subgroup (X × X)}
 theorem iso_of_both_top [IsSimpleGroup X] {S : Subgroup (X × X)}
     (h1 : S.map (MonoidHom.fst X X) = ⊤) (h2 : S.map (MonoidHom.snd X X) = ⊤) (htop : S ≠ ⊤) :
     Nonempty (↥S ≃* X) := by
-  haveI := normal_comap_inl h1
+  have := normal_comap_inl h1
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (S.comap (MonoidHom.inl X X)) with
     hbot | hall
   · refine ⟨MulEquiv.ofBijective ((MonoidHom.snd X X).comp S.subtype)
@@ -204,7 +204,7 @@ theorem iso_of_fst_top [IsSimpleGroup X] (hnot : ¬ IsPGroup 2 X) {S : Subgroup 
     (h1 : S.map (MonoidHom.fst X X) = ⊤) (h2 : IsPGroup 2 ↥(S.map (MonoidHom.snd X X)))
     (hO2 : ∀ R : Subgroup (X × X), R ≤ S → (∀ s ∈ S, ∀ r ∈ R, s * r * s⁻¹ ∈ R) →
       IsPGroup 2 R → R = ⊥) : Nonempty (↥S ≃* X) := by
-  haveI := normal_comap_inl h1
+  have := normal_comap_inl h1
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (S.comap (MonoidHom.inl X X)) with
     hbot | hall
   · exfalso
@@ -276,7 +276,7 @@ theorem iso_of_snd_top [IsSimpleGroup X] (hnot : ¬ IsPGroup 2 X) {S : Subgroup 
     (h2 : S.map (MonoidHom.snd X X) = ⊤) (h1 : IsPGroup 2 ↥(S.map (MonoidHom.fst X X)))
     (hO2 : ∀ R : Subgroup (X × X), R ≤ S → (∀ s ∈ S, ∀ r ∈ R, s * r * s⁻¹ ∈ R) →
       IsPGroup 2 R → R = ⊥) : Nonempty (↥S ≃* X) := by
-  haveI := normal_comap_inr h2
+  have := normal_comap_inr h2
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (S.comap (MonoidHom.inr X X)) with
     hbot | hall
   · exfalso
@@ -457,8 +457,8 @@ theorem aut_prod_factors [IsSimpleGroup X] (hX : ∃ a b : X, a * b ≠ b * a)
       exact this
   have hinj : Function.Injective (Subgroup.map α.toMonoidHom : Subgroup (X × X) → _) :=
     Subgroup.map_injective α.injective
-  haveI : F₁.Normal := Subgroup.prod_normal _ _
-  haveI : F₂.Normal := Subgroup.prod_normal _ _
+  have : F₁.Normal := Subgroup.prod_normal _ _
+  have : F₂.Normal := Subgroup.prod_normal _ _
   rcases hcases F₁ inferInstance h1ne h1top with e1 | e1 <;>
     rcases hcases F₂ inferInstance h2ne h2top with e2 | e2
   · exact absurd (hinj (e1.trans e2.symm)) h12
@@ -602,9 +602,10 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
 theorem sl2_isSimpleGroup (h4 : 4 ≤ Nat.card K) :
     IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) K) := by
-  haveI := CFSG.Quasithin.H13.NQRigid.isSimpleGroup_statedSL_two_charTwo (F := K) h4
+  have := CFSG.Quasithin.H13.NQRigid.isSimpleGroup_statedSL_two_charTwo (F := K) h4
   exact (CFSG.Assembly.LowTwoRank.specialLinearGroupEquivStatedSL 2 K).isSimpleGroup
 
+omit [Finite K] [CharP K 2] in
 theorem sl2_nonabelian :
     ∃ a b : Matrix.SpecialLinearGroup (Fin 2) K, a * b ≠ b * a := by
   refine ⟨Matrix.SpecialLinearGroup.transvection sl2Idx01 1,
@@ -617,14 +618,14 @@ theorem sl2_nonabelian :
 theorem sl2_not_isPGroup (h4 : 4 ≤ Nat.card K) :
     ¬ IsPGroup 2 (Matrix.SpecialLinearGroup (Fin 2) K) := by
   intro hP
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := sl2_finite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := sl2_finite K
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card).mp hP
   rw [sl2_card K] at hn
   have hdvd : Nat.card K ^ 2 - 1 ∣ 2 ^ n :=
     ⟨Nat.card K, by rw [← hn, mul_comm]⟩
   obtain ⟨k, -, hk⟩ := (Nat.dvd_prime_pow Nat.prime_two).mp hdvd
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   obtain ⟨m, -, hm⟩ := FiniteField.card K 2
   have hq : Nat.card K = 2 ^ (m : ℕ) := by
     rw [Nat.card_eq_fintype_card]

@@ -236,7 +236,7 @@ theorem isCyclic_and_card_dvd_of_isPGroup_two_semidirectProduct
     exact Nat.Coprime.pow_right m (Nat.coprime_two_right.mpr hOdd)
   have hdisj : Disjoint f.ker H := by
     rw [disjoint_iff]
-    exact Subgroup.inf_eq_bot_of_coprime hcop
+    exact (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcop))
   have hker_bot : f.ker.subgroupOf H = ⊥ :=
     Subgroup.subgroupOf_eq_bot.mpr hdisj
   have hg_inj : Function.Injective (f.domRestrict H) := by

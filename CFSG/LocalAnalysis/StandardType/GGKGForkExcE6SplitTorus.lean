@@ -113,7 +113,7 @@ theorem exists_pgroup_le_splitTorus
         baseChangeGL (algebraMap K (AlgebraicClosure K)) (x : ModGL .E6 K) ∈
           twistedTorusOf (1 : ModGL .E6 (AlgebraicClosure K)) (Units.map (entrywiseHom Fr)) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   let L := AlgebraicClosure K
   set a := padicValNat p (Nat.card K - 1) with ha
   have hq_ne : Nat.card K - 1 ≠ 0 := by
@@ -122,7 +122,7 @@ theorem exists_pgroup_le_splitTorus
   have hpa_dvd : p ^ a ∣ Nat.card K - 1 := by
     rw [ha]; exact pow_padicValNat_dvd
   have hpa_ne : p ^ a ≠ 0 := pow_ne_zero _ hp.ne_zero
-  haveI : NeZero (p ^ a) := ⟨hpa_ne⟩
+  have : NeZero (p ^ a) := ⟨hpa_ne⟩
   let V := rootsOfUnity (p ^ a) K
   have hcardV : Nat.card V = p ^ a :=
     card_rootsOfUnity_of_dvd_card_sub_one hpa_dvd

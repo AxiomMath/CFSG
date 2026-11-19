@@ -55,8 +55,8 @@ theorem exists_inner_on_fixSubgroup_of_pump {p : ℕ} (hp : p.Prime) {S : Type} 
       ∃ x ∈ D ⊓ innerAut S, x ≠ 1)
     {β' : MulAut S} (hβ' : β' ^ p = 1) (hcomm : β' * β = β * β') :
     ∃ s ∈ fixSubgroup β, ∀ x ∈ fixSubgroup β, β' x = s * x * s⁻¹ := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (MulAut S) := MulEquiv.finite_left
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (MulAut S) := MulEquiv.finite_left
   have hinj := conj_injective_of_center_bot hZ
   have hβp : β ^ p = 1 := hβ ▸ pow_orderOf_eq_one β
   have hzfix : ∀ (k : ℤ) (x : S), β x = x → (β ^ k) x = x := by

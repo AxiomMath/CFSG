@@ -75,7 +75,7 @@ theorem card_U0 : Nat.card U0 = 32 := by
 @[expose] def zc : U0 := ⟨⟨W4, 1⟩, W4_mem_W3, Or.inl rfl⟩
 
 theorem center_U0 : Subgroup.center U0 = Subgroup.zpowers zc := by
-  letI : DecidableEq U0 := fun x y =>
+  let : DecidableEq U0 := fun x y =>
     if h : (x : Mc).left = (y : Mc).left ∧ (x : Mc).right = (y : Mc).right then
       isTrue (Subtype.ext (SemidirectProduct.ext h.1 h.2))
     else

@@ -54,7 +54,7 @@ theorem twE6Split_frame
     (m := 2 ^ n - 1) CartanMatrix.F₄ (by
       have hdet : CartanMatrix.F₄.det = 1 := by decide +kernel
       rw [hdet]
-      simpa using (isUnit_one : IsUnit (1 : ZMod (2 ^ n - 1))))
+      simp)
   let E0 : Subgroup ↥(graphFixedRootGroup TwistTag.E6 K σ) :=
     (ExcFrames.twE6SplitFrameHom σ ζ hζ hζσ).range
   let Tsc : Subgroup ↥(graphFixedRootGroup TwistTag.E6 K σ) := E6RelativeTorus.fullTorus σ
@@ -164,7 +164,7 @@ theorem twE6Split_frame
     rcases hu_eq j with h | h
     · rw [h]
       simp
-    · rw [h, if_neg (by decide : ¬ ((2 : ℕ) = 1)), ← pow_mul,
+    · rw [h, ite_eq_right (by decide : ¬ ((2 : ℕ) = 1)), ← pow_mul,
         show 2 ^ (n - 1) * 2 = 2 ^ n by rw [hpow, mul_comm], hpow_card]
   have hΨ_inj : Function.Injective Ψ := by
     rw [injective_iff_map_eq_one]
@@ -268,7 +268,7 @@ theorem twE6Split_frame
   refine ⟨nn, w, ?_, ?_, hw⟩
   · intro k s
     have h := E6RelativeWeyl.nNative_conj (σ := σ) (hp := hp) (hζσ := hζσ)
-      (hζo := hζo) (hζ := hζ) (a := κ k) (s := s)
+      (_hζo := hζo) (hζ := hζ) (a := κ k) (s := s)
     simpa only [nn, E6RelativeWeyl.stdFrame] using h
   · intro k
     exact hwn k

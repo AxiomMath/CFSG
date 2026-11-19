@@ -22,7 +22,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem primeCoreOf_eq_bot_of_three_group {G : Type} [Group G] [Finite G] {Q : Subgroup G}
     (hQ : IsPGroup 3 Q) : GLAPPrimeCoreOf 3 Q = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hQ
   have h1 : GLAPPrimeCore 3 ↥Q = ⊥ := by
     show CFSG.pPrimeCore 3 ↥Q = ⊥
@@ -36,7 +36,7 @@ theorem primeCoreOf_eq_bot_of_three_group {G : Type} [Group G] [Finite G] {Q : S
 
 theorem su32InterAt_holds (G : Type) [Group G] [Finite G] : Su32InterAt G := by
   intro X X' L J b d y hL hJ hcatL hcatJ hFOb hFOd hb3 hd3 hIeq hyI hy3 hy1 hyc hyL hyJ
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hlayle : ∀ Y : Subgroup G, GLAPLayer 3 Y ≤ Y := fun Y => sSup_le fun K hK => hK.1
   obtain ⟨γ, hγ3, hff, hcardF, ψ, hψs, hψk, hIL⟩ :=
     ipart_fix_model X L b hL hcatL hFOb hb3 (Ipart 3 L b) rfl

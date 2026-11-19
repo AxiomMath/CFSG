@@ -61,7 +61,7 @@ theorem input14_13Spor_of_inputK (h : InputSporDownChevK) : Input14_13SporK := b
     · exact Or.inr (Or.inr (Or.inr ⟨h1, h2, Claims1116b.isLpType_congr eJ h3⟩))
   · exfalso
     obtain ⟨e2⟩ := he2
-    haveI := hsimple
+    have := hsimple
     have hO : GLAPPrimeCore p (PSimple p J1) = ⊥ :=
       CFSG.LocalAnalysis.GLTheoremA.glaPPrimeCore_pSimple_eq_bot hp hJ1
     have hT := Claims1116b.glaPComponent_top_fixSubgroup_one hnonab hO
@@ -185,7 +185,7 @@ theorem type_splitK (hnl : Prop1116Design.InputAltNotLie)
     IsLieChar (· = 2) K ∨ IsLieChar (· = 5) K ∨
       IsSporType .HS (K ⧸ Subgroup.center K) ∨ IsSporType .M23 (K ⧸ Subgroup.center K) := by
   have hq := hK.1
-  haveI : IsSimpleGroup (K ⧸ Subgroup.center K) := hq.2
+  have : IsSimpleGroup (K ⧸ Subgroup.center K) := hq.2
   have hnab := CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian K hq
   have hx3 : x ^ 3 = 1 := hx ▸ pow_orderOf_eq_one x
   have hL' : GLAPComponent 3 (fixSubgroup x) L := by rwa [Inputs256b.fixedSub_eq] at hL
@@ -242,7 +242,7 @@ theorem good2319_of_pumpup_alt5K (hnl : Prop1116Design.InputAltNotLie)
   obtain ⟨σ, hσ3, J₁, hJ₁, ⟨e⟩⟩ := hP
   obtain ⟨e5⟩ := hJ5
   have hq := hH.1
-  haveI : IsSimpleGroup (H ⧸ Subgroup.center H) := hq.2
+  have : IsSimpleGroup (H ⧸ Subgroup.center H) := hq.2
   have hnab := CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian H hq
   have hJ₁' : GLAPComponent 3 (fixSubgroup σ) J₁ := by rwa [Inputs256b.fixedSub_eq] at hJ₁
   obtain ⟨hI, ⟨eJ⟩⟩ := Inputs1415.center_transfer Nat.prime_three σ hJ₁'
@@ -327,7 +327,7 @@ theorem good2319_of_pumpup_chev5K (hKD : ∀ r : ℕ, CFSG.LocalAnalysis.GLTheor
     (hP : Prop1310a5b.IsPumpupOrSelf J H) : Prop1310a5b.Good2319 H := by
   obtain ⟨σ, hσ3, J₁, hJ₁, ⟨e⟩⟩ := hP
   have hq := hH.1
-  haveI : IsSimpleGroup (H ⧸ Subgroup.center H) := hq.2
+  have : IsSimpleGroup (H ⧸ Subgroup.center H) := hq.2
   have hnab := CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian H hq
   have hJ₁' : GLAPComponent 3 (fixSubgroup σ) J₁ := by rwa [Inputs256b.fixedSub_eq] at hJ₁
   obtain ⟨hI, ⟨eJ⟩⟩ := Inputs1415.center_transfer Nat.prime_three σ hJ₁'
@@ -446,7 +446,7 @@ theorem comp_le_M'K (hI183 : Prop115.Input18_3Gen) (hI182 : Lemma1313.Input18_3T
     (hgood : Prop1310a5b.IsAltOrChev (barOf 3 K0) ∧ ∀ (H : Type) [Group H] [Finite H],
       CFSG.LocalAnalysis.GLTheoremA.IsKHat H → CFSG.Open.IsKGroup H → GLAPPrimeCore 3 H = ⊥ →
         Prop1310a5b.IsPumpupOrSelf (barOf 3 K0) H → Prop1310a5b.Good2319 H) : K0 ≤ M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : Nat.Prime 3 := Nat.prime_three
   have hu1 : u ≠ 1 := by
     rintro rfl
@@ -502,7 +502,7 @@ theorem tfam_le_MK (c : Claims1310.Cfg' G m B M L0 L L0b d b u0) (hI183 : Prop11
       ∀ (H : Type) [Group H] [Finite H], CFSG.LocalAnalysis.GLTheoremA.IsKHat H → CFSG.Open.IsKGroup H →
         GLAPPrimeCore 3 H = ⊥ → Prop1310a5b.IsPumpupOrSelf (barOf 3 J) H → Prop1310a5b.Good2319 H)
     {K0 : Subgroup G} (hK0 : K0 ∈ c.Tfam S) : K0 ≤ M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨u, hu, hne, hK0c, hmem⟩ := hK0
   have huB : u ∈ B := c.hU1B hu
   have hu1 : u ≠ 1 := by
@@ -532,7 +532,7 @@ theorem tfam_le_MK (c : Claims1310.Cfg' G m B M L0 L L0b d b u0) (hI183 : Prop11
 theorem false_of_inputsK (c : Claims1310.Cfg' G m B M L0 L L0b d b u0) (hI25 : Input25_6A5K)
     (hI183 : Prop115.Input18_3Gen) (hI182 : Lemma1313.Input18_3Two)
     (hDiag : Lemma1313Z.Input18_3DiagZ) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hKL : CFSG.Open.IsKGroup (barOf 3 L) :=
     ((Prop1310a5b.isKGroup_centralizer_of_standing c.standing c.hdne).of_le c.hLc.1).quotient _
   obtain ⟨S, hS0, hS1, hS2, hS3⟩ := hI25 (barOf 3 L) c.hKhat hKL
@@ -587,7 +587,7 @@ theorem prop1310_a5_of_MK (h1312 : Lemma1312Statement) (h1313 : Lemma1313Stateme
   have h139b' := h139b
   obtain ⟨hp3, hall⟩ := h139b
   subst hp3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hS : GLStanding G m 3 := h.standing
   obtain ⟨U, hU, -⟩ := h1312 h
   obtain ⟨⟨b, hb⟩, hb1⟩ := Subgroup.ne_bot_iff_exists_ne_one.1 hU.2.2.2
@@ -686,8 +686,8 @@ theorem inputSporDownChev_of_rowsK
       CFSG.Open.IsKGroup (TauCeti.CFSGIndex.sporadic s).Group → Claims1116c.SporDownRow s p) :
     InputSporDownChevK := by
   intro S _ _ hS hnc p hp hp2 s hs hK α hα I hI q hq hq2 hqp hchev
-  haveI := hS
-  haveI : Fact p.Prime := ⟨hp⟩
+  have := hS
+  have : Fact p.Prime := ⟨hp⟩
   have hα1 : α ≠ 1 := by
     rintro rfl
     rw [Claims1116b.fixSubgroup_one_eq_top] at hI
@@ -773,8 +773,8 @@ theorem inputSporDownChev3_of_rowsK
     (hM : CFSG.Open.IsKGroup (TauCeti.CFSGIndex.sporadic .M).Group → Claims1116c.SporDownRow .M 3) :
     InputSporDownChev3K := by
   intro S _ _ hS hnc s hs hK α hα I hI q hq hq2 hq3 hchev
-  haveI := hS
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := hS
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hα1 : α ≠ 1 := by
     rintro rfl
     rw [Claims1116b.fixSubgroup_one_eq_top] at hI

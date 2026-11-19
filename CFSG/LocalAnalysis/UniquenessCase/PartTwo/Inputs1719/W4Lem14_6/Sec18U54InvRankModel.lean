@@ -43,7 +43,7 @@ theorem eprod5_add {M : Type*} [Group M] (e : Fin 3 → M)
 theorem eprod5_single {M : Type*} [Group M] (e : Fin 3 → M) (j : Fin 3) :
     eprod5 e (Pi.single j 1) = e j := by
   have hv1 : (1 : ZMod 5).val = 1 := rfl
-  fin_cases j <;> simp [eprod5, Pi.single_apply, hv1]
+  fin_cases j <;> simp [eprod5, hv1]
 
 theorem amap_add (i : Fin 4) (c c' : Fin 3 → ZMod 5) :
     Amap i (c + c') = Amap i c + Amap i c' := by
@@ -53,12 +53,12 @@ theorem amap_add (i : Fin 4) (c c' : Fin 3 → ZMod 5) :
 theorem amap_nsmul (i : Fin 4) (n : ℕ) (c : Fin 3 → ZMod 5) :
     Amap i (n • c) = n • Amap i c := by
   funext j
-  fin_cases i <;> fin_cases j <;> simp [Amap, nsmul_eq_mul] <;> ring
+  fin_cases i <;> fin_cases j <;> simp [Amap, nsmul_eq_mul]
 
 theorem decomp5 (c : Fin 3 → ZMod 5) :
     c = (c 0).val • Pi.single 0 1 + (c 1).val • Pi.single 1 1 + (c 2).val • Pi.single 2 1 := by
   funext j
-  fin_cases j <;> simp [Pi.single_apply, nsmul_eq_mul, -ZMod.natCast_val, ZMod.natCast_zmod_val]
+  fin_cases j <;> simp [nsmul_eq_mul, -ZMod.natCast_val, ZMod.natCast_zmod_val]
 
 theorem conj_eq_of_single {M : Type*} [Group M] (φ : Multiplicative (Fin 3 → ZMod 5) →* M)
     (x : M) (i : Fin 4)
@@ -122,7 +122,7 @@ theorem mat_su16 (M : Matrix (HypIndex 2 1) (HypIndex 2 1) GF16)
     mat (su16 h ψ M hu hd) = tr16 ψ M := rfl
 
 theorem mat_pow' (x : hypSU h 2 1) (n : ℕ) : mat (x ^ n) = mat x ^ n := by
-  simp [mat, Subgroup.coe_pow, Units.val_pow_eq_pow_val]
+  simp [mat, Units.val_pow_eq_pow_val]
 
 end Transport
 
@@ -132,8 +132,8 @@ theorem exists_torusPackage_hyp {K : Type} [Field K] (h : UnitaryFieldData 2 2 K
       ∀ l : hypPSU h 2 1, orderOf l = 2 → ∃ x : hypPSU h 2 1,
         l * (x * φ (.ofAdd cS) * x⁻¹) * l⁻¹ = (x * φ (.ofAdd cS) * x⁻¹)⁻¹ := by
   classical
-  haveI : Finite K := h.finite
-  letI : Fintype K := Fintype.ofFinite K
+  have : Finite K := h.finite
+  let : Fintype K := Fintype.ofFinite K
   have hK16 : Fintype.card K = 16 := by
     rw [Fintype.card_eq_nat_card, h.card]
     norm_num
@@ -282,8 +282,8 @@ theorem exists_hypPSU_equiv_of_lieModel {S : Type} [Group S]
       Nonempty (hypPSU h 2 1 ≃* S) := by
   rcases hS with ⟨-, hcl⟩ | ⟨hn, -⟩ | ⟨hn, -⟩ | ⟨hn, -⟩
   · obtain ⟨-, K, hfield, hfinite, hcard, ⟨e⟩⟩ := hcl
-    letI := hfield
-    letI := hfinite
+    let := hfield
+    let := hfinite
     have h : UnitaryFieldData 2 2 K :=
       ⟨Nat.prime_two, by norm_num, by rw [hcard, ← pow_mul, mul_comm]⟩
     obtain ⟨R, hR⟩ := exists_isHypTransport (h := h) (r := 2) (ε := 1)
@@ -297,7 +297,7 @@ theorem exists_torusPackage {S : Type} [Group S] (hS : LieModel S .PSU 5 2 2) :
       ∀ l : S, orderOf l = 2 → ∃ x : S,
         l * (x * φ (.ofAdd cS) * x⁻¹) * l⁻¹ = (x * φ (.ofAdd cS) * x⁻¹)⁻¹ := by
   obtain ⟨K, hfield, h, ⟨e⟩⟩ := exists_hypPSU_equiv_of_lieModel hS
-  letI := hfield
+  let := hfield
   obtain ⟨φ, g, hrel, hs1, hinv⟩ := exists_torusPackage_hyp h
   refine ⟨e.toMonoidHom.comp φ, fun i => e (g i), fun i c => ?_, ?_, fun l hl => ?_⟩
   · simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, ← map_inv, ← map_mul, hrel]

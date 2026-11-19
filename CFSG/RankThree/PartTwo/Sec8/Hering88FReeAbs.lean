@@ -41,11 +41,11 @@ theorem false_of_ree_abs {G : Type} [Group G] [Finite G] {E Y I' : Subgroup G} {
   set C := barCentralizer (Subgroup.zpowers a) E with hCdef
   have hperfF : Group.IsPerfect (ReeTag.F4.reeGamma k' b') :=
     ⟨ReeTag.commutator_reeGamma_eq_top (t := ReeTag.F4) hb1 hk'⟩
-  haveI hsimpF : IsSimpleGroup (ReeTag.F4.reeGamma k' b') :=
+  have hsimpF : IsSimpleGroup (ReeTag.F4.reeGamma k' b') :=
     CFSG.SignalizerFunctorTheorem.CatalogBridge.isSimpleGroup_reeGamma_F4 hb1 hk'
-  haveI hCperf : Group.IsPerfect ↥C :=
+  have hCperf : Group.IsPerfect ↥C :=
     Group.IsPerfect.ofSurjective (f := φ.symm.toMonoidHom) φ.symm.surjective
-  haveI hCsimple : IsSimpleGroup ↥C := φ.isSimpleGroup
+  have hCsimple : IsSimpleGroup ↥C := φ.isSimpleGroup
   have hCres : inSubgroup perfectResidual C = C :=
     inSubgroup_perfectResidual_of_isPerfect (R := C) hCperf
   have hπE : imageModTheta E I' = C := by
@@ -53,9 +53,9 @@ theorem false_of_ree_abs {G : Type} [Group G] [Finite G] {E Y I' : Subgroup G} {
       imageModTheta_self, top_inf_eq]
     exact hCres
   set R := barCentralizer (Subgroup.zpowers x) Y with hRdef
-  haveI hRsimple : IsSimpleGroup ↥(inSubgroup perfectResidual R) :=
+  have hRsimple : IsSimpleGroup ↥(inSubgroup perfectResidual R) :=
     Hering88E.isSimpleGroup_perfectResidual_of_isoGTwoEven hm2 hG2
-  haveI hRperf : Group.IsPerfect ↥(inSubgroup perfectResidual R) := Item87Proof.isPerfect_residual R
+  have hRperf : Group.IsPerfect ↥(inSubgroup perfectResidual R) := Item87Proof.isPerfect_residual R
   have hθE : NoThetaNormal ↥(imageModTheta E I') :=
     Item87Proof.NoThetaNormal.of_mulEquiv (MulEquiv.subgroupCongr hπE)
       noThetaNormal_of_isSimpleGroup_of_isPerfect

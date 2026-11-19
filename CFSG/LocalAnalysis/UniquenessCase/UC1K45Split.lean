@@ -17,14 +17,17 @@ variable {E : Type} [Group E] [Finite E] {H Z : Subgroup E} [H.Normal] [Z.Normal
     E ⧸ Z →* Equiv.Perm (Fin 5) :=
   QuotientGroup.lift Z η (by rw [hker]; exact hZH)
 
+omit [Finite E] [H.Normal] in
 theorem quotientEta_mk (hZH : Z ≤ H) (hker : η.ker = H) (e : E) :
     quotientEta hZH hker (QuotientGroup.mk' Z e) = η e := rfl
 
+omit [Finite E] [H.Normal] in
 theorem quotientEta_ker (hZH : Z ≤ H) (hker : η.ker = H) :
     (quotientEta hZH hker).ker = H.map (QuotientGroup.mk' Z) := by
   dsimp only [quotientEta]
   rw [QuotientGroup.ker_lift, hker]
 
+omit [Finite E] [H.Normal] in
 theorem quotientEta_range (hZH : Z ≤ H) (hker : η.ker = H)
     (hrange : η.range = alternatingGroup (Fin 5)) :
     (quotientEta hZH hker).range = alternatingGroup (Fin 5) := by
@@ -37,6 +40,7 @@ theorem quotientEta_range (hZH : Z ≤ H) (hker : η.ker = H)
   · rintro ⟨e, rfl⟩
     exact ⟨QuotientGroup.mk' Z e, by rw [quotientEta_mk]⟩
 
+omit [Finite E] [H.Normal] in
 theorem ker_subgroupMap_mk' :
     ((QuotientGroup.mk' Z).subgroupMap H).ker = Z.subgroupOf H := by
   rw [Subgroup.ker_subgroupMap, QuotientGroup.ker_mk' Z]
@@ -46,6 +50,7 @@ theorem ker_subgroupMap_mk' :
   QuotientGroup.liftEquiv (N := Z.subgroupOf H) (φ := (QuotientGroup.mk' Z).subgroupMap H)
     ((QuotientGroup.mk' Z).subgroupMap_surjective H) ker_subgroupMap_mk'.symm
 
+omit [Finite E] [H.Normal] in
 theorem quotientIso_mk (h : ↥H) :
     quotientIso (QuotientGroup.mk h) = (QuotientGroup.mk' Z).subgroupMap H h :=
   QuotientGroup.liftEquiv_mk (N := Z.subgroupOf H) (φ := (QuotientGroup.mk' Z).subgroupMap H)
@@ -55,11 +60,13 @@ theorem quotientIso_mk (h : ↥H) :
     ↥(H.map (QuotientGroup.mk' Z)) ≃* ↥(G6.coreMod 5) :=
   quotientIso.symm.trans θ
 
+omit [Finite E] [H.Normal] in
 theorem quotientTheta_mk (θ : (↥H ⧸ Z.subgroupOf H) ≃* ↥(G6.coreMod 5)) (h : ↥H) :
     quotientTheta θ ((QuotientGroup.mk' Z).subgroupMap H h) = θ (QuotientGroup.mk h) := by
   show θ (quotientIso.symm ((QuotientGroup.mk' Z).subgroupMap H h)) = θ (QuotientGroup.mk h)
   rw [← quotientIso_mk h, MulEquiv.symm_apply_apply]
 
+omit [Finite E] in
 theorem quotientTheta_conj (θ : (↥H ⧸ Z.subgroupOf H) ≃* ↥(G6.coreMod 5)) (hZH : Z ≤ H)
     (hker : η.ker = H)
     (hθ : ∀ (g : E) (h : ↥H), θ (QuotientGroup.mk (MulAut.conjNormal g h)) =
@@ -84,6 +91,7 @@ theorem quotientTheta_conj (θ : (↥H ⧸ Z.subgroupOf H) ≃* ↥(G6.coreMod 5
   rw [hv', hconj, quotientTheta_mk θ, quotientTheta_mk θ, quotientEta_mk]
   exact hθ a ⟨h, hhH⟩
 
+omit [Finite E] [H.Normal] in
 theorem comap_inf_eq (hZH : Z ≤ H) {K : Subgroup (E ⧸ Z)}
     (hVK : H.map (QuotientGroup.mk' Z) ⊓ K = ⊥) :
     K.comap (QuotientGroup.mk' Z) ⊓ H = Z := by
@@ -104,10 +112,11 @@ theorem comap_inf_eq (hZH : Z ≤ H) {K : Subgroup (E ⧸ Z)}
         MonoidHom.mem_ker.mp ((QuotientGroup.ker_mk' Z).symm ▸ hz)]
       exact K.one_mem, hZH hz⟩
 
+omit [Finite E] in
 theorem comap_sup_eq_top {K : Subgroup (E ⧸ Z)}
     (hsup : H.map (QuotientGroup.mk' Z) ⊔ K = ⊤) :
     K.comap (QuotientGroup.mk' Z) ⊔ H = ⊤ := by
-  haveI : (H.map (QuotientGroup.mk' Z)).Normal :=
+  have : (H.map (QuotientGroup.mk' Z)).Normal :=
     (inferInstance : H.Normal).map (QuotientGroup.mk' Z) (QuotientGroup.mk'_surjective Z)
   refine eq_top_iff.mpr ?_
   intro e _
@@ -127,7 +136,7 @@ theorem comap_sup_eq_top {K : Subgroup (E ⧸ Z)}
 theorem splitDelta5_holds : SplitDelta5 := by
   intro E _ _ H Z _ _ hZH η hker hrange θ hθ
   classical
-  haveI hV : (H.map (QuotientGroup.mk' Z)).Normal :=
+  have hV : (H.map (QuotientGroup.mk' Z)).Normal :=
     (inferInstance : H.Normal).map (QuotientGroup.mk' Z) (QuotientGroup.mk'_surjective Z)
   obtain ⟨K, hVKbot, hVKsup⟩ := exists_complement_of_delta5 (H.map (QuotientGroup.mk' Z))
     (quotientEta hZH hker) (quotientEta_ker hZH hker) (quotientEta_range hZH hker hrange)

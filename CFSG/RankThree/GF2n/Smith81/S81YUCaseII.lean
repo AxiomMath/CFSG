@@ -23,13 +23,14 @@ open scoped commutatorElement
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2]
 
+omit [Finite F] [CharP F 2] in
 private theorem isTransvec_tInv1_F : IsTransvec F (tInv1 F) := by
   have hk : ((tInv1 F : GL (Fin 6) F) : Matrix (Fin 6) (Fin 6) F) =
       1 + Matrix.vecMulVec (Pi.single 0 1) (Pi.single 1 1) := by
     rw [tInv1, transvGL_val, Matrix.transvection]
     congr 1
     ext p q
-    fin_cases p <;> fin_cases q <;> simp [Matrix.vecMulVec, Matrix.single_apply, Pi.single_apply]
+    fin_cases p <;> fin_cases q <;> simp [Matrix.vecMulVec, Pi.single_apply]
   have hu : (Pi.single 0 1 : Fin 6 → F) ≠ 0 := by
     intro h
     simpa using congrFun h 0
@@ -38,9 +39,10 @@ private theorem isTransvec_tInv1_F : IsTransvec F (tInv1 F) := by
     simpa using congrFun h 1
   have huφ : (Pi.single 1 1 : Fin 6 → F) ⬝ᵥ (Pi.single 0 1 : Fin 6 → F) = 0 := by
     rw [dotProduct_single]
-    simp [Pi.single_apply]
+    simp
   exact CFSG.RankThree.GF2n.Smith81.S81C.isTransvectionMat_of_vecMulVec hu hφ huφ hk
 
+omit [Finite F] in
 theorem isTransvec_tSU1 {σ : F ≃+* F} (hσ : IsUnitaryInvolution σ) {ω : F} (hω : ω + σ ω = 1) :
     IsTransvec F ((tSU1 hσ hω : SUid σ 6) : GL (Fin 6) F) := by
   have h := isTransvec_conj (c := (CFSG.RankThree.GF2n.Smith81.U6Cube.frameGL σ ω hω)⁻¹)
@@ -73,6 +75,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   {K : Type} [Field K] [Finite K] [CharP K 2] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ}
   {X : Subgroup G} {x : G}
 
+omit [Finite K] in
 theorem u6_caseII {f : ℕ} (hF : Nat.card F = (2 ^ f) ^ 2) (h4 : 4 ≤ 2 ^ f)
     (e : K ≃+* Fσ (unitaryInvolution F 2 f))
     {ψ : M₀.E ≃ₗ[K] E3UWspace (unitaryInvolution F 2 f) e}

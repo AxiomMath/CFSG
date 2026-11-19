@@ -137,13 +137,12 @@ theorem hfiM12_true :
       have hh := pinM.canon _ hj
       rw [CFSG.KC.L34KSnd.anyBelow_iff]
       refine ⟨M12C.H k, by rw [pts_size]; exact hj, ?_⟩
-      beta_reduce
       rw [pts_get' hj, CFSG.KC.L34KSnd.comp_unpack' hh cA, CFSG.KC.L34KSnd.comp_unpack' hx hh,
         CFSG.KC.L34KSnd.comp_unpack' hh hx, CFSG.KC.L34KSnd.comp_unpack' hax hh, e1, e2,
         Bool.and_eq_true, beq_iff_eq, beq_iff_eq]
       exact ⟨rfl, rfl⟩
     · left
-      exact eq_false_of_ne_true hP
+      exact _root_.Bool.eq_false_of_ne_true hP
   exact ⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨hE.2, g2⟩, hA.2⟩, g4⟩, hB.2⟩, g6⟩, g7⟩, g8⟩, g9⟩, g10⟩, g11⟩, g12⟩, g13⟩,
     g14⟩
 

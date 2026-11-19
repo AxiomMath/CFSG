@@ -22,8 +22,8 @@ theorem eOne_of_surjective_of_isPGroup_ker
     (hOne : CFSG.Quasithin.E1.EOne Γ (A.map π)) :
     CFSG.Quasithin.E1.EOne K A := by
   obtain ⟨p, hp, hp2, hoTwo, hne, hcomm, hcard⟩ := hOne
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hmap : (CFSG.pCore 2 K).map π = CFSG.pCore 2 Γ :=
     CFSG.map_pCore_eq_of_surjective_of_isPGroup_ker π hπ hker
   have hker_le : π.ker ≤ CFSG.pCore 2 K :=

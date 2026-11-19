@@ -9,6 +9,7 @@ namespace CFSG.Quasithin.H13.Abs523
 
 variable {V : Type} [CommGroup V] [Finite V]
 
+omit [Finite V] in
 theorem mem_join_form {𝒦V : Subgroup (MulAut V)} {vV : MulAut V}
     (hvN : vV ∈ Subgroup.normalizer (𝒦V : Set (MulAut V))) (hvv : vV * vV = 1)
     {x : MulAut V} (hx : x ∈ 𝒦V ⊔ Subgroup.zpowers vV) :
@@ -85,6 +86,7 @@ theorem isQuasisimple_of_simple_nonab (G : Type) [Group G] [IsSimpleGroup G]
     have := congrArg e heq
     simpa using this
 
+omit [Finite V] in
 theorem eq_one_of_commutes {𝒦V : Subgroup (MulAut V)} {vV : MulAut V}
     (hvN : vV ∈ Subgroup.normalizer (𝒦V : Set (MulAut V))) (hvv : vV * vV = 1)
     (hV2 : ∀ x : V, x ^ 2 = 1) [IsSimpleGroup ↥𝒦V] (hab : ¬ IsMulCommutative ↥𝒦V)

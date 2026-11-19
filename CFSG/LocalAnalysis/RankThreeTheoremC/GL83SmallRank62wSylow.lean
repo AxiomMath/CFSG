@@ -59,7 +59,7 @@ theorem sr630a_not_dvd_index {f : ℕ} (hfp : f.Prime) (hf2 : f ≠ 2) {F E : Su
     exact Q.not_dvd_index
   by_contra hne
   obtain ⟨n, hnQ, hnE, hnnE⟩ :=
-    sr628_exists_mem_normalizer_not_mem Q.isPGroup' (lt_of_le_of_ne hEQ hne)
+    sr628_exists_mem_normalizer_not_mem Q.isPGroup (lt_of_le_of_ne hEQ hne)
   have hnF : n ∈ normalizer (F : Set G) := by
     have key : ∀ g ∈ normalizer (E : Set G), ∀ e ∈ F, g * e * g⁻¹ ∈ F := by
       intro g hg e he
@@ -72,14 +72,14 @@ theorem sr630a_not_dvd_index {f : ℕ} (hfp : f.Prime) (hf2 : f ≠ 2) {F E : Su
     simpa [mul_assoc] using this
   have hHQ : zpowers n ⊔ F ≤ (Q : Subgroup G) :=
     sup_le (zpowers_le.mpr hnQ) (hFE.trans hEQ)
-  have hHp : IsPGroup f (zpowers n ⊔ F : Subgroup G) := Q.isPGroup'.to_le hHQ
+  have hHp : IsPGroup f (zpowers n ⊔ F : Subgroup G) := Q.isPGroup.to_le hHQ
   have hHN : zpowers n ⊔ F ≤ normalizer (F : Set G) :=
     sup_le (zpowers_le.mpr hnF) Subgroup.le_normalizer
   obtain ⟨a, haF, ha1, hcomm⟩ := sr630a_exists_central hHp le_sup_right hHN hFne
   have hna : n * a = a * n := hcomm n (Subgroup.mem_sup_left (mem_zpowers n))
   obtain ⟨m, hm⟩ := hiii a haF ha1 n ⟨hnF, mem_centralizer_singleton_iff.mpr hna⟩
   have hnC : n ∈ centralizer (F : Set G) := by
-    obtain ⟨k, hk⟩ := Q.isPGroup' ⟨n, hnQ⟩
+    obtain ⟨k, hk⟩ := Q.isPGroup ⟨n, hnQ⟩
     have hnk : n ^ (f ^ k) = 1 := by simpa using congrArg Subtype.val hk
     have h2 : Nat.Coprime 2 f := (Nat.coprime_primes Nat.prime_two hfp).mpr (Ne.symm hf2)
     have hcop : Nat.Coprime (2 ^ m) (orderOf n) :=
@@ -88,7 +88,7 @@ theorem sr630a_not_dvd_index {f : ℕ} (hfp : f.Prime) (hf2 : f ≠ 2) {F E : Su
     have := pow_mem hm j
     rwa [hj] at this
   have hE'Q : E ⊔ zpowers n ≤ (Q : Subgroup G) := sup_le hEQ (zpowers_le.mpr hnQ)
-  have hE'p : IsPGroup f (E ⊔ zpowers n : Subgroup G) := Q.isPGroup'.to_le hE'Q
+  have hE'p : IsPGroup f (E ⊔ zpowers n : Subgroup G) := Q.isPGroup.to_le hE'Q
   have heq := sr630a_eq_of_le_sylow hEC (sup_le hEC (zpowers_le.mpr hnC)) hEp hE'p hEs
     le_sup_left
   have hmem : n ∈ E ⊔ zpowers n := Subgroup.mem_sup_right (mem_zpowers n)

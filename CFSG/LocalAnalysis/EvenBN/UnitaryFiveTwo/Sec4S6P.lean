@@ -79,7 +79,7 @@ theorem Data.X₂_sup_F_le_centralizer_e₂ (d : Data G) :
 theorem eq_of_le_of_isPGroup_of_card {X : Type*} [Group X] [Finite X] {P T : Subgroup X}
     (hPT : P ≤ T) (hT : IsPGroup 2 ↥T) (hP : 2 ^ 6 ≤ Nat.card ↥P)
     (hX : Nat.card X ∣ 25920) : P = T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hT
   have hTdvd : Nat.card ↥T ∣ 25920 := (Subgroup.card_subgroup_dvd_card T).trans hX
   have hn6 : n ≤ 6 := by
@@ -154,7 +154,7 @@ include h hKU in
 theorem Data.Hyp.theta_component_mem (hf : d.IsUnitaryFactor K₀) {m a b : G}
     (hm : m ∈ d.D₁ ⊓ centralizer ({d.e₂} : Set G)) (ha : a ∈ K₀) (hb : b ∈ d.tc K₀)
     (hmab : m = a * b) : a * (d.t * a * d.t) ∈ d.X₂ ⊔ d.F := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set K' : Subgroup G := K₀ ⊔ d.tc K₀ with hK'
   set M : Subgroup G := d.D₁ ⊓ centralizer ({d.e₂} : Set G) with hM
   have hKK : d.K = K' := hf.K_eq_tc

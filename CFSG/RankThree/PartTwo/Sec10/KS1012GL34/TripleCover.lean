@@ -143,7 +143,7 @@ theorem perm_cond {i : Fin 6} {M : Matrix (Fin 3) (Fin 3) F4} (hdet : M.det = 1)
 theorem t7Perm_apply {i : Fin 6} {M : Matrix (Fin 3) (Fin 3) F4} (hdet : M.det = 1)
     (hM : stabilizes i M) (k : Fin 6) : t7Perm i M k = t7Idx i M k := by
   unfold t7Perm t7PermOf
-  rw [dif_pos (perm_cond hdet hM)]
+  rw [dite_eq_left (perm_cond hdet hM)]
   rfl
 
 theorem t7Det_eq (M : Matrix (Fin 3) (Fin 3) F4) : t7Det M = M.det := by
@@ -296,7 +296,7 @@ theorem t7Perm_eq_permLOf (i : Fin 6) (M : Matrix (Fin 3) (Fin 3) F4) :
 
 theorem toMat_scalMatL (c : F4) : toMat (scalMatL c) = c • (1 : Matrix (Fin 3) (Fin 3) F4) := by
   ext r s
-  fin_cases r <;> fin_cases s <;> simp [toMat, scalMatL, Matrix.one_apply]
+  fin_cases r <;> fin_cases s <;> simp [toMat, scalMatL]
 
 theorem mem_piL (i : Fin 6) (A : M3) : A ∈ piL i ↔ detL A = 1 ∧ stabilizes i (toMat A) := by
   unfold piL piLS slL
@@ -477,7 +477,7 @@ theorem t7KerElt_injective (i : Fin 6) : Function.Injective (t7KerElt i) := by
   have h3 := congrArg Subtype.val h2
   exact Subtype.ext h3
 
-theorem t7KerElt_surjective (hcheck : t7Check () = true) (i : Fin 6) :
+theorem t7KerElt_surjective (_hcheck : t7Check () = true) (i : Fin 6) :
     Function.Surjective (t7KerElt i) := by
   rintro ⟨g, hg⟩
   have hg1 : t7Hom i g = 1 := MonoidHom.mem_ker.mp hg
@@ -666,7 +666,7 @@ theorem isPerfect_P (hcheck : t7Check () = true) (i : Fin 6) : Group.IsPerfect �
 theorem t7Phi_ker (hcheck : t7Check () = true) (i : Fin 6) :
     (t7Phi hcheck i).ker = (t7Hom i).ker := by
   ext x
-  simp [t7Phi, MonoidHom.mem_ker, Subtype.ext_iff]
+  simp [t7Phi, MonoidHom.mem_ker]
 
 theorem t7Phi_surjective (hcheck : t7Check () = true) (i : Fin 6) :
     Function.Surjective (t7Phi hcheck i) := by

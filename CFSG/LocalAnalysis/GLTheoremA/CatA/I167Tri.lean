@@ -23,7 +23,7 @@ theorem false_of_triality {Ω : Type} [Group Ω] [Finite Ω] {p : ℕ} {B X D J 
     (hsplit : HalfSplit16At p X ∨ ∃ d ∈ D, FieldOn p d X)
     {x : Ω} (hxD : x ∈ D)
     (hnf : ∀ d ∈ D, ¬ FieldOn p d X) (hnon : NonInnDiag p x X) (hp3 : p = 3)
-    (htri : catalogIs (PSimple 3 X) isD4any ∨ IsTD4 3 X) : False := by
+    (_htri : catalogIs (PSimple 3 X) isD4any ∨ IsTD4 3 X) : False := by
   subst hp3
   have hxB : x ∈ B := hD.1 hxD
   have hxN : x ∈ Subgroup.normalizer (X : Set Ω) := hBN hxB

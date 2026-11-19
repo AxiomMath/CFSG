@@ -210,8 +210,8 @@ theorem initOK_true {X Q T v : Nat} {M : Nat → Nat} (h : initOK true X Q M T v
   change nIf(Nat.beq (tg T v) v, nat_lit 1, nat_lit 0) = _
   rw [nif_eq]
   by_cases hv : tg T v = v
-  · rw [if_pos (by rw [hv]; exact Nat.beq_refl v), if_pos hv]
-  · rw [if_neg fun h => hv (Nat.eq_of_beq_eq_true h), if_neg hv]
+  · rw [ite_eq_left (by rw [hv]; exact Nat.beq_refl v), ite_eq_left hv]
+  · rw [ite_eq_right fun h => hv (Nat.eq_of_beq_eq_true h), ite_eq_right hv]
 
 theorem initOK_false {X Q T v : Nat} {M : Nat → Nat} (h : initOK false X Q M T v = true) :
     xg X (rk Q v) = if (M v).testBit (tg T v) = true then 1 else 0 := by
@@ -226,21 +226,21 @@ theorem init_fixed {i k : Nat} (hi : i < 4) (hr : invColorRules.getD i "" = "fix
     initColour (invColorRules.getD i "") (tArr i) = col k := by
   refine arr_ext (initColour_size _ _) (col_size _) fun v hv => ?_
   rw [initColour_get _ _ hv, col, colOf_get hv, initOK_true (CFSG.KC.Pack.allN_spec h v hv),
-    if_pos (beq_iff_eq.2 hr), tArr_get hi hv]
+    ite_eq_left (beq_iff_eq.2 hr), tArr_get hi hv]
   by_cases e : tg (GP (3 + i)) v = v
-  · rw [if_pos (beq_iff_eq.2 e), if_pos e]
-  · rw [if_neg fun h => e (beq_iff_eq.1 h), if_neg e]
+  · rw [ite_eq_left (beq_iff_eq.2 e), ite_eq_left e]
+  · rw [ite_eq_right fun h => e (beq_iff_eq.1 h), ite_eq_right e]
 
 theorem init_adj {i k : Nat} (hi : i < 4) (hr : invColorRules.getD i "" ≠ "fixed")
     (h : allN 1782 (initOK false (X k) (Q k) M (GP (3 + i))) = true) :
     initColour (invColorRules.getD i "") (tArr i) = col k := by
   refine arr_ext (initColour_size _ _) (col_size _) fun v hv => ?_
   rw [initColour_get _ _ hv, col, colOf_get hv, initOK_false (CFSG.KC.Pack.allN_spec h v hv),
-    if_neg fun h => hr (beq_iff_eq.1 h), tArr_get hi hv, nbr_eq, rowsArr_get hv,
+    ite_eq_right fun h => hr (beq_iff_eq.1 h), tArr_get hi hv, nbr_eq, rowsArr_get hv,
     row_mask (rows v hv)]
   by_cases hm : tg (GP (3 + i)) v ∈ decodeRow 416 (R v)
-  · rw [if_pos (List.contains_iff_mem.2 hm), if_pos (decide_eq_true hm)]
-  · rw [if_neg fun h => hm (List.contains_iff_mem.1 h), if_neg (by simpa using hm)]
+  · rw [ite_eq_left (List.contains_iff_mem.2 hm), ite_eq_left (decide_eq_true hm)]
+  · rw [ite_eq_right fun h => hm (List.contains_iff_mem.1 h), ite_eq_right (by simpa using hm)]
 
 theorem init_eq {i : Nat}
     (hi : i < 4) : initColour (invColorRules.getD i "") (tArr i) = col (caseStart i) := by

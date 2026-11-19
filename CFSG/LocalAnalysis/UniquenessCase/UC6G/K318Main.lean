@@ -25,7 +25,7 @@ open N588
 
 theorem c622_direct (m : Mz614 Dat) (_h69 : R6_9 Dat) (h619 : m.C619)
     (hL : m.L620) : m.C622 := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   have hX : m.r = 3 ∧ IsAlt m.Lbar 6 ∨ K318.List620' m.r m.Lbar := by
     rcases hL.2 with h | h | h
     · by_cases hr3 : m.r = 3
@@ -43,7 +43,7 @@ theorem c622_direct (m : Mz614 Dat) (_h69 : R6_9 Dat) (h619 : m.C619)
   rcases hdich with hq | hcent
   · exact Or.inl hq
   exfalso
-  haveI : Group.IsPerfect ↥m.L := ⟨hperf⟩
+  have : Group.IsPerfect ↥m.L := ⟨hperf⟩
   obtain ⟨q, hq, hqY, d, hd, φ, hφ⟩ := K318.exists_linear_section (CFSG.pPrimeCore m.r ↥m.L)
     m.isSolvable_pPrimeCore_L m.odd_card_pPrimeCore_L
     (fun p hp hp2 => m.pRank_pPrimeCore_L_le_three h619 hp hp2) hcent hs

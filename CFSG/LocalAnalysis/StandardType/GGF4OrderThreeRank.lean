@@ -128,7 +128,7 @@ private theorem card_map_eq_of_center_coprime [Fact (Nat.Prime 3)]
   have hcop : Nat.Coprime (Nat.card B) (Nat.card (Subgroup.center H)) := by
     rw [hn]
     exact Nat.Coprime.pow_left n ((Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mpr hZ)
-  have hinf : B ⊓ Subgroup.center H = ⊥ := Subgroup.inf_eq_bot_of_coprime hcop
+  have hinf : B ⊓ Subgroup.center H = ⊥ := (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcop))
   have hπinj : Function.Injective (π.domRestrict B) := by
     intro b b' hbb'
     change π (b : H) = π (b' : H) at hbb'

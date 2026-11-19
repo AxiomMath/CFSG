@@ -171,7 +171,7 @@ theorem exists_blocks_of_not_le_scalars [Finite Γ] (hK : ringChar K ≠ 2) (ρ 
         · subst hij
           simpa using h
         · rw [Pi.single_eq_of_ne hij, smul_zero] at h
-          rw [h, Matrix.smul_apply, Matrix.one_apply, if_neg hij, smul_zero]
+          rw [h, Matrix.smul_apply, Matrix.one_apply, ite_eq_right hij, smul_zero]
       let c : K := (ρ a : Matrix ι ι K) hι.some hι.some
       have hdiag : algebraMap K L c = ca := by
         have h := congrFun (congrFun hM' hι.some) hι.some

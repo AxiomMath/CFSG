@@ -108,8 +108,8 @@ theorem ggLineTest_of_data {n : ℕ} (C : Matrix (Fin n) (Fin n) ℤ) (k : Fin n
     (hdata : ggLWdata (ggLWmat (ggAttachCartan C k)) n R ψ₀ k₀ ψγ kγ = true)
     (hline : ggLWlinedata (ggLWmat (ggAttachCartan C k)) n R ψ₀ k₀ ψγ kγ j = true)
     {p : ℕ} (hp : p.Prime) (h5 : 5 ≤ p) : GGLineTest (ggAttachCartan C k) p := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
   set XL : List (List ℤ) := ggLWmat (ggAttachCartan C k) with hXL
   have hd := hdata
   simp only [ggLWdata, Bool.and_eq_true, decide_eq_true_eq, List.all_eq_true] at hd
@@ -273,7 +273,7 @@ theorem ggLineTest_of_data {n : ℕ} (C : Matrix (Fin n) (Fin n) ℤ) (k : Fin n
   refine ⟨ψw, ggLWnode n k₀, lw_vecOf ρl, ?_, ha_zero, ?_⟩
   · refine ⟨[], ⟨j, hjn⟩, ?_⟩
     rw [hρl, lw_unit_bridge j (le_of_lt hjn),
-      show ggLWnode n j = some ⟨j, hjn⟩ from dif_pos hjn]
+      show ggLWnode n j = some ⟨j, hjn⟩ from dite_eq_left hjn]
     rfl
   · intro v hv r hcon
     obtain ⟨l, hlR, hll, hleq⟩ := lw_mem_R C k R hclosed v hv

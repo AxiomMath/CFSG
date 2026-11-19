@@ -64,7 +64,7 @@ theorem u42_omega_fixed_constraints (Q : QuadraticForm K V) (hidx : (orthogonalD
     25920 ∣ Nat.card (fixedSubgroup ψ) ∧
       Nat.card (fixedSubgroup ψ) ∣
         4 * Nat.card ((scalarSigns Q).subgroupOf (orthogonalDerived Q)) * 51840 := by
-  haveI := u42_finite_orthogonalGroup Q
+  have := u42_finite_orthogonalGroup Q
   refine ⟨h.dvd_card.trans (u42_card_fixed_onNormalCentralQuotient_dvd (orthogonalDerived Q)
     (scalarSigns Q) (scalarSigns_central Q) ψ hN hZ), ?_⟩
   have h1 := card_fixed_dvd_onNormalCentralQuotient (orthogonalDerived Q) (scalarSigns Q) ψ hN hZ

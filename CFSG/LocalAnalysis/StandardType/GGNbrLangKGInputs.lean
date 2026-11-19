@@ -105,7 +105,7 @@ theorem ggNbrLangTypeARankLabel_lt {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {lab
     ∀ h ∈ I, h ^ p = 1 → h * α = α * h →
       ∀ J₀ : Subgroup R, IsComponentOf J₀ (MonoidHom.eqLocus (h : R →* R) (MonoidHom.id R)) →
         ∀ α' : MulAut J₀, (∀ j : J₀, (α' j : R) = α j) →
-          GGMarkingAll (K := J₀) fun _ R' _ I' _ θ' => kgInducedAut θ' α' ∉ I'
+          GGMarkingAll (K := J₀) fun _ _R' _ I' _ θ' => kgInducedAut θ' α' ∉ I'
 
 @[expose] def KGFieldNotInnerInput : Prop :=
   ∀ (p : ℕ) (lab : LargeEvenLabel), p.Prime → p ≠ 2 → LargeEvenInLambda2 lab →

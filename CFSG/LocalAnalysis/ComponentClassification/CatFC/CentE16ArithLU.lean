@@ -29,7 +29,7 @@ theorem e16_two_pow_bound {a n : ℕ} (hn : 3 ≤ n) (h : 2 ^ a ∣ n) :
     5 + a ≤ 2 * (n - 2) + 3 := by
   have h1 : a < n := lt_of_lt_of_le Nat.lt_two_pow_self (Nat.le_of_dvd (by omega) h)
   rcases Nat.lt_or_ge n 5 with h5 | h5
-  · interval_cases n <;> interval_cases a <;> (first | omega | norm_num at h)
+  · interval_cases n <;> interval_cases a <;> (first | omega)
   · omega
 
 theorem e16_two_pow_dvd_prod_sub_one {q : ℕ} (hq : q % 4 = 1) (m : ℕ) :
@@ -54,11 +54,11 @@ theorem e16_two_pow_six_dvd_psu_prod {q : ℕ} (hq : q % 4 = 1) {n : ℕ} (hn : 
     have h2 : (2 : ℕ) ∉ ({3, 4} : Finset ℕ) := by decide
     have h3 : (3 : ℕ) ∉ ({4} : Finset ℕ) := by decide
     rw [e, Finset.prod_insert h2, Finset.prod_insert h3, Finset.prod_singleton]
-    have e2 : (if Even (2 : ℕ) then q ^ 2 - 1 else q ^ 2 + 1) = q ^ 2 - 1 := if_pos even_two
+    have e2 : (if Even (2 : ℕ) then q ^ 2 - 1 else q ^ 2 + 1) = q ^ 2 - 1 := ite_eq_left even_two
     have e3 : (if Even (3 : ℕ) then q ^ 3 - 1 else q ^ 3 + 1) = q ^ 3 + 1 :=
-      if_neg (by decide)
+      ite_eq_right (by decide)
     have e4 : (if Even (4 : ℕ) then q ^ 4 - 1 else q ^ 4 + 1) = q ^ 4 - 1 :=
-      if_pos (by decide)
+      ite_eq_left (by decide)
     rw [e2, e3, e4]
     have h8 := e16_eight_dvd_sq_sub_one hq
     have h2' := e16_two_dvd_pow_add_one hq 3
@@ -116,7 +116,7 @@ theorem e16_arith_psu {n q : ℕ} (hq : q % 4 = 1) (hn : 4 ≤ n) :
     rwa [one_pow] at h
   have h3mem : (3 : ℕ) ∈ Finset.Icc 2 n := Finset.mem_Icc.2 ⟨by norm_num, by omega⟩
   have e3 : (if Even (3 : ℕ) then q ^ 3 - 1 else q ^ 3 + 1) = q ^ 3 + 1 :=
-    if_neg (by decide)
+    ite_eq_right (by decide)
   have hF3 : q ^ 3 + 1 ∣ ∏ i ∈ Finset.Icc 2 n, (if Even i then q ^ i - 1 else q ^ i + 1) := by
     have h := Finset.dvd_prod_of_mem (fun i => if Even i then q ^ i - 1 else q ^ i + 1) h3mem
     rw [e3] at h
@@ -140,9 +140,9 @@ theorem e16_arith_psu_three {q : ℕ} (hq : q % 4 = 1) :
   have e : Finset.Icc 2 3 = {2, 3} := by decide
   have h23 : (2 : ℕ) ∉ ({3} : Finset ℕ) := by decide
   rw [e, Finset.prod_insert h23, Finset.prod_singleton]
-  have e2 : (if Even (2 : ℕ) then q ^ 2 - 1 else q ^ 2 + 1) = q ^ 2 - 1 := if_pos even_two
+  have e2 : (if Even (2 : ℕ) then q ^ 2 - 1 else q ^ 2 + 1) = q ^ 2 - 1 := ite_eq_left even_two
   have e3 : (if Even (3 : ℕ) then q ^ 3 - 1 else q ^ 3 + 1) = q ^ 3 + 1 :=
-    if_neg (by decide)
+    ite_eq_right (by decide)
   rw [e2, e3]
   have hq3 : q + 1 ∣ q ^ 3 + 1 := by
     have h := Odd.nat_add_dvd_pow_add_pow q 1 (by decide : Odd 3)

@@ -13,7 +13,7 @@ theorem lit_odd_fixed {Y : Type*} [Group Y] [Finite Y] (σ : Y ≃* Y) (hσ : �
     {N : Subgroup Y} [N.Normal] (hN : ∀ y ∈ N, σ y ∈ N) (hodd : Odd (Nat.card N)) {y : Y}
     (hy : σ y * y⁻¹ ∈ N) : ∃ u ∈ N, σ (y * u) = y * u := by
   classical
-  letI : Fintype ↥N := Fintype.ofFinite ↥N
+  let : Fintype ↥N := Fintype.ofFinite ↥N
   let n0 : Y := y⁻¹ * σ y
   have hn0 : n0 ∈ N := by
     have h : y⁻¹ * (σ y * y⁻¹) * (y⁻¹)⁻¹ ∈ N :=
@@ -73,7 +73,7 @@ theorem lit_odd_fixed_mod {X : Type*} [Group X] [Finite X] (τ : X ≃* X)
     obtain ⟨u, rfl⟩ := QuotientGroup.mk'_surjective (N := Z) q
     rw [hcongr u, hcongr (τ u), hτ u]
   let N : Subgroup (X ⧸ Z) := O.map π
-  haveI hNnormal : N.Normal :=
+  have hNnormal : N.Normal :=
     Subgroup.Normal.map (inferInstance : O.Normal) π (QuotientGroup.mk'_surjective (N := Z))
   have hN : ∀ y ∈ N, σ y ∈ N := by
     intro y hy

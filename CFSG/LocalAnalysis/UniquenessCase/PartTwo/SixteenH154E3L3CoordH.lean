@@ -12,6 +12,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 private theorem s16h_e3_isoMod_trans {L : Subgroup (MulAut W)} {A B C : Subgroup W}
     (hAB : H.Pair.IsoMod L A B) (hBC : H.Pair.IsoMod L B C) : H.Pair.IsoMod L A C := by
   obtain ⟨e₁, he₁⟩ := hAB

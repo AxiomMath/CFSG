@@ -22,7 +22,7 @@ open CFSG.RankThree.PartTwo.Sec4.Census (tableOrder)
 
 private lemma w183K3Shape3_isQuasisimple_of_open {J : Type} [Group J]
     (hq : CFSG.Open.IsQuasisimple J) : CFSG.IsQuasisimple J := by
-  haveI : Group.IsPerfect J := ⟨hq.1⟩
+  have : Group.IsPerfect J := ⟨hq.1⟩
   exact CFSG.RankThree.PartTwo.Sec4.Census.isQuasisimple_of_isPerfect hq.2
 
 private lemma w183K3Shape3_models_of_blueprint {X : Type} [Group X] {t : StatedLieTag}
@@ -34,7 +34,7 @@ private lemma w183K3Shape3_models_of_blueprint {X : Type} [Group X] {t : StatedL
 private lemma w183K3Shape3_false_of_dvd_two {J : Type} [Group J] [Finite J]
     (hodd : Odd (Nat.card ↥(Subgroup.center J))) (hZ : Nontrivial ↥(Subgroup.center J))
     (hdiv : Nat.card ↥(Subgroup.center J) ∣ 2) : False := by
-  haveI : Nontrivial ↥(Subgroup.center J) := hZ
+  have : Nontrivial ↥(Subgroup.center J) := hZ
   have h1 : Nat.card ↥(Subgroup.center J) = 1 := by
     rcases (Nat.dvd_prime Nat.prime_two).mp hdiv with h1 | h2
     · exact h1
@@ -55,7 +55,7 @@ private lemma w183K3Shape3_false_of_models {J X : Type} [Group J] [Finite J] [Gr
 private lemma w183K3Shape3_exc_psl2 {s f : ℕ} (hs2 : s ≠ 2) (h92 : ¬ (s = 3 ∧ f = 2)) :
     exceptionalOrders .PSL 2 s f = (1, 1) := by
   unfold exceptionalOrders
-  split <;> first | rfl | omega | (simp_all)
+  split <;> first | rfl | omega
 
 private lemma w183K3Shape3_exc_psl3 {s f : ℕ} (hs2 : s ≠ 2) :
     exceptionalOrders .PSL 3 s f = (1, 1) := by
@@ -133,11 +133,11 @@ theorem kstar_false_of_psp4
 theorem kstar_mod12_of_L3
     (hGA : CFSG.ComponentClassification.TBLit.GriessMultipliersAllModels)
     {J X : Type} [Group J] [Finite J] [Group X] (hq : CFSG.Open.IsQuasisimple J)
-    (hodd : Odd (Nat.card ↥(Subgroup.center J))) (hZ : Nontrivial ↥(Subgroup.center J))
+    (_hodd : Odd (Nat.card ↥(Subgroup.center J))) (hZ : Nontrivial ↥(Subgroup.center J))
     (e : J ⧸ Subgroup.center J ≃* X) {p : ℕ} (hp : p.Prime) (hne : p ≠ 2) (h4 : p % 4 = 3)
     (hL3 : LieModel X .PSL 3 p 1) : p % 12 = 7 := by
   have hZ' : Nat.card ↥(Subgroup.center J) ≠ 1 := by
-    haveI : Nontrivial ↥(Subgroup.center J) := hZ
+    have : Nontrivial ↥(Subgroup.center J) := hZ
     exact (Finite.one_lt_card (α := ↥(Subgroup.center J))).ne'
   have hq' : CFSG.IsQuasisimple J := w183K3Shape3_isQuasisimple_of_open hq
   have hm : CFSG.Models.LieModel X .PSL 3 p 1 :=
@@ -166,11 +166,11 @@ theorem kstar_mod12_of_L3
 theorem kstar_mod12_of_U3
     (hGA : CFSG.ComponentClassification.TBLit.GriessMultipliersAllModels)
     {J X : Type} [Group J] [Finite J] [Group X] (hq : CFSG.Open.IsQuasisimple J)
-    (hodd : Odd (Nat.card ↥(Subgroup.center J))) (hZ : Nontrivial ↥(Subgroup.center J))
-    (e : J ⧸ Subgroup.center J ≃* X) {p : ℕ} (hp : p.Prime) (hne : p ≠ 2) (h4 : p % 4 = 1)
+    (_hodd : Odd (Nat.card ↥(Subgroup.center J))) (hZ : Nontrivial ↥(Subgroup.center J))
+    (e : J ⧸ Subgroup.center J ≃* X) {p : ℕ} (hp : p.Prime) (_hne : p ≠ 2) (h4 : p % 4 = 1)
     (hU3 : LieModel X .PSU 3 p 1) : p % 12 = 5 := by
   have hZ' : Nat.card ↥(Subgroup.center J) ≠ 1 := by
-    haveI : Nontrivial ↥(Subgroup.center J) := hZ
+    have : Nontrivial ↥(Subgroup.center J) := hZ
     exact (Finite.one_lt_card (α := ↥(Subgroup.center J))).ne'
   have hq' : CFSG.IsQuasisimple J := w183K3Shape3_isQuasisimple_of_open hq
   have hm : CFSG.Models.LieModel X .PSU 3 p 1 :=

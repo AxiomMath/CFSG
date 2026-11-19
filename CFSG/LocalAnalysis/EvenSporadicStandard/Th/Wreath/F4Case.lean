@@ -13,6 +13,7 @@ open Subgroup SylowEnd
 variable {G : Type} [Group G] [Finite G] {L R : Subgroup G} {t : G} {S A B Aa D : Subgroup G}
   {z b : G}
 
+omit [Finite G] in
 private theorem conj_conj_eq_of_isRep_one_add_single {c : G → (Fin 4 → ZMod 2)}
     (hc : IsCoord A c) {s : G} (hs : ∀ a ∈ A, s * a * s⁻¹ ∈ A)
     (hM : IsRep A c s (1 + Matrix.single 0 3 1)) (a : G) (ha : a ∈ A) :

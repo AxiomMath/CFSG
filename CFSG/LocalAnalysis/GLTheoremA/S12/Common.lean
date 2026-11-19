@@ -109,7 +109,7 @@ theorem exists_y (h : Cfg12 G m p B x L D K) : ∃ y ∈ D, y ∉ Subgroup.zpowe
   have hcard := Subgroup.card_le_of_le hD
   rw [h.card_D, Nat.card_zpowers] at hcard
   have hp := h.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hord : orderOf x = p := orderOf_eq_prime (h.elem.2 x h.xD) h.tri.ne_one
   rw [hord] at hcard
   have := hp.two_le
@@ -130,6 +130,7 @@ namespace S12
 
 variable {G : Type} [Group G] [Finite G] {m p : ℕ} {B : Subgroup G} {x : G} {L D K : Subgroup G}
 
+omit [Finite G] in
 theorem three_subgroups_mod {X Y Z N : Subgroup G}
     (hX : X ≤ Subgroup.normalizer (N : Set G)) (hY : Y ≤ Subgroup.normalizer (N : Set G))
     (hZ : Z ≤ Subgroup.normalizer (N : Set G)) (h1 : ⁅⁅X, Y⁆, Z⁆ ≤ N) (h2 : ⁅⁅Y, Z⁆, X⁆ ≤ N) :
@@ -160,6 +161,7 @@ theorem three_subgroups_mod {X Y Z N : Subgroup G}
   rw [key Z X Y hZ hX hY]
   exact Subgroup.commutator_commutator_eq_bot_of_rotate h1 h2
 
+omit [Finite G] in
 theorem mem_normalizer_inf' {A C : Subgroup G} {g : G} (hA : g ∈ Subgroup.normalizer (A : Set G))
     (hC : g ∈ Subgroup.normalizer (C : Set G)) : g ∈ Subgroup.normalizer ((A ⊓ C : Subgroup G) : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -167,6 +169,7 @@ theorem mem_normalizer_inf' {A C : Subgroup G} {g : G} (hA : g ∈ Subgroup.norm
   rw [Subgroup.mem_inf, Subgroup.mem_inf]
   exact and_congr (Subgroup.mem_normalizer_iff.1 hA w) (Subgroup.mem_normalizer_iff.1 hC w)
 
+omit [Finite G] in
 theorem mem_normalizer_sup' {A C : Subgroup G} {g : G} (hA : g ∈ Subgroup.normalizer (A : Set G))
     (hC : g ∈ Subgroup.normalizer (C : Set G)) : g ∈ Subgroup.normalizer ((A ⊔ C : Subgroup G) : Set G) := by
   rw [mem_normalizer_iff_gLBConj_eq] at hA hC ⊢
@@ -186,6 +189,7 @@ theorem mem_zpowers_of_prime_order {x u : G} {q : ℕ} [Fact q.Prime] (hx : orde
   rw [heq]
   exact Subgroup.mem_zpowers x
 
+omit [Finite G] in
 theorem mem_normalizer_glaLayer' {X : Subgroup G} {g : G} (hg : g ∈ Subgroup.normalizer (X : Set G)) :
     g ∈ Subgroup.normalizer (GLALayer X : Set G) := by
   have hle : ∀ g ∈ Subgroup.normalizer (X : Set G), GLBConj g (GLALayer X) ≤ GLALayer X := by
@@ -235,9 +239,9 @@ theorem faithful_quot (h : Cfg12 G m p B x L D K) {b : G} (hb : b ∈ B)
 theorem pRank_aut_ge (h : Cfg12 G m p B x L D K) :
     2 ≤ CFSG.Open.pRank p (⊤ : Subgroup (MulAut (↥K ⧸ Subgroup.center ↥K))) := by
   have hp := h.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hBK : B ≤ Subgroup.normalizer (K : Set G) := B_norm_K h
-  haveI : Group.IsPerfect ↥K := ⟨h.K_qs.1⟩
+  have : Group.IsPerfect ↥K := ⟨h.K_qs.1⟩
   let φ : ↥B →* MulAut (↥K ⧸ Subgroup.center ↥K) :=
     (CFSG.ComponentClassification.PerfectAutomorphisms.centerQuotientHom ↥K).comp
       (K.normalizerMonoidHom.comp (Subgroup.inclusion hBK))
@@ -280,6 +284,7 @@ theorem std_dvd (h : Cfg12 G m p B x L D K)
   have h2 := pRank_aut_ge h
   omega
 
+omit [Finite G] in
 theorem eq_of_barX_top_of_central {p : ℕ} {K J : Subgroup G} (hq : CFSG.Open.IsQuasisimple ↥K)
     (hOZ : GLAPPrimeCore p ↥K ≤ Subgroup.center ↥K) (hJK : J ≤ K) (hbar : barX p K J = ⊤) : J = K := by
   classical
@@ -314,7 +319,7 @@ theorem glaPComponent_of_quasisimple' {p : ℕ} (hp : p.Prime) {X K : Subgroup G
     (hq : CFSG.Open.IsQuasisimple ↥K) (hdvd : p ∣ Nat.card (↥K ⧸ Subgroup.center ↥K)) :
     GLAPComponent p X K := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpK : p ∣ Nat.card ↥K := hdvd.trans (Subgroup.card_quotient_dvd_card _)
   have hOp : ¬ p ∣ Nat.card (GLAPPrimeCore p ↥K) := by
     have h := not_dvd_card_glaPPrimeCoreOf hp K
@@ -392,11 +397,12 @@ theorem comm_le_primeCore (hp : p.Prime) {C M : Subgroup G} (hM : GLAPComponent 
 theorem not_isPGroup_of_isQuasisimple {Q : Type} [Group Q] [Finite Q] {q : ℕ} [Fact q.Prime]
     (hq : CFSG.Open.IsQuasisimple Q) : ¬ IsPGroup q Q := by
   intro hPG
-  haveI : Nontrivial Q := isQuasisimple_nontrivial hq
-  haveI : Group.IsPerfect Q := ⟨hq.1⟩
-  haveI : Group.IsNilpotent Q := hPG.isNilpotent
+  have : Nontrivial Q := isQuasisimple_nontrivial hq
+  have : Group.IsPerfect Q := ⟨hq.1⟩
+  have : Group.IsNilpotent Q := hPG.isNilpotent
   exact Group.IsPerfect.not_isSolvable Q inferInstance
 
+omit [Finite G] in
 theorem core_comm_eq_bot {X P : Subgroup G} (hP : GLAPComponent p X P)
     (hc : (⁅(⁅P, GLAPPrimeCoreOf p P⁆ : Subgroup G), P⁆ : Subgroup G) = ⊥) :
     (⁅P, GLAPPrimeCoreOf p P⁆ : Subgroup G) = ⊥ :=
@@ -447,7 +453,7 @@ theorem B_inf_centMod_eq (h : Cfg12 G m p B x L D K) :
 
 theorem card_B_inf_centMod_L (h : Cfg12 G m p B x L D K) : Nat.card ↥(B ⊓ centModSubgroup p L) = p := by
   have hp := h.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [B_inf_centMod_eq h, Nat.card_zpowers]
   exact orderOf_eq_prime (h.elem.2 x h.xD) h.tri.ne_one
 
@@ -463,6 +469,7 @@ theorem cx_le_normalizer_L (h : Cfg12 G m p B x L D K) :
   rw [gLBConj_eq_of_mem_normalizer (Subgroup.le_normalizer ht), h.tri.layer h.ctx] at h1
   exact mem_normalizer_iff_gLBConj_eq.2 h1.symm
 
+omit [Finite G] in
 theorem closureIn_le_of_le_normalizer {K H L : Subgroup G} (hK : K ≤ L) (hH : H ≤ Subgroup.normalizer (L : Set G)) :
     closureIn K H ≤ L := by
   rw [closureIn_eq_iSup_gLBConj]
@@ -549,7 +556,7 @@ theorem ky_le_cy (h : Cfg12 G m p B x L D K) {y : G} (hy : y ∈ D) :
     (h.K_le_cs.trans (Subgroup.centralizer_le (Set.singleton_subset_iff.2 hy))) hH
 
 theorem ky_norm (h : Cfg12 G m p B x L D K) {y : G} (hy : y ∈ D) :
-    B ≤ Subgroup.normalizer (Ky p K y : Set G) := fun b hb =>
+    B ≤ Subgroup.normalizer (Ky p K y : Set G) := fun _b hb =>
   mem_normalizer_closureIn (B_norm_K h hb)
     (mem_normalizer_glaPLayer (Subgroup.le_normalizer (Subgroup.mem_centralizer_singleton_iff.2
       (isElemAbelian_commute h.tri.bmax.1 hb (h.DB hy)))))

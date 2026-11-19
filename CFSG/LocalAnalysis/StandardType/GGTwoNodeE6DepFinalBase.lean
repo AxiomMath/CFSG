@@ -37,7 +37,7 @@ theorem lr6E6DepAll_of_frame (hfrm : ∃ T, verifyAllM (e6DepPt ()) T = true) : 
   subst hp
   obtain ⟨ε, hεh, hεα, hεx⟩ := e6Dep_chart hV h α x hfr
   obtain ⟨T, hT⟩ := hfrm
-  haveI : Fact (e6DepPt ()).p.Prime := ⟨Nat.prime_three⟩
+  have : Fact (e6DepPt ()).p.Prime := ⟨Nat.prime_three⟩
   have hcard' : Nat.card ↥A ≤ (e6DepPt ()).bound := by
     rw [show (e6DepPt ()).bound = 3 ^ 6 * (6 * (3 - 1) * Nat.factorial 6) by
       decide +kernel]

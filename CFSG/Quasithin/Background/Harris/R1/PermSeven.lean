@@ -20,12 +20,14 @@ lemma fixed_card_modEq {β : Type} [Fintype β] [DecidableEq β] {f : Equiv.Perm
     Fintype.card_congr (Equiv.refl _)
   rw [e]; exact this
 
+omit [Fintype α] [DecidableEq α] in
 lemma pow_apply_of_apply_eq {c : Equiv.Perm α} {x : α} (h : c x = x) (k : ℕ) :
     (c ^ k) x = x := by
   induction k with
   | zero => rfl
   | succ k ih => rw [pow_succ, Equiv.Perm.mul_apply, h, ih]
 
+omit [Fintype α] [DecidableEq α] in
 lemma apply_eq_of_pow_apply_eq {c : Equiv.Perm α} (hc7 : c ^ 7 = 1) {x : α} {d : ℕ}
     (hd0 : 0 < d) (hd7 : d < 7) (hdx : (c ^ d) x = x) : c x = x := by
   have hmod : d ^ 6 % 7 = 1 := by
@@ -40,6 +42,7 @@ lemma apply_eq_of_pow_apply_eq {c : Equiv.Perm α} (hc7 : c ^ 7 = 1) {x : α} {d
   rw [hdiv, pow_add, pow_mul, hc7, one_pow, pow_one, one_mul] at h2
   exact h2
 
+omit [Fintype α] [DecidableEq α] in
 lemma pow_apply_inj {c : Equiv.Perm α} (hc7 : c ^ 7 = 1) {x : α} (hx : ¬ c x = x) {a b : ℕ}
     (ha : a < 7) (hb : b < 7) (hab : (c ^ a) x = (c ^ b) x) : a = b := by
   by_contra hne
@@ -94,7 +97,7 @@ theorem eq_one_of_commute_seven_card (hα : Fintype.card α = 9) {c y : Equiv.Pe
     intro h; rw [h, orderOf_one] at hc; norm_num at hc
   obtain ⟨x0, hx0⟩ : ∃ x, ¬ c x = x := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hcne (Equiv.ext h)
   have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩

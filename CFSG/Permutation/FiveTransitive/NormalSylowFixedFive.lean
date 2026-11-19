@@ -54,7 +54,7 @@ private theorem normal_fixing_card_eq
   intro i
   rw [← hq' i, inv_smul_smul]
 
-@[expose] abbrev normalSylowImage
+abbrev normalSylowImage
     (G X : Type*) [Group G] [MulAction G X]
     (N : Subgroup G) (s : Set X) {p : ℕ}
     (S : Sylow p (fixingSubgroup N s)) : Subgroup G :=
@@ -149,7 +149,7 @@ theorem exists_mem_normalizer_maps_fixed_five
   have hTUcard : Nat.card TU = Nat.card S :=
     (Nat.card_congr (Subgroup.subgroupOfEquivOfLe hQSPleHt).toEquiv).trans
       (hQSPcard.trans hSPcard)
-  obtain ⟨n, hn⟩ := S.isPGroup'.exists_card_eq
+  obtain ⟨n, hn⟩ := S.isPGroup.exists_card_eq
   have hSUisP : IsPGroup p SU := IsPGroup.of_card (hSUcard.trans hn)
   have hTUisP : IsPGroup p TU := IsPGroup.of_card (hTUcard.trans hn)
   obtain ⟨U, hSUleU⟩ := hSUisP.exists_le_sylow
@@ -158,7 +158,7 @@ theorem exists_mem_normalizer_maps_fixed_five
     have hUdvd : Nat.card U ∣ Nat.card H := by
       rw [← hH4card]
       exact U.toSubgroup.card_subgroup_dvd_card.trans (Subgroup.card_dvd_of_le hHt4)
-    obtain ⟨m, hm⟩ := U.isPGroup'.exists_card_eq
+    obtain ⟨m, hm⟩ := U.isPGroup.exists_card_eq
     have hdvd : Nat.card U ∣ Nat.card S := by
       rw [hm] at hUdvd ⊢
       exact S.pow_dvd_card_of_pow_dvd_card hUdvd
@@ -258,18 +258,18 @@ theorem exists_mem_normalizer_maps_fixed_five
     _ = kG • b i := by rw [hq i]
     _ = b i := (mem_normalFixerImage_iff G X N t kG).mp k.property |>.2 (b i) ⟨i, rfl⟩
 
-@[expose] abbrev normalSylowNormalizer
+abbrev normalSylowNormalizer
     (G X : Type*) [Group G] [MulAction G X]
     (N : Subgroup G) (s : Set X) {p : ℕ} (S : Sylow p (fixingSubgroup N s)) : Subgroup G :=
   Subgroup.normalizer (normalSylowImage G X N s S)
 
-@[expose] abbrev normalSylowInNormalizer
+abbrev normalSylowInNormalizer
     (G X : Type*) [Group G] [MulAction G X]
     (N : Subgroup G) (s : Set X) {p : ℕ} (S : Sylow p (fixingSubgroup N s)) :
     Subgroup (normalSylowNormalizer G X N s S) :=
   (normalSylowImage G X N s S).subgroupOf (normalSylowNormalizer G X N s S)
 
-@[expose] abbrev normalSylowFixedPoints
+abbrev normalSylowFixedPoints
     (G X : Type*) [Group G] [MulAction G X]
     (N : Subgroup G) (s : Set X) {p : ℕ} (S : Sylow p (fixingSubgroup N s)) :=
   MulAction.fixedPoints (normalSylowInNormalizer G X N s S) X

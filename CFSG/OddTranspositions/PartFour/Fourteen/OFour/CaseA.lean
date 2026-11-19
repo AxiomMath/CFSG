@@ -287,7 +287,7 @@ theorem sylow_inter_D_diff_subset_DalphaStar (hC : HypothesisC D)
     ((S : Set G) ∩ D) \ {hC.d} ⊆ DalphaStar D hC.alpha := by
   rintro x ⟨⟨hxS, hxD⟩, hxu⟩
   have hcomm : Commute x hC.d :=
-    hC.setup.oddT.commute_of_isPGroup S.isPGroup' hxD hC.hd hxS huS
+    hC.setup.oddT.commute_of_isPGroup S.isPGroup hxD hC.hd hxS huS
   have hxunion : x ∈ hC.alpha ∪ DalphaStar D hC.alpha ∪ AalphaStar D hC.alpha :=
     hC.eq_alpha_union ▸ hxD
   rcases hxunion with (hxα | hxE) | hxA

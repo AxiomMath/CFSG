@@ -19,6 +19,7 @@ section Row28
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
+omit [Finite G] in
 theorem exists_adapted_model (τ : ↥L ≃* SU4) {E : Subgroup G} (hEL : E ≤ L)
     (hE : IsElemAbelian 3 E) (hc : Nat.card E = 3 ^ 3) :
     ∃ τ' : ↥L ≃* SU4, (E.subgroupOf L).map τ'.toMonoidHom = Dstd := by

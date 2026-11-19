@@ -10,16 +10,19 @@ section PairTypesTensor
 
 variable {K : Type} [Field K] [CharP K 2] {ι : Type}
 
+omit [CharP K 2] in
 private theorem tsim_det {g : Matrix (Fin 2) (Fin 2) K} (hg : g.det ≠ 0) :
     g 0 0 * g 1 1 - g 0 1 * g 1 0 ≠ 0 := by
   rwa [Matrix.det_fin_two] at hg
 
+omit [CharP K 2] in
 private theorem tsim_two_by_two {a b c d x y : K} (hD : a * d - b * c ≠ 0)
     (h1 : a * x + b * y = 0) (h2 : c * x + d * y = 0) : x = 0 ∧ y = 0 := by
   have hx : x * (a * d - b * c) = 0 := by linear_combination d * h1 - b * h2
   have hy : y * (a * d - b * c) = 0 := by linear_combination a * h2 - c * h1
   exact ⟨(mul_eq_zero.mp hx).resolve_right hD, (mul_eq_zero.mp hy).resolve_right hD⟩
 
+omit [CharP K 2] in
 private theorem tsim_comb_ne (σ : K ≃+* K) (g : Matrix (Fin 2) (Fin 2) K) (hg : g.det ≠ 0)
     {c₁ c₂ : K} (hc : c₁ ≠ 0 ∨ c₂ ≠ 0) :
     g 0 0 * σ c₁ + g 0 1 * σ c₂ ≠ 0 ∨ g 1 0 * σ c₁ + g 1 1 * σ c₂ ≠ 0 := by
@@ -32,6 +35,7 @@ private theorem tsim_comb_ne (σ : K ≃+* K) (g : Matrix (Fin 2) (Fin 2) K) (hg
   · exact h hc1
   · exact h hc2
 
+omit [CharP K 2] in
 private theorem tsim_smul_pair (σ : K ≃+* K) (g : Matrix (Fin 2) (Fin 2) K)
     (o : (ι → K) → (ι → K)) (ho_smul : ∀ (c : K) u, o (c • u) = σ c • o u)
     (c₁ c₂ : K) (u : ι → K) :
@@ -39,16 +43,18 @@ private theorem tsim_smul_pair (σ : K ≃+* K) (g : Matrix (Fin 2) (Fin 2) K)
       ((g 0 0 * σ c₁ + g 0 1 * σ c₂) • o u, (g 1 0 * σ c₁ + g 1 1 * σ c₂) • o u) := by
   simp only [orthTensor, ho_smul, smul_smul, ← add_smul]
 
+omit [CharP K 2] in
 private theorem tsim_o_zero (σ : K ≃+* K) (o : (ι → K) → (ι → K))
     (ho_bij : Function.Bijective o) (ho_smul : ∀ (c : K) u, o (c • u) = σ c • o u)
     (w : ι → K) (hw : o w = 0) : w = 0 := by
   have h0 : o 0 = 0 := by simpa using ho_smul 0 0
   exact ho_bij.1 (hw.trans h0.symm)
 
+omit [CharP K 2] in
 theorem pairTypeA_orthTensor (q : QuadraticForm K (ι → K)) (σ : K ≃+* K)
     (g : Matrix (Fin 2) (Fin 2) K) (hg : g.det ≠ 0) (o : (ι → K) → (ι → K))
-    (ho_bij : Function.Bijective o) (ho_add : ∀ u v, o (u + v) = o u + o v)
-    (ho_smul : ∀ (c : K) u, o (c • u) = σ c • o u) (ρ : K) (hρ : ρ ≠ 0)
+    (ho_bij : Function.Bijective o) (_ho_add : ∀ u v, o (u + v) = o u + o v)
+    (ho_smul : ∀ (c : K) u, o (c • u) = σ c • o u) (ρ : K) (_hρ : ρ ≠ 0)
     (ho_q : ∀ u, q (o u) = ρ * σ (q u)) {p : (ι → K) × (ι → K)} (h : PairTypeA q p) :
     PairTypeA q (orthTensor g o p) := by
   obtain ⟨c₁, c₂, u, hc, hu, hqu, rfl⟩ := h

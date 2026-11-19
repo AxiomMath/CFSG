@@ -56,7 +56,7 @@ private theorem moduleFinite_of_addEquiv
   let e : Q ≃ₗ[ZMod 2] ((Fin 3) → ZMod 2) :=
     @G11.addEquivToLinear Q _ _ ((Fin 3) → ZMod 2) _
       (Pi.Function.module (Fin 3) (ZMod 2) (ZMod 2)) β
-  haveI : Module.Finite (ZMod 2) ((Fin 3) → ZMod 2) := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) ((Fin 3) → ZMod 2) := Module.Finite.of_finite
   exact Module.Finite.equiv e.symm
 
 private theorem eq_zero_of_forall_intertwiner_fixed
@@ -135,7 +135,7 @@ theorem naturalThree_finrank_trivialLineExtension
     (hnat : Explicit.BinaryNaturalSL ρQ 3 (ZMod 2) ε) :
     Module.finrank (ZMod 2) (ZMod 2 × Q) = 4 := by
   obtain ⟨-, β, -⟩ := JonesParshall.BinaryNaturalSL.intertwiner hnat
-  haveI : Module.Finite (ZMod 2) Q := moduleFinite_of_addEquiv β
+  have : Module.Finite (ZMod 2) Q := moduleFinite_of_addEquiv β
   rw [Module.finrank_prod, finrank_eq_three_of_addEquiv β, Module.finrank_self]
 
 
@@ -427,9 +427,9 @@ theorem naturalThree_trivialLineExtension_involution_finrank
     Module.finrank (ZMod 2)
       (LinearMap.range (trivialLineExtension ρQ d hd b - 1)) = 2 := by
   obtain ⟨θ, β, hβ⟩ := JonesParshall.BinaryNaturalSL.intertwiner hnat
-  haveI : Finite Q := Finite.of_injective β β.injective
-  haveI : Finite (ZMod 2 × Q) := inferInstance
-  haveI : Finite (Multiplicative (ZMod 2 × Q)) := inferInstance
+  have : Finite Q := Finite.of_injective β β.injective
+  have : Finite (ZMod 2 × Q) := inferInstance
+  have : Finite (Multiplicative (ZMod 2 × Q)) := inferInstance
   let ρE := trivialLineExtension ρQ d hd
   let LE : Subgroup (MulAut (Multiplicative (ZMod 2 × Q))) := (FFModel.repMulAut ρE).range
   let T : (ZMod 2 × Q) →ₗ[ZMod 2] (ZMod 2 × Q) := ρE b

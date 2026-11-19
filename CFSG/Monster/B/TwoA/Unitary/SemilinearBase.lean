@@ -43,9 +43,9 @@ theorem b6Iso_bijective : Function.Bijective b6Iso := by
   rw [b6Iso_val, b6Iso_val] at h'
   exact Fin.ext (b6IsoArr_inj i i.2 j j.2 h')
 
-@[expose] def Lp (j : Fin 891) : Submodule F4 V6 := plane (b6Iso j)
+def Lp (j : Fin 891) : Submodule F4 V6 := plane (b6Iso j)
 
-@[expose] def Permutes (x : SigmaU6) : Prop := ∀ j, ∃ j', sigmaAct (Lp j) x = Lp j'
+def Permutes (x : SigmaU6) : Prop := ∀ j, ∃ j', sigmaAct (Lp j) x = Lp j'
 
 theorem sigmaAct_inv_cancel (P : Submodule F4 V6) (x : SigmaU6) :
     sigmaAct (sigmaAct P x) x⁻¹ = P := by

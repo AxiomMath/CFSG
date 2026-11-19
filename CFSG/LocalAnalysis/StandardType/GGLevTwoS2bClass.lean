@@ -36,7 +36,7 @@ theorem levTwoS2b_Supp_subset_Z_of_single {p : ℕ} [Fact p.Prime] (n : ℕ) (hn
     (hk : levTwoS2b_D c k ≠ 0) (hZ : ∀ a : Fin n, a ≠ k → levTwoS2b_D c a = 0) :
     levTwoS2b_Supp n c Φ ⊆ levTwoS2b_Z c := by
   rintro a ⟨β, hβ, haβ⟩
-  simp only [levTwoS2b_Z, Set.mem_setOf_eq]
+  simp only [levTwoS2b_Z, Set.mem_ofPred_eq]
   have hlong := levTwoS2b_isLong_of_mem_Phi n hn Fact.out hp2 c hΦ hβ
   obtain ⟨i, j, si, sj, hij, hsi, hsj, hcoord⟩ := hlong
   have hβeq : β = levTwoS2b_ofCoord n (Pi.single i si + Pi.single j sj) := by
@@ -190,13 +190,13 @@ theorem levTwoS2b_Phi_cases (n : ℕ) (hn : 2 ≤ n) (p : ℕ) (hp : p.Prime) (h
       have hZcard : Nat.card (levTwoS2b_Z c) = n - 1 := by
         have hset : levTwoS2b_Z c = {a : Fin n | a ≠ k} := by
           ext a
-          simp only [levTwoS2b_Z, Set.mem_setOf_eq]
+          simp only [levTwoS2b_Z, Set.mem_ofPred_eq]
           constructor
           · intro ha; rintro rfl; exact hkne ha
           · intro ha; exact hZ a ha
         rw [hset]
         rw [Nat.card_eq_fintype_card, Fintype.card_subtype]
-        simp only [Set.mem_setOf_eq]
+        simp only [Set.mem_ofPred_eq]
         have hfil : (Finset.univ.filter (fun a : Fin n => a ≠ k)) = Finset.univ.erase k := by
           ext a; simp [Finset.mem_erase, and_comm]
         rw [hfil, Finset.card_erase_of_mem (Finset.mem_univ k), Finset.card_univ,

@@ -35,7 +35,7 @@ theorem conj_eq_of_mem_zpowers {x a z : G} (hax : a * x * a⁻¹ = x)
         a * (b * p * b⁻¹ * p⁻¹) * a⁻¹ * (a * p * a⁻¹ * p⁻¹) := by group
     rw [e, conj_eq_of_mem_zpowers (hxK a haK) (hb p hp)]
     exact Subgroup.mul_mem _ (hb p hp) (ha p hp)
-  one_mem' := ⟨K.one_mem, fun p _ => by simpa using Subgroup.one_mem _⟩
+  one_mem' := ⟨K.one_mem, fun p _ => by simp⟩
   inv_mem' := by
     rintro a ⟨haK, ha⟩
     refine ⟨K.inv_mem haK, fun p hp => ?_⟩
@@ -126,7 +126,7 @@ theorem card_subtype_le_mul [Finite B] (f : A →* B) (S : Set B) (n : ℕ)
   have hs : ∀ a, f (s (f a)) = f a := by
     intro a
     have h : ∃ a', f a' = f a := ⟨a, rfl⟩
-    simp only [s, dif_pos h]
+    simp only [s, dite_eq_left h]
     exact h.choose_spec
   let φ : {a : A // f a ∈ S} → S × f.ker := fun a =>
     (⟨f a.1, a.2⟩, ⟨(s (f a.1))⁻¹ * a.1, by
@@ -276,6 +276,7 @@ section Central
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem le_pCoreOf_of_centralizer {K E Qq : Subgroup G}
     (hKE : ∀ k ∈ K, ∀ e ∈ E, k * e * k⁻¹ ∈ E) (hQK : Qq ≤ K) (hQ2 : IsPGroup 2 Qq)
     (hQE : Qq ≤ Subgroup.centralizer (E : Set G))
@@ -337,13 +338,13 @@ theorem barAct_swap_sub {i j : Fin n} (v : permBar n) :
     simp only [Pi.sub_apply, vecPerm_apply, Equiv.swap_inv]
     by_cases hki : k = i
     · subst hki
-      simp only [swap_apply_left, indVec, Finset.mem_insert, Finset.mem_singleton, true_or, if_true,
+      simp only [swap_apply_left, indVec, Finset.mem_insert, Finset.mem_singleton, true_or, ite_true,
         mul_one]
       rw [zmod_two_sub_eq_add, add_comm]
     by_cases hkj : k = j
     · subst hkj
       simp only [swap_apply_right, indVec, Finset.mem_insert, Finset.mem_singleton, or_true,
-        if_true, mul_one]
+        ite_true, mul_one]
       rw [zmod_two_sub_eq_add]
     · rw [swap_apply_of_ne_of_ne hki hkj]
       simp [indVec, hki, hkj]
@@ -369,7 +370,7 @@ variable {G : Type} [Group G] [Finite G] {M X : Subgroup G} {C : Cfg G M X 10}
 
 @[expose] noncomputable def commQ (C : Cfg G M X 10) (hR : Nat.card ↥(Rc X) ≤ 2) {t : G}
     (htM : t ∈ M) : ↥(CFSG.Open.pCoreOf 2 M) →* ↥(CFSG.Open.pCoreOf 2 M) :=
-  H2.commMap (CFSG.Open.pCoreOf 2 M) (C.Q_comm hR) t (fun a ha => pCoreOf_normalized M htM ha)
+  H2.commMap (CFSG.Open.pCoreOf 2 M) (C.Q_comm hR) t (fun _a ha => pCoreOf_normalized M htM ha)
 
 theorem mem_ker_commQ (C : Cfg G M X 10) (hR : Nat.card ↥(Rc X) ≤ 2) {t : G} (htM : t ∈ M)
     (q : ↥(CFSG.Open.pCoreOf 2 M)) :
@@ -464,7 +465,7 @@ theorem card_le_of_conj {i j : Fin 10} (hij : i ≠ j) {D' : Subgroup G}
   let φ : ↥Qs → ↥Qs := fun z => if h : g * (z : G) * g⁻¹ ∈ Qs then ⟨g * z * g⁻¹, h⟩ else 1
   have hφ : ∀ z ∈ E, ((φ z : ↥Qs) : G) = g * z * g⁻¹ := by
     intro z hz
-    simp only [φ, dif_pos (hgQ z hz)]
+    simp only [φ, dite_eq_left (hgQ z hz)]
   let F : Set ↥Qs := {q | barLen (Multiplicative.toAdd (D.piQ q)) = 2 ∧
     barAct (swap i j) (Multiplicative.toAdd (D.piQ q)) = Multiplicative.toAdd (D.piQ q)}
   have hF : F.ncard ≤ 29 * Nat.card ↥(Rc X) := H2.ncard_len_two_fixed_le D hij
@@ -539,6 +540,9 @@ section Basic
 variable (hR : Nat.card ↥(Rc X) ≤ 2) {x : G} (hx : x ∈ CFSG.Open.pCoreOf 2 M)
 
 include D hR hx in
+omit D in
+include C in
+variable (C) in
 theorem Q_le_CGOf : CFSG.Open.pCoreOf 2 M ≤ CGOf x := fun q hq =>
   mem_centralizer_zpowers_iff.2 (mul_inv_eq_iff_eq_mul.2 (C.Q_comm hR q hq x hx))
 
@@ -596,6 +600,7 @@ theorem mem_Q_or_mul_inv_mem_Q {t s : G} (ht : t ∈ TOf M x) (htQ : t ∉ CFSG.
     rw [this, map_mul, map_inv, h, hθt, mul_inv_cancel]
 
 include hR hij hπ in
+omit hij in
 theorem piQ_commQ_cases {t : G} (htM : t ∈ M) (hθ : C.θ ⟨t, htM⟩ = swap i j)
     (q : ↥(CFSG.Open.pCoreOf 2 M)) :
     D.piQ (H2.commQ C hR htM q) = 1 ∨ D.piQ (H2.commQ C hR htM q) = D.piQ ⟨x, hx⟩ := by
@@ -672,7 +677,7 @@ theorem normalizer_TOf_le_M (hS : H2.ConjLen D) {t : G} (ht : t ∈ TOf M x)
       exact (Subgroup.mem_centralizer_iff.1 hz'Z.2 t ht).symm))
     (fun z z' _ hz1 hz' => hS z z' hz1 g hz' hgM)
   have hlow := H2.card_le_ker_mul D.piQ (H2.commQ C hR htM) (D.piQ ⟨x, hx⟩)
-    (H2.piQ_commQ_cases D hR hx hij hπ htM hθt)
+    (H2.piQ_commQ_cases D hR hx hπ htM hθt)
   rw [H2.card_ker_piQ D, H2.card_ker_commQ C hR htM] at hlow
   have hQge := H2.card_Q_ge D hR
   have hRpos : 0 < Nat.card ↥(Rc X) := Nat.card_pos
@@ -691,28 +696,33 @@ section Basic2
 variable (hR : Nat.card ↥(Rc X) ≤ 2) {x : G} (hx : x ∈ CFSG.Open.pCoreOf 2 M)
 
 include D hR hx in
+omit D in
+include C in
+variable (C) in
 theorem Q_le_normalizer_P : CFSG.Open.pCoreOf 2 M ≤
     Subgroup.normalizer ((CFSG.Open.pCoreOf 2 (CGOf x) : Subgroup G) : Set G) := by
   intro q hq
-  have hqK : q ∈ CGOf x := H2.Q_le_CGOf D hR hx hq
+  have hqK : q ∈ CGOf x := H2.Q_le_CGOf C hR hx hq
   rw [Subgroup.mem_normalizer_iff]
   intro p
   refine ⟨fun hp => pCoreOf_normalized _ hqK hp, fun hp => ?_⟩
   have := pCoreOf_normalized _ ((CGOf x).inv_mem hqK) hp
   simpa [mul_assoc] using this
 
-include D hR hx in
+include C hR hx in
+variable (C) in
 theorem isPGroup_sup :
     IsPGroup 2 (CFSG.Open.pCoreOf 2 (CGOf x) ⊔ CFSG.Open.pCoreOf 2 M : Subgroup G) :=
   (isPGroup_pCoreOf' (CGOf x)).to_sup_of_normal_left' (isPGroup_pCoreOf' M)
-    (H2.Q_le_normalizer_P D hR hx)
+    (H2.Q_le_normalizer_P C hR hx)
 
-include D hR hx in
+include C hR hx in
+variable (C) in
 theorem sup_inf_le_TOf :
     (CFSG.Open.pCoreOf 2 (CGOf x) ⊔ CFSG.Open.pCoreOf 2 M) ⊓ M ≤ TOf M x := by
-  have hT2 := H2.isPGroup_sup D hR hx
+  have hT2 := H2.isPGroup_sup C hR hx
   have hTK : CFSG.Open.pCoreOf 2 (CGOf x) ⊔ CFSG.Open.pCoreOf 2 M ≤ CGOf x :=
-    sup_le (pCoreOf_le_self _) (H2.Q_le_CGOf D hR hx)
+    sup_le (pCoreOf_le_self _) (H2.Q_le_CGOf C hR hx)
   refine le_pCoreOf_of_normalized (fun t ht => ⟨ht.2, hTK ht.1⟩) (fun k hk z hz => ?_)
     (isPGroup_of_le hT2 inf_le_left)
   exact Subgroup.mem_inf.2 ⟨sup_norm hk hz.1, Subgroup.mul_mem _ (Subgroup.mul_mem _ hk.1
@@ -731,7 +741,7 @@ theorem not_P_le_Q (hKM : ¬ CGOf x ≤ M) :
   intro hPQ
   apply hKM
   have hQab := C.Q_comm hR
-  have hQK : CFSG.Open.pCoreOf 2 M ≤ CGOf x := H2.Q_le_CGOf D hR hx
+  have hQK : CFSG.Open.pCoreOf 2 M ≤ CGOf x := H2.Q_le_CGOf C hR hx
   have hx1 := H2.x_ne_one D hx hij hπ
   have hB : Subgroup.zpowers x ≠ ⊥ := by simpa [Subgroup.zpowers_eq_bot] using hx1
   have hB2 : IsPGroup 2 (Subgroup.zpowers x) :=
@@ -758,8 +768,8 @@ theorem sup_eq_TOf (hS : H2.ConjLen D) (hKM : ¬ CGOf x ≤ M) {t : G} (ht : t �
     (htQ : t ∉ CFSG.Open.pCoreOf 2 M) :
     CFSG.Open.pCoreOf 2 (CGOf x) ⊔ CFSG.Open.pCoreOf 2 M = TOf M x := by
   classical
-  have hH2 := H2.isPGroup_sup D hR hx
-  have hUT := H2.sup_inf_le_TOf D hR hx
+  have hH2 := H2.isPGroup_sup C hR hx
+  have hUT := H2.sup_inf_le_TOf C hR hx
   have hPQ := H2.not_P_le_Q D hR hx hij hπ hKM
   have hQH : CFSG.Open.pCoreOf 2 M ≠ CFSG.Open.pCoreOf 2 (CGOf x) ⊔ CFSG.Open.pCoreOf 2 M :=
     fun h' => hPQ (by rw [h']; exact le_sup_left)
@@ -813,8 +823,8 @@ include hij hπ in
 theorem stab_mem_P {a : G} (haK : a ∈ CGOf x)
     (ha : ∀ p ∈ CFSG.Open.pCoreOf 2 (CGOf x), a * p * a⁻¹ * p⁻¹ ∈ Subgroup.zpowers x) :
     a ∈ CFSG.Open.pCoreOf 2 (CGOf x) :=
-  H2.stabSub_le_pCoreOf (fun k hk => mem_centralizer_zpowers_iff.1 hk)
-    (exists_two_pow_of_mem_pCoreOf M hx) (fun k hk hkc => H2.cons_P D hx hij hπ hk hkc) ⟨haK, ha⟩
+  H2.stabSub_le_pCoreOf (fun _k hk => mem_centralizer_zpowers_iff.1 hk)
+    (exists_two_pow_of_mem_pCoreOf M hx) (fun _k hk hkc => H2.cons_P D hx hij hπ hk hkc) ⟨haK, ha⟩
 
 include hR hij hπ in
 theorem exists_ne_one_mem_Rc (hS : H2.ConjLen D) (hKM : ¬ CGOf x ≤ M) {t : G} (ht : t ∈ TOf M x)
@@ -826,7 +836,7 @@ theorem exists_ne_one_mem_Rc (hS : H2.ConjLen D) (hKM : ¬ CGOf x ≤ M) {t : G}
   have hθt := H2.theta_eq_swap D hR hx hij hπ ht htM htQ
   have hc : ∀ q ∈ CFSG.Open.pCoreOf 2 M, t * q * t⁻¹ * q⁻¹ ∈ Subgroup.zpowers x := by
     intro q hq
-    rcases H2.piQ_commQ_cases D hR hx hij hπ htM hθt ⟨q, hq⟩ with h | h
+    rcases H2.piQ_commQ_cases D hR hx hπ htM hθt ⟨q, hq⟩ with h | h
     · have h2 : t * q * t⁻¹ * q⁻¹ = 1 := hcon _ ((D.piQ_eq_one_iff _).1 h)
       rw [h2]
       exact Subgroup.one_mem _
@@ -848,7 +858,7 @@ theorem exists_ne_one_mem_Rc (hS : H2.ConjLen D) (hKM : ¬ CGOf x ≤ M) {t : G}
   have hQS : CFSG.Open.pCoreOf 2 M ≤
       H2.stabSub (CGOf x) (CFSG.Open.pCoreOf 2 (CGOf x)) x hxK := by
     intro q hq
-    refine ⟨H2.Q_le_CGOf D hR hx hq, fun p hp => ?_⟩
+    refine ⟨H2.Q_le_CGOf C hR hx hq, fun p hp => ?_⟩
     rcases H2.mem_Q_or_mul_inv_mem_Q D hR hx hij hπ ht htQ (hPT hp) with h | h
     · have e : q * p * q⁻¹ * p⁻¹ = 1 := by rw [hQab q hq p h]; group
       rw [e]
@@ -925,7 +935,7 @@ theorem exists_central_not_Q (hS : H2.ConjLen D) (hKM : ¬ CGOf x ≤ M) {t : G}
       _ = k * (e * (k⁻¹ * p * k)) * k⁻¹ := by rw [h1]
       _ = (k * e * k⁻¹) * p := by group
   have hQP : CFSG.Open.pCoreOf 2 M ≤ P :=
-    H2.le_pCoreOf_of_centralizer hKE (H2.Q_le_CGOf D hR hx) (isPGroup_pCoreOf' M)
+    H2.le_pCoreOf_of_centralizer hKE (H2.Q_le_CGOf C hR hx) (isPGroup_pCoreOf' M)
       (fun q hq => Subgroup.mem_centralizer_iff.2 fun e he => hQab e (hEQ he) q hq)
       (fun c hc q hq => pCoreOf_normalized M (hCE c hc) hq)
   exact H2.not_Q_le_P D hR hx hij hπ hS hKM ht htQ hQP
@@ -959,10 +969,10 @@ theorem exists_piQ_commQ_eq {t : G} (htM : t ∈ M) (hθ : C.θ ⟨t, htM⟩ = s
   have hne : barInd ({j, k} : Finset (Fin 10)) ≠ barInd ({i, k} : Finset (Fin 10)) := by
     unfold barInd
     refine bar_mk_ne_of_coords (i := i) (j := k) ?_ ?_
-    · simp [indVec, hij, hki.symm, Ne.symm hki]
+    · simp [indVec, hij, Ne.symm hki]
     · simp [indVec]
   refine ⟨q, ?_⟩
-  rcases H2.piQ_commQ_cases D hR hx hij hπ htM hθ q with h | h
+  rcases H2.piQ_commQ_cases D hR hx hπ htM hθ q with h | h
   · exfalso
     have h1 : D.piQ (⟨t * q * t⁻¹, pCoreOf_normalized M htM q.2⟩ : ↥(CFSG.Open.pCoreOf 2 M)) =
         D.piQ q := by
@@ -996,7 +1006,7 @@ theorem card_Q_le_two_mul (hS : H2.ConjLen D) (hKM : ¬ CGOf x ≤ M) {t : G} (h
       CFSG.Open.pCoreOf 2 (CGOf x) := by
     intro q hq
     have hqt : q * t' = t' * q := Subgroup.mem_centralizer_singleton_iff.1 hq.2
-    refine H2.cons_P D hx hij hπ (H2.Q_le_CGOf D hR hx hq.1) fun p hp => ?_
+    refine H2.cons_P D hx hij hπ (H2.Q_le_CGOf C hR hx hq.1) fun p hp => ?_
     rcases H2.mem_Q_or_mul_inv_mem_Q D hR hx hij hπ ht'T ht'Q (hPT hp) with h | h
     · exact hQab p h q hq.1
     · have h1 : (p * t'⁻¹) * q = q * (p * t'⁻¹) := hQab _ h q hq.1
@@ -1014,7 +1024,7 @@ theorem card_Q_le_two_mul (hS : H2.ConjLen D) (hKM : ¬ CGOf x ≤ M) {t : G} (h
   have hxc : (⟨x, hx⟩ : ↥(CFSG.Open.pCoreOf 2 M)) ∉ (H2.commQ C hR ht'M).range := by
     rintro ⟨y, hy⟩
     have hyx : t' * (y : G) * t'⁻¹ * (y : G)⁻¹ = x := congrArg Subtype.val hy
-    have hyK : (y : G) ∈ CGOf x := H2.Q_le_CGOf D hR hx y.2
+    have hyK : (y : G) ∈ CGOf x := H2.Q_le_CGOf C hR hx y.2
     have hyP : (y : G) ∈ CFSG.Open.pCoreOf 2 (CGOf x) := by
       refine H2.stab_mem_P D hx hij hπ hyK fun p hp => ?_
       rcases H2.mem_Q_or_mul_inv_mem_Q D hR hx hij hπ ht'T ht'Q (hPT hp) with h | h
@@ -1035,7 +1045,7 @@ theorem card_Q_le_two_mul (hS : H2.ConjLen D) (hKM : ¬ CGOf x ≤ M) {t : G} (h
     exact H2.x_ne_one D hx hij hπ (hyx.symm.trans h1)
   have hy := H2.exists_piQ_commQ_eq D hR hx hij hπ ht'M hθ'
   have key := H2.card_le_two_mul_ker D.piQ (H2.commQ C hR ht'M) (D.piQ ⟨x, hx⟩)
-    (H2.piQ_commQ_cases D hR hx hij hπ ht'M hθ') ⟨x, hx⟩ rfl hxc hy
+    (H2.piQ_commQ_cases D hR hx hπ ht'M hθ') ⟨x, hx⟩ rfl hxc hy
     ((H2.card_ker_piQ D).le.trans hR)
   rw [H2.card_ker_commQ C hR ht'M, hEq] at key
   exact key
@@ -1051,8 +1061,8 @@ theorem centralizer_le_M_aux (hS : H2.ConjLen D) : CGOf x ≤ M := by
     have hB : Subgroup.zpowers x ≠ ⊥ := by simpa [Subgroup.zpowers_eq_bot] using hx1
     have h2 := (C.centralizer_le_M hR (Subgroup.zpowers_le.2 hx) hB hTQ).2
     exact (Subgroup.centralizer_le_normalizer _).trans h2
-  obtain ⟨t, ht, htQ⟩ := SetLike.not_le_iff_exists.1 hTQ
-  obtain ⟨g, hgK, hgM⟩ := SetLike.not_le_iff_exists.1 hKM
+  obtain ⟨t, ht, htQ⟩ := IsConcreteLE.not_le_iff_exists.1 hTQ
+  obtain ⟨g, hgK, hgM⟩ := IsConcreteLE.not_le_iff_exists.1 hKM
   obtain ⟨t', ht'P, ht'Q, ht'c⟩ := H2.exists_central_not_Q D hR hx hij hπ hS hKM ht htQ
   have hsup := H2.sup_eq_TOf D hR hx hij hπ hS hKM ht htQ
   have hPT : CFSG.Open.pCoreOf 2 (CGOf x) ≤ TOf M x := le_sup_left.trans hsup.le
@@ -1174,7 +1184,7 @@ theorem centralizer_le_M_of_len_two (hR : Nat.card ↥(Rc X) ≤ 2)
     (x : ↥(CFSG.Open.pCoreOf 2 M)) (hl : barLen (Multiplicative.toAdd (D.piQ x)) = 2) :
     Subgroup.centralizer ({(x : G)} : Set G) ≤ M :=
   D.centralizer_le_M_of_len_two_of hR
-    (fun y hy g hg => D.mem_M_of_conj_len_four hR y hy hg) x hl
+    (fun y hy _g hg => D.mem_M_of_conj_len_four hR y hy hg) x hl
 
 end Cfg.PiData
 

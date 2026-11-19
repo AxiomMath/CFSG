@@ -144,20 +144,20 @@ theorem ff_single_right (u : Fin e7Data.d →₀ ZMod 2) (a : Fin e7Data.d) :
     have h := F.ff_single_single b a
     by_cases hb : b = F.opI a
     · have hab : a = F.opI b := by rw [hb, F.opI_opI]
-      rw [if_pos hab] at h
-      rw [if_pos hb]
+      rw [ite_eq_left hab] at h
+      rw [ite_eq_left hb]
       exact h
     · have hab : ¬ a = F.opI b := fun h' => hb (by rw [h', F.opI_opI])
-      rw [if_neg hab] at h
-      rw [if_neg hb]
+      rw [ite_eq_right hab] at h
+      rw [ite_eq_right hb]
       exact h
   conv_lhs => rw [h1, F.finsupp_eq_sum_single u]
   rw [map_sum, LinearMap.sum_apply, Finset.sum_congr rfl (fun b _ => h2 b),
     Finset.sum_ite_eq' u.support (F.opI a)]
   by_cases h : u (F.opI a) = 0
-  · rw [if_neg (fun hm => (Finsupp.mem_support_iff.1 hm) h), h]
+  · rw [ite_eq_right (fun hm => (Finsupp.mem_support_iff.1 hm) h), h]
   · have h1' : ∀ x : ZMod 2, x ≠ 0 → x = 1 := by decide
-    rw [if_pos (Finsupp.mem_support_iff.2 h), h1' _ h]
+    rw [ite_eq_left (Finsupp.mem_support_iff.2 h), h1' _ h]
 
 theorem exists_ne_zero_of_rep (k : Fin 5) (hk : 3 ≤ k.val)
     (q : QuadraticForm (ZMod 2) (Fin e7Data.d →₀ ZMod 2))

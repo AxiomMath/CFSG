@@ -40,8 +40,8 @@ theorem false_of_commute_perfect_of_odd_central_psl_three
     have hQodd : Odd (Nat.card (Z ⧸ (P : Subgroup Z))) :=
       Nat.odd_iff.mpr (Nat.two_dvd_ne_zero.mp P.not_dvd_index)
     have hQ : Group.IsSolvable (Z ⧸ (P : Subgroup Z)) := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hQodd
-    have hPnil : Group.IsNilpotent (P : Subgroup Z) := P.isPGroup'.isNilpotent
-    exact solvable_of_ker_le_range (P : Subgroup Z).subtype (QuotientGroup.mk' (P : Subgroup Z))
+    have hPnil : Group.IsNilpotent (P : Subgroup Z) := P.isPGroup.isNilpotent
+    exact Group.isSolvable_of_ker_le_range (P : Subgroup Z).subtype (QuotientGroup.mk' (P : Subgroup Z))
       (by rw [QuotientGroup.ker_mk', Subgroup.range_subtype])
   have hBZ : B ≤ Z := fun b hb => mem_centralizer_singleton_iff.mpr (hBC b hb v v.2)
   exact hB1 (CFSG.AGLEmbedding.eq_bot_of_commutator_eq_self_of_le hBZ hZsolv hB)

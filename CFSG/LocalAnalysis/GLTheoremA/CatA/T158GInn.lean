@@ -111,6 +111,7 @@ section Fin
 
 variable {Ω : Type} [Group Ω] [Finite Ω]
 
+omit [Finite Ω] in
 theorem t158g_card_pSimple_dvd {p : ℕ} (J : Subgroup Ω) : Nat.card (PSimple p J) ∣ Nat.card J :=
   (Subgroup.card_quotient_dvd_card _).trans (Subgroup.card_quotient_dvd_card _)
 
@@ -133,7 +134,7 @@ theorem t158g_prime_dvd_card_pSimple {p : ℕ} (hp : p.Prime) {X J : Subgroup Ω
 theorem t158g_exists_fixed_of_pow {S : Type*} [Group S] [Finite S] {p : ℕ} (hp : p.Prime)
     (x : MulAut S) (hx : x ^ p = 1) (hdvd : p ∣ Nat.card S) : ∃ y ∈ fixSubgroup x, orderOf y = p := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hmod := CFSG.HardMathSupport.Lang.Proving.card_modEq_card_fixedPoints_of_pow_prime x hx
   have hcard : Nat.card {y : S // x y = y} = Nat.card (fixSubgroup x) :=
     Nat.card_congr (Equiv.refl _)
@@ -145,7 +146,8 @@ theorem t158g_exists_fixed_of_pow {S : Type*} [Group S] [Finite S] {p : ℕ} (hp
   refine ⟨y.1, y.2, ?_⟩
   rwa [Subgroup.orderOf_coe]
 
-theorem t158g_chevAut_mem_stab {p : ℕ} {K J : Subgroup Ω} {b : Ω} (hJK : J ≤ K)
+omit [Finite Ω] in
+theorem t158g_chevAut_mem_stab {p : ℕ} {K J : Subgroup Ω} {b : Ω} (_hJK : J ≤ K)
     (hbK : b ∈ Subgroup.normalizer (K : Set Ω)) (hbJ : b ∈ Subgroup.normalizer (J : Set Ω)) :
     chevAut p K ⟨b, hbK⟩ ∈ CFSG.GroupActions.subgroupStabAut (chevTransfer p K J) := by
   have key : ∀ (c : Ω) (hcN : c ∈ Subgroup.normalizer (K : Set Ω))
@@ -171,6 +173,7 @@ theorem t158g_chevAut_mem_stab {p : ℕ} {K J : Subgroup Ω} {b : Ω} (hJK : J �
     Subtype.ext (mul_inv_cancel b)
   rw [this, map_one, MulAut.one_apply]
 
+omit [Finite Ω] in
 theorem t158g_indAut_of_mem {p : ℕ} {S : Subgroup Ω} (l : ↥S) :
     indAut p S (l : Ω) (Subgroup.le_normalizer l.2) = MulAut.conj (chevQuotHom p S l)⁻¹ := by
   ext s
@@ -231,8 +234,8 @@ theorem t158g_core {p : ℕ} (hp : p.Prime) {S : Subgroup Ω} {b c : Ω} {L : Su
     (hFA : T156.FixAlt p I (MulAut.congr θ (indAut p S b hbN))) :
     InnDiagOn p (Subgroup.zpowers c) L := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite R := Finite.of_equiv (PSimple p S) θ.toEquiv
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite R := Finite.of_equiv (PSimple p S) θ.toEquiv
   set β := indAut p S b hbN with hβ
   set x := MulAut.congr θ β with hx
   set φc := MulAut.congr θ (indAut p S c hcN) with hφc
@@ -338,7 +341,7 @@ theorem t158g_core {p : ℕ} (hp : p.Prime) {S : Subgroup Ω} {b c : Ω} {L : Su
     congr 1
     exact Subtype.ext hkey
   ·
-    haveI := hs
+    have := hs
     have hZ : Subgroup.center R = ⊥ := T156.center_eq_bot_of_simple_noncomm hna
     have hcS' : c⁻¹ ∈ Subgroup.normalizer (S : Set Ω) := Subgroup.inv_mem _ hcN
     have hcL' : c⁻¹ ∈ Subgroup.normalizer (L : Set Ω) := Subgroup.inv_mem _ hcL
@@ -433,8 +436,8 @@ theorem t158g_geom : T156.T156Geom :=
 
 theorem t158g_hall {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) : ∀ lab, LargeEvenInLambda2 lab →
     MI.CAll lab (LargeEvenSimpleGuard
-      (fun R _ I F => T156.GeomBody p lab R I F ∧ MI.RawInnBody p R I F)) := fun lab hlab =>
-  MI.CAll.mono (fun R _ I F h hs hna => ⟨h.1, h.2 hs hna⟩)
+      (fun _R _ _I _F => T156.GeomBody p lab _R _I _F ∧ MI.RawInnBody p _R _I _F)) := fun lab hlab =>
+  MI.CAll.mono (fun _R _ _I _F h hs hna => ⟨h.1, h.2 hs hna⟩)
     (MI.CAll.and (t158g_geom p hp hp2 lab hlab) (MI.canonRawInn' hp hp2 hlab))
 
 theorem t158g_field_restrict {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {S : Subgroup Ω} {b c : Ω} {L : Subgroup Ω}
@@ -498,7 +501,7 @@ theorem t158g_td4_restrict {S : Subgroup Ω} {b c : Ω} {L : Subgroup Ω}
     (P' := fun lab R _ I F => T156.GeomBody 3 lab R I F ∧ MI.RawInnBody 3 R I F) (t158g_hall hp hp2) hM
   obtain ⟨-, lab, hlab, R, _, I, F, θ, hs, hna, ⟨⟨-, hMM⟩, φ, hφ, hindc⟩, hGB, hRaw⟩ :=
     Canonical.largeEvenMarking_exists hM'
-  haveI : Finite R := Finite.of_equiv (PSimple 3 S) θ.toEquiv
+  have : Finite R := Finite.of_equiv (PSimple 3 S) θ.toEquiv
   have htag : lab.tag = .triD4 := tag_triD4_of_isTD4 hMM hTD4 θ
   have hcI : MulAut.congr θ (indAut 3 S c hcN) ∈ I := by
     rw [← (induces_indRel_iff hcN θ).1 hindc]

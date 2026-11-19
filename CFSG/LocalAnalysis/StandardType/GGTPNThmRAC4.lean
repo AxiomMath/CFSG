@@ -72,12 +72,12 @@ private theorem ggKacRA_b36_labelIso_twA_rankThree {labL labJ' labJ : LargeEvenL
     unfold GGB36JLabel at hJ
     rcases hJ with ⟨-, -, h⟩ | ⟨-, -, h⟩ | ⟨hbad, -⟩ | ⟨hbad, -⟩
     · rcases h with h | h | h | h | h <;>
-        (rw [h] at hiso <;>
-          unfold GGLabelIso at hiso <;>
+        (rw [h] at hiso;
+          unfold GGLabelIso at hiso;
           (rcases hiso with h1 | h1 | h1 | h1 | h1 | h1 | h1 | h1 <;> simp_all))
     · rcases h with h | h | ⟨-, h⟩ <;>
-        (rw [h] at hiso <;>
-          unfold GGLabelIso at hiso <;>
+        (rw [h] at hiso;
+          unfold GGLabelIso at hiso;
           (rcases hiso with h1 | h1 | h1 | h1 | h1 | h1 | h1 | h1 <;> simp_all))
     · simp_all
     · simp_all
@@ -87,12 +87,12 @@ private theorem ggKacRA_b36_labelIso_twA_rankThree {labL labJ' labJ : LargeEvenL
     · simp_all
     · simp_all
     · rcases h with h | h <;>
-        (rw [h] at hiso <;>
-          unfold GGLabelIso at hiso <;>
+        (rw [h] at hiso;
+          unfold GGLabelIso at hiso;
           (rcases hiso with h1 | h1 | h1 | h1 | h1 | h1 | h1 | h1 <;> simp_all))
     · rcases h with h | h | h | h | h | ⟨-, h⟩ <;>
-        (rw [h] at hiso <;>
-          unfold GGLabelIso at hiso <;>
+        (rw [h] at hiso;
+          unfold GGLabelIso at hiso;
           (rcases hiso with h1 | h1 | h1 | h1 | h1 | h1 | h1 | h1 <;> simp_all))
 
 private theorem ggKacRA_b36_labelIso_twA_rankFour {labL labJ' labJ : LargeEvenLabel}
@@ -108,12 +108,12 @@ private theorem ggKacRA_b36_labelIso_twA_rankFour {labL labJ' labJ : LargeEvenLa
     unfold GGB36JLabel at hJ
     rcases hJ with ⟨-, -, h⟩ | ⟨-, -, h⟩ | ⟨hbad, -⟩ | ⟨hbad, -⟩
     · rcases h with h | h | h | h | h <;>
-        (rw [h] at hiso <;>
-          unfold GGLabelIso at hiso <;>
+        (rw [h] at hiso;
+          unfold GGLabelIso at hiso;
           (rcases hiso with h1 | h1 | h1 | h1 | h1 | h1 | h1 | h1 <;> simp_all))
     · rcases h with h | h | ⟨-, h⟩ <;>
-        (rw [h] at hiso <;>
-          unfold GGLabelIso at hiso <;>
+        (rw [h] at hiso;
+          unfold GGLabelIso at hiso;
           (rcases hiso with h1 | h1 | h1 | h1 | h1 | h1 | h1 | h1 <;> simp_all))
     · simp_all
     · simp_all
@@ -123,12 +123,12 @@ private theorem ggKacRA_b36_labelIso_twA_rankFour {labL labJ' labJ : LargeEvenLa
     · simp_all
     · simp_all
     · rcases h with h | h <;>
-        (rw [h] at hiso <;>
-          unfold GGLabelIso at hiso <;>
+        (rw [h] at hiso;
+          unfold GGLabelIso at hiso;
           (rcases hiso with h1 | h1 | h1 | h1 | h1 | h1 | h1 | h1 <;> simp_all))
     · rcases h with h | h | h | h | h | ⟨-, h⟩ <;>
-        (rw [h] at hiso <;>
-          unfold GGLabelIso at hiso <;>
+        (rw [h] at hiso;
+          unfold GGLabelIso at hiso;
           (rcases hiso with h1 | h1 | h1 | h1 | h1 | h1 | h1 | h1 <;> simp_all))
 
 private theorem ggKacRA_b36_row_twA41 :

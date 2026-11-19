@@ -1,7 +1,7 @@
 module
 
 public import Mathlib.Algebra.Group.Subgroup.Pointwise
-public import Mathlib.Data.Finite.Card
+public import Mathlib.SetTheory.Cardinal.NatCard
 
 namespace CFSG
 end CFSG

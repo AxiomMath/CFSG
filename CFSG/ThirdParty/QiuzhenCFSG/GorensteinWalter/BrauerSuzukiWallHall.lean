@@ -49,7 +49,7 @@ public theorem BrauerSuzukiWallHypotheses.hall_H
     obtain ⟨Q, hTQ⟩ := IsPGroup.exists_le_sylow hTp
     have htQ : h.t ∈ (Q : Subgroup G) :=
       hTQ (Subgroup.mem_zpowers h.t)
-    let : Fact (IsPGroup 2 Q) := ⟨Q.isPGroup'⟩
+    let : Fact (IsPGroup 2 Q) := ⟨Q.isPGroup⟩
     have : Nontrivial Q := by
       refine ⟨⟨⟨h.t, htQ⟩, 1, ?_⟩⟩
       intro heq
@@ -161,7 +161,7 @@ public theorem BrauerSuzukiWallHypotheses.hall_H
           _ = 1 := by rw [hsk, hss]; simp
     let P : Sylow p h.H := default
     let PG : Subgroup G := (P : Subgroup h.H).map h.H.subtype
-    have hPGp : IsPGroup p PG := P.isPGroup'.map h.H.subtype
+    have hPGp : IsPGroup p PG := P.isPGroup.map h.H.subtype
     have hpPGIndex : p ∣ PG.index := by
       dsimp [PG]
       rw [Subgroup.index_map_subtype]
@@ -192,7 +192,7 @@ public theorem BrauerSuzukiWallHypotheses.hall_H
           exact hxI.2
         · exact hxPne
       have hpdvd2 : p ∣ 2 := by
-        have hpdvd := P.isPGroup'.dvd_orderOf hxPne
+        have hpdvd := P.isPGroup.dvd_orderOf hxPne
         rwa [hxPord] at hpdvd
       exact hp2 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).mp hpdvd2)
     have hPneBot : (P : Subgroup h.H) ≠ ⊥ := by
@@ -225,7 +225,7 @@ public theorem BrauerSuzukiWallHypotheses.hall_H
       simpa [mul_assoc] using hback
     obtain ⟨Y, hPGY, _hYQ, hYNorm, hYp⟩ :=
       section10_exists_pSubgroup_gt_le_normalizer_of_lt_pgroup
-        Q.isPGroup' hPGltQ
+        Q.isPGroup hPGltQ
     have hYH : Y ≤ h.H := hYNorm.trans hNormPG
     let YH : Subgroup h.H := Y.subgroupOf h.H
     have hYHp : IsPGroup p YH :=

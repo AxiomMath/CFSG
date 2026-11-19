@@ -73,7 +73,7 @@ private theorem ggNbrLSide_comap_inf_centralizer_eq_fixSubgroup {G : Type} [Grou
   exact ⟨fun h => h.2.symm, fun h => ⟨l.2, h.symm⟩⟩
 
 theorem ggNbrLSide_comp_transport {G : Type} [Group G] [Finite G] {L K : Subgroup G} {g : G}
-    (hL : CFSG.Assembly.IsQuasisimple L) {R : Type} [Group R]
+    (_hL : CFSG.Assembly.IsQuasisimple L) {R : Type} [Group R]
     (θ : ↥L ⧸ Subgroup.center ↥L ≃* R) (hg : g ∈ normalizer (L : Set G))
     (hK : CFSG.Assembly.IsComponentOf K (L ⊓ centralizer ({g} : Set G))) :
     ∃ (K' : Subgroup R) (ψK : ↥K →* ↥K') (e : ↥K ⧸ Subgroup.center ↥K ≃*
@@ -110,8 +110,8 @@ theorem ggNbrLSide_comp_transport {G : Type} [Group G] [Finite G] {L K : Subgrou
     have hz := Subgroup.mem_center_iff.1 (hker (MonoidHom.mem_ker.2 h1)) ⟨g', hKL g'.2⟩
     have hz' : (g' : G) * k = (k : G) * g' := congrArg Subtype.val hz
     exact Subtype.ext hz'
-  haveI : Group.IsPerfect ↥K := ⟨hK.2.2.1⟩
-  haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hK.2.2.2
+  have : Group.IsPerfect ↥K := ⟨hK.2.2.1⟩
+  have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hK.2.2.2
   obtain ⟨e, he⟩ := ggNbrLSide_centralQuot_equiv ψ hψ hψker hK.2.2.1
   exact ⟨K', ψ, e, ⟨hsub.le, isSubnormal_iff_open.1 hsub,
     (Group.IsPerfect.ofSurjective hψ).commutator_eq_top, e.symm.isSimpleGroup⟩, hψ,

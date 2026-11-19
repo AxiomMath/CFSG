@@ -177,6 +177,7 @@ theorem f112_mem_S_of_mem_bigB_of_two_element
       (Subgroup.zpowers_le.mpr hxB) hX
   exact hle (Subgroup.mem_zpowers x)
 
+omit [Finite G] in
 theorem f112_mem_C1_of_fixes_γ₀ (L1 L2 S : Subgroup G) {h : f112Act L1 L2 S}
     (hfix : f112CosetSMul h (CosetGeom.γ₀ (f112C1 L1 L2 S ⊔ f112C2 L1 L2 S)
       (f112C1 L1 L2 S) (f112C2 L1 L2 S)) =
@@ -191,6 +192,7 @@ theorem f112_mem_C1_of_fixes_γ₀ (L1 L2 S : Subgroup G) {h : f112Act L1 L2 S}
   rwa [CosetGeom.stab_γ₀ (le_sup_left :
     f112C1 L1 L2 S ≤ f112C1 L1 L2 S ⊔ f112C2 L1 L2 S)] at hmem
 
+omit [Finite G] in
 theorem f112_mem_C2_of_fixes_γ₁ (L1 L2 S : Subgroup G) {h : f112Act L1 L2 S}
     (hfix : f112CosetSMul h (CosetGeom.γ₁ (f112C1 L1 L2 S ⊔ f112C2 L1 L2 S)
       (f112C1 L1 L2 S) (f112C2 L1 L2 S)) =
@@ -205,11 +207,13 @@ theorem f112_mem_C2_of_fixes_γ₁ (L1 L2 S : Subgroup G) {h : f112Act L1 L2 S}
   rwa [CosetGeom.stab_γ₁ (le_sup_right :
     f112C2 L1 L2 S ≤ f112C1 L1 L2 S ⊔ f112C2 L1 L2 S)] at hmem
 
+omit [Finite G] in
 theorem mem_f112C1_of_mem_P1 {L1 L2 S : Subgroup G}
     {x : ↥(f112BaseGroup L1 L2 S)} (hx : ((x : G)) ∈ P1 L1 L2 S) :
     x ∈ f112C1 L1 L2 S := by
   exact MonoidHom.mem_range.mpr ⟨⟨(x : G), hx⟩, Subtype.ext rfl⟩
 
+omit [Finite G] in
 theorem mem_f112C2_of_mem_P2 {L1 L2 S : Subgroup G}
     {x : ↥(f112BaseGroup L1 L2 S)} (hx : ((x : G)) ∈ P2 L1 L2 S) :
     x ∈ f112C2 L1 L2 S := by
@@ -282,21 +286,24 @@ theorem f112_conj_mem_S_of_fixes_nbr_γ₀ {L1 L2 S : Subgroup G}
   refine ⟨k, ?_⟩
   have hconj : (((c : Y)⁻¹ * (h : Y) * (c : Y) : Y) : G) =
       (MulAut.conj ((c : Y) : G)⁻¹) ((h : Y) : G) := by
-    simp [MulAut.conj_apply]
+    simp
   rw [hconj, (MulAut.conj ((c : Y) : G)⁻¹).orderOf_eq, hk]
 
+omit [Finite G] in
 theorem f112C1_mem_P1 {L1 L2 S : Subgroup G} {x : ↥(f112BaseGroup L1 L2 S)}
     (hx : x ∈ f112C1 L1 L2 S) : ((x : G)) ∈ P1 L1 L2 S := by
   rcases MonoidHom.mem_range.mp hx with ⟨p, hp⟩
   rw [← hp]
   exact p.2
 
+omit [Finite G] in
 theorem f112C2_mem_P2 {L1 L2 S : Subgroup G} {x : ↥(f112BaseGroup L1 L2 S)}
     (hx : x ∈ f112C2 L1 L2 S) : ((x : G)) ∈ P2 L1 L2 S := by
   rcases MonoidHom.mem_range.mp hx with ⟨p, hp⟩
   rw [← hp]
   exact p.2
 
+omit [Finite G] in
 theorem f112_exists_C1_smul_γ1_of_adj_γ0 (L1 L2 S : Subgroup G)
     {u : f112Verts L1 L2 S}
     (hu : (CosetGeom.graph (f112C1 L1 L2 S ⊔ f112C2 L1 L2 S) (f112C1 L1 L2 S)
@@ -318,6 +325,7 @@ theorem f112_exists_C1_smul_γ1_of_adj_γ0 (L1 L2 S : Subgroup G)
     rw [f112CosetSMul_eq_smul, CosetGeom.smul_γ₁]
     exact congrArg Sum.inr hgy
 
+omit [Finite G] in
 theorem f112_exists_C2_smul_γ0_of_adj_γ1 (L1 L2 S : Subgroup G)
     {u : f112Verts L1 L2 S}
     (hu : (CosetGeom.graph (f112C1 L1 L2 S ⊔ f112C2 L1 L2 S) (f112C1 L1 L2 S)
@@ -339,6 +347,7 @@ theorem f112_exists_C2_smul_γ0_of_adj_γ1 (L1 L2 S : Subgroup G)
     rw [f112CosetSMul_eq_smul, CosetGeom.smul_γ₀]
     exact congrArg Sum.inl hgx
 
+omit [Finite G] in
 theorem f112VertexCore_smul_γ₁ (L1 L2 S : Subgroup G) (a : f112Act L1 L2 S) :
     f112VertexCore L1 L2 S
         (f112CosetSMul a (CosetGeom.γ₁ (f112C1 L1 L2 S ⊔ f112C2 L1 L2 S)
@@ -415,7 +424,7 @@ theorem f112_mem_Q1_of_fixes_two_nbrs_γ₀ {L1 L2 S : Subgroup G}
       f112CosetSMul_γ₁_of_mem (A := f112C1 L1 L2 S) (B := f112C2 L1 L2 S) hgC2
     have hb_eq : b = a * hgA := by
       apply Subtype.ext
-      simp [hgA, gY, mul_assoc]
+      simp [hgA, gY]
     apply hne
     calc f112CosetSMul a (CosetGeom.γ₁ (f112C1 L1 L2 S ⊔ f112C2 L1 L2 S)
           (f112C1 L1 L2 S) (f112C2 L1 L2 S))
@@ -483,7 +492,7 @@ theorem f112_conj_mem_S_of_fixes_nbr_γ₁ {L1 L2 S : Subgroup G}
   refine ⟨k, ?_⟩
   have hconj : (((c : Y)⁻¹ * (h : Y) * (c : Y) : Y) : G) =
       (MulAut.conj ((c : Y) : G)⁻¹) ((h : Y) : G) := by
-    simp [MulAut.conj_apply]
+    simp
   rw [hconj, (MulAut.conj ((c : Y) : G)⁻¹).orderOf_eq, hk]
 
 theorem f112_mem_Q2_of_fixes_two_nbrs_γ₁ {L1 L2 S : Subgroup G}
@@ -538,7 +547,7 @@ theorem f112_mem_Q2_of_fixes_two_nbrs_γ₁ {L1 L2 S : Subgroup G}
       f112CosetSMul_γ₀_of_mem (A := f112C1 L1 L2 S) (B := f112C2 L1 L2 S) hgC1
     have hb_eq : b = a * hgA := by
       apply Subtype.ext
-      simp [hgA, gY, mul_assoc]
+      simp [hgA, gY]
     apply hne
     calc f112CosetSMul a (CosetGeom.γ₀ (f112C1 L1 L2 S ⊔ f112C2 L1 L2 S)
           (f112C1 L1 L2 S) (f112C2 L1 L2 S))
@@ -648,7 +657,7 @@ theorem f112_mem_vertexCore_of_fixes_two_nbrs
       obtain ⟨k, hk⟩ := h2
       refine ⟨k, ?_⟩
       have hconj : ((h' : Y) : G) = (MulAut.conj ((x : Y) : G)⁻¹) ((h : Y) : G) := by
-        simp [h', MulAut.conj_apply]
+        simp [h']
       rw [hconj, (MulAut.conj ((x : Y) : G)⁻¹).orderOf_eq, hk]
     have hQ1 : ((h' : Y) : G) ∈ Q1 L1 L2 S :=
       f112_mem_Q1_of_fixes_two_nbrs_γ₀ hF hSB h1v haP1 hbP1 hneab hfix0 hfixa' hfixb' h2'
@@ -722,7 +731,7 @@ theorem f112_mem_vertexCore_of_fixes_two_nbrs
       obtain ⟨k, hk⟩ := h2
       refine ⟨k, ?_⟩
       have hconj : ((h' : Y) : G) = (MulAut.conj ((x : Y) : G)⁻¹) ((h : Y) : G) := by
-        simp [h', MulAut.conj_apply]
+        simp [h']
       rw [hconj, (MulAut.conj ((x : Y) : G)⁻¹).orderOf_eq, hk]
     have hQ2 : ((h' : Y) : G) ∈ Q2 L1 L2 S :=
       f112_mem_Q2_of_fixes_two_nbrs_γ₁ hF hSB h2v haP2 hbP2 hneab hfix0 hfixa' hfixb' h2'

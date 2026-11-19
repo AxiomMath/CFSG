@@ -41,7 +41,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem pRank_B_eq {m : ℕ} {B M E A D T R L0 : Subgroup G} {d : G}
     (h : Cex1310 G m 3 B M E A D T R L0 d) : CFSG.Open.pRank 3 B = m := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact pRank_eq_of_card h.bOne.1.1 (h.standing.card_eq h.bOne)
 
 end Rank
@@ -61,7 +61,7 @@ theorem gamma_of_aut {B : Subgroup G} {u : G} {Kc : Subgroup G} (hBel : IsElemAb
     (hBC : B ≤ Cg u) (hKc : GLAPComponent 3 (Cg u) Kc)
     (haut : 2 + CFSG.Open.pRank 3 (⊤ : Subgroup (MulAut (barOf 3 Kc))) ≤ CFSG.Open.pRank 3 B) :
     barX 3 (Cg u) Kc ≤ GLBCore 3 2 (barX 3 (Cg u) B) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : Nat.Prime 3 := Nat.prime_three
   have hcoreX : GLAPPrimeCore 3 (↥(Cg u) ⧸ GLAPPrimeCore 3 ↥(Cg u)) = ⊥ :=
     Lemma1311.glaPPrimeCore_quot_eq_bot 3 ↥(Cg u)
@@ -90,7 +90,7 @@ theorem gamma_of_rank (hI : Lemma1315b.Input23_19) {B : Subgroup G} {u : G} {Kc 
       CFSG.Open.pRank 3 B)
     (hKc : GLAPComponent 3 (Cg u) Kc) (hgood : Good2319 (barOf 3 Kc)) :
     barX 3 (Cg u) Kc ≤ GLBCore 3 2 (barX 3 (Cg u) B) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : Nat.Prime 3 := Nat.prime_three
   have hBC : B ≤ Cg u := Prop1310a5b.le_cg_of_mem hBel huB
   have hBp : IsPGroup 3 ↥B := CFSG.LocalAnalysis.GLTheoremB.isPGroup_of_isElemAbelian' hBel
@@ -132,7 +132,7 @@ theorem rank3CuM_of_res (hI : Lemma1315b.Input23_19)
   have h139b' := h139b
   obtain ⟨hp3, -⟩ := h139b
   subst hp3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hS : GLStanding G m 3 := h.standing
   have hBel : IsElemAbelian 3 B := h.bOne.1.1
   have huB : u ∈ B := hU.1.1 hu
@@ -237,7 +237,7 @@ theorem hu0Y (c : Cfg' G m B M L0 L L0b d b u0) : u0 ∈ L0 ⊓ Cg b :=
     exact c.hbu0⟩
 
 theorem hu0L0b (c : Cfg' G m B M L0 L L0b d b u0) : u0 ∈ L0b := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [c.hL0b]
   exact Prop1310a5b.mem_layer_of_three_element c.hbord c.hbL0 c.hcomm c.hq0 c.hu0Y c.hu0ord
 
@@ -333,7 +333,7 @@ theorem xne (c : Cfg' G m B M L0 L L0b d b u0) : c.xOf ≠ 1 :=
   Prop1310a5b.barAut_ne_one c.bN c.hb3 c.hLq c.hL0bc c.hL0b5 c.hnotPi
 
 theorem xorder (c : Cfg' G m B M L0 L L0b d b u0) : orderOf c.xOf = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   apply orderOf_eq_prime _ c.xne
   unfold xOf
   rw [← map_pow]
@@ -347,7 +347,7 @@ theorem hyL' (c : Cfg' G m B M L0 L L0b d b u0) : c.yOf ∈ barX 3 L L0b :=
   ⟨⟨u0, c.hu0L⟩, Subgroup.mem_subgroupOf.2 c.hu0L0b, rfl⟩
 
 theorem yorder (c : Cfg' G m B M L0 L L0b d b u0) : orderOf c.yOf = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hy3 : c.yOf ^ 3 = 1 := by
     unfold yOf
     rw [← map_pow]
@@ -372,7 +372,7 @@ theorem hL'comp (c : Cfg' G m B M L0 L L0b d b u0) :
   exact Prop115b.barX_glaPComponent_of_le Nat.prime_three (inf_le_left : L ⊓ Cg b ≤ L) c.hL0bc
 
 theorem hL'5 (c : Cfg' G m B M L0 L L0b d b u0) : IsAltType 5 (barOf 3 (barX 3 L L0b)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨f⟩ := c.hL0b5
   exact ⟨(Prop115.barOfIso (p := 3) c.hL0bL).symm.trans f⟩
 
@@ -423,7 +423,7 @@ theorem barAut_mem_A (c : Cfg' G m B M L0 L L0b d b u0) :
   obtain ⟨hN, h⟩ := key
   exact h
 
-theorem bU1 (c : Cfg' G m B M L0 L L0b d b u0) : b ∈ Subgroup.closure {u0, b} :=
+theorem bU1 (_c : Cfg' G m B M L0 L L0b d b u0) : b ∈ Subgroup.closure {u0, b} :=
   Subgroup.subset_closure (Set.mem_insert_of_mem _ (Set.mem_singleton _))
 
 theorem hL0bL0 (c : Cfg' G m B M L0 L L0b d b u0) : L0b ≤ L0 := c.hL0bY.trans inf_le_left
@@ -445,7 +445,7 @@ theorem tfam_le_L (c : Cfg' G m B M L0 L L0b d b u0) {S : MulAut (barOf 3 L) →
 theorem Ks_eq (c : Cfg' G m B M L0 L L0b d b u0) (S : MulAut (barOf 3 L) → Set (Subgroup (barOf 3 L)))
     (hS0 : ∀ a ∈ Agrp c.xOf c.yOf, a ≠ 1 → ∀ J ∈ S a, GLAPComponent 3 (Prop1310a5.fixedSub a) J) :
     Kstar (Agrp c.xOf c.yOf) S = barX 3 L (c.Jstar S) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   apply le_antisymm
   · refine iSup_le fun a => iSup_le fun ha => iSup_le fun J => iSup_le fun hJ => ?_
     obtain ⟨haA, ha1⟩ := ha

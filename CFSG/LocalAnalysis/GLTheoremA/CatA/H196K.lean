@@ -128,7 +128,7 @@ theorem nonabelian_innerAut {K : Type} [Group K] (hK : CFSG.Open.IsQuasisimple K
   have htop : (⊤ : Subgroup K) ≤ Subgroup.center K := by
     rw [← hK.1]
     exact hcenter
-  haveI : IsSimpleGroup (K ⧸ Subgroup.center K) := hK.2
+  have : IsSimpleGroup (K ⧸ Subgroup.center K) := hK.2
   obtain ⟨x, y, hxy⟩ := exists_pair_ne (K ⧸ Subgroup.center K)
   apply hxy
   obtain ⟨a, rfl⟩ := QuotientGroup.mk_surjective x
@@ -213,7 +213,7 @@ theorem isPGroup_zpowers {G : Type} [Group G] (p : ℕ) {x : G} (hx : x ^ p = 1)
   exact hxk
 
 theorem finite_mulAut (K : Type) [Group K] [Finite K] : Finite (MulAut K) :=
-  Finite.of_injective (fun φ : MulAut K => (φ : K ≃ K))
-    (fun φ ψ h => MulEquiv.ext (fun x => congrArg (fun e : K ≃ K => e x) h))
+  Finite.of_injective (fun _φ : MulAut K => (_φ : K ≃ K))
+    (fun _φ _ψ h => MulEquiv.ext (fun x => congrArg (fun e : K ≃ K => e x) h))
 
 end CFSG.LocalAnalysis.GLTheoremA

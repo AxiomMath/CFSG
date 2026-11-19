@@ -158,7 +158,7 @@ theorem exists_isPGroup_normalizer_moves (N : Subgroup L) [N.Normal] (hN : ¬ 3 
   have hTQ : T ≤ Q := fun y hy => le_sup_right (b := Tb) (a := Subgroup.zpowers xb) ⟨y, hy, rfl⟩
   obtain ⟨S, hTS⟩ := (hT.comap_subtype (K := Q)).exists_le_sylow
   set S' : Subgroup L := (S : Subgroup Q).map Q.subtype with hS'
-  have hS'3 : IsPGroup 3 S' := S.isPGroup'.map Q.subtype
+  have hS'3 : IsPGroup 3 S' := S.isPGroup.map Q.subtype
   have hS'Q : S' ≤ Q := Subgroup.map_subtype_le _
   have hTS' : T ≤ S' := fun y hy => ⟨⟨y, hTQ hy⟩, hTS (Subgroup.mem_subgroupOf.mpr hy), rfl⟩
   have hinj := injOn_mk_of_coprime N hN hS'3

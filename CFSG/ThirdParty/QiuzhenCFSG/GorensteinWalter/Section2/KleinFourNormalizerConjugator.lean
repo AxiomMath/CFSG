@@ -99,7 +99,7 @@ public theorem exists_outside_normalizer_conjugating_t_to
     ∃ g : G, g ∈ Subgroup.normalizer (V : Set G) ∧ g ∉ A ∧
       g * c.t * g⁻¹ = s := by
   classical
-  obtain ⟨g0, hg0N, hg0A⟩ := SetLike.not_le_iff_exists.mp hescape
+  obtain ⟨g0, hg0N, hg0A⟩ := IsConcreteLE.not_le_iff_exists.mp hescape
   let s0 : G := g0 * c.t * g0⁻¹
   have hs0V : s0 ∈ V :=
     (Subgroup.mem_normalizer_iff.mp hg0N c.t).1 htV

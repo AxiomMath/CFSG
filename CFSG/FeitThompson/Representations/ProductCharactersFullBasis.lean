@@ -242,8 +242,8 @@ theorem cfInner_prodChar (h : IsCyclicTIPair W W1 W2) [Fintype ↥W] (i i' : Irr
   by_cases hij : (i, j) = (i', j')
   · have hi : i = i' := congrArg Prod.fst hij
     have hj : j = j' := congrArg Prod.snd hij
-    rw [if_pos (by rw [hi, hj]), if_pos hij]
-  · rw [if_neg ?_, if_neg hij]
+    rw [ite_eq_left (by rw [hi, hj]), ite_eq_left hij]
+  · rw [ite_eq_right ?_, ite_eq_right hij]
     intro he
     obtain ⟨h1, h2⟩ := h.prodChar_injective i.2 i'.2 j.2 j'.2 he
     exact hij (Prod.ext (Subtype.ext h1) (Subtype.ext h2))

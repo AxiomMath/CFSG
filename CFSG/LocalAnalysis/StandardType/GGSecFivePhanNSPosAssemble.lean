@@ -38,9 +38,9 @@ theorem ggSecFiveNSKGPosAInput_of_nsLieA
   intro G _ _ p B Bs x L D J 𝒦 hcfg hL ι M e hpres hA hbig X hX hXns
   obtain ⟨K, hKf, hKfin, hKchar, f, n, ψ, hcard, hn, hker, hrange, hdvd, hacts, hlabel⟩ :=
     hLie G p B Bs x L D J 𝒦 hcfg hL ι M e hpres hA hbig X hX hXns
-  letI : Field K := hKf
-  letI : Finite K := hKfin
-  letI : CharP K 2 := hKchar
+  let : Field K := hKf
+  let : Finite K := hKfin
+  let : CharP K 2 := hKchar
   have h : GGNSLocalHyp p B Bs K f n ψ :=
     ggNSLocalHyp_of_routeCfg hcfg hX hcard hn hker hrange hdvd hacts
   obtain ⟨c, hc⟩ := ggNSLocal_position hC h

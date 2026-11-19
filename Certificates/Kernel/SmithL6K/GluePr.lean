@@ -77,7 +77,7 @@ theorem pairs_holds : chkPairs = true := by
   obtain ⟨-, hX, h8⟩ := inter_facts hi hj
   by_cases hij : i = j
   · subst hij
-    rw [Nat.and_self, wMask_card hi, if_pos rfl]
+    rw [Nat.and_self, wMask_card hi, ite_eq_left rfl]
     decide
   · have hne : (setM (wMask i &&& wMask j)).card ≠ 8 := by
       intro h
@@ -87,7 +87,7 @@ theorem pairs_holds : chkPairs = true := by
       have e2 : setM (wMask i) ∩ setM (wMask j) = setM (wMask j) :=
         Finset.eq_of_subset_of_card_le Finset.inter_subset_right (by rw [h, wMask_card hj])
       exact hij (wMask_inj hi hj (eq_of_setM_eq (wMask_lt hi) (wMask_lt hj) (e1.symm.trans e2)))
-    rw [if_neg hij]
+    rw [ite_eq_right hij]
     rcases card_pow2 hX h8 with h | h | h | h
     · rw [h]; decide
     · rw [h]; decide

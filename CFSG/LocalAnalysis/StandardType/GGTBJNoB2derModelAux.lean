@@ -122,11 +122,11 @@ theorem ggB2der_model_aux {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {x
       obtain ⟨-, -, θ, hPθ⟩ := hcont
       exact ⟨K, hKf, hKfin, by rw [hn1] at hKcard; simpa using hKcard, θ, hPθ⟩
   obtain ⟨K, hKf, hKfin, hKcard, θ, hPθ⟩ := hrawK
-  letI : Field K := hKf
-  letI : Finite K := hKfin
-  haveI hCharP : CharP K 2 :=
+  let : Field K := hKf
+  let : Finite K := hKfin
+  have hCharP : CharP K 2 :=
     CFSG.RankThree.PartOne.charP_two_of_card_eq_pow (f := 1) (by simpa using hKcard)
-  haveI hNeZero : NeZero lab.rank := ⟨by omega⟩
+  have hNeZero : NeZero lab.rank := ⟨by omega⟩
   let ψ : ↥L →* LargeEvenProj (LargeEvenSpGroup K lab.rank) := θ.toMonoidHom.comp q
   have hsurj : Function.Surjective ψ :=
     θ.surjective.comp (QuotientGroup.mk'_surjective (Subgroup.center ↥L))

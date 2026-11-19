@@ -36,6 +36,7 @@ theorem Chev204Hyp.dvd {p : ℕ} {K B : Subgroup X} (h : Chev204Hyp p K B) : p �
 theorem Chev204Hyp.sc {p : ℕ} {K B : Subgroup X} (h : Chev204Hyp p K B) : IsSCp p (K ⊔ B) B :=
   ⟨le_sup_right, h.elem, fun E _ hEel hBE => h.scp.2.2 E le_top hEel hBE⟩
 
+omit [Finite X] in
 theorem not_mem_centralizer_of_faithful {K A : Subgroup X}
     (hAf : A ⊓ Subgroup.centralizer (K : Set X) = ⊥) {a : X} (ha : a ∈ A) (ha1 : a ≠ 1) :
     a ∉ Subgroup.centralizer (K : Set X) := fun h =>
@@ -51,7 +52,7 @@ theorem chev204_inner {p : ℕ} (hDC : DefCharInnerCoreFree) (hKD : KDChevInner 
     IsStronglyBalancedIn p B K := by
   have hp := hH.prime
   have hp2 := hH.odd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hAN : A ≤ Subgroup.normalizer (K : Set X) := hAB.trans hH.norm
   have hloc : IsCompLocallyBalanced p 1 A K :=
     isCompLocallyBalanced_of_inner hp hp2 hDC hH.quasi hH.primeCore hLie hAN hAin
@@ -65,13 +66,14 @@ theorem chev204_inner {p : ℕ} (hDC : DefCharInnerCoreFree) (hKD : KDChevInner 
     by_contra hcon
     push Not at hcon
     apply hAnc
-    haveI : Subsingleton ↥A :=
+    have : Subsingleton ↥A :=
       ⟨fun x y => Subtype.ext ((hcon x x.2).trans (hcon y y.2).symm)⟩
     exact isCyclic_of_subsingleton
   exact engine_full ⟨hp, hp2, hH.quasi, hH.dvd, hH.norm, hH.elem, hH.sc, hAB, hAnc, hloc,
     fun a ha ha1 J hJ => (hno a ha ha1 J hJ).elim⟩
     ⟨a₀, ha₀A, ha₀1, fun w _ _ _ J hJ => (hno a₀ ha₀A ha₀1 J hJ).elim⟩
 
+omit [Finite X] in
 theorem mem_normalizer_inf_centralizer_of_comm {K : Subgroup X} {a w : X}
     (hw : w ∈ Subgroup.normalizer (K : Set X))
     (hc : w * a * w⁻¹ * a⁻¹ ∈ Subgroup.centralizer (K : Set X)) :
@@ -111,6 +113,7 @@ theorem mem_normalizer_inf_centralizer_of_comm {K : Subgroup X} {a w : X}
   have := key hwinv hcinv _ hx
   simpa [mul_assoc] using this
 
+omit [Finite X] in
 theorem le_normalizer_of_unique {p : ℕ} {K B J : Subgroup X} {a : X}
     (hBK : B ≤ Subgroup.normalizer (K : Set X)) (hBel : IsElemAbelian p B) (haB : a ∈ B)
     (huniq : ∀ I J : Subgroup X, GLAPComponent p (K ⊓ Subgroup.centralizer ({a} : Set X)) I →
@@ -138,7 +141,7 @@ theorem chev204_outer {p : ℕ} (hDC : DefCharInnerCoreFree) (hOut : DefCharOute
     IsStronglyBalancedIn p B K := by
   have hp := hH.prime
   have hp2 := hH.odd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hZ : Subgroup.center ↥K = ⊥ := center_eq_bot_of_outer hK65 hH (hAB ha₁) hout₁
   have hexc : ¬ (p = 3 ∧ IsLTwoTwentySeven (↥K ⧸ Subgroup.center ↥K)) := by
     rintro ⟨h3, hL⟩

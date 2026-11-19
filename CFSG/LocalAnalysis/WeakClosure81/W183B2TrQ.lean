@@ -87,17 +87,17 @@ theorem w183b2_exists_irr_quotient {G : Type} [Group G] {W : Type} [AddCommGroup
         intro g h
         rw [map_mul, Module.End.mul_eq_comp, LinearMap.baseChange_comp]
         rfl }
-  haveI : Module.Finite (ZMod 2) W := (Module.finite_iff_finite).mpr inferInstance
-  haveI hPfin : Module.Finite K P := Module.Finite.base_change (ZMod 2) K W
+  have : Module.Finite (ZMod 2) W := (Module.finite_iff_finite).mpr inferInstance
+  have hPfin : Module.Finite K P := Module.Finite.base_change (ZMod 2) K W
   have hPnt : Nontrivial P := by
     obtain ⟨w, hw⟩ := exists_ne (0 : W)
     exact ⟨(1 : K) ⊗ₜ[ZMod 2] w, 0, w183b2_one_tmul_ne_zero hw⟩
-  haveI : Nontrivial P := hPnt
-  haveI : Module.Finite K[G] σ₀.asModule :=
+  have : Nontrivial P := hPnt
+  have : Module.Finite K[G] σ₀.asModule :=
     Module.Finite.of_restrictScalars_finite K K[G] _
   have hnt : Nontrivial σ₀.asModule :=
     (Equiv.nontrivial_congr σ₀.asModuleEquiv.toEquiv).mpr inferInstance
-  haveI : Nontrivial σ₀.asModule := hnt
+  have : Nontrivial σ₀.asModule := hnt
   have : Nontrivial (Submodule K[G] σ₀.asModule) :=
     (Submodule.nontrivial_iff K[G]).mpr inferInstance
   obtain ⟨N, hN⟩ := IsCoatomic.exists_coatom (α := Submodule K[G] σ₀.asModule)
@@ -125,8 +125,7 @@ theorem w183b2_exists_irr_quotient {G : Type} [Group G] {W : Type} [AddCommGroup
   have hspan : Submodule.span K (Set.range ψ) = ⊤ := by
     have hgen : ∀ x : P, x ∈ Submodule.span K (Set.range fun w : W => (1 : K) ⊗ₜ[ZMod 2] w) := by
       intro x
-      induction x using TensorProduct.induction_on with
-      | zero => exact Submodule.zero_mem _
+      induction x using TensorProduct.inductionOn with
       | tmul c w =>
         rw [TensorProduct.tmul_eq_smul_one_tmul]
         exact Submodule.smul_mem _ c (Submodule.subset_span ⟨w, rfl⟩)

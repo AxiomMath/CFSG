@@ -27,7 +27,7 @@ theorem exists_mulAut_injective_GL_aux {q : ℕ} [hq : Fact q.Prime] {W : Type*}
   have hcard : Fintype.card (Additive W) = q ^ d := by
     rw [← Nat.card_eq_fintype_card, ← hW]
     exact Nat.card_congr Additive.toMul
-  haveI : Module.Finite (ZMod q) (Additive W) := Module.Finite.of_finite
+  have : Module.Finite (ZMod q) (Additive W) := Module.Finite.of_finite
   have hfin : Module.finrank (ZMod q) (Additive W) = d := by
     have h : Fintype.card (Additive W) =
         Fintype.card (ZMod q) ^ Module.finrank (ZMod q) (Additive W) := by
@@ -49,8 +49,8 @@ theorem exists_mulAut_injective_GL {q : ℕ} [Fact q.Prime] {V : Type*} [Group V
     (hcomm : ∀ a b : V, a * b = b * a) (hexp : ∀ a : V, a ^ q = 1) {d : ℕ}
     (hcard : Nat.card V = q ^ d) :
     ∃ f : MulAut V →* GL (Fin d) (ZMod q), Function.Injective f := by
-  letI : CommGroup V := { (inferInstance : Group V) with mul_comm := hcomm }
-  letI : Module (ZMod q) (Additive V) := AddCommGroup.zmodModule (n := q) fun x => by
+  let : CommGroup V := { (inferInstance : Group V) with mul_comm := hcomm }
+  let : Module (ZMod q) (Additive V) := AddCommGroup.zmodModule (n := q) fun x => by
     apply Additive.toMul.injective
     rw [toMul_nsmul, toMul_zero]
     exact hexp _

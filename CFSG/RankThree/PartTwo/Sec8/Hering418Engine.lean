@@ -36,7 +36,7 @@ theorem Cfg.e27_of_isType418 (c : Cfg L K a b) {n : ℕ} (hn : 1 ≤ n)
     (hq : IsQuasisimple (K ⧸ aschbacherSolvableCore 3 K))
     (htype : IsType418 (K ⧸ aschbacherSolvableCore 3 K) n)
     (hKa : KFacts.InducesStdKind K a .field) : c.E27 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_cases hZ : Subgroup.center (K ⧸ aschbacherSolvableCore 3 K) = ⊥
   ·
     have hT := type418Arith_of hn hq htype

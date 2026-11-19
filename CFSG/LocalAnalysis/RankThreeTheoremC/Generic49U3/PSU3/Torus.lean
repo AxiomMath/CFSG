@@ -17,7 +17,7 @@ theorem galoisField_exists_unit_of_not_dvd {p : ℕ} [Fact p.Prime] (m : ℕ) {k
     exact hk
   exact ⟨Units.mk0 _ hμ, rfl⟩
 
-theorem u3_torus_on_center {p : ℕ} [Fact p.Prime] (hp5 : 5 ≤ p) {K : Type} [Group K] [Finite K]
+theorem u3_torus_on_center {p : ℕ} [Fact p.Prime] (_hp5 : 5 ≤ p) {K : Type} [Group K] [Finite K]
     (hK : IsU3Pred p K) (T : Sylow p K) {c : K} (hcT : c ∈ (T : Subgroup K))
     (hcZ : c ∈ Subgroup.centralizer ((T : Subgroup K) : Set K)) (hc1 : c ≠ 1) (k : ℤ)
     (hk : ¬ (p : ℤ) ∣ k) :

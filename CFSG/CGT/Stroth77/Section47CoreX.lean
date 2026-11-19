@@ -102,7 +102,7 @@ theorem t200x_e_conj_t {M : ℕ} (hrel : Rel34x dD f (2 ^ m) M p) :
       rw [← mul_assoc, ← dD.ofTorus_add, torusDiag_ofInt, ← Torus.ofInt_add]
       congr 3
       funext i
-      fin_cases i <;> simp <;> ring
+      fin_cases i <;> simp; ring
 
 theorem t200x_e_mul_self (hrel : Rel34x dD f (2 ^ m) (2 ^ (m - 1)) p) :
     f * f * (f * f) = dD.ofTorus (Torus.ofInt _ ![2 ^ (m - 1) - (p : ℤ), 0, 0]) := by

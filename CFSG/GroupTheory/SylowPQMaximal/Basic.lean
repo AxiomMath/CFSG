@@ -42,9 +42,9 @@ theorem SylowPQMaximal.eq_bot_of_mul_eq_mul [Finite Y] [Fact p.Prime] [Fact q.Pr
     (hR : IsPGroup q R) (hRP : (R : Set Y) * (P : Set Y) = (P : Set Y) * (R : Set Y)) :
     R = ⊥ := by
   have hcard : Nat.card (R ⊔ P : Subgroup Y) = Nat.card R * Nat.card P :=
-    card_sup_eq_mul_of_mul_eq_mul hpq hR P.isPGroup' hRP
+    card_sup_eq_mul_of_mul_eq_mul hpq hR P.isPGroup hRP
   obtain ⟨a, ha⟩ := hR.exists_card_eq
-  obtain ⟨b, hb⟩ := (P.isPGroup' : IsPGroup p (P : Subgroup Y)).exists_card_eq
+  obtain ⟨b, hb⟩ := (P.isPGroup : IsPGroup p (P : Subgroup Y)).exists_card_eq
   have hpi : IsPiSubgroup {r : Nat.Primes | (r : ℕ) = p ∨ (r : ℕ) = q}
       (R ⊔ P : Subgroup Y) := by
     rw [isPiSubgroup_pair_iff]

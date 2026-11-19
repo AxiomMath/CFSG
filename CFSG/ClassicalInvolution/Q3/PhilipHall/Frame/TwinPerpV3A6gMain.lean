@@ -127,7 +127,7 @@ theorem aeIdent_of_cand (hP : TL4.TightBelowRPlus 3 n) (hE3 : V3AE6E3 n) (hL : V
   have hVtop : V ≠ ⊤ := by
     intro htop
     have hn : A.Normal := Subgroup.normalizer_eq_top_iff.mp (top_le_iff.mp (htop ▸ hAV))
-    haveI := hStd.perp.core.simple
+    have := hStd.perp.core.simple
     have hbot := eq_bot_of_normal_isPGroup hStd.perp.core.nonab hn hA2
     apply hxe1
     have hxA : xe ∈ A := C.E3_le (Subgroup.subset_closure (by simp))

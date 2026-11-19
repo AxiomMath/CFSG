@@ -91,7 +91,7 @@ private theorem CFSG.section12_exists_hall_betaCompl_fixed_by_sylow_derivedE
   have hX_le_Mder : X ≤ ambientDerivedSubgroup M := hX_le_D.trans hD_le_Mder
   have hXq : IsPGroup q.val X := by
     simpa [X] using
-      IsPGroup.map (p := q.val) (H := (Q : Subgroup D)) Q.isPGroup' D.subtype
+      IsPGroup.map (p := q.val) (H := (Q : Subgroup D)) Q.isPGroup D.subtype
   have hqM_dvd : q.val ∣ Nat.card M :=
     hqD.trans (Subgroup.card_dvd_of_le hD_le_M)
   have hDπ : IsPiSubgroup (G := G) (section10SigmaPrimes M)ᶜ D := by

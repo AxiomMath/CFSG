@@ -13,6 +13,7 @@ open scoped commutatorElement
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
   {Y T L₁ L₂ : Subgroup (LGL 2 V)}
 
+omit [Finite V] in
 private theorem w183b2_commSpace_commSpace_of_perfect {L : Subgroup (LGL 2 V)}
     [Group.IsPerfect ↥L] {U : Submodule (ZMod 2) V}
     (hU : ∀ l ∈ L, ∀ u ∈ U, l u ∈ U) :
@@ -47,7 +48,7 @@ private theorem w183b2_commSpace_commSpace_of_perfect {L : Subgroup (LGL 2 V)}
       exact hU _ (g1⁻¹ * g2⁻¹).2 u hu
     have hv' : u = (g2 : LGL 2 V) ((g1 : LGL 2 V) w) := by
       rw [hw]
-      simp [LinearEquiv.mul_apply, mul_assoc, Subgroup.coe_mul, Subgroup.coe_inv]
+      simp [LinearEquiv.mul_apply, Subgroup.coe_mul]
     have hc : (g1 : LGL 2 V) ((g2 : LGL 2 V) w) - u =
         ((g1 : LGL 2 V) ((g2 : LGL 2 V) w - w) - ((g2 : LGL 2 V) w - w))
           - ((g2 : LGL 2 V) ((g1 : LGL 2 V) w - w) - ((g1 : LGL 2 V) w - w)) := by
@@ -58,7 +59,7 @@ private theorem w183b2_commSpace_commSpace_of_perfect {L : Subgroup (LGL 2 V)}
     have hρc : (((g1 * g2 * g1⁻¹ * g2⁻¹ : ↥L)) : LGL 2 V) u =
         (g1 : LGL 2 V) ((g2 : LGL 2 V) w) := by
       rw [hw]
-      simp [LinearEquiv.mul_apply, mul_assoc, Subgroup.coe_mul, Subgroup.coe_inv]
+      simp [LinearEquiv.mul_apply, mul_assoc, Subgroup.coe_mul]
     rw [hρc, hc]
     exact (commSpace L M).sub_mem
       (sub_mem_commSpace g1.2 (sub_mem_commSpace g2.2 hwU))
@@ -115,15 +116,15 @@ theorem w183b2_commSpace_commSpace_eq_bot_of_perfect {L₁ L₂ D : Subgroup (LG
     exact invariant_commSpace (K := L₂) (K' := D) hD₂ hWD
   have hWfix : commSpace L₁ W = W := by
     rw [hWdef]
-    haveI := p₁
+    have := p₁
     exact w183b2_commSpace_commSpace_of_perfect (L := L₁) (U := ⊤) (fun _ _ _ _ => trivial)
   have hRfix : commSpace L₂ R = R := by
     rw [hRdef]
-    haveI := p₂
+    have := p₂
     exact w183b2_commSpace_commSpace_of_perfect (L := L₂) (U := W) hW₂
   by_contra hRne
-  haveI : IsNoetherian (ZMod 2) V := inferInstance
-  haveI : WellFoundedGT (Submodule (ZMod 2) V) := IsNoetherian.wellFoundedGT
+  have : IsNoetherian (ZMod 2) V := inferInstance
+  have : WellFoundedGT (Submodule (ZMod 2) V) := IsNoetherian.wellFoundedGT
   let S : Set (Submodule (ZMod 2) V) :=
     {R' | R' < R ∧ Invariant L₁ R' ∧ Invariant L₂ R' ∧ Invariant D R'}
   have hSne : S.Nonempty := by
@@ -139,7 +140,7 @@ theorem w183b2_commSpace_commSpace_eq_bot_of_perfect {L₁ L₂ D : Subgroup (LG
       rw [hu, map_zero]
   obtain ⟨R', hR'mem, hR'max⟩ :=
     (wellFounded_gt (α := Submodule (ZMod 2) V)).has_min S hSne
-  simp only [S, Set.mem_setOf_eq] at hR'mem
+  simp only [S, Set.mem_ofPred_eq] at hR'mem
   obtain ⟨hR'lt, hR'₁, hR'₂, hR'D⟩ := hR'mem
   have hirr : ∀ W' : Submodule (ZMod 2) V, R' ≤ W' → W' ≤ R →
       Invariant L₁ W' → Invariant L₂ W' → Invariant D W' → W' = R' ∨ W' = R := by

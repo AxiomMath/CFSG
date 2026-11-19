@@ -78,8 +78,7 @@ theorem d4One_det (q : ℤ) :
     (d4OneM - q • (1 : Matrix (Fin 4) (Fin 4) ℤ)).det =
       ((cyclotomic 1 ℤ) ^ 2 * (cyclotomic 3 ℤ)).eval q := by
   rw [smul_one_four]
-  simp [d4OneM, Matrix.det_succ_row_zero, Fin.sum_univ_succ, Fin.succAbove, cyclotomic_one,
-    cyclotomic_two, cyclotomic_three_eq, cyclotomic_six_eq]
+  simp [d4OneM, Matrix.det_succ_row_zero, Fin.sum_univ_succ, Fin.succAbove, cyclotomic_one]
   ring
 
 theorem d4One_hw (x : Fin TwistTag.D4.tag.rank → ℤ) :
@@ -104,8 +103,7 @@ theorem d4Two_det (q : ℤ) :
     (d4TwoM - q • (1 : Matrix (Fin 4) (Fin 4) ℤ)).det =
       ((cyclotomic 2 ℤ) ^ 2 * (cyclotomic 6 ℤ)).eval q := by
   rw [smul_one_four]
-  simp [d4TwoM, Matrix.det_succ_row_zero, Fin.sum_univ_succ, Fin.succAbove, cyclotomic_one,
-    cyclotomic_two, cyclotomic_three_eq, cyclotomic_six_eq]
+  simp [d4TwoM, Matrix.det_succ_row_zero, Fin.sum_univ_succ, Fin.succAbove, cyclotomic_two]
   ring
 
 theorem d4Two_hw (x : Fin TwistTag.D4.tag.rank → ℤ) :
@@ -130,8 +128,7 @@ theorem d4Three_det (q : ℤ) :
     (d4ThreeM - q • (1 : Matrix (Fin 4) (Fin 4) ℤ)).det =
       ((cyclotomic 3 ℤ) ^ 2 * (1)).eval q := by
   rw [smul_one_four]
-  simp [d4ThreeM, Matrix.det_succ_row_zero, Fin.sum_univ_succ, Fin.succAbove, cyclotomic_one,
-    cyclotomic_two, cyclotomic_three_eq, cyclotomic_six_eq]
+  simp [d4ThreeM, Matrix.det_succ_row_zero, Fin.sum_univ_succ, Fin.succAbove]
   ring
 
 theorem d4Three_hw (x : Fin TwistTag.D4.tag.rank → ℤ) :
@@ -156,8 +153,7 @@ theorem d4Six_det (q : ℤ) :
     (d4SixM - q • (1 : Matrix (Fin 4) (Fin 4) ℤ)).det =
       ((cyclotomic 6 ℤ) ^ 2 * (1)).eval q := by
   rw [smul_one_four]
-  simp [d4SixM, Matrix.det_succ_row_zero, Fin.sum_univ_succ, Fin.succAbove, cyclotomic_one,
-    cyclotomic_two, cyclotomic_three_eq, cyclotomic_six_eq]
+  simp [d4SixM, Matrix.det_succ_row_zero, Fin.sum_univ_succ, Fin.succAbove]
   ring
 
 theorem d4Six_hw (x : Fin TwistTag.D4.tag.rank → ℤ) :

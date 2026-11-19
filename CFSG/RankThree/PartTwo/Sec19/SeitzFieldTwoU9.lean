@@ -102,7 +102,7 @@ theorem closure_fixSet_eq_top_of_field_gen {p f : ℕ}
       exact φ.injective h4
     rw [← hB] at h3
     have h5 := congrArg (fun x : unitarySU p f K 3 => ((x : unitarySU p f K 3) : GL (Fin 3) K)) h3
-    simp only [coe_suConj, Subgroup.coe_mul, Subgroup.coe_inv] at h5
+    simp only [coe_suConj, Subgroup.coe_inv] at h5
     calc (B : GL (Fin 3) K) * ((H : GL (Fin 3) K) * (g : GL (Fin 3) K) * (H : GL (Fin 3) K)⁻¹)
         = (B : GL (Fin 3) K) * ((H : GL (Fin 3) K) * (g : GL (Fin 3) K) * (H : GL (Fin 3) K)⁻¹) *
             (B : GL (Fin 3) K)⁻¹ * (B : GL (Fin 3) K) := by group

@@ -52,7 +52,7 @@ theorem M24.isHat_Ls
     rw [commutator_def, ← Subgroup.map_top_of_surjective _
       (QuotientGroup.mk'_surjective ((eSub basis_s).subgroupOf Ls)), ← Subgroup.map_commutator,
       ← commutator_def, hcommL]
-  haveI : IsSimpleGroup ↥(alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup ↥(alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
   exact isHat_of_surj (H13.alternatingGroup_nonabelian (by norm_num)) hperfQ φ hφs hφk
 
 theorem M24.normal_s_Ls : ((eSub basis_s).subgroupOf Ls).Normal :=
@@ -60,8 +60,8 @@ theorem M24.normal_s_Ls : ((eSub basis_s).subgroupOf Ls).Normal :=
 
 theorem M24.pCoreOf_Ls (hperf : ⁅Ls, Ls⁆ = Ls) :
     pCoreOf 2 Ls = eSub basis_s := by
-  haveI := M24.normal_s_Ls
-  haveI : IsSimpleGroup ↥(alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have := M24.normal_s_Ls
+  have : IsSimpleGroup ↥(alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
   refine pCoreOf_eq_of_surj s_le_Ls (IsPGroup.of_card (n := 6) (card_eSub basis_s))
     (QuotientGroup.mk' ((eSub basis_s).subgroupOf Ls)) (QuotientGroup.mk'_surjective _)
     (QuotientGroup.ker_mk' _) ?_
@@ -71,7 +71,7 @@ theorem M24.irr_Ls
     (hperf : ⁅Ls, Ls⁆ = Ls)
     {W : Subgroup G₀} (hWR : W ≤ eSub basis_s)
     (hLW : Ls ≤ Subgroup.normalizer (W : Set G₀)) : W = ⊥ ∨ W = eSub basis_s := by
-  haveI := M24.normal_s_Ls
+  have := M24.normal_s_Ls
   exact irr_of_hat (isElemAbelian_eSub basis_s) Ls_le (by rw [card_eSub]; norm_num)
     (by rw [cent_s]; exact inf_le_right) (M24.isHat_Ls hperf) hWR hLW
 
@@ -181,7 +181,7 @@ theorem conclK_m24_sextet
     (hperf : ⁅Ls, Ls⁆ = Ls) (MK : Subgroup G₀) :
     ConclK G₀ Ls (eSub basis_s) MK := by
   unfold ConclK
-  haveI hRn : ((eSub basis_s).subgroupOf Ls).Normal := M24.normal_s_Ls
+  have hRn : ((eSub basis_s).subgroupOf Ls).Normal := M24.normal_s_Ls
   have hhatSR := M24.isHat_Ls hperf
   have hO := M24.pCoreOf_Ls hperf
   have hpk : CFSG.pCore 2 ↥Ls = (eSub basis_s).subgroupOf Ls := by
@@ -201,7 +201,7 @@ theorem conclK_m24_sextet
     (Nat.card_congr (QuotientGroup.quotientMulEquivOfEq hpk).toEquiv).trans card_quot_sextet
   have hcommV : IsMulCommutative ↥(eSub basis_s) :=
     IsMulCommutative.of_setLike_mul_comm fun x hx y hy => eSub_comm basis_s x y hx hy
-  letI : IsMulCommutative ↥(eSub basis_s) := hcommV
+  let : IsMulCommutative ↥(eSub basis_s) := hcommV
   have hFF : IsFFModule (autOn Ls (eSub basis_s)) := isFFModule_sextet hO hblock
   have hFFN : IsFFModule (V := ↥(eSub basis_s))
       (autOn (Subgroup.normalizer (eSub basis_s : Set G₀)) (eSub basis_s)) :=

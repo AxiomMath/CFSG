@@ -46,11 +46,11 @@ theorem certificate75346 : ∃ (T : Subgroup (J dHN)) (hc : ∀ p ∈ T, wG 13 *
       obtain ⟨hz0, h⟩ := hl z hz
       unfold topZ
       rcases h with h | ⟨h, hcm⟩
-      · rw [if_neg (by omega)]
+      · rw [ite_eq_right (by omega)]
         split_ifs
         · exact (le_sup_right : normalizer _ ≤ centralizer {wG 13} ⊔ _) hg
         · exact (le_sup_right : normalizer _ ≤ centralizer {wG 13} ⊔ _) (inv_mem hg)
-      · rw [if_pos h]
+      · rw [ite_eq_left h]
         have hcen : wG (z.natAbs - 1) ∈ centralizer {wG 13} := mem_centralizer_singleton_iff.2 hcm
         refine (le_sup_left : centralizer {wG 13} ≤ _ ⊔ _) ?_
         unfold progZ

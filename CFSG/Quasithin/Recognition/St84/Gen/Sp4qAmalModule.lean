@@ -165,9 +165,11 @@ private def coordZero : AddSubgroup (Fin 2 → F) where
     change -x 1 = 0
     rw [hx, neg_zero]
 
+omit [Field F] [Finite F] [CharP F 2] in
 private lemma card_pi_two : Nat.card (Fin 2 → F) = Nat.card F ^ 2 := by
   rw [Nat.card_fun, Nat.card_fin]
 
+omit [Finite F] [CharP F 2] in
 private lemma card_coordZero : Nat.card ↥(coordZero (F := F)) = Nat.card F := by
   refine Nat.card_congr ?_
   refine
@@ -212,6 +214,7 @@ private def coordMapKerEquiv (β : V →+ (Fin 2 → F)) :
   left_inv v := by ext; rfl
   right_inv z := by ext; rfl
 
+omit [Finite V] [CharP F 2] in
 private lemma card_ker (hcard : Nat.card V = Nat.card F ^ 3)
     (β : V →+ (Fin 2 → F)) (hβ : Function.Surjective β) : Nat.card ↥β.ker = Nat.card F := by
   have h := AddSubgroup.card_ker_mul_card_of_surjective hβ
@@ -222,6 +225,7 @@ private lemma card_ker (hcard : Nat.card V = Nat.card F ^ 3)
       _ = Nat.card F * Nat.card F ^ 2 := by ring
   exact Nat.eq_of_mul_eq_mul_right hq h'
 
+omit [Finite V] [CharP F 2] in
 private lemma card_kerCoordOne (hcard : Nat.card V = Nat.card F ^ 3)
     (β : V →+ (Fin 2 → F)) (hβ : Function.Surjective β) :
     Nat.card ↥(kerCoordOne β) = Nat.card F ^ 2 := by
@@ -237,6 +241,7 @@ private lemma card_kerCoordOne (hcard : Nat.card V = Nat.card F ^ 3)
   rw [Nat.card_congr (coordMapKerEquiv β), card_ker hcard β hβ, card_coordZero] at h
   rw [← h, pow_two]
 
+omit [CharP F 2] in
 private lemma upperFixed_eq_kerCoordOne (hcard : Nat.card V = Nat.card F ^ 3)
     (ρ : SL(2, F) →* AddMonoid.End V) (β : V →+ (Fin 2 → F))
     (hβ : Function.Surjective β)
@@ -297,7 +302,7 @@ private lemma nsmul_eq_self_of_odd {n : ℕ} (hn : Odd n) {V : Type*} [AddCommGr
   rw [add_nsmul, mul_nsmul, hx, smul_zero, zero_add, one_nsmul]
 
 private lemma even_card_of_char_two [Finite F] [CharP F 2] : Even (Nat.card F) := by
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   have h := FiniteField.even_card_of_char_two (F := F) (by rw [ringChar.eq F 2])
   rw [Nat.card_eq_fintype_card, Nat.even_iff]
   exact h
@@ -330,9 +335,9 @@ private lemma exists_addSection (h2 : ∀ v : V, v + v = 0) (β : V →+ (Fin 2 
     (hβ : Function.Surjective β) :
     ∃ s : (Fin 2 → F) →+ V, ∀ u, β (s u) = u := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Module (ZMod 2) V := AddCommGroup.zmodModule (fun v => by rw [two_nsmul, h2 v])
-  letI : Module (ZMod 2) (Fin 2 → F) := AddCommGroup.zmodModule (fun u => by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Module (ZMod 2) V := AddCommGroup.zmodModule (fun v => by rw [two_nsmul, h2 v])
+  let : Module (ZMod 2) (Fin 2 → F) := AddCommGroup.zmodModule (fun u => by
     rw [two_nsmul]
     ext i
     exact CharTwo.add_self_eq_zero (u i))
@@ -388,6 +393,7 @@ private lemma sectionAve_beta (β : V →+ (Fin 2 → F)) (hβs : ∀ u, β (s�
     exact CharTwo.add_self_eq_zero x
   exact nsmul_eq_self_of_odd hodd htwo u
 
+omit [Finite F] [CharP F 2] in
 private lemma sectionAve_diag (m : Fˣ) (u : Fin 2 → F) :
     sectionAve ρ s₀ (l2Act F (sl2Diag F m) u) =
       ρ (sl2Diag F m) (sectionAve ρ s₀ u) := by
@@ -435,6 +441,7 @@ private def zetaV (ρ : SL(2, F) →* AddMonoid.End V) (s : (Fin 2 → F) →+ V
     (t b : F) : V :=
   ρ (sl2Upper F t) (s ![0, b]) - s ![t * b, b]
 
+omit [Finite F] [CharP F 2] [Finite V] in
 private lemma zetaV_mem (ρ : SL(2, F) →* AddMonoid.End V) (β : V →+ (Fin 2 → F))
     (s : (Fin 2 → F) →+ V) (hsec : SectionData ρ β s)
     (hβρ : ∀ (k : SL(2, F)) (v : V),
@@ -450,6 +457,7 @@ private lemma zetaV_mem (ρ : SL(2, F) →* AddMonoid.End V) (β : V →+ (Fin 2
     hsec.beta_s ![t * b, b]]
   simp
 
+omit [Finite F] [CharP F 2] [Finite V] in
 private lemma upper_action (ρ : SL(2, F) →* AddMonoid.End V) (β : V →+ (Fin 2 → F))
     (s : (Fin 2 → F) →+ V) (hsec : SectionData ρ β s) (t a b : F) :
     ρ (sl2Upper F t) (s ![a, b]) = s ![a + t * b, b] + zetaV ρ s t b := by
@@ -459,7 +467,7 @@ private lemma upper_action (ρ : SL(2, F) →* AddMonoid.End V) (β : V →+ (Fi
     ext i
     fin_cases i <;> simp
   have hzeta : ρ (sl2Upper F t) (s ![0, b]) = s ![t * b, b] + zetaV ρ s t b := by
-    simp [zetaV, sub_eq_add_neg, add_comm, add_left_comm, add_assoc]
+    simp [zetaV, sub_eq_add_neg]
   calc ρ (sl2Upper F t) (s ![a, b])
       = ρ (sl2Upper F t) (s ![a, 0]) + ρ (sl2Upper F t) (s ![0, b]) := by
         rw [hdecomp, map_add]
@@ -473,6 +481,7 @@ private lemma upper_action (ρ : SL(2, F) →* AddMonoid.End V) (β : V →+ (Fi
           fin_cases i <;> simp
         rw [← add_assoc, hs]
 
+omit [Finite F] [CharP F 2] [Finite V] in
 private lemma zetaV_add_t (ρ : SL(2, F) →* AddMonoid.End V) (β : V →+ (Fin 2 → F))
     (s : (Fin 2 → F) →+ V) (hsec : SectionData ρ β s)
     (hβρ : ∀ (k : SL(2, F)) (v : V),
@@ -480,7 +489,7 @@ private lemma zetaV_add_t (ρ : SL(2, F) →* AddMonoid.End V) (β : V →+ (Fin
     (hker : ∀ (k : SL(2, F)) (v : V), β v = 0 → ρ k v = v) (t t' b : F) :
     zetaV ρ s (t + t') b = zetaV ρ s t b + zetaV ρ s t' b := by
   have hx2 : ρ (sl2Upper F t') (s ![0, b]) = s ![t' * b, b] + zetaV ρ s t' b := by
-    simp [zetaV, sub_eq_add_neg, add_comm, add_left_comm, add_assoc]
+    simp [zetaV, sub_eq_add_neg]
   have hz : zetaV ρ s t' b ∈ β.ker := zetaV_mem ρ β s hsec hβρ t' b
   have hfix : ρ (sl2Upper F t) (zetaV ρ s t' b) = zetaV ρ s t' b := hker _ _ hz
   have hx : ρ (sl2Upper F (t + t')) (s ![0, b]) =
@@ -501,10 +510,11 @@ private lemma zetaV_add_t (ρ : SL(2, F) →* AddMonoid.End V) (β : V →+ (Fin
     _ = zetaV ρ s t b + zetaV ρ s t' b := by
         have hvec : (![(t + t') * b, b] : Fin 2 → F) = ![t' * b + t * b, b] := by
           ext i
-          fin_cases i <;> simp [add_mul, add_comm, add_left_comm]
+          fin_cases i <;> simp [add_mul, add_comm]
         rw [hvec]
         abel
 
+omit [Finite F] [CharP F 2] [Finite V] in
 private lemma zetaV_scale (ρ : SL(2, F) →* AddMonoid.End V) (β : V →+ (Fin 2 → F))
     (s : (Fin 2 → F) →+ V) (hsec : SectionData ρ β s) (l : Fˣ) (t b : F) :
     ρ (sl2Diag F l) (zetaV ρ s t b) =
@@ -546,8 +556,7 @@ private lemma zetaV_scale (ρ : SL(2, F) →* AddMonoid.End V) (β : V →+ (Fin
         rw [show ((l : F) ^ 2 * t) * (((l⁻¹ : Fˣ) : F) * b) =
           (l : F) * (t * b) by
           rw [Units.val_inv_eq_inv_val]
-          field_simp
-          try ring]
+          field_simp]
 
 private noncomputable def gHom (ρ : SL(2, F) →* AddMonoid.End V)
     (β : V →+ (Fin 2 → F)) (s : (Fin 2 → F) →+ V) (hsec : SectionData ρ β s)
@@ -565,6 +574,7 @@ private noncomputable def gHom (ρ : SL(2, F) →* AddMonoid.End V)
     ext
     exact zetaV_add_t ρ β s hsec hβρ hker t t' 1
 
+omit [Finite F] [CharP F 2] [Finite V] in
 private lemma zetaV_eq_g (ρ : SL(2, F) →* AddMonoid.End V) (β : V →+ (Fin 2 → F))
     (s : (Fin 2 → F) →+ V) (hsec : SectionData ρ β s)
     (hβρ : ∀ (k : SL(2, F)) (v : V),
@@ -608,6 +618,7 @@ private def deltaV (ρ : SL(2, F) →* AddMonoid.End V) (s : (Fin 2 → F) →+ 
     (a b : F) : V :=
   ρ (sl2Weyl F 1) (s ![a, b]) - s ![b, a]
 
+omit [Finite F] [Fintype F] [DecidableEq F] [Finite V] in
 private lemma deltaV_mem (ρ : SL(2, F) →* AddMonoid.End V) (β : V →+ (Fin 2 → F))
     (s : (Fin 2 → F) →+ V) (hsec : SectionData ρ β s)
     (hβρ : ∀ (k : SL(2, F)) (v : V),
@@ -623,6 +634,7 @@ private lemma deltaV_mem (ρ : SL(2, F) →* AddMonoid.End V) (β : V →+ (Fin 
     hsec.beta_s ![b,a]]
   simp
 
+omit [Finite F] [CharP F 2] [Fintype F] [DecidableEq F] [Finite V] in
 private lemma deltaV_add (ρ : SL(2, F) →* AddMonoid.End V)
     (s : (Fin 2 → F) →+ V) (a a' b b' : F) :
     deltaV ρ s (a + a') (b + b') = deltaV ρ s a b + deltaV ρ s a' b' := by
@@ -637,12 +649,14 @@ private lemma deltaV_add (ρ : SL(2, F) →* AddMonoid.End V)
   simp only [map_add]
   abel
 
+omit [Finite F] [CharP F 2] [Fintype F] [DecidableEq F] [Finite V] in
 private lemma deltaV_split (ρ : SL(2, F) →* AddMonoid.End V)
     (s : (Fin 2 → F) →+ V) (a b : F) :
     deltaV ρ s a b = deltaV ρ s a 0 + deltaV ρ s 0 b := by
   have h := deltaV_add ρ s a 0 0 b
   simpa using h
 
+omit [Finite F] [Fintype F] [DecidableEq F] [Finite V] in
 private lemma deltaV_scale (ρ : SL(2, F) →* AddMonoid.End V) (β : V →+ (Fin 2 → F))
     (s : (Fin 2 → F) →+ V) (hsec : SectionData ρ β s) (l : Fˣ) (a b : F) :
     ρ (sl2Diag F l) (deltaV ρ s a b) =
@@ -683,6 +697,7 @@ private lemma deltaV_scale (ρ : SL(2, F) →* AddMonoid.End V) (β : V →+ (Fi
     _ = deltaV ρ s (((l⁻¹ : Fˣ) : F) * a) ((l : F) * b) := by
         rw [deltaV]
 
+omit [Finite F] [Finite V] in
 private lemma deltaV_zero_a (ρ : SL(2, F) →* AddMonoid.End V) (β : V →+ (Fin 2 → F))
     (s : (Fin 2 → F) →+ V) (hsec : SectionData ρ β s)
     (hβρ : ∀ (k : SL(2, F)) (v : V),
@@ -729,6 +744,7 @@ private lemma deltaV_zero_a (ρ : SL(2, F) →* AddMonoid.End V) (β : V →+ (F
     exact add_eq_left.mp hDD.symm
   rw [hconst a ha, hD0]
 
+omit [Finite F] [Finite V] in
 private lemma deltaV_zero_b (ρ : SL(2, F) →* AddMonoid.End V) (β : V →+ (Fin 2 → F))
     (s : (Fin 2 → F) →+ V) (hsec : SectionData ρ β s)
     (hβρ : ∀ (k : SL(2, F)) (v : V),
@@ -774,6 +790,7 @@ private lemma deltaV_zero_b (ρ : SL(2, F) →* AddMonoid.End V) (β : V →+ (F
     exact add_eq_left.mp hDD.symm
   rw [hconst b hb, hD0]
 
+omit [Finite F] [Finite V] in
 private lemma deltaV_eq_zero (ρ : SL(2, F) →* AddMonoid.End V) (β : V →+ (Fin 2 → F))
     (s : (Fin 2 → F) →+ V) (hsec : SectionData ρ β s)
     (hβρ : ∀ (k : SL(2, F)) (v : V),
@@ -798,6 +815,7 @@ private lemma deltaV_eq_zero (ρ : SL(2, F) →* AddMonoid.End V) (β : V →+ (
     · rw [h00, add_zero]
     · rw [deltaV_zero_b ρ β s hsec hβρ hker hF hb, add_zero]
 
+omit [Finite F] [Finite V] in
 private lemma weyl_action (ρ : SL(2, F) →* AddMonoid.End V) (β : V →+ (Fin 2 → F))
     (s : (Fin 2 → F) →+ V) (hsec : SectionData ρ β s)
     (hβρ : ∀ (k : SL(2, F)) (v : V),
@@ -818,6 +836,7 @@ variable {V : Type*} [AddCommGroup V] [Finite V]
 
 private def endHom (ρ : SL(2, F) →* AddMonoid.End V) (k : SL(2, F)) : V →+ V := ρ k
 
+omit [Finite F] [CharP F 2] [Fintype F] [DecidableEq F] [Finite V] in
 private lemma endHom_one (ρ : SL(2, F) →* AddMonoid.End V) :
     endHom ρ 1 = AddMonoidHom.id V := by
   ext x
@@ -825,6 +844,7 @@ private lemma endHom_one (ρ : SL(2, F) →* AddMonoid.End V) :
   rw [map_one]
   exact AddMonoid.End.one_apply x
 
+omit [Finite F] [CharP F 2] [Fintype F] [DecidableEq F] [Finite V] in
 private lemma endHom_mul (ρ : SL(2, F) →* AddMonoid.End V) (k l : SL(2, F)) :
     endHom ρ (k * l) = (endHom ρ k).comp (endHom ρ l) := by
   ext x
@@ -839,6 +859,7 @@ private noncomputable def gV (ρ : SL(2, F) →* AddMonoid.End V) (β : V →+ (
     (hker : ∀ (k : SL(2, F)) (v : V), β v = 0 → ρ k v = v) : F →+ V :=
   β.ker.subtype.comp (gHom ρ β s hsec hβρ hker)
 
+omit [Fintype F] [DecidableEq F] [Finite F] [CharP F 2] [Finite V] in
 private lemma beta_gV (ρ : SL(2, F) →* AddMonoid.End V) (β : V →+ (Fin 2 → F))
     (s : (Fin 2 → F) →+ V) (hsec : SectionData ρ β s)
     (hβρ : ∀ (k : SL(2, F)) (v : V),
@@ -855,6 +876,7 @@ private noncomputable def Wsub (ρ : SL(2, F) →* AddMonoid.End V) (β : V →+
     (hker : ∀ (k : SL(2, F)) (v : V), β v = 0 → ρ k v = v) : AddSubgroup V :=
   s.range ⊔ (gV ρ β s hsec hβρ hker).range
 
+omit [Fintype F] [DecidableEq F] [Finite F] [CharP F 2] [Finite V] in
 private lemma Wsub_le_comap (ρ : SL(2, F) →* AddMonoid.End V) (β : V →+ (Fin 2 → F))
     (s : (Fin 2 → F) →+ V) (hsec : SectionData ρ β s)
     (hβρ : ∀ (k : SL(2, F)) (v : V),
@@ -877,6 +899,7 @@ private lemma Wsub_le_comap (ρ : SL(2, F) →* AddMonoid.End V) (β : V →+ (F
     rw [AddSubgroup.mem_comap, ← AddSubgroup.sup_eq_closure]
     exact hg a
 
+omit [Fintype F] [DecidableEq F] [Finite F] [CharP F 2] [Finite V] in
 private lemma Wsub_upper (ρ : SL(2, F) →* AddMonoid.End V) (β : V →+ (Fin 2 → F))
     (s : (Fin 2 → F) →+ V) (hsec : SectionData ρ β s)
     (hβρ : ∀ (k : SL(2, F)) (v : V),
@@ -904,6 +927,7 @@ private lemma Wsub_upper (ρ : SL(2, F) →* AddMonoid.End V) (β : V →+ (Fin 
     rw [hker (sl2Upper F t) _ hmem]
     exact AddSubgroup.mem_sup_right (AddMonoidHom.mem_range.mpr ⟨a, rfl⟩)
 
+omit [Fintype F] [DecidableEq F] [Finite F] [CharP F 2] [Finite V] in
 private lemma Wsub_diag (ρ : SL(2, F) →* AddMonoid.End V) (β : V →+ (Fin 2 → F))
     (s : (Fin 2 → F) →+ V) (hsec : SectionData ρ β s)
     (hβρ : ∀ (k : SL(2, F)) (v : V),
@@ -922,6 +946,7 @@ private lemma Wsub_diag (ρ : SL(2, F) →* AddMonoid.End V) (β : V →+ (Fin 2
     rw [hker (sl2Diag F l) _ hmem]
     exact AddSubgroup.mem_sup_right (AddMonoidHom.mem_range.mpr ⟨a, rfl⟩)
 
+omit [Finite F] [Finite V] in
 private lemma Wsub_weyl (ρ : SL(2, F) →* AddMonoid.End V) (β : V →+ (Fin 2 → F))
     (s : (Fin 2 → F) →+ V) (hsec : SectionData ρ β s)
     (hβρ : ∀ (k : SL(2, F)) (v : V),
@@ -969,6 +994,7 @@ private def stableSub (ρ : SL(2, F) →* AddMonoid.End V) (β : V →+ (Fin 2 �
     intro k hk
     exact ⟨hk.2, by simpa using hk.1⟩
 
+omit [Fintype F] [DecidableEq F] [Finite F] [CharP F 2] [Finite V] in
 private lemma upper_mem_stableSub (ρ : SL(2, F) →* AddMonoid.End V) (β : V →+ (Fin 2 → F))
     (s : (Fin 2 → F) →+ V) (hsec : SectionData ρ β s)
     (hβρ : ∀ (k : SL(2, F)) (v : V),
@@ -980,6 +1006,7 @@ private lemma upper_mem_stableSub (ρ : SL(2, F) →* AddMonoid.End V) (β : V �
   · rw [show (sl2Upper F t)⁻¹ = sl2Upper F (-t) from (sl2Upper_neg t).symm]
     exact AddSubgroup.map_le_iff_le_comap.mpr (Wsub_upper ρ β s hsec hβρ hker (-t))
 
+omit [Fintype F] [DecidableEq F] [Finite F] [CharP F 2] [Finite V] in
 private lemma diag_mem_stableSub (ρ : SL(2, F) →* AddMonoid.End V) (β : V →+ (Fin 2 → F))
     (s : (Fin 2 → F) →+ V) (hsec : SectionData ρ β s)
     (hβρ : ∀ (k : SL(2, F)) (v : V),
@@ -991,6 +1018,7 @@ private lemma diag_mem_stableSub (ρ : SL(2, F) →* AddMonoid.End V) (β : V �
   · rw [diag_inv]
     exact AddSubgroup.map_le_iff_le_comap.mpr (Wsub_diag ρ β s hsec hβρ hker l⁻¹)
 
+omit [Finite F] [Finite V] in
 private lemma weyl_mem_stableSub (ρ : SL(2, F) →* AddMonoid.End V) (β : V →+ (Fin 2 → F))
     (s : (Fin 2 → F) →+ V) (hsec : SectionData ρ β s)
     (hβρ : ∀ (k : SL(2, F)) (v : V),
@@ -1003,6 +1031,7 @@ private lemma weyl_mem_stableSub (ρ : SL(2, F) →* AddMonoid.End V) (β : V �
   · rw [show (sl2Weyl F 1)⁻¹ = sl2Weyl F 1 from inv_eq_of_mul_eq_one_right weyl_mul_self]
     exact AddSubgroup.map_le_iff_le_comap.mpr (Wsub_weyl ρ β s hsec hβρ hker hF)
 
+omit [Finite F] [Fintype F] [DecidableEq F] in
 private lemma closure_upper_diag_weyl :
     Subgroup.closure (Set.range (sl2Upper F) ∪ Set.range (sl2Diag F) ∪ {sl2Weyl F 1}) = ⊤ := by
   set K := Subgroup.closure (Set.range (sl2Upper F) ∪ Set.range (sl2Diag F) ∪ {sl2Weyl F 1})
@@ -1023,6 +1052,7 @@ private lemma closure_upper_diag_weyl :
   · obtain ⟨t, rfl⟩ := hx
     exact hL t
 
+omit [Finite F] [Finite V] in
 private lemma stableSub_eq_top (ρ : SL(2, F) →* AddMonoid.End V) (β : V →+ (Fin 2 → F))
     (s : (Fin 2 → F) →+ V) (hsec : SectionData ρ β s)
     (hβρ : ∀ (k : SL(2, F)) (v : V),
@@ -1037,6 +1067,7 @@ private lemma stableSub_eq_top (ρ : SL(2, F) →* AddMonoid.End V) (β : V →+
   · exact diag_mem_stableSub ρ β s hsec hβρ hker l
   · exact weyl_mem_stableSub ρ β s hsec hβρ hker hF
 
+omit [Finite F] [Finite V] in
 private theorem Wsub_eq_top (ρ : SL(2, F) →* AddMonoid.End V) (β : V →+ (Fin 2 → F))
     (s : (Fin 2 → F) →+ V) (hsec : SectionData ρ β s)
     (hβρ : ∀ (k : SL(2, F)) (v : V),
@@ -1066,6 +1097,7 @@ private theorem Wsub_eq_top (ρ : SL(2, F) →* AddMonoid.End V) (β : V →+ (F
   rw [hgoal]
   exact AddSubgroup.sub_mem _ hks hsk
 
+omit [Finite F] [Finite V] in
 private lemma gV_range_eq (ρ : SL(2, F) →* AddMonoid.End V) (β : V →+ (Fin 2 → F))
     (s : (Fin 2 → F) →+ V) (hsec : SectionData ρ β s)
     (hβρ : ∀ (k : SL(2, F)) (v : V),
@@ -1094,6 +1126,7 @@ private lemma gV_range_eq (ρ : SL(2, F) →* AddMonoid.End V) (β : V →+ (Fin
     rw [← hxy]
     exact AddMonoidHom.mem_range.mpr ⟨a, rfl⟩
 
+omit [Finite F] [Finite V] in
 private lemma gHom_surjective (ρ : SL(2, F) →* AddMonoid.End V) (β : V →+ (Fin 2 → F))
     (s : (Fin 2 → F) →+ V) (hsec : SectionData ρ β s)
     (hβρ : ∀ (k : SL(2, F)) (v : V),
@@ -1140,8 +1173,9 @@ private lemma sqrt_sq (x : F) : (sqrt F x) ^ 2 = x := by
   simp
 
 private lemma sq_sqrt (x : F) : sqrt F (x ^ 2) = x := by
-  exact (frobeniusEquiv F 2).injective (by simp [sqrt, frobeniusEquiv_def])
+  exact (frobeniusEquiv F 2).injective (by simp [sqrt])
 
+omit [Finite F] [CharP F 2] in
 private lemma beta_sub_s (β : V →+ (Fin 2 → F)) (s : (Fin 2 → F) →+ V)
     (hs : ∀ u, β (s u) = u) (v : V) : v - s (β v) ∈ β.ker := by
   show β (v - s (β v)) = 0
@@ -1182,14 +1216,17 @@ private noncomputable def gammaHom (β : V →+ (Fin 2 → F)) (s : (Fin 2 → F
       rw [map_add]
       simpa using (add_pow_char (p := 2) (x := β v 1) (y := β w 1))
 
+omit [Finite F] in
 private lemma gammaHom_apply_zero (β : V →+ (Fin 2 → F)) (s : (Fin 2 → F) →+ V)
     (hs : ∀ u, β (s u) = u) (g : F ≃+ β.ker) (v : V) :
     gammaHom β s hs g v 0 = g.symm ⟨v - s (β v), beta_sub_s β s hs v⟩ := rfl
 
+omit [Finite F] in
 private lemma gammaHom_apply_one (β : V →+ (Fin 2 → F)) (s : (Fin 2 → F) →+ V)
     (hs : ∀ u, β (s u) = u) (g : F ≃+ β.ker) (v : V) :
     gammaHom β s hs g v 1 = (β v 0) ^ 2 := rfl
 
+omit [Finite F] in
 private lemma gammaHom_apply_two (β : V →+ (Fin 2 → F)) (s : (Fin 2 → F) →+ V)
     (hs : ∀ u, β (s u) = u) (g : F ≃+ β.ker) (v : V) :
     gammaHom β s hs g v 2 = (β v 1) ^ 2 := rfl
@@ -1233,7 +1270,7 @@ private lemma gammaInv_gammaHom (β : V →+ (Fin 2 → F)) (s : (Fin 2 → F) �
   simp only [gammaInv]
   rw [gammaHom_apply_one, gammaHom_apply_two, sq_sqrt, sq_sqrt,
     gammaHom_apply_zero, g.apply_symm_apply, hu]
-  simp only [neg_smul, one_smul]
+  simp only
   abel
 
 private noncomputable def gammaEquiv (β : V →+ (Fin 2 → F)) (s : (Fin 2 → F) →+ V)
@@ -1313,6 +1350,7 @@ private lemma gammaOf_s_add_g (ρ : SL(2, F) →* AddMonoid.End V)
     rw [gammaHom_apply_two, hβ]
     rfl
 
+omit [Finite F] [Finite V] in
 private lemma exists_decomp (ρ : SL(2, F) →* AddMonoid.End V)
     (β : V →+ (Fin 2 → F)) (s : (Fin 2 → F) →+ V) (hsec : SectionData ρ β s)
     (hβρ : ∀ (k : SL(2, F)) (v : V),
@@ -1364,7 +1402,7 @@ private lemma gammaOf_upper (ρ : SL(2, F) →* AddMonoid.End V)
     rw [map_add, hgfix, upper_action ρ β s hsec t a b,
       zetaV_eq_g ρ β s hsec hβρ hker t b]
     rw [map_add]
-    simp [add_comm, add_left_comm, add_assoc]
+    simp [add_comm, add_assoc]
     rfl
   rw [hstep, gammaOf_s_add_g, gammaOf_s_add_g, sp4_upper_mulVec]
   ext i
@@ -1552,8 +1590,8 @@ theorem exists_o3Coord {F : Type*} [Field F] [Finite F] [CharP F 2] (hF : 4 ≤ 
       (∀ (k : SL(2, F)) (v : V), γ (ρ k v) = (sp4RadMat k).mulVec (γ v)) ∧
       ∀ v : V, γ v 1 = β v 0 ^ 2 ∧ γ v 2 = β v 1 ^ 2 := by
   classical
-  letI : Fintype F := Fintype.ofFinite F
-  letI : DecidableEq F := Classical.decEq F
+  let : Fintype F := Fintype.ofFinite F
+  let : DecidableEq F := Classical.decEq F
   let s₀ : (Fin 2 → F) →+ V := addSection h2 β hβ
   have hβs₀ : ∀ u, β (s₀ u) = u := addSection_spec h2 β hβ
   let s : (Fin 2 → F) →+ V := sectionAve ρ s₀

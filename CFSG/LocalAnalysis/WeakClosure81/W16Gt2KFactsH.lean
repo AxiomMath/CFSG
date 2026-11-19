@@ -43,7 +43,7 @@ theorem kFacts_suProj_eq_iff (hF : Nat.card F = (2 ^ n) ^ 2) {m : ℕ}
 
 theorem kFacts_card_traceZero (hF : Nat.card F = (2 ^ n) ^ 2) :
     Nat.card {s : F // s + unitaryInvolution F 2 n s = 0} = 2 ^ n := by
-  haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
+  have : Fact (Nat.Prime 2) := Nat.fact_prime_two
   have h := CFSG.LieType.Steinberg.card_traceZero (F := F) (p := 2) (f := n) hF
   exact (Nat.card_congr (Equiv.subtypeEquivRight
     (fun s => (mem_traceZero (unitaryInvolution F 2 n)).symm))).trans h

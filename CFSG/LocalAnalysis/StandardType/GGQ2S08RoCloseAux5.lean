@@ -77,9 +77,9 @@ theorem ggQ2s08r4_repr_single_apply
   rw [ggQ2s08r4_singleEquiv_apply, map_add, map_smul, Module.Basis.repr_self]
   rw [Finsupp.add_apply, Finsupp.smul_apply, Finsupp.single_apply]
   by_cases h : k = i
-  · rw [if_pos h, if_pos h.symm]
+  · rw [ite_eq_left h, ite_eq_left h.symm]
     simp
-  · rw [if_neg h, if_neg (fun h' => h h'.symm)]
+  · rw [ite_eq_right h, ite_eq_right (fun h' => h h'.symm)]
     simp
 
 theorem ggQ2s08r4_sign_K_le
@@ -158,9 +158,9 @@ theorem ggQ2s08r4_sign_K_le
       intro i
       rw [hv_single, ggQ2s08r4_repr_single_apply]
       by_cases hik : i = k
-      · rw [if_pos hik, hik, mul_one, ← two_mul]
+      · rw [ite_eq_left hik, hik, mul_one, ← two_mul]
         exact mul_ne_zero (by decide : (2 : ZMod 3) ≠ 0) (hne_y k)
-      · rw [if_neg hik, mul_zero, add_zero]
+      · rw [ite_eq_right hik, mul_zero, add_zero]
         exact hne_y i
     by_cases he : (∏ i, (ggQ2s08r4_basis M f hf).repr v i) = 1
     ·

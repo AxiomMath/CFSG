@@ -46,12 +46,12 @@ theorem exists_twoSub_normalized_of_component {p : ℕ}
   have hNA : N ≤ A := inf_le_left
   have hNQ : N ≤ Subgroup.normalizer (Q : Set G) := inf_le_right
   have hNp : IsPGroup p N := hA.to_le hNA
-  letI : MulDistribMulAction N G :=
+  let : MulDistribMulAction N G :=
     CFSG.DisconnectedInvolutionGraph.Helpers.subgroupConjugationAction N
   have hInvQ : CFSG.DisconnectedInvolutionGraph.Helpers.InvariantSubgroup (A := N) Q :=
     CFSG.DisconnectedInvolutionGraph.Helpers.subgroup_conjugation_invariant_of_le_normalizer
       Q N hNQ
-  letI : MulDistribMulAction N Q :=
+  let : MulDistribMulAction N Q :=
     CFSG.DisconnectedInvolutionGraph.Helpers.invariantSubgroupAction Q hInvQ
   obtain ⟨T₀, hT₀⟩ :=
     CFSG.DisconnectedInvolutionGraph.Helpers.coprime_pgroup_exists_invariant_sylow
@@ -61,7 +61,7 @@ theorem exists_twoSub_normalized_of_component {p : ℕ}
   have hfix_val : ∀ (n : N) (q : Q),
       ((n • q : Q) : G) = (n : G) * (q : G) * (n : G)⁻¹ := fun _ _ => rfl
   let T : Subgroup G := (T₀ : Subgroup Q).map Q.subtype
-  have hT2 : IsPGroup 2 T := T₀.isPGroup'.map Q.subtype
+  have hT2 : IsPGroup 2 T := T₀.isPGroup.map Q.subtype
   have hTleQ : T ≤ Q := Subgroup.map_subtype_le _
   have hT_not_cent : ¬ T ≤ Subgroup.centralizer (Q : Set G) := by
     intro hTcent
@@ -84,8 +84,8 @@ theorem exists_twoSub_normalized_of_component {p : ℕ}
         simpa [Nat.even_iff, Nat.dvd_iff_mod_eq_zero] using hcenter_index)
     have hsol : Group.IsSolvable (Q ⧸ Subgroup.center Q) :=
       CFSG.FeitThompson.isSolvable_of_odd_natCard _ hodd
-    haveI : Group.IsPerfect Q := Group.isPerfect_def.mpr hQ.2.2.1
-    haveI : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hQ.2.2.2
+    have : Group.IsPerfect Q := Group.isPerfect_def.mpr hQ.2.2.1
+    have : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hQ.2.2.2
     exact (Group.IsPerfect.not_isSolvable (Q ⧸ Subgroup.center Q)) hsol
   let Qa : A → Subgroup G := fun a => Q.map (MulAut.conj (a : G)).toMonoidHom
   let Tf : A → Subgroup G := fun a => T.map (MulAut.conj (a : G)).toMonoidHom
@@ -213,7 +213,7 @@ theorem exists_twoSub_normalized_of_component {p : ℕ}
     | insert a s ha ih =>
         rw [Finset.sup_insert]
         exact IsPGroup.to_sup_of_normal_right' (hTf2 a) ih (hnormalizes_sup s a)
-  letI : Fintype A := Fintype.ofFinite A
+  let : Fintype A := Fintype.ofFinite A
   refine ⟨⨆ a : A, Tf a, ?_, ?_, ?_, ?_⟩
   · have h := hmain Finset.univ
     rw [Finset.sup_univ_eq_iSup] at h
@@ -226,7 +226,6 @@ theorem exists_twoSub_normalized_of_component {p : ℕ}
       rw [Subgroup.map_iSup]
       congr 1
       funext b
-      change Subgroup.map (MulAut.conj a).toMonoidHom (Tf b) = Tf (⟨a, ha⟩ * b)
       change Subgroup.map (MulAut.conj a).toMonoidHom
         (Subgroup.map (MulAut.conj (b : G)).toMonoidHom T) = Tf (⟨a, ha⟩ * b)
       rw [Subgroup.map_map]
@@ -353,7 +352,7 @@ theorem excTwE6_component_unique {B Bs : Subgroup G} {x : G} {L D J : Subgroup G
   have hperfQ' : commutator Q' = ⊤ := hQ'comp.2.2.1
   by_cases h3 : 3 ∣ Nat.card Q'
   ·
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     let P : Sylow 3 Q' := Sylow.nonempty.some
     have hPcard : 3 ∣ Nat.card ↥P := by
       have hPcard_eq : Nat.card ↥P = 3 ^ (Nat.card Q').factorization 3 :=
@@ -364,7 +363,7 @@ theorem excTwE6_component_unique {B Bs : Subgroup G} {x : G} {L D J : Subgroup G
       exact dvd_pow_self 3 (Nat.one_le_iff_ne_zero.mp hfac)
     obtain ⟨p3, hp3ord⟩ := exists_prime_orderOf_dvd_card' 3 hPcard
     let P' : Subgroup G := (P : Subgroup Q').map Q'.subtype
-    have hP'3 : IsPGroup 3 P' := P.isPGroup'.map Q'.subtype
+    have hP'3 : IsPGroup 3 P' := P.isPGroup.map Q'.subtype
     have hP'leQ : P' ≤ Q' := Subgroup.map_subtype_le _
     have hP'leCentL : P' ≤ Subgroup.centralizer (L : Set G) := hP'leQ.trans hQ'leCentL
     have hP'leCentx : P' ≤ Subgroup.centralizer ({x} : Set G) := hP'leQ.trans hQ'leCentx
@@ -415,17 +414,17 @@ theorem excTwE6_component_unique {B Bs : Subgroup G} {x : G} {L D J : Subgroup G
     have hxordQ' : orderOf (⟨x, hxQ'⟩ : Q') = 3 := by
       rw [← Subgroup.orderOf_coe (⟨x, hxQ'⟩ : Q')]
       exact hxord
-    haveI : IsCyclic H := hHcyc
+    have : IsCyclic H := hHcyc
     have hP'cyc : IsCyclic ↥P' := Subgroup.isCyclic_of_le (le_sup_right : P' ≤ H)
     have hP'cyc' : IsCyclic ↥((P : Subgroup Q').map Q'.subtype) := hP'cyc
-    haveI : IsCyclic ↥((P : Subgroup Q').map Q'.subtype) := hP'cyc'
+    have : IsCyclic ↥((P : Subgroup Q').map Q'.subtype) := hP'cyc'
     have hPcyc : IsCyclic ↥P :=
       isCyclic_of_injective
         (Subgroup.equivMapOfInjective (P : Subgroup Q') Q'.subtype Q'.subtype_injective).toMonoidHom
         (Subgroup.equivMapOfInjective (P : Subgroup Q') Q'.subtype
           Q'.subtype_injective).injective
-    haveI : IsCyclic ↥P := hPcyc
-    haveI : IsMulCommutative ↥P := IsCyclic.isMulCommutative
+    have : IsCyclic ↥P := hPcyc
+    have : IsMulCommutative ↥P := IsCyclic.isMulCommutative
     exact (CFSG.GroupTheory.not_mem_commutator_of_mem_center P
       (inferInstance : IsMulCommutative ↥P) hxZQ' hxordQ') (by
         rw [hperfQ']

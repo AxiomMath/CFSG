@@ -49,7 +49,7 @@ theorem stabB_eq (l : Fin 3) : stabB l = Certificates.ae6TriStab l := by
   · intro h
     ext y
     rw [Set.mem_smul_set_iff_inv_smul_mem]
-    simp only [Set.mem_setOf_eq, Equiv.Perm.smul_def]
+    simp only [Set.mem_ofPred_eq, Equiv.Perm.smul_def]
     rw [← h (p⁻¹ y)]
     simp
   · intro h x

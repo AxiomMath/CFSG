@@ -50,7 +50,7 @@ private theorem rows_of_mulEquiv_J3
       apply ψ.injective
       rw [map_mul, map_mul, MulEquiv.apply_symm_apply]
       exact Subtype.ext hcomm
-    haveI : Finite I := Finite.of_equiv _ eI.symm.toEquiv
+    have : Finite I := Finite.of_equiv _ eI.symm.toEquiv
     have hI360 : Nat.card I = 360 := by
       rw [Nat.card_congr eI.toEquiv, Nat.card_eq_fintype_card, card_alternatingGroup]
       decide
@@ -85,7 +85,7 @@ theorem res3L125_rows_J3
 
 theorem res3L125_isPGroup_two_outer_J3 :
     IsPGroup 2 (Outer Blueprint.NativeSporadic.J3) := by
-  haveI : Finite (MulAut Blueprint.NativeSporadic.J3) := MulEquiv.finite_left
+  have : Finite (MulAut Blueprint.NativeSporadic.J3) := MulEquiv.finite_left
   exact res3L125_isPGroup_two_outer_of_card_le_two CFSG.RankThree.PartTwo.Sec4.card_outer_J3
 
 theorem res3NoDatumJ3_holds :

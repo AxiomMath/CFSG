@@ -12,7 +12,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 private lemma pxe_model (p N : ℕ) [Fact p.Prime] (hp : p = 5 ∨ p = 7) (hN : N = p)
     {V : Type} [AddCommGroup V] [Module (ZMod p) V]
     (h : Fin (N - 1) → V) (α : Fin (N - 1) → Module.Dual (ZMod p) V) (x : V) (ha : V)
-    (αa : Module.Dual (ZMod p) V) (hF : CFSG.StandardType.GGIndepAFrame p N h α x) (hha : αa ha = 2)
+    (αa : Module.Dual (ZMod p) V) (hF : CFSG.StandardType.GGIndepAFrame p N h α x) (_hha : αa ha = 2)
     (hx : αa x ≠ 0) (hsp : ha ∈ Submodule.span (ZMod p) (Set.range h)) (s : ℕ) (hs : s ≤ 2)
     (o : ℕ × ℕ × ℕ) (ho : o ∈ posOpts p N)
     (hH : ∀ j : Fin (N - 1), s ≤ (j : ℕ) → (j : ℕ) < s + (N - 3) →
@@ -39,12 +39,12 @@ private lemma pxe_model (p N : ℕ) [Fact p.Prime] (hp : p = 5 ∨ p = 7) (hN : 
   have hqfin : Module.Finite (ZMod p) (V ⧸ φ.ker) :=
     Module.Finite.of_surjective (LinearMap.quotKerEquivRange φ).symm.toLinearMap
       (LinearMap.quotKerEquivRange φ).symm.surjective
-  haveI : Module.Finite (ZMod p) (Submodule.span (ZMod p) {x}) :=
+  have : Module.Finite (ZMod p) (Submodule.span (ZMod p) {x}) :=
     Module.Finite.span_of_finite (ZMod p) (Set.finite_singleton x)
   rw [hker] at hqfin
   have hVfin : Module.Finite (ZMod p) V :=
     Module.Finite.of_submodule_quotient (Submodule.span (ZMod p) {x})
-  haveI := hVfin
+  have := hVfin
   have hHd : Module.finrank (ZMod p) (Submodule.span (ZMod p) (Set.range h)) = p - 1 := by
     rw [finrank_span_eq_card hF.indep, Fintype.card_fin]
   have hx1 : Module.finrank (ZMod p) (Submodule.span (ZMod p) {x}) = 1 :=
@@ -90,9 +90,9 @@ theorem excl_model (p N : ℕ) [Fact p.Prime] (hc : (p = 5 ∧ N = 5) ∨ (p = 7
       αa (h j) = (((if (j : ℕ) - s = o.1 then o.2.2 else 0 : ℕ)) : ZMod p)) :
     ModelledIn (exclCell false p N ++ exclCell true p N) s p h α x ha αa := by
   rcases hc with ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩
-  · haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  · have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     exact pxe_model 5 5 (Or.inl rfl) rfl h α x ha αa hF hha hx hsp s hs o ho hH hA
-  · haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  · have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     exact pxe_model 7 7 (Or.inr rfl) rfl h α x ha αa hF hha hx hsp s hs o ho hH hA
 
 end CFSG.TwoNodeSmall

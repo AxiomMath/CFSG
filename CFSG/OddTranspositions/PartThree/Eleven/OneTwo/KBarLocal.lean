@@ -232,7 +232,7 @@ theorem localTwoA5_kbar (h : ElevenTwoHyp hC) (hF : ElevenTwoFrame hC S T r)
         refine ⟨hy.1, (commute_iff_eq _ _).mpr (Subtype.ext hy.2.eq), ?_⟩
         intro h
         have h' : (y : H) = r 0 * r 1 * r 2 := congrArg (fun w : L => (w : H)) h
-        simp only [Set.mem_setOf_eq] at hy
+        simp only [Set.mem_ofPred_eq] at hy
         rw [h'] at hy
         exact hF.frame.not_mem hy.1
     have hfLK : fLK '' {y : L | (y : H) ∈ Γu} = Sset := by

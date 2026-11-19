@@ -125,7 +125,7 @@ theorem yOf_bijective : Function.Bijective fun t : Fin 243 => yOf t := by
     have hof : ofList (Certificates.E6Heart.repL t) = w := by
       rw [hrep]
       funext i
-      fin_cases i <;> simp [ofList, ZMod.natCast_zmod_val, hw0]
+      fin_cases i <;> simp [ofList, hw0]
     refine ⟨⟨t, ht⟩, ?_⟩
     change Submodule.Quotient.mk (ofList (Certificates.E6Heart.repL t)) =
       Submodule.Quotient.mk u

@@ -263,7 +263,7 @@ theorem kys_ncard_kernelRoots_of_outer (hK : Nat.card K = 4) (σ : K ≃+* K)
     (kernelRoots (rootCharHom a)).ncard = 18 ∨ (kernelRoots (rootCharHom a)).ncard = 24 := by
   classical
   set L := AlgebraicClosure K with hL
-  haveI hcL : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
+  have hcL : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
   obtain ⟨ω, hω⟩ :=
     CFSG.HardMathSupport.Solomon.Coordinator.ChevQ.TwE6InnerAbs.exists_orderOf_three (L := L)
   have hω3 : ω ^ 3 = 1 := by rw [← hω]; exact pow_orderOf_eq_one ω
@@ -291,7 +291,7 @@ theorem kys_ncard_kernelRoots_of_outer (hK : Nat.card K = 4) (σ : K ≃+* K)
       ← Set.ncard_coe_finset]
     congr 1
     ext α
-    simp only [Set.mem_setOf_eq, Finset.coe_filter, mem_rootFinset]
+    simp only [Set.mem_ofPred_eq, Finset.coe_filter, mem_rootFinset]
   have hx0 : x ≠ 0 := by
     intro hx
     apply hmΓ
@@ -320,7 +320,7 @@ theorem kys_ncard_kernelRoots_of_outer (hK : Nat.card K = 4) (σ : K ≃+* K)
       CFSG.HardMathSupport.Solomon.Coordinator.ChevQ.Bal209TwoOuterInAux.exists_model_conj_dV hyG
         hmy hcoc hax
     have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
-    haveI : Finite ↥(⁅twE6TwoModel L, twE6TwoModel L⁆ : Subgroup (ModGL Tag.E6 L)) :=
+    have : Finite ↥(⁅twE6TwoModel L, twE6TwoModel L⁆ : Subgroup (ModGL Tag.E6 L)) :=
       Finite.of_equiv _ (twE6TwoEquiv hK σ hσ hg0C hg0).toEquiv
     have hdx : dV ω x ∈ (⁅twE6TwoModel L, twE6TwoModel L⁆ : Subgroup (ModGL Tag.E6 L)) := by
       rw [← hy₀]
@@ -343,8 +343,8 @@ theorem input29_5'LieRest4_holds : Inputs295e.Input29_5'LieRest4 := by
   classical
   set L := AlgebraicClosure K with hL
   have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
-  haveI : Finite (twistedE6RootGroup K σ) := Subtype.finite
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (twistedE6RootGroup K σ) := Subtype.finite
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ĝ, hĝ, hĝC, hĝ3, hfout, hm⟩ := kys_exists_inndiag_of_model hK σ hσ hg0C hg0 hmM hmΓ hm3
   set h : twistedE6InndiagGL K σ := ⟨ĝ, hĝ⟩ with hhdef
   have hh1 : h ≠ 1 := fun h1 => hĝC (by
@@ -373,7 +373,7 @@ theorem input29_5'LieRest4_holds : Inputs295e.Input29_5'LieRest4 := by
     rw [fixSubgroup_eq_fixedPoints] at hs
     have himg := isPSolvable_map D.ι hs
     rw [D.map_fixedPoints] at himg
-    haveI : Finite ↥(D.S.Γ ⊓ Subgroup.centralizer {rootDiagUnit Tag.E6 D.a}) :=
+    have : Finite ↥(D.S.Γ ⊓ Subgroup.centralizer {rootDiagUnit Tag.E6 D.a}) :=
       kys_finite_of_le_Gamma D.S inf_le_left
     rcases htype with h18 | h24
     · have hdim : twE6MatFixDim K σ h = 24 := by rw [hdimA, h18]

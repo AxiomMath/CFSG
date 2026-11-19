@@ -45,7 +45,7 @@ theorem false_of_gen {f : ℕ} (hf : f.Prime) (hf2 : f ≠ 2) (c : KxCfg p P M x
     (hgen : ∀ F : Subgroup G, CFSG.ABGLocalTools.IsSylowOf f F L → ∀ J : Subgroup G,
       (∀ S₀ : Subgroup G, S₀ ≤ F → 2 ≤ CFSG.Open.pRank f S₀ → normalizer (S₀ : Set G) ⊓ L ≤ J) →
         L ≤ J) : False := by
-  haveI : Fact f.Prime := ⟨hf⟩
+  have : Fact f.Prime := ⟨hf⟩
   have hS := c.conf.config.situation
   obtain ⟨U, hUL, hU1, hU2, hU4⟩ := hU
   have hrk : 4 ≤ CFSG.Open.pRank f (normalizer (U : Set G)) :=

@@ -101,7 +101,7 @@ theorem amalgamA_of_setting (hR : Hyp111R L1 L2 S) (hS3 : VS3 L1) (hS : S ≤ L1
     AmalgamA (L1 ⊔ L2 ⊔ S) (P₂ L1 L2 S) (P₁ L1 L2 S) S L1 where
   toAmalgamS3 := amalgamS3_of_setting hR hS3 hS
   center := hc
-  gen := fun g hg hg' => sup_conjSub_eq_P₂ hR hS3 hS hg hg'
+  gen := fun _g hg hg' => sup_conjSub_eq_P₂ hR hS3 hS hg hg'
 
 theorem configA_of_le_omegaOneCenterOf
     (hR : Hyp111R L1 L2 S) (hS3 : VS3 L1) (hS : S ≤ L1) (hBig : VBig L2)

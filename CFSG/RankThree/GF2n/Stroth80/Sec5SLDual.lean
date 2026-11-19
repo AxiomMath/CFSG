@@ -56,12 +56,12 @@ theorem biadd_eq_zero_of_SL {K : Type} [Field K] {A : Type*} [AddCommGroup A] {m
       rw [Finset.card_univ, Fintype.card_fin] at this
       omega
     refine hA i j a (Ne.symm hji) _ ?_
-    simp [Pi.single_apply, hjk]
+    simp [hjk]
   have hx : x = ∑ i, x i • Pi.single i (1 : K) := by
     ext l; simp [Finset.sum_apply, Pi.single_apply]
   have hy : y = ∑ k, y k • Pi.single k (1 : K) := by
     ext l; simp [Finset.sum_apply, Pi.single_apply]
   rw [hx, hy]
-  simp [map_sum, AddMonoidHom.finset_sum_apply, hB]
+  simp [map_sum, hB]
 
 end CFSG.RankThree.GF2n.Stroth80

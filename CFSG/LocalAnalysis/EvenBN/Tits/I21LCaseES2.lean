@@ -46,14 +46,14 @@ variable {Y : Type*} [Group Y] [Finite Y]
 theorem caseES_p3_of_odd_normal (C : Subgroup Y) [C.Normal] (hC : Odd (Nat.card C))
     (hidx : ∃ n : ℕ, C.index = 2 ^ n) (S : Sylow 2 Y) {t : Y} (ht : t ∈ S) {g : Y}
     (hg : g * t * g⁻¹ ∈ S) : ∃ s ∈ S, s * t * s⁻¹ = g * t * g⁻¹ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hCS : C ⊓ (S : Subgroup Y) = ⊥ := by
     apply Subgroup.eq_bot_of_card_eq
     have h1 : Nat.card ↥(C ⊓ (S : Subgroup Y)) ∣ Nat.card C :=
       Subgroup.card_dvd_of_le inf_le_left
     have h2 : Nat.card ↥(C ⊓ (S : Subgroup Y)) ∣ Nat.card (S : Subgroup Y) :=
       Subgroup.card_dvd_of_le inf_le_right
-    obtain ⟨n, hn⟩ := (IsPGroup.iff_card).mp S.isPGroup'
+    obtain ⟨n, hn⟩ := (IsPGroup.iff_card).mp S.isPGroup
     rw [hn] at h2
     obtain ⟨j, -, hj⟩ := (Nat.dvd_prime_pow Nat.prime_two).mp h2
     rw [hj] at h1 ⊢

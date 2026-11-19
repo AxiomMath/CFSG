@@ -14,7 +14,7 @@ theorem gls3PlusCase_lie_rankOne_A1 (q : PrimePower) (hq : q.p = 3) (d : ValidLi
     (hd : d.1 = .A 1 q) : Gls3PlusCase (.lie d) := by
   classical
   intro X _ _ _hK K hKn hsimp hnab hiso hC P hrk hΓ
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e₀⟩ := hiso
   have hp2 : (3 : ℕ) ≠ 2 := by norm_num
   obtain ⟨d0, hv⟩ := d

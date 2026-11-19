@@ -50,11 +50,11 @@ theorem heisB_noHeisAut_of_model {X : Type} [Group X] [Finite X] {p : ℕ} (hp :
     (hp5 : 5 ≤ p) (hZ : Function.Injective (MulAut.conj : X →* MulAut X))
     (hrk : ∀ A : Subgroup X, IsMulCommutative A → (∀ x ∈ A, x ^ p = 1) → Nat.card A ≤ p ^ 3)
     {r f : ℕ} (hcl : StatedClassicalModel X .PSp r 2 f) : NoHeisAut p X := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hCyc, hfield⟩ := heisB_out_data hp hp5 hcl
   obtain ⟨⟨-, hf, -, -⟩, K, _, _, hK, ⟨e⟩⟩ := hcl
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 :=
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two hf hK
   have hKc : Fintype.card K = 2 ^ f := by rw [← Nat.card_eq_fintype_card]; exact hK
   have hp2 : p ≠ 2 := by omega

@@ -26,6 +26,7 @@ abbrev ModularGroupAlgebra (n : ℕ) := MonoidAlgebra (ZMod (2 ^ n)) G
   MonoidAlgebra.mapRingHom G
     (ZMod.castHom (pow_dvd_pow 2 (Nat.le_succ n)) (ZMod (2 ^ n)))
 
+omit [Fintype G] in
 @[simp]
 theorem reduceLevel_coeff (n : ℕ) (x : ModularGroupAlgebra (G := G) (n + 1))
     (g : G) :
@@ -64,6 +65,7 @@ private theorem scalar_mul_eq_zero_of_reduce_eq_zero
           ((ka : ZMod (2 ^ (n + 1))) * kb) := by ring
     _ = 0 := by rw [hpRing, zero_mul]
 
+omit [Fintype G] in
 private theorem sq_eq_zero_of_reduceLevel_eq_zero
     (n : ℕ) (hn : 1 ≤ n) (x : ModularGroupAlgebra (G := G) (n + 1))
     (hx : reduceLevel n x = 0) : x * x = 0 := by
@@ -84,6 +86,7 @@ private theorem sq_eq_zero_of_reduceLevel_eq_zero
         (hcoeff h) (hcoeff (h⁻¹ * g))
     _ = 0 := Finsupp.sum_fun_zero x.coeff
 
+omit [Fintype G] in
 theorem reduceLevel_surjective (n : ℕ) :
     Function.Surjective (reduceLevel (G := G) n) := by
   exact MonoidAlgebra.map_surjective _
@@ -251,6 +254,7 @@ theorem reduceLevel_principalBlockMod (n : ℕ) :
   MonoidAlgebra.mapRingHom G
     (ZMod.castHom (pow_dvd_pow 2 h) (ZMod (2 ^ m)))
 
+omit [Fintype G] in
 @[simp]
 theorem reduceTo_coeff (m n : ℕ) (h : m ≤ n)
     (x : ModularGroupAlgebra (G := G) n) (g : G) :
@@ -258,12 +262,14 @@ theorem reduceTo_coeff (m n : ℕ) (h : m ≤ n)
       ZMod.castHom (pow_dvd_pow 2 h) (ZMod (2 ^ m)) (x.coeff g) := by
   exact MonoidAlgebra.coeff_mapRingHom _ _ _
 
+omit [Fintype G] in
 private theorem reduceTo_self (n : ℕ) (x : ModularGroupAlgebra (G := G) n) :
     reduceTo n n le_rfl x = x := by
   classical
   ext g
   simp [reduceTo_coeff]
 
+omit [Fintype G] in
 private theorem reduceTo_comp_reduceLevel (m n : ℕ) (h : m ≤ n) :
     (reduceTo (G := G) m n h).comp (reduceLevel (G := G) n) =
       reduceTo (G := G) m (n + 1) (h.trans (Nat.le_succ n)) := by
@@ -360,6 +366,7 @@ theorem principalBlockPadic_coeff (g : G) :
     MonoidAlgebra ℤ_[2] G →+* ModularGroupAlgebra (G := G) n :=
   MonoidAlgebra.mapRingHom G (PadicInt.toZModPow n)
 
+omit [Fintype G] in
 @[simp]
 theorem reducePadic_coeff (n : ℕ) (x : MonoidAlgebra ℤ_[2] G) (g : G) :
     (reducePadic n x).coeff g = PadicInt.toZModPow n (x.coeff g) := by

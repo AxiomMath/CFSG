@@ -47,15 +47,15 @@ theorem isOmegaPlus_three_facts {q : ℕ} {Y : Type} [Group Y] (hq : ∃ a : ℕ
       Nat.card Y = q ^ 6 * ((q ^ 2 - 1) * ((q ^ 3 - 1) * (q ^ 4 - 1))) := by
   obtain ⟨a, ha, rfl⟩ := hq
   obtain ⟨K, hF, hfin, hK, ⟨e⟩⟩ := h
-  haveI hchar : CharP K 2 :=
+  have hchar : CharP K 2 :=
     CFSG.ABGLocalTools.SL2Facts.charP_of_card_eq_prime_pow Nat.prime_two hK
   have h4 : 4 ≤ Nat.card K := by
     rw [hK]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ a := Nat.pow_le_pow_right (by norm_num) ha
-  haveI hs : IsSimpleGroup ↥(StatedOmega (StatedQuadPlus 3 K)) :=
+  have hs : IsSimpleGroup ↥(StatedOmega (StatedQuadPlus 3 K)) :=
     isSimpleGroup_statedOmega_quadPlus_of_three_le (K := K) (k := 3) le_rfl
-  haveI hp : Group.IsPerfect ↥(StatedOmega (StatedQuadPlus 3 K)) :=
+  have hp : Group.IsPerfect ↥(StatedOmega (StatedQuadPlus 3 K)) :=
     CFSG.LieType.Universal.Spin.isPerfect_statedOmega_quadPlus (K := K) (n := 3) le_rfl
   obtain ⟨eSL⟩ := nonempty_statedOmega_quadPlus_three_mulEquiv (K := K) h4
   have hcard : Nat.card Y = Nat.card (StatedSL 4 K) :=
@@ -64,7 +64,7 @@ theorem isOmegaPlus_three_facts {q : ℕ} {Y : Type} [Group Y] (hq : ∃ a : ℕ
   refine ⟨e.isSimpleGroup, ?_, ?_⟩
   · by_contra hcon
     push Not at hcon
-    haveI : IsMulCommutative ↥(StatedOmega (StatedQuadPlus 3 K)) :=
+    have : IsMulCommutative ↥(StatedOmega (StatedQuadPlus 3 K)) :=
       ⟨⟨fun x y => e.symm.injective (by rw [map_mul, map_mul]; exact hcon _ _)⟩⟩
     exact Group.IsPerfect.not_isMulCommutative ↥(StatedOmega (StatedQuadPlus 3 K)) inferInstance
   · rw [hcard, show Finset.Icc 2 4 = ({2, 3, 4} : Finset ℕ) from by decide,
@@ -101,9 +101,9 @@ theorem stroth12Omega6PlusCaseE6_of_second (hZcard : Sec7ZCardStatement)
     (h78 : Stroth78Statement) (hgen : StrothGenByBStatement) (h4i : Stroth4iStatement) :
     Stroth12Omega6PlusCaseE6Statement := by
   intro G _ _ M Q Z B hc n h12 t ht htQ hp hsub
-  haveI := hc.normal_Q_in_M
+  have := hc.normal_Q_in_M
   obtain ⟨⟨hN', H₂⟩, hN'', hall⟩ := hsub
-  haveI := hN'
+  have := hN'
   refine ⟨hN', fun B₂ hcB₂ => ?_⟩
   have h5 : Sec5Hyp hc n t := h12.toSec5 ht htQ
   have hlarge := h12.large t ht htQ
@@ -147,7 +147,7 @@ theorem stroth12Omega6PlusCaseE6_of_second (hZcard : Sec7ZCardStatement)
   obtain ⟨hnR, hRq⟩ : QuotSat (bar (H0 M Z) Q (Rt M (LB M Q B) t)) (bar (H0 M Z) Q (hc.CN t))
       (IsOmegaPlus 3 (Nat.card Z)) :=
     quotSat_bar_of (fun X Y _ _ e h => IsOmegaPlus.congr e h) hQN hCNR hRH0 hp.quotSat
-  haveI := hnR
+  have := hnR
   obtain ⟨r0, -, hr0, -⟩ := hc.hyp.cp
   have hqa : ∃ a : ℕ, 2 ≤ a ∧ Nat.card Z = 2 ^ a := by
     refine ⟨r0, ?_, hr0⟩
@@ -156,7 +156,7 @@ theorem stroth12Omega6PlusCaseE6_of_second (hZcard : Sec7ZCardStatement)
     rw [hr0] at h4
     interval_cases r0 <;> simp at h4
   obtain ⟨hRs, hRn, hRcard⟩ := isOmegaPlus_three_facts hqa hRq
-  haveI := hRs
+  have := hRs
   have hnc : ¬ IsMulCommutative (↥(bar (H0 M Z) Q (Rt M (LB M Q B) t)) ⧸
       (bar (H0 M Z) Q (hc.CN t)).subgroupOf (bar (H0 M Z) Q (Rt M (LB M Q B) t))) := fun h => by
     obtain ⟨x, y, hxy⟩ := hRn

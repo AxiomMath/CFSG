@@ -95,7 +95,7 @@ theorem rep_ex : ∀ a < 49, ∃ g ∈ cl mGens, wcode 4 g = RC a := by
 noncomputable def ρ (a : ℕ) : Perm (Fin 7) := if h : a < 49 then (rep_ex a h).choose else 1
 
 theorem ρ_code : ∀ a < 49, wcode 4 (ρ a) = RC a := fun a ha => by
-  rw [ρ, dif_pos ha]
+  rw [ρ, dite_eq_left ha]
   exact (rep_ex a ha).choose_spec.2
 
 theorem hUE0 : Nat.beq (UE 0) one7 = true := (andB_eq_true ch7250u).1
@@ -169,7 +169,7 @@ theorem eight_dvd {t : ℕ} (ht : t < 12) : 8 ∣ Nat.card (Lm t) := by
   rw [← card_T]
   exact Subgroup.card_dvd_of_le (T_le ht)
 
-theorem card_eq {t n : ℕ} (ht : t < 12) (hle : Nat.card (Lm t) ≤ 8 * n) (hd : 8 * n ∣ Nat.card (Lm t)) :
+theorem card_eq {t n : ℕ} (_ht : t < 12) (hle : Nat.card (Lm t) ≤ 8 * n) (hd : 8 * n ∣ Nat.card (Lm t)) :
     Nat.card (Lm t) = 8 * n :=
   card_eq_of_dvd_of_le hd hle
 

@@ -181,7 +181,7 @@ theorem testBit_redP2 (x q : Nat) (hq : q < 64) (hx : ∀ m, 320 ≤ m → x.tes
     decide_eq_true (by omega : q + 64 * 2 < 192), decide_eq_false (by omega : ¬ q + 64 * 2 < 64),
     decide_eq_false (by omega : ¬ q + 64 * 2 - 64 < 64), decide_eq_true (by omega : 64 ≤ q + 64 * 2),
     decide_eq_true (by omega : 128 ≤ q + 64 * 2)]
-  simp only [Bool.and_true, Bool.and_false, Bool.true_and, Bool.false_and, Bool.xor_false]
+  simp only [Bool.and_true, Bool.and_false, Bool.true_and, Bool.xor_false]
 
 theorem testBit_redP_hi (x n : Nat) (hn : 192 ≤ n) (hx : ∀ m, 320 ≤ m → x.testBit m = false) :
     (redP x).testBit n = false := by
@@ -253,7 +253,7 @@ theorem testBit_packA (A : Array GF8) (n : Nat) :
     (packA A).testBit n = (A.getD (n % 64) 0).toNat.testBit (n / 64) := by
   rw [packA, testBit_packL _ (by simp)]
   have h : n % 64 < 64 := Nat.mod_lt _ (by decide)
-  simp [List.getD_eq_getElem?_getD, List.getElem?_map, List.getElem?_range, h]
+  simp [List.getD_eq_getElem?_getD, h]
 
 theorem packA_x (A : Array GF8) (k r L : Nat) (hk : k < 8) (hr : r < 8) :
     (packA A).testBit (k + (8 * r + 64 * L)) = (A.getD (8 * r + k) 0).toNat.testBit L := by
@@ -423,7 +423,7 @@ theorem getD_some {α : Type} {l : List α} {i : Nat} (d : α) (h : i < l.length
 
 theorem getD_take {α : Type} (l : List α) (m i : Nat) (d : α) (h : i < m) :
     (l.take m).getD i d = l.getD i d := by
-  rw [List.getD_eq_getElem?_getD, List.getD_eq_getElem?_getD, List.getElem?_take, if_pos h]
+  rw [List.getD_eq_getElem?_getD, List.getD_eq_getElem?_getD, List.getElem?_take, ite_eq_left h]
 
 theorem bfsP_of_bfsOK (A B : Nat) (par : List (Nat × Bool)) (es : List Nat)
     (h : bfsOK A B par es = true) : bfsP A B par = es := by
@@ -436,17 +436,17 @@ theorem bfsP_of_bfsOK (A B : Nat) (par : List (Nat × Bool)) (es : List Nat)
     induction n with
     | zero =>
       intro _
-      rw [List.take_zero, List.foldl_nil, List.take_succ, List.take_zero, List.nil_append,
+      rw [List.take_zero, List.foldl_nil, List.take_add_one, List.take_zero, List.nil_append,
         getD_some 0 (by omega), h0]
       rfl
     | succ n ih =>
       intro hn
       have hkn := hk n (by omega)
-      simp only [Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq] at hkn
+      simp only [decide_eq_true_eq] at hkn
       obtain ⟨hp, he⟩ := hkn
-      rw [List.take_succ, List.foldl_append, ih (by omega), getD_some (0, false) (by omega),
+      rw [List.take_add_one, List.foldl_append, ih (by omega), getD_some (0, false) (by omega),
         Option.toList_some, List.foldl_cons, List.foldl_nil, bfsStepP,
-        List.take_succ (l := es) (i := n + 1), getD_some 0 (by omega), Option.toList_some, he]
+        List.take_add_one (l := es) (i := n + 1), getD_some 0 (by omega), Option.toList_some, he]
       congr 3
       exact getD_take _ _ _ _ (by omega)
   have e := key par.length le_rfl
@@ -467,7 +467,7 @@ theorem packA_letterArr (l : Nat) : packA (letterArr l) = letP ls l := by
     have h2 : ¬ l < 16 := by omega
     have h3 : ¬ l = 16 := by omega
     have e : letterArr l = letterArr 17 := by
-      simp only [letterArr, letterMat, if_neg h1, if_neg h2, if_neg h3]
+      simp only [letterArr, letterMat, ite_eq_right h1, ite_eq_right h2, ite_eq_right h3]
       rfl
     rw [e, Nat.min_eq_right (by omega), hL 17 (by decide)]
 

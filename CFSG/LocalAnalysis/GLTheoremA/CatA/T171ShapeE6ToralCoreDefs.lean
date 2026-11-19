@@ -19,8 +19,8 @@ open CFSG.LieType.Chevalley CFSG.Blueprint.Chevalley CFSG.HardMathSupport.Lang.E
     (hK : Nat.card K = (2 ^ n) ^ 2), 3 ∣ 2 ^ n + 1 →
     ∀ (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ 2 ^ n)
       (ε : ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom) ≃* TwE6Delta.RecipeR K n)
-      (wd wb : ↥(RecipeExcLang.twInndiagGroup K σ)) (hwd3 : wd ^ 3 = 1)
-      (hwd1 : wd ≠ 1) (hwb3 : wb ^ 3 = 1)
+      (wd wb : ↥(RecipeExcLang.twInndiagGroup K σ)) (_hwd3 : wd ^ 3 = 1)
+      (_hwd1 : wd ≠ 1) (_hwb3 : wb ^ 3 = 1)
       (Fr : AlgebraicClosure K →+* AlgebraicClosure K) (hFr : ∀ c, Fr c = c ^ 2 ^ n)
       (g : ModGL Tag.E6 (AlgebraicClosure K)), g ∈ adjointGroup Tag.E6 (AlgebraicClosure K) →
       g⁻¹ * CFSG.RankThree.Classical2.twistE6 (AlgebraicClosure K) Fr g =

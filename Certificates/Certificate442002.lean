@@ -66,7 +66,7 @@ private theorem closed_ev (B : List (CV 45)) : closedChk (B.map ev) = closedC B 
 private theorem sylow_ev (T B : List (CV 45)) : sylowChk (T.map ev) (B.map ev) = sylowC T B := by
   unfold sylowChk sylowC
   simp only [List.length_map, decide_mem_map_ev, List.all_map, List.any_map, List.filter_map,
-    Function.comp_def, ev_mul', decide_ev_eq, ne_eq, ev_eq_iff]
+    Function.comp_def, ev_mul', ne_eq, ev_eq_iff]
 
 private theorem cent_ev (A B : List (CV 45)) : centChk (A.map ev) (B.map ev) = centC A B := by
   unfold centChk centC

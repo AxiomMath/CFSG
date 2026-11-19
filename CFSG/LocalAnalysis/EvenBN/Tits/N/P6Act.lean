@@ -22,7 +22,7 @@ theorem ncard_orbit_eq_three [Finite G] {R Z : Subgroup G} (hZ4 : Nat.card Z = 4
     rw [← Nat.card_coe_set_eq]
     exact hZ4
   have hX3 : X.ncard = 3 := by
-    rw [hXdef, Set.ncard_diff_singleton_of_mem Z.one_mem, hZcard]
+    rw [hXdef, Set.ncard_sdiff_singleton_of_mem Z.one_mem, hZcard]
   have hconjX : ∀ r ∈ R, ∀ x ∈ X, r * x * r⁻¹ ∈ X := by
     intro r hr x hx
     refine ⟨hRZ r hr x hx.1, fun h => hx.2 ?_⟩
@@ -49,7 +49,7 @@ theorem ncard_orbit_eq_three [Finite G] {R Z : Subgroup G} (hZ4 : Nat.card Z = 4
   by_contra hO
   have hO2' : O.ncard = 2 := by omega
   have hdiff : (X \ O).ncard = 1 := by
-    rw [Set.ncard_diff hOX, hX3, hO2']
+    rw [Set.ncard_sdiff hOX, hX3, hO2']
   obtain ⟨c, hc⟩ := Set.ncard_eq_one.1 hdiff
   have hcXO : c ∈ X \ O := by rw [hc]; exact Set.mem_singleton c
   have hcfix : ∀ r ∈ R, r * c * r⁻¹ = c := by

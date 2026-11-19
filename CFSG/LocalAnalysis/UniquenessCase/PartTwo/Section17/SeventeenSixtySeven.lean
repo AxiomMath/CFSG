@@ -51,7 +51,7 @@ theorem seventeen_sixtyseven_of_mem_calL3Star
   exact Or.inr (Or.inr (Or.inr (Or.inl ⟨fun h => hXne (hXeq ▸ h), n,
     hshape.elim (fun h => Or.inl h.1) (fun h => Or.inr h.1)⟩)))
 
-theorem seventeen_sixtyseven_of_mem_calL4Star {D : Data G} {V₀ V : Subgroup G} :
+theorem seventeen_sixtyseven_of_mem_calL4Star {D : Data G} {V₀ _V : Subgroup G} :
     V₀ ≠ ⊥ → ∀ p : ℕ, p ∈ D.sig → ∀ L ∈ calLp D p, ∀ X : Subgroup G,
       X = conjClosure D.M L → X ∈ calL4Star D p →
         IsU5 (Bar2 X) 2 ∨
@@ -64,7 +64,7 @@ theorem seventeen_sixtyseven_of_mem_calL4Star {D : Data G} {V₀ V : Subgroup G}
   exact Or.inr (Or.inr (Or.inr (Or.inr ⟨2 ^ n, ⟨n, rfl⟩, hshape⟩)))
 
 theorem seventeen_sixtyseven_of_mem_calL5Star
-    {D : Data G} {V₀ V : Subgroup G} :
+    {D : Data G} {V₀ _V : Subgroup G} :
     V₀ ≠ ⊥ → ∀ p : ℕ, p ∈ D.sig → ∀ L ∈ calLp D p, ∀ X : Subgroup G,
       X = conjClosure D.M L → X ∈ calL5Star D p →
         IsU5 (Bar2 X) 2 ∨
@@ -92,9 +92,9 @@ theorem seventeen_sixtyseven_of_mem_calLjStar_of_two_le
       (by simpa [calLjStar] using hj)
   · exact seventeen_sixtyseven_of_mem_calL3Star h42 hV0 p hp L hL X hXeq
       (by simpa [calLjStar] using hj)
-  · exact seventeen_sixtyseven_of_mem_calL4Star (V := V) hV0 p hp L hL X hXeq
+  · exact seventeen_sixtyseven_of_mem_calL4Star (_V := V) hV0 p hp L hL X hXeq
       (by simpa [calLjStar] using hj)
-  · exact seventeen_sixtyseven_of_mem_calL5Star (V := V) hV0 p hp L hL X hXeq
+  · exact seventeen_sixtyseven_of_mem_calL5Star (_V := V) hV0 p hp L hL X hXeq
       (by simpa [calLjStar] using hj)
 
 theorem seventeen_sixtyseven_of_mem_calL0Star_of_not_calL1Star
@@ -118,7 +118,7 @@ theorem seventeen_sixtyseven_of_mem_calL0Star_of_not_calL1Star
     (jM D p) hj2 hj5 hXj
 
 theorem eq_self_of_mem_calL1Star_of_simple {D : Data G} {p : ℕ} {L X : Subgroup G}
-    (hL : L ∈ calLp D p) (hXeq : X = conjClosure D.M L) (hX1 : X ∈ calL1Star D p)
+    (hL : L ∈ calLp D p) (hXeq : X = conjClosure D.M L) (_hX1 : X ∈ calL1Star D p)
     (hs : IsSimpleGroup (Bar2 X)) : X = L := by
   have hs' : IsSimpleGroup (Bar2 (conjClosure D.M L)) := by rwa [hXeq] at hs
   exact hXeq.trans (conjClosure_eq_self_of_isSimpleGroup_bar2 hL.1 hs')

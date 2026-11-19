@@ -77,8 +77,8 @@ theorem hyperGen_of_two_closingFrames {E₀ P : Subgroup G} {e e' : G}
       rw [Subgroup.mem_centralizer_iff]
       intro p hp
       exact Subgroup.mem_centralizer_singleton_iff.1 (hPy (hgen hp))
-    haveI := hsol
-    exact solvable_of_solvable_injective (Subgroup.inclusion_injective hle)
+    have := hsol
+    exact Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hle)
   · exact (hcl.closing _ hX hN).ge
 
 end Bridge
@@ -108,7 +108,7 @@ theorem rootChar_mulSingle_one (ω : Kˣ) (α : Fin Tag.F4.rank → ℤ) :
 theorem rootCharKernel_mulSingle_one {ω : Kˣ} (hω : orderOf ω = 3) :
     rootCharKernel (Pi.mulSingle (1 : Fin Tag.F4.rank) ω) = cosetRoots Tag.F4 1 3 := by
   ext α
-  simp only [rootCharKernel, cosetRoots, Set.mem_setOf_eq, rootChar_mulSingle_one]
+  simp only [rootCharKernel, cosetRoots, Set.mem_ofPred_eq, rootChar_mulSingle_one]
   rw [← orderOf_dvd_iff_zpow_eq_one, hω]
 
 theorem toralRootGroup_mulSingle_one {ω : Kˣ} (hω : orderOf ω = 3) :
@@ -242,7 +242,7 @@ theorem xs_le_hyperClosure [Finite K] (hK : Nat.card K % 3 = 1) (h4 : Nat.card K
 
 theorem closingFrameAt_zSplit_xs [Finite K] (hK : Nat.card K % 3 = 1) {ω : Kˣ}
     (hω : orderOf ω = 3) : ClosingFrameAt (zSplit K ω) (frameIn (XS K)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hK4 : 4 ≤ Nat.card K := by
     have h1 : 1 < Nat.card K := Finite.one_lt_card
     omega
@@ -255,14 +255,14 @@ theorem closingFrameAt_zSplit_xs [Finite K] (hK : Nat.card K % 3 = 1) {ω : Kˣ}
     exact Subgroup.mem_centralizer_singleton_iff.1 (xs_le_centralizer_zSplit hω hy')
   · refine nonsolvable_frameIn hXS ?_
     intro hs
-    haveI := hs
-    haveI h2 : Group.IsSolvable ↥(X2 K) :=
-      solvable_of_solvable_injective (Subgroup.inclusion_injective (X2_le_XS K))
+    have := hs
+    have h2 : Group.IsSolvable ↥(X2 K) :=
+      Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective (X2_le_XS K))
     obtain ⟨hperf, -, a₀, b₀, hab⟩ := X2_quasisimple K
     obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective a₀
     obtain ⟨y, rfl⟩ := QuotientGroup.mk_surjective b₀
-    haveI : Nontrivial ↥(X2 K) := ⟨⟨x, 1, fun h => hab (by rw [h]; simp)⟩⟩
-    exact (IsSolvable.commutator_lt_top_of_nontrivial (↥(X2 K))).ne hperf.commutator_eq_top
+    have : Nontrivial ↥(X2 K) := ⟨⟨x, 1, fun h => hab (by rw [h]; simp)⟩⟩
+    exact (Group.IsSolvable.commutator_lt_top_of_nontrivial (↥(X2 K))).ne hperf.commutator_eq_top
   · exact closing_of_twFrameClosing hXS
       ((frameClosing_iff Tag.F4 K _).1
         (frameClosing_of_detection_F4 K (by omega) (DetectF4.frameDetection_F4 K (by omega))))
@@ -302,7 +302,7 @@ theorem hyperGen_F4_of_regularPlane {K : Type} [Field K] [Finite K] (hK : Nat.ca
     (hPc : Nat.card P = 3 ^ 2) (D : LangPlaneData .F4 K P)
     (hreg : ∀ α : Fin Tag.F4.rank → ℤ, IsRoot .F4 α → ¬ D.Kills α) : HyperGen 3 ⊤ E₀ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ω, hω⟩ : ∃ ω : Kˣ, orderOf ω = 3 := by
     have h3' : 3 ∣ Nat.card Kˣ := by rw [Nat.card_units]; omega
     exact exists_prime_orderOf_dvd_card' 3 h3'

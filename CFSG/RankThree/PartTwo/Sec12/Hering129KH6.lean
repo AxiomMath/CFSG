@@ -17,7 +17,7 @@ open Matrix (ProjGenLinGroup)
 theorem gap129HessL3_of_pgl (hPGL : KF_L3_PGL) (hDeg : Gap129HessL3Deg) : Gap129HessL3 := by
   intro P _ _ Yh Bh xh bh ch hD hex
   obtain ⟨p, e, hp, hiso⟩ := hex
-  haveI := hD.normal
+  have := hD.normal
   obtain ⟨p, e, hp, he, hiso⟩ : ∃ (p e : ℕ) (_ : Fact p.Prime), 1 ≤ e ∧
       Sec4.IsoLThreePi ↥Yh p e := by
     by_cases he : 1 ≤ e

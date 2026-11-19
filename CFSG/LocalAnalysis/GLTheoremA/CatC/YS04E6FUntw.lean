@@ -65,8 +65,8 @@ theorem card_le_three_of_inndiag [Finite K] (E : Subgroup (MulAut (adjointGroup 
     (hEI : E ⊓ inner (adjointGroup Tag.E6 K) = ⊥) : Nat.card E ≤ 3 := by
   classical
   obtain ⟨Φ, -, hΦker, hΦcard⟩ := exists_outer_hom_E (K := K) (τ := Tag.E6) (Or.inl rfl)
-  haveI : Finite (ModGL Tag.E6 K) := finite_modGL
-  haveI : Finite (adjointGroup Tag.E6 K) := Subtype.finite
+  have : Finite (ModGL Tag.E6 K) := finite_modGL
+  have : Finite (adjointGroup Tag.E6 K) := Subtype.finite
   set ψ : E →* Outer (adjointGroup Tag.E6 K) :=
     (QuotientGroup.mk' (inner (adjointGroup Tag.E6 K))).comp E.subtype with hψ
   have hψinj : Function.Injective ψ := by
@@ -105,14 +105,14 @@ theorem meets_inner_E6_untw [Finite K] (h3 : 3 ∣ Nat.card K - 1)
     ordinary_E_field_graph_quotient_and_involutions Tag.E6 (Or.inl rfl) K
   obtain ⟨Φ, -, hΦker, hΦcard⟩ := exists_outer_hom_E (K := K) (τ := Tag.E6) (Or.inl rfl)
   obtain ⟨ℓ, f, hℓ, hf, hKℓ⟩ : ∃ ℓ f : ℕ, ℓ.Prime ∧ 1 ≤ f ∧ Nat.card K = ℓ ^ f := by
-    haveI := Fintype.ofFinite K
+    have := Fintype.ofFinite K
     obtain ⟨n, hp', hn⟩ := FiniteField.card K (ringChar K)
     exact ⟨ringChar K, n, hp', n.pos, by rw [Nat.card_eq_fintype_card, hn]⟩
   obtain ⟨hcardAut, hcyc⟩ := card_ringAut_and_isCyclic hℓ K hKℓ
-  haveI : IsCyclic (RingAut K) := hcyc
-  haveI : Finite (RingAut K) := Nat.finite_of_card_ne_zero (by rw [hcardAut]; omega)
-  haveI : Finite (ModGL Tag.E6 K) := finite_modGL
-  haveI : Finite (adjointGroup Tag.E6 K) := Subtype.finite
+  have : IsCyclic (RingAut K) := hcyc
+  have : Finite (RingAut K) := Nat.finite_of_card_ne_zero (by rw [hcardAut]; omega)
+  have : Finite (ModGL Tag.E6 K) := finite_modGL
+  have : Finite (adjointGroup Tag.E6 K) := Subtype.finite
   have hkerΘ : ∀ α : MulAut (adjointGroup Tag.E6 K), α ∈ Θ.ker ↔
       ∃ (g : adjointGroup Tag.E6 K) (a : Fin Tag.E6.rank → Kˣ),
         α = MulAut.conj g * rootDiagAut Tag.E6 K a := by
@@ -142,7 +142,7 @@ theorem meets_inner_E6_untw [Finite K] (h3 : 3 ∣ Nat.card K - 1)
     have hnd : ∀ (g : adjointGroup Tag.E6 K) (a : Fin Tag.E6.rank → Kˣ),
         α ≠ MulAut.conj g * rootDiagAut Tag.E6 K a := fun g a h =>
       hΘα (MonoidHom.mem_ker.1 ((hkerΘ α).2 ⟨g, a, h⟩))
-    haveI : Fact ℓ.Prime := ⟨hℓ⟩
+    have : Fact ℓ.Prime := ⟨hℓ⟩
     obtain ⟨d, T, r, j, ψ, hfd, hTord, hcardT, hT, hTjord, hαr, hψ⟩ :=
       exists_conj_entrywise_of_not_innerDiag Tag.E6 (Or.inl rfl) hf K hKℓ Nat.prime_three
         (by norm_num) α hα3 hnd

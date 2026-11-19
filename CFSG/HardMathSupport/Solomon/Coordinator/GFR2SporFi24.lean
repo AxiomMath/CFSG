@@ -59,8 +59,8 @@ private theorem card_modEq_fix {G X : Type*} [Group G] [MulAction G X] [Finite X
     (hP : ∀ k, P k → P (b • k)) {p : ℕ} (hp : p.Prime) (hb : b ^ p = 1) :
     Nat.card {k : X // P k} ≡ Nat.card {k : X // P k ∧ b • k = k} [MOD p] := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype X := Fintype.ofFinite X
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype X := Fintype.ofFinite X
   let f : Function.End {k : X // P k} := fun k => ⟨b • k.1, hP k.1 k.2⟩
   have hfn : ∀ (n : ℕ) (k : {k : X // P k}), ((f ^ n) k).1 = b ^ n • k.1 := by
     intro n
@@ -90,7 +90,7 @@ private theorem card_modEq_fix {G X : Type*} [Group G] [MulAction G X] [Finite X
 
 private theorem card_option_eq (α : Type*) [Finite α] : Nat.card (Option α) = Nat.card α + 1 := by
   classical
-  haveI := Fintype.ofFinite α
+  have := Fintype.ofFinite α
   rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card, Fintype.card_option]
 
 section Five
@@ -101,8 +101,8 @@ private theorem pump_facts : Fi24PumpFacts := Certificates.certificate36912
 private theorem exists_conj_five (u : J) (hu : orderOf u = 5) :
     ∃ c g : J, c⁻¹ * u * c = g ∧ FiveFix g := by
   obtain ⟨e, f, h5e, he1, h5f, hcomm, hpow, hfive⟩ := pump_facts.1
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Finite J := finite_J
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Finite J := finite_J
   have hc : Commute e f := hcomm
   have hQ := CommutingPair.card_closure_pair_eq_sq (G := J) (p := 5) hc h5e h5f he1 hpow
     (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
@@ -128,8 +128,8 @@ private theorem not_five_dvd_of_fix {x : J} (hx : orderOf x = 3)
     (hfix : Nat.card {k : Fin 306936 // x • k = k} = 162) :
     ¬ 5 ∣ Nat.card (Subgroup.centralizer ({x} : Set J)) := by
   intro h5
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Finite J := finite_J
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Finite J := finite_J
   obtain ⟨y, hy⟩ :=
     exists_prime_orderOf_dvd_card' (G := ↥(Subgroup.centralizer ({x} : Set J))) 5 h5
   have hyJ : orderOf (y : J) = 5 := by rw [Subgroup.orderOf_coe]; exact hy
@@ -232,8 +232,8 @@ private theorem not_five_dvd_of_prime_fix {v : J} {p : ℕ} (hp : p.Prime) (hvp 
       (p = 11 ∧ Nat.card {k : Fin 306936 // v • k = k} ≤ 10)) :
     ¬ 5 ∣ Nat.card (Subgroup.centralizer ({v} : Set J)) := by
   intro h5
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Finite J := finite_J
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Finite J := finite_J
   obtain ⟨y, hy⟩ :=
     exists_prime_orderOf_dvd_card' (G := ↥(Subgroup.centralizer ({v} : Set J))) 5 h5
   have hyJ : orderOf (y : J) = 5 := by rw [Subgroup.orderOf_coe]; exact hy
@@ -348,7 +348,7 @@ private theorem noComp_generic {S H : Type*} [Group S] [Finite S] [Group H] (φ 
 theorem sporNoPumpup_Fi24
     (hSpM : SporadicMultipliers) (hOG : UniquenessMaximal.InputONGroup)
     (hOut : SporadicOuterLeTwo) (hbr : SporadicBridges) : SporNoPumpup .Fi24Prime := by
-  haveI : Finite (TauCeti.CFSGIndex.sporadic .Fi24Prime).Group :=
+  have : Finite (TauCeti.CFSGIndex.sporadic .Fi24Prime).Group :=
     Finite.of_equiv NativeSporadic.Fi24prime (hbr .Fi24Prime).some.toEquiv
   let φ : (TauCeti.CFSGIndex.sporadic .Fi24Prime).Group ≃* J :=
     (hbr .Fi24Prime).some.symm.trans CFSG.Sporadic.Fi24.fi24EquivJ

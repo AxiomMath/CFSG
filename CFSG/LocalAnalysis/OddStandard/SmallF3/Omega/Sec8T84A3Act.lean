@@ -24,6 +24,7 @@ theorem O_comm_t (h8A : Asc82Lemma8A) (hctx : Sec8Ctx G t L S z g B) {o : G}
     exact Subgroup.mem_sup_right ho
   exact (Subgroup.mem_centralizer_iff.mp h t sec8t84a1_t_mem_A).symm
 
+omit [Finite G] in
 theorem tauFn_conj {n l l' o : G} (hnt : n * t = t * n) (hot : o * t = t * o)
     (h : n * l * n⁻¹ = l' * o) : tauFn t l' = n * tauFn t l * n⁻¹ := by
   have h1 : n * t * n⁻¹ = t := by rw [hnt]; group
@@ -38,6 +39,7 @@ theorem tauFn_conj {n l l' o : G} (hnt : n * t = t * n) (hot : o * t = t * o)
   calc l' * t * l'⁻¹ * t⁻¹ = l' * (o * t * o⁻¹) * l'⁻¹ * t⁻¹ := by rw [h2]
     _ = l' * o * t * (l' * o)⁻¹ * t⁻¹ := by group
 
+omit [Finite G] in
 theorem sq_conj {N O : Subgroup G} {n l l' o : G} (hOB : ∀ x ∈ B, x ∈ O → x = 1)
     (hOn : ∀ m ∈ N, ∀ x ∈ O, m * x * m⁻¹ ∈ O) (hl'N : l' ∈ N) (ho : o ∈ O)
     (h1 : l' * l' ∈ B) (h2 : n * (l * l) * n⁻¹ ∈ B) (h : n * l * n⁻¹ = l' * o) :
@@ -56,10 +58,10 @@ theorem sq_conj {N O : Subgroup G} {n l l' o : G} (hOB : ∀ x ∈ B, x ∈ O �
     exact B.mul_mem (B.inv_mem h1) h2
   rw [e, hOB _ hwB hw, mul_one]
 
-theorem setup (hctx : Sec8Ctx G t L S z g B) (h : Sec8T84L1 G t L S z g B K L1) :
+theorem setup (_hctx : Sec8Ctx G t L S z g B) (h : Sec8T84L1 G t L S z g B K L1) :
     RedAct.Setup (Nsub8 t B) (oddCoreIn (Nsub8 t B)) L1 where
   O_le := (oddCoreIn_normal (Nsub8 t B)).1
-  V_le := fun x hx => (h.K_data.le_C (h.le hx)).1
+  V_le := fun _x hx => (h.K_data.le_C (h.le hx)).1
   O_norm := fun n hn o ho => sec8t84a1_O_norm n hn o ho
   inf := RedAct.inf_of_card_two_pow (k := 8) h.card sec8t84a1_O_odd
   inv := h.inv

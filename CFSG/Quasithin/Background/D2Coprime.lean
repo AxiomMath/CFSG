@@ -2,7 +2,7 @@ module
 
 public import CFSG.Quasithin.Background.FixVZPowersMem
 public import CFSG.Quasithin.Background.D2Basic
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.GroupTheory.GroupAction.CardCommute
 public import Mathlib.LinearAlgebra.Matrix.GeneralLinearGroup.Card
 public import Mathlib.RingTheory.SimpleRing.Principal

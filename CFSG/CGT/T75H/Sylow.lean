@@ -65,7 +65,7 @@ theorem exists_sylow_sStar [Finite G] (h1 : Sec4NoA) (h63 : Sec63) (hc : Sec6Ctx
   have hTS : T ≤ (S : Subgroup G) := le_sStar_left.trans hS
   have hSN : ∀ s ∈ (S : Subgroup G), s ∈ Subgroup.normalizer (T : Set G) := by
     intro s hs
-    refine mem_normalizer_of_conjSubgroup_eq (eq_of_conj_le_pGroup hc.hy.pair.wc S.isPGroup' hTS ?_)
+    refine mem_normalizer_of_conjSubgroup_eq (eq_of_conj_le_pGroup hc.hy.pair.wc S.isPGroup hTS ?_)
     intro x hx
     obtain ⟨t, ht, rfl⟩ := Subgroup.mem_map.1 hx
     exact (S : Subgroup G).mul_mem ((S : Subgroup G).mul_mem hs (hTS ht))
@@ -76,7 +76,7 @@ theorem exists_sylow_sStar [Finite G] (h1 : Sec4NoA) (h63 : Sec63) (hc : Sec6Ctx
   have hSH : (S : Subgroup G) ⊓ hSub T (normIn T₁ T) = sStar T T₁ := by
     symm
     refine Subgroup.eq_of_le_of_card_ge (le_inf hS (sup_le left_le_hSub le_hSub)) ?_
-    exact (card_le_eight_of_pGroup_le hc h48 (S.isPGroup'.to_inf_left) inf_le_right).trans hcard8
+    exact (card_le_eight_of_pGroup_le hc h48 (S.isPGroup.to_inf_left) inf_le_right).trans hcard8
   refine ⟨S, hS, hSN, hSH, fun y hyS hyD => ?_⟩
   have hyN := hSN y hyS
   have hyH : y ∈ hSub T (normIn T₁ T) :=

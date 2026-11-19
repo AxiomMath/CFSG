@@ -16,6 +16,7 @@ open CFSG.Open CFSG.Quasithin CFSG.Quasithin.Stroth CFSG.Geometry.GeneralizedPol
 
 variable {X : Type} [Group X] {P1 P2 : Subgroup X} {Y : Type} [Group Y] [Finite Y]
 
+omit [Finite Y] in
 private theorem f1_smul_lv_of_mem_subgroupOf
     (c : (RankTwoAmalgam.ofSubgroups P1 P2).Completion Y) {m : ↥P1}
     (hm : m ∈ (P1 ⊓ P2).subgroupOf P1) :
@@ -30,6 +31,7 @@ private theorem f1_smul_lv_of_mem_subgroupOf
   rw [heq]
   exact RankTwoAmalgam.Completion.f2_smul_lv _
 
+omit [Finite Y] in
 private theorem f2_smul_xv_of_mem_subgroupOf
     (c : (RankTwoAmalgam.ofSubgroups P1 P2).Completion Y) {m : ↥P2}
     (hm : m ∈ (P2 ⊓ P1).subgroupOf P2) :
@@ -44,6 +46,7 @@ private theorem f2_smul_xv_of_mem_subgroupOf
   rw [heq]
   exact RankTwoAmalgam.Completion.f1_smul_xv _
 
+omit [Finite Y] in
 theorem f1_range_eq_stabilizer_xv
     (c : (RankTwoAmalgam.ofSubgroups P1 P2).Completion Y) :
     (RankTwoAmalgam.Completion.f1 (c := c)).range = MulAction.stabilizer c.G0 c.xv := by
@@ -57,12 +60,14 @@ theorem f1_range_eq_stabilizer_xv
     obtain ⟨a, ha⟩ := h1
     exact ⟨a, Subtype.ext ha⟩
 
+omit [Finite Y] in
 theorem f1_range_le_stabilizer_xv
     (c : (RankTwoAmalgam.ofSubgroups P1 P2).Completion Y) :
     (RankTwoAmalgam.Completion.f1 (c := c)).range ≤ MulAction.stabilizer c.G0 c.xv := by
   rintro _ ⟨a, rfl⟩
   exact MulAction.mem_stabilizer_iff.mpr (RankTwoAmalgam.Completion.f1_smul_xv a)
 
+omit [Finite Y] in
 theorem f2_range_eq_stabilizer_lv
     (c : (RankTwoAmalgam.ofSubgroups P1 P2).Completion Y) :
     (RankTwoAmalgam.Completion.f2 (c := c)).range = MulAction.stabilizer c.G0 c.lv := by
@@ -76,6 +81,7 @@ theorem f2_range_eq_stabilizer_lv
     obtain ⟨a, ha⟩ := h1
     exact ⟨a, Subtype.ext ha⟩
 
+omit [Finite Y] in
 theorem exists_f1_smul_lv (c : (RankTwoAmalgam.ofSubgroups P1 P2).Completion Y)
     {w : c.Γ} (hw : c.graph.Adj c.xv w) :
     ∃ g : ↥P1, RankTwoAmalgam.Completion.f1 (c := c) g • c.lv = w := by
@@ -88,6 +94,7 @@ theorem exists_f1_smul_lv (c : (RankTwoAmalgam.ofSubgroups P1 P2).Completion Y)
   rw [hfa]
   exact hg2
 
+omit [Finite Y] in
 theorem exists_f2_smul_xv (c : (RankTwoAmalgam.ofSubgroups P1 P2).Completion Y)
     {w : c.Γ} (hw : c.graph.Adj c.lv w) :
     ∃ g : ↥P2, RankTwoAmalgam.Completion.f2 (c := c) g • c.xv = w := by
@@ -100,13 +107,15 @@ theorem exists_f2_smul_xv (c : (RankTwoAmalgam.ofSubgroups P1 P2).Completion Y)
   rw [hfa]
   exact hg2
 
+omit [Finite Y] in
 theorem f2_range_le_stabilizer_lv
     (c : (RankTwoAmalgam.ofSubgroups P1 P2).Completion Y) :
     (RankTwoAmalgam.Completion.f2 (c := c)).range ≤ MulAction.stabilizer c.G0 c.lv :=
   (f2_range_eq_stabilizer_lv c).le
 
+omit [Finite Y] in
 theorem f1_range_inf_stabilizer_lv
-    (c : (RankTwoAmalgam.ofSubgroups P1 P2).Completion Y) (hc : c.IsFaithful) :
+    (c : (RankTwoAmalgam.ofSubgroups P1 P2).Completion Y) (_hc : c.IsFaithful) :
     (RankTwoAmalgam.Completion.f1 (c := c)).range ⊓ MulAction.stabilizer c.G0 c.lv =
       (psiB P2 (RankTwoAmalgam.Completion.f1 (c := c))).range := by
   refine le_antisymm ?_ ?_
@@ -130,8 +139,9 @@ theorem f1_range_inf_stabilizer_lv
     exact MulAction.mem_stabilizer_iff.mpr
       (f1_smul_lv_of_mem_subgroupOf c (Subgroup.mem_subgroupOf.mpr b.2))
 
+omit [Finite Y] in
 theorem f2_range_inf_stabilizer_xv
-    (c : (RankTwoAmalgam.ofSubgroups P1 P2).Completion Y) (hc : c.IsFaithful) :
+    (c : (RankTwoAmalgam.ofSubgroups P1 P2).Completion Y) (_hc : c.IsFaithful) :
     (RankTwoAmalgam.Completion.f2 (c := c)).range ⊓ MulAction.stabilizer c.G0 c.xv =
       (psiB P1 (RankTwoAmalgam.Completion.f2 (c := c))).range := by
   refine le_antisymm ?_ ?_
@@ -156,6 +166,7 @@ theorem f2_range_inf_stabilizer_xv
     exact MulAction.mem_stabilizer_iff.mpr
       (f2_smul_xv_of_mem_subgroupOf c (Subgroup.mem_subgroupOf.mpr b.2))
 
+omit [Finite Y] in
 theorem card_neighborSet_xv (c : (RankTwoAmalgam.ofSubgroups P1 P2).Completion Y)
     (hc : c.IsFaithful) : Nat.card (c.graph.neighborSet c.xv) = (P1 ⊓ P2).relIndex P1 := by
   rw [show c.graph.neighborSet c.xv = CosetGeom.nbrs c.xv from rfl]
@@ -164,6 +175,7 @@ theorem card_neighborSet_xv (c : (RankTwoAmalgam.ofSubgroups P1 P2).Completion Y
   rw [Subgroup.inclusion_range]
   rfl
 
+omit [Finite Y] in
 theorem card_neighborSet_lv (c : (RankTwoAmalgam.ofSubgroups P1 P2).Completion Y)
     (hc : c.IsFaithful) : Nat.card (c.graph.neighborSet c.lv) = (P1 ⊓ P2).relIndex P2 := by
   rw [show c.graph.neighborSet c.lv = CosetGeom.nbrs c.lv from rfl]
@@ -173,6 +185,7 @@ theorem card_neighborSet_lv (c : (RankTwoAmalgam.ofSubgroups P1 P2).Completion Y
   rw [Subgroup.inclusion_range]
   rfl
 
+omit [Finite Y] in
 private theorem card_neighborSet_smul (c : (RankTwoAmalgam.ofSubgroups P1 P2).Completion Y)
     (g : c.G0) (u : c.Γ) :
     Nat.card (c.graph.neighborSet (g • u)) = Nat.card (c.graph.neighborSet u) := by
@@ -188,6 +201,7 @@ private theorem card_neighborSet_smul (c : (RankTwoAmalgam.ofSubgroups P1 P2).Co
   · intro w; ext; simp
   · intro w; ext; simp
 
+omit [Finite Y] in
 private theorem card_neighborSet_sdiff (c : (RankTwoAmalgam.ofSubgroups P1 P2).Completion Y)
     {v w : c.Γ} (h : c.graph.Adj v w) :
     Nat.card {y : c.Γ // c.graph.Adj v y ∧ y ≠ w} =
@@ -201,6 +215,7 @@ private theorem card_neighborSet_sdiff (c : (RankTwoAmalgam.ofSubgroups P1 P2).C
   rw [hcard, hset, Nat.card_coe_set_eq]
   exact Set.ncard_sdiff_singleton_of_mem (s := c.graph.neighborSet v) h
 
+omit [Finite Y] in
 private theorem two_le_card_neighborSet (c : (RankTwoAmalgam.ofSubgroups P1 P2).Completion Y)
     (hc : c.IsFaithful) (hv1 : 2 ≤ (P1 ⊓ P2).relIndex P1)
     (hv2 : 2 ≤ (P1 ⊓ P2).relIndex P2) (v : c.Γ) :
@@ -217,6 +232,7 @@ private theorem two_le_card_neighborSet (c : (RankTwoAmalgam.ofSubgroups P1 P2).
   · rw [← hg, card_neighborSet_smul (c := c) g c.lv]
     exact hlv
 
+omit [Finite Y] in
 private theorem exists_adj_ne_of_two_le
     (c : (RankTwoAmalgam.ofSubgroups P1 P2).Completion Y)
     (hc : c.IsFaithful) (hv1 : 2 ≤ (P1 ⊓ P2).relIndex P1)
@@ -229,6 +245,7 @@ private theorem exists_adj_ne_of_two_le
     omega
   exact Set.exists_ne_of_one_lt_ncard h1 w
 
+omit [Finite Y] in
 theorem exists_regular_root_xv {n : ℕ} (hn : 3 ≤ n)
     (c : (RankTwoAmalgam.ofSubgroups P1 P2).Completion Y) (hc : c.IsFaithful)
     (hM : MoufangCondition c.G0 c.graph n) (hW : WeissFree c.G0 c.graph n)
@@ -265,6 +282,7 @@ theorem exists_regular_root_xv {n : ℕ} (hn : 3 ≤ n)
     · simpa [GPath.snoc_of_le, hplast] using hne
     · simpa [GPath.snoc_of_le, hplast] using hne'
 
+omit [Finite Y] in
 theorem exists_regular_root_lv {n : ℕ} (hn : 3 ≤ n)
     (c : (RankTwoAmalgam.ofSubgroups P1 P2).Completion Y) (hc : c.IsFaithful)
     (hM : MoufangCondition c.G0 c.graph n) (hW : WeissFree c.G0 c.graph n)
@@ -301,6 +319,7 @@ theorem exists_regular_root_lv {n : ℕ} (hn : 3 ≤ n)
     · simpa [GPath.snoc_of_le, hplast] using hne
     · simpa [GPath.snoc_of_le, hplast] using hne'
 
+omit [Finite Y] in
 theorem card_neighborSet_eq (c : (RankTwoAmalgam.ofSubgroups P1 P2).Completion Y)
     (hc : c.IsFaithful) (w : c.Γ) :
     ((∃ g : c.G0, g • c.xv = w) ∧
@@ -313,6 +332,7 @@ theorem card_neighborSet_eq (c : (RankTwoAmalgam.ofSubgroups P1 P2).Completion Y
   · right
     exact ⟨⟨g, hg⟩, by rw [← hg, card_neighborSet_smul (c := c) g c.lv, card_neighborSet_lv c hc]⟩
 
+omit [Finite Y] in
 theorem card_adj_ne_eq_two_pow (c : (RankTwoAmalgam.ofSubgroups P1 P2).Completion Y)
     (hc : c.IsFaithful) (hV1 : ∃ e : ℕ, 1 ≤ e ∧ (P1 ⊓ P2).relIndex P1 = 2 ^ e + 1)
     (hV2 : ∃ e : ℕ, 1 ≤ e ∧ (P1 ⊓ P2).relIndex P2 = 2 ^ e + 1) :
@@ -326,26 +346,31 @@ theorem card_adj_ne_eq_two_pow (c : (RankTwoAmalgam.ofSubgroups P1 P2).Completio
   · exact ⟨e, by rw [hdiff, hv, he, Nat.add_sub_cancel]⟩
   · exact ⟨f, by rw [hdiff, hv, hf, Nat.add_sub_cancel]⟩
 
+omit [Finite Y] in
 theorem exists_adj_ne (c : (RankTwoAmalgam.ofSubgroups P1 P2).Completion Y)
     (hc : c.IsFaithful) (hv1 : 3 ≤ (P1 ⊓ P2).relIndex P1)
     (hv2 : 3 ≤ (P1 ⊓ P2).relIndex P2) :
     ∀ v w : c.Γ, c.graph.Adj v w → ∃ u, c.graph.Adj v u ∧ u ≠ w :=
   exists_adj_ne_of_two_le c hc (by omega) (by omega)
 
+omit [Finite Y] in
 private theorem natCard_neighborSet_eq_nbrs (c : (RankTwoAmalgam.ofSubgroups P1 P2).Completion Y)
     (u : c.Γ) :
     Nat.card (c.graph.neighborSet u) = Nat.card (nbrs (Γ := c.graph) u) := rfl
 
+omit [Finite Y] in
 private theorem f1_injective (c : (RankTwoAmalgam.ofSubgroups P1 P2).Completion Y)
     (hc : c.IsFaithful) : Function.Injective (RankTwoAmalgam.Completion.f1 (c := c)) := by
   intro x y hxy
   exact hc.1 (congrArg Subtype.val hxy)
 
+omit [Finite Y] in
 private theorem f2_injective (c : (RankTwoAmalgam.ofSubgroups P1 P2).Completion Y)
     (hc : c.IsFaithful) : Function.Injective (RankTwoAmalgam.Completion.f2 (c := c)) := by
   intro x y hxy
   exact hc.2.2 (congrArg Subtype.val hxy)
 
+omit [Finite Y] in
 private theorem exists_pow_card_nbrs_xv
     (c : (RankTwoAmalgam.ofSubgroups P1 P2).Completion Y) (hc : c.IsFaithful)
     (hV : ∃ e : ℕ, 1 ≤ e ∧ (P1 ⊓ P2).relIndex P1 = 2 ^ e + 1) :
@@ -353,6 +378,7 @@ private theorem exists_pow_card_nbrs_xv
   obtain ⟨e, he, hrel⟩ := hV
   exact ⟨e, he, by rw [← natCard_neighborSet_eq_nbrs, card_neighborSet_xv c hc, hrel, add_comm]⟩
 
+omit [Finite Y] in
 private theorem exists_pow_card_nbrs_lv
     (c : (RankTwoAmalgam.ofSubgroups P1 P2).Completion Y) (hc : c.IsFaithful)
     (hV : ∃ e : ℕ, 1 ≤ e ∧ (P1 ⊓ P2).relIndex P2 = 2 ^ e + 1) :
@@ -360,11 +386,13 @@ private theorem exists_pow_card_nbrs_lv
   obtain ⟨e, he, hrel⟩ := hV
   exact ⟨e, he, by rw [← natCard_neighborSet_eq_nbrs, card_neighborSet_lv c hc, hrel, add_comm]⟩
 
+omit [Finite Y] in
 private theorem relIndex_eq_card_nbrs_xv (c : (RankTwoAmalgam.ofSubgroups P1 P2).Completion Y)
     (hc : c.IsFaithful) :
     (P1 ⊓ P2).relIndex P1 = Nat.card (nbrs (Γ := c.graph) c.xv) := by
   rw [← natCard_neighborSet_eq_nbrs, ← card_neighborSet_xv c hc]
 
+omit [Finite Y] in
 private theorem relIndex_eq_card_nbrs_lv (c : (RankTwoAmalgam.ofSubgroups P1 P2).Completion Y)
     (hc : c.IsFaithful) :
     (P1 ⊓ P2).relIndex P2 = Nat.card (nbrs (Γ := c.graph) c.lv) := by
@@ -378,8 +406,8 @@ theorem relIndex_eq_of_sz {n : ℕ} (hn : 3 ≤ n)
     (hV2 : ∃ e : ℕ, 1 ≤ e ∧ (P1 ⊓ P2).relIndex P2 = 2 ^ e + 1) :
     (P1 ⊓ P2).relIndex P1 = 2 ^ (2 * (2 * a + 1)) + 1 := by
   classical
-  haveI : Fintype c.Γ := Fintype.ofFinite c.Γ
-  haveI : DecidableRel c.graph.Adj := fun v w => Classical.dec _
+  have : Fintype c.Γ := Fintype.ofFinite c.Γ
+  have : DecidableRel c.graph.Adj := fun v w => Classical.dec _
   have hv1 : 2 ≤ (P1 ⊓ P2).relIndex P1 := by
     obtain ⟨e, he, hrel⟩ := hV1
     rw [hrel]
@@ -408,8 +436,8 @@ theorem relIndex_eq_of_l2 {n : ℕ} (hn : 3 ≤ n)
     (hV2 : ∃ e : ℕ, 1 ≤ e ∧ (P1 ⊓ P2).relIndex P2 = 2 ^ e + 1) :
     (P1 ⊓ P2).relIndex P2 = 2 ^ m + 1 := by
   classical
-  haveI : Fintype c.Γ := Fintype.ofFinite c.Γ
-  haveI : DecidableRel c.graph.Adj := fun v w => Classical.dec _
+  have : Fintype c.Γ := Fintype.ofFinite c.Γ
+  have : DecidableRel c.graph.Adj := fun v w => Classical.dec _
   have hv1 : 2 ≤ (P1 ⊓ P2).relIndex P1 := by
     obtain ⟨e, he, hrel⟩ := hV1
     rw [hrel]
@@ -439,8 +467,8 @@ theorem relIndex_eq_of_u3 {n : ℕ} (hn : 3 ≤ n)
     (hV2 : ∃ e : ℕ, 1 ≤ e ∧ (P1 ⊓ P2).relIndex P2 = 2 ^ e + 1) :
     (P1 ⊓ P2).relIndex P1 = 2 ^ (3 * k) + 1 := by
   classical
-  haveI : Fintype c.Γ := Fintype.ofFinite c.Γ
-  haveI : DecidableRel c.graph.Adj := fun v w => Classical.dec _
+  have : Fintype c.Γ := Fintype.ofFinite c.Γ
+  have : DecidableRel c.graph.Adj := fun v w => Classical.dec _
   have hv1 : 2 ≤ (P1 ⊓ P2).relIndex P1 := by
     obtain ⟨e, he, hrel⟩ := hV1
     rw [hrel]
@@ -461,6 +489,7 @@ theorem relIndex_eq_of_u3 {n : ℕ} (hn : 3 ≤ n)
       exact ⟨e, he, by rwa [Nat.card_eq_fintype_card] at hpow⟩) hU3
   rw [relIndex_eq_card_nbrs_xv c hc, Nat.card_eq_fintype_card, hcard]
 
+omit [Finite Y] in
 private theorem f1_mem_fixingSubgroup_xv
     (c : (RankTwoAmalgam.ofSubgroups P1 P2).Completion Y)
     {m : ↥P1} (hm : m ∈ ((P1 ⊓ P2).subgroupOf P1).normalCore) :
@@ -480,6 +509,7 @@ private theorem f1_mem_fixingSubgroup_xv
     (Subgroup.normalCore_le _ (by simpa using
       (Subgroup.normalCore_normal _).conj_mem m hm a⁻¹))
 
+omit [Finite Y] in
 private theorem f2_mem_fixingSubgroup_lv
     (c : (RankTwoAmalgam.ofSubgroups P1 P2).Completion Y)
     {m : ↥P2} (hm : m ∈ ((P2 ⊓ P1).subgroupOf P2).normalCore) :
@@ -499,6 +529,7 @@ private theorem f2_mem_fixingSubgroup_lv
     (Subgroup.normalCore_le _ (by simpa using
       (Subgroup.normalCore_normal _).conj_mem m hm a⁻¹))
 
+omit [Finite Y] in
 private theorem fixingSubgroup_conj_le (c : (RankTwoAmalgam.ofSubgroups P1 P2).Completion Y)
     (g : c.G0) (u : c.Γ) :
     (fixingSubgroup c.G0 (c.graph.neighborSet u)).map (MulAut.conj g).toMonoidHom ≤
@@ -523,6 +554,7 @@ private noncomputable def fixingSubgroupConjHom
   map_one' := by apply Subtype.ext; exact map_one _
   map_mul' := by intro a b; apply Subtype.ext; exact map_mul _ _ _
 
+omit [Finite Y] in
 private theorem fixingSubgroupConjHom_injective
     (c : (RankTwoAmalgam.ofSubgroups P1 P2).Completion Y) (g : c.G0) (u : c.Γ) :
     Function.Injective (fixingSubgroupConjHom c g u) := by
@@ -531,6 +563,7 @@ private theorem fixingSubgroupConjHom_injective
     congrArg Subtype.val hab
   exact Subtype.ext ((MulAut.conj g).injective h)
 
+omit [Finite Y] in
 theorem not_isPGroup_fixingSubgroup (c : (RankTwoAmalgam.ofSubgroups P1 P2).Completion Y)
     (hc : c.IsFaithful) (hK1 : ¬ IsPGroup 2 ↥((P1 ⊓ P2).subgroupOf P1).normalCore)
     (hK2 : ¬ IsPGroup 2 ↥((P2 ⊓ P1).subgroupOf P2).normalCore) (w : c.Γ) :

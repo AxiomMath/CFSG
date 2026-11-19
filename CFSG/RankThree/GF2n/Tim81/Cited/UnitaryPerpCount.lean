@@ -168,7 +168,7 @@ private theorem antidiag_mul_antidiag {F : Type*} [Field F] (m : ℕ) :
     · have h' : j ≠ Fin.rev (Fin.rev i) := by
         rw [Fin.rev_rev]
         exact Ne.symm h
-      simp [antidiag, h', Matrix.one_apply_ne h, Ne.symm h]
+      simp [antidiag, Matrix.one_apply_ne h, Ne.symm h]
   · intro b _ hb
     simp [antidiag, hb]
   · simp
@@ -197,7 +197,7 @@ theorem strictMono_isoPointCount {q : ℤ} (hq : 2 ≤ q) :
     StrictMono fun k : ℕ => (q ^ (k + 1) - (-1) ^ (k + 1)) * (q ^ k - (-1) ^ k) := by
   refine strictMono_nat_of_lt_succ fun k => ?_
   have hpow : (-1 : ℤ) ^ (k + 1) ≤ 1 := by
-    rcases neg_one_pow_eq_or ℤ (k + 1) with h | h <;> rw [h] <;> norm_num
+    rcases neg_one_pow_eq_or ℤ (k + 1) with h | h <;> rw [h]; norm_num
   have hqk : q ≤ q ^ (k + 1) := le_self_pow₀ (by linarith) (by omega)
   have h1 : 0 < q ^ (k + 1) - (-1) ^ (k + 1) := by linarith
   have h2 : 0 < q ^ k * (q ^ 2 - 1) := by

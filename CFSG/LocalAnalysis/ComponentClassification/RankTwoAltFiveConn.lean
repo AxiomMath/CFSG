@@ -46,7 +46,7 @@ theorem exists_conj_sylow_of_isConj (S : Sylow 2 G) {z : G}
     isSylowOf_of_sylow_le (c • S) (by rw [Sylow.coe_subgroup_smul]; exact hS'C)
   obtain ⟨T₀, hT₀, hCT₀⟩ := exists_isSylowOf_le
     (inf_le_right : (S : Subgroup G) ⊓ centralizer ({x} : Set G) ≤ _)
-    (S.isPGroup'.to_le inf_le_left)
+    (S.isPGroup.to_le inf_le_left)
   obtain ⟨d, hd, hT₀d⟩ := Lemma22.exists_conj_eq_of_isSylowOf hS'syl hT₀
   obtain ⟨k, hk⟩ : ∃ k : G, d * c = k := ⟨_, rfl⟩
   have hmemT : ∀ y, y ∈ T₀ ↔ k⁻¹ * y * k ∈ (S : Subgroup G) := by

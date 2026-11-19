@@ -13,7 +13,7 @@ open Subgroup CFSG.Open CFSG.LocalAnalysis.UniquenessCase.UC22
 
 private theorem r890t7c_isQuasisimple_of_isSz {X : Type} [Group X] {n : ℕ} (h : IsSz X n) :
     CFSG.Open.IsQuasisimple X := by
-  haveI hs : IsSimpleGroup X :=
+  have hs : IsSimpleGroup X :=
     CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_twistedB2 h
   have hnab := CFSG.LocalAnalysis.EvenBN.GMSK.exists_mul_ne_of_lieModel_twistedB2 h
   have hc : Subgroup.center X = ⊥ :=

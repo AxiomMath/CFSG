@@ -22,7 +22,7 @@ theorem starImg_zpowers_central (hp : p.Prime) {x : G} (hxH : x ∈ H)
       orderOf (QuotientGroup.mk' (primeComplementCore (G := ↥H) p) ⟨x, hxH⟩ :
         StarGroup p H) = p := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let O : Subgroup ↥H := primeComplementCore (G := ↥H) p
   let π : ↥H →* StarGroup p H := QuotientGroup.mk' O
   have hOcop : p.Coprime (Nat.card O) := by
@@ -50,6 +50,7 @@ theorem starImg_zpowers_central (hp : p.Prime) {x : G} (hxH : x ∈ H)
     exact Subtype.ext (by simpa [mul_comm] using (hxc y y.2).symm)
   · exact orderOf_eq_prime hzpow hzne
 
+omit [Finite G] in
 theorem starImg_normalizes {S Y : Subgroup G}
     (hN : ∀ y ∈ Y, ∀ s ∈ S, y * s * y⁻¹ ∈ S) :
     ∀ y ∈ starImg p H Y, ∀ s ∈ starImg p H S, y * s * y⁻¹ ∈ starImg p H S := by
@@ -69,7 +70,7 @@ private theorem exists_lift_isPGroup (hp : p.Prime) {E : Subgroup (StarGroup p H
     ∃ B₁ : Subgroup ↥H, IsPGroup p B₁ ∧ starImg p H (B₁.map H.subtype) = E ∧
       Nat.card (B₁.map H.subtype) = Nat.card E := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let O : Subgroup ↥H := primeComplementCore (G := ↥H) p
   let π : ↥H →* StarGroup p H := QuotientGroup.mk' O
   have hOcop : p.Coprime (Nat.card O) := by
@@ -129,8 +130,8 @@ private theorem exists_isPGroup_r_normalizing (hp : p.Prime) (hr : r.Prime) (hpr
     ∃ W : Subgroup G, W ≠ ⊥ ∧ IsPGroup r W ∧
       B₁.map H.subtype ≤ Subgroup.normalizer (W : Set G) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact r.Prime := ⟨hr⟩
   let O : Subgroup ↥H := primeComplementCore (G := ↥H) p
   let π : ↥H →* StarGroup p H := QuotientGroup.mk' O
   let T₁ : Subgroup ↥H := T.comap π
@@ -178,8 +179,8 @@ theorem pRank_normalizer_starImg_le (hp : p.Prime) (hr : r.Prime) (hpr : p ≠ r
     ∀ T : Subgroup (StarGroup p H), T ≠ ⊥ → IsPGroup r T →
       CFSG.Open.pRank p (Subgroup.normalizer (T : Set (StarGroup p H))) ≤ k := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact r.Prime := ⟨hr⟩
   let O : Subgroup ↥H := primeComplementCore (G := ↥H) p
   let π : ↥H →* StarGroup p H := QuotientGroup.mk' O
   intro T hT hT2

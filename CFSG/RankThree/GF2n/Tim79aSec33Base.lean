@@ -39,7 +39,7 @@ namespace MinCex
 
 variable {M V Q P H : Subgroup G} [Finite G]
 
-theorem V_inf_cX_le_wOf (hc : MinCex M V Q P H) : V ⊓ cX V H ≤ wOf V H := fun v hv =>
+theorem V_inf_cX_le_wOf (hc : MinCex M V Q P H) : V ⊓ cX V H ≤ wOf V H := fun _v hv =>
   hc.mem_wOf_of_centralizes_gen hv.1
     (hc.cPbar_centralizes_wOf (Subgroup.mem_inf.mpr ⟨hc.V_le_P hv.1, hv.2⟩))
 
@@ -106,7 +106,7 @@ theorem aof_le_P (hs : Sec3Setup M V Q P H) {y : G} (hy : y ∈ Ycomm V H) : Aof
   have hc : MinCex M V Q P H := hs.setup.mc.toMinCex
   obtain ⟨g, hgX, hg⟩ := hc.exists_noncomm_conj hs.setup.data
   have hdec := (hs.concl.1 g hgX hg).2.1
-  obtain ⟨v, hvV, hvW⟩ := SetLike.not_le_iff_exists.mp hc.not_V_le_wOf
+  obtain ⟨v, hvV, hvW⟩ := IsConcreteLE.not_le_iff_exists.mp hc.not_V_le_wOf
   intro α hα
   exact hc.mem_P_of_commute_of_dec hg hdec v hvV hvW α hα.2
     (hc.commute_conj_of_mem_Ycomm hy v hvV α hα.1)
@@ -122,7 +122,7 @@ theorem commutator_mem_of_mem_aof (hs : Sec3Setup M V Q P H) {y : G} (hy : y ∈
   exact (wOf V H).mul_mem h1 ((wOf V H).inv_mem hα.2)
 
 theorem aof_le_eof (hs : Sec3Setup M V Q P H) {y : G} (hy : y ∈ Ycomm V H) :
-    Aof V H y ≤ Eof V H P := fun α hα =>
+    Aof V H y ≤ Eof V H P := fun _α hα =>
   Subgroup.mem_inf.mpr ⟨hs.aof_le_P hy hα, Subgroup.mem_sup_left hα.2⟩
 
 end Sec3Setup

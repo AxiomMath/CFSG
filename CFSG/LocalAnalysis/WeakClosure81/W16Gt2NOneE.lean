@@ -80,7 +80,7 @@ theorem img_conjClosure_eq_img_L (h1 : W16One G) (h5 : W16Five G) (h15 : W16Fift
     (hμ : 2 < mBar M V₀ V c.cex.hyp.h6.elemAbelian) :
     Mo.img (conjClosure V H) = Mo.img (V ⊔ conjSubgroup V g) := by
   have hcardV : Nat.card ↥(Mo.img V) = 2 := card_img_eq_two h1 h5 h15 hS c Mo hn
-  haveI : Nontrivial ↥(Mo.img V) := by
+  have : Nontrivial ↥(Mo.img V) := by
     rw [← Finite.one_lt_card_iff_nontrivial]
     omega
   obtain ⟨t₀, ht0⟩ := exists_ne (1 : ↥(Mo.img V))
@@ -106,7 +106,7 @@ theorem img_conjClosure_eq_img_L (h1 : W16One G) (h5 : W16Five G) (h15 : W16Fift
   have hnc : ∃ o ∈ O, t * o ≠ o * t := NOne.exists_not_commute_of_ne hKO ⟨k, hk, hkt⟩
   have hR2 : IsPGroup 2 (Mo.img R) := Mo.isPGroup_img c.sylow.isPGroup
   obtain ⟨p, hpprime, hp2, hOp⟩ := NOne.exists_isPGroup_of_minimal hR2 hOodd hRO hmin hnc
-  haveI : Fact p.Prime := ⟨hpprime⟩
+  have : Fact p.Prime := ⟨hpprime⟩
   have hab : ∀ a ∈ O, ∀ b ∈ O, a * b = b * a :=
     NOne.commute_of_isPGroup (isConjClosure_img h1 h5 h15 hS c Mo hn ht ht1)
       (Mo.img_mono c.mem.1) hOK hOn hOp hmin hnc

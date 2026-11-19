@@ -7,7 +7,7 @@ public section
 namespace CFSG.OddStandard.HigherRank.YamadaG23
 
 theorem y7a_O2_trivial (Q : Subgroup (Equiv.Perm (Fin 16))) (D : Set (Fin 16))
-    (hD0 : (0 : Fin 16) ∉ D) (hDodd : Odd (Nat.card ↥D))
+    (_hD0 : (0 : Fin 16) ∉ D) (hDodd : Odd (Nat.card ↥D))
     (hDinv : ∀ q ∈ Q ⊓ MulAction.stabilizer (Equiv.Perm (Fin 16)) (0 : Fin 16),
       ∀ i ∈ D, q i ∈ D)
     (hDtr : ∀ i ∈ D, ∀ j ∈ D,
@@ -23,12 +23,12 @@ theorem y7a_O2_trivial (Q : Subgroup (Equiv.Perm (Fin 16))) (D : Set (Fin 16))
   classical
   have hDinvN : ∀ m : N, ∀ i ∈ D, (m : Equiv.Perm (Fin 16)) i ∈ D :=
     fun m i hi => hDinv (m : Equiv.Perm (Fin 16)) (hN m.2) i hi
-  letI : MulAction N (Fin 16) := MulAction.compHom (Fin 16) N.subtype
+  let : MulAction N (Fin 16) := MulAction.compHom (Fin 16) N.subtype
   let p : SubMulAction N (Fin 16) :=
     { carrier := D
       smul_mem' := fun m x hx => by
         simpa [MulAction.compHom_smul_def, Equiv.Perm.smul_def] using hDinvN m x hx }
-  letI : MulAction N p := SubMulAction.mulAction p
+  let : MulAction N p := SubMulAction.mulAction p
   have hoddD : ¬ 2 ∣ Nat.card ↥D := by
     rintro ⟨k, hk⟩
     obtain ⟨j, hj⟩ := hDodd

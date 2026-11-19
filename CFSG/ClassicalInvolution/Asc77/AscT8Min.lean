@@ -80,12 +80,12 @@ theorem exists_sylow_centralizer {K J : Subgroup G} {S : Sylow 2 G} {R T W : Sub
     ∃ S' : Sylow 2 G, R ≤ (S' : Subgroup G) ∧
       IsSylow2In ((S' : Subgroup G) ⊓ Subgroup.centralizer ({z * t} : Set G))
         (Subgroup.centralizer ({z * t} : Set G)) := by
-  have hR2 : IsPGroup 2 R := S.isPGroup'.to_le hs.hR.2.2
+  have hR2 : IsPGroup 2 R := S.isPGroup.to_le hs.hR.2.2
   obtain ⟨V, hV, hRV⟩ := IsSylow2In.exists_ge hR2 (le_centralizer_mul hs)
   obtain ⟨S', hVS'⟩ := IsPGroup.exists_le_sylow hV.2.1
   refine ⟨S', hRV.trans hVS', ?_⟩
   have hp2 : IsPGroup 2 ↥((S' : Subgroup G) ⊓ Subgroup.centralizer ({z * t} : Set G)) :=
-    S'.isPGroup'.to_le inf_le_left
+    S'.isPGroup.to_le inf_le_left
   have heq := hV.eq_of_le hp2 inf_le_right (le_inf hVS' hV.1)
   rw [heq]
   exact hV
@@ -213,7 +213,7 @@ theorem exists_normalized_conj {K J : Subgroup G} {S : Sylow 2 G} {R T W : Subgr
       D = conjSub g₁ ((S' : Subgroup G) ⊓ Subgroup.centralizer ({d₁} : Set G)) := ⟨_, rfl⟩
   have hD2 : IsPGroup 2 ↥D := by
     rw [hD]
-    exact (S'.isPGroup'.to_le inf_le_left).map _
+    exact (S'.isPGroup.to_le inf_le_left).map _
   have hDC : D ≤ Subgroup.centralizer ({z * t} : Set G) := by
     rw [hD]
     rintro x ⟨s, hs', rfl⟩

@@ -11,6 +11,7 @@ open CFSG CFSG.CGT.Timmesfeld75 CFSG.Open CFSG.Timmesfeld.RootInvolutions Subgro
 
 variable {G : Type} [Group G] [Finite G] {A Abar S₀ B : Subgroup G}
 
+omit [Finite G] in
 private theorem sec44i_mem_or_inv_mem {K H : Subgroup G} (hK : H.relIndex K = 2) {a y : G}
     (ha : a ∈ K) (haH : a ∉ H) (hy : y ∈ K) : y ∈ H ∨ a⁻¹ * y ∈ H := by
   by_cases hyH : y ∈ H
@@ -19,7 +20,7 @@ private theorem sec44i_mem_or_inv_mem {K H : Subgroup G} (hK : H.relIndex K = 2)
   have haH' : a⁻¹ ∉ H := fun h' => haH (by simpa using H.inv_mem h')
   have h := Subgroup.mul_mem_iff_of_index_two (H := H.subgroupOf K) hK
     (a := ⟨a⁻¹, K.inv_mem ha⟩) (b := ⟨y, hy⟩)
-  simp only [Subgroup.mem_subgroupOf, Subgroup.coe_mul, Subgroup.coe_mk] at h
+  simp only [Subgroup.mem_subgroupOf, Subgroup.coe_mul] at h
   exact h.mpr (by simp [haH', hyH])
 
 private theorem sec44i_relIndex_eq_two {H K : Subgroup G} (hHK : H ≤ K)
@@ -33,6 +34,7 @@ private theorem sec44i_zpow_pow {H : Type} [Group H] (z : H) (i : ℤ) (n : ℕ)
     (z ^ i) ^ n = 1 := by
   rw [← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast, hz, one_zpow]
 
+omit [Finite G] in
 private theorem sec44i_even {R s : G} {i : ℤ} (hi : s = R ^ i) (hs4 : orderOf s = 4) {k : ℕ}
     (hk : R ^ 2 ^ k = 1) (hR4 : orderOf R ≠ 4) : Even i := by
   by_contra hodd

@@ -71,7 +71,7 @@ private lemma e6as_zpowers_eq_of_mem_zpowers {a b : EC}
     rcases Nat.Prime.eq_one_or_self_of_dvd (by norm_num : Nat.Prime 3) (orderOf b) hbdvd with h | h
     · exact absurd (orderOf_eq_one_iff.mp h) hne
     · exact h
-  haveI : Finite ↥(Subgroup.zpowers a) :=
+  have : Finite ↥(Subgroup.zpowers a) :=
     (isOfFinOrder_iff_pow_eq_one.mpr
       ⟨3, by norm_num, by rw [← ha]; exact pow_orderOf_eq_one a⟩).finite_zpowers
   exact Subgroup.eq_of_le_of_card_ge (Subgroup.zpowers_le.2 hb)

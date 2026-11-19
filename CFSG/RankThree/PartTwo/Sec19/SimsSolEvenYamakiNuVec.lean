@@ -133,9 +133,9 @@ private theorem exists_vec_aux {H : Type*} [CommGroup H] (hsq : ∀ x : H, x * x
       funext j
       by_cases h : j = i
       · subst h
-        simp only [ones, toAdd_mul, toAdd_ofAdd, Pi.add_apply, Pi.single_eq_same, if_true]
+        simp only [ones, toAdd_mul, toAdd_ofAdd, Pi.add_apply, Pi.single_eq_same, ite_true]
         decide
-      · simp [ones, Pi.single_eq_of_ne h, h]
+      · simp [ones, h]
     have hmem : (Multiplicative.ofAdd fun j => if j = i then (0 : ZMod 2) else 1 : Vec7) ∈
         wt.ker := by
       rw [mem_wt_ker, toAdd_ofAdd]
@@ -170,7 +170,7 @@ theorem exists_vec {G : Type*} [Group G] {A : Subgroup G}
       ∀ (f : ↥A →* ↥A) (σ : Equiv.Perm (Fin 7)), (∀ i, f ⟨b i, hb i⟩ = ⟨b (σ i), hb (σ i)⟩) →
         ∀ x, Multiplicative.toAdd (vec (f x)) =
           fun j => Multiplicative.toAdd (vec x) (σ.symm j) := by
-  letI : CommGroup A :=
+  let : CommGroup A :=
     { (inferInstance : Group A) with mul_comm := fun x y => Subtype.ext (hcomm _ x.2 _ y.2) }
   have hprod' : ∏ i, (⟨b i, hb i⟩ : A) = 1 := by
     rw [← List.prod_ofFn]

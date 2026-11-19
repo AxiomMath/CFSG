@@ -36,7 +36,7 @@ theorem crossAt_of_sylowAbelian {d : TauCeti.ValidLieTypeIndex} (hab : CrossSylo
     CrossAt d := by
   refine ⟨fun p hp hp5 hdp L _ _ hs hiso _ _ => hab p hp hp5 hdp L hs hiso, ?_⟩
   intro p hp hp5 hdp L _ _ hs hiso _ h3 y hy
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact three_le_pRank_centralizer_of_sylow_abelian (hab p hp hp5 hdp L hs hiso) h3
     (hy ▸ pow_orderOf_eq_one y)
 
@@ -105,7 +105,7 @@ section Assembly
 theorem kd29Cross_of_at (h : ∀ d : TauCeti.ValidLieTypeIndex, CrossAt d) : KD29Cross := by
   intro p hp hp5 X _ _ L _ hs hn hc ⟨d, hdp, ⟨e⟩⟩ hl hcen h3 ⟨x, hxL, hx, hxc⟩ w hw hw1 hwp
   exfalso
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hAb, hRk⟩ := h d
   exact false_of_cross_core L (pRank_quotient_le_one_of_catalog hp hp5 L hs hn hc hl hcen)
     (fun h3' y hy => hRk p hp hp5 hdp L hs ⟨e⟩ hl h3' y hy)

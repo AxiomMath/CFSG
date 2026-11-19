@@ -25,7 +25,7 @@ theorem pow_two_pow_ne_one {α : K} (hα : IsPrimitiveRoot α 5) (k : ℕ) : α 
   norm_num at this
 
 theorem isPrimitiveRoot_of_pow_five {α : K} (h5 : α ^ 5 = 1) (h1 : α ≠ 1) : IsPrimitiveRoot α 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   exact IsPrimitiveRoot.iff_orderOf.2 (orderOf_eq_prime h5 h1)
 
 end Roots
@@ -74,12 +74,12 @@ theorem exists_hasEigenvector_ne_one [IsAlgClosed K] [FiniteDimensional K V] (h5
     have hx : (T - 1) x ∈ U := LinearMap.mem_range_self _ x
     rw [h, Submodule.mem_bot, LinearMap.sub_apply, sub_eq_zero] at hx
     exact hx
-  haveI : Nontrivial U := Submodule.nontrivial_iff_ne_bot.2 hU
+  have : Nontrivial U := Submodule.nontrivial_iff_ne_bot.2 hU
   obtain ⟨γ, hγ⟩ := Module.End.exists_eigenvalue (T.restrict hUT)
   obtain ⟨w, hw⟩ := hγ.exists_hasEigenvector
   have hTw : T w = γ • (w : V) := by
     have := congrArg Subtype.val (Module.End.mem_eigenspace_iff.1 hw.1)
-    simpa [LinearMap.restrict_coe_apply] using this
+    simpa [_root_.LinearMap.coe_restrict_apply] using this
   have hw0 : (w : V) ≠ 0 := fun h => hw.2 (Subtype.ext h)
   have hwT : T.HasEigenvector γ w :=
     Module.End.hasEigenvector_iff.2 ⟨Module.End.mem_eigenspace_iff.2 hTw, hw0⟩
@@ -103,13 +103,13 @@ theorem exists_common_eigen_ne_one [IsAlgClosed K] [FiniteDimensional K V] (h5 :
     intro x hx
     rw [Module.End.mem_eigenspace_iff] at hx ⊢
     rw [← Module.End.mul_apply, hAB, Module.End.mul_apply, hx, map_smul]
-  haveI : Nontrivial (A.eigenspace α) := Submodule.nontrivial_iff_ne_bot.2
+  have : Nontrivial (A.eigenspace α) := Submodule.nontrivial_iff_ne_bot.2
     (Module.End.hasEigenvalue_iff.1 (Module.End.hasEigenvalue_of_hasEigenvector hw))
   obtain ⟨β, hβ⟩ := Module.End.exists_eigenvalue (B.restrict hBE)
   obtain ⟨v, hv⟩ := hβ.exists_hasEigenvector
   have hBv : B v = β • (v : V) := by
     have := congrArg Subtype.val (Module.End.mem_eigenspace_iff.1 hv.1)
-    simpa [LinearMap.restrict_coe_apply] using this
+    simpa [_root_.LinearMap.coe_restrict_apply] using this
   have hv0 : (v : V) ≠ 0 := fun h => hv.2 (Subtype.ext h)
   exact ⟨α, β, v, hα1, Module.End.hasEigenvector_iff.2 ⟨v.2, hv0⟩,
     Module.End.hasEigenvector_iff.2 ⟨Module.End.mem_eigenspace_iff.2 hBv, hv0⟩⟩

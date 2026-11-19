@@ -62,9 +62,9 @@ end Witness
 theorem card_SL_ge (n : ℕ) {K : Type*} [Field K] [Finite K] (hn : 1 ≤ n) :
     Nat.card K ^ (n * (n - 1)) * (Nat.card K - 1) ^ (n - 1) ≤
       Nat.card (SpecialLinearGroup (Fin n) K) := by
-  haveI : NeZero n := ⟨by omega⟩
-  haveI : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
-  letI : Fintype K := Fintype.ofFinite K
+  have : NeZero n := ⟨by omega⟩
+  have : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
+  let : Fintype K := Fintype.ofFinite K
   have h1 := Matrix.card_SL_mul_card_units (n := Fin n) (R := K)
   rw [Matrix.card_GL_field, Nat.card_units] at h1
   simp only [← Nat.card_eq_fintype_card] at h1
@@ -126,12 +126,14 @@ section Inner
 
 variable {n : ℕ} {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem eq_one_of_scalar_eq_one {s : ℕ} (hs : 1 ≤ s) {c : Kˣ}
     (h : GeneralLinearGroup.scalar (Fin s) c = 1) : c = 1 := by
   have h1 := congrArg (fun M : GL (Fin s) K => (M : Matrix (Fin s) (Fin s) K) ⟨0, hs⟩ ⟨0, hs⟩) h
   apply Units.ext
   simpa using h1
 
+omit [Finite K] in
 theorem fixed_of_centralizer {Q : Type} [Group Q] (hQ : commutator Q = ⊤) (A : GL (Fin n) K)
     (χ : Q →* Subgroup.centralizer ({A} : Set (GL (Fin n) K))) (g : Q) :
     innerDiagonalAction n K A

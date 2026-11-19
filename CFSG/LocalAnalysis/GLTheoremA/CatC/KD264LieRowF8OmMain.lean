@@ -239,7 +239,7 @@ theorem kerOm_model {S : Type} [Group S] [Finite S] (hM : StatedClassicalModel S
   have hn1 : 1 ≤ 4 := by norm_num
   have hAab : IsElemAbelian 3 A := hA.1
   have hnot : ¬ A ≤ innAutDerived S := hA.2.2.2.2.2
-  obtain ⟨b, hbA, hbout⟩ := SetLike.not_le_iff_exists.1 hnot
+  obtain ⟨b, hbA, hbout⟩ := IsConcreteLE.not_le_iff_exists.1 hnot
   have hb3 : b ^ 3 = 1 := hAab.2 b hbA
   have hb1 : b ≠ 1 := fun h => hbout (h ▸ one_mem _)
   have hbo : IsOuterOfOrder 3 b := by

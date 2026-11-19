@@ -136,6 +136,7 @@ section Six
 variable {X : Type} [Group X] [Finite X] {t : X} {D : Subgroup X} {Ω : Type} [Fintype Ω]
   [DecidableEq Ω]
 
+omit [Finite X] in
 theorem LocalDatum.inf_centralizer_eq_bot (h : LocalDatum t D Ω) (η : D ≃* alternatingGroup Ω)
     {J : Subgroup X} (hDJ : D ≤ normalizer (J : Set X)) (hne : ⁅D, J⁆ ≠ ⊥) :
     D ⊓ centralizer (J : Set X) = ⊥ := by
@@ -694,6 +695,7 @@ theorem invE_mem_fixGroup (θ : L ≃* alternatingGroup (Fin n)) (hn : 8 ≤ n) 
       alternatingGroup (fixFin ((θ w : alternatingGroup (Fin n)) : Perm (Fin n))) :=
   (subgroupOfEquivOfLe (fixGroup_le_centralizer θ w)).trans (fixGroupEquiv θ _)
 
+omit [Finite G] in
 theorem ofSubtype_etaW (θ : L ≃* alternatingGroup (Fin n)) (w : L)
     (d : (fixGroup θ w).subgroupOf (centralizer ({(w : G)} : Set G))) :
     Perm.ofSubtype ((etaW θ w d : alternatingGroup

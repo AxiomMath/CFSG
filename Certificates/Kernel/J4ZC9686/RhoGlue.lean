@@ -99,14 +99,14 @@ theorem code7_letter (l : ℤ) (hl : (decide (0 < l) || l == -4 || l == -5) = tr
     code7 (if 0 < l then b0Perm (l.toNat - 1) else (b0Perm ((-l).toNat - 1))⁻¹) = letC l := by
   rcases l with n | n
   · by_cases hn : 0 < (Int.ofNat n : ℤ)
-    · rw [if_pos hn, code7_b0Perm]
+    · rw [ite_eq_left hn, code7_b0Perm]
       rfl
     · have : n = 0 := by
-        simp only [Int.ofNat_eq_coe] at hn
+        simp only [Int.ofNat_eq_natCast] at hn
         omega
       subst this
       exact absurd hl (by decide)
-  · rw [if_neg (by omega)]
+  · rw [ite_eq_right (by omega)]
     have h34 : n = 3 ∨ n = 4 := by
       simp only [Bool.or_eq_true, decide_eq_true_eq, beq_iff_eq] at hl
       omega

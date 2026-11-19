@@ -14,7 +14,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 variable {W : Type} [CommGroup W] [Finite W] {A L T : Subgroup (MulAut W)}
 
 private theorem s16t3_pRank_le_of_index_le_two {G : Type} [Group G] [Finite G]
-    {H K : Subgroup G} (hHK : H ≤ K) (hidx : (H.subgroupOf K).index ≤ 2) :
+    {H K : Subgroup G} (_hHK : H ≤ K) (hidx : (H.subgroupOf K).index ≤ 2) :
     CFSG.Open.pRank 3 K ≤ CFSG.Open.pRank 3 H := by
   obtain ⟨E, hEK, hEab, hEcard⟩ := CFSG.SectionRank.exists_pRank (p := 3) (by norm_num) K
   have hEH : E ≤ H := by
@@ -46,7 +46,7 @@ private theorem s16t3_index_subgroupOf_le_two {W : Type} [CommGroup W] [Finite W
     {A L T : Subgroup (MulAut W)} (h : ThreeNat A L T) (h7 : Nat.card ↥(irrSet L) = 7)
     {N : Subgroup (MulAut W)} (hNA : N ≤ A) (hLN : L ≤ N)
     (hcomm : ∀ n ∈ N, ∀ k ∈ s1t3KBar A L, n * k = k * n)
-    (hdisj : N ⊓ s1t3KBar A L = ⊥) (hsup : N ⊔ s1t3KBar A L = A) :
+    (hdisj : N ⊓ s1t3KBar A L = ⊥) (_hsup : N ⊔ s1t3KBar A L = A) :
     (L.subgroupOf N).index ≤ 2 := by
   have hNinf : N ⊓ (L ⊔ s1t3KBar A L) = L := by
     have hKnorm : s1t3KBar A L ≤ Subgroup.normalizer (L : Set (MulAut W)) := by
@@ -114,8 +114,8 @@ theorem ThreeNat.pRank_three_le_three_omegaMinus6 (h : ThreeNat A L T)
     s16t3_pRank_le_of_index_le_two hLN hidx
   have hL3 : CFSG.Open.pRank 3 L ≤ 3 := by
     obtain ⟨-, K, hKf, hKfin, b, c, hKcard, _hirr, ⟨e⟩⟩ := hL
-    letI : Field K := hKf
-    letI : Finite K := hKfin
+    let : Field K := hKf
+    let : Finite K := hKfin
     have hK2 : Nat.card K = 2 := by simpa using hKcard
     have h1 : CFSG.Open.pRank 3 L = CFSG.Open.pRank 3 (⊤ : Subgroup ↥L) :=
       CFSG.SectionRank.pRank_eq_pRank_top_subgroup (p := 3) L
@@ -124,7 +124,7 @@ theorem ThreeNat.pRank_three_le_three_omegaMinus6 (h : ThreeNat A L T)
           (CFSG.Open.StatedOmega (CFSG.Open.StatedQuadMinus 3 K b c)))) :=
       CFSG.SectionRank.pRank_top_eq_of_mulEquiv (p := 3) (by norm_num) e
     have hKunits : Nat.card Kˣ = 1 := by rw [Nat.card_units, hK2]
-    haveI : Subsingleton Kˣ := Finite.card_le_one_iff_subsingleton.mp (by rw [hKunits])
+    have : Subsingleton Kˣ := Finite.card_le_one_iff_subsingleton.mp (by rw [hKunits])
     have h3 : CFSG.Open.pRank 3 (⊤ : Subgroup (CFSG.Open.StatedProj
           (CFSG.Open.StatedOmega (CFSG.Open.StatedQuadMinus 3 K b c)))) =
         CFSG.Open.pRank 3 (⊤ : Subgroup (CFSG.Open.StatedOmega
@@ -146,7 +146,7 @@ theorem ThreeNat.pRank_three_le_three_omegaMinus6 (h : ThreeNat A L T)
       have hcard : Fintype.card (Fin 2 ⊕ Fin 2 ⊕ Fin 2) = 6 := by decide
       rw [hcard]
       have ho : orderOf (((2 : ℕ) : ZMod 3)) = 2 := by
-        haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+        have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
         rw [orderOf_eq_prime_iff]
         exact ⟨(by decide : (((2 : ℕ) : ZMod 3)) ^ 2 = 1),
           (by decide : (((2 : ℕ) : ZMod 3)) ≠ 1)⟩

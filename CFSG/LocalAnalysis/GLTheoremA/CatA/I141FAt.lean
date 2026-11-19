@@ -18,6 +18,7 @@ abbrev Wn (L : Subgroup G) : Subgroup G := Subgroup.normalizer (L : Set G)
 
 abbrev Nw (p : ℕ) (L : Subgroup G) : Subgroup ↥(Wn L) := (GLAPPrimeCoreOf p L).subgroupOf (Wn L)
 
+omit [Finite G] in
 theorem glaPPrimeCore_conj_mem (p : ℕ) (K : Subgroup G) {g : G}
     (hg : g ∈ Subgroup.normalizer (K : Set G)) {n : G} (hn : n ∈ GLAPPrimeCoreOf p K) :
     g * n * g⁻¹ ∈ GLAPPrimeCoreOf p K := by
@@ -30,6 +31,7 @@ theorem glaPPrimeCore_conj_mem (p : ℕ) (K : Subgroup G) {g : G}
   rw [mem_gLBConj] at hn'
   exact hn'
 
+omit [Finite G] in
 theorem nw_normal (p : ℕ) (L : Subgroup G) : (Nw p L).Normal := by
   constructor
   intro n hn g
@@ -49,25 +51,30 @@ abbrev Eq' (p : ℕ) (L E : Subgroup G) : Subgroup (Gam p L) :=
 abbrev Jq (p : ℕ) (L J : Subgroup G) : Subgroup (Gam p L) :=
   (J.subgroupOf (Wn L)).map (QuotientGroup.mk' (Nw p L))
 
+omit [Finite G] in
 theorem GLAPPrimeCoreOf_eq_map (p : ℕ) (L : Subgroup G) :
     GLAPPrimeCoreOf p L = (CFSG.pPrimeCore p ↥L).map L.subtype := rfl
 
+omit [Finite G] in
 theorem GLAPPrimeCoreOf_le_self (p : ℕ) (L : Subgroup G) : GLAPPrimeCoreOf p L ≤ L := by
   rw [GLAPPrimeCoreOf_eq_map]
   exact Subgroup.map_subtype_le _
 
+omit [Finite G] in
 theorem le_wn (L : Subgroup G) : L ≤ Wn L := Subgroup.le_normalizer
 
+omit [Finite G] in
 theorem glaPPrimeCoreOf_le_wn (p : ℕ) (L : Subgroup G) : GLAPPrimeCoreOf p L ≤ Wn L :=
   (GLAPPrimeCoreOf_le_self p L).trans (le_wn L)
 
 theorem not_dvd_card_GLAPPrimeCoreOf {p : ℕ} (hp : p.Prime) (L : Subgroup G) :
     ¬ p ∣ Nat.card (GLAPPrimeCoreOf p L) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [GLAPPrimeCoreOf_eq_map, Subgroup.card_map_of_injective L.subtype_injective]
   exact (Nat.Prime.coprime_iff_not_dvd hp).1 CFSG.pPrimeCore_coprime_card
 
 
+omit [Finite G] in
 theorem isElemAbelian_subgroupOf {p : ℕ} {E : Subgroup G} (hE : IsElemAbelian p E) (K : Subgroup G) :
     IsElemAbelian p (E.subgroupOf K) := by
   obtain ⟨hc, hpow⟩ := hE
@@ -99,6 +106,7 @@ theorem isElemAbelian_map {p : ℕ} {X Y : Type*} [Group X] [Group Y] (f : X →
     have := hpow x hx
     rw [this, map_one]
 
+omit [Finite G] in
 theorem card_Nw (p : ℕ) (L : Subgroup G) : Nat.card (Nw p L) = Nat.card (GLAPPrimeCoreOf p L) :=
   Nat.card_congr (Subgroup.subgroupOfEquivOfLe (glaPPrimeCoreOf_le_wn p L)).toEquiv
 
@@ -108,6 +116,7 @@ theorem not_dvd_card_Nw {p : ℕ} (hp : p.Prime) (L : Subgroup G) : ¬ p ∣ Nat
 
 abbrev piq (p : ℕ) (L : Subgroup G) : ↥(Wn L) →* Gam p L := QuotientGroup.mk' (Nw p L)
 
+omit [Finite G] in
 theorem mem_GLAPPrimeCoreOf_iff (p : ℕ) (L : Subgroup G) (x : ↥L) :
     (x : G) ∈ GLAPPrimeCoreOf p L ↔ x ∈ CFSG.pPrimeCore p ↥L := by
   rw [GLAPPrimeCoreOf_eq_map]
@@ -122,11 +131,13 @@ def psiL (p : ℕ) (L : Subgroup G) : ↥L →* ↥(Hq p L) :=
   ((piq p L).comp (Subgroup.inclusion (le_wn L))).codRestrict (Hq p L) fun x =>
     Subgroup.mem_map_of_mem _ (Subgroup.mem_subgroupOf.2 x.2)
 
+omit [Finite G] in
 theorem psiL_surjective (p : ℕ) (L : Subgroup G) : Function.Surjective (psiL p L) := by
   rintro ⟨y, hy⟩
   obtain ⟨w, hw, rfl⟩ := Subgroup.mem_map.1 hy
   exact ⟨⟨w, Subgroup.mem_subgroupOf.1 hw⟩, rfl⟩
 
+omit [Finite G] in
 theorem psiL_ker (p : ℕ) (L : Subgroup G) : (psiL p L).ker = CFSG.pPrimeCore p ↥L := by
   ext x
   rw [MonoidHom.mem_ker, ← mem_GLAPPrimeCoreOf_iff, ← Subgroup.mem_subgroupOf]
@@ -140,12 +151,13 @@ noncomputable def hqEquiv (p : ℕ) (L : Subgroup G) : (↥L ⧸ CFSG.pPrimeCore
   (QuotientGroup.quotientMulEquivOfEq (psiL_ker p L).symm).trans
     (QuotientGroup.quotientKerEquivOfSurjective (psiL p L) (psiL_surjective p L))
 
+omit [Finite G] in
 theorem hq_normal (p : ℕ) (L : Subgroup G) : (Hq p L).Normal := by
   have hL : (L.subgroupOf (Wn L)).Normal := inferInstance
   exact hL.map _ (QuotientGroup.mk'_surjective _)
 
 theorem hq_core (p : ℕ) (hp : p.Prime) (L : Subgroup G) : GLAPPrimeCoreOf p (Hq p L) = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h : CFSG.pPrimeCore p ↥(Hq p L) = ⊥ :=
     CFSG.pPrimeCore_eq_bot_of_mulEquiv p (hqEquiv p L) (CFSG.pPrimeCore_quotient_eq_bot hp)
   rw [GLAPPrimeCoreOf_eq_map, h, Subgroup.map_bot]
@@ -156,10 +168,11 @@ theorem isChevSimple_congr' {q : ℕ} {A B : Type} [Group A] [Group B] (e : A �
   · exact Or.inl ⟨i, hi, ⟨e.symm.trans f⟩⟩
   · exact Or.inr ⟨i, hi, ⟨e.symm.trans f⟩⟩
 
-theorem hq_chev (p : ℕ) (hp : p.Prime) (L : Subgroup G)
+omit [Finite G] in
+theorem hq_chev (p : ℕ) (_hp : p.Prime) (L : Subgroup G)
     (hchev : IsChevSimple 2 (PSimple p L)) :
     IsChevSimple 2 (↥(Hq p L) ⧸ Subgroup.center ↥(Hq p L)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨_hp⟩
   let e : ↥(Hq p L) ≃* PQuot p L := (hqEquiv p L).symm
   have hq : ↥(Hq p L) ⧸ Subgroup.center ↥(Hq p L) ≃* PQuot p L ⧸ Subgroup.center (PQuot p L) :=
     QuotientGroup.congr (Subgroup.center ↥(Hq p L)) (Subgroup.center (PQuot p L)) e
@@ -167,6 +180,7 @@ theorem hq_chev (p : ℕ) (hp : p.Prime) (L : Subgroup G)
   exact isChevSimple_congr' hq.symm hchev
 
 
+omit [Finite G] in
 theorem nw_le_L (p : ℕ) (L : Subgroup G) : Nw p L ≤ L.subgroupOf (Wn L) := by
   intro x hx
   rw [Subgroup.mem_subgroupOf]
@@ -175,7 +189,7 @@ theorem nw_le_L (p : ℕ) (L : Subgroup G) : Nw p L ≤ L.subgroupOf (Wn L) := b
 theorem centralizer_map (p : ℕ) (hp : p.Prime) (L E : Subgroup G) (hE : IsElemAbelian p E) :
     (Subgroup.centralizer ((E.subgroupOf (Wn L)) : Set ↥(Wn L))).map (piq p L) =
       Subgroup.centralizer ((Eq' p L E : Subgroup (Gam p L)) : Set (Gam p L)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hA : IsPGroup p (E.subgroupOf (Wn L)) :=
     isPGroup_of_isElemAbelian (isElemAbelian_subgroupOf hE _)
   exact (CFSG.Semidihedral.Local.coprime_centralizer_prime_complement_core_quotient p (Nw p L)
@@ -205,8 +219,10 @@ abbrev Cc (L E : Subgroup G) : Subgroup G := L ⊓ Subgroup.centralizer (E : Set
 abbrev CQ (p : ℕ) (L E : Subgroup G) : Subgroup (Gam p L) :=
   Subgroup.centralizer ((Eq' p L E : Subgroup (Gam p L)) : Set (Gam p L))
 
+omit [Finite G] in
 theorem cc_le_wn (L E : Subgroup G) : Cc L E ≤ Wn L := inf_le_left.trans (le_wn L)
 
+omit [Finite G] in
 theorem mem_CA_of_mem_cc {L E : Subgroup G} {x : G} (hx : x ∈ Cc L E) :
     (⟨x, cc_le_wn L E hx⟩ : ↥(Wn L)) ∈
       Subgroup.centralizer ((E.subgroupOf (Wn L)) : Set ↥(Wn L)) := by
@@ -221,6 +237,7 @@ theorem mem_CA_of_mem_cc {L E : Subgroup G} {x : G} (hx : x ∈ Cc L E) :
 def fC (p : ℕ) (L E : Subgroup G) : ↥(Cc L E) →* Gam p L :=
   (piq p L).comp (Subgroup.inclusion (cc_le_wn L E))
 
+omit [Finite G] in
 theorem fC_mem_hq (p : ℕ) (L E : Subgroup G) (x : ↥(Cc L E)) : fC p L E x ∈ Hq p L :=
   Subgroup.mem_map_of_mem _ (Subgroup.mem_subgroupOf.2 x.2.1)
 
@@ -270,7 +287,7 @@ theorem fT_ker_not_dvd (p : ℕ) (hp : p.Prime) (L E : Subgroup G) (hE : IsElemA
 theorem component_transfer (p : ℕ) (hp : p.Prime) (L E J : Subgroup G) (hE : IsElemAbelian p E)
     (hEW : E ≤ Wn L) (hJ : GLAPComponent p (Cc L E) J) :
     GLAPComponent p (Hq p L ⊓ CQ p L E) (Jq p L J) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hJC, hPC⟩ := (CFSG.HardMathSupport.Solomon.Coordinator.i183_glaPComponent_iff_isPComponent hp).1 hJ
   have hbij := (CFSG.ComponentClassification.CatalogueBPrimeJoin.prime_complement_quotient_p_component_bijection
     (fT p hp L E hE) (fT_surjective p hp L E hE hEW) (fT_ker_not_dvd p hp L E hE)).1.mapsTo
@@ -304,6 +321,7 @@ def phiJ (p : ℕ) (L J : Subgroup G) (hJL : J ≤ L) : ↥(GLAPPrimeCoreOf p J)
   (piq p L).comp (Subgroup.inclusion ((GLAPPrimeCoreOf_le_self p J).trans (hJL.trans (le_wn L))))
 
 
+omit [Finite G] in
 theorem phiJ_ker (p : ℕ) (L J : Subgroup G) (hJL : J ≤ L) :
     (phiJ p L J hJL).ker = (GLAPPrimeCoreOf p L).subgroupOf (GLAPPrimeCoreOf p J) := by
   ext x
@@ -316,13 +334,14 @@ theorem phiJ_ker (p : ℕ) (L J : Subgroup G) (hJL : J ≤ L) :
   · intro h
     exact (QuotientGroup.eq_one_iff _).2 (Subgroup.mem_subgroupOf.2 h)
 
+omit [Finite G] in
 theorem relIndex_eq_card (p : ℕ) (L J : Subgroup G) (hJL : J ≤ L) :
     (GLAPPrimeCoreOf p L).relIndex (GLAPPrimeCoreOf p J) = Nat.card (phiJ p L J hJL).range := by
   rw [Subgroup.relIndex, ← phiJ_ker p L J hJL, Subgroup.index_ker]
 
 theorem range_le_core (p : ℕ) (hp : p.Prime) (L J : Subgroup G) (hJL : J ≤ L) :
     (phiJ p L J hJL).range ≤ GLAPPrimeCoreOf p (Jq p L J) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hTJ : (phiJ p L J hJL).range ≤ Jq p L J := by
     rintro _ ⟨o, rfl⟩
     exact Subgroup.mem_map_of_mem _ (Subgroup.mem_subgroupOf.2 (GLAPPrimeCoreOf_le_self p J o.2))
@@ -374,7 +393,7 @@ theorem range_le_core (p : ℕ) (hp : p.Prime) (L J : Subgroup G) (hJL : J ≤ L
 theorem i141At_of_facts (hF : ParityModel) (G : Type) [Group G] [Finite G] (p : ℕ) :
     I141At G p := by
   intro hp hp2 X L E J _hX hLX hchev hE hEL hJ
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hJL : J ≤ L :=
     ((CFSG.HardMathSupport.Solomon.Coordinator.i183_glaPComponent_iff_isPComponent hp).1 hJ).1.trans
       inf_le_left

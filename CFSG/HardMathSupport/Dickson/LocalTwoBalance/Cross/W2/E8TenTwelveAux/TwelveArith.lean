@@ -10,7 +10,7 @@ theorem e8Twelve_arith {p q : ℕ} (hp : p.Prime) (hp7 : 7 ≤ p)
     (he : orderOf (q : ZMod p) = 12) :
     7 < p ∧ ¬ p ∣ q ∧ (q : ZMod p) ^ 4 - (q : ZMod p) ^ 2 + 1 = 0 ∧
       (p : ℤ) ∣ (q : ℤ) ^ 4 - (q : ℤ) ^ 2 + 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨x, hx⟩ : ∃ x : ZMod p, x = (q : ZMod p) := ⟨_, rfl⟩
   rw [← hx] at he ⊢
   have hx0 : x ≠ 0 := by

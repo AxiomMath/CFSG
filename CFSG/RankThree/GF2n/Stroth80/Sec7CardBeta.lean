@@ -80,9 +80,9 @@ theorem card_eichler_fixed {ι : Type} [Fintype ι] {K : Type} [Field K] [Finite
     · rintro ⟨h1, h2⟩ n hn
       obtain ⟨c, hc⟩ := (Submodule.mem_span_range_iff_exists_fun K).mp hn
       rw [Fin.sum_univ_two] at hc
-      simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons] at hc
+      simp only [Matrix.cons_val_zero, Matrix.cons_val_one] at hc
       rw [← hc]
-      simp [polarBilin_apply_apply, polar_add_left, polar_smul_left, h1, h2]
+      simp [polarBilin_apply_apply, h1, h2]
   have hmem : ∀ x : ι → K, eichler Q u w x = x ↔
       x ∈ LinearMap.BilinForm.orthogonal (polarBilin Q) (Submodule.span K (Set.range ![u, w])) := by
     intro x
@@ -126,15 +126,18 @@ theorem card_fixed_rootGroup_minusFour {K : Type} [Field K] [Finite K] [CharP K 
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem mem_Q_conj_of_mem_M (hc : Ctx M Q Z B) {β : G} (hβM : β ∈ M) {x : G} (hx : x ∈ Q) :
     β * x * β⁻¹ ∈ Q :=
   (Subgroup.mem_normalizer_iff.mp (hc.hyp.Q_normal.2 hβM) x).mp hx
 
+omit [Finite G] in
 theorem comm_left_mem_Q_of_mem_M (hc : Ctx M Q Z B) {β : G} (hβM : β ∈ M) {x : G}
     (hx : x ∈ Q) : ⁅β, x⁆ ∈ Q := by
   rw [commutatorElement_def]
   exact Q.mul_mem (mem_Q_conj_of_mem_M hc hβM hx) (Q.inv_mem hx)
 
+omit [Finite G] in
 theorem comm_left_mem_Z_of_mem_M (hc : Ctx M Q Z B) {β : G} (hβM : β ∈ M) {z : G}
     (hz : z ∈ Z) : ⁅β, z⁆ ∈ Z := by
   have h1 : β * z * β⁻¹ ∈ Z :=
@@ -156,6 +159,7 @@ theorem comm_mem_Z_iff_fixes_secVec {ι : Type} [Fintype ι] [DecidableEq ι] {K
     rw [secVec_eq_iff, hw', commutatorElement_def]
   rw [← h2, h1]
 
+omit [Finite G] in
 theorem card_eq_card_Z_mul_fixed {ι : Type} [Fintype ι] [DecidableEq ι] {K : Type} [Field K]
     {V W : Subgroup G} [(Z.subgroupOf V).Normal] {β : G}
     (hβV : β ∈ Subgroup.normalizer (V : Set G))
@@ -203,7 +207,7 @@ theorem card_Vt_inf_Q1_of_notMem_CN (hPts : Sec5NatPointsOmegaStatement)
     exact hβN hmem
   have hFixA := card_fixed_rootGroup_minusFour hirr hu hu0 hA_root hA1
   obtain ⟨hRn, hn, ψ, hψ⟩ := hsec
-  haveI := hn
+  have := hn
   have hA : ∀ v w : ↥(Vt M (LB M Q B) B Z t), (w : G) = β * (v : G) * β⁻¹ →
       secVec ψ w = (((φ β' : GL (Fin (2 - 1) ⊕ Fin (2 - 1) ⊕ Fin 2) K)) :
         Matrix (Fin (2 - 1) ⊕ Fin (2 - 1) ⊕ Fin 2) (Fin (2 - 1) ⊕ Fin (2 - 1) ⊕ Fin 2) K) *ᵥ
@@ -332,7 +336,7 @@ theorem exists_card_sq_comm_Wt (hA : Sec7AExistsStatement) (hPts : Sec5NatPoints
   have hsec : SecHyp (Rt M (LB M Q B) t) (Wt Q (Vt M (LB M Q B) B Z t))
       (Vt M (LB M Q B) B Z t) := SecHyp.of_isOppDecomp hd hWn hVn
   obtain ⟨Y, iY, iD, κ, hκ, hkerY⟩ := exists_sectionModule_ker hkerφ hsec hWN
-  haveI : Finite Y := hκ.finite
+  have : Finite Y := hκ.finite
   have hdec := isCompl_fixedSub_of_isOppDecomp hWn hκ hd hLR hL2R
   obtain ⟨hk1, -, hk3⟩ := stroth_2_1_ii_omega_fixed_of_hom E φ hrange hQnd hκ.two hkerY
     hu' hu huu'' hL₁ hL₂ hdec.symm h4 hβy ⟨u', hv⟩
@@ -347,7 +351,7 @@ theorem exists_card_sq_comm_Wt (hA : Sec7AExistsStatement) (hPts : Sec5NatPoints
 
 
 theorem Z_le_Wt_of_le_Q (hc : Ctx M Q Z B) {V : Subgroup G} (hVQ : V ≤ Q) :
-    Z ≤ Wt Q V := fun z hz => ⟨hc.Z_le_Q hz, Subgroup.mem_centralizer_iff.mpr fun v hv =>
+    Z ≤ Wt Q V := fun _z hz => ⟨hc.Z_le_Q hz, Subgroup.mem_centralizer_iff.mpr fun _v hv =>
       (hc.hyp.toHyp79.V_central hz (hVQ hv)).symm⟩
 
 theorem conj_mem_Wt_of_mem_Q (hc : Ctx M Q Z B) {V : Subgroup G} (hVQ : V ≤ Q) {x w : G}
@@ -383,6 +387,7 @@ theorem comm_comm_congr_mod_Z (hc : Ctx M Q Z B) {t β x : G} (htM : t ∈ M) (h
   rw [hid]
   exact Z.mul_mem (Z.mul_mem e2 e1) e4
 
+omit [Finite G] in
 theorem mem_iff_of_mul_inv_mem {H : Subgroup G} {a b : G} (h : a * b⁻¹ ∈ H) : a ∈ H ↔ b ∈ H := by
   constructor
   · intro ha
@@ -453,7 +458,7 @@ theorem exists_chiTransport_Wt (h310chi : Stroth310ChiStatement) (hc : Ctx M Q Z
       (Z.inv_mem hz)
   have hVQ' : Vt M (LB M Q B) B Z t ⊓ Q1 hc β ≤ Q :=
     fun x hx => hVQ (Subgroup.mem_inf.mp hx).1
-  haveI : (Z.subgroupOf (Vt M (LB M Q B) B Z t ⊓ Q1 hc β)).Normal :=
+  have : (Z.subgroupOf (Vt M (LB M Q B) B Z t ⊓ Q1 hc β)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (fun v hv =>
       hc.hyp.Z_normal.2 (hc.hyp.Q_normal.1 (hVQ' hv)))
   have hchiC : IsChiIso C (Rt M (LB M Q B) t) (Wt Q (Vt M (LB M Q B) B Z t))
@@ -505,7 +510,7 @@ theorem card_Q1_mul_le_filtration (hc : Ctx M Q Z B) {β : G} (hβM : β ∈ M) 
   have hVQ1Q : V ⊓ Q1 hc β ≤ Q := inf_le_left.trans hVQ
   have hZVQ1 : Z ≤ V ⊓ Q1 hc β := le_inf hZV hZQ1
   obtain ⟨Md, iA, iD, κ, hκ⟩ := exists_sectionModule (sec7ctr_secHyp hc (le_refl M))
-  haveI : Finite Md := hκ.finite
+  have : Finite Md := hκ.finite
   obtain ⟨ε, hε⟩ : ∃ ε : Md →+ Md, ∀ a, ε a = (⟨β, hβM⟩ : ↥M) • a - a :=
     ⟨AddMonoidHom.mk' (fun a => (⟨β, hβM⟩ : ↥M) • a - a) (fun a b => by rw [smul_add]; abel),
       fun a => rfl⟩
@@ -601,7 +606,7 @@ theorem card_Q1_mul_le_filtration (hc : Ctx M Q Z B) {β : G} (hβM : β ∈ M) 
         rw [cVQ, cC₂, cC₃]
 
 
-theorem card_arith_beta (q n a c w c₂ c₃ : ℕ) (hq : 1 < q) (hn : 3 ≤ n)
+theorem card_arith_beta (q n a c w c₂ c₃ : ℕ) (hq : 1 < q) (_hn : 3 ≤ n)
     (hA1 : q ^ (2 * n + 1) * q = c * a) (hA2 : q ^ (2 * n + 1) * q = w * (q * q ^ 4))
     (hc₂ : c₂ * c₂ = (q * q ^ 4) * w) (hc₃ : c₃ * q = w * q ^ 3)
     (hfilt : c * (q * q ^ 4) * w ≤ q ^ 3 * c₂ * c₃) : q ^ (n + 1) ≤ a := by
@@ -667,7 +672,7 @@ theorem sec73CardBeta_of_inputs (hA : Sec7AExistsStatement) (hPts : Sec5NatPoint
       Nat.card Q * Nat.card Z = Nat.card ↥(Q1 hc s) * Nat.card ↥(Ut Q Z s) := by
     intro s hsL
     have hsM : s ∈ M := hc.LB_le_M hsL
-    haveI : (Z.subgroupOf (Ut Q Z s)).Normal :=
+    have : (Z.subgroupOf (Ut Q Z s)).Normal :=
       Subgroup.normal_subgroupOf_of_le_normalizer (fun v hv =>
         hc.hyp.Z_normal.2 (hc.hyp.Q_normal.1 (hc.Ut_le_Q hsM hv)))
     exact card_mul_card_of_isChiIso (hc.isChiIso_Q1_Ut hsL) (hQ1Q s) (le_sup_right : Z ≤ Ut Q Z s)

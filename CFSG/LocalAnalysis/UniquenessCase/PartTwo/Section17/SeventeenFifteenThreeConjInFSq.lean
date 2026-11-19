@@ -223,7 +223,7 @@ theorem gap17_15_orbitClosure_le_of_normal {D : Data G} {V₀ V L : Subgroup G} 
 
 
 theorem gap17_15_centSection_eq_pCoreOf {D : Data G} {V₀ V L : Subgroup G} {r q : ℕ}
-    (hC : Ctx17_6 D V₀ V L r q) (h7 : IsL2Over17 (Bar2 L) 7)
+    (_hC : Ctx17_6 D V₀ V L r q) (h7 : IsL2Over17 (Bar2 L) 7)
     [(L.subgroupOf (L ⊔ NTL17 D L)).Normal]
     (hquot : IsPGroup 2 (↥(L ⊔ NTL17 D L) ⧸
       (L.subgroupOf (L ⊔ NTL17 D L)))) :
@@ -464,7 +464,7 @@ theorem gap17_15_barImage_NTL {D : Data G} {V₀ V L : Subgroup G} {r q : ℕ}
     exact Subgroup.mem_map.mpr ⟨t, Subgroup.mem_subgroupOf.mpr htS, hty⟩
 
 theorem gap17_15_hquot {D : Data G} {V₀ V L : Subgroup G} {r q : ℕ}
-    (hC : Ctx17_6 D V₀ V L r q) [(L.subgroupOf (L ⊔ NTL17 D L)).Normal] :
+    (_hC : Ctx17_6 D V₀ V L r q) [(L.subgroupOf (L ⊔ NTL17 D L)).Normal] :
     IsPGroup 2 (↥(L ⊔ NTL17 D L) ⧸
       (L.subgroupOf (L ⊔ NTL17 D L))) := by
   classical
@@ -500,7 +500,7 @@ theorem gap17_15_hquot {D : Data G} {V₀ V L : Subgroup G} {r q : ℕ}
   exact IsPGroup.of_surjective hSq2 f hf
 
 theorem gap17_15_barImage_pCoreOf_le_autC {D : Data G} {V₀ V L : Subgroup G} {r q : ℕ}
-    (hC : Ctx17_6 D V₀ V L r q) (h7 : IsL2Over17 (Bar2 L) 7) :
+    (hC : Ctx17_6 D V₀ V L r q) (_h7 : IsL2Over17 (Bar2 L) 7) :
     UC22.barImage (L ⊔ D.T) (pCoreOf 2 (L ⊔ NTL17 D L)) ≤
       CFSG.LocalAnalysis.UniquenessCase.UC22.F12.autC
         (UC22.barImage (L ⊔ D.T) D.T) (UC22.barImage (L ⊔ D.T) L) := by

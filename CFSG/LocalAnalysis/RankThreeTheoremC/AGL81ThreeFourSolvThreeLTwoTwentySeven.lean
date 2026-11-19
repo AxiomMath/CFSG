@@ -18,6 +18,7 @@ section Generic
 
 variable {Y I₀ : Type} [Group Y] [Finite Y] [Group I₀] [Finite I₀]
 
+omit [Finite Y] in
 theorem range_le_of_forall_two_pow (σ : I₀ →* Y)
     (hb : IsSymThreeOrSUThreeTwo (I₀ ⧸ CFSG.pCore 2 I₀)) {C : Subgroup Y}
     (h : ∀ g : I₀, (∃ k : ℕ, g ^ 2 ^ k = 1) → σ g ∈ C) : σ.range ≤ C := by
@@ -29,12 +30,13 @@ theorem range_le_of_forall_two_pow (σ : I₀ →* Y)
     (Subgroup.closure_le _).mpr fun a ha => h a ha
   exact hle hg
 
+omit [Finite Y] in
 theorem false_of_le_range_of_card (σ : I₀ →* Y)
     (hb : IsSymThreeOrSUThreeTwo (I₀ ⧸ CFSG.pCore 2 I₀)) (hker : Nat.Coprime 3 (Nat.card σ.ker))
     {U : Subgroup Y} (hUS : U ≤ σ.range) (hUc : ∀ a ∈ U, ∀ b ∈ U, a * b = b * a)
     (hU27 : Nat.card U = 27) (hUn : σ.range ≤ normalizer (U : Set Y)) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e, he⟩ := (CFSG.pCore_isPGroup (p := 2) (G := I₀)).exists_card_eq
   have hcardI : Nat.card I₀ = Nat.card (I₀ ⧸ CFSG.pCore 2 I₀) * 2 ^ e := by
     rw [← he]
@@ -65,7 +67,7 @@ theorem false_of_le_range_of_card (σ : I₀ →* Y)
           (by rw [hF]; norm_num)]
       norm_num
   set U' : Subgroup σ.range := U.subgroupOf σ.range with hU'
-  haveI hU'n : U'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hUS).mpr hUn
+  have hU'n : U'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hUS).mpr hUn
   have hU'card : Nat.card U' = 27 := by
     rw [hU', Nat.card_congr (Subgroup.subgroupOfEquivOfLe hUS).toEquiv, hU27]
   obtain ⟨j, hj⟩ : ∃ j : ℕ, U'.index = 2 ^ j := by
@@ -152,14 +154,14 @@ end Generic
 
 theorem threeFourSolvThreeNoneAt_psl2_27 : ThreeFourSolvThreeNoneAt (PSL2GF 3 3) := by
   intro Y _ _ K Y₀ E R I₀ _ _ σ hK hKX hZ hrk _ hC hcomp hER hE hEc hcore hO2 hker hσY hσs hb _ _
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := hK
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := hK
   obtain ⟨e⟩ := hKX
   set C := centralizer (K : Set Y) with hCdef
-  haveI hsimple : IsSimpleGroup (PSL2GF 3 3) :=
+  have hsimple : IsSimpleGroup (PSL2GF 3 3) :=
     Matrix.ProjectiveSpecialLinearGroup.rank_two_simple
       (by rw [GaloisField.card 3 3 (by norm_num)]; norm_num)
-  haveI : IsSimpleGroup K := e.isSimpleGroup
+  have : IsSimpleGroup K := e.isSimpleGroup
   have hnab : ∃ a b : K, a * b ≠ b * a := by
     by_contra h
     push Not at h
@@ -174,7 +176,7 @@ theorem threeFourSolvThreeNoneAt_psl2_27 : ThreeFourSolvThreeNoneAt (PSL2GF 3 3)
     omega
   have hKnle : ¬ K ≤ Y₀ := by
     refine hcomp K ?_ le_rfl
-    haveI : Group.IsPerfect K := ⟨CFSG.ComponentClassification.Helpers.commutator_eq_top K hnab⟩
+    have : Group.IsPerfect K := ⟨CFSG.ComponentClassification.Helpers.commutator_eq_top K hnab⟩
     exact ⟨le_top, IsSubnormal.step le_top inferInstance (IsSubnormal.refl ⊤),
       CFSG.ComponentClassification.Quasisimple.simple_of_perfect K⟩
   obtain ⟨T, hT⟩ := CFSG.QuasithinUnique.exists_sylow_map_eq_inf_of_normal R K
@@ -224,7 +226,7 @@ theorem threeFourSolvThreeNoneAt_psl2_27 : ThreeFourSolvThreeNoneAt (PSL2GF 3 3)
   have hNU : normalizer (U : Set Y) ≤ Y₀ := by
     have hif : (if 3 ≤ CFSG.pRank 3 (R : Subgroup Y) then GLBWeakCore 3 (R : Subgroup Y)
         else GLBCore 3 1 E) = GLBWeakCore 3 (R : Subgroup Y) := by
-      rw [if_pos (by rw [CFSG.SectionRank.pRank_coe_eq_openPRank]; exact hR3)]
+      rw [ite_eq_left (by rw [CFSG.SectionRank.pRank_coe_eq_openPRank]; exact hR3)]
     rw [hif] at hcore
     refine (CFSG.PreuniquenessRankFour.Helpers.normalizer_le_weakCore 3 hUR (by omega) ?_).trans
       hcore
@@ -288,7 +290,7 @@ theorem threeFourSolvThreeNoneAt_psl2_27 : ThreeFourSolvThreeNoneAt (PSL2GF 3 3)
       refine ⟨1, Subtype.ext ?_⟩
       simp only [pow_one, SubgroupClass.coe_pow, OneMemClass.coe_one]
       rw [← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast, hv3, one_zpow]
-    have hsup := T'.isPGroup'.to_sup_of_normal_left' hzp (zpowers_le.mpr hv')
+    have hsup := T'.isPGroup.to_sup_of_normal_left' hzp (zpowers_le.mpr hv')
     have hmax := T'.maximal_isPGroup.eq_of_le hsup le_sup_left
     have hmem : e ⟨g * u * g⁻¹, hvK⟩ ∈ (T' : Subgroup (PSL2GF 3 3)) := by
       rw [hmax]
@@ -333,7 +335,7 @@ theorem threeFourSolvThreeNoneAt_psl2_27 : ThreeFourSolvThreeNoneAt (PSL2GF 3 3)
 
 theorem threeFourSolvThreeLTwoTwentySeven_holds : ThreeFourSolvThreeLTwoTwentySeven := by
   intro q d hq3 hqe hd
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e⟩ := nonempty_mulEquiv_psl2GF_of_isLinTwoIndex (⟨q, hd, hq3, hqe⟩ : IsLinTwoIndex 3 3 d)
   exact ThreeFourSolvThreeNoneAt.of_mulEquiv e.symm threeFourSolvThreeNoneAt_psl2_27
 

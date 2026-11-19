@@ -49,6 +49,7 @@ theorem sumOfNatVia_two {W : Type} [CommGroup W] {D : FFModel} {H : Subgroup (Mu
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [CharP K 2] in
 theorem two_le_of_card_eq_two_pow {f r : ℕ} (hK : Nat.card K = 2 ^ f) (hr : r.Prime)
     (hrd : r ∣ 2 ^ f - 1) : 2 ≤ f := by
   rcases Nat.lt_or_ge f 2 with hf | hf
@@ -64,16 +65,18 @@ theorem unipotent_isSylowIn :
   obtain ⟨P, hP⟩ := exists_sylow_unipotent (K := K) 2 2
   have hPcoe : (P : Subgroup (StatedSp 2 K)) = unipotent 2 K := hP
   refine ⟨le_top, ?_, ?_⟩
-  · rw [← hPcoe]; exact P.isPGroup'
+  · rw [← hPcoe]; exact P.isPGroup
   · rw [← hPcoe]
     simpa using Sylow.not_dvd_index P
 
+omit [CharP K 2] in
 theorem isL2_lam_zero_range (f : ℕ) (hK : Nat.card K = 2 ^ f) (hf2 : 2 ≤ f) :
     IsL2 ↥((lam (0 : Fin 2) : SpecialLinearGroup (Fin 2) K →* StatedSp 2 K).range) f :=
   CFSG.Blueprint.LieModel.of_mulEquiv
     (MonoidHom.ofInjective (CFSG.ComponentClassification.Burgoyne.Sp.lam_injective 0))
     (uc22p22d_isL2_of_statedSL hf2 hK (specialLinearGroupEquivStatedSL 2 K))
 
+omit [CharP K 2] in
 theorem isL2_leviConjHom_range (f : ℕ) (hK : Nat.card K = 2 ^ f) (hf2 : 2 ≤ f) :
     IsL2 ↥(leviConjHom (K := K)).range f :=
   CFSG.Blueprint.LieModel.of_mulEquiv (MonoidHom.ofInjective leviConjHom_injective)
@@ -88,6 +91,7 @@ theorem isSylowIn_unipotent_map (hπi : Function.Injective π) (hπs : Function.
   rw [card_map_of_injective (fun _ _ hxy => hπi (Subtype.ext hxy)), unipotent_isSylowIn.card_eq,
     card_top, Nat.card_congr (MulEquiv.ofBijective π ⟨hπi, hπs⟩).toEquiv]
 
+omit [Finite K] [CharP K 2] [Finite W] in
 theorem natSummand_fix {I : Subgroup W}
     (hR : (FFModel.nat (StatedSp 2 K)).RealizesVia H I ⊥ π) {a : W} (ha : a ∈ I)
     (haU : ∀ u ∈ unipotent 2 K, ((π u : ↥H) : MulAut W) a = a) (g : StatedSp 2 K) :
@@ -132,6 +136,7 @@ variable {I₀ I₁ : Subgroup W} (hdisj : I₀ ⊓ I₁ = ⊥) (hsup : I₀ ⊔
   (hR₁ : (FFModel.nat (StatedSp 2 K)).RealizesVia H I₁ ⊥ π)
 include hdisj hsup hR₀ hR₁
 
+omit [Finite K] [CharP K 2] [Finite W] in
 theorem fixU_components {y : W} (hy : y ∈ fixV ((unipotent 2 K).map (H.subtype.comp π))) :
     ∃ a ∈ I₀, ∃ b ∈ I₁, a * b = y ∧
       (∀ u ∈ unipotent 2 K, ((π u : ↥H) : MulAut W) a = a) ∧
@@ -141,6 +146,7 @@ theorem fixU_components {y : W} (hy : y ∈ fixV ((unipotent 2 K).map (H.subtype
     (hR₀.2.2.2.1 (π u)) (hR₁.2.2.2.1 (π u)) ha hb (mem_fixV.mp hy _ (mem_map_of_mem _ hu))
   exact ⟨a, ha, b, hb, rfl, fun u hu => (hU u hu).1, fun u hu => (hU u hu).2⟩
 
+omit [Finite K] [CharP K 2] [Finite W] in
 theorem fix_of_mulVec_e1 {g : StatedSp 2 K}
     (hg : ((g : GL (Fin 2 ⊕ Fin 2) K) : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K) *ᵥ
       Pi.single (Sum.inl 0) (1 : K) = Pi.single (Sum.inl 0) 1) :
@@ -149,6 +155,7 @@ theorem fix_of_mulVec_e1 {g : StatedSp 2 K}
   obtain ⟨a, ha, b, hb, rfl, haU, hbU⟩ := fixU_components hdisj hsup hR₀ hR₁ hw
   rw [map_mul, (natSummand_fix hR₀ ha haU g).1 hg, (natSummand_fix hR₁ hb hbU g).1 hg]
 
+omit [Finite K] [CharP K 2] [Finite W] in
 theorem mulVec_e1_of_fix {g : StatedSp 2 K} {y : W}
     (hy : y ∈ fixV ((unipotent 2 K).map (H.subtype.comp π))) (hy1 : y ≠ 1)
     (hgy : ((π g : ↥H) : MulAut W) y = y) :

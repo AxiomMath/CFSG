@@ -12,6 +12,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem asc83CComponent_of_mem_calC {M L : Subgroup G} (h : L ∈ calC M) :
     CFSG.Yardstones.Mf4cdcdf2e013.Asc83CComponent M L :=
   ⟨h.1.le, h.1, h.2.1, inferInstance, h.2.2⟩

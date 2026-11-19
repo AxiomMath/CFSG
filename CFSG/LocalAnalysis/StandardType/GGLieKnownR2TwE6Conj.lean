@@ -279,7 +279,7 @@ theorem twE6_exists_weyl_of_not_long
   change ¬ GGLongRoot teConj_f4Datum0 β at hs
   change ∃ w : GGWeyl teConj_f4Datum0,
     β = weylAction teConj_f4Datum0.isFiniteType w twE6Alpha
-  simp only [CFSG.LieType.RootSystem.roots, Set.mem_union, Set.mem_setOf_eq] at hβ
+  simp only [CFSG.LieType.RootSystem.roots, Set.mem_union, Set.mem_ofPred_eq] at hβ
   obtain ⟨w, i, rfl⟩ | ⟨w, i, hi, -⟩ := hβ
   · have hlong_i : ¬ GGLongRoot teConj_f4Datum0 (Pi.single i 1) := fun h =>
       hs ((teConj_f4_ggLongRoot_weylAction_iff w (Pi.single i 1)).2 h)

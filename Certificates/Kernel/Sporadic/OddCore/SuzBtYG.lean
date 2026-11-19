@@ -540,7 +540,7 @@ theorem alg : ∃ a b c : Nat, 0 < a ∧ a < 16 ∧ 0 < b ∧ b < 16 ∧ 0 < c �
   ·
     let Q : Nat → Nat := fun i => if h : i < 16 then Classical.choose (hsurj i h) else 0
     have hQ : ∀ i < 16, Q i < 16 ∧ P (Q i) = i := fun i hi => by
-      simp only [Q, dif_pos hi]
+      simp only [Q, dite_eq_left hi]
       exact Classical.choose_spec (hsurj i hi)
     have hPQ : ∀ m < 16, P m < 16 ∧ Q (P m) = m := fun m hm =>
       ⟨hP16 m, hinj _ (hQ _ (hP16 m)).1 m hm (hQ _ (hP16 m)).2⟩
@@ -551,12 +551,12 @@ theorem alg : ∃ a b c : Nat, 0 < a ∧ a < 16 ∧ 0 < b ∧ b < 16 ∧ 0 < c �
     · rw [et]
       exact CFSG.KS.PF.shr_zero_of_fld (by norm_num) hF (fun i hi => by
         have : ¬ (i < 16 ∧ Q i < 16) := fun h => by omega
-        rw [if_neg this])
+        rw [ite_eq_right this])
     have hc : p.val < 16 ∧ Q p.val < 16 := ⟨p.isLt, (hQ p.val p.isLt).1⟩
     have e := CFSG.KS.PF.pg_of_fld (i := p.val) hF (by
-      rw [if_pos hc]
+      rw [ite_eq_left hc]
       exact hV16 _)
-    rw [if_pos hc] at e
+    rw [ite_eq_left hc] at e
     rw [et, e]
     have ep : pt (P (Q p.val)) = p := by rw [(hQ p.val p.isLt).2, pt_fin]
     have hg : g (pt (P (Q p.val))) = pt (V (Q p.val)) := by rw [g_pt, gP]
@@ -588,20 +588,20 @@ theorem tt_ap {s : Nat} (hs : s < 4) (p : Fin 16) : pg4 (TT s) p = (ttP s p).val
   · have e : ∀ q : Fin 16, pg4 (TT 0) q = q := by decide +kernel
     rw [e]
     unfold ttP
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     rfl
   · have e : ∀ q : Fin 16, pg4 (TT 1) q = pg4 (TB 0) q := by decide +kernel
     rw [e, tb_tab (j := 0) (by norm_num)]
     unfold ttP
-    rw [if_neg (by norm_num), if_pos rfl]
+    rw [ite_eq_right (by norm_num), ite_eq_left rfl]
   · have e : ∀ q : Fin 16, pg4 (TT 2) q = pg4 (TB 1) q := by decide +kernel
     rw [e, tb_tab (j := 1) (by norm_num)]
     unfold ttP
-    rw [if_neg (by norm_num), if_neg (by norm_num), if_pos rfl]
+    rw [ite_eq_right (by norm_num), ite_eq_right (by norm_num), ite_eq_left rfl]
   · have e : ∀ q : Fin 16, pg4 (TT 3) q = pg4 (TB 0) (pg4 (TB 1) q) := by decide +kernel
     rw [e, tb_tab (j := 1) (by norm_num), tb_tab (j := 0) (by norm_num)]
     unfold ttP
-    rw [if_neg (by norm_num), if_neg (by norm_num), if_neg (by norm_num), Equiv.Perm.mul_apply]
+    rw [ite_eq_right (by norm_num), ite_eq_right (by norm_num), ite_eq_right (by norm_num), Equiv.Perm.mul_apply]
 
 theorem pw_tb {T : Nat} {x : Equiv.Perm (Fin 16)} (hT : ∀ p : Fin 16, pg4 T p = x p) (e : Nat)
     (p : Fin 16) : pw T e p = ((x ^ e) p).val := by
@@ -654,7 +654,7 @@ theorem st_inv (κ : Nat → Nat) : ∀ k ≤ 80, ∃ c M : Nat,
       rw [bt_eq]
       have e1 : c + 256 * M = 2 ^ 8 * M + c := by ring
       have h := Nat.testBit_two_pow_mul_add M (b := c) (i := 8) (by norm_num; omega) (κ k + 8)
-      rw [if_neg (by omega), Nat.add_sub_cancel] at h
+      rw [ite_eq_right (by omega), Nat.add_sub_cancel] at h
       rw [e1]
       exact h
     have hsub : (Finset.range k).image κ ⊆ (Finset.range (k + 1)).image κ :=
@@ -662,13 +662,13 @@ theorem st_inv (κ : Nat → Nat) : ∀ k ≤ 80, ∃ c M : Nat,
     unfold addK
     rw [nIf_ite, hbit]
     by_cases hb : M.testBit (κ k) = true
-    · rw [if_pos hb]
+    · rw [ite_eq_left hb]
       refine ⟨c, M, rfl, by omega, le_trans hcS (Finset.card_le_card hsub), fun w hw => ?_⟩
       rcases Nat.lt_succ_iff_lt_or_eq.1 hw with h | h
       · exact hM w h
       · rw [h]
         exact hb
-    · rw [if_neg hb]
+    · rw [ite_eq_right hb]
       have hb' : M.testBit (κ k) = false := by simpa using hb
       have hnot : κ k ∉ (Finset.range k).image κ := by
         intro hm
@@ -801,12 +801,11 @@ theorem chk_of {a b c : Nat} (ha : 0 < a) (ha' : a < 16) (hb : 0 < b) (hb' : b <
   have eb : Nat.succ (b - 1) = b := by omega
   have ec : Nat.succ (c - 1) = c := by omega
   beta_reduce at h2
-  rw [eb, ec, CFSG.KS.Raw.Orb.bIf_eq, if_pos hi, CFSG.KS.Raw.Orb.strictB_eq] at h2
-  beta_reduce at h2
+  rw [eb, ec, CFSG.KS.Raw.Orb.bIf_eq, ite_eq_left hi, CFSG.KS.Raw.Orb.strictB_eq] at h2
   rw [CFSG.KS.Raw.Orb.bIf_eq] at h2
   by_cases hf : Nat.blt 60 (famCnt (tab a b c)) = true
   · exact Or.inl hf
-  · rw [if_neg hf] at h2
+  · rw [ite_eq_right hf] at h2
     exact Or.inr h2
 
 theorem part2 : ∀ g : Equiv.Perm (Fin 16),

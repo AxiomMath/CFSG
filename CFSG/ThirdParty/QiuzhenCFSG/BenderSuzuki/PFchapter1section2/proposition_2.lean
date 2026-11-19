@@ -98,7 +98,7 @@ private theorem proposition_2_fitting_eq_antiFixed_of_involutiveMulAut
     intro q
     obtain ⟨x, rfl⟩ := QuotientGroup.mk'_surjective F q
     rw [htaupi, htaupi, htau]
-  letI : IsMulCommutative (X ⧸ F) := hquotient_comm
+  let : IsMulCommutative (X ⧸ F) := hquotient_comm
   let A : Subgroup (X ⧸ F) :=
     { carrier := {q | tauQ q = q⁻¹}
       one_mem' := by simp
@@ -113,7 +113,7 @@ private theorem proposition_2_fitting_eq_antiFixed_of_involutiveMulAut
         rw [map_inv, ha] }
   let B : Subgroup X := A.comap pi
   have hBnormal : B.Normal := by
-    letI : CommGroup (X ⧸ F) := IsMulCommutative.instCommGroup
+    let : CommGroup (X ⧸ F) := IsMulCommutative.instCommGroup
     exact Subgroup.Normal.comap (inferInstance : A.Normal) pi
   have hBstable : ∀ x : X, x ∈ B → tau x ∈ B := by
     intro x hx
@@ -181,9 +181,9 @@ private theorem proposition_2_fitting_eq_antiFixed_of_involutiveMulAut
     have hcomm := congrArg (fun z : B => z⁻¹) hinv_comm
     simpa using hcomm.symm
   have hBleF : B ≤ F := by
-    letI : IsMulCommutative B := hBcomm
+    let : IsMulCommutative B := hBcomm
     have hBnil : Group.IsNilpotent B := by
-      letI : IsMulCommutative B := hBcomm
+      let : IsMulCommutative B := hBcomm
       refine ⟨1, ?_⟩
       have hcenter : Subgroup.center B = ⊤ := by
         ext x
@@ -363,20 +363,20 @@ private theorem proposition_2_canonical_quotient_fitting
   have hWD : (W.subgroupOf D).Normal :=
     peterfalvi_chapter1_section2_canonical_W_normal_D
       H D Q V W t hA1 rfl rfl
-  letI : (W.subgroupOf D).Normal := hWD
+  let : (W.subgroupOf D).Normal := hWD
   obtain ⟨rhoD, hrhoD, hrhoD_formula⟩ :=
     peterfalvi_chapter1_section2_canonical_quotient_conjugation_action
       H D W Q0 hA1.D_le_H hQ0_def hW_eq_centralizer hWD
-  letI : MulDistribMulAction (D ⧸ W.subgroupOf D) Q0 :=
+  let : MulDistribMulAction (D ⧸ W.subgroupOf D) Q0 :=
     MulDistribMulAction.compHom Q0 rhoD
-  letI : FaithfulSMul (D ⧸ W.subgroupOf D) Q0 := by
+  let : FaithfulSMul (D ⧸ W.subgroupOf D) Q0 := by
     constructor
     intro a b hab
     apply hrhoD
     apply MulEquiv.ext
     intro q
     exact hab q
-  letI : IsElementaryAbelian 2 Q0 :=
+  let : IsElementaryAbelian 2 Q0 :=
     isElementaryAbelian_two_of_forall_sq_one hQ0_comm hQ0_sq
   have htrans :
       ∀ x : Q0, x ≠ 1 → ∀ y : Q0, y ≠ 1 →
@@ -543,7 +543,7 @@ public theorem proposition_2_exists_K
   obtain ⟨hWD, tau, hFcyclic, htau_formula, hanti⟩ :=
     proposition_2_canonical_quotient_fitting
       H D Q Q0 t hA.A1 hQ0_def hQ0_comm hQ0_sq
-  letI : (W.subgroupOf D).Normal := hWD
+  let : (W.subgroupOf D).Normal := hWD
   let Dbar := D ⧸ W.subgroupOf D
   let pi : D →* Dbar := QuotientGroup.mk' (W.subgroupOf D)
   let F : Subgroup Dbar := fittingSubgroup Dbar
@@ -670,7 +670,7 @@ public theorem proposition_2_exists_K
   have hcard_KSet_F : Nat.card (peterfalviKSet D t) = Nat.card F :=
     Nat.card_congr
       (Equiv.ofBijective kToF ⟨hkToF_injective, hkToF_surjective⟩)
-  letI : IsCyclic F := hFcyclic
+  let : IsCyclic F := hFcyclic
   obtain ⟨f, hfgen⟩ :=
     (isCyclic_iff_exists_zpowers_eq_top (α := F)).mp hFcyclic
   obtain ⟨k, hkf⟩ := hkToF_surjective f
@@ -806,7 +806,7 @@ private theorem proposition_2_K_isZGroup
   have hK_le_H : K ≤ H := hsec.K_le_D.trans hsec.hA.A1.D_le_H
   let KH : Subgroup H := K.subgroupOf H
   let L : Subgroup H := QH ⊔ KH
-  haveI : QH.Normal := by
+  have : QH.Normal := by
     simpa [QH] using hsec.hA.A1.Q_normal_in_H
   have hQH_norm : (QH.subgroupOf L).Normal := by
     simpa [L, QH, KH] using
@@ -917,7 +917,7 @@ private theorem proposition_2_K_isZGroup
   let eL : KH ≃* KH.subgroupOf L :=
     (Subgroup.subgroupOfEquivOfLe (H := KH) (K := L) le_sup_right).symm
   let e : K ≃* KH.subgroupOf L := eKH.trans eL
-  letI : IsZGroup (KH.subgroupOf L) := hZ_KHsub
+  let : IsZGroup (KH.subgroupOf L) := hZ_KHsub
   exact IsZGroup.of_injective (f := e.toMonoidHom) e.injective
 
 private theorem proposition_2_order_bound_of_isZGroup
@@ -941,11 +941,11 @@ private theorem proposition_2_order_bound_of_isZGroup
     (hZ : IsZGroup K) :
     ∃ k : K, Nat.card K ≤ orderOf k := by
   classical
-  letI : IsZGroup K := hZ
-  letI : IsMulCommutative K :=
+  let : IsZGroup K := hZ
+  let : IsMulCommutative K :=
     proposition_2_K_isMulCommutative H D Q K V W Q0 S Q1 t hsec
-  letI : CommGroup K := IsMulCommutative.instCommGroup
-  letI : Group.IsNilpotent K := by infer_instance
+  let : CommGroup K := IsMulCommutative.instCommGroup
+  let : Group.IsNilpotent K := by infer_instance
   have hcyc : IsCyclic K := by infer_instance
   rcases (isCyclic_iff_exists_zpowers_eq_top (α := K)).1 hcyc with ⟨k, hk_top⟩
   refine ⟨k, ?_⟩

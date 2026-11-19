@@ -29,7 +29,7 @@ theorem layer_eq_of_component (hp : p.Prime) (hp2 : p ≠ 2)
     (hL : IsComponentOf L ⊤) (hnc : ¬ IsCyclic ((P : Subgroup X) ⊓ L : Subgroup X)) :
     CFSG.layer X = L ∧ Open.pRank p ((P : Subgroup X) ⊓ L) = 2 := by
   have h2 : 2 ≤ Open.pRank p ((P : Subgroup X) ⊓ L) :=
-    two_le_pRank_of_isPGroup_not_isCyclic hp hp2 (P.isPGroup'.to_le inf_le_left) hnc
+    two_le_pRank_of_isPGroup_not_isCyclic hp hp2 (P.isPGroup.to_le inf_le_left) hnc
   have hle2 := pRank_inf_layer_le_two hp P hH
   have hLE := le_layer_of_isComponentOf hL
   have hall : ∀ K : Subgroup X, IsComponentOf K ⊤ → K = L := by

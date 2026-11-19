@@ -20,14 +20,14 @@ private theorem isEmpty_mulEquiv_alternatingGroup_fin {H : Type*} [Group H]
     have hcomm : ∀ x y : Equiv.Perm (Fin (2 * m)), x * y = y * x := by
       interval_cases m <;> decide
     exact hac (e.injective (by rw [map_mul, map_mul]; exact Subtype.ext (hcomm _ _)))
-  · haveI : Nontrivial (Fin (2 * m)) := Fin.nontrivial_iff_two_le.mpr (by omega)
+  · have : Nontrivial (Fin (2 * m)) := Fin.nontrivial_iff_two_le.mpr (by omega)
     refine hord m hm ?_
     rw [Nat.card_congr e.toEquiv, Nat.card_eq_fintype_card, two_mul_card_alternatingGroup,
       Fintype.card_perm, Fintype.card_fin]
 
 theorem holtSimpleControl_holds : HoltSimpleControl := by
   intro G _ _ H S z hHs hna hord hS hzS hz hzc hfix
-  haveI := hHs
+  have := hHs
   obtain ⟨P, hP⟩ := fs81Hl_sylow2In_sylow hS hzS hfix
   refine CFSG.Holt.H78.eq_top_of_isSimpleGroup_of_conj_mem CFSG.Holt.H78.holtTheorem1
     (hS.1 hzS) hz hfix ⟨P, by rw [hP]; exact hzS, fun s hs => ?_⟩ hna

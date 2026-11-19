@@ -41,14 +41,14 @@ theorem sl2_coe_t01 {K : Type} [Field K] (x : K) :
       Matrix (Fin 2) (Fin 2) K) = !![1, x; 0, 1] := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.SpecialLinearGroup.transvection_coe, Matrix.one_apply, Matrix.single_apply]
+    simp [Matrix.SpecialLinearGroup.transvection_coe]
 
 theorem sl2_coe_t10 {K : Type} [Field K] (x : K) :
     ((Matrix.SpecialLinearGroup.transvection sl2Idx10 x : SLtwo K) :
       Matrix (Fin 2) (Fin 2) K) = !![1, 0; x, 1] := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.SpecialLinearGroup.transvection_coe, Matrix.one_apply, Matrix.single_apply]
+    simp [Matrix.SpecialLinearGroup.transvection_coe]
 
 theorem sl2_det {K : Type} [Field K] (h : SLtwo K) :
     (h : Matrix (Fin 2) (Fin 2) K) 0 0 * (h : Matrix (Fin 2) (Fin 2) K) 1 1 -
@@ -72,7 +72,7 @@ theorem sl2_coe_conjU {K : Type} [Field K] (h : SLtwo K) (s : K) :
     Matrix.SpecialLinearGroup.coe_inv, Matrix.adjugate_fin_two, sl2_coe_t01]
   ext i j
   fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two] <;>
-    (first | ring1 | linear_combination hdet | linear_combination (-1 : K) * hdet)
+    (first | ring1 | linear_combination hdet)
 
 theorem sl2_map_conj_upper {K : Type} [Field K] (h : SLtwo K)
     (hc : (h : Matrix (Fin 2) (Fin 2) K) 1 0 = 0) :
@@ -100,8 +100,7 @@ theorem sl2_map_conj_upper {K : Type} [Field K] (h : SLtwo K)
     have hat : (h : Matrix (Fin 2) (Fin 2) K) 0 0 ^ 2 *
         (t / (h : Matrix (Fin 2) (Fin 2) K) 0 0 ^ 2) = t := by
       first
-        | (field_simp; done)
-        | (rw [mul_div_assoc', mul_comm, mul_div_assoc, div_self (pow_ne_zero 2 ha), mul_one])
+        | (field_simp)
     refine ⟨Matrix.SpecialLinearGroup.transvection sl2Idx01
       (t / (h : Matrix (Fin 2) (Fin 2) K) 0 0 ^ 2), mem_rootGroup.2 ⟨_, rfl⟩, ?_⟩
     apply Subtype.ext
@@ -121,13 +120,11 @@ theorem sl2_lower_mem_sup {K : Type} [Field K] (h : SLtwo K)
       (h : Matrix (Fin 2) (Fin 2) K) 1 0 * x := by
     refine ⟨(h : Matrix (Fin 2) (Fin 2) K) 0 0 / (h : Matrix (Fin 2) (Fin 2) K) 1 0, ?_⟩
     first
-      | (field_simp; done)
-      | (field_simp; ring)
+      | (field_simp)
   obtain ⟨s, rfl⟩ : ∃ s : K, τ = -((h : Matrix (Fin 2) (Fin 2) K) 1 0 ^ 2 * s) := by
     refine ⟨-τ / (h : Matrix (Fin 2) (Fin 2) K) 1 0 ^ 2, ?_⟩
     first
-      | (field_simp; done)
-      | (field_simp; ring)
+      | (field_simp)
   have hid : Matrix.SpecialLinearGroup.transvection sl2Idx10
       (-((h : Matrix (Fin 2) (Fin 2) K) 1 0 ^ 2 * s)) =
       Matrix.SpecialLinearGroup.transvection sl2Idx01 (-x) * sl2ConjU h s *
@@ -178,7 +175,7 @@ theorem sl2_finite (K : Type) [Field K] [Finite K] : Finite (SLtwo K) := by
 
 theorem sl2_card_factorization (K : Type) [Field K] [Finite K] [CharP K 2] :
     Nat.card K = 2 ^ (Nat.card (SLtwo K)).factorization 2 := by
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   obtain ⟨m, -, hm⟩ := FiniteField.card K 2
   have hq : Nat.card K = 2 ^ (m : ℕ) := by
     rw [Nat.card_eq_fintype_card]
@@ -199,9 +196,9 @@ theorem sl2_card_factorization (K : Type) [Field K] [Finite K] [CharP K 2] :
 theorem sl2_exists_conj (K : Type) [Field K] [Finite K] [CharP K 2] (H : Subgroup (SLtwo K))
     (hH : Nat.card H = Nat.card K) :
     ∃ g : SLtwo K, H = Subgroup.map (MulAut.conj g).toMonoidHom (sl2Upper K) := by
-  haveI : Finite (SLtwo K) := sl2_finite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (Sylow 2 (SLtwo K)) := Finite.of_injective
+  have : Finite (SLtwo K) := sl2_finite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (Sylow 2 (SLtwo K)) := Finite.of_injective
     (fun S : Sylow 2 (SLtwo K) => ((S : Subgroup (SLtwo K)) : Set (SLtwo K)))
     (fun S T hST => Sylow.ext (SetLike.coe_injective hST))
   obtain ⟨S₀, hS₀⟩ : ∃ S : Sylow 2 (SLtwo K), (S : Subgroup (SLtwo K)) = sl2Upper K :=

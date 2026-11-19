@@ -45,7 +45,7 @@ theorem endoE_xE_alpha7_w0 (t : K) : endoE (xE alpha7 t) (w0 : V K) = (w0 : V K)
 
 theorem endoE_xE_alpha7_sw0 (t : K) : endoE (xE alpha7 t) (sw0 K) = sw0 K + t • (w0 : V K) := by
   have h : e7Data.rootOp K alpha7 (sw0 K) = (w0 : V K) := by
-    rw [sw0_eq, rootOp_single isRoot_alpha7, if_pos pr_sRefl_top, shift_sRefl_top]
+    rw [sw0_eq, rootOp_single isRoot_alpha7, ite_eq_left pr_sRefl_top, shift_sRefl_top]
   rw [endoE_xE]
   show ((1 : Module.End K (V K)) + t • e7Data.rootOp K alpha7) (sw0 K) = _
   rw [LinearMap.add_apply, LinearMap.smul_apply, Module.End.one_apply, h]
@@ -72,6 +72,6 @@ theorem sw0_notin_span : sw0 K ∉ Submodule.span K {(w0 : V K)} := by
     omega
   have := congrArg (fun v : V K => v (e7Data_valid.sRefl nodeA topIdx)) hr
   rw [sw0_eq] at this
-  simp [Finsupp.single_apply, hne.symm] at this
+  simp [hne.symm] at this
 
 end CFSG.RankThree.GF2n.Smith81.S81Z

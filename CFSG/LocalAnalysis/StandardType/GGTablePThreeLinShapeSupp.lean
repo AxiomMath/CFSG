@@ -95,7 +95,7 @@ private lemma linShape_specialFactor_image_ne
     (hsq : Squarefree (minpoly K (glA d : Module.End K (Fin N → K))))
     {h h₂ : Polynomial K}
     (hh : h ∈ primaryFactors (glA d : Module.End K (Fin N → K)))
-    (hh₂ : h₂ ∈ primaryFactors (glA d : Module.End K (Fin N → K)))
+    (_hh₂ : h₂ ∈ primaryFactors (glA d : Module.End K (Fin N → K)))
     (hne : h ≠ h₂) (hgood : IsGoodFactor d h)
     (hmap : (specialFactor d h).map (LinearFlag.proj N K) =
             (specialFactor d h₂).map (LinearFlag.proj N K)) : False := by
@@ -175,7 +175,7 @@ private lemma linShape_cubic_no_deg_two_factor
     {K : Type} [Field K] {c ω : K} (hω3 : ω ^ 3 = 1) (hω1 : ω ≠ 1)
     {h : Polynomial K} (hmon : h.Monic) (hirr : Irreducible h) (hdeg : h.natDegree = 2)
     (hdvd : h ∣ X ^ 3 - C c) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hω : IsPrimitiveRoot ω 3 := by
     refine IsPrimitiveRoot.mk hω3 (fun l hl => ?_)
     have ho : orderOf ω = 3 := orderOf_eq_prime_iff.mpr ⟨hω3, hω1⟩
@@ -213,20 +213,20 @@ theorem linShape_rank_support
     {Ā : Subgroup (MulAut (PSLg N K))}
     {δ' : MulAut (PSLg N K)}
     {J' : Subgroup (PSLg N K)} (hR : RDatum Ā δ' J')
-    (hĀI : ∀ a ∈ Ā, a ∈ LargeEvenMatConjImage (LargeEvenProjMk (LargeEvenSLGroup (Fin N) K))
+    (_hĀI : ∀ a ∈ Ā, a ∈ LargeEvenMatConjImage (LargeEvenProjMk (LargeEvenSLGroup (Fin N) K))
       Set.univ)
     {d : GL (Fin N) K}
     (hd : LargeEvenGraphAut (LargeEvenProjMk (LargeEvenSLGroup (Fin N) K))
         (fun h h' => (h' : GL (Fin N) K) = d * h * d⁻¹) δ')
     {lam : Ā →* Kˣ} {g : Ā → GL (Fin N) K}
-    (hgraph : ∀ a : Ā, LargeEvenGraphAut (LargeEvenProjMk (LargeEvenSLGroup (Fin N) K))
+    (_hgraph : ∀ a : Ā, LargeEvenGraphAut (LargeEvenProjMk (LargeEvenSLGroup (Fin N) K))
       (fun h h' => (h' : GL (Fin N) K) = g a * h * (g a)⁻¹) (a : MulAut (PSLg N K)))
     (hlam3 : ∀ a : Ā, (lam a) ^ 3 = 1)
     (hg : ∀ a : Ā, ((g a * d * (g a)⁻¹ : GL (Fin N) K) : Matrix (Fin N) (Fin N) K) =
           (lam a : K) • (d : Matrix (Fin N) (Fin N) K))
     {h : Polynomial K} (hh : h ∈ primaryFactors (glA d : Module.End K (Fin N → K))) (hgood : IsGoodFactor d h)
     {e : PSLg N K ≃* LinearFlag.projectiveSL N K}
-    (heJ : J' = Subgroup.comap e.toMonoidHom ((specialFactor d h).map (LinearFlag.proj N K)))
+    (_heJ : J' = Subgroup.comap e.toMonoidHom ((specialFactor d h).map (LinearFlag.proj N K)))
     {j : ℕ} (hj : j = h.natDegree) :
     (j ≠ 3 → lam = 1) ∧ Nat.card (Ā ⧸ lam.ker) ≤ 3 := by
   have hcard : Nat.card (Ā ⧸ lam.ker) ≤ 3 := by
@@ -265,7 +265,7 @@ theorem linShape_rank_support
   have hN0 : 0 < N := by
     have hmult : 2 ≤ primaryMultiplicity (glA d : Module.End K (Fin N → K)) h := by
       rcases hgood with h3 | ⟨h2, -⟩ <;> omega
-    haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+    have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
     have hfin : primaryMultiplicity (glA d : Module.End K (Fin N → K)) h ≤
         Module.finrank K (primaryComponent (glA d : Module.End K (Fin N → K)) h) := by
       rw [finrank_primaryComponent]
@@ -338,9 +338,9 @@ theorem linShape_rank_support
     have hmult : primaryMultiplicity (glA d : Module.End K (Fin N → K))
           (X - C (u₀ / (lam a : K))) =
         primaryMultiplicity (glA d : Module.End K (Fin N → K)) h := by
-      haveI : Fact (Irreducible (X - C (u₀ / (lam a : K)) : Polynomial K)) :=
+      have : Fact (Irreducible (X - C (u₀ / (lam a : K)) : Polynomial K)) :=
         ⟨Polynomial.irreducible_X_sub_C _⟩
-      haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+      have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
       have hfin : Module.finrank K (primaryComponent (glA d : Module.End K (Fin N → K))
             (X - C (u₀ / (lam a : K)))) =
           Module.finrank K (primaryComponent (glA d : Module.End K (Fin N → K)) h) := by
@@ -362,9 +362,9 @@ theorem linShape_rank_support
         exact this.symm
       rw [h1, h2, hfin]
     have hgood₂ : IsGoodFactor d (X - C (u₀ / (lam a : K))) := by
-      haveI : Fact (Irreducible (X - C (u₀ / (lam a : K)) : Polynomial K)) :=
+      have : Fact (Irreducible (X - C (u₀ / (lam a : K)) : Polynomial K)) :=
         ⟨Polynomial.irreducible_X_sub_C _⟩
-      haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+      have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
       rcases hgood with h3 | ⟨h2, h4⟩
       · exact Or.inl (by rw [hmult]; exact h3)
       · refine Or.inr ⟨by rw [hmult]; exact h2, ?_⟩

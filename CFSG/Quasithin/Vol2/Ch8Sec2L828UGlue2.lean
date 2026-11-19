@@ -20,18 +20,18 @@ open Classical in
 
 theorem ob5dd_mul (f : ↥I →* DihedralGroup 5) {g g' : G} (hg : g ∈ I) (hg' : g' ∈ I) :
     ob5dd f (g * g') = ob5dd f g * ob5dd f g' := by
-  simp only [ob5dd, dif_pos hg, dif_pos hg', dif_pos (I.mul_mem hg hg')]
+  simp only [ob5dd, dite_eq_left hg, dite_eq_left hg', dite_eq_left (I.mul_mem hg hg')]
   rw [← map_mul]
   rfl
 
 theorem ob5dd_one (f : ↥I →* DihedralGroup 5) : ob5dd f 1 = 1 := by
-  simp only [ob5dd, dif_pos I.one_mem]
+  simp only [ob5dd, dite_eq_left I.one_mem]
   have : (⟨1, I.one_mem⟩ : ↥I) = 1 := rfl
   rw [this, map_one]
 
 theorem ob5dd_inv (f : ↥I →* DihedralGroup 5) {g : G} (hg : g ∈ I) :
     ob5dd f g⁻¹ = (ob5dd f g)⁻¹ := by
-  simp only [ob5dd, dif_pos hg, dif_pos (I.inv_mem hg)]
+  simp only [ob5dd, dite_eq_left hg, dite_eq_left (I.inv_mem hg)]
   rw [← map_inv]
   rfl
 
@@ -55,7 +55,7 @@ theorem ob5_exists_v (f : ↥I →* DihedralGroup 5) (hsurj : Function.Surjectiv
     (hVh' : ∀ w ∈ Vh, ∃ v ∈ V, w = h * v * h⁻¹) :
     ∃ v ∈ V, ob5dd f v ≠ 1 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hVP : V ≤ P := fun v hv => (hfP v (hIV ▸ Subgroup.mem_sup_left hv)).mp (hcon v hv)
   have hVhP : Vh ≤ P := by
     intro w hw
@@ -68,7 +68,7 @@ theorem ob5_exists_v (f : ↥I →* DihedralGroup 5) (hsurj : Function.Surjectiv
   have h1 : ob5dd f (g : G) = 1 := (hfP g g.2).mpr (hIP g.2)
   have h2 : ob5dd f (g : G) = DihedralGroup.r 1 := by
     unfold ob5dd
-    rw [dif_pos g.2]
+    rw [dite_eq_left g.2]
     exact hg
   rw [h2] at h1
   exact absurd h1 (by decide)
@@ -82,7 +82,7 @@ theorem ob5_exists_y [Finite G] (f : ↥I →* DihedralGroup 5) (hsurj : Functio
   obtain ⟨g, hg⟩ := hsurj (DihedralGroup.r 1)
   have h2 : ob5dd f (g : G) = DihedralGroup.r 1 := by
     unfold ob5dd
-    rw [dif_pos g.2]
+    rw [dite_eq_left g.2]
     exact hg
   have hn : orderOf (g : G) ≠ 0 := (orderOf_pos _).ne'
   obtain ⟨a, m, hm, hdecomp⟩ := Nat.exists_eq_two_pow_mul_odd hn
@@ -176,10 +176,10 @@ section Concrete
 variable {G : Type} [Group G] [Finite G] {T L I H : Subgroup G} {h : G} {k : ℕ}
   [IsMulCommutative ↥(fsuV T I)]
 
-@[expose] noncomputable def ob5dihHom (c : S828Ctx T L I H h k)
+@[expose] noncomputable def ob5dihHom (_c : S828Ctx T L I H h k)
     (e : E2.StarQuot (fsuM T L ⊓ ch82I (fsuV T I) h) (ch82I (fsuV T I) h) ≃*
       DihedralGroup 5)
-    (hkerI : kerIn (fsuM T L ⊓ ch82I (fsuV T I) h) (ch82I (fsuV T I) h) =
+    (_hkerI : kerIn (fsuM T L ⊓ ch82I (fsuV T I) h) (ch82I (fsuV T I) h) =
       pCoreOf 2 (ch82I (fsuV T I) h)) :
     ↥(ch82I (fsuV T I) h) →* DihedralGroup 5 :=
   e.toMonoidHom.comp (QuotientGroup.mk' ((kerIn (fsuM T L ⊓ ch82I (fsuV T I) h)

@@ -198,7 +198,7 @@ theorem ker_phi_eq : phiQ.ker = QJ := by
   have hk := Subgroup.card_ker_mul_card_range phiQ
   rw [card_CJ_t4, card_range_phi] at hk
   have hker : Nat.card phiQ.ker = 512 := Nat.eq_of_mul_eq_mul_right (by norm_num) (hk.trans (by norm_num))
-  haveI : Finite phiQ.ker := Nat.finite_of_card_ne_zero (by rw [hker]; norm_num)
+  have : Finite phiQ.ker := Nat.finite_of_card_ne_zero (by rw [hker]; norm_num)
   exact (Subgroup.eq_of_le_of_card_ge hle (by rw [hker, card_QJ])).symm
 
 theorem nonempty_quotient_QJ : Nonempty (CJ ⧸ QJ ≃* A5WrTwo) :=

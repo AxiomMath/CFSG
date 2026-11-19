@@ -18,7 +18,7 @@ theorem normalizer_zpowers_le_of_centralizer_rank' (hFC : FullCoreLocality G) {f
     (hC2 : 2 ≤ Open.pRank f (centralizer ({u} : Set G))) :
     normalizer ((zpowers u : Subgroup G) : Set G) ≤ M := by
   have hprime := hloc.beta.1
-  haveI : Fact f.Prime := ⟨hprime⟩
+  have : Fact f.Prime := ⟨hprime⟩
   set C : Subgroup G := centralizer ({u} : Set G) with hC
   obtain ⟨S, hSyl⟩ := CFSG.ABGLocalTools.exists_isSylowOf f C
   have hSM : S ≤ M := hSyl.le.trans hCM
@@ -58,7 +58,7 @@ theorem omega_le_of_stepOmegaU (hU : StepOmegaU) {G : Type} [Group G] [Finite G]
   obtain ⟨U, hUQ, hUe, hUc, hUr⟩ := hU G p P M x z hS hx hz H S hopt hO Q hQH hQp hBQ
     ⟨q, hqQ, hq1, hqB⟩
   have hprime := hS.prime
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   have hQM : Q ≤ M := hopt.sylow_le Q hQp hQH hBQ
   have hUM : U ≤ M := hUQ.trans hQM
   have hUp : IsPGroup p U := elementary_isPGroup p U hUe
@@ -126,8 +126,8 @@ theorem isPGroup_two_glbPrimeCore (hS : Situation G p P M) (hx : Point P M x)
       zpowers x ⊔ zpowers z ≤ normalizer (F : Set G) → normalizer (F : Set G) ≤ M) :
     IsPGroup 2 (GLBPrimeCore p H) := by
   have hprime := hS.prime
-  haveI : Fact p.Prime := ⟨hprime⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hprime⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hnot
   obtain ⟨f, hf, hfdvd, hf2⟩ : ∃ f : ℕ, f.Prime ∧ f ∣ Nat.card (GLBPrimeCore p H) ∧ f ≠ 2 := by
     by_contra hcon
@@ -136,7 +136,7 @@ theorem isPGroup_two_glbPrimeCore (hS : Situation G p P M) (hx : Point P M x)
     rw [IsPGroup.iff_card]
     exact ⟨_, Nat.eq_prime_pow_of_unique_prime_dvd Nat.card_pos.ne'
       (fun {d} hd hdn => hcon d hd hdn)⟩
-  haveI : Fact f.Prime := ⟨hf⟩
+  have : Fact f.Prime := ⟨hf⟩
   have hpl := plane_of_central hS hx hz
   have hB3 : IsPGroup p (zpowers x ⊔ zpowers z : Subgroup G) :=
     IsPGroup.of_card (n := 2) hpl.card_eq

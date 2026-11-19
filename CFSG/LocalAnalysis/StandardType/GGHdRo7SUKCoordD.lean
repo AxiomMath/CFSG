@@ -15,8 +15,8 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
 theorem hdRo7SUKCoordAux_sumZeroCard (d p : ℕ) (hp : p.Prime) (hd : 1 ≤ d) :
     Nat.card ↥(UCoord.sumZero d p) = p ^ (d - 1) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   let f : (Fin d → ZMod p) →ₗ[ZMod p] ZMod p := ∑ i, LinearMap.proj (R := ZMod p) i
   have hf : ∀ v : Fin d → ZMod p, f v = ∑ i, v i := by
     intro v
@@ -83,7 +83,7 @@ theorem hdRo7SUKCoordAux_inf_center_eq_bot
     ∀ z ∈ Bs, z ∈ K → z ∈ Subgroup.centralizer (K : Set G) → z = 1 := by
   have hp3 : p = 3 := (hdRo7SUKCoordAux_rowRank_spec hrow).1
   have hp : Nat.Prime p := by rw [hp3]; exact Nat.prime_three
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcop : Nat.Coprime p (Nat.card (Subgroup.center ↥K)) := by
     rw [hp3]; exact hdRo7SUKCoordAux_centerCoprime hH hRig hrow
   have hpBs : CFSG.Open.IsElemAbelian p Bs := hH.1.2.1.2.1
@@ -116,7 +116,7 @@ theorem hdRo7SUKCoordAux_infFrame
   let m := hdRo7SUKCoordAux_rowRank hrow
   have hp3 : p = 3 := (hdRo7SUKCoordAux_rowRank_spec hrow).1
   have hp : Nat.Prime p := by rw [hp3]; exact Nat.prime_three
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hBsE : CFSG.Open.IsElemAbelian p Bs := hH.1.2.1.2.1
   have hBsSC : ∀ z ∈ Subgroup.centralizer (Bs : Set G), z ^ p = 1 → z ∈ Bs :=
     hH.1.2.1.2.2.2

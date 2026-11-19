@@ -130,7 +130,7 @@ variable {Γ : Type*} [Group Γ] [Finite Γ]
 
 theorem isPGroup_sup_of_comm {S T : Subgroup Γ} (hS : IsPGroup 2 S) (hT : IsPGroup 2 T)
     (hc : ∀ a ∈ S, ∀ b ∈ T, a * b = b * a) : IsPGroup 2 ↥(S ⊔ T) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hST : IsPGroup 2 (↥S × ↥T) := by
     obtain ⟨m, hm⟩ := (IsPGroup.iff_card).1 hS
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hT
@@ -144,11 +144,12 @@ theorem isPGroup_sup_of_comm {S T : Subgroup Γ} (hS : IsPGroup 2 S) (hT : IsPGr
   rw [← hrange]
   exact h1
 
+omit [Finite Γ] in
 theorem exists_ne_one_fixed {V : Type*} [Group V] [Finite V] (ρ : Γ →* MulAut V)
     (S : Subgroup Γ) (hS : IsPGroup 2 S) {n : ℕ} (hV : Nat.card V = 2 ^ n) (hn : 1 ≤ n) :
     ∃ v ∈ fixSub ρ S, v ≠ 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : MulAction S V := MulAction.compHom V (ρ.comp S.subtype)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : MulAction S V := MulAction.compHom V (ρ.comp S.subtype)
   have h2 : 2 ∣ Nat.card V := by rw [hV]; exact dvd_pow_self 2 (by omega)
   have h1 : (1 : V) ∈ MulAction.fixedPoints S V := fun s => by
     change ρ (s : Γ) 1 = 1
@@ -162,9 +163,11 @@ section Product
 
 variable {V : Type*} [Group V] [Finite V]
 
+omit [Finite V] in
 theorem commute_subtype (hcomm : ∀ a b : V, a * b = b * a) (P Q : Subgroup V) :
     ∀ (m : ↥P) (n : ↥Q), Commute (P.subtype m) (Q.subtype n) := fun m n => hcomm m n
 
+omit [Finite V] in
 theorem prodMap_injective (hcomm : ∀ a b : V, a * b = b * a) (P Q : Subgroup V)
     (hPQ : P ⊓ Q = ⊥) :
     Function.Injective (MonoidHom.noncommCoprod P.subtype Q.subtype (commute_subtype hcomm P Q)) := by
@@ -211,7 +214,7 @@ theorem splitting {V : Type*} [Group V] [Finite V] {Γ : Type*} [Group Γ] [Fini
       (fixSub ρ (U₁ ⊔ U₂)).map (ρ (w₁ * w₂)).toMonoidHom = ⊥) :
     Nat.card ↥(fixSub ρ Γ₁) = 16 ∧ Nat.card ↥(fixSub ρ Γ₂) = 16 ∧
       fixSub ρ Γ₁ ⊔ fixSub ρ Γ₂ = ⊤ ∧ fixSub ρ Γ₁ ⊓ fixSub ρ Γ₂ = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set A₁ := fixSub ρ U₁ with hA₁
   set A₂ := fixSub ρ U₂ with hA₂
   set B₁ := fixSub ρ (U₁.map (MulAut.conj w₁).toMonoidHom) with hB₁

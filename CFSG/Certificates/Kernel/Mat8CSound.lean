@@ -294,7 +294,7 @@ theorem lt_length_elemsF (gens : List (List ℕ)) (k : ℕ) :
     rfl
   · rw [Bool.true_or, decide_eq_true_iff]
     rw [Bool.and_eq_true] at h
-    rw [elemsF, if_pos h.1, List.length_map]
+    rw [elemsF, ite_eq_left h.1, List.length_map]
     exact reachE_le d m _ _ h.2
 
 end CFSG.KC.Mat8C

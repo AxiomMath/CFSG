@@ -110,7 +110,7 @@ theorem exists_two_subgroup_normalized {Y : Type} [Group Y] [Finite Y] {B : Subg
   set φ : B →* MulAut N := N.normalizerMonoidHom.comp (Subgroup.inclusion hBN) with hφ
   have hBp : IsPGroup 3 B := fun b => ⟨1, Subtype.ext (by simpa using hB.2 b b.2)⟩
   obtain ⟨P, hP⟩ := exists_invariant_sylow_of_not_dvd hBp hsyl φ
-  refine ⟨(P : Subgroup N).map N.subtype, P.isPGroup'.map _, ?_, ?_⟩
+  refine ⟨(P : Subgroup N).map N.subtype, P.isPGroup.map _, ?_, ?_⟩
   · rw [Ne, Subgroup.map_eq_bot_iff_of_injective _ N.subtype_injective]
     exact P.ne_bot_of_dvd_card h2N
   · have hfwd : ∀ c ∈ B, ∀ t ∈ (P : Subgroup N).map N.subtype,

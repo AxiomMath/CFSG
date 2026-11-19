@@ -51,13 +51,13 @@ include hf hK hσ
 
 theorem longElt_pow_three {γ : Fin TwistTag.D4.tag.rank → ℤ}
     (hγ : γ = rootB ∨ γ = rootC ∨ γ = rootD) (c : K) (hc : σ c = c) :
-    longElt hf hK σ hσ hγ c hc ^ 3 = 1 := by
+    longElt σ hγ c hc ^ 3 = 1 := by
   apply Subtype.ext
   rw [Subgroup.coe_pow, coe_longElt, pinnedX_pow_three, Subgroup.coe_one]
 
 theorem longElt_ne_one {γ : Fin TwistTag.D4.tag.rank → ℤ}
     (hγ : γ = rootB ∨ γ = rootC ∨ γ = rootD) {c : K} (hc : σ c = c) (hc0 : c ≠ 0) :
-    longElt hf hK σ hσ hγ c hc ≠ 1 := by
+    longElt σ hγ c hc ≠ 1 := by
   intro h
   apply hc0
   have h1 : pinnedX TwistTag.D4.tag K γ c = 1 := by
@@ -69,8 +69,8 @@ theorem longElt_ne_one {γ : Fin TwistTag.D4.tag.rank → ℤ}
 theorem not_hasType424_autFix_fieldActor :
     ¬ KS11Lie2Proof.HasType424 ↥(Sec4.autFix (fieldActor (t := TwistTag.D4) σ σ)) := by
   intro h
-  haveI := CFSG.HardMathSupport.Dickson.Sec6.I923.TriD4Aux.finite_graphFixedRootGroup_D4 σ
-  haveI : Finite (fixSubfield σ) := Subtype.finite
+  have := CFSG.HardMathSupport.Dickson.Sec6.I923.TriD4Aux.finite_graphFixedRootGroup_D4 σ
+  have : Finite (fixSubfield σ) := Subtype.finite
   have hfix : Sec4.autFix (fieldActor (t := TwistTag.D4) σ σ) =
       fixSubgroup (fieldActor (t := TwistTag.D4) σ σ) := Subgroup.ext fun _ => Iff.rfl
   have h1 := h.of_mulEquiv (MulEquiv.subgroupCongr hfix)
@@ -82,10 +82,10 @@ theorem not_hasType424_autFix_fieldActor :
 
 theorem not_hasType424_autFix_classB {c : K} (hc : σ c = c) (hc0 : c ≠ 0) :
     ¬ KS11Lie2Proof.HasType424 ↥(Sec4.autFix (MulAut.conj
-      (longElt hf hK σ hσ (Or.inr (Or.inr rfl)) c hc) * fieldActor (t := TwistTag.D4) σ σ)) := by
+      (longElt σ (Or.inr (Or.inr rfl)) c hc) * fieldActor (t := TwistTag.D4) σ σ)) := by
   intro h
-  haveI := CFSG.HardMathSupport.Dickson.Sec6.I923.TriD4Aux.finite_graphFixedRootGroup_D4 σ
-  set z := longElt hf hK σ hσ (Or.inr (Or.inr rfl)) c hc with hzdef
+  have := CFSG.HardMathSupport.Dickson.Sec6.I923.TriD4Aux.finite_graphFixedRootGroup_D4 σ
+  set z := longElt σ (Or.inr (Or.inr rfl)) c hc with hzdef
   set δ₀ := fieldActor (t := TwistTag.D4) σ σ with hδ₀
   have hz : z ∈ fixSubgroup δ₀ := longElt_mem_fix hf hK σ hσ (Or.inr (Or.inr rfl)) hc
   have heq : Sec4.autFix (MulAut.conj z * δ₀) = fixSubgroup δ₀ ⊓ Subgroup.centralizer {z} := by
@@ -117,8 +117,8 @@ theorem noOuterType424D4Three_holds :
   obtain ⟨K, _, _, σ, hK, hσ, ⟨E⟩⟩ := Item1118Res3Proof.exists_d4_model_pow f e
   rw [hp3] at hK hσ
   have hq1 : 1 ≤ q.exponent := q.exponent_pos
-  haveI : CharP K 3 := CFSG.HardMathSupport.Dickson.DefCharOuter.Export.exc_charP_three_of_card K hK
-  haveI := CFSG.HardMathSupport.Dickson.Sec6.I923.TriD4Aux.finite_graphFixedRootGroup_D4 σ
+  have : CharP K 3 := CFSG.HardMathSupport.Dickson.DefCharOuter.Export.exc_charP_three_of_card K hK
+  have := CFSG.HardMathSupport.Dickson.Sec6.I923.TriD4Aux.finite_graphFixedRootGroup_D4 σ
   set β := MulAut.congr E α with hβ
   have hβ3 : β ^ 3 = 1 := by rw [hβ, ← map_pow, hα3, map_one]
   have hβout : β ∉ CFSG.ComponentClassification.OuterAutomorphisms.inner

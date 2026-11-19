@@ -122,12 +122,12 @@ public theorem CFSG.corollary_12_9_a
       ⁅A, Q⁆ = subgroupCentralizerIn A (section10Msigma M) ∧
         section10NormalIn ⁅A, Q⁆ M := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.2⟩
-  haveI : Fact q.val.Prime := ⟨q.2⟩
+  have : Fact p.val.Prime := ⟨p.2⟩
+  have : Fact q.val.Prime := ⟨q.2⟩
   -- Basic facts about A
   have hAE : A ≤ E := section12_rankTwo_le hA
   rcases section12_rankTwo_elementary hA with ⟨hAcard, hAelem⟩
-  haveI : IsElementaryAbelian p.val A := hAelem
+  have : IsElementaryAbelian p.val A := hAelem
   have hAcomm : IsMulCommutative A := inferInstance
   have hAp : IsPGroup p.val A := IsElementaryAbelian.isPGroup p.val A
   -- A is elementary abelian of order p²
@@ -238,7 +238,7 @@ public theorem CFSG.corollary_12_9_a
     omega
   -- Now we prove |[A,Q]| = p
   -- Since [A,Q] ≠ ⊥, we have 1 < Nat.card [A,Q]
-  haveI : Nontrivial (↥⁅A, Q⁆) := by
+  have : Nontrivial (↥⁅A, Q⁆) := by
     refine (Subgroup.nontrivial_iff_ne_bot (H := ⁅A, Q⁆)).2 hcomm
   have hAQ_card_gt_one : 1 < Nat.card (↥⁅A, Q⁆) := by
     simpa using (Finite.one_lt_card_iff_nontrivial (α := ↥⁅A, Q⁆)).2 ‹_›

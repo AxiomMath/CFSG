@@ -25,6 +25,7 @@ theorem y7n_wr7_of_cfg {c : Ctx7 G L} (h5 : c.toCtx5.Facts5) (h7 : c.Upto79)
     rw [conjSub_inf_of_mem_normalizer ht]
     exact hdir
 
+omit [Finite G] in
 theorem y7n_P0_normalizes_U0 {t : G} {Lam P1 P0 : Subgroup G} (hp0 : P0 = normIn P1 Lam)
     (hnormal : P1 ≤ normalizer (P0 : Set G)) (hsplit : P1 = P0 ⊔ zpowers t) :
     ∀ y ∈ P0, ∀ u ∈ conjSub t (centIn P1 Lam), y * u * y⁻¹ ∈ conjSub t (centIn P1 Lam) := by

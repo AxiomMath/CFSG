@@ -35,7 +35,7 @@ theorem c8k_ne_top (hst : StandingGe3 G) {K : Subgroup G}
     rw [hN]
     exact (CFSG.pCore_isPGroup (p := 2) (G := ↥(⊤ : Subgroup G))).map
       (⊤ : Subgroup G).subtype
-  haveI : N.Normal := hNnormal
+  have : N.Normal := hNnormal
   rcases hst.simple.eq_bot_or_eq_top_of_normal N with hNbot | hNtop
   · have htop_bot : (⊤ : Subgroup G) ≤ ⊥ := by
       have h1 : (⊤ : Subgroup G) ≤ Subgroup.centralizer (N : Set G) := by
@@ -50,7 +50,7 @@ theorem c8k_ne_top (hst : StandingGe3 G) {K : Subgroup G}
         rw [← hNbot]
         exact hcent_le
       exact h1.trans h2
-    haveI : Subsingleton G := ⟨fun a b => by
+    have : Subsingleton G := ⟨fun a b => by
       have ha : a = 1 := Subgroup.mem_bot.1 (htop_bot (Subgroup.mem_top a))
       have hb : b = 1 := Subgroup.mem_bot.1 (htop_bot (Subgroup.mem_top b))
       rw [ha, hb]⟩
@@ -63,9 +63,9 @@ theorem c8k_ne_top (hst : StandingGe3 G) {K : Subgroup G}
       intro g
       obtain ⟨k, hk⟩ := htopP ⟨g, Subgroup.mem_top g⟩
       exact ⟨k, by simpa using Subtype.ext_iff.mp hk⟩
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hnil : Group.IsNilpotent G := IsPGroup.isNilpotent h2G
-    haveI : Group.IsNilpotent G := hnil
+    have : Group.IsNilpotent G := hnil
     have hsol : Group.IsSolvable G := inferInstance
     obtain ⟨a, b, hab⟩ := hst.nonab
     exact hab (hst.simple.comm_iff_isSolvable.2 hsol a b)
@@ -79,20 +79,20 @@ theorem c8_d_exists {M L V₀ V : Subgroup G} {hV : IsElemAbelian 2 V} {v₀ : I
   let P : Subgroup (MulAut (Vtil V₀ V hV)) :=
     ptCent (Mbar M V₀ V hV) (mkTil V₀ V hV v₀)
   have hP : P = ptCent (Mbar M V₀ V hV) (mkTil V₀ V hV v₀) := rfl
-  haveI : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
-  haveI : Finite P := inferInstance
+  have : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
+  have : Finite P := inferInstance
   have he64' : IsE64L3 ↥P := by
     rw [hP]
     exact he64
   obtain ⟨N, hN, -, hL⟩ := he64'
-  haveI : N.Normal := hN
+  have : N.Normal := hN
   have hcard168 : Nat.card (P ⧸ N) = 168 :=
     (CFSG.Quasithin.H13.U3.GC137.SQ.simple_card_of_lieModel_psl_three_two hL).2
   have h3dvd : 3 ∣ Nat.card P := by
     have hd : Nat.card (P ⧸ N) ∣ Nat.card P := Subgroup.card_quotient_dvd_card N
     rw [hcard168] at hd
     exact (by norm_num : 3 ∣ 168).trans hd
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' (G := ↥P) 3 h3dvd
   have hybar : (y : MulAut (Vtil V₀ V hV)) ∈
       barSub V₀ V hV (L ⊓ centralizer ({v₀.val} : Set G)) := by
@@ -111,10 +111,11 @@ theorem c8_d_exists {M L V₀ V : Subgroup G} {hV : IsElemAbelian 2 V} {v₀ : I
     pow_mem hgmem (orderOf (g : G) / 3),
     orderOf_pow_orderOf_div (orderOf_pos (g : G)).ne' h3g⟩
 
+omit [Finite G] in
 theorem c8k_d_cent {M K : Subgroup G} (hse : IsStronglyPEmbedded 3 M) {d : ↥K}
     (hd : (d : G) ∈ M) (hd3 : orderOf d = 3) :
     centralizer ({d} : Set ↥K) ≤ (K ⊓ M).subgroupOf K := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro x hx
   rw [Subgroup.mem_centralizer_iff] at hx
   have hd1 : (d : G) ≠ 1 := by
@@ -139,6 +140,7 @@ theorem c8k_d_cent {M K : Subgroup G} (hse : IsStronglyPEmbedded 3 M) {d : ↥K}
   rw [Subgroup.mem_subgroupOf]
   exact ⟨x.2, hxM⟩
 
+omit [Finite G] in
 theorem c8k_char2 {K : Subgroup G} (hK : CFSG.QuasithinUnique.CharTwo K) :
     centralizer ((CFSG.pCore 2 ↥K : Subgroup ↥K) : Set ↥K) ≤ CFSG.pCore 2 ↥K := by
   intro x hx
@@ -200,7 +202,7 @@ theorem c8k_rank (D : Data G) (hx : DataExt D) (hσ3 : SigmaThree D) (hsig : D.s
       have h : Q = CFSG.Open.pCoreOf 2 K := rfl
       rw [h]
       exact CFSG.openPCoreOf_le 2 K
-    haveI : (Q.subgroupOf K).Normal := hQnorm
+    have : (Q.subgroupOf K).Normal := hQnorm
     have hKQ : K ≤ Subgroup.normalizer (Q : Set G) :=
       Subgroup.le_normalizer_of_normal_subgroupOf hQK
     have hle : CFSG.Open.pRank p K ≤ 2 :=
@@ -208,6 +210,7 @@ theorem c8k_rank (D : Data G) (hx : DataExt D) (hσ3 : SigmaThree D) (hsig : D.s
         (pRank_le_two_of_twoLocal D hx hσ3 hsig hm3 hp hp3 hH)
     rwa [← CFSG.SectionRank.pRank_eq_pRank_top_subgroup K]
 
+omit [Finite G] in
 theorem c8_cTilde_le (M V₀ V : Subgroup G) : F11.CTilde M V₀ V ≤ M :=
   (iInf₂_le 1 V.one_mem).trans fun _ hm => hm.1
 

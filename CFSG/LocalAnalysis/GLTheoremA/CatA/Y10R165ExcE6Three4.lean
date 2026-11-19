@@ -19,7 +19,7 @@ theorem exists_rank_three_qTorus {J₀ J₁ : Subgroup G} (e : ↥J₀ ≃* SL(3
     (hdisj : J₀ ⊓ J₁ = ⊥) {s : G} (hs₁ : s ∈ J₁) (hsq : orderOf s = q) :
     ∃ F : Subgroup G, F ≤ J₀ ⊔ J₁ ∧ IsElemAbelian q F ∧ Nat.card F = q ^ 3 ∧
       3 ≤ CFSG.Open.pRank q F := by
-  haveI : NeZero q := ⟨hq.ne_zero⟩
+  have : NeZero q := ⟨hq.ne_zero⟩
   classical
   obtain ⟨F₀, hF₀le, hF₀el, hF₀card⟩ :=
     exists_elemAbelian_le_of_mulEquiv

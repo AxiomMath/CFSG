@@ -23,9 +23,11 @@ variable (t : TwistTag) {F : Type} [Field F] [Finite F] (σ : F →+* F)
 theorem rootsGe_subset_pos (k : ℕ) : rootsGe t k ⊆ {α | IsRoot t.tag α ∧ 0 < height α} :=
   fun _ h => ⟨h.1, h.2.1⟩
 
+omit [Finite F] in
 theorem heightSeries_eq_rootSpan (k : ℕ) :
     heightSeries t.tag F (k : ℤ) = rootSpan t.tag F (rootsGe t k) := rfl
 
+omit [Finite F] in
 theorem rootSpan_rootsGe_inf_le (k : ℕ) :
     rootSpan t.tag F (rootsGe t k) ⊓ twistedFixedGroup t F σ ≤ graphFixedRootGroup t F σ := by
   intro x hx
@@ -82,7 +84,7 @@ theorem rank_add_ncard_le :
     · intro i j h
       have := congrFun h i
       by_contra hne
-      simp [Pi.single_apply, hne] at this
+      simp [hne] at this
   calc (rootsGe t 2).ncard + t.tag.rank = (rootsGe t 2 ∪ S).ncard := by
         rw [Set.ncard_union_eq hdisj (finite_rootsGe 2) hSf, hcard]
     _ ≤ (rootsGe t 1).ncard := Set.ncard_le_ncard hsub (finite_rootsGe 1)
@@ -140,7 +142,7 @@ theorem false_of_twisted_char_three (h : E27Config X K R T z) (hz : z ∈ K) {p 
     (σ' : F ≃+* F) (hσ : ∀ c, σ' c = c ^ (p ^ f)) (hr : 4 ≤ t.tag.rank)
     (ψ : ↥K ≃* ↥(graphFixedRootGroup t F σ'.toRingHom)) : False := by
   subst hp3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hq : ∀ a, Nat.card (orbitField t F σ'.toRingHom a) = (3 ^ f) ^ (t.orbit a).card :=
     card_orbitField Nat.prime_three hf hK (fun c => hσ c)
   have hh : 0 < ((1 : ℕ) : ℤ) := by norm_num

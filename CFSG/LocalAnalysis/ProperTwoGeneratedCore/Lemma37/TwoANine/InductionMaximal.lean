@@ -26,7 +26,7 @@ theorem exists_isCandidate {S : Sylow 2 X} {t : X} (ht : IsCentralInvolution (S 
   have hSN := (le_centralizer_of_isCentralInvolution ht).trans
     (centralizer_le_normalizer_oddCentralizer t)
   obtain ⟨P, hP, hSP⟩ :=
-    exists_isSylowOf_le_normalizer (p := p) (odd_card_oddCentralizer t) S.isPGroup' hSN
+    exists_isSylowOf_le_normalizer (p := p) (odd_card_oddCentralizer t) S.isPGroup hSN
   refine ⟨P, ⟨isPGroup_of_isSylowOf hP, fun hbot => ?_, hSP, fun m hm => ?_⟩⟩
   · have h := card_isSylowOf hP
     rw [hbot, Subgroup.card_bot] at h
@@ -82,7 +82,7 @@ theorem card_le_of_le_oddCoreOf {Q : Subgroup X} (hQ : IsPGroup p Q)
   have hKodd := odd_card_oddCoreOf H
   have hSK : (S : Subgroup X) ≤ normalizer (K : Set X) :=
     hP.le_normalizer.trans (le_normalizer_oddCoreOf H)
-  obtain ⟨P₀, hP₀, hSP₀⟩ := exists_isSylowOf_le_normalizer (p := p) hKodd S.isPGroup' hSK
+  obtain ⟨P₀, hP₀, hSP₀⟩ := exists_isSylowOf_le_normalizer (p := p) hKodd S.isPGroup hSK
   have hPK : P ≤ K :=
     le_oddCoreOf Subgroup.le_normalizer le_rfl (odd_card_of_isPGroup hp2 hP.isPGroup)
   have hPP₀ : P ≤ P₀ := le_isSylowOf_of_le_normalizer hP₀ hP.isPGroup hPK (oddCoreOf_le H)

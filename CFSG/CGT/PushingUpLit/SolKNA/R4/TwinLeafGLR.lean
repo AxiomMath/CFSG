@@ -44,7 +44,7 @@ theorem le_pCore_comap_of_isSubnormal {G : Type} [Group G] [Finite G] {K : Subgr
         rw [Subgroup.card_top]
         exact Nat.coprime_two_left.mpr hOodd⟩
     rwa [htop, ← MonoidHom.range_eq_map, Subgroup.range_subtype] at h1
-  haveI : (pPrimeCore 2 G).Normal := pPrimeCore_normal
+  have : (pPrimeCore 2 G).Normal := pPrimeCore_normal
   have hKbar : IsPGroup 2 ↥(K.map (QuotientGroup.mk' (pPrimeCore 2 G))) := by
     rintro ⟨_, g, hg, rfl⟩
     obtain ⟨m, hm⟩ := hOall g hg
@@ -68,20 +68,23 @@ theorem le_pCore_comap_of_isSubnormal {G : Type} [Group G] [Finite G] {K : Subgr
 
 variable {Y : Type} [Group Y] [Finite Y]
 
+omit [Finite Y] in
 theorem oTwoPrimeTwo_le (H : Subgroup Y) : oTwoPrimeTwo H ≤ H := Subgroup.map_subtype_le _
 
+omit [Finite Y] in
 theorem conj_mem_oTwoPrimeTwo {H : Subgroup Y} {h : Y} (hh : h ∈ H) {d : Y}
     (hd : d ∈ oTwoPrimeTwo H) : h * d * h⁻¹ ∈ oTwoPrimeTwo H := by
   obtain ⟨d₀, hd₀, rfl⟩ := hd
-  haveI : (pPrimeCore 2 ↥H).Normal := pPrimeCore_normal
-  haveI : (pCore 2 (↥H ⧸ pPrimeCore 2 ↥H)).Normal := pCore_normal
+  have : (pPrimeCore 2 ↥H).Normal := pPrimeCore_normal
+  have : (pCore 2 (↥H ⧸ pPrimeCore 2 ↥H)).Normal := pCore_normal
   refine ⟨⟨h, hh⟩ * d₀ * ⟨h, hh⟩⁻¹, ?_, rfl⟩
   exact (Subgroup.Normal.comap inferInstance _).conj_mem d₀ hd₀ ⟨h, hh⟩
 
+omit [Finite Y] in
 theorem conj_mem_oTwoPrime {H : Subgroup Y} {h : Y} (hh : h ∈ H) {d : Y}
     (hd : d ∈ oTwoPrime H) : h * d * h⁻¹ ∈ oTwoPrime H := by
   obtain ⟨d₀, hd₀, rfl⟩ := hd
-  haveI : (pPrimeCore 2 ↥H).Normal := pPrimeCore_normal
+  have : (pPrimeCore 2 ↥H).Normal := pPrimeCore_normal
   exact ⟨⟨h, hh⟩ * d₀ * ⟨h, hh⟩⁻¹, (inferInstance : (pPrimeCore 2 ↥H).Normal).conj_mem d₀ hd₀ _,
     rfl⟩
 
@@ -89,6 +92,7 @@ theorem odd_card_oTwoPrime (H : Subgroup Y) : Odd (Nat.card (oTwoPrime H)) := by
   rw [oTwoPrime, Subgroup.card_map_of_injective H.subtype_injective]
   exact Nat.coprime_two_left.1 pPrimeCore_coprime_card
 
+omit [Finite Y] in
 theorem oTwoPrime_le_oTwoPrimeTwo (H : Subgroup Y) : oTwoPrime H ≤ oTwoPrimeTwo H := by
   rintro _ ⟨o, ho, rfl⟩
   refine ⟨o, ?_, rfl⟩
@@ -97,6 +101,7 @@ theorem oTwoPrime_le_oTwoPrimeTwo (H : Subgroup Y) : oTwoPrime H ≤ oTwoPrimeTw
   rw [this]
   exact Subgroup.one_mem _
 
+omit [Finite Y] in
 theorem exists_pow_mem_oTwoPrime (H : Subgroup Y) {g : Y} (hg : g ∈ oTwoPrimeTwo H) :
     ∃ k : ℕ, g ^ 2 ^ k ∈ oTwoPrime H := by
   obtain ⟨g₀, hg₀, rfl⟩ := hg

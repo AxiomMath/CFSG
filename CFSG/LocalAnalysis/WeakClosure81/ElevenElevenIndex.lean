@@ -15,6 +15,7 @@ open CFSG.QuasithinUnique.Lin2 (IsHallTwoPrimeOf ActsRegularlyOn nonIdentity)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem card_sup_mul_card_inf_of_le_normalizer {A B : Subgroup G}
     (hA : A ≤ Subgroup.normalizer (B : Set G)) :
     Nat.card ↥(A ⊔ B) * Nat.card ↥(A ⊓ B) = Nat.card A * Nat.card B := by
@@ -190,15 +191,18 @@ theorem eleven11_transvPair {M V Q U L X : Subgroup G}
     rw [← eleven11_cent_blockU_eq hd h8] at hyD
     exact (Subgroup.mem_inf.1 hyD).2
 
+omit [Finite G] in
 private theorem mem_conj_smul_iff' {g x : G} {Y : Subgroup G} :
     x ∈ MulAut.conj g • Y ↔ g⁻¹ * x * g ∈ Y := by
   rw [Subgroup.mem_pointwise_smul_iff_inv_smul_mem, ← map_inv, MulAut.smul_def,
     MulAut.conj_apply, inv_inv]
 
+omit [Finite G] in
 private theorem card_conj_smul' (g : G) (Y : Subgroup G) :
     Nat.card ↥(MulAut.conj g • Y) = Nat.card Y :=
   (Nat.card_congr (Subgroup.equivSMul (MulAut.conj g) Y).toEquiv).symm
 
+omit [Finite G] in
 private theorem mul_comm_conj_iff (x a b : G) :
     (x⁻¹ * a * x) * (x⁻¹ * b * x) = (x⁻¹ * b * x) * (x⁻¹ * a * x) ↔ a * b = b * a := by
   constructor
@@ -211,6 +215,7 @@ private theorem mul_comm_conj_iff (x a b : G) :
       _ = x⁻¹ * (b * a) * x := by rw [h]
       _ = (x⁻¹ * b * x) * (x⁻¹ * a * x) := by group
 
+omit [Finite G] in
 theorem TransvPair.conj {Q W S : Subgroup G} (h : TransvPair Q W S) {x : G}
     (hx : x ∈ Subgroup.normalizer (Q : Set G)) :
     TransvPair Q (MulAut.conj x • W) (MulAut.conj x • S) := by

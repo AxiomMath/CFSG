@@ -132,12 +132,12 @@ private theorem tzNorm_cycFamily_norm_of_eq_three {G : Type*} [Group G] {F : G �
 
 private theorem tableZ_cube_norm_aux
     {L : Type} [Field L] [IsAlgClosed L] [CharP L 2] {p₀ : ℕ} (S : LangSetup Tag.E6 L p₀)
-    {n : ℕ} (hn : 1 ≤ n) (hq : S.D.q = 2 ^ n)
+    {n : ℕ} (_hn : 1 ≤ n) (hq : S.D.q = 2 ^ n)
     {ta : Fin Tag.E6.rank → Lˣ} (hT : rootDiagUnit Tag.E6 ta ∈ S.D.torus)
-    (hap : ∀ j, ta j ^ 3 = 1)
+    (_hap : ∀ j, ta j ^ 3 = 1)
     (i : KernelComponent (rootCharHom ta))
     (hs : componentOrbitLength S.ρ (componentRoots (rootCharHom ta) i) = 3)
-    (h6 : (componentRoots (rootCharHom ta) i).ncard = 6)
+    (_h6 : (componentRoots (rootCharHom ta) i).ncard = 6)
     {ψ : SL(3, L) →* ModGL Tag.E6 L} {σ' : Fin 3 → Fin 3 → Fin Tag.E6.rank → ℤ}
     (hψ : IsSLFrame ψ σ') (hΨ : componentRoots (rootCharHom ta) i = frameRoots σ')
     (π : Equiv.Perm (Fin 3))
@@ -158,7 +158,7 @@ private theorem tableZ_cube_norm_aux
   set s := componentOrbitLength S.ρ (componentRoots (rootCharHom ta) i) with hsdef
   have hs3 : s = 3 := hsdef.trans hs
   have : NeZero s := ⟨hs0.ne'⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨σQ, hσQ⟩ := exists_ringEquiv_frob (L := L) 2 (n * s)
   have hσc : ∀ c, σQ c = c ^ (2 ^ (n * s)) := fun c => by
     have h1 : σQ c = iterateFrobenius L 2 (n * s) c := by rw [← hσQ]; rfl
@@ -369,7 +369,7 @@ private theorem tableZ_cube_norm_aux
   have hset : unionRoots (rootCharHom ta) ({i} : Set (KernelComponent (rootCharHom ta))) =
       componentRoots (rootCharHom ta) i := by
     ext α
-    simp only [unionRoots, componentRoots, Set.mem_setOf_eq, Set.mem_singleton_iff]
+    simp only [unionRoots, componentRoots, Set.mem_ofPred_eq, Set.mem_singleton_iff]
   have hgS0 : g ∈ P.S 0 := by
     rw [hP0]
     rwa [show unionRootSpan L (rootCharHom ta) ({i} : Set (KernelComponent (rootCharHom ta))) =

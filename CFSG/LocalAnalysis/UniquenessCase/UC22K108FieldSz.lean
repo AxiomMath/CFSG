@@ -25,7 +25,7 @@ theorem k108Field_fixed_sup_sylow_eq_top_of_mulEquiv {X P : Type} [Group X] [Gro
   have hσ : IsOuterOfOrder p (MulAut.congr e α) :=
     ⟨(MulEquiv.orderOf_eq (MulAut.congr e) α).trans hα.1, fun g hg =>
       hα.2 (e.symm g) (eq_conj_of_congr_eq_conj e hg)⟩
-  haveI : Finite X := Finite.of_equiv _ e.symm.toEquiv
+  have : Finite X := Finite.of_equiv _ e.symm.toEquiv
   have hs : Function.Surjective e.toMonoidHom := e.surjective
   have h' := h _ hσ (T.mapSurjective hs)
   rw [← fixedSubgroup_eq_signalizer, fixedSubgroup_congr, Sylow.coe_mapSurjective,
@@ -44,11 +44,11 @@ theorem k108FieldSz_le_normalizer_of_sylow_le (ha : 1 ≤ a) (hK : Nat.card K = 
     (T : Sylow 2 ↥(suzukiGroup a K)) {H : Subgroup ↥(suzukiGroup a K)}
     (hTH : (T : Subgroup ↥(suzukiGroup a K)) ≤ H) (hH : H ≠ ⊤) :
     H ≤ Subgroup.normalizer ((T : Subgroup ↥(suzukiGroup a K)) : Set ↥(suzukiGroup a K)) := by
-  haveI : Finite ↥(suzukiGroup a K) := CFSG.LieType.Simplicity.finite_suzukiGroup a K
+  have : Finite ↥(suzukiGroup a K) := CFSG.LieType.Simplicity.finite_suzukiGroup a K
   have hB := CFSG.QuasithinUnique.A5.C25.fusionIsBenderGroup_of_isSz
     (n := 2 * a + 1) (X := ↥(suzukiGroup a K))
     ⟨rfl, a, ha, K, inferInstance, inferInstance, rfl, hK, ⟨MulEquiv.refl _⟩⟩
-  haveI : IsSimpleGroup ↥(suzukiGroup a K) :=
+  have : IsSimpleGroup ↥(suzukiGroup a K) :=
     CFSG.QuasithinUnique.RankOneRecog.isSimpleGroup_of_fusionIsBenderGroup hB
   exact CFSG.QuasithinUnique.Bridge.Over.le_normalizer_of_bender hB T hTH hH
 
@@ -90,7 +90,7 @@ theorem k108FieldSz_fixed_sup_sylow_eq_top_of_mulEquiv {X : Type}
     [Group X] (ha : 1 ≤ a) (hK : Nat.card K = 2 ^ (2 * a + 1)) (e : X ≃* ↥(suzukiGroup a K))
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {α : MulAut X} (hα : IsOuterOfOrder p α)
     (T : Sylow 2 X) : signalizerFixedSubgroup α ⊔ (T : Subgroup X) = ⊤ := by
-  haveI : Finite ↥(suzukiGroup a K) := CFSG.LieType.Simplicity.finite_suzukiGroup a K
+  have : Finite ↥(suzukiGroup a K) := CFSG.LieType.Simplicity.finite_suzukiGroup a K
   exact k108Field_fixed_sup_sylow_eq_top_of_mulEquiv e
     (fun _ hσ T' => k108FieldSz_fixed_sup_sylow_eq_top ha hK hp hp2 hσ T') hα T
 

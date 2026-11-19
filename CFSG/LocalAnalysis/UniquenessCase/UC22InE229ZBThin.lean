@@ -20,7 +20,7 @@ theorem uc22ine229_card_le_of_isSimple (hOut : RankThreeTheoremC.KFactOutCyclic)
     (hcat : IsCatalogGroup K) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hrank : CFSG.Open.pRank p (⊤ : Subgroup K) ≤ 1) {R : Subgroup (MulAut K)}
     (hR : IsElemAbelian p R) : Nat.card R ≤ p ^ 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨T⟩ : Nonempty (Sylow p K) := inferInstance
   have hout := hOut K hs hnab hcat p hp hp2 T
     (RankFourTheoremC.Nongeneration.isCyclic_sylow_of_pRank_le_one hp2 hrank T)
@@ -35,20 +35,21 @@ theorem uc22ine229_card_le_of_isSimple (hOut : RankThreeTheoremC.KFactOutCyclic)
   exact Nat.pow_le_pow_right hp.pos
     ((CFSG.SectionRank.le_pRank hp.one_lt le_top hR hk).trans (by omega))
 
+omit [Finite G] in
 private theorem nonabelian_bar2 {M L : Subgroup G} (hL : L ∈ calC M) :
     ∃ x y : Bar2 L, x * y ≠ y * x := by
   by_contra h
-  push_neg at h
+  push Not at h
   have htop : Subgroup.center (Bar2 L) = ⊤ := by
     rw [eq_top_iff]
     intro x _
     rw [Subgroup.mem_center_iff]
     intro y
     exact h y x
-  haveI : Subsingleton (Bar2 L ⧸ Subgroup.center (Bar2 L)) := by
+  have : Subsingleton (Bar2 L ⧸ Subgroup.center (Bar2 L)) := by
     rw [htop]
     exact QuotientGroup.subsingleton_quotient_top
-  haveI : Nontrivial (Bar2 L ⧸ Subgroup.center (Bar2 L)) := hL.2.2.2.toNontrivial
+  have : Nontrivial (Bar2 L ⧸ Subgroup.center (Bar2 L)) := hL.2.2.2.toNontrivial
   obtain ⟨a, b, hab⟩ := (inferInstance : Nontrivial (Bar2 L ⧸ Subgroup.center (Bar2 L)))
   exact hab (Subsingleton.elim a b)
 
@@ -65,7 +66,7 @@ theorem uc22ine229_exists_B₁_of_thin (hThin : PartTwo.ThinList13)
   have hrk : ∀ r : ℕ, r.Prime → r ≠ 2 → CFSG.Open.pRank r (⊤ : Subgroup (Bar2 Y)) ≤ 1 :=
     fun r hr hr2 => (uc22s206c_pRank_le Y hr hr2).trans (hthin r hr hr2)
   have hO2 : CFSG.pCore 2 (Bar2 Y) = ⊥ := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact CFSG.ABGLocalTools.pCore_quotient_pCore_eq_bot
   have hs : IsSimpleGroup (Bar2 Y) :=
     (hThin (Bar2 Y) (CFSG.KCore.KGroupNonab.kGroupAllSimple CFSG.Assembly.inCatalog_isoInvariant

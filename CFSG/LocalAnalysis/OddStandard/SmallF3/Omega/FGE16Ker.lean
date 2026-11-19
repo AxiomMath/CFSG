@@ -20,7 +20,7 @@ theorem fg_exists_kernel {Γ : Type*} [Group Γ] (B : Subgroup Γ) (hB : Nat.car
     { toFun := fun g => Units.mk0 (χ g) (hne g)
       map_one' := by
         apply Units.ext
-        simp [Units.val_mk0, hone]
+        simp [hone]
       map_mul' := by
         intro g h
         apply Units.ext

@@ -130,7 +130,7 @@ theorem exists_t' {A B K : Subgroup Ω} (hBA : B ≤ Subgroup.centralizer (A : S
   have hcyc : ∀ r : ℕ, r.Prime → r ≠ 2 → ∀ [Fact r.Prime] (Q : Sylow r (↥Y ⧸ B.subgroupOf Y)),
       IsCyclic (Q : Subgroup (↥Y ⧸ B.subgroupOf Y)) := fun r _ hr2 _ Q =>
     isCyclic_of_isPGroup_ker χ' hker'
-      (fun r' _ hr2' _ Q' => sl2_isCyclic_of_isPGroup hn hF hr2' Q'.isPGroup') hr2 Q.isPGroup'
+      (fun r' _ hr2' _ Q' => sl2_isCyclic_of_isPGroup hn hF hr2' Q'.isPGroup) hr2 Q.isPGroup
   set M := A ⊓ Y with hM
   set φ₀ : ↥M →* ↥Y ⧸ B.subgroupOf Y := q.comp (Subgroup.inclusion inf_le_right) with hφ₀
   have hφ₀s : Function.Surjective φ₀ := by

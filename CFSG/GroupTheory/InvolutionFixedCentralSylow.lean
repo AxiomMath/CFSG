@@ -52,7 +52,7 @@ theorem four_le_index_center_subgroupOf_sylow_two {B : Type*} [Group B] [Finite 
     4 ≤ ((center B).subgroupOf (R : Subgroup B)).index := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set I := (center B).subgroupOf (R : Subgroup B) with hIdef
-  obtain ⟨k, hk⟩ := R.isPGroup'.index I
+  obtain ⟨k, hk⟩ := R.isPGroup.index I
   have hnot : ¬ (R : Subgroup B) ≤ center B := by
     intro hRZ
     have hP : normalizer ((R : Subgroup B) : Set B) ≤ centralizer ((R : Subgroup B) : Set B) :=

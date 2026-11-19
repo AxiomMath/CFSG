@@ -31,6 +31,7 @@ theorem perm3_cube_or (x : Equiv.Perm (Fin 3)) :
 
 variable {Y : Type} [Group Y] [Finite Y]
 
+omit [Finite Y] in
 theorem involution_facts {T : Subgroup Y} (e : ↥T ≃* Equiv.Perm (Fin 3)) :
     ((e.symm (Equiv.swap 0 1) : ↥T) : Y) ^ 2 = 1 ∧ ((e.symm (Equiv.swap 0 1) : ↥T) : Y) ≠ 1 := by
   refine ⟨?_, ?_⟩
@@ -38,17 +39,19 @@ theorem involution_facts {T : Subgroup Y} (e : ↥T ≃* Equiv.Perm (Fin 3)) :
       rw [← map_pow, show (Equiv.swap (0 : Fin 3) 1) ^ 2 = 1 by decide, map_one]
     simpa using congrArg Subtype.val h
   · intro h
-    have h1 : e.symm (Equiv.swap 0 1) = 1 := Subtype.ext (by simpa using h)
+    have h1 : e.symm (Equiv.swap 0 1) = 1 := Subtype.ext (by simp at h)
     have := congrArg e h1
     simp only [MulEquiv.apply_symm_apply, map_one] at this
     exact absurd this (by decide)
 
+omit [Finite Y] in
 theorem mem_oUpperTwo_of_cube {T : Subgroup Y} {x : Y} (hx : x ∈ T) (h3 : x ^ 3 = 1) :
     x ∈ oUpperTwo T := by
   refine subset_closure ⟨hx, ?_⟩
   have hd : orderOf x ∣ 3 := orderOf_dvd_of_pow_eq_one h3
   rcases (Nat.dvd_prime Nat.prime_three).mp hd with h | h <;> rw [h] <;> decide
 
+omit [Finite Y] in
 theorem cube_of_mem_oUpperTwo {T : Subgroup Y} (e : ↥T ≃* Equiv.Perm (Fin 3)) {x : Y}
     (hx : x ∈ oUpperTwo T) : x ∈ T ∧ x ^ 3 = 1 := by
   induction hx using Subgroup.closure_induction with
@@ -77,6 +80,7 @@ theorem cube_of_mem_oUpperTwo {T : Subgroup Y} (e : ↥T ≃* Equiv.Perm (Fin 3)
     simpa using this
   | inv x _ hx => exact ⟨T.inv_mem hx.1, by rw [inv_pow, hx.2, inv_one]⟩
 
+omit [Finite Y] in
 theorem conj_eq_inv {T : Subgroup Y} (e : ↥T ≃* Equiv.Perm (Fin 3)) {t a : Y} (htT : t ∈ T)
     (ht2 : t ^ 2 = 1) (ht1 : t ≠ 1) (ha : a ∈ oUpperTwo T) : t * a * t⁻¹ = a⁻¹ := by
   obtain ⟨haT, ha3⟩ := cube_of_mem_oUpperTwo e ha
@@ -92,6 +96,7 @@ theorem conj_eq_inv {T : Subgroup Y} (e : ↥T ≃* Equiv.Perm (Fin 3)) {t a : Y
   have := congrArg Subtype.val (e.injective h)
   simpa using this
 
+omit [Finite Y] in
 theorem mem_or_mul_mem {T : Subgroup Y} (e : ↥T ≃* Equiv.Perm (Fin 3)) {x : Y} (hx : x ∈ T) :
     x ∈ oUpperTwo T ∨ x * ((e.symm (Equiv.swap 0 1) : ↥T) : Y)⁻¹ ∈ oUpperTwo T := by
   rcases perm3_cube_or (e ⟨x, hx⟩) with h | h
@@ -115,7 +120,7 @@ theorem eq_of_oUpperTwo_eq_symThree {Y : Type} [Group Y] [Finite Y] (hO : CFSG.p
     {T₁ T₂ : Subgroup Y} (hs₁ : T₁.IsSubnormal) (hs₂ : T₂.IsSubnormal)
     (e₁ : ↥T₁ ≃* Equiv.Perm (Fin 3)) (e₂ : ↥T₂ ≃* Equiv.Perm (Fin 3))
     (h : oUpperTwo T₁ = oUpperTwo T₂) : T₁ = T₂ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set t₁ : Y := ((e₁.symm (Equiv.swap 0 1) : ↥T₁) : Y) with ht₁def
   set t₂ : Y := ((e₂.symm (Equiv.swap 0 1) : ↥T₂) : Y) with ht₂def
   have ht₁T : t₁ ∈ T₁ := (e₁.symm _).2

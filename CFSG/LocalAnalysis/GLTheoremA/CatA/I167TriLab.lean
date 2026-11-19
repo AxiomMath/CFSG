@@ -129,7 +129,7 @@ theorem triD4_graph_label (hRig : GGLabelRigidInput) {n : ℕ} (hn : 2 ≤ n) {K
     {X : Type} [Group X] [Finite X] {C J : Subgroup X} (e : ↥C ≃* ↥(fixSubgroup α'))
     (hJ : GLAPComponent 3 C J) {labJ : GLALabel}
     (hlabJ : HasLabel ↥J (fun l : GLALabel => l = labJ)) : TriJLabel (canonLabel labJ) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨K₃, _, _, Fr, hK₃, hFr, φ, hφ3, hφout, ⟨eD⟩⟩ :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieSemisimple.D4Dual.exists_dual_fixEquiv (ℓ := 2)
       (f := n) (by omega) K hK α' hα3 g a hε hα'

@@ -98,7 +98,7 @@ private theorem exists_castSucc_of_notMem_range {t : Fin (r + 2) ⊕ Fin (r + 2)
       obtain ⟨i, hi⟩ := h
       exact ht ⟨Sum.inl i, by rw [Sum.map_inl, hi]⟩
     rw [Fin.range_natAdd] at ha
-    simp only [Set.mem_setOf_eq, not_le] at ha
+    simp only [Set.mem_ofPred_eq, not_le] at ha
     refine ⟨Sum.inl ⟨a.val, by omega⟩, ?_, ?_⟩
     · intro hc
       rcases mem_coords.1 hc with h | h
@@ -113,7 +113,7 @@ private theorem exists_castSucc_of_notMem_range {t : Fin (r + 2) ⊕ Fin (r + 2)
       obtain ⟨i, hi⟩ := h
       exact ht ⟨Sum.inr i, by rw [Sum.map_inr, hi]⟩
     rw [Fin.range_natAdd] at ha
-    simp only [Set.mem_setOf_eq, not_le] at ha
+    simp only [Set.mem_ofPred_eq, not_le] at ha
     refine ⟨Sum.inr ⟨a.val, by omega⟩, ?_, ?_⟩
     · intro hc
       rcases mem_coords.1 hc with h | h
@@ -158,7 +158,7 @@ private theorem spEmbedMat_inv_apply_eq_zero {A : StatedSp (r + 1) K}
   rcases v with a | a
   · have ha := inl_mem_range_natAdd hv
     rw [Fin.range_natAdd] at ha
-    simp only [Set.mem_setOf_eq] at ha
+    simp only [Set.mem_ofPred_eq] at ha
     rcases Nat.lt_or_ge a.val (r + 1) with hlt | hge
     · have har : a.val = r := by omega
       have haeq : a = (Fin.last r).castSucc :=
@@ -181,7 +181,7 @@ private theorem spEmbedMat_inv_apply_eq_zero {A : StatedSp (r + 1) K}
           (Fin.castSucc : Fin (r + 1) → Fin (r + 2)) t' from fun h => hlastL (h ▸ ⟨t', rfl⟩))
   · have ha := inr_mem_range_natAdd hv
     rw [Fin.range_natAdd] at ha
-    simp only [Set.mem_setOf_eq] at ha
+    simp only [Set.mem_ofPred_eq] at ha
     rcases Nat.lt_or_ge a.val (r + 1) with hlt | hge
     · have har : a.val = r := by omega
       have haeq : a = (Fin.last r).castSucc :=

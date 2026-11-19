@@ -12,7 +12,7 @@ theorem not_isRankTwoByCyclic_of_commutator_cubeRoots {S : Type*} [Group S] [Fin
     (h : 9 < Nat.card {x : ↥(commutator S) // x ^ 3 = 1}) : ¬ IsRankTwoByCyclic S := by
   rintro ⟨N, hN, -, hrank, hcyc⟩
   have hcomm' : ∀ a b : S ⧸ N, a * b = b * a := fun a b => by
-    letI := IsCyclic.commGroup (α := S ⧸ N)
+    let := IsCyclic.commGroup (α := S ⧸ N)
     exact mul_comm a b
   have hle : commutator S ≤ N := by
     rw [commutator_eq_closure]

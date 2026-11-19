@@ -34,6 +34,7 @@ variable {K S : Type} [Group K] [Finite K] [Group S] [Finite S] {D : UniversalRo
       (3 ≤ D.rank → ∀ u v, (TauCeti.diagramGraph D.cartan).Adj u v → EdgeCond D H u v)
 
 open scoped Pointwise in
+omit [Finite S] in
 private theorem mul_eq_parJ_iff_nodePerm (h : BorelQuotient D n H π M) (α : MulAut S)
     (hα : ((posUnipotent D).map π).map α.toMonoidHom = (posUnipotent D).map π)
     (j k : Fin D.rank) :
@@ -59,6 +60,7 @@ private theorem mul_eq_parJ_iff_nodePerm (h : BorelQuotient D n H π M) (α : Mu
   rw [c1, c2, c3, ← Set.image_mul]
   exact (Set.image_injective.2 α.injective).eq_iff
 
+omit [Finite S] in
 theorem nodePerm_adj_iff (h : BorelQuotient D n H π M) (α : MulAut S)
     (hα : ((posUnipotent D).map π).map α.toMonoidHom = (posUnipotent D).map π) (j k : Fin D.rank) :
     (TauCeti.diagramGraph D.cartan).Adj (nodePerm h α hα j) (nodePerm h α hα k) ↔
@@ -77,12 +79,14 @@ theorem nodePerm_adj_iff (h : BorelQuotient D n H π M) (α : MulAut S)
     · rintro ⟨-, hc⟩
       exact ⟨hσ, fun h0 => hc (e1.1 (e3.1 (e2.2 h0)))⟩
 
+omit [Finite K] [Finite S] in
 private theorem card_parJ_eq (h : BorelQuotient D n H π M) (J : Set (Fin D.rank)) :
     Nat.card ↥(parJ D H J) = Nat.card ↥((parJ D H J).map π) * Nat.card ↥π.ker := by
   have h1 := Subgroup.relIndex_mul_card (H := π.ker) (K := parJ D H J)
   rw [Subgroup.relIndex_ker, inf_eq_left.2 (ker_le_parJ h J)] at h1
   exact h1.symm
 
+omit [Finite S] in
 theorem card_parJ_nodePerm (h : BorelQuotient D n H π M) (α : MulAut S)
     (hα : ((posUnipotent D).map π).map α.toMonoidHom = (posUnipotent D).map π) (j : Fin D.rank) :
     Nat.card ↥(parJ D H {nodePerm h α hα j}) = Nat.card ↥(parJ D H {j}) := by
@@ -92,6 +96,7 @@ theorem card_parJ_nodePerm (h : BorelQuotient D n H π M) (α : MulAut S)
     exact Subgroup.card_map_of_injective α.injective
   rw [card_parJ_eq h, card_parJ_eq h, e]
 
+omit [Finite S] in
 private theorem degree_nodePerm (h : BorelQuotient D n H π M) (α : MulAut S)
     (hα : ((posUnipotent D).map π).map α.toMonoidHom = (posUnipotent D).map π) (j : Fin D.rank) :
     (TauCeti.diagramGraph D.cartan).degree (nodePerm h α hα j) =
@@ -106,7 +111,7 @@ theorem core_alternative (h : BorelQuotient D n H π M) (hnode : ∀ j, NodeLevi
     [IsSimpleGroup S] (hnc : ∃ a b : S, a * b ≠ b * a)
     (𝒜 : Subgroup (MulAut S)) (h𝒜2 : IsPGroup 2 ↥𝒜)
     (h𝒜 : ∀ α ∈ 𝒜, ((posUnipotent D).map π).map α.toMonoidHom = (posUnipotent D).map π)
-    (i : Fin D.rank) (hmove : ∃ a : ↥𝒜, nodeHom h 𝒜 h𝒜 a i ≠ i) :
+    (i : Fin D.rank) (_hmove : ∃ a : ↥𝒜, nodeHom h 𝒜 h𝒜 a i ≠ i) :
     Group.IsSolvable ↥((unipJ D (orbitSet h 𝒜 h𝒜 i)).map π) ∨
     (∃ C : Subgroup S, C ≤ pElementSubgroup 2 C ∧ C ≤ (unipJ D (orbitSet h 𝒜 h𝒜 i)).map π ∧
       (unipJ D (orbitSet h 𝒜 h𝒜 i)).map π ≤ Subgroup.normalizer (C : Set S) ∧
@@ -115,7 +120,7 @@ theorem core_alternative (h : BorelQuotient D n H π M) (hnode : ∀ j, NodeLevi
         ⁅C, C.map a.1.toMonoidHom⁆ ≤ pCoreOf 2 ((unipJ D (orbitSet h 𝒜 h𝒜 i)).map π)) ∨
     QuasisimpleModTwoNonab ↥(twoResidual ((unipJ D (orbitSet h 𝒜 h𝒜 i)).map π)) := by
   classical
-  letI : MulAction ↥𝒜 (Fin D.rank) := MulAction.compHom (Fin D.rank) (nodeHom h 𝒜 h𝒜)
+  let : MulAction ↥𝒜 (Fin D.rank) := MulAction.compHom (Fin D.rank) (nodeHom h 𝒜 h𝒜)
   have hT : (TauCeti.diagramGraph D.cartan).IsTree := Conn.diagram_isTree h hnc
   have hadj : ∀ (a : ↥𝒜) (u v : Fin D.rank),
       (TauCeti.diagramGraph D.cartan).Adj (a • u) (a • v) ↔
@@ -186,7 +191,7 @@ theorem core_alternative (h : BorelQuotient D n H π M) (hnode : ∀ j, NodeLevi
         rw [map_mul, map_mul]
         exact hcomm
       have hP : pElementSubgroup 2 (⊤ : Subgroup S) = ⊤ := by
-        haveI := normal_pElementSubgroup_top S
+        have := normal_pElementSubgroup_top S
         rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (pElementSubgroup 2 (⊤ : Subgroup S))
           with e | e
         · exfalso

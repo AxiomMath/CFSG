@@ -58,7 +58,7 @@ theorem FTS_normalizer_intersection_sylow
       set P : Subgroup G := map M.subtype (S : Subgroup ↥M) with hPdef
       have hTP : T ≤ P := by
         rw [← Subgroup.map_subgroupOf_eq_of_le hTM]; exact Subgroup.map_mono hS
-      have hPp : IsPGroup p ↥P := S.isPGroup'.map M.subtype
+      have hPp : IsPGroup p ↥P := S.isPGroup.map M.subtype
       have hW : P ⊓ normalizer ((T : Subgroup G) : Set G) = T :=
         eq_of_isPGroup_of_natCard_eq_pow_factorization hp hTcard
           (le_inf hTP Subgroup.le_normalizer)
@@ -80,7 +80,7 @@ theorem FTS_normalizer_intersection_sylow
   refine ⟨U, ?_⟩
   have hTU : T ≤ map N.subtype (U : Subgroup ↥N) := by
     rw [← Subgroup.map_subgroupOf_eq_of_le hTN]; exact Subgroup.map_mono hU
-  have hUp : IsPGroup p ↥(map N.subtype (U : Subgroup ↥N)) := U.isPGroup'.map N.subtype
+  have hUp : IsPGroup p ↥(map N.subtype (U : Subgroup ↥N)) := U.isPGroup.map N.subtype
   rcases eq_or_lt_of_le hTU with h | h
   · exact h.symm
   · exfalso

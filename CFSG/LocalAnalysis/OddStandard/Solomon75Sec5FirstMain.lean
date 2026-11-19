@@ -17,14 +17,17 @@ open scoped commutatorElement
 variable {X : Type} [Group X] [Finite X] {n : ℕ} {z : X}
   {S : Sylow 2 ↥(normalizer ((zpowers z : Subgroup X) : Set X))}
 
+omit [Finite X] in
 private theorem oddCoreOf_cen_le_W1 {A : Subgroup X} {b : X} (hb : b ∈ A) (hb2 : orderOf b = 2) :
     oddCoreOf (centralizer ({b} : Set X)) ≤ W1 A :=
   le_iSup_of_le b (le_iSup_of_le hb (le_iSup_of_le hb2 le_rfl))
 
+omit [Finite X] in
 private theorem map_conj_oddCoreOf_cen (g b : X) :
     (oddCoreOf (cen b)).map (MulAut.conj g).toMonoidHom = oddCoreOf (cen (g * b * g⁻¹)) := by
   rw [CoreAux.cen_conj, CoreAux.oddCoreOf_map_equiv (MulAut.conj g) (cen b)]
 
+omit [Finite X] in
 private theorem map_conj_W1_le {A : Subgroup X} {y : X} (hy : y ∈ normalizer (A : Set X)) :
     (W1 A).map (MulAut.conj y).toMonoidHom ≤ W1 A := by
   unfold W1
@@ -42,6 +45,7 @@ private theorem map_conj_W1_le {A : Subgroup X} {y : X} (hy : y ∈ normalizer (
     exact this
   exact le_iSup_of_le (y * b * y⁻¹) (le_iSup_of_le hyb (le_iSup_of_le hyb2 le_rfl))
 
+omit [Finite X] in
 private theorem normalizer_le_normalizer_W1 (A : Subgroup X) :
     normalizer (A : Set X) ≤ normalizer ((W1 A : Subgroup X) : Set X) := by
   intro y hy
@@ -53,7 +57,7 @@ private theorem normalizer_le_normalizer_W1 (A : Subgroup X) :
   · intro hw
     have := map_conj_W1_le (Subgroup.inv_mem _ hy) ⟨y * w * y⁻¹, hw, rfl⟩
     have e : (MulAut.conj y⁻¹).toMonoidHom (y * w * y⁻¹) = w := by
-      simp [MulAut.conj_apply, mul_assoc]
+      simp [mul_assoc]
     rwa [e] at this
 
 open CFSG.ComponentClassification.HarrisLit.T1.S74.L38 in
@@ -72,7 +76,7 @@ private theorem exists_fourSub_not_mem {E : Subgroup X} (hE : Open.IsElemAbelian
       have h2 := Subgroup.card_le_of_le hle
       rw [Nat.card_zpowers, hw2] at h2
       omega
-    obtain ⟨x, hxE, hxw⟩ := SetLike.not_le_iff_exists.1 hnle
+    obtain ⟨x, hxE, hxw⟩ := IsConcreteLE.not_le_iff_exists.1 hnle
     have hx1 : x ≠ 1 := fun e => hxw (by rw [e]; exact Subgroup.one_mem _)
     have hxx : x * x = 1 := mul_self_eq_one_of_isElemAbelian hE hxE
     have hwx : w ≠ x := fun e => hxw (by rw [← e]; exact Subgroup.mem_zpowers w)
@@ -82,7 +86,7 @@ private theorem exists_fourSub_not_mem {E : Subgroup X} (hE : Open.IsElemAbelian
       intro hle
       have h2 := Subgroup.card_le_of_le hle
       omega
-    obtain ⟨y, hyE, hyF⟩ := SetLike.not_le_iff_exists.1 hnleF
+    obtain ⟨y, hyE, hyF⟩ := IsConcreteLE.not_le_iff_exists.1 hnleF
     have hxF : x ∈ four w x hww hxx hcwx := right_mem_four
     have hwF : w ∈ four w x hww hxx hcwx := left_mem_four
     have hy1 : y ≠ 1 := fun e => hyF (by rw [e]; exact Subgroup.one_mem _)
@@ -156,10 +160,12 @@ theorem zHull_le_oddCore (h : Sec5Data X n z (zpowers z) S) {M : Subgroup X}
     exact Subgroup.one_mem _
   · exact hzM x (hb b hbI hx)
 
+omit [Finite X] in
 private theorem comm_le_zHull {b : X} (hb : CompInv X n z b) :
     ⁅oddCoreOf (centralizer ({b} : Set X)), zpowers z⁆ ≤ zHull X n z :=
   le_iSup₂_of_le b hb le_rfl
 
+omit [Finite X] in
 private theorem compInv_conj {c b : X} (hc : c ∈ centralizer ({z} : Set X))
     (hb : CompInv X n z b) : CompInv X n z (c * b * c⁻¹) := by
   obtain ⟨A, hA, hbA, hb2⟩ := hb
@@ -169,6 +175,7 @@ private theorem compInv_conj {c b : X} (hc : c ∈ centralizer ({z} : Set X))
   rw [hb2] at this
   exact this
 
+omit [Finite X] in
 private theorem map_conj_zpowers {c : X} (hc : c ∈ centralizer ({z} : Set X)) :
     (zpowers z).map (MulAut.conj c).toMonoidHom = zpowers z := by
   rw [MonoidHom.map_zpowers]
@@ -177,6 +184,7 @@ private theorem map_conj_zpowers {c : X} (hc : c ∈ centralizer ({z} : Set X)) 
     simp [MulAut.conj_apply, hcz]
   rw [this]
 
+omit [Finite X] in
 private theorem map_conj_zHull_le {c : X} (hc : c ∈ centralizer ({z} : Set X)) :
     (zHull X n z).map (MulAut.conj c).toMonoidHom ≤ zHull X n z := by
   unfold zHull
@@ -187,6 +195,7 @@ private theorem map_conj_zHull_le {c : X} (hc : c ∈ centralizer ({z} : Set X))
   rw [Subgroup.map_commutator, map_conj_oddCoreOf_cen c b, map_conj_zpowers hc]
   exact le_iSup₂_of_le (c * b * c⁻¹) (compInv_conj hc hb) le_rfl
 
+omit [Finite X] in
 private theorem le_normalizer_zHull :
     centralizer ({z} : Set X) ≤ normalizer ((zHull X n z : Subgroup X) : Set X) := by
   intro c hc
@@ -198,7 +207,7 @@ private theorem le_normalizer_zHull :
   · intro hw
     have := map_conj_zHull_le (Subgroup.inv_mem _ hc) ⟨c * w * c⁻¹, hw, rfl⟩
     have e : (MulAut.conj c⁻¹).toMonoidHom (c * w * c⁻¹) = w := by
-      simp [MulAut.conj_apply, mul_assoc]
+      simp [mul_assoc]
     rwa [e] at this
 
 private theorem oddCoreOf_cen_le_zHull_sup (h : Sec5Data X n z (zpowers z) S) {b : X}
@@ -225,6 +234,7 @@ theorem oddHull_zHull (h : Sec5Data X n z (zpowers z) S)
     (hodd : Odd (Nat.card (zHull X n z))) : OddHull X n z (zHull X n z) :=
   ⟨hodd, le_normalizer_zHull, fun _ hb => oddCoreOf_cen_le_zHull_sup h hb⟩
 
+omit [Finite X] in
 theorem oddHull_bot
     (hall : ∀ b : X, CompInv X n z b →
       oddCoreOf (centralizer ({b} : Set X)) ≤ centralizer ({z} : Set X)) :
@@ -234,7 +244,7 @@ theorem oddHull_bot
     exact odd_one
   · rw [Subgroup.mem_normalizer_iff]
     intro y
-    simp only [SetLike.mem_coe, Subgroup.mem_bot]
+    simp only [Subgroup.mem_bot]
     constructor
     · rintro rfl
       group
@@ -250,7 +260,7 @@ theorem exists_oddHull
   by_cases hall : ∀ b : X, CompInv X n z b →
       oddCoreOf (centralizer ({b} : Set X)) ≤ centralizer ({z} : Set X)
   · exact ⟨⊥, oddHull_bot hall⟩
-  push_neg at hall
+  push Not at hall
   obtain ⟨b₀, ⟨A₁, hA₁, hb₀A, hb₀2⟩, hb₀⟩ := hall
   obtain ⟨A₂, hA₂, hA₂ne⟩ := exists_comp_ne A₁ hne
   have hM : normalizer ((W1 A₁ : Subgroup X) : Set X) ≠ ⊤ :=

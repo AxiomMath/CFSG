@@ -29,7 +29,7 @@ theorem coprime_card_of_pow_eq_one {p m : ℕ} (hp : p.Prime) (hm : Nat.Coprime 
     [Finite S] (hS : ∀ x ∈ S, x ^ m = 1) : Nat.Coprime p (Nat.card S) := by
   rw [Nat.Prime.coprime_iff_not_dvd hp]
   intro hdvd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' p hdvd
   have h1 : (x : Y) ^ m = 1 := hS x x.2
   have h2 : (x : Y) ^ p ^ 1 = 1 := by
@@ -81,7 +81,7 @@ theorem exists_lift {p : ℕ} (hp : p.Prime) (π : Y →* K) (hπ : Function.Sur
     have := congrArg (fun x : π.ker => (x : Y)) hk
     simpa using this
   have hcop : (Nat.card N).Coprime N.index := by
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     obtain ⟨k, hk⟩ := hNp.exists_card_eq
     rw [hk, hidx]
     exact Nat.Coprime.pow_left k hX
@@ -166,18 +166,18 @@ theorem exists_centralizer_ne_bot {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {A W 
     (hAW : A ≤ Subgroup.normalizer (W : Set G)) (hW : W ≠ ⊥) :
     ∃ α ∈ A, α ≠ 1 ∧ ∃ w ∈ W, w ≠ 1 ∧ w * α = α * w := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CFSG.IsElementaryAbelian p A := by
-    haveI : IsMulCommutative A := hA.1
+  have : Fact p.Prime := ⟨hp⟩
+  have : CFSG.IsElementaryAbelian p A := by
+    have : IsMulCommutative A := hA.1
     refine { exponent_dvd_p := ?_ }
     apply Monoid.exponent_dvd_of_forall_pow_eq_one
     intro a
     exact Subtype.ext (by simpa using hA.2 a a.2)
-  haveI : Nontrivial A := by
+  have : Nontrivial A := by
     rw [← Finite.one_lt_card_iff_nontrivial, hAc]
     exact Nat.one_lt_pow two_ne_zero hp.one_lt
   have hWp : ¬ p ∣ Nat.card W := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨k, hk⟩ := hW2.exists_card_eq
     rw [hk]
     intro h
@@ -210,8 +210,8 @@ theorem exists_centralizer_ne_bot {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {A W 
 
 theorem eq_of_normalizer_le {W S : Subgroup G} (hW : IsPGroup 2 W) (hSW : S ≤ W)
     (h : ∀ w ∈ W, w ∈ Subgroup.normalizer (S : Set G) → w ∈ S) : S = W := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsNilpotent W := hW.isNilpotent
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsNilpotent W := hW.isNilpotent
   have hnc := Group.normalizerCondition_of_isNilpotent (G := W)
   rw [normalizerCondition_iff_only_full_group_self_normalizing] at hnc
   have h1 : S.subgroupOf W = ⊤ := by
@@ -618,7 +618,7 @@ theorem diag_of_claim (hp : p.Prime) (M h : GL (Fin p) F) {c : F}
       ∃ a : Fˣ, y ^ m = Matrix.GeneralLinearGroup.scalar (Fin p) a) :
     ∀ y ∈ R, ∃ t, ((M⁻¹ * y * M : GL (Fin p) F) : Matrix (Fin p) (Fin p) F) = diagonal t := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   set U : GL (Fin p) F → Matrix (Fin p) (Fin p) F :=
     fun x => ((M⁻¹ * x * M : GL (Fin p) F) : Matrix (Fin p) (Fin p) F) with hUdef
   have hUmul : ∀ x y, U (x * y) = U x * U y := by
@@ -738,7 +738,7 @@ theorem diag_of_claim (hp : p.Prime) (M h : GL (Fin p) F) {c : F}
       ext i j
       by_cases hij : i = j
       · subst hij; simp [hconst x hx i]
-      · simp [diagonal_apply_ne _ hij, hij]
+      · simp [hij]
     apply Units.ext
     have e2 : (x : Matrix (Fin p) (Fin p) F) = (M : Matrix (Fin p) (Fin p) F) * U x *
         ((M⁻¹ : GL (Fin p) F) : Matrix (Fin p) (Fin p) F) := by
@@ -792,7 +792,7 @@ theorem diag_of_claim (hp : p.Prime) (M h : GL (Fin p) F) {c : F}
       rfl
   have hGp : ¬ p ∣ Nat.card G' := by
     intro hdvd
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     obtain ⟨σ, hσ⟩ := exists_prime_orderOf_dvd_card' p hdvd
     obtain ⟨y, hy, hyσ⟩ := (σ : Equiv.Perm (Fin p)).2 |> fun h => (σ.2 : (σ : Equiv.Perm (Fin p)) ∈ G')
     obtain ⟨m, hm, a, ha⟩ := hRp y hy
@@ -934,7 +934,7 @@ theorem exists_heis_pair [Finite F] (hp : p.Prime) (hp2 : p ≠ 2) (hH1 : CentSc
       y ^ p = Matrix.GeneralLinearGroup.scalar (Fin p) (l ^ p) ∧
       y * x = Matrix.GeneralLinearGroup.scalar (Fin p) w * (x * y) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp3 : 3 ≤ p := three_le_of_prime_ne_two hp hp2
   obtain ⟨P, hPΓ, -, ⟨gA, hgA, gB, hgB, hAB⟩, -, hPA⟩ := hIm
   obtain ⟨eA, heA, hgeA⟩ := hPA gA hgA
@@ -1250,7 +1250,7 @@ theorem eq_aeval_of_comm_companion [NeZero p] (c : F) {X : Matrix (Fin p) (Fin p
     rw [mulVec_single_one, col_apply, Fin.cast_val_eq_self, Pi.single_apply] at h1
     rw [Matrix.smul_apply, h1, smul_eq_mul]
     split_ifs <;> simp
-  simp only [hcol, Finset.sum_ite_eq, Finset.mem_univ, if_true]
+  simp only [hcol, Finset.sum_ite_eq, Finset.mem_univ, ite_true]
 
 theorem comm_of_companion [NeZero p] {M g : GL (Fin p) F} {c : F}
     (hg : ((M⁻¹ * g * M : GL (Fin p) F) : Matrix (Fin p) (Fin p) F) = companionMat p c) :
@@ -1498,10 +1498,10 @@ theorem prod_last {p : ℕ} (hp : 0 < p) {G : Type*} [CommGroup G] (s : G) :
   rw [Fin.prod_univ_castSucc]
   have h1 : ∀ i : Fin m, ((Fin.castSucc i : Fin (m + 1)) : ℕ) ≠ m := by
     intro i
-    simp only [Fin.coe_castSucc]
+    simp only [Fin.val_castSucc]
     omega
-  simp only [add_tsub_cancel_right, h1, if_false, Fin.val_last, Finset.prod_const, Finset.card_univ,
-    Fintype.card_fin, if_true, inv_pow, mul_inv_cancel]
+  simp only [add_tsub_cancel_right, h1, ite_false, Fin.val_last, Finset.prod_const, Finset.card_univ,
+    Fintype.card_fin, ite_true, inv_pow, mul_inv_cancel]
 
 theorem comm_of_both_diag {M u v : GL (Fin p) F} {t t' : Fin p → F}
     (hu : ((M⁻¹ * u * M : GL (Fin p) F) : Matrix (Fin p) (Fin p) F) = diagonal t)
@@ -1581,9 +1581,9 @@ theorem mul_scalar_mul_mul_scalar {F : Type*} [Field F] {p : ℕ} (a b : Fˣ) (g
 theorem input27_2_outerL_holds : Inputs245.Input27_2_outerL := by
   intro p q n hp hp2 hq hq2 hqp Y _ _ hY hYO F _ _ hcard hdvd θ A hAel hAc hIm z hz2 hzD hzA hzJ
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Group.IsPerfect Y := ⟨hY.1⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Group.IsPerfect Y := ⟨hY.1⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hp3 := three_le_of_prime_ne_two hp hp2
   have hH1 : CentScalar (StatedSL p F) ⊤ := centScalar_SL hp3
   have hZ : IsPGroup p (Subgroup.center Y) := isPGroup_center hp hYO
@@ -1708,7 +1708,7 @@ theorem input27_2_outerL_holds : Inputs245.Input27_2_outerL := by
   have hBB : (B : Matrix (Fin p) (Fin p) F) * ((B⁻¹ : GL (Fin p) F) : Matrix (Fin p) (Fin p) F) = 1 := by
     rw [← Units.val_mul, mul_inv_cancel, Units.val_one]
   have hDu_ne : ∀ i : Fin p, (i : ℕ) ≠ p - 1 → Du i = s := fun i hi => by
-    simp only [hDu, if_neg hi]
+    simp only [hDu, ite_eq_right hi]
   have hQodd : Odd (q ^ (n / 2)) := (hq.odd_of_ne_two hq2).pow
   have hQ1 : 1 ≤ q ^ (n / 2) := Nat.one_le_pow _ _ hq.pos
   have hQsq : ∀ (_ : Even n), (q ^ (n / 2)) ^ 2 - 1 = 2 ^ a * r := by

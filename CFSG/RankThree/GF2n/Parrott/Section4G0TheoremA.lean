@@ -48,6 +48,7 @@ section G0
 
 variable {G : Type} [Group G] [Finite G] {z : G} {G₀ : Subgroup G}
 
+omit [Finite G] in
 theorem map_H_G₀ (hzG₀ : z ∈ G₀) :
     (H (⟨z, hzG₀⟩ : ↥G₀)).map G₀.subtype = H z ⊓ G₀ := by
   ext x
@@ -63,6 +64,7 @@ theorem map_H_G₀ (hzG₀ : z ∈ G₀) :
     rw [Subgroup.mem_centralizer_singleton_iff]
     exact Subtype.ext (Subgroup.mem_centralizer_singleton_iff.mp hxH)
 
+omit [Finite G] in
 theorem map_J_G₀ (hG₀ : G₀.Normal) (hzG₀ : z ∈ G₀) :
     (J (⟨z, hzG₀⟩ : ↥G₀)).map G₀.subtype = J z ⊓ G₀ := by
   have h1 : (J (⟨z, hzG₀⟩ : ↥G₀)).map G₀.subtype =
@@ -133,6 +135,7 @@ section G0Quotient
 
 variable {G : Type} [Group G] [Finite G] {z : G} {G₀ : Subgroup G}
 
+omit [Finite G] in
 theorem nonempty_quotientData_G₀ (h : Tim79a.ParrottHyp z) (hG₀n : G₀.Normal)
     (hG₀i : G₀.index = 2) {z₁ : G} (hz₁ : z₁ ∈ J z) (hz₁G₀ : z₁ ∉ G₀) (hzG₀ : z ∈ G₀) :
     Nonempty (QuotientData (⟨z, hzG₀⟩ : ↥G₀) (J_subgroupOf_normal (⟨z, hzG₀⟩ : ↥G₀))) := by

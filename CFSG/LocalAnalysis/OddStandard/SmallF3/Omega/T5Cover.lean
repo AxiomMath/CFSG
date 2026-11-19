@@ -33,8 +33,8 @@ private lemma eq_of_ne_one_of_card_two {H : Type*} [Group H] (h2 : Nat.card H = 
     {a b : H} (ha : a ≠ 1) (hb : b ≠ 1) : a = b := by
   classical
   by_contra hab
-  haveI : Finite H := Nat.finite_of_card_ne_zero (by rw [h2]; norm_num)
-  letI := Fintype.ofFinite H
+  have : Finite H := Nat.finite_of_card_ne_zero (by rw [h2]; norm_num)
+  let := Fintype.ofFinite H
   have hcard : Fintype.card H = 2 := by rw [← Nat.card_eq_fintype_card, h2]
   have h3 : ({1, a, b} : Finset H).card = 3 := by
     rw [Finset.card_insert_of_notMem (by
@@ -95,9 +95,9 @@ theorem t5_exists_cover (hS : Asc82SchurU43) (hL : IsOm6Z2 L) :
       IsCoverMap L φ := by
   obtain ⟨V, i1, i2, i3, Q, hQ, hdim, hs, ⟨f⟩⟩ :=
     isOmegaCover_oddCore_quotient hS hL.1 hL.2
-  letI := i1
-  letI := i2
-  letI := i3
+  let := i1
+  let := i2
+  let := i3
   refine ⟨V, i1, i2, i3, Q, hQ, f.toMonoidHom.comp (QuotientGroup.mk' (oddCore ↥L)), ?_⟩
   refine ⟨f.surjective.comp (QuotientGroup.mk'_surjective _), ?_, hdim, hs⟩
   ext x
@@ -152,7 +152,7 @@ theorem t5_exists_model (hL : IsOm6Z2 L) {φ : ↥L →* omegaGroup hQ} (h : IsC
           rw [← map_commutatorElement]
           exact (QuotientGroup.eq_one_iff _).mpr (hcomm m)
         exact (commutatorElement_eq_one_iff_mul_comm.mp h1).symm
-      haveI : Group.IsPerfect ↥L := hL.1.1
+      have : Group.IsPerfect ↥L := hL.1.1
       have hbot : Subgroup.center (↥L ⧸ Subgroup.center ↥L) = ⊥ :=
         Group.IsPerfect.center_quotient_center_eq_bot ↥L
       have hmk_one : (QuotientGroup.mk' (Subgroup.center ↥L)) l = 1 := by

@@ -23,7 +23,7 @@ theorem card_ne_of_mulEquiv_lie {X : Type} [Group X] (d : TauCeti.ValidLieTypeIn
     (hd : ∀ q : TauCeti.PrimePower, d.1 = .D 4 q → q.card ≠ 2) :
     Nat.card X ≠ 174182400 := by
   intro hX
-  haveI : Finite X := Nat.finite_of_card_ne_zero (by rw [hX]; norm_num)
+  have : Finite X := Nat.finite_of_card_ne_zero (by rw [hX]; norm_num)
   have hcard : Nat.card X = lieOrderFormula d.1 :=
     CFSG.HardMathSupport.Solomon.Coordinator.lieOrderBridge_holds d X ⟨e⟩
   have h : lieOrderFormula d.1 = 174182400 := hcard.symm.trans hX
@@ -56,7 +56,7 @@ theorem card_lieModel_POmegaMinus_ne_d4n {G : Type} [Group G] {n r e : ℕ}
     (h : LieModel G .POmegaMinus n r e) : Nat.card G ≠ 174182400 := by
   have hclass : StatedClassicalModel G .POmegaMinus n r e := h.statedClassicalModel (by decide)
   obtain ⟨-, K, _, _, hK, b, c, hirr, ⟨eG⟩⟩ := hclass
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hn4 : 4 ≤ n := h.admissible.2.2
   obtain ⟨q, hv, -, ⟨eq⟩⟩ :=
     exists_twistedD_of_statedProj_minus (K := K) n hn4 hirr

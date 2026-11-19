@@ -469,7 +469,7 @@ theorem ggQTwoCarrierPairing
     · have hne : e j ≠ b := by
         intro he
         exact hj (e.injective (he.trans hib.symm))
-      rw [if_neg hj]
+      rw [ite_eq_right hj]
       calc
         α none (h (some (e j))) = (CK none (some ⟨e j, hne⟩) : ZMod 3) := by
           simpa using hK none (some ⟨e j, hne⟩)
@@ -484,7 +484,7 @@ theorem ggQTwoCarrierPairing
     · have hne : e j ≠ b := by
         intro he
         exact hj (e.injective (he.trans hib.symm))
-      rw [if_neg hj]
+      rw [ite_eq_right hj]
       calc
         α (some (e j)) (h none) = (CK (some ⟨e j, hne⟩) none : ZMod 3) := by
           simpa using hK (some ⟨e j, hne⟩) none

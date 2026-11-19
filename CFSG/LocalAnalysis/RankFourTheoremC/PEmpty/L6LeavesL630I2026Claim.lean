@@ -81,7 +81,7 @@ theorem bit_eq_zero_iff {c : G} : bit c = 0 ↔ c = 1 := by
 theorem bit_mul {c c' : G} (hz : z * z = 1) (hz1 : z ≠ 1) (hc : c = 1 ∨ c = z)
     (hc' : c' = 1 ∨ c' = z) : bit (c * c') = bit c + bit c' := by
   classical
-  rcases hc with rfl | rfl <;> rcases hc' with rfl | rfl <;> simp [bit, hz, hz1] <;> decide
+  rcases hc with rfl | rfl <;> rcases hc' with rfl | rfl <;> simp [bit, hz, hz1]; decide
 
 noncomputable def theta (x : Fin 4 → G) (g : G) : Fin 4 → ZMod 2 :=
   fun i => bit (g * x i * g⁻¹ * (x i)⁻¹)
@@ -220,8 +220,8 @@ variable {G : Type} [Group G]
 theorem card_modEq_conj {P U : Subgroup G} [Finite U] (hP : Nat.card P = 5)
     (hU : ∀ p ∈ P, ∀ x ∈ U, p * x * p⁻¹ ∈ U) :
     Nat.card U ≡ Nat.card ↥(U ⊓ Subgroup.centralizer (P : Set G)) [MOD 5] := by
-  letI := conjAct P U hU
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let := conjAct P U hU
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hPg : IsPGroup 5 ↥P := IsPGroup.of_card (n := 1) (by simpa using hP)
   have h := hPg.card_modEq_card_fixedPoints ↥U
   have hfix : Nat.card (MulAction.fixedPoints ↥P ↥U) =

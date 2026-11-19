@@ -187,7 +187,7 @@ private lemma s168e3_alt6_isIrr_of_iso {B : Type*} [Group B] {Q : Type*} [CommGr
   exact IsSimpleModule.congr e
 
 private theorem s168e3_alt6_stable_commSub {U : Type*} [CommGroup U]
-    {L : Subgroup (MulAut U)} {J : Subgroup U} (hJ : StableUnder L J) :
+    {L : Subgroup (MulAut U)} {J : Subgroup U} (_hJ : StableUnder L J) :
     StableUnder L (commSub J L) := by
   intro l hl i hi
   unfold commSub at hi ⊢
@@ -377,7 +377,7 @@ private lemma s168e3_alt6_graph_inf_left (F : Cfg2Setting X H J₀ J₁) {ψ : M
     have hx1 : x = 1 := (MulEquiv.map_eq_one_iff ψ).1 hψx_bot
     rw [Subgroup.mem_bot]
     rw [← hxz, s168e3_alt6_graphHom_apply]
-    simp [hx1, hψx_bot]
+    simp [hx1]
   · intro hz
     rw [Subgroup.mem_bot] at hz
     subst hz
@@ -415,8 +415,8 @@ theorem s168e3_alt6_irr_card_three [Finite W] {X H : Subgroup (MulAut W)} {J₀ 
     (F : Cfg2Setting X H J₀ J₁) (hE₀ : Z391.EndUnitsTrivial H J₀) {ψ : MulAut W}
     (hψ : ψ ∈ Subgroup.centralizer (H : Set (MulAut W))) (hψJ : J₀.map ψ.toMonoidHom = J₁) :
     Nat.card ↥(irrSet H) = 3 := by
-  haveI : Finite (Subgroup W) := Finite.of_injective _ SetLike.coe_injective
-  haveI : Finite ↥(irrSet H) := Finite.of_injective _ Subtype.coe_injective
+  have : Finite (Subgroup W) := Finite.of_injective _ SetLike.coe_injective
+  have : Finite ↥(irrSet H) := Finite.of_injective _ Subtype.coe_injective
   have hJ₀ne : J₀ ≠ ⊥ := (s16e_two_isIrrOn_of_mem F F.irr₀).1.ne'
   have hJ₁ne : J₁ ≠ ⊥ := (s16e_two_isIrrOn_of_mem F F.irr₁).1.ne'
   have hJ01 : J₀ ≠ J₁ := by

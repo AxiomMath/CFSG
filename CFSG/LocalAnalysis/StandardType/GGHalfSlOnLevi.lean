@@ -61,7 +61,7 @@ theorem range_slLower2Hom (m : ℕ) :
   rw [MonoidHom.range_eq_map, ← slOn_univ (m + 1), slLower2Hom_map_slOn_aux]
   congr 1
   ext i
-  simp only [Set.mem_image, Set.mem_setOf_eq, Set.mem_univ, true_and]
+  simp only [Set.mem_image, Set.mem_ofPred_eq, Set.mem_univ, true_and]
   constructor
   · rintro ⟨j, rfl⟩
     simp only [Fin.val_succ]
@@ -69,7 +69,7 @@ theorem range_slLower2Hom (m : ℕ) :
   · intro hi
     refine ⟨⟨i.val - 2, by omega⟩, ?_⟩
     ext
-    simp only [Fin.val_succ, Fin.val_mk]
+    simp only [Fin.val_succ]
     omega
 
 theorem range_slUpper2Hom (m : ℕ) :
@@ -77,7 +77,7 @@ theorem range_slUpper2Hom (m : ℕ) :
   rw [MonoidHom.range_eq_map, ← slOn_univ (m + 1), slUpper2Hom_map_slOn_aux]
   congr 1
   ext i
-  simp only [Set.mem_image, Set.mem_setOf_eq, Set.mem_univ, true_and]
+  simp only [Set.mem_image, Set.mem_ofPred_eq, Set.mem_univ, true_and]
   constructor
   · rintro ⟨j, rfl⟩
     simp only [Fin.val_castSucc]
@@ -85,7 +85,7 @@ theorem range_slUpper2Hom (m : ℕ) :
   · intro hi
     refine ⟨⟨i.val, by omega⟩, ?_⟩
     ext
-    simp only [Fin.val_castSucc, Fin.val_mk]
+    simp only [Fin.val_castSucc]
 
 theorem slLower2Hom_map_slOn (m : ℕ) (S : Set (Fin (m + 1))) :
     (slOn (m + 1) S).map (slLower2Hom m) =

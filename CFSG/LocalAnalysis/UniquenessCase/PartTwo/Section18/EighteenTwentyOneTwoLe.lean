@@ -158,8 +158,8 @@ theorem le_of_mem_aSet_of_two_le_of_natSUn {W : Type} [CommGroup W] [Finite W]
     (hYN : Y ≤ Subgroup.normalizer (H : Set (MulAut W))) (hA : A ∈ E3.aSet k Y) :
     A ≤ H := by
   obtain ⟨F, hFld, hFfin, hFcard, ε, ψ, hψ⟩ := exists_natCoords_of_natSUn hNat
-  letI := hFld
-  letI := hFfin
+  let := hFld
+  let := hFfin
   obtain ⟨hAY, -, hAab, hAfix⟩ := hA
   have hn1 : 1 ≤ n := one_le_of_card_eq_sq_T3J2 hFcard
   let e : W ≃ (Fin 4 → F) := toAddEquiv_T3J2 ψ

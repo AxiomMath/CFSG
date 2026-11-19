@@ -34,6 +34,7 @@ theorem riesz (β : E →ₗ[K] E →ₗ[K] K) (hβ : ∀ w : E, (∀ u : E, β 
   rw [LinearMap.flip_apply, LinearMap.flip_apply] at h2
   exact h2.symm
 
+omit [FiniteDimensional K E] in
 theorem commutes_of_invariant (Γ : Subgroup (E ≃ₗ[K] E)) (β B : E →ₗ[K] E →ₗ[K] K)
     (hβ : ∀ w : E, (∀ u : E, β u w = 0) → w = 0)
     (hβΓ : ∀ g ∈ Γ, ∀ u v, β (g u) (g v) = β u v)
@@ -47,6 +48,7 @@ theorem commutes_of_invariant (Γ : Subgroup (E ≃ₗ[K] E)) (β B : E →ₗ[K
   obtain ⟨u', rfl⟩ : ∃ u', u = g u' := ⟨g.symm u, by simp⟩
   rw [map_sub, ← hT, hBΓ g hg, hT, hβΓ g hg, sub_self]
 
+omit [FiniteDimensional K E] in
 theorem scalar_of_fixed_line (Γ U₀ : Subgroup (E ≃ₗ[K] E)) (p : E) (hp : p ≠ 0)
     (hU : U₀ ≤ Γ) (hfix : ∀ u ∈ U₀, u p = p)
     (hFix : ∀ v : E, (∀ u ∈ U₀, u v = v) → v ∈ Submodule.span K {p})
@@ -95,6 +97,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   {K : Type} [Field K] [Finite K] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ}
   {E : Type} [AddCommGroup E] [Module K E] [FiniteDimensional K E]
 
+omit [Finite K] in
 theorem form_of_uniform (hc : Ctx M Q Z B)
     (hD : GlobalModelData M Q Z γ M₀)
     (β : E →ₗ[K] E →ₗ[K] K) (hβ : ∀ w : E, (∀ u : E, β u w = 0) → w = 0)

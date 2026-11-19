@@ -35,7 +35,7 @@ theorem isSporadic_J1_or_isBenderGroup_of_thm182 [IsSimpleGroup G]
   have hS3 : 3 ≤ Assembly.pRank 2 (S : Subgroup G) :=
     (Assembly.Dichotomy.pRank_sylow_eq_twoRank S).symm ▸ hrank'
   obtain ⟨U, hUS, hUn, hU, hU4⟩ :=
-    Assembly.Dichotomy.exists_normal_four_of_three_le_pRank S.isPGroup' hS3
+    Assembly.Dichotomy.exists_normal_four_of_three_le_pRank S.isPGroup hS3
   have hcompl : ∀ D : Subgroup G, Assembly.IsElemAbelian 2 D → Nat.card D = 8 →
       Assembly.Dichotomy.OddCoreSpanCompleted D := by
     intro D hD hD8

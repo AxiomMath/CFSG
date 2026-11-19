@@ -22,7 +22,7 @@ private lemma gbr_adjoin_comm {ι F : Type} [Fintype ι] [DecidableEq ι] [Field
     rw [← Units.val_mul, ← Units.val_mul]
     exact congrArg Units.val (hS s hs s' hs').eq
   intro a ha b hb
-  haveI : IsMulCommutative (Algebra.adjoin F (Units.val '' S)) :=
+  have : IsMulCommutative (Algebra.adjoin F (Units.val '' S)) :=
     Algebra.isMulCommutative_adjoin F hcommS
   have h := mul_comm' (⟨a, ha⟩ : Algebra.adjoin F (Units.val '' S))
     (⟨b, hb⟩ : Algebra.adjoin F (Units.val '' S))
@@ -91,9 +91,9 @@ private lemma gbr_exists_mul_sub_one {ι F : Type} [Fintype ι] [DecidableEq ι]
     ∃ b ∈ Algebra.adjoin F (Units.val '' S), (b * a - 1) * e = 0 := by
   classical
   obtain ⟨K, hKfield, hKalg, hKfin, π, _hπsurj, hπker, _⟩ := exists_blockField hS hodd he
-  letI : Field K := hKfield
-  letI : Algebra F K := hKalg
-  letI : Finite K := hKfin
+  let : Field K := hKfield
+  let : Algebra F K := hKalg
+  let : Finite K := hKfin
   have hπa : π ⟨a, ha⟩ ≠ 0 := fun h0 => hae ((hπker ⟨a, ha⟩).mp h0)
   obtain ⟨bA, hbA⟩ := _hπsurj ((π ⟨a, ha⟩)⁻¹)
   have hmem : (bA : Matrix ι ι F) * a - 1 ∈ Algebra.adjoin F (Units.val '' S) :=
@@ -110,7 +110,7 @@ private lemma gbr_exists_mul_sub_one {ι F : Type} [Fintype ι] [DecidableEq ι]
 private lemma gbr_not_isQuasisimple_bot {M : Type} [Group M] :
     ¬ IsQuasisimple (⊥ : Subgroup M) := by
   rintro ⟨-, hsimple⟩
-  haveI : Subsingleton (↥(⊥ : Subgroup M)) :=
+  have : Subsingleton (↥(⊥ : Subgroup M)) :=
     ⟨fun a b => Subtype.ext (by
       rw [Subgroup.mem_bot.mp a.2, Subgroup.mem_bot.mp b.2])⟩
   have hcenter : Subgroup.center (↥(⊥ : Subgroup M)) = ⊤ := by
@@ -118,7 +118,7 @@ private lemma gbr_not_isQuasisimple_bot {M : Type} [Group M] :
     intro x _
     rw [Subgroup.mem_center_iff]
     exact fun g => Subsingleton.elim (g * x) (x * g)
-  haveI : Subsingleton (↥(⊥ : Subgroup M) ⧸ Subgroup.center (↥(⊥ : Subgroup M))) :=
+  have : Subsingleton (↥(⊥ : Subgroup M) ⧸ Subgroup.center (↥(⊥ : Subgroup M))) :=
     QuotientGroup.subsingleton_iff.mpr hcenter
   obtain ⟨x, y, hxy⟩ := hsimple.toNontrivial.exists_pair_ne
   exact hxy (Subsingleton.elim x y)

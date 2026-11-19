@@ -19,7 +19,7 @@ theorem exists_pow_conj_mul_inv_mem_of_fieldBorel {G Y : Type} [Group G] [Group 
     ∀ s ∈ S, ∃ j : ℕ, ∀ x ∈ Ls ⊓ Subgroup.normalizer ((S ⊓ Ls : Subgroup G) : Set G),
       s * x * s⁻¹ * (x ^ j)⁻¹ ∈ S ⊓ Ls := by
   classical
-  haveI : Finite ↥Ls := Finite.of_equiv _ e.symm.toEquiv
+  have : Finite ↥Ls := Finite.of_equiv _ e.symm.toEquiv
   have hL : CFSG.LocalAnalysis.UniquenessCase.UC22.FieldBorel ↥Ls n E := hY.of_mulEquiv e.symm
   obtain ⟨H, F, D⟩ := hL.exists_of_sylow hU
   intro s hs
@@ -80,7 +80,7 @@ theorem exists_pow_conj_mul_inv_mem_of_gn_component_G2
       ↥(CFSG.Blueprint.Chevalley.adjointGroup CFSG.Blueprint.Chevalley.Tag.G2 K)
       Q.exponent (2 ^ Q.exponent - 1) :=
     ⟨_, _, _, CFSG.LocalAnalysis.UniquenessCase.UC22.uc22s218_g2_fieldBorelData_model hf hK⟩
-  haveI : Finite ↥(CFSG.Blueprint.Chevalley.adjointGroup
+  have : Finite ↥(CFSG.Blueprint.Chevalley.adjointGroup
       CFSG.Blueprint.Chevalley.Tag.G2 K) :=
     Finite.of_equiv _ (c.trans (c'.trans eC)).toEquiv
   have hS := CFSG.AGLEmbeddingD2.Tits.OrdinaryProofs.GNQuotient.isSylowTwoOf_gnImg_inf

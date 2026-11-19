@@ -79,7 +79,7 @@ theorem card_stab_two [Finite G] (H : Subgroup G) {q q' : ℕ} (hne : q ≠ q')
   have hK : K.index = 2 := by
     rw [Subgroup.index_eq_two_iff]
     refine ⟨⟨t, htH⟩, fun b => ?_⟩
-    simp only [K, Subgroup.mem_subgroupOf, Subgroup.coe_mul, Subgroup.coe_mk, Subgroup.mem_inf,
+    simp only [K, Subgroup.mem_subgroupOf, Subgroup.coe_mul, Subgroup.mem_inf,
       mem_stabAt, b.2, H.mul_mem b.2 htH, true_and]
     obtain ⟨h1, h2⟩ := horb b b.2
     have i1 := idx_inv_idx (n := n) (b : G) q
@@ -90,9 +90,9 @@ theorem card_stab_two [Finite G] (H : Subgroup G) {q q' : ℕ} (hne : q ≠ q')
       rw [h2] at i2
       exact absurd (i1.symm.trans i2) hne
     · rw [h2, h1]
-      simp [Xor', hne.symm]
+      simp [hne.symm]
     · rw [h2, h1]
-      simp [Xor', hne.symm]
+      simp [hne.symm]
     · rw [h1] at i1
       rw [h2] at i2
       exact absurd (i1.symm.trans i2) hne
@@ -149,7 +149,7 @@ theorem involutionFixesElem_of_conj (T : Subgroup CFSG.Sporadic.Fi23.J) (hT : Na
   have hle : Tsub ≤ lvl 2 := by
     rintro _ ⟨x, hx, rfl⟩
     have e : f x = g⁻¹ * x * g := by
-      simp [f, MulAut.conj_apply]
+      simp [f]
     rw [e]
     exact hg x hx
   have hcs : Nat.card Tsub = 131072 := by

@@ -16,13 +16,13 @@ open CFSG.LieType.Universal.Spin (quadMinus coe_quadMinus
 private theorem s16g_card_le_pow_of_pRank {G : Type*} [Group G] [Finite G] {p : ℕ}
     (hp : p.Prime) {H F : Subgroup G} (hFH : F ≤ H) (hF : IsElemAbelian p F) {r : ℕ}
     (hr : Open.pRank p H ≤ r) : Nat.card F ≤ p ^ r := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨k, hk⟩ := hF.isPGroup.exists_card_eq
   rw [hk]
   exact Nat.pow_le_pow_right hp.pos ((CFSG.SectionRank.le_pRank hp.one_lt hFH hF hk).trans hr)
 
 private theorem s16g_orderOf_eight_zmod_three : orderOf (((8 : ℕ) : ZMod 3)) = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact orderOf_eq_prime (by decide) (by decide)
 
 private theorem s16g_orderOf_eight_zmod_seven : orderOf (((8 : ℕ) : ZMod 7)) = 1 :=
@@ -31,14 +31,14 @@ private theorem s16g_orderOf_eight_zmod_seven : orderOf (((8 : ℕ) : ZMod 7)) =
 theorem s16g_card_le_gl_three {ι : Type} [Fintype ι] [DecidableEq ι] {K : Type} [Field K]
     [Finite K] (hK : Nat.card K = 8) {F : Subgroup (GL ι K)} (hF : IsElemAbelian 3 F) :
     Nat.card F ≤ 3 ^ (Fintype.card ι / 2) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine s16g_card_le_pow_of_pRank Nat.prime_three (le_top : F ≤ ⊤) hF ?_
   rw [pRank_top_gl_eq (by decide) (by rw [hK]; decide), hK, s16g_orderOf_eight_zmod_three]
 
 theorem s16g_card_le_gl_seven {ι : Type} [Fintype ι] [DecidableEq ι] {K : Type} [Field K]
     [Finite K] (hK : Nat.card K = 8) {F : Subgroup (GL ι K)} (hF : IsElemAbelian 7 F) :
     Nat.card F ≤ 7 ^ Fintype.card ι := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   refine s16g_card_le_pow_of_pRank (by norm_num) (le_top : F ≤ ⊤) hF ?_
   rw [pRank_top_gl_eq (by decide) (by rw [hK]; decide), hK, s16g_orderOf_eight_zmod_seven,
     Nat.div_one]
@@ -47,7 +47,7 @@ theorem s16g_card_le_sp {m : ℕ} {K : Type} [Field K] [Finite K] (hK : Nat.card
     (hp : p = 3 ∨ p = 7) {F : Subgroup (GL (Fin m ⊕ Fin m) K)} (hFS : F ≤ StatedSp m K)
     (hF : IsElemAbelian p F) : Nat.card F ≤ p ^ m := by
   have hpp : p.Prime := by rcases hp with rfl | rfl <;> norm_num
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have hodd : Odd p := by rcases hp with rfl | rfl <;> decide
   have hdvd : p ∣ Nat.card K ^ 2 - 1 := by rw [hK]; rcases hp with rfl | rfl <;> norm_num
   refine s16g_card_le_pow_of_pRank hpp hFS hF ?_
@@ -56,7 +56,7 @@ theorem s16g_card_le_sp {m : ℕ} {K : Type} [Field K] [Finite K] (hK : Nat.card
 private instance s16g_finite_orthogonalGroup {ι : Type} [Fintype ι] {K : Type} [Field K]
     [Finite K] (Q : QuadraticForm K (ι → K)) :
     Finite ↥(TauCeti.QuadraticMap.orthogonalGroup Q) := by
-  haveI : Finite ((ι → K) ≃ₗ[K] (ι → K)) :=
+  have : Finite ((ι → K) ≃ₗ[K] (ι → K)) :=
     Finite.of_injective (fun f : (ι → K) ≃ₗ[K] (ι → K) => (f : (ι → K) → (ι → K)))
       DFunLike.coe_injective
   infer_instance
@@ -104,7 +104,7 @@ private theorem s16g_pRank_orthMinus_le {K : Type} [Field K] [Finite K] {b c : K
       (¬ (p : ℤ) ∣ (Nat.card K : ℤ) ^ n - (-1) ∧
         Open.pRank p (⊤ : Subgroup (StatedSp (n - 1) K)) ≤ r)) :
     Open.pRank p (⊤ : Subgroup (TauCeti.QuadraticMap.orthogonalGroup (quadMinus n K b c))) ≤ r := by
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hcard : Fintype.card K = Nat.card K := Nat.card_eq_fintype_card.symm
   have hp1 : Odd p := hp.out.odd_of_ne_two hp2
   have hdim : Module.finrank K (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2 → K) = 2 * n :=
@@ -114,7 +114,7 @@ private theorem s16g_pRank_orthMinus_le {K : Type} [Field K] [Finite K] {b c : K
   have hε : ((-1 : ℤ) = 1 ∧ IsPlusType (quadMinus n K b c)) ∨
       ((-1 : ℤ) = -1 ∧ IsMinusType (quadMinus n K b c)) :=
     Or.inr ⟨rfl, s16g_isMinusType_quadMinus hn hirr⟩
-  haveI : Finite ((Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2 → K) ≃ₗ[K]
+  have : Finite ((Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2 → K) ≃ₗ[K]
       (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2 → K)) :=
     Finite.of_injective (fun f => (f : (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2 → K) →
       (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2 → K))) DFunLike.coe_injective
@@ -140,7 +140,7 @@ private theorem s16g_card_le_isometries {K : Type} [Field K] [Finite K] {m : ℕ
     (hr : Open.pRank p
       (⊤ : Subgroup (TauCeti.QuadraticMap.orthogonalGroup (quadMinus m K b c))) ≤ r) :
     Nat.card F ≤ p ^ r := by
-  haveI : Finite ((Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2 → K) ≃ₗ[K]
+  have : Finite ((Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2 → K) ≃ₗ[K]
       (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2 → K)) :=
     Finite.of_equiv _ (toLinEquiv (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) K).toEquiv
   have hQ : ⇑(quadMinus m K b c) = StatedQuadMinus m K b c := coe_quadMinus m K b c
@@ -168,7 +168,7 @@ theorem s16g_card_le_orthMinus_two {K : Type} [Field K] [Finite K] (hK : Nat.car
     Nat.card F ≤ p := by
   subst hm
   have hpp : p.Prime := by rcases hp with rfl | rfl <;> norm_num
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have hp2 : p ≠ 2 := by rcases hp with rfl | rfl <;> norm_num
   have hpK : ¬ p ∣ Nat.card K := by rw [hK]; rcases hp with rfl | rfl <;> decide
   have hodd : Odd p := by rcases hp with rfl | rfl <;> decide
@@ -188,7 +188,7 @@ theorem s16g_card_le_orthMinus_three_three {K : Type} [Field K] [Finite K] (hK :
       StatedQuadMinus m K b c ((x : Matrix _ _ K) *ᵥ v) = StatedQuadMinus m K b c v) :
     Nat.card F ≤ 3 ^ 3 := by
   subst hm
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hdvd : 3 ∣ Nat.card K ^ 2 - 1 := by rw [hK]; norm_num
   have h1 : ¬ ((3 : ℕ) : ℤ) ∣ (Nat.card K : ℤ) ^ 3 + (-1) := by rw [hK]; norm_num
   have h2 : Open.pRank 3 (⊤ : Subgroup (StatedSp 3 K)) ≤ 3 :=
@@ -204,7 +204,7 @@ theorem s16g_card_le_orthMinus_three_seven {K : Type} [Field K] [Finite K] (hK :
       StatedQuadMinus m K b c ((x : Matrix _ _ K) *ᵥ v) = StatedQuadMinus m K b c v) :
     Nat.card F ≤ 7 ^ 2 := by
   subst hm
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hdvd : 7 ∣ Nat.card K ^ 2 - 1 := by rw [hK]; norm_num
   have h1 : ¬ ((7 : ℕ) : ℤ) ∣ (Nat.card K : ℤ) ^ 3 - (-1) := by rw [hK]; norm_num
   have h2 : Open.pRank 7 (⊤ : Subgroup (StatedSp (3 - 1) K)) ≤ 2 :=

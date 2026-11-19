@@ -544,7 +544,7 @@ theorem exists_sylow_le_normalizer_of_forall (hFp : IsPGroup 2 F)
   set V : Subgroup G := (S : Subgroup G) ⊓ normalizer (F : Set G) with hVdef
   have hFV : F ≤ V := le_inf hFS Subgroup.le_normalizer
   by_contra hSV
-  have : Group.IsNilpotent (S : Subgroup G) := S.isPGroup'.isNilpotent
+  have : Group.IsNilpotent (S : Subgroup G) := S.isPGroup.isNilpotent
   have hlt : V.subgroupOf S < ⊤ := by
     refine lt_top_iff_ne_top.mpr fun htop => hSV fun s hs => ?_
     have hs' : (⟨s, hs⟩ : (S : Subgroup G)) ∈ V.subgroupOf S := htop ▸ mem_top _

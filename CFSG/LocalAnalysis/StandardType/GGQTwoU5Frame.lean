@@ -145,7 +145,7 @@ theorem lemma_9_2 {B L : Subgroup G} {x : G} (hB : IsElemAbelian 3 B) (hxB : x �
     · exact hwx.symm
     · rfl
   have hPcomm : ∀ a ∈ P, ∀ a' ∈ P, a * a' = a' * a := by
-    haveI : IsMulCommutative P := by
+    have : IsMulCommutative P := by
       rw [hPdef]
       exact Subgroup.isMulCommutative_closure fun a ha a' ha' _ => hcomm a ha a' ha'
     intro a ha a' ha'
@@ -168,7 +168,7 @@ theorem lemma_9_2 {B L : Subgroup G} {x : G} (hB : IsElemAbelian 3 B) (hxB : x �
     · exact hwC
     · exact hxC
   have hPp : IsPGroup 3 P := fun g => ⟨1, Subtype.ext (by simpa using hP3 g g.2)⟩
-  haveI := hcyc P hPC hPp
+  have := hcyc P hPC hPp
   have hwz : w ∈ zpowers x :=
     mem_zpowers_of_cyclic_exp_three hP3 (subset_closure (by simp)) hx1
       (subset_closure (by simp))

@@ -12,7 +12,7 @@ theorem two_subgroup_gl_two_le {K : Type} [Field K] [Finite K] [CharP K 2]
     {X : Type*} [AddCommGroup X] [Module K X] [Finite X] (hX : Nat.card X = Nat.card K ^ 2)
     (S : Subgroup (X ≃ₗ[K] X)) (hS : IsPGroup 2 S) : Nat.card S ≤ Nat.card K := by
   classical
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hq2 : 2 ≤ Nat.card K := by
     have := Finite.one_lt_card (α := K)
     omega
@@ -198,7 +198,7 @@ theorem index_le_two_dim {K : Type} [Field K] [Finite K] [CharP K 2]
     {Γ : Type*} [Group Γ] (α : Γ →* (E ≃ₗ[K] E)) (hΓ : IsPGroup 2 α.range)
     (hS : ∀ γ, ∀ s ∈ S, α γ s ∈ S) (hT : ∀ γ, ∀ t ∈ T, α γ t ∈ T) :
     ∃ C : Subgroup Γ, (∀ γ, γ ∈ C ↔ ∀ s ∈ S, α γ s - s ∈ T) ∧ C.index ≤ Nat.card K := by
-  haveI : Finite (↥S ⧸ T.comap S.subtype) := Finite.of_surjective _ (Submodule.mkQ_surjective _)
+  have : Finite (↥S ⧸ T.comap S.subtype) := Finite.of_surjective _ (Submodule.mkQ_surjective _)
   refine ⟨(idx2_hom S T α hS hT).ker, idx2_mem_ker S T α hS hT, ?_⟩
   rw [Subgroup.index_ker]
   exact two_subgroup_gl_two_le (idx2_card S T hTS hcard) _ (idx2_isPGroup S T α hΓ hS hT)

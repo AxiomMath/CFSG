@@ -32,7 +32,7 @@ private theorem map_le_zpowers_of_normal_isPGroup {X : Type} [Group X] (L : Subg
     (hnotp : ¬ IsPGroup 2 (L ⧸ Subgroup.zpowers (⟨z, hz⟩ : L)))
     (R : Subgroup L) (hRn : R.Normal) (hRp : IsPGroup 2 R) :
     R.map L.subtype ≤ Subgroup.zpowers z := by
-  haveI : IsSimpleGroup (L ⧸ Subgroup.zpowers (⟨z, hz⟩ : L)) := hsimple
+  have : IsSimpleGroup (L ⧸ Subgroup.zpowers (⟨z, hz⟩ : L)) := hsimple
   let q : L →* L ⧸ Subgroup.zpowers (⟨z, hz⟩ : L) :=
     QuotientGroup.mk' (Subgroup.zpowers (⟨z, hz⟩ : L))
   have hRq : (R.map q).Normal := hRn.map q (QuotientGroup.mk'_surjective _)
@@ -50,13 +50,13 @@ private theorem map_le_zpowers_of_normal_isPGroup {X : Type} [Group X] (L : Subg
 theorem solvableRadical_eq_pCore_of_oddCore_eq_bot {X : Type} [Group X] [Finite X]
     (hO : CFSG.oddCore X = ⊥) (h2 : Nat.card (CFSG.pCore 2 X) = 2) :
     CFSG.solvableRadical X = CFSG.pCore 2 X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set P : Subgroup X := CFSG.pCore 2 X with hP
   set R : Subgroup X := CFSG.solvableRadical X with hR
   have h2P : Nat.card P = 2 := by rw [hP]; exact h2
   have hPn : P.Normal := CFSG.pCore_normal
   have hPsolv : Group.IsSolvable P := by
-    haveI : Group.IsNilpotent P := CFSG.pCore_isNilpotent (G := X) (p := 2)
+    have : Group.IsNilpotent P := CFSG.pCore_isNilpotent (G := X) (p := 2)
     infer_instance
   have hPleR : P ≤ R := le_sSup ⟨hPn, hPsolv⟩
   have hRnorm : R.Normal := CFSG.ABGLocalTools.solvableRadical_normal
@@ -172,7 +172,7 @@ private theorem pCore_frame_normalizers (P : PCoreFacts hC r) :
       hC.d ∈ Subgroup.centralizer (Halpha D hC.alpha : Set G) ∧
         ⁅pcLG hC r, pcM hC r⁆ ≤ pcLG hC r := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨huK, heK, htK, hri_mem, hri_comm, htH_mem⟩ := P
   set u : G := hC.d with hu
   set e : G := frameE hC r with he
@@ -209,7 +209,7 @@ private theorem pCore_frame_normalizers (P : PCoreFacts hC r) :
     rw [hL] at hk ⊢
     induction hk using Subgroup.closure_induction with
     | mem y hy => exact Subgroup.subset_closure (hconj_mem x hx y hy)
-    | one => simpa using (Subgroup.closure (centSet (DstarH hC) tH)).one_mem
+    | one => simp
     | mul y z _ _ hy hz =>
         have h : x * (y * z) * x⁻¹ = (x * y * x⁻¹) * (x * z * x⁻¹) := by group
         rw [h]
@@ -286,7 +286,7 @@ private theorem pCore_pCore_map (h : ElevenTwoHyp hC) (hF : ElevenTwoFrame hC S 
       (∀ k ∈ pcK hC r, ∀ x ∈ pcPG hC r, k * x * k⁻¹ ∈ pcPG hC r) ∧
       (⟨hC.d, P.huK⟩ : pcK hC r) ∉ CFSG.pCore 2 (pcK hC r) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨huK, heK, htK, hri_mem, hri_comm, htH_mem⟩ := P
   set u : G := hC.d with hu
   set e : G := frameE hC r with he
@@ -338,7 +338,7 @@ private theorem pCore_frameT_sq_and_cpu_le_M (h : ElevenTwoHyp hC)
     (hF : ElevenTwoFrame hC S T r) (P : PCoreFacts hC r) :
     frameT hC r * frameT hC r = 1 ∧ pcCpu hC r ≤ pcM hC r := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨huK, heK, htK, hri_mem, hri_comm, htH_mem⟩ := P
   set u : G := hC.d with hu
   set e : G := frameE hC r with he
@@ -389,6 +389,7 @@ private theorem pCore_frameT_sq_and_cpu_le_M (h : ElevenTwoHyp hC)
     exact ⟨hxu, hxe⟩
   exact ⟨ht_sq, hCpu_le_M⟩
 
+omit [Finite G] in
 private theorem pCore_cpu_conj (P : PCoreFacts hC r)
     (hLG_le_K : pcLG hC r ≤ pcK hC r)
     (hLG_le_H : pcLG hC r ≤ Halpha D hC.alpha)
@@ -400,7 +401,7 @@ private theorem pCore_cpu_conj (P : PCoreFacts hC r)
       ⁅pcLG hC r, pcCpu hC r⁆ ≤ pcCpu hC r ∧
         ⁅pcLG hC r, pcCpu hC r⁆ ≤ pcLG hC r := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨huK, heK, htK, hri_mem, hri_comm, htH_mem⟩ := P
   set u : G := hC.d with hu
   set e : G := frameE hC r with he
@@ -439,6 +440,7 @@ private theorem pCore_cpu_conj (P : PCoreFacts hC r)
     (Subgroup.commutator_mono le_rfl hCpu_le_M).trans hcomm_le
   exact ⟨hCpu_inv, hcommCpu_le_Cpu, hcommCpu_le_LG⟩
 
+omit [Finite G] in
 private theorem pCore_LG_inf_Cpu_le_zpowers_t (P : PCoreFacts hC r)
     [(Subgroup.zpowers (⟨pcTH hC r, P.htH_mem⟩ : pcL hC r)).Normal]
     (hCpu_inv : ∀ l ∈ pcLG hC r, ∀ x ∈ pcCpu hC r, l * x * l⁻¹ ∈ pcCpu hC r)
@@ -449,7 +451,7 @@ private theorem pCore_LG_inf_Cpu_le_zpowers_t (P : PCoreFacts hC r)
       Subgroup.zpowers (⟨pcTH hC r, P.htH_mem⟩ : pcL hC r))) :
     pcLG hC r ⊓ pcCpu hC r ≤ Subgroup.zpowers (frameT hC r) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨huK, heK, htK, hri_mem, hri_comm, htH_mem⟩ := P
   set u : G := hC.d with hu
   set e : G := frameE hC r with he
@@ -518,7 +520,7 @@ private theorem pCore_sq_pg_facts (h : ElevenTwoHyp hC) (hF : ElevenTwoFrame hC 
       frameT hC r ∉ pcPG hC r ∧
         pcCpu hC r ≤ Subgroup.centralizer (pcLG hC r : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨huK, heK, htK, hri_mem, hri_comm, htH_mem⟩ := P
   set u : G := hC.d with hu
   set e : G := frameE hC r with he
@@ -593,11 +595,12 @@ private theorem pCore_sq_pg_facts (h : ElevenTwoHyp hC) (hF : ElevenTwoFrame hC 
       (by rw [Subgroup.commutator_comm]; exact hcommCpu_eq_bot)
   exact ⟨hu_sq, he_PG, hu_not_mem_PG, ht_not_mem_PG, hCpu_le_cent_LG⟩
 
+omit [Finite G] in
 private theorem pCore_M_decomposition (P : PCoreFacts hC r)
     (hu_central : hC.d ∈ Subgroup.centralizer (Halpha D hC.alpha : Set G)) :
     ∀ x ∈ pcM hC r, ∃ a ∈ Subgroup.zpowers hC.d, ∃ b ∈ pcB hC r, a * b = x := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨huK, heK, htK, hri_mem, hri_comm, htH_mem⟩ := P
   set u : G := hC.d with hu
   set e : G := frameE hC r with he
@@ -650,7 +653,8 @@ private theorem pCore_M_decomposition (P : PCoreFacts hC r)
     exact ⟨(a : G), ha, (b : G), hb, by simpa using congrArg Subtype.val hab⟩
   exact hdecomp
 
-private theorem pCore_Cpu_le_zpowers_e (h : ElevenTwoHyp hC) (hF : ElevenTwoFrame hC S T r)
+omit [Finite G] in
+private theorem pCore_Cpu_le_zpowers_e (_h : ElevenTwoHyp hC) (hF : ElevenTwoFrame hC S T r)
     (P : PCoreFacts hC r)
     (hdecomp : ∀ x ∈ pcM hC r, ∃ a ∈ Subgroup.zpowers hC.d, ∃ b ∈ pcB hC r, a * b = x)
     (hCpu_le_M : pcCpu hC r ≤ pcM hC r)
@@ -662,7 +666,7 @@ private theorem pCore_Cpu_le_zpowers_e (h : ElevenTwoHyp hC) (hF : ElevenTwoFram
     (hu_sq : hC.d * hC.d = 1) :
     pcCpu hC r ≤ Subgroup.zpowers (frameE hC r) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨huK, heK, htK, hri_mem, hri_comm, htH_mem⟩ := P
   set u : G := hC.d with hu
   set e : G := frameE hC r with he
@@ -716,9 +720,9 @@ private theorem pCore_Cpu_le_zpowers_e (h : ElevenTwoHyp hC) (hF : ElevenTwoFram
     have hxP : x ∈ PG := hx.2
     have ha_cases : a = 1 ∨ a = u := (mem_zpowers_of_mul_self hu_sq).mp ha
     have hb_cases : (b : G) = 1 ∨ (b : G) = t := by
-      rcases (mem_zpowers_of_mul_self ht_sq).mp hb_t with h | h
-      · exact Or.inl h
-      · exact Or.inr h
+      rcases (mem_zpowers_of_mul_self ht_sq).mp hb_t with _h | _h
+      · exact Or.inl _h
+      · exact Or.inr _h
     rcases ha_cases with ha1 | ha1
     · rcases hb_cases with hb1 | hb1
       · rw [show x = 1 by rw [← hab, ha1, hb1, one_mul]]
@@ -746,7 +750,7 @@ private theorem pCore_PG_le_zpowers_e (h : ElevenTwoHyp hC) (hF : ElevenTwoFrame
     (ht_sq : frameT hC r * frameT hC r = 1) :
     pcPG hC r ≤ Subgroup.zpowers (frameE hC r) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨huK, heK, htK, hri_mem, hri_comm, htH_mem⟩ := P
   set u : G := hC.d with hu
   set e : G := frameE hC r with he
@@ -824,7 +828,7 @@ theorem pCore_localGroup (h : ElevenTwoHyp hC) (hF : ElevenTwoFrame hC S T r) :
     (CFSG.pCore 2 (localGroup D (frameE hC r))).map (localGroup D (frameE hC r)).subtype =
       Subgroup.zpowers (frameE hC r) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set u : G := hC.d with hu
   set e : G := frameE hC r with he
   set t : G := frameT hC r with ht
@@ -888,7 +892,7 @@ theorem pCore_localGroup (h : ElevenTwoHyp hC) (hF : ElevenTwoFrame hC S T r) :
     · have : z = ⟨tH, htH_mem⟩ := Subtype.ext h1
       rw [this]
       exact Subgroup.mem_zpowers _
-  haveI hzp_norm : (Subgroup.zpowers (⟨tH, htH_mem⟩ : L)).Normal :=
+  have hzp_norm : (Subgroup.zpowers (⟨tH, htH_mem⟩ : L)).Normal :=
     Subgroup.normal_of_le_center (Subgroup.zpowers_le.mpr htH_center)
   obtain ⟨eL⟩ := hF.frame.bender
   let eL' : L ⧸ Subgroup.zpowers (⟨tH, htH_mem⟩ : L) ≃* CFSG.Theory.Comparator.PSL2Model 2 :=

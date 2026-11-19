@@ -20,7 +20,7 @@ set_option linter.unusedSectionVars false
 theorem e8_exists_order_eightynine_commute {K : Type} [Field K] [Finite K] [CharP K 2]
     {ε : Kˣ} (hε : orderOf ε = 89) :
     ∀ y ∈ e8Reps K, ∃ z : adjointGroup .E8 K, orderOf z = 89 ∧ Commute z y := by
-  haveI : Fact (Nat.Prime 89) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 89) := ⟨by norm_num⟩
   have h2 : ringChar K = 2 := ringChar.eq K 2
   have key : ∀ F : List (Fin Tag.E8.rank → ℤ),
       (∀ σ ∈ F, σ ∈ e8FrameX ++ e8FrameY ++ e8FrameZ ++ e8FrameU) →
@@ -49,11 +49,11 @@ theorem lie23To89At_E8 : Lie23To89At .E8 := by
   obtain ⟨-, K, _, _, hcard, ⟨e⟩⟩ := hM.chevalleyExceptionalModel (by decide)
   have hK2 : ringChar K = 2 :=
     CFSG.ClassicalGroups.Orthogonal.ringChar_eq_of_card_eq Nat.prime_two hadm.2.1 hcard
-  haveI : CharP K 2 := ringChar.of_eq hK2
+  have : CharP K 2 := ringChar.of_eq hK2
   have h11 : 11 ∣ f := eleven_dvd_of_twentythree_dvd_card (by simp) hadm hM
     (dvd_trans h23 (Subgroup.card_subgroup_dvd_card _))
   obtain ⟨ε, hε⟩ := exists_unit_orderOf_eightynine_of_card hcard h11
-  haveI : Fact (Nat.Prime 89) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 89) := ⟨by norm_num⟩
   exact prime_dvd_card_centralizer_of_classesCover (e.trans (adjointQuotientEquiv .E8 K))
     classesCover_e8Reps (e8_exists_order_eightynine_commute hε) hτ
 

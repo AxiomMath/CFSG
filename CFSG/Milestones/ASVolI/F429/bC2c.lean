@@ -97,10 +97,10 @@ theorem burnsideF429b_G2_outer_involution {f : ℕ} (hf : 2 ≤ f) (K : Type) [F
       (∀ c, δ c = c ^ 2 ^ (f / 2)) ∧
       (∀ u, (β u : ModGL .G2 K) = Units.map (entrywiseHom δ) (u : ModGL .G2 K)) ∧
       α = MulAut.conj k * β * (MulAut.conj k)⁻¹ := by
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
       (by omega) hK
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hα1 : α ≠ 1 := fun h =>
     hαo (h ▸ (CFSG.ComponentClassification.OuterAutomorphisms.inner _).one_mem)
   have hord : orderOf α = 2 := orderOf_eq_prime (by rw [sq]; exact hα2) hα1
@@ -167,7 +167,7 @@ theorem burnsideF429b_c2c_G2 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subg
     (hT : ChF.IsSylowOf 2 T (M₁ ⊓ M₂)) :
     ∀ t ∈ T, t ∉ pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) → t * t = 1 →
       hyp.toHypF_4_4g.chart.IsFieldInv t := by
-  haveI := hyp.normal
+  have := hyp.normal
   intro t htT htS ht2
   have htG : t ∉ Gp := fun h =>
     htS (by rw [← burnsideF429_T_inf_Gp hyp hT]; exact ⟨htT, h⟩)
@@ -204,7 +204,7 @@ theorem burnsideF429b_c2c_D4tw {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Su
     (hyp : HypF_4_4 .D4tw 2 f Gp M₁ M₂) {T : Subgroup E} (hT : ChF.IsSylowOf 2 T (M₁ ⊓ M₂)) :
     ∀ t ∈ T, t ∉ pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) → t * t = 1 →
       hyp.toHypF_4_4g.chart.IsFieldInv t := by
-  haveI := hyp.normal
+  have := hyp.normal
   intro t htT htS ht2
   have htG : t ∉ Gp := fun h =>
     htS (by rw [← burnsideF429_T_inf_Gp hyp hT]; exact ⟨htT, h⟩)

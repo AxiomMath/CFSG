@@ -56,8 +56,7 @@ private theorem fix_range_commutator (D : Sec108Data hc t Y)
         = (AM.φ (⟨d, hd⟩ : ↥(H0 M Z)))⁻¹ (AM.φ (⟨d, hd⟩ : ↥(H0 M Z)) u) := by
           rw [hU u hu]
       _ = u := by
-          simpa [LinearEquiv.coe_inv] using LinearEquiv.symm_apply_apply
-            (e := (AM.φ (⟨d, hd⟩ : ↥(H0 M Z)) : AM.M₀.E ≃ₗ[AM.K] AM.M₀.E)) u
+          simp [LinearEquiv.coe_inv]
   have hz : (⟨⁅r, d⁆, hzH⟩ : ↥(H0 M Z)) =
       (⟨r, hrH0⟩ : ↥(H0 M Z)) * ⟨d, hd⟩ * (⟨r, hrH0⟩ : ↥(H0 M Z))⁻¹ * ⟨d, hd⟩⁻¹ :=
     Subtype.ext rfl
@@ -315,6 +314,7 @@ private theorem fixCoeff_mem_root (D : Sec108Data hc t Y)
       ⟨y, le_Rt (M := M) (LB M Q B) D.good.1.mem_LB (D.root_le_LB hy)⟩, h1]
   exact (coeff_eq_of_id_add_smul_nu D AM hEq).symm
 
+omit [Finite G] in
 private theorem commutator_Rt_le :
     ⁅Rt M (LB M Q B) t, Rt M (LB M Q B) t⁆ ≤ Rt M (LB M Q B) t := by
   rw [Subgroup.commutator_def]
@@ -324,6 +324,7 @@ private theorem commutator_Rt_le :
     ((Rt M (LB M Q B) t).mul_mem ((Rt M (LB M Q B) t).mul_mem ha hb)
       ((Rt M (LB M Q B) t).inv_mem ha)) ((Rt M (LB M Q B) t).inv_mem hb)
 
+omit [Finite G] in
 private theorem commutator_CN_le (hc : Ctx M Q Z B) :
     ⁅hc.CN t, Rt M (LB M Q B) t⁆ ≤ Rt M (LB M Q B) t := by
   rw [Subgroup.commutator_def]
@@ -466,7 +467,7 @@ theorem Sec108Data.exists_root_of_fix_U (D : Sec108Data hc t Y)
     rw [map_mul, map_inv, heq, inv_mul_cancel]
   have hmem : (⟨y, hyH⟩ : ↥(H0 M Z))⁻¹ * ⟨d, hd⟩ = ⟨y⁻¹ * d, hH0⟩ := by
     refine Subtype.ext ?_
-    simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subtype.coe_mk]
+    simp only [Subgroup.coe_mul, Subgroup.coe_inv]
   rw [hmem] at h1
   exact (AM.φ_ker _).mp h1
 
@@ -503,6 +504,7 @@ theorem Sec108Data.mem_CN_of_fix (D : Sec108Data hc t Y) {d : G} (hd : d ∈ H0 
   rw [hd_eq]
   exact (hc.CN t).mul_mem hn ((hc.CN t).mul_mem hyCN hqCN)
 
+omit [Finite G] in
 private theorem phi_inv_phi (AM : Smith81.Smith23E1.ActionModel M Q Z) (r : ↥(H0 M Z))
     (x : AM.M₀.E) : AM.φ r⁻¹ (AM.φ r x) = x := by
   rw [← LinearEquiv.mul_apply, ← map_mul, inv_mul_cancel, map_one]

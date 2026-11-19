@@ -73,11 +73,11 @@ private theorem n24Blk_mulVec_append (P Q R S : Matrix (Fin 3) (Fin 3) (ZMod 2))
     · show Sum.elim (P *ᵥ v + Q *ᵥ w) (R *ᵥ v + S *ᵥ w) (n24Eq.symm (n24Eq (Sum.inl a))) =
         Fin.append (P *ᵥ v + Q *ᵥ w) (R *ᵥ v + S *ᵥ w) (n24Eq (Sum.inl a))
       rw [show n24Eq (Sum.inl a) = Fin.castAdd 3 a from rfl]
-      simp only [Equiv.symm_apply_apply, n24Eq_symm_castAdd, Sum.elim_inl, Fin.append_left]
+      simp only [n24Eq_symm_castAdd, Sum.elim_inl, Fin.append_left]
     · show Sum.elim (P *ᵥ v + Q *ᵥ w) (R *ᵥ v + S *ᵥ w) (n24Eq.symm (n24Eq (Sum.inr a))) =
         Fin.append (P *ᵥ v + Q *ᵥ w) (R *ᵥ v + S *ᵥ w) (n24Eq (Sum.inr a))
       rw [show n24Eq (Sum.inr a) = Fin.natAdd 3 a from rfl]
-      simp only [Equiv.symm_apply_apply, n24Eq_symm_natAdd, Sum.elim_inr, Fin.append_right]
+      simp only [n24Eq_symm_natAdd, Sum.elim_inr, Fin.append_right]
   exact hx'
 
 private theorem n24B₂_eq_zero {g : GL (Fin 6) (ZMod 2)} (hg : g ∈ n24Stab2) :

@@ -20,7 +20,7 @@ theorem pRank_top_le_one_of_isCyclic {p : ℕ} {K : Type*} [Group K] [Finite K] 
   have hle := card_le_of_isElemAbelian_of_isCyclic_sylow T hT hE
   rw [hEcard] at hle
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have : p ^ 2 ≤ p ^ Open.pRank p (⊤ : Subgroup K) := Nat.pow_le_pow_right hp.pos hlt
   have : p < p ^ 2 := by nlinarith [hp.two_le]
   omega
@@ -41,7 +41,7 @@ theorem exists_outer {Y : Type} [Group Y] [Finite Y] {p : ℕ} {Rb : Sylow p Y} 
   rw [h3] at hAcard
   have hout : ∃ a ∈ A, ¬ ∃ y ∈ L, ∀ w ∈ L, a * w * a⁻¹ = y * w * y⁻¹ := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     set f := L.normalizerMonoidHom
     set S := A.subgroupOf N
     have hineq := pRank_le_pRank_inf_ker_add_pRank_map hp f S

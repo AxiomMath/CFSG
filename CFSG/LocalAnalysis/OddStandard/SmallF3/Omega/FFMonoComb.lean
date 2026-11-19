@@ -123,7 +123,7 @@ theorem ffExp2_card_le (R : Subgroup (Equiv.Perm (Fin 6))) (hR : R ≤ monoD)
     have hcc : ffC * ffC = 1 := h2 ffC hc
     exact (by decide : ffC * ffC ≠ (1 : Equiv.Perm (Fin 6))) hcc
   by_contra hle
-  push_neg at hle
+  push Not at hle
   obtain ⟨k, hk, hkR⟩ := (Nat.dvd_prime_pow (p := 2) (m := 3) Nat.prime_two).mp hdvd
   have hk3 : k = 3 := by
     rw [hkR] at hle

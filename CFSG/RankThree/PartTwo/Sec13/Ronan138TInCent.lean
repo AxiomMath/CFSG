@@ -70,8 +70,8 @@ theorem centPGL (h131 : Item131) (hspor : SporadicModels131)
   have hq' : π = false → ModThree false (p ^ f) := fun h => by subst h; exact hq
   have hKq := Sec6.isQuasisimple_of_mem_thetaComponentsAt hK.1
   have hq2 : 2 < p ^ f := Item138Proof.two_lt_of_mulEquiv hKq hPi hq ψ
-  haveI : Group.IsPerfect (K ⧸ aschbacherSolvableCore 3 K) := hKq.1
-  haveI : Group.IsPerfect (projImage (slPi π 3 (p ^ f) Fld)) :=
+  have : Group.IsPerfect (K ⧸ aschbacherSolvableCore 3 K) := hKq.1
+  have : Group.IsPerfect (projImage (slPi π 3 (p ^ f) Fld)) :=
     Group.IsPerfect.ofSurjective (f := ψ.toMonoidHom) ψ.surjective
   have hCEset := sectionCentralizer_eq_inf hK.2.1
   rw [hK.2.2.1] at hCEset
@@ -280,8 +280,8 @@ theorem centL3 (h48 : Sec4.Item4_8)
   have hq' : π = false → ModThree false (p ^ f₀) := fun h => by subst h; exact hq
   have hKq := Sec6.isQuasisimple_of_mem_thetaComponentsAt hK.1
   have hq2 : 2 < p ^ f₀ := Item138Proof.two_lt_of_mulEquiv hKq hPi hq ψ
-  haveI : Group.IsPerfect (K ⧸ aschbacherSolvableCore 3 K) := hKq.1
-  haveI : Group.IsPerfect (projImage (slPi π 3 (p ^ f₀) Fld)) :=
+  have : Group.IsPerfect (K ⧸ aschbacherSolvableCore 3 K) := hKq.1
+  have : Group.IsPerfect (projImage (slPi π 3 (p ^ f₀) Fld)) :=
     Group.IsPerfect.ofSurjective (f := ψ.toMonoidHom) ψ.surjective
   obtain ⟨N, hN, hNe⟩ := Subgroup.mem_map.mp
     (ψ ((⟨b, hbK⟩ : K) : K ⧸ aschbacherSolvableCore 3 K)).2
@@ -424,7 +424,7 @@ theorem centL3 (h48 : Sec4.Item4_8)
         rw [inv_inv] at h1
         rw [hX, h1, Sec11.KS11LieProof.coe_blockHom_of_det hdetBd, trace_blockMat]
         have := hBdtr 1
-        simp only [pow_one, show (1 : ℕ) % 3 = 1 by rfl, one_ne_zero, if_false] at this
+        simp only [pow_one, show (1 : ℕ) % 3 = 1 by rfl, one_ne_zero, ite_false] at this
         rw [this]
         ring
       have htrY : (Y : Matrix (Fin 3) (Fin 3) Fld).trace = 0 := by

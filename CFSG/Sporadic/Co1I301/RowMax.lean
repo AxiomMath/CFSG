@@ -24,7 +24,7 @@ private theorem exists_mem_normalizer_of_not_le {G : Type*} [Group G] [Finite G]
     refine lt_top_iff_ne_top.2 fun htop => hne fun r hr => ?_
     have h1 : (⟨r, hr⟩ : R') ∈ Q' := htop ▸ Subgroup.mem_top _
     exact Subgroup.mem_subgroupOf.1 h1
-  obtain ⟨y, hyN, hyQ⟩ := SetLike.exists_of_lt (Group.normalizerCondition_of_isNilpotent Q' hlt)
+  obtain ⟨y, hyN, hyQ⟩ := _root_.IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent Q' hlt)
   have hconj : ∀ u : R', u ∈ Subgroup.normalizer (Q' : Set R') → ∀ q ∈ Q,
       (u : G) * q * (u : G)⁻¹ ∈ Q := by
     intro u hu q hq
@@ -62,7 +62,7 @@ theorem eq_co1R_of_invariant (D : TwoCentralData 4 aNC co1R) {B₁ : Subgroup Na
     (hBa : B₁ ≤ centralizer ({aNC} : Set NativeSporadic.Co1)) (R' : Subgroup NativeSporadic.Co1)
     (hR : IsPGroup 2 R') (hBR : B₁ ≤ Subgroup.normalizer (R' : Set NativeSporadic.Co1))
     (hRR : co1R ≤ R') : R' = co1R := by
-  haveI : Finite NativeSporadic.Co1 := CFSG.Sporadic.Co1.fam_co1_simplicity.1
+  have : Finite NativeSporadic.Co1 := CFSG.Sporadic.Co1.fam_co1_simplicity.1
   refine le_antisymm ?_ hRR
   by_contra hne
   obtain ⟨y, hyR, hyN, hyQ⟩ := exists_mem_normalizer_of_not_le hR hRR hne

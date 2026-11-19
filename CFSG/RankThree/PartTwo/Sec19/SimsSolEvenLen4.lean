@@ -36,9 +36,9 @@ theorem barAct_barInd (σ : Perm (Fin n)) (I : Finset (Fin n)) :
   funext i
   simp only [vecPerm_apply, indVec, Finset.mem_image]
   by_cases h : σ⁻¹ i ∈ I
-  · rw [if_pos h, if_pos]
+  · rw [ite_eq_left h, ite_eq_left]
     exact ⟨σ⁻¹ i, h, by simp⟩
-  · rw [if_neg h, if_neg]
+  · rw [ite_eq_right h, ite_eq_right]
     rintro ⟨a, ha, rfl⟩
     exact h (by simpa using ha)
 
@@ -84,7 +84,7 @@ theorem bar_mk_ne_of_coords {x y : Fin n → ZMod 2} {i j : Fin n} (hi : x i ≠
 theorem indVec_compl (I : Finset (Fin n)) : indVec Iᶜ = indVec I + allOnes n := by
   funext i
   by_cases h : i ∈ I
-  · simp only [indVec, Finset.mem_compl, h, not_true_eq_false, if_false, if_true, Pi.add_apply,
+  · simp only [indVec, Finset.mem_compl, h, not_true_eq_false, ite_false, ite_true, Pi.add_apply,
       allOnes]
     decide
   · simp [indVec, h, allOnes]
@@ -484,8 +484,8 @@ theorem klein4_conj_mem {I : Finset (Fin n)} (hI : I.card = 4) {τ : Perm (Fin n
 theorem klein4_fourGroup {I : Finset (Fin n)} (hI : I.card = 4) : FourGroup I (klein4 I) where
   two := isPGroup_klein4 hI
   stab := (klein4_le_altOn hI).trans (altOn_le_setStab I)
-  fix := fun σ hσ x hx => (mem_altOn.1 (klein4_le_altOn hI hσ)).1 x hx
-  norm := fun τ hτ σ hσ => klein4_conj_mem hI (altOn_le_setStab I hτ) hσ
+  fix := fun _σ hσ x hx => (mem_altOn.1 (klein4_le_altOn hI hσ)).1 x hx
+  norm := fun _τ hτ _σ hσ => klein4_conj_mem hI (altOn_le_setStab I hτ) hσ
 
 end Klein
 
@@ -522,9 +522,9 @@ theorem uvec_moved {σ : Perm (Fin 10)} {x y : Fin 10} (hxy : x ≠ y) (h1 : σ 
   have hσxy : σ x ≠ σ y := fun h => hxy (σ.injective h)
   unfold uvec
   refine bar_mk_ne_of_coords (i := σ x) (j := j) ?_ ?_
-  · simp only [Pi.add_apply, Pi.single_apply, if_true, hσxy, h1, h2, if_false]
+  · simp only [Pi.add_apply, Pi.single_apply, ite_true, hσxy, h1, h2, ite_false]
     decide
-  · simp only [Pi.add_apply, Pi.single_apply, hj1, hj2, hj3, hj4, if_false]
+  · simp only [Pi.add_apply, Pi.single_apply, hj1, hj2, hj3, hj4, ite_false]
 
 theorem _root_.CFSG.CGT.PushingUpLit.SolK.FourGroup.barAct_uvec_ne {I : Finset (Fin 10)}
     {N : Subgroup (Perm (Fin 10))} (h : FourGroup I N) (hI : I.card = 4) {σ σ' : Perm (Fin 10)}
@@ -696,6 +696,7 @@ section TOf
 
 variable {G : Type} [Group G] [Finite G] {M X : Subgroup G} {n : ℕ}
 
+omit [Finite G] in
 theorem Q_le_TOf
     (hQ : ∀ q ∈ CFSG.Open.pCoreOf 2 M, ∀ q' ∈ CFSG.Open.pCoreOf 2 M, q * q' = q' * q) {x : G}
     (hx : x ∈ CFSG.Open.pCoreOf 2 M) : CFSG.Open.pCoreOf 2 M ≤ TOf M x := by

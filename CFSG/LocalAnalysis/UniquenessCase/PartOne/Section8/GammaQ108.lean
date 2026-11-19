@@ -26,7 +26,7 @@ theorem rankThreeGamma_one_le_of_forall_e9
       CFSG.Open.rankThreeGamma 1 3 E ≤ M → UniqueMax M E) :
     CFSG.Open.rankThreeGamma 1 3 Q ≤ M := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hE9_le_M : ∀ E : Subgroup G, E ≤ Q → CFSG.Open.IsElemAbelian 3 E →
       Nat.card E = 9 → E ≤ M := by
     intro E hEQ hEel hEcard
@@ -57,13 +57,13 @@ theorem rankThreeGamma_one_le_of_forall_e9
       rw [h] at hxord
       simp at hxord
     have hQ'card : Nat.card Q' = 3 := by
-      haveI : IsCyclic Q' := hcyc
+      have : IsCyclic Q' := hcyc
       have hexp : ∀ y : Q', y ^ 3 = 1 := fun y =>
         Subtype.ext (hQexp y.1 (hQ'Q y.2))
       have hdvd : Nat.card Q' ∣ 3 := by
         have h := Monoid.exponent_dvd_of_forall_pow_eq_one hexp
         rwa [IsCyclic.exponent_eq_card] at h
-      haveI : Nontrivial Q' := ⟨⟨x, hxQ'⟩, 1, by
+      have : Nontrivial Q' := ⟨⟨x, hxQ'⟩, 1, by
         intro h
         exact hx1 (Subtype.ext_iff.mp h)⟩
       have hgt : 1 < Nat.card Q' := Finite.one_lt_card_iff_nontrivial.mpr inferInstance
@@ -93,7 +93,7 @@ theorem rankThreeGamma_one_le_of_forall_e9
       intro x
       exact ⟨1, by simpa using Subtype.ext (hQexp x x.2)⟩
     have hQ'p : IsPGroup 3 Q' := hQp.to_le hQ'Q
-    haveI : Fact (IsPGroup 3 Q') := ⟨hQ'p⟩
+    have : Fact (IsPGroup 3 Q') := ⟨hQ'p⟩
     obtain ⟨E₀, -, hE₀card, hE₀el⟩ :=
       CFSG.lemma_4_5_a (R := Q') (p := 3) (by norm_num : (3 : ℕ) ≠ 2) hcyc
     let E : Subgroup G := E₀.map Q'.subtype

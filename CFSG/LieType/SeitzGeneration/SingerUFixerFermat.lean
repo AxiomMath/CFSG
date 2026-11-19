@@ -15,7 +15,7 @@ section Basic
 variable {f : ℕ} {K : Type} [Field K]
 
 theorem singerUF_two_eq_zero (h : UnitaryFieldData 2 f K) : (2 : K) = 0 := by
-  haveI := h.charP
+  have := h.charP
   exact_mod_cast CharP.cast_eq_zero K 2
 
 theorem singerUF_neg_one_eq (h : UnitaryFieldData 2 f K) : (-1 : K) = 1 := by
@@ -118,14 +118,14 @@ section Cayley
 theorem singerUF_cayley_zero_zero (h : UnitaryFieldData 2 f K) {p : ℕ} [hp : Fact p.Prime]
     (hpq : 2 ^ f + 1 = p) {c ε : K} (hc : c ≠ 0) (hεb : h.bar ε = ε) (hE : ε ^ 2 + c ≠ 0) :
     thmU_cayleyMat h p c ε 0 0 = c * ((1 + ε ^ 2) / (ε ^ 2 + c)) := by
-  haveI : NeZero p := ⟨hp.out.ne_zero⟩
+  have : NeZero p := ⟨hp.out.ne_zero⟩
   have h2 := singerUF_two_eq_zero h
   have hodd := singerUF_odd h hpq
   have hp3 := singerUF_three_le h hpq
   have hE' : h.bar ε ^ p + c ≠ 0 := by
     rw [hεb, singerUF_pow_p h hpq hεb]
     exact hE
-  rw [thmU_cayleyMat_apply_zero h hodd hp3 hc hE' 0, if_pos (Fin.val_zero (n := p))]
+  rw [thmU_cayleyMat_apply_zero h hodd hp3 hc hE' 0, ite_eq_left (Fin.val_zero (n := p))]
   rw [hεb, singerUF_pow_p h hpq hεb]
   have hnum : 1 - ε * ε = 1 + ε ^ 2 := by linear_combination (-(ε ^ 2)) * h2
   rw [hnum, mul_div_assoc]
@@ -134,7 +134,7 @@ theorem singerUF_cayley_hi (h : UnitaryFieldData 2 f K) {p : ℕ} [hp : Fact p.P
     (hpq : 2 ^ f + 1 = p) {c ε : K} (hc : c ≠ 0) (hεb : h.bar ε = ε) (hE : ε ^ 2 + c ≠ 0)
     (k : Fin p) (hk : 2 ≤ (k : ℕ)) :
     thmU_cayleyMat h p c ε k 0 = ε ^ (p - (k : ℕ)) * ((1 + ε ^ 2) / (ε ^ 2 + c)) := by
-  haveI : NeZero p := ⟨hp.out.ne_zero⟩
+  have : NeZero p := ⟨hp.out.ne_zero⟩
   have h2 := singerUF_two_eq_zero h
   have hodd := singerUF_odd h hpq
   have hp3 := singerUF_three_le h hpq
@@ -142,7 +142,7 @@ theorem singerUF_cayley_hi (h : UnitaryFieldData 2 f K) {p : ℕ} [hp : Fact p.P
     rw [hεb, singerUF_pow_p h hpq hεb]
     exact hE
   rw [thmU_cayleyMat_apply_zero h hodd hp3 hc hE' k,
-    if_neg (show ¬ ((k : ℕ) = 0) by omega), if_neg (show ¬ ((k : ℕ) = 1) by omega),
+    ite_eq_right (show ¬ ((k : ℕ) = 0) by omega), ite_eq_right (show ¬ ((k : ℕ) = 1) by omega),
     hεb, singerUF_pow_p h hpq hεb, singerUF_neg_one_eq h, one_pow, one_mul]
   have hnum : 1 - ε * ε = 1 + ε ^ 2 := by linear_combination (-(ε ^ 2)) * h2
   rw [hnum, mul_div_assoc]
@@ -164,12 +164,12 @@ theorem singerUF_entry {p : ℕ} [NeZero p] {c : K} {g : Matrix (Fin p) (Fin p) 
   by_cases hki : k ≤ i
   · have e1 : (i : Fin p) - (k : Fin p) = ((i - k : ℕ) : Fin p) := by
       apply Fin.ext
-      rw [hval, if_pos hki, Fin.val_natCast, Nat.mod_eq_of_lt (by omega)]
-    simp only [hiv, hkv, if_pos hki, hcol, e1]
+      rw [hval, ite_eq_left hki, Fin.val_natCast, Nat.mod_eq_of_lt (by omega)]
+    simp only [hiv, hkv, ite_eq_left hki, hcol, e1]
   · have e2 : (i : Fin p) - (k : Fin p) = ((i + p - k : ℕ) : Fin p) := by
       apply Fin.ext
-      rw [hval, if_neg hki, Fin.val_natCast, Nat.mod_eq_of_lt (by omega)]
-    simp only [hiv, hkv, if_neg hki, hcol, e2]
+      rw [hval, ite_eq_right hki, Fin.val_natCast, Nat.mod_eq_of_lt (by omega)]
+    simp only [hiv, hkv, ite_eq_right hki, hcol, e2]
 
 theorem singerUF_norm_entry (h : UnitaryFieldData 2 f K) {p : ℕ} [NeZero p] {c : K}
     (hcu : h.bar c * c = 1) {g : Matrix (Fin p) (Fin p) K}
@@ -199,7 +199,7 @@ theorem singerUF_reflection_of_monomial (h : UnitaryFieldData 2 f K) {p : ℕ} [
     (htc : ∀ i, (t i - c) * (t i - c⁻¹) * (t i - 1) = 0)
     (hmono : IsMonomialMat ((b * diagonal s * b)⁻¹ * diagonal t * (b * diagonal s * b))) :
     ∃ r : Fin p, ∀ j : Fin p, h.norm (b j 0) = h.norm (b (r - j) 0) := by
-  haveI : NeZero p := ⟨hp.out.ne_zero⟩
+  have : NeZero p := ⟨hp.out.ne_zero⟩
   have hbdet : IsUnit b.det := Matrix.isUnit_det_of_left_inverse hbu
   have hsne : ∀ j, s j ≠ 0 := fun j h0 => by
     have := hs j
@@ -229,15 +229,15 @@ theorem singerUF_reflection_of_monomial (h : UnitaryFieldData 2 f K) {p : ℕ} [
   have hμ0 : y⁻¹ a 0 ≠ 0 := by
     intro h0
     have := hcolY 0
-    rw [h0, mul_zero, if_pos rfl] at this
+    rw [h0, mul_zero, ite_eq_left rfl] at this
     exact zero_ne_one this
   have hya : ∀ k, y k a = if k = 0 then (y⁻¹ a 0)⁻¹ else 0 := by
     intro k
     have := hcolY k
     by_cases hk : k = 0
-    · rw [if_pos hk] at this ⊢
+    · rw [ite_eq_left hk] at this ⊢
       exact eq_inv_of_mul_eq_one_left this
-    · rw [if_neg hk] at this ⊢
+    · rw [ite_eq_right hk] at this ⊢
       exact (mul_eq_zero.mp this).resolve_right hμ0
   have hM : (b.map h.bar)ᵀ * y = diagonal s * b := by
     calc (b.map h.bar)ᵀ * y = ((b.map h.bar)ᵀ * b) * diagonal s * b := by
@@ -248,7 +248,7 @@ theorem singerUF_reflection_of_monomial (h : UnitaryFieldData 2 f K) {p : ℕ} [
     intro i
     have e := congrFun (congrFun hM i) a
     rw [mul_apply, diagonal_mul] at e
-    simp only [hya, mul_ite, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true] at e
+    simp only [hya, mul_ite, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true] at e
     rw [← e, mul_comm]
   have hNs : ∀ j, h.norm (s j) = 1 := fun j => by
     rw [UnitaryFieldData.norm, mul_comm]
@@ -292,7 +292,7 @@ theorem singerUF_no_reflection (h : UnitaryFieldData 2 f K) {p : ℕ} [hp : Fact
     (hk : ∀ k : ℕ, 2 ≤ k → k < p → b (k : Fin p) 0 = ε ^ (p - k) * D)
     (h0 : b 0 0 = c * D)
     (hrefl : ∃ r : Fin p, ∀ j : Fin p, h.norm (b j 0) = h.norm (b (r - j) 0)) : False := by
-  haveI : NeZero p := ⟨hp.out.ne_zero⟩
+  have : NeZero p := ⟨hp.out.ne_zero⟩
   have hnε : h.norm ε = ε ^ 2 := by rw [UnitaryFieldData.norm, hεb, sq]
   have hnc : h.norm c = 1 := by
     rw [UnitaryFieldData.norm, mul_comm]
@@ -353,7 +353,7 @@ theorem singerUF_inv_ne_self (h : UnitaryFieldData 2 f K) {c : K} (hc : c ≠ 0)
 theorem singerUF_cayley_one (h : UnitaryFieldData 2 f K) {p : ℕ} [hp : Fact p.Prime]
     (hpq : 2 ^ f + 1 = p) {c ε : K} (hc : c ≠ 0) (hεb : h.bar ε = ε) (hE : ε ^ 2 + c ≠ 0) :
     thmU_cayleyMat h p c ε 1 0 = (ε ^ (p - 1) + c * ε) / (ε ^ 2 + c) := by
-  haveI : NeZero p := ⟨hp.out.ne_zero⟩
+  have : NeZero p := ⟨hp.out.ne_zero⟩
   have hodd := singerUF_odd h hpq
   have hp3 := singerUF_three_le h hpq
   have hE' : h.bar ε ^ p + c ≠ 0 := by
@@ -361,8 +361,8 @@ theorem singerUF_cayley_one (h : UnitaryFieldData 2 f K) {p : ℕ} [hp : Fact p.
     exact hE
   have h1 : ((1 : Fin p) : ℕ) = 1 := by
     rw [Fin.val_one', Nat.mod_eq_of_lt (by omega)]
-  rw [thmU_cayleyMat_apply_zero h hodd hp3 hc hE' 1, if_neg (show ¬ ((1 : Fin p) : ℕ) = 0 by omega),
-    if_pos h1, hεb, singerUF_pow_p h hpq hεb]
+  rw [thmU_cayleyMat_apply_zero h hodd hp3 hc hE' 1, ite_eq_right (show ¬ ((1 : Fin p) : ℕ) = 0 by omega),
+    ite_eq_left h1, hεb, singerUF_pow_p h hpq hεb]
 
 theorem singerUF_cayley_nat (h : UnitaryFieldData 2 f K) {p : ℕ} [hp : Fact p.Prime]
     (hpq : 2 ^ f + 1 = p) {c ε : K} (hc : c ≠ 0) (hεb : h.bar ε = ε) (hE : ε ^ 2 + c ≠ 0)
@@ -598,7 +598,7 @@ theorem exists_outer_fixer_five_four {ℓ f : ℕ} {K : Type} [Field K] (h : Uni
       ((b * diagonal s * b)⁻¹ * diagonal s * (b * diagonal s * b)) i 0 = 0 := by
     intro i hi
     have e := congrFun hfixv i
-    rw [singerUF_mulVec_e0, Pi.single_apply, if_neg hi] at e
+    rw [singerUF_mulVec_e0, Pi.single_apply, ite_eq_right hi] at e
     exact e
   have hmono_neg : ¬ IsMonomialMat ((b * diagonal s * b)⁻¹ * diagonal s * (b * diagonal s * b)) := by
     intro hmono
@@ -685,14 +685,14 @@ theorem singerUF_sum_sN_Ico2 {c : K} (h2 : (2 : K) = 0) (sN : ℕ → K)
     rw [Finset.mem_Ico]; omega
   simp only [singerUF_sN_add h2 sN hsN]
   rw [Finset.sum_add_distrib, Finset.sum_add_distrib, Finset.sum_add_distrib]
-  rw [Finset.sum_const, Nat.card_Ico, nsmul_eq_mul, mul_one, Finset.sum_ite_eq', if_pos h2mem,
-    Finset.sum_ite_eq', if_pos h5mem, Finset.sum_ite_eq', if_pos h6mem]
+  rw [Finset.sum_const, Nat.card_Ico, nsmul_eq_mul, mul_one, Finset.sum_ite_eq', ite_eq_left h2mem,
+    Finset.sum_ite_eq', ite_eq_left h5mem, Finset.sum_ite_eq', ite_eq_left h6mem]
   rw [show p - 1 - 2 = p - 3 by omega]
   linear_combination (c⁻¹ + 1) * h2
 
 
 theorem singerUF_sum_zero {p : ℕ} (hp : 17 ≤ p) (hpo : Odd p) {c ε D : K} (h2 : (2 : K) = 0)
-    (hrel : ε ^ 2 * (c ^ 2 + 1) = c) (hcc : c * c⁻¹ = 1) (hpow : ε ^ p = ε ^ 2)
+    (hrel : ε ^ 2 * (c ^ 2 + 1) = c) (_hcc : c * c⁻¹ = 1) (hpow : ε ^ p = ε ^ 2)
     (bcol : ℕ → K) (hb0 : bcol 0 = c * D)
     (hbk : ∀ k, 2 ≤ k → k < p → bcol k = ε ^ (p - k) * D)
     (e : ℕ → K) (he0 : ∀ k, k < p → e k = if k = 0 then bcol 0 else c * bcol (p - k))
@@ -707,14 +707,14 @@ theorem singerUF_sum_zero {p : ℕ} (hp : 17 ≤ p) (hpo : Odd p) {c ε D : K} (
   have hs0 : sN 0 = 1 := by rw [hsN]; simp
   have hs1 : sN 1 = 1 := by rw [hsN]; simp
   have hsp1 : sN (p - 1) = 1 := by
-    rw [hsN, if_neg (show ¬ (p - 1 = 2) by omega), if_neg (show ¬ (p - 1 = 5) by omega),
-      if_neg (show ¬ (p - 1 = 6) by omega)]
+    rw [hsN, ite_eq_right (show ¬ (p - 1 = 2) by omega), ite_eq_right (show ¬ (p - 1 = 5) by omega),
+      ite_eq_right (show ¬ (p - 1 = 6) by omega)]
     simp
-  have he00 : e 0 = bcol 0 := by rw [he0 0 (by omega), if_pos rfl]
+  have he00 : e 0 = bcol 0 := by rw [he0 0 (by omega), ite_eq_left rfl]
   have he1 : e 1 = c * bcol (p - 1) := by
-    rw [he0 1 (by omega), if_neg (by norm_num)]
+    rw [he0 1 (by omega), ite_eq_right (by norm_num)]
   have hep1 : e (p - 1) = c * bcol 1 := by
-    rw [he0 (p - 1) (by omega), if_neg (by omega), show p - (p - 1) = 1 by omega]
+    rw [he0 (p - 1) (by omega), ite_eq_right (by omega), show p - (p - 1) = 1 by omega]
   have hmid : ∀ k ∈ Finset.Ico 2 (p - 1), e k * bcol k * sN k = c * ε ^ 2 * D ^ 2 * sN k := by
     intro k hk
     rw [Finset.mem_Ico] at hk
@@ -722,7 +722,7 @@ theorem singerUF_sum_zero {p : ℕ} (hp : 17 ≤ p) (hpo : Odd p) {c ε D : K} (
       rw [← pow_add]
       congr 1
       omega
-    rw [he0 k (by omega), if_neg (by omega), hbk k hk.1 (by omega),
+    rw [he0 k (by omega), ite_eq_right (by omega), hbk k hk.1 (by omega),
       hbk (p - k) (by omega) (by omega), show p - (p - k) = k by omega]
     linear_combination (c * D ^ 2 * sN k) * hpk + (c * D ^ 2 * sN k) * hpow
   rw [singerUF_sum_split_two hp7, Finset.sum_congr rfl hmid, ← Finset.mul_sum,
@@ -732,7 +732,7 @@ theorem singerUF_sum_zero {p : ℕ} (hp : 17 ≤ p) (hpo : Odd p) {c ε D : K} (
     + (c ^ 2 * D ^ 2 + c * bcol 1 * bcol (p - 1)) * h2
 
 theorem singerUF_sum_five {p : ℕ} (hp : 17 ≤ p) (hpo : Odd p) {c ε D : K} (h2 : (2 : K) = 0)
-    (hrel : ε ^ 2 * (c ^ 2 + 1) = c) (hcc : c * c⁻¹ = 1) (hpow : ε ^ p = ε ^ 2)
+    (hrel : ε ^ 2 * (c ^ 2 + 1) = c) (_hcc : c * c⁻¹ = 1) (hpow : ε ^ p = ε ^ 2)
     (bcol : ℕ → K) (hb0 : bcol 0 = c * D)
     (hbk : ∀ k, 2 ≤ k → k < p → bcol k = ε ^ (p - k) * D)
     (e : ℕ → K) (he5 : ∀ k, k < p → e k = if k ≤ 5 then bcol (5 - k) else c * bcol (5 + p - k))
@@ -759,7 +759,7 @@ theorem singerUF_sum_five {p : ℕ} (hp : 17 ≤ p) (hpo : Odd p) {c ε D : K} (
       rw [Finset.mem_Ico]; omega
     rw [Finset.sum_add_distrib, Finset.sum_add_distrib, Finset.sum_add_distrib,
       Finset.sum_const, Nat.card_Ico, nsmul_eq_mul, mul_one, Finset.sum_ite_eq',
-      if_neg h2not, Finset.sum_ite_eq', if_neg h5not, Finset.sum_ite_eq', if_pos h6mem]
+      ite_eq_right h2not, Finset.sum_ite_eq', ite_eq_right h5not, Finset.sum_ite_eq', ite_eq_left h6mem]
     rw [show p - 6 = p - 6 from rfl]
     ring
   have hmid : ∀ k ∈ Finset.Ico 6 p, e k * bcol k * sN k =
@@ -770,7 +770,7 @@ theorem singerUF_sum_five {p : ℕ} (hp : 17 ≤ p) (hpo : Odd p) {c ε D : K} (
       rw [← pow_add]
       congr 1
       omega
-    rw [he5 k (by omega), if_neg (by omega), hbk (5 + p - k) (by omega) (by omega),
+    rw [he5 k (by omega), ite_eq_right (by omega), hbk (5 + p - k) (by omega) (by omega),
       hbk k (by omega) (by omega), show p - (5 + p - k) = k - 5 by omega]
     linear_combination (c * D ^ 2 * sN k) * hpk
   have hsum_rest : ∑ k ∈ Finset.Ico 6 p, e k * bcol k * sN k =
@@ -803,7 +803,7 @@ variable {f : ℕ} {K : Type} [Field K]
 
 theorem singerUF_prod_range_ite {p : ℕ} (a : ℕ) (ha : a < p) (v : K) :
     ∏ k ∈ Finset.range p, (if k = a then v else 1) = v := by
-  rw [Finset.prod_ite_eq', if_pos (Finset.mem_range.mpr ha)]
+  rw [Finset.prod_ite_eq', ite_eq_left (Finset.mem_range.mpr ha)]
 
 theorem singerUF_pairing_sN {p : ℕ} [NeZero p] (b : Matrix (Fin p) (Fin p) K) (sN : ℕ → K)
     (m : Fin p) :
@@ -841,7 +841,7 @@ theorem singerUF_fermat_main_end {f : ℕ} {K : Type} [Field K] (h : UnitaryFiel
     (hdet_t : (diagonal (fun j : Fin p => tN (j : ℕ))).det = 1) :
     ∃ g ∈ H, (∀ i, i ≠ 0 → (g : Matrix (Fin p) (Fin p) K) i 0 = 0) ∧
       ¬ IsMonomialMat (g : Matrix (Fin p) (Fin p) K) := by
-  haveI : NeZero p := ⟨hp.out.ne_zero⟩
+  have : NeZero p := ⟨hp.out.ne_zero⟩
   obtain ⟨b, hb⟩ : ∃ b : Matrix (Fin p) (Fin p) K, b = thmU_cayleyMat h p c ε := ⟨_, rfl⟩
   have hbu : (b.map h.bar)ᵀ * b = 1 := by
     rw [hb]
@@ -862,8 +862,8 @@ theorem singerUF_fermat_main_end {f : ℕ} {K : Type} [Field K] (h : UnitaryFiel
     have := singerUF_entry hbC 0 k (by omega) hk
     by_cases hk0 : k = 0
     · subst hk0
-      simpa using this
-    · rw [this, if_neg (show ¬ k ≤ 0 by omega), if_neg hk0, zero_add]
+      simp
+    · rw [this, ite_eq_right (show ¬ k ≤ 0 by omega), ite_eq_right hk0, zero_add]
   have he5 : ∀ k, k < p → b ((5 : ℕ) : Fin p) (k : Fin p) =
       if k ≤ 5 then b ((5 - k : ℕ) : Fin p) 0 else c * b ((5 + p - k : ℕ) : Fin p) 0 :=
     fun k hk => singerUF_entry hbC 5 k (by omega) hk
@@ -928,7 +928,7 @@ theorem singerUF_fermat_main_end {f : ℕ} {K : Type} [Field K] (h : UnitaryFiel
     by_cases hi : (i : ℕ) = 0 ∨ (i : ℕ) = 5
     · rw [hwz i hi, mul_zero]
     · have ht1 : tN (i : ℕ) = 1 := by
-        rw [htN, if_neg (show ¬ (i : ℕ) = 0 by omega), if_neg (show ¬ (i : ℕ) = 5 by omega),
+        rw [htN, ite_eq_right (show ¬ (i : ℕ) = 0 by omega), ite_eq_right (show ¬ (i : ℕ) = 5 by omega),
           mul_one]
       rw [ht1, one_mul]
   have hfixv : ((b * diagonal (fun j : Fin p => sN (j : ℕ)) * b)⁻¹ *
@@ -947,7 +947,7 @@ theorem singerUF_fermat_main_end {f : ℕ} {K : Type} [Field K] (h : UnitaryFiel
         i 0 = 0 := by
     intro i hi
     have e := congrFun hfixv i
-    rw [singerUF_mulVec_e0, Pi.single_apply, if_neg hi] at e
+    rw [singerUF_mulVec_e0, Pi.single_apply, ite_eq_right hi] at e
     exact e
   have hmono_neg : ¬ IsMonomialMat ((b * diagonal (fun j : Fin p => sN (j : ℕ)) * b)⁻¹ *
       diagonal (fun j : Fin p => tN (j : ℕ)) * (b * diagonal (fun j : Fin p => sN (j : ℕ)) * b)) := by
@@ -962,7 +962,7 @@ theorem singerUF_fermat_main_end {f : ℕ} {K : Type} [Field K] (h : UnitaryFiel
       intro i hi
       have hi0 : (i : ℕ) ≠ 0 := fun h0 => hi (Fin.ext h0)
       show tN (i : ℕ) ≠ c
-      rw [htN, if_neg hi0, one_mul]
+      rw [htN, ite_eq_right hi0, one_mul]
       split_ifs
       · exact singerUF_inv_ne_self h hc0 hc1
       · exact fun e => hc1 e.symm
@@ -992,7 +992,7 @@ theorem exists_outer_fixer_fermat {ℓ f : ℕ} {K : Type} [Field K] (h : Unitar
       (g : Matrix (Fin p) (Fin p) K) * companionMat p c = companionMat p c * g → g ∈ H) :
     ∃ g ∈ H, (∀ i, i ≠ 0 → (g : Matrix (Fin p) (Fin p) K) i 0 = 0) ∧
       ¬ IsMonomialMat (g : Matrix (Fin p) (Fin p) K) := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   have hodd : Odd p := (Fact.out : p.Prime).odd_of_ne_two (by omega)
   have hℓ : ℓ = 2 := by
     have hev : Even (ℓ ^ f) := by

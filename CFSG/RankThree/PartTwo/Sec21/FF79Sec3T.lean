@@ -14,12 +14,15 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem zpow_eq_pow_val {x : G} (hx : x ^ 3 = 1) (m : ℤ) : x ^ m = x ^ (m : ZMod 3).val := by
   have h3 : x ^ (3 : ℤ) = 1 := by exact_mod_cast hx
   rw [zpow_eq_zpow_emod m h3, ← zpow_natCast, ZMod.val_intCast]; rfl
 
+omit [Finite G] in
 theorem pow_val_one (x : G) : x ^ (1 : ZMod 3).val = x := by show x ^ 1 = x; exact pow_one x
 
+omit [Finite G] in
 theorem pow_val_two (x : G) : x ^ (2 : ZMod 3).val = x ^ 2 := rfl
 
 theorem zmod3_cases (k : ZMod 3) : k = 0 ∨ k = 1 ∨ k = 2 := by
@@ -34,7 +37,8 @@ theorem r_nor {r : G} (hr : r ∈ J) (h0 : ∀ y ∈ R u v, r * y * r⁻¹ ∈ R
   refine C.D.nor_B_of_J hr (L13b.mem_nor_of_forall fun y hy => ?_)
   rw [C.B0] at hy ⊢; exact h0 y hy
 
-theorem conj_b_of_J {r : G} (hr : r ∈ J) : r * b * r⁻¹ = b := C.D.conj_b_of_mem_cen (C.J_le_cen hr)
+omit [Finite G] in
+theorem conj_b_of_J {r : G} (hr : r ∈ J) : r * b * r⁻¹ = b := CFSG.RankThree.PartTwo.Sec21.FF79.L13b.Data.conj_b_of_mem_cen (C.J_le_cen hr)
 
 theorem r₁N : r₁ ∈ Nor B := C.r_nor C.r₁J fun y hy => by
   obtain ⟨p, rfl⟩ := exists_ψ C.E hy; rw [nd_r₁_conj C.nd]; exact ψ_mem C.E _
@@ -45,23 +49,24 @@ theorem r₂N : r₂ ∈ Nor B := C.r_nor C.r₂J fun y hy => by
 theorem wN : w ∈ Nor B := C.r_nor C.wJ fun y hy => by
   obtain ⟨p, rfl⟩ := exists_ψ C.E hy; rw [nd_w_conj C.nd]; exact ψ_mem C.E _
 
+omit [Finite G] in
 theorem exists_move : ∃ g ∈ Nor B, ∃ k : ZMod 3, ∃ p : Z3, p ≠ 0 ∧
     g * b * g⁻¹ = b ^ k.val * ψ u v p := by
-  have hbu : b * u ∈ B := B.mul_mem C.bB (C.R_le_B C.uR)
+  have hbu : b * u ∈ B := B.mul_mem C.bB (C.R_le_B CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.uR)
   have hbuJ : b * u ∉ J := fun h => C.bJ (by
     have : b = b * u * u⁻¹ := by group
-    rw [this]; exact J.mul_mem h (J.inv_mem (C.R_le_J C.uR)))
+    rw [this]; exact J.mul_mem h (J.inv_mem (C.R_le_J CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.uR)))
   have hbu1 : b * u ≠ 1 := fun h => hbuJ (by rw [h]; exact J.one_mem)
   obtain ⟨g, hg, hgD⟩ := (C.orbit (Subgroup.zpowers (b * u))
-    (by rw [Subgroup.zpowers_le]; exact hbu) (C.card_zpowers_three (C.pow3_B hbu) hbu1)).mpr
+    (by rw [Subgroup.zpowers_le]; exact hbu) (CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.card_zpowers_three (C.pow3_B hbu) hbu1)).mpr
     (fun h => hbuJ (h (Subgroup.mem_zpowers _)))
   obtain ⟨k, hk, p, hp⟩ := C.conj_b_form hg
   refine ⟨g, hg, k, p, fun hp0 => ?_, hp⟩
   have hmem : g * b * g⁻¹ ∈ Subgroup.zpowers (b * u) := by
-    rw [← hgD, C.conjBy_zpowers]; exact Subgroup.mem_zpowers _
+    rw [← hgD, CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.conjBy_zpowers]; exact Subgroup.mem_zpowers _
   obtain ⟨m, hm⟩ := Subgroup.mem_zpowers_iff.mp hmem
   rw [zpow_eq_pow_val (C.pow3_B hbu)] at hm
-  have hcomm : Commute b u := C.comm_bR C.uR
+  have hcomm : Commute b u := C.comm_bR CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.uR
   rw [hcomm.mul_pow, show u ^ (m : ZMod 3).val = ψ u v ((m : ZMod 3), 0) by simp [ψ], hp,
     hp0] at hm
   obtain ⟨h1, h2⟩ := C.B_eq hm
@@ -83,7 +88,7 @@ theorem θ_surj {t : G} (ht : t ∈ R u v) : ∃ x ∈ T b B (R u v), θ b x = t
   have hinv : ∀ r ∈ J, r ∈ Nor B → ∀ x ∈ L, r * x * r⁻¹ ∈ L := by
     rintro r hrJ hrN _ ⟨h1, x, hx, rfl⟩
     exact ⟨C.nor0 hrN h1, r * x * r⁻¹, C.T_normal hrN hx,
-      C.θ_conj_of_cen r x (C.conj_b_of_J hrJ)⟩
+      CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.θ_conj_of_cen r x (C.conj_b_of_J hrJ)⟩
   rcases nd_irred C.nd hLR (hinv r₁ C.r₁J C.r₁N) (hinv w C.wJ C.wN) with hL | hL
   · exfalso
     obtain ⟨g, hg, k, p, hp, hgb⟩ := C.exists_move
@@ -142,7 +147,7 @@ theorem θ_surj {t : G} (ht : t ∈ R u v) : ∃ x ∈ T b B (R u v), θ b x = t
       rw [e1, e2, e3, mul_assoc b, e4, C.comm_bR hβ]
       group
     have hcT : c ∈ T b B (R u v) := ⟨hcN, hcC, hθc ▸ hβ⟩
-    have : θ b c ∈ L := ⟨C.θ_mem hcT, c, hcT, rfl⟩
+    have : θ b c ∈ L := ⟨CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.θ_mem hcT, c, hcT, rfl⟩
     rw [hL] at this
     have h1 : g⁻¹ * ψ u v p * g = 1 := by rw [← hθc]; exact this
     have : ψ u v p = 1 := by
@@ -153,22 +158,22 @@ theorem θ_surj {t : G} (ht : t ∈ R u v) : ∃ x ∈ T b B (R u v), θ b x = t
     obtain ⟨-, x, hx, hθ⟩ := ht
     exact ⟨x, hx, hθ⟩
 
-theorem exists_T_fix {n : G} (hn : n ∈ Nor B) {k : ZMod 3} {p : Z3}
+theorem exists_T_fix {n : G} (_hn : n ∈ Nor B) {k : ZMod 3} {p : Z3}
     (h : n * b * n⁻¹ = b ^ k.val * ψ u v p) (hk : k ≠ 0) :
     ∃ s ∈ T b B (R u v), (s * n) * b * (s * n)⁻¹ = b ^ k.val := by
   have hkey : ∀ k : ZMod 3, k ≠ 0 → ∀ p : Z3,
       k.val • (-(k * p.1, k * p.2) : Z3) + p = 0 := by decide
   obtain ⟨s, hs, hθ⟩ := C.θ_surj (ψ_mem C.E (-(k * p.1, k * p.2)))
   refine ⟨s, hs, ?_⟩
-  have e1 : s * b ^ k.val * s⁻¹ = (θ b s * b) ^ k.val := by rw [← C.conj_b_T hs, conj_pow]
+  have e1 : s * b ^ k.val * s⁻¹ = (θ b s * b) ^ k.val := by rw [← CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.conj_b_T hs, conj_pow]
   have e2 : (θ b s * b) ^ k.val = θ b s ^ k.val * b ^ k.val :=
-    (Commute.mul_pow (C.comm_bR (C.θ_mem hs)).symm _)
-  have e3 : s * ψ u v p * s⁻¹ = ψ u v p := C.T_cen hs (ψ_mem C.E p)
+    (Commute.mul_pow (C.comm_bR (CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.θ_mem hs)).symm _)
+  have e3 : s * ψ u v p * s⁻¹ = ψ u v p := CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.T_cen hs (ψ_mem C.E p)
   calc (s * n) * b * (s * n)⁻¹ = s * (n * b * n⁻¹) * s⁻¹ := by group
     _ = (s * b ^ k.val * s⁻¹) * (s * ψ u v p * s⁻¹) := by rw [h]; group
     _ = θ b s ^ k.val * b ^ k.val * ψ u v p := by rw [e1, e2, e3]
     _ = b ^ k.val * (θ b s ^ k.val * ψ u v p) := by
-        rw [← (Commute.pow_pow (C.comm_bR (C.θ_mem hs)) k.val k.val).eq, mul_assoc]
+        rw [← (Commute.pow_pow (C.comm_bR (CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.θ_mem hs)) k.val k.val).eq, mul_assoc]
     _ = b ^ k.val := by
         rw [hθ, ← ψ_nsmul C.E, ← ψ_add C.E, hkey k hk p, ψ_zero, mul_one]
 
@@ -176,7 +181,7 @@ theorem mono_N {n : G} (hn : n ∈ Nor B) :
     InBlocks u v (n * u * n⁻¹) ∧ InBlocks u v (n * v * n⁻¹) := by
   obtain ⟨k, hk, p, h⟩ := C.conj_b_form hn
   obtain ⟨s, hs, hsb⟩ := C.exists_T_fix hn h hk
-  have hsn : s * n ∈ Nor B := Subgroup.mul_mem _ (C.T_le_N hs) hn
+  have hsn : s * n ∈ Nor B := Subgroup.mul_mem _ (CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.T_le_N hs) hn
   have hbk : (s * n) * b * (s * n)⁻¹ = b ∨ (s * n) * b * (s * n)⁻¹ = b⁻¹ := by
     rw [hsb]
     rcases zmod3_cases k with rfl | rfl | rfl
@@ -187,11 +192,11 @@ theorem mono_N {n : G} (hn : n ∈ Nor B) :
   have hR : s * n ∈ Nor (R u v) := L13b.mem_nor_of_forall fun y hy => C.nor0 hsn hy
   obtain ⟨h1, h2⟩ := C.mono (s * n) hJ hR
   have e : ∀ x ∈ R u v, (s * n) * x * (s * n)⁻¹ = n * x * n⁻¹ := fun x hx => by
-    have := C.T_cen hs (C.nor0 hn hx)
+    have := CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.T_cen hs (C.nor0 hn hx)
     calc (s * n) * x * (s * n)⁻¹ = s * (n * x * n⁻¹) * s⁻¹ := by group
       _ = n * x * n⁻¹ := this
-  rw [e u C.uR] at h1
-  rw [e v C.vR] at h2
+  rw [e u CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.uR] at h1
+  rw [e v CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.vR] at h2
   exact ⟨h1, h2⟩
 
 theorem three_mem_T {n : G} (hn : n ∈ Nor B) {m : ℕ} (hm : n ^ (3 ^ m) = 1) :

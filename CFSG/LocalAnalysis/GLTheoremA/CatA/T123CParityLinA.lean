@@ -24,7 +24,7 @@ private theorem pCoreOf_projStabilizer_ne_bot {n : ℕ} {K : Type} [Field K] [Fi
       ((isPGroup_elationSubgroup 2 _).map _)
   intro hbot
   rw [hbot, le_bot_iff, Subgroup.map_eq_bot_iff, ker_proj] at hle
-  obtain ⟨v, -, hv⟩ := SetLike.exists_of_lt hWT
+  obtain ⟨v, -, hv⟩ := _root_.IsConcreteLE.exists_of_lt hWT
   refine hv (mem_of_forall_mem_elationSubgroup hW0.ne' fun A hA => ?_)
   obtain ⟨c, -, hc⟩ := mem_scalars.1 (hle hA)
   rw [hc, Subsingleton.elim c 1, Units.val_one, map_one, Matrix.one_mulVec]

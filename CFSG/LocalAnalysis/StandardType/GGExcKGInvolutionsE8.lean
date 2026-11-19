@@ -103,7 +103,7 @@ theorem ggExcKGInvolutions_E8 (n f : ℕ) (G : Type) [Group G] [Finite G]
         g * s * g⁻¹ ∈ ⨆ β ∈ Z, ((ggU .E8 n f).D.rootGroup β).map ψ := by
   obtain ⟨⟨hadm, hrk⟩, hker, ⟨hcomm, hlie⟩, hcent⟩ := hset
   have hf : 1 ≤ f := hadm.2.1
-  haveI : NeZero f := ⟨by omega⟩
+  have : NeZero f := ⟨by omega⟩
   have hinj : Function.Injective ψ := by
     rw [← MonoidHom.ker_eq_bot_iff, eq_bot_iff]
     refine hker.trans ?_

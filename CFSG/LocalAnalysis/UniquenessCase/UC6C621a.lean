@@ -68,7 +68,7 @@ theorem exists_inverting_of_surjective {L M₀ : Type*} [Group L] [Finite L] [Gr
     rw [e, h]
     group
   obtain ⟨x', hx'⟩ := hψ x₁
-  haveI : (ψ.ker).Normal := MonoidHom.normal_ker ψ
+  have : (ψ.ker).Normal := MonoidHom.normal_ker ψ
   have hconjmem : ∀ e ∈ E, x' * e * x'⁻¹ ∈ E ⊔ ψ.ker := by
     intro e he
     have h1 : ψ (x' * e * x'⁻¹) ∈ E.map ψ := by

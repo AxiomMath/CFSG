@@ -139,6 +139,7 @@ section Chain
 
 variable {H β : Type*} [Group H] [Finite H] [MulAction H β]
 
+omit [Finite H] in
 theorem card_stab_mul_ncard (ω : β) :
     Nat.card (MulAction.stabilizer H ω) * (MulAction.orbit H ω).ncard = Nat.card H := by
   rw [← MulAction.index_stabilizer, Subgroup.card_mul_index]
@@ -268,7 +269,7 @@ theorem tgO_mem : ∀ k < 7, ∃ g ∈ Om1Facts.G wT, PR (A.TG.G k) g := fun k h
   ⟨_, E_mem_G (getD_mem (by rw [A.kLens.2.1]; exact hk)), pr_TG hk⟩
 
 theorem orb15_bound : 3150 ≤ (Om1Facts.orb (Om1Facts.G wX) (Om1Facts.neg 15)).ncard :=
-  orb_bound xg_mem orb_code (fun i hi => (orb_parts hi).2.2.1) A.kDist F0_eq
+  orb_bound xg_mem orb_code (fun _i hi => (orb_parts hi).2.2.1) A.kDist F0_eq
 
 theorem oa_code : ∀ i < 3780, codeOK 240 8 4 (A.OA.C i) (A.OA.M i) = true :=
   fun i hi => (oband (oaOK_all i hi)).1

@@ -81,7 +81,7 @@ theorem frattini_elem {K : Type*} [Group K] [Finite K] {p : ℕ} [Fact p.Prime]
   have hqNpow : qN ^ (p ^ r) = 1 := by
     apply Subtype.ext
     apply Subtype.ext
-    simp [Subgroup.coe_pow, hqNq, hqr]
+    simp [hqNq, hqr]
   obtain ⟨P, hPle⟩ := (isPGroup_zpowers_of_pow_eq_one hqNpow).exists_le_sylow
   have hqP : qN ∈ (P : Subgroup ↥(H.subgroupOf (Subgroup.normalizer (H : Set K)))) :=
     hPle (Subgroup.mem_zpowers qN)
@@ -97,7 +97,7 @@ theorem frattini_elem {K : Type*} [Group K] [Finite K] {p : ℕ} [Fact p.Prime]
     (Subgroup.map (H.subgroupOf (Subgroup.normalizer (H : Set K))).subtype
       (P : Subgroup ↥(H.subgroupOf (Subgroup.normalizer (H : Set K))))), ?_, ?_,
     (x' : K), (y' : K), ?_, ?_, hxy'.symm⟩
-  · exact IsPGroup.map (IsPGroup.map P.isPGroup' _) _
+  · exact IsPGroup.map (IsPGroup.map P.isPGroup _) _
   · refine Subgroup.mem_map.2 ⟨(H.subgroupOf (Subgroup.normalizer (H : Set K))).subtype qN,
       Subgroup.mem_map.2 ⟨qN, hqP, rfl⟩, ?_⟩
     exact hqNq

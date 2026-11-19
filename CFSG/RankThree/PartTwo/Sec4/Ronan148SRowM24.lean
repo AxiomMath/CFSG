@@ -16,6 +16,7 @@ section E9
 
 variable {S : Type} [Group S] [Finite S]
 
+omit [Finite S] in
 theorem isElemAbelian_zpowers_of_pow {s : S} (hs : s ^ 3 = 1) :
     CFSG.Assembly.IsElemAbelian 3 (Subgroup.zpowers s) := by
   refine ⟨⟨⟨fun a b => Subtype.ext ?_⟩⟩, fun x hx => ?_⟩
@@ -243,7 +244,7 @@ theorem survE_m24 : SurvE ↥Blueprint.NativeSporadic.M24 (alternatingGroup (Fin
   have hφs : ((φ s : Blueprint.NativeSporadic.M24) : Equiv.Perm (Fin 24)) = tp 24 r.rep := by
     have : ((φ s : Blueprint.NativeSporadic.M24) : Equiv.Perm (Fin 24)) =
         g⁻¹ * (s : Equiv.Perm (Fin 24)) * g := by
-      simp [hφ, hgP, MulAut.conj_apply]
+      simp [hφ, hgP]
     rw [this, hgr]
     group
   rcases hr with rfl | rfl
@@ -271,9 +272,9 @@ theorem checkSU_m24' : ∀ q < 626, 2 ≤ q → q ^ 3 ∣ 244823040 →
 theorem rankTwo_spor_m24 : RankTwoData (Spor .M24) := by
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.M24.nonempty_mulEquiv
   have b' : Blueprint.NativeSporadic.Carrier .M24 ≃* Spor .M24 := b
-  haveI : Finite (Blueprint.NativeSporadic.Carrier .M24) :=
+  have : Finite (Blueprint.NativeSporadic.Carrier .M24) :=
     (inferInstance : Finite ↥Blueprint.NativeSporadic.M24)
-  haveI : Finite (Spor .M24) := Finite.of_equiv _ b'.toEquiv
+  have : Finite (Spor .M24) := Finite.of_equiv _ b'.toEquiv
   have hrank : CFSG.pRank 3 (Spor .M24) = 2 :=
     (CFSG.RankThree.Asc83Table.M24.table (L := Spor .M24) ⟨b'.symm⟩).2.1
   refine ⟨cubeInner_of_not_three_dvd_card_outer

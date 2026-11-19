@@ -18,9 +18,9 @@ namespace CFSG.StandardType.LieKnownR2.POmega
 private theorem pomega_ns_of_component {X : Type} [Group X] {J G₀ D : Subgroup X}
     (h : CFSG.Assembly.IsComponentOf J (G₀ ⊓ Subgroup.centralizer (D : Set X))) :
     ¬ Group.IsSolvable ↥J := by
-  haveI : Group.IsPerfect ↥J := Group.isPerfect_def.mpr h.2.2.1
-  haveI : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := h.2.2.2
-  haveI : Nontrivial ↥J := (QuotientGroup.mk'_surjective (Subgroup.center ↥J)).nontrivial
+  have : Group.IsPerfect ↥J := Group.isPerfect_def.mpr h.2.2.1
+  have : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := h.2.2.2
+  have : Nontrivial ↥J := (QuotientGroup.mk'_surjective (Subgroup.center ↥J)).nontrivial
   exact Group.IsPerfect.not_isSolvable ↥J
 
 private theorem pomega_itemTwo_orth

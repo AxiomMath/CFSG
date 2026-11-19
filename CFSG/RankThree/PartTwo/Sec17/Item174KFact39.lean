@@ -26,14 +26,17 @@ variable {G : Type} [Group G] [Finite G]
   map_one' := MulEquiv.ext fun x => Subtype.ext (by simp)
   map_mul' g h := MulEquiv.ext fun x => Subtype.ext (by simp [mul_assoc])
 
+omit [Finite G] in
 theorem coe_conjAutX (X : Subgroup G) (g : ↥(Subgroup.normalizer (X : Set G))) (x : ↥X) :
     ((conjAutX X g x : ↥X) : G) = (g : G) * x * (g : G)⁻¹ :=
   rfl
 
+omit [Finite G] in
 theorem mem_pPrimeCore_iff (X : Subgroup G) (x : ↥X) :
     x ∈ pPrimeCore 3 ↥X ↔ (x : G) ∈ pPrimeCoreOf 3 X :=
   (Subgroup.mem_map_iff_mem X.subtype_injective).symm
 
+omit [Finite G] in
 theorem map_conjAutX_pPrimeCore (X : Subgroup G) (g : ↥(Subgroup.normalizer (X : Set G))) :
     (pPrimeCore 3 ↥X).map (conjAutX X g : ↥X →* ↥X) = pPrimeCore 3 ↥X := by
   have hgK : (g : G) ∈ Subgroup.normalizer (pPrimeCoreOf 3 X : Set G) :=
@@ -55,6 +58,7 @@ theorem map_conjAutX_pPrimeCore (X : Subgroup G) (g : ↥(Subgroup.normalizer (X
     rw [MulAut.mul_apply, QuotientGroup.congr_mk, QuotientGroup.congr_mk, QuotientGroup.congr_mk,
       map_mul, MulAut.mul_apply]
 
+omit [Finite G] in
 theorem conjAutQ_mk (X : Subgroup G) [(pPrimeCore 3 ↥X).Normal]
     (g : ↥(Subgroup.normalizer (X : Set G))) (x : ↥X) :
     conjAutQ X g (x : ↥X ⧸ pPrimeCore 3 ↥X) = ((conjAutX X g x : ↥X) : ↥X ⧸ pPrimeCore 3 ↥X) :=
@@ -99,7 +103,7 @@ theorem kfact39At_of {A : Subgroup G} {c : G} {L Y₀ : Subgroup G} (h : Sec17St
   set K := pPrimeCoreOf 3 X with hKdef
   set W := CFSG.Open.pCoreOf 2 (Subgroup.centralizer (Y₀ : Set G)) with hWdef
   obtain ⟨n, hn, ⟨e⟩⟩ := h26 hΩ hL hW
-  haveI : (pPrimeCore 3 ↥X).Normal := pPrimeCore_normal
+  have : (pPrimeCore 3 ↥X).Normal := pPrimeCore_normal
   set K' := pPrimeCore 3 ↥X with hK'def
   have hcA : c ∈ A := h.mem_A
   have hM : Subgroup.normalizer (A : Set G) ≤ Subgroup.normalizer (W : Set G) :=

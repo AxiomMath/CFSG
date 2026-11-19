@@ -49,7 +49,7 @@ theorem rho11_comp_K22 (q : ↥K22) :
 
 theorem isSimpleGroup_K22 :
     IsSimpleGroup ↥K22 := by
-  haveI := isSimpleGroup_mog22
+  have := isSimpleGroup_mog22
   exact eK22.isSimpleGroup
 
 theorem K22_nonabelian : ∃ a b : ↥K22, a * b ≠ b * a := by
@@ -98,7 +98,7 @@ theorem exists_conj_of_aut_K22
     (X : ExtData (rho11 AutPerm le_rfl) N) {B : Subgroup N} (hB : ∀ n, n ∈ B ↔ X.π n ∈ K22)
     (γ : ↥B ≃* ↥B) :
     ∃ c : N, X.π c ∈ duadStabPlus 0 1 ∧ ∀ b : ↥B, ((γ b : ↥B) : N) = c * (b : N) * c⁻¹ := by
-  haveI := isSimpleGroup_K22
+  have := isSimpleGroup_K22
   exact X.exists_conj_of_aut_preimage hB K22_nonabelian modH1Trivial_K22 modEquivAutTrivial_K22
     (fun α => by
       obtain ⟨k', hk', hq⟩ := exists_conj_of_aut_K22_aux α

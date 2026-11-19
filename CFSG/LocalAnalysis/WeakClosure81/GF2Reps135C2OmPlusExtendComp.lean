@@ -154,8 +154,7 @@ private noncomputable def w183_tensorEquiv
     { toFun := TensorProduct.lift f
       map_add' := fun x y => map_add (TensorProduct.lift f) x y
       map_smul' := fun a x => by
-        induction x using TensorProduct.induction_on with
-        | zero => simp
+        induction x using TensorProduct.inductionOn with
         | tmul c m =>
             change TensorProduct.lift f (a • (c ⊗ₜ[E'] m)) =
               a • TensorProduct.lift f (c ⊗ₜ[E'] m)
@@ -167,8 +166,7 @@ private noncomputable def w183_tensorEquiv
     { toFun := TensorProduct.lift g
       map_add' := fun x y => map_add (TensorProduct.lift g) x y
       map_smul' := fun a x => by
-        induction x using TensorProduct.induction_on with
-        | zero => simp
+        induction x using TensorProduct.inductionOn with
         | tmul c m =>
             change TensorProduct.lift g (a • (c ⊗ₜ[E] m)) =
               a • TensorProduct.lift g (c ⊗ₜ[E] m)
@@ -178,17 +176,15 @@ private noncomputable def w183_tensorEquiv
         | add x y hx hy => simp [map_add, hx, hy] }
   have hθF' : ∀ (c : k) (m : M), θF (c ⊗ₜ[E'] m) = c ⊗ₜ[E] m := fun c m => rfl
   have hθB' : ∀ (c : k) (m : M), θB (c ⊗ₜ[E] m) = c ⊗ₜ[E'] m := fun c m => rfl
-  refine LinearEquiv.ofLinear θF θB ?_ ?_
+  refine LinearEquiv.ofLinearMap θF θB ?_ ?_
   · apply LinearMap.ext
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul c m => rw [LinearMap.comp_apply, hθB' c m, hθF' c m, LinearMap.id_coe, id_eq]
     | add x y hx hy => simp [map_add, hx, hy]
   · apply LinearMap.ext
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul c m => rw [LinearMap.comp_apply, hθF' c m, hθB' c m, LinearMap.id_coe, id_eq]
     | add x y hx hy => simp [map_add, hx, hy]
 
@@ -211,11 +207,11 @@ theorem exists_extendScalars_comp_equiv {G : Type} [Group G] {V : Type}
   let e : Module.End (MonoidAlgebra (ZMod 2) G)
         (Representation.asModule (ρ.comp γ.toMonoidHom)) ≃+*
       Module.End (MonoidAlgebra (ZMod 2) G) ρ.asModule := w183_endEquiv ρ γ
-  letI : Algebra (Module.End (MonoidAlgebra (ZMod 2) G)
+  let : Algebra (Module.End (MonoidAlgebra (ZMod 2) G)
         (Representation.asModule (ρ.comp γ.toMonoidHom))) k :=
     ((algebraMap (Module.End (MonoidAlgebra (ZMod 2) G) ρ.asModule) k).comp
       e.toRingHom).toAlgebra
-  letI : Module (Module.End (MonoidAlgebra (ZMod 2) G) ρ.asModule)
+  let : Module (Module.End (MonoidAlgebra (ZMod 2) G) ρ.asModule)
       (Representation.asModule (ρ.comp γ.toMonoidHom)) :=
     Module.compHom (Representation.asModule (ρ.comp γ.toMonoidHom)) e.symm.toRingHom
   have halg : ∀ φ' : Module.End (MonoidAlgebra (ZMod 2) G)

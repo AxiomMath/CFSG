@@ -427,7 +427,7 @@ theorem not_two_dvd_relIndex [Finite Γ] : ¬ 2 ∣ F.I.relIndex F.P := by
   obtain ⟨T⟩ : Nonempty (Sylow 2 ↥F.P) := inferInstance
   have hT : (T : Subgroup ↥F.P) ≤ F.I.subgroupOf F.P := by
     intro t ht
-    obtain ⟨n, hn⟩ := T.isPGroup' ⟨t, ht⟩
+    obtain ⟨n, hn⟩ := T.isPGroup ⟨t, ht⟩
     rw [mem_subgroupOf]
     refine F.mem_I_of_two t t.2 n ?_
     have h := congrArg (fun x : ↥(T : Subgroup ↥F.P) => ((x : ↥F.P) : Γ)) hn

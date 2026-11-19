@@ -384,7 +384,7 @@ theorem isSylowTwoOf_unitriangular_ch615 [Finite K] {n m : ℕ} (hK : Nat.card K
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : CharP K 2 := charP_of_card_eq_prime_pow (f := m) (by rw [← Nat.card_eq_fintype_card, hK])
   obtain ⟨P, hP⟩ := exists_sylow_unitriangular (K := K) 2 hn
-  refine ⟨le_top, hP ▸ P.isPGroup', fun h2 => ?_⟩
+  refine ⟨le_top, hP ▸ P.isPGroup, fun h2 => ?_⟩
   change 2 ∣ (unitriangular n K).relIndex ⊤ at h2
   rw [Subgroup.relIndex_top_right, ← hP] at h2
   exact P.not_dvd_index h2

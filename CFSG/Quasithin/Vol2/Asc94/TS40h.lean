@@ -11,6 +11,7 @@ open CFSG.CGT.Timmesfeld75 CFSG.Open
 
 variable {G : Type} [Group G] [Finite G] {z : G}
 
+omit [Finite G] in
 theorem Frame3.Δ2_sub_Sz' (F : Frame3 G z) (hU2 : ∀ u ∈ F.U2, u ≠ 1 → InZG z u) :
     F.Δ 2 ⊆ F.Sz := by
   intro a ha
@@ -28,9 +29,8 @@ theorem Frame3.exists_y21 (F : Frame3 G z) (hU1 : ∀ u ∈ F.U, u ≠ 1 → InZ
   have hfin7 : ∀ i : Fin 7, i = 0 ∨ i = 1 ∨ i = 2 ∨ i = 3 ∨ i = 4 ∨ i = 5 ∨ i = 6 := by decide
   by_cases h4 : F.Δ 4 ⊆ F.Sz <;> by_cases h5 : F.Δ 5 ⊆ F.Sz <;>
     by_cases h6 : F.Δ 6 ⊆ F.Sz <;> simp [h4, h5, h6] at hsum
-  all_goals first
+  all_goals try first
     | (exfalso; omega)
-    | skip
   · refine ⟨4, Or.inl rfl, h4, fun i hi => ?_⟩
     rcases hfin7 i with rfl | rfl | rfl | rfl | rfl | rfl | rfl
     · exact Or.inl rfl
@@ -53,6 +53,7 @@ theorem Frame3.exists_y21 (F : Frame3 G z) (hU1 : ∀ u ∈ F.U, u ≠ 1 → InZ
 
 @[expose] def Frame3.Tp (F : Frame3 G z) : Set G := {t | t ∈ F.Sz ∧ t ∉ F.D}
 
+omit [Finite G] in
 theorem Frame3.D_split (F : Frame3 G z) {a : G} (ha : a ∈ F.D) :
     a = 1 ∨ a ∈ F.Δ 0 ∨ a ∈ F.Δ 1 := by
   by_cases h1 : a = 1
@@ -67,16 +68,19 @@ theorem Frame3.D_split (F : Frame3 G z) {a : G} (ha : a ∈ F.D) :
       rw [F.Δ1]
       exact ⟨ha, by simp [h1, hz]⟩
 
+omit [Finite G] in
 theorem Frame3.Δ1_sub_D (F : Frame3 G z) {a : G} (ha : a ∈ F.Δ 1) : a ∈ F.D := by
   rw [F.Δ1] at ha
   exact ha.1
 
+omit [Finite G] in
 theorem Frame3.Δ_sub_A (F : Frame3 G z) {i : Fin 7} {a : G} (ha : a ∈ F.Δ i) : a ∈ F.A ∧ a ≠ 1 := by
   have : a ∈ ⋃ i, F.Δ i := Set.mem_iUnion.2 ⟨i, ha⟩
   rw [F.Δ_union] at this
   exact this
 
-theorem Frame3.Tp_eq (F : Frame3 G z) (hU1 : ∀ u ∈ F.U, u ≠ 1 → InZG z u)
+omit [Finite G] in
+theorem Frame3.Tp_eq (F : Frame3 G z) (_hU1 : ∀ u ∈ F.U, u ≠ 1 → InZG z u)
     (hU2 : ∀ u ∈ F.U2, u ≠ 1 → InZG z u) {y : Fin 7} (hy45 : y = 4 ∨ y = 5) (hyS : F.Δ y ⊆ F.Sz)
     (hyall : ∀ i : Fin 7, F.Δ i ⊆ F.Sz → (i = 0 ∨ i = 1 ∨ i = 2 ∨ i = y)) :
     F.Tp = F.Δ 2 ∪ F.Δ y := by
@@ -113,6 +117,7 @@ theorem Frame3.Tp_eq (F : Frame3 G z) (hU1 : ∀ u ∈ F.U, u ≠ 1 → InZG z u
     · exact ⟨hyS ha, hnD ha hy0 hy1⟩
 
 
+omit [Finite G] in
 theorem Frame3.z_mem_Sz (F : Frame3 G z) : z ∈ F.Sz := ⟨F.z_mem_A, F.z_ne_one, 1, by simp⟩
 
 theorem Frame3.card_Dm_inf_D (F : Frame3 G z) (hU1 : ∀ u ∈ F.U, u ≠ 1 → InZG z u)
@@ -165,7 +170,7 @@ theorem Frame3.card_Dm_diff (F : Frame3 G z) (hU1 : ∀ u ∈ F.U, u ≠ 1 → I
     (hII : Subgroup.normalizer (F.U : Set G) = Cz z) {s : G} (hs : s ∈ F.Δ 1) :
     ((F.Dm s : Set G) \ (F.D : Set G)).ncard = 4 := by
   have hsSz : s ∈ F.Sz := F.Δ1_sub_Sz hU1 hs
-  have h1 := Set.ncard_inter_add_ncard_diff_eq_ncard (F.Dm s : Set G) (F.D : Set G)
+  have h1 := Set.ncard_inter_add_ncard_sdiff_eq_ncard (F.Dm s : Set G) (F.D : Set G)
   have h2 : ((F.Dm s : Set G) ∩ (F.D : Set G)).ncard = 4 := by
     rw [← Subgroup.coe_inf, ← Nat.card_coe_set_eq]
     exact F.card_Dm_inf_D hU1 hII hs
@@ -260,7 +265,7 @@ theorem Frame3.false_of_card_21 (F : Frame3 G z) (hU1 : ∀ u ∈ F.U, u ≠ 1 �
     (hU2 : ∀ u ∈ F.U2, u ≠ 1 → InZG z u) (hII : Subgroup.normalizer (F.U : Set G) = Cz z)
     (h21 : F.Sz.ncard = 21) : False := by
   classical
-  haveI : Fintype G := Fintype.ofFinite G
+  have : Fintype G := Fintype.ofFinite G
   obtain ⟨y, hy45, hyS, hyall⟩ := F.exists_y21 hU1 hU2 h21
   have hTp := F.Tp_eq hU1 hU2 hy45 hyS hyall
   have hy2 : y ≠ 2 := by rcases hy45 with rfl | rfl <;> decide
@@ -307,7 +312,7 @@ theorem Frame3.false_of_card_21 (F : Frame3 G z) (hU1 : ∀ u ∈ F.U, u ≠ 1 �
     have hset : ((Tf.bipartiteAbove (fun s t => t ∈ F.Dm s) s : Finset G) : Set G) =
         (F.Dm s : Set G) \ (F.D : Set G) := by
       ext t
-      simp only [Finset.bipartiteAbove, Finset.coe_filter, Set.mem_setOf_eq, Set.mem_diff,
+      simp only [Finset.bipartiteAbove, Finset.coe_filter, Set.mem_ofPred_eq, Set.mem_sdiff,
         SetLike.mem_coe, hTm]
       constructor
       · rintro ⟨⟨-, htD⟩, ht⟩
@@ -326,7 +331,7 @@ theorem Frame3.false_of_card_21 (F : Frame3 G z) (hU1 : ∀ u ∈ F.U, u ≠ 1 �
     have hset : ((P.bipartiteBelow (fun s t => t ∈ F.Dm s) t : Finset G) : Set G) =
         F.Δ 1 ∩ (F.Dm t : Set G) := by
       ext s
-      simp only [Finset.bipartiteBelow, Finset.coe_filter, Set.mem_setOf_eq, Set.mem_inter_iff,
+      simp only [Finset.bipartiteBelow, Finset.coe_filter, Set.mem_ofPred_eq, Set.mem_inter_iff,
         SetLike.mem_coe, hPm]
       constructor
       · rintro ⟨hs, hts⟩

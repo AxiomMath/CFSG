@@ -19,7 +19,7 @@ theorem r95s_lieModel_two_of_mulEquiv_psl {Y : Type} [Group Y] {F : Type} [Field
     (e : Y ≃* Matrix.ProjectiveSpecialLinearGroup (Fin 2) F) :
     ∃ m : ℕ, LieModel Y .PSL 2 2 m := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   obtain ⟨p, -, k, hp, hk⟩ := FiniteField.card' F
   rw [← Nat.card_eq_fintype_card] at hk
   have hp2 : p = 2 := by
@@ -27,7 +27,7 @@ theorem r95s_lieModel_two_of_mulEquiv_psl {Y : Type} [Group Y] {F : Type} [Field
     exact (Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).1
       (hp.dvd_of_dvd_pow (hpk ▸ dvd_pow_self p (k.pos).ne'))
   subst p
-  refine ⟨(k : ℕ), Or.inl ⟨by decide, ⟨hp, k.one_le, le_rfl, fun h => ?_, fun h => ?_⟩, F,
+  refine ⟨(k : ℕ), Or.inl ⟨by decide, ⟨hp, (_root_.one_le (a := k)), le_rfl, fun h => ?_, fun h => ?_⟩, F,
     inferInstance, inferInstance, hk,
     ⟨e.trans (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 2 F)⟩⟩⟩
   · have h2 := congrArg Prod.snd h
@@ -46,7 +46,7 @@ theorem r95s_false_of_quot_sl2 {Γ : Type} [Group Γ] [Finite Γ]
     (hN3 : ¬ 3 ∣ Nat.card N) {F : Type} [Field F] [Finite F] {n : ℕ}
     (hF : Nat.card F = 2 ^ n) (e : Nonempty (Γ ⧸ N ≃* SL(2, F))) : False := by
   classical
-  haveI := hS
+  have := hS
   obtain ⟨e⟩ := e
   have hNO : N ≤ (QuotientGroup.mk' (CFSG.pPrimeCore 3 Γ)).ker := by
     rw [QuotientGroup.ker_mk']
@@ -83,7 +83,7 @@ theorem r95s_false_of_quot_sl2 {Γ : Type} [Group Γ] [Finite Γ]
     have hle := Nat.card_le_card_of_surjective φ₁ hφ₁
     have hSL := card_sl_two_le_of_card_le_three (F := F) (by omega)
     omega
-  haveI := Matrix.ProjectiveSpecialLinearGroup.rank_two_simple h4
+  have := Matrix.ProjectiveSpecialLinearGroup.rank_two_simple h4
   obtain ⟨e₂⟩ := hiso (Matrix.ProjectiveSpecialLinearGroup (Fin 2) F)
     (QuotientGroup.lift _ φ₁ hZ) (QuotientGroup.lift_surjective_of_surjective _ φ₁ hφ₁ hZ)
   obtain ⟨m, hm⟩ := r95s_lieModel_two_of_mulEquiv_psl hF h4 e₂

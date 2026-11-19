@@ -56,7 +56,7 @@ theorem letG_new (E : List G) (x y : G) :
     letG a b (E ++ [x] ++ [y]) (4 + E.length) = x ∧
       letG a b (E ++ [x] ++ [y]) (5 + E.length) = y := by
   unfold letG
-  rw [if_neg (by omega), if_neg (by omega), List.append_assoc, List.singleton_append,
+  rw [ite_eq_right (by omega), ite_eq_right (by omega), List.append_assoc, List.singleton_append,
     List.getD_append_right _ _ _ _ (by omega), List.getD_append_right _ _ _ _ (by omega)]
   have e1 : 4 + E.length - 4 - E.length = 0 := by omega
   have e2 : 5 + E.length - 4 - E.length = 1 := by omega
@@ -199,9 +199,9 @@ theorem evalWord_pto (g : ℕ → G) (k : ℕ) : ∀ w : List ℤ, (∀ l ∈ w,
       rfl
     rw [hcons, hs, ← evalWord_pto g k w fun l' hl' => hl l' (List.mem_cons_of_mem _ hl')]
     by_cases hpos : 0 < l
-    · rw [decide_eq_true hpos, Quiver.SchreierGraph.evalWord_cons_true, if_pos hpos]
+    · rw [decide_eq_true hpos, Quiver.SchreierGraph.evalWord_cons_true, ite_eq_left hpos]
     · have hd : decide (0 < l) = false := by simpa using hpos
-      rw [hd, Quiver.SchreierGraph.evalWord_cons_false, if_neg hpos]
+      rw [hd, Quiver.SchreierGraph.evalWord_cons_false, ite_eq_right hpos]
 
 theorem wE_six (f : ℕ → G) (c : ℕ) : wE f [c, c, c, c, c, c] = f c ^ 6 := by
   simp only [wE_cons, wE_nil, one_mul, pow_succ, pow_zero]
@@ -283,7 +283,7 @@ theorem strong_pairs_J : ∀ i < 17, PairOK aJ bJ E2 (Hp i) (hJ i) := by
 theorem hWordJ_eq (w : List ℤ) : hWordJ w = sprod hJ w := rfl
 
 theorem c3J_zero : c3J 0 = hWordJ FAData.c3Words[0]! := by
-  rw [c3J, if_pos (by norm_num)]
+  rw [c3J, ite_eq_left (by norm_num)]
 
 theorem reg_c : wE (letG aJ bJ E2) (kwS Hp FAData.c3Words[0]!) = c3J 0 := by
   rw [c3J_zero, hWordJ_eq]

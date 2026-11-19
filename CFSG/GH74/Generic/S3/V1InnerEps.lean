@@ -43,7 +43,7 @@ theorem v1_inner_of_congEps {t : StatedLieTag} {p f : ℕ} {v w : G} {Iv Iw Ivw 
   set π : ↥Ivw →* ↥Ivw ⧸ center ↥Ivw := QuotientGroup.mk' (center ↥Ivw) with hπ
   obtain ⟨hR2, hRmax⟩ := isMax_map_center Q hodd
   have hinj := injOn_map_center Q hodd
-  have hQ2 : IsPGroup 2 (Q : Subgroup ↥Ivw) := Q.isPGroup'
+  have hQ2 : IsPGroup 2 (Q : Subgroup ↥Ivw) := Q.isPGroup
   have hQZ : ∀ z : ↥Ivw, z ∈ (Q : Subgroup ↥Ivw) → z ∈ center ↥Ivw → z = 1 :=
     fun z hzQ hzZ => eq_one_of_mem_pGroup_of_mem_center_odd hQ2 hodd hzQ hzZ
   have hsqQ : ∀ q ∈ (Q : Subgroup ↥Ivw), π q * π q = 1 → q * q = 1 := by

@@ -199,7 +199,7 @@ theorem szN8_decomp {Y L : Subgroup G} (hYN : Y ≤ Subgroup.normalizer (L : Set
   obtain ⟨S, hS⟩ := hzp.exists_le_sylow
   let P : Subgroup G := (S : Subgroup ↥Y).map Y.subtype
   have hPY : P ≤ Y := Subgroup.map_subtype_le _
-  have hP3 : IsPGroup 3 P := S.isPGroup'.map Y.subtype
+  have hP3 : IsPGroup 3 P := S.isPGroup.map Y.subtype
   have haP : a ∈ P := ⟨a', hS (Subgroup.mem_zpowers a'), rfl⟩
   have hPe : ∀ x ∈ P, x ^ 3 = 1 := fun x hx =>
     szN8_odd_pow_three hQe (hPY hx) (szN8_odd_of_three hP3 hx)

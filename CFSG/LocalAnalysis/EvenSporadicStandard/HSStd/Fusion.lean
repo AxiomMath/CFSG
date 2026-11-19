@@ -156,7 +156,7 @@ theorem _root_.CFSG.EvenSporadicStandard.StdHyp.exists_conj_eq_mul_of_fusionData
     exact htL (hle h2)
   set A : Subgroup G := (R : Subgroup L).map L.subtype with hAdef
   have hA : IsPGroup 2 A :=
-    (R.isPGroup').of_equiv (Subgroup.equivMapOfInjective _ L.subtype L.subtype_injective)
+    (R.isPGroup).of_equiv (Subgroup.equivMapOfInjective _ L.subtype L.subtype_injective)
   have hB : IsPGroup 2 (zpowers t) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, ht2, pow_one])
   have hAL : A ≤ L := Subgroup.map_subtype_le _

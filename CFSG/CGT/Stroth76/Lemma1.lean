@@ -187,7 +187,7 @@ theorem card_centralizer_of_ne (K : Config X)
   have hne' : Nat.card (Subgroup.centralizer (K.A : Set X)) ≠ 32 := fun h =>
     hne (Subgroup.eq_of_le_of_card_ge hAC (by rw [h, K.hAcard])).symm
   rw [hk'] at hdvd hne' ⊢
-  interval_cases k <;> simp_all <;> omega
+  interval_cases k <;> simp_all
 
 theorem arch76Lemma1 (K : Config X) (hρodd : Odd (orderOf K.ρ)) {C : Subgroup X}
     (hCA : Subgroup.centralizer (K.A : Set X) = C) (hC : Nat.card C ∣ 2 ^ 7) (hne : C ≠ K.A)

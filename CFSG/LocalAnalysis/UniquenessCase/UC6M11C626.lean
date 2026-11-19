@@ -161,7 +161,7 @@ theorem exists_conj_of_sylow {S : Type*} [Group S] [Finite S] {p : ℕ} [Fact p.
 
 theorem sylow_of_card_nine (E : Subgroup S11) (hE : Nat.card E = 9) :
     ∃ P : Sylow 3 S11, (P : Subgroup S11) = E := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : IsPGroup 3 E := IsPGroup.of_card (n := 2) (by rw [hE]; norm_num)
   have hidx : E.index = 880 := by
     have := Subgroup.card_mul_index E
@@ -177,7 +177,7 @@ theorem exists_iso_sylow_m11 {X : Type} [Group X]
     (hE₀ : Nat.card E₀ = 9) : ∃ ψ : X ≃* S11, ∀ x, x ∈ E₀ ↔ ψ x ∈ Eu := by
   obtain ⟨φ0⟩ := hX
   let φ : X ≃* S11 := φ0
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hE1 : Nat.card (E₀.map φ.toMonoidHom) = 9 := by
     rw [Subgroup.card_map_of_injective φ.injective]; exact hE₀
   obtain ⟨P1, hP1⟩ := sylow_of_card_nine _ hE1

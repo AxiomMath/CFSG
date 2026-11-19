@@ -30,8 +30,8 @@ theorem twoRankLow_twF4_holds (S : Type) [Group S] [Finite S] (lab : GLALabel) (
   obtain ⟨K, hf, hfin, hK, hQ⟩ := hraw
   obtain ⟨-, hna, ⟨θ⟩⟩ := hQ
   have ha : 1 ≤ k := by omega
-  haveI : CharP K 2 := charP_two_of_card' hK
-  haveI : CharP K ReeTag.F4.prime := inferInstanceAs (CharP K 2)
+  have : CharP K 2 := charP_two_of_card' hK
+  have : CharP K ReeTag.F4.prime := inferInstanceAs (CharP K 2)
   have e0 : LargeEvenCenterQuot (LargeEvenTwF4H k K) ≃*
       DerivedCentralQuotient (reeFixedGroup Tag.F4 K reeF4Perm
         (fun i => if i ∈ reeF4Long then 2 ^ k else 2 ^ (k + 1))) :=
@@ -41,8 +41,8 @@ theorem twoRankLow_twF4_holds (S : Type) [Group S] [Finite S] (lab : GLALabel) (
     reeFixedGroup_eq_map_reeFixed (t := ReeTag.F4) (K := K) (a := k)
   let eH := (MulEquiv.subgroupCongr hH).trans
     (((reeFixed ReeTag.F4 K k).equivMapOfInjective _ (adjointGroup Tag.F4 K).subtype_injective).symm)
-  haveI : Finite (LargeEvenCenterQuot (LargeEvenTwF4H k K)) := Finite.of_equiv _ θ.toEquiv
-  haveI : Finite (DerivedCentralQuotient (reeFixedGroup Tag.F4 K reeF4Perm
+  have : Finite (LargeEvenCenterQuot (LargeEvenTwF4H k K)) := Finite.of_equiv _ θ.toEquiv
+  have : Finite (DerivedCentralQuotient (reeFixedGroup Tag.F4 K reeF4Perm
       (fun i => if i ∈ reeF4Long then 2 ^ k else 2 ^ (k + 1)))) := Finite.of_equiv _ e0.toEquiv
   have hholds : Holds (reeFixed ReeTag.F4 K k) 2 :=
     holds_reeFixed (t := ReeTag.F4) (K := K) (a := k)

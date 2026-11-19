@@ -13,6 +13,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem s16c1614_actTil_bot_eq_one_iff {V : Subgroup G} (hV : IsElemAbelian 2 V)
     (g : stabTil (⊥ : Subgroup G) V) :
     actTil ⊥ V hV g = 1 ↔ (g : G) ∈ centralizer (V : Set G) := by
@@ -20,6 +21,7 @@ private theorem s16c1614_actTil_bot_eq_one_iff {V : Subgroup G} (hV : IsElemAbel
   refine forall₂_congr fun v _ => ?_
   rw [Subgroup.mem_bot, mul_inv_eq_one, mul_inv_eq_iff_eq_mul, eq_comm]
 
+omit [Finite G] in
 private theorem s16c1614_actTil_bot_injective {V X : Subgroup G} (hV : IsElemAbelian 2 V)
     (hX : X ≤ stabTil (⊥ : Subgroup G) V)
     (hdis : X ⊓ Subgroup.centralizer (V : Set G) = ⊥) :
@@ -40,6 +42,7 @@ private theorem s16c1614_actTil_bot_injective {V X : Subgroup G} (hV : IsElemAbe
     rwa [hdis] at hinf
   exact Subtype.ext (mul_inv_eq_one.1 (Subgroup.mem_bot.1 hbot))
 
+omit [Finite G] in
 private theorem s16c1614_orderOf_actTil_bot_eq {V X : Subgroup G} (hV : IsElemAbelian 2 V)
     (hX : X ≤ stabTil (⊥ : Subgroup G) V)
     (hdis : X ⊓ Subgroup.centralizer (V : Set G) = ⊥) (x : X) :
@@ -47,6 +50,7 @@ private theorem s16c1614_orderOf_actTil_bot_eq {V X : Subgroup G} (hV : IsElemAb
   orderOf_injective ((actTil (⊥ : Subgroup G) V hV).comp (Subgroup.inclusion hX))
     (s16c1614_actTil_bot_injective hV hX hdis) x
 
+omit [Finite G] in
 private theorem s16c1614_mkTil_bot_injective {V : Subgroup G} (hV : IsElemAbelian 2 V) :
     Function.Injective (mkTil (⊥ : Subgroup G) V hV) := by
   intro x y hxy
@@ -54,6 +58,7 @@ private theorem s16c1614_mkTil_bot_injective {V : Subgroup G} (hV : IsElemAbelia
   rw [Subgroup.mem_bot] at hxy
   exact IntMod.val_injective (hV := hV) (mul_inv_eq_one.1 hxy)
 
+omit [Finite G] in
 private theorem s16c1614_commutator_le_of_le_stabTil {V X : Subgroup G}
     (hX : X ≤ stabTil (⊥ : Subgroup G) V) : ⁅V, X⁆ ≤ V := by
   rw [Subgroup.commutator_le]
@@ -63,6 +68,7 @@ private theorem s16c1614_commutator_le_of_le_stabTil {V X : Subgroup G}
   have h1 : ⁅v, xx⁆ = v * (xx * v⁻¹ * xx⁻¹) := by rw [commutatorElement_def]; group
   rw [h1]; exact V.mul_mem hv hmem
 
+omit [Finite G] in
 private theorem s16c1614_inf_centralizer_eq_bot_of_regular_action {V X : Subgroup G}
     (hcommV : ⁅V, X⁆ ≤ V) (hcomm_ne : ⁅V, X⁆ ≠ ⊥)
     (hreg : ActsRegularlyOn X (nonIdentity ⁅V, X⁆)) :
@@ -78,6 +84,7 @@ private theorem s16c1614_inf_centralizer_eq_bot_of_regular_action {V X : Subgrou
     rw [h1, inv_mul_cancel_left]
   exact Subgroup.mem_bot.2 (hreg.2.2 z ⟨hzmem, fun h => hz1 (Subtype.ext h)⟩ x hxX hzfix)
 
+omit [Finite G] in
 private theorem s16c1614_barSub_eq_zpowers_of_gen {V X : Subgroup G} (hV : IsElemAbelian 2 V)
     (hXstab : X ≤ stabTil (⊥ : Subgroup G) V) {x : ↥X} (hxgen : Subgroup.zpowers x = ⊤) :
     barSub (⊥ : Subgroup G) V hV X =
@@ -95,6 +102,7 @@ private theorem s16c1614_barSub_eq_zpowers_of_gen {V X : Subgroup G} (hV : IsEle
   rw [hbar, ← hxgen, MonoidHom.map_zpowers]
   rfl
 
+omit [Finite G] in
 private theorem s16c1614_mkTil_commutator_mem_commSub {V X : Subgroup G}
     (hV : IsElemAbelian 2 V) (hX : X ≤ stabTil (⊥ : Subgroup G) V) {v x : G} (hv : v ∈ V)
     (hx : x ∈ X) :
@@ -134,7 +142,6 @@ private theorem s16c1614_mkTil_commutator_mem_commSub {V X : Subgroup G}
     rw [show (actStab (⊥ : Subgroup G) V hV ⟨x, hX hx⟩) (IntMod.mk hV ⟨v, hv⟩)⁻¹ =
         IntMod.mk hV ⟨x * v⁻¹ * x⁻¹, hmem3⟩ from by
       rw [map_inv]
-      congr 1
       apply IntMod.val_injective
       rw [IntMod.val_inv, actStab_apply_val]
       group
@@ -157,6 +164,7 @@ private theorem s16c1614_mkTil_commutator_mem_commSub {V X : Subgroup G}
   exact Subgroup.subset_closure ⟨xb, actTil_mem_barSub (⊥ : Subgroup G) V hV hx (hX hx),
     a, Subgroup.mem_top _, rfl⟩
 
+omit [Finite G] in
 private theorem s16c1614_imgTil_commutator_eq_commSub {V X : Subgroup G}
     (hV : IsElemAbelian 2 V) (hX : X ≤ stabTil (⊥ : Subgroup G) V) :
     imgTil (⊥ : Subgroup G) V hV ⁅V, X⁆ =

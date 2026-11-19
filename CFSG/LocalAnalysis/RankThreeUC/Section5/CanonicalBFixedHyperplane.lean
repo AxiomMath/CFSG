@@ -23,8 +23,8 @@ theorem le_commutator {P B E : Subgroup G} {p : ℕ} (hp : p.Prime)
     (hCE : P ⊓ Subgroup.centralizer (B : Set G) ⊓ E = ⊥) :
     E ≤ ⁅B, P⁆ := by
   classical
-  haveI : Fintype B := Fintype.ofFinite B
-  letI : CommGroup P :=
+  have : Fintype B := Fintype.ofFinite B
+  let : CommGroup P :=
     { (inferInstance : Group P) with
       mul_comm := fun a b => Subtype.ext (hcomm a a.2 b b.2) }
   have hnP : ∀ b ∈ B, ∀ x ∈ P, b * x * b⁻¹ ∈ P := fun b hb x hx =>
@@ -187,7 +187,7 @@ theorem canonical {p : ℕ} {P T B : Subgroup G} {e : ℕ}
             rw [h3]; exact E.one_mem
           · refine ⟨hEP hy, fun b hb => ?_⟩
             exact E.mul_mem ((Subgroup.mem_normalizer_iff.1 (hBN hb) y).1 hy) (E.inv_mem hy)
-        · exact ⟨P.one_mem, fun b hb => by simpa using E.one_mem⟩
+        · exact ⟨P.one_mem, fun b hb => by simp⟩
         · rintro y z _ _ ⟨hyP, hy⟩ ⟨hzP, hz⟩
           refine ⟨P.mul_mem hyP hzP, fun b hb => ?_⟩
           have hyb : b * y * b⁻¹ ∈ P := (Subgroup.mem_normalizer_iff.1 (hBP hb) y).1 hyP
@@ -218,7 +218,7 @@ theorem canonical {p : ℕ} {P T B : Subgroup G} {e : ℕ}
     push Not at hno
     have hint := isInternal_hyperplane_fixedSubmodule_of_binary_rank_counterexample hc
     have htop := hint.submodule_iSup_eq_top
-    haveI : IsEmpty ↥(Delta p P ρ) := ⟨fun D => hno D.1 D.2⟩
+    have : IsEmpty ↥(Delta p P ρ) := ⟨fun D => hno D.1 D.2⟩
     rw [iSup_of_empty] at htop
     have hzero : ∀ v : V, v = 0 := fun v => by
       have : v ∈ (⊤ : Submodule (ZMod 2) V) := Submodule.mem_top

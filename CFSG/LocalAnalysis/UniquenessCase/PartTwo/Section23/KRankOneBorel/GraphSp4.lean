@@ -19,7 +19,7 @@ private theorem projStabilizer_flag_one_ne_two {K : Type} [Field K] [Finite K] [
     SymplecticHigher.projStabilizer 2 K (SymplecticFlag.flag 2 K 1) ≠
       SymplecticHigher.projStabilizer 2 K (SymplecticFlag.flag 2 K 2) := by
   intro h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, -, hinj⟩ := SymplecticHigher.maximal_parabolics (K := K) (r := 2) 2
     (by norm_num)
   have hfl : ∀ d, 1 ≤ d → d ≤ 2 → SymplecticFlag.flag 2 K d ≠ ⊥ := by
@@ -112,7 +112,7 @@ theorem isInnDiagFieldAut_of_map_eq_sp {X : Type} [Group X] {K : Type} [Field K]
       rw [← hg] at hAU
       exact hAU
     have hgB : g ∈ SymplecticFlag.projBorel 2 K := by
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       rw [← SymplecticHigher.normalizer_projUnipotent (r := 2) (K := K) 2 (by norm_num)]
       exact hgN
     have hgQ2 : g ∈ SymplecticHigher.projStabilizer 2 K (SymplecticFlag.flag 2 K 2) := by
@@ -152,7 +152,7 @@ theorem graphSp4_dich {X : Type} [Group X] [Finite X] {n : ℕ} (hX : LieModel X
     (hθS : (S : Subgroup X).map θ.toMonoidHom = S) (H : Subgroup X)
     (hSH : (S : Subgroup X) ≤ H) (hθH : H.map θ.toMonoidHom = H) :
     H ≤ normalizer ((S : Subgroup X) : Set X) ∨ H = ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hX' : StatedClassicalModel X .PSp 2 2 n :=
     LieModel.statedClassicalModel_of_ne_zero (by norm_num) hX
   have hU : CFSG.QuasithinUnique.IsSylowTwoOf (S : Subgroup X) ⊤ :=

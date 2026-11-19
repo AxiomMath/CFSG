@@ -30,7 +30,7 @@ theorem lin_E_inf_M₂ (hl : d.LinCtx) (hE2 : IsPGroup 2 d.E)
     (hME : d.M₂ ≤ normalizer (d.E : Set G)) : d.E ⊓ d.M₂ = ⊥ := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hΛs, -, -⟩ := lin_layer_facts hl
-  haveI := hΛs
+  have := hΛs
   set Y : Subgroup ↥d.M₂ := (d.E ⊓ d.M₂).subgroupOf d.M₂ with hY
   have hYp : IsPGroup 2 Y := (hE2.to_inf_left).comap_subtype
   have hYn : Y.Normal := by
@@ -39,7 +39,7 @@ theorem lin_E_inf_M₂ (hl : d.LinCtx) (hE2 : IsPGroup 2 d.E)
     exact Subgroup.mem_inf.2 ⟨(mem_normalizer_iff.1 (hME g.2) n).1 (Subgroup.mem_inf.1 hn).1,
       mul_mem (mul_mem g.2 (Subgroup.mem_inf.1 hn).2) (inv_mem g.2)⟩
   have hπn : (Y.map (linπ hl)).Normal := hYn.map _ (lin_π_surjective hl)
-  haveI := hπn
+  have := hπn
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Y.map (linπ hl)) with h0 | h1
   ·
     have hYker : Y ≤ (linπ hl).ker := fun y hy => by

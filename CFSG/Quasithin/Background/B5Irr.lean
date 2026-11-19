@@ -275,7 +275,7 @@ variable {V : Type} [CommGroup V] [Finite V] {G L : Subgroup (MulAut V)}
 theorem exists_isSylowTwoOf (H : Subgroup (MulAut V)) : ∃ S : Subgroup (MulAut V), IsSylowTwoOf S H := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q⟩ : Nonempty (Sylow 2 ↥H) := inferInstance
-  refine ⟨(Q : Subgroup ↥H).map H.subtype, ⟨Subgroup.map_subtype_le _, Q.isPGroup'.map _, ?_⟩⟩
+  refine ⟨(Q : Subgroup ↥H).map H.subtype, ⟨Subgroup.map_subtype_le _, Q.isPGroup.map _, ?_⟩⟩
   have : ((Q : Subgroup ↥H).map H.subtype).subgroupOf H = (Q : Subgroup ↥H) :=
     Subgroup.comap_map_eq_self_of_injective H.subtype_injective _
   rw [this]

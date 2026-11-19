@@ -37,7 +37,7 @@ theorem inf_centSec_eq_bot {L : Subgroup (MulAut V)} (hs : IsSimpleGroup ↥L) {
         simp
       show ((g : MulAut V) * (k : MulAut V) * (g : MulAut V)⁻¹) z * z⁻¹ ∈ Z'
       rw [e]; exact h2⟩
-  haveI := hKn
+  have := hKn
   have hKbot : K = ⊥ := by
     rcases hs.eq_bot_or_eq_top_of_normal K with h | h
     · exact h
@@ -59,7 +59,7 @@ theorem secAct_injective {L : Subgroup (MulAut V)} (hs : IsSimpleGroup ↥L) {Z'
   refine (MonoidHom.ker_eq_bot_iff _).mp ?_
   rw [ker_secAct L hZ'Z hLZ hLZ', inf_centSec_eq_bot hs hLZ hLZ' hnc]
   ext x
-  simp [Subgroup.mem_subgroupOf]
+  simp
 
 noncomputable def secIso {L : Subgroup (MulAut V)} (hs : IsSimpleGroup ↥L) {Z' Z : Subgroup V}
     (hZ'Z : Z' ≤ Z) (hLZ : L ≤ stabSub Z) (hLZ' : L ≤ stabSub Z') (hnc : ¬ LTrivOn L Z' Z) :
@@ -138,7 +138,7 @@ theorem exists_noncomm_autSec {L A : Subgroup (MulAut V)} (hs : IsSimpleGroup �
     (h : ∃ a ∈ A, ∃ l ∈ L, a * l ≠ l * a) :
     ∃ a ∈ autSec A Z Z', ∃ l ∈ autSec L Z Z', a * l ≠ l * a := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨α, hα, l, hl, hne⟩ := h
   apply hne
   have hmA : secAct A hZ.2 hZ'.2 ⟨α, hα⟩ ∈ autSec A Z Z' := by
@@ -240,7 +240,7 @@ theorem thmC_sec [Finite V] (hC : U4FFNatural) (hV : ∀ v : V, v ^ 2 = 1) {n : 
     IsIrrOn (autSec L Z Z') ∧ NaturalU4Mod n (autSec L Z Z') := by
   obtain ⟨hZ', hZ, hlt, hmax⟩ := hch
   have hZ'Z : Z' ≤ Z := hlt.le
-  haveI : Finite (Sec Z Z') := inferInstance
+  have : Finite (Sec Z Z') := inferInstance
   exact hC (Sec Z Z') (sec_sq_eq_one hV Z' Z) n (autSec L Z Z') (autSec A Z Z')
     (isU4_autSec h.isU4 hZ'Z hZ.1 hZ'.1 hnc)
     (isElemAbelian2_autSec h.elemAbelian hZ.2 hZ'.2)

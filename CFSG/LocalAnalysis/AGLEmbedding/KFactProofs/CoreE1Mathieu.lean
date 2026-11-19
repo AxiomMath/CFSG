@@ -24,7 +24,7 @@ theorem coreE1Datum_M12 :
     CoreE1.Datum ↥NativeSporadic.M12 :=
   CoreE1.datum_of_check (a := m12CoreA) (b := m12CoreB) rfl rfl m12_e1_tab_a m12_e1_tab_b
     (fun P => by
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       exact CFSG.GroupTheory.GL52.card_sylow_of_card_eq_pow_mul (k := 3) (m := 3520)
         (by rw [CFSG.Sporadic.Mathieu.card_M12]; norm_num) (by norm_num) P)
     m12_e1_check

@@ -41,6 +41,7 @@ private noncomputable def starToRad_N1aGlue {M H Y : Subgroup G}
   (QuotientGroup.map ((kerIn M H).subgroupOf H) (CFSG.solvableRadical ↥H) (MonoidHom.id ↥H) hJ).comp
     (E2.star M H Y).subtype
 
+omit [Finite G] in
 private theorem starToRad_apply_N1aGlue {M H Y : Subgroup G}
     (hJ : (kerIn M H).subgroupOf H ≤ CFSG.solvableRadical ↥H) (x : ↥(E2.star M H Y)) (a : ↥H)
     (h : QuotientGroup.mk' ((kerIn M H).subgroupOf H) a = (x : E2.StarQuot M H)) :
@@ -55,7 +56,7 @@ theorem s828N_case1a_false {H Y M : Subgroup G} {t : G} {n : ℕ}
     (hJ : (kerIn M H).subgroupOf H ≤ CFSG.solvableRadical ↥H)
     (hsz : IsSz n ↥(E2.star M H Y)) (h5 : CFSG.Open.pRank 5 H ≤ 1) : False := by
   obtain ⟨hs, hna, h5dvd⟩ := star_simple_five_N1aGlue hsz
-  haveI : IsSimpleGroup ↥(E2.star M H Y) := hs
+  have : IsSimpleGroup ↥(E2.star M H Y) := hs
   have hψinj : Function.Injective (starToRad_N1aGlue (M := M) (Y := Y) hJ) := by
     rw [← MonoidHom.ker_eq_bot_iff]
     rcases Subgroup.Normal.eq_bot_or_eq_top (starToRad_N1aGlue (M := M) (Y := Y) hJ).ker with hk | hk
@@ -74,16 +75,16 @@ theorem s828N_case1a_false {H Y M : Subgroup G} {t : G} {n : ℕ}
         rw [CFSG.Quasithin.solvRad_eq_map_solvableRadical]
         intro l hl
         exact ⟨⟨l, hYH hl⟩, hYN hl, rfl⟩
-      haveI := CFSG.Quasithin.solvRad_isSolvable H
+      have := CFSG.Quasithin.solvRad_isSolvable H
       have hsolv : Group.IsSolvable ↥Y :=
         Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hYsolv)
           (Subgroup.inclusion_injective hYsolv)
       exact CFSG.Quasithin.not_isSolvable_of_mem_cComp hYc hsolv
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨c, hc⟩ := exists_prime_orderOf_dvd_card' 5 h5dvd
   have hcent : ∃ g : ↥(E2.star M H Y), c * g ≠ g * c := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hcz : c ∈ Subgroup.center ↥(E2.star M H Y) :=
       Subgroup.mem_center_iff.mpr (fun g => (hcon g).symm)
     rcases Subgroup.Normal.eq_bot_or_eq_top (Subgroup.center ↥(E2.star M H Y)) with hb | ht

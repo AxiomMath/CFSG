@@ -388,7 +388,7 @@ theorem d_sideData (hRig : GGLabelRigidInput) (hFr : DFrameOmegaLeaf) {G : Type}
   rw [hlab_eq] at hraw
   rcases htag with hD | hD
   · have hr3 : lab.rank ≠ 3 := by omega
-    simp only [CFSG.Assembly.LargeEvenRawDatumLegacy, hD, if_neg hr3] at hraw
+    simp only [CFSG.Assembly.LargeEvenRawDatumLegacy, hD, ite_eq_right hr3] at hraw
     obtain ⟨K, hKfield, hKfin, hKcard, hdata⟩ := hraw
     obtain ⟨-, -, θ, hP⟩ := hdata
     letI : Field K := hKfield
@@ -413,7 +413,7 @@ theorem d_sideData (hRig : GGLabelRigidInput) (hFr : DFrameOmegaLeaf) {G : Type}
     exact ⟨hP.2.1, hinner, hcop, hframe⟩
   · have hr2 : lab.rank ≠ 2 := by omega
     have hr3 : lab.rank ≠ 3 := by omega
-    simp only [CFSG.Assembly.LargeEvenRawDatumLegacy, hD, if_neg hr2, if_neg hr3] at hraw
+    simp only [CFSG.Assembly.LargeEvenRawDatumLegacy, hD, ite_eq_right hr2, ite_eq_right hr3] at hraw
     obtain ⟨K, hKfield, hKfin, hKcard, b, c, hirr, hdata⟩ := hraw
     obtain ⟨-, -, θ, hP⟩ := hdata
     letI : Field K := hKfield

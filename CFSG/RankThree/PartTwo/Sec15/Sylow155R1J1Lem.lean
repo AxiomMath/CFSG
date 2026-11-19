@@ -21,12 +21,11 @@ private theorem res1J1_eq_of_modEq {n c p : ℕ} (hn : n ∣ 8) (hc : c ∣ n) (
     first
       | omega
       | exact absurd hp42 (by decide)
-      | exact absurd hp (by norm_num)
 
 theorem res1J1_mulAut_eq_one_of_pow_prime {R : Type*} [Group R] (hR : Nat.card R ∣ 8) {p : ℕ}
     (hp : p.Prime) (hp42 : Nat.Coprime p 42) {σ : MulAut R} (hσ : σ ^ p = 1) : σ = 1 := by
-  haveI : Finite R := Nat.finite_of_card_ne_zero fun h => by rw [h] at hR; norm_num at hR
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Finite R := Nat.finite_of_card_ne_zero fun h => by rw [h] at hR; norm_num at hR
+  have : Fact p.Prime := ⟨hp⟩
   have hmod := CFSG.Walter.Huppert.card_fixedSubgroup_modEq (p := p) (σ := σ) (k := 1)
     (by rw [pow_one]; exact hσ)
   have heq := res1J1_eq_of_modEq hR

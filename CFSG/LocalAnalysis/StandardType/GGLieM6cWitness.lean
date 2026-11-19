@@ -152,8 +152,6 @@ private theorem modelHomE6_wordOf (y : SylowModelE6) :
     modelHomE6 y = (coxeterSystem .E6).wordProd (m6c_wordOf y) := by
   change modelHom isModel_E6 y = (coxeterSystem .E6).wordProd (m6c_wordOf y)
   rw [modelHom_apply isModel_E6 y]
-  change modelN isModel_E6 y.left * cE6 ^ (y.right.toAdd).val =
-    (coxeterSystem .E6).wordProd (m6c_wordOf y)
   rw [show modelN isModel_E6 y.left = modelHomE6 (SemidirectProduct.inl y.left) from
       (modelHom_inl isModel_E6 y.left).symm, modelHomE6_inl, m6c_wordOf,
     CoxeterSystem.wordProd_append, wordProd_replicate, cE6]
@@ -202,7 +200,7 @@ private theorem eq_nine_of_dvd_81 {n : ℕ} (h : n ∣ 3 ^ 4) (hgt : 3 < n) (hle
   · norm_num at hle
 
 private theorem m6c_card_le_nine (A' : Subgroup SylowModelE6) (hA' : IsElemAbelian 3 A')
-    (hA'1 : A' ≠ ⊥)
+    (_hA'1 : A' ≠ ⊥)
     (hgood : ∀ i : Fin 3,
       SemidirectProduct.inl (Multiplicative.ofAdd (Pi.single i 1)) ∉ A') :
     Nat.card A' ≤ 9 := by

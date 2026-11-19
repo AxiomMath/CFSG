@@ -22,7 +22,7 @@ open CFSG.ClassicalInvolution.Q3.AE CFSG.ClassicalInvolution.Q3.AE.Wr
 
 private def endH_lo (m : ℕ) (hm : 4 ≤ m) : Fin 4 ↪ Fin m where
   toFun i := ⟨i.1, lt_of_lt_of_le i.2 hm⟩
-  inj' i j hij := Fin.ext (Fin.mk.inj_iff.mp hij)
+  inj' _i _j hij := Fin.ext (Fin.mk.inj_iff.mp hij)
 
 private def endH_hi (m : ℕ) (hm : 4 ≤ m) : Fin 4 ↪ Fin m where
   toFun i := ⟨m - 4 + i.1, by have := i.2; omega⟩
@@ -40,7 +40,7 @@ private theorem endH_cover {m : ℕ} (hm4 : 4 ≤ m) (hm7 : m ≤ 7) (p : Fin m)
 private theorem endH_exists_not_mem {m : ℕ} (hm : 5 ≤ m) (ι : Fin 4 ↪ Fin m) :
     ∃ p, p ∉ Set.range ι := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hs : Function.Surjective (⇑ι) := fun p => hcon p
   have := Fintype.card_le_of_surjective (⇑ι) hs
   simp only [Fintype.card_fin] at this
@@ -174,6 +174,7 @@ section Ident
 
 variable {P Q : Set (Subgroup G)}
 
+omit [Finite G] in
 private theorem endH_conj_mem_pSpan {k : G} (hk : ∀ L ∈ P, conjSub k L ∈ Q) {y : G}
     (hy : y ∈ pSpan P) : k * y * k⁻¹ ∈ pSpan Q :=
   (pSpan_le (H := (pSpan Q).comap (MulAut.conj k).toMonoidHom) fun L hL _ hl =>
@@ -185,6 +186,7 @@ private def endH_conjHom {k : G} (hk : ∀ L ∈ P, conjSub k L ∈ Q) :
   map_one' := Subtype.ext (by simp)
   map_mul' a b := Subtype.ext (by simp [mul_assoc])
 
+omit [Finite G] in
 private theorem endH_conjAut {k : G} (hk : ∀ L ∈ P, conjSub k L ∈ P)
     (hk' : ∀ L ∈ P, conjSub k⁻¹ L ∈ P) :
     ∃ ca : ↥(pSpan P) ≃* ↥(pSpan P), (∀ y, (ca y : G) = k * y * k⁻¹) ∧
@@ -197,6 +199,7 @@ private theorem endH_conjAut {k : G} (hk : ∀ L ∈ P, conjSub k L ∈ P)
             right_inv := fun y => Subtype.ext (by simp [mul_assoc])
             map_mul' := fun y y' => Subtype.ext (by simp [mul_assoc]) }, fun _ => rfl, fun _ => rfl⟩
 
+omit [Finite G] in
 private theorem endH_exists_conj {m : ℕ} (h5 : 5 ≤ m)
     (h7 : m ≤ 7) (I : AEIdent P m) (c : ↥(pSpan P) ≃* ↥(pSpan P))
     (hc : ∀ L ∈ P, ∃ L' ∈ P,
@@ -366,7 +369,7 @@ theorem commute_h (c : CaseBU Ω K P₁ P₂ g u h e T)
     exact hK hp
   have ha₁ : J.φ (Yh t₁) ≠ 1 := fun h1 => hnc (by rw [h1, map_one, one_mul, mul_one])
   have ha₂ : J.φ (Yh t₂) ≠ 1 := fun h2 => hnc (by rw [h2, map_one, mul_one, one_mul])
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hY₁ : Yh t₁ ^ 5 = 1 := by rw [← map_pow, ht₁5, map_one]
   have hY₂ : Yh t₂ ^ 5 = 1 := by rw [← map_pow, ht₂5, map_one]
   have ho₁ : orderOf (J.φ (Yh t₁)) = 5 :=

@@ -180,6 +180,7 @@ noncomputable def burnsideSp4A_crd
     MSP.V4 F :=
   c.vec (Classical.epsilon fun u : ↥(Uq M T L) => (u : G)⁻¹ * x ∈ Dq M L)
 
+omit [Finite G] in
 theorem burnsideSp4A_crd_eq
     (c : MSP.NatCoord A (Uq M T L) (Uq M T L ⊓ Subgroup.centralizer (L : Set G)) α) {x : G}
     (u : ↥(Uq M T L)) (hu : (u : G)⁻¹ * x ∈ Dq M L) : burnsideSp4A_crd c x = c.vec u := by
@@ -199,11 +200,13 @@ theorem burnsideSp4A_crd_eq
   rw [c.vec_mul, c.vec_inv] at h0
   exact neg_add_eq_zero.mp h0
 
+omit [Finite G] in
 theorem burnsideSp4A_crd_coe
     (c : MSP.NatCoord A (Uq M T L) (Uq M T L ⊓ Subgroup.centralizer (L : Set G)) α)
     (u : ↥(Uq M T L)) : burnsideSp4A_crd c (u : G) = c.vec u :=
   burnsideSp4A_crd_eq c u (by rw [inv_mul_cancel]; exact one_mem _)
 
+omit [Finite G] in
 theorem burnsideSp4A_crd_one
     (c : MSP.NatCoord A (Uq M T L) (Uq M T L ⊓ Subgroup.centralizer (L : Set G)) α) :
     burnsideSp4A_crd c (1 : G) = 0 := by
@@ -290,6 +293,7 @@ theorem burnsideSp4A_crd_comm_mul (h : PUHyp M T L) (hAM : A ≤ M)
     (Subgroup.mem_normalizer_iff.mp (hMN (hAM a.2)) _).mp hb
   rw [hrw, burnsideSp4A_crd_mul h c hconj ha, burnsideSp4A_crd_conj h hAM c a hb, add_comm]
 
+omit [Finite G] in
 theorem burnsideSp4A_eq_one_of_mem_centralizer
     (c : MSP.NatCoord A (Uq M T L) (Uq M T L ⊓ Subgroup.centralizer (L : Set G)) α) (a : ↥A)
     (ha : (a : G) ∈ Subgroup.centralizer (Uq M T L : Set G)) : α a = 1 := by
@@ -388,7 +392,7 @@ theorem burnsideSp4A_mem_uq_sup_dq (h : PUHyp M T L) {k : ℕ} {F : Type} [Field
     (hφ : IsSumOfNaturalModulesVia (L ⊔ pCoreOf 2 M) (Uq M T L)
       (Uq M T L ⊓ Subgroup.centralizer (L : Set G)) φ false 1)
     {w : G} (hwQ : w ∈ pCoreOf 2 M) (hwL : ∀ l ∈ L, ⁅l, w⁆ ∈ Uq M T L ⊔ Dq M L)
-    {Y : Subgroup G} (hYK : Y ≤ L ⊔ pCoreOf 2 M)
+    {Y : Subgroup G} (_hYK : Y ≤ L ⊔ pCoreOf 2 M)
     (hQY : pCoreOf 2 M ≤ Subgroup.normalizer (Y : Set G))
     (hYw : ∀ y ∈ Y, y * w = w * y)
     (hYR : S512N.Rigid ((Y.subgroupOf (L ⊔ pCoreOf 2 M)).map φ)) :

@@ -62,7 +62,7 @@ theorem exists_mem_normalizer_not_mem (hC : ConnCex D) (h : Step6 D a b c x z P)
   obtain ⟨s, hs, hsS, hsP⟩ := h.exists_mem_sylow_not_mem hC S
   have hle : Subgroup.closure (D ∩ (S : Set G)) ≤ S :=
     (Subgroup.closure_le _).2 fun y hy => hy.2
-  have hT2 : IsPGroup 2 (Subgroup.closure (D ∩ (S : Set G))) := S.isPGroup'.to_le hle
+  have hT2 : IsPGroup 2 (Subgroup.closure (D ∩ (S : Set G))) := S.isPGroup.to_le hle
   have hne : Subgroup.closure {y | y ∈ D ∧ y ∈ P} ≠ Subgroup.closure (D ∩ (S : Set G)) := by
     intro heq
     apply hsP

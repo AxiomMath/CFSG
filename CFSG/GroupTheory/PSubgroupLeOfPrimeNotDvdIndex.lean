@@ -8,8 +8,8 @@ namespace CFSG
 
 theorem pSubgroup_le_of_not_dvd_index {X : Type} [Group X] [Finite X] {A D : Subgroup X} {p : Nat}
     (hp : p.Prime) (hAn : A.Normal) (hA : ¬ p ∣ A.index) (hD : IsPGroup p D) : D ≤ A := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : A.Normal := hAn
+  have : Fact p.Prime := ⟨hp⟩
+  have : A.Normal := hAn
   let f : D →* X ⧸ A := (QuotientGroup.mk' A).comp D.subtype
   obtain ⟨k, hk⟩ := hD.exists_card_eq
   have hdvdD : Nat.card f.range ∣ p ^ k := hk ▸ Subgroup.card_range_dvd f
@@ -26,7 +26,7 @@ theorem pSubgroup_le_of_not_dvd_index {X : Type} [Group X] [Finite X] {A D : Sub
     rw [Subgroup.eq_bot_iff_card, hj, hj0, pow_zero]
   have hf : f = 1 := MonoidHom.range_eq_bot_iff.mp hbot
   intro d hd
-  have hfd : f ⟨d, hd⟩ = 1 := by simpa [hf]
+  have hfd : f ⟨d, hd⟩ = 1 := by simp [hf]
   have hdA : (d : X ⧸ A) = 1 := by simpa [f] using hfd
   exact (QuotientGroup.eq_one_iff d).mp hdA
 

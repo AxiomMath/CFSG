@@ -13,6 +13,7 @@ namespace CFSG.KS.LyOm.SSp
 open CFSG.KC.LyOm CFSG.KC.Ord CFSG.KC.LL CFSG.KC.Loop
 open CFSG.KS.Ord CFSG.KS.LyOm.MC CFSG.KS.LyOm.TreeCore
 
+set_option exponentiation.threshold 196608 in
 private theorem spread_key {MS : List ℕ} (hMS : spMasksOK MS = true) {k : ℕ} (hk : k < 2 ^ 2331) :
     spreadB MS k = pk 12 777 (fun e => k / 2 ^ (3 * e) % 8) := by
   have h2 : k < 2 ^ 196608 :=

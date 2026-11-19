@@ -27,7 +27,7 @@ theorem ggAm2ClGen_holds :
   intro p hp hp2 X _ _ A Ab σ J n hd labJ labX hΛJ hΛX hR hhJ hhX
   obtain ⟨hRreg, hgen⟩ := hR
   obtain ⟨hloc, hflat, hcard, hrank, hnum, hself, honly, hm⟩ := hd.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hrig : GGLabelRigidInput := ggLabelRigidInput_holds
   have hK0 : GGK0MainB GGKacGenericCl GGMultValidCl := ggK0MainBS_cl.toB
   have hS : GGK0Schur GGKacGenericCl := ggK0Schur_cl
@@ -104,7 +104,7 @@ theorem ggAm2ClGen_holds :
     have hnotdvd : ¬ 3 ∣ Nat.card (Subgroup.center X) :=
       fun h3 => (Nat.prime_three.coprime_iff_not_dvd).mp hZ3.symm h3
     have hle3 : LargeEvenTwoLocalRank 3 X ≤ 3 := by
-      rw [if_neg hnotdvd, add_zero] at hμle
+      rw [ite_eq_right hnotdvd, add_zero] at hμle
       omega
     have h4 : 4 ≤ LargeEvenTwoLocalRank 3 X :=
       ggTwoLocalRank_D5_two_three hperf (by simpa [hlabD5] using hXlab)
@@ -123,7 +123,7 @@ theorem ggAm2ClGen_holds :
     have hnotdvd : ¬ 3 ∣ Nat.card (Subgroup.center X) :=
       fun h3 => (Nat.prime_three.coprime_iff_not_dvd).mp hZ3.symm h3
     have hle3 : LargeEvenTwoLocalRank 3 X ≤ 3 := by
-      rw [if_neg hnotdvd, add_zero] at hμle
+      rw [ite_eq_right hnotdvd, add_zero] at hμle
       omega
     have h4 : 4 ≤ LargeEvenTwoLocalRank 3 X :=
       ggTwoLocalRank_twD6_two_three hperf (by simpa [hlabtwD6] using hXlab)
@@ -149,7 +149,7 @@ theorem ggAm2ExcBig_holds
   obtain ⟨hRreg, hpair, h2n⟩ := hR
   obtain ⟨hp3, htagJ, hnJ, hrJ⟩ := hRreg
   obtain ⟨hloc, -, -, -, -, -, -, hm⟩ := hd.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hrig : GGLabelRigidInput := ggLabelRigidInput_holds
   obtain ⟨hcomm, labm, hΛm, hrawm⟩ := hm
   have hmHas : GGHasLabel labm (X ⧸ Subgroup.center X) :=
@@ -163,7 +163,7 @@ theorem ggAm2ExcBig_holds
   have hlabm_eq : labm = labX := excg_labelIso_eq_of_exc hisom htagX
   have hrawTCJ := hTCJ p hp hp2 labm hΛm _ hrawm
   obtain ⟨R, hR, I, F, hP⟩ := largeEvenRawDatum_exists hrawTCJ
-  letI := hR
+  let := hR
   obtain ⟨hQ, hPK0⟩ := hP
   obtain ⟨-, -, θ, -, -, hind⟩ := hQ
   let ψ : X →* R := θ.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center X))
@@ -214,7 +214,7 @@ theorem am2_a3_exc_E6_false
   have hm3 : m ≤ 3 := (Nat.pow_le_pow_iff_right (by norm_num : 1 < 3)).mp hle
   have hZ : Subgroup.center X = ⊥ := ggE6TwoCenterBot_holds X hcomm hhX
   have hle3 : LargeEvenTwoLocalRank 3 X ≤ 3 := by
-    rw [hZ, Subgroup.card_bot, if_neg (by decide : ¬ 3 ∣ (1 : ℕ)), add_zero] at hmle
+    rw [hZ, Subgroup.card_bot, ite_eq_right (by decide : ¬ 3 ∣ (1 : ℕ)), add_zero] at hmle
     omega
   have h4 : 4 ≤ LargeEvenTwoLocalRank 3 X := ggE6TwoLocalRankThree_holds X hcomm hhX
   omega
@@ -276,7 +276,7 @@ theorem am2_a3_exc_twE6_false
       exact ⟨hs, hna, θ, ⟨htagX, hsplit⟩⟩) hrawm
   have hAll := largeEvenLabelAll_twE6_rank ggTwE6LocalRankInput_holds hΛX htagX hsplit
   obtain ⟨R, hR, I, F, hQ, hguard⟩ := largeEvenRawDatum_exists (hAll _ hrawS)
-  letI := hR
+  let := hR
   obtain ⟨hs, hna, θ, -⟩ := hQ
   have hrankX : GGTwE6LocalRank R := hguard hs hna
   obtain ⟨U, hU, hU2, E, hEU, hE, hcard⟩ := hrankX X hcomm θ
@@ -286,7 +286,7 @@ theorem am2_a3_exc_twE6_false
         le_twoLocalRank_of_normalizes Nat.prime_three hU hU2 hE hEU h5
       omega
     · have hle3 : LargeEvenTwoLocalRank 3 X ≤ 3 := by
-        rw [if_neg h3Z, add_zero] at hmle
+        rw [ite_eq_right h3Z, add_zero] at hmle
         omega
       have h5le : 5 ≤ LargeEvenTwoLocalRank 3 X :=
         le_twoLocalRank_of_normalizes Nat.prime_three hU hU2 hE hEU h5
@@ -324,7 +324,7 @@ theorem am2_a3_exc_twE6_false
           (by simpa using hEcard)
       omega
     · have hle3 : LargeEvenTwoLocalRank 3 X ≤ 3 := by
-        rw [if_neg h3Z, add_zero] at hmle
+        rw [ite_eq_right h3Z, add_zero] at hmle
         omega
       have h4le : 4 ≤ LargeEvenTwoLocalRank 3 X :=
         le_twoLocalRank_of_normalizes Nat.prime_three hU hU2 hE hEU h4

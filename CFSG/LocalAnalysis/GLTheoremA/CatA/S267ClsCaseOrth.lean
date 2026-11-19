@@ -21,7 +21,7 @@ private theorem char_facts {K : Type} [Field K] [Fintype K] {p q : ℕ} (hp : p.
     (hK : Nat.card K = Q₀.card) : (2 : K) ≠ 0 ∧ (p : K) ≠ 0 ∧ Odd (Nat.card K) := by
   have hq : q.Prime := hQ₀ ▸ Q₀.prime_p
   have hcK : Nat.card K = q ^ Q₀.exponent := by rw [hK, TauCeti.PrimePower.card_def, hQ₀]
-  haveI := ringChar.charP K
+  have := ringChar.charP K
   obtain ⟨n, hr, hcard⟩ := FiniteField.card K (ringChar K)
   have hrq : ringChar K = q := by
     have h1 : ringChar K ∣ q ^ Q₀.exponent := by
@@ -118,7 +118,7 @@ private theorem invol_facts {K : Type} [Field K] [Finite K] {m p : ℕ} {Ω : Ty
         glEquiv.symm (invol ρ hp hA hpK I) := hc'
     refine invol_ne_smul ρ hp hA hpK h2 ha hc hWa hWc (c : K) fun v => ?_
     rw [← hgz, ← hc'', glEquiv_apply]
-    simp [Matrix.GeneralLinearGroup.scalar, Matrix.smul_mulVec, Matrix.one_mulVec]
+    simp [Matrix.GeneralLinearGroup.scalar]
   · rw [mem_centGL]
     intro s hs v
     rw [hgz]
@@ -156,9 +156,9 @@ theorem concl_of_clsInner_orth
   obtain ⟨h2, hpK, hodd⟩ := char_facts hp hq2 hqp hQ₀ hK
   have hHβ : matrixDerived Q ≤ isomGL (polarBilin Q) := ModelGen.matrixDerived_le_isomGL Q
   obtain ⟨Aε, hle, hAε, hAεβ, hAε𝒮, hmax⟩ := exists_maximal_engine Dat hHβ
-  haveI : IsMulCommutative Aε := hAε.1
+  have : IsMulCommutative Aε := hAε.1
   have hA : ∀ a : ↥Aε, a ^ p = 1 := fun a => Subtype.ext (hAε.2 a a.2)
-  haveI : Fintype (Hyperplane ↥Aε p) := Fintype.ofFinite _
+  have : Fintype (Hyperplane ↥Aε p) := Fintype.ofFinite _
   have hinf : Aε ⊓ matrixDerived Q = liftGroup Dat :=
     inf_eq_liftGroup hp hB hrank hBC hcore hZ h4 h2 hpK Dat hHβ hle hAε hAεβ hAε𝒮 hmax hA
       (fun H₁ H₂ H₃ h12 h13 h23 _ _ _ =>
@@ -207,14 +207,14 @@ theorem concl_of_clsInner_orth
     rcases Dat.split with hBB | hF
     · refine Or.inl ⟨hBB, ?_, by rw [← hBB, hB₁]⟩
       ext s
-      simp only [fieldSet, Set.mem_setOf_eq, Set.mem_empty_iff_false, iff_false, not_and]
+      simp only [fieldSet, Set.mem_ofPred_eq, Set.mem_empty_iff_false, iff_false, not_and]
       intro hF
       have hb : Dat.b ∈ innerPart S B := by rw [hBB]; exact hF.1
       exact absurd hb.2 hF.2.1
     · refine Or.inr ⟨hF, ?_⟩
       obtain ⟨hbB, hbN, hBb, hbout, -, -, -⟩ := hF
       have hord : orderOf Dat.b = p := by
-        haveI : Fact p.Prime := ⟨hp⟩
+        have : Fact p.Prime := ⟨hp⟩
         exact orderOf_eq_prime (hB.2 _ hbB) (fun h => hbN (h ▸ Subgroup.one_mem _))
       have hcardB := card_eq_of_inner_split hB hBC' hbB hBb hbout hθcard
       rw [Nat.card_zpowers, hord, hθ] at hcardB

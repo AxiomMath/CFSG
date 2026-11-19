@@ -153,11 +153,11 @@ theorem exists_eq_smul_add_smul_of_commute {X G : Matrix (Fin 2) (Fin 2) F}
       refine ⟨G 0 0 - G 1 0 / X 1 0 * X 0 0, G 1 0 / X 1 0, ?_⟩
       ext i j
       fin_cases i <;> fin_cases j <;> simp [hq, hy] <;> field_simp
-      first | ring1 | linear_combination -h10 | linear_combination h10
+      first | linear_combination -h10 | linear_combination h10
   · refine ⟨G 0 0 - G 0 1 / X 0 1 * X 0 0, G 0 1 / X 0 1, ?_⟩
     ext i j
     fin_cases i <;> fin_cases j <;> simp <;> field_simp <;>
-      first | ring1 | linear_combination h00 | linear_combination -h00 |
+      first | linear_combination h00 | linear_combination -h00 |
         linear_combination h01 | linear_combination -h01
 
 omit [CharP F 2] in

@@ -160,7 +160,7 @@ private structure MemP0Hyp (M V A B : Subgroup G) (h : G) (n f : ℕ) (y : G) : 
   hy2 : IsPGroup 2 (Subgroup.zpowers y)
   hyP : ∀ p ∈ p0Of M V (A ⊔ B), ⁅y, p⁆ ∈ V
 
-private def OddCoreSwap (M V A B : Subgroup G) (h : G) (n f : ℕ) (y : G) : Prop :=
+private def OddCoreSwap (M V A B : Subgroup G) (_h : G) (_n _f : ℕ) (y : G) : Prop :=
   ∃ (hyM : y ∈ M) (g : ↥M) (Cbar Obar : Subgroup (MBar M)) (ybar : MBar M),
     ybar = QuotientGroup.mk' (pCore 2 ↥M) ⟨y, hyM⟩ ∧
     Obar = (pPrimeCore 2 ↥Cbar).map Cbar.subtype ∧
@@ -268,9 +268,9 @@ private theorem secRep_conj_eq_one {y : G} (C : MemP0Hyp M V A B h n f y)
   obtain ⟨hSec, hPR'⟩ := conj_secHyp C
   let E : Subgroup ↥R' := W2.subgroupOf R'
   let Asub : Subgroup ↥R' := V.subgroupOf R'
-  letI : E.Normal := hSec.normal_E
-  letI : Asub.Normal := hSec.normal_A
-  letI : Fact (RootMany.IsElemSection E Asub) := ⟨hSec.isElemSection⟩
+  let : E.Normal := hSec.normal_E
+  let : Asub.Normal := hSec.normal_A
+  let : Fact (RootMany.IsElemSection E Asub) := ⟨hSec.isElemSection⟩
   let T := RootMany.secRep E Asub
   have hyR' : y ∈ R' :=
     Subgroup.mem_inf.mpr ⟨hyM, L2Datum.rOf_le_normalizer_conj_p0 C.hS C.h72 C.hD g hg1 C.hyR⟩
@@ -390,7 +390,7 @@ private theorem oddCoreSwap_of_memP0Hyp {y : G} (C : MemP0Hyp M V A B h n f y) :
     rw [← CFSG.CGT.Timmesfeld75.centralizer_conjSubgroup_eq, conjSubgroup_sup,
       hgX, hgR0, sup_comm]
   let Obar : Subgroup (MBar M) := (pPrimeCore 2 ↥Cbar).map Cbar.subtype
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hoddCore : Odd (Nat.card ↥(pPrimeCore 2 ↥Cbar)) :=
     (pPrimeCore_coprime_card (p := 2) (G := ↥Cbar)).odd_of_left
   have hoddObar : Odd (Nat.card Obar) := by

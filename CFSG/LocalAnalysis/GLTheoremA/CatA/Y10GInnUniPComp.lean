@@ -28,12 +28,12 @@ theorem sq_ne_two_three (t : ℕ) : t ^ 2 ≠ 2 ∧ t ^ 2 ≠ 3 := by
 theorem statedSU_qs_or_solv {a Q : ℕ} {M : Type} [Field M] [Finite M] (hK : Nat.card M = Q ^ 2) :
     Group.IsSolvable ↥(StatedSU a Q M) ∨ CFSG.Open.IsQuasisimple ↥(StatedSU a Q M) := by
   obtain ⟨p, hchar, k, hp, rfl⟩ := hct_exists_char_pow hK
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := hchar
+  have : Fact p.Prime := ⟨hp⟩
+  have := hchar
   rcases Nat.lt_or_ge a 2 with ha | ha
   · left
-    haveI : Subsingleton ↥(StatedSU a (p ^ k) M) := by
-      haveI := hct_subsingleton_statedSL_of_le_one (K := M) (d := a) (by omega)
+    have : Subsingleton ↥(StatedSU a (p ^ k) M) := by
+      have := hct_subsingleton_statedSL_of_le_one (K := M) (d := a) (by omega)
       refine ⟨fun x y => ?_⟩
       have h := Subsingleton.elim (α := ↥(StatedSL a M))
         ⟨x.1, statedSU_le_statedSL a (p ^ k) M x.2⟩ ⟨y.1, statedSU_le_statedSL a (p ^ k) M y.2⟩
@@ -59,11 +59,11 @@ theorem statedSU_qs_or_solv {a Q : ℕ} {M : Type} [Field M] [Finite M] (hK : Na
       rcases hQ with h | h
       · have hs : Group.IsSolvable ↥(StatedSU 2 (p ^ k) M) :=
           hct_isSolvable_of_natCard_eq (p := 2) (q := 3) (a := 1) (b := 1) Nat.prime_two
-            Nat.prime_three (by norm_num) (by rw [hcard, h] <;> norm_num)
+            Nat.prime_three (by norm_num) (by rw [hcard, h]; norm_num)
         exact hs
       · have hs : Group.IsSolvable ↥(StatedSU 2 (p ^ k) M) :=
           hct_isSolvable_of_natCard_eq (p := 2) (q := 3) (a := 3) (b := 1) Nat.prime_two
-            Nat.prime_three (by norm_num) (by rw [hcard, h] <;> norm_num)
+            Nat.prime_three (by norm_num) (by rw [hcard, h]; norm_num)
         exact hs
     · right
       have hF : Nat.card (CFSG.LieType.Steinberg.fixedSubfield M p k) = p ^ k :=
@@ -80,7 +80,7 @@ theorem statedSU_qs_or_solv {a Q : ℕ} {M : Type} [Field M] [Finite M] (hK : Na
     ·
       left
       obtain ⟨rfl, h2⟩ := h32
-      have hF : Nat.card M = (2 ^ 1) ^ 2 := by rw [hK, h2] <;> norm_num
+      have hF : Nat.card M = (2 ^ 1) ^ 2 := by rw [hK, h2]; norm_num
       have hcard : Nat.card (StatedSU 3 (2 ^ 1) M) = 216 := by
         rw [CFSG.RankThree.PartTwo.Sec8.Item87Proof.card_statedSU_three_two hF]
         norm_num
@@ -89,7 +89,7 @@ theorem statedSU_qs_or_solv {a Q : ℕ} {M : Type} [Field M] [Finite M] (hK : Na
         simpa using hcard
       have hs : Group.IsSolvable ↥(StatedSU 3 (p ^ k) M) :=
         hct_isSolvable_of_natCard_eq (p := 2) (q := 3) (a := 3) (b := 3) Nat.prime_two
-          Nat.prime_three (by norm_num) (by rw [hcard'] <;> norm_num)
+          Nat.prime_three (by norm_num) (by rw [hcard']; norm_num)
       exact hs
     · right
       have hnq : (a, p ^ k) ≠ (3, 2) := fun h => h32 ⟨(Prod.mk.inj h).1, (Prod.mk.inj h).2⟩
@@ -107,7 +107,7 @@ theorem sl_block_qs_or_solv {b : ℕ} {M : Type} [Field M] [Finite M] {t : ℕ} 
     Group.IsSolvable ↥(StatedSL b M) ∨ CFSG.Open.IsQuasisimple ↥(StatedSL b M) := by
   rcases Nat.lt_or_ge b 2 with hb | hb
   · left
-    haveI := hct_subsingleton_statedSL_of_le_one (K := M) (d := b) (by omega)
+    have := hct_subsingleton_statedSL_of_le_one (K := M) (d := b) (by omega)
     infer_instance
   · right
     have h2 : Nat.card M ≠ 2 := by rw [ht]; exact (sq_ne_two_three t).1
@@ -164,12 +164,12 @@ theorem uni_pcomp_core {L : Type} [Field L] [Finite L] {n r : ℕ} {τ : L ≃+*
     (hM : GLAPComponent p (((heldSU n L τ hτ).comap θ).map θ) M) :
     IsComponentOf M (((heldSU n L τ hτ).comap θ).map θ) := by
   classical
-  haveI hSLn : (StatedSL n L).Normal := by
+  have hSLn : (StatedSL n L).Normal := by
     rw [statedSL_eq_ker_det]
     infer_instance
   obtain ⟨KP, hKP⟩ : ∃ KP : Subgroup (∀ k, H k), KP = (heldSU n L τ hτ).comap θ := ⟨_, rfl⟩
   have memKP : ∀ w, w ∈ KP ↔ θ w ∈ heldSU n L τ hτ := fun w => by rw [hKP]; rfl
-  haveI hKPn : KP.Normal := by
+  have hKPn : KP.Normal := by
     refine ⟨fun k hk w => ?_⟩
     rw [memKP] at hk ⊢
     rw [map_mul, map_mul, map_inv]
@@ -183,12 +183,12 @@ theorem uni_pcomp_core {L : Type} [Field L] [Finite L] {n r : ℕ} {τ : L ≃+*
     obtain ⟨s, hs, rfl⟩ := Subgroup.mem_map.mp hx
     rw [uni_mulSingle_conj]
     exact Subgroup.mem_map.mpr ⟨_, (hSn i).conj_mem s hs (g i), rfl⟩
-  haveI hTn : ∀ i, (T i).Normal := fun i => by
+  have hTn : ∀ i, (T i).Normal := fun i => by
     rw [hT i]
-    haveI := hfacN i
+    have := hfacN i
     infer_instance
   obtain ⟨Q, hQ⟩ : ∃ Q : Subgroup (∀ k, H k), Q = ⨆ i, T i := ⟨_, rfl⟩
-  haveI hQn : Q.Normal := by rw [hQ]; infer_instance
+  have hQn : Q.Normal := by rw [hQ]; infer_instance
   have hQKP : Q ≤ KP := by
     rw [hQ]
     exact iSup_le fun i => by rw [hT i]; exact inf_le_right
@@ -233,7 +233,7 @@ theorem uni_pcomp_core {L : Type} [Field L] [Finite L] {n r : ℕ} {τ : L ≃+*
     obtain ⟨q, hq, hqe⟩ := Subgroup.mem_map.mp he
     refine Subgroup.mem_map.mpr ⟨k * q * k⁻¹, hQn.conj_mem q hq k, ?_⟩
     simp [map_mul, map_inv, hkg, hqe]
-  haveI hEn' : (E.subgroupOf X).Normal := hEn
+  have hEn' : (E.subgroupOf X).Normal := hEn
   have hsolv : Group.IsSolvable (X ⧸ E.subgroupOf X) := by
     apply Group.isSolvable_of_comm
     intro a b
@@ -245,7 +245,7 @@ theorem uni_pcomp_core {L : Type} [Field L] [Finite L] {n r : ℕ} {τ : L ≃+*
     have hc : ((x : GL (Fin n) L) * (y : GL (Fin n) L))⁻¹ *
         ((y : GL (Fin n) L) * (x : GL (Fin n) L)) = θ ⁅l⁻¹, k⁻¹⁆ := by
       rw [← hkx, ← hly]
-      simp only [map_commutatorElement, map_inv, map_mul, commutatorElement_def]
+      simp only [map_inv, map_mul, commutatorElement_def]
       group
     simp only [Subgroup.coe_mul, Subgroup.coe_inv]
     rw [hc, hE]
@@ -294,7 +294,7 @@ theorem uni_pcomp_core {L : Type} [Field L] [Finite L] {n r : ℕ} {τ : L ≃+*
         (Subgroup.equivMapOfInjective _ θ hθ).trans (MulEquiv.subgroupCongr hLi).symm
       exact CFSG.Open.IsQuasisimple.of_mulEquiv (eF.trans e2).symm hq
     · right
-      haveI := hsol
+      have := hsol
       have hF : Group.IsSolvable ↥((S i).map (MonoidHom.mulSingle H i)) :=
         Group.isSolvable_of_isSolvable_injective (f := eF.symm.toMonoidHom) eF.symm.injective
       have hTle : T i ≤ (S i).map (MonoidHom.mulSingle H i) := by
@@ -303,7 +303,7 @@ theorem uni_pcomp_core {L : Type} [Field L] [Finite L] {n r : ℕ} {τ : L ≃+*
       have hLle : Lf i ≤ ((S i).map (MonoidHom.mulSingle H i)).map θ := by
         rw [hL i]
         exact Subgroup.map_mono hTle
-      haveI hFmap : Group.IsSolvable ↥(((S i).map (MonoidHom.mulSingle H i)).map θ) :=
+      have hFmap : Group.IsSolvable ↥(((S i).map (MonoidHom.mulSingle H i)).map θ) :=
         Group.isSolvable_of_isSolvable_injective
           (f := (Subgroup.equivMapOfInjective _ θ hθ).symm.toMonoidHom)
           (Subgroup.equivMapOfInjective _ θ hθ).symm.injective
@@ -353,11 +353,11 @@ theorem uniPCompIsComp_holds :
     rcases hty k with ⟨a, d, M', hM'F, hM'fin, τ', hτ', hτ'Q, hcard', ⟨eS⟩⟩ |
       ⟨b, e, M', hM'F, hM'fin, hcard', ⟨eS⟩⟩
     · rcases heldSU_qs_or_solv (a := a) hτ' hτ'Q hcard' with hsol | hq
-      · haveI := hsol
+      · have := hsol
         exact Or.inr (Group.isSolvable_of_isSolvable_injective (f := eS.toMonoidHom) eS.injective)
       · exact Or.inl (CFSG.Open.IsQuasisimple.of_mulEquiv eS hq)
     · rcases sl_block_qs_or_solv (b := b) (t := Q ^ e) (by rw [hcard', ← pow_mul, mul_comm]) with hsol | hq
-      · haveI := hsol
+      · have := hsol
         exact Or.inr (Group.isSolvable_of_isSolvable_injective (f := eS.toMonoidHom) eS.injective)
       · exact Or.inl (CFSG.Open.IsQuasisimple.of_mulEquiv eS hq)
   let C : Subgroup (GL (Fin n) K) := Subgroup.centralizer ({s} : Set (GL (Fin n) K)) ⊓ heldGU n K τ hτ

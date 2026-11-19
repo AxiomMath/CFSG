@@ -42,7 +42,7 @@ namespace CFSG.RankThree.PartTwo.Sec21
 theorem ffs_exists_conj_map_le {G : Type*} [Group G] [Finite G] {C : Subgroup G}
     (P : Sylow 3 C) {E : Subgroup G} (hEC : E ≤ C) (hE : IsPGroup 3 E) :
     ∃ c ∈ C, ∀ x ∈ E, c * x * c⁻¹ ∈ (P : Subgroup C).map C.subtype := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Q, hQ⟩ := (hE.comap_subtype (K := C)).exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq ↥C Q P
   refine ⟨(g : G), g.2, ?_⟩
@@ -58,7 +58,7 @@ theorem ffs_exists_conj_mem_of_card_eq {G : Type*} [Group G] [Finite G] {C : Sub
     (P : Sylow 3 C) {B' : Subgroup G} (hB'C : B' ≤ C)
     (hcard : Nat.card B' = Nat.card (P : Subgroup C)) :
     ∃ c ∈ C, ∀ x ∈ (P : Subgroup C).map C.subtype, c * x * c⁻¹ ∈ B' := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcardB : Nat.card (B'.subgroupOf C) = Nat.card (P : Subgroup C) :=
     (Nat.card_congr (Subgroup.subgroupOfEquivOfLe hB'C).toEquiv).trans hcard
   have hB3 : IsPGroup 3 (B'.subgroupOf C) :=

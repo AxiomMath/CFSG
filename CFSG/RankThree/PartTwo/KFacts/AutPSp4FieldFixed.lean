@@ -27,7 +27,7 @@ private theorem coe_sl2OrderThree_inv {K : Type} [Field K] [CharP K 2] :
   rw [inv_eq_of_mul_eq_one_right hmul, pow_two, Matrix.SpecialLinearGroup.coe_mul,
     coe_sl2OrderThree, Matrix.mul_fin_two]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [h2] <;> linear_combination h2
+  fin_cases i <;> fin_cases j <;> simp; linear_combination h2
 
 private theorem coe_leviSp_sl2OrderThree {K : Type} [Field K] [CharP K 2] :
     (((leviSp (r := 2) (k := K)
@@ -72,7 +72,7 @@ theorem exists_orderOf_three_fieldAut_fixed (K : Type) [Field K] [Finite K] [Cha
     rw [coe_fieldSp]
     ext x y
     rcases x with i | i <;> rcases y with j | j <;> fin_cases i <;> fin_cases j <;>
-      simp [hg₀, Matrix.map_apply, CharP.cast_eq_zero K 2]
+      simp [hg₀, Matrix.map_apply]
   refine ⟨proj 2 K g₀, ?_, ?_⟩
   · refine orderOf_eq_prime ?_ hxne
     rw [← map_pow, hg3, map_one]

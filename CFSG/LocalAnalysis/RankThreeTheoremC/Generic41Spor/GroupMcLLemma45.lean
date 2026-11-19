@@ -115,7 +115,7 @@ theorem mcl_twoWitness_of_equiv_noncentral {K K' : Type} [Group K] [Group K'] [F
       ∃ n ∈ normalizer ((T₀ : Subgroup K') : Set K'), n * u₀ * n⁻¹ = x) :
     ∀ S : Sylow p K, ∀ u ∈ (S : Subgroup K), (∃ s ∈ (S : Subgroup K), s * u ≠ u * s) →
       TwoWitness u := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let S₀ : Sylow p K := Sylow.mapSurjective (f := e.symm.toMonoidHom) e.symm.surjective T₀
   have hS₀ : (S₀ : Subgroup K) = (T₀ : Subgroup K').map e.symm.toMonoidHom := rfl
   intro S u huS hnc'
@@ -174,7 +174,7 @@ theorem mcl_witness_of_model (h : McLLem45Model) :
   obtain ⟨-, ⟨e⟩⟩ := hK
   obtain ⟨eC⟩ := CFSG.Sporadic.Bridge.McL.nonempty_mulEquiv
   let θ : K ≃* mcl275P := (e.trans eC.symm).trans mcl275Equiv
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hcard : Nat.card R₀ = 5 ^ (Nat.card mcl275P).factorization 5 := by
     rw [hR₀, factorization_card_mcl275P_five]
   have hS : ((Sylow.ofCard R₀ hcard : Sylow 5 ↥mcl275P) : Subgroup ↥mcl275P) = R₀ :=
@@ -190,8 +190,8 @@ theorem mcl_witness_of_model (h : McLLem45Model) :
 theorem mcl_lemma45_of_model (h : McLLem45Model) : Lemma45Facts IsMcLType 5 McLShape := by
   refine lemma45Facts_of_inner Nat.prime_five (by norm_num) ?_
   intro X _ _ K hK R U₀ hUR hUe hUc hshape
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : K.Normal := hK.1
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : K.Normal := hK.1
   obtain ⟨u, hu, s, hs, hsu⟩ := hshape
   have hu1' : u ≠ 1 := by
     rintro rfl

@@ -20,11 +20,13 @@ variable (K : Type) [Field K] [Finite K] [CharP K 2]
   (θ : K ≃+* K) (hθ : ∀ c, θ.toRingHom (θ.toRingHom c) = c)
   (l : K) (hl : θ.toRingHom l = l + 1)
 
+omit [Finite K] [CharP K 2] in
 theorem langPFrame_apply {p : ℕ} [NeZero p] (ζ : CFSG.LieType.Steinberg.normOne θ) (hζ : ζ ^ p = 1)
     (a : Multiplicative (Fin Tag.E6.rank → ZMod p)) :
     langPFrame K θ hθ l hl ζ hζ a = langTorusHom K θ hθ l hl
       (fun i => zmodPowHom ζ hζ (Multiplicative.ofAdd (Multiplicative.toAdd a i))) := rfl
 
+omit [CharP K 2] in
 private theorem isogeny_minTorus_coordHom (u : Fin Tag.E6.rank → Kˣ) :
     (e6Isogeny K (minTorus e6Data_valid K u) : ModGL .E6 K) =
       (torusCoordHom .E6 K u : ModGL .E6 K) := by
@@ -43,6 +45,7 @@ private theorem isogeny_minTorus_coordHom (u : Fin Tag.E6.rank → Kˣ) :
     exact hh
   exact (hf u).symm.trans ((DFunLike.congr_fun he u).trans (hg u))
 
+omit [CharP K 2] in
 private theorem isogeny_minTorus_chevTorus {p : ℕ} [NeZero p] (ζ : Kˣ) (hζ : ζ ^ p = 1)
     (a : Multiplicative (Fin Tag.E6.rank → ZMod p)) :
     (e6Isogeny K (minTorus e6Data_valid K
@@ -50,6 +53,7 @@ private theorem isogeny_minTorus_chevTorus {p : ℕ} [NeZero p] (ζ : Kˣ) (hζ 
       (chevTorus .E6 ζ hζ a : ModGL .E6 K) :=
   isogeny_minTorus_coordHom K (chevTorusExp .E6 ζ hζ a)
 
+omit [CharP K 2] in
 theorem isogeny_langPFrame {f p : ℕ} (hf : 1 ≤ f) [NeZero p]
     (hK : Nat.card K = (2 ^ f) ^ 2) (hθq : ∀ c, θ c = c ^ (2 ^ f))
     (ζ : CFSG.LieType.Steinberg.normOne θ) (hζ : ζ ^ p = 1)
@@ -74,6 +78,7 @@ theorem isogeny_langPFrame {f p : ℕ} (hf : 1 ≤ f) [NeZero p]
     exact Subgroup.coe_pow _ _ _
   rw [he, isogeny_minTorus_chevTorus K (ζ : Kˣ) (congrArg Subtype.val hζ) a]
 
+omit [CharP K 2] in
 theorem exists_isogeny_langPFrame {f p : ℕ} (hf : 1 ≤ f) (hp : p.Prime)
     (hp3 : p ≠ 3) [NeZero p] (hK : Nat.card K = (2 ^ f) ^ 2)
     (hθq : ∀ c, θ c = c ^ (2 ^ f)) (ζ : CFSG.LieType.Steinberg.normOne θ)
@@ -172,6 +177,7 @@ theorem cover_centralizer_langPFrame_le {f p : ℕ} (hf : 1 ≤ f)
   refine ⟨u, ?_⟩
   rw [MonoidHom.comp_apply, hu]
 
+omit [CharP K 2] in
 theorem cover_langTorusHom_torsion {f p : ℕ} (hK : Nat.card K = (2 ^ f) ^ 2)
     (hθq : ∀ c, θ c = c ^ (2 ^ f)) (hp : p.Prime) (hp3 : p ≠ 3) [NeZero p]
     (ζ : CFSG.LieType.Steinberg.normOne θ) (hζ : ζ ^ p = 1) (hζo : orderOf (ζ : Kˣ) = p)
@@ -227,6 +233,7 @@ theorem cover_langTorusHom_torsion {f p : ℕ} (hK : Nat.card K = (2 ^ f) ^ 2)
   rw [hu]
   exact TableBExc.pow_mul_eq_self_of_mod hk hxp
 
+omit [Finite K] [CharP K 2] in
 private theorem torusPow_redMod {p : ℕ} [NeZero p] {ζ : Kˣ} (hζ : ζ ^ p = 1)
     (v : Fin Tag.E6.rank → ℤ) :
     torusPow ζ v = minTorus e6Data_valid K
@@ -245,6 +252,7 @@ private theorem torusPow_redMod {p : ℕ} [NeZero p] {ζ : Kˣ} (hζ : ζ ^ p = 
   have hζz : ζ ^ (p : ℤ) = 1 := by simpa only [zpow_natCast] using hζ
   rw [he, zpow_add, zpow_mul, hζz, one_zpow, mul_one]
 
+omit [Finite K] in
 theorem langWeylHom_conj_langPFrame {p : ℕ} [NeZero p]
     (ζ : CFSG.LieType.Steinberg.normOne θ) (hζ : ζ ^ p = 1)
     (w : WeylGroup .E6) (a : Fin Tag.E6.rank → ZMod p) :

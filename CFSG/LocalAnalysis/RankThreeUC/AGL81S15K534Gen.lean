@@ -283,7 +283,7 @@ theorem q3a6_short_gen
       Module.finrank (ZMod 2) S ≤ m * (Module.finrank (ZMod 2) S -
         Module.finrank (ZMod 2) ↥(CFSG.LocalAnalysis.CommutingFactor.fixedSub A)) := by
   classical
-  haveI : Group.IsPerfect ↥Y := isPerfect_of_isQuasisimple hq
+  have : Group.IsPerfect ↥Y := isPerfect_of_isQuasisimple hq
   have hDN : Y ⊔ A ≤ Subgroup.normalizer (Y : Set (Module.End (ZMod 2) S)ˣ) :=
     sup_le Subgroup.le_normalizer hAN
   have hZ3 : ∀ w ∈ Y, (∀ y ∈ Y, w * y = y * w) → w ^ 3 = 1 := by

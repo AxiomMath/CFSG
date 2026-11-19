@@ -107,28 +107,28 @@ end Basis3
     ext i
     by_cases h0 : i = 0
     · subst i
-      simp only [if_pos, if_neg (show (0 : Fin 8) ≠ 1 by decide)]
+      simp only [ite_eq_left, ite_eq_right (show (0 : Fin 8) ≠ 1 by decide)]
       calc -(v 0 - v 1) - (v 0 + v 1) = (-2 : ZMod 3) * v 0 := by ring
         _ = v 0 := by rw [show (-2 : ZMod 3) = 1 by decide, one_mul]
     · by_cases h1 : i = 1
       · subst i
-        simp only [if_pos, if_neg (show (1 : Fin 8) ≠ 0 by decide)]
+        simp only [ite_eq_left, ite_eq_right (show (1 : Fin 8) ≠ 0 by decide)]
         calc (v 0 - v 1) - (v 0 + v 1) = (-2 : ZMod 3) * v 1 := by ring
           _ = v 1 := by rw [show (-2 : ZMod 3) = 1 by decide, one_mul]
-      · simp only [if_neg h0, if_neg h1]
+      · simp only [ite_eq_right h0, ite_eq_right h1]
   right_inv v := by
     ext i
     by_cases h0 : i = 0
     · subst i
-      simp only [if_pos, if_neg (show (0 : Fin 8) ≠ 1 by decide)]
+      simp only [ite_eq_left, ite_eq_right (show (0 : Fin 8) ≠ 1 by decide)]
       calc (-v 0 - v 1) - (v 0 - v 1) = (-2 : ZMod 3) * v 0 := by ring
         _ = v 0 := by rw [show (-2 : ZMod 3) = 1 by decide, one_mul]
     · by_cases h1 : i = 1
       · subst i
-        simp only [if_pos, if_neg (show (1 : Fin 8) ≠ 0 by decide)]
+        simp only [ite_eq_left, ite_eq_right (show (1 : Fin 8) ≠ 0 by decide)]
         calc (-v 0 - v 1) + (v 0 - v 1) = (-2 : ZMod 3) * v 1 := by ring
           _ = v 1 := by rw [show (-2 : ZMod 3) = 1 by decide, one_mul]
-      · simp only [if_neg h0, if_neg h1]
+      · simp only [ite_eq_right h0, ite_eq_right h1]
   map_add' v w := by
     ext i
     by_cases h0 : i = 0 <;> by_cases h1 : i = 1 <;>

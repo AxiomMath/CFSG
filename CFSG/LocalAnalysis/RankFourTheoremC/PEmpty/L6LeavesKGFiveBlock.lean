@@ -15,7 +15,7 @@ open scoped MatrixGroups
 variable {G : Type} [Group G] [Finite G] {p : ℕ} {H D S B L M : Subgroup G} {z : G}
 
 theorem S_le_normalizer (d : KGC.KGData p H D S B L M z) : S ≤ normalizer (L : Set G) :=
-  fun s hs => d.M_le_L ⟨d.S_le_M hs, d.S_le_H hs⟩
+  fun _s hs => d.M_le_L ⟨d.S_le_M hs, d.S_le_H hs⟩
 
 theorem exists_two_pow_mem (d : KGC.KGData p H D S B L M z) {y : G} (hy : y ∈ L ⊔ S) :
     ∃ a : ℕ, y ^ (2 ^ a) ∈ L := by
@@ -42,6 +42,7 @@ theorem le_of_isOTwoPerfect (d : KGC.KGData p H D S B L M z) {J : Subgroup G}
     exact ha
   exact Subgroup.subgroupOf_eq_top.mp (hJ (L.subgroupOf J) h2)
 
+omit [Finite G] in
 theorem img_mono {H D : Subgroup G} [(D.subgroupOf H).Normal] {U V : Subgroup G} (h : U ≤ V) :
     KGC.img H D U ≤ KGC.img H D V := by
   intro x hx
@@ -53,6 +54,7 @@ theorem img_sup (d : KGC.KGData p H D S B L M z) [(D.subgroupOf H).Normal] :
   unfold KGC.img
   rw [Subgroup.subgroupOf_sup d.L_le_H d.S_le_H, Subgroup.map_sup]
 
+omit [Finite G] in
 theorem isSubnormal_img {H D : Subgroup G} [(D.subgroupOf H).Normal] {U V : Subgroup G}
     (h : CFSG.Open.IsSubnormal U V) :
     CFSG.Open.IsSubnormal (KGC.img H D U) (KGC.img H D V) :=
@@ -71,7 +73,7 @@ theorem img_eq_bot_or_eq (d : KGC.KGData p H D S B L M z) [(D.subgroupOf H).Norm
 
 theorem not_isPGroup_of_simple {K : Type} [Group K] [Finite K] [IsSimpleGroup K]
     (hnab : ∃ a b : K, a * b ≠ b * a) {r : ℕ} [Fact r.Prime] (hP : IsPGroup r K) : False := by
-  haveI : Nontrivial (Subgroup.center K) := hP.center_nontrivial
+  have : Nontrivial (Subgroup.center K) := hP.center_nontrivial
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center K) with h | h
   · obtain ⟨c, hc⟩ := exists_ne (1 : Subgroup.center K)
     exact hc (Subtype.ext (Subgroup.mem_bot.mp (h.le c.2)))
@@ -82,8 +84,8 @@ theorem exists_equiv (d : KGC.KGData p H D S B L M z) [hDn : (D.subgroupOf H).No
     {J : Subgroup G} (hJs : CFSG.Open.IsSubnormal J (L ⊔ S)) (hJ2 : IsOTwoPerfect J)
     (hJM : ¬ J ≤ M) :
     Nonempty (↥J ⧸ CFSG.pCore 2 ↥J ≃* ↥(KGC.img H D L)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := d.simple_img
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := d.simple_img
   have hJL : J ≤ L := le_of_isOTwoPerfect d hJs.le hJ2
   have hJH : J ≤ H := hJL.trans d.L_le_H
   rcases img_eq_bot_or_eq d hJs hJL with hbot | heq

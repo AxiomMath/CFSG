@@ -65,7 +65,7 @@ theorem sym3_facts (hS2 : IsPGroup 2 S) (hSM : S ≤ M)
       M.subtype_injective
     let θY : ↥Ymat →* ↥(YStar i₀ f₀) :=
       (θ.comp Ymat.subtype).codRestrict (YStar i₀ f₀) fun y => y.2
-    haveI : Fintype (X3 i₀ f₀) := Fintype.ofFinite _
+    have : Fintype (X3 i₀ f₀) := Fintype.ofFinite _
     let e3 : X3 i₀ f₀ ≃ Fin 3 := Fintype.equivFinOfCardEq (by
       rw [← Nat.card_eq_fintype_card]; exact card_X3 i₀ f₀)
     let ρ : ↥(Ymat.map M.subtype) →* Perm (Fin 3) :=

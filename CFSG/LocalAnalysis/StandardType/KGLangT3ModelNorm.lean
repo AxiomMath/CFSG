@@ -38,8 +38,7 @@ theorem kgLangT3_hilbert90 (k K : Type) [Field k] [Field K] [Algebra k K] [Finit
   have hyU : y * (Units.mapEquiv σ.toRingEquiv.toMulEquiv y)⁻¹ =
       Units.map (algebraMap k K).toMonoidHom ζ := by
     apply Units.ext
-    simp only [Units.coe_mapEquiv, Units.coe_map, Units.val_mul, Units.val_inv_eq_inv_val,
-      MonoidHom.coe_coe]
+    simp only [Units.coe_mapEquiv, Units.coe_map, Units.val_mul, Units.val_inv_eq_inv_val]
     change (y : K) * (σ (y : K))⁻¹ = (algebraMap k K) (ζ : k)
     rw [div_eq_mul_inv] at hy
     exact hy

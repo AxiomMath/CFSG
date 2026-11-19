@@ -173,7 +173,7 @@ private theorem lqRecC2_center_eq_bot_of_simple_perfect {X : Type*} [Group X] [I
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center X) with h | h
   · exact h
   · exfalso
-    haveI : Group.IsPerfect X := Group.isPerfect_def.2 hperf
+    have : Group.IsPerfect X := Group.isPerfect_def.2 hperf
     exact Group.IsPerfect.not_isMulCommutative X ⟨⟨fun a b => by
       have ha : a ∈ Subgroup.center X := h ▸ Subgroup.mem_top a
       exact (Subgroup.mem_center_iff.mp ha b).symm⟩⟩
@@ -187,19 +187,17 @@ private theorem lqRecC2_sl2_commutator_nontrivial {K : Type} [Field K] [Fintype 
     (hK : Fintype.card K = 2 ^ 1) :
     ∃ g ∈ commutator (Matrix.SpecialLinearGroup (Fin 2) K), g ≠ 1 := by
   classical
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow hK
+  have : CharP K 2 := charP_of_card_eq_prime_pow hK
   let u := LieType.Steinberg.sl2Upper (1 : K)
   let w := LieType.Steinberg.sl2Lower (1 : K)
   have hu2 : u * u = 1 := by
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [u, LieType.Steinberg.coe_sl2Upper, Matrix.SpecialLinearGroup.coe_mul,
-        Matrix.mul_apply, Fin.sum_univ_two, CharTwo.add_self_eq_zero]
+      simp [u, LieType.Steinberg.coe_sl2Upper, CharTwo.add_self_eq_zero]
   have hw2 : w * w = 1 := by
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [w, LieType.Steinberg.coe_sl2Lower, Matrix.SpecialLinearGroup.coe_mul,
-        Matrix.mul_apply, Fin.sum_univ_two, CharTwo.add_self_eq_zero]
+      simp [w, LieType.Steinberg.coe_sl2Lower, CharTwo.add_self_eq_zero]
   refine ⟨⁅u, w⁆, Subgroup.commutator_mem_commutator (Subgroup.mem_top _)
     (Subgroup.mem_top _), ?_⟩
   intro h1
@@ -208,8 +206,7 @@ private theorem lqRecC2_sl2_commutator_nontrivial {K : Type} [Field K] [Fintype 
   have hentry := congrArg
     (fun x : Matrix.SpecialLinearGroup (Fin 2) K => ((x : Matrix (Fin 2) (Fin 2) K) 0 1)) h1
   simp [u, w, LieType.Steinberg.coe_sl2Upper, LieType.Steinberg.coe_sl2Lower,
-    Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_one, Matrix.mul_apply,
-    Fin.sum_univ_two, CharTwo.add_self_eq_zero] at hentry
+    CharTwo.add_self_eq_zero] at hentry
 
 theorem lq_rec_C2
     {τ : Tag} (hτ : τ = .F4)
@@ -241,8 +238,8 @@ theorem lq_rec_C2
   rcases f4_nonA_casesP2 hp hp2 S hpL hTp h1 i hnonA with
     ⟨v, hroots, -, -⟩ | ⟨v, J, hJ, -, h3, -⟩
   · obtain ⟨σ, hfin, hcard, f, hf1, hker, hf2⟩ := exists_inner_cover S hT i hinner
-    haveI : Fintype ↥(fixSubfield σ) := Fintype.ofFinite ↥(fixSubfield σ)
-    haveI : CharP ↥(fixSubfield σ) 2 :=
+    have : Fintype ↥(fixSubfield σ) := Fintype.ofFinite ↥(fixSubfield σ)
+    have : CharP ↥(fixSubfield σ) 2 :=
       ((fixSubfield σ).subtype.charP_iff (fixSubfield σ).subtype_injective 2).2 inferInstance
     have hKcard : Nat.card ↥(fixSubfield σ) = 2 ^ N := by rw [hcard, hN]
     have hK4 : 4 ≤ Nat.card ↥(fixSubfield σ) := by
@@ -375,7 +372,7 @@ theorem lq_rec_B2der
       norm_num
     obtain ⟨K', hfin, C, D, hC, hD, hcard, f, hf1, hker, hf2⟩ :=
       exists_inner_cover_derived_two S hT i hinner hQ
-    haveI : Fintype ↥K' := Fintype.ofFinite _
+    have : Fintype ↥K' := Fintype.ofFinite _
     have hcard' : Fintype.card ↥K' = 2 := by rw [← Nat.card_eq_fintype_card]; exact hcard
     have hch : ringChar L = 2 := by
       have htwo := ringChar_eq_of_natCard_eq_pow Nat.prime_two (K := ↥K') (f := 1)
@@ -417,7 +414,7 @@ theorem lq_rec_B2der
     have hDmap : D = X'.map ψ := by
       rw [hD, ← hψrange, MonoidHom.range_eq_map, ← Subgroup.map_commutator, hX', commutator_def]
     have hX : LieFactorData 2 ↥X' := spFourTwoFacts_holds ↥K' hcard'
-    haveI hs : IsSimpleGroup ↥X' := isSimpleGroup_commutator_statedSp_two hcard
+    have hs : IsSimpleGroup ↥X' := isSimpleGroup_commutator_statedSp_two hcard
     have hXp : ⁅X', X'⁆ = X' :=
       Subgroup.isPerfect_iff.1 (Group.isPerfect_def.2 hX.perfect)
     have hperfD : ⁅D, D⁆ = D := by
@@ -479,17 +476,17 @@ theorem lq_rec_B2der
         have h3 : (↑(ψX y) : ModGL Tag.F4 ↥K') = d := congrArg Subtype.val hy
         exact h3 ▸ h2
     let eD : ↥X' ≃* ↥D := MulEquiv.ofBijective ψX ⟨hψXinj, hψXsurj⟩
-    haveI hDsimple : IsSimpleGroup ↥D := eD.symm.isSimpleGroup
-    haveI hDperf : Group.IsPerfect ↥D := Subgroup.isPerfect_iff.2 hperfD
+    have hDsimple : IsSimpleGroup ↥D := eD.symm.isSimpleGroup
+    have hDperf : Group.IsPerfect ↥D := Subgroup.isPerfect_iff.2 hperfD
     have hZD : Subgroup.center ↥D = ⊥ :=
       lqRecC2_center_eq_bot_of_simple_perfect (Group.isPerfect_def.1 hDperf)
     have hfker : f.ker = ⊥ := le_bot_iff.mp (hZD ▸ hker)
     have hfinj : Function.Injective f := (MonoidHom.ker_eq_bot_iff f).1 hfker
     let eR : ↥D ≃* ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) :=
       (MonoidHom.ofInjective hfinj).trans (MulEquiv.subgroupCongr hRf)
-    haveI hRsimple : IsSimpleGroup ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) :=
+    have hRsimple : IsSimpleGroup ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) :=
       eR.symm.isSimpleGroup
-    haveI hRperf : Group.IsPerfect ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) :=
+    have hRperf : Group.IsPerfect ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) :=
       Group.IsPerfect.ofSurjective (f := eR.toMonoidHom) eR.surjective
     have hZR : Subgroup.center ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) = ⊥ :=
       lqRecC2_center_eq_bot_of_simple_perfect (Group.isPerfect_def.1 hRperf)

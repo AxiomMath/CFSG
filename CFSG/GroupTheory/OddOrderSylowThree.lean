@@ -16,12 +16,12 @@ theorem normalizer_le_centralizer_of_odd_order_sylow_three (hodd : Odd (Nat.card
     (P : Sylow 3 H) (hP9 : Nat.card (P : Subgroup H) ∣ 9) :
     normalizer (P : Set H) ≤ centralizer (P : Set H) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hPcomm : IsMulCommutative ↥(P : Subgroup H) := by
     obtain ⟨k, hk2, hk⟩ := (Nat.dvd_prime_pow Nat.prime_three).1 (by simpa using hP9 : Nat.card (P : Subgroup H) ∣ 3 ^ 2)
     interval_cases k
     · have hcard : Nat.card ↥(P : Subgroup H) = 1 := by simpa using hk
-      haveI : Subsingleton ↥(P : Subgroup H) := (Nat.card_eq_one_iff_unique.mp hcard).1
+      have : Subsingleton ↥(P : Subgroup H) := (Nat.card_eq_one_iff_unique.mp hcard).1
       exact ⟨⟨fun a b => Subsingleton.elim (a * b) (b * a)⟩⟩
     · have hcyc : IsCyclic ↥(P : Subgroup H) :=
         isCyclic_of_prime_card (by simpa using hk)
@@ -67,7 +67,7 @@ theorem normalizer_le_centralizer_of_odd_order_sylow_three (hodd : Odd (Nat.card
     rw [← Subgroup.subgroupOf_eq_top]
     calc C.subgroupOf N = f.ker := hker.symm
       _ = ⊤ := htop
-  haveI : Nontrivial Q := Finite.one_lt_card_iff_nontrivial.mp hQcard
+  have : Nontrivial Q := Finite.one_lt_card_iff_nontrivial.mp hQcard
   obtain ⟨q, hq1⟩ := exists_ne (1 : Q)
   let φ : MulAut ↥(P : Subgroup H) := QuotientGroup.kerLift f q
   have hφne : φ ≠ 1 := by
@@ -91,7 +91,7 @@ theorem normalizer_le_centralizer_of_odd_order_sylow_three (hodd : Odd (Nat.card
     rcases hrodd with ⟨k, hk⟩
     have := hr.two_le
     omega
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨ψz, hψzord⟩ := exists_prime_orderOf_dvd_card' (G := Subgroup.zpowers φ) r
     (by rwa [Nat.card_zpowers])
   let ψ : MulAut ↥(P : Subgroup H) := ψz
@@ -167,13 +167,13 @@ theorem exists_normal_isPGroup_quotient_of_odd_order_sylow_three (hodd : Odd (Na
   have hNC := normalizer_le_centralizer_of_odd_order_sylow_three hodd P hP9
   obtain ⟨K, hK, -, hKindex, -, -, -, -, -, ⟨e, -⟩, -⟩ :=
     burnside_normal_complement P hNC
-  letI : K.Normal := hK
+  let : K.Normal := hK
   refine ⟨K, hK, ?_, ?_⟩
   · intro hKtop
     have hcard : Nat.card (P : Subgroup H) = 1 := by
       rw [← hKindex, hKtop]
       exact Subgroup.index_top
     exact hPne (Subgroup.card_eq_one.mp hcard)
-  · exact IsPGroup.of_equiv P.isPGroup' e
+  · exact IsPGroup.of_equiv P.isPGroup e
 
 end CFSG.GroupTheory

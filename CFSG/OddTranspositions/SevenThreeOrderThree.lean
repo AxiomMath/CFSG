@@ -135,7 +135,7 @@ theorem sevenThree_of_faithful_of_ne (hC : HypothesisC D)
     (hfaith : FaithfulOnBlocks hC.alpha) {v : G} (hv : v ∈ hC.alpha) (hvd : v ≠ hC.d) :
     ∃ w ∈ AalphaStar D hC.alpha, orderOf (hC.d * w) ≠ 3 := by
   by_contra h
-  push_neg at h
+  push Not at h
   have htriv : ActsTriviallyOnBlocks hC.alpha (hC.d * v) :=
     actsTrivially_mul_of_order_three hC h3 hv
   have h1 : hC.d * v = 1 := hfaith _ htriv
@@ -151,7 +151,7 @@ theorem exists_mem_alpha_ne_of_not_threeTranspositions (hC : HypothesisC D)
     (hnot3 : ¬ ∀ d ∈ D, ∀ e ∈ D, orderOf (d * e) ∈ ({1, 2, 3} : Set ℕ)) :
     ∃ v ∈ hC.alpha, v ≠ hC.d := by
   by_contra h
-  push_neg at h
+  push Not at h
   have hα : hC.alpha = {hC.d} := by
     ext v
     constructor
@@ -216,7 +216,7 @@ theorem sevenThree_of_faithful (hC : HypothesisC D)
     (hnot3 : ¬ ∀ d ∈ D, ∀ e ∈ D, orderOf (d * e) ∈ ({1, 2, 3} : Set ℕ)) :
     ∃ w ∈ AalphaStar D hC.alpha, orderOf (hC.d * w) ≠ 3 := by
   by_contra h
-  push_neg at h
+  push Not at h
   obtain ⟨v, hv, hvd⟩ := exists_mem_alpha_ne_of_not_threeTranspositions hC h hnot3
   obtain ⟨w, hw, hw3⟩ := sevenThree_of_faithful_of_ne hC h3 hfaith hv hvd
   exact hw3 (h w hw)

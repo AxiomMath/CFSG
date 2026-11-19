@@ -16,7 +16,7 @@ theorem isD42_pSimple {G : Type} [Group G] {I : Subgroup G}
     (h : IsCatalogLieIso (↥I ⧸ GLAPPrimeCore 3 ↥I) IsD42Index) :
     IsCatalogLieIso (PSimple 3 I) IsD42Index := by
   obtain ⟨hs, hnab⟩ := isSimpleGroup_of_isD42Type h
-  haveI := hs
+  have := hs
   have hcen : Subgroup.center (barOf 3 I) = ⊥ := up34_center_eq_bot_of_simple hnab
   exact IsCatalogLieIso.of_mulEquiv
     ((QuotientGroup.quotientMulEquivOfEq hcen).trans QuotientGroup.quotientBot).symm h

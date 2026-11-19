@@ -17,7 +17,7 @@ theorem false_of_isSubnormal_core (hH : Harris82Theorem1KProper)
     {G : Type} [Group G] [Finite G] {L : Subgroup G} (hS : HRSetting G L) {z : G}
     {K : Subgroup G} (h : Case3Core G z K)
     (hsub : (K.subgroupOf (centralizer ({z} : Set G))).IsSubnormal) : False := by
-  haveI : IsSimpleGroup G := hS.std.simple
+  have : IsSimpleGroup G := hS.std.simple
   have hperf : Group.IsPerfect ↥K := h.quasisimple.1
   have hcore : CFSG.oddCore ↥K = CFSG.pPrimeCore 2 ↥K := by
     have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
@@ -43,7 +43,7 @@ theorem case3_false (hH : Harris82Theorem1KProper)
     (hM11 : Nat.card ↥CFSG.Blueprint.NativeSporadic.M11 = 7920) (hD : PSLUnitU43Leaf)
     {G : Type} [Group G] [Finite G] {L : Subgroup G} (hS : HRSetting G L) {z : G}
     {K : Subgroup G} (h : Case3Core G z K) : False := by
-  haveI : IsSimpleGroup G := hS.std.simple
+  have : IsSimpleGroup G := hS.std.simple
   have hX : CFSG.SectionRank.IsKGroupCat ↥(centralizer ({z} : Set G)) :=
     isKGroupCat_centralizer_of_kProper hS.std.nonab hS.std.kProper h.orderOf_eq
   have hO : CFSG.oddCore ↥(centralizer ({z} : Set G)) = ⊥ := hS.balanced z h.orderOf_eq
@@ -54,7 +54,7 @@ theorem case3_false (hH : Harris82Theorem1KProper)
     exact false_of_isSubnormal_core hH hGA hS h hEsub
   · obtain ⟨t, J, ht, hJC, hJs, htJ, hJq, hJ2, hJU, hJZ, he⟩ :=
       Case3Core.exists_ebar_data h hKE hEz hE hKeq
-    haveI : IsSimpleGroup (↥E ⧸ center ↥E) := hE.2.1
+    have : IsSimpleGroup (↥E ⧸ center ↥E) := hE.2.1
     have hna : ∃ a b : ↥E ⧸ center ↥E, a * b ≠ b * a := hE.2.2
     have hcat : CFSG.Blueprint.Catalog (↥E ⧸ center ↥E) := by
       let φ : E.subgroupOf (centralizer ({z} : Set G)) →* (↥E ⧸ center ↥E) :=

@@ -19,8 +19,8 @@ theorem raUnitaryBranch_holds : RAUnitaryBranch := by
   have hFam : Y10GField.FamUni lab := Or.inl htag
   obtain ⟨K, hKf, hKfin, d, τ, hτ, hτq, hcard, hd3, hd3n, A, u, e, hA, hαu, hgraph⟩ :=
     Y10GInnUni.innDiag_unitary_data hcen hFam hin
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   have h2 : (2 : K) = 0 := Y10GInnUni.two_eq_zero_of_card hcard
   have hMEq : MulAut.congr e β = u := by
     ext r
@@ -39,14 +39,14 @@ theorem raUnitaryBranch_holds : RAUnitaryBranch := by
     have h2n : 2 ≤ lab.n := hd3n hd
     have hle : 2 ^ 2 ≤ 2 ^ lab.n := Nat.pow_le_pow_right (by norm_num) h2n
     omega
-  haveI hsimple : IsSimpleGroup (↥Jb ⧸ Subgroup.center ↥Jb) := hJb.2.2.2
+  have hsimple : IsSimpleGroup (↥Jb ⧸ Subgroup.center ↥Jb) := hJb.2.2.2
   rcases TCJ.tcjUni_component_psu_fixed Y10GInnUni.uniScalar_holds hτ hτq hcard h2 hd3 hdQ
       A hA Nat.prime_three (by norm_num) u hgraph hpow (Jb.map e.toMonoidHom) hJ' with
     ⟨a, dd, E, hE, hEf, τ', hτ', ha2, hτ'Q, hcardE, ⟨φ⟩⟩ |
     ⟨b, ee, E, hE, hEf, hb2, hcardE, ⟨φ⟩⟩
   ·
-    letI : Field E := hE
-    letI : Finite E := hEf
+    let : Field E := hE
+    let : Finite E := hEf
     have hτ'm : ∀ x : E, τ' x = x ^ 2 ^ (lab.n * dd) := by
       intro x
       rw [pow_mul]
@@ -61,8 +61,8 @@ theorem raUnitaryBranch_holds : RAUnitaryBranch := by
         (a := a) (m := lab.n * dd) (E := E) τ' hτ' ha2 hτ'm hcardm (ψ.trans φ)
     exact ⟨labC, hlamC, htagC, hlabC⟩
   ·
-    letI : Field E := hE
-    letI : Finite E := hEf
+    let : Field E := hE
+    let : Finite E := hEf
     have hcardm : Nat.card E = 2 ^ (lab.n * (2 * ee)) := by
       rw [pow_mul]
       exact hcardE
@@ -84,7 +84,7 @@ theorem exists_unitary_component_label_of_dvd_add_one
       GGHasLabel labC (↥Jb ⧸ Subgroup.center ↥Jb) := by
   obtain ⟨K, hKf, hKfin, d, τ, hτ, hτq, hcard, hd3, hd3n, A, u, e, hA, hαu, hgraph⟩ :=
     Y10GInnUni.innDiag_unitary_data hcen (Or.inl htag) hin
-  letI : Field K := hKf
+  let : Field K := hKf
   let : Finite K := hKfin
   have hMEq : MulAut.congr e β = u := by
     ext r
@@ -106,7 +106,7 @@ theorem exists_unitary_component_label_of_dvd_add_one
   obtain ⟨a, dd, E, hE, hEf, τ', hτ', ha, hdd, hτ'Q, hcardE, ⟨φ⟩⟩ :=
     TCJ.tcjUniEnnola_component_psu_fixed Y10GInnUni.uniScalar_holds hτ hτq hcard
       ⟨lab.n, rfl⟩ hd3 hdQ A hA hp hp2 hpq u hgraph hpow (Jb.map e.toMonoidHom) hJ'
-  letI : Field E := hE
+  let : Field E := hE
   let : Finite E := hEf
   have hτ'm : ∀ x : E, τ' x = x ^ 2 ^ (lab.n * dd) := by
     intro x

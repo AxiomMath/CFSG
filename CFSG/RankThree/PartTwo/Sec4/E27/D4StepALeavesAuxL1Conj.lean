@@ -14,6 +14,7 @@ section Conj
 
 variable {X : Type} [Field X] [Finite X]
 
+omit [Finite X] in
 theorem mem_cenX_conj_iff (σ : X ≃+* X) (h x k : C0 σ) :
     k ∈ cenX σ (h * x * h⁻¹) ↔ h⁻¹ * k * h ∈ cenX σ x := by
   rw [Subgroup.mem_centralizer_singleton_iff, Subgroup.mem_centralizer_singleton_iff]
@@ -27,6 +28,7 @@ theorem mem_cenX_conj_iff (σ : X ≃+* X) (h x k : C0 σ) :
       _ = h * (x * (h⁻¹ * k * h)) * h⁻¹ := by rw [hk]
       _ = h * x * h⁻¹ * k := by group
 
+omit [Finite X] in
 theorem layerSub_conj_iff (σ : X ≃+* X) (h x d : C0 σ) :
     d ∈ layerSub σ x ↔ h * d * h⁻¹ ∈ layerSub σ (h * x * h⁻¹) := by
   have hC : (cenX σ x).map (MulAut.conj h).toMonoidHom = cenX σ (h * x * h⁻¹) := by
@@ -61,9 +63,11 @@ theorem layerSub_conj_iff (σ : X ≃+* X) (h x d : C0 σ) :
   right_inv d := Subtype.ext (by simp [mul_assoc])
   map_mul' a b := Subtype.ext (by simp [mul_assoc])
 
+omit [Finite X] in
 theorem coe_layerConjEquiv (σ : X ≃+* X) (h x : C0 σ) (d : layerSub σ x) :
     ((layerConjEquiv σ h x d : layerSub σ (h * x * h⁻¹)) : C0 σ) = h * d * h⁻¹ := rfl
 
+omit [Finite X] in
 theorem layerLinearModel_of_conj (σ : X ≃+* X) (h x : C0 σ)
     (hm : LayerLinearModel σ (h * x * h⁻¹)) : LayerLinearModel σ x := by
   obtain ⟨F, hF, hFin, h4, h3, e, he⟩ := hm
@@ -77,6 +81,7 @@ theorem layerLinearModel_of_conj (σ : X ≃+* X) (h x : C0 σ)
     rw [coe_layerConjEquiv, coe_layerConjEquiv, hdd']
     group)
 
+omit [Finite X] in
 theorem layerUnitaryModel_of_conj (σ : X ≃+* X) (n : ℕ) (h x : C0 σ)
     (hm : LayerUnitaryModel σ n (h * x * h⁻¹)) : LayerUnitaryModel σ n x := by
   obtain ⟨F, hF, hFd, e, he⟩ := hm

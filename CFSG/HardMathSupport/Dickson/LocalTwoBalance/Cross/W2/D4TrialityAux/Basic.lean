@@ -127,7 +127,7 @@ theorem noNormalCop_of_simple {p : ℕ} (hp : 1 < p) {F : Subgroup K} (hF : IsSi
     (hdvd : p ∣ Nat.card F) : NoNormalCop p F := by
   intro N hN hNn hcop
   set N₁ : Subgroup ↥F := N.subgroupOf F with hN₁
-  haveI : N₁.Normal := ⟨fun n hn x => by
+  have : N₁.Normal := ⟨fun n hn x => by
     rw [hN₁, Subgroup.mem_subgroupOf] at hn ⊢
     simpa using hNn x.1 x.2 n.1 hn⟩
   rcases hF.eq_bot_or_eq_top_of_normal N₁ with h | h

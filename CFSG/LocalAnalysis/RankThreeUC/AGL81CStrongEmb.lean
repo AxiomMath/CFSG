@@ -12,10 +12,12 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {p : ℕ} {M : Subgroup G}
 
+omit [Finite G] in
 theorem IsStronglyPEmbedded.not_dvd_card_inf_conj (hM : IsStronglyPEmbedded p M) {g : G}
     (hg : g ∉ M) : ¬ p ∣ Nat.card (M ⊓ M.map (MulAut.conj g).toMonoidHom : Subgroup G) :=
   hM.2.2 g hg
 
+omit [Finite G] in
 theorem IsStronglyPEmbedded.mem_of_conj_mem [Fact p.Prime] {T : Subgroup G}
     (hM : IsStronglyPEmbedded p M) (hT : IsPGroup p T) (hTM : T ≤ M) {x g : G} (hx : x ∈ T)
     (hx1 : x ≠ 1) (hgx : g * x * g⁻¹ ∈ T) : g ∈ M := by
@@ -51,14 +53,14 @@ theorem IsStronglyPEmbedded.exists_sylow_le_commutator [Fact p.Prime] (hperf : c
     · subst hx1
       simpa using Relation.ReflTransGen.refl
     · exact Relation.ReflTransGen.single ⟨hx, hgx, M, rfl, g,
-        hM.mem_of_conj_mem T.isPGroup' hTM hx hx1 hgx, rfl⟩
+        hM.mem_of_conj_mem T.isPGroup hTM hx hx1 hgx, rfl⟩
   have := inf_commutator_le_of_fusion_control T (T₀ := ⁅M, M⁆) ({M} : Set (Subgroup G))
     (fun N hN => by rw [Set.mem_singleton_iff.mp hN]; exact hTM)
     (fun N hN => by rw [Set.mem_singleton_iff.mp hN]; exact inf_le_right) hfusion
   rwa [hperf, inf_top_eq] at this
 
 theorem IsStronglyPEmbedded.not_dvd_relIndex_of_commutator_le [Fact p.Prime]
-    (hperf : commutator G = ⊤) (hM : IsStronglyPEmbedded p M) {N : Subgroup G} (hNM : N ≤ M)
+    (hperf : commutator G = ⊤) (hM : IsStronglyPEmbedded p M) {N : Subgroup G} (_hNM : N ≤ M)
     (hcomm : ⁅M, M⁆ ≤ N) : ¬ p ∣ N.relIndex M := by
   obtain ⟨T, hTM, hTc⟩ := hM.exists_sylow_le_commutator hperf
   have hTN : (T : Subgroup G) ≤ N := hTc.trans hcomm

@@ -205,7 +205,7 @@ theorem centPerfectNoncyc_of_quotient {Y : Type} [Group Y] [Finite Y] {L : Subgr
   have hιinj : Function.Injective ι :=
     (Subgroup.subtype_injective L).comp (Subgroup.subtype_injective R)
   refine ⟨W.map L.subtype, ?_, by rw [← Subgroup.map_commutator, hW], (S : Subgroup ↥R).map ι,
-    ?_, S.isPGroup'.map ι, fun hcyc => hQbnc ?_⟩
+    ?_, S.isPGroup.map ι, fun hcyc => hQbnc ?_⟩
   · rintro _ ⟨w, hw, rfl⟩
     refine Subgroup.mem_inf.mpr ⟨w.2, ?_⟩
     rw [Subgroup.mem_centralizer_singleton_iff]

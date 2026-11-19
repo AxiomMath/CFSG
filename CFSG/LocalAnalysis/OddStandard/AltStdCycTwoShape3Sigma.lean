@@ -40,7 +40,7 @@ theorem false_of_sylow_aux (hS : StandardSetting G L) (θ : L ≃* alternatingGr
   have hu4 : orderOf u = 4 := AltStdSec.orderOf_eq_four_of_sq_eq d hu2
   have htwo : ∀ y ∈ (S : Subgroup G), ∃ k : ℕ, orderOf y = 2 ^ k := by
     intro y hy
-    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.1 S.isPGroup' (⟨y, hy⟩ : (S : Subgroup G))
+    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.1 S.isPGroup (⟨y, hy⟩ : (S : Subgroup G))
     exact ⟨k, (Subgroup.orderOf_coe (⟨y, hy⟩ : (S : Subgroup G))).trans hk⟩
   have hmin : ∀ y ∈ (S : Subgroup G), y ∉ U → orderOf u ≤ orderOf y := by
     intro y hyS hyU
@@ -88,7 +88,7 @@ theorem false_of_sylow_aux (hS : StandardSetting G L) (θ : L ≃* alternatingGr
     have h2 := not_conj_mem_L hS θ hn d hQ2 g⁻¹
     rw [inv_inv] at h2
     exact h2 hsq
-  obtain ⟨N, hN, hNidx⟩ := ThompsonIndexTwo.exists_normal_index_two_of_thompson S.isPGroup'
+  obtain ⟨N, hN, hNidx⟩ := ThompsonIndexTwo.exists_normal_index_two_of_thompson S.isPGroup
     S.not_dvd_index hUT hUidx huS huU hmin hconj
   rcases hN.eq_bot_or_eq_top with h1 | h1
   · rw [h1, Subgroup.index_bot] at hNidx
@@ -110,7 +110,7 @@ theorem not_le_centralizer_of_sylow (hS : StandardSetting G L)
   have hCN := cent_le_normalizer hS d
   have hu4 : orderOf u = 4 := AltStdSec.orderOf_eq_four_of_sq_eq d hu2
   have hSp : IsPGroup 2 ((S : Subgroup G).subgroupOf C) :=
-    S.isPGroup'.of_equiv (subgroupOfEquivOfLe hSC).symm
+    S.isPGroup.of_equiv (subgroupOfEquivOfLe hSC).symm
   have hSidx : ¬ 2 ∣ ((S : Subgroup G).subgroupOf C).index := by
     intro hd
     have h1 := Subgroup.relIndex_mul_index hSC
@@ -162,7 +162,7 @@ theorem exists_growth (hS : StandardSetting G L) (θ : L ≃* alternatingGroup (
   obtain ⟨S, hRS⟩ := hR.exists_le_sylow
   have hne : R ≠ (S : Subgroup G) := fun hRS' =>
     not_le_centralizer_of_sylow hS θ hn d hQ2 hu huO hu2 S (hRS' ▸ hRC)
-  have hnil : Group.IsNilpotent (S : Subgroup G) := S.isPGroup'.isNilpotent
+  have hnil : Group.IsNilpotent (S : Subgroup G) := S.isPGroup.isNilpotent
   have hlt : R.subgroupOf (S : Subgroup G) < ⊤ := by
     refine lt_top_iff_ne_top.2 fun htop => hne ?_
     refine le_antisymm hRS fun s hs => ?_
@@ -204,7 +204,7 @@ theorem exists_growth (hS : StandardSetting G L) (θ : L ≃* alternatingGroup (
         _ = z * x := by rw [← hw, hwz]
     have hle : R ⊔ Subgroup.zpowers x ≤ (S : Subgroup G) :=
       sup_le hRS (Subgroup.zpowers_le.2 hxS)
-    have hp : IsPGroup 2 ↥(R ⊔ Subgroup.zpowers x) := S.isPGroup'.to_le hle
+    have hp : IsPGroup 2 ↥(R ⊔ Subgroup.zpowers x) := S.isPGroup.to_le hle
     have hC : R ⊔ Subgroup.zpowers x ≤ centralizer ({z} : Set G) :=
       sup_le hRC (Subgroup.zpowers_le.2 hxC)
     have := hRmax _ hC hp le_sup_left

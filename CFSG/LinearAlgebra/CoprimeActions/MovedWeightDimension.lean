@@ -70,8 +70,8 @@ theorem bound {F V E : Type*} [Field F] [AddCommGroup V] [Module F V] [FiniteDim
     rw [← h, hv, map_smul]
     simp
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : NeZero q := ⟨hq.ne_zero⟩
+  have : Fact q.Prime := ⟨hq⟩
+  have : NeZero q := ⟨hq.ne_zero⟩
   set β : MulAut E := α⁻¹ with hβdef
   have hβ : β ^ q = 1 := by rw [hβdef, inv_pow, hα, inv_one]
   have hχ' : χ.comp β.toMonoidHom ≠ χ := by

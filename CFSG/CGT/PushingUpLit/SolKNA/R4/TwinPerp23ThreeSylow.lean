@@ -13,13 +13,13 @@ section Sylow
 
 theorem exists_two_group_conj_of_odd_kernel {Y : Type*} [Group Y] [Finite Y] {W U O : Subgroup Y}
     (hW2 : IsPGroup 2 W) (hWU : ∀ w ∈ W, ∀ x ∈ U, w * x * w⁻¹ ∈ U)
-    (hOU : O ≤ U) (hOn : ∀ x ∈ U, ∀ o ∈ O, x * o * x⁻¹ ∈ O) (hOodd : Odd (Nat.card O))
+    (_hOU : O ≤ U) (hOn : ∀ x ∈ U, ∀ o ∈ O, x * o * x⁻¹ ∈ O) (_hOodd : Odd (Nat.card O))
     (h2 : ∀ x ∈ U, ∃ k : ℕ, x ^ 2 ^ k ∈ O) :
     ∃ T : Subgroup Y, W ≤ T ∧ IsPGroup 2 T ∧
       ∀ V : Subgroup Y, V ≤ U → IsPGroup 2 V →
         ∃ o ∈ O, V.map (MulAut.conj o).toMonoidHom ≤ T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI act : MulDistribMulAction W U :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let act : MulDistribMulAction W U :=
     { smul := fun w x => ⟨(w : Y) * x * (w : Y)⁻¹, hWU w w.2 x x.2⟩
       one_smul := fun x => Subtype.ext (by
         change ((1 : W) : Y) * x * ((1 : W) : Y)⁻¹ = x
@@ -27,7 +27,7 @@ theorem exists_two_group_conj_of_odd_kernel {Y : Type*} [Group Y] [Finite Y] {W 
       mul_smul := fun a b x => Subtype.ext (by
         change ((a * b : W) : Y) * x * ((a * b : W) : Y)⁻¹ =
           (a : Y) * ((b : Y) * x * (b : Y)⁻¹) * (a : Y)⁻¹
-        simp only [Subgroup.coe_mul, Subgroup.coe_inv]
+        simp only [Subgroup.coe_mul]
         group)
       smul_one := fun w => Subtype.ext (by
         change (w : Y) * 1 * (w : Y)⁻¹ = 1
@@ -36,11 +36,11 @@ theorem exists_two_group_conj_of_odd_kernel {Y : Type*} [Group Y] [Finite Y] {W 
         change (w : Y) * ((x : Y) * (y : Y)) * (w : Y)⁻¹ =
           ((w : Y) * x * (w : Y)⁻¹) * ((w : Y) * y * (w : Y)⁻¹)
         group) }
-  haveI : Finite (Sylow 2 U) := Sylow.finite_of_finiteIndex (default : Sylow 2 U)
+  have : Finite (Sylow 2 U) := Sylow.finite_of_finiteIndex (default : Sylow 2 U)
   obtain ⟨P, hP⟩ :=
     hW2.nonempty_fixed_point_of_prime_not_dvd_card (Sylow 2 U) (not_dvd_card_sylow 2 U)
   have hPW : ∀ m : W, m • P = P := fun m => (MulAction.mem_fixedPoints.mp hP) m
-  have hS2 : IsPGroup 2 ((P : Subgroup U).map U.subtype) := P.isPGroup'.map U.subtype
+  have hS2 : IsPGroup 2 ((P : Subgroup U).map U.subtype) := P.isPGroup.map U.subtype
   have hWS : ∀ w ∈ W, ∀ y ∈ (P : Subgroup U).map U.subtype,
       w * y * w⁻¹ ∈ (P : Subgroup U).map U.subtype := by
     intro w hw y hy
@@ -66,7 +66,7 @@ theorem exists_two_group_conj_of_odd_kernel {Y : Type*} [Group Y] [Finite Y] {W 
     hS2.to_sup_of_normal_left' hW2 hWN
   refine ⟨(P : Subgroup U).map U.subtype ⊔ W, le_sup_right, hT2, ?_⟩
   intro V hVU hV2
-  haveI : (O.subgroupOf U).Normal := ⟨fun n hn g => by
+  have : (O.subgroupOf U).Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     have := hOn g g.2 n hn
     simpa using this⟩
@@ -116,7 +116,7 @@ theorem exists_two_group_conj_of_odd_kernel {Y : Type*} [Group Y] [Finite Y] {W 
   have hmem := Subgroup.mem_map_of_mem U.subtype hvQ
   have hconj : (MulAut.conj (o : Y)⁻¹).toMonoidHom v =
       U.subtype ((MulAut.conj o)⁻¹ • (⟨v, hvU⟩ : U)) := by
-    simp [MulAut.conj_apply, MulAut.conj_inv_apply, MulAut.smul_def]
+    simp [MulAut.smul_def]
   rw [hconj]
   exact Subgroup.mem_sup_left hmem
 
@@ -124,7 +124,7 @@ theorem max2_exists {Y : Type*} [Group Y] [Finite Y] {H A : Subgroup Y}
     (hAH : A ≤ H) (hA : IsPGroup 2 A) :
     ∃ T : Subgroup Y, T ≤ H ∧ IsPGroup 2 T ∧ A ≤ T ∧
       ∀ C : Subgroup Y, C ≤ H → IsPGroup 2 C → T ≤ C → C = T := by
-  haveI : Finite (Subgroup Y) :=
+  have : Finite (Subgroup Y) :=
     Finite.of_injective (fun K : Subgroup Y => (K : Set Y)) SetLike.coe_injective
   obtain ⟨T, ⟨hTH, hT2, hAT⟩, hmax⟩ :=
     Set.exists_max_image {C : Subgroup Y | C ≤ H ∧ IsPGroup 2 C ∧ A ≤ C}
@@ -141,7 +141,7 @@ theorem max2_sylow_map_eq {Y : Type*} [Group Y] [Finite Y] {H T : Subgroup Y}
   have hmapLe : Q.toSubgroup.map H.subtype ≤ H := fun x hx => by
     obtain ⟨y, -, rfl⟩ := Subgroup.mem_map.mp hx
     exact y.2
-  refine ⟨Q, hTmax _ hmapLe (Q.isPGroup'.map H.subtype) ?_⟩
+  refine ⟨Q, hTmax _ hmapLe (Q.isPGroup.map H.subtype) ?_⟩
   intro t ht
   exact Subgroup.mem_map.mpr
     ⟨⟨t, hTH ht⟩, hQ ((Subgroup.mem_subgroupOf (h := ⟨t, hTH ht⟩)).mpr ht), rfl⟩
@@ -151,7 +151,7 @@ theorem max2_exists_conj_mem {Y : Type*} [Group Y] [Finite Y] {H T M : Subgroup 
     (hTmax : ∀ C : Subgroup Y, C ≤ H → IsPGroup 2 C → T ≤ C → C = T)
     (hMH : M ≤ H) (hM2 : IsPGroup 2 M) :
     ∃ g : Y, g ∈ H ∧ ∀ m ∈ M, g⁻¹ * m * g ∈ T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q₀, hQ₀⟩ := max2_sylow_map_eq hTH hT2 hTmax
   have hMg : IsPGroup 2 (M.subgroupOf H) := hM2.comap_subtype
   obtain ⟨Q, hQ⟩ := hMg.exists_le_sylow
@@ -192,10 +192,10 @@ theorem le_of_normal_in_max2 {Y : Type*} [Group Y] [Finite Y] {H T U : Subgroup 
     (hTmax : ∀ C : Subgroup Y, C ≤ H → IsPGroup 2 C → T ≤ C → C = T)
     (hUH : U ≤ H) (hU2 : IsPGroup 2 U) (hUn : ∀ h ∈ H, ∀ u ∈ U, h * u * h⁻¹ ∈ U) :
     U ≤ T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q₀, hQ₀⟩ := max2_sylow_map_eq hTH hT2 hTmax
   have hUg : IsPGroup 2 (U.subgroupOf H) := hU2.comap_subtype
-  haveI hnorm : (U.subgroupOf H).Normal := ⟨fun n hn g => by
+  have hnorm : (U.subgroupOf H).Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     exact hUn (g : Y) g.2 _ hn⟩
   have hle : U.subgroupOf H ≤ Q₀.toSubgroup := hUg.le_sylow_of_normal Q₀
@@ -214,7 +214,7 @@ theorem exists_sylow_normalized_by_two_group {Y : Type*} [Group Y] [Finite Y] {J
     ∃ P : Subgroup Y, P ≤ J ∧ IsPGroup 2 P ∧
       (∀ V : Subgroup Y, V ≤ J → IsPGroup 2 V → P ≤ V → V = P) ∧ U ≤ P ∧
       ∀ w ∈ W, ∀ x ∈ P, w * x * w⁻¹ ∈ P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨N₀, hN₀⟩ : ∃ N₀ : Subgroup Y, N₀ = J ⊓ Subgroup.normalizer U := ⟨_, rfl⟩
   have hmemN : ∀ x, x ∈ N₀ ↔ x ∈ J ∧ x ∈ Subgroup.normalizer U := fun x => by
     rw [hN₀, Subgroup.mem_inf]

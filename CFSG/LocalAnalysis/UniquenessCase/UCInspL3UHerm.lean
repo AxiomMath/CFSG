@@ -20,7 +20,7 @@ theorem conjTr_mul_eq_of_forall {n : ℕ} (S M : Matrix (Fin n) (Fin n) K)
   have h1 := h (Pi.single i 1) (Pi.single j 1)
   have e : (σ ∘ (Pi.single i 1 : Fin n → K)) = Pi.single i 1 := by
     ext k
-    by_cases hk : k = i <;> simp [Pi.single_apply, hk]
+    by_cases hk : k = i <;> simp [hk]
   have hL : (σ ∘ (M *ᵥ (Pi.single i 1 : Fin n → K))) ⬝ᵥ
       (S *ᵥ (M *ᵥ (Pi.single j 1 : Fin n → K))) = (conjTr σ M * S * M) i j := by
     rw [Matrix.mulVec_single_one M i, Matrix.mulVec_single_one M j, Matrix.mul_assoc,
@@ -71,6 +71,7 @@ variable (hβK : ∀ c : K, β (algebraMap K L c) = algebraMap K L (σ c))
 
 include hβK
 
+omit [Finite L] in
 theorem hermForm_apply (x y : L) :
     hermForm σ β hβK x y = Algebra.trace K L (β x * y) := rfl
 
@@ -87,6 +88,7 @@ theorem hermForm_symm (hββ : ∀ x : L, β (β x) = x) (x y : L) :
   simp only [hermForm_apply]
   rw [← trace_beta σ β hβK, map_mul, hββ, mul_comm]
 
+omit [Finite L] in
 theorem hermForm_nondeg [FiniteDimensional K L] [Algebra.IsSeparable K L]
     (hββ : ∀ x : L, β (β x) = x) {y : L} (hy : ∀ x, hermForm σ β hβK x y = 0) : y = 0 := by
   refine (traceForm_nondegenerate K L).1 y (fun z => ?_)
@@ -99,6 +101,7 @@ variable (b : Module.Basis (Fin 3) K L)
 @[expose] noncomputable def gram : Matrix (Fin 3) (Fin 3) K :=
   LinearMap.toMatrix₂ b b (hermForm σ β hβK)
 
+omit [Finite L] in
 theorem gram_apply (i j : Fin 3) : gram σ hβK b i j = hermForm σ β hβK (b i) (b j) := by
   simp [gram]
 
@@ -109,10 +112,12 @@ theorem conjTr_gram (hββ : ∀ x : L, β (β x) = x) :
   rw [gram_apply, gram_apply, hermForm_symm σ hβK hββ]
 
 omit hβK in
+omit [Finite L] in
 theorem repr_equivFun_symm (u : Fin 3 → K) : ⇑(b.repr (b.equivFun.symm u)) = u := by
   rw [← Module.Basis.equivFun_apply]
   exact b.equivFun.apply_symm_apply u
 
+omit [Finite L] in
 theorem det_gram_ne_zero [FiniteDimensional K L] [Algebra.IsSeparable K L]
     (hββ : ∀ x : L, β (β x) = x) : (gram σ hβK b).det ≠ 0 := by
   intro h0
@@ -131,6 +136,7 @@ theorem det_gram_ne_zero [FiniteDimensional K L] [Algebra.IsSeparable K L]
   have hc' : (LinearMap.toMatrix₂ b b (hermForm σ β hβK)) *ᵥ (⇑(RingHom.id K) ∘ c) = 0 := hc
   rw [hc', dotProduct_zero]
 
+omit [Finite L] in
 theorem conjTr_mul_gram_mul (T : L →ₗ[K] L)
     (hT : ∀ x y, hermForm σ β hβK (T x) (T y) = hermForm σ β hβK x y) :
     conjTr σ (LinearMap.toMatrix b b T) * gram σ hβK b * LinearMap.toMatrix b b T =

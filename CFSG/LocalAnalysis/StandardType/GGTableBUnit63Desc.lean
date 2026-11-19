@@ -25,10 +25,11 @@ variable {L' : Type} [Group L'] [Finite L']
     obtain ⟨w, hw⟩ := Finite.injective_iff_surjective.mp hinj ⟨z, hz⟩
     have hwz : φ w = z := congrArg Subtype.val hw
     rw [← hwz]
-    simpa using w.2
+    simp
 
 variable (Z : Subgroup L') [Z.Normal]
 
+omit [Z.Normal] in
 theorem map_eq_of_mem_presZ {φ : MulAut L'} (hφ : φ ∈ presZ Z) :
     Z.map φ.toMonoidHom = Z := by
   apply le_antisymm
@@ -79,7 +80,7 @@ theorem aut_eq_one_of_central {L' : Type} [Group L'] {Z : Subgroup L'}
     (h : ∀ l : L', l⁻¹ * φ l ∈ Z) : φ = 1 := by
   have hcen : ∀ y ∈ Z, ∀ g : L', g * y = y * g := fun y hy g =>
     Subgroup.mem_center_iff.mp (hZ hy) g
-  letI : CommGroup Z :=
+  let : CommGroup Z :=
     { (inferInstance : Group Z) with mul_comm := fun x y => Subtype.ext (hcen y y.2 x) }
   let f : L' →* Z :=
     { toFun := fun l => ⟨l⁻¹ * φ l, h l⟩
@@ -107,7 +108,7 @@ theorem redHom_injective (hZ : Z ≤ Subgroup.center L') (hperf : commutator L' 
   have h : ∀ l : L', l⁻¹ * φ.1 l ∈ Z := by
     intro l
     have := congrArg (fun f : MulAut (L' ⧸ Z) => f (l : L' ⧸ Z)) hφ
-    simp only [redHom_mk, MulAut.one_apply, map_one] at this
+    simp only [redHom_mk, MulAut.one_apply] at this
     exact QuotientGroup.eq.mp this.symm
   exact Subtype.ext (aut_eq_one_of_central hZ hperf h)
 
@@ -126,10 +127,13 @@ variable {L' : Type} [Group L'] [Finite L']
 
 variable {N : Subgroup L'} (hN : N ≤ Subgroup.center L')
 
+omit [Finite L'] in
 theorem mem_twoSub {z : L'} : z ∈ twoSub N hN ↔ z ∈ N ∧ z ^ (2 ^ Nat.card L') = 1 := Iff.rfl
 
+omit [Finite L'] in
 theorem twoSub_le_center : twoSub N hN ≤ Subgroup.center L' := fun _ hz => hN hz.1
 
+omit [Finite L'] in
 theorem isPGroup_twoSub : IsPGroup 2 (twoSub N hN) :=
   fun g => ⟨Nat.card L', Subtype.ext (by simpa using g.2.2)⟩
 
@@ -148,17 +152,21 @@ variable {L' R : Type} [Group L'] [Finite L'] [Group R] {ψ : L' →* R}
 @[expose] noncomputable def psi1 : L' ⧸ twoSub ψ.ker hker →* R :=
   QuotientGroup.lift _ ψ (fun _ hz => hz.1)
 
+omit [Finite L'] in
 theorem psi1_mk (l : L') : psi1 hker (l : L' ⧸ twoSub ψ.ker hker) = ψ l :=
   QuotientGroup.lift_mk _ _ _
 
+omit [Finite L'] in
 theorem psi1_surjective (hψ : Function.Surjective ψ) : Function.Surjective (psi1 hker) :=
   fun r => by
     obtain ⟨l, rfl⟩ := hψ r
     exact ⟨l, psi1_mk hker l⟩
 
+omit [Finite L'] in
 theorem mem_ker_psi1 {l : L'} : (l : L' ⧸ twoSub ψ.ker hker) ∈ (psi1 hker).ker ↔ l ∈ ψ.ker := by
   rw [MonoidHom.mem_ker, MonoidHom.mem_ker, psi1_mk]
 
+omit [Finite L'] in
 theorem psi1_ker_central : (psi1 hker).ker ≤ Subgroup.center (L' ⧸ twoSub ψ.ker hker) := by
   intro x hx
   obtain ⟨l, rfl⟩ := QuotientGroup.mk_surjective x
@@ -168,6 +176,7 @@ theorem psi1_ker_central : (psi1 hker).ker ≤ Subgroup.center (L' ⧸ twoSub ψ
   obtain ⟨g, rfl⟩ := QuotientGroup.mk_surjective g
   rw [← QuotientGroup.mk_mul, ← QuotientGroup.mk_mul, Subgroup.mem_center_iff.mp (hker hl) g]
 
+omit [Finite L'] in
 theorem commutator_quot (hperf : commutator L' = ⊤) :
     commutator (L' ⧸ twoSub ψ.ker hker) = ⊤ := by
   have hπs : Function.Surjective (QuotientGroup.mk' (twoSub ψ.ker hker)) :=
@@ -181,7 +190,7 @@ theorem commutator_quot (hperf : commutator L' = ⊤) :
 theorem odd_card_ker_psi1 : Odd (Nat.card (psi1 hker).ker) := by
   by_contra hne
   rw [Nat.not_odd_iff_even] at hne
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 2 (even_iff_two_dvd.mp hne)
   obtain ⟨l, hl⟩ := QuotientGroup.mk_surjective x.1
   have hx2 : x.1 ^ 2 = 1 := by
@@ -203,6 +212,7 @@ theorem mem_presZ_of_ker {f : MulAut L'} (hf : ∀ z ∈ ψ.ker, f z ∈ ψ.ker)
     f ∈ presZ (twoSub ψ.ker hker) := fun z hz =>
   ⟨hf z hz.1, by rw [← map_pow, hz.2, map_one]⟩
 
+omit [Finite L'] in
 theorem preserves_ker {I : Set (MulAut R)} {a : MulAut L'}
     (h : ∃ x ∈ I, ∀ l : L', x (ψ l) = ψ (a l)) {z : L'} (hz : z ∈ ψ.ker) : a z ∈ ψ.ker := by
   obtain ⟨x, -, hx⟩ := h
@@ -484,7 +494,7 @@ theorem modConcl_descent (hψ : Function.Surjective ψ) (hperf : commutator L' =
   have hAle : A ≤ presZ (twoSub ψ.ker hker) := fun a ha =>
     mem_presZ_of_ker hker fun z hz => preserves_ker (hAI a ha) hz
   have hρinj := redSub_injective hker hAle hperf
-  haveI : Finite (MulAut (L' ⧸ twoSub ψ.ker hker)) :=
+  have : Finite (MulAut (L' ⧸ twoSub ψ.ker hker)) :=
     Finite.of_injective (fun φ : MulAut (L' ⧸ twoSub ψ.ker hker) =>
       (φ : L' ⧸ twoSub ψ.ker hker → L' ⧸ twoSub ψ.ker hker)) DFunLike.coe_injective
   obtain ⟨H₁, W₁, hH₁A, hH₁ne, hH₁card, hH₁inv, hW₁, hH₁irr⟩ :=

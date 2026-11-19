@@ -556,7 +556,7 @@ theorem i334_exists_sylow {C P : Subgroup G} (hPC : P ≤ C) (hP : IsPGroup 2 P)
   have hP' : IsPGroup 2 (P.subgroupOf C) :=
     hP.of_equiv (Subgroup.subgroupOfEquivOfLe hPC).symm
   obtain ⟨S, hS⟩ := hP'.exists_le_sylow
-  refine ⟨(S : Subgroup C).map C.subtype, Subgroup.map_subtype_le _, S.isPGroup'.map C.subtype,
+  refine ⟨(S : Subgroup C).map C.subtype, Subgroup.map_subtype_le _, S.isPGroup.map C.subtype,
     ?_, ?_⟩
   · rw [← Subgroup.map_subgroupOf_eq_of_le hPC]
     exact Subgroup.map_mono hS
@@ -738,7 +738,7 @@ theorem i334_pCore_le_normalizer {T : Sylow 2 G} {U : Subgroup G}
     pCoreOf 2 (Subgroup.centralizer ({b} : Set G)) ≤ Subgroup.normalizer (U : Set G) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hUT, hTN, hplane, hcen⟩ := hU
-  have hT2 : IsPGroup 2 (T : Subgroup G) := T.isPGroup'
+  have hT2 : IsPGroup 2 (T : Subgroup G) := T.isPGroup
   have hTU : ∀ t ∈ (T : Subgroup G), ∀ x ∈ U, t * x * t⁻¹ ∈ U := fun t ht x hx =>
     (Subgroup.mem_normalizer_iff.1 (hTN ht) x).1 hx
   by_cases hTC : (T : Subgroup G) ≤ Subgroup.centralizer ({b} : Set G)

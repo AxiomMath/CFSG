@@ -21,9 +21,9 @@ theorem ggTorusRootGenAvoidKG_projectiveSL {K : Type} [Field K] [Finite K] [Char
     {d p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hpK : p ∣ Nat.card K + 1) (h4 : 4 ≤ Nat.card K)
     (r : ℕ) : GGTorusRootGenAvoidKG p r (projectiveSL d K) (Set.range (conjAut d K)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : Nonempty K := ⟨0⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : Nonempty K := ⟨0⟩
   intro L' _ _ ψ hψ hker hperf A hA hAI _ h3 hsc ρ
   have hpK' : ¬ p ∣ Nat.card K - 1 := by
     intro hK1
@@ -36,7 +36,7 @@ theorem ggTorusRootGenAvoidKG_projectiveSL {K : Type} [Field K] [Finite K] [Char
     exact hp2 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).mp hdvd)
   have hpK0 : (p : K) ≠ 0 := OrdPNS.natCast_ne_zero_of_charTwo hp hp2
   obtain ⟨g, hg, hgd⟩ := exists_irreducible_dvd_cyclotomic (K := K) hp
-  haveI : Fact (Irreducible g) := ⟨hg⟩
+  have : Fact (Irreducible g) := ⟨hg⟩
   have hζ : AdjoinRoot.root g ^ p = 1 := (CoordSL.root_isPrimitiveRoot hp hpK0 hgd).pow_eq_one
   have hC : (rootMat g).det = 1 := CoordSL.det_rootMat hp hpK' hpK0 hgd
   have hCp : rootMat g ^ p = 1 := CoordSL.rootMat_pow_eq_one hp hpK0 hgd
@@ -140,7 +140,7 @@ theorem ggTorusRootGenAvoidKG_linearNs {K : Type} [Field K] {n d p : ℕ}
     GGTorusRootGenAvoidKG p r (LargeEvenProj (LargeEvenSLGroup (Fin d) K))
       (LargeEvenMatConjImage (LargeEvenProjMk (LargeEvenSLGroup (Fin d) K)) Set.univ) := by
   have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
-  haveI : CharP K 2 := charP_two_of_card hK
+  have : CharP K 2 := charP_two_of_card hK
   have hp2 : p ≠ 2 := TableBU.ne_two_of_dvd_two_pow_add_one (by omega) hpq
   have h4 : 4 ≤ Nat.card K := by
     rw [hK]

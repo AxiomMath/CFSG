@@ -15,7 +15,7 @@ theorem exists_basis {G : Type*} [Group G] {p : ℕ} (hp : p.Prime) {D : Subgrou
     ∃ b₁ ∈ D, ∃ b₂ ∈ D, b₁ * b₂ = b₂ * b₁ ∧ b₁ ^ p = 1 ∧ b₂ ^ p = 1 ∧
       ∀ i j : ℕ, ¬ (p ∣ i ∧ p ∣ j) → b₁ ^ i * b₂ ^ j ≠ 1 := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : 2 ≤ p := hp.two_le
   have hcard_ne : Nat.card D ≠ 1 := by
     rw [hcard]
@@ -29,7 +29,7 @@ theorem exists_basis {G : Type*} [Group G] {p : ℕ} (hp : p.Prime) {D : Subgrou
   have hb₁ne : b₁ ≠ 1 := fun h => hx₁ (Subtype.ext h)
   have hpow1 : b₁ ^ p = 1 := hD.2 b₁ hb₁mem
   have hord1 : orderOf b₁ = p := orderOf_eq_prime hpow1 hb₁ne
-  haveI : Finite ↥(Subgroup.zpowers b₁) :=
+  have : Finite ↥(Subgroup.zpowers b₁) :=
     Nat.finite_of_card_ne_zero (by rw [Nat.card_zpowers, hord1]; exact hp.ne_zero)
   have hnotle : ¬ D ≤ Subgroup.zpowers b₁ := by
     intro hle
@@ -42,7 +42,7 @@ theorem exists_basis {G : Type*} [Group G] {p : ℕ} (hp : p.Prime) {D : Subgrou
     hb₂notin (h.symm ▸ Subgroup.one_mem (Subgroup.zpowers b₁))
   have hord2 : orderOf b₂ = p := orderOf_eq_prime hpow2 hb₂ne
   have hcomm : b₁ * b₂ = b₂ * b₁ := by
-    haveI := hD.1
+    have := hD.1
     simpa using congrArg Subtype.val (mul_comm' (⟨b₁, hb₁mem⟩ : ↥D) ⟨b₂, hb₂mem⟩)
   refine ⟨b₁, hb₁mem, b₂, hb₂mem, hcomm, hpow1, hpow2, ?_⟩
   intro i j hij heq

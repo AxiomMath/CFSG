@@ -191,7 +191,7 @@ public theorem section14_natCard_actor_dvd_group_card_sub_one
     Nat.card A ∣ Nat.card G - 1 := by
   classical
   let α := {g : G // g ≠ 1}
-  letI : MulAction A α :=
+  let : MulAction A α :=
     { smul := fun a x => ⟨a • (x : G), by
         intro h
         apply x.2
@@ -222,8 +222,8 @@ public theorem section14_natCard_actor_dvd_group_card_sub_one
     exact x.2 (hfree a ha_ne (x : G) hfix)
   have hcard_equiv := Nat.card_congr (MulAction.selfEquivOrbitsQuotientProd hstab)
   have hcardα : Nat.card α = Nat.card G - 1 := by
-    letI : Fintype G := Fintype.ofFinite G
-    letI : Fintype α := Fintype.ofFinite α
+    let : Fintype G := Fintype.ofFinite G
+    let : Fintype α := Fintype.ofFinite α
     rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card]
     change Fintype.card {g : G // g ≠ 1} = Fintype.card G - 1
     simp
@@ -245,8 +245,8 @@ public theorem section14_frobeniusJoin_complement_card_dvd_kernel_card_sub_one
     natCard_subgroupOf_eq R S le_sup_right
   have hcardKsub : Nat.card Ksub = Nat.card K :=
     natCard_subgroupOf_eq K S le_sup_left
-  haveI : Ksub.Normal := IsFrobeniusGroupWithKernelComplement.normal hfrob
-  letI : MulDistribMulAction Rsub Ksub :=
+  have : Ksub.Normal := IsFrobeniusGroupWithKernelComplement.normal hfrob
+  let : MulDistribMulAction Rsub Ksub :=
     Subgroup.conjMulDistribMulActionOfLeNormalizer (G := S) Rsub Ksub
       (Subgroup.le_normalizer_of_normal (H := Ksub))
   have hregular : ActsRegularly Rsub Ksub :=
@@ -276,9 +276,9 @@ public theorem section14_frobeniusWithKernel_complement_card_dvd_kernel_card_sub
   let Hsub : Subgroup L := H.subgroupOf L
   have hcardHsub : Nat.card Hsub = Nat.card H :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hHL).toEquiv
-  haveI : Hsub.Normal := by
+  have : Hsub.Normal := by
     simpa [Hsub] using hHnorm
-  letI : MulDistribMulAction R Hsub :=
+  let : MulDistribMulAction R Hsub :=
     Subgroup.conjMulDistribMulActionOfLeNormalizer (G := L) R Hsub
       (Subgroup.le_normalizer_of_normal (H := Hsub))
   have hfree : ∀ a : R, a ≠ 1 → ∀ g : Hsub, a • g = g → g = 1 := by
@@ -363,7 +363,7 @@ public theorem section14_card_sup_conjBy_eq_mul_of_directProduct_of_mem_centrali
       _ = z * a := by rw [hz_eq]
   have hW2y_norm_W1 : W2.conjBy y ≤ Subgroup.normalizer (W1 : Set G) :=
     hW2y_cent_W1.trans (centralizer_le_normalizer W1)
-  haveI : (W1.subgroupOf E).Normal := by
+  have : (W1.subgroupOf E).Normal := by
     simpa [E] using
       (Subgroup.normal_subgroupOf_sup_of_le_normalizer
         (H := W2.conjBy y) (N := W1) hW2y_norm_W1)
@@ -424,7 +424,7 @@ public theorem section14_card_sup_conjBy_eq_mul_of_directProduct_of_mem_centrali
     isComplement'_of_disjoint_sup_eq_top_of_normal
       (W1.subgroupOf E) ((W2.conjBy y).subgroupOf E) hWdisj_y_sub hsupE
   have hcardE : Nat.card E = Nat.card W1 * Nat.card (W2.conjBy y) := by
-    have hmul := hcomp.card_mul
+    have hmul := hcomp.card_mul_card
     have hcardW1E : Nat.card (W1.subgroupOf E) = Nat.card W1 :=
       natCard_subgroupOf_eq W1 E le_sup_right
     have hcardW2yE :

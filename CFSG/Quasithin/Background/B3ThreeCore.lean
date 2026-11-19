@@ -71,14 +71,14 @@ theorem pair_mul_pair_inv {p q r : Fin n} (hpq : p ≠ q) (hpr : p ≠ r) (hqr :
   simp only [U.val_mul, U.val_inv, pair]
   by_cases h1 : s = p
   · subst h1
-    simp [hpq, hpr] <;> decide
+    simp [hpq, hpr]; decide
   · by_cases h2 : s = q
     · subst h2
-      simp [h1, hqr] <;> decide
+      simp [h1, hqr]
     · by_cases h3 : s = r
       · subst h3
-        simp [h1, h2] <;> decide
-      · simp [h1, h2, h3] <;> decide
+        simp [h1, h2]
+      · simp [h1, h2, h3]
 
 theorem c0_mem_commG (hn5 : 5 ≤ n) (hn : n % 2 = 0) :
     c0 n hn ∈ commG (actL n Mod.u0) := by

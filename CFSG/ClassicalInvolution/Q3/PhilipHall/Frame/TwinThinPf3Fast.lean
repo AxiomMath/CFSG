@@ -13,7 +13,7 @@ structure FW where
   p : List ℕ
   q : List ℕ
 
-@[expose] instance : DecidableEq FW := fun a b =>
+instance : DecidableEq FW := fun a b =>
   decidable_of_iff (a.v = b.v ∧ a.p = b.p ∧ a.q = b.q) (by
     obtain ⟨a1, a2, a3⟩ := a
     obtain ⟨b1, b2, b3⟩ := b
@@ -23,12 +23,12 @@ structure FW where
 
 theorem ofNat_val (k : Fin 8) : Fin.ofNat 8 k.1 = k := by
   apply Fin.ext
-  simp [Fin.val_ofNat, Nat.mod_eq_of_lt k.2]
+  simp
 
 theorem tab_getD (f : Fin 8 → ℕ) (k : Fin 8) : (tab f).getD k.1 0 = f k := by
   unfold tab
   rw [List.getD_eq_getElem?_getD, List.getElem?_map, List.getElem?_range k.2]
-  simp [ofNat_val]
+  simp
 
 theorem tab_inj {f g : Fin 8 → ℕ} (h : tab f = tab g) : f = g := by
   funext k
@@ -66,7 +66,7 @@ theorem map_range_eq_tab (G : ℕ → ℕ) (f : Fin 8 → ℕ) (h : ∀ k : Fin 
   have := h ⟨k, hk'⟩
   simp only [] at this
   rw [this]
-  exact congrArg f (Fin.ext (by simp [Fin.val_ofNat, Nat.mod_eq_of_lt hk']))
+  exact congrArg f (Fin.ext (by simp [Nat.mod_eq_of_lt hk']))
 
 theorem ofWr_mul (x y : Wr 8) : ofWr (x * y) = mulF (ofWr x) (ofWr y) := by
   unfold ofWr mulF

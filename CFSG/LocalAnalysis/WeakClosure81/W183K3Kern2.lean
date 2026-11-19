@@ -13,8 +13,8 @@ open W183K3
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 
 private theorem w183k3_kern2_finite_lgl : Finite (LGL 2 V) :=
-  Finite.of_injective (fun e : LGL 2 V => fun v : V => e v)
-    (fun e f h => LinearEquiv.ext (congrFun h))
+  Finite.of_injective (fun _e : LGL 2 V => fun v : V => _e v)
+    (fun _e _f h => LinearEquiv.ext (congrFun h))
 
 namespace Assumption131
 
@@ -22,11 +22,11 @@ variable {G : Subgroup (LGL 2 V)} {Γ : Set (Subgroup (LGL 2 V))}
   {VA : Subgroup (LGL 2 V) → Submodule (ZMod 2) V} {i : ℕ}
 
 theorem false_of_two_kernels_quasi (h : Assumption131 G Γ VA i)
-    {A L₁ L₂ D F : Subgroup (LGL 2 V)} (hA : A ∈ Γ) (hL₁G : L₁ ≤ G) (hL₂G : L₂ ≤ G)
+    {A L₁ L₂ D F : Subgroup (LGL 2 V)} (hA : A ∈ Γ) (_hL₁G : L₁ ≤ G) (hL₂G : L₂ ≤ G)
     (hq₁ : CFSG.Open.IsQuasisimple ↥L₁) (hq₂ : CFSG.Open.IsQuasisimple ↥L₂)
-    (ho₁ : Odd (Nat.card ↥(Subgroup.center ↥L₁)))
+    (_ho₁ : Odd (Nat.card ↥(Subgroup.center ↥L₁)))
     (ho₂ : Odd (Nat.card ↥(Subgroup.center ↥L₂)))
-    (hcomm : ∀ a ∈ L₁, ∀ b ∈ L₂, a * b = b * a)
+    (_hcomm : ∀ a ∈ L₁, ∀ b ∈ L₂, a * b = b * a)
     (hAn₁ : ∀ a ∈ A, ∀ l ∈ L₁, a * l * a⁻¹ ∈ L₁)
     (hAn₂ : ∀ a ∈ A, ∀ l ∈ L₂, a * l * a⁻¹ ∈ L₂)
     (hD : D = A ⊓ Subgroup.centralizer (L₁ : Set (LGL 2 V)))
@@ -151,8 +151,8 @@ theorem false_of_two_kernels_quasi (h : Assumption131 G Γ VA i)
         exact (Subgroup.mem_normalizer_iff.mp (hL₂norm hy) k).mp hk.1
       · show y * k * y⁻¹ ∈ L₂
         exact L₂.mul_mem (L₂.mul_mem hy hk.2) (L₂.inv_mem hy)
-    haveI : Finite (LGL 2 V) := w183k3_kern2_finite_lgl
-    haveI : Finite ↥L₂ := Subtype.finite
+    have : Finite (LGL 2 V) := w183k3_kern2_finite_lgl
+    have : Finite ↥L₂ := Subtype.finite
     rcases quasi_normal_dichotomy (L := L₂) (K := A ⊓ L₂) hq₂ hKL₂ hKn with hcent | htop
     · have hAL₂bot : A ⊓ L₂ = ⊥ := by
         rw [eq_bot_iff]

@@ -212,8 +212,8 @@ theorem f112_sp44VertexData_of_treeSp44Data {L1 L2 S : Subgroup H}
         ((CFSG.LieType.BorelTits.pCoreOf_le 2 D.Pα).trans D.le_Pα)
         ((CFSG.LieType.BorelTits.pCoreOf_le 2 D.Pβ).trans D.le_Pβ)
     have hcardQ : Nat.card ↥(D.X.Q 0 ⊓ D.X.Q 1) = 2 ^ 4 := by
-      haveI : Finite ↥(D.X.Gi 0) := D.X.hyp.finite_stab (D.X.vert 0)
-      haveI : Finite ↥(D.X.Gi 1) := D.X.hyp.finite_stab (D.X.vert 1)
+      have : Finite ↥(D.X.Gi 0) := D.X.hyp.finite_stab (D.X.vert 0)
+      have : Finite ↥(D.X.Gi 1) := D.X.hyp.finite_stab (D.X.vert 1)
       have h := hdX.card_inf
       rw [pCoreOf_oTwoPrime (D.X.Gi 0), pCoreOf_oTwoPrime (D.X.Gi 1)] at h
       exact h

@@ -30,7 +30,7 @@ theorem sylow_of_card_ge {G : Type*} [Group G] [Finite G] {Y P : Subgroup G} (hP
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨T, hT⟩ := (hP.comap_subtype (K := Y)).exists_le_sylow
   refine ⟨T, (eq_of_le_of_card_ge hT ?_).symm⟩
-  have h1 := hmax ((T : Subgroup Y).map Y.subtype) (map_subtype_le _) (T.isPGroup'.map Y.subtype)
+  have h1 := hmax ((T : Subgroup Y).map Y.subtype) (map_subtype_le _) (T.isPGroup.map Y.subtype)
   rw [card_map_of_injective Y.subtype_injective] at h1
   have hc : Nat.card (P.subgroupOf Y) = Nat.card P := by
     rw [← card_map_of_injective Y.subtype_injective, subgroupOf_map_subtype,
@@ -340,7 +340,7 @@ theorem exists_A_tz (hq : h.IsQ3) (hCF1 : CFSec8Simple) (hCF2 : CFSec8InnerCentr
   have hTle : (T : Subgroup _) ≤ H.rho.range ⊓ centralizer ({H.rho u} : Set _) := by
     rw [H.rho_range hq hCF1 hCF2 hOut, top_inf_eq, hρu]
     exact hT
-  obtain ⟨A', hA'C, hA'2, hA'⟩ := exists_isPGroup_le_centralizer hker huu T.isPGroup' hTle
+  obtain ⟨A', hA'C, hA'2, hA'⟩ := exists_isPGroup_le_centralizer hker huu T.isPGroup hTle
   refine ⟨A'.map h.M3.subtype, map_subtype_le _, ?_, hA'2.map _, ?_, ?_⟩
   · rintro _ ⟨y, hy, rfl⟩
     rw [mem_centralizer_singleton_iff]

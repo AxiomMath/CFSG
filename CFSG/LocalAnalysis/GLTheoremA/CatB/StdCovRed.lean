@@ -37,7 +37,7 @@ theorem stdCov_aut_rank {G : Type} [Group G] [Finite G] {B : Subgroup G} {x : G}
   have hxp : x ^ 3 = 1 := hBel.2 x hxB
   have hLx : L ≤ Subgroup.centralizer ({x} : Set G) := (IsSStarMax.component h).1
   have hnorm : B ≤ Subgroup.normalizer (L : Set G) := IsSStarMax.normalizes h
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let φ : ↥B →* MulAut ↥L :=
     { toFun := fun b => stdCovConj L (b : G) (hnorm b.2)
       map_one' := by ext l; simp [stdCovConj]

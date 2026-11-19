@@ -22,7 +22,7 @@ theorem delta_le_M_mem (D : Data G)
     (SeventeenSixteen.delta_le_M D 𝔉 V₀ V L r q hC)
 
 @[expose] def Gap17_6_O2Rest (D : Data G) (V₀ V L : Subgroup G) (r q : ℕ)
-    (hC : Ctx17_6 D V₀ V L r q) : Prop :=
+    (_hC : Ctx17_6 D V₀ V L r q) : Prop :=
   V₀ ≠ ⊥ → ¬ P17_12_1 r q L →
     ∀ H ∈ Delta17_12 D (fundPred q) r q L, ∀ g : G, g ∉ D.M →
       ¬ twoResidual H ≤ conjSubgroup D.M g

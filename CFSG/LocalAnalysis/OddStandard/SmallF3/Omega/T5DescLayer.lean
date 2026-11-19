@@ -16,6 +16,7 @@ open Subgroup CFSG.Blueprint
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
+omit [Finite G] in
 private lemma subtype_ker_sq (L : Subgroup G) :
     ∀ k ∈ (normalizer (L : Set G)).subtype.ker, k * k = 1 := by
   intro k hk
@@ -23,6 +24,7 @@ private lemma subtype_ker_sq (L : Subgroup G) :
   rw [Subgroup.mem_bot] at hk
   rw [hk, mul_one]
 
+omit [Finite G] in
 private lemma subtype_ker_central (L : Subgroup G) :
     (normalizer (L : Set G)).subtype.ker ≤
       Subgroup.center ↥(normalizer (L : Set G)) := by
@@ -41,6 +43,7 @@ private lemma subtype_ker_central (L : Subgroup G) :
     ↥(normalizer (L : Set G)) :=
   ⟨t, Subgroup.le_normalizer (H := L) (Subgroup.map_subtype_le (Subgroup.center ↥L) ht)⟩
 
+omit [Finite G] in
 theorem descCent_map_subtype (L : Subgroup G) {s : G} (hs : s ∈ normalizer (L : Set G)) :
     (descCent L hs).map (normalizer (L : Set G)).subtype = L ⊓ centralizer ({s} : Set G) := by
   unfold descCent
@@ -74,6 +77,7 @@ theorem descT_mem_center (hL : IsOm6Z2 L) {t : G} (ht : t ∈ centerIn L) (ht2 :
   intro m
   exact Subtype.ext (t5_normalizer_commute hL ht ht2 m.2)
 
+omit [Finite G] in
 theorem descT_mul_self {t : G} (ht : t ∈ centerIn L) (ht2 : orderOf t = 2) :
     descT L ht * descT L ht = 1 := by
   apply Subtype.ext
@@ -124,6 +128,7 @@ theorem descMk_ker_central (hL : IsOm6Z2 L) {t : G} (ht : t ∈ centerIn L)
   exact Subgroup.zpowers_le.mpr (descT_mem_center hL ht ht2)
     (descMk_ker_le_zpowers hL ht ht2 hk)
 
+omit [Finite G] in
 theorem t5_twoRes_cent_eq (L : Subgroup G) {s : G} (hs : s ∈ normalizer (L : Set G)) :
     twoRes (L ⊓ centralizer ({s} : Set G)) =
       (twoRes (descCent L hs)).map (normalizer (L : Set G)).subtype := by
@@ -138,6 +143,7 @@ theorem t5_desc_twoRes_cent (hL : IsOm6Z2 L) {t : G} (ht : t ∈ centerIn L) (ht
   exact map_twoRes_cent (descMk L t) (descMk_ker_central hL ht ht2) (descMk_ker_sq hL ht ht2)
     (L.subgroupOf (normalizer (L : Set G))) (⟨s, hs⟩ : ↥(normalizer (L : Set G)))
 
+omit [Finite G] in
 theorem t5_xout_eq_map (L : Subgroup G) {s : G} (hs : s ∈ normalizer (L : Set G)) :
     XOut L s = (twoPrimeRes (twoRes (descCent L hs))).map (normalizer (L : Set G)).subtype := by
   unfold XOut
@@ -190,8 +196,8 @@ theorem t5_desc_layerCent_bot_iff (hL : IsOm6Z2 L) {t : G} (ht : t ∈ centerIn 
     have hle : En ≤ (descMk L t).ker := (Subgroup.map_eq_bot_iff (H := En)).mp h
     have hzp : En ≤ Subgroup.zpowers (descT L ht) :=
       hle.trans (descMk_ker_le_zpowers hL ht ht2)
-    haveI : Group.IsPerfect ↥En := t5_layer_perfect (descCent L hs)
-    haveI : IsMulCommutative ↥En := IsMulCommutative.of_comm fun a b => by
+    have : Group.IsPerfect ↥En := t5_layer_perfect (descCent L hs)
+    have : IsMulCommutative ↥En := IsMulCommutative.of_comm fun a b => by
       have hx : (⟨(a : ↥(normalizer (L : Set G))), hzp a.2⟩ :
             ↥(Subgroup.zpowers (descT L ht))) *
           ⟨(b : ↥(normalizer (L : Set G))), hzp b.2⟩ =
@@ -200,7 +206,7 @@ theorem t5_desc_layerCent_bot_iff (hL : IsOm6Z2 L) {t : G} (ht : t ∈ centerIn 
       have hx' := congrArg (Subtype.val :
         ↥(Subgroup.zpowers (descT L ht)) → ↥(normalizer (L : Set G))) hx
       exact Subtype.ext hx'
-    haveI : Subsingleton ↥En := Group.IsPerfect.subsingleton_of_isMulCommutative
+    have : Subsingleton ↥En := Group.IsPerfect.subsingleton_of_isMulCommutative
     have hbot : En = ⊥ := Subgroup.eq_bot_of_subsingleton En
     rw [hbot, Subgroup.map_bot]
   · intro h

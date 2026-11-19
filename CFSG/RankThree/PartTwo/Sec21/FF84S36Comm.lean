@@ -8,6 +8,7 @@ namespace CFSG.RankThree.PartTwo.Sec21.FF84.S3
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem S36_z_comm {t z u : G} (hz : z ∈ Subgroup.zpowers t) (hu : u ∈ Cen t) :
     z * u = u * z := by
   obtain ⟨m, rfl⟩ := Subgroup.mem_zpowers_iff.1 hz
@@ -15,6 +16,7 @@ theorem S36_z_comm {t z u : G} (hz : z ∈ Subgroup.zpowers t) (hu : u ∈ Cen t
   have hc : Commute t u := hu'
   exact (hc.zpow_left m).eq
 
+omit [Finite G] in
 theorem S36_z_mul_self {t z : G} (ht : orderOf t = 2) (hz : z ∈ Subgroup.zpowers t) :
     z * z = 1 := by
   have := S36_sq_zpowers ht hz

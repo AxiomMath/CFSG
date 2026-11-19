@@ -35,7 +35,7 @@ theorem map_conj_subgroupOf (S : Subgroup (ModGL Tag.D4 K)) {g : ↥(adjointGrou
   · intro hy
     have hy' : y ∈ S.subgroupOf (adjointGroup Tag.D4 K) := hy
     rw [Subgroup.mem_subgroupOf] at hy'
-    refine ⟨(MulAut.conj g)⁻¹ y, ?_, by simp [MulAut.conj_apply, MulAut.conj_inv_apply, mul_assoc]⟩
+    refine ⟨(MulAut.conj g)⁻¹ y, ?_, by simp [MulAut.conj_apply, mul_assoc]⟩
     show (MulAut.conj g)⁻¹ y ∈ S.subgroupOf (adjointGroup Tag.D4 K)
     rw [Subgroup.mem_subgroupOf]
     have h := (Subgroup.mem_normalizer_iff.1 hg
@@ -49,7 +49,7 @@ open scoped Classical in
 theorem eq_one_of_scalars_one [CharP K 3] (t : MulAut ↥(adjointGroup Tag.D4 K)) (ht2 : t * t = 1)
     (hUt : (unitU K).map t.toMonoidHom = unitU K) (la : LayerAct Tag.D4 t (1 : K ≃+* K))
     (hr : ∀ k δ, la.r k δ = δ) (hf : ∀ k δ, la.f k δ = 1) : t = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨w₀, hw₀⟩ := Finite.exists_max (coxeterSystem Tag.D4).length
   have hop := exceptional_ordinary_Sylow_opposition Tag.D4 K 3 w₀ hw₀
   obtain ⟨c, β, hβU, hβV, htc⟩ := hop.2.2.2.2.2 t
@@ -138,12 +138,12 @@ theorem eq_one_of_scalars_one [CharP K 3] (t : MulAut ↥(adjointGroup Tag.D4 K)
     intro i
     by_contra hne
     have h := hcoord i 1 i
-    rw [if_neg hne, if_pos rfl] at h
+    rw [ite_eq_right hne, ite_eq_left rfl] at h
     exact zero_ne_one h
   have he1 : ∀ i c', e i c' = c' := by
     intro i c'
     have h := hcoord i c' i
-    rw [hπ1 i, if_pos rfl, if_pos rfl] at h
+    rw [hπ1 i, ite_eq_left rfl, ite_eq_left rfl] at h
     exact h
   have key : ∀ i c', β' (adjX Tag.D4 K i c') = adjX Tag.D4 K i c' := by
     intro i c'
@@ -183,7 +183,7 @@ theorem eq_one_of_scalars_one [CharP K 3] (t : MulAut ↥(adjointGroup Tag.D4 K)
   have ht_eq : t = MulAut.conj U₀ := by rw [htβ, hβ'one, mul_one]
   obtain ⟨P₀, hP₀⟩ := hop.1
   have hp : IsPGroup 3 ((posUnipotent Tag.D4 K).subgroupOf (adjointGroup Tag.D4 K)) := by
-    rw [← hP₀]; exact P₀.isPGroup'
+    rw [← hP₀]; exact P₀.isPGroup
   have hU₀mem : U₀ ∈ (posUnipotent Tag.D4 K).subgroupOf (adjointGroup Tag.D4 K) :=
     Subgroup.mem_subgroupOf.2 hu₀
   obtain ⟨k, hk⟩ := hp ⟨U₀, hU₀mem⟩

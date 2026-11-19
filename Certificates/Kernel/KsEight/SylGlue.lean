@@ -367,7 +367,7 @@ theorem ls_spec {q : Nat} (hq : q < 224) : LS q < 1024 ∧ inV (LB (LS q)) = tru
   obtain ⟨h1, h2, h3⟩ := h
   rw [Raw.Orb.bIf_eq] at h3
   refine ⟨h1, h2, fun hq' => ?_⟩
-  rw [if_pos (Nat.blt_eq.mpr hq'), Nat.blt_eq] at h3
+  rw [ite_eq_left (Nat.blt_eq.mpr hq'), Nat.blt_eq] at h3
   exact h3
 
 theorem ls_mono : ∀ a b, a < b → b < 224 → LS a < LS b := by
@@ -409,7 +409,7 @@ theorem listed {i : Nat} (hi : i < 1024) (hV : inV (LB i) = true) (h4 : xT i ^ 4
     ∃ q < 224, LS q = i := by
   have h := fourK_all i hi
   unfold fourK at h
-  rw [Raw.Orb.bIf_eq, if_pos hV, Raw.Orb.bIf_eq] at h
+  rw [Raw.Orb.bIf_eq, ite_eq_left hV, Raw.Orb.bIf_eq] at h
   split_ifs at h with hb
   · rw [Raw.Orb.hasBit_eq, ← Nat.eq_of_beq_eq_true ksLM, Raw.Orb.foldUp_eq] at hb
     exact testBit_fold LS 224 i hb

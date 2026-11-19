@@ -102,7 +102,7 @@ private theorem ggCartanRefl_lift_sum_sub_single {p : ℕ} {Λ : Type*} [Fintype
     intro l _
     by_cases h : l = i
     · subst h; simp
-    · rw [Pi.single_eq_of_ne h, if_neg h]
+    · rw [Pi.single_eq_of_ne h, ite_eq_right h]
       simp
   rw [hsecond]
 
@@ -351,7 +351,7 @@ theorem ggCartanRefl_root_data {p : ℕ} [Fact p.Prime] (hp : p ≠ 2) {Λ : Typ
   classical
   have hconj' : ∀ j, ∃ u ∈ Subgroup.closure (Set.range s), ∃ i, r j = u * s i * u⁻¹ := by
     intro j
-    simpa only [ggReflConj, Set.mem_setOf_eq] using hconj j
+    simpa only [ggReflConj, Set.mem_ofPred_eq] using hconj j
   choose u hu i hi using hconj'
   have hlift : ∀ j, ∃ U Ui : Matrix Λ Λ ℤ, U * Ui = 1 ∧ Ui * U = 1 ∧ U.transpose * C * U = C ∧
       (∀ c : Λ → ℤ, u j (∑ l, ((c l : ℤ) : ZMod p) • t l) =
@@ -411,7 +411,7 @@ private theorem ggPosDef_root_inner_cast {Λ : Type*} [Fintype Λ] {C : Matrix �
         ((C.map (Int.cast : ℤ → ℚ)) *ᵥ (fun i => (y i : ℚ))) := by
   rw [Matrix.dot_mulVec_eq_sum_sum, Matrix.dot_mulVec_eq_sum_sum]
   push_cast
-  simp [Matrix.map_apply, mul_assoc, mul_left_comm, mul_comm]
+  simp [Matrix.map_apply, mul_left_comm, mul_comm]
 
 private theorem ggPosDef_root_inner_nonneg {Λ : Type*} [Fintype Λ] {C : Matrix Λ Λ ℤ}
     (hC : (C.map (Int.cast : ℤ → ℚ)).PosDef) (y : Λ → ℤ) :

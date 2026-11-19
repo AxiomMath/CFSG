@@ -121,11 +121,11 @@ private theorem three_dvd_sub_d4Row {ℓ f : ℕ} (hℓ : ℓ.Prime) (hℓ3 : �
 
 private theorem exists_orderOf_three_d4Row {L : Type} [Field L] [IsAlgClosed L] {ℓ : ℕ}
     [CharP L ℓ] (hℓ : ℓ.Prime) (hℓ3 : ℓ ≠ 3) : ∃ ζ : Lˣ, orderOf ζ = 3 := by
-  haveI : NeZero ((3 : ℕ) : L) := ⟨by
+  have : NeZero ((3 : ℕ) : L) := ⟨by
     intro h
     have := (CharP.cast_eq_zero_iff L ℓ 3).1 h
     exact hℓ3 ((Nat.prime_dvd_prime_iff_eq hℓ Nat.prime_three).1 this)⟩
-  obtain ⟨ζ0, hζ0⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L 3
+  obtain ⟨ζ0, hζ0⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L 3
   exact ⟨(hζ0.isUnit (by norm_num)).unit, (hζ0.isUnit_unit (by norm_num)).eq_orderOf.symm⟩
 
 private def d4RowPList : List (List ℤ) := [[0, 0, 0, 1], [1, 0, 0, 0], [0, 0, 1, 0], [0, 1, 0, 0]]
@@ -182,7 +182,7 @@ private theorem exists_commute_pair_d4Row {ℓ f : ℕ} [Fact ℓ.Prime] (hℓ :
   have hζ3 : ζ ^ 3 = 1 := by
     rw [← hζ]
     exact pow_orderOf_eq_one ζ
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
   have hFr : ∀ c, iterateFrobenius L ℓ f c = c ^ (ℓ ^ f) := fun c => iterateFrobenius_def ℓ f c
   obtain ⟨g0, hg0C, hg0⟩ := lang_conjugator_D4 (K := K) (ℓ := ℓ) hf L
     (canonicalRep (coxeterSystem TwistTag.D4.tag) L ((coxeterSystem TwistTag.D4.tag).wordProd lw))
@@ -286,10 +286,10 @@ private theorem conj_commute_d4S0 {ℓ f : ℕ} (hℓ : ℓ.Prime) (hℓ3 : ℓ 
     ∃ g : graphFixedRootGroup TwistTag.D4 K σ.toRingHom,
       Commute (g * ⟨d4S0 σ, d4S0_mem σ⟩ * g⁻¹) ⟨d4S0 σ, d4S0_mem σ⟩ ∧
         g * ⟨d4S0 σ, d4S0_mem σ⟩ * g⁻¹ ∉ Subgroup.zpowers ⟨d4S0 σ, d4S0_mem σ⟩ := by
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : CharP K ℓ := finite_field_prime_power_characteristic hℓ (k := f * 3) (by omega)
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : CharP K ℓ := finite_field_prime_power_characteristic hℓ (k := f * 3) (by omega)
     (by rw [hK, pow_mul])
-  haveI : CharP (AlgebraicClosure K) ℓ :=
+  have : CharP (AlgebraicClosure K) ℓ :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective ℓ
   obtain ⟨ζ, hζ⟩ := exists_orderOf_three_d4Row (L := AlgebraicClosure K) hℓ hℓ3
   obtain ⟨k, hk, hkeq⟩ := exists_conj_d4S0 (algebraMap K (AlgebraicClosure K)) σ hζ
@@ -315,10 +315,10 @@ private theorem conj_commute_d4T0 {ℓ f : ℕ} (hℓ : ℓ.Prime) (hℓ3 : ℓ 
     ∃ g : graphFixedRootGroup TwistTag.D4 K σ.toRingHom,
       Commute (g * ⟨d4T0 σ, d4T0_mem σ⟩ * g⁻¹) ⟨d4T0 σ, d4T0_mem σ⟩ ∧
         g * ⟨d4T0 σ, d4T0_mem σ⟩ * g⁻¹ ∉ Subgroup.zpowers ⟨d4T0 σ, d4T0_mem σ⟩ := by
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : CharP K ℓ := finite_field_prime_power_characteristic hℓ (k := f * 3) (by omega)
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : CharP K ℓ := finite_field_prime_power_characteristic hℓ (k := f * 3) (by omega)
     (by rw [hK, pow_mul])
-  haveI : CharP (AlgebraicClosure K) ℓ :=
+  have : CharP (AlgebraicClosure K) ℓ :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective ℓ
   obtain ⟨ζ, hζ⟩ := exists_orderOf_three_d4Row (L := AlgebraicClosure K) hℓ hℓ3
   obtain ⟨k, hk, hkeq⟩ := exists_conj_d4T0 (algebraMap K (AlgebraicClosure K)) σ hζ

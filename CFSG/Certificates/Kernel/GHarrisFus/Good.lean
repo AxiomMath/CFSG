@@ -15,9 +15,9 @@ theorem strictB_eq (y : Nat) (k : Nat → Bool) : strictB y k = k y := by cases 
 
 theorem strictN_eq (y : Nat) (k : Nat → Nat) : strictN y k = k y := by cases y <;> rfl
 
-theorem and'_eq (a b : Bool) : Bool.and' a b = (a && b) := by cases a <;> cases b <;> rfl
+theorem and'_eq (a b : Bool) : _root_.Bool.and a b = (a && b) := by cases a <;> cases b <;> rfl
 
-theorem or'_eq (a b : Bool) : Bool.or' a b = (a || b) := by cases a <;> cases b <;> rfl
+theorem or'_eq (a b : Bool) : _root_.Bool.or a b = (a || b) := by cases a <;> cases b <;> rfl
 
 theorem recOr_any (P : Nat → Bool) (l : List Nat) :
     List.rec (motive := fun _ => Bool) false (fun s _ ih => P s || ih) l = l.any P := by
@@ -67,7 +67,7 @@ theorem hasEdgeK_true {i9 j : Nat} {IK : List (Nat × List Nat)}
   | cons r IK ih =>
     obtain ⟨c9, w⟩ := r
     have e : hasEdgeK dm mv CT Q i9 j ((c9, w) :: IK) =
-        (Bool.and' (Nat.beq c9 i9) (Nat.beq (clsK CT (evalWK dm mv Q w)) j) ||
+        (_root_.Bool.and (Nat.beq c9 i9) (Nat.beq (clsK CT (evalWK dm mv Q w)) j) ||
           hasEdgeK dm mv CT Q i9 j IK) := or'_eq _ _
     rw [e, Bool.or_eq_true, and'_eq, Bool.and_eq_true] at h
     rcases h with ⟨h1, h2⟩ | h
@@ -157,7 +157,7 @@ theorem goodAZ_of (hmul : ∀ a b : SE, mulK dm mv a.enc b.enc = (a * b).enc)
   have eb := img_enc hmul hQ hw (by norm_num) e4
   have ec := img_enc hmul hQ hw (by norm_num) e2
   unfold goodAZK at h
-  simp only [and'_eq, or'_eq, strictB_eq, recOr_any, Bool.and_eq_true, Bool.or_eq_true,
+  simp only [strictB_eq, recOr_any, Bool.and_eq_true, Bool.or_eq_true,
     List.any_eq_true] at h
   obtain ⟨h1, h2, h3, s, hs, hs1, hs2⟩ := h
   have es := codesB_mem hwit hs
@@ -199,7 +199,7 @@ theorem goodA34_of (hmul : ∀ a b : SE, mulK dm mv a.enc b.enc = (a * b).enc)
   have ed := img_enc hmul hQ hw (by norm_num) e4
   have ha1' := (beq_iff_eq.mp ha1).symm
   unfold goodA34K at h
-  simp only [and'_eq, or'_eq, strictB_eq, recOr_any, Bool.and_eq_true, Bool.or_eq_true,
+  simp only [strictB_eq, recOr_any, Bool.and_eq_true, Bool.or_eq_true,
     List.any_eq_true] at h
   obtain ⟨h1, h2, h3, s, hs, hs1, hs2, hs3, w, hw', hs4⟩ := h
   have es := codesB_mem hwit hs

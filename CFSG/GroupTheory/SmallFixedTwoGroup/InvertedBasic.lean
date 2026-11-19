@@ -74,7 +74,7 @@ theorem card_le_card_fixedSubgroup_mul_card_inverted [Finite G] {θ : MulAut G}
 theorem inverted_of_invariant_of_fixed_eq_one [Finite G] {θ : MulAut G} (hθ : θ * θ = 1)
     {R : Subgroup G} (hR : ∀ r ∈ R, θ r ∈ R) (hfix : ∀ r ∈ R, θ r = r → r = 1) :
     ∀ r ∈ R, θ r = r⁻¹ := by
-  haveI : Finite R := Finite.of_injective (fun r : R => (r : G)) Subtype.val_injective
+  have : Finite R := Finite.of_injective (fun r : R => (r : G)) Subtype.val_injective
   let f : R → R := fun r => ⟨(r : G)⁻¹ * θ r, R.mul_mem (R.inv_mem r.2) (hR r r.2)⟩
   have hfinj : Function.Injective f := by
     intro r s h

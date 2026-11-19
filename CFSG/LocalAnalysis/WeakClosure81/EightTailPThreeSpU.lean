@@ -22,6 +22,7 @@ section RootData
 variable {S : Type} [Group S] {ψ : ↥(kGenIn V H) →* S} {ρ : ↥H →* MulAut S}
   {R Sy : Subgroup S} {e : ℕ}
 
+omit [Finite G] in
 theorem rootData_card_U (D : RootData V H T S ψ ρ R Sy e) {U : Subgroup G}
     (hU : ∃ g : G, U = conjSubgroup V g) : (Nat.card R) ^ e < Nat.card U := by
   obtain ⟨g, rfl⟩ := hU
@@ -88,7 +89,7 @@ theorem threeFirst_spu (hLie : SpPSULieFacts) (hRU : UnitaryRootCommutatorRank)
           (H ⊓ Subgroup.normalizer (E3.wClos V 0 T : Set G)) := by
   intro V H T hV hH hH0 hT hKT hyp
   obtain ⟨X, _, _, φ, d, halt⟩ := exists_shapeData h711 hV hH hH0 hT hKT
-  haveI : Finite X := d.finite
+  have : Finite X := d.finite
   have finish : ∀ {m n : ℕ}, 4 ≤ m →
       ((IsSpGp (X ⧸ Subgroup.center X) m n ∧
           IsSymplecticRootGroup X m n (barSub (kGenIn V H) φ V)) ∨
@@ -98,8 +99,8 @@ theorem threeFirst_spu (hLie : SpPSULieFacts) (hRU : UnitaryRootCommutatorRank)
         (H ⊓ Subgroup.normalizer (E3.wClos V 0 T : Set G)) := by
     intro m n hm4 hroot
     obtain ⟨S, hSgrp, hSfin, ψ, ρ, R, Sy, e, D⟩ := exists_rootData hLie hRU d hm4 hroot
-    letI := hSgrp
-    haveI := hSfin
+    let := hSgrp
+    have := hSfin
     obtain ⟨X₂, Pα, hP⟩ := D.lie.parabolic
     refine rootData_frattini D hP ?_
     intro U hU hUT u hu huH

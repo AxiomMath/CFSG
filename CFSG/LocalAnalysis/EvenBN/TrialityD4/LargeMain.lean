@@ -115,7 +115,7 @@ open Subgroup CFSG.Open CFSG.Blueprint
 theorem trialityD4ProductFieldCase_holds : TrialityD4ProductFieldCase := by
   intro G _ _ L f t h d hf hlay hnf
   obtain ⟨G₀, hcomm, hperf, hL, hN⟩ := ProductCase.exists_productConfig h d ⟨hf, hlay, hnf⟩
-  haveI := hperf
+  have := hperf
   exact false_of_productConfig h d hcomm hL hN
 
 theorem trialityD4FieldAutomorphismCase_holds : TrialityD4FieldAutomorphismCase :=

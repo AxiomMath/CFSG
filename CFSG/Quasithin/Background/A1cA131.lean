@@ -60,7 +60,7 @@ theorem A131Concl_of_surjective (hp2 : p ≠ 2) {Q : Type v} [Group Q] [Finite Q
       by_cases hRn : R.Normal
       ·
         have hRp : ¬ p ∣ Nat.card R := by
-          obtain ⟨m, hm⟩ := (IsPGroup.iff_card).1 R₀.isPGroup'
+          obtain ⟨m, hm⟩ := (IsPGroup.iff_card).1 R₀.isPGroup
           rw [hRcard, hm]
           intro h
           exact hrp ((Nat.prime_dvd_prime_iff_eq (Fact.out : p.Prime) hr).1

@@ -97,10 +97,12 @@ variable {G : Type} [Group G] [Finite G]
 @[expose] def oUpperTwo (H : Subgroup G) : Subgroup G :=
   CFSG.ComponentClassification.AS76b.oUpperTwo H
 
+omit [Finite G] in
 theorem oUpperTwo_le (H : Subgroup G) : oUpperTwo H ≤ H := by
   unfold oUpperTwo CFSG.ComponentClassification.AS76b.oUpperTwo
   exact (Subgroup.closure_le H).mpr fun x hx => hx.1
 
+omit [Finite G] in
 theorem oUpperTwo_eq_closure (H : Subgroup G) :
     oUpperTwo H = Subgroup.closure {h : G | h ∈ H ∧ Odd (orderOf h)} := by
   unfold oUpperTwo CFSG.ComponentClassification.AS76b.oUpperTwo
@@ -158,6 +160,7 @@ theorem calLjStar_subset (D : Data G) (p j : ℕ) : calLjStar D p j ⊆ calLpSta
 theorem calL0Star_subset (D : Data G) (p : ℕ) : calL0Star D p ⊆ calLpStar D p :=
   calLjStar_subset D p (jM D p)
 
+omit [Finite G] in
 theorem centSection_le (M A B : Subgroup G) : centSection M A B ≤ M := by
   rintro m ⟨hmM, -, -, -⟩
   exact hmM

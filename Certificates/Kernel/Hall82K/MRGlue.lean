@@ -107,7 +107,7 @@ theorem card_map_conjK (B : Subgroup (Equiv.Perm (Fin 64))) (m : Equiv.Perm (Fin
 theorem fixPts_conj_imageK (S : Set (Equiv.Perm (Fin 64))) (m : Equiv.Perm (Fin 64)) :
     fixPts ((fun b => m * b * m⁻¹) '' S) = m '' fixPts S := by
   ext x
-  simp only [fixPts, Set.mem_setOf_eq, Set.mem_image]
+  simp only [fixPts, Set.mem_ofPred_eq, Set.mem_image]
   constructor
   · rintro h
     refine ⟨m⁻¹ x, ?_, by simp⟩
@@ -126,7 +126,7 @@ theorem coe_map_conjK (B : Subgroup (Equiv.Perm (Fin 64))) (m : Equiv.Perm (Fin 
     ((B.map (MulAut.conj m).toMonoidHom : Subgroup (Equiv.Perm (Fin 64))) : Set _) =
       (fun b => m * b * m⁻¹) '' (B : Set (Equiv.Perm (Fin 64))) := by
   ext x
-  simp only [SetLike.mem_coe, Subgroup.mem_map, MulAut.conj_apply]
+  simp only [SetLike.mem_coe, Subgroup.mem_map]
   constructor <;> rintro ⟨a, ha, rfl⟩ <;> exact ⟨a, ha, rfl⟩
 
 theorem card_fixPts_map_conjK (B : Subgroup (Equiv.Perm (Fin 64))) (m : Equiv.Perm (Fin 64)) :

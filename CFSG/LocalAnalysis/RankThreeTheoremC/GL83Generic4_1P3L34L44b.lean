@@ -26,7 +26,7 @@ theorem l34l44_normalizer_le_map {Y X : Type} [Group Y] [Finite Y] [Group X] [Fi
   obtain ⟨r, hrR, hro⟩ := GenericShadow3.exists_orderOf_eq_of_one_le_pRank Nat.prime_three h1
   obtain ⟨t, ht, hft⟩ := hR hrR
   have htH : t ∈ R.comap f := Subgroup.mem_comap.mpr (hft ▸ hrR)
-  have hLH : IsPGroup 3 ↥(L ⊓ R.comap f) := S.isPGroup'.to_le (inf_le_right.trans hHS)
+  have hLH : IsPGroup 3 ↥(L ⊓ R.comap f) := S.isPGroup.to_le (inf_le_right.trans hHS)
   have hne : Nat.card ↥(L ⊓ R.comap f) ≠ 1 := by
     intro hc
     rw [Subgroup.card_eq_one] at hc

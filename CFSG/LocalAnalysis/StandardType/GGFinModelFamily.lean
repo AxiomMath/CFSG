@@ -17,7 +17,7 @@ theorem exists_ggModelFamily_langData
       ∃ K : GGKGModel t n f p,
         Nonempty (GGLangData GGL t n f p K.Bfull K.S K.π K.coord) := by
     intro t n f ht hadm p hp hp2 hreg
-    haveI : NeZero p := ⟨hp.ne_zero⟩
+    have : NeZero p := ⟨hp.ne_zero⟩
     have hf : 1 ≤ f := hadm.1.2.1
     have hp3 : 3 ≤ p := by
       have h2 := hp.two_le

@@ -38,12 +38,14 @@ theorem torus_t100_zero_add_self (z : Torus (Type100.k 0)) : z + z = 0 := by
     calc z 2 + z 2 = (2 : ZMod (2 ^ Type100.k 0 2)) * z 2 := by rw [two_mul]
       _ = 0 := by rw [h2, zero_mul]
 
+omit [Finite S] in
 theorem t100_zero_mul_self (D : StrothTypeData B (StrothTypeIndex.t100 0)) (x : B) :
     x * x = 1 := by
   apply D.ec_injective
   rw [D.ec_mul, D.ec_one]
   exact torus_t100_zero_add_self (D.ec x)
 
+omit [Finite S] in
 theorem sqSubgroup_eq_bot_of_m_zero (D : StrothTypeData B (StrothTypeIndex.t100 0)) :
     sqSubgroup D = ⊥ := by
   rw [eq_bot_iff]
@@ -64,14 +66,14 @@ theorem closure_c_e_f_of_m_zero
     (he : e * e = ⟨D.a, hBC D.a.2⟩) (hf : f * f = ⟨D.b, hBC D.b.2⟩) :
     Subgroup.closure ({⟨D.c, hBC D.c.2⟩, e, f} : Set C) = ⊤ := by
   classical
-  haveI : IsMulCommutative C := hcommC
+  have : IsMulCommutative C := hcommC
   let cC : C := ⟨D.c, hBC D.c.2⟩
   let aC : C := ⟨D.a, hBC D.a.2⟩
   let bC : C := ⟨D.b, hBC D.b.2⟩
   let K : Subgroup C := Subgroup.closure ({cC, e, f} : Set C)
-  have hcK : cC ∈ K := Subgroup.subset_closure (by simp [K])
-  have heK : e ∈ K := Subgroup.subset_closure (by simp [K])
-  have hfK : f ∈ K := Subgroup.subset_closure (by simp [K])
+  have hcK : cC ∈ K := Subgroup.subset_closure (by simp)
+  have heK : e ∈ K := Subgroup.subset_closure (by simp)
+  have hfK : f ∈ K := Subgroup.subset_closure (by simp)
   have haK : aC ∈ K := by
     have h : aC = e * e := he.symm
     rw [h]
@@ -145,7 +147,7 @@ theorem closure_c_e_f_of_m_zero
       simpa [StrothTypeData.a, StrothTypeData.b] using this
     have hne : (Torus.a : Torus (StrothTypeIndex.t100 0).k) 1 ≠
         (Torus.b : Torus (StrothTypeIndex.t100 0).k) 1 := by
-      simp [Torus.a, Torus.b, gen, Pi.single_apply]
+      simp [Torus.a, Torus.b, gen]
       decide
     exact hne (congrFun h' 1)
   have hab_ne1 : D.a * D.b⁻¹ ≠ 1 := fun h => hab (mul_inv_eq_one.mp h)

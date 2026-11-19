@@ -27,7 +27,7 @@ theorem normalizer_le_of_isStronglyEmbeddedOrder {M : Subgroup G}
   have h2G : 2 ∣ Nat.card G :=
     (even_iff_two_dvd.1 hM.2.1).trans (Subgroup.card_subgroup_dvd_card M)
   have h2S : 2 ∣ Nat.card S := by
-    rcases S.isPGroup'.card_eq_or_dvd with h | h
+    rcases S.isPGroup.card_eq_or_dvd with h | h
     · exact absurd (Subgroup.card_eq_one.1 h) (S.ne_bot_of_dvd_card h2G)
     · exact h
   exact (Nat.not_even_iff_odd.2 (hM.2.2 n hnM))

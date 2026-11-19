@@ -29,7 +29,7 @@ abbrev H0 (Rg : ℕ → Gp) : Subgroup Gp := Ksub Rg gens_H
 
 theorem forall_image_list {α β : Type _} (f : α → β) (l : List α) (p : β → Prop) :
     (∀ s ∈ f '' {r | r ∈ l}, p s) ↔ ∀ r ∈ l, p (f r) := by
-  simp only [Set.forall_mem_image, Set.mem_setOf_eq]
+  simp only [Set.forall_mem_image, Set.mem_ofPred_eq]
 
 theorem forall_gens_V (p : Gp → Prop) :
     (∀ s ∈ Rg '' {r | r ∈ gens_V}, p s) ↔
@@ -73,7 +73,7 @@ theorem V0_elem (hR : Reg Rg) : CFSG.Open.IsElemAbelian 2 (V0 Rg) := by
   · rintro _ ⟨i, hi, rfl⟩ _ ⟨j, hj, rfl⟩ _
     exact hcomm i hi j hj
   · rintro _ ⟨i, hi, rfl⟩
-    simp only [gens_V, Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false] at hi
+    simp only [gens_V, Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false] at hi
     rcases hi with rfl | rfl | rfl | rfl
     exacts [pow_of_ord hR.ord_v1, pow_of_ord hR.ord_v2, pow_of_ord hR.ord_v3,
       pow_of_ord hR.ord_v4]
@@ -148,7 +148,7 @@ theorem normalizer_V0
         (x * Rg r_v2 * x⁻¹ ∈ Ksub Rg gens_V ∧ (x * Rg r_v3 * x⁻¹ ∈ Ksub Rg gens_V ∧
           x * Rg r_v4 * x⁻¹ ∈ Ksub Rg gens_V)))} := by
     ext x
-    simp only [Set.mem_setOf_eq, forall_gens_V]
+    simp only [Set.mem_ofPred_eq, forall_gens_V]
   rw [hset, hR.loop_N]
 
 theorem H0_le_M0 (hR : Reg Rg) : H0 Rg ≤ M0 Rg := by
@@ -197,7 +197,7 @@ theorem M0_residual (hR : Reg Rg) : inSubgroup perfectResidual (M0 Rg) = H0 Rg :
   intro x hx s hs
   obtain ⟨h1, h2, h3, h4⟩ := hR.loop_H x hx
   obtain ⟨k, hk, rfl⟩ := hs
-  simp only [gens_H, Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false] at hk
+  simp only [gens_H, Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false] at hk
   rcases hk with rfl | rfl | rfl | rfl
   exacts [h1, h2, h3, h4]
 

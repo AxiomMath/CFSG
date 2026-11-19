@@ -250,7 +250,7 @@ private theorem tfwe_comp_perm_mem_frame (σ : Equiv.Perm (Fin 4)) {k : Fin 3}
     x ∘ σ ∈ (weylF4Frame k : Set _) := by
   have hs (i : Fin 4) : (Pi.single i 1 : Fin 4 → ZMod p) ∘ σ = Pi.single (σ.symm i) 1 := by
     funext j
-    simp only [Function.comp_apply, Pi.single_apply, Equiv.apply_eq_iff_eq_symm_apply]
+    simp only [Function.comp_apply, Pi.single_apply, ← _root_.Equiv.eq_symm_apply]
   fin_cases k
   · obtain ⟨i, rfl | rfl⟩ := tfwe_mem_frame0_iff.mp hx
     · exact tfwe_mem_frame0_iff.mpr ⟨σ.symm i, Or.inl (hs i)⟩
@@ -322,7 +322,7 @@ private theorem tfwe_halfOnes_frame0 (hp : p ≠ 2) {x : Fin 4 → ZMod p}
       funext j
       by_cases hj : j = m
       · subst hj
-        simp only [Pi.single_eq_same, Pi.smul_apply, if_pos, smul_eq_mul]
+        simp only [Pi.single_eq_same, Pi.smul_apply, ite_eq_left, smul_eq_mul]
         linear_combination -ht
       · simp [hj]
   obtain ⟨m, rfl | rfl⟩ := tfwe_mem_frame0_iff.mp hx
@@ -380,7 +380,7 @@ private theorem tfwe_halfOnes_odd (hp : p ≠ 2) (m : Fin 4) :
   funext j
   by_cases hj : j = m
   · subst hj
-    simp only [Pi.smul_apply, smul_eq_mul, if_pos, Pi.neg_apply, Pi.single_eq_same]
+    simp only [Pi.smul_apply, smul_eq_mul, ite_eq_left, Pi.neg_apply, Pi.single_eq_same]
     linear_combination -ht
   · simp [hj]
 
@@ -496,15 +496,15 @@ private theorem tfwe_signChange_mem_g2mmn (f : Module.Basis (Fin 4) (ZMod p) V) 
     rw [Function.comp_apply]
     by_cases hj : j = k
     · subst hj
-      rw [Equiv.symm_swap, Equiv.swap_apply_right, if_pos rfl, if_pos rfl]
-    · rw [if_neg hj]
+      rw [Equiv.symm_swap, Equiv.swap_apply_right, ite_eq_left rfl, ite_eq_left rfl]
+    · rw [ite_eq_right hj]
       have hσ : (Equiv.swap (0 : Fin 4) k).symm j ≠ 0 := by
         intro hz
         have hz' : j = k := by
           have := (Equiv.symm_apply_eq (Equiv.swap (0 : Fin 4) k)).mp hz
           rwa [Equiv.swap_apply_left] at this
         exact hj hz'
-      rw [if_neg hσ]
+      rw [ite_eq_right hσ]
   rwa [heq] at hconj
 
 private theorem tfwe_diagMap_signs_mem_g2mmn (f : Module.Basis (Fin 4) (ZMod p) V)
@@ -528,7 +528,7 @@ private theorem tfwe_diagMap_signs_mem_g2mmn (f : Module.Basis (Fin 4) (ZMod p) 
     · rw [Finset.prod_eq_single j]
       · simp [hj]
       · intro k _ hkj
-        rw [if_neg (Ne.symm hkj)]
+        rw [ite_eq_right (Ne.symm hkj)]
       · intro hjnot
         exact absurd (Finset.mem_filter.mpr ⟨Finset.mem_univ j, hj⟩) hjnot
     · have h1 : d j = 1 := (hd j).resolve_right hj
@@ -1098,10 +1098,10 @@ private theorem tfwe_card_basisClosure_eq_card_closure {n : ℕ}
     ext A
     constructor
     · rintro ⟨h, hh, rfl⟩
-      simpa only [Set.mem_setOf_eq, tfwe_glHom_coe] using hh
+      simpa only [Set.mem_ofPred_eq, tfwe_glHom_coe] using hh
     · intro hA
       obtain ⟨h, rfl⟩ := tfwe_glHom_surjective g A
-      exact ⟨h, by simpa only [Set.mem_setOf_eq, tfwe_glHom_coe] using hA, rfl⟩
+      exact ⟨h, by simpa only [Set.mem_ofPred_eq, tfwe_glHom_coe] using hA, rfl⟩
   rw [← hmap]
   exact (Subgroup.card_map_of_injective (tfwe_glHom_injective g)).symm
 

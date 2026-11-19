@@ -42,10 +42,10 @@ theorem ggTwoNodeIndep_small_two_of_sides (hUse : ZS.UseInput) (hExcl : LR6Small
     hb, hcardΛa, hWML, hCL, hWMK, hCK, hlin, hrefl, hpairL, hpairK,
     ⟨fX, hfX⟩, ⟨fY, hfY⟩, hclosX, hclosY, hconn, hJ⟩ :=
     ggResTwoNodeDatum_of_sides_card_two ggWeylSimpleSystemsConjInput_holds hp2 hXs hYs
-  letI := i1; letI := i2; letI := i3; letI := i4; letI := i5; letI := i6
+  let := i1; let := i2; let := i3; let := i4; let := i5; let := i6
   obtain ⟨Λ₁, j1, j2, M₁, C₁, V₁, k1, k2, ι₁, φ₁, h₁, α₁, e₁, hM₁, hWM₁, hC₁, hlin₁,
     hrefl₁, hpair₁, ⟨f₁, hf₁⟩, hclos₁, hind₁⟩ := hXd
-  letI := j1; letI := j2; letI := k1; letI := k2
+  let := j1; let := j2; let := k1; let := k2
   obtain ⟨e, hML⟩ := ggTW_typeA_of_datum (p := p) (n := N - 1) hp2 (by omega)
     hH.1.2.1.2.1 (ggAutomizer X Bs) e₁ hM₁ hWM₁ f₁ φ₁ hf₁ hrefl₁ hWML fX
       (fun i => φ (Sum.inl i)) hfX (fun i => hrefl (Sum.inl i))

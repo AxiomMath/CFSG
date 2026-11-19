@@ -51,15 +51,14 @@ private theorem s16c13bcA_dot_single_t (b : K)
 
 theorem s16c13bcA_Q_minusD (b c : K) {j k : Fin (n - 1)} (hjk : j ≠ k) :
     CFSG.Open.StatedQuadMinus n K b c (s16c13bcA_minusD n K j k) = 1 := by
-  simp [CFSG.Open.StatedQuadMinus, s16c13bcA_minusD, Pi.single_apply, hjk, hjk.symm]
+  simp [CFSG.Open.StatedQuadMinus, s16c13bcA_minusD, Pi.single_apply, hjk]
 
 theorem s16c13bcA_B_minusD (b : K) {j k : Fin (n - 1)} (hjk : j ≠ k) :
     minusA n K k ⬝ᵥ (minusM n K b *ᵥ s16c13bcA_minusD n K j k) = 1 := by
   simp only [minusA, s16c13bcA_minusD]
   simp only [dotProduct_add, add_dotProduct, Matrix.mulVec_add, s16c13bcA_dot_single_inl,
-    s16c13bcA_dot_single_inr, s16c13bcA_dot_single_u, s16c13bcA_dot_single_t,
-    Pi.single_apply]
-  simp [hjk, hjk.symm]
+    s16c13bcA_dot_single_inr, Pi.single_apply]
+  simp [hjk.symm]
 
 theorem s16c13bcA_minusD_apply_eq_zero {j k : Fin (n - 1)}
     {r : Fin (n - 1) ⊕ Fin (n - 1)} (hj : minusIdx r ≠ j) (hk : minusIdx r ≠ k) :
@@ -79,8 +78,7 @@ private theorem s16c13bcA_dot_cross [CharP K 2] (b : K) {j k : Fin (n - 1)} (hjk
   all_goals
     simp only [minusA, minusB, s16c13bcA_minusD]
     simp only [dotProduct_add, add_dotProduct, Matrix.mulVec_add, s16c13bcA_dot_single_inl,
-      s16c13bcA_dot_single_inr, s16c13bcA_dot_single_u, s16c13bcA_dot_single_t,
-      Pi.single_apply]
+      s16c13bcA_dot_single_inr, Pi.single_apply]
     simp [hjk, hjk.symm]
   all_goals
     rw [← two_eq_zero_K (K := K)]

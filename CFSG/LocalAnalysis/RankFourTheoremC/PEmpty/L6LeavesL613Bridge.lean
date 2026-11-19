@@ -48,7 +48,7 @@ theorem pRank_map_le_of_coprime_ker {A B : Type} [Group A] [Group B] [Finite A] 
     {p : ℕ} (hp : p.Prime) (f : A →* B) {U : Subgroup A}
     (hker : ¬ p ∣ Nat.card (f.ker ⊓ U : Subgroup A)) :
     Open.pRank p (U.map f) ≤ Open.pRank p U := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set g : U →* B := f.comp U.subtype with hg
   have hgker : ¬ p ∣ Nat.card g.ker := by
     intro h
@@ -76,10 +76,10 @@ theorem pRank_map_le_of_coprime_ker {A B : Type} [Group A] [Group B] [Finite A] 
 theorem false_of_hasNormalPComplement {p : ℕ} (hp : p.Prime) {A S : Type} [Group A] [Finite A]
     [Group S] [IsSimpleGroup S] (hnab : ¬ ∀ a b : S, a * b = b * a) (hpS : p ∣ Nat.card S)
     (hA : CFSG.HasNormalPComplement p A) (hS : IsSecOf (⊤ : Subgroup A) S) : False := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨N, hN, hNcop, hNp⟩ := hA
-  haveI : Group.IsNilpotent (A ⧸ N) := hNp.isNilpotent
-  haveI : Group.IsSolvable (A ⧸ N) := inferInstance
+  have : Group.IsNilpotent (A ⧸ N) := hNp.isNilpotent
+  have : Group.IsSolvable (A ⧸ N) := inferInstance
   have h1 := hS.ker_of_solvable hnab (QuotientGroup.mk' N)
   rw [QuotientGroup.ker_mk', inf_top_eq] at h1
   exact hp.one_lt.ne' (Nat.Coprime.eq_one_of_dvd hNcop (hpS.trans h1.card_dvd))
@@ -95,7 +95,7 @@ theorem section_dvd_component (hpl : Plane63 p X P x z) (hβ : BetaStructure p X
     (C : ComponentIndex (X ⧸ primeComplementCore (G := X) p)) :
     Nat.card S ∣ Nat.card ↥C.1 := by
   have hp := hpl.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set D : Subgroup X := primeComplementCore (G := X) p with hD
   have hD3 : ¬ p ∣ Nat.card D :=
     (Nat.Prime.coprime_iff_not_dvd hp).mp (primeComplementCore_coprime p)
@@ -133,7 +133,7 @@ theorem section_dvd_component (hpl : Plane63 p X P x z) (hβ : BetaStructure p X
     (CFSG.AGLEmbedding.catalogSimpleSections_iff_isKGroup).mp hpl.catalog
   have hKY : CFSG.Open.IsKGroup (X ⧸ D) :=
     hKX.of_surjective π (QuotientGroup.mk'_surjective D)
-  haveI : IsSimpleGroup ↥C.1 := isSimpleGroup_of_component C.2 (hβ.centreless C)
+  have : IsSimpleGroup ↥C.1 := isSimpleGroup_of_component C.2 (hβ.centreless C)
   have hcat : IsCatalogGroup ↥C.1 :=
     ((isSecOf_self C.1).mono le_top).isCatalogGroup
       (exists_noncomm_of_component C.2 (hβ.centreless C)) hKY
@@ -144,7 +144,7 @@ end Beta
 
 theorem one_le_pRank_of_dvd {A : Type} [Group A] [Finite A] {f : ℕ} (hf : f.Prime)
     (h : f ∣ Nat.card A) : 1 ≤ Open.pRank f (⊤ : Subgroup A) := by
-  haveI : Fact f.Prime := ⟨hf⟩
+  have : Fact f.Prime := ⟨hf⟩
   obtain ⟨a, ha⟩ := exists_prime_orderOf_dvd_card' f h
   have hfa : a ^ f = 1 := by
     rw [← ha]
@@ -158,7 +158,7 @@ section Beta
 
 variable {X : Type} [Group X] [Finite X] {p : ℕ} {P : Sylow p X} {x z : X}
 
-theorem pRank_ge_of_beta (hpl : Plane63 p X P x z) (hβ : BetaStructure p X P x z)
+theorem pRank_ge_of_beta (_hpl : Plane63 p X P x z) (hβ : BetaStructure p X P x z)
     (hI : CFSG.HardMathSupport.Solomon.UniquenessMaximal.Input10_20_3)
     (C₀ : ComponentIndex (X ⧸ primeComplementCore (G := X) p)) {f : ℕ} (hf : f.Prime)
     (hf2 : f ≠ 2) (hfC : f ∣ Nat.card ↥C₀.1) : p ≤ Open.pRank f (⊤ : Subgroup X) := by
@@ -183,7 +183,7 @@ theorem pRank_ge_of_beta (hpl : Plane63 p X P x z) (hβ : BetaStructure p X P x 
     ((QuotientGroup.quotientMulEquivOfEq hker.symm).trans
       (QuotientGroup.quotientKerEquivOfSurjective ψ hψ)).trans
       (layerPiEquiv hβ.centreless hβ.transitive hβ.card_components C₀)
-  haveI : IsSimpleGroup ↥C₀.1 := isSimpleGroup_of_component C₀.2 (hβ.centreless C₀)
+  have : IsSimpleGroup ↥C₀.1 := isSimpleGroup_of_component C₀.2 (hβ.centreless C₀)
   have h2 := ((hI ↥X₁ (D.subgroupOf X₁) ↥C₀.1 p inferInstance
     (exists_noncomm_of_component C₀.2 (hβ.centreless C₀)) ⟨e⟩ f hf hf2).2
     (one_le_pRank_of_dvd hf hfC))

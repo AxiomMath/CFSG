@@ -24,7 +24,7 @@ variable {X : Type} [Group X] [Finite X] {L : Subgroup X} {x : X} {Px B : Subgro
 
 theorem card_le_nine (h : T29.T29Setup X L x) {E : Subgroup X} (hE : IsElemAbelian 3 E)
     (hEC : E ≤ centralizer ({x} : Set X)) : Nat.card E ≤ 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨j, hj⟩ := hE.isPGroup.exists_card_eq
   have hjle : j ≤ CFSG.Open.pRank 3 (centralizer ({x} : Set X)) :=
     T29.le_pRank_of_isElemAbelian_card Nat.prime_three hEC hE hj.ge
@@ -35,8 +35,8 @@ theorem card_le_nine (h : T29.T29Setup X L x) {E : Subgroup X} (hE : IsElemAbeli
 
 theorem false_of_index_three (cfg : LinUniCfgThree L x Px B) {N : Subgroup X} (hN : N.Normal)
     (hNi : N.index = 3) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := hN
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := hN
   have hp : IsPGroup 3 (X ⧸ N) := IsPGroup.of_card (n := 1) (by
     show Nat.card (X ⧸ N) = 3 ^ 1
     rw [pow_one]
@@ -49,7 +49,7 @@ theorem core_facts (hT : T29.GL83I291Three) (cfg : LinUniCfgThree L x Px B) :
     IsCyclic ↥(CFSG.pCore 3 X) ∧ (∀ y ∈ CFSG.pCore 3 X, y ^ 3 = 1 → y ∈ L) ∧
       IsLThreeEps (↥L ⧸ center ↥L) ∧ Nat.card (center ↥L) = 3 := by
   have h := cfg.setup
-  haveI : L.Normal := h.normal
+  have : L.Normal := h.normal
   obtain ⟨hcyc, hΩ, -, hconc⟩ := hT X h.catalog h.core L h.comp h.uniq h.rank x h.ord h.cent
   rcases hconc with ⟨hLε, hZ3, -, -, hfield | h9⟩ | hb
   · obtain ⟨y, hy, hyf⟩ := hfield
@@ -73,17 +73,17 @@ theorem core_facts (hT : T29.GL83I291Three) (cfg : LinUniCfgThree L x Px B) :
 theorem centralizer_eq_pCore (cfg : LinUniCfgThree L x Px B) (hcyc : IsCyclic ↥(CFSG.pCore 3 X))
     (hΩ : ∀ y ∈ CFSG.pCore 3 X, y ^ 3 = 1 → y ∈ L) :
     centralizer (L : Set X) = CFSG.pCore 3 X := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.I292.centralizer_eq_pCore cfg.setup.core
     cfg.setup.comp cfg.setup.uniq hcyc hΩ
 
 theorem plane_eq (cfg : LinUniCfgThree L x Px B) (hZ3 : Nat.card (center ↥L) = 3) :
     B = zpowers x ⊔ (center ↥L).map L.subtype ∧ Nat.card B = 9 := by
   have h := cfg.setup
-  haveI : L.Normal := h.normal
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : L.Normal := h.normal
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set Z : Subgroup X := (center ↥L).map L.subtype with hZdef
-  haveI hZn : Z.Normal := T29.normal_map_center_subtype L
+  have hZn : Z.Normal := T29.normal_map_center_subtype L
   have hZcard : Nat.card Z = 3 := by
     rw [hZdef, Subgroup.card_map_of_injective L.subtype_injective, hZ3]
   have hx3 : x ^ 3 = 1 := T29.Parrott.T29Setup.pow_three h

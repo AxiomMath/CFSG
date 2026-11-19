@@ -148,7 +148,7 @@ theorem autRK {Y : Type} [Group Y] [Finite Y] {p : ℕ} (hp : p.Prime) (hp2 : p 
     (c : MulAut Y) (hc : ∃ k : ℕ, orderOf c = p ^ k) (hcR : R.map c.toMonoidHom = R)
     (hcW : W.map c.toMonoidHom = W) (hcInn : c ∉ R.map (MulAut.conj : Y →* MulAut Y)) :
     2 ≤ CFSG.Open.pRank p (R.map (MulAut.conj : Y →* MulAut Y) ⊔ Subgroup.zpowers c) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hRn : R ≤ Subgroup.normalizer (W : Set Y) := 
     (Subgroup.normal_subgroupOf_iff_le_normalizer hWR).1 hWn
   set Rh : Subgroup (MulAut Y) := R.map (MulAut.conj : Y →* MulAut Y) with hRh
@@ -188,7 +188,7 @@ theorem autRK {Y : Type} [Group Y] [Finite Y] {p : ℕ} (hp : p.Prime) (hp2 : p 
       group
   have hnorm : J ≤ Subgroup.normalizer (Rh : Set (MulAut Y)) :=
     sup_le Subgroup.le_normalizer (Subgroup.zpowers_le.2 hcnorm)
-  haveI : (Rh.subgroupOf J).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hRhJ).2 hnorm
+  have : (Rh.subgroupOf J).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hRhJ).2 hnorm
   set φ := actQuot R W J hJstab with hφ
   have himage : (Rh.subgroupOf J).map φ =
       (MulAut.conj : (↥R ⧸ W.subgroupOf R) →* MulAut (↥R ⧸ W.subgroupOf R)).range := by

@@ -41,7 +41,7 @@ theorem q13e_card_B_le (h : Q13Om t L S x₁ x₂ lam rho tau om) (hB : Q13Bs t 
     have hcomm : f * t = t * f := q13e_f_t h
     have hft' : f * t * f⁻¹ = t := by rw [hcomm]; group
     rw [hft']
-    simpa using P.one_mem
+    simp
   have hnot : ∀ k ∈ B, (f * k * f⁻¹ * k⁻¹) * t⁻¹ ∉ P := by
     intro k hk hmem
     let p : G := (f * k * f⁻¹ * k⁻¹) * t⁻¹

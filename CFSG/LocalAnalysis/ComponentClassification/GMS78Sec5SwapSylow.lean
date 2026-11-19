@@ -443,7 +443,7 @@ theorem SwapElt.isSylowOf_top {w : G} (hw : SwapElt L T R R₂ w) (hS : SzR G L 
   have key : ∀ z' ∈ (S : Subgroup G), z' ∈ normalizer (R : Set G) →
       z' ∈ normalizer (gmsV L T : Set G) → z' ∈ R := by
     intro z' hz'S hz'R hz'V
-    have hp : IsPGroup 2 (zpowers z') := S.isPGroup'.to_le (zpowers_le.mpr hz'S)
+    have hp : IsPGroup 2 (zpowers z') := S.isPGroup.to_le (zpowers_le.mpr hz'S)
     have heq := hR.eq_of_le le_sup_left (sup_le hR.le (zpowers_le.mpr hz'V))
       (IsPGroup.to_sup_of_normal_left' hR.isPGroup hp (zpowers_le.mpr hz'R))
     exact heq ▸ mem_sup_right (mem_zpowers z')

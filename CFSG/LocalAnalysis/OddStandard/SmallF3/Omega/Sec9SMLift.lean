@@ -20,6 +20,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {t t₀ z g : G} {L S B : Subgroup G}
 
+omit [Finite G] in
 private theorem sec9m_conj_centralizer {H : Subgroup G} {s c : G}
     (hs : s ∈ normalizer (H : Set G)) (hc : c ∈ centralizer (H : Set G)) :
     s * c * s⁻¹ ∈ centralizer (H : Set G) := by

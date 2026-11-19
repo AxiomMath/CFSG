@@ -67,6 +67,7 @@ section Dichotomy
 variable {K : Type} [Field K] {V : Type} [AddCommGroup V] [Module K V] [FiniteDimensional K V]
   {Q : QuadraticForm K V} {p : ℕ} {a : V ≃ₗ[K] V}
 
+omit [FiniteDimensional K V] in
 theorem conj_mem_commutator_supportedBlock {m f : V ≃ₗ[K] V} {h : K[X]}
     (hm : m ∈ isometryCentralizer Q a)
     (hf : f ∈ ⁅supportedBlock Q a h, supportedBlock Q a h⁆) :
@@ -80,6 +81,7 @@ theorem conj_mem_commutator_supportedBlock {m f : V ≃ₗ[K] V} {h : K[X]}
     exact Subgroup.commutator_mono hle hle
   exact h1 ⟨f, hf, rfl⟩
 
+omit [FiniteDimensional K V] in
 theorem commutator_supportedBlock_le (h : K[X]) :
     ⁅supportedBlock Q a h, supportedBlock Q a h⁆ ≤
       isometryCentralizer Q a ⊓ orthDerived Q := by

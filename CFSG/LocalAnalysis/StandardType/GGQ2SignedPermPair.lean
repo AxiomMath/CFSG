@@ -219,7 +219,7 @@ theorem normalizerOf_symplectic_pair (t : ℕ) {i j : Fin t} (hij : i ≠ j) :
           b ∈ ({i, j} : Finset (Fin t)) ∧ a ≠ b then
           rotEquiv t h.choose h.choose_spec.choose else 1)
       else signedPermGroupOn t {i, j}) := rfl
-  rw [hstep, if_pos hcard]
+  rw [hstep, ite_eq_left hcard]
   split_ifs with hex
   · obtain ⟨ha, hb, hab⟩ := hex.choose_spec.choose_spec
     exact zpowers_rotEquiv_of_mem_pair ha hb hab

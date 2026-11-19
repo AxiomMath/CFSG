@@ -65,7 +65,7 @@ theorem spCompIdx_cases {d : TauCeti.LieTypeIndex} (h : SpCompIdx d) :
 theorem spCompType_psl2 {E : Type} [Field E] [Finite E] (hE : Nat.card E = 8) :
     SpCompType (Matrix.SpecialLinearGroup (Fin 2) E ⧸
       Subgroup.center (Matrix.SpecialLinearGroup (Fin 2) E)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let q : TauCeti.PrimePower := ⟨2, 3, Nat.prime_two, by norm_num⟩
   have hv : (TauCeti.LieTypeIndex.A 1 q).Valid := by
     rw [TauCeti.LieTypeIndex.valid_iff, TauCeti.LieTypeIndex.inStandardRange_iff,
@@ -100,9 +100,9 @@ theorem spCompType_psp {E : Type} [Field E] [Finite E] {k s : ℕ} (hE : Nat.car
     · exact ⟨CFSG.QuasithinUnique.SQTK.typeB2GroupEquivStatedProj q hv⟩
     · exact ⟨CFSG.RankThree.PartTwo.Census.Carrier.SpinB.typeBGroupEquivStatedProj s q hv rfl
         hs3⟩
-  haveI : Finite d.fixedField := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d
-  haveI : Fintype d.fixedField := Fintype.ofFinite _
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Finite d.fixedField := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d
+  have : Fintype d.fixedField := Fintype.ofFinite _
+  have : Fintype E := Fintype.ofFinite E
   have hcard : Fintype.card E = Fintype.card d.fixedField := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card,
       TauCeti.ValidLieTypeIndex.card_fixedField, hE]
@@ -122,7 +122,7 @@ theorem spCompType_psu {E : Type} [Field E] [Finite E] {k m : ℕ}
     (hE : Nat.card E = (2 ^ k) ^ 2) (hk : k = 1 ∨ k = 3) (hm : 3 ≤ m)
     (hmq : (m, 2 ^ k) ≠ (3, 2)) :
     SpCompType (↥(StatedSU m (2 ^ k) E) ⧸ Subgroup.center ↥(StatedSU m (2 ^ k) E)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hk0 : 0 < k := by omega
   have hQ := CFSG.LieType.Universal.Unitary.isQuasisimple_statedSU_of_card (p := 2) hE hm hmq
   obtain ⟨r, rfl⟩ : ∃ r, m = r + 1 := ⟨m - 1, by omega⟩
@@ -139,8 +139,8 @@ theorem spCompType_psu {E : Type} [Field E] [Finite E] {k m : ℕ}
     · norm_num
   obtain ⟨-, K₀, _, _, hK₀, ⟨e₀⟩⟩ :=
     CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA r q hv (MulEquiv.refl _)
-  haveI : Fintype K₀ := Fintype.ofFinite _
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype K₀ := Fintype.ofFinite _
+  have : Fintype E := Fintype.ofFinite E
   have hKK : Fintype.card E = Fintype.card K₀ := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hK₀, hE]
   let eK : E ≃+* K₀ := FiniteField.ringEquivOfCardEq hKK
@@ -166,7 +166,7 @@ theorem exists_psp_of_famSp {Y : Type} [Group Y] (h : IsLieQuot Y (FamSp 3)) :
     obtain ⟨-, ⟨⟨hq2, hq1⟩, hr⟩ | ⟨⟨hq2, hq3⟩, hr⟩⟩ := hi
     ·
       let dv : TauCeti.ValidLieTypeIndex := ⟨.B r q, hv⟩
-      haveI : Finite dv.fixedField := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField dv
+      have : Finite dv.fixedField := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField dv
       refine ⟨dv.fixedField, inferInstance, inferInstance, 1, r, ?_, Or.inl rfl, by omega,
         by omega, ⟨e.trans
           (CFSG.RankThree.PartTwo.Census.Carrier.SpinB.typeBGroupEquivStatedProj r q hv hq2 hr)⟩⟩
@@ -175,7 +175,7 @@ theorem exists_psp_of_famSp {Y : Type} [Group Y] (h : IsLieQuot Y (FamSp 3)) :
         TauCeti.PrimePower.card_def, hq2, hq1]
     ·
       let dv : TauCeti.ValidLieTypeIndex := ⟨.B r q, hv⟩
-      haveI : Finite dv.fixedField := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField dv
+      have : Finite dv.fixedField := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField dv
       have hcard : Nat.card dv.fixedField = 2 ^ 3 := by
         rw [TauCeti.ValidLieTypeIndex.card_fixedField]
         simp only [dv, TauCeti.ValidLieTypeIndex.fieldOrder, TauCeti.LieTypeIndex.fieldOrder_B,

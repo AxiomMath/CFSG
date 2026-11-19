@@ -17,7 +17,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
   else (List.range 6).map fun j => if j + 1 = i then 1 else 0
 
 @[expose] def cs6AlphaL (i : Nat) : List Nat :=
-  (List.range 6).map fun j => if h : j < 5 then ggDepAThreeE6Res 3 i (j + 1) else 0
+  (List.range 6).map fun j => if _h : j < 5 then ggDepAThreeE6Res 3 i (j + 1) else 0
 
 @[expose] def cs6Gen (ha aa : List Nat) (g : Nat) : GGDepANPair :=
   if g < 6 then (cs6RootL g, cs6AlphaL g) else (ha, aa)
@@ -89,7 +89,7 @@ theorem cs6CheckJJ_4 : cs6CheckJJ (4 : Fin 5) = true := by decide +kernel
 
 theorem cs6Check_eq_true : cs6Check = true := by
   rw [cs6Check, show List.finRange 5 = [0, 1, 2, 3, 4] from rfl]
-  simp only [List.all_cons, List.all_nil, Bool.and_true, Bool.true_and, cs6CheckJJ_0,
+  simp only [List.all_cons, List.all_nil, Bool.and_true, cs6CheckJJ_0,
     cs6CheckJJ_1, cs6CheckJJ_2, cs6CheckJJ_3, cs6CheckJJ_4]
 
 private lemma cs6RootL_length (i : Nat) : (cs6RootL i).length = 6 := by
@@ -112,13 +112,13 @@ private lemma cs6_alpha_root_self (i : Fin 6) : ggDepAdot (cs6Alpha i) (cs6Root 
 private lemma cs6_toZ_XL : ggDepANToZ 3 6 cs6XL = (cs6X : CS6E) := by
   funext j; fin_cases j <;> decide
 
-private lemma cs6_gen_length1 {ha aa : List Nat} (hha : ha.length = 6) (haa : aa.length = 6)
+private lemma cs6_gen_length1 {ha aa : List Nat} (hha : ha.length = 6) (_haa : aa.length = 6)
     (g : Nat) : (cs6Gen ha aa g).1.length = 6 := by
   unfold cs6Gen; split_ifs
   · exact cs6RootL_length g
   · exact hha
 
-private lemma cs6_gen_length2 {ha aa : List Nat} (hha : ha.length = 6) (haa : aa.length = 6)
+private lemma cs6_gen_length2 {ha aa : List Nat} (_hha : ha.length = 6) (haa : aa.length = 6)
     (g : Nat) : (cs6Gen ha aa g).2.length = 6 := by
   unfold cs6Gen; split_ifs
   · exact cs6AlphaL_length g
@@ -128,10 +128,10 @@ private lemma cs6_gen_dot {ha aa : List Nat} (hha : ha.length = 6) (haa : aa.len
     (hdot : ggDepANDot 3 aa ha = 2 % 3) (g : Nat) :
     ggDepAdot (ggDepANToZ 3 6 (cs6Gen ha aa g).2) (ggDepANToZ 3 6 (cs6Gen ha aa g).1) = 2 := by
   by_cases h : g < 6
-  · simp only [cs6Gen, if_pos h]
+  · simp only [cs6Gen, ite_eq_left h]
     rw [cs6_toZ_root ⟨g, h⟩, cs6_toZ_alpha ⟨g, h⟩]
     exact cs6_alpha_root_self ⟨g, h⟩
-  · simp only [cs6Gen, if_neg h]
+  · simp only [cs6Gen, ite_eq_right h]
     rw [← ggDepANDot_cast (p := 3) (N := 6) aa ha haa hha, hdot, ZMod.natCast_mod]
     rfl
 
@@ -140,10 +140,10 @@ private lemma cs6_gen_mem {ha aa : List Nat} (g : Nat) :
       Submonoid.closure (Set.range cs6Refl ∪
         {ggDepARefl (ggDepANToZ 3 6 ha) (ggDepANToZ 3 6 aa)}) := by
   by_cases h : g < 6
-  · simp only [cs6Gen, if_pos h]
+  · simp only [cs6Gen, ite_eq_left h]
     rw [cs6_toZ_root ⟨g, h⟩, cs6_toZ_alpha ⟨g, h⟩]
     exact Submonoid.subset_closure (Or.inl ⟨⟨g, h⟩, rfl⟩)
-  · simp only [cs6Gen, if_neg h]
+  · simp only [cs6Gen, ite_eq_right h]
     exact Submonoid.subset_closure (Or.inr rfl)
 
 private lemma cs6_word_cons (ha aa : List Nat) (q : GGDepANPair) (g : Nat) (w : List Nat) :
@@ -302,11 +302,11 @@ private lemma cs6_fold_inv (ha aa : List Nat) (hha : ha.length = 6) (haa : aa.le
   | cons e t ih =>
       rw [List.foldl_cons]
       apply ih
-      · simp only [cs6OrbitStep, List.length_append, List.length_singleton]
+      · simp only [List.length_append, List.length_singleton]
         omega
       · intro k hk
-        simp only [cs6OrbitStep, List.length_append, List.length_singleton] at hk
-        simp only [cs6OrbitStep]
+        simp only [List.length_append, List.length_singleton] at hk
+        simp only
         by_cases hkv : k < v.length
         · rw [List.getD_append _ _ _ _ hkv]; exact hvlen k hkv
         · have hk' : k = v.length := by omega
@@ -316,8 +316,8 @@ private lemma cs6_fold_inv (ha aa : List Nat) (hha : ha.length = 6) (haa : aa.le
           exact l05nNC_sub_length (hvlen e.1 (by have := hpar 0 (by simp); simpa using this))
             (l05nNC_smul_length (cs6_gen_length1 hha haa e.2))
       · intro k hk
-        simp only [cs6OrbitStep, List.length_append, List.length_singleton] at hk
-        simp only [cs6OrbitStep]
+        simp only [List.length_append, List.length_singleton] at hk
+        simp only
         by_cases hkv : k < v.length
         · rw [List.getD_append _ _ _ _ (by rw [← hlen]; exact hkv),
             List.getD_append _ _ _ _ hkv, hax k hkv]
@@ -339,8 +339,8 @@ private lemma cs6_fold_inv (ha aa : List Nat) (hha : ha.length = 6) (haa : aa.le
           rw [hax e.1 hpe]
           exact cs6_refl_toZ_sub (cs6_gen_length1 hha haa e.2) (cs6_gen_length2 hha haa e.2) hve
       · intro k hk
-        simp only [cs6OrbitStep, List.length_append, List.length_singleton] at hk
-        simp only [cs6OrbitStep]
+        simp only [List.length_append, List.length_singleton] at hk
+        simp only
         by_cases hkv : k < w.length
         · rw [List.getD_append _ _ _ _ hkv]; exact hcl k hkv
         · have hk' : k = w.length := by omega
@@ -589,7 +589,7 @@ private theorem cs6WitOK_sound (jj : Fin 5) (pi yi : Nat) (ha aa : List Nat)
       have hmemP : ∀ g, g < 6 → ggDepARefl (ggDepANToZ 3 6 (cs6Gen ha aa g).1)
           (ggDepANToZ 3 6 (cs6Gen ha aa g).2) ∈ Submonoid.closure (Set.range cs6Refl) := by
         intro g hg
-        simp only [cs6Gen, if_pos hg]
+        simp only [cs6Gen, ite_eq_left hg]
         rw [cs6_toZ_root ⟨g, hg⟩, cs6_toZ_alpha ⟨g, hg⟩]
         exact Submonoid.subset_closure ⟨⟨g, hg⟩, rfl⟩
       have hmemL : ggDepARefl (ggDepANToZ 3 6 q.1) (ggDepANToZ 3 6 q.2) ∈
@@ -662,14 +662,14 @@ private lemma cs6_allVecs_three (n : Nat) (v : Fin n → ZMod 3) :
     rw [hl_def, List.mem_map] at ha
     obtain ⟨j, _, rfl⟩ := ha
     by_cases h : j < n
-    · rw [dif_pos h]; exact ZMod.val_lt _
-    · rw [dif_neg h]; omega
+    · rw [dite_eq_left h]; exact ZMod.val_lt _
+    · rw [dite_eq_right h]; omega
   have hl_getD : ∀ j : Fin n, l.getD j.val 0 = (v j).val := by
     intro j
     have hj : j.val < l.length := by rw [hl_len]; exact j.isLt
     rw [List.getD_eq_getElem l 0 hj]
     simp only [hl_def, List.getElem_map, List.getElem_range]
-    rw [dif_pos j.isLt]
+    rw [dite_eq_left j.isLt]
   have hl_toZ : ggDepANToZ 3 n l = v := by
     funext j
     rw [ggDepANToZ, hl_getD j, ZMod.natCast_zmod_val]
@@ -801,7 +801,7 @@ theorem cs6_cells (jj : Fin 5) (pi : Nat) (ha aa y : CS6E)
       have h_aa := (List.all_eq_true.mp h_ha) aal haal_mem
       have hcond : (ggDepANDot 3 aal hal == 2) = true := by
         rw [beq_iff_eq, hdot]
-      rw [if_pos hcond] at h_aa
+      rw [ite_eq_left hcond] at h_aa
       obtain ⟨e, he_mem, he_test⟩ := List.any_eq_true.mp h_aa
       simp only [Bool.and_eq_true, beq_iff_eq] at he_test
       have hwtest : cs6WitOK jj pi yi hal aal e.2.2 = true := he_test.2

@@ -77,7 +77,7 @@ private lemma psuC1_chat_top {f n : ℕ} {K : Type} [Field K] {h : UnitaryFieldD
   intro x
   refine ⟨1, ?_⟩
   rw [hb]
-  simp [Matrix.mul_smul, Matrix.smul_mul]
+  simp
 
 theorem psuGraph_psi_ne_one {f n : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
     {h : UnitaryFieldData 2 f K} {X B : GL (Fin n) K} (S : PSUGraphSetting h n X B) :

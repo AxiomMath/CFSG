@@ -394,7 +394,7 @@ theorem as_G_4_3 : G_4_3 := by
   obtain ⟨d₀, hd₀⟩ := hne
   have hfinV : Module.Finite F V :=
     Module.finite_of_finrank_pos (by rw [hB.finrank_eq]; norm_num)
-  haveI : Finite V := Module.finite_of_finite (R := F) (M := V)
+  have : Finite V := Module.finite_of_finite (R := F) (M := V)
   have hn1 : n ≠ 0 := by
     rintro rfl
     have h1 : 1 < Nat.card F := Finite.one_lt_card

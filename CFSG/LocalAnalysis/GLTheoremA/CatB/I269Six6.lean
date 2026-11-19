@@ -36,7 +36,7 @@ theorem scalar_mem_M6 (c : F4ˣ) :
       Matrix.diagonal_transpose, Matrix.diagonal_mul_diagonal, ← Matrix.diagonal_one]
     congr 1
     funext i
-    simp only [Function.comp_apply, hF4_bar, bar, frobenius_def, ← pow_succ]
+    simp only [bar, frobenius_def, ← pow_succ]
     rw [show (2 : ℕ) + 1 = 3 from rfl]
     simpa using h3
 
@@ -163,7 +163,7 @@ theorem exists_split (hcomm : ∀ x ∈ Ē, ∀ y ∈ Ē, x * y = y * x) (hexp :
     have : 27 ≤ Nat.card f.ker * 3 := by rw [← hq]; exact Nat.mul_le_mul_left _ hr
     omega
   by_contra hno
-  push_neg at hno
+  push Not at hno
   have hsub : f.ker ≤ (Zs.comap (Eh Ē).subtype) := by
     intro g hg
     have hg' : g.1 ∈ Zs := by
@@ -202,7 +202,7 @@ theorem key_bot {Ê J : Subgroup M6} (hperf : ⁅J, J⁆ = J)
       Matrix.scalar (Fin 6) c).rank
   · exact bot_of_perfect_rank hperf (mem_UG_of_M6 g) hg3'
       (fun u hu => congrArg Subtype.val (hJ u hu g hgÊ)) hrk
-  push_neg at hrk
+  push Not at hrk
   obtain ⟨lm, hlt⟩ := hrk
   obtain ⟨P, d, hd⟩ := exists_diag6 ⟨(g : GL (Fin 6) F4), mem_UG_of_M6 g⟩
     (by apply Subtype.ext; simpa using hg3')
@@ -211,7 +211,7 @@ theorem key_bot {Ê J : Subgroup M6} (hperf : ⁅J, J⁆ = J)
     rw [← hd]
     show (((conjM6 Q g : M6) : GL (Fin 6) F4) : Matrix (Fin 6) (Fin 6) F4) = _
     rw [conjM6_apply]
-    simp [hQ, Subgroup.coe_mul, Subgroup.coe_inv, mul_assoc]
+    simp [hQ, Subgroup.coe_mul, mul_assoc]
   have hdet : ∏ i, d i = 1 := by
     rw [← Matrix.det_diagonal, ← hDd]
     exact det_M6 _
@@ -227,7 +227,7 @@ theorem key_bot {Ê J : Subgroup M6} (hperf : ⁅J, J⁆ = J)
     group
   have hns : ∃ i, d i ≠ lm := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     have hprod : ∏ i, d i = lm ^ 6 := by simp [hall, Finset.prod_const]
     have hlm0 : lm ≠ 0 := by
       rintro rfl

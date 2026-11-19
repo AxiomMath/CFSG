@@ -32,8 +32,8 @@ theorem psl2_even_normalizer_inf_eq_bot (hf : 2 ≤ f) {P P' : Sylow 2 PSL(2, Ga
   rw [eq_bot_iff]
   rintro x ⟨hxN, hxP'⟩
   have hx2 : IsPGroup 2 (Subgroup.zpowers x) :=
-    P'.isPGroup'.to_le (Subgroup.zpowers_le.mpr hxP')
-  have hsup := hx2.to_sup_of_normal_right' P.isPGroup' (Subgroup.zpowers_le.mpr hxN)
+    P'.isPGroup.to_le (Subgroup.zpowers_le.mpr hxP')
+  have hsup := hx2.to_sup_of_normal_right' P.isPGroup (Subgroup.zpowers_le.mpr hxN)
   have hle := P.maximal_isPGroup.eq_of_ge hsup le_sup_right
   have hxP : x ∈ (P : Subgroup PSL(2, GaloisField 2 f)) := by
     rw [← hle]
@@ -142,7 +142,7 @@ theorem psl2_even_mulAut_eq_one (hf : 2 ≤ f) (φ : MulAut PSL(2, GaloisField 2
     rw [psl2_even_normalizer_inf_eq_bot hf hP₀, Subgroup.mem_bot] at h2
     have h3 : s₀ = 1 := by
       have hdvd : orderOf s₀ ∣ orderOf φ := orderOf_dvd_of_pow_eq_one h2
-      obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp S.isPGroup') ⟨s₀, hs₀⟩
+      obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp S.isPGroup) ⟨s₀, hs₀⟩
       rw [Subgroup.orderOf_mk] at hk
       rw [hk] at hdvd
       have hk0 : k = 0 := by

@@ -22,7 +22,7 @@ theorem centFacts_of_split {G : Type} [Group G] [Finite G] {C : Subgroup G} {w :
   have hwC' : w ∈ centralizer (C : Set G) :=
     mem_centralizer_iff.2 fun c hc => mem_centralizer_singleton_iff.1 (hwC hc)
   have hw_ord : orderOf w = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime (by rw [pow_two]; exact hw2) hw1
   have hcard : Nat.card ↥(C ⊔ zpowers w) = 2 * Nat.card ↥C := by
     rw [← Nat.card_congr (CFSG.EvenSporadicStandard.mulEquivProdSup (A := C) (B := zpowers w)
@@ -31,7 +31,7 @@ theorem centFacts_of_split {G : Type} [Group G] [Finite G] {C : Subgroup G} {w :
   rcases h with hA | ⟨N, hNC, hNnorm, hM12, hCcard⟩
   ·
     have eC : ↥C ≃* ↥co3M := Classical.choice hA
-    haveI : (C.subgroupOf (C ⊔ zpowers w)).Normal :=
+    have : (C.subgroupOf (C ⊔ zpowers w)).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer le_sup_left).2
         (sup_le Subgroup.le_normalizer
           (Subgroup.zpowers_le.2 ((Subgroup.centralizer_le_normalizer (C : Set G)) hwC')))
@@ -42,7 +42,7 @@ theorem centFacts_of_split {G : Type} [Group G] [Finite G] {C : Subgroup G} {w :
   ·
     have eN : ↥N ≃* ↥NativeSporadic.M12 := Classical.choice hM12
     have hNle : N ≤ C ⊔ zpowers w := hNC.trans le_sup_left
-    haveI : (N.subgroupOf (C ⊔ zpowers w)).Normal :=
+    have : (N.subgroupOf (C ⊔ zpowers w)).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer hNle).2
         (sup_le (Subgroup.le_normalizer_iff.2 hNnorm)
           (Subgroup.zpowers_le.2

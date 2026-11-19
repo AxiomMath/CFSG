@@ -25,9 +25,9 @@ theorem exists_ne_comm_of_simple {E : Type*} [Group E] [Finite E] [IsSimpleGroup
     (h4 : 4 ∣ Nat.card E) : ∃ a b : E, a * b ≠ b * a := by
   by_contra hcon
   push Not at hcon
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' (G := E) 2 ((by norm_num : 2 ∣ 4).trans h4)
-  haveI hn : (Subgroup.zpowers g).Normal :=
+  have hn : (Subgroup.zpowers g).Normal :=
     ⟨fun n hn x => by rw [hcon x n, mul_inv_cancel_right]; exact hn⟩
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.zpowers g) with h | h
   · have hg1 : g = 1 := by
@@ -48,12 +48,12 @@ theorem sl2_char_two_data {F : Type} [Field F] [Finite F] [CharP F 2] (h4 : 4 �
     e.symm.trans (CFSG.Walter.psl2MulEquivSL2OfCharTwo (K := F)).symm
   obtain ⟨hsimp, hsolv⟩ :=
     CFSG.SignalizerFunctorTheorem.CatalogBridge.psl2_simple_not_isSolvable h4
-  haveI : IsSimpleGroup (CFSG.GorensteinWalter.PSL2 F) := hsimp
+  have : IsSimpleGroup (CFSG.GorensteinWalter.PSL2 F) := hsimp
   refine ⟨e'.isSimpleGroup, ?_, ?_⟩
   · by_contra hcon
     push Not at hcon
     apply hsolv
-    haveI : IsMulCommutative X := ⟨⟨hcon⟩⟩
+    have : IsMulCommutative X := ⟨⟨hcon⟩⟩
     have : Group.IsSolvable X := inferInstance
     exact Group.isSolvable_of_surjective (f := e'.toMonoidHom) e'.surjective
   · rw [← Nat.card_congr e.toEquiv, CFSG.GorensteinWalter.sl2_card_formula]
@@ -69,13 +69,13 @@ theorem two_pow_dvd_of_mul_gcd {c m f Y : ℕ} (h : c * Nat.gcd 3 m = (2 ^ f) ^ 
 
 theorem pCore_two_eq_bot_of_odd_center' {K : Type*} [Group K] [Finite K] (hK : IsQuasisimple K)
     (hodd : Odd (Nat.card (Subgroup.center K))) : CFSG.pCore 2 K = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hN : (CFSG.pCore 2 K).Normal := CFSG.pCore_normal
   have hP : IsPGroup 2 (CFSG.pCore 2 K) := CFSG.pCore_isPGroup
   rcases CFSG.LocalCores.quasisimple_normal_subgroups hK hN with htop | hle
   · exfalso
-    haveI : Group.IsPerfect K := hK.1
-    haveI : Nontrivial K := CFSG.LocalCores.isQuasisimple_nontrivial hK
+    have : Group.IsPerfect K := hK.1
+    have : Nontrivial K := CFSG.LocalCores.isQuasisimple_nontrivial hK
     have h2 : IsPGroup 2 K := fun g => by
       obtain ⟨k, hk⟩ := hP ⟨g, htop ▸ Subgroup.mem_top g⟩
       exact ⟨k, congrArg Subtype.val hk⟩
@@ -107,7 +107,7 @@ theorem good427_onFree_of_derived_qs {x : X} {R : Subgroup X}
   have key : ∀ K : Subgroup X, K ≤ C → IsQuasisimple K → (K.subgroupOf C).IsSubnormal →
       K = R := by
     intro K hKC hKq hKs
-    haveI : Group.IsPerfect K := hKq.1
+    have : Group.IsPerfect K := hKq.1
     have hKR : K ≤ R := by
       have h := Subgroup.commutator_mono hKC hKC
       rw [Subgroup.commutator_eq_self (H := K), hR] at h
@@ -144,7 +144,7 @@ theorem good427_onFree_of_derived_simple {x : X} (hx1 : x ≠ 1) {S : Subgroup X
     rw [commutatorElement_def]
     exact hder a ha b hb
   refine ⟨good427_of_derived_le_simple hSC hna h60 hder', fun K hKC hKq _ hxK _ => ?_⟩
-  haveI : Group.IsPerfect K := hKq.1
+  have : Group.IsPerfect K := hKq.1
   have hKS : K ≤ S := by
     have h1 := Subgroup.commutator_mono hKC hKC
     rw [Subgroup.commutator_eq_self (H := K)] at h1
@@ -163,7 +163,7 @@ theorem good427_of_mulEquiv_derived {C : Subgroup X} (e : C ≃* P) {Q : Subgrou
   set E : Subgroup X := (Q.map e.symm.toMonoidHom).map C.subtype with hE
   let eQ : Q ≃* E := (Q.equivMapOfInjective _ e.symm.injective).trans
     ((Q.map e.symm.toMonoidHom).equivMapOfInjective _ C.subtype_injective)
-  haveI : IsSimpleGroup E := eQ.symm.isSimpleGroup
+  have : IsSimpleGroup E := eQ.symm.isSimpleGroup
   have hEC : E ≤ C := by
     rintro _ ⟨y, -, rfl⟩
     exact y.2
@@ -190,7 +190,7 @@ section Facts
 theorem finite_graphFixed
     {K : Type} [Field K] [Finite K] (σ : K →+* K) :
     Finite (graphFixedRootGroup TwistTag.D4 K σ) := by
-  haveI : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
+  have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
   exact Finite.of_injective (fun x => (x : ModGL TwistTag.D4.tag K)) Subtype.val_injective
 
 open CFSG.RankThree.Chevalley CFSG.LocalAnalysis.ComponentInitial
@@ -270,7 +270,7 @@ theorem exists_threeA_model_card
     ·
       left
       obtain ⟨e, -⟩ := hSL rfl
-      haveI : Finite (RingHom.eqLocusField Fr (RingHom.id L)) :=
+      have : Finite (RingHom.eqLocusField Fr (RingHom.id L)) :=
         Nat.finite_of_card_ne_zero (by rw [hFcard]; exact pow_ne_zero _ hℓp.ne_zero)
       rw [Nat.card_congr e.toEquiv, ← CFSG.Open.StatedAPI.card_statedSL,
         CFSG.Open.StatedAPI.card_statedSL_three, hFcard]
@@ -289,10 +289,10 @@ theorem good427_onFree_threeA
       OnFree (Subgroup.centralizer ({z} : Set (graphFixedRootGroup TwistTag.D4 K σ.toRingHom)))
         z := by
   have hf1 : 1 ≤ f := by omega
-  haveI := finite_graphFixed (K := K) σ.toRingHom
+  have := finite_graphFixed (K := K) σ.toRingHom
   have hq2 : 2 < 2 ^ f :=
     lt_of_lt_of_le (by norm_num : 2 < 2 ^ 2) (Nat.pow_le_pow_right (by norm_num) hf)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : Fintype K := Fintype.ofFinite K
   have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := f * 3)
     (by rw [← Nat.card_eq_fintype_card, hK, ← pow_mul])
@@ -357,24 +357,24 @@ theorem good427_onFree_threeB
     have := (Nat.prime_dvd_prime_iff_eq Nat.prime_three Nat.prime_two).mp
       (Nat.prime_three.dvd_of_dvd_pow h3)
     omega
-  haveI := finite_graphFixed (K := K) σ.toRingHom
+  have := finite_graphFixed (K := K) σ.toRingHom
   obtain ⟨hcomm, -⟩ := KS11Lie6Proof.d4ThreeBCent_holds K (2 ^ f) σ hK hσ h3 z hzM hz3 hz1
   obtain ⟨e⟩ := KS11Lie4Proof.nonempty_mulEquiv_d4ShortSL2 hσ3
-  haveI : Finite (orbitField TwistTag.D4 K σ.toRingHom KS11Lie4Proof.d4Outer) := Subtype.finite
+  have : Finite (orbitField TwistTag.D4 K σ.toRingHom KS11Lie4Proof.d4Outer) := Subtype.finite
   have hF₀ : Nat.card (orbitField TwistTag.D4 K σ.toRingHom KS11Lie4Proof.d4Outer) =
       2 ^ (3 * f) := by
     rw [KS11Lie4Proof.natCard_orbitField_d4Outer hσ3, hK, ← pow_mul, mul_comm]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype (orbitField TwistTag.D4 K σ.toRingHom KS11Lie4Proof.d4Outer) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype (orbitField TwistTag.D4 K σ.toRingHom KS11Lie4Proof.d4Outer) :=
     Fintype.ofFinite _
-  haveI : CharP (orbitField TwistTag.D4 K σ.toRingHom KS11Lie4Proof.d4Outer) 2 :=
+  have : CharP (orbitField TwistTag.D4 K σ.toRingHom KS11Lie4Proof.d4Outer) 2 :=
     charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hF₀])
   have h8 : 8 ≤ Nat.card (orbitField TwistTag.D4 K σ.toRingHom KS11Lie4Proof.d4Outer) := by
     rw [hF₀]
     calc 8 = 2 ^ 3 := by norm_num
       _ ≤ 2 ^ (3 * f) := Nat.pow_le_pow_right (by norm_num) (by omega)
   obtain ⟨hs, hna, hcard⟩ := sl2_char_two_data (by omega) e
-  haveI := hs
+  have := hs
   refine good427_onFree_of_derived_simple hz1 hna ?_ (fun s hs' => ?_) hcomm
   · rw [hcard]
     intro h
@@ -418,7 +418,7 @@ theorem good427_pgl
     {π : Bool} {f : ℕ} (hf : 2 ≤ f) {F : Type} [Field F] (hPi : PiField π 2 f F)
     (hq : ModThree π (2 ^ f)) {X : Type} [Group X] [Finite X] {C : Subgroup X}
     (e : C ≃* projImage (glPi π 3 (2 ^ f) F)) : Good427 C := by
-  haveI : Finite (projImage (glPi π 3 (2 ^ f) F)) := Finite.of_equiv C e.toEquiv
+  have : Finite (projImage (glPi π 3 (2 ^ f) F)) := Finite.of_equiv C e.toEquiv
   have hle : projImage (slPi π 3 (2 ^ f) F) ≤ projImage (glPi π 3 (2 ^ f) F) := by
     refine Subgroup.map_mono ?_
     cases π with
@@ -431,12 +431,12 @@ theorem good427_pgl
   have hQe : Q ≃* projImage (slPi π 3 (2 ^ f) F) := Subgroup.subgroupOfEquivOfLe hle
   have hq2 : π = true ∨ 2 < 2 ^ f :=
     Or.inr (lt_of_lt_of_le (by norm_num : 2 < 2 ^ 2) (Nat.pow_le_pow_right (by norm_num) hf))
-  haveI := CFSG.RankThree.PartTwo.Sec4.RonanK429Lie.isSimpleGroup_projImage_slPi hPi hq2
-  haveI : IsSimpleGroup Q := hQe.isSimpleGroup
+  have := CFSG.RankThree.PartTwo.Sec4.RonanK429Lie.isSimpleGroup_projImage_slPi hPi hq2
+  have : IsSimpleGroup Q := hQe.isSimpleGroup
   have hiso : IsoLThreePi Q 2 f :=
     CFSG.RankThree.PartTwo.Sec4.RonanK429Lie.isoLThreePi_of_projImage_slPi hPi hq hq2 hQe
   have h64 : 2 ^ (3 * f) ∣ Nat.card Q := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     rcases hiso with ⟨-, ⟨φ⟩⟩ | ⟨-, ⟨φ⟩⟩
     · have h := KFacts.KS14.card_projSL_three_mul_gcd (GaloisField 2 f)
       rw [GaloisField.card 2 f (by omega), ← Nat.card_congr φ.toEquiv] at h
@@ -462,7 +462,7 @@ theorem good427_outer
     {α : MulAut (graphFixedRootGroup TwistTag.D4 K σ.toRingHom)} (hα3 : α ^ 3 = 1)
     (hin : ¬ KFacts.IsInnerAut α) : Good427 (Sec4.autFix α) := by
   have hf1 : 1 ≤ f := by omega
-  haveI := finite_graphFixed (K := K) σ.toRingHom
+  have := finite_graphFixed (K := K) σ.toRingHom
   by_cases hstd : Sec4.IsStdGraphFieldConj σ α
   ·
     have hchar : ringChar K = 2 := ringChar.eq K 2
@@ -483,8 +483,8 @@ theorem good427_outer
       rw [hk]
       calc 3 ≤ 2 ^ 2 := by norm_num
         _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hf
-    haveI := CFSG.QuasithinUnique.Id2519.isSimpleGroup_adjointGroup_g2 h3k
-    haveI : IsSimpleGroup (Sec4.autFix α) := eα.isSimpleGroup
+    have := CFSG.QuasithinUnique.Id2519.isSimpleGroup_adjointGroup_g2 h3k
+    have : IsSimpleGroup (Sec4.autFix α) := eα.isSimpleGroup
     have hq := CFSG.LieType.Steinberg.Adjoint.isQuasisimple_g2_of_three_le_card (fixSubfield σ) h3k
     refine good427_of_le_simple le_rfl ?_ ?_ fun _ hKC _ => hKC
     · obtain ⟨-, -, a, b, hab⟩ := hq
@@ -539,7 +539,7 @@ theorem noCfgS427_d4
     (hZ : Subgroup.center (graphFixedRootGroup TwistTag.D4 K σ.toRingHom) = ⊥) :
     NoCfgS427 (graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := by
   intro α hα3 h1
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf α = 3 := orderOf_eq_prime hα3 h1
   by_cases hin : KFacts.IsInnerAut α
   · obtain ⟨x, rfl, hx3, hx1⟩ := RonanKChevTwo.exists_conj_of_isInnerAut

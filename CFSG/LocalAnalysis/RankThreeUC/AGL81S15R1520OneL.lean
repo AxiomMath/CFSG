@@ -19,7 +19,7 @@ open CFSG.ComponentClassification CFSG.ComponentClassification.CatalogueBPrimeJo
 theorem isPComponent_subgroupOf_of_isC2 {X : Type} [Group X] [Finite X] {p : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) {L Y : Subgroup X} (hL : IsC2 L) (hLY : L ≤ Y) (hpL : p ∣ Nat.card L) :
     CFSG.IsPComponent p (L.subgroupOf Y) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set φ := isPComponent_of_isLThree_barHom L
   have hφ : Function.Surjective φ := isPComponent_of_isLThree_aux1 L
   have hker2 : IsPGroup 2 φ.ker := isPComponent_of_isLThree_aux3 L
@@ -48,14 +48,14 @@ theorem isPComponent_subgroupOf_of_isC2 {X : Type} [Group X] [Finite X] {p : ℕ
       primeResidual_eq_top_of_corefree_quasisimple p
         (CatalogueBAlternating.quasisimple_iff_native.2 hQ')
         (CFSG.pPrimeCore_quotient_pPrimeCore_eq_bot p)
-    haveI : Group.IsPerfect ↥(barO2 L) := ⟨hQ.1⟩
+    have : Group.IsPerfect ↥(barO2 L) := ⟨hQ.1⟩
     have hresQ : primeResidual p ↥(barO2 L) = ⊤ :=
       primeResidual_eq_top_of_central_surjective (QuotientGroup.mk' N)
         (QuotientGroup.mk'_surjective N) (by rw [QuotientGroup.ker_mk']; exact hNc) hresQ'
     have hsup : primeResidual p ↥L ⊔ φ.ker = ⊤ := by
       rw [← Subgroup.comap_map_eq, primeResidual_map_surjective p φ hφ, hresQ,
         Subgroup.comap_top]
-    haveI : (primeResidual p ↥L).Characteristic := primeResidual_characteristic p ↥L
+    have : (primeResidual p ↥L).Characteristic := primeResidual_characteristic p ↥L
     have hodd : ∀ x : ↥L, ¬ 2 ∣ orderOf x → x ∈ primeResidual p ↥L :=
       CFSG.QuasithinUnique.Vol2Native.L239.Lie.mem_of_odd_orderOf_of_isSubnormal hker2
         (Subgroup.Normal.isSubnormal inferInstance) hsup

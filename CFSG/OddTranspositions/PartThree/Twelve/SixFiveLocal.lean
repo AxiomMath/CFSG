@@ -122,19 +122,19 @@ private theorem sq_eq_one_iff_conj (c : FiveChart hC n) {v h x y : G}
   have h2 := c.orderOf_mul (h * x * h⁻¹) hx' (h * y * h⁻¹) hy' hne' hb0
   constructor
   · intro ha1
-    have h5 : orderOf (x * y) = 5 := by rw [h1, if_pos ha1]
+    have h5 : orderOf (x * y) = 5 := by rw [h1, ite_eq_left ha1]
     have h5' : orderOf (h * x * h⁻¹ * (h * y * h⁻¹)) = 5 := by
       rw [orderOf_conj_mul h]; exact h5
     by_contra hc1
-    rw [h2, if_neg hc1] at h5'
+    rw [h2, ite_eq_right hc1] at h5'
     exact absurd h5' (by decide)
   · intro hc1
     have h5' : orderOf (h * x * h⁻¹ * (h * y * h⁻¹)) = 5 := by
-      rw [h2, if_pos hc1]
+      rw [h2, ite_eq_left hc1]
     have h5 : orderOf (x * y) = 5 := by
       rw [orderOf_conj_mul h] at h5'; exact h5'
     by_contra ha1
-    rw [h1, if_neg ha1] at h5
+    rw [h1, ite_eq_right ha1] at h5
     exact absurd h5 (by decide)
 
 omit [Finite G] in
@@ -315,20 +315,20 @@ private theorem norm_z_if (c : FiveChart hC n) {w h : G} {z : Fin n → ZMod 5}
     intro h0
     exact hnc ((c.commute_iff _ hP _ hQ hPQ).mpr h0)
   by_cases h5 : orderOf (hC.d * w) = 5
-  · rw [if_pos h5, hz]
+  · rw [ite_eq_left h5, hz]
     have ht2 : c.b (c.vec (h * w * h⁻¹)) (c.vec (h * hC.d * h⁻¹)) ^ 2 = 1 := by
       have h := hordif
       rw [h5] at h
       by_contra hc
-      rw [if_neg hc] at h
+      rw [ite_eq_right hc] at h
       exact absurd h (by decide)
     rw [ht2]
     decide
-  · rw [if_neg h5, hz]
+  · rw [ite_eq_right h5, hz]
     have ht2ne : c.b (c.vec (h * w * h⁻¹)) (c.vec (h * hC.d * h⁻¹)) ^ 2 ≠ 1 := by
       intro ht2
       have h := hordif
-      rw [if_pos ht2] at h
+      rw [ite_eq_left ht2] at h
       exact h5 h
     have ht2 : c.b (c.vec (h * w * h⁻¹)) (c.vec (h * hC.d * h⁻¹)) ^ 2 = 4 :=
       sq_eq_four_of_ne_zero_of_ne_one _ ht0 ht2ne
@@ -392,9 +392,9 @@ theorem orderOf_mul_pivot (c : FiveChart hC n) {w : G} (hw : w ∈ D) (hwd : ¬ 
     orderOf_conj_mul h hC.d w
   by_cases hsq : c.b (c.vec (h * hC.d * h⁻¹)) (c.vec (h * w * h⁻¹)) ^ 2 = 1
   · right
-    rw [← hconj, hord, if_pos hsq]
+    rw [← hconj, hord, ite_eq_left hsq]
   · left
-    rw [← hconj, hord, if_neg hsq]
+    rw [← hconj, hord, ite_eq_right hsq]
 
 omit [Finite G] in
 theorem exists_local_hyperplane (c : FiveChart hC n) (hn : 5 ≤ n) {w v : G} (hw : w ∈ D)

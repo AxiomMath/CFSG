@@ -20,7 +20,7 @@ theorem c2_suppTwo_holds : C2SuppTwoLeaf := by
   unfold C2SuppTwoLeaf
   intro p hp hp3 n hn V instACG instMod b s hsp hrefl v hv hsv
   subst hp3
-  haveI : Module.Finite (ZMod 3) V := Module.Finite.of_basis b
+  have : Module.Finite (ZMod 3) V := Module.Finite.of_basis b
   unfold C2SP at hsp
   obtain ⟨σ, c, hσ0, hc0, hc, hsdef⟩ := hsp
   unfold GGLinRefl at hrefl
@@ -48,13 +48,13 @@ theorem c2_suppTwo_holds : C2SuppTwoLeaf := by
     have hsum_eq : (∑ i, b.coord j ((b.coord i v * c i) • b (σ i)))
         = b.coord (σ.symm j) v * c (σ.symm j) := by
       rw [Finset.sum_eq_single (σ.symm j)]
-      · rw [map_smul, hcoord_b j (σ (σ.symm j)), Equiv.apply_symm_apply, if_pos rfl,
+      · rw [map_smul, hcoord_b j (σ (σ.symm j)), Equiv.apply_symm_apply, ite_eq_left rfl,
           smul_eq_mul, mul_one]
       · intro i _ hi
         have hji : j ≠ σ i := by
           rintro rfl
           exact hi (by simp)
-        rw [map_smul, hcoord_b j (σ i), if_neg hji, smul_zero]
+        rw [map_smul, hcoord_b j (σ i), ite_eq_right hji, smul_zero]
       · intro hmem
         exact absurd (Finset.mem_univ _) hmem
     have h := congrArg (b.coord j) hsv_exp
@@ -96,15 +96,15 @@ theorem c2_suppTwo_holds : C2SuppTwoLeaf := by
         rcases mul_eq_zero.mp hmul with h | h
         · exact absurd h hvi
         · exact (eq_neg_iff_add_eq_zero).mpr h
-      rw [if_pos hσi.symm, if_pos rfl, hci]
+      rw [ite_eq_left hσi.symm, ite_eq_left rfl, hci]
       exact hdRo7CSuppAux_case1
-    · rw [if_neg (fun h => hσi h.symm), if_pos rfl]
+    · rw [ite_eq_right (fun h => hσi h.symm), ite_eq_left rfl]
       simp only [mul_zero, zero_sub]
       exact hdRo7CSuppAux_neg_one_ne_zero
   have hwmem : ∀ i, w i ∈ ggLinMove s := by
     intro i
     refine LinearMap.mem_range.mpr ⟨b i, ?_⟩
-    simp only [w, ggLinMove, LinearMap.sub_apply, LinearMap.id_apply]
+    simp only [w, LinearMap.sub_apply, LinearMap.id_apply]
     rfl
   by_cases hcard : S.card ≤ 2
   · exact ⟨hcoord0, hcard⟩
@@ -129,7 +129,7 @@ theorem c2_suppTwo_holds : C2SuppTwoLeaf := by
         rw [← hline]; exact hwmem i
       obtain ⟨lam, hlam⟩ := Submodule.mem_span_singleton.mp hprop
       have hzi : b.coord i (w i₁) = 0 := by
-        rw [hwcoord i₁ i, if_neg hne2, if_neg hne1]
+        rw [hwcoord i₁ i, ite_eq_right hne2, ite_eq_right hne1]
         simp
       have hzero : b.coord i (w i) = 0 := by
         rw [← hlam, map_smul, hzi, smul_zero]

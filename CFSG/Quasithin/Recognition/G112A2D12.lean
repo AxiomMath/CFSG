@@ -28,6 +28,7 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
         ((g : Matrix.GeneralLinearGroup (Fin 6) FieldFour) : Matrix (Fin 6) (Fin 6) FieldFour)) ∨
         Semilinear ψ γ
 
+omit [Finite V] in
 theorem card_range_of_actsAs {ψ : V ≃+ (Fin 6 → FieldFour)} {γ : V ≃ₗ[ZMod 2] V}
     {g : Matrix (Fin 6) (Fin 6) FieldFour} (h : ActsAs ψ γ g) :
     Nat.card (LinearMap.range (γ.toLinearMap - LinearMap.id)) =
@@ -49,7 +50,7 @@ theorem finrank_ne_two_of_actsAs {ψ : V ≃+ (Fin 6 → FieldFour)} {γ : V ≃
     {g : ↥hatM22Γ₀} (h : ActsAs ψ γ (mat g)) :
     Module.finrank (ZMod 2) (LinearMap.range (γ.toLinearMap - LinearMap.id)) ≠ 2 := by
   intro h2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hc := card_range_of_actsAs h
   rw [← FiniteField.pow_finrank_eq_natCard 2, h2, Module.natCard_eq_pow_finrank (K := FieldFour),
     natCard_eq] at hc
@@ -90,16 +91,16 @@ theorem card_fix_le {t : (Fin 6 → FieldFour) → (Fin 6 → FieldFour)}
   have hc := Nat.card_le_card_of_injective _ hinj
   rw [Nat.card_prod, Nat.card_fun, natCard_eq, Nat.card_fin] at hc
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have : (2 ^ 6 + 1) * (2 ^ 6 + 1) ≤ Nat.card {x // t x = x} * Nat.card {x // t x = x} :=
     Nat.mul_le_mul hlt hlt
   norm_num at this hc
   omega
 
 theorem six_le_finrank_of_semilinear (hV : Module.finrank (ZMod 2) V = 12)
-    {ψ : V ≃+ (Fin 6 → FieldFour)} {γ : V ≃ₗ[ZMod 2] V} (h : Semilinear ψ γ) (h2 : γ * γ = 1) :
+    {ψ : V ≃+ (Fin 6 → FieldFour)} {γ : V ≃ₗ[ZMod 2] V} (h : Semilinear ψ γ) (_h2 : γ * γ = 1) :
     6 ≤ Module.finrank (ZMod 2) (LinearMap.range (γ.toLinearMap - LinearMap.id)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set t : (Fin 6 → FieldFour) → (Fin 6 → FieldFour) := fun x => ψ (γ (ψ.symm x)) with ht
   have hadd : ∀ x y, t (x + y) = t x + t y := fun x y => by simp [ht]
   have hsl : ∀ (c : FieldFour) x, t (c • x) = (c * c) • t x := fun c x => by

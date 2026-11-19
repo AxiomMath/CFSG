@@ -182,7 +182,7 @@ private theorem Kelts_card_le {j : ℕ} (hj : j < P.D.obase.length)
     (h0 : 0 < (P.D.K.getD j []).length) :
     (P.D.K.getD j []).length ≤
       Nat.card (MulAction.stabilizer P.S (⟨P.D.obase.getD j 0, obase_lt P hj⟩ : Fin n)) := by
-  haveI : Fintype ↥(MulAction.stabilizer P.S (⟨P.D.obase.getD j 0, obase_lt P hj⟩ : Fin n)) :=
+  have : Fintype ↥(MulAction.stabilizer P.S (⟨P.D.obase.getD j 0, obase_lt P hj⟩ : Fin n)) :=
     Fintype.ofFinite _
   have h := Fintype.card_le_of_injective (Kstab P hj) (Kstab_injective P hj h0)
   rw [Fintype.card_fin] at h
@@ -208,7 +208,7 @@ theorem K_enum {j : ℕ} (hj : j < P.D.obase.length) (h0 : 0 < (P.D.K.getD j [])
     (hfix : act n s (P.D.obase.getD j 0) = P.D.obase.getD j 0) :
     ∃ k ∈ P.D.K.getD j [], evalElt P.els k = s := by
   classical
-  haveI : Fintype ↥(MulAction.stabilizer P.S (⟨P.D.obase.getD j 0, obase_lt P hj⟩ : Fin n)) :=
+  have : Fintype ↥(MulAction.stabilizer P.S (⟨P.D.obase.getD j 0, obase_lt P hj⟩ : Fin n)) :=
     Fintype.ofFinite _
   have hbij : Function.Bijective (Kstab P hj) :=
     (Fintype.bijective_iff_injective_and_card _).mpr

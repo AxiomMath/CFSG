@@ -24,7 +24,7 @@ theorem le_V_of_normalized (cfg : ResCfg M V Q P H Φ ψ a T) (hX : xOf V H ≤ 
     (hAab : ∀ x ∈ A, ∀ y ∈ A, x * y = y * x)
     (hAn : ∀ m ∈ M ⊓ pResidual 2 G, ∀ x ∈ A, m * x * m⁻¹ ∈ A) : A ≤ V := by
   have hc : MinCex M V Q P H := cfg.hyp.setup.mc.toMinCex
-  haveI : (pResidual 2 G).Normal := G6.pResidual_normal_aux 2
+  have : (pResidual 2 G).Normal := G6.pResidual_normal_aux 2
   have hQM : Q ≤ M := by
     rw [hc.hQ]
     exact (inSubgroup_pCore_two M).2.1
@@ -98,7 +98,7 @@ theorem le_V_of_abelian_normalized (cfg : ResCfg M V Q P H Φ ψ a T)
     (hUab : ∀ x ∈ U, ∀ y ∈ U, x * y = y * x)
     (hUn : ∀ m ∈ M ⊓ pResidual 2 G, ∀ x ∈ U, m * x * m⁻¹ ∈ U) : U ≤ V := by
   have hc : MinCex M V Q P H := cfg.hyp.setup.mc.toMinCex
-  haveI : (pResidual 2 G).Normal := G6.pResidual_normal_aux 2
+  have : (pResidual 2 G).Normal := G6.pResidual_normal_aux 2
   have hQM : Q ≤ M := by
     rw [hc.hQ]
     exact (inSubgroup_pCore_two M).2.1
@@ -160,7 +160,7 @@ theorem residualMaxAbStatement_holds :
           IsMulCommutative U) (V.subgroupOf (pResidual 2 G)) := by
   intro G _ _ M V Q P H hH hZ hn hrel hOut
   obtain ⟨n, Φ, ψ, a, T, hn3, cfg⟩ := exists_resCfg hH hZ hn
-  haveI : (pResidual 2 G).Normal := G6.pResidual_normal_aux 2
+  have : (pResidual 2 G).Normal := G6.pResidual_normal_aux 2
   have hc : MinCex M V Q P H := hH.setup.mc.toMinCex
   have hQP : Q ⊓ pResidual 2 G = P := inf_pResidual_eq_P hH hZ hn hrel hOut
   have hPG : P ≤ pResidual 2 G := P_le_pResidual hH hZ hn

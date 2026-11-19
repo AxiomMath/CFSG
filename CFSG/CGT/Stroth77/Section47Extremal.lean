@@ -78,7 +78,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem H47WeakClosure_of_h9 (h9 : H47H9) : H47WeakClosure := by
   intro G _ _ F D m hm dD h hSN hnc e he hS hrel k hk
-  haveI := dD.isMulCommutative
+  have := dD.isMulCommutative
   set z := (dD.c : G) ^ 2 ^ (m - 1) with hz
   have hDz : D ≤ Subgroup.centralizer ({z} : Set G) := fun d hd =>
     Subgroup.mem_centralizer_singleton_iff.2
@@ -87,13 +87,13 @@ theorem H47WeakClosure_of_h9 (h9 : H47H9) : H47WeakClosure := by
     (MulAut.conj k⁻¹).injective)
   · rintro _ ⟨d, hd, rfl⟩
     simpa using hk d hd
-  · haveI := dD.isMulCommutative
+  · have := dD.isMulCommutative
     exact Subgroup.map_isMulCommutative D _
 
 theorem H47SylowControl_of_h9 (h9 : H47H9) : H47SylowControl := by
   intro G _ _ F D m hm dD h hSN hnc e he hS hrel Q hQ hQz
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := dD.isMulCommutative
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := dD.isMulCommutative
   set P := Subgroup.closure {dD.uv, dD.t, dD.u} with hP
   set z := (dD.c : G) ^ 2 ^ (m - 1) with hz
   have hPS : P ≤ (F.S : Subgroup G) := by rw [hS]; exact le_sup_right.trans le_sup_left
@@ -134,8 +134,8 @@ theorem H47_exists_normalizer_conj_eq (hSylow : H47SylowControl) (hWeak : H47Wea
     ∃ n ∈ Subgroup.normalizer (D : Set G) ⊓
         Subgroup.centralizer ({(dD.c : G) ^ 2 ^ (m - 1)} : Set G),
       n⁻¹ * y * n = g⁻¹ * y * g := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := dD.isMulCommutative
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := dD.isMulCommutative
   set z := (dD.c : G) ^ 2 ^ (m - 1) with hz
   set y' := g⁻¹ * y * g with hy'
   set Z := Subgroup.centralizer ({z} : Set G) with hZ
@@ -147,7 +147,7 @@ theorem H47_exists_normalizer_conj_eq (hSylow : H47SylowControl) (hWeak : H47Wea
     Subgroup.mem_centralizer_singleton_iff.2 (hcommD d hd z hzD)
   have hDH : D ≤ H := le_inf hDz (fun d hd =>
     Subgroup.mem_centralizer_singleton_iff.2 (hcommD d hd y' hgy))
-  have hDp : IsPGroup 2 D := F.S.isPGroup'.to_le h.le_S
+  have hDp : IsPGroup 2 D := F.S.isPGroup.to_le h.le_S
   obtain ⟨P, hP, hDP⟩ := Stroth43Sc.exists_isSylowOf_le hDH hDp
   set Q₀ := D.map (MulAut.conj g⁻¹).toMonoidHom with hQ₀
   have hQ₀H : Q₀ ≤ H := by
@@ -234,7 +234,7 @@ theorem H47Extremal_of_inputs (hSylow : H47SylowControl) (hWeak : H47WeakClosure
             (g⁻¹ * ((dD.c : G) ^ 2 ^ (m - 2)) * g) * s →
           k⁻¹ * s * k ∈ (F.S : Subgroup G) := by
   intro G _ _ F D m hm dD h hSN hnc e he hS hrel g hg hy
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set z := (dD.c : G) ^ 2 ^ (m - 1) with hz
   set c₂ := (dD.c : G) ^ 2 ^ (m - 2) with hc₂
   set Z := Subgroup.centralizer ({z} : Set G) with hZ
@@ -251,7 +251,7 @@ theorem H47Extremal_of_inputs (hSylow : H47SylowControl) (hWeak : H47WeakClosure
   have hTyH : Ty ≤ H := fun x hx =>
     Subgroup.mem_inf.2 ⟨(Subgroup.mem_inf.1 (Subgroup.mem_inf.1 hx).1).2,
       (Subgroup.mem_inf.1 hx).2⟩
-  have hTyp : IsPGroup 2 Ty := F.S.isPGroup'.to_le (inf_le_left.trans inf_le_left)
+  have hTyp : IsPGroup 2 Ty := F.S.isPGroup.to_le (inf_le_left.trans inf_le_left)
   obtain ⟨R, hR, hTyR⟩ := Stroth43Sc.exists_isSylowOf_le hTyH hTyp
   set Q₀ := D.map (MulAut.conj g⁻¹).toMonoidHom with hQ₀
   have hQ₀H : Q₀ ≤ H := by
@@ -263,7 +263,7 @@ theorem H47Extremal_of_inputs (hSylow : H47SylowControl) (hWeak : H47WeakClosure
     calc g⁻¹ * d * g * (g⁻¹ * c₂ * g) = g⁻¹ * (d * c₂) * g := by group
       _ = g⁻¹ * (c₂ * d) * g := by rw [this]
       _ = g⁻¹ * c₂ * g * (g⁻¹ * d * g) := by group
-  have hDp : IsPGroup 2 D := F.S.isPGroup'.to_le h.le_S
+  have hDp : IsPGroup 2 D := F.S.isPGroup.to_le h.le_S
   obtain ⟨c, hcH, hcQ⟩ := Stroth43Sc.exists_conj_le_of_isSylowOf hR hQ₀H (hDp.map _)
   have hcz : c ∈ Z := (Subgroup.mem_inf.1 hcH).1
   obtain ⟨k, hkz, hkR⟩ := hSylow F hm dD h hSN hnc e he hS hrel R hR.isPGroup

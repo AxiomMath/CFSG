@@ -50,8 +50,8 @@ theorem Ctx.mem_Spure {hc : Ctx M Q Z B} {t : G} :
     t ∈ hc.Spure ↔ t ∈ LB M Q B ∧
       ∀ y ∈ Q ⊓ Subgroup.centralizer (B : Set G), ⁅t, y⁆ ∈ (B ⊔ Z : Subgroup G) := Iff.rfl
 
-theorem Ctx.Q_le_Spure (hc : Ctx M Q Z B) : Q ≤ hc.Spure := fun x hx =>
-  ⟨Subgroup.mem_sup_left hx, fun y hy =>
+theorem Ctx.Q_le_Spure (hc : Ctx M Q Z B) : Q ≤ hc.Spure := fun _x hx =>
+  ⟨Subgroup.mem_sup_left hx, fun _y hy =>
     Subgroup.mem_sup_right (hc.hyp.toHyp79.comm_mem_V hx hy.1)⟩
 
 theorem Ctx.Spure_le_H0 (hc : Ctx M Q Z B) : hc.Spure ≤ H0 M Z := fun t ht =>
@@ -78,6 +78,7 @@ theorem Ctx.Spure_le_Q_iff (hc : Ctx M Q Z B) : hc.Spure ≤ Q ↔ Conc34' M Q Z
         (ht.2 x hx)
     exact Q.mul_mem hs' hy
 
+omit [Finite G] in
 theorem Ctx.conj_mem_Q_of_mem_M (hc : Ctx M Q Z B) {t : G} (htM : t ∈ M) :
     (∀ x ∈ Q, t * x * t⁻¹ ∈ Q) ∧ ∀ x ∈ Q, t⁻¹ * x * t ∈ Q := by
   refine ⟨fun x hx => (Subgroup.mem_normalizer_iff.mp (hc.hyp.Q_normal.2 htM) x).mp hx,
@@ -89,6 +90,7 @@ section Act
 
 variable {K : Type} [Field K] [Finite K] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ}
 
+omit [Finite K] in
 theorem Ctx.Spure_act (hc : Ctx M Q Z B) (h : GlobalModelData M Q Z γ M₀) {b : M₀.E}
     (hB : ∀ v : M₀.E, v ∈ M₀.img B ↔ ∃ s : K, v = s • b)
     (hcent : ∀ x ∈ Q, x ∈ Subgroup.centralizer (B : Set G) ↔ M₀.B (M₀.π x) b = 0)

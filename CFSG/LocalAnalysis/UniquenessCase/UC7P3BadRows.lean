@@ -18,7 +18,7 @@ variable {L : Type} [Group L] [Finite L]
 
 theorem false_of_card_sylow_nine (R : Sylow 3 L) (h9 : Nat.card ↥((R : Subgroup L) ⊓ ⊤) = 9)
     (h4 : 4 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup L)) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [inf_top_eq] at h9
   have h2 : CFSG.Open.pRank 3 (R : Subgroup L) ≤ 2 :=
     CFSG.SectionRank.pRank_le (by norm_num) fun E hE _ => by
@@ -27,6 +27,7 @@ theorem false_of_card_sylow_nine (R : Sylow 3 L) (h9 : Nat.card ↥((R : Subgrou
   have := (CFSG.SectionRank.pRank_sylow R).1
   omega
 
+omit [Finite L] in
 theorem centralizer_top_eq_bot_of_simple (hs : IsSimpleGroup L) (hnab : ∃ a b : L, a * b ≠ b * a) :
     Subgroup.centralizer ((⊤ : Subgroup L) : Set L) = ⊥ := by
   have h : Subgroup.centralizer ((⊤ : Subgroup L) : Set L) = Subgroup.center L := by
@@ -45,8 +46,8 @@ theorem threeHeavy_of_gls3 (hG3 : Gls3StronglyThreeEmbeddedPlus) (hUO : KFactUni
     (hnab : ∃ a b : L, a * b ≠ b * a) (R : Sylow 3 L)
     (h4 : 4 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup L))
     (hΓ : gammaCore 3 1 ⊤ (R : Subgroup L) < ⊤) : ThreeHeavy (Nat.card L) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI hsT : IsSimpleGroup ↥(⊤ : Subgroup L) := Subgroup.topEquiv.isSimpleGroup
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hsT : IsSimpleGroup ↥(⊤ : Subgroup L) := Subgroup.topEquiv.isSimpleGroup
   have hnabT : ∃ a b : ↥(⊤ : Subgroup L), a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hnab
     exact ⟨⟨a, trivial⟩, ⟨b, trivial⟩, fun h => hab (congrArg Subtype.val h)⟩

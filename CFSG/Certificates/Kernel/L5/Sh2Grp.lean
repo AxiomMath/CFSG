@@ -143,7 +143,7 @@ theorem mt0_eq {i j : Nat}
   rw [dec0_mul hi hj, Subgroup.coe_mul, dec0_val, dec0_val, idx0_mul hc hi hj] at h1
   exact h1.symm
 
-theorem m0N_lt {i j : Nat} (hi : i < 128) (hj : j < 128) : m0N i j < 128 := by
+theorem m0N_lt {i j : Nat} (hi : i < 128) (_hj : j < 128) : m0N i j < 128 := by
   have hd : i % 8 < 8 := Nat.mod_lt _ (by norm_num)
   have he : j % 8 < 8 := Nat.mod_lt _ (by norm_num)
   have h1 := xor_lt16 (x := i / 8) (y := actN (i % 8) (j / 8)) (by omega) (act_lt _ _)
@@ -213,7 +213,7 @@ theorem mulN_eq
   rcases Nat.mod_two_eq_zero_or_one a with ha2 | ha2 <;>
     rcases Nat.mod_two_eq_zero_or_one b with hb2 | hb2 <;>
     simp only [mulN, mul2, pdec2, pcode2, ha2, hb2, decide_true, decide_false,
-      Nat.zero_ne_one, Nat.one_ne_zero, if_true, if_false, Bool.toNat_true, Bool.toNat_false,
+      Nat.zero_ne_one, Nat.one_ne_zero, ite_true, ite_false, Bool.toNat_true, Bool.toNat_false,
       Nat.add_zero]
   · rw [mt0_eq hc hi hj]
   · rw [mt0_eq hc hi hj]
@@ -239,7 +239,7 @@ theorem mulI_eq'
 theorem invI_eq
     (ty : Fin 4) :
     ∀ a : Idx 256, invI ty.val a = (sh2TabD ty).grp.inv a := by
-  letI G : Group (Idx 256) := (sh2TabD ty).grp
+  let G : Group (Idx 256) := (sh2TabD ty).grp
   intro a
   have h := invChk_of hc
   simp only [invChk, List.all_eq_true, List.mem_range, decide_eq_true_eq] at h

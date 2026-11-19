@@ -21,7 +21,7 @@ theorem eq_one_of_mem_center_of_perfect {G : Type*} [Group G] [Finite G]
     MonoidHom.mem_ker.mp (Abelianization.commutator_subset_ker _ (by rw [hG]; exact mem_top v))
   rw [h2] at h1
   have h3 : v ^ (S : Subgroup G).index = 1 := (congrArg Subtype.val h1).symm
-  obtain ⟨k, hk⟩ := S.isPGroup' ⟨v, hvS⟩
+  obtain ⟨k, hk⟩ := S.isPGroup ⟨v, hvS⟩
   have h4 : v ^ 2 ^ k = 1 := by
     have h := congrArg Subtype.val hk
     rwa [SubgroupClass.coe_pow, OneMemClass.coe_one] at h

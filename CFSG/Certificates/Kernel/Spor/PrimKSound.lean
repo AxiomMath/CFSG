@@ -417,7 +417,6 @@ theorem prim_sound {n NL k cnt0 : Nat} {letters : Array Table} {lv : Array Nat}
         refine CFSG.KS.DS.derSearch_ok (fun w hw => by rw [hlabA w hw]; exact (hZ w hw).1)
           (fun j hj w hw => by rw [himgs j hj w hw]; exact (himg j hj w hw).2)
           hl0 hl (fun S hS0 hSi hcl => ?_)
-        try rw [hlabA 0 hn.1] at hS0
         have hder := hd l hl hl'
         unfold derK at hder
         rw [Raw.Orb.strictB_eq, Nat.beq_eq] at hder

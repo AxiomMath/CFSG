@@ -67,7 +67,7 @@ theorem e6HeisFrameNormalizesR_of_fixedElt (h : E6HeisFrameFixedElt) : E6HeisFra
   intro K _ _ hK3 hK4 E hEab hcard hd F
   classical
   obtain ⟨v, hvC, hv1, hvp, hvF, hc₁, hc₂⟩ := h K hK3 hK4 E hEab hcard hd F
-  haveI : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
+  have : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
   have hcop : ringChar K ≠ 3 → Nat.Coprime 3 (orderOf v) := by
     intro h3
     refine Nat.Coprime.coprime_dvd_right (orderOf_dvd_of_pow_eq_one hvp) ?_

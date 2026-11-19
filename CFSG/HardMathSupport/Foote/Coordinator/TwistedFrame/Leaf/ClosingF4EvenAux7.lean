@@ -72,9 +72,9 @@ theorem sf_fv {μ : Fin Tag.F4.rank → ℤ} (hww : wF4 • wF4 • μ = μ) (hn
   simp only [fv, Pi.add_apply, Pi.single_apply, map_add, e1, e2]
   by_cases h1 : ν = μ
   · have h2 : ν ≠ wF4 • μ := fun h => hne (h1.symm.trans h)
-    simp [h1, h2, hFF, add_comm, hne]
+    simp [h1, hFF, add_comm, hne]
   · by_cases h2 : ν = wF4 • μ
-    · simp [h1, h2, hFF, add_comm, hne.symm]
+    · simp [h2, add_comm, hne.symm]
     · simp [h1, h2]
 
 theorem isW_fv_B23 {l : L} (hl : InE Fr l) (hP : (⟨0, 0, 0, 0, 0, 0, l⟩ : T7 L) ∈ Pset Fr H) :

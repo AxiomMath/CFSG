@@ -100,15 +100,15 @@ variable {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
 
 theorem burnsideF437U_u5DataInput : burnsideF437_U5DataInput := by
   intro E _ Gp M₁ M₂ hyp Tb hTb fb hfbT hinv hgr
-  haveI := hyp.finite
-  haveI := hyp.normal
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hyp.finite
+  have := hyp.normal
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hidx : Gp.index = 2 := by
     rcases burnsideF429_F429_one_Un_two (Or.inr rfl) hyp with h | h
     · exact absurd (h ▸ Subgroup.mem_top fb) hinv.not_mem
     · exact h.1
   obtain ⟨K, fK, h, φ, hφ, hrange, h1, h2, a, hact⟩ := burnsideF437U_U5_model hyp hgr
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   have hpc := burnsideF437U_U5_pCore h
   obtain ⟨c, hcB, hact'⟩ := burnsideF437U_borel_conj φ hφ hrange
     (fieldAut h (CFSG.Quasithin.H13.F431.Un.OL5.bar5 h)).toMonoidHom h1 h2

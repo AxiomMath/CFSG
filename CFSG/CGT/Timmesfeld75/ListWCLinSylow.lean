@@ -64,7 +64,7 @@ theorem exists_tv_mem_of_isWC (hm : 3 ≤ m) {T : Subgroup SL(m, K)} (hT : IsWC 
       (t : Matrix (Fin m) (Fin m) K) = 1 + vecMulVec c φ := by
   obtain ⟨P, hTP⟩ := (isPGroup_two_of_isElemAbelian hT.1).exists_le_sylow
   have hPN : (P : Subgroup SL(m, K)) ≤ Subgroup.normalizer (T : Set SL(m, K)) :=
-    hT.le_normalizer_of_le_pGroup P.isPGroup' hTP
+    hT.le_normalizer_of_le_pGroup P.isPGroup hTP
   have hnorm : (T.subgroupOf (P : Subgroup SL(m, K))).Normal :=
     ⟨fun x hx g => (Subgroup.mem_normalizer_iff.1 (hPN g.2) x).1 hx⟩
   have hne : T.subgroupOf (P : Subgroup SL(m, K)) ≠ ⊥ := by
@@ -75,7 +75,7 @@ theorem exists_tv_mem_of_isWC (hm : 3 ≤ m) {T : Subgroup SL(m, K)} (hT : IsWC 
     have : (⟨x, hTP hx⟩ : (P : Subgroup SL(m, K))) ∈ T.subgroupOf (P : Subgroup SL(m, K)) := hx
     rw [h, Subgroup.mem_bot] at this
     exact (Subgroup.mem_bot).2 (congrArg Subtype.val this)
-  have : Group.IsNilpotent (P : Subgroup SL(m, K)) := P.isPGroup'.isNilpotent
+  have : Group.IsNilpotent (P : Subgroup SL(m, K)) := P.isPGroup.isNilpotent
   obtain ⟨⟨u, huT, huZ⟩, hu1⟩ := Subgroup.ne_bot_iff_exists_ne_one.1
     (Group.IsNilpotent.inf_center_ne_bot_of_normal hne)
   have hu1' : (u : SL(m, K)) ≠ 1 := fun h => hu1 (Subtype.ext (Subtype.ext h))

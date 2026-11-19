@@ -19,6 +19,7 @@ open CFSG.LieType.SeitzGeneration.ExcWideThree.Parrott.ClosingMinus.Escape
 
 variable {G : Type} [Group G] [Finite G] {V H E : Subgroup G}
 
+omit [Finite G] in
 private theorem commute_commutator_of_conj_eq_inv {d y f : G} (hd2 : d * d = 1)
     (hinv : d * y * d⁻¹ = y⁻¹) (hfy : Commute f y) : Commute ⁅f, d⁆ y := by
   have hdy : d⁻¹ * y * d = y⁻¹ := by
@@ -163,7 +164,7 @@ private theorem fixedSubgroup_eq_top_of_isElemAbelian {U P : Subgroup G}
     (hgen_eq : (⨆ a : ↥P, ⨆ (_ : a ≠ 1),
       CFSG.SolvableSignalizer.fixedSubgroup α a) = ⊤) :
     ∀ z : ↥P, CFSG.SolvableSignalizer.fixedSubgroup α z = ⊤ := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hPab : ∀ a ∈ P, ∀ b ∈ P, Commute a b := fun a ha b hb =>
     setLike_mul_comm (s := P) ha hb
   have hP3 : ∀ a ∈ P, a ^ 3 = 1 := by
@@ -201,6 +202,7 @@ private theorem fixedSubgroup_eq_top_of_isElemAbelian {U P : Subgroup G}
       _ = (a : G) := by group
   simpa [hα] using hza
 
+omit [Finite G] in
 private theorem le_centralizer_iSub_of_fixedSubgroup_eq_top {P : Subgroup G}
     (α : ↥P →* MulAut ↥(iSub V H E))
     (hα : ∀ (z : ↥P) (a : ↥(iSub V H E)),
@@ -224,7 +226,7 @@ private theorem le_centralizer_iSub_of_fixedSubgroup_eq_top {P : Subgroup G}
 private theorem false_of_le_pCore_of_isElemAbelian {P : Subgroup G}
     [CFSG.IsElementaryAbelian 3 ↥P] (hPcard : 3 ^ 2 ≤ Nat.card ↥P)
     (hPJ : P ≤ pCoreOf 2 (kSub V H E)) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hP3 : ∀ a ∈ P, a ^ 3 = 1 := by
     intro a ha
     have h := Monoid.exponent_dvd_iff_forall_pow_eq_one.mp
@@ -249,13 +251,13 @@ theorem false_of_elementaryAbelian_inverted (h : Hyp711 V H E) {U P : Subgroup G
     [CFSG.IsElementaryAbelian 3 ↥P] (hPcard : 3 ^ 2 ≤ Nat.card ↥P)
     (hdP : ∀ a ∈ P, d * a * d⁻¹ = a⁻¹) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hIleH : iSub V H E ≤ H :=
     h.iSub_le.trans (h.pcore_le.trans (CFSG.LieType.BorelTits.pCoreOf_le 2 H))
   have hPN : P ≤ Subgroup.normalizer (iSub V H E : Set G) :=
     hPK.trans ((kSub_le_of_forall_le h.omega_le).trans
       (le_normalizer_of_subgroupOf_normal hIleH (iSub_subgroupOf_normal h.le h.normal)))
-  letI : CommGroup ↥P := IsMulCommutative.instCommGroup
+  let : CommGroup ↥P := IsMulCommutative.instCommGroup
   let α : ↥P →* MulAut ↥(iSub V H E) :=
     (Subgroup.normalizerMonoidHom (iSub V H E)).comp
       (P.subtype.codRestrict (Subgroup.normalizer (iSub V H E : Set G)) (fun z => hPN z.2))
@@ -285,7 +287,7 @@ theorem false_of_inverted_pair (h : Hyp711 V H E) {U : Subgroup G} (hU : U ∈ o
     (hdc : d * c * d⁻¹ = c⁻¹) (hcρ : c ∉ Subgroup.zpowers ρ)
     (hρ1 : ρ ≠ 1) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   set P : Subgroup G := Subgroup.closure ({ρ, c} : Set G) with hPdef
   have hPK : P ≤ kSub V H E := by
     rw [hPdef]
@@ -295,7 +297,7 @@ theorem false_of_inverted_pair (h : Hyp711 V H E) {U : Subgroup G} (hU : U ∈ o
       rcases hz with hz | hz
       · rw [hz]; exact hρK
       · rw [hz]; exact hcK)
-  haveI hP_elem : CFSG.IsElementaryAbelian 3 ↥P := by
+  have hP_elem : CFSG.IsElementaryAbelian 3 ↥P := by
     rw [hPdef]
     exact isElementaryAbelian_closure_pair hρ hc hρc.eq
   have hPcard : Nat.card ↥P = 9 := by

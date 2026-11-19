@@ -19,7 +19,7 @@ open scoped commutatorElement
 
 theorem odd_card_of_pow_eq_one {G : Type*} [Group G] [Finite G] {M : ℕ} (hM : Odd M)
     (h : ∀ g : G, g ^ M = 1) : Odd (Nat.card G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hodd
   rw [Nat.not_odd_iff_even, even_iff_two_dvd] at hodd
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' (G := G) 2 hodd
@@ -61,7 +61,7 @@ theorem hasLeviCensus_idxG2 (hGA : CFSG.Open.GriessAllModelsStatement) {X : Type
   obtain ⟨f, hf, ⟨e⟩⟩ := exists_mulEquiv_g2 hGA hCP h
   obtain ⟨T, hNT, hne, htop⟩ := exists_sylow_le_subgroupOf_of_compParab hCP
   obtain ⟨π', hQ, hBA, i, hI⟩ := exists_single_node_g2 e T hNT hne htop
-  haveI : Finite ↥(adjointGroup .G2 (GaloisField 2 f)) := generated_group_finite .G2 _
+  have : Finite ↥(adjointGroup .G2 (GaloisField 2 f)) := generated_group_finite .G2 _
   have hF : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)
   have h4 : 4 ≤ Nat.card (GaloisField 2 f) := by
     rw [hF]
@@ -91,7 +91,7 @@ theorem hasLeviCensus_idxG2 (hGA : CFSG.Open.GriessAllModelsStatement) {X : Type
     rw [hU]
     exact (normal_subgroupOf_iff_le_normalizer hUA).mpr
       (le_normalizer_posUnipotentExcept_of_negIndices_eq hQ hBA hI)
-  haveI := hUn
+  have := hUn
   have hU2 : IsPGroup 2 U := by
     rw [hU]
     exact (isPGroup_posUnipotentExcept hQ i).comap_subtype

@@ -19,12 +19,14 @@ section Ident
 variable {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime] {Bs Y : Subgroup G}
   (Φ : OrthFrameCore p Bs Y)
 
+omit [Finite G] in
 theorem qtwoOrth_realize (hF : Nat.card Φ.F = 2)
     {w : MulAut (Fin Φ.r → Multiplicative (ZMod p))}
     (hw : w ∈ omSigned p Φ.r) :
     ∃ μ ∈ TauCeti.QuadraticMap.orthogonalGroup Φ.Q, ∀ f, μ * Φ.Δ.τ f * μ⁻¹ = Φ.Δ.τ (w f) :=
   Φ.exists_realize hF hw
 
+omit [Finite G] in
 theorem qtwoOrth_std (hF : Nat.card Φ.F = 2) (_hZ : Subgroup.center ↥Y = ⊥)
     (_hBs : IsElemAbelian p Bs) (m : ℕ) (hm : 3 ≤ m) (hr : Φ.r = m + 1) :
     ∃ (_ : Algebra Φ.F (GaloisField 2 2))

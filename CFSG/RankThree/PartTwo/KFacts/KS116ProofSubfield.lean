@@ -184,7 +184,6 @@ theorem conj_uu_of_lowerLeft {M : SL(2, F)} (hM : M 1 0 = 0) (c : F) :
   ext i j
   fin_cases i <;> fin_cases j <;> (try simp [hM]) <;>
     first
-    | ring1
     | linear_combination hd
     | (ring_nf; simp [ofNat_eq_mod_two])
 
@@ -328,7 +327,6 @@ theorem exists_conj_eq_uu_one [Finite F] {X : SL(2, F)} (hX2 : X * X = 1) (hX1 :
     ext i j
     fin_cases i <;> fin_cases j <;> (try simp [hs]) <;>
       first
-      | ring1
       | linear_combination a * hd
       | (ring_nf; simp [ofNat_eq_mod_two])
 

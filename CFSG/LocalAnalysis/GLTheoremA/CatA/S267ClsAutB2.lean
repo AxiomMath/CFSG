@@ -12,6 +12,7 @@ open CFSG.Yardstones.Md0ec50421ce4 CFSG.LocalAnalysis.GLTheoremB CFSG.LocalAnaly
 
 variable {Ω : Type} [Group Ω] [Finite Ω] {S : Subgroup Ω} [S.Normal]
 
+omit [Finite Ω] in
 theorem false_of_sp_two_three (hcore : GLAPPrimeCore 3 ↥S = ⊥) (hZ : Subgroup.center ↥S = ⊥)
     {K : Type} [Field K] [Finite K] {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f)
     (hK : Nat.card K = ℓ ^ f) (hℓ2 : ℓ ≠ 2) (hℓ3 : ℓ ≠ 3)

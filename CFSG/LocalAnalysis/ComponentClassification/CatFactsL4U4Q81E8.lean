@@ -33,7 +33,7 @@ theorem isSylowOf_of_normalizer_le {R M K : Subgroup G} (hRM : IsSylowOf p R M) 
   set S : Subgroup G := (Q : Subgroup K).map K.subtype with hSdef
   have hRS : R ≤ S := fun x hx => ⟨⟨x, hRK hx⟩, hQ (mem_subgroupOf.mpr hx), rfl⟩
   have hSK : S ≤ K := map_subtype_le _
-  have hS : IsPGroup p S := Q.isPGroup'.map K.subtype
+  have hS : IsPGroup p S := Q.isPGroup.map K.subtype
   have hNS : S ⊓ normalizer (R : Set G) = R :=
     hRM.eq_of_le (le_inf hRS le_normalizer) ((inf_le_inf_right _ hSK).trans hN)
       (hS.to_le inf_le_left)

@@ -129,7 +129,7 @@ private lemma c2slomqmea_m_not_modEq_of_lt {f u v : ℕ} (huv : u < v) (hv : v <
   have := Nat.le_of_dvd hpos hdiv'
   omega
 
-private lemma c2slomqmea_m_modEq_mod {f u v : ℕ} (hu : u < 2 * f) (hv : v < 2 * f)
+private lemma c2slomqmea_m_modEq_mod {f u v : ℕ} (_hu : u < 2 * f) (hv : v < 2 * f)
     (h : Nat.ModEq (2 ^ f - 1) (2 ^ u) (2 ^ v)) : u % f = v % f := by
   have hmod : Nat.ModEq (2 ^ f - 1) (2 ^ f) 1 :=
     ((Nat.modEq_iff_dvd' Nat.one_le_two_pow).mpr dvd_rfl).symm

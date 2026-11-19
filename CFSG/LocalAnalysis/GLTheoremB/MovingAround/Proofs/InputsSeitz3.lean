@@ -103,7 +103,7 @@ noncomputable def equivCenterQuot (hZ : Subgroup.center K = ⊥) : K ≃* K ⧸ 
 
 theorem isSimpleGroup_of_center_eq_bot (hq : CFSG.Open.IsQuasisimple K) (hZ : Subgroup.center K = ⊥) :
     IsSimpleGroup K := by
-  haveI := hq.2
+  have := hq.2
   exact MulEquiv.isSimpleGroup (equivCenterQuot hZ)
 
 theorem exists_noncomm_of_quasisimple (hq : CFSG.Open.IsQuasisimple K) : ∃ a b : K, a * b ≠ b * a := by
@@ -123,7 +123,7 @@ theorem mem_fixedPoints_zpowers {S : Type*} [Group S] {f : MulAut S} {s : S} (hs
 theorem relIndex_zpowers {S : Type*} [Group S] {p : ℕ} (hp : p.Prime) {E : Subgroup (MulAut S)}
     (hE : IsElemAbelian p E) (hcard : Nat.card E = p ^ 2) {f : MulAut S} (hf : f ∈ E) (hf1 : f ≠ 1) :
     (Subgroup.zpowers f).relIndex E = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hle : Subgroup.zpowers f ≤ E := (Subgroup.zpowers_le).2 hf
   have hc : Nat.card (Subgroup.zpowers f) = p := by
     rw [Nat.card_zpowers]
@@ -160,7 +160,7 @@ theorem seitzHyperGamma_eq_top_of_seitz (h2 : KFactSeitzRankTwo) (h3 : Seitz2310
   push Not at hhigh
   obtain ⟨hlt, hZ⟩ := hhigh
   obtain ⟨e⟩ := hd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨k, hk⟩ := GL83.CompFam.exists_card_eq_pow hE
   have hk2 : 2 ≤ k := (Nat.pow_le_pow_iff_right hp.one_lt).1 (by rw [← hk]; exact hE2)
   have hk4 : k < 4 := (Nat.pow_lt_pow_iff_right hp.one_lt).1 (by rw [← hk]; exact hlt)
@@ -267,7 +267,7 @@ variable [Finite Y]
 
 theorem two_le_pRank_of_card {p : ℕ} (hp : p.Prime) {A : Subgroup Y} (hA : IsElemAbelian p A)
     (h : p ^ 2 ≤ Nat.card A) : 2 ≤ CFSG.Open.pRank p A := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨j, hj⟩ := GL83.CompFam.exists_card_eq_pow hA
   have h2 : 2 ≤ j := (Nat.pow_le_pow_iff_right hp.one_lt).1 (by rw [← hj]; exact h)
   exact h2.trans (CFSG.SectionRank.le_pRank hp.one_lt le_rfl hA hj)
@@ -291,7 +291,7 @@ theorem le_glbCore_of_centGenI_central {p : ℕ} (hp : p.Prime) {B E C K : Subgr
     (hB : IsElemAbelian p B) (hEB : E ≤ B) (hCB : C ≤ B)
     (hCK : C ≤ Subgroup.centralizer (K : Set Y)) (hEC : E ⊓ C = ⊥) (hC : C ≠ ⊥)
     (hE2 : p ^ 2 ≤ Nat.card E) (h : K ≤ centGenI p E K) : K ≤ GLBCore p 2 B := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hCel : IsElemAbelian p C := elem_mono hB hCB
   have hCp : p ≤ Nat.card C := by
     obtain ⟨c, hc⟩ := GL83.CompFam.exists_card_eq_pow hCel
@@ -333,7 +333,7 @@ theorem le_glbCore_of_centGenI_central {p : ℕ} (hp : p.Prime) {B E C K : Subgr
 theorem pow_succ_mul_le {p : ℕ} (hp : p.Prime) {B K : Subgroup Y} (hB : IsElemAbelian p B) {a : ℕ}
     (h : p ^ a * Nat.card (cen B K) < Nat.card (stab B K)) :
     p ^ (a + 1) * Nat.card (cen B K) ≤ Nat.card (stab B K) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨s, hs⟩ : ∃ s, Nat.card (stab B K) = p ^ s :=
     GL83.CompFam.exists_card_eq_pow (elem_mono hB inf_le_left)
   obtain ⟨c, hc⟩ : ∃ c, Nat.card (cen B K) = p ^ c :=
@@ -345,7 +345,7 @@ theorem pow_succ_mul_le {p : ℕ} (hp : p.Prime) {B K : Subgroup Y} (hB : IsElem
 theorem exists_faithful {p : ℕ} (hp : p.Prime) {B K : Subgroup Y} (hB : IsElemAbelian p B) {k : ℕ}
     (hk : p ^ k * Nat.card (cen B K) ≤ Nat.card (stab B K)) :
     ∃ E : Subgroup Y, E ≤ stab B K ∧ E ⊓ Subgroup.centralizer (K : Set Y) = ⊥ ∧ Nat.card E = p ^ k := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hNel : IsElemAbelian p (stab B K) := elem_mono hB inf_le_left
   obtain ⟨B₁, hB₁N, hB₁C, hB₁sup⟩ := InputsSeitz.exists_complement_elem hp hNel (cen_le_stab B K)
   have hcomm : ∀ x ∈ B₁, ∀ y ∈ cen B K, x * y = y * x := fun x hx y hy =>
@@ -372,7 +372,7 @@ end Aut
 theorem input23_10Faith_of_seitz (h2 : KFactSeitzRankTwo) (h3 : Seitz2310CubeSimple)
     (hR : SeitzQuasiHigh) : InputsSeitz.Input23_10Faith := by
   intro p q hp hp5 hq hqp Y _ _ _ K B hK hB hBN hBC hcard _ hlie hexc
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨d, hd, hdq⟩ := hlie
   have hdq' : d.1.characteristic = q := hdq
   have hpd : p ≠ d.1.characteristic := fun h => hqp (hdq'.symm.trans h.symm)
@@ -436,7 +436,7 @@ theorem input23_19ChevCore_of_seitz (h2 : KFactSeitzRankTwo)
     (h3 : Seitz2310CubeSimple) (hR : SeitzQuasiHigh) (hX : Input23_19ChevExc) :
     InputsSeitz.Input23_19ChevCore := by
   intro X _ _ hKX p hp hp2 hcore B hB hB4 hrk K hK hch haut
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hBcard : Nat.card B = p ^ CFSG.Open.pRank p B := GL83.PiGen.card_eq_pow_pRank hB
   by_cases hsmall : Nat.card (stab B K) ≤ p ^ (CFSG.Open.pRank p B - 2) * Nat.card (cen B K)
   · exact InputsSeitz.le_glbCore_of_card_stab_le hp hB hK 2 (CFSG.Open.pRank p B - 2) (by omega)
@@ -544,7 +544,7 @@ theorem rank3CuRes_of_seitz (h2 : KFactSeitzRankTwo) (h3 : Seitz2310CubeSimple) 
   have hgood0 := hgood
   obtain ⟨hp3, -⟩ := h139b
   subst hp3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : Nat.Prime 3 := Nat.prime_three
   have hS : GLStanding G m 3 := h.standing
   have hBel : IsElemAbelian 3 B := h.bOne.1.1

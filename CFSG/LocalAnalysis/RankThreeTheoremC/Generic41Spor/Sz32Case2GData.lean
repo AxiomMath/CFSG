@@ -270,11 +270,11 @@ theorem szh2_isSylowOf_top_subgroupOf {p : ℕ} [Fact p.Prime] (P : Sylow p G) {
     CFSG.ABGLocalTools.IsSylowOf p ((P : Subgroup G).subgroupOf M) (⊤ : Subgroup M) := by
   obtain ⟨T, hT⟩ := szh2_sylow_subgroupOf P hPM
   rw [CFSG.ABGLocalTools.isSylowOf_iff, Subgroup.relIndex_top_right, ← hT]
-  exact ⟨le_top, T.isPGroup', T.not_dvd_index⟩
+  exact ⟨le_top, T.isPGroup, T.not_dvd_index⟩
 
 theorem szh2_injOn_P {O : Subgroup ↥M} [O.Normal] (hO : Nat.Coprime 5 (Nat.card O)) :
     Set.InjOn (QuotientGroup.mk' O) (((P : Subgroup G).subgroupOf M : Subgroup ↥M) : Set ↥M) :=
-  szh2_injOn_mk (by norm_num) O hO P.isPGroup'.comap_subtype
+  szh2_injOn_mk (by norm_num) O hO P.isPGroup.comap_subtype
 
 theorem szh2_pres_Y {O : Subgroup ↥M} [O.Normal] (hO : Nat.Coprime 5 (Nat.card O)) {a c y : G}
     (hP : Sz32Struct P x J a c y) (hPM : (P : Subgroup G) ≤ M) (ha : a ∈ M) (hcM : c ∈ M) (hyM : y ∈ M) :
@@ -294,6 +294,7 @@ theorem szh2_pres_Y {O : Subgroup ↥M} [O.Normal] (hO : Nat.Coprime 5 (Nat.card
   rwa [hx5, map_pow] at hY
 
 
+omit [Finite G] in
 theorem szh2_zpowers_eq_of_val {M : Subgroup G} (u v : ↥M)
     (h : Subgroup.zpowers (u : G) = Subgroup.zpowers (v : G)) :
     Subgroup.zpowers u = Subgroup.zpowers v := by
@@ -347,6 +348,7 @@ theorem szh2_Z_le_P {a c y : G} (hP : Sz32Struct P x J a c y) : sz32Z a c ≤ (P
   exact sup_le (Subgroup.zpowers_le.mpr ((P : Subgroup G).pow_mem hpres.a_mem 5))
     (Subgroup.zpowers_le.mpr ((P : Subgroup G).pow_mem hpres.c_mem 5))
 
+omit [Finite G] in
 theorem szh2_Z_subgroupOf {M : Subgroup G} {a c : G} (hZM : sz32Z a c ≤ M) (ha : a ∈ M) (hcM : c ∈ M) :
     (sz32Z a c).subgroupOf M =
       sz32Z (⟨a, ha⟩ : ↥M) (⟨c, hcM⟩ : ↥M) := by
@@ -356,7 +358,7 @@ theorem szh2_Z_subgroupOf {M : Subgroup G} {a c : G} (hZM : sz32Z a c ≤ M) (ha
   rw [Subgroup.map_sup, MonoidHom.map_zpowers, MonoidHom.map_zpowers]
   rfl
 
-theorem szh2_wc_Y {O : Subgroup ↥M} [O.Normal] (hO : Nat.Coprime 5 (Nat.card O)) {a c y : G}
+theorem szh2_wc_Y {O : Subgroup ↥M} [O.Normal] (_hO : Nat.Coprime 5 (Nat.card O)) {a c y : G}
     (hP : Sz32Struct P x J a c y) (hZ : Sz32ZFacts P M x (a ^ 5)) (hPM : (P : Subgroup G) ≤ M)
     (ha : a ∈ M) (hcM : c ∈ M) :
     ∀ g : ↥M ⧸ O,
@@ -365,7 +367,7 @@ theorem szh2_wc_Y {O : Subgroup ↥M} [O.Normal] (hO : Nat.Coprime 5 (Nat.card O
         (sz32Z (QuotientGroup.mk' O ⟨a, ha⟩) (QuotientGroup.mk' O ⟨c, hcM⟩)).map
           (MulAut.conj g).toMonoidHom =
         sz32Z (QuotientGroup.mk' O ⟨a, ha⟩) (QuotientGroup.mk' O ⟨c, hcM⟩) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hZP := szh2_Z_le_P hP
   have hZM : sz32Z a c ≤ M := hZP.trans hPM
   have hZY : ((sz32Z a c).subgroupOf M).map (QuotientGroup.mk' O) =
@@ -374,7 +376,7 @@ theorem szh2_wc_Y {O : Subgroup ↥M} [O.Normal] (hO : Nat.Coprime 5 (Nat.card O
     unfold sz32Z
     rw [Subgroup.map_sup, MonoidHom.map_zpowers, MonoidHom.map_zpowers, ← map_pow, ← map_pow]
   have hZ' : IsPGroup 5 ((sz32Z a c).subgroupOf M) :=
-    (P.isPGroup'.to_le hZP).comap_subtype
+    (P.isPGroup.to_le hZP).comap_subtype
   have hZwc := hZ.Z_wc
   rw [szh2_Z_eq hP] at hZwc
   have hwcM : ∀ g : ↥M, ((sz32Z a c).subgroupOf M).map (MulAut.conj g).toMonoidHom ≤
@@ -493,7 +495,7 @@ theorem szh2_perf_Y (hS : Setting G) (hU0 : FullCoreLocal G) (hc : PointConfig I
   intro N hN ⟨k, hk⟩
   have hsurj := QuotientGroup.mk'_surjective (primeComplementCore (G := ↥M) 5)
   set N' : Subgroup ↥M := N.comap (QuotientGroup.mk' (primeComplementCore (G := ↥M) 5)) with hN'
-  haveI : N'.Normal := hN.comap _
+  have : N'.Normal := hN.comap _
   have hidx : N'.index = N.index := Subgroup.index_comap_of_surjective N hsurj
   set N₁ : Subgroup G := N'.map M.subtype with hN₁
   have hN₁M : N₁ ≤ M := Subgroup.map_subtype_le N'

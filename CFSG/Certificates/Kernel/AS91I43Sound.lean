@@ -31,7 +31,7 @@ theorem fold_stepO (S : List ℕ) : ∀ (L l : List ℕ) (m : ℕ),
     rw [List.foldl_cons]
     cases hb : bitQ m t
     · have e : stepO (l, m) t = (t :: l, Nat.lor m (Nat.shiftLeft 1 t)) := by
-        simp only [stepO, hb, Bool.false_eq_true, if_false]
+        simp only [stepO, hb, Bool.false_eq_true, ite_false]
       rw [e]
       have h' : ∀ k, (Nat.lor m (Nat.shiftLeft 1 t)).testBit k = true ↔ k ∈ t :: l ∨ k ∈ S := by
         intro k
@@ -53,7 +53,7 @@ theorem fold_stepO (S : List ℕ) : ∀ (L l : List ℕ) (m : ℕ),
           exact C _ (by rw [testBit_ins]; simp)
         · exact B x hx
       · rw [testBit_ins, hk, Bool.or_true]
-    · have e : stepO (l, m) t = (l, m) := by simp only [stepO, hb, if_true]
+    · have e : stepO (l, m) t = (l, m) := by simp only [stepO, hb, ite_true]
       rw [e]
       obtain ⟨A, B, C⟩ := fold_stepO S L l m h
       refine ⟨A, ?_, C⟩

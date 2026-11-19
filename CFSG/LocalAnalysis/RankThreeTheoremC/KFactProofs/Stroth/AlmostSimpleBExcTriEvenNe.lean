@@ -33,10 +33,10 @@ theorem oddPCoreInClosure_triality_three_ne {K : Type} [Field K] {f : ℕ} (hf :
   classical
   obtain rfl : C = Subgroup.centralizer ({x} : Set (graphFixedRootGroup TwistTag.D4 K σ.toRingHom)) :=
     Subgroup.ext fun c => (hC c).trans Subgroup.mem_centralizer_singleton_iff.symm
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by
+  have : Finite K := Nat.finite_of_card_ne_zero (by
     rw [hK]
     exact pow_ne_zero _ (pow_ne_zero _ two_ne_zero))
-  haveI : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
+  have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
   have h3 : ∀ c : K, σ (σ (σ c)) = c := fun c => by
     have : Fintype K := Fintype.ofFinite K
     rw [hσ, hσ, hσ, ← pow_mul, ← pow_mul,

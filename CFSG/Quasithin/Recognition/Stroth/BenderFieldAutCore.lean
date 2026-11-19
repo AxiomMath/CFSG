@@ -13,11 +13,12 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_of_pow_two_eq_one_of_odd_relIndex {K Q : Subgroup G} (hQK : Q ≤ K)
     (hQKn : K ≤ Subgroup.normalizer (Q : Set G)) (hodd : Odd (Q.relIndex K)) {c : G}
     (hcK : c ∈ K) (hc2 : ∃ k : ℕ, c ^ 2 ^ k = 1) : c ∈ Q := by
   classical
-  haveI : (Q.subgroupOf K).Normal :=
+  have : (Q.subgroupOf K).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hQK).mpr hQKn
   obtain ⟨k, hk⟩ := hc2
   let π : ↥K →* ↥K ⧸ Q.subgroupOf K := QuotientGroup.mk' (Q.subgroupOf K)
@@ -132,6 +133,7 @@ theorem commutator_mem_of_series {P Q Z K : Subgroup G} (hZQ : Z ≤ Q)
     exact pow_orderOf_eq_one _
   exact mem_of_pow_two_eq_one_of_odd_relIndex hQK hQKn hKodd hcK hc2
 
+omit [Finite G] in
 theorem commutator_inv_inv_mem {M : Subgroup G} {a b : G}
     (ha : a ∈ Subgroup.normalizer (M : Set G)) (hb : b ∈ Subgroup.normalizer (M : Set G))
     (h : a * b * a⁻¹ * b⁻¹ ∈ M) : a⁻¹ * b⁻¹ * a * b ∈ M := by
@@ -142,6 +144,7 @@ theorem commutator_inv_inv_mem {M : Subgroup G} {a b : G}
     (Subgroup.mem_normalizer_iff.mp hN _).mp h
   simpa [mul_assoc] using hconj
 
+omit [Finite G] in
 theorem commutator_of_inv_right_mem {M : Subgroup G} {a b : G}
     (hb : b ∈ Subgroup.normalizer (M : Set G))
     (h : a * b⁻¹ * a⁻¹ * b ∈ M) : a * b * a⁻¹ * b⁻¹ ∈ M := by
@@ -151,6 +154,7 @@ theorem commutator_of_inv_right_mem {M : Subgroup G} {a b : G}
   rw [e] at hconj
   simpa using M.inv_mem hconj
 
+omit [Finite G] in
 theorem isPGroup_quotient_sup_of_isPGroup {P P' S : Subgroup G} (hP : P = P' ⊔ S)
     (hSP' : S ≤ Subgroup.normalizer (P' : Set G)) (hS2 : IsPGroup 2 S)
     [hP'normal : (P'.subgroupOf P).Normal] :
@@ -182,8 +186,9 @@ theorem isPGroup_quotient_sup_of_isPGroup {P P' S : Subgroup G} (hP : P = P' ⊔
     simpa using hconj
   exact IsPGroup.of_surjective hS2 f hf
 
+omit [Finite G] in
 theorem isPGroup_quotient_inf_of_isPGroup_quotient {P N K P' : Subgroup G}
-    (hNP : N ≤ P) (hKP' : K ≤ P') (hM : N ⊓ K = N ⊓ P')
+    (hNP : N ≤ P) (_hKP' : K ≤ P') (hM : N ⊓ K = N ⊓ P')
     [hP'normal : (P'.subgroupOf P).Normal]
     [hNKnormal : ((N ⊓ K).subgroupOf N).Normal]
     (hquot : IsPGroup 2 (↥P ⧸ P'.subgroupOf P)) :
@@ -204,7 +209,7 @@ theorem isPGroup_quotient_inf_of_isPGroup_quotient {P N K P' : Subgroup G}
       rw [MonoidHom.mem_ker]
       exact (QuotientGroup.eq_one_iff _).mpr
         (Subgroup.mem_subgroupOf.mpr (Subgroup.mem_subgroupOf.mp hx).2)
-  haveI : IsPGroup 2 (↥P ⧸ P'.subgroupOf P) := hquot
+  have : IsPGroup 2 (↥P ⧸ P'.subgroupOf P) := hquot
   have hrange : IsPGroup 2 f.range := IsPGroup.to_subgroup hquot f.range
   have hker : (N ⊓ K).subgroupOf N = f.ker := by rw [hfker, hM]
   exact IsPGroup.of_equiv hrange
@@ -253,7 +258,7 @@ theorem le_pCoreOf_of_nilpotent_quotient {P N Q T : Subgroup G}
           ⟨k, by
             simpa [Subgroup.orderOf_coe] using
               (orderOf_dvd_of_mem_zpowers g.2).trans (orderOf_dvd_of_pow_eq_one hπk)⟩
-      haveI : Group.IsNilpotent Y := hquotNil
+      have : Group.IsNilpotent Y := hquotNil
       have hle : Subgroup.zpowers (π ⟨x, hxN⟩) ≤ pCore 2 Y :=
         CFSG.section12_pSubgroup_le_pCore_of_nilpotent_pre hz
       exact Subgroup.mem_map.mpr ⟨⟨x, hxN⟩, hle (Subgroup.mem_zpowers _), rfl⟩
@@ -285,7 +290,7 @@ theorem le_pCoreOf_of_nilpotent_quotient {P N Q T : Subgroup G}
     have hTsub : IsPGroup 2 (T.subgroupOf N) :=
       hT2.of_equiv (Subgroup.subgroupOfEquivOfLe hTN).symm
     exact hTsub.map π
-  haveI : Group.IsNilpotent Y := hquotNil
+  have : Group.IsNilpotent Y := hquotNil
   have hT'le : (T.subgroupOf N).map π ≤ pCore 2 Y :=
     CFSG.section12_pSubgroup_le_pCore_of_nilpotent_pre hT'2
   intro t ht

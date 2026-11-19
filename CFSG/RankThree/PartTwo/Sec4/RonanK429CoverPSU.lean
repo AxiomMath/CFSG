@@ -54,7 +54,7 @@ theorem coverNormalForm_of_psu {L : Type} [Group L] [Finite L] [Group.IsPerfect 
     (stdPinnedPSU3_separated h).not_mem_inndiag_of_hasKind hk (by decide) (by decide)
   obtain ⟨ρ, hρ3, H, hτH⟩ := unitary_order_three_field_descent hq2 τ hτ3 hD
   have := h.finite
-  haveI : CharP F 2 := h.charP
+  have : CharP F 2 := h.charP
   have hf2 : 2 ≤ f := by
     by_contra hlt
     interval_cases f <;> simp at hq2

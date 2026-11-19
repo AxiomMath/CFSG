@@ -191,9 +191,9 @@ theorem exists_Ebar_swap :
     change (e : Cbar) * zbar * (e : Cbar)⁻¹ * zbar⁻¹ = xbar at h'
     rw [← xbar_mul_zbar, ← h', inv_mul_cancel_right]
 
-@[expose] noncomputable def Vhat : Subgroup Dfull := Vbar.map iotaD
+noncomputable def Vhat : Subgroup Dfull := Vbar.map iotaD
 
-@[expose] noncomputable def yhat : Dfull := iotaD zbar
+noncomputable def yhat : Dfull := iotaD zbar
 
 theorem tauhat_sq_conj_xhat : tauhat ^ 2 * xhat * (tauhat ^ 2)⁻¹ = yhat := by
   rw [tauhat, ← iotaD_xbar, yhat, ← map_pow, ← map_inv, ← map_mul, ← map_mul,
@@ -231,11 +231,11 @@ theorem xhat_mem_Vhat : xhat ∈ Vhat := (mem_Vhat_iff _).2 (.inr (.inl rfl))
 
 theorem yhat_mem_Vhat : yhat ∈ Vhat := (mem_Vhat_iff _).2 (.inr (.inr (.inr rfl)))
 
-@[expose] noncomputable def Ptwo : Subgroup Dfull := Jhat ⊓ Subgroup.normalizer (Vhat : Set Dfull)
+noncomputable def Ptwo : Subgroup Dfull := Jhat ⊓ Subgroup.normalizer (Vhat : Set Dfull)
 
-@[expose] noncomputable def Ntwo : Subgroup Dfull := Subgroup.normalizer (Vhat : Set Dfull)
+noncomputable def Ntwo : Subgroup Dfull := Subgroup.normalizer (Vhat : Set Dfull)
 
-@[expose] noncomputable def Ctwo : Subgroup Dfull := Subgroup.centralizer (Vhat : Set Dfull)
+noncomputable def Ctwo : Subgroup Dfull := Subgroup.centralizer (Vhat : Set Dfull)
 
 theorem iotaD_mem_normalizer_iff {g : Cbar} (hg : g ∈ Jbar) :
     iotaD g ∈ Ntwo ↔ g⁻¹ * zbar * g ∈ Vbar := by
@@ -268,12 +268,12 @@ theorem mem_Ptwo_iff
   rw [Ptwo, Subgroup.mem_inf, ← conj_zbar_mem_Vbar_iff hg, ← iotaD_mem_normalizer_iff hg]
   exact ⟨fun h => h.2, fun h => ⟨hJ, h⟩⟩
 
-@[expose] noncomputable def jhatEquiv : Jbar ≃* Jhat :=
+noncomputable def jhatEquiv : Jbar ≃* Jhat :=
   (Jbar.equivMapOfInjective iotaD iotaD_injective).trans (MulEquiv.subgroupCongr Jhat_eq_map.symm)
 
 theorem coe_jhatEquiv (g : Jbar) : (jhatEquiv g : Dfull) = iotaD g := rfl
 
-@[expose] noncomputable def jhatToKv : Jhat →* Kstab (phi0 (coordOf rStar)) :=
+noncomputable def jhatToKv : Jhat →* Kstab (phi0 (coordOf rStar)) :=
   jbarToKv.comp jhatEquiv.symm.toMonoidHom
 
 theorem jhatToKv_jhatEquiv (g : Jbar) : jhatToKv (jhatEquiv g) = jbarToKv g := by
@@ -326,13 +326,13 @@ theorem natCard_Ptwo :
     natCard_comap_of_surjective jhatToKv_surjective, natCard_ker_jhatToKv, natCard_M_in]
   norm_num
 
-@[expose] noncomputable def P2J : Subgroup Jhat :=
+noncomputable def P2J : Subgroup Jhat :=
   ((monoSub ceqHyp).subgroupOf (Kstab (phi0 (coordOf rStar)))).comap jhatToKv
 
 theorem Ptwo_subgroupOf_eq :
     Ptwo.subgroupOf Jhat = P2J := Ptwo_eq_comap
 
-@[expose] noncomputable def ptwoQuotEquiv :
+noncomputable def ptwoQuotEquiv :
     P2J ⧸ (jhatToKv.ker.subgroupOf P2J) ≃* Mfr :=
   (QuotientGroup.quotientMulEquivOfEq (ker_comapRestrict jhatToKv _).symm).trans
     ((QuotientGroup.quotientKerEquivOfSurjective _
@@ -355,7 +355,7 @@ theorem conj_mem_Vhat {g : Dfull} (hg : g ∈ Ntwo) {d : Dfull} (hd : d ∈ Vhat
     g * d * g⁻¹ ∈ Vhat :=
   (Subgroup.mem_normalizer_iff.1 hg d).1 hd
 
-@[expose, instance_reducible] noncomputable def vAction : MulAction Ntwo Vsharp where
+@[instance_reducible] noncomputable def vAction : MulAction Ntwo Vsharp where
   smul g v := ⟨(g : Dfull) * v * (g : Dfull)⁻¹, conj_mem_Vhat g.2 v.2.1, fun h =>
     v.2.2 (by
       have := congrArg (fun d => (g : Dfull)⁻¹ * d * g) h
@@ -384,12 +384,12 @@ theorem iotaD_ybar_ne_one : iotaD ybar ≠ 1 :=
 theorem yhat_ne_one : yhat ≠ 1 :=
   fun h => zbar_ne_one (iotaD_injective (h.trans (map_one _).symm))
 
-@[expose] noncomputable def vX : Vsharp := ⟨xhat, xhat_mem_Vhat, xhat_ne_one⟩
+noncomputable def vX : Vsharp := ⟨xhat, xhat_mem_Vhat, xhat_ne_one⟩
 
-@[expose] noncomputable def vY : Vsharp :=
+noncomputable def vY : Vsharp :=
   ⟨iotaD ybar, ⟨ybar, ybar_mem_Vbar, rfl⟩, iotaD_ybar_ne_one⟩
 
-@[expose] noncomputable def vZ : Vsharp := ⟨yhat, yhat_mem_Vhat, yhat_ne_one⟩
+noncomputable def vZ : Vsharp := ⟨yhat, yhat_mem_Vhat, yhat_ne_one⟩
 
 theorem vsharp_cases (v : Vsharp) : v = vX ∨ v = vY ∨ v = vZ := by
   rcases (mem_Vhat_iff v.1).1 v.2.1 with h | h | h | h
@@ -408,7 +408,7 @@ theorem vZ_ne_vX : vZ ≠ vX := fun h =>
   zbar_ne_xbar (iotaD_injective (congrArg Subtype.val h))
 
 open _root_.Classical in
-@[expose] noncomputable def vsharpEquiv : Vsharp ≃ Fin 3 where
+noncomputable def vsharpEquiv : Vsharp ≃ Fin 3 where
   toFun v := if v = vX then 0 else if v = vY then 1 else 2
   invFun := ![vX, vY, vZ]
   left_inv v := by
@@ -425,7 +425,7 @@ open _root_.Classical in
 theorem natCard_vsharp : Nat.card Vsharp = 3 := by
   rw [Nat.card_congr vsharpEquiv, Nat.card_fin]
 
-@[expose] noncomputable def tauN : Ntwo := ⟨tauhat, tauhat_mem_Ntwo⟩
+noncomputable def tauN : Ntwo := ⟨tauhat, tauhat_mem_Ntwo⟩
 
 theorem tauN_vX : tauN • vX = vY := Subtype.ext tauhat_conj_xhat
 
@@ -497,7 +497,7 @@ theorem Ntwo_le_Shat : Ntwo ≤ Shat := by
   · exact ⟨taubar, rfl⟩
   · exact Jhat_le_Shat (Ptwo_le_Jhat h)
 
-@[expose] noncomputable def sym3Hom : Ntwo →* Equiv.Perm (Fin 3) :=
+noncomputable def sym3Hom : Ntwo →* Equiv.Perm (Fin 3) :=
   (Equiv.permCongrHom vsharpEquiv).toMonoidHom.comp (MulAction.toPermHom Ntwo Vsharp)
 
 theorem sym3Hom_apply (g : Ntwo) (k : Fin 3) :
@@ -617,7 +617,7 @@ theorem ker_sym3Hom : sym3Hom.ker = Ctwo.subgroupOf Ntwo := by
 instance Ctwo_subgroupOf_normal : (Ctwo.subgroupOf Ntwo).Normal :=
   ker_sym3Hom ▸ sym3Hom.normal_ker
 
-@[expose] noncomputable def ntwoQuotEquiv :
+noncomputable def ntwoQuotEquiv :
     Ntwo ⧸ Ctwo.subgroupOf Ntwo ≃* Equiv.Perm (Fin 3) :=
   (QuotientGroup.quotientMulEquivOfEq ker_sym3Hom.symm).trans
     (QuotientGroup.quotientKerEquivOfSurjective sym3Hom sym3Hom_surjective)

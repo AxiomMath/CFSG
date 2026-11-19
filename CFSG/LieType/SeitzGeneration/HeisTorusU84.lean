@@ -17,7 +17,7 @@ theorem ug84_isCoordBlockOn_blockMat {m : ℕ} (i : Fin m) (A : Matrix (Fin 2) (
   have hz : ∀ c : Fin (m + 1), c ≠ Fin.castSucc i → c ≠ Fin.succ i →
       ∀ x : Fin 2, blockSel K (m + 1) 2 (i : ℕ) c x = 0 := by
     intro c hc1 hc2 x
-    rw [blockSel_apply, if_neg]
+    rw [blockSel_apply, ite_eq_right]
     intro hx
     fin_cases x
     · exact hc1 (Fin.ext (by simpa using hx))

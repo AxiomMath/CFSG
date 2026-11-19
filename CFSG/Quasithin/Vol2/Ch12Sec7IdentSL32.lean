@@ -77,7 +77,7 @@ theorem dih_index_not_dvd : ¬ 2 ∣ dih.index := by
 theorem gl32_card_ne_eight (E : Subgroup (GL (Fin 3) (ZMod 2))) (hE : IsElemAbelian 2 E) :
     Nat.card E ≠ 8 := by
   intro h8
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let D : Sylow 2 (GL (Fin 3) (ZMod 2)) := IsPGroup.toSylow dih_isPGroup dih_index_not_dvd
   have hEp : IsPGroup 2 E := fun g => ⟨1, Subtype.ext (by simpa using hE.2 g g.2)⟩
   obtain ⟨Q, hEQ⟩ := hEp.exists_le_sylow
@@ -86,7 +86,7 @@ theorem gl32_card_ne_eight (E : Subgroup (GL (Fin 3) (ZMod 2))) (hE : IsElemAbel
     rw [← hg, Sylow.coe_subgroup_smul]
     rfl
   have hQcard : Nat.card Q = 8 := by
-    obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 Q.isPGroup'
+    obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 Q.isPGroup
     have hmul := Subgroup.card_mul_index (H := (Q : Subgroup (GL (Fin 3) (ZMod 2))))
     rw [card_GL_three, hn] at hmul
     have hle : Nat.card E ≤ Nat.card Q := Subgroup.card_le_of_le hEQ

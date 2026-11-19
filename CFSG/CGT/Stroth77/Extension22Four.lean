@@ -70,7 +70,7 @@ theorem t100_fixed_rho_t (m : ℕ) (y : Torus (Type100.k m))
     have h : (2 : ZMod (2 ^ (m + 1))) * (l : ZMod (2 ^ (m + 1))) -
         (-(l : ZMod (2 ^ (m + 1)))) = 0 := by
       rw [← hj2l, ← hjal, sub_self]
-    convert h using 1 <;> ring
+    convert h using 1; ring
   have hcop : Nat.Coprime 3 (2 ^ (m + 1)) := by
     rw [Nat.coprime_comm]
     exact (Nat.coprime_pow_left_iff (by omega : 0 < m + 1) 2 3).2 (by decide)
@@ -120,6 +120,7 @@ theorem natCard_torus_t200 (m : ℕ) :
     show m + (m + 1) + (m + 1) = 3 * m + 2 by ring, pow_succ]
   ring
 
+omit [Finite S] in
 theorem t100_fixed_rho_t_of_mem {m : ℕ} {B : Subgroup S}
     (D : StrothTypeData B (StrothTypeIndex.t100 m)) {x : B}
     (hρ : conjBy D.ρ_mem x = x) (ht : conjBy D.t_mem x = x) : x = 1 := by

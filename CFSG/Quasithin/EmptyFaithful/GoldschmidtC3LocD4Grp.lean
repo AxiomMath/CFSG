@@ -82,7 +82,7 @@ theorem commutator_two_elt_mem {K : Subgroup X} (hK : K.Normal)
       ⟨hKW' k' hk' x hx.1, hK.conj_mem x hx.2 k'⟩
   have hle : (W : Subgroup X) ⊓ K ≤ pCoreOf 2 K :=
     CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2 inf_le_right hnorm
-      (W.isPGroup'.to_le inf_le_left)
+      (W.isPGroup.to_le inf_le_left)
   exact hle ⟨hmemW, hmemK⟩
 
 theorem commutator_mem_pCoreOf {K : Subgroup X} (hK : K.Normal)
@@ -157,7 +157,7 @@ theorem normalizer_eq_of_three_sylow {B : Subgroup X} (hB : IsSylowTwoOf B ⊤)
     normalCore_le_normalizer_sylow (B := BS) (by rw [hBSc])
   have hYK : ∀ y ∈ (Y : Subgroup X), y ∈ K := by
     intro y hy
-    obtain ⟨j, hj⟩ := Y.isPGroup' ⟨y, hy⟩
+    obtain ⟨j, hj⟩ := Y.isPGroup ⟨y, hy⟩
     exact mem_normalCore_of_pow hidx hr hr6 (j := j) (by simpa using congrArg Subtype.val hj)
   have hcop2 : ∀ j i : ℕ, Nat.Coprime (r ^ j) (2 ^ i) := fun j i =>
     Nat.Coprime.pow _ _ ((Nat.coprime_primes hr Nat.prime_two).2 hr2')
@@ -168,7 +168,7 @@ theorem normalizer_eq_of_three_sylow {B : Subgroup X} (hB : IsSylowTwoOf B ⊤)
     have hYmem : n * y * n⁻¹ * y⁻¹ ∈ (Y : Subgroup X) :=
       (Y : Subgroup X).mul_mem ((Subgroup.mem_normalizer_iff.1 hn y).1 hy)
         ((Y : Subgroup X).inv_mem hy)
-    obtain ⟨j, hj⟩ := Y.isPGroup' ⟨_, hYmem⟩
+    obtain ⟨j, hj⟩ := Y.isPGroup ⟨_, hYmem⟩
     obtain ⟨i, hi⟩ := (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 K) ⟨_, hE⟩
     have hj' : (n * y * n⁻¹ * y⁻¹) ^ r ^ j = 1 := by simpa using congrArg Subtype.val hj
     have hi' : (n * y * n⁻¹ * y⁻¹) ^ 2 ^ i = 1 := by simpa using congrArg Subtype.val hi
@@ -179,7 +179,7 @@ theorem normalizer_eq_of_three_sylow {B : Subgroup X} (hB : IsSylowTwoOf B ⊤)
     calc y * n = (n * y * n⁻¹) * n := by rw [h2]
       _ = n * y := by group
   obtain ⟨Kr, hKrn, -, hKridx, -⟩ := CFSG.GroupTheory.burnside_normal_complement Y hNC
-  obtain ⟨s, hs⟩ : ∃ s : ℕ, Nat.card ↥(Y : Subgroup X) = r ^ s := Y.isPGroup'.exists_card_eq
+  obtain ⟨s, hs⟩ : ∃ s : ℕ, Nat.card ↥(Y : Subgroup X) = r ^ s := Y.isPGroup.exists_card_eq
   have hKr : ∀ b : X, (∃ j : ℕ, b ^ 2 ^ j = 1) → b ∈ Kr := by
     rintro b ⟨j, hj⟩
     have h1 : orderOf (b : X ⧸ Kr) ∣ 2 ^ j :=

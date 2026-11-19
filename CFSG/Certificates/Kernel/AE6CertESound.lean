@@ -15,27 +15,27 @@ open Certificates.AE6CertEK Certificates.AE6Model Certificates.AE6CertE CFSG.KC.
   if h : o < 360 then (σ ⟨o, h⟩).val else o
 
 theorem permN_lt (σ : Equiv.Perm (Fin 360)) {o : ℕ} (h : o < 360) : permN σ o < 360 := by
-  rw [permN, dif_pos h]
+  rw [permN, dite_eq_left h]
   exact (σ _).isLt
 
 theorem permN_mul (σ τ : Equiv.Perm (Fin 360)) (o : ℕ) :
     permN (σ * τ) o = permN σ (permN τ o) := by
   by_cases h : o < 360
-  · have e1 : permN τ o = (τ ⟨o, h⟩).val := by rw [permN, dif_pos h]
+  · have e1 : permN τ o = (τ ⟨o, h⟩).val := by rw [permN, dite_eq_left h]
     rw [e1]
     unfold permN
-    rw [dif_pos h, dif_pos (τ _).isLt]
+    rw [dite_eq_left h, dite_eq_left (τ _).isLt]
     rfl
-  · have e1 : permN τ o = o := by rw [permN, dif_neg h]
+  · have e1 : permN τ o = o := by rw [permN, dite_eq_right h]
     rw [e1]
     unfold permN
-    rw [dif_neg h, dif_neg h]
+    rw [dite_eq_right h, dite_eq_right h]
 
 theorem permN_one (o : ℕ) : permN 1 o = o := by
   by_cases h : o < 360
-  · rw [permN, dif_pos h]
+  · rw [permN, dite_eq_left h]
     rfl
-  · rw [permN, dif_neg h]
+  · rw [permN, dite_eq_right h]
 
 theorem permN_inv_cancel (σ : Equiv.Perm (Fin 360)) (o : ℕ) : permN σ (permN σ⁻¹ o) = o := by
   rw [← permN_mul, mul_inv_cancel, permN_one]
@@ -112,7 +112,7 @@ theorem memK_iff (x : ℕ) : ∀ L : List ℕ, memK x L = true ↔ x ∈ L
     · have hne : x ≠ b := Nat.ne_of_beq_eq_false hb
       simp only [hne, false_or]
     · have heq : x = b := Nat.eq_of_beq_eq_true hb
-      simp only [heq, true_or, iff_true]
+      simp only [heq, true_or]
 
 theorem notInK_sound (a : ℕ) : ∀ L : List ℕ, notInK a L = true → a ∉ L
   | [], _ => List.not_mem_nil
@@ -158,7 +158,7 @@ theorem wlk_word (hT : Letters T G) : ∀ v : List ℕ, (∀ a ∈ v, a < 8) →
   | a :: v, hv, p, hp => by
     have ha := hv a List.mem_cons_self
     have e1 : pg 9 (mask 9) (getK T a) p = permN (G.getD a 1)⁻¹ p := by
-      rw [(hT a ha).2, permN, dif_pos hp]
+      rw [(hT a ha).2, permN, dite_eq_left hp]
       exact (hT a ha).1 ⟨p, hp⟩
     have e2 : wlkK (convK T (a :: v)) p = wlkK (convK T v) (pg 9 (mask 9) (getK T a) p) := rfl
     rw [e2, e1, wlk_word hT v (fun b hb => hv b (List.mem_cons_of_mem _ hb)) _ (permN_lt _ hp),
@@ -193,8 +193,8 @@ theorem mem_stabO_of_invarK {X : ℕ} {σ : Equiv.Perm (Fin 360)} (hX : Orb.PRep
       revert h1
       cases memK (pg 9 (mask 9) X a) O <;> cases memK a O <;> decide
     rw [hX ⟨a, ha⟩] at e
-    rw [permN, dif_pos ha, ← memK_iff, ← memK_iff, e]
-  · rw [permN, dif_neg ha]
+    rw [permN, dite_eq_left ha, ← memK_iff, ← memK_iff, e]
+  · rw [permN, dite_eq_right ha]
 
 theorem inv_of_invoK {X : ℕ} {σ : Equiv.Perm (Fin 360)} (hX : Orb.PRep 360 9 X σ)
     (h : invoK X 360 = true) : σ⁻¹ = σ := by
@@ -268,8 +268,8 @@ theorem keyM_of_mem (hO : O.Nodup) (hU : U ≤ stabO O) {g y : Equiv.Perm (Fin 3
   rw [e, keyM_mul hO (hU h)]
 
 theorem KeyData.cover (hD : KeyData T G O U V W Lk) :
-    ∀ g ∈ V, ∃ j < 315, g * (aeWord G (W j))⁻¹ ∈ U :=
-  cover_of_inj hD.le hD.card (fun j => aeWord G (W j)) (fun j hj => hD.word_mem hj) fun a ha b hb h =>
+    ∀ g ∈ V, ∃ _j < 315, g * (aeWord G (W _j))⁻¹ ∈ U :=
+  cover_of_inj hD.le hD.card (fun _j => aeWord G (W _j)) (fun _j hj => hD.word_mem hj) fun _a ha _b hb h =>
     hD.key_inj ha hb (keyM_of_mem hD.nodup hD.stab h)
 
 theorem KeyData.sep (hD : KeyData T G O U V W Lk) {g h : Equiv.Perm (Fin 360)} (hg : g ∈ V)

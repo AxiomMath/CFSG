@@ -18,10 +18,12 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2]
 
 @[expose] def e₁ : Fin 2 ⊕ Fin 2 → F := Pi.single (Sum.inl 0) 1
 
+omit [Finite F] [CharP F 2] in
 theorem β_e₁ (w : Fin 2 ⊕ Fin 2 → F) : (spForm 2 F).β e₁ w = w (Sum.inr 0) := by
   rw [spForm_β, dotProduct_spJ_mulVec]
-  simp [e₁, dotProduct, Pi.single_apply, Fintype.sum_unique]
+  simp [e₁, dotProduct, Pi.single_apply]
 
+omit [Finite F] [CharP F 2] in
 theorem β_e₁_self : (spForm 2 F).β e₁ e₁ = 0 := spForm_self 2 F e₁
 
 theorem exists_tr (d : F) : ∃ h : StatedSp 2 F, ∀ v : Fin 2 ⊕ Fin 2 → F,
@@ -65,6 +67,7 @@ theorem tr_injective : Function.Injective (tr : F → StatedSp 2 F) := by
   have h2 := congrFun h1 (Sum.inl 0)
   simpa [e₁] using h2
 
+omit [Finite F] [CharP F 2] in
 theorem natRep_fieldSp (σ : F ≃+* F) (g : StatedSp 2 F) (v : Fin 2 ⊕ Fin 2 → F) :
     natRep (StatedSp 2 F) (fieldSp 2 F σ g) v =
       fun i => σ (natRep (StatedSp 2 F) g (fun j => σ.symm (v j)) i) := by
@@ -83,12 +86,12 @@ theorem fieldSp_tr (σ : F ≃+* F) (d : F) : fieldSp 2 F σ (tr d) = tr (σ d) 
   by_cases h : i = Sum.inl 0
   · subst h
     simp [e₁]
-  · simp [e₁, Pi.single_apply, h]
+  · simp [e₁, h]
 
 @[expose] noncomputable def trHom : Multiplicative F →* StatedSp 2 F where
   toFun d := tr (Multiplicative.toAdd d)
   map_one' := tr_zero
-  map_mul' a b := (tr_add _ _).symm
+  map_mul' _a _b := (tr_add _ _).symm
 
 theorem isPGroup_trHom_range : IsPGroup 2 (trHom (F := F)).range := by
   rintro ⟨_, ⟨d, rfl⟩⟩

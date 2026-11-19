@@ -33,12 +33,14 @@ theorem mem_blockClass_trans {α β γ : Set G} (hβ : β ∈ blockClass α) (h�
     γ ∈ blockClass α :=
   mem_blockClass_of_mem_blockClass (mem_blockClass_comm.mp hβ) hγ
 
+omit [Finite G] in
 theorem exists_labelling_of_mem_blockClass (hN : IsNormalSet D) {α : Set G}
     {ψ : G → Perm (Fin 5)} (hL : S5Labelling D α ψ) {θ : Set G} (hθ : θ ∈ blockClass α) :
     ∃ ψ' : G → Perm (Fin 5), S5Labelling D θ ψ' := by
   obtain ⟨g, rfl⟩ := mem_blockClass_iff.mp hθ
   exact ⟨_, hL.conj hN g⟩
 
+omit [Finite G] in
 theorem mem_Dalpha_of_label (hN : IsNormalSet D) (hD : IsOddTransp D) {α : Set G}
     (hα : IsBlock D α) {ψ : G → Perm (Fin 5)} (hL : S5Labelling D α ψ) {δ ε : Set G}
     (hδ : δ ∈ Dalpha D α) (hε : ε ∈ Dalpha D α) {x y : G} (hx : x ∈ δ) (hy : y ∈ ε)
@@ -51,6 +53,7 @@ theorem mem_Dalpha_of_label (hN : IsNormalSet D) (hD : IsOddTransp D) {α : Set 
   exact ⟨mem_blockClass_of_mem_blockClass hδ.1 hε.1, hε.2.1, hδε.symm,
     blocks_commute_of_mem hN hD hα hδ.1 hε.1 hδε hx hy hxy⟩
 
+omit [Finite G] in
 theorem Phi_eq_of_adj {α : Set G}
     (hadj : ∀ u ∈ α, ∀ δ ∈ Dalpha D α, ∀ ε ∈ Dalpha D α, ε ∈ Dalpha D δ →
       Phi D ε u ⊆ Phi D δ u)
@@ -58,6 +61,7 @@ theorem Phi_eq_of_adj {α : Set G}
     (hεδ : ε ∈ Dalpha D δ) : Phi D ε u = Phi D δ u :=
   (hadj u hu δ hδ ε hε hεδ).antisymm (hadj u hu ε hε δ hδ (Dalpha_symm hεδ hδ.2.1))
 
+omit [Finite G] in
 theorem Phi_eq_of_mem_Dalpha (hN : IsNormalSet D) (hD : IsOddTransp D) {α : Set G}
     (hα : IsBlock D α) {ψ : G → Perm (Fin 5)} (hL : S5Labelling D α ψ)
     (hadj : ∀ u ∈ α, ∀ δ ∈ Dalpha D α, ∀ ε ∈ Dalpha D α, ε ∈ Dalpha D δ →
@@ -76,6 +80,7 @@ theorem Phi_eq_of_mem_Dalpha (hN : IsNormalSet D) (hD : IsOddTransp D) {α : Set
     have h2 := mem_Dalpha_of_label hN hD hα hL hε hθ hy htθ (Ne.symm hσy) hcy.symm
     exact (Phi_eq_of_adj hadj hu hδ hθ h1).symm.trans (Phi_eq_of_adj hadj hu hε hθ h2)
 
+omit [Finite G] in
 theorem Phi_eq_of_mem_blockClass (hN : IsNormalSet D) (hD : IsOddTransp D) {α : Set G}
     (hα : IsBlock D α) {ψ : G → Perm (Fin 5)} (hL : S5Labelling D α ψ)
     (hadj : ∀ u ∈ α, ∀ δ ∈ Dalpha D α, ∀ ε ∈ Dalpha D α, ε ∈ Dalpha D δ →
@@ -91,6 +96,7 @@ theorem Phi_eq_of_mem_blockClass (hN : IsNormalSet D) (hD : IsOddTransp D) {α :
   ext y
   rw [e₁, e₂, mem_Phi_conj_iff hN k, mem_Phi_conj_iff hN k, key]
 
+omit [Finite G] in
 theorem image_conj_Phi (hN : IsNormalSet D) (g : G) (θ : Set G) (x : G) :
     (fun y => g * y * g⁻¹) '' Phi D θ x =
       Phi D ((fun y => g * y * g⁻¹) '' θ) (g * x * g⁻¹) := by
@@ -120,6 +126,7 @@ theorem Phi_ne (hN : IsNormalSet D) {α : Set G} (hα : IsBlock D α) {ε : Set 
   obtain ⟨θ, hθ, hvθ⟩ := hvB.1
   exact hθ.2.2.1 (eq_of_mem_of_mem_blockClass hεb hθ.1 (mem_blockClass_self ε) ⟨v, hvθ, hv⟩)
 
+omit [Finite G] in
 theorem isBlock_Phi (hN : IsNormalSet D) (hD : IsOddTransp D) {α : Set G}
     (hα : IsBlock D α) {ψ : G → Perm (Fin 5)} (hL : S5Labelling D α ψ)
     (hadj : ∀ u ∈ α, ∀ δ ∈ Dalpha D α, ∀ ε ∈ Dalpha D α, ε ∈ Dalpha D δ →
@@ -160,6 +167,7 @@ theorem subset_Phi {α ε₀ : Set G} {ψ₀ : G → Perm (Fin 5)} (hL₀ : S5La
   (hL₀.mem_Phi_iff (subset_DalphaStar hαε₀ hu)).mpr
     ⟨subset_DalphaStar hαε₀ ha, hL₀.block α hαε₀ a ha u hu⟩
 
+omit [Finite G] in
 theorem exists_mem_Phi_not_mem (hN : IsNormalSet D) {α : Set G} (hα : IsBlock D α)
     {ψ : G → Perm (Fin 5)} (hL : S5Labelling D α ψ)
     (hspread : ∀ θ ∈ Dalpha D α, ∃ θ' ∈ Dalpha D α, θ' ≠ θ ∧ ∀ x ∈ θ, ∀ y ∈ θ', ψ y = ψ x)

@@ -20,7 +20,7 @@ open CFSG.Open
 theorem O97Red.le_normalizer_E {X : Type} [Group X] [Finite X] {E Y S : Subgroup X}
     (h : O97Red X E Y S) {L : Subgroup X} (hL : CFSG.IsComponent L) (hLY : ¬ L ≤ Y) :
     E ≤ Subgroup.normalizer (L : Set X) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3 : 3 ∣ Nat.card L :=
     CFSG.LocalAnalysis.RankThreeTheoremC.thc_dvd_card (p := 3) Nat.prime_three h.core hL
   have hrank : 2 ≤ CFSG.Open.pRank 3 E :=
@@ -34,7 +34,7 @@ theorem O97Red.exists_inner {X : Type} [Group X] [Finite X] {E Y S : Subgroup X}
     (hK35 : KFactThreeFiveInner) (h : O97Red X E Y S) {L : Subgroup X}
     (hL : CFSG.IsComponent L) (hLY : ¬ L ≤ Y) :
     ∃ e ∈ E, e ≠ 1 ∧ ∃ k ∈ L, ∀ y ∈ L, e * y * e⁻¹ = k * y * k⁻¹ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let X' : Subgroup X := Subgroup.normalizer (L : Set X)
   have hLX' : L ≤ X' := Subgroup.le_normalizer
   have hEX' : E ≤ X' := O97Red.le_normalizer_E h hL hLY
@@ -101,7 +101,7 @@ private theorem mem_Y_of_inner {X : Type} [Group X] [Finite X] {E Y : Subgroup X
     (he1 : e ≠ 1) (hγ : CFSG.Open.rankThreeGamma 1 3 E ≤ Y) (hkL : k ∈ L)
     (hrel : ∀ y ∈ L, e * y * e⁻¹ = k * y * k⁻¹) :
     k ∈ Y := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hkC : k ∈ Subgroup.centralizer ({e} : Set X) := by
     rw [Subgroup.mem_centralizer_iff]
     intro y hy
@@ -119,7 +119,7 @@ private theorem not_mem_center_of_inner {X : Type} [Group X] [Finite X]
     (heE : e ∈ E) (he1 : e ≠ 1) (hγ : CFSG.Open.rankThreeGamma 1 3 E ≤ Y) (hkL : k ∈ L)
     (hrel : ∀ y ∈ L, e * y * e⁻¹ = k * y * k⁻¹) (hLY : ¬ L ≤ Y) :
     (⟨k, hkL⟩ : L) ∉ Subgroup.center ↥L := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro hkZ
   have hEL : L ≤ Subgroup.centralizer ({e} : Set X) := by
     intro y hy
@@ -148,7 +148,7 @@ private theorem le_normalizer_of_moved_component {X : Type} [Group X] [Finite X]
     (hkZ : (⟨k, hkL⟩ : L) ∉ Subgroup.center ↥L)
     (hconj : ∀ s ∈ S, k * s * k⁻¹ * s⁻¹ ∈ S) :
     S ≤ Subgroup.normalizer (L : Set X) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro s hs
   by_contra hsN
   let Ls : Subgroup X := L.map (MulAut.conj s).toMonoidHom

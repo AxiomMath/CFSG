@@ -99,7 +99,7 @@ theorem decJ_spec {j : G} (hj : j ∈ S.J) :
     (S.decJ_422 j).1 ∈ S.A ∧ (S.decJ_422 j).2 ∈ S.A' ∧ j = (S.decJ_422 j).1 * (S.decJ_422 j).2 := by
   have h := S.exists_decomp_422 hj
   unfold decJ_422
-  rw [dif_pos h]
+  rw [dite_eq_left h]
   exact h.choose_spec
 
 noncomputable def coordJ_422 (j : G) : V2 × V2 := (S.u (S.decJ_422 j).1, S.w (S.decJ_422 j).2)
@@ -305,7 +305,7 @@ theorem centralizer_J_eq_B_422 {y : G} (hyN : y ∈ S.N) (hy3 : y ^ 3 = 1) (hρ 
     exact S.card_centralizer_J_le_four_422 hyN hy3 hρ
   exact (Subgroup.eq_of_le_of_card_ge hle hcard).symm
 
-theorem conj_J_of_Z_422 {n : G} (hZ : ∀ w ∈ S.Z, n * w * n⁻¹ ∈ S.Z)
+theorem conj_J_of_Z_422 {n : G} (_hZ : ∀ w ∈ S.Z, n * w * n⁻¹ ∈ S.Z)
     (hZ' : ∀ w ∈ S.Z, n⁻¹ * w * n ∈ S.Z)
     (hJ : ∀ c : G, (∀ w ∈ S.Z, w * c = c * w) → c ∈ S.J) :
     ∀ g ∈ S.J, n * g * n⁻¹ ∈ S.J := by
@@ -314,7 +314,7 @@ theorem conj_J_of_Z_422 {n : G} (hZ : ∀ w ∈ S.Z, n * w * n⁻¹ ∈ S.Z)
   intro w hw
   have hw' := hZ' w hw
   have hc' : (n⁻¹ * w * n) * g = g * (n⁻¹ * w * n) :=
-    (HeJ.TData.Z_central S.hD.hT S.hD.hK.Aab S.hD.hK.A'ab hw' hg).symm
+    (HeJ.TData.Z_central S.hD.hK.Aab S.hD.hK.A'ab hw' hg).symm
   calc w * (n * g * n⁻¹) = n * ((n⁻¹ * w * n) * g) * n⁻¹ := by group
     _ = n * (g * (n⁻¹ * w * n)) * n⁻¹ := by rw [hc']
     _ = (n * g * n⁻¹) * w := by group

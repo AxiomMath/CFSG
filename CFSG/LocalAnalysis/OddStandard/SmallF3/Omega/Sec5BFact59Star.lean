@@ -26,9 +26,9 @@ private lemma not_pairSame_of_same {α : Type} {u v p q c a : α} (hs : PairSame
   unfold PairSame at *
   grind
 
-private lemma pair_four {α : Type} {c a0 a1 u v s t : α} (hc0 : c ≠ a0) (hc1 : c ≠ a1)
-    (h01 : a0 ≠ a1) (huv : u ≠ v) (hst : s ≠ t) (hu0 : PairMeet u v c a0)
-    (hu1 : PairMeet u v c a1) (hnu0 : ¬PairSame u v c a0) (hnu1 : ¬PairSame u v c a1)
+private lemma pair_four {α : Type} {c a0 a1 u v s t : α} (_hc0 : c ≠ a0) (_hc1 : c ≠ a1)
+    (h01 : a0 ≠ a1) (_huv : u ≠ v) (hst : s ≠ t) (hu0 : PairMeet u v c a0)
+    (hu1 : PairMeet u v c a1) (_hnu0 : ¬PairSame u v c a0) (_hnu1 : ¬PairSame u v c a1)
     (hs0 : PairMeet s t c a0) (hs1 : PairMeet s t c a1) (hns0 : ¬PairSame s t c a0)
     (hns1 : ¬PairSame s t c a1) (hus : PairMeet u v s t) (hnus : ¬PairSame u v s t)
     (huc : u ≠ c) (hvc : v ≠ c) : False := by
@@ -140,16 +140,16 @@ theorem exists_perm_heart (g : (Fin 6 → ZMod 2) → (Fin 6 → ZMod 2))
   let z : Fin 6 → Fin 8 := fun i => if x i = c then y i else x i
   have hz_ne : ∀ i, z i ≠ c := fun i => by
     by_cases h : x i = c
-    · simp only [z, h, if_true]
+    · simp only [z, h, ite_true]
       exact fun h' => hxy i (h.trans h'.symm)
-    · simp only [z, h, if_false]
+    · simp only [z, h, ite_false]
       exact h
   have hz_hp : ∀ i, heartPair (z i).val c.val = b i := fun i => by
     by_cases h : x i = c
-    · simp only [z, h, if_true]
+    · simp only [z, h, ite_true]
       rw [← hxyb i, h, hp_symm]
     · have hy : y i = c := (hc i).resolve_left h
-      simp only [z, h, if_false]
+      simp only [z, h, ite_false]
       rw [← hxyb i, hy]
   have hz_inj : Function.Injective z := fun i j hij => by
     by_contra h
@@ -192,7 +192,7 @@ private lemma permVec_single (σ : Equiv.Perm (Fin 8)) (i : Fin 8) :
   simp only [permVec, Function.comp_apply, Pi.single_apply]
   by_cases h : j = σ i
   · have h' : σ.symm j = i := by rw [Equiv.symm_apply_eq]; exact h
-    simp [h, h']
+    simp [h]
   · have h' : σ.symm j ≠ i := fun hh => h ((Equiv.symm_apply_eq σ).mp hh)
     simp [h, h']
 
@@ -227,8 +227,7 @@ private lemma evenLift_even (v : Fin 6 → ZMod 2) : IsEvenVec (evenLift v) := b
 
 private lemma heartCoord_evenLift (v : Fin 6 → ZMod 2) : heartCoord (evenLift v) = v := by
   funext i
-  simp only [heartCoord, evenLift, castLE6_8_eq, Fin.snoc_castSucc, Fin.snoc_last, Pi.add_apply,
-    Pi.zero_apply]
+  simp only [heartCoord, evenLift, castLE6_8_eq, Fin.snoc_castSucc]
   exact add_zero (v i)
 
 private lemma evenLift_single (i : Fin 6) :

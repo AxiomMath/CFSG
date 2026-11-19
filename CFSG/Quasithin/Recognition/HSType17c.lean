@@ -182,7 +182,7 @@ theorem not_two_dvd_relIndex_T [Finite G] (h : HSSetting z V) {t : G} (htK : t �
   obtain ⟨S, hS⟩ := hTp.exists_le_sylow
   have hSC : ((S : Subgroup ↥C).map C.subtype) ≤ C := Subgroup.map_subtype_le _
   have hScard : Nat.card ((S : Subgroup ↥C).map C.subtype) ≤ 64 :=
-    h.card_two_subgroup_centralizer_le htt ht1 htz (S.isPGroup'.map _) hSC
+    h.card_two_subgroup_centralizer_le htt ht1 htz (S.isPGroup.map _) hSC
   rw [Subgroup.card_map_of_injective C.subtype_injective] at hScard
   have heq : T.subgroupOf C = S := by
     refine Subgroup.eq_of_le_of_card_ge hS ?_

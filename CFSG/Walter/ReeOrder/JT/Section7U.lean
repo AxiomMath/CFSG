@@ -211,7 +211,7 @@ theorem commute_of_isPGroup_pi
     rw [hpow, this, pow_one]
   have hS₃n : (S₃ : Subgroup ZG).Normal := Subgroup.normal_of_index_eq_two hS₃idx
   set P := (S₃ : Subgroup ZG).map ZG.subtype with hPdef
-  have hP3 : IsPGroup 3 P := S₃.isPGroup'.map _
+  have hP3 : IsPGroup 3 P := S₃.isPGroup.map _
   have hPY : P ≤ Y := (Subgroup.map_subtype_le _).trans hZGY
   have hPM : P ≤ M := hPY.trans inf_le_right
   have hPK : P ≤ Subgroup.normalizer (K : Set G) := hPY.trans inf_le_left

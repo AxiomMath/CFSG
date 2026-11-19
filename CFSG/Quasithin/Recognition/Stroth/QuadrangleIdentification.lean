@@ -89,9 +89,9 @@ theorem quadrangleIdentification_of_fgq (hU : FGQHermitianUnique)
   rcases quadrangle_m_eq_two_mul_k_or_two_mul_m_eq_nine_mul_k hA hP hT hM (by omega : 1 ≤ k) hm hdeg
     ⟨p₀, hp₀, hdeg₀, a₀, ha₀, b₀, hb₀, hnab₀⟩ with hm2k | hexc
   ·
-    letI : MulAction (Un5Group k F) (un5System hF ζ).Vertex := rtsMulAction _
-    haveI : GraphAction (Un5Group k F) (un5System hF ζ).graph := rtsGraphAction _
-    haveI : FaithfulSMul (Un5Group k F) (un5System hF ζ).Vertex := un5System_faithfulSMul hF ζ
+    let : MulAction (Un5Group k F) (un5System hF ζ).Vertex := rtsMulAction _
+    have : GraphAction (Un5Group k F) (un5System hF ζ).graph := rtsGraphAction _
+    have : FaithfulSMul (Un5Group k F) (un5System hF ζ).Vertex := un5System_faithfulSMul hF ζ
     have hmou := rankTwoSystem_moufang (un5System hF ζ)
     have hgenM := CFSG.Quasithin.H13.F431.BN.isGenPolygon (un5System hF ζ)
     have hthickM := un5System_isThick hF ζ
@@ -135,10 +135,10 @@ theorem quadrangleIdentification_of_fgq (hU : FGQHermitianUnique)
     have hF' : Nat.card F' = (2 ^ (3 * j)) ^ 2 := by
       rw [GaloisField.card 2 (6 * j) (by omega), show 6 * j = 3 * j * 2 by ring, pow_mul]
     obtain ⟨ζ', hζ'⟩ := exists_traceZero_ne_zero (p := 2) (f := 3 * j) hF'
-    haveI : Fact ((ζ' : F') ≠ 0) := ⟨hζ'⟩
-    letI : MulAction (Un5Group (3 * j) F') (un5System hF' ζ').Vertex := rtsMulAction _
-    haveI : GraphAction (Un5Group (3 * j) F') (un5System hF' ζ').graph := rtsGraphAction _
-    haveI : FaithfulSMul (Un5Group (3 * j) F') (un5System hF' ζ').Vertex :=
+    have : Fact ((ζ' : F') ≠ 0) := ⟨hζ'⟩
+    let : MulAction (Un5Group (3 * j) F') (un5System hF' ζ').Vertex := rtsMulAction _
+    have : GraphAction (Un5Group (3 * j) F') (un5System hF' ζ').graph := rtsGraphAction _
+    have : FaithfulSMul (Un5Group (3 * j) F') (un5System hF' ζ').Vertex :=
       un5System_faithfulSMul hF' ζ'
     have hmou' := rankTwoSystem_moufang (un5System hF' ζ')
     have hgenM' := CFSG.Quasithin.H13.F431.BN.isGenPolygon (un5System hF' ζ')

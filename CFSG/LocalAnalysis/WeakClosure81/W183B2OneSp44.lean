@@ -16,6 +16,7 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
   {Zs : Submodule (ZMod 2) V} {m i₀ : ℕ} {δ : Subgroup (LGL 2 V) → ℕ}
   {G' : Type} [Group G']
 
+omit [Finite V] in
 theorem w183b2_imgOf_iSup {ψ : ↥Y →* G'} {ι : Sort*} (A : ι → Subgroup (LGL 2 V))
     (hA : ∀ i, A i ≤ Y) : imgOf ψ (⨆ i, A i) = ⨆ i, imgOf ψ (A i) := by
   have hsub : (⨆ i, A i).subgroupOf Y = ⨆ i, (A i).subgroupOf Y := by
@@ -30,6 +31,7 @@ theorem w183b2_imgOf_iSup {ψ : ↥Y →* G'} {ι : Sort*} (A : ι → Subgroup 
   rw [hsub, Subgroup.map_iSup]
   rfl
 
+omit [Finite V] in
 private theorem w183b2_imgOf_eq_iff {ψ : ↥Y →* G'} (hψ : Function.Injective ψ)
     {A B : Subgroup (LGL 2 V)} (hA : A ≤ Y) (hB : B ≤ Y) :
     imgOf ψ A = imgOf ψ B ↔ A = B := by
@@ -38,6 +40,7 @@ private theorem w183b2_imgOf_eq_iff {ψ : ↥Y →* G'} (hψ : Function.Injectiv
     exact le_antisymm ((imgOf_le_iff hψ hA hB).mp h.le) ((imgOf_le_iff hψ hB hA).mp h.ge)
   · intro h; rw [h]
 
+omit [Finite V] in
 private theorem w183b2_cj_le {p : LGL 2 V} (hp : p ∈ Y) {X : Subgroup (LGL 2 V)}
     (hX : X ≤ Y) : cj p X ≤ Y := by
   intro x hx
@@ -47,6 +50,7 @@ private theorem w183b2_cj_le {p : LGL 2 V} (hp : p ∈ Y) {X : Subgroup (LGL 2 V
   rw [MulAut.conj_apply]
   exact Y.mul_mem (Y.mul_mem hp haY) (Y.inv_mem hp)
 
+omit [Finite V] in
 private theorem w183b2_mem_normalizer_imgOf_iff {ψ : ↥Y →* G'} (hψ : Function.Injective ψ)
     {B : Subgroup (LGL 2 V)} (hB : B ≤ Y) {p : LGL 2 V} (hp : p ∈ Y) :
     ψ ⟨p, hp⟩ ∈ Subgroup.normalizer (imgOf ψ B : Set G') ↔
@@ -59,28 +63,31 @@ private theorem w183b2_mem_normalizer_imgOf_iff {ψ : ↥Y →* G'} (hψ : Funct
   change imgOf ψ (cj p B) = imgOf ψ B ↔ cj p B = B
   rw [w183b2_imgOf_eq_iff hψ (w183b2_cj_le hp hB) hB]
 
+omit [Finite V] in
 private theorem w183b2_isElemAbelian_of_le {E B : Subgroup (LGL 2 V)} (hE : IsElemAbelian 2 E)
     (hBE : B ≤ E) : IsElemAbelian 2 B := by
   refine ⟨⟨⟨fun x y => ?_⟩⟩, fun x hx => ?_⟩
   · exact Subtype.ext (congrArg (Subtype.val : ↥E → LGL 2 V)
       (hE.1.is_comm.comm (⟨(x : LGL 2 V), hBE x.2⟩ : ↥E)
         (⟨(y : LGL 2 V), hBE y.2⟩ : ↥E)))
-  · change (x : LGL 2 V) ^ 2 = 1
-    exact hE.2 (x : LGL 2 V) (hBE hx)
+  · exact hE.2 (x : LGL 2 V) (hBE hx)
 
+omit [Finite V] in
 private theorem w183b2_mul_self_eq_one {E : Subgroup (LGL 2 V)} (hE : IsElemAbelian 2 E)
     {x : LGL 2 V} (hx : x ∈ E) : x * x = 1 := by
   simpa [pow_two] using hE.2 x hx
 
-private theorem w183b2_le_normalizer_inf (hTY : T ≤ Y) (hLY : L ≤ Y)
+omit [Finite V] in
+private theorem w183b2_le_normalizer_inf (hTY : T ≤ Y) (_hLY : L ≤ Y)
     (hLn : ∀ y ∈ Y, ∀ l ∈ L, y * l * y⁻¹ ∈ L) :
     T ≤ Subgroup.normalizer (T ⊓ L : Set (LGL 2 V)) := by
   refine (Subgroup.le_normalizer_iff (G := LGL 2 V) (H := T) (K := T ⊓ L)).mpr ?_
   intro t ht k hk
   exact ⟨T.mul_mem (T.mul_mem ht hk.1) (T.inv_mem ht), hLn t (hTY ht) k hk.2⟩
 
+omit [Finite V] in
 private theorem w183b2_imgOf_le_invGen {ψ : ↥Y →* MulAut ↥L} {B : Subgroup (LGL 2 V)}
-    (hBY : B ≤ Y) (hBT : B ≤ T) (hBe : IsElemAbelian 2 B) :
+    (_hBY : B ≤ Y) (hBT : B ≤ T) (hBe : IsElemAbelian 2 B) :
     imgOf ψ B ≤ invGen (imgOf ψ T) := by
   intro x hx
   obtain ⟨b, hb, rfl⟩ := Subgroup.mem_map.mp hx
@@ -92,6 +99,7 @@ private theorem w183b2_imgOf_le_invGen {ψ : ↥Y →* MulAut ↥L} {B : Subgrou
       _ = ψ 1 := by rw [hbY]
       _ = 1 := map_one ψ
 
+omit [Finite V] in
 private theorem w183b2_imgOf_gen_sup (hL : SimpleCore Y L) {X Q : Subgroup (LGL 2 V)}
     (hX : X ≤ Y) (hQ : Q ≤ Y) :
     imgOf (psiOf Y L hL.normal)
@@ -201,6 +209,7 @@ theorem w183b2_sp44_no_r2 (hc : Br1Base Y Γ VA T 𝒢 Zs m i₀ δ) (hL : Br2On
     (imgOf_cj ψ (hc.h131.le_G D hD) y.2).symm]
   exact (w183b2_mem_normalizer_imgOf_iff hψ hD'Y y₁.2).mpr hy₁ND
 
+omit [Finite V] in
 theorem br2RadY_of_two_radicals (hT : IsSylowIn 2 T Y) (hL : Br2OneComp Y T L)
     {Q₁' Q₂' : Subgroup (MulAut ↥L)}
     (hrad : Br2TwoRadicals ↥L (imgOf (psiOf Y L hL.normal) T ⊓ innAutOf ↥L) Q₁' Q₂') :

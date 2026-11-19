@@ -41,8 +41,8 @@ theorem charTwo_sup_I9 {H R : Subgroup G} (hF : Fstar H = pCoreOf 2 H) (hRH : R 
 
 theorem not_three_dvd_card_sup_I9 {H R : Subgroup G} (hRH : R ≤ H) (hR2 : IsPGroup 2 R) :
     ¬ 3 ∣ Nat.card ↥(R ⊔ I9 H) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcard := CFSG.RankThree.PartOne.K1214.card_sup_mul_card_inf_of_le_normalizer
     (hRH.trans (CFSG.RankThree.GroupTheory.SteinbergBM.le_normalizer_inSubgroup_pPrimeCore 3 H))
   intro h3

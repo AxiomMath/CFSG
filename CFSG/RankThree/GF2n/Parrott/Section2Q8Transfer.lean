@@ -15,6 +15,7 @@ variable (D : QuotientData (z := z) hN)
 
 omit
   hN in
+omit [Finite G] in
 theorem map_centralizerJ_conj (g x : ↥(H z)) :
     (centralizerJ x).map (conjJ' z g).toMonoidHom =
       centralizerJ (g * x * g⁻¹) := by

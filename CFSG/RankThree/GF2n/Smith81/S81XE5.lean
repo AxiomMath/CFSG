@@ -23,7 +23,7 @@ theorem e5RootElt_of_inputs
     obtain ⟨t', hD, h⟩ := hc
     exact ⟨hR.toCfg, t', hD, Or.inr (Or.inr h)⟩
   have hTacit := eTacitE5_of_genByB hGen
-  haveI hK2 : CharP K 2 := by
+  have hK2 : CharP K 2 := by
     obtain ⟨m, -, hZm, -⟩ := hSE.ctx.hyp.cp
     exact charP_two_of_natCard_pow_two (hg.card.trans hZm)
   obtain ⟨lam, hlam, hform⟩ := hForm G M Q Z B IH hR hc K γ M₀ hg ψ φ d
@@ -46,6 +46,6 @@ theorem e5RootElt_of_inputs
       have := hu.conj_E ha
       simpa [map_mul, map_inv] using this)
     e7_lemmaT hz hz1 hzt htM htQ
-  exact ⟨⟨t, htL⟩, by simpa using Q.one_mem, hRt⟩
+  exact ⟨⟨t, htL⟩, by simp, hRt⟩
 
 end CFSG.RankThree.GF2n.Smith81

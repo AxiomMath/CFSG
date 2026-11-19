@@ -26,7 +26,7 @@ theorem catHaradaAS_of_parts (hleaf : FivePumpLeaf) (hL216 : NoZ2S5L216) (hU34 :
     CatHaradaAS := by
   intro G _ _ S hSn hS hnab hcat hcent t ht hC
   obtain ⟨ζ⟩ := hC
-  haveI := hSn
+  have := hSn
   have hder := derived_le_of_cent hSn hS hnab hcent ht ζ
   rcases fivePumpOutcome_one hleaf hSn hS hnab hcat hcent ht ζ with ⟨m, hm, hm7, ⟨θ⟩⟩ | hnon
   ·

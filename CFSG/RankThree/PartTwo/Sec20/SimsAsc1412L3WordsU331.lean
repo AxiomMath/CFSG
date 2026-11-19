@@ -200,15 +200,15 @@ private theorem map_u3x31X₁ (σ : K →+* K) (hσ : σ z = -z) :
     ext i j
     fin_cases i <;> fin_cases j <;> rfl]
   exact mat3_congr
-    (by simp only [map_add, map_mul, map_neg, map_one, map_zero, map_ofNat, hσ]; ring)
-    (by simp only [map_add, map_mul, map_neg, map_one, map_zero, map_ofNat, hσ]; ring)
-    (by simp only [map_neg, map_one, map_zero, map_ofNat])
-    (by simp only [map_add, map_mul, map_neg, map_one, map_zero, map_ofNat, hσ]; ring)
-    (by simp only [map_neg, map_one, map_zero, map_ofNat])
-    (by simp only [map_add, map_mul, map_neg, map_one, map_zero, map_ofNat, hσ]; ring)
-    (by simp only [map_add, map_mul, map_neg, map_one, map_zero, map_ofNat, hσ]; ring)
-    (by simp only [map_add, map_mul, map_neg, map_one, map_zero, map_ofNat, hσ]; ring)
-    (by simp only [map_add, map_mul, map_neg, map_one, map_zero, map_ofNat, hσ]; ring)
+    (by simp only [map_add, map_mul, map_neg, map_ofNat, hσ]; ring)
+    (by simp only [map_add, map_mul, map_one, map_ofNat, hσ]; ring)
+    (by simp only [map_ofNat])
+    (by simp only [map_add, map_mul, map_neg, map_ofNat, hσ]; ring)
+    (by simp only [map_ofNat])
+    (by simp only [map_add, map_mul, map_neg, map_ofNat, hσ]; ring)
+    (by simp only [map_add, map_mul, map_neg, map_ofNat, hσ]; ring)
+    (by simp only [map_add, map_mul, map_one, map_ofNat, hσ]; ring)
+    (by simp only [map_add, map_mul, map_neg, map_ofNat, hσ]; ring)
 
 private theorem map_u3x31X₂ (σ : K →+* K) (hσ : σ z = -z) :
     (u3x31X₂ z).map σ = (u3x31X₂i z)ᵀ := by
@@ -219,15 +219,15 @@ private theorem map_u3x31X₂ (σ : K →+* K) (hσ : σ z = -z) :
     ext i j
     fin_cases i <;> fin_cases j <;> rfl]
   exact mat3_congr
-    (by simp only [map_add, map_mul, map_neg, map_one, map_zero, map_ofNat, hσ]; ring)
-    (by simp only [map_add, map_mul, map_neg, map_one, map_zero, map_ofNat, hσ]; ring)
-    (by simp only [map_add, map_mul, map_neg, map_one, map_zero, map_ofNat, hσ]; ring)
-    (by simp only [map_add, map_mul, map_neg, map_one, map_zero, map_ofNat, hσ]; ring)
-    (by simp only [map_neg, map_one, map_zero, map_ofNat])
-    (by simp only [map_add, map_mul, map_neg, map_one, map_zero, map_ofNat, hσ]; ring)
-    (by simp only [map_add, map_mul, map_neg, map_one, map_zero, map_ofNat, hσ]; ring)
-    (by simp only [map_add, map_mul, map_neg, map_one, map_zero, map_ofNat, hσ]; ring)
-    (by simp only [map_add, map_mul, map_neg, map_one, map_zero, map_ofNat, hσ]; ring)
+    (by simp only [map_add, map_mul, map_one, map_ofNat, hσ]; ring)
+    (by simp only [map_add, map_mul, map_neg, map_ofNat, hσ]; ring)
+    (by simp only [map_add, map_mul, map_ofNat, hσ]; ring)
+    (by simp only [map_add, map_mul, map_neg, map_ofNat, hσ]; ring)
+    (by simp only [map_ofNat])
+    (by simp only [map_add, map_mul, map_ofNat, hσ]; ring)
+    (by simp only [map_add, map_mul, map_neg, map_ofNat, hσ]; ring)
+    (by simp only [map_add, map_mul, map_neg, map_ofNat, hσ]; ring)
+    (by simp only [map_add, map_mul, map_neg, map_one, map_ofNat, hσ]; ring)
 
 private theorem map_u3x31Yf (σ : K →+* K) (hσ : σ z = -z) :
     (u3x31Yf z).map σ = (u3x31Yfi z)ᵀ := by
@@ -238,21 +238,21 @@ private theorem map_u3x31Yf (σ : K →+* K) (hσ : σ z = -z) :
     ext i j
     fin_cases i <;> fin_cases j <;> rfl]
   exact mat3_congr
-    (by simp only [map_neg, map_one, map_zero, map_ofNat])
-    (by simp only [map_add, map_mul, map_neg, map_one, map_zero, map_ofNat, hσ]; ring)
-    (by simp only [map_add, map_mul, map_neg, map_one, map_zero, map_ofNat, hσ]; ring)
-    (by simp only [map_add, map_mul, map_neg, map_one, map_zero, map_ofNat, hσ]; ring)
-    (by simp only [map_add, map_mul, map_neg, map_one, map_zero, map_ofNat, hσ]; ring)
-    (by simp only [map_neg, map_one, map_zero, map_ofNat])
-    (by simp only [map_add, map_mul, map_neg, map_one, map_zero, map_ofNat, hσ]; ring)
-    (by simp only [map_neg, map_one, map_zero, map_ofNat])
-    (by simp only [map_add, map_mul, map_neg, map_one, map_zero, map_ofNat, hσ]; ring)
+    (by simp only [map_neg, map_ofNat])
+    (by simp only [map_add, map_mul, map_one, map_ofNat, hσ]; ring)
+    (by simp only [map_add, map_mul, map_neg, map_ofNat, hσ]; ring)
+    (by simp only [map_add, map_mul, map_one, map_ofNat, hσ]; ring)
+    (by simp only [map_add, map_mul, map_neg, map_one, map_ofNat, hσ]; ring)
+    (by simp only [map_ofNat])
+    (by simp only [map_add, map_mul, map_neg, map_ofNat, hσ]; ring)
+    (by simp only [map_ofNat])
+    (by simp only [map_add, map_mul, map_ofNat, hσ]; ring)
 
 private theorem transpose_u3x31Yf : (u3x31Yf z)ᵀ = u3x31Yf z := by
   ext i j
   fin_cases i <;> fin_cases j <;> rfl
 
-private theorem u3x31_w2 (hp : (31 : K) = 0) (hz : z ^ 2 = -1) :
+private theorem u3x31_w2 (_hp : (31 : K) = 0) (_hz : z ^ 2 = -1) :
     (!![-1, 0, 0; 0, -1, 0; 0, 0, 1] : Matrix (Fin 3) (Fin 3) K) *
       !![-6 + -8 * z, 1 + 4 * z, 15; -5 + 2 * z, 3, 3 + -4 * z; 5 + -8 * z, 6 + 1 * z, -5 + 6 * z] =
       !![6 + 8 * z, -1 + -4 * z, -15;
@@ -270,7 +270,7 @@ private theorem u3x31_w2 (hp : (31 : K) = 0) (hz : z ^ 2 = -1) :
     (by linear_combination)
     (by linear_combination)
 
-private theorem u3x31_w3 (hp : (31 : K) = 0) (hz : z ^ 2 = -1) :
+private theorem u3x31_w3 (_hp : (31 : K) = 0) (_hz : z ^ 2 = -1) :
     (!![6 + 8 * z, -1 + -4 * z, -15;
         5 + -2 * z, -3, -3 + 4 * z;
         5 + -8 * z, 6 + 1 * z, -5 + 6 * z] : Matrix (Fin 3) (Fin 3) K) *
@@ -334,7 +334,7 @@ private theorem u3x31_w5 (hp : (31 : K) = 0) (hz : z ^ 2 = -1) :
     (by linear_combination (-12) * hz + (3 + 1 * z) * hp)
     (by linear_combination (-102) * hz + (13 + 2 * z) * hp)
 
-private theorem u3x31_w6 (hp : (31 : K) = 0) (hz : z ^ 2 = -1) :
+private theorem u3x31_w6 (_hp : (31 : K) = 0) (_hz : z ^ 2 = -1) :
     (!![-7 + 10 * z, -2 * z, 4 + -7 * z;
         -13 + 7 * z, -12 + -14 * z, -13 + -7 * z;
         8 + 2 * z, -9 + -14 * z, -7 + -14 * z] : Matrix (Fin 3) (Fin 3) K) *
@@ -667,13 +667,13 @@ private theorem u3x31Yf_pow (hp : (31 : K) = 0) (hz : z ^ 2 = -1) : u3x31Yf z ^ 
   rw [u3x31Yf_q1 hp hz, u3x31Yf_q2 hp hz]
   exact Matrix.one_fin_three.symm
 
-private theorem u3x31Y_ne_one (hp : (31 : K) = 0) (hz : z ^ 2 = -1) : u3x31Y z ≠ 1 := by
+private theorem u3x31Y_ne_one (hp : (31 : K) = 0) (_hz : z ^ 2 = -1) : u3x31Y z ≠ 1 := by
   intro h1
   have e := congrArg (fun M : Matrix (Fin 3) (Fin 3) K => M 0 1) h1
   simp [u3x31Y] at e
   exact one_ne_zero (α := K) (by linear_combination (-5) * e + (1) * hp)
 
-private theorem u3x31Yf_ne_one (hp : (31 : K) = 0) (hz : z ^ 2 = -1) : u3x31Yf z ≠ 1 := by
+private theorem u3x31Yf_ne_one (hp : (31 : K) = 0) (_hz : z ^ 2 = -1) : u3x31Yf z ≠ 1 := by
   intro h1
   have e := congrArg (fun M : Matrix (Fin 3) (Fin 3) K => M 1 2) h1
   simp [u3x31Yf] at e

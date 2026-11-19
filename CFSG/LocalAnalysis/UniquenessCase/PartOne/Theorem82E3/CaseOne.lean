@@ -31,7 +31,7 @@ namespace Case811Sylow
 theorem not_rankThreeGamma_le {c : Ctx82E3 D} (h : Case811Sylow c) :
     ¬ CFSG.Open.rankThreeGamma 1 3 h.A ≤ D.M := by
   intro hΓ
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hA1 : h.A ≠ ⊥ := by
     intro hbot
     have hcard := h.card_A
@@ -55,9 +55,9 @@ theorem false_of_rank_conditions {c : Ctx82E3 D} (h : Case811Sylow c) {p : ℕ}
     (hdvd : ∀ X : Subgroup G, X ≤ h.A → Nat.card X = 3 →
       p ∣ Nat.card (Subgroup.normalizer (X : Set G))) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hp_prime : p.Prime := (D.sig_prime p hp).1
-  haveI : Fact p.Prime := ⟨hp_prime⟩
+  have : Fact p.Prime := ⟨hp_prime⟩
   have hA_gamma : CFSG.Open.rankThreeGamma 1 3 h.A ≤ D.M := by
     refine CFSG.RankThree.PartOne.IsStronglyPEmbedded.rankThreeGamma_one_le
       (p := p) (q := 3) (M := D.M) (A := h.A)
@@ -90,7 +90,7 @@ theorem false_of_le_centralizer_A {c : Ctx82E3 D} (h : Case811Sylow c) {p : ℕ}
     {R : Subgroup G} (hRM : R ≤ D.M) (hRA : R ≤ Subgroup.centralizer (h.A : Set G))
     (hR : CFSG.Open.IsElemAbelian p R) (hRcard : Nat.card R = p ^ 2) : False := by
   have hp_prime : p.Prime := (D.sig_prime p hp).1
-  haveI : Fact p.Prime := ⟨hp_prime⟩
+  have : Fact p.Prime := ⟨hp_prime⟩
   refine false_of_rank_conditions h hp h76 ?_ ?_ ?_
   · intro E hEA hEab hEcard
     have hle : R ≤ D.M ⊓ Subgroup.centralizer (E : Set G) :=

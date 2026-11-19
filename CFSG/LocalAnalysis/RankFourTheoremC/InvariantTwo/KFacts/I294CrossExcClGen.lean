@@ -53,7 +53,7 @@ theorem crossExcCl_prod_pow_two {q : ℕ} (hq : 1 ≤ q) (m : ℕ) :
 theorem crossExcCl_not_dvd_prod_geom {p q m : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hq : 1 ≤ q)
     (hpq : p ∣ q - 1) (hm : m < p) : ¬ p ∣ ∏ i ∈ Finset.Icc 1 m, crossExcClGeom q (2 * i) := by
   intro h
-  obtain ⟨i, hi, hdvd⟩ := (Prime.dvd_finset_prod_iff hp.prime _).1 h
+  obtain ⟨i, hi, hdvd⟩ := (Prime.dvd_finsetProd_iff hp.prime _).1 h
   rw [Finset.mem_Icc] at hi
   apply crossExcClGeom_not_dvd hq hpq _ hdvd
   intro h2
@@ -124,7 +124,7 @@ theorem crossExcCl_sylow_statedProj {ι : Type} [Fintype ι] [DecidableEq ι] {K
     (hN : Fintype.card ι / 2 < p) (H : Subgroup (GL ι K))
     (hsplit : p ∣ Nat.card K - 1 → ∀ S : Sylow p H, IsMulCommutative (S : Subgroup H))
     (R : Sylow p (StatedProj H)) : IsMulCommutative (R : Subgroup (StatedProj H)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hH : ∀ S : Sylow p H, IsMulCommutative (S : Subgroup H) := by
     by_cases h1 : p ∣ Nat.card K - 1
     · exact hsplit h1
@@ -137,7 +137,7 @@ theorem crossExcCl_sylow_statedProj {ι : Type} [Fintype ι] [DecidableEq ι] {K
         lt_of_le_of_lt (Nat.div_le_div_left (by omega) (by norm_num)) hN
       have hodd : Odd p := hp.odd_of_ne_two hp2
       have h2 : IsMulCommutative ((S : Subgroup H).map H.subtype) :=
-        crossExcCl_isMulCommutative_GL hodd hpK he hpe hne (S.isPGroup'.map _)
+        crossExcCl_isMulCommutative_GL hodd hpK he hpe hne (S.isPGroup.map _)
       exact crossExcCl_isMulCommutative_of_map_injective H.subtype H.subtype_injective h2
   exact isMulCommutative_sylow_of_surjective
     (QuotientGroup.mk' ((StatedScalars ι K).subgroupOf H)) (QuotientGroup.mk'_surjective _) hH R

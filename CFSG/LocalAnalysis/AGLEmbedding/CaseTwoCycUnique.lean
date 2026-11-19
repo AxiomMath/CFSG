@@ -76,7 +76,7 @@ theorem false_of_commute_of_cyclic {X : Type*} [Group X] [Finite X] {p : ℕ}
   obtain ⟨Q₁⟩ : Nonempty (Sylow p V₁) := inferInstance
   have hQ₁c : IsCyclic (Q₁ : Subgroup V₁) := by
     have h := hcyc ((Q₁ : Subgroup V₁).map V₁.subtype)
-      ((map_subtype_le _).trans le_sup_left) (Q₁.isPGroup'.map _)
+      ((map_subtype_le _).trans le_sup_left) (Q₁.isPGroup.map _)
     exact isCyclic_of_injective
       ((Q₁ : Subgroup V₁).equivMapOfInjective V₁.subtype V₁.subtype_injective).toMonoidHom
       (MulEquiv.injective _)
@@ -88,7 +88,7 @@ theorem false_of_commute_of_cyclic {X : Type*} [Group X] [Finite X] {p : ℕ}
     have := congrArg Subtype.val hk
     simpa using this
   have hne := Q₁.ne_bot_of_dvd_card hd₁
-  obtain ⟨n, hn⟩ := Q₁.isPGroup'.exists_card_eq
+  obtain ⟨n, hn⟩ := Q₁.isPGroup.exists_card_eq
   have hor : orderOf r = p ^ n := by
     rw [← Nat.card_zpowers, ← hQr, hn]
   have hn0 : n ≠ 0 := by

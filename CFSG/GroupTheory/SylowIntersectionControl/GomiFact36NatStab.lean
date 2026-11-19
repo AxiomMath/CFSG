@@ -21,7 +21,7 @@ private theorem isGomiModelFix_nat_iff {ι : Type} [Fintype ι] [DecidableEq ι]
   change natAct Γ t m * m⁻¹ ∈ (⊥ : Subgroup (Multiplicative (ι → K))) ↔ _
   rw [Subgroup.mem_bot, mul_inv_eq_one]
   change Multiplicative.ofAdd _ = m ↔ _
-  exact Equiv.apply_eq_iff_eq_symm_apply Multiplicative.ofAdd
+  exact (Iff.symm (_root_.Equiv.eq_symm_apply Multiplicative.ofAdd))
 
 section SL3
 
@@ -150,8 +150,8 @@ theorem gomiNatStabModel_sp4 (K : Type) [Field K] [Finite K] [CharP K 2] :
   have hfix : ∀ m : Multiplicative (Fin 2 ⊕ Fin 2 → K), IsGomiModelFix (FFModel.nat (StatedSp 2 K))
       (S : Subgroup (Sp4 K)) m ↔ Multiplicative.toAdd m ∈ pt₀ K := fun m => by
     rw [isGomiModelFix_nat_iff, hS, ← fixSp_sylS, mem_fixSp]
-  obtain ⟨g, hgP, hgB⟩ := SetLike.not_le_iff_exists.mp (not_P₂_le_borel (F := K))
-  obtain ⟨g', -, hg'⟩ := SetLike.not_le_iff_exists.mp (P₁_not_le_P₂ (F := K))
+  obtain ⟨g, hgP, hgB⟩ := IsConcreteLE.not_le_iff_exists.mp (not_P₂_le_borel (F := K))
+  obtain ⟨g', -, hg'⟩ := IsConcreteLE.not_le_iff_exists.mp (P₁_not_le_P₂ (F := K))
   obtain ⟨v, hv, hgv⟩ : ∃ v ∈ pt₀ K, mat g' *ᵥ v ∉ pt₀ K := by
     by_contra h
     push Not at h

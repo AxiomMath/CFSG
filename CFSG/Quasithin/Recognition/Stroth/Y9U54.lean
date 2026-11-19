@@ -30,7 +30,7 @@ variable {K : Type} [Field K]
 private theorem card_u5LnP (h : UnitaryFieldData 2 2 K) :
     Nat.card (u5LnP h) = 802160640 := by
   have hfin : Finite K := h.finite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hiso : ∀ x ∈ hypFlag h 2 1 2, ∀ y ∈ hypFlag h 2 1 2, hypForm h 2 1 x y = 0 :=
     (isIsotropicChain_hypFlag h (r := 2) (ε := 1) le_rfl).2.2 2 le_rfl
   have hidxLn : (u5LnP h).index = 66625 := by
@@ -69,7 +69,7 @@ private theorem not_dvd_card_u5LnP (h : UnitaryFieldData 2 2 K) :
 private theorem centerOf_perfectCore_u5PtP_eq_centerOf_U (h : UnitaryFieldData 2 2 K) :
     centerOf (perfectCore (u5PtP h)) = centerOf (hypProjUnitriangular h 2 1) := by
   have hfin : Finite K := h.finite
-  haveI : Finite (hypPSU h 2 1) := finite_hypPSU_five h
+  have : Finite (hypPSU h 2 1) := finite_hypPSU_five h
   have hf : 2 ≤ 2 := le_rfl
   have hZPt : centerOf (perfectCore (u5PtP h)) = (ZPsub h).map (hypProj h 2 1) :=
     centerOf_perfectCore_u5PtP (h := h) hf
@@ -92,11 +92,11 @@ private theorem exists_unitaryFieldData_of_psu5 {Y : Type} [Group Y]
       Nonempty (Y ≃* hypPSU h 2 1) := by
   rcases hY with ⟨-, hc⟩ | ⟨hn0, -⟩ | ⟨hn0, -⟩ | ⟨hn0, -⟩
   · obtain ⟨-, F, hField, hFinite, hF, ⟨eS⟩⟩ := hc
-    letI := hField
-    letI := hFinite
+    let := hField
+    let := hFinite
     have hcard : Nat.card F = 2 ^ (2 * 2) := by rw [hF]; norm_num
     have h : UnitaryFieldData 2 2 F := ⟨Nat.prime_two, by norm_num, hcard⟩
-    haveI : Finite (hypPSU h 2 1) := finite_hypPSU_five h
+    have : Finite (hypPSU h 2 1) := finite_hypPSU_five h
     obtain ⟨R, hR⟩ := exists_isHypTransport (r := 2) (ε := 1) h
     exact ⟨F, hField, hFinite, h,
       ⟨eS.trans (hypPSUEquivStatedProj h hR (by norm_num)).symm⟩⟩
@@ -107,10 +107,10 @@ private theorem thirteen_dvd_card_of_statedSU {G : Type} [Group G] {L : Subgroup
         Nonempty (oTwoQuot ↥L ≃* StatedSU 3 4 F)) :
     13 ∣ Nat.card ↥L := by
   obtain ⟨F, hField, hFinite, hcard4, ⟨eSU⟩⟩ := hSU
-  letI := hField
-  letI := hFinite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 :=
+  let := hField
+  let := hFinite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 :=
     CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := 2)
       (by rw [hcard4]; norm_num)
   have hcardQuot : Nat.card (oTwoQuot ↥L) = 62400 := by
@@ -167,9 +167,9 @@ private theorem u54_vertices {G : Type} [Group G] [Finite G]
   classical
   obtain ⟨Y, _, hY, T, M1, M2, hpair, ⟨iso0⟩⟩ := hA
   obtain ⟨F, hField, hFinite, h, ⟨eY⟩⟩ := exists_unitaryFieldData_of_psu5 hY
-  letI := hField
-  letI := hFinite
-  haveI : Finite (hypPSU h 2 1) := finite_hypPSU_five h
+  let := hField
+  let := hFinite
+  have : Finite (hypPSU h 2 1) := finite_hypPSU_five h
   obtain ⟨c, -, hPc⟩ := (u5_yamStd (h := h)).pair eY hpair
   let ε : Y ≃* hypPSU h 2 1 := eY.trans (MulAut.conj c⁻¹)
   have hε : ∀ S : Subgroup Y, S.map ε.toMonoidHom =
@@ -240,7 +240,7 @@ private theorem u54_S_image_of {G : Type} [Group G] [Finite G]
     (hUsyl : IsSylowTwoOf (hypProjUnitriangular h 2 1) P) :
     (S.subgroupOf (L ⊔ B)).map ψ.toMonoidHom =
         (hypProjUnitriangular h 2 1).subgroupOf P := by
-  haveI : Finite (hypPSU h 2 1) := finite_hypPSU_five h
+  have : Finite (hypPSU h 2 1) := finite_hypPSU_five h
   have hinfN : u5PtP h ⊓ u5LnP h =
       Subgroup.normalizer (hypProjUnitriangular h 2 1 : Set (hypPSU h 2 1)) := by
     rw [u5PtP_inf_u5LnP, normalizer_hypProjUnitriangular_five]
@@ -294,7 +294,7 @@ private theorem u54_perfectCore_of {G : Type} [Group G] [Finite G]
     ((perfectCore (L ⊔ B)).subgroupOf (L ⊔ B)).map ψ.toMonoidHom =
         (perfectCore P).subgroupOf P ∧
       S ≤ perfectCore (L ⊔ B) := by
-  haveI : Finite (hypPSU h 2 1) := finite_hypPSU_five h
+  have : Finite (hypPSU h 2 1) := finite_hypPSU_five h
   have hperf : ((perfectCore (L ⊔ B)).subgroupOf (L ⊔ B)).map ψ.toMonoidHom =
       (perfectCore P).subgroupOf P := by
     have hpc := CFSG.Quasithin.F112R.perfectCore_map_inj ψ.toMonoidHom ψ.injective
@@ -340,10 +340,10 @@ private theorem u54_perfect_left {G : Type} [Group G] [Finite G]
     exact CFSG.Quasithin.perfectCore_le_of_sup_solvable le_sup_left hn rfl hBsolv
   have hperfL1quot : Group.IsPerfect (oTwoQuot ↥L1) := by
     obtain ⟨F, hField, hFinite, hcard4, ⟨eSU⟩⟩ := hSU
-    letI := hField
-    letI := hFinite
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : CharP F 2 :=
+    let := hField
+    let := hFinite
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : CharP F 2 :=
       CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := 2)
         (by rw [hcard4]; norm_num)
     have hperf : Group.IsPerfect (StatedSU 3 (2 ^ 2) F) :=
@@ -514,7 +514,7 @@ theorem y9U54 : Y9U54 := by
   intro G _ _ L1 L2 S hF hSU hL2 hA
   classical
   obtain ⟨D⟩ := u54_vertices hF hSU hA
-  letI := D.fieldK
+  let := D.fieldK
   have hR111 : Hyp111R L1 L2 S := Hyp111R.of_hyp111 rankOneListedFacts hF.1
   have hmdl := u54_model_data D.h
   have hSylP1 : IsSylowTwoOf S (L1 ⊔ bigB L1 L2 S) := (leafSylowS (G := G) hR111).2.1

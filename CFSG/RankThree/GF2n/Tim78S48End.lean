@@ -18,6 +18,7 @@ namespace EndgameData
 
 variable [Finite G] {M B Q P T : Subgroup G} {g : G} {C L : Subgroup G}
 
+omit [Finite G] in
 theorem of_conj_eq (E : EndgameData M B Q P T g C L) {g' : G}
     (h : conjSubgroup g B = conjSubgroup g' B) : EndgameData M B Q P T g' C L where
   hC := fun c => by rw [← h]; exact E.hC c
@@ -63,7 +64,7 @@ theorem false_of_normalizing (h45 : Meet45 B Q P)
     rw [conj_sup, ← conjSubgroup_mul, mul_inv_cancel_left]
   rw [e₁, e₂] at hnat'
   obtain ⟨b', hb', hb'1⟩ : ∃ b' ∈ conjSubgroup g B, b' ≠ 1 := by
-    obtain ⟨⟨b', hb'⟩, h1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp (E.Bg_ne_bot H)
+    obtain ⟨⟨b', hb'⟩, h1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp (CFSG.RankThree.GF2n.Tim78.EndgameData.Bg_ne_bot H)
     exact ⟨b', hb', fun h => h1 (Subtype.ext h)⟩
   obtain ⟨hB₁, hBg₁⟩ := E.perp_of_le_L₀ H h45 hg hr₁ hD₁
   obtain ⟨hB₂, hBg₂⟩ := E.perp_of_le_L₀ H h45 hg hr₂ hD₂

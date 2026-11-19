@@ -30,7 +30,7 @@ theorem exists_isCoatom_mem_sigmaPrimes [IsSimpleGroup G] (hG : ¬ IsMulCommutat
     rw [h, Subgroup.card_bot] at hpP
     exact hp.ne_one (Nat.dvd_one.1 hpP)
   have hlt : normalizer ((P : Subgroup G) : Set G) < ⊤ :=
-    normalizer_lt_top_of_isPGroup hG hp hPbot P.isPGroup'
+    normalizer_lt_top_of_isPGroup hG hp hPbot P.isPGroup
   obtain ⟨M, hM, hNM⟩ := exists_isCoatom_ge_of_ne_top hlt.ne
   have hPM : (P : Subgroup G) ≤ M := Subgroup.le_normalizer.trans hNM
   refine ⟨M, hM, mem_sigmaPrimes_iff.2 ⟨hp, hpP.trans (Subgroup.card_dvd_of_le hPM), ?_⟩⟩

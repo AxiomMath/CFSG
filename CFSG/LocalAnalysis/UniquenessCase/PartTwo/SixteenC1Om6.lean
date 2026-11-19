@@ -68,7 +68,7 @@ private theorem s16c1_elementaryGroup_le_commutator_of_perfect {K V : Type*} [Fi
     (hperf : Group.IsPerfect ↥(elementaryGroup Q)) :
     elementaryGroup Q ≤ ⁅TauCeti.QuadraticMap.orthogonalGroup Q,
       TauCeti.QuadraticMap.orthogonalGroup Q⁆ := by
-  haveI := hperf
+  have := hperf
   calc elementaryGroup Q = ⁅elementaryGroup Q, elementaryGroup Q⁆ :=
         (Subgroup.commutator_eq_self).symm
     _ ≤ _ := Subgroup.commutator_mono (elementaryGroup_le_orthogonalGroup Q)
@@ -81,7 +81,7 @@ private theorem s16c1_eichler_mem_statedOmega {d : ℕ} (hd : 3 ≤ d) {K : Type
     (hg : g ∈ elementaryGroup (quadMinus d K b c)) :
     (toLinEquiv (Fin (d - 1) ⊕ Fin (d - 1) ⊕ Fin 2) K).symm g ∈
       StatedOmega (StatedQuadMinus d K b c) := by
-  haveI : CFSG.HardMathSupport.Timmesfeld.OrthogonalGeneration.IsF2 K :=
+  have : CFSG.HardMathSupport.Timmesfeld.OrthogonalGeneration.IsF2 K :=
     CFSG.HardMathSupport.Timmesfeld.OrthogonalGeneration.IsF2.of_natCard_eq_two hK2
   have hQ : (polarBilin (quadMinus d K b c)).Nondegenerate :=
     nondegenerate_polarBilin_quadMinus_of_finite d K hpoly
@@ -114,6 +114,7 @@ open QuadraticMap CFSG.ClassicalGroups.Orthogonal CFSG.LieType.Universal.Spin
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 theorem natOmegaMinus_exists_eichler {H : Subgroup (MulAut W)}
     (h : NatOmegaMinus H (⊤ : Subgroup W) ⊥ 6 1) :
     ∃ (K : Type) (_ : Field K) (_ : Finite K) (b c : K), Nat.card K = 2 ∧
@@ -126,8 +127,8 @@ theorem natOmegaMinus_exists_eichler {H : Subgroup (MulAut W)}
               (Multiplicative.toAdd (β x))) := by
   classical
   obtain ⟨-, K, hK, hKf, b, c, hK2, hpoly, π, hπ⟩ := h
-  letI := hK
-  haveI : Finite K := hKf
+  let := hK
+  have : Finite K := hKf
   let R := CFSG.Quasithin.SzN15.NatReal.of_realizesVia hπ
   obtain ⟨β, hβsurj, hβker, hβe⟩ := R.exists_β
   have hβinj : Function.Injective β := by
@@ -176,11 +177,12 @@ theorem natOmegaMinus_exists_eichler {H : Subgroup (MulAut W)}
             (CFSG.ClassicalGroups.Orthogonal.eichler
               (CFSG.LieType.Universal.Spin.quadMinus 3 K b c) u w)]
 
+omit [Finite W] in
 theorem natOmegaMinus_fixed_eq_one {H : Subgroup (MulAut W)}
     (h : NatOmegaMinus H (⊤ : Subgroup W) ⊥ 6 1) {w : W} (hw : ∀ φ ∈ H, φ w = w) : w = 1 := by
   obtain ⟨K, hK, hKf, b, c, hK2, hpoly, β, hβ⟩ := natOmegaMinus_exists_eichler h
-  letI := hK
-  haveI : Finite K := hKf
+  let := hK
+  have : Finite K := hKf
   let Q : QuadraticForm K (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2 → K) :=
     CFSG.LieType.Universal.Spin.quadMinus 3 K b c
   have hQ : (polarBilin Q).Nondegenerate :=
@@ -262,9 +264,9 @@ theorem natOmegaMinus_centralizer_eq_one {H : Subgroup (MulAut W)}
   rcases hirr.2.2.2 A hstable (by rw [hfixbot]; exact bot_le) le_top with hAbot | hAtop
   · exfalso
     obtain ⟨K, hK, hKf, b, c, hK2, hpoly, β, hβ⟩ := natOmegaMinus_exists_eichler h
-    letI := hK
-    haveI : Finite K := hKf
-    haveI : Fintype K := Fintype.ofFinite K
+    let := hK
+    have : Finite K := hKf
+    have : Fintype K := Fintype.ofFinite K
     let Q : QuadraticForm K (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2 → K) :=
       CFSG.LieType.Universal.Spin.quadMinus 3 K b c
     have hQ : (polarBilin Q).Nondegenerate :=
@@ -286,7 +288,7 @@ theorem natOmegaMinus_centralizer_eq_one {H : Subgroup (MulAut W)}
     let u : Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2 → K := (P 0).e
     let w₀ : W := β.symm (Multiplicative.ofAdd u)
     have hβw0 : β w₀ = Multiplicative.ofAdd u := by
-      simpa [w₀] using β.apply_symm_apply (Multiplicative.ofAdd u)
+      simp [w₀]
     have hw0_ne : w₀ ≠ 1 := by
       intro hh
       have h1 : Multiplicative.ofAdd u = 1 := by

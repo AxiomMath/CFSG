@@ -55,15 +55,15 @@ theorem crossedHomPrincipalOn_of_odd {Q Z R N : Subgroup G} {Z' R' : Subgroup G'
     CrossedHomPrincipalOn Q Z R N Z' R' e := by
   classical
   intro δ hZδ hcoc
-  haveI hZ'comm : IsMulCommutative ↥Z' :=
+  have hZ'comm : IsMulCommutative ↥Z' :=
     ⟨⟨fun a b => Subtype.ext (hZ'c (a : G') a.2 (b : G') b.2)⟩⟩
-  letI : CommGroup ↥Z' := IsMulCommutative.instCommGroup
+  let : CommGroup ↥Z' := IsMulCommutative.instCommGroup
   have hNne : Nat.card ↥N ≠ 0 := by
     rcases hodd with ⟨k, hk⟩
     rw [hk]
     omega
-  letI : Finite ↥N := Nat.finite_of_card_ne_zero hNne
-  letI : Fintype ↥N := Fintype.ofFinite ↥N
+  let : Finite ↥N := Nat.finite_of_card_ne_zero hNne
+  let : Fintype ↥N := Fintype.ofFinite ↥N
   let cj : ↥R →* MulAut ↥Q := conjQ hRQ
   let cr (r : ↥R) : ↥Z' →* ↥Z' := conjZ hR'Z' e r
   have hcj_val : ∀ (r : ↥R) (u : ↥Q),
@@ -216,9 +216,9 @@ theorem crossedHomPrincipal_of_normal {Q Z R N : Subgroup G} {Z' R' : Subgroup G
   classical
   intro δ hZδ hcoc
   obtain ⟨φ₀, hφ₀Z, hφ₀N⟩ := hN δ hZδ hcoc
-  haveI hZ'comm : IsMulCommutative ↥Z' :=
+  have hZ'comm : IsMulCommutative ↥Z' :=
     ⟨⟨fun a b => Subtype.ext (hZ'c (a : G') a.2 (b : G') b.2)⟩⟩
-  letI : CommGroup ↥Z' := IsMulCommutative.instCommGroup
+  let : CommGroup ↥Z' := IsMulCommutative.instCommGroup
   let cj : ↥R →* MulAut ↥Q := conjQ hRQ
   let cr (r : ↥R) : ↥Z' →* ↥Z' := conjZ hR'Z' e r
   have hcj_val : ∀ (r : ↥R) (u : ↥Q),

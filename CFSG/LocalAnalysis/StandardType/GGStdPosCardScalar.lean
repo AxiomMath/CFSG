@@ -104,7 +104,7 @@ theorem ggStdPos_card_le_pow_rank_mul {K : Type*} [Group K] {D : UniversalRootDa
     {G : Type*} [Group G] [Finite G] (ψ : K →* G) (hker : ψ.ker ≤ Subgroup.center K) {p : ℕ}
     (hp : p ≠ 0) {Bs : Subgroup G} (hBs : GGKGPosStdPos D ψ Bs) (hpow : ∀ b ∈ Bs, b ^ p = 1) :
     Nat.card ↥Bs ≤ p ^ D.rank * Nat.card ↥(Bs ⊓ Subgroup.centralizer (ψ.range : Set G)) := by
-  haveI : NeZero p := ⟨hp⟩
+  have : NeZero p := ⟨hp⟩
   choose χ hχ using fun i => ggStdPos_exists_simpleRootChar hE hlin ψ hker hBs i
   have hpow' : ∀ b : ↥Bs, b ^ p = 1 := fun b => Subtype.ext (by simpa using hpow b b.2)
   have hroot : ∀ (i : Fin D.rank) (b : ↥Bs), (χ i).toHomUnits b ∈ rootsOfUnity p F :=

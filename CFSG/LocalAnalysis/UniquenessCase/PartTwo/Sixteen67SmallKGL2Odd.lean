@@ -52,7 +52,7 @@ theorem k67CaseIIIAt_psl2_odd {Q : Type}
     [Group Q] [Finite Q] (J : Subgroup Q) (hJ : J.Normal)
     (hC : centralizer (J : Set Q) = ⊥) {p f : ℕ} (hp2 : p ≠ 2) (hp3 : p ≠ 3)
     (h : LieModel ↥J .PSL 2 p f) : K67CaseIIIAt Q J := by
-  haveI := hJ
+  have := hJ
   intro x hxJ hx3 E hE hE4 hEJ hEx W hW hW1 hWx hWE hN
   obtain ⟨hp, hf1, -, -, F, hF, hFin, hcard, ⟨e⟩⟩ :=
     CFSG.ComponentClassification.AutL2Facts.lieModel_psl2_data h
@@ -65,7 +65,7 @@ theorem k67CaseIIIAt_psl2_odd {Q : Type}
   have hcycT : IsCyclic ↥(J ⊓ centralizer ({x} : Set Q)) := φ.isCyclic.mpr hcyc
   have hcardT : Nat.card ↥(J ⊓ centralizer ({x} : Set Q)) =
       Nat.card ↥(centralizer ({x'} : Set ↥J)) := Nat.card_congr φ.toEquiv
-  haveI hEK : IsKleinFour ↥E := CFSG.Quasithin.Ch3E213M.P3.isKleinFour_of_card hE4
+  have hEK : IsKleinFour ↥E := CFSG.Quasithin.Ch3E213M.P3.isKleinFour_of_card hE4
     (s1667_kgl2_mul_self_eq_one hE)
   have hEJK : IsKleinFour ↥(E.subgroupOf J) := s1667_kgl2_isKleinFour_subgroupOf hEJ hE hE4
   have hTn : ∀ t ∈ J ⊓ centralizer ({x} : Set Q), t ∈ normalizer (E : Set Q) := fun t ht =>
@@ -178,7 +178,7 @@ theorem s1667_kgl2_numerics {p f s : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hp3 : 
 theorem k67BPrimeOneAt_psl2_odd {Q : Type} [Group Q] [Finite Q] (J : Subgroup Q) (hJ : J.Normal)
     (hC : centralizer (J : Set Q) = ⊥) {p f : ℕ} (hp2 : p ≠ 2) (hp3 : p ≠ 3)
     (h : LieModel ↥J .PSL 2 p f) : K67BPrimeOneAt Q J := by
-  haveI := hJ
+  have := hJ
   intro x hxJ hx3 A hA hAx hAn h4
   obtain ⟨hp, hf1, -, -, F, hF, hFin, hcard, ⟨e⟩⟩ :=
     CFSG.ComponentClassification.AutL2Facts.lieModel_psl2_data h

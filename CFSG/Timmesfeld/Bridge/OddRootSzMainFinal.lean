@@ -17,6 +17,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {D : Set G} {d e : G} {E : Set G} {n : ℕ}
 
+omit [Finite G] in
 private theorem szZ_commute_closure (E : Set G) :
     ∀ z ∈ szZ E, ∀ q ∈ Subgroup.closure E, Commute z q := by
   intro z hz q hq
@@ -25,6 +26,7 @@ private theorem szZ_commute_closure (E : Set G) :
     exact hz.2
   exact (Subgroup.mem_centralizer_iff.mp hzc q hq).symm
 
+omit [Finite G] in
 private theorem SzCfg.closure_le_normalizer_szZ (c : SzCfg G D d E e n) :
     Subgroup.closure E ≤ Subgroup.normalizer (szZ E : Set G) := by
   intro h hh

@@ -38,7 +38,7 @@ theorem exists_r0_good :
     rw [T_conj, T_coe, hmT, T_wm, hm₀T, r0Tab]
 
 theorem e16Outer_PG {B P E : Subgroup PG}
-    (hperf : ⁅B, B⁆ = B) (hcardB : Nat.card B = 360 * Nat.card P) (hEP : E ≤ P)
+    (_hperf : ⁅B, B⁆ = B) (hcardB : Nat.card B = 360 * Nat.card P) (_hEP : E ≤ P)
     (hEab : IsElemAbelian 2 E) (hEcard : Nat.card E = 16)
     (hBnorm : B ≤ Subgroup.normalizer (E : Set PG))
     (A : Finset (MulAut PG)) (hA7 : 7 ≤ A.card)

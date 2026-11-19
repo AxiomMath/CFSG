@@ -84,7 +84,7 @@ theorem exists_equivariant_lift_of_two_kernel
     rw [← h]
     exact (Subgroup.mem_smul_pointwise_iff_exists _ _ _).2 ⟨x, hx, rfl⟩
   have hdisj : Disjoint (P : Subgroup ↥E) f.ker :=
-    IsPGroup.disjoint_of_ne q 2 hq2 _ _ P.isPGroup' hker
+    IsPGroup.disjoint_of_ne q 2 hq2 _ _ P.isPGroup hker
   have hinj : ∀ x ∈ (P : Subgroup ↥E), ∀ y ∈ (P : Subgroup ↥E), f x = f y → x = y := by
     intro x hx y hy hxy
     have hxy' : x⁻¹ * y ∈ (P : Subgroup ↥E) ⊓ f.ker :=

@@ -26,7 +26,7 @@ theorem smallF3U33Core_of_fritz
     (hY7 : FzY7) (hY8 : FzY8) (hY10 : FzY10Shape) (hGlue : FzSylowOfClosure) :
     SmallF3U33Core := by
   intro G _ _ L hC hnc hQ
-  haveI : IsSimpleGroup G := hC.simple
+  have : IsSimpleGroup G := hC.simple
   obtain ⟨t, hhyp⟩ := exists_hyp_of_smallF3Cyclic hC hQ
   obtain ⟨S, x₁, x₂, lam, rho, h0⟩ := exists_ctx0_of_hyp hhyp
   have hr4 := not_four_generated_of_ctx0 hGH hC.nonab hnc h0

@@ -57,7 +57,7 @@ private lemma grcPOp_L3_framePair_independent (k f : ℕ) (hn : 3 ≤ k + 3)
   intro c d hcd
   have hc : c = 0 := by
     have h := congrArg (QuadraticMap.polarBilin Q (Fr.vec j (!t))) hcd
-    simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul,
+    simp only [map_add, map_smul, smul_eq_mul,
       map_zero] at h
     rw [QuadraticMap.polarBilin_apply_apply, QuadraticMap.polarBilin_apply_apply] at h
     rw [Fr.polar_vec_of_ne (i := j) (j := i) hij.symm (!t) s,
@@ -65,7 +65,7 @@ private lemma grcPOp_L3_framePair_independent (k f : ℕ) (hn : 3 ≤ k + 3)
     simpa using h
   have hd : d = 0 := by
     have h := congrArg (QuadraticMap.polarBilin Q (Fr.vec i (!s))) hcd
-    simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul,
+    simp only [map_add, map_smul, smul_eq_mul,
       map_zero] at h
     rw [QuadraticMap.polarBilin_apply_apply, QuadraticMap.polarBilin_apply_apply] at h
     rw [Fr.polar_vec_of_ne (i := i) (j := j) hij (!s) t,

@@ -73,7 +73,7 @@ theorem exists_D1_of_cf (hComp : CFSp4Comp) (hD : CFSp4D) {p f : ℕ} (hp : p.Pr
   have hR₀2 : IsPGroup 2 R₀ := by
     obtain ⟨hSLle, R₁, hR₁⟩ := hSL
     have h1 : IsPGroup 2 ((S ⊓ L).subgroupOf (L ⊓ centralizer ({t} : Set X))) :=
-      hR₁ ▸ R₁.isPGroup'
+      hR₁ ▸ R₁.isPGroup
     have h2 := h1.of_equiv (subgroupOfEquivOfLe hSLle)
     exact h2.of_equiv (subgroupOfEquivOfLe (inf_le_right : S ⊓ L ≤ L)).symm
   set D₁' : Subgroup ↥L := R₀ ⊓ Db.comap π with hD₁'

@@ -14,7 +14,7 @@ open CFSG.GorensteinWalter CFSG.RankThree.PartTwo.KFacts
   CFSG.ComponentClassification.CatalogueSchreierLinearTwo
 open CFSG.Assembly.RankThreeEven (projSL)
 
-theorem nonempty_fixedSub_equiv_L2Odd {p e : ℕ} [Fact p.Prime] (hp : 5 ≤ p) (he : 1 ≤ e)
+theorem nonempty_fixedSub_equiv_L2Odd {p e : ℕ} [Fact p.Prime] (_hp : 5 ≤ p) (he : 1 ≤ e)
     {X : Type} [Group X] [Finite X] (hX : Nonempty (X ≃* projSL 2 (GaloisField p (3 * e))))
     {α : MulAut X} (hα : orderOf α = 3) (hαi : α ∉ (MulAut.conj : X →* MulAut X).range) :
     Nonempty (Sec11.fixedSub α ≃* projSL 2 (GaloisField p e)) := by
@@ -56,7 +56,7 @@ theorem nonempty_fixedSub_equiv_L2Odd {p e : ℕ} [Fact p.Prime] (hp : 5 ≤ p) 
   have hSσ : ∀ a, a ∈ S ↔ σ a = a := by
     intro a
     have h : a ∈ (S : Set F) ↔ a ∈ {a | ∀ τ ∈ Subgroup.zpowers σ, τ a = a} := by rw [hSset]
-    simp only [SetLike.mem_coe, Set.mem_setOf_eq] at h
+    simp only [SetLike.mem_coe, Set.mem_ofPred_eq] at h
     rw [h]
     constructor
     · intro h1
@@ -71,10 +71,10 @@ theorem nonempty_fixedSub_equiv_L2Odd {p e : ℕ} [Fact p.Prime] (hp : 5 ≤ p) 
       obtain ⟨n, rfl⟩ := (Submonoid.mem_powers_iff _ _).1 hτ
       exact key n
   obtain ⟨e3⟩ := L2.nonempty_psl2_equiv_fixedSub S σ hσ3 hSσ
-  haveI : Finite S := Nat.finite_of_card_ne_zero (by
+  have : Finite S := Nat.finite_of_card_ne_zero (by
     rw [hScard]; exact pow_ne_zero _ (Fact.out : p.Prime).ne_zero)
-  letI : Fintype S := Fintype.ofFinite S
-  letI : Fintype (GaloisField p e) := Fintype.ofFinite _
+  let : Fintype S := Fintype.ofFinite S
+  let : Fintype (GaloisField p e) := Fintype.ofFinite _
   have hcard : Fintype.card S = Fintype.card (GaloisField p e) := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hScard,
       GaloisField.card p e (by omega)]

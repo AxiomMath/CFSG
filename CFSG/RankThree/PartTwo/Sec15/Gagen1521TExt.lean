@@ -18,7 +18,7 @@ theorem exists_ext1521 {A : Subgroup G} (hsimp : IsSimpleGroup G)
     (hnab : ∃ a b : G, a * b ≠ b * a) {P X₁ : Subgroup G} (hX₁ : X₁ ∈ scriptY2 A)
     (hPX₁ : P ≤ X₁) : ∃ X T : Subgroup G, Ext1521 A P X T := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let S : Set (Subgroup G × Subgroup G) :=
     {q | q.1 ∈ scriptY2 A ∧ P ≤ q.1 ∧ q.2 ∈ scriptQPi A (lB A) q.1 (piOf 2)}
   have hSfin : S.Finite := Set.toFinite S
@@ -83,7 +83,7 @@ theorem mem_scriptQPiStar_top_of_ext1521 (hst : StellmacherKP) (hR : TheoremFour
     (hchar : IsCharacteristicP 2 ↥(P ⊔ T)) :
     T ∈ scriptQPiStar A (lB A) ⊤ (piOf 2) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hT2 : IsPGroup 2 T := isPGroup_of_mem_scriptQPi Nat.prime_two hE.mem_t
   set C : Subgroup G := CFSG.RankThree.PartTwo.Sec16.Proof165.stellmacherSub T with hCdef
   have hspec := CFSG.RankThree.PartTwo.Sec16.Proof165.stellmacherSub_spec hst hR hT2 hT1

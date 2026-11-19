@@ -20,7 +20,7 @@ theorem ker_eq_bot_of_isPGroup_of_sylow [Finite E] (π : E →* G) (hpg : IsPGro
   · subst hrp
     exact h P
   · obtain ⟨n, hn⟩ := hpg.exists_card_eq
-    obtain ⟨k, hk⟩ := P.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := P.isPGroup.exists_card_eq
     have hdvd : Nat.card (P : Subgroup π.ker) ∣ Nat.card π.ker :=
       Subgroup.card_subgroup_dvd_card _
     rcases Nat.eq_zero_or_pos k with rfl | hkpos

@@ -299,7 +299,7 @@ theorem kernelRoots_eq_componentRoots_of_E7_e6
         intro alpha halpha
         obtain rfl := Finset.mem_singleton.mp halpha
         exact ⟨hroot, hperp⟩)
-    simpa using hc
+    simp at hc
   · intro alpha halpha
     exact halpha.1
 

@@ -16,6 +16,7 @@ open CFSG.Permutation.FixingGeneration
 
 variable {X H I : Type*} [Group X] [Group H] [DecidableEq I]
 
+omit [DecidableEq I] in
 theorem conj_mem_pair {ρ : Equiv.Perm I →* X} {P : I → I → Subgroup X}
     (hequiv : ∀ (σ : Equiv.Perm I) (i j : I),
       (P i j).map (MulAut.conj (ρ σ)).toMonoidHom = P (σ i) (σ j))
@@ -106,16 +107,16 @@ theorem deletionChart_covariance
   have hf : Function.Injective f := by
     intro a b hab
     fin_cases a <;> fin_cases b <;>
-      simp_all [f, huv, huv.symm, hdu, hdu.symm, hdv, hdv.symm]
+      simp_all [f, huv.symm, hdu.symm, hdv.symm]
   have hg : Function.Injective g := by
     intro a b hab
     fin_cases a <;> fin_cases b <;>
-      simp_all [g, hij, hij.symm, hid, hid.symm, hjd, hjd.symm]
+      simp_all [g, hij.symm, hid.symm, hjd.symm]
   have hg' : Function.Injective g' := by
     intro a b hab
     fin_cases a <;> fin_cases b <;>
       simp_all [g', σ.injective.ne hij, (σ.injective.ne hij).symm,
-        hσi, hσi.symm, hσj, hσj.symm]
+        hσi.symm, hσj.symm]
   obtain ⟨lam, hlam⟩ := Equiv.Perm.exists_extending_pair f g hf hg
   obtain ⟨mu, hmu⟩ := Equiv.Perm.exists_extending_pair f g' hf hg'
   have hlamu : lam u = i := by simpa [f, g] using hlam 0

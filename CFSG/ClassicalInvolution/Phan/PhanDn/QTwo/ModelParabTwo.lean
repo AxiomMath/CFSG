@@ -13,7 +13,7 @@ variable (E : QuadExt F K (unitaryInvolution K 2 1))
 
 theorem qTwo_normQuad_eq_one (hK : Nat.card K = 4) {a : K} (ha : a ≠ 0) :
     normQuad E a = 1 := by
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hpow : a ^ 3 = 1 := by
     simpa [← Nat.card_eq_fintype_card, hK] using
       FiniteField.pow_card_sub_one_eq_one a ha
@@ -23,7 +23,7 @@ theorem qTwo_normQuad_eq_one (hK : Nat.card K = 4) {a : K} (ha : a ≠ 0) :
 
 theorem qTwo_Qn_two_eq_one_iff (hK : Nat.card K = 4) (v : Fin 2 → K) :
     Qn E 2 v = 1 ↔ (v 0 ≠ 0 ∧ v 1 = 0) ∨ (v 0 = 0 ∧ v 1 ≠ 0) := by
-  letI : CharP F 2 := RingHom.charP (algebraMap F K) (algebraMap F K).injective 2
+  let : CharP F 2 := RingHom.charP (algebraMap F K) (algebraMap F K).injective 2
   rw [Qn_apply, Fin.sum_univ_two]
   by_cases h0 : v 0 = 0 <;> by_cases h1 : v 1 = 0
   · simp [h0, h1]

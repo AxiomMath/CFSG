@@ -14,6 +14,7 @@ namespace HS9
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem conj_mem95 {S : Subgroup G} {x : G} (g : G) (hx : x ∈ S) :
     g * x * g⁻¹ ∈ conjSubgroup g S := by
   rw [mem_conjSubgroup]
@@ -21,6 +22,7 @@ theorem conj_mem95 {S : Subgroup G} {x : G} (g : G) (hx : x ∈ S) :
   rw [e]
   exact hx
 
+omit [Finite G] in
 theorem conj_inv_mem95 {S : Subgroup G} {x : G} (g : G) (hx : x ∈ S) :
     g⁻¹ * x * g ∈ conjSubgroup g⁻¹ S := by
   rw [mem_conjSubgroup, inv_inv]
@@ -43,6 +45,7 @@ theorem comm_CN_Wt_mem_Vt (h91b : Stroth91bStatement) {hc : Ctx M Q Z B} {n : �
     (hw : w ∈ Wt Q (Vt M (LB M Q B) B Z t)) : ⁅y, w⁆ ∈ Vt M (LB M Q B) B Z t :=
   (h91b G M Q Z B hc n t hs r hr _ _ rfl rfl).2 y hy w hw
 
+omit [Finite G] in
 theorem Z_le_conj_Vt (hc : Ctx M Q Z B) {t z : G} (hzM : z ∈ M) :
     Z ≤ conjSubgroup z (Vt M (LB M Q B) B Z t) := fun ζ hζ => by
   rw [mem_conjSubgroup]
@@ -136,7 +139,8 @@ theorem comm_Vt_le_conj (h34 : Stroth34Statement) (h91b : Stroth91bStatement)
   rw [e2]
   exact (Vt M (LB M Q B) B Z t).inv_mem h1
 
-theorem inf_conj_le_CentMod (hs : Sec9Hyp hc n t) (hzM : z ∈ M) {y : G} (hy : y ∈ hc.CN t) :
+omit [Finite G] in
+theorem inf_conj_le_CentMod (_hs : Sec9Hyp hc n t) (hzM : z ∈ M) {y : G} (hy : y ∈ hc.CN t) :
     Vt M (LB M Q B) B Z t ⊓ conjSubgroup z (Vt M (LB M Q B) B Z t) ≤
       CentMod Z (Vt M (LB M Q B) B Z t) (Vt_le_normalizer hc t) (z * y * z⁻¹) := by
   rintro v ⟨hvV, hvz⟩

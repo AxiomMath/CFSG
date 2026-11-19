@@ -25,7 +25,7 @@ set_option linter.unusedSectionVars false
 
 theorem local422_of_fixComm_faithful
     {G : Type} [Group G] [Finite G]
-    (hS4 : CFSG.IsKGroup G) (hrk : CFSG.Assembly.RankThreeEven.localRank 3 G ≤ 3)
+    (hS4 : CFSG.IsKGroup G) (_hrk : CFSG.Assembly.RankThreeEven.localRank 3 G ≤ 3)
     (A : Subgroup G)
     (hmax : Maximal (fun B : Subgroup G => CFSG.Assembly.IsElemAbelian 3 B) A)
     (h27 : Nat.card A = 27)
@@ -161,7 +161,7 @@ theorem local422_of_fixComm_faithful
         Subgroup.centralizer (K : Set _) = ⊥ →
       ∀ z ∈ Subgroup.center K, orderOf z = 3 → ∀ σ τ : MulAut K, σ z = z → τ z = z →
         σ * τ * σ⁻¹ * τ⁻¹ ∈ (MulAut.conj : K →* MulAut K).range := by
-    haveI : (Subgroup.zpowers (QuotientGroup.mk' (aschbacherSolvableCore 3 G) c)).Normal :=
+    have : (Subgroup.zpowers (QuotientGroup.mk' (aschbacherSolvableCore 3 G) c)).Normal :=
       Subgroup.normal_of_le_center (Subgroup.zpowers_le.mpr hcbZ)
     intro K hK hne hBbot
     have hcC : Subgroup.zpowers (QuotientGroup.mk' (aschbacherSolvableCore 3 G) c) ≤

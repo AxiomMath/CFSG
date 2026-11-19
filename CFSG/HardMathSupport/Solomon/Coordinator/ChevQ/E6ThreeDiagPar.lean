@@ -78,8 +78,8 @@ theorem le_iSup_hyper_of_normalizes_radicals [Finite G] {p r : ℕ} [Fact p.Prim
     (hAQ' : A.map (MulAut.conj x).toMonoidHom ≤ Subgroup.normalizer (Q' : Set G)) :
     C ≤ ⨆ (B : Subgroup G) (_ : B ≤ A) (_ : B.relIndex A = p),
       C ⊓ Subgroup.centralizer (B : Set G) := by
-  haveI : IsElementaryAbelian p (A.map (MulAut.conj x).toMonoidHom) := IsElementaryAbelian.map _
-  haveI : Nontrivial (A.map (MulAut.conj x).toMonoidHom) := by
+  have : IsElementaryAbelian p (A.map (MulAut.conj x).toMonoidHom) := IsElementaryAbelian.map _
+  have : Nontrivial (A.map (MulAut.conj x).toMonoidHom) := by
     rw [Subgroup.nontrivial_iff_ne_bot]
     exact fun h => hA1 ((Subgroup.map_eq_bot_iff_of_injective A (MulAut.conj x).injective).1 h)
   refine le_iSup_hyper_of_map_conj_normalizer hx (hCQ.trans (sup_le ?_ ?_))
@@ -290,7 +290,7 @@ theorem seitzHyperGamma_eq_top_of_inndiag {τ : Tag} {k : Type} [Field k] [Finit
       ∀ ε ∈ E, R.map ε.toMonoidHom = R) :
     seitzHyperGamma p E = ⊤ := by
   obtain ⟨R, hR1, hRp, hRn⟩ := hnorm
-  haveI := isElementaryAbelian_matrixPlane ι hinj hEab
+  have := isElementaryAbelian_matrixPlane ι hinj hEab
   have hAD : (E.comap ι).map D.subtype ≤ D := by
     rintro _ ⟨g, -, rfl⟩
     exact g.2
@@ -311,7 +311,7 @@ theorem e6Inndiag_eq_innerAut_of_lt_four (K : Type) [Field K] [Finite K]
     (hK3 : ringChar K ≠ 3) (h : ¬ 4 ≤ Nat.card K) :
     e6Inndiag K = CFSG.Fischer.innerAut (adjointGroup Tag.E6 K) := by
   push Not at h
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   obtain ⟨e, -, hcard'⟩ := FiniteField.card K (ringChar K)
   have hcard : Nat.card K = ringChar K ^ (e : ℕ) := by rw [Nat.card_eq_fintype_card, hcard']
   have hp : (ringChar K).Prime := CharP.char_is_prime K (ringChar K)
@@ -338,10 +338,10 @@ section E6
 
 theorem e6DiagParCubes_holds : E6ThreeDefs.E6DiagParCubes := by
   intro K _ _ hK3 E hEab hcard hEd hnorm
-  haveI : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
-  haveI : CharP K (ringChar K) := ringChar.charP K
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : IsSimpleGroup (adjointGroup Tag.E6 K) :=
+  have : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
+  have : CharP K (ringChar K) := ringChar.charP K
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsSimpleGroup (adjointGroup Tag.E6 K) :=
     CFSG.SeitzReduction.E6Pilot.isSimpleGroup_adjointGroup_E6
   have hE1 : E ≠ ⊥ := by
     rintro rfl

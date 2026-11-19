@@ -33,7 +33,7 @@ theorem Sec3PocketData.conjugate {x y : G} {X K : Subgroup G} (h : Sec3PocketDat
   · have h' := MulEquiv.orderOf_eq (MulAut.conj g⁻¹) y
     rwa [MulAut.conj_apply, inv_inv, h.involution_y] at h'
   · change g⁻¹ * y * g ∈ X.map (MulAut.conj g⁻¹).toMonoidHom
-    exact Subgroup.mem_map.mpr ⟨y, h.mem, by simp [MulAut.conj_apply]⟩
+    exact Subgroup.mem_map.mpr ⟨y, h.mem, by simp⟩
   · exact Subgroup.map_mono h.le
   · have hp := h.pocket.conjugate g
     rw [conjugate_centralizer_singleton x g] at hp

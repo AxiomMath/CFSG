@@ -72,10 +72,10 @@ theorem quotShape_prime [Finite G] {M N : Subgroup G} {p : ℕ} [Fact p.Prime] (
     have h := Subgroup.card_eq_card_quotient_mul_card_subgroup (N.subgroupOf M)
     rw [hcardN, hcard] at h
     exact (Nat.eq_of_mul_eq_mul_right hpos h).symm
-  haveI : IsCyclic (↥M ⧸ N.subgroupOf M) := isCyclic_of_prime_card hq
+  have : IsCyclic (↥M ⧸ N.subgroupOf M) := isCyclic_of_prime_card hq
   have hZ : Nat.card (Z p) = p := by
     rw [Z, Nat.card_congr Multiplicative.toAdd, Nat.card_zmod]
-  haveI : IsCyclic (Z p) := isCyclic_of_prime_card hZ
+  have : IsCyclic (Z p) := isCyclic_of_prime_card hZ
   exact ⟨mulEquivOfCyclicCardEq (hq.trans hZ.symm)⟩
 
 theorem quotShape_elem2_two [Finite G] {X D : Subgroup G} (hDX : D ≤ X)
@@ -128,8 +128,8 @@ theorem quotShape_elem2_two [Finite G] {X D : Subgroup G} (hDX : D ≤ X)
       · exact absurd (by rw [orderOf_eq_one_iff.mp h, one_mul]) hq2
       · exact absurd (by rw [← pow_two, ← h]; exact pow_orderOf_eq_one q) hq2
       · exact h
-    haveI : IsCyclic Q := isCyclic_of_orderOf_eq_card q (by rw [hord, hq]; norm_num)
-    haveI : Fintype Q := Fintype.ofFinite Q
+    have : IsCyclic Q := isCyclic_of_orderOf_eq_card q (by rw [hord, hq]; norm_num)
+    have : Fintype Q := Fintype.ofFinite Q
     have hcount := IsCyclic.card_pow_eq_one_le (α := Q) (n := 2) (by norm_num)
     have hsub : ({1, a, b} : Finset Q) ⊆ Finset.univ.filter (fun x : Q => x ^ 2 = 1) := by
       intro x hx
@@ -191,7 +191,7 @@ theorem pCoreOf_eq_of_hom_sym5 [Finite G] {Y N : Subgroup G} (hNY : N ≤ Y)
 theorem pCoreOf_two_normalized (X : Subgroup G) {x r : G} (hx : x ∈ X)
     (hr : r ∈ CFSG.Open.pCoreOf 2 X) : x * r * x⁻¹ ∈ CFSG.Open.pCoreOf 2 X :=
   conj_mem_pCoreOf_two (map_conj_eq_of_normalized hx
-    fun y hy u hu => X.mul_mem (X.mul_mem hy hu) (X.inv_mem hy)) hr
+    fun _y hy _u hu => X.mul_mem (X.mul_mem hy hu) (X.inv_mem hy)) hr
 
 theorem derivedOf_le_of_quotShape {X D : Subgroup G} (hDX : D ≤ X)
     (h : QuotShape X D (Elem2 2)) : derivedOf X ≤ D := by
@@ -235,7 +235,7 @@ theorem exists_conj_of_orderOf_three [Finite G] {X : Subgroup G} (hX : Nat.card 
     (htσ : t * σ₀ * t⁻¹ = σ₀⁻¹) (hσ : σ ∈ X) (hσo : orderOf σ = 3) :
     ∃ k ∈ X, k * σ₀ * k⁻¹ = σ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hS : Nat.card (zpowers σ₀) = 3 ^ (Nat.card X).factorization 3 := by
     rw [Nat.card_zpowers, h₀o, hX, factorization_30720_three, pow_one]
   obtain ⟨x, hxX, hx⟩ := TwoHSData.exists_conj_mem_of_orderOf_eq_prime (p := 3) (R := X)

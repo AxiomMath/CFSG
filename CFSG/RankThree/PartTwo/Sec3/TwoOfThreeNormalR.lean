@@ -15,9 +15,10 @@ open scoped Pointwise
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem eq_one_of_mem_sylow_of_pow_three (T : Sylow 2 G) {x : G} (hx3 : x ^ 3 = 1)
     (hxT : x ∈ (T : Subgroup G)) : x = 1 := by
-  obtain ⟨k, hk⟩ := T.isPGroup' ⟨x, hxT⟩
+  obtain ⟨k, hk⟩ := T.isPGroup ⟨x, hxT⟩
   have hk' : x ^ 2 ^ k = 1 := by
     have := congrArg Subtype.val hk
     simpa using this
@@ -30,6 +31,7 @@ theorem eq_one_of_mem_sylow_of_pow_three (T : Sylow 2 G) {x : G} (hx3 : x ^ 3 = 
 
 section Transfer
 
+omit [Finite G] in
 theorem isComponent_map_of_normal {H : Subgroup G} (hH : H.Normal) {C : Subgroup H}
     (hC : CFSG.IsComponent C) : CFSG.IsComponent (C.map H.subtype) := by
   obtain ⟨hq, hsn⟩ := hC
@@ -50,6 +52,7 @@ theorem isComponent_map_of_normal {H : Subgroup G} (hH : H.Normal) {C : Subgroup
     exact hsn
   exact Subgroup.IsSubnormal.trans hXH hX hH.isSubnormal
 
+omit [Finite G] in
 theorem layer_map_le_of_normal {H : Subgroup G} (hH : H.Normal) :
     (CFSG.layer H).map H.subtype ≤ CFSG.layer G := by
   rw [CFSG.layer.eq_sSup H, Subgroup.map_le_iff_le_comap]
@@ -68,9 +71,10 @@ end Transfer
 
 section HLocal
 
+omit [Finite G] in
 theorem pCore_inf_sup_le {T : Sylow 2 G} {B : Sylow 3 G} {R O : Subgroup G}
     (hRT : R ≤ (T : Subgroup G))
-    (hRn : ∀ t ∈ (T : Subgroup G), ∀ r ∈ R, t * r * t⁻¹ ∈ R)
+    (_hRn : ∀ t ∈ (T : Subgroup G), ∀ r ∈ R, t * r * t⁻¹ ∈ R)
     (hOR : O ≤ R) (hOn : O.Normal) (hBOn : ((B : Subgroup G) ⊔ O).Normal)
     (hB3 : ∀ b ∈ (B : Subgroup G), b ^ 3 = 1) :
     CFSG.pCore 2 G ⊓ (R ⊔ (B : Subgroup G)) ≤ R := by
@@ -95,6 +99,7 @@ theorem pCore_inf_sup_le {T : Sylow 2 G} {B : Sylow 3 G} {R O : Subgroup G}
   rw [hb1, one_mul]
   exact R.mul_mem hr (hOR ho')
 
+omit [Finite G] in
 theorem sup_B_normal {T : Sylow 2 G} {B : Sylow 3 G} {R O : Subgroup G}
     (hRn : ∀ t ∈ (T : Subgroup G), ∀ r ∈ R, t * r * t⁻¹ ∈ R)
     (hOR : O ≤ R) (hBOn : ((B : Subgroup G) ⊔ O).Normal)
@@ -145,6 +150,7 @@ end HLocal
 
 section NormalR
 
+omit [Finite G] in
 theorem pCore_inf_normal_of_normal {T : Sylow 2 G} {B : Sylow 3 G} {R O : Subgroup G}
     (hRT : R ≤ (T : Subgroup G))
     (hRn : ∀ t ∈ (T : Subgroup G), ∀ r ∈ R, t * r * t⁻¹ ∈ R)
@@ -227,7 +233,7 @@ theorem le_pCore_inf_of_normal_sup {T : Sylow 2 G} {B : Sylow 3 G} {R O : Subgro
     {K : Subgroup G} (hKH : K ≤ R ⊔ (B : Subgroup G))
     (hKn : ∀ h ∈ R ⊔ (B : Subgroup G), ∀ k ∈ K, h * k * h⁻¹ ∈ K) (hK2 : IsPGroup 2 K) :
     K ≤ CFSG.pCore 2 G ⊓ R := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hHn : (R ⊔ (B : Subgroup G)).Normal := sup_B_normal hRn hOR hBOn hTB
   set H : Subgroup G := R ⊔ (B : Subgroup G) with hHdef
   have hK'n : (K.subgroupOf H).Normal := by
@@ -347,7 +353,7 @@ omit [Finite G] in
 theorem conj_mem_omegaG_jG_self {R : Subgroup G} {i : ℕ} {p : G} (hp : p ∈ R) {e : G}
     (he : e ∈ omegaG (jG R i)) : p * e * p⁻¹ ∈ omegaG (jG R i) :=
   conj_mem_omegaG_jG_of_normalizes (T := R)
-    (fun t ht r hr => R.mul_mem (R.mul_mem ht hr) (R.inv_mem ht)) hp he
+    (fun _t ht _r hr => R.mul_mem (R.mul_mem ht hr) (R.inv_mem ht)) hp he
 
 theorem omegaG_jG_le_R {R H P A₁ : Subgroup G} (hPR : P ≤ R) (hP2 : IsPGroup 2 P)
     (hCP : ∀ h ∈ H, (∀ p ∈ P, h * p = p * h) → h ∈ P)
@@ -618,7 +624,7 @@ theorem relIndex_ne_four_of_normal (T : Sylow 2 G) (B : Sylow 3 G) {R O : Subgro
   set H := (X ⊔ (Q ⊓ R)) ⊔ A with hHdef
   have hPR : P ≤ R := sup_le inf_le_right (inf_le_left.trans hA.1)
   have hPT : P ≤ (T : Subgroup G) := hPR.trans hRT
-  have hP2 : IsPGroup 2 P := T.isPGroup'.to_le hPT
+  have hP2 : IsPGroup 2 P := T.isPGroup.to_le hPT
   have hPCy : P ≤ Cy := sup_le (inf_le_left.trans hQCy) inf_le_right
   have hPy : ∀ p ∈ P, p * y * p⁻¹ * y⁻¹ ∈ Q := fun p hp => (hmemCy p).mp (hPCy hp)
   have hPQ : Q.relIndex P ≤ 2 :=

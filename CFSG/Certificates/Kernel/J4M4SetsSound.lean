@@ -88,13 +88,13 @@ theorem subF_sound : ∀ (n : ℕ) (l₁ l₂ : List ℕ), subF n l₁ l₂ = tr
   | n + 1, c :: l₁, b :: l₂, h, a, ha => by
     rw [subF] at h
     cases h1 : Nat.beq c b
-    · rw [h1, cond_false] at h
+    · rw [h1, Bool.cond_false] at h
       cases h2 : Nat.blt b c
-      · rw [h2, cond_false] at h
+      · rw [h2, Bool.cond_false] at h
         exact absurd h Bool.false_ne_true
-      · rw [h2, cond_true] at h
+      · rw [h2, _root_.Bool.cond_true] at h
         exact List.mem_cons_of_mem _ (subF_sound n (c :: l₁) l₂ h a ha)
-    · rw [h1, cond_true] at h
+    · rw [h1, _root_.Bool.cond_true] at h
       have e : c = b := Nat.eq_of_beq_eq_true h1
       subst e
       rcases List.mem_cons.mp ha with rfl | ha

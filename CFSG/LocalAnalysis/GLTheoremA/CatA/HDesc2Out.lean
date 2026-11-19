@@ -29,7 +29,7 @@ theorem commutator_le_inner_of_isCyclic {S : Type} [Group S] (h : IsCyclic (Oute
 
 theorem isCyclic_outer_of_mulEquiv {G H : Type} [Group G] [Group H] (e : G ≃* H)
     (h : IsCyclic (Outer H)) : IsCyclic (Outer G) := by
-  haveI := h
+  have := h
   exact isCyclic_of_surjective (CFSG.ComponentClassification.OuterAutomorphisms.equivalence e.symm)
     (CFSG.ComponentClassification.OuterAutomorphisms.equivalence e.symm).surjective
 
@@ -52,7 +52,7 @@ theorem solvesAt_rankOne {p : ℕ} (hN1 : KD264OutCyc) (hN2 : KD264OuterIdx) (d 
     (h2 : TwoLocalRankLE1 p (CFSGIndex.lie d).Group) : SolvesAt p d := by
   intro hp hp2 Y _ _ K B h he hc
   obtain ⟨e⟩ := he
-  haveI : Finite (CFSGIndex.lie d).Group := Finite.of_equiv _ e.toEquiv
+  have : Finite (CFSGIndex.lie d).Group := Finite.of_equiv _ e.toEquiv
   exact Or.inl (kConcl_of_N1_N2 hp hp2 hN1 hN2 h d e hchar h3 h5 hab h2 hc)
 
 theorem l2_equiv {q : PrimePower} (hv : (LieTypeIndex.A 1 q).Valid) (hq2 : q.p = 2) :

@@ -11,8 +11,8 @@ open CFSG.Open CFSG.Quasithin.H13 CFSG.QuasithinUnique
 
 theorem pCore_two_eq_bot_of_isPGroup {P : Type} [Group P] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hPp : IsPGroup p P) : CFSG.pCore 2 P = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2 : IsPGroup 2 (CFSG.pCore 2 P) := CFSG.pCore_isPGroup
   have hp' : IsPGroup p (CFSG.pCore 2 P) := hPp.to_subgroup _
   rw [Subgroup.eq_bot_iff_forall]
@@ -31,15 +31,15 @@ theorem pCore_two_eq_bot_of_isPGroup {P : Type} [Group P] {p : ℕ} (hp : p.Prim
 theorem frattini_eq_bot_of_dvd_20160 {P : Type} [Group P] [Finite P] {p : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) (hPp : IsPGroup p P) (hdvd : Nat.card P ∣ 20160) (hcyc : ¬ IsCyclic P) :
     frattini P = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (IsPGroup p P) := ⟨hPp⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (IsPGroup p P) := ⟨hPp⟩
   obtain ⟨k, hk⟩ := hPp.exists_card_eq
   have hk2 : 2 ≤ k := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     interval_cases k
     · rw [pow_zero] at hk
-      haveI : Subsingleton P := (Nat.card_eq_one_iff_unique.mp hk).1
+      have : Subsingleton P := (Nat.card_eq_one_iff_unique.mp hk).1
       exact hcyc inferInstance
     · exact hcyc (isCyclic_of_prime_card (hk.trans (pow_one p)))
   rw [hk] at hdvd
@@ -49,9 +49,9 @@ theorem frattini_eq_bot_of_dvd_20160 {P : Type} [Group P] [Finite P] {p : ℕ} (
     have hle : p ≤ 141 := by
       have : p ^ 2 ≤ 20160 := Nat.le_of_dvd (by norm_num) hsq
       by_contra h
-      push_neg at h
+      push Not at h
       nlinarith
-    interval_cases p <;> first | rfl | omega | (exfalso; norm_num at hp) | (exfalso; norm_num at hsq)
+    interval_cases p <;> first | rfl | omega | (exfalso; norm_num at hp)
   subst hp3
   have hk2' : k = 2 := by
     by_contra hne

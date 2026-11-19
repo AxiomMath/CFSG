@@ -202,8 +202,8 @@ theorem mL_mul_c : mL * (zL 0 * zL 1 * zL 2) = zL 1 * zL 2 * mL := by
   simp only [Matrix.SpecialLinearGroup.coe_mul, coe_mL, coe_zL, Matrix.mul_diagonal,
     Matrix.diagonal_mul, Matrix.diagonal_mul_diagonal]
   fin_cases a <;> fin_cases b <;>
-    simp [sw, dz, Matrix.diagonal_apply, Equiv.swap_apply_def, zeta_sq_mul_sq,
-      zeta_sq_mul_sq_mul_sq, zeta_mul_sq]
+    simp [sw, dz, Equiv.swap_apply_def, zeta_sq_mul_sq,
+      zeta_mul_sq]
 
 theorem vecElt_not_mem_zpowers {H : Type} [Group H] {z : Fin 3 → H} {t : H}
     (hf : WreathFacts z t) {v : Fin 3 → ZMod 3} (hv : ¬ (v 0 = v 1 ∧ v 1 = v 2)) :
@@ -261,7 +261,7 @@ theorem outerRow_projSL4 : OuterRow (projSL 4 (GaloisField 2 2)) :=
 
 theorem row_l44 : RowOf (projSL 4 (GaloisField 2 2)) := by
   intro S _ _ _ _ ⟨e⟩
-  haveI : Finite (projSL 4 (GaloisField 2 2)) := Finite.of_equiv S e.toEquiv
+  have : Finite (projSL 4 (GaloisField 2 2)) := Finite.of_equiv S e.toEquiv
   exact GoodRow.of_mulEquiv (S := projSL 4 (GaloisField 2 2)) e.symm
     ⟨listRow_projSL4, outerRow_projSL4⟩
 

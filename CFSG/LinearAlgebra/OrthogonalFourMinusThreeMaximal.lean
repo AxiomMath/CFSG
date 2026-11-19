@@ -169,7 +169,7 @@ lemma orthogonalGroup_smul_eq
     TauCeti.QuadraticMap.orthogonalGroup (d • Q) =
       TauCeti.QuadraticMap.orthogonalGroup Q := by
   ext g
-  simp only [TauCeti.QuadraticMap.mem_orthogonalGroup_iff, QuadraticMap.smul_apply, smul_eq_mul]
+  simp only [TauCeti.QuadraticMap.mem_orthogonalGroup_iff, _root_.smul_apply, smul_eq_mul]
   exact forall_congr' fun x => mul_right_inj' hd
 
 lemma exists_pointed_isometry_qDeleted_of_map_eq_two
@@ -306,7 +306,7 @@ theorem orthogonalGroup_eq_top_of_stabilizer_le
     rintro ⟨U, hU, hU0⟩
     exact hminus ⟨U, hU, fun u hu => (smul_eq_zero.mp (hU0 u hu)).resolve_left hc⟩
   have hQ'v : (c • Q) v = 2 := by
-    simpa [QuadraticMap.smul_apply, smul_eq_mul] using hcQ
+    simpa [_root_.smul_apply, smul_eq_mul] using hcQ
   obtain ⟨e, hev⟩ :=
     exists_pointed_isometry_qDeleted_of_map_eq_two (c • Q) hQ' hd hminus' hQ'v
   have hOeq : TauCeti.QuadraticMap.orthogonalGroup (c • Q) =

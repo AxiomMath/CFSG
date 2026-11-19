@@ -293,7 +293,7 @@ theorem isComponentOf_coordBlockSL_ggHypCent (hp : p.Prime) (hp2 : p ≠ 2)
   have h4 : 4 ≤ Nat.card K := by
     obtain ⟨c, hc⟩ := hpK
     have hK2 : 2 ≤ Nat.card K := by
-      haveI := Fintype.ofFinite K
+      have := Fintype.ofFinite K
       rw [Nat.card_eq_fintype_card]
       exact Fintype.one_lt_card
     have hcpos : 0 < c := by

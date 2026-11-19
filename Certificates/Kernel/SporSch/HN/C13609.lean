@@ -42,7 +42,7 @@ theorem pow5_of {A D : ℕ} (hA : Canon 5 133 13 A) (e : mm (mm (mm (mm A A) A) 
   rw [h8, h6, h4, h2]
   simp only [pow_succ, pow_zero, one_mul]
 
-theorem c3J_eq {j : ℕ} (hj : j < 7) : HNPt2109.C3J j = c3J j := by
+theorem c3J_eq {j : ℕ} (_hj : j < 7) : HNPt2109.C3J j = c3J j := by
   unfold HNPt2109.C3J c3J
   split_ifs with h
   · exact HNPt2085.wJ_sL _ (HNPt2109.letters_ok.2.2.1 j h)

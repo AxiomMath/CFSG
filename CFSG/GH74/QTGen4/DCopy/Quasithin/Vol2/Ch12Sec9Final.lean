@@ -161,7 +161,7 @@ theorem config_of_cx1291_F4 (h1222 : Stmt12_2_2_F4) (h1283 : Lemma12_8_3_F4) (h1
     have hlOne : lOne (⊥ : Subgroup G) V₁ = ⊥ :=
       le_bot_iff.1 ((oTwoUpper_le _).trans inf_le_left)
     have hsylH : QuasithinUnique.IsSylowTwoOf (S : Subgroup G) H :=
-      ⟨hSH, S.isPGroup', fun h => hyp.sylow.2 (h.trans (by
+      ⟨hSH, S.isPGroup, fun h => hyp.sylow.2 (h.trans (by
         simpa [Subgroup.relIndex] using Subgroup.relIndex_dvd_index_of_le hSH))⟩
     have hV₁₂lt : V₁ < V₂ := by
       refine lt_of_le_of_ne hV₁₂ fun h => ?_
@@ -182,7 +182,7 @@ theorem config_of_cx1291_F4 (h1222 : Stmt12_2_2_F4) (h1283 : Lemma12_8_3_F4) (h1
           exact le_top
         sylow_LT := by
           rw [bot_sup_eq]
-          exact ⟨le_rfl, S.isPGroup', by simp⟩
+          exact ⟨le_rfl, S.isPGroup, by simp⟩
         H_le := hHN
         lOne_sup_le := by
           rw [hlOne, bot_sup_eq]

@@ -51,7 +51,7 @@ private theorem liftableRank_orthDerived_minus_aux2 {F : Type} [Field F] [Finite
       (∀ i, (ρ i : V ≃ₗ[F] V) = reflect Q (x i) * reflect Q (y i)) ∧
       IsElemAbelian p (Subgroup.closure (Set.range ρ)) ∧
       Nat.card (Subgroup.closure (Set.range ρ)) = p ^ (n - 1) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hxy : ∀ i, polar Q (x i) (y i) ≠ 0 := fun i =>
     polar_ne_zero_of_orderOf_reflect_mul_reflect hp hp2 (hrot i).2.2
   let ρ : Fin (n - 1) → ↥(orthDerived Q) := fun i =>
@@ -140,7 +140,7 @@ theorem liftableRank_orthDerived_minus {F : Type} [Field F] [Finite F] [CharP F 
     (hminus : ¬ IsPlusType Q) (hn : 2 ≤ n) (heven : Even n) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hpq : p ∣ Nat.card F + 1) :
     S172X.LiftableRank p ↥(orthDerived Q) (n - 1) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨x, y, u, v, hrot, hperp, hu, hv, huv, hporth⟩ :=
     exists_rotationFrame hQ hdim hminus hn heven hp hp2 hpq
   refine ⟨fun E hE => card_le_pow_pred_of_isElemAbelian_orthDerived hQ hdim hminus (by omega) heven hp

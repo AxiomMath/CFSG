@@ -88,7 +88,7 @@ theorem normalizer_sylow_seven_he
     rw [h2]
     norm_num
   obtain ⟨l, -, hl⟩ := CFSG.AGLEmbedding.exists_mem_map_conj_eq_of_card_eq (L := ⊤) le_top
-    le_top (IsPGroup.of_card hT₀c) T.isPGroup' hT₀idx
+    le_top (IsPGroup.of_card hT₀c) T.isPGroup hT₀idx
     (by rw [Sylow.card_eq_multiplicity T, hLc, hT₀c,
       factorization_eq_of_pow_dvd (e := 3) Nat.prime_seven (by norm_num) (by norm_num)
       (by norm_num)])

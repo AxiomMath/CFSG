@@ -690,7 +690,7 @@ variable {G : Type} [Group G] [Finite G] [IsSimpleGroup G]
 
 theorem normY_of_hyp22 [Fact CFSG.ClassicalInvolution.Q3.Q3T8.Asc77.Hyp22Hyp51z] [Fact
     CFSG.ClassicalInvolution.Q3.Q3T8.Asc77.Hyp22Hyp51u] [Fact Q3T7E.ThmEWithSylow3] [Fact
-    CFSG.ClassicalInvolution.Q3.Q3T8.Asc77.S16.M11NoInverted3] (hq1 : 3 % 4 = 1) (h :
+    CFSG.ClassicalInvolution.Q3.Q3T8.Asc77.S16.M11NoInverted3] (hq1 : 3 % 4 = 1) (_h :
     Q3T8.Asc77.Hyp22 Ω K K' K₃ z u₁ u₂ u₃) :
     rLayer Ω (u₁ * u₂) ≤
       Subgroup.normalizer (alphaOf (Subgroup.closure ({u₁ * u₂, z} : Set G)) : Set G) :=

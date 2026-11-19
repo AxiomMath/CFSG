@@ -218,16 +218,16 @@ private theorem twCompat_d4TorusParam {F : Type} [Field F] {n : ℕ}
   intro i
   by_cases hi0 : i = 0
   · subst hi0
-    simp [d4TorusParam, TwCompat, Pi.mulSingle_apply, hp0]
+    simp [d4TorusParam, hp0]
     exact hσeq.symm
   · by_cases hi5 : i = 5
     · subst hi5
-      simp [d4TorusParam, TwCompat, Pi.mulSingle_apply, hp5]
+      simp [d4TorusParam, hp5]
       have h := congrArg Inv.inv hσeq
       simpa using h.symm
     · have hpi0 : TwistTag.E6.perm i ≠ 0 := hne5 i hi5
       have hpi5 : TwistTag.E6.perm i ≠ 5 := hne0 i hi0
-      simp [d4TorusParam, TwCompat, Pi.mulSingle_apply, hi0, hi5, hpi0, hpi5]
+      simp [d4TorusParam, hi0, hi5, hpi0, hpi5]
 
 @[expose] noncomputable def d4Witness {F : Type} [Field F] (ω : Fˣ) : Γ₂ F :=
   rootDiagUnit TwistTag.E6.tag (d4TorusParam ω)
@@ -236,10 +236,10 @@ private theorem d4TorusParam_pow_three {F : Type} [Field F] {ω : Fˣ} (hω3 : �
     d4TorusParam ω ^ 3 = 1 := by
   funext i
   by_cases hi0 : i = 0
-  · subst hi0; simp [d4TorusParam, Pi.mulSingle_apply, hω3]
+  · subst hi0; simp [d4TorusParam, hω3]
   · by_cases hi5 : i = 5
-    · subst hi5; simp [d4TorusParam, Pi.mulSingle_apply, hω3]
-    · simp [d4TorusParam, Pi.mulSingle_apply, hi0, hi5]
+    · subst hi5; simp [d4TorusParam, hω3]
+    · simp [d4TorusParam, hi0, hi5]
 
 private theorem d4Witness_ne_one {F : Type} [Field F] {ω : Fˣ} (hω1 : ω ≠ 1) :
     d4Witness ω ≠ 1 := by
@@ -291,7 +291,7 @@ private theorem d4Witness_centralizes_parabolicLevi {F : Type} [Field F] (ω : F
       · subst hi5
         rw [show α 5 = 0 from hα.2 5 (by decide), zpow_zero]
       · rw [show d4TorusParam ω i = 1 from by
-          simp [d4TorusParam, Pi.mulSingle_apply, hi0, hi5], one_zpow]
+          simp [d4TorusParam, hi0, hi5], one_zpow]
 
 private theorem d4Witness_centralizes_levi {F : Type} [Field F] (σ : F ≃+* F) (ω : Fˣ) :
     d4Witness ω ∈ Subgroup.centralizer
@@ -310,7 +310,7 @@ private theorem d4Witness_centralizes_levi {F : Type} [Field F] (σ : F ≃+* F)
   exact (Subgroup.centralizer_le (fun x hx => hLle hx)) hzC
 
 theorem d4Witness_facts {F : Type} [Field F] [Finite F] {n : ℕ}
-    (hF : Nat.card F = (2 ^ n) ^ 2) (σ : F ≃+* F) (hσ : ∀ c, σ c = c ^ 2 ^ n)
+    (_hF : Nat.card F = (2 ^ n) ^ 2) (σ : F ≃+* F) (hσ : ∀ c, σ c = c ^ 2 ^ n)
     (h3 : 3 ∣ 2 ^ n + 1) {ω : Fˣ} (hω3 : ω ^ 3 = 1) (hω1 : ω ≠ 1) :
     d4Witness ω ≠ 1 ∧
       d4Witness ω ∈ twistedE6DiagGL F σ ∧

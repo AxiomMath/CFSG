@@ -22,7 +22,7 @@ theorem tits_lemma42 (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLocal G
     {U : Subgroup G} (hU : IIPlane 5 P x J U) :
     ∀ a ∈ U, a ∉ Subgroup.zpowers x → Subgroup.centralizer ({a} : Set G) ≤ M := by
   intro a ha hax
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨hTcard, hTel, -⟩ := plane_T_structure hX.sylow hc
   obtain ⟨Z, hZcyc, hxZ, hZS, hZT, hTZ, hsup⟩ := plane_S_decomp hX.sylow hX.noOuter hc
   have hSP : u3S P x = (P : Subgroup G) := inf_eq_left.2 hfus.1

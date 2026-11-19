@@ -20,9 +20,9 @@ theorem typesA_orbit_of_stab {S : Type} [Group S] [Finite S] (E : Subgroup (MulA
         TypesA (quotAct (E.subtype.comp B.subtype) K₀ hinv) ⊤) :
     TypesA E.subtype (sSup (orbitOf E.subtype K₀)) := by
   classical
-  haveI : Finite (Subgroup S) := Finite.of_injective (fun H : Subgroup S => (H : Set S))
+  have : Finite (Subgroup S) := Finite.of_injective (fun H : Subgroup S => (H : Set S))
     (fun H K h => SetLike.coe_injective h)
-  haveI : Fintype ↥(orbitOf E.subtype K₀) := Fintype.ofFinite _
+  have : Fintype ↥(orbitOf E.subtype K₀) := Fintype.ofFinite _
   set ρ : ↥E →* MulAut S := E.subtype with hρ
   set O := orbitOf ρ K₀ with hOdef
   have hcomp : ∀ K ∈ O, IsComponentOf K X :=
@@ -72,11 +72,11 @@ theorem typesA_glaLayer_of_orbits {S : Type} [Group S] [Finite S] (E : Subgroup 
       TypesA E.subtype (sSup (orbitOf E.subtype K₀))) :
     TypesA E.subtype (GLALayer X) := by
   classical
-  haveI : Finite (Subgroup S) := Finite.of_injective (fun H : Subgroup S => (H : Set S))
+  have : Finite (Subgroup S) := Finite.of_injective (fun H : Subgroup S => (H : Set S))
     (fun H K h => SetLike.coe_injective h)
   let ι := {O : Set (Subgroup S) // ∃ K, IsComponentOf K X ∧ O = orbitOf E.subtype K}
-  haveI : Finite ι := Subtype.finite
-  haveI : Fintype ι := Fintype.ofFinite ι
+  have : Finite ι := Subtype.finite
+  have : Fintype ι := Fintype.ofFinite ι
   have hmemO : ∀ O : ι, ∀ K ∈ O.1, IsComponentOf K X := by
     rintro ⟨O, K₁, hK₁, rfl⟩ K hK
     exact isComponentOf_orbit hXE hK₁ hK
@@ -263,14 +263,14 @@ theorem typesA_all (hCyc : CompTypesCyc) (hT : TitsCentSolv) (p : ℕ) (hp : p.P
   · by_cases hbot : E = ⊥
     · subst hbot
       rw [I142.centFix_bot] at hK
-      haveI : IsSimpleGroup S := hsimp
-      haveI : IsSimpleGroup ↥(⊤ : Subgroup S) := Subgroup.topEquiv.isSimpleGroup
+      have : IsSimpleGroup S := hsimp
+      have : IsSimpleGroup ↥(⊤ : Subgroup S) := Subgroup.topEquiv.isSimpleGroup
       have hKne : K ≠ ⊥ := (Subgroup.nontrivial_iff_ne_bot K).1
         (nontrivial_of_isQuasisimple hK.2.2)
       have hKtop : K = ⊤ :=
         CFSG.LocalAnalysis.GLTheoremA.AltDown.eq_of_isSubnormal_of_isSimpleGroup hK.2.1 hKne
       have eK : ↥K ≃* S := (MulEquiv.subgroupCongr hKtop).trans Subgroup.topEquiv
-      haveI : IsSimpleGroup ↥K := eK.isSimpleGroup
+      have : IsSimpleGroup ↥K := eK.isSimpleGroup
       have hncK : ∃ a b : ↥K, a * b ≠ b * a := by
         obtain ⟨a, b, hab⟩ := hnc
         exact ⟨eK.symm a, eK.symm b, fun h => hab (eK.symm.injective (by simpa using h))⟩
@@ -279,7 +279,7 @@ theorem typesA_all (hCyc : CompTypesCyc) (hT : TitsCentSolv) (p : ℕ) (hp : p.P
       have e : (↥K ⧸ Subgroup.center ↥K) ≃* S :=
         ((QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot).trans eK
       exact cplus_of_mulEquiv e ⟨hsimp, hnc, hcl⟩
-    · haveI := hT S hTits p hp hp2 E hE hbot
+    · have := hT S hTits p hp hp2 E hE hbot
       have hKb : K = ⊥ := eq_bot_of_le_solvable (C := I142.centFix E) hK.1
         (comm_self_eq_of_commutator_top hK.2.2.1)
       exact absurd hKb ((Subgroup.nontrivial_iff_ne_bot K).1

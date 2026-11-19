@@ -34,8 +34,8 @@ theorem sub_mem_of_pow_two_eq_one [CharP F 2] {V : Type*} [AddCommGroup V] [Modu
     [FiniteDimensional F V] (T : Module.End F V) {a : ℕ} (hT : T ^ 2 ^ a = 1)
     {W W' : Submodule F V} (hW : ∀ v ∈ W, T v ∈ W) (hW' : ∀ v ∈ W', T v ∈ W') (hlt : W < W')
     (hrank : finrank F W' = finrank F W + 1) : ∀ v ∈ W', T v - v ∈ W := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  obtain ⟨u, huW', huW⟩ := SetLike.exists_of_lt hlt
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  obtain ⟨u, huW', huW⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   have hle : W ⊔ Submodule.span F {u} ≤ W' :=
     sup_le hlt.le (Submodule.span_le.2 (Set.singleton_subset_iff.2 huW'))
   have hlt' : W < W ⊔ Submodule.span F {u} :=
@@ -86,7 +86,7 @@ variable [Finite F] [CharP F 2] (σ : K ≃* SL(3, F))
 
 theorem fixFlag_lt_succ {R : Subgroup K} (hR : IsPGroup 2 R) {k : ℕ}
     (hk : fixFlag (rep σ) R k ≠ ⊤) : fixFlag (rep σ) R k < fixFlag (rep σ) R (k + 1) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set W := fixFlag (rep σ) R k with hWdef
   obtain ⟨w, hw⟩ : ∃ w : Fin 3 → F, w ∉ W := by
     by_contra h
@@ -94,10 +94,10 @@ theorem fixFlag_lt_succ {R : Subgroup K} (hR : IsPGroup 2 R) {k : ℕ}
     exact hk (eq_top_iff.2 fun v _ => h v)
   have hW : ∀ g ∈ R, ∀ v ∈ W, rep σ g v ∈ W := fun g hg v hv =>
     flagStab_apply_mem _ ((normalizer_le_flagStab_fixFlag _ R) (Subgroup.le_normalizer hg)) hv
-  haveI hnt : Nontrivial ((Fin 3 → F) ⧸ W) := by
+  have hnt : Nontrivial ((Fin 3 → F) ⧸ W) := by
     refine ⟨⟨Submodule.Quotient.mk w, 0, ?_⟩⟩
     rwa [Ne, Submodule.Quotient.mk_eq_zero]
-  haveI : Finite ((Fin 3 → F) ⧸ W) := Finite.of_surjective _ (Submodule.Quotient.mk_surjective W)
+  have : Finite ((Fin 3 → F) ⧸ W) := Finite.of_surjective _ (Submodule.Quotient.mk_surjective W)
   have hRp : IsPGroup 2 (⊤ : Subgroup R) := hR.of_equiv Subgroup.topEquiv.symm
   obtain ⟨x, hx0, hx⟩ := exists_fixed_ne_zero (quotRep (rep σ) R W hW) 2 ⊤ hRp
   obtain ⟨v, rfl⟩ := Submodule.Quotient.mk_surjective W x
@@ -112,7 +112,7 @@ theorem fixFlag_lt_succ {R : Subgroup K} (hR : IsPGroup 2 R) {k : ℕ}
 theorem flagKernel_inf_normalizer_le [Finite K] {R : Subgroup K} (hR : IsPGroup 2 R)
     (hRc : pCoreOf 2 (normalizer (R : Set K)) = R) :
     flagKernel (rep σ) (fixFlag (rep σ) R) ⊓ normalizer (R : Set K) ≤ R := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨m, hm⟩ := exists_fixFlag_eq_top (rep σ) 2 R hR
   have hQp : IsPGroup 2 (flagKernel (rep σ) (fixFlag (rep σ) R)) :=
     isPGroup_flagKernel (rep σ) 2 (rep_injective σ) (fixFlag_zero _ R) hm
@@ -135,7 +135,7 @@ theorem flagKernel_inf_normalizer_le [Finite K] {R : Subgroup K} (hR : IsPGroup 
 theorem eq_flagKernel_of_radical [Finite K] {R : Subgroup K} (hR : IsPGroup 2 R)
     (hRc : pCoreOf 2 (normalizer (R : Set K)) = R) :
     R = flagKernel (rep σ) (fixFlag (rep σ) R) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨m, hm⟩ := exists_fixFlag_eq_top (rep σ) 2 R hR
   exact eq_of_inf_normalizer_le (le_flagKernel_fixFlag _ R)
     (isPGroup_flagKernel (rep σ) 2 (rep_injective σ) (fixFlag_zero _ R) hm)
@@ -148,6 +148,7 @@ theorem normalizer_eq_flagStab [Finite K] {R : Subgroup K} (hR : IsPGroup 2 R)
   have := flagStab_le_normalizer_flagKernel (rep σ) (fixFlag (rep σ) R)
   rwa [← eq_flagKernel_of_radical σ hR hRc] at this
 
+omit [Finite F] [CharP F 2] in
 theorem fixFlag_zero_ne_top (R : Subgroup K) : fixFlag (rep σ) R 0 ≠ ⊤ := by
   rw [fixFlag_zero]
   intro h
@@ -159,7 +160,7 @@ theorem fixFlag_zero_ne_top (R : Subgroup K) : fixFlag (rep σ) R 0 ≠ ⊤ := b
 theorem false_of_complete_flag [Finite K] {R : Subgroup K} (hR : IsPGroup 2 R)
     (hRi : 2 ∣ R.index) (hRc : pCoreOf 2 (normalizer (R : Set K)) = R)
     (h2 : fixFlag (rep σ) R 2 ≠ ⊤) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Fl := fixFlag (rep σ) R with hFl
   have hl0 : Fl 0 < Fl 1 := fixFlag_lt_succ σ hR (fixFlag_zero_ne_top σ R)
   have hl1 : Fl 1 < Fl 2 :=
@@ -178,7 +179,7 @@ theorem false_of_complete_flag [Finite K] {R : Subgroup K} (hR : IsPGroup 2 R)
     intro x ⟨hxS, hxN⟩
     refine flagKernel_inf_normalizer_le σ hR hRc ⟨?_, hxN⟩
     have hxF : x ∈ flagStab (rep σ) Fl := normalizer_le_flagStab_fixFlag _ R hxN
-    obtain ⟨a, ha⟩ := S.isPGroup' ⟨x, hxS⟩
+    obtain ⟨a, ha⟩ := S.isPGroup ⟨x, hxS⟩
     have hxa : x ^ 2 ^ a = 1 := by simpa using congrArg Subtype.val ha
     have hT : rep σ x ^ 2 ^ a = 1 := by rw [← map_pow, hxa, map_one]
     refine ⟨hxF, fun k v hv => ?_⟩
@@ -191,7 +192,7 @@ theorem false_of_complete_flag [Finite K] {R : Subgroup K} (hR : IsPGroup 2 R)
     · have hk' : fixFlag (rep σ) R k = ⊤ := htop k hk
       rw [hk']
       exact Submodule.mem_top
-  have hRSeq : R = S := eq_of_inf_normalizer_le hRS S.isPGroup' hSN
+  have hRSeq : R = S := eq_of_inf_normalizer_le hRS S.isPGroup hSN
   exact S.not_dvd_index (hRSeq ▸ hRi)
 
 theorem exists_stab [Finite K] {R : Subgroup K} (hR : IsPGroup 2 R) (hR1 : R ≠ ⊥)

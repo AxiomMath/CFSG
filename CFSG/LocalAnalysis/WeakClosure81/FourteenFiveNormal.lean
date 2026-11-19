@@ -16,6 +16,7 @@ variable {G : Type} [Group G] [Finite G]
 
 namespace FourteenFive
 
+omit [Finite G] in
 private theorem conj_eq_self_of_isMulCommutative {V : Subgroup G}
     (hV : IsMulCommutative ↥V) {d w : G} (hd : d ∈ V) (hw : w ∈ V) :
     d * w * d⁻¹ = w := by
@@ -24,6 +25,7 @@ private theorem conj_eq_self_of_isMulCommutative {V : Subgroup G}
   rw [hcomm]
   group
 
+omit [Finite G] in
 private theorem mem_normalizer_of_comm_mem {V₀ V I : Subgroup G} (hI : I ≤ V)
     (hV₀I : V₀ ≤ I) {x : G} (hx : ∀ v ∈ V, x * v * x⁻¹ * v⁻¹ ∈ V₀)
     (hxinv : ∀ v ∈ V, x⁻¹ * v * x * v⁻¹ ∈ V₀) :
@@ -42,6 +44,7 @@ private theorem mem_normalizer_of_comm_mem {V₀ V I : Subgroup G} (hI : I ≤ V
       group]
     exact I.mul_mem (hV₀I hc) hv
 
+omit [Finite G] in
 private theorem conj_mem_PSub {M V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
     (hM : M ≤ Subgroup.normalizer (V : Set G)) (hM₀ : M ≤ Subgroup.normalizer (V₀ : Set G))
     {x a : G} (hx : x ∈ F11.CTilde M V₀ V) (ha : a ∈ FourteenTwo.PSub M V₀ V) :
@@ -64,6 +67,7 @@ private theorem conj_mem_PSub {M V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
       _ = x⁻¹ * (a * (x * w * x⁻¹)) * x := by rw [hcomm]
       _ = (x⁻¹ * a * x) * w := by group
 
+omit [Finite G] in
 private theorem normalizer_bot_eq_top :
     Subgroup.normalizer ((⊥ : Subgroup G) : Set G) = ⊤ := by
   ext x
@@ -88,7 +92,7 @@ theorem le_normalizer_Z0 (h15 : Hyp15 M V₀ V) (h : Hyp65 n M V₀ V g)
     (hV₀K : ¬ V₀ ≤ KOf M V g) (hn : (UOf M V g).relIndex V = 2) :
     M ≤ normalizer ((Z0Of M V₀ g : Subgroup G) : Set G) := by
   by_contra hnot
-  rw [SetLike.not_le_iff_exists] at hnot
+  rw [IsConcreteLE.not_le_iff_exists] at hnot
   obtain ⟨k, hkM, hkNot⟩ := hnot
   have hkD : conjSubgroup (Z0Of M V₀ g) k ≠ Z0Of M V₀ g :=
     fun hconj => hkNot (conjSubgroup_eq_iff_mem_normalizer.1 hconj)

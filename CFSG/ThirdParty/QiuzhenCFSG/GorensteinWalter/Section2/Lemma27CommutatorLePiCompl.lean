@@ -45,7 +45,7 @@ private theorem lemma_2_7_t_mem_twoCore
     rw [Subgroup.mem_centralizer_iff]
     intro z hz
     have hzH : z ∈ c.H := by
-      exact SetLike.le_def.1 (Subgroup.map_subtype_le (H := c.H)
+      exact _root_.IsConcreteLE.le_iff.1 (Subgroup.map_subtype_le (H := c.H)
         (pPrimeCore 2 c.H)) hz
     have hzCent : z ∈ Subgroup.centralizer ({c.t} : Set G) := by
       rw [← c.H_eq_centralizer]

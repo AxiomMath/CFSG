@@ -42,7 +42,7 @@ theorem neg_one_pow_eq [Finite K] {q : ℕ} (hq : Nat.card K = q ^ 2) : (-1 : K)
   rcases Nat.even_or_odd q with he | ho
   · have h2 : (2 : K) = 0 := by
       have : 2 ∣ Nat.card K := by rw [hq]; exact dvd_pow he.two_dvd two_ne_zero
-      haveI hf : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have hf : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       obtain ⟨x, hx⟩ := exists_prime_addOrderOf_dvd_card' (G := K) 2 ‹2 ∣ Nat.card K›
       have hx0 : x ≠ 0 := by
         intro h0; rw [h0, addOrderOf_zero] at hx; omega
@@ -72,7 +72,7 @@ theorem nineData_SU [Finite K] {q : ℕ} (hq : Nat.card K = q ^ 2) (h : q % 9 = 
     rw [Matrix.diagonal_map (by simp [hq0.ne'])]
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.diagonal_apply, Matrix.mul_apply, Fin.sum_univ_three, ← pow_succ, hx, hy, hz]
+      simp [Matrix.diagonal_apply, Matrix.mul_apply, ← pow_succ, hx, hy, hz]
   refine nineData_of_mem hω ?_ ?_
   · intro a b ha hb
     refine Subgroup.subset_closure ⟨?_, ?_⟩

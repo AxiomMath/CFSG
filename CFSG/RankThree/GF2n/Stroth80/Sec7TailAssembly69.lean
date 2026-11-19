@@ -19,7 +19,7 @@ theorem stroth76_of_steps (hNR : Sec7NormZ0Statement) (hZc : Sec7CentreMpStateme
     (hE : Step76EStatement) (hEnd : Sec7EndStatement) : Stroth76Statement := by
   intro G _ _ M Q Z B hc n t hs hno
   by_contra hnom
-  haveI : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
+  have : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
   obtain ⟨Z0, hZ0⟩ := Ctx.exists_centre hc hs.toSec5.mem
   have hTI := Z0_normalizes_of_nat hNR hZV G M Q Z B hc n t hs hnom Z0 hZ0
   have hSyl' := exists_sylow_Z0_of_trans hc hs hno hZc hZ0 hTI hTr (hSyl G M Q Z B hc n t hs)

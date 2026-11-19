@@ -64,7 +64,7 @@ theorem exists_conj_sup_isElemAbelian_permutes {D : Data G} {E₁ E₂ : Subgrou
       2 ≤ CFSG.Open.pRank 3 (E₁ ⊔ E₂.map (MulAut.conj n).toMonoidHom) ∧
       Permutes (E₁ ⊔ E₂.map (MulAut.conj n).toMonoidHom) D.T := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hO2M : pCoreOf 2 D.M ≤ D.M := CFSG.LieType.BorelTits.pCoreOf_le 2 D.M
   have hMn : D.M ≤ Subgroup.normalizer (pCoreOf 2 D.M : Set G) :=
     Subgroup.le_normalizer.trans (CFSG.LieType.BorelTits.normalizer_le_normalizer_pCoreOf 2 D.M)
@@ -140,7 +140,7 @@ theorem card_normalizer_inf_sylow_of_isL3 {D : Data G} {K : Subgroup G}
     Nat.card ↥(K ⊓ Subgroup.normalizer ((D.T ⊓ K : Subgroup G) : Set G))
       = 3 * Nat.card ↥(D.T ⊓ K) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTM : D.T ≤ D.M := D.sylowM.le
   have hMK : D.M ≤ Subgroup.normalizer (K : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hKM).mp hKn
@@ -314,8 +314,8 @@ theorem exists_elemAbelian_permutes_of_isL3 {D : Data G} {K : Subgroup G}
     (hKM : K ≤ D.M) (hKn : (K.subgroupOf D.M).Normal) (hshape : IsL3 (Bar2 K) 2) :
     ∃ E ≤ K, IsElemAbelian 3 E ∧ 1 ≤ CFSG.Open.pRank 3 E ∧ Permutes E D.T := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTM : D.T ≤ D.M := D.sylowM.le
   have hMK : D.M ≤ Subgroup.normalizer (K : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hKM).mp hKn
@@ -329,7 +329,7 @@ theorem exists_elemAbelian_permutes_of_isL3 {D : Data G} {K : Subgroup G}
   have hBK : B ≤ K := inf_le_left
   have hSB : S ≤ B := le_inf hSK (Subgroup.le_normalizer)
   have hBN : B ≤ Subgroup.normalizer (S : Set G) := inf_le_right
-  haveI hnormal : (S.subgroupOf B).Normal :=
+  have hnormal : (S.subgroupOf B).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hSB).mpr hBN
   have hTS : D.T ≤ Subgroup.normalizer (S : Set G) := by
     intro t ht
@@ -411,7 +411,7 @@ theorem subgroupOf_sylow_eq_comap_map {D : Data G} {K : Subgroup G}
       (((D.T ⊓ K).subgroupOf K).map (QuotientGroup.mk' (CFSG.pCore 2 ↥K))).comap
         (QuotientGroup.mk' (CFSG.pCore 2 ↥K)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hMK : D.M ≤ Subgroup.normalizer (K : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hKM).mp hKn
   have hSylK : CFSG.ABGLocalTools.IsSylowOf 2 (D.T ⊓ K) K :=
@@ -460,7 +460,7 @@ theorem card_inf_normalizer_eq_card_normalizer_bar_mul {D : Data G} {K : Subgrou
         (QuotientGroup.mk' (CFSG.pCore 2 ↥K))) : Set (Bar2 K))) *
         Nat.card ↥(CFSG.pCore 2 ↥K) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hMK : D.M ≤ Subgroup.normalizer (K : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hKM).mp hKn
   have hSylK : CFSG.ABGLocalTools.IsSylowOf 2 (D.T ⊓ K) K :=
@@ -510,8 +510,8 @@ theorem exists_elemAbelian_permutes_of_borel_commutative {D : Data G} {K : Subgr
       a * b * a⁻¹ * b⁻¹ ∈ Sstar) :
     ∃ E ≤ K, IsElemAbelian 3 E ∧ 1 ≤ CFSG.Open.pRank 3 E ∧ Permutes E D.T := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   subst hSstar
   have hTM : D.T ≤ D.M := D.sylowM.le
   have hMK : D.M ≤ Subgroup.normalizer (K : Set G) :=
@@ -528,7 +528,7 @@ theorem exists_elemAbelian_permutes_of_borel_commutative {D : Data G} {K : Subgr
     exact le_inf hSK Subgroup.le_normalizer
   have hBN : BB ≤ Subgroup.normalizer (SS : Set G) := by
     rw [hBBdef]; exact inf_le_right
-  haveI hnormal : (SS.subgroupOf BB).Normal :=
+  have hnormal : (SS.subgroupOf BB).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hSB).mpr hBN
   have h3B : 3 ∣ Nat.card ↥BB := by
     show 3 ∣ Nat.card ↥(K ⊓ Subgroup.normalizer ((D.T ⊓ K : Subgroup G) : Set G))
@@ -637,7 +637,7 @@ theorem exists_elemAbelian_permutes_of_isL2_even {D : Data G} {K : Subgroup G}
     {a : ℕ} (ha : Even a) (hshape : IsL2 (Bar2 K) a) :
     ∃ E ≤ K, IsElemAbelian 3 E ∧ 1 ≤ CFSG.Open.pRank 3 E ∧ Permutes E D.T := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTM : D.T ≤ D.M := D.sylowM.le
   have hMK : D.M ≤ Subgroup.normalizer (K : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hKM).mp hKn
@@ -681,7 +681,7 @@ theorem exists_elemAbelian_permutes_of_isSU3_even
     {n : ℕ} (hn : Even n) (hshape : IsSU3 (Bar2 K) n) :
     ∃ E ≤ K, IsElemAbelian 3 E ∧ 1 ≤ CFSG.Open.pRank 3 E ∧ Permutes E D.T := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hn2 : 2 ≤ n := s13_two_le_of_isU3 hshape.2
   have hTM : D.T ≤ D.M := D.sylowM.le
   have hMK : D.M ≤ Subgroup.normalizer (K : Set G) :=

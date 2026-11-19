@@ -37,7 +37,7 @@ theorem card_modEq_commuting [Finite Γ] (p : ℕ) [Fact p.Prime] {x : Γ} (hx :
       rw [ih, pow_succ']
       group
   have hf : ∀ d, f^[p] d = d := fun d => Subtype.ext (by rw [hit, hx]; simp)
-  haveI := Fintype.ofFinite S
+  have := Fintype.ofFinite S
   let F : Function.End S := f
   have hF : F ^ p ^ 1 = 1 := by
     rw [pow_one]
@@ -90,10 +90,10 @@ theorem t_comm_P (h : KSetup U K x v t) : ∀ p ∈ IsF20.Pgrp U x v, t * p = p 
   intro p hp
   exact (mem_centralizer_singleton_iff.1 (hle hp)).symm
 
-theorem t_mem_cls (h : KSetup U K x v t) : t ∈ cls K t := by
+theorem t_mem_cls (_h : KSetup U K x v t) : t ∈ cls K t := by
   exact ⟨1, one_mem K, by simp⟩
 
-theorem conj_mem_cls (h : KSetup U K x v t) {k : Γ} (hk : k ∈ K) {d : Γ} (hd : d ∈ cls K t) :
+theorem conj_mem_cls (_h : KSetup U K x v t) {k : Γ} (hk : k ∈ K) {d : Γ} (hd : d ∈ cls K t) :
     k * d * k⁻¹ ∈ cls K t := by
   obtain ⟨k', hk', rfl⟩ := hd
   exact ⟨k * k', mul_mem hk hk', by group⟩
@@ -190,7 +190,7 @@ theorem card_cls_mul [Finite Γ] (h : KSetup U K x v t) :
   omega
 
 theorem card_cls_modEq [Finite Γ] (h : KSetup U K x v t) : Nat.card ↥(cls K t) ≡ 1 [MOD 5] := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hmod := card_modEq_commuting 5 h.hF.x5 (cls K t) (fun d hd => h.conj_mem_cls h.x_mem_K hd)
   have hset : {c : Γ | c ∈ cls K t ∧ x * c = c * x} = {t} := by
     ext c
@@ -267,7 +267,7 @@ theorem card_cls_ne_sixteen [Finite Γ] (h : KSetup U K x v t) : Nat.card ↥(cl
 
 theorem card_cls_ne_eleven [Finite Γ] (h : KSetup U K x v t) : Nat.card ↥(cls K t) ≠ 11 := by
   intro h11
-  haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
   have hK : Nat.card K = 11 * 640 := by
     rw [← h.card_cls_mul, h11]
   have hdvd : 11 ∣ Nat.card K := ⟨640, hK⟩
@@ -285,7 +285,7 @@ theorem card_cls_ne_eleven [Finite Γ] (h : KSetup U K x v t) : Nat.card ↥(cls
   have hD : {c : Γ | c ∈ ((U ⊔ zpowers t : Subgroup Γ) : Set Γ) ∧ (g : Γ) * c = c * (g : Γ)} =
       ((U ⊔ zpowers t) ⊓ centralizer ({(g : Γ)} : Set Γ) : Subgroup Γ) := by
     ext c
-    simp only [Set.mem_setOf_eq, SetLike.mem_coe, Subgroup.mem_inf, mem_centralizer_singleton_iff]
+    simp only [Set.mem_ofPred_eq, SetLike.mem_coe, Subgroup.mem_inf, mem_centralizer_singleton_iff]
     constructor
     · rintro ⟨hc, hgc⟩
       exact ⟨hc, hgc.symm⟩
@@ -466,7 +466,7 @@ theorem closure_cls [Finite Γ] (h : KSetup U K x v t) :
       intro a ha
       induction ha using Subgroup.closure_induction with
       | mem a ha => exact Subgroup.subset_closure (h.conj_mem_cls h.x_mem_K ha)
-      | one => simpa using one_mem _
+      | one => simp
       | mul a b _ _ iha ihb =>
         have : x * (a * b) * x⁻¹ = (x * a * x⁻¹) * (x * b * x⁻¹) := by group
         rw [this]

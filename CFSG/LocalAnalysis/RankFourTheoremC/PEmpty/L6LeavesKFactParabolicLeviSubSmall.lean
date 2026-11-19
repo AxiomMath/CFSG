@@ -36,7 +36,7 @@ theorem leviSubAt_of_overgroup_orders {S : Type} [Group S] [Finite S] (L : Set �
     (hLp : ∀ p : ℕ, p.Prime → 5 ≤ p → CFSG.Open.pRank p (⊤ : Subgroup S) ≤ 1 →
       ∀ n ∈ L, ¬ p ∣ n) : LeviSubAt S := by
   intro K₀ p hB hp h5 hrank hpar hne hsyl
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, U, hU, hUN⟩ := hpar
   obtain ⟨-, hU2, hUdvd⟩ := (CFSG.ABGLocalTools.isSylowOf_iff).1 hU
   rw [Subgroup.relIndex_top_right] at hUdvd
@@ -102,7 +102,7 @@ section Tits
 
 theorem leviSubAt_tits {S : Type} [Group S] [Finite S] {f : ℕ} (h : ReeTitsModel S .Tits 2 f) :
     LeviSubAt S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨φ⟩ := CFSG.Sporadic.Schreier.Tits.titsModelEquiv S 2 f h
   have hm5 : 2 ≤ CFSG.Open.pRank 5 (⊤ : Subgroup S) := by
     rw [← CFSG.SectionRank.pRank_eq_open_pRank_top]

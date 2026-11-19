@@ -70,9 +70,9 @@ theorem map_ker_eq_top_of_solvable {H Q : Type*} [Group H] [Group Q] [IsSimpleGr
     have hφ : Function.Surjective φ := fun s => by
       obtain ⟨h, rfl⟩ := hψ s
       exact ⟨(h : H ⧸ g.ker), rfl⟩
-    haveI : Group.IsSolvable (H ⧸ g.ker) :=
+    have : Group.IsSolvable (H ⧸ g.ker) :=
       Group.isSolvable_of_isSolvable_injective (QuotientGroup.kerLift_injective g)
-    haveI : Group.IsSolvable S := Group.isSolvable_of_surjective hφ
+    have : Group.IsSolvable S := Group.isSolvable_of_surjective hφ
     exact hnab (IsSimpleGroup.comm_iff_isSolvable.mpr this)
   · exact htop
 
@@ -88,11 +88,11 @@ theorem IsSecOf.of_commutator_mem [IsSimpleGroup S] (hnab : ¬ ∀ a b : S, a * 
     {U W : Subgroup A} (hWU : W ≤ U) (hc : ∀ a ∈ U, ∀ b ∈ U, a * b * a⁻¹ * b⁻¹ ∈ W)
     (h : IsSecOf U S) : IsSecOf W S := by
   obtain ⟨H, hHU, ψ, hψ⟩ := h
-  haveI hN : (W.subgroupOf H).Normal := ⟨fun n hn g => by
+  have hN : (W.subgroupOf H).Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     have := W.mul_mem (hc (g : A) (hHU g.2) (n : A) (hWU hn)) hn
     simpa [mul_assoc] using this⟩
-  haveI : Group.IsSolvable (↥H ⧸ W.subgroupOf H) := by
+  have : Group.IsSolvable (↥H ⧸ W.subgroupOf H) := by
     refine Group.isSolvable_of_comm fun a b => ?_
     obtain ⟨a, rfl⟩ := QuotientGroup.mk_surjective a
     obtain ⟨b, rfl⟩ := QuotientGroup.mk_surjective b
@@ -116,7 +116,7 @@ theorem IsSecOf.ker_of_solvable [IsSimpleGroup S] (hnab : ¬ ∀ a b : S, a * b 
 
 theorem IsSecOf.map_hom [IsSimpleGroup S] {p : ℕ} (f : A →* B) {U : Subgroup A}
     (hp : p ∣ Nat.card S) (hker : ¬ p ∣ Nat.card (f.ker ⊓ U : Subgroup A))
-    (hnab : ¬ ∀ a b : S, a * b = b * a) (h : IsSecOf U S) : IsSecOf (U.map f) S := by
+    (_hnab : ¬ ∀ a b : S, a * b = b * a) (h : IsSecOf U S) : IsSecOf (U.map f) S := by
   obtain ⟨H, hHU, ψ, hψ⟩ := h
   set fH : H →* B := f.comp H.subtype with hfH
   have hle : fH.ker ≤ ψ.ker := by
@@ -154,8 +154,8 @@ theorem IsSecOf.not_isSolvable [IsSimpleGroup S] (hnab : ¬ ∀ a b : S, a * b =
     (h : IsSecOf (⊤ : Subgroup A) S) : ¬ Group.IsSolvable A := by
   intro hA
   obtain ⟨H, -, ψ, hψ⟩ := h
-  haveI : Group.IsSolvable H := inferInstance
-  haveI : Group.IsSolvable S := Group.isSolvable_of_surjective hψ
+  have : Group.IsSolvable H := inferInstance
+  have : Group.IsSolvable S := Group.isSolvable_of_surjective hψ
   exact hnab (IsSimpleGroup.comm_iff_isSolvable.mpr this)
 
 end Quotients

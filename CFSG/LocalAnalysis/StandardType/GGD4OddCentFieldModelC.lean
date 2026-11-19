@@ -52,7 +52,7 @@ theorem d4C_fixed_data {K : Type} [Field K] [Finite K] {n : ℕ} (hK : Nat.card 
       have h1 : 1 < Nat.card K := Finite.one_lt_card
       omega
     · exact hn
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcharP : CharP K 2 :=
     charP_of_card_eq_prime_pow (p := 2) (f := n)
       (by rw [← Nat.card_eq_fintype_card]; exact hK)

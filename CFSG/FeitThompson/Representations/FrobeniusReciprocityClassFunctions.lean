@@ -28,9 +28,9 @@ theorem extendByZero_of_notMem (f : H → ℂ) {g : G} (hg : g ∉ H) : extendBy
 theorem extendByZero_apply_dite [DecidablePred (· ∈ H)] (f : H → ℂ) (z : G) :
     extendByZero H f z = if h : z ∈ H then f ⟨z, h⟩ else 0 := by
   by_cases h : z ∈ H
-  · rw [dif_pos h]
+  · rw [dite_eq_left h]
     exact H.subtype_injective.extend_apply f 0 ⟨z, h⟩
-  · rw [dif_neg h]
+  · rw [dite_eq_right h]
     exact extendByZero_of_notMem H f h
 
 theorem indClassFun_eq_sum_extendByZero [Fintype G] (f : H → ℂ) (g : G) :

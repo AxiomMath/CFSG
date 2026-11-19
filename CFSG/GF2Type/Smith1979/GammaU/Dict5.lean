@@ -79,6 +79,7 @@ theorem config_Mtr : ∀ r ∈ unitaryElts i, ∀ u₁ ∈ Mtr S φ, ∀ u₂ �
   obtain ⟨h, c1, c2, c3, c4, c5a, c5b, c5c, c6, c7⟩ := T.config s hs hs1 hcomm h4
   exact hasConfig_of_data hi hφ H C hw hrc hsr h c1 c2 c3 c4 c5a c5b c5c c6 c7
 
+omit hi H C hw in
 theorem canon_Mtr : ∀ m ∈ Mtr S φ, m (vecOf a0) = vecOf a0 → m ∈ gammaU := by
   intro m hm hfix
   obtain ⟨m₀, hm₀, rfl⟩ := mem_Mtr.1 hm
@@ -88,6 +89,7 @@ theorem canon_Mtr : ∀ m ∈ Mtr S φ, m (vecOf a0) = vecOf a0 → m ∈ gammaU
   exact mem_gammaU_of_conj (isom_of_mem_Mtr hφ.isom hm)
     (conj_thetaU_tr hφ.theta (T.canon m₀ hm₀ hfix'))
 
+omit hi in
 theorem hyp_frame : Hyp (vecOf a0) (spanOf d0) (Ltr S g φ) := by
   have hLθ : ∀ s ∈ S.Lbar g, s * θ * s⁻¹ = θ ∨ s * θ * s⁻¹ = θ⁻¹ := fun s hs =>
     T.canon s (S.Lbar_le_Mbar g hs) (Lbar_fix H hs)
@@ -172,7 +174,7 @@ theorem false_of_thetaInputs
   have hφ' := hφ.trans hg₀
   rw [← Mtr_trans] at h4' hrep
   exact false_of_model hi h4' hrep (config_Mtr hi hφ' H C hw T)
-    (fun m hm => isom_of_mem_Mtr hφ'.isom hm) (canon_Mtr hi hφ' H C hw T) (irred_Mtr hirr _)
-    hφ'.frame (hyp_frame hi hφ' H C hw T)
+    (fun m hm => isom_of_mem_Mtr hφ'.isom hm) (canon_Mtr hφ' T) (irred_Mtr hirr _)
+    hφ'.frame (hyp_frame hφ' H C hw T)
 
 end CFSG.GF2Type.Smith1979.GammaU.Dict

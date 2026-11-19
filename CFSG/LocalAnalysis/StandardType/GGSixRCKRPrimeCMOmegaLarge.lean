@@ -120,13 +120,13 @@ private theorem rckNonempty_mulEquiv_statedOmega_quadMinus_three {f : ℕ}
   exact eSpin.trans eΩ.symm
 
 
-theorem exists_mulEquiv_statedOmega_of_six_le {f : ℕ} (hf : 1 ≤ f) {ι₁ : Type} [Fintype ι₁]
+theorem exists_mulEquiv_statedOmega_of_six_le {f : ℕ} (_hf : 1 ≤ f) {ι₁ : Type} [Fintype ι₁]
     [DecidableEq ι₁] (Φ₁ : QuadraticForm (GaloisField 2 f) (ι₁ → GaloisField 2 f))
     (hΦ₁ : (QuadraticMap.polarBilin Φ₁).Nondegenerate) (h6 : 6 ≤ Fintype.card ι₁) :
     ∃ (t : StatedLieTag) (m : ℕ), RCKClassicalTag t ∧
       Nonempty ((ggU t m f).K ≃* ↥(StatedOmega ⇑Φ₁)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hfin : Module.finrank (GaloisField 2 f) (ι₁ → GaloisField 2 f) = Fintype.card ι₁ :=
     Module.finrank_fintype_fun_eq_card _
   obtain ⟨n, hn⟩ : ∃ n, Fintype.card ι₁ = 2 * n := by

@@ -16,8 +16,8 @@ variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
 private lemma y7a_isSylowIn_map_subtype_three {V : Subgroup G} (P : Sylow 3 ↥V) :
     IsSylowIn 3 V ((P : Subgroup ↥V).map V.subtype) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  refine ⟨Subgroup.map_subtype_le _, P.isPGroup'.map V.subtype, ?_⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  refine ⟨Subgroup.map_subtype_le _, P.isPGroup.map V.subtype, ?_⟩
   have h := Subgroup.relIndex_map_map_of_injective (f := V.subtype)
     (P : Subgroup ↥V) (⊤ : Subgroup ↥V) V.subtype_injective
   rw [Subgroup.map_top V.subtype, Subgroup.range_subtype, Subgroup.relIndex_top_right] at h

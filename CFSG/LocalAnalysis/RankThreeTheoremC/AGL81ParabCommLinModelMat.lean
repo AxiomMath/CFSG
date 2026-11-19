@@ -42,7 +42,7 @@ theorem BlockPat.map {M : Matrix (Fin n) (Fin n) K} (hM : BlockPat I M) (f : K �
 
 theorem blockPat_of_mem_flagStabilizer {g : SpecialLinearGroup (Fin n) K}
     (hg : g ∈ flagStabilizer n K I) : BlockPat I (g : Matrix (Fin n) (Fin n) K) :=
-  fun c hc k l hl hk => stabilizer_entries (mem_flagStabilizer.mp hg c hc) hl hk
+  fun c hc _k _l hl hk => stabilizer_entries (mem_flagStabilizer.mp hg c hc) hl hk
 
 theorem mem_flagStabilizer_of_blockPat {g : SpecialLinearGroup (Fin n) K}
     (h : BlockPat I (g : Matrix (Fin n) (Fin n) K)) : g ∈ flagStabilizer n K I :=
@@ -156,8 +156,8 @@ theorem eq_scalar_of_transvection_rel (hm : 2 ≤ m) (σ : K →+* K)
     ext k l
     by_cases hkl : k = l
     · subst hkl
-      simp [Matrix.one_apply, hdiag k o]
-    · simp [Matrix.one_apply, hkl, hoff k l hkl]
+      simp [hdiag k o]
+    · simp [hkl, hoff k l hkl]
   have hr0 : B o o ≠ 0 := by
     intro h0
     rw [h0, zero_smul] at hBr

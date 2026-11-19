@@ -1435,7 +1435,7 @@ private theorem suzukiOvoid_linear_coordinate_coefficients
       Polynomial.coeff_C_mul_X_pow,
       show tExp + 2 ≠ tExp by omega,
       show tExp + 2 ≠ 1 by omega,
-      show tExp + 2 ≠ 2 by omega, if_false, if_true, zero_add, add_zero] using hcoeff.symm
+      show tExp + 2 ≠ 2 by omega, ite_false, ite_true, zero_add, add_zero] using hcoeff.symm
   have ht : t = 0 := by
     by_contra ht0
     exact (mul_ne_zero ((map_ne_zero pi).2 ht0)
@@ -1446,14 +1446,14 @@ private theorem suzukiOvoid_linear_coordinate_coefficients
       Polynomial.coeff_C_mul_X_pow,
       show (1 : ℕ) ≠ tExp by omega,
       show (1 : ℕ) ≠ 2 by omega,
-      show (1 : ℕ) ≠ tExp + 2 by omega, if_false, if_true, zero_add, add_zero] using hcoeff
+      show (1 : ℕ) ≠ tExp + 2 by omega, ite_false, ite_true, zero_add, add_zero] using hcoeff
   have halpha_w : alpha = pi w := by
     have hcoeff := congrArg (fun P : Polynomial K => P.coeff tExp) hpy
     simpa only [pyLeft, pyRight, Polynomial.coeff_add,
       Polynomial.coeff_C_mul_X_pow,
       show tExp ≠ 1 by omega,
       show tExp ≠ 2 by omega,
-      show tExp ≠ tExp + 2 by omega, if_false, if_true, zero_add, add_zero] using hcoeff
+      show tExp ≠ tExp + 2 by omega, ite_false, ite_true, zero_add, add_zero] using hcoeff
   let pxLeft : Polynomial K :=
     Polynomial.C alpha * Polynomial.X ^ (tExp + 2) +
       Polynomial.C c2 * Polynomial.X ^ 1
@@ -1501,7 +1501,7 @@ private theorem suzukiOvoid_linear_coordinate_coefficients
       Polynomial.coeff_C_mul_X_pow,
       show (2 : ℕ) ≠ tExp + 2 by omega,
       show (2 : ℕ) ≠ 1 by omega,
-      show (2 : ℕ) ≠ tExp by omega, if_false, if_true, zero_add, add_zero] using hcoeff.symm
+      show (2 : ℕ) ≠ tExp by omega, ite_false, ite_true, zero_add, add_zero] using hcoeff.symm
   have hv : v = 0 := (mul_eq_zero.mp huv).resolve_left hu
   have hc2 : c2 = 0 := by
     have hcoeff := congrArg (fun P : Polynomial K => P.coeff 1) hpx
@@ -1509,7 +1509,7 @@ private theorem suzukiOvoid_linear_coordinate_coefficients
       Polynomial.coeff_C_mul_X_pow,
       show (1 : ℕ) ≠ tExp + 2 by omega,
       show (1 : ℕ) ≠ 2 by omega,
-      show (1 : ℕ) ≠ tExp by omega, if_false, if_true, zero_add, add_zero] using hcoeff
+      show (1 : ℕ) ≠ tExp by omega, ite_false, ite_true, zero_add, add_zero] using hcoeff
   have halpha_u : alpha = pi u * u ^ 2 := by
     have hcoeff := congrArg
       (fun P : Polynomial K => P.coeff (tExp + 2)) hpx
@@ -1517,7 +1517,7 @@ private theorem suzukiOvoid_linear_coordinate_coefficients
       Polynomial.coeff_C_mul_X_pow,
       show tExp + 2 ≠ 1 by omega,
       show tExp + 2 ≠ 2 by omega,
-      show tExp + 2 ≠ tExp by omega, if_false, if_true, zero_add, add_zero] using hcoeff
+      show tExp + 2 ≠ tExp by omega, ite_false, ite_true, zero_add, add_zero] using hcoeff
   exact ⟨hv, hc2, halpha_u⟩
 
 /-- A linear ovoid stabilizer fixing the two standard points is projectively a
@@ -2957,7 +2957,7 @@ private theorem suzukiMatrixGroup_card
       LinearMap.GeneralLinearGroup K (Fin 4 → K) :=
     Matrix.GeneralLinearGroup.toLin.toMonoidHom.comp
       (SuzukiMatrixGroup m).subtype
-  letI : MulAction (SuzukiMatrixGroup m) (ℙ K (Fin 4 → K)) :=
+  let : MulAction (SuzukiMatrixGroup m) (ℙ K (Fin 4 → K)) :=
     MulAction.compHom (ℙ K (Fin 4 → K)) rho
   let Omega : SubMulAction (SuzukiMatrixGroup m) (ℙ K (Fin 4 → K)) :=
     { carrier := O

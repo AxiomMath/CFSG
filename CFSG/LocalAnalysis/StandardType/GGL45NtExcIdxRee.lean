@@ -56,9 +56,9 @@ theorem exc_not_dvd_card_of_exponent
   have hH : Nat.card {g : adjointGroup τ L // (g : ModGL τ L) ∈ famZ a ∧ g ∈ famS a} =
       Nat.card H := rfl
   rw [hH]
-  haveI : Finite H := hfin
+  have : Finite H := hfin
   intro hdvd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' p hdvd
   have h6 : x ^ 6 = 1 := Subtype.ext (hexp x.1 x.2.1 x.2.2)
   have hp6 : p ∣ 2 * 3 := hx ▸ orderOf_dvd_of_pow_eq_one h6

@@ -10,12 +10,15 @@ open CFSG.Open CFSG.RankThreeCoreUniqueness.Helpers Subgroup
 
 variable {G : Type} [Group G] [Finite G] {J : Subgroup G} {Q : Type} [Group Q] [Finite Q]
 
+omit [Finite G] [Finite Q] in
 theorem a10E_le_pre (ψ : ↥J →* Q) (Λ : Subgroup Q) : a10E J ψ Λ ≤ a10Pre J ψ Λ := by
   exact (Subgroup.closure_le _).mpr fun g hg => hg.1
 
+omit [Finite G] [Finite Q] in
 theorem a10Pre_le (ψ : ↥J →* Q) (Λ : Subgroup Q) : a10Pre J ψ Λ ≤ J := by
   exact Subgroup.map_subtype_le _
 
+omit [Finite Q] in
 theorem a10t1_five_lift (ψ : ↥J →* Q) (hψ : Function.Surjective ψ) {q : Q} {k : ℕ}
     (hk : q ^ 5 ^ k = 1) : ∃ l : ↥J, ψ l = q ∧ ∃ a : ℕ, l ^ 5 ^ a = 1 := by
   obtain ⟨l, rfl⟩ := hψ q
@@ -33,6 +36,7 @@ theorem a10t1_five_lift (ψ : ↥J →* Q) (hψ : Function.Surjective ψ) {q : Q
     have e : m * t * 5 ^ a = (5 ^ a * m) * t := by ring
     rw [e, pow_mul, h1, one_pow]
 
+omit [Finite Q] in
 theorem a10_psi_E (ψ : ↥J →* Q) (hψ : Function.Surjective ψ) {Λ : Subgroup Q} (hΛ : fiveRes Λ = Λ) :
     ((a10E J ψ Λ).subgroupOf J).map ψ = Λ := by
   apply le_antisymm

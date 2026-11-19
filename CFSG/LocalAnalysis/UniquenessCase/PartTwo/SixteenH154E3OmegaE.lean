@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem s16h_e3_omega_commutator_barSub_le (V₀ V : Subgroup G) (hV : IsElemAbelian 2 V)
     (X Y : Subgroup G) : ⁅barSub V₀ V hV X, barSub V₀ V hV Y⁆ ≤ barSub V₀ V hV ⁅X, Y⁆ := by
   rw [Subgroup.commutator_le]
@@ -29,7 +30,7 @@ theorem s16h_e3_omega_calC_eq_of_barSub_eq {D : Data G} {V₀ V : Subgroup G} (h
     (heq : barSub V₀ V h.isElemAbelian L = barSub V₀ V h.isElemAbelian K)
     (hna : ⁅barSub V₀ V h.isElemAbelian L, barSub V₀ V h.isElemAbelian L⁆ ≠ ⊥) : L = K := by
   by_contra hne
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcomm : ⁅L, K⁆ ≤ CFSG.Open.pCoreOf 2 D.M :=
     (calC_commutator_le_of_ne hL hK hne).trans
       (inf_le_left.trans (CFSG.Quasithin.A4.pCoreOf_le_of_subnormal 2 hL.1))

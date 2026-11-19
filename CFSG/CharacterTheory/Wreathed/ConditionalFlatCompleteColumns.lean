@@ -122,7 +122,7 @@ theorem flat_value_a_ne_zero (n : ℕ) (hn : 2 ≤ n) (S : Sylow 2 G) (e : S ≃
       (Subgroup.centralizer ((S : Subgroup G) : Set G)))) (θB : eb.index)
     (nb : FiniteIrreducibleCharacterBasis (Subgroup.normalizer ((S : Subgroup G) : Set G)))
     (θhat : nb.index) (hθ : InflatedLabel (oddCore_le_normalizer S) nb eb θB θhat)
-    (hB : brauerNormalizerCharacterResidueHom ideal 2 (S : Subgroup G) S.isPGroup'
+    (hB : brauerNormalizerCharacterResidueHom ideal 2 (S : Subgroup G) S.isPGroup
         (Subgroup.normalizer ((S : Subgroup G) : Set G)) (Subgroup.centralizer_le_normalizer _)
         le_rfl nb θhat = centralCharacterResidueHom basis ideal B)
     (lam : involutionCentralizer n S e →* ℂˣ)

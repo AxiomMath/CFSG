@@ -144,6 +144,6 @@ theorem mfChkTvAdj_holds : mfChkTvAdj = true := by
   refine Finset.mem_image.mpr ⟨x, hx.1, ?_⟩
   rw [tvApply_eq_tvA]
   unfold tvA
-  rw [if_neg (by rw [hx.2]; decide)]
+  rw [ite_eq_right (by rw [hx.2]; decide)]
 
 end CertificateChecks.KernelSmithL6K

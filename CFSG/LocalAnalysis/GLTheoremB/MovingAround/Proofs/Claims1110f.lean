@@ -24,7 +24,7 @@ variable {X : Type} [Group X] [Finite X]
 omit [Finite X] in
 theorem comm_of_card_sq {p : ℕ} [Fact p.Prime] {P : Subgroup X} (hPc : Nat.card P = p ^ 2) :
     ∀ a ∈ P, ∀ b ∈ P, a * b = b * a := fun a ha b hb =>
-  congrArg Subtype.val (IsPGroup.commutative_of_card_eq_prime_sq hPc ⟨a, ha⟩ ⟨b, hb⟩)
+  congrArg Subtype.val ((IsPGroup.isMulCommutative_of_card_eq_prime_sq hPc).is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
 
 omit [Finite X] in
 theorem gLBConj_zpowers_eq_of_mem_centralizer {x c : X} (hc : c ∈ Subgroup.centralizer ({x} : Set X)) :
@@ -58,7 +58,7 @@ theorem centralizer_le_layer_sup {P : Subgroup X} (hPc : Nat.card P = 5 ^ 2) (hP
     Subgroup.centralizer ({x} : Set X) ≤
       GLAPLayer 5 (Subgroup.centralizer ({x} : Set X)) ⊔ Subgroup.normalizer (P : Set X) := by
   have hp : Nat.Prime 5 := by norm_num
-  haveI : Fact (Nat.Prime 5) := ⟨hp⟩
+  have : Fact (Nat.Prime 5) := ⟨hp⟩
   set C := Subgroup.centralizer ({x} : Set X) with hC
   set L := GLAPLayer 5 C with hL
   have hPab := comm_of_card_sq hPc
@@ -138,7 +138,7 @@ theorem normalizer_zpowers_le_layer_sup {P : Subgroup X} (hPc : Nat.card P = 5 ^
     (h5 : 5 ∣ Nat.card ↥(GLAPLayer 5 (Subgroup.centralizer ({x} : Set X)))) :
     Subgroup.normalizer ((Subgroup.zpowers x : Subgroup X) : Set X) ≤
       GLAPLayer 5 (Subgroup.centralizer ({x} : Set X)) ⊔ Subgroup.normalizer (P : Set X) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   set C := Subgroup.centralizer ({x} : Set X) with hC
   have hPab := comm_of_card_sq hPc
   have hPC : P ≤ C := fun y hy => Subgroup.mem_centralizer_singleton_iff.2 (hPab y hy x hxP)
@@ -180,7 +180,7 @@ theorem gammaK0_eq_glbCore {P : Subgroup X} (hPc : Nat.card P = 5 ^ 2) (hP : IsS
         5 ∣ Nat.card ↥(GLAPLayer 5 (Subgroup.centralizer ({x} : Set X)))) :
     Claims1110b.gammaK0 P = GLBCore 5 1 P := by
   have hp : Nat.Prime 5 := by norm_num
-  haveI : Fact (Nat.Prime 5) := ⟨hp⟩
+  have : Fact (Nat.Prime 5) := ⟨hp⟩
   have hne : ∃ y ∈ P, y ≠ 1 := by
     by_contra hcon
     push Not at hcon
@@ -246,7 +246,7 @@ theorem gammaK0_eq_glbCore {P : Subgroup X} (hPc : Nat.card P = 5 ^ 2) (hP : IsS
 theorem input24_2K0_of (hF : Fi22Facts) (hI : Input14_21) (hK : CFSG.AGLEmbedding.KFactUPrimeExcFi22) :
     Claims1110b.Input24_2K0 := by
   intro X _ _ hX P hPp hPc Y hY
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨-, hf5, h25, -⟩ := hF X hX
   have hPc' : Nat.card P = 5 ^ (Nat.card X).factorization 5 := by rw [hPc, hf5]
   have hPsyl : IsSylowIn 5 ⊤ P :=
@@ -402,7 +402,7 @@ theorem lnEps_of_five_dvd_center (hGA : CFSG.Open.GriessAllModelsStatement)
 theorem pRank_outer_le_one_of_not_dvd {K : Type} [Group K] [Finite K] [Group.IsPerfect K]
     (h : ¬ 5 ∣ Nat.card (Outer (K ⧸ Subgroup.center K))) :
     CFSG.Open.pRank 5 (⊤ : Subgroup (Outer K)) ≤ 1 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have h' : ¬ 5 ∣ Nat.card (Outer K) := CFSG.AGLEmbedding.not_dvd_card_outer_of_centerQuotient h
   refine CFSG.SectionRank.pRank_le (by norm_num) fun E _ hE => ?_
   obtain ⟨j, hj⟩ := (Claims1110.isPGroup_of_elemAb hE).exists_card_eq
@@ -532,11 +532,11 @@ theorem inputA5Up_of (hSchur : Lemma123.InputSchurAlt')
     (hCat : InputU5kCat) (h305 : Input30_5) (hSyl : InputU5Sylow) : Claims1110e.InputA5Up := by
   intro K _ _ hK hO x hx
   have hp : Nat.Prime 5 := by norm_num
-  haveI : Fact (Nat.Prime 5) := ⟨hp⟩
+  have : Fact (Nat.Prime 5) := ⟨hp⟩
   have hZp : IsPGroup 5 (Subgroup.center K) :=
     CFSG.HardMathSupport.Solomon.Coordinator.i271h_center_isPGroup hp hO
-  haveI hperf : Group.IsPerfect K := ⟨hK.1.1⟩
-  haveI hsimple : IsSimpleGroup (K ⧸ Subgroup.center K) := hK.1.2
+  have hperf : Group.IsPerfect K := ⟨hK.1.1⟩
+  have hsimple : IsSimpleGroup (K ⧸ Subgroup.center K) := hK.1.2
   have hnab := CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian K hK.1
   have hZbot : ∀ m : ℕ, ¬ 5 ∣ m → Nat.card (Subgroup.center K) ∣ m → Subgroup.center K = ⊥ := by
     intro m hm hd
@@ -613,7 +613,7 @@ open scoped commutatorElement
 omit [Finite G] in
 theorem isQuasisimple_of_simple_nonab {Q : Type*} [Group Q] (hs : IsSimpleGroup Q)
     (hnab : ∃ a b : Q, a * b ≠ b * a) : CFSG.Open.IsQuasisimple Q := by
-  haveI := hs
+  have := hs
   have hZ : Subgroup.center Q = ⊥ :=
     CFSG.HardMathSupport.Timmesfeld.Coordinator.center_eq_bot_of_isSimpleGroup hnab
   refine ⟨?_, ?_⟩
@@ -631,6 +631,7 @@ theorem isQuasisimple_of_simple_nonab {Q : Type*} [Group Q] (hs : IsSimpleGroup 
       (QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot
     exact @MulEquiv.isSimpleGroup _ _ _ _ hs e
 
+omit [Finite G] in
 theorem pow_card_core_eq_one {X : Subgroup G} {o : G} (ho : o ∈ GLAPPrimeCoreOf 5 X) :
     o ^ Nat.card ↥(GLAPPrimeCore 5 ↥X) = 1 := by
   obtain ⟨hoX, ho'⟩ := (mem_gLAPPrimeCoreOf_iff 5 X o).1 ho
@@ -664,7 +665,7 @@ theorem nonempty_barOf_equiv_barX {K L : Subgroup G} (hLK : L ≤ K) (hs : IsSim
   set f := barXHom 5 hLK with hf
   have hker : f.ker = GLAPPrimeCore 5 ↥L := by
     refine le_antisymm (barXHom_ker_le_core 5 hLK) ?_
-    haveI hn : ((GLAPPrimeCore 5 ↥L).map f).Normal :=
+    have hn : ((GLAPPrimeCore 5 ↥L).map f).Normal :=
       (GLAPPrimeCore.normal 5 ↥L).map f (barXHom_surjective 5 hLK)
     have hcop : Nat.Coprime 5 (Nat.card ↥((GLAPPrimeCore 5 ↥L).map f)) :=
       Nat.Coprime.coprime_dvd_right (Subgroup.card_map_dvd _ _)
@@ -717,7 +718,7 @@ theorem exists_k1 {K Y K₀ A₀ : Subgroup G} (hK₀K : K₀ ≤ K) (hK₀Y : K
     ∃ K₁ : Subgroup G, GLAPComponent 5 Y K₁ ∧ K₁ ≤ K₀ ∧ A₀ ≤ K₁ ∧
       Nonempty (barOf 5 K₁ ≃* ↥(derivedInf (barX 5 K K₀))) := by
   have hp : Nat.Prime 5 := by norm_num
-  haveI : Fact (Nat.Prime 5) := ⟨hp⟩
+  have : Fact (Nat.Prime 5) := ⟨hp⟩
   classical
   set D := derivedInf (barX 5 K K₀) with hD
   set L := derivedInf K₀ with hL
@@ -807,7 +808,7 @@ theorem step6Claim_of_k1 (h119 : Lemma119Statement) (hD4 : InputGammaD4) (h6 : S
   intro G _ _ m p B M E A a K h hb R hR hEAR hRG hZ hAeq hA2 hASyl hCaN hN0 hKe hOK hY
   obtain ⟨rfl, hfi⟩ := hb
   have hp : Nat.Prime 5 := by norm_num
-  haveI : Fact (Nat.Prime 5) := ⟨hp⟩
+  have : Fact (Nat.Prime 5) := ⟨hp⟩
   have hS := h.toCex117Base.toSec11.toSec10Fails
   have hsc := lemma104_ii_holds hS h.pair
   obtain ⟨hrk, -, -, -⟩ := h119 h
@@ -851,7 +852,7 @@ theorem step6Claim_of_k1 (h119 : Lemma119Statement) (hD4 : InputGammaD4) (h6 : S
       (Subgroup.le_normalizer (Subgroup.mem_inf.1 hy).1)
   obtain ⟨K₁, hK₁, hK₁le, hA0K₁, ⟨e⟩⟩ := exists_k1 inf_le_left hK₀Y hYN
     (le_inf (gLAPPrimeCoreOf_le 5 K) hOK) (le_inf hA0K (inf_le_left.trans hEM)) hA0el hs hnab h5 hPD
-  haveI := hs
+  have := hs
   have hnab₁ : ∃ x y : barOf 5 K₁, x * y ≠ y * x := by
     obtain ⟨x, y, hxy⟩ := hnab
     refine ⟨e.symm x, e.symm y, fun h' => hxy ?_⟩

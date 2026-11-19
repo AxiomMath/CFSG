@@ -19,7 +19,7 @@ open scoped Matrix
 
 private theorem s16k_field_two {K : Type} [Field K] [Finite K] (hcard : Nat.card K = 2) :
     Nonempty (K ≃+* ZMod 2) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hK' : Fintype.card K = 2 := by rwa [← Nat.card_eq_fintype_card]
   exact ⟨(ZMod.ringEquivOfPrime K Nat.prime_two hK').symm⟩
 
@@ -114,8 +114,7 @@ private theorem s16k_statedOmegaMinusCongr_apply_coe {K L : Type} [Field K] [Fie
         ↥(StatedOmega (StatedQuadMinus m L b' c'))) :
         GL (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) L) =
       glCongr e (x : GL (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) K) := by
-  simp only [s16k_statedOmegaMinusCongr, MulEquiv.trans_apply, MulEquiv.coe_subgroupMap_apply,
-    MulEquiv.subgroupCongr_apply]
+  simp only [s16k_statedOmegaMinusCongr, MulEquiv.trans_apply]
   rfl
 
 private noncomputable def s16k_statedOmegaMinusProjEquiv {K : Type} [Field K]
@@ -145,8 +144,8 @@ theorem s16k_omegaMinus_module_equiv {K₁ K₂ : Type} [Field K₁] [Field K₂
         (x : Multiplicative (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2 → K₁)),
         A (natAct (StatedOmega (StatedQuadMinus m K₁ b₁ c₁)) γ x) =
           natAct (StatedOmega (StatedQuadMinus m K₂ b₂ c₂)) (φ γ) (A x) := by
-  haveI : Fintype K₁ := Fintype.ofFinite K₁
-  haveI : Fintype K₂ := Fintype.ofFinite K₂
+  have : Fintype K₁ := Fintype.ofFinite K₁
+  have : Fintype K₂ := Fintype.ofFinite K₂
   let e : K₁ ≃+* K₂ := FiniteField.ringEquivOfCardEq (by
     rw [Fintype.card_eq_nat_card, Fintype.card_eq_nat_card, h₁, h₂])
   obtain ⟨hb₁, hc₁⟩ := s16k_minus_bc_eq_one h₁ hirr₁
@@ -241,7 +240,7 @@ private theorem s16k_omegaMinus_injective {m : ℕ} (hm : 4 ≤ m) {K : Type} [F
     {X : Type} [Group X] [Nontrivial X]
     (π : ↥(StatedOmega (StatedQuadMinus m K b c)) →* X) (hπ : Function.Surjective π) :
     Function.Injective π := by
-  haveI : IsSimpleGroup (StatedProj (StatedOmega (StatedQuadMinus m K b c))) :=
+  have : IsSimpleGroup (StatedProj (StatedOmega (StatedQuadMinus m K b c))) :=
     CFSG.ClassicalGroups.Orthogonal.isSimpleGroup_statedProj_statedOmega_quadMinus (K := K)
       (n := m) (b := b) (c := c) hm hirr
   let G := ↥(StatedOmega (StatedQuadMinus m K b c))
@@ -250,7 +249,7 @@ private theorem s16k_omegaMinus_injective {m : ℕ} (hm : 4 ≤ m) {K : Type} [F
   have hsub : (StatedScalars (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) K).subgroupOf
       (StatedOmega (StatedQuadMinus m K b c)) = ⊥ := by
     rw [hscal, Subgroup.bot_subgroupOf]
-  haveI : IsSimpleGroup G := by
+  have : IsSimpleGroup G := by
     let e : G ≃* StatedProj (StatedOmega (StatedQuadMinus m K b c)) :=
       ((QuotientGroup.quotientMulEquivOfEq hsub).trans QuotientGroup.quotientBot).symm
     exact MulEquiv.isSimpleGroup e
@@ -286,18 +285,18 @@ theorem s16k_omegaMinus_two_equiv {n : ℕ} (hn : 10 ≤ n) {X : Type} [Group X]
   classical
   obtain ⟨-, K', hK'f, hK'fin, b', c', -, hirr', hX⟩ := hX
   obtain ⟨eX⟩ := hX
-  letI : Field K' := hK'f
-  letI : Finite K' := hK'fin
+  let : Field K' := hK'f
+  let : Finite K' := hK'fin
   have hm : 4 ≤ n / 2 := by
     rw [Nat.le_div_iff_mul_le (by norm_num : 0 < 2)]
     omega
   have hm5 : 5 ≤ n / 2 := by
     rw [Nat.le_div_iff_mul_le (by norm_num : 0 < 2)]
     omega
-  haveI : IsSimpleGroup (StatedProj (StatedOmega (StatedQuadMinus (n / 2) K' b' c'))) :=
+  have : IsSimpleGroup (StatedProj (StatedOmega (StatedQuadMinus (n / 2) K' b' c'))) :=
     CFSG.ClassicalGroups.Orthogonal.isSimpleGroup_statedProj_statedOmega_quadMinus (K := K')
       (n := n / 2) (b := b') (c := c') (by omega) hirr'
-  haveI : IsSimpleGroup X := MulEquiv.isSimpleGroup eX
+  have : IsSimpleGroup X := MulEquiv.isSimpleGroup eX
   have hinj₁ : Function.Injective π₁ := s16k_omegaMinus_injective hm h₁ hirr₁ π₁ hπ₁
   have hinj₂ : Function.Injective π₂ := s16k_omegaMinus_injective hm h₂ hirr₂ π₂ hπ₂
   let π₁e : ↥(StatedOmega (StatedQuadMinus (n / 2) K₁ b₁ c₁)) ≃* X :=

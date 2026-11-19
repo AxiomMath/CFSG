@@ -55,7 +55,7 @@ theorem isPGroup_R (c : M6E8Ctx t L y X Y T) : IsPGroup 2 ↥(T ⊓ centralizer 
 
 theorem R_comm (c : M6E8Ctx t L y X Y T) {a b : G} (ha : a ∈ T ⊓ centralizer ({y} : Set G))
     (hb : b ∈ T ⊓ centralizer ({y} : Set G)) : a * b = b * a := by
-  haveI : IsMulCommutative ↥(T ⊓ centralizer ({y} : Set G)) := c.hab.1
+  have : IsMulCommutative ↥(T ⊓ centralizer ({y} : Set G)) := c.hab.1
   exact congrArg Subtype.val
     (mul_comm' (⟨a, ha⟩ : ↥(T ⊓ centralizer ({y} : Set G))) ⟨b, hb⟩)
 
@@ -114,11 +114,11 @@ theorem orderOf_r (d : M6E8Datum t L y X Y T r) : orderOf r = 2 := by
 theorem comm_yr (d : M6E8Datum t L y X Y T r) : y * r = r * y :=
   d.toM6E8Ctx.R_comm d.toM6E8Ctx.y_mem_R d.mem_R
 
-theorem J_le_Y (d : M6E8Datum t L y X Y T r) : layerCent Y r ≤ Y := by
+theorem J_le_Y (_d : M6E8Datum t L y X Y T r) : layerCent Y r ≤ Y := by
   unfold layerCent CFSG.inSubgroup
   exact (Subgroup.map_subtype_le _).trans inf_le_left
 
-theorem J_le_centralizer_r (d : M6E8Datum t L y X Y T r) :
+theorem J_le_centralizer_r (_d : M6E8Datum t L y X Y T r) :
     layerCent Y r ≤ centralizer ({r} : Set G) := by
   unfold layerCent CFSG.inSubgroup
   exact (Subgroup.map_subtype_le _).trans inf_le_right

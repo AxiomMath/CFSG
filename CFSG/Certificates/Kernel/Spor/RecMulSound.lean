@@ -137,7 +137,7 @@ theorem penumRight_rec {n w k cnt cap : ℕ} {G GI T PL POS SRT SRI : ℕ → �
   let x : ℕ → Equiv.Perm (Fin n) := fun i => if h : i < cnt then (hex i h).choose else 1
   have hx : ∀ i < cnt, PRep n w (T i) (x i) := by
     intro i hi
-    simp only [x, dif_pos hi]
+    simp only [x, dite_eq_left hi]
     exact (hex i hi).choose_spec
   have hx0 : x 0 = 1 := prep_unique (hx 0 hc0) (by rw [hT0']; exact hid)
   have htree : ∀ i, 0 < i → i < cnt → parOf PL i < i ∧ labOf PL i < k ∧

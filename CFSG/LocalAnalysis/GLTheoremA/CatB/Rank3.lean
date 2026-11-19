@@ -13,6 +13,7 @@ open Module
 variable {V : Type*} [AddCommGroup V] [Module (ZMod 2) V] [Module.Finite (ZMod 2) V]
 variable {E : Type*} [CommGroup E]
 
+omit [Module.Finite (ZMod 2) V] in
 theorem add_self_vec (y : V) : y + y = 0 := by
   rw [← two_smul (ZMod 2) y]
   have : (2 : ZMod 2) = 0 := by decide
@@ -32,6 +33,7 @@ theorem add_self_vec (y : V) : y + y = 0 := by
     rw [← Module.End.mul_apply, ← map_mul, inv_mul_cancel, map_one, Module.End.one_apply] at h
     exact h.symm
 
+omit [Module.Finite (ZMod 2) V] in
 theorem mem_fixSub {ρ : E →* Module.End (ZMod 2) V} {U : Submodule (ZMod 2) V} {e : E} :
     e ∈ fixSub ρ U ↔ ∀ u ∈ U, ρ e u = u := Iff.rfl
 
@@ -42,6 +44,7 @@ variable (ρ : E →* Module.End (ZMod 2) V) (hE3 : ∀ e : E, e ^ 3 = 1) (w : E
   (U : Submodule (ZMod 2) V) (hU : ∀ e : E, ∀ u ∈ U, ρ e u ∈ U)
 
 include hE3 in
+omit [Module.Finite (ZMod 2) V] in
 theorem cube_apply (x : V) : ρ w (ρ w (ρ w x)) = x := by
   have h : ρ (w ^ 3) = 1 := by rw [hE3 w, map_one]
   have := congrArg (fun f : Module.End (ZMod 2) V => f x) h
@@ -53,13 +56,16 @@ theorem cube_apply (x : V) : ρ w (ρ w (ρ w x)) = x := by
 @[expose] def Dsub : Submodule (ZMod 2) V :=
   U ⊓ LinearMap.ker (ρ w * ρ w + ρ w + 1)
 
+omit [Module.Finite (ZMod 2) V] in
 theorem mem_Csub {x : V} : x ∈ Csub ρ w U ↔ x ∈ U ∧ ρ w x = x := by
   simp [Csub, sub_eq_zero]
 
+omit [Module.Finite (ZMod 2) V] in
 theorem mem_Dsub {x : V} : x ∈ Dsub ρ w U ↔ x ∈ U ∧ ρ w (ρ w x) + ρ w x + x = 0 := by
   simp [Dsub, Module.End.mul_apply]
 
 include hE3 hU in
+omit [Module.Finite (ZMod 2) V] in
 theorem Csub_add_Dsub : Csub ρ w U ⊔ Dsub ρ w U = U := by
   apply le_antisymm
   · exact sup_le inf_le_left inf_le_left
@@ -81,7 +87,7 @@ theorem Csub_add_Dsub : Csub ρ w U ⊔ Dsub ρ w U = U := by
       have h1 : u + ρ w u + (ρ w (ρ w u) + u) + (ρ w u + ρ w (ρ w u)) =
           (u + u) + (ρ w u + ρ w u) + (ρ w (ρ w u) + ρ w (ρ w u)) := by abel
       rw [h1]
-      simp only [add_self_vec, add_zero]
+      simp only [add_self_vec]
     have : u = (u + ρ w u + ρ w (ρ w u)) + (ρ w u + ρ w (ρ w u)) := by
       have h1 : u + ρ w u + ρ w (ρ w u) + (ρ w u + ρ w (ρ w u)) =
           u + (ρ w u + ρ w u) + (ρ w (ρ w u) + ρ w (ρ w u)) := by abel
@@ -91,15 +97,18 @@ theorem Csub_add_Dsub : Csub ρ w U ⊔ Dsub ρ w U = U := by
     exact Submodule.add_mem_sup ha hb
 
 
+omit [Module.Finite (ZMod 2) V] in
 theorem comm_apply (e : E) (x : V) : ρ w (ρ e x) = ρ e (ρ w x) := by
   rw [← Module.End.mul_apply, ← map_mul, mul_comm, map_mul, Module.End.mul_apply]
 
 include hU in
+omit [Module.Finite (ZMod 2) V] in
 theorem Csub_invariant {e : E} {x : V} (hx : x ∈ Csub ρ w U) : ρ e x ∈ Csub ρ w U := by
   rw [mem_Csub] at hx ⊢
   exact ⟨hU e x hx.1, by rw [comm_apply, hx.2]⟩
 
 include hU in
+omit [Module.Finite (ZMod 2) V] in
 theorem Dsub_invariant {e : E} {x : V} (hx : x ∈ Dsub ρ w U) : ρ e x ∈ Dsub ρ w U := by
   rw [mem_Dsub] at hx ⊢
   refine ⟨hU e x hx.1, ?_⟩
@@ -107,6 +116,7 @@ theorem Dsub_invariant {e : E} {x : V} (hx : x ∈ Dsub ρ w U) : ρ e x ∈ Dsu
   have h2 : ρ w (ρ w (ρ e x)) = ρ e (ρ w (ρ w x)) := by rw [h1, comm_apply ρ w e (ρ w x)]
   rw [h2, h1, ← map_add, ← map_add, hx.2, map_zero]
 
+omit [Module.Finite (ZMod 2) V] in
 theorem Csub_inf_Dsub : Csub ρ w U ⊓ Dsub ρ w U = ⊥ := by
   rw [eq_bot_iff]
   intro x hx
@@ -119,6 +129,7 @@ theorem Csub_inf_Dsub : Csub ρ w U ⊓ Dsub ρ w U = ⊥ := by
   exact h
 
 include hE3 hU in
+omit [Module.Finite (ZMod 2) V] in
 theorem fixSub_eq_inf : fixSub ρ U = fixSub ρ (Csub ρ w U) ⊓ fixSub ρ (Dsub ρ w U) := by
   ext e
   simp only [Subgroup.mem_inf, mem_fixSub]
@@ -135,19 +146,21 @@ theorem fixSub_eq_inf : fixSub ρ U = fixSub ρ (Csub ρ w U) ⊓ fixSub ρ (Dsu
 include hE3 hU in
 theorem finrank_split :
     finrank (ZMod 2) (Csub ρ w U) + finrank (ZMod 2) (Dsub ρ w U) = finrank (ZMod 2) U := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h := Submodule.finrank_sup_add_finrank_inf_eq (K := ZMod 2) (V := V) (Csub ρ w U)
     (Dsub ρ w U)
   rw [Csub_add_Dsub ρ hE3 w U hU, Csub_inf_Dsub, finrank_bot, add_zero] at h
   exact h.symm
 
 
+omit [Module.Finite (ZMod 2) V] in
 theorem eq_of_add_eq_zero_vec {a b : V} (h : a + b = 0) : a = b := by
   calc a = a + (b + b) := by rw [add_self_vec, add_zero]
     _ = (a + b) + b := by abel
     _ = b := by rw [h, zero_add]
 
 include hE3 hU in
+omit [Module.Finite (ZMod 2) V] in
 theorem sq_of_Csub_bot (hC : Csub ρ w U = ⊥) {u : V} (hu : u ∈ U) :
     ρ w (ρ w u) = ρ w u + u := by
   have hs : ρ w u ∈ U := hU w u hu
@@ -163,6 +176,7 @@ theorem sq_of_Csub_bot (hC : Csub ρ w U = ⊥) {u : V} (hu : u ∈ U) :
   exact eq_of_add_eq_zero_vec this
 
 include hE3 hU in
+omit [Module.Finite (ZMod 2) V] in
 theorem eq_of_three (y z : E) (hy : Csub ρ y U = ⊥) (hz : Csub ρ z U = ⊥)
     (hyz : Csub ρ (y * z) U = ⊥) {u : V} (hu : u ∈ U) : ρ y u = ρ z u := by
   have hBu : ρ z u ∈ U := hU z u hu
@@ -302,7 +316,7 @@ theorem index_fixSub_le [Finite E] (hE3 : ∀ e : E, e ^ 3 = 1)
           exact absurd hst' hu0
         · simp at hst'
           exact absurd (eq_of_add_eq_zero_vec hst').symm hne
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       have h2 := hli.fintype_card_le_finrank
       simp only [Fintype.card_fin] at h2
       calc (fixSub ρ U).index ≤ 3 := not_lt.1 hbig

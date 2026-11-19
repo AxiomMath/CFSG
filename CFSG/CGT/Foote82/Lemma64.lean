@@ -35,7 +35,7 @@ private theorem mem_conj_iff (D : Subgroup (GLV V)) (g x : GLV V) :
   · rintro ⟨d, hd, rfl⟩
     simpa [MulAut.conj_apply, mul_assoc] using hd
   · intro h
-    exact ⟨g * x * g⁻¹, h, by simp [MulAut.conj_apply, mul_assoc]⟩
+    exact ⟨g * x * g⁻¹, h, by simp [mul_assoc]⟩
 
 private theorem mem_normalizer_conj_iff (D : Subgroup (GLV V)) (g z : GLV V) :
     z ∈ Subgroup.normalizer
@@ -253,7 +253,7 @@ private theorem invol_conj_a {a b : K} (ha : a * a = 1) (hb : b * b = 1) :
   have hb' : b⁻¹ = b := inv_eq_of_mul_eq_one_right hb
   have haa : ∀ x, a * (a * x) = x := fun x => by rw [← mul_assoc, ha, one_mul]
   have hbb : ∀ x, b * (b * x) = x := fun x => by rw [← mul_assoc, hb, one_mul]
-  simp only [pow_two, mul_inv_rev, ha', hb', mul_assoc, haa, hbb]
+  simp only [pow_two, mul_inv_rev, ha', hb', mul_assoc, haa]
 
 private theorem invol_conj_b {a b : K} (ha : a * a = 1) (hb : b * b = 1) :
     (a * b) * b * (a * b)⁻¹ = (a * b) ^ 2 * b := by
@@ -261,7 +261,7 @@ private theorem invol_conj_b {a b : K} (ha : a * a = 1) (hb : b * b = 1) :
   have hb' : b⁻¹ = b := inv_eq_of_mul_eq_one_right hb
   have haa : ∀ x, a * (a * x) = x := fun x => by rw [← mul_assoc, ha, one_mul]
   have hbb : ∀ x, b * (b * x) = x := fun x => by rw [← mul_assoc, hb, one_mul]
-  simp only [pow_two, mul_inv_rev, ha', hb', mul_assoc, haa, hbb, hb, mul_one]
+  simp only [pow_two, mul_inv_rev, ha', hb', mul_assoc, hb, mul_one]
 
 private theorem invol_sq_b {a b : K} (ha : a * a = 1) (hb : b * b = 1) :
     (a * b) ^ 2 * b = b * ((a * b) ^ 2)⁻¹ := by
@@ -269,7 +269,7 @@ private theorem invol_sq_b {a b : K} (ha : a * a = 1) (hb : b * b = 1) :
   have hb' : b⁻¹ = b := inv_eq_of_mul_eq_one_right hb
   have haa : ∀ x, a * (a * x) = x := fun x => by rw [← mul_assoc, ha, one_mul]
   have hbb : ∀ x, b * (b * x) = x := fun x => by rw [← mul_assoc, hb, one_mul]
-  simp only [pow_two, mul_inv_rev, ha', hb', mul_assoc, haa, hbb, hb, mul_one]
+  simp only [pow_two, mul_inv_rev, ha', hb', mul_assoc, hbb, hb, mul_one]
 
 end Involutions
 

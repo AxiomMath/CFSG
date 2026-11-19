@@ -106,7 +106,7 @@ theorem s16e_omc_centralizer_hom_units {W : Type} [CommGroup W] {ι : Type} [Fin
 
 private theorem s16e_omc_exists_ne_zero_ne_one {K : Type} [Field K] [Finite K]
     (h : Nat.card K = 4) : ∃ c : K, c ≠ 0 ∧ c ≠ 1 := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have h2 : 2 < Fintype.card K := by rw [← Nat.card_eq_fintype_card, h]; norm_num
   obtain ⟨a, b, c, hab, hac, hbc⟩ := Fintype.two_lt_card_iff.1 h2
   by_contra hcon

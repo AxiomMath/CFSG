@@ -77,7 +77,7 @@ theorem testBit_of_lt8 {x : Nat} (hx : x < 2 ^ 3) {i : Nat} (hi : 3 ≤ i) : x.t
   Nat.testBit_lt_two_pow (lt_of_lt_of_le hx (Nat.pow_le_pow_right (by norm_num) hi))
 
 theorem bf_lo (tab : Nat) {x : Nat} (hx : x < 2 ^ 3) (b : Nat) : bf tab x b = 0 := by
-  simp [bf_eq, bfT_eq, testBit_of_lt8 hx (le_refl 3), testBit_of_lt8 hx (by norm_num : 3 ≤ 4),
+  simp [bf_eq, bfT_eq, testBit_of_lt8 hx (by norm_num : 3 ≤ 4),
     testBit_of_lt8 hx (by norm_num : 3 ≤ 5), testBit_of_lt8 hx (by norm_num : 3 ≤ 6)]
 
 theorem bf_rpow (tab : Nat) {b m : Nat} (hb : b < 2 ^ (m + 1)) : bf tab b (2 ^ m) = 0 := by
@@ -238,9 +238,9 @@ theorem gen_step (hr : CyRel tab g) {j : ℕ} (hj : j < 7) (a : ℕ) {m : ℕ} (
     have hne : (2 ^ j : ℕ).testBit m = false := Nat.testBit_two_pow_of_ne (by omega)
     rw [psiG_succ a m, psiG_succ (a ^^^ 2 ^ j) m, Nat.testBit_xor, hne, Bool.xor_false]
     cases ha : a.testBit m
-    · simp only [Bool.false_eq_true, if_false, mul_one]
+    · simp only [Bool.false_eq_true, ite_false, mul_one]
       rw [mod_succ_false ha, ih']
-    · simp only [if_true]
+    · simp only [ite_true]
       rw [mod_succ_true ha, bf_xl, low_hom hr le_rfl]
       have hc := hr.comm m (by omega) j (by omega)
       have hq := psi_cen hr (bf tab (a % 2 ^ m) (2 ^ j)) (k := m) (m := 3) (by omega) le_rfl
@@ -276,9 +276,9 @@ theorem psi_mul (hr : CyRel tab g) {a b : ℕ} (ha : a < 2 ^ 7) (hb : b < 2 ^ 7)
     rw [psiG_succ b m, ← psiG_mod (b := b) (n := m) le_rfl, ← mul_assoc, ih (by omega) _ hb']
     have hbm : b = b % 2 ^ (m + 1) := (Nat.mod_eq_of_lt hb).symm
     cases hbit : b.testBit m
-    · simp only [Bool.false_eq_true, if_false, mul_one]
+    · simp only [Bool.false_eq_true, ite_false, mul_one]
       conv_rhs => rw [hbm, mod_succ_false hbit]
-    · simp only [if_true]
+    · simp only [ite_true]
       rw [psi_gen hr (by omega) (bm2_lt tab ha (lt_of_lt_of_le hb' (Nat.pow_le_pow_right
         (by norm_num) (by omega)))), bm2_step tab a hb']
       conv_rhs => rw [hbm, mod_succ_true hbit]

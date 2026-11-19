@@ -68,12 +68,14 @@ theorem stdFlip_δ (n₀ : K) (x y : K ⧸ borel D H) :
   rw [stdδ_smul hct hext n₀ (stdφ F x) (stdφ F y)]
   exact stdφ_δ hct F hext hw₀ x y
 
+omit hw₀ in
 theorem stdδ_flip_mk_eq_iff (n₀ g : K) (w : W) :
     stdδ hct (g : K ⧸ borel D H) (stdFlip F n₀ (g : K ⧸ borel D H)) = w ↔
       g⁻¹ * (n₀ * F.φ g) ∈ bruhatCell hct w := by
   rw [stdFlip_mk]
   exact stdδ_mk_eq_iff hct hext g (n₀ * F.φ g) w
 
+omit hext hw₀ in
 theorem stdFlip_smul (n₀ a : K) (x : K ⧸ borel D H) :
     stdFlip F n₀ (a • x) = (n₀ * F.φ a * n₀⁻¹) • stdFlip F n₀ x := by
   obtain ⟨g, rfl⟩ := QuotientGroup.mk_surjective x
@@ -85,6 +87,7 @@ theorem stdFlip_smul (n₀ a : K) (x : K ⧸ borel D H) :
     rw [map_mul]; group
   rw [h]
 
+omit hext hw₀ in
 theorem stdFlip_invol (n₀ : K) (h : ∀ g : K, g⁻¹ * (n₀ * F.φ n₀) * g ∈ borel D H)
     (x : K ⧸ borel D H) : stdFlip F n₀ (stdFlip F n₀ x) = x := by
   obtain ⟨g, rfl⟩ := QuotientGroup.mk_surjective x
@@ -95,6 +98,7 @@ theorem stdFlip_invol (n₀ : K) (h : ∀ g : K, g⁻¹ * (n₀ * F.φ n₀) * g
   rw [key]
   exact (borel D H).inv_mem (h g)
 
+omit hext in
 theorem nrep_mul_phi_self (hsq : ∀ i, n i * n i = 1) :
     nrep hct w₀ * F.φ (nrep hct w₀) = 1 := by
   have hφ : F.φ (nrep hct w₀) = nrep hct w₀ := by

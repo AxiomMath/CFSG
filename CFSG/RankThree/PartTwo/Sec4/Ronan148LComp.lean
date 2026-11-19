@@ -52,7 +52,7 @@ theorem exists_ne_comm_of_isQuasisimple {Q : Type*} [Group Q] (hQ : CFSG.Open.Is
 
 theorem glaPPrimeCore_le_center {Q : Type*} [Group Q] [Finite Q] (hQ : CFSG.Open.IsQuasisimple Q)
     (h3 : 3 ∣ Nat.card Q) : CFSG.Open.GLAPPrimeCore 3 Q ≤ Subgroup.center Q := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rcases normal_eq_top_or_le_center hQ (inferInstance : (CFSG.Open.GLAPPrimeCore 3 Q).Normal)
     with h | h
   · exfalso
@@ -68,6 +68,7 @@ section Comp
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem open_isSubnormal_of_subgroupOf {X U : Subgroup G} (hUX : U ≤ X)
     (h : (U.subgroupOf X).IsSubnormal) : CFSG.Open.IsSubnormal U X :=
   (CFSG.ComponentClassification.LBalance.subnormal_subgroupOf_iff hUX).1
@@ -135,11 +136,11 @@ variable {Q : Type*} [Group Q] [Finite Q]
 
 theorem theta_eq_glaPPrimeCore (hQ : CFSG.Open.IsQuasisimple Q) (h3 : 3 ∣ Nat.card Q) :
     aschbacherSolvableCore 3 Q = CFSG.Open.GLAPPrimeCore 3 Q := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨-, hchar, h3θ, hmax, -⟩ := solvable_prime_complement_core_characterization
     (H := Q) Nat.prime_three
   apply le_antisymm
-  · haveI := hchar
+  · have := hchar
     have hn : (aschbacherSolvableCore 3 Q).Normal := inferInstance
     have hc : Nat.Coprime 3 (Nat.card (aschbacherSolvableCore 3 Q)) :=
       (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).2 h3θ
@@ -197,6 +198,7 @@ section At
 
 variable {S : Type} [Group S] [Finite S]
 
+omit [Finite S] in
 theorem autFix_eq_fixSub (β : MulAut S) : Sec4.autFix β = Lemma510Ns.fixSub β :=
   Subgroup.ext fun _ => Iff.rfl
 

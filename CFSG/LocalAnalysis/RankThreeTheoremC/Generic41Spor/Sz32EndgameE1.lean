@@ -49,7 +49,7 @@ theorem sz32_E1 {Y : Type} [Group Y] [Finite Y] (hcore : primeComplementCore (G 
     (hΓ : GLALayer (⊤ : Subgroup Y) ⊔ pCoreOf 5 (⊤ : Subgroup Y) ≤ Γ)
     (hObcop : Nat.Coprime 5 (Nat.card Ob)) (hObΓ : ∀ g ∈ Γ, ∀ o ∈ Ob, g * o * g⁻¹ ∈ Ob)
     (hR2 : IsPGroup 2 R) (hRO : R ≤ Ob) : R = ⊥ := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hpc : pCoreOf 5 (⊤ : Subgroup Y) = CFSG.pCore 5 Y := by
     unfold pCoreOf
     rw [← CFSG.LieType.BorelTits.map_pCore_mulEquiv 5 (Subgroup.topEquiv (G := Y)).symm,
@@ -68,7 +68,7 @@ theorem sz32_E1 {Y : Type} [Group Y] [Finite Y] (hcore : primeComplementCore (G 
     rw [hX]
     exact (CFSG.LocalCores.generalized_fitting_characteristic (G := Y)).2
   set X : Subgroup Y := GLALayer (⊤ : Subgroup Y) ⊔ pCoreOf 5 (⊤ : Subgroup Y)
-  haveI : X.Normal := hXn
+  have : X.Normal := hXn
   have hD : Ob ⊓ X = ⊥ := by
     refine sz32E1_eq_bot_of_normal_in_normal hcore (C := X) inf_le_right
       (hObcop.coprime_dvd_right (Subgroup.card_dvd_of_le inf_le_left)) ?_

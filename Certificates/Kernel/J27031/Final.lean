@@ -157,7 +157,7 @@ theorem vg_good {ws : List (List Nat)} (hw : ∀ w ∈ ws, ∀ l ∈ w, l < 4) :
   rcases Nat.lt_or_ge t 3 with h3 | h3
   · rw [Array.getD_eq_getD_getElem?, Array.getElem?_append_left (by rw [rt_size]; exact h3),
       ← Array.getD_eq_getD_getElem?]
-    have e : K.vg (exOf ab ws) t = rt t := by simp [DcK.vg, K, h3]
+    have e : K.vg (exOf ab ws) t = rt t := by simp [DcKData.vg, K, h3]
     rw [e]
     exact rt_good t h3
   · simp only [Array.size_append, rt_size, List.size_toArray, List.length_map] at ht
@@ -166,7 +166,7 @@ theorem vg_good {ws : List (List Nat)} (hw : ∀ w ∈ ws, ∀ l ∈ w, l < 4) :
     simp only [rt_size, List.getElem?_toArray, List.getElem?_map, List.getElem?_eq_getElem hi,
       Option.map_some, Option.getD_some]
     have e : K.vg (exOf ab ws) t = wordF ab ws[t - 3] := by
-      simp [DcK.vg, K, exOf, show ¬ (t < 3) from by omega, List.getD_eq_getElem?_getD, hi]
+      simp [DcKData.vg, K, exOf, show ¬ (t < 3) from by omega, List.getD_eq_getElem?_getD, hi]
     rw [e]
     exact good_tabW fun l hl => ab_good l (hw _ (List.getElem_mem hi) l hl)
 
@@ -249,7 +249,7 @@ theorem chkK : chkAllKT K IV HitV PN xt xti = true := by
   simp only [Bool.and_eq_true, beq_iff_eq] at hs
   obtain ⟨⟨hsz, hiv⟩, hhv⟩ := hs
   have hd : K.distOKNT xt xti IV PN = true := by
-    unfold DcK.distOKNT
+    unfold DcKData.distOKNT
     rw [CK.invs, hsz, hiv]
     have h := all63 (f := fun i => (List.range K.reps.size).all fun j =>
       decide (j ≤ i) || IV.getD i 0 != IV.getD j 0 || K.noHitKT xt xti i j (PN i j))
@@ -259,7 +259,7 @@ theorem chkK : chkAllKT K IV HitV PN xt xti = true := by
     rw [hsz] at h
     simp only [h, beq_self_eq_true, Bool.and_self]
   have hh : K.hitOKT xt xti HitV = true := by
-    unfold DcK.hitOKT
+    unfold DcKData.hitOKT
     rw [hsz, hhv]
     have h := all63 (f := fun j => K.hitT xt xti j == some (HitV.getD j 0)) fun c hc => by
       interval_cases c
@@ -267,7 +267,7 @@ theorem chkK : chkAllKT K IV HitV PN xt xti = true := by
     simp only [h, beq_self_eq_true, Bool.and_self]
   have ht : K.tabsOK xt xti 0 K.reps.size = true := by
     rw [hsz]
-    unfold DcK.tabsOK
+    unfold DcKData.tabsOK
     refine List.all_eq_true.2 fun j hj => ?_
     have hj := List.mem_range'_1.1 hj
     rcases Nat.lt_or_ge j 21 with a | a

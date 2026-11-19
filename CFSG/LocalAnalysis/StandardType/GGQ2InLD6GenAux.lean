@@ -31,9 +31,9 @@ theorem qd6g_hvec_mem (i : Fin 6) :
     hvec i ∈ Submodule.span (ZMod 3) (Set.range epsVec) := by
   rw [qd6g_hvec_eq i]
   by_cases h : i = 5
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     exact add_mem (Submodule.subset_span ⟨4, rfl⟩) (Submodule.subset_span ⟨5, rfl⟩)
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     exact sub_mem (Submodule.subset_span ⟨i, rfl⟩) (Submodule.subset_span ⟨i + 1, rfl⟩)
 
 theorem qd6g_span_eq_top :

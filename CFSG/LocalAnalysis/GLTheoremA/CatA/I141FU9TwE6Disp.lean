@@ -21,7 +21,7 @@ section Main
 theorem e6TwoRatU38Centre_holds : E6TwoRatU38Centre := by
   intro L _ _ p₀ S hq2 a hT hap h1 i hqs hcard
   classical
-  haveI : CharP L 2 := charP_two_of_langSetup_q_eq_two S hq2
+  have : CharP L 2 := charP_two_of_langSetup_q_eq_two S hq2
   have hringChar : ringChar L = 2 := ringChar.eq L 2
   have h3L : ((3 : ℕ) : L) ≠ 0 :=
     natCast_ne_zero_of_ringChar_ne Nat.prime_three
@@ -48,7 +48,7 @@ theorem e6TwoRatU38Centre_holds : E6TwoRatU38Centre := by
       have hcardF : (frameRoots σ).ncard = ν * (ν - 1) := by
         have hinj : Set.InjOn (fun q : Fin ν × Fin ν => σ q.1 q.2) {q | q.1 ≠ q.2} := by
           rintro ⟨x, y⟩ hxy ⟨u, v⟩ huv h
-          simp only [Set.mem_setOf_eq] at hxy huv
+          simp only [Set.mem_ofPred_eq] at hxy huv
           obtain ⟨rfl, rfl⟩ := hψ.eq_of_eq hκ hnorm hxy huv h
           rfl
         have himg : frameRoots σ =
@@ -63,7 +63,7 @@ theorem e6TwoRatU38Centre_holds : E6TwoRatU38Centre := by
         have hoff : ({q : Fin ν × Fin ν | q.1 ≠ q.2} : Set (Fin ν × Fin ν)) =
             ↑(Finset.univ.offDiag : Finset (Fin ν × Fin ν)) := by
           ext q
-          simp [Finset.mem_offDiag]
+          simp
         rw [hoff, Set.ncard_coe_finset, Finset.offDiag_card, Finset.card_univ, Fintype.card_fin,
           Nat.mul_sub_left_distrib, mul_one]
       have hνr : ν = compRank (componentRoots (rootCharHom a) i) + 1 := by

@@ -485,7 +485,7 @@ theorem ks142J2Sig_of (h415 : Sec4.Item4_15) : KS142J2Sig := by
     rw [hR, Subgroup.card_map_of_injective Y.subtype_injective]
     have h1 := T.pow_dvd_card_of_pow_dvd_card (n := 1) (by rwa [pow_one])
     rwa [pow_one] at h1
-  have hRp : IsPGroup q R := T.isPGroup'.map Y.subtype
+  have hRp : IsPGroup q R := T.isPGroup.map Y.subtype
   have hR3 : Nat.Coprime 3 (Nat.card R) := by
     refine (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mpr fun h => hY3 (h.trans ?_)
     rw [hR, Subgroup.card_map_of_injective Y.subtype_injective]

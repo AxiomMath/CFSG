@@ -83,8 +83,8 @@ theorem compNormal_E6_charTwo_three {K : Type} [Field K] [Finite K] [CharP K 2]
     (hK : ¬ 3 ∣ Nat.card K - 1) (x : ↥(adjointGroup Tag.E6 K)) (hx1 : x ≠ 1) (hxp : x ^ 3 = 1) :
     CompNormal (MulAut.conj x) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨f, hcard⟩ := FiniteField.card' K
   obtain ⟨n, hℓ, hn⟩ := FiniteField.card K 2
   have hKn : Nat.card K = 2 ^ (n : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hn
@@ -98,7 +98,7 @@ theorem compNormal_E6_charTwo_three {K : Type} [Field K] [Finite K] [CharP K 2]
     have := (Nat.prime_dvd_prime_iff_eq Nat.prime_five Nat.prime_two).1
       (Nat.prime_five.dvd_of_dvd_pow h)
     omega
-  haveI hcharL : CharP (AlgebraicClosure K) 2 :=
+  have hcharL : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have hmon : MonomialToralAt Tag.E6 3 :=
     monomialToralAt_exc monomialToralAt_E6_five monomialToralAt_E7_five
@@ -132,11 +132,11 @@ theorem compNormal_twE6_charTwo_three {q : TauCeti.PrimePower} (hq2 : q.p = 2)
     (x : ↥(twistedE6RootGroup K σ)) (hx1 : x ≠ 1) (hxp : x ^ 3 = 1) :
     CompNormal (MulAut.conj x) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hcharK : CharP K 2 := charP_of_card_eq_prime_pow (f := q.exponent * 2)
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hcharK : CharP K 2 := charP_of_card_eq_prime_pow (f := q.exponent * 2)
     (by rw [← Nat.card_eq_fintype_card, hKcard, hq2, ← pow_mul])
-  haveI hcharL : CharP (AlgebraicClosure K) 2 :=
+  have hcharL : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have hmon : MonomialToralAt Tag.E6 3 :=
     monomialToralAt_exc monomialToralAt_E6_five monomialToralAt_E7_five

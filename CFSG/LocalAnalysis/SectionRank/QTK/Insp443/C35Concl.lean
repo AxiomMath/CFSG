@@ -93,12 +93,12 @@ theorem KConfig.conclKLeft_of_c35Concl1 {X : Type} [Group X] [Finite X] {L V MK 
       rw [Subgroup.map_subgroupOf_eq_of_le (Subgroup.map_subtype_le _)]
     rw [hEq]
     exact h.pCoreOf_le
-  letI : IsMulCommutative ↥V := h.elemAbelian.1
+  let : IsMulCommutative ↥V := h.elemAbelian.1
   have hFF : IsFFModule (V := ↥V) (autOn L V) := by
     rcases hnat with ⟨F, hFld, hFintype, hFcard, hsec⟩ |
       ⟨-, F, hFld, hFintype, hFcard, hsec⟩
-    · letI := hFld
-      letI := hFintype
+    · let := hFld
+      let := hFintype
       have h2n : (2 : F) ^ n = 0 := by
         have h := FiniteField.cast_card_eq_zero F
         simpa [hFcard] using h
@@ -107,8 +107,8 @@ theorem KConfig.conclKLeft_of_c35Concl1 {X : Type} [Group X] [Finite X] {L V MK 
         inf_le_right.trans (inf_le_right.trans
           (Subgroup.centralizer_le (le_top : L ≤ (⊤ : Subgroup X))))
       exact CFSG.Quasithin.isFFModule_autOn_of_isNaturalSection_two h2 h.elemAbelian.2 hW hN hsec
-    · letI := hFld
-      letI := hFintype
+    · let := hFld
+      let := hFintype
       have h2n : (2 : F) ^ n = 0 := by
         have h := FiniteField.cast_card_eq_zero F
         simpa [hFcard] using h

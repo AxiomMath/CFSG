@@ -19,7 +19,7 @@ variable {K : Type} [Field K]
 
 theorem det_embM (A : Matrix (Fin 2) (Fin 2) K) : (embM A).det = A.det := by
   rw [Matrix.det_succ_row_zero]
-  simp [embM, Fin.sum_univ_succ, Fin.succAbove, Matrix.det_succ_row_zero, Matrix.det_fin_two]
+  simp [embM, Fin.sum_univ_succ, Fin.succAbove, Matrix.det_succ_row_zero]
 
 @[expose] def IsBlock (g : Matrix (Fin 4) (Fin 4) K) : Prop :=
   ∀ i j : Fin 4, ¬ (i.val < 2 ∧ j.val < 2) → g i j = if i = j then 1 else 0
@@ -74,7 +74,7 @@ theorem offBlock_of_comm_diag (x : Matrix (Fin 4) (Fin 4) K) (v : Fin 4 → K)
   · exact h3
   · exact absurd (sub_eq_zero.mp h3).symm hv
 
-theorem isBlock_conj {x y g : Matrix (Fin 4) (Fin 4) K} (hxy : x * y = 1) (hyx : y * x = 1)
+theorem isBlock_conj {x y g : Matrix (Fin 4) (Fin 4) K} (_hxy : x * y = 1) (hyx : y * x = 1)
     (hx : OffBlock x) (hy : OffBlock y) (hg : IsBlock g) : IsBlock (x * g * y) := by
   intro i j hij
   by_cases hi : i.val < 2
@@ -91,8 +91,8 @@ theorem isBlock_conj {x y g : Matrix (Fin 4) (Fin 4) K} (hxy : x * y = 1) (hyx :
       intro l _
       by_cases hl : l = k
       · rw [hl, hx i k (fun h => hk h.2) (fun h => hk (by rw [← h]; exact hi)), zero_mul]
-      · rw [hg l k (fun h => hk h.2), if_neg hl, mul_zero]
-    rw [Matrix.mul_apply, if_neg hne]
+      · rw [hg l k (fun h => hk h.2), ite_eq_right hl, mul_zero]
+    rw [Matrix.mul_apply, ite_eq_right hne]
     apply Finset.sum_eq_zero
     intro l _
     by_cases hl : l = j
@@ -129,12 +129,12 @@ theorem isBlock_conj {x y g : Matrix (Fin 4) (Fin 4) K} (hxy : x * y = 1) (hyx :
       split_ifs <;> simp
     simp only [hsum]
     rw [Finset.sum_ite_eq]
-    simp only [Finset.mem_univ, if_true]
+    simp only [Finset.mem_univ, ite_true]
     by_cases hij' : i = j
     · subst hij'
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       exact hxy_ii
-    · rw [if_neg hij', hy i j (fun h => hi h.1) hij', mul_zero]
+    · rw [ite_eq_right hij', hy i j (fun h => hi h.1) hij', mul_zero]
 
 theorem tElt_matrix {ζ : K} (hζ : IsPrimitiveRoot ζ 3) :
     ((tElt K hζ : Matrix.SpecialLinearGroup (Fin 4) K) : Matrix (Fin 4) (Fin 4) K) =
@@ -157,7 +157,7 @@ theorem exists_emb_eq_of_isBlock (g : Matrix.SpecialLinearGroup (Fin 4) K)
   have hEq : embM A = (g : Matrix (Fin 4) (Fin 4) K) := by
     ext i j
     by_cases h : i.val < 2 ∧ j.val < 2
-    · fin_cases i <;> fin_cases j <;> simp_all [embM, hAdef]
+    · fin_cases i <;> fin_cases j <;> simp_all [embM]
     · rw [hg i j h]
       fin_cases i <;> fin_cases j <;> simp_all [embM]
   have hdet : A.det = 1 := by

@@ -93,9 +93,9 @@ theorem phi_eq (m : Nat) : ∀ l : List Nat, (∀ i ∈ l, i < 10) →
     obtain ⟨hb1, hb2⟩ := hB i (h i List.mem_cons_self)
     simp only [List.foldr_cons]
     by_cases hm : m.testBit i = true
-    · rw [if_pos hm, if_pos hm, ih1, hb1]
+    · rw [ite_eq_left hm, ite_eq_left hm, ih1, hb1]
       exact ⟨unpack_pc hb2 ih2, cn_pc hb2 ih2⟩
-    · rw [if_neg hm, if_neg hm]
+    · rw [ite_eq_right hm, ite_eq_right hm]
       exact ⟨ih1, ih2⟩
 
 omit hB in
@@ -106,9 +106,9 @@ theorem img_eq (m : Nat) : ∀ l : List Nat,
   | i :: l => by
     simp only [List.foldr_cons]
     by_cases hm : m.testBit i = true
-    · rw [if_pos hm, if_pos hm, ← img_eq m l]
+    · rw [ite_eq_left hm, ite_eq_left hm, ← img_eq m l]
       exact CFSG.KS.PF.pg_pcomp (by norm_num) (by norm_num)
-    · rw [if_neg hm, if_neg hm]
+    · rw [ite_eq_right hm, ite_eq_right hm]
       exact img_eq m l
 
 theorem phiTab_eq (m : Nat) : axPhiTab B m = unpack 3510 12 (axPhiK m) ∧ cn (axPhiK m) = true :=

@@ -28,7 +28,7 @@ theorem nParam_le_one_of_psl3_wreathed (hirr : SL3OddIrr) {p : ℕ} (hp : p.Prim
     (hF : IsPSL 3 p 1 ↥(CFSG.generalizedFitting G)) {T : Subgroup G} (hT : IsSylowIn 2 T ⊤)
     (hFT : CFSG.generalizedFitting G ⊔ T = ⊤) (hTL : ¬ T ≤ CFSG.generalizedFitting G) :
     E1.nParam (⊤ : Subgroup G) ≤ 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   set L := CFSG.generalizedFitting G with hL
   obtain ⟨e⟩ := E2P.Asc80.exists_equiv_psl3 hF
@@ -42,7 +42,7 @@ theorem nParam_le_one_of_psl3_wreathed (hirr : SL3OddIrr) {p : ℕ} (hp : p.Prim
     rw [Nat.card_congr e.toEquiv, ← SecU1.L3I.orderOf_zc hp2]
     exact orderOf_dvd_natCard _
   have hGL : ∃ t : G, t ∉ L := by
-    obtain ⟨t, -, ht⟩ := SetLike.not_le_iff_exists.mp hTL
+    obtain ⟨t, -, ht⟩ := IsConcreteLE.not_le_iff_exists.mp hTL
     exact ⟨t, ht⟩
   have hwr : ∀ S : Sylow 2 ↥L, ∃ m : ℕ, 2 ≤ m ∧
       Nonempty (↥(S : Subgroup ↥L) ≃* CFSG.Open.WreathedTwoGroup m) := by
@@ -64,7 +64,7 @@ theorem nParam_le_one_of_psu3_wreathed {p : ℕ} (hp : p.Prime) (hp7 : 7 ≤ p) 
     (hU : IsPSU 3 p 1 ↥(CFSG.generalizedFitting G)) {T : Subgroup G} (hT : IsSylowIn 2 T ⊤)
     (hFT : CFSG.generalizedFitting G ⊔ T = ⊤) :
     E1.nParam (⊤ : Subgroup G) ≤ 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   have hp3 : p ≠ 3 := by omega
   obtain ⟨F, _, _, hF, ψ, hAS, h2⟩ := SecU1.U3.exists_psu3_model hp2 hU hs

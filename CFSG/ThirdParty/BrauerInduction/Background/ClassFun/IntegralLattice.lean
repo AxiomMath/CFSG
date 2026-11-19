@@ -232,7 +232,7 @@ noncomputable instance instFree [Finite G] :
 noncomputable instance instFinite [Finite G] :
     Module.Finite ℤ
       (IntegerValued (k := k) (G := G)) := by
-  letI : Fintype G := Fintype.ofFinite G
+  let : Fintype G := Fintype.ofFinite G
   exact Module.Finite.of_basis basis
 
 

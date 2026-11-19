@@ -86,14 +86,13 @@ theorem finrank_fixedSub_szOmega_le
     (hK : Nat.card K = 2 ^ (2 * a + 1)) :
     Module.finrank k (fixedSub (matRep (szT k hK (szOmega a))) (szZ a K)) ≤ 2 ^ (2 * a + 1) := by
   classical
-  haveI hN : ((szZ a K).subgroupOf (szUp a K)).Normal := szZ_normal_in_szUp hK
+  have hN : ((szZ a K).subgroupOf (szUp a K)).Normal := szZ_normal_in_szUp hK
   let ρΩ : Representation k ↥(szUp a K) ((↥(szOmega a) → Fin 4) → k) :=
     (matRep (szT k hK (szOmega a))).comp (szUp a K).subtype
   have hsub : Representation.invariants ((matRep (szT k hK (szOmega a))).comp (szZ a K).subtype) =
       Representation.invariants (ρΩ.comp ((szZ a K).subgroupOf (szUp a K)).subtype) := by
     ext v
-    simp only [Representation.mem_invariants, MonoidHom.comp_apply, Subgroup.coe_subtype,
-      Subgroup.mem_subgroupOf]
+    simp only [Representation.mem_invariants, MonoidHom.comp_apply, Subgroup.coe_subtype]
     constructor
     · intro h s
       exact h ⟨(s : ↥(szUp a K)), s.2⟩
@@ -122,6 +121,7 @@ section TensorStep
 variable {a : ℕ} {K : Type} [Field K] [CharP K 2] [Fintype K]
 variable {k : Type} [Field k] [Algebra K k] [CharP k 2]
 
+omit [CharP k 2] in
 theorem extractLM_sum_kronFun {Ω : Finset ℕ} {B : Finset ℕ} (hB : B ⊆ Ω)
     (g : ↥(Ω \ B) → Fin 4) {ι κ : Type} [Fintype ι] [Fintype κ]
     (c : ι × κ → k) (u : ι → (B → Fin 4) → k) (v : κ → (↥(Ω \ B) → Fin 4) → k) :
@@ -139,6 +139,7 @@ theorem extractLM_sum_kronFun {Ω : Finset ℕ} {B : Finset ℕ} (hB : B ⊆ Ω)
   dsimp only
   exact Finset.sum_congr rfl (fun i _ => (Finset.sum_smul).symm)
 
+omit [CharP k 2] in
 theorem linearIndependent_kronFun {Ω : Finset ℕ} {B : Finset ℕ} (hB : B ⊆ Ω)
     {ι κ : Type} [Fintype ι] [Fintype κ]
     (u : ι → (B → Fin 4) → k) (v : κ → (↥(Ω \ B) → Fin 4) → k)
@@ -163,6 +164,7 @@ theorem linearIndependent_kronFun {Ω : Finset ℕ} {B : Finset ℕ} (hB : B ⊆
     exact hcoef g i
   exact LinearIndependent.eq_coords_of_eq hv hfun j
 
+omit [CharP k 2] in
 theorem linearIndependent_kronFun_subtype
     (hK : Nat.card K = 2 ^ (2 * a + 1)) {Ω : Finset ℕ} {B : Finset ℕ} (hB : B ⊆ Ω)
     {ι κ : Type} [Fintype ι] [Fintype κ]
@@ -181,6 +183,7 @@ theorem linearIndependent_kronFun_subtype
     (w : (Ω → Fin 4) → k)) hcc'
   simpa using h2
 
+omit [CharP k 2] in
 theorem finrank_fixed_mul_le
     (hK : Nat.card K = 2 ^ (2 * a + 1)) {Ω : Finset ℕ} (B : Finset ℕ) (hB : B ⊆ Ω) :
     Module.finrank k (fixedSub (matRep (szT k hK B)) (szZ a K)) *

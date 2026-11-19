@@ -18,9 +18,9 @@ theorem foldl_orStep (c : Nat → Bool) (g : Nat → Nat) :
   | a :: l, acc => by
     simp only [List.foldl_cons, orStep]
     by_cases h : c a
-    · simp only [h, if_true, Nat.zero_or]
+    · simp only [h, ite_true, Nat.zero_or]
       rw [foldl_orStep c g l (acc ||| g a), foldl_orStep c g l (g a), Nat.or_assoc]
-    · simp only [h, Bool.false_eq_true, if_false]
+    · simp only [h, Bool.false_eq_true, ite_false]
       exact foldl_orStep c g l acc
 
 theorem foldl_orStep_congr {c c' : Nat → Bool} {g g' : Nat → Nat} :

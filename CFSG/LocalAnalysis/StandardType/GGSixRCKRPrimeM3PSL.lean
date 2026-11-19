@@ -53,8 +53,7 @@ private theorem rckM3as_map_surjective {R S : Type*} [CommRing R] [CommRing S]
   · rw [← RingEquiv.map_det σ.symm (B : Matrix n n S), B.2, map_one]
   · apply Matrix.SpecialLinearGroup.ext
     intro i j
-    simp only [Matrix.SpecialLinearGroup.map_apply_coe, RingHom.mapMatrix_apply,
-      RingEquiv.mapMatrix_apply, Matrix.map_apply]
+    simp only [RingEquiv.mapMatrix_apply]
     exact σ.apply_symm_apply _
 
 theorem rckM3_PSL
@@ -92,11 +91,11 @@ theorem rckM3_PSL
     let a : ℕ := blockDegree (Algebra.adjoin (GaloisField 2 g) (Units.val '' S)) e
     obtain ⟨K, hKfield, hKfin, hKalg, hKmod, hKtower, π, hπ⟩ :=
       rckBlockCoord_exists S hS hodd he
-    letI : Field K := hKfield
-    letI : Finite K := hKfin
-    letI : Algebra (GaloisField 2 g) K := hKalg
-    letI : Module K (LinearMap.range (Matrix.mulVecLin e)) := hKmod
-    letI : IsScalarTower (GaloisField 2 g) K (LinearMap.range (Matrix.mulVecLin e)) := hKtower
+    let : Field K := hKfield
+    let : Finite K := hKfin
+    let : Algebra (GaloisField 2 g) K := hKalg
+    let : Module K (LinearMap.range (Matrix.mulVecLin e)) := hKmod
+    let : IsScalarTower (GaloisField 2 g) K (LinearMap.range (Matrix.mulVecLin e)) := hKtower
     have hKcard : Nat.card K = 2 ^ (g * a) := by
       rw [hπ.2.2, GaloisField.card 2 g (by omega), ← pow_mul]
     have hK4 : 4 ≤ Nat.card K := by
@@ -104,12 +103,12 @@ theorem rckM3_PSL
       calc 4 = 2 ^ 2 := by norm_num
         _ ≤ 2 ^ (g * a) := (pow_right_monotone (show (1 : ℕ) ≤ 2 by norm_num)) hga
         _ = Nat.card K := hKcard.symm
-    haveI hWfin : Module.Finite K (LinearMap.range (Matrix.mulVecLin e)) :=
+    have hWfin : Module.Finite K (LinearMap.range (Matrix.mulVecLin e)) :=
       Module.Finite.of_restrictScalars_finite (GaloisField 2 g) K
         (LinearMap.range (Matrix.mulVecLin e))
     have hWne : LinearMap.range (Matrix.mulVecLin e) ≠ ⊥ :=
       rckM3as_range_mulVecLin_ne_bot he.2.2.1
-    haveI hWnt : Nontrivial (LinearMap.range (Matrix.mulVecLin e)) :=
+    have hWnt : Nontrivial (LinearMap.range (Matrix.mulVecLin e)) :=
       (Submodule.nontrivial_iff_ne_bot).mpr hWne
     have hfinpos : 0 < Module.finrank K (LinearMap.range (Matrix.mulVecLin e)) :=
       Module.finrank_pos_iff.mpr hWnt
@@ -126,10 +125,10 @@ theorem rckM3_PSL
     have hcard_eq : Nat.card (GaloisField 2 (g * a)) = Nat.card K := by
       rw [hcardGF, hKcard]
     obtain ⟨σ⟩ := CFSG.RankThree.PartOne.CTP.nonempty_ringEquiv_of_natCard_eq hcard_eq
-    haveI hperfSL : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin (k + 1)) K) :=
+    have hperfSL : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin (k + 1)) K) :=
       CFSG.SeitzReduction.LinearPilot.InvPlacement.isPerfect_specialLinearGroup_of_four_le hK4
         (Fin (k + 1))
-    haveI hperfR : Group.IsPerfect ρ.range := Group.IsPerfect.range ρ
+    have hperfR : Group.IsPerfect ρ.range := Group.IsPerfect.range ρ
     have hρrange : ρ.range = ⁅glBlockCentralizer Matrix.SpecialLinearGroup.toGL S e,
         glBlockCentralizer Matrix.SpecialLinearGroup.toGL S e⁆ := by
       apply le_antisymm

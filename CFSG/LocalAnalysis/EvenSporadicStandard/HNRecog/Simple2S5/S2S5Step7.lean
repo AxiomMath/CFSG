@@ -29,7 +29,7 @@ theorem exists_conj_u {G : Type*} [Group G] [Finite G] {S T M : Subgroup G} [IsS
   have horder : orderOf (((g⁻¹ * (⟨u, hTS huT⟩ : ↥S) * g : ↥S)) : G) = 2 := by
     rw [Subgroup.orderOf_coe]
     rw [show (g⁻¹ * (⟨u, hTS huT⟩ : ↥S) * g : ↥S) =
-        MulAut.conj g⁻¹ (⟨u, hTS huT⟩ : ↥S) by simp [MulAut.conj_apply]]
+        MulAut.conj g⁻¹ (⟨u, hTS huT⟩ : ↥S) by simp]
     rw [MulEquiv.orderOf_eq, Subgroup.orderOf_mk (H := S) u (hTS huT), hu]
   have hgt : ((g⁻¹ * (⟨u, hTS huT⟩ : ↥S) * g : ↥S) : G) = t₀ :=
     hM1 _ (Subgroup.mem_subgroupOf.1 hg) horder

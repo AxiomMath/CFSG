@@ -18,8 +18,8 @@ theorem open_isQuasisimple {Q : Type*} [Group Q] (h : CFSG.IsQuasisimple Q) :
   exact ⟨hp.commutator_eq_top, hs⟩
 
 theorem isSubnormal_map {H K : Subgroup G} (h : IsSubnormal H K) {G' : Type*} [Group G']
-    (f : G →* G') (hf : Function.Injective f) : IsSubnormal (H.map f) (K.map f) := by
-  clear hf
+    (f : G →* G') (_hf : Function.Injective f) : IsSubnormal (H.map f) (K.map f) := by
+  clear _hf
   induction h with
   | refl => exact CFSG.Open.IsSubnormal.refl _
   | @step H M K hle hnormal _ ih =>
@@ -65,7 +65,7 @@ theorem perfectInLayer_of_isSolvable_layer_quotient (β : MulAut G)
   have hN : ((CFSG.layer ↥(fixSubgroup β)).map (fixSubgroup β).subtype).subgroupOf
       (fixSubgroup β) = CFSG.layer ↥(fixSubgroup β) :=
     Subgroup.comap_map_eq_self_of_injective (fixSubgroup β).subtype_injective _
-  haveI : (((CFSG.layer ↥(fixSubgroup β)).map (fixSubgroup β).subtype).subgroupOf
+  have : (((CFSG.layer ↥(fixSubgroup β)).map (fixSubgroup β).subtype).subgroupOf
       (fixSubgroup β)).Normal := by
     rw [hN]
     infer_instance

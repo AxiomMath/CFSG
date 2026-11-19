@@ -91,8 +91,8 @@ theorem sylow_facts_of_hbar {G : Type} [Group G] [Finite G] (S : Sylow 2 G) {C :
   have hYfin : Finite Y := Finite.of_equiv _ eY.symm.toEquiv
   let ψ : ↥(S : Subgroup G) →* Multiplicative (ZMod 2) × Y :=
     e.toMonoidHom.comp ((QuotientGroup.mk' (pPrimeCore 2 ↥C)).comp (Subgroup.inclusion hSC))
-  have hψ : Function.Injective ψ := e.injective.comp (hbar_inj_on_sylow S.isPGroup' hSC)
-  have hcomm := comm_of_hom_to_prod S.isPGroup' eY ψ hψ
+  have hψ : Function.Injective ψ := e.injective.comp (hbar_inj_on_sylow S.isPGroup hSC)
+  have hcomm := comm_of_hom_to_prod S.isPGroup eY ψ hψ
   have hcardY : Nat.card Y = 60 := by
     rw [Nat.card_congr eY.toEquiv, Nat.card_eq_fintype_card, card_alternatingGroup]
     simp [Fintype.card_fin, Nat.factorial]

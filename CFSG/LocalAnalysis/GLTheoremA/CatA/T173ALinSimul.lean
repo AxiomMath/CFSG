@@ -17,7 +17,7 @@ private theorem hasEnoughRootsOfUnity_of_dvd_card_sub_one {F : Type} [Field F] [
   have hNpos : 0 < N := by
     have h1 : 1 < Nat.card F := Finite.one_lt_card
     omega
-  haveI : NeZero N := ⟨by omega⟩
+  have : NeZero N := ⟨by omega⟩
   have htop : rootsOfUnity N F = ⊤ := by
     ext x
     simp only [mem_rootsOfUnity, Subgroup.mem_top, iff_true]
@@ -25,7 +25,7 @@ private theorem hasEnoughRootsOfUnity_of_dvd_card_sub_one {F : Type} [Field F] [
     exact pow_card_eq_one'
   have hNcard : N ≤ Nat.card (rootsOfUnity N F) := by
     rw [htop, Subgroup.card_top, hNu]
-  haveI : HasEnoughRootsOfUnity F N := HasEnoughRootsOfUnity.of_card_le hNcard
+  have : HasEnoughRootsOfUnity F N := HasEnoughRootsOfUnity.of_card_le hNcard
   exact HasEnoughRootsOfUnity.of_dvd F hn
 
 theorem lin_simul_diag {p n d : ℕ} {F : Type} [Field F] [Finite F] (h : LinArith p n d F)
@@ -34,8 +34,8 @@ theorem lin_simul_diag {p n d : ℕ} {F : Type} [Field F] [Finite F] (h : LinAri
       ((g * a * g⁻¹ : GL (Fin d) F) : Matrix (Fin d) (Fin d) F) i j = 0 := by
   classical
   obtain ⟨hp, hpne2, hpdvd, hpd, hcardF, hn, hd⟩ := h
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : IsMulCommutative ↥A₀ := hA.1
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : IsMulCommutative ↥A₀ := hA.1
   let ρ : ↥A₀ →* Module.End F (Fin d → F) :=
     { toFun := fun a => Matrix.toLinAlgEquiv' ((a : GL (Fin d) F) : Matrix (Fin d) (Fin d) F)
       map_one' := by
@@ -59,15 +59,15 @@ theorem lin_simul_diag {p n d : ℕ} {F : Type} [Field F] [Finite F] (h : LinAri
       apply Subtype.ext
       change (a : GL (Fin d) F) ^ p = 1
       exact hA.2 (a : GL (Fin d) F) a.2
-  haveI : HasEnoughRootsOfUnity F p := hEnoughP
-  haveI : HasEnoughRootsOfUnity F (Monoid.exponent ↥A₀) :=
+  have : HasEnoughRootsOfUnity F p := hEnoughP
+  have : HasEnoughRootsOfUnity F (Monoid.exponent ↥A₀) :=
     HasEnoughRootsOfUnity.of_dvd F hExpDvd
   have hchar2 : ringChar F = 2 := by
-    letI : Fintype F := Fintype.ofFinite F
+    let : Fintype F := Fintype.ofFinite F
     rw [FiniteField.even_card_iff_char_two, ← Nat.card_eq_fintype_card, hcardF]
     exact Nat.dvd_iff_mod_eq_zero.mp (dvd_pow_self 2 (by omega : n ≠ 0))
-  haveI hCharP : CharP F 2 := ringChar.of_eq hchar2
-  haveI : Fact p.Prime := ⟨hp⟩
+  have hCharP : CharP F 2 := ringChar.of_eq hchar2
+  have : Fact p.Prime := ⟨hp⟩
   have hIsP : IsPGroup p ↥A₀ := fun a => ⟨1, by
     have hp1 : a ^ p = 1 := by
       apply Subtype.ext
@@ -109,7 +109,7 @@ theorem lin_simul_diag {p n d : ℕ} {F : Type} [Field F] [Finite F] (h : LinAri
     by_cases hji : j = i
     · subst hji
       simp
-    · rw [if_neg hji, Pi.single_eq_of_ne' hji]
+    · rw [ite_eq_right hji, Pi.single_eq_of_ne' hji]
   have hsymm_std : ∀ j : Fin d, hlin' (Pi.single j (1 : F)) = bas j := by
     intro j
     rw [← hbas_std j]
@@ -142,7 +142,7 @@ theorem lin_simul_diag {p n d : ℕ} {F : Type} [Field F] [Finite F] (h : LinAri
   rw [hmat, LinearMap.toMatrixAlgEquiv'_apply]
   rw [Module.End.mul_apply, Module.End.mul_apply, hsymm_std j, heig ⟨a, ha⟩ j,
     map_smul, hbas_std j]
-  simp [hij, Ne.symm hij]
+  simp [hij]
 
 end CFSG.LocalAnalysis.GLTheoremA.T173A
 

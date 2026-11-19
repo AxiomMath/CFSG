@@ -52,11 +52,11 @@ private lemma zx6Vec_norm {n : ℕ} (hn : 5 ≤ n) (i : Fin (n + 1)) :
   cases i using Fin.cases with
   | zero =>
     obtain ⟨h01, h0l, h1l⟩ := zx6_fin_ne (n := n) (by omega)
-    simp only [zx6Vec_zero, map_add, LinearMap.add_apply, LocalU.diagF3_single, if_neg h01,
-      if_neg h01.symm, if_neg h0l, if_neg h0l.symm, if_neg h1l, if_neg h1l.symm, if_pos,
+    simp only [zx6Vec_zero, map_add, LinearMap.add_apply, LocalU.diagF3_single, ite_eq_right h01,
+      ite_eq_right h01.symm, ite_eq_right h0l, ite_eq_right h0l.symm, ite_eq_right h1l, ite_eq_right h1l.symm, ite_eq_left,
       diagF3Entry_two_of_ne_last h0l, diagF3Entry_two_of_ne_last h1l, diagF3Entry_two_last]
     decide
-  | succ j => rw [zx6Vec_succ_succ, if_pos rfl]
+  | succ j => rw [zx6Vec_succ_succ, ite_eq_left rfl]
 
 private lemma zx6Vec_last {n : ℕ} (hn : 2 ≤ n) (i : Fin (n + 1)) :
     zx6Vec n i (Fin.last n) = if i = 0 then 1 else 0 := by
@@ -64,10 +64,10 @@ private lemma zx6Vec_last {n : ℕ} (hn : 2 ≤ n) (i : Fin (n + 1)) :
   cases i using Fin.cases with
   | zero =>
     rw [zx6Vec_zero, Pi.add_apply, Pi.add_apply, Pi.single_eq_of_ne h0l.symm,
-      Pi.single_eq_of_ne h1l.symm, Pi.single_eq_same, if_pos rfl, zero_add, zero_add]
+      Pi.single_eq_of_ne h1l.symm, Pi.single_eq_same, ite_eq_left rfl, zero_add, zero_add]
   | succ j =>
     rw [zx6Vec_succ, Pi.single_eq_of_ne (Fin.castSucc_lt_last j).ne',
-      if_neg (Fin.succ_ne_zero j)]
+      ite_eq_right (Fin.succ_ne_zero j)]
 
 private lemma zx6_ne_of_apply {n : ℕ} {x z : Fin (n + 1) → ZMod 3} {k : Fin (n + 1)}
     (hx : x k ≠ 0) (hz : z k = 0) : (x ≠ z ∧ x ≠ -z) ∧ z ≠ x ∧ z ≠ -x := by
@@ -83,15 +83,15 @@ private lemma zx6Vec_ne {n : ℕ} (hn : 5 ≤ n) (i j : Fin (n + 1)) (hij : i �
     zx6Vec n j ≠ zx6Vec n i ∧ zx6Vec n j ≠ -zx6Vec n i := by
   have hl := zx6Vec_last (n := n) (by omega)
   have h0 : zx6Vec n 0 (Fin.last n) ≠ 0 := by
-    rw [hl, if_pos rfl]
+    rw [hl, ite_eq_left rfl]
     exact one_ne_zero
   cases j using Fin.cases with
-  | zero => exact (zx6_ne_of_apply (z := zx6Vec n i) h0 (by rw [hl, if_neg hij])).1
+  | zero => exact (zx6_ne_of_apply (z := zx6Vec n i) h0 (by rw [hl, ite_eq_right hij])).1
   | succ b =>
     cases i using Fin.cases with
     | zero =>
       exact (zx6_ne_of_apply (z := zx6Vec n b.succ) h0
-        (by rw [hl, if_neg (Fin.succ_ne_zero b)])).2
+        (by rw [hl, ite_eq_right (Fin.succ_ne_zero b)])).2
     | succ a =>
       have hab : b.castSucc ≠ a.castSucc := fun h =>
         hij (congrArg Fin.succ (Fin.castSucc_injective n h)).symm
@@ -111,7 +111,7 @@ private lemma zx6Vec_forest {n : ℕ} (i i' j : Fin (n + 1)) (hi : i < j) (hi' :
       cases k using Fin.cases with
       | zero => rfl
       | succ a =>
-        rw [zx6Vec_succ_succ, if_neg (Fin.succ_lt_succ_iff.1 hk).ne] at hkj
+        rw [zx6Vec_succ_succ, ite_eq_right (Fin.succ_lt_succ_iff.1 hk).ne] at hkj
         exact absurd rfl hkj
   exact (key i hi hij).trans (key i' hi' hi'j).symm
 

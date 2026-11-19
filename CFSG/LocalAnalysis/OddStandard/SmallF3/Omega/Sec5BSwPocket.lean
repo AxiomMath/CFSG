@@ -31,7 +31,7 @@ private theorem sl23_central_eq :
 
 private theorem swp_odd_card_oddCore (X : Type*) [Group X] [Finite X] :
     Odd (Nat.card (CFSG.oddCore X)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [CFSG.oddCore_eq_piCore, ← CFSG.pPrimeCore_eq_piCore 2 (G := X)]
   exact Nat.coprime_two_left.mp (CFSG.pPrimeCore_coprime_card (p := 2) (G := X))
 
@@ -146,7 +146,7 @@ theorem swPocket_of_isSL23Mod {Λ : Type} [Group Λ] [Finite Λ] {A : Subgroup �
         exact Subtype.ext_iff.mp hWW'
   ·
     obtain ⟨e⟩ := hA
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hquot : Nat.card (↥A ⧸ oddCore ↥A) = 24 := by
       rw [Nat.card_congr e.toEquiv, Nat.card_eq_fintype_card]
       decide
@@ -166,7 +166,7 @@ theorem swPocket_of_isSL23Mod {Λ : Type} [Group Λ] [Finite Λ] {A : Subgroup �
         Finsupp.add_apply, hNfact, h24fact, zero_add]
     obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow 2 ↥A))
     refine ⟨(P : Subgroup ↥A).map A.subtype, Subgroup.map_subtype_le (P : Subgroup ↥A), ?_, ?_⟩
-    · exact P.isPGroup'.map A.subtype
+    · exact P.isPGroup.map A.subtype
     · rw [Subgroup.card_map_of_injective A.subtype_injective, Sylow.card_eq_multiplicity P,
         hfact]
       norm_num

@@ -19,8 +19,8 @@ theorem rckExc_ggFixGp_eq_map_adjoint
      ggFixGp t f =
        (adjointGroup (langTag t) (GaloisField 2 f)).map
          (baseChangeGL (algebraMap (GaloisField 2 f) GGL))) := by
-  letI : Algebra (GaloisField 2 f) GGL := (ggRatEmb f).toAlgebra
-  haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
+  let : Algebra (GaloisField 2 f) GGL := (ggRatEmb f).toAlgebra
+  have : Fact (Nat.Prime 2) := Nat.fact_prime_two
   let K := GaloisField 2 f
   have hcardK : Nat.card K = 2 ^ f := GaloisField.card 2 f (Nat.pos_iff_ne_zero.mp hf)
   have hτ : langTag t = .F4 ∨ langTag t = .E7 ∨ langTag t = .E8 := by
@@ -61,7 +61,7 @@ theorem rckExc_card_le_of_adjoint
       Nat.card E ≤ B)
     {A : Subgroup (ModGL (langTag t) GGL)} (hA : A ≤ ggFixGp t f) (hel : IsElemAbelian p A) :
     Nat.card A ≤ B := by
-  letI : Algebra (GaloisField 2 f) GGL := (ggRatEmb f).toAlgebra
+  let : Algebra (GaloisField 2 f) GGL := (ggRatEmb f).toAlgebra
   let fBC : ModGL (langTag t) (GaloisField 2 f) →* ModGL (langTag t) GGL :=
     baseChangeGL (algebraMap (GaloisField 2 f) GGL)
   let F : adjointGroup (langTag t) (GaloisField 2 f) →* ModGL (langTag t) GGL :=
@@ -94,7 +94,7 @@ theorem rckExcRankFour_holds :
         p ^ 4 ≤ Nat.card A →
         4 ≤ ExcMaxToral.excDegCount (langTag t) (orderOf ((2 ^ f : ℕ) : ZMod p)) := by
   intro t ht f hf p hp hp2 A hA hel h4
-  haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
+  have : Fact (Nat.Prime 2) := Nat.fact_prime_two
   have hcardK : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)
   by_contra hlt
   have hd : ExcMaxToral.excDegCount (langTag t)

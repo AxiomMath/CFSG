@@ -35,7 +35,7 @@ theorem uE_singular : CFSG.LieType.Universal.Spin.quadPlus 4 F (uE F) = 0 := by
 theorem polar_uE_wOf (x : (Fin 3 → F) × (Fin 3 → F)) :
     QuadraticMap.polar (CFSG.LieType.Universal.Spin.quadPlus 4 F) (uE F) (wOf F x) = 0 := by
   rw [CFSG.LieType.Universal.Spin.polar_quadPlus, Fin.sum_univ_four]
-  simp [uE, wOf, Pi.single_apply]
+  simp [uE, wOf]
 
 @[expose] noncomputable def psiW : Multiplicative ((Fin 3 → F) × (Fin 3 → F)) →*
     elementaryGroup (CFSG.LieType.Universal.Spin.quadPlus 4 F) where
@@ -54,7 +54,7 @@ theorem polar_f0_uE :
     QuadraticMap.polar (CFSG.LieType.Universal.Spin.quadPlus 4 F) (Pi.single (Sum.inr 0) 1)
       (uE F) = 1 := by
   rw [CFSG.LieType.Universal.Spin.polar_quadPlus, Fin.sum_univ_four]
-  simp [uE, Pi.single_apply]
+  simp [uE]
 
 theorem eq_zero_of_scalar (x : (Fin 3 → F) × (Fin 3 → F)) {c : F}
     (h : ∀ v, eichler (CFSG.LieType.Universal.Spin.quadPlus 4 F) (uE F) (wOf F x) v = c • v) :
@@ -65,7 +65,7 @@ theorem eq_zero_of_scalar (x : (Fin 3 → F) × (Fin 3 → F)) {c : F}
     intro k hk1 hk2
     have := congrFun hf k
     simp only [Pi.add_apply, Pi.sub_apply, Pi.smul_apply, smul_eq_mul, one_mul, uE,
-      Pi.single_apply, if_neg hk1, if_neg hk2, mul_zero, sub_zero, zero_add] at this
+      Pi.single_apply, ite_eq_right hk1, ite_eq_right hk2, mul_zero, sub_zero, zero_add] at this
     exact this
   refine Prod.ext (funext fun j => ?_) (funext fun j => ?_)
   · have := hk (Sum.inl j.succ) (by simp) (by simp)
@@ -130,7 +130,7 @@ theorem cfgIRank_D4_three {row : S8.Row} (hIq : row.Iq = S8.isD4of 3) (hIz : row
         have hK : Nat.card ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.D 4 q, hv⟩) = 3 := by
           rw [TauCeti.ValidLieTypeIndex.card_fixedField]
           simp [TauCeti.ValidLieTypeIndex.fieldOrder, TauCeti.PrimePower.card_def, hpe.1, hpe.2]
-        haveI : Finite ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.D 4 q, hv⟩) :=
+        have : Finite ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.D 4 q, hv⟩) :=
           Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
         let f : Q ⧸ Subgroup.center Q ≃* Q :=
           (QuotientGroup.quotientMulEquivOfEq hbot).trans QuotientGroup.quotientBot

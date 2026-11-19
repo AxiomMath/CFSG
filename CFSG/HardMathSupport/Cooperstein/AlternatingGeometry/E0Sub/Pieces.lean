@@ -129,6 +129,7 @@ theorem charTwo_sup_of_le {X S L L₁ : Subgroup G} (hA : Asc81bHyp X S)
   rintro g ⟨hg, hgC⟩
   exact hQ (hA'.charTwo ⟨hLS hg, Subgroup.centralizer_le hQ hgC⟩)
 
+omit [Finite G] in
 theorem ms3_of_not_le_normalizer {X S L L₁ : Subgroup G} (hA : Asc81bHyp X S)
     (hL : IsTwoPrimeComponent X L) (hL₁ : L₁ ≤ L)
     (hnot : ¬ L₁ ≤ Subgroup.normalizer (S : Set G)) :

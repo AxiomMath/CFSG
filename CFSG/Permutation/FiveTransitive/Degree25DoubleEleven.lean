@@ -116,10 +116,10 @@ theorem sylow_eleven_normalizer_constraints_of_centralizer_card_dvd
       N.index % 11 = 1 ∧
       c * r * N.index * 11 = Nat.card K := by
   classical
-  letI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
-  letI : IsCyclic S :=
+  let : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  let : IsCyclic S :=
     isCyclic_of_prime_card hScard
-  letI : IsMulCommutative S :=
+  let : IsMulCommutative S :=
     IsCyclic.isMulCommutative
   let C : Subgroup K :=
     Subgroup.centralizer ((S : Subgroup K) : Set K)
@@ -188,9 +188,9 @@ theorem sylow_eleven_normalizer_constraints_of_centralizer_card_dvd
   have hrDvd : r ∣ 10 := by
     change C.relIndex N ∣ 10
     rwa [hrEq]
-  letI : (S : Subgroup K).IsFiniteRelIndex C :=
+  let : (S : Subgroup K).IsFiniteRelIndex C :=
     Subgroup.isFiniteRelIndex_of_finiteIndex
-  letI : C.IsFiniteRelIndex N :=
+  let : C.IsFiniteRelIndex N :=
     Subgroup.isFiniteRelIndex_of_finiteIndex
   have hcPos : 0 < c :=
     Nat.pos_of_ne_zero Subgroup.relIndex_ne_zero

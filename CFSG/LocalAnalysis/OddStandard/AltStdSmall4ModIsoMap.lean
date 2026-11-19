@@ -41,7 +41,7 @@ theorem vE_mul (p q : T10) : vE (p * q) =
 theorem vF_mul (p q : T10) : vF (p * q) = vF p + unitri p.a p.b p.c *ᵥ vF q := by
   rw [unitri_mulVec]
   funext i
-  fin_cases i <;> simp [vF, mul_x3, mul_x4, mul_x5] <;> ring
+  fin_cases i <;> simp [vF, mul_x3, mul_x4, mul_x5]
 
 theorem uT_mul (p q : T10) : uT (p * q) = uT p * uT q :=
   Subtype.ext (Units.ext (by

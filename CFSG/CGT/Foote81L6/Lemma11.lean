@@ -45,7 +45,7 @@ theorem mem_zpowers_a_iff_gen {m : ℕ} (D : FooteCore G T m n) {x : G} :
 
 theorem mem_A_of_two {a₁ x : G} (ha₁ : a₁ ∈ D.A) (ha₁1 : a₁ ≠ 1) (ha₁a : a₁ ≠ D.a)
     (hx : x ∈ D.A) : x = 1 ∨ x = D.a ∨ x = a₁ ∨ x = D.a * a₁ := by
-  haveI := D.finite_A
+  have := D.finite_A
   by_cases hxa : x ∈ zpowers D.a
   · rcases (mem_zpowers_a_iff_gen D).1 hxa with h | h
     · exact Or.inl h
@@ -380,7 +380,7 @@ theorem lemma11_core (hL3 : ∀ y ∈ D.Zab, IsConj D.a y → y = D.a)
   obtain ⟨a₁', ha₁'A, ha₁'Z⟩ : ∃ x ∈ D.A, x ∉ zpowers D.a := by
     by_contra hcon
     push Not at hcon
-    haveI := D.finite_A
+    have := D.finite_A
     have hle := Subgroup.card_le_of_le (show D.A ≤ zpowers D.a from hcon)
     rw [D.card_A, Nat.card_zpowers, D.a_order] at hle
     norm_num at hle
@@ -538,12 +538,10 @@ theorem lemma11_core (hL3 : ∀ y ∈ D.Zab, IsConj D.a y → y = D.a)
           w * (c₀ * c₁)⁻¹ * (ya * c₀) * (u * c₁) := by
         rw [map_mul, map_mul, hz₁ g hg, hz₂ g hg, hgc]
       have e1 : w * (c₀ * c₁)⁻¹ * (ya * c₀) * (c₀ * c₁) = w * ya * c₀ := by
-        simp only [mul_inv_rev, hinv, mul_assoc, mul_comm, mul_left_comm, hV, hVV, mul_one,
-          one_mul]
+        simp only [hinv, mul_assoc, mul_comm, mul_left_comm, hV, hVV, one_mul]
       have e2 : w * (c₀ * c₁)⁻¹ * (ya * c₀) * (u * c₁) = w * ya * (r₀F * c₁) := by
         rw [hu']
-        simp only [mul_inv_rev, hinv, mul_assoc, mul_comm, mul_left_comm, hV, hVV, mul_one,
-          one_mul]
+        simp only [hinv, mul_assoc, mul_comm, mul_left_comm, hV, hVV, one_mul]
       rw [e1, e2] at h1
       have hconj := hconjX g h1
       have hv1 : ((w * ya * c₀ : ↥F) : G) = (D.a * ya) * D.b₀ := rfl

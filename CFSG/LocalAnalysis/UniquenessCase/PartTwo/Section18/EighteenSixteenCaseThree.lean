@@ -125,7 +125,7 @@ theorem rk_imgTil_le_case3 (D : Data G) (h61 : UC6.R6_1 D)
     {V₀ V : Subgroup G} {p : ℕ} {L : Subgroup G} (h : Hyp18 D V₀ V p L)
     (h1742 : S17.R17_42At D V₀ V) (h143 : R18_14_3At D V₀ V p L h)
     (hK : K_Omega4Plus_nonsingPoint) (hCV : p ∣ Nat.card (F11.CTilde D.M V₀ V))
-    (hs : P18_13_3 D V₀ V p L h) {U : Subgroup G} (hUV : U ≤ V)
+    (hs : P18_13_3 D V₀ V p L h) {U : Subgroup G} (_hUV : U ≤ V)
     (hU : ¬ centralizer (U : Set G) ≤ D.M) :
     rk ↥(imgTil V₀ V h.hyp125.isElemAbelian U) ≤ 2 * S17.nOf L := by
   classical

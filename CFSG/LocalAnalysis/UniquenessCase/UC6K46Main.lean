@@ -23,7 +23,7 @@ open CFSG.CGT.PushingUpLit.CGT6 (SporadicThreeCenterSmallPrimes)
 theorem k46List_of_inputs (hSz : KSz) (hK32 : K32) (hGA : GriessMultipliersAllModels)
     (hSp : SporadicThreeCenterSmallPrimes) : K46List := by
   intro G _ _ hK V _ _ _ ρ hρ hirr D hD hgen hfix h3 hperf
-  haveI : ρ.IsIrreducible := hirr
+  have : ρ.IsIrreducible := hirr
   have hfixV : fixV ρ D = ⊥ := by
     rw [← hfix]
     exact Submodule.ext fun v => Iff.rfl
@@ -47,7 +47,7 @@ theorem k46List_of_inputs (hSz : KSz) (hK32 : K32) (hGA : GriessMultipliersAllMo
     exact eq_top_iff.2 hle
   have hqs : CFSG.IsQuasisimple G := ⟨Group.isPerfect_def.2 hperf, hsimple, hnab⟩
   have hKq : CFSG.Open.IsKGroup (G ⧸ Subgroup.center G) := hK.quotient _
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hrank : CFSG.Open.pRank 3 (⊤ : Subgroup (G ⧸ Subgroup.center G)) = 1 := by
     rw [CFSG.SectionRank.pRank_quotient_eq _ h3Z]
     exact h3

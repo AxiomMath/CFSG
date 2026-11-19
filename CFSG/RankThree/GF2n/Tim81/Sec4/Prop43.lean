@@ -45,9 +45,9 @@ theorem exists_orth_xOf_of_kOf_abelian
     hPW0, hPK, hKsup⟩ :=
     exists_orth_of_kOf_abelian (hW := hW) h hPH hVH hH hnM hK hab hL
       hW₀W hN hW₀ne hmin
-  letI := hField
-  letI := hFintype
-  letI := hCharP
+  let := hField
+  let := hFintype
+  let := hCharP
   have hstar : Pc M V ⊓ Tim79a.xOf V H ≤ V ⊔ (Pc M V ⊓ W₀) := by
     calc Pc M V ⊓ Tim79a.xOf V H ≤ Pc M V ⊓ kOf V H :=
           inf_le_inf_left (Pc M V) (xOf_le_kOf h hPH hVH)

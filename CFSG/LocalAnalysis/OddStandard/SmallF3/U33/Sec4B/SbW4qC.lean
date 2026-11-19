@@ -14,7 +14,7 @@ variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ l
 
 private theorem w4q_card_closure_tt (hc : Ctx4C t L S x₁ x₂ lam rho tau) :
     Nat.card ↥(closure ({t, tau} : Set G)) = 4 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have ht2 : t ^ 2 = 1 := by
     rw [← hc.hyp.ord_t]
     exact pow_orderOf_eq_one t
@@ -113,10 +113,10 @@ theorem w4q_Q_inf_tt
 
 theorem w4q_O_eq_Q
     (hc : Ctx4C t L S x₁ x₂ lam rho tau)
-    (hco : ∀ a ∈ ctxO t tau x₁ x₂, ∀ b ∈ ctxO t tau x₁ x₂, a * b * a⁻¹ * b⁻¹ ∈ fourGrp x₁ x₂) :
+    (_hco : ∀ a ∈ ctxO t tau x₁ x₂, ∀ b ∈ ctxO t tau x₁ x₂, a * b * a⁻¹ * b⁻¹ ∈ fourGrp x₁ x₂) :
     ctxO t tau x₁ x₂ = ctxQ t tau x₁ x₂ rho ⊔ closure {t, tau} := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hρM : rho ∈ ctxM t tau x₁ x₂ := by
     rw [hc.M_eq]
     exact Subgroup.mem_sup_right (Subgroup.subset_closure (by simp))

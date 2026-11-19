@@ -10,7 +10,7 @@ namespace CFSG.HardMathSupport.Dickson.OddLieB2
 
 theorem lieClassicalOddCharTwoBp : CFSG.Yardstones.Md42047359a2a.LieClassicalOddCharTwoBp := by
   intro idx hfam hchar S _ _ hS hnc he
-  haveI := hS
+  have := hS
   exact simpleBp_two_of_fixedTwoComponentsQuasisimple hnc
     (fixedTwoComponentsQuasisimple_of_classical idx hfam hchar S hnc he)
 
@@ -25,7 +25,7 @@ theorem catalogueBp_two_of_odd (idx : TauCeti.ValidLieTypeIndex)
     (hchar : idx.1.characteristic ≠ 2) :
     CFSG.Yardstones.Md42047359a2a.CatalogueBp 2 (TauCeti.CFSGIndex.lie idx) := by
   intro S _ _ hS hnc he
-  haveI := hS
+  have := hS
   exact simpleBp_two_of_fixedTwoComponentsQuasisimple hnc
     (CFSG.ComponentClassification.CatLeaf.fixedTwoComponentsQuasisimple_of_oddLieType hnc
       (oddLieType_of_seitzBridge CFSG.RankThree.PartOne.CTP.seitzBridge ⟨idx.2, he⟩ hchar))

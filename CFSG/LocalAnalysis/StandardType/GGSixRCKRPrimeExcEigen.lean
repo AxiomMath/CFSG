@@ -115,7 +115,7 @@ private theorem rckEig_step_pinnedX
   rw [CFSG.RankThree.PartOne.KE.units_map_entrywiseHom_pinnedX, h2, ggFrobT_apply]
 
 theorem rckExc_torus_eigen_untwisted
-    {t : StatedLieTag} (ht : t ≠ .twistedE6) {f : ℕ} (hf : 1 ≤ f) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
+    {t : StatedLieTag} (ht : t ≠ .twistedE6) {f : ℕ} (_hf : 1 ≤ f) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (Dl : LangDatum (langTag t) GGL) (ρ : Equiv.Perm (Fin (langTag t).rank → ℤ))
     (hΦ : Dl.Φ = ggPhi t f) (hρ : FrobRootMap Dl ρ)
     (A' : Subgroup (ModGL (langTag t) GGL)) (hA'el : IsElemAbelian p A')

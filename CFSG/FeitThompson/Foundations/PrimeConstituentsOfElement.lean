@@ -359,7 +359,7 @@ theorem sum_piExponent_modEq_one (hd : (s : Set ι).PairwiseDisjoint π) {n : �
       by_cases hij : i = j
       · subst hij
         simpa using piExponent_modEq_one (π i) n
-      · simp only [hij, if_false]
+      · simp only [hij, ite_false]
         refine Nat.modEq_zero_iff_dvd.2 (dvd_trans ?_ (piPart_compl_dvd_piExponent (π i) n))
         exact piPart_dvd_piPart_of_subset
           (show π j ⊆ (π i)ᶜ from Set.disjoint_left.1 (hd hj hi (Ne.symm hij))) n

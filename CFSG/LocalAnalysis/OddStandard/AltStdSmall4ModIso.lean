@@ -114,6 +114,7 @@ theorem exists_psi (c : Config G L Q n θ z) {T S₀ D : Subgroup G} (g1 : G1Dat
       · exact le_sup_right.trans le_sup_right
       · exact le_sup_left.trans le_sup_right
 
+omit [Finite G] in
 theorem map_centralizer {H : Type} [Group H] {Ψ : H →* G} (hinj : Function.Injective Ψ) (y : H) :
     (centralizer ({y} : Set H)).map Ψ = Ψ.range ⊓ centralizer ({Ψ y} : Set G) := by
   ext x
@@ -131,6 +132,7 @@ theorem map_centralizer {H : Type} [Group H] {Ψ : H →* G} (hinj : Function.In
     apply hinj
     rw [map_mul, map_mul, hx]
 
+omit [Finite G] in
 theorem map_inf_centralizer {H : Type} [Group H] {Ψ : H →* G} (hinj : Function.Injective Ψ)
     (K : Subgroup H) (y : H) :
     (K ⊓ centralizer ({y} : Set H)).map Ψ = K.map Ψ ⊓ centralizer ({Ψ y} : Set G) := by

@@ -54,7 +54,7 @@ def kfO8Bk (T : KFO8State → KFO8State) (v : 𝕍) : 𝕍 :=
   kfO8BkOf v.1 (T (v.1 (Sum.inl 2), v.1 (Sum.inr 2), v.2))
 
 theorem kfO8Upd_inl (X : Fin 3 ⊕ Fin 3 → 𝔽₂) (x y : 𝔽₂) : kfO8Upd X x y (Sum.inl 2) = x := by
-  simp [kfO8Upd, Function.update_apply]
+  simp [kfO8Upd]
 
 theorem kfO8Upd_inr (X : Fin 3 ⊕ Fin 3 → 𝔽₂) (x y : 𝔽₂) : kfO8Upd X x y (Sum.inr 2) = y := by
   simp [kfO8Upd]
@@ -99,10 +99,10 @@ theorem kfO8_eichlerE_eq (a : Fin 2 → 𝔽₂) (v : 𝕍) :
     rcases c with i | i
     · by_cases hi : i = 2
       · subst hi; simp
-      · simp [hi, Pi.single_apply]
+      · simp [hi]
     · by_cases hi : i = 2
       · subst hi; simp
-      · simp [hi, Pi.single_apply]
+      · simp [hi]
   · simp [kfO8Bk, kfO8BkOf, kfO8TE, hypVec]
 
 theorem kfO8_eichlerF_eq (a : Fin 2 → 𝔽₂) (v : 𝕍) :
@@ -116,10 +116,10 @@ theorem kfO8_eichlerF_eq (a : Fin 2 → 𝔽₂) (v : 𝕍) :
     rcases c with i | i
     · by_cases hi : i = 2
       · subst hi; simp
-      · simp [hi, Pi.single_apply]
+      · simp [hi]
     · by_cases hi : i = 2
       · subst hi; simp
-      · simp [hi, Pi.single_apply]
+      · simp [hi]
   · simp [kfO8Bk, kfO8BkOf, kfO8TF, hypVec]
 
 noncomputable def kfO8a0 : Fin 2 → 𝔽₂ := ![1, 0]
@@ -148,7 +148,7 @@ theorem kfO8Tg'_iter (s : KFO8State) : kfO8Tg'^[5] s = s := by
     ⟨α 0, α 1, by ext i; fin_cases i <;> rfl⟩
   rcases gf2_eq_zero_or_one x with rfl | rfl <;> rcases gf2_eq_zero_or_one y with rfl | rfl <;>
   rcases gf2_eq_zero_or_one p with rfl | rfl <;> rcases gf2_eq_zero_or_one q with rfl | rfl <;>
-  simp [kfO8Tg', gf2_one_add_one, kfO8_gf2_two]
+  simp [kfO8Tg', gf2_one_add_one]
 
 noncomputable def kfO8RE (a : Fin 2 → 𝔽₂) : 𝕍 ≃ₗ[𝔽₂] 𝕍 :=
   eichler (quadTail 3 kfO8Tail) (hypVec 𝔽₂ (Fin 2 → 𝔽₂) (Sum.inl 2)) (0, a)
@@ -168,7 +168,7 @@ theorem kfO8N3_apply (v : 𝕍) :
     kfO8N3 v = kfO8Bk (kfO8TE kfO8a0 ∘ kfO8TF kfO8a0 ∘ kfO8TE kfO8a0) v := by
   have h1 : kfO8Tail kfO8a0 = 1 := by simp [kfO8_tail_apply, kfO8a0]
   have h2 : (kfO8Tail kfO8a0)⁻¹ • kfO8a0 = kfO8a0 := by rw [h1]; simp
-  rw [kfO8N3, tailWeylElt, if_neg (by decide)]
+  rw [kfO8N3, tailWeylElt, ite_eq_right (by decide)]
   simp only [LinearEquiv.mul_apply]
   rw [h2]
   change kfO8RE kfO8a0 (kfO8RF kfO8a0 (kfO8RE kfO8a0 v)) = _
@@ -218,7 +218,7 @@ theorem kfO8G5_ne_one : kfO8G5 ≠ 1 := by
   simp [hypVec] at h1
 
 theorem kfO8G5_orderOf : orderOf kfO8G5 = 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   exact orderOf_eq_prime kfO8G5_pow_five kfO8G5_ne_one
 
 theorem kfO8_hirr : ∀ s : 𝔽₂, s ^ 2 + 1 * s + 1 ≠ 0 := by
@@ -281,14 +281,14 @@ instance kfO8_finiteW : Finite (𝕍 ≃ₗ[𝔽₂] 𝕍) :=
   (tailBorel 3 kfO8Tail).subgroupOf kfO8G0
 
 theorem kfO8_sylow : IsSylowOf 2 kfO8U ⊤ ∧ Subgroup.normalizer (kfO8U : Set ↥kfO8G0) = kfO8B := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP 𝔽₂ 2 := inferInstance
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP 𝔽₂ 2 := inferInstance
   obtain ⟨⟨S, hS⟩, hN, -⟩ := orthogonal_geometry_tail_Sylow_flag_normalizer (p := 2) (K := 𝔽₂)
     (r := 3) (qA := kfO8Tail) (by norm_num) kfO8_hani kfO8_hreg (Or.inr finrank_fin_two_fun)
   refine ⟨?_, hN⟩
   rw [CFSG.ABGLocalTools.isSylowOf_iff]
   refine ⟨le_top, ?_, ?_⟩
-  · have := S.isPGroup'
+  · have := S.isPGroup
     rwa [hS] at this
   · rw [Subgroup.relIndex_top_right]
     have := S.not_dvd_index
@@ -321,9 +321,9 @@ theorem kfO8_card_torus_dvd : Nat.card (tailTorus 3 kfO8Tail) ∣ 6 := by
   have hle : tailTorus 3 kfO8Tail ≤ kfO8Theta.range := by
     rintro g ⟨-, t, h, -, rfl⟩
     exact ⟨(t, h), rfl⟩
-  haveI := subsingleton_units_gf2
+  have := subsingleton_units_gf2
   have h1 : Nat.card (Fin 3 → 𝔽₂ˣ) = 1 := by
-    haveI : Unique (Fin 3 → 𝔽₂ˣ) := uniqueOfSubsingleton 1
+    have : Unique (Fin 3 → 𝔽₂ˣ) := uniqueOfSubsingleton 1
     exact Nat.card_unique
   have h2 : Nat.card ((Fin 3 → 𝔽₂ˣ) × ((Fin 2 → 𝔽₂) ≃ₗ[𝔽₂] (Fin 2 → 𝔽₂))) = 6 := by
     rw [Nat.card_prod, h1, kfO8_card_aut, one_mul]
@@ -331,7 +331,7 @@ theorem kfO8_card_torus_dvd : Nat.card (tailTorus 3 kfO8Tail) ∣ 6 := by
 
 theorem kfO8_card_B0 :
     Nat.card (tailBorel 3 kfO8Tail) = 2 ^ 12 * Nat.card (tailTorus 3 kfO8Tail) := by
-  haveI := tailUnipotent_normal kfO8_hani (r := 3) (qA := kfO8Tail)
+  have := tailUnipotent_normal kfO8_hani (r := 3) (qA := kfO8Tail)
   obtain ⟨e⟩ := nonempty_quotient_mulEquiv_tailTorus kfO8_hani (r := 3) (qA := kfO8Tail)
   have h1 := Subgroup.card_eq_card_quotient_mul_card_subgroup
     ((tailUnipotent 3 kfO8Tail).subgroupOf (tailBorel 3 kfO8Tail))

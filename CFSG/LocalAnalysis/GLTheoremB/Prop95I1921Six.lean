@@ -396,6 +396,7 @@ theorem mem_zpowers_involution {G : Type*} [Group G] {u r : G} (hu : u * u = 1)
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem mem_map_inducedAut_iff {K : Subgroup X} {G : Type*} [Group G] (θ : MulAut ↥K →* G)
     (T : Subgroup X) {s : G} :
     s ∈ (inducedAutGroup T K).map θ ↔ ∃ (t : X) (ht : t ∈ Subgroup.normalizer (K : Set X)),
@@ -416,7 +417,7 @@ theorem card_center_dvd_six_of_alt6 {K : Type} [Group K]
     (hperf : commutator K = ⊤)
     (e : (K ⧸ Subgroup.center K) ≃* ↥(alternatingGroup (Fin 6))) :
     Nat.card (Subgroup.center K) ∣ 6 := by
-  haveI : Group.IsPerfect K := Group.isPerfect_def.2 hperf
+  have : Group.IsPerfect K := Group.isPerfect_def.2 hperf
   have h := CFSG.HardMathSupport.Cooperstein.Coordinator.card_ker_dvd_card_hopfMultiplier
     (e.toMonoidHom.comp (QuotientGroup.mk' _)) (e.surjective.comp (QuotientGroup.mk'_surjective _))
     (CFSG.HardMathSupport.Cooperstein.Coordinator.ker_comp_mk'_center e).le
@@ -461,6 +462,7 @@ section PerD
 variable {X : Type} [Group X] [Finite X] {K : Subgroup X}
   {ε : (↥K ⧸ Subgroup.center ↥K) ≃* ↥A6Models.psl29}
 
+omit [Finite X] in
 theorem apd6_comm (A : APD6 K ε) {d : X} (hdN : d ∈ Subgroup.normalizer (K : Set X))
     {Sd : Subgroup X} (hSdC : Sd ≤ Subgroup.centralizer ({d} : Set X)) {t : X} (htS : t ∈ Sd)
     (ht : t ∈ Subgroup.normalizer (K : Set X)) :
@@ -471,6 +473,7 @@ theorem apd6_comm (A : APD6 K ε) {d : X} (hdN : d ∈ Subgroup.normalizer (K : 
       ⟨d, hdN⟩ * ⟨t, ht⟩ := Subtype.ext h1
   rw [← map_mul, ← map_mul, ← map_mul, ← map_mul, h2]
 
+omit [Finite X] in
 theorem apd6_two {A : APD6 K ε} {Sd : Subgroup X} (hSd2 : ∀ t ∈ Sd, ∃ m : ℕ, t ^ (2 ^ m) = 1)
     {t : X} (htS : t ∈ Sd) (ht : t ∈ Subgroup.normalizer (K : Set X)) :
     ∃ m : ℕ, A.θ (K.normalizerMonoidHom ⟨t, ht⟩) ^ (2 ^ m) = 1 := by
@@ -479,6 +482,7 @@ theorem apd6_two {A : APD6 K ε} {Sd : Subgroup X} (hSd2 : ∀ t ∈ Sd, ∃ m :
   have h1 : (⟨t, ht⟩ : ↥(Subgroup.normalizer (K : Set X))) ^ (2 ^ m) = 1 := Subtype.ext hm
   rw [← map_pow, ← map_pow, h1, map_one, map_one]
 
+omit [Finite X] in
 theorem six_p3_triv (A : APD6 K ε) (hZ : Subgroup.center ↥K = ⊥) {d : X} (hd3 : d ^ 3 = 1)
     (hdN : d ∈ Subgroup.normalizer (K : Set X))
     (hσ1 : A.θ (K.normalizerMonoidHom ⟨d, hdN⟩) ≠ 1) {Sd : Subgroup X}
@@ -611,6 +615,7 @@ theorem six_p3_hat (A : APD6 K ε) (hperf : commutator ↥K = ⊤)
     exact A.ind _ _
   exact hu1 (eq_one_of_mem_m10_involution hσpsl hσ3 hσ1 huaut hum hu2 hucomm)
 
+omit [Finite X] in
 theorem six_p5 (A : APD6 K ε) {d : X} (hd5 : d ^ 5 = 1) (hdN : d ∈ Subgroup.normalizer (K : Set X))
     (hσ1 : A.θ (K.normalizerMonoidHom ⟨d, hdN⟩) ≠ 1) {Sd : Subgroup X}
     (hSdC : Sd ≤ Subgroup.centralizer ({d} : Set X)) (hSd2 : ∀ t ∈ Sd, ∃ m : ℕ, t ^ (2 ^ m) = 1)
@@ -687,6 +692,7 @@ theorem six_per_d {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     exact sd_le_centralizer hp hp2 hK hO hdp (hD.le_pCore d hd hd1) (hC d hd hd1)
       (fun hdN' => absurd hdN' hdN)
 
+omit [Finite X] in
 theorem card_induced_eq_two (A : APD6 K ε) {So : Subgroup X} {u : P10} (hu2 : u * u = 1)
     (hu1 : u ≠ 1)
     (hsub : ∀ (t : X) (ht : t ∈ Subgroup.normalizer (K : Set X)), t ∈ So →
@@ -706,7 +712,7 @@ theorem card_induced_eq_two (A : APD6 K ε) {So : Subgroup X} {u : P10} (hu2 : u
       exact (mem_map_inducedAut_iff A.θ So).2 ⟨t, ht, htS, h⟩
   have h1 := Subgroup.card_map_of_injective (K := inducedAutGroup So K) A.inj
   rw [hmap, Nat.card_zpowers] at h1
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : orderOf u = 2 := orderOf_eq_prime (by rw [pow_two]; exact hu2) hu1
   rw [this] at h1
   exact h1.symm
@@ -741,6 +747,7 @@ theorem psl29_sup_eq_pgl29 {u : P10} (hu_pgl : u ∈ A6Models.pgl29) (hu_psl : u
     omega
   exact (Subgroup.eq_of_le_of_card_ge hle (by rw [Out21.A6.card_pgl29, heq])).ge
 
+omit [Finite X] in
 theorem induced_sup_eq_pgl29 (A : APD6 K ε) {So : Subgroup X}
     (hSoN : So ≤ Subgroup.normalizer (K : Set X)) {u : P10} (hu_pgl : u ∈ A6Models.pgl29)
     (hu_psl : u ∉ A6Models.psl29)

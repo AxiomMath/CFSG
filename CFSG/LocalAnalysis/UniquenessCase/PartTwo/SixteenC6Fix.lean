@@ -19,6 +19,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem s16c6_aux_mem_centralizer_of_comm {w h : G} (hcw : h * w = w * h) :
     h ∈ centralizer ({w} : Set G) := by
   rw [Subgroup.mem_centralizer_iff]
@@ -41,10 +42,10 @@ theorem s16c6_centralizes_v0 (D : Data G) {V₀ V L : Subgroup G} {hV : IsElemAb
   let φ : K →* MulAut ↥V₀ :=
     (Subgroup.normalizerMonoidHom V₀).comp
       (Subgroup.inclusion (hKM.trans hpair.le_normalizer₀))
-  haveI : Group.IsPerfect ↥K := Subgroup.isPerfect_iff.mpr hK
-  haveI : Group.IsPerfect ↥(φ.range) := Group.IsPerfect.range φ
-  haveI hsol : Group.IsSolvable (MulAut ↥V₀) := by
-    haveI : Group.IsSolvable (Equiv.Perm ↥V₀) := Equiv.Perm.isSolvable hsmall
+  have : Group.IsPerfect ↥K := Subgroup.isPerfect_iff.mpr hK
+  have : Group.IsPerfect ↥(φ.range) := Group.IsPerfect.range φ
+  have hsol : Group.IsSolvable (MulAut ↥V₀) := by
+    have : Group.IsSolvable (Equiv.Perm ↥V₀) := Equiv.Perm.isSolvable hsmall
     exact Group.isSolvable_of_isSolvable_injective (f := MulAut.toPerm (M := ↥V₀))
       (fun _ _ hab => MulEquiv.toEquiv_injective hab)
   have hbot : φ.range = ⊥ := by
@@ -70,11 +71,11 @@ theorem s16c6_centralizes_v0 (D : Data G) {V₀ V L : Subgroup G} {hV : IsElemAb
 
 theorem s16c6_le_centralizer_of_fix (D : Data G) {V₀ V L : Subgroup G} {hV : IsElemAbelian 2 V}
     (hS : Sect16 D V₀ V L hV) {K H : Subgroup G} (hKM : K ≤ D.M) (hK : ⁅K, K⁆ = K)
-    (hHK : H ≤ K) {w : G} (hw : w ∈ V) (hfix : ∀ h ∈ H, h * w * h⁻¹ * w⁻¹ ∈ V₀)
+    (hHK : H ≤ K) {w : G} (_hw : w ∈ V) (hfix : ∀ h ∈ H, h * w * h⁻¹ * w⁻¹ ∈ V₀)
     (hH : ⁅H, H⁆ = H ∨ Odd (Nat.card H)) : H ≤ centralizer ({w} : Set G) := by
   classical
   have hpair := hS.setting.hyp16.hyp125.pairFacts
-  haveI hcommV : IsMulCommutative ↥V₀ := hpair.elemAbelian₀.1
+  have hcommV : IsMulCommutative ↥V₀ := hpair.elemAbelian₀.1
   have hcentK : K ≤ centralizer (V₀ : Set G) := s16c6_centralizes_v0 D hS hKM hK
   have hHcent : H ≤ centralizer (V₀ : Set G) := hHK.trans hcentK
   let θf : H → ↥V₀ := fun h => ⟨(h : G) * w * (h : G)⁻¹ * w⁻¹, hfix (h : G) h.2⟩
@@ -124,9 +125,9 @@ theorem s16c6_le_centralizer_of_fix (D : Data G) {V₀ V L : Subgroup G} {hV : I
   intro h hh
   have hθ : θ ⟨h, hh⟩ = 1 := by
     rcases hH with hHperf | hHodd
-    · haveI : Group.IsPerfect ↥H := Subgroup.isPerfect_iff.mpr hHperf
-      haveI : Group.IsPerfect ↥(θ.range) := Group.IsPerfect.range θ
-      haveI : Subsingleton ↥(θ.range) := inferInstance
+    · have : Group.IsPerfect ↥H := Subgroup.isPerfect_iff.mpr hHperf
+      have : Group.IsPerfect ↥(θ.range) := Group.IsPerfect.range θ
+      have : Subsingleton ↥(θ.range) := inferInstance
       have hbot : θ.range = ⊥ := by
         rw [Subgroup.eq_bot_iff_forall θ.range]
         intro x hx

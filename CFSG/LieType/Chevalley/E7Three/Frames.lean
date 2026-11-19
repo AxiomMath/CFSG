@@ -40,6 +40,7 @@ theorem nativeA2Roots_orthogonal : ∀ r s : Fin 3, r ≠ s → ∀ i j k l : Fi
 
 variable {K : Type} [Field K] [CharP K 2]
 
+omit [CharP K 2] in
 theorem frame_roots_eq (r : Fin 3) (ρ : SL(3, K) →* ModGL .E7 K)
     (σ : Fin 3 → Fin 3 → Fin Tag.E7.rank → ℤ) (hF : IsA2Frame ρ σ)
     (h01 : σ 0 1 = kacE7.extRoot (nativePairs r).1)
@@ -61,6 +62,7 @@ theorem frame_roots_eq (r : Fin 3) (ρ : SL(3, K) →* ModGL .E7 K)
   rw [hF.eq_sub i j, h0 i, h0 j]
   rfl
 
+omit [CharP K 2] in
 theorem exists_raw_three_frames :
     ∃ ρ : Fin 3 → SL(3, K) →* ModGL .E7 K,
       ∀ r, IsA2Frame (ρ r) (nativeA2Roots r) := by
@@ -74,6 +76,7 @@ theorem exists_raw_three_frames :
   choose ρ hρ using h
   exact ⟨ρ, hρ⟩
 
+omit [CharP K 2] in
 theorem nativeFrames_commute (ρ : Fin 3 → SL(3, K) →* ModGL .E7 K)
     (hρ : ∀ r, IsA2Frame (ρ r) (nativeA2Roots r)) {r s : Fin 3} (hrs : r ≠ s)
     (A B : SL(3, K)) : Commute (ρ r A) (ρ s B) := by
@@ -120,7 +123,7 @@ theorem exists_three_pinned_frames :
     intro r
     obtain ⟨d, h0, h1⟩ := exists_pinned_blocks (ρ r) (nativeA2Roots r) (hρ r)
     refine ⟨d, h0.trans ?_, h1.trans ?_⟩ <;>
-      congr 1 <;> simp [nativeA2Roots, nativeWeights, kacE7_extRoot] <;> abel
+      congr 1 <;> simp [nativeA2Roots, nativeWeights, kacE7_extRoot]
   choose d hd using hp
   refine ⟨ρ, d, hρ, hd, ?_⟩
   intro r s hrs A B

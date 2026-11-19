@@ -43,7 +43,7 @@ theorem w183k3_odd_card_of_forall {W : Type*} [Group W] [Finite W] {K : Subgroup
     (h : ∀ g ∈ K, ∀ k : ℕ, g ^ (2 ^ k) = 1 → g = 1) : Odd (Nat.card ↥K) := by
   rw [← Nat.not_even_iff_odd]
   intro he
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hdvd : 2 ∣ Nat.card ↥K := even_iff_two_dvd.mp he
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' (G := ↥K) 2 hdvd
   have hg2 : (g : W) ^ (2 ^ 1) = 1 := by
@@ -108,7 +108,7 @@ theorem w183k3_split_two {W : Type*} [Group W] {L₁ L₂ : Subgroup W}
   exact ⟨u ^ N, pow_mem hu N, v ^ N, pow_mem hv N, huv_eq.symm, hx2, hy2⟩
 
 theorem w183k3_comm_of_sq {W : Type*} [Group W] (ho : Odd (Nat.card ↥(Subgroup.center W)))
-    {s t : W} (hs : s * s = 1) (ht : t * t = 1)
+    {s t : W} (hs : s * s = 1) (_ht : t * t = 1)
     (hst : s * t * s⁻¹ * t⁻¹ ∈ Subgroup.center W) : s * t = t * s := by
   let c := s * t * s⁻¹ * t⁻¹
   have hc : c ∈ Subgroup.center W := hst
@@ -148,14 +148,14 @@ theorem w183k3_comm_of_sq {W : Type*} [Group W] (ho : Odd (Nat.card ↥(Subgroup
     _ = t * s := by rw [hst1]
 
 private lemma w183k3_finite_lgl : Finite (LGL 2 V) :=
-  Finite.of_injective (fun e : LGL 2 V => fun v : V => e v)
-    (fun e f h => LinearEquiv.ext (congrFun h))
+  Finite.of_injective (fun _e : LGL 2 V => fun v : V => _e v)
+    (fun _e _f h => LinearEquiv.ext (congrFun h))
 
 theorem W183K3.Br3TwoComp.odd_card_cent {Y T L₁ L₂ : Subgroup (LGL 2 V)}
     (h : Br3TwoComp Y T L₁ L₂) :
     Odd (Nat.card ↥(Y ⊓ Subgroup.centralizer (L₁ : Set (LGL 2 V)) ⊓
       Subgroup.centralizer (L₂ : Set (LGL 2 V)))) := by
-  haveI : Finite (LGL 2 V) := w183k3_finite_lgl
+  have : Finite (LGL 2 V) := w183k3_finite_lgl
   refine w183k3_odd_card_of_forall (W := LGL 2 V) ?_
   intro g hg k hgk
   rw [Subgroup.mem_inf] at hg

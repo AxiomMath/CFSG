@@ -101,18 +101,18 @@ end AutE9
 theorem kzAutE9Perfect_kz3_holds : KzAutE9Perfect_kz3 := by
   classical
   intro A _ _ hcard hexp R hR
-  haveI : Fintype A := Fintype.ofFinite A
+  have : Fintype A := Fintype.ofFinite A
   have hcardF : Fintype.card A = 9 := by
     rw [← Nat.card_eq_fintype_card]
     exact hcard
   obtain ⟨π, hπ⟩ : ∃ π : MulAut A →* Equiv.Perm {S : Finset A // S ∈ kzE9Lines A},
       ∀ (σ : MulAut A) (S : {S : Finset A // S ∈ kzE9Lines A}), π σ S = σ • S :=
     ⟨MulAction.toPermHom _ _, fun _ _ => rfl⟩
-  haveI := kzE9_lines_perm_isSolvable hcardF hexp
+  have := kzE9_lines_perm_isSolvable hcardF hexp
   have hQ : ⁅R.map π, R.map π⁆ = R.map π := by
     rw [← Subgroup.map_commutator, hR]
   have hsub : Subsingleton ↥(R.map π) := by
-    haveI : Group.IsPerfect ↥(R.map π) := Subgroup.isPerfect_iff.mpr hQ
+    have : Group.IsPerfect ↥(R.map π) := Subgroup.isPerfect_iff.mpr hQ
     by_contra hns
     rw [not_subsingleton_iff_nontrivial] at hns
     exact Group.IsPerfect.not_isSolvable ↥(R.map π) inferInstance

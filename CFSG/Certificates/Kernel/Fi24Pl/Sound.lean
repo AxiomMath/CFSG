@@ -61,6 +61,7 @@ theorem iotaA_get (h : basisK F = true) {i x : Nat} (hx : x < 504) :
     powA_get hA h (by decide) _ l1]
   rfl
 
+omit hA in
 theorem iotas_get {i : Nat} (hi : i < 243) : (iotas 504 A)[i]! = iotaA 504 A i := by
   unfold iotas
   rw [getElem!_pos _ i (by simpa using hi), Array.getElem_ofFn]
@@ -338,7 +339,7 @@ theorem pat_get {t i : Nat} (ht : t < 4096) (hi : i < 243) :
     ((fi24PlRows P (iotas 504 A))[t]!)[i]! = Nat.testBit (BT t) i := by
   have hrP : Rep 504 P[t]! (Tp t) := fun x => (hPT t ht x x.2).trans (hTp t ht x)
   have hrI : Rep 504 (iotas 504 A)[i]! (Xp (fun k => permOfArr 504 A[k]!) i) := by
-    rw [iotas_get hA hi]
+    rw [iotas_get hi]
     exact rep_iotaA (fun k hk => rep_basis hA hbasis hk) i
   have hIs : (iotas 504 A).size = 243 := by simp [iotas]
   unfold fi24PlRows

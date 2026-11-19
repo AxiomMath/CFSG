@@ -48,19 +48,24 @@ theorem isCoatom_conj_smul (hM : IsCoatom M) (g : G) : IsCoatom (MulAut.conj g �
 def localOvergroups (M X : Subgroup G) : Set (Subgroup G) :=
   {N | (∃ g : G, N = MulAut.conj g • M) ∧ X ≤ N}
 
+omit [Finite G] in
 theorem mem_localOvergroups_iff {N X : Subgroup G} :
     N ∈ localOvergroups M X ↔ (∃ g : G, N = MulAut.conj g • M) ∧ X ≤ N := Iff.rfl
 
+omit [Finite G] in
 theorem conj_smul_mem_localOvergroups_of_le {X : Subgroup G} {g : G} (h : X ≤ MulAut.conj g • M) :
     MulAut.conj g • M ∈ localOvergroups M X := ⟨⟨g, rfl⟩, h⟩
 
+omit [Finite G] in
 theorem le_of_mem_localOvergroups {N X : Subgroup G} (h : N ∈ localOvergroups M X) : X ≤ N := h.2
 
+omit [Finite G] in
 theorem isCoatom_of_mem_localOvergroups {N X : Subgroup G} (hM : IsCoatom M)
     (h : N ∈ localOvergroups M X) : IsCoatom N := by
   obtain ⟨g, rfl⟩ := h.1
   exact isCoatom_conj_smul hM g
 
+omit [Finite G] in
 theorem conj_smul_mem_localOvergroups {N X : Subgroup G} (hN : N ∈ localOvergroups M X) {c : G}
     (hc : c ∈ centralizer (X : Set G)) : MulAut.conj c • N ∈ localOvergroups M X := by
   obtain ⟨⟨g, rfl⟩, hXN⟩ := hN
@@ -186,7 +191,7 @@ theorem exists_mem_centralizer_conj_smul_step [IsSimpleGroup G]
     rw [hP'def, ← Subgroup.map_subgroupOf_eq_of_le hX₁L]
     exact Subgroup.map_mono hX₁P
   have hP'L : P' ≤ L := Subgroup.map_subtype_le _
-  have hP'p : IsPGroup p ↥P' := P.isPGroup'.map _
+  have hP'p : IsPGroup p ↥P' := P.isPGroup.map _
   have hXP' : X < P' := hXX₁.trans_le hX₁P'
   obtain ⟨Q, hX₂Q⟩ := (hX₂p.of_equiv (Subgroup.subgroupOfEquivOfLe hX₂L).symm).exists_le_sylow
   obtain ⟨t₀, ht₀⟩ := MulAction.exists_smul_eq (↥L) P Q

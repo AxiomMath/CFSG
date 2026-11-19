@@ -12,7 +12,8 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
-theorem y7b_relIndex_eq_ncard_image {Q : Type*} {X C : Subgroup G} (hCX : C ≤ X) (β : G → Q)
+omit [Finite G] in
+theorem y7b_relIndex_eq_ncard_image {Q : Type*} {X C : Subgroup G} (_hCX : C ≤ X) (β : G → Q)
     (hβ : ∀ x ∈ X, ∀ y ∈ X, β x = β y ↔ x⁻¹ * y ∈ C) :
     C.relIndex X = (β '' (X : Set G)).ncard := by
   have hcard : C.relIndex X = Nat.card (X ⧸ (C.subgroupOf X)) := by
@@ -47,7 +48,7 @@ theorem y7b_relIndex_eq_ncard_image {Q : Type*} {X C : Subgroup G} (hCX : C ≤ 
     _ = (β '' (X : Set G)).ncard := Nat.card_coe_set_eq _
 
 theorem y7b_eq_of_relIndex_le {C Z X : Subgroup G} (hCZ : C ≤ Z) (hZX : Z ≤ X) {n m : ℕ}
-    (hn : C.relIndex Z = n) (hpos : 0 < n) (hm : C.relIndex X ≤ m) (hlt : m < 2 * n) :
+    (hn : C.relIndex Z = n) (_hpos : 0 < n) (hm : C.relIndex X ≤ m) (hlt : m < 2 * n) :
     Z = X := by
   have hmul : n * Z.relIndex X = C.relIndex X := by
     rw [← hn, Subgroup.relIndex_mul_relIndex C Z X hCZ hZX]

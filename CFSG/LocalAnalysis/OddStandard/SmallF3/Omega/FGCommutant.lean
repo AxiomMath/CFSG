@@ -34,6 +34,7 @@ private lemma fg_card_cases {q d : ℕ} (h : q ^ d = 3 ^ 6) (h4 : 4 ∣ q - 1) :
   · right
     norm_num
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma fg_rho_indep (hsq : ∀ v, ρ (ρ v) = -v) {v₀ : V} (hv₀ : v₀ ≠ 0) {a b : ZMod 3}
     (h : a • v₀ + b • ρ v₀ = 0) : a = 0 ∧ b = 0 := by
   by_cases hb : b = 0
@@ -59,7 +60,7 @@ theorem fg_commutant_rho (hB : B.Nondegenerate) (hdim : Module.finrank (ZMod 3) 
     [IsSimpleGroup ↥H] (hcard : ¬ Nat.card ↥H ∣ 11232) (hnab : ∃ a b : ↥H, a * b ≠ b * a)
     (c : V →ₗ[ZMod 3] V) (hc : ∀ g ∈ H, ∀ v, c (g v) = g (c v)) :
     ∃ α β : ZMod 3, ∀ v, c v = α • v + β • ρ v := by
-  haveI hV : Nontrivial V :=
+  have hV : Nontrivial V :=
     Module.nontrivial_of_finrank_pos (R := ZMod 3) (by rw [hdim]; norm_num)
   let R : Set (Module.End (ZMod 3) V) := {f | ∃ g ∈ H, (g : V →ₗ[ZMod 3] V) = f}
   have hirr : IsIrred R := fun U hU =>
@@ -74,10 +75,10 @@ theorem fg_commutant_rho (hB : B.Nondegenerate) (hdim : Module.finrank (ZMod 3) 
   have hρmem : ρ ∈ Subalgebra.centralizer (ZMod 3) R :=
     hRmem ρ (fun g hg v => (hH.comm g hg v).symm)
   have hcmem : c ∈ Subalgebra.centralizer (ZMod 3) R := hRmem c hc
-  haveI : Finite V := Module.finite_of_finite (ZMod 3)
-  letI : Fintype V := Fintype.ofFinite V
+  have : Finite V := Module.finite_of_finite (ZMod 3)
+  let : Fintype V := Fintype.ofFinite V
   let F := SchurField R hirr hV
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   let ι : F →+* Module.End (ZMod 3) V := SchurField.toEnd hirr hV
   have hι : Function.Injective ι := SchurField.toEnd_injective hirr hV
   let ρ' : F := SchurField.mk hirr hV ρ (by
@@ -132,7 +133,7 @@ theorem fg_commutant_rho (hB : B.Nondegenerate) (hdim : Module.finrank (ZMod 3) 
   rcases fg_card_cases hq h4 with h9 | h729
   ·
     let Cm : Subalgebra (ZMod 3) (Module.End (ZMod 3) V) := Subalgebra.centralizer (ZMod 3) R
-    haveI : Finite ↥Cm := inferInstanceAs (Finite F)
+    have : Finite ↥Cm := inferInstanceAs (Finite F)
     have hCm : Nat.card ↥Cm = 9 := h9
     let φ : ZMod 3 × ZMod 3 → ↥Cm := fun p =>
       p.1 • (1 : ↥Cm) + p.2 • (⟨ρ, hρmem⟩ : ↥Cm)

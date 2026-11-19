@@ -102,6 +102,7 @@ private theorem oneMap_ker_eq :
   rw [oneMap, ← MonoidHom.comap_ker (QuotientGroup.mk' (CFSG.pCore p (StarGroup p H)))
     (QuotientGroup.mk' (primeComplementCore (G := ↥H) p)), QuotientGroup.ker_mk']
 
+omit [Finite G] in
 private theorem oneImg_kSub_normal (hle : pLayerIn p H ≤ M) :
     (oneImg p H (kSub p M H)).Normal :=
   (kSub_normal_of_le hle).map (oneMap p H) oneMap_surjective

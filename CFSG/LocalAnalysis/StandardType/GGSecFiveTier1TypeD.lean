@@ -31,14 +31,14 @@ theorem ggSecFiveIdentD_of_tier1 (hT : GGSecFiveTier1Input) {p : ℕ} {B Bs : Su
   obtain ⟨F, hF, hFin, hchar, h4, hcomm, hpair, hgen⟩ :=
     hT G p B Bs x L D J 𝒦 hcfg hsplit ι M e hpres
       (fun i j hij => GGIsWeylMatrixAD.le_three hWeyl i j hij)
-  letI : Field F := hF
-  letI : Finite F := hFin
-  letI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := hchar
+  let : Field F := hF
+  let : Finite F := hFin
+  let : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := hchar
   obtain ⟨m, -, hmcard⟩ := FiniteField.card F 2
   have hmne : (m : ℕ) ≠ 0 := m.pos.ne'
-  haveI : NeZero (m : ℕ) := ⟨hmne⟩
-  letI : Fintype (GaloisField 2 (m : ℕ)) := Fintype.ofFinite _
+  have : NeZero (m : ℕ) := ⟨hmne⟩
+  let : Fintype (GaloisField 2 (m : ℕ)) := Fintype.ofFinite _
   have hFcard : Nat.card F = 2 ^ (m : ℕ) := by
     rw [Nat.card_eq_fintype_card, hmcard]
   have hGFcard : Nat.card (GaloisField 2 (m : ℕ)) = 2 ^ (m : ℕ) :=

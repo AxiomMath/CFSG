@@ -90,10 +90,10 @@ theorem sgnFlip_coord (i : Fin r) (v : Vn (r + 1)) (k : Fin (r + 1)) :
   by_cases hk : k = i.castSucc
   · subst hk
     simp only [Pi.sub_apply, Pi.smul_apply, smul_eq_mul, frameE, Pi.single_eq_same,
-      if_true]
+      ite_true]
     ring
   · simp only [Pi.sub_apply, Pi.smul_apply, smul_eq_mul, frameE,
-      Pi.single_eq_of_ne hk, if_neg hk, mul_zero, sub_zero]
+      Pi.single_eq_of_ne hk, ite_eq_right hk, mul_zero, sub_zero]
 
 theorem zmod3_trichotomy : ∀ x : ZMod 3, x = 0 ∨ x = 1 ∨ x = -1 := by decide
 
@@ -301,7 +301,7 @@ theorem framePerm_conj_sgnFlip (σ : Equiv.Perm (Fin r)) (i : Fin r) :
             apply h
             rw [← hh]
             exact (Equiv.apply_symm_apply σ j).symm
-          rw [if_neg h1, if_neg h]
+          rw [ite_eq_right h1, ite_eq_right h]
   · funext k
     cases k using Fin.lastCases with
     | last => simp [frameE, Pi.smul_apply, extFramePerm_symm_last]
@@ -319,7 +319,7 @@ theorem framePerm_conj_sgnFlip (σ : Equiv.Perm (Fin r)) (i : Fin r) :
             apply h
             rw [← hh]
             exact (Equiv.apply_symm_apply σ j).symm
-          rw [if_neg h1, if_neg h]
+          rw [ite_eq_right h1, ite_eq_right h]
 
 theorem framePerm_conj_sgnSum (σ : Equiv.Perm (Fin r)) (i j : Fin r) (h : i ≠ j)
     (h' : σ i ≠ σ j) :
@@ -425,18 +425,18 @@ theorem frameFlip_insert (i : Fin r) (S : Finset (Fin r)) (hi : i ∉ S) :
         have hv := congrArg Fin.val hh
         simp only [Fin.val_last, Fin.val_castSucc] at hv
         omega
-      rw [if_neg h]
+      rw [ite_eq_right h]
   | cast j =>
       rw [flipSign_castSucc, flipSign_castSucc]
       by_cases hji : j = i
       · rw [hji] at *
-        rw [if_pos (Finset.mem_insert_self i S), if_neg hi, if_pos rfl]
+        rw [ite_eq_left (Finset.mem_insert_self i S), ite_eq_right hi, ite_eq_left rfl]
         simp
       · have hki : ¬ (j.castSucc = i.castSucc) := fun hh => hji (Fin.castSucc_injective _ hh)
         have hmem : (j ∈ insert i S) ↔ (j ∈ S) := by
           rw [Finset.mem_insert]
           exact ⟨fun h => h.resolve_left hji, fun h => Or.inr h⟩
-        rw [if_neg hki, if_congr hmem rfl rfl, flipSign_castSucc]
+        rw [ite_eq_right hki, if_congr hmem rfl rfl, flipSign_castSucc]
 
 theorem frameFlip_mem {W : Subgroup (Vn (r + 1) ≃ₗ[ZMod 3] Vn (r + 1))}
     (hW : ∀ i, sgnFlip i ∈ W) (S : Finset (Fin r)) : frameFlip S ∈ W := by
@@ -683,15 +683,15 @@ theorem exists_frame_canonical_B {W : Subgroup (Vn (r + 1) ≃ₗ[ZMod 3] Vn (r 
         intro h0
         have hlt2 := (hw1zero i).mp h0
         omega
-      rw [if_pos hlt]
+      rw [ite_eq_left hlt]
       by_cases h2 : (w1 c) i.castSucc = 2
-      · rw [if_pos ((hmemS i).mpr h2), h2]
+      · rw [ite_eq_left ((hmemS i).mpr h2), h2]
         decide
       · have h1 : (w1 c) i.castSucc = 1 := by
           rcases zmod3_ne_zero _ hne with h | h
           · exact h
           · exact absurd h h2
-        rw [if_neg (fun hh => h2 ((hmemS i).mp hh)), h1]
+        rw [ite_eq_right (fun hh => h2 ((hmemS i).mp hh)), h1]
         decide
     · have h0 : (w1 c) i.castSucc = 0 :=
         (hw1zero i).mpr (Nat.lt_of_not_le hlt)
@@ -699,7 +699,7 @@ theorem exists_frame_canonical_B {W : Subgroup (Vn (r + 1) ≃ₗ[ZMod 3] Vn (r 
         have h2 : (w1 c) i.castSucc = 2 := (hmemS i).mp hh
         rw [h0] at h2
         exact (by decide : (0 : ZMod 3) ≠ 2) h2
-      rw [if_neg hlt, if_neg hnotS, h0, mul_zero]
+      rw [ite_eq_right hlt, ite_eq_right hnotS, h0, mul_zero]
   have hlast : (w c) (Fin.last r) = c (Fin.last r) := by
     change (frameFlip S (w1 c)) (Fin.last r) = c (Fin.last r)
     rw [frameFlip_apply, flipSign_last, one_mul]
@@ -711,7 +711,7 @@ theorem exists_frame_canonical_B {W : Subgroup (Vn (r + 1) ≃ₗ[ZMod 3] Vn (r 
       simp only [Finset.mem_filter, Finset.mem_univ, true_and]
       dsimp only [key]
       rw [show σ (σ.symm i0) = i0 from Equiv.apply_symm_apply σ i0]
-      rw [if_neg hi0]
+      rw [ite_eq_right hi0]
     have hpos : 0 < k := by
       dsimp only [k]
       exact Finset.card_pos.mpr ⟨_, hmem⟩
@@ -826,15 +826,15 @@ theorem exists_frame_canonical_D {W : Subgroup (Vn (r + 1) ≃ₗ[ZMod 3] Vn (r 
         intro h0
         have hlt2 := (hw1zero i).mp h0
         omega
-      rw [if_pos hlt]
+      rw [ite_eq_left hlt]
       by_cases h2 : (w1 c) i.castSucc = 2
-      · rw [if_pos ((hmemS i).mpr h2), h2]
+      · rw [ite_eq_left ((hmemS i).mpr h2), h2]
         decide
       · have h1 : (w1 c) i.castSucc = 1 := by
           rcases zmod3_ne_zero _ hne with h | h
           · exact h
           · exact absurd h h2
-        rw [if_neg (fun hh => h2 ((hmemS i).mp hh)), h1]
+        rw [ite_eq_right (fun hh => h2 ((hmemS i).mp hh)), h1]
         decide
     · have h0 : (w1 c) i.castSucc = 0 :=
         (hw1zero i).mpr (Nat.lt_of_not_le hlt)
@@ -842,14 +842,14 @@ theorem exists_frame_canonical_D {W : Subgroup (Vn (r + 1) ≃ₗ[ZMod 3] Vn (r 
         have h2 : (w1 c) i.castSucc = 2 := (hmemS i).mp hh
         rw [h0] at h2
         exact (by decide : (0 : ZMod 3) ≠ 2) h2
-      rw [if_neg hlt, if_neg hnotS, h0, mul_zero]
+      rw [ite_eq_right hlt, ite_eq_right hnotS, h0, mul_zero]
   have hk1 : 1 ≤ k := by
     obtain ⟨i0, hi0⟩ := hcH
     have hmem : σ.symm i0 ∈ Finset.univ.filter (fun i : Fin r => key (σ i) = 1) := by
       simp only [Finset.mem_filter, Finset.mem_univ, true_and]
       dsimp only [key]
       rw [show σ (σ.symm i0) = i0 from Equiv.apply_symm_apply σ i0]
-      rw [if_neg hi0]
+      rw [ite_eq_right hi0]
     have hpos : 0 < k := by
       dsimp only [k]
       exact Finset.card_pos.mpr ⟨_, hmem⟩
@@ -879,14 +879,14 @@ theorem exists_frame_canonical_D {W : Subgroup (Vn (r + 1) ≃ₗ[ZMod 3] Vn (r 
         rw [hvalS i]
         have h0 : r - k = 0 := by omega
         rw [h0]
-        exact if_pos (Nat.zero_le _)
+        exact ite_eq_left (Nat.zero_le _)
       let S' : Finset (Fin r) := if z ∈ S then S.erase z else insert z S
       have hS'even : Even S'.card := by
         by_cases hzS : z ∈ S
-        · simp only [S', if_pos hzS, Finset.card_erase_of_mem hzS]
+        · simp only [S', ite_eq_left hzS, Finset.card_erase_of_mem hzS]
           obtain ⟨m, hm⟩ := hOdd
           exact ⟨m, by omega⟩
-        · simp only [S', if_neg hzS, Finset.card_insert_of_notMem hzS]
+        · simp only [S', ite_eq_right hzS, Finset.card_insert_of_notMem hzS]
           obtain ⟨m, hm⟩ := hOdd
           exact ⟨m + 1, by omega⟩
       have hvalExtra : ∀ i : Fin r, (frameFlip S' (w1 c)) i.castSucc =
@@ -895,32 +895,32 @@ theorem exists_frame_canonical_D {W : Subgroup (Vn (r + 1) ≃ₗ[ZMod 3] Vn (r 
         by_cases hiz : i = z
         · subst hiz
           by_cases hzS : z ∈ S
-          · simp only [S', if_pos hzS, frameFlip_apply, flipSign_castSucc]
+          · simp only [S', ite_eq_left hzS, frameFlip_apply, flipSign_castSucc]
             have hznot : z ∉ S.erase z := fun h => (Finset.mem_erase.mp h).1 rfl
-            simp only [if_neg hznot]
+            simp only [ite_eq_right hznot]
             have h2 : (w1 c) z.castSucc = 2 := (hmemS z).mp hzS
-            rw [h2, one_mul, if_pos hzval]
-          · simp only [S', if_neg hzS, frameFlip_apply, flipSign_castSucc]
-            simp only [if_pos (Finset.mem_insert_self z S)]
+            rw [h2, one_mul, ite_eq_left hzval]
+          · simp only [S', ite_eq_right hzS, frameFlip_apply, flipSign_castSucc]
+            simp only [ite_eq_left (Finset.mem_insert_self z S)]
             have hne2 : (w1 c) z.castSucc ≠ 2 := fun h => hzS ((hmemS z).mpr h)
             have h1 : (w1 c) z.castSucc = 1 := by
               rcases zmod3_ne_zero _ hz0 with h | h
               · exact h
               · exact absurd h hne2
-            rw [h1, if_pos hzval]
+            rw [h1, ite_eq_left hzval]
             decide
         · rw [frameFlip_apply, flipSign_castSucc]
           have hival : i.val ≠ r - 1 := by
             intro hv
             apply hiz
             exact Fin.ext (by rw [hzval, hv])
-          rw [if_neg hival]
+          rw [ite_eq_right hival]
           by_cases hzS : z ∈ S
-          · simp only [S', if_pos hzS, hflip_erase z hzS i hiz]
+          · simp only [S', ite_eq_left hzS, hflip_erase z hzS i hiz]
             have h := hvalOne i
             rw [frameFlip_apply, flipSign_castSucc] at h
             exact h
-          · simp only [S', if_neg hzS, hflip_insert z hzS i hiz]
+          · simp only [S', ite_eq_right hzS, hflip_insert z hzS i hiz]
             have h := hvalOne i
             rw [frameFlip_apply, flipSign_castSucc] at h
             exact h
@@ -948,11 +948,11 @@ theorem exists_frame_canonical_D {W : Subgroup (Vn (r + 1) ≃ₗ[ZMod 3] Vn (r 
         by_cases hiz : i = z
         · subst hiz
           simp only [S', frameFlip_apply, flipSign_castSucc]
-          simp only [if_pos (Finset.mem_insert_self z S), hz0, mul_zero]
+          simp only [ite_eq_left (Finset.mem_insert_self z S), hz0, mul_zero]
           have hlt : ¬ (r - k ≤ z.val) := by
             rw [hzval]
             omega
-          rw [if_neg hlt]
+          rw [ite_eq_right hlt]
         · simp only [S', frameFlip_apply, flipSign_castSucc]
           have h := hvalS i
           rw [frameFlip_apply, flipSign_castSucc] at h
@@ -1079,7 +1079,7 @@ theorem TestHyp.exists_canonical_B {W A M : Subgroup (Vn (r + 1) ≃ₗ[ZMod 3] 
             have := congrArg Fin.val hh
             simp only [Fin.val_last, Fin.val_castSucc] at this
             omega
-          rw [h j, Pi.smul_apply, xLast_apply, if_neg hj, smul_eq_mul, mul_zero]
+          rw [h j, Pi.smul_apply, xLast_apply, ite_eq_right hj, smul_eq_mul, mul_zero]
     have hx0 : xLast r ≠ 0 := by
       intro h0
       have := congrFun h0 (Fin.last r)
@@ -1088,7 +1088,7 @@ theorem TestHyp.exists_canonical_B {W A M : Subgroup (Vn (r + 1) ≃ₗ[ZMod 3] 
         = (1 - (a ⬝ᵥ xLast r) * c (Fin.last r)) • xLast r := by
       rw [refl_apply, hcx, smul_smul]
       conv_rhs => rw [sub_smul, one_smul]
-      simp only [Pi.smul_apply, xLast_apply, if_true, smul_eq_mul, mul_one]
+      simp only [Pi.smul_apply, xLast_apply, ite_true, smul_eq_mul, mul_one]
     have hne : (1 - (a ⬝ᵥ xLast r) * c (Fin.last r)) ≠ 0 := by
       intro h0
       have hzero : (refl c a hac) (xLast r) = 0 := by rw [huapply, h0, zero_smul]
@@ -1179,8 +1179,8 @@ theorem TestHyp.exists_canonical_B {W A M : Subgroup (Vn (r + 1) ≃ₗ[ZMod 3] 
     | cast j =>
         rw [canonA_castSucc, hl' j, hc', canonC_castSucc]
         by_cases hlt : r - k ≤ j.val
-        · rw [if_pos hlt, if_pos hlt, mul_one]
-        · rw [if_neg hlt, if_neg hlt, mul_zero]
+        · rw [ite_eq_left hlt, ite_eq_left hlt, mul_one]
+        · rw [ite_eq_right hlt, ite_eq_right hlt, mul_zero]
   have hfinalProof : canonA r k l' d' ⬝ᵥ canonC r k (c (Fin.last r)) = 2 := by
     rw [← ha', ← hc']
     exact hac'
@@ -1219,7 +1219,7 @@ theorem TestHyp.exists_canonical_D {W A M : Subgroup (Vn (r + 1) ≃ₗ[ZMod 3] 
             have := congrArg Fin.val hh
             simp only [Fin.val_last, Fin.val_castSucc] at this
             omega
-          rw [h j, Pi.smul_apply, xLast_apply, if_neg hj, smul_eq_mul, mul_zero]
+          rw [h j, Pi.smul_apply, xLast_apply, ite_eq_right hj, smul_eq_mul, mul_zero]
     have hx0 : xLast r ≠ 0 := by
       intro h0
       have := congrFun h0 (Fin.last r)
@@ -1228,7 +1228,7 @@ theorem TestHyp.exists_canonical_D {W A M : Subgroup (Vn (r + 1) ≃ₗ[ZMod 3] 
         = (1 - (a ⬝ᵥ xLast r) * c (Fin.last r)) • xLast r := by
       rw [refl_apply, hcx, smul_smul]
       conv_rhs => rw [sub_smul, one_smul]
-      simp only [Pi.smul_apply, xLast_apply, if_true, smul_eq_mul, mul_one]
+      simp only [Pi.smul_apply, xLast_apply, ite_true, smul_eq_mul, mul_one]
     have hne : (1 - (a ⬝ᵥ xLast r) * c (Fin.last r)) ≠ 0 := by
       intro h0
       have hzero : (refl c a hac) (xLast r) = 0 := by rw [huapply, h0, zero_smul]
@@ -1297,8 +1297,8 @@ theorem TestHyp.exists_canonical_D {W A M : Subgroup (Vn (r + 1) ≃ₗ[ZMod 3] 
       | cast j =>
           rw [canonA_castSucc, hl' j, hc', canonC_castSucc]
           by_cases hlt : r - k ≤ j.val
-          · rw [if_pos hlt, if_pos hlt, mul_one]
-          · rw [if_neg hlt, if_neg hlt, mul_zero]
+          · rw [ite_eq_left hlt, ite_eq_left hlt, mul_one]
+          · rw [ite_eq_right hlt, ite_eq_right hlt, mul_zero]
     have hfinalProof : canonA r k l' d' ⬝ᵥ canonC r k (c (Fin.last r)) = 2 := by
       rw [← ha', ← hc']
       exact hac'
@@ -1320,8 +1320,8 @@ theorem TestHyp.exists_canonical_D {W A M : Subgroup (Vn (r + 1) ≃ₗ[ZMod 3] 
       | cast j =>
           rw [canonAD_castSucc, hl' j, hc', canonD_castSucc]
           by_cases hlt : j.val = r - 1
-          · rw [if_pos hlt, if_pos hlt]; ring
-          · rw [if_neg hlt, if_neg hlt]; ring
+          · rw [ite_eq_left hlt, ite_eq_left hlt]; ring
+          · rw [ite_eq_right hlt, ite_eq_right hlt]; ring
     have hfinalProof : canonAD r l' d' ⬝ᵥ canonD r (c (Fin.last r)) = 2 := by
       rw [← ha', ← hc']
       exact hac'

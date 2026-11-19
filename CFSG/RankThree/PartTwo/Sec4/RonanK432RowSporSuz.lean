@@ -40,7 +40,7 @@ theorem suz_conj_of_common {c : Equiv.Perm (Fin 1782)}
 
 theorem suz_orderOf_three {x : ↥suzM} (h3 : (x : Equiv.Perm (Fin 1782)) ^ 3 = 1)
     (h1 : (x : Equiv.Perm (Fin 1782)) ≠ 1) : orderOf x = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [← Subgroup.orderOf_coe]
   exact orderOf_eq_prime h3 h1
 
@@ -125,7 +125,7 @@ theorem suz_conj_three_four :
 
 theorem listRow_suzM :
     ListRow ↥suzM := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨dA, hdA⟩ : ∃ d : ↥suzM,
       (d : Equiv.Perm (Fin 1782)) = φ (Multiplicative.ofAdd (vec 1)) :=
     ⟨⟨_, suz_phi_mem (vec 1)⟩, rfl⟩
@@ -263,7 +263,7 @@ theorem outerRow_suz [Finite NativeSporadic.Suz] :
 
 theorem row_carrier_suz :
     RowOf (NativeSporadic.Carrier .Suz) := by
-  haveI : Finite NativeSporadic.Suz := Finite.of_equiv _ suzEquivM.symm.toEquiv
+  have : Finite NativeSporadic.Suz := Finite.of_equiv _ suzEquivM.symm.toEquiv
   intro S _ _ _ _ ⟨e⟩
   exact GoodRow.of_mulEquiv (S := NativeSporadic.Suz) e.symm ⟨listRow_suz, outerRow_suz⟩
 

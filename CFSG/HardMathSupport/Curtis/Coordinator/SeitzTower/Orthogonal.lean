@@ -24,7 +24,7 @@ theorem pElement_comm_mem_of_relIndex_le {G : Type*} [Group G] [Finite G] {p : �
     (hcard : I.relIndex D ≤ p) {δ : G} (hδ : δ ∈ D) :
     α * δ * α⁻¹ * δ⁻¹ ∈ I := by
   set N := I.subgroupOf D with hN
-  haveI hNn : N.Normal := ⟨fun x hx d => by
+  have hNn : N.Normal := ⟨fun x hx d => by
     have h1 : ((x : D) : G) ∈ I := hx
     show ((d * x * d⁻¹ : D) : G) ∈ I
     simpa only [Subgroup.coe_mul, Subgroup.coe_inv] using hID d d.2 _ h1⟩
@@ -130,7 +130,7 @@ theorem comm_mem_of_series {G : Type*} [Group G] [Finite G] (N O D E : Subgroup 
     (hO4 : N.relIndex O ≤ 4) (hD2 : O.relIndex D ≤ 2)
     {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) {α : G} (hαE : α ∈ E) {k : ℕ} (hk : α ^ (p ^ k) = 1)
     {x : G} (hx : x ∈ E) : x * α * x⁻¹ * α⁻¹ ∈ N := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hαD : ∀ d ∈ D, α * d * α⁻¹ ∈ D := by
     intro d hd
     have h1 := hEE α hαE d (hDE hd)
@@ -177,8 +177,8 @@ theorem outTowerAt_of_series {K : Type*} [Group K] [Finite K]
     (hEE : ∀ a ∈ E, ∀ b ∈ E, a * b * a⁻¹ * b⁻¹ ∈ D)
     (hO4 : (inner K).relIndex O ≤ 4) (hD2 : O.relIndex D ≤ 2) (hidx : E.index ≤ 3)
     {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) : OutTowerAt K p := by
-  haveI : Finite (MulAut K) := CFSG.RankThree.PartOne.OutStructure.instFiniteMulAut' K
-  haveI : (inner K).Normal := inner_normal K
+  have : Finite (MulAut K) := CFSG.RankThree.PartOne.OutStructure.instFiniteMulAut' K
+  have : (inner K).Normal := inner_normal K
   have hp3 : 3 < p := by omega
   have hcore : ∀ α : MulAut K, (∃ k : ℕ, α ^ (p ^ k) = 1) → α ∈ E.normalCore := by
     rintro α ⟨k, hk⟩ b
@@ -244,7 +244,7 @@ theorem outTowerAt_matrixProjectiveDerived {K : Type} [Field K] [Finite K] {d : 
     Nat.pos_of_ne_zero Subgroup.index_ne_zero_of_finite
   have hD2 : (isometryConjugationHom Q).range.relIndex (linearConjugationHom Q).range ≤ 2 :=
     (Nat.le_of_dvd hsq0 (relIndex_isometryRange_dvd Q hQv)).trans hsq
-  haveI : Finite (matrixProjectiveDerived Q) := inferInstance
+  have : Finite (matrixProjectiveDerived Q) := inferInstance
   exact outTowerAt_of_series _ _ _ hNO hOD hDE hOE hEE hO4 hD2 hidx hp hp5
 
 theorem outTowerAt_of_statedOdd {X : Type} [Group X] {n r m : ℕ}

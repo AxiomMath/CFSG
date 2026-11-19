@@ -31,6 +31,7 @@ namespace Ronan152SL25
 
 open Proof152ConfA Proof152Gen
 
+omit [Finite G] in
 theorem ne_bot_of_isSL25Case {X : Subgroup G} (hsl : IsSL25Case X) : X ≠ ⊥ := by
   intro hX
   have hsub : Subsingleton ↥X := by
@@ -55,6 +56,7 @@ theorem ne_bot_of_isSL25Case {X : Subgroup G} (hsl : IsSL25Case X) : X ≠ ⊥ :
   · obtain ⟨e⟩ := he
     exact hne _ e
 
+omit [Finite G] in
 theorem _root_.CFSG.RankThree.PartTwo.Sec15.Ctx152J.ne_bot {A : Subgroup G}
     {LB : Subgroup G → Subgroup G} {M X : Subgroup G} (hctx : Ctx152J A LB M X) : X ≠ ⊥ :=
   ne_bot_of_isSL25Case hctx.sl25
@@ -186,7 +188,7 @@ theorem exists_pData152J
     conv_rhs => rw [hR, ← hS ⟨a, ha⟩]
     rw [hR, Subgroup.map_map, Subgroup.map_map]
     rfl
-  have hRp : IsPGroup p R := S.isPGroup'.map _
+  have hRp : IsPGroup p R := S.isPGroup.map _
   set ψ₀ : R →* Q := πt.comp (Subgroup.inclusion hRX) with hψ₀
   have hψmem : ∀ r : R, ψ₀ r ∈ CFSG.pCore p Q := by
     intro r

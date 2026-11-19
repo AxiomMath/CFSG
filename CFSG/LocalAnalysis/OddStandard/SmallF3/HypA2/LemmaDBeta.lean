@@ -19,7 +19,7 @@ theorem false_of_pump_diagonal (hI : Phase1Inputs) (hA7 : TwoA7RankOne) {G : Typ
     {q₀ : ℕ} (h : NcData G y z K T N q₀)
     (hbal : oddCore ↥(centralizer ({z} : Set G)) = ⊥) {M : Subgroup G}
     (hM : Omega.IsComponentIn M (centralizer ({z} : Set G)))
-    (hne : M.map (MulAut.conj y).toMonoidHom ≠ M)
+    (_hne : M.map (MulAut.conj y).toMonoidHom ≠ M)
     (hcomm : ⁅M, M.map (MulAut.conj y).toMonoidHom⁆ = ⊥) (φ : ↥M →* G)
     (hφ : ∀ m : ↥M, φ m = (m : G) * (y * m * y⁻¹)) (hTφ : T = φ.range)
     (hker : φ.ker ≤ center ↥M) : False := by

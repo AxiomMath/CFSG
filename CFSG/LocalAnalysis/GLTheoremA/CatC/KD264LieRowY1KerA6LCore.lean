@@ -43,7 +43,7 @@ theorem norm_form {K : Type} [Field K] {T : Matrix (Fin 4) (Fin 4) K}
 
 theorem basis4 {K : Type} [Field K] (hnr : ∀ r : K, r ^ 2 + r + 1 ≠ 0)
     (T : Matrix (Fin 4) (Fin 4) K) (hT : T * T + T + 1 = 0)
-    (hfix : ∀ v : Fin 4 → K, T *ᵥ v = v → v = 0) :
+    (_hfix : ∀ v : Fin 4 → K, T *ᵥ v = v → v = 0) :
     ∃ S : Matrix.GeneralLinearGroup (Fin 4) K,
       T * (S : Matrix (Fin 4) (Fin 4) K) = (S : Matrix (Fin 4) (Fin 4) K) * D4 K := by
   classical
@@ -53,7 +53,7 @@ theorem basis4 {K : Type} [Field K] (hnr : ∀ r : K, r ^ 2 + r + 1 ≠ 0)
     simp at this
   obtain ⟨u2, hu2⟩ : ∃ v : Fin 4 → K, v ∉ Submodule.span K ({u1, T *ᵥ u1} : Set (Fin 4 → K)) := by
     by_contra h
-    push_neg at h
+    push Not at h
     have htop : Submodule.span K ({u1, T *ᵥ u1} : Set (Fin 4 → K)) = ⊤ :=
       eq_top_iff.mpr (fun v _ => h v)
     have hfin := finrank_span_le_card (R := K) ({u1, T *ᵥ u1} : Set (Fin 4 → K))

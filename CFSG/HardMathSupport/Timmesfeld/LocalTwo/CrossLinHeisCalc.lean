@@ -84,7 +84,7 @@ theorem dual_ti_t_eq_zero {y : V} (hy : f 0 y = y) {ξ : Module.Dual K V}
         have h3 := (ZMod.natCast_eq_zero_iff _ _).1 hc'
         have := Nat.le_of_dvd (by omega) h3
         omega
-      haveI : NeZero c := ⟨hc0⟩
+      have : NeZero c := ⟨hc0⟩
       have hval : k - l = p - c.val := by
         rw [← ZMod.val_neg_of_ne_zero c, ← hc', ZMod.val_natCast, Nat.mod_eq_of_lt (by omega)]
       have hcv : c.val ≤ p := (ZMod.val_lt c).le

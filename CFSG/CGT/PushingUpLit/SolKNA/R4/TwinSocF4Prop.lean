@@ -62,7 +62,7 @@ theorem mem_of_odd_relIndex {G : Type*} [Group G] [Finite G] {Y N : Subgroup G}
   exact h3
 
 theorem eq_of_sl2_odd_index {G : Type*} [Group G] [Finite G] {Y N : Subgroup G}
-    (hNY : N ≤ Y) (hYN : Y ≤ Subgroup.normalizer (N : Set G)) (hodd : Odd (N.relIndex Y))
+    (_hNY : N ≤ Y) (hYN : Y ≤ Subgroup.normalizer (N : Set G)) (hodd : Odd (N.relIndex Y))
     {K : Type} [Field K] [Finite K] (hK : Odd (Nat.card K)) (e : ↥N ≃* SL(2, K)) {ψ c : G}
     (hψY : ψ ∈ Y) (hψ : ψ * ψ = 1) (hcY : c ∈ Y) (hc : c * c = 1) (hc1 : c ≠ 1) :
     ψ = 1 ∨ ψ = c := by

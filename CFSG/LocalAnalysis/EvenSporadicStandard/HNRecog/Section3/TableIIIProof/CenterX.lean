@@ -76,12 +76,12 @@ theorem tableIII_mem_pCore_derived [Finite G] {a z a' t : G} (hF2 : Vert Fusion2
   exact htCore
 
 theorem tableIII_mem_pCore_2B (hI : TwoHSInterface) [Finite G] {a z a' c : G}
-    (h : IsF5Type a z) (hF2 : Vert Fusion2Facts a z) (hX : XStruct a z a') (ha'Q : a' ∈ Qz z)
+    (h : IsF5Type a z) (hF2 : Vert Fusion2Facts a z) (hX : XStruct a z a') (_ha'Q : a' ∈ Qz z)
     (ha' : IsConj a a') (hc : c ∈ tab3Set a z a' 1) :
     c ∈ CFSG.Open.pCoreOf 2 (derivedOf (Gxy a' z)) := by
   have hc' : c ∈ tab3Base a z a' ∧ IsConj z (a' * c) := hc
   obtain ⟨hcBase, hcz⟩ := hc'
-  simp only [tab3Base, Set.mem_setOf_eq] at hcBase
+  simp only [tab3Base, Set.mem_ofPred_eq] at hcBase
   obtain ⟨hcQ, hcA, _hca', _hcaz⟩ := hcBase
   have hc2 : c ^ 2 = 1 := t3_pow_two_eq_one_of_isConj h.orderOf_a hcA
   have ha'2 : a' ^ 2 = 1 := t3_pow_two_eq_one_of_isConj h.orderOf_a ha'
@@ -100,7 +100,7 @@ theorem tableIII_not_mem_center_2B (hI : TwoHSInterface) [Finite G] {a z a' c : 
     tableIII_basic hI h ha'Q ha'
   have hc' : c ∈ tab3Base a z a' ∧ IsConj z (a' * c) := hc
   obtain ⟨hcBase, _hcz⟩ := hc'
-  simp only [tab3Base, Set.mem_setOf_eq] at hcBase
+  simp only [tab3Base, Set.mem_ofPred_eq] at hcBase
   obtain ⟨_hcQ, hcA, hca', hcaz⟩ := hcBase
   have hc2 : c ^ 2 = 1 := t3_pow_two_eq_one_of_isConj h.orderOf_a hcA
   have hnotAz : ¬ IsConj a z := not_isConj_of_isF5Type hI h

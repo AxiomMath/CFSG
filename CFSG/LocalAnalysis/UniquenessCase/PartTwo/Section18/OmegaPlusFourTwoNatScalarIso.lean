@@ -144,9 +144,9 @@ private theorem omegaPlusTwoNatScalarIso_aux (K : Type) [Field K] [Finite K] [Ch
     dsimp only [ω']
     rw [toAddMap_matAut, kronGL_mulVec, hBζmat]
     rw [Finset.sum_eq_single p.1]
-    · simp [Matrix.smul_apply, Matrix.one_apply, Pi.smul_apply, smul_eq_mul]
+    · simp [Matrix.smul_apply, Pi.smul_apply, smul_eq_mul]
     · intro j _ hj
-      simp [Matrix.smul_apply, Matrix.one_apply, hj, Ne.symm hj]
+      simp [Matrix.smul_apply, Ne.symm hj]
     · intro hp
       exact (hp (Finset.mem_univ _)).elim
   have hω'free : ∀ x : StdMod (Fin 2 × ι) K, ω' x = x → x = 1 := by

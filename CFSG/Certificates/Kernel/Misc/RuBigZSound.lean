@@ -27,15 +27,15 @@ theorem anyK_iff {n : Nat} {f : Nat → Bool} : anyK n f = true ↔ ∃ i < n, f
     by_contra hne
     push Not at hne
     have ha : allN n (fun i => bIf(f i, false, true)) = true := RuBase.allN_iff.2 fun i hi => by
-      rw [RuBase.bIf_eq, if_neg (hne i hi)]
-    rw [if_pos ha] at h
+      rw [RuBase.bIf_eq, ite_eq_right (hne i hi)]
+    rw [ite_eq_left ha] at h
     exact Bool.false_ne_true h
   · rintro ⟨i, hi, hf⟩
     have ha : allN n (fun i => bIf(f i, false, true)) = false := by
       rw [Bool.eq_false_iff]
       intro h
       have h1 := RuBase.allN_iff.1 h i hi
-      rw [RuBase.bIf_eq, if_pos hf] at h1
+      rw [RuBase.bIf_eq, ite_eq_left hf] at h1
       exact Bool.false_ne_true h1
     rw [ha]
     rfl
@@ -70,14 +70,14 @@ theorem ptR_lAp {A AI : Nat → Nat → Nat} {gens : List (Equiv.Perm (Fin 4060)
     rw [Int.ofNat_eq_natCast] at hl0 hlm ⊢
     have hk : 0 < k := by omega
     have hpos : (0 : Int) < (k : Int) := by omega
-    rw [if_pos hpos, Int.natAbs_natCast]
+    rw [ite_eq_left hpos, Int.natAbs_natCast]
     rw [Int.natAbs_natCast] at hlm
     exact ⟨fun x => hA (k - 1) (by omega) x, fun x => hAI (k - 1) (by omega) x⟩
   | negSucc k =>
     have hneg : ¬ (0 : Int) < Int.negSucc k := fun h => absurd h (by
       have := Int.negSucc_lt_zero k
       omega)
-    rw [if_neg hneg, Int.natAbs_negSucc, Nat.succ_sub_one, inv_inv]
+    rw [ite_eq_right hneg, Int.natAbs_negSucc, Nat.succ_sub_one, inv_inv]
     rw [Int.natAbs_negSucc] at hlm
     exact ⟨fun x => hAI k (by omega) x, fun x => hA k (by omega) x⟩
 
@@ -110,7 +110,7 @@ theorem testBit_img4 {f : Nat → Nat} (hf : ∀ b < 4, f b < 4096) {b i : Nat} 
     P.testBit_lt_4096 (hf k hk) hj
   have e : img4 f = f 0 <<< 0 ||| f 1 <<< 12 ||| f 2 <<< 24 ||| f 3 <<< 36 := by
     rw [img4, Raw.Orb.foldN_eq]
-    simp [List.range_succ, Nat.or_assoc, Nat.or_comm, Nat.or_left_comm]
+    simp [List.range_succ, Nat.or_assoc, Nat.or_comm]
   rw [e]
   simp only [Nat.testBit_or, Nat.testBit_shiftLeft]
   interval_cases b
@@ -230,13 +230,13 @@ theorem fixC_eq (f : Nat → Nat) :
 
 theorem pointList_fix (f : Nat → Nat) :
     CFSG.Certificates.PointList 4060 ((List.range 4060).filter fun x => Nat.beq (f x) x) :=
-  ⟨fun q hq => List.mem_range.1 (List.mem_filter.1 hq).1, List.pairwise_lt_range.filter _⟩
+  ⟨fun _q hq => List.mem_range.1 (List.mem_filter.1 hq).1, List.pairwise_lt_range.filter _⟩
 
 theorem finSet_fix {f : Nat → Nat} {g : Equiv.Perm (Fin 4060)} (hf : PtR f g) :
     CFSG.Certificates.finSet 4060 ((List.range 4060).filter fun x => Nat.beq (f x) x) =
       {p | g p = p} := by
   ext p
-  simp only [CFSG.Certificates.finSet, Set.mem_setOf_eq, List.mem_filter, List.mem_range,
+  simp only [CFSG.Certificates.finSet, Set.mem_ofPred_eq, List.mem_filter, List.mem_range,
     Nat.beq_eq]
   rw [hf p]
   exact ⟨fun h => Fin.ext h.2, fun h => ⟨p.2, by rw [h]⟩⟩
@@ -257,6 +257,7 @@ theorem eq_one_of_base {f : Nat → Nat} {g : Equiv.Perm (Fin 4060)} (hg : g ∈
     (h : ∀ b < 4, f b = b) : g = 1 :=
   hH g hg fun x hx => Fin.ext (by rw [← hf x]; exact h x (hbs x hx))
 
+omit hH hbs in
 theorem mProd_mem {v : Nat → Equiv.Perm (Fin 4060)} (hv : ∀ i, v i ∈ H) (m : Nat) :
     ∀ r, mProd v r m ∈ H
   | 0 => H.one_mem
@@ -294,7 +295,7 @@ theorem ebB_sound {P : Nat → Nat} {o r : Nat} {v : Nat → Equiv.Perm (Fin 406
     RuBase.allN_iff.2 fun b hb => by
       rw [Nat.beq_eq, ptR_mAp (m' + 1) hP ⟨b, by omega⟩, hc1]
       rfl
-  rw [if_pos h4] at h3
+  rw [ite_eq_left h4] at h3
   exact Bool.false_ne_true h3
 
 theorem inSp_sound {P : Nat → Nat} {o r : Nat} {v : Nat → Equiv.Perm (Fin 4060)}
@@ -305,7 +306,7 @@ theorem inSp_sound {P : Nat → Nat} {o r : Nat} {v : Nat → Equiv.Perm (Fin 40
   obtain ⟨m, hm, e⟩ := inSp_iff.1 h
   refine ⟨m, hm, ?_⟩
   rw [← mProd_eq_eElt m hc]
-  exact (eq_of_img4 hH hbs (mProd_mem hH hbs hv m r) hg (ptR_mAp m hP) hf e).symm
+  exact (eq_of_img4 hH hbs (mProd_mem hv m r) hg (ptR_mAp m hP) hf e).symm
 
 theorem ordB_sound {f : Nat → Nat} {g : Equiv.Perm (Fin 4060)} (hg : g ∈ H) (hf : PtR f g)
     {p : Nat} (h : ordB f p = true) : g ^ p = 1 ∧ g ≠ 1 := by
@@ -317,7 +318,7 @@ theorem ordB_sound {f : Nat → Nat} {g : Equiv.Perm (Fin 4060)} (hg : g ∈ H) 
   have h3 : allN 4 (fun b => Nat.beq (f b) b) = true := RuBase.allN_iff.2 fun b hb => by
     rw [Nat.beq_eq, hf ⟨b, hb.trans (by norm_num)⟩, e]
     rfl
-  rw [if_pos h3] at h2
+  rw [ite_eq_left h3] at h2
   exact Bool.false_ne_true h2
 
 theorem normB_sound {P : Nat → Nat} {o r : Nat} {v : Nat → Equiv.Perm (Fin 4060)}

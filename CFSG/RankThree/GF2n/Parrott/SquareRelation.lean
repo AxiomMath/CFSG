@@ -80,6 +80,7 @@ private theorem conjV_specToV (h : Tim79a.ParrottHyp z) (P : GL8)
   have key : (P * rhoA (qH D y) * P⁻¹ * P : GL8) = P * rhoA (qH D y) := by group
   rw [Matrix.mulVec_mulVec, ← Units.val_mul, key, Units.val_mul, ← Matrix.mulVec_mulVec]
 
+omit hN in
 private theorem qVZMod_seven' (h : Tim79a.ParrottHyp z) (a b c : QuotientV.V z) :
     qVZMod h (a * b * c) + qVZMod h (a * b) + qVZMod h (a * c) + qVZMod h (b * c) +
       qVZMod h a + qVZMod h b + qVZMod h c = 0 := by
@@ -166,6 +167,7 @@ theorem free_of_spin (h : Tim79a.ParrottHyp z) (P : GL8)
       exact inv_eq_of_mul_eq_one_right this
     rw [hinv, ← specToV_add, hw'y]
 
+omit [Finite G] in
 theorem qH_eq_of_inv_mul_mem {a b : ↥(H z)} (hab : a⁻¹ * b ∈ (J z).subgroupOf (H z)) :
     qH D a = qH D b := by
   have h1 := (J_mem_iff D (a⁻¹ * b)).mp hab
@@ -299,6 +301,7 @@ theorem mul_self_eq_mul_of_classes (h : Tim79a.ParrottHyp z)
       (hdimv ⟨x₀ * y₀, (H z).mul_mem hx₀ hy₀⟩ hxy₀c) (hyc.trans hxy₀c.symm) hxyZ hyZ
   rw [← e3, e4, e1, e2]
 
+omit [Finite G] in
 theorem exists_involution_ut_of_isParrottE {E : Subgroup G} (hE : IsParrottE z E) :
     ∃ (w : G) (hw : w ∈ H z), w * w = 1 ∧ IsConj (qH D ⟨w, hw⟩) (uA * tA) := by
   obtain ⟨hEH, hEN, hZE, hEel, hEcard, hEJcard, -, -⟩ := hE

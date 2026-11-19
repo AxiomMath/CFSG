@@ -50,7 +50,7 @@ theorem not_normalizer_le_of_mem_fourGroupsMinus
       ∀ t ∈ Subgroup.centralizer (F : Set (MulAut X)), t ^ 2 = 1 → t = 1
 
 theorem mem_fourGroupsMinus_of_isTripleCover (hK : TripleM22E9NoInvol) (h45 : Sec4.Item4_5)
-    (h66 : Sec6.Item6_6) (h213 : Item213) {A E U L : Subgroup G} {c : G}
+    (h66 : Sec6.Item6_6) (_h213 : Item213) {A E U L : Subgroup G} {c : G}
     (hpair : Sec21Pair G A E U c L) (hT : Sec4.IsTripleCover (lBar L) NativeSporadic.M22) :
     U ∈ fourGroupsMinus E := by
   have hPF := Item211LieProof.pairFacts h45 h66 hpair
@@ -60,7 +60,7 @@ theorem mem_fourGroupsMinus_of_isTripleCover (hK : TripleM22E9NoInvol) (h45 : Se
     have hEC : E ≤ Subgroup.centralizer (U : Set G) := (mem_fourGroupsPlus_iff.mp hp).2
     obtain ⟨t, htU, ht1⟩ : ∃ t ∈ Item211Res2Proof.barImage L U, t ≠ 1 := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact Item211LieProof.barImage_U_ne_bot hPF ((Subgroup.eq_bot_iff_forall _).mpr h)
     have ht2 : t ^ 2 = 1 := (Item211LieProof.isElemAbelian_barImage_U hPF).2 t htU
     have htC : t ∈ Subgroup.centralizer (Item211Res2Proof.barImage L E : Set _) := by
@@ -103,6 +103,7 @@ theorem item214_of_off1
   · exact (false_of_isTripleCover hK h211 h213 h215 h217 h218 h45 h66 hL3 hpair hT).elim
   · exact hoff G A E U c L hpair hT
 
+omit [Finite G] in
 theorem not_isTripleCover_of_center_eq_bot {L : Subgroup G} (h : Subgroup.center (lBar L) = ⊥) :
     ¬ Sec4.IsTripleCover (lBar L) NativeSporadic.M22 := by
   rintro ⟨h3, -⟩

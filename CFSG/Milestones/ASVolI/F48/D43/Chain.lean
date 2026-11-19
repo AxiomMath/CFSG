@@ -31,7 +31,7 @@ theorem burnsideF48d_getD_lv {i : ℕ} (hi : i < C.length) : C.getD i burnsideF4
   simp [hi]
 
 theorem burnsideF48d_lvH_length : burnsideF48d_lvH C C.length = ⊥ := by
-  simp [burnsideF48d_lvH, List.getD_eq_default]
+  simp [burnsideF48d_lvH]
 
 @[expose] def burnsideF48d_ChainNested (C : List (Fin 26572 × Finset (Fin 17) × ℕ)) : Prop :=
   ∀ i < C.length - 1, (C.getD (i + 1) burnsideF48d_lv0).2.1 ⊆ (C.getD i burnsideF48d_lv0).2.1
@@ -148,7 +148,7 @@ theorem burnsideF48d_genTabs_even {k : ℕ} (hk : k < 8) :
     (burnsideF48d_genTabs ())[2 * k]! = burnsideF48d_toT (burnsideF48d_gen k) := by
   simp only [burnsideF48d_genTabs]
   rw [getElem!_pos _ (2 * k) (by rw [Array.size_ofFn]; omega), Array.getElem_ofFn]
-  simp only [show 2 * k % 2 = 0 by omega, if_true, show 2 * k / 2 = k by omega]
+  simp only [show 2 * k % 2 = 0 by omega, ite_true, show 2 * k / 2 = k by omega]
   rw [getElem!_pos _ k (by rw [Array.size_map, Array.size_range]; exact hk), Array.getElem_map,
     Array.getElem_range]
 
@@ -157,7 +157,7 @@ theorem burnsideF48d_genTabs_odd {k : ℕ} (hk : k < 8) :
   simp only [burnsideF48d_genTabs]
   rw [getElem!_pos _ (2 * k + 1) (by rw [Array.size_ofFn]; omega), Array.getElem_ofFn]
   simp only [show (2 * k + 1) % 2 = 1 by omega, show (2 * k + 1) / 2 = k by omega]
-  rw [if_neg (by omega), getElem!_pos _ k (by rw [Array.size_map, Array.size_range]; exact hk),
+  rw [ite_eq_right (by omega), getElem!_pos _ k (by rw [Array.size_map, Array.size_range]; exact hk),
     Array.getElem_map, Array.getElem_range]
 
 theorem burnsideF48d_letters_even {j : ℕ} (hj : j < 17) :
@@ -166,7 +166,7 @@ theorem burnsideF48d_letters_even {j : ℕ} (hj : j < 17) :
   have hs : j < burnsideF48d_LW.length := lt_of_lt_of_eq hj rfl
   simp only [burnsideF48d_letters]
   rw [getElem!_pos _ (2 * j) (by rw [Array.size_ofFn]; omega), Array.getElem_ofFn]
-  simp only [show 2 * j % 2 = 0 by omega, if_true, show 2 * j / 2 = j by omega]
+  simp only [show 2 * j % 2 = 0 by omega, ite_true, show 2 * j / 2 = j by omega]
   rw [getElem!_pos _ j (by rw [Array.size_map, List.size_toArray]; exact hs), Array.getElem_map,
     List.getElem_toArray, List.getD_eq_getElem]
 
@@ -177,7 +177,7 @@ theorem burnsideF48d_letters_odd {j : ℕ} (hj : j < 17) :
   simp only [burnsideF48d_letters]
   rw [getElem!_pos _ (2 * j + 1) (by rw [Array.size_ofFn]; omega), Array.getElem_ofFn]
   simp only [show (2 * j + 1) % 2 = 1 by omega, show (2 * j + 1) / 2 = j by omega]
-  rw [if_neg (by omega), getElem!_pos _ j (by rw [Array.size_map, List.size_toArray]; exact hs),
+  rw [ite_eq_right (by omega), getElem!_pos _ j (by rw [Array.size_map, List.size_toArray]; exact hs),
     Array.getElem_map, List.getElem_toArray, List.getD_eq_getElem]
 
 section Reps
@@ -210,7 +210,7 @@ noncomputable def burnsideF48d_ωF : burnsideF48d_F := by
     (by rw [← Nat.card_eq_fintype_card, burnsideF48d_card_F]))
 
 theorem burnsideF48d_ωF_spec : burnsideF48d_ωF ^ 3 = burnsideF48d_ωF + 1 := by
-  haveI : Fintype burnsideF48d_F := Fintype.ofFinite _
+  have : Fintype burnsideF48d_F := Fintype.ofFinite _
   exact Classical.choose_spec (burnsideF48d_exists_omega (K := burnsideF48d_F)
     (by rw [← Nat.card_eq_fintype_card, burnsideF48d_card_F]))
 
@@ -239,7 +239,7 @@ theorem burnsideF48d_gensG_pos (k : Fin 8) :
   unfold burnsideF48d_gensG
   have h1 : (0 : ℤ) < ((k.val + 1 : ℕ) : ℤ) := by omega
   have h2 : (((k.val + 1 : ℕ) : ℤ)).toNat - 1 = k.val := by omega
-  rw [if_pos h1, dif_pos (h2 ▸ k.2)]
+  rw [ite_eq_left h1, dite_eq_left (h2 ▸ k.2)]
   exact congrArg _ (Fin.ext h2)
 
 theorem burnsideF48d_gensG_neg (k : Fin 8) :
@@ -247,7 +247,7 @@ theorem burnsideF48d_gensG_neg (k : Fin 8) :
   unfold burnsideF48d_gensG
   have h1 : ¬ (0 : ℤ) < -((k.val + 1 : ℕ) : ℤ) := by omega
   have h2 : (-(-((k.val + 1 : ℕ) : ℤ))).toNat - 1 = k.val := by omega
-  rw [if_neg h1, dif_pos (h2 ▸ k.2)]
+  rw [ite_eq_right h1, dite_eq_left (h2 ▸ k.2)]
   exact congrArg (fun z => z⁻¹) (congrArg _ (Fin.ext h2))
 
 theorem burnsideF48d_letterT_pos (GT : Array Table) (k : Fin 8) :
@@ -255,14 +255,14 @@ theorem burnsideF48d_letterT_pos (GT : Array Table) (k : Fin 8) :
   unfold burnsideF48d_letterT
   have h1 : (0 : ℤ) < ((k.val + 1 : ℕ) : ℤ) := by omega
   have h2 : (((k.val + 1 : ℕ) : ℤ)).toNat - 1 = k.val := by omega
-  rw [if_pos h1, h2]
+  rw [ite_eq_left h1, h2]
 
 theorem burnsideF48d_letterT_neg (GT : Array Table) (k : Fin 8) :
     burnsideF48d_letterT GT (-((k.val + 1 : ℕ) : ℤ)) = GT[2 * k.val + 1]! := by
   unfold burnsideF48d_letterT
   have h1 : ¬ (0 : ℤ) < -((k.val + 1 : ℕ) : ℤ) := by omega
   have h2 : (-(-((k.val + 1 : ℕ) : ℤ))).toNat - 1 = k.val := by omega
-  rw [if_neg h1, h2]
+  rw [ite_eq_right h1, h2]
 
 theorem burnsideF48d_rep_letterT (w : List (Fin 8 × Bool)) :
     ∀ l ∈ burnsideF48d_intWord w, CFSG.Sporadic.Th.Rep 26572
@@ -273,10 +273,10 @@ theorem burnsideF48d_rep_letterT (w : List (Fin 8 × Bool)) :
   obtain ⟨k, b⟩ := a
   rw [burnsideF48d_rep_X_iff]
   cases b
-  · simp only [Bool.false_eq_true, if_false]
+  · simp only [Bool.false_eq_true, ite_false]
     rw [burnsideF48d_letterT_neg, burnsideF48d_gensG_neg, Subgroup.coe_inv]
     exact burnsideF48d_gen_rep_inv k.2
-  · simp only [if_true]
+  · simp only [ite_true]
     rw [burnsideF48d_letterT_pos, burnsideF48d_gensG_pos, burnsideF48d_genTabs_even k.2]
     exact burnsideF48d_gen_rep k.2
 
@@ -294,9 +294,9 @@ theorem burnsideF48d_wordG_intWord (w : List (Fin 8 × Bool)) :
     rw [ih]
     congr 1
     cases b
-    · simp only [Bool.false_eq_true, if_false, cond_false]
+    · simp only [Bool.false_eq_true, ite_false, Bool.cond_false]
       exact burnsideF48d_gensG_neg k
-    · simp only [if_true, cond_true]
+    · simp only [ite_true, _root_.Bool.cond_true]
       exact burnsideF48d_gensG_pos k
 
 theorem burnsideF48d_ev_γX (j : Fin 17) :
@@ -460,14 +460,14 @@ section Equiv
 theorem burnsideF48d_C0_equiv_X {K : Type} [Field K] [CharP K 3] (σ : K →+* K) (ω : K)
     (hK : Nat.card K = 27) (hσ : ∀ c, σ c = c ^ 3) (hω : ω ^ 3 = ω + 1) :
     Nonempty (↥(graphFixedRootGroup TwistTag.D4 K σ) ≃* ↥burnsideF48d_X) := by
-  haveI : Finite ↥(graphFixedRootGroup TwistTag.D4 K σ) :=
+  have : Finite ↥(graphFixedRootGroup TwistTag.D4 K σ) :=
     Nat.finite_of_card_ne_zero (by rw [burnsideF48d_card_C0 σ hK hσ]; norm_num)
   set ρ := burnsideF48d_ρ σ ω hK hσ hω with hρ
   have hsurj : Function.Surjective ρ.rangeRestrict := ρ.rangeRestrict_surjective
   have hle : Nat.card ↥(graphFixedRootGroup TwistTag.D4 K σ) ≤ Nat.card ↥ρ.range := by
     rw [burnsideF48d_range_ρ, burnsideF48d_card_X, burnsideF48d_card_C0 σ hK hσ]
   have hbij : Function.Bijective ρ.rangeRestrict := by
-    haveI : Finite ↥ρ.range := Subgroup.instFiniteSubtypeMem _
+    have : Finite ↥ρ.range := Subgroup.instFiniteSubtypeMem _
     exact ⟨(Function.Surjective.bijective_of_nat_card_le hsurj hle).1, hsurj⟩
   exact ⟨(MulEquiv.ofBijective _ hbij).trans
     (MulEquiv.subgroupCongr (burnsideF48d_range_ρ σ ω hK hσ hω))⟩
@@ -477,8 +477,8 @@ theorem burnsideF48d_equiv_X : ∀ (H : Type) [Group H], ChF.IsGenLie H .D4tw 3 
   intro H _ hH
   obtain ⟨-, -, K, _, _, hcardK, σ, hσ, ⟨e⟩⟩ := hH
   have hK : Nat.card K = 27 := by rw [hcardK]; rfl
-  haveI : CharP K 3 := burnsideF48d_charP hK
-  haveI : Fintype K := Fintype.ofFinite K
+  have : CharP K 3 := burnsideF48d_charP hK
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨ω, hω⟩ := burnsideF48d_exists_omega (K := K) (by rw [← Nat.card_eq_fintype_card, hK])
   have hσ3 : ∀ c, σ c = c ^ 3 := fun c => by rw [hσ]; norm_num
   let σE : K ≃+* K := RingEquiv.ofBijective σ ⟨σ.injective, Finite.surjective_of_injective σ.injective⟩

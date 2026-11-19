@@ -132,10 +132,10 @@ section Main
 
 theorem kProjRepL2_holds : KProjRepL2 := by
   intro J _ _ hq N _ hN r hr hr5 hL q hq' hqr d hd f
-  haveI : Fact q.Prime := ⟨hq'⟩
+  have : Fact q.Prime := ⟨hq'⟩
   have hr2 : r ≠ 2 := by omega
   obtain ⟨F, _, _, e, -, hFq⟩ := CFSG.GH74.GLS.EvenSelP.exists_l2Field_of_lieModel' hr hr2 hL
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   let φ : J ⧸ N ≃* PSL(2, F) := CFSG.GH74.GLS.IVK.toPSL e
   have hchar : ringChar F = r := by
     obtain ⟨n, hn⟩ := FiniteField.card F (ringChar F)

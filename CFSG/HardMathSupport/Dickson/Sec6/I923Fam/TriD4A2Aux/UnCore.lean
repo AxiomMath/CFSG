@@ -49,12 +49,12 @@ theorem A2Core.un_polarity_core_R {p f : ℕ} [Fact p.Prime] [CharP K p] (hp5 : 
   have hτ := un_isOpposition h φ hφ ε hεσ hcomm
   have hτe := un_tauX_tauX h φ ε hcomm hcommε
   have hBsolv : Group.IsSolvable ↥(unD h φ hφ).B := by
-    haveI := (d4RGD2 σ.toRingHom h.cube_apply).isSolvable_B
+    have := (d4RGD2 σ.toRingHom h.cube_apply).isSolvable_B
     let f₀ : ↥(unD h φ hφ).B →*
         ↥((⨆ i, hHat σ.toRingHom i) ⊔ posUnipotent (g2Shape (twistedX σ.toRingHom))) :=
       ((foldFix (a2Phi h φ)).subtype.comp (unD h φ hφ).B.subtype).codRestrict _
         (fun x => ((unD_spec h φ hφ).B x.1).1 x.2)
-    exact solvable_of_solvable_injective (f := f₀) fun a b hab => by
+    exact Group.isSolvable_of_isSolvable_injective (f := f₀) fun a b hab => by
       have h1 := congrArg Subtype.val hab
       exact Subtype.ext (Subtype.ext h1)
   refine CFSG.HardMathSupport.Dickson.Sec6.I923.TriD4A2.un_residual hp5 (by omega) (unD h φ hφ) hBsolv (unTauX h φ ε hcomm)
@@ -126,7 +126,7 @@ theorem noL2Layer_a2_minus {p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hf : 1 �
     (s : graphFixedRootGroup TwistTag.D4 K σ.toRingHom) (hs : D4MinusToral p f hp K σ s) :
     NoL2Layer (MulAut.conj s * fieldActor (t := TwistTag.D4) σ σ) := by
   have : Fact p.Prime := ⟨hp⟩
-  haveI := TriD4Aux.finite_graphFixedRootGroup_D4 σ
+  have := TriD4Aux.finite_graphFixedRootGroup_D4 σ
   have hp3 : p % 3 = 2 := un_mod3_of_pow hf hq
   have hp5 : 5 ≤ p := by
     have := hp.two_le

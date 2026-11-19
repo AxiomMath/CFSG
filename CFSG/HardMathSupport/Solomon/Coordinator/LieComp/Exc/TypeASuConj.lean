@@ -106,8 +106,7 @@ theorem unitary_pin_conj {ν : ℕ} (hν : 3 ≤ ν) (π : Equiv.Perm (Fin ν)) 
     permGL_inv_mul_single_mul, diagHom_mul_one_add_single_mul d (Ne.symm hab) u]
   congr 2
   rw [hd a b hab]
-  simp only [Units.val_neg, Units.val_mul, Units.val_inv_eq_inv_val, inv_neg, inv_inv, neg_mul,
-    neg_neg]
+  simp only [Units.val_neg, Units.val_mul, Units.val_inv_eq_inv_val, inv_neg, neg_neg]
   have h0 : (d a : L) ≠ 0 := Units.ne_zero _
   have h0' : (d b : L) ≠ 0 := Units.ne_zero _
   field_simp
@@ -240,8 +239,8 @@ theorem unitary_exists_hom_W (hT : rootDiagUnit τ ta ∈ S.D.torus)
   classical
   obtain ⟨hs0, -, -⟩ := outer_componentOrbitLength_spec S hT i
   set s := componentOrbitLength S.ρ (componentRoots (rootCharHom ta) i) with hsdef
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : CharP L r := hchar
+  have : Fact r.Prime := ⟨hr⟩
+  have : CharP L r := hchar
   have hes : 1 ≤ e * s := Nat.mul_pos he hs0
   obtain ⟨σQ, hσQ⟩ := exists_ringEquiv_frob (L := L) r (e * s)
   have hσc : ∀ c, σQ c = c ^ (r ^ (e * s)) := fun c => by
@@ -251,7 +250,7 @@ theorem unitary_exists_hom_W (hT : rootDiagUnit τ ta ∈ S.D.torus)
     rw [h1, iterateFrobenius_def]
   obtain ⟨B, hB⟩ := unitary_exists_pin S hν hψ π hπ hq hσc
   obtain ⟨F, hF, hFcard⟩ := exists_subfield_card_sq (L := L) hr hes
-  haveI : Finite ↥F := Nat.finite_of_card_ne_zero (by
+  have : Finite ↥F := Nat.finite_of_card_ne_zero (by
     rw [hFcard]
     exact (pow_pos (pow_pos hr.pos _) 2).ne')
   have hfix : ∀ u, stdUnitary σQ.toRingHom (statedSUToSL F ν (r ^ (e * s)) u) =

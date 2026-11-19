@@ -40,23 +40,23 @@ variable {W V : Type} [CommGroup W] [CommGroup V] [Finite W] [Finite V]
 theorem omegaPlus6Line_of_map_congr (H : Subgroup (MulAut W)) (H' : Subgroup (MulAut V))
     (n : ℕ) (e : W ≃* V) (hH' : H' = H.map (CFSG.Quasithin.H.congrHom e))
     (h : OmegaPlus6Line V H' n) : OmegaPlus6Line W H n := by
-  letI : MulDistribMulAction ↥H W := MulDistribMulAction.compHom W H.subtype
-  letI : MulAction ↥H W := MulAction.compHom W H.subtype
-  letI : MulAction ↥H (Set W) := Set.mulActionSet
+  let : MulDistribMulAction ↥H W := MulDistribMulAction.compHom W H.subtype
+  let : MulAction ↥H W := MulAction.compHom W H.subtype
+  let : MulAction ↥H (Set W) := Set.mulActionSet
   intro S
-  letI : MulDistribMulAction ↥S W :=
+  let : MulDistribMulAction ↥S W :=
     MulDistribMulAction.compHom W (H.subtype.comp (S : Subgroup ↥H).subtype)
   let ℓ : Subgroup W := fixedPointSubgroup ↥S W
   let Pℓ : Subgroup ↥H := MulAction.stabilizer ↥H (ℓ : Set W)
   dsimp only
   intro Tstar hTnorm hT2 hST
-  letI : MulDistribMulAction ↥H' V := MulDistribMulAction.compHom V H'.subtype
-  letI : MulAction ↥H' V := MulAction.compHom V H'.subtype
-  letI : MulAction ↥H' (Set V) := Set.mulActionSet
+  let : MulDistribMulAction ↥H' V := MulDistribMulAction.compHom V H'.subtype
+  let : MulAction ↥H' V := MulAction.compHom V H'.subtype
+  let : MulAction ↥H' (Set V) := Set.mulActionSet
   let eH : ↥H ≃* ↥H' :=
     ((MulAut.congr e).subgroupMap H).trans (MulEquiv.subgroupCongr hH'.symm)
   let S' : Sylow 2 ↥H' := S.mapSurjective (f := eH.toMonoidHom) eH.surjective
-  letI : MulDistribMulAction ↥S' V :=
+  let : MulDistribMulAction ↥S' V :=
     MulDistribMulAction.compHom V (H'.subtype.comp (S' : Subgroup ↥H').subtype)
   let ℓ' : Subgroup V := fixedPointSubgroup ↥S' V
   let Pℓ' : Subgroup ↥H' := MulAction.stabilizer ↥H' (ℓ' : Set V)
@@ -243,7 +243,7 @@ theorem linMulAut_apply_ofAdd (f : (ι → K) ≃ₗ[K] (ι → K)) (v : ι → 
     ((ι → K) ≃ₗ[K] (ι → K)) →* MulAut (StdMod ι K) where
   toFun := linMulAut
   map_one' := rfl
-  map_mul' f g := rfl
+  map_mul' _f _g := rfl
 
 theorem linMulAutHom_apply (f : (ι → K) ≃ₗ[K] (ι → K)) :
     linMulAutHom f = linMulAut f := rfl
@@ -331,12 +331,14 @@ theorem splitU_isSylow :
     (fun a ha => map_flag_top_ne_Xstar (K := K) (by norm_num) ha)
   exact ⟨S, hS⟩
 
+omit [CharP K 2] in
 theorem normalizer_splitU :
     Subgroup.normalizer (splitU K : Set ↥(splitE K)) =
       (flagStab 3 K).subgroupOf (splitE K) := by
   exact normalizer_posUnip (K := K) (r := 3) (by norm_num)
     (fun a ha => map_flag_top_ne_Xstar (K := K) (by norm_num) ha)
 
+omit [CharP K 2] in
 theorem flagStab_eq_borel :
     flagStab 3 K = borel 3 K := by
   refine le_antisymm ?_ ?_
@@ -428,15 +430,12 @@ theorem eichler_inl_inr_apply {i j : Fin 3} (hij : i < j)
   have hw : polar (quadPlus 3 K) (Pi.single (Sum.inl i) 1)
       (Pi.single (Sum.inr j) 1) = 0 := by
     rw [polar_quadPlus_single_inr]
-    simp [Pi.single_apply, hij.ne]
+    simp [hij.ne]
   rw [eichler_apply hu hw]
-  simp only [polar_quadPlus_single_inl, polar_quadPlus_single_inr, one_smul,
-    quadPlus_apply, Pi.single_eq_same, Pi.single_eq_of_ne' (Sum.inl_ne_inr),
-    Pi.single_eq_of_ne' (Sum.inr_ne_inl), mul_zero, zero_mul, mul_one,
-    Finset.sum_const_zero, add_zero]
+  simp only [polar_quadPlus_single_inl, polar_quadPlus_single_inr, quadPlus_apply, Pi.single_eq_of_ne' (Sum.inr_ne_inl), zero_mul, Finset.sum_const_zero, add_zero]
   rw [sub_eq_add_neg, ← neg_smul, CharTwo.neg_eq]
 
-theorem eichler_inl_inl_apply {i j : Fin 3} (hij : i < j)
+theorem eichler_inl_inl_apply {i j : Fin 3} (_hij : i < j)
     (v : Fin 3 ⊕ Fin 3 → K) :
     eichler (quadPlus 3 K) (Pi.single (Sum.inl i) 1) (Pi.single (Sum.inl j) 1) v =
       v + (v (Sum.inr i)) • Pi.single (Sum.inl j) 1 +
@@ -446,12 +445,10 @@ theorem eichler_inl_inl_apply {i j : Fin 3} (hij : i < j)
   have hw : polar (quadPlus 3 K) (Pi.single (Sum.inl i) 1)
       (Pi.single (Sum.inl j) 1) = 0 := by
     rw [polar_quadPlus_single_inl]
-    simp [Pi.single_apply, hij.ne]
+    simp
   rw [eichler_apply hu hw]
-  simp only [polar_quadPlus_single_inl, polar_quadPlus_single_inr, one_smul,
-    quadPlus_apply, Pi.single_eq_same, Pi.single_eq_of_ne' (Sum.inl_ne_inr),
-    Pi.single_eq_of_ne' (Sum.inr_ne_inl), mul_zero, zero_mul, mul_one,
-    Finset.sum_const_zero, add_zero]
+  simp only [polar_quadPlus_single_inl, quadPlus_apply, Pi.single_eq_of_ne' (Sum.inl_ne_inr),
+    mul_zero, zero_mul, Finset.sum_const_zero, add_zero]
   rw [sub_eq_add_neg, ← neg_smul, CharTwo.neg_eq]
 
 theorem eichler_inl_inr_coord {i j : Fin 3} (hij : i < j)
@@ -469,8 +466,7 @@ theorem eichler_inl_inr_coord {i j : Fin 3} (hij : i < j)
     exact (add_left_cancel h2).symm
   have h' := congrFun hfix (Sum.inl i)
   rw [eichler_inl_inr_apply (K := K) hij v] at h'
-  simp only [Pi.add_apply, Pi.smul_apply, Pi.single_eq_of_ne' (Sum.inl_ne_inr),
-    Pi.single_eq_same, smul_eq_mul, mul_one, mul_zero, zero_add] at h'
+  simp only [Pi.add_apply, Pi.smul_apply, Pi.single_eq_same, smul_eq_mul, mul_one] at h'
   refine ⟨h1, ?_⟩
   have h2 : v (Sum.inl i) + 0 = v (Sum.inl i) + v (Sum.inl j) := by
     simpa using h'.symm
@@ -485,7 +481,6 @@ theorem eichler_inl_inl_coord {i j : Fin 3} (hij : i < j)
   have h := congrFun hfix (Sum.inl j)
   rw [eichler_inl_inl_apply (K := K) hij v] at h
   simp only [Pi.add_apply, Pi.smul_apply, Pi.single_eq_same, Pi.single_eq_of_ne' hne,
-    Pi.single_eq_of_ne' (Sum.inl_ne_inr), Pi.single_eq_of_ne' (Sum.inr_ne_inl),
     smul_eq_mul, mul_one, mul_zero, add_zero] at h
   have h1 : v (Sum.inr i) = 0 := by
     have h2 : v (Sum.inl j) + 0 = v (Sum.inl j) + v (Sum.inr i) := by
@@ -494,8 +489,7 @@ theorem eichler_inl_inl_coord {i j : Fin 3} (hij : i < j)
   have h' := congrFun hfix (Sum.inl i)
   rw [eichler_inl_inl_apply (K := K) hij v] at h'
   simp only [Pi.add_apply, Pi.smul_apply, Pi.single_eq_of_ne' (Ne.symm hne),
-    Pi.single_eq_of_ne' (Sum.inl_ne_inr), Pi.single_eq_of_ne' (Sum.inr_ne_inl),
-    Pi.single_eq_same, smul_eq_mul, mul_one, mul_zero, zero_add] at h'
+    Pi.single_eq_same, smul_eq_mul, mul_one, mul_zero] at h'
   refine ⟨h1, ?_⟩
   have h2 : v (Sum.inl i) + 0 = v (Sum.inl i) + v (Sum.inr j) := by
     simpa using h'.symm
@@ -509,6 +503,7 @@ open CFSG.ClassicalGroups.Orthogonal CFSG.LieType.Universal.Spin QuadraticMap
 
 variable {K : Type} [Field K] [CharP K 2]
 
+omit [CharP K 2] in
 theorem eichler_inl_inr_mem_posUnip {i j : Fin 3} (hij : i < j) :
     eichler (quadPlus 3 K) (Pi.single (Sum.inl i) 1) (Pi.single (Sum.inr j) 1) ∈
       posUnip 3 K := by
@@ -516,6 +511,7 @@ theorem eichler_inl_inr_mem_posUnip {i j : Fin 3} (hij : i < j) :
   refine Subgroup.subset_closure (Or.inl ⟨i, j, -1, hij, ?_⟩)
   rw [neg_neg, one_smul]
 
+omit [CharP K 2] in
 theorem eichler_inl_inl_mem_posUnip {i j : Fin 3} (hij : i < j) :
     eichler (quadPlus 3 K) (Pi.single (Sum.inl i) 1) (Pi.single (Sum.inl j) 1) ∈
       posUnip 3 K := by
@@ -523,6 +519,7 @@ theorem eichler_inl_inl_mem_posUnip {i j : Fin 3} (hij : i < j) :
   refine Subgroup.subset_closure (Or.inr ⟨i, j, -1, hij, ?_⟩)
   rw [neg_neg, one_smul]
 
+omit [CharP K 2] in
 theorem flag_one_eq_span_single :
     flag 3 K 1 = K ∙ (Pi.single (Sum.inl (0 : Fin 3)) (1 : K) : Fin 3 ⊕ Fin 3 → K) := by
   rw [flag]
@@ -544,11 +541,13 @@ theorem flag_one_eq_span_single :
     (Pi.single (Sum.inl (0 : Fin 3)) (1 : K) : Fin 3 ⊕ Fin 3 → K)) = _
   rfl
 
+omit [CharP K 2] in
 theorem single_inl_zero_mem_flag :
     Pi.single (Sum.inl (0 : Fin 3)) (1 : K) ∈ flag 3 K 1 := by
   rw [flag_one_eq_span_single]
   exact Submodule.mem_span_singleton_self _
 
+omit [CharP K 2] in
 theorem posUnip_apply_single_inl_zero {g : (Fin 3 ⊕ Fin 3 → K) ≃ₗ[K] (Fin 3 ⊕ Fin 3 → K)}
     (hg : g ∈ posUnip 3 K) :
     g (Pi.single (Sum.inl (0 : Fin 3)) 1) = Pi.single (Sum.inl (0 : Fin 3)) 1 := by
@@ -557,14 +556,14 @@ theorem posUnip_apply_single_inl_zero {g : (Fin 3 ⊕ Fin 3 → K) ≃ₗ[K] (Fi
     rintro g (⟨i, j, t, hij, rfl⟩ | ⟨i, j, t, hij, rfl⟩)
     · apply eichler_apply_of_polar_eq_zero
       · rw [polar_quadPlus_single_inl]
-        simp [he₀, Pi.single_apply]
+        simp [he₀]
       · rw [polar_smul_right, polar_quadPlus_single_inr]
-        simp [he₀, Pi.single_apply, (show j ≠ 0 by omega)]
+        simp [he₀, (show j ≠ 0 by omega)]
     · apply eichler_apply_of_polar_eq_zero
       · rw [polar_quadPlus_single_inl]
-        simp [he₀, Pi.single_apply]
+        simp [he₀]
       · rw [polar_smul_right, polar_quadPlus_single_inl]
-        simp [he₀, Pi.single_apply, (show j ≠ 0 by omega)]
+        simp [he₀]
   rw [posUnip_eq_closure] at hg
   induction hg using Subgroup.closure_induction with
   | mem g hg => exact hgen g hg
@@ -793,7 +792,7 @@ theorem maxParab_x_eq :
   rw [hgen]
   congr 1
   ext x
-  simp only [Set.mem_union, Set.mem_image, Set.mem_setOf_eq, Set.mem_insert_iff,
+  simp only [Set.mem_union, Set.mem_image, Set.mem_ofPred_eq, Set.mem_insert_iff,
     Set.mem_singleton_iff]
   constructor
   · rintro (hb | ⟨i, hi, rfl⟩)
@@ -816,7 +815,7 @@ theorem maxParab_xstar_eq :
   rw [hgen]
   congr 1
   ext x
-  simp only [Set.mem_union, Set.mem_image, Set.mem_setOf_eq, Set.mem_insert_iff,
+  simp only [Set.mem_union, Set.mem_image, Set.mem_ofPred_eq, Set.mem_insert_iff,
     Set.mem_singleton_iff]
   constructor
   · rintro (hb | ⟨i, hi, rfl⟩)
@@ -953,7 +952,7 @@ end SplitModel
 
 theorem kTab23b_OmegaPlus6_line_of_natural (W : Type) [CommGroup W] [Finite W]
     (H : Subgroup (MulAut W)) (n : ℕ)
-    (hnat : IsNaturalClassicalModule H n) (hperf : ⁅H, H⁆ = H)
+    (_hnat : IsNaturalClassicalModule H n) (_hperf : ⁅H, H⁆ = H)
     (hline : IsOmegaPlus ↥H 6 n ∧ NatOmegaPlus H ⊤ ⊥ 6 n)
     (hNat : ∀ (K : Type) [Field K] [Finite K] (m : ℕ), Nat.card K = 2 ^ m →
       OmegaPlus6Line (CFSG.Quasithin.H.StdMod (Fin 3 ⊕ Fin 3) K)
@@ -979,8 +978,8 @@ theorem kTab23b_OmegaPlus6_line_of_natural (W : Type) [CommGroup W] [Finite W]
         ∀ Pstar : Subgroup ↥H, Minimal Good Pstar →
           Pstar ≠ ⊤ ∧ (IsL2 (Bar2 (Hinf Pstar)) n ∨ (n = 1 ∧ Hinf Pstar = ⊥)) := by
   obtain ⟨-, K, hF, hFin, hK, hReal⟩ := hline.2
-  letI : Field K := hF
-  letI : Finite K := hFin
+  let : Field K := hF
+  let : Finite K := hFin
   obtain ⟨π, e, he⟩ :=
     CFSG.LocalAnalysis.UniquenessCase.UC22.KTabC.exists_natEquiv
       (ι := Fin 3 ⊕ Fin 3)
@@ -1012,12 +1011,14 @@ open CFSG.LocalAnalysis.ComponentInitial CFSG.LocalAnalysis.ComponentInitial.Ort
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 theorem rankOneParabolic_ne_top : rankOneParabolic K 3 0 ≠ splitE K := by
   intro h
   have h1 : weylElt 3 K 1 ∈ rankOneParabolic K 3 0 := by
     rw [h]; exact weylElt_mem 1
   exact weylElt_one_not_mem_xstarStab (rankOneParabolic_le_xstarParab h1)
 
+omit [Finite K] [CharP K 2] in
 theorem rankOneParabolic_not_le_pointStab :
     ¬ rankOneParabolic K 3 0 ≤ pointStab K := by
   intro h
@@ -1050,19 +1051,22 @@ instance finite_splitE : Finite ↥(splitE K) :=
   Finite.of_injective
     (fun g : ↥(splitE K) =>
       (g : (Fin 3 ⊕ Fin 3 → K) → (Fin 3 ⊕ Fin 3 → K)))
-    (fun a b h => Subtype.ext (LinearEquiv.ext (congrFun h)))
+    (fun _a _b h => Subtype.ext (LinearEquiv.ext (congrFun h)))
 
 @[expose] noncomputable def eSplitH :
     ↥(splitE K) ≃* ↥(splitH K) :=
   (splitE K).equivMapOfInjective (linMulAutHom (ι := Fin 3 ⊕ Fin 3) (K := K))
     linMulAutHom_injective
 
+omit [Finite K] [CharP K 2] in
 theorem eSplitH_surjective : Function.Surjective (eSplitH (K := K)) :=
   (eSplitH (K := K)).surjective
 
+omit [Finite K] [CharP K 2] in
 theorem eSplitH_injective : Function.Injective (eSplitH (K := K)) :=
   (eSplitH (K := K)).injective
 
+omit [Finite K] [CharP K 2] in
 theorem subtype_comp_eSplitH :
     (splitH K).subtype.comp (eSplitH (K := K)).toMonoidHom =
       (linMulAutHom (ι := Fin 3 ⊕ Fin 3) (K := K)).comp (splitE K).subtype := by
@@ -1081,12 +1085,14 @@ theorem subtype_comp_eSplitH :
 @[expose] noncomputable def natStdP0 : Subgroup (splitH K) :=
   ((rankOneParabolic K 3 0).subgroupOf (splitE K)).map (eSplitH (K := K)).toMonoidHom
 
+omit [Finite K] [CharP K 2] in
 theorem rankOneParabolic_le_splitE : rankOneParabolic K 3 0 ≤ splitE K := by
   rw [rankOneParabolic, Subgroup.closure_le]
   rintro _ (hb | rfl)
   · exact borel_le hb
   · exact weylElt_mem 0
 
+omit [Finite K] [CharP K 2] in
 theorem natStdS_map_subtype :
     (natStdS (K := K)).map (splitH K).subtype =
       (posUnip 3 K).map (linMulAutHom (ι := Fin 3 ⊕ Fin 3) (K := K)) := by
@@ -1094,18 +1100,21 @@ theorem natStdS_map_subtype :
   rw [splitU, Subgroup.map_subgroupOf_eq_of_le
     (posUnip_le_orthElementaryGroup (r := 3) (K := K))]
 
+omit [Finite K] [CharP K 2] in
 theorem natStdP_map_subtype :
     (natStdP (K := K)).map (splitH K).subtype =
       (splitE K ⊓ pointStab K).map (linMulAutHom (ι := Fin 3 ⊕ Fin 3) (K := K)) := by
   rw [natStdP, Subgroup.map_map, subtype_comp_eSplitH, ← Subgroup.map_map,
     Subgroup.map_subgroupOf_eq_of_le inf_le_left]
 
+omit [CharP K 2] in
 theorem normalizer_natStdS :
     Subgroup.normalizer (natStdS (K := K) : Set (splitH K)) = natStdB (K := K) := by
   rw [natStdS, natStdB, ← Subgroup.map_equiv_normalizer_eq (splitU K) (eSplitH (K := K))]
   congr 1
   rw [normalizer_splitU, flagStab_eq_borel]
 
+omit [Finite K] in
 theorem fixV_natStdS :
     CFSG.Quasithin.fixV ((natStdS (K := K)).map (splitH K).subtype) = pointSub K := by
   rw [natStdS_map_subtype, fixV_posUnip_map]
@@ -1120,6 +1129,7 @@ theorem isSylowTwoOf_natStdS :
   rw [Subgroup.map_top_of_surjective _ (eSplitH_surjective (K := K))] at h
   rwa [natStdS, ← hS]
 
+omit [Finite K] [CharP K 2] in
 theorem smul_pointSub (f : (Fin 3 ⊕ Fin 3 → K) ≃ₗ[K] (Fin 3 ⊕ Fin 3 → K)) :
     (linMulAut f : MulAut (CFSG.Quasithin.H.StdMod (Fin 3 ⊕ Fin 3) K)) •
         (pointSub K : Set (CFSG.Quasithin.H.StdMod (Fin 3 ⊕ Fin 3) K)) =
@@ -1146,6 +1156,7 @@ theorem smul_pointSub (f : (Fin 3 ⊕ Fin 3 → K) ≃ₗ[K] (Fin 3 ⊕ Fin 3 �
       rw [MulAut.smul_def, linMulAut_apply_ofAdd]
       exact congrArg Multiplicative.ofAdd hwv⟩
 
+omit [Finite K] [CharP K 2] in
 theorem smul_pointSub_eq_iff (f : (Fin 3 ⊕ Fin 3 → K) ≃ₗ[K] (Fin 3 ⊕ Fin 3 → K)) :
     (linMulAut f : MulAut (CFSG.Quasithin.H.StdMod (Fin 3 ⊕ Fin 3) K)) •
         (pointSub K : Set (CFSG.Quasithin.H.StdMod (Fin 3 ⊕ Fin 3) K)) = pointSub K ↔
@@ -1191,6 +1202,7 @@ theorem smul_pointSub_eq_iff (f : (Fin 3 ⊕ Fin 3 → K) ≃ₗ[K] (Fin 3 ⊕ F
     fun h => congrArg (fun W : Submodule K (Fin 3 ⊕ Fin 3 → K) =>
       (W : Set (Fin 3 ⊕ Fin 3 → K))) h⟩
 
+omit [Finite K] [CharP K 2] in
 theorem linMulAut_mem_stabilizer_pointSub_iff
     (f : (Fin 3 ⊕ Fin 3 → K) ≃ₗ[K] (Fin 3 ⊕ Fin 3 → K)) :
     linMulAut f ∈ MulAction.stabilizer
@@ -1205,6 +1217,7 @@ theorem linMulAut_mem_stabilizer_pointSub_iff
     (G := (Fin 3 ⊕ Fin 3 → K) ≃ₗ[K] (Fin 3 ⊕ Fin 3 → K))
     (S := flag 3 K 1) (e := f)).symm
 
+omit [Finite K] [CharP K 2] in
 theorem stabilizer_pointSub_eq_natStdP :
     letI : MulDistribMulAction ↥(splitH K)
       (CFSG.Quasithin.H.StdMod (Fin 3 ⊕ Fin 3) K) :=
@@ -1216,13 +1229,13 @@ theorem stabilizer_pointSub_eq_natStdP :
       (Set (CFSG.Quasithin.H.StdMod (Fin 3 ⊕ Fin 3) K)) := Set.mulActionSet
     MulAction.stabilizer ↥(splitH K)
         (pointSub K : Set (CFSG.Quasithin.H.StdMod (Fin 3 ⊕ Fin 3) K)) = natStdP (K := K) := by
-  letI : MulDistribMulAction ↥(splitH K)
+  let : MulDistribMulAction ↥(splitH K)
       (CFSG.Quasithin.H.StdMod (Fin 3 ⊕ Fin 3) K) :=
       MulDistribMulAction.compHom _ (splitH K).subtype
-  letI : MulAction ↥(splitH K)
+  let : MulAction ↥(splitH K)
       (CFSG.Quasithin.H.StdMod (Fin 3 ⊕ Fin 3) K) :=
       MulAction.compHom _ (splitH K).subtype
-  letI : MulAction ↥(splitH K)
+  let : MulAction ↥(splitH K)
       (Set (CFSG.Quasithin.H.StdMod (Fin 3 ⊕ Fin 3) K)) := Set.mulActionSet
   apply Subgroup.map_injective (f := (splitH K).subtype) (splitH K).subtype_injective
   rw [map_subtype_stabilizer_eq_inf (splitH K) (pointSub K), natStdP_map_subtype]
@@ -1236,6 +1249,7 @@ theorem stabilizer_pointSub_eq_natStdP :
     exact ⟨(linMulAut_mem_stabilizer_pointSub_iff (K := K) f).mpr hf.2,
       Subgroup.mem_map_of_mem (linMulAutHom (ι := Fin 3 ⊕ Fin 3) (K := K)) hf.1⟩
 
+omit [Finite K] [CharP K 2] in
 theorem rankOneParabolic_le_of_borel_le_of_not_le_pointStab
     {M : Subgroup ((Fin 3 ⊕ Fin 3 → K) ≃ₗ[K] (Fin 3 ⊕ Fin 3 → K))}
     (hME : M ≤ splitE K) (hBM : borel 3 K ≤ M) (hnot : ¬ M ≤ pointStab K) :
@@ -1251,6 +1265,7 @@ theorem rankOneParabolic_le_of_borel_le_of_not_le_pointStab
     exact le_inf (rankOneParabolic_le_splitE (K := K)) (rankOneParabolic_le_xstarParab (K := K))
   · rw [h]; exact rankOneParabolic_le_splitE (K := K)
 
+omit [Finite K] [CharP K 2] in
 theorem rankOneParabolic_subgroupOf_le_of_borel_le_of_not_le_pointStab
     {M : Subgroup ↥(splitE K)}
     (hBM : (borel 3 K).subgroupOf (splitE K) ≤ M)
@@ -1276,6 +1291,7 @@ theorem rankOneParabolic_subgroupOf_le_of_borel_le_of_not_le_pointStab
   have hyx' : y = x := Subtype.ext hyx
   rwa [hyx'] at hy
 
+omit [Finite K] [CharP K 2] in
 theorem natStdP0_map_conj_le_of_borel_le_of_not_le_point
     (h : ↥(splitH K)) {P : Subgroup ↥(splitH K)}
     (hB : (natStdB (K := K)).map (MulAut.conj h).toMonoidHom ≤ P)
@@ -1349,8 +1365,9 @@ instance finite_gl : Finite
   Finite.of_injective
     (fun f : (Fin 3 ⊕ Fin 3 → K) ≃ₗ[K] (Fin 3 ⊕ Fin 3 → K) =>
       (f : (Fin 3 ⊕ Fin 3 → K) → (Fin 3 ⊕ Fin 3 → K)))
-    (fun a b h => LinearEquiv.ext (congrFun h))
+    (fun _a _b h => LinearEquiv.ext (congrFun h))
 
+omit [CharP K 2] in
 theorem natStdS_le_natStdP0 : natStdS (K := K) ≤ natStdP0 (K := K) := by
   rw [natStdS, natStdP0]
   have hpb : CFSG.LocalAnalysis.ComponentInitial.OrthogonalSplit.posUnip 3 K ≤
@@ -1366,6 +1383,7 @@ theorem isParabolicTwo_natStdP0 :
     (eSplitH_surjective (K := K))
   rwa [natStdP0]
 
+omit [Finite K] [CharP K 2] in
 theorem natStdP0_ne_top : natStdP0 (K := K) ≠ ⊤ := by
   intro htop
   have h1 : ((rankOneParabolic K 3 0).subgroupOf (splitE K)) = ⊤ := by
@@ -1382,6 +1400,7 @@ theorem natStdP0_ne_top : natStdP0 (K := K) ≠ ⊤ := by
     exact hmap
   exact rankOneParabolic_ne_top (K := K) h2
 
+omit [Finite K] [CharP K 2] in
 theorem natStdP0_not_le_natStdP : ¬ natStdP0 (K := K) ≤ natStdP (K := K) := by
   intro hle
   apply rankOneParabolic_not_le_pointStab (K := K)
@@ -1416,6 +1435,7 @@ theorem isL2_bar2_hinf_subgroupOf {G : Type} [Group G] [Finite G]
   exact CFSG.Blueprint.LieModel.of_mulEquiv (t := .PSL) (n := 2) (p := 2) (f := n)
     ebar.symm h
 
+omit [CharP K 2] in
 theorem isL2_natStdP0_of_surjection {n : ℕ} (hn : 2 ≤ n)
     (hK : Nat.card K = 2 ^ n)
     (f : ↥(Hinf (rankOneParabolic K 3 0)) →* Matrix.SpecialLinearGroup (Fin 2) K)
@@ -1429,6 +1449,7 @@ theorem isL2_natStdP0_of_surjection {n : ℕ} (hn : 2 ≤ n)
   exact isL2_bar2_hinf_map_equiv (eSplitH (K := K))
     ((rankOneParabolic K 3 0).subgroupOf (splitE K)) hsub
 
+omit [CharP K 2] in
 theorem hinf_natStdP0_eq_bot
     (h : Hinf (rankOneParabolic K 3 0) = ⊥) :
     Hinf (natStdP0 (K := K)) = ⊥ := by
@@ -1453,10 +1474,7 @@ theorem omegaPlus6Line_natural_of_condition (K : Type) [Field K] [Finite K]
       (CFSG.Open.StatedOmega (CFSG.Open.StatedQuadPlus 3 K)) = splitH K from
     natImage_statedOmega_eq_map (n := 3) (K := K) (by norm_num)]
   unfold OmegaPlus6Line
-  intro S
-  intro ℓ Pℓ
-  intro Tstar hTnorm hT2 hST
-  intro Good Pstar hmin
+  intro S ℓ Pℓ Tstar hTnorm hT2 hST Good Pstar hmin
   classical
   have hSylS : CFSG.QuasithinUnique.IsSylowTwoOf (S : Subgroup ↥(splitH K)) ⊤ :=
     CFSG.QuasithinUnique.isSylowTwoOf_top_of_sylow S
@@ -1727,7 +1745,7 @@ theorem omegaPlus6Line_natural_of_condition (K : Type) [Field K] [Finite K]
       obtain ⟨f, hf, hker⟩ := hmain hm
       have hm2 : 2 ≤ m := by
         have h2K : 2 ≤ Nat.card K := by
-          haveI : Fintype K := Fintype.ofFinite K
+          have : Fintype K := Fintype.ofFinite K
           rw [Nat.card_eq_fintype_card]
           exact Nat.succ_le_of_lt Fintype.one_lt_card
         have hm0 : m ≠ 0 := by
@@ -1745,11 +1763,11 @@ end NaturalLineFinal
 
 theorem hbot_split (K : Type) [Field K] [Finite K] (hK : Nat.card K = 2) :
     Hinf (rankOneParabolic K 3 0) = ⊥ := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime (p := 2) (by
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime (p := 2) (by
     rw [← Nat.card_eq_fintype_card]
     exact hK)
-  haveI : Finite ((Fin 3 ⊕ Fin 3 → K) ≃ₗ[K] (Fin 3 ⊕ Fin 3 → K)) :=
+  have : Finite ((Fin 3 ⊕ Fin 3 → K) ≃ₗ[K] (Fin 3 ⊕ Fin 3 → K)) :=
     Finite.of_injective
       (fun f : (Fin 3 ⊕ Fin 3 → K) ≃ₗ[K] (Fin 3 ⊕ Fin 3 → K) =>
         (f : (Fin 3 ⊕ Fin 3 → K) → (Fin 3 ⊕ Fin 3 → K)))
@@ -1768,7 +1786,7 @@ theorem omegaPlus6Natural_holds_cond
         (CFSG.Quasithin.H.natImage
           (CFSG.Open.StatedOmega (CFSG.Open.StatedQuadPlus 3 K))) m := by
   intro K _ _ m hK
-  haveI : CharP K 2 := by
+  have : CharP K 2 := by
     have : Fintype K := Fintype.ofFinite K
     exact charP_of_card_eq_prime_pow (f := m) (by
       rw [← Nat.card_eq_fintype_card]; exact hK)

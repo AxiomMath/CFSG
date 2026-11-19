@@ -34,6 +34,7 @@ private theorem he42n_conj_inv_mem {L : Subgroup G} {h : G}
   rw [← hx']
   exact hx
 
+omit [Finite G] in
 private theorem he42n_le_of_normal {L A' M : Subgroup G} {ψ : ↥L →* Equiv.Perm (Fin 5)}
     (hker : ψ.ker = A'.subgroupOf L) (hrange : ψ.range = alternatingGroup (Fin 5))
     (hML : M ≤ L) (hMn : ∀ l ∈ L, ∀ m ∈ M, l * m * l⁻¹ ∈ M) (hM : Nat.card M = 64) :
@@ -42,7 +43,7 @@ private theorem he42n_le_of_normal {L A' M : Subgroup G} {ψ : ↥L →* Equiv.P
     rw [hrange]
     exact alternatingGroup.isSimpleGroup (by simp)
   have h60 : Nat.card (alternatingGroup (Fin 5)) = 60 := by
-    rw [nat_card_alternatingGroup, Nat.card_eq_fintype_card, Fintype.card_fin] <;> decide
+    rw [nat_card_alternatingGroup, Nat.card_eq_fintype_card, Fintype.card_fin]; decide
   have hMn' : (M.subgroupOf L).Normal := by
     refine ⟨fun n hn g => ?_⟩
     rw [Subgroup.mem_subgroupOf] at hn ⊢
@@ -122,6 +123,7 @@ private theorem he42n_core {A A' L : Subgroup G} {ψ : ↥L →* Equiv.Perm (Fin
     rw [e]
     exact (A ⊔ A').inv_mem hx
 
+omit [Finite G] in
 private theorem he42n_le_inf {A B : Subgroup G} (hBA : B ≤ A)
     (hcomm : ∀ x ∈ A, ∀ y ∈ A, x * y = y * x) :
     A ≤ normalizer (A : Set G) ⊓ centralizer (B : Set G) := by

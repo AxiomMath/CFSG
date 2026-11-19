@@ -185,7 +185,7 @@ theorem pop240_lsum {g : ℕ → ℕ} (hg : ∀ i < 240, g i ≤ 1) :
     (fun k => lt_of_le_of_lt (conv_le 16 240 _ _ 1 1 hx hxl hyl k) (by norm_num))]
   refine Finset.sum_congr rfl fun i hi => ?_
   have hi' := Finset.mem_range.1 hi
-  rw [fld_lsum hg', fld_lsum h1, if_pos (by omega), if_pos (by omega), mul_one]
+  rw [fld_lsum hg', fld_lsum h1, ite_eq_left (by omega), ite_eq_left (by omega), mul_one]
 
 section Pairs
 
@@ -206,7 +206,7 @@ theorem zl_lane (hmvf : ∀ x < 240, ∀ f : ℕ, mvf MVS x f =
     fld ZL 16 b = if iform (vec b) (vec (fld PW 8 b)) = 0 then 1 else 0 := by
   have h : fld ZL 16 b = fld (mvf MVS (fld PW 8 b) 2) 16 b := beq_eq_true.1 (Lane.allLt_iff.1 hzl b hb)
   rw [h, mvf_ind hmvf (hPW b hb) 2 0 (by norm_num), fld_lsum (fun i _ => by split_ifs <;> norm_num),
-    if_pos hb]
+    ite_eq_left hb]
 
 theorem bmask_eq (hmvf : ∀ x < 240, ∀ f : ℕ, mvf MVS x f =
       lsum (fun i => if iform (vec i) (vec x) + 2 = f then 1 else 0))
@@ -224,7 +224,7 @@ theorem bmask_eq (hmvf : ∀ x < 240, ∀ f : ℕ, mvf MVS x f =
     split_ifs <;> norm_num
   rw [e, mvf_ind hmvf ha 1 (-1) (by norm_num), mvf_ind hmvf (hPW a ha) 2 0 (by norm_num), hz,
     lsum_land (b01 _) hp (fun i hi => by
-      rw [fld_lsum (fun i hi => by have := hp i hi; omega), if_pos hi])]
+      rw [fld_lsum (fun i hi => by have := hp i hi; omega), ite_eq_left hi])]
 
 open Classical in
 theorem adm_card (hmvf : ∀ x < 240, ∀ f : ℕ, mvf MVS x f =
@@ -302,7 +302,7 @@ theorem trecOK_iff (PGs LF : ℕ → ℕ) (a0 b0 e a b : ℕ) : trecOK PGs LF a0
   rw [strictB_eq]
   cases h : Nat.beq ((e >>> 16) &&& 63) 0
   · have h' := beq_eq_false.1 h
-    simp only [andB_eq_true, beq_eq_true, blt_eq_true, h', false_and, ne_eq, not_false_eq_true,
+    simp only [andB_eq_true, blt_eq_true, h', false_and, ne_eq, not_false_eq_true,
       true_and, false_or]
   · have h' := beq_eq_true.1 h
     simp only [andB_eq_true, beq_eq_true, h', true_and, ne_eq, not_true_eq_false, false_and,
@@ -343,7 +343,7 @@ theorem adm_reach {vec : ℕ → Fin Tag.E8.rank → ℤ} {MVS PGs LF : ℕ → 
     (hmvf : ∀ x < 240, ∀ f : ℕ, mvf MVS x f =
       lsum (fun i => if iform (vec i) (vec x) + 2 = f then 1 else 0))
     (hPW : ∀ g < 240, fld PW 8 g < 240) (hPG : ∀ k < 3, ∀ g < 240, fld (PGs k) 8 g < 240)
-    (ha0 : a0 < 240) (hb0 : b0 < 240) (hzl : zlOK MVS PW ZL = true)
+    (ha0 : a0 < 240) (_hb0 : b0 < 240) (hzl : zlOK MVS PW ZL = true)
     (hcnt : cntOK MVS PW ZL = true) (hleaf : ∀ L < 120, tleaf MVS PGs LF PW ZL a0 b0 L = true)
     {a b : ℕ} (hab : Adm vec PW a b) :
     ∃ ks : List ℕ, (∀ k ∈ ks, k < 3) ∧ a = wapp PGs ks a0 ∧ b = wapp PGs ks b0 := by
@@ -366,11 +366,11 @@ theorem adm_reach {vec : ℕ → Fin Tag.E8.rank → ℤ} {MVS PGs LF : ℕ → 
     rw [hS, Finset.mem_filter, Finset.mem_product, Finset.mem_range, Finset.mem_range]
     refine ⟨⟨hra, hrb⟩, hra, hrb, ?_, ?_, ?_, ?_⟩
     · by_contra h
-      rw [if_neg h] at hz
+      rw [ite_eq_right h] at hz
       exact absurd hz (by norm_num)
     all_goals
       by_contra h
-      rw [if_neg h] at hb1 <;> simp at hb1
+      rw [ite_eq_right h] at hb1; simp at hb1
   have hinj : Set.InjOn r (Finset.range 7680 : Set ℕ) := by
     intro p hp q hq hpq
     have hp' := Finset.mem_range.1 hp
@@ -460,7 +460,7 @@ theorem gen_spec
     intro x
     funext k
     simp only [hD.simple, Finset.sum_apply, Pi.smul_apply, Pi.single_apply, smul_eq_mul, mul_ite,
-      mul_one, mul_zero, Finset.sum_ite_eq, Finset.mem_univ, if_true]
+      mul_one, mul_zero, Finset.sum_ite_eq, Finset.mem_univ, ite_true]
   have hiso' : ∀ x y, iform (ψ x) (ψ y) = iform x y := by
     intro x y
     conv_rhs => rw [hx x, hx y]
@@ -470,7 +470,7 @@ theorem gen_spec
     intro m
     rw [hψ, hD.simple]
     simp only [Pi.single_apply, ite_smul, one_smul, zero_smul, Finset.sum_ite_eq', Finset.mem_univ,
-      if_true]
+      ite_true]
   refine ⟨ψ, hiso', pw8_spec hD hroot hpw ψ hiso' hψm fun m hm => (hI m hm).1, fun g hg => ?_⟩
   exact beq_eq_true.1 (Lane.allLt_iff.1 hcomm g hg)
 

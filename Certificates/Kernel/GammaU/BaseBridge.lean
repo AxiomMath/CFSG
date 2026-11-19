@@ -159,7 +159,7 @@ theorem te0_spec {e : Nat} (he : ∃ n < CFSG.KD.GUCC.NE, ap12 (look CFSG.KD.GUC
   have hn := he'.choose_spec
   have hn4 : he'.choose < 4 := lt_of_lt_of_eq hn.1 ch16966bb_ne
   refine ⟨he'.choose, hn4, ?_, hn.2⟩
-  rw [te0, dif_pos he']
+  rw [te0, dite_eq_left he']
   exact isP_autP (IsP.exists_of_mul (CFSG.KD.GUCC.inv_spec.1 _ hn4))
 
 theorem colTr_of {r0 : Array ℕ}

@@ -91,8 +91,7 @@ theorem norm_eq_one_of_isJUnitary_scalar (hn : 1 ≤ n) {c : Fˣ}
     Matrix.diagonal_map (map_zero (unitaryInvolution F 2 f)), Matrix.diagonal_transpose] at h
   let i : Fin n := ⟨0, by omega⟩
   have hentry := congrArg (fun M : Matrix (Fin n) (Fin n) F => M i (Fin.rev i)) h
-  simp only [Matrix.diagonal_mul, Matrix.mul_diagonal, antidiag, Matrix.of_apply, Fin.rev_rev,
-    ↓reduceIte, mul_one] at hentry
+  simp only [Matrix.diagonal_mul, Matrix.mul_diagonal, antidiag, Matrix.of_apply, ↓reduceIte, mul_one] at hentry
   have hσc : unitaryInvolution F 2 f (c : F) * (c : F) = 1 := hentry
   have hpow : (c : F) ^ (2 ^ f + 1) = 1 := by
     calc (c : F) ^ (2 ^ f + 1) = (c : F) ^ (2 ^ f) * (c : F) := by rw [pow_succ]
@@ -140,6 +139,7 @@ theorem not_three_dvd_two_pow_add_one_of_even {f : ℕ} (hf : Even f) : ¬ 3 ∣
   revert h4
   decide
 
+omit [Finite F] [CharP F 2] in
 theorem exists_cube_root_norm_one (hfe : Even f) {c : Fˣ} (hc : c ^ (2 ^ f + 1) = 1) :
     ∃ d : Fˣ, d ^ 3 = c ∧ d ^ (2 ^ f + 1) = 1 := by
   have hnot : ¬ 3 ∣ 2 ^ f + 1 := not_three_dvd_two_pow_add_one_of_even hfe

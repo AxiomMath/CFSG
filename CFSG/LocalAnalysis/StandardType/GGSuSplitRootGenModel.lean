@@ -154,7 +154,7 @@ private theorem eq_one_of_mem_hypScalars_splitTorus {K : Type} [Field K] {n r ε
     {τ : Multiplicative (Fin r → ZMod p) →* hypSU h r ε} (hτ : IsSplitTorus h ζ τ)
     {t : Multiplicative (Fin r → ZMod p)} (hmem : τ t ∈ hypScalars h r ε) : t = 1 := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨c, -, -, hc⟩ := mem_normOneScalars.mp hmem
   have hdiag : (((τ t : hypSU h r ε) : GL (HypIndex r ε) K) :
       Matrix (HypIndex r ε) (HypIndex r ε) K) =
@@ -226,7 +226,7 @@ theorem exists_isCoverTorusModel
   classical
   have hKpos : 0 < Nat.card K := by rw [hK]; positivity
   have : Finite K := Nat.finite_of_card_ne_zero hKpos.ne'
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hn1 : 1 ≤ n := by
     rcases Nat.eq_zero_or_pos n with rfl | h
     · have h1 : Nat.card K = 1 := by simpa using hK
@@ -234,7 +234,7 @@ theorem exists_isCoverTorusModel
       omega
     · exact h
   have h := TableBU.unitaryFieldData_of_card hK hn1
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   have hp2 : p ≠ 2 := by
     intro h2
     have hodd : Odd (2 ^ n - 1) := by
@@ -266,9 +266,9 @@ theorem exists_isCoverTorusModel
     have h2 : p ∣ 2 := by
       have hp1 : 1 ≤ 2 ^ n := Nat.one_le_pow' n 1
       have hsub : p ∣ (2 ^ n + 1) - (2 ^ n - 1) := Nat.dvd_sub hdiv hpq
-      convert hsub using 2 <;> omega
+      convert hsub using 2; omega
     exact hp2 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).mp h2)
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨r, ε, hε, rfl⟩ : ∃ r ε : ℕ, ε ≤ 1 ∧ d = 2 * r + ε :=
     ⟨d / 2, d % 2, by omega, by omega⟩
   have hd4 : 4 ≤ 2 * r + ε := hd
@@ -361,7 +361,7 @@ theorem exists_isCoverTorusModel
     change (R.map h.bar)ᵀ * R = hypGram r ε K
     ext x y
     rw [Matrix.mul_apply, ← hw x y, stdB, gramForm_apply]
-    simp [R, dotProduct, Matrix.mul_apply]
+    simp [R, dotProduct]
   let T : hypSU h r ε ≃* ↥(unitarySU 2 n K (2 * r + ε)) := hypTransport h hR
   have hevY : ∀ y : A', ∀ a, ∃ c : K,
       ((((y : ↥(unitarySU 2 n K (2 * r + ε))) : GL (Fin (2 * r + ε)) K) :
@@ -546,7 +546,7 @@ theorem card_le_of_three {K : Type} [Field K] {n p : ℕ} (hK : Nat.card K = (2 
   classical
   have hKpos : 0 < Nat.card K := by rw [hK]; positivity
   have : Finite K := Nat.finite_of_card_ne_zero hKpos.ne'
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hn1 : 1 ≤ n := by
     rcases Nat.eq_zero_or_pos n with rfl | h
     · have h1 : Nat.card K = 1 := by simpa using hK
@@ -554,7 +554,7 @@ theorem card_le_of_three {K : Type} [Field K] {n p : ℕ} (hK : Nat.card K = (2 
       omega
     · exact h
   have h := TableBU.unitaryFieldData_of_card hK hn1
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   have hp2 : p ≠ 2 := by
     intro h2
     have hodd : Odd (2 ^ n - 1) := by
@@ -585,9 +585,9 @@ theorem card_le_of_three {K : Type} [Field K] {n p : ℕ} (hK : Nat.card K = (2 
     have h2 : p ∣ 2 := by
       have hp1 : 1 ≤ 2 ^ n := Nat.one_le_pow' n 1
       have hsub : p ∣ (2 ^ n + 1) - (2 ^ n - 1) := Nat.dvd_sub hdiv hpq
-      convert hsub using 2 <;> omega
+      convert hsub using 2; omega
     exact hp2 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).mp h2)
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hdq : (3, 2 ^ n) ≠ (3, 2) := by
     intro h
     have h2 : 2 ^ n = 2 := congrArg Prod.snd h
@@ -689,7 +689,7 @@ theorem card_le_of_three {K : Type} [Field K] {n p : ℕ} (hK : Nat.card K = (2 
     change (R.map h.bar)ᵀ * R = hypGram 1 1 K
     ext x y
     rw [Matrix.mul_apply, ← hw x y, stdB, gramForm_apply]
-    simp [R, dotProduct, Matrix.mul_apply]
+    simp [R, dotProduct]
   let T : hypSU h 1 1 ≃* ↥(unitarySU 2 n K 3) := by
     have h' : hypSU h 1 1 ≃* ↥(unitarySU 2 n K (2 * 1 + 1)) := hypTransport h hR
     exact h'

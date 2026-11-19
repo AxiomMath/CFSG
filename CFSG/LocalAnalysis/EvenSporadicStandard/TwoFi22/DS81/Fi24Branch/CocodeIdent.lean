@@ -16,7 +16,7 @@ variable {G : Type} [Group G] {E : Subgroup G} {t : G}
 theorem not_mathieuCode24_XE (hm : M24Out G E t) :
     ¬ @MathieuCode24 ↥E (commGroupOfM24Out hm) (S44.XE E) ⊤ ⊥ := by
   intro h
-  letI := commGroupOfM24Out hm
+  let := commGroupOfM24Out hm
   obtain ⟨x, hx1, hdvd⟩ := exists_ne_one_card_orbit_dvd_of_mathieuCode24 h
   rcases card_orbit_cases hm hx1 with ⟨-, h276⟩ | ⟨-, h1771⟩
   · rw [h276] at hdvd
@@ -29,8 +29,8 @@ theorem exists_equiv_w11
     ∃ e : ↥E ≃* W11,
       (S44.XE E).map (@CFSG.Quasithin.H.congrHom ↥E W11 (commGroupOfM24Out hm) _ e) =
         img11 AutPerm := by
-  letI := commGroupOfM24Out hm
-  haveI := finite_E_of_m24Out hm
+  let := commGroupOfM24Out hm
+  have := finite_E_of_m24Out hm
   have hirr := isIrrOn_XE hm
   have hcard : Nat.card ↥E ≤ 2 ^ 36 := by
     rw [hm.card_E]
@@ -54,7 +54,7 @@ theorem mem_normClass_iff_notMem_orbit_z0 (hm : M24Out G E t) (e : ↥E ≃* W11
     {x : G} (hxE : x ∈ E) (hx1 : x ≠ 1) :
     x ∈ normClass E t ↔
       e ⟨x, hxE⟩ ∉ orbit ↥(img11 AutPerm) CFSG.Quasithin.H.Coc24.z0 := by
-  letI := commGroupOfM24Out hm
+  let := commGroupOfM24Out hm
   obtain ⟨y, -, -, -, -, hcover⟩ := exists_two_orbits hm
   have horb : ∀ v : W11, orbit ↥((S44.XE E).map (CFSG.Quasithin.H.congrHom e)) v =
       orbit ↥(img11 AutPerm) v := by

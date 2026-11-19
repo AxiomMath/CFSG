@@ -43,6 +43,7 @@ private theorem line_centralizer_of_comm_ne_one {K : Type} [Field K] {γ : G →
     (Tim79.QuadModel.centralizer_iff hD.reg hLQ he hk).mpr hBe
   exact fun a ha => (Subgroup.mem_centralizer_iff.mp hkC a ha).symm
 
+omit [Finite G] in
 private theorem lineConj_one (w : G) (L Q Z : Subgroup G) :
     ((1, 1) : G × G) ∈ LineConj w L Q Z :=
   ⟨L.one_mem, Z.one_mem, 1, Q.one_mem, by
@@ -150,6 +151,7 @@ private theorem lineConj_snd_inj {K : Type} [Field K] {γ : G → K}
   · exact congrArg Prod.fst (mul_inv_eq_one.mp (Prod.ext hq1 hq2))
   · exact absurd (hroot _ hqL (Sit.isRoot_of_conj hs (hLA hqL) hq1 ⟨k, hk'⟩)) hq1
 
+omit [Finite G] in
 private theorem lineConj_conclusion {S : Subgroup (G × G)} {w : G} {L Q Z : Subgroup G}
     (hS : ∀ p : G × G, p ∈ S ↔ p ∈ LineConj w L Q Z)
     (hfst : ∀ p ∈ S, ∀ p' ∈ S, p.1 = p'.1 → p = p')

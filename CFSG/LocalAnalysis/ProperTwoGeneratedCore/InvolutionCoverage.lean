@@ -172,7 +172,7 @@ theorem derived_involution_coverage_of_sylow_normal_four
     rw [← pRank_subgroup_eq_internal_top 2 (by decide), sylow_two_rank_eq]
     exact hrank
   obtain ⟨A, hA, hAcard⟩ := exists_elementary_eight_of_rank_three hPrank
-  obtain ⟨_, _, hindex⟩ := normal_four_centralizer_index S.isPGroup' V hV hVcard
+  obtain ⟨_, _, hindex⟩ := normal_four_centralizer_index S.isPGroup V hV hVcard
   change C.index ≤ 2 at hindex
   let Cimage := C.map P.subtype
   have hCimageP : Cimage ≤ P := Subgroup.map_subtype_le _
@@ -202,7 +202,7 @@ theorem derived_involution_coverage_of_sylow_normal_four
     simpa only [MulAut.conj_apply, inv_inv, ht] using (MulAut.conj g⁻¹).orderOf_eq t
   have hxInternalOrder : orderOf x = 2 := (Subgroup.orderOf_coe x).symm.trans hxOrder
   obtain ⟨E, _, hE, hEcard, hxE⟩ := normal_four_centralizer_involution_coverage
-    S.isPGroup' V hV hVcard A hA hAcard x hxInternalOrder hxC
+    S.isPGroup V hV hVcard A hA hAcard x hxInternalOrder hxC
   have hEambient := elementary_eight_coverage_lift P x ⟨E, hE, hEcard, hxE⟩
   obtain ⟨F, _, hF, hFcard, hxF⟩ := hEambient
   exact elementary_eight_coverage_conjugate t g F hF hFcard (hx ▸ hxF)
@@ -218,7 +218,7 @@ theorem derived_involution_rank_three_coverage
     rw [← pRank_subgroup_eq_internal_top 2 (by decide), sylow_two_rank_eq]
     exact hrank
   obtain ⟨V, hVnormal, hV, hVcard⟩ :=
-    high_two_rank_normal_four (S : Subgroup G) S.isPGroup' hSrank
+    high_two_rank_normal_four (S : Subgroup G) S.isPGroup hSrank
   let : V.Normal := hVnormal
   exact derived_involution_coverage_of_sylow_normal_four S hrank V hV hVcard t ht htDerived
 

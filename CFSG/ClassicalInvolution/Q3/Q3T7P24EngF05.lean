@@ -89,7 +89,7 @@ theorem not_alt_two {S₀ : Sylow 2 G} (hWS₀ : W ≤ (S₀ : Subgroup G))
       rw [C.card_K_inf_W] at this
       exact this
     exact C.D.F.hne₁ (C.hK.trans (C.hyp.eq_of_le_of_le C.mem C.D.F.ρ₃.hK
-      (S₀.isPGroup'.to_inf_right) h4 inf_le_left hle))
+      (S₀.isPGroup.to_inf_right) h4 inf_le_left hle))
   have hcomm := l6_7_proved G Ω C.hyp S₀ _ hK1 _ hJ1 inf_le_right
     inf_le_right hne
   have hab : ρa.r * ρb.r = ρb.r * ρa.r :=
@@ -169,7 +169,7 @@ theorem conjSub_K_mem {y : G} (hy : y ∈ (S : Subgroup G)) :
     rwa [conjSub_eq_self_of_mem hy] at h
   have hL : conjSub y K ∈ Ω := hΩ.conjInvariant y K C.mem
   have hTL : conjSub y R ≤ conjSub y K := conjSub_mono C.hd.hR.2.1
-  have hT2 : IsPGroup 2 ↥(conjSub y R) := S.isPGroup'.to_le hTS
+  have hT2 : IsPGroup 2 ↥(conjSub y R) := S.isPGroup.to_le hTS
   have h8 : Nat.card ↥(conjSub y R) = 8 := by
     rw [← C.h8]
     exact Nat.card_congr (Subgroup.equivMapOfInjective R (MulAut.conj y).toMonoidHom
@@ -373,7 +373,7 @@ theorem exists_swap : ∃ x ∈ (S : Subgroup G) ⊓ MGrp Ω W, conjSub x K = K'
       apply C.D.φ.injective
       rw [map_pow, map_mul, h3, map_one]
     apply h1
-    rw [← map_mul, eq_one_of_pow_three PB.isPGroup' hy hy3, map_one]
+    rw [← map_mul, eq_one_of_pow_three PB.isPGroup hy hy3, map_one]
   obtain ⟨x, hxS, hx⟩ := (hmemPB h).mp hhP
   have hxN : (x : G) ∈ Subgroup.normalizer (W : Set G) := Thompson.MGrp_le_normalizer Ω W x.2
   refine ⟨x, ⟨hxS, x.2⟩, ?_⟩

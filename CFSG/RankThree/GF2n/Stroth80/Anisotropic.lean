@@ -19,13 +19,13 @@ theorem quadMap_sum {A K : Type*} [AddCommGroup A] [AddCommGroup K] {d : ℕ} (q
     have hm : m ∉ s := fun h => lt_irrefl _ (hlt m h)
     rw [Finset.sum_insert hm, hq, ih, Finset.sum_insert hm, Finset.sum_insert hm]
     have h1 : ∑ k ∈ insert m s, (if m < k then β (y m) (y k) else 0) = ∑ k ∈ s, β (y m) (y k) := by
-      rw [Finset.sum_insert hm, if_neg (lt_irrefl _)]
+      rw [Finset.sum_insert hm, ite_eq_right (lt_irrefl _)]
       rw [zero_add]
-      exact Finset.sum_congr rfl fun k hk => if_pos (hlt k hk)
+      exact Finset.sum_congr rfl fun k hk => ite_eq_left (hlt k hk)
     have h2 : ∀ i ∈ s, ∑ k ∈ insert m s, (if i < k then β (y i) (y k) else 0) =
         ∑ k ∈ s, if i < k then β (y i) (y k) else 0 := by
       intro i hi
-      rw [Finset.sum_insert hm, if_neg (not_lt.mpr (le_of_lt (hlt i hi))), zero_add]
+      rw [Finset.sum_insert hm, ite_eq_right (not_lt.mpr (le_of_lt (hlt i hi))), zero_add]
     rw [h1, Finset.sum_congr rfl h2, map_sum]
     abel
 
@@ -34,11 +34,11 @@ theorem card_le_sq_of_anisotropic {A K : Type} [AddCommGroup A] [Finite A] [Fiel
     (hq : ∀ x y, q (x + y) = q x + q y + β x y) (hani : ∀ x, q x = 0 → x = 0) :
     Nat.card A ≤ Nat.card K ^ 2 := by
   classical
-  haveI : Fintype A := Fintype.ofFinite A
-  haveI : Fintype K := Fintype.ofFinite K
-  letI : Module (ZMod 2) A :=
+  have : Fintype A := Fintype.ofFinite A
+  have : Fintype K := Fintype.ofFinite K
+  let : Module (ZMod 2) A :=
     AddCommGroup.zmodModule (n := 2) fun x => by rw [two_nsmul]; exact hA x
-  letI : Module (ZMod 2) K :=
+  let : Module (ZMod 2) K :=
     AddCommGroup.zmodModule (n := 2) fun x => by rw [two_nsmul]; exact CharTwo.add_self_eq_zero x
   have hq0 : q 0 = 0 := by simpa using hq 0 0
   let bA := Module.finBasis (ZMod 2) A
@@ -65,11 +65,11 @@ theorem card_le_sq_of_anisotropic {A K : Type} [AddCommGroup A] [Finite A] [Fiel
   have hdeg : ∀ j, (P j).totalDegree ≤ 2 := by
     intro j
     refine (totalDegree_add _ _).trans (max_le ?_ ?_)
-    · refine (totalDegree_finset_sum _ _).trans (Finset.sup_le fun i _ => ?_)
+    · refine (totalDegree_finsetSum _ _).trans (Finset.sup_le fun i _ => ?_)
       refine (totalDegree_mul _ _).trans ?_
       simp [totalDegree_C, totalDegree_X]
-    · refine (totalDegree_finset_sum _ _).trans (Finset.sup_le fun i _ => ?_)
-      refine (totalDegree_finset_sum _ _).trans (Finset.sup_le fun k _ => ?_)
+    · refine (totalDegree_finsetSum _ _).trans (Finset.sup_le fun i _ => ?_)
+      refine (totalDegree_finsetSum _ _).trans (Finset.sup_le fun k _ => ?_)
       split_ifs
       · refine (totalDegree_mul _ _).trans ?_
         refine (add_le_add (totalDegree_C _).le (totalDegree_mul _ _)).trans ?_
@@ -110,8 +110,8 @@ theorem card_le_sq_of_anisotropic {A K : Type} [AddCommGroup A] [Finite A] [Fiel
         rw [map_sum]
         refine Finset.sum_congr rfl fun k _ => ?_
         by_cases hik : i < k
-        · simp only [hik, if_true, hβz]
-        · simp only [hik, if_false, map_zero]
+        · simp only [hik, ite_true, hβz]
+        · simp only [hik, ite_false, map_zero]
     rw [hL, hP]
     congr 1
     · exact Finset.sum_congr rfl fun i _ => mul_comm _ _

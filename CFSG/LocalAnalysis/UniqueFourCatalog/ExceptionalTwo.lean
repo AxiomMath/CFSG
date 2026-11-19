@@ -53,7 +53,7 @@ theorem twoLocalClosure_adjoint_eq_top_of_normalizes
     (hS₀2 : IsPGroup 2 S₀) (hEN : E ≤ Subgroup.normalizer (S₀ : Set (adjointGroup τ k))) :
     twoLocalClosure E = ⊤ := by
   have := finite_modGL (τ := τ) (K := k)
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hrp : (2 : ℕ) ≠ p := fun h => hp2 h.symm
   have hEp : IsPGroup p E := by
     intro x
@@ -177,7 +177,7 @@ theorem not_uniqueFour_of_untwistedChevalleyModel_two
     (QuotientGroup.quotientMulEquivOfEq center_adjointGroup_eq_bot).trans QuotientGroup.quotientBot
   have hsimp : IsSimpleGroup (adjointGroup τ K) :=
     (MulEquiv.isSimpleGroup_congr (e.trans e2)).mp hS.simple
-  haveI := hsimp
+  have := hsimp
   have hcl : ∀ (p : ℕ), p.Prime → p ≠ 2 → ∀ E S₀ : Subgroup (adjointGroup τ K),
       IsElemAbelian p E → S₀ ≠ ⊥ → IsPGroup 2 S₀ →
         E ≤ Subgroup.normalizer (S₀ : Set (adjointGroup τ K)) → twoLocalClosure E = ⊤ :=

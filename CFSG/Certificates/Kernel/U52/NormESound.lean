@@ -123,11 +123,11 @@ theorem hatB_sound (hn : n < 16777216) (hw : n + 1 < 2 ^ w) {nK S0 : List Nat}
       if hc : c < S0.length then Classical.choose (hS c hc) else 1
     have hg : ∀ c ∈ sw, PRep n w (S0.getD c 0) (g c) := fun c hc => by
       have hcl := hsw c hc
-      simp only [g, dif_pos hcl]
+      simp only [g, dite_eq_left hcl]
       exact (Classical.choose_spec (hS c hcl)).2
     have hgS : ∀ c ∈ sw, g c ∈ S := fun c hc => by
       have hcl := hsw c hc
-      simp only [g, dif_pos hcl]
+      simp only [g, dite_eq_left hcl]
       exact (Classical.choose_spec (hS c hcl)).1
     have hprod := prep_evP hn hw hg
     have hxk := prep_pcomp h32 he hκP

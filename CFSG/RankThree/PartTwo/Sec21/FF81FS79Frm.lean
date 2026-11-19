@@ -39,12 +39,16 @@ variable (S : Std b t b₁ b₂ J)
 
 include S
 
+omit [Finite H] in
 theorem hc_cl1 {ρ : J6.S6} (hρ : J6.Cl1 ρ) : HC (S.ι ρ) (S.ι J6.a2) := S.HC_ι hρ
 
+omit [Finite H] in
 theorem hc_cl3 {ρ : J6.S6} (hρ : J6.Cl3 ρ) : HC (S.ι ρ) (S.ι J6.sg3) := S.HC_ι hρ
 
+omit [Finite H] in
 theorem hc_t_cl1 {ρ : J6.S6} (hρ : J6.Cl1 ρ) : HC (t * S.ι ρ) (t * S.ι J6.a2) := S.HC_tι hρ
 
+omit [Finite H] in
 theorem hc_t_cl3 {ρ : J6.S6} (hρ : J6.Cl3 ρ) : HC (t * S.ι ρ) (t * S.ι J6.sg3) := S.HC_tι hρ
 
 theorem nf_t_cl1 {ρ : J6.S6} (hρ : J6.Cl1 ρ) : ¬ HC t (S.ι ρ) :=
@@ -80,12 +84,12 @@ theorem nf_t_tcl3 (h34 : R34Stmt b b₁ b₂) {ρ : J6.S6} (hρ : J6.Cl3 ρ) : �
 
 theorem nf_cen_cl1 {r : H} (hr : ∀ y ∈ Subgroup.closure ({b₁, b₂} : Set H), y * r = r * y)
     {ρ : J6.S6} (hρ : J6.Cl1 ρ) : ¬ HC r (S.ι ρ) := fun hc =>
-  S.hyp.nf_I' S.ι_a2_sq S.ι_a2_ne_one S.b₁_mem_B₁ S.b₁_ne_one hr (S.ι_comm_b J6.a2).symm
+  S.hyp.nf_I' S.ι_a2_sq S.ι_a2_ne_one CFSG.RankThree.PartTwo.Sec21.FF81.Std.b₁_mem_B₁ S.b₁_ne_one hr (S.ι_comm_b J6.a2).symm
     S.b₁_comm_ι_a2 (hc.trans (S.hc_cl1 hρ))
 
 theorem nf_cen_cl3 {r : H} (hr : ∀ y ∈ Subgroup.closure ({b₁, b₂} : Set H), y * r = r * y)
     {ρ : J6.S6} (hρ : J6.Cl3 ρ) : ¬ HC r (S.ι ρ) := fun hc =>
-  S.hyp.nf_I' S.ι_sg3_sq S.ι_sg3_ne_one S.d_mem_B₁ S.d_ne_one hr (S.ι_comm_b J6.sg3).symm
+  S.hyp.nf_I' S.ι_sg3_sq S.ι_sg3_ne_one CFSG.RankThree.PartTwo.Sec21.FF81.Std.d_mem_B₁ S.d_ne_one hr (S.ι_comm_b J6.sg3).symm
     S.d_comm_ι_sg3 (hc.trans (S.hc_cl3 hρ))
 
 end Std

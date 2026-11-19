@@ -38,12 +38,14 @@ theorem isConj_mul_z (S : Setting z E F) {a : G} (haQ : a ∈ Q z) (haZ : a ∉ 
   obtain ⟨x, -, hx⟩ := exists_conj_eq_mul_z S haQ haZ
   exact isConj_iff.mpr ⟨x, hx⟩
 
+omit [Finite G] in
 theorem map_conj_QaOf (a g : G) :
     (QaOf a).map (MulAut.conj g).toMonoidHom = QaOf (g * a * g⁻¹) := by
   show (fStar (Subgroup.centralizer ({a} : Set G))).map (MulAut.conj g).toMonoidHom =
     fStar (Subgroup.centralizer ({g * a * g⁻¹} : Set G))
   rw [← fStar_map_conj (Subgroup.centralizer ({a} : Set G)) g, centralizer_map_conj a g]
 
+omit [Finite G] in
 theorem zpow_eq_one_or_self_of_orderOf_eq_two {g : G} (hg : orderOf g = 2) (k : ℤ) :
     g ^ k = 1 ∨ g ^ k = g := by
   have h2 : g ^ (2 : ℤ) = 1 := by
@@ -54,6 +56,7 @@ theorem zpow_eq_one_or_self_of_orderOf_eq_two {g : G} (hg : orderOf g = 2) (k : 
   · left; rw [h, hk]; simp
   · right; rw [h, hk]; norm_num
 
+omit [Finite G] in
 theorem map_conj_CQ_eq_centerIn_QaOf {a g : G}
     (hgz : g * z * g⁻¹ = a) (hga : g * a * g⁻¹ = z) :
     ((Q z ⊓ Subgroup.centralizer ({a} : Set G)).map (MulAut.conj g).toMonoidHom) =

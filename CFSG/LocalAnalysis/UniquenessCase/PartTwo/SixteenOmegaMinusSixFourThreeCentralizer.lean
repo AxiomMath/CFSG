@@ -100,6 +100,7 @@ private lemma coe_eGamma_apply (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0)
         (I3 → F) ≃ₗ[F] (I3 → F)) v) = (statedOmegaMinusEquiv (m := 3) (by norm_num) hirr A).app v := by
   rfl
 
+omit [Finite F] [CharP F 2] in
 private lemma orderOf_beta (t : Fˣ) (ht : t ^ 3 = 1) (hord : orderOf t = 3) :
     orderOf (beta (b := b) (c := c) t ht) = 3 := by
   rw [beta, orderOf_minusDiagGL_mulSingle]
@@ -111,6 +112,7 @@ private lemma orderOf_xbeta (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0)
   change orderOf (eGamma (b := b) (c := c) hirr (beta (b := b) (c := c) t ht)) = 3
   rw [MulEquiv.orderOf_eq, orderOf_beta t ht hord]
 
+omit [Finite F] [CharP F 2] in
 private lemma beta_coe (t : Fˣ) (ht : t ^ 3 = 1) :
     ((beta (b := b) (c := c) t ht : StatedOmega (StatedQuadMinus 3 F b c)) :
         GL I3 F) =
@@ -163,17 +165,21 @@ private lemma xbeta_vy (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) (t : Fˣ) (ht
 private noncomputable def P : HypPair (quadMinus 3 F b c) :=
   minusPair (n := 3) F b c (⟨0, by norm_num⟩ : Fin (3 - 1))
 
+omit [Finite F] [CharP F 2] in
 private lemma P_e : (P (b := b) (c := c)).e = Pi.single (Sum.inl (0 : Fin (3 - 1))) 1 :=
   minusPair_e (n := 3) (K := F) (b := b) (c := c) (i := ⟨0, by norm_num⟩)
 
+omit [Finite F] [CharP F 2] in
 private lemma P_f : (P (b := b) (c := c)).f = Pi.single (Sum.inr (Sum.inl (0 : Fin (3 - 1)))) 1 :=
   minusPair_f (n := 3) (K := F) (b := b) (c := c) (i := ⟨0, by norm_num⟩)
 
+omit [Finite F] [CharP F 2] in
 private lemma t_ne_one {t : Fˣ} (hord : orderOf t = 3) : t ≠ 1 := by
   intro h
   rw [h, orderOf_one] at hord
   exact absurd hord (by norm_num)
 
+omit [Finite F] [CharP F 2] in
 private lemma t_inv_ne_one {t : Fˣ} (hord : orderOf t = 3) : t⁻¹ ≠ 1 := by
   intro h
   have h1 : t = 1 := by
@@ -181,6 +187,7 @@ private lemma t_inv_ne_one {t : Fˣ} (hord : orderOf t = 3) : t⁻¹ ≠ 1 := by
     simpa using this
   exact t_ne_one hord h1
 
+omit [Finite F] [CharP F 2] in
 private lemma t_ne_inv {t : Fˣ} (hord : orderOf t = 3) : t ≠ t⁻¹ := by
   intro h
   have h2 : t ^ 2 = 1 := by
@@ -250,6 +257,7 @@ private lemma fixedSpace_eq_Pperp (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0)
       · simp [torusEntMinus, Pi.mulSingle]
     · fin_cases k <;> simp [torusEntMinus]
 
+omit [Finite F] [CharP F 2] in
 private lemma X_sub_C_ne_X_sub_one {t : Fˣ} (hord : orderOf t = 3) :
     (X - C (t : F) : F[X]) ≠ X - 1 := by
   intro h
@@ -257,6 +265,7 @@ private lemma X_sub_C_ne_X_sub_one {t : Fˣ} (hord : orderOf t = 3) :
   have h2 : (t : F) = 1 := C_injective h1
   exact t_ne_one hord (Units.ext h2)
 
+omit [Finite F] [CharP F 2] in
 private lemma X_sub_C_inv_ne_X_sub_one {t : Fˣ} (hord : orderOf t = 3) :
     (X - C ((t⁻¹ : Fˣ) : F) : F[X]) ≠ X - 1 := by
   intro h
@@ -264,6 +273,7 @@ private lemma X_sub_C_inv_ne_X_sub_one {t : Fˣ} (hord : orderOf t = 3) :
   have h2 : ((t⁻¹ : Fˣ) : F) = 1 := C_injective h1
   exact t_inv_ne_one hord (Units.ext h2)
 
+omit [Finite F] [CharP F 2] in
 private lemma vx_ne_zero : (vx : I3 → F) ≠ 0 := by
   intro h
   have h1 : vx (Sum.inl (0 : Fin (3 - 1))) = (1 : F) := by
@@ -273,6 +283,7 @@ private lemma vx_ne_zero : (vx : I3 → F) ≠ 0 := by
   rw [h] at h1
   exact zero_ne_one h1
 
+omit [Finite F] [CharP F 2] in
 private lemma vy_ne_zero : (vy : I3 → F) ≠ 0 := by
   intro h
   have h1 : vy (Sum.inr (Sum.inl (0 : Fin (3 - 1)))) = (1 : F) := by
@@ -282,6 +293,7 @@ private lemma vy_ne_zero : (vy : I3 → F) ≠ 0 := by
   rw [h] at h1
   exact zero_ne_one h1
 
+omit [Finite F] [CharP F 2] in
 private lemma aeval_X_sub_C_apply (x : (I3 → F) ≃ₗ[F] (I3 → F)) (t : F) (v : I3 → F) :
     ((aeval x.toLinearMap) (X - C t)) v = x v - t • v := by
   simp [map_sub, aeval_X, aeval_C, Algebra.algebraMap_eq_smul_one, LinearMap.sub_apply]
@@ -542,11 +554,11 @@ private lemma isL2_supportedFixedDerived (hF : Nat.card F = 4) (hirr : ∀ s : F
     hperf, hnonab, hcard, hidx, hnorm, hodd⟩ :=
     even_minus_four_actual_derived_extraction ((quadMinus 3 F b c).comp (fixedSpace x).subtype)
       hx.polarBilin_fixed_nondegenerate hdim hts
-  letI : Field E := hEf
-  letI : Algebra F E := hAlg
-  letI : Finite E := D.finite_E
-  letI : CharP E 2 := charP_two_of_algebra (K := F)
-  letI : Fintype E := Fintype.ofFinite E
+  let : Field E := hEf
+  let : Algebra F E := hAlg
+  let : Finite E := D.finite_E
+  let : CharP E 2 := charP_two_of_algebra (K := F)
+  let : Fintype E := Fintype.ofFinite E
   have hEcard : Nat.card E = 2 ^ 4 := by
     rw [D.card_E, hF]
     norm_num
@@ -625,11 +637,11 @@ private lemma isPerfect_supportedFixedDerived (hF : Nat.card F = 4)
     hperf, hnonab, hcard, hidx, hnorm, hodd⟩ :=
     even_minus_four_actual_derived_extraction ((quadMinus 3 F b c).comp (fixedSpace x).subtype)
       hx.polarBilin_fixed_nondegenerate hdim hts
-  letI : Field E := hEf
-  letI : Algebra F E := hAlg
-  letI : Finite E := D.finite_E
-  letI : CharP E 2 := charP_two_of_algebra (K := F)
-  letI : Fintype E := Fintype.ofFinite E
+  let : Field E := hEf
+  let : Algebra F E := hAlg
+  let : Finite E := D.finite_E
+  let : CharP E 2 := charP_two_of_algebra (K := F)
+  let : Fintype E := Fintype.ofFinite E
   have hEcard : Nat.card E = 2 ^ 4 := by
     rw [D.card_E, hF]
     norm_num
@@ -690,7 +702,7 @@ private lemma derInf8_subgroupOf_centralizer_eq (hF : Nat.card F = 4)
     isPerfect_supportedFixedDerived (b := b) (c := c) hF hirr t ht hord
   have hHleΩ : H ≤ Ω := hx.supportedFixedDerived_le_orthDerived
   have hHperfΩ : Group.IsPerfect ↥HΩ := by
-    haveI := hHperf
+    have := hHperf
     exact Group.IsPerfect.ofSurjective
       (f := (Subgroup.subgroupOfEquivOfLe hHleΩ).symm.toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hHleΩ).symm.surjective
@@ -713,8 +725,6 @@ private lemma derInf8_subgroupOf_centralizer_eq (hF : Nat.card F = 4)
         _ ≤ ⁅CΩ, CΩ⁆ := Subgroup.commutator_mono hHleC hHleC)
   have hcommSub_le : commutator ↥CΩ ≤ HΩ.subgroupOf CΩ := by
     rw [← Subgroup.map_le_map_iff_of_injective (f := CΩ.subtype) CΩ.subtype_injective]
-    change Subgroup.map CΩ.subtype (commutator ↥CΩ) ≤
-      Subgroup.map CΩ.subtype (HΩ.subgroupOf CΩ)
     rw [Subgroup.map_subtype_commutator, Subgroup.map_subgroupOf_eq_of_le hHleC]
     exact hcomm_eq.le
   have hcommSub_ge : HΩ.subgroupOf CΩ ≤ commutator ↥CΩ := by
@@ -727,7 +737,7 @@ private lemma derInf8_subgroupOf_centralizer_eq (hF : Nat.card F = 4)
   have hHΩnormal : (HΩ.subgroupOf CΩ).Normal := by
     rw [← hcommSub]
     infer_instance
-  haveI := hHΩnormal
+  have := hHΩnormal
   have hsolv : Group.IsSolvable (↥CΩ ⧸ HΩ.subgroupOf CΩ) :=
     CFSG.RankThree.FieldFixedLayer.isSolvable_quotient_of_commutator_le
       (HΩ.subgroupOf CΩ) hcommSub.le
@@ -735,7 +745,7 @@ private lemma derInf8_subgroupOf_centralizer_eq (hF : Nat.card F = 4)
     CFSG.GroupTheory.CoprimeActionSupport.TwoModuloExtension.perfectResidual_le_of_isSolvable_quotient
       hsolv
   have hsubPerf : Group.IsPerfect ↥(HΩ.subgroupOf CΩ) := by
-    haveI := hHperfΩ
+    have := hHperfΩ
     exact Group.IsPerfect.ofSurjective
       (f := (Subgroup.subgroupOfEquivOfLe hHleC).symm.toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hHleC).symm.surjective
@@ -792,9 +802,9 @@ private lemma map_centralizer_beta (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0)
     Set ↥(orthDerived (quadMinus 3 F b c))) = _
   exact (centralizer_subgroupOf_eq (b := b) (c := c) hirr t ht).symm
 
-private lemma map_derInf8_centralizer_beta (hF : Nat.card F = 4)
+private lemma map_derInf8_centralizer_beta (_hF : Nat.card F = 4)
     (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0)
-    (t : Fˣ) (ht : t ^ 3 = 1) (hord : orderOf t = 3) :
+    (t : Fˣ) (ht : t ^ 3 = 1) (_hord : orderOf t = 3) :
     (F08.DerInf8 (Subgroup.centralizer ({beta (b := b) (c := c) t ht} :
       Set (StatedOmega (StatedQuadMinus 3 F b c))))).map
         (eGamma (b := b) (c := c) hirr).toMonoidHom =
@@ -859,6 +869,7 @@ theorem s168e3_three_centralizer_IsL2 (hF : Nat.card F = 4)
 
 private abbrev vz : I3 → F := Pi.single (Sum.inr (Sum.inr (0 : Fin 2))) 1
 
+omit [Finite F] [CharP F 2] in
 private lemma vz_ne_zero : (vz : I3 → F) ≠ 0 := by
   intro h
   have h1 : vz (Sum.inr (Sum.inr (0 : Fin 2))) = (1 : F) := by
@@ -868,6 +879,7 @@ private lemma vz_ne_zero : (vz : I3 → F) ≠ 0 := by
   rw [h] at h1
   exact zero_ne_one h1
 
+omit [Finite F] [CharP F 2] in
 private lemma beta_vz (t : Fˣ) (ht : t ^ 3 = 1) :
     (((beta (b := b) (c := c) t ht : GL I3 F) : Matrix I3 I3 F) *ᵥ vz) = vz := by
   rw [beta_coe, coe_diagGL]
@@ -921,8 +933,8 @@ theorem s168e3_exists_notationB_fixed_of_exact_omegaMinus_six_four_cover
     rwa [hwT] at h
   obtain ⟨F, hFfield, hFfin, b, c₀, hFcard, hbc, ε, ψ, hcoords⟩ :=
     S18.exists_natCoords_of_natOmegaMinus hNat
-  letI : Field F := hFfield
-  letI : Finite F := hFfin
+  let : Field F := hFfield
+  let : Finite F := hFfin
   have hF2 : Nat.card F = 4 := by
     rw [hFcard]; norm_num
   have hFcard' : Nat.card F = 2 ^ 2 := by rw [hF2]; norm_num
@@ -1145,8 +1157,8 @@ theorem s168e3_exists_notationB_fixed_of_exact_omegaMinus_six_four_cover
     simpa [hlact] using hlu
   let ρ : ↥Bsub →* MulAut (IntMod V hV) :=
     ((actStab V₀ V hV).comp (Subgroup.inclusion hKstab)).comp Bsub.subtype
-  haveI hcommInt : IsMulCommutative (IntMod V hV) := hV.1
-  haveI hRnormal : (modNull V₀ V hV).Normal := Subgroup.normal_of_isMulCommutative _
+  have hcommInt : IsMulCommutative (IntMod V hV) := hV.1
+  have hRnormal : (modNull V₀ V hV).Normal := Subgroup.normal_of_isMulCommutative _
   have hRinv : ∀ b : ↥Bsub, ∀ r ∈ modNull V₀ V hV,
       ρ b r ∈ modNull V₀ V hV := by
     intro b r hr

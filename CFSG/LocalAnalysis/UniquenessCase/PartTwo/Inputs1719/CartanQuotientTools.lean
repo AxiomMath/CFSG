@@ -21,7 +21,7 @@ theorem normalizerQuotient_equiv_of_complement {Y : Type} [Group Y] {U H : Subgr
     Nonempty (normalizerQuotient U ≃* H) := by
   classical
   let N := Subgroup.normalizer (U : Set Y)
-  haveI : (U.subgroupOf N).Normal :=
+  have : (U.subgroupOf N).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer Subgroup.le_normalizer).mpr le_rfl
   let u : N → U := fun g =>
     ⟨Classical.choose (hB g g.2), (Classical.choose_spec (hB g g.2)).1⟩
@@ -69,7 +69,7 @@ theorem normalizerQuotient_equiv_of_complement {Y : Type} [Group Y] {U H : Subgr
       change h x = 1
       refine Subtype.ext (unique (u x).2 hx (h x).2 H.one_mem ?_)
       rw [hg_eq x]
-      simp [hx]
+      simp
   have hsurj : Function.Surjective f := by
     intro h'
     refine ⟨⟨(h' : Y), hH h'.2⟩, Subtype.ext ?_⟩
@@ -85,7 +85,7 @@ theorem normalizerQuotient_equiv_of_isSylowTwoOf {Y Y' : Type} [Group Y] [Group 
     (hS : IsSylowTwoOf S ⊤) (hS' : IsSylowTwoOf S' ⊤) :
     Nonempty (normalizerQuotient S ≃* normalizerQuotient S') := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSidx : ¬ 2 ∣ S.index := by
     rw [← Subgroup.relIndex_top_right (H := S)]
     exact hS.2.2
@@ -137,12 +137,12 @@ theorem pRank_and_card_Omega1p_of_comm {A : Type} [Group A] [Finite A] {r k : �
       one_mem' := by simp
       mul_mem' := by
         intro a b ha hb
-        simp only [Set.mem_setOf_eq] at ha hb ⊢
+        simp only [Set.mem_ofPred_eq] at ha hb ⊢
         have hcomm : Commute a b := hA a b
         rw [hcomm.mul_pow, ha, hb, one_mul]
       inv_mem' := by
         intro a ha
-        simp only [Set.mem_setOf_eq] at ha ⊢
+        simp only [Set.mem_ofPred_eq] at ha ⊢
         rw [inv_pow, ha, inv_one] }
   have hT : Omega1p r (⊤ : Subgroup A) = T := by
     apply le_antisymm

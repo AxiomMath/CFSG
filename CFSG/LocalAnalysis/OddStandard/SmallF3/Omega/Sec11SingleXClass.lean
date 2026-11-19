@@ -61,7 +61,7 @@ private theorem s11s_eq_conj_embB {α : MulAut K} {s : SL23}
       _ = MulAut.conj (h.embB s) y := by rw [hfix']
   rwa [MulAut.conj_apply] at h1
 
-theorem s11s_sign_outer {α : MulAut K} (hA : ∀ a ∈ A, α a ∈ A) (hB : ∀ b ∈ B, α b ∈ B)
+theorem s11s_sign_outer {α : MulAut K} (hA : ∀ a ∈ A, α a ∈ A) (_hB : ∀ b ∈ B, α b ∈ B)
     (hoA : ¬ ∃ k ∈ A, ∀ y ∈ A, α y = k * y * k⁻¹)
     (hoB : ¬ ∃ k ∈ B, ∀ y ∈ B, α y = k * y * k⁻¹) :
     Equiv.Perm.sign (h.theta α) = 1 := by
@@ -83,6 +83,7 @@ theorem s11s_sign_outer {α : MulAut K} (hA : ∀ a ∈ A, α a ∈ A) (hB : ∀
   rw [hθ, Equiv.Perm.sign_sumCongr, hp1, hp2]
   simp
 
+omit [Finite K] in
 theorem s11s_conj_comm {ψ : MulAut K} {g : K} (hc : ψ g * g⁻¹ ∈ A ⊓ B) :
     ψ * MulAut.conj g = MulAut.conj g * ψ := by
   let c : K := ψ g * g⁻¹
@@ -99,7 +100,7 @@ theorem s11s_conj_comm {ψ : MulAut K} {g : K} (hc : ψ g * g⁻¹ ∈ A ⊓ B) 
           rw [hcent (g * ψ y * g⁻¹), mul_assoc, mul_inv_cancel, mul_one]
 
 theorem s11s_psi_class {ψ : MulAut K} (h2 : ψ * ψ = 1) (hA : ∀ a ∈ A, ψ a ∈ A)
-    (hB : ∀ b ∈ B, ψ b ∈ B)
+    (_hB : ∀ b ∈ B, ψ b ∈ B)
     (htriv : ∀ q : SL23, q ^ 4 = 1 → ψ (h.embB q) * (h.embB q)⁻¹ ∈ A ⊓ B)
     (hnot : ¬ ∃ q : SL23, q ^ 4 = 1 ∧ ∀ y ∈ A, ψ y = h.embA q * y * (h.embA q)⁻¹) :
     Equiv.Perm.sign (h.theta ψ) = -1 ∧
@@ -135,6 +136,7 @@ theorem s11s_psi_class {ψ : MulAut K} (h2 : ψ * ψ = 1) (hA : ∀ a ∈ A, ψ 
   rw [hθ, Equiv.Perm.sign_sumCongr, s11s_sign_of_sq_not_klein hp1sq hp1not,
     sign_of_mem_klein hp2klein, mul_one]
 
+omit [Finite K] in
 theorem s11s_embB_neg_one {w : K} (hwB : w ∈ B) (hw2 : w * w = 1) (hw1 : w ≠ 1) :
     h.embB (-1) = w := by
   obtain ⟨s, rfl⟩ := h.exists_embB hwB
@@ -150,6 +152,7 @@ theorem s11s_embB_neg_one {w : K} (hwB : w ∈ B) (hw2 : w * w = 1) (hw1 : w ≠
   · exact absurd hs hs1
   · rw [hs]
 
+omit [Finite K] in
 theorem s11s_caseB_elem {q : SL23} (hq : q ^ 4 = 1) (h1 : q ≠ 1) (hm : q ≠ -1) :
     ((h.embB q * h.embB (k5g 0) * (h.embB q)⁻¹)⁻¹ * h.embB (k5g 0)) *
       ((h.embB q * h.embB (k5g 0) * (h.embB q)⁻¹)⁻¹ * h.embB (k5g 0)) = h.embB (-1) := by

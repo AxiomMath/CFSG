@@ -59,7 +59,7 @@ variable {d : ℕ} {K : Type} [Field K]
 
 theorem commutator_slGroup (hd : 3 ≤ d) :
     ⁅LargeEvenSLGroup (Fin d) K, LargeEvenSLGroup (Fin d) K⁆ = LargeEvenSLGroup (Fin d) K := by
-  haveI hP : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin d) K) :=
+  have hP : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin d) K) :=
     CFSG.LinearGroups.special_linear_isPerfect (K := K) (n := d) (by omega) (Or.inl hd)
   have hP' : Group.IsPerfect (↥(LargeEvenSLGroup (Fin d) K)) :=
     Group.IsPerfect.ofSurjective (f := (TypeA.slKerEquiv d K).symm.toMonoidHom)
@@ -99,7 +99,7 @@ theorem mem_scalars_of_commute_elemSL (A : GL (Fin d) K)
     apply Units.ext
     ext i j
     exact (h_empty.false i).elim
-  · haveI : Nonempty (Fin d) := h_nonempty
+  · have : Nonempty (Fin d) := h_nonempty
     have hcomm : Pairwise fun i j : Fin d =>
         Commute (Matrix.single i j (1 : K)) (A : Matrix (Fin d) (Fin d) K) := by
       intro i j hij
@@ -122,7 +122,7 @@ theorem mem_scalars_of_commute_elemSL (A : GL (Fin d) K)
         exact A.isUnit
       rw [h0] at hunit
       have hzero : IsUnit (0 : Matrix (Fin d) (Fin d) K) := by
-        simpa using hunit
+        simp at hunit
       exact not_isUnit_zero hzero
     refine ⟨Units.mk0 r hr0, ?_⟩
     apply Units.ext

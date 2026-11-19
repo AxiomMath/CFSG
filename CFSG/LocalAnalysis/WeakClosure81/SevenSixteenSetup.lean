@@ -95,7 +95,7 @@ theorem mem_normalizer_inf_centralizer {G : Type*} [Group G] {I : Subgroup G}
     (hI : IsMulCommutative I) {g x : G} (hg : g ∈ Subgroup.normalizer (I : Set G))
     (hc : ⁅x, g⁆ ∈ I) :
     g ∈ Subgroup.normalizer ((I ⊓ Subgroup.centralizer ({x} : Set G) : Subgroup G) : Set G) := by
-  haveI := hI
+  have := hI
   have key : ∀ g' : G, g' ∈ Subgroup.normalizer (I : Set G) → ⁅x, g'⁆ ∈ I →
       ∀ h ∈ I ⊓ Subgroup.centralizer ({x} : Set G),
         g' * h * g'⁻¹ ∈ I ⊓ Subgroup.centralizer ({x} : Set G) := by
@@ -155,9 +155,11 @@ theorem mem_normalizer_sup {G : Type*} [Group G] {A B : Subgroup G} {a : G}
 
 variable {G : Type} [Group G] [Finite G] {V H E : Subgroup G}
 
+omit [Finite G] in
 theorem iSub_le_kSub (V H E : Subgroup G) : iSub V H E ≤ kSub V H E :=
-  iSup₂_le fun U hU => inf_le_left.trans (le_kSub hU)
+  iSup₂_le fun _U hU => inf_le_left.trans (le_kSub hU)
 
+omit [Finite G] in
 theorem kSub_le_normalizer_iSub (h : Hyp716 V H E) :
     kSub V H E ≤ Subgroup.normalizer (iSub V H E : Set G) := by
   have hIleH : iSub V H E ≤ H := h.pcore_le.trans (CFSG.LieType.BorelTits.pCoreOf_le 2 H)
@@ -165,6 +167,7 @@ theorem kSub_le_normalizer_iSub (h : Hyp716 V H E) :
     le_normalizer_of_subgroupOf_normal hIleH h.jnormal
   exact (kSub_le_of_forall_le h.omega_le).trans hHN
 
+omit [Finite G] in
 theorem conjSubgroup_mem_omegaSet_of_mem_kSub (h : Hyp716 V H E) {a : G}
     (ha : a ∈ kSub V H E) : conjSubgroup V a ∈ omegaSet V H E :=
   conjSubgroup_mem_omegaSet h.le h.normal h.mem (kSub_le_of_forall_le h.omega_le ha)
@@ -173,6 +176,7 @@ theorem inf_iSub_ne_bot (h : Hyp716 V H E) : V ⊓ iSub V H E ≠ ⊥ := by
   rw [inf_iSub_eq_inf_pCoreOf h.mem]
   exact inf_pCoreOf_ne_bot_of_mem_omegaSet h.elemAbelian h.abelian h.le h.normal h.mem
 
+omit [Finite G] in
 theorem iSub_le_of_normalized (h : Hyp716 V H E) {W : Subgroup G}
     (hW : kSub V H E ≤ Subgroup.normalizer (W : Set G)) (hVW : V ⊓ iSub V H E ≤ W) :
     iSub V H E ≤ W := by
@@ -186,6 +190,7 @@ theorem iSub_le_of_normalized (h : Hyp716 V H E) {W : Subgroup G}
   have hx2 : k * x * k⁻¹ ∈ V ⊓ iSub V H E := CFSG.Quasithin.mem_conjSubgroup_iff.mp hx1
   exact (Subgroup.mem_normalizer_iff.mp (hW hk) x).mpr (hVW hx2)
 
+omit [Finite G] in
 theorem card_conjSubgroup_inf_iSub (h : Hyp716 V H E) {a : G} (ha : a ∈ kSub V H E) :
     Nat.card ↥(conjSubgroup V a ⊓ iSub V H E) = Nat.card ↥(V ⊓ iSub V H E) := by
   rw [← conjSubgroup_inf_of_mem_normalizer (kSub_le_normalizer_iSub h ha) V]

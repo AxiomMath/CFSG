@@ -69,7 +69,7 @@ theorem uc22s213_center_bar2_eq_bot_of_isAlt {M L : Subgroup G} (hL : L ∈ calC
   obtain ⟨φ⟩ := uc22p21k_barInf_equiv_of_calC hL
   obtain ⟨f⟩ := hX
   obtain ⟨k, rfl⟩ : ∃ k, m = k + 2 := ⟨m - 2, by omega⟩
-  haveI : Group.IsPerfect (Bar2 L) := Group.isPerfect_def.mpr hL.2.2.1
+  have : Group.IsPerfect (Bar2 L) := Group.isPerfect_def.mpr hL.2.2.1
   have hker := CFSG.GH74.Generic.centralQuotientMap_ker (φ.symm.trans f)
   have hodd : Odd (Nat.card (center (Bar2 L))) := uc22p20p_odd_center_bar2 ↥L
   have h1 := CFSG.Alternating.Multipliers.card_ker_eq_one_of_odd (by omega) _

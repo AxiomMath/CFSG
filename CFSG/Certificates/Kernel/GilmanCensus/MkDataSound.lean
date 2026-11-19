@@ -19,7 +19,7 @@ theorem gramB_eq (B : Array (Array Int)) (r s : IVec) :
     (fun t j => t + r[i]! * B[i]![j]! * s[j]!) t) _ (fun i t => by
       rw [List.forIn_pure_yield_eq_foldl]
       rfl)]
-  simp only [Id.run_pure, getElem!_eq_getD_toListI, getRowI, Array.length_toList]
+  simp only [getElem!_eq_getD_toListI, getRowI, Array.length_toList]
   rfl
 
 theorem contains_snoc' {α : Type} [BEq α] [LawfulBEq α] (l : List α) (x y : α) :
@@ -46,7 +46,7 @@ theorem hset_fold (l : List (Array Nat)) : ∀ (S : HashSet (Array Nat)) (acc : 
     · intro v
       rw [HashSet.contains_insert, h1 v, arr_beq']
       by_cases hx : acc.contains x.toList = true
-      · rw [if_pos hx]
+      · rw [ite_eq_left hx]
         by_cases e : x.toList = v.toList
         · rw [e] at hx
           rw [hx]
@@ -55,11 +55,11 @@ theorem hset_fold (l : List (Array Nat)) : ∀ (S : HashSet (Array Nat)) (acc : 
             rw [beq_eq_false_iff_ne]
             exact fun h => e h.symm
           rw [this, Bool.false_or]
-      · rw [if_neg hx, contains_snoc']
+      · rw [ite_eq_right hx, contains_snoc']
     · rw [HashSet.size_insert]
       by_cases hx : acc.contains x.toList = true
-      · rw [if_pos hx, if_pos (HashSet.mem_iff_contains.mpr (by rw [h1 x]; exact hx)), h2]
-      · rw [if_neg hx, if_neg (fun hm => hx (by rw [← h1 x]; exact HashSet.mem_iff_contains.mp hm)),
+      · rw [ite_eq_left hx, ite_eq_left (HashSet.mem_iff_contains.mpr (by rw [h1 x]; exact hx)), h2]
+      · rw [ite_eq_right hx, ite_eq_right (fun hm => hx (by rw [← h1 x]; exact HashSet.mem_iff_contains.mp hm)),
           List.length_append, h2]
         rfl
 
@@ -97,14 +97,14 @@ theorem coordsIn_eq (emb : Array (Array Nat)) (hv : Array Nat) (n : Nat) :
   rw [arr_beq', ofFn_val_toList, ← h2, ← h1]
   split
   · rename_i hc
-    rw [if_pos (by simp only [beq_iff_eq] at hc ⊢; exact hc.symm)]
+    rw [ite_eq_left (by simp only [beq_iff_eq] at hc ⊢; exact hc.symm)]
     simp only [Option.map_some, Array.toList_map, LL, List.map_map]
     congr 1
     apply List.map_congr_left
     intro r _
     simp only [Function.comp_apply, Array.back!, getElem!_eq_getD_toList, Array.length_toList]
   · rename_i hc
-    rw [if_neg (by simp only [beq_iff_eq] at hc ⊢; exact fun e => hc e.symm)]
+    rw [ite_eq_right (by simp only [beq_iff_eq] at hc ⊢; exact fun e => hc e.symm)]
     rfl
 
 theorem adj_eq (g : Nat → Nat → Int) (N : Nat) :
@@ -127,7 +127,7 @@ theorem lines_eq (d : Nat) :
     apply List.ext_getElem
     · simp
     · intro i h1 h2
-      simp only [Array.toList_ofFn, List.getElem_ofFn, List.toList_toArray, List.getElem_map,
+      simp only [Array.toList_ofFn, List.getElem_ofFn, List.getElem_map,
         List.getElem_range]
       apply Array.toList_inj.mp
       apply List.ext_getElem
@@ -140,7 +140,7 @@ theorem lines_eq (d : Nat) :
     simp
   have e2 : ((fun v => firstNZ v == 1) ∘ List.toArray : List Nat → Bool) = fun v => firstNZK v == 1 := by
     funext v
-    simp only [Function.comp_apply, firstNZ_eq, List.toList_toArray]
+    simp only [Function.comp_apply, firstNZ_eq]
   rw [e1, e2, List.map_id]
 
 theorem idxI_eq_idxIK (v : List Int) : ∀ (R : List (List Int)) (k : Nat), idxI v R k = idxIK v R k
@@ -341,7 +341,7 @@ theorem fhStep_eq (mode n : Nat) (A B : Array (Array Int)) (sc : Array Int) (emb
         r.toList else (List.range n).map fun j => sumK n fun i =>
           r.toList.getD i 0 * ((LLI A).getD i []).getD j 0) (v.map fun (x : Nat) => (x : Int)))] := by
     rw [← hf]
-    simp [LL, dotI_eq, imod3_eq, Function.comp_def, Int.ofNat_eq_coe]
+    simp [LL, dotI_eq, imod3_eq, Function.comp_def]
   split
   · rename_i c heq
     have hc := congrArg (Option.map Array.toList) heq

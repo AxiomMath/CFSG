@@ -33,8 +33,8 @@ theorem exists_closed_isGoodPath [Finite V] [Finite H] {n : ℕ} (hn : 3 ≤ n)
       ∀ (i : ℤ) (s : ℕ) (q : GPath Γ s), (∀ j : ℕ, j ≤ s → q j = x (i + j)) → IsGoodPath H q := by
   classical
   let S := {W : GPath Γ (n + 1) // IsGoodPath H W}
-  haveI hGfin : Finite (GPath Γ (n + 1)) := finite_gPath (n + 1)
-  haveI hSfin : Finite S := Finite.of_injective Subtype.val (fun _ _ h => Subtype.ext h)
+  have hGfin : Finite (GPath Γ (n + 1)) := finite_gPath (n + 1)
+  have hSfin : Finite S := Finite.of_injective Subtype.val (fun _ _ h => Subtype.ext h)
   have hex : ∀ W : S, ∃ w, ∃ h : Γ.Adj (W.1 (n + 1)) w, IsGoodPath H (W.1.snoc w h) :=
     fun W => exists_isGoodPath_snoc hn hM hne hL (s := n + 1) (by omega) W.2
   let cont : S → V := fun W => Classical.choose (hex W)
@@ -261,8 +261,6 @@ theorem exists_closed_isGoodPath [Finite V] [Finite H] {n : ℕ} (hn : 3 ≤ n)
         (Wof k).1.snoc (cont (Wof k)) (cont_adj (Wof k)) := by
       apply GPath.ext'
       intro j hj
-      change (Wof k).1.snoc (x (k + (n + 2))) (window_adj k) j =
-        (Wof k).1.snoc (cont (Wof k)) (cont_adj (Wof k)) j
       by_cases hjn : j ≤ n + 1
       · rw [GPath.snoc_of_le _ _ _ hjn, GPath.snoc_of_le _ _ _ hjn]
       · have hj' : j = n + 2 := by omega

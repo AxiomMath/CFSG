@@ -89,7 +89,7 @@ theorem starAt_spec {fa fb : Nat → Nat} {VAB i : Nat} (h : starAt fa fb VAB i 
       ∀ x ∈ stars[i]!, fa x ∈ stars[g7 VAB i]! ∧ fb x ∈ stars[g7 VAB (100 + i)]! := by
   unfold starAt at h
   simp only [Bool.and_eq_true, Nat.beq_eq, decide_eq_true_eq, List.all_eq_true, List.elem_iff,
-    List.contains_iff_mem, Nat.add_eq] at h
+    Nat.add_eq] at h
   exact ⟨h.1.1, h.1.2, h.2⟩
 
 theorem lexB_iff {a b c d : Nat} : lexB a b c d = true ↔ LexLt a b c d := by

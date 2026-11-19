@@ -20,6 +20,7 @@ section Transport
 
 variable {K : Type} [Group K] {K₀ : Type} [Field K₀] [Finite K₀] [CharP K₀ 2]
 
+omit [Finite K₀] [CharP K₀ 2] in
 theorem inf_inner_card_eq (Φ : K ≃* Om8 K₀) (A : Subgroup (MulAut K)) :
     Nat.card ↥(A.map (MulAut.congr Φ).toMonoidHom ⊓ Inn (Om8 K₀)) = Nat.card ↥(A ⊓ innerAut K) := by
   have h : (A.map (MulAut.congr Φ).toMonoidHom ⊓ Inn (Om8 K₀)) = (A ⊓ innerAut K).map
@@ -64,7 +65,7 @@ theorem inf_inner_le_three_odd (Φ : K ≃* Om8 K₀) {n : ℕ} (hn1 : 1 ≤ n) 
     (h : ∃ γ : MulAut K, γ * α * γ⁻¹ * α⁻¹ ∉ innerAut K) {S : Subgroup (MulAut K)}
     (hS2 : IsPGroup 2 S) (hS1 : S ≠ ⊥) (hAS : A ≤ Subgroup.normalizer (S : Set (MulAut K))) :
     Nat.card ↥(A ⊓ innerAut K) ≤ 3 := by
-  haveI : IsCyclic (K₀ ≃+* K₀) := CFSG.RankThree.PartOne.KFOUT3.isCyclic_aut hn1 hK₀
+  have : IsCyclic (K₀ ≃+* K₀) := CFSG.RankThree.PartOne.KFOUT3.isCyclic_aut hn1 hK₀
   have hcomm : ∀ σ τ : K₀ ≃+* K₀, σ * τ = τ * σ := fun σ τ =>
     (IsCyclic.commGroup (α := K₀ ≃+* K₀)).mul_comm σ τ
   obtain ⟨-, -, -, hGalc⟩ := CFSG.RankThree.PartOne.KFOUT3.exists_frobenius hn1 hK₀
@@ -90,10 +91,12 @@ variable {H : Type} [Group H] [Finite H]
 @[expose] def Bbar (K B : Subgroup H) : Subgroup (MulAut ↥K) :=
   (B.subgroupOf (Subgroup.normalizer (K : Set H))).map (conjHom K)
 
+omit [Finite H] in
 theorem card_subgroupOf_of_le' {N Y : Subgroup H} (hY : Y ≤ N) :
     Nat.card (Y.subgroupOf N) = Nat.card Y :=
   Nat.card_congr (Subgroup.subgroupOfEquivOfLe hY).toEquiv
 
+omit [Finite H] in
 theorem card_B_eq {K B : Subgroup H} (hBK : B ≤ Subgroup.normalizer (K : Set H)) :
     Nat.card B = Nat.card (Bo K B) * Nat.card (Bbar K B) := by
   classical
@@ -162,7 +165,7 @@ theorem d4BigCoreRest_of_rest2 (h : D4BigCoreRest2) : D4BigCoreRest := by
   rcases hU with h27 | ⟨h9, ⟨n', hn'2, hodd', hKn'⟩, T, hT2, hTne, hBT, hTK, hTnc⟩
   · obtain ⟨n, hn2, hKn⟩ := exists_isD4pow2 hK hn
     obtain ⟨K₀, _, _, _, hK₀, ⟨Φ⟩⟩ := exists_om8_of_isD4pow2 hn2 hKn
-    haveI : IsCyclic (K₀ ≃+* K₀) := CFSG.RankThree.PartOne.KFOUT3.isCyclic_aut (by omega) hK₀
+    have : IsCyclic (K₀ ≃+* K₀) := CFSG.RankThree.PartOne.KFOUT3.isCyclic_aut (by omega) hK₀
     have hcomm : ∀ σ τ : K₀ ≃+* K₀, σ * τ = τ * σ := fun σ τ =>
       (IsCyclic.commGroup (α := K₀ ≃+* K₀)).mul_comm σ τ
     have h9' := inf_inner_le_nine Φ hcomm hAel hαA hnc
@@ -181,7 +184,7 @@ theorem d4BigCoreRest_of_rest2 (h : D4BigCoreRest2) : D4BigCoreRest := by
     have hρcoe : ∀ (b : ↥N) (k : ↥K), ((ρ b k : ↥K) : H) = (b : H) * k * (b : H)⁻¹ := fun b k => rfl
     have hThne : Th ≠ ⊥ := by
       intro hbot
-      obtain ⟨t, ht, htk⟩ := (SetLike.not_le_iff_exists.1 hTnc)
+      obtain ⟨t, ht, htk⟩ := (IsConcreteLE.not_le_iff_exists.1 hTnc)
       obtain ⟨k, hk, hkt⟩ : ∃ k ∈ K, k * t ≠ t * k := by
         by_contra hh
         push Not at hh
@@ -198,7 +201,7 @@ theorem d4BigCoreRest_of_rest2 (h : D4BigCoreRest2) : D4BigCoreRest := by
       rw [Subgroup.mem_normalizer_iff]
       intro y
       have h1 := Subgroup.mem_normalizer_iff.1 (hBT (Subgroup.mem_subgroupOf.1 hb)) (y : H)
-      simp only [hT', Subgroup.mem_subgroupOf, SetLike.mem_coe, Subgroup.coe_mul,
+      simp only [hT', Subgroup.mem_subgroupOf, Subgroup.coe_mul,
         Subgroup.coe_inv] at h1 ⊢
       exact h1
     have hnorm : Bbar K B ≤ Subgroup.normalizer (Th : Set (MulAut ↥K)) := fun σ hσ => by

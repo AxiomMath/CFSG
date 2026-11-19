@@ -94,12 +94,12 @@ private def perpEquiv (b c : K) :
 
 private def conicN (b c : K) (p : K × K) : K := p.1 ^ 2 + b * p.1 * p.2 + c * p.2 ^ 2
 
-private noncomputable def conicToK (b c : K) (p : K × K) : Option K := by
+private noncomputable def conicToK (_b _c : K) (p : K × K) : Option K := by
   classical
   exact if h : p.2 = 0 then none else some ((p.1 - 1) / p.2)
 
-private def conicInvK [CharP K 2] (b c : K) (hb : b ≠ 0)
-    (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) : Option K → K × K
+private def conicInvK [CharP K 2] (b c : K) (_hb : b ≠ 0)
+    (_hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) : Option K → K × K
   | none => (1, 0)
   | some t => (1 + t * (b / (t ^ 2 + b * t + c)), b / (t ^ 2 + b * t + c))
 
@@ -121,13 +121,13 @@ private theorem conicN_invK [CharP K 2] (b c : K) (hb : b ≠ 0)
 private theorem conicToK_none (b c : K) (p : K × K) (h : p.2 = 0) : conicToK b c p = none := by
   classical
   simp only [conicToK]
-  exact dif_pos h
+  exact dite_eq_left h
 
 private theorem conicToK_some (b c : K) (p : K × K) (h : p.2 ≠ 0) :
     conicToK b c p = some ((p.1 - 1) / p.2) := by
   classical
   simp only [conicToK]
-  exact dif_neg h
+  exact dite_eq_right h
 
 private theorem conicToK_invK [CharP K 2] (b c : K) (hb : b ≠ 0)
     (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) (o : Option K) :
@@ -261,7 +261,7 @@ theorem sq_eq_one_of_fix_perp [CharP K 2] {b c : K} (hb : b ≠ 0) {g : GL ιM K
         w (Sum.inr (Sum.inr 0)) * d (Sum.inr (Sum.inr 1)) := by
       have h := hzw
       rw [polarM_apply, hdy, hw] at h
-      simp only [mul_zero, zero_mul, add_zero, zero_add] at h
+      simp only [mul_zero, add_zero, zero_add] at h
       rcases mul_eq_zero.mp h with h0 | h0
       · exact absurd h0 hb
       · exact CharTwo.add_eq_zero.mp h0
@@ -339,8 +339,8 @@ theorem card_dvd_of_odd_of_fix [Finite K] [CharP K 2] {b c : K}
     have hP := polarM_mulVec (b := b) (c := c) (g := (g : GL ιM K)) (hE g g.2) w.1 (e1M K)
     rw [hfix g g.2, polarM_e1M, polarM_e1M, w.2.1] at hP
     exact hP
-  haveI : Finite X := Subtype.finite
-  letI actX : MulAction ↥E X :=
+  have : Finite X := Subtype.finite
+  let actX : MulAction ↥E X :=
     { smul := fun g w => ⟨((g : GL ιM K) : Matrix ιM ιM K) *ᵥ w.1, hy0 g w, by
         show StatedQuadMinus 2 K b c (((g : GL ιM K) : Matrix ιM ιM K) *ᵥ w.1) = 1
         rw [hE g g.2]
@@ -375,8 +375,8 @@ theorem card_dvd_of_odd_of_fix [Finite K] [CharP K 2] {b c : K}
   have hdvd : Nat.card ↥E ∣ Nat.card X := by
     let Y := X ⊕ Unit
     let x0 : Y := Sum.inr ()
-    letI smulY : SMul ↥E Y := ⟨fun g y => Sum.map (fun w : X => g • w) id y⟩
-    letI actY : MulAction ↥E Y :=
+    let smulY : SMul ↥E Y := ⟨fun g y => Sum.map (fun w : X => g • w) id y⟩
+    let actY : MulAction ↥E Y :=
       { smulY with
         one_smul := by
           rintro (_ | u)
@@ -401,7 +401,7 @@ theorem card_dvd_of_odd_of_fix [Finite K] [CharP K 2] {b c : K}
     rwa [hYX, Nat.add_sub_cancel] at h
   have hdvd' : Nat.card ↥E ∣ Nat.card K * (Nat.card K + 1) := by
     rwa [hcardX] at hdvd
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, -, hn⟩ := FiniteField.card (K := K) 2
   have hcop2 : Nat.Coprime (Nat.card ↥E) 2 := Nat.coprime_two_right.mpr hodd
   have h2n : Nat.card K = 2 ^ (n : ℕ) := by

@@ -29,7 +29,7 @@ theorem normal_growth_inside_thompsonCenter {group : Type*} [Group group] [Finit
     rw [Subgroup.map_subgroupOf_eq_of_le kernel_le_sylow]
     exact proper
   let fixed := fixedPreimage center kernel_internal
-  have fixed_properties := thompson_fixed_growth prime sylow.isPGroup' kernel_internal kernel_internal_lt
+  have fixed_properties := thompson_fixed_growth prime sylow.isPGroup kernel_internal kernel_internal_lt
   let image := fixed.map sylow_group.subtype
   have kernel_lt_image : kernel < image := by
     rw [← Subgroup.map_subgroupOf_eq_of_le kernel_le_sylow]

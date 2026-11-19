@@ -35,6 +35,7 @@ theorem spanM_top : Submodule.span K (Set.range fun g : Gp K => endoE g (w0 : V 
     rw [hn]
     simp [Finsupp.coe_basisSingleOne]⟩
 
+omit [CharP K 2] in
 theorem finrank_V56 : Module.finrank K (V K) = 56 := by
   rw [Module.finrank_finsupp_self, Fintype.card_fin]
   rfl
@@ -45,10 +46,13 @@ section Plane
 
 @[expose] def planeP (K : Type) [Field K] : Submodule K (V K) := Submodule.span K {(w0 : V K), sw0 K}
 
+omit [CharP K 2] in
 theorem w0_mem_planeP : (w0 : V K) ∈ planeP K := Submodule.subset_span (by simp)
 
+omit [CharP K 2] in
 theorem sw0_mem_planeP : sw0 K ∈ planeP K := Submodule.subset_span (by simp)
 
+omit [CharP K 2] in
 theorem mem_planeP {v : V K} : v ∈ planeP K ↔ ∃ a b : K, v = a • sw0 K + b • (w0 : V K) := by
   constructor
   · intro hv
@@ -68,9 +72,11 @@ theorem mem_planeP {v : V K} : v ∈ planeP K ↔ ∃ a b : K, v = a • sw0 K +
 @[expose] def Hsl (K : Type) [Field K] : Subgroup (Gp K) :=
   Subgroup.closure ({g | ∃ t : K, g = xE alpha7 t} ∪ {sN K})
 
+omit [CharP K 2] in
 theorem xE_mem_Hsl (t : K) : xE alpha7 t ∈ Hsl K :=
   Subgroup.subset_closure (Or.inl ⟨t, rfl⟩)
 
+omit [CharP K 2] in
 theorem sN_mem_Hsl : sN K ∈ Hsl K := Subgroup.subset_closure (Or.inr rfl)
 
 theorem endoE_xE_alpha7_comb (t a b : K) :
@@ -165,10 +171,12 @@ variable (K) in
 
 @[expose] def ptE (g : Gp K) : ↥(ptsE K) := ⟨K ∙ endoE g (w0 : V K), g, rfl⟩
 
+omit [CharP K 2] in
 theorem ptE_surjective : Function.Surjective (ptE (K := K)) := by
   rintro ⟨_, g, rfl⟩
   exact ⟨g, rfl⟩
 
+omit [CharP K 2] in
 theorem ptE_val (g : Gp K) : ((ptE g : ↥(ptsE K)) : Submodule K (V K)) = K ∙ endoE g (w0 : V K) := rfl
 
 @[expose] def ColE (x y z : ↥(ptsE K)) : Prop :=

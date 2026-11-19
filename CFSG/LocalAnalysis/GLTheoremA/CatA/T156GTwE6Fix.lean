@@ -148,11 +148,11 @@ theorem exists_twInndiag_of_fixed {n d : ℕ} (hK : Nat.card K = (2 ^ n) ^ 2) {�
     apply baseChangeGL_injective (fixSubfield κ).subtype
     rw [← twistHom_baseChangeGL (fixSubfield κ).subtype hcomm, hw₀w]
     exact twistHom_eq_of_mem_twInndiag hw
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
     (by rw [← Nat.card_eq_fintype_card]; exact hK')
   set L := AlgebraicClosure (fixSubfield κ)
-  haveI : CharP L 2 :=
+  have : CharP L 2 :=
     charP_of_injective_algebraMap (algebraMap (fixSubfield κ) L).injective 2
   have hFr : ∀ c : L, iterateFrobenius L 2 d c = c ^ (2 ^ d) := fun c => iterateFrobenius_def 2 d c
   have hFrc : (algebraMap (fixSubfield κ) L).comp σ₀.toRingHom =

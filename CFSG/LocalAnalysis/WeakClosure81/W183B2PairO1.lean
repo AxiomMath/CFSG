@@ -16,10 +16,12 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem w183b2_conjSubgroup_sup (A B : Subgroup G) (c : G) :
     conjSubgroup (A ⊔ B) c = conjSubgroup A c ⊔ conjSubgroup B c :=
   Subgroup.map_sup A B (MulAut.conj c⁻¹).toMonoidHom
 
+omit [Finite G] in
 private theorem w183b2_conjSubgroup_coe_mul (A B U : Subgroup G) (c : G)
     (h : (A : Set G) = (B : Set G) * (U : Set G)) :
     (conjSubgroup A c : Set G) = (conjSubgroup B c : Set G) * (conjSubgroup U c : Set G) := by
@@ -28,6 +30,7 @@ private theorem w183b2_conjSubgroup_coe_mul (A B U : Subgroup G) (c : G)
       (U.map (MulAut.conj c⁻¹).toMonoidHom : Set G)
   simp only [Subgroup.coe_map, h, Set.image_mul]
 
+omit [Finite G] in
 private theorem w183b2_oFirst_conj (n : ℕ) (M V₀ V : Subgroup G) (c x : G) :
     OFirst n (conjSubgroup M c) (conjSubgroup V₀ c) (conjSubgroup V c) (c⁻¹ * x * c) ↔
       OFirst n M V₀ V x := by
@@ -49,6 +52,7 @@ private theorem w183b2_oFirst_conj (n : ℕ) (M V₀ V : Subgroup G) (c x : G) :
   unfold OFirst
   simp only [hVx, hMx, hle, hquot, conjSubgroup_eq_bot_iff, hinf, ne_eq]
 
+omit [Finite G] in
 private theorem w183b2_oDual_conj (n : ℕ) (M V₀ V : Subgroup G) (c x : G) :
     ODual n (conjSubgroup M c) (conjSubgroup V₀ c) (conjSubgroup V c) (c⁻¹ * x * c) ↔
       ODual n M V₀ V x := by
@@ -75,6 +79,7 @@ private theorem w183b2_oDual_conj (n : ℕ) (M V₀ V : Subgroup G) (c x : G) :
   unfold ODual
   simp only [hVx, hMx, hV₀x, hle, hquot, conjSubgroup_eq_bot_iff, hinf, ne_eq]
 
+omit [Finite G] in
 private theorem w183b2_inCalO_conj (n : ℕ) (M V₀ V : Subgroup G) (c x : G) :
     InCalO n (conjSubgroup M c) (conjSubgroup V₀ c) (conjSubgroup V c) (c⁻¹ * x * c) ↔
       InCalO n M V₀ V x := by
@@ -112,7 +117,7 @@ private theorem w183b2_inCalOStar_conj_aux (n : ℕ) (M V₀ V : Subgroup G) (c 
   · exact hL.symm ▸ s16c1_normal_conj hKnorm c
   · rw [← hI, ← hJ]
     exact w183b2_conjSubgroup_coe_mul K (conjSubgroup V x ⊓ M) (V ⊓ conjSubgroup M x) c hKset
-  · letI : ((conjSubgroup K c).subgroupOf (conjSubgroup (V ⊔ conjSubgroup V x) c)).Normal :=
+  · let : ((conjSubgroup K c).subgroupOf (conjSubgroup (V ⊔ conjSubgroup V x) c)).Normal :=
       s16c1_normal_conj hKnorm c
     have hqs : QuotShape (conjSubgroup (V ⊔ conjSubgroup V x) c) (conjSubgroup K c)
         (E3.mQuot V (conjSubgroup M x)) :=
@@ -187,7 +192,7 @@ variable {D : Data G} {V₀ V H : Subgroup G} {i : ℕ}
 private theorem w183b2_eOmegaZ_le_conj_M (x : Ctx188 D V₀ V H i 3) {g : G}
     (hg : Gam183 V H (eOmegaZ H D.T) i g) : eOmegaZ H D.T ≤ conjSubgroup D.M g := by
   have hbot := x.inf_ne_bot_of_gam183 hg
-  obtain ⟨w, hw, hwbot⟩ := SetLike.exists_of_lt (bot_lt_iff_ne_bot.mpr hbot)
+  obtain ⟨w, hw, hwbot⟩ := _root_.IsConcreteLE.exists_of_lt (bot_lt_iff_ne_bot.mpr hbot)
   have hw1 : w ≠ 1 := fun h1 => hwbot (Subgroup.mem_bot.mpr h1)
   have hwCent : eOmegaZ H D.T ≤ Subgroup.centralizer ({w} : Set G) :=
     (Subgroup.le_centralizer_iff_isMulCommutative.mpr x.hyp.isElemAbelian_eOmegaZ.1).trans

@@ -26,15 +26,15 @@ theorem succ_ne_rev_castSucc (t : Fin 5) :
   constructor
   · intro h
     have h' := congrArg Fin.val h
-    simp only [Fin.val_succ, Fin.coe_castSucc, Fin.val_rev] at h'
+    simp only [Fin.val_succ, Fin.val_castSucc, Fin.val_rev] at h'
     omega
   · intro h
     have h' := congrArg Fin.val h
-    simp only [Fin.val_succ, Fin.coe_castSucc, Fin.val_rev] at h'
+    simp only [Fin.val_succ, Fin.val_castSucc, Fin.val_rev] at h'
     omega
 
 theorem mem_unitarySL_upper_pair (σ : K →+* K) (hσσ : ∀ c, σ (σ c) = c) (t : Fin 5)
-    (ht : t ≠ Fin.rev t) (x : K) :
+    (_ht : t ≠ Fin.rev t) (x : K) :
     tv t.castSucc t.succ x * tv (Fin.rev t).castSucc (Fin.rev t).succ (-σ x) ∈ unitarySL σ := by
   obtain ⟨hjk, hli⟩ := succ_ne_rev_castSucc t
   have hne : t.castSucc ≠ t.succ := Fin.castSucc_lt_succ.ne
@@ -45,7 +45,7 @@ theorem mem_unitarySL_upper_pair (σ : K →+* K) (hσσ : ∀ c, σ (σ c) = c)
   exact (tv_commute_of_disjoint hne hne' hjk hli x (-σ x)).symm
 
 theorem mem_unitarySL_lower_pair (σ : K →+* K) (hσσ : ∀ c, σ (σ c) = c) (t : Fin 5)
-    (ht : t ≠ Fin.rev t) (x : K) :
+    (_ht : t ≠ Fin.rev t) (x : K) :
     tv t.succ t.castSucc x * tv (Fin.rev t).succ (Fin.rev t).castSucc (-σ x) ∈ unitarySL σ := by
   obtain ⟨hjk, hli⟩ := succ_ne_rev_castSucc t
   have hne : t.succ ≠ t.castSucc := Fin.castSucc_lt_succ.ne.symm

@@ -47,7 +47,7 @@ theorem maskSub_eq_of_combos {n : ℕ} {l₁ l₂ : List ℕ} (h₁ : ∀ m ∈ 
 
 theorem rk_maskSub {n : ℕ} {l : List ℕ} (hl : ∀ a ∈ l, a < 2 ^ n) (hnd : (combos l).Nodup) :
     rk ↥(maskSub n l) = l.length := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [rk, card_maskSub hl hnd, padicValNat.prime_pow]
 
 end CFSG.ASVolI.H16

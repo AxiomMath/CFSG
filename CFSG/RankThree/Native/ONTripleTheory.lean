@@ -3,7 +3,7 @@ module
 public import CFSG.RankThree.Native.LyFiveTheory
 public import CFSG.RankThree.PartTwo.ExponentPrimeSmallRank
 public import Mathlib.Algebra.Order.Ring.Star
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Std.Tactic.BVDecide.Normalize.Prop
 
 public noncomputable section

@@ -38,7 +38,7 @@ theorem original {G : Type*} [Group G] [Finite G]
   let firstTwo := (firstSylow : Subgroup firstOverlap).map firstOverlap.subtype
   have hbound : firstTwo ≤ firstOverlap := Subgroup.map_subtype_le _
   have hcentralizes := BlockCentralSylowCommutation.centralizes component heven huniversal hquasisimple hcard actor hactor
-    first fixed firstTwo hfirst hfixed (firstSylow.isPGroup'.map firstOverlap.subtype) (hbound.trans inf_le_left)
+    first fixed firstTwo hfirst hfixed (firstSylow.isPGroup.map firstOverlap.subtype) (hbound.trans inf_le_left)
       hcentral (hbound.trans hnormalizes) hmoving
   have hfixedImage : UniversalOrbitBlock.conjugate fixed actor ≤
       (UniversalOrbitBlock.normalizer component).map (MulAut.conj actor).toMonoidHom :=

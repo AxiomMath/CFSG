@@ -34,7 +34,7 @@ theorem a10_YData_of_G (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLocal
       A10YData (↥M ⧸ primeComplementCore (G := ↥M) 5)
         (((P : Subgroup G).subgroupOf M).map (QuotientGroup.mk' (primeComplementCore (G := ↥M) 5)))
         (QuotientGroup.mk' (primeComplementCore (G := ↥M) 5) ⟨x, hc.generic.2.1.1⟩) t₁ t₂ J₁ J₂ F := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hxM : x ∈ M := hc.generic.2.1.1
   have hx5 : x ^ 5 = 1 := hc.generic.2.1.2.2.1
   have hP : (P : Subgroup G) ≤ Subgroup.centralizer ({x} : Set G) := hB.1

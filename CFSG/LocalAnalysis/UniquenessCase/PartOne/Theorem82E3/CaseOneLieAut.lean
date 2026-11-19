@@ -111,7 +111,7 @@ private lemma exists_moving_point_signed (h : Case811Sylow c)
       (∀ k ∈ c.L ⊓ Subgroup.normalizer (h.A : Set G),
         X.map (MulAut.conj k).toMonoidHom ≠ Y) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨c₀, a, hc₀, ha_range, ha_apply, hXinj, ha_inj, ha_memA, ha_order⟩ :=
     h.signed_coords_setup hK6c hlie hfam
   let aG : Multiplicative (Fin 3 → ZMod 3) → G := fun v => ((a v : ↥c.L) : G)
@@ -184,7 +184,7 @@ private lemma exists_moving_point_signed (h : Case811Sylow c)
     have hvec : (![0, 1, 0] : Fin 3 → ZMod 3) =
         fun i => (z : ZMod 3) * ![1, 0, 0] i := by
       have := congrArg Multiplicative.toAdd hv
-      simpa [zsmul_eq_mul, e1, e2] using this
+      simp [zsmul_eq_mul, e1, e2] at this
     exact signed_e2_ne_smul_e1 (z : ZMod 3) hvec
   have hmiss : ∀ k ∈ c.L ⊓ Subgroup.normalizer (h.A : Set G),
       X.map (MulAut.conj k).toMonoidHom ≠ Y := by
@@ -247,7 +247,7 @@ private lemma exists_moving_point_sumZero (h : Case811Sylow c)
       (∀ k ∈ c.L ⊓ Subgroup.normalizer (h.A : Set G),
         X.map (MulAut.conj k).toMonoidHom ≠ Y) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨c₀, a, hc₀, ha_range, ha_apply, hXinj, ha_one_iff, ha_memA, ha_order⟩ :=
     h.sumZero_coords_setup hK6c hlie hfam
   let aG : Multiplicative (Fin 4 → ZMod 3) → G := fun v => ((a v : ↥c.L) : G)

@@ -38,7 +38,7 @@ theorem isD42Type_of_upD42Pumpup_fieldAutT (S : SubfieldSetup k Q₀ Q σ p)
     IsCatalogLieIso (matrixProjectiveDerived Q₀) IsD42Index := by
   have hd : 0 < d := three_le_of_totallySingular k S.hT₀
   obtain ⟨hs, hnab⟩ := matrix_simple_nonabelian hd S.hnd₀ S.hT₀
-  haveI := hs
+  have := hs
   let e := inclEquiv k S.hext hd
   have hsJ : IsSimpleGroup ↥(subfieldDerivedImage k S.hext) := e.symm.isSimpleGroup
   have hnabJ : ∃ a b : ↥(subfieldDerivedImage k S.hext), a * b ≠ b * a := by
@@ -47,10 +47,10 @@ theorem isD42Type_of_upD42Pumpup_fieldAutT (S : SubfieldSetup k Q₀ Q σ p)
     exact e.injective (by simpa only [map_mul] using he)
   have hfix : fixSubgroup (fieldAutT Q σ S.hQσ) = subfieldFixedGroup k Q₀ Q :=
     Subgroup.ext fun t => fieldAutT_apply_iff S t
-  haveI := subfieldDerivedImage_normal k S.hext
+  have := subfieldDerivedImage_normal k S.hext
   have hquot := fixedGroup_quotient_isPGroup k S.hext S.hnd₀ S.hT₀
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := IsPGroup.isNilpotent hquot
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := IsPGroup.isNilpotent hquot
   obtain ⟨-, -, I, hI, hD⟩ := hx
   rw [hfix] at hI
   exact IsCatalogLieIso.of_mulEquiv e.symm
@@ -142,7 +142,7 @@ theorem not_upD42Pumpup_of_orthogonal_gates {G : Type} [Group G] [Finite G]
     refine hout (e.symm t) ((MulAut.congr e).injective ?_)
     rw [OuterAutomorphisms.congr_conj, MulEquiv.apply_symm_apply, ht]
   · have hne : MulAut.congr e β ≠ 1 := fun h => hD (h ▸ Subgroup.one_mem _)
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hord : orderOf (MulAut.congr e β) = 3 := orderOf_eq_prime hβ' hne
     exact hdesc _ hE hD hord (hx.congr e)
 
@@ -156,7 +156,7 @@ theorem not_upD42Pumpup_omega_plus_outer {G : Type} [Group G] [Finite G] {n f : 
     (Or.inr (Or.inl rfl)) n 2 f hG K hK e
   have htop : projectivePointFamilyAut (coordinateQuadPlus n K) = ⊤ :=
     (orthogonal_geometry_plus_point_family_orbit hG hK e).2.2.2.2.1 hn5
-  haveI : Finite (matrixProjectiveDerived (coordinateQuadPlus n K)) :=
+  have : Finite (matrixProjectiveDerived (coordinateQuadPlus n K)) :=
     Finite.of_equiv G (coordinatePlusWitnessEquiv K e).toEquiv
   refine not_upD42Pumpup_of_orthogonal_gates (coordinatePlusWitnessEquiv K e) hgates β
     (mem_E_of_pow_eq_one_three hgates htop) hout ?_
@@ -190,7 +190,7 @@ theorem not_upD42Pumpup_omega_minus_outer {G : Type} [Group G] [Finite G] {n f :
   have htop : projectivePointFamilyAut (coordinateQuadMinus n K hn1 b c) = ⊤ :=
     ((orthogonal_geometry_tail_model_point_family_invariant G .POmegaMinus (.inr rfl)
       n 2 f hG) hn1 K hK b c hirr).2
-  haveI : Finite (matrixProjectiveDerived (coordinateQuadMinus n K hn1 b c)) :=
+  have : Finite (matrixProjectiveDerived (coordinateQuadMinus n K hn1 b c)) :=
     Finite.of_equiv G (coordinateMinusWitnessEquiv K hn1 b c e).toEquiv
   refine not_upD42Pumpup_of_orthogonal_gates (coordinateMinusWitnessEquiv K hn1 b c e)
     hgates β (mem_E_of_pow_eq_one_three hgates htop) hout ?_

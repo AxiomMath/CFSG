@@ -69,7 +69,7 @@ theorem ggSporK_step_one {W : Type} [Group W] [Finite W] {p : ℕ} (hCen : BMNoL
       (∀ C : Subgroup W, ¬ LargeEvenPComponent p (Subgroup.centralizer {e}) C) ∧
       LargeEvenPPrimeCore p ↥(Subgroup.centralizer ({e} : Set W)) = ⊥ ∧
       ∀ J : Subgroup W, ¬ IsComponentOf J (Subgroup.centralizer {e}) := by
-  haveI : Fact p.Prime := ⟨hyp.1.1⟩
+  have : Fact p.Prime := ⟨hyp.1.1⟩
   have hfus : GGControlsStrongFusion H E := hyp.1.2.2.2.2
   have hIV : GGHypRestIVFlat p E := hyp.2.2.2.2.2.2
   have hord : orderOf e = p := orderOf_eq_prime (hyp.1.2.2.1.2 e he) he1
@@ -82,7 +82,7 @@ theorem ggSporK_step_one {W : Type} [Group W] [Finite W] {p : ℕ} (hCen : BMNoL
 theorem ggSporK_pPrimeCore_eq_bot {W : Type} [Group W] [Finite W] {p : ℕ}
     (hCen : BMNoLiePComp p W) (hG1 : BMPPrimeCore p W) {H E : Subgroup W}
     (hyp : GGHypThreeSixteenFlat p H E) : LargeEvenPPrimeCore p ↥H = ⊥ := by
-  haveI : Fact p.Prime := ⟨hyp.1.1⟩
+  have : Fact p.Prime := ⟨hyp.1.1⟩
   have hEH : E ≤ H := hyp.1.2.2.2.2.1
   set N : Subgroup ↥H := LargeEvenPPrimeCore p ↥H with hN
   have hNn : N.Normal := inferInstance

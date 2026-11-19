@@ -20,7 +20,7 @@ theorem Geo2.mem_perp_of_comm_mem_fix (hE : Geo2 S E) (hSK : Nat.card S.K = 4)
     (hF : Nat.card (fixV E) = 4) {e : MulAut W} (he : e ∈ E) (hne : e ≠ 1) {w : W}
     (hw : e w * w⁻¹ ∈ fixV E) : w ∈ S.perp (fixV E) := by
   classical
-  haveI := S.finite_carrier
+  have := S.finite_carrier
   by_contra hwp
   have hbot : fixV E ≠ ⊥ := fun h => by rw [h, Subgroup.card_bot] at hF; omega
   obtain ⟨z, hz1⟩ := Subgroup.ne_bot_iff_exists_ne_one.1 hbot
@@ -84,7 +84,7 @@ theorem Geo2.singLineShape_of_card_fix_four (hE : Geo2 S E) (hSK : Nat.card S.K 
     (hF : Nat.card (fixV E) = 4) : SingLineShape E where
   fix_ne_bot := fun h => by rw [h, Subgroup.card_bot] at hF; omega
   index_le := by
-    haveI := S.finite_carrier
+    have := S.finite_carrier
     have h1 : (S.perp (fixV E)).index * Nat.card (S.perp (fixV E)) = Nat.card W :=
       Subgroup.index_mul_card _
     rw [hE.card_perp_fix hSK hF, S.card_eq, hSK] at h1
@@ -94,7 +94,7 @@ theorem Geo2.singLineShape_of_card_fix_four (hE : Geo2 S E) (hSK : Nat.card S.K 
     exact Nat.le_of_dvd (by norm_num) h3
   fix_le_comm := by
     classical
-    haveI := S.finite_carrier
+    have := S.finite_carrier
     have hW2 : ∀ w : W, w ^ 2 = 1 := fun w => by rw [pow_two]; exact S.mul_self_eq_one w
     obtain ⟨w, hwF, hw2⟩ :=
       exists_mem_secondLayer hW2 hE.elem (le_refl (fixV E)) (fixV_ne_top hE.ne_bot)

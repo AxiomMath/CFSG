@@ -49,7 +49,7 @@ theorem heisD_noHeisAut_of_sigmaModel_sylow {X : Type} [Group X] [Finite X] {p :
       (padicValNat p (q ^ orderOf (q : ZMod p) - 1)) N))
     (hout : (∃ α : MulAut X, α ∉ Inn X ∧ α ^ p = 1) → ∃ c : ℕ, q = c ^ p ∧ ¬ p ∣ c ∧ 2 ≤ c) :
     NoHeisAut p X := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_cases hm : N / orderOf (q : ZMod p) < p
   · have hS := sylow_equiv_homC_of_sigmaModel hp hm hSyl
     refine noHeisAut_of_homC_sylow hp hp5 hZ hCyc hrk fun S =>

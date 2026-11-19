@@ -57,7 +57,7 @@ private theorem sl3_hom_charElemJ {F : Type} [Field F] [Finite F] {C : Type} [Gr
     ρ.ker ≤ Subgroup.center SL(3, F) ∧ Nat.Coprime (Nat.card ρ.ker) ℓ ∧
       ⁅ρ.range, ρ.range⁆ = ρ.range ∧ ∀ (c : C) (n : ℕ), c ^ ℓ ^ n = 1 → c ∈ ρ.range := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hquasi' : CFSG.IsQuasisimple SL(3, F) :=
     CFSG.ComponentClassification.CatalogueBGeneralLinear.specialLinear_quasisimple 3 F
       (by norm_num) (Or.inl (by norm_num)) (Or.inl (by norm_num))
@@ -81,9 +81,9 @@ private theorem sl3_hom_charElemJ {F : Type} [Field F] [Finite F] {C : Type} [Gr
     nlinarith
   have hidx3 : ρ.range.index ≤ 3 := Nat.le_of_mul_le_mul_right h1 hpos
   have hidx0 : ρ.range.index ≠ 0 := Subgroup.index_ne_zero_of_finite
-  haveI : Group.IsPerfect SL(3, F) :=
+  have : Group.IsPerfect SL(3, F) :=
     CFSG.ClassicalModels.specialLinear_isPerfect_of_three_le (by norm_num)
-  haveI hperf : Group.IsPerfect ρ.range := Group.IsPerfect.range ρ
+  have hperf : Group.IsPerfect ρ.range := Group.IsPerfect.range ρ
   obtain ⟨hN, -⟩ :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieComp.normal_and_solvable_of_perfect_index_le_four hperf
       (by omega) hidx0
@@ -1188,7 +1188,7 @@ theorem langOuterCharElem_holds : LangOuterCharElem := by
   intro τ K _ _ h5 p₀ S p hp a hT hap h1 i hkind
   classical
   have hℓ : (ringChar K).Prime := by
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     exact (FiniteField.card K (ringChar K)).choose_spec.1
   have hLℓ : ringChar (AlgebraicClosure K) = ringChar K :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieComp.ringChar_algebraicClosure K
@@ -1225,7 +1225,7 @@ theorem excRationalLieTypesP_charQ {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) :
 theorem qGenExcInndiag_of_outer (hout : LangOuterCharElem) : Inputs256f.QGenExcInndiag := by
   intro τ hτ K _ _ h5 p hp hp2 hpK α b j hj hα hp1 hh1
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, hℓ, hf⟩ := FiniteField.card K (ringChar K)
   have hqK : Nat.card K = ringChar K ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hf
   have hpK' : ¬ p ∣ Nat.card K := by
@@ -1332,7 +1332,7 @@ private theorem unitary_core_elemPerfJ {p f : ℕ} [Fact p.Prime] (hp2 : p ≠ 2
     have := hp.two_le
     have h4 : p ≠ 4 := fun h => by rw [h] at hp; exact absurd hp (by norm_num)
     omega
-  haveI : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
+  have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
   set q := p ^ f with hqdef
   set q₄ := q ^ 4 with hq₄def
   have hq2 : 2 ≤ q := by omega
@@ -1375,7 +1375,7 @@ private theorem unitary_core_elemPerfJ {p f : ℕ} [Fact p.Prime] (hp2 : p ≠ 2
       | zero => simp
       | succ n ih =>
         rw [pow_succ, pow_mul, ih]
-        haveI : Fintype K := Fintype.ofFinite K
+        have : Fintype K := Fintype.ofFinite K
         rw [Nat.card_eq_fintype_card, FiniteField.pow_card]
     have : q ^ 9 * (q ^ 9 * (q ^ 9 * q ^ 9)) = Nat.card K ^ 3 := by
       rw [hN, hq₄def]
@@ -1394,14 +1394,14 @@ private theorem unitary_core_elemPerfJ {p f : ℕ} [Fact p.Prime] (hp2 : p ≠ 2
   have hcompat := tau_rho_compat hA.toCore φ₄ ρ hμε h1 h2 h3 h4 h5 h6
   have hFcard : Nat.card (fixSubfield σ) = q₄ :=
     CFSG.GH74.GLS.Stage4.Hex.card_fixedField_of_cube σ.toRingHom hA.two_le hA.card hA.frob
-  haveI hFchar : CharP (fixSubfield σ) p :=
+  have hFchar : CharP (fixSubfield σ) p :=
     ((fixSubfield σ).subtype.charP_iff (fixSubfield σ).subtype_injective p).2 inferInstance
   let σQ : fixSubfield σ ≃+* fixSubfield σ := fixSubfieldRestrict ε σ
   have hσQ : ∀ c : fixSubfield σ, σQ c = c ^ (p ^ f) :=
     eps_restrict_frob (Q := p ^ f) rfl hσ hε
   obtain ⟨F₂, hF₂, ⟨e⟩⟩ := stdUnitary_equiv_fin (ℓ := p) (f := f) (ν := 3) hp
     (L := ↥(fixSubfield σ)) hf σQ hσQ le_rfl (by rw [hFcard])
-  haveI hF₂char : CharP ↥F₂ p := (F₂.subtype.charP_iff F₂.subtype_injective p).2 inferInstance
+  have hF₂char : CharP ↥F₂ p := (F₂.subtype.charP_iff F₂.subtype_injective p).2 inferInstance
   let θ : SL(3, fixSubfield σ) ≃* SL(3, fixSubfield σ) := stdUnitaryEquiv (ν := 3) σQ
   let S : Subgroup SL(3, fixSubfield σ) := fixSubgroup θ
   have hSmem : ∀ x, x ∈ S ↔ θ x = x := fun x => mem_fixSubgroup
@@ -1488,7 +1488,7 @@ private theorem elemPerfJ_a2Minus {p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hp
     (hσ : ∀ c, σ c = c ^ (p ^ f)) {s : graphFixedRootGroup TwistTag.D4 K σ.toRingHom}
     (hs : D4MinusToral p f hp K σ s) :
     ElemPerfJ p ↥(fixSubgroup (MulAut.conj s * fieldActor (t := TwistTag.D4) σ σ)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨K₄, _, _, hCh, hK₄, σ₄, ε, hσ₄, hε, b, hb3, hb1, s₄, hs₄, ψ₄, hinj, hint, hfix⟩ :=
     un_frame hp hf hq K hK σ hσ s hs
   have hp5 : 5 ≤ p := by
@@ -1525,7 +1525,7 @@ private theorem elemPerfJ_a2Plus {p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hp3
   have hφ := a2_hφ_of_class (σ := σ) (d := d) hs
   obtain ⟨ρ, hρ, hcard, -⟩ :=
     exists_hom_fixSub hA.toCore (MulAut.conj s * fieldActor (t := TwistTag.D4) σ σ) hφ
-  haveI : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
+  have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
   have hp5 : 5 ≤ p := by
     have := hp.two_le
     have h4 : p ≠ 4 := fun h => by rw [h] at hp; exact absurd hp (by norm_num)
@@ -1548,8 +1548,8 @@ private theorem elemPerfJ_triD4_G2 {ℓ f : ℕ} [Fact ℓ.Prime] (h5 : 5 ≤ �
   have hℓ : ℓ.Prime := Fact.out
   obtain ⟨e⟩ := CFSG.HardMathSupport.Solomon.Coordinator.LieComp.nonempty_fixSubgroup_fieldActor_equiv_G2
     (by omega) hf (Or.inr h5) hK σ hσ
-  haveI : CharP K ℓ := CFSG.HardMathSupport.Solomon.Coordinator.LieComp.charP_of_card_pow_three hℓ hf hK
-  haveI : Finite (fixSubfield σ) := Subtype.finite
+  have : CharP K ℓ := CFSG.HardMathSupport.Solomon.Coordinator.LieComp.charP_of_card_pow_three hℓ hf hK
+  have : Finite (fixSubfield σ) := Subtype.finite
   have hk : 3 ≤ Nat.card (fixSubfield σ) := by
     obtain ⟨q', hq'p, hq'c⟩ :=
       CFSG.HardMathSupport.Solomon.Coordinator.LieComp.exists_primePower_card_subfield
@@ -1592,7 +1592,7 @@ private theorem elemPerfJ_cocycle_q1 {p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) 
     have := hp.two_le
     have h4 : p ≠ 4 := fun h => by rw [h] at hp; exact absurd hp (by norm_num)
     omega
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hG2 : ElemPerfJ p ↥(fixSubgroup (fieldActor (t := TwistTag.D4) σ σ)) :=
     elemPerfJ_triD4_G2 hp5 hf hK σ hσ
   obtain ⟨y, n, hn, hyn⟩ := d4MonoNF p f hp hp2 hp3 hf hq K hK σ hσ g hg
@@ -1685,7 +1685,7 @@ theorem qGen_triD4_outer_three {ℓ f : ℕ} (hℓ : ℓ.Prime) (h5 : 5 ≤ ℓ)
     (hout : φ ∉ (MulAut.conj : ↥(graphFixedRootGroup TwistTag.D4 K Fr.toRingHom) →*
       MulAut ↥(graphFixedRootGroup TwistTag.D4 K Fr.toRingHom)).range) :
     Inputs256e.QGen ℓ φ := by
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hφ3 : φ ^ 3 = 1 := by rw [← hφ]; exact pow_orderOf_eq_one φ
   have hexp := CFSG.HardMathSupport.Solomon.Coordinator.LieComp.trialityOuterExport_of
     (HardMathSupport.Solomon.Coordinator.LieComp.trialityOddA2Comps_of_toral

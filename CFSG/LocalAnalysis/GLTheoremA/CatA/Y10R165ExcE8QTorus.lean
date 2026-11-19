@@ -20,8 +20,8 @@ theorem exists_elemAbelian_three_of_commute {G : Type} [Group G] {q : ℕ}
     ∃ F : Subgroup G, F ≤ H ∧ IsElemAbelian q F ∧ Nat.card F = q ^ 3 := by
   classical
   have hq : q.Prime := Fact.out
-  haveI : NeZero q := ⟨hq.ne_zero⟩
-  haveI : Fact (1 < q) := ⟨hq.one_lt⟩
+  have : NeZero q := ⟨hq.ne_zero⟩
+  have : Fact (1 < q) := ⟨hq.one_lt⟩
   have hqa : a ^ q = 1 := by rw [← ha]; exact pow_orderOf_eq_one a
   have hqb : b ^ q = 1 := by rw [← hb]; exact pow_orderOf_eq_one b
   have hqc : c ^ q = 1 := by rw [← hc]; exact pow_orderOf_eq_one c
@@ -119,7 +119,7 @@ theorem exists_elemAbelian_three_of_commute {G : Type} [Group G] {q : ℕ}
       · rw [hx]; exact hqc
   have hFcard : Nat.card F = q ^ 3 := by
     rw [hFeq, ← Nat.card_congr (MonoidHom.ofInjective hinj).toEquiv]
-    simp [Nat.card_prod, CFSG.LocalAnalysis.GLTheoremA.card_multiplicative_zmod]
+    simp
     ring
   have hFH : F ≤ H := by
     rw [show F = Subgroup.closure ({a, b, c} : Set G) from rfl, Subgroup.closure_le]

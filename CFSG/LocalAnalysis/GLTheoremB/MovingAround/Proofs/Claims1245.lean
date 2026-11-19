@@ -28,10 +28,12 @@ section Generic
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isEkIn_top_gLBConj' {p k : ℕ} {U : Subgroup G} (hU : IsEkIn p k ⊤ U) (g : G) :
     IsEkIn p k ⊤ (GLBConj g U) :=
   ⟨le_top, Lemma1112b.isElemAbelian_glbConj hU.2.1 g, (Lemma1112b.card_glbConj g U).trans hU.2.2⟩
 
+omit [Finite G] in
 theorem le_centralizer_gLBConj {U V : Subgroup G} (h : U ≤ Subgroup.centralizer (V : Set G)) (g : G) :
     GLBConj g U ≤ Subgroup.centralizer ((GLBConj g V : Subgroup G) : Set G) := by
   intro u hu
@@ -44,6 +46,7 @@ theorem le_centralizer_gLBConj {U V : Subgroup G} (h : U ≤ Subgroup.centralize
   have e' : u * v = g⁻¹ * ((g * u * g⁻¹) * (g * v * g⁻¹)) * g := by group
   rw [e, e', hc]
 
+omit [Finite G] in
 theorem isKConnectedIn_top_gLBConj {p k : ℕ} {U V : Subgroup G} (h : IsKConnectedIn p k ⊤ U V)
     (g : G) : IsKConnectedIn p k ⊤ (GLBConj g U) (GLBConj g V) := by
   obtain ⟨-, hUel, hUc, -, hVel, hVc, hcase⟩ := h
@@ -57,6 +60,7 @@ theorem isKConnectedIn_top_gLBConj {p k : ℕ} {U V : Subgroup G} (h : IsKConnec
       ⟨isEkIn_top_gLBConj' hWY.1 g, isEkIn_top_gLBConj' hWY.2.1 g, le_centralizer_gLBConj hWY.2.2 g⟩)
       U₁ V₁ hrt
 
+omit [Finite G] in
 theorem isKConnectedIn_top_of {p k : ℕ} {X U V : Subgroup G} (h : IsKConnectedIn p k X U V) :
     IsKConnectedIn p k ⊤ U V := by
   obtain ⟨-, hUel, hUc, -, hVel, hVc, hcase⟩ := h
@@ -68,6 +72,7 @@ theorem isKConnectedIn_top_of {p k : ℕ} {X U V : Subgroup G} (h : IsKConnected
       fun W Y hWY => ⟨⟨le_top, hWY.1.2.1, hWY.1.2.2⟩, ⟨le_top, hWY.2.1.2.1, hWY.2.1.2.2⟩, hWY.2.2⟩
     exact Relation.ReflTransGen.mono hstep _ _ hrt
 
+omit [Finite G] in
 theorem isSylowIn_top_subgroupOf' {Y P : Subgroup G} (hP : IsSylowIn 3 Y P) :
     IsSylowIn 3 (⊤ : Subgroup ↥Y) (P.subgroupOf Y) := by
   refine ⟨le_top, hP.2.1.of_equiv (Subgroup.subgroupOfEquivOfLe hP.1).symm, ?_⟩
@@ -83,7 +88,7 @@ theorem isSylowIn_top_subgroupOf' {Y P : Subgroup G} (hP : IsSylowIn 3 Y P) :
 
 theorem exists_conj_le_of_isSylowIn' {Y P R : Subgroup G} (hP : IsSylowIn 3 Y P) (hRY : R ≤ Y)
     (hR : IsPGroup 3 R) : ∃ y ∈ Y, ∀ r ∈ R, y⁻¹ * r * y ∈ P := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hP' := isSylowIn_top_subgroupOf' hP
   obtain ⟨g, hg⟩ := Lemma1112b.exists_glbConj_le_of_isSylowIn hP'
     (hR.of_equiv (Subgroup.subgroupOfEquivOfLe hRY).symm : IsPGroup 3 (R.subgroupOf Y))
@@ -96,7 +101,7 @@ theorem exists_conj_le_of_isSylowIn' {Y P R : Subgroup G} (hP : IsSylowIn 3 Y P)
 
 theorem isSylowIn_inf_of_normal' {Y N P : Subgroup G} (hP : IsSylowIn 3 Y P) (hNY : N ≤ Y)
     (hn : ∀ y ∈ Y, ∀ n ∈ N, y * n * y⁻¹ ∈ N) : IsSylowIn 3 N (P ⊓ N) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine ⟨inf_le_right, hP.2.1.to_le inf_le_left, ?_⟩
   intro T hTN hT3 hPT
   obtain ⟨Q, hQ, hTQ⟩ := Lemma1112b.exists_isSylowIn_ge hTN hT3
@@ -115,6 +120,7 @@ theorem isSylowIn_inf_of_normal' {Y N P : Subgroup G} (hP : IsSylowIn 3 Y P) (hN
     le_trans (Subgroup.card_le_of_le hTQ) hcard
   exact (Subgroup.eq_of_le_of_card_ge hPT hTcard).symm
 
+omit [Finite G] in
 theorem exists_sylow_of_isSylowIn {K T : Subgroup G} (hT : IsSylowIn 3 K T) :
     ∃ P : Sylow 3 ↥K, (P : Subgroup ↥K) = T.subgroupOf K := by
   refine ⟨⟨T.subgroupOf K, hT.2.1.of_equiv (Subgroup.subgroupOfEquivOfLe hT.1).symm, ?_⟩, rfl⟩
@@ -128,9 +134,9 @@ theorem exists_sylow_of_isSylowIn {K T : Subgroup G} (hT : IsSylowIn 3 K T) :
 
 theorem exists_mem_centerOf_order_three {P : Subgroup G} (hP : IsPGroup 3 ↥P) (hne : P ≠ ⊥) :
     ∃ x : G, x ∈ centerOf P ∧ orderOf x = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Nontrivial ↥P := (Subgroup.nontrivial_iff_ne_bot P).2 hne
-  haveI : Nontrivial ↥(Subgroup.center ↥P) := hP.center_nontrivial
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Nontrivial ↥P := (Subgroup.nontrivial_iff_ne_bot P).2 hne
+  have : Nontrivial ↥(Subgroup.center ↥P) := hP.center_nontrivial
   obtain ⟨n, hn, hcard⟩ := (hP.to_subgroup (Subgroup.center ↥P)).nontrivial_iff_card.1 inferInstance
   have hdvd : 3 ∣ Nat.card ↥(Subgroup.center ↥P) := by
     rw [hcard]
@@ -139,6 +145,7 @@ theorem exists_mem_centerOf_order_three {P : Subgroup G} (hP : IsPGroup 3 ↥P) 
   refine ⟨((z : ↥P) : G), Subgroup.mem_map.2 ⟨z, z.2, rfl⟩, ?_⟩
   rw [Subgroup.orderOf_coe, Subgroup.orderOf_coe, hz]
 
+omit [Finite G] in
 theorem comm_of_mem_centerOf {P : Subgroup G} {x : G} (hx : x ∈ centerOf P) :
     ∀ q ∈ P, q * x = x * q := by
   obtain ⟨z, hz, hzx⟩ := Subgroup.mem_map.1 hx
@@ -160,7 +167,7 @@ theorem false_of_sylow_connected (h104i : Lemma104_iStatement) (h104ii : Lemma10
     {P : Subgroup G} (hP : IsSylowIn 3 ⊤ P)
     (hconnP : ∀ U V : Subgroup G, IsEkIn 3 4 P U → IsEkIn 3 4 P V → IsKConnectedIn 3 3 ⊤ U V) :
     False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp3 : Nat.Prime 3 := Nat.prime_three
   have hAel : IsElemAbelian 3 A := h.pair.1.2.1.1.1.2.1
   have hAM : A ≤ M := h.pair.1.2.1.1.1.1
@@ -217,7 +224,7 @@ theorem typeClaim_of_inputs (h122 : Lemma122_i_iiStatement) (h123 : Lemma123Stat
     (h3110 : Input31_10L34) (hSL : InputSL34SylowCent) :
     Lemma1245.TypeClaim := by
   intro G _ _ m B M E A a h K hK hK3 hKM hA0 hAN hKxcl
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp3 : Nat.Prime 3 := Nat.prime_three
   by_contra hZ
   have hA4 : CFSG.Open.pRank 3 A = 4 :=
@@ -311,7 +318,8 @@ theorem commute_of_glaPComponent_ne {X I L : Subgroup G} (hI : GLAPComponent 3 X
   · have hle := Subgroup.commutator_eq_bot_iff_le_centralizer.1 hcomm
     exact (Subgroup.mem_centralizer_iff.1 (hle hu) v hv).symm
 
-theorem mem_barX_gLBConj {X I : Subgroup G} (hIX : I ≤ X) {y : G} (hy : y ∈ X)
+omit [Finite G] in
+theorem mem_barX_gLBConj {X I : Subgroup G} (_hIX : I ≤ X) {y : G} (hy : y ∈ X)
     (z : ↥X ⧸ GLAPPrimeCore 3 ↥X) :
     z ∈ barX 3 X (GLBConj y I) ↔
       QuotientGroup.mk' (GLAPPrimeCore 3 ↥X) ⟨y, hy⟩ * z *
@@ -341,7 +349,7 @@ theorem center_barX_eq_bot {X I : Subgroup G} (hI : GLAPComponent 3 X I)
 theorem false_of_commute_of_isSCp {X A : Subgroup G} (hAX : A ≤ X) (hAel : IsElemAbelian 3 A)
     (hSC : IsSCp 3 ⊤ A) {w : ↥X ⧸ GLAPPrimeCore 3 ↥X} (hw3 : w ^ 3 = 1)
     (hwA : w ∉ barX 3 X A) (hcomm : ∀ z ∈ barX 3 X A, z * w = w * z) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp3 : Nat.Prime 3 := Nat.prime_three
   set W : Subgroup (↥X ⧸ GLAPPrimeCore 3 ↥X) := Subgroup.zpowers w with hW
   have hWp : IsPGroup 3 ↥W := by
@@ -366,7 +374,7 @@ theorem false_of_commute_of_isSCp {X A : Subgroup G} (hAX : A ≤ X) (hAel : IsE
   obtain ⟨Q⟩ : Nonempty (Sylow 3 ↥H) := inferInstance
   set V : Subgroup G := (Q : Subgroup ↥H).map H.subtype with hV
   have hVH : V ≤ H := Subgroup.map_subtype_le _
-  have hV3 : IsPGroup 3 ↥V := Q.isPGroup'.map H.subtype
+  have hV3 : IsPGroup 3 ↥V := Q.isPGroup.map H.subtype
   have hbarV : barX 3 X V = W := (barX_sylow_eq hHX (by rw [hbarH]; exact hWp) Q).trans hbarH
   have hA3 : IsPGroup 3 ↥A := Lemma124.isPGroup_three_of_isElemAbelian hAel
   have hcommbar : barX 3 X A ≤ Subgroup.centralizer
@@ -438,6 +446,7 @@ theorem false_of_commute_of_isSCp {X A : Subgroup G} (hAX : A ≤ X) (hAel : IsE
   rw [← hvw]
   exact ⟨⟨v, hvX⟩, Subgroup.mem_subgroupOf.2 hvA', rfl⟩
 
+omit [Finite G] in
 theorem mem_normalizer_kx {J : Subgroup G} {x b : G} (hbX : b ∈ Cg x)
     (hbJ : b ∈ Subgroup.normalizer (J : Set G)) :
     b ∈ Subgroup.normalizer (Kx 3 J x : Set G) := by
@@ -463,6 +472,7 @@ theorem mem_normalizer_kx {J : Subgroup G} {x b : G} (hbX : b ∈ Cg x)
   have h3 := gLBConj_mono b h2
   rwa [gLBConj_gLBConj_inv] at h3
 
+omit [Finite G] in
 theorem mem_zpowers_of_pow_three {y v : G} (hy3 : y ^ 3 = 1) (hv : v ∈ Subgroup.zpowers y) :
     v = 1 ∨ v = y ∨ v = y * y := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 hv
@@ -517,7 +527,7 @@ theorem uniqClaim_of_inputs (h122 : Lemma122_i_iiStatement) (h123 : Lemma123Stat
     (h104iii : Lemma104_iiiStatement) (h104iv : Lemma104_ivStatement) (hI7 : Input7_L34)
     (hFix : InputL34Fix3) : Lemma1245.UniqClaim := by
   intro G _ _ m B M E A a h K hK hK3 hKM hA0 hAN hKt hcov x hx hx1 hKxc hJcov I hI hIt hIc
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp3 : Nat.Prime 3 := Nat.prime_three
   by_contra hne
   have hA4 : CFSG.Open.pRank 3 A = 4 :=
@@ -968,7 +978,7 @@ theorem pRank_mulAut_le_two_of_modCenter {Y : Type} [Group Y] [Finite Y] (hperf 
   (CFSG.SectionRank.pRank_top_le_of_injective (by norm_num) (quotientCenterAut' Y)
     (quotientCenterAut'_injective hperf)).trans (pRank_mulAut_le_two_of_isLThreeFour h)
 
-theorem le_M_of_rank_five (h104ii : Lemma104_iiStatement) (h104iii : Lemma104_iiiStatement)
+theorem le_M_of_rank_five (_h104ii : Lemma104_iiStatement) (h104iii : Lemma104_iiiStatement)
     (h104iv : Lemma104_ivStatement) (h111 : Prop111Statement)
     {m : ℕ} {B M E A : Subgroup G} {a : G} (h : Cex121 G m 3 B M E A a)
     (hk : CFSG.Open.pRank 3 (E ⊓ A) = 2) {x : G} (hxA : x ∈ A) (hx1 : x ≠ 1)
@@ -976,7 +986,7 @@ theorem le_M_of_rank_five (h104ii : Lemma104_iiStatement) (h104iii : Lemma104_ii
     (hIt : IsLThreeFour (barOf 3 I ⧸ Subgroup.center (barOf 3 I)))
     {D : Subgroup G} (hDel : IsElemAbelian 3 D) (hD5 : 3 ^ 5 ≤ Nat.card D) (hDC : D ≤ Cg x)
     (hDA0 : D ≤ Subgroup.centralizer ((E ⊓ A : Subgroup G) : Set G)) : I ≤ M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp3 : Nat.Prime 3 := Nat.prime_three
   have hNA0 : Subgroup.normalizer ((E ⊓ A : Subgroup G) : Set G) ≤ M :=
     le_trans (le_sSup ⟨E ⊓ A, inf_le_left, le_of_eq hk.symm, rfl⟩ :
@@ -1059,7 +1069,7 @@ theorem isSylowIn_inf_of_isSubnormal {X Q I : Subgroup G} (hQ : IsSylowIn 3 X Q)
 theorem false_of_sylow_le_center {Y : Type} [Group Y] [Finite Y]
     (h : IsLThreeFour (Y ⧸ Subgroup.center Y)) (P : Sylow 3 Y)
     (hP : (P : Subgroup Y) ≤ Subgroup.center Y) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcard : Nat.card (Y ⧸ Subgroup.center Y) = 20160 :=
     CFSG.HardMathSupport.Solomon.Coordinator.card_of_isLThreeFour h
   have hdvd : (Subgroup.center Y).index ∣ (P : Subgroup Y).index := Subgroup.index_dvd_of_le hP
@@ -1067,6 +1077,7 @@ theorem false_of_sylow_le_center {Y : Type} [Group Y] [Finite Y]
   rw [hidx] at hdvd
   exact P.not_dvd_index (dvd_trans (by norm_num) hdvd)
 
+omit [Finite G] in
 theorem conj_eq_of_mem_zpowers {x n : G} (hx3 : x ^ 3 = 1) (hx1 : x ≠ 1) {k : ℕ}
     (hn : n ^ (3 ^ k) = 1) (h : n * x * n⁻¹ ∈ Subgroup.zpowers x) : n * x * n⁻¹ = x := by
   rcases mem_zpowers_of_pow_three hx3 h with h1 | h2 | h3
@@ -1106,7 +1117,7 @@ theorem conj_eq_of_mem_zpowers {x n : G} (hx3 : x ^ 3 = 1) (hx1 : x ≠ 1) {k : 
 theorem mem_normalizer_of_centralizes_sylow {X Q I : Subgroup G} (hI : GLAPComponent 3 X I)
     (hIt : IsLThreeFour (barOf 3 I ⧸ Subgroup.center (barOf 3 I))) (hQ : IsSylowIn 3 X Q)
     {z : G} (hzX : z ∈ X) (hz : ∀ q ∈ Q, q * z = z * q) : z ∈ Subgroup.normalizer (I : Set G) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp3 : Nat.Prime 3 := Nat.prime_three
   by_contra hzN
   have hXz : GLBConj z X = X := gLBConj_eq_of_mem_normalizer (Subgroup.le_normalizer hzX)
@@ -1168,7 +1179,7 @@ theorem mem_sup_of_normalizes {m : ℕ} {B M E A : Subgroup G} {a : G} (h : Cex1
     {I : Subgroup G} (hIX : I ≤ Cg x) (hIN : E ⊓ A ≤ Subgroup.normalizer (I : Set G))
     (hAI : ¬ A ≤ Subgroup.normalizer (I : Set G)) {z : G} (hzA : z ∈ A)
     (hzN : z ∈ Subgroup.normalizer (I : Set G)) : z ∈ (E ⊓ A) ⊔ Subgroup.zpowers x := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hAel : IsElemAbelian 3 A := h.pair.1.2.1.1.1.2.1
   have hxA : x ∈ A := (inf_le_right : centBar 3 A K ≤ A) hx
   have hx3 : x ^ 3 = 1 := hAel.2 x hxA
@@ -1220,7 +1231,7 @@ theorem normF_false_of_center_ne_bot (h104i : Lemma104_iStatement) (h104ii : Lem
     (hIN : E ⊓ A ≤ Subgroup.normalizer (I : Set G))
     (hIf : ∀ b ∈ E ⊓ A, b ∈ centBar 3 ⊤ I → b = 1)
     (hAI : ¬ A ≤ Subgroup.normalizer (I : Set G)) (hZ : Subgroup.center (barOf 3 I) ≠ ⊥) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp3 : Nat.Prime 3 := Nat.prime_three
   have hAel : IsElemAbelian 3 A := h.pair.1.2.1.1.1.2.1
   have hA3 : IsPGroup 3 ↥A := Lemma124.isPGroup_three_of_isElemAbelian hAel
@@ -1333,7 +1344,7 @@ theorem normF_false_of_center_bot (h104ii : Lemma104_iiStatement) (h104iii : Lem
     (hIf : ∀ b ∈ E ⊓ A, b ∈ centBar 3 ⊤ I → b = 1)
     (hAI : ¬ A ≤ Subgroup.normalizer (I : Set G)) (hIM : ¬ I ≤ M)
     (hZ : Subgroup.center (barOf 3 I) = ⊥) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp3 : Nat.Prime 3 := Nat.prime_three
   have hAel : IsElemAbelian 3 A := h.pair.1.2.1.1.1.2.1
   have hA0A : E ⊓ A ≤ A := inf_le_right
@@ -1438,7 +1449,7 @@ theorem normF_false_of_center_bot (h104ii : Lemma104_iiStatement) (h104iii : Lem
   have hP2mem : ∀ u ∈ P2, ∃ v ∈ P1, u = yb⁻¹ * v * yb := by
     intro u hu
     obtain ⟨v, hv, rfl⟩ := Subgroup.mem_map.1 hu
-    exact ⟨v, hv, by simp [MulAut.conj_apply]⟩
+    exact ⟨v, hv, by simp⟩
   have hP2card : Nat.card P2 = 9 := by
     rw [hP2, Subgroup.card_map_of_injective (MulAut.conj yb⁻¹).injective, hP1card]
   have hP2el : IsElemAbelian 3 P2 := CFSG.SectionRank.isElemAbelian_map hP1el _
@@ -1637,7 +1648,7 @@ theorem normF_false_of_center_bot (h104ii : Lemma104_iiStatement) (h104iii : Lem
   set V : Subgroup G := (S : Subgroup ↥C).map C.subtype with hV
   have hVC : V ≤ C := Subgroup.map_subtype_le _
   have hVX : V ≤ X := hVC.trans hCX
-  have hV3 : IsPGroup 3 ↥V := S.isPGroup'.map C.subtype
+  have hV3 : IsPGroup 3 ↥V := S.isPGroup.map C.subtype
   have hDt3 : IsPGroup 3 ↥Dt := Lemma124.isPGroup_three_of_isElemAbelian hDel
   have hbarV : barX 3 X V = Dt := (barX_sylow_eq hCX (by rw [hbarC]; exact hDt3) S).trans hbarC
   have hVcard : Nat.card V = 3 ^ 5 := by rw [← card_barX_of_le hp3 hVX hV3, hbarV, hDcard]

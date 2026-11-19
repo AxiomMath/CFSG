@@ -93,9 +93,9 @@ section Cent
 theorem ggD4FieldCentralizerInput_holds : GGD4FieldCentralizerInput := by
   intro K _ _ n hK _ s hs3 hinn hout J hJ
   obtain ⟨hs, hna⟩ := d4Recipe_isSimpleGroup K
-  haveI : CharP K 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := by
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fintype K := Fintype.ofFinite K
     refine charP_of_card_eq_prime_pow (p := 2) (f := n) ?_
     rw [← Nat.card_eq_fintype_card]
     exact hK
@@ -115,7 +115,7 @@ theorem ggD4FieldCentralizerInput_holds : GGD4FieldCentralizerInput := by
   obtain ⟨k, _, _, n', hcard, hn, ⟨ek⟩, hstab⟩ :=
     d4Recipe_fieldAut_centralizer hK hf'F hf'3
   obtain ⟨hs_k, hna_k⟩ := d4Recipe_isSimpleGroup k
-  haveI : IsSimpleGroup ↥(ggAutFixedSubgroup f') :=
+  have : IsSimpleGroup ↥(ggAutFixedSubgroup f') :=
     (MulEquiv.isSimpleGroup_congr ek).1 hs_k
   have hfix : ggAutFixedSubgroup s =
       (ggAutFixedSubgroup f').map (MulAut.conj r).toMonoidHom := by

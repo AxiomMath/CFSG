@@ -21,20 +21,20 @@ omit [Finite G] in
 theorem not_isPGroup_of_isTwoPrimeComponent {I : Subgroup G}
     (h : IsTwoPrimeComponent I I) : ¬ IsPGroup 2 I := by
   intro hp
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have htop : CFSG.pCore 2 ↥I = ⊤ := by
     refine le_antisymm le_top (le_sSup ⟨inferInstance, hp.of_equiv Subgroup.topEquiv.symm⟩)
-  haveI : Subsingleton (↥I ⧸ CFSG.pCore 2 ↥I) := by
+  have : Subsingleton (↥I ⧸ CFSG.pCore 2 ↥I) := by
     rw [htop]
     exact QuotientGroup.subsingleton_quotient_top
   have hb : barM I I = ⊥ := Subsingleton.elim _ _
   have hq := h.component.2.2
   rw [hb] at hq
-  haveI : Subsingleton ↥(⊥ : Subgroup (↥I ⧸ CFSG.pCore 2 ↥I)) := inferInstance
-  haveI : Subsingleton (↥(⊥ : Subgroup (↥I ⧸ CFSG.pCore 2 ↥I)) ⧸
+  have : Subsingleton ↥(⊥ : Subgroup (↥I ⧸ CFSG.pCore 2 ↥I)) := inferInstance
+  have : Subsingleton (↥(⊥ : Subgroup (↥I ⧸ CFSG.pCore 2 ↥I)) ⧸
       Subgroup.center ↥(⊥ : Subgroup (↥I ⧸ CFSG.pCore 2 ↥I))) :=
     Function.Surjective.subsingleton (QuotientGroup.mk'_surjective _)
-  haveI := hq.2
+  have := hq.2
   exact not_subsingleton (↥(⊥ : Subgroup (↥I ⧸ CFSG.pCore 2 ↥I)) ⧸
     Subgroup.center ↥(⊥ : Subgroup (↥I ⧸ CFSG.pCore 2 ↥I))) inferInstance
 
@@ -44,8 +44,8 @@ theorem two_dvd_card_of_isSymThreeOrSUThreeTwo {K : Type} [Group K]
   · rw [Nat.card_congr f.some.toEquiv, Nat.card_perm, Nat.card_eq_fintype_card,
       Fintype.card_fin]
     decide
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI := CFSG.HardMathSupport.Solomon.Proving.charP_two_of_card_four K' hK
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have := CFSG.HardMathSupport.Solomon.Proving.charP_two_of_card_four K' hK
     have h2 := CFSG.SectionRank.OddCover.card_statedSU_three (K := K') (p := 2) (f := 1)
       (by rw [hK]; norm_num)
     rw [Nat.card_congr f.toEquiv, pow_one] at *
@@ -72,7 +72,7 @@ omit [Finite D] in
 private theorem isPGroup_of_map_eq_bot (hψ : Function.Surjective ψ)
     (hker : IsPGroup 2 ψ.ker) (hD : CFSG.pCore 2 D = ⊥) {I : Subgroup G} (hIX : I ≤ X)
     (hbot : (I.subgroupOf X).map ψ = ⊥) : IsPGroup 2 I := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hpX : CFSG.pCore 2 ↥X = ψ.ker := CZeroLift.pCore_eq_ker ψ hψ hker hD
   have hIker : I ≤ pCoreOf 2 X := by
     intro i hi
@@ -139,13 +139,13 @@ private theorem perfectCore_le_sup_of_map_eq_perfectCore {X : Subgroup G}
 private theorem isComponent_perfectCore_top {D : Type} [Group D] [Finite D]
     (hC : IsSimpleGroup ↥(CFSG.Quasithin.perfectCore (⊤ : Subgroup D))) :
     IsComponentOf (CFSG.Quasithin.perfectCore (⊤ : Subgroup D)) ⊤ := by
-  haveI : IsSimpleGroup ↥(CFSG.Quasithin.perfectCore (⊤ : Subgroup D)) := hC
+  have : IsSimpleGroup ↥(CFSG.Quasithin.perfectCore (⊤ : Subgroup D)) := hC
   have hCsub : IsSubnormal (CFSG.Quasithin.perfectCore (⊤ : Subgroup D)) ⊤ :=
     CFSG.Open.IsSubnormal.of_mathlib normal_perfectCore_top.isSubnormal
   have hcomm : commutator ↥(CFSG.Quasithin.perfectCore (⊤ : Subgroup D)) = ⊤ :=
     (Subgroup.isPerfect_iff.2
       (CFSG.Quasithin.perfectCore_perfect (⊤ : Subgroup D))).commutator_eq_top
-  haveI : Group.IsPerfect ↥(CFSG.Quasithin.perfectCore (⊤ : Subgroup D)) :=
+  have : Group.IsPerfect ↥(CFSG.Quasithin.perfectCore (⊤ : Subgroup D)) :=
     Subgroup.isPerfect_iff.2 (CFSG.Quasithin.perfectCore_perfect (⊤ : Subgroup D))
   have hnc : ¬ IsMulCommutative ↥(CFSG.Quasithin.perfectCore (⊤ : Subgroup D)) :=
     Group.IsPerfect.not_isMulCommutative _
@@ -174,7 +174,7 @@ theorem eq_perfectCore_of_isTwoPrimeComponent {X : Subgroup G} {D : Type} [Group
   have hKsubC : IsSubnormal K C := by
     have := hKsub.inf_of_le (le_top : C ≤ ⊤)
     rwa [inf_eq_left.mpr hKle] at this
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rcases IsSubnormal.eq_bot_or_eq_of_isSimpleGroup hKsubC hC with hbot | htop
   · exact absurd (Aux.isPGroup_of_map_eq_bot hψ hker hD hIX hbot)
       (not_isPGroup_of_isTwoPrimeComponent hc)
@@ -200,7 +200,7 @@ theorem false_of_symThree_member {X : Subgroup G} {D : Type} [Group D] [Finite D
     (hrC : r ∣ Nat.card ↥(CFSG.Quasithin.perfectCore (⊤ : Subgroup D)))
     {I : Subgroup G} (hIX : I ≤ X) (hIs : IsSubnormal I X)
     (hb : IsSymThreeOrSUThreeTwo (↥I ⧸ CFSG.pCore 2 ↥I)) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let K : Subgroup D := (I.subgroupOf X).map ψ
   let C : Subgroup D := CFSG.Quasithin.perfectCore (⊤ : Subgroup D)
   have hKsub : IsSubnormal K ⊤ := Aux.isSubnormal_map hψ hIX hIs
@@ -216,7 +216,7 @@ theorem false_of_symThree_member {X : Subgroup G} {D : Type} [Group D] [Finite D
     have hrel : C.relIndex K = Nat.card ↥K := by
       rw [Subgroup.relIndex, Subgroup.subgroupOf_eq_bot.2 (disjoint_iff.mpr hCK),
         Subgroup.index_bot]
-    haveI : C.Normal := normal_perfectCore_top
+    have : C.Normal := normal_perfectCore_top
     refine hodd ?_
     have h2rel : 2 ∣ C.relIndex K := by rw [hrel]; exact h2K
     exact h2rel.trans (Subgroup.relIndex_dvd_index_of_normal C K)
@@ -236,7 +236,7 @@ theorem cZero_eq_singleton_of_perfectCore {X : Subgroup G} {D : Type} [Group D] 
     ∃ I : Subgroup G, cZero X = {I} ∧
       Nonempty (↥I ⧸ CFSG.pCore 2 ↥I ≃*
         ↥(CFSG.Quasithin.perfectCore (⊤ : Subgroup D))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let C : Subgroup D := CFSG.Quasithin.perfectCore (⊤ : Subgroup D)
   have hCcomp : IsComponentOf C ⊤ := isComponent_perfectCore_top hC
   obtain ⟨I₀, hI₀cZ, hI₀map⟩ := CZeroLift.exists_cZero_of_component ψ hψ hker hD hCcomp
@@ -287,17 +287,17 @@ private theorem card_eq_six_of_mulEquiv_perm_three {D : Type} [Group D] [Finite 
 private theorem card_eq_six_of_isSymThreeOrSUThreeTwo_of_le_perm_three
     {D : Type} [Group D] [Finite D] (e : D ≃* Equiv.Perm (Fin 3))
     {K : Subgroup D} (h : IsSymThreeOrSUThreeTwo ↥K) : Nat.card ↥K = 6 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hDcard : Nat.card D = 6 := card_eq_six_of_mulEquiv_perm_three e
   rcases h with ⟨e3⟩ | ⟨K', hfield, hfin, hK4, ⟨eSU⟩⟩
   · rw [Nat.card_congr e3.some.toEquiv, Nat.card_perm, Nat.card_eq_fintype_card,
       Fintype.card_fin]
     norm_num
   · exfalso
-    letI : Field K' := hfield
-    letI : Finite K' := hfin
+    let : Field K' := hfield
+    let : Finite K' := hfin
     have h216 : Nat.card ↥(StatedSU 3 2 K') = 216 := by
-      haveI := CFSG.HardMathSupport.Solomon.Proving.charP_two_of_card_four K' hK4
+      have := CFSG.HardMathSupport.Solomon.Proving.charP_two_of_card_four K' hK4
       have h := CFSG.SectionRank.OddCover.card_statedSU_three (K := K') (p := 2) (f := 1)
         (by rw [hK4]; norm_num)
       rw [pow_one] at h
@@ -354,9 +354,9 @@ theorem cZero_eq_singleton_of_perm_three {X : Subgroup G} {D : Type} [Group D] [
     (hD : CFSG.pCore 2 D = ⊥) (e : D ≃* Equiv.Perm (Fin 3)) :
     cZero X = {X} ∧
       Nonempty (↥X ⧸ CFSG.pCore 2 ↥X ≃* Equiv.Perm (Fin 3)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsSolvable (Equiv.Perm (Fin 3)) := Equiv.Perm.isSolvable (by simp)
-  haveI : Group.IsSolvable D :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsSolvable (Equiv.Perm (Fin 3)) := Equiv.Perm.isSolvable (by simp)
+  have : Group.IsSolvable D :=
     Group.isSolvable_of_surjective (f := e.symm.toMonoidHom) e.symm.surjective
   have hpc : CFSG.Quasithin.perfectCore (⊤ : Subgroup D) = ⊥ := by
     refine (CFSG.Quasithin.isSolvable_iff_perfectCore_eq_bot (⊤ : Subgroup D)).mp ?_

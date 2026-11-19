@@ -60,8 +60,7 @@ public theorem conj_involution
       refine ⟨?_, ?_⟩
       · have hxI := conj_involution (b := b⁻¹) x.2.1
         simpa [inv_inv] using hxI
-      · change cosetInvolution_proj H (b⁻¹ * x.1 * b) = ω
-        unfold cosetInvolution_proj
+      · unfold cosetInvolution_proj
         have hgoal : QuotientGroup.mk (s := H) ((b⁻¹ * x.1 * b)⁻¹) =
             QuotientGroup.mk (s := H) (ω.out) := by
           apply (QuotientGroup.eq (s := H)).mpr
@@ -79,9 +78,7 @@ public theorem conj_involution
     invFun := fun x => ⟨b * x.1 * b⁻¹, by
       refine ⟨?_, ?_⟩
       · exact conj_involution x.2.1
-      · change cosetInvolution_proj H (b * x.1 * b⁻¹) =
-          QuotientGroup.mk (b * ω.out)
-        unfold cosetInvolution_proj
+      · unfold cosetInvolution_proj
         apply (QuotientGroup.eq (s := H)).mpr
         have hxmem : x.1 * ω.out ∈ H := by
           have hq := (QuotientGroup.eq (s := H)).mp

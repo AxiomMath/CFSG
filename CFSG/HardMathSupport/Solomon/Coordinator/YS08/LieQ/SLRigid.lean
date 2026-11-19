@@ -22,12 +22,13 @@ section SL
 
 variable (n : ℕ) {F : Type} [Field F] [Finite F] [CharP F 2]
 
+omit [Finite F] in
 theorem exists_transvection_mem_flagKernel (Q : Subgroup (StatedSL n F)) (w : Fin n → F)
     (hw : w ∈ fixFlag (natRep (StatedSL n F)) Q 1) (φ : (Fin n → F) →ₗ[F] F)
     (hφ : ∀ x ∈ fixFlag (natRep (StatedSL n F)) Q 1, φ x = 0) :
     ∃ y ∈ flagKernel (natRep (StatedSL n F)) (fixFlag (natRep (StatedSL n F)) Q),
       ∀ v, natRep (StatedSL n F) y v = v + φ v • w := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set ρ := natRep (StatedSL n F) with hρ
   set g : (Fin n → F) →ₗ[F] (Fin n → F) := φ.smulRight w with hg
   have hgv : ∀ v, g v = φ v • w := fun v => rfl
@@ -72,7 +73,7 @@ theorem exists_transvection_mem_flagKernel (Q : Subgroup (StatedSL n F)) (w : Fi
 theorem rigidProp_SL (core : RigidSLCore) (p : ℕ) (hp : p.Prime) (hp2 : p ≠ 2) :
     RigidProp (fun _ => True) (natRep (StatedSL n F))
       (fun Q => fixFlag (natRep (StatedSL n F)) Q) p := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro Rh hRhs _ hRhp _ Q hQ2 hK hcomm r hr
   set ρ := natRep (StatedSL n F) with hρ
   have hinj : Function.Injective ρ := natRep_injective _
@@ -111,7 +112,7 @@ theorem rigidProp_SL (core : RigidSLCore) (p : ℕ) (hp : p.Prime) (hp2 : p ≠ 
 
 theorem radRigid_PSL (core : RigidSLCore) (hn : 3 ≤ n) :
     RadRigid 2 (StatedProj (StatedSL n F)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : Finite (StatedSL n F) := inferInstance
   refine radRigid_of_rigid (H := StatedSL n F)
     ((StatedScalars (Fin n) F).subgroupOf (StatedSL n F)) (statedProj_kernel_central _)
@@ -121,7 +122,7 @@ theorem radRigid_PSL (core : RigidSLCore) (hn : 3 ≤ n) :
     (fun Q _ => normalizer_le_flagStab_fixFlag _ Q) (fun Q _ => le_flagKernel_fixFlag _ Q) ?_
     (fun p hp hp2 => rigidProp_SL n core p hp hp2)
   intro p hp hp2 R hR
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact autLift_of_induced (fun _ => True) trivial (fun _ _ _ _ => trivial) (fun _ _ => trivial)
     p R hR (induced_PSL n F hn p hp2 R hR)
 

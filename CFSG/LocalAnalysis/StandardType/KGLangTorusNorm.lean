@@ -154,7 +154,7 @@ private theorem kgLangCNormAux_normSurjPi {p : ℕ} (hp : p.Prime) {ι : Type*} 
       ∃ s : (∀ i, L i)ˣ,
         (c : ∀ i, L i) = ∏ m ∈ Finset.range p, (F ^ m) (s : ∀ i, L i) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hFp : ∀ y : ∀ i, L i, (F ^ p) y = y := fun y =>
     congrArg (fun e : (∀ i, L i) ≃+* (∀ i, L i) => e y) hF
   have hσ_aux : ∀ i, ∃ j, F (Pi.single i (1 : L i)) = Pi.single j (1 : L j) :=
@@ -379,7 +379,7 @@ private theorem kgLangCNormAux_normSurjPi {p : ℕ} (hp : p.Prime) {ι : Type*} 
     by_cases hfix : σe I = I
     · have hsI : s I = lf I hfix := by
         dsimp only [s]
-        rw [dif_pos hfix]
+        rw [dite_eq_left hfix]
       calc (∏ m ∈ Finset.range p, (F ^ m) s) I
           = ∏ m ∈ Finset.range p, (F ^ m) s I :=
               Finset.prod_apply I (Finset.range p) (fun m => (F ^ m) s)
@@ -477,12 +477,12 @@ private theorem kgLangCNormAux_normSurjPi {p : ℕ} (hp : p.Prime) {ι : Type*} 
           have h1 : s ((σe.symm ^ m) I) =
               (if (σe.symm ^ m) I = rep ((σe.symm ^ m) I) then
                 cv ((σe.symm ^ m) I) else 1) := by
-            simp only [s, dif_neg hnotfix_j]
+            simp only [s, dite_eq_right hnotfix_j]
           rw [h1, hrep_j]
         rw [hsdef]
         by_cases hmk : m = k
-        · rw [if_pos ((hj_iff m hm).mpr hmk), if_pos hmk]
-        · rw [if_neg (fun h => hmk ((hj_iff m hm).mp h)), if_neg hmk]
+        · rw [ite_eq_left ((hj_iff m hm).mpr hmk), ite_eq_left hmk]
+        · rw [ite_eq_right (fun h => hmk ((hj_iff m hm).mp h)), ite_eq_right hmk]
       let Ψ : ∀ (m : ℕ) (I : ι), L ((σe.symm ^ m) I) →+* L I :=
         fun m I => Classical.choose (hF_iter_b m I)
       have hΨ : ∀ (m : ℕ) (I : ι) (y : ∀ i, L i), (F ^ m) y I = Ψ m I (y ((σe.symm ^ m) I)) :=
@@ -499,9 +499,9 @@ private theorem kgLangCNormAux_normSurjPi {p : ℕ} (hp : p.Prime) {ι : Type*} 
         _ = Ψ k I (cv ((σe.symm ^ k) I)) := by
               rw [Finset.prod_eq_single k
                     (fun m hm hmk => by
-                      rw [hs_j m (Finset.mem_range.mp hm), if_neg hmk, map_one])
+                      rw [hs_j m (Finset.mem_range.mp hm), ite_eq_right hmk, map_one])
                     (fun hknot => absurd (Finset.mem_range.mpr hklt) hknot),
-                  hs_j k hklt, if_pos rfl]
+                  hs_j k hklt, ite_eq_left rfl]
         _ = cv I := hc_iter
   have hs_ne_zero : ∀ I, s I ≠ 0 := by
     intro I hzero
@@ -530,12 +530,12 @@ theorem kgLangC_normSurj {p : ℕ} (hp : p.Prime) {B : Type} [CommRing B] [Finit
     (hstar : ∀ ε : B, IsIdempotentElem ε → ε ≠ 0 → β ε = ε → ∃ x : B, β (ε * x) ≠ ε * x) :
     ∀ c : Bˣ, β (c : B) = c → ∃ s : Bˣ, (c : B) = ∏ i ∈ Finset.range p, (β ^ i) (s : B) := by
   classical
-  haveI hArt : IsArtinianRing B := isArtinian_of_finite
-  letI hField : ∀ I : MaximalSpectrum B, Field (B ⧸ I.asIdeal) := fun I =>
+  have hArt : IsArtinianRing B := isArtinian_of_finite
+  let hField : ∀ I : MaximalSpectrum B, Field (B ⧸ I.asIdeal) := fun I =>
     Ideal.Quotient.field I.asIdeal
-  letI hFin : ∀ I : MaximalSpectrum B, Finite (B ⧸ I.asIdeal) := fun I =>
+  let hFin : ∀ I : MaximalSpectrum B, Finite (B ⧸ I.asIdeal) := fun I =>
     Finite.of_surjective (Ideal.Quotient.mk I.asIdeal) Ideal.Quotient.mk_surjective
-  haveI : Fintype (MaximalSpectrum B) := Fintype.ofFinite _
+  have : Fintype (MaximalSpectrum B) := Fintype.ofFinite _
   let P := ∀ I : MaximalSpectrum B, B ⧸ I.asIdeal
   let e : B ≃+* P := (IsArtinianRing.equivPi B).toRingEquiv
   let F : P ≃+* P := e.symm.trans (β.trans e)
@@ -741,7 +741,6 @@ theorem kgLangC_unitary_h90 {p : ℕ} (hp : p.Prime) {B : Type} [CommRing B] [Fi
     have hs'val : (s' : B) = (s : B) * (zU : B) := rfl
     have hkey : (s' : B) * (c : B) = β (s' : B) := by
       rw [hs'val]
-      change ((s : B) * (zU : B)) * (c : B) = β ((s : B) * (zU : B))
       rw [map_mul, hβzU_val]
       conv_rhs => rw [hsval]
       ring

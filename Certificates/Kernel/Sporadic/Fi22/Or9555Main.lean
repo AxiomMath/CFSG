@@ -25,7 +25,7 @@ theorem rep_G {l : Int} {k : Nat} (hk : k < 2) (hl : l.toNat = k + 1) (hpos : 0 
     Rep 3510 (unpack 3510 12 (Fi22W.G k)) A := by
   intro x
   rw [← h x, evalW_cons, evalW_nil, compA_get x.2, idA_get x.2, ← Fi22W.orig_bind.2 k hk]
-  simp only [letterA, hpos, if_true, hl, Nat.add_sub_cancel]
+  simp only [letterA, hpos, ite_true, hl, Nat.add_sub_cancel]
 
 theorem s0_len : s0List.length = 360 := rfl
 

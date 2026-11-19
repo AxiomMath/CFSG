@@ -20,7 +20,7 @@ theorem nonempty_lSub_equiv : Nonempty (↥lSub ≃* CFSG.LieType.Multipliers.U4
 
 theorem isSimpleGroup_lSub : IsSimpleGroup ↥lSub := by
   obtain ⟨e⟩ := nonempty_lSub_equiv
-  haveI := isSimpleGroup_X₀
+  have := isSimpleGroup_X₀
   exact e.isSimpleGroup_congr.2 inferInstance
 
 theorem nonabelian_lSub : ∃ a b : ↥lSub, a * b ≠ b * a := by
@@ -59,7 +59,7 @@ open CFSG.Sporadic.Fi22 CFSG.HardMathSupport.Timmesfeld.SporadicBalance
   CFSG.HardMathSupport.Dickson.I271.TabFi22Small
 
 theorem orderOf_xP : orderOf xP = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine orderOf_eq_prime ?_ ?_
   · exact Subtype.ext xPerm_pow_three
   · intro h
@@ -76,7 +76,7 @@ theorem fixCard_xPerm : fixCard xPerm = 126 := card_fix_xPerm
 theorem eJP_apply (g : J) : ((eJP g : ↥fi22P) : Equiv.Perm (Fin 3510)) = Fi22Copy.iotaJ g := rfl
 
 theorem shapeRkAt_xRep_three : ShapeRkAt 3 (LeafType 3) (fun _ _ => True) (xRep 3) := by
-  haveI := finite_J_tab
+  have := finite_J_tab
   have hOP : OPrimeCoreTrivialAt 3 ↥fi22P :=
     @OPrimeCoreTrivialAt.of_mulEquiv 3 ↥fi22P _ ↥J inferInstance eJP.symm oPrimeCoreTrivialAt_Fi22J
   have hcore : GLAPPrimeCore 3 ↥(Subgroup.centralizer ({xP} : Set ↥fi22P)) = ⊥ :=
@@ -116,8 +116,8 @@ theorem shapeRkAt_xRep {k : ℕ} (hk : k < 4) :
   · exact Or.inl (tabFi22_pConstrained_xRep (by omega))
 
 theorem centShapeRk_J : CentShapeRk 3 (LeafType 3) (fun _ _ => True) J := by
-  haveI := finite_J_tab
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := finite_J_tab
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hGood : ∀ (T T' : Type) [Group T] [Group T'], T ≃* T' → LeafType 3 T → LeafType 3 T' :=
     fun _ _ _ _ e h => LeafType.of_equiv e h
   have hRk : ∀ (T T' : Type) [Group T] [Group T'], T ≃* T' → True → True := fun _ _ _ _ _ h => h
@@ -135,8 +135,8 @@ theorem centShapeRk_J : CentShapeRk 3 (LeafType 3) (fun _ _ => True) J := by
   exact h
 
 theorem leafShape_Fi22 : LeafShape .Fi22 3 := by
-  haveI := finite_J_tab
-  haveI : Finite CFSG.Blueprint.NativeSporadic.Fi22 :=
+  have := finite_J_tab
+  have : Finite CFSG.Blueprint.NativeSporadic.Fi22 :=
     Finite.of_equiv J (CFSG.Sporadic.Fi22.fi22EquivJ.symm.toEquiv)
   have hGood : ∀ (T T' : Type) [Group T] [Group T'], T ≃* T' → LeafType 3 T → LeafType 3 T' :=
     fun _ _ _ _ e h => LeafType.of_equiv e h

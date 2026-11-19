@@ -57,7 +57,7 @@ theorem pow_val_ne_one_of_quad [Finite K] (hK : Nat.card K = 2)
     have hm := congrArg (fun t : Matrix.SpecialLinearGroup (Fin 2) K =>
       (t : Matrix (Fin 2) (Fin 2) K)) h
     exact SymplecticPlaneActions.ne_one_of_sq_add_self_add_one hK hM hm
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have ho : orderOf T = 3 := orderOf_eq_prime h3 h1
   intro h
   have ht : T ^ a.val = 1 := by
@@ -154,7 +154,7 @@ theorem finrank_quad_le_two_mul_moving_card [CharP K 2]
     rw [hcoord, hp0, Matrix.one_mulVec] at h
     simpa only [hcoord] using h
   have h := mem_primaryComponent.mp hw
-  simp only [map_add, map_pow, map_mul, aeval_X, map_one, LinearMap.add_apply, pow_two,
+  simp only [map_add, map_mul, aeval_X, map_one, LinearMap.add_apply, pow_two,
     Module.End.mul_apply, Module.End.one_apply] at h
   have he := congrArg (fun v : Fin n ⊕ Fin n → K => v a) h
   simp only [Pi.add_apply, Pi.zero_apply] at he

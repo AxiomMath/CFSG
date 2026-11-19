@@ -305,7 +305,7 @@ section Count
 variable {G : Type*} [Group G] {W : Type} [AddCommGroup W] [Module (ZMod 2) W]
 
 theorem q3a6_finrank_of_section [Finite G] [Finite W] (ρ : Representation (ZMod 2) G W)
-    (hρ : Function.Injective ρ) {L : Subgroup G} (hq : CFSG.Open.IsQuasisimple ↥L)
+    (_hρ : Function.Injective ρ) {L : Subgroup G} (hq : CFSG.Open.IsQuasisimple ↥L)
     (hZ : Nat.card (Subgroup.center ↥L) = 3)
     (e6 : (↥L ⧸ Subgroup.center ↥L) ≃* alternatingGroup (Fin 6))
     {B : Subgroup G} {X : Submodule (ZMod 2) W} {z0 : ↥L}

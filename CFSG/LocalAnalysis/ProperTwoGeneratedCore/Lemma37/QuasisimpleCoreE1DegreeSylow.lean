@@ -33,7 +33,7 @@ include d
 theorem exists_forall_smul_eq_self :
     ∃ a : (J ⧸ Subgroup.center J) ⧸ B.map (QuotientGroup.mk' (Subgroup.center J)),
       ∀ s ∈ (S : Subgroup J).map (QuotientGroup.mk' (Subgroup.center J)), s • a = a :=
-  d.setting.exists_forall_smul_eq_self (S.isPGroup'.map _)
+  d.setting.exists_forall_smul_eq_self (S.isPGroup.map _)
 
 theorem eq_one_of_genuine_of_smul_eq_self
     {a β : (J ⧸ Subgroup.center J) ⧸ B.map (QuotientGroup.mk' (Subgroup.center J))}

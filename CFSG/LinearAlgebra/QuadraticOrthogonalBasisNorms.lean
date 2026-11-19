@@ -130,7 +130,7 @@ theorem exists_orthogonal_basis_quad_eq_repeated [Finite K] (hK : Odd (Nat.card 
     · rw [hmid_norm i hi0 hi1 hi2]; exact one_ne_zero
   have hli : LinearIndependent K v' :=
     (CFSG.RankThree.Classical.nondegenerate_restrict_span h2 Q hv'orth hv'ne).1
-  haveI : Nonempty (Fin d) := ⟨i₀⟩
+  have : Nonempty (Fin d) := ⟨i₀⟩
   have hpair : ∀ i : Fin d, ∃ j : Fin d, j ≠ i ∧
       ∃ t : K, t ≠ 0 ∧ Q (v' i) = t ^ 2 * Q (v' j) := by
     intro i

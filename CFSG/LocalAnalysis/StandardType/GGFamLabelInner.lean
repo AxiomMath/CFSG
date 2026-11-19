@@ -25,7 +25,7 @@ theorem langFamRatLabel_inner
     (hinner : twistInner (componentRoots (famCharHom a) i)
       ((S.ρ : (Fin τ.rank → ℤ) → _)^[componentOrbitLength S.ρ
         (componentRoots (famCharHom a) i)]))
-    (hq : CFSG.IsQuasisimple ↥(rationalComponentM S.ρ S.Γ (famCharHom a) i)) :
+    (_hq : CFSG.IsQuasisimple ↥(rationalComponentM S.ρ S.Γ (famCharHom a) i)) :
     FamLabelAt S (famCharHom a) i := by
   obtain ⟨-, t, n, f, hmodel, hpow, hP⟩ :=
     fam_inner_nonA_strongRecogIn hτ S hp hT hap h1 i hnA hinner

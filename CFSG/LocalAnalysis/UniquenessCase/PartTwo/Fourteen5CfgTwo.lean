@@ -16,6 +16,7 @@ theorem le_centralizer_of_isComponentOf {J J' : Subgroup K} (hJ : IsComponentOf 
   Subgroup.commutator_eq_bot_iff_le_centralizer.mp
     (CFSG.ComponentClassification.LocalComponents.commute_of_ne J' J hJ' hJ hne.symm)
 
+omit [Finite K] in
 theorem map_conj_eq_or_swap {J₁ J₂ : Subgroup K} (hJ₁ : IsComponentOf J₁ ⊤)
     (hJ₂ : IsComponentOf J₂ ⊤) (hne : J₁ ≠ J₂)
     (hJu : ∀ J' : Subgroup K, IsComponentOf J' ⊤ → J' = J₁ ∨ J' = J₂) (k : K) :
@@ -32,6 +33,7 @@ theorem map_conj_eq_or_swap {J₁ J₂ : Subgroup K} (hJ₁ : IsComponentOf J₁
   · exact Or.inr ⟨h₁₂, h₂₁⟩
   · exact absurd (h₁₂.trans h₂₂.symm) hdistinct
 
+omit [Finite K] in
 theorem mem_normalizer_of_odd {J₁ J₂ : Subgroup K} (hJ₁ : IsComponentOf J₁ ⊤)
     (hJ₂ : IsComponentOf J₂ ⊤) (hne : J₁ ≠ J₂)
     (hJu : ∀ J' : Subgroup K, IsComponentOf J' ⊤ → J' = J₁ ∨ J' = J₂) {k : K}

@@ -31,7 +31,7 @@ theorem isPGroup_zpowers_conj (h : Hyp S A₁ A₂) {a : G} (ha : a ∈ (A₁ : 
     rcases ha with ha | ha
     · exact h.le_one ha
     · exact h.le_two ha
-  obtain ⟨n, hn⟩ := exists_pow_two_pow_eq_one S.isPGroup' haS
+  obtain ⟨n, hn⟩ := exists_pow_two_pow_eq_one S.isPGroup haS
   have hord : orderOf (g⁻¹ * a * g) = orderOf a := by
     rw [← MulAut.conj_inv_apply, MulEquiv.orderOf_eq]
   obtain ⟨k, -, hk⟩ := (Nat.dvd_prime_pow Nat.prime_two).mp (orderOf_dvd_of_pow_eq_one hn)
@@ -82,7 +82,7 @@ theorem eq_bot_of_normal_of_odd {N : Subgroup G} [N.Normal] (hNH : N ≤ overlap
   have hker : π.ker = N := QuotientGroup.ker_mk' N
   have hπconj : ∀ g a : G, π (g⁻¹ * a * g) = (π g)⁻¹ * π a * π g := fun g a => by
     rw [map_mul, map_mul, map_inv]
-  have hSN : (S : Subgroup G) ⊓ N = ⊥ := inf_eq_bot_of_odd S.isPGroup' hN
+  have hSN : (S : Subgroup G) ⊓ N = ⊥ := inf_eq_bot_of_odd S.isPGroup hN
   have hinf : ∀ {A : Subgroup G}, A ≤ (S : Subgroup G) → A ⊓ π.ker = ⊥ := fun hA => by
     rw [hker]
     exact le_bot_iff.mp (hSN ▸ inf_le_inf_right N hA)

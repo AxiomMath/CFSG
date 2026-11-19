@@ -49,7 +49,7 @@ theorem TightSylowStd.normalizes_S₀ (h : TightSylowStd R S t T) {x : G} (hx : 
   have hsyl : IsSylow2In S₀ (tightCore R) := hd.sylow_core
   have hxN : x ∈ Subgroup.normalizer (tightCore R : Set G) :=
     hd.le_normalizer_core (h.hTt hx)
-  have hKT : IsPGroup 2 ↥(tightCore R ⊓ (T : Subgroup G)) := T.isPGroup'.to_le inf_le_right
+  have hKT : IsPGroup 2 ↥(tightCore R ⊓ (T : Subgroup G)) := T.isPGroup.to_le inf_le_right
   have heq : tightCore R ⊓ (T : Subgroup G) = S₀ :=
     hsyl.2.2 _ inf_le_left hKT (le_inf hsyl.1 h.hST)
   have hmem : x * s * x⁻¹ ∈ tightCore R ⊓ (T : Subgroup G) := by
@@ -263,7 +263,7 @@ theorem TightSylowStd.false_of_endgame_twoGroup [IsSimpleGroup (genFittingFStar 
     rw [Subgroup.normalizer_eq_top_iff.mpr hFn]
     exact le_top
   have hBF : IsSylow2In (B ⊓ F) F := Sec6Gen.isSylow2In_inf_of_le_normalizer' hsyl hFN hNF
-  have hTF2 : IsPGroup 2 ↥((T : Subgroup G) ⊓ F) := T.isPGroup'.to_le inf_le_left
+  have hTF2 : IsPGroup 2 ↥((T : Subgroup G) ⊓ F) := T.isPGroup.to_le inf_le_left
   have heq : (T : Subgroup G) ⊓ F = B ⊓ F :=
     hBF.2.2 _ inf_le_right hTF2 (inf_le_inf_right F hBT)
   have htT : t ∈ (T : Subgroup G) := h.hST h.datum.mem

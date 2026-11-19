@@ -59,7 +59,7 @@ theorem phi6_prime_setup [IsAlgClosed L] {q : ℕ} (hq : (q : L) = 0) {p : ℕ} 
   refine ⟨hpL, ?_, ?_⟩
   · have : NeZero (p : L) := ⟨hpL⟩
     have := IsSepClosed.hasEnoughRootsOfUnity L p
-    obtain ⟨ζ₀, hζ₀⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L p
+    obtain ⟨ζ₀, hζ₀⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L p
     refine ⟨(hζ₀.isUnit hp.ne_zero).unit, IsPrimitiveRoot.coe_units_iff.mp ?_⟩
     rw [IsUnit.unit_spec]
     exact hζ₀

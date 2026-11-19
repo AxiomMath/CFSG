@@ -47,7 +47,7 @@ theorem isCyclic_inf_centralizer3
   have hp := h.prime
   by_contra hnc
   obtain ⟨B, hB, hBcard⟩ := CFSG.GroupTheory.SteinbergBK.odd_noncyclic_pgroup_rank_two
-    (hp.odd_of_ne_two h.ne_two) (R.isPGroup'.to_inf_left (K := Subgroup.centralizer (E : Set X)))
+    (hp.odd_of_ne_two h.ne_two) (R.isPGroup.to_inf_left (K := Subgroup.centralizer (E : Set X)))
     hnc
   have hle : B.map ((R : Subgroup X) ⊓ Subgroup.centralizer (E : Set X)).subtype ≤
       Subgroup.zpowers z := by
@@ -204,7 +204,7 @@ theorem ReducedNongeneration.structure_of_layer_eq_bot3
   have hrel : (CFSG.pCore p X).relIndex (R : Subgroup X) =
       Nat.card ((R : Subgroup X).map (centerQuotientActionNormal E e)) := by
     rw [← hkerρ, Subgroup.relIndex_ker]
-  have hpg : IsPGroup p ((R : Subgroup X).map (centerQuotientActionNormal E e)) := R.isPGroup'.map _
+  have hpg : IsPGroup p ((R : Subgroup X).map (centerQuotientActionNormal E e)) := R.isPGroup.map _
   obtain ⟨k, hk⟩ := hpg.exists_card_eq
   have hk1 : k ≤ 1 := by
     by_contra hk2

@@ -19,11 +19,11 @@ open Matrix CFSG.Quasithin CFSG.ProperTwoGeneratedCore.BinaryThreeSpace
 
 theorem w183Pgl_mem_adj {X : Multiplicative (Matrix (Fin 3) (Fin 3) (ZMod 2))} :
     X ∈ W183PglAdj ↔ Matrix.trace (Multiplicative.toAdd X) = 0 := by
-  simp [W183PglAdj, MonoidHom.mem_ker]
+  simp [W183PglAdj]
 
 theorem w183Pgl_equiv_L {W : Type} [Group W] (h : F6.IsL2 7 1 W) :
     Nonempty (W ≃* GL (Fin 3) (ZMod 2)) := by
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   obtain ⟨-, K, hK, hKfin, hKcard, ⟨e7⟩⟩ := h
   have hKF : Fintype K := Fintype.ofFinite K
   have hcard : Fintype.card K = Fintype.card (ZMod 7) := by
@@ -65,7 +65,7 @@ theorem w183Pgl_dual_equiv :
     by_cases h : k = j
     · subst h
       simp
-    · simp [Pi.single_apply, h]
+    · simp [h]
   have hev : ∀ (f : Module.Dual (ZMod 2) (Fin 3 → ZMod 2)) (x : Fin 3 → ZMod 2),
       f x = x ⬝ᵥ b.dualBasis.equivFun f := by
     intro f x
@@ -180,9 +180,9 @@ theorem w183Pgl_classify_additive {E : Type} [AddCommGroup E] [Module (ZMod 2) E
         exact Subrepresentation.ext h
       · right
         exact Subrepresentation.ext h
-  haveI : Finite (Module.Dual (ZMod 2) (Fin 3 → ZMod 2)) :=
+  have : Finite (Module.Dual (ZMod 2) (Fin 3 → ZMod 2)) :=
     Module.finite_of_finite (ZMod 2)
-  haveI : Fintype (Module.Dual (ZMod 2) (Fin 3 → ZMod 2)) := Fintype.ofFinite _
+  have : Fintype (Module.Dual (ZMod 2) (Fin 3 → ZMod 2)) := Fintype.ofFinite _
   have hfr : Module.finrank (ZMod 2) (Fin 3 → ZMod 2) = 3 := by simp
   rcases exists_equiv_model hfr ρ hρirr with ⟨⟨e⟩⟩ | ⟨⟨e⟩⟩ | ⟨⟨e⟩⟩ | ⟨⟨e⟩⟩
   · exfalso
@@ -235,7 +235,7 @@ theorem w183Pgl_irreducible_classify {E : Type} [CommGroup E] [Finite E] (hE : �
             Multiplicative.toAdd (φ x : Multiplicative (Matrix (Fin 3) (Fin 3) (ZMod 2))) *
               ((g⁻¹ : GL (Fin 3) (ZMod 2)) : Matrix (Fin 3) (Fin 3) (ZMod 2))) := by
   classical
-  haveI hmod : Module (ZMod 2) (Additive E) :=
+  have hmod : Module (ZMod 2) (Additive E) :=
     AddCommGroup.zmodModule (fun x => by
       rw [← ofMul_toMul x, ← ofMul_pow]
       simp [hE])

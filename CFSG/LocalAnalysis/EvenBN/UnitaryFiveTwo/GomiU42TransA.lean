@@ -34,7 +34,7 @@ theorem lieModel_subgroupOf_PSU (hJ : J₀ ≤ Bs) (h : CFSG.Blueprint.LieModel 
     CFSG.Blueprint.LieModel ↥(J₀.subgroupOf Bs) .PSU 4 2 1 :=
   lieModel_of_mulEquiv_classical (Subgroup.subgroupOfEquivOfLe hJ) (by decide) h
 
-theorem inf_e_subgroupOf (he : e ∈ Bs) (hJ : J₀ ≤ Bs) (h : zpowers e ⊓ J₀ = ⊥) :
+theorem inf_e_subgroupOf (he : e ∈ Bs) (_hJ : J₀ ≤ Bs) (h : zpowers e ⊓ J₀ = ⊥) :
     zpowers (⟨e, he⟩ : ↥Bs) ⊓ J₀.subgroupOf Bs = ⊥ := by
   rw [gomiTA_zpowers_subgroupOf he, ← gomiTA_inf_subgroupOf, h, Subgroup.bot_subgroupOf]
 

@@ -84,7 +84,7 @@ theorem exists_quasisimple_section_of_radical {X : Type} [Group X] [Finite X]
     ext p
     rw [MonoidHom.mem_ker, hψmk, QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf,
       Subgroup.mem_subgroupOf]
-  haveI hnUP' : (U.subgroupOf P).Normal := hnUP
+  have hnUP' : (U.subgroupOf P).Normal := hnUP
   let S : Subgroup (↥N1 ⧸ U.subgroupOf N1) := ψ.range
   have hSnormal : S.Normal := by
     refine ⟨fun s hs g => ?_⟩
@@ -102,8 +102,8 @@ theorem exists_quasisimple_section_of_radical {X : Type} [Group X] [Finite X]
     (QuotientGroup.quotientMulEquivOfEq hker.symm).trans (QuotientGroup.quotientKerEquivRange ψ)
   obtain ⟨hsimp4, hnab4⟩ := statedProj_statedSL_four_simple_nonabelian K'
   let eS' : ↥S ≃* StatedProj (StatedSL 4 K') := eS.symm.trans ePU
-  haveI : IsSimpleGroup (StatedProj (StatedSL 4 K')) := hsimp4
-  haveI : IsSimpleGroup ↥S := eS'.isSimpleGroup
+  have : IsSimpleGroup (StatedProj (StatedSL 4 K')) := hsimp4
+  have : IsSimpleGroup ↥S := eS'.isSimpleGroup
   have hnabS : ∃ a b : ↥S, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hnab4
     exact ⟨eS'.symm a, eS'.symm b, fun h => hab (eS'.symm.injective (by simpa using h))⟩
@@ -125,18 +125,18 @@ theorem rankTwo_false_of_radical (hRad2 : RadicalTwoSubgroupRankTwoStatement)
   obtain ⟨S, hSn, hSq, ⟨eS⟩⟩ := exists_quasisimple_section_of_radical K' U P hPn hPN hPU
   obtain ⟨s, K, _, _, hs2, hKs, Z', hZ'c, hZ'n, ⟨eZ⟩⟩ := hRad2 X hX U hU1 hU2 hrad S hSn hSq
   obtain ⟨hsimp4, hnab4⟩ := statedProj_statedSL_four_simple_nonabelian K'
-  haveI : IsSimpleGroup (StatedProj (StatedSL 4 K')) := hsimp4
-  haveI : IsSimpleGroup ↥S := eS.isSimpleGroup
-  haveI hnt : Nontrivial (StatedProj (StatedSL 2 K)) := by
-    haveI := CFSG.LinearGroups.linear_projective_nontrivial (K := K) (n := 2) (by norm_num)
+  have : IsSimpleGroup (StatedProj (StatedSL 4 K')) := hsimp4
+  have : IsSimpleGroup ↥S := eS.isSimpleGroup
+  have hnt : Nontrivial (StatedProj (StatedSL 2 K)) := by
+    have := CFSG.LinearGroups.linear_projective_nontrivial (K := K) (n := 2) (by norm_num)
     exact (projectiveSpecialLinearGroupEquivStatedProj 2 K).injective.nontrivial
   have hZ'bot : Z' = ⊥ := by
     rcases Subgroup.Normal.eq_bot_or_eq_top Z' with h | h
     · exact h
     · exfalso
       subst h
-      haveI : Subsingleton (↥S ⧸ (⊤ : Subgroup ↥S)) := QuotientGroup.subsingleton_quotient_top
-      haveI : Subsingleton (StatedProj (StatedSL 2 K)) := eZ.surjective.subsingleton
+      have : Subsingleton (↥S ⧸ (⊤ : Subgroup ↥S)) := QuotientGroup.subsingleton_quotient_top
+      have : Subsingleton (StatedProj (StatedSL 2 K)) := eZ.surjective.subsingleton
       exact not_subsingleton _ ‹_›
   subst hZ'bot
   let eSK : ↥S ≃* StatedProj (StatedSL 2 K) := QuotientGroup.quotientBot.symm.trans eZ
@@ -230,7 +230,7 @@ theorem caseOne_tail
   have hLne : L ≠ ⊥ := fun h => hVne (le_bot_iff.mp (h ▸ hVL))
   have hCGs := hC
   obtain ⟨hsimp4, hnab4⟩ := statedProj_statedSL_four_simple_nonabelian K₀
-  haveI : IsSimpleGroup (StatedProj (StatedSL 4 K₀)) := hsimp4
+  have : IsSimpleGroup (StatedProj (StatedSL 4 K₀)) := hsimp4
   have hperf4 : Group.IsPerfect (StatedProj (StatedSL 4 K₀)) :=
     isPerfect_of_simple_nonabelian hnab4
   have hperfRN : commutator (↥R ⧸ N.subgroupOf R) = ⊤ :=
@@ -245,7 +245,7 @@ theorem caseOne_tail
     intro h
     have hRN' : R ≤ N := by
       rw [← hEN, h, bot_sup_eq]
-    haveI : Subsingleton (↥R ⧸ N.subgroupOf R) := by
+    have : Subsingleton (↥R ⧸ N.subgroupOf R) := by
       have : N.subgroupOf R = ⊤ := Subgroup.subgroupOf_eq_top.mpr hRN'
       rw [this]
       exact QuotientGroup.subsingleton_quotient_top
@@ -309,10 +309,10 @@ theorem caseOne_tail
       (N.subgroupOf Gs) (R.subgroupOf Gs) hU1 hU2 hrad hZ hcard hUP hPn hPN hPU
     obtain ⟨hr6, hKq⟩ := hflag
     subst hr6
-    haveI : IsSimpleGroup (StatedProj (StatedSL 6 K1)) :=
+    have : IsSimpleGroup (StatedProj (StatedSL 6 K1)) :=
       CFSG.Open.StatedAPI.isSimpleGroup_statedProj_statedSL K1 (d := 6) (by norm_num)
         (Or.inl (by norm_num)) (Or.inl (by norm_num))
-    haveI hsimpGs : IsSimpleGroup ↥Gs := e.isSimpleGroup
+    have hsimpGs : IsSimpleGroup ↥Gs := e.isSimpleGroup
     have hnabGs : ∃ a ∈ Gs, ∃ b ∈ Gs, a * b ≠ b * a := by
       obtain ⟨a, b, hab⟩ := hnab4
       obtain ⟨x0, hx0⟩ := QuotientGroup.mk_surjective (eRN.symm a)

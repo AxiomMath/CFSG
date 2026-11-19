@@ -123,7 +123,7 @@ theorem exists_normalizer_conj_of_weaklyClosed {S₁ F : Subgroup X}
   obtain ⟨R, hR⟩ := hS₁
   set t := g⁻¹ * w * g with ht
   set C := centralizer ({t} : Set X) with hC
-  have hF2 : IsPGroup 2 F := (hR ▸ R.isPGroup' : IsPGroup 2 S₁).to_le hFS
+  have hF2 : IsPGroup 2 F := (hR ▸ R.isPGroup : IsPGroup 2 S₁).to_le hFS
   have hFgC : conjugate F g ≤ C := by
     intro x hx
     rw [mem_conjugate_iff] at hx
@@ -160,7 +160,7 @@ theorem exists_normalizer_conj_of_weaklyClosed {S₁ F : Subgroup X}
       group
     rw [heq] at h1
     exact h1
-  obtain ⟨R₁, hR₁⟩ := ((V₁.isPGroup'.map C.subtype : IsPGroup 2 ((V₁ : Subgroup ↥C).map
+  obtain ⟨R₁, hR₁⟩ := ((V₁.isPGroup.map C.subtype : IsPGroup 2 ((V₁ : Subgroup ↥C).map
     C.subtype))).exists_le_sylow
   obtain ⟨y, hy⟩ := MulAction.exists_smul_eq X R R₁
   have hmapR : (R : Subgroup X).map (MulAut.conj y).toMonoidHom = (R₁ : Subgroup X) := by

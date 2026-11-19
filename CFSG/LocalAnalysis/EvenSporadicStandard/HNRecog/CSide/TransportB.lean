@@ -78,15 +78,13 @@ theorem cSideOmega_transport {V V' : Type} [AddCommGroup V] [Module (ZMod 2) V]
     have h1 : a (ω (ω (a.symm v')) + ω (a.symm v') + a.symm v') =
         a (ω (ω (a.symm v'))) + a (ω (a.symm v')) + v' := by
       rw [LinearEquiv.map_add, LinearEquiv.map_add, LinearEquiv.apply_symm_apply]
-    simp only [Swap.transport_apply, LinearEquiv.symm_symm, LinearEquiv.apply_symm_apply,
-      LinearEquiv.symm_apply_apply]
+    simp only [Swap.transport_apply, LinearEquiv.symm_apply_apply]
     rw [← h1, h0]
   · intro b' hb' v'
     have hb : cSideFreeSwap q σ (Swap.transport a.symm b') :=
       cSideFreeSwap_transport a ψ hψ hq hb'
     have hw := hswap (Swap.transport a.symm b') hb (a.symm v')
-    simp only [Swap.transport_apply, LinearEquiv.symm_symm, LinearEquiv.apply_symm_apply,
-      LinearEquiv.symm_apply_apply] at hw
+    simp only [Swap.transport_apply, LinearEquiv.symm_symm, LinearEquiv.apply_symm_apply] at hw
     simpa only [Swap.transport_apply, LinearEquiv.symm_symm, LinearEquiv.apply_symm_apply,
       LinearEquiv.symm_apply_apply] using congrArg a hw
 

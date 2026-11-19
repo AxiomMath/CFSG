@@ -198,7 +198,7 @@ public theorem fittingSubgroup_le_sup_pCore_pPrimeCore
   rw [fitting_eq_sup_pCore G]
   refine iSup_le (fun p => ?_)
   by_cases hp2 : p.1.1 = 2
-  · simpa [hp2] using (le_sup_left : pCore 2 G ≤ pCore 2 G ⊔ pPrimeCore 2 G)
+  · simp [hp2]
   · have hpodd : Odd p.1.1 := Nat.Prime.odd_of_ne_two (Nat.prime_of_mem_primeFactors p.1.2) hp2
     have hle : pCore p.1.1 G ≤ pPrimeCore 2 G := by
       have hnorm : (pCore p.1.1 G).Normal := pCore_normal
@@ -264,11 +264,11 @@ public theorem t_centralizes_fittingSubgroupOf_of_centralizerStructure
       have hcomm_le : ⁅V, O⁆ ≤ V ⊓ O := Subgroup.commutator_le_inf V O
       have hVObot : V ⊓ O = ⊥ := by
         apply (Subgroup.card_le_one_iff_eq_bot (V ⊓ O)).mp
-        have hVcard : Nat.card (↥V) = 4 := by simpa [V] using hK4.card_four
+        have hVcard : Nat.card (↥V) = 4 := by simp [V]
         have hOodd : Nat.Coprime 2 (Nat.card (↥O)) := by
           simpa [O] using (pPrimeCore_coprime_card (p := 2) (G := ↥c.Hhat))
         have hdvdV : Nat.card (↥(V ⊓ O)) ∣ 4 := by
-          exact (Subgroup.card_dvd_of_le inf_le_left).trans (by simpa [hVcard])
+          exact (Subgroup.card_dvd_of_le inf_le_left).trans (by simp)
         have hdvdO : Nat.Coprime 2 (Nat.card (↥(V ⊓ O))) :=
           Nat.Coprime.of_dvd_right (Subgroup.card_dvd_of_le inf_le_right) hOodd
         rcases (Nat.dvd_prime_pow Nat.prime_two (m := 2)).mp hdvdV with ⟨a, _ha, hapow⟩
@@ -484,7 +484,7 @@ public theorem subgroup_card_ge_four_contains_central_rotation
           ((2 ^ (m - 1) : ℕ) : ZMod (2 ^ m)) = ((2 : ℕ) : ZMod (2 ^ m)) ^ (m - 1)).symm
       have hval : (2 ^ (m - 1) : ZMod (2 ^ m)).val = 2 ^ (m - 1) := by
         have hconv : (2 ^ (m - 1) : ZMod (2 ^ m)) = ((2 ^ (m - 1) : ℕ) : ZMod (2 ^ m)) := by
-          simpa using hpow_cast
+          simp
         rw [hconv]
         rw [ZMod.val_natCast]
         have hlt : 2 ^ (m - 1) < 2 ^ m := by
@@ -572,7 +572,7 @@ public theorem subgroup_card_ge_four_contains_central_rotation
       omega
     have hy2 : (y : DihedralGroup (2 ^ m)) ^ 2 = 1 := by
       have hy2' : y ^ 2 = 1 := (orderOf_dvd_iff_pow_eq_one (x := y) (n := 2)).1 (by
-        simpa [hyord])
+        simp [hyord])
       exact congrArg Subtype.val hy2'
     have heq : (y : DihedralGroup (2 ^ m)) = z := huniq (y : DihedralGroup (2 ^ m)) hyG hy1 hy2
     have hyD : (y : DihedralGroup (2 ^ m)) ∈ D := hHleD y.2
@@ -593,7 +593,7 @@ public theorem subgroup_card_ge_four_contains_central_rotation
     let q : DihedralGroup (2 ^ m) →* (DihedralGroup (2 ^ m)) ⧸ R := QuotientGroup.mk' R
     have hker : q.ker = R := by
       ext x
-      simp [q, MonoidHom.mem_ker, QuotientGroup.eq_one_iff]
+      simp [q]
     have hinj : Function.Injective (fun x : ↥D => q (x : DihedralGroup (2 ^ m))) := by
       intro x y hxy
       change q (x : DihedralGroup (2 ^ m)) = q (y : DihedralGroup (2 ^ m)) at hxy
@@ -650,7 +650,7 @@ public theorem card_centralizer_sr_eq_four
     have hval : h.val = 2 ^ (m - 1) := by
       dsimp [h]
       have hconv : (2 ^ (m - 1) : ZMod (2 ^ m)) = ((2 ^ (m - 1) : ℕ) : ZMod (2 ^ m)) := by
-        simpa using hpow_cast
+        simp
       rw [hconv]
       rw [ZMod.val_natCast]
       have hlt : 2 ^ (m - 1) < 2 ^ m := by
@@ -929,7 +929,7 @@ public theorem four_dvd_inf_sylow_of_normal
     rw [← hDindex]
     exact D'.card_mul_index
   have hDp : IsPGroup 2 (↥D') := by
-    exact P.isPGroup'.to_subgroup D'
+    exact P.isPGroup.to_subgroup D'
   rcases (IsPGroup.iff_card (G := ↥D')).mp hDp with ⟨e, hDcard⟩
   have hPcard : Nat.card (↥P) = 2 ^ (Nat.card G).factorization 2 :=
     Sylow.card_eq_multiplicity P
@@ -1201,7 +1201,7 @@ private theorem t_mem_N_of_card_div_four_of_S_inter_M_large
     exact Nat.card_congr
       (Subgroup.subgroupOfEquivOfLe (H := (c.S : Subgroup G) ⊓ M)
         (K := M) inf_le_right).toEquiv
-  have hDsub_p : IsPGroup 2 (↥Dsub) := c.S.isPGroup'.to_subgroup Dsub
+  have hDsub_p : IsPGroup 2 (↥Dsub) := c.S.isPGroup.to_subgroup Dsub
   have hSM_p : IsPGroup 2 (↥SM) := by
     let eDsubSM : Dsub ≃* SM := by
       exact (Subgroup.subgroupOfEquivOfLe (H := (c.S : Subgroup G) ⊓ M)
@@ -1328,7 +1328,7 @@ private theorem t_mem_N_of_card_div_four_of_S_card_four
     have hPGcard : Nat.card (↥PG) = Nat.card (↥(P : Subgroup (↥M))) := by
       exact Subgroup.card_map_of_injective
         (K := (P : Subgroup (↥M))) (f := M.subtype) M.subtype_injective
-    have hPGp : IsPGroup 2 (↥PG) := P.isPGroup'.map M.subtype
+    have hPGp : IsPGroup 2 (↥PG) := P.isPGroup.map M.subtype
     obtain ⟨Q, hPGQ⟩ := hPGp.exists_le_sylow (G := G)
     have hQcard : Nat.card (↥(Q : Subgroup G)) = 4 := by
       calc
@@ -1454,7 +1454,7 @@ public theorem centralizes_of_normal_selfCentralizing_coprime
     (hPK₁ : P ≤ Subgroup.centralizer (K₁ : Set G))
     (hself : K ⊓ Subgroup.centralizer (K₁ : Set G) ≤ K₁)
     (hcop : Nat.Coprime (Nat.card P) (Nat.card K))
-    (hsolv : IsSolvable K) :
+    (hsolv : Group.IsSolvable K) :
     P ≤ Subgroup.centralizer (K : Set G) := by
   classical
   have h1 : ⁅⁅P, K₁⁆, K⁆ = ⊥ := by
@@ -1469,7 +1469,7 @@ public theorem centralizes_of_normal_selfCentralizing_coprime
     exact (Subgroup.commutator_eq_bot_iff_le_centralizer).mpr hPK₁
   have h2 : ⁅⁅K₁, K⁆, P⁆ = ⊥ := by
     apply le_bot_iff.mp
-    exact (Subgroup.commutator_mono hK1K_le le_rfl).trans (by simpa [hK1P_bot])
+    exact (Subgroup.commutator_mono hK1K_le le_rfl).trans (by simp [hK1P_bot])
   have hKPK1_bot : ⁅⁅K, P⁆, K₁⁆ = ⊥ :=
     Subgroup.commutator_commutator_eq_bot_of_rotate (H₁ := K) (H₂ := P) (H₃ := K₁) h1 h2
   have hKP_le_K : ⁅K, P⁆ ≤ K := (Subgroup.le_normalizer_iff_commutator_le_left).1 hPK
@@ -1478,7 +1478,7 @@ public theorem centralizes_of_normal_selfCentralizing_coprime
   have hKP_le_K1 : ⁅K, P⁆ ≤ K₁ := (le_inf hKP_le_K hKP_cent).trans hself
   have hKPP_bot : ⁅⁅K, P⁆, P⁆ = ⊥ := by
     apply le_bot_iff.mp
-    exact (Subgroup.commutator_mono hKP_le_K1 le_rfl).trans (by simpa [hK1P_bot])
+    exact (Subgroup.commutator_mono hKP_le_K1 le_rfl).trans (by simp [hK1P_bot])
   let : P.Normalizes K := ⟨hPK⟩
   let : MulDistribMulAction (↥P) (↥K) :=
     Subgroup.conjMulDistribMulActionOfLeNormalizer P K hPK
@@ -1508,7 +1508,7 @@ public theorem centralizes_of_normal_selfCentralizing_coprime
   have hcomm₂_bot : commutatorAction₂ (A := ↥P) (G := ↥K) = ⊥ := by
     apply (Subgroup.map_eq_bot_iff_of_injective
       (H := commutatorAction₂ (A := ↥P) (G := ↥K)) (f := K.subtype) K.subtype_injective).1
-    exact le_antisymm (hcomm₂_map_le.trans (by simpa [hKPP_bot])) bot_le
+    exact le_antisymm (hcomm₂_map_le.trans (by simp [hKPP_bot])) bot_le
   have htriv : ActsTrivially (A := ↥P) (G := ↥K) :=
     actsTrivially_of_commutatorAction₂_eq_bot_of_solvable_coprime
       (G := ↥K) (A := ↥P) hsolv hcop hcomm₂_bot
@@ -1519,8 +1519,7 @@ public theorem centralizes_of_normal_selfCentralizing_coprime
   let kK : ↥K := ⟨k, hk⟩
   have htrivK : a • kK = kK := htriv a kK
   have hsmulK : ↑(a • kK) = p * k * p⁻¹ := by
-    simpa [a, kK] using
-      (Subgroup.conjMulDistribMulActionOfLeNormalizer_smul_coe P K (a := a) (k := kK))
+    simp [a, kK]
   have hconj : p * k * p⁻¹ = k :=
     hsmulK.trans (congrArg Subtype.val htrivK)
   calc
@@ -1536,7 +1535,7 @@ public theorem centralizes_of_subnormal_selfCentralizing_coprime
     (hPK₁ : P ≤ Subgroup.centralizer (K₁ : Set G))
     (hself : K ⊓ Subgroup.centralizer (K₁ : Set G) ≤ K₁)
     (hcop : Nat.Coprime (Nat.card P) (Nat.card K))
-    (hsolv : IsSolvable K) :
+    (hsolv : Group.IsSolvable K) :
     P ≤ Subgroup.centralizer (K : Set G) := by
   classical
   have hmain : ∀ (n : ℕ) (K' : Subgroup G), Nat.card (↥K') = n →
@@ -1544,7 +1543,7 @@ public theorem centralizes_of_subnormal_selfCentralizing_coprime
       ∀ (H' : Subgroup (↥K')), H'.IsSubnormal →
         P ≤ Subgroup.centralizer (H'.map K'.subtype : Set G) →
         K' ⊓ Subgroup.centralizer (H'.map K'.subtype : Set G) ≤ H'.map K'.subtype →
-          Nat.Coprime (Nat.card P) (Nat.card K') → IsSolvable (↥K') →
+          Nat.Coprime (Nat.card P) (Nat.card K') → Group.IsSolvable (↥K') →
             P ≤ Subgroup.centralizer (K' : Set G) := by
     intro n
     induction n using Nat.strong_induction_on with
@@ -1675,7 +1674,7 @@ public theorem centralizes_of_subnormal_selfCentralizing_coprime
                 q * (x : G) * q⁻¹ = q * ((c * a * c⁻¹ : ↥K') : G) * q⁻¹ := by
                   rw [← hc]
                 _ = (q * (c : G) * q⁻¹) * (q * (a : G) * q⁻¹) * (q * (c : G)⁻¹ * q⁻¹) := by
-                  simp [Subgroup.coe_mul, Subgroup.coe_inv]
+                  simp [Subgroup.coe_mul]
                 _ = (q * (c : G) * q⁻¹) * (a : G) * (q * (c : G)⁻¹ * q⁻¹) := by rw [hhfix]
                 _ = (((c' : ↥K') * a * (c' : ↥K')⁻¹ : ↥K') : G) := by
                   simp [c', Subgroup.coe_mul]
@@ -1686,7 +1685,7 @@ public theorem centralizes_of_subnormal_selfCentralizing_coprime
                 (x := a) (c := c') (Group.subset_conjugatesOfSet ha)
             have hN0mem : (c' : ↥K') * a * (c' : ↥K')⁻¹ ∈ N0 :=
               Subgroup.conjugatesOfSet_subset_normalClosure hmem
-            exact Subgroup.mem_map.mpr ⟨(c' : ↥K') * a * (c' : ↥K')⁻¹, hN0mem, by simpa [hgen]⟩
+            exact Subgroup.mem_map.mpr ⟨(c' : ↥K') * a * (c' : ↥K')⁻¹, hN0mem, by simp [hgen]⟩
           · simp [N]
           · intro x y _hx _hy ihx ihy
             have hxy : q * ((x * y : ↥K') : G) * q⁻¹ =
@@ -1834,7 +1833,7 @@ public theorem exists_ne_one_fixedPoints_of_kleinFour_action
     (hVA : V ≤ Subgroup.normalizer (A : Set G))
     (hAodd : Nat.Coprime 2 (Nat.card (↥A)))
     (hAne : A ≠ ⊥)
-    (hfaith : A ⊓ Subgroup.centralizer (V : Set G) = ⊥) :
+    (_hfaith : A ⊓ Subgroup.centralizer (V : Set G) = ⊥) :
     ∃ s : G, s ∈ V ∧ s ≠ 1 ∧
       A ⊓ Subgroup.centralizer ({s} : Set G) ≠ ⊥ := by
   classical
@@ -1842,7 +1841,7 @@ public theorem exists_ne_one_fixedPoints_of_kleinFour_action
   let : IsMulCommutative (↥V) := IsKleinFour.isMulCommutative
   let : CommGroup (↥V) := IsMulCommutative.instCommGroup
   have hV2 : IsPGroup 2 (↥V) := IsPGroup.of_card (n := 2) (by
-    simpa [IsKleinFour.card_four])
+    simp [IsKleinFour.card_four])
   let : Fact (IsPGroup 2 (↥V)) := ⟨hV2⟩
   let : V.Normalizes A := ⟨hVA⟩
   let : MulDistribMulAction (↥V) (↥A) :=
@@ -1868,8 +1867,7 @@ public theorem exists_ne_one_fixedPoints_of_kleinFour_action
     have hsmul : ↑(a • (x : ↥A)) = (x : G) := by
       exact congrArg Subtype.val hxfix
     have hcoe : ↑(a • (x : ↥A)) = (a : G) * (x : G) * (a : G)⁻¹ := by
-      simpa using (Subgroup.conjMulDistribMulActionOfLeNormalizer_smul_coe V A
-        (a := a) (k := x))
+      simp
     have hconj : (a : G) * (x : G) * (a : G)⁻¹ = (x : G) := hcoe.symm.trans hsmul
     have hcomm : (x : G) * (a : G) = (a : G) * (x : G) := by
       calc
@@ -1969,14 +1967,14 @@ public theorem odd_order_subgroup_le_U_of_H_eq_SU
       exact hsmu.symm
     rw [hxeq]
     exact Subgroup.mul_mem_sup hsS' huU'
-  have hS2 : IsPGroup 2 ↥(c.S : Subgroup G) := c.S.isPGroup'
+  have hS2 : IsPGroup 2 ↥(c.S : Subgroup G) := c.S.isPGroup
   have hf : IsPGroup 2 (↥c.H ⧸ U') := by
     let f : ↥(c.S : Subgroup G) →* ↥c.H ⧸ U' := q.comp (Subgroup.inclusion hSH)
     have hf_surj : Function.Surjective f := by
       intro y
       rcases QuotientGroup.mk'_surjective U' y with ⟨h, rfl⟩
       have hhSU : h ∈ S' ⊔ U' := by
-        simpa [htop'] using (Subgroup.mem_top h)
+        simp [htop']
       have hhprod : (h : ↥c.H) ∈ (S' : Set (↥c.H)) * (U' : Set (↥c.H)) := by
         rw [← Subgroup.mul_normal (H := S') (N := U')]
         exact hhSU

@@ -42,7 +42,7 @@ theorem lieSEight_orth_not_sp48 {K : Type} [Field K] [Finite K] [CharP K 2] {V :
   have : Nontrivial V := by
     by_contra hV
     rw [not_nontrivial_iff_subsingleton] at hV
-    haveI := hV
+    have := hV
     have h1 : x = 1 := Subtype.ext (LinearEquiv.ext fun v => Subsingleton.elim _ _)
     rw [h1, orderOf_one] at hx3
     omega
@@ -54,7 +54,7 @@ theorem lieSEight_orth_not_sp48 {K : Type} [Field K] [Finite K] [CharP K 2] {V :
   rcases inner_comp_cases hKor hQ x hx3 hL with ⟨hmem, hq, rfl⟩ | ⟨F, -, hFle, -, hF, rfl⟩
   ·
     set xe : V ≃ₗ[K] V := (x : V ≃ₗ[K] V) with hxe
-    haveI : Fact (Irreducible (X ^ 2 + X + 1 : K[X])) :=
+    have : Fact (Irreducible (X ^ 2 + X + 1 : K[X])) :=
       ⟨irreducible_of_mem_primaryFactors hmem⟩
     have hm2 : 2 ≤ primaryMultiplicity xe.toLinearMap (X ^ 2 + X + 1) := by
       have h1 := hx.primaryMultiplicity_pos hmem
@@ -151,7 +151,7 @@ theorem lieSEight_orth_not_sp48 {K : Type} [Field K] [Finite K] [CharP K 2] {V :
         obtain ⟨E, _, _, D, ψ, ρ, -, -, -, -, hcomm, hsimple, -, hnab, hcardρ, -, -, -⟩ :=
           even_minus_six_actual_derived_extraction R hR h6 hts
         have he : orthDerived R = ρ.range := hcomm
-        haveI := hsimple
+        have := hsimple
         have hZ1 : Nat.card (Subgroup.center ↥ρ.range) = 1 := by
           rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center ↥ρ.range) with hb | ht
           · rw [hb]
@@ -174,9 +174,9 @@ theorem lieSEight_d4m_coords {S : Type} [Group S]
       Nat.card F = 2 ^ 3 ∧ (polarBilin Q).Nondegenerate ∧
       (∃ U : Submodule F (Fin (2 * 4) → F), finrank F U = 3 ∧ ∀ u ∈ U, Q u = 0) := by
   obtain ⟨hadm, F, hFf, hFfin, hF, b, c, hirr, ⟨e₀⟩⟩ := id hM
-  haveI : CharP F 2 := by
-    haveI := Fintype.ofFinite F
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := by
+    have := Fintype.ofFinite F
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact charP_of_card_eq_prime_pow (f := 3) (by rw [Fintype.card_eq_nat_card, hF])
   obtain ⟨-, hnd, hT, -⟩ := coordinate_model_witness_minus hM F hF b c hirr e₀
   exact ⟨F, hFf, hFfin, inferInstance, coordinateQuadMinus 4 F (by norm_num) b c,
@@ -192,20 +192,20 @@ theorem lieSEight_d4m_inner_noSp (hLO : LieOrderBridge) {S : Type} [Group S] [Fi
   have ht3 : orderOf (eQ s) = 3 :=
     orderOf_eq_prime (by rw [← map_pow, hs3, map_one])
       (fun h => hs1 (eQ.injective (h.trans (map_one eQ).symm)))
-  haveI : Finite (ProjOrthDerived Q) := Finite.of_equiv S eQ.toEquiv
+  have : Finite (ProjOrthDerived Q) := Finite.of_equiv S eQ.toEquiv
   have hJ' : GLAPComponent 3 (fixSub (MulAut.conj (eQ s))) (J.map eQ.toMonoidHom) := by
     rw [← CFSG.RankThree.PartTwo.KFacts.congr_mulAutConj eQ s]
     exact CFSG.LocalAnalysis.GLTheoremA.Y10F.glaPComponent_transport eQ (MulAut.conj s) hJ
   have hpl : (3 : ℕ) ≠ ringChar F := by
     rw [ringChar.eq F 2]
     norm_num
-  haveI : Nonempty (Fin (2 * 4)) := ⟨⟨0, by norm_num⟩⟩
+  have : Nonempty (Fin (2 * 4)) := ⟨⟨0, by norm_num⟩⟩
   have hlayer := perfectInLayer_conj_projOrth_of_orderOf hQ hT3 Nat.prime_three (by norm_num)
     hpl (eQ s) ht3
   have hle := hlayer _ hJ'.1 (glaPComponent_perfect hJ')
   have hcomp := (CFSG.HardMathSupport.Solomon.Coordinator.glaPComponent_isComponent_of_le_layer
     hJ' hle).1
-  haveI : Nontrivial (Fin (2 * 4) → F) := by
+  have : Nontrivial (Fin (2 * 4) → F) := by
     obtain ⟨U, hU3, -⟩ := hT3
     exact Module.nontrivial_of_finrank_pos (R := F)
       (lt_of_lt_of_le (by norm_num : 0 < 3) (hU3 ▸ Submodule.finrank_le U))
@@ -232,7 +232,7 @@ theorem lieSEightNoAt_twistedD4 (hLO : LieOrderBridge) :
       .POmegaMinus 4 2 3 := hM.2.resolve_right (fun h0 => absurd h0.1 (by norm_num))
   have hM'' : CFSG.Blueprint.LieModel (Y ⧸ Subgroup.center Y) .POmegaMinus 4 2 3 :=
     (CFSG.Blueprint.LieModel.classical_iff (by decide)).mpr hM'
-  haveI : IsSimpleGroup (Y ⧸ Subgroup.center Y) := hY.2
+  have : IsSimpleGroup (Y ⧸ Subgroup.center Y) := hY.2
   have hZ : Subgroup.center (Y ⧸ Subgroup.center Y) = ⊥ := I1431C2.cl_center_eq_bot_of_simple
     (CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian Y hY)
   obtain ⟨s, hs⟩ := CFSG.HardMathSupport.Dickson.Sec6.I1431.outDerived3_orthMinusNe3

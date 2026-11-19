@@ -140,6 +140,7 @@ theorem exists_good_conj_perm5_19 (E : Subgroup (Equiv.Perm (Fin 5)))
     · simpa using hineq2
   · exact perm5_klein_conj_normalizer E hE (by rw [hn]; norm_num)
 
+omit [Finite G] in
 theorem rhoL_eq_one_of_normalizes_conj_19 {F A : Subgroup G}
     (hAF : A ≤ Subgroup.normalizer (F : Set G))
     (E : Subgroup (MulAut (Bar2 F)))
@@ -199,6 +200,7 @@ theorem rhoL_eq_one_of_normalizes_conj_19 {F A : Subgroup G}
     exact conjSubgroup_eq_iff_mem_normalizer.mp hconjE
   exact hgood _ hmemE hnormE
 
+omit [Finite G] in
 theorem exists_rhoL_good_19 {F A : Subgroup G} (hFalt : IsAlt (Bar2 F) 5)
     (hAF : A ≤ Subgroup.normalizer (F : Set G)) (hAel : IsElemAbelian 2 A)
     (hAc : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a) :

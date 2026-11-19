@@ -37,7 +37,7 @@ theorem eq_or_le_center_of_isSubnormal {Q B : Subgroup G} (hQ : CFSG.IsQuasisimp
   | @step H M K h1 h2 h3 ih =>
     rcases ih hQ with hM | hM
     · have h2' : (H.subgroupOf K).Normal := hM ▸ h2
-      haveI := h2'
+      have := h2'
       have hHK : H ≤ K := hM ▸ h1
       rcases normal_le_center_or_top hQ (H.subgroupOf K) with hc | htop
       · right

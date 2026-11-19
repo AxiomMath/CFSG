@@ -136,7 +136,7 @@ private theorem wcgapsb_wMat_mem_centralizer (c : F) :
   ext i j
   rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_mul]
   fin_cases i <;> fin_cases j <;>
-    simp [wMat, wM, coe_wMat, Matrix.mul_apply, Fin.sum_univ_three, h00, h11, h22, h10, h20,
+    simp [wMat, wM, Matrix.mul_apply, Fin.sum_univ_three, h00, h11, h22, h10, h20,
       h21]
   all_goals ring
 
@@ -191,7 +191,6 @@ private theorem wcgapsb_slTwoDiag_mem_normalizer (l : Fˣ) :
   rw [normalizer_unitriangular]
   refine mem_upperTriangular.mpr ?_
   intro i j hij
-  change (wcgapsb_cornerHom (slTwoDiag l) : Matrix (Fin 3) (Fin 3) F) i j = 0
   rw [wcgapsb_cornerHom_coe]
   fin_cases i <;> fin_cases j <;>
     first | exact absurd hij (by decide) | simp [wcgapsb_blkMat, slTwoDiag]

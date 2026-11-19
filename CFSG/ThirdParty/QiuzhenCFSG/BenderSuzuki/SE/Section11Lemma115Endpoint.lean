@@ -27,7 +27,7 @@ noncomputable section
 
 namespace CFSG.BenderSuzuki
 
-open PFAppendixIII PFchapter1section1 MatrixGroups
+open PFAppendixIII PFchapter1section1 _root_.CFSG.BenderSuzuki.MatrixGroups
 open scoped Pointwise
 
 universe u v
@@ -49,7 +49,7 @@ public theorem lemma115_psl2_centralizer_torus_lower_bound
   have hKcard : Nat.card K = 2 ^ n := by
     simpa [K, BinaryGaloisField] using
       GaloisField.card 2 n (by omega : n ≠ 0)
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨U, S, hUc, hUcard, hSc, hScard, hpart⟩ :=
     External.huppert_II_8_5_a_psl2_partition
       (F := K) (p := 2) (f := n) hKcard
@@ -90,7 +90,7 @@ public theorem lemma115_psl2_centralizer_torus_lower_bound
           Subgroup (PSL2MatrixGroup K)).map
         (MulAut.conj g).toMonoidHom
     have hT2 : IsPGroup 2 T2 :=
-      (default : Sylow 2 (MatrixGroups.PSL2MatrixGroup K)).isPGroup'.map
+      (default : Sylow 2 (MatrixGroups.PSL2MatrixGroup K)).isPGroup.map
         (MulAut.conj g).toMonoidHom
     let xT2 : T2 := ⟨x, hxT.1⟩
     obtain ⟨j, hj⟩ := (IsPGroup.iff_orderOf.mp hT2) xT2
@@ -112,7 +112,7 @@ public theorem lemma115_psl2_centralizer_torus_lower_bound
     have hTle : U.map (MulAut.conj g).toMonoidHom ≤
         Subgroup.centralizer
           ({x} : Set (MatrixGroups.PSL2MatrixGroup K)) := by
-      letI : IsMulCommutative (U.map (MulAut.conj g).toMonoidHom) :=
+      let : IsMulCommutative (U.map (MulAut.conj g).toMonoidHom) :=
         hTcyclic.isMulCommutative
       intro y hy
       exact Subgroup.mem_centralizer_singleton_iff.mpr
@@ -136,7 +136,7 @@ public theorem lemma115_psl2_centralizer_torus_lower_bound
     have hTle : S.map (MulAut.conj g).toMonoidHom ≤
         Subgroup.centralizer
           ({x} : Set (MatrixGroups.PSL2MatrixGroup K)) := by
-      letI : IsMulCommutative (S.map (MulAut.conj g).toMonoidHom) :=
+      let : IsMulCommutative (S.map (MulAut.conj g).toMonoidHom) :=
         hTcyclic.isMulCommutative
       intro y hy
       exact Subgroup.mem_centralizer_singleton_iff.mpr
@@ -368,7 +368,7 @@ public theorem lemma115_card_eq_prime_of_isPGroup_of_square_not_dvd
     (hf : f.Prime) (hfsq : ¬ f ^ 2 ∣ Nat.card F)
     (hTp : IsPGroup f T) :
     Nat.card T = f := by
-  letI : Fact f.Prime := ⟨hf⟩
+  let : Fact f.Prime := ⟨hf⟩
   obtain ⟨k, hk⟩ := hTp.exists_card_eq
   let aT : T := ⟨a, haT⟩
   have hfT : f ∣ Nat.card T := by
@@ -406,7 +406,7 @@ private theorem lemma115_zpowers_eq_sylow_of_order_five
     · exact hx
     · exact Nat.prime_five
     · simpa using h25
-    · exact S.isPGroup'
+    · exact S.isPGroup
   exact Subgroup.eq_of_le_of_card_ge hzle (by rw [hSCard, hzcard])
 
 private def lemma115_infCentralizerSingletonMulEquiv
@@ -478,7 +478,7 @@ public theorem lemma115_suzuki_centralizer_torus_lower_bound
     (x : SuzukiMatrixGroup m) (hx : orderOf x = 5) :
     2 ^ (2 * m) ≤ Nat.card
       (Subgroup.centralizer ({x} : Set (SuzukiMatrixGroup m))) := by
-  letI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  let : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   let g0 := lemma115_suzukiStandardElement m
   have h25 : ¬ 25 ∣ Nat.card (SuzukiMatrixGroup m) :=
     lemma115_suzuki_card_not_dvd_twentyFive m hm hp hp7
@@ -677,7 +677,7 @@ public theorem lemma115_centralizer_torus_inversion_cyclic
       hVF0center ⟨hxV, x.property.1⟩
     rw [hcenterF0] at hxCenter
     simpa using hxCenter
-  letI : CommGroup T :=
+  let : CommGroup T :=
     hphiFixedPointFree.commGroupOfInvolutive hphiInvolutive
   have hTodd : Odd (Nat.card T) :=
     hphiFixedPointFree.odd_card_of_involutive hphiInvolutive
@@ -699,29 +699,29 @@ public theorem lemma115_centralizer_torus_inversion_cyclic
       Subgroup.normalizerMonoidHom_apply_apply_coe] using
         congrArg Subtype.val hx
   refine ⟨?_, hTodd, hInv⟩
-  letI : IsZGroup T :=
+  let : IsZGroup T :=
     { isZGroup := by
         intro r hr R
-        letI : Fact r.Prime := ⟨hr⟩
+        let : Fact r.Prime := ⟨hr⟩
         by_cases hr2 : r = 2
         · subst r
           have hRodd : Odd (Nat.card R) :=
             Odd.of_dvd_nat hTodd
               (R : Subgroup T).card_subgroup_dvd_card
           have hRcard : Nat.card R = 1 :=
-            R.isPGroup'.card_eq_or_dvd.resolve_right
+            R.isPGroup.card_eq_or_dvd.resolve_right
               hRodd.not_two_dvd_nat
-          letI : Subsingleton R :=
+          let : Subsingleton R :=
             (Nat.card_eq_one_iff_unique.mp hRcard).1
           exact isCyclic_of_subsingleton
         · let iTF : T →* F0 := Subgroup.inclusion inf_le_left
           let Rmap : Subgroup F0 := (R : Subgroup T).map iTF
-          have hRmapP : IsPGroup r Rmap := R.isPGroup'.map iTF
+          have hRmapP : IsPGroup r Rmap := R.isPGroup.map iTF
           obtain ⟨S, hRS⟩ := hRmapP.exists_le_sylow
-          letI : IsCyclic S := hF0OddSylowCyclic r hr2 S
+          let : IsCyclic S := hF0OddSylowCyclic r hr2 S
           have hRmapCyclic : IsCyclic Rmap :=
             Subgroup.isCyclic_of_le hRS
-          letI : IsCyclic Rmap := hRmapCyclic
+          let : IsCyclic Rmap := hRmapCyclic
           let f0 : R →* F0 :=
             iTF.comp (R : Subgroup T).subtype
           let fR : R →* Rmap :=

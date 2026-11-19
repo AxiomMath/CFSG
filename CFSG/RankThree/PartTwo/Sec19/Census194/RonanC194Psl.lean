@@ -61,7 +61,7 @@ theorem survPSL_holds :
       (¬ r ∣ Nat.card φ.ker →
         n - 1 ≤ CFSG.Open.pRank r (⊤ : Subgroup (StatedSL n K ⧸ φ.ker))) := by
     intro r hr hr2 hrd
-    haveI : Fact r.Prime := ⟨hr⟩
+    have : Fact r.Prime := ⟨hr⟩
     exact CFSG.SectionRank.OddCover.scalar_quotient_diagonal_torus_rank Nat.prime_two hn2 hr2
       (Or.inl ⟨hK, rfl, hrd⟩) φ.ker hker
   rcases hcases with ⟨hf3, hn4'⟩ | ⟨rfl, hn5⟩ | ⟨rfl, hn8⟩

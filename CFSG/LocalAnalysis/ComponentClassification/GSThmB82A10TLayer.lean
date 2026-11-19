@@ -147,8 +147,9 @@ theorem isQuasisimple_of_isPComponent {H K : Subgroup G} (hKH : K ≤ H)
     (hK : IsPComponent 2 (K.subgroupOf H)) : IsQuasisimple (↥K ⧸ pPrimeCore 2 ↥K) :=
   ((CatalogueBPrimeJoin.pComponent_subgroupOf_iff 2 K H hKH).mp hK).2.2
 
+omit [Finite G] in
 theorem not_isSolvable_of_isQuasisimple {Y : Subgroup G}
-    (hYq : IsQuasisimple (↥Y ⧸ pPrimeCore 2 ↥Y)) : ¬ Group.IsSolvable ↥Y := fun hs =>
+    (hYq : IsQuasisimple (↥Y ⧸ pPrimeCore 2 ↥Y)) : ¬ Group.IsSolvable ↥Y := fun _hs =>
   not_isSolvable_of_quasisimple hYq inferInstance
 
 theorem isSolvable_of_le_oddCoreIn {H Y : Subgroup G} (hY : Y ≤ oddCoreIn H) :
@@ -254,7 +255,7 @@ theorem eq_of_le_of_le_of_not_isSolvable {H M M' Y : Subgroup G} (hMH : M ≤ H)
   exact isSolvable_of_commutator_le (isSolvable_of_le_oddCoreIn le_rfl) h2
 
 omit [Finite G] in
-theorem commutator_sup_le_oddCoreIn {H K A B : Subgroup G} (hKH : K ≤ H) (hAH : A ≤ H)
+theorem commutator_sup_le_oddCoreIn {H K A B : Subgroup G} (_hKH : K ≤ H) (hAH : A ≤ H)
     (hBH : B ≤ H) (hA : ⁅K, A⁆ ≤ oddCoreIn H) (hB : ⁅K, B⁆ ≤ oddCoreIn H) :
     ⁅K, A ⊔ B⁆ ≤ oddCoreIn H := by
   rw [commutator_comm] at hA hB ⊢
@@ -288,6 +289,7 @@ theorem le_of_not_isSolvable_inf {Y R : Subgroup G} (hYp : Group.IsPerfect Y)
       (f := (subgroupOfEquivOfLe (inf_le_left : Y ⊓ R ≤ Y)).symm.toMonoidHom)
       (subgroupOfEquivOfLe (inf_le_left : Y ⊓ R ≤ Y)).symm.injective
 
+omit [Finite G] in
 theorem inf_le_fusionZStar_of_isSolvable {Y R : Subgroup G}
     (hYq : IsQuasisimple (↥Y ⧸ pPrimeCore 2 ↥Y)) (hYR : Y ≤ normalizer (R : Set G))
     (hR : Group.IsSolvable ↥(Y ⊓ R)) : Y ⊓ R ≤ (Open.fusionZStar ↥Y).map Y.subtype := by
@@ -334,6 +336,7 @@ theorem card_quot_fusionZStar_eq_of_equiv {A B : Type} [Group A] [Group B]
     Nat.card (A ⧸ Open.fusionZStar A) = Nat.card (B ⧸ Open.fusionZStar B) :=
   Nat.card_congr (Sol78.fusionZStarQuotOfCore e).toEquiv
 
+omit [Finite G] in
 theorem le_of_perfect_of_le_sup_solvable {A N W : Subgroup G} (hNA : N ≤ normalizer (A : Set G))
     (hN : Group.IsSolvable ↥N) (hWp : ⁅W, W⁆ = W) (hW : W ≤ A ⊔ N) : W ≤ A := by
   set H := A ⊔ N
@@ -506,7 +509,7 @@ theorem card_quot_fusionZStar_dvd_of_not_commutator_le {H K₀ Y : Subgroup G} (
 
 theorem le_of_commutator_le_others {H K Y : Subgroup G} (hKH : K ≤ H)
     (hK : IsPComponent 2 (K.subgroupOf H)) (hYH : Y ≤ layerIn H) (hYp : Group.IsPerfect Y)
-    (hYq : IsQuasisimple (↥Y ⧸ pPrimeCore 2 ↥Y))
+    (_hYq : IsQuasisimple (↥Y ⧸ pPrimeCore 2 ↥Y))
     (hY : ∀ N : Subgroup G, N ≤ H → IsPComponent 2 (N.subgroupOf H) → N ≠ K →
       ⁅Y, N⁆ ≤ oddCoreIn H) : Y ≤ K := by
   set S := ⨆ (N : Subgroup G) (_ : N ≤ H) (_ : IsPComponent 2 (N.subgroupOf H)) (_ : N ≠ K), N
@@ -553,7 +556,7 @@ theorem le_of_commutator_le_others {H K Y : Subgroup G} (hKH : K ≤ H)
   exact le_of_le_sup_oddCoreIn hKH hK (isPerfect_iff.mp hYp) hYKO
 
 theorem exists_not_commutator_le {H Y : Subgroup G} (hYH : Y ≤ layerIn H)
-    (hYp : Group.IsPerfect Y) (hYq : IsQuasisimple (↥Y ⧸ pPrimeCore 2 ↥Y)) :
+    (_hYp : Group.IsPerfect Y) (hYq : IsQuasisimple (↥Y ⧸ pPrimeCore 2 ↥Y)) :
     ∃ K : Subgroup G, K ≤ H ∧ IsPComponent 2 (K.subgroupOf H) ∧ ¬ ⁅Y, K⁆ ≤ oddCoreIn H := by
   by_contra h
   push Not at h

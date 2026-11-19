@@ -18,7 +18,7 @@ theorem M1_K (h : FF84Sec3 b L B b₁ b₂) (hZ : Subgroup.center L = ⊥) :
       b₁ * b₂ ^ 2 ∈ K ∧ b₁ * b₂ ∉ K ∧ Subgroup.zpowers (b₁ * b₂) ⊔ K = L ⊓ Cen (b₁ * b₂) ∧
       ∀ g ∈ Cen b ⊓ Cen (b₁ * b₂), conjBy g K = K := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e, he⟩ := M0_model h hZ
   have hb₁L : b₁ ∈ L := (Subgroup.mem_inf.1 h.hb₁).2
   have hb₂L : b₂ ∈ L := (Subgroup.mem_inf.1 h.hb₂).2
@@ -156,7 +156,7 @@ theorem M1_K (h : FF84Sec3 b L B b₁ b₂) (hZ : Subgroup.center L = ⊥) :
       Subgroup.card_map_of_injective (Subgroup.subtype_injective _)
     exact h1.trans hcK0
   have hKsimple : IsSimpleGroup K := by
-    haveI := K5_simple
+    have := K5_simple
     let eK : ↥K ≃* ↥K5 :=
       ((Subgroup.equivMapOfInjective K0 L.subtype (Subgroup.subtype_injective _)).symm.trans
         (Subgroup.equivMapOfInjective K0 ψ hψi)).trans (MulEquiv.subgroupCongr hmapK0)

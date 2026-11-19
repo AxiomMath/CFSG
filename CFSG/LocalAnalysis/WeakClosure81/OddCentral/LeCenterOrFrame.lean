@@ -64,10 +64,10 @@ private theorem pow_of_mem_zpowers {G : Type*} [Group G] [Finite G] {h d : G}
   exact hd
 
 private theorem exists_ne_of_card {G : Type*} [Group G] [Finite G] {Z : Subgroup G}
-    (hZ : 2 < Nat.card Z) {u : G} (hu : u ∈ Z) (hu2 : u ^ 2 = 1) :
+    (hZ : 2 < Nat.card Z) {u : G} (_hu : u ∈ Z) (hu2 : u ^ 2 = 1) :
     ∃ w ∈ Z, w ≠ 1 ∧ w ≠ u := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hle : Z ≤ zpowers u := fun w hw => by
     by_cases h1 : w = 1
     · rw [h1]; exact one_mem _
@@ -216,7 +216,7 @@ open CFSG.Timmesfeld.Bridge.Asc72
 
 theorem le_center_of_hyperplane_count {Y : Type} [Group Y] [Finite Y] {D : Set Y}
     (hD : IsOddTransp D) (hDc : ∀ x ∈ D, ∀ g : Y, g * x * g⁻¹ ∈ D) (hgen : closure D = ⊤)
-    {T : Subgroup Y} (hT2 : ∀ x ∈ T, x ^ 2 = 1) (hTgen : closure (D ∩ (T : Set Y)) = T)
+    {T : Subgroup Y} (hT2 : ∀ x ∈ T, x ^ 2 = 1) (_hTgen : closure (D ∩ (T : Set Y)) = T)
     (hconj : ∀ d ∈ D, ∃ g : Y, g * d * g⁻¹ ∈ T)
     (hcount : ∀ B : Subgroup T, B.index = 2 → ∀ d ∈ D, ∀ hdT : d ∈ T, (⟨d, hdT⟩ : T) ∉ B →
       ∃ e ∈ D, ∃ heT : e ∈ T, (⟨e, heT⟩ : T) ∉ B ∧ e ≠ d) :
@@ -259,9 +259,9 @@ theorem le_center_of_hyperplane_count {Y : Type} [Group Y] [Finite Y] {D : Set Y
     have hr : r ∈ (⊥ : Subgroup Y) := hgen ▸ mem_top r
     rw [mem_bot] at hg hr
     rw [hg, hr]
-  letI iC : CommGroup T :=
+  let iC : CommGroup T :=
     { (inferInstance : Group T) with mul_comm := fun a b => Subtype.ext (hTcomm a a.2 b b.2) }
-  haveI : IsElementaryAbelian 2 T :=
+  have : IsElementaryAbelian 2 T :=
     { toIsMulCommutative := ⟨⟨fun a b => Subtype.ext (hTcomm a a.2 b b.2)⟩⟩
       exponent_dvd_p := Monoid.exponent_dvd_of_forall_pow_eq_one fun g =>
         Subtype.ext (by simpa using hT2 g g.2) }
@@ -371,9 +371,9 @@ private theorem pow_conj_fix {Y : Type} [Group Y] {t c : Y} (h : t * c * t⁻¹ 
       _ = c := by rw [ih, h]
 
 theorem residual_of_one_outside {Y : Type} [Group Y] [Finite Y] {T C T₁ H : Subgroup Y}
-    {Δ : Set Y} {t : Y} {n : ℕ} (hT2 : ∀ x ∈ T, x ^ 2 = 1) (hCT₁ : C ⊓ T₁ = ⊥)
+    {Δ : Set Y} {t : Y} {n : ℕ} (_hT2 : ∀ x ∈ T, x ^ 2 = 1) (hCT₁ : C ⊓ T₁ = ⊥)
     (hdec : ∀ x ∈ T, ∃ c ∈ C, ∃ u ∈ T₁, x = c * u)
-    (htC : ∀ c ∈ C, t * c * t⁻¹ = c) (htT₁ : ∀ u ∈ T₁, t * u * t⁻¹ ∈ T₁)
+    (htC : ∀ c ∈ C, t * c * t⁻¹ = c) (_htT₁ : ∀ u ∈ T₁, t * u * t⁻¹ ∈ T₁)
     (htr : ∀ u ∈ T₁, u ≠ 1 → ∀ v ∈ T₁, v ≠ 1 → ∃ k : ℕ, t ^ k * u * (t ^ k)⁻¹ = v)
     (hn : 2 ≤ n) (hcard : Nat.card T₁ = 2 ^ n) (hΔT : Δ ⊆ T) (hΔC : ∀ d ∈ Δ, d ∉ C)
     (hΔt : ∀ d ∈ Δ, t * d * t⁻¹ ∈ Δ) {d : Y} (hd : d ∈ Δ) (hdH : d ∉ H)
@@ -813,14 +813,14 @@ private theorem pow_conj_fix'' {Y : Type} [Group Y] {t c : Y} (h : t * c * t⁻�
       _ = c := by rw [ih, h]
 
 theorem exists_t_complement {Y : Type} [Group Y] [Finite Y] {T C : Subgroup Y} {t : Y}
-    (hT2 : ∀ x ∈ T, x ^ 2 = 1) (hCT : C ≤ T) (htT : ∀ x ∈ T, t * x * t⁻¹ ∈ T)
+    (hT2 : ∀ x ∈ T, x ^ 2 = 1) (_hCT : C ≤ T) (htT : ∀ x ∈ T, t * x * t⁻¹ ∈ T)
     (htC : ∀ c ∈ C, t * c * t⁻¹ = c) (hodd : Odd (orderOf t))
     (hfixC : ∀ y ∈ T, t * y * t⁻¹ = y → y ∈ C) :
     ∃ T₁ : Subgroup Y, T₁ ≤ T ∧ C ⊓ T₁ = ⊥ ∧ (∀ x ∈ T, ∃ c ∈ C, ∃ u ∈ T₁, x = c * u) ∧
       ∀ u ∈ T₁, t * u * t⁻¹ ∈ T₁ := by
   classical
   have hcomm := commT hT2
-  letI : CommGroup T :=
+  let : CommGroup T :=
     { (inferInstance : Group T) with mul_comm := fun a b => Subtype.ext (hcomm a a.2 b b.2) }
   have htkT := pow_conj_mem' htT
   set b := orderOf t with hb
@@ -1175,7 +1175,7 @@ theorem le_center_or_frame {Y : Type} [Group Y] [Finite Y] {s : Y}
     (hn : 1 < n) (hL : CFSG.LocalAnalysis.WeakClosure81.SevenK.IsL2OrSz (Y ⧸ fusionZStar Y) n) :
     fusionOddCore Y ≤ center Y ∨
       (n = 2 ∧ ∃ d₁ d₂ d₃ t : Y, CFSG.LocalAnalysis.WeakClosure81.OddCentral.IsFrame s d₁ d₂ d₃ t) := by
-  haveI : Finite (Y ⧸ fusionZStar Y) := Finite.of_surjective _ (QuotientGroup.mk'_surjective (fusionZStar Y))
+  have : Finite (Y ⧸ fusionZStar Y) := Finite.of_surjective _ (QuotientGroup.mk'_surjective (fusionZStar Y))
   have hB := borelData_of_isL2OrSz hn hL
   obtain ⟨hZ, T, C, T₁, t, hT2, hTgen, hconj, hCT, hT₁T, hCT₁, hdec, hCZ, hT₁Z, htC, htT₁, htr,
     hcard⟩ := exists_torus hD hs (by omega) hB

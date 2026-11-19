@@ -20,15 +20,15 @@ theorem exists_orthonormal_baer_frame (hσ : IsUnitaryInvolution σ) (h2 : (2 : 
   set z₁ : Fin 4 → F := e + σ lam • f with hz₁def
   have hz0 : herm σ z₀ z₀ = 1 := by
     simp only [hz₀def, herm_add_left, herm_add_right, herm_smul_left, herm_smul_right,
-      hee, hff, hef, hfe, mul_zero, mul_one, zero_mul, add_zero, zero_add]
+      hee, hff, hef, hfe, mul_zero, mul_one, add_zero, zero_add]
     linear_combination hlam
   have hz1 : herm σ z₁ z₁ = 1 := by
     simp only [hz₁def, herm_add_left, herm_add_right, herm_smul_left, herm_smul_right,
-      hee, hff, hef, hfe, hσ.invol, mul_zero, mul_one, zero_mul, add_zero, zero_add]
+      hee, hff, hef, hfe, hσ.invol, mul_zero, mul_one, add_zero, zero_add]
     linear_combination hlam
   have hz01 : herm σ z₀ z₁ = 0 := by
     simp only [hz₀def, hz₁def, herm_add_left, herm_add_right, herm_smul_left, herm_smul_right,
-      hee, hff, hef, hfe, mul_zero, mul_one, zero_mul, add_zero, zero_add]
+      hee, hff, hef, hfe, mul_zero, mul_one, add_zero, zero_add]
     linear_combination (σ lam) * h2
   obtain ⟨z₂, hz2, hez2, hfz2⟩ :=
     exists_norm_one_perp_pair (n := 4) hσ (by norm_num) hee hff hef

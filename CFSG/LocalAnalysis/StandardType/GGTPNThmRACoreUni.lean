@@ -348,8 +348,8 @@ private theorem raUni_nonSplit_label_twA {p N n : ℕ} {K E : Type} [Field K] [F
   exact ⟨hΛ, hlab⟩
 
 private theorem raUni_nonSplit_component {p N n : ℕ} {K : Type} [Field K] [Finite K]
-    (hUF : UnitaryFieldData 2 n K) (hcard : Nat.card K = (2 ^ n) ^ 2)
-    (hp : p.Prime) (hpq : p ∣ 2 ^ n + 1) (hpN : p ∣ N) (h2Np : 2 ≤ N / p)
+    (hUF : UnitaryFieldData 2 n K) (_hcard : Nat.card K = (2 ^ n) ^ 2)
+    (hp : p.Prime) (hpq : p ∣ 2 ^ n + 1) (_hpN : p ∣ N) (_h2Np : 2 ≤ N / p)
     {d : GL (Fin N) K} (hd : d ∈ primeFormUnitary hUF (idGram K N)) {c : Kˣ}
     (hdp : d ^ p = Matrix.GeneralLinearGroup.scalar (Fin N) c)
     (hc : ∀ b : K, b ^ p ≠ (c : K))
@@ -361,8 +361,8 @@ private theorem raUni_nonSplit_component {p N n : ℕ} {K : Type} [Field K] [Fin
       (3 ≤ N / p ∧ LargeEvenInLambda2 ⟨.twA, N / p - 1, p * n⟩ ∧
         GGHasLabel ⟨.twA, N / p - 1, p * n⟩ (↥T ⧸ Subgroup.center ↥T)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp2ne : p ≠ 2 := TableBU.ne_two_of_dvd_two_pow_add_one hUF.one_le hpq
   have hp2 : 2 ≤ p := hp.two_le
   have hp3 : 3 ≤ p := by omega
@@ -379,11 +379,11 @@ private theorem raUni_nonSplit_component {p N n : ℕ} {K : Type} [Field K] [Fin
       ⟨d, hd⟩ hdp hc hT
   rcases hcase with ⟨hNp2, F, hF, hFt, hcardF, g, hg, hgk⟩ |
     ⟨h3Np, E, hE, hEt, hcardE, g, hg, hgk⟩
-  · letI : Field F := hF
-    letI : Fintype F := hFt
+  · let : Field F := hF
+    let : Fintype F := hFt
     exact Or.inl ⟨hNp2, raUni_nonSplit_label_A (hUF := hUF) hnp3 hcardF hg hgk⟩
-  · letI : Field E := hE
-    letI : Fintype E := hEt
+  · let : Field E := hE
+    let : Fintype E := hEt
     exact Or.inr ⟨h3Np, raUni_nonSplit_label_twA (hUF := hUF) h3Np hpn3 hcardE hg hgk⟩
 
 private theorem raUni_frame_diag_contradiction {p N : ℕ} {K : Type} [Field K]
@@ -445,7 +445,7 @@ private theorem raUni_nonSplit_bound_elemAbelian {p N n : ℕ} {K : Type} [Field
       (LargeEvenProjMk (LargeEvenSUGroup (Fin N) K (2 ^ n)))
       (LargeEvenGUSet (Fin N) K (2 ^ n)))
     {aa : MulAut (LargeEvenProj (LargeEvenSUGroup (Fin N) K (2 ^ n)))} (haa : aa ∈ Ab)
-    {d : GL (Fin N) K} (hd : d ∈ primeFormUnitary hUF (idGram K N))
+    {d : GL (Fin N) K} (_hd : d ∈ primeFormUnitary hUF (idGram K N))
     {hNd : d ∈ Subgroup.normalizer
       (LargeEvenSUGroup (Fin N) K (2 ^ n) : Set (GL (Fin N) K))}
     (hdconj : aa = TableB.projConj (LargeEvenSUGroup (Fin N) K (2 ^ n)) ⟨d, hNd⟩)
@@ -455,7 +455,7 @@ private theorem raUni_nonSplit_bound_elemAbelian {p N n : ℕ} {K : Type} [Field
   classical
   by_contra hle
   push Not at hle
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hApg : IsPGroup p Ab := hAb.isPGroup
   obtain ⟨t, ht⟩ := hApg.exists_card_eq
   have ht2 : p ^ (N / p + 2) ≤ Nat.card Ab := by
@@ -505,8 +505,8 @@ private theorem raUni_two_pow_sq_sub_one (n : ℕ) :
   rw [mul_comm, ← Nat.sq_sub_sq (2 ^ n) 1]
 
 private theorem raUni_primaryFactor_linear {p N n : ℕ} {K : Type} [Field K] [Finite K]
-    (hUF : UnitaryFieldData 2 n K) (hcard : Nat.card K = (2 ^ n) ^ 2)
-    (hp : p.Prime) (hp2 : p ≠ 2) (hpq : p ∣ 2 ^ n + 1)
+    (_hUF : UnitaryFieldData 2 n K) (hcard : Nat.card K = (2 ^ n) ^ 2)
+    (hp : p.Prime) (_hp2 : p ≠ 2) (hpq : p ∣ 2 ^ n + 1)
     {d : GL (Fin N) K} (hdp : d ^ p = 1)
     {a : K[X]} (ha : a ∈ primaryFactors (Matrix.GeneralLinearGroup.toLin d :
       Module.End K (Fin N → K))) :
@@ -550,7 +550,7 @@ private theorem raUni_primaryFactor_selfDual {p N n : ℕ} {K : Type} [Field K] 
 
 
 private theorem raUni_dvd_card_specialBlock {p N n : ℕ} {K : Type} [Field K] [Finite K]
-    (hUF : UnitaryFieldData 2 n K) (hp : p.Prime) (hpq : p ∣ 2 ^ n + 1)
+    (hUF : UnitaryFieldData 2 n K) (_hp : p.Prime) (hpq : p ∣ 2 ^ n + 1)
     {x : LinearMap.GeneralLinearGroup K (Fin N → K)}
     (H : UnitaryPrimaryData hUF.bar (idForm hUF N) x)
     {a : primaryFactors (x : Module.End K (Fin N → K))}
@@ -653,7 +653,7 @@ private theorem raUni_exists_nonScalarOn {ℓ f N : ℕ} {K : Type} [Field K] [F
   have hqS : CFSG.IsQuasisimple ↥(unitaryPreimageBlock h (x := x) (a : K[X])) :=
     CFSG.LocalCores.isQuasisimple_of_mulEquiv (specialBlockEquiv h H a hq ha).symm
       ((specialBlockFacts_of_good H hq a ha).quasisimple ha.1)
-  haveI := CFSG.LocalCores.isQuasisimple_nontrivial hqS
+  have := CFSG.LocalCores.isQuasisimple_nontrivial hqS
   have hbot : commutator ↥(unitaryPreimageBlock h (x := x) (a : K[X])) = ⊥ := by
     rw [_root_.commutator_def, Subgroup.commutator_eq_bot_iff_le_centralizer]
     intro y _
@@ -679,7 +679,7 @@ private theorem raUni_card_primaryFactors_le {p N n : ℕ} {K : Type} [Field K] 
     {d : GL (Fin N) K} (hdp : d ^ p = 1) :
     (primaryFactors (Matrix.GeneralLinearGroup.toLin d : Module.End K (Fin N → K))).card ≤ p := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hxp : ((Matrix.GeneralLinearGroup.toLin d : LinearMap.GeneralLinearGroup K (Fin N → K)) :
       Module.End K (Fin N → K)) ^ p = 1 := by
     have h1 : (Matrix.GeneralLinearGroup.toLin d) ^ p = 1 := by
@@ -714,7 +714,7 @@ private theorem raUni_toLin_scalar_apply {N : ℕ} {K : Type} [Field K] (c : Kˣ
       LinearMap.GeneralLinearGroup K (Fin N → K)) : Module.End K (Fin N → K)) v = (c : K) • v := by
   ext i
   simp [Matrix.GeneralLinearGroup.coe_toLin, Matrix.GeneralLinearGroup.coe_scalar,
-    Matrix.mulVec_diagonal, Units.smul_def]
+    Matrix.mulVec_diagonal]
 
 private theorem raUni_primeFormConjHom_eq_one_of_scalar {ℓ f n : ℕ} {K : Type} [Field K]
     {h : UnitaryFieldData ℓ f K} {A : primeFormUnitary h (idGram K n)} {c : Kˣ}
@@ -856,9 +856,9 @@ private theorem raUni_selfDual_block_field {ℓ f : ℕ} {K : Type} [Field K]
         Nonempty (↥(specialBlock B x (a : K[X])) ≃*
           ↥(StatedSU (primaryMultiplicity (x : Module.End K V) (a : K[X])) (ℓ ^ f) E))) := by
   classical
-  haveI : Finite K := h.finite
-  haveI : Finite (AdjoinRoot (a : K[X])) := Module.finite_of_finite K
-  letI : Fintype (AdjoinRoot (a : K[X])) := Fintype.ofFinite _
+  have : Finite K := h.finite
+  have : Finite (AdjoinRoot (a : K[X])) := Module.finite_of_finite K
+  let : Fintype (AdjoinRoot (a : K[X])) := Fintype.ofFinite _
   obtain ⟨hE, Hf, hHf, hHfl, Φ, -, -⟩ :=
     exists_selfDual_specialBlock_mulEquiv_sesqSpecialUnitary H hself
       (CFSG.RankThree.PartOne.selfDualPrimaryBlock H a hself)
@@ -873,8 +873,8 @@ private theorem raUni_selfDual_block_field {ℓ f : ℕ} {K : Type} [Field K]
         (primaryComponent (x : Module.End K V) (a : K[X])) = 2 := hm2
     obtain ⟨e2⟩ :=
       CFSG.RankThree.Classical.nonempty_sesqSpecialUnitaryGroup_mulEquiv_SL2 hE hHf hHfl hV
-    haveI : Finite hE.fixedField := inferInstance
-    letI : Fintype hE.fixedField := Fintype.ofFinite _
+    have : Finite hE.fixedField := inferInstance
+    let : Fintype hE.fixedField := Fintype.ofFinite _
     have hcardF : Fintype.card hE.fixedField = ℓ ^ f := by
       rw [← Nat.card_eq_fintype_card, hE.card_fixedField, hdeg, mul_one]
     have h4 : 4 ≤ Fintype.card hE.fixedField := by
@@ -1028,7 +1028,7 @@ private theorem raUni_entries {p N n : ℕ} {K : Type} [Field K] [Finite K]
 private theorem raUni_map_toList_length_lt {p N n : ℕ} {K : Type} [Field K] [Finite K]
     (hUF : UnitaryFieldData 2 n K) (hcard : Nat.card K = (2 ^ n) ^ 2)
     (hp : p.Prime) (hp2 : p ≠ 2) (hpq : p ∣ 2 ^ n + 1)
-    {d : GL (Fin N) K} (hd : d ∈ primeFormUnitary hUF (idGram K N)) (hdp : d ^ p = 1)
+    {d : GL (Fin N) K} (_hd : d ∈ primeFormUnitary hUF (idGram K N)) (hdp : d ^ p = 1)
     (a₀ : {a : primaryFactors (Matrix.GeneralLinearGroup.toLin d :
       Module.End K (Fin N → K)) // IsGoodBlock hUF (Matrix.GeneralLinearGroup.toLin d) a}) :
     (((primaryFactors (Matrix.GeneralLinearGroup.toLin d : Module.End K (Fin N → K))).erase
@@ -1161,15 +1161,15 @@ private theorem raUni_split_component {p N n : ℕ} {K : Type} [Field K] [Finite
         (specialBlockEquiv hUF H a₀ hq a₀.2).symm.injective)
   rcases raUni_selfDual_block_field (B := idForm hUF N) hq H hselfa hdega a₀.2 with
     ⟨hm2, F, hF, hFt, hcardF, h4, ⟨e⟩⟩ | ⟨E, hE, hEt, hcardE, hm, hne, ⟨e⟩⟩
-  · letI : Field F := hF
-    letI : Fintype F := hFt
+  · let : Field F := hF
+    let : Fintype F := hFt
     refine Or.inl ⟨hm2, F, hF, hFt, hcardF, h4, ψ.comp e.symm.toMonoidHom,
       hψsurj.comp e.symm.surjective, ?_⟩
     rw [← MonoidHom.comap_ker]
     exact (Subgroup.comap_mono hψker).trans
       (Subgroup.comap_center_le_center (f := e.symm.toMonoidHom) e.symm.injective)
-  · letI : Field E := hE
-    letI : Fintype E := hEt
+  · let : Field E := hE
+    let : Fintype E := hEt
     refine Or.inr ⟨hm, hne, E, hE, hEt, hcardE, ψ.comp e.symm.toMonoidHom,
       hψsurj.comp e.symm.surjective, ?_⟩
     rw [← MonoidHom.comap_ker]
@@ -1215,7 +1215,7 @@ private theorem raUni_pow_norm {p n : ℕ} {K : Type} [Field K] [Finite K]
   have hq2 : 2 ≤ 2 ^ n := by
     calc 2 = 2 ^ 1 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hFcard : Fintype.card K = 2 ^ n * 2 ^ n := by
     rw [← Nat.card_eq_fintype_card, hcard, pow_two]
   have hbcard : b ^ (2 ^ n * 2 ^ n - 1) = 1 := by
@@ -1370,7 +1370,7 @@ private theorem raUni_split_label_twA {a n : ℕ} {R S : Type} [Group R] [Group 
     (hgk : g.ker ≤ Subgroup.center ↥(StatedSU a (2 ^ n) E))
     (e : R ≃* (S ⧸ Subgroup.center S)) :
     LargeEvenInLambda2 ⟨.twA, a - 1, n⟩ ∧ GGHasLabel ⟨.twA, a - 1, n⟩ R := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hEnat : Nat.card E = (2 ^ n) ^ 2 := by
     rw [Nat.card_eq_fintype_card]; exact hE
   have hqSU := CFSG.LieType.Universal.Unitary.isQuasisimple_statedSU_of_card

@@ -15,7 +15,7 @@ open scoped MatrixGroups Matrix
 
 theorem e6IsThreeCentral_map {Q Q' : Type} [Group Q] [Finite Q] [Group Q'] (φ : Q ≃* Q') {z : Q}
     (hz : IsThreeCentral Q z) : IsThreeCentral Q' (φ z) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine ⟨(orderOf_injective (φ : Q →* Q') φ.injective z).trans hz.1, ?_⟩
   obtain ⟨S, hS⟩ := hz.2
   refine ⟨Sylow.mapSurjective (f := (φ : Q →* Q')) φ.surjective S, ?_⟩
@@ -59,7 +59,7 @@ theorem dV_smul_x0 {L : Type} [Field L] (ω : Lˣ) (c : ZMod 3) :
   · subst hi
     simp only [torV, x0, Pi.smul_apply, Pi.single_eq_same, smul_eq_mul, mul_one]
     rw [show ZMod.val (1 : ZMod 3) = 1 from rfl, pow_one]
-  · simp [torV, x0, Pi.single_apply, hi]
+  · simp [torV, x0, hi]
 
 end Small
 
@@ -76,7 +76,7 @@ theorem exists_twE6_model_eight {Q : Type} [Group Q]
   | twistedE6 q =>
     obtain ⟨K, fK, σ, hK, hσ, ⟨eC⟩⟩ := CFSG.LieType.SeitzGeneration.exists_catEquiv_twistedE6 q hv
     have hq : q.p ^ q.exponent = 8 := by rw [hd.1, hd.2]; norm_num
-    haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
+    have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
     exact ⟨K, fK, inferInstance, σ, by rw [hK, hq]; norm_num, fun c => by rw [hσ, hq],
       ⟨e.trans eC⟩⟩
   | _ => exact hd.elim
@@ -90,7 +90,7 @@ theorem exists_model_at_z0 {Q : Type} [Group Q] [Finite Q]
   obtain ⟨K, _, _, σ, hK, hσ, ⟨e1⟩⟩ := exists_twE6_model_eight hQ
   obtain ⟨L, _, _, _, D, ⟨e2⟩⟩ := exists_std8 hK σ hσ
   obtain ⟨ω, hω⟩ := TwE6InnerAbs.exists_orderOf_three (L := L)
-  haveI := D.finite_Γ
+  have := D.finite_Γ
   set φ : Q ≃* ↥D.S.Γ := e1.trans e2 with hφ
   obtain ⟨g, c, hc, hgc⟩ := D.exists_conj_dV_of_threeCentral hω (e6IsThreeCentral_map φ hz)
   have hcop : Nat.Coprime 3 c.val := by
@@ -120,7 +120,7 @@ theorem e6_threeCentral_shape_strong
       IsPGroup 3 ↥(Subgroup.centralizer ((⨆ i, T i : Subgroup Q) : Set Q)) ∧
       GLAPPrimeCoreOf 3 (Subgroup.centralizer ({z} : Set Q)) = ⊥ := by
   obtain ⟨L, _, _, _, D, ω, hω, κ, hκ⟩ := exists_model_at_z0 hQ hz
-  haveI := D.finite_Γ
+  have := D.finite_Γ
   obtain ⟨T, hinj, hcomp, hqs, hcomm, hzT, hgrp, hcore⟩ := D.threeComponents hω
   have hzsymm : κ.symm (D.z0 hω) = z := by rw [← hκ]; exact κ.symm_apply_apply z
   have hcent : (Subgroup.centralizer ({z} : Set Q)).map κ.toMonoidHom =

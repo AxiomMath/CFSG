@@ -33,7 +33,7 @@ theorem c8_exists_conj_eq_range_tauSym {E : Subgroup (StatedSp 3 (ZMod 2))}
     (hE : IsElemAbelian 2 E) (h64 : Nat.card E = 64) :
     ∃ g : StatedSp 3 (ZMod 2), E.map (MulAut.conj g).toMonoidHom = (tauSym 3).range := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q, hEQ⟩ := (IsElemAbelian.isPGroup hE).exists_le_sylow
   obtain ⟨U, hU⟩ := exists_sylow_unipotent (K := ZMod 2) 2 3
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq (StatedSp 3 (ZMod 2)) Q U
@@ -53,7 +53,7 @@ theorem c8_exists_conj_eq_range_tauSym {E : Subgroup (StatedSp 3 (ZMod 2))}
     exact (Subgroup.map_mono hEQ).trans (le_of_eq hmap)
   have hcomm : ∀ x ∈ E', ∀ y ∈ E', x * y = y * x := by
     intro x hx y hy
-    haveI : IsMulCommutative E' := hE'e.1
+    have : IsMulCommutative E' := hE'e.1
     exact congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : E') ⟨y, hy⟩)
   have hsq : ∀ x ∈ E', x * x = 1 := by
     intro x hx
@@ -94,7 +94,7 @@ theorem c8_exists_model_radical {H' : Type*} [Group H'] {H : Subgroup H'}
       have h1 : P ≤ Subgroup.normalizer (N : Set H') ⊓ H := le_inf hPleN hPH
       rw [hNpull, normalizer_pullSub_inf ψ (tauSym 3).range, normalizer_range_tauSym] at h1
       exact h1
-    haveI : Finite (pullSub ψ (stabilizer 3 (ZMod 2) (lagrangianZero 3))) :=
+    have : Finite (pullSub ψ (stabilizer 3 (ZMod 2) (lagrangianZero 3))) :=
       Nat.finite_of_card_ne_zero (by
         rw [card_pullSub, c8_card_stabilizer_lagrangianZero]
         norm_num)

@@ -32,7 +32,7 @@ theorem qsExcS_rankLE1_of_no_plane {G : Type} [Group G] [Finite G] {p : ℕ} (hp
     (hno : ∀ E : Subgroup G, CFSG.Open.IsElemAbelian p E → Nat.card E = p ^ 2 → False) :
     CFSG.LieType.SeitzGeneration.RankLE1 p G := by
   intro F hF
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hlt := qsExcS_card_lt_of_no_elemAbelian hp hno F hF
   obtain ⟨j, hj⟩ := hF.isPGroup.exists_card_eq
   rw [hj] at hlt ⊢
@@ -56,7 +56,7 @@ theorem qsExcS_pca_G2 (F : Type) [Field F] [Finite F] {p : ℕ} [Fact p.Prime] (
 
 theorem pcaLieCross_G2 : PCALieCrossAt .G2 := by
   intro K _ _ _ _ _ _ _ _ hmodel p hp h5 hpℓ _
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨⟨hℓ, -, -⟩, hm⟩ := hmodel.chevalleyExceptionalModel (by simp [chevalleyExceptionalTags])
   obtain ⟨F, _, _, hF, ⟨e⟩⟩ := hm
   have hpq : ¬ p ∣ Nat.card F := by
@@ -67,7 +67,7 @@ theorem pcaLieCross_G2 : PCALieCrossAt .G2 := by
     ((QuotientGroup.quotientMulEquivOfEq
       (CFSG.LieType.Chevalley.center_adjointGroup_eq_bot (τ := .G2) (K := F))).trans
       QuotientGroup.quotientBot)
-  haveI : Finite (adjointGroup .G2 F) := Finite.of_equiv K e'.toEquiv
+  have : Finite (adjointGroup .G2 F) := Finite.of_equiv K e'.toEquiv
   exact PCentralAbelianAt.of_mulEquiv e' (qsExcS_pca_G2 F h5 hpq)
 
 theorem pcaLieCross_twistedG2 : PCALieCrossAt .twistedG2 := by
@@ -77,14 +77,14 @@ theorem pcaLieCross_twistedG2 : PCALieCrossAt .twistedG2 := by
   subst hℓ
   obtain ⟨-, a, hfa, X, _, _, hXcard, ⟨e2⟩⟩ := hrt
   have ha : 1 ≤ a := by omega
-  haveI : Fintype X := Fintype.ofFinite X
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fintype X := Fintype.ofFinite X
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hchar : CharP X CFSG.LieType.Ree.ReeTag.G2.prime :=
     charP_of_card_eq_prime_pow (p := 3) (f := f) (by rw [← Nat.card_eq_fintype_card, hXcard])
   obtain ⟨E⟩ := hiso a X hfa hXcard ⟨e2⟩
   have hX : Nat.card X = 3 ^ (2 * a + 1) := by rw [← hfa]; exact hXcard
   have hp3 : 3 < p := by omega
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine PCentralAbelianAt.of_rankLE1 (by omega) (qsExcS_rankLE1_of_no_plane hp ?_)
   intro F' hF' hFc
   have hF₁ : CFSG.Open.IsElemAbelian p (F'.map E.toMonoidHom) := hF'.map E.toMonoidHom
@@ -120,14 +120,14 @@ theorem qsExcS_pca_reeGamma {a : ℕ} {K : Type} [Field K] [Finite K] [CharP K R
 
 theorem pcaLieCross_twistedF4 : PCALieCrossAt .twistedF4 := by
   intro X _ _ _ _ _ ℓ f hadm hmodel p hp h5 _ _
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, hrt⟩ := hmodel.reeTitsModel (by simp [reeTitsTags])
   obtain ⟨-, -, -, hℓ, -, -⟩ := hadm
   subst hℓ
   obtain ⟨a, K, _, _, _, ha, hfa, hK, ⟨e⟩⟩ := CFSG.RankThree.PartOne.KEXC.exists_gamma_of_model hrt
   have hK' : Nat.card K = 2 ^ (2 * a + 1) := by rw [← hfa]; exact hK
-  haveI : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
-  haveI : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
+  have : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
+  have : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
   exact PCentralAbelianAt.of_mulEquiv e (qsExcS_pca_reeGamma hK' h5)
 
 end TwistedF4
@@ -145,8 +145,8 @@ private theorem qsExcS_certificate43_of_decide :
 
 theorem pcaLieCross_twistedB2 : PCALieCrossAt .twistedB2 := by
   intro K _ _ _ _ _ ℓ f _ hmodel p hp _ hpℓ _
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := qsExcS_certificate43_of_decide
+  have : Fact p.Prime := ⟨hp⟩
+  have := qsExcS_certificate43_of_decide
   have hS : SuzukiModel K ℓ f := by
     rcases hmodel with ⟨ht, -⟩ | ⟨-, ht, -⟩ | ⟨-, ht, -⟩ | ⟨-, -, hS⟩
     · exact absurd ht (by decide)
@@ -161,7 +161,7 @@ theorem pcaLieCross_twistedB2 : PCALieCrossAt .twistedB2 := by
   have hsyl := CFSG.ProperTwoGeneratedCore.LocalCriterionDenominator.suzuki_model_oddSylow_cyclic
     a ha hF e' p hpℓ
   refine PCentralAbelianAt.of_sylow_comm fun S => ?_
-  haveI := hsyl S
+  have := hsyl S
   infer_instance
 
 end Suzuki
@@ -191,7 +191,7 @@ theorem pcaLieCross_Tits : PCALieCrossAt .Tits := by
   have hcard : Nat.card K = 17971200 := by
     rw [Nat.card_congr e.toEquiv]
     exact CFSG.Sporadic.Schreier.Tits.card_titsD
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact PCentralAbelianAt.of_factorization_le (by omega)
     (by rw [hcard]; exact qsExcS_factorization_titsOrder_le p hp h5)
 
@@ -214,7 +214,7 @@ theorem qsExcS_pca_twistedE6_group {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ 
     (hF : Nat.card F = (ℓ ^ f) ^ 2) (σ : F ≃+* F) (hσ : ∀ c, σ c = c ^ (ℓ ^ f))
     [Finite (twistedE6RootGroup F σ)] {p : ℕ} (hp : p.Prime) (h5 : 5 ≤ p) (hpℓ : p ≠ ℓ) :
     PCentralAbelianAt (twistedE6RootGroup F σ) p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpq : ¬ p ∣ ℓ ^ f := fun h =>
     hpℓ ((Nat.prime_dvd_prime_iff_eq hp hℓ).1 (hp.dvd_of_dvd_pow h))
   obtain ⟨e, he⟩ : ∃ e, orderOf (((ℓ ^ f : ℕ)) : ZMod p) = e := ⟨_, rfl⟩
@@ -228,7 +228,7 @@ theorem qsExcS_pca_twistedE6_group {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ 
       exact PCentralAbelianAt.of_elemAbelian hp hE hc (by norm_num)
     ·
       have h7 : 7 ≤ p := by
-        haveI : Fact p.Prime := ⟨hp⟩
+        have : Fact p.Prime := ⟨hp⟩
         have hne : (((ℓ ^ f : ℕ)) : ZMod p) ≠ 0 := fun h0 =>
           hpq ((ZMod.natCast_eq_zero_iff _ _).1 h0)
         have hdvd := ZMod.orderOf_dvd_card_sub_one hne
@@ -251,8 +251,8 @@ theorem pcaLieCross_twistedE6 : PCALieCrossAt .twistedE6 := by
   obtain ⟨⟨hℓ, hf, _⟩, hm⟩ :=
     hmodel.chevalleyExceptionalModel (by simp [chevalleyExceptionalTags])
   obtain ⟨F, _, _, σ, hF, hσ, ⟨e⟩⟩ := exists_mulEquiv_graphFixedRootGroup_card .E6 hℓ hf hm
-  haveI : Finite (twistedE6RootGroup F σ) := Finite.of_equiv K e.toEquiv
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Finite (twistedE6RootGroup F σ) := Finite.of_equiv K e.toEquiv
+  have : Fact p.Prime := ⟨hp⟩
   exact PCentralAbelianAt.of_mulEquiv e (qsExcS_pca_twistedE6_group hℓ hf F hF σ hσ hp h5 hpℓ)
 
 end TwistedE6
@@ -264,11 +264,11 @@ theorem pcaLieCross_trialityD4 : PCALieCrossAt .trialityD4 := by
   have hch := hmodel.chevalleyExceptionalModel (by simp [chevalleyExceptionalTags])
   have hℓ : ℓ.Prime := hch.1.1
   have hf : 1 ≤ f := hch.1.2.1
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   obtain ⟨F, _, _, σ, hF, hσ, ⟨e⟩⟩ := exists_mulEquiv_graphFixedRootGroup_card .D4 hℓ hf hch.2
   have hF3 : Nat.card F = (ℓ ^ f) ^ 3 := hF
-  haveI : Finite (graphFixedRootGroup TwistTag.D4 F σ.toRingHom) := Finite.of_equiv K e.toEquiv
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Finite (graphFixedRootGroup TwistTag.D4 F σ.toRingHom) := Finite.of_equiv K e.toEquiv
+  have : Fact p.Prime := ⟨hp⟩
   refine PCentralAbelianAt.of_mulEquiv e ?_
   obtain ⟨m, hm, hd⟩ := ((exact_E_type_and_triality_cross_prime_factor_exhaustion hp (by omega)
     (Ne.symm hpℓ) hch).1 hpK).2.2.2.2 rfl

@@ -19,6 +19,7 @@ private theorem openPRank_le_six_of_le_P (h : Wr7 t P U) (hU : RankFacts U) {V :
   have := Wr7.rank_bound h hU E (hEV.trans hVP) hE
   simpa using this
 
+omit [Finite G] in
 private theorem le_thompsonRank_of {T E : Subgroup G} (hET : E ≤ T)
     (hEc : IsMulCommutative E)
     (hmax : ∀ V : Subgroup G, V ≤ T → IsMulCommutative V → pRank 2 V ≤ pRank 2 E) :

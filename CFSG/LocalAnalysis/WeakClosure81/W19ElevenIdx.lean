@@ -23,10 +23,10 @@ theorem eq_one_of_conj_mem (c : MinCex193 D V₀ V p X) (h2 : Nat.card V₀ = 2)
     (hP₁X : P₁ ≤ X) (hP₂X : P₂ ≤ X) (hP₁L : P₁ ≤ L₁) (hP₂L : P₂ ≤ L₂) {n w : G}
     (hn : n ∈ normalizer (Z193 D V : Set G)) (hnM : n ∉ D.M) (hw : w ∈ Z193 D V)
     (hwL₁ : ∀ l ∈ L₁, l * w = w * l) (hwL₂ : ∀ l ∈ L₂, l * w = w * l)
-    (hnw : n * w * n⁻¹ ∈ Z193 D V) (hnwL₁ : ∀ l ∈ L₁, l * (n * w * n⁻¹) = n * w * n⁻¹ * l) :
+    (_hnw : n * w * n⁻¹ ∈ Z193 D V) (hnwL₁ : ∀ l ∈ L₁, l * (n * w * n⁻¹) = n * w * n⁻¹ * l) :
     w = 1 := by
   by_contra hw1
-  haveI : Fact p.Prime := ⟨c.hyp.prime⟩
+  have : Fact p.Prime := ⟨c.hyp.prime⟩
   have hsq : w ^ 2 = 1 := c.isElemAbelian_Z193.2 w hw
   have hord : orderOf w = 2 := orderOf_eq_prime hsq hw1
   have hD1 : Subgroup.zpowers w ≠ ⊥ := fun h => hw1 (Subgroup.zpowers_eq_bot.1 h)

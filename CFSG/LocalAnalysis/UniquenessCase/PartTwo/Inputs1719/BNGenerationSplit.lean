@@ -30,7 +30,7 @@ theorem k_19_21_opp_of_splitBN {S : Type} [Group S] [Finite S] [IsSimpleGroup S]
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : Fact r.Prime := ⟨hr⟩
   obtain ⟨B', N', hBN', hUB', hNU, hBUH⟩ :=
-    CFSG.LocalAnalysis.UniquenessCase.UC22.uc22k108bn_exists_conj_split hBN U.isPGroup'
+    CFSG.LocalAnalysis.UniquenessCase.UC22.uc22k108bn_exists_conj_split hBN U.isPGroup
       U.not_dvd_index
   have : (cartan B' N').Normal := hBN'.normal_inter
   obtain ⟨W, hW⟩ := burnsideI2BN_exists_isBNPair (burnsideI2BN_toPre hBN')
@@ -50,7 +50,7 @@ theorem k_19_21_opp_of_splitBN {S : Type} [Group S] [Finite S] [IsSimpleGroup S]
     exact CFSG.LieType.Ree.apply_mem_iff_of_map_eq
       (by rw [Subgroup.map_equiv_normalizer_eq, hφU a]) y
   obtain ⟨g, hg, hfix⟩ := CFSG.LocalAnalysis.UniquenessCase.UC22.F10.k108big_exists_conj_fixed
-    hW (Ne.symm hr2) U.isPGroup' hUB' hNU.ge hBUH hmax' hEh φ hφB hφU
+    hW (Ne.symm hr2) U.isPGroup hUB' hNU.ge hBUH hmax' hEh φ hφB hφU
   have htop := CFSG.LocalAnalysis.UniquenessCase.UC22.F10.k108big_sup_conj_eq_top hW hU hNU.ge
     hBUH hmax' hg
   obtain ⟨n₁, hn₁, b₁, hb₁, b₂, hb₂, rfl⟩ := mem_dc_iff.1 hg

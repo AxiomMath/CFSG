@@ -199,7 +199,7 @@ theorem orbOK_cover {G Gi : List ℕ} {x : ℕ} {ps : List ℕ} {R : List (ℕ �
   set S := {y | ∃ k ∈ K, y = k⁻¹ * X * k} with hS
   have hsub : ((R.map f).toFinset : Set (Equiv.Perm (Fin 315))) ⊆ S := by
     intro y hy
-    simp only [List.coe_toFinset, Set.mem_setOf_eq, List.mem_map] at hy
+    simp only [List.coe_toFinset, Set.mem_ofPred_eq, List.mem_map] at hy
     obtain ⟨r, hr, rfl⟩ := hy
     exact ⟨wordP σ r.2, wordP_mem K hK ((letOK_iff _ _).1 (h1 r hr).2.1), rfl⟩
   have hcardF : ((R.map f).toFinset : Set (Equiv.Perm (Fin 315))).ncard = c := by
@@ -211,7 +211,7 @@ theorem orbOK_cover {G Gi : List ℕ} {x : ℕ} {ps : List ℕ} {R : List (ℕ �
   intro k hk
   have hmem : k⁻¹ * X * k ∈ S := ⟨k, hk, rfl⟩
   rw [← heq] at hmem
-  simp only [List.coe_toFinset, Set.mem_setOf_eq, List.mem_map] at hmem
+  simp only [List.coe_toFinset, Set.mem_ofPred_eq, List.mem_map] at hmem
   obtain ⟨r, hr, e⟩ := hmem
   exact ⟨r, hr, (letOK_iff _ _).1 (h1 r hr).2.1, e.symm⟩
 

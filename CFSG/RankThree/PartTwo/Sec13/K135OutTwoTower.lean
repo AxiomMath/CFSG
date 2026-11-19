@@ -25,7 +25,7 @@ theorem ot_tower_level {Γ : Type*} [Group Γ] (N : Subgroup Γ) [N.Normal] (W :
     refine ⟨⟨(QuotientGroup.mk g : Γ ⧸ N), fun x => ?_⟩⟩
     obtain ⟨y, rfl⟩ := QuotientGroup.mk_surjective x
     exact hmem y
-  haveI := hQ
+  have := hQ
   obtain ⟨γ, hγ⟩ : ∃ γ : (W.map (QuotientGroup.mk' N)),
       ∀ x : (W.map (QuotientGroup.mk' N)), x ∈ Subgroup.zpowers γ :=
     IsCyclic.exists_generator

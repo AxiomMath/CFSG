@@ -28,11 +28,11 @@ theorem sectionFourHyp_or_gl12 (hLP : Item4_1LargePrime) (hTC : Item4_1ThreeCove
     (hJ : CFSG.IsComponent J) (hZ : Odd (Nat.card (Subgroup.center J))) :
     SectionFourHyp (J ⧸ Subgroup.center J) ∨
       (CFSG.IsKGroup (J ⧸ Subgroup.center J) ∧ GL12Data (J ⧸ Subgroup.center J)) := by
-  haveI : IsSimpleGroup (J ⧸ Subgroup.center J) := hJ.1.2.1
+  have : IsSimpleGroup (J ⧸ Subgroup.center J) := hJ.1.2.1
   have hSn : ∃ a b : J ⧸ Subgroup.center J, a * b ≠ b * a := hJ.1.2.2
-  haveI hJperf : Group.IsPerfect J := hJ.1.1
+  have hJperf : Group.IsPerfect J := hJ.1.1
   obtain ⟨X, hXperf, hXJ⟩ := exists_perfect_cover R J
-  haveI := hXperf
+  have := hXperf
   set q := QuotientGroup.mk' R with hq
   let ψ : X →* (M ⧸ R) := q.comp X.subtype
   have hψJ : ∀ x : X, ψ x ∈ J := fun x => by
@@ -50,7 +50,7 @@ theorem sectionFourHyp_or_gl12 (hLP : Item4_1LargePrime) (hTC : Item4_1ThreeCove
   have hπker : ∀ x : X, x ∈ π.ker ↔ ψJ x ∈ Subgroup.center J := fun x => by
     rw [MonoidHom.mem_ker]
     exact QuotientGroup.eq_one_iff _
-  haveI hN₀n : ((CFSG.pPrimeCore 3 R).map R.subtype).Normal := normal_map_pPrimeCore R 3
+  have hN₀n : ((CFSG.pPrimeCore 3 R).map R.subtype).Normal := normal_map_pPrimeCore R 3
   have hN₀3 : ¬ 3 ∣ Nat.card ((CFSG.pPrimeCore 3 R).map R.subtype) := by
     rw [Subgroup.card_map_of_injective R.subtype_injective]
     exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mp (CFSG.pPrimeCore_coprime_card)

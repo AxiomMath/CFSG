@@ -143,7 +143,7 @@ theorem k32_psl2_fpf
     apply hinj
     rw [map_pow, map_one]
     exact hc3
-  obtain ⟨m, hm⟩ := Q.isPGroup' ⟨k₀, hk₀Q⟩
+  obtain ⟨m, hm⟩ := Q.isPGroup ⟨k₀, hk₀Q⟩
   have hkm : k₀ ^ 2 ^ m = 1 := by simpa using congrArg Subtype.val hm
   have h1 : orderOf k₀ ∣ 3 := orderOf_dvd_of_pow_eq_one hk3
   have h2 : orderOf k₀ ∣ 2 ^ m := orderOf_dvd_of_pow_eq_one hkm

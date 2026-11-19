@@ -17,7 +17,7 @@ section Aux
 
 variable {G : Type} [Group G] [Finite G] {V : Subgroup G} [IsMulCommutative ↥V]
 
-theorem ncard_le_length' {α : Type*} {S : Set α} (hS : S.Finite) {l : List α}
+theorem ncard_le_length' {α : Type*} {S : Set α} (_hS : S.Finite) {l : List α}
     (hsub : ∀ x ∈ S, x ∈ l) : S.ncard ≤ l.length := by
   classical
   calc S.ncard ≤ (↑(l.toFinset) : Set α).ncard :=
@@ -33,11 +33,13 @@ theorem length_le_ncard' {α : Type*} {S : Set α} (hS : S.Finite) {l : List α}
   rw [h1]
   exact Set.ncard_le_ncard (fun x hx => hsub x (List.mem_toFinset.1 hx)) hS
 
+omit [Finite G] in
 theorem ncard_codes (C : Coding ↥V) (K : Subgroup ↥V) :
     (C.cd '' (K : Set ↥V)).ncard = Nat.card K := by
   rw [Set.ncard_image_of_injective _ C.cd_injective]
   exact (Nat.card_coe_set_eq _).symm
 
+omit [Finite G] in
 theorem conjAct_eq_one_of_mem {g : G} (hg : g ∈ Subgroup.normalizer (V : Set G)) (hgV : g ∈ V) :
     conjAct V ⟨g, hg⟩ = 1 := by
   ext x
@@ -48,12 +50,14 @@ theorem conjAct_eq_one_of_mem {g : G} (hg : g ∈ Subgroup.normalizer (V : Set G
   rw [hc]
   group
 
+omit [Finite G] [IsMulCommutative ↥V] in
 theorem conjAct_sq_one {g : G} (hg : g ∈ Subgroup.normalizer (V : Set G)) (h2 : g * g = 1) :
     conjAct V ⟨g, hg⟩ * conjAct V ⟨g, hg⟩ = 1 := by
   rw [← map_mul]
   have : (⟨g, hg⟩ * ⟨g, hg⟩ : Subgroup.normalizer (V : Set G)) = 1 := Subtype.ext h2
   rw [this, map_one]
 
+omit [Finite G] [IsMulCommutative ↥V] in
 theorem conjAct_ne_one {g : G} (hg : g ∈ Subgroup.normalizer (V : Set G)) (hgV : g ∉ V)
     (hCV : Subgroup.centralizer (V : Set G) = V) : conjAct V ⟨g, hg⟩ ≠ 1 := by
   intro h
@@ -61,6 +65,7 @@ theorem conjAct_ne_one {g : G} (hg : g ∈ Subgroup.normalizer (V : Set G)) (hgV
   rw [← hCV]
   exact A4.conjAct_eq_one_iff.1 h
 
+omit [Finite G] [IsMulCommutative ↥V] in
 theorem autOn_sq {W : Subgroup G} (hW : IsElemAbelian 2 W)
     (hWV : W ≤ Subgroup.normalizer (V : Set G)) {a : MulAut ↥V} (ha : a ∈ autOn W V) :
     a * a = 1 := by
@@ -72,6 +77,7 @@ theorem autOn_sq {W : Subgroup G} (hW : IsElemAbelian 2 W)
   have : h * h = 1 := Subtype.ext h2
   rw [this, map_one]
 
+omit [Finite G] [IsMulCommutative ↥V] in
 theorem card_autOn_four {W : Subgroup G} (hWV : W ≤ Subgroup.normalizer (V : Set G))
     (hCV : Subgroup.centralizer (V : Set G) = V) (hW64 : Nat.card W = 64)
     (hWV16 : Nat.card ↥(W ⊓ V) = 16) : Nat.card (autOn W V) = 4 := by
@@ -80,6 +86,7 @@ theorem card_autOn_four {W : Subgroup G} (hWV : W ≤ Subgroup.normalizer (V : S
   rw [inf_eq_left.2 (inf_le_left : W ⊓ V ≤ W), hWV16, hW64] at h
   omega
 
+omit [Finite G] in
 theorem fix_mem_of_mem {H W : Subgroup G} (hH : H ≤ Subgroup.normalizer (V : Set G))
     (hW : IsElemAbelian 2 W) (hWH : W ≤ H) (hWV16 : Nat.card ↥(W ⊓ V) = 16)
     (hCV : Subgroup.centralizer (V : Set G) = V)
@@ -109,6 +116,7 @@ theorem fix_mem_of_mem {H W : Subgroup G} (hH : H ≤ Subgroup.normalizer (V : S
   intro x hx
   exact Subgroup.mem_subgroupOf.1 (mem_of_fix hK hfix hlen x hx)
 
+omit [Finite G] in
 theorem codes_fixList {H W : Subgroup G} (hH : H ≤ Subgroup.normalizer (V : Set G))
     (hW : IsElemAbelian 2 W) (hWH : W ≤ H) (hWV16 : Nat.card ↥(W ⊓ V) = 16)
     (hCV : Subgroup.centralizer (V : Set G) = V)
@@ -161,6 +169,7 @@ theorem codes_fixList {H W : Subgroup G} (hH : H ≤ Subgroup.normalizer (V : Se
   have := ncard_le_length' hfin hsub
   omega
 
+omit [Finite G] in
 theorem invs_mem {H W W' : Subgroup G} (hH : H ≤ Subgroup.normalizer (V : Set G))
     (hW' : IsElemAbelian 2 W') (hW'H : W' ≤ H)
     {C : Coding ↥V} {Γ : List B6} (hΓ1 : ∀ a ∈ autOn H V, C.cB a ∈ Γ) {Dl : List ℕ}
@@ -184,6 +193,7 @@ theorem invs_mem {H W W' : Subgroup G} (hH : H ≤ Subgroup.normalizer (V : Set 
     _ = C.cd (C.dc d) := by rw [hfixx]
     _ = d := C.cd_dc d (hDlt d hd)
 
+omit [Finite G] in
 theorem invs_three {H W : Subgroup G} (hH : H ≤ Subgroup.normalizer (V : Set G))
     (hW : IsElemAbelian 2 W) (hWH : W ≤ H) (hWV16 : Nat.card ↥(W ⊓ V) = 16)
     (hW64 : Nat.card W = 64) (hCV : Subgroup.centralizer (V : Set G) = V)
@@ -202,7 +212,7 @@ theorem invs_three {H W : Subgroup G} (hH : H ≤ Subgroup.normalizer (V : Set G
     Set.finite_of_ncard_ne_zero (by rw [hncA]; norm_num)
   have h1A : (1 : MulAut ↥V) ∈ (autOn W V : Set (MulAut ↥V)) := (autOn W V).one_mem
   have hdiff : ((autOn W V : Set (MulAut ↥V)) \ {1}).ncard = 3 := by
-    rw [Set.ncard_diff_singleton_of_mem h1A, hncA]
+    rw [Set.ncard_sdiff_singleton_of_mem h1A, hncA]
   have hT₀card : (C.cB '' ((autOn W V : Set (MulAut ↥V)) \ {1})).ncard = 3 := by
     rw [Set.ncard_image_of_injective _ C.cB_injective, hdiff]
   have hT₀fin : (C.cB '' ((autOn W V : Set (MulAut ↥V)) \ {1})).Finite :=
@@ -228,7 +238,7 @@ theorem M1_part {H W : Subgroup G} (hH : H ≤ Subgroup.normalizer (V : Set G))
     (hΓ1 : ∀ a ∈ autOn H V, C.cB a ∈ Γ) {Dl : List ℕ}
     (hDl : ∀ x : ↥V, (x : G) ∈ W ⊓ V ↔ C.cd x ∈ Dl) (hDlt : ∀ d ∈ Dl, d < 64)
     (hT : ∀ B ∈ invsD Γ Dl, ∃ a ∈ autOn W V, a ≠ 1 ∧ C.cB a = B)
-    (hwV : ∃ w ∈ W, w ∉ V) :
+    (_hwV : ∃ w ∈ W, w ∉ V) :
     ∀ W' : Subgroup G, W' ≤ H ⊓ Subgroup.centralizer ((W ⊓ V : Subgroup G) : Set G) →
       IsElemAbelian 2 W' → Nat.card W' = 64 → W' = V ∨ W' = W := by
   intro W' hW'N hW'el hW'64
@@ -259,11 +269,11 @@ theorem M1_part {H W : Subgroup G} (hH : H ≤ Subgroup.normalizer (V : Set G))
     have hmem : conjAct V ⟨w', hw'N⟩ ∈ autOn W' V :=
       (A4.mem_autOn_iff hW'V').2 ⟨⟨w', hw'W'⟩, rfl⟩
     obtain ⟨⟨w, hwW⟩, hwa⟩ := (A4.mem_autOn_iff hWN).1 (hc _ hmem hconj_ne)
-    have hwV : w ∉ V := by
-      intro hwV
+    have _hwV : w ∉ V := by
+      intro _hwV
       apply hconj_ne
       rw [← hwa]
-      exact conjAct_eq_one_of_mem (hWN hwW) hwV
+      exact conjAct_eq_one_of_mem (hWN hwW) _hwV
     have hx : conjAct V ⟨w, hWN hwW⟩ ⟨x, hxV⟩ = ⟨x, hxV⟩ := by
       have hc2 : conjAct V ⟨w, hWN hwW⟩ = conjAct V ⟨w', hw'N⟩ := hwa
       rw [hc2]
@@ -273,18 +283,18 @@ theorem M1_part {H W : Subgroup G} (hH : H ≤ Subgroup.normalizer (V : Set G))
       have hcm : w' * x = x * w' := comm_of_isElemAbelian hW'el hw'W' hxW'
       rw [hcm]
       group
-    exact (Subgroup.mem_inf.1 (fix_mem_of_mem hH hW hWH hWV16 hCV hΓ hΓ1 hwW hwV ⟨x, hxV⟩ hx)).1
+    exact (Subgroup.mem_inf.1 (fix_mem_of_mem hH hW hWH hWV16 hCV hΓ hΓ1 hwW _hwV ⟨x, hxV⟩ hx)).1
   have hf : ∀ y ∈ W', y ∉ V → y ∈ W := by
     intro y hyW' hyV
     have hyN : y ∈ Subgroup.normalizer (V : Set G) := hW'V' hyW'
     have hymem : conjAct V ⟨y, hyN⟩ ∈ autOn W' V :=
       (A4.mem_autOn_iff hW'V').2 ⟨⟨y, hyW'⟩, rfl⟩
     obtain ⟨⟨w, hwW⟩, hwa⟩ := (A4.mem_autOn_iff hWN).1 (hc _ hymem (conjAct_ne_one hyN hyV hCV))
-    have hwV : w ∉ V := by
-      intro hwV
+    have _hwV : w ∉ V := by
+      intro _hwV
       apply conjAct_ne_one hyN hyV hCV
       rw [← hwa]
-      exact conjAct_eq_one_of_mem (hWN hwW) hwV
+      exact conjAct_eq_one_of_mem (hWN hwW) _hwV
     have hwconj : ∀ v : ↥V, w * (v : G) * w⁻¹ = y * (v : G) * y⁻¹ := fun v =>
       congrArg (fun φ : MulAut ↥V => ((φ v : ↥V) : G)) hwa
     have hpv : ∀ v ∈ V, (y⁻¹ * w) * v = v * (y⁻¹ * w) := by
@@ -329,7 +339,7 @@ theorem M1_part {H W : Subgroup G} (hH : H ≤ Subgroup.normalizer (V : Set G))
       rw [conjAct_val]
       exact hwu
     have huW : u ∈ W :=
-      (Subgroup.mem_inf.1 (fix_mem_of_mem hH hW hWH hWV16 hCV hΓ hΓ1 hwW hwV ⟨u, huV⟩ hfix_u)).1
+      (Subgroup.mem_inf.1 (fix_mem_of_mem hH hW hWH hWV16 hCV hΓ hΓ1 hwW _hwV ⟨u, huV⟩ hfix_u)).1
     rw [hy_eq]
     exact W.mul_mem hwW huW
   have hle : W' ≤ W := by
@@ -376,7 +386,7 @@ theorem M2_part {H W L : Subgroup G} {t : G} (hH : H ≤ Subgroup.normalizer (V 
     by_contra hno
     push Not at hno
     have hfin3 : ((C.cd '' ((Vt L t).subgroupOf V : Set ↥V)) \ {0}).Finite :=
-      hfinVt.diff
+      hfinVt.sdiff
     have hsub : ∀ x ∈ orbD Dl 18, x ∈ (C.cd '' ((Vt L t).subgroupOf V : Set ↥V)) \ {0} := by
       intro x hx
       refine ⟨hno x hx, fun h => ?_⟩
@@ -384,7 +394,7 @@ theorem M2_part {H W L : Subgroup G} {t : G} (hH : H ≤ Subgroup.normalizer (V 
       exact hzero (h ▸ hx)
     have hle := length_le_ncard' hfin3 hOrbNd hsub
     have hdiff : ((C.cd '' ((Vt L t).subgroupOf V : Set ↥V)) \ {0}).ncard = 3 := by
-      rw [Set.ncard_diff_singleton_of_mem h0C, hVtVcodes]
+      rw [Set.ncard_sdiff_singleton_of_mem h0C, hVtVcodes]
     omega
   obtain ⟨B', hB'st, hB's⟩ := hperd.2 _ hT18 s hsT
   obtain ⟨g, hgH, hgN, hg, hgB⟩ := exists_normalizes_of_stabD hH hΓ2 inf_le_right hDl hB'st
@@ -536,7 +546,7 @@ theorem mLine1277_holds
     MLine1277 := by
   intro G _ _ T L V t s W hW hW64 hWN hWV hWV16 hVtW
   have hyp := s.d.hyp
-  haveI : IsMulCommutative ↥V := ⟨⟨fun a b => Subtype.ext (s.d.comm a a.2 b b.2)⟩⟩
+  have : IsMulCommutative ↥V := ⟨⟨fun a b => Subtype.ext (s.d.comm a a.2 b b.2)⟩⟩
   have hNLV : Subgroup.normalizer (L : Set G) = Subgroup.normalizer (V : Set G) :=
     mEqNormV1277_of h331 h1222 h1226 G T L V t s
   have hH : Subgroup.normalizer (L : Set G) ≤ Subgroup.normalizer (V : Set G) := hNLV.le

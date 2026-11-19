@@ -39,8 +39,8 @@ theorem ggSCWeylIrred_F4Plus_largePrime
     {K : Type} [Field K] [Finite K] [CharP K 2] {p : ℕ}
     (hp : p.Prime) (hp3 : p ≠ 3) (hpq : p ∣ Nat.card K + 1) :
     GGSCWeylIrred p 3 (TableBF4.RecipeGroup K) := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by
     intro hp2eq
     obtain ⟨f, -, hf⟩ := FiniteField.card K 2
@@ -66,10 +66,10 @@ theorem ggSCWeylIrred_F4Plus_largePrime
     (OrdPInnerExc.sylowTorus_F4_two K hp hp3' he).of_mulEquiv e.symm
   obtain ⟨s, n, hs, hn⟩ := GGPlusLiftSL2.exists_order_p_inverting_sl2 (K := K) hp hp2 hpq
   have hu : (-1 : ZMod p) ≠ 1 := by
-    haveI : Fact (2 < p) := ⟨by omega⟩
+    have : Fact (2 < p) := ⟨by omega⟩
     exact ZMod.neg_one_ne_one
   have hval : (-1 : ZMod p).val = p - 1 := by
-    rw [ZMod.neg_val, if_neg one_ne_zero, ZMod.val_one]
+    rw [ZMod.neg_val, ite_eq_right one_ne_zero, ZMod.val_one]
   have hn' : n * s * n⁻¹ = s ^ (-1 : ZMod p).val := by
     rw [hn, hval]
     refine inv_eq_of_mul_eq_one_right ?_

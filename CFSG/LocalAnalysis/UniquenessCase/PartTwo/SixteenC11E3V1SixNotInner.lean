@@ -47,7 +47,7 @@ theorem s1611e3_six_not_inner {W' : Type} [CommGroup W'] [Finite W'] {L' : Subgr
       β₁ (CFSG.Quasithin.H13.VolI.act6 a x) = ((ρ₁ a : ↥L') : MulAut W') (β₁ x))
     (he₂ : ∀ (a : ↥(alternatingGroup (Fin 6))) (x : SixE6),
       β₂ (CFSG.Quasithin.H13.VolI.act6 a x) = ((ρ₂ a : ↥L') : MulAut W') (β₂ x))
-    (hL₁ : Function.Surjective ρ₁) (hL₂ : Function.Surjective ρ₂)
+    (hL₁ : Function.Surjective ρ₁) (_hL₂ : Function.Surjective ρ₂)
     {s : Perm (Fin 6)}
     (hs : ∀ a : ↥(alternatingGroup (Fin 6)), ∃ b : ↥(alternatingGroup (Fin 6)),
       (b : Perm (Fin 6)) = s * (a : Perm (Fin 6)) * s⁻¹ ∧ ρ₂ a = ρ₁ b) :

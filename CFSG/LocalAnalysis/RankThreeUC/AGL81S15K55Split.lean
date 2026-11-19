@@ -39,7 +39,7 @@ theorem ext_cocycle_one (c : GL32 → Mat3) (hc : ∀ g h, c (g * h) = c g + con
 
 theorem ext_cocycle_trace_zero (c : GL32 → Mat3)
     (hc : ∀ g h, c (g * h) = c g + conjRep g (c h)) (g : GL32) : (c g).trace = 0 := by
-  haveI : Group.IsPerfect GL32 := GL32_isPerfect
+  have : Group.IsPerfect GL32 := GL32_isPerfect
   have h1 : c 1 = 0 := ext_cocycle_one c hc
   let f : GL32 →* Multiplicative (ZMod 2) :=
     { toFun := fun g => Multiplicative.ofAdd (c g).trace
@@ -95,7 +95,7 @@ theorem ext_odd_index (c : GL32 → Mat3) (hc : ∀ g h, c (g * h) = c g + conjR
   have hconst : ∀ (g s : GL32), s ∈ sylowT → c (g * s) = c g := by
     intro g s hs
     rw [hc, hS s hs, map_zero, add_zero]
-  letI : Fintype (GL32 ⧸ sylowT) := Fintype.ofFinite _
+  let : Fintype (GL32 ⧸ sylowT) := Fintype.ofFinite _
   have hcard : Fintype.card (GL32 ⧸ sylowT) = 21 := by
     rw [← Nat.card_eq_fintype_card, ← Subgroup.index_eq_card, ext_index_sylowT]
   let C : GL32 ⧸ sylowT → Mat3 := fun q => c q.out

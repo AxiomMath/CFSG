@@ -92,7 +92,7 @@ private theorem eq_M2_inf_Hj
   · exact (bar_le_iff hE hM2H).mp hbarEq.ge
 
 theorem le_centralizer_of_hat6
-    {B : Subgroup J} (hperf : ⁅B, B⁆ = B)
+    {B : Subgroup J} (_hperf : ⁅B, B⁆ = B)
     (hPB : P0 ≤ Subgroup.normalizer (B : Set J))
     (hB : CFSG.Quasithin.IsHat (↥B ⧸ CFSG.pCore 2 ↥B) (alternatingGroup (Fin 6))) :
     B ≤ Subgroup.centralizer ({z0} : Set J) := by

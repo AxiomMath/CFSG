@@ -38,12 +38,12 @@ private theorem gl_center_of_projective_fixed (K : Type*) [Field K] [Finite K]
     obtain ⟨a, ha⟩ := (Projectivization.mk_eq_mk_iff' K _ _ _ _).mp hvproj
     exact ⟨a, by rw [← hAf v]; exact ha.symm⟩
   have hne0 : (Pi.single (0 : Fin 2) (1 : K) : Fin 2 → K) ≠ 0 := by
-    intro hh; have := congrFun hh 0; simpa using this
+    intro hh; have := congrFun hh 0; simp at this
   have hne1 : (Pi.single (1 : Fin 2) (1 : K) : Fin 2 → K) ≠ 0 := by
-    intro hh; have := congrFun hh 1; simpa using this
+    intro hh; have := congrFun hh 1; simp at this
   have hne01 :
       (Pi.single (0 : Fin 2) (1 : K) + Pi.single (1 : Fin 2) (1 : K) : Fin 2 → K) ≠ 0 := by
-    intro hh; have := congrFun hh 1; simpa using this
+    intro hh; have := congrFun hh 1; simp at this
   obtain ⟨a, ha⟩ := hcol (Pi.single (0 : Fin 2) (1 : K)) hne0
   obtain ⟨b, hb⟩ := hcol (Pi.single (1 : Fin 2) (1 : K)) hne1
   obtain ⟨c, hc⟩ :=
@@ -111,7 +111,7 @@ private theorem pgl_two_pretransitive (K : Type*) [Field K] [Finite K] :
               _ = (Matrix.GeneralLinearGroup.toLin.symm g) • v := by
                 rw [Matrix.GeneralLinearGroup.toLin_apply]
                 rfl
-          simpa only [hvact] }
+          simp only [hvact] }
   exact @MulAction.IsPretransitive.of_embedding _ _ _ _ _ _ _ _ q f (Fin 2)
     Function.surjective_id inferInstance
 

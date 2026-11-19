@@ -36,7 +36,7 @@ theorem q8_quot_cent
   exact CFSG.ClassicalInvolution.Q3.TL4.ExitTwo.q8_quot_cent hq8 hmeet
 
 theorem classicalClause_quot_cent (hΩ : HypOmegaGen Ω) (hΩ' : HypOmegaGen (quotFamily Ω X))
-    (hcls : Q3CL.ClassicalClause Ω) (hX2 : IsPGroup 2 ↥X) (hmeet : ∀ J ∈ Ω, J ⊓ X = ⊥) :
+    (hcls : Q3CL.ClassicalClause Ω) (_hX2 : IsPGroup 2 ↥X) (hmeet : ∀ J ∈ Ω, J ⊓ X = ⊥) :
     Q3CL.ClassicalClause (quotFamily Ω X) where
   subnormal := by
     rintro _ ⟨K, hK, rfl⟩

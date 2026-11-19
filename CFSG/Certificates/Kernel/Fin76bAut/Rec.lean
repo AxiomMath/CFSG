@@ -68,7 +68,7 @@ theorem ptK_spec {G T PL POS SRT SRI : ℕ → ℕ} {k cnt i : ℕ}
   refine ⟨hc, fun hi => ?_, ?_⟩
   · have e : Nat.beq i 0 = false := Bool.eq_false_iff.2 fun h => hi (Nat.eq_of_beq_eq_true h)
     rw [e] at ht
-    simp only [strictB_eq, bIf_eq, Bool.false_eq_true, ↓reduceIte, Bool.and_eq_true] at ht
+    simp only [strictB_eq, bIf_eq, Bool.and_eq_true] at ht
     obtain ⟨h1, h2, h3, -⟩ := ht
     exact ⟨Nat.le_of_ble_eq_true h1, Nat.le_of_ble_eq_true h2, beq_t.1 h3⟩
   · rw [strictB_eq] at hs
@@ -76,7 +76,7 @@ theorem ptK_spec {G T PL POS SRT SRI : ℕ → ℕ} {k cnt i : ℕ}
     obtain ⟨h1, h2, h3⟩ := hs
     refine ⟨Nat.le_of_ble_eq_true h1, beq_t.1 h2, fun hc => ?_⟩
     have hc' : Nat.blt (Nat.succ i) cnt = true := Nat.blt_eq.mpr hc
-    rw [bIf_eq, if_pos hc'] at h3
+    rw [bIf_eq, ite_eq_left hc'] at h3
     exact Nat.blt_eq.mp h3
 
 theorem penumSlK_spec {n w m nw : ℕ} {conj : Bool} {G GI T PL POS SRT SRI : ℕ → ℕ}
@@ -86,7 +86,7 @@ theorem penumSlK_spec {n w m nw : ℕ} {conj : Bool} {G GI T PL POS SRT SRI : �
   have h1 := allN_iff.1 h d hd
   rw [strictB_eq] at h1
   have hc' : Nat.blt (Nat.add lo d) cnt = true := Nat.blt_eq.mpr hc
-  rw [bIf_eq, if_pos hc'] at h1
+  rw [bIf_eq, ite_eq_left hc'] at h1
   exact h1
 
 theorem inj_of_sortE {cnt : ℕ} {T S SI : ℕ → ℕ}

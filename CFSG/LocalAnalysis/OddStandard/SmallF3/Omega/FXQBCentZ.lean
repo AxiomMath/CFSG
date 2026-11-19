@@ -13,12 +13,13 @@ open Subgroup CFSG.Blueprint
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
+omit [Finite G] in
 theorem fx_qb_not_mem_centralizer_of_sq {z y : G} {Q₁ Q₂ : Subgroup G} (hQ₁ : Q₁ ≤ L)
     (hQ₂ : Q₂ ≤ L) (hcard : Nat.card ↥(Q₁ ⊔ Q₂) = 32) (hz : centerIn (Q₁ ⊔ Q₂) = zpowers z)
     (hint : (Q₁ ⊔ Q₂) ⊓ centerIn L = ⊥) (hsq : y * y ∈ centralizer (L : Set G)) :
     y * y * z ∉ centralizer (L : Set G) := by
   intro h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcardP : Nat.card ↥(Q₁ ⊔ Q₂) = 2 ^ 5 := by rw [hcard]; norm_num
   obtain ⟨k, hkpos, hk⟩ :=
     IsPGroup.card_center_eq_prime_pow (p := 2) (G := ↥(Q₁ ⊔ Q₂)) hcardP (by norm_num)

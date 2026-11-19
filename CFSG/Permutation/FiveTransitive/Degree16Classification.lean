@@ -61,7 +61,7 @@ theorem classification_of_five_transitive_of_card_eq_sixteen
     exact hKindexCard.symm
   have hAlt : alternatingGroup X ≤ P := by
     by_contra hnotAlt
-    letI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+    let : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     obtain ⟨S, hcases⟩ :=
       sylow_seven_reduction
         X P hcard h5P hnotAlt hs

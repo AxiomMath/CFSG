@@ -225,7 +225,7 @@ theorem pCoreOf_centralizer_le_centralizer_of_fix_kernel [Finite M]
     (fun x hx => pCoreOf_centralizer_fixes_displacement B hB hNondeg r hr hAlt g hg x hx)
     hrange hk
   have hgv : g * v = v * g := Subtype.ext h
-  first | exact hgv | exact hgv.symm
+  exact hgv.symm
 
 end Symplectic
 

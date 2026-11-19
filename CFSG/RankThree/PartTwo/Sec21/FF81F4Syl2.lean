@@ -148,7 +148,7 @@ theorem bQ_central : bQ ∈ Subgroup.center ↥Q₀ := by
   exact Subtype.ext (zB'_central y.2)
 
 theorem card_center_Q₀ : Nat.card (Subgroup.center ↥Q₀) = 4 := by
-  haveI : Finite F42C := finite_adjF
+  have : Finite F42C := finite_adjF
   have hle := (CFSG.Monster.B.GSide.sylow_facts_of_mulEquiv_F4
     (MulEquiv.refl F42C) card_Q₀).1
   refine le_antisymm hle ?_

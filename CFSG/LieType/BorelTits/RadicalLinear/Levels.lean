@@ -82,7 +82,7 @@ private theorem card_filter_lt_swap (ℓ : ι → ℕ) :
       (Finset.univ.filter fun p : ι × ι => ℓ p.2 < ℓ p.1).card := by
   refine Finset.card_equiv (Equiv.prodComm ι ι) ?_
   intro p
-  simpa [Equiv.prodComm_apply] using Iff.rfl
+  simp [Equiv.prodComm_apply]
 
 private theorem card_filter_eq_levels (ℓ : ι → ℕ) :
     (Finset.univ.filter fun p : ι × ι => ℓ p.1 = ℓ p.2).card =
@@ -161,7 +161,7 @@ theorem card_filter_lt (ℓ : ι → ℕ) :
 theorem levels_zero_le {ℓ : ι → ℕ} (h : 0 < levelsCard ℓ) (a : ι) : levels ℓ ⟨0, h⟩ ≤ ℓ a := by
   obtain ⟨j, hj⟩ := exists_levels_eq ℓ a
   rw [← hj]
-  haveI : NeZero (levelsCard ℓ) := ⟨by omega⟩
+  have : NeZero (levelsCard ℓ) := ⟨by omega⟩
   exact (levels ℓ).le_iff_le.mpr (Fin.zero_le j)
 
 theorem le_levels_last {ℓ : ι → ℕ} (h : 0 < levelsCard ℓ) (a : ι) :
@@ -170,7 +170,7 @@ theorem le_levels_last {ℓ : ι → ℕ} (h : 0 < levelsCard ℓ) (a : ι) :
   rw [← hj]
   exact (levels ℓ).le_iff_le.mpr (by
     rw [Fin.le_iff_val_le_val]
-    simp only [Fin.val_mk]
+    simp only
     omega)
 
 end CFSG.LieType.BorelTits.RadicalLinear

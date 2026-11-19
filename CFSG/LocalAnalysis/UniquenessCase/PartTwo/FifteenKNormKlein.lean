@@ -70,17 +70,17 @@ theorem s15k_norm_klein_six {W : Type} [CommGroup W]
     · have := hΨ j ⟨⟨r, hr⟩, fun h => h1 (congrArg Subtype.val h)⟩
       rw [hj] at this
       exact this.symm
-  haveI : Finite R := Nat.finite_of_card_ne_zero (by rw [hR]; norm_num)
-  haveI : Fintype R := Fintype.ofFinite R
+  have : Finite R := Nat.finite_of_card_ne_zero (by rw [hR]; norm_num)
+  have : Fintype R := Fintype.ofFinite R
   have hS : Nat.card {r : ↥R // r ≠ 1} = 3 := by
-    haveI : Fintype {r : ↥R // r ≠ 1} := Fintype.ofFinite _
-    haveI : Fintype {r : ↥R // r = 1} := Fintype.ofFinite _
+    have : Fintype {r : ↥R // r ≠ 1} := Fintype.ofFinite _
+    have : Fintype {r : ↥R // r = 1} := Fintype.ofFinite _
     rw [Nat.card_eq_fintype_card, Fintype.card_subtype_compl, Fintype.card_subtype_eq,
       ← Nat.card_eq_fintype_card, hR]
   have hP : Nat.card (Equiv.Perm {r : ↥R // r ≠ 1}) = 6 := by
     rw [Nat.card_perm, hS]
     rfl
-  haveI : Finite (Equiv.Perm {r : ↥R // r ≠ 1}) :=
+  have : Finite (Equiv.Perm {r : ↥R // r ≠ 1}) :=
     Nat.finite_of_card_ne_zero (by rw [hP]; norm_num)
   have hbij : Function.Bijective Ψ :=
     ⟨hinj, (Function.Injective.bijective_of_nat_card_le hinj (by rw [hJ, hP])).2⟩

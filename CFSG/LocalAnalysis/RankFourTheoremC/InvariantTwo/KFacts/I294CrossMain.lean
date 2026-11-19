@@ -72,9 +72,9 @@ theorem kd29Cross_reduced (hA : CrossFamLinearGeThree) (htA : CrossFamUnitaryGeT
     (fun q hv => crossAt_of_sylowAbelian (hF4 q hv))
     (fun q hv => crossAt_of_sylowAbelian (hG2 q hv))
     (fun q hv => crossAt_of_sylowAbelian (htr q hv))
-    (fun m hv => crossAt_suzuki hv)
-    (fun m hv => crossAt_of_sylowAbelian (hRG m hv))
-    (fun m hv => crossAt_of_sylowAbelian (hRF m hv))
+    (fun _m hv => crossAt_suzuki hv)
+    (fun _m hv => crossAt_of_sylowAbelian (hRG _m hv))
+    (fun _m hv => crossAt_of_sylowAbelian (hRF _m hv))
     crossFamTits
 
 end Reduced

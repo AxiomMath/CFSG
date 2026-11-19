@@ -11,24 +11,28 @@ open Matrix CFSG.Open
 
 variable {F : Type} [Field F] [DecidableEq F] [CharP F 2]
 
+omit [DecidableEq F] in
 theorem frob_apply4 (x : F) : (iterateFrobenius F 2 2 : F →+* F) x = x ^ 4 := by
   rw [frob_eq]
   norm_num
 
+omit [DecidableEq F] in
 theorem map_frob4 (N : Matrix (Fin 6) (Fin 6) F) :
     N.map (iterateFrobenius F 2 2 : F →+* F) = N.map (fun x : F => x ^ 4) := by
   ext i j
   simp only [Matrix.map_apply]
   exact frob_apply4 _
 
+omit [DecidableEq F] [CharP F 2] in
 theorem pow16_eq [Finite F] (hF : Nat.card F = 16) (x : F) : x ^ 16 = x := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hcard : Fintype.card F = 16 := by rw [← Nat.card_eq_fintype_card, hF]
   have h := FiniteField.pow_card x
   rw [hcard] at h
   exact h
 
+omit [DecidableEq F] [CharP F 2] in
 theorem unit_of_orthoEigen {f : Fin 6 → Fin 6 → F}
     (hf : ∀ i k, herm (f i) (f k) = if i = k then 1 else 0) :
     ((Matrix.of fun r c => f c r).map (fun x : F => x ^ 4))ᵀ * (Matrix.of fun r c => f c r) = 1 := by
@@ -38,6 +42,7 @@ theorem unit_of_orthoEigen {f : Fin 6 → Fin 6 → F}
   unfold herm at h
   simpa [Matrix.mul_apply, Matrix.transpose_apply, Matrix.map_apply] using h
 
+omit [DecidableEq F] in
 theorem det_pow_five_of_unit {V : Matrix (Fin 6) (Fin 6) F}
     (hV : (V.map (fun x : F => x ^ 4))ᵀ * V = 1) : V.det ^ 5 = 1 := by
   have h1 := congrArg Matrix.det hV
@@ -51,6 +56,7 @@ theorem det_pow_five_of_unit {V : Matrix (Fin 6) (Fin 6) F}
   rw [h3]
   exact h1
 
+omit [DecidableEq F] in
 theorem exists_basis_det_one {M : Matrix (Fin 6) (Fin 6) F}
     (hU : (M.map (fun x : F => x ^ 4))ᵀ * M = 1) (hx16 : ∀ x : F, x ^ 16 = x) {ζ : F}
     (hζ5 : ζ ^ 5 = 1) (hζ1 : ζ ≠ 1) (hM5 : M ^ 5 = 1) :
@@ -84,7 +90,7 @@ theorem exists_basis_det_one {M : Matrix (Fin 6) (Fin 6) F}
     rw [herm_smul_left, herm_smul_right, hf0.2 i k]
     by_cases hik : i = k
     · subst hik
-      rw [if_pos rfl, mul_one]
+      rw [ite_eq_left rfl, mul_one]
       linear_combination hs5 i
     · simp [hik]
   · show (Matrix.of fun r c' => (s c' • f0 c') r).det = 1
@@ -92,10 +98,11 @@ theorem exists_basis_det_one {M : Matrix (Fin 6) (Fin 6) F}
       ext r c'
       simp [hVdef, Matrix.mul_diagonal, mul_comm]
     have hprod : ∏ k, s k = c := by
-      simp [hs, Fin.prod_univ_succ]
+      simp [hs]
     rw [hVs, Matrix.det_mul, Matrix.det_diagonal, hprod, hc]
     exact mul_inv_cancel₀ hδ0
 
+omit [DecidableEq F] in
 theorem conj_diag_of_orthoEigen [Finite F] (hF : Nat.card F = (2 ^ 2) ^ 2)
     {g : ↥(StatedSU 6 (2 ^ 2) F)} {ζ : F} {f : Fin 6 → Fin 6 → F}
     (hf : OrthoEigen (g : GL (Fin 6) F).val ζ f) (hdet : (Matrix.of fun r c => f c r).det = 1) :
@@ -121,7 +128,7 @@ theorem conj_diag_of_orthoEigen [Finite F] (hF : Nat.card F = (2 ^ 2) ^ 2)
     exact h
   have hPmSU : (Units.mk W V hWV hVW : GL (Fin 6) F) ∈ StatedSU 6 (2 ^ 2) F := by
     rw [mem_SU_iff hF]
-    simp only [Units.val_mk]
+    simp only
     exact ⟨hdetW, by rw [hWφ, Matrix.transpose_transpose]; exact hVW⟩
   obtain ⟨P, hPdef⟩ : ∃ P : ↥(StatedSU 6 (2 ^ 2) F), (P : GL (Fin 6) F) = Units.mk W V hWV hVW :=
     ⟨⟨Units.mk W V hWV hVW, hPmSU⟩, rfl⟩

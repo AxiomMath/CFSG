@@ -24,7 +24,7 @@ theorem t263_layer_ne_bot_of_simple_fixed {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 
     [IsSimpleGroup ↥D] (hDn : ∃ x y : ↥D, x * y ≠ y * x) (hpD : p ∣ Nat.card ↥D) :
     GLAPLayer p (S ⊓ Subgroup.centralizer ({b} : Set Ω)) ≠ ⊥ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set Xs : Subgroup ↥S := (S ⊓ Subgroup.centralizer ({b} : Set Ω)).subgroupOf S with hXs
   set Xb : Subgroup (PSimple p S) := Xs.map (chevQuotHom p S) with hXb
   have hX : FR.SubfieldGrp (indAut p S b hb) Xb := FR.fieldOn_lift hp hp2 hb hbp

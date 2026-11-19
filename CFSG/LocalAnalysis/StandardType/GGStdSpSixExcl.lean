@@ -73,8 +73,8 @@ theorem card_le_pow_twoLocalPrimeRank_of_sstar {G : Type} [Group G] [Finite G] {
       B ≤ Subgroup.normalizer (T₀ : Set G) ∧ (⁅T₀, B⁆ : Subgroup G) ≠ ⊥) :
     Nat.card B ≤ p ^ (twoLocalPrimeRank p R + 1) := by
   classical
-  haveI := Fact.mk hp
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := Fact.mk hp
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨D, hDn, hID, hodd⟩ := hOD
   obtain ⟨T, hTx, hT2, hBT, hTB⟩ := h4
   have hTN : T ≤ Subgroup.normalizer (L : Set G) := fun t ht =>
@@ -208,10 +208,10 @@ theorem not_ggInnerDiagOnLabel_sp6
       False := by
     intro K _ _ hK I hs hna θ hBsN h3s
     have hK2 : Nat.card K = 2 := by rw [hK, pow_one]
-    haveI : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+    have : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two (le_refl 1) hK
-    haveI : NeZero (3 : ℕ) := ⟨by norm_num⟩
-    haveI : Finite (LargeEvenSpGroup K 3) := Finite.of_injective
+    have : NeZero (3 : ℕ) := ⟨by norm_num⟩
+    have : Finite (LargeEvenSpGroup K 3) := Finite.of_injective
       (fun y : LargeEvenSpGroup K 3 =>
         ((y : GL (Fin 3 ⊕ Fin 3) K) : Matrix (Fin 3 ⊕ Fin 3) (Fin 3 ⊕ Fin 3) K))
       (fun y z hyz => Subtype.ext (Units.ext hyz))

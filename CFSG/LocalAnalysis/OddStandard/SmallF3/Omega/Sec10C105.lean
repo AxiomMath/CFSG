@@ -24,7 +24,7 @@ private lemma mem_zpowers_of_conj_zpowers {G : Type*} [Group G] {x y c : G}
   exact hxci.symm
 
 private lemma zpowers_two_cases {G : Type*} [Group G] {z ε : G} (hz : orderOf z = 2)
-    (hzsq : z * z = 1) (h : ε ∈ zpowers z) : ε = 1 ∨ ε = z := by
+    (_hzsq : z * z = 1) (h : ε ∈ zpowers z) : ε = 1 ∨ ε = z := by
   obtain ⟨i, hi⟩ := Subgroup.mem_zpowers_iff.mp h
   have hzi : z ^ i = z ^ (i % 2) := by
     refine (zpow_eq_zpow_iff_modEq).mpr ?_

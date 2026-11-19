@@ -36,6 +36,7 @@ abbrev QuotC (z₁ : G) : Type :=
 
 variable {z₁ : G}
 
+omit [Finite G] in
 theorem H_le_centralizer_of_mem_centerIn (hZ : centerIn (J z) = centerIn (H z))
     (hz₁ : z₁ ∈ centerIn (J z)) : H z ≤ Subgroup.centralizer ({z₁} : Set G) := by
   intro x hx
@@ -45,6 +46,7 @@ theorem H_le_centralizer_of_mem_centerIn (hZ : centerIn (J z) = centerIn (H z))
 @[expose] def quotW (hzC : z ∈ Subgroup.centralizer ({z₁} : Set G)) : QuotC z₁ :=
   QuotientGroup.mk (⟨z, hzC⟩ : ↥(Subgroup.centralizer ({z₁} : Set G)))
 
+omit [Finite G] in
 theorem eq_one_or_eq_of_mem_zpowers_of_orderOf_eq_two {c : G} (hz₁2 : orderOf z₁ = 2)
     (hc : c ∈ Subgroup.zpowers z₁) : c = 1 ∨ c = z₁ := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hc
@@ -126,25 +128,30 @@ theorem centralizer_quotW_eq_map (h : Tim79a.ParrottHyp z) (hZ : centerIn (J z) 
     (hz₁ : z₁ ∈ centerIn (J z)) : ↥(H z) →* QuotC z₁ :=
   (quotMk z₁).comp (Subgroup.inclusion (H_le_centralizer_of_mem_centerIn hZ hz₁))
 
+omit [Finite G] in
 theorem mem_ker_quotH_iff (hZ : centerIn (J z) = centerIn (H z)) (hz₁ : z₁ ∈ centerIn (J z))
     (x : ↥(H z)) : x ∈ (quotH hZ hz₁).ker ↔ (x : G) ∈ Subgroup.zpowers z₁ := by
   rw [MonoidHom.mem_ker, quotH, MonoidHom.comp_apply, quotMk, QuotientGroup.mk'_apply,
     QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf]
   rfl
 
+omit [Finite G] in
 theorem ker_quotH_eq (hZ : centerIn (J z) = centerIn (H z)) (hz₁ : z₁ ∈ centerIn (J z)) :
     (quotH hZ hz₁).ker = (Subgroup.zpowers z₁).subgroupOf (H z) :=
   Subgroup.ext (mem_ker_quotH_iff hZ hz₁)
 
+omit [Finite G] in
 theorem zpowers_le_J_of_mem_centerIn (hz₁ : z₁ ∈ centerIn (J z)) : Subgroup.zpowers z₁ ≤ J z :=
   Subgroup.zpowers_le.mpr hz₁.1
 
+omit [Finite G] in
 theorem card_ker_quotH (hZ : centerIn (J z) = centerIn (H z)) (hz₁ : z₁ ∈ centerIn (J z))
     (hz₁2 : orderOf z₁ = 2) : Nat.card (quotH hZ hz₁).ker = 2 := by
   rw [ker_quotH_eq hZ hz₁]
   have hle : Subgroup.zpowers z₁ ≤ H z := (zpowers_le_J_of_mem_centerIn hz₁).trans J_le_H
   rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hle).toEquiv, Nat.card_zpowers, hz₁2]
 
+omit [Finite G] in
 theorem ker_quotH_le_J (hZ : centerIn (J z) = centerIn (H z)) (hz₁ : z₁ ∈ centerIn (J z)) :
     (quotH hZ hz₁).ker ≤ (J z).subgroupOf (H z) := by
   rw [ker_quotH_eq hZ hz₁]
@@ -215,7 +222,8 @@ theorem card_J_quotW (h : Tim79a.ParrottHyp z) (hZ : centerIn (J z) = centerIn (
   rw [h2] at h1
   omega
 
-theorem zpowers_inf_zpowers_eq_bot_of_orderOf_eq_two (hz : orderOf z = 2)
+omit [Finite G] in
+theorem zpowers_inf_zpowers_eq_bot_of_orderOf_eq_two (_hz : orderOf z = 2)
     (hz₁z : z₁ ∉ Subgroup.zpowers z) (hz₁2 : orderOf z₁ = 2) :
     Subgroup.zpowers z ⊓ Subgroup.zpowers z₁ = ⊥ := by
   rw [eq_bot_iff]
@@ -225,6 +233,7 @@ theorem zpowers_inf_zpowers_eq_bot_of_orderOf_eq_two (hz : orderOf z = 2)
   · exact h1
   · exact absurd (h1 ▸ hx.1) hz₁z
 
+omit [Finite G] in
 theorem quotW_mul_self (h : Tim79a.ParrottHyp z) (hzC : z ∈ Subgroup.centralizer ({z₁} : Set G)) :
     quotW hzC * quotW hzC = 1 := by
   have h2 : z * z = 1 := by
@@ -237,6 +246,7 @@ theorem quotW_mul_self (h : Tim79a.ParrottHyp z) (hzC : z ∈ Subgroup.centraliz
   rw [this]
   exact QuotientGroup.mk_one _
 
+omit [Finite G] in
 theorem quotW_ne_one (h : Tim79a.ParrottHyp z) (hz₁z : z₁ ∉ Subgroup.zpowers z)
     (hz₁2 : orderOf z₁ = 2) (hzC : z ∈ Subgroup.centralizer ({z₁} : Set G)) :
     quotW hzC ≠ 1 := by
@@ -251,11 +261,13 @@ theorem quotW_ne_one (h : Tim79a.ParrottHyp z) (hz₁z : z₁ ∉ Subgroup.zpowe
     exact absurd this (by norm_num)
   · exact hz₁z (h4 ▸ Subgroup.mem_zpowers z)
 
+omit [Finite G] in
 theorem orderOf_quotW (h : Tim79a.ParrottHyp z) (hz₁z : z₁ ∉ Subgroup.zpowers z)
     (hz₁2 : orderOf z₁ = 2) (hzC : z ∈ Subgroup.centralizer ({z₁} : Set G)) :
     orderOf (quotW hzC) = 2 :=
   orderOf_eq_prime (by rw [pow_two]; exact quotW_mul_self h hzC) (quotW_ne_one h hz₁z hz₁2 hzC)
 
+omit [Finite G] in
 theorem quotH_z (hZ : centerIn (J z) = centerIn (H z)) (hz₁ : z₁ ∈ centerIn (J z))
     (hzC : z ∈ Subgroup.centralizer ({z₁} : Set G)) (hzH : z ∈ H z) :
     quotH hZ hz₁ ⟨z, hzH⟩ = quotW hzC := rfl
@@ -288,6 +300,7 @@ theorem mem_J_quotW_iff (h : Tim79a.ParrottHyp z) (hZ : centerIn (J z) = centerI
   · rintro ⟨x, hx, rfl⟩
     exact ⟨x, Subgroup.mem_subgroupOf.mpr hx, rfl⟩
 
+omit [Finite G] in
 theorem comm_mem_zpowers_of_quotH_commute (hZ : centerIn (J z) = centerIn (H z))
     (hz₁ : z₁ ∈ centerIn (J z)) {x : ↥(H z)} {j : G} (hjH : j ∈ H z)
     (h1 : quotH hZ hz₁ ⟨j, hjH⟩ * quotH hZ hz₁ x = quotH hZ hz₁ x * quotH hZ hz₁ ⟨j, hjH⟩) :
@@ -303,6 +316,7 @@ theorem comm_mem_zpowers_of_quotH_commute (hZ : centerIn (J z) = centerIn (H z))
     group
   rwa [e] at this
 
+omit [Finite G] in
 theorem mul_mul_inv_eq_mul_of_mem_zpowers (hZ : centerIn (J z) = centerIn (H z))
     (hz₁ : z₁ ∈ centerIn (J z)) {x j : G} (hxH : x ∈ H z)
     (hc : x⁻¹ * j⁻¹ * x * j ∈ Subgroup.zpowers z₁) :

@@ -11,10 +11,12 @@ open CFSG.ClassicalInvolution.GlaubermanAut
 
 variable {A : Type*} [CommGroup A] [Finite A]
 
+omit [Finite A] in
 private theorem mulAut_mul_inv_comm {w x : MulAut A} (h : w * x = x * w) :
     w * x⁻¹ = x⁻¹ * w :=
   Commute.inv_right h
 
+omit [Finite A] in
 private theorem commutatorSubgroup_mul_le (α β : MulAut A) :
     commutatorSubgroup (α * β) ≤ commutatorSubgroup α ⊔ commutatorSubgroup β := by
   intro a ha
@@ -27,6 +29,7 @@ private theorem commutatorSubgroup_mul_le (α β : MulAut A) :
   exact Subgroup.mul_mem_sup (mul_inv_apply_mem_commutatorSubgroup α (β c))
     (mul_inv_apply_mem_commutatorSubgroup β c)
 
+omit [Finite A] in
 private theorem mem_commutatorSubgroup_conj_iff (φ ψ : MulAut A) (y : A) :
     y ∈ commutatorSubgroup (φ⁻¹ * ψ * φ) ↔ φ y ∈ commutatorSubgroup ψ := by
   constructor
@@ -39,10 +42,11 @@ private theorem mem_commutatorSubgroup_conj_iff (φ ψ : MulAut A) (y : A) :
   · rintro ⟨b, hb⟩
     refine (mem_commutatorSubgroup (φ⁻¹ * ψ * φ)).2 ⟨φ⁻¹ b, ?_⟩
     have h2 : (φ⁻¹ * ψ * φ) (φ⁻¹ b) = φ⁻¹ (ψ b) := by
-      simp only [MulAut.mul_apply, MulAut.apply_inv_self, MulAut.inv_apply_self]
+      simp only [MulAut.mul_apply, MulAut.apply_inv_self]
     have hb' : b * (ψ b)⁻¹ = φ y := hb
     rw [h2, ← map_inv, ← map_mul, hb', MulAut.inv_apply_self]
 
+omit [Finite A] in
 private theorem isPGroup_two_of_sq_eq_one (hA : ∀ a : A, a ^ 2 = 1) : IsPGroup 2 A := by
   intro a
   have hdvd : orderOf a ∣ 2 := orderOf_dvd_iff_pow_eq_one.mpr (hA a)
@@ -56,6 +60,7 @@ private theorem coprime_orderOf_of_odd (hA : ∀ a : A, a ^ 2 = 1) {x : MulAut A
   rw [hk]
   exact (hxodd.coprime_two_right).pow_right k
 
+omit [Finite A] in
 private theorem pow_two_eq_mul_conj {x v : MulAut A} (hv2 : v * v = 1)
     (hxv : v * x * v = x⁻¹) : x ^ 2 = v * (x⁻¹ * v * x) := by
   have h1 : x * v = v * x⁻¹ := by
@@ -67,6 +72,7 @@ private theorem pow_two_eq_mul_conj {x v : MulAut A} (hv2 : v * v = 1)
     _ = (v * x⁻¹) * (v * x) := by rw [h1]
     _ = v * (x⁻¹ * v * x) := by group
 
+omit [Finite A] in
 private theorem w_fixes_commutator_v {v w : MulAut A}
     (hAvw : ∀ a : A, w (a * (v a)⁻¹) = a * (v a)⁻¹) :
     ∀ a ∈ commutatorSubgroup v, w a = a := by
@@ -74,7 +80,8 @@ private theorem w_fixes_commutator_v {v w : MulAut A}
   obtain ⟨b, rfl⟩ := (mem_commutatorSubgroup v).mp ha
   exact hAvw b
 
-private theorem w_fixes_commutator_vx {x v w : MulAut A} (hvw : v * w = w * v)
+omit [Finite A] in
+private theorem w_fixes_commutator_vx {x v w : MulAut A} (_hvw : v * w = w * v)
     (hwx : w * x = x * w) (hwv : ∀ a ∈ commutatorSubgroup v, w a = a) :
     ∀ b ∈ commutatorSubgroup (x⁻¹ * v * x), w b = b := by
   intro b hb
@@ -111,7 +118,7 @@ private theorem commutator_x_le_sup {x v : MulAut A} (hxodd : Odd (orderOf x))
   have h2 := commutatorSubgroup_mul_le v (x⁻¹ * v * x)
   rwa [← pow_two_eq_mul_conj hv2 hxv] at h2
 
-private theorem commFix_relIndex_le_two (hA : ∀ a : A, a ^ 2 = 1) (F₀ : Subgroup A)
+private theorem commFix_relIndex_le_two (_hA : ∀ a : A, a ^ 2 = 1) (F₀ : Subgroup A)
     (hF : F₀.index ≤ 2) {x v w : MulAut A} (hxodd : Odd (orderOf x)) (hv2 : v * v = 1)
     (hxv : v * x * v = x⁻¹) (hvw : v * w = w * v) (hwx : w * x = x * w)
     (hAvw : ∀ a : A, w (a * (v a)⁻¹) = a * (v a)⁻¹)
@@ -188,8 +195,9 @@ private theorem commFix_inf_commFix_eq_bot (hA : ∀ a : A, a ^ 2 = 1) {x v : Mu
   rw [hD_fixed_x2] at hmem
   exact hmem
 
-private theorem card_commFix_vx (hA : ∀ a : A, a ^ 2 = 1) {x v : MulAut A}
-    (hv2 : v * v = 1) (hxv : v * x * v = x⁻¹) :
+omit [Finite A] in
+private theorem card_commFix_vx (_hA : ∀ a : A, a ^ 2 = 1) {x v : MulAut A}
+    (_hv2 : v * v = 1) (_hxv : v * x * v = x⁻¹) :
     Nat.card (commFix x (x⁻¹ * v * x)) = Nat.card (commFix x v) := by
   refine (Nat.card_congr ?_).symm
   refine
@@ -218,7 +226,7 @@ private theorem card_commFix_vx (hA : ∀ a : A, a ^ 2 = 1) {x v : MulAut A}
         _ = x (d : A) := by rw [hdvx]
 
 theorem card_comm_le_four (hA : ∀ a : A, a ^ 2 = 1) (F₀ : Subgroup A) (hF : F₀.index ≤ 2)
-    (x v w : MulAut A) (hxodd : Odd (orderOf x)) (hv2 : v * v = 1) (hw2 : w * w = 1)
+    (x v w : MulAut A) (hxodd : Odd (orderOf x)) (hv2 : v * v = 1) (_hw2 : w * w = 1)
     (hxv : v * x * v = x⁻¹) (hvw : v * w = w * v) (hwx : w * x = x * w)
     (hAvw : ∀ a : A, w (a * (v a)⁻¹) = a * (v a)⁻¹)
     (hF0 : ∀ a ∈ F₀, w a = a → v a = a) :

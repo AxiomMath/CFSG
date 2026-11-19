@@ -103,7 +103,7 @@ theorem actD_dot (σ : Perm (Fin 5)) (u x : V3) : actD σ u ⬝ᵥ x = u ⬝ᵥ 
 
 theorem actD_smul (σ : Perm (Fin 5)) (c : ZMod 5) (u : V3) : actD σ (c • u) = c • actD σ u := by
   funext k
-  simp [actD, dotProduct_smul]
+  simp [actD]
 
 theorem actD_actD (σ τ : Perm (Fin 5)) (u : V3) : actD σ (actD τ u) = actD (σ * τ) u := by
   refine vec_ext fun x => ?_
@@ -117,11 +117,11 @@ theorem card_image_le_of_factor {α β γ : Type} [Nonempty α] [DecidableEq β]
   refine Finset.card_le_card_of_surjOn (fun g => key (Function.invFunOn c (↑s) g)) ?_
   intro b hb
   obtain ⟨a, ha, rfl⟩ := Finset.mem_image.mp (by simpa using hb)
-  refine ⟨c a, by simp [Finset.mem_image]; exact ⟨a, ha, rfl⟩, ?_⟩
+  refine ⟨c a, by simp; exact ⟨a, ha, rfl⟩, ?_⟩
   have hex : ∃ a' ∈ (↑s : Set α), c a' = c a := ⟨a, ha, rfl⟩
   exact h _ (Function.invFunOn_mem hex) a ha (Function.invFunOn_eq hex)
 
-theorem heart_irr (hΦ : KerSc Φ) {S F : Subgroup A} (hS : S ≤ Nt Φ)
+theorem heart_irr (hΦ : KerSc Φ) {S F : Subgroup A} (_hS : S ≤ Nt Φ)
     (hidx : S.relIndex (Nt Φ) ≤ 5) (hF : F ≤ Et Φ)
     (hinv : ∀ s ∈ S, ∀ f ∈ F, s * f * s⁻¹ ∈ F) : F = ⊥ ∨ F = Et Φ := by
   classical
@@ -169,7 +169,7 @@ theorem heart_irr (hΦ : KerSc Φ) {S F : Subgroup A} (hS : S ≤ Nt Φ)
     else (QuotientGroup.mk (1 : ↥N₁) : ↥N₁ ⧸ S')
   have hcS : ∀ w ∈ words, ∀ w' ∈ words, cw w = cw w' → (gw w)⁻¹ * gw w' ∈ S := by
     intro w hw w' hw' h
-    simp only [cw, dif_pos hw, dif_pos hw'] at h
+    simp only [cw, dite_eq_left hw, dite_eq_left hw'] at h
     exact Subgroup.mem_subgroupOf.mp (QuotientGroup.eq.mp h)
   have hinv3 : ∀ w ∈ words, ∀ w' ∈ words, cw w = cw w' → ∀ v : V3,
       v ∈ F₃ ↔ act (w⁻¹ * w') v ∈ F₃ := by
@@ -201,12 +201,12 @@ theorem heart_irr (hΦ : KerSc Φ) {S F : Subgroup A} (hS : S ≤ Nt Φ)
     obtain ⟨p, hp, rfl⟩ := mem_conjSub.mp hx
     exact Φ.range.mul_mem (Φ.range.mul_mem ⟨monS pi5, rfl⟩ (Subgroup.map_le_range _ _ hp))
       (Φ.range.inv_mem ⟨monS pi5, rfl⟩)
-  haveI : Finite ↥(Φ.range) :=
+  have : Finite ↥(Φ.range) :=
     Finite.of_surjective (fun x : M5 => (⟨Φ x, x, rfl⟩ : Φ.range)) (fun ⟨_, x, hx⟩ =>
       ⟨x, Subtype.ext hx⟩)
-  haveI : Finite ↥N₁ := Finite.of_injective (Subgroup.inclusion hNle)
+  have : Finite ↥N₁ := Finite.of_injective (Subgroup.inclusion hNle)
     (Subgroup.inclusion_injective hNle)
-  haveI : Fintype (↥N₁ ⧸ S') := Fintype.ofFinite _
+  have : Fintype (↥N₁ ⧸ S') := Fintype.ofFinite _
   have hcosets : (words.image cw).card ≤ 5 := by
     refine (Finset.card_le_univ _).trans ?_
     have : Fintype.card (↥N₁ ⧸ S') = S.relIndex N₁ := by

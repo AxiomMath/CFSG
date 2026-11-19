@@ -88,7 +88,6 @@ theorem relIndex_K_G12 : c.K.relIndex (c.G1 ⊓ c.G2) = 24 := by
     · rintro ⟨m, rfl⟩
       change (ρ m) X0 = X0
       apply Subtype.ext
-      change (((ρ m) X0 : ↥c.ptsL) : G ⧸ c.G1) = ((X0 : ↥c.ptsL) : G ⧸ c.G1)
       rw [hρ m X0]
       have hm : (m : G) ∈ stabilizer G c.x0 := by
         rw [c.stab_x0]
@@ -199,12 +198,12 @@ theorem exists_eq_stab_of_relIndex_four {U : Subgroup G}
       push Not at h
       have hpos : 0 < (MulAction.orbit ↥U p).ncard := by
         rw [Set.ncard_pos]
-        exact ⟨p, by simpa using MulAction.mem_orbit p (1 : ↥U)⟩
+        exact ⟨p, by simp⟩
       have hone : (MulAction.orbit ↥U p).ncard = 1 := by omega
       obtain ⟨a, ha⟩ := Set.ncard_eq_one.mp hone
       obtain ⟨u, hu, hup⟩ := hfix p hp
       have hp_mem : p ∈ MulAction.orbit ↥U p := by
-        simpa using MulAction.mem_orbit p (1 : ↥U)
+        simp
       have hpa : p = a := by
         rw [ha] at hp_mem
         simpa using hp_mem
@@ -234,7 +233,7 @@ theorem exists_eq_stab_of_relIndex_four {U : Subgroup G}
       have hOsub : ({p, q} : Set (G ⧸ c.G1)) ⊆ MulAction.orbit ↥U p := by
         intro z hz
         rcases Set.mem_insert_iff.mp hz with rfl | hz
-        · simpa using MulAction.mem_orbit p (1 : ↥U)
+        · simp
         · rw [Set.mem_singleton_iff] at hz
           subst hz
           exact hqO
@@ -269,7 +268,7 @@ theorem exists_eq_stab_of_relIndex_four {U : Subgroup G}
       have hO'subset : ({p', q'} : Set (G ⧸ c.G1)) ⊆ MulAction.orbit ↥U p' := by
         intro z hz
         rcases Set.mem_insert_iff.mp hz with rfl | hz
-        · simpa using MulAction.mem_orbit p' (1 : ↥U)
+        · simp
         · rw [Set.mem_singleton_iff] at hz
           subst hz
           exact hq'O'
@@ -435,7 +434,7 @@ theorem map_conj_G31 {e : G} (he : e ∈ c.E) :
   change (c.G3 ⊓ c.G1).map (↑(MulAut.conj e)) = c.G3 ⊓ c.G1 at h
   exact h
 
-theorem conj_inf_stab {e : G} (he : e ∈ c.E) {p : G ⧸ c.G1} (hp : p ∈ c.ptsL) :
+theorem conj_inf_stab {e : G} (he : e ∈ c.E) {p : G ⧸ c.G1} (_hp : p ∈ c.ptsL) :
     (c.G1 ⊓ c.G2 ⊓ stabilizer G p).map (MulAut.conj e).toMonoidHom =
         c.G1 ⊓ c.G2 ⊓ stabilizer G (e • p) ∧
       c.G1.map (MulAut.conj e).toMonoidHom = c.G1 ∧

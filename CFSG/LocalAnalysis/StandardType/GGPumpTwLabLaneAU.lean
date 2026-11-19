@@ -64,38 +64,38 @@ private theorem l04fHL2_ord_eq_one {n : ℕ} (h : ggMultOrd 3 n = 1) : 3 ∣ 2 ^
   unfold ggMultOrd at h
   by_cases h1 : 3 ∣ 2 ^ n - 1
   · exact h1
-  · rw [if_neg h1] at h
+  · rw [ite_eq_right h1] at h
     split_ifs at h
     omega
 
 private theorem l04fHL2_ord_eq_two {n : ℕ} (h : ggMultOrd 3 n = 2) : 3 ∣ 2 ^ n + 1 := by
   unfold ggMultOrd at h
   by_cases h1 : 3 ∣ 2 ^ n - 1
-  · rw [if_pos h1] at h; omega
-  · rw [if_neg h1] at h
+  · rw [ite_eq_left h1] at h; omega
+  · rw [ite_eq_right h1] at h
     by_cases h2 : 3 ∣ 2 ^ n + 1
     · exact h2
-    · rw [if_neg h2] at h; omega
+    · rw [ite_eq_right h2] at h; omega
 
 private theorem l04fHL2_ord_eq_one_or_two {n : ℕ} (hd : ggMultOrd 3 n ≠ 0) :
     ggMultOrd 3 n = 1 ∨ ggMultOrd 3 n = 2 := by
   by_cases h1 : 3 ∣ 2 ^ n - 1
-  · unfold ggMultOrd; rw [if_pos h1]; exact Or.inl rfl
+  · unfold ggMultOrd; rw [ite_eq_left h1]; exact Or.inl rfl
   · by_cases h2 : 3 ∣ 2 ^ n + 1
-    · unfold ggMultOrd; rw [if_neg h1, if_pos h2]; exact Or.inr rfl
-    · exfalso; unfold ggMultOrd at hd; rw [if_neg h1, if_neg h2] at hd; exact hd rfl
+    · unfold ggMultOrd; rw [ite_eq_right h1, ite_eq_left h2]; exact Or.inr rfl
+    · exfalso; unfold ggMultOrd at hd; rw [ite_eq_right h1, ite_eq_right h2] at hd; exact hd rfl
 
 private theorem l04fHL2_ggMultOrd_ne_zero {n : ℕ}
     (h : 3 ∣ 2 ^ n - 1 ∨ 3 ∣ 2 ^ n + 1) : ggMultOrd 3 n ≠ 0 := by
   unfold ggMultOrd
   by_cases h1 : 3 ∣ 2 ^ n - 1
-  · rw [if_pos h1]; norm_num
-  · rw [if_neg h1]
+  · rw [ite_eq_left h1]; norm_num
+  · rw [ite_eq_right h1]
     have h2 : 3 ∣ 2 ^ n + 1 := by
       rcases h with h | h
       · exact absurd h h1
       · exact h
-    rw [if_pos h2]; norm_num
+    rw [ite_eq_left h2]; norm_num
 
 private theorem l04fHL2_sum_three {m : List ℕ} (hlen : m.length = 3) :
     m.sum = m.getD 0 0 + m.getD 1 0 + m.getD 2 0 := by
@@ -138,7 +138,7 @@ private theorem l04fHL2_orbit_tagA
   rcases l04fHL2_ord_eq_one_or_two hd with hd1 | hd2
   · rw [hd1] at ho
     simp only [ggMultDatumA] at ho
-    rw [if_pos (by decide)] at ho
+    rw [ite_eq_left (by decide)] at ho
     simp only [List.mem_map, List.mem_filter, List.mem_range, decide_eq_true_eq] at ho
     obtain ⟨j, ⟨hj, hmj⟩, hjo⟩ := ho
     have hlabo : o.lab = (⟨.A, m.getD j 0 - 1, n⟩ : LargeEvenLabel) := by
@@ -155,17 +155,17 @@ private theorem l04fHL2_orbit_tagA
       exact absurd htwD (by simp)
   · rw [hd2] at ho
     simp only [ggMultDatumA] at ho
-    rw [if_neg (by decide)] at ho
+    rw [ite_eq_right (by decide)] at ho
     have hsymm : ∀ j, j < 3 → m.getD ((3 - j) % 3) 0 = m.getD j 0 := by
       rcases hadm with ⟨-, h1⟩ | ⟨h2, -⟩ | hsymm
       · rw [hd2] at h1; exact absurd h1 (by decide)
       · exact absurd h2 (by decide)
       · exact hsymm
-    simp only [if_true, List.mem_append, List.mem_map, List.mem_filter, List.mem_range,
+    simp only [ite_true, List.mem_append, List.mem_map, List.mem_filter, List.mem_range,
       decide_eq_true_eq] at ho
     rcases ho with ho0 | ⟨j, ⟨hj2, hj1, hmj⟩, hjo⟩
     · by_cases h0 : 2 ≤ m.headD 0
-      · simp only [if_pos h0, List.mem_singleton] at ho0
+      · simp only [ite_eq_left h0, List.mem_singleton] at ho0
         have hlabo : o.lab = (⟨.A, m.headD 0 - 1, n⟩ : LargeEvenLabel) := by rw [ho0]
         rcases hrig with hA5 | htwA5 | htwD
         · have heq : (⟨.A, m.headD 0 - 1, n⟩ : LargeEvenLabel) = ⟨.A, 5, f⟩ := by
@@ -188,7 +188,7 @@ private theorem l04fHL2_orbit_tagA
           exact absurd htwA5.1 (by simp)
         · rw [hlabo] at htwD
           exact absurd htwD (by simp)
-      · simp only [if_neg h0] at ho0
+      · simp only [ite_eq_right h0] at ho0
         exact absurd ho0 (by simp)
     · have hlabo : o.lab = (⟨.A, m.getD j 0 - 1, 2 * n⟩ : LargeEvenLabel) := by rw [← hjo]
       rcases hrig with hA5 | htwA5 | htwD
@@ -222,17 +222,17 @@ private theorem l04fHL2_orbit_tagtwA
   rcases l04fHL2_ord_eq_one_or_two hd with hd1 | hd2
   · rw [hd1] at ho
     simp only [ggMultDatumA] at ho
-    rw [if_neg (by decide)] at ho
+    rw [ite_eq_right (by decide)] at ho
     have hsymm : ∀ j, j < 3 → m.getD ((3 - j) % 3) 0 = m.getD j 0 := by
       rcases hadm with ⟨h1, -⟩ | ⟨-, h2⟩ | hsymm
       · exact absurd h1 (by decide)
       · rw [hd1] at h2; exact absurd h2 (by decide)
       · exact hsymm
-    simp only [Bool.true_eq_false, if_false, List.mem_append, List.mem_map, List.mem_filter,
+    simp only [Bool.true_eq_false, ite_false, List.mem_append, List.mem_map, List.mem_filter,
       List.mem_range, decide_eq_true_eq] at ho
     rcases ho with ho0 | ⟨j, ⟨hj2, hj1, hmj⟩, hjo⟩
     · by_cases h0 : 2 ≤ m.headD 0
-      · simp only [if_pos h0, List.mem_singleton] at ho0
+      · simp only [ite_eq_left h0, List.mem_singleton] at ho0
         have hlabo : o.lab = (ggMultBlockA (m.headD 0 - 1) n 2).lab := by rw [ho0]
         by_cases hr2 : 2 ≤ m.headD 0 - 1
         · have hlab : o.lab = (⟨.twA, m.headD 0 - 1, n⟩ : LargeEvenLabel) := by
@@ -262,7 +262,7 @@ private theorem l04fHL2_orbit_tagtwA
           · rw [hlab] at hA5; exact absurd hA5.1 (by simp)
           · rw [hlab] at htwA5; exact absurd htwA5.1 (by simp)
           · rw [hlab] at htwD; exact absurd htwD (by simp)
-      · simp only [if_neg h0] at ho0
+      · simp only [ite_eq_right h0] at ho0
         exact absurd ho0 (by simp)
     · have hlabo : o.lab = (⟨.A, m.getD j 0 - 1, 2 * n⟩ : LargeEvenLabel) := by rw [← hjo]
       rcases hrig with hA5 | htwA5 | htwD
@@ -275,7 +275,7 @@ private theorem l04fHL2_orbit_tagtwA
       · rw [hlabo] at htwD; exact absurd htwD (by simp)
   · rw [hd2] at ho
     simp only [ggMultDatumA] at ho
-    rw [if_pos (by decide)] at ho
+    rw [ite_eq_left (by decide)] at ho
     simp only [List.mem_map, List.mem_filter, List.mem_range, decide_eq_true_eq] at ho
     obtain ⟨j, ⟨hj, hmj⟩, hjo⟩ := ho
     have hlabo : o.lab = (ggMultBlockA (m.getD j 0 - 1) n 2).lab := by rw [hjo]
@@ -348,7 +348,7 @@ private theorem l04fHL2_datumA_orbit_rank_le {n d B : ℕ} {tw : Bool} {m : List
     (ho : o ∈ (ggMultDatumA 3 n d tw m).orbits) : o.lab.rank ≤ B := by
   by_cases htriv : (tw = false ∧ d = 1) ∨ (tw = true ∧ d = 2)
   · simp only [ggMultDatumA] at ho
-    rw [if_pos htriv] at ho
+    rw [ite_eq_left htriv] at ho
     simp only [List.mem_map, List.mem_filter, List.mem_range, decide_eq_true_eq] at ho
     obtain ⟨j, ⟨hj, hmj⟩, hjo⟩ := ho
     have hmem : m.getD j 0 ∈ m := l04fHL2_getD_mem (by omega)
@@ -356,24 +356,24 @@ private theorem l04fHL2_datumA_orbit_rank_le {n d B : ℕ} {tw : Bool} {m : List
     rw [← hjo]
     exact l04fHL2_blockA_rank_le hle hB1
   · simp only [ggMultDatumA] at ho
-    rw [if_neg htriv] at ho
+    rw [ite_eq_right htriv] at ho
     simp only [List.mem_append, List.mem_map, List.mem_filter, List.mem_range,
       decide_eq_true_eq] at ho
     rcases ho with ho0 | ⟨j, ⟨hj, hmj⟩, hjo⟩
     · by_cases h0 : 2 ≤ m.headD 0
-      · simp only [if_pos h0] at ho0
+      · simp only [ite_eq_left h0] at ho0
         by_cases htw : tw = false
-        · simp only [if_pos htw, List.mem_singleton] at ho0
+        · simp only [ite_eq_left htw, List.mem_singleton] at ho0
           have hmem : m.headD 0 ∈ m := l04fHL2_headD_mem (by omega)
           have hle : m.headD 0 - 1 ≤ B := by have := hB _ hmem; omega
           rw [ho0]
           exact hle
-        · simp only [if_neg htw, List.mem_singleton] at ho0
+        · simp only [ite_eq_right htw, List.mem_singleton] at ho0
           have hmem : m.headD 0 ∈ m := l04fHL2_headD_mem (by omega)
           have hle : m.headD 0 - 1 ≤ B := by have := hB _ hmem; omega
           rw [ho0]
           exact l04fHL2_blockA_rank_le hle hB1
-      · simp only [if_neg h0] at ho0
+      · simp only [ite_eq_right h0] at ho0
         exact absurd ho0 (by simp)
     · have hmem : m.getD j 0 ∈ m := l04fHL2_getD_mem (by omega)
       have hle : m.getD j 0 - 1 ≤ B := by have := hB _ hmem; omega

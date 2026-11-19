@@ -60,14 +60,14 @@ theorem card_centerQuot_of_hyp4 [Finite G]
     Nat.card (G ⧸ Subgroup.center G) = 360 := by
   rcases h with h | ⟨-, -, he⟩
   · obtain ⟨e⟩ := h
-    haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
-    haveI : IsSimpleGroup G := MulEquiv.isSimpleGroup e
+    have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+    have : IsSimpleGroup G := MulEquiv.isSimpleGroup e
     have hcard : Nat.card G = 360 := (Nat.card_congr e.toEquiv).trans card_alt_six
     have hcen : Subgroup.center G = ⊥ := by
       rcases (inferInstance : (Subgroup.center G).Normal).eq_bot_or_eq_top with h | h
       · exact h
       · exfalso
-        haveI : IsMulCommutative G :=
+        have : IsMulCommutative G :=
           ⟨⟨fun a b => (Subgroup.mem_center_iff.1 (h ▸ Subgroup.mem_top a) b).symm⟩⟩
         have := IsSimpleGroup.prime_card (α := G)
         rw [hcard] at this
@@ -82,6 +82,7 @@ end Generic
 section Setting
 variable {X : Type} [Group X] [Finite X] {W K S : Subgroup X} [W.Normal]
 
+omit [Finite X] in
 theorem inn_le_P (W K S : Subgroup X) [W.Normal] :
     (MulAut.conj : ↥(bar W K) →* MulAut ↥(bar W K)).range ≤
       inducedAutGroup (bar W K ⊔ bar W S) (bar W K) := by
@@ -93,10 +94,12 @@ theorem inn_le_P (W K S : Subgroup X) [W.Normal] :
     Subgroup.mem_subgroupOf.2 (Subgroup.mem_sup_left g.2), ?_⟩
   exact MulEquiv.ext fun y => Subtype.ext rfl
 
+omit [Finite X] in
 theorem indAut_le_P (W K S : Subgroup X) [W.Normal] :
     indAut W K S ≤ inducedAutGroup (bar W K ⊔ bar W S) (bar W K) :=
   Subgroup.map_mono (Subgroup.subgroupOf_mono _ le_sup_right)
 
+omit [Finite X] in
 theorem P_le_sup (hSN : S ≤ Subgroup.normalizer (K : Set X)) :
     inducedAutGroup (bar W K ⊔ bar W S) (bar W K) ≤
       (MulAut.conj : ↥(bar W K) →* MulAut ↥(bar W K)).range ⊔ indAut W K S := by
@@ -129,7 +132,7 @@ theorem P_le_sup (hSN : S ≤ Subgroup.normalizer (K : Set X)) :
 theorem hyp4_inverts_five_aux (h : Setup28 W K S) (h4 : Hyp28Four W K S) {a : X} (haS : a ∈ S)
     (hna : a ∉ kerAct W K S) : Inverts W K a (fun m => m = 5) := by
   obtain ⟨hG, hindS, ⟨φP⟩⟩ := h4
-  haveI : Finite (MulAut ↥(bar W K)) := SRAut.finite_mulAut _
+  have : Finite (MulAut ↥(bar W K)) := SRAut.finite_mulAut _
   have haN : a ∈ Subgroup.normalizer (K : Set X) := h.hN haS
   let aN : ↥(Subgroup.normalizer (K : Set X)) := ⟨a, haN⟩
   obtain ⟨α, hαdef⟩ : ∃ α : MulAut ↥(bar W K), α = indHom W K aN := ⟨_, rfl⟩
@@ -150,7 +153,7 @@ theorem hyp4_inverts_five_aux (h : Setup28 W K S) (h4 : Hyp28Four W K S) {a : X}
   have hαP : α ∈ inducedAutGroup (bar W K ⊔ bar W S) (bar W K) := indAut_le_P W K S hαS
   have hnotInn : α ∉ (MulAut.conj : ↥(bar W K) →* MulAut ↥(bar W K)).range := by
     intro hαI
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hindle : indAut W K S ≤ (MulAut.conj : ↥(bar W K) →* MulAut ↥(bar W K)).range := by
       have hord : orderOf α = 2 := orderOf_eq_prime hαsq hα1
       have hz : Subgroup.zpowers α = indAut W K S := by

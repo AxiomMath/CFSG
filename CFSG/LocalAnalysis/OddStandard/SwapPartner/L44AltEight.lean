@@ -25,7 +25,7 @@ private lemma n8_sign : Perm.sign n8 = -1 := by decide
 private lemma n8_conj_c8 : n8 * c8 * n8⁻¹ = c8⁻¹ := by decide
 
 private lemma c8_order : orderOf c8 = 7 := by
-  haveI : Fact (Nat.Prime 7) := ⟨by decide⟩
+  have : Fact (Nat.Prime 7) := ⟨by decide⟩
   exact orderOf_eq_prime c8_pow_seven c8_ne_one
 
 private lemma orderOf_eA_symm_c8 {G : Type*} [Group G] {A : Subgroup G}
@@ -45,7 +45,7 @@ theorem exists_inverting_sevenElement {G : Type*} [Group G] (A : Subgroup G)
     (eA : A ≃* alternatingGroup (Fin 8)) (f : MulAut G) (hf : ∀ a ∈ A, f a ∈ A)
     (hout : ¬ ∃ a ∈ A, ∀ x ∈ A, f x = a * x * a⁻¹) :
     ∃ y ∈ A, orderOf y = 7 ∧ ∃ a ∈ A, a * f y * a⁻¹ = y⁻¹ := by
-  haveI : Finite A := Finite.of_equiv (alternatingGroup (Fin 8)) eA.toEquiv.symm
+  have : Finite A := Finite.of_equiv (alternatingGroup (Fin 8)) eA.toEquiv.symm
   let φ : A →* G := f.toMonoidHom.comp A.subtype
   let α0 : A →* A := φ.codRestrict A (fun a => hf a a.2)
   have hα0inj : Function.Injective α0 := by

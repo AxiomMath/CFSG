@@ -25,7 +25,7 @@ theorem e6four_step1 (hT3 : E6FourOutInner) (hE1 : E6FourSylowFive) (hE2 : E6Fou
   classical
   obtain ⟨hp5, hZ, hmark, hqs⟩ := e6four_J_facts hJ
   subst hp5
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hBmax : CFSG.Open.IsElemAbelian 5 B ∧
       Nat.card B = 5 ^ LargeEvenTwoLocalRank 5 G ∧
       ∃ U : Subgroup G, U ≠ ⊥ ∧ IsPGroup 2 U ∧ B ≤ normalizer (U : Set G) := hNb.1.1

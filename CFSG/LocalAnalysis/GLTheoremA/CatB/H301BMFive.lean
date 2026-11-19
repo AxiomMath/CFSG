@@ -53,7 +53,7 @@ theorem card_fixed_le_of_five_sq {H : Subgroup ↥CFSG.Sporadic.Co1Schreier.GA}
     (hH : IsElemAbelian 5 H) (hHc : Nat.card H = 5 ^ 2) :
     Nat.card {v : Fin 24 → ZMod 2 // ∀ j ∈ H,
       ((j : GL (Fin 24) (ZMod 2)) : Matrix (Fin 24) (Fin 24) (ZMod 2)) *ᵥ v = v} ≤ 2 ^ 4 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hfix : ∀ a ∈ H.map CFSG.Sporadic.Co1Schreier.GA.subtype, a ≠ 1 →
       Nat.card {v : Fin 24 → ZMod 2 // (a : Matrix (Fin 24) (Fin 24) (ZMod 2)) *ᵥ v = v} ≤
         2 ^ 8 := by

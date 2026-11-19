@@ -241,7 +241,7 @@ theorem exists_normal_of_central_three [Finite H] {x : H} (hxc : ∀ g : H, g * 
     · rw [Subgroup.index_eq_one.mp h]
       exact Subgroup.normal_top
     · exact Subgroup.normal_of_index_eq_two h
-  refine ⟨P, hPn, P.isPGroup', fun z hz => ?_⟩
+  refine ⟨P, hPn, P.isPGroup, fun z hz => ?_⟩
   have : (P : Subgroup H).Normal := hPn
   exact Res417Six.mem_of_coprime_index
     ((Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mpr (Sylow.not_dvd_index P)) hz

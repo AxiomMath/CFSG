@@ -105,10 +105,10 @@ theorem eq_of_isComponentOf_of_le {H : Type*} [Group H] [Finite H] {C E J : Subg
     CFSG.Assembly.isSubnormal_iff_open.mp (CFSG.Assembly.IsSubnormal.of_mathlib hKsub)
   have hperfJ : Group.IsPerfect ↥J := ⟨hJq.1⟩
   have hKperf : Group.IsPerfect (J.subgroupOf E) := by
-    letI : Group.IsPerfect ↥J := hperfJ
+    let : Group.IsPerfect ↥J := hperfJ
     exact Group.IsPerfect.ofSurjective
       (f := (Subgroup.subgroupOfEquivOfLe hJE).symm.toMonoidHom) (MulEquiv.surjective _)
-  haveI : Group.IsPerfect (J.subgroupOf E) := hKperf
+  have : Group.IsPerfect (J.subgroupOf E) := hKperf
   rcases CFSG.ComponentClassification.Quasisimple.perfect_subnormal_eq_bot_or_eq_top
     hE (J.subgroupOf E) hKsub' with hKbot | hKtop
   · exfalso
@@ -118,7 +118,7 @@ theorem eq_of_isComponentOf_of_le {H : Type*} [Group H] [Finite H] {C E J : Subg
       have hmem : (⟨j, hJE hj⟩ : ↥E) ∈ J.subgroupOf E := Subgroup.mem_subgroupOf.mpr hj
       rw [hKbot] at hmem
       exact Subtype.ext_iff.mp (Subgroup.mem_bot.mp hmem)
-    haveI : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := hJq.2
+    have : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := hJq.2
     exact not_subsingleton (↥J ⧸ Subgroup.center ↥J) (by rw [hJbot]; infer_instance)
   · refine le_antisymm hJE ?_
     intro e he

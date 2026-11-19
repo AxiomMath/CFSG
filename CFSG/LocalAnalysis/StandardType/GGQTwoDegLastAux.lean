@@ -27,19 +27,19 @@ private theorem qTwoDegLastAux_pr_A_neg_one (r : ℕ) (i j : Fin r) :
   by_cases h : i = j
   · subst h
     simp
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     by_cases h2 : i.val + 1 = j.val ∨ j.val + 1 = i.val
-    · rw [if_pos h2]; exact iff_of_true rfl h2
-    · rw [if_neg h2]; exact iff_of_false (by norm_num) h2
+    · rw [ite_eq_left h2]; exact iff_of_true rfl h2
+    · rw [ite_eq_right h2]; exact iff_of_false (by norm_num) h2
 
 private theorem qTwoDegLastAux_pr_A_hsl (r : ℕ) (i j : Fin r) (hij : i ≠ j) :
     CartanMatrix.A r i j = 0 ∨ CartanMatrix.A r i j = -1 := by
-  rw [CartanMatrix.A, Matrix.of_apply, if_neg hij]
+  rw [CartanMatrix.A, Matrix.of_apply, ite_eq_right hij]
   by_cases h2 : i.val + 1 = j.val ∨ j.val + 1 = i.val
-  · rw [if_pos h2]; exact Or.inr rfl
-  · rw [if_neg h2]; exact Or.inl rfl
+  · rw [ite_eq_left h2]; exact Or.inr rfl
+  · rw [ite_eq_right h2]; exact Or.inl rfl
 
-private theorem qTwoDegLastAux_pr_A_hpar (r : ℕ) (hr : 1 ≤ r) (i j : Fin r) (hij : i ≠ j) :
+private theorem qTwoDegLastAux_pr_A_hpar (r : ℕ) (hr : 1 ≤ r) (i j : Fin r) (_hij : i ≠ j) :
     (CartanMatrix.A r i j = -1 ↔
       ((i ≠ (⟨0, hr⟩ : Fin r) ∧ qTwoDegLastAux_pr_A_par r i = j) ∨
         (j ≠ (⟨0, hr⟩ : Fin r) ∧ qTwoDegLastAux_pr_A_par r j = i))) := by
@@ -112,7 +112,7 @@ theorem qTwoDegLastAux_card_commSpace_ge {Bs : Subgroup G} {V : Type} [AddCommGr
     (U : Subgroup (MulAut ↥Bs)) (S : Finset (Fin n)) (hS : ∀ i ∈ S, φ i ∈ U) :
     3 ^ S.card ≤ Nat.card ↥(ggCommSpace Bs U) := by
   classical
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ιV.toEquiv
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ιV.toEquiv
   let b : Fin n → ↥Bs := fun i => Additive.toMul (ιV.symm (h i))
   have hbι : ∀ i, ιV (Additive.ofMul (b i)) = h i := by
     intro i
@@ -176,6 +176,7 @@ theorem qTwoDegLastAux_card_commSpace_ge {Bs : Subgroup G} {V : Type} [AddCommGr
   calc 3 ^ S.card = Nat.card W := hcardW.symm
     _ ≤ Nat.card ↥(ggCommSpace Bs U) := Nat.card_le_card_of_injective f hf
 
+omit [Finite G] in
 theorem qTwoDegLastAux_card_commSpace_conj {Bs : Subgroup G} (U : Subgroup (MulAut ↥Bs))
     (g : MulAut ↥Bs) :
     Nat.card ↥(ggCommSpace Bs (U.map (MulAut.conj g).toMonoidHom)) =

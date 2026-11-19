@@ -139,7 +139,7 @@ theorem abelianPreimage_of_ratPoints_twistedE6
     GGLieAbelianPreimageE6 A := by
   unfold GGLieAbelianPreimageE6
   intro k _ _ ι x y hx hy
-  haveI : CharP k 2 := ι.charP ι.injective 2
+  have : CharP k 2 := ι.charP ι.injective 2
   let θ : k →+* k := iterateFrobenius k 2 f
   have hθ : ∀ c, ι (θ c) = ggFrobT f (ι c) := by
     intro c

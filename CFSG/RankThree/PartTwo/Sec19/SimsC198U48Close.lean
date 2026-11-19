@@ -16,7 +16,7 @@ open CFSG.RankThree.PartTwo.Sec4.Item434SmallTwoIVU48
 
 theorem noAutDatum_SU4 : NoAutDatum SU4 := by
   intro c L 𝒟 h
-  haveI : IsSimpleGroup SU4 := isSimpleGroup_SU4
+  have : IsSimpleGroup SU4 := isSimpleGroup_SU4
   have hL7560 : 7560 ≤ Nat.card L :=
     (IsType198.le_card h.quasisimple h.type).trans
       (Nat.le_of_dvd Nat.card_pos (Subgroup.card_quotient_dvd_card _))
@@ -31,7 +31,7 @@ theorem noAutDatum_SU4 : NoAutDatum SU4 := by
     rw [hfix] at hle
     have := hD _ hle (isElemAbelian_comap_conj hZ h.comm h.pow_three)
     omega
-  · obtain ⟨φ, hφ, hout⟩ := SetLike.not_le_iff_exists.mp hinn
+  · obtain ⟨φ, hφ, hout⟩ := IsConcreteLE.not_le_iff_exists.mp hinn
     refine u48_not_dvd_of_outer φ (h.pow_three φ hφ) hout L (fun l hl => ?_) h19
     rw [← hfix] at hl
     exact (mem_fixIn.mp hl).2 φ hφ

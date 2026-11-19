@@ -352,7 +352,7 @@ private theorem qTwoSixGen_card_Su_three {K : Type} [Field K] [Finite K] [CharP 
     decide
   exact_mod_cast hval
 
-theorem qTwoSixGen_card_coordBlock {K : Type} [Field K] [Finite K] [CharP K 2] (hK : Nat.card K = 4) {J : Finset (Fin 6)} :
+theorem qTwoSixGen_card_coordBlock {K : Type} [Field K] [Finite K] [CharP K 2] (_hK : Nat.card K = 4) {J : Finset (Fin 6)} :
     Nat.card (coordBlockSU K 2 1 J) = Nat.card (Su K 2 1 J.card) := by
   have e := MonoidHom.ofInjective (blockSUOn_injective (K := K) (p := 2) (f := 1) J)
   change Nat.card (blockSUOn K 2 1 J).range = Nat.card (Su K 2 1 J.card)
@@ -370,7 +370,7 @@ theorem qTwoSixGen_support012 (a : Fin 18) (ha : a = 10 ∨ a = 11) :
   rcases ha with rfl | rfl <;>
     intro x y hxy <;>
     fin_cases x <;> fin_cases y <;>
-    (simp_all [nativeGen, qTwoSixGen_J012] <;> decide)
+    (simp_all [nativeGen, qTwoSixGen_J012]; try decide)
 
 theorem qTwoSixGen_support123 (a : Fin 18) (ha : a = 12 ∨ a = 13) :
     ∀ x y : Fin 6, (x ∉ qTwoSixGen_J123 ∨ y ∉ qTwoSixGen_J123) →
@@ -378,7 +378,7 @@ theorem qTwoSixGen_support123 (a : Fin 18) (ha : a = 12 ∨ a = 13) :
   rcases ha with rfl | rfl <;>
     intro x y hxy <;>
     fin_cases x <;> fin_cases y <;>
-    (simp_all [nativeGen, qTwoSixGen_J123] <;> decide)
+    (simp_all [nativeGen, qTwoSixGen_J123]; try decide)
 
 theorem qTwoSixGen_support234 (a : Fin 18) (ha : a = 14 ∨ a = 15) :
     ∀ x y : Fin 6, (x ∉ qTwoSixGen_J234 ∨ y ∉ qTwoSixGen_J234) →
@@ -386,7 +386,7 @@ theorem qTwoSixGen_support234 (a : Fin 18) (ha : a = 14 ∨ a = 15) :
   rcases ha with rfl | rfl <;>
     intro x y hxy <;>
     fin_cases x <;> fin_cases y <;>
-    (simp_all [nativeGen, qTwoSixGen_J234] <;> decide)
+    (simp_all [nativeGen, qTwoSixGen_J234]; try decide)
 
 private theorem qTwoSixGen_coe_nativeSu {K : Type} [Field K] [Finite K] [CharP K 2] (hK : Nat.card K = 4) (a : Fin 18) :
     (((nativeSu hK a : Su K 2 1 6) : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) =
@@ -412,7 +412,7 @@ private theorem qTwoSixGen_closure_eq_block {K : Type} [Field K] [Finite K] [Cha
     (hb : nativeSu hK b ∈ coordBlockSU K 2 1 J) :
     Subgroup.closure ({nativeSu hK a, nativeSu hK b} : Set (Su K 2 1 6)) =
       coordBlockSU K 2 1 J := by
-  haveI : Finite ↥(coordBlockSU K 2 1 J) := Subtype.finite
+  have : Finite ↥(coordBlockSU K 2 1 J) := Subtype.finite
   have hle : Subgroup.closure ({nativeSu hK a, nativeSu hK b} : Set (Su K 2 1 6)) ≤
       coordBlockSU K 2 1 J := by
     rw [Subgroup.closure_le]

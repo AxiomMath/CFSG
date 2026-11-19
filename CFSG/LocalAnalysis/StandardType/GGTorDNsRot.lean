@@ -74,6 +74,7 @@ private theorem dnsRot_commute_coe {g h : V ≃ₗ[F] V} (hgh : g * h = h * g) :
   show (g : V →ₗ[F] V) * (h : V →ₗ[F] V) = (h : V →ₗ[F] V) * (g : V →ₗ[F] V)
   rw [← LinearEquiv.coe_toLinearMap_mul, ← LinearEquiv.coe_toLinearMap_mul, hgh]
 
+omit [CharP F 2] in
 theorem rotE_rotE_apply_of_mem (hF : IsCoherentFrame Q p U e E u c t) (hp : p.Prime)
     (hpq : ¬ p ∣ Nat.card F - 1) {x : V} (hx : x ∈ U a) :
     rotE e a (rotE e a x) = t • rotE e a x + x := by
@@ -307,6 +308,7 @@ theorem planeRotLin_comm (hF : IsCoherentFrame Q p U e E u c t) (α β γ δ : F
   dnsRot_comm_planeRotLin (a := a)
     ((dnsRot_comm_planeRotLin (a := b) (dnsRot_commute_rotE hF b a) γ δ).symm) α β
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem dnsRot_nondeg_sup (hF : IsCoherentFrame Q p U e E u c t) :
     (QuadraticMap.polarBilin (Q.comp (U a ⊔ U b).subtype)).Nondegenerate := by
   have h := hF.toIsPlaneSystem.nondeg_biSup ({a, b} : Finset (Fin k))
@@ -326,6 +328,7 @@ private theorem dnsRot_coe_mul_cancel {S f g : V ≃ₗ[F] V} (h : S * f = g * S
     (S : V →ₗ[F] V) * (f : V →ₗ[F] V) = (g : V →ₗ[F] V) * (S : V →ₗ[F] V) := by
   rw [← LinearEquiv.coe_toLinearMap_mul, ← LinearEquiv.coe_toLinearMap_mul, h]
 
+omit [CharP F 2] in
 private theorem dnsRot_span_mem (hF : IsCoherentFrame Q p U e E u c t) (hp : p.Prime)
     (hpq : ¬ p ∣ Nat.card F - 1) {x : V} (hx : x ∈ U a) :
     x ∈ Submodule.span F (Set.range ![u a, rotE e a (u a)]) :=
@@ -380,6 +383,7 @@ private theorem dnsRot_frameSwap_mapsTo_right (hF : IsCoherentFrame Q p U e E u 
     rw [map_smul]
     exact Submodule.smul_mem _ r ihy
 
+omit [Finite F] in
 private theorem dnsRot_frameSwap_mul_rotE_left (hF : IsCoherentFrame Q p U e E u c t)
     (hab : a ≠ b) :
     (frameSwap Q e u c t a b : V →ₗ[F] V) * rotE e a =
@@ -387,6 +391,7 @@ private theorem dnsRot_frameSwap_mul_rotE_left (hF : IsCoherentFrame Q p U e E u
   dnsRot_coe_mul_cancel (dnsRot_mul_eq_of_conj (frameSwap_mul_self hF hab)
     (frameSwap_conj_left hF hab))
 
+omit [Finite F] in
 private theorem dnsRot_frameSwap_mul_rotE_right (hF : IsCoherentFrame Q p U e E u c t)
     (hab : a ≠ b) :
     (frameSwap Q e u c t a b : V →ₗ[F] V) * rotE e b =
@@ -394,6 +399,7 @@ private theorem dnsRot_frameSwap_mul_rotE_right (hF : IsCoherentFrame Q p U e E 
   dnsRot_coe_mul_cancel (dnsRot_mul_eq_of_conj (frameSwap_mul_self hF hab)
     (frameSwap_conj_right hF hab))
 
+omit [Finite F] in
 private theorem dnsRot_frameSwap_apply_rotE_left (hF : IsCoherentFrame Q p U e E u c t)
     (hab : a ≠ b) (x : V) :
     (frameSwap Q e u c t a b : V →ₗ[F] V) (rotE e a x) =
@@ -401,6 +407,7 @@ private theorem dnsRot_frameSwap_apply_rotE_left (hF : IsCoherentFrame Q p U e E
   have h := dnsRot_frameSwap_mul_rotE_left hF hab
   simpa only [Module.End.mul_apply] using congrArg (fun z : V →ₗ[F] V => z x) h
 
+omit [Finite F] in
 private theorem dnsRot_frameSwap_apply_rotE_right (hF : IsCoherentFrame Q p U e E u c t)
     (hab : a ≠ b) (x : V) :
     (frameSwap Q e u c t a b : V →ₗ[F] V) (rotE e b x) =
@@ -408,6 +415,7 @@ private theorem dnsRot_frameSwap_apply_rotE_right (hF : IsCoherentFrame Q p U e 
   have h := dnsRot_frameSwap_mul_rotE_right hF hab
   simpa only [Module.End.mul_apply] using congrArg (fun z : V →ₗ[F] V => z x) h
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem dnsRot_frameSwap_apply_of_mem_polarPerp (hF : IsCoherentFrame Q p U e E u c t)
     {x : V} (hx : x ∈ polarPerp Q (U a ⊔ U b)) :
     (frameSwap Q e u c t a b : V →ₗ[F] V) x = x :=
@@ -652,6 +660,7 @@ theorem reflect_comp_planeRotLin (hF : IsCoherentFrame Q p U e E u c t) (hp : p.
       _ = (planeRotLin e t a (α + t * β) β * (reflect Q (u a) : V →ₗ[F] V)) x := by
             rw [Module.End.mul_apply]
 
+omit [Finite F] [CharP F 2] in
 theorem reflect_comp_planeRotLin_of_ne (hF : IsCoherentFrame Q p U e E u c t) {j : Fin k}
     (hja : j ≠ a) (α β : F) :
     (reflect Q (u a) : V →ₗ[F] V) * planeRotLin e t j α β =

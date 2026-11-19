@@ -15,7 +15,7 @@ open CFSG.SeitzReduction.F4Pilot (charP_two_of_natCard_eq_two_pow one_le_of_natC
 theorem noSocle185Factor_sl2 (hO : LieOrderFormulasInput) {F : Type} [Field F] [Finite F] {n : ℕ}
     (hF : Nat.card F = 2 ^ n) : NoSocle185Factor (Matrix.SpecialLinearGroup (Fin 2) F) := by
   have hn : 1 ≤ n := one_le_of_natCard_eq_two_pow hF
-  haveI : CharP F 2 := charP_two_of_natCard_eq_two_pow hF
+  have : CharP F 2 := charP_two_of_natCard_eq_two_pow hF
   have hcard : Nat.card (Matrix.SpecialLinearGroup (Fin 2) F) =
       lieOrderNumerator .PSL 2 (2 ^ n) := by
     rw [CFSG.LocalAnalysis.ComponentInitial.LinearFlag.card_SL_eq (by norm_num), hF]
@@ -33,7 +33,7 @@ theorem noSocle185Factor_sl2 (hO : LieOrderFormulasInput) {F : Type} [Field F] [
       rw [hF]
       calc 4 = 2 ^ 2 := by norm_num
         _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn2
-    haveI : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) F) :=
+    have : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) F) :=
       CFSG.RankThree.PartOne.KCRootAxis.sl2_isSimpleGroup h4
     refine NoSocle185Factor.of_isSimpleGroup fun T _ hT => ⟨fun e => ?_⟩
     have hadm : StatedLieAdmissible .PSL 2 2 n :=
@@ -53,7 +53,7 @@ theorem noSocle185Factor_sl2 (hO : LieOrderFormulasInput) {F : Type} [Field F] [
 theorem noSocle185Factor_statedSp (hO : LieOrderFormulasInput) (k : ℕ) {F : Type} [Field F]
     [Finite F] {n : ℕ} (hF : Nat.card F = 2 ^ n) : NoSocle185Factor ↥(StatedSp k F) := by
   have hn : 1 ≤ n := one_le_of_natCard_eq_two_pow hF
-  haveI : CharP F 2 := charP_two_of_natCard_eq_two_pow hF
+  have : CharP F 2 := charP_two_of_natCard_eq_two_pow hF
   rcases (by omega : k = 0 ∨ k = 1 ∨ 2 ≤ k) with rfl | rfl | hk
   · refine NoSocle185Factor.of_commute fun a b => ?_
     exact Subtype.ext (Units.ext (Matrix.ext fun i => isEmptyElim i))
@@ -76,9 +76,9 @@ theorem noSocle185Factor_statedSp (hO : LieOrderFormulasInput) (k : ℕ) {F : Ty
         exact Nat.pow_right_injective le_rfl this
       have hmodel : StatedClassicalModel (StatedProj (StatedSp k F)) .PSp k 2 n :=
         ⟨hadm, F, inferInstance, inferInstance, hF, ⟨MulEquiv.refl _⟩⟩
-      haveI : IsSimpleGroup (StatedProj (StatedSp k F)) :=
+      have : IsSimpleGroup (StatedProj (StatedSp k F)) :=
         CFSG.ClassicalGroups.Symplectic.isSimpleGroup_of_statedClassicalModel_PSp _ k 2 n hmodel
-      haveI : IsSimpleGroup ↥(StatedSp k F) :=
+      have : IsSimpleGroup ↥(StatedSp k F) :=
         (CFSG.SeitzReduction.OmegaPilot.spProjEquivCharTwo F k).symm.isSimpleGroup
       refine NoSocle185Factor.of_isSimpleGroup fun T _ hT => ⟨fun e => ?_⟩
       have hM : Nat.card T * lieOrderDivisor .PSp k (2 ^ n) = lieOrderNumerator .PSp k (2 ^ n) := by

@@ -99,7 +99,7 @@ private lemma indep_two {E : Type*} [CommGroup E] (e : Fin 4 → E)
     simpa [g, hij, Ne.symm hij] using this
 
 theorem card_le_24_of_signed {E : Type} [Group E] (e : Fin 4 → E)
-    (hcomm : ∀ i j, e i * e j = e j * e i) (hpow : ∀ i, e i ^ 3 = 1)
+    (hcomm : ∀ i j, e i * e j = e j * e i) (_hpow : ∀ i, e i ^ 3 = 1)
     (hgen : Subgroup.closure (Set.range e) = ⊤)
     (hindep : ∀ a b c d : ℤ, e 0 ^ a * e 1 ^ b * e 2 ^ c * e 3 ^ d = 1 →
       (3 : ℤ) ∣ a ∧ (3 : ℤ) ∣ b ∧ (3 : ℤ) ∣ c ∧ (3 : ℤ) ∣ d)
@@ -109,7 +109,7 @@ theorem card_le_24_of_signed {E : Type} [Group E] (e : Fin 4 → E)
     Nat.card A ≤ 24 := by
   classical
   have hcommE : ∀ x y : E, x * y = y * x := comm_of_generators e hcomm hgen
-  letI : CommGroup E := { ‹Group E› with mul_comm := hcommE }
+  let : CommGroup E := { ‹Group E› with mul_comm := hcommE }
   let σ : A → Fin 4 → Fin 4 := fun φ i => Classical.choose (hA φ.val φ.property i)
   have hσ : ∀ (φ : A) (i : Fin 4),
       φ.val (e i) = e (σ φ i) ∨ φ.val (e i) = (e (σ φ i))⁻¹ :=

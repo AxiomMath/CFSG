@@ -13,6 +13,7 @@ open Subgroup CFSG.Quasithin CFSG.Blueprint Suzuki
 
 variable {V : Type*} [CommGroup V] [Finite V]
 
+omit [Finite V] in
 theorem forall_mem_of_odd (hV : ∀ v : V, v ^ 2 = 1) {y : MulAut V} {m : ℕ} (hm : Odd m)
     (hy : y ^ m = 1) {C U₁ U₂ W : Subgroup V} (hCU : C ≤ U₂) (h1W : U₁ ≤ W)
     (hyU₁ : y ∈ stabSub U₁) (hyU₂ : y ∈ stabSub U₂)
@@ -73,7 +74,7 @@ theorem isNatSzProduct_of_fpf {G : Type*} [Group G]
         (MulEquiv.symm_apply_eq _).mpr rfl, QuotientGroup.lift_mk]
   set N := Nat.card Y with hN
   let ε : {i : ℕ // i < N} ≃ Y := Fin.equivSubtype.symm.trans (Finite.equivFin Y).symm
-  letI : CommGroup {i : ℕ // i < N} := ε.commGroup
+  let : CommGroup {i : ℕ // i < N} := ε.commGroup
   let eY : {i : ℕ // i < N} ≃* Y := ε.mulEquiv
   have hT2 : ∀ t : Additive {i : ℕ // i < N}, (2 : ℕ) • t = 0 := by
     intro t
@@ -81,7 +82,7 @@ theorem isNatSzProduct_of_fpf {G : Type*} [Group G]
     rw [toMul_nsmul, toMul_zero]
     apply eY.injective
     rw [map_pow, hY, map_one]
-  letI : Module (ZMod 2) (Additive {i : ℕ // i < N}) := AddCommGroup.zmodModule hT2
+  let : Module (ZMod 2) (Additive {i : ℕ // i < N}) := AddCommGroup.zmodModule hT2
   let ρT : Representation (ZMod 2) ↥(CFSG.Open.Sz a) (Additive {i : ℕ // i < N}) :=
     { toFun := fun g => AddMonoidHom.toZModLinearMap 2
         { toFun := fun t => Additive.ofMul (eY.symm (ρ₀ g (eY (Additive.toMul t))))
@@ -116,7 +117,7 @@ theorem isNatSzProduct_of_fpf {G : Type*} [Group G]
   let Φ : (Fin k → Fin 4 → GaloisField 2 (2 * a + 1)) →+ Additive {i : ℕ // i < N} :=
     ∑ j, (θi j).comp (Pi.evalAddMonoidHom _ j)
   have hΦ : ∀ f, Φ f = ∑ j, θi j (f j) := fun f => by
-    simp only [Φ, AddMonoidHom.finset_sum_apply, AddMonoidHom.comp_apply,
+    simp only [Φ, _root_.AddMonoidHom.finsetSum_apply, AddMonoidHom.comp_apply,
       Pi.evalAddMonoidHom_apply]
   have hΦinj : Function.Injective Φ := by
     rw [injective_iff_map_eq_zero]
@@ -200,11 +201,11 @@ theorem card_eq_of_isNatSzProduct {G Y : Type*} [Group G] [CommGroup Y] [Nontriv
   set X : Subgroup Y := Subgroup.comap θ.toMonoidHom
     { carrier := {f | ∀ j ≠ j₀, Multiplicative.toAdd f j = 0}
       mul_mem' := fun {f g} hf hg j hj => by
-        simp only [Set.mem_setOf_eq, toAdd_mul, Pi.add_apply] at hf hg ⊢
+        simp only [Set.mem_ofPred_eq, toAdd_mul, Pi.add_apply] at hf hg ⊢
         rw [hf j hj, hg j hj, add_zero]
       one_mem' := fun j _ => by simp
       inv_mem' := fun {f} hf j hj => by
-        simp only [Set.mem_setOf_eq, toAdd_inv, Pi.neg_apply] at hf ⊢
+        simp only [Set.mem_ofPred_eq, toAdd_inv, Pi.neg_apply] at hf ⊢
         rw [hf j hj, neg_zero] } with hX
   have hmemX : ∀ y, y ∈ X ↔ ∀ j ≠ j₀, Multiplicative.toAdd (θ y) j = 0 := fun y => Iff.rfl
   have hXinv : ∀ g, ∀ y ∈ X, ρ g y ∈ X := by
@@ -249,6 +250,7 @@ theorem card_eq_of_isNatSzProduct {G Y : Type*} [Group G] [CommGroup Y] [Nontriv
   rw [Nat.card_fun, Nat.card_fun, hF, Nat.card_eq_fintype_card, Fintype.card_fin,
     Nat.card_eq_fintype_card, Fintype.card_fin, pow_one, ← pow_mul, mul_comm]
 
+omit [Finite V] in
 theorem sec_irred {L : Subgroup (MulAut V)} {U₁ U₂ : Subgroup V} (h21 : U₂ ≤ U₁)
     (hU₁ : L ≤ stabSub U₁) (hU₂ : L ≤ stabSub U₂)
     (hirr : ∀ X : Subgroup V, U₂ ≤ X → X ≤ U₁ → L ≤ stabSub X → X = U₂ ∨ X = U₁)
@@ -287,6 +289,7 @@ namespace Hyp25Sz
 
 variable {S M A L : Subgroup (MulAut V)} {Z₀ W : Subgroup V}
 
+omit [Finite V] in
 theorem le_M_of_le (h : Hyp25Sz S M A L Z₀ W) : A ≤ M := fun b hb =>
   h.normalizer_le b (h.isL24Sz.le hb) (map_eq_self_of_le_fixV h.le_fixV hb)
 
@@ -383,6 +386,7 @@ theorem exists_fpf_five (hV : ∀ v : V, v ^ 2 = 1)
 
 end Hyp25Sz
 
+omit [Finite V] in
 theorem exists_hom_open_sz {L : Subgroup (MulAut V)} (R : Subgroup ↥L) [R.Normal] {a : ℕ}
     {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2 ^ (2 * a + 1))
     (e : ↥L ⧸ R ≃* suzukiGroup a K) :

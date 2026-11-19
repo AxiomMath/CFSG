@@ -78,7 +78,7 @@ public theorem componentEquivStatedSLOfMulEquiv_coe {H : Type} [Group H]
     ((componentEquivStatedSLOfMulEquiv e hC0 x : StatedSL m E) : GL (Fin m) E) =
       e ⟨x, hC0.1 x.2⟩ := by
   simp only [componentEquivStatedSLOfMulEquiv, MulEquiv.trans_apply,
-    MulEquiv.subgroupCongr_apply, Subgroup.coe_equivMapOfInjective_apply]
+    MulEquiv.subgroupCongr_apply]
   congr 1
 
 public noncomputable def statedSLQuotEquivLargeEvenProj {m : ℕ} {E : Type} [Field E] :
@@ -485,7 +485,7 @@ private theorem componentEquivStatedSL_commutator {H : Type} [Group H] {F : Subg
     (e : ↥F ≃* GL (Fin m) E) {C0 : Subgroup H} (hC0 : IsComponentOf C0 F) :
     commutator (StatedSL m E) = ⊤ := by
   let ec := componentEquivStatedSLOfMulEquiv e hC0
-  haveI : Group.IsPerfect ↥C0 := Group.isPerfect_def.mpr hC0.2.2.1
+  have : Group.IsPerfect ↥C0 := Group.isPerfect_def.mpr hC0.2.2.1
   exact (Group.IsPerfect.ofSurjective (f := ec.toMonoidHom) ec.surjective).commutator_eq_top
 
 public theorem largeEvenMarking_linearBlock_of_semilinear {H : Type} [Group H]

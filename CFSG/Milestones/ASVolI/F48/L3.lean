@@ -272,8 +272,7 @@ theorem burnsideF48_unitri_cent {u : Kˣ} (hu : u ≠ 1) {q : projectiveSL 3 K}
     have hu0 : (u : K) ≠ 0 := u.ne_zero
     simp [hH, burnsideF48_dSL, burnsideF48_dMat, Matrix.mul_apply, Fin.sum_univ_three,
       Matrix.scalar_apply, Matrix.diagonal_apply, Matrix.vecMul, dotProduct,
-      hQ.1 1 0 (by decide), hQ.1 2 0 (by decide),
-      hQ.1 2 1 (by decide), hQ.2 0, hQ.2 1, hQ.2 2] at e00 e01 e02
+      hQ.2 0] at e00 e01 e02
     rw [← e00] at e01 e02
     exact ⟨e01.resolve_left fun h => hu (Units.ext h),
       e02.resolve_left fun h => hu (Units.ext (inv_eq_one.1 h))⟩
@@ -360,7 +359,7 @@ theorem burnsideF48_pCoreOf_le_self {E : Type} [Group E] (p : ℕ) (H : Subgroup
 theorem burnsideF48_pCoreOf_conj {E : Type} [Group E] {p : ℕ} {H : Subgroup E} {g q : E}
     (hg : g ∈ H) (hq : q ∈ pCoreOf p H) : g * q * g⁻¹ ∈ pCoreOf p H := by
   obtain ⟨q₀, hq₀, rfl⟩ := hq
-  haveI : (CFSG.pCore p ↥H).Normal := CFSG.LieType.BorelTits.pCore_normal p
+  have : (CFSG.pCore p ↥H).Normal := CFSG.LieType.BorelTits.pCore_normal p
   exact ⟨⟨g, hg⟩ * q₀ * ⟨g, hg⟩⁻¹, (inferInstance : (CFSG.pCore p ↥H).Normal).conj_mem q₀ hq₀ ⟨g, hg⟩,
     by simp⟩
 
@@ -437,7 +436,7 @@ theorem burnsideF48_cartanFPF_of_data_three {κ : ChF.GLKind} {p f : ℕ} {E : T
     (hw : ¬ ∃ k ∈ P₁, ∃ l ∈ P₂, w = k * l)
     (hQ : ∀ q ∈ U, n⁻¹ * q * n ∈ U → h * q * h⁻¹ = q → q = 1) :
     (burnsideF48_setting hyp hp hm).CartanFPF := by
-  haveI : Finite E := hyp.finite
+  have : Finite E := hyp.finite
   set ι : G' → E := fun g => ((ε g : ↥Gp) : E) with hι
   have hmul : ∀ a b, ι (a * b) = ι a * ι b := fun a b => by simp [hι]
   have hinv : ∀ a, ι a⁻¹ = (ι a)⁻¹ := fun a => by simp [hι]
@@ -501,7 +500,7 @@ theorem burnsideF48_cartanFPF_of_data_four {κ : ChF.GLKind} {p f : ℕ} {E : Ty
     (hw : ¬ ∃ k ∈ P₁, ∃ l ∈ P₂, ∃ k' ∈ P₁, w = k * l * k')
     (hQ : ∀ q ∈ U, n⁻¹ * q * n ∈ U → h * q * h⁻¹ = q → q = 1) :
     (burnsideF48_setting hyp hp hm).CartanFPF := by
-  haveI : Finite E := hyp.finite
+  have : Finite E := hyp.finite
   set ι : G' → E := fun g => ((ε g : ↥Gp) : E) with hι
   have hmul : ∀ a b, ι (a * b) = ι a * ι b := fun a b => by simp [hι]
   have hinv : ∀ a, ι a⁻¹ = (ι a)⁻¹ := fun a => by simp [hι]
@@ -561,7 +560,7 @@ theorem burnsideF48_isSylowOf_of_equiv {p : ℕ} [Fact p.Prime] {E : Type} [Grou
     (hU : ∃ P : Sylow p G', (P : Subgroup G') = U) :
     ChF.IsSylowOf p ((U.map ε.toMonoidHom).map Gp.subtype) Gp := by
   obtain ⟨P, rfl⟩ := hU
-  refine ⟨Subgroup.map_subtype_le _, (P.isPGroup'.map ε.toMonoidHom).map Gp.subtype, ?_⟩
+  refine ⟨Subgroup.map_subtype_le _, (P.isPGroup.map ε.toMonoidHom).map Gp.subtype, ?_⟩
   have h1 : ((P.map ε.toMonoidHom).map Gp.subtype).subgroupOf Gp = P.map ε.toMonoidHom :=
     Subgroup.comap_map_eq_self_of_injective Gp.subtype_injective _
   rw [Subgroup.relIndex, h1]
@@ -621,8 +620,8 @@ private theorem burnsideF48_L3_comap_nativeParabolic (q : ℕ) (K : Type) [Field
     subst hS
     simp only [burnsideF4d_Y1_coordinateSpace_flag]
   cases b
-  · exact key _ 1 (by ext p; simp [ChF.ClassicalRoots.flagOne] <;> omega)
-  · exact key _ 2 (by ext p; simp [ChF.ClassicalRoots.flagTwo] <;> omega)
+  · exact key _ 1 (by ext p; simp [ChF.ClassicalRoots.flagOne])
+  · exact key _ 2 (by ext p; simp [ChF.ClassicalRoots.flagTwo]; omega)
 
 open CFSG.LocalAnalysis.ComponentInitial.LinearFlag in
 theorem burnsideF48_psi_map_parabolic {p f : ℕ} {H : Type} [Group H]
@@ -660,10 +659,10 @@ theorem burnsideF48_cartanFPF_L3 {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ 
     (hyp : ChF.HypF_4_4 .L3 p f Gp M₁ M₂) (hp : p.Prime) (hm : 3 ≤ ChF.GLKind.L3.m)
     (hq : 3 ≤ p ^ f) (hpoly : IsGenPolygon (burnsideF48_setting hyp hp hm).ι.graph 3) :
     (burnsideF48_setting hyp hp hm).CartanFPF := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨marking, h1, h2⟩ := burnsideF48_marking (c := .L3) hyp.toHypF_4_4g
   have hK : Nat.card marking.field = p ^ f := by simpa using marking.field_card
-  haveI : CharP marking.field p := by
+  have : CharP marking.field p := by
     have := Fintype.ofFinite marking.field
     exact charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card]; exact hK)
   obtain ⟨n, w, h, hn1, hn2, hh1, hh2, hh3, hh4, hw, hQ⟩ :=
@@ -675,12 +674,12 @@ theorem burnsideF48_cartanFPF_L3 {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ 
     n w h hn1 hn2 hh1 hh2 hh3 hh4 hw hQ
   · intro g
     have := burnsideF48_psi_mem_iff marking false g
-    simp only [Bool.false_eq_true, if_false] at this
+    simp only [Bool.false_eq_true, ite_false] at this
     rw [← this, ← h1]
     exact Subgroup.mem_subgroupOf.symm
   · intro g
     have := burnsideF48_psi_mem_iff marking true g
-    simp only [if_true] at this
+    simp only [ite_true] at this
     rw [← this, ← h2]
     exact Subgroup.mem_subgroupOf.symm
   · exact Subgroup.map_mono ((unitriangular_le_upperTriangular 3 marking.field).trans
@@ -690,7 +689,7 @@ theorem burnsideF48_cartanFPF_L3 {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ 
 theorem burnsideF48_simple_L3 {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
     (hyp : ChF.HypF_4_4 .L3 p f Gp M₁ M₂) : IsSimpleGroup ↥Gp := by
   obtain ⟨-, -, K, hK, hKfin, -, ⟨e⟩⟩ := hyp.model
-  haveI : IsSimpleGroup (CFSG.LocalAnalysis.ComponentInitial.LinearFlag.projectiveSL 3 K) :=
+  have : IsSimpleGroup (CFSG.LocalAnalysis.ComponentInitial.LinearFlag.projectiveSL 3 K) :=
     CFSG.RankThree.PartOne.KCLinearSubfield.isSimpleGroup_projectiveSL (n := 3) (K := K) le_rfl
   exact (e.trans (CFSG.QuasithinUnique.Id2519.projectiveSLEquivStatedProj 3 K).symm).isSimpleGroup
 

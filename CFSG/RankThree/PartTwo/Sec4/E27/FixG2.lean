@@ -14,7 +14,7 @@ open CFSG.RankThree.PartOne CFSG.RankThree.PartOne.CTP CFSG.RankThree.PartOne.SE
 namespace CFSG.RankThree.PartTwo.Sec4.E27
 
 theorem le_closure_centralizers_of_equiv {Y Q : Type} [Group Y] [Group Q] {H A : Subgroup Y}
-    (hAH : A ≤ H) (e : ↥H ≃* Q)
+    (_hAH : A ≤ H) (e : ↥H ≃* Q)
     (h : Subgroup.closure {c : Q | ∃ b ∈ (A.subgroupOf H).map e.toMonoidHom, b ≠ 1 ∧
       c * b = b * c} = ⊤) :
     H ≤ Subgroup.closure {x : Y | x ∈ H ∧ ∃ b ∈ A, b ≠ 1 ∧ x * b = b * x} := by
@@ -50,7 +50,7 @@ theorem le_closure_centralizers_of_equiv {Y Q : Type} [Group Y] [Group Q] {H A :
 theorem fixPlaneGen_g2_three {K : Type} [Field K] [Finite K] {f : ℕ} (hf : 4 ≤ f)
     (hK : Nat.card K = 2 ^ f) : FixPlaneGen (adjointGroup .G2 K) 3 := by
   classical
-  haveI : CharP K 2 := charP_two_of_card hK
+  have : CharP K 2 := charP_two_of_card hK
   refine fixPlaneGen_of_standard (MulAut.conj : adjointGroup .G2 K →* MulAut _).range
     {g | ∃ σ : K ≃+* K, orderOf σ = 3 ∧ g = entrywiseAdjointAut .G2 σ} ?_ ?_
   · intro α hα

@@ -14,21 +14,25 @@ variable {G : Type} [Group G] [Finite G]
 @[expose] def jAtLeast (m q : ℕ) (X : Subgroup G) : Subgroup G :=
   ⨆ (E : Subgroup G) (_ : E ≤ X ∧ IsElemAbelian 2 E ∧ m ≤ q * Nat.card E), E
 
+omit [Finite G] in
 theorem jAtLeast_le (m q : ℕ) (X : Subgroup G) : jAtLeast m q X ≤ X := by
   rw [jAtLeast]
   exact iSup_le fun _ => iSup_le fun hE => hE.1
 
+omit [Finite G] in
 theorem le_jAtLeast {m q : ℕ} {X E : Subgroup G} (hEX : E ≤ X)
     (hE : IsElemAbelian 2 E) (hm : m ≤ q * Nat.card E) : E ≤ jAtLeast m q X := by
   rw [jAtLeast]
   exact le_iSup₂_of_le E ⟨hEX, hE, hm⟩ le_rfl
 
+omit [Finite G] in
 theorem jAtLeast_mono {m q : ℕ} {X Y : Subgroup G} (h : X ≤ Y) :
     jAtLeast m q X ≤ jAtLeast m q Y := by
   rw [jAtLeast]
   exact iSup_le fun E => iSup_le fun hE =>
     le_jAtLeast (hE.1.trans h) hE.2.1 hE.2.2
 
+omit [Finite G] in
 theorem jAtLeast_eq_of_le {m q : ℕ} {X Y : Subgroup G}
     (h1 : jAtLeast m q Y ≤ X) (h2 : X ≤ Y) :
     jAtLeast m q X = jAtLeast m q Y := by
@@ -40,6 +44,7 @@ theorem jAtLeast_eq_of_le {m q : ℕ} {X Y : Subgroup G}
     exact iSup_le fun E => iSup_le fun hE =>
       le_jAtLeast ((le_jAtLeast hE.1 hE.2.1 hE.2.2).trans h1) hE.2.1 hE.2.2
 
+omit [Finite G] in
 private theorem map_conj_le_jAtLeast {m q : ℕ} {X : Subgroup G} {g : G}
     (hg : g ∈ Subgroup.normalizer (X : Set G)) :
     (jAtLeast m q X).map (MulAut.conj g) ≤ jAtLeast m q X := by
@@ -62,6 +67,7 @@ theorem normalizer_le_normalizer_jAtLeast (m q : ℕ) (X : Subgroup G) :
   exact Subgroup.eq_of_le_of_card_ge hle (by
     rw [Subgroup.card_map_of_injective (MulAut.conj g).injective])
 
+omit [Finite G] in
 theorem exists_not_le_of_not_jAtLeast_le {m q : ℕ} {X Y : Subgroup G}
     (h : ¬ jAtLeast m q X ≤ Y) :
     ∃ E : Subgroup G, E ≤ X ∧ IsElemAbelian 2 E ∧ m ≤ q * Nat.card E ∧ ¬ E ≤ Y := by

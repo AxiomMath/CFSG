@@ -34,7 +34,7 @@ theorem three_mul_le_of_not_mem {p : ℕ} (hp : p.Prime) {K : Subgroup X} (hK : 
     (hbb : b * b ∉ Subgroup.normalizer (K : Set X)) :
     3 * ρ ≤ CFSG.Open.pRank p (⊤ : Subgroup X) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set K₁ := cj b K with hK₁def
   set K₂ := cj (b * b) K with hK₂def
   have hK₁ : IsComponentOf K₁ ⊤ := isComponentOf_cj hK b
@@ -227,7 +227,7 @@ theorem exists_toral {K : Subgroup X} (hq : CFSG.Open.IsQuasisimple ↥K) (d : T
     (hd : Gen2318Index d.1) (e : (↥K ⧸ Subgroup.center ↥K) ≃* (TauCeti.CFSGIndex.lie d).Group) :
     ∃ (E : Subgroup X) (ρ : ℕ), E ≤ K ∧ IsElemAbelian 3 E ∧
       (∀ x ∈ E, (∀ y ∈ K, x * y = y * x) → x = 1) ∧ Nat.card E = 3 ^ ρ ∧ rho2318 d.1 ≤ ρ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨EK, -, hEKel, hdisj, hρ, -, -, -⟩ := gen2318TwoLocal_holds ↥K hq d hd ⟨e⟩
   refine ⟨EK.map K.subtype, CFSG.Open.pRank 3 EK, Subgroup.map_subtype_le EK,
     CFSG.SectionRank.isElemAbelian_map hEKel K.subtype, ?_, ?_, hρ⟩
@@ -337,7 +337,7 @@ theorem le_glbCore_of_rankFour (hGA : CFSG.Open.GriessAllModelsStatement) {B K :
     (d : TauCeti.ValidLieTypeIndex) (e : (↥K ⧸ Subgroup.center ↥K) ≃* (TauCeti.CFSGIndex.lie d).Group)
     (hd : Gen2318Index d.1) : K ≤ GLBCore 3 2 B := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hq : CFSG.Open.IsQuasisimple ↥K := hK.2.2
   have hperf : commutator ↥K = ⊤ := hq.1
   have hodd : Odd (Nat.card (Subgroup.center ↥K)) :=
@@ -384,7 +384,7 @@ theorem le_glbCore_of_gen2318 (hGA : CFSG.Open.GriessAllModelsStatement) (hKX : 
     (d : TauCeti.ValidLieTypeIndex) (e : (↥K ⧸ Subgroup.center ↥K) ≃* (TauCeti.CFSGIndex.lie d).Group)
     (hd : Gen2318Index d.1) : K ≤ GLBCore 3 2 B := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hq : CFSG.Open.IsQuasisimple ↥K := hK.2.2
   have hperf : commutator ↥K = ⊤ := hq.1
   have hodd : Odd (Nat.card (Subgroup.center ↥K)) :=

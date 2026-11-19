@@ -85,8 +85,8 @@ private lemma l48dA_mem_fix_iff {K : Type*} [Field K] [CharP K 2] [Finite K] {V 
 
 theorem ggB2der_fix_orth_decomp {K : Type*} [Field K] [CharP K 2] [Finite K] {V : Type*}
     [AddCommGroup V] [Module K V] [FiniteDimensional K V] {G : Type*} [Group G]
-    (hK : Nat.card K = 2) (ρ : G →* (Module.End K V)ˣ)
-    (B : LinearMap.BilinForm K V) (hB : B.Nondegenerate) (hr : B.IsRefl)
+    (_hK : Nat.card K = 2) (ρ : G →* (Module.End K V)ˣ)
+    (B : LinearMap.BilinForm K V) (hB : B.Nondegenerate) (_hr : B.IsRefl)
     (hiso : ∀ g v w, B ((ρ g : Module.End K V) v) ((ρ g : Module.End K V) w) = B v w)
     {z : G} (hz : z ^ 3 = 1) :
     IsCompl (SmallRule.fixSpaceOf ρ (Subgroup.zpowers z))
@@ -160,7 +160,7 @@ theorem ggB2der_fix_orth_decomp {K : Type*} [Field K] [CharP K 2] [Finite K] {V 
             rw [LinearMap.sub_apply, Module.End.one_apply]
       _ = B w (Z u) - B w u := map_sub (B w) (Z u) u
       _ = 0 := by rw [hisow, sub_self]
-  haveI : FiniteDimensional K (B.orthogonal W0) :=
+  have : FiniteDimensional K (B.orthogonal W0) :=
     FiniteDimensional.finiteDimensional_submodule (B.orthogonal W0)
   have hrange_orth : LinearMap.range (Z - 1) = B.orthogonal W0 :=
     Submodule.eq_of_le_of_finrank_eq horth_le (hfr_range.trans hfr_orth.symm)

@@ -52,8 +52,8 @@ theorem mem_stabPair_of_mem_familyStabilizer {L : Type} [Field L] {ζ : Lˣ}
 @[expose, instance_reducible] noncomputable def pairAction :
     MulAction (WeylGroup .E6) ((Fin Tag.E6.rank → ZMod 3) × (Fin Tag.E6.rank → ZMod 3)) where
   smul w p := (adAct .E6 3 w p.1, adAct .E6 3 w p.2)
-  one_smul p := Prod.ext (adAct_one _) (adAct_one _)
-  mul_smul w w' p := Prod.ext (adAct_mul w w' _) (adAct_mul w w' _)
+  one_smul _p := Prod.ext (adAct_one _) (adAct_one _)
+  mul_smul w w' _p := Prod.ext (adAct_mul w w' _) (adAct_mul w w' _)
 
 @[expose] def pairKey (x y : Fin Tag.E6.rank → ZMod 3) : ℕ :=
   (x 0).val + 3 * ((x 1).val + 3 * ((x 2).val + 3 * ((x 3).val + 3 * ((x 4).val +
@@ -408,7 +408,7 @@ theorem card_stabPair_of_certificates
     (hprod : codes.length * words.length = 51840) :
     Nat.card (stabPair x y) = words.length := by
   classical
-  letI := pairAction
+  let := pairAction
   have hstab : MulAction.stabilizer (WeylGroup .E6) (x, y) = stabPair x y := by
     ext w
     rw [MulAction.mem_stabilizer_iff]

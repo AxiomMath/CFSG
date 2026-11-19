@@ -103,7 +103,7 @@ theorem C16_eq_span :
     exact Submodule.subset_span ⟨j, rfl⟩
   · rintro _ ⟨j, rfl⟩ m hm
     show (Pi.single (c16Pos j) (1 : ZMod 2) : V) m = 0
-    rw [Pi.single_apply, if_neg]
+    rw [Pi.single_apply, ite_eq_right]
     rintro rfl
     exact hm (c16Pos_mem j)
 

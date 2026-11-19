@@ -31,7 +31,7 @@ theorem rowSOf148_j3 :
     RowSOf148 (Spor .J3) :=
   rowSOf148_spor_of_oPrime CFSG.Sporadic.Bridge.J3.nonempty_mulEquiv
     (fun hfin => by
-      haveI := hfin
+      have := hfin
       exact RonanK429H.not_three_dvd_outer_of_le_two card_outer_J3)
     fun S _ _ _ ⟨e⟩ => by
       obtain ⟨b⟩ := CFSG.Sporadic.Bridge.J3.nonempty_mulEquiv
@@ -41,7 +41,7 @@ theorem rowSOf148_mcl :
     RowSOf148 (Spor .McL) :=
   rowSOf148_spor_of_oPrime CFSG.Sporadic.Bridge.McL.nonempty_mulEquiv
     (fun hfin => by
-      haveI := hfin
+      have := hfin
       exact RonanK429H.not_three_dvd_outer_of_le_two card_outer_McL)
     fun _ _ _ _ ⟨e⟩ => OPrimeCoreTrivialAt.of_mulEquiv e
       CFSG.HardMathSupport.Timmesfeld.SporadicBalance.oPrimeCoreTrivialAt_McL
@@ -50,7 +50,7 @@ theorem rowSOf148_on :
     RowSOf148 (Spor .ONan) :=
   rowSOf148_spor_of_oPrime CFSG.Sporadic.Bridge.ON.nonempty_mulEquiv (fun _ => inputs47Core_outON)
     fun S _ _ hs he => by
-      haveI := hs
+      have := hs
       exact CFSG.HardMathSupport.Timmesfeld.SporadicBalance.sporadicOPrimeHolds_ONan_three S he
 
 theorem rowSOf148_suz :
@@ -80,7 +80,7 @@ theorem rowSOf148_hn :
       rw [CFSG.RankThree.PartOne.SPOR.card_outer_HN]
       norm_num)
     fun S _ _ hs he => by
-      haveI := hs
+      have := hs
       exact CFSG.HardMathSupport.Timmesfeld.SporadicBalance.sporadicOPrimeHolds_HN_three_of_witness
         CFSG.HardMathSupport.Timmesfeld.SporadicBalance.hnThreeWitness_of_certificate S he
 
@@ -92,7 +92,7 @@ theorem rowSOf148_th :
         CFSG.RankThree.PartOne.SPOR.card_outer_Th_native]
       norm_num)
     fun S _ _ hs he => by
-      haveI := hs
+      have := hs
       exact CFSG.HardMathSupport.Timmesfeld.SporadicBalance.sporadicOPrimeHolds_Th_three_of_residual
         CFSG.HardMathSupport.Timmesfeld.SporadicBalance.thThreeResidual_holds S he
 

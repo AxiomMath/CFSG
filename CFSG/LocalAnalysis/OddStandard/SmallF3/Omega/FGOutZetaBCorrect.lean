@@ -18,8 +18,8 @@ private lemma zetaBCorrect_card_two {H : Type*} [Group H] (h2 : Nat.card H = 2)
     {a b : H} (ha : a ≠ 1) (hb : b ≠ 1) : a = b := by
   classical
   by_contra hab
-  haveI : Finite H := Nat.finite_of_card_ne_zero (by rw [h2]; norm_num)
-  letI := Fintype.ofFinite H
+  have : Finite H := Nat.finite_of_card_ne_zero (by rw [h2]; norm_num)
+  let := Fintype.ofFinite H
   have hcard : Fintype.card H = 2 := by rw [← Nat.card_eq_fintype_card, h2]
   have h3 : ({1, a, b} : Finset H).card = 3 := by
     rw [Finset.card_insert_of_notMem (by

@@ -72,7 +72,7 @@ theorem exists_abelian_nine {ζ : Lˣ} (hζ : orderOf ζ = 9) (H : Subgroup (GL 
       diagGL 3 u ∈ H) :
     ∃ A : Subgroup (StatedProj H), IsPGroup 3 A ∧ (∀ a ∈ A, ∀ b ∈ A, a * b = b * a) ∧
       27 ≤ Nat.card A ∧ ∃ a ∈ A, a ^ 3 ≠ 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let E : Multiplicative (ℤ × ℤ) →* (Fin 3 → Lˣ) :=
     MonoidHom.mk' (fun v => ![ζ ^ v.toAdd.1, ζ ^ v.toAdd.2, ζ ^ (-v.toAdd.1 - v.toAdd.2)])
       (fun v w => by

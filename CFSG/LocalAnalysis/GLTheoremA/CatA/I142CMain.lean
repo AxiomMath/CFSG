@@ -133,7 +133,7 @@ section Cert
 
 theorem residualCyc_holds : ResidualCyc := by
   intro S _ _ hS hnc hchev p hp hp2 hH β hβ
-  haveI := hS
+  have := hS
   have hz : Subgroup.center S = ⊥ := b3Lie_center_eq_bot hnc
   have hPIL : PerfectInLayer β := by
     by_cases hβ1 : β = 1

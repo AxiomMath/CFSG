@@ -47,12 +47,12 @@ theorem enum8 {Y : Type} [Group Y] (a b c : Y) (hab : a * b = b * a) (hac : a * 
     rcases hy with rfl | rfl | rfl
     all_goals
       rcases ihx with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl <;>
-        simp [mul_assoc, hba, hca, hcb, hba', hca', hcb', ha', hb', hc', ha, hb, hc]
+        simp [mul_assoc, hba, hca, hcb, hba', ha', hb', ha, hb, hc]
   | mul_inv_cancel x hx y hy ihx =>
     rcases hy with rfl | rfl | rfl
     all_goals
       rcases ihx with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl <;>
-        simp [mul_assoc, hba, hca, hcb, hba', hca', hcb', ha', hb', hc', ha, hb, hc, hai, hbi, hci]
+        simp [mul_assoc, hba, hca, hcb, hba', ha', hb', ha, hb, hc, hai, hbi, hci]
 
 theorem geg_eq (hc : P23Cfg n Y R S t K' W u e g) : g * e * g⁻¹ = e := by
   have hd := hc.data

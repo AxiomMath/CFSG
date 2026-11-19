@@ -13,7 +13,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem isSylowOf_card {H P : Subgroup G} (h : IsSylowOf 3 P H) :
     Nat.card P = 3 ^ (Nat.card H).factorization 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hle, hp, hcop⟩ := h
   obtain ⟨a, ha⟩ := hp.exists_card_eq
   have h1 := Subgroup.relIndex_mul_card P H
@@ -29,7 +29,7 @@ theorem isSylowOf_card {H P : Subgroup G} (h : IsSylowOf 3 P H) :
 
 theorem isSylowOf_of_card {H P : Subgroup G} (hle : P ≤ H)
     (hc : Nat.card P = 3 ^ (Nat.card H).factorization 3) : IsSylowOf 3 P H := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine ⟨hle, IsPGroup.of_card hc, ?_⟩
   have h1 := Subgroup.relIndex_mul_card P H
   rw [inf_of_le_left hle, hc] at h1
@@ -48,19 +48,19 @@ theorem isSylowOf_of_card {H P : Subgroup G} (hle : P ≤ H)
   omega
 
 theorem exists_sylowOf (H : Subgroup G) : ∃ P : Subgroup G, IsSylowOf 3 P H := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P⟩ : Nonempty (Sylow 3 H) := inferInstance
   refine ⟨(P : Subgroup H).map H.subtype, ?_, ?_, ?_⟩
   · rintro _ ⟨x, -, rfl⟩
     exact x.2
-  · exact P.isPGroup'.map H.subtype
+  · exact P.isPGroup.map H.subtype
   · rw [Subgroup.relIndex, Subgroup.subgroupOf,
       Subgroup.comap_map_eq_self_of_injective H.subtype_injective]
     exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mpr (P.not_dvd_index)
 
 theorem exists_conj_le_sylowOf {H P Q : Subgroup G} (hP : IsSylowOf 3 P H) (hQH : Q ≤ H)
     (hQ : IsPGroup 3 Q) : ∃ k ∈ H, ∀ x ∈ Q, k * x * k⁻¹ ∈ P := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hPH, hPp, hPi⟩ := hP
   let A : Subgroup ↥H := P.subgroupOf H
   let Q' : Subgroup ↥H := Q.subgroupOf H
@@ -88,7 +88,7 @@ theorem exists_conj_le_sylowOf {H P Q : Subgroup G} (hP : IsSylowOf 3 P H) (hQH 
 
 theorem isSylowOf_inf_normal {H B N : Subgroup G} (hB : IsSylowOf 3 B H) (hNH : N ≤ H)
     (hnorm : ∀ g ∈ H, ∀ n ∈ N, g * n * g⁻¹ ∈ N) : IsSylowOf 3 (B ⊓ N) N := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Q, hQ⟩ := exists_sylowOf (G := G) N
   obtain ⟨k, hkH, hk⟩ := exists_conj_le_sylowOf hB (hQ.1.trans hNH) hQ.2.1
   let Q' : Subgroup G := Q.map (MulAut.conj k).toMonoidHom
@@ -105,8 +105,10 @@ theorem isSylowOf_inf_normal {H B N : Subgroup G} (hB : IsSylowOf 3 B H) (hNH : 
   rw [← h1] at h2
   exact Nat.Coprime.coprime_dvd_right (Dvd.intro_left _ rfl) h2
 
+omit [Finite G] in
 theorem Opp_le (p : ℕ) (H : Subgroup G) : Opp p H ≤ H := Subgroup.map_subtype_le _
 
+omit [Finite G] in
 theorem Opp_conj_mem {p : ℕ} {H : Subgroup G} {g z : G} (hg : g ∈ H) (hz : z ∈ Opp p H) :
     g * z * g⁻¹ ∈ Opp p H := by
   obtain ⟨z', hz', rfl⟩ := Subgroup.mem_map.mp hz
@@ -119,6 +121,7 @@ theorem Opp_coprime (p : ℕ) [Fact p.Prime] (H : Subgroup G) :
   rw [h, Subgroup.card_map_of_injective H.subtype_injective]
   exact CFSG.pPrimeCore_coprime_card (p := p) (G := H)
 
+omit [Finite G] in
 theorem le_Opp_of_normalized {p : ℕ} {N H : Subgroup G} (hNH : N ≤ H)
     (hn : ∀ h ∈ H, ∀ x ∈ N, h * x * h⁻¹ ∈ N) (hc : Nat.Coprime p (Nat.card N)) :
     N ≤ Opp p H := by
@@ -165,6 +168,7 @@ theorem conjBy_Opp_le {p : ℕ} [Fact p.Prime] (g : G) (H : Subgroup G) :
   · rw [Subgroup.card_map_of_injective (MulAut.conj g).injective]
     exact Opp_coprime p H
 
+omit [Finite G] in
 theorem conjBy_conjBy_inv (g : G) (H : Subgroup G) : conjBy g⁻¹ (conjBy g H) = H := by
   ext x
   simp only [Subgroup.mem_map, MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
@@ -188,7 +192,8 @@ theorem conjBy_Opp {p : ℕ} [Fact p.Prime] (g : G) (H : Subgroup G) :
   rw [h2] at h3
   exact h3 hx
 
-theorem le_of_coprime_relIndex {X D Y : Subgroup G} (hXD : X ≤ D)
+omit [Finite G] in
+theorem le_of_coprime_relIndex {X D Y : Subgroup G} (_hXD : X ≤ D)
     (hXn : ∀ d ∈ D, ∀ x ∈ X, d * x * d⁻¹ ∈ X) (hYD : Y ≤ D)
     (hcop : Nat.Coprime (Nat.card Y) (X.relIndex D)) : Y ≤ X := by
   have hN : (X.subgroupOf D).Normal := ⟨fun x hx h => by
@@ -207,7 +212,7 @@ theorem le_of_coprime_relIndex {X D Y : Subgroup G} (hXD : X ≤ D)
   have hmem : f ⟨y, hyD⟩ ∈ A :=
     Subgroup.mem_map_of_mem f (show (⟨y, hyD⟩ : ↥D) ∈ Y.subgroupOf D from hy)
   rw [hA, Subgroup.mem_bot] at hmem
-  haveI := hN
+  have := hN
   exact (QuotientGroup.eq_one_iff (N := X.subgroupOf D) (⟨y, hyD⟩ : ↥D)).mp hmem
 
 end CFSG.RankThree.PartTwo.Sec21.FF79.L14

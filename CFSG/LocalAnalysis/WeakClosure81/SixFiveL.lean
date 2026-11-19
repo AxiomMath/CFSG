@@ -19,7 +19,7 @@ private theorem s65_SixFiveL_relIndex_eq_card {G : Type*} [Group G] [Finite G]
     (hinf : V₀ ⊓ N = ⊥) : N.relIndex U = Nat.card V₀ := by
   have hV₀U : V₀ ≤ U := by rw [hU]; exact le_sup_left
   have hNU : N ≤ U := by rw [hU]; exact le_sup_right
-  haveI : (N.subgroupOf U).Normal := inferInstance
+  have : (N.subgroupOf U).Normal := inferInstance
   have hsup : N.subgroupOf U ⊔ V₀.subgroupOf U = ⊤ := by
     have h1 : (V₀ ⊔ N).subgroupOf U = ⊤ := by rw [← hU, Subgroup.subgroupOf_self]
     rw [Subgroup.subgroupOf_sup hV₀U hNU] at h1
@@ -51,11 +51,13 @@ namespace Hyp65
 
 variable {n : ℕ} {M V₀ V : Subgroup G} {g : G}
 
+omit [Finite G] in
 theorem V₀_le_U_of_le_K (h : Hyp65 n M V₀ V g) (hV₀K : V₀ ≤ KOf M V g) :
     V₀ ≤ UOf M V g := by
   rw [← h.V_inf_K]
   exact le_inf h.le hV₀K
 
+omit [Finite G] in
 theorem Z0_eq_V₀_of_le_K (h : Hyp65 n M V₀ V g) (hV₀K : V₀ ≤ KOf M V g) :
     Z0Of M V₀ g = V₀ := by
   unfold Z0Of
@@ -169,8 +171,8 @@ theorem centralizer_V_B_eq (h : Hyp65 n M V₀ V g) (hgen : GenHyp M V g)
 
 theorem mQuot_N_eq_of_U_eq (h : Hyp65 n M V₀ V g) (hU : UOf M V g = V₀ ⊔ NOf M V g) :
     E3.mQuot V (NOf M V g) = E3.mQuot V (conjSubgroup M g) + mSub V₀ := by
-  haveI hVcomm : IsMulCommutative V := h.elemAbelian.1
-  haveI hUcomm : IsMulCommutative (UOf M V g) :=
+  have hVcomm : IsMulCommutative V := h.elemAbelian.1
+  have hUcomm : IsMulCommutative (UOf M V g) :=
     IsMulCommutative.of_comm fun a b =>
       Subtype.ext (by
         simpa only [Subgroup.coe_mul] using
@@ -194,6 +196,7 @@ theorem mQuot_N_eq_of_U_eq (h : Hyp65 n M V₀ V g) (hU : UOf M V g = V₀ ⊔ N
   rw [hUN, hVU]
   exact add_comm _ _
 
+omit [Finite G] in
 theorem rMV_le_mQuot_N (h : Hyp65 n M V₀ V g) :
     rMV M V ≤ (E3.mQuot V (NOf M V g) : ℕ∞) := by
   have hNV : NOf M V g ≤ V :=

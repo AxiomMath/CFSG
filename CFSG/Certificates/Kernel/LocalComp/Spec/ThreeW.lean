@@ -169,7 +169,7 @@ theorem conjClosureL_eq_conjClosure (n : Nat) (gens gensInv : Array Table) (x : 
     constructor
     · intro hlt
       have hlt' : h < s.2.1.size := by rw [h1]; exact hlt
-      rw [if_pos hlt']
+      rw [ite_eq_left hlt']
       refine ⟨_, rfl, ?_⟩
       · simp only [Prod.eta]
         rw [forIn_range_eq_range', closStep_eq_foldl_range']
@@ -182,7 +182,7 @@ theorem conjClosureL_eq_conjClosure (n : Nat) (gens gensInv : Array Table) (x : 
           · refine ⟨t, ?_, ?_⟩
             · have hn : ¬ ((!t.1.contains (key n (conjT n gens[l]! gensInv[l]! τ.1[h]!)))
                   = true) := by simp [hc]
-              rw [if_neg hn]
+              rw [ite_eq_right hn]
               rfl
             · unfold closStepAt
               try dsimp only
@@ -190,11 +190,11 @@ theorem conjClosureL_eq_conjClosure (n : Nat) (gens gensInv : Array Table) (x : 
                   = true := by
                 rw [← ht4]
                 exact hc
-              rw [if_pos hc']
+              rw [ite_eq_left hc']
               exact ⟨ht1, ht2, ht3, ht4⟩
           · have hp : (!t.1.contains (key n (conjT n gens[l]! gensInv[l]! τ.1[h]!)))
                 = true := by simpa using hc
-            rw [if_pos hp]
+            rw [ite_eq_left hp]
             refine ⟨_, rfl, ?_⟩
             · unfold closStepAt
               try dsimp only
@@ -202,7 +202,7 @@ theorem conjClosureL_eq_conjClosure (n : Nat) (gens gensInv : Array Table) (x : 
                   = true) := by
                 rw [← ht4]
                 exact hc
-              rw [if_neg hc']
+              rw [ite_eq_right hc']
               unfold SameSt
               refine ⟨?_, ?_, ?_, ?_⟩
               · try dsimp only
@@ -220,7 +220,7 @@ theorem conjClosureL_eq_conjClosure (n : Nat) (gens gensInv : Array Table) (x : 
         · rw [h1]
     · intro hlt
       have hlt' : ¬ h < s.2.1.size := by rw [h1]; exact hlt
-      rw [if_neg hlt']
+      rw [ite_eq_right hlt']
       rfl
 
 end CFSG.KC.LocalComp.Spec

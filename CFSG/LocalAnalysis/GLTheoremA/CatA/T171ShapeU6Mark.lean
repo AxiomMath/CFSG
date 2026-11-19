@@ -35,9 +35,9 @@ open CFSG.Yardstones.Md0ec50421ce4 CFSG.LocalAnalysis.GLTheoremA.S10
 open CFSG.LocalAnalysis.ComponentInitial
 
 private theorem three_dvd_card_of_u6 {Ω : Type} [Group Ω] [Finite Ω] {L : Subgroup Ω} {n : ℕ}
-    (hq : CFSG.Open.IsQuasisimple ↥L) (hcat : catalogIs (PSimple 3 L) (S10.isU6n n)) :
+    (_hq : CFSG.Open.IsQuasisimple ↥L) (hcat : catalogIs (PSimple 3 L) (S10.isU6n n)) :
     3 ∣ Nat.card ↥L := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have htw : catalogIs (PSimple 3 L) S10.isTwistedA := by
     obtain ⟨i, hi, he⟩ := hcat
     refine ⟨i, ?_, he⟩
@@ -48,7 +48,7 @@ private theorem three_dvd_card_of_u6 {Ω : Type} [Group Ω] [Finite Ω] {L : Sub
     | lie d =>
       obtain ⟨d, hv⟩ := d
       cases d <;> simp [S10.isU6n, S10.isTwistedA, onLie] at hi ⊢
-  haveI : IsSimpleGroup (PSimple 3 L) := S10.isSimple_of_catalogIs_twistedA htw
+  have : IsSimpleGroup (PSimple 3 L) := S10.isSimple_of_catalogIs_twistedA htw
   have hOtop : GLAPPrimeCore 3 ↥L ≠ ⊤ := by
     intro htop
     have hsub : Subsingleton (PQuot 3 L) := by
@@ -99,10 +99,10 @@ theorem u6Marking_holds :
   obtain ⟨K, hKfield, hKfinite, hKcard, hQ⟩ := hrecipe
   obtain ⟨-, -, ⟨θ', hP', -⟩⟩ := hQ
   obtain ⟨hBN, hBI⟩ := hP'
-  letI := hKfield
-  letI := hKfinite
+  let := hKfield
+  let := hKfinite
   have hfield : UnitaryFieldData 2 n K := unitaryFieldDataOfCard hKcard
-  letI := hfield
+  let := hfield
   exact ⟨K, hKfield, hKfinite, hfield, θ', hBI⟩
 
 end CFSG.LocalAnalysis.GLTheoremA.T171Sh

@@ -55,7 +55,7 @@ theorem exists_pGroup_containing_conjSubgroup [Finite G] {C A B : Subgroup G}
   obtain ⟨Q₁, hQ₁⟩ := (hA.comap_subtype (K := C)).exists_le_sylow
   obtain ⟨Q₂, hQ₂⟩ := (hB.comap_subtype (K := C)).exists_le_sylow
   obtain ⟨c, hc⟩ := MulAction.exists_smul_eq C Q₂ Q₁
-  refine ⟨(Q₁ : Subgroup C).map C.subtype, Q₁.isPGroup'.map _, Subgroup.map_subtype_le _, ?_,
+  refine ⟨(Q₁ : Subgroup C).map C.subtype, Q₁.isPGroup.map _, Subgroup.map_subtype_le _, ?_,
     c, c.2, ?_⟩
   · intro a ha
     exact ⟨⟨a, hAC ha⟩, hQ₁ ha, rfl⟩

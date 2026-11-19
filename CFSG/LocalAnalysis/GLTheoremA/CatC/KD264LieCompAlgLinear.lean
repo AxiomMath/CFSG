@@ -184,8 +184,8 @@ theorem linearCompAlgEight_holds : LinearCompAlgEight := by
   have hX3 : conjAut n k (X ^ 3) = 1 := by rw [map_pow, hx3]
   obtain ⟨ν, hν⟩ := exists_eq_scalar_of_conjAut_eq_one hn hX3
   have hAX : A * X = X * A := mul_comm_of_commute_conjAut_pow_three hn hk hx3 hβx
-  letI : Fintype k := Fintype.ofFinite k
-  haveI : CharP k 2 := charP_of_card_eq_prime_pow (p := 2) (f := 3)
+  let : Fintype k := Fintype.ofFinite k
+  have : CharP k 2 := charP_of_card_eq_prime_pow (p := 2) (f := 3)
     (by rw [← Nat.card_eq_fintype_card]; rw [hk]; norm_num)
   have hpk : (3 : k) ≠ 0 := by
     intro h0
@@ -193,8 +193,8 @@ theorem linearCompAlgEight_holds : LinearCompAlgEight := by
     norm_num at hd
   have hsq := squarefree_minpoly_glA hpk hc
   obtain ⟨h, rfl⟩ := linear_inner_components hpk hc K hK
-  haveI : Fact (Irreducible h.1.1) := ⟨irreducible_of_mem_primaryFactors h.1.2⟩
-  haveI : Finite (AdjoinRoot h.1.1) := Module.finite_of_finite k
+  have : Fact (Irreducible h.1.1) := ⟨irreducible_of_mem_primaryFactors h.1.2⟩
+  have : Finite (AdjoinRoot h.1.1) := Module.finite_of_finite k
   obtain ⟨eF⟩ := nonempty_mulEquiv_specialFactor (A := A) hsq h.1.2
   obtain ⟨f, hf, hker⟩ := exists_surjective_ker_le_center_map_proj
     (n := n) (k := k) (S := specialFactor A h.1.1)

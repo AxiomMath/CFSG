@@ -14,9 +14,9 @@ private theorem rckExc_exists_ne_one_centralizer {X : Type} [Group X] [Finite X]
     ∃ y ∈ U, y ≠ 1 ∧ y ∈ Subgroup.centralizer (D : Set X) := by
   have hB : IsPGroup p (↥(U ⊔ D)) := hUp.to_sup_of_normal_left' hDp hDU
   have hBN : U ⊔ D ≤ Subgroup.normalizer (U : Set X) := sup_le Subgroup.le_normalizer hDU
-  haveI : (U.subgroupOf (U ⊔ D)).Normal :=
+  have : (U.subgroupOf (U ⊔ D)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer le_sup_left).2 hBN
-  haveI : Group.IsNilpotent ↥(U ⊔ D) := hB.isNilpotent
+  have : Group.IsNilpotent ↥(U ⊔ D) := hB.isNilpotent
   have hne : U.subgroupOf (U ⊔ D) ≠ ⊥ := by
     obtain ⟨u, hu1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hUne
     intro hbot
@@ -43,7 +43,7 @@ theorem rck_p_not_dvd_center {X : Type} [Group X] [Finite X] {p : ℕ} (hp : p.P
     (hAC : A ⊓ Subgroup.centralizer (G₀ : Set X) = ⊥) :
     ¬ p ∣ Nat.card (Subgroup.center ↥G₀) := by
   intro hdvd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let E : Subgroup X :=
     { carrier := {y | y ∈ G₀ ∧ (∀ g ∈ G₀, y * g = g * y) ∧ y ^ p = 1}
       mul_mem' := by

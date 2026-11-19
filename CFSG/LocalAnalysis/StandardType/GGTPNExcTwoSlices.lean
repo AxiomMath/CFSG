@@ -260,7 +260,7 @@ private theorem ltqSl_isElemAbelian_map {G H : Type*} [Group G] [Group H] {p : �
     {E : Subgroup G} (f : G →* H) (hE : IsElemAbelian p E) :
     IsElemAbelian p (E.map f) := by
   obtain ⟨hc, hp⟩ := hE
-  haveI : IsMulCommutative E := hc
+  have : IsMulCommutative E := hc
   refine ⟨⟨⟨fun u v => ?_⟩⟩, fun z hz => ?_⟩
   · obtain ⟨x, hx, hxu⟩ := u.2
     obtain ⟨y, hy, hyv⟩ := v.2
@@ -306,7 +306,7 @@ private theorem ltqSl_small
   have hind : GGInducedInn A θ I := hP₀.2.2
   have hAbab : IsElemAbelian p Ab := by
     obtain ⟨hc, hp'⟩ := hAab
-    haveI : IsMulCommutative A := hc
+    have : IsMulCommutative A := hc
     refine ⟨⟨⟨fun u v => ?_⟩⟩, fun z hz => ?_⟩
     · apply Subtype.ext
       exact setLike_mul_comm (hAbA u.2) (hAbA v.2)
@@ -413,7 +413,7 @@ theorem ltqSl_T4 (hZ : GGE6TwoCenterBot) (hR : GGE6TwoLocalRankThree)
   have hperfJ : commutator ↥J = ⊤ := hlocCore.2.2.2.1.2.2.1
   have hAbab : IsElemAbelian 3 Ab := by
     obtain ⟨hc, hp⟩ := hlocCore.1
-    haveI : IsMulCommutative A := hc
+    have : IsMulCommutative A := hc
     refine ⟨⟨⟨fun u v => ?_⟩⟩, fun z hz => ?_⟩
     · apply Subtype.ext
       exact setLike_mul_comm (hAbA u.2) (hAbA v.2)
@@ -469,7 +469,7 @@ theorem ltqSl_A3_false_of_F4
     rw [hlabX]; exact hF4
   obtain ⟨l, hSl, hiso⟩ := ltqSl_list hx hcomp hΛX
     (by intro l hl; simp only [List.mem_cons, List.mem_nil_iff, or_false] at hl
-        rcases hl with rfl <;> simp [LargeEvenInLambda2])
+        rcases hl with rfl; simp [LargeEvenInLambda2])
     hd hhX (by simp [LargeEvenInLambda2]) hhJ
   simp only [List.mem_cons, List.mem_nil_iff, or_false] at hSl
   subst hSl
@@ -560,7 +560,7 @@ theorem ggTablePKnownR_am2ExcTwo
     obtain ⟨l, hSl, hiso⟩ :=
       ltqSl_list hx hcomp hΛX
         (by intro l hl; simp only [List.mem_cons, List.mem_nil_iff, or_false] at hl
-            rcases hl with rfl <;> simp [LargeEvenInLambda2])
+            rcases hl with rfl; simp [LargeEvenInLambda2])
         hd hhX hΛJ hhJ
     simp only [List.mem_cons, List.mem_nil_iff, or_false] at hSl
     rcases hSl with rfl
@@ -654,7 +654,7 @@ theorem ggTablePKnownR_fieldTwoExcTwo
       obtain ⟨l, hSl, hiso⟩ :=
         ltqSl_list hx hcomp hΛX
           (by intro l hl; simp only [List.mem_cons, List.mem_nil_iff, or_false] at hl
-              rcases hl with rfl <;> simp [LargeEvenInLambda2])
+              rcases hl with rfl; simp [LargeEvenInLambda2])
           hd hhX hΛJ hhJ
       simp only [List.mem_cons, List.mem_nil_iff, or_false] at hSl
       rcases hSl with rfl

@@ -9,7 +9,7 @@ namespace CFSG.GF2Type.Aschbacher1976Full.LeafUniqueInvolution
 
 theorem eq_of_orderOf_eq_two_of_isCyclic {P : Type} [Group P] [Finite P] [IsCyclic P] {a b : P}
     (ha : orderOf a = 2) (hb : orderOf b = 2) : a = b := by
-  haveI : Fintype P := Fintype.ofFinite P
+  have : Fintype P := Fintype.ofFinite P
   have hdvd : 2 ∣ Fintype.card P := by
     rw [← ha]
     exact orderOf_dvd_card
@@ -20,7 +20,7 @@ theorem eq_of_orderOf_eq_two_of_isCyclic {P : Type} [Group P] [Finite P] [IsCycl
 
 theorem eq_zero_or_eq_natCast_of_add_self_eq_zero {N : ℕ} [NeZero N] (i : ZMod (2 * N))
     (hi : i + i = 0) : i = 0 ∨ i = (N : ZMod (2 * N)) := by
-  haveI : NeZero (2 * N) := ⟨by have := NeZero.ne N; omega⟩
+  have : NeZero (2 * N) := ⟨by have := NeZero.ne N; omega⟩
   have hN : 0 < N := Nat.pos_of_ne_zero (NeZero.ne N)
   have hdvd : 2 * N ∣ i.val + i.val := by
     rw [← ZMod.natCast_eq_zero_iff, Nat.cast_add, ZMod.natCast_zmod_val, hi]
@@ -41,7 +41,7 @@ theorem eq_zero_or_eq_natCast_of_add_self_eq_zero {N : ℕ} [NeZero N] (i : ZMod
 
 theorem sq_eq_one_quaternion {N : ℕ} [NeZero N] (x : QuaternionGroup N) (hx : x ^ 2 = 1) :
     x = 1 ∨ x = QuaternionGroup.a (N : ZMod (2 * N)) := by
-  haveI : NeZero (2 * N) := ⟨by have := NeZero.ne N; omega⟩
+  have : NeZero (2 * N) := ⟨by have := NeZero.ne N; omega⟩
   have hN : 0 < N := Nat.pos_of_ne_zero (NeZero.ne N)
   cases x with
   | a i =>
@@ -81,7 +81,7 @@ theorem eq_of_orderOf_eq_two {P : Type} [Group P] [Finite P]
     {a b : P} (ha : orderOf a = 2) (hb : orderOf b = 2) : a = b := by
   rcases h with hc | ⟨n, -, ⟨e⟩⟩
   · exact eq_of_orderOf_eq_two_of_isCyclic ha hb
-  · haveI : NeZero (2 ^ (n - 2)) := ⟨by positivity⟩
+  · have : NeZero (2 ^ (n - 2)) := ⟨by positivity⟩
     exact eq_of_orderOf_eq_two_of_quaternion e ha hb
 
 end CFSG.GF2Type.Aschbacher1976Full.LeafUniqueInvolution
@@ -91,7 +91,7 @@ namespace CFSG.GF2Type.Aschbacher1976Full
 theorem leafUniqueInvolution_holds : Asc76LeafUniqueInvolution := by
   intro G _ _ z hS hH hU
   obtain ⟨hsimp, hnab, hz, -⟩ := hS
-  haveI : IsSimpleGroup G := hsimp
+  have : IsSimpleGroup G := hsimp
   obtain ⟨g, hgne, hcomm⟩ := CFSG.OddStandard.Solomon75.exists_commuting_conj hnab hz
   have hzF : z ∈ Fz z := by
     rw [← hH]

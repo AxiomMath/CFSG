@@ -114,7 +114,7 @@ theorem toral_of_twelve_root_centralizer_cover
     rw [h, Nat.cast_one]
     exact one_ne_zero
   have : NeZero ((9 : ℕ) : AlgebraicClosure K) := ⟨h9⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot (AlgebraicClosure K) 9
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot (AlgebraicClosure K) 9
   have hcommCentral : rootDiagUnit .F4 a ∈
       Subgroup.centralizer ((ψ.noncommCoprod ψ' hc).range : Set (ModGL .F4 (AlgebraicClosure K))) := by
     rw [← hC, Subgroup.mem_centralizer_iff]

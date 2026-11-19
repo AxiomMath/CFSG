@@ -384,6 +384,7 @@ private theorem mapWord_familyConjugator (n : Γ → ℕ) (ℓ : ∀ a, Fin (n a
   rw [familyConjugator, mapWord_comp]
   rfl
 
+omit [Fintype Γ] in
 private theorem baseChange_familyConjUnit (n : Γ → ℕ)
     (ℓ : ∀ a, Fin (n a) → Letter τ)
     (sep : SepPair Γ → Label τ × Label τ) {N : ℕ}
@@ -466,6 +467,7 @@ private theorem familyEquations_zero_iff {J : Type} (t : J → Γ → ModGL τ k
     apply (h a i j).mpr
     exact congrArg (fun u : ModGL τ L => unitEntry u i j) (hx a)
 
+omit [Fintype Γ] in
 private theorem centralizerEquations_zero_iff (z : ModGL τ k)
     (n : Γ → ℕ) (ℓ : ∀ a, Fin (n a) → Letter τ)
     (sep : SepPair Γ → Label τ × Label τ) {N : ℕ}

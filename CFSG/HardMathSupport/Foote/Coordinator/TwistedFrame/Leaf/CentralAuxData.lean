@@ -75,7 +75,7 @@ theorem fix_of_cert {k : ℕ} (J₂ : Finset ℕ) (δ₀ : Fin τ.rank → ℤ) 
       by_cases hl : l = j
       · subst hl; simp
       · simp [hl]
-    simp only [this, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+    simp only [this, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
   have h2 : ∑ l, (μ₀ j * CFSG.LieType.Steinberg.Adjoint.iform δ₀ (Pi.single l 1) +
         ∑ m, μ j m * CFSG.LieType.Steinberg.Adjoint.iform (δ m) (Pi.single l 1)) * x l =
       μ₀ j * ∑ l, CFSG.LieType.Steinberg.Adjoint.iform δ₀ (Pi.single l 1) * x l +
@@ -155,7 +155,7 @@ theorem lattice_of_cert {k : ℕ} (J₂ : Finset ℕ) (δ₀ : Fin τ.rank → �
     rw [Finset.sum_comm]
     refine Finset.sum_eq_zero fun i _ => ?_
     by_cases hi : i.val ∈ J₂
-    · simp only [hi, if_true]
+    · simp only [hi, ite_true]
       rw [← Finset.mul_sum, hv i hi, mul_zero]
     · simp [hi]
   have h5 : v j = ∑ l, (δ₀ j * U₀ l + ∑ m, δ m j * U l m) * v l := by

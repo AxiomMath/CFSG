@@ -70,7 +70,7 @@ theorem sylow_inheritance {group : Type*} [Group group] [Finite group]
         (internal_sylow : Subgroup subgroup).map subgroup.subtype := by
   have : Fact (Nat.Prime 2) := ⟨by decide⟩
   let image := (internal_sylow : Subgroup subgroup).map subgroup.subtype
-  have image_two_group : IsPGroup 2 image := internal_sylow.isPGroup'.map subgroup.subtype
+  have image_two_group : IsPGroup 2 image := internal_sylow.isPGroup.map subgroup.subtype
   have image_le : image ≤ subgroup := by
     intro element mem_image
     obtain ⟨preimage, _, equal_image⟩ := Subgroup.mem_map.mp mem_image
@@ -85,7 +85,7 @@ theorem sylow_inheritance {group : Type*} [Group group] [Finite group]
   let internal_normalizer :=
     (Subgroup.normalizer (image : Set group)).subgroupOf (ambient_sylow : Subgroup group)
   have internal_normalizer_two : IsPGroup 2 internal_normalizer :=
-    ambient_sylow.isPGroup'.of_injective internal_normalizer.subtype Subtype.val_injective
+    ambient_sylow.isPGroup.of_injective internal_normalizer.subtype Subtype.val_injective
   let ambient_normalizer :=
     Subgroup.normalizer (image : Set group) ⊓ (ambient_sylow : Subgroup group)
   have ambient_normalizer_le : ambient_normalizer ≤ subgroup :=
@@ -101,7 +101,7 @@ theorem sylow_inheritance {group : Type*} [Group group] [Finite group]
       (Subgroup.subgroupOfEquivOfLe ambient_normalizer_le).symm
   refine ⟨ambient_sylow, ?_⟩
   have : Group.IsNilpotent (ambient_sylow : Subgroup group) :=
-    ambient_sylow.isPGroup'.isNilpotent
+    ambient_sylow.isPGroup.isNilpotent
   have normalizer_condition := normalizerCondition_iff_only_full_group_self_normalizing.mp
     (Group.normalizerCondition_of_isNilpotent (G := (ambient_sylow : Subgroup group)))
   have image_full : image.subgroupOf (ambient_sylow : Subgroup group) = ⊤ := by
@@ -467,7 +467,7 @@ theorem sylow_card_dvd_index_sub_one {group : Type*} [Group group] [Finite group
     (contains : (sylow : Subgroup group) ≤ subgroup) :
     Nat.card (sylow : Subgroup group) ∣ subgroup.index - 1 := by
   have divides := two_subgroup_card_dvd_other_conjugates subgroup strong
-    (sylow : Subgroup group) sylow.isPGroup' contains
+    (sylow : Subgroup group) sylow.isPGroup contains
   rw [← Nat.card_congr (cosetEquivConjugates subgroup strong), ← subgroup.index_eq_card] at divides
   exact divides
 

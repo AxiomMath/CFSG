@@ -58,14 +58,14 @@ variable {n : ℕ} {F : Type} [Field F] [Finite F] {σ : F ≃+* F}
 theorem outer_std_four (P : D4Par n F σ) (hev : Even n) {β : MulAut (C0 σ)}
     (hstd : Sec4.IsStdGraphFieldConj σ β) {g : C0 σ} (hg : β g = g) (hg3 : g ^ 3 = 1)
     (hg1 : g ≠ 1) : FourFixedMoved β (MulAut.conj g) := by
-  haveI := P.charP
+  have := P.charP
   have hK2 : ringChar F = 2 := ringChar.eq F 2
   obtain ⟨ι⟩ := Sec8.Item8KFacts3D4.nonempty_autFix_mulEquiv_g2 hK2 hstd
   have hgS : g ∈ Sec4.autFix β := hg
   refine fourFixedMoved_of_subgroup (S := Sec4.autFix β) (fun s hs => hs) hgS ?_
   apply NormMoveFour.of_mulEquiv ι
   have hfin : Finite (fixSubfield σ) := Subtype.finite
-  haveI : CharP (fixSubfield σ) 2 :=
+  have : CharP (fixSubfield σ) 2 :=
     RingHom.charP (fixSubfield σ).subtype Subtype.val_injective 2
   have hkc : Nat.card (fixSubfield σ) = 2 ^ n := P.card_fix
   have h3 : 3 ∣ Nat.card (fixSubfield σ) - 1 := by

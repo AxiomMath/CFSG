@@ -26,7 +26,7 @@ open CFSG.EvenSporadicStandard.HSStd.Zassenhaus.PartA (KGA6Sq)
 
 theorem kgA6Sq_of_arms (I : ArmInputs) (hodd : A6OddArm) (heven : A6EvenArm) : KGA6Sq := by
   intro S _ _ hcat hS τ hτ2 hC hC' A hq hA6 hcomm
-  haveI := hS
+  have := hS
   have hna : ∃ a b : S, a * b ≠ b * a := nonabelian_of_quasisimple hq
   have hτ1 : τ ≠ 1 := a6sq_ne_one τ hq hcomm
   have hτ : orderOf τ = 2 := orderOf_eq_prime (by rw [sq]; exact hτ2) hτ1

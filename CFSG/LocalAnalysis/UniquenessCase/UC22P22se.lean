@@ -64,7 +64,7 @@ theorem uc22p22se_T_le_normalizer_proofE (D : Data G) : D.T ≤ normalizer (proo
 
 theorem uc22p22se_isSylowTwoOf (D : Data G) {H : Subgroup G} (hTH : D.T ≤ H) :
     CFSG.QuasithinUnique.IsSylowTwoOf D.T H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact CFSG.Quasithin.SteinbergCF.isSylowTwoOf_of_le_of_le
     (CFSG.ABGLocalTools.isSylowOf_iff.mp D.sylowG) hTH le_top
 
@@ -115,7 +115,7 @@ theorem uc22p22se_minParabolic {D : Data G} {Ch : Choice2011 G} (h204 : S20_4 D)
 
 theorem uc22p22se_normalizer_proofE_le (D : Data G) (hS7 : normalizer (proofS D : Set G) ≤ D.M)
     (hZ : centralizer (D.Z : Set G) ≤ D.M) : normalizer (proofE D : Set G) ≤ D.M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set E : Subgroup G := proofE D with hEdef
   have hCE : centralizer (E : Set G) ≤ D.M :=
     (Subgroup.centralizer_le (uc22p22se_Z_le_proofE D)).trans hZ

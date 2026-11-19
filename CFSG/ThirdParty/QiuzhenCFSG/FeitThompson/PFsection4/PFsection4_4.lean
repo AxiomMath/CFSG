@@ -433,7 +433,7 @@ private theorem natCard_quotient_K_eq_natCard_W1_pf44
     (hKnorm : K.Normal)
     (h42 : hypothesis_4_2_statement K W1 W2 W) :
     Nat.card (L ⧸ K) = Nat.card W1 := by
-  letI : K.Normal := hKnorm
+  let : K.Normal := hKnorm
   rcases h42 with ⟨hsemi, _hHall, _hcyc1, _hcard1, _hcyc2, _hcard2,
       _hcent, _hW1, _hW2, _hW, _hodd⟩
   let q : W1 →* (L ⧸ K) := (QuotientGroup.mk' K).comp W1.subtype
@@ -479,7 +479,7 @@ private theorem isCyclic_quotient_K_of_hypothesis_4_2_pf44
     (hKnorm : K.Normal)
     (h42 : hypothesis_4_2_statement K W1 W2 W) :
     IsCyclic (L ⧸ K) := by
-  letI : K.Normal := hKnorm
+  let : K.Normal := hKnorm
   rcases h42 with ⟨hsemi, _hHall, hcyc1, _hcard1, _hcyc2, _hcard2,
       _hcent, _hW1, _hW2, _hW, _hodd⟩
   let q : W1 →* (L ⧸ K) := (QuotientGroup.mk' K).comp W1.subtype
@@ -496,7 +496,7 @@ private theorem isCyclic_quotient_K_of_hypothesis_4_2_pf44
       QuotientGroup.mk' K w = 1 * QuotientGroup.mk' K w := by simp
       _ = QuotientGroup.mk' K k * QuotientGroup.mk' K w := by rw [hk_one]
       _ = QuotientGroup.mk' K (k * w) := by simp
-  letI : IsCyclic W1 := hcyc1
+  let : IsCyclic W1 := hcyc1
   exact isCyclic_of_surjective q hq_surj
 
 private theorem isCyclic_quotient_ker_of_hypothesis_4_2_pf44
@@ -507,7 +507,7 @@ private theorem isCyclic_quotient_ker_of_hypothesis_4_2_pf44
     (h42 : hypothesis_4_2_statement K W1 W2 W)
     (hKleKer : K ≤ ρ.ker) :
     IsCyclic (L ⧸ ρ.ker) := by
-  letI : K.Normal := normal_K_of_hypothesis_4_2_pf44 h42
+  let : K.Normal := normal_K_of_hypothesis_4_2_pf44 h42
   let q : (L ⧸ K) →* (L ⧸ ρ.ker) :=
     QuotientGroup.lift K (QuotientGroup.mk' ρ.ker) (by
       intro k hk
@@ -516,7 +516,7 @@ private theorem isCyclic_quotient_ker_of_hypothesis_4_2_pf44
     intro x
     obtain ⟨g, rfl⟩ := QuotientGroup.mk'_surjective ρ.ker x
     exact ⟨QuotientGroup.mk' K g, rfl⟩
-  letI : IsCyclic (L ⧸ K) :=
+  let : IsCyclic (L ⧸ K) :=
     isCyclic_quotient_K_of_hypothesis_4_2_pf44
       (normal_K_of_hypothesis_4_2_pf44 h42) h42
   exact isCyclic_of_surjective q hq_surj
@@ -611,11 +611,11 @@ private theorem subgroupRestriction_isIrreducibleCharacterOnGroup_of_kernel_cont
   have hcycKer : IsCyclic (L ⧸ ρ.ker) :=
     isCyclic_quotient_ker_of_hypothesis_4_2_pf44
       (K := K) (W1 := W1) (W2 := W2) (W := W) ρ h42 hKleKer
-  letI : CommGroup (L ⧸ MonoidHom.ker ρ) := by
+  let : CommGroup (L ⧸ MonoidHom.ker ρ) := by
     simpa using hcycKer.commGroup
-  letI : Std.Commutative (α := L ⧸ MonoidHom.ker ρ) (· * ·) := ⟨mul_comm⟩
-  letI : IsMulCommutative (L ⧸ MonoidHom.ker ρ) := ⟨inferInstance⟩
-  letI : Representation.IsIrreducible (Theory.Representation.kerRepresentation ρ) :=
+  let : Std.Commutative (α := L ⧸ MonoidHom.ker ρ) (· * ·) := ⟨mul_comm⟩
+  let : IsMulCommutative (L ⧸ MonoidHom.ker ρ) := ⟨inferInstance⟩
+  let : Representation.IsIrreducible (Theory.Representation.kerRepresentation ρ) :=
     (Theory.Representation.kerRepresentation_irreducible_iff (ρ := ρ)).2 hρirr
   have hdim1 : n = 1 := by
     simpa using
@@ -789,23 +789,23 @@ private theorem proposition_4_4_reverse_exhaustion
     (hC : theorem_4_3_c_statement W2 W I J piChar deltaSign ω) :
     ∀ i, Section1.subgroupInKernel' (piChar i j0) K := by
   classical
-  letI : K.Normal := normal_K_of_hypothesis_4_2_pf44 h42
+  let : K.Normal := normal_K_of_hypothesis_4_2_pf44 h42
   let Q := L ⧸ K
   have hQcyc : IsCyclic Q := by
     simpa [Q] using
       isCyclic_quotient_K_of_hypothesis_4_2_pf44
         (K := K) (W1 := W1) (W2 := W2) (W := W) inferInstance h42
-  letI : CommGroup Q := by
+  let : CommGroup Q := by
     simpa [Q] using hQcyc.commGroup
   have hExpNeZero : NeZero (Monoid.exponent (L ⧸ K)) :=
     Monoid.neZero_exponent_of_finite (G := L ⧸ K)
   have hRoots : HasEnoughRootsOfUnity ℂ (Monoid.exponent (L ⧸ K)) := by
-    letI : NeZero (Monoid.exponent (L ⧸ K)) := hExpNeZero
+    let : NeZero (Monoid.exponent (L ⧸ K)) := hExpNeZero
     exact Section1.complex_hasEnoughRootsOfUnity (Monoid.exponent (L ⧸ K))
   have hcard_quot : Nat.card ((L ⧸ K) →* ℂˣ) = Nat.card (L ⧸ K) := by
-    letI : CommGroup (L ⧸ K) := by
+    let : CommGroup (L ⧸ K) := by
       simpa using hQcyc.commGroup
-    letI : HasEnoughRootsOfUnity ℂ (Monoid.exponent (L ⧸ K)) := hRoots
+    let : HasEnoughRootsOfUnity ℂ (Monoid.exponent (L ⧸ K)) := hRoots
     exact CommGroup.card_monoidHom_of_hasEnoughRootsOfUnity (L ⧸ K) ℂ
   let inflated : (Q →* ℂˣ) → Section1.ClassFunction L :=
     fun chi => Section1.characterInflationByHom (QuotientGroup.mk' K) chi
@@ -834,8 +834,8 @@ private theorem proposition_4_4_reverse_exhaustion
       inflated chi = piChar (f chi) j0 := hf_spec chi
       _ = piChar (f eta) j0 := by rw [hfeq]
       _ = inflated eta := (hf_spec eta).symm
-  letI : Finite (Q →* ℂˣ) := Finite.of_injective f hf_inj
-  letI : Fintype (Q →* ℂˣ) := Fintype.ofFinite (Q →* ℂˣ)
+  let : Finite (Q →* ℂˣ) := Finite.of_injective f hf_inj
+  let : Fintype (Q →* ℂˣ) := Fintype.ofFinite (Q →* ℂˣ)
   have hcard_chars_nat : Nat.card (Q →* ℂˣ) = Nat.card I := by
     calc
       Nat.card (Q →* ℂˣ) = Nat.card Q := by
@@ -876,23 +876,23 @@ public theorem proposition_4_4_baseColumn_degree_one
     (hC : theorem_4_3_c_statement W2 W I J piChar deltaSign ω) :
     ∀ i, Section1.degree (piChar i j0) = 1 := by
   classical
-  letI : K.Normal := normal_K_of_hypothesis_4_2_pf44 h42
+  let : K.Normal := normal_K_of_hypothesis_4_2_pf44 h42
   let Q := L ⧸ K
   have hQcyc : IsCyclic Q := by
     simpa [Q] using
       isCyclic_quotient_K_of_hypothesis_4_2_pf44
         (K := K) (W1 := W1) (W2 := W2) (W := W) inferInstance h42
-  letI : CommGroup Q := by
+  let : CommGroup Q := by
     simpa [Q] using hQcyc.commGroup
   have hExpNeZero : NeZero (Monoid.exponent (L ⧸ K)) :=
     Monoid.neZero_exponent_of_finite (G := L ⧸ K)
   have hRoots : HasEnoughRootsOfUnity ℂ (Monoid.exponent (L ⧸ K)) := by
-    letI : NeZero (Monoid.exponent (L ⧸ K)) := hExpNeZero
+    let : NeZero (Monoid.exponent (L ⧸ K)) := hExpNeZero
     exact Section1.complex_hasEnoughRootsOfUnity (Monoid.exponent (L ⧸ K))
   have hcard_quot : Nat.card ((L ⧸ K) →* ℂˣ) = Nat.card (L ⧸ K) := by
-    letI : CommGroup (L ⧸ K) := by
+    let : CommGroup (L ⧸ K) := by
       simpa using hQcyc.commGroup
-    letI : HasEnoughRootsOfUnity ℂ (Monoid.exponent (L ⧸ K)) := hRoots
+    let : HasEnoughRootsOfUnity ℂ (Monoid.exponent (L ⧸ K)) := hRoots
     exact CommGroup.card_monoidHom_of_hasEnoughRootsOfUnity (L ⧸ K) ℂ
   let inflated : (Q →* ℂˣ) → Section1.ClassFunction L :=
     fun chi => Section1.characterInflationByHom (QuotientGroup.mk' K) chi
@@ -921,8 +921,8 @@ public theorem proposition_4_4_baseColumn_degree_one
       inflated chi = piChar (f chi) j0 := hf_spec chi
       _ = piChar (f eta) j0 := by rw [hfeq]
       _ = inflated eta := (hf_spec eta).symm
-  letI : Finite (Q →* ℂˣ) := Finite.of_injective f hf_inj
-  letI : Fintype (Q →* ℂˣ) := Fintype.ofFinite (Q →* ℂˣ)
+  let : Finite (Q →* ℂˣ) := Finite.of_injective f hf_inj
+  let : Fintype (Q →* ℂˣ) := Fintype.ofFinite (Q →* ℂˣ)
   have hcard_chars_nat : Nat.card (Q →* ℂˣ) = Nat.card I := by
     calc
       Nat.card (Q →* ℂˣ) = Nat.card Q := by

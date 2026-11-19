@@ -28,7 +28,7 @@ theorem card_orthDerived_plus_six {V : Type} [AddCommGroup V] [Module (ZMod 2) V
     (hQ : (polarBilin Q).Nondegenerate) (hdim : finrank (ZMod 2) V = 2 * 3)
     (hplus : CFSG.GroupTheory.WeirSylow.IsPlusType Q) :
     Nat.card ↥(orthDerived Q) = 20160 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e⟩ := CFSG.GroupTheory.WeirSylow.nonempty_isometry_quadPlus hQ hdim hplus
   have hcard : Nat.card ↥(orthDerived Q) =
       Nat.card ↥(orthDerived (quadPlus 3 (ZMod 2))) :=
@@ -44,7 +44,7 @@ theorem card_orthDerived_plus_eight {V : Type} [AddCommGroup V] [Module (ZMod 2)
     (hQ : (polarBilin Q).Nondegenerate) (hdim : finrank (ZMod 2) V = 2 * 4)
     (hplus : CFSG.GroupTheory.WeirSylow.IsPlusType Q) :
     Nat.card ↥(orthDerived Q) = CFSG.Open.ordD 4 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e⟩ := CFSG.GroupTheory.WeirSylow.nonempty_isometry_quadPlus hQ hdim hplus
   let φ : ↥(orthDerived Q) ≃*
       ↥(orthDerived (CFSG.ComponentClassification.CatalogueBOrthogonalPointData.coordinateQuadPlus
@@ -71,7 +71,7 @@ theorem card_orthDerived_minus_eight {V : Type} [AddCommGroup V] [Module (ZMod 2
     (hQ : (polarBilin Q).Nondegenerate) (hdim : finrank (ZMod 2) V = 2 * 4)
     (hminus : ¬ CFSG.GroupTheory.WeirSylow.IsPlusType Q) :
     Nat.card ↥(orthDerived Q) = CFSG.Open.ordTwistedD 4 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hno : ¬ Nonempty (Q.IsometryEquiv (quadPlus 4 (ZMod 2))) := by
     rintro ⟨e⟩
     exact hminus ((CFSG.GroupTheory.WeirSylow.isPlusType_congr e).2

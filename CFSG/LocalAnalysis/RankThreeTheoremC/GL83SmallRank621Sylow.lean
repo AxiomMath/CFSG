@@ -90,7 +90,7 @@ private theorem sylow621_exists_conj (hS : Setting G) {P : Sylow 3 G} {M : Subgr
   obtain ⟨T, hTsyl, hST, hBT⟩ := CFSG.Goldschmidt.G310.exists_invariant_sylow_containing
     Nat.prime_three Nat.prime_two hB3 hD3 hBD hSD hS2 hBS
   obtain ⟨T', hT'syl, -, hPT'⟩ := CFSG.Goldschmidt.G310.exists_invariant_sylow_containing
-    Nat.prime_three Nat.prime_two P.isPGroup' hD3 hPD bot_le hbot2 hPbot
+    Nat.prime_three Nat.prime_two P.isPGroup hD3 hPD bot_le hbot2 hPbot
   obtain ⟨c, hc, hTc⟩ := CFSG.Goldschmidt.G310.exists_conj_of_invariant_sylows
     Nat.prime_three Nat.prime_two hB3 hD3 hBD hT'syl hTsyl (hBP.trans hPT') hBT
   refine ⟨T, c, hST, hTsyl.2.1, (mem_inf.mp hc).1, (mem_inf.mp hc).2, ?_⟩
@@ -148,7 +148,7 @@ theorem exists_two_group_sylow_three_normalizing (hS : Setting G) {P : Sylow 3 G
   have hcM : c ∈ M := CFSG.AGLEmbedding.glbPrimeCore_le 3 M hcD
   have hzc : z * c = c * z := mem_centralizer_iff.mp hcB z (mem_sup_right (mem_zpowers z))
   have hzφ : (MulAut.conj c).toMonoidHom z = z := sylow621_conj_fixed hzc
-  refine ⟨T, (P : Subgroup G).map (MulAut.conj c).toMonoidHom, hST, hT2, P.isPGroup'.map _, ?_,
+  refine ⟨T, (P : Subgroup G).map (MulAut.conj c).toMonoidHom, hST, hT2, P.isPGroup.map _, ?_,
     ?_, ⟨z, hz.mem, hzφ⟩, sylow621_centralizes_map hzφ hz.centralizes, hYT,
     sylow621_center_map (MulAut.conj c).injective hzφ (sylow621_plane hS hsit hx hz).center⟩
   · rintro _ ⟨a, ha, rfl⟩

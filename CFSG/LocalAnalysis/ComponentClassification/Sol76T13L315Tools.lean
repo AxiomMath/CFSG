@@ -268,7 +268,7 @@ theorem exists_elemAbelian_of_involution {K : Subgroup G} (hK : 2 ≤ CFSG.Open.
         have h2 := congrArg (fun w : ↥(P : Subgroup ↥K) => ((w : ↥K) : G)) h1
         exact show ((y : ↥K) : G) * b = b * ((y : ↥K) : G) by simpa [hb'] using h2
     ·
-      have hP2 : IsPGroup 2 ↥(P : Subgroup ↥K) := P.isPGroup'
+      have hP2 : IsPGroup 2 ↥(P : Subgroup ↥K) := P.isPGroup
       have hb'1 : b' ≠ 1 := fun h => by rw [h, orderOf_one] at hb'2; norm_num at hb'2
       have : Nontrivial ↥(P : Subgroup ↥K) :=
         nontrivial_of_ne ⟨b', hb'P⟩ 1 (fun h => hb'1 (congrArg Subtype.val h))

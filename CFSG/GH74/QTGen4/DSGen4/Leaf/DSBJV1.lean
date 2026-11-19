@@ -176,7 +176,7 @@ theorem sq_mem_of_gen {T : Set G} {H Z : Subgroup G} (hH : Subgroup.closure T = 
 
 theorem dsFrattini_le_of_comm_sq [Finite G] {V Z : Subgroup G} (hV : IsPGroup 2 V)
     (hc : ⁅V, V⁆ ≤ Z) (hs : ∀ v ∈ V, v ^ 2 ∈ Z) : dsFrattini V ≤ Z := by
-  haveI : Fact (IsPGroup 2 ↥V) := ⟨hV⟩
+  have : Fact (IsPGroup 2 ↥V) := ⟨hV⟩
   unfold dsFrattini
   rw [Subgroup.map_le_iff_le_comap]
   rw [CFSG.frattini_eq_closure_commutator_union_powers (p := 2)]
@@ -851,7 +851,7 @@ theorem main_V [DSLeaf LeafDSBJZ2] [DSLeaf LeafDSBA5Vertex] [DSLeaf LeafDSBS3Ver
     intro hZ4
     have hZ2c16 : Nat.card Z2 = 16 := by rw [hZ2card', hZ4]; norm_num
     classical
-    haveI : Fintype G := Fintype.ofFinite G
+    have : Fintype G := Fintype.ofFinite G
     have hPB : ¬ P ≤ B := fun hle => hxB (hle hxP)
     have hI5 : (borelOf L1 S).relIndex L1 = 5 := borel_index_five h hQL1 hPB
     let H' : Subgroup ↥L1 := (borelOf L1 S).subgroupOf L1

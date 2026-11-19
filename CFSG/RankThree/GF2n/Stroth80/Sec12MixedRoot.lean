@@ -25,6 +25,7 @@ theorem Ctx.exists_actionHom_LB (hc : Ctx M Q Z B) (h : GlobalModelData M Q Z γ
     fun r => hφker (Subgroup.inclusion hc.LB_le_H0 r),
     fun r e => hφiso (Subgroup.inclusion hc.LB_le_H0 r) e⟩
 
+omit [Finite G] in
 theorem card_eq_card_mul_range {H : Subgroup G} {X : Type*} [Group X] (hQH : Q ≤ H)
     (Φ : ↥H →* X) (hker : ∀ r : ↥H, Φ r = 1 ↔ (r : G) ∈ Q) :
     Nat.card H = Nat.card Q * Nat.card Φ.range := by
@@ -37,6 +38,7 @@ theorem card_eq_card_mul_range {H : Subgroup G} {X : Type*} [Group X] (hQH : Q �
     exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hQH).toEquiv
   rw [← h1, ← Subgroup.index_ker, Subgroup.card_mul_index]
 
+omit [Finite K] in
 theorem Ctx.exists_mixed_root (hc : Ctx M Q Z B) (h : GlobalModelData M Q Z γ M₀)
     (hng : ¬ GenByB M Q B) : ∃ X : Subgroup G, Ctx M Q Z X ∧ ∃ x ∈ X, M₀.π x ∉ hc.Wn h := by
   by_contra hcon
@@ -61,6 +63,7 @@ theorem Ctx.exists_mixed_root (hc : Ctx M Q Z B) (h : GlobalModelData M Q Z γ M
     (Subgroup.mem_normalizer_iff.mp (Lgen_normalizes M B hm) x).mp hx
   exact (hc.eq_of_le_sup_Z hc.Lgen_le_Q hNn hQN).symm
 
+omit [Finite K] in
 theorem Ctx.img_eq_line_of_ne (hX : Ctx M Q Z B) (h : GlobalModelData M Q Z γ M₀) {x : G}
     (hx : x ∈ B) (hπ : M₀.π x ≠ 0) :
     ∀ v : M₀.E, v ∈ M₀.img B ↔ ∃ s : K, v = s • M₀.π x := by

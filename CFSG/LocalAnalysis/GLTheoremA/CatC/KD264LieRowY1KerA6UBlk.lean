@@ -32,13 +32,13 @@ theorem blk_one : blk (1 : Matrix (Fin 3) (Fin 3) K) 0 0 1 = 1 := by
 theorem blk_transpose (A B C D : Matrix (Fin 3) (Fin 3) K) :
     (blk A B C D)ᵀ = blk Aᵀ Cᵀ Bᵀ Dᵀ := by
   unfold blk blkE
-  rw [Matrix.reindexAlgEquiv_apply, Matrix.reindexAlgEquiv_apply, Matrix.transpose_reindex,
+  rw [Matrix.coe_reindexAlgEquiv, Matrix.transpose_reindex,
     Matrix.fromBlocks_transpose]
 
 theorem blk_map (g : K →+* K) (A B C D : Matrix (Fin 3) (Fin 3) K) :
     (blk A B C D).map g = blk (A.map g) (B.map g) (C.map g) (D.map g) := by
   unfold blk blkE
-  rw [Matrix.reindexAlgEquiv_apply, Matrix.reindexAlgEquiv_apply]
+  rw [Matrix.coe_reindexAlgEquiv]
   ext i j
   rcases hi : (finSumFinEquiv : Fin 3 ⊕ Fin 3 ≃ Fin 6).symm i with a | a <;>
     rcases hj : (finSumFinEquiv : Fin 3 ⊕ Fin 3 ≃ Fin 6).symm j with b | b <;>
@@ -47,14 +47,14 @@ theorem blk_map (g : K →+* K) (A B C D : Matrix (Fin 3) (Fin 3) K) :
 theorem det_blk_diag (A D : Matrix (Fin 3) (Fin 3) K) :
     (blk A 0 0 D).det = A.det * D.det := by
   unfold blk blkE
-  rw [Matrix.reindexAlgEquiv_apply, Matrix.det_reindex_self, Matrix.det_fromBlocks_zero₂₁]
+  rw [Matrix.coe_reindexAlgEquiv, Matrix.det_reindex_self, Matrix.det_fromBlocks_zero₂₁]
 
 @[expose] noncomputable def hypJ : Matrix (Fin 6) (Fin 6) K := blk 0 1 1 0
 
 theorem bar_bar_of (h : UnitaryFieldData p f K) (x : K) : h.bar (h.bar x) = x := by
   classical
   have hfin : Finite K := h.finite
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hcard : Fintype.card K = p ^ (2 * f) := by
     rw [← Nat.card_eq_fintype_card]
     exact h.card
@@ -162,7 +162,7 @@ theorem blk_apply (A B C D : Matrix (Fin 3) (Fin 3) K) (a b : Fin 6) :
     blk A B C D a b = Matrix.fromBlocks A B C D ((finSumFinEquiv : Fin 3 ⊕ Fin 3 ≃ Fin 6).symm a)
       ((finSumFinEquiv : Fin 3 ⊕ Fin 3 ≃ Fin 6).symm b) := by
   unfold blk blkE
-  rw [Matrix.reindexAlgEquiv_apply]
+  rw [Matrix.coe_reindexAlgEquiv]
   rfl
 
 theorem blk_ll (A B C D : Matrix (Fin 3) (Fin 3) K) (i j : Fin 3) :
@@ -228,7 +228,7 @@ theorem hyp_block_isometry (h : UnitaryFieldData p f K) (P S : Matrix (Fin 3) (F
     (hx : ((blk P 0 0 S).map h.bar)ᵀ * hypJ * blk P 0 0 S = hypJ) :
     (P.map h.bar)ᵀ * S = 1 := by
   rw [blk_map, blk_transpose, hypJ, blk_mul, blk_mul] at hx
-  simp only [Matrix.map_zero, transpose_zero, mul_zero, zero_mul, add_zero, zero_add, mul_one] at hx
+  simp only [mul_zero, add_zero, zero_add, mul_one] at hx
   exact (blk_inj hx).2.1
 
 theorem ie_injective : Function.Injective (ie : Fin 3 → Fin 6) :=
@@ -259,12 +259,12 @@ theorem diag_blk (d : Fin 6 → K) :
     have hj' : j = jf l := by rw [jf, ← hj]; simp
     subst hi' hj'
     rw [blk_lr]
-    simp [Matrix.diagonal_apply, ie_ne_jf, Matrix.zero_apply]
+    simp [ie_ne_jf, Matrix.zero_apply]
   · have hi' : i = jf k := by rw [jf, ← hi]; simp
     have hj' : j = ie l := by rw [ie, ← hj]; simp
     subst hi' hj'
     rw [blk_rl]
-    simp [Matrix.diagonal_apply, Ne.symm (ie_ne_jf l k), Matrix.zero_apply]
+    simp [Ne.symm (ie_ne_jf l k), Matrix.zero_apply]
   · have hi' : i = jf k := by rw [jf, ← hi]; simp
     have hj' : j = jf l := by rw [jf, ← hj]; simp
     subst hi' hj'

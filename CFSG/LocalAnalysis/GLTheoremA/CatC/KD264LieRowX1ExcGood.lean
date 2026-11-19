@@ -134,7 +134,7 @@ theorem exc_component_of_data {τ : Tag} (hτ : τ = Tag.E7 ∨ τ = Tag.E8)
     (rootChar_thetaTupleG_eq_one_iff hζ hζ' v γ).2 (hCsub γ hγ).2
   have hCconn' : ∀ x ∈ C, ∀ y ∈ C,
       Relation.ReflTransGen (fun p q => p ∈ C ∧ q ∈ C ∧ iform p q ≠ 0) x y := by
-    haveI : Std.Symm (fun p q : Fin τ.rank → ℤ => p ∈ C ∧ q ∈ C ∧ iform p q ≠ 0) :=
+    have : Std.Symm (fun p q : Fin τ.rank → ℤ => p ∈ C ∧ q ∈ C ∧ iform p q ≠ 0) :=
       ⟨fun p q ⟨hp, hq, h⟩ => ⟨hq, hp, by rwa [iform_comm]⟩⟩
     refine reflTransGen_of_ordering _ ordC ?_
     intro j hj0 hjlt

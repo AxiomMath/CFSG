@@ -288,7 +288,6 @@ theorem foldl_e8CodeStep (v : List ℤ) (tbl : List ℕ)
       simp only [e8CodeStep, hx, hb0, hp, hok, ← himg, decide_true, Bool.and_true,
         List.length_cons, List.map_cons, List.reverse_cons, e8PackL_append, List.length_reverse,
         List.length_map]
-      try rfl
     rw [hs] at h ⊢
     refine ih _ true ?_ h
     intro w hw

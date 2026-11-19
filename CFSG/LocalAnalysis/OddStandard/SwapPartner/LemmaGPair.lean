@@ -31,7 +31,7 @@ theorem swap_ζ_of_normalizer_Tgrp [Finite G] (hC : CentData z ι) (hx : IsConj 
     rw [mem_Egrp_iff hC] at he
     obtain ⟨a, b, heab⟩ := he
     fin_cases a <;> fin_cases b <;>
-      simp only [Fin.val_zero, Fin.val_one, pow_zero, pow_one, one_mul, mul_one] at heab
+      simp only [pow_zero, pow_one, one_mul, mul_one] at heab
     · exact (by decide : ρ₄ ≠ 1) (hC.inj (by rw [heab, map_one]))
     · exact (by decide : ρ₄ ≠ τ₀) (hC.inj heab)
     · exact hC.ne_z ρ₄ heab
@@ -57,9 +57,9 @@ theorem swap_ζ_of_normalizer_Tgrp [Finite G] (hC : CentData z ι) (hx : IsConj 
     have h3 : (if i = 0 then N10 4 else N10 5) = N10 1 := by
       rw [← pairOrder_x₁_Fgrp (G := G) hC hx i j]; exact h2
     by_cases hi : i = 0
-    · rw [if_pos hi] at h3
+    · rw [ite_eq_left hi] at h3
       exact N10_one_ne_four h3.symm
-    · rw [if_neg hi] at h3
+    · rw [ite_eq_right hi] at h3
       exact N10_one_ne_five h3.symm
   have hne1 : g₀ * ι τ₀ * g₀⁻¹ ≠ 1 := by
     intro h
@@ -70,7 +70,7 @@ theorem swap_ζ_of_normalizer_Tgrp [Finite G] (hC : CentData z ι) (hx : IsConj 
     have h8 : (9 : Fin 10) = 8 := by
       have hh : τ₀ 8 = (1 : Perm (Fin 10)) 8 := congrArg (fun σ : Perm (Fin 10) => σ 8) hτ
       rw [τ₀_apply_eight] at hh
-      simpa using hh
+      simp at hh
     exact absurd h8 (by decide)
   have hne_x₁ : g₀ * ι τ₀ * g₀⁻¹ ≠ ι τ₀ := by
     intro h
@@ -90,7 +90,7 @@ theorem swap_ζ_of_normalizer_Tgrp [Finite G] (hC : CentData z ι) (hx : IsConj 
     have h0 : g₀ * ι τ₀ * g₀⁻¹ = z ^ (i : ℕ) * (ι τ₀) ^ (j : ℕ) := by
       simpa [hk0] using hwk
     fin_cases i <;> fin_cases j <;>
-      simp only [Fin.val_zero, Fin.val_one, pow_zero, pow_one, one_mul, mul_one] at h0
+      simp only [pow_zero, pow_one, one_mul, mul_one] at h0
     · exact absurd h0 hne1
     · exact absurd h0 hne_x₁
     · exact h0
@@ -144,7 +144,7 @@ theorem swap_ζ_of_normalizer_Tgrp [Finite G] (hC : CentData z ι) (hx : IsConj 
       exact hpair_z'
     by_cases hj : j' = 0
     · exact hj
-    · rw [if_neg hj] at h4
+    · rw [ite_eq_right hj] at h4
       exact absurd h4.symm N10_four_ne_five
   have hi' : i' = 0 := by
     have h4 : (if i' = 0 then N10 4 else N10 5) = N10 4 := by
@@ -152,7 +152,7 @@ theorem swap_ζ_of_normalizer_Tgrp [Finite G] (hC : CentData z ι) (hx : IsConj 
       exact hpair_x'
     by_cases hi : i' = 0
     · exact hi
-    · rw [if_neg hi] at h4
+    · rw [ite_eq_right hi] at h4
       exact absurd h4.symm N10_four_ne_five
   refine ⟨hwx, ?_⟩
   calc g₀ * ι ρ₄ * g₀⁻¹ = z ^ (i' : ℕ) * (ι τ₀) ^ (j' : ℕ) * ι ρ₄ := hζ'

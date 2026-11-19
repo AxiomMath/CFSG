@@ -73,10 +73,10 @@ theorem isSolvable_of_forall_isZariskiClosed_orbitCone [IsDomain H]
     exact Finset.sum_eq_zero fun l _ => by
       by_cases hlj : l = j
       · subst hlj
-        rw [Module.Basis.coord_apply, Module.Basis.repr_self_apply, if_pos rfl, one_mul,
+        rw [Module.Basis.coord_apply, Module.Basis.repr_self_apply, ite_eq_left rfl, one_mul,
           htri hji, map_zero]
       · rw [Module.Basis.coord_apply, Module.Basis.repr_self_apply,
-          if_neg (Ne.symm hlj), zero_mul]
+          ite_eq_right (Ne.symm hlj), zero_mul]
   have hrep : Function.Injective (basePointsRepresentation (R := k) (H := H) E) := by
     intro g g' hgg
     apply WithConv.ofConv_injective

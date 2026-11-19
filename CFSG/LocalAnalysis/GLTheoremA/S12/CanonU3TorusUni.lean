@@ -86,8 +86,8 @@ theorem exists_moved_of_map_fixSubgroup {S P : Type} [Group S] [Group P]
 theorem isSolvable_inf_fixSubgroup_map_iff {S P : Type} [Group S] [Group P]
     {θ : S ≃* P} {β : MulAut S} {A : MulAut P} {J : Subgroup S}
     (hβ : θ.symm.trans (β.trans θ) = A) :
-    (IsSolvable ↥(J ⊓ fixSubgroup β) ↔
-      IsSolvable ↥(J.map θ.toMonoidHom ⊓ fixSubgroup A)) := by
+    (Group.IsSolvable ↥(J ⊓ fixSubgroup β) ↔
+      Group.IsSolvable ↥(J.map θ.toMonoidHom ⊓ fixSubgroup A)) := by
   have hmap : (J ⊓ fixSubgroup β).map θ.toMonoidHom =
       J.map θ.toMonoidHom ⊓ fixSubgroup A := by
     rw [Subgroup.map_inf J (fixSubgroup β) θ.toMonoidHom θ.injective,
@@ -96,12 +96,12 @@ theorem isSolvable_inf_fixSubgroup_map_iff {S P : Type} [Group S] [Group P]
     Subgroup.equivMapOfInjective (J ⊓ fixSubgroup β) θ.toMonoidHom θ.injective
   constructor
   · intro hs
-    haveI : Group.IsSolvable ↥(J ⊓ fixSubgroup β) := hs
+    have : Group.IsSolvable ↥(J ⊓ fixSubgroup β) := hs
     rw [← hmap]
     exact Group.isSolvable_of_surjective (f := e.toMonoidHom) e.surjective
   · intro hs
     rw [← hmap] at hs
-    haveI : Group.IsSolvable ↥((J ⊓ fixSubgroup β).map θ.toMonoidHom) := hs
+    have : Group.IsSolvable ↥((J ⊓ fixSubgroup β).map θ.toMonoidHom) := hs
     exact Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective
 
 theorem not_isSolvable_and_of_model_uni_aux {S : Type} [Group S] [Finite S]
@@ -113,7 +113,7 @@ theorem not_isSolvable_and_of_model_uni_aux {S : Type} [Group S] [Finite S]
     (hβ₂mem : β₂ ∈ innAutDerived S)
     (hcardT : Nat.card (↥(J.map θ.toMonoidHom) ⧸
       Subgroup.center ↥(J.map θ.toMonoidHom)) = ordTwistedA 2 (2 ^ n)) :
-    ¬ (IsSolvable ↥(J ⊓ fixSubgroup β₁) ∧ IsSolvable ↥(J ⊓ fixSubgroup β₂)) := by
+    ¬ (Group.IsSolvable ↥(J ⊓ fixSubgroup β₁) ∧ Group.IsSolvable ↥(J ⊓ fixSubgroup β₂)) := by
   classical
   let β' : MulAut (primeFormP hU (idGram K d)) := θ.symm.trans (β.trans θ)
   let β₁' : MulAut (primeFormP hU (idGram K d)) := θ.symm.trans (β₁.trans θ)
@@ -203,20 +203,20 @@ theorem not_isSolvable_and_of_model_uni_aux {S : Type} [Group S] [Finite S]
   have hnot := not_isSolvable_and_of_diagonal hU hf2 A A₁ A₂ P hA₁ hA₂ hPd hP₁ hP₂ hμ ha hI
     hmoves
   intro hsol
-  have hsol₁ : IsSolvable ↥(J.map θ.toMonoidHom ⊓
+  have hsol₁ : Group.IsSolvable ↥(J.map θ.toMonoidHom ⊓
       fixSubgroup (primeFormConjHom hU (idGram K d) A₁)) :=
     (isSolvable_inf_fixSubgroup_map_iff (β := β₁)
       (A := primeFormConjHom hU (idGram K d) A₁) (J := J) hβ₁eq').1 hsol.1
-  have hsol₂ : IsSolvable ↥(J.map θ.toMonoidHom ⊓
+  have hsol₂ : Group.IsSolvable ↥(J.map θ.toMonoidHom ⊓
       fixSubgroup (primeFormConjHom hU (idGram K d) A₂)) :=
     (isSolvable_inf_fixSubgroup_map_iff (β := β₂)
       (A := primeFormConjHom hU (idGram K d) A₂) (J := J) hβ₂eq').1 hsol.2
-  have hsolT₁ : IsSolvable ↥(blockImage hU
+  have hsolT₁ : Group.IsSolvable ↥(blockImage hU
       (Matrix.GeneralLinearGroup.toLin (A : GL (Fin d) K)) (X - C μ) ⊓
       fixSubgroup (primeFormConjHom hU (idGram K d) A₁)) := by
     rw [← hTblock]
     exact hsol₁
-  have hsolT₂ : IsSolvable ↥(blockImage hU
+  have hsolT₂ : Group.IsSolvable ↥(blockImage hU
       (Matrix.GeneralLinearGroup.toLin (A : GL (Fin d) K)) (X - C μ) ⊓
       fixSubgroup (primeFormConjHom hU (idGram K d) A₂)) := by
     rw [← hTblock]
@@ -234,7 +234,7 @@ theorem not_isSolvable_and_of_model_uni {S : Type} [Group S] [Finite S]
     (hU : UnitaryFieldData 2 labL.n K) (hd3 : 3 ≤ d) (hd6 : d ≤ 6)
     (hne : ¬(d = 3 ∧ 2 ^ labL.n = 2))
     (θ : S ≃* primeFormP hU (idGram K d)) :
-    ¬ (IsSolvable ↥(J ⊓ fixSubgroup β₁) ∧ IsSolvable ↥(J ⊓ fixSubgroup β₂)) := by
+    ¬ (Group.IsSolvable ↥(J ⊓ fixSubgroup β₁) ∧ Group.IsSolvable ↥(J ⊓ fixSubgroup β₂)) := by
   classical
   have hnd : labL.tag ≠ .B2der ∧ labL.tag ≠ .G2der ∧ labL.tag ≠ .twF4der := by
     rcases hF with htag | ⟨htag, -⟩ <;> rw [htag] <;> decide

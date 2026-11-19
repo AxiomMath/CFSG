@@ -16,7 +16,7 @@ theorem pRank_top_statedSp_eq {p : ℕ} [Fact p.Prime] (hp : Odd p) {K : Type} [
     CFSG.Open.pRank p (⊤ : Subgroup (StatedSp n K)) =
       (if Even (orderOf (Nat.card K : ZMod p)) then 2 * n else n) /
         orderOf (Nat.card K : ZMod p) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hpK' : ¬ p ∣ Fintype.card K := by rwa [← Nat.card_eq_fintype_card]
   rw [Nat.card_eq_fintype_card]
   exact CFSG.LocalAnalysis.RankThreeUC.S15.RankChevProof.pRank_eq_of_sylow_sigmaModel p
@@ -72,7 +72,7 @@ theorem pRank_top_orthogonalGroup_odd_eq {p : ℕ} [Fact p.Prime] (hp : Odd p) {
     [Finite ↥(TauCeti.QuadraticMap.orthogonalGroup Q)] :
     CFSG.Open.pRank p (⊤ : Subgroup (TauCeti.QuadraticMap.orthogonalGroup Q)) =
       CFSG.Open.pRank p (⊤ : Subgroup (StatedSp n K)) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hK' : Odd (Fintype.card K) := by rwa [← Nat.card_eq_fintype_card]
   have hpK' : ¬ p ∣ Fintype.card K := by rwa [← Nat.card_eq_fintype_card]
   obtain ⟨P⟩ : Nonempty (Sylow p (TauCeti.QuadraticMap.orthogonalGroup Q)) := inferInstance
@@ -84,7 +84,7 @@ theorem pRank_top_statedOmega_quadOdd_le {p : ℕ} [Fact p.Prime] (hp : Odd p) {
     [Field K] [Finite K] (hK : Odd (Nat.card K)) (hpK : ¬ p ∣ Nat.card K) (n : ℕ) :
     CFSG.Open.pRank p (⊤ : Subgroup (StatedOmega (StatedQuadOdd n K))) ≤
       CFSG.Open.pRank p (⊤ : Subgroup (StatedSp n K)) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hK' : Odd (Fintype.card K) := by rwa [← Nat.card_eq_fintype_card]
   set Q := CFSG.LieType.Universal.Spin.quadOdd n K with hQdef
   have hQ : ⇑Q = StatedQuadOdd n K := CFSG.LieType.Universal.Spin.coe_quadOdd n K
@@ -97,7 +97,7 @@ theorem pRank_top_statedOmega_quadOdd_le {p : ℕ} [Fact p.Prime] (hp : Odd p) {
     rw [Module.finrank_fintype_fun_eq_card]
     simp
     omega
-  haveI : Finite ((Fin n ⊕ Fin n ⊕ Unit → K) ≃ₗ[K] (Fin n ⊕ Fin n ⊕ Unit → K)) :=
+  have : Finite ((Fin n ⊕ Fin n ⊕ Unit → K) ≃ₗ[K] (Fin n ⊕ Fin n ⊕ Unit → K)) :=
     Finite.of_injective (fun g => (g : (Fin n ⊕ Fin n ⊕ Unit → K) → (Fin n ⊕ Fin n ⊕ Unit → K)))
       fun g h hgh => LinearEquiv.ext (congrFun hgh)
   have hmem : ∀ x : StatedOmega (StatedQuadOdd n K),
@@ -123,7 +123,7 @@ theorem sq_eq_one_of_scalar_mem_statedOmega_quadOdd {n : ℕ} {K : Type} [Field 
   have h3 := TauCeti.QuadraticMap.mem_orthogonalGroup_iff.1 h2 (Pi.single (.inr (.inr ())) 1)
   rw [MulEquiv.coe_toMonoidHom, CFSG.ClassicalGroups.Orthogonal.toLinEquiv_apply] at h3
   simp [CFSG.LieType.Universal.Spin.quadOdd_apply, Matrix.GeneralLinearGroup.coe_scalar,
-    Matrix.scalar_apply, Matrix.mulVec_diagonal] at h3
+    Matrix.scalar_apply] at h3
   rcases h3 with rfl | rfl <;> simp
 
 private theorem not_dvd_two_of_odd {p : ℕ} (hp : p.Prime) (hodd : Odd p) : ¬ p ∣ 2 := by

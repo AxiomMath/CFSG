@@ -21,15 +21,15 @@ private theorem card_of_isSLn {W : Type} [Group W] {m : ℕ} (h : IsSLn W 3 m) :
     Nat.card W = (2 ^ m) ^ 3 * (((2 ^ m) ^ 2 - 1) * ((2 ^ m) ^ 3 - 1)) := by
   obtain ⟨K, hF, hFin, hK, ⟨e⟩⟩ := h
   let _ : Field K := hF
-  haveI : Finite K := hFin
+  have : Finite K := hFin
   rw [Nat.card_congr e.toEquiv, CFSG.Open.StatedAPI.card_statedSL_three, hK]
 
 private theorem isPerfect_and_card_eq_of_surjective {W H : Type} [Group W] [Group H]
     (hWp : Group.IsPerfect W) (hWs : IsSimpleGroup W) (f : W →* H)
     (hf : Function.Surjective f) [Nontrivial H] :
     Group.IsPerfect H ∧ Nat.card H = Nat.card W := by
-  haveI : Group.IsPerfect W := hWp
-  haveI : IsSimpleGroup W := hWs
+  have : Group.IsPerfect W := hWp
+  have : IsSimpleGroup W := hWs
   rcases hWs.eq_bot_or_eq_top_of_normal f.ker with hN | hN
   · have hinj : Function.Injective f := (MonoidHom.ker_eq_bot_iff f).mp hN
     have hbij : Function.Bijective f := ⟨hinj, hf⟩
@@ -37,7 +37,7 @@ private theorem isPerfect_and_card_eq_of_surjective {W H : Type} [Group W] [Grou
     exact (Nat.card_congr (Equiv.ofBijective f hbij)).symm
   · exfalso
     have hf1 : f = 1 := MonoidHom.ker_eq_top_iff.mp hN
-    haveI : Subsingleton H := ⟨fun a b => by
+    have : Subsingleton H := ⟨fun a b => by
       obtain ⟨x, rfl⟩ := hf a
       obtain ⟨y, rfl⟩ := hf b
       rw [hf1]
@@ -84,9 +84,9 @@ private theorem sl3_top_false {K : Type} [Field K] {H : Type} [Group H] [Nontriv
   have hHdvd3 : Nat.card H ∣ 3 := by
     rw [hZcard] at hHdvdZ
     exact hHdvdZ.trans (Nat.gcd_dvd_left 3 (Nat.card K - 1))
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : IsCyclic H := isCyclic_of_card_dvd_prime hHdvd3
-  haveI : Group.IsPerfect H := hHperf
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsCyclic H := isCyclic_of_card_dvd_prime hHdvd3
+  have : Group.IsPerfect H := hHperf
   exact Group.IsPerfect.not_isSolvable H inferInstance
 
 private theorem sl3_core {K : Type} [Field K] [Finite K] {H : Type} [Group H]
@@ -94,11 +94,11 @@ private theorem sl3_core {K : Type} [Field K] [Finite K] {H : Type} [Group H]
     (f : StatedSL 3 K →* H) (hf : Function.Surjective f) [Nontrivial H] :
     Group.IsPerfect H ∧ ∃ d : ℕ, d ∣ 3 ∧ Nat.card H * d = Nat.card (StatedSL 3 K) ∧
       (d ≠ 1 → 3 ∣ 2 ^ m - 1) := by
-  haveI : Finite H := Finite.of_surjective f hf
+  have : Finite H := Finite.of_surjective f hf
   let Z : Subgroup (StatedSL 3 K) :=
     (StatedScalars (Fin 3) K).subgroupOf (StatedSL 3 K)
   let N : Subgroup (StatedSL 3 K) := f.ker
-  haveI : Group.IsPerfect (StatedSL 3 K) :=
+  have : Group.IsPerfect (StatedSL 3 K) :=
     CFSG.Open.StatedAPI.isPerfect_statedSL_of_three_le (n := 3) (by norm_num) K
   have hHperf : Group.IsPerfect H := Group.IsPerfect.ofSurjective hf
   have hZcard : Nat.card Z = Nat.gcd 3 (Nat.card K - 1) := statedSL_scalars_card
@@ -111,7 +111,7 @@ private theorem sl3_core {K : Type} [Field K] [Finite K] {H : Type} [Group H]
     CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel hmodel
   have hNm : (N.map (QuotientGroup.mk' Z)).Normal :=
     Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective Z)
-  haveI : IsSimpleGroup (StatedProj (StatedSL 3 K)) := hsimple
+  have : IsSimpleGroup (StatedProj (StatedSL 3 K)) := hsimple
   rcases hNm.eq_bot_or_eq_top with h | h
   · have hNZ : N ≤ Z := by
       rw [Subgroup.map_eq_bot_iff, QuotientGroup.ker_mk'] at h
@@ -170,10 +170,10 @@ private theorem isPerfect_statedProj_statedSp {K : Type} [Field K] [Finite K] {m
 private theorem isPerfect_statedProj_statedSU {K : Type} [Field K] [Finite K] {m : ℕ}
     (hK : Nat.card K = (2 ^ m) ^ 2) :
     Group.IsPerfect (StatedProj (StatedSU 4 (2 ^ m) K)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 :=
     CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := m) hK
-  haveI : Group.IsPerfect (StatedSU 4 (2 ^ m) K) :=
+  have : Group.IsPerfect (StatedSU 4 (2 ^ m) K) :=
     CFSG.ClassicalGroups.Unitary.isPerfect_statedSU (K := K) (p := 2) (f := m) (n := 4)
       (hK := hK) (hn := by norm_num) (hnq := by simp)
   exact Group.IsPerfect.ofSurjective
@@ -186,12 +186,12 @@ theorem card_mul_eq_of_surjective_large {W H : Type} [Group W] [Finite W] [Group
     (hf : Function.Surjective f) [Nontrivial H] :
     Group.IsPerfect H ∧ ∃ d : ℕ, d ∣ 3 ∧ Nat.card H * d = Nat.card W ∧
       (d ≠ 1 → IsSLn W 3 m ∧ 3 ∣ 2 ^ m - 1) := by
-  haveI : Finite H := Finite.of_surjective f hf
+  have : Finite H := Finite.of_surjective f hf
   rcases hW with hSL | hSp | hU4
   · have hSLkeep : IsSLn W 3 m := hSL
     obtain ⟨K, hF, hFin, hK, ⟨e⟩⟩ := hSL
     let _ : Field K := hF
-    haveI : Finite K := hFin
+    have : Finite K := hFin
     let f' : StatedSL 3 K →* H := f.comp e.symm.toMonoidHom
     have hf' : Function.Surjective f' := hf.comp e.symm.surjective
     obtain ⟨hperf, d, hdvd, hmul, hdimp⟩ := sl3_core hm hK f' hf'
@@ -202,8 +202,8 @@ theorem card_mul_eq_of_surjective_large {W H : Type} [Group W] [Finite W] [Group
       exact ⟨hSLkeep, hdimp hd⟩
   · obtain ⟨hAdm, K, hF, hFin, hK, ⟨e⟩⟩ := hSp.statedClassicalModel (by decide)
     let _ : Field K := hF
-    haveI : Finite K := hFin
-    haveI : Group.IsPerfect (StatedProj (StatedSp 2 K)) :=
+    have : Finite K := hFin
+    have : Group.IsPerfect (StatedProj (StatedSp 2 K)) :=
       isPerfect_statedProj_statedSp hAdm hK
     have hWp : Group.IsPerfect W :=
       Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
@@ -217,8 +217,8 @@ theorem card_mul_eq_of_surjective_large {W H : Type} [Group W] [Finite W] [Group
       exact absurd rfl hd
   · obtain ⟨-, K, hF, hFin, hK, ⟨e⟩⟩ := hU4.statedClassicalModel (by decide)
     let _ : Field K := hF
-    haveI : Finite K := hFin
-    haveI : Group.IsPerfect (StatedProj (StatedSU 4 (2 ^ m) K)) :=
+    have : Finite K := hFin
+    have : Group.IsPerfect (StatedProj (StatedSU 4 (2 ^ m) K)) :=
       isPerfect_statedProj_statedSU hK
     have hWp : Group.IsPerfect W :=
       Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
@@ -246,7 +246,7 @@ private theorem not_l2_image {S W : Type} [Group S] [Finite S]
     (hd13 : d = 1 ∨ d = 3) (hmul : Nat.card ↥Y * d = Nat.card W)
     (hSLcard : d ≠ 1 → Nat.card W =
       (2 ^ m) ^ 3 * (((2 ^ m) ^ 2 - 1) * ((2 ^ m) ^ 3 - 1))) : False := by
-  haveI : Group.IsPerfect ↥Y := hY
+  have : Group.IsPerfect ↥Y := hY
   have hYY : ⁅Y, Y⁆ = Y := Subgroup.commutator_eq_self
   rcases isAlt_or_isL2_of_isL2 hL2 Y hYY hne with hAlt | ⟨b, -, hL2Y⟩
   · obtain ⟨e⟩ := hAlt
@@ -291,7 +291,7 @@ private theorem not_l2odd_image {S W : Type} [Group S] [Finite S]
     (hSLcard : d ≠ 1 → Nat.card W =
       (2 ^ m) ^ 3 * (((2 ^ m) ^ 2 - 1) * ((2 ^ m) ^ 3 - 1)))
     (h3x : d ≠ 1 → 3 ∣ 2 ^ m - 1) : False := by
-  haveI : Group.IsPerfect ↥Y := hY
+  have : Group.IsPerfect ↥Y := hY
   have hYY : ⁅Y, Y⁆ = Y := Subgroup.commutator_eq_self
   rcases eq_top_or_isAlt_of_isL2Odd hq hq2 hS Y hYY hne with hTop | hAlt
   · have hYS : Nat.card ↥Y = Nat.card S := by rw [hTop]; simp
@@ -337,7 +337,7 @@ theorem kSub23_two :
   intro W S _ _ _ _ m hm3 hW hB Y hf
   obtain ⟨f, hf⟩ := hf
   by_contra hne
-  haveI : Nontrivial ↥Y := (Subgroup.nontrivial_iff_ne_bot Y).mpr hne
+  have : Nontrivial ↥Y := (Subgroup.nontrivial_iff_ne_bot Y).mpr hne
   obtain ⟨hY, d, hdvd, hmul, hdimp⟩ :=
     card_mul_eq_of_surjective_large (m := m) (by omega) hW f hf
   have hd13 : d = 1 ∨ d = 3 := (Nat.dvd_prime Nat.prime_three).mp hdvd

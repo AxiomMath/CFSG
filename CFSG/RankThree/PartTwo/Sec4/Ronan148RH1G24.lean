@@ -161,7 +161,7 @@ theorem center_eq_bot_g24
     {F : Type} [Field F] (hF : Nat.card F = 4) {L : Type} [Group L]
     [Finite L] (hL : IsQuasisimple L) (hZ3 : IsPGroup 3 (Subgroup.center L))
     (θ : L ⧸ Subgroup.center L ≃* adjointGroup .G2 F) : Subgroup.center L = ⊥ := by
-  haveI : Group.IsPerfect L := hL.1
+  have : Group.IsPerfect L := hL.1
   set ψ : L →* adjointGroup .G2 F := θ.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center L))
   have hψker : ψ.ker = Subgroup.center L := Res6Seitz.ker_centralQuotient θ
   have hψs : Function.Surjective ψ := θ.surjective.comp (QuotientGroup.mk'_surjective _)

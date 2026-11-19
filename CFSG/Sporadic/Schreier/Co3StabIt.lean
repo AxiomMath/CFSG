@@ -159,7 +159,7 @@ theorem orbit_sub_co3ItRest {l : ℕ} (hl : l < 5) :
   intro y hy
   obtain ⟨g, hg, rfl⟩ := mem_orbit_Gs.1 hy
   obtain ⟨hgH, hfix⟩ := (mem_Gs l g).1 hg
-  simp only [co3ItRest, Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_setOf_eq]
+  simp only [co3ItRest, Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_ofPred_eq]
   refine ⟨co3ItStab_mem_It hgH (co3ItB_mem (by omega)), fun k hk e => ?_⟩
   rw [← hfix k hk] at e
   exact co3ItB_ne (by omega) hk (g.injective e)
@@ -202,7 +202,7 @@ theorem card_co3ItStab_le :
   have h4 := orbit_ncard_le (l := 4) (by norm_num)
   have h5 := orbit5_ncard_le
   have h6 := card_Gs6_le
-  calc _ ≤ 12 * 11 * 10 * 9 * 8 * 1 * 2 := by gcongr <;> assumption
+  calc _ ≤ 12 * 11 * 10 * 9 * 8 * 1 * 2 := by gcongr
     _ = 190080 := by norm_num
 
 theorem co3It_orbit_ge :
@@ -216,7 +216,7 @@ theorem co3It_orbit_ge :
   rw [← hidx]
   have hle := card_co3ItStab_le
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have : Nat.card co3ItStab * (MulAction.stabilizer co3P (finSet 276 co3ItNat)).index ≤
       190080 * 2608199 := Nat.mul_le_mul hle (by omega)
   omega

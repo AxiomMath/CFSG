@@ -169,7 +169,7 @@ theorem exists_ext_two_four [Finite G] {D Q : Subgroup G} {u r : G} (hQ : IsPGro
   ·
     have hCY : D ⊔ Subgroup.zpowers w ≤ layer D Q := sup_le hDY (Subgroup.zpowers_le.mpr hwY)
     have hwC : w ∈ D ⊔ Subgroup.zpowers w := Subgroup.mem_sup_right (Subgroup.mem_zpowers w)
-    refine ⟨D ⊔ Subgroup.zpowers w, SetLike.lt_iff_le_and_exists.mpr ⟨le_sup_left, w, hwC, hwD⟩,
+    refine ⟨D ⊔ Subgroup.zpowers w, IsConcreteLE.lt_iff_le_and_exists.mpr ⟨le_sup_left, w, hwC, hwD⟩,
       hCY.trans hYQ, Or.inl (card_sup_zpowers_two hwN hwsq hwD), fun x hx => hsq x (hCY hx),
       ?_, ?_⟩
     · refine mem_normalizer_of_conj_mem fun y hy => conj_mem_of_mem_sup_zpowers
@@ -216,7 +216,7 @@ theorem exists_ext_two_four [Finite G] {D Q : Subgroup G} {u r : G} (hQ : IsPGro
         rw [hkw, hcent w hwY k hk, inv_mul_cancel_left]
         exact hk
     have hcardK : Nat.card K = 2 * Nat.card D := card_sup_zpowers_two hwN hwsq hwD
-    refine ⟨K ⊔ Subgroup.zpowers w', SetLike.lt_iff_le_and_exists.mpr
+    refine ⟨K ⊔ Subgroup.zpowers w', IsConcreteLE.lt_iff_le_and_exists.mpr
       ⟨fun k hk => hDC k hk, w, hwC, hwD⟩, hCY.trans hYQ, Or.inr ?_,
       fun x hx => hsq x (hCY hx), ?_, ?_⟩
     · rw [card_sup_zpowers_two hw'N (Subgroup.mem_sup_left (hsq w' hw'Y)) hw'K, hcardK]
@@ -260,7 +260,7 @@ theorem exists_ext_two_four [Finite G] {D Q : Subgroup G} {u r : G} (hQ : IsPGro
             rw [hs_def]; group
         _ = w' * w'' * w := by rw [← hw', ← hw'', hrw'']
         _ = s * ((w' * w'')⁻¹ * w⁻¹ * (w' * w'') * w) := by rw [hs_def]; group
-    refine ⟨D ⊔ Subgroup.zpowers s, SetLike.lt_iff_le_and_exists.mpr ⟨le_sup_left, s, hsC, hs⟩,
+    refine ⟨D ⊔ Subgroup.zpowers s, IsConcreteLE.lt_iff_le_and_exists.mpr ⟨le_sup_left, s, hsC, hs⟩,
       hCY.trans hYQ, Or.inl (card_sup_zpowers_two hsN hssq hs), fun x hx => hsq x (hCY hx),
       ?_, ?_⟩
     · refine mem_normalizer_of_conj_mem fun y hy => conj_mem_of_mem_sup_zpowers

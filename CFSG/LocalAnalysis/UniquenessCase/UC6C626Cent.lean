@@ -21,10 +21,10 @@ theorem c626gen_of_Lbar_cent (h619 : m.C619) (h620 : m.C620)
         ∀ x ∈ K, (orderOf x).Prime → orderOf x ≠ 2 → orderOf x ≠ m.r → K = ⊤) :
     m.C626gen := by
   classical
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   intro p hp P hP hPne
   have hpp : p.Prime := hp.1.1
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have hp2 : p ≠ 2 := hp.1.2.1
   have hpr : p ≠ m.r := fun h => m.hrσ (h ▸ hp)
   have hpO := m.not_dvd_card_OL_of_sigma h619 h620 hp

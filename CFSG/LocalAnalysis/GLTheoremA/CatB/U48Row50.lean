@@ -24,7 +24,7 @@ theorem sylow_image (hPL : P ≤ L) (hP : IsPGroup 3 P)
     {M : Type} [Group M] [Finite M] (φ : ↥L →* M) (hφ : Function.Surjective φ)
     (hker : ¬ 3 ∣ Nat.card φ.ker) :
     ∃ S : Sylow 3 M, (S : Subgroup M) = (P.subgroupOf L).map φ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set PL : Subgroup ↥L := P.subgroupOf L with hPLdef
   have hPLp : IsPGroup 3 PL := hP.of_equiv (Subgroup.subgroupOfEquivOfLe hPL).symm
   have hmaxL : ∀ Q : Subgroup ↥L, IsPGroup 3 Q → PL ≤ Q → Q = PL := by
@@ -99,7 +99,7 @@ end Griess
 theorem not_three_dvd_card_ker_piOf {M : Type*} [Group M] (e : PQuot 3 L ≃* M) :
     ¬ 3 ∣ Nat.card (piOf L e).ker := by
   rw [piOf_ker]
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).1
     (CFSG.pPrimeCore_coprime_card (p := 3) (G := ↥L))
 

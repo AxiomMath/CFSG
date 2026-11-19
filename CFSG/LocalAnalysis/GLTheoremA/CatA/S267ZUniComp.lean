@@ -113,7 +113,7 @@ theorem centralizer_projU_diagU (h12 : d 1 = d 2) :
 variable (h) in
 noncomputable abbrev JU : Subgroup (PU h) := (blockU h blk).map (projU h)
 
-theorem zero_not_mem_blk : (0 : Fin 3) ∉ blk := by simp [mem_blk]
+theorem zero_not_mem_blk : (0 : Fin 3) ∉ blk := by simp
 
 @[expose] def swapMat (K : Type) [Field K] : Matrix (Fin 3) (Fin 3) K :=
   !![1, 0, 0; 0, 0, -1; 0, 1, 0]
@@ -155,7 +155,7 @@ theorem norm_diagBlk {ζ : K} (hζn : h.bar ζ * ζ = 1) :
   fin_cases i
   · simp
   · exact hζn
-  · simp only [Fin.reduceFinMk, Matrix.cons_val_two, Matrix.cons_val_one, Matrix.head_cons,
+  · simp only [Fin.reduceFinMk, Matrix.cons_val_two, Matrix.head_cons,
       Matrix.tail_cons, map_inv₀]
     rw [← mul_inv, hζn, inv_one]
 
@@ -174,6 +174,7 @@ variable [Finite K] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {ζ : K} (hζ : IsP
   (hζn : h.bar ζ * ζ = 1)
 include hp hp2 hζ hζn
 
+omit [Finite K] hp2 in
 theorem diagU_blk_pow :
     diagU h ![1, ζ, ζ⁻¹] (norm_diagBlk hζn) (prod_diagBlk (hζ.ne_zero hp.ne_zero)) ^ p = 1 := by
   have hpow : (![1, ζ, ζ⁻¹] : Fin 3 → K) ^ p = 1 := by
@@ -184,6 +185,7 @@ theorem diagU_blk_pow :
   rw [Subgroup.coe_pow, Units.val_pow_eq_pow_val, coe_diagU, diagonal_pow, hpow]
   rfl
 
+omit [Finite K] in
 theorem diagU_blk_mul_swapBlk_ne :
     diagU h ![1, ζ, ζ⁻¹] (norm_diagBlk hζn) (prod_diagBlk (hζ.ne_zero hp.ne_zero)) * swapBlk h ≠
       swapBlk h * diagU h ![1, ζ, ζ⁻¹] (norm_diagBlk hζn) (prod_diagBlk (hζ.ne_zero hp.ne_zero)) := by
@@ -202,11 +204,13 @@ theorem diagU_blk_mul_swapBlk_ne :
   have := hp.two_le
   omega
 
+omit [Finite K] in
 theorem dvd_card_blockU_blk : p ∣ Nat.card (↥(blockU h blk) ⧸ Subgroup.center ↥(blockU h blk)) :=
   CFSG.LocalAnalysis.GLTheoremA.H81.LinA3.dvd_card_quotient_center_of_not_commute hp
     (diagU_blk_mem_blockU hζn (hζ.ne_zero hp.ne_zero)) swapBlk_mem_blockU
-    (diagU_blk_pow hp hp2 hζ hζn) (diagU_blk_mul_swapBlk_ne hp hp2 hζ hζn)
+    (diagU_blk_pow hp hζ hζn) (diagU_blk_mul_swapBlk_ne hp hp2 hζ hζn)
 
+omit [Finite K] in
 theorem dvd_card_JU : p ∣ Nat.card (↥(JU h) ⧸ Subgroup.center ↥(JU h)) := by
   rw [← CFSG.LocalAnalysis.GLTheoremA.H81.LinA3.natCard_quotient_center_congr
     (mapProjUEquiv zero_not_mem_blk _ le_rfl)]
@@ -228,6 +232,7 @@ variable {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {ζ : K} (hζ : IsPrimitiveRoo
 include hp hp2 hζ hζn h12 hd01
 
 omit hK hq hp hp2 hζ hζn in
+omit [Field K] [Finite K] in
 private theorem hd0_of (j : Fin 3) (hj : j ≠ 0) : d 0 ≠ d j := by
   fin_cases j
   · exact absurd rfl hj
@@ -252,8 +257,9 @@ theorem eq_of_glaPComponent_cent_diagU {L : Subgroup ↥(SG h)}
     (commutator_centralizer_le_blockU (hd0_of h12 hd01)) hL
 
 omit hK hq hp hp2 hζ hζn h12 hd01 in
+omit [Finite K] [Fact (Nat.Prime ℓ)] [CharP K ℓ] in
 private theorem central_kerU (X : Subgroup ↥(SG h)) :
-    ∀ y ∈ X ⊓ (projU h).ker, ∀ x ∈ X, x * y = y * x := fun y hy x _ =>
+    ∀ _y ∈ X ⊓ (projU h).ker, ∀ x ∈ X, x * _y = _y * x := fun _y hy x _ =>
   Subgroup.mem_center_iff.1 (normOneScalars_le_center h _ 3 (ker_projU (h := h) ▸ hy.2)) x
 
 theorem glaPComponent_centralizer_projU_diagU :
@@ -262,6 +268,7 @@ theorem glaPComponent_centralizer_projU_diagU :
   exact (CFSG.glaPComponent_map_bijective_of_ker_le_center hp (projU h)
     (central_kerU _)).1 _ (glaPComponent_cent_diagU hK hq hp hp2 hζ hζn h12 hd01)
 
+omit hp2 hζ hζn in
 theorem eq_of_glaPComponent_centralizer_projU_diagU {L : Subgroup (PU h)}
     (hL : GLAPComponent p (Subgroup.centralizer ({projU h (diagU h d hn hd)} : Set (PU h))) L) :
     L = JU h := by
@@ -274,7 +281,7 @@ theorem glaPLayer_centralizer_projU_diagU :
     GLAPLayer p (Subgroup.centralizer ({projU h (diagU h d hn hd)} : Set (PU h))) = JU h :=
   CFSG.LocalAnalysis.GLTheoremA.H81.layer_eq_of_unique
     (glaPComponent_centralizer_projU_diagU hK hq hp hp2 hζ hζn h12 hd01)
-    (fun _ hL => eq_of_glaPComponent_centralizer_projU_diagU hK hq hp hp2 hζ hζn h12 hd01 hL)
+    (fun _ hL => eq_of_glaPComponent_centralizer_projU_diagU hK hq hp h12 hd01 hL)
 
 end Comp
 

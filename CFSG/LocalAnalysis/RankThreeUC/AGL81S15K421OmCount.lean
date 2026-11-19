@@ -19,7 +19,7 @@ theorem card_norm_one_general {F : Type} [Field F] [Finite F] [CharP F 2] {b c :
     (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) :
     Nat.card {p : F × F // p.1 ^ 2 + b * p.1 * p.2 + c * p.2 ^ 2 = 1} = Nat.card F + 1 := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   choose r hr using K421SpCountProof.spc_sq_exists (F := F)
   have hbij : Function.Bijective (fun o : Option F =>
       o.elim (⟨(1, 0), by simp⟩ : {p : F × F // p.1 ^ 2 + b * p.1 * p.2 + c * p.2 ^ 2 = 1})
@@ -190,7 +190,7 @@ theorem card_quadMinus_eq_one_aux7 {F : Type} [Field F] [Finite F] {b c : F} {x 
       ∑ i, x i * q.1 i + (q.2.1 ^ 2 + b * q.2.1 * q.2.2 + c * q.2.2 ^ 2) = 1} =
       Nat.card F ^ 4 := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hx' : x 0 ≠ 0 ∨ x 1 ≠ 0 ∨ x 2 ≠ 0 := by
     by_contra hcon
     simp only [not_or, ne_eq, not_not] at hcon
@@ -239,7 +239,7 @@ theorem card_quadMinus_eq_one {F : Type} [Field F] [Finite F] [CharP F 2] {b c :
     Nat.card {v : Fin 3 ⊕ Fin 3 ⊕ Fin 2 → F // CFSG.Open.StatedQuadMinus 4 F b c v = 1} =
       Nat.card F ^ 7 + Nat.card F ^ 3 := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hQ : 0 < Nat.card F := Nat.card_pos
   let Φ : {v : Fin 3 ⊕ Fin 3 ⊕ Fin 2 → F // CFSG.Open.StatedQuadMinus 4 F b c v = 1} ≃
       Σ x : Fin 3 → F, {q : (Fin 3 → F) × (F × F) //

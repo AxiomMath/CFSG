@@ -69,7 +69,7 @@ theorem card_closure_pair_three {a b : G} (ha3 : a ^ 3 = 1) (hb3 : b ^ 3 = 1)
     rfl
   have h9 : Nat.card (Set.range (fun p : Fin 3 × Fin 3 => a ^ (p.1 : ℕ) * b ^ (p.2 : ℕ))) = 9 := by
     rw [Nat.card_range_of_injective hf]
-    simp [Nat.card_prod]
+    simp
   have hcard := congrArg (fun T : Set G => Nat.card T)
     (closure_pair_eq_range ha3 hb3 hab)
   exact hcard.trans h9
@@ -214,7 +214,7 @@ theorem exists_e9_normalizing_two_projectiveSL (hK : Nat.card K = 2) {n : ℕ}
     (hn : n = 4 ∨ n = 5) :
     ∃ E V : Subgroup (projectiveSL n K), IsElemAbelian 3 E ∧ Nat.card E = 9 ∧ V ≠ ⊥ ∧
       IsPGroup 2 V ∧ E ≤ Subgroup.normalizer (V : Set (projectiveSL n K)) := by
-  haveI := charP_two_of_natCard_eq_two hK
+  have := charP_two_of_natCard_eq_two hK
   rcases hn with rfl | rfl
   · exact exists_e9_normalizing_four_group (embedTwo K 4)
       (embedTwo_injective hK (by norm_num))

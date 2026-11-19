@@ -205,7 +205,7 @@ theorem sel_eq {L : Nat → Nat} {m : Nat} (hL : ∀ x < 4060, L x < m) {p : Nat
           (if L x = l then (if p l then 1 else 0) else 0) := fun l _ => by
       by_cases hp : p l <;> by_cases he : L x = l <;> simp [hp, he, Nat.beq_eq]
     rw [Finset.sum_congr rfl e1, Finset.sum_add_distrib, Finset.sum_ite_eq,
-      if_pos (Finset.mem_range.2 hlt)]
+      ite_eq_left (Finset.mem_range.2 hlt)]
 
 theorem of8 {b : Fin 8 → Bool} {M : Nat} (h0 : bAt b 0 = CFSG.KLC.Fi22.bt M 0) (h1 : bAt b 1 = CFSG.KLC.Fi22.bt M 1)
     (h2 : bAt b 2 = CFSG.KLC.Fi22.bt M 2) (h3 : bAt b 3 = CFSG.KLC.Fi22.bt M 3) (h4 : bAt b 4 = CFSG.KLC.Fi22.bt M 4)

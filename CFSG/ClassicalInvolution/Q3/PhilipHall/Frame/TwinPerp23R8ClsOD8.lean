@@ -41,7 +41,7 @@ theorem form_of_centralizes {β : Finset (Fin 6)} (hβ : β.card = 4) (w : Wr 6)
   rcases he with rfl | rfl
   · exact ⟨0, fun i hi => by rw [hwv i hi]; rfl⟩
   · refine ⟨1, fun i hi => ?_⟩
-    rw [hwv i hi, zOf_vec_apply, if_pos (by rw [range_emb]; exact hi)]
+    rw [hwv i hi, zOf_vec_apply, ite_eq_left (by rw [range_emb]; exact hi)]
 
 theorem mkQ_eq_one_of_centralizes (w : Wr 6)
     (h : ∀ x ∈ TwinThinPf8.Hn 6, mkQ 6 w * x * (mkQ 6 w)⁻¹ = x) : mkQ 6 w = 1 := by
@@ -154,7 +154,7 @@ theorem card_le_four {β : Finset (Fin 6)} (hβ : β.card = 4) {G : Type*} [Grou
     have h1 := Nat.card_le_card_of_injective _ hι
     have h2 : Nat.card ↥T6 = 6 := by rw [Nat.card_eq_fintype_card, Fintype.card_coe, hT6]
     omega
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hpg : IsPGroup 2 G := fun g => ⟨1, by rw [pow_one, pow_two]; exact hG g⟩
   obtain ⟨k, hk⟩ := hpg.exists_card_eq
   rw [hk] at hle ⊢

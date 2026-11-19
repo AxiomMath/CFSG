@@ -19,7 +19,7 @@ theorem index_normalizer_psl2 {f : ℕ} (hf : f ≠ 0)
     (hp : IsPGroup 2 T) (hodd : ¬ 2 ∣ T.index) :
     (Subgroup.normalizer (T : Set (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 f)))).index
       = 2 ^ f + 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let P := hp.toSylow hodd
   have hP : (P : Subgroup _) = T := rfl
   have h := P.card_eq_index_normalizer
@@ -55,7 +55,7 @@ theorem eq_bot_of_normal_le_normalizer_psl2 {f : ℕ} (hf : f ≠ 0)
     (hp : IsPGroup 2 T) (hodd : ¬ 2 ∣ T.index) (hK : K.Normal)
     (hle : K ≤ Subgroup.normalizer (T : Set (Matrix.ProjectiveSpecialLinearGroup (Fin 2)
       (GaloisField 2 f)))) : K = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hidx := index_normalizer_psl2 hf hp hodd
   rcases Nat.lt_or_ge f 2 with h1 | h2
   ·
@@ -89,7 +89,7 @@ theorem eq_bot_of_normal_le_normalizer_psl2 {f : ℕ} (hf : f ≠ 0)
         rfl
       have hQn : (Q : Subgroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 1))).Normal := by
         rw [hQK]; exact hK
-      haveI := Sylow.unique_of_normal Q hQn
+      have := Sylow.unique_of_normal Q hQn
       have h3 := CFSG.Walter.psl2_even_card_sylow (f := 1) one_ne_zero
       have : Nat.card (Sylow 2 (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 1))) = 1 :=
         Nat.card_unique
@@ -99,7 +99,7 @@ theorem eq_bot_of_normal_le_normalizer_psl2 {f : ℕ} (hf : f ≠ 0)
       rw [GaloisField.card 2 f hf]
       calc 4 = 2 ^ 2 := by norm_num
         _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) h2
-    haveI : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 f)) :=
+    have : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 f)) :=
       Matrix.ProjectiveSpecialLinearGroup.rank_two_simple hE4
     rcases hK.eq_bot_or_eq_top with h | h
     · exact h
@@ -134,13 +134,14 @@ theorem le_pCore_of_normal_le_borelOf {L S : Subgroup G} {f : ℕ} (hf : f ≠ 0
   rw [Subgroup.map_eq_bot_iff, hπ, QuotientGroup.ker_mk'] at hbot'
   exact hbot'
 
+omit [Finite G] in
 theorem exists_levi_hom {L P B : Subgroup G} {X : Type*} [Group X] (hLP : L ≤ P)
     (hLR : L ⊓ coreIn B P = pCoreOf 2 L) (e : oTwoQuot ↥L ≃* X) :
     ∃ φ : ↥(⁅L, L⁆ ⊔ coreIn B P) →* ↥(commutator X), Function.Surjective φ ∧
       φ.ker = (coreIn B P).subgroupOf (⁅L, L⁆ ⊔ coreIn B P) := by
   set R := coreIn B P with hRdef
   have hRP : R ≤ P := coreIn_le_left B P
-  haveI hRn : (R.subgroupOf P).Normal :=
+  have hRn : (R.subgroupOf P).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hRP).mpr (le_normalizer_coreIn B P)
   set Q := ↥P ⧸ R.subgroupOf P
   let q : ↥P →* Q := QuotientGroup.mk' _
@@ -243,6 +244,7 @@ theorem exists_levi_hom {L P B : Subgroup G} {X : Type*} [Group X] (hLP : L ≤ 
       show φ2 n = 1
       simp only [φ2, MonoidHom.coe_comp, Function.comp_apply, h2, map_one]
 
+omit [Finite G] in
 theorem mem_normalizer_of_conj {H : Subgroup G} {g : G} (h1 : ∀ x ∈ H, g * x * g⁻¹ ∈ H)
     (h2 : ∀ x ∈ H, g⁻¹ * x * g ∈ H) : g ∈ Subgroup.normalizer (H : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -251,6 +253,7 @@ theorem mem_normalizer_of_conj {H : Subgroup G} {g : G} (h1 : ∀ x ∈ H, g * x
   have := h2 _ hx
   simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem le_normalizer_sup {A C P : Subgroup G} (hA : P ≤ Subgroup.normalizer (A : Set G))
     (hC : P ≤ Subgroup.normalizer (C : Set G)) : P ≤ Subgroup.normalizer ((A ⊔ C : Subgroup G) : Set G) := by
   have key : ∀ g ∈ P, ∀ x ∈ A ⊔ C, g * x * g⁻¹ ∈ A ⊔ C := by
@@ -265,6 +268,7 @@ theorem le_normalizer_sup {A C P : Subgroup G} (hA : P ≤ Subgroup.normalizer (
   refine mem_normalizer_of_conj (key g hg) (fun x hx => ?_)
   simpa using key g⁻¹ (P.inv_mem hg) x hx
 
+omit [Finite G] in
 theorem le_normalizer_inf {A C P : Subgroup G} (hA : P ≤ Subgroup.normalizer (A : Set G))
     (hC : P ≤ Subgroup.normalizer (C : Set G)) : P ≤ Subgroup.normalizer ((A ⊓ C : Subgroup G) : Set G) := by
   intro g hg
@@ -273,6 +277,7 @@ theorem le_normalizer_inf {A C P : Subgroup G} (hA : P ≤ Subgroup.normalizer (
   rw [Subgroup.mem_inf, Subgroup.mem_inf, (Subgroup.mem_normalizer_iff.mp (hA hg)) x,
     (Subgroup.mem_normalizer_iff.mp (hC hg)) x]
 
+omit [Finite G] in
 theorem normalizer_le_normalizer_commutator (L : Subgroup G) :
     Subgroup.normalizer (L : Set G) ≤ Subgroup.normalizer ((⁅L, L⁆ : Subgroup G) : Set G) := by
   have key : ∀ g ∈ Subgroup.normalizer (L : Set G), ∀ x ∈ ⁅L, L⁆, g * x * g⁻¹ ∈ ⁅L, L⁆ := by
@@ -285,7 +290,7 @@ theorem normalizer_le_normalizer_commutator (L : Subgroup G) :
       have hb' := ((Subgroup.mem_normalizer_iff.mp hg) b).mp hb
       have hc := Subgroup.commutator_mem_commutator ha' hb'
       convert hc using 1
-      simp only [MonoidHom.coe_coe, MulEquiv.coe_toMonoidHom, MulAut.conj_apply,
+      simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply,
         commutatorElement_def]
       group
     intro x hx
@@ -343,6 +348,7 @@ theorem st84Levi_of_vertex {L P B S : Subgroup G} {n : ℕ} (hn : n ≠ 0)
     le_normalizer_sup (hPL.trans (normalizer_le_normalizer_commutator L)) hPR, le_sup_right,
     φ, hs, hk⟩
 
+omit [Finite G] in
 theorem isL2Quot_of_VS3 {L : Subgroup G} (h : VS3 L) : IsL2Quot 1 (oTwoQuot ↥L) := by
   obtain ⟨e⟩ := h
   exact ⟨e.trans permThreeEquivPSL⟩

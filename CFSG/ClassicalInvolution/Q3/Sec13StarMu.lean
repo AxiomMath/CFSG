@@ -22,9 +22,11 @@ include h
 theorem partIHyp : Q3T8.Asc77.PartIHyp Ω :=
   ⟨h.thmD.hyp, classicalClause_of_two h.thmD.hyp h.thmD.two, h.thmD.aEmpty⟩
 
+omit [Finite G] in
 private theorem isSylow2In_self {K : Subgroup G} (hK : K ∈ Ω) : IsSylow2In K K :=
   ⟨le_rfl, h.thmD.two K hK, fun _ hVK _ hKV => le_antisymm hVK hKV⟩
 
+omit [Finite G] in
 theorem mem_dSet_iff {W R : Subgroup G} :
     R ∈ DSet Ω W ↔ R ∈ Ω ∧ R ≤ Subgroup.normalizer (W : Set G) := by
   refine ⟨fun ⟨hR, hRN⟩ => ⟨?_, hRN⟩,
@@ -57,7 +59,7 @@ theorem muIsoE4_of_dSet {S : Sylow 2 G} {η : Set (Subgroup G)} (hη : η ∈ et
   set W := ⨆ V ∈ η, V
   have hΩ : HypOmegaGen Ω := h.thmD.hyp
   have hW : W ∈ WSet Ω := ⟨η, hη, rfl⟩
-  have hW2 : IsPGroup 2 W := S.isPGroup'.to_le (iSup₂_le hηS)
+  have hW2 : IsPGroup 2 W := S.isPGroup.to_le (iSup₂_le hηS)
   have hKD : K ∈ DSet Ω W := by
     rw [hD]
     exact Set.mem_insert K {K'}
@@ -111,7 +113,7 @@ theorem muIsoE4_of_dSet {S : Sylow 2 G} {η : Set (Subgroup G)} (hη : η ∈ et
   have hne' : piG W k ≠ piG W k' := by
     intro heq
     have hw : k⁻¹ * k' ∈ W := mem_of_isPGroup_of_mem_sup_OCW hW2
-      (S.isPGroup'.to_le (Subgroup.zpowers_le.mpr ((S : Subgroup G).mul_mem
+      (S.isPGroup.to_le (Subgroup.zpowers_le.mpr ((S : Subgroup G).mul_mem
         ((S : Subgroup G).inv_mem (hKS hk)) (hK'S hk')))) ((piG_eq_iff hkN hk'N).mp heq)
     obtain ⟨-, -, hcyc, h4, -⟩ :=
       Q3CL.Thompson.inf_W_of_mem_D hΩ hW hKD hK (h.isSylow2In_self hK)

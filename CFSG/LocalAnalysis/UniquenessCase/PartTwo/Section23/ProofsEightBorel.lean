@@ -125,7 +125,7 @@ private lemma p3a_card_dvd_sylow {X : Type} [Group X] [Finite X]
     (hBN : B ≤ Subgroup.normalizer (N : Set (MulAut X))) :
     (N ⊓ B).relIndex N ∣ Nat.card ↥(S : Subgroup X) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hinj : Function.Injective (MulAut.conj : X →* MulAut X) :=
     CFSG.Quasithin.SteinbergCF.conj_injective_of_center_eq_bot hZ
   obtain ⟨k, hk⟩ := hT2.exists_card_eq
@@ -149,11 +149,11 @@ private lemma p3a_card_dvd_sylow {X : Type} [Group X] [Finite X]
 
 private lemma p3a_card_eq_sylow {X : Type} [Group X] [Finite X]
     (S : Sylow 2 X) (B T₁ N : Subgroup (MulAut X))
-    (hZ : Subgroup.center X = ⊥) (hBodd : Odd (Nat.card B)) (hT2 : IsPGroup 2 T₁)
-    (hperm : (B : Set (MulAut X)) * (T₁ : Set (MulAut X)) =
+    (hZ : Subgroup.center X = ⊥) (hBodd : Odd (Nat.card B)) (_hT2 : IsPGroup 2 T₁)
+    (_hperm : (B : Set (MulAut X)) * (T₁ : Set (MulAut X)) =
       (T₁ : Set (MulAut X)) * (B : Set (MulAut X)))
-    (hN : N = (B ⊔ T₁) ⊓ (MulAut.conj : X →* MulAut X).range)
-    (hBN : B ≤ Subgroup.normalizer (N : Set (MulAut X)))
+    (_hN : N = (B ⊔ T₁) ⊓ (MulAut.conj : X →* MulAut X).range)
+    (_hBN : B ≤ Subgroup.normalizer (N : Set (MulAut X)))
     (hCleN : (S : Subgroup X).map (MulAut.conj : X →* MulAut X) ≤ N)
     (hqS : (N ⊓ B).relIndex N ∣ Nat.card ↥(S : Subgroup X)) :
     (N ⊓ B).relIndex N = Nat.card ↥(S : Subgroup X) := by
@@ -172,7 +172,7 @@ private lemma p3a_card_eq_sylow {X : Type} [Group X] [Finite X]
     have hodd : Odd (Nat.card ↥(N ⊓ B)) :=
       Odd.of_dvd_nat hBodd (Subgroup.card_dvd_of_le inf_le_right)
     have hcop2 : Nat.Coprime (Nat.card ↥(S : Subgroup X)) (Nat.card ↥(N ⊓ B)) := by
-      obtain ⟨ks, hks⟩ := (S.isPGroup').exists_card_eq
+      obtain ⟨ks, hks⟩ := (S.isPGroup).exists_card_eq
       rw [hks]
       exact Nat.Coprime.pow_left ks (Nat.coprime_two_left.mpr hodd)
     have hdvd : Nat.card ↥(S : Subgroup X) ∣
@@ -197,7 +197,7 @@ private theorem p3a_card {X : Type} [Group X] [Finite X]
   let C : Subgroup (MulAut X) := (S : Subgroup X).map (MulAut.conj : X →* MulAut X)
   let N : Subgroup (MulAut X) := J ⊓ (MulAut.conj : X →* MulAut X).range
   change Nat.card ↥(N ⊓ B) * Nat.card ↥(S : Subgroup X) = Nat.card ↥N
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hCrange : C ≤ (MulAut.conj : X →* MulAut X).range := by
     rintro x ⟨s, -, rfl⟩
     exact ⟨s, rfl⟩
@@ -230,7 +230,7 @@ private lemma eq_setMul_of_card_eq_of_subset {H : Type} [Group H] [Finite H]
   refine (Set.Finite.eq_of_subset_of_card_le
     (s := (C : Set H) * (D : Set H)) (t := (N : Set H)) (Set.toFinite _) hsub ?_).symm
   rw [hcard']
-  simpa using (le_rfl : Nat.card ↥N ≤ Nat.card ↥N)
+  simp
 
 private lemma p3a_kbor_card {X : Type} [Group X] [Finite X]
     (S : Sylow 2 X) (B T₁ N C : Subgroup (MulAut X))
@@ -269,7 +269,7 @@ private lemma p3a_kbor_set {X : Type} [Group X] [Finite X]
   change (N : Set (MulAut X)) = (C : Set (MulAut X)) * ((N ⊓ B : Subgroup (MulAut X)) : Set (MulAut X))
   have hNcard : Nat.card ↥N = Nat.card ↥C * Nat.card ↥(N ⊓ B) :=
     p3a_kbor_card S B T₁ N C hZ hBodd hT2 hperm hconjS rfl rfl
-  have hC2 : IsPGroup 2 C := S.isPGroup'.map (MulAut.conj : X →* MulAut X)
+  have hC2 : IsPGroup 2 C := S.isPGroup.map (MulAut.conj : X →* MulAut X)
   have hdisj : C ⊓ (N ⊓ B) = ⊥ := by
     have hodd : Odd (Nat.card ↥(N ⊓ B)) :=
       Odd.of_dvd_nat hBodd (Subgroup.card_dvd_of_le inf_le_right)
@@ -346,7 +346,7 @@ private lemma p3a_kbor_A {X : Type} [Group X] [Finite X]
     (hA : A = (N ⊓ B).comap (MulAut.conj : X →* MulAut X)) :
     A.map (MulAut.conj : X →* MulAut X) = N ⊓ B ∧
       Nat.card ↥A = Nat.card ↥(N ⊓ B) ∧ Odd (Nat.card ↥A) ∧ IsMulCommutative ↥A := by
-  haveI : IsMulCommutative ↥B := hBcomm
+  have : IsMulCommutative ↥B := hBcomm
   have hinj : Function.Injective (MulAut.conj : X →* MulAut X) :=
     CFSG.Quasithin.SteinbergCF.conj_injective_of_center_eq_bot hZ
   have hAmap : A.map (MulAut.conj : X →* MulAut X) = N ⊓ B := by
@@ -371,7 +371,7 @@ private lemma p3a_kbor_cardSA {X : Type} [Group X] [Finite X]
     (hC : C = (S : Subgroup X).map (MulAut.conj : X →* MulAut X))
     (hP : P = N.comap (MulAut.conj : X →* MulAut X))
     (hNleR : N ≤ (MulAut.conj : X →* MulAut X).range)
-    (hCleN : C ≤ N) (hcardA : Nat.card ↥A = Nat.card ↥(N ⊓ B))
+    (_hCleN : C ≤ N) (hcardA : Nat.card ↥A = Nat.card ↥(N ⊓ B))
     (hSA : (S : Subgroup X) ⊔ A = P) :
     Nat.card ↥((S : Subgroup X) ⊔ A) =
       Nat.card ↥(S : Subgroup X) * Nat.card ↥A := by
@@ -395,11 +395,11 @@ private lemma p3a_kbor_cardSA {X : Type} [Group X] [Finite X]
 
 private lemma p3a_kbor_apply {X : Type} [Group X] [Finite X]
     (hKBor : KBor) (hshape : ∃ a : ℕ, IsL2 X a ∨ IsSz X a ∨ IsSp4 X a ∨ IsU3 X a)
-    (S : Sylow 2 X) (B T₁ N C : Subgroup (MulAut X)) (A : Subgroup X)
+    (S : Sylow 2 X) (B _T₁ N C : Subgroup (MulAut X)) (A : Subgroup X)
     (hC : C = (S : Subgroup X).map (MulAut.conj : X →* MulAut X))
     (hNset : (N : Set (MulAut X)) = (C : Set (MulAut X)) *
       ((N ⊓ B : Subgroup (MulAut X)) : Set (MulAut X)))
-    (hSA : (S : Subgroup X) ⊔ A = N.comap (MulAut.conj : X →* MulAut X))
+    (_hSA : (S : Subgroup X) ⊔ A = N.comap (MulAut.conj : X →* MulAut X))
     (hAmap : A.map (MulAut.conj : X →* MulAut X) = N ⊓ B)
     (hAab : IsMulCommutative ↥A) (hAodd : Odd (Nat.card ↥A))
     (hcardSA : Nat.card ↥((S : Subgroup X) ⊔ A) =
@@ -440,7 +440,7 @@ private theorem p3a_kbor {X : Type} [Group X] [Finite X]
   let N : Subgroup (MulAut X) := J ⊓ (MulAut.conj : X →* MulAut X).range
   let A : Subgroup X := (N ⊓ B).comap (MulAut.conj : X →* MulAut X)
   let P : Subgroup X := N.comap (MulAut.conj : X →* MulAut X)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hinj : Function.Injective (MulAut.conj : X →* MulAut X) :=
     CFSG.Quasithin.SteinbergCF.conj_injective_of_center_eq_bot hZ
   have hNleR : N ≤ (MulAut.conj : X →* MulAut X).range := inf_le_right
@@ -497,18 +497,18 @@ private lemma p3a_norm_step {X : Type} [Group X] [Finite X]
     (hCindexodd : Odd ((C.subgroupOf N).index)) :
     ∀ y ∈ B, ∀ c ∈ C, y * c * y⁻¹ ∈ C := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Csub : Subgroup ↥N := C.subgroupOf N
   have hC2 : IsPGroup 2 C := by
     rw [hC]
-    exact S.isPGroup'.map (MulAut.conj : X →* MulAut X)
+    exact S.isPGroup.map (MulAut.conj : X →* MulAut X)
   have hCsub2 : IsPGroup 2 Csub := hC2.comap_subtype (K := N)
   let P_N : Sylow 2 ↥N := hCsub2.toSylow hCindexodd.not_two_dvd_nat
   have hPNcoe : (P_N : Subgroup ↥N) = Csub := IsPGroup.toSylow_coe _ _
   have hPNnormal : (P_N : Subgroup ↥N).Normal := by
     rw [hPNcoe]
     exact (Subgroup.normal_subgroupOf_iff_le_normalizer hCleN).mpr hNnorm
-  haveI : Unique (Sylow 2 ↥N) := Sylow.unique_of_normal P_N hPNnormal
+  have : Unique (Sylow 2 ↥N) := Sylow.unique_of_normal P_N hPNnormal
   intro y hy c hc
   let φ : MulAut ↥N := N.normalizerMonoidHom ⟨y, hBC hy⟩
   have hφfix : Sylow.mapSurjective (f := (φ : ↥N →* ↥N)) φ.surjective P_N = P_N :=
@@ -542,7 +542,7 @@ private theorem p3a_norm {X : Type} [Group X] [Finite X]
   let J : Subgroup (MulAut X) := B ⊔ T₁
   let C : Subgroup (MulAut X) := (S : Subgroup X).map (MulAut.conj : X →* MulAut X)
   let N : Subgroup (MulAut X) := J ⊓ (MulAut.conj : X →* MulAut X).range
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hNnorm : N ≤ Subgroup.normalizer (C : Set (MulAut X)) :=
     p3a_kbor hKBor hshape S B T₁ hZ hBcomm hBodd hT2 hperm hconjS
   have hCleN : C ≤ N := by
@@ -582,6 +582,7 @@ theorem mulAut_apply_mem_sylow_of_abelian_odd {X : Type} [Group X] [Finite X]
   rw [← hinj h1]
   exact hy
 
+omit [Finite G] in
 private theorem inducedQuotInfAutHom_eq_conj_piBarInf {K : Subgroup G} {t : G}
     (htK : t ∈ K) (htN : t ∈ Subgroup.normalizer (K : Set G)) :
     inducedQuotInfAutHom K ⟨t, htN⟩ =
@@ -594,7 +595,7 @@ private theorem inducedQuotInfAutHom_eq_conj_piBarInf {K : Subgroup G} {t : G}
   congr 2
 
 private lemma inducedQuotInfAut_sylow_le_T {D : Data G} {K T0 : Subgroup G}
-    (hK : K ∈ calC D.M) (hT0 : T0 = D.T ⊓ Subgroup.normalizer (K : Set G)) :
+    (_hK : K ∈ calC D.M) (hT0 : T0 = D.T ⊓ Subgroup.normalizer (K : Set G)) :
     ((((D.T ⊓ K).subgroupOf K).map (piBarInf K)).map
         (MulAut.conj : (BarInf K ⧸ Subgroup.center (BarInf K)) →*
           MulAut (BarInf K ⧸ Subgroup.center (BarInf K)))) ≤
@@ -632,8 +633,8 @@ private lemma inducedQuotInfAut_odd_comm {D : Data G} {Ch : Choice2011 G}
       Nat.card_congr (Subgroup.subgroupOfEquivOfLe hB0N).toEquiv]
     exact hB0odd
   obtain ⟨-, hB0comm, -, -, -, -, -, -, -, -, -⟩ := c.hB0
-  haveI : IsMulCommutative ↥c.B0 := hB0comm
-  haveI : IsMulCommutative ↥B1 := inferInstance
+  have : IsMulCommutative ↥c.B0 := hB0comm
+  have : IsMulCommutative ↥B1 := inferInstance
   exact ⟨Odd.of_dvd_nat hB1odd (Subgroup.card_map_dvd B1 (inducedQuotInfAutHom K)),
     Subgroup.map_isMulCommutative B1 (inducedQuotInfAutHom K)⟩
 

@@ -112,7 +112,7 @@ private theorem spinDerivedHomPlus_injective {K : Type} [Field K] {n : ℕ} (hn 
     rw [← spinDerivedHomPlus_ker hn]
     exact hx
   have hbot : (spinAction (quadPlus n K)).ker = ⊥ := by
-    haveI := isCentral_cliffordAlgebra_quadPlus K n
+    have := isCentral_cliffordAlgebra_quadPlus K n
     exact ker_spinAction_eq_bot_of_isCentral _ (CharP.cast_eq_zero K 2)
   rw [hbot, Subgroup.mem_bot] at hx'
   exact hx'
@@ -132,7 +132,7 @@ private noncomputable def spinDerivedEquivPlus {K : Type} [Field K] {n : ℕ} (h
     spinGroup (quadPlus n K) ≃* ↥(orthDerived (quadPlus n K)) where
   toFun := spinDerivedHomPlus hn
   invFun y := Classical.choose (spinDerivedHomPlus_surjective hn y)
-  left_inv x :=
+  left_inv _x :=
     spinDerivedHomPlus_injective hn (Classical.choose_spec (spinDerivedHomPlus_surjective hn _))
   right_inv y := Classical.choose_spec (spinDerivedHomPlus_surjective hn y)
   map_mul' := map_mul _
@@ -169,7 +169,7 @@ private theorem spinDerivedHomMinus_injective {K : Type} [Field K] {n : ℕ} {b 
     rw [← spinDerivedHomMinus_ker hn hirr]
     exact hx
   have hbot : (spinAction (quadMinus n K b c)).ker = ⊥ := by
-    haveI := isCentral_cliffordAlgebra_quadMinus n b c hirr
+    have := isCentral_cliffordAlgebra_quadMinus n b c hirr
     exact ker_spinAction_eq_bot_of_isCentral _ (CharP.cast_eq_zero K 2)
   rw [hbot, Subgroup.mem_bot] at hx'
   exact hx'
@@ -192,7 +192,7 @@ private noncomputable def spinDerivedEquivMinus {K : Type} [Field K] {n : ℕ} {
     spinGroup (quadMinus n K b c) ≃* ↥(orthDerived (quadMinus n K b c)) where
   toFun := spinDerivedHomMinus hn hirr
   invFun y := Classical.choose (spinDerivedHomMinus_surjective hn hirr y)
-  left_inv x := spinDerivedHomMinus_injective hn hirr
+  left_inv _x := spinDerivedHomMinus_injective hn hirr
     (Classical.choose_spec (spinDerivedHomMinus_surjective hn hirr _))
   right_inv y := Classical.choose_spec (spinDerivedHomMinus_surjective hn hirr y)
   map_mul' := map_mul _
@@ -288,7 +288,7 @@ theorem nonempty_lieUniversal_plus_equiv_orthDerived {F : Type} [Field F] [Finit
     (hplus : CFSG.GroupTheory.WeirSylow.IsPlusType Q) :
     Nonempty ((lieUniversal .POmegaPlus r 2 f Nat.prime_two).K ≃* ↥(orthDerived Q)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hM : lieUniversal .POmegaPlus r 2 f Nat.prime_two =
       ⟨spinGroup (quadPlus r (GaloisField 2 f)),
         plusDatum r (GaloisField 2 f) hr⟩ := by
@@ -310,7 +310,7 @@ theorem nonempty_lieUniversal_minus_equiv_orthDerived {F : Type} [Field F] [Fini
     (hminus : ¬ CFSG.GroupTheory.WeirSylow.IsPlusType Q) :
     Nonempty ((lieUniversal .POmegaMinus r 2 f Nat.prime_two).K ≃* ↥(orthDerived Q)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hM : lieUniversal .POmegaMinus r 2 f Nat.prime_two =
       ⟨spinGroup (quadMinus r (GaloisField 2 f) (minusCoeffs 2 f).1 (minusCoeffs 2 f).2),
         Twisted.minusDatum r (minusCoeffs_irr 2 f)⟩ := by

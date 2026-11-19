@@ -28,7 +28,7 @@ private theorem s168e3_s15Rs_self
   have hconj : conjSet (barSub V₀ V hV L) (s15NBar D V₀ V hV L) =
       {barSub V₀ V hV L} := by
     ext Z
-    simp only [conjSet, Set.mem_setOf_eq, Set.mem_singleton_iff]
+    simp only [conjSet, Set.mem_ofPred_eq, Set.mem_singleton_iff]
     constructor
     · rintro ⟨n, hn, rfl⟩
       have hninf : n ∈ Mbar D.M V₀ V hV ⊓

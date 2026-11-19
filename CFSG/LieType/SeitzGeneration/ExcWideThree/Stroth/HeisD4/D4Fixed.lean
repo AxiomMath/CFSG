@@ -89,7 +89,7 @@ variable {K : Type} [Field K] [Finite K]
 
 theorem exists_fixed_g2 (ε : ℕ) (hε : ε = 1 ∨ ε = 2) :
     ∃ z : ↥(adjointGroup Tag.D4 K), z ≠ 1 ∧ z ^ ringChar K = 1 ∧ d4Graph K ε z = z := by
-  haveI : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
+  have : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
   set i2 : Fin Tag.D4.rank := ⟨2, by decide⟩
   refine ⟨adjX Tag.D4 K i2 1, ?_, ?_, ?_⟩
   · intro h
@@ -106,6 +106,7 @@ theorem exists_fixed_g2 (ε : ℕ) (hε : ε = 1 ∨ ε = 2) :
 
 local notation "𝕩" => xPar (rootOperatorFamily Tag.D4)
 
+omit [Finite K] in
 theorem weylG2_conj_outer (i : Fin Tag.D4.rank) (hi : i ≠ ⟨2, by decide⟩) :
     ∃ β ∈ longOrthRoots, ∃ c : K,
       (weylG2 : ↥(adjointGroup Tag.D4 K))⁻¹ * adjX Tag.D4 K i 1 * weylG2 = 𝕩 β c := by
@@ -119,6 +120,7 @@ theorem weylG2_conj_outer (i : Fin Tag.D4.rank) (hi : i ≠ ⟨2, by decide⟩) 
   rw [← h]
   group
 
+omit [Finite K] in
 theorem outer_prod_ne_one :
     adjX Tag.D4 K ⟨0, by decide⟩ 1 * adjX Tag.D4 K ⟨1, by decide⟩ 1 *
       adjX Tag.D4 K ⟨3, by decide⟩ 1 ≠ 1 := by
@@ -150,7 +152,7 @@ theorem outer_prod_ne_one :
 
 theorem exists_fixed_a2 (B : SL2 K) :
     ∃ z : ↥(adjointGroup Tag.D4 K), z ≠ 1 ∧ z ^ ringChar K = 1 ∧ gammaP K B z = z := by
-  haveI : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
+  have : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
   set i0 : Fin Tag.D4.rank := ⟨0, by decide⟩ with hi0
   set i1 : Fin Tag.D4.rank := ⟨1, by decide⟩ with hi1
   set i3 : Fin Tag.D4.rank := ⟨3, by decide⟩ with hi3

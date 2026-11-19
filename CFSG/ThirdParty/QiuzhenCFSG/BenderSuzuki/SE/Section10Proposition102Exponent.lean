@@ -236,7 +236,7 @@ public theorem proposition102_invertedCard_eq_prime_pow
     (hSodd : Odd (Nat.card S))
     (htnormS : t ∈ Subgroup.normalizer (S : Set X)) :
     ∃ a : ℕ, theorem4bInvertedCard t S = r ^ a := by
-  letI : Fact r.Prime := ⟨hr⟩
+  let : Fact r.Prime := ⟨hr⟩
   obtain ⟨n, hSn⟩ := hSp.exists_card_eq
   have hcard := theorem4b_card_eq_card_fixed_mul_inverted
     ht hSodd htnormS

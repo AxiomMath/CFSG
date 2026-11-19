@@ -31,7 +31,8 @@ private lemma nine3_C_zmodRefl_conj (c a : ZMod p) :
   simp only [zmodRefl, Equiv.Perm.mul_apply, Equiv.subLeft_apply]
   ring
 
-private lemma nine3_C_conj_mem_fibre {m : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
+omit [Finite Γ] in
+private lemma nine3_C_conj_mem_fibre {m : ℕ} (_hp : p.Prime) (_hp2 : p ≠ 2)
     (h : Nine3OddFrame p m π D) {a c : ZMod p} {d e : Γ}
     (hd : d ∈ nine3FibreSet π D a) (he : e ∈ nine3FibreSet π D c) :
     e * d * e⁻¹ ∈ nine3FibreSet π D (2 * c - a) := by
@@ -39,6 +40,7 @@ private lemma nine3_C_conj_mem_fibre {m : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
   rw [map_mul, map_mul, map_inv, hd.2, he.2, nine3_C_zmodRefl_inv]
   exact nine3_C_zmodRefl_conj c a
 
+omit [Finite Γ] in
 private lemma nine3_C_map_conj_closure {m : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (h : Nine3OddFrame p m π D) {a c : ZMod p} {e : Γ}
     (he : e ∈ nine3FibreSet π D c) :
@@ -61,12 +63,13 @@ private lemma nine3_C_map_conj_closure {m : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
       show e * (e⁻¹ * x * (e⁻¹)⁻¹) * e⁻¹ = x
       group⟩
 
+omit [Finite Γ] in
 private lemma nine3_C_exists_conj_closure {m : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (h : Nine3OddFrame p m π D) (hm : 0 < m) (a c : ZMod p) :
     ∃ e : Γ, Subgroup.map (MulAut.conj e).toMonoidHom
       (Subgroup.closure (nine3FibreSet π D a)) = Subgroup.closure (nine3FibreSet π D c) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have h2 : (2 : ZMod p) ≠ 0 := nine3_C_two_ne_zero hp hp2
   let t : ZMod p := (a + c) * (2 : ZMod p)⁻¹
   have ht : 2 * t - a = c := by
@@ -80,16 +83,18 @@ private lemma nine3_C_exists_conj_closure {m : ℕ} (hp : p.Prime) (hp2 : p ≠ 
   obtain ⟨d⟩ := (Nat.card_pos_iff.mp hpos).1
   exact ⟨d.1, by rw [nine3_C_map_conj_closure hp hp2 h (a := a) (c := t) d.2, ht]⟩
 
+omit [Finite Γ] in
 private lemma nine3_C_closure_comm {m : ℕ} (h : Nine3OddFrame p m π D) {c : ZMod p}
     {x y : Γ} (hx : x ∈ Subgroup.closure (nine3FibreSet π D c))
     (hy : y ∈ Subgroup.closure (nine3FibreSet π D c)) : x * y = y * x := by
   have hcomm : (nine3FibreSet π D c).Pairwise Commute := fun a ha b hb _ =>
     h.comm a ha.1 b hb.1 (ha.2.trans hb.2.symm)
-  haveI : IsMulCommutative ↥(Subgroup.closure (nine3FibreSet π D c)) :=
+  have : IsMulCommutative ↥(Subgroup.closure (nine3FibreSet π D c)) :=
     Subgroup.isMulCommutative_closure hcomm
   exact congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : ↥(Subgroup.closure (nine3FibreSet π D c)))
     ⟨y, hy⟩)
 
+omit [Finite Γ] in
 private lemma nine3_C_closure_sq {m : ℕ} (h : Nine3OddFrame p m π D) {c : ZMod p}
     {x : Γ} (hx : x ∈ Subgroup.closure (nine3FibreSet π D c)) : x * x = 1 := by
   induction hx using Subgroup.closure_induction with
@@ -109,8 +114,8 @@ theorem nine3OddFrame_ne_five (hp : p.Prime) (hp2 : p ≠ 2) (h : Nine3OddFrame 
     (hi : Nine3FibreIndep p π D) : p ≠ 5 := by
   intro hp5
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have h01 : (0 : ZMod p) ≠ 1 := (one_ne_zero : (1 : ZMod p) ≠ 0).symm
   let Z : ZMod p → Subgroup Γ := fun c => Subgroup.closure (nine3FibreSet π D c) ⊓ π.ker
   let C : Subgroup Γ := Z 0 ⊓ Z 1
@@ -158,9 +163,9 @@ theorem nine3OddFrame_ne_five (hp : p.Prime) (hp2 : p ≠ 2) (h : Nine3OddFrame 
       show e * x * e⁻¹ = x
       exact hfix
     exact ⟨key c 0 hx.1, key c' 1 hx.2⟩
-  haveI : Fintype ↥(π.ker) := Fintype.ofFinite _
-  haveI : Fintype ↥C := Fintype.ofFinite _
-  haveI : ∀ c : ZMod p, Fintype ↥(Z c) := fun c => Fintype.ofFinite _
+  have : Fintype ↥(π.ker) := Fintype.ofFinite _
+  have : Fintype ↥C := Fintype.ofFinite _
+  have : ∀ c : ZMod p, Fintype ↥(Z c) := fun c => Fintype.ofFinite _
   let α := Σ c : ZMod p, {y : ↥(Z c) // (y : Γ) ∉ C}
   let β := {x : ↥(π.ker) // (x : Γ) ∉ C}
   let f : α → β := fun a =>

@@ -39,6 +39,7 @@ theorem ggL45_markingAll_and {K : Type*} [Group K] {Q₁ Q₂ : LargeEvenMarkPro
   rintro lab R _ I F θ ⟨⟨h, h1⟩, h2⟩
   exact ⟨h, h1, h2⟩
 
+omit [Finite G] in
 theorem ggL45_fixed_rhoK_eq {K : Subgroup G} {g : G} (hg : g ∈ Subgroup.normalizer (K : Set G)) :
     ggAutFixedSubgroup (K.normalizerMonoidHom ⟨g, hg⟩) =
       (K ⊓ Subgroup.centralizer ({g} : Set G)).subgroupOf K := by
@@ -47,6 +48,7 @@ theorem ggL45_fixed_rhoK_eq {K : Subgroup G} {g : G} (hg : g ∈ Subgroup.normal
     Subgroup.mem_centralizer_singleton_iff]
   exact ⟨fun h => ⟨k.2, h.symm⟩, fun h => h.2.symm⟩
 
+omit [Finite G] in
 theorem ggL45_isComponentOf_fixed_rhoK {K J : Subgroup G} {g : G}
     (hg : g ∈ Subgroup.normalizer (K : Set G))
     (hJ : IsComponentOf J (K ⊓ Subgroup.centralizer ({g} : Set G))) :

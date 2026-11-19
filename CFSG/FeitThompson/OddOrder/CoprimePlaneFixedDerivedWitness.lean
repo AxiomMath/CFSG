@@ -34,7 +34,7 @@ theorem exists_ne_one_exists_apply_eq_self_not_mem_commutator (hp : p.Prime)
     ∃ a : A, a ≠ 1 ∧ ∃ x : K, ρ a x = x ∧ x ∉ _root_.commutator K := by
   obtain ⟨a, ha, hnot⟩ :=
     exists_ne_one_autFixedSubgroup_not_le_commutator hp hcard hexp ρ hpK
-  obtain ⟨x, hx, hxc⟩ := SetLike.not_le_iff_exists.mp hnot
+  obtain ⟨x, hx, hxc⟩ := IsConcreteLE.not_le_iff_exists.mp hnot
   exact ⟨a, ha, x, mem_autFixedSubgroup.mp hx, hxc⟩
 
 theorem exists_ne_one_autFixedSubgroup_not_le_commutator_of_mulEquiv

@@ -23,13 +23,16 @@ namespace TheoremG
 variable {J₂ X : Subgroup G} {V : Type} [AddCommGroup V] [Module (ZMod 2) V]
   (lin : TildeULin J₂ X V)
 
+omit [Finite G] in
 theorem img_mono {A B : Subgroup G} (h : A ≤ B) : lin.img A ≤ lin.img B :=
   Subgroup.map_mono fun _ hx => h hx
 
+omit [Finite G] in
 theorem ρ_inclusion_mem_img (hJX : J₂ ≤ X) (j : ↥J₂) :
     lin.ρ (Subgroup.inclusion hJX j) ∈ lin.img J₂ :=
   Subgroup.mem_map.mpr ⟨Subgroup.inclusion hJX j, Subgroup.mem_subgroupOf.mpr j.2, rfl⟩
 
+omit [Finite G] in
 theorem mem_blockQ_of_mem_pCore {J : Subgroup G} {j : ↥J} (hj : j ∈ CFSG.pCore 2 ↥J) :
     (j : G) ∈ blockQ J :=
   Subgroup.mem_map.mpr ⟨j, hj, rfl⟩
@@ -61,7 +64,7 @@ theorem eq_of_img_le_img {H : Subgroup G} (hJ : IsFooteBlock H J₂) (hJX : J₂
     simpa using Subgroup.mul_mem_sup hj₁ hk
   have hAZ : A ⊔ Subgroup.center (↥J₂ ⧸ CFSG.pCore 2 ↥J₂) = ⊤ :=
     eq_top_iff.mpr fun p _ => sup_le_sup_left (lin.ker_ρbar_le_center hJ hJX) A (hmem p)
-  haveI hAn : A.Normal := by
+  have hAn : A.Normal := by
     rw [← Subgroup.normalizer_eq_top_iff, eq_top_iff, ← hAZ]
     exact sup_le Subgroup.le_normalizer (Subgroup.center_le_normalizer _)
   have hAtop : A = ⊤ :=
@@ -75,7 +78,7 @@ theorem eq_of_img_le_img {H : Subgroup G} (hJ : IsFooteBlock H J₂) (hJX : J₂
   have hQn : blockQ J₂ ≤ Subgroup.normalizer (J₁ : Set G) := by
     rw [Subgroup.le_normalizer_iff_commutator_le_right, ← hU]
     exact blockU_le_self J₁
-  haveI hN : (J₁.subgroupOf J₂).Normal := by
+  have hN : (J₁.subgroupOf J₂).Normal := by
     refine ⟨fun n hn g => ?_⟩
     obtain ⟨j₁, hj₁, hq⟩ := hdecomp g
     have hqn : (((j₁⁻¹ * g : ↥J₂) : G) * n * ((j₁⁻¹ * g : ↥J₂) : G)⁻¹) ∈ J₁ :=
@@ -189,6 +192,7 @@ theorem exists_alpha_beta {H : Subgroup G} {M M' : Type} [Group M] [AddGroup M']
       ψ (lin.ρ (Subgroup.inclusion hJX ℓ) (ψ.symm (ψ (Multiplicative.toAdd (lin.π u)))))
     rw [hspec, ψ.symm_apply_apply]
 
+omit [Finite G] in
 theorem kProper_img (hK : CFSG.Assembly.KProper CFSG.Assembly.InCatalog G) (A : Subgroup G) :
     CFSG.Assembly.KProper CFSG.Assembly.InCatalog ↥(lin.img A) :=
   CFSG.ComponentClassification.CatalogueKProper.of_surjective

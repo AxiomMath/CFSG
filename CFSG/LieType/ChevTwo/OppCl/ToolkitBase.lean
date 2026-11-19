@@ -10,8 +10,10 @@ open CFSG.Open CFSG.LieType.BorelTits
 
 variable {F : Type} [Field F] {V : Type} [AddCommGroup V] [Module F V] {H : Type} [Group H]
 
+omit [AddCommGroup V] in
 theorem perm_apply_inv (r : Equiv.Perm V) (w : V) : r (r⁻¹ w) = w := r.apply_symm_apply w
 
+omit [AddCommGroup V] in
 theorem perm_inv_apply (r : Equiv.Perm V) (w : V) : r⁻¹ (r w) = w := r.symm_apply_apply w
 
 theorem eq_of_forall_apply_perm {ρ : H →* Module.End F V} (hρ : Function.Injective ρ)

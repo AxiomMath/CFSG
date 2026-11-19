@@ -37,7 +37,7 @@ theorem exists_fiveFrame
     ∃ α z : G, FiveFrame α d z := by
   obtain ⟨hfin, α, hα2, hαc, hαd, i, hi, hsh⟩ :=
     TabMFive.invertedByTwoA_data' hE Nat.prime_five (by norm_num) hd hinv
-  haveI : Finite G := hfin
+  have : Finite G := hfin
   have hHN : Nonempty (↥(cent2 α d) ≃* NativeSporadic.HN) := by
     fin_cases i <;> first | exact hsh | (exfalso; simp [suborbitClassOrder] at hi)
   obtain ⟨e⟩ := hHN

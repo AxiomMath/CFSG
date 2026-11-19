@@ -54,10 +54,10 @@ theorem ltr3_canon {a g1 g1i g2 g2i : Nat} (ha : Canon 5 133 13 a) (h1 : Canon 5
   rcases h6 with rfl | rfl | rfl | rfl | rfl | rfl <;> assumption
 
 theorem getN_mem (P : Nat → Prop) {d : Nat} (hd : P d) :
-    ∀ (l : List Nat), (∀ x ∈ l, P x) → ∀ i, P (getN d l i)
+    ∀ (_l : List Nat), (∀ x ∈ _l, P x) → ∀ i, P (getN d _l i)
   | [], _, _ => hd
-  | x :: l, h, 0 => h x List.mem_cons_self
-  | x :: l, h, i + 1 => getN_mem P hd l (fun y hy => h y (List.mem_cons_of_mem x hy)) i
+  | x :: _l, h, 0 => h x List.mem_cons_self
+  | x :: _l, h, i + 1 => getN_mem P hd _l (fun y hy => h y (List.mem_cons_of_mem x hy)) i
 
 theorem go_sound (vec : Nat → Nat → Nat) (v S0 S1 : Nat) (P : Nat → Prop) (hv : P v)
     (hstep : ∀ u g, P u → P (vec u (nIf(Nat.beq g 0, S0, S1)))) :

@@ -151,12 +151,12 @@ theorem matC_mulMat {x y : Array ℕ} (sw : Bool) (hx : ∀ k < 16, x[k]! < 9)
   rw [mulMat_getElem x y sw hk, hd, hm]
   rw [Matrix.mul_apply, Fin.sum_univ_four]
   cases sw
-  · simp only [mulEntry, Bool.false_eq_true, if_false, Matrix.of_apply]
+  · simp only [mulEntry, Bool.false_eq_true, ite_false, Matrix.of_apply]
     rw [uncode9_addC (addC_lt _ _) (mulC_lt _ _), uncode9_addC (addC_lt _ _) (mulC_lt _ _),
       uncode9_addC (mulC_lt _ _) (mulC_lt _ _), uncode9_mulC hx0 hy0, uncode9_mulC hx1 hy1,
       uncode9_mulC hx2 hy2, uncode9_mulC hx3 hy3]
     simp [add_assoc]
-  · simp only [mulEntry, if_true, Matrix.of_apply, Matrix.map_apply]
+  · simp only [mulEntry, ite_true, Matrix.of_apply, Matrix.map_apply]
     rw [uncode9_addC (addC_lt _ _) (mulC_lt _ _), uncode9_addC (addC_lt _ _) (mulC_lt _ _),
       uncode9_addC (mulC_lt _ _) (mulC_lt _ _), uncode9_mulC hx0 (barC_lt _),
       uncode9_mulC hx1 (barC_lt _), uncode9_mulC hx2 (barC_lt _), uncode9_mulC hx3 (barC_lt _),
@@ -347,7 +347,7 @@ theorem scal_lt {c : ℕ} (hc : c < 9) {k : ℕ} (hk : k < 16) : (scal c)[k]! < 
   rw [scal_getElem c hk]
   split_ifs <;> omega
 
-theorem matC_scal {c : ℕ} (hc : c < 9) :
+theorem matC_scal {c : ℕ} (_hc : c < 9) :
     matC (scal c) = (uncode9 c) • (1 : Matrix (Fin 4) (Fin 4) F9) := by
   refine Matrix.ext fun i j => ?_
   have hk : 4 * (i : ℕ) + (j : ℕ) < 16 := by omega
@@ -359,7 +359,7 @@ theorem mulRaw_scal_getElem {c : ℕ} {z : Array ℕ} (hc : c < 9) (hz : ∀ k <
     (hk : k < 16) : (mulRaw (scal c) z)[k]! = mulC c z[k]! := by
   have hmat := matC_mulRaw (fun k hk => scal_lt hc hk) hz
   rw [scal_getElem_16] at hmat
-  simp only [show ¬ ((0 : ℕ) = 1) by norm_num, if_false] at hmat
+  simp only [show ¬ ((0 : ℕ) = 1) by norm_num, ite_false] at hmat
   rw [matC_scal hc, Matrix.smul_mul, Matrix.one_mul] at hmat
   have h1 := congrFun (congrFun hmat ⟨k / 4, by omega⟩) ⟨k % 4, by omega⟩
   have e : 4 * (k / 4) + k % 4 = k := by omega
@@ -519,7 +519,7 @@ theorem mulC_mC_mulC {cc : ℕ} (hcc : cc = 1 ∨ cc = 2 ∨ cc = 3 ∨ cc = 6) 
 theorem firstNZ_mulC {z z' : Array ℕ} {cc : ℕ} (hcc : cc = 1 ∨ cc = 2 ∨ cc = 3 ∨ cc = 6)
     (h9 : ∀ k < 16, z[k]! < 9) (hk : ∀ k < 16, z'[k]! = mulC cc z[k]!) :
     firstNZ z' = mulC cc (firstNZ z) :=
-  firstNZ_map (mulC_zero_right cc) (fun w hw => mulC_ne_zero_iff hcc hw) h9 hk
+  firstNZ_map (mulC_zero_right cc) (fun _w hw => mulC_ne_zero_iff hcc hw) h9 hk
 
 theorem normalize_eq_of_mulC {z z' : Array ℕ} (hz : rawValid z = true) (hz' : rawValid z' = true)
     {cc : ℕ} (hcc : cc = 1 ∨ cc = 2 ∨ cc = 3 ∨ cc = 6) (h16 : z'[16]! = z[16]!)

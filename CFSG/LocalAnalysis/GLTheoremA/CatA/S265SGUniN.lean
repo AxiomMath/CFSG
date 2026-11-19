@@ -26,7 +26,7 @@ theorem SG.uniN_core {F : Type} [Field F] {n d : ℕ} (h : UnitaryFieldData 2 n 
       IsSimpleGroup ↥A ∧ (∃ a b : ↥A, a * b ≠ b * a) ∧ 3 ∣ Nat.card ↥A ∧ A ≤ fixSubgroup α ∧
       ∃ Y : Subgroup (MulAut (primeFormP h ((1 : GL (Fin d) F) : Matrix (Fin d) (Fin d) F))),
         Y.relIndex X ≤ 3 ∧ ∀ ε ∈ Y, A ≤ fixSubgroup ε := by
-  haveI := h.finite
+  have := h.finite
   obtain ⟨m, hm⟩ := h3
   have h2n : 2 ^ n = 3 * m + 1 := by
     have := Nat.one_le_two_pow (n := n)

@@ -11,20 +11,24 @@ open Subgroup CFSG.Blueprint
 
 variable {G : Type} [Group G] [Finite G] {t : G} {E X1 X2 E1 E2 : Subgroup G}
 
+omit [Finite G] in
 private lemma sec8t84d3_comm_mul_right (a x y : G) :
     a * (x * y) * a⁻¹ * (x * y)⁻¹ =
       (a * x * a⁻¹ * x⁻¹) * (x * (a * y * a⁻¹ * y⁻¹) * x⁻¹) := by
   group
 
+omit [Finite G] in
 private lemma sec8t84d3_comm_mul_left (x y b : G) :
     (x * y) * b * (x * y)⁻¹ * b⁻¹ =
       (x * (y * b * y⁻¹ * b⁻¹) * x⁻¹) * (x * b * x⁻¹ * b⁻¹) := by
   group
 
+omit [Finite G] in
 private lemma sec8t84d3_comm_inv_right (a x : G) :
     a * x⁻¹ * a⁻¹ * (x⁻¹)⁻¹ = x⁻¹ * (a * x * a⁻¹ * x⁻¹)⁻¹ * x := by
   group
 
+omit [Finite G] in
 private lemma sec8t84d3_comm_inv_left (x b : G) :
     x⁻¹ * b * (x⁻¹)⁻¹ * b⁻¹ = x⁻¹ * (x * b * x⁻¹ * b⁻¹)⁻¹ * x := by
   group
@@ -34,10 +38,10 @@ theorem sec8t84d3_O_le_Y (h : Sec8T84DCtx G t E X1 X2) :
   intro o ho
   exact sec8t84y_mem_of_odd (h.hX.c_le1 (h.hO ho)) (odd_orderOf_of_mem_oddCoreIn ho)
 
-theorem sec8t84d3_comm_onto {V : Subgroup G} (hV : ∀ u ∈ V, ∀ v ∈ V, u * v = v * u) {x : G}
+theorem sec8t84d3_comm_onto {V : Subgroup G} (_hV : ∀ u ∈ V, ∀ v ∈ V, u * v = v * u) {x : G}
     (hx : ∀ v ∈ V, x * v * x⁻¹ ∈ V) (hfix : ∀ v ∈ V, x * v * x⁻¹ = v → v = 1) {e : G}
     (he : e ∈ V) : ∃ v ∈ V, x * v * x⁻¹ * v⁻¹ = e := by
-  haveI : Finite V := inferInstance
+  have : Finite V := inferInstance
   let f : V →* V :=
     { toFun := fun v => ⟨x * (v : G) * x⁻¹, hx v v.2⟩
       map_one' := by apply Subtype.ext; simp
@@ -74,7 +78,7 @@ theorem sec8t84d3_E1_le_Y (h : Sec8T84DCtx G t E X1 X2) (hd : Sec8T84DDec G t E 
   intro e he
   obtain ⟨x, hxX1, hx5, hxC⟩ := hd.ex5_1
   obtain ⟨y, hyX1, hyodd, hy5, hyC⟩ := sec8t84y_odd_five hxX1 hx5 hxC
-  haveI : IsMulCommutative E := h.elem.1.1
+  have : IsMulCommutative E := h.elem.1.1
   have hV : ∀ u ∈ E1, ∀ v ∈ E1, u * v = v * u := by
     intro u hu v hv
     exact setLike_mul_comm (s := E) (hd.le1 hu) (hd.le1 hv)

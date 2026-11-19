@@ -11,7 +11,7 @@ open CFSG.StandardType CFSG.Blueprint CFSG.Open CFSG.StandardType.UCoord
 
 theorem qTwoLMSkel_prime_thetaT {G : Type} [Group G] [Finite G] {B Bs L : Subgroup G} {x : G}
     {m : ℕ} (hG : GGThmIHyp 3 B x L) (hBs : GGBstar 3 B Bs)
-    (hN : Bs ≤ Subgroup.normalizer (L : Set G)) (hm : 5 ≤ m) (h3 : ¬ 3 ∣ m)
+    (hN : Bs ≤ Subgroup.normalizer (L : Set G)) (_hm : 5 ≤ m) (h3 : ¬ 3 ∣ m)
     (hL : LieModel (L ⧸ Subgroup.center L) .PSU m 2 1) (hMul : PSUTrivialMultiplier m) :
     ∃ ΘT : ↥(sumZero m 3) ≃* ↥(Bs ⊓ L),
       (∀ n : ↥L, (n : G) ∈ Subgroup.normalizer (Bs : Set G) →

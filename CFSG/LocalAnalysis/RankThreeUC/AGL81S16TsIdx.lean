@@ -11,6 +11,7 @@ open CFSG.Open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem U4NatData.ts_index {n : ℕ} {L V : Subgroup G} (d : U4NatData G n L V) (hn : 1 ≤ n) :
     ∀ W : Subgroup G, W ≤ V → (∀ w ∈ W, w ≠ 1 → d.sing w) → 2 ^ (4 * n) ≤ W.relIndex V := by
   intro W hWV hsing

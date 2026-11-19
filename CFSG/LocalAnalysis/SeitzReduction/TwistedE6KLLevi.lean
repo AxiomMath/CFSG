@@ -235,7 +235,7 @@ theorem le_tRadical_of_isKLConfig [CharP K 2] (hf : 1 ≤ f) (hk : Nat.card k = 
   have hQ2 : IsPGroup 2 ((tRadical σ).subgroupOf C₀) := by
     obtain ⟨-, hT⟩ := even_E6_graph_highest_root_normalizer f hf k K hk hK σ hσ
     obtain ⟨S, hS⟩ := hT.2.2.2.2.2.2.2.2.2.1
-    refine S.isPGroup'.to_le ?_
+    refine S.isPGroup.to_le ?_
     rw [hS]
     intro x hx
     rw [mem_subgroupOf] at hx ⊢

@@ -11,17 +11,20 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho : G}
 
+omit [Finite G] in
 theorem fzc_pCoreOf_two_isPGroup (N : Subgroup G) :
     IsPGroup 2 (CFSG.Open.pCoreOf 2 N) := by
   rw [CFSG.Open.pCoreOf]
   exact CFSG.pCore_isPGroup.map _
 
+omit [Finite G] in
 theorem fzc_pCoreOf_two_conj_mem {N : Subgroup G} {g : G} (hg : g ∈ N) {q : G}
     (hq : q ∈ CFSG.Open.pCoreOf 2 N) : g * q * g⁻¹ ∈ CFSG.Open.pCoreOf 2 N := by
   rw [CFSG.Open.pCoreOf] at hq ⊢
   obtain ⟨o', ho', rfl⟩ := hq
   exact ⟨⟨g, hg⟩ * o' * ⟨g, hg⟩⁻¹, CFSG.pCore_normal.conj_mem o' ho' _, rfl⟩
 
+omit [Finite G] in
 theorem fzc_le_pCoreOf_two {N Q : Subgroup G} (hQN : Q ≤ N)
     (hnorm : ∀ n ∈ N, ∀ q ∈ Q, n * q * n⁻¹ ∈ Q) (hQ : IsPGroup 2 Q) :
     Q ≤ CFSG.Open.pCoreOf 2 N := by
@@ -36,7 +39,7 @@ theorem fzc_le_pCoreOf_two {N Q : Subgroup G} (hQN : Q ≤ N)
 
 theorem fzc_comm_W (hs : FzCSteps t L S x₁ x₂ lam rho) :
     ∀ a ∈ ctxW t x₁ x₂, ∀ b ∈ ctxW t x₁ x₂, a * b = b * a := by
-  haveI : IsMulCommutative (ctxW t x₁ x₂) := hs.ctx.abelian_W
+  have : IsMulCommutative (ctxW t x₁ x₂) := hs.ctx.abelian_W
   intro a ha b hb
   simpa using congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : ctxW t x₁ x₂) ⟨b, hb⟩)
 
@@ -57,6 +60,7 @@ def fzcOmegaOne (W : Subgroup G)
     calc a⁻¹ * a⁻¹ = (a * a)⁻¹ := by group
       _ = 1 := by rw [ha, inv_one]
 
+omit [Finite G] in
 theorem fzc_mem_omegaOne {W : Subgroup G}
     {hW : ∀ a ∈ W, ∀ b ∈ W, a * b = b * a} {w : G} :
     w ∈ fzcOmegaOne W hW ↔ w ∈ W ∧ w * w = 1 := Iff.rfl
@@ -110,7 +114,7 @@ theorem fzc_conj_W (hs : FzCSteps t L S x₁ x₂ lam rho) {n : G}
     _ = n * (w * (n⁻¹ * a * n)) * n⁻¹ := by rw [h1]
     _ = (n * w * n⁻¹) * a := by group
 
-theorem fzc_normalizer_O2 (hs : FzCSteps t L S x₁ x₂ lam rho) {g : G}
+theorem fzc_normalizer_O2 (_hs : FzCSteps t L S x₁ x₂ lam rho) {g : G}
     (hg : g ∈ l41N t x₁ x₂) :
     g ∈ normalizer ((l41O2 t x₁ x₂ : Subgroup G) : Set G) := by
   rw [Subgroup.mem_normalizer_iff]

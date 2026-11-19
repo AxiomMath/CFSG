@@ -84,10 +84,10 @@ theorem cfInner_of_mem_signedPair [Fintype G] {α ρ σ : G → ℂ} (hα : α �
   have h0 : cfInner α (star α) = 0 := cfInner_eq_zero_of_mem_Irr hα hsα (Ne.symm hnr)
   have h0' : cfInner (star α) α = 0 := cfInner_eq_zero_of_mem_Irr hsα hα hnr
   rcases mem_signedPair.1 hρ with rfl | rfl <;> rcases mem_signedPair.1 hσ with rfl | rfl
-  · rw [if_pos rfl, cfInner_self_of_mem_Irr hα]
-  · rw [if_neg hne, cfInner_neg_right, h0, neg_zero]
-  · rw [if_neg (Ne.symm hne), cfInner_neg_left, h0', neg_zero]
-  · rw [if_pos rfl, cfInner_neg_left, cfInner_neg_right, neg_neg, cfInner_self_of_mem_Irr hsα]
+  · rw [ite_eq_left rfl, cfInner_self_of_mem_Irr hα]
+  · rw [ite_eq_right hne, cfInner_neg_right, h0, neg_zero]
+  · rw [ite_eq_right (Ne.symm hne), cfInner_neg_left, h0', neg_zero]
+  · rw [ite_eq_left rfl, cfInner_neg_left, cfInner_neg_right, neg_neg, cfInner_self_of_mem_Irr hsα]
 
 theorem cfInner_eq_zero_of_mem_signedPair [Fintype G] {α β : G → ℂ} (hα : α ∈ Irr G)
     (hβ : β ∈ Irr G) (hd : Disjoint ({α, star α} : Set (G → ℂ)) {β, star β}) {ρ σ : G → ℂ}
@@ -275,7 +275,7 @@ theorem cfInner_of_mem_signedRootBlock {θ : L → ℂ} (hθ : θ ∈ indFam H (
     exact cfInner_of_mem_signedPair (h.root_mem_Irr_of_mem hθ hχ) (h.star_root_ne hθ hχ) hρ' hσ'
   · have hne : ρ ≠ σ := fun hc =>
       Finset.disjoint_left.1 (h.disjoint_signedPair_of_ne hθ hχ hψ hcp) hρ' (hc ▸ hσ')
-    rw [if_neg hne]
+    rw [ite_eq_right hne]
     exact cfInner_eq_zero_of_mem_signedPair (h.root_mem_Irr_of_mem hθ hχ)
       (h.root_mem_Irr_of_mem hθ hψ)
       (h.disjoint_root_pair hθ hθ hχ hψ (Ne.symm hcp)
@@ -288,8 +288,8 @@ theorem cfInner_coe_signedRootBlock {θ : L → ℂ}
     cfInner (i : G → ℂ) (j : G → ℂ) = if i = j then 1 else 0 := by
   rw [h.cfInner_of_mem_signedRootBlock hθ i.2 j.2]
   by_cases hij : i = j
-  · rw [if_pos hij, if_pos (by rw [hij])]
-  · rw [if_neg hij, if_neg fun hc : (i : G → ℂ) = j => hij (Subtype.ext hc)]
+  · rw [ite_eq_left hij, ite_eq_left (by rw [hij])]
+  · rw [ite_eq_right hij, ite_eq_right fun hc : (i : G → ℂ) = j => hij (Subtype.ext hc)]
 
 theorem sub_star_eq_sum {θ : L → ℂ} (hθ : θ ∈ indFam H (nonprincipalIrr H)) :
     θ - star θ = ∑ χ ∈ irrConstituentsFinset θ, (χ - star χ) := by

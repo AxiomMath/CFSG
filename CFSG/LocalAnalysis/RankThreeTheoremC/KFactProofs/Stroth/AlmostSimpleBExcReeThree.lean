@@ -222,7 +222,7 @@ theorem oddPCoreInClosure_three_of_equiv_su3 {N : Type*} [Group N] [Finite N] {a
     (e : N ≃* CFSG.Assembly.LowTwoRank.StatedSU 3 (2 ^ (2 * a + 1)) F)
     (h3 : 3 ∣ Nat.card N) : OddPCoreInClosure 3 N := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hnq : (3, 2 ^ (2 * a + 1)) ≠ (3, 2) := by
     intro h1
     have h2 := (Prod.mk.inj h1).2
@@ -277,7 +277,7 @@ theorem reeF4_centralizer_three (a : ℕ) (K : Type) [Field K] [Finite K] [CharP
 
 theorem chevTwoPClosureOddReeF4Three_holds : ChevTwoPClosureOddReeF4Three := by
   intro p hp hp2 L _ _ hs hnab hrk hSE d hF hdi ⟨e⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨d, hv⟩ := d
   cases d with
   | reeF4 m =>

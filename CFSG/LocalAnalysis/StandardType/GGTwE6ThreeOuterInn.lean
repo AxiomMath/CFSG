@@ -59,6 +59,7 @@ section EtaConj
 
 variable {K : Type} [Field K] [CharP K 2] (σ : K →+* K) (hσσ : ∀ c, σ (σ c) = c)
 
+omit [CharP K 2] in
 theorem diagramMap_conj_rootDiagUnit {b : Fin 6 → Kˣ} (hb : b ∈ compat σ) :
     diagramMap TwistTag.E6 K * rootDiagUnit TwistTag.E6.tag b * (diagramMap TwistTag.E6 K)⁻¹ =
       rootDiagUnit TwistTag.E6.tag (fun i => Units.map σ.toMonoidHom (b i)) := by
@@ -81,6 +82,7 @@ theorem diagramMap_conj_rootDiagUnit {b : Fin 6 → Kˣ} (hb : b ∈ compat σ) 
         rw [hfun]
         rfl
 
+omit [CharP K 2] in
 theorem etaAut_mul_compatParamAut_mul_inv (b : ↥(compat σ)) :
     etaAut σ hσσ * RootCentExc.compatParamAut σ b * (etaAut σ hσσ)⁻¹ =
       RootCentExc.compatParamAut σ
@@ -117,6 +119,7 @@ section Quotient
 variable {K : Type} [Field K] [CharP K 2] [Finite K] {q : ℕ}
   (σ : K →+* K) (hσσ : ∀ c, σ (σ c) = c)
 
+omit [CharP K 2] in
 theorem etaAut_conj_compatParamAut_mul_inv_quotient (hσ : ∀ c, σ c = c ^ q)
     (hq : 2 ≤ q) (hK : Nat.card K = q ^ 2) (b : ↥(compat σ)) :
     QuotientGroup.mk' (MulAut.conj : ↥(graphFixedRootGroup TwistTag.E6 K σ) →*
@@ -125,7 +128,7 @@ theorem etaAut_conj_compatParamAut_mul_inv_quotient (hσ : ∀ c, σ c = c ^ q)
       (QuotientGroup.mk' (MulAut.conj : ↥(graphFixedRootGroup TwistTag.E6 K σ) →*
         MulAut ↥(graphFixedRootGroup TwistTag.E6 K σ)).range
         (RootCentExc.compatParamAut σ b))⁻¹ := by
-  haveI hIn : ((MulAut.conj : ↥(graphFixedRootGroup TwistTag.E6 K σ) →*
+  have hIn : ((MulAut.conj : ↥(graphFixedRootGroup TwistTag.E6 K σ) →*
       MulAut ↥(graphFixedRootGroup TwistTag.E6 K σ)).range).Normal :=
     RootCentExc.normal_range_mulAutConj
   have htorus : ((b : Fin 6 → Kˣ) ^ (q + 1)) ∈ torus₀ σ :=
@@ -143,8 +146,7 @@ theorem etaAut_conj_compatParamAut_mul_inv_quotient (hσ : ∀ c, σ c = c ^ q)
     refine Subtype.ext ?_
     funext i
     apply Units.ext
-    simp only [Subtype.coe_mk, Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_pow,
-      Pi.mul_apply, Pi.inv_apply, Pi.pow_apply, Units.val_mul, Units.coe_map,
+    simp only [Subgroup.coe_mul, Subgroup.coe_inv, Pi.mul_apply, Pi.inv_apply, Pi.pow_apply, Units.val_mul, Units.coe_map,
       Units.val_inv_eq_inv_val, Units.val_pow_eq_pow_val]
     change (σ ((b : Fin 6 → Kˣ) i) : K) =
       (((b : Fin 6 → Kˣ) i : K))⁻¹ * ((b : Fin 6 → Kˣ) i : K) ^ (q + 1)
@@ -190,7 +192,7 @@ theorem mem_range_conj_of_mem_twInndiag_of_commute_mk_etaAut {f : ℕ} (hf : 1 �
   set I : Subgroup (MulAut (TwE6GraphFixedGalois f)) :=
     (MulAut.conj : TwE6GraphFixedGalois f →*
       MulAut (TwE6GraphFixedGalois f)).range with hI
-  haveI hIn : I.Normal := RootCentExc.normal_range_mulAutConj
+  have hIn : I.Normal := RootCentExc.normal_range_mulAutConj
   have hx' : x ∈ I ⊔ (RootCentExc.compatParamAut (frobQ 2 f)).range := by
     rw [hI]
     exact hx
@@ -259,7 +261,7 @@ theorem mem_range_conj_of_mem_twInndiag_of_commute_xiAut {f : ℕ} (hf : 1 ≤ f
   set I : Subgroup (MulAut (TwE6GraphFixedGalois f)) :=
     (MulAut.conj : TwE6GraphFixedGalois f →*
       MulAut (TwE6GraphFixedGalois f)).range with hI
-  haveI hIn : I.Normal := RootCentExc.normal_range_mulAutConj
+  have hIn : I.Normal := RootCentExc.normal_range_mulAutConj
   have hmk : QuotientGroup.mk' I (xiAut (frobQ 2 f) (frobQ_frobQ 2 f hf)) =
       QuotientGroup.mk' I (etaAut (frobQ 2 f) (frobQ_frobQ 2 f hf)) := by
     have hxi : xiAut (frobQ 2 f) (frobQ_frobQ 2 f hf) =
@@ -331,7 +333,7 @@ theorem mem_range_conj_of_mem_twInndiag_of_commute_conj_etaAut {f : ℕ} (hf : 1
   set I : Subgroup (MulAut (TwE6GraphFixedGalois f)) :=
     (MulAut.conj : TwE6GraphFixedGalois f →*
       MulAut (TwE6GraphFixedGalois f)).range with hI
-  haveI hIn : I.Normal := RootCentExc.normal_range_mulAutConj
+  have hIn : I.Normal := RootCentExc.normal_range_mulAutConj
   set y := φ⁻¹ * x * φ with hy
   have hy_mem : y ∈ LayerSixE.twInndiagAut f := by
     rw [hy]
@@ -357,7 +359,7 @@ theorem mem_range_conj_of_mem_twInndiag_of_commute_conj_xiAut {f : ℕ} (hf : 1 
   set I : Subgroup (MulAut (TwE6GraphFixedGalois f)) :=
     (MulAut.conj : TwE6GraphFixedGalois f →*
       MulAut (TwE6GraphFixedGalois f)).range with hI
-  haveI hIn : I.Normal := RootCentExc.normal_range_mulAutConj
+  have hIn : I.Normal := RootCentExc.normal_range_mulAutConj
   set y := φ⁻¹ * x * φ with hy
   have hy_mem : y ∈ LayerSixE.twInndiagAut f := by
     rw [hy]
@@ -384,7 +386,7 @@ theorem pow_three_mk'_eq_one_of_mem_twInndiag {f : ℕ} (hf : 1 ≤ f)
   classical
   set I : Subgroup (MulAut (TwE6GraphFixedGalois f)) :=
     (MulAut.conj : TwE6GraphFixedGalois f →* MulAut (TwE6GraphFixedGalois f)).range with hI
-  haveI hIn : I.Normal := RootCentExc.normal_range_mulAutConj
+  have hIn : I.Normal := RootCentExc.normal_range_mulAutConj
   have hx' : x ∈ I ⊔ (RootCentExc.compatParamAut (frobQ 2 f)).range := by
     rw [hI]; exact hx
   obtain ⟨a, ha, d, hd, rfl⟩ := (Subgroup.mem_sup_of_normal_left).1 hx'
@@ -417,7 +419,7 @@ theorem eta_conj_mk'_eq_inv_of_mem_twInndiag {f : ℕ} (hf : 1 ≤ f)
   classical
   set I : Subgroup (MulAut (TwE6GraphFixedGalois f)) :=
     (MulAut.conj : TwE6GraphFixedGalois f →* MulAut (TwE6GraphFixedGalois f)).range with hI
-  haveI hIn : I.Normal := RootCentExc.normal_range_mulAutConj
+  have hIn : I.Normal := RootCentExc.normal_range_mulAutConj
   set η : MulAut (TwE6GraphFixedGalois f) :=
     etaAut (frobQ 2 f) (frobQ_frobQ 2 f hf) with hη
   have hx' : x ∈ I ⊔ (RootCentExc.compatParamAut (frobQ 2 f)).range := by
@@ -458,7 +460,7 @@ theorem diag_conj_mk'_eq_of_mem_compatParamAut {f : ℕ}
   classical
   set I : Subgroup (MulAut (TwE6GraphFixedGalois f)) :=
     (MulAut.conj : TwE6GraphFixedGalois f →* MulAut (TwE6GraphFixedGalois f)).range with hI
-  haveI hIn : I.Normal := RootCentExc.normal_range_mulAutConj
+  have hIn : I.Normal := RootCentExc.normal_range_mulAutConj
   obtain ⟨b, rfl⟩ := hd
   set X : MulAut (TwE6GraphFixedGalois f) :=
     RootCentExc.compatParamAut (frobQ 2 f) b with hX
@@ -525,7 +527,7 @@ theorem mem_range_conj_of_mem_twInndiag_of_commute_outer_involution {f : ℕ} (h
   let σ : K →+* K := frobQ 2 f
   set I : Subgroup (MulAut (TwE6GraphFixedGalois f)) :=
     (MulAut.conj : TwE6GraphFixedGalois f →* MulAut (TwE6GraphFixedGalois f)).range with hI
-  haveI hIn : I.Normal := RootCentExc.normal_range_mulAutConj
+  have hIn : I.Normal := RootCentExc.normal_range_mulAutConj
   have hK : Nat.card K = (2 ^ f) ^ 2 := TwE6Toral.card_galoisField_two_mul f hf
   have hσ : ∀ c : K, σE c = c ^ 2 ^ f := frobQ_apply 2 f
   obtain ⟨-, -, -, -, -, -, -, -, ⟨Θ, hΘ, hsurj, hker, hab, hexp, hout⟩, hfield, -, -, -⟩ :=

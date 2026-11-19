@@ -183,14 +183,14 @@ private theorem diagSp_mem_complSp {K : Type} [Field K] {n : ℕ}
   rw [mat_diagSp_apply, Matrix.one_apply]
   by_cases heq : a = b
   · subst b
-    rw [if_pos rfl, if_pos rfl]
+    rw [ite_eq_left rfl, ite_eq_left rfl]
     have ha : a ∈ coords k := by
       by_contra h
       exact hab ⟨h, h⟩
     rcases mem_coords.1 ha with rfl | rfl
     · simp only [diagSpEntry_inl, hk, Units.val_one]
     · simp only [diagSpEntry_inr, hk, inv_one, Units.val_one]
-  · rw [if_neg heq, if_neg heq]
+  · rw [ite_eq_right heq, ite_eq_right heq]
 
 theorem longRootSp2_le_centralizer_diagSp {K : Type} [Field K] {n : ℕ}
     (t : Fin n → Kˣ) (k : Fin n) (hk : t k = 1) :

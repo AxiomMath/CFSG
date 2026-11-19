@@ -15,7 +15,7 @@ open scoped commutatorElement
 theorem HHMinimal.three_le_pRank {K : Type*} [Group K] [Finite K] {B Q : Subgroup K} {d : ℕ}
     (h : HHMinimal B Q) (hd : d.Prime) (hd5 : 5 ≤ d) (hQ : IsPGroup 3 Q) (hB : IsPGroup d B) :
     3 ≤ CFSG.Open.pRank 3 Q := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hd3 : d ≠ 3 := by omega
   have hcomm : ⁅Q, B⁆ = Q := h.commutator_eq hd hd3 hQ hB
   have hQ'B : ⁅Q, Q⁆ ≤ centralizer (B : Set K) := h.commutator_self_le_centralizer hQ

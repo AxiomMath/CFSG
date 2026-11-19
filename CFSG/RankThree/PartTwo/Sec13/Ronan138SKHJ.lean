@@ -99,7 +99,7 @@ theorem isSolvable_inf_centralizer_of_hyp138 {A L E : Subgroup G} {c : G}
         map_mul' := fun a b => by
           apply Subtype.ext
           simp }
-    refine solvable_of_solvable_injective (f := ψ) (fun a b hab => ?_)
+    refine Group.isSolvable_of_isSolvable_injective (f := ψ) (fun a b hab => ?_)
     have h1 : (φ a).1 = (φ b).1 := congrArg (fun w => w.1) hab
     exact Subtype.ext (φ.injective (Subtype.ext h1))
   set M := L ⊓ Subgroup.centralizer ({d} : Set G) with hM
@@ -124,11 +124,11 @@ theorem isSolvable_inf_centralizer_of_hyp138 {A L E : Subgroup G} {c : G}
       { toFun := fun m => ⟨((m : ↥M) : G), hmem m⟩
         map_one' := rfl
         map_mul' := fun a b => rfl }
-    refine solvable_of_solvable_injective (f := ι) (fun a b hab => ?_)
+    refine Group.isSolvable_of_isSolvable_injective (f := ι) (fun a b hab => ?_)
     have h1 : ((a : ↥M) : G) = ((b : ↥M) : G) :=
       congrArg (fun w : ↥(inSubgroup (aschbacherSolvableCore 3) L) => (w : G)) hab
     exact Subtype.ext (Subtype.ext h1)
-  exact solvable_of_ker_le_range g.ker.subtype g (by rw [Subgroup.range_subtype])
+  exact Group.isSolvable_of_ker_le_range g.ker.subtype g (by rw [Subgroup.range_subtype])
 
 theorem not_isSolvable_of_isQuasisimple' {T : Type} [Group T] (hq : CFSG.IsQuasisimple T) :
     ¬ Group.IsSolvable T := by
@@ -275,7 +275,7 @@ theorem false_of_hj
         (S₀ : Subgroup K).map (QuotientGroup.mk' (aschbacherSolvableCore 3 K)) :=
       Sylow.coe_mapSurjective _ _
     obtain ⟨⟨hHeis₀, -⟩, -⟩ := h415 _ ⟨φK⟩ Qb₀ _ rfl _ rfl
-    rw [← card_map_eq_of_injOn _ (injOn_mk_of_isPGroup Nat.prime_three S₀.isPGroup'), ← hQb₀]
+    rw [← card_map_eq_of_injOn _ (injOn_mk_of_isPGroup Nat.prime_three S₀.isPGroup), ← hQb₀]
     exact hHeis₀.2.1
   have hSylPK : CFSG.ABGLocalTools.IsSylowOf 3 (P ⊓ K) K := by
     refine CFSG.ABGLocalTools.isSylowOf_of_card inf_le_right ?_
@@ -356,7 +356,7 @@ theorem false_of_hj
     le_inf hJK'' ((Subgroup.map_subtype_le _).trans inf_le_right)
   have hsol := isSolvable_inf_centralizer_of_hyp138 hfr.hH hfr.hPGL hfr.hdL hfr.hd3 hfr.hd1
   have hJsol : Group.IsSolvable ↥J :=
-    solvable_of_solvable_injective (f := Subgroup.inclusion hJCd) (Subgroup.inclusion_injective _)
+    Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hJCd) (Subgroup.inclusion_injective _)
   have hJθsol : Group.IsSolvable (↥J ⧸ aschbacherSolvableCore 3 ↥J) :=
     Group.isSolvable_of_surjective (QuotientGroup.mk'_surjective _)
   exact not_isSolvable_of_isQuasisimple' hJq hJθsol

@@ -25,11 +25,13 @@ section Theta
     ModGL TwistTag.E6.tag K →* ModGL TwistTag.E6.tag (AlgebraicClosure K) :=
   (MulAut.conj g0⁻¹).toMonoidHom.comp (baseChangeGL (algebraMap K (AlgebraicClosure K)))
 
+omit [Finite K] in
 theorem twThetaHom_apply (g0 : ModGL TwistTag.E6.tag (AlgebraicClosure K))
     (x : ModGL TwistTag.E6.tag K) :
     twThetaHom g0 x = g0⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K)) x * g0 := by
-  simp [twThetaHom, MulAut.conj_apply]
+  simp [twThetaHom]
 
+omit [Finite K] in
 theorem twThetaHom_injective (g0 : ModGL TwistTag.E6.tag (AlgebraicClosure K)) :
     Function.Injective (twThetaHom (K := K) g0) :=
   (MulAut.conj g0⁻¹).injective.comp (baseChangeGL_injective _)
@@ -62,8 +64,9 @@ end Theta
     intro x hx
     rw [Subgroup.mem_bot] at hx
     subst hx
-    simpa using Subgroup.one_mem _
+    simp
 
+omit [Finite K] in
 theorem range_twThetaHom_eq_Γ (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2)
     (hσ : ∀ c, σ c = c ^ 2 ^ n) (Fr : AlgebraicClosure K →+* AlgebraicClosure K)
     (hFr : ∀ c, Fr c = c ^ 2 ^ n) (v : WeylGroup TwistTag.E6.tag)
@@ -77,6 +80,7 @@ theorem range_twThetaHom_eq_Γ (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2)
     Subgroup.range_subtype, twThetaHom, Subgroup.map_map]
   rfl
 
+omit [Finite K] in
 theorem twThetaHom_mem_model (hσ : ∀ c, σ c = c ^ 2 ^ n)
     (Fr : AlgebraicClosure K →+* AlgebraicClosure K)
     (hFr : ∀ c, Fr c = c ^ 2 ^ n) (v : WeylGroup TwistTag.E6.tag)
@@ -91,8 +95,9 @@ theorem twThetaHom_mem_model (hσ : ∀ c, σ c = c ^ 2 ^ n)
   rw [model_eq_map_twistedFixedGroup _ rfl]
   exact ⟨baseChangeGL (algebraMap K (AlgebraicClosure K)) tc,
     (mem_twistedFixedGroup_iff_twistHom _ _ _).2 ⟨hadj, hfix⟩, by
-      simp [twThetaHom_apply, MulAut.conj_apply] <;> rfl⟩
+      simp [twThetaHom_apply]; rfl⟩
 
+omit [Finite K] in
 theorem map_centralizer_twThetaHom (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2)
     (hσ : ∀ c, σ c = c ^ 2 ^ n)
     (Fr : AlgebraicClosure K →+* AlgebraicClosure K) (hFr : ∀ c, Fr c = c ^ 2 ^ n)

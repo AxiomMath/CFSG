@@ -28,6 +28,7 @@ private theorem commutator_eq_bot_of_le_centralizer_of_perfect
   rw [hQ, ← Subgroup.commutator_comm A Q] at hrot
   exact hrot
 
+omit [Finite K] in
 private theorem a1413StrSwapProj_mem_centralizer_u1 (h2 : (2 : K) ≠ 0) :
     a1413StrSwapProj (K := K) ∈
       centralizer ({u1 K} : Set (StatedProj (StatedSp 2 K))) := by
@@ -73,7 +74,7 @@ private theorem psp4_u1_derived_le_of_normalized (hodd : Odd (Nat.card K))
     (hNC : N ≤ centralizer ({u1 K} : Set (StatedProj (StatedSp 2 K))))
     (hN : ∀ c ∈ centralizer ({u1 K} : Set (StatedProj (StatedSp 2 K))), ∀ n ∈ N,
       c * n * c⁻¹ ∈ N)
-    (hu1N : u1 K ∈ N) (hNne : ¬ N ≤ zpowers (u1 K)) :
+    (_hu1N : u1 K ∈ N) (hNne : ¬ N ≤ zpowers (u1 K)) :
     X0 K ≤ N := by
   have h2 : (2 : K) ≠ 0 := two_ne_zero_of_odd_card hodd
   have h4 : 4 ≤ Nat.card K := by omega
@@ -339,7 +340,7 @@ private theorem psp4_u1_sup_conj_derived_eq_top (hodd : Odd (Nat.card K))
   have hz'notX : z' ∉ X0 K := by
     intro hmem
     refine hne (eq_u1_of_mem_X0_of_conj hodd hmem ?_)
-    exact ⟨h, by change h⁻¹ * (h * u1 K * h⁻¹) * h = u1 K; group⟩
+    exact ⟨h, by group⟩
   have hnot_le : ¬ (X0 K).map (MulAut.conj h).toMonoidHom ≤ Cu := by
     intro hle
     have hmem : h⁻¹ * u1 K * h ∈

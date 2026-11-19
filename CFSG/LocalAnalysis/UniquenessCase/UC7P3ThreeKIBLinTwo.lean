@@ -117,7 +117,7 @@ theorem fixedFreeFive_psl2GF_of_not_dvd {p n : ℕ} [Fact p.Prime] (hn : n ≠ 0
 theorem coverActsTriviallyOnSmall_of_isoLie_linTwo {L : Type} [Group L] [IsSimpleGroup L]
     {q : TauCeti.PrimePower} (hq3 : q.p = 3) (hI : IsoLie L (.A 1 q)) :
     CoverActsTriviallyOnSmall 3 L := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hv, ⟨e⟩⟩ := hI
   have hd : IsLinTwoIndex 3 q.exponent ⟨.A 1 q, hv⟩ := ⟨q, rfl, hq3, rfl⟩
   obtain ⟨f⟩ := nonempty_mulEquiv_psl2GF_of_isLinTwoIndex hd

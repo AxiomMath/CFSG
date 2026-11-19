@@ -39,7 +39,7 @@ theorem card_fix_torusReflAut (hp : p.Prime) (hp2 : p ≠ 2)
     (c : (Fin k → ZMod p) →ₗ[ZMod p] ZMod p) (δ : Fin k → ZMod p) (h : c δ = 2) :
     Nat.card {f : Multiplicative (Fin k → ZMod p) // torusReflAut c δ h f = f} * p =
       Nat.card (Multiplicative (Fin k → ZMod p)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h2 : (2 : ZMod p) ≠ 0 := by
     intro h0
     have h1 : ((2 : ℕ) : ZMod p) = 0 := by exact_mod_cast h0

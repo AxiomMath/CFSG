@@ -55,6 +55,7 @@ section Dihedral
 
 variable {S : Type} [Group S] [Finite S] {σ : MulAut S} {D : Subgroup ↥(fixedSubgroup σ)}
 
+omit [Finite S] in
 theorem outer_involution_of_dihedral (h : A6Hyp σ D) {z t : ↥(fixedSubgroup σ)}
     (hz : orderOf z = 8) (ht : orderOf t = 2) (hzt : t * z * t⁻¹ = z⁻¹) :
     ∃ x : ↥(fixedSubgroup σ), orderOf x = 2 ∧ x ∉ D := by

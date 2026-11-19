@@ -33,13 +33,13 @@ public theorem ig911iiNilpotentFrobeniusComplementCyclic
     (Nat.card_congr eR.toEquiv).symm
   have hoddSub : Odd (Nat.card (R.subgroupOf S)) := by
     simpa [hcard] using hodd
-  letI : IsZGroup (R.subgroupOf S) :=
+  let : IsZGroup (R.subgroupOf S) :=
     isZGroup_of_frobenius_complement_of_odd
       (K.subgroupOf S) (R.subgroupOf S) hfrob hoddSub
-  letI : Group.IsNilpotent (R.subgroupOf S) :=
+  let : Group.IsNilpotent (R.subgroupOf S) :=
     Group.nilpotent_of_mulEquiv (G := R) (G' := R.subgroupOf S)
       (_h := hnil) eR
-  haveI : IsCyclic (R.subgroupOf S) := inferInstance
+  have : IsCyclic (R.subgroupOf S) := inferInstance
   exact isCyclic_of_injective eR.toMonoidHom eR.injective
 
 end CFSG.BenderSuzuki

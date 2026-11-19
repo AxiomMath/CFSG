@@ -16,9 +16,10 @@ section TwoD
 variable {G : Type} [Group G] {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
   {n m : ℕ}
 
+omit [Finite V] in
 theorem Setting12One.m_le_n {ρ : G →* LGL 2 V} {B A : Subgroup G}
     {Z : Submodule (ZMod 2) V} (h : Setting12One ρ B Z A n m) : m ≤ n := by
-  haveI : Finite G := rankOne_finite h.type
+  have : Finite G := rankOne_finite h.type
   obtain ⟨S, hSB⟩ := exists_sylow_of_isBorelIn h.borel
   have hAS : A ≤ (S : Subgroup G) :=
     le_sylow_of_le_normalizer (IsElemAbelian.isPGroup h.A_elem) (hSB ▸ h.A_le_B)
@@ -26,13 +27,14 @@ theorem Setting12One.m_le_n {ρ : G →* LGL 2 V} {B A : Subgroup G}
   rw [h.A_card] at h1
   exact (Nat.pow_le_pow_iff_right (by norm_num)).1 h1
 
+omit [Finite V] in
 theorem eq_zero_of_mem_commSpace_of_inverted
     {ρ : G →* LGL 2 V} {B A : Subgroup G} {Z : Submodule (ZMod 2) V}
     (h : Setting12One ρ B Z A n m) (hmin : ∀ L : Subgroup G, A ≤ L → ¬ L ≤ B → L = ⊤)
     {t : G} {T : Subgroup G} (ht : t * t = 1) (hTinv : ∀ x ∈ T, t * x * t = x⁻¹)
     (hTodd : Odd (Nat.card T)) (W : Submodule (ZMod 2) V) {x : G} (hxT : x ∈ T) (hx1 : x ≠ 1)
     {y : V} (hy : y ∈ commSpace (T.map ρ) W) (hfix : ρ x y = y) : y = 0 := by
-  haveI : Finite G := rankOne_finite h.type
+  have : Finite G := rankOne_finite h.type
   have hxodd : Odd (orderOf x) := odd_orderOf_of_odd_card hTodd hxT
   have hfm := twelveOne_fix_of_inverted h hmin ht (hTinv x hxT) hxodd hx1
   have hle : commSpace (T.map ρ) W ≤ commSub ρ.range := by
@@ -56,7 +58,7 @@ theorem twelveTwo_two_spec {ρ : G →* LGL 2 V} {B A : Subgroup G}
       ∃ (t : G) (T : Subgroup G), t * t = 1 ∧ t ∉ B ∧ T ≤ B ∧ IsCyclic T ∧
         Nat.card T = 2 ^ n - 1 ∧ (∀ x ∈ T, t * x * t = x⁻¹) ∧ RegularOnNonzero ρ T Z ∧
         commSpace (T.map ρ) Z = Z := by
-  haveI : Finite G := rankOne_finite h.type
+  have : Finite G := rankOne_finite h.type
   obtain ⟨S, hSB⟩ := exists_sylow_of_isBorelIn h.borel
   obtain ⟨-, t, -, -, -, -, -, ht2, htS, -, -⟩ := rankOne_exists_cartan h.type S
   have hspec := rankOne_cartan_spec h.type S ht2 htS

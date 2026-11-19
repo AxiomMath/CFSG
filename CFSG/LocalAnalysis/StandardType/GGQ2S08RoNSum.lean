@@ -48,12 +48,12 @@ theorem ggQ2s08_roN_of_sum
     refine ggQ2s08k4_eq_of_basis bf fun k => ?_
     rw [ggQ2s08k4_pairDiag_apply, LinearEquiv.mul_apply, ggQ2s08k4_permM_apply, hbfa, hbfa]
     by_cases hka : k = a
-    · rw [hka, if_pos rfl, Equiv.swap_apply_left, hsb]
+    · rw [hka, ite_eq_left rfl, Equiv.swap_apply_left, hsb]
       exact neg_one_smul _ _
     · by_cases hkb : k = b
-      · rw [hkb, if_neg (Ne.symm hab), if_pos rfl, Equiv.swap_apply_right, hsa]
+      · rw [hkb, ite_eq_right (Ne.symm hab), ite_eq_left rfl, Equiv.swap_apply_right, hsa]
         exact neg_one_smul _ _
-      · rw [if_neg hka, if_neg hkb, one_smul, Equiv.swap_apply_of_ne_of_ne hka hkb,
+      · rw [ite_eq_right hka, ite_eq_right hkb, one_smul, Equiv.swap_apply_of_ne_of_ne hka hkb,
           hsk k hka hkb]
   have hpair : ∀ j, j ≠ a → ggQ2s08k4_pairDiag bf a j ∈ H := by
     intro j hja

@@ -30,9 +30,9 @@ theorem cntN_succ (T : ℕ → ℕ) (n : ℕ) :
   · have hne : T n ≠ n := fun e => by
       rw [e, Nat.beq_refl] at h
       exact Bool.noConfusion h
-    rw [if_neg hne]
+    rw [ite_eq_right hne]
     rfl
-  · rw [if_pos (Nat.eq_of_beq_eq_true h)]
+  · rw [ite_eq_left (Nat.eq_of_beq_eq_true h)]
     rfl
 
 theorem cntN_eq_card (T : ℕ → ℕ) (n : ℕ) : cntN T n = Nat.card {x : Fin n // T x = x} := by

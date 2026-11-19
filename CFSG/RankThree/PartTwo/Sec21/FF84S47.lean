@@ -19,6 +19,7 @@ open CFSG.RankThree.PartTwo.Sec21.FF84.S3 (P8 A8s)
 
 variable {G : Type} [Group G] [Finite G] {b : G} {L B K : Subgroup G} {b₁ b₂ : G}
 
+omit [Finite G] in
 private theorem mem_sup_of_comm' {Z T : Subgroup G} (hc : ∀ z ∈ Z, ∀ t ∈ T, z * t = t * z) {x : G}
     (hx : x ∈ Z ⊔ T) : ∃ z ∈ Z, ∃ t ∈ T, z * t = x := by
   let S : Subgroup G :=
@@ -41,6 +42,7 @@ private theorem mem_sup_of_comm' {Z T : Subgroup G} (hc : ∀ z ∈ Z, ∀ t ∈
     (fun t ht => ⟨1, one_mem _, t, ht, by simp⟩)
   exact this hx
 
+omit [Finite G] in
 theorem zpow_comm_of_mem_cen {t : G} (ht : t ∈ Cen b) (i : ℤ) : b ^ i * t = t * b ^ i :=
   (Commute.zpow_left (Subgroup.mem_centralizer_singleton_iff.1 ht).symm i).eq
 

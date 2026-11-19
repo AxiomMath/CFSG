@@ -20,7 +20,7 @@ structure LMin (L : Subgroup K) (κ : Representation (ZMod 2) K Z) (Y : Submodul
 
 theorem exists_lMin [Finite Z] [Nontrivial Z] (L : Subgroup K)
     (κ : Representation (ZMod 2) K Z) : ∃ Y, LMin L κ Y := by
-  haveI : Module.Finite (ZMod 2) Z := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) Z := Module.Finite.of_finite
   let S : Set (Submodule (ZMod 2) Z) := {W | W ≠ ⊥ ∧ ∀ l ∈ L, ∀ w ∈ W, κ l w ∈ W}
   have hS : S.Nonempty := ⟨⊤, top_ne_bot, fun _ _ _ _ => Submodule.mem_top⟩
   obtain ⟨Y, ⟨hYb, hYi⟩, hmin⟩ :=
@@ -38,7 +38,7 @@ theorem LMin.nontriv (h : InnerCtx L B) {κ : Representation (ZMod 2) K Z}
     ∃ l ∈ L, ∃ y ∈ Y, κ l y ≠ y := by
   by_contra hcon
   push Not at hcon
-  haveI := h.normal_L
+  have := h.normal_L
   let W : Submodule (ZMod 2) Z := Submodule.span (ZMod 2) {z | ∃ g : K, ∃ y ∈ Y, z = κ g y}
   have hWinv : ∀ k : K, ∀ z ∈ W, κ k z ∈ W := by
     intro k z hz

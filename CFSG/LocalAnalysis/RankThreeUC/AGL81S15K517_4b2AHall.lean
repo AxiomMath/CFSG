@@ -25,7 +25,7 @@ theorem isMulCommutative_hypBorel_quotient {p f : ℕ} {K : Type} [Field K] [Fin
     (hp : p = 2) (hε : ε ≤ 1) (hr : 1 ≤ r) :
     IsMulCommutative (↥(hypBorel h r ε) ⧸ CFSG.pCore 2 ↥(hypBorel h r ε)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let U' : Subgroup ↥(hypBorel h r ε) :=
     (hypUnitriangular h r ε).subgroupOf (hypBorel h r ε)
   have hU2 : IsPGroup 2 (hypUnitriangular h r ε) := by
@@ -42,7 +42,7 @@ theorem isMulCommutative_hypBorel_quotient {p f : ℕ} {K : Type} [Field K] [Fin
   have hoddquot : Odd (Nat.card (↥(hypBorel h r ε) ⧸ U')) := by
     rw [hquotcard]
     have hbig : Odd (Nat.card (Fin r → Kˣ)) := by
-      haveI : CharP K 2 := hp ▸ h.charP
+      have : CharP K 2 := hp ▸ h.charP
       have hKodd : Odd (Nat.card K - 1) :=
         CFSG.ClassicalGroups.SpecialLinear.odd_card_sub_one_of_char_two
       have hunits : Nat.card Kˣ = Nat.card K - 1 := Nat.card_units K
@@ -60,7 +60,7 @@ theorem isMulCommutative_hypBorel_quotient {p f : ℕ} {K : Type} [Field K] [Fin
   have hP : (P : Subgroup ↥(hypBorel h r ε)) = U' := IsPGroup.toSylow_coe hU'2 hidx
   have hpc : CFSG.pCore 2 ↥(hypBorel h r ε) = U' := by
     refine le_antisymm ?_ (le_sSup ⟨hU'norm, hU'2⟩)
-    haveI : (CFSG.pCore 2 ↥(hypBorel h r ε)).Normal := CFSG.pCore_normal
+    have : (CFSG.pCore 2 ↥(hypBorel h r ε)).Normal := CFSG.pCore_normal
     have := CFSG.pCore_isPGroup (p := 2) (G := ↥(hypBorel h r ε))
     exact (this.le_sylow_of_normal P).trans (le_of_eq hP)
   have hcomm : ⁅(⊤ : Subgroup ↥(hypBorel h r ε)),
@@ -87,7 +87,7 @@ theorem exists_hc_comap_of_isPi_ker {L Q : Type} [Group L] [Finite L] [Group Q] 
     ∃ Hc : Subgroup L, IsPiSubgroup {p : Nat.Primes | (p : ℕ) ≠ 2} Hc ∧
       3 ≤ CFSG.Open.pRank q Hc := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   refine ⟨HcQ.comap pi, ?_, ?_⟩
   · intro p hp
     have hcard := CFSG.GroupTheory.card_comap_eq_card_ker_mul_card pi hpi HcQ
@@ -124,14 +124,14 @@ theorem transport_K
       (↥(Subgroup.normalizer (U : Set K)) ⧸
         CFSG.pCore 2 ↥(Subgroup.normalizer (U : Set K))) := by
   classical
-  haveI : Fact Q.p.Prime := ⟨Q.prime_p⟩
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact Q.p.Prime := ⟨Q.prime_p⟩
+  have : Fact q.Prime := ⟨hq⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have he : 0 < Q.exponent := Q.exponent_pos
   let ef := Q.exponent
   let F := GaloisField 2 (2 * ef)
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := inferInstance
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := inferInstance
   have hFcard : Nat.card F = (2 ^ ef) ^ 2 := by
     rw [GaloisField.card (p := 2) (n := 2 * ef) (by omega), Nat.mul_comm 2 ef, pow_mul]
   have hFcard' : Fintype.card F = (2 ^ ef) ^ 2 := by
@@ -210,7 +210,7 @@ theorem transport_K
     have h1 : eKP (qK x) = 1 := eP'.injective (by simpa [ρ] using hx)
     have h2 : qK x = 1 := eKP.injective (by simpa using h1)
     exact (QuotientGroup.eq_one_iff x).mp h2
-  haveI : Group.IsPerfect K := ⟨hK.1⟩
+  have : Group.IsPerfect K := ⟨hK.1⟩
   have hcop : Even (m + 1) → Nat.Coprime 2 (Nat.card ρ.ker) := by
     intro _
     exact Nat.coprime_two_left.2 (hodd.of_dvd_nat (Subgroup.card_dvd_of_le hρker))
@@ -284,7 +284,7 @@ theorem transport_K
     obtain ⟨-, ⟨P0, hP0⟩, -, -, -, -, -⟩ := unitary_order_and_Sylow hUF hr1 hε
     have hUsyl : IsSylowTwoOf (hypUnitriangular hUF r ε) ⊤ := by
       refine ⟨le_top, ?_, ?_⟩
-      · rw [← hP0]; exact P0.isPGroup'
+      · rw [← hP0]; exact P0.isPGroup
       · have h := P0.not_dvd_index
         rw [show (P0 : Subgroup (hypSU hUF r ε)) = hypUnitriangular hUF r ε from hP0] at h
         rw [show ((hypUnitriangular hUF r ε).subgroupOf ⊤).index =
@@ -302,7 +302,7 @@ theorem transport_K
   have hB_S0_solv : Group.IsSolvable ↥B_S0 := by
     let eB : ↥(hypBorel hUF r ε) ≃* ↥B_S0 :=
       Subgroup.equivMapOfInjective _ eSS.toMonoidHom eSS.injective
-    haveI : Group.IsSolvable ↥(hypBorel hUF r ε) :=
+    have : Group.IsSolvable ↥(hypBorel hUF r ε) :=
       isSolvable_hypBorel hUF hr1 hε
     exact Group.isSolvable_of_surjective (f := eB.toMonoidHom) eB.surjective
   have hVsyl : IsSylowTwoOf (U_S0.map φ) ⊤ :=
@@ -347,7 +347,7 @@ theorem transport_K
     exact Group.isSolvable_of_surjective (f := eC.toMonoidHom) eC.surjective
   have hcopker : Nat.Coprime 2 (Nat.card φ.ker) :=
     Nat.coprime_two_left.2 hker_odd
-  haveI : Fact (IsPGroup 2 U_S) := ⟨hU_S_sylow.2.1⟩
+  have : Fact (IsPGroup 2 U_S) := ⟨hU_S_sylow.2.1⟩
   have hNq := CFSG.normalizer_map_quotient_eq_map_normalizer (G :=
       StatedSU (m + 1) (2 ^ ef) F) 2 U_S (MonoidHom.ker φ) inferInstance hcopker
   let eΦ : (StatedSU (m + 1) (2 ^ ef) F) ⧸ MonoidHom.ker φ ≃* K :=
@@ -389,7 +389,7 @@ theorem transport_K
   have hUsyl_std : IsSylowTwoOf (hypProjUnitriangular hUF r ε) ⊤ := by
     obtain ⟨-, -, -, -, ⟨P0, hP0⟩, -, -⟩ := unitary_order_and_Sylow hUF hr1 hε
     refine ⟨le_top, ?_, ?_⟩
-    · rw [← hP0]; exact P0.isPGroup'
+    · rw [← hP0]; exact P0.isPGroup
     · have h := P0.not_dvd_index
       rw [show (P0 : Subgroup (hypPSU hUF r ε)) = hypProjUnitriangular hUF r ε from hP0] at h
       rw [show ((hypProjUnitriangular hUF r ε).subgroupOf ⊤).index =
@@ -425,7 +425,7 @@ theorem transport_K
       Set (hypPSU hUF r ε))) = Nbar := by
     have hcopZ : Nat.Coprime 2 (Nat.card (Subgroup.center K)) :=
       Nat.coprime_two_left.2 hodd
-    haveI : Fact (IsPGroup 2 U) := ⟨hUmax.2.1⟩
+    have : Fact (IsPGroup 2 U) := ⟨hUmax.2.1⟩
     have hNq' := CFSG.normalizer_map_quotient_eq_map_normalizer (G := K) 2 U
       (Subgroup.center K) inferInstance hcopZ
     calc Subgroup.normalizer ((U.map (eKP.toMonoidHom.comp qK)) : Set (hypPSU hUF r ε))
@@ -452,7 +452,7 @@ theorem transport_K
     { toFun := fun x => ⟨eKP (qK x.1), Subgroup.mem_map_of_mem eKP.toMonoidHom
         (Subgroup.mem_map_of_mem qK x.2)⟩
       map_one' := by ext; simp
-      map_mul' := fun a b => by ext; simp [mul_assoc] }
+      map_mul' := fun a b => by ext; simp }
   have hκ_surj : Function.Surjective κ := by
     intro y
     obtain ⟨z, hz, hzy⟩ := Subgroup.mem_map.mp y.2
@@ -477,7 +477,7 @@ theorem transport_K
   have hκker_card : Nat.card κ.ker = Nat.card (Subgroup.center K) := by
     rw [hκker_eq]
     exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hcenter_le_N).toEquiv
-  haveI : Group.IsPerfect (StatedSU (m + 1) (2 ^ ef) F) :=
+  have : Group.IsPerfect (StatedSU (m + 1) (2 ^ ef) F) :=
     (CFSG.LieType.Universal.Unitary.isQuasisimple_statedSU_of_card
       (p := 2) (f := ef) (n := m + 1) hFcard hm1 hne).1.1
   have hker_le_centerS : φ.ker ≤ Subgroup.center (StatedSU (m + 1) (2 ^ ef) F) := by
@@ -539,12 +539,12 @@ theorem transport_L
       (↥(Subgroup.normalizer (U : Set L)) ⧸
         CFSG.pCore 2 ↥(Subgroup.normalizer (U : Set L))) := by
   classical
-  haveI : Fact Q.p.Prime := ⟨Q.prime_p⟩
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact Q.p.Prime := ⟨Q.prime_p⟩
+  have : Fact q.Prime := ⟨hq⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let O : Subgroup L := CFSG.Open.pCoreOf 2 (Subgroup.center L)
   have hO_center : O ≤ Subgroup.center L := CFSG.ClassicalGroups.PCoreSection.pCoreOf_le 2 _
-  haveI hO_normal : O.Normal := Subgroup.normal_of_le_center hO_center
+  have hO_normal : O.Normal := Subgroup.normal_of_le_center hO_center
   have hO_2 : IsPGroup 2 O := CFSG.ClassicalGroups.PCoreSection.isPGroup_pCoreOf 2 _
   have hO_le_U : O ≤ U := by
     have hidxU : ¬ 2 ∣ U.index := by
@@ -686,7 +686,7 @@ theorem k517_4b_2A_of_top_of_hall
     (e : (↥Ls ⧸ Subgroup.center ↥Ls) ≃* (TauCeti.CFSGIndex.lie
       (⟨TauCeti.LieTypeIndex.twistedA m Q, hv⟩ : TauCeti.ValidLieTypeIndex)).Group)
     (hTinv : gnImg T T ≤ Subgroup.normalizer (Ls : Set (X ⧸ gnC T)))
-    {U : Subgroup ↥Ls} (hU2 : IsPGroup 2 U) (hUmax : CFSG.QuasithinUnique.IsSylowTwoOf U ⊤)
+    {U : Subgroup ↥Ls} (_hU2 : IsPGroup 2 U) (hUmax : CFSG.QuasithinUnique.IsSylowTwoOf U ⊤)
     (hqQ : q ∣ Q.card - 1)
     (hU : U = (gnImg T T ⊓ Ls).subgroupOf Ls) :
     1 < mS T T₁ q Ls ∨ 1 < mS T T₂ q Ls := by

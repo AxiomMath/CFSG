@@ -35,9 +35,9 @@ theorem isPGroup_centralizer_of_pow_three_eq_one
     {K : Type} [Group K] (e : K ≃* ↥S) {g : K} (hg3 : g ^ 3 = 1)
     (hg1 : g ≠ 1) : IsPGroup 3 ↥(Subgroup.centralizer ({g} : Set K)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hcard, hcent, -⟩ := facts_of_equiv_S.{0, 0} e
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hg : orderOf g = 3 := orderOf_eq_prime hg3 hg1
   rw [IsPGroup.iff_orderOf]
   rintro ⟨y, hy⟩
@@ -97,7 +97,7 @@ theorem isPGroup_fixedSubgroup
     (hcard : Nat.card E = 3 ^ 2) : IsPGroup 3 ↥(ggFixedSubgroup E) := by
   classical
   obtain ⟨hKcard, -, -⟩ := facts_of_equiv_S.{0, 0} e
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hKcard]; norm_num)
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hKcard]; norm_num)
   have hc : Subgroup.center K = ⊥ := by
     rw [eq_bot_iff]
     intro z hz

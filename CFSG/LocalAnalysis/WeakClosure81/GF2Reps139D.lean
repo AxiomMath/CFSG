@@ -50,12 +50,12 @@ theorem Std139.lemmaD (hw2 : ∀ w : W, w ^ 2 = 1) (S : Std139 G X D s Y n) (hn 
     fun d hd => Subgroup.mem_normalizer_iff_map_conj_eq.mpr (hLinv d hd)
   have hge : ⁅K, D⁆ ≤ K := Subgroup.le_normalizer_iff_commutator_le_left.mp hDnorm
   have hcomm : ⁅K, D⁆ = K := le_antisymm hge hle
-  haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hK.2.2.2
-  haveI : Nontrivial ↥K :=
+  have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hK.2.2.2
+  have : Nontrivial ↥K :=
     (QuotientGroup.mk'_surjective (Subgroup.center ↥K)).nontrivial
   have hKne : K ≠ ⊥ := by
     intro hbot
-    haveI : Subsingleton ↥K := by rw [hbot]; infer_instance
+    have : Subsingleton ↥K := by rw [hbot]; infer_instance
     exact false_of_nontrivial_of_subsingleton ↥K
   have hfaith : ∀ e ∈ D, (∀ k ∈ K, e * k = k * e) → e = 1 :=
     sixfourteen_n3_D_faithful_on_L_rel hw2 S.isK S.o2 S.irr S.cost S.XG S.Xnorm S.Xcard
@@ -65,7 +65,7 @@ theorem Std139.lemmaD (hw2 : ∀ w : W, w ^ 2 = 1) (S : Std139 G X D s Y n) (hn 
 
 theorem transvectionBound (hw2 : ∀ w : W, w ^ 2 = 1) (D : Subgroup (MulAut W))
     (U₀ A : Subgroup W) (hAU : A ≤ U₀) (hidx : E3.mQuot U₀ A = 1)
-    (hU : ∀ e ∈ D, ∀ u ∈ U₀, e u ∈ U₀) (hfaith : ∀ e ∈ D, (∀ u ∈ U₀, e u = u) → e = 1)
+    (_hU : ∀ e ∈ D, ∀ u ∈ U₀, e u ∈ U₀) (hfaith : ∀ e ∈ D, (∀ u ∈ U₀, e u = u) → e = 1)
     (h1 : ∀ e ∈ D, ∀ u ∈ U₀, e u * u⁻¹ ∈ A) (h2 : ∀ e ∈ D, ∀ a ∈ A, e a = a) :
     Nat.card D ≤ Nat.card A := by
   have hV : IsPGroup 2 U₀ := (isPGroup_two_of_sq_eq_one hw2).to_subgroup U₀

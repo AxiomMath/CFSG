@@ -83,7 +83,7 @@ theorem tcjLin_component_lift {K Q : Type*} [Group K] [Group Q] [Finite K]
       intro y
       exact Subtype.ext (Subgroup.mem_center_iff.1 hxz (y : K))
     obtain ⟨e⟩ := center_quot_equiv_of_surjective hperfJ.commutator_eq_top f hfsurj hfker
-    haveI : IsSimpleGroup (↥A ⧸ Subgroup.center ↥A) := hAsimple
+    have : IsSimpleGroup (↥A ⧸ Subgroup.center ↥A) := hAsimple
     exact MulEquiv.isSimpleGroup e.symm
   have hsub : CFSG.Assembly.IsSubnormal J (fixSubgroup α) := by
     have h1 : CFSG.Assembly.IsSubnormal A₁ ((fixSubgroup β).comap π) := hAsub.comap π
@@ -216,7 +216,7 @@ theorem tcjLin_component_canonLabel_eq_typeA_of_labelDict (hP2 : LinLabelDict)
       omega
     · exact h0
   have h2 : (2 : K) = 0 := by
-    haveI := Fintype.ofFinite K
+    have := Fintype.ofFinite K
     obtain ⟨q, hq, n, hqp, hqcard⟩ := FiniteField.card' K
     rw [Nat.card_eq_fintype_card, hqcard] at hcard
     have hdvd : q ∣ 2 ^ (canonLabel labK).n := by

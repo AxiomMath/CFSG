@@ -35,7 +35,7 @@ theorem z_mem_of_not_le (hOuter : KFact64iiOuterSylow) (hI121 : KFact64iiI121)
 theorem exists_uncovered_component (hOuter : KFact64iiOuterSylow) (hI121 : KFact64iiI121) :
     ∃ K : Subgroup Z, IsComponentOf K ⊤ ∧ ¬ K ≤ M := by
   have hp := h.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hcon
   push Not at hcon
   obtain ⟨L, hL⟩ := exists_isComponentOf_Z hp h.ne_two h.core S h.not_isCyclic_sylow h.S_le
@@ -44,21 +44,21 @@ theorem exists_uncovered_component (hOuter : KFact64iiOuterSylow) (hI121 : KFact
     intro K hK
     by_contra hKL
     have h2 := two_le_pRank_of_two_components hp h.ne_two h.core S hL hK (Ne.symm hKL)
-    haveI hNn : (sSup {M : Subgroup Z | IsComponentOf M ⊤}).Normal := normal_sSup_components
+    have hNn : (sSup {M : Subgroup Z | IsComponentOf M ⊤}).Normal := normal_sSup_components
     have hNY : sSup {M : Subgroup Z | IsComponentOf M ⊤} ≤ M := sSup_le fun K hK => hcon K hK
     exact h.not_top (top_le_of_normal hp S hNY h2 h.gamma)
-  haveI hLn : L.Normal := normal_of_unique_component hL huniq
+  have hLn : L.Normal := normal_of_unique_component hL huniq
   have hLM : L ≤ M := hcon L hL
   have hcenL : Subgroup.center ↥L = ⊥ := h.center_component_eq_bot hL
   have hOp : CFSG.pCore p Z = ⊥ := by
     by_contra hne
-    haveI : (CFSG.pCore p Z).Normal := CFSG.pCore_normal
+    have : (CFSG.pCore p Z).Normal := CFSG.pCore_normal
     have hUS : CFSG.pCore p Z ≤ (S : Subgroup Z) := P64Free.pCore_le_sylow S
     obtain ⟨u₀, hu₀1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hne
     have hu₀S : ((u₀ : ↥(CFSG.pCore p Z)) : Z) ∈ (S : Subgroup Z) := hUS u₀.2
     have hu₀1' : ((u₀ : ↥(CFSG.pCore p Z)) : Z) ≠ 1 := fun h1 => hu₀1 (Subtype.ext h1)
     obtain ⟨n, hn⟩ : ∃ n, orderOf (⟨((u₀ : ↥(CFSG.pCore p Z)) : Z), hu₀S⟩ : (S : Subgroup Z)) =
-        p ^ n := IsPGroup.iff_orderOf.mp S.isPGroup' ⟨_, hu₀S⟩
+        p ^ n := IsPGroup.iff_orderOf.mp S.isPGroup ⟨_, hu₀S⟩
     rw [Subgroup.orderOf_mk] at hn
     obtain ⟨k, hk⟩ := exists_pow_orderOf_eq_prime hp hn hu₀1'
     set u : Z := ((u₀ : ↥(CFSG.pCore p Z)) : Z) ^ k with hu
@@ -86,7 +86,7 @@ theorem exists_uncovered_component (hOuter : KFact64iiOuterSylow) (hI121 : KFact
       exact (Commute.zpow_right (show Commute l u from (mem_centralizer_iff.mp hucent) l hl) m).eq
     have hcomm : u * y = y * u := ((mem_centralizer_iff.mp hucent) y hyQL.2).symm
     obtain ⟨hel, hcard⟩ := SU1.isElemAbelian_card_sup_zpowers hp hup hyp hu1 hyu hcomm
-    haveI : (L ⊔ CFSG.pCore p Z).Normal := inferInstance
+    have : (L ⊔ CFSG.pCore p Z).Normal := inferInstance
     have hNY : L ⊔ CFSG.pCore p Z ≤ M := sup_le hLM (hUS.trans h.S_le)
     have hle : zpowers u ⊔ zpowers y ≤ (S : Subgroup Z) ⊓ (L ⊔ CFSG.pCore p Z) :=
       sup_le (zpowers_le.mpr ⟨hUS huU, mem_sup_right huU⟩)
@@ -164,7 +164,7 @@ theorem top_le_normalizer_component {K : Subgroup Z} (hK : IsComponentOf K ⊤)
   have hp := h.prime
   have h2 := two_le_pRank_of_two_components hp h.ne_two h.core S (isComponentOf_map_conj hK g)
     hK hne
-  haveI : (sSup {M : Subgroup Z | IsComponentOf M ⊤}).Normal := normal_sSup_components
+  have : (sSup {M : Subgroup Z | IsComponentOf M ⊤}).Normal := normal_sSup_components
   have hNK : sSup {M : Subgroup Z | IsComponentOf M ⊤} ≤ normalizer (K : Set Z) := by
     refine sSup_le fun L hL => ?_
     by_cases hLK : L = K

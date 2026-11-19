@@ -211,7 +211,7 @@ theorem pcw_spec {NW XW : Nat → Nat → Nat} {words : List (List Nat)} {defs :
     change Nat.beq (walkP NW (genW words defs j) (tpl k)) (netF (XW j) (tpl k)) = true at e
     have e2 : (walkP NW (genW words defs j) (tpl k)).testBit q = (netF (XW j) (tpl k)).testBit q := by
       rw [Nat.eq_of_beq_eq_true e]
-    simp only [if_pos h4] at hw ⊢
+    simp only [ite_eq_left h4] at hw ⊢
     rw [testBit_walkP _ hw, testBit_netF hj] at e2
     exact e2.symm
   · have hb : Nat.blt j 4 = false := by
@@ -222,7 +222,7 @@ theorem pcw_spec {NW XW : Nat → Nat → Nat} {words : List (List Nat)} {defs :
     change Nat.beq (walkP XW (genW words defs j) (tpl k)) (netF (XW j) (tpl k)) = true at e
     have e2 : (walkP XW (genW words defs j) (tpl k)).testBit q = (netF (XW j) (tpl k)).testBit q := by
       rw [Nat.eq_of_beq_eq_true e]
-    simp only [if_neg h4] at hw ⊢
+    simp only [ite_eq_right h4] at hw ⊢
     rw [testBit_walkP _ hw, testBit_netF hj] at e2
     exact e2.symm
 
@@ -396,12 +396,12 @@ theorem kids_eq (i y g : Nat) (rest : List Nat) : kids i y g rest =
   rw [land3]
   dsimp only
   by_cases h0 : g % 4 = 0
-  · rw [if_pos h0, h0]
+  · rw [ite_eq_left h0, h0]
     rfl
   · by_cases h1 : g % 4 = 1
-    · rw [if_neg h0, if_pos h1, h1]
+    · rw [ite_eq_right h0, ite_eq_left h1, h1]
       rfl
-    · rw [if_neg h0, if_neg h1, beq_false' h0, beq_false' h1]
+    · rw [ite_eq_right h0, ite_eq_right h1, beq_false' h0, beq_false' h1]
       change y :: (Nat.add y (gw i)) :: (Nat.add y (Nat.shiftLeft (gw i) 1)) :: rest = _
       rw [gw_eq, Nat.shiftLeft_eq', Nat.shiftLeft_eq, pow_one, mul_comm]
       rfl
@@ -411,12 +411,12 @@ theorem mem_kids_rest {i y g a : Nat} {rest : List Nat} (h : a ∈ rest) : a ∈
   split_ifs <;> simp [h]
 
 theorem mem_kids_one {i y g : Nat} {rest : List Nat} (h : g % 4 = 1) : y ∈ kids i y g rest := by
-  rw [kids_eq, if_neg (by omega), if_pos h]
+  rw [kids_eq, ite_eq_right (by omega), ite_eq_left h]
   exact List.mem_cons_self
 
 theorem mem_kids_two {i y g : Nat} {rest : List Nat} (h : g % 4 = 2) {e : Nat} (he : e < 3) :
     y + e * 4 ^ i ∈ kids i y g rest := by
-  rw [kids_eq, if_neg (by omega), if_neg (by omega)]
+  rw [kids_eq, ite_eq_right (by omega), ite_eq_right (by omega)]
   rcases (by omega : e = 0 ∨ e = 1 ∨ e = 2) with rfl | rfl | rfl <;> simp
 
 theorem mem_kidsL {i : Nat} : ∀ {L G : List Nat} {j : Nat}, j < L.length → j < G.length →
@@ -767,7 +767,7 @@ private theorem orbC1_iff {TB : Nat} {gs : List Nat} {b0 r S : Nat} :
   unfold orbC1 OrbAcc
   rw [bIf_eq]
   by_cases hs : S % 2 ^ 20 = 0
-  · rw [if_pos (beq_iff.2 hs)]
+  · rw [ite_eq_left (beq_iff.2 hs)]
     constructor
     · intro h
       exact Or.inl ⟨hs, beq_iff.1 h⟩
@@ -775,7 +775,7 @@ private theorem orbC1_iff {TB : Nat} {gs : List Nat} {b0 r S : Nat} :
       rcases h with ⟨-, hb⟩ | ⟨hne, -⟩
       · exact beq_iff.2 hb
       · exact absurd hs hne
-  · rw [if_neg (by rw [beq_false' hs]; simp)]
+  · rw [ite_eq_right (by rw [beq_false' hs]; simp)]
     constructor
     · intro h
       rw [bAnd_true_iff, bAnd_true_iff] at h

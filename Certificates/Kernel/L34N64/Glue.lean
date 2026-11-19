@@ -30,7 +30,7 @@ theorem rep_pw0 : RepP pw0 (adM w0 w0) := by
   intro i j
   have hk : 8 * i.val + j.val < 64 := by omega
   have e : (⟨8 * i.val + j.val, hk⟩ : Fin 64) = pos8 i j := rfl
-  rw [pw0, ln_pk64 (entC_lt _), entC, dif_pos hk, e, row8_pos8, col8_pos8]
+  rw [pw0, ln_pk64 (entC_lt _), entC, dite_eq_left hk, e, row8_pos8, col8_pos8]
 
 theorem adGL_w0GL : adGL w0GL = adM w0 w0 := by
   rw [adGL, coe_w0GL, coe_w0GL_inv]

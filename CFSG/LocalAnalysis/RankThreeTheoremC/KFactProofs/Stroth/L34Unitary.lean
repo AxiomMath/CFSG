@@ -294,7 +294,7 @@ open KFactProofs.Stroth.L34Unitary in
 theorem kFactL34Unitary :
     KFactL34Unitary := by
   intro X _ _ K hKn hC hL T hT hTc hTK
-  haveI := hKn
+  have := hKn
   obtain ⟨hcard, hβ⟩ := part_one hC hL hT hTc hTK
   refine ⟨hcard, fun β hβO => ⟨(hβ β hβO).2, fun hβ1 S₀ hSK hS u huT hu3 huS D hDK hND hβD => ?_⟩⟩
   exact part_two hC hL (by rw [hTc]; norm_num) hTK hβ1 (hβ β hβO).1 (hβ β hβO).2 hSK hS huT hu3

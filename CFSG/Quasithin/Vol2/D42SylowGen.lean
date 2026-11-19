@@ -62,8 +62,8 @@ theorem card_dvd_of_sylow_le {X : Type} [Group X] [Finite X]
 theorem sylow_sup_sylow_two_eq_top {X : Type} [Group X] [Finite X]
     (hm : ChevalleyExceptionalModel X .trialityD4 2 1) {p : ℕ} (hp : p.Prime) (hodd : Odd p)
     (hpX : p ∣ Nat.card X) (R : Sylow p X) (Q : Sylow 2 X) : (R : Subgroup X) ⊔ Q = ⊤ := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard : Nat.card X = 2 ^ 12 * 3 ^ 4 * 7 ^ 2 * 13 := by
     obtain ⟨-, K, _, _, σ, hK, hσ, ⟨e⟩⟩ := exists_mulEquiv_triality_model hm
     refine (Nat.card_congr e.toEquiv).trans (((triality_both_orientations_exact_finite_order 2 1
@@ -72,7 +72,7 @@ theorem sylow_sup_sylow_two_eq_top {X : Type} [Group X] [Finite X]
     exact hσ c
   by_contra hM
   have hQ : CFSG.QuasithinUnique.IsSylowTwoOf (Q : Subgroup X) ⊤ := by
-    refine ⟨le_top, Q.isPGroup', ?_⟩
+    refine ⟨le_top, Q.isPGroup, ?_⟩
     change ¬ 2 ∣ (Q : Subgroup X).relIndex ⊤
     rw [Subgroup.relIndex_top_right]
     exact Q.not_dvd_index

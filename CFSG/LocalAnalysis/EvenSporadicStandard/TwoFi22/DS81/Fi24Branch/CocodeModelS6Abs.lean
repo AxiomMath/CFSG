@@ -13,15 +13,15 @@ theorem commutator_le_of_card_eq_three_mul {G : Type*} [Group G] [Finite G]
     ⁅N, N⁆ ≤ K := by
   have hcard : Nat.card (K.subgroupOf N) = Nat.card K :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hKN).toEquiv
-  haveI : Nonempty K := ⟨1⟩
+  have : Nonempty K := ⟨1⟩
   have hidx : (K.subgroupOf N).index = 3 := by
     have h := Subgroup.card_mul_index (K.subgroupOf N)
     rw [hcard, hc, mul_comm 3 (Nat.card K)] at h
     exact Nat.mul_left_cancel (Nat.card_pos (α := K)) h
   have hquot : Nat.card (N ⧸ K.subgroupOf N) = 3 := by
     simpa only [Subgroup.index] using hidx
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : IsCyclic (N ⧸ K.subgroupOf N) := isCyclic_of_prime_card hquot
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsCyclic (N ⧸ K.subgroupOf N) := isCyclic_of_prime_card hquot
   have hcomm : IsMulCommutative (N ⧸ K.subgroupOf N) := inferInstance
   have hle : _root_.commutator N ≤ K.subgroupOf N :=
     Subgroup.Normal.quotient_commutative_iff_commutator_le.mp hcomm
@@ -34,7 +34,7 @@ theorem ker_le_of_normal {G : Type*} [Group G] (π : G →* Equiv.Perm (Fin 6))
     (hπ : Function.Surjective π) {T K M : Subgroup G} [M.Normal]
     (hT : T ≤ ⁅T, T⁆) (hNT : π.ker ≤ T) (hTA : T.map π ≤ alternatingGroup (Fin 6))
     (hNK : ⁅π.ker, π.ker⁆ ≤ K) (hKM : K ≤ M) (hM : ¬ M ≤ π.ker) : π.ker ≤ M := by
-  haveI hMnorm : (M.map π).Normal := Subgroup.Normal.map ‹M.Normal› π hπ
+  have hMnorm : (M.map π).Normal := Subgroup.Normal.map ‹M.Normal› π hπ
   have hMnt : Nontrivial (M.map π) := by
     rw [Subgroup.nontrivial_iff_exists_ne_one]
     obtain ⟨m, hmM, hm⟩ := Set.not_subset.mp hM
@@ -87,7 +87,7 @@ theorem card_eq_of_ker_le {G : Type*} [Group G] [Finite G] (π : G →* Equiv.Pe
   ·
     right
     have hnt : Nontrivial X := (Subgroup.nontrivial_iff_ne_bot X).mpr hXbot
-    haveI : X.Normal := hXN
+    have : X.Normal := hXN
     have hA6 : alternatingGroup (Fin 6) ≤ X :=
       Equiv.Perm.alternatingGroup_le_of_normal (α := Fin 6)
         (by rw [Nat.card_eq_fintype_card, Fintype.card_fin]; norm_num) hnt
@@ -167,21 +167,20 @@ theorem eq_bot_of_normal_isPGroup {c : Fin 6} {Y : Subgroup (Equiv.Perm (Fin 6))
     change Function.Injective (Equiv.Perm.ofSubtype (p := fun x : Fin 6 => x ≠ c))
     exact Equiv.Perm.ofSubtype_injective
   have hY'2 : IsPGroup 2 Y' := hY2.comap_of_injective φ hφinj
-  haveI hY'norm : Y'.Normal :=
+  have hY'norm : Y'.Normal :=
     ⟨fun x hx s => by
       change φ (s * x * s⁻¹) ∈ Y
       rw [map_mul, map_mul, map_inv]
       refine hYn (φ s) ?_ (φ x) ?_
       · change Equiv.Perm.ofSubtype s c = c
         exact Equiv.Perm.ofSubtype_apply_of_not_mem s (by simp)
-      · change φ x ∈ Y
-        exact hx⟩
+      · exact hx⟩
   have hcardα : Nat.card α = 5 := by
     rw [Nat.card_eq_fintype_card]
     rw [show Fintype.card α = Fintype.card { x : Fin 6 // ¬(x = c) } from rfl]
     rw [Fintype.card_subtype_compl (fun x : Fin 6 => x = c), Fintype.card_subtype_eq,
       Fintype.card_fin]
-  haveI : Nontrivial α := by
+  have : Nontrivial α := by
     refine Fintype.one_lt_card_iff_nontrivial.mp ?_
     rw [← Nat.card_eq_fintype_card, hcardα]
     norm_num

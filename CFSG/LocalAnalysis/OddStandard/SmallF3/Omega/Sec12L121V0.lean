@@ -63,7 +63,7 @@ theorem sec121_exists_V0 (F : Sec12Frame t L S) (hE : IsSylow2Of E (secCMB t S L
         rw [hstep]
         exact V0.mul_mem (Subgroup.subset_closure (Or.inr ⟨σ i, σ j, rfl⟩))
           (hB_le_V0 ((secB S L).mul_mem (hc i) (hc j)))
-    · simpa using V0.one_mem
+    · simp
     · intro a b _ _ iha ihb
       rw [show y * (a * b) * y⁻¹ = (y * a * y⁻¹) * (y * b * y⁻¹) by group]
       exact V0.mul_mem iha ihb

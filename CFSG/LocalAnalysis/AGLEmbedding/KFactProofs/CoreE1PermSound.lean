@@ -63,6 +63,7 @@ private theorem movesCentre_map (e : K ≃* L) {T E : Subgroup K} (h : MovesCent
     rw [← MulEquiv.orderOf_eq e] at h2
     simpa using h2
 
+omit [Finite K] [Finite L] in
 private theorem transitiveOn_map (e : K ≃* L) {E : Subgroup K} (h : TransitiveOn K E) :
     TransitiveOn L (E.map e.toMonoidHom) := by
   intro u hu v hv hu1 hv1
@@ -524,7 +525,7 @@ private theorem rep_invK (T : Array Tab) (S : List ↥G)
 
 private theorem mem_toList_of_contains {T : Array Tab} {t : Tab} (h : T.contains t = true) :
     t ∈ T.toList :=
-  Array.mem_def.1 (Array.contains_iff.1 h)
+  Array.mem_def.1 (_root_.Array.contains_iff_mem.1 h)
 
 private theorem all_toList {T : Array Tab} {p : Tab → Bool} (h : T.all p = true) :
     ∀ t ∈ T.toList, p t = true := fun t ht =>
@@ -687,13 +688,13 @@ private theorem nrm_spec {i : ℕ} {z x k : ↥G}
   unfold nrmOK at h
   constructor
   · intro h2
-    rw [if_pos h2] at h
+    rw [ite_eq_left h2] at h
     simp only [Bool.and_eq_true, beq_iff_eq] at h
     obtain ⟨h1, h2'⟩ := h
     exact ⟨(tabRep_eq_iff (tabRep_mul hg hzt) (tabRep_mul (hzx _ _) hg)).1 h1,
       (tabRep_eq_iff (tabRep_mul hg hxt) (tabRep_mul (hzx _ _) hg)).1 h2'⟩
   · intro h2
-    rw [if_neg (by simp [h2])] at h
+    rw [ite_eq_right (by simp [h2])] at h
     simp only [Bool.and_eq_true, Bool.not_eq_true', beq_eq_false_iff_ne, ne_eq,
       beq_iff_eq] at h
     obtain ⟨h1, h2'⟩ := h
@@ -764,7 +765,7 @@ private theorem entry_sound (wv : List ℤ → ↥G)
       exact mem_glbCore_of_normalizer hE1 (mem_normalizer_closure_pair h1 h2)
   by_cases hmove : e.move = true
   · left
-    rw [if_pos hmove] at hmain
+    rw [ite_eq_left hmove] at hmain
     simp only [moveOK, Bool.and_eq_true, beq_iff_eq, Bool.not_eq_true', beq_eq_false_iff_ne,
       ne_eq] at hmain
     obtain ⟨⟨⟨⟨hsz, hinv⟩, hne⟩, hpow⟩, hm3⟩ := hmain
@@ -779,7 +780,7 @@ private theorem entry_sound (wv : List ℤ → ↥G)
       ((tabRep_eq_iff (tabRep_pow hcrep e.m) tabRep_one).1 hpow)
       (fun h' => hm3 (Nat.mod_eq_zero_of_dvd h'))
   · right
-    rw [if_neg hmove] at hmain
+    rw [ite_eq_right hmove] at hmain
     simp only [transOK, Bool.and_eq_true, beq_iff_eq, allBelow_eq_true, List.all_eq_true,
       Bool.or_eq_true] at hmain
     obtain ⟨⟨hall, -⟩, hwords⟩ := hmain

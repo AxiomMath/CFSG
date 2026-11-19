@@ -56,7 +56,7 @@ theorem xi6_injective (hq : ℓ ^ f = 2) (i₀ : Fin 6) : Function.Injective (xi
     obtain ⟨c, -, -, hc⟩ := hmem
     have h1 : c = 1 := by
       have := congrArg (fun g : GL (Fin 6) K => ((g : Matrix (Fin 6) (Fin 6) K)) i₀ i₀) hc
-      rw [coe_phi6, frameEmb_cframe6_left, if_pos rfl,
+      rw [coe_phi6, frameEmb_cframe6_left, ite_eq_left rfl,
         scalar_coe_eq_smul_one, Matrix.smul_apply,
         Matrix.one_apply_eq, smul_eq_mul, mul_one] at this
       exact Units.ext this.symm

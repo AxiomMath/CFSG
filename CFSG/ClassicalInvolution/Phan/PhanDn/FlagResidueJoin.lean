@@ -167,7 +167,7 @@ theorem flagResidue_conn_tri_of_gap (E : QuadExt F K σ) {J C : Set (Fin (m + 1)
       hP s t ((hC s).1 hs).1 ht fun h => htC ((hC t).2 ⟨ht, h.1 ((hC s).1 hs).2⟩)
   have hset : {x | part x = true} = {x | flagTyp x.1 ∈ C} := by
     ext x
-    simp only [part, Set.mem_setOf_eq, decide_eq_true_iff]
+    simp only [part, Set.mem_ofPred_eq, decide_eq_true_iff]
     exact ⟨fun h => (hC _).2 ⟨x.2.1, h⟩, fun h => ((hC _).1 h).2⟩
   have hP' : ((residueGraph (flagGraph σ m) flagTyp (flagChamber E m) J).induce
       {x | part x = true}).Connected := by

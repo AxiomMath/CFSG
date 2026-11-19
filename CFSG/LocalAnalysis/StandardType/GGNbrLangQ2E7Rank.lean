@@ -78,8 +78,8 @@ theorem pow_six_le_card_range_gamma_J_of_e7TagJ
   unfold GGHasLabel at hJdata
   simp only [LargeEvenRawDatum, htagJ] at hJdata
   obtain ⟨K, hKfield, hKfin, hKcard, eJ⟩ := hJdata
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
+  let : Field K := hKfield
+  let : Finite K := hKfin
   have hchar : CharP K 2 := charP_two_of_card hKcard
   obtain ⟨eJ⟩ := eJ
   let θJ : ↥J ⧸ Subgroup.center ↥J ≃* TableBExc.RecipeGroup .E7 K := eJ

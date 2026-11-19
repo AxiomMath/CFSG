@@ -18,8 +18,8 @@ theorem countProducts_mono {f f' : Table → Bool} (h : ∀ T, f T = true → f'
   | [], g => by
     simp only [countProducts]
     by_cases hf : f g = true
-    · rw [if_pos hf, if_pos (h g hf)]
-    · rw [if_neg hf]
+    · rw [ite_eq_left hf, ite_eq_left (h g hf)]
+    · rw [ite_eq_right hf]
       exact Nat.zero_le _
   | T :: Ts, g => by
     simp only [countProducts]

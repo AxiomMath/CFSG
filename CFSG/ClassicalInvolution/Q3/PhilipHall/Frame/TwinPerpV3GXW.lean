@@ -56,7 +56,7 @@ theorem wUnique_card_le (hP : Q3CL.PartIHypG Φ) {V : Subgroup X} (hV : WSet Φ 
     exists_rep_member hP hVW hVn h2 hK
   obtain ⟨ρA, hρA⟩ := repOf A hA
   obtain ⟨ρB, hρB⟩ := repOf B hB
-  haveI : Nonempty (Rep Φ V) := ⟨ρA⟩
+  have : Nonempty (Rep Φ V) := ⟨ρA⟩
   choose! ρ hρ using repOf
   have hne : ρA.K ≠ ρB.K := by rw [hρA, hρB]; exact hAB.symm
   have hstar : ρB.K ∈ omegaStarNbr Φ ρA.K := muTab_omegaStar hP hVW ρA ρB hne

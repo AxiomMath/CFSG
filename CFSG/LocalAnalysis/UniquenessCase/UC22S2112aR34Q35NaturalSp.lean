@@ -114,7 +114,7 @@ theorem adjoin_spP0_eq_top (hK : ringChar K ≠ 2) {a b : K} (h : a ^ 2 + b ^ 2 
         (Fin 2 ⊕ Fin 2) K) =
         Matrix.reindexAlgEquiv K K spPlaneOrder (g : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K) := by
     intro g
-    rw [Equiv.coe_reindexGL, Matrix.reindexAlgEquiv_apply, Matrix.reindex_apply]
+    rw [Equiv.coe_reindexGL, Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply]
   have hset : ((fun g : GL (Fin 2 ⊕ Fin 2) K =>
       (g : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K)) '' (spP0 h : Set (GL (Fin 2 ⊕ Fin 2) K))) =
       (Matrix.reindexAlgEquiv K K spPlaneOrder) ''

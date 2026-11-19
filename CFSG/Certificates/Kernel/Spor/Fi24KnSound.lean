@@ -70,7 +70,7 @@ theorem knOK_spec {TG : ℕ → ℕ → ℕ} {FD : ℕ → ℕ} {L A B : ℕ →
   rw [bIf_t] at h2
   by_cases hij : i = j
   · subst hij
-    rw [if_pos (Nat.beq_refl i)] at h2
+    rw [ite_eq_left (Nat.beq_refl i)] at h2
     obtain ⟨e1, e2⟩ := andB_t.1 h2
     obtain ⟨e3, e4⟩ := andB_t.1 e2
     exact ⟨fun _ => ⟨Nat.eq_of_beq_eq_true e1, by simpa using e3, by simpa using e4⟩,
@@ -79,7 +79,7 @@ theorem knOK_spec {TG : ℕ → ℕ → ℕ} {FD : ℕ → ℕ} {L A B : ℕ →
       cases h : Nat.beq i j
       · rfl
       · exact absurd (Nat.eq_of_beq_eq_true h) hij
-    rw [if_neg (by rw [hb]; decide)] at h2
+    rw [ite_eq_right (by rw [hb]; decide)] at h2
     obtain ⟨e1, e2⟩ := andB_t.1 h2
     refine ⟨fun h => absurd h hij, fun _ => ⟨?_, ?_⟩⟩
     · rintro ⟨ha, hb'⟩

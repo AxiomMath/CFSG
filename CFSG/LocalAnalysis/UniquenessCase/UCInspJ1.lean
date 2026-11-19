@@ -82,7 +82,7 @@ theorem factorization_three_card_J :
 
 theorem inspJ1_core (D : Subgroup J) (hD : Nat.card D = 3) :
     ∃ R : Subgroup J, InspPair 7 D R := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hfac := factorization_three_card_J
   have hb : Nat.card (Subgroup.zpowers (CFSG.Sporadic.J1.b : J)) =
       3 ^ (Nat.card J).factorization 3 := by

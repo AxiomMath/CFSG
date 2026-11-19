@@ -137,7 +137,7 @@ theorem str86_bigB_le_normalizer_D_sup
     have hcQ1h : c ∈ Subgroup.normalizer ((MulAut.conj h • Q1 L1 L2 S : Subgroup G) : Set G) := by
       rw [Subgroup.mem_normalizer_iff]
       intro x
-      simp only [SetLike.mem_coe, mem_conj_smul_iff']
+      simp only [mem_conj_smul_iff']
       have hN := hBQ1 hchB
       have e : h⁻¹ * (c * x * c⁻¹) * h = (h⁻¹ * c * h) * (h⁻¹ * x * h) * (h⁻¹ * c * h)⁻¹ := by
         group
@@ -147,7 +147,7 @@ theorem str86_bigB_le_normalizer_D_sup
         (((MulAut.conj h • Q1 L1 L2 S) ⊓ Q2 L1 L2 S : Subgroup G) : Set G) := by
       rw [Subgroup.mem_normalizer_iff]
       intro x
-      simp only [SetLike.mem_coe, Subgroup.mem_inf]
+      simp only [Subgroup.mem_inf]
       rw [Subgroup.mem_normalizer_iff.mp hcQ1h x, Subgroup.mem_normalizer_iff.mp (hBQ2 hcB) x]
     have hzp : Subgroup.zpowers c ≤ Subgroup.normalizer
         (((MulAut.conj h • Q1 L1 L2 S) ⊓ Q2 L1 L2 S : Subgroup G) : Set G) :=

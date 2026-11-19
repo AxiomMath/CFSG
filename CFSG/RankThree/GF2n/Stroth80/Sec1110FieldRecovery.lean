@@ -18,13 +18,13 @@ variable {G : Type} [Group G] [Finite G]
 theorem card_eq_two_pow_of_naturalRep (hc : Ctx M Q Z B)
     {m x : ℕ} (hm : 3 ≤ m)
     {K : Type} [Field K] [Finite K] {X₁ X₂ : Subgroup G}
-    (hX₁ : X₁ = Z) (hX₂Q : X₂ ≤ Q)
+    (_hX₁ : X₁ = Z) (hX₂Q : X₂ ≤ Q)
     (nat2 : NaturalRep (ι := Fin m) K (StatedSL m K) (XbarPre M Q Z B) X₂ X₁ (Q))
     (hLm : CFSG.Blueprint.LieModel (XbarMod M Q Z B) .PSL m 2 x) :
     Nat.card K = 2 ^ x := by
   obtain ⟨hQn, hNE⟩ := quotMulEquivBar (M := M) (Q := Q)
     (S := XbarPre M Q Z B) (Q_le_XbarPre hc) (XbarPre_le_M hc)
-  letI := hQn
+  let := hQn
   obtain ⟨eBar⟩ := hNE
   let ePre : ↥(XbarPre M Q Z B) ⧸ Q.subgroupOf (XbarPre M Q Z B) ≃* Xbar M Q Z B :=
     eBar.trans (MulEquiv.subgroupCongr (bar_XbarPre hc))
@@ -45,7 +45,7 @@ theorem card_eq_two_pow_of_naturalRep (hc : Ctx M Q Z B)
   obtain ⟨hadm, F, hF, hFfin, hFcard, ⟨eModF⟩⟩ := hCM
   have hx1 : 1 ≤ x := hadm.2.1
   have hKpow : ∃ f, 1 ≤ f ∧ Nat.card K = 2 ^ f := by
-    haveI hN' : (X₁.subgroupOf X₂).Normal := hN
+    have hN' : (X₁.subgroupOf X₂).Normal := hN
     have hcardV : Nat.card (↥X₂ ⧸ X₁.subgroupOf X₂) = Nat.card K ^ m := by
       rw [Nat.card_congr ψ.toEquiv, Nat.card_congr Multiplicative.toAdd, Nat.card_fun,
         Nat.card_fin]
@@ -55,12 +55,12 @@ theorem card_eq_two_pow_of_naturalRep (hc : Ctx M Q Z B)
     have hX₂2 : IsPGroup 2 X₂ := hQ2.to_le hX₂Q
     have hquot2 : IsPGroup 2 (↥X₂ ⧸ X₁.subgroupOf X₂) :=
       hX₂2.to_quotient (X₁.subgroupOf X₂)
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨a, ha⟩ := (IsPGroup.iff_card (p := 2) (G := ↥X₂ ⧸ X₁.subgroupOf X₂)).mp hquot2
     have hpow : Nat.card K ^ m = 2 ^ a := by
       rw [← hcardV, ha]
-    letI : Fintype K := Fintype.ofFinite K
-    haveI := ringChar.charP K
+    let : Fintype K := Fintype.ofFinite K
+    have := ringChar.charP K
     obtain ⟨n, hp, hn⟩ := FiniteField.card K (ringChar K)
     have hcardK : Nat.card K = (ringChar K) ^ (n : ℕ) := by
       rw [Nat.card_eq_fintype_card]

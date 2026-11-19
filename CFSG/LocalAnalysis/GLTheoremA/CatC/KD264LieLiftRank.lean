@@ -54,6 +54,7 @@ private theorem card_le_pow_pRank_center_of_le_center {K : Subgroup Y} {p : ℕ}
     _ ≤ p ^ CFSG.Open.pRank p (Subgroup.center ↥K) :=
       Nat.pow_le_pow_right hp.pos (CFSG.SectionRank.pRank_mono hp1 hF'le)
 
+omit [Finite Y] in
 private theorem not_mem_sup_of_rho_not_inner {K B : Subgroup Y}
     (hBN : B ≤ Subgroup.normalizer (K : Set Y)) {S : Type} [Group S]
     (eK : ↥K ⧸ Subgroup.center ↥K ≃* S) {b : ↥B}
@@ -83,6 +84,7 @@ private theorem not_mem_sup_of_rho_not_inner {K B : Subgroup Y}
       _ = k⁻¹ * y * k := by group
   exact h (kd264Rho_mem_range_conj hBN eK b ⟨k, hkK⟩ hconj)
 
+omit [Finite Y] in
 private theorem onCenterQuotient_normalizerConjAutOfMem {K B : Subgroup Y}
     (hBN : B ≤ Subgroup.normalizer (K : Set Y)) (b : ↥B) :
     onCenterQuotient (normalizerConjAutOfMem K B hBN b) =
@@ -112,7 +114,7 @@ theorem kd264LiftLow_holds (hI5 : KD264I5Low) {p : ℕ} (hp : p.Prime) (hp2 : p 
     KD264LiftLow p := by
   intro Y instY finY K B hBN d instD eK m hq hB hmax hcardrange k hk
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp1 : 1 < p := hp.one_lt
   have hperf : Group.IsPerfect ↥K := ⟨hq.1⟩
   set C : Subgroup Y := B ⊓ Subgroup.centralizer (K : Set Y) with hCdef
@@ -168,7 +170,7 @@ private theorem noMult_pRank_top_le {K B : Subgroup Y}
     (hcardrange : Nat.card (kd264Rho hBN eK).range = p ^ m)
     (hZ : Subgroup.center ↥K = ⊥) :
     CFSG.Open.pRank p (⊤ : Subgroup S) ≤ m := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp1 : 1 < p := hp.one_lt
   set C : Subgroup Y := B ⊓ Subgroup.centralizer (K : Set Y) with hCdef
   have hBcard : Nat.card B = p ^ m * Nat.card ↥C :=
@@ -217,7 +219,7 @@ private theorem noMult_outer_rank {K B : Subgroup Y}
     ∀ a ∈ (kd264Rho hBN eK).range, a ∉ (MulAut.conj : S →* MulAut S).range →
       ∀ E : Subgroup S, E ≤ fixSubgroup a → IsElemAbelian p E →
         CFSG.Open.pRank p E + 1 ≤ m := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp1 : 1 < p := hp.one_lt
   set C : Subgroup Y := B ⊓ Subgroup.centralizer (K : Set Y) with hCdef
   have hBcard : Nat.card B = p ^ m * Nat.card ↥C :=
@@ -317,11 +319,11 @@ private theorem noMult_outer_rank {K B : Subgroup Y}
   have h4 : CFSG.Open.pRank p E + 1 ≤ m := (Nat.pow_le_pow_iff_right hp1).1 h3
   exact h4
 
-theorem kd264LiftNoMult_holds {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
+theorem kd264LiftNoMult_holds {p : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2)
     (hMult : KD264MultLie p) : KD264LiftNoMult p := by
   intro Y instY finY K B hBN d instD eK m hq hcore hB hmax hcardrange hpchar hnotmult
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hperf : Group.IsPerfect ↥K := ⟨hq.1⟩
   have hZp : IsPGroup p (Subgroup.center ↥K) :=
     isPGroup_center_of_pPrimeCore_eq_bot hp hcore
@@ -333,6 +335,7 @@ theorem kd264LiftNoMult_holds {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
       hBN hp eK hperf hB hmax hcardrange hZ
   exact ⟨hSrank, noMult_outer_rank hBN hp eK hperf hB hmax hcardrange hZ⟩
 
+omit [Finite Y] in
 private theorem field_beta_data {K B : Subgroup Y}
     (hBN : B ≤ Subgroup.normalizer (K : Set Y)) {S : Type} [Group S]
     {p : ℕ} (hp3 : p = 3) (hB : IsElemAbelian p B)
@@ -368,7 +371,7 @@ theorem kd264LiftField_holds (hI5F : KD264I5Field) {p : ℕ} (hp : p.Prime) :
     KD264LiftField p := by
   intro Y instY finY K B hBN d instD eK m hq hB hmax hcardrange hp3 a ha haout k hk
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp1 : 1 < p := hp.one_lt
   have hperf : Group.IsPerfect ↥K := ⟨hq.1⟩
   subst hp3
@@ -509,7 +512,7 @@ private theorem mrj_C'_card {K B C : Subgroup Y} {p : ℕ} (hp : p.Prime)
     (hJYcent : Jt.map K.subtype ≤ Subgroup.centralizer ({(b : Y)} : Set Y)) :
     Nat.card ↥C * p ≤
       Nat.card ↥(B ⊓ Subgroup.centralizer (Jt.map K.subtype : Set Y)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hb1 : (b : Y) ≠ 1 := by
     intro hb1'
     exact hbC (hb1' ▸ C.one_mem)
@@ -567,7 +570,7 @@ private theorem mrj_rank_step {K B C : Subgroup Y} {p m : ℕ} (hp : p.Prime)
     (hi5 : p - 2 + CFSG.Open.pRank p (Subgroup.center ↥Jt) ≤
       CFSG.Open.pRank p (⊤ : Subgroup ↥Jt)) :
     p - 1 ≤ m := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp1 : 1 < p := hp.one_lt
   set M : ℕ := CFSG.Open.pRank p (⊤ : Subgroup ↥Jt) with hMdef
   set z : ℕ := CFSG.Open.pRank p (Subgroup.center ↥Jt) with hzdef
@@ -634,7 +637,7 @@ theorem kd264LiftMRJ_holds (hI5 : KD264I5Low) {p : ℕ} (hp : p.Prime) (hp2 : p 
     KD264LiftMRJ p := by
   intro Y instY finY K B hBN d instD eK m hq hB hmax hcardrange β hβ hβ1 J hJ e he hlp
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp1 : 1 < p := hp.one_lt
   have hperf : Group.IsPerfect ↥K := ⟨hq.1⟩
   set C : Subgroup Y := B ⊓ Subgroup.centralizer (K : Set Y) with hCdef

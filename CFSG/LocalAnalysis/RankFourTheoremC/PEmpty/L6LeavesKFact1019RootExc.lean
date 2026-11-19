@@ -236,13 +236,13 @@ theorem exists_involution_of_lieModel {t : StatedLieTag} {n p f : ℕ} (hp : p.P
     (hneg : ∀ δ ∈ S, δ ≠ γ → CommRoots (modelUniv t n p f hp).D (-γ) δ) :
     ∃ t' : X, orderOf t' = 2 ∧ ∃ E : Subgroup X, E ≤ Subgroup.centralizer {t'} ∧
       IsElemAbelian p E ∧ Nat.card E = p ^ 4 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hfund' : IsFundTag t := by cases t <;> trivial
   have : Finite (CFSG.ClassicalInvolution.Generic.modelUniv t n p f hp).K :=
     finite_modelUniv hp2 hp hfund hadm
   have : Finite (modelUniv t n p f hp).K := finite_modelUniv hp2 hp hfund hadm
   obtain ⟨-, -, hsimple⟩ := CFSG.LieType.Catalog.lieModel_finite_simple X t n p f hX
-  haveI : IsSimpleGroup X := hsimple
+  have : IsSimpleGroup X := hsimple
   obtain ⟨ψ, -, hψk⟩ :=
     CFSG.ClassicalInvolution.Upgrade.lieModelCentralCover t n p f hp hp2 hfund hadm X hX
   obtain ⟨nn, H, hct, hext⟩ := hasBruhatDatum t n p f hp hfund' hadm
@@ -300,13 +300,13 @@ theorem exists_involution_of_lieModel_weighted {t : StatedLieTag} {n p f : ℕ} 
     (hw : 4 ≤ ∑ δ ∈ S, w δ) :
     ∃ t' : X, orderOf t' = 2 ∧ ∃ E : Subgroup X, E ≤ Subgroup.centralizer {t'} ∧
       IsElemAbelian p E ∧ Nat.card E = p ^ 4 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hfund' : IsFundTag t := by cases t <;> trivial
   have : Finite (CFSG.ClassicalInvolution.Generic.modelUniv t n p f hp).K :=
     finite_modelUniv hp2 hp hfund hadm
   have : Finite (modelUniv t n p f hp).K := finite_modelUniv hp2 hp hfund hadm
   obtain ⟨-, -, hsimple⟩ := CFSG.LieType.Catalog.lieModel_finite_simple X t n p f hX
-  haveI : IsSimpleGroup X := hsimple
+  have : IsSimpleGroup X := hsimple
   obtain ⟨ψ, -, hψk⟩ :=
     CFSG.ClassicalInvolution.Upgrade.lieModelCentralCover t n p f hp hp2 hfund hadm X hX
   obtain ⟨nn, H, hct, hext⟩ := hasBruhatDatum t n p f hp hfund' hadm
@@ -371,7 +371,7 @@ theorem involution_typeE8 : InvolutionAt FamE8 := by
   subst hdq'
   have hpq : p = q.p := by simpa using hchar
   subst hpq
-  haveI : Fact q.p.Prime := ⟨hp⟩
+  have : Fact q.p.Prime := ⟨hp⟩
   have hadm : StatedLieAdmissible .E8 0 q.p q.exponent := ⟨q.prime_p, q.exponent_pos, rfl⟩
   have hX : CFSG.Blueprint.LieModel K .E8 0 q.p q.exponent :=
     Or.inr (Or.inl ⟨rfl, by decide, ⟨hadm, CFSG.TauCetiBridge.untwistedModel_of_bridge
@@ -389,7 +389,7 @@ theorem involution_typeE7 : InvolutionAt FamE7 := by
   subst hdq'
   have hpq : p = q.p := by simpa using hchar
   subst hpq
-  haveI : Fact q.p.Prime := ⟨hp⟩
+  have : Fact q.p.Prime := ⟨hp⟩
   have hadm : StatedLieAdmissible .E7 0 q.p q.exponent := ⟨q.prime_p, q.exponent_pos, rfl⟩
   have hX : CFSG.Blueprint.LieModel K .E7 0 q.p q.exponent :=
     Or.inr (Or.inl ⟨rfl, by decide, ⟨hadm, CFSG.TauCetiBridge.untwistedModel_of_bridge
@@ -408,7 +408,7 @@ theorem involution_typeE6 : InvolutionAt FamE6 := by
   subst hdq'
   have hpq : p = q.p := by simpa using hchar
   subst hpq
-  haveI : Fact q.p.Prime := ⟨hp⟩
+  have : Fact q.p.Prime := ⟨hp⟩
   have hadm : StatedLieAdmissible .E6 0 q.p q.exponent := ⟨q.prime_p, q.exponent_pos, rfl⟩
   have hX : CFSG.Blueprint.LieModel K .E6 0 q.p q.exponent :=
     Or.inr (Or.inl ⟨rfl, by decide, ⟨hadm, CFSG.TauCetiBridge.untwistedModel_of_bridge
@@ -427,7 +427,7 @@ theorem involution_typeF4 : InvolutionAt FamF4 := by
   subst hdq'
   have hpq : p = q.p := by simpa using hchar
   subst hpq
-  haveI : Fact q.p.Prime := ⟨hp⟩
+  have : Fact q.p.Prime := ⟨hp⟩
   have hadm : StatedLieAdmissible .F4 0 q.p q.exponent := ⟨q.prime_p, q.exponent_pos, rfl⟩
   have hX : CFSG.Blueprint.LieModel K .F4 0 q.p q.exponent :=
     Or.inr (Or.inl ⟨rfl, by decide, ⟨hadm, CFSG.TauCetiBridge.untwistedModel_of_bridge
@@ -445,7 +445,7 @@ theorem involution_typeTwistedE6 : InvolutionAt FamTwistedE6 := by
   subst hdq'
   have hpq : p = q.p := by simpa using hchar
   subst hpq
-  haveI : Fact q.p.Prime := ⟨hp⟩
+  have : Fact q.p.Prime := ⟨hp⟩
   have hadm : StatedLieAdmissible .twistedE6 0 q.p q.exponent :=
     ⟨q.prime_p, q.exponent_pos, rfl⟩
   have hX : CFSG.Blueprint.LieModel K .twistedE6 0 q.p q.exponent :=
@@ -467,7 +467,7 @@ theorem involution_typeTrialityD4 : InvolutionAt FamTrialityD4 := by
   subst hdq'
   have hpq : p = q.p := by simpa using hchar
   subst hpq
-  haveI : Fact q.p.Prime := ⟨hp⟩
+  have : Fact q.p.Prime := ⟨hp⟩
   have hf : 1 ≤ q.exponent := q.exponent_pos
   have hadm : StatedLieAdmissible .trialityD4 0 q.p q.exponent :=
     ⟨q.prime_p, q.exponent_pos, rfl⟩
@@ -496,7 +496,7 @@ theorem involution_typeTrialityD4 : InvolutionAt FamTrialityD4 := by
   have hσ3 : ∀ c, σ (σ (σ c)) = c := TwistedD4.sigma_three_of_card hcardK
     (fun c => iterateFrobenius_def q.p q.exponent c)
   classical
-  haveI : Finite (modelUniv .trialityD4 0 q.p q.exponent q.prime_p).K :=
+  have : Finite (modelUniv .trialityD4 0 q.p q.exponent q.prime_p).K :=
     finite_modelUniv (t := .trialityD4) hp2 q.prime_p trivial hadm
   refine exists_involution_of_lieModel_weighted (t := .trialityD4) q.prime_p hp2 trivial hadm
     (fun h => absurd h.2 (by decide)) hX
@@ -504,14 +504,14 @@ theorem involution_typeTrialityD4 : InvolutionAt FamTrialityD4 := by
     ((hmemS _).2 (Or.inl rfl)) hS hcomm hneg (fun δ => if δ = b then 3 else 1) ?_ ?_
   · intro δ hδ
     rcases (hmemS δ).1 hδ with rfl | rfl
-    · rw [if_neg hαb]
+    · rw [ite_eq_right hαb]
       exact exists_isElemAbelian_of_isPGroup q.prime_p (hXp _ (hS _ hδ).1)
         (hext.ne_bot _ (hS _ hδ).1)
-    · rw [if_pos rfl]
+    · rw [ite_eq_left rfl]
       exact exists_isElemAbelian_twistedRootGroup (K := GaloisField q.p (3 * q.exponent))
         (p := q.p) (σ := σ) hσ3 (k := 3 * q.exponent) (by omega)
         (by rw [GaloisField.card q.p _ (by omega)])
-  · rw [hsum, if_neg hαb, if_pos rfl]
+  · rw [hsum, ite_eq_right hαb, ite_eq_left rfl]
 
 end Certified
 

@@ -23,17 +23,17 @@ theorem polar_q0 (x y : V12) : QuadraticMap.polar q0 x y = f0 x y := by
 theorem lo_ne_hi (i j : Fin 6) : lo i ≠ hi j := by
   intro h
   have h' := congrArg Fin.val h
-  simp only [lo, hi, Fin.coe_castAdd, Fin.coe_natAdd] at h'
+  simp only [lo, hi, Fin.val_castAdd, Fin.val_natAdd] at h'
   omega
 
 theorem hi_inj {i j : Fin 6} (h : hi i = hi j) : i = j := by
   have h' := congrArg Fin.val h
-  simp only [hi, Fin.coe_natAdd] at h'
+  simp only [hi, Fin.val_natAdd] at h'
   exact Fin.ext (by omega)
 
 theorem lo_inj {i j : Fin 6} (h : lo i = lo j) : i = j := by
   have h' := congrArg Fin.val h
-  simp only [lo, Fin.coe_castAdd] at h'
+  simp only [lo, Fin.val_castAdd] at h'
   exact Fin.ext h'
 
 theorem f0_unit_hi (x : V12) (i : Fin 6) : f0 x (Pi.single (hi i) 1) = x (lo i) := by

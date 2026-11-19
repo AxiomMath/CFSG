@@ -102,7 +102,7 @@ theorem negRho_orbitLength (ρ : Equiv.Perm V6) (hadd : ∀ x y, ρ (x + y) = ρ
   unfold componentOrbitLength
   congr 1
   ext s
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   refine and_congr_right fun _ => ?_
   rcases negRho_iterate ρ hadd s with h | h
   · rw [h]

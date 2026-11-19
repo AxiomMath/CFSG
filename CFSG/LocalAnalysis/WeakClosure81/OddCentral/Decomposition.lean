@@ -7,6 +7,7 @@ open Subgroup
 section
 variable {G M : Type*} [Group G] [Finite G] [AddCommGroup M] [Finite M] [DistribMulAction G M]
 
+omit [Finite G] in
 theorem fix_all_of_fix_two {z : Fin 3 → G} (hz2 : z 2 = z 0 * z 1) {x : G} {a b : Fin 3}
     (hab : a ≠ b) (ha : z a * x * (z a)⁻¹ = x) (hb : z b * x * (z b)⁻¹ = x) :
     z 0 * x * (z 0)⁻¹ = x ∧ z 1 * x * (z 1)⁻¹ = x := by
@@ -208,16 +209,17 @@ theorem centralizes_of_frame' {r : ℕ} (hr : r.Prime) (hrM : ¬ r ∣ Nat.card 
     hR₁odd hQodd hQab hQ₀Q hQ₀Z hRQ hQV hVQ hVr hZQ₀ hZr hZΩ hZM hViV hVgen hc hz hz2 hcz h01
     hn0 hn1 hn01 (fun v hv => hv.2) hzV hzinv hLA ht htV
 
+omit [Finite G] [Finite M] in
 theorem eq_zero_of_central (hfaith : ∀ g : G, (∀ m : M, g • m = m) → g = 1)
     (hirr : ∀ N : AddSubgroup M, (∀ g : G, ∀ m ∈ N, g • m ∈ N) → N = ⊥ ∨ N = ⊤)
     {ζ : G} (hζ : ζ ∈ center G) (hζ1 : ζ ≠ 1) {m : M} (hm : ζ • m = m) : m = 0 := by
   let N : AddSubgroup M :=
     { carrier := {m | ζ • m = m}
       add_mem' := fun {a b} ha hb => by
-        simp only [Set.mem_setOf_eq] at ha hb ⊢; rw [smul_add, ha, hb]
+        simp only [Set.mem_ofPred_eq] at ha hb ⊢; rw [smul_add, ha, hb]
       zero_mem' := smul_zero ζ
       neg_mem' := fun {a} ha => by
-        simp only [Set.mem_setOf_eq] at ha ⊢; rw [smul_neg, ha] }
+        simp only [Set.mem_ofPred_eq] at ha ⊢; rw [smul_neg, ha] }
   have hinv : ∀ g : G, ∀ m ∈ N, g • m ∈ N := by
     intro g m hm'
     show ζ • g • m = g • m
@@ -238,7 +240,7 @@ theorem exists_omega {r : ℕ} (hr : r.Prime) (hrM : ¬ r ∣ Nat.card M) (hMnt 
     ∃ Z : Subgroup G, Z ≤ Q₀ ∧ Nat.card Z = r ∧ (∀ q ∈ Q₀, q ^ r = 1 → q ∈ Z) ∧
       ∀ ζ ∈ Z, ζ ≠ 1 → ∀ m : M, ζ • m = m → m = 0 := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hcomm : ∀ a ∈ Q₀, ∀ b : G, Commute b a := fun a ha b =>
     Subgroup.mem_center_iff.mp (hQ₀Z ha) b
   let Z : Subgroup G :=
@@ -250,14 +252,14 @@ theorem exists_omega {r : ℕ} (hr : r.Prime) (hrM : ¬ r ∣ Nat.card M) (hMnt 
   have hZM : ∀ ζ ∈ Z, ζ ≠ 1 → ∀ m : M, ζ • m = m → m = 0 := fun ζ hζ hζ1 m hm =>
     eq_zero_of_central hfaith hirr (hQ₀Z hζ.1) hζ1 hm
   refine ⟨Z, fun q hq => hq.1, ?_, fun q hq hqr => ⟨hq, hqr⟩, hZM⟩
-  letI iC : CommGroup Z :=
+  let iC : CommGroup Z :=
     { (inferInstance : Group Z) with
       mul_comm := fun a b => Subtype.ext (hcomm b b.2.1 a).eq }
-  haveI : CFSG.IsElementaryAbelian r Z :=
+  have : CFSG.IsElementaryAbelian r Z :=
     { toIsMulCommutative := ⟨⟨fun a b => Subtype.ext (hcomm b b.2.1 a).eq⟩⟩
       exponent_dvd_p := Monoid.exponent_dvd_of_forall_pow_eq_one fun g =>
         Subtype.ext (by simpa using g.2.2) }
-  haveI : Nontrivial Q₀ := (Subgroup.nontrivial_iff_ne_bot Q₀).mpr hQ₀1
+  have : Nontrivial Q₀ := (Subgroup.nontrivial_iff_ne_bot Q₀).mpr hQ₀1
   have hdvd : r ∣ Nat.card Q₀ := by
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hQ₀p
     have hk0 : k ≠ 0 := by
@@ -275,7 +277,7 @@ theorem exists_omega {r : ℕ} (hr : r.Prime) (hrM : ¬ r ∣ Nat.card M) (hMnt 
     have : x = 1 := Subtype.ext h
     rw [this, orderOf_one] at hx
     exact hr.one_lt.ne hx
-  haveI : Nontrivial Z := ⟨⟨⟨x, hxZ⟩, 1, fun h => hx1 (congrArg Subtype.val h)⟩⟩
+  have : Nontrivial Z := ⟨⟨⟨x, hxZ⟩, 1, fun h => hx1 (congrArg Subtype.val h)⟩⟩
   let α : Z →* MulAut (Multiplicative M) :=
     { toFun := fun a =>
         { toFun := fun x => Multiplicative.ofAdd ((a : G) • x.toAdd)
@@ -292,7 +294,7 @@ theorem exists_omega {r : ℕ} (hr : r.Prime) (hrM : ¬ r ∣ Nat.card M) (hMnt 
   have hex : ∃ B : Subgroup Z, B.index = r ∧
       ∃ x ∈ CFSG.SolvableSignalizer.fixedBySubgroup α B, x ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hle : (⨆ (B : Subgroup Z) (_ : B.index = r),
         CFSG.SolvableSignalizer.fixedBySubgroup α B) ≤ ⊥ :=
       iSup₂_le fun B hB x hx => (Subgroup.mem_bot).mpr (hcon B hB x hx)

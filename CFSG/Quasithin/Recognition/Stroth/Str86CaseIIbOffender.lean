@@ -21,7 +21,7 @@ theorem str86_inf_centralizer_z2_of_caseIIb
     {L1 L2 S : Subgroup G} (hF : F112HypW L1 L2 S)
     (hSB : bigB L1 L2 S ≤ Subgroup.normalizer (S : Set G))
     {m : ℕ} (hm : 2 ≤ m) (hL2 : IsL2Quot m (oTwoQuot ↥L2))
-    (hII : ¬ L1 ⊔ Q1 L1 L2 S ≤ Subgroup.centralizer (Z1 L1 L2 S : Set G))
+    (_hII : ¬ L1 ⊔ Q1 L1 L2 S ≤ Subgroup.centralizer (Z1 L1 L2 S : Set G))
     (hJZ : ⁅Z2 L1 L2 S, thompsonJ S⁆ ≠ ⊥) :
     S ⊓ Subgroup.centralizer (Z2 L1 L2 S : Set G) = Q2 L1 L2 S := by
   classical
@@ -145,7 +145,7 @@ theorem str86_caseIIb_offender
   obtain ⟨c, hser⟩ :=
     CFSG.Quasithin.D15Proof.exists_isChiefSeriesFrom (H := H) (U := Z) Z hnorm
   have hsupH : oTwoUpper H ⊔ Q = H := by
-    haveI hperf : Group.IsPerfect (oTwoQuot ↥H) := isPerfect_of_isL2Quot hm hL2H
+    have hperf : Group.IsPerfect (oTwoQuot ↥H) := isPerfect_of_isL2Quot hm hL2H
     let π : ↥H →* oTwoQuot ↥H := QuotientGroup.mk' (pCore 2 ↥H)
     have hsurj : Function.Surjective π := QuotientGroup.mk'_surjective _
     have htop : oTwoUpper (⊤ : Subgroup (oTwoQuot ↥H)) = ⊤ :=

@@ -119,7 +119,7 @@ theorem Context.exceptional {G : Type*} [Group G] [Finite G]
   have hfirstBound : firstTwo ≤ firstOverlap := Subgroup.map_subtype_le _
   have hbound := BlockPairOrderBounds.reverse component context.even context.universal context.quasisimple context.card
     context.control anchor first fixed hanchor hfirst context.fixed_mem hdistinct actor context.outside anchorTwo firstTwo
-      (anchorSylow.isPGroup'.map anchorOverlap.subtype) (firstSylow.isPGroup'.map firstOverlap.subtype)
+      (anchorSylow.isPGroup.map anchorOverlap.subtype) (firstSylow.isPGroup.map firstOverlap.subtype)
         (BlockCommonSylowNontrivial.image_ne_bot context.original context.positive anchor hanchor anchorSylow)
           (hanchorBound.trans inf_le_left) (hfirstBound.trans inf_le_left)
             (hanchorBound.trans (context.normalizes anchor hanchor)) (hfirstBound.trans (context.normalizes first hfirst))
@@ -156,7 +156,7 @@ theorem Context.pair_bound {G : Type*} [Group G] [Finite G]
   have hsecondBound : secondTwo ≤ secondOverlap := Subgroup.map_subtype_le _
   exact BlockPairOrderBounds.reverse component context.even context.universal context.quasisimple context.card
     context.control first second fixed hfirst hsecond context.fixed_mem hdistinct actor context.outside firstTwo secondTwo
-      (firstSylow.isPGroup'.map firstOverlap.subtype) (secondSylow.isPGroup'.map secondOverlap.subtype)
+      (firstSylow.isPGroup.map firstOverlap.subtype) (secondSylow.isPGroup.map secondOverlap.subtype)
         (BlockCommonSylowNontrivial.image_ne_bot context.original context.positive first hfirst firstSylow)
           (hfirstBound.trans inf_le_left) (hsecondBound.trans inf_le_left)
             (hfirstBound.trans (context.normalizes first hfirst)) (hsecondBound.trans (context.normalizes second hsecond))

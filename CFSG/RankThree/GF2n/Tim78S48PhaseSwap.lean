@@ -167,6 +167,7 @@ theorem Θ_mem_B (h48 : Hyp48 M B T g) (hP : ¬ conjSubgroup g B ≤ P)
   calc t * Θ ![x, 0] = (t * Θ ![x, 0] * t⁻¹) * t := by group
     _ = Θ ![x, 0] * t := by rw [h]
 
+omit [Finite G] in
 theorem exists_Θ_B {D : L2Coords B T g F} {Θ : (Fin 2 → F) → G} (N : IsNatCoords D Θ) {b : G}
     (hb : b ∈ B) : ∃ x : F, Θ ![x, 0] = b := by
   obtain ⟨v, hv⟩ := N.surj b (Subgroup.mem_sup_left hb)
@@ -199,6 +200,7 @@ theorem Θ_mem_Bg (h48 : Hyp48 M B T g) (hP : ¬ conjSubgroup g B ≤ P)
   calc t * Θ ![0, y] = (t * Θ ![0, y] * t⁻¹) * t := by group
     _ = Θ ![0, y] * t := by rw [h]
 
+omit [Finite G] in
 theorem exists_Θ_Bg {D : L2Coords B T g F} {Θ : (Fin 2 → F) → G} (N : IsNatCoords D Θ) {b : G}
     (hb : b ∈ conjSubgroup g B) : ∃ y : F, Θ ![0, y] = b := by
   obtain ⟨v, hv⟩ := N.surj b (Subgroup.mem_sup_right hb)
@@ -221,6 +223,7 @@ theorem exists_Θ_Bg {D : L2Coords B T g F} {Θ : (Fin 2 → F) → G} (N : IsNa
   fin_cases i <;> simp [h4]
 
 omit H in
+omit [Finite G] in
 theorem weyl_conj_Θ [CharP F 2] {D : L2Coords B T g F} {Θ : (Fin 2 → F) → G}
     (N : IsNatCoords D Θ) {s : F} (hs : s ≠ 0) {t t' : G} (ht : t ∈ T)
     (ht' : t' ∈ conjSubgroup g T) (hεt : D.ε ⟨t, Subgroup.mem_sup_left ht⟩ = utriElt s)
@@ -318,6 +321,7 @@ section Aux
 variable {F : Type} [Field F]
 
 omit H in
+omit [Finite G] in
 theorem inf_Tg_le_kernel (D : L2Coords B T g F) : T ⊓ conjSubgroup g T ≤ kernel48 B T g := by
   intro a ha
   obtain ⟨s, hs⟩ := D.exists_utri ha.1
@@ -329,6 +333,7 @@ theorem inf_Tg_le_kernel (D : L2Coords B T g F) : T ⊓ conjSubgroup g T ≤ ker
   rw [hs, h01, utriElt_zero]
 
 omit H in
+omit [Finite G] in
 theorem inv_mul_mem_T_kernel (D : L2Coords B T g F) {t₁ t₂ : G} (h₁ : t₁ ∈ T) (h₂ : t₂ ∈ T)
     (h : D.ε ⟨t₁, Subgroup.mem_sup_left h₁⟩ = D.ε ⟨t₂, Subgroup.mem_sup_left h₂⟩) :
     t₁⁻¹ * t₂ ∈ T ⊓ kernel48 B T g := by

@@ -21,8 +21,8 @@ open CFSG.HardMathSupport.Cooperstein.Coordinator.Survivors (e7n6)
 theorem parabolicRadicalRoots_eq :
     parabolicRadicalRoots .E7 {i | i ≠ e7n6} = Tset 15625 := by
   ext β
-  simp only [parabolicRadicalRoots, parabolicPosRoots, parabolicRoots, Set.mem_diff,
-    Set.mem_setOf_eq, Set.mem_inter_iff, Tset]
+  simp only [parabolicRadicalRoots, parabolicPosRoots, parabolicRoots, Set.mem_sdiff,
+    Set.mem_ofPred_eq, Set.mem_inter_iff, Tset]
   constructor
   · rintro ⟨⟨hβ, hp⟩, hn⟩
     refine ⟨hβ, hp, (c7_eq_one_iff hβ hp).1 ?_⟩

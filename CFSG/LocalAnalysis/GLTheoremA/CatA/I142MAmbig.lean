@@ -18,7 +18,7 @@ theorem isSolvable_of_card_dvd_pow_mul_pow {P : Type*} [Group P] [Finite P] {p q
   obtain ⟨x, y, hx, hy, hxy⟩ := Nat.dvd_mul.1 h
   obtain ⟨i, -, rfl⟩ := (Nat.dvd_prime_pow hp).1 hx
   obtain ⟨j, -, rfl⟩ := (Nat.dvd_prime_pow hq).1 hy
-  haveI : Fintype P := Fintype.ofFinite P
+  have : Fintype P := Fintype.ofFinite P
   exact CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow hp hq hpq
     (by rw [← Nat.card_eq_fintype_card, ← hxy])
 
@@ -49,8 +49,8 @@ theorem perfect_eq_bot_of_card_168 {S : Type} [Group S] [Finite S] [IsSimpleGrou
     exact mem_fixSubgroup.1 hx
   have hPtop : P ≠ ⊤ := fun h => hCtop (top_le_iff.1 (h ▸ hP))
   by_contra hPne
-  haveI : Nontrivial ↥P := (Subgroup.nontrivial_iff_ne_bot P).2 hPne
-  haveI : Group.IsPerfect ↥P := Subgroup.isPerfect_iff.2 hperf
+  have : Nontrivial ↥P := (Subgroup.nontrivial_iff_ne_bot P).2 hPne
+  have : Group.IsPerfect ↥P := Subgroup.isPerfect_iff.2 hperf
   have hidx : P.index ≠ 1 := fun h => hPtop (Subgroup.index_eq_one.1 h)
   have hmul := Subgroup.card_mul_index P
   rw [hc] at hmul
@@ -64,7 +64,7 @@ theorem perfect_eq_bot_of_card_168 {S : Type} [Group S] [Finite S] [IsSimpleGrou
     intro h
     rw [h] at hmul
     have h2 : P.index = 2 := by omega
-    haveI : P.Normal := Subgroup.normal_of_index_eq_two h2
+    have : P.Normal := Subgroup.normal_of_index_eq_two h2
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal P with h' | h'
     · exact hPne h'
     · exact hPtop h'
@@ -74,8 +74,8 @@ theorem perfect_eq_bot_of_order_seven {S : Type} [Group S] [Finite S] (hc : Nat.
     {x : S} (hx7 : orderOf x = 7) {P : Subgroup S}
     (hP : P ≤ Subgroup.centralizer ({x} : Set S)) (hperf : ⁅P, P⁆ = P) : P = ⊥ := by
   by_contra hne
-  haveI : Nontrivial ↥P := (Subgroup.nontrivial_iff_ne_bot P).2 hne
-  haveI : Group.IsPerfect ↥P := Subgroup.isPerfect_iff.2 hperf
+  have : Nontrivial ↥P := (Subgroup.nontrivial_iff_ne_bot P).2 hne
+  have : Group.IsPerfect ↥P := Subgroup.isPerfect_iff.2 hperf
   set C := Subgroup.centralizer ({x} : Set S) with hCdef
   have hxC : x ∈ C := Subgroup.mem_centralizer_singleton_iff.2 rfl
   set x' : ↥C := ⟨x, hxC⟩ with hx'
@@ -84,11 +84,11 @@ theorem perfect_eq_bot_of_order_seven {S : Type} [Group S] [Finite S] (hc : Nat.
     rw [hN, Subgroup.zpowers_le, Subgroup.mem_center_iff]
     intro g
     exact Subtype.ext (Subgroup.mem_centralizer_singleton_iff.1 g.2)
-  haveI hNn : N.Normal := ⟨fun n hn g => by
+  have hNn : N.Normal := ⟨fun n hn g => by
     have hcn := Subgroup.mem_center_iff.1 (hNc hn) g
     rw [hcn, mul_inv_cancel_right]
     exact hn⟩
-  haveI : Group.IsSolvable ↥N := isSolvable_of_comm fun a b =>
+  have : Group.IsSolvable ↥N := _root_.Group.isSolvable_of_comm fun a b =>
     Subtype.ext ((Subgroup.mem_center_iff.1 (hNc b.2)) a)
   have hN7 : Nat.card ↥N = 7 := by
     rw [hN, Nat.card_zpowers, ← Subgroup.orderOf_coe]
@@ -99,12 +99,12 @@ theorem perfect_eq_bot_of_order_seven {S : Type} [Group S] [Finite S] (hc : Nat.
     rw [hN7] at h
     rw [h] at hCdvd
     exact Nat.dvd_of_mul_dvd_mul_right (by norm_num : 0 < 7) (by simpa using hCdvd)
-  haveI : Group.IsSolvable (↥C ⧸ N) :=
+  have : Group.IsSolvable (↥C ⧸ N) :=
     isSolvable_of_card_dvd_pow_mul_pow Nat.prime_two Nat.prime_three (by norm_num) hQ
-  haveI : Group.IsSolvable ↥C := solvable_of_ker_le_range N.subtype (QuotientGroup.mk' N)
+  have : Group.IsSolvable ↥C := Group.isSolvable_of_ker_le_range N.subtype (QuotientGroup.mk' N)
     (by rw [QuotientGroup.ker_mk', Subgroup.range_subtype])
   exact Group.IsPerfect.not_isSolvable ↥P
-    (solvable_of_solvable_injective (Subgroup.inclusion_injective hP))
+    (Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hP))
 
 theorem perfect_alt_equiv_alt5 {S : Type} [Group S] (n : ℕ) (hn : n = 5 ∨ n = 6 ∨ n = 8)
     (e : S ≃* alternatingGroup (Fin n)) {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {x : S}
@@ -126,7 +126,7 @@ theorem perfect_alt_equiv_alt5 {S : Type} [Group S] (n : ℕ) (hn : n = 5 ∨ n 
   have hy1 : y ≠ 1 := fun h => hx1 (e.injective (by rw [← hy, h, map_one]))
   have hσq : (y : Equiv.Perm (Fin n)) ^ q = 1 := by simpa using congrArg Subtype.val hyq
   have hσ1 : (y : Equiv.Perm (Fin n)) ≠ 1 := fun h => hy1 (Subtype.ext h)
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hord : orderOf (y : Equiv.Perm (Fin n)) = q := orderOf_eq_prime hσq hσ1
   obtain ⟨k, hk, hkn⟩ := cq_cycleType_of_prime_order (y : Equiv.Perm (Fin n)) hq hord
   have hk1 : 1 ≤ k := by
@@ -136,8 +136,8 @@ theorem perfect_alt_equiv_alt5 {S : Type} [Group S] (n : ℕ) (hn : n = 5 ∨ n 
       rw [h0] at hk
       exact Equiv.Perm.cycleType_eq_zero.1 (by rw [hk]; rfl)
     · exact h0
-  haveI : Nontrivial ↥L := (Subgroup.nontrivial_iff_ne_bot L).2 hLne
-  haveI : Group.IsPerfect ↥L := Subgroup.isPerfect_iff.2 hLperf
+  have : Nontrivial ↥L := (Subgroup.nontrivial_iff_ne_bot L).2 hLne
+  have : Group.IsPerfect ↥L := Subgroup.isPerfect_iff.2 hLperf
   by_cases hspec : n = 8 ∧ q = 3 ∧ k = 1
   · obtain ⟨rfl, rfl, rfl⟩ := hspec
     have hσ : (y : Equiv.Perm (Fin 8)).cycleType = {3} := by simpa using hk
@@ -191,8 +191,8 @@ theorem perfect_alt_equiv_alt5 {S : Type} [Group S] (n : ℕ) (hn : n = 5 ∨ n 
 
 theorem isChevSimple_two_of_equiv_alt5 {H : Type} [Group H] (e : H ≃* alternatingGroup (Fin 5)) :
     IsChevSimple 2 (H ⧸ Subgroup.center H) := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
-  haveI : IsSimpleGroup H := e.isSimpleGroup
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
+  have : IsSimpleGroup H := e.isSimpleGroup
   have hA5 : ∃ a b : alternatingGroup (Fin 5), a * b ≠ b * a := by
     refine ⟨⟨Equiv.swap 0 1 * Equiv.swap 1 2, ?_⟩, ⟨Equiv.swap 0 1 * Equiv.swap 2 3, ?_⟩, ?_⟩
     · exact Equiv.Perm.mem_alternatingGroup.2 (by decide)
@@ -219,14 +219,14 @@ section Cert
 
 theorem chevCompTypesAmbig_holds : ChevCompTypesAmbig := by
   intro S _ _ hS hnc hamb p hp hp2 β hβ hβ1 K hK
-  haveI := hS
+  have := hS
   rw [centFix_zpowers'] at hK
   have hz : Subgroup.center S = ⊥ := b3Lie_center_eq_bot hnc
   have hKperf : ⁅K, K⁆ = K := Subgroup.isPerfect_iff.1 ⟨hK.2.2.1⟩
   have hKnt : Nontrivial ↥K := by
     by_contra h
     rw [not_nontrivial_iff_subsingleton] at h
-    haveI := h
+    have := h
     have := hK.2.2.2.toNontrivial
     exact (not_subsingleton_iff_nontrivial.2 this) inferInstance
   have hKne : K ≠ ⊥ := (Subgroup.nontrivial_iff_ne_bot K).1 hKnt
@@ -280,7 +280,7 @@ theorem chevCompTypesAmbig_holds : ChevCompTypesAmbig := by
       have hxp : x ^ p = 1 :=
         conj_injective_of_center hz (by rw [map_pow, map_one]; exact hβ)
       have hx1 : x ≠ 1 := fun h => hβ1 (by rw [h, map_one])
-      haveI : Fact p.Prime := ⟨hp⟩
+      have : Fact p.Prime := ⟨hp⟩
       have hord : orderOf x = p := orderOf_eq_prime hxp hx1
       have hpd : p ∣ 2 ^ 5 * 3 ^ 3 * 7 := by
         have := orderOf_dvd_natCard x

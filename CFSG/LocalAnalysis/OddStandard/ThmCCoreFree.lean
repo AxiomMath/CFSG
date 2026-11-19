@@ -25,7 +25,7 @@ theorem abelian_normal_eq_bot (hO : pPrimeCore 2 X = ⊥) (hO2 : pCore 2 X = ⊥
       exact hn⟩
     have hPc : (P : Subgroup M).Characteristic := Sylow.characteristic_of_normal P hPn
     have hXn : ((P : Subgroup M).map M.subtype).Normal := ConjAct.normal_of_characteristic_of_normal
-    have hP2 : IsPGroup 2 ((P : Subgroup M).map M.subtype) := P.isPGroup'.map M.subtype
+    have hP2 : IsPGroup 2 ((P : Subgroup M).map M.subtype) := P.isPGroup.map M.subtype
     have hle : (P : Subgroup M).map M.subtype ≤ pCore 2 X := le_sSup ⟨hXn, hP2⟩
     rw [hO2, le_bot_iff] at hle
     have hP1 : (P : Subgroup M) = ⊥ :=

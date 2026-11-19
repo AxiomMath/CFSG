@@ -54,6 +54,7 @@ open scoped Classical in
 @[expose] noncomputable def kap (T : KTab) (C : Coding ↥V) (S : SplitHyp V M M₀) (m : G) : Nat :=
   T.G0.idxOf (bpart C S m) * 64 + cpart C S m
 
+omit [Finite G] in
 theorem cpart_lt (C : Coding ↥V) (S : SplitHyp V M M₀) (m : G) : cpart C S m < 64 := by
   unfold cpart
   split_ifs with h
@@ -76,6 +77,7 @@ theorem idxOf_getD {l : List B6} (hnd : l.Nodup) {i : Nat} (hi : i < l.length) :
   rw [List.getD_eq_getElem _ _ hi]
   exact hnd.idxOf_getElem i hi
 
+omit [Finite G] in
 theorem bpart_mem_stabL (S : SplitHyp V M M₀) (C : Coding ↥V) {Γ : List B6} {c₀ : Nat} {z : G}
     (hΓ1 : ∀ a ∈ autOn M V, C.cB a ∈ Γ) (hz : z ∈ V) (hzc : C.cd ⟨z, hz⟩ = c₀) {m : G}
     (hm : m ∈ M ⊓ Subgroup.centralizer ({z} : Set G)) : bpart C S m ∈ stabL Γ c₀ := by
@@ -92,6 +94,7 @@ theorem bpart_mem_stabL (S : SplitHyp V M M₀) (C : Coding ↥V) {Γ : List B6}
   rw [h2, hzc] at h1
   exact h1.symm
 
+omit [Finite G] in
 theorem kCod_of_split (S : SplitHyp V M M₀) (C : Coding ↥V) {Γ : List B6} {c₀ : Nat} {z : G}
     (hΓ1 : ∀ a ∈ autOn M V, C.cB a ∈ Γ) (hΓ2 : ∀ B ∈ Γ, ∃ a ∈ autOn M V, C.cB a = B)
     (hz : z ∈ V) (hzc : C.cd ⟨z, hz⟩ = c₀) (hnd : (stabL Γ c₀).Nodup) :
@@ -189,7 +192,7 @@ theorem kCod_of_split (S : SplitHyp V M M₀) (C : Coding ↥V) {Γ : List B6} {
     have hvm : vOf S m = (d : G) := vOf_mul_of S d.2 hh₁
     unfold cpart
     have hvV : vOf S m ∈ V := vOf_mem S hmM
-    rw [dif_pos hvV]
+    rw [dite_eq_left hvV]
     have : (⟨vOf S m, hvV⟩ : ↥V) = d := Subtype.ext hvm
     rw [this, hd, C.cd_dc c hclt]
   ·

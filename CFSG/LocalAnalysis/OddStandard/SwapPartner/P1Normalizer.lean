@@ -66,7 +66,7 @@ private lemma a_mul_ab (ha : a * a = 1) : a * (a * b) = b := by
 private lemma b_mul_ab (hb : b * b = 1) (hab : a * b = b * a) : b * (a * b) = a := by
   rw [← mul_assoc, hab.symm, mul_assoc, hb, mul_one]
 
-private lemma hABc (hab : a * b = b * a) (hac : a * c = c * a) (hbc : b * c = c * b) :
+private lemma hABc (_hab : a * b = b * a) (hac : a * c = c * a) (hbc : b * c = c * b) :
     (a * b) * c = c * (a * b) := by
   calc (a * b) * c = a * (b * c) := mul_assoc a b c
     _ = a * (c * b) := by rw [hbc]
@@ -74,7 +74,7 @@ private lemma hABc (hab : a * b = b * a) (hac : a * c = c * a) (hbc : b * c = c 
     _ = (c * a) * b := by rw [hac.symm]
     _ = c * (a * b) := by rw [mul_assoc]
 
-private lemma hAbc (hab : a * b = b * a) (hac : a * c = c * a) (hbc : b * c = c * b) :
+private lemma hAbc (hab : a * b = b * a) (hac : a * c = c * a) (_hbc : b * c = c * b) :
     a * (b * c) = (b * c) * a := by
   calc a * (b * c) = (a * b) * c := (mul_assoc a b c).symm
     _ = (b * a) * c := by rw [hab]
@@ -82,7 +82,7 @@ private lemma hAbc (hab : a * b = b * a) (hac : a * c = c * a) (hbc : b * c = c 
     _ = b * (c * a) := by rw [hac]
     _ = (b * c) * a := by rw [← mul_assoc]
 
-private lemma hBac (hab : a * b = b * a) (hac : a * c = c * a) (hbc : b * c = c * b) :
+private lemma hBac (hab : a * b = b * a) (_hac : a * c = c * a) (hbc : b * c = c * b) :
     b * (a * c) = (a * c) * b := by
   calc b * (a * c) = (b * a) * c := (mul_assoc b a c).symm
     _ = (a * b) * c := by rw [hab.symm]
@@ -109,7 +109,7 @@ private lemma ac_mul_abc (ha : a * a = 1) (hc : c * c = 1) (hac : a * c = c * a)
     _ = ((a * c) * (a * c)) * b := by rw [← mul_assoc]
     _ = b := by rw [ac_mul_ac ha hc hac, one_mul]
 
-private lemma abc_mul_ac (ha : a * a = 1) (hb : b * b = 1) (hc : c * c = 1)
+private lemma abc_mul_ac (ha : a * a = 1) (_hb : b * b = 1) (hc : c * c = 1)
     (hab : a * b = b * a) (hac : a * c = c * a) (hbc : b * c = c * b) :
     (a * b * c) * (a * c) = b := by
   calc (a * b * c) * (a * c) = ((a * c) * b) * (a * c) := by rw [abc_eq_ac_mul_b hbc]
@@ -124,7 +124,7 @@ private lemma bc_mul_abc (hb : b * b = 1) (hc : c * c = 1) (hab : a * b = b * a)
     _ = ((b * c) * (b * c)) * a := by rw [← mul_assoc]
     _ = a := by rw [bc_mul_bc hb hc hbc, one_mul]
 
-private lemma abc_mul_bc (ha : a * a = 1) (hb : b * b = 1) (hc : c * c = 1)
+private lemma abc_mul_bc (_ha : a * a = 1) (hb : b * b = 1) (hc : c * c = 1)
     (hab : a * b = b * a) (hac : a * c = c * a) (hbc : b * c = c * b) :
     (a * b * c) * (b * c) = a := by
   calc (a * b * c) * (b * c) = ((b * c) * a) * (b * c) := by rw [abc_eq_bc_mul_a hab hac]
@@ -177,8 +177,8 @@ private lemma abc_mul_abc (ha : a * a = 1) (hb : b * b = 1) (hc : c * c = 1)
     (a * b * c) * (a * b * c) = 1 :=
   mul_self_of_commute (ab_mul_ab ha hb hab) hc (hABc hab hac hbc)
 
-private theorem mem_F_iff (ha : a * a = 1) (hb : b * b = 1) (hc : c * c = 1)
-    (hab : a * b = b * a) (hac : a * c = c * a) (hbc : b * c = c * b) {F : Subgroup G}
+private theorem mem_F_iff (_ha : a * a = 1) (_hb : b * b = 1) (_hc : c * c = 1)
+    (_hab : a * b = b * a) (_hac : a * c = c * a) (_hbc : b * c = c * b) {F : Subgroup G}
     (hF : ∀ p, p ∈ F ↔ ∃ i j k : Fin 2, p = a ^ (i : ℕ) * b ^ (j : ℕ) * c ^ (k : ℕ)) :
     ∀ p : G, p ∈ F ↔
       p = 1 ∨ p = a ∨ p = b ∨ p = a * b ∨ p = c ∨ p = a * c ∨ p = b * c ∨ p = a * b * c := by
@@ -207,13 +207,11 @@ private lemma Ec_mul_Ec (ha : a * a = 1) (hb : b * b = 1) (hc : c * c = 1)
   rcases hx with hx | hx | hx | hx <;> rcases hy with hy | hy | hy | hy <;>
     subst x <;> subst y
   all_goals
-    simp only [ha, hb, hc, ab_mul_b hb, ab_mul_a ha hab, a_mul_ab ha, b_mul_ab hb hab,
-      c_mul_ac hc hac, c_mul_bc hc hbc, c_mul_abc hc hab hac hbc,
+    simp only [hb, hc, ab_mul_b hb, c_mul_ac hc hac, c_mul_bc hc hbc, c_mul_abc hc hab hac hbc,
       ac_mul_c hc, ac_mul_ac ha hc hac, ac_mul_bc hc hbc, ac_mul_abc ha hc hac hbc,
-      bc_mul_c hc, bc_mul_ac hc hab hac, bc_mul_bc hb hc hbc,
-      bc_mul_abc hb hc hab hac hbc,
-      abc_mul_c hc, abc_mul_ac ha hb hc hab hac hbc,
-      abc_mul_bc ha hb hc hab hac hbc, abc_mul_abc ha hb hc hab hac hbc]
+      bc_mul_ac hc hab hac, bc_mul_abc hb hc hab hac hbc,
+      abc_mul_ac ha hb hc hab hac hbc,
+      abc_mul_abc ha hb hc hab hac hbc]
   all_goals simp
 
 private lemma exists_pow_of_mem_Ec {x : G}

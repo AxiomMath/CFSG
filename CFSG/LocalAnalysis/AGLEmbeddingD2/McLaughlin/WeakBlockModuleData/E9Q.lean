@@ -17,9 +17,9 @@ variable {X : Type*} [Group X]
     (h2 : ∀ g ∈ J, ψ.symm g ∈ J) : J ≃* J where
   toFun g := ⟨ψ g, h1 g g.2⟩
   invFun g := ⟨ψ.symm g, h2 g g.2⟩
-  left_inv g := Subtype.ext (ψ.symm_apply_apply _)
-  right_inv g := Subtype.ext (ψ.apply_symm_apply _)
-  map_mul' a b := Subtype.ext (map_mul ψ _ _)
+  left_inv _g := Subtype.ext (ψ.symm_apply_apply _)
+  right_inv _g := Subtype.ext (ψ.apply_symm_apply _)
+  map_mul' _a _b := Subtype.ext (map_mul ψ _ _)
 
 theorem autOfStab_apply (ψ : X ≃* X) (J : Subgroup X) (h1 : ∀ g ∈ J, ψ g ∈ J)
     (h2 : ∀ g ∈ J, ψ.symm g ∈ J) (g : J) : ((autOfStab ψ J h1 h2 g : J) : X) = ψ g := rfl
@@ -30,7 +30,7 @@ section Main
 
 variable {Q : Type*} [Group Q]
 
-theorem not_transitive_of_separated {Lb P E N : Subgroup Q} (hPL : P ≤ Lb) (hEP : E ≤ P)
+theorem not_transitive_of_separated {Lb P E N : Subgroup Q} (_hPL : P ≤ Lb) (_hEP : E ≤ P)
     (hNLb : N ≤ Subgroup.normalizer (Lb : Set Q)) (hNP : N ≤ Subgroup.normalizer (P : Set Q))
     (hsep : ∃ e₁ e₂ : ↥((P.subgroupOf Lb).map (QuotientGroup.mk' (Subgroup.center ↥Lb))),
       (e₁ : ↥Lb ⧸ Subgroup.center ↥Lb) ∈
@@ -89,7 +89,6 @@ theorem not_transitive_of_separated {Lb P E N : Subgroup Q} (hPL : P ≤ Lb) (hE
   have h2 : ∀ g ∈ Jim, ψ.symm g ∈ Jim := by
     rintro _ ⟨y, hy, rfl⟩
     rw [hψ'symm]
-    change ψ' (ρ y) ∈ Jim
     rw [hψρ']
     exact ⟨_, hPn' y hy, rfl⟩
   refine hφ (autOfStab ψ Jim h1 h2) (Subtype.ext ?_)

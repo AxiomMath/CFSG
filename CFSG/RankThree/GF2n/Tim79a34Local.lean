@@ -38,7 +38,7 @@ structure NatCfg (V H : Subgroup G) (hVH : V ≤ H) {n : ℕ}
         Nat.card ↥P = 2 ^ (4 * n - 2)
 
 @[expose] def Lemma11bStatement : Prop :=
-  ∀ (G : Type) [Group G] [Finite G] (M V Q P H : Subgroup G) (hH : TwoEndHyp M V Q P H),
+  ∀ (G : Type) [Group G] [Finite G] (M V Q P H : Subgroup G) (_hH : TwoEndHyp M V Q P H),
     Subgroup.center (Xbar V H) = ⊥ → cPbar V H P ≤ wOf V H →
     ⁅P, P⁆ = V ⊓ wOf V H ∧ inSubgroup frattini P = V ⊓ wOf V H ∧
       Subgroup.centralizer (P : Set G) = V

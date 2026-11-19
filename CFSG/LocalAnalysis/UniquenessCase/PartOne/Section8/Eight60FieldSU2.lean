@@ -245,7 +245,7 @@ private theorem su2_torusHom_pow_map {p f : ℕ} {K : Type} [Field K] (φ : Ring
   have hua : Units.map ((φ : K →+* K) : K →* K) a =
       a ^ ((p ^ (f / 3 ^ (f.factorization 3))) ^ 2) := by
     apply Units.ext
-    simp only [Units.coe_map, Units.val_pow_eq_pow_val, MonoidHom.coe_coe]
+    simp only [Units.coe_map, Units.val_pow_eq_pow_val, _root_.MonoidHom.coe_ofClass]
     exact hφ (a : K)
   rw [hua, map_pow]
 

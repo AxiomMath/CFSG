@@ -168,9 +168,9 @@ theorem prK_spec {M : Nat} {B : List Nat} {ky kv vu vv : Nat → Nat} {pr ct : N
   rcases hr with hr | hr
   · exact absurd hij hr
   · by_cases hp : pr i j < M
-    · simp only [hp, decide_true, cond_true, Bool.and_eq_true, beq_iff_eq] at hr
+    · simp only [hp, decide_true, _root_.Bool.cond_true, Bool.and_eq_true, beq_iff_eq] at hr
       exact ⟨fun _ => ⟨hr.1.1, hr.1.2, hr.2⟩, fun h' => absurd hp h'⟩
-    · simp only [hp, decide_false, cond_false, List.any_eq_true, bne_iff_ne, ne_eq] at hr
+    · simp only [hp, decide_false, Bool.cond_false, List.any_eq_true, bne_iff_ne, ne_eq] at hr
       exact ⟨fun h' => absurd h' hp, fun _ => hr⟩
 
 theorem nbK_spec {M : Nat} {pr : Nat → Nat → Nat} {NB : Nat → List Nat} {NM : Nat → Nat} {i : Nat}

@@ -51,8 +51,8 @@ variable {W : Type*} [AddCommGroup W] [Module (ZMod 2) W] [FiniteDimensional (ZM
 
 theorem burnsideB49x_exists_fixed_ne_zero (P : Subgroup (W ≃ₗ[ZMod 2] W)) (hP : IsPGroup 2 P)
     (h1 : 1 ≤ finrank (ZMod 2) W) : ∃ w : W, w ≠ 0 ∧ ∀ p ∈ P, p w = w := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite W := Module.finite_of_finite (ZMod 2)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite W := Module.finite_of_finite (ZMod 2)
   have hdvd : 2 ∣ Nat.card W := by
     rw [Module.natCard_eq_pow_finrank (K := ZMod 2), Nat.card_zmod]
     exact dvd_pow_self 2 (by omega)
@@ -74,7 +74,7 @@ theorem burnsideB49x_exists_fixed_ne_zero (P : Subgroup (W ≃ₗ[ZMod 2] W)) (h
 theorem burnsideB49x_exists_inv_two (P : Subgroup (W ≃ₗ[ZMod 2] W)) (hP : IsPGroup 2 P)
     (h2 : 2 ≤ finrank (ZMod 2) W) :
     ∃ Y : Submodule (ZMod 2) W, finrank (ZMod 2) Y = 2 ∧ ∀ p ∈ P, ∀ y ∈ Y, p y ∈ Y := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨w₁, hw₁0, hw₁⟩ := burnsideB49x_exists_fixed_ne_zero P hP (by omega)
   set L : Submodule (ZMod 2) W := Submodule.span (ZMod 2) {w₁} with hLdef
   have hL : ∀ p ∈ P, ∀ x ∈ L, p x ∈ L := by
@@ -82,10 +82,10 @@ theorem burnsideB49x_exists_inv_two (P : Subgroup (W ≃ₗ[ZMod 2] W)) (hP : Is
     obtain ⟨c, rfl⟩ := Submodule.mem_span_singleton.1 hx
     rw [map_smul, hw₁ p hp]
     exact Submodule.smul_mem _ _ (Submodule.mem_span_singleton_self w₁)
-  letI := burnsideB49x_quotAct L P hL
+  let := burnsideB49x_quotAct L P hL
   have hsmul : ∀ (p : ↥P) (x : W), (p • (Submodule.Quotient.mk x : W ⧸ L)) =
       Submodule.Quotient.mk ((p : W ≃ₗ[ZMod 2] W) x) := fun p x => rfl
-  haveI : Finite (W ⧸ L) := Module.finite_of_finite (ZMod 2)
+  have : Finite (W ⧸ L) := Module.finite_of_finite (ZMod 2)
   have hLr : finrank (ZMod 2) L = 1 := finrank_span_singleton hw₁0
   have hdvd : 2 ∣ Nat.card (W ⧸ L) := by
     rw [Module.natCard_eq_pow_finrank (K := ZMod 2), Nat.card_zmod]

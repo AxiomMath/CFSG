@@ -66,7 +66,7 @@ theorem lieOuterThreeAt_psp : LieOuterThreeAt FamPsp := by
   obtain ⟨rfl, -⟩ := hF
   have hC : StatedClassicalModel P .PSp n 3 f := (lieModel_classical_iff (by decide)).mp hm
   obtain ⟨-, K, _, _, hK, ⟨e0⟩⟩ := hC
-  haveI : Finite (StatedProj (StatedSp n K)) := Finite.of_equiv P e0.toEquiv
+  have : Finite (StatedProj (StatedSp n K)) := Finite.of_equiv P e0.toEquiv
   refine outerSubThree_congr e0 ?_
   have hψ3' : MulAut.congr e0 ψ ^ 3 = 1 := by rw [← map_pow, hψ3, map_one]
   have hninn : ¬ IsInnerAut (MulAut.congr e0 ψ) := fun h =>

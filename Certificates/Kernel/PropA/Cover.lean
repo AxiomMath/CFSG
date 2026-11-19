@@ -69,11 +69,11 @@ theorem pa450010wv_eq_wordP (b : Bool) (kS : ℕ) : ∀ wd : List Int,
     rw [hcons, hwp, ← ih]
     unfold letterG
     by_cases hp : 0 < l
-    · rw [decide_eq_true hp, Quiver.SchreierGraph.evalWord_cons_true, if_pos ⟨hp, by omega⟩]
+    · rw [decide_eq_true hp, Quiver.SchreierGraph.evalWord_cons_true, ite_eq_left ⟨hp, by omega⟩]
       have e : (l - 1).toNat = l.natAbs - 1 := by omega
       rw [e]
-    · rw [decide_eq_false hp, Quiver.SchreierGraph.evalWord_cons_false, if_neg (by omega),
-        if_pos ⟨by omega, by omega⟩]
+    · rw [decide_eq_false hp, Quiver.SchreierGraph.evalWord_cons_false, ite_eq_right (by omega),
+        ite_eq_left ⟨by omega, by omega⟩]
       have e : (-l - 1).toNat = l.natAbs - 1 := by omega
       rw [e]
 
@@ -109,7 +109,7 @@ theorem pa450010_clK (b : Bool) :
   have h : (fun j => pa450010wv b 4 pa450010wK[j]!) '' {j | j < pa450010wK.length} =
       {pA, pB, pG b, pT} := by
     ext g
-    simp only [Set.mem_image, Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
+    simp only [Set.mem_image, Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
     constructor
     · rintro ⟨j, hj, rfl⟩
       have hj' : j < 4 := hj
@@ -128,7 +128,7 @@ theorem pa450010_clD (b : Bool) :
   have h : (fun j => pa450010wv b 2 pa450010wD[j]!) '' {j | j < pa450010wD.length} =
       {pA, pB} := by
     ext g
-    simp only [Set.mem_image, Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
+    simp only [Set.mem_image, Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
     constructor
     · rintro ⟨j, hj, rfl⟩
       have hj' : j < 2 := hj

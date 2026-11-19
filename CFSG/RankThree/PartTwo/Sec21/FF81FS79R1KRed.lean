@@ -19,7 +19,7 @@ theorem nor_sup_decomp {x : G} (hx : orderOf x = 3) {Z : Subgroup G} [hZ : Z.Nor
     (hg : g ∈ Nor (Subgroup.zpowers x ⊔ Z)) :
     ∃ z ∈ Z, ∃ n ∈ Nor (Subgroup.zpowers x), g = z * n := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hx3 : x ^ 3 = 1 := by
     rw [← hx]
     exact pow_orderOf_eq_one x
@@ -75,10 +75,12 @@ theorem nor_sup_decomp {x : G} (hx : orderOf x = 3) {Z : Subgroup G} [hZ : Z.Nor
       (Subgroup.mem_zpowers x)) i) hkgN
   · exact hg'.trans (by group)
 
+omit [Finite G] in
 theorem conj_mem_inv {Z : Subgroup G} [hZ : Z.Normal] {z : G} (hz : z ∈ Z) (g : G) :
     g⁻¹ * z * g ∈ Z := by
   simpa using hZ.conj_mem z hz g⁻¹
 
+omit [Finite G] in
 theorem not_mem_of_coprime {Z : Subgroup G} (hZc : Nat.Coprime 3 (Nat.card Z)) {x : G}
     (hx : orderOf x = 3) : x ∉ Z := by
   intro hxZ
@@ -92,7 +94,7 @@ theorem not_mem_of_coprime {Z : Subgroup G} (hZc : Nat.Coprime 3 (Nat.card Z)) {
 theorem not_dvd_of_two_power {Z R : Subgroup G} (hZc : Nat.Coprime 3 (Nat.card Z))
     (hR2 : ∀ r ∈ R, ∃ k : ℕ, r ^ (2 ^ k) ∈ Z) : ¬ 3 ∣ Nat.card R := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro hd
   obtain ⟨r, hr⟩ := exists_prime_orderOf_dvd_card' (G := ↥R) 3 hd
   have hrG : orderOf (r : G) = 3 := by rw [Subgroup.orderOf_coe]; exact hr
@@ -122,7 +124,7 @@ theorem FS79Hyp1.no2_Z (h : FS79Hyp1 b t c J) {Z : Subgroup G}
     (hZc : Nat.Coprime 3 (Nat.card Z)) {R : Subgroup G}
     (hR2 : ∀ r ∈ R, ∃ k : ℕ, r ^ (2 ^ k) ∈ Z) (hb : b ∈ Nor R) (hc : c ∈ Nor R) : R ≤ Z := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hR3 := not_dvd_of_two_power hZc hR2
   have hBR : Subgroup.closure ({b, c} : Set G) ≤ Nor R := by
     rw [Subgroup.closure_le]
@@ -148,12 +150,12 @@ theorem FS79Hyp1.no2_Z (h : FS79Hyp1 b t c J) {Z : Subgroup G}
   rw [← hm]
   exact Z.pow_mem hk m
 
-theorem FS79Hyp1.weak_Z (h : FS79Hyp1 b t c J) {Z : Subgroup G} [hZ : Z.Normal]
-    (hZc : Nat.Coprime 3 (Nat.card Z)) {h' : G}
+theorem FS79Hyp1.weak_Z (h : FS79Hyp1 b t c J) {Z : Subgroup G} [_hZ : Z.Normal]
+    (_hZc : Nat.Coprime 3 (Nat.card Z)) {h' : G}
     (hh : ∀ k : ℤ, h' * b ^ k * h'⁻¹ ∈ Nor (Subgroup.zpowers b ⊔ Z)) :
     h' * b * h'⁻¹ ∈ Subgroup.zpowers b ⊔ Z := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set E : Subgroup G := Subgroup.zpowers b ⊔ Z with hE
   have hbE : b ∈ E := Subgroup.mem_sup_left (Subgroup.mem_zpowers b)
   have hb' : h' * b * h'⁻¹ ∈ Nor E := by simpa using hh 1
@@ -192,6 +194,7 @@ theorem FS79Hyp1.weak_Z (h : FS79Hyp1 b t c J) {Z : Subgroup G} [hZ : Z.Normal]
   rw [e] at this
   exact this
 
+omit [Finite G] in
 theorem Nor_le_Nor_sup_of_normal {A Z : Subgroup G} [hZ : Z.Normal] :
     Nor A ≤ Nor (A ⊔ Z) := fun g hg =>
   Subgroup.inf_normalizer_le_normalizer_sup A Z
@@ -200,7 +203,7 @@ theorem Nor_le_Nor_sup_of_normal {A Z : Subgroup G} [hZ : Z.Normal] :
 theorem FS79Hyp1.qdata_top (h : FS79Hyp1 b t c J) {Z : Subgroup G} [hZ : Z.Normal]
     (hZc : Nat.Coprime 3 (Nat.card Z)) : QData (⊤ : Subgroup G) Z b t c J := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hbZ : b ∉ Z := not_mem_of_coprime hZc h.ord_b
   refine ⟨le_top, fun g _ z hz => hZ.conj_mem z hz g, Subgroup.mem_top _, Subgroup.mem_top _,
     Subgroup.mem_top _, le_top, h.c_mem, h.b_pow_three, hbZ, h.t_sq, ?_, h.inv_b,

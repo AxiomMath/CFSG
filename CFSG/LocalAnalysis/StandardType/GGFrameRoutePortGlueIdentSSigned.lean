@@ -18,7 +18,7 @@ private lemma sgnZ_xor (a b : Bool) (x : ZMod 3) :
 
 private lemma sgnZ_one_injective (b c : Bool)
     (h : sgnZ b (1 : ZMod 3) = sgnZ c 1) : b = c := by
-  cases b <;> cases c <;> simp only [sgnZ] at h ⊢ <;> try rfl
+  cases b <;> cases c <;> simp only [sgnZ] at h ⊢
   all_goals exact absurd h (by decide)
 
 private lemma moveExp_single (π : Equiv.Perm (Fin 6)) (η : Fin 6 → Bool) (j : Fin 6) :

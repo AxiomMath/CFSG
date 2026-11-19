@@ -40,8 +40,7 @@ variable (k : Type) [Field k]
     isIntertwining' g := by
       apply LinearMap.ext
       intro u
-      induction u using TensorProduct.induction_on with
-      | zero => simp
+      induction u using TensorProduct.inductionOn with
       | tmul a w =>
         change TensorProduct.mapOfCompatibleSMul
             (Module.End (MonoidAlgebra (ZMod 2) G) ρ.asModule) (ZMod 2) k k ρ.asModule

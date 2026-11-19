@@ -54,7 +54,7 @@ theorem le_M_of_rank_two {p : ℕ} {M F H : Subgroup G} (hF : inD p M F) (hH : I
   exact hHC.trans ((Subgroup.centralizer_le_normalizer _).trans
     ((normalizer_le_glbCore' inf_le_left h2).trans hF.2.clause_d))
 
-theorem inD_of_bigger_key {p : ℕ} [hp : Fact p.Prime] {M E A : Subgroup G} (hEA : IsDDpStar p M E A)
+theorem inD_of_bigger_key {p : ℕ} [_hp : Fact p.Prime] {M E A : Subgroup G} (hEA : IsDDpStar p M E A)
     {F H : Subgroup G} (hF : inD p M F) (hH : IsSCp p ⊤ H) (h2 : 2 ≤ CFSG.Open.pRank p (F ⊓ H))
     (h3 : 3 ≤ CFSG.Open.pRank p H) (hbig : ¬ ddKey p F H ≤ ddKey p E A) : inD p M H := by
   have hHM := le_M_of_rank_two hF hH h2
@@ -162,13 +162,14 @@ theorem succ_le_pow_pred {p r : ℕ} (hp : 3 ≤ p) (hr : 2 ≤ r) : r + 1 ≤ p
   omega
 
 theorem exists_elemAb_sub_of_rank {p : ℕ} [hp : Fact p.Prime] {Q : Subgroup G}
-    (hQ : CFSG.Open.IsElemAbelian p Q) {s : ℕ} (hs : s ≤ CFSG.Open.pRank p Q) :
+    (_hQ : CFSG.Open.IsElemAbelian p Q) {s : ℕ} (hs : s ≤ CFSG.Open.pRank p Q) :
     ∃ X : Subgroup G, X ≤ Q ∧ CFSG.Open.IsElemAbelian p X ∧ Nat.card X = p ^ s := by
   obtain ⟨E0, hE0Q, hE0ab, hE0card⟩ := CFSG.SectionRank.exists_pRank hp.out.one_lt Q
   obtain ⟨X, hXE0, hXab, hXcard⟩ :=
     exists_le_isElemAbelian_card hE0ab (n := s) (by rw [hE0card]; exact pow_dvd_pow p hs)
   exact ⟨X, hXE0.trans hE0Q, hXab, hXcard⟩
 
+omit [Finite G] in
 theorem kconn_mono {p k : ℕ} {R A B : Subgroup G} (h : IsKConnectedIn p k R A B) :
     IsKConnectedIn p k ⊤ A B := by
   obtain ⟨-, hAab, hAc, -, hBab, hBc, hcases⟩ := h
@@ -271,6 +272,7 @@ theorem lemma118_P1_anchor {p : ℕ} [hp : Fact p.Prime] (hp2 : p ≠ 2)
       hs.trans (rank_ge_of_card' hYab hYcard.ge)
     exact ⟨X, hXQ, propagate_chain hEA (kconn_mono kc) (base_of_le hEA hD hYD hYr)⟩
 
+omit [Finite G] in
 theorem glbCore_mono {p : ℕ} [Finite G] {Q P : Subgroup G} (h : Q ≤ P) :
     GLBCore p 2 Q ≤ GLBCore p 2 P := by
   unfold GLBCore
@@ -299,7 +301,7 @@ theorem lemma118_of_gap (hI31_6 : Input31_6) (hI31_9 : Input31_9) (hgap : Lemma1
   rcases h.ht with ht | ht | ht
   · exfalso
     have hp : p.Prime := h.standing.prime
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     obtain ⟨Q, D, R, hQ, haQ, hD, hR, hQR, hDR, hAR⟩ := hgap G m p B M E A a K h ht
     obtain ⟨H, -, hQH, hHD⟩ :=
       lemma118_P1_anchor h.standing.ne_two h.pair hI31_6 hI31_9 hD hQ hR hQR hDR hAR

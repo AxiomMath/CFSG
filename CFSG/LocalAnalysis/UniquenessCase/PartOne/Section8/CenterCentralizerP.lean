@@ -9,9 +9,9 @@ namespace CFSG.LocalAnalysis.UniquenessCase.PartOne.Section8
 theorem not_three_dvd_card_mulAut_of_card_three
     {Z : Type} [Group Z] (hZ : Nat.card Z = 3) :
     ¬ 3 ∣ Nat.card (MulAut Z) := by
-  haveI : Fact (Nat.card Z).Prime := ⟨by rw [hZ]; norm_num⟩
-  haveI : Finite Z := Nat.finite_of_card_ne_zero (by rw [hZ]; norm_num)
-  haveI : IsCyclic Z := isCyclic_of_prime_card rfl
+  have : Fact (Nat.card Z).Prime := ⟨by rw [hZ]; norm_num⟩
+  have : Finite Z := Nat.finite_of_card_ne_zero (by rw [hZ]; norm_num)
+  have : IsCyclic Z := isCyclic_of_prime_card rfl
   rw [IsCyclic.card_mulAut, hZ, Nat.totient_prime Nat.prime_three]
   norm_num
 
@@ -21,7 +21,7 @@ theorem le_centralizer_center_of_isPGroup
     (hPN : P ≤ Subgroup.normalizer (Z : Set G))
     (hZcard : Nat.card ↥Z = 3) :
     P ≤ Subgroup.centralizer (Z : Set G) := by
-  haveI : Finite ↥Z := Nat.finite_of_card_ne_zero (by rw [hZcard]; norm_num)
+  have : Finite ↥Z := Nat.finite_of_card_ne_zero (by rw [hZcard]; norm_num)
   intro p hp
   let ρ : P →* MulAut ↥Z := Z.normalizerMonoidHom.comp (Subgroup.inclusion hPN)
   have hρ : ∀ (q : P) (z : ↥Z),

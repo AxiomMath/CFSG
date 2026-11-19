@@ -11,6 +11,7 @@ open Matrix CFSG.Monster.B.Geometry CFSG.ClassicalInvolution.Phan.PhanE
 
 variable {K : Type} [Field K] [Finite K] {f : ℕ} [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 private theorem pls2p_mem_refSet_flagAct_iff {n : ℕ} {d : List ℕ} {e : GL (Fin n) K}
     (he : StabV n d e) (x : FlagK K n) :
     flagAct e x ∈ refSet K n d ↔ x ∈ refSet K n d := by
@@ -32,11 +33,11 @@ private theorem pls2p_flagPsi'_eq (hK : Nat.card K = (2 ^ f) ^ 2) {n : ℕ} {d :
     (hpl : ∀ b, b + 1 < d.length → 2 ≤ blockSize d b → pl.getD b false = pol)
     {x : FlagK K n} (hx : x ∈ refSet K n d) :
     flagPsi' K f hK n d pl x = flagPsi hK hd (List.replicate (d.length - 1) pol) x := by
-  rw [flagPsi', dif_pos hd]
+  rw [flagPsi', dite_eq_left hd]
   exact flagPsi_eq_of_pol_eq hK hd pl (List.replicate (d.length - 1) pol)
     (fun b hb h2 => by
       rw [hpl b hb h2]
-      simp [List.getD_replicate, show b < d.length - 1 from by omega]) hx
+      simp [show b < d.length - 1 from by omega]) hx
 
 theorem exists_chart_prod {I C : Type} (X : ChamberSystem I C) (hK : Nat.card K = (2 ^ f) ^ 2)
     {m₁ m₂ : ℕ} {d₁ d₂ : List ℕ} (hd₁ : IsCut (m₁ + 1) d₁) (hd₂ : IsCut (m₂ + 1) d₂)

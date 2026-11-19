@@ -338,7 +338,7 @@ theorem qtwoDL1_unitMat_block (hK : Nat.card K = 4) {n : ℕ} (hn : 4 ≤ n) {J 
     exact hsep' hb_eq.symm
   exact hsep a b hab habJ
 
-theorem qtwoDL1_unitMat_mem_block (hK : Nat.card K = 4) {n : ℕ} {J : Finset (Fin n)}
+theorem qtwoDL1_unitMat_mem_block (_hK : Nat.card K = 4) {n : ℕ} {J : Finset (Fin n)}
     {g : GL (Fin n) K} (hgU : ggIsUnitaryMat (p := 2) (f := 1) g)
     (hgJ : ∀ a b, a ≠ b → (a ∉ J ∨ b ∉ J) → (g : Matrix (Fin n) (Fin n) K) a b = 0)
     {k : ℕ} {c₀ : K}
@@ -434,8 +434,8 @@ theorem qtwoDL1_unitMat_mem_block (hK : Nat.card K = 4) {n : ℕ} {J : Finset (F
       by_cases hii : i = j
       · subst hii
         have hiJ : i ∉ J := by rcases hij with h | h <;> exact h
-        rw [hAdiag i hiJ, if_pos rfl]
-      · rw [hA, Matrix.smul_apply, hgJ i j hii hij, smul_zero, if_neg hii]
+        rw [hAdiag i hiJ, ite_eq_left rfl]
+      · rw [hA, Matrix.smul_apply, hgJ i j hii hij, smul_zero, ite_eq_right hii]
     have hpowGL : gA ^ (2 ^ k) = 1 := by
       apply Units.ext
       rw [Units.val_pow_eq_pow_val, hgA, hApow, Units.val_one]

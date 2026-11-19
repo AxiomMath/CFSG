@@ -82,7 +82,7 @@ end Iii
 theorem lemma104_iii_holds : Lemma104_iiiStatement := by
   intro G _ _ m p B M h E A hEA Es E0 hEs hE0 hconn
   have hp : p.Prime := h.standing.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, hEsab, hEscard, -, hE0ab, hE0card, hchain⟩ := hconn
   have hE0r : CFSG.Open.pRank p (E ⊓ A) + 1 ≤ CFSG.Open.pRank p E0 :=
     rank_ge_of_card hE0ab hE0card
@@ -136,18 +136,22 @@ private theorem good_of_rtg {p : ℕ} (hp : p.Prime) {M E A : Subgroup G} (hEA :
     obtain ⟨h1, h2, h3, h4, -⟩ := hr x y hxy
     exact good_of_commute hp hEA h1 h2 h3 h4 ih
 
+omit [Finite G] in
 private theorem card_gLBConj (y : G) (H : Subgroup G) : Nat.card (GLBConj y H) = Nat.card H := by
   unfold GLBConj
   exact Subgroup.card_map_of_injective (MulAut.conj y⁻¹).injective
 
+omit [Finite G] in
 private theorem gLBConj_fix_of_mem {M : Subgroup G} {y : G} (hy : y ∈ M) : GLBConj y M = M :=
   gLBConj_eq_of_mem_normalizer (Subgroup.le_normalizer hy)
 
+omit [Finite G] in
 private theorem gLBConj_le_of_mem {M H : Subgroup G} {y : G} (hy : y ∈ M) (hH : H ≤ M) :
     GLBConj y H ≤ M := by
   calc GLBConj y H ≤ GLBConj y M := gLBConj_mono y hH
     _ = M := gLBConj_fix_of_mem hy
 
+omit [Finite G] in
 private theorem isSCp_gLBConj_of_mem' {p : ℕ} {M A : Subgroup G} {y : G} (hy : y ∈ M)
     (hA : IsSCp p M A) : IsSCp p M (GLBConj y A) := by
   refine ⟨gLBConj_le_of_mem hy hA.1, CFSG.SectionRank.isElemAbelian_map hA.2.1 _, ?_⟩
@@ -181,7 +185,7 @@ private theorem exists_centralizing_of_plane {p : ℕ} [Fact p.Prime] {B U : Sub
     ∃ W : Subgroup G, W ≤ B ∧ IsElemAbelian p W ∧ Nat.card W = p ^ 3 ∧
       ∀ w ∈ W, ∀ u ∈ U, w * u = u * w := by
   have hp : p.Prime := Fact.out
-  letI act : MulAction ↥B ↥U :=
+  let act : MulAction ↥B ↥U :=
     { smul := fun b u => ⟨(b : G) * (u : G) * (b : G)⁻¹, hUB b b.2 u u.2⟩
       one_smul := fun u => Subtype.ext (by
         show ((1 : ↥B) : G) * (u : G) * ((1 : ↥B) : G)⁻¹ = (u : G)
@@ -199,7 +203,7 @@ private theorem exists_centralizing_of_plane {p : ℕ} [Fact p.Prime] {B U : Sub
       (h1.symm.trans (Nat.modEq_zero_iff_dvd.2 (dvd_pow_self p two_ne_zero)))
   obtain ⟨u0, hu0fix, hu0ne⟩ : ∃ u0 : ↥U, u0 ∈ MulAction.fixedPoints ↥B ↥U ∧ u0 ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hsub : MulAction.fixedPoints ↥B ↥U ⊆ {1} := fun x hx => hcon x hx
     have h1mem : (1 : ↥U) ∈ MulAction.fixedPoints ↥B ↥U := by
       rw [MulAction.mem_fixedPoints]
@@ -223,7 +227,7 @@ private theorem exists_centralizing_of_plane {p : ℕ} [Fact p.Prime] {B U : Sub
     orderOf_eq_prime (hUe.2 _ u0.2) (fun h => hu0ne (Subtype.ext h))
   obtain ⟨u1, hu1U, hu1n⟩ : ∃ u1 ∈ U, u1 ∉ Subgroup.zpowers (u0 : G) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have h1 := Subgroup.card_le_of_le
       (show U ≤ Subgroup.zpowers (u0 : G) from fun u hu => hcon u hu)
     rw [hUc, Nat.card_zpowers, hu0ord] at h1
@@ -336,21 +340,24 @@ section Sylow
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem exists_sylow_map_eq {p : ℕ} {Y X : Subgroup G} (hX : IsSylowIn p Y X) :
     ∃ S : Sylow p ↥Y, (S : Subgroup ↥Y).map Y.subtype = X := by
   have hXY : IsPGroup p ↥(X.subgroupOf Y) :=
     hX.2.1.comap_of_injective Y.subtype Subtype.val_injective
   obtain ⟨S, hS⟩ := IsPGroup.exists_le_sylow hXY
   refine ⟨S, ?_⟩
-  have hmap : IsPGroup p ↥((S : Subgroup ↥Y).map Y.subtype) := S.isPGroup'.map Y.subtype
+  have hmap : IsPGroup p ↥((S : Subgroup ↥Y).map Y.subtype) := S.isPGroup.map Y.subtype
   have hle : X ≤ (S : Subgroup ↥Y).map Y.subtype := fun x hx =>
     ⟨⟨x, hX.1 hx⟩, hS (Subgroup.mem_subgroupOf.2 hx), rfl⟩
   exact hX.2.2 _ (Subgroup.map_subtype_le _) hmap hle
 
+omit [Finite G] in
 private theorem isPGroup_gLBConj' {p : ℕ} {H : Subgroup G} (hH : IsPGroup p ↥H) (g : G) :
     IsPGroup p ↥(GLBConj g H) :=
   hH.map (MulAut.conj g⁻¹).toMonoidHom
 
+omit [Finite G] in
 private theorem isSylowIn_gLBConj' {p : ℕ} {P : Subgroup G} (hP : IsSylowIn p ⊤ P) (g : G) :
     IsSylowIn p ⊤ (GLBConj g P) := by
   refine ⟨le_top, isPGroup_gLBConj' hP.2.1 g, fun R' _ hR'p hR'le => ?_⟩
@@ -422,7 +429,7 @@ theorem lemma104_iv_of (h102 : Lemma102Statement) (h31 : Input31_6)
   intro G _ _ m p B M h E A hEA hk R hR
   have hS : GLStanding G m p := h.standing
   have hp : p.Prime := hS.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp1 : 1 < p := hp.one_lt
   have hp2 : p ≠ 2 := hS.ne_two
   have hm4 : 4 ≤ m := hS.four_le

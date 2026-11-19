@@ -36,7 +36,7 @@ private theorem isSolvable_centralizer_of_orderOf_three {x : titsD} (hx : orderO
     Group.IsSolvable ↥(Subgroup.centralizer ({x} : Set titsD)) := by
   obtain ⟨a, b, hcard, -⟩ :=
     CFSG.RankThree.PartTwo.Sec4.Res417Seven.exists_card_centralizer_of_titsD hx
-  haveI := Fintype.ofFinite ↥(Subgroup.centralizer ({x} : Set titsD))
+  have := Fintype.ofFinite ↥(Subgroup.centralizer ({x} : Set titsD))
   exact CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow
     (p := 2) (q := 3) (a := a) (b := b) Nat.prime_two Nat.prime_three (by norm_num)
     (by rw [Nat.card_eq_fintype_card] at hcard; exact hcard)
@@ -45,9 +45,9 @@ private theorem tits_isCyclic_of_card_le_two {G : Type*} [Group G] [Finite G]
     (h : Nat.card G ≤ 2) : IsCyclic G := by
   have hpos : 0 < Nat.card G := Nat.card_pos
   rcases (show Nat.card G = 1 ∨ Nat.card G = 2 by omega) with h1 | h1
-  · haveI := (Nat.card_eq_one_iff_unique.mp h1).1
+  · have := (Nat.card_eq_one_iff_unique.mp h1).1
     exact isCyclic_of_subsingleton
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact isCyclic_of_prime_card h1
 
 private theorem isSolvable_centralizer_of_orderOf_five {x : titsD} (hx : orderOf x = 5) :
@@ -89,7 +89,7 @@ private theorem isSolvable_centralizer_of_orderOf_thirteen {x : titsD} (hx : ord
 private theorem isSolvable_centralizer_of_orderOf_prime {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {x : titsD} (hx : x ^ p = 1) (hx1 : x ≠ 1) :
     Group.IsSolvable ↥(Subgroup.centralizer ({x} : Set titsD)) := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hord : orderOf x = p := orderOf_eq_prime hx hx1
   have hdvd : p ∣ Nat.card titsD := by
     rw [← hord]

@@ -27,7 +27,7 @@ omit [Finite G] in
 theorem quotient_isPGroup_of_hasSylowTwoQuotient (H : Subgroup G)
     (h : HasSylowTwoQuotient H) : IsPGroup 2 (H ⧸ Assembly.oddCore H) := by
   obtain ⟨T, ⟨e⟩⟩ := h
-  exact T.isPGroup'.of_equiv e.symm
+  exact T.isPGroup.of_equiv e.symm
 
 omit [Finite G] in
 theorem not_hasAlternatingQuotient_of_two_quotient (H : Subgroup G)

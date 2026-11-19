@@ -158,7 +158,7 @@ theorem E3FrameR.omegaNbr_ne_of_gen (hG : TightSecGenS3R r n) (hF : E3FrameR r n
     (h163 : Concl163 (secR R u) (E3.secT htu ht)) {L : Subgroup Y}
     (hLπ : L ∈ orbOf (TC.nbrAdj (CoreAssembly.conjClass (tightCore R))) J (tightCore R))
     (hLs : L ∈ omegaStarNbr (CoreAssembly.conjClass (tightCore R)) (tightCore R))
-    (hLn : L ∉ omegaNbr (CoreAssembly.conjClass (tightCore R)) (tightCore R)) :
+    (_hLn : L ∉ omegaNbr (CoreAssembly.conjClass (tightCore R)) (tightCore R)) :
     omegaNbr (CoreAssembly.conjClass (tightCore R)) L ≠
       omegaNbr (CoreAssembly.conjClass (tightCore R)) (tightCore R) := by
   intro heq

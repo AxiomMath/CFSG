@@ -58,7 +58,7 @@ theorem center_EC : Subgroup.center EC = ⊥ :=
 theorem isSimpleGroup_EC : IsSimpleGroup EC := by
   have he : (EC ⧸ Subgroup.center EC) ≃* EC :=
     (QuotientGroup.quotientMulEquivOfEq center_EC).trans QuotientGroup.quotientBot
-  haveI : IsSimpleGroup (EC ⧸ Subgroup.center EC) :=
+  have : IsSimpleGroup (EC ⧸ Subgroup.center EC) :=
     (CFSG.LieType.Simplicity.isQuasisimple_adjointGroup_e6 F2).2.1
   exact he.symm.isSimpleGroup
 

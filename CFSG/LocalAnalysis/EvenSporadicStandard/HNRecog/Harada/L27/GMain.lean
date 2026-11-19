@@ -21,7 +21,7 @@ theorem wrData_Xgrp (h : Setting25 G t z z₁ ι zv R0 F) (hzt : ¬ IsConj t z)
     (htz : IsConj t (t * z)) (hS5 : CzS5 t z R0) {n : G}
     (hn : n ∈ normalizer (ι.range : Set G)) (hnz : n * z₁ * n⁻¹ = z) :
     WrData ↥(Xgrp h) (rhoX h) (wvec h) (Pgrp h) (Fbar h n) (vbar h hn) :=
-  ⟨fun a b hab => Subtype.ext (Subtype.ext hab), finrank_Wsp h, card_Xgrp_dvd h,
+  ⟨fun _a _b hab => Subtype.ext (Subtype.ext hab), finrank_Wsp h, card_Xgrp_dvd h,
     card_Xgrp_le h hzt htz hS5, wvec_ne_zero h hzt htz, Pgrp_fix h, Pgrp_iso h hzt htz hS5,
     Fbar_iso h hn hnz, Fbar_fpf h hn hnz, vbar_mul_self h hn, vbar_ne_one h hn hnz,
     Fbar_comm h hn hnz, centralizer_vbar_le h hn hnz⟩

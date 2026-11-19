@@ -46,7 +46,7 @@ theorem rootDiagUnit_conj_mem_negUnipotent (a : Fin τ.rank → Kˣ) {x : ModGL 
 
 theorem hatAut_rootDiagUnit (a : Fin τ.rank → Kˣ) :
     hatAut τ K ⟨rootDiagUnit τ a, rootDiagUnit_mem_hatGroup a⟩ = rootDiagAutHom τ K a :=
-  MulEquiv.ext fun g => Subtype.ext rfl
+  MulEquiv.ext fun _g => Subtype.ext rfl
 
 theorem hatAut_injective : Function.Injective (hatAut τ K) := by
   refine (injective_iff_map_eq_one (hatAut τ K)).mpr fun z hz => ?_

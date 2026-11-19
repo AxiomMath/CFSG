@@ -19,7 +19,7 @@ open Polynomial in
 theorem exists_algebraMap_of_pow_card_eq {K L : Type} [Field K] [Finite K] [Field L] [Algebra K L]
     (c : L) (hc : c ^ Nat.card K = c) : ∃ k : K, algebraMap K L k = c := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   rw [Nat.card_eq_fintype_card] at hc
   have hq1 : 1 < Fintype.card K := Fintype.one_lt_card
   set P : L[X] := X ^ Fintype.card K - X with hP
@@ -101,7 +101,7 @@ theorem exists_rational_of_fixed [Finite K] (ψ : L →+* L) (hψ : ∀ c, ψ c 
     intro β hβ
     have h1 : heisCoord τ L (Fm ψ y) β = ψ (c β) := by
       rw [hFy, hspec.mul _ (Uθ_le_Qθ (mem_rootSubgroup.2 ⟨ψ z, rfl⟩)) _ hQ.1,
-        hspec.pinnedX_highRoot, Pi.add_apply, hQ.2 β, if_pos hβ]
+        hspec.pinnedX_highRoot, Pi.add_apply, hQ.2 β, ite_eq_left hβ]
       simp
     rw [hF, hc] at h1
     exact h1

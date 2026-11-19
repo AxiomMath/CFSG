@@ -114,7 +114,7 @@ theorem exists_fixed_witt_two [IsAlgClosed L] [CharP L 2] (σ : L ≃+* L) {f : 
       (k : Matrix (Fin 6) (Fin 6) L).mulVec (u 1) = u' 1 ∧
       (k : Matrix (Fin 6) (Fin 6) L).mulVec (u 2) = u' 2 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let F : Subfield L := CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.I292CaseALang.sqFixedField σ
   have hFmem : ∀ c : L, c ∈ F ↔ σ (σ c) = c :=
     fun c => CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.I292CaseALang.mem_sqFixedField
@@ -146,9 +146,9 @@ theorem exists_fixed_witt_two [IsAlgClosed L] [CharP L 2] (σ : L ≃+* L) {f : 
     rw [hq, ← CFSG.RankThree.Classical2.natCard_setOf_pow_eq_self (Ω := L) (ℓ := 2)
       (e := 2 * f) (by omega)]
     exact Nat.card_congr (Equiv.subtypeEquivRight hpow)
-  haveI hfin : Finite F :=
+  have hfin : Finite F :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; exact pow_ne_zero _ (pow_ne_zero _ (by norm_num)))
-  haveI hchar : CharP F 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := f) hcard
+  have hchar : CharP F 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := f) hcard
   have hσFeq : σF = CFSG.LieType.BorelTits.unitaryInvolution F 2 f := by
     ext x
     rw [CFSG.LieType.BorelTits.unitaryInvolution_apply]

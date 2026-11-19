@@ -20,8 +20,8 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
-@[expose] def R18_standingAt (D : Data G) (V₀ V : Subgroup G) (h : Hyp125 D V₀ V)
-    (hsmall : mSub V₀ ≤ 1) (hσ : D.sig.Nonempty) : Prop :=
+@[expose] def R18_standingAt (D : Data G) (V₀ V : Subgroup G) (_h : Hyp125 D V₀ V)
+    (_hsmall : mSub V₀ ≤ 1) (_hσ : D.sig.Nonempty) : Prop :=
   ∃ p L, Hyp18 D V₀ V p L
 
 theorem eighteen_standing (D : Data G) (h65 : S17.R17_65 D) :
@@ -161,7 +161,7 @@ theorem eighteen_exists_gamma_zero {D : Data G} {V A : Subgroup G}
   have hV2 : IsPGroup 2 V := hV.isPGroup
   have hcardV : Nat.card V = 2 ^ mSub V := card_eq_two_pow_mSub hV2
   have hex : ∃ U' : Subgroup G, U' ≤ V ∧ Nat.card V = 2 ^ (j - 1) * Nat.card U' := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨K, hK⟩ := Sylow.exists_subgroup_card_pow_prime (G := ↥V) 2
       (n := mSub V - (j - 1)) (by
         rw [hcardV]
@@ -207,6 +207,7 @@ theorem eighteen_membership_b (D : Data G) {V₀ V : Subgroup G} {p : ℕ} {L : 
   have hmem := (h18 0 A hAgam hAne (2 * S17.nOf L) hδ hr' B hB).1
   simpa using hmem
 
+omit [Finite G] in
 theorem commSub_barSub_le_imgTil {V₀ V A : Subgroup G} (hV : IsElemAbelian 2 V)
     (hVA : V ≤ normalizer (A : Set G)) :
     commSub ⊤ (barSub V₀ V hV A) ≤ imgTil V₀ V hV (A ⊓ V) := by
@@ -225,6 +226,7 @@ theorem commSub_barSub_le_imgTil {V₀ V A : Subgroup G} (hV : IsElemAbelian 2 V
     exact A.mul_mem haA h1
   · exact (actStab V₀ V hV a v * v⁻¹).val_mem
 
+omit [Finite G] in
 theorem barSub_self_eq_bot {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) :
     barSub V₀ V hV V = ⊥ := by
   refine le_bot_iff.1 fun φ hφ => ?_
@@ -250,7 +252,7 @@ theorem mem_M_of_centralizer_le (D : Data G) {V₀ V : Subgroup G} {p : ℕ} {L 
     rw [this, hu]
     group
   obtain ⟨hpp, hpd⟩ := h15 _ hwV hu1
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card'
     (G := ↥(D.M ⊓ centralizer ({g⁻¹ * w * g} : Set G))) p hpd
   have hyM : (y : G) ∈ D.M := y.2.1
@@ -321,7 +323,7 @@ theorem commSub_singular_of_le_normalizer (D : Data G) {V₀ V : Subgroup G} {p 
     have h2 : (⟨mkTil V₀ V hV x, Subgroup.mem_top _⟩ : ↥(⊤ : Subgroup (Vtil V₀ V hV))) = 1 :=
       Subtype.ext h1
     rw [h2, map_one, toAdd_one]
-    simp [StatedQuadMinus, CFSG.MatrixModel.minusQuadCore]
+    simp [StatedQuadMinus]
   by_contra hQ
   have hxt : tilOf V₀ V hV x.val x.val_mem = mkTil V₀ V hV x := rfl
   have hSp : IsSp4

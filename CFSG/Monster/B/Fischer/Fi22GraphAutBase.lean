@@ -10,7 +10,7 @@ namespace CFSG.Monster.B.Fischer
 
 open CFSG.Certificates
 
-@[expose] def fi22Sec
+def fi22Sec
     (i : Fin 3510) : fi22P :=
   ⟨Classical.choose (fi22P_exists_smul 0 i), (Classical.choose_spec (fi22P_exists_smul 0 i)).1⟩
 

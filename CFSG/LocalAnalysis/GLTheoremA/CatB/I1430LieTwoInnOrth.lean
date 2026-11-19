@@ -57,7 +57,7 @@ theorem not_compOfType_isA6_inner_omega_two {t : StatedLieTag}
     (hG : StatedClassicalModel S t n 2 f) {α : MulAut S} (hα : α ∈ inner S) (hα3 : α ^ 3 = 1) :
     ¬ CompOfType S α isA6 := by
   have hZ : Subgroup.center S = ⊥ := by
-    haveI := hs
+    have := hs
     obtain ⟨a, b, hab⟩ := hnab
     exact TauCeti.IsSimpleGroup.center_eq_bot_of_not_isMulCommutative fun h =>
       hab (h.is_comm.comm a b)
@@ -73,8 +73,8 @@ theorem mem_inner_of_mem_innAutDerived_omegaPlus {S : Type} [Group S] [Finite S]
     α ∈ inner S := by
   have hG0 := hG
   obtain ⟨-, K, hfield, hfinite, hK, ⟨e⟩⟩ := hG
-  letI := hfield
-  letI := hfinite
+  let := hfield
+  let := hfinite
   obtain ⟨-, -, -, hinner⟩ := KD264Lie.matrixModel_facts_pomegaPlus hG0 hn hK e
   let θ := coordinatePlusWitnessEquiv K e
   exact (CFSG.Sporadic.FischerOddCore.congr_mem_inner_iff θ α).1
@@ -86,8 +86,8 @@ theorem mem_inner_of_mem_innAutDerived_omegaMinus {S : Type} [Group S] [Finite S
     {α : MulAut S} (hα : α ∈ innAutDerived S) (hαp : α ^ p = 1) : α ∈ inner S := by
   have hG0 := hG
   obtain ⟨hadm, K, hfield, hfinite, hK, b, c, hirr, ⟨e⟩⟩ := hG
-  letI := hfield
-  letI := hfinite
+  let := hfield
+  let := hfinite
   have hn4 : 4 ≤ n := hadm.2.2
   have hn1 : 1 ≤ n := by omega
   obtain ⟨-, -, -, hinner⟩ := KD264Lie.matrixModel_facts_pomegaMinus hG0 hK hn1 b c hirr e

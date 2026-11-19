@@ -190,7 +190,7 @@ theorem not_abelian_sylow_cyclic_times_two [Finite G] {A : Subgroup G} [Group.Is
         obtain ⟨i, -, hi⟩ := (Nat.dvd_prime_pow Nat.prime_two).1 hdvd
         exact ⟨i, hi⟩
       have hle : zpowers (g ^ β) ≤ normalizer (T : Set A) := zpowers_le.2 (pow_mem hg β)
-      have hQ := S₀.isPGroup'.to_sup_of_normal_left' hp hle
+      have hQ := S₀.isPGroup.to_sup_of_normal_left' hp hle
       have heq : T ⊔ zpowers (g ^ β) = T := S₀.maximal_isPGroup.eq_of_ge hQ le_sup_left
       rw [← heq]
       exact mem_sup_right (mem_zpowers _)
@@ -285,7 +285,7 @@ theorem not_abelian_sylow_cyclic_times_two [Finite G] {A : Subgroup G} [Group.Is
           _ = e * z := by rw [hhe, hhz]
     have hhcen : ∀ s ∈ S, h * s * h⁻¹ = s := by
       intro s hs
-      obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.1 (S₀.isPGroup'.map A.subtype) ⟨s, hs⟩
+      obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.1 (S₀.isPGroup.map A.subtype) ⟨s, hs⟩
       refine conj_eq_of_odd hSab hhS hβodd hhβ hhinv k s hs ?_
       rw [Subgroup.orderOf_mk] at hk
       rw [← hk]

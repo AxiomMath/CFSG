@@ -29,14 +29,17 @@ variable {S : Type*} [Group S] {X : Type} [Group X] [Finite X]
 def rotConj (ψ : S →* X) (x : X) (i : ℕ) : S →* X :=
   (MulAut.conj ((x ^ i)⁻¹)).toMonoidHom.comp ψ
 
+omit [Finite X] in
 theorem rotConj_apply (ψ : S →* X) (x : X) (i : ℕ) (s : S) :
     rotConj ψ x i s = (x ^ i)⁻¹ * ψ s * x ^ i := by
   simp only [rotConj, MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulAut.conj_apply, inv_inv]
 
+omit [Finite X] in
 theorem rotConj_zero (ψ : S →* X) (x : X) : rotConj ψ x 0 = ψ := by
   ext s
   simp [rotConj_apply]
 
+omit [Finite X] in
 theorem rotConj_injective {ψ : S →* X} (hψ : Function.Injective ψ) (x : X) (i : ℕ) :
     Function.Injective (rotConj ψ x i) := by
   intro a b h
@@ -44,11 +47,13 @@ theorem rotConj_injective {ψ : S →* X} (hψ : Function.Injective ψ) (x : X) 
   apply hψ
   simpa using h
 
+omit [Finite X] in
 theorem rotConj_range (ψ : S →* X) (x : X) (i : ℕ) :
     (rotConj ψ x i).range = CFSG.Open.GLBConj (x ^ i) ψ.range := by
   rw [rotConj, MonoidHom.range_comp]
   rfl
 
+omit [Finite X] in
 theorem mem_rotConj_range (ψ : S →* X) (x : X) (i : ℕ) (a : X) :
     a ∈ CFSG.Open.GLBConj (x ^ i) ψ.range ↔ ∃ s, rotConj ψ x i s = a := by
   rw [← rotConj_range]
@@ -68,6 +73,7 @@ variable {B L : Subgroup X} {x : X} {ψ : S →* X} (h : RotSetup B L x ψ)
 
 include h
 
+omit [Finite X] in
 theorem x_cube : x ^ 3 = 1 := h.elem.2 x h.xB
 
 theorem cross_commute {i j : ℕ} (hi : i < 3) (hj : j < 3) (hij : i ≠ j) (s s' : S) :
@@ -101,7 +107,6 @@ theorem rotElt_commute (d : RotData S) (i j : Fin 5) :
   have hu2 : Commute (d.g₁ * d.g₂ ^ 2) d.g₂ := hc.mul_left ((Commute.refl d.g₂).pow_left 2)
   fin_cases i <;> fin_cases j <;> simp only [rotElt] <;> first
     | rfl
-    | exact (Commute.refl _).eq
     | exact hc.eq
     | exact hc.symm.eq
     | exact hu1.eq
@@ -120,6 +125,7 @@ theorem commute_of_mul_mul_eq_one {G : Type*} [Group G] {a b c y : G} (h : a * (
   rw [this]
   exact (hb.mul_right hc).inv_right
 
+omit [Finite X] in
 theorem mem_center_of_forall_commute {ψ' : S →* X} (hψ' : Function.Injective ψ') {s : S}
     (h : ∀ s' : S, ψ' s * ψ' s' = ψ' s' * ψ' s) : s ∈ Subgroup.center S := by
   rw [Subgroup.mem_center_iff]
@@ -213,12 +219,14 @@ theorem closure_rotGen_commute (d : RotData S) :
 
 end RotSetup
 
+omit [Finite X] in
 theorem isPGroup_two_zpowers {g : X} (hg1 : g ≠ 1) (hg2 : g ^ 2 = 1) :
     IsPGroup 2 (Subgroup.zpowers g) := by
   have h2 : orderOf g = 2 := orderOf_eq_prime hg2 hg1
   refine IsPGroup.of_card (n := 1) ?_
   rw [Nat.card_zpowers, h2, pow_one]
 
+omit [Finite X] in
 theorem mem_normalizer_zpowers_of_commute {g f : X} (hf : f * g = g * f) :
     f ∈ Subgroup.normalizer ((Subgroup.zpowers g : Subgroup X) : Set X) := by
   refine Subgroup.centralizer_le_normalizer ((Subgroup.zpowers g : Subgroup X) : Set X) ?_
@@ -232,17 +240,21 @@ def rotZ (ψ : S →* X) (x : X) (i : ℕ) : Subgroup X := (Subgroup.center S).m
 def rotZz (ψ : S →* X) (x : X) : Subgroup X :=
   Subgroup.closure (⋃ i : Fin 3, (rotZ ψ x i : Set X))
 
+omit [Finite X] in
 theorem mem_rotZ {ψ : S →* X} {x : X} {i : ℕ} {a : X} :
     a ∈ rotZ ψ x i ↔ ∃ c ∈ Subgroup.center S, rotConj ψ x i c = a := Subgroup.mem_map
 
+omit [Finite X] in
 theorem rotZ_le_rotZz (ψ : S →* X) (x : X) (i : Fin 3) : rotZ ψ x i ≤ rotZz ψ x :=
   fun _ ha => Subgroup.subset_closure (Set.mem_iUnion.2 ⟨i, ha⟩)
 
+omit [Finite X] in
 theorem rotConj_succ_conj (ψ : S →* X) (x : X) (i : ℕ) (s : S) :
     x⁻¹ * rotConj ψ x i s * x = rotConj ψ x (i + 1) s := by
   simp only [rotConj_apply, pow_succ, mul_inv_rev]
   group
 
+omit [Finite X] in
 theorem rotConj_three (ψ : S →* X) {x : X} (hx3 : x ^ 3 = 1) (s : S) :
     rotConj ψ x 3 s = rotConj ψ x 0 s := by
   simp [rotConj_apply, hx3]
@@ -269,6 +281,7 @@ theorem rotZz_commute : ∀ a ∈ rotZz ψ x, ∀ b ∈ rotZz ψ x, a * b = b * 
   obtain ⟨j, hj⟩ := Set.mem_iUnion.1 hb
   exact h.rotZ_commute i.2 j.2 hi hj
 
+omit [Finite X] in
 theorem rotZz_conj_mem {a : X} (ha : a ∈ rotZz ψ x) : x⁻¹ * a * x ∈ rotZz ψ x := by
   have hx3 := h.x_cube
   induction ha using Subgroup.closure_induction with
@@ -281,7 +294,7 @@ theorem rotZz_conj_mem {a : X} (ha : a ∈ rotZz ψ x) : x⁻¹ * a * x ∈ rotZ
     · exact rotZ_le_rotZz ψ x 2 (mem_rotZ.2 ⟨c, hc, rfl⟩)
     · exact rotZ_le_rotZz ψ x 0 (mem_rotZ.2 ⟨c, hc, by
         simpa using (rotConj_three ψ hx3 c).symm⟩)
-  | one => simpa using (rotZz ψ x).one_mem
+  | one => simp
   | mul a b ha hb iha ihb =>
     have : x⁻¹ * (a * b) * x = (x⁻¹ * a * x) * (x⁻¹ * b * x) := by group
     rw [this]
@@ -324,7 +337,7 @@ theorem rotZz_gen {a : X} (ha : a ∈ rotZz ψ x) :
     fin_cases i
     · exact ⟨_, hi, 1, (rotZz ψ x).one_mem, by group⟩
     · refine ⟨_, hz, _, hz0m, ?_⟩
-      simp only [Fin.mk_one, Fin.val_one] 
+      simp only 
       rw [hz1]
       group
     · refine ⟨_, hz, rotConj ψ x 0 c * rotConj ψ x 1 c, (rotZz ψ x).mul_mem hz0m hz1m, ?_⟩
@@ -335,7 +348,7 @@ theorem rotZz_gen {a : X} (ha : a ∈ rotZz ψ x) :
         calc x⁻¹ * (rotConj ψ x 0 c * rotConj ψ x 1 c) * x
             = (x⁻¹ * rotConj ψ x 0 c * x) * (x⁻¹ * rotConj ψ x 1 c * x) := by group
           _ = _ := by rw [hz1, hz2]
-      simp only [Fin.reduceFinMk]
+      simp only
       rw [e1, mul_inv_rev]
       have hc' : Commute (rotConj ψ x 1 c)⁻¹ (rotConj ψ x 0 c)⁻¹ :=
         (Commute.inv_inv (show Commute (rotConj ψ x 1 c) (rotConj ψ x 0 c) from hcz.symm))
@@ -378,6 +391,7 @@ theorem rotZz_gen {a : X} (ha : a ∈ rotZz ψ x) :
         exact this.inv_inv.eq.symm
       _ = z⁻¹ * ((d⁻¹)⁻¹ * (x⁻¹ * d⁻¹ * x)) := by rw [hε']
 
+omit [Finite X] in
 theorem rotZ_card_le (d : RotData S) : Nat.card (rotZ ψ x 0) ≤ 3 := by
   rw [rotZ, Subgroup.card_map_of_injective (rotConj_injective h.inj x 0)]
   exact d.center_card
@@ -436,7 +450,8 @@ variable {B L : Subgroup X} {x : X} {ψ : S →* X} (h : RotSetup B L x ψ)
 
 include h
 
-theorem commute_Bc {e : X} (he : e ∈ i112Bc B L) {i : ℕ} (hi : i < 3) (s : S) :
+omit [Finite X] in
+theorem commute_Bc {e : X} (he : e ∈ i112Bc B L) {i : ℕ} (_hi : i < 3) (s : S) :
     Commute (rotConj ψ x i s) e := by
   have hmem : rotConj ψ x i s ∈ i112J B L := by
     refine i112_le_J (L := L) (B.pow_mem h.xB i) ?_
@@ -494,6 +509,7 @@ theorem card_inf_Bc_le (d : RotData S) {E : Subgroup X}
     (fun a ha => h.rotZz_conj_mem ha) (fun a ha => h.rotZz_gen ha)
   exact h1.trans (h2.trans (h.rotZ_card_le d))
 
+omit [Finite X] in
 theorem closure_rotGen_commute_Bc (d : RotData S) :
     ∀ a ∈ Subgroup.closure (Set.range (rotGen d ψ x)), ∀ b ∈ i112Bc B L, a * b = b * a := by
   intro a ha b hb
@@ -543,6 +559,7 @@ variable {B L : Subgroup X} {x : X} {ψ : S →* X} (h : RotSetup B L x ψ)
 
 include h
 
+omit [Finite X] in
 theorem conj_rotConj {y : X} (hyB : y ∈ B) (φ : MulAut S)
     (hy : ∀ s : S, y * ψ s * y⁻¹ = ψ (φ s)) (i : ℕ) (s : S) :
     y * rotConj ψ x i s * y⁻¹ = rotConj ψ x i (φ s) := by
@@ -572,6 +589,7 @@ variable {B L : Subgroup X} {x : X} {ψ : S →* X} (h : RotSetup B L x ψ)
 
 include h
 
+omit [Finite X] in
 theorem gen_action (d : RotData S) {y : X} (hyB : y ∈ B) (φ : MulAut S)
     (hy : ∀ s : S, y * ψ s * y⁻¹ = ψ (φ s)) (k : ℤ) (hk₁ : φ d.g₁ = d.g₁ ^ k)
     (hk₂ : φ d.g₂ = d.g₂ ^ k) (i : Fin 5) :
@@ -639,7 +657,7 @@ theorem inner_of_mem_sup (d : RotData S) {E : Subgroup X}
     · refine ⟨1, fun s' => ?_⟩
       have := h.commute_Bc hfB (i := 0) (by norm_num) s'
       rw [rotConj_zero] at this
-      simp only [map_one, one_mul, inv_one, mul_one]
+      simp only [one_mul, inv_one, mul_one]
       rw [mul_inv_eq_iff_eq_mul]
       exact this.symm.eq
   | one => exact ⟨1, fun s' => by simp⟩

@@ -43,7 +43,7 @@ theorem exists_normalizer_Tgrp_swap [Finite G] (hC : CentData z ι) (hx : IsConj
     {Q : Subgroup (Perm (Fin 10))} (hQ : GoodQ Q) :
     ∃ g₀ : G, g₀ ∈ normalizer ((Tgrp z ι Q : Subgroup G) : Set G) ∧ g₀ * z * g₀⁻¹ = ι τ₀ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let T : Subgroup G := Tgrp z ι Q
   let N : Subgroup G := centralizer ({ι τ₀} : Set G)
   have hTN : T ≤ N := le_trans (Tgrp_le_CEgrp hC hQ) inf_le_right
@@ -88,7 +88,7 @@ theorem exists_normalizer_Tgrp_swap [Finite G] (hC : CentData z ι) (hx : IsConj
   let P₂ : Sylow 2 N := hT'p.toSylow hnotT'
   have hP₁ : (P₁ : Subgroup N) = T.subgroupOf N := IsPGroup.toSylow_coe hTp hnotT
   have hP₂ : (P₂ : Subgroup N) = T'.subgroupOf N := IsPGroup.toSylow_coe hT'p hnotT'
-  haveI : Finite (Sylow 2 N) := Sylow.finite_of_finiteIndex P₁
+  have : Finite (Sylow 2 N) := Sylow.finite_of_finiteIndex P₁
   obtain ⟨c, hc⟩ := MulAction.exists_smul_eq N P₂ P₁
   have hEqN : MulAut.conj c • (P₂ : Subgroup N) = (P₁ : Subgroup N) := by
     have := congrArg (fun P : Sylow 2 N => (P : Subgroup N)) hc

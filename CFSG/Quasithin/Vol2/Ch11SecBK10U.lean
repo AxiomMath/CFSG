@@ -171,7 +171,7 @@ theorem torusRigid_sz (ha : 1 ≤ a) (hK : Nat.card K = 2 ^ (2 * a + 1)) :
   obtain ⟨P, hPU, -⟩ := Suzuki_model_opposite_root_interface ha hK
   have hS : QuasithinUnique.IsSylowTwoOf (suzukiU a K) ⊤ := by
     rw [← hPU]
-    refine ⟨le_top, P.isPGroup', ?_⟩
+    refine ⟨le_top, P.isPGroup, ?_⟩
     change ¬ 2 ∣ (P : Subgroup (suzukiGroup a K)).relIndex ⊤
     rw [Subgroup.relIndex_top_right]
     exact P.not_dvd_index

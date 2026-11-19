@@ -21,7 +21,7 @@ variable {Ω : Type} [Group Ω] [Finite Ω]
 
 private theorem exc_natCast_ne_zero_alg {K : Type} [Field K] [CharP K 2] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) :
     ((p : ℕ) : AlgebraicClosure K) ≠ 0 := by
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   rw [Ne, CharP.cast_eq_zero_iff (AlgebraicClosure K) 2]
   intro h
@@ -100,8 +100,8 @@ theorem exc_lang_untw {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {X J : Subgroup �
   obtain ⟨SL, a, ι, hq, ⟨Fr, hFr, hΦ⟩, hTa, hap, ha1, hι, hrange, hβ⟩ :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieSemisimple.exists_langSetup_of_inner_untw_of_prime hτ hp hpK
       Nat.prime_five h5K (Or.inl le_rfl) hmon hperf φx h hhL hφx hhp hh1
-  haveI : Finite ↥(adjointGroup (excTag k) K) := Finite.of_equiv _ θ.toEquiv
-  haveI : CharP K 2 := hchar
+  have : Finite ↥(adjointGroup (excTag k) K) := Finite.of_equiv _ θ.toEquiv
+  have : CharP K 2 := hchar
   have hFr' : ∀ c, Fr c = c ^ SL.D.q := fun c => by rw [hq]; exact hFr c
   obtain ⟨w, hn⟩ := SL.D.n_weyl
   obtain ⟨i, hqi, hE⟩ := exc_jbar_rational hp hX hnt hxp hxN hJ θ φx hind SL
@@ -141,8 +141,8 @@ theorem exc_lang_twE6 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {X J : Subgroup �
     CFSG.HardMathSupport.Solomon.Coordinator.LieSemisimple.exists_langSetup_of_inndiag_twE6_of_prime
       Nat.prime_two qc.exponent_pos hK σ hσ' hp hp2 Nat.prime_five (by norm_num) (Or.inl le_rfl) hmon φx h
       hh hφx hhp hh1
-  haveI : Finite ↥(twistedE6RootGroup K σ) := Finite.of_equiv _ θ.toEquiv
-  haveI : CharP K 2 := hchar
+  have : Finite ↥(twistedE6RootGroup K σ) := Finite.of_equiv _ θ.toEquiv
+  have : CharP K 2 := hchar
   have hq' : SL.D.q = qc.card := by rw [hq, TauCeti.PrimePower.card_def, hqc]
   have hFr' : ∀ c, Fr c = c ^ SL.D.q := fun c => by rw [hq']; rw [TauCeti.PrimePower.card_def, hqc]; exact hFr c
   obtain ⟨w, hw⟩ := excLang_twE6_rho SL hFr' hΦ

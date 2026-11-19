@@ -405,7 +405,7 @@ private theorem e6InS_ncard (h3 : ω ^ 3 = 1) (h1 : ω ≠ 1) (x : Fin 6 × Fin 
         Set (Fin Tag.E6.rank → ℤ)) := by
     ext α
     rw [e6InS_mem_inter, e6InS_pos_iff h3 h1]
-    simp [List.mem_filter]
+    simp
   rw [hset, Set.ncard_coe_finset, List.toFinset_card_of_nodup (e6InS_pos_nodup.filter _)]
   have hsm : ∀ α, e6InS_elt x • α = e6WordAct (e6InS_fw 0 x.1)
       (e6WordAct (e6InS_fw 1 x.2.1) (e6WordAct (e6InS_fw 2 x.2.2) α)) := fun α => by
@@ -613,7 +613,7 @@ theorem e6InnerSylowMonoLine_holds : E6InnerSylowMonoLine := by
   have hQ : (Q₀ : Subgroup Y).map f = ⊤ :=
     ((Q₀.mapSurjective hfs).maximal_isPGroup.eq_of_ge hEp le_top).symm
   set P : Subgroup (hatGroup .E6 K) := (Q₀ : Subgroup Y).map Y.subtype with hP
-  have hP3 : IsPGroup 3 P := Q₀.isPGroup'.map _
+  have hP3 : IsPGroup 3 P := Q₀.isPGroup.map _
   have hPE : P.map (hatAut .E6 K) = E := by
     have hcomp : (hatAut .E6 K).comp Y.subtype = E.subtype.comp f := MonoidHom.ext fun _ => rfl
     rw [hP, Subgroup.map_map, hcomp, ← Subgroup.map_map, hQ, ← MonoidHom.range_eq_map,

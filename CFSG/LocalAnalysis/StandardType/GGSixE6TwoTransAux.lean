@@ -70,8 +70,8 @@ theorem nonempty_mulEquiv_EC {E : Type} [Group E] [Finite E] (hperf : commutator
   · exact absurd ht (by decide)
   · obtain ⟨-, K, _, _, hK, ⟨e⟩⟩ := hch
     have hK2 : Nat.card K = 2 := by simpa using hK
-    haveI := Fintype.ofFinite K
-    haveI : Fintype F2 := Fintype.ofFinite F2
+    have := Fintype.ofFinite K
+    have : Fintype F2 := Fintype.ofFinite F2
     have hcardK : Fintype.card K = 2 := by
       rw [← Nat.card_eq_fintype_card]
       exact hK2
@@ -105,18 +105,18 @@ theorem ne_one_of_isComponentOf {E : Type} [Group E] [Finite E] (θ : E ≃* EC)
   have hsub : CFSG.Assembly.IsSubnormal L' ⊤ := by
     rw [hC] at hcomp
     exact hcomp.2.1
-  haveI hEC : IsSimpleGroup EC := isSimpleGroup_EC
-  haveI hE : IsSimpleGroup E := θ.isSimpleGroup
+  have hEC : IsSimpleGroup EC := isSimpleGroup_EC
+  have hE : IsSimpleGroup E := θ.isSimpleGroup
   have hQcard : Nat.card (↥L' ⧸ Subgroup.center ↥L') = ordA 5 2 := by
     simpa using (CFSG.LargeExtraspecial.A2Mod.Ord.card_of_lieModel_PSL hL).2
   rcases CFSG.Assembly.IsSubnormal.eq_bot_or_top hsub with hbot | htop
   · have hsimple := hcomp.2.2.2
     rw [hbot] at hsimple
-    haveI : IsSimpleGroup (↥(⊥ : Subgroup E) ⧸ Subgroup.center ↥(⊥ : Subgroup E)) := hsimple
-    haveI : Subsingleton ↥(⊥ : Subgroup E) :=
+    have : IsSimpleGroup (↥(⊥ : Subgroup E) ⧸ Subgroup.center ↥(⊥ : Subgroup E)) := hsimple
+    have : Subsingleton ↥(⊥ : Subgroup E) :=
       ⟨fun a b => Subtype.ext (by
         rw [Subgroup.mem_bot.mp a.2, Subgroup.mem_bot.mp b.2])⟩
-    haveI : Subsingleton (↥(⊥ : Subgroup E) ⧸ Subgroup.center ↥(⊥ : Subgroup E)) :=
+    have : Subsingleton (↥(⊥ : Subgroup E) ⧸ Subgroup.center ↥(⊥ : Subgroup E)) :=
       inferInstance
     obtain ⟨a, b, hab⟩ :=
       exists_pair_ne (↥(⊥ : Subgroup E) ⧸ Subgroup.center ↥(⊥ : Subgroup E))

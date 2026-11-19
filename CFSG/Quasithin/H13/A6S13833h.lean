@@ -73,10 +73,10 @@ theorem card_le_eight_of_elem {E : Subgroup (Perm (Fin 6))}
   obtain ⟨P, hEP⟩ := hp.exists_le_sylow
   obtain ⟨P₀, hCP⟩ := hC₀p.exists_le_sylow
   have hPE : (P : Subgroup (Perm (Fin 6))) = E :=
-    (Subgroup.eq_of_le_of_card_ge hEP (by rw [h16]; exact hle16 _ P.isPGroup')).symm
+    (Subgroup.eq_of_le_of_card_ge hEP (by rw [h16]; exact hle16 _ P.isPGroup)).symm
   have hP₀C : (P₀ : Subgroup (Perm (Fin 6))) = C₀ :=
     (Subgroup.eq_of_le_of_card_ge hCP (by
-      rw [card_centralizer_tau0213]; exact hle16 _ P₀.isPGroup')).symm
+      rw [card_centralizer_tau0213]; exact hle16 _ P₀.isPGroup)).symm
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq (Perm (Fin 6)) P₀ P
   have hmem : ∀ a ∈ C₀, g * a * g⁻¹ ∈ E := by
     intro a ha
@@ -159,7 +159,7 @@ theorem exists_prod4_mem {G : Type} [Group G] [Finite G] {A V : Subgroup G}
       have := congrFun h0 i
       simp only [Pi.add_apply, Pi.zero_apply] at this
       rcases zmod2_cases' (ε i) with h | h <;> rcases zmod2_cases' (ε' i) with h' | h' <;>
-        rw [h, h'] at this ⊢ <;> first | rfl | exact absurd this (by decide)
+        rw [h, h'] at this ⊢ <;> (exact absurd this (by decide))
     subst hεε
     have hbb : (b : ↥A) = b' := mul_left_cancel he'
     exact Prod.ext rfl (Subtype.ext hbb)

@@ -66,38 +66,42 @@ private def Acts {Bs : Subgroup G} (XB YB UB : ↥Bs) (n : G) (N : Mat3) : Prop 
 private lemma ntN1_mulVec (c : Fin 3 → ZMod 3) :
     ntN₁.mulVec c = ![c 0, -c 1, c 2] := by
   funext k
-  fin_cases k <;> simp [ntN₁, Matrix.mulVec, Fin.sum_univ_three] <;> rfl
+  fin_cases k <;> simp [ntN₁, Matrix.mulVec] <;> rfl
 
 private lemma ntN2_mulVec (c : Fin 3 → ZMod 3) :
     ntN₂.mulVec c = ![c 0, c 2, c 1] := by
   funext k
-  fin_cases k <;> simp [ntN₂, Matrix.mulVec, Fin.sum_univ_three] <;> rfl
+  fin_cases k <;> simp [ntN₂, Matrix.mulVec] <;> rfl
 
 private lemma ntP_mulVec (i j a b : ZMod 3) (c : Fin 3 → ZMod 3) :
     (ntP i j a b).mulVec c = ![i * c 0 + a * c 1, j * c 0 + b * c 1, c 2] := by
   funext k
   fin_cases k <;>
-    simp [ntP, Matrix.mulVec, Fin.sum_univ_three, Matrix.vecHead, Matrix.vecTail]
+    simp [ntP, Matrix.mulVec, Matrix.vecHead, Matrix.vecTail]
 
+omit [Finite G] in
 private lemma iotaM_single_zero {Bs : Subgroup G} {XB YB UB : ↥Bs} :
     iotaM XB YB UB (Pi.single 0 1) = XB := by
   simp [iotaM, Pi.single, ZMod.val_one]
 
+omit [Finite G] in
 private lemma iotaM_single_one {Bs : Subgroup G} {XB YB UB : ↥Bs} :
     iotaM XB YB UB (Pi.single 1 1) = YB := by
   simp [iotaM, Pi.single, ZMod.val_one]
 
+omit [Finite G] in
 private lemma iotaM_single_two {Bs : Subgroup G} {XB YB UB : ↥Bs} :
     iotaM XB YB UB (Pi.single 2 1) = UB := by
   simp [iotaM, Pi.single, ZMod.val_one]
 
+omit [Finite G] in
 private lemma acts_diag {Bs : Subgroup G} {XB YB UB : ↥Bs} {n : G}
     (hX : n * (XB : G) * n⁻¹ = (XB : G)) (hY : n * (YB : G) * n⁻¹ = (YB : G)⁻¹)
     (hU : n * (UB : G) * n⁻¹ = (UB : G)) (hY3 : (YB : G) ^ 3 = 1) :
     Acts XB YB UB n ntN₁ := by
   intro c
   rw [ntN1_mulVec]
-  simp only [Acts, iotaM, Subgroup.coe_mul, Subgroup.coe_pow]
+  simp only [iotaM, Subgroup.coe_mul, Subgroup.coe_pow]
   rw [show n * ((XB : G) ^ (c 0).val * (YB : G) ^ (c 1).val * (UB : G) ^ (c 2).val) * n⁻¹
       = (n * (XB : G) ^ (c 0).val * n⁻¹) * (n * (YB : G) ^ (c 1).val * n⁻¹)
         * (n * (UB : G) ^ (c 2).val * n⁻¹) by group]
@@ -105,6 +109,7 @@ private lemma acts_diag {Bs : Subgroup G} {XB YB UB : ↥Bs} {n : G}
   simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two, Matrix.tail_cons,
     Matrix.head_cons]
 
+omit [Finite G] in
 private lemma acts_swap {Bs : Subgroup G} {XB YB UB : ↥Bs} {n : G}
     (hX : n * (XB : G) * n⁻¹ = (XB : G)) (hY : n * (YB : G) * n⁻¹ = (UB : G))
     (hU : n * (UB : G) * n⁻¹ = (YB : G))
@@ -112,7 +117,7 @@ private lemma acts_swap {Bs : Subgroup G} {XB YB UB : ↥Bs} {n : G}
     Acts XB YB UB n ntN₂ := by
   intro c
   rw [ntN2_mulVec]
-  simp only [Acts, iotaM, Subgroup.coe_mul, Subgroup.coe_pow]
+  simp only [iotaM, Subgroup.coe_mul, Subgroup.coe_pow]
   rw [show n * ((XB : G) ^ (c 0).val * (YB : G) ^ (c 1).val * (UB : G) ^ (c 2).val) * n⁻¹
       = (n * (XB : G) ^ (c 0).val * n⁻¹) * (n * (YB : G) ^ (c 1).val * n⁻¹)
         * (n * (UB : G) ^ (c 2).val * n⁻¹) by group]
@@ -125,6 +130,7 @@ private lemma acts_swap {Bs : Subgroup G} {XB YB UB : ↥Bs} {n : G}
     exact ((show Commute (YB : G) (UB : G) from hYU).symm.pow_pow (c 1).val (c 2).val).eq]
   rw [mul_assoc]
 
+omit [Finite G] in
 private lemma iotaM_mulVec {Bs : Subgroup G} (hcomm : ∀ a b : ↥Bs, a * b = b * a)
     {XB YB UB Y0 W0 U0 : ↥Bs}
     (hX3 : XB ^ 3 = 1) (hY3 : YB ^ 3 = 1) (hU3 : UB ^ 3 = 1)
@@ -133,7 +139,7 @@ private lemma iotaM_mulVec {Bs : Subgroup G} (hcomm : ∀ a b : ↥Bs, a * b = b
     (h1 : W0 = iotaM XB YB UB (A.mulVec (Pi.single 1 1)))
     (h2 : U0 = iotaM XB YB UB (A.mulVec (Pi.single 2 1))) :
     iotaM XB YB UB (A.mulVec c) = iotaM Y0 W0 U0 c := by
-  letI : CommGroup ↥Bs := { (inferInstance : Group ↥Bs) with mul_comm := hcomm }
+  let : CommGroup ↥Bs := { (inferInstance : Group ↥Bs) with mul_comm := hcomm }
   have hdecomp : A.mulVec c = c 0 • A.mulVec (Pi.single 0 1) + c 1 • A.mulVec (Pi.single 1 1)
       + c 2 • A.mulVec (Pi.single 2 1) := by
     rw [Matrix.mulVec_single_one, Matrix.mulVec_single_one, Matrix.mulVec_single_one]
@@ -148,10 +154,12 @@ private lemma iotaM_mulVec {Bs : Subgroup G} (hcomm : ∀ a b : ↥Bs, a * b = b
   rw [h0, h1, h2]
   rfl
 
+omit [Finite G] in
 private lemma acts_one {Bs : Subgroup G} {XB YB UB : ↥Bs} : Acts XB YB UB 1 1 := by
   intro c
-  simp [Acts, iotaM, Matrix.one_mulVec]
+  simp [iotaM, Matrix.one_mulVec]
 
+omit [Finite G] in
 private lemma acts_mul {Bs : Subgroup G} {XB YB UB : ↥Bs} {n n' : G} {M M' : Mat3}
     (h : Acts XB YB UB n M) (h' : Acts XB YB UB n' M') :
     Acts XB YB UB (n * n') (M * M') := by
@@ -165,6 +173,7 @@ private lemma acts_mul {Bs : Subgroup G} {XB YB UB : ↥Bs} {n n' : G} {M M' : M
     _ = ((iotaM (M := ↥Bs) XB YB UB ((M * M').mulVec c)) : G) := by
         rw [← Matrix.mulVec_mulVec]
 
+omit [Finite G] in
 private lemma acts_conj {Bs : Subgroup G} (hcomm : ∀ a b : ↥Bs, a * b = b * a)
     {XB YB UB Y0 W0 U0 : ↥Bs} {n : G}
     (hX3 : XB ^ 3 = 1) (hY3 : YB ^ 3 = 1) (hU3 : UB ^ 3 = 1)
@@ -202,6 +211,7 @@ private lemma shear_mulVec_single (A F : Fin 3 → ZMod 3) (k : Fin 3) :
     (1 + Matrix.vecMulVec A F).mulVec (Pi.single k 1) = Pi.single k 1 + (F k) • A := by
   rw [Matrix.add_mulVec, vecMulVec_mulVec, Matrix.one_mulVec, dotProduct_single, mul_one]
 
+omit [Finite G] in
 private lemma acts_char {Bs : Subgroup G} (hcomm : ∀ a b : ↥Bs, a * b = b * a)
     {XB YB UB : ↥Bs} {n : G} {A F : Fin 3 → ZMod 3}
     (hX3 : XB ^ 3 = 1) (hY3 : YB ^ 3 = 1) (hU3 : UB ^ 3 = 1)
@@ -209,7 +219,7 @@ private lemma acts_char {Bs : Subgroup G} (hcomm : ∀ a b : ↥Bs, a * b = b * 
     n * ((iotaM (M := ↥Bs) XB YB UB (Pi.single k 1)) : G) * n⁻¹
       = ((iotaM (M := ↥Bs) XB YB UB (Pi.single k 1)) : G)
         * ((iotaM (M := ↥Bs) XB YB UB A) : G) ^ (F k).val := by
-  letI : CommGroup ↥Bs := { (inferInstance : Group ↥Bs) with mul_comm := hcomm }
+  let : CommGroup ↥Bs := { (inferInstance : Group ↥Bs) with mul_comm := hcomm }
   have h := hAct (Pi.single k 1)
   rw [shear_mulVec_single A F k] at h
   rw [show iotaM (M := ↥Bs) XB YB UB (Pi.single k 1 + (F k) • A)
@@ -218,6 +228,7 @@ private lemma acts_char {Bs : Subgroup G} (hcomm : ∀ a b : ↥Bs, a * b = b * 
       rw [iotaM_add hX3 hY3 hU3, iotaM_smul hX3 hY3 hU3]] at h
   exact h
 
+omit [Finite G] in
 private lemma gen_mem_zpowers {Bs : Subgroup G} (hcomm : ∀ a b : ↥Bs, a * b = b * a)
     {e a0 n : G} (he : e ∈ Bs) (ha : a0 ∈ Bs) {m : ℕ}
     (h : n * e * n⁻¹ = e * a0 ^ m) :
@@ -231,6 +242,7 @@ private lemma gen_mem_zpowers {Bs : Subgroup G} (hcomm : ∀ a b : ↥Bs, a * b 
     mul_assoc, mul_inv_cancel, mul_one]
   exact Subgroup.npow_mem_zpowers a0 m
 
+omit [Finite G] in
 private lemma iotaM_eq_one {Bs : Subgroup G} {XB YB UB : ↥Bs}
     (hind : ∀ p q r : ℤ, (XB : G) ^ p * (YB : G) ^ q * (UB : G) ^ r = 1 →
       (3 : ℤ) ∣ p ∧ (3 : ℤ) ∣ q ∧ (3 : ℤ) ∣ r)
@@ -260,6 +272,7 @@ private lemma iotaM_eq_one {Bs : Subgroup G} {XB YB UB : ↥Bs}
   · exact (ZMod.val_eq_zero (c 1)).mp h1'
   · exact (ZMod.val_eq_zero (c 2)).mp h2'
 
+omit [Finite G] in
 theorem no_twist_core {Bs : Subgroup G}
     (hcomm : ∀ b ∈ Bs, ∀ c ∈ Bs, b * c = c * b) (hexp : ∀ b ∈ Bs, b ^ 3 = 1)
     (hNoTr : GGNoTransvection 3 Bs)
@@ -296,7 +309,7 @@ theorem no_twist_core {Bs : Subgroup G}
     exact h
   obtain ⟨W, hW, A, F, hA, hF, hFA, hWeq⟩ :=
     exists_shear (i : ZMod 3) (j : ZMod 3) (a : ZMod 3) (b : ZMod 3) hjZ hDZ hntZ
-  letI : CommGroup ↥Bs :=
+  let : CommGroup ↥Bs :=
     { (inferInstance : Group ↥Bs) with mul_comm := fun p q => Subtype.ext (hcomm p p.2 q q.2) }
   have hcommB : ∀ p q : ↥Bs, p * q = q * p := fun p q => Subtype.ext (hcomm p p.2 q q.2)
   have hx3 : (x : G) ^ 3 = 1 := hexp x hx
@@ -349,7 +362,7 @@ theorem no_twist_core {Bs : Subgroup G}
       Matrix.head_cons, ZMod.val_zero, pow_zero, mul_one]
     rw [← zpow_eq_pow_val hx3 a, ← zpow_eq_pow_val hv3 b]
   have hU0G : (U0B : G) = u := by
-    simp only [U0B, hPe2, iotaM, Subgroup.coe_mul, Subgroup.coe_pow, xB, vB, uB,
+    simp only [U0B, hPe2, iotaM, xB, vB, uB,
       Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two, Matrix.tail_cons,
       Matrix.head_cons, ZMod.val_zero, ZMod.val_one, pow_zero, pow_one, one_mul, mul_one]
   have hwB3 : (wB : G) ^ 3 = 1 := hexp (wB : G) wB.2

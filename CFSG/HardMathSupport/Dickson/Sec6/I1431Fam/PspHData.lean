@@ -23,7 +23,7 @@ theorem t6psph_hsqProp_orbit (hO : CFSG.ComponentClassification.CatLeaf.LieOrder
     (hsqf : Squarefree (minpoly K (spEnd x))) (blocks : SpPrimaryBlocks ℓ f p x a) {q : ℕ}
     (hq : 10 ≤ q) (h : primaryFactors (spEnd x)) :
     t6psph_HsqProp q (spSupported x {(h : K[X]), reciprocalPolynomial (h : K[X])}) := by
-  haveI : Fact (Irreducible (h : K[X])) := ⟨irreducible_of_mem_primaryFactors h.2⟩
+  have : Fact (Irreducible (h : K[X])) := ⟨irreducible_of_mem_primaryFactors h.2⟩
   by_cases hself : reciprocalPolynomial (h : K[X]) = h
   · have hOO : ({(h : K[X]), reciprocalPolynomial (h : K[X])} : Set K[X]) = {(h : K[X])} := by
       rw [hself, Set.pair_eq_singleton]
@@ -33,7 +33,7 @@ theorem t6psph_hsqProp_orbit (hO : CFSG.ComponentClassification.CatLeaf.LieOrder
       change h0 = X - 1 at h1
       subst h1
       obtain ⟨φ, -⟩ := blocks.fixedFactor hm
-      haveI : Nontrivial (primaryComponent (spEnd x) (X - 1)) :=
+      have : Nontrivial (primaryComponent (spEnd x) (X - 1)) :=
         Submodule.nontrivial_iff_ne_bot.mpr (primaryComponent_ne_bot hsqf hm)
       exact t6psph_hsqProp_of_equiv _ φ (t6psph_sqOK_sesqUnitaryAlt
         (B := (spForm r K).restrict (primaryComponent (spEnd x) (X - 1)))
@@ -43,7 +43,7 @@ theorem t6psph_hsqProp_orbit (hO : CFSG.ComponentClassification.CatLeaf.LieOrder
       exact t6psph_hsqProp_of_equiv _ φ (t6psph_sqOK_sesqUnitary hO hE hHf hHfl hq)
   · have hP := blocks.paired h (fun e => hself e.symm)
     obtain ⟨φ, -, -⟩ := hP.factor
-    haveI : Finite (AdjoinRoot (h : K[X])) := Module.finite_of_finite K
+    have : Finite (AdjoinRoot (h : K[X])) := Module.finite_of_finite K
     have hdeg : 1 ≤ (h : K[X]).natDegree :=
       Irreducible.natDegree_pos (irreducible_of_mem_primaryFactors h.2)
     have hN : ℓ ^ f ≤ (ℓ ^ f) ^ (h : K[X]).natDegree := Nat.le_self_pow (by omega) _
@@ -87,7 +87,7 @@ theorem t6psph_data_psp (hO : CFSG.ComponentClassification.CatLeaf.LieOrderFormu
     Nat.prime_three (by norm_num) hpℓ hr (SymplecticFlag.proj r K a) hπo).2 a rfl hao
   have hpK' : ((3 : ℕ) : K) ≠ 0 := by exact_mod_cast hpK
   have hsqf := (altPrimaryData_spLin hpK' ha3).squarefree
-  haveI : Finite (reciprocalOrbits (spEnd a)) :=
+  have : Finite (reciprocalOrbits (spEnd a)) :=
     (Set.Finite.image _ (Finset.finite_toSet _)).to_subtype
   obtain ⟨hcomm, -, hjoin⟩ := blocks.directProduct
   refine lift_blocks_of_orbit_family_sq q a

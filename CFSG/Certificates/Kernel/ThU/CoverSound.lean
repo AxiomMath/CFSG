@@ -14,7 +14,7 @@ theorem pg_eq_of_mem_iff {m : ℕ} {ws ws' : List (List (Fin m × Bool))}
   have e : {r : FreeGroup (Fin m) | r ∈ ws.map FreeGroup.mk} =
       {r : FreeGroup (Fin m) | r ∈ ws'.map FreeGroup.mk} := by
     ext r
-    simp only [Set.mem_setOf_eq, List.mem_map, h]
+    simp only [Set.mem_ofPred_eq, List.mem_map, h]
   exact congrArg PresentedGroup e
 
 theorem pg_thUCover_eq : PG 3 thUCover = PG 3 thUCoverW :=

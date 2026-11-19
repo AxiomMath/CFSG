@@ -16,7 +16,7 @@ theorem exists_sylow_le (h81 : ¬ 81 ∣ Nat.card S) {s : S} {K : Subgroup S} (h
     (hT : IsType425 (K ⧸ aschbacherSolvableCore 3 K)) :
     ∃ P : Sylow 3 S, (P : Subgroup S) ≤ K ∧ s ∈ (P : Subgroup S) ∧
       (P : Subgroup S) ≤ Subgroup.centralizer {s} := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h27K : 27 ∣ Nat.card K :=
     (twentySeven_dvd_card_of_isType425 (isQuasisimple_theta_quot hKq) hT).trans
       (card_theta_quot_dvd K)
@@ -27,15 +27,15 @@ theorem exists_sylow_le (h81 : ¬ 81 ∣ Nat.card S) {s : S} {K : Subgroup S} (h
   have hkQ : k ∈ (Q : Subgroup K) := hQ (Subgroup.mem_zpowers k)
   have h27Q : 27 ∣ Nat.card (Q : Subgroup K) :=
     Q.pow_dvd_card_of_pow_dvd_card (n := 3) (by norm_num; exact h27K)
-  have hQ3 : IsPGroup 3 ((Q : Subgroup K).map K.subtype) := Q.isPGroup'.map _
+  have hQ3 : IsPGroup 3 ((Q : Subgroup K).map K.subtype) := Q.isPGroup.map _
   obtain ⟨P, hP⟩ := hQ3.exists_le_sylow
   have hPcard : Nat.card (P : Subgroup S) ≤ 27 := by
     rw [P.card_eq_multiplicity]
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have h4 : 4 ≤ (Nat.card S).factorization 3 := by
       by_contra h
-      push_neg at h
+      push Not at h
       have : 3 ^ (Nat.card S).factorization 3 ≤ 3 ^ 3 :=
         Nat.pow_le_pow_right (by norm_num) (by omega)
       omega

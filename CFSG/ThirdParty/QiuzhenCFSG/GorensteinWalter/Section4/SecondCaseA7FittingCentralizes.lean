@@ -88,7 +88,7 @@ private theorem conjOn_pow {G : Type u} [Group G]
       ⟨f ^ n * (x : G) * (f ^ n)⁻¹,
         hE.2 (f ^ n) (by
           induction n with
-          | zero => simpa using M.one_mem
+          | zero => simp
           | succ n ih => simpa [pow_succ] using M.mul_mem ih hf) (x : G) x.2⟩ := by
   induction n generalizing x with
   | zero => simp
@@ -120,10 +120,10 @@ private theorem quotient_congr_pow_mk {E : Type u} [Group E]
     have hmk :
         (QuotientGroup.congr Z Z e he) (QuotientGroup.mk' Z x) =
           QuotientGroup.mk' Z (e x) := by
-      simp [QuotientGroup.congr, QuotientGroup.map_mk']
+      simp [QuotientGroup.congr]
     rw [hmk, ih]
     rw [pow_succ]
-    simp [QuotientGroup.congr, QuotientGroup.map_mk']
+    simp
 
 private theorem quotient_conj_pow_eq_one {G : Type u} [Group G] [Finite G]
     (E M : Subgroup G) (f : G) (hf : f ∈ M)
@@ -228,7 +228,7 @@ private theorem central_automorphism_eq_one_local
           rw [(Subgroup.mem_center_iff.mp hz ⁅x, y⁆).symm]
           simp
         rw [hxy]
-        simpa [mul_assoc] using hzc
+        simp [mul_assoc]
       rw [hleft za (β a) (zb * β b) hza_center]
       rw [show zb * β b = β b * zb by
         exact (Subgroup.mem_center_iff.mp hzb_center (β b)).symm]

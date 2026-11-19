@@ -9,11 +9,11 @@ namespace CFSG.EvenSporadicStandard.Fin76b.A6X
 @[expose] def fixSub {A : Type*} [Group A] (ζ : MulAut A) : Subgroup A where
   carrier := {a | ζ a = a}
   mul_mem' := fun {a b} ha hb => by
-    simp only [Set.mem_setOf_eq] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq] at ha hb ⊢
     rw [map_mul, ha, hb]
   one_mem' := map_one ζ
   inv_mem' := fun {a} ha => by
-    simp only [Set.mem_setOf_eq] at ha ⊢
+    simp only [Set.mem_ofPred_eq] at ha ⊢
     rw [map_inv, ha]
 
 theorem mem_fixSub {A : Type*} [Group A] {ζ : MulAut A} {a : A} : a ∈ fixSub ζ ↔ ζ a = a :=

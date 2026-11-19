@@ -23,7 +23,7 @@ private theorem sylow_three_card_cases
   by_cases hS : Nat.card S = 1
   · exact Or.inl hS
   have hbound := Degree36SylowThreeSharp.card_le_eighty_one P hcard h5 hnotAlt s hs S
-  obtain ⟨e,he⟩ := IsPGroup.iff_card.mp S.isPGroup'
+  obtain ⟨e,he⟩ := IsPGroup.iff_card.mp S.isPGroup
   have he4 : e ≤ 4 := by
     by_contra hn
     have hp := Nat.pow_le_pow_right (by norm_num : 0 < 3) (by omega : 5 ≤ e)

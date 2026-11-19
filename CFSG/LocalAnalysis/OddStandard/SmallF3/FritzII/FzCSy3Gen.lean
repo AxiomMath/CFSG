@@ -151,7 +151,7 @@ theorem fzc_sy3_cyc {N E X : Subgroup G} (hNc : ∀ a ∈ N, ∀ b ∈ N, a * b 
     exact mul_mem hg1 hg2
 
 theorem fzc_sy3_klein {N E X : Subgroup G} (hEc : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a)
-    (hE4 : ∀ a ∈ E, a ^ 4 = 1) (hEr : S4A.RankLE E 2) (hEN : E ≤ N)
+    (hE4 : ∀ a ∈ E, a ^ 4 = 1) (hEr : S4A.RankLE E 2) (_hEN : E ≤ N)
     (hNE : ∀ a ∈ N, ∀ b ∈ N, a ∉ E → b ∉ E → a * b⁻¹ ∈ E)
     {x y : G} (hx : x ∈ X) (hy : y ∈ X) (hx2 : x ^ 2 ∈ N) (hx2E : x ^ 2 ∉ E)
     (hy2 : y ^ 2 ∈ N) (hy2E : y ^ 2 ∉ E)

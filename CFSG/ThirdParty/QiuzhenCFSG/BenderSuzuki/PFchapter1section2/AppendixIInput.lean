@@ -109,7 +109,7 @@ public theorem peterfalvi_chapter1_section2_canonical_quotient_conjugation_actio
                 simpa [rightConjugateElem] using
                   H.mul_mem (H.mul_mem hdH hq.1) (H.inv_mem hdH)⟩ := by
   classical
-  letI : (W.subgroupOf D).Normal := hWD
+  let : (W.subgroupOf D).Normal := hWD
   have hclosed :
       ∀ d : G, d ∈ D → ∀ q : G, q ∈ Q0 → d * q * d⁻¹ ∈ Q0 := by
     intro d hdD q hqQ0
@@ -131,7 +131,7 @@ public theorem peterfalvi_chapter1_section2_canonical_quotient_conjugation_actio
     · intro hq
       have hback := hclosed d⁻¹ (D.inv_mem hdD) (d * q * d⁻¹) hq
       simpa [mul_assoc] using hback
-  letI : Subgroup.Normalizes D Q0 := ⟨hDnorm⟩
+  let : Subgroup.Normalizes D Q0 := ⟨hDnorm⟩
   let conjHom : D →* MulAut Q0 := MulDistribMulAction.toMulAut D Q0
   have hWker : W.subgroupOf D ≤ conjHom.ker := by
     intro w hwW
@@ -207,8 +207,8 @@ public theorem peterfalvi_chapter1_section2_canonical_quotient_transitive_on_Q0_
     ∀ x : Q0, x ≠ 1 → ∀ y : Q0, y ≠ 1 →
       ∃ d : D ⧸ W.subgroupOf D, d • x = y := by
   classical
-  letI : (W.subgroupOf D).Normal := hWD
-  letI : MulDistribMulAction (D ⧸ W.subgroupOf D) Q0 :=
+  let : (W.subgroupOf D).Normal := hWD
+  let : MulDistribMulAction (D ⧸ W.subgroupOf D) Q0 :=
     MulDistribMulAction.compHom Q0 rhoD
   intro x hx y hy
   have hxG : (x : G) ≠ 1 := fun h => hx (Subtype.ext h)
@@ -386,7 +386,7 @@ public theorem peterfalvi_chapter1_section2_proposition_3_appendixI_input_KWmodW
       (K.subgroupOf D).map (QuotientGroup.mk' (W.subgroupOf D)) := by
   classical
   let N : Subgroup D := W.subgroupOf D
-  letI : N.Normal := hWnormalD
+  let : N.Normal := hWnormalD
   let π : D →* D ⧸ N := QuotientGroup.mk' N
   have hWleD : W ≤ D := hWleV.trans hVleD
   have hsubgroupOf_sup :
@@ -417,14 +417,14 @@ public theorem peterfalvi_chapter1_section2_proposition_3_appendixI_input_KWmodW
       (QuotientGroup.mk' (W.subgroupOf D))) := by
   classical
   let N : Subgroup D := W.subgroupOf D
-  letI : N.Normal := hWnormalD
+  let : N.Normal := hWnormalD
   let π : D →* D ⧸ N := QuotientGroup.mk' N
   have hKcyclic' : IsCyclic (K.subgroupOf D) := by
     have hKcyclic'' : IsCyclic K := by
       simpa [IsCyclic] using hKcyclic
     exact (Subgroup.subgroupOfEquivOfLe hKleD).isCyclic.mpr hKcyclic''
   have hKimage : IsCyclic ((K.subgroupOf D).map π) := by
-    letI : IsCyclic (K.subgroupOf D) := hKcyclic'
+    let : IsCyclic (K.subgroupOf D) := hKcyclic'
     exact isCyclic_of_surjective (π.subgroupMap (K.subgroupOf D))
       (π.subgroupMap_surjective (K.subgroupOf D))
   have hKW_eq_K :=
@@ -448,7 +448,7 @@ public theorem peterfalvi_chapter1_section2_proposition_3_appendixI_input_KWmodW
       (QuotientGroup.mk' (W.subgroupOf D))).Normal := by
   classical
   let N : Subgroup D := W.subgroupOf D
-  letI : N.Normal := hWnormalD
+  let : N.Normal := hWnormalD
   let π : D →* D ⧸ N := QuotientGroup.mk' N
   have hKimage : ((K.subgroupOf D).map π).Normal :=
     Subgroup.Normal.map hKnormalD π (QuotientGroup.mk'_surjective N)

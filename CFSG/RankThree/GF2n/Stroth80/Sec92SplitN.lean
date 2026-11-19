@@ -106,6 +106,7 @@ theorem mem_centre_of_comm_Wt (h34 : Stroth34Statement) (h311a : Stroth311aState
   rw [heq]
   exact (hT y).mpr ⟨hy, fun y' hy' => hyW y' hy'.2⟩
 
+omit [Finite G] in
 theorem centre_conj_mem (hc : Ctx M Q Z B) {t : G} {Z0 : Subgroup G}
     (hZ0 : IsCentrePre Z0 (Rt M (LB M Q B) t) Q) {g z : G} (hg : g ∈ Rt M (LB M Q B) t)
     (hz : z ∈ Z0) : g * z * g⁻¹ ∈ Z0 := by
@@ -183,7 +184,7 @@ theorem exists_centralizing (h34 : Stroth34Statement) (h311a : Stroth311aStateme
     have h2 : (2 ^ 2) ^ jj = 4 ^ jj := by norm_num
     rw [h2]
     exact Dvd.dvd.mul_left h1 _
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨s₀, hs₀⟩ := exists_prime_orderOf_dvd_card' 3 h3
   obtain ⟨g₁, hg₁⟩ := hψs (1, s₀)
   obtain ⟨a₁, ha₁⟩ := exists_odd_pow g₁
@@ -198,7 +199,7 @@ theorem exists_centralizing (h34 : Stroth34Statement) (h311a : Stroth311aStateme
   have hhR₀ : (h : G) ∉ Sec9R0 hc t x := by
     rw [hψR₀, hψh]
     exact hs₀ne
-  haveI hQn : (Q.subgroupOf (Rt M (LB M Q B) t)).Normal := ⟨fun a ha g => by
+  have hQn : (Q.subgroupOf (Rt M (LB M Q B) t)).Normal := ⟨fun a ha g => by
     rw [Subgroup.mem_subgroupOf] at ha ⊢
     exact (Subgroup.mem_normalizer_iff.mp (hc.hyp.Q_normal.2 (hRM g.2)) a).mp ha⟩
   let π : ↥(Rt M (LB M Q B) t) →* ↥(Rt M (LB M Q B) t) ⧸ Q.subgroupOf (Rt M (LB M Q B) t) :=

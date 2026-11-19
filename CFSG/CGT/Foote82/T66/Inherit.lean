@@ -25,22 +25,25 @@ private theorem nontrivial_of_isQuasisimple_inh {Q : Type*} [Group Q]
   obtain ⟨b, rfl⟩ := QuotientGroup.mk_surjective y
   exact ⟨a, b, fun hab => hxy (by rw [hab])⟩
 
+omit [Finite V] in
 private theorem perfect_ne_bot_inh {L : Subgroup (GLV V)} (hq : CFSG.Open.IsQuasisimple ↥L) :
     ⁅L, L⁆ = L ∧ L ≠ ⊥ := by
-  haveI : Nontrivial ↥L := nontrivial_of_isQuasisimple_inh hq
-  haveI : Group.IsPerfect ↥L := Group.isPerfect_def.2 hq.1
+  have : Nontrivial ↥L := nontrivial_of_isQuasisimple_inh hq
+  have : Group.IsPerfect ↥L := Group.isPerfect_def.2 hq.1
   exact ⟨Subgroup.isPerfect_iff.1 inferInstance, (Subgroup.nontrivial_iff_ne_bot L).1 inferInstance⟩
 
 section Sections
 
 variable {H : Subgroup (GLV V)} {W₀ W₁ : Submodule (ZMod 2) V}
 
+omit [Finite V] in
 private theorem mk_eq_mk_iff_inh {v v' : V} (hv : v ∈ W₁) (hv' : v' ∈ W₁) :
     (Submodule.Quotient.mk ⟨v, hv⟩ : Sect W₀ W₁) = Submodule.Quotient.mk ⟨v', hv'⟩ ↔
       v - v' ∈ W₀ := by
   rw [Submodule.Quotient.eq]
   rfl
 
+omit [Finite V] in
 private theorem sectHom_eq_one_iff_inh (h₀ : Invariant H W₀) (h₁ : Invariant H W₁) (y : ↥H) :
     sectHom H h₀ h₁ y = 1 ↔ ∀ w ∈ W₁, (y : GLV V) w - w ∈ W₀ := by
   constructor
@@ -56,15 +59,18 @@ private theorem sectHom_eq_one_iff_inh (h₀ : Invariant H W₀) (h₁ : Invaria
 
 end Sections
 
+omit [Finite V] in
 private theorem invariant_commSpace_top_inh (L : Subgroup (GLV V)) :
     Invariant L (commSpace L ⊤) :=
-  invariant_commSpace (fun k' hk' k hk => L.mul_mem (L.mul_mem hk' hk) (L.inv_mem hk'))
+  invariant_commSpace (fun _k' hk' _k hk => L.mul_mem (L.mul_mem hk' hk) (L.inv_mem hk'))
     (invariant_top L)
 
+omit [Finite V] in
 private theorem apply_mem_commSpace_inh {L : Subgroup (GLV V)} (ℓ : ↥L)
     (w : ↥(commSpace L ⊤)) : (ℓ : GLV V) (w : V) ∈ commSpace L ⊤ :=
   invariant_commSpace_top_inh L ℓ ℓ.2 w w.2
 
+omit [Finite V] in
 private theorem commSpace_commSpace_of_perfect_inh {L : Subgroup (GLV V)} (hperf : ⁅L, L⁆ = L)
     {X : Submodule (ZMod 2) V} (hX : Invariant L X) :
     commSpace L (commSpace L X) = commSpace L X := by
@@ -105,6 +111,7 @@ private theorem commSpace_commSpace_of_perfect_inh {L : Subgroup (GLV V)} (hperf
   rw [hperf] at hcomm
   exact commSpace_le_iff.2 fun l hl v hv => (hcomm hl).2 v hv
 
+omit [Finite V] in
 private theorem trivial_of_commSpace_le_fixedSpace_inh {L : Subgroup (GLV V)}
     (hperf : ⁅L, L⁆ = L) {X : Submodule (ZMod 2) V} (hX : Invariant L X)
     (h : commSpace L X ≤ fixedSpace L) : ∀ l ∈ L, ∀ x ∈ X, l x = x := by
@@ -113,6 +120,7 @@ private theorem trivial_of_commSpace_le_fixedSpace_inh {L : Subgroup (GLV V)}
   rw [commSpace_commSpace_of_perfect_inh hperf hX] at h0
   exact commSpace_eq_bot_iff.1 h0
 
+omit [Finite V] in
 private theorem trivial_or_commSpace_le_inh {L : Subgroup (GLV V)} (hperf : ⁅L, L⁆ = L)
     (hirr : HasIrrTildeV L) {U : Submodule (ZMod 2) V} (hU : Invariant L U) :
     (∀ l ∈ L, ∀ u ∈ U, l u = u) ∨ commSpace L ⊤ ≤ U := by
@@ -196,14 +204,14 @@ private theorem exists_pow_sub_one_eq_zero_inh {H : Subgroup (GLV V)}
 
 theorem exists_irrSec_nontrivial_of_not_isPGroup {H : Subgroup (GLV V)}
     (hH : ¬ IsPGroup 2 ↥H) :
-    ∃ W₀ W₁ : Submodule (ZMod 2) V, ∃ (h₀ : Invariant H W₀) (h₁ : Invariant H W₁),
+    ∃ W₀ W₁ : Submodule (ZMod 2) V, ∃ (_h₀ : Invariant H W₀) (_h₁ : Invariant H W₁),
       IrrSec H W₀ W₁ ∧ ¬ ∀ x ∈ H, ∀ w ∈ W₁, x w - w ∈ W₀ := by
   by_contra hcon
   have htriv : ∀ W₀ W₁ : Submodule (ZMod 2) V, Invariant H W₀ → Invariant H W₁ →
       IrrSec H W₀ W₁ → ∀ x ∈ H, ∀ w ∈ W₁, x w - w ∈ W₀ := by
-    intro W₀ W₁ h₀ h₁ hirr
+    intro W₀ W₁ _h₀ _h₁ hirr
     by_contra hnt
-    exact hcon ⟨W₀, W₁, h₀, h₁, hirr, hnt⟩
+    exact hcon ⟨W₀, W₁, _h₀, _h₁, hirr, hnt⟩
   obtain ⟨k, hk⟩ := exists_pow_sub_one_eq_zero_inh htriv ⊤ (invariant_top H)
   have hvv : ∀ v : V, v + v = 0 := fun v => by
     have h2v : (2 : ZMod 2) • v = 0 := by
@@ -227,14 +235,14 @@ theorem exists_irrSec_nontrivial_of_not_isPGroup {H : Subgroup (GLV V)}
 
 theorem exists_irrSec_nontrivial_of_perfect {H L : Subgroup (GLV V)} (hLH : L ≤ H)
     (hperf : ⁅L, L⁆ = L) (hL : L ≠ ⊥) :
-    ∃ W₀ W₁ : Submodule (ZMod 2) V, ∃ (h₀ : Invariant H W₀) (h₁ : Invariant H W₁),
+    ∃ W₀ W₁ : Submodule (ZMod 2) V, ∃ (_h₀ : Invariant H W₀) (_h₁ : Invariant H W₁),
       IrrSec H W₀ W₁ ∧ ¬ ∀ x ∈ H, ∀ w ∈ W₁, x w - w ∈ W₀ := by
   refine exists_irrSec_nontrivial_of_not_isPGroup fun hH => ?_
   have hL2 : IsPGroup 2 ↥L := hH.to_le hLH
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := hL2.isNilpotent
-  haveI : Nontrivial ↥L := (Subgroup.nontrivial_iff_ne_bot L).2 hL
-  haveI : Group.IsPerfect ↥L := Subgroup.isPerfect_iff.2 hperf
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hL2.isNilpotent
+  have : Nontrivial ↥L := (Subgroup.nontrivial_iff_ne_bot L).2 hL
+  have : Group.IsPerfect ↥L := Subgroup.isPerfect_iff.2 hperf
   exact Group.IsPerfect.not_isSolvable ↥L inferInstance
 
 theorem layerIn_eq_normalClosure {G R L H₀ H : Subgroup (GLV V)} (h : Setup6 G R L)
@@ -264,6 +272,7 @@ namespace TildeVIso
 
 variable {L : Subgroup (GLV V)} {L' : Subgroup (GLV V')}
 
+omit [Finite V] in
 private theorem tildeVWitness (D : TildeVIso L L') {X M : Type} [Group X] [AddGroup M]
     {R : X → M → M → Prop} (h : TildeVWitness L X M R) : TildeVWitness L' X M R := by
   obtain ⟨α, hα, β, hβ, hβk, hR⟩ := h
@@ -297,6 +306,7 @@ private theorem tildeVWitness (D : TildeVIso L L') {X M : Type} [Group X] [AddGr
     rw [e]
     exact hR ℓ w v rfl
 
+omit [Finite V] in
 private theorem finrank_tildeV_eq (D : TildeVIso L L') :
     Module.finrank (ZMod 2) (TildeV L') = Module.finrank (ZMod 2) (TildeV L) := by
   let q' : Submodule (ZMod 2) ↥(commSpace L' ⊤) := (fixedSpace L').comap (commSpace L' ⊤).subtype
@@ -310,6 +320,7 @@ private theorem finrank_tildeV_eq (D : TildeVIso L L') :
     exact (D.mem_fixedSpace_iff w).symm
   exact ((Submodule.quotEquivOfEq _ _ hker).trans (f.quotKerEquivOfSurjective hf)).finrank_eq.symm
 
+omit [Finite V] in
 private theorem isFPrimeModule (D : TildeVIso L L') (h : IsFPrimeModule L) :
     IsFPrimeModule L' := by
   have hα : ∀ {T : Type} [Group T] (α : ↥L →* T), Function.Surjective α →
@@ -323,6 +334,7 @@ private theorem isFPrimeModule (D : TildeVIso L L') (h : IsFPrimeModule L) :
   · exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inl (D.tildeVWitness hw)))))
   · exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr ⟨hα α hα', D.finrank_tildeV_eq.trans hr⟩))))
 
+omit [Finite V] in
 private theorem faithful (D : TildeVIso L L') (h : FaithfulTildeV L) : FaithfulTildeV L' := by
   intro ℓ' hℓ' hfix
   obtain ⟨ℓ, hℓ⟩ := D.ι.surjective ⟨ℓ', hℓ'⟩
@@ -360,6 +372,7 @@ private def relFixed (L : Subgroup (GLV V)) (W₀ : Submodule (ZMod 2) V) :
     rw [map_smul, ← smul_sub]
     exact W₀.smul_mem c (hv l hl)
 
+omit [Finite V] in
 private theorem sect_tildeVIso {H L : Subgroup (GLV V)} {W₀ W₁ : Submodule (ZMod 2) V}
     (h₀ : Invariant H W₀) (h₁ : Invariant H W₁) (hLH : L ≤ H) (hperf : ⁅L, L⁆ = L)
     (hirr : HasIrrTildeV L) (hA : commSpace L ⊤ ≤ W₁) (hA₀ : ¬ commSpace L ⊤ ≤ W₀)
@@ -593,7 +606,7 @@ theorem isComponentOf_normalClosure {G R L H₀ H : Subgroup (GLV V)} (h : Setup
           (hcen x hxl (MonoidHom.mem_ker.1 (hCker hx))) _ hyl)
       have hCC : ⁅C, C⁆ = ⊥ := Subgroup.commutator_eq_bot_iff_le_centralizer.2 hCc
       rw [hCperf] at hCC
-      haveI := CFSG.LocalCores.isQuasisimple_nontrivial hC.1
+      have := CFSG.LocalCores.isQuasisimple_nontrivial hC.1
       exact (Subgroup.nontrivial_iff_ne_bot C).1 inferInstance hCC
   have hconjK : ∀ s ∈ R.subgroupOf H,
       CFSG.conjugate (K.subgroupOf H) s = K.subgroupOf H := by
@@ -609,7 +622,7 @@ theorem isComponentOf_normalClosure {G R L H₀ H : Subgroup (GLV V)} (h : Setup
       eq_bot_iff.2 ((Subgroup.commutator_mono (hmapQ _ hC₂) (hmapQ _ hO.comp)).trans hmapc.le)
     have hQperf : ⁅layerIn φ.range, layerIn φ.range⁆ = layerIn φ.range :=
       Subgroup.isPerfect_iff.1 hq.1
-    haveI := CFSG.LocalCores.isQuasisimple_nontrivial hq
+    have := CFSG.LocalCores.isQuasisimple_nontrivial hq
     exact (Subgroup.nontrivial_iff_ne_bot _).1 inferInstance (hQperf.symm.trans hQc)
   have hAK : A.subgroupOf H = K.subgroupOf H :=
     le_antisymm (hO.A_le.trans (iSup₂_le fun s hs => (hconjK s hs).le)) hO.K_le

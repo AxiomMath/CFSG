@@ -89,7 +89,7 @@ theorem mem_of_mem_sup_of_perfect {D C : Subgroup Y} (hDp : ⁅D, D⁆ = D)
   let T : Sylow 3 (D ⧸ N) := P.mapSurjective (QuotientGroup.mk'_surjective N)
   have hPc : IsCyclic (P : Subgroup D) := by
     have h := hDc ((P : Subgroup D).map D.subtype) (Subgroup.map_subtype_le _)
-      (P.isPGroup'.map _)
+      (P.isPGroup.map _)
     let e := Subgroup.equivMapOfInjective (P : Subgroup D) D.subtype D.subtype_injective
     exact isCyclic_of_injective e.toMonoidHom e.injective
   have hTc : IsCyclic (T : Subgroup (D ⧸ N)) :=

@@ -31,6 +31,7 @@ namespace Sec715Frame
 variable {K E X : Type*} [Field K] [AddCommGroup E] [Module K E] [FiniteDimensional K E] [Group X]
   {φ : X →* (E ≃ₗ[K] E)} {V L Nb Rb : Subgroup X} {Tt : X → Submodule K E}
 
+omit [FiniteDimensional K E] in
 theorem Tt_eq_map (F : Sec715Frame φ V L Nb Rb Tt) (h : X) {a : X} (ha : a ∈ V) (ha1 : a ≠ 1) :
     Tt h = (Tt 1).map ((φ h : E ≃ₗ[K] E) : E →ₗ[K] E) := by
   have h1 : Tt 1 = LinearMap.range (opm (φ a)) := by
@@ -38,6 +39,7 @@ theorem Tt_eq_map (F : Sec715Frame φ V L Nb Rb Tt) (h : X) {a : X} (ha : a ∈ 
   have h2 : Tt h = LinearMap.range (opm (φ (h * a * h⁻¹))) := (F.Tt_range h a ha ha1).symm
   rw [h2, h1, map_mul, map_mul, map_inv, range_opm_conj_sec715]
 
+omit [FiniteDimensional K E] in
 theorem eq_one_of_mem_conj_Nb (F : Sec715Frame φ V L Nb Rb Tt) {h : X}
     (hL : ∀ a ∈ V, h * a * h⁻¹ ∈ L) (hout : ¬ ∀ a ∈ V, h * a * h⁻¹ ∈ Nb) {a : X} (ha : a ∈ V)
     (haN : h⁻¹ * a * h ∈ Nb) : a = 1 := by
@@ -46,7 +48,7 @@ theorem eq_one_of_mem_conj_Nb (F : Sec715Frame φ V L Nb Rb Tt) {h : X}
   intro b hb
   by_cases hb1 : b = 1
   · subst hb1
-    simpa using Nb.one_mem
+    simp
   have hfix : (Tt h).map (opm (φ a)) = ⊥ := by
     refine (Submodule.eq_bot_iff _).mpr fun w hw => ?_
     obtain ⟨u, hu, rfl⟩ := Submodule.mem_map.mp hw

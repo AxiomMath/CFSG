@@ -130,7 +130,7 @@ theorem eq_one_of_complement {p : ℕ} [hp : Fact p.Prime] (hφ : Function.Surje
   have hNK : N ⊓ C = ⊥ := by
     rw [eq_bot_iff, ← hC]
     exact fun g hg => ⟨hg.2, hg.1.1⟩
-  have hNp : IsPGroup p N := P.isPGroup'.to_le inf_le_right
+  have hNp : IsPGroup p N := P.isPGroup.to_le inf_le_right
   obtain ⟨k, hk⟩ := hNp.exists_card_eq
   have hcop : Nat.Coprime (P : Subgroup Γ).index (Nat.card N) := by
     rw [hk]
@@ -164,7 +164,7 @@ theorem isMulCommutative_sylow_of_not_sq_dvd {p : ℕ} [hp : Fact p.Prime]
     by_cases ha1 : φ a = 1
     · exact (Subgroup.mem_center_iff.mp (hker ha1) b).symm
     set Q : Subgroup T := (P : Subgroup Γ).map φ with hQ
-    obtain ⟨k, hk⟩ := (P.isPGroup'.map φ).exists_card_eq
+    obtain ⟨k, hk⟩ := (P.isPGroup.map φ).exists_card_eq
     have hk1 : k ≤ 1 := by
       by_contra h
       exact hT ((pow_dvd_pow p (by omega : 2 ≤ k)).trans (hk ▸ Subgroup.card_subgroup_dvd_card Q))
@@ -371,7 +371,7 @@ theorem exists_complement_of_cubic (hφ : Function.Surjective φ)
   obtain ⟨h', hh⟩ := hφ (MulAut.conj g h)
   have hord : ∀ w ∈ (P : Subgroup Γ), ∃ f : ℕ, orderOf (w ^ 5) = 5 ^ f := by
     intro w hw
-    obtain ⟨n, hn⟩ := P.isPGroup' ⟨w ^ 5, P.pow_mem hw 5⟩
+    obtain ⟨n, hn⟩ := P.isPGroup ⟨w ^ 5, P.pow_mem hw 5⟩
     have h1 : (w ^ 5) ^ 5 ^ n = 1 := by simpa using congrArg Subtype.val hn
     obtain ⟨f, -, hf⟩ := (Nat.dvd_prime_pow Nat.prime_five).mp (orderOf_dvd_of_pow_eq_one h1)
     exact ⟨f, hf⟩

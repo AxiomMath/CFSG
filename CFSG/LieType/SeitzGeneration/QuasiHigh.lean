@@ -114,7 +114,7 @@ theorem seitzHyperGamma_eq_top_of_simpleAt {k : ℕ} (hk : 1 ≤ k) (hS : SeitzS
     {E : Subgroup (MulAut K)} (hE : IsElemAbelian p E) (hcard : Nat.card E = p ^ k)
     (hex : ¬ ExcIndex p d.1 ∨ (IsSixIndex d.1 ∧ E ≤ (MulAut.conj : K →* MulAut K).range)) :
     seitzHyperGamma p E = ⊤ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hperf : commutator K = ⊤ := hq.1
   by_cases hz : p ∣ Nat.card (Subgroup.center K)
   · by_cases hIR : CoverScope d p E

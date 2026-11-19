@@ -46,7 +46,7 @@ theorem centralizer_le_of_rankThreeGamma_le {q : ℕ} [Fact q.Prime] {A M : Subg
   exact (Subgroup.centralizer_le_normalizer _).trans (hN.trans h)
 
 theorem IsStronglyPEmbedded.rankThreeGamma_one_le {p q : ℕ} [Fact p.Prime] [Fact q.Prime]
-    {M A : Subgroup G} (hM : IsStronglyPEmbedded p M) (hA : IsPGroup q A)
+    {M A : Subgroup G} (hM : IsStronglyPEmbedded p M) (_hA : IsPGroup q A)
     (hX : ∀ X : Subgroup G, X ≤ A → Nat.card X = q →
       Subgroup.normalizer (X : Set G) ≤ M ∧ p ∣ Nat.card (Subgroup.normalizer (X : Set G))) :
     CFSG.Open.rankThreeGamma 1 q A ≤ M := by
@@ -92,6 +92,7 @@ theorem IsStronglyPEmbedded.rankThreeGamma_one_le {p q : ℕ} [Fact p.Prime] [Fa
     exact Subgroup.map_mono hNX
   exact hM.2.2 n hnM (hpNX'.trans (Subgroup.card_dvd_of_le hle))
 
+omit [Finite G] in
 theorem map_conj_eq_of_forall_isElemAbelian_eq {q : ℕ} {P A : Subgroup G}
     (hA : CFSG.Open.IsElemAbelian q A)
     (huniq : ∀ B : Subgroup G, B ≤ P → CFSG.Open.IsElemAbelian q B →

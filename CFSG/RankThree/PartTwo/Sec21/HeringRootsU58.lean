@@ -127,7 +127,7 @@ theorem coe_thetaC {I H : Subgroup G} (hHI : H ≤ I) (Φ : I ≃* N) {C : Subgr
 
 theorem isPerfect_map_subgroupOf {I P : Subgroup G} (hPI : P ≤ I) (Φ : I ≃* N)
     (hP : Group.IsPerfect P) : Group.IsPerfect ((P.subgroupOf I).map Φ.toMonoidHom) := by
-  haveI : Group.IsPerfect (P.subgroupOf I) :=
+  have : Group.IsPerfect (P.subgroupOf I) :=
     Group.IsPerfect.ofSurjective (f := (Subgroup.subgroupOfEquivOfLe hPI).symm.toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hPI).symm.surjective
   exact Group.IsPerfect.map Φ.toMonoidHom

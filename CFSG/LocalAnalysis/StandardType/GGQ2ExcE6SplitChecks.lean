@@ -145,7 +145,7 @@ private theorem testBit_foldl_ker (p : ℕ → Bool) (l : List ℕ) (start u : �
   | cons a as ih =>
     rw [List.foldl_cons, ih]
     by_cases hp : p a = true
-    · rw [if_pos hp, Nat.testBit_land, Bool.and_eq_true]
+    · rw [ite_eq_left hp, Nat.testBit_land, Bool.and_eq_true]
       constructor
       · rintro ⟨⟨hs, ha⟩, hall⟩
         refine ⟨hs, fun t ht hpt => ?_⟩
@@ -155,7 +155,7 @@ private theorem testBit_foldl_ker (p : ℕ → Bool) (l : List ℕ) (start u : �
       · rintro ⟨hs, hall⟩
         exact ⟨⟨hs, hall a (List.mem_cons_self ..) hp⟩,
           fun t ht hpt => hall t (List.mem_cons_of_mem a ht) hpt⟩
-    · rw [if_neg hp]
+    · rw [ite_eq_right hp]
       constructor
       · rintro ⟨hs, hall⟩
         refine ⟨hs, fun t ht hpt => ?_⟩
@@ -255,13 +255,13 @@ private theorem insOKAt_spec {n w : ℕ} {B : List ℕ} (h : insOKAt n B w = tru
   have hBall : ∀ i ∈ B, n.testBit i = true := List.all_eq_true.mp hB
   by_cases hw : w = 0
   · have hrest' : (orthKerMaskN n &&& spanMaskN B == orthKerMaskN n) = true := by
-      rwa [if_pos (beq_iff_eq.mpr hw)] at hrest
+      rwa [ite_eq_left (beq_iff_eq.mpr hw)] at hrest
     refine ⟨hBall, fun _ => beq_iff_eq.mp hrest', fun hw' => absurd hw hw'⟩
   · have hrest' : ((ExcRaw.Chk.cardN 24 n == 9) && (ExcRaw.Chk.longN 24 n == 6) &&
         (centMaskN n).testBit w &&
         allN 81 (fun u => anyN 3 fun l =>
           (spanMaskN B).testBit (comb4 u w 1 (3 - l)))) = true := by
-      rwa [if_neg (by simpa using hw)] at hrest
+      rwa [ite_eq_right (by simpa using hw)] at hrest
     simp only [Bool.and_eq_true] at hrest'
     obtain ⟨⟨⟨hc9, hl6⟩, hcw⟩, hall⟩ := hrest'
     refine ⟨hBall, fun hw' => absurd hw' hw, fun _ => ⟨beq_iff_eq.mp hc9, beq_iff_eq.mp hl6,

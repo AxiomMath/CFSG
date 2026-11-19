@@ -28,7 +28,7 @@ private lemma sylow_centralizer_data {X : Type} [Group X] [Finite X]
       Nonempty ((S : Subgroup X) ≃* DihedralGroup 4) := by
   classical
   let S : Sylow 2 X := Classical.choice Sylow.nonempty
-  have hS2 : IsPGroup 2 (S : Subgroup X) := S.isPGroup'
+  have hS2 : IsPGroup 2 (S : Subgroup X) := S.isPGroup
   have hSnt : Nontrivial (S : Subgroup X) := by
     have hind : ¬ 2 ∣ S.index := S.not_dvd_index
     have hcard : Nat.card X = Nat.card (S : Subgroup X) * S.index :=
@@ -167,7 +167,7 @@ theorem statedClassicalModel_psl_two_seven_or_nine_of_centralizers {X : Type} [G
     have hCtop : Subgroup.centralizer ({j} : Set X) = ⊤ := by
       apply Subgroup.eq_of_le_of_card_ge le_top
       rw [hCcard]
-      simpa [hScardX]
+      simp [hScardX]
     have hjcentral : j ∈ Subgroup.center X := by
       rw [Subgroup.mem_center_iff]
       intro x
@@ -224,7 +224,7 @@ theorem statedClassicalModel_psl_two_seven_or_nine_of_centralizers {X : Type} [G
       · obtain ⟨e⟩ := hPGL
         exact Or.inr ⟨eL'.symm.trans e⟩
     have hSL' : (S : Subgroup X) ≤ L' :=
-      GorensteinWalter.subgroup_le_of_isPGroup_coindex_odd L' hL'normal hL'index S S.isPGroup'
+      GorensteinWalter.subgroup_le_of_isPGroup_coindex_odd L' hL'normal hL'index S S.isPGroup
     rcases hLmodel' with hPSL | hPGL
     ·
       obtain ⟨eL⟩ := hPSL
@@ -266,7 +266,7 @@ theorem statedClassicalModel_psl_two_seven_or_nine_of_centralizers {X : Type} [G
           simpa [t] using CFSG.Walter.map_centralizer_singleton_mulEquiv eL jL
         rw [← hmap, Subgroup.card_map_of_injective eL.injective, hCL'jcard]
       rcases hKpp with ⟨p, f, hp, hpodd, hf, hKcard⟩
-      letI : Fact p.Prime := ⟨hp⟩
+      let : Fact p.Prime := ⟨hp⟩
       obtain ⟨hmod1, hmod3⟩ :=
         CFSG.Walter.psl2_centralizer_involution K hKcard hpodd hf htord
       have hqodd : Odd (p ^ f) := hpodd.pow
@@ -394,7 +394,7 @@ theorem statedClassicalModel_psl_two_seven_or_nine_of_centralizers {X : Type} [G
         · exact Or.inr rfl
       rcases hq35 with hq3 | hq5
       ·
-        letI : Fintype K := Fintype.ofFinite K
+        let : Fintype K := Fintype.ofFinite K
         have h3 : Fintype.card K = 3 := by rw [← Nat.card_eq_fintype_card, hq3]
         let eK : ZMod 3 ≃+* K := ZMod.ringEquivOfPrime K Nat.prime_three h3
         obtain ⟨N, hNnormal, hNleL, ⟨eN3⟩⟩ :=

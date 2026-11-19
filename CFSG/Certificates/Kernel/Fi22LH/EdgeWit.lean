@@ -26,11 +26,11 @@ private theorem minFold_testBit (Z : Nat → Nat) (q bB : Nat) : ∀ (l : List N
     (l.foldr (fun j c => strictN (ent q j) fun a => nIf(memB bB a, Nat.land c (Z a), c))
       (2 ^ 3510 - 1)).testBit k = true ↔
       k < 3510 ∧ ∀ j ∈ l, bB.testBit (ent q j) = true → (Z (ent q j)).testBit k = true
-  | [], k => by simp [Nat.testBit_two_pow_sub_one]
+  | [], k => by rw [List.foldr_nil, Nat.testBit_two_pow_sub_one]; simp
   | j :: l, k => by
     rw [List.foldr_cons, strictN_eq, nIf_eq, memB_eq]
     by_cases hb : bB.testBit (ent q j) = true
-    · rw [if_pos hb, nland_eq, Nat.testBit_and, Bool.and_eq_true, minFold_testBit Z q bB l k]
+    · rw [ite_eq_left hb, nland_eq, Nat.testBit_and, Bool.and_eq_true, minFold_testBit Z q bB l k]
       constructor
       · rintro ⟨⟨hk, hl⟩, hz⟩
         refine ⟨hk, fun j' hj' hb' => ?_⟩
@@ -40,7 +40,7 @@ private theorem minFold_testBit (Z : Nat → Nat) (q bB : Nat) : ∀ (l : List N
       · rintro ⟨hk, hl⟩
         exact ⟨⟨hk, fun j' hj' hb' => hl j' (List.mem_cons_of_mem _ hj') hb'⟩,
           hl j List.mem_cons_self hb⟩
-    · rw [if_neg hb, minFold_testBit Z q bB l k]
+    · rw [ite_eq_right hb, minFold_testBit Z q bB l k]
       constructor
       · rintro ⟨hk, hl⟩
         refine ⟨hk, fun j' hj' hb' => ?_⟩
@@ -70,7 +70,7 @@ private theorem bitsIs_andFold (I : Bits) (CB : Array Bits) (P : Nat → Nat →
     rw [Nat.fold_succ]
     have ih := bitsIs_andFold I CB P n fun z hz => hCB z (by omega)
     by_cases hI : bitAt I n = true
-    · rw [if_pos hI]
+    · rw [ite_eq_left hI]
       refine (bitsIs_andBits ih (hCB n (by omega))).congr fun y _ => ?_
       constructor
       · rintro ⟨h1, h2⟩ z hz hIz
@@ -80,7 +80,7 @@ private theorem bitsIs_andFold (I : Bits) (CB : Array Bits) (P : Nat → Nat →
           exact h2
       · intro h
         exact ⟨fun z hz hIz => h z (by omega) hIz, h n (by omega) hI⟩
-    · rw [if_neg hI]
+    · rw [ite_eq_right hI]
       refine ih.congr fun y _ => ?_
       constructor
       · intro h z hz hIz
@@ -101,6 +101,7 @@ private theorem find?_range_eq {n w : Nat} {p : Nat → Bool} (hw : w < n) (hp :
   rw [h1]
   simp [hp]
 
+set_option exponentiation.threshold 3584 in
 theorem ent_inj_of_setSl {Q : Nat → Nat} {al be : Nat}
     (hs : ∀ s < 20, setSl Q al be s = true) {k : Nat} (hk : k < 14080) :
     ∀ i < 351, ∀ j < 351, ent (Q k) i = ent (Q k) j → i = j := by

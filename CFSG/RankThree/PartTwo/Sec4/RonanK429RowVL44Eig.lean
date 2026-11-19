@@ -124,7 +124,7 @@ theorem l44_three_le_card_of_commute_pow_seven' {F : Type*} [Field F] [Finite F]
     ∃ i j k : Fin 4, i ≠ j ∧ i ≠ k ∧ j ≠ k ∧ y i = y j ∧ y i = y k := by
   have hpow4 : ∀ x : F, x ^ 4 = x := by
     intro x
-    letI := Fintype.ofFinite F
+    let := Fintype.ofFinite F
     have h := FiniteField.pow_card x
     rw [← Nat.card_eq_fintype_card, hF] at h
     exact h

@@ -118,7 +118,7 @@ theorem rckE7Kappa_range {τ : Tag} {p₀ : ℕ} (S : LangSetup τ GGL p₀)
         exact ⟨hxUS, hxMS⟩
       refine ⟨ε' y, Subgroup.mem_map_of_mem ε' hy, ?_⟩
       change ((ε' y : ↥US) : ModGL τ GGL) = x
-      simpa [ε', y] using hxy
+      simp [ε', y]
   have hmap_model : MKadj.map (US.subtype.comp ε') = X := by
     rw [← Subgroup.map_map]
     exact hX'_map
@@ -132,7 +132,7 @@ theorem rckE7Kappa_range {τ : Tag} {p₀ : ℕ} (S : LangSetup τ GGL p₀)
     have hqeq : q = F.ε m := Subtype.ext hmq.symm
     rw [show ψ q = m by
       rw [hqeq]
-      simp [ψ, ε']]
+      simp [ψ]]
     exact hm
   have hQcomm : R.subgroupOf US = ⁅Q.subgroupOf US, Q.subgroupOf US⁆ := by
     apply Subgroup.map_injective US.subtype_injective
@@ -153,11 +153,11 @@ theorem rckE7Kappa_range {τ : Tag} {p₀ : ℕ} (S : LangSetup τ GGL p₀)
     Group.IsPerfect.ofSurjective
       (f := (Subgroup.subgroupOfEquivOfLe hΓK_adj).symm.toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hΓK_adj).symm.surjective
-  haveI : Group.IsPerfect ↥Γa := hperfΓa
+  have : Group.IsPerfect ↥Γa := hperfΓa
   have hperfX' : Group.IsPerfect ↥(⁅X', X'⁆) := by
     rw [← hGamma_image]
     exact Group.IsPerfect.map (f := ε')
-  haveI : Group.IsPerfect ↥(⁅X', X'⁆) := hperfX'
+  have : Group.IsPerfect ↥(⁅X', X'⁆) := hperfX'
   have hXXperf : Group.IsPerfect ↥(⁅X, X⁆) := by
     have h := Group.IsPerfect.map (H := ⁅X', X'⁆) (f := US.subtype)
     have hmap : (⁅X', X'⁆).map US.subtype = ⁅X, X⁆ := by

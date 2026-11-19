@@ -37,7 +37,7 @@ private theorem nonempty_equiv_alt6_of_isA6' {Q : Type} [Group Q] (h : catalogIs
 private def fpfSigma6 : alternatingGroup (Fin 6) :=
   ⟨Equiv.swap 0 1 * Equiv.swap 1 2 * Equiv.swap 2 3 * Equiv.swap 4 5, by
     rw [Equiv.Perm.mem_alternatingGroup]
-    simp [Equiv.Perm.sign_mul, Equiv.Perm.sign_swap]⟩
+    simp [Equiv.Perm.sign_mul]⟩
 
 private theorem orderOf_fpfSigma6 : orderOf fpfSigma6 = 4 := by
   rw [orderOf_eq_iff (by norm_num : 0 < 4)]
@@ -47,7 +47,7 @@ private theorem orderOf_fpfSigma6 : orderOf fpfSigma6 = 4 := by
 theorem a6_data {S : Type} [Group S] (h : catalogIs S S8.isA6) :
     IsSimpleGroup S ∧ 5 ∣ Nat.card S ∧ ∃ y : S, orderOf y = 4 := by
   obtain ⟨e⟩ := nonempty_equiv_alt6_of_isA6' h
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
   refine ⟨e.isSimpleGroup, ?_, e.symm fpfSigma6, ?_⟩
   · rw [Nat.card_congr e.toEquiv, nat_card_alternatingGroup]
     norm_num [Nat.card_eq_fintype_card, Nat.factorial]
@@ -57,7 +57,7 @@ theorem a6_data {S : Type} [Group S] (h : catalogIs S S8.isA6) :
 theorem sq_eq_one_of_normal_exp_two {A S : Type} [Group A] [Group S] [IsSimpleGroup S]
     (f : A →* S) (hf : Function.Surjective f) (K : Subgroup A) [K.Normal]
     (hK : ∀ k ∈ K, k ^ 2 = 1) {m : A} (hm : m ^ 2 ∈ K) : (f m) ^ 2 = 1 := by
-  haveI : (K.map f).Normal := Subgroup.Normal.map ‹K.Normal› f hf
+  have : (K.map f).Normal := Subgroup.Normal.map ‹K.Normal› f hf
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (K.map f) with h | h
   · have hmem : f (m ^ 2) ∈ K.map f := Subgroup.mem_map.2 ⟨m ^ 2, hm, rfl⟩
     rw [h, Subgroup.mem_bot, map_pow] at hmem

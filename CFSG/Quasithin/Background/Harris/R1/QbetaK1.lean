@@ -17,6 +17,7 @@ variable {G : Type*} [Group G] [Finite G] {P S Q W Z M D : Subgroup G} {g y z : 
 variable (h : QD P S Q W Z M D g y z)
 include h
 
+omit [Finite G] in
 theorem Z_comm {a b : G} (ha : a ∈ Z) (hb : b ∈ Z) : a * b = b * a := by
   rcases h.hZcases a ha with h1 | h1 <;> rcases h.hZcases b hb with h2 | h2 <;> subst h1 <;>
     subst h2 <;> simp
@@ -45,7 +46,7 @@ theorem K1_comm_D_mem_Z {K1 : Subgroup G} (hK1 : ⁅K1, K1⁆ = K1)
     rw [hK1Z k hk c hc]; group
   let Stab : Subgroup G :=
     { carrier := {k | k ∈ K1 ∧ k * x * k⁻¹ * x⁻¹ ∈ Z}
-      one_mem' := ⟨K1.one_mem, by simpa using Z.one_mem⟩
+      one_mem' := ⟨K1.one_mem, by simp⟩
       mul_mem' := by
         rintro k1 k2 ⟨hk1, hc1⟩ ⟨hk2, hc2⟩
         refine ⟨K1.mul_mem hk1 hk2, ?_⟩

@@ -69,7 +69,7 @@ lemma statedQuadOdd_fiveOddMap (n : ℕ) (ε : Bool) (ν : ZMod 5)
     rw [show a + (-2 : ZMod 5) * b = a - 2 * b by ring_nf]
     rw [← mul_assoc, mul_comm (a + 2 * b) ν, mul_assoc, zmod5_pair_sq]
   simp only [fiveForm, fiveOddMap, fiveOddCoord, LinearMap.pi_apply, LinearMap.add_apply,
-    LinearMap.sub_apply, LinearMap.smul_apply, LinearMap.proj_apply, smul_eq_mul]
+    LinearMap.smul_apply, LinearMap.proj_apply, smul_eq_mul]
   have hL : (∑ j : Fin n,
         (v (Fin.castSucc (⟨j.1, by omega⟩ : Fin (2 * n))) +
             2 * v (Fin.castSucc (⟨j.1 + n, by omega⟩ : Fin (2 * n)))) *
@@ -150,10 +150,10 @@ lemma sum_pair_eq {k n : ℕ} (hn : k + 1 = 2 * n) (g : Fin (k + 1) → ZMod 5) 
   intro j _
   rw [show (finCongr hn).symm (⟨j.1, by omega⟩ : Fin (2 * n)) =
         (⟨j.1, by omega⟩ : Fin (k + 1)) by
-      ext; simp [finCongr_symm_apply_coe],
+      ext; simp,
     show (finCongr hn).symm (⟨j.1 + n, by omega⟩ : Fin (2 * n)) =
         (⟨j.1 + n, by omega⟩ : Fin (k + 1)) by
-      ext; simp [finCongr_symm_apply_coe]]
+      ext; simp]
 
 lemma two_ne_zero_zmod5 : (2 : ZMod 5) ≠ 0 := by decide
 
@@ -179,12 +179,11 @@ lemma fiveScaleLast_eq_zero {k : ℕ} {w : Fin (k + 1) → ZMod 5}
     (hw : fiveScaleLast k w = 0) : w = 0 := by
   funext i
   have h := congr_fun hw i
-  simp only [fiveScaleLast, fiveScaleCoordLast, LinearMap.pi_apply, LinearMap.smul_apply,
-    LinearMap.proj_apply, smul_eq_mul, Pi.zero_apply] at h
+  simp only [fiveScaleLast, fiveScaleCoordLast, LinearMap.pi_apply, Pi.zero_apply] at h
   by_cases hi : i = Fin.last k
-  · rw [if_pos hi] at h
+  · rw [ite_eq_left hi] at h
     exact zmod5_mul_eq_zero two_ne_zero_zmod5 h
-  · rw [if_neg hi] at h
+  · rw [ite_eq_right hi] at h
     exact h
 
 def fivePlusCoord {k n : ℕ} (hn : k + 1 = 2 * n) (i : Fin n ⊕ Fin n) :
@@ -250,12 +249,12 @@ lemma statedQuadPlus_fivePlusMap {k n : ℕ} (hn : k + 1 = 2 * n)
       simp only [Fin.val_castSucc, Fin.val_last] at this
       omega
     simp only [hw, fiveScaleLast, fiveScaleCoordLast, LinearMap.pi_apply,
-      LinearMap.proj_apply, if_neg hi]
+      LinearMap.proj_apply, ite_eq_right hi]
   have hlast : w (Fin.last k) = 2 * v (Fin.last k) := by
     simp only [hw, fiveScaleLast, fiveScaleCoordLast, LinearMap.pi_apply,
       LinearMap.smul_apply, LinearMap.proj_apply, ite_true, smul_eq_mul]
   rw [Finset.sum_congr rfl (fun i _ => by rw [hv i]), hlast]
-  simp only [fiveForm, if_true, one_mul]
+  simp only [fiveForm, ite_true, one_mul]
   rw [Finset.sum_congr rfl (fun i _ => by rw [sq])]
   have hsc : ∀ S z : ZMod 5, S + (2 * z) ^ 2 = S - z * z := by decide
   exact hsc _ _
@@ -385,7 +384,7 @@ lemma statedQuadMinus_fiveMinusMap {k n : ℕ} (hn : k + 1 = 2 * n)
       (∑ i : Fin (2 * (n - 1)), (v (Fin.castLE (two_pred_le hn) i)) ^ 2) +
         (v (⟨2 * (n - 1), two_pred_lt hn⟩ : Fin (k + 1))) ^ 2 -
           2 * (v (Fin.last k)) ^ 2 := by
-    simp only [fiveForm, Bool.false_eq_true, if_false]
+    simp only [fiveForm, Bool.false_eq_true, ite_false]
     rw [Finset.sum_congr rfl (fun i _ => by rw [← sq]),
       sum_fin_pred_eq hn (fun i => (v i) ^ 2), ← sq]
   simp only [fiveMinusLinear, fiveMinusCoord, LinearMap.pi_apply, LinearMap.add_apply,

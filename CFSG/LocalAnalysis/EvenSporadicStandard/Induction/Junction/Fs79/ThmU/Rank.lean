@@ -41,7 +41,7 @@ theorem exists_sylow_forall_conj [Finite G] {C U : Subgroup G} (hU : IsPGroup 2 
   have hU' : IsPGroup 2 (U.subgroupOf C) := hU.comap_subtype
   obtain ⟨S, hS⟩ := hU'.exists_le_sylow
   refine ⟨(S : Subgroup ↥C).map C.subtype, Subgroup.map_subtype_le (S : Subgroup ↥C),
-    S.isPGroup'.map C.subtype, ?_, ?_⟩
+    S.isPGroup.map C.subtype, ?_, ?_⟩
   · intro u hu
     exact Subgroup.mem_map.2 ⟨⟨u, hUC hu⟩, hS ((Subgroup.mem_subgroupOf).2 hu), rfl⟩
   · intro X hX hXC

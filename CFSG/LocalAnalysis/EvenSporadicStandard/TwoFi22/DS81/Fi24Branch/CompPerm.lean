@@ -45,7 +45,7 @@ noncomputable def componentConjAct {B : Type} [Group B] :
     change K.1.map (MulAut.conj (1 : B)).toMonoidHom = K.1
     have h : (MulAut.conj (1 : B)).toMonoidHom = MonoidHom.id B := by
       ext x
-      simp [MulAut.conj_apply]
+      simp
     rw [h, Subgroup.map_id]
   map_mul' b₁ b₂ := by
     apply Equiv.ext

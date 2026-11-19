@@ -108,7 +108,7 @@ theorem false_of_outer (hr : 4 ≤ r) {s : G} (hsS : s ∈ (S : Subgroup G)) (hs
       _ = t * y := by rw [hyt]
   have hyL : y ∈ Subgroup.normalizer (L : Set G) :=
     hd.tight.centralizer_le_normalizer_member hd.memL hd.invL hyC
-  have hy2 : IsPGroup 2 (Subgroup.zpowers y) := S.isPGroup'.to_le (Subgroup.zpowers_le.mpr hyS)
+  have hy2 : IsPGroup 2 (Subgroup.zpowers y) := S.isPGroup.to_le (Subgroup.zpowers_le.mpr hyS)
   obtain ⟨Q, hQ, hQY⟩ := exists_sylow_normalized hy2 (Subgroup.zpowers_le.mpr hyL)
   have hQR : Q ∈ RSet (CoreAssembly.conjClass K) :=
     mem_RSet_iff.mpr ⟨L, hd.memL, hQ.1, hQ.2.1, hQ.2.2⟩
@@ -218,7 +218,7 @@ theorem tightF1SR_holds {r : ℕ} (hr : 4 ≤ r) : TightF1SR r := by
     (S19Q.isPGroup_zpowers_iff_exists_pow _).mpr ⟨1, by rw [pow_one, sq, hss]⟩
   set H : Subgroup G := Subgroup.centralizer ({x} : Set G) with hH
   obtain ⟨P, hP, hTP⟩ := IsSylow2In.exists_ge
-    (T.isPGroup'.to_le inf_le_left : IsPGroup 2 ↥((T : Subgroup G) ⊓ H)) inf_le_right
+    (T.isPGroup.to_le inf_le_left : IsPGroup 2 ↥((T : Subgroup G) ⊓ H)) inf_le_right
   obtain ⟨c, hcH, hsc⟩ := Sec7.exists_conj_le_of_isSylow2In hP hs2 (Subgroup.zpowers_le.mpr hg)
   have hcs : c⁻¹ * (g * t * g⁻¹) * c ∈ P := mem_conjSub_iff.mp (hsc (Subgroup.mem_zpowers _))
   have hS₀P : (T : Subgroup G) ⊓ tightCore R ≤ P := fun r hr =>

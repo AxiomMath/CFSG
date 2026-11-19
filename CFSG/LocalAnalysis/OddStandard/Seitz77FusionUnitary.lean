@@ -418,7 +418,7 @@ theorem unitaryResidualFalse_of_certificates :
   have hdvd : 2 ∣ d.P.index := F.two_dvd_index d hR hα
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨T, hPT⟩ := d.hP.isPGroup.exists_le_sylow
-  have hTP : (T : Subgroup G) = d.P := hmax T T.isPGroup' hPT
+  have hTP : (T : Subgroup G) = d.P := hmax T T.isPGroup hPT
   exact T.not_dvd_index (hTP ▸ hdvd)
 
 theorem alpha_of_certificates

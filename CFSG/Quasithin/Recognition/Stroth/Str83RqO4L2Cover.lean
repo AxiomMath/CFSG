@@ -32,7 +32,7 @@ private theorem brh_exists_of_card {S Q A B : Subgroup G} {x : G} (hSA : S ≤ A
       intro s₁ s₂ h
       rw [QuotientGroup.leftRel_apply, Subgroup.mem_subgroupOf] at h ⊢
       convert hwd _ h using 1
-      simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_mk]
+      simp only [Subgroup.coe_mul, Subgroup.coe_inv]
       group)
   have hφ : ∀ s : S, φ (s : ↥S ⧸ Q.subgroupOf S) =
       ((⟨(s : G) * x, A.mul_mem (hSA s.2) hxA⟩ : A) : ↥A ⧸ B.subgroupOf A) := fun s => rfl
@@ -44,7 +44,7 @@ private theorem brh_exists_of_card {S Q A B : Subgroup G} {x : G} (hSA : S ≤ A
       | H s₂ =>
         rw [hφ, hφ, QuotientGroup.eq, Subgroup.mem_subgroupOf] at hq
         rw [QuotientGroup.eq, Subgroup.mem_subgroupOf]
-        simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_mk] at hq ⊢
+        simp only [Subgroup.coe_mul, Subgroup.coe_inv] at hq ⊢
         refine hinj _ (S.mul_mem (S.inv_mem s₁.2) s₂.2) ?_
         convert hq using 1
         group
@@ -53,8 +53,7 @@ private theorem brh_exists_of_card {S Q A B : Subgroup G} {x : G} (hSA : S ≤ A
     induction q using QuotientGroup.induction_on with
     | H s =>
       rw [hφ, QuotientGroup.eq, Subgroup.mem_subgroupOf] at hq
-      simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_mk, OneMemClass.coe_one,
-        mul_one] at hq
+      simp only [Subgroup.coe_inv, mul_one] at hq
       apply hxB
       have h := B.mul_mem (B.inv_mem (hSB s.2)) (B.inv_mem hq)
       convert h using 1
@@ -127,7 +126,7 @@ private theorem l2c_exists_conj_mem_of_torus_of_l2 {L T D : Subgroup G} {f : ℕ
     (hu' : u' ∈ T) (hu1 : u ∉ pCoreOf 2 L) (hu1' : u' ∉ pCoreOf 2 L) :
     ∃ d ∈ D, (d * u * d⁻¹)⁻¹ * u' ∈ pCoreOf 2 L := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTL : T ≤ L := hT.le
   let Tq : Subgroup (oTwoQuot ↥L) := imageOTwoQuot L T
   let Dq : Subgroup (oTwoQuot ↥L) := imageOTwoQuot L D
@@ -142,7 +141,7 @@ private theorem l2c_exists_conj_mem_of_torus_of_l2 {L T D : Subgroup G} {f : ℕ
     S.mapSurjective (f := e.toMonoidHom) e.surjective
   have hUcoe : (U : Subgroup (PSL(2, GaloisField 2 f))) = Tq.map e.toMonoidHom := by
     have h := Sylow.coe_mapSurjective (f := e.toMonoidHom) e.surjective S
-    simpa [U, Tq, hScoe] using h
+    simp [U, Tq, hScoe]
   let D' : Subgroup (PSL(2, GaloisField 2 f)) := Dq.map e.toMonoidHom
   have hD'card : Nat.card D' = 2 ^ f - 1 := by
     rw [Subgroup.card_map_of_injective (f := e.toMonoidHom) e.injective, hDqcard]
@@ -215,7 +214,7 @@ private theorem brh_Q_le_B {a f : ℕ} (hfr : Frame L1 L2 S a f) :
 private theorem brh_relIndex_Q_S {a f : ℕ}
     (hfr : Frame L1 L2 S a f) : (t.Qv 1).relIndex S = 2 ^ f := by
   have h := (t.relIndex_Qv_pCoreOf hfr 1).1
-  rw [sub_self, t.pCoreOf_Gw_zero_one hfr, if_neg Int.not_even_one] at h
+  rw [sub_self, t.pCoreOf_Gw_zero_one hfr, ite_eq_right Int.not_even_one] at h
   exact h
 
 private theorem brh_relIndex_B {a f : ℕ}
@@ -228,7 +227,7 @@ private theorem brh_relIndex_B {a f : ℕ}
 
 private theorem brh_S_inf_Gv_two {a f : ℕ}
     (hfr : Frame L1 L2 S a f) : S ⊓ t.Gv 2 ≤ t.Qv 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSp : IsPGroup 2 S := hfr.hF.1.h1.pgroup
   refine t.le_Qv_of_le_Gw hfr (u := 0) (w := 2) (j := 1) (by norm_num) (by norm_num)
     (hSp.to_le inf_le_left) ?_
@@ -288,6 +287,7 @@ private theorem l2c_Gv_inf_eq {a f : ℕ}
   rw [zero_add] at h
   rw [← h, t.Gw_zero_one hfr.hF, t.sup_K_eq_bigB]
 
+omit [Finite G] in
 private theorem l2c_K_le_normalizer_S {a f : ℕ} (hfr : Frame L1 L2 S a f) :
     t.K ≤ normalizer (S : Set G) :=
   le_sup_right.trans (t.sup_K_eq_bigB.le.trans hfr.hN)
@@ -307,15 +307,18 @@ private theorem l2c_Q_le_Gv_two {a f : ℕ}
   have h := (t.Qv_le_Gv hfr 1).2
   simpa using h
 
+omit [Finite G] in
 private theorem l2c_conj_mem {H : Subgroup G} {g y : G} (hg : g ∈ normalizer (H : Set G))
     (hy : y ∈ H) : g * y * g⁻¹ ∈ H :=
   (mem_normalizer_iff.mp hg y).mp hy
 
+omit [Finite G] in
 private theorem l2c_conj_inv_mem {H : Subgroup G} {g y : G} (hg : g ∈ normalizer (H : Set G))
     (hy : y ∈ H) : g⁻¹ * y * g ∈ H := by
   have := l2c_conj_mem (inv_mem hg) hy
   rwa [inv_inv] at this
 
+omit [Finite G] in
 private theorem l2c_mem_Q_of_pow_eq_one {x : G} (hx : x ∈ t.Qv 1 ⊔ t.K) {j : ℕ}
     (hxj : x ^ 2 ^ j = 1) : x ∈ t.Qv 1 := by
   have hKQ : t.K ≤ normalizer (t.Qv 1 : Set G) := t.K_le_normalizer_Qv 1
@@ -351,6 +354,7 @@ private theorem l2c_inf_B_le {a f : ℕ} (hfr : Frame L1 L2 S a f)
   have hhQ : h ∈ t.Qv 1 := hHS ⟨hh, hhS⟩
   exact mul_mem (mem_sup_left (mul_mem hq hhQ)) (mem_sup_right hk)
 
+omit [Finite G] in
 private theorem l2c_conj_x₂_inv_mem {y : G} (hy : y ∈ t.Gv 1 ⊓ t.Gv 2) :
     t.x₂⁻¹ * y * t.x₂ ∈ t.Gv 0 ⊓ t.Gv 1 := by
   have h1 := t.map_Gv_x₂ 1
@@ -369,7 +373,7 @@ private theorem l2c_two_elt_mem {a f : ℕ}
     (hfr : Frame L1 L2 S a f) {H : Subgroup G} (hH : H ≤ t.Gv 1) (hK : t.K ≤ H)
     (htr : CosetTrans H (t.Gv 1) (t.Gv 0)) (hHS : H ⊓ S ≤ t.Qv 1) {u : G}
     (hu : u ∈ H ⊔ t.Qv 1) {j : ℕ} (huj : u ^ 2 ^ j = 1) : u ∈ t.Qv 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hHQ1 : H ⊔ t.Qv 1 ≤ t.Gv 1 := sup_le hH (t.Qv_le_Gv_self 1)
   have hP : IsPGroup 2 (zpowers u) := by
     have hdvd : orderOf u ∣ 2 ^ j := orderOf_dvd_of_pow_eq_one huj
@@ -406,7 +410,7 @@ private theorem l2c_two_elt_mem {a f : ℕ}
 private theorem l2c_exists_mem_not_mem {a f : ℕ}
     (hfr : Frame L1 L2 S a f) {H : Subgroup G} (hH : H ≤ t.Gv 1) (hK : t.K ≤ H)
     (htr : CosetTrans H (t.Gv 1) (t.Gv 0)) : ∃ h ∈ H ⊓ S, h ∉ t.Qv 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hcon
   push Not at hcon
   have hHS : H ⊓ S ≤ t.Qv 1 := fun h hh => hcon h hh
@@ -451,7 +455,7 @@ private theorem l2c_exists_mem_not_mem {a f : ℕ}
   have hcop : ∀ {M : Subgroup G}, Odd (Nat.card M) → Q ⊓ M = ⊥ := by
     intro M hM
     obtain ⟨m, hm⟩ := hQp.exists_card_eq
-    refine Subgroup.inf_eq_bot_of_coprime ?_
+    refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
     rw [hm]
     exact Nat.Coprime.pow_left m (Nat.coprime_two_left.2 hM)
   obtain ⟨m, hmQ, hmK⟩ := Vol2.Ch10.SecB.C11AmS.exists_conj_of_complement hQp hKo hKQ hKnQ
@@ -525,7 +529,7 @@ private theorem l2c_exists_mem_not_mem {a f : ℕ}
 theorem L2_le_oTwoPrime_sup_Qv_one {a f : ℕ}
     (hfr : Frame L1 L2 S a f) {H : Subgroup G} (hH : H ≤ t.Gv 1) (hK : t.K ≤ H)
     (htr : CosetTrans H (t.Gv 1) (t.Gv 0)) : L2 ≤ oTwoPrime H ⊔ t.Qv 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨h, ⟨hhH, hhS⟩, hhQ⟩ := t.l2c_exists_mem_not_mem hfr hH hK htr
   have hSp : IsPGroup 2 S := hfr.hF.1.h1.pgroup
   have hD2K : t.D2 ≤ t.K := le_sup_right
@@ -598,6 +602,7 @@ theorem ArcL.L2_le_LX_sup_Qv_one {a f : ℕ}
   rw [Track.ArcL.LX_sup_Qv_one_eq t hfr hX]
   exact le_sup_left
 
+omit [Finite G] in
 private theorem l2c_cosetTrans_two {H : Subgroup G} (htr : CosetTrans H (t.Gv 1) (t.Gv 0)) :
     CosetTrans H (t.Gv 1) (t.Gv (1 + 1)) := by
   intro g hg
@@ -615,7 +620,7 @@ private theorem l2c_cosetTrans_two {H : Subgroup G} (htr : CosetTrans H (t.Gv 1)
 theorem ArcL.pCoreOf_LX_one {a f : ℕ}
     (hfr : Frame L1 L2 S a f) {X : Subgroup G} (hX : t.ArcL X) :
     pCoreOf 2 (t.LX X 1) = t.EX X 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hH : t.MX X 1 ≤ t.Gv 1 := inf_le_right
   have htr : CosetTrans (t.MX X 1) (t.Gv 1) (t.Gv 0) := by
     intro g hg
@@ -643,6 +648,7 @@ theorem ArcL.pCoreOf_LX_one {a f : ℕ}
         (Subgroup.le_normalizer (hLM hl).1)
     exact le_pCoreOf_of_le_normalizer 2 hEL hLE hEp
 
+omit [Finite G] in
 private theorem l2c_mem_pCore_iff {N : Subgroup G} (x : ↥N) :
     x ∈ pCore 2 ↥N ↔ (x : G) ∈ pCoreOf 2 N := by
   constructor
@@ -697,6 +703,7 @@ theorem ArcL.isL2Quot_LX_one {a f : ℕ} (hfr : Frame L1 L2 S a f)
   exact ⟨((QuotientGroup.quotientMulEquivOfEq hker).trans
     (QuotientGroup.quotientKerEquivOfSurjective φ hsurj)).trans e3⟩
 
+omit [Finite G] in
 private theorem l2c_mem_normalizer_centralizer {H : Subgroup G} {g : G}
     (hg : g ∈ normalizer (H : Set G)) :
     g ∈ normalizer ((centralizer (H : Set G) : Subgroup G) : Set G) := by
@@ -721,7 +728,7 @@ private theorem l2c_mem_normalizer_centralizer {H : Subgroup G} {g : G}
 theorem ArcL.charTwo_LX_one {a f : ℕ}
     (hfr : Frame L1 L2 S a f) {X : Subgroup G} (hX : t.ArcL X) (hX2 : IsPGroup 2 X) :
     CharTwo (t.LX X 1) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hE := Track.ArcL.pCoreOf_LX_one t hfr hX
   have hH : t.MX X 1 ≤ t.Gv 1 := inf_le_right
   have hLG : t.LX X 1 ≤ t.Gv 1 := (oTwoPrime_le _).trans hH
@@ -768,6 +775,7 @@ theorem ArcL.charTwo_LX_one {a f : ℕ}
         sup_le_sup_right (le_inf (inf_le_left.trans hLV)
           (inf_le_right.trans (Subgroup.centralizer_le (SetLike.coe_subset_coe.mpr hZE)))) _
 
+omit [Finite G] in
 private theorem l2c_x₂_mul_x₂_mem : t.x₂ * t.x₂ ∈ t.Gv 0 := by
   have hP2 : t.x₂ * t.x₂ ∈ P2 L1 L2 S := mul_mem t.track.x₂_mem t.track.x₂_mem
   have hN : t.x₂ * t.x₂ ∈ normalizer ((t.D1 ⊔ t.D2 : Subgroup G) : Set G) :=
@@ -777,6 +785,7 @@ private theorem l2c_x₂_mul_x₂_mem : t.x₂ * t.x₂ ∈ t.Gv 0 := by
   · exact h
   · exact absurd (by simpa using h) t.track.x₂_not_mem
 
+omit [Finite G] in
 private theorem l2c_mem_Gv_two_iff {y : G} : y ∈ t.Gv 2 ↔ t.x₂⁻¹ * y * t.x₂ ∈ t.Gv 0 := by
   have h0 := t.map_Gv_x₂ 0
   rw [show (2 : ℤ) - 0 = 2 by norm_num] at h0

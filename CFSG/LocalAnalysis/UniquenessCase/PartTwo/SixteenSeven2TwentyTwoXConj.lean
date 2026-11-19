@@ -10,12 +10,14 @@ open CFSG.Quasithin Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem s16c167_twenty_two_x_shift (A : Subgroup G) (g r : G) :
     conjSubgroup (conjSubgroup A g) (g⁻¹ * r⁻¹ * g) = conjSubgroup (conjSubgroup A r⁻¹) g := by
   rw [conjSubgroup_conjSubgroup, conjSubgroup_conjSubgroup]
   congr 1
   group
 
+omit [Finite G] in
 theorem s16c167_twenty_two_x_comm {g r u v₀ : G}
     (h : (g * u * g⁻¹) * (r * v₀ * r⁻¹) * (g * u * g⁻¹)⁻¹ =
       r * ((g * u * g⁻¹) * v₀ * (g * u * g⁻¹)⁻¹) * r⁻¹) :
@@ -26,6 +28,7 @@ theorem s16c167_twenty_two_x_comm {g r u v₀ : G}
     _ = g⁻¹ * (r * ((g * u * g⁻¹) * v₀ * (g * u * g⁻¹)⁻¹) * r⁻¹) * g := by rw [h]
     _ = (g⁻¹ * r * g) * (u * (g⁻¹ * v₀ * g) * u⁻¹) * (g⁻¹ * r * g)⁻¹ := by group
 
+omit [Finite G] in
 theorem s16c167_twenty_two_x_transport {V I : Subgroup G} {g r u : G} (hI : I ≤ V)
     (hcomm : ∀ v ∈ V, (g * u * g⁻¹) * (r * v * r⁻¹) * (g * u * g⁻¹)⁻¹ =
       r * ((g * u * g⁻¹) * v * (g * u * g⁻¹)⁻¹) * r⁻¹) :

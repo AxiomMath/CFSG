@@ -48,8 +48,7 @@ private theorem u34gu3_diagonal_entries {a b c : GF16}
   have h02 := congrFun (congrFun h 0) 2
   have h11 := congrFun (congrFun h 1) 1
   have h20 := congrFun (congrFun h 2) 0
-  simp [ct3, u34frob4_eq_pow, J3, Matrix.mul_apply, Fin.sum_univ_three,
-    Matrix.diagonal_apply] at h02 h11 h20
+  simp [ct3, u34frob4_eq_pow, J3, Matrix.mul_apply, Matrix.diagonal_apply] at h02 h11 h20
   exact ⟨h02, h11, h20⟩
 
 private theorem u34det3_diagonal {a b c : GF16} :
@@ -97,8 +96,7 @@ private noncomputable def u34TorusHom : GF16ˣ →* Y where
     rw [mat_mul, u34CoeTorusElem, u34CoeTorusElem, u34CoeTorusElem]
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [u34TorusMat, Matrix.diagonal_mul_diagonal, mul_pow, mul_zpow, mul_comm,
-        mul_left_comm, mul_assoc]
+      simp [u34TorusMat, mul_pow, mul_comm]
 
 private theorem u34TorusHomInjective : Function.Injective u34TorusHom := by
   intro a b h
@@ -120,7 +118,7 @@ private theorem u34TorusElemMemCentralizer (a : GF16ˣ) :
 
 private theorem u34DiagEntriesOfMemCentralizer {g : Y}
     (hg : g ∈ Subgroup.centralizer ({t0} : Set Y)) :
-    ∃ (a : GF16) (ha : a ≠ 0), mat g = Matrix.diagonal ![a, a ^ 3, a ^ (-4 : ℤ)] := by
+    ∃ (a : GF16) (_ha : a ≠ 0), mat g = Matrix.diagonal ![a, a ^ 3, a ^ (-4 : ℤ)] := by
   have hcomm : g * t0 = t0 * g := Subgroup.mem_centralizer_singleton_iff.mp hg
   have hm : mat g * t0Mat = t0Mat * mat g := by
     rw [← mat_t0]
@@ -141,7 +139,7 @@ private theorem u34DiagEntriesOfMemCentralizer {g : Y}
   have habc : a * b * c = 1 := by
     rw [← u34det3_diagonal]
     exact hdet
-  have ha : a ≠ 0 := by
+  have _ha : a ≠ 0 := by
     intro h0
     rw [h0, zero_mul, zero_mul] at habc
     exact zero_ne_one habc
@@ -151,7 +149,7 @@ private theorem u34DiagEntriesOfMemCentralizer {g : Y}
     rw [hc] at habc
     field_simp at habc
     linear_combination habc
-  refine ⟨a, ha, ?_⟩
+  refine ⟨a, _ha, ?_⟩
   rw [hdiag', hb, hc, u34zpow_neg_four]
 
 private theorem u34CentralizerT0EqRange :

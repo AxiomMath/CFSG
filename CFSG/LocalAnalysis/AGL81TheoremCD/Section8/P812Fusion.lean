@@ -54,14 +54,14 @@ theorem isSylowOf_top_of_isSylowOf_of_omega {G : Type} [Group G] [Finite G] {q :
       exact hΩ _ haS haq
   have hQS : ((T : Subgroup G) ⊓ Subgroup.normalizer (S : Set G)) = S :=
     hS.eq_of_le (le_inf hST Subgroup.le_normalizer) hNTM
-      (T.isPGroup'.to_le inf_le_left)
+      (T.isPGroup.to_le inf_le_left)
   have hTeq : (T : Subgroup G) = S := by
     by_contra hne
     have hsub_ne_top : S.subgroupOf (T : Subgroup G) ≠ ⊤ := fun htop =>
       hne (le_antisymm hST (Subgroup.subgroupOf_eq_top.mp htop)).symm
     have hlt : S.subgroupOf (T : Subgroup G) < ⊤ := lt_top_iff_ne_top.mpr hsub_ne_top
-    haveI : Group.IsNilpotent ↥(T : Subgroup G) := T.isPGroup'.isNilpotent
-    obtain ⟨y, hyNorm, hyNot⟩ := SetLike.exists_of_lt
+    have : Group.IsNilpotent ↥(T : Subgroup G) := T.isPGroup.isNilpotent
+    obtain ⟨y, hyNorm, hyNot⟩ := _root_.IsConcreteLE.exists_of_lt
       (Group.normalizerCondition_of_isNilpotent (S.subgroupOf (T : Subgroup G)) hlt)
     have hyN : (y : G) ∈ Subgroup.normalizer (S : Set G) := by
       rw [Subgroup.mem_normalizer_iff_map_conj_eq]
@@ -78,7 +78,7 @@ theorem isSylowOf_top_of_isSylowOf_of_omega {G : Type} [Group G] [Finite G] {q :
       exact hmem
     exact hyNot hyS
   rw [CFSG.ABGLocalTools.isSylowOf_iff]
-  refine ⟨le_top, hTeq ▸ T.isPGroup', ?_⟩
+  refine ⟨le_top, hTeq ▸ T.isPGroup, ?_⟩
   rw [← hTeq, Subgroup.relIndex_top_right]
   exact T.not_dvd_index
 
@@ -117,7 +117,7 @@ private theorem conjSet_eq_self_of_le_elemAbelian {G : Type} [Group G] {q : ℕ}
         _ = z := by group]
 
 private theorem mem_elemAbelian_of_mem_conjSet {G : Type} [Group G] {q : ℕ}
-    {S A X : Subgroup G} (hAS : A ≤ S) (hA : CFSG.Open.IsElemAbelian q A)
+    {S A X : Subgroup G} (_hAS : A ≤ S) (hA : CFSG.Open.IsElemAbelian q A)
     (hΩ : ∀ x ∈ S, x ^ q = 1 → x ∈ A) (hXA : X ≤ A) {h : G}
     (hhX : X.map (MulAut.conj h).toMonoidHom ≤ S) :
     ∀ z ∈ CFSG.Quasithin.conjSet (X : Set G) h⁻¹, z ∈ A := by

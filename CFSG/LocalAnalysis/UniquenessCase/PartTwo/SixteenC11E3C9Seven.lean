@@ -27,7 +27,7 @@ theorem s1611e3_case9_mbar_seven {D : Data G} {V₀ V L : Subgroup G} {hV : IsEl
   let Mb : Subgroup (MulAut (Vtil V₀ V hV)) := Mbar D.M V₀ V hV
   let Fs : Subgroup (MulAut (Vtil V₀ V hV)) := Fstar Mb
   obtain ⟨hFX, hFn, hself⟩ := s16c167_cfg10_fstar_facts Mb
-  haveI : (Fs.subgroupOf Mb).Normal := by
+  have : (Fs.subgroupOf Mb).Normal := by
     rw [Subgroup.normal_subgroupOf_iff hFX]
     intro h k hh hk
     exact hFn k hk h hh
@@ -40,8 +40,8 @@ theorem s1611e3_case9_mbar_seven {D : Data G} {V₀ V L : Subgroup G} {hV : IsEl
     have hcomm := (Subgroup.mem_centralizer_iff.mp hy) (⟨f, hFX hf⟩ : ↥Mb)
       (Subgroup.mem_subgroupOf.mpr hf)
     exact (congrArg Subtype.val hcomm).symm
-  haveI : Finite ↥Mb := Subtype.finite
-  haveI : Finite ↥(lBar V₀ V hV L) := Subtype.finite
+  have : Finite ↥Mb := Subtype.finite
+  have : Finite ↥(lBar V₀ V hV L) := Subtype.finite
   have hcount := s1611e3_c9_seven_count hFcent hL3
     ((Subgroup.subgroupOfEquivOfLe hFX).trans e7)
   refine ⟨?_, ?_⟩

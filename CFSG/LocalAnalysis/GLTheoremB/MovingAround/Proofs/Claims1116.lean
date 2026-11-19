@@ -82,6 +82,7 @@ omit [Finite G] in
 theorem le_kx (p : ℕ) (J : Subgroup G) (x : G) : J ≤ Kx p J x :=
   le_iSup₂_of_le (1 : G) (GLAPLayer p (Cg x)).one_mem (le_of_eq (gLBConj_one J).symm)
 
+omit [Finite G] in
 theorem le_of_bar_le {p : ℕ} {X L M : Subgroup G} (hLX : L ≤ X) (hO : GLAPPrimeCoreOf p X ≤ M)
     (h : barX p X L ≤ barX p X M) : L ≤ M := by
   intro k hk
@@ -107,7 +108,7 @@ theorem barX_iSup₂_le {p : ℕ} {X : Subgroup G} {ι : Type*} {P : ι → Prop
 
 theorem card_eq_pow_pRank' {p : ℕ} (hp : p.Prime) {E : Subgroup G} (hE : IsElemAbelian p E) :
     Nat.card E = p ^ CFSG.Open.pRank p E := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨m, hm⟩ := (elemAbelian_isPGroup hE).exists_card_eq
   have h1 : m ≤ CFSG.Open.pRank p E := CFSG.SectionRank.le_pRank hp.one_lt le_rfl hE hm
   have h2 : CFSG.Open.pRank p E ≤ m :=
@@ -283,7 +284,7 @@ theorem prop1116_chevr_of_inputs (hDown : Input14_4_ChevDown) (hPair : Input3_3_
   have hp2 : p ≠ 2 := P.standing.ne_two
   have hJ0r : IsChevSimple r (barOf p J0 ⧸ Subgroup.center (barOf p J0)) :=
     hDown hp hp2 (prep_hea P) (prep_hap P) P.hJ1 P.hJ0' P.hJstar r hr
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨E₃, hE₃E, hE₃el, hE₃card⟩ :=
     CFSG.SectionRank.exists_isElemAbelian_card_of_le_pRank (p := p) (k := 3) (prep_hE3 P)
   have hE₃C : E₃ ≤ Cg e := hE₃E.trans (prep_hEC P)
@@ -362,6 +363,7 @@ section SporHelpers
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem barX_isQuasisimple {p : ℕ} {X J : Subgroup G} (hJ : GLAPComponent p X J) :
     CFSG.Open.IsQuasisimple ↥(barX p X J) := hJ.2.2.1.2.2
 
@@ -376,7 +378,7 @@ noncomputable def barX_centerQuotEquiv {p : ℕ} (hp : p.Prime) {X J : Subgroup 
   centerQuotEquiv (quotEquivBarX hp hJ.1 hJ.2.1)
 
 omit [Finite G] in
-theorem bar_mem_normalizer {p : ℕ} {X J : Subgroup G} (hJX : J ≤ X) {g : G} (hgX : g ∈ X)
+theorem bar_mem_normalizer {p : ℕ} {X J : Subgroup G} (_hJX : J ≤ X) {g : G} (hgX : g ∈ X)
     (hg : GLBConj g J = J) :
     QuotientGroup.mk' (GLAPPrimeCore p ↥X) ⟨g, hgX⟩ ∈
       Subgroup.normalizer (barX p X J : Set (↥X ⧸ GLAPPrimeCore p ↥X)) := by
@@ -419,7 +421,7 @@ theorem exists_pGroup_map_eq {A B : Type*} [Group A] [Group B] [Finite A] {p : �
   rw [Sylow.coe_mapSurjective] at htop
   refine ⟨(T : Subgroup W).map W.subtype, fun e he => ⟨⟨e, hEW he⟩,
     hT (Subgroup.mem_comap.mpr he : (⟨e, hEW he⟩ : W) ∈ E.comap W.subtype), rfl⟩,
-    T.isPGroup'.map _, le_antisymm ?_ ?_⟩
+    T.isPGroup.map _, le_antisymm ?_ ?_⟩
   · rintro _ ⟨_, ⟨w, -, rfl⟩, rfl⟩
     exact w.2
   · intro q hq
@@ -431,7 +433,7 @@ theorem exists_pGroup_map_eq {A B : Type*} [Group A] [Group B] [Finite A] {p : �
 theorem eq_barX_of_isSCp {p : ℕ} (hp : p.Prime) {X E : Subgroup G} (hE : IsSCp p ⊤ E) (hEX : E ≤ X)
     {F : Subgroup (↥X ⧸ GLAPPrimeCore p ↥X)} (hEF : barX p X E ≤ F) (hF : IsElemAbelian p F) :
     F = barX p X E := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set π := QuotientGroup.mk' (GLAPPrimeCore p ↥X) with hπ
   have hEp : IsPGroup p E := elemAbelian_isPGroup hE.2.1
   obtain ⟨P, hEP, hPp, hPF⟩ := exists_pGroup_map_eq π (QuotientGroup.mk'_surjective _)
@@ -591,7 +593,7 @@ theorem spor_five (hSuz : InputSuzFive) (h104i : Lemma104_iStatement)
     (hE3 : CFSG.Open.pRank 5 E = 3) : False := by
   classical
   have hp : (5 : ℕ).Prime := by norm_num
-  haveI : Fact (5 : ℕ).Prime := ⟨hp⟩
+  have : Fact (5 : ℕ).Prime := ⟨hp⟩
   have hEel : IsElemAbelian 5 E := sec11_isElemAbelian_E P.toSec11
   have heE : e ∈ E := (Subgroup.mem_inf.1 P.he.1).1
   have ha : a ∈ A := P.ha.1

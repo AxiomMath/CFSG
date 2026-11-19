@@ -175,7 +175,7 @@ elab "#kpermcat_cat " pre:ident path:str size:num hash:num nn:num ww:num rows:nu
         ptsP := ptsP.push x
   let amT := I.ambient.tabs
   let ambP := amT.map (pack w)
-  let N := amT.size
+  let _N := amT.size
   let pos : Nat → CommandElabM Nat := fun x => do
     let some q := posOf[x]? | throwError "#kpermcat_cat: a permutation is not in {TP}"
     return q

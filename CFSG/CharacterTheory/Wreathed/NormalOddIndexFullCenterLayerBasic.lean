@@ -23,7 +23,7 @@ theorem quasisimple_le_normal_of_odd_index [Finite H]
     exact hodd.of_dvd_nat (Subgroup.relIndex_dvd_index_of_normal D M)
   let S : Sylow 2 M := Sylow.nonempty.some
   have hSK : (S : Subgroup M) ≤ K :=
-    OddIndexCentralCoreAction.two_subgroup_le_normal_of_odd_index K S hKodd S.isPGroup'
+    OddIndexCentralCoreAction.two_subgroup_le_normal_of_odd_index K S hKodd S.isPGroup
   have hKtop : K = ⊤ :=
     PrimewisePerfectLift.normal_Sylow_overgroup_eq_top_of_even_simple_central_quotient
       heven K S hSK

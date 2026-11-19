@@ -24,7 +24,7 @@ theorem card_le_sixteen (hH : HarrisHyp F) (hF : Nat.card F = 3 ^ 4)
           Nat.mul_le_mul (card_ker_le_four hA hc ht) (Nat.le_of_dvd (by norm_num) hdvd)
       _ = 16 := by norm_num
   · push Not at hR
-    haveI := isCyclic_ringAut F
+    have := isCyclic_ringAut F
     obtain ⟨⟨σ, hσR⟩, hgen⟩ := IsCyclic.exists_generator (α := ↥(projHom A).range)
     have hord : orderOf σ = Nat.card (projHom A).range := by
       rw [← orderOf_eq_card_of_forall_mem_zpowers hgen, ← Subgroup.orderOf_coe]
@@ -34,7 +34,7 @@ theorem card_le_sixteen (hH : HarrisHyp F) (hF : Nat.card F = 3 ^ 4)
     obtain ⟨b, -, ε, σ', -, hgeq⟩ := hA g.2
     have hσ' : σ' = σ := by rw [← hg, projHom_apply, hgeq]; rfl
     have hker : Nat.card (projHom A).ker ≤ 2 ^ (4 - e) := by
-      haveI : NeZero (2 ^ (4 - e)) := ⟨by positivity⟩
+      have : NeZero (2 ^ (4 - e)) := ⟨by positivity⟩
       refine card_ker_le_pow hA hR fun a hx => ?_
       have hcomm := hc _ hx _ g.2
       rw [hgeq] at hcomm
@@ -51,7 +51,7 @@ theorem card_le_sixteen_of_isPGroup (hH : HarrisHyp F) (hF : Nat.card F = 3 ^ 4)
   have hS := hH.isSylowIn_stdTS (K := ⊤) le_top
   obtain ⟨Q, hQ⟩ := hp.exists_le_sylow
   have hQS : IsSylowIn (Q : Subgroup (PGammaL2 F)) ⊤ :=
-    ⟨le_top, Q.isPGroup', fun Q' _ h1 h2 => (Q.maximal_isPGroup.eq_of_le h1 h2).symm⟩
+    ⟨le_top, Q.isPGroup, fun Q' _ h1 h2 => (Q.maximal_isPGroup.eq_of_le h1 h2).symm⟩
   obtain ⟨g, -, hg⟩ := hS.exists_conj hQS
   have hBS : A.map (MulAut.conj g⁻¹).toMonoidHom ≤ sylS0 F := by
     rintro _ ⟨x, hx, rfl⟩

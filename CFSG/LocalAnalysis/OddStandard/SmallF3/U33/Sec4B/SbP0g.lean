@@ -49,7 +49,7 @@ private theorem p0g_X_gen_pairwise_comm (hc : Ctx8d t L S x₁ x₂ lam rho tau)
 
 private theorem p0g_commute_mem_X (hc : Ctx8d t L S x₁ x₂ lam rho tau) {a b : G}
     (ha : a ∈ ctxX t tau x₁ x₂) (hb : b ∈ ctxX t tau x₁ x₂) : a * b = b * a := by
-  haveI : IsMulCommutative ↥(ctxX t tau x₁ x₂) := by
+  have : IsMulCommutative ↥(ctxX t tau x₁ x₂) := by
     rw [ctxX]
     exact Subgroup.isMulCommutative_closure (p0g_X_gen_pairwise_comm hc)
   exact congrArg Subtype.val (mul_comm' ⟨a, ha⟩ ⟨b, hb⟩)
@@ -60,7 +60,7 @@ private theorem p0g_rho_t (hc : Ctx8d t L S x₁ x₂ lam rho tau) : rho * t = t
 private theorem p0g_rho_tau (hc : Ctx8d t L S x₁ x₂ lam rho tau) : rho * tau = tau * rho :=
   hc.tau_rho.symm
 
-private theorem p0g_V_le_X (hc : Ctx8d t L S x₁ x₂ lam rho tau) :
+private theorem p0g_V_le_X (_hc : Ctx8d t L S x₁ x₂ lam rho tau) :
     fourGrp x₁ x₂ ≤ ctxX t tau x₁ x₂ :=
   le_trans (p0_V_le_N_le_X t tau x₁ x₂).1 (p0_V_le_N_le_X t tau x₁ x₂).2
 
@@ -71,13 +71,12 @@ private theorem p0g_pair_le_X (hc : Ctx8d t L S x₁ x₂ lam rho tau) :
   simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at ha
   rcases ha with rfl | rfl <;> exact Subgroup.subset_closure (by simp)
 
-private theorem p0g_X_eq_sup (hc : Ctx8d t L S x₁ x₂ lam rho tau) :
+private theorem p0g_X_eq_sup (_hc : Ctx8d t L S x₁ x₂ lam rho tau) :
     ctxX t tau x₁ x₂ = closure ({t, tau} : Set G) ⊔ fourGrp x₁ x₂ := by
   rw [ctxX, fourGrp, ← Subgroup.closure_union]
   congr 1
   ext a
-  simp only [Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_union, Set.mem_empty_iff_false,
-    or_false]
+  simp only [Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_union]
   tauto
 
 private theorem p0g_eq_one_of_commute_rho (hc : Ctx8d t L S x₁ x₂ lam rho tau) {f : G}

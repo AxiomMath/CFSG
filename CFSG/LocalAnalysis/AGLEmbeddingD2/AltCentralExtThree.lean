@@ -140,7 +140,7 @@ theorem le_pRank_comap_of_central_sylow {J : Type u} [Group J] [Finite J] {A : T
       have h1 := Subgroup.orderOf_dvd_natCard φ.ker hy
       exact ((Nat.Prime.coprime_iff_not_dvd Nat.prime_three).2 fun h3 => hO3 (h3.trans h1)).symm
     · intro hy
-      obtain ⟨k, hk⟩ := U.isPGroup' (φ y)
+      obtain ⟨k, hk⟩ := U.isPGroup (φ y)
       have h1 : orderOf (φ y) ∣ 3 ^ k := orderOf_dvd_of_pow_eq_one hk
       have h2 : orderOf (φ y) ∣ orderOf y :=
         orderOf_dvd_of_pow_eq_one (by rw [← map_pow, pow_orderOf_eq_one, map_one])
@@ -195,7 +195,7 @@ theorem le_pRank_comap_of_central_sylow {J : Type u} [Group J] [Finite J] {A : T
   have hp : IsPGroup 3 ψ'.ker := by
     intro q
     obtain ⟨u, hu, hq⟩ := hform q q.2
-    obtain ⟨k, hk⟩ := U.isPGroup' ⟨u, hu⟩
+    obtain ⟨k, hk⟩ := U.isPGroup ⟨u, hu⟩
     refine ⟨k, Subtype.ext ?_⟩
     have h1 : (u : J) ^ 3 ^ k = 1 := congrArg (fun z : U => ((z : ψ.ker) : J)) hk
     change (q : J ⧸ O) ^ 3 ^ k = 1
@@ -203,7 +203,7 @@ theorem le_pRank_comap_of_central_sylow {J : Type u} [Group J] [Finite J] {A : T
   have hne : ψ'.ker ≠ ⊥ := by
     obtain ⟨⟨u, hu⟩, hu1⟩ := Subgroup.ne_bot_iff_exists_ne_one.1 hUne
     have hu1' : u ≠ 1 := fun h => hu1 (Subtype.ext h)
-    obtain ⟨k, hk⟩ := U.isPGroup' ⟨u, hu⟩
+    obtain ⟨k, hk⟩ := U.isPGroup ⟨u, hu⟩
     have h1 : (u : J) ^ 3 ^ k = 1 := congrArg (fun z : U => ((z : ψ.ker) : J)) hk
     refine Subgroup.ne_bot_iff_exists_ne_one.2 ⟨⟨QuotientGroup.mk (u : J), ?_⟩, fun h => ?_⟩
     · rw [MonoidHom.mem_ker]

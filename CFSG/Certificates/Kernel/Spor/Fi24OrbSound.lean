@@ -50,15 +50,15 @@ theorem forOK_spec {FD S : ℕ → ℕ} {TG : ℕ → ℕ → ℕ} {n s0 r1 lo :
   have h2 := Fi24FixS.allBelow_spec h (by decide) t ht
   have e : Nat.add lo t = lo + t := rfl
   unfold ForP
-  simp only [letB_t, e, brec_t, andB_t, Nat.ble_eq, Nat.blt_eq, if_pos (And.intro h1 hn)] at h2
+  simp only [letB_t, e, brec_t, andB_t, Nat.ble_eq, Nat.blt_eq, ite_eq_left (And.intro h1 hn)] at h2
   unfold forStep at h2
-  simp only [letB_t, andB_t, orB_t, brec_t, Nat.beq_eq, Nat.blt_eq, Nat.ble_eq, h0L_t] at h2
+  simp only [letB_t, andB_t, orB_t, brec_t, Nat.beq_eq, Nat.blt_eq] at h2
   refine ⟨h2.1, ?_⟩
   by_cases hd : fDep (FD (lo + t)) = 0
-  · rw [if_pos hd] at h2
+  · rw [ite_eq_left hd] at h2
     simp only [orB_t, andB_t, Nat.beq_eq] at h2
     exact Or.inl ⟨hd, h2.2⟩
-  · rw [if_neg hd] at h2
+  · rw [ite_eq_right hd] at h2
     simp only [andB_t, Nat.ble_eq, Nat.blt_eq, Nat.beq_eq, h0L_t] at h2
     obtain ⟨a, b, c, d, ⟨e1, e2⟩, f⟩ := h2.2
     exact Or.inr ⟨a, b, c, d, e1, e2, f⟩
@@ -68,7 +68,7 @@ theorem inSOK_spec {FD S : ℕ → ℕ} {m lo : ℕ} (h : inSOK FD S m lo = true
   intro t ht hm
   have h2 := Fi24FixS.allBelow_spec h (by decide) t ht
   have e : Nat.add lo t = lo + t := rfl
-  simp only [letB_t, e, brec_t, Nat.blt_eq, if_pos hm, Nat.beq_eq] at h2
+  simp only [letB_t, e, brec_t, Nat.blt_eq, ite_eq_left hm, Nat.beq_eq] at h2
   exact h2
 
 theorem vtOK_spec {VT : ℕ → ℕ} {TG : ℕ → ℕ → ℕ} {VW : List ℕ} {n lo : ℕ}
@@ -76,7 +76,7 @@ theorem vtOK_spec {VT : ℕ → ℕ} {TG : ℕ → ℕ → ℕ} {VW : List ℕ} 
   intro t ht hm
   have h2 := Fi24FixS.allBelow_spec h (by decide) t ht
   have e : Nat.add lo t = lo + t := rfl
-  simp only [letB_t, e, brec_t, Nat.blt_eq, if_pos hm, Nat.beq_eq] at h2
+  simp only [letB_t, e, brec_t, Nat.blt_eq, ite_eq_left hm, Nat.beq_eq] at h2
   exact h2
 
 theorem bindOK_spec {OL NM NI VT : ℕ → ℕ} {TG : ℕ → ℕ → ℕ} {AW : List ℕ} {n lo : ℕ}
@@ -85,7 +85,7 @@ theorem bindOK_spec {OL NM NI VT : ℕ → ℕ} {TG : ℕ → ℕ → ℕ} {AW :
   intro t ht hm
   have h2 := Fi24FixS.allBelow_spec h (by decide) t ht
   have e : Nat.add lo t = lo + t := rfl
-  simp only [letB_t, e, brec_t, Nat.blt_eq, if_pos hm] at h2
+  simp only [letB_t, e, brec_t, Nat.blt_eq, ite_eq_left hm] at h2
   unfold bindStep treeStep at h2
   simp only [letB_t, andB_t, orB_t, Nat.blt_eq, Nat.beq_eq] at h2
   unfold BindP
@@ -133,7 +133,7 @@ theorem slpOK_spec {mul : ℕ → ℕ → ℕ} {vld : ℕ → Bool} {RS IJ : ℕ
   intro t ht hm
   have h2 := Fi24FixS.allBelow_spec h (by decide) t ht
   have e : Nat.add lo t = lo + t := rfl
-  simp only [letB_t, e, brec_t, Nat.blt_eq, if_pos hm] at h2
+  simp only [letB_t, e, brec_t, Nat.blt_eq, ite_eq_left hm] at h2
   unfold slpStep at h2
   simp only [andB_t, orB_t, letB_t, Nat.blt_eq, Nat.beq_eq] at h2
   refine ⟨h2.1, fun h2le => ?_⟩

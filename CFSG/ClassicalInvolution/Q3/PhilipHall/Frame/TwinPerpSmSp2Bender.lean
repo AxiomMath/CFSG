@@ -38,7 +38,7 @@ theorem outTwoCyclic_of_benderType {K : Type} [Group K] [Finite K]
     {m i e : ℕ} (hB : BenderType K m i e) : Nobq.OutTwoCyclic K := by
   intro P hP
   obtain ⟨S₀, hS₀⟩ := hP.exists_le_sylow
-  haveI := hB.isCyclic_sylow_outer S₀
+  have := hB.isCyclic_sylow_outer S₀
   exact Nobq.isCyclic_of_injective_hom (Subgroup.inclusion hS₀) (Subgroup.inclusion_injective hS₀)
 
 set_option linter.unusedSectionVars false
@@ -47,8 +47,8 @@ set_option linter.unusedSectionVars false
 theorem false_of_benderType {n : ℕ} {Y : Type} [Group Y] [Finite Y] {R : Subgroup Y}
     {S : Sylow 2 R} {t : Y} (h : PerpHypS n Y R S t) {m i e : ℕ}
     (hB : BenderType ↥(genFittingFStar Y) m i e) : False := by
-  haveI := h.core.simple
-  haveI hTn : (genFittingFStar Y).Normal := genFittingFStar_normal Y
+  have := h.core.simple
+  have hTn : (genFittingFStar Y).Normal := genFittingFStar_normal Y
   have hC : Subgroup.centralizer ((genFittingFStar Y : Subgroup Y) : Set Y) = ⊥ :=
     Nobq.centralizer_genFittingFStar_eq_bot h.core.nonab
   exact false_of_perp_central h

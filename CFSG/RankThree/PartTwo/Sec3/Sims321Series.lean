@@ -20,10 +20,10 @@ private def stabSub (W : Subgroup V) : Subgroup (MulAut V) where
 
 private def restrictAut (W : Subgroup V) : stabSub W →* MulAut W where
   toFun γ :=
-    { toFun := fun w => ⟨γ.1 w, (γ.2 w.1).1 w.2⟩
-      invFun := fun w => ⟨γ.1⁻¹ w, ((stabSub W).inv_mem γ.2 w.1).1 w.2⟩
-      left_inv := fun w => Subtype.ext (MulAut.inv_apply_self _ _ _)
-      right_inv := fun w => Subtype.ext (MulAut.apply_inv_self _ _ _)
+    { toFun := fun _w => ⟨γ.1 _w, (γ.2 _w.1).1 _w.2⟩
+      invFun := fun _w => ⟨γ.1⁻¹ _w, ((stabSub W).inv_mem γ.2 _w.1).1 _w.2⟩
+      left_inv := fun _w => Subtype.ext (MulAut.inv_apply_self _ _ _)
+      right_inv := fun _w => Subtype.ext (MulAut.apply_inv_self _ _ _)
       map_mul' := fun a b => Subtype.ext (map_mul γ.1 (a : V) (b : V)) }
   map_one' := rfl
   map_mul' _ _ := rfl
@@ -81,7 +81,7 @@ private theorem card_map_commHom {V : Type*} [CommGroup V] [Finite V] (hV2 : ∀
       rw [ha, pow_succ, pow_mul, hV2, one_pow, one_mul]
     exact Subtype.ext (h3.symm.trans h2)
   have h1 := card_mod_eq_one_of_fpf hr (restrictAut A ⟨α, hαS⟩) hφ' hfix
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp2 : IsPGroup 2 A := fun x => ⟨1, Subtype.ext (by simpa using hV2 x)⟩
   obtain ⟨a, ha⟩ := IsPGroup.iff_card.1 hp2
   refine ⟨a, ?_, ha⟩
@@ -153,7 +153,7 @@ private theorem series_core {V : Type*} [CommGroup V] [Finite V] (hV2 : ∀ v : 
           · refine Or.inr ⟨hi'.1, ?_⟩
             have h1 := hi'.2
             have h2 : i'.val ≠ i.val := fun h' => h (Fin.ext h')
-            simp only [Fin.val_succ, Fin.coe_castSucc] at h1 ⊢
+            simp only [Fin.val_succ, Fin.val_castSucc] at h1 ⊢
             omega
         have hcard := (Finset.card_le_card hsub).trans (Finset.card_insert_le _ _)
         calc 2 ^ (k * (I.filter (fun i' => i'.val < i.succ.val)).card)
@@ -171,7 +171,7 @@ private theorem series_core {V : Type*} [CommGroup V] [Finite V] (hV2 : ∀ v : 
           refine ⟨hi'.1, ?_⟩
           have h1 := hi'.2
           have h2 : i'.val ≠ i.val := fun h' => hi (Fin.ext h' ▸ hi'.1)
-          simp only [Fin.val_succ, Fin.coe_castSucc] at h1 ⊢
+          simp only [Fin.val_succ, Fin.val_castSucc] at h1 ⊢
           omega
         exact (Nat.pow_le_pow_right (by norm_num)
           (Nat.mul_le_mul_left _ (Finset.card_le_card hsub))).trans (ih.trans hmon)
@@ -206,7 +206,7 @@ theorem two_pow_mul_le_relIndex_of_series {G : Type*} [Group G] [Finite G] {V : 
     rw [← hlast]
     exact (Fin.monotone_iff_le_succ.2 hmono) (Fin.le_last j)
   have hy : y ∈ Subgroup.normalizer (V : Set G) := hlast ▸ hnorm (Fin.last m)
-  letI : CommGroup V :=
+  let : CommGroup V :=
     { (inferInstance : Group V) with mul_comm := fun a b => Subtype.ext (hVc a a.2 b b.2) }
   have hrel : (V ⊓ Subgroup.centralizer ({y} : Set G)).relIndex V =
       (fixSubgroup (V.normalizerMonoidHom ⟨y, hy⟩)).index := by

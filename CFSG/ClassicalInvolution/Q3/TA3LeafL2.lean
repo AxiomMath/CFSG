@@ -45,7 +45,7 @@ theorem tight_right_eq_one_of_odd (hd : TightDatum R S t) (hgen : TightSelfGen R
   have hyM : ρ y ∈ S₀.map ρ := by
     have : y ∈ (S₀.map ρ).comap ρ := hM ▸ Subgroup.mem_top y
     exact this
-  have h2 : IsPGroup 2 (S₀.map ρ) := (S.isPGroup'.map R.subtype).map ρ
+  have h2 : IsPGroup 2 (S₀.map ρ) := (S.isPGroup.map R.subtype).map ρ
   obtain ⟨k, hk⟩ := h2 ⟨ρ y, hyM⟩
   have hk' : ρ y ^ 2 ^ k = 1 := congrArg Subtype.val hk
   have hcop : Nat.Coprime (2 ^ k) (orderOf y) :=

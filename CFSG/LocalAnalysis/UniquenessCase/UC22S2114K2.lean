@@ -78,7 +78,7 @@ theorem uc22s2114_k_eq_one_of_isU (hGA : GriessAllModelsStatement) (hS : Standin
     (UC6.dataOfSetup4 hS hU S).k = 1 := by
   show CFSG.LocalAnalysis.RankThreeUC.kParam S.M = 1
   rw [CFSG.LocalAnalysis.RankThreeUC.kParam,
-    if_pos (PartOne.Section8.isStronglyPEmbedded_three_of_calC_three_le hS S hPart hL
+    ite_eq_left (PartOne.Section8.isStronglyPEmbedded_three_of_calC_three_le hS S hPart hL
       (uc22s2114_three_le_pRank_of_isU hGA hL hX))]
 
 theorem uc22s2114_isPowTwo_n_of_isL3 {D : Data G} {Ch : Choice2011 G} (c : Ctx21 D Ch)

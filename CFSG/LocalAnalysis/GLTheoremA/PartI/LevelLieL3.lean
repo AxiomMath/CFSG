@@ -49,7 +49,7 @@ private theorem lieRowL3_isSubnormal_top {T : Type} [Group T] [IsSimpleGroup T] 
     rcases ih hK with hM | hM
     · exact Or.inl (le_bot_iff.1 (hM ▸ hle))
     · subst hM
-      haveI : H.Normal :=
+      have : H.Normal :=
         ⟨fun n hn' g => (Subgroup.normal_subgroupOf_iff le_top).1 hn n g hn' (Subgroup.mem_top g)⟩
       exact IsSimpleGroup.eq_bot_or_eq_top_of_normal H
 
@@ -64,13 +64,13 @@ private theorem lieRowL3_pSimple_top_equiv {p : ℕ} (hp : p.Prime) {T : Type} [
   have hq : CFSG.Open.IsQuasisimple (PQuot p (⊤ : Subgroup T)) :=
     isQuasisimple_pQuot_of_glaPComponent hp hI
   have hnt : Nontrivial (↥(⊤ : Subgroup T) ⧸ GLAPPrimeCore p ↥(⊤ : Subgroup T)) := by
-    haveI : Nontrivial (PQuot p (⊤ : Subgroup T) ⧸ Subgroup.center (PQuot p (⊤ : Subgroup T))) :=
+    have : Nontrivial (PQuot p (⊤ : Subgroup T) ⧸ Subgroup.center (PQuot p (⊤ : Subgroup T))) :=
       hq.2.toNontrivial
     exact (QuotientGroup.mk'_surjective
       (Subgroup.center (PQuot p (⊤ : Subgroup T)))).nontrivial
   have hOb : GLAPPrimeCore p ↥(⊤ : Subgroup T) = ⊥ := by
     let ψ : ↥(⊤ : Subgroup T) ≃* T := Subgroup.topEquiv
-    haveI : ((GLAPPrimeCore p ↥(⊤ : Subgroup T)).map ψ.toMonoidHom).Normal :=
+    have : ((GLAPPrimeCore p ↥(⊤ : Subgroup T)).map ψ.toMonoidHom).Normal :=
       Subgroup.Normal.map (GLAPPrimeCore.normal p _) ψ.toMonoidHom ψ.surjective
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
         ((GLAPPrimeCore p ↥(⊤ : Subgroup T)).map ψ.toMonoidHom) with h | h
@@ -101,20 +101,20 @@ private theorem lieRowL3_pSimple_top_equiv {p : ℕ} (hp : p.Prime) {T : Type} [
 private theorem lieRowL3_kLevel_le_two {p : ℕ} {S : Type} [Group S] (h : catalogIs S (k2 p)) :
     kLevel p S ≤ 2 := by
   unfold kLevel
-  split_ifs <;> first | omega | exact absurd h ‹_›
+  split_ifs <;> first | omega
 
 private theorem lieRowL3_downLe_of_iso {K : Type} [Group K]
     (eP : K ≃* CFSG.GH74.KGroups.L33.QP.originalSubgroup)
     (eS : K ≃* Matrix.ProjectiveSpecialLinearGroup (Fin 3) (ZMod 3))
     (hk2 : catalogIs K (k2 13)) : DownLe 13 2 K := by
   have hp : Nat.Prime 13 := by norm_num
-  haveI : Fact (Nat.Prime 13) := ⟨hp⟩
-  haveI : Finite K := CFSG.GH74.KGroups.L33.finite_K eP
+  have : Fact (Nat.Prime 13) := ⟨hp⟩
+  have : Finite K := CFSG.GH74.KGroups.L33.finite_K eP
   have hlin := CFSG.LinearGroups.linear_projective_simple (K := ZMod 3) (n := 3) (by norm_num)
     (Or.inl (by norm_num))
   have hsimp : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 3) (ZMod 3)) := hlin.2.1
-  haveI : Nontrivial (Matrix.ProjectiveSpecialLinearGroup (Fin 3) (ZMod 3)) := hlin.1
-  haveI : IsSimpleGroup K := (MulEquiv.isSimpleGroup_congr eS).mpr hsimp
+  have : Nontrivial (Matrix.ProjectiveSpecialLinearGroup (Fin 3) (ZMod 3)) := hlin.1
+  have : IsSimpleGroup K := (MulEquiv.isSimpleGroup_congr eS).mpr hsimp
   have hncPSL : ∃ a b : Matrix.ProjectiveSpecialLinearGroup (Fin 3) (ZMod 3), a * b ≠ b * a := by
     by_contra hcomm
     simp only [not_exists, ne_eq, not_not] at hcomm
@@ -165,7 +165,7 @@ private theorem lieRowL3_downLe_of_iso {K : Type} [Group K]
     have h := Subgroup.card_mul_index (MulAut.conj : K →* MulAut K).range
     rw [hHcard, hcardA] at h
     omega
-  haveI : (MulAut.conj : K →* MulAut K).range.Normal := Subgroup.normal_of_index_eq_two hHidx
+  have : (MulAut.conj : K →* MulAut K).range.Normal := Subgroup.normal_of_index_eq_two hHidx
   have hmem : ∀ β : MulAut K, β ^ 13 = 1 → β ∈ (MulAut.conj : K →* MulAut K).range := by
     intro β hβ
     have h2 : ((β : MulAut K ⧸ (MulAut.conj : K →* MulAut K).range)) ^ 2 = 1 := by
@@ -233,7 +233,7 @@ theorem lieRow_A2_three_thirteen (q : TauCeti.PrimePower)
   obtain ⟨eS⟩ := CFSG.GH74.KGroups.PSLN.psl_equiv_of_lieModel (F := ZMod 3) 3 3 1 (by norm_num)
     CFSG.GH74.KGroups.L33.card_F hB
   have hk2 : catalogIs (TauCeti.ValidLieTypeIndex.Group ⟨.A 2 q, hv⟩) (k2 13) :=
-    ⟨.lie ⟨.A 2 q, hv⟩, by simp [k2, k2Lie, hq, hcard], ⟨MulEquiv.refl _⟩⟩
+    ⟨.lie ⟨.A 2 q, hv⟩, by simp [k2, k2Lie, hcard], ⟨MulEquiv.refl _⟩⟩
   exact lieRowL3_downLe_of_iso eP eS hk2
 
 end CFSG.LocalAnalysis.GLTheoremA

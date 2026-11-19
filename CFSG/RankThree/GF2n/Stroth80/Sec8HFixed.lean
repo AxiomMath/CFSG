@@ -28,7 +28,7 @@ theorem sec8_fixed_le_A1 (h53 : Stroth53Statement) (hInv : Sec8InvStatement)
       x ∈ (QB B ⊓ Sec8W1 M Q Z B t r) ⊔ Sec8V1 M Q Z B t r := by
   classical
   intro x hx hlx
-  haveI := hpts.charP
+  have := hpts.charP
   have hrR : r ∈ Rt M (LB M Q B) t := hr.mem
   have hrM : r ∈ M := hc.Rt_le_M t hrR
   have hb := h53.2.1 G M Q Z B hc n t hs.toSec5 hs.spNat r hrR hr.plane (conjSubgroup r B)
@@ -54,7 +54,7 @@ theorem sec8_fixed_le_A1 (h53 : Stroth53Statement) (hInv : Sec8InvStatement)
   have hsec : SecHyp (Rt M (LB M Q B) t) (Sec8W1 M Q Z B t r) (Sec8V1 M Q Z B t r) :=
     SecHyp.of_isOppDecomp hcd hP hI
   obtain ⟨Mod, iM, iA, κ, hκ, hker⟩ := exists_sectionModule_ker hpts.ker hsec hb.2
-  haveI : Finite Mod := hκ.finite
+  have : Finite Mod := hκ.finite
   have hdec := isCompl_fixedSub_of_isOppDecomp hP hκ hcd hLeR hL'eR
   have hlR : l ∈ Rt M (LB M Q B) t := hLeR hl
   have hlL' : φ ⟨l, hlR⟩ ∈ LspGL m K u := by
@@ -137,8 +137,8 @@ theorem sec8_comm_V1_LB (h310chi : Stroth310ChiStatement) (h53a : Stroth53aState
   have hlV' : ∀ w ∈ Vt M (LB M Q B) B Z t, l * w * l⁻¹ ∈ Vt M (LB M Q B) B Z t :=
     fun w hw => (Subgroup.mem_normalizer_iff.mp hlV w).mp hw
   obtain ⟨K, iF, iFin, hchar, γ, M₀, hD⟩ := stroth_globalModelData hc.hyp
-  haveI : CharP K 2 := hchar
-  haveI hEfin : Module.Finite K M₀.E := M₀.fin
+  have : CharP K 2 := hchar
+  have hEfin : Module.Finite K M₀.E := M₀.fin
   obtain ⟨A, A₀, hAmem, hA₀mem, hA₀A, hdim⟩ := sec8_exists_codim_one h310chi h53a hc hs hr hD
   obtain ⟨T, hTπ, -, -⟩ := hD.linear_of_centralizes hlM hlxcz
   have hT2 : ∀ e, (T : M₀.E →ₗ[K] M₀.E) ((T : M₀.E →ₗ[K] M₀.E) e) = e := by

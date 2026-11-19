@@ -36,6 +36,7 @@ theorem injOn_mk_of_isPGroup {p : ℕ} (hp : p.Prime) (N : Subgroup H) [N.Normal
   rw [hcop, pow_one, inv_mul_eq_one] at h1
   exact h1
 
+omit [Finite H] in
 theorem isElemAbelian_of_injOn {K : Type*} [Group K] {p : ℕ} (f : H →* K) {P : Subgroup H}
     (hinj : Set.InjOn f (P : Set H)) (h : IsElemAbelian p (P.map f)) : IsElemAbelian p P := by
   obtain ⟨hc, hx⟩ := h
@@ -49,6 +50,7 @@ theorem isElemAbelian_of_injOn {K : Type*} [Group K] {p : ℕ} (f : H →* K) {P
     rw [map_pow, map_one]
     exact hx _ (Subgroup.mem_map_of_mem f ha)
 
+omit [Finite H] in
 theorem isElemAbelian_map {K : Type*} [Group K] {p : ℕ} (f : H →* K) {P : Subgroup H}
     (hP : IsElemAbelian p P) : IsElemAbelian p (P.map f) := by
   refine ⟨⟨⟨fun a b => ?_⟩⟩, ?_⟩
@@ -71,7 +73,7 @@ theorem exists_elemAbelian_le_of_quot {p k : ℕ} (hp : p.Prime) (N : Subgroup H
   set Pb := Sylow.mapSurjective (QuotientGroup.mk'_surjective N) P with hPb
   have hcoe : (Pb : Subgroup (H ⧸ N)) = (P : Subgroup H).map (QuotientGroup.mk' N) :=
     Sylow.coe_mapSurjective _ P
-  have hinj := injOn_mk_of_isPGroup hp N hN P.isPGroup'
+  have hinj := injOn_mk_of_isPGroup hp N hN P.isPGroup
   obtain ⟨hab, hcard⟩ := hS Pb
   rw [hcoe] at hab hcard
   refine ⟨P, hQP, isElemAbelian_of_injOn _ hinj hab, ?_⟩
@@ -114,7 +116,7 @@ theorem exists_mem_normalizer_mk_eq {p : ℕ} (hp : p.Prime) (N : Subgroup H) [N
     obtain ⟨T, hT⟩ := hS'.exists_le_sylow
     refine ⟨T, (Subgroup.eq_of_le_of_card_ge hT ?_).symm⟩
     have h1 : Nat.card ((T : Subgroup M).map M.subtype) ≤ Nat.card P :=
-      hbound _ (Subgroup.map_subtype_le _) (T.isPGroup'.map _)
+      hbound _ (Subgroup.map_subtype_le _) (T.isPGroup.map _)
     rw [Subgroup.card_map_of_injective M.subtype_injective] at h1
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hSM).toEquiv, hScard]
     exact h1
@@ -209,7 +211,7 @@ theorem fixes_of_outer_dvd_two {Y : Type*} [Group Y] [Finite Y] (hZ : Subgroup.c
       one_zpow]
     rfl⟩
   have hsup : IsPGroup p ↥(Subgroup.zpowers y ⊔ (S : Subgroup Y)) :=
-    hyp.to_sup_of_normal_right' S.isPGroup' hyN
+    hyp.to_sup_of_normal_right' S.isPGroup hyN
   have hyS : y ∈ (S : Subgroup Y) :=
     S.maximal_isPGroup.le_of_ge hsup le_sup_right
       (Subgroup.mem_sup_left (Subgroup.mem_zpowers y))
@@ -278,6 +280,7 @@ open CFSG.Yardstones.Md0ec50421ce4 CFSG.LocalAnalysis.GLTheoremB CFSG.LocalAnaly
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_normalizer_of_subgroupOf {L K : Subgroup G} (hKL : K ≤ L) {n : ↥L}
     (hn : n ∈ Subgroup.normalizer ((K.subgroupOf L : Subgroup ↥L) : Set ↥L)) :
     (n : G) ∈ Subgroup.normalizer (K : Set G) := by

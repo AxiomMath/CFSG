@@ -55,7 +55,7 @@ theorem three_dvd_card_of_hasBorelModel {Y : Type} [Group Y] [Finite Y]
   have hSyl : CFSG.ABGLocalTools.IsSylowOf 2 (T : Subgroup Y) J := by
     have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    refine ⟨hTJ', T.isPGroup', ?_⟩
+    refine ⟨hTJ', T.isPGroup, ?_⟩
     intro h2
     exact Sylow.not_dvd_index T (h2.trans (Subgroup.relIndex_dvd_index_of_le hTJ'))
   have hy2' : π' y ^ 2 = 1 := by rw [pow_two, ← map_mul, hy2, map_one]

@@ -20,8 +20,8 @@ theorem S16gRowCtx.false_of_card_irr_three_special (h : S16gRowCtx D V₀ V L hV
       IsOmegaMinus ↥(lBar V₀ V hV L) 4 1 ∨ IsOmegaMinus ↥(lBar V₀ V hV L) 6 1 ∨
       UC22.IsAlt ↥(lBar V₀ V hV L) 5 ∨ UC22.IsAlt ↥(lBar V₀ V hV L) 6 ∨
       UC22.IsAlt ↥(lBar V₀ V hV L) 7) : False := by
-  haveI : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
-  haveI : Finite ↥(lBar V₀ V hV L) := Subtype.finite
+  have : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
+  have : Finite ↥(lBar V₀ V hV L) := Subtype.finite
   refine s16t3_not_three_dvd_outer h.quasi ?_ (hT.three_dvd_card_outer h3')
   rcases hL with hL | hL | hL | hL | hL | hL | hL
   · exact ⟨3, Or.inl ⟨hL, by norm_num⟩⟩

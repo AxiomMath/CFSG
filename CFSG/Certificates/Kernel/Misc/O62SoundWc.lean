@@ -65,7 +65,7 @@ theorem wcIn_spec {m : ℕ} {certs : List (ℕ × List ℕ)} {EP : List ℕ} {px
   rcases h'.2 with ⟨hm, hs⟩ | hf
   · refine Or.inl ⟨hm, ?_⟩
     by_contra hne
-    rw [if_neg hne] at hs
+    rw [ite_eq_right hne] at hs
     exact absurd hs (by decide)
   · exact Or.inr hf
 
@@ -196,7 +196,7 @@ theorem wc_triple {minus : Bool} {PS : List (List ℕ)} {C : List (ℕ × List �
       have := hq c hc'
       rwa [qBK_eq] at this
     · rintro ⟨e1, e2, e3⟩
-      have h0 := hpar (by rw [if_pos (by omega)])
+      have h0 := hpar (by rw [ite_eq_left (by omega)])
       rwa [parW_eq] at h0
 
 end CFSG.KC.Misc.O62

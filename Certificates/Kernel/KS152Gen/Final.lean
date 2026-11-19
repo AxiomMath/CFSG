@@ -191,16 +191,16 @@ theorem facts : ∃ (Tp Wp Sp : Subgroup (Equiv.Perm (Fin 315))) (z0 y0 : Equiv.
   obtain ⟨hWmem, -, -, hWrep, -, -⟩ := grpOK_sound Qv hQ hpts hWg
   set Wp := closure (Qv '' {k | k < qg.length}) with hWpdef
   have hQW : ∀ k < 4, Qv k ∈ Wp := fun k hk =>
-    subset_closure ⟨k, by rw [Set.mem_setOf_eq, hq4]; exact hk, rfl⟩
+    subset_closure ⟨k, by rw [Set.mem_ofPred_eq, hq4]; exact hk, rfl⟩
   have hWT : Wp ≤ closure ((fun x : Equiv.Perm (Fin 315) => x ^ 2) '' (Tp : Set _)) := by
     rw [closure_le]
     rintro _ ⟨k, hk, rfl⟩
-    have hk' : k < 4 := by rw [Set.mem_setOf_eq, hq4] at hk; exact hk
+    have hk' : k < 4 := by rw [Set.mem_ofPred_eq, hq4] at hk; exact hk
     exact subset_closure ⟨xv k, (hxk k hk').2.2, pow_two _⟩
   have hWX : Wp ≤ X := by
     rw [closure_le]
     rintro _ ⟨k, hk, rfl⟩
-    have hk' : k < 4 := by rw [Set.mem_setOf_eq, hq4] at hk; exact hk
+    have hk' : k < 4 := by rw [Set.mem_ofPred_eq, hq4] at hk; exact hk
     exact mul_mem (hTX (hxk k hk').2.2) (hTX (hxk k hk').2.2)
   have hc := c_ok
   unfold ckC at hc
@@ -271,7 +271,7 @@ theorem facts : ∃ (Tp Wp Sp : Subgroup (Equiv.Perm (Fin 315))) (z0 y0 : Equiv.
   have hzC : Sp ≤ centralizer ({z0} : Set (Equiv.Perm (Fin 315))) := by
     rw [closure_le]
     rintro _ ⟨j, hj, rfl⟩
-    have hj2 : j < 2 := by rw [Set.mem_setOf_eq, hs2] at hj; exact hj
+    have hj2 : j < 2 := by rw [Set.mem_ofPred_eq, hs2] at hj; exact hj
     rw [SetLike.mem_coe]
     apply mem_cent_of
     interval_cases j

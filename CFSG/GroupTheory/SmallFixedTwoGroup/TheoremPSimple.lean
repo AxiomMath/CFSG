@@ -2,7 +2,7 @@ module
 
 public import CFSG.LocalAnalysis.ComponentClassification.LiteratureLocalOrder504Sylow
 public import CFSG.LocalAnalysis.EvenSporadicStandard.Induction.Balance.Lemma65Count
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 
 public section
 

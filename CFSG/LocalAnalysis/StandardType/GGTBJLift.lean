@@ -83,7 +83,7 @@ theorem ggTBJ_exists_component_lift_fix {L' H : Type} [Group L'] [Group H]
   let C : Subgroup L' := fixSubgroup y
   let P : Subgroup L' := S.comap ψ
   let Q : Subgroup L' := ⁅P, P⁆
-  haveI hSperf : Group.IsPerfect S := ⟨hS.2.2.1⟩
+  have hSperf : Group.IsPerfect S := ⟨hS.2.2.1⟩
   have hCX' : C ≤ X.comap ψ := fun c hc => Subgroup.mem_comap.mpr (hCX c hc)
   have hPmap : P.map ψ = S := Subgroup.map_comap_eq_self hSr
   have hQle : Q ≤ C := by
@@ -160,11 +160,11 @@ theorem ggTBJ_map_component_eq_fix {L' H : Type} [Group L'] [Group H]
   obtain ⟨Q, hQcomp, hQmap⟩ := ggTBJ_exists_component_lift_fix ψ hker y d hyd hS hSr hSd hCX
   have hQleJ : Q ≤ J := hJl Q hQcomp
   let e : Q.subgroupOf J ≃* Q := Subgroup.subgroupOfEquivOfLe hQleJ
-  haveI : Group.IsPerfect Q := ⟨hQcomp.2.2.1⟩
+  have : Group.IsPerfect Q := ⟨hQcomp.2.2.1⟩
   let : Group.IsPerfect (Q.subgroupOf J) :=
     Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
-  haveI : Nontrivial Q := CFSG.ComponentClassification.Quasisimple.nontrivial hQcomp.2.2
-  haveI : Nontrivial (Q.subgroupOf J) := e.toEquiv.nontrivial
+  have : Nontrivial Q := CFSG.ComponentClassification.Quasisimple.nontrivial hQcomp.2.2
+  have : Nontrivial (Q.subgroupOf J) := e.toEquiv.nontrivial
   have hQsubJ : IsSubnormal Q J := by
     have h := hQcomp.2.1.inf_of_le hJ.1
     rw [inf_eq_left.mpr hQleJ] at h

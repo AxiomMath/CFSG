@@ -93,8 +93,8 @@ theorem twE6ConnFixed_40_of (hLang : D5TorusLang) (hFix : D5FixedRational) :
   obtain ⟨_, _, -, -, hmodel⟩ := d5_class_strongModel S hFr hΦ h3 hT hap h3q hk i
   have hquasi : CFSG.IsQuasisimple ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) := hmodel.2.1
   obtain ⟨r, e, hr, hchar, he, hq⟩ := S.exists_char_pow
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI := hchar
+  have : Fact r.Prime := ⟨hr⟩
+  have := hchar
   obtain ⟨t, htH, htF, g, hgQ, hgF, rfl⟩ := exists_fixed_split S.D.step
     (H := torusGroup Tag.E6 L) (Q := rootSpan Tag.E6 L (kernelRoots (rootCharHom a)))
     (fun a ha b hb => torusGroup_comm ha hb)

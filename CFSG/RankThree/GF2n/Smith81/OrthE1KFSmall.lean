@@ -13,7 +13,7 @@ open scoped Matrix
 
 theorem kfs_card_eq_two_pow (K : Type) [Field K] [Finite K] [CharP K 2] :
     ∃ k : ℕ, 1 ≤ k ∧ Nat.card K = 2 ^ k := by
-  letI := Fintype.ofFinite K
+  let := Fintype.ofFinite K
   obtain ⟨n, -, hn⟩ := FiniteField.card K 2
   have hcard : Nat.card K = 2 ^ (n : ℕ) := by rw [Nat.card_eq_fintype_card, hn]
   have h1 : 1 < Nat.card K := Finite.one_lt_card
@@ -133,9 +133,9 @@ theorem kfs_center_plus {K : Type} [Field K] [Finite K] [CharP K 2] (h4 : 4 ≤ 
 theorem kfs_center_minus {K : Type} [Field K] [Finite K] [CharP K 2] {b c : K}
     (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
     Subgroup.center ↥(StatedOmega (StatedQuadMinus 2 K b c)) = ⊥ := by
-  haveI := ORigid.isSimpleGroup_statedOmega_quadMinus_of_two_le
+  have := ORigid.isSimpleGroup_statedOmega_quadMinus_of_two_le
     (m := 2) le_rfl hirr
-  haveI : Group.IsPerfect ↥(StatedOmega (StatedQuadMinus 2 K b c)) :=
+  have : Group.IsPerfect ↥(StatedOmega (StatedQuadMinus 2 K b c)) :=
     Group.isPerfect_def.2
       (ORigid.commutator_statedOmega_quadMinus_eq_top
         (m := 2) le_rfl hirr)
@@ -148,9 +148,9 @@ theorem kfs_center_minus {K : Type} [Field K] [Finite K] [CharP K 2] {b c : K}
 theorem kfs_perfect_plus {K : Type} [Field K] [Finite K] [CharP K 2] (h4 : 4 ≤ Nat.card K) :
     Group.IsPerfect ↥(StatedOmega (StatedQuadPlus 2 K)) := by
   obtain ⟨e⟩ := statedOmega_plus_four_nonempty_equiv K h4
-  haveI : Group.IsPerfect ↥(StatedSL 2 K) :=
+  have : Group.IsPerfect ↥(StatedSL 2 K) :=
     (statedSL_quasisimple_of_card 2 K le_rfl h4).1
-  haveI := kfs_prod_isPerfect ↥(StatedSL 2 K) ↥(StatedSL 2 K)
+  have := kfs_prod_isPerfect ↥(StatedSL 2 K) ↥(StatedSL 2 K)
   exact Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
 
 theorem kfs_perfect_minus {K : Type} [Field K] [Finite K] [CharP K 2] {b c : K}
@@ -212,11 +212,11 @@ theorem kfs_sq_entries {K : Type} [Field K] [CharP K 2] (a b c d : K)
 theorem kfs_sq_matrix {K : Type} [Field K] [CharP K 2] (A : Matrix (Fin 2) (Fin 2) K)
     (h1 : A.det = 1) (h2 : (A - 1).det = 0) : A * A = 1 := by
   rw [Matrix.det_fin_two] at h1
-  simp [Matrix.det_fin_two, Matrix.one_apply] at h2
+  simp [Matrix.det_fin_two] at h2
   obtain ⟨e1, e2, e3, e4⟩ := kfs_sq_entries (A 0 0) (A 0 1) (A 1 0) (A 1 1) h1
     (by linear_combination h2)
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.one_apply] <;>
+  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two] <;>
     first
     | linear_combination e1
     | linear_combination e2
@@ -399,8 +399,8 @@ theorem kfs_gen_of_frame {K : Type} [Field K] [Finite K] [CharP K 2] {v w : Fin 
 
 theorem sl2Root_holds : SL2RootStatement := by
   intro K _ _ _ P₁ P₂ hne
-  obtain ⟨v₁, hv₁, hfix₁⟩ := kfs_exists_fixed (P₁ : Subgroup ↥(StatedSL 2 K)) P₁.isPGroup'
-  obtain ⟨v₂, hv₂, hfix₂⟩ := kfs_exists_fixed (P₂ : Subgroup ↥(StatedSL 2 K)) P₂.isPGroup'
+  obtain ⟨v₁, hv₁, hfix₁⟩ := kfs_exists_fixed (P₁ : Subgroup ↥(StatedSL 2 K)) P₁.isPGroup
+  obtain ⟨v₂, hv₂, hfix₂⟩ := kfs_exists_fixed (P₂ : Subgroup ↥(StatedSL 2 K)) P₂.isPGroup
   have e₁ := kfs_sylow_eq_stab P₁ hv₁ hfix₁
   have e₂ := kfs_sylow_eq_stab P₂ hv₂ hfix₂
   obtain ⟨d, hd_def⟩ : ∃ d : K, d = v₁ 0 * v₂ 1 - v₂ 0 * v₁ 1 := ⟨_, rfl⟩

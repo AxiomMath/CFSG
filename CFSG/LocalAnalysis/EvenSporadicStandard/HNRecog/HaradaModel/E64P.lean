@@ -23,7 +23,7 @@ theorem conj_E64_P (hP : Nat.card ↥P1408 = 177408000) {B : Subgroup ↥P1408}
     ∃ y : ↥P1408, B = (wordSubgroupP uWords).map (MulAut.conj y).toMonoidHom := by
   have hSsub : Nat.card (wordSubgroupP sWords) = 2 ^ (Nat.card ↥P1408).factorization 2 := by
     rw [hP, two_factorization_card_P1408, Certificates.certificate441664.card_S]
-  haveI : Finite (Sylow 2 ↥P1408) :=
+  have : Finite (Sylow 2 ↥P1408) :=
     Finite.of_injective (fun P : Sylow 2 ↥P1408 => (P : Subgroup ↥P1408))
       (fun _ _ h => Sylow.ext h)
   obtain ⟨Q, hBQ⟩ := he.isPGroup.exists_le_sylow

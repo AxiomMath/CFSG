@@ -204,7 +204,7 @@ theorem sylowThree_le_normalizer_kleinFour :
       rcases hy with rfl | rfl
       · exact hc
       · exact hd
-    · simpa using Subgroup.one_mem kleinFour
+    · simp
     · intro x y _ _ ihx ihy
       have hxy : g * (x * y) * g⁻¹ = (g * x * g⁻¹) * (g * y * g⁻¹) := by group
       rw [hxy]
@@ -270,7 +270,7 @@ theorem exists_two_subgroup_normalized_of_isPGroup {p : ℕ} (hp : p.Prime) (hp2
     ∃ V : Subgroup (Perm (Fin 8)), V ≠ ⊥ ∧ IsPGroup 2 V ∧ V ≤ alternatingGroup (Fin 8) ∧
       S ≤ Subgroup.normalizer (V : Set (Perm (Fin 8))) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h40 : Nat.card (Perm (Fin 8)) = 40320 := by
     rw [Nat.card_eq_fintype_card, Fintype.card_perm, Fintype.card_fin]
     rfl
@@ -296,7 +296,7 @@ theorem exists_two_subgroup_normalized_of_isPGroup {p : ℕ} (hp : p.Prime) (hp2
   obtain ⟨Q, hEQ⟩ := hE.exists_le_sylow
   have hsyl_card : ∀ R : Sylow 3 (Perm (Fin 8)), Nat.card R ≤ 9 := by
     intro R
-    obtain ⟨m, hm⟩ := R.isPGroup'.exists_card_eq
+    obtain ⟨m, hm⟩ := R.isPGroup.exists_card_eq
     have hRdvd : Nat.card R ∣ 40320 := by
       have h := Subgroup.card_subgroup_dvd_card (R : Subgroup (Perm (Fin 8)))
       rwa [h40] at h
@@ -357,7 +357,7 @@ theorem exists_two_subgroup_normalized_of_isPGroup {p : ℕ} (hp : p.Prime) (hp2
     have he := hnorm (hconj s hs)
     rw [Subgroup.mem_normalizer_iff] at he
     have hiff := he (g⁻¹ * v * g)
-    simp only [SetLike.mem_coe, Subgroup.mem_comap, MulEquiv.coe_toMonoidHom, MulAut.conj_apply,
+    simp only [Subgroup.mem_comap, MulEquiv.coe_toMonoidHom, MulAut.conj_apply,
       inv_inv] at hiff ⊢
     rw [hiff]
     group
@@ -380,7 +380,7 @@ theorem le_seven_of_prime_dvd_forty_thousand {p : ℕ} (hp : p.Prime) (hd : p �
 theorem card_le_nine_of_isPGroup {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {S : Subgroup (Perm (Fin 8))} (hS : IsPGroup p S) : Nat.card S ≤ 9 := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h40 : Nat.card (Perm (Fin 8)) = 40320 := by
     rw [Nat.card_eq_fintype_card, Fintype.card_perm, Fintype.card_fin]
     rfl

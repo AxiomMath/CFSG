@@ -110,7 +110,6 @@ theorem commutator_mem_of_two_steps {T P Q : Subgroup G} {d t₀ : G}
       | exact (hd _).symm
       | exact Commute.refl _
       | exact (Commute.refl _).mul_right (hd _).symm
-      | exact (Commute.refl _).mul_left (hd _).symm
       | exact ((Commute.refl _).mul_right (hd _).symm).symm
   intro a ha b hb
   have key : ((((⟨a, ha⟩ : T) * ⟨b, hb⟩ * (⟨a, ha⟩ : T)⁻¹ * (⟨b, hb⟩ : T)⁻¹ : T)) : T ⧸ P') = 1 := by

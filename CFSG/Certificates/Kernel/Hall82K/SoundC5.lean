@@ -20,8 +20,8 @@ theorem apL_congr {c c' v : ℕ} (h : ∀ j < 6, v.testBit j = true → fld c (6
   have e : ∀ j < 6, (if v.testBit j = true then fld c (6 * j) else 0) =
       (if v.testBit j = true then fld c' (6 * j) else 0) := fun j hj => by
     by_cases hv : v.testBit j = true
-    · rw [if_pos hv, if_pos hv, h j hj hv]
-    · rw [if_neg hv, if_neg hv]
+    · rw [ite_eq_left hv, ite_eq_left hv, h j hj hv]
+    · rw [ite_eq_right hv, ite_eq_right hv]
   rw [e 0 (by norm_num), e 1 (by norm_num), e 2 (by norm_num), e 3 (by norm_num),
     e 4 (by norm_num), e 5 (by norm_num)]
 
@@ -64,7 +64,7 @@ theorem apL_mod {f : Fin 64 → Fin 64} (hf : ∀ v w, f (xorF v w) = xorF (f v)
   rw [← apL_codeL hf v]
   exact apL_congr fun j _ hj => fld_mod (lt_two_pow_six_mul hv hj)
 
-theorem fld_codeL_pow {f : Fin 64 → Fin 64} (hf : ∀ v w, f (xorF v w) = xorF (f v) (f w))
+theorem fld_codeL_pow {f : Fin 64 → Fin 64} (_hf : ∀ v w, f (xorF v w) = xorF (f v) (f w))
     {k : ℕ} (hk : k < 6) : fld (codeL f) (6 * k) = (f (bitF k)).val := by
   obtain ⟨e0, e1, e2, e3, e4, e5⟩ :=
     fld_enc6 (f 1).2 (f 2).2 (f 4).2 (f 8).2 (f 16).2 (f 32).2

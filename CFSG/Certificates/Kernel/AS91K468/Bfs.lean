@@ -35,16 +35,16 @@ theorem foldl_stepN (hk : ∀ a b, D a → D b → (key (enc a) == key (enc b)) 
     have hc : h.contains (key (enc x)) = memP t x := hr x hx
     by_cases hm : memP t x = true
     · have e1 : stepH key (l.map enc, h) (enc x) = (l.map enc, h) := by
-        simp only [stepH, hc, hm, if_true]
-      have e2 : stepN (l, t) x = (l, t) := by simp only [stepN, hm, if_true]
+        simp only [stepH, hc, hm, ite_true]
+      have e2 : stepN (l, t) x = (l, t) := by simp only [stepN, hm, ite_true]
       rw [e1, e2]
       exact foldl_stepN hk L hL' l h t hl hr
     · have hm' : memP t x = false := by simpa using hm
       have e1 : stepH key (l.map enc, h) (enc x) =
           ((x :: l).map enc, h.insert (key (enc x))) := by
-        simp only [stepH, hc, hm', Bool.false_eq_true, if_false, List.map_cons]
+        simp only [stepH, hc, hm', Bool.false_eq_true, ite_false, List.map_cons]
       have e2 : stepN (l, t) x = (x :: l, insP t x) := by
-        simp only [stepN, hm', Bool.false_eq_true, if_false]
+        simp only [stepN, hm', Bool.false_eq_true, ite_false]
       rw [e1, e2]
       refine foldl_stepN hk L hL' (x :: l) _ _ ?_ ?_
       · intro q hq

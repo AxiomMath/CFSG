@@ -313,7 +313,7 @@ theorem sylow_contra {N M P U : Subgroup G} {n : ℕ}
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq (↥N) SM SP
   have hSMle : Nat.card (SM : Subgroup ↥N) ≤ 3 ^ n := by
     have h1 : Nat.card ((SM : Subgroup ↥N).map N.subtype) ≤ 3 ^ n := by
-      refine hbound _ ?_ (SM.isPGroup'.map N.subtype)
+      refine hbound _ ?_ (SM.isPGroup.map N.subtype)
       rintro _ ⟨x, -, rfl⟩
       exact x.2
     rwa [Subgroup.card_map_of_injective N.subtype_injective] at h1

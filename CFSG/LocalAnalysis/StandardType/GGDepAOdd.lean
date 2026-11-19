@@ -37,7 +37,7 @@ private lemma l05nOA_swap_mul_apply {p m : ℕ} {V : Type} [AddCommGroup V] [Mod
       omega
     have hadj : (j : ℕ) + 1 = (i : ℕ) ∨ (i : ℕ) + 1 = (j : ℕ) := Or.inr hij
     simp only [CartanMatrix.A, Matrix.of_apply]
-    rw [if_neg hne, if_pos hadj]
+    rw [ite_eq_right hne, ite_eq_left hadj]
     norm_num
   have hij' : α i (h j) = -1 := by
     rw [hpair i j]
@@ -47,7 +47,7 @@ private lemma l05nOA_swap_mul_apply {p m : ℕ} {V : Type} [AddCommGroup V] [Mod
       omega
     have hadj : (i : ℕ) + 1 = (j : ℕ) ∨ (j : ℕ) + 1 = (i : ℕ) := Or.inl hij
     simp only [CartanMatrix.A, Matrix.of_apply]
-    rw [if_neg hne, if_pos hadj]
+    rw [ite_eq_right hne, ite_eq_left hadj]
     norm_num
   have hii : α i (h i) = 2 := by
     rw [hpair i i]
@@ -180,7 +180,7 @@ private theorem l05nOA_perm_embed_aux {p m : ℕ} [Fact p.Prime] (hp2 : p ≠ 2)
           rw [← LinearEquiv.mul_apply, inv_mul_cancel]; rfl
         rw [ha i] at h2
         exact h2 }
-  haveI hKnormal : K.Normal := ⟨fun n hn σ => by
+  have hKnormal : K.Normal := ⟨fun n hn σ => by
     intro i
     rw [map_mul, map_mul, map_inv]
     have h1 : (ρ σ)⁻¹ (h i) ∈ H := (hRpres (ρ σ) (hρmem σ)).2 (h i) (hsub i)
@@ -237,7 +237,7 @@ private theorem l05nOA_perm_embed_aux {p m : ℕ} [Fact p.Prime] (hp2 : p ≠ 2)
           intro hh
           rcases hh with hh | hh <;> (dsimp only [a, d] at hh; omega)
         simp only [CartanMatrix.A, Matrix.of_apply]
-        rw [if_neg hne, if_neg hnot]
+        rw [ite_eq_right hne, ite_eq_right hnot]
         norm_num
       rw [h0] at hc
       exact hc
@@ -392,7 +392,7 @@ private lemma l05nOB_closure_preserves {p N : ℕ} [Fact p.Prime] {V : Type} [Ad
       rw [inv_inv]
       exact ih.1 v hv
 
-theorem ggDepAOdd_perm_swap_refl {p N : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) (hN : 5 ≤ N) {V : Type}
+theorem ggDepAOdd_perm_swap_refl {p N : ℕ} [Fact p.Prime] (_hp2 : p ≠ 2) (hN : 5 ≤ N) {V : Type}
     [AddCommGroup V] [Module (ZMod p) V] {h : Fin (N - 1) → V}
     {α : Fin (N - 1) → Module.Dual (ZMod p) V} {x : V} (F : GGDepAFrame p N h α x)
     (r : Fin (N - 1) → (V ≃ₗ[ZMod p] V)) (hr : ∀ i v, r i v = v - α i v • h i)
@@ -544,7 +544,7 @@ theorem ggDepAOdd_caseI_data {p N : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) (hN : 5 
           ∃ a ∈ Subgroup.closure (Set.range r ∪ {ra}), ∀ w : ↥U, a (w : V) = ((q w : ↥U) : V) := by
   classical
   subst hU
-  haveI : NeZero (N - 1) := ⟨by omega⟩
+  have : NeZero (N - 1) := ⟨by omega⟩
   let H : Submodule (ZMod p) V := Submodule.span (ZMod p) (Set.range h)
   let U : Submodule (ZMod p) V := H ⊔ Submodule.span (ZMod p) ({ha} : Set V)
   have hhU : ∀ i, h i ∈ U := fun i =>
@@ -690,7 +690,7 @@ theorem ggDepAOdd_caseI_data {p N : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) (hN : 5 
     have hne : i ≠ j := by intro hh; have := congrArg Fin.val hh; omega
     have hAi : CartanMatrix.A (N - 1) i j = -1 := by
       simp only [CartanMatrix.A, Matrix.of_apply]
-      rw [if_neg hne, if_pos (Or.inl hij)]
+      rw [ite_eq_right hne, ite_eq_left (Or.inl hij)]
     rw [hAi]; norm_num
   have hA_succ' : ∀ i j : Fin (N - 1), i.val + 1 = j.val →
       (CartanMatrix.A (N - 1) j i : ZMod p) = -1 := by
@@ -698,7 +698,7 @@ theorem ggDepAOdd_caseI_data {p N : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) (hN : 5 
     have hne : j ≠ i := by intro hh; have := congrArg Fin.val hh; omega
     have hAi : CartanMatrix.A (N - 1) j i = -1 := by
       simp only [CartanMatrix.A, Matrix.of_apply]
-      rw [if_neg hne, if_pos (Or.inr hij)]
+      rw [ite_eq_right hne, ite_eq_left (Or.inr hij)]
     rw [hAi]; norm_num
   have hedge : ∀ i j : Fin (N - 1), i.val + 1 = j.val → R (some i) (some j) := by
     intro i j hij
@@ -735,7 +735,7 @@ theorem ggDepAOdd_caseI_data {p N : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) (hN : 5 
         (hrS c) hraS (hr c) hra (hαdiag c) hαa h0)
     · show αa (h c) ≠ 0
       exact hc
-  haveI : Std.Symm R := ⟨fun a b hh => ⟨hh.2, hh.1⟩⟩
+  have : Std.Symm R := ⟨fun a b hh => ⟨hh.2, hh.1⟩⟩
   have hsymm : ∀ {a b : Option (Fin (N - 1))},
       Relation.ReflTransGen R a b → Relation.ReflTransGen R b a :=
     fun h => Std.Symm.symm _ _ h
@@ -884,7 +884,7 @@ theorem ggDepAOdd_caseI_false (hKG : GGReflClassLargeInput') {p N : ℕ} [Fact p
     Submodule.span (ZMod p) (Set.range h) ⊔ Submodule.span (ZMod p) ({ha} : Set V)
   obtain ⟨AU, ψ, hdim, hirr, hgen, hcardU, hψ, -⟩ :=
     ggDepAOdd_caseI_data hp2 (by omega) F r hr ra ha αa hra hαa hjoin hw hnt hcard hnH U rfl
-  haveI : Module.Finite (ZMod p) ↥U :=
+  have : Module.Finite (ZMod p) ↥U :=
     Module.Finite.of_injective (Submodule.subtype U) U.subtype_injective
   exact l05nOC_exclude hKG hp2 hN F.dvd hdim AU hirr hgen hcardU ψ hψ
 
@@ -892,7 +892,7 @@ private theorem l05nOD_cartan_adj (n : ℕ) {i j : Fin n}
     (h : i.val + 1 = j.val ∨ j.val + 1 = i.val) (hne : i ≠ j) :
     CartanMatrix.A n i j = -1 := by
   simp only [CartanMatrix.A, Matrix.of_apply]
-  rw [if_neg hne, if_pos h]
+  rw [ite_eq_right hne, ite_eq_left h]
 
 private theorem l05nOD_cartan_self (n : ℕ) (i : Fin n) : CartanMatrix.A n i i = 2 := by
   simp [CartanMatrix.A]
@@ -902,7 +902,7 @@ theorem ggDepAOdd_caseII_data {p N : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) (hN : 5
     {α : Fin (N - 1) → Module.Dual (ZMod p) V} {x : V} (F : GGDepAFrame p N h α x)
     (r : Fin (N - 1) → (V ≃ₗ[ZMod p] V)) (hr : ∀ i v, r i v = v - α i v • h i)
     (ra : V ≃ₗ[ZMod p] V) (ha : V) (αa : Module.Dual (ZMod p) V)
-    (hra : ∀ v, ra v = v - αa v • ha) (hαa : αa ha = 2) (hw : αa x ≠ 0)
+    (hra : ∀ v, ra v = v - αa v • ha) (hαa : αa ha = 2) (_hw : αa x ≠ 0)
     (hnt : ∀ g ∈ Subgroup.closure (Set.range r ∪ {ra}),
       ¬ (Module.finrank (ZMod p) (ggLinMove g) = 1 ∧ ∀ w, g (g w - w) = g w - w))
     (hcard : Nat.card ↥(Subgroup.closure (Set.range r ∪ {ra})) ≤
@@ -983,7 +983,7 @@ theorem ggDepAOdd_caseII_data {p N : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) (hN : 5
       have hA : ((CartanMatrix.A (N - 1) i i : ℤ) : ZMod p) = 2 := by
         rw [l05nOD_cartan_self (N - 1) i]
         simp
-      simpa only [αU, hU, Option.elim_some, LinearMap.comp_apply, Submodule.subtype_apply,
+      simp only [αU, hU, Option.elim_some, LinearMap.comp_apply, Submodule.subtype_apply,
         F.pair i i, hA]
   have hg : ∀ (o : Option (Fin (N - 1))) (w : ↥H), gH o w = w - αU o w • hU o := by
     intro o w
@@ -1030,11 +1030,11 @@ theorem ggDepAOdd_caseII_data {p N : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) (hN : 5
     rintro x ⟨i, rfl⟩
     exact ⟨some i, rfl⟩
   have hkerU : ∀ w : ↥H, (∀ o, αU o w = 0) → w = 0 := by
-    intro w hw
+    intro w _hw
     have hwSpan : (w : V) ∈ Submodule.span (ZMod p) ({x} : Set V) := by
       apply F.fix
       intro i
-      have h1 := hw (some i)
+      have h1 := _hw (some i)
       simpa only [αU, Option.elim_some, LinearMap.comp_apply, Submodule.subtype_apply] using h1
     obtain ⟨c, hc⟩ := Submodule.mem_span_singleton.mp hwSpan
     by_cases hc0 : c = 0
@@ -1405,7 +1405,7 @@ private theorem l05nOD_end {p N : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) (hN : 5 �
     rw [hzw]
     exact Submodule.smul_mem _ _ (Submodule.subset_span (Set.mem_singleton t))
   have hfrle : Module.finrank (ZMod p) (ggLinMove g) ≤ 1 := by
-    haveI hsp : Module.Finite (ZMod p) (Submodule.span (ZMod p) ({t} : Set V)) :=
+    have hsp : Module.Finite (ZMod p) (Submodule.span (ZMod p) ({t} : Set V)) :=
       Module.Finite.span_singleton (ZMod p) t
     have h1 : Module.finrank (ZMod p) (ggLinMove g) ≤
         Module.finrank (ZMod p) (Submodule.span (ZMod p) ({t} : Set V)) :=
@@ -1424,8 +1424,8 @@ private theorem l05nOD_end {p N : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) (hN : 5 �
     intro h1
     exact hnt g hgA ⟨h1, hgid⟩
   have hfr0 : Module.finrank (ZMod p) (ggLinMove g) = 0 := by omega
-  haveI hfing : Module.Finite (ZMod p) (ggLinMove g) := by
-    haveI hsp : Module.Finite (ZMod p) (Submodule.span (ZMod p) ({t} : Set V)) :=
+  have hfing : Module.Finite (ZMod p) (ggLinMove g) := by
+    have hsp : Module.Finite (ZMod p) (Submodule.span (ZMod p) ({t} : Set V)) :=
       Module.Finite.span_singleton (ZMod p) t
     exact Submodule.finiteDimensional_of_le hle
   have hbot : ggLinMove g = ⊥ := (Submodule.finrank_eq_zero (S := ggLinMove g)).mp hfr0

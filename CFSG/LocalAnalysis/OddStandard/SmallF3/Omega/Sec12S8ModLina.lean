@@ -18,12 +18,14 @@ open Polynomial
 
 variable {W : Type} [AddCommGroup W] [Module (ZMod 2) W] [Finite W]
 
+omit [Finite W] in
 theorem sec12S8Mod_charTwo (x : W) : x + x = 0 := by
   have h : (2 : ZMod 2) • x = 0 := by
     rw [show (2 : ZMod 2) = 0 by decide]
     simp
   simpa [two_smul] using h
 
+omit [Finite W] in
 theorem sec12S8Mod_commute_aeval (g c : Module.End (ZMod 2) W) (h : c * g = g * c)
     (p : (ZMod 2)[X]) : c * aeval g p = aeval g p * c := by
   have hc : Commute c g := h
@@ -38,6 +40,7 @@ theorem sec12S8Mod_commute_aeval (g c : Module.End (ZMod 2) W) (h : c * g = g * 
           a c).mul_right (hc.pow_right n)
   exact hcomm
 
+omit [Finite W] in
 theorem sec12S8Mod_conj_aeval (w : W ≃ₗ[ZMod 2] W) (G : Module.End (ZMod 2) W)
     (h : (w : Module.End (ZMod 2) W) * G * (w.symm : Module.End (ZMod 2) W) = G ^ 4)
     (q : (ZMod 2)[X]) (u : W) :

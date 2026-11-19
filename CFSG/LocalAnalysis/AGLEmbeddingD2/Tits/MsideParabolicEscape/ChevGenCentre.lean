@@ -59,7 +59,7 @@ theorem chevGen_centre_of_nodes {L S₀ : Subgroup W} (hL : Open.IsQuasisimple �
     have h4 : p ≠ 4 := by rintro rfl; exact absurd hp (by norm_num)
     omega
   have hpodd : Odd p := hp.odd_of_ne_two hp2
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨w, hwR, m, hmR, hwp, hw1, hm⟩ := hnodes i p hp hp5 hpZ
   set G : Subgroup ↥L := (pElementSubgroup 2 (P i)).subgroupOf L with hG
   set T : Subgroup K := (G.map q).comap π' with hT

@@ -25,7 +25,7 @@ theorem exists_invariant_sylow_two_of_coprime {G : Type} [Group G] [Finite G]
     (hAT : A ≤ Subgroup.normalizer (T : Set G)) :
     ∃ P : Subgroup G, T ≤ P ∧ P ≤ Y ∧ A ≤ Subgroup.normalizer (P : Set G) ∧ IsPGroup 2 P ∧
       ¬ 2 ∣ (P.subgroupOf Y).index := by
-  letI : MulDistribMulAction A Y := normalizerConjAction hAY
+  let : MulDistribMulAction A Y := normalizerConjAction hAY
   have hT2' : IsPGroup 2 (T.subgroupOf Y) :=
     hT2.comap_of_injective Y.subtype Subtype.coe_injective
   have hTinv : InvariantSubgroup (A := ↥A) (T.subgroupOf Y) := by
@@ -63,7 +63,7 @@ theorem exists_invariant_sylow_two_of_coprime {G : Type} [Group G] [Finite G]
       have h := hconj a⁻¹ (A.inv_mem ha) (a * x * a⁻¹) hx
       have e : a⁻¹ * (a * x * a⁻¹) * a⁻¹⁻¹ = x := by group
       rwa [e] at h
-  · exact S.isPGroup'.map Y.subtype
+  · exact S.isPGroup.map Y.subtype
   · rw [hPeq]
     exact Sylow.not_dvd_index S
 
@@ -74,7 +74,7 @@ theorem exists_conj_of_invariant_sylow_two {G : Type} [Group G] [Finite G]
     (hQs : ¬ 2 ∣ (Q.subgroupOf Y).index) (hAP : A ≤ Subgroup.normalizer (P : Set G))
     (hAQ : A ≤ Subgroup.normalizer (Q : Set G)) :
     ∃ y ∈ Y ⊓ Subgroup.centralizer (A : Set G), Q = P.map (MulAut.conj y).toMonoidHom := by
-  letI : MulDistribMulAction A Y := normalizerConjAction hAY
+  let : MulDistribMulAction A Y := normalizerConjAction hAY
   have hPinv : InvariantSubgroup (A := ↥A) (P.subgroupOf Y) := by
     intro a y hy
     rw [Subgroup.mem_subgroupOf] at hy ⊢

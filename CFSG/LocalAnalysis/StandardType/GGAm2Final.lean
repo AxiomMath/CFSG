@@ -34,7 +34,7 @@ theorem ggTPNRankJ_of_am2 (hrig : GGLabelRigidInput) {Y : Type} [Group Y] {J : S
   subst htag
   simp only [GGLabelIso] at hiso
   simp only [GGTPNRankOne] at hrk
-  rcases hiso with h | h | h | h | h | h | h | h <;> simp_all <;> omega
+  rcases hiso with h | h | h | h | h | h | h | h <;> simp_all; omega
 
 theorem ggTablePKnownR_am2
     (hBig : GGAm2ExcBig)

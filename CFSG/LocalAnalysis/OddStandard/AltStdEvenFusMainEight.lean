@@ -12,6 +12,7 @@ open Subgroup Equiv AltStdCycTwo
 variable {G : Type} [Group G] [Finite G] {L Q : Subgroup G} {θ : L ≃* alternatingGroup (Fin 8)}
   {z : G}
 
+omit [Finite G] in
 theorem mem_bSub8_iff {g : G} : g ∈ bSub8 θ ↔
     ∃ hg : g ∈ L, ((θ ⟨g, hg⟩ : alternatingGroup (Fin 8)) : Perm (Fin 8)) ∈ bBar8 := by
   unfold bSub8
@@ -24,6 +25,7 @@ theorem mem_bSub8_iff {g : G} : g ∈ bSub8 θ ↔
   · rintro ⟨hg, hb⟩
     exact ⟨⟨g, hg⟩, ⟨θ ⟨g, hg⟩, hb, θ.symm_apply_apply _⟩, rfl⟩
 
+omit [Finite G] in
 theorem bSub8_le_L : bSub8 θ ≤ L := fun _ hg => (mem_bSub8_iff.1 hg).1
 
 section Eight

@@ -96,7 +96,7 @@ theorem pair_fixed_B_trivial {n : ℕ} (D : PairData P B g n) (hCen : BenderCent
       rw [D.ker]
       have e : (((τ⁻¹ * ⟨p, hpH⟩ * τ)⁻¹ * ⟨p, hpH⟩ : ↥(P ⊔ conjSubgroup g P)) : G) =
           k⁻¹ * (p''⁻¹ * p) := by
-        simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_mk]
+        simp only [Subgroup.coe_mul, Subgroup.coe_inv]
         rw [hpk]
         group
       rw [e]
@@ -200,7 +200,7 @@ theorem pair_weyl_torus (hCen : BenderCenterInput) (hU : UnitaryTwoGenerationInp
         _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn2
     have hcard : Nat.card (GaloisField 2 n)ˣ = 2 ^ n - 1 := by
       rw [Nat.card_units, GaloisField.card 2 n (by omega)]
-    haveI : Nontrivial (GaloisField 2 n)ˣ := Finite.one_lt_card_iff_nontrivial.mp (by omega)
+    have : Nontrivial (GaloisField 2 n)ˣ := Finite.one_lt_card_iff_nontrivial.mp (by omega)
     exact exists_ne (1 : (GaloisField 2 n)ˣ)
   obtain ⟨τ, hτ⟩ := D.surj (diagElt c)
   exact ⟨w, w.2, τ, τ.2, H.pair_swap hmut D hCen hU hw,

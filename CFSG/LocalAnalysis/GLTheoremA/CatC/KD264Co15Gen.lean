@@ -13,7 +13,7 @@ theorem glaPComponent_of_simple_bound {G : Type} [Group G] [Finite G] {p : ℕ} 
     (hs : IsSimpleGroup ↥L) (hnab : ∃ a b : ↥L, a * b ≠ b * a)
     (hcard : Nat.card C ≤ Nat.card F * Nat.card L) (hpL : p ∣ Nat.card L) :
     GLAPComponent p C L := by
-  haveI := hs
+  have := hs
   have hFN : F ≤ Subgroup.normalizer (L : Set G) := by
     intro f hf
     have hc : ∀ l ∈ L, f * l * f⁻¹ = l := fun l hl => by rw [hFcen f hf l (hLC hl)]; group
@@ -61,7 +61,7 @@ theorem isSimpleGroup_of_perfect_card_sixty {H : Type} [Group H] [Finite H]
   have hnt : Nontrivial H := Finite.one_lt_card_iff_nontrivial.1 (by omega)
   obtain ⟨N, hNn, hNt, hmax⟩ :=
     CFSG.RankThree.PartTwo.Sec14.Ronan148K.exists_maximal_normal_ne_top H hnt
-  haveI := hNn
+  have := hNn
   have hntQ : Nontrivial (H ⧸ N) := by
     by_contra h
     rw [not_nontrivial_iff_subsingleton] at h
@@ -70,7 +70,7 @@ theorem isSimpleGroup_of_perfect_card_sixty {H : Type} [Group H] [Finite H]
     intro x _
     rw [← QuotientGroup.eq_one_iff]
     exact Subsingleton.elim _ _
-  haveI hs : IsSimpleGroup (H ⧸ N) := Seven.isSimpleGroup_quotient_of_max hntQ hmax
+  have hs : IsSimpleGroup (H ⧸ N) := Seven.isSimpleGroup_quotient_of_max hntQ hmax
   have hperfQ : commutator (H ⧸ N) = ⊤ := by
     rw [commutator_def, ← Subgroup.map_top_of_surjective (QuotientGroup.mk' N)
       (QuotientGroup.mk'_surjective N), ← Subgroup.map_commutator, ← commutator_def, hperf]
@@ -148,7 +148,7 @@ theorem comp_of_perfect_sixty {G : Type} [Group G] [Finite G] {F L : Subgroup G}
     (hcard : Nat.card (Subgroup.centralizer (F : Set G)) ≤ Nat.card F * 60) :
     GLAPComponent 5 (Subgroup.centralizer (F : Set G)) L := by
   have hperfL : commutator ↥L = ⊤ := Seven.commutator_eq_top_of_le hperf
-  haveI hs : IsSimpleGroup ↥L := isSimpleGroup_of_perfect_card_sixty hperfL h60
+  have hs : IsSimpleGroup ↥L := isSimpleGroup_of_perfect_card_sixty hperfL h60
   have hnt : Nontrivial ↥L := Finite.one_lt_card_iff_nontrivial.1 (by omega)
   refine glaPComponent_of_simple_bound (F := F) (L := L) Nat.prime_five ?_ ?_ hLC hs
     (Seven.exists_not_comm_of_perfect hperfL hnt) (by rw [h60]; exact hcard)
@@ -167,7 +167,7 @@ theorem kd264RowData_of_A0 {G : Type} [Group G] [Finite G] {Q A0 F1 F2 : Subgrou
     (hF2 : F2 ≤ A0) (hF2c : Nat.card F2 = 25)
     (hJ2 : ∃ J : Subgroup G, GLAPComponent 5 (Subgroup.centralizer (F2 : Set G)) J) :
     KD264RowData 5 G := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   intro A hA hmax k hk1 hk2 _
   have h125 : 125 ≤ Nat.card A := hA0c ▸ hmax _ hA0
   obtain ⟨g, hg⟩ := exists_conj_le_of_full hQ (isPGroup_of_isElemAbelian hA)

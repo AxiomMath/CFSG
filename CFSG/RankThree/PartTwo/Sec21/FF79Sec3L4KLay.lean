@@ -36,14 +36,14 @@ theorem lay_eq_sSup (X : Subgroup G) : Lay X = sSup (compSet X) := by
 theorem le_of_isPerfect_of_solvable_quot {H N K : Subgroup G} (hKH : K ≤ H)
     [(N.subgroupOf H).Normal] [Group.IsSolvable (↥H ⧸ N.subgroupOf H)]
     [hK : Group.IsPerfect K] : K ≤ N := by
-  haveI : Group.IsPerfect (K.subgroupOf H) :=
+  have : Group.IsPerfect (K.subgroupOf H) :=
     Group.IsPerfect.ofSurjective (G := K) (f := (Subgroup.subgroupOfEquivOfLe hKH).symm.toMonoidHom)
       (MulEquiv.surjective _)
   let π := QuotientGroup.mk' (N.subgroupOf H)
-  haveI : Group.IsPerfect ((K.subgroupOf H).map π) := Group.IsPerfect.map _
+  have : Group.IsPerfect ((K.subgroupOf H).map π) := Group.IsPerfect.map _
   have hP : (K.subgroupOf H).map π = ⊥ := by
     by_contra hne
-    haveI : Nontrivial ((K.subgroupOf H).map π) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
+    have : Nontrivial ((K.subgroupOf H).map π) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
     exact Group.IsPerfect.not_isSolvable ((K.subgroupOf H).map π) inferInstance
   have hle : K.subgroupOf H ≤ N.subgroupOf H := by
     rw [← QuotientGroup.ker_mk' (N.subgroupOf H)]
@@ -61,7 +61,7 @@ theorem lay_eq_of_normal {X Y : Subgroup G} (hYX : Y ≤ X) [(Y.subgroupOf X).No
     fun K => by ext x; rfl
   constructor
   · rintro ⟨hKX, hq, hs⟩
-    haveI := hq.1
+    have := hq.1
     have hKY : K ≤ Y := hperf K hKX hq.1
     refine ⟨hKY, hq, ?_⟩
     have h1 := hs.subgroupOf (K := Y.subgroupOf X)
@@ -81,7 +81,7 @@ theorem nor_lay_of_nor {X : Subgroup G} {v : G} (hv : v ∈ Nor X) : v ∈ Nor (
     obtain ⟨z', hz', rfl⟩ := Subgroup.mem_map.mp hz
     let φ := normAut X (MulEquiv.refl ↥X) ⟨v, hv⟩
     have hφ : φ z' ∈ layer ↥X := by
-      haveI := CFSG.LocalCores.layer_characteristic (G := ↥X)
+      have := CFSG.LocalCores.layer_characteristic (G := ↥X)
       have := (Subgroup.characteristic_iff_le_comap.mp this) φ
       exact this hz'
     refine Subgroup.mem_map.mpr ⟨φ z', hφ, ?_⟩

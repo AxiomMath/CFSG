@@ -15,14 +15,17 @@ section PresE67Aux
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem range_subtype_comp {K : Type} [Group K] {H : Subgroup G} (Ψ : K →* ↥H)
     (hs : Function.Surjective Ψ) : (H.subtype.comp Ψ).range = H := by
   rw [MonoidHom.range_comp, MonoidHom.range_eq_top.mpr hs, Subgroup.map_top, Subgroup.range_subtype]
 
+omit [Finite G] in
 private theorem ker_subtype_comp {K : Type} [Group K] {H : Subgroup G} (Ψ : K →* ↥H) :
     (H.subtype.comp Ψ).ker = Ψ.ker :=
   MonoidHom.ker_comp_of_injective Ψ H.subtype (Subgroup.subtype_injective H)
 
+omit [Finite G] in
 private theorem map_subtype_comp {K : Type} [Group K] {H : Subgroup G} (Ψ : K →* ↥H)
     (S : Subgroup K) (T : Subgroup ↥H) (h : S.map Ψ = T) :
     S.map (H.subtype.comp Ψ) = T.map H.subtype := by
@@ -34,6 +37,7 @@ section PresE67
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem ggPresentsG0_typeE6_of_system_levi {f : ℕ} (hq : 4 ≤ 2 ^ f) {H : Subgroup G}
     {U : Fin 6 → Subgroup ↥H}
     (hcomm : ∀ i j : Fin 6, i ≠ j → ¬ edgeE 6 i j → ¬ edgeE 6 j i →
@@ -51,7 +55,7 @@ theorem ggPresentsG0_typeE6_of_system_levi {f : ℕ} (hq : 4 ≤ 2 ^ f) {H : Sub
     have h0 : f = 0 := by omega
     rw [h0] at hq
     norm_num at hq
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)
   have hq' : 4 ≤ Nat.card (GaloisField 2 f) := by rw [hK]; exact hq
   have hadm : StatedLieAdmissible .E6 0 2 f := ⟨Nat.prime_two, hf, rfl⟩
@@ -66,6 +70,7 @@ theorem ggPresentsG0_typeE6_of_system_levi {f : ℕ} (hq : 4 ≤ 2 ^ f) {H : Sub
   · exact hqs.1.commutator_eq_top
   · exact map_subtype_comp Ψ₀ _ _ (hlevi k)
 
+omit [Finite G] in
 theorem ggPresentsG0_typeE7_of_system_levi {f : ℕ} (hq : 4 ≤ 2 ^ f) {H : Subgroup G}
     {U : Fin 7 → Subgroup ↥H}
     (hcomm : ∀ i j : Fin 7, i ≠ j → ¬ edgeE 7 i j → ¬ edgeE 7 j i →
@@ -83,7 +88,7 @@ theorem ggPresentsG0_typeE7_of_system_levi {f : ℕ} (hq : 4 ≤ 2 ^ f) {H : Sub
     have h0 : f = 0 := by omega
     rw [h0] at hq
     norm_num at hq
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)
   have hq' : 4 ≤ Nat.card (GaloisField 2 f) := by rw [hK]; exact hq
   have hadm : StatedLieAdmissible .E7 0 2 f := ⟨Nat.prime_two, hf, rfl⟩

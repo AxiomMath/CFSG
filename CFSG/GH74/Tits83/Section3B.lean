@@ -129,7 +129,7 @@ theorem comm_mem_Uprime_mul_Vmid {u y : G} (hu : u ∈ T.U 1) (hy : y ∈ T.Upri
     have h := T.comm 1 6 (by norm_num) (by norm_num) u hu y (T.Uprime_le 6 hy)
     have he : ⁅u, y⁆ = u * y * u⁻¹ * y⁻¹ := by simp [commutatorElement_def]
     rw [he]
-    refine SetLike.le_def.mp ?_ h
+    refine _root_.IsConcreteLE.le_iff.mp ?_ h
     refine iSup₂_le fun k hk => ?_
     have hk' : (1 : ℤ) < k ∧ k < 6 := hk
     exact le_iSup₂_of_le k ⟨by omega, by omega⟩ le_rfl
@@ -206,7 +206,7 @@ theorem lemma33_i' {u y : G} (hu : u ∈ T.U 1) (hu1 : u ≠ 1) (hy : y ∈ T.Up
   have hpsiInv : ψ⁻¹ ∈ T.U 4 := (T.U 4).inv_mem (T.Uprime_le 4 hψ)
   have hcommψ : ⁅ψ⁻¹, w⁆ ∈ win T.U 5 8 := by
     have h := T.comm 4 9 (by norm_num) (by norm_num) ψ⁻¹ hpsiInv w hw9
-    refine SetLike.le_def.mp ?_ h
+    refine _root_.IsConcreteLE.le_iff.mp ?_ h
     refine iSup₂_le fun k hk => ?_
     have hk' : (4 : ℤ) < k ∧ k < 9 := hk
     exact le_iSup₂_of_le k ⟨by omega, by omega⟩ le_rfl
@@ -214,7 +214,7 @@ theorem lemma33_i' {u y : G} (hu : u ∈ T.U 1) (hu1 : u ≠ 1) (hy : y ∈ T.Up
     have hzU : z ∈ T.U 5 := T.Vmid_le 5 hz
     have hmem : ⁅z, w⁆ ∈ win T.U 6 8 := by
       have h := T.comm 5 9 (by norm_num) (by norm_num) z hzU w hw9
-      refine SetLike.le_def.mp ?_ h
+      refine _root_.IsConcreteLE.le_iff.mp ?_ h
       refine iSup₂_le fun k hk => ?_
       have hk' : (5 : ℤ) < k ∧ k < 9 := hk
       exact le_iSup₂_of_le k ⟨by omega, by omega⟩ le_rfl
@@ -248,7 +248,7 @@ theorem lemma33_i' {u y : G} (hu : u ∈ T.U 1) (hu1 : u ≠ 1) (hy : y ∈ T.Up
   exact ⟨z, hz, by rw [huy, hpsi]⟩
 
 theorem lemma33_ii' (hT : T.Normalized) {u u' : G} (hu : u ∈ T.U 1) (hu1 : u ≠ 1)
-    (hc : u ∈ Subgroup.centralizer (T.Vmid 5 : Set G)) (hu' : u' ∈ T.U 1) (hu1' : u' ≠ 1)
+    (_hc : u ∈ Subgroup.centralizer (T.Vmid 5 : Set G)) (hu' : u' ∈ T.U 1) (hu1' : u' ≠ 1)
     (hc' : u' ∈ Subgroup.centralizer (T.Vmid 5 : Set G)) (h : T.mu 1 u = T.mu 1 u') :
     u = u' := by
   obtain ⟨y, hy, hy1⟩ := T.exists_Uprime (j := 6) hT (by decide : Even (6 : ℤ))
@@ -442,7 +442,7 @@ theorem Vmid_one_comm_U_five (hT : T.Normalized) {u x : G} (hu : u ∈ T.Vmid 1)
     have h := T.comm 1 5 (by norm_num) (by norm_num) u huU x hx
     have he : ⁅u, x⁆ = u * x * u⁻¹ * x⁻¹ := by simp [commutatorElement_def]
     rw [he]
-    refine SetLike.le_def.mp ?_ h
+    refine _root_.IsConcreteLE.le_iff.mp ?_ h
     refine iSup₂_le fun k hk => ?_
     obtain ⟨hk1, hk2⟩ := hk
     exact le_iSup₂_of_le k ⟨by omega, by omega⟩ le_rfl
@@ -463,7 +463,7 @@ theorem Vmid_one_comm_U_five (hT : T.Normalized) {u x : G} (hu : u ∈ T.Vmid 1)
     have h := T.comm 1 5 (by norm_num) (by norm_num) u⁻¹ ((T.U 1).inv_mem huU) mx hmxU
     have he : ⁅u⁻¹, mx⁆ = u⁻¹ * mx * (u⁻¹)⁻¹ * mx⁻¹ := by simp [commutatorElement_def]
     rw [he]
-    refine SetLike.le_def.mp ?_ h
+    refine _root_.IsConcreteLE.le_iff.mp ?_ h
     refine iSup₂_le fun k hk => ?_
     obtain ⟨hk1, hk2⟩ := hk
     exact le_iSup₂_of_le k ⟨by omega, by omega⟩ le_rfl
@@ -489,7 +489,7 @@ theorem Vmid_one_comm_U_five (hT : T.Normalized) {u x : G} (hu : u ∈ T.Vmid 1)
   have hu'xWin : u' * x * u'⁻¹ ∈ win T.U 5 8 := by
     have hcomm : ⁅x, u'⁆ ∈ win T.U 6 8 := by
       have h := T.comm 5 9 (by norm_num) (by norm_num) x hx u' hu'U9
-      refine SetLike.le_def.mp ?_ h
+      refine _root_.IsConcreteLE.le_iff.mp ?_ h
       refine iSup₂_le fun k hk => ?_
       obtain ⟨hk1, hk2⟩ := hk
       exact le_iSup₂_of_le k ⟨by omega, by omega⟩ le_rfl
@@ -526,7 +526,7 @@ theorem Vmid_one_comm_U_five (hT : T.Normalized) {u x : G} (hu : u ∈ T.Vmid 1)
       have he : ⁅y⁻¹, u'⁆ = y⁻¹ * u' * (y⁻¹)⁻¹ * u'⁻¹ := by
         simp [commutatorElement_def]
       rw [he]
-      refine SetLike.le_def.mp ?_ h
+      refine _root_.IsConcreteLE.le_iff.mp ?_ h
       refine iSup₂_le fun k hk => ?_
       obtain ⟨hk1, hk2⟩ := hk
       exact le_iSup₂_of_le k ⟨by omega, by omega⟩ le_rfl

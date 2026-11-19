@@ -21,8 +21,8 @@ private lemma innerAut_normal (Q : Type) [Group Q] : (innerAut Q).Normal := by
 theorem frame_outer_invol_conj (h : fr.Facts (innerAut Q)) (hOut : (innerAut Q).index = 2)
     {α : MulAut Q} (hα2 : α ^ 2 = 1) (hα : α ∉ innerAut Q) :
     ∃ i ∈ innerAut Q, i * α * i⁻¹ = fr.σ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hInnNorm : (innerAut Q).Normal := innerAut_normal Q
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hInnNorm : (innerAut Q).Normal := innerAut_normal Q
   have hQ2 : IsPGroup 2 (zpowers α) := by
     apply IsPGroup.of_card_dvd_pow (n := 1)
     rw [Nat.card_zpowers α, pow_one]
@@ -80,7 +80,7 @@ theorem frame_outer_invol_conj (h : fr.Facts (innerAut Q)) (hOut : (innerAut Q).
     rw [← h13.2.2.1, ← h13.2.1]
     exact ⟨⟨s, hs, hβs⟩, hβorder⟩
   have hmem13' : ∃ t ∈ fr.S, i * α * i⁻¹ = t * fr.σ * t⁻¹ := by
-    simpa only [conjClass, Set.mem_setOf_eq] using hmem13
+    simpa only [conjClass, Set.mem_ofPred_eq] using hmem13
   obtain ⟨s₁, hs₁, hβs₁⟩ := hmem13'
   refine ⟨s₁⁻¹ * i, ?_, ?_⟩
   · exact mul_mem (inv_mem (frame_S_le_inner fr h.1 hs₁)) hi

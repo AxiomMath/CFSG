@@ -110,7 +110,7 @@ theorem exists_frame_of_singular [Finite W] (q : W → ZMod 2) (B : LinearMap.Bi
     (hS : ∃ S : Submodule (ZMod 2) W, Module.finrank (ZMod 2) S = 3 ∧ ∀ s ∈ S, q s = 0)
     {w : W} (hw : w ≠ 0) (hqw : q w = 0) :
     ∃ e : W ≃ₗ[ZMod 2] Model.VM, (∀ v, Model.qM (e v) = q v) ∧ e w = Model.e0 := by
-  haveI : FiniteDimensional (ZMod 2) W := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) W := Module.Finite.of_finite
   obtain ⟨S, hS3, hSs⟩ := hS
   obtain ⟨b, hb1, _hb2, _hb3, hb5, _hbS⟩ :=
     exists_witt_basis_of_MTS q B hq hB hdim S hS3 hSs
@@ -149,7 +149,7 @@ theorem part_d_of_frame [Finite W] (q : W → ZMod 2) (B : LinearMap.BilinForm (
     (hq : ∀ v w, q (v + w) = q v + q w + B v w)
     (Ω : Subgroup (W ≃ₗ[ZMod 2] W)) (hΩ : Ω ≤ orthogonalSubgroupOf q)
     (hrel : Ω.relIndex (orthogonalSubgroupOf q) = 2)
-    {w : W} (hw : w ≠ 0) (e : W ≃ₗ[ZMod 2] Model.VM) (he : ∀ v, Model.qM (e v) = q v)
+    {w : W} (_hw : w ≠ 0) (e : W ≃ₗ[ZMod 2] Model.VM) (he : ∀ v, Model.qM (e v) = q v)
     (hew : e w = Model.e0) :
     Nat.card (pCoreOf 2 (stabS (Submodule.span (ZMod 2) {w}) ⊓ Ω)) = 16 ∧
     ∀ γ ∈ stabS (Submodule.span (ZMod 2) {w}) ⊓ Ω,

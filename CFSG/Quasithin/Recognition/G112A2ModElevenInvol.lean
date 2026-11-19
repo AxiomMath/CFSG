@@ -19,7 +19,7 @@ theorem congr_mulAutConj_eleven {G H : Type*} [Group G] [Group H] (e : G ≃* H)
 
 theorem exists_conj_of_involutive_SL28 (θ : MulAut (Matrix.SpecialLinearGroup (Fin 2) F8))
     (hθ : θ * θ = 1) : ∃ y : Matrix.SpecialLinearGroup (Fin 2) F8, θ = MulAut.conj y := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let f : Matrix.ProjectiveSpecialLinearGroup (Fin 2) F8 ≃* Matrix.SpecialLinearGroup (Fin 2) F8 :=
     CFSG.Walter.psl2MulEquivSL2OfCharTwo
   let θP : MulAut (Matrix.ProjectiveSpecialLinearGroup (Fin 2) F8) := MulAut.congr f.symm θ
@@ -56,7 +56,7 @@ theorem fStarIn_mem_of_comm {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Fin
     {Γ : Subgroup (CFSG.Quasithin.G11.GLV V)} {x : CFSG.Quasithin.G11.GLV V} (hx : x ∈ Γ)
     (hcomm : ∀ n ∈ CFSG.ASVolI.ChG.fStarIn Γ, x * n = n * x) :
     x ∈ CFSG.ASVolI.ChG.fStarIn Γ := by
-  haveI : Finite (CFSG.Quasithin.G11.GLV V) :=
+  have : Finite (CFSG.Quasithin.G11.GLV V) :=
     Finite.of_injective (fun f : V ≃ₗ[ZMod 2] V => (f : V → V)) DFunLike.coe_injective
   have hc : (⟨x, hx⟩ : ↥Γ) ∈
       Subgroup.centralizer ((CFSG.Open.genFittingFStar ↥Γ : Subgroup ↥Γ) : Set ↥Γ) := by

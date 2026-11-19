@@ -34,9 +34,9 @@ theorem exists_phi_of_outer_three {K : Type} [Field K] {p f N : ℕ} (hdat : Uni
     ∃ (A : uU hdat N) (φ : K ≃+* K),
       β' = uConjAut hdat (by omega) A * uFieldAut hdat (by omega) φ ∧ orderOf φ = 3 := by
   have hn1 : 1 ≤ N := by omega
-  haveI : Finite K := hdat.finite
-  haveI : Fact p.Prime := ⟨hdat.prime⟩
-  haveI : CharP K p := hdat.charP
+  have : Finite K := hdat.finite
+  have : Fact p.Prime := ⟨hdat.prime⟩
+  have : CharP K p := hdat.charP
   obtain ⟨A, φ, hβ'eq⟩ := exists_uConjAut_mul_uFieldAut hdat hN hNq β'
   have hφ3 : φ ^ 3 = 1 := by
     have := congrArg (uFactor hdat hN hNq) hβ'3
@@ -59,9 +59,9 @@ theorem kd264I5_SU {K : Type} [Field K] [Finite K] {p f N : ℕ} (hdat : Unitary
     ∃ E : Subgroup ↥(StatedSU N (p ^ f) K), E ≤ MonoidHom.eqLocus β.toMonoidHom (MonoidHom.id _) ∧
       IsElemAbelian 3 E ∧ Nat.card E = 3 ^ (N - 1) := by
   have hn1 : 1 ≤ N := by omega
-  haveI : NeZero N := ⟨by omega⟩
-  haveI : Fact p.Prime := ⟨hdat.prime⟩
-  haveI : CharP K p := hdat.charP
+  have : NeZero N := ⟨by omega⟩
+  have : Fact p.Prime := ⟨hdat.prime⟩
+  have : CharP K p := hdat.charP
   have hK : Nat.card K = (p ^ f) ^ 2 := by rw [hdat.card, ← pow_mul, Nat.mul_comm]
   have hKe : Nat.card K = p ^ (2 * f) := hdat.card
   have hnq : (N, p ^ f) ≠ (3, 2) := fun h => hNq ⟨(Prod.mk.inj h).1, (Prod.mk.inj h).2⟩
@@ -104,7 +104,7 @@ theorem kd264I5_SU {K : Type} [Field K] [Finite K] {p f N : ℕ} (hdat : Unitary
     exact (mem_innAutDerived_congr e₀.symm).2 hmem
   obtain ⟨A, φ, hβ'eq, hφord⟩ := exists_phi_of_outer_three hdat hN hNq β' hβ'3 hout'
   have hφ3 : φ ^ 3 = 1 := by rw [← hφord]; exact pow_orderOf_eq_one φ
-  haveI := hperf
+  have := hperf
   have hβlift : β.toMonoidHom = uLift hdat A φ := by
     refine eq_of_central_displacement β.toMonoidHom (uLift hdat A φ) fun x => ?_
     have h1 : (QuotientGroup.mk (uLift hdat A φ x) : StatedProj (StatedSU N (p ^ f) K)) =
@@ -169,7 +169,7 @@ theorem kd264I5_SU {K : Type} [Field K] [Finite K] {p f N : ℕ} (hdat : Unitary
       interval_cases hm : (p ^ j) % 3 <;> simp [Nat.pow_mod, hm]
     omega
   have hF0 := card_fixField (p := p) (e := 2 * f) hdat.prime (by have := hdat.one_le; omega) hKe φ
-  haveI : Finite (fixField φ) :=
+  have : Finite (fixField φ) :=
     CFSG.Semidihedral.FixedFieldData.finite_of_prime_power_card _ hdat.prime hF0
   have hbar0 : ∀ t : fixField φ, t ^ 3 = 1 → barFix φ bar hcomm hbar.invol t * t = 1 := by
     intro t ht

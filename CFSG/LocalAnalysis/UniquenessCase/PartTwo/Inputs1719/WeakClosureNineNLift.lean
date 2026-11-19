@@ -20,7 +20,7 @@ variable {G : Type*} [Group G]
 theorem exists_isSylowIn [Finite G] (p : ℕ) [Fact p.Prime] (H : Subgroup G) :
     ∃ P : Subgroup G, IsSylowIn p P H := by
   obtain ⟨R⟩ := (inferInstance : Nonempty (Sylow p H))
-  refine ⟨(R : Subgroup H).map H.subtype, Subgroup.map_subtype_le _, R.isPGroup'.map _, ?_⟩
+  refine ⟨(R : Subgroup H).map H.subtype, Subgroup.map_subtype_le _, R.isPGroup.map _, ?_⟩
   rw [Subgroup.relIndex, ← Subgroup.comap_subtype,
     Subgroup.comap_map_eq_self_of_injective H.subtype_injective]
   exact R.not_dvd_index

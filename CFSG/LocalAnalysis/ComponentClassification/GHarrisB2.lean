@@ -99,7 +99,7 @@ theorem conclusionA_B (hC : GorensteinHaradaThmCInput)
   obtain ⟨θ, hθ, hker⟩ := D.exists_GL32_B hC hidx hxa hB hOG
   have hQn : D.Q.Normal := hker ▸ θ.normal_ker
   have hQc : IsMulCommutative D.Q := ⟨⟨fun a b => Subtype.ext (D.Q_comm a.2 b.2)⟩⟩
-  have hQp : IsPGroup 2 D.Q := D.S.isPGroup'.to_le D.Q_le_S
+  have hQp : IsPGroup 2 D.Q := D.S.isPGroup.to_le D.Q_le_S
   obtain ⟨K, hKQ, hKsup⟩ := (CFSG.Quasithin.gaschutz (V := D.Q) hQp D.S).mpr
     (D.exists_complement_Q_S)
   have hdec : ∀ g : G, ∃ q ∈ D.Q, ∃ k ∈ K, q * k = g := fun g =>

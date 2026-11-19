@@ -32,7 +32,7 @@ theorem uniLabelDict_of_ggLabelRigidInput (hRig : GGLabelRigidInput) : UniLabelD
   intro J _ _ labJ a m E _ _ τ' hτ' ha hτ'm hE hJ hφ
   obtain ⟨φ⟩ := hφ
   obtain ⟨hlab, hs, hhas⟩ := Y10GInnLin.ggHasLabel_of_hasLabel hJ
-  haveI := hs
+  have := hs
   have hm : 1 ≤ m := by
     by_contra hm0
     have h2 : 2 ≤ Nat.card E := Finite.one_lt_card
@@ -46,10 +46,10 @@ theorem uniLabelDict_of_ggLabelRigidInput (hRig : GGLabelRigidInput) : UniLabelD
   · by_cases h31 : a = 3 ∧ m = 1
     · obtain ⟨rfl, rfl⟩ := h31
       exfalso
-      haveI := isSolvable_quot_heldSU_three_two τ' hτ' (fun x => by simpa using hτ'm x)
+      have := isSolvable_quot_heldSU_three_two τ' hτ' (fun x => by simpa using hτ'm x)
         (by simpa using hE)
       exact not_isSolvable_quot_center
-        (solvable_of_surjective (f := φ.symm.toMonoidHom) φ.symm.surjective)
+        (Group.isSolvable_of_surjective (f := φ.symm.toMonoidHom) φ.symm.surjective)
     · have ham : (a, 2 ^ m) ≠ (3, 2) := by
         intro h
         obtain ⟨h1, h2⟩ := Prod.mk.inj h

@@ -137,7 +137,7 @@ theorem cfInner_ambientEta_one (hB : IsDadeBridgeData hc σ A₀ T ω) {j : Irr 
   have h1 := hW.cfInner_prodCharEta_col hB.omega_isometry (irrMapSubtype L W₂ j)
     (principalIrr ↥(W₂.map L.subtype))
   rw [hW.prodCharEta_principal hB.omega_isometry] at h1
-  rw [ambientEta, h1, if_neg]
+  rw [ambientEta, h1, ite_eq_right]
   intro hcc
   exact hj (irrMapSubtype_injective L W₂ (hcc.trans (irrMapSubtype_principal L W₂).symm))
 

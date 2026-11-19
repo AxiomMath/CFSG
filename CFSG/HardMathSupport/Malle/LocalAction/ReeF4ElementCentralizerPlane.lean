@@ -118,7 +118,7 @@ theorem card_sylow_five (hK : Nat.card K = 2 ^ (2 * 2 + 1)) (P : Sylow 5 (ReeTag
   have : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
   have : Finite (ReeTag.F4.reeGamma K 2) := Subtype.finite
   have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  obtain ⟨e⟩ := sylowShape_five hK (P : Subgroup (ReeTag.F4.reeGamma K 2)) P.isPGroup'
+  obtain ⟨e⟩ := sylowShape_five hK (P : Subgroup (ReeTag.F4.reeGamma K 2)) P.isPGroup
     P.not_dvd_index
   rw [Nat.card_congr e.toEquiv, Nat.card_eq_fintype_card]
   simp
@@ -131,7 +131,7 @@ theorem exists_plane_of_sylow (hK : Nat.card K = 2 ^ (2 * 2 + 1))
   have : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
   have : Finite (ReeTag.F4.reeGamma K 2) := Subtype.finite
   have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  obtain ⟨e⟩ := sylowShape_five hK (P : Subgroup (ReeTag.F4.reeGamma K 2)) P.isPGroup'
+  obtain ⟨e⟩ := sylowShape_five hK (P : Subgroup (ReeTag.F4.reeGamma K 2)) P.isPGroup
     P.not_dvd_index
   let f : V5 →* ReeTag.F4.reeGamma K 2 :=
     (P : Subgroup (ReeTag.F4.reeGamma K 2)).subtype.comp e.symm.toMonoidHom
@@ -162,7 +162,7 @@ theorem exists_primitive_twentyfive (L : Type) [Field L] [CharP L 2] [IsAlgClose
     omega
   have : NeZero (25 : ℕ) := ⟨by norm_num⟩
   have : NeZero ((25 : ℕ) : L) := ⟨by exact_mod_cast hp⟩
-  obtain ⟨ξ₀, hξ₀⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L 25
+  obtain ⟨ξ₀, hξ₀⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L 25
   lift ξ₀ to Lˣ using hξ₀.isUnit (by norm_num)
   rw [IsPrimitiveRoot.coe_units_iff] at hξ₀
   exact ⟨ξ₀, hξ₀⟩

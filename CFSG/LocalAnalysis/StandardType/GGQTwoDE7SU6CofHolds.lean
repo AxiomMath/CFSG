@@ -57,7 +57,7 @@ theorem ggQTwoDE7SU6Cof_holds : GGQTwoDE7SU6Cof := by
     SpRank.le_largeEvenTwoLocalRank_of_normalizes (MonoidHom.id X) Function.injective_id
       Nat.prime_three hE₀ hcard₀ hU hU2 hEU
   obtain ⟨m, hm, hmle⟩ := hrank
-  rw [if_neg hcpX, add_zero] at hmle
+  rw [ite_eq_right hcpX, add_zero] at hmle
   have : Finite (MulAut X) := Finite.of_injective (fun f : MulAut X => (f : X → X))
     (fun f g h => MulEquiv.ext (congrFun h))
   have hAb : 3 ^ 6 ≤ Nat.card Ab := by

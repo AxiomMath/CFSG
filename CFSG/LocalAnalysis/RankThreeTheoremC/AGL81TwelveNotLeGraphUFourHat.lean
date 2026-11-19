@@ -33,7 +33,7 @@ theorem mk_mem_normalizer_hatOf {P T : Subgroup A} (hTP : T ≤ P) {c : A} (hcP 
 theorem exists_sylow_hatOf [Finite A] {Y P T : Subgroup A} (hPY : P ≤ Y)
     (hT : IsSylowTwoOf T Y) (hTP : T ≤ P) :
     ∃ S : Sylow 2 (↥P ⧸ CFSG.pCore 2 ↥P), (S : Subgroup (↥P ⧸ CFSG.pCore 2 ↥P)) = hatOf P T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp : IsPGroup 2 (hatOf P T) :=
     (hT.2.1.comap_of_injective P.subtype P.subtype_injective).map
       (QuotientGroup.mk' (CFSG.pCore 2 ↥P))
@@ -68,7 +68,7 @@ theorem card_le_nine_hatOf [Finite A] {P : Subgroup A}
     (h9 : ∀ T : Subgroup A, T ≤ P → IsPGroup 3 T → Nat.card T ≤ 9) :
     ∀ U : Subgroup (↥P ⧸ CFSG.pCore 2 ↥P), IsPGroup 3 U → Nat.card U ≤ 9 := by
   intro U hU
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hU
   by_contra hgt
   have hgt : 9 < Nat.card U := Nat.lt_of_not_le hgt

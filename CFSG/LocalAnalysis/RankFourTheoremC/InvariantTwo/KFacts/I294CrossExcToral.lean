@@ -19,7 +19,7 @@ theorem isMulCommutative_sylow_of_comm_index [Finite G] [Fact p.Prime] {H : Subg
     IsMulCommutative (P : Subgroup G) := by
   obtain ⟨S₀⟩ : Nonempty (Sylow p H) := inferInstance
   set S : Subgroup G := (S₀ : Subgroup H).map H.subtype with hS
-  have hSp : IsPGroup p S := S₀.isPGroup'.map H.subtype
+  have hSp : IsPGroup p S := S₀.isPGroup.map H.subtype
   have hSi : ¬ p ∣ S.index := by
     rw [hS, Subgroup.index_map_subtype]
     exact fun h => ((Fact.out : p.Prime).dvd_mul.1 h).elim S₀.not_dvd_index hidx
@@ -46,8 +46,8 @@ theorem isMulCommutative_sylow_of_injective {H : Type*} [Group H] [Finite H] [Fa
     (f : G →* H) (hf : Function.Injective f)
     (h : ∀ Q : Sylow p H, IsMulCommutative (Q : Subgroup H)) (P : Sylow p G) :
     IsMulCommutative (P : Subgroup G) := by
-  obtain ⟨Q, hQ⟩ := (P.isPGroup'.map f).exists_le_sylow
-  haveI : IsMulCommutative (Q : Subgroup H) := h Q
+  obtain ⟨Q, hQ⟩ := (P.isPGroup.map f).exists_le_sylow
+  have : IsMulCommutative (Q : Subgroup H) := h Q
   refine ⟨⟨fun a b => ?_⟩⟩
   apply Subtype.ext
   apply hf
@@ -62,7 +62,7 @@ theorem isMulCommutative_sylow_of_surjective [Finite G] {N : Type*} [Group N] [F
     IsMulCommutative (P : Subgroup N) := by
   obtain ⟨S, rfl⟩ := Sylow.mapSurjective_surjective hf p P
   rw [Sylow.coe_mapSurjective]
-  haveI : IsMulCommutative (S : Subgroup G) := h S
+  have : IsMulCommutative (S : Subgroup G) := h S
   refine ⟨⟨fun a b => ?_⟩⟩
   apply Subtype.ext
   obtain ⟨x, hx, hxa⟩ := a.2
@@ -75,7 +75,7 @@ theorem isMulCommutative_sylow_of_surjective [Finite G] {N : Type*} [Group N] [F
 
 theorem crossExc_dvd_pow_pred_sub_one {p q : ℕ} (hp : p.Prime) (hpq : ¬ p ∣ q) :
     p ∣ q ^ (p - 1) - 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq0 : (q : ZMod p) ≠ 0 := fun h => hpq ((ZMod.natCast_eq_zero_iff q p).1 h)
   have hq1 : 1 ≤ q := Nat.pos_of_ne_zero fun h => hpq (h ▸ dvd_zero p)
   have h1 : 1 ≤ q ^ (p - 1) := Nat.one_le_pow _ _ hq1
@@ -102,10 +102,11 @@ section Adjoint
 variable
   {τ : Tag} {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem crossExc_torusGroup_le_adjointGroup : torusGroup τ K ≤ adjointGroup τ K :=
   (Subgroup.closure_le _).2 fun _ ⟨p, hp⟩ => hp ▸ torusElt_mem_adjointGroup p.1 p.2
 
-theorem crossExc_not_dvd_index_torusGroup {p : ℕ} (hp : p.Prime)
+theorem crossExc_not_dvd_index_torusGroup {p : ℕ} (_hp : p.Prime)
     (hW : ¬ p ∣ Nat.card (WeylGroup τ)) (hpq : p ∣ Nat.card K - 1) :
     ¬ p ∣ ((torusGroup τ K).subgroupOf (adjointGroup τ K)).index := by
   classical
@@ -129,8 +130,8 @@ theorem crossExc_not_dvd_index_torusGroup {p : ℕ} (hp : p.Prime)
 theorem isMulCommutative_sylow_adjointGroup_of_dvd {p : ℕ} (hp : p.Prime)
     (hW : ¬ p ∣ Nat.card (WeylGroup τ)) (hpq : p ∣ Nat.card K - 1)
     (P : Sylow p (adjointGroup τ K)) : IsMulCommutative (P : Subgroup (adjointGroup τ K)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (ModGL τ K) := finite_modGL
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (ModGL τ K) := finite_modGL
   exact isMulCommutative_sylow_of_comm_index
     (H := (torusGroup τ K).subgroupOf (adjointGroup τ K))
     (fun a ha b hb => Subtype.ext ((triangular_borel_structure.{0, 0} τ K).1 _ ha _ hb))
@@ -140,13 +141,13 @@ theorem isMulCommutative_sylow_adjointGroup {p : ℕ} (hp : p.Prime)
     (hW : ¬ p ∣ Nat.card (WeylGroup τ)) (hpK : ¬ p ∣ Nat.card K)
     (P : Sylow p (adjointGroup τ K)) : IsMulCommutative (P : Subgroup (adjointGroup τ K)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨ℓ, hℓ⟩ := CharP.exists K
-  haveI : CharP K ℓ := hℓ
-  haveI : Fintype K := Fintype.ofFinite K
+  have : CharP K ℓ := hℓ
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨-, hℓp, -⟩ := FiniteField.card K ℓ
-  haveI : Fact ℓ.Prime := ⟨hℓp⟩
-  letI : Algebra (ZMod ℓ) K := ZMod.algebra K ℓ
+  have : Fact ℓ.Prime := ⟨hℓp⟩
+  let : Algebra (ZMod ℓ) K := ZMod.algebra K ℓ
   set f := Module.finrank (ZMod ℓ) K with hf
   have hKf : ℓ ^ f = Nat.card K := FiniteField.pow_finrank_eq_natCard ℓ K
   have hf0 : f ≠ 0 := Module.finrank_pos.ne'
@@ -171,7 +172,7 @@ theorem isMulCommutative_sylow_adjointGroup {p : ℕ} (hp : p.Prime)
       fun g => hle (Subgroup.mem_map_of_mem _ g.2)
   have hφ : Function.Injective φ := fun a b h =>
     Subtype.ext (baseChangeGL_injective ι.toRingHom (congrArg Subtype.val h))
-  haveI : Finite (ModGL τ (GaloisField ℓ (f * (p - 1)))) := finite_modGL
+  have : Finite (ModGL τ (GaloisField ℓ (f * (p - 1)))) := finite_modGL
   exact isMulCommutative_sylow_of_injective φ hφ
     (fun Q => isMulCommutative_sylow_adjointGroup_of_dvd hp hW hdvd Q) P
 
@@ -179,8 +180,8 @@ theorem isMulCommutative_sylow_derivedCentralQuotient {H : Subgroup (ModGL τ K)
     (hH : H ≤ adjointGroup τ K) {p : ℕ} (hp : p.Prime) (hW : ¬ p ∣ Nat.card (WeylGroup τ))
     (hpK : ¬ p ∣ Nat.card K) (P : Sylow p (↥⁅H, H⁆ ⧸ Subgroup.center ↥⁅H, H⁆)) :
     IsMulCommutative (P : Subgroup (↥⁅H, H⁆ ⧸ Subgroup.center ↥⁅H, H⁆)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (ModGL τ K) := finite_modGL
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (ModGL τ K) := finite_modGL
   have hYH : ⁅H, H⁆ ≤ H := Subgroup.commutator_le.2 fun a ha b hb => by
     rw [commutatorElement_def]
     exact H.mul_mem (H.mul_mem (H.mul_mem ha hb) (H.inv_mem ha)) (H.inv_mem hb)

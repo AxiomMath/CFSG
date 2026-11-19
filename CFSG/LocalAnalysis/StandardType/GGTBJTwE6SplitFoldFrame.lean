@@ -50,6 +50,7 @@ theorem twE6Split_frameCoord_perm (s : Fin Tag.F4.rank → ZMod p)
   rw [TwE6SplitRootGen.frameCoord_twE6SplitTheta]
   exact twE6Split_theta_perm _ i
 
+omit [NeZero p] in
 theorem twE6Split_frameCoord_F4 (s : Fin Tag.F4.rank → ZMod p) (b : Fin Tag.F4.rank) :
     ExcFrames.frameCoord .F4 p s b =
       (((![2, 2, 1, 1] : Fin 4 → ℤ) b : ℤ) : ZMod p) *
@@ -92,6 +93,7 @@ section Pairing
 
 variable {p : ℕ} [NeZero p]
 
+omit [NeZero p] in
 theorem twE6Split_pairing_permPow {y : Fin TwistTag.E6.tag.rank → ZMod p}
     (hy : ∀ i, y (TwistTag.E6.perm i) = y i) (k : ℕ) (v : Fin TwistTag.E6.tag.rank → ℤ) :
     ∑ j, ((permLattice (TwistTag.E6.perm ^ k) v j : ℤ) : ZMod p) * y j =
@@ -120,6 +122,7 @@ theorem twE6Split_card_diagramOrbit (v : Fin TwistTag.E6.tag.rank → ℤ) :
     (Finset.card_image_le).trans (by simp [TwistTag.order])
   omega
 
+omit [NeZero p] in
 theorem twE6Split_pairing_orbSum {y : Fin TwistTag.E6.tag.rank → ZMod p}
     (hy : ∀ i, y (TwistTag.E6.perm i) = y i) (v : Fin TwistTag.E6.tag.rank → ℤ) :
     ∑ j, ((TwE6SplitFold.twE6OrbSum v j : ℤ) : ZMod p) * y j =
@@ -137,6 +140,7 @@ theorem twE6Split_pairing_orbSum {y : Fin TwistTag.E6.tag.rank → ZMod p}
         Finset.sum_comm
     _ = _ := by rw [Finset.sum_congr rfl h, Finset.sum_const, nsmul_eq_mul]
 
+omit [NeZero p] in
 theorem twE6Split_pairing_orbSum_eq_zero [Fact p.Prime] (hp2 : p ≠ 2)
     {y : Fin TwistTag.E6.tag.rank → ZMod p} (hy : ∀ i, y (TwistTag.E6.perm i) = y i)
     (v : Fin TwistTag.E6.tag.rank → ℤ)
@@ -152,6 +156,7 @@ theorem twE6Split_pairing_orbSum_eq_zero [Fact p.Prime] (hp2 : p ≠ 2)
       exact hp2 ((Nat.prime_dvd_prime_iff_eq (Fact.out : p.Prime) Nat.prime_two).1 h2)
   exact (mul_eq_zero.1 h).resolve_left hne
 
+omit [NeZero p] in
 theorem twE6Split_pairing_foldMap (γ : Fin Tag.F4.rank → ℤ)
     (y : Fin TwistTag.E6.tag.rank → ZMod p) :
     ∑ j, ((TwistTag.E6.foldMap γ j : ℤ) : ZMod p) * y j =

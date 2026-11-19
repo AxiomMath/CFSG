@@ -17,7 +17,7 @@ private theorem transportedConj_apply {D : Type} [Group D] (L : Subgroup D) (hL 
     {L₀ : Type} [Group L₀] (κ : ↥L ≃* L₀) (d : D) (x : ↥L) :
     transportedConj L hL κ d (κ x) =
       κ ⟨d * (x : D) * d⁻¹, hL.conj_mem (x : D) x.2 d⟩ := by
-  letI : L.Normal := hL
+  let : L.Normal := hL
   change (MulAut.congr κ) (MulAut.conjNormal d) (κ x) =
     κ ⟨d * (x : D) * d⁻¹, hL.conj_mem (x : D) x.2 d⟩
   rw [MulAut.congr_apply]

@@ -233,7 +233,7 @@ theorem ncard_zPerp : zPerp.ncard = 8 := by
   have hinj : Set.InjOn barInd (↑(Finset.univ.filter fun I : Finset (Fin 6) =>
       I ⊆ {0, 1, 2, 3} ∧ Even I.card) : Set (Finset (Fin 6))) := by
     intro I hI J hJ h
-    simp only [Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_setOf_eq] at hI hJ
+    simp only [Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_ofPred_eq] at hI hJ
     rcases barInd_eq_barInd_iff.1 h with h1 | h1
     · exact h1
     · exfalso
@@ -245,7 +245,7 @@ theorem ncard_zPerp : zPerp.ncard = 8 := by
   have hzP : zPerp = barInd '' (↑(Finset.univ.filter fun I : Finset (Fin 6) =>
       I ⊆ {0, 1, 2, 3} ∧ Even I.card) : Set (Finset (Fin 6))) := by
     ext v
-    simp only [zPerp, Set.mem_setOf_eq, Set.mem_image, Finset.coe_filter, Finset.mem_univ,
+    simp only [zPerp, Set.mem_ofPred_eq, Set.mem_image, Finset.coe_filter, Finset.mem_univ,
       true_and]
     constructor
     · rintro ⟨I, h1, h2, rfl⟩

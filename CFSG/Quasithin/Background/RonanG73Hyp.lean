@@ -119,7 +119,7 @@ theorem exists_g93Hyp {G L : Subgroup (GLV V)} [Finite ↥G] (hLG : L ≤ G)
     (hS : CFSG.SectionRank.IsSQTKCat ↥L) (hirr : IsIrr L ⊤)
     (hd : Module.finrank (ZMod 2) V ≤ 2 * (twoRank ↥G + 1)) :
     ∃ Γ A : Subgroup (GLV V), Γ ≤ G ∧ G93Hyp Γ A L L (twoRank ↥G) := by
-  haveI : Finite (GLV V) :=
+  have : Finite (GLV V) :=
     CFSG.Quasithin.Background.Harris.OrdinaryProofs.finite_GLV_of_finite (V := V)
   obtain ⟨A, hAG, hAel, hAcard⟩ := exists_elemAbelian_twoRank G
   have hΓG : L ⊔ A ≤ G := sup_le hLG hAG

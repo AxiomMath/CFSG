@@ -76,7 +76,7 @@ theorem sigma_mem_A {K : Type} [Field K] {ι : Type} [Fintype ι] [DecidableEq �
 
 theorem sigma_idempotent {K : Type} [Field K] {ι : Type} [Fintype ι] [DecidableEq ι] (S : LinSetting K ι) [Fintype K] [CharP K 2] {ε : Matrix ι ι K} (hε : ε ∈ S.A) (hεε : ε * ε = ε) : S.σ ε = ε := by
   obtain ⟨a, ha⟩ := exists_pow_two_of_ringEquiv S.σ₀
-  haveI := Fact.mk S.hp
+  have := Fact.mk S.hp
   have hiter : ∀ k (c : K), (S.σ₀ ^ k) c = c ^ 2 ^ (a * k) := by
     intro k
     induction k with
@@ -106,7 +106,7 @@ theorem sigma_idempotent {K : Type} [Field K] {ι : Type} [Fintype ι] [Decidabl
   exact h
 
 theorem exists_frob_exp {K : Type} [Field K] {ι : Type} [Fintype ι] [DecidableEq ι] (S : LinSetting K ι) [Fintype K] [CharP K 2] : ∃ Q : ℕ, 2 ≤ Q ∧ (∀ M ∈ S.A, M ^ Q = M) ∧ S.p ∣ Q - 1 := by
-  haveI := Fact.mk S.hp
+  have := Fact.mk S.hp
   obtain ⟨n, -, hn⟩ := FiniteField.card K 2
   have h2 : ¬ S.p ∣ 2 := fun h => S.hp2 ((Nat.prime_dvd_prime_iff_eq S.hp Nat.prime_two).1 h)
   have h2' : (2 : ZMod S.p) ≠ 0 := by
@@ -145,7 +145,7 @@ theorem minIdem_inv {K : Type} [Field K] {ι : Type} [Fintype ι] [DecidableEq �
     rw [← pow_succ, show Q - 2 + 1 = Q - 1 by omega, ← he, h]
 
 theorem mul_mem_A_of_cyclic {K : Type} [Field K] {ι : Type} [Fintype ι] [DecidableEq ι] (S : LinSetting K ι) [Fintype K] [CharP K 2] {ε' c : Matrix ι ι K} (hε'A : ε' ∈ S.A) (hε' : ε' * ε' = ε')
-    (hc : ∀ e ∈ S.E₀, c * (e : Matrix ι ι K) = e * c) {v : ι → K} (hv : ε' *ᵥ v = v)
+    (hc : ∀ e ∈ S.E₀, c * (e : Matrix ι ι K) = e * c) {v : ι → K} (_hv : ε' *ᵥ v = v)
     (hcyc : ∀ x, ε' *ᵥ x = x → ∃ a ∈ S.A, x = a *ᵥ v) : c * ε' ∈ S.A := by
   have hcA : ∀ M ∈ S.A, c * M = M * c := fun M hM => commute_of_mem_spanE S.E₀ hc hM
   obtain ⟨a₀, ha₀A, ha₀⟩ := hcyc ((c * ε') *ᵥ v) (by
@@ -300,17 +300,17 @@ theorem exists_fixed_idem {K : Type} [Field K] {ι : Type} [Fintype ι] [Decidab
       rw [ClSetting.comp_mulVec, huσ]; rfl⟩
   have huW : u ∈ W := (hmemW u).2 ⟨1, S.one_mem_A, Matrix.one_mulVec u⟩
   obtain ⟨Cc, hCc⟩ := Submodule.exists_isCompl W
-  let π := Submodule.linearProjOfIsCompl W Cc hCc
+  let π := Submodule.projectionOnto W Cc hCc
   set P₀ : Matrix ι ι K := LinearMap.toMatrix' (W.subtype ∘ₗ π) with hP₀def
   have hP₀ : IsProj W P₀ := by
     refine ⟨fun w hw => ?_, fun v => ?_⟩
     · rw [hP₀def, LinearMap.toMatrix'_mulVec, LinearMap.comp_apply]
-      exact congrArg Subtype.val (Submodule.linearProjOfIsCompl_apply_left hCc ⟨w, hw⟩)
+      exact congrArg Subtype.val (Submodule.projectionOnto_apply_left hCc ⟨w, hw⟩)
     · rw [hP₀def, LinearMap.toMatrix'_mulVec]
       exact (π v).2
-  haveI : Finite (GL ι K) :=
+  have : Finite (GL ι K) :=
     Finite.of_injective (fun u : GL ι K => (u : Matrix ι ι K)) fun _ _ h => Units.ext h
-  haveI : Fintype S.E₀ := Fintype.ofFinite _
+  have : Fintype S.E₀ := Fintype.ofFinite _
   set N := Fintype.card S.E₀ with hNdef
   have hN : (N : K) ≠ 0 := by
     rw [Ne, CharP.cast_eq_zero_iff K 2]
@@ -501,7 +501,7 @@ theorem pElt_mem_A_of_minIdem {K : Type} [Field K] {ι : Type} [Fintype ι] [Dec
     have hzeq : (z : Matrix ι ι K) = z * ε + (1 - ε) := by rw [← hzs']; noncomm_ring
     rw [hzeq]; exact Submodule.add_mem _ (hC _ hzc) (Submodule.sub_mem _ S.one_mem_A hεA)
   by_contra hzA
-  haveI : Finite (GL ι K) :=
+  have : Finite (GL ι K) :=
     Finite.of_injective (fun u : GL ι K => (u : Matrix ι ι K)) fun _ _ h => Units.ext h
   set X := S.suppGroup ε
   let φ : X →* X :=
@@ -569,7 +569,7 @@ theorem mul_idem_mem_A {K : Type} [Field K] {ι : Type} [Fintype ι] [DecidableE
   induction n using Nat.strong_induction_on with
   | _ n ih =>
   intro η hn hηA hηη
-  haveI : Finite (Matrix ι ι K) := show Finite (ι → ι → K) from inferInstance
+  have : Finite (Matrix ι ι K) := show Finite (ι → ι → K) from inferInstance
   by_cases hη0 : η = 0
   · rw [hη0, mul_zero]; exact Submodule.zero_mem _
   by_cases hmin : ∀ δ ∈ S.A, δ * δ = δ → δ * η = δ → δ = 0 ∨ δ = η

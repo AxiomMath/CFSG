@@ -174,7 +174,7 @@ theorem k_A6Exp4Noncentral_of_sThreePair (h : K_A6Exp4SThreePair) :
       have hKZ : Nat.card K = Nat.card Z * 360 := by
         rw [hKcenter, hZcard]
       have hZinfS : Z ⊓ S = ⊥ := by
-        refine Subgroup.inf_eq_bot_of_coprime ?_
+        refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
         rw [hSylYcard]
         exact Nat.Coprime.pow_right _ hZodd.coprime_two_right
       have hcardjoin : Nat.card ↥(Z ⊔ S) = Nat.card Z * Nat.card S := by

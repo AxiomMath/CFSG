@@ -63,7 +63,7 @@ theorem eq_oddHull_of_isSubnormal {Y : Type} [Group Y] [Finite Y] {P : Subgroup 
     rw [Subgroup.subgroupOf_self] at h1
     have h2 := h1.map ψ
     rwa [Subgroup.map_top_of_surjective ψ hψ] at h2
-  haveI := alternatingGroup.isSimpleGroup_five
+  have := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   rcases hsn.eq_bot_or_top with hbot | htop
   · refine absurd (le_bot_iff.1 (hodd.trans ((Subgroup.closure_le _).2 fun x hx => ?_))) hne
     have h1 : ψ ⟨x, hHK hx.1⟩ ∈ (H.subgroupOf (oddHull P)).map ψ := ⟨⟨x, hHK hx.1⟩, hx.1, rfl⟩
@@ -99,7 +99,7 @@ theorem exists_ne_comm_of_isTwoFourSFive {Y : Type} [Group Y] [Finite Y] {P : Su
     refine Dvd.dvd.mul_right ?_ _
     rw [Nat.card_perm, Nat.card_fin]
     exact Nat.dvd_factorial (by norm_num) le_rfl
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥P) 5 h5
   have hx5 : x ^ 5 = 1 := by
     rw [← hx]

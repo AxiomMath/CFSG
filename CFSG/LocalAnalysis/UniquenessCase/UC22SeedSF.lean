@@ -29,7 +29,7 @@ theorem pow_two_pow_of_odd_kernel {A Q : Type} [Group A] [Finite A] [Group Q] (�
 
 theorem exists_pow_four_eq_one_of_perm {B : Type} [Group B] {L : Subgroup B} {N : ℕ} (hN : 4 ≤ N)
     (e : L ≃* Equiv.Perm (Fin N)) : ∃ x ∈ L, x ^ 4 = 1 ∧ x ^ 2 ≠ 1 := by
-  haveI : NeZero N := ⟨by omega⟩
+  have : NeZero N := ⟨by omega⟩
   obtain ⟨σ, h4, h2⟩ : ∃ σ : Equiv.Perm (Fin N), σ ^ 4 = 1 ∧ σ ^ 2 ≠ 1 := by
     have hne : (⟨3, by omega⟩ : Fin N) ≠ 0 := by simp [Fin.ext_iff]
     have hord : orderOf (Fin.cycleRange (⟨3, by omega⟩ : Fin N)) = 4 := by
@@ -54,7 +54,7 @@ theorem eq_top_of_commuting_family {Q : Type} [Group Q]
     (hQ1 : ∀ (N : Subgroup Q) [N.Normal] (x : Q), x ∈ N → x ≠ 1 → x ^ 2 = 1 → N = ⊤)
     {ι : Type*} (P : ι → Subgroup Q) (hcomm : ∀ i j, i ≠ j → ∀ a ∈ P i, ∀ b ∈ P j, a * b = b * a)
     (hnorm : (⨆ i, P i).Normal) (hinv : ∀ i, ∃ x ∈ P i, x ≠ 1 ∧ x ^ 2 = 1) (i : ι) : P i = ⊤ := by
-  haveI := hnorm
+  have := hnorm
   obtain ⟨x, hxP, hx1, hx2⟩ := hinv i
   have htop : (⨆ j, P j) = ⊤ := hQ1 _ x (le_iSup P i hxP) hx1 hx2
   have key : ∀ g ∈ ⨆ j, P j, ∀ n ∈ P i, g * n * g⁻¹ ∈ P i := by
@@ -70,7 +70,7 @@ theorem eq_top_of_commuting_family {Q : Type} [Group Q]
       simpa using hn
     · intro x y hx hy n hn
       simpa [mul_assoc] using hx _ (hy n hn)
-  haveI : (P i).Normal := ⟨fun n hn g => key g (htop ▸ Subgroup.mem_top g) n hn⟩
+  have : (P i).Normal := ⟨fun n hn g => key g (htop ▸ Subgroup.mem_top g) n hn⟩
   exact hQ1 (P i) x hxP hx1 hx2
 
 theorem mem_of_pow_two_pow_mem {G Q : Type*} [Group G] [Group Q] (π : G →* Q) (hodd : ¬ 2 ∣ Nat.card π.ker)
@@ -164,7 +164,7 @@ theorem single_factor {B : Type} [Group B] {A : Subgroup B} [Finite ↥A] {Q : T
   have hPJtop : (J.subgroupOf A).map π = ⊤ := by
     rw [← hPJ]
     exact eq_top_iff.mpr (by rw [← htop ⟨L, hL⟩]; exact le_iSup P ⟨L, hL⟩)
-  haveI := hJn
+  have := hJn
   have hJA2 : J = A := by
     refine le_antisymm hJA fun a ha => ?_
     obtain ⟨k, hk⟩ := hAJ a ha
@@ -185,7 +185,7 @@ namespace SeedSF
 theorem le_of_orderOf_three_two {G : Type*} [Group G] {A S : Subgroup G} (hA : Nat.card A = 6) {c t : G}
     (hcA : c ∈ A) (htA : t ∈ A) (hc : orderOf c = 3) (ht : orderOf t = 2) (hcS : c ∈ S) (htS : t ∈ S) :
     A ≤ S := by
-  haveI : Finite A := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite A := Nat.finite_of_card_ne_zero (by omega)
   have hcH : (⟨c, hcA⟩ : A) ∈ S.subgroupOf A := hcS
   have htH : (⟨t, htA⟩ : A) ∈ S.subgroupOf A := htS
   have h3 : 3 ∣ Nat.card (S.subgroupOf A) := by
@@ -236,7 +236,7 @@ theorem exists_s3_gens {F : Type} [Field F] [CharP F 2] :
     simp [hc] at this
   · refine Matrix.SpecialLinearGroup.ext _ _ fun i j => ?_
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.SpecialLinearGroup.coe_mul, ht, Matrix.mul_apply, Fin.sum_univ_two, h11]
+      simp [Matrix.SpecialLinearGroup.coe_mul, ht, Matrix.mul_apply, Fin.sum_univ_two]
   · intro h
     have := congrArg (fun A : SpecialLinearGroup (Fin 2) F => (A : Matrix (Fin 2) (Fin 2) F) 0 1) h
     simp [ht] at this
@@ -330,11 +330,11 @@ theorem commV_inf_fixV_twoResidual_le {W : Type} [CommGroup W] [Finite W] (hW : 
     (e : ↥A ≃* SpecialLinearGroup (Fin 2) F) :
     commV A ⊓ fixV (twoResidual A) ≤ fixV A := by
   classical
-  haveI : Finite A := e.toEquiv.finite_iff.mpr inferInstance
+  have : Finite A := e.toEquiv.finite_iff.mpr inferInstance
   have h2 : (2 : F) = 0 := by exact_mod_cast CharP.cast_eq_zero F 2
   by_cases h4 : 4 ≤ Nat.card F
   ·
-    haveI := Fintype.ofFinite F
+    have := Fintype.ofFinite F
     have h4' : 4 ≤ Fintype.card F := by rwa [← Nat.card_eq_fintype_card]
     obtain ⟨a, ha0, ha1⟩ : ∃ a : F, a ≠ 0 ∧ a ≠ 1 := by
       have hlt : ({0, 1} : Finset F).card < (Finset.univ : Finset F).card :=
@@ -344,8 +344,8 @@ theorem commV_inf_fixV_twoResidual_le {W : Type} [CommGroup W] [Finite W] (hW : 
       exact ⟨a, ha.1, ha.2⟩
     have hsq : a ^ 2 ≠ 1 := fun h => ha1 (sub_eq_zero.mp (pow_eq_zero_iff two_ne_zero |>.mp
       (by linear_combination h + (1 - a) * h2 : (a - 1) ^ 2 = 0)))
-    haveI : Group.IsPerfect (SpecialLinearGroup (Fin 2) F) := ⟨Matrix.SL2.commutator_eq_top ha0 hsq⟩
-    haveI : Group.IsPerfect ↥A := Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
+    have : Group.IsPerfect (SpecialLinearGroup (Fin 2) F) := ⟨Matrix.SL2.commutator_eq_top ha0 hsq⟩
+    have : Group.IsPerfect ↥A := Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
     have hAA : ⁅A, A⁆ = A := by
       have h1 : (commutator ↥A).map A.subtype = ⁅A, A⁆ := by
         rw [commutator_def, Subgroup.map_commutator, Subgroup.map_top, Subgroup.range_subtype]
@@ -354,7 +354,7 @@ theorem commV_inf_fixV_twoResidual_le {W : Type} [CommGroup W] [Finite W] (hW : 
     exact inf_le_right.trans fun y hy x hx => hy x (hAres hx)
   ·
     have hF2 : Nat.card F = 2 := by
-      haveI := Fintype.ofFinite F
+      have := Fintype.ofFinite F
       obtain ⟨n, -, hn⟩ := FiniteField.card F 2
       rw [Nat.card_eq_fintype_card, hn] at h4 ⊢
       have hn1 : 1 ≤ (n : ℕ) := n.pos

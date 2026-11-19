@@ -16,7 +16,7 @@ section Model
 variable {n : ℕ} {X : Type} [Field X] [Finite X] (σ : X ≃+* X)
 
 theorem g2_pair_conj_AB (P : D4Par n X σ) (hK : ringChar X = 2)
-    (hk4 : 4 ≤ Nat.card (fixSubfield σ)) :
+    (_hk4 : 4 ≤ Nat.card (fixSubfield σ)) :
     ∃ w : adjointGroup Tag.G2 (fixSubfield σ),
       (((KS11Lie4Proof.g2ShortSL2 (fixSubfield σ)).map (MulAut.conj w).toMonoidHom).map
           (KFacts.trialityG2Incl σ hK) ≤ A0sub σ) ∧

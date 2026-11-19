@@ -34,6 +34,7 @@ theorem normalizer_le_of_max {M : Subgroup G} (hM : rankThreeIsMaxTwoLocal M) :
   have heq := hM.2 _ hloc (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 M)
   exact (CFSG.LieType.BorelTits.normalizer_le_normalizer_pCoreOf 2 M).trans heq.le
 
+omit [Finite G] in
 theorem isTwoLocal_map_conj {K : Subgroup G} (hK : IsTwoLocal K) (g : G) :
     IsTwoLocal (K.map (MulAut.conj g).toMonoidHom) := by
   obtain ⟨P, hP, hP2, rfl⟩ := hK
@@ -42,6 +43,7 @@ theorem isTwoLocal_map_conj {K : Subgroup G} (hK : IsTwoLocal K) (g : G) :
     exact hP ((Subgroup.map_eq_bot_iff_of_injective P (MulAut.conj g).injective).mp hb)
   · exact Subgroup.map_normalizer_eq_of_bijective P (MulAut.conj g).bijective
 
+omit [Finite G] in
 theorem max_map_conj {K : Subgroup G} (hK : rankThreeIsMaxTwoLocal K) (g : G) :
     rankThreeIsMaxTwoLocal (K.map (MulAut.conj g).toMonoidHom) := by
   refine ⟨isTwoLocal_map_conj hK.1 g, fun H hH hKH => ?_⟩
@@ -97,7 +99,7 @@ theorem cent_le_max {u : G} (hu1 : u ≠ 1) (hu2 : u ^ 2 = 1) :
   have := key x⁻¹ (Subgroup.inv_mem _ hx) _ h
   simpa [mul_assoc] using this
 
-theorem isTI_of_unique {M V : Subgroup G} (hM : rankThreeIsMaxTwoLocal M) (hVM : V ≤ M)
+theorem isTI_of_unique {M V : Subgroup G} (hM : rankThreeIsMaxTwoLocal M) (_hVM : V ≤ M)
     (hVn : M ≤ Subgroup.normalizer (V : Set G)) (hab : CFSG.Assembly.IsElemAbelian 2 V)
     (huniq : ∀ N, rankThreeIsMaxTwoLocal N → M ⊓ Subgroup.centralizer (V : Set G) ≤ N → N = M) :
     CFSG.CGT.Timmesfeld75.IsTI V := by

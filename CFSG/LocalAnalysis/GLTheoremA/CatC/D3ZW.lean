@@ -68,7 +68,7 @@ theorem commute_xOp_of_pm_one (hK2 : (2 : K) ≠ 0) (i : Fin Tag.D4.rank)
     ![0, 1, -1] hf ?_ ?_ c
   · obtain ⟨p, q, hp, hq, hpq⟩ := exists_entry_polynomial K Tag.D4 i a b
     exact ⟨p, by simpa [entryDegreeBound] using hp, fun c => (hpq c).1⟩
-  · simp [entryDegreeBound]
+  · simp
   · intro j
     fin_cases j
     · simp [xOp_zero]
@@ -85,7 +85,7 @@ theorem commute_yOp_of_pm_one (hK2 : (2 : K) ≠ 0) (i : Fin Tag.D4.rank)
     ![0, 1, -1] hf ?_ ?_ c
   · obtain ⟨p, q, hp, hq, hpq⟩ := exists_entry_polynomial K Tag.D4 i a b
     exact ⟨q, by simpa [entryDegreeBound] using hq, fun c => (hpq c).2⟩
-  · simp [entryDegreeBound]
+  · simp
   · intro j
     fin_cases j
     · simp [yOp_zero]
@@ -135,7 +135,7 @@ theorem ringEquiv_eq_one_of_cube_fixes_subfield {K : Type} [Field K] [Finite K] 
     (hkk : Nat.card k ^ 2 = Nat.card K) (σ : K ≃+* K) (hσ3 : σ ^ 3 = 1)
     (hσk : ∀ c ∈ k, σ c = c) : σ = 1 := by
   by_contra hne
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf σ = 3 := orderOf_eq_prime hσ3 hne
   obtain ⟨φ, -, -, -, -, hfix⟩ :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_automorphism_fixed_field_cardinality hp hf hK

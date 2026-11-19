@@ -11,6 +11,7 @@ open Subgroup CFSG.OddStandard.SmallF3.HarrisU33
 variable {G : Type} [Group G] [Finite G] {c : Bool} {t : G} {T₂ P : Subgroup G}
   {x₁ x₂ q s lam : G} {β : ℕ → G}
 
+omit [Finite G] in
 theorem fzb_emb_of_conj (hβ : FzbChart c T₂ P x₁ x₂ t q s lam β)
     (hlt : ∀ x < 1024, ∀ y < 1024, fzbMul c x y < 1024) {g : G} (hgu : g⁻¹ * β 832 * g = t)
     (hg : ∀ x ∈ T₂ ⊓ invCent (β 832), g⁻¹ * x * g ∈ T₂) :

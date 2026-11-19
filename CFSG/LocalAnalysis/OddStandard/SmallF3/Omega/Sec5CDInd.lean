@@ -71,9 +71,9 @@ theorem phi_induces {e : ↥L ⧸ Subgroup.center ↥L ≃* omegaProj hQ}
     InducesViaP L (Subgroup.center ↥L) hQ e (sec5c_phi L B r i fr φc v)
       (projOrthToProjSim Q (toProj Q (fr.signChange (sec5c_supp v)))) := by
   by_cases hv : IsEvenVec v
-  · rw [h.phi_even hv]
+  · rw [CFSG.OddStandard.SmallF3.Omega.Sec5CDAbs.phi_even hv]
     exact h.liftL_induces he ((sec5c_isEvenVec_iff v).mp hv)
-  · rw [h.phi_odd hv]
+  · rw [CFSG.OddStandard.SmallF3.Omega.Sec5CDAbs.phi_odd hv]
     have hw := (sec5c_isEvenVec_iff _).mp (sec5c_isEven_add_single i hv)
     have h1 := inducesViaP_mul hx (h.liftL_induces he hw)
     have hsd : symmDiff ({i} : Finset (Fin 6)) (sec5c_supp (v + Pi.single i 1)) =

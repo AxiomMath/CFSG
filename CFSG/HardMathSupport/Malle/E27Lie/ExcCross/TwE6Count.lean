@@ -66,7 +66,7 @@ theorem comm_weylElt_rootDiagUnit6 (i : Fin TwistTag.E6.tag.rank) (u : Lˣ) :
       congr 1
       rw [Finset.sum_eq_single i]
       · simp only [Pi.single_eq_same, mul_one]; ring
-      · intro j _ hj; simp [Pi.single_apply, hj]
+      · intro j _ hj; simp [hj]
       · intro h; exact absurd (Finset.mem_univ i) h
     rw [h1]
     have h2 : ∑ j, e1 j * v j = v i - S := by

@@ -14,6 +14,7 @@ variable {Y : Type} [Group Y] [Finite Y]
 
 @[expose] def conjE (j : Y) (E : Subgroup Y) : Subgroup Y := E.map (MulAut.conj j).toMonoidHom
 
+omit [Finite Y] in
 theorem mem_conjE {j x : Y} {E : Subgroup Y} : x ∈ conjE j E ↔ j⁻¹ * x * j ∈ E := by
   unfold conjE
   rw [Subgroup.mem_map]
@@ -29,15 +30,18 @@ theorem mem_conjE {j x : Y} {E : Subgroup Y} : x ∈ conjE j E ↔ j⁻¹ * x * 
     show j * (j⁻¹ * x * j) * j⁻¹ = x
     group
 
+omit [Finite Y] in
 theorem conj_mem_conjE {j e : Y} {E : Subgroup Y} (he : e ∈ E) : j * e * j⁻¹ ∈ conjE j E := by
   rw [mem_conjE]
   have : j⁻¹ * (j * e * j⁻¹) * j = e := by group
   rw [this]
   exact he
 
+omit [Finite Y] in
 theorem card_conjE (j : Y) (E : Subgroup Y) : Nat.card (conjE j E) = Nat.card E :=
   Subgroup.card_map_of_injective (MulAut.conj j).injective
 
+omit [Finite Y] in
 theorem mul_mem_iff_of_card {A B : Subgroup Y} (hA : Nat.card A = 32) (hAB : Nat.card ↥(B ⊓ A) = 16)
     {x y : Y} (hx : x ∈ A) (hy : y ∈ A) : x * y ∈ B ↔ (x ∈ B ↔ y ∈ B) := by
   have h1 : B.relIndex A * Nat.card ↥(B ⊓ A) = Nat.card A := Subgroup.relIndex_mul_card B A
@@ -81,31 +85,38 @@ variable {c t j a d : Y} {X E K₃ K₄ : Subgroup Y} {ρ : Y → AEQ 6} {α : F
 
 include S T
 
+omit [Finite Y] in
 theorem tt : t * t = 1 := S.E_sq t T.t_mem
 
+omit [Finite Y] in
 theorem t_inv : t⁻¹ = t := inv_eq_of_mul_eq_one_right (tt S T)
 
+omit [Finite Y] S in
 theorem jinv_t : j⁻¹ * t * j = t := by
   calc j⁻¹ * t * j = j⁻¹ * (t * j) := by group
     _ = j⁻¹ * (j * t) := by rw [T.j_t]
     _ = t := by group
 
+omit [Finite Y] S in
 theorem jinv_ct : j⁻¹ * (c * t) * j = c := by
   rw [← T.j_c]
   group
 
+omit [Finite Y] in
 theorem jinv_c : j⁻¹ * c * j = c * t := by
   have h3 : j⁻¹ * t⁻¹ * j = t := by
-    rw [show j⁻¹ * t⁻¹ * j = (j⁻¹ * t * j)⁻¹ by group, jinv_t S T, t_inv S T]
+    rw [show j⁻¹ * t⁻¹ * j = (j⁻¹ * t * j)⁻¹ by group, jinv_t T, t_inv S T]
   calc j⁻¹ * c * j = (j⁻¹ * (c * t) * j) * (j⁻¹ * t⁻¹ * j) := by group
-    _ = c * t := by rw [jinv_ct S T, h3]
+    _ = c * t := by rw [jinv_ct T, h3]
 
+omit [Finite Y] in
 theorem j_ct : j * (c * t) * j⁻¹ = c := by
   have hjt : j * t * j⁻¹ = t := by rw [T.j_t]; group
   calc j * (c * t) * j⁻¹ = (j * c * j⁻¹) * (j * t * j⁻¹) := by group
     _ = (c * t) * t := by rw [T.j_c, hjt]
     _ = c := by rw [mul_assoc, tt S T, mul_one]
 
+omit T [Finite Y] in
 theorem Ej_abel {x y : Y} (hx : x ∈ conjE j E) (hy : y ∈ conjE j E) : x * y = y * x := by
   have h1 := mem_conjE.1 hx
   have h2 := mem_conjE.1 hy
@@ -116,10 +127,12 @@ theorem Ej_abel {x y : Y} (hx : x ∈ conjE j E) (hy : y ∈ conjE j E) : x * y 
       _ = j⁻¹ * (y * x) * j := by group
   exact mul_left_cancel (mul_right_cancel h4)
 
+omit [Finite Y] in
 theorem c_mem_Ej : c ∈ conjE j E := by
   rw [mem_conjE, jinv_c S T]
   exact E.mul_mem S.c_mem_E T.t_mem
 
+omit [Finite Y] in
 theorem Ej_C {x : Y} (hx : x ∈ conjE j E) : x ∈ Subgroup.centralizer ({c} : Set Y) := by
   rw [Subgroup.mem_centralizer_singleton_iff]
   have he := mem_conjE.1 hx
@@ -131,19 +144,22 @@ theorem Ej_C {x : Y} (hx : x ∈ conjE j E) : x ∈ Subgroup.centralizer ({c} : 
     _ = (j * (c * t) * j⁻¹) * x := by group
     _ = c * x := by rw [j_ct S T]
 
+omit [Finite Y] in
 theorem Ej_conj_E {x e : Y} (hx : x ∈ conjE j E) (he : e ∈ E) : x * e * x⁻¹ ∈ E :=
   S.E_conj x (Ej_C S T hx) e he
 
+omit [Finite Y] in
 theorem jinv_E_C {e : Y} (he : e ∈ E) : j⁻¹ * e * j ∈ Subgroup.centralizer ({c} : Set Y) := by
   rw [Subgroup.mem_centralizer_singleton_iff]
   have hct : c * t ∈ E := E.mul_mem S.c_mem_E T.t_mem
   have hcomm := S.E_comm he hct
-  calc j⁻¹ * e * j * c = j⁻¹ * e * j * (j⁻¹ * (c * t) * j) := by rw [jinv_ct S T]
+  calc j⁻¹ * e * j * c = j⁻¹ * e * j * (j⁻¹ * (c * t) * j) := by rw [jinv_ct T]
     _ = j⁻¹ * (e * (c * t)) * j := by group
     _ = j⁻¹ * ((c * t) * e) * j := by rw [hcomm]
     _ = (j⁻¹ * (c * t) * j) * (j⁻¹ * e * j) := by group
-    _ = c * (j⁻¹ * e * j) := by rw [jinv_ct S T]
+    _ = c * (j⁻¹ * e * j) := by rw [jinv_ct T]
 
+omit [Finite Y] in
 theorem E_conj_Ej {e x : Y} (he : e ∈ E) (hx : x ∈ conjE j E) : e * x * e⁻¹ ∈ conjE j E := by
   rw [mem_conjE]
   have hxe := mem_conjE.1 hx
@@ -152,8 +168,10 @@ theorem E_conj_Ej {e x : Y} (he : e ∈ E) (hx : x ∈ conjE j E) : e * x * e⁻
   rw [e1]
   exact this
 
+omit [Finite Y] T in
 theorem K_conj_E {k e : Y} (hk : k ∈ X) (he : e ∈ E) : k * e * k⁻¹ ∈ E := S.E_conj k (S.XC hk) e he
 
+omit T [Finite Y] in
 theorem K_conj_Ej {k x : Y} (hk : k ∈ X) (hjk : j * k = k * j) (hx : x ∈ conjE j E) :
     k * x * k⁻¹ ∈ conjE j E := by
   rw [mem_conjE]

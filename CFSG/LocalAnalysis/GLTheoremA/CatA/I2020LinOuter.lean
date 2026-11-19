@@ -112,8 +112,8 @@ private theorem ordProj_card_projectiveSL_eq_of_card_eq_pow {F₀ F : Type} [Fie
           interval_cases g <;> omega
       rw [hgn, hgn0]
       by_cases h : 4 ∣ N - 1
-      · rw [if_pos h, if_pos (hdiv4.mp h)]
-      · rw [if_neg h, if_neg (fun h0 => h (hdiv4.mpr h0))]
+      · rw [ite_eq_left h, ite_eq_left (hdiv4.mp h)]
+      · rw [ite_eq_right h, ite_eq_right (fun h0 => h (hdiv4.mpr h0))]
   have hprod : ∀ (K : Type) [Field K] [Finite K], Odd (Nat.card K) →
       ordProj[2] (Nat.card (SpecialLinearGroup (Fin n) K)) =
         ∏ j ∈ Finset.Icc 2 n, ordProj[2] (Nat.card K ^ j - 1) := by
@@ -176,12 +176,12 @@ private theorem ordProj_card_projectiveSL_eq_of_card_eq_pow {F₀ F : Type} [Fie
 theorem i2020LinOuter : I2020LinOuter := by
   intro p q hp hp2 hq hq2 hqp F _ _ _ n hn hn4 β hβp hβ
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := Fintype.ofFinite F
-  haveI : Finite (SpecialLinearGroup (Fin n) F) :=
+  have : Fact p.Prime := ⟨hp⟩
+  have := Fintype.ofFinite F
+  have : Finite (SpecialLinearGroup (Fin n) F) :=
     Finite.of_injective (fun g : SpecialLinearGroup (Fin n) F =>
       (g : Matrix (Fin n) (Fin n) F)) Subtype.val_injective
-  haveI : Finite (projectiveSL n F) := Finite.of_surjective (proj n F) (proj_surjective n F)
+  have : Finite (projectiveSL n F) := Finite.of_surjective (proj n F) (proj_surjective n F)
   obtain ⟨f, -, hcard⟩ := FiniteField.card F q
   have hcard' : Nat.card F = q ^ (f : ℕ) := by
     rw [Nat.card_eq_fintype_card, hcard]
@@ -230,8 +230,8 @@ theorem i2020LinOuter : I2020LinOuter := by
     exact (J₀.equivMapOfInjective γ.toMonoidHom γ.injective).symm.isSimpleGroup
   have hZ : Subgroup.center (projectiveSL n F) = ⊥ :=
     CFSG.RankThree.RegularUnipotent.center_projectiveSL_eq_bot hn
-  haveI : (linearAutGroup n F).Normal := linearAutGroup_normal_of_three_le hn
-  haveI : ((MulAut.conj : projectiveSL n F →* MulAut (projectiveSL n F)).range).Normal :=
+  have : (linearAutGroup n F).Normal := linearAutGroup_normal_of_three_le hn
+  have : ((MulAut.conj : projectiveSL n F →* MulAut (projectiveSL n F)).range).Normal :=
     CFSG.Fischer.innerAut_normal
   have hdvd : (Nat.card Fˣ).gcd n ∣ Q ^ j - 1 := by
     have hdvdQ : (Nat.card Fˣ).gcd n ∣ Q - 1 := by

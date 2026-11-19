@@ -215,7 +215,7 @@ private theorem ksFam_rep
     ∀ h < 2, CFSG.Monster.B.Co2.Rep 2688 D.ks[h]! (ksFam h) := by
   intro h hh
   have h1 := (rep_ks hcheck ⟨h, hh⟩).1
-  rw [ksFam, dif_pos (Nat.lt_succ_iff.mp hh)]
+  rw [ksFam, dite_eq_left (Nat.lt_succ_iff.mp hh)]
   simpa using h1
 
 private theorem ksFam_inv_rep
@@ -227,11 +227,11 @@ private theorem ksFam_inv_rep
     ∀ h < 2, CFSG.Monster.B.Co2.Rep 2688 KI[h]! ((ksFam h)⁻¹) := by
   intro h hh
   have h1 := (rep_ks hcheck ⟨h, hh⟩).2
-  rw [ksFam, dif_pos (Nat.lt_succ_iff.mp hh)]
+  rw [ksFam, dite_eq_left (Nat.lt_succ_iff.mp hh)]
   simpa using h1
 
 private theorem ksFam_eq (j : Fin 2) : ksFam j.val = ksPerm j := by
-  rw [ksFam, dif_pos (Nat.lt_succ_iff.mp j.isLt)]
+  rw [ksFam, dite_eq_left (Nat.lt_succ_iff.mp j.isLt)]
 
 private theorem rep_word_ks
     (hcheck : PermutationNative.bridgeCheck
@@ -260,7 +260,7 @@ private theorem selFam_rep
     ∀ h < 4, CFSG.Monster.B.Co2.Rep 2688 B[h]! (selFam h) := by
   intro h hh
   have h1 := rep_B hcheck ⟨h, hh⟩
-  rw [selFam, dif_pos (Nat.lt_succ_iff.mp hh)]
+  rw [selFam, dite_eq_left (Nat.lt_succ_iff.mp hh)]
   simpa using h1
 
 private theorem selFam_inv_rep
@@ -272,11 +272,11 @@ private theorem selFam_inv_rep
     ∀ h < 4, CFSG.Monster.B.Co2.Rep 2688 BI[h]! ((selFam h)⁻¹) := by
   intro h hh
   have h1 := rep_BI hcheck ⟨h, hh⟩
-  rw [selFam, dif_pos (Nat.lt_succ_iff.mp hh)]
+  rw [selFam, dite_eq_left (Nat.lt_succ_iff.mp hh)]
   simpa using h1
 
 private theorem selFam_eq (k : Fin 4) : selFam k.val = liftPerm (selectedLiftIndex k) := by
-  rw [selFam, dif_pos (Nat.lt_succ_iff.mp k.isLt)]
+  rw [selFam, dite_eq_left (Nat.lt_succ_iff.mp k.isLt)]
 
 private theorem rep_word_sel
     (hcheck : PermutationNative.bridgeCheck

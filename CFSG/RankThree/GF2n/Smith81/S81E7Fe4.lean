@@ -45,6 +45,7 @@ theorem mem_Lam_iff_equiv (x : ↥(e7Data_valid.minGroup K)) :
 
 abbrev sl2W : Matrix.SpecialLinearGroup (Fin 2) K := CFSG.LieType.Chevalley.WSL
 
+omit [Finite K] [CharP K 2] in
 theorem sl2W_mul_vSL (e : K) :
     sl2W * CFSG.LieType.Chevalley.vSL e = CFSG.LieType.Chevalley.uSL (-e) * sl2W := by
   apply Matrix.SpecialLinearGroup.ext
@@ -54,6 +55,7 @@ theorem sl2W_mul_vSL (e : K) :
       CFSG.LieType.Chevalley.coe_vSL, CFSG.LieType.Chevalley.coe_WSL, Matrix.mul_apply,
       Fin.sum_univ_two]
 
+omit [Finite K] [CharP K 2] in
 theorem sl2W_mul_uSL (a : K) :
     sl2W * CFSG.LieType.Chevalley.uSL a = CFSG.LieType.Chevalley.vSL (-a) * sl2W := by
   apply Matrix.SpecialLinearGroup.ext
@@ -63,6 +65,7 @@ theorem sl2W_mul_uSL (a : K) :
       CFSG.LieType.Chevalley.coe_vSL, CFSG.LieType.Chevalley.coe_WSL, Matrix.mul_apply,
       Fin.sum_univ_two]
 
+omit [Finite K] [CharP K 2] in
 theorem sl2W_mul_HSL (c : Kˣ) :
     sl2W * CFSG.LieType.Chevalley.HSL c = CFSG.LieType.Chevalley.HSL c⁻¹ * sl2W := by
   apply Matrix.SpecialLinearGroup.ext
@@ -71,8 +74,10 @@ theorem sl2W_mul_HSL (c : Kˣ) :
     simp [sl2W, Matrix.SpecialLinearGroup.coe_mul, CFSG.LieType.Chevalley.coe_HSL,
       CFSG.LieType.Chevalley.coe_WSL, Matrix.mul_apply, Fin.sum_univ_two]
 
+omit [Finite K] [CharP K 2] in
 theorem sl2Diag_eq_HSL (c : Kˣ) : sl2Diag c = CFSG.LieType.Chevalley.HSL c := rfl
 
+omit [Finite K] in
 theorem jHom_mem_minGroup (m : Matrix.SpecialLinearGroup (Fin 2) K) :
     jHom m ∈ e7Data_valid.minGroup K :=
   Jgrp_le_E (by rw [Jgrp_eq_range]; exact MonoidHom.mem_range.2 ⟨m, rfl⟩)
@@ -132,6 +137,7 @@ theorem jHomAdj_eq_highRootSL2Hom (m : Matrix.SpecialLinearGroup (Fin 2) K) : jH
   simp only [map_mul]
   rw [jHomAdj_slLower e, jHomAdj_slUpper a, jHomAdj_slLower b, jHomAdj_slUpper c]
 
+omit [Finite K] in
 theorem highRootSL2Hom_injective : Function.Injective (highRootSL2Hom (K := K)) := by
   intro x y hxy
   unfold highRootSL2Hom at hxy
@@ -178,6 +184,7 @@ theorem exists_mul_of_mem_sup_of_commute {G : Type*} [Group G] {H N : Subgroup G
     rw [mul_inv_rev]
     exact (hc h hh n hn).inv_inv.eq
 
+omit [Finite K] [CharP K 2] in
 theorem commute_highTorusLine {s t : ModGL .E7 K} (hs : s ∈ EPilot.highTorusLine .E7 K)
     (ht : t ∈ EPilot.highTorusLine .E7 K) : Commute s t := by
   obtain ⟨c, rfl⟩ := EPilot.mem_highTorusLine.1 hs
@@ -187,6 +194,7 @@ theorem commute_highTorusLine {s t : ModGL .E7 K} (hs : s ∈ EPilot.highTorusLi
     ← EPilot.highDiag_mul, ← EPilot.highDiag_mul,
     mul_comm]
 
+omit [Finite K] in
 theorem highTorusLine_le_highRootSL2_E7 :
     EPilot.highTorusLine .E7 K ≤ EPilot.highRootSL2 .E7 K := by
   intro t ht
@@ -203,7 +211,7 @@ theorem odd_orderOf_highTorusLine {f : ℕ} (hKc : Nat.card K = 2 ^ f)
     (Subgroup.orderOf_dvd_natCard _ ht)
 
 theorem exists_card_eq_two_pow : ∃ f : ℕ, Nat.card K = 2 ^ f := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   obtain ⟨n, -, hn⟩ := FiniteField.card K 2
   exact ⟨n, by rw [Nat.card_eq_fintype_card]; exact hn⟩
 

@@ -93,7 +93,7 @@ theorem isStronglyEmbeddedOrder_inf {X : Type} [Group X] [Finite X] {Q : Subgrou
       rw [Subgroup.mem_comap] at hn ⊢
       have := (Subgroup.mem_normalizer_iff.mp hg ((K.subtype n))).mp hn
       simpa using this
-    haveI := hN
+    have := hN
     rcases hKs.eq_bot_or_eq_top_of_normal (Q.comap K.subtype) with h | h
     · have : t ∈ Q.comap K.subtype := htQ
       rw [h, Subgroup.mem_bot] at this
@@ -161,7 +161,7 @@ theorem not_five_dvd_of_odd {e : ℕ} (he : e % 2 = 1) :
       omega
     · have h2 : s ^ 2 % 5 = 4 := by
         rw [Nat.pow_mod]
-        rcases hs with hs | hs <;> rw [hs] <;> norm_num
+        rcases hs with hs | hs <;> rw [hs]
       omega
   · have h3 : s ^ 3 % 5 = 3 ∨ s ^ 3 % 5 = 2 := by
       rw [Nat.pow_mod]
@@ -250,7 +250,7 @@ theorem evenSimpleList_unitary {X : Type} [Group X] [Finite X]
   obtain ⟨Q, hQ⟩ := hP.exists_le_sylow
   have htQ : (t : X) ∈ (Q : Subgroup X) := hQ (Subgroup.mem_zpowers _)
   have hSE := (hB Q).1
-  have hSEK := isStronglyEmbeddedOrder_inf hSE hKs hnab ht1 ht2 htQ Q.isPGroup'
+  have hSEK := isStronglyEmbeddedOrder_inf hSE hKs hnab ht1 ht2 htQ Q.isPGroup
   have hBK : CFSG.BenderSuzuki.IsBenderGroup K := CFSG.BenderSuzuki.bender_suzuki _ hSEK
   rcases hBK with ⟨n, hn, e'⟩ | ⟨n, hn, e'⟩ | ⟨n, hn, e'⟩
   ·

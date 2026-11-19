@@ -52,13 +52,13 @@ theorem kgLangS1E_toral_lift_E6_even
   obtain ⟨k, hkF, hkFin, ι, g, hkcard, hgadj, ψ, huniv⟩ :=
     kgLangS1E_J0_model_E6_even hn hK₁ heven he hen ρ Θ hρ hρG hΘ hI hconjΘ hFj θ hcomm A hA hAI hξ
       hξI hJ₀
-  letI : Field k := hkF
-  letI : Finite k := hkFin
+  let : Field k := hkF
+  let : Finite k := hkFin
   have hType := kgLangS1E_typeDet_E6 he hkcard ψ
   rcases hTor with hE6 | hE7 | hTwE6
   · obtain ⟨K₀, hK₀F, hK₀Fin, θ₀, W, hW, hact⟩ := hE6
-    letI : Field K₀ := hK₀F
-    letI : Finite K₀ := hK₀Fin
+    let : Field K₀ := hK₀F
+    let : Finite K₀ := hK₀Fin
     have hK₀ : Nat.card K₀ = 2 ^ e := hType.2.2 K₀ ⟨θ₀⟩
     let Ψ : ↥(adjointGroup .E6 K₀) ≃* ↥(adjointGroup .E6 k) := θ₀.symm.trans ψ
     let Y : Set (ModGL .E6 k) :=
@@ -118,12 +118,12 @@ theorem kgLangS1E_toral_lift_E6_even
     rw [MulAut.conj_apply, inv_inv] at hxH
     exact hxH
   · obtain ⟨K₀, hK₀F, hK₀Fin, θ₀, W, hW, hact⟩ := hE7
-    letI : Field K₀ := hK₀F
-    letI : Finite K₀ := hK₀Fin
+    let : Field K₀ := hK₀F
+    let : Finite K₀ := hK₀Fin
     exact False.elim ((hType.1 K₀).false θ₀)
   · obtain ⟨K₀, hK₀F, hK₀Fin, σ, hσ, θ₀, W, hW, hact⟩ := hTwE6
-    letI : Field K₀ := hK₀F
-    letI : Finite K₀ := hK₀Fin
+    let : Field K₀ := hK₀F
+    let : Finite K₀ := hK₀Fin
     exact False.elim ((hType.2.1 K₀ σ hσ).false θ₀)
 
 

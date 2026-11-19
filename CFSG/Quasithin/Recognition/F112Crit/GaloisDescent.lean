@@ -131,8 +131,8 @@ theorem dvd_card_sub_one [Finite A] {x : A ≃+ A} {p : ℕ} (hp : p.Prime)
     (hxp : ∀ a, (⇑x)^[p] a = a) {W : AddSubgroup A} (hWx : ∀ a, a ∈ W ↔ x a ∈ W)
     (hfix : ∀ w ∈ W, x w = w → w = 0) : p ∣ Nat.card W - 1 := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype A := Fintype.ofFinite A
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype A := Fintype.ofFinite A
   let σ : Equiv.Perm ↥W := Equiv.Perm.subtypePerm x.toEquiv (fun a => (hWx a).symm)
   have hσn : ∀ (n : ℕ) (w : ↥W), ((σ ^ n) w : A) = (⇑x)^[n] (w : A) := by
     intro n
@@ -274,7 +274,7 @@ theorem card_commSub_eq_sq [Finite A] (h2 : ∀ a : A, a + a = 0) (hp2 : p % 2 =
     (hxp : ∀ a, (⇑x)^[p] a = a) (htt : ∀ a, t (t a) = a) (htx : ∀ a, t (x a) = x.symm (t a)) :
     Nat.card (commSub x) = Nat.card ↥(commSub x ⊓ fixSub t) ^ 2 :=
   card_eq_sq htt htx (commSub_iff htx) (fun _ hw => (commSub_stable htx hw).2.2)
-    (fun w hw h => commSub_fix h2 hp2 hxp hw (fix_of_sq_fix hxp hp2 h))
+    (fun _w hw h => commSub_fix h2 hp2 hxp hw (fix_of_sq_fix hxp hp2 h))
 
 theorem dvd_card_commSub_sub_one [Finite A] (h2 : ∀ a : A, a + a = 0) (hp : p.Prime)
     (hp2 : p % 2 = 1) (hxp : ∀ a, (⇑x)^[p] a = a) (htx : ∀ a, t (x a) = x.symm (t a)) :

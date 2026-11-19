@@ -31,7 +31,7 @@ section Residual
 theorem x2e6TorusGoodP_of_componentP (Sel : Subgroup (Multiplicative (Fin 6 → ZMod 3)) → Prop)
     (h : X2E6TorusComponentP Sel) : X2E6TorusGoodP Sel := by
   intro K _ _ hK σ hσ Ω _ _ _ _ Fr hFr g hg hgn ζ hζ hζ' G hS hG
-  haveI : Finite (twistedE6RootGroup K σ) := inferInstance
+  have : Finite (twistedE6RootGroup K σ) := inferInstance
   obtain ⟨J, hJ, hq, hd⟩ := h K hK σ hσ Ω Fr hFr g hg hgn ζ hζ hζ' G hS hG
   exact isGood_of_subnormal_quasisimple Nat.prime_three hJ hq hd
 

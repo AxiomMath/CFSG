@@ -18,7 +18,7 @@ theorem eq_one_or_eq_of_centralizer [FiniteDimensional (ZMod 2) E] [IsSimpleGrou
     (hc2 : c * c = 1) (hc1 : c ≠ 1) (hc' : ∀ y ∈ 𝓛, c' * y = y * c') (hcc' : c * c' = c' * c) :
     c' = 1 ∨ c' = c := by
   classical
-  haveI : Finite E := Module.finite_of_finite (ZMod 2)
+  have : Finite E := Module.finite_of_finite (ZMod 2)
   obtain ⟨-, hXK, hK3, hfaithK, -⟩ := centralizer_structure eV hE hdim hc hc2 hc1
   set N : E →ₗ[ZMod 2] E := (c : E →ₗ[ZMod 2] E) - LinearMap.id with hN
   have hNapp : ∀ v, N v = c v - v := fun v => rfl
@@ -41,8 +41,8 @@ theorem eq_one_or_eq_of_centralizer [FiniteDimensional (ZMod 2) E] [IsSimpleGrou
         rw [hφapp, resSub_apply, resSub_apply, hφapp]
         exact CFSG.ASVolI.burnsideB49x_gl_apply_comm (hc' y y.2) x)) with h0 | h1
     · exfalso
-      haveI : Module.Finite (ZMod 2) (LinearMap.ker N) := Module.Finite.of_finite
-      haveI : Nontrivial (LinearMap.ker N) := Module.nontrivial_of_finrank_pos (R := ZMod 2) (by omega)
+      have : Module.Finite (ZMod 2) (LinearMap.ker N) := Module.Finite.of_finite
+      have : Nontrivial (LinearMap.ker N) := Module.nontrivial_of_finrank_pos (R := ZMod 2) (by omega)
       obtain ⟨x, hx⟩ := exists_ne (0 : LinearMap.ker N)
       apply hx
       have h2 : φ x = 0 := by rw [h0]; rfl
@@ -100,8 +100,8 @@ theorem le_of_offender_of_finrank_le_six [FiniteDimensional (ZMod 2) E] [IsSimpl
     (hT : ∀ t ∈ T, ∃ x ∈ 𝓛, ∀ y ∈ 𝓛, t * y * t⁻¹ = x * y * x⁻¹)
     (hoff : Nat.card E ≤ Nat.card ↥T * Nat.card ↥(fixGL T)) : T ≤ 𝓛 := by
   classical
-  haveI : Finite E := Module.finite_of_finite (ZMod 2)
-  haveI := hTe
+  have : Finite E := Module.finite_of_finite (ZMod 2)
+  have := hTe
   have hTcomm : ∀ s ∈ T, ∀ t ∈ T, s * t = t * s := fun s hs t ht =>
     congrArg Subtype.val (hTe.toIsMulCommutative.is_comm.comm ⟨s, hs⟩ ⟨t, ht⟩)
   have hTsq : ∀ t : ↥T, t * t = 1 := fun t => Subtype.ext (by
@@ -227,8 +227,8 @@ theorem le_of_offender_of_cen [FiniteDimensional (ZMod 2) E] [IsSimpleGroup ↥�
     (hcT : ∀ t ∈ T, (∀ y ∈ 𝓛, t * y = y * t) → t = 1)
     (hoff : Nat.card E ≤ Nat.card ↥T * Nat.card ↥(fixGL T)) : T ≤ 𝓛 := by
   classical
-  haveI : Finite E := Module.finite_of_finite (ZMod 2)
-  haveI := hTe
+  have : Finite E := Module.finite_of_finite (ZMod 2)
+  have := hTe
   have hTsq : ∀ t : ↥T, t * t = 1 := fun t => Subtype.ext (by
     rw [Subgroup.coe_mul, Subgroup.coe_one, ← pow_two]
     exact elemPow_eq_one_of_isElementaryAbelian (t : E ≃ₗ[ZMod 2] E) t.2)

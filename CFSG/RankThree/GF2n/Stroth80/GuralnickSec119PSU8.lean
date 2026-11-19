@@ -423,6 +423,7 @@ variable {K₀ : Type} [Field K₀] [Finite K₀] [CharP K₀ 2] {γ : G → K�
   {N : Type} [AddCommGroup N] [Module K' N] [FiniteDimensional K' N]
   {QN : QuadraticForm K' N}
 
+omit [CharP K₀ 2] [Finite K'] [CharP K' 2] [FiniteDimensional K' N] in
 private theorem Ctx.exists_counting_facts
     (hc : Ctx M Q Z B) {n : ℕ} (hw : Width Q Z n) {x : ℕ}
     (hD : GlobalModelData M Q Z γ M₀) (φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K₀] M₀.E))
@@ -442,20 +443,20 @@ private theorem Ctx.exists_counting_facts
       ↥(cmComm M Q Z B K₀ γ M₀ φ))}
     (hcompat : ∀ s : ↥(XbarH M Q Z B),
       ρV (ψ (xbarHToXbar M Q Z B s)) = cmCommAct hc φ s) :
-    ∃ (b₀ : ↥(cmComm M Q Z B K₀ γ M₀ φ)) (hn4 : 4 ≤ n) (hK₂ : 2 < Nat.card K'),
+    ∃ (b₀ : ↥(cmComm M Q Z B K₀ γ M₀ φ)) (_hn4 : 4 ≤ n) (_hK₂ : 2 < Nat.card K'),
       b₀ = ⟨b, hbV⟩ ∧ b₀ ≠ 0 ∧
       b₀ ∈ movedSpace (ρV (ψ (xbarHToXbar M Q Z B s₀))) ∧
       ((xbarHToXbar M Q Z B s₀ : ↥(Xbar M Q Z B)) : Mbar M Q) ∈ Ebar M Q Z B := by
   have hq4 : 4 ≤ Nat.card Z := hc.hyp.q4
   have hdimE : Module.finrank K₀ M₀.E = 2 * n :=
     hD.finrank_E hw (by rw [hD.card]; omega)
-  have hn4 : 4 ≤ n := by
+  have _hn4 : 4 ≤ n := by
     have hle : 8 ≤ 2 * n := by
       calc 8 = Module.finrank K₀ ↥(cmComm M Q Z B K₀ γ M₀ φ) := h8.symm
         _ ≤ Module.finrank K₀ M₀.E := Submodule.finrank_le _
         _ = 2 * n := hdimE
     omega
-  have hK₂ : 2 < Nat.card K' := by
+  have _hK₂ : 2 < Nat.card K' := by
     rw [hK']
     calc 2 < 2 ^ 2 := by norm_num
       _ ≤ 2 ^ x := Nat.pow_le_pow_right (by norm_num) hx2
@@ -471,7 +472,7 @@ private theorem Ctx.exists_counting_facts
     rw [one_mul, inv_one, mul_one]
     exact Subgroup.mem_map.mpr
       ⟨⟨a, hc.LB_le_M haL⟩, Subgroup.mem_subgroupOf.mpr haL, rfl⟩
-  exact ⟨b₀, hn4, hK₂, rfl, hb0', hb₀s, hE⟩
+  exact ⟨b₀, _hn4, _hK₂, rfl, hb0', hb₀s, hE⟩
 
 private theorem Ctx.false_of_counting_bound
     (hc : Ctx M Q Z B) {n : ℕ} {x : ℕ} (hx2 : 2 ≤ x)
@@ -629,7 +630,7 @@ theorem Ctx.false_of_psu4_eight (hc : Ctx M Q Z B) {n : ℕ} (hw : Width Q Z n) 
       _ ≤ Nat.card Z := hq4
       _ = 2 ^ x := hx.symm
   obtain ⟨K₀, hK₀field, hK₀fin, hK₀char, γ, M₀, hD⟩ := stroth_globalModelData hc.hyp
-  haveI : CharP K₀ 2 := hK₀char
+  have : CharP K₀ 2 := hK₀char
   obtain ⟨φ, hφπ, φker, hφQ⟩ := exists_actionHom_H0 hc.hyp hD
   obtain ⟨K', _, _, _, N, _, _, _, QN, hK', hndN, hdimN, ⟨e, f, p, p', u, v, hF⟩, ψ, hψ⟩ :=
     hc.exists_omega_model_psu hx2 hU

@@ -112,7 +112,7 @@ theorem local_involution_point_three_point_noncentral_subgroup_class_free_maxima
     original_three_point_noncentral_sylow_selection h S hzS hzcenter
       beta hbeta t ht X hXD hXnorm hnoncentral hthree
   let M := (P : Subgroup X).map X.subtype
-  have hM : IsPGroup p M := P.isPGroup'.map X.subtype
+  have hM : IsPGroup p M := P.isPGroup.map X.subtype
   have hMD : M ≤ pairPointStabilizer H beta := (Subgroup.map_subtype_le (P : Subgroup X)).trans hXD
   refine ⟨p, hp, hpodd, P, htP, hPnoncentral, hfixed, hPthree,
     exists_global_maximal_three_point_prime_overgroup H p M hM hPthree, ?_⟩

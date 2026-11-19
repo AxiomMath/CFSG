@@ -36,7 +36,7 @@ theorem card_range_primeSubfieldPSU {ℓ f N p : ℕ} {K : Type} [Field K]
 
 theorem dvd_card_primeSubfieldPSU_of_dvd_card {ℓ f N p : ℕ} {K : Type} [Field K]
     (h : UnitaryFieldData ℓ f K) (hp : p.Prime) (hp2 : p ≠ 2) {σ : K ≃+* K}
-    (hσ : orderOf σ = p) (hN : 3 ≤ N) (hpℓ : p ≠ ℓ)
+    (hσ : orderOf σ = p) (hN : 3 ≤ N) (_hpℓ : p ≠ ℓ)
     (hpdvd : p ∣ Nat.card (primeFormP h
       ((1 : GL (Fin N) K) : Matrix (Fin N) (Fin N) K))) :
     p ∣ Nat.card (primeSubfieldPSU h hp hp2 hσ N).range := by
@@ -56,7 +56,7 @@ theorem dvd_card_primeSubfieldPSU_of_dvd_card {ℓ f N p : ℕ} {K : Type} [Fiel
       apply hpq
       have h1 : p ∣ ℓ ^ (f / p) + 1 := hg.trans (Nat.gcd_dvd_right _ _)
       have hodd : Odd p := hp.odd_of_ne_two hp2
-      haveI : Fact p.Prime := ⟨hp⟩
+      have : Fact p.Prime := ⟨hp⟩
       have hneg : ((ℓ ^ (f / p) : ℕ) : ZMod p) = -1 := by
         have h0 : (((ℓ ^ (f / p) + 1 : ℕ)) : ZMod p) = 0 :=
           (ZMod.natCast_eq_zero_iff _ p).2 h1
@@ -106,8 +106,8 @@ theorem exists_conj_primeFormFieldHom_of_not_inner {ℓ f N p : ℕ} {K : Type} 
           primeFormFieldHom h (isPrimeFormGram_one (n := N)) σ *
           (primeFormConjHom h ((1 : GL (Fin N) K) : Matrix (Fin N) (Fin N) K) M)⁻¹ := by
   classical
-  haveI : Finite K := h.finite
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Finite K := h.finite
+  have : Fact p.Prime := ⟨hp⟩
   have hxD : x ∉ primeFormD h ((1 : GL (Fin N) K) : Matrix (Fin N) (Fin N) K) := fun hx =>
     hxout (mem_innAutDerived_of_mem_primeFormD h hp hp2 hx hxp)
   have hσ1 : primeFormFieldFactor h (isPrimeFormGram_one (n := N)) hN hne x ≠ 1 := by
@@ -156,8 +156,8 @@ theorem fieldCoreAt_unitary {ℓ f N : ℕ} {K : Type} [Field K] (h : UnitaryFie
     ∀ x : MulAut (primeFormP h ((1 : GL (Fin N) K) : Matrix (Fin N) (Fin N) K)),
       x ^ p = 1 → x ∉ innAutDerived
         (primeFormP h ((1 : GL (Fin N) K) : Matrix (Fin N) (Fin N) K)) → FieldCoreAt p x := by
-  haveI : Finite K := h.finite
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Finite K := h.finite
+  have : Fact p.Prime := ⟨hp⟩
   intro x hxp hxout
   obtain ⟨σ, M, hσord, -, hq₀, hxδ⟩ :=
     exists_conj_primeFormFieldHom_of_not_inner h hN hne hp hp2 hpℓ hpdvd hexc hxp hxout
@@ -199,7 +199,7 @@ theorem lieOuterPLayer_unitary (p : ℕ) : p.Prime → p ≠ 2 →
       subst hn2
       simp only [outerPLayerExc, TauCeti.PrimePower.card_def]
       exact ⟨h3, h2⟩
-    haveI : Finite (primeFormP hU
+    have : Finite (primeFormP hU
         ((1 : GL (Fin (n + 1)) K) : Matrix (Fin (n + 1)) (Fin (n + 1)) K)) :=
       CFSG.RankThree.PartOne.KCUnitaryModel.finite_primeFormP
     exact outerPLayerAt_of_mulEquiv_of_fieldCoreAt hp eS

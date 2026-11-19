@@ -17,7 +17,7 @@ theorem tor_toral_diag {p d : ℕ} {F : Type} [Field F] [Finite F] [CharP F 2] (
     (∃ P : GL (Fin d) F, MDiagAt d F P G) ∧
       (LargeEvenScalars (Fin d) F).relIndex G ≤ p ^ (d - 1) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hζ : ∃ ζ : F, IsPrimitiveRoot ζ p := by
     obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' p (by rwa [Nat.card_units F])
     have hzp : IsPrimitiveRoot z p := hz ▸ IsPrimitiveRoot.orderOf z
@@ -34,7 +34,7 @@ theorem tor_toral_diag {p d : ℕ} {F : Type} [Field F] [Finite F] [CharP F 2] (
       have hle : (LargeEvenScalars (Fin 0) F).relIndex G ≤ 1 :=
         Nat.le_of_dvd one_pos hdvd
       simpa using hle
-  letI : CommGroup ↥G :=
+  let : CommGroup ↥G :=
     { (inferInstance : Group ↥G) with
       mul_comm := fun a b => Subtype.ext (htor.1 a a.2 b b.2) }
   let K : Subgroup ↥G := (powMonoidHom (α := ↥G) p).ker

@@ -17,26 +17,31 @@ variable {k : ℕ} {S : Set (GL ι F)} {e : Matrix ι ι F}
 variable [Module K (LinearMap.range (Matrix.mulVecLin e))]
 variable [IsScalarTower F K (LinearMap.range (Matrix.mulVecLin e))]
 
+omit [DecidableEq ι] in
 private lemma rckM3hm_E_comp_E (hee : e * e = e) :
     (Matrix.mulVecLin e).comp (Matrix.mulVecLin e) = Matrix.mulVecLin e := by
   rw [← Matrix.mulVecLin_mul, hee]
 
+omit [DecidableEq ι] in
 private lemma rckM3hm_E_E_apply (hee : e * e = e) (v : ι → F) :
     Matrix.mulVecLin e (Matrix.mulVecLin e v) = Matrix.mulVecLin e v := by
   simpa only [LinearMap.comp_apply] using
     congrArg (fun f : (ι → F) →ₗ[F] (ι → F) => f v) (rckM3hm_E_comp_E hee)
 
+omit [DecidableEq ι] in
 private lemma rckM3hm_E_apply_w (hee : e * e = e) (w : LinearMap.range (Matrix.mulVecLin e)) :
     Matrix.mulVecLin e (w : ι → F) = (w : ι → F) := by
   obtain ⟨v, hv⟩ := w.2
   rw [← hv, rckM3hm_E_E_apply hee v]
 
+omit [DecidableEq ι] in
 private lemma rckM3hm_rangeRestrict_coe (hee : e * e = e)
     (w : LinearMap.range (Matrix.mulVecLin e)) :
     (Matrix.mulVecLin e).rangeRestrict (w : ι → F) = w := by
   apply Subtype.ext
   simpa using rckM3hm_E_apply_w hee w
 
+omit [DecidableEq ι] in
 private lemma rckM3hm_rangeRestrict_eq_zero {v : ι → F} (h : Matrix.mulVecLin e v = 0) :
     (Matrix.mulVecLin e).rangeRestrict v = 0 := by
   apply Subtype.ext
@@ -63,17 +68,20 @@ private lemma rckM3hm_mat_eq
     (x : Matrix (Fin (k + 1)) (Fin (k + 1)) K) :
     rckBlockRSMat b x = LinearMap.toMatrix' (rckM3hm_L b x) := rfl
 
+omit [DecidableEq ι] in
 private lemma rckM3hm_A_apply
     (b : Module.Basis (Fin (k + 1)) K (LinearMap.range (Matrix.mulVecLin e)))
     (x : Matrix (Fin (k + 1)) (Fin (k + 1)) K) (v : ι → F) :
     rckM3hm_A b x v = (LinearMap.range (Matrix.mulVecLin e)).subtype
       ((Matrix.toLin b b x) ((Matrix.mulVecLin e).rangeRestrict v)) := rfl
 
+omit [DecidableEq ι] in
 private lemma rckM3hm_L_apply
     (b : Module.Basis (Fin (k + 1)) K (LinearMap.range (Matrix.mulVecLin e)))
     (x : Matrix (Fin (k + 1)) (Fin (k + 1)) K) (v : ι → F) :
     rckM3hm_L b x v = (v - Matrix.mulVecLin e v) + rckM3hm_A b x v := rfl
 
+omit [DecidableEq ι] in
 private lemma rckM3hm_A_apply_w (hee : e * e = e)
     (b : Module.Basis (Fin (k + 1)) K (LinearMap.range (Matrix.mulVecLin e)))
     (x : Matrix (Fin (k + 1)) (Fin (k + 1)) K)
@@ -82,6 +90,7 @@ private lemma rckM3hm_A_apply_w (hee : e * e = e)
       (LinearMap.range (Matrix.mulVecLin e)).subtype ((Matrix.toLin b b x) w) := by
   rw [rckM3hm_A_apply, rckM3hm_rangeRestrict_coe hee w]
 
+omit [DecidableEq ι] in
 private lemma rckM3hm_L_apply_w (hee : e * e = e)
     (b : Module.Basis (Fin (k + 1)) K (LinearMap.range (Matrix.mulVecLin e)))
     (x : Matrix (Fin (k + 1)) (Fin (k + 1)) K)
@@ -90,11 +99,13 @@ private lemma rckM3hm_L_apply_w (hee : e * e = e)
       (LinearMap.range (Matrix.mulVecLin e)).subtype ((Matrix.toLin b b x) w) := by
   rw [rckM3hm_L_apply, rckM3hm_A_apply_w hee b x w, rckM3hm_E_apply_w hee w, sub_self, zero_add]
 
+omit [DecidableEq ι] in
 private lemma rckM3hm_sub_apply_w (hee : e * e = e)
     (w : LinearMap.range (Matrix.mulVecLin e)) :
     rckM3hm_sub (e := e) (w : ι → F) = 0 := by
   rw [rckM3hm_sub, LinearMap.sub_apply, LinearMap.id_apply, rckM3hm_E_apply_w hee w, sub_self]
 
+omit [DecidableEq ι] in
 private lemma rckM3hm_sub_comp_sub (hee : e * e = e) :
     (rckM3hm_sub (e := e)).comp (rckM3hm_sub (e := e)) = rckM3hm_sub (e := e) := by
   apply LinearMap.ext; intro v
@@ -103,6 +114,7 @@ private lemma rckM3hm_sub_comp_sub (hee : e * e = e) :
     rw [map_sub, rckM3hm_E_E_apply hee v, sub_self]
   rw [h, sub_zero]
 
+omit [DecidableEq ι] in
 private lemma rckM3hm_sub_comp_A (hee : e * e = e)
     (b : Module.Basis (Fin (k + 1)) K (LinearMap.range (Matrix.mulVecLin e)))
     (y : Matrix (Fin (k + 1)) (Fin (k + 1)) K) :
@@ -112,6 +124,7 @@ private lemma rckM3hm_sub_comp_A (hee : e * e = e)
   rw [rckM3hm_A_apply]
   exact rckM3hm_sub_apply_w hee _
 
+omit [DecidableEq ι] in
 private lemma rckM3hm_A_comp_sub (hee : e * e = e)
     (b : Module.Basis (Fin (k + 1)) K (LinearMap.range (Matrix.mulVecLin e)))
     (x : Matrix (Fin (k + 1)) (Fin (k + 1)) K) :
@@ -125,6 +138,7 @@ private lemma rckM3hm_A_comp_sub (hee : e * e = e)
   rw [rckM3hm_rangeRestrict_eq_zero h]
   simp
 
+omit [DecidableEq ι] in
 private lemma rckM3hm_A_comp_A (hee : e * e = e)
     (b : Module.Basis (Fin (k + 1)) K (LinearMap.range (Matrix.mulVecLin e)))
     (x y : Matrix (Fin (k + 1)) (Fin (k + 1)) K) :
@@ -150,15 +164,15 @@ private lemma rckM3hm_L_comp_L
   abel
 
 private lemma rckM3hm_L_one
-    (he : IsPrimIdemIn (Algebra.adjoin F (Units.val '' S)) e)
+    (_he : IsPrimIdemIn (Algebra.adjoin F (Units.val '' S)) e)
     (b : Module.Basis (Fin (k + 1)) K (LinearMap.range (Matrix.mulVecLin e))) :
     rckM3hm_L b (1 : Matrix (Fin (k + 1)) (Fin (k + 1)) K) = LinearMap.id := by
   have hA1 : rckM3hm_A b (1 : Matrix (Fin (k + 1)) (Fin (k + 1)) K) = Matrix.mulVecLin e := by
-    simp only [rckM3hm_A, Matrix.toLin_one, LinearMap.restrictScalars_apply, LinearMap.comp_id,
-      LinearMap.id_comp]
+    simp only [rckM3hm_A, Matrix.toLin_one]
     exact LinearMap.subtype_comp_rangeRestrict (Matrix.mulVecLin e)
   rw [rckM3hm_L, rckM3hm_sub, hA1, sub_add_cancel]
 
+omit [DecidableEq ι] in
 private lemma rckM3hm_eq_of_agree (hee : e * e = e)
     {f h : (ι → F) →ₗ[F] (ι → F)}
     (hfW : ∀ v, f (Matrix.mulVecLin e v) = h (Matrix.mulVecLin e v))
@@ -197,11 +211,11 @@ private lemma rckM3hm_ext (he : IsPrimIdemIn (Algebra.adjoin F (Units.val '' S))
   refine ⟨u, ?_, ?_, ?_⟩
   · intro w
     have hφ : (ψ.symm : (ι → F) →ₗ[F] W × W') (w : ι → F) = (w, 0) := by
-      simpa [ψ] using Submodule.prodEquivOfIsCompl_symm_apply_left W W' hcompl w
+      simp [ψ]
     have hf : fmap (w, 0) = (g w, 0) := by
       simp [fmap, LinearMap.prodMap_apply]
     have hφs : (ψ : W × W' →ₗ[F] (ι → F)) (g w, 0) = (g w : ι → F) := by
-      simp [ψ, Submodule.coe_prodEquivOfIsCompl']
+      simp [ψ]
     simp only [u, LinearMap.comp_apply, hφ, hf, hφs]
   · intro x hx
     have hφ : (ψ.symm : (ι → F) →ₗ[F] W × W') x = (0, ⟨x, hx⟩) := by
@@ -210,13 +224,14 @@ private lemma rckM3hm_ext (he : IsPrimIdemIn (Algebra.adjoin F (Units.val '' S))
     have hf : fmap (0, ⟨x, hx⟩) = (0, ⟨x, hx⟩) := by
       simp [fmap, LinearMap.prodMap_apply]
     have hφs : (ψ : W × W' →ₗ[F] (ι → F)) (0, ⟨x, hx⟩) = x := by
-      simp [ψ, Submodule.coe_prodEquivOfIsCompl']
+      simp [ψ]
     simp only [u, LinearMap.comp_apply, hφ, hf, hφs]
   · change LinearMap.det ((ψ : W × W' →ₗ[F] (ι → F)) ∘ₗ fmap ∘ₗ
       (ψ.symm : (ι → F) →ₗ[F] W × W')) = 1
     rw [LinearMap.det_conj, LinearMap.det_prodMap, LinearMap.det_restrictScalars, hg]
     simp
 
+omit [IsScalarTower F K ↥e.mulVecLin.range] in
 private lemma rckM3hm_ext_commute
     (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
     (he : IsPrimIdemIn (Algebra.adjoin F (Units.val '' S)) e)
@@ -238,9 +253,9 @@ private lemma rckM3hm_ext_commute
   have hpair : (Units.val '' S : Set (Matrix ι ι F)).Pairwise Commute := by
     rintro _ ⟨s, hs, rfl⟩ _ ⟨s', hs', rfl⟩ _
     exact (hS s hs s' hs').map (Units.coeHom (Matrix ι ι F))
-  haveI : IsMulCommutative A :=
+  have : IsMulCommutative A :=
     Algebra.isMulCommutative_adjoin F (s := Units.val '' S) hpair
-  letI : CommRing A := IsMulCommutative.instCommRing
+  let : CommRing A := IsMulCommutative.instCommRing
   have hcomm (a : A) : (a : Matrix ι ι F) * e = e * (a : Matrix ι ι F) :=
     congrArg Subtype.val (mul_comm a (⟨e, he.1⟩ : A))
   have hu_form (x : ι → F) :
@@ -272,8 +287,9 @@ private lemma rckM3hm_ext_commute
     congr 1
     rw [Matrix.sub_mul, Matrix.mul_sub, Matrix.one_mul, Matrix.mul_one, hcomm a]
 
+omit [Algebra F K] [IsScalarTower F K ↥e.mulVecLin.range] in
 private lemma rckM3hm_ext_mem (he : IsPrimIdemIn (Algebra.adjoin F (Units.val '' S)) e)
-    (g : LinearMap.range (Matrix.mulVecLin e) →ₗ[K] LinearMap.range (Matrix.mulVecLin e))
+    (_g : LinearMap.range (Matrix.mulVecLin e) →ₗ[K] LinearMap.range (Matrix.mulVecLin e))
     (u : (ι → F) →ₗ[F] (ι → F))
     (hcomm : ∀ (a : Algebra.adjoin F (Units.val '' S)) (x : ι → F),
       u (Matrix.mulVec (a : Matrix ι ι F) x) =
@@ -334,6 +350,7 @@ private lemma rckM3hm_ext_mem (he : IsPrimIdemIn (Algebra.adjoin F (Units.val ''
   rw [← hMmul]
   rfl
 
+omit [Algebra F K] [IsScalarTower F K ↥e.mulVecLin.range] in
 private lemma rckM3hm_commutator_det_one
     (actK : glBlockCentralizer Matrix.SpecialLinearGroup.toGL S e →*
       Module.End K (LinearMap.range (Matrix.mulVecLin e))) :
@@ -497,6 +514,7 @@ lemma rckBlockRSMat_mul
   rw [Matrix.toLin'_toMatrix', Matrix.toLin'_toMatrix', Matrix.toLin'_toMatrix']
   exact rckM3hm_L_comp_L he b x y
 
+omit [DecidableEq ι] in
 private lemma rckM3hm_toLin_eq_of_L_eq (hee : e * e = e)
     (b : Module.Basis (Fin (k + 1)) K (LinearMap.range (Matrix.mulVecLin e)))
     {x y : Matrix (Fin (k + 1)) (Fin (k + 1)) K}

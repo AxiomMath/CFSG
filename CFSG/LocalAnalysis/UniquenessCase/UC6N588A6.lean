@@ -29,6 +29,7 @@ namespace Hyp
 
 variable {G : Type} [Group G] [Finite G] {p : ℕ} {S Z : Subgroup G}
 
+omit [Finite G] in
 theorem inf_centralizer_eq_bot {J : Subgroup G} (hc : center J = ⊥) :
     J ⊓ Subgroup.centralizer (J : Set G) = ⊥ := by
   rw [eq_bot_iff]
@@ -47,7 +48,7 @@ theorem pRank_top_le_three (h : Hyp G p S Z) (J : Subgroup G) :
 
 theorem center_eq_bot (hMult : UCK.KMult) (h : Hyp G p S Z) (hcore : CFSG.pPrimeCore p G = ⊥)
     {J : Subgroup G} (hJ : CFSG.IsComponent J) [J.Normal] : center J = ⊥ := by
-  haveI := h.fact
+  have := h.fact
   let e := (center J).equivMapOfInjective J.subtype J.subtype_injective
   have hCn : ((center J).map J.subtype).Normal := inferInstance
   have hCnil : Group.IsNilpotent ((center J).map J.subtype) :=
@@ -68,7 +69,7 @@ theorem false_of_not_le (hOutP : UCK.KOutP) (hQS : UCK.KQS) (h : Hyp G p S Z)
     (hcore : CFSG.pPrimeCore p G = ⊥) {J : Subgroup G} (hJ : CFSG.IsComponent J) [J.Normal]
     (hc : center J = ⊥) (hs : IsSimpleGroup J) (hZJ : ¬ Z ≤ Subgroup.centralizer (J : Set G))
     (hY : Z ⊔ J = ⊤) (hZnJ : ¬ Z ≤ J) : False := by
-  haveI := h.fact
+  have := h.fact
   have hJC := inf_centralizer_eq_bot hc
   obtain ⟨z, hzZ, hz1⟩ := (Subgroup.bot_or_exists_ne_one Z).resolve_left h.ne_bot
   have hZz := h.eq_zpowers hzZ hz1
@@ -127,7 +128,7 @@ theorem false_of_not_le (hOutP : UCK.KOutP) (hQS : UCK.KQS) (h : Hyp G p S Z)
       have hkj : ((k : G))⁻¹ * j * k ∈ S := by
         have hmem : k⁻¹ * j * k ∈ CFSG.conjugate (zpowers j) k := by
           rw [mem_conjugate_iff]
-          simpa [mul_assoc] using Subgroup.mem_zpowers j
+          simp [mul_assoc]
         simpa using Subgroup.mem_subgroupOf.mp (hk hmem)
       have hcomm : Commute k j := Subtype.ext (hkey k hkj).symm
       have hcw : ∀ w ∈ zpowers j, k * w * k⁻¹ = w := by
@@ -197,14 +198,14 @@ theorem concl_of_sup_eq_top (hMult : UCK.KMult) (hOutP : UCK.KOutP) (hQS : UCK.K
     (hJ : CFSG.IsComponent J) (hZJ : ¬ Z ≤ Subgroup.centralizer (J : Set G))
     (hNJ : Z ≤ Subgroup.normalizer (J : Set G)) (hY : Z ⊔ J = ⊤) :
     CFSG.Open.pRank p (normalClosure (Z : Set G)) = 1 := by
-  haveI hJn : J.Normal := by
+  have hJn : J.Normal := by
     rw [← Subgroup.normalizer_eq_top_iff, eq_top_iff, ← hY]
     exact sup_le hNJ Subgroup.le_normalizer
   have hc := center_eq_bot hMult h hcore hJ
   have hs := isSimpleGroup_of_center_eq_bot hJ.1.2.1 hc
   by_cases hZleJ : Z ≤ J
   · have hJtop : J = ⊤ := by rw [← hY, sup_eq_right.mpr hZleJ]
-    haveI hs' : IsSimpleGroup (⊤ : Subgroup G) := hJtop ▸ hs
+    have hs' : IsSimpleGroup (⊤ : Subgroup G) := hJtop ▸ hs
     exact h.concl_of_isSimpleGroup hQS (Subgroup.topEquiv (G := G)).symm.isSimpleGroup
   · exact (false_of_not_le hOutP hQS h hcore hJ hc hs hZJ hY hZleJ).elim
 

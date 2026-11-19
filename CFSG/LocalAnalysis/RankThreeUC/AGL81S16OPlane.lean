@@ -24,33 +24,42 @@ abbrev nVec (F : Type) [Field F] (j : Fin 2) : OW F := Pi.single (Sum.inr (Sum.i
 abbrev gv (g : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F) (v : OW F) : OW F :=
   (g : Matrix (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F) *ᵥ v
 
+omit [Finite F] [CharP F 2] in
 theorem gv_add (g : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F) (v w : OW F) :
     gv g (v + w) = gv g v + gv g w := Matrix.mulVec_add _ _ _
 
+omit [Finite F] [CharP F 2] in
 theorem gv_smul (g : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F) (t : F) (v : OW F) :
     gv g (t • v) = t • gv g v := Matrix.mulVec_smul _ _ _
 
+omit [Finite F] [CharP F 2] in
 theorem gv_sub (g : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F) (v w : OW F) :
     gv g (v - w) = gv g v - gv g w := Matrix.mulVec_sub _ _ _
 
+omit [Finite F] [CharP F 2] in
 theorem gv_zero (g : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F) : gv g (0 : OW F) = 0 :=
   Matrix.mulVec_zero _
 
+omit [Finite F] [CharP F 2] in
 theorem gv_mul (g h : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F) (v : OW F) :
     gv (g * h) v = gv g (gv h v) := by
   simp [gv, Units.val_mul, Matrix.mulVec_mulVec]
 
+omit [Finite F] [CharP F 2] in
 theorem gv_one (v : OW F) : gv (1 : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F) v = v := by
   simp [gv]
 
+omit [Finite F] [CharP F 2] in
 theorem gv_inv_gv (g : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F) (v : OW F) :
     gv g⁻¹ (gv g v) = v := by
   rw [← gv_mul, inv_mul_cancel, gv_one]
 
+omit [Finite F] [CharP F 2] in
 theorem gv_gv_inv (g : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F) (v : OW F) :
     gv g (gv g⁻¹ v) = v := by
   rw [← gv_mul, mul_inv_cancel, gv_one]
 
+omit [Finite F] [CharP F 2] in
 theorem polar_gv {g : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F}
     (hg : ∀ v : OW F, quadMinus 3 F b c (gv g v) = quadMinus 3 F b c v) (x y : OW F) :
     polar (quadMinus 3 F b c) (gv g x) (gv g y) = polar (quadMinus 3 F b c) x y := by
@@ -81,32 +90,40 @@ theorem exists_gl_isometry_apply_eq (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) 
 
 abbrev proj0 (x : OW F) : OW F := x - x (Sum.inl idx0) • eV F idx0
 
+omit [Finite F] [CharP F 2] in
 theorem proj0_apply_inl0 (x : OW F) : proj0 x (Sum.inl idx0) = 0 := by
   simp [proj0]
 
+omit [Finite F] [CharP F 2] in
 theorem proj0_apply_of_ne (x : OW F) {k : Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2}
     (hk : k ≠ Sum.inl idx0) : proj0 x k = x k := by
   simp only [proj0, eV, Pi.sub_apply, Pi.smul_apply, smul_eq_mul]
   rw [Pi.single_eq_of_ne hk, mul_zero, sub_zero]
 
+omit [Finite F] [CharP F 2] in
 theorem proj0_of_apply_eq_zero {x : OW F} (hx : x (Sum.inl idx0) = 0) : proj0 x = x := by
   ext k
   simp only [proj0, Pi.sub_apply, Pi.smul_apply, smul_eq_mul, hx, zero_mul, sub_zero]
 
+omit [Finite F] [CharP F 2] in
 theorem proj0_add (x y : OW F) : proj0 (x + y) = proj0 x + proj0 y := by
   ext k
   simp only [proj0, Pi.add_apply, Pi.sub_apply, Pi.smul_apply, smul_eq_mul]
   ring
 
+omit [Finite F] [CharP F 2] in
 theorem proj0_smul_eV (t : F) : proj0 (t • eV F idx0) = 0 := by
   ext k
   simp [proj0]
 
+omit [Finite F] [CharP F 2] in
 theorem eq_proj0_add (x : OW F) : x = proj0 x + x (Sum.inl idx0) • eV F idx0 := by
   simp [proj0]
 
+omit [Finite F] [CharP F 2] in
 theorem quad_eV (i : Fin (3 - 1)) : quadMinus 3 F b c (eV F i) = 0 := quadMinus_single_inl i
 
+omit [Finite F] in
 theorem quad_proj0 {w : OW F} (hw : w (Sum.inr (Sum.inl idx0)) = 0) :
     quadMinus 3 F b c (proj0 w) = quadMinus 3 F b c w := by
   have h : proj0 w = w + (w (Sum.inl idx0)) • eV F idx0 := by
@@ -116,6 +133,7 @@ theorem quad_proj0 {w : OW F} (hw : w (Sum.inr (Sum.inl idx0)) = 0) :
     polar_smul_right_eq, polar_e_right, hw]
   ring
 
+omit [Finite F] [CharP F 2] in
 theorem gv_apply_y0 {g : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F}
     (hg : ∀ v : OW F, quadMinus 3 F b c (gv g v) = quadMinus 3 F b c v)
     (hfix : gv g (eV F idx0) = eV F idx0) (v : OW F) :
@@ -124,6 +142,7 @@ theorem gv_apply_y0 {g : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F}
   rw [hfix, polar_e_right, polar_e_right] at h1
   exact h1
 
+omit [Finite F] in
 theorem actSP_mem {g : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F}
     (hg : ∀ v : OW F, quadMinus 3 F b c (gv g v) = quadMinus 3 F b c v)
     (hfix : gv g (eV F idx0) = eV F idx0) {v : OW F}
@@ -162,8 +181,8 @@ theorem exists_fixed_plane_std (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) {n : 
     (hE : IsPGroup 2 E) (hfix : ∀ g ∈ E, gv g (eV F idx0) = eV F idx0) :
     ∃ v₁ : OW F, v₁ (Sum.inl idx0) = 0 ∧ v₁ (Sum.inr (Sum.inl idx0)) = 0 ∧ v₁ ≠ 0 ∧
       quadMinus 3 F b c v₁ = 0 ∧ ∀ g ∈ E, ∃ t : F, gv g v₁ = v₁ + t • eV F idx0 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI act : MulAction E {v : OW F // v (Sum.inl idx0) = 0 ∧ v (Sum.inr (Sum.inl idx0)) = 0 ∧
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let act : MulAction E {v : OW F // v (Sum.inl idx0) = 0 ∧ v (Sum.inr (Sum.inl idx0)) = 0 ∧
       v ≠ 0 ∧ quadMinus 3 F b c v = 0} :=
     { smul := fun g v => ⟨proj0 (gv (g : GL _ F) v.1), actSP_mem (hEO g g.2) (hfix g g.2) v.2⟩
       one_smul := fun v => Subtype.ext (by
@@ -221,11 +240,12 @@ theorem exists_fixed_singular_iso (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) {n
     (hEO : ∀ g ∈ E, ∀ v : OW F, quadMinus 3 F b c (gv g v) = quadMinus 3 F b c v)
     (hE : IsPGroup 2 E) :
     ∃ w : OW F, w ≠ 0 ∧ quadMinus 3 F b c w = 0 ∧ ∀ g ∈ E, gv g w = w := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact CFSG.StandardType.OrthRestEnd.exists_fixed_singular (quadMinus 3 F b c) E hE hEO
     (not_two_dvd_card_nonzero_singular hirr hF hn)
 
 
+omit [Finite F] [CharP F 2] in
 theorem eV_ne_zero : eV F idx0 ≠ 0 := by
   intro h
   have := congrFun h (Sum.inl idx0)
@@ -278,7 +298,7 @@ theorem exists_fixed_plane (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) {n : ℕ}
     exact h4
   · rw [← hGe, polar_gv hG]
     rw [polar_comm, polar_e_right, h2]
-  · obtain ⟨t, ht⟩ := h5 (G⁻¹ * g * G) ⟨g, hg, by simp [MulAut.conj_apply]⟩
+  · obtain ⟨t, ht⟩ := h5 (G⁻¹ * g * G) ⟨g, hg, by simp⟩
     refine ⟨t, hwfix g hg, ?_⟩
     have e : gv G (gv (G⁻¹ * g * G) v₁) = gv g (gv G v₁) := by
       rw [← gv_mul, show G * (G⁻¹ * g * G) = g * G by group, gv_mul]

@@ -21,7 +21,7 @@ theorem l227PumpAt_of_K (h : KDL227PumpK) : L227PumpAt G := by
   intro Y₀ K J b x hY₀ hK hbK hb3 hxK hxJ hx3 hbx hJ hJty hxinn
   have hp : (3 : ℕ).Prime := Nat.prime_three
   obtain ⟨hsimple, hnonab⟩ := chev_pSimple_simple_nonabelian hp hK
-  haveI : IsSimpleGroup (PSimple 3 K) := hsimple
+  have : IsSimpleGroup (PSimple 3 K) := hsimple
   have hcenter : Subgroup.center (PSimple 3 K) = ⊥ :=
     chev_center_eq_bot_of_simple_nonabelian hnonab
   have hJK : J ≤ K := hJ.1.trans inf_le_left
@@ -69,8 +69,8 @@ theorem l227PumpAt_of_K (h : KDL227PumpK) : L227PumpAt G := by
     apply hxinn
     rw [inducesInnerMod_iff_barAut_mem_inner hξI] at hin
     rw [inducesInnerMod_iff_barAut_mem_inner hxJ]
-    haveI : Group.IsPerfect (PQuot 3 J) := ⟨hJq.1⟩
-    haveI := isQuasisimple_nontrivial hIq
+    have : Group.IsPerfect (PQuot 3 J) := ⟨hJq.1⟩
+    have := isQuasisimple_nontrivial hIq
     refine chev_mem_inner_of_central_surjective
       (pQuotMapOfSurjective hp (l227InnerHom 3 K J hJK).rangeRestrict hΦ)
       (pQuotMapOfSurjective_surjective hp _ hΦ)

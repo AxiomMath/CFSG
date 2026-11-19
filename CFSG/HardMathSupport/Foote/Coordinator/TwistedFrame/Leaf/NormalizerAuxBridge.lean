@@ -32,7 +32,7 @@ theorem Fr_comp_algebraMap : D.Fr.comp (algebraMap K D.L) = algebraMap K D.L :=
   frobenius_comp_algebraMap D.Fr D.hFr
 
 theorem Fr_bijective : Function.Bijective D.Fr := by
-  haveI : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
   exact frobenius_bijective D.Fr D.hFr
 
 theorem frobGL_baseChangeGL (x : ModGL τ K) :
@@ -146,7 +146,7 @@ theorem exists_frame_of_fixedRoot {S : Set (Fin τ.rank → ℤ)}
 theorem coe_frameToFixedRoot (S : Set (Fin τ.rank → ℤ)) (x : ↥(D.frame S)) :
     ((frameToFixedRoot D S x : ↥(fixedRoot D S)) : ModGL τ D.L) =
       D.g⁻¹ * baseChangeGL (algebraMap K D.L) (x : ModGL τ K) * D.g := by
-  simp [frameToFixedRoot, MulAut.conj_apply]
+  simp [frameToFixedRoot]
 
 theorem frameToFixedRoot_injective (S : Set (Fin τ.rank → ℤ)) :
     Function.Injective (frameToFixedRoot D S) := by

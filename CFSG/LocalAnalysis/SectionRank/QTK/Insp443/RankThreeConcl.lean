@@ -60,7 +60,7 @@ private theorem KConfig.conclK_of_eSub_of_commutator_le {G : Type} [Group G] [Fi
       (l : G) ∈ Subgroup.centralizer (eSub hv : Set G) := fun l => E16.eNHom_eq_one_iff hv hLN l
   have : Group.IsPerfect ↥L :=
     ⟨CFSG.Quasithin.H13.Ch4.E443.F4411.commutator_eq_top_of_perfect h.perfect⟩
-  haveI hsl : IsSimpleGroup ↥(StatedSL 3 (ZMod 2)) := E8.isSimpleGroup_statedSL3
+  have hsl : IsSimpleGroup ↥(StatedSL 3 (ZMod 2)) := E8.isSimpleGroup_statedSL3
   have hsurj : Function.Surjective (E16.eNHom hv hLN) := by
     rw [← MonoidHom.range_eq_top]
     rcases CFSG.Quasithin.J4Fam.eq_bot_or_top_of_isPerfect
@@ -87,7 +87,7 @@ private theorem KConfig.conclK_of_eSub_of_commutator_le {G : Type} [Group G] [Fi
     let E := ↥L ⧸ CFSG.pCore 2 ↥L
     let π : ↥L →* E := QuotientGroup.mk' (CFSG.pCore 2 ↥L)
     let Z : Subgroup E := (E16.eNHom hv hLN).ker.map π
-    haveI hZnormal : Z.Normal :=
+    have hZnormal : Z.Normal :=
       (MonoidHom.normal_ker (E16.eNHom hv hLN)).map π (QuotientGroup.mk'_surjective _)
     have hEperf : _root_.commutator E = ⊤ := by
       have h2 : (_root_.commutator ↥L).map π = _root_.commutator E := by
@@ -193,7 +193,7 @@ private theorem KConfig.conclK_of_eSub_of_commutator_le {G : Type} [Group G] [Fi
       have hr2 : r ≠ 2 := by
         intro h2
         exact hZodd.not_two_dvd_nat (h2 ▸ hrZ)
-      obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp S.isPGroup'
+      obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp S.isPGroup
       have hdvd : r ^ n ∣ 168 := by
         have h1 := Subgroup.card_subgroup_dvd_card (S : Subgroup (E ⧸ Z))
         rw [hcardEZ] at h1
@@ -225,7 +225,7 @@ theorem KConfig.conclK_of_card_le_eight (h : KConfig K L V MK)
     (hV : Nat.card V ≤ 8) : ConclK K L V MK := by
   have h8 := h.eight_le_card
   have hVeq : Nat.card V = 8 := le_antisymm hV h8
-  letI : IsMulCommutative ↥V := h.elemAbelian.1
+  let : IsMulCommutative ↥V := h.elemAbelian.1
   have hE2 : CFSG.Quasithin.IsE2 3 ↥V :=
     CFSG.Quasithin.KGC31.Ru.isE2_of_card' (n := 3)
       (fun x y => mul_comm' x y)

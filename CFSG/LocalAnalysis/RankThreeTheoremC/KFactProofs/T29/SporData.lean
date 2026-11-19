@@ -99,7 +99,7 @@ theorem abelian_three_card_le_nine_hatM22 {K : Type} [Group K] [Finite K]
       (TauCeti.CFSGIndex.sporadic TauCeti.SporadicName.M22).Group)
     (A : Subgroup K) (hA : IsPGroup 3 A) (hcomm : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a) :
     Nat.card A ≤ 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hh : IsHatMTwentyTwo K := ⟨hperf, hZ, ⟨e⟩⟩
   obtain ⟨R, hAR⟩ := hA.exists_le_sylow
   obtain ⟨hR, ⟨r, hr, s, hs, hrs⟩, -⟩ := t112m_sylow_hatM22 hh R

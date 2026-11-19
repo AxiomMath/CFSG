@@ -53,7 +53,7 @@ theorem toddEven_eq : ∀ k a, Native.toddEven k a = !xorBits k a
     rw [Native.toddPopc, xorBits, Nat.testBit_zero]
     rcases Nat.mod_two_eq_zero_or_one a with h | h <;>
       rcases Nat.mod_two_eq_zero_or_one (Native.toddPopc k (a / 2)) with h' | h' <;>
-      simp only [h, h', beq_iff_eq] at ih ⊢ <;>
+      simp only [h, h'] at ih ⊢ <;>
       cases hx : xorBits k (a / 2) <;> simp_all <;> omega
 
 theorem and_div_two (u v : Nat) : (u &&& v) / 2 = u / 2 &&& v / 2 := by
@@ -72,9 +72,9 @@ theorem testBit_actM_colsOf : ∀ (n : Nat) (V : List Nat) (u w : Nat), w < V.le
     congr 1
     by_cases hu : u % 2 = 1
     · have h1 : u.testBit 0 = true := by simp [Nat.testBit_zero, hu]
-      rw [if_pos hu, testBit_packBits, getD_map_lt _ hw, h1, Bool.true_and]
+      rw [ite_eq_left hu, testBit_packBits, getD_map_lt _ hw, h1, Bool.true_and]
     · have h1 : u.testBit 0 = false := by simp [Nat.testBit_zero, hu]
-      rw [if_neg hu, Nat.zero_testBit, h1, Bool.false_and]
+      rw [ite_eq_right hu, Nat.zero_testBit, h1, Bool.false_and]
 
 theorem actM_lt {N : Nat} : ∀ (cs : List Nat), (∀ c ∈ cs, c < 2 ^ N) → ∀ u,
     Native.actM cs u < 2 ^ N

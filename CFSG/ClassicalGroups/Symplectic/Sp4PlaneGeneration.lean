@@ -45,7 +45,7 @@ theorem spForm_single_one_eq_zero_of_mem_spPlane {k : Fin r} {a : Fin r ⊕ Fin 
   have h1 : Sum.inl k ≠ par a := fun h => hpa (h ▸ inl_mem_coords k)
   have h2 : Sum.inr k ≠ par a := fun h => hpa (h ▸ inr_mem_coords k)
   rw [← hαβ, map_add, map_smul, map_smul, spForm_single_one, spForm_single_one, gram_apply,
-    gram_apply, if_neg h1, if_neg h2]
+    gram_apply, ite_eq_right h1, ite_eq_right h2]
   simp
 
 theorem mat_apply_eq_zero_of_mapsTo {n : ℕ} {K : Type} [Field K] {g : StatedSp n K} {k : Fin n}

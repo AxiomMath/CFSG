@@ -41,8 +41,8 @@ private theorem cfInner_classIndicator [Fintype G] (y : G) {χ : G → ℂ} (hχ
       = if IsConj g y then (starRingEnd ℂ) (χ y) else 0 := by
     intro g
     by_cases h : IsConj g y
-    · rw [coe_classIndicator_of_isConj h, one_mul, if_pos h, classFun.apply_eq_of_isConj hχ h]
-    · rw [coe_classIndicator_of_not_isConj h, zero_mul, if_neg h]
+    · rw [coe_classIndicator_of_isConj h, one_mul, ite_eq_left h, classFun.apply_eq_of_isConj hχ h]
+    · rw [coe_classIndicator_of_not_isConj h, zero_mul, ite_eq_right h]
   have hc : (Finset.univ.filter fun g : G => IsConj g y).card
       = Nat.card {g : G | IsConj g y} := by
     rw [Nat.card_eq_card_toFinset, Set.toFinset_ofPred]
@@ -89,21 +89,21 @@ theorem sum_Irr_mul_conj_eq_ite [Finite G] [Fintype (Irr G)] (x y : G)
     rw [hfx2, hGcz]
     field_simp
   by_cases h : IsConj x y
-  · rw [if_pos h, hkey, coe_classIndicator_of_isConj h, mul_one, hzdef,
+  · rw [ite_eq_left h, hkey, coe_classIndicator_of_isConj h, mul_one, hzdef,
       ← natCard_centralizer_eq_of_isConj h]
-  · rw [if_neg h, hkey, coe_classIndicator_of_not_isConj h, mul_zero]
+  · rw [ite_eq_right h, hkey, coe_classIndicator_of_not_isConj h, mul_zero]
 
 theorem sum_Irr_mul_conj_of_not_isConj [Finite G] [Fintype (Irr G)] {x y : G}
     (h : ¬ IsConj x y) :
     ∑ χ : Irr G, ((χ : Irr G) : G → ℂ) x * (starRingEnd ℂ) (((χ : Irr G) : G → ℂ) y) = 0 := by
   classical
-  rw [sum_Irr_mul_conj_eq_ite x y, if_neg h]
+  rw [sum_Irr_mul_conj_eq_ite x y, ite_eq_right h]
 
 theorem sum_Irr_mul_conj_of_isConj [Finite G] [Fintype (Irr G)] {x y : G} (h : IsConj x y) :
     ∑ χ : Irr G, ((χ : Irr G) : G → ℂ) x * (starRingEnd ℂ) (((χ : Irr G) : G → ℂ) y)
       = (Nat.card (Subgroup.centralizer ({x} : Set G)) : ℂ) := by
   classical
-  rw [sum_Irr_mul_conj_eq_ite x y, if_pos h]
+  rw [sum_Irr_mul_conj_eq_ite x y, ite_eq_left h]
 
 theorem sum_Irr_normSq_eq_natCard_centralizer [Finite G] [Fintype (Irr G)] (x : G) :
     ∑ χ : Irr G, ‖((χ : Irr G) : G → ℂ) x‖ ^ 2

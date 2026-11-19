@@ -24,7 +24,7 @@ theorem nontrivial_of_not_isSolvable (hns : ¬ Group.IsSolvable G) : Nontrivial 
 
 theorem not_isMulCommutative_of_not_isSolvable (hns : ¬ Group.IsSolvable G) :
     ¬ IsMulCommutative G :=
-  fun h => hns (isSolvable_of_isMulCommutative (G := G))
+  fun _h => hns (isSolvable_of_isMulCommutative (G := G))
 
 variable [Finite G] (hodd : Odd (Nat.card G)) (hns : ¬ Group.IsSolvable G)
   (hmin : ∀ (H : Type u) [Group H] [Finite H], Odd (Nat.card H) → Nat.card H < Nat.card G →

@@ -122,7 +122,7 @@ theorem okComp_minpoly_dvd (N : ℕ) (A : GL (Fin N) F2)
     rw [map_sub, map_pow, aeval_X, aeval_C, hgl, ← Matrix.toLin'_pow,
       ← Units.val_pow_eq_pow_val, hA]
     ext v i
-    by_cases hi : i = v <;> simp [Matrix.toLin'_apply, Matrix.GeneralLinearGroup.scalar, hi]
+    by_cases hi : i = v <;> simp [Matrix.GeneralLinearGroup.scalar, hi]
   simpa only [C_1] using hzero
 
 theorem okComp_primaryFactor_eq (N : ℕ) (A : GL (Fin N) F2)
@@ -167,8 +167,8 @@ theorem okComp_statedClassicalModel {N : ℕ} (A : GL (Fin N) F2) {h : F2[X]}
         (Fin (primaryMultiplicity (glA A : Module.End F2 (Fin N → F2)) h)) (AdjoinRoot h) ≃* J) :
     StatedClassicalModel (J ⧸ Subgroup.center J) .PSL
       (primaryMultiplicity (glA A : Module.End F2 (Fin N → F2)) h) 2 h.natDegree := by
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
-  haveI : Finite (AdjoinRoot h) := Module.finite_of_finite F2
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Finite (AdjoinRoot h) := Module.finite_of_finite F2
   have hm2 : 2 ≤ primaryMultiplicity (glA A : Module.End F2 (Fin N → F2)) h := by
     rcases hgood with h3 | ⟨h2, -⟩
     · omega
@@ -285,7 +285,7 @@ theorem okComp_main (hRig : GGLabelRigidInput) {n : ℕ}
     exact hm4
   have hfin : Module.finrank F2
       (primaryComponent (glA A : Module.End F2 (Fin N → F2)) (X ^ 2 + X + 1)) = 8 := by
-    haveI : Fact (Irreducible (X ^ 2 + X + 1 : F2[X])) :=
+    have : Fact (Irreducible (X ^ 2 + X + 1 : F2[X])) :=
       ⟨by rw [← hh_eq]; exact irreducible_of_mem_primaryFactors hp.1.2⟩
     have hdeg2 : (X ^ 2 + X + 1 : F2[X]).natDegree = 2 := by compute_degree!
     calc Module.finrank F2

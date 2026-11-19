@@ -13,10 +13,12 @@ open Subgroup CFSG.Blueprint
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {z g : G} {B E : Subgroup G}
 
+omit [Finite G] in
 theorem kappa_eq_one_iff (E : Subgroup G) (x : ↥(normalizer (E : Set G))) :
     E.normalizerMonoidHom x = 1 ↔ (x : G) ∈ centralizer (E : Set G) := by
   rw [← MonoidHom.mem_ker, Subgroup.normalizerMonoidHom_ker, Subgroup.mem_subgroupOf]
 
+omit [Finite G] in
 theorem range_kappa (E : Subgroup G) : E.normalizerMonoidHom.range = secNb E := by
   rw [secNb, secN, autIn, Subgroup.subgroupOf_self, Subgroup.map_top,
     MonoidHom.range_eq_map]

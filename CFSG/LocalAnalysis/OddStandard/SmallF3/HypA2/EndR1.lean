@@ -19,7 +19,7 @@ theorem false_of_psl_two_three
     (hbig : classSBound ≤ Nat.card (↥Y ⧸ center ↥Y)) (hpow : ∃ j : ℕ, e = 2 ^ j)
     (S : Sylow 2 ↥(Subgroup.centralizer (Y : Set G)))
     (hS : IsCyclic ↥(S : Subgroup ↥(Subgroup.centralizer (Y : Set G)))) : False := by
-  haveI := hY.setting.simple
+  have := hY.setting.simple
   have h8e : 8 ≤ e := eight_le_of_lieModel_psl_two_three he hbig
   obtain ⟨j, hj⟩ := hpow
   have hj3 : 3 ≤ j := by
@@ -74,7 +74,7 @@ theorem false_of_psl_two_three
       have h : (2 : ℕ) ^ 5 = 32 := by norm_num
       rw [h]
       exact h32Q
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hk : 5 ≤ (Nat.card (↥Y ⧸ CFSG.pPrimeCore 2 ↥Y)).factorization 2 :=
       (Nat.prime_two.pow_dvd_iff_le_factorization hne).mp h32Q'
     have hPcard : Nat.card (P : Subgroup (↥Y ⧸ CFSG.pPrimeCore 2 ↥Y)) =

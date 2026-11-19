@@ -197,9 +197,9 @@ theorem inner_step (F : Facts N k cnt nx T par lab pos) {h j : Nat} (hh : h < cn
         · rw [e2, ← hqm, hlq]
     · rw [Array.size_push, set_get (by omega)]
       by_cases e : nx (T h) j = z
-      · rw [if_pos e]
+      · rw [ite_eq_left e]
         exact iff_of_true rfl ⟨st.1.size, by omega, by rw [← hqm, ← hx, e]⟩
-      · rw [if_neg e, hseen z hz]
+      · rw [ite_eq_right e, hseen z hz]
         constructor
         · rintro ⟨i, hi, e'⟩
           exact ⟨i, by omega, e'⟩
@@ -285,10 +285,10 @@ theorem outer_spec (F : Facts N k cnt nx T par lab pos) :
         by_cases h0 : h = 0
         · exact Or.inl h0
         · exact Or.inr (Or.inl (F.tree h (by omega) a).1)
-      exact ⟨_, by unfold outerB; rw [if_pos hhs], inner_spec F a hI⟩
+      exact ⟨_, by unfold outerB; rw [ite_eq_left hhs], inner_spec F a hI⟩
     · have hns : ¬ h < st.1.size := by have := hI.1; omega
       obtain ⟨a1, a2, a3, a4, a5, a6, a7⟩ := hI
-      refine ⟨st, by unfold outerB; rw [if_neg hns], a1, a2, a3, a4, a5, a6, fun i hi => ?_⟩
+      refine ⟨st, by unfold outerB; rw [ite_eq_right hns], a1, a2, a3, a4, a5, a6, fun i hi => ?_⟩
       rw [a7 i hi]
       have hpar : 0 < i → par i < i := fun h0 => (F.tree i h0 hi).1
       unfold Lex
@@ -315,9 +315,9 @@ theorem outer_spec (F : Facts N k cnt nx T par lab pos) :
       simp [F.par_zero, F.lab_zero]
     · rw [set_get (by simp; omega)]
       by_cases e : T 0 = z
-      · rw [if_pos e]
+      · rw [ite_eq_left e]
         exact iff_of_true rfl ⟨0, by simp, e⟩
-      · rw [if_neg e, getElem!_pos (Array.replicate N false) z (by simp; omega),
+      · rw [ite_eq_right e, getElem!_pos (Array.replicate N false) z (by simp; omega),
           Array.getElem_replicate]
         refine iff_of_false (by simp) fun ⟨i, hi, e'⟩ => e ?_
         have : i = 0 := by simp at hi; omega

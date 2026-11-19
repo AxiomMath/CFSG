@@ -24,8 +24,8 @@ theorem threeFourTwoNoneAt_of_sylow_le_isSolvable {p : ℕ} {X : Type*} [Group X
     ThreeFourTwoNoneAt p X := by
   refine threeFourTwoNoneAt_of_model hX hnab hout ?_
   intro Y _ _ K Y₀ E R hp _ hKn e _ _ _ _ _ _ _ hRY₀ hKY₀
-  haveI := hKn
-  haveI : Fact p.Prime := ⟨hp⟩
+  have := hKn
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨T, hT⟩ := CFSG.QuasithinUnique.exists_sylow_map_eq_inf_of_normal R K
   have he : Function.Surjective e.toMonoidHom := e.surjective
   refine exists_solvable_centralizer_of_isSolvable (hsol (T.mapSurjective he) _ ?_ ?_)
@@ -67,12 +67,12 @@ theorem lTwoEight_catalog_facts (hq2 : q.p = 2) (hq3 : q.exponent = 3) (hd : d.1
       (∃ a b : (TauCeti.CFSGIndex.lie d).Group, a * b ≠ b * a) ∧
       Group.IsSolvable (Outer (TauCeti.CFSGIndex.lie d).Group) := by
   obtain ⟨eP⟩ := nonempty_mulEquiv_lTwoEight hq2 hq3 hd
-  haveI := finite_lTwoEight hq2 hq3 hd
+  have := finite_lTwoEight hq2 hq3 hd
   obtain ⟨x, hv⟩ := d
   change x = _ at hd
   subst hd
   have hS := CFSG.Open.StatedAPI.statedClassicalModel_of_mulEquiv_typeA hv (MulEquiv.refl _)
-  haveI := CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel hS
+  have := CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel hS
   refine ⟨inferInstance, ?_,
     CFSG.ComponentClassification.CatalogueSchreierAssembly.classical_model_outer_solvable hS⟩
   have hT := (psl2GF_sylow 2 3 (by norm_num) (default : Sylow 2 (PSL2GF 2 3))).2
@@ -82,11 +82,11 @@ theorem lTwoEight_catalog_facts (hq2 : q.p = 2) (hq3 : q.exponent = 3) (hd : d.1
 
 theorem lTwoEight_isSolvable_of_ne_top (hq2 : q.p = 2) (hq3 : q.exponent = 3) (hd : d.1 = .A 1 q)
     (H : Subgroup (TauCeti.CFSGIndex.lie d).Group) (hH : H ≠ ⊤) : Group.IsSolvable H := by
-  haveI := CFSG.Adapters.certificate43_holds
+  have := CFSG.Adapters.certificate43_holds
   obtain ⟨e⟩ := nonempty_mulEquiv_lTwoEight hq2 hq3 hd
   have hH' : H.map e.toMonoidHom ≠ ⊤ := fun htop => hH (by
     rw [← comap_map_eq_self_of_injective (f := e.toMonoidHom) e.injective H, htop, comap_top])
-  haveI := CFSG.SignalizerFunctorTheorem.CatalogBridge.proper_subgroup_solvable_psl2_even
+  have := CFSG.SignalizerFunctorTheorem.CatalogBridge.proper_subgroup_solvable_psl2_even
     Nat.prime_three (by decide) (H.map e.toMonoidHom) hH'
   exact Group.isSolvable_of_isSolvable_injective
     (f := (equivMapOfInjective H e.toMonoidHom e.injective).toMonoidHom)
@@ -95,7 +95,7 @@ theorem lTwoEight_isSolvable_of_ne_top (hq2 : q.p = 2) (hq3 : q.exponent = 3) (h
 theorem threeFourTwoNoneAt_lTwoEight (hq2 : q.p = 2) (hq3 : q.exponent = 3)
     (hd : d.1 = .A 1 q) : ThreeFourTwoNoneAt 3 (TauCeti.CFSGIndex.lie d).Group := by
   obtain ⟨hs, hnab, hout⟩ := lTwoEight_catalog_facts hq2 hq3 hd
-  haveI := finite_lTwoEight hq2 hq3 hd
+  have := finite_lTwoEight hq2 hq3 hd
   exact threeFourTwoNoneAt_of_sylow_le_isSolvable hs hnab hout fun _ H _ hH =>
     lTwoEight_isSolvable_of_ne_top hq2 hq3 hd H hH
 

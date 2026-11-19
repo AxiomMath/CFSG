@@ -107,7 +107,7 @@ theorem P_isSylow_centralizer [Finite G] : IsSylowOf 2 d.P (centralizer ({d.t} :
 theorem centralizer_T_eq [Finite G] (T : Sylow 2 G) (h : d.P ≤ T) :
     (T : Subgroup G) ⊓ centralizer ({d.t} : Set G) = d.P :=
   d.hP.eq_of_le (le_inf h d.P_le_centralizer)
-    (inf_le_right.trans (centralizer_t_facts d.sector).1) T.isPGroup'.to_inf_left
+    (inf_le_right.trans (centralizer_t_facts d.sector).1) T.isPGroup.to_inf_left
 
 theorem exists_conj_center [Finite G] (T : Sylow 2 G) (h : d.P ≤ T) (hne : d.P ≠ T) :
     ∃ g ∈ (T : Subgroup G), g ∈ normalizer (d.P : Set G) ∧ g ∉ d.P ∧
@@ -119,7 +119,7 @@ theorem exists_conj_center [Finite G] (T : Sylow 2 G) (h : d.P ≤ T) (hne : d.P
       rw [htop]
       trivial
     exact mem_subgroupOf.mp hx'
-  have : Group.IsNilpotent (T : Subgroup G) := T.isPGroup'.isNilpotent
+  have : Group.IsNilpotent (T : Subgroup G) := T.isPGroup.isNilpotent
   have hnc : NormalizerCondition (T : Subgroup G) :=
     Group.normalizerCondition_of_isNilpotent (G := (T : Subgroup G))
   obtain ⟨x, hxN, hxnot⟩ := IsConcreteLE.exists_of_lt (hnc _ hI)

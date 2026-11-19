@@ -24,8 +24,8 @@ theorem burnsideF48s_pCoreOf_eq_self_g22 {E : Type} [Group E] {B : Subgroup E}
 
 theorem burnsideF48s_small_G2_two (h45 : F_4_5) (h46 : F_4_6) {E : Type} [Group E]
     {Gp M₁ M₂ : Subgroup E} (hyp : HypF_4_4 .G2 2 1 Gp M₁ M₂) : F48Concl .G2 2 1 Gp M₁ M₂ := by
-  haveI : Finite E := hyp.finite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite E := hyp.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hext := burnsideF48s_isLieExtGroup_E ChF.nativeChartCompatibility hyp
   obtain ⟨hGp, θ, hT, hor⟩ := burnsideF48s_g22c_chart hyp
   subst hGp

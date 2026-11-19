@@ -78,7 +78,7 @@ theorem IsZariskiClosed.preimage {C : Set V} (hC : IsZariskiClosed k C) (f : W �
 
 theorem isZariskiClosed_submodule (U : Submodule k V) : IsZariskiClosed k (U : Set V) := by
   refine ⟨MvPolynomial.X '' {φ : Module.Dual k V | ∀ u ∈ U, φ u = 0}, Set.ext fun v => ?_⟩
-  simp only [SetLike.mem_coe, mem_zeroSet, Set.forall_mem_image, polyEval_X, Set.mem_setOf_eq]
+  simp only [SetLike.mem_coe, mem_zeroSet, Set.forall_mem_image, polyEval_X, Set.mem_ofPred_eq]
   constructor
   · intro hv φ hφ
     exact hφ v hv

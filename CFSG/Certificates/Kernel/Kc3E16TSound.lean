@@ -64,12 +64,12 @@ theorem insK_eq (x : Nat) : ∀ l : List Nat, insK x l = l.orderedInsert (· ≤
     rw [List.orderedInsert_cons]
     change @Bool.rec (fun _ => List Nat) (y :: insK x l) (x :: y :: l) (Nat.ble x y) = _
     by_cases hxy : x ≤ y
-    · rw [Nat.ble_eq_true_of_le hxy, if_pos hxy]
+    · rw [Nat.ble_eq_true_of_le hxy, ite_eq_left hxy]
     · have hb : Nat.ble x y = false := by
         rcases Bool.eq_false_or_eq_true (Nat.ble x y) with hb | hb
         · exact absurd (Nat.le_of_ble_eq_true hb) hxy
         · exact hb
-      rw [hb, if_neg hxy, insK_eq x l]
+      rw [hb, ite_eq_right hxy, insK_eq x l]
 
 theorem sortK_eq : ∀ l : List Nat, sortK l = l.insertionSort (· ≤ ·)
   | [] => (List.insertionSort_nil _).symm
@@ -395,7 +395,7 @@ theorem extS_map {G : Type} [Group G] {E : Subgroup G} {M : Nat} {elt : Nat → 
 theorem cmpK_sound {G : Type} [Group G] {R : Subgroup G} {M : Nat} {elt : Nat → G}
     {pr : Nat → Nat → Nat} {NB : Nat → List Nat} {NM : Nat → Nat} {EM : List Nat}
     (hlist : ∀ x ∈ R, x * x = 1 → x ≠ 1 → ∃ k < M, elt k = x)
-    (hinj : ∀ k < M, ∀ k' < M, elt k = elt k' → k = k')
+    (_hinj : ∀ k < M, ∀ k' < M, elt k = elt k' → k = k')
     (hpr : ∀ i < M, ∀ j < M, i ≠ j → elt i * elt j = elt j * elt i →
       pr i j < M ∧ elt (pr i j) = elt i * elt j)
     (hnbr : ∀ i < M, ∀ j < M, i ≠ j → elt i * elt j = elt j * elt i → j ∈ NB i)

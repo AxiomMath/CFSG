@@ -94,7 +94,7 @@ theorem outerFixedOrderBoundAt_POmegaPlus : OuterFixedOrderBoundAt .POmegaPlus :
   refine ⟨f / p, (Nat.mul_div_cancel' hpf).symm, ?_⟩
   rw [hfix, ← hcard']
   by_cases h2F : (2 : F) = 0
-  · haveI : CharP F 2 := two_eq_zero_imp_char_two hℓ hchar h2F
+  · have : CharP F 2 := two_eq_zero_imp_char_two hℓ hchar h2F
     exact (card_subfieldFixedGroup_dvd_model _ n hsetup.hext hsetup.hnd₀ hsetup.hT₀
       hsetup.hnd).trans (dvd_of_eq (card_model_plus_eq _ n hn4))
   · have h2k : (2 : semilinearFixedSubfield U.val.right) ≠ 0 := two_ne_zero_of_subfield _ h2F
@@ -155,7 +155,7 @@ theorem outerFixedOrderBoundAt_POmegaMinus : OuterFixedOrderBoundAt .POmegaMinus
   refine ⟨f / p, (Nat.mul_div_cancel' hpf).symm, ?_⟩
   rw [hfix, ← hcard']
   by_cases h2F : (2 : F) = 0
-  · haveI : CharP F 2 := two_eq_zero_imp_char_two hℓ hchar h2F
+  · have : CharP F 2 := two_eq_zero_imp_char_two hℓ hchar h2F
     exact (card_subfieldFixedGroup_dvd_model _ n hsetup.hext hsetup.hnd₀ hsetup.hT₀
       hsetup.hnd).trans (dvd_of_eq (card_model_minus_eq _ n hn4 hirr'))
   · have h2k : (2 : semilinearFixedSubfield U.val.right) ≠ 0 := two_ne_zero_of_subfield _ h2F

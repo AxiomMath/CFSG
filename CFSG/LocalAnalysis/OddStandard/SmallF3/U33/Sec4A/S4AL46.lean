@@ -52,6 +52,7 @@ private theorem t_not_mem_m12Grp_of (h : Ctx t L S x₁ x₂ lam rho tau)
   rw [(S_eq_prod_of h h43 h44).2] at hmem
   exact t_ne_one h.hyp (Subgroup.mem_bot.mp hmem)
 
+omit [Finite G] in
 private theorem fourGrp_le_m12Grp' : fourGrp x₁ x₂ ≤ m12Grp x₁ x₂ lam tau := by
   rw [fourGrp, m12Grp, Subgroup.closure_le]
   intro g hg
@@ -134,6 +135,7 @@ private theorem t_tau_mul_x1x2_eq_of (h : Ctx t L S x₁ x₂ lam rho tau) :
                 simpa using pow_succ (x₁ * x₂) 2]
           rw [mul_assoc]
 
+omit [Finite G] in
 private theorem closure_insert_eq_fourGrp_sup (e : G) :
     closure ({x₁ ^ 2, (x₁ * x₂) ^ 2, e} : Set G) = fourGrp x₁ x₂ ⊔ zpowers e := by
   rw [fourGrp, Subgroup.zpowers_eq_closure e, ← Subgroup.closure_union]
@@ -142,6 +144,7 @@ private theorem closure_insert_eq_fourGrp_sup (e : G) :
   simp only [Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_union]
   tauto
 
+omit [Finite G] in
 private theorem closure_three_congr (e u : G) (hu : u ∈ fourGrp x₁ x₂) :
     closure ({x₁ ^ 2, (x₁ * x₂) ^ 2, u * e} : Set G) =
       closure ({x₁ ^ 2, (x₁ * x₂) ^ 2, e} : Set G) := by
@@ -197,7 +200,7 @@ private theorem card_eq_eight_of_four_le {V D : Subgroup G} (hVD : D ≤ V)
   rw [hF4] at hdvd1
   rw [hV8] at hdvd2
   have hD4 : 4 ≤ Nat.card D := by
-    haveI : Nonempty ↥D := ⟨⟨1, D.one_mem⟩⟩
+    have : Nonempty ↥D := ⟨⟨1, D.one_mem⟩⟩
     exact Nat.le_of_dvd Nat.card_pos hdvd1
   have hle8 : Nat.card D ≤ 8 := Nat.le_of_dvd (by norm_num) hdvd2
   have hne4 : Nat.card D ≠ 4 := by

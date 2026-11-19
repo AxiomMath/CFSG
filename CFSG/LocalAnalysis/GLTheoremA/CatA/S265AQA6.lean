@@ -24,8 +24,8 @@ theorem QUCfg.false_of_alt6 {Ω : Type} [Group Ω] [Finite Ω] {S B T : Subgroup
   classical
   obtain ⟨-, -, K, _, _, hK, ⟨e⟩⟩ := cfg.ident_alt6 hJ
   have hp : (3 : ℕ).Prime := Nat.prime_three
-  haveI := Fact.mk hp
-  haveI := cfg.normal
+  have := Fact.mk hp
+  have := cfg.normal
   have hnorm : ∀ g : Ω, g ∈ Subgroup.normalizer (S : Set Ω) := fun g => by
     rw [Subgroup.normalizer_eq_top]
     exact Subgroup.mem_top g
@@ -81,7 +81,6 @@ theorem QUCfg.false_of_alt6 {Ω : Type} [Group Ω] [Finite Ω] {S B T : Subgroup
       rw [Subgroup.mem_centralizer_singleton_iff]
       have h := Subgroup.mem_centralizer_iff.1 hkE g hgE
       first
-      | exact h
       | exact h.symm
     rw [mem_fixSubgroup.1 hkfix]
 

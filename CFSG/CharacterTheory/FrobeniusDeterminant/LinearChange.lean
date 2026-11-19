@@ -21,6 +21,7 @@ variable {ι κ : Type*} [Fintype ι] [DecidableEq ι]
     MvPolynomial ι ℂ :=
   ∑ i, (L (Pi.single i 1)) k • X i
 
+omit [Fintype κ] [DecidableEq κ] in
 theorem linearVar_isHomogeneous
     (L : (ι → ℂ) ≃ₗ[ℂ] (κ → ℂ)) (k : κ) :
     (linearVar L k).IsHomogeneous 1 := by
@@ -35,16 +36,19 @@ theorem linearVar_isHomogeneous
     MvPolynomial κ ℂ →ₐ[ℂ] MvPolynomial ι ℂ :=
   MvPolynomial.aeval (linearVar L)
 
+omit [Fintype κ] [DecidableEq κ] in
 @[simp] theorem linearAlgHom_X (L : (ι → ℂ) ≃ₗ[ℂ] (κ → ℂ)) (k : κ) :
     linearAlgHom L (X k) = linearVar L k := by
   simp [linearAlgHom]
 
+omit [Fintype κ] [DecidableEq κ] in
 theorem aeval_linearVar {A : Type*} [CommRing A] [Algebra ℂ A]
     (L : (ι → ℂ) ≃ₗ[ℂ] (κ → ℂ)) (x : ι → A) (k : κ) :
     MvPolynomial.aeval x (linearVar L k) =
       ∑ i, (L (Pi.single i 1)) k • x i := by
   simp [linearVar]
 
+omit [Fintype κ] [DecidableEq κ] in
 theorem linearVar_eval (L : (ι → ℂ) ≃ₗ[ℂ] (κ → ℂ))
     (x : ι → ℂ) (k : κ) :
     MvPolynomial.eval x (linearVar L k) = L x k := by
@@ -57,6 +61,7 @@ theorem linearVar_eval (L : (ι → ℂ) ≃ₗ[ℂ] (κ → ℂ))
     _ = L x k := by
       exact congrArg (fun y : ι → ℂ => L y k) (pi_eq_sum_univ' x).symm
 
+omit [Fintype κ] in
 private theorem coeff_mul_coeff_symm
     (L : (ι → ℂ) ≃ₗ[ℂ] (κ → ℂ)) (k k' : κ) :
     (∑ i, (L (Pi.single i 1)) k * (L.symm (Pi.single k' 1)) i) =

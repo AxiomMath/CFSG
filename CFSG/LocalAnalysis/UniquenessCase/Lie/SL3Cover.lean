@@ -17,7 +17,7 @@ theorem uc22pwI3_exists_cover {X : Type} [Group X] [Finite X] (hq : CFSG.Open.Is
       (α : SpecialLinearGroup (Fin 3) K →* X), Nat.card K = 2 ^ n ∧ Function.Surjective α ∧
         α.ker ≤ Subgroup.center (SpecialLinearGroup (Fin 3) K) := by
   obtain ⟨F, _, _, hF, ⟨e⟩⟩ := LinearCover.exists_mulEquiv_projectiveSL_of_lieModel h
-  haveI : CharP F 2 := uc22pwlie_charP_two (n := n) hF
+  have : CharP F 2 := uc22pwlie_charP_two (n := n) hF
   have hk : 5 ≤ Nat.card F := by
     rw [hF]
     calc 5 ≤ 2 ^ 3 := by norm_num
@@ -32,7 +32,7 @@ theorem uc22pwI3_exists_cover_sylow {X : Type} [Group X] [Finite X] (hq : CFSG.O
         α.ker ≤ Subgroup.center (SpecialLinearGroup (Fin 3) K) ∧
         (unitriangular 3 K).map α = (U : Subgroup X) := by
   obtain ⟨K, _, _, _, α, hK, hα, hαc⟩ := uc22pwI3_exists_cover hq hn h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q, hQ⟩ := exists_sylow_unitriangular (K := K) 2 (n := 3) (by norm_num)
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq X (Q.mapSurjective hα) U
   refine ⟨K, inferInstance, inferInstance, inferInstance, (MulAut.conj g : X →* X).comp α, hK,
@@ -45,7 +45,7 @@ theorem uc22pwI3_exists_cover_sylow {X : Type} [Group X] [Finite X] (hq : CFSG.O
   · rw [← Subgroup.map_map, ← hQ, ← Sylow.coe_mapSurjective hα, ← coe_sylow_smul, hg]
 
 theorem uc22pwI3_lift {K : Type} [Field K] [Finite K] [CharP K 2] {X : Type} [Group X] [Finite X]
-    (hq : CFSG.Open.IsQuasisimple X) (hK : 5 ≤ Nat.card K) (α : SpecialLinearGroup (Fin 3) K →* X)
+    (_hq : CFSG.Open.IsQuasisimple X) (hK : 5 ≤ Nat.card K) (α : SpecialLinearGroup (Fin 3) K →* X)
     (hα : Function.Surjective α) (hαc : α.ker ≤ Subgroup.center (SpecialLinearGroup (Fin 3) K))
     (φ : MulAut X)
     (hφ : ∀ x, x ∈ (unitriangular 3 K).map α ↔ φ x ∈ (unitriangular 3 K).map α) :
@@ -69,7 +69,7 @@ theorem uc22pwI3_lift {K : Type} [Field K] [Finite K] [CharP K 2] {X : Type} [Gr
   have hU₀ : IsPGroup 2 (unitriangular 3 K) := by
     obtain ⟨Q, hQ⟩ := exists_sylow_unitriangular (K := K) 2 (n := 3) (by norm_num)
     rw [← hQ]
-    exact Q.isPGroup'
+    exact Q.isPGroup
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 hU₀
   have hpow : ∀ s ∈ unitriangular 3 K, s ^ 2 ^ k = 1 := by
     intro s hs

@@ -68,7 +68,6 @@ theorem core_facts_proved : CoreFacts where
     rw [List.all_eq_true]
     intro z hz
     obtain ⟨h1, h2⟩ := words_ok j (by omega) z hz
-    beta_reduce
     rw [Bool.and_eq_true, bne_iff_ne, Bool.or_eq_true, decide_eq_true_eq, decide_eq_true_eq]
     exact ⟨h1, h2⟩
   letters_size := letters_facts.1

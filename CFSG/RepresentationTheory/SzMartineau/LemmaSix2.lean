@@ -54,7 +54,7 @@ private noncomputable def bilinOfTensor (M : Fin 4 → Fin 4 → Fin 4 → F a) 
     (by
       intro x y y'
       ext i
-      simp [Pi.add_apply, mul_add, add_mul, Finset.sum_add_distrib])
+      simp [Pi.add_apply, mul_add, Finset.sum_add_distrib])
     (by
       intro c x y
       ext i
@@ -67,20 +67,20 @@ private noncomputable def coordBilin (β : (Fin 4 → F a) →+ (Fin 4 → F a) 
   toFun x :=
     { toFun := fun y => β (x • stdBasis (a := a) s) (y • stdBasis (a := a) t) i
       map_zero' := by
-        letI : Fintype (F a) := Fintype.ofFinite _
+        let : Fintype (F a) := Fintype.ofFinite _
         simp [stdBasis]
       map_add' := by
         intro y y'
-        letI : Fintype (F a) := Fintype.ofFinite _
+        let : Fintype (F a) := Fintype.ofFinite _
         simp [add_smul, map_add] }
   map_zero' := by
     ext y
-    letI : Fintype (F a) := Fintype.ofFinite _
+    let : Fintype (F a) := Fintype.ofFinite _
     simp [stdBasis]
   map_add' := by
     intro x x'
     ext y
-    letI : Fintype (F a) := Fintype.ofFinite _
+    let : Fintype (F a) := Fintype.ofFinite _
     simp [add_smul, map_add]
 
 private lemma sum_comm_four {M : Type*} [AddCommMonoid M] {n : ℕ}
@@ -104,7 +104,7 @@ private lemma exists_two_var_decomp (β : (Fin 4 → F a) →+ (Fin 4 → F a) �
     ∃ B : Fin (2 * a + 1) → Fin (2 * a + 1) →
         ((Fin 4 → F a) →ₗ[F a] (Fin 4 → F a) →ₗ[F a] (Fin 4 → F a)),
       ∀ v w, β v w = ∑ c, ∑ d, B c d (frob (c : ℕ) v) (frob (d : ℕ) w) := by
-  letI : Fintype (F a) := Fintype.ofFinite _
+  let : Fintype (F a) := Fintype.ofFinite _
   have hK : Nat.card (F a) = 2 ^ (2 * a + 1) := by
     rw [Nat.card_eq_fintype_card]
     rw [← Nat.card_eq_fintype_card]
@@ -160,7 +160,7 @@ private lemma frob_smul_stdBasis (c : ℕ) (x : F a) (s : Fin 4) :
     frob c (x • (stdBasis (a := a) s)) = (x ^ 2 ^ c) • (stdBasis (a := a) s) := by
   ext i
   by_cases h : i = s
-  · simp [frob, stdBasis, h, map_mul, iterateFrobenius_def]
+  · simp [frob, stdBasis, h, iterateFrobenius_def]
   · simp [frob, stdBasis, h]
 
 private lemma bilin_smul_smul (B : (Fin 4 → F a) →ₗ[F a] (Fin 4 → F a) →ₗ[F a] (Fin 4 → F a))
@@ -177,7 +177,7 @@ private lemma two_var_decomp_unique
     (hB : ∀ v w, β v w = ∑ c, ∑ d, B c d (frob (c : ℕ) v) (frob (d : ℕ) w))
     (hB' : ∀ v w, β v w = ∑ c, ∑ d, B' c d (frob (c : ℕ) v) (frob (d : ℕ) w)) :
     B' = B := by
-  letI : Fintype (F a) := Fintype.ofFinite _
+  let : Fintype (F a) := Fintype.ofFinite _
   have hK : Nat.card (F a) = 2 ^ (2 * a + 1) := by
     rw [Nat.card_eq_fintype_card]
     rw [← Nat.card_eq_fintype_card]
@@ -290,7 +290,6 @@ private lemma actBilin_decomp {B : Fin (2 * a + 1) → Fin (2 * a + 1) →
   intro v w
   change β (twHom a c₁ g *ᵥ v) (twHom a c₂ g *ᵥ w) = _
   rw [hβ g v w]
-  change twHom a c₃ g *ᵥ β v w = _
   rw [hB]
   rw [Matrix.mulVec_sum]
   refine Finset.sum_congr rfl fun c _ => ?_

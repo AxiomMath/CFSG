@@ -30,6 +30,7 @@ theorem r847Four_of_r847 (D : Data G) (h847 : F08.R847 D) (he : 3 < evenRank G) 
   · obtain ⟨_, _, _, _, _, he3, _⟩ := h3
     omega
 
+omit [Finite G] in
 private theorem uc22s13a_map_conj_self {M : Subgroup G} {m : G} (hm : m ∈ M) :
     M.map (MulAut.conj m).toMonoidHom = M := by
   ext x
@@ -40,6 +41,7 @@ private theorem uc22s13a_map_conj_self {M : Subgroup G} {m : G} (hm : m ∈ M) :
   · intro hx
     exact ⟨m⁻¹ * x * m, M.mul_mem (M.mul_mem (M.inv_mem hm) hx) hm, by group⟩
 
+omit [Finite G] in
 private theorem uc22s13a_map_conj_map_conj (H : Subgroup G) (a b : G) :
     (H.map (MulAut.conj a).toMonoidHom).map (MulAut.conj b).toMonoidHom =
       H.map (MulAut.conj (b * a)).toMonoidHom := by
@@ -49,6 +51,7 @@ private theorem uc22s13a_map_conj_map_conj (H : Subgroup G) (a b : G) :
   simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulAut.conj_apply, mul_inv_rev]
   group
 
+omit [Finite G] in
 private theorem uc22s13a_conj_mem_uniqueSet {M X : Subgroup G} (hX : X ∈ uniqueSet M) {m : G}
     (hm : m ∈ M) : X.map (MulAut.conj m).toMonoidHom ∈ uniqueSet M := by
   have hmM := uc22s13a_map_conj_self hm
@@ -109,7 +112,7 @@ theorem uc22s13a_not_mem_uniqueSet {D : Data G}
   have hX₀U : X₀ ∉ uniqueSet D.M :=
     not_mem_uniqueSet_of_le_normalizer D Ch h211 h1930 c (by rwa [hX₀r])
       (by rw [hX₀r]; exact hr.odd_of_ne_two hr2) (hX₀L.trans hLM) hX₀N
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hrank : CFSG.Open.pRank r L ≤ 1 := uc22s13a_thin8_of_isL2_or_isSz hshape r hr hr2
   obtain ⟨h, hhL, hh⟩ := exists_mem_map_conj_eq_of_card_eq_prime hrank hXL hX₀L hXr hX₀r
   intro hXU

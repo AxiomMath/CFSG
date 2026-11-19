@@ -40,20 +40,20 @@ theorem pow_four_centralizes {G : Type*} [Group G] {Y : Subgroup G}
     (hx : x ∈ normalizer (Y : Set G)) (h2 : ∃ k : ℕ, x ^ (2 ^ k) = 1) :
     ∀ y ∈ Y, x ^ 4 * y * (x ^ 4)⁻¹ = y := by
   classical
-  haveI : Finite Y := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
-  haveI : Fintype Y := Fintype.ofFinite Y
-  haveI : Nontrivial Y :=
+  have : Finite Y := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Fintype Y := Fintype.ofFinite Y
+  have : Nontrivial Y :=
     Fintype.one_lt_card_iff_nontrivial.mp (by rw [← Nat.card_eq_fintype_card, hcard]; norm_num)
-  haveI : Nontrivial (Additive Y) := inferInstance
-  haveI : Finite (Additive Y) := inferInstance
-  haveI : IsMulCommutative Y := hY.1
-  letI : Module (ZMod 2) (Additive Y) :=
+  have : Nontrivial (Additive Y) := inferInstance
+  have : Finite (Additive Y) := inferInstance
+  have : IsMulCommutative Y := hY.1
+  let : Module (ZMod 2) (Additive Y) :=
     AddCommGroup.zmodModule (n := 2) (fun v => by
       apply Additive.toMul.injective
       rw [two_nsmul, toMul_add, toMul_zero]
       apply Subtype.ext
       simpa [pow_two] using hY.2 ((Additive.toMul v : Y) : G) (Additive.toMul v).2)
-  haveI : FiniteDimensional (ZMod 2) (Additive Y) := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) (Additive Y) := Module.Finite.of_finite
   have hfin : Module.finrank (ZMod 2) (Additive Y) = 4 := by
     have hc := Module.natCard_eq_pow_finrank (K := ZMod 2) (V := Additive Y)
     have hYcard : Nat.card (Additive Y) = 16 := by
@@ -87,7 +87,7 @@ theorem pow_four_centralizes {G : Type*} [Group G] {Y : Subgroup G}
     apply Subtype.ext
     rw [hFpow (2 ^ k) w, hk]
     simp
-  haveI : CharP (Module.End (ZMod 2) (Additive Y)) 2 :=
+  have : CharP (Module.End (ZMod 2) (Additive Y)) 2 :=
     CharP.of_ringHom_of_ne_zero (algebraMap (ZMod 2) (Module.End (ZMod 2) (Additive Y))) 2
       (by norm_num)
   let T : Module.End (ZMod 2) (Additive Y) := F - 1

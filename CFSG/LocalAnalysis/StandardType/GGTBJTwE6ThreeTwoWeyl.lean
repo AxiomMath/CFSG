@@ -22,7 +22,7 @@ theorem tw1w_three_le_compRank
     {L : Type} [Field L] [IsAlgClosed L] [CharP L 2] {p₀ : ℕ}
     (S : LangSetup Tag.E6 L p₀) (hq2 : S.D.q = 2) (hρ : ∀ γ, S.ρ γ = -γ)
     {a : Fin Tag.E6.rank → Lˣ} (hT : rootDiagUnit Tag.E6 a ∈ S.D.torus)
-    (hap : ∀ i, a i ^ 3 = 1) (h1 : rootDiagUnit Tag.E6 a ≠ 1)
+    (hap : ∀ i, a i ^ 3 = 1) (_h1 : rootDiagUnit Tag.E6 a ≠ 1)
     (i : KernelComponent (rootCharHom a))
     (hQS : CFSG.IsQuasisimple ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i)) :
     3 ≤ compRank (componentRoots (rootCharHom a) i) := by

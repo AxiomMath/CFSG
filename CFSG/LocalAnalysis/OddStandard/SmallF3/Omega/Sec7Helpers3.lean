@@ -20,7 +20,7 @@ variable {G : Type} [Group G]
 theorem le_twoPrimeRes_of_isQuasisimple [Finite G] {X : Subgroup G} (hX : IsQuasisimple X) :
     X ≤ twoPrimeRes X := by
   let Y := ↥X
-  haveI : Finite Y := Subtype.finite
+  have : Finite Y := Subtype.finite
   let s : Set Y := {y | ∃ k : ℕ, orderOf y = 2 ^ k}
   let M : Subgroup Y := Subgroup.closure s
   have hMnormal : M.Normal := by
@@ -30,14 +30,14 @@ theorem le_twoPrimeRes_of_isQuasisimple [Finite G] {X : Subgroup G} (hX : IsQuas
     · rcases hx with ⟨k, hk⟩
       exact Subgroup.subset_closure
         ⟨k, by rw [← MulAut.conj_apply, (MulAut.conj g).orderOf_eq x, hk]⟩
-    · simpa using Subgroup.one_mem M
+    · simp
     · rw [← conj_mul]
       exact M.mul_mem ihx ihy
     · rw [← conj_inv]
       exact M.inv_mem ihx
   have hMtop : M = ⊤ := by
-    haveI : M.Normal := hMnormal
-    haveI : Group.IsPerfect Y := hX.1
+    have : M.Normal := hMnormal
+    have : Group.IsPerfect Y := hX.1
     refine QuotientGroup.subgroup_eq_top_of_subsingleton M ?_
     have hodd_order : ∀ x : Y ⧸ M, Odd (orderOf x) := by
       intro x
@@ -52,11 +52,11 @@ theorem le_twoPrimeRes_of_isQuasisimple [Finite G] {X : Subgroup G} (hX : IsQuas
         simpa using (QuotientGroup.eq_one_iff (y ^ m)).mpr hmem
       exact hm.of_dvd_nat (orderOf_dvd_iff_pow_eq_one.mpr hqm)
     by_contra hsub
-    haveI : Nontrivial (Y ⧸ M) := not_subsingleton_iff_nontrivial.mp hsub
+    have : Nontrivial (Y ⧸ M) := not_subsingleton_iff_nontrivial.mp hsub
     have hodd_card : Odd (Nat.card (Y ⧸ M)) := by
       rw [← Nat.not_even_iff_odd]
       intro heven
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := Y ⧸ M) 2
         (even_iff_two_dvd.mp heven)
       obtain ⟨j, hj⟩ := hodd_order x

@@ -137,7 +137,7 @@ private theorem factorization_completionIn_normalizer_embeddedThompsonCenter
   have hTU : T ≤ U := hQT ▸ Subgroup.map_subtype_le _
   have hTCA : CompatibleAt p α θ {q} T :=
     ⟨Compatible.of_le_of_isInvariant d hUcomp hTU hTinv,
-      (CFSG.primeSupported_singleton_iff_isPGroup q hq).mpr (hQT ▸ Q.isPGroup'.map U.subtype)⟩
+      (CFSG.primeSupported_singleton_iff_isPGroup q hq).mpr (hQT ▸ Q.isPGroup.map U.subtype)⟩
   obtain ⟨hZne, hZCA⟩ := embeddedThompsonCenter_ne_bot_and_compatibleAt d hq hTCA hTne
   let NQ : Subgroup U := Subgroup.normalizer (embeddedThompsonCenter (Q : Subgroup U) : Set U)
   have hprodU : subgroupProduct (pPrimeCore q U) NQ = Set.univ :=

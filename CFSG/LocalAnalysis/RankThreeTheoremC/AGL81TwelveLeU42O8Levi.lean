@@ -57,15 +57,15 @@ theorem three_dvd_ordTwistedD_two {m : ℕ} (h1 : 1 ≤ m) (h3 : m ≤ 3) :
 theorem exists_perfect_of_residual {A : Type} [Group A] [Finite A] {Y P : Subgroup A} {K : Type}
     [Field K] [Finite K] [CharP K 2] {b c : K} {s : ℕ} {d : Fin (s + 1) → ℕ}
     (C : OmCover Y P 3 K b c d) (hd : OrthCuts 3 d) (hirr : ∀ t : K, t ^ 2 + b * t + c ≠ 0)
-    (hK : Nat.card K = 2) (hPY : P ≤ Y) (hm : d (Fin.last s) < 3) :
+    (hK : Nat.card K = 2) (_hPY : P ≤ Y) (hm : d (Fin.last s) < 3) :
     ∃ J : Subgroup A, J ≤ P ∧ ⁅J, J⁆ = J ∧ 3 ∣ Nat.card J := by
   classical
-  haveI : Finite ↥(orthElementaryGroup (quadTail 3 (minusTailForm K b c))) :=
+  have : Finite ↥(orthElementaryGroup (quadTail 3 (minusTailForm K b c))) :=
     Finite.of_equiv _ C.ρ.symm.toEquiv
   have hm1 : 1 ≤ 3 - d (Fin.last s) := by omega
   have hK' : Nat.card K = 2 ^ 1 := by rw [hK]; norm_num
   obtain ⟨-, hna, hcard⟩ := orthResDer_facts hK' hm1 hirr
-  haveI : IsSimpleGroup ↥(orthResDer K b c (3 - d (Fin.last s))) :=
+  have : IsSimpleGroup ↥(orthResDer K b c (3 - d (Fin.last s))) :=
     (orthResDer_facts hK' hm1 hirr).1
   set S : Subgroup (orthLeviGroup K 3 d (.inr ())) := orthResDer K b c (3 - d (Fin.last s))
     with hS
@@ -103,7 +103,7 @@ theorem exists_perfect_of_residual {A : Type} [Group A] [Finite A] {Y P : Subgro
 
 theorem card_GL_three {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) :
     Nat.card (GL (Fin 3) K) = 168 := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have h := Matrix.card_GL_field (n := 3) (𝔽 := K)
   rw [← Nat.card_eq_fintype_card, hK] at h
   rw [h]
@@ -166,9 +166,9 @@ theorem card_le_nine_of_flag_three {A : Type} [Group A] [Finite A] {Y P : Subgro
     (hPY : P ≤ Y) (hm : d (Fin.last s) = 3) {T : Subgroup A} (hTP : T ≤ P) (hT : IsPGroup 3 T) :
     Nat.card T ≤ 9 := by
   classical
-  haveI : Finite ↥(orthElementaryGroup (quadTail 3 (minusTailForm K b c))) :=
+  have : Finite ↥(orthElementaryGroup (quadTail 3 (minusTailForm K b c))) :=
     Finite.of_equiv _ C.ρ.symm.toEquiv
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let τ : ↥(orthParab 3 (minusTailForm K b c) d) ≃* ↥P :=
     MulEquiv.ofBijective C.toP ⟨C.toP_injective, C.toP_surjective hPY⟩
   let TQ : Subgroup ↥(orthParab 3 (minusTailForm K b c) d) :=

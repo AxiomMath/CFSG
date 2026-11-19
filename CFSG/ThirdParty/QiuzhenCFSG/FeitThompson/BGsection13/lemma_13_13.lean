@@ -22,10 +22,10 @@ private theorem CFSG.section13_primeRank_at_least_two_of_rankTwo
     (hA : A ∈ section12RankTwoElementaryAbelianIn p M) :
     2 ≤ primeRank p.val M := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.2⟩
+  have : Fact p.val.Prime := ⟨p.2⟩
   have hAM : A ≤ M := hA.1
   rcases hA.2 with ⟨hAcard, hAelem⟩
-  haveI : IsElementaryAbelian p.val A := hAelem
+  have : IsElementaryAbelian p.val A := hAelem
   have hAcomm : IsMulCommutative A := inferInstance
   let A' : Subgroup M := A.subgroupOf M
   have hA'p : IsPGroup p.val A' :=
@@ -34,7 +34,7 @@ private theorem CFSG.section13_primeRank_at_least_two_of_rankTwo
   have hA'comm : IsMulCommutative A' := by
     exact Subgroup.subgroupOf_isMulCommutative (H := A) (K := M)
   have hgenA : 2 ≤ generatorRank A := by
-    letI : CommGroup A := IsMulCommutative.instCommGroup
+    let : CommGroup A := IsMulCommutative.instCommGroup
     have hcard_dvd : Nat.card A ∣ p.val ^ Group.rank A := by
       simpa using card_dvd_exponent_pow_rank' (G := A) (n := p.val) (fun a =>
         Monoid.exponent_dvd_iff_forall_pow_eq_one.mp
@@ -86,9 +86,9 @@ private theorem CFSG.section13_lemma_13_13_centralizer_prime_le_M_of_tau1
     have htop_le_M : (⊤ : Subgroup G) ≤ M := by
       simpa [hEtop] using hE.1.2.1
     exact hM.1 (top_le_iff.mp htop_le_M)
-  have hsolvE : IsSolvable E :=
+  have hsolvE : Group.IsSolvable E :=
     IsMinCE.proper_subgroups_solvable E (lt_top_iff_ne_top.2 hEproper)
-  letI : MulDistribMulAction Unit E := {
+  let : MulDistribMulAction Unit E := {
     smul := fun _ x => x
     one_smul := fun _ => rfl
     mul_smul := fun _ _ _ => rfl
@@ -223,9 +223,9 @@ private theorem CFSG.section13_lemma_13_13_centralizer_prime_le_M_of_tau3
     have htop_le_M : (⊤ : Subgroup G) ≤ M := by
       simpa [hEtop] using hE.1.2.1
     exact hM.1 (top_le_iff.mp htop_le_M)
-  have hsolvE : IsSolvable E :=
+  have hsolvE : Group.IsSolvable E :=
     IsMinCE.proper_subgroups_solvable E (lt_top_iff_ne_top.2 hEproper)
-  letI : MulDistribMulAction Unit E := {
+  let : MulDistribMulAction Unit E := {
     smul := fun _ x => x
     one_smul := fun _ => rfl
     mul_smul := fun _ _ _ => rfl

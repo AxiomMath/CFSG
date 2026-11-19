@@ -15,7 +15,7 @@ theorem sylow_image_cv {X : Type} [Group X] [Finite X] (N : Subgroup X) [N.Norma
 theorem card_two_subgroup_of_card_cv {X : Type} [Group X] [Finite X] (S : Subgroup X)
     (hS : IsPGroup 2 S) (hodd : ¬ 2 ∣ S.index) {e m : ℕ} (hX : Nat.card X = 2 ^ e * m)
     (hm : ¬ 2 ∣ m) : Nat.card S = 2 ^ e := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := hS.exists_card_eq
   have hmul : 2 ^ k * S.index = 2 ^ e * m := by
     rw [← hk, ← hX, Subgroup.card_mul_index]
@@ -154,7 +154,7 @@ theorem exists_three_power_cv {H A : Type} [Group H] [Finite H] [Group A] (ψ : 
   have hmm : m * m % 3 = 1 := by
     have hm12 : m % 3 = 1 ∨ m % 3 = 2 := by omega
     rw [Nat.mul_mod]
-    rcases hm12 with h | h <;> rw [h] <;> norm_num
+    rcases hm12 with h | h <;> rw [h]
   have hk : ψ (y ^ m) = ψ d := by
     have h1 := pow_mod_orderOf (ψ d) (m * m)
     rw [hd, hmm, pow_one] at h1

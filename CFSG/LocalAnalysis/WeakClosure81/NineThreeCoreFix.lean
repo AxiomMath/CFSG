@@ -12,12 +12,13 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {V T A K S X : Subgroup G} {p : ℕ} {g x : G}
 
+omit [Finite G] in
 private theorem nine3_conj_iSup {ι : Sort*} (B : ι → Subgroup G) (g : G) :
     conjSubgroup (⨆ i, B i) g = ⨆ i, conjSubgroup (B i) g := by
   simp only [CFSG.Quasithin.conjSubgroup]
   exact Subgroup.map_iSup _ _
 
-theorem nine3_exists_hbar_aut (hc : Nine3Choice V T A K S X p g x) {k : G} (hk : k ∈ K) :
+theorem nine3_exists_hbar_aut (_hc : Nine3Choice V T A K S X p g x) {k : G} (hk : k ∈ K) :
     ∃ φ : Nine3Hbar V K →* Nine3Hbar V K, Function.Injective φ ∧
       (∀ h h' : ↥(nineH V K), (h' : G) = k * h * k⁻¹ →
         φ (QuotientGroup.mk h) = QuotientGroup.mk h') ∧
@@ -47,7 +48,7 @@ theorem nine3_exists_hbar_aut (hc : Nine3Choice V T A K S X p g x) {k : G} (hk :
       map_mul' := by
         intro a b
         ext
-        simp only [Subgroup.coe_mul, Subtype.coe_mk]
+        simp only [Subgroup.coe_mul]
         group }
   have hpre : ∀ h : ↥(nineH V K),
       ψ h ∈ (nineI V K).subgroupOf (nineH V K) ↔
@@ -90,7 +91,7 @@ theorem nine3_exists_hbar_aut (hc : Nine3Choice V T A K S X p g x) {k : G} (hk :
     · exact (hsecond u (ψ u) rfl).symm
 
 theorem nine3_comm_Ig_B (hc : Nine3Choice V T A K S X p g x)
-    (hc' : Nine3Choice V T A K S X p g⁻¹ x) (hI : Nine3IFacts V K S) {B : Subgroup G}
+    (_hc' : Nine3Choice V T A K S X p g⁻¹ x) (hI : Nine3IFacts V K S) {B : Subgroup G}
     (hB : B ∈ nineOmegaIn V K S) : ⁅conjSubgroup (nineI V K) g, B⁆ ≤ nineI V K := by
   by_cases hBA : B = A
   · rw [hBA, hc.nine_twelve_Ig_A]

@@ -50,7 +50,7 @@ noncomputable section
 
 namespace CFSG.BenderSuzuki
 
-open MatrixGroups PFAppendixIII PFchapter1section1
+open _root_.CFSG.BenderSuzuki.MatrixGroups PFAppendixIII PFchapter1section1
 open scoped LinearAlgebra.Projectivization Pointwise IsMulCommutative
 
 universe u v
@@ -91,8 +91,8 @@ private theorem perfect_of_twoPrimeResidual_eq_top_of_model_quotient
   let K : Subgroup F := commutator F
   let Z : Subgroup F := twoPrimeCore F
   let q : F →* F ⧸ Z := QuotientGroup.mk' Z
-  letI : K.Normal := inferInstance
-  letI : Z.Normal := inferInstance
+  let : K.Normal := inferInstance
+  let : Z.Normal := inferInstance
   have hquotPerfect : commutator (F ⧸ Z) = ⊤ := by
     simpa [Z] using hmodel.isPerfect hn
   have hmapK : K.map q = ⊤ := by
@@ -173,13 +173,13 @@ public theorem lemma114_oddCentralCover_eq_bot
     by_contra hz1
     have hZcard_ne_one : Nat.card Z ≠ 1 := by
       intro hcard
-      letI : Subsingleton Z := (Nat.card_eq_one_iff_unique.mp hcard).1
+      let : Subsingleton Z := (Nat.card_eq_one_iff_unique.mp hcard).1
       have huniq : ∀ x y : Z, x = y := fun x y => Subsingleton.elim _ _
       apply hz1
       rw [Subgroup.mem_bot]
       exact congrArg Subtype.val (huniq ⟨z, hz⟩ 1)
     obtain ⟨r, hrprime, hrdiv⟩ := Nat.exists_prime_and_dvd hZcard_ne_one
-    letI : Fact r.Prime := ⟨hrprime⟩
+    let : Fact r.Prime := ⟨hrprime⟩
     have hrne2 : r ≠ 2 := by
       intro hr
       subst r
@@ -202,7 +202,7 @@ public theorem lemma114_oddCentralCover_eq_bot
       Sylow.mapSurjective (QuotientGroup.mk'_surjective Z) S
     let Sbar : Subgroup (E ⧸ Z) := SbarSylow
     have hSbarCyclic : IsCyclic Sbar := hquot r hrne2 SbarSylow
-    letI : IsCyclic Sbar := hSbarCyclic
+    let : IsCyclic Sbar := hSbarCyclic
     let qS : S →* Sbar :=
       ((q.comp (S : Subgroup E).subtype).codRestrict Sbar (by
         intro x
@@ -227,9 +227,9 @@ public theorem lemma114_oddCentralCover_eq_bot
       exact hxy.symm
     have hcommS : ∀ a b : S, a * b = b * a := by
       intro a b
-      exact commutative_of_cyclic_center_quotient qS hqSker a b
-    letI : IsMulCommutative S := ⟨⟨hcommS⟩⟩
-    letI : CommGroup S := IsMulCommutative.instCommGroup
+      exact (fun f h => (MonoidHom.isMulCommutative_of_isCyclic_of_ker_le_center f h).is_comm.comm) qS hqSker a b
+    let : IsMulCommutative S := ⟨⟨hcommS⟩⟩
+    let : CommGroup S := IsMulCommutative.instCommGroup
     let tr : E →* S := MonoidHom.transfer (MonoidHom.id S)
     have htrivial : ∀ x : E, tr x = 1 := by
       intro x
@@ -295,7 +295,7 @@ private theorem lemma114_coprime_qsq_add_one_factors
       Nat.Coprime (q ^ 2 + 1) (q ^ 2 + q + 1) := by
     have h := (Nat.coprime_self_add_right
       (m := q ^ 2 + 1) (n := q)).2 hcop_q
-    convert h using 1 <;> ring
+    convert h using 1; ring
   have hfactor : q ^ 3 - 1 = (q - 1) * (q ^ 2 + q + 1) := by
     rw [Nat.sub_mul]
     have hqmul : q * (q ^ 2 + q + 1) = q ^ 3 + q ^ 2 + q := by ring
@@ -355,11 +355,11 @@ private theorem lemma114_exists_isCompl_invariant_of_odd_group
   let Upack : rho.invtSubmodule := ⟨U, hUinv⟩
   let instAdd : AddCommGroup rho.asModule :=
     Representation.instAddCommGroupAsModule rho
-  letI : AddCommGroup rho.asModule := instAdd
+  let : AddCommGroup rho.asModule := instAdd
   let instMod : Module (MonoidAlgebra K A) rho.asModule :=
     Representation.instModuleMonoidAlgebraAsModule rho
-  letI : Module (MonoidAlgebra K A) rho.asModule := instMod
-  haveI : NeZero (Fintype.card A : K) := by
+  let : Module (MonoidAlgebra K A) rho.asModule := instMod
+  have : NeZero (Fintype.card A : K) := by
     constructor
     intro hzero
     have hdiv : 2 ∣ Fintype.card A :=
@@ -455,7 +455,7 @@ private theorem lemma114_primeOrder_representation_irreducible_of_gl_card
     rho.subrepresentation W (by
       intro a v hv
       exact hWinv a v hv)
-  letI : Fact (Nat.Prime (Nat.card A)) := ⟨by rw [hAcard]; exact hr⟩
+  let : Fact (Nat.Prime (Nat.card A)) := ⟨by rw [hAcard]; exact hr⟩
   rcases rhoU.ker.eq_bot_or_eq_top_of_prime_card with hkerU | hkerU
   · have hinjU : Function.Injective rhoU :=
       (MonoidHom.ker_eq_bot_iff rhoU).mp hkerU
@@ -515,8 +515,8 @@ private theorem lemma114_suzuki_zpowers_irreducible
   let K := BinaryGaloisField (2 * m + 1)
   let V := Fin 4 → K
   let A := Subgroup.zpowers z
-  letI : Fintype K := Fintype.ofFinite K
-  letI : Fintype A := Fintype.ofFinite A
+  let : Fintype K := Fintype.ofFinite K
+  let : Fintype A := Fintype.ofFinite A
   let rhoGL : A →* GL (Fin 4) K :=
     (SuzukiMatrixGroup m).subtype.comp A.subtype
   let rho : Representation K A V :=
@@ -629,9 +629,9 @@ private theorem lemma114_suzuki_eq_one_of_fix_ne_zero
       exact hyOrbit a
     · simp [act]
     · intro x₁ x₂ _hx₁ _hx₂ hx₁ hx₂
-      simpa [hx₁, hx₂] using map_add (act (y : G)) x₁ x₂
+      simp [hx₁, hx₂]
     · intro c x _hx hx
-      simpa [hx] using map_smul (act (y : G)) c x
+      simp [hx]
   have hyall (x : V) : act (y : G) x = x := by
     apply hyU x
     rw [hUtop]
@@ -681,7 +681,7 @@ private theorem lemma114_suzuki_actsRegularly_of_central_element
       (Multiplicative (Fin 4 → BinaryGaloisField (2 * m + 1))) := by
   let K := BinaryGaloisField (2 * m + 1)
   let V := Fin 4 → K
-  letI : MulDistribMulAction R (Multiplicative V) :=
+  let : MulDistribMulAction R (Multiplicative V) :=
     lemma114_suzukiNaturalMulAction m R
   intro y hy
   rw [Subgroup.eq_bot_iff_forall]
@@ -704,24 +704,24 @@ private theorem lemma114_suzuki_nonsplit_oddSylow_isCyclic
     (hrdiv : r ∣ (2 ^ (2 * m + 1)) ^ 2 + 1)
     (hrG : r ∣ Nat.card (SuzukiMatrixGroup m)) :
     IsCyclic R := by
-  letI : Fact r.Prime := ⟨hr⟩
+  let : Fact r.Prime := ⟨hr⟩
   have hrdivR : r ∣ Nat.card (R : Subgroup (SuzukiMatrixGroup m)) :=
     Sylow.dvd_card_of_dvd_card R hrG
   have hRcard_gt : 1 < Nat.card (R : Subgroup (SuzukiMatrixGroup m)) :=
     lt_of_lt_of_le hr.one_lt (Nat.le_of_dvd (Nat.card_pos) hrdivR)
-  letI : Nontrivial (R : Type _) :=
+  let : Nontrivial (R : Type _) :=
     Finite.one_lt_card_iff_nontrivial.mp hRcard_gt
   have hcenterNontrivial :
       Nontrivial (Subgroup.center (R : Subgroup (SuzukiMatrixGroup m))) :=
     IsPGroup.center_nontrivial
-      (G := (R : Subgroup (SuzukiMatrixGroup m))) R.isPGroup'
+      (G := (R : Subgroup (SuzukiMatrixGroup m))) R.isPGroup
   have hcenterCard_gt : 1 < Nat.card
       (Subgroup.center (R : Subgroup (SuzukiMatrixGroup m))) :=
     Finite.one_lt_card_iff_nontrivial.mpr hcenterNontrivial
   have hrdivCenter : r ∣ Nat.card
       (Subgroup.center (R : Subgroup (SuzukiMatrixGroup m))) := by
     obtain ⟨k, hk⟩ :=
-      (IsPGroup.iff_card.mp (R.isPGroup'.to_subgroup
+      (IsPGroup.iff_card.mp (R.isPGroup.to_subgroup
         (Subgroup.center (R : Subgroup (SuzukiMatrixGroup m)))))
     have hkpos : 0 < k := by
       by_contra hk0
@@ -743,18 +743,18 @@ private theorem lemma114_suzuki_nonsplit_oddSylow_isCyclic
       _ = r := hzorder
   let K := BinaryGaloisField (2 * m + 1)
   let V := Fin 4 → K
-  letI : MulDistribMulAction R (Multiplicative V) :=
+  let : MulDistribMulAction R (Multiplicative V) :=
     lemma114_suzukiNaturalMulAction m R
   have hregular : ActsRegularly R (Multiplicative V) :=
     lemma114_suzuki_actsRegularly_of_central_element
       m r hr hrne2 R z hzorderG hrdiv
-  haveI : Nontrivial (Multiplicative V) := inferInstance
+  have : Nontrivial (Multiplicative V) := inferInstance
   have hRodd : Odd (Nat.card R) := by
-    obtain ⟨k, hk⟩ := R.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := R.isPGroup.exists_card_eq
     rw [hk]
     exact (hr.odd_of_ne_two hrne2).pow
   have htopP : IsPGroup r (⊤ : Subgroup R) :=
-    R.isPGroup'.to_subgroup ⊤
+    R.isPGroup.to_subgroup ⊤
   have htopCyclic : IsCyclic (⊤ : Subgroup R) :=
     isCyclic_of_odd_regular_pSubgroup hr hRodd hregular htopP
   exact (Subgroup.topEquiv : (⊤ : Subgroup R) ≃* R).isCyclic.mp htopCyclic
@@ -770,7 +770,7 @@ public theorem lemma114_odd_subgroup_le_of_quotient_isPGroup_two
     T ≤ O := by
   classical
   let OB : Subgroup B := O.subgroupOf B
-  letI : OB.Normal := by
+  let : OB.Normal := by
     change (O.subgroupOf B).Normal
     infer_instance
   let TB : Subgroup B := T.subgroupOf B
@@ -804,9 +804,9 @@ public theorem lemma114_odd_subgroup_le_of_normalizer_card_two
     R ≤ T := by
   let N : Subgroup G := Subgroup.normalizer (T : Set G)
   let TN : Subgroup N := T.subgroupOf N
-  letI : TN.Normal :=
+  let : TN.Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (by
-      simpa [N] : N ≤ Subgroup.normalizer (T : Set G))
+      simp [N] : N ≤ Subgroup.normalizer (T : Set G))
   have hTNcard : Nat.card TN = Nat.card T :=
     natCard_subgroupOf_eq T N (Subgroup.le_normalizer (H := T))
   have hquotcard : Nat.card (N ⧸ TN) = 2 := by
@@ -819,7 +819,7 @@ public theorem lemma114_odd_subgroup_le_of_normalizer_card_two
       _ = 2 * Nat.card T := hNcard
   have hquot2 : IsPGroup 2 (N ⧸ TN) := by
     apply IsPGroup.iff_card.mpr
-    exact ⟨1, by simpa [hquotcard]⟩
+    exact ⟨1, by simp [hquotcard]⟩
   exact lemma114_odd_subgroup_le_of_quotient_isPGroup_two
     (T := R) (O := T) (B := N) hRleN hTodd hquot2
 
@@ -879,7 +879,7 @@ private theorem lemma114_suzuki_standardBorel_oddSubgroup_isCyclic
   have hHnorm : H ≤ Subgroup.normalizer (F : Set (GL (Fin 4) K)) :=
     External.suzukiTorusClosure_le_normalizer_rootClosure
       m pi hpi_sq hpi_formula
-  letI : FB.Normal :=
+  let : FB.Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer
       (sup_le Subgroup.le_normalizer hHnorm)
   have hsup : FB ⊔ HB = ⊤ := by
@@ -910,7 +910,7 @@ private theorem lemma114_suzuki_standardBorel_oddSubgroup_isCyclic
     rcases hx with ⟨h, hh, rfl⟩
     exact ⟨⟨h, hh⟩, rfl⟩
   have hquotCyclic : IsCyclic (B ⧸ FB) := by
-    letI : IsCyclic HB := hHBcyclic
+    let : IsCyclic HB := hHBcyclic
     exact isCyclic_of_surjective qHB hqHBsurj
   let qT : T0 →* B ⧸ FB := qB.comp T0.subtype
   have hFBcard : Nat.card FB = Nat.card F :=
@@ -929,7 +929,7 @@ private theorem lemma114_suzuki_standardBorel_oddSubgroup_isCyclic
     have hdivone : (x : B) / (y : B) = 1 :=
       lemma114_mem_eq_one_of_coprime_card T0 FB hcop hdivT hdivFB
     exact div_eq_one.mp hdivone
-  letI : IsCyclic (B ⧸ FB) := hquotCyclic
+  let : IsCyclic (B ⧸ FB) := hquotCyclic
   exact isCyclic_of_injective qT hqTinj
 
 private theorem lemma114_suzuki_split_oddSylow_isCyclic
@@ -937,7 +937,7 @@ private theorem lemma114_suzuki_split_oddSylow_isCyclic
     (R : Sylow r (SuzukiMatrixGroup m))
     (hrdiv : r ∣ 2 ^ (2 * m + 1) - 1) :
     IsCyclic R := by
-  letI : Fact r.Prime := ⟨hr⟩
+  let : Fact r.Prime := ⟨hr⟩
   let K := BinaryGaloisField (2 * m + 1)
   let q := 2 ^ (2 * m + 1)
   let pi : K ≃+* K := iterateFrobeniusEquiv K 2 (m + 1)
@@ -963,7 +963,7 @@ private theorem lemma114_suzuki_split_oddSylow_isCyclic
       hOcard, _hGcard, hstabilizer_raw⟩
   let linRep : G →* LinearMap.GeneralLinearGroup K (Fin 4 → K) :=
     Matrix.GeneralLinearGroup.toLin.toMonoidHom.comp G.subtype
-  letI : MulAction G (ℙ K (Fin 4 → K)) :=
+  let : MulAction G (ℙ K (Fin 4 → K)) :=
     MulAction.compHom (ℙ K (Fin 4 → K)) linRep
   let ovoid : SubMulAction G (ℙ K (Fin 4 → K)) :=
     { carrier := O
@@ -972,8 +972,8 @@ private theorem lemma114_suzuki_split_oddSylow_isCyclic
         change (Matrix.GeneralLinearGroup.toLin
           (g : GL (Fin 4) K)).toLinearEquiv • z ∈ O
         exact hpres g z hz }
-  letI : MulAction G Omega := ovoid.mulAction
-  letI : MulAction R Omega :=
+  let : MulAction G Omega := ovoid.mulAction
+  let : MulAction R Omega :=
     MulAction.compHom Omega (R : Subgroup G).subtype
   have hOmegaCard : Nat.card Omega = q ^ 2 + 1 := by
     simpa [Omega, O, p, pinf, q] using hOcard
@@ -994,7 +994,7 @@ private theorem lemma114_suzuki_split_oddSylow_isCyclic
     · exact hr.ne_one hr1
     · exact hrne2 hr2eq
   obtain ⟨alpha, halpha⟩ :=
-    R.isPGroup'.nonempty_fixed_point_of_prime_not_dvd_card Omega hrnotOmega
+    R.isPGroup.nonempty_fixed_point_of_prime_not_dvd_card Omega hrnotOmega
   have hOmega_gt : 1 < Nat.card Omega := by
     rw [hOmegaCard]
     have hqpos : 0 < q := by
@@ -1002,7 +1002,7 @@ private theorem lemma114_suzuki_split_oddSylow_isCyclic
       positivity
     have hqsqpos : 0 < q ^ 2 := pow_pos hqpos _
     omega
-  letI : Nontrivial Omega :=
+  let : Nontrivial Omega :=
     Finite.one_lt_card_iff_nontrivial.mp hOmega_gt
   let pinfO : Omega := ⟨pinf, Or.inl rfl⟩
   obtain ⟨beta, hab⟩ := exists_ne alpha
@@ -1046,7 +1046,7 @@ private theorem lemma114_suzuki_split_oddSylow_isCyclic
   let eConj : (R : Subgroup G) ≃* Rc :=
     MulEquiv.subgroupMap (MulAut.conj g) (R : Subgroup G)
   have hRodd : Odd (Nat.card R) := by
-    obtain ⟨k, hk⟩ := R.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := R.isPGroup.exists_card_eq
     rw [hk]
     exact (hr.odd_of_ne_two hrne2).pow
   have hRcOdd : Odd (Nat.card Rc) := by
@@ -1065,7 +1065,7 @@ public theorem lemma114_suzuki_oddSylow_isCyclic
     (m r : ℕ) (hr : r.Prime) (hrne2 : r ≠ 2)
     (R : Sylow r (SuzukiMatrixGroup m)) :
     IsCyclic R := by
-  letI : Fact r.Prime := ⟨hr⟩
+  let : Fact r.Prime := ⟨hr⟩
   rcases Nat.eq_zero_or_pos m with rfl | hm
   · by_cases hr20 : r ∣ 20
     · have hrprod : r ∣ 2 ^ 2 * 5 := by
@@ -1087,26 +1087,26 @@ public theorem lemma114_suzuki_oddSylow_isCyclic
               (by norm_num : 5 ≠ 2)]
           norm_num
     · have hRcard : Nat.card R = 1 := by
-        rcases R.isPGroup'.card_eq_or_dvd with hcard | hrR
+        rcases R.isPGroup.card_eq_or_dvd with hcard | hrR
         · exact hcard
         · exfalso
           apply hr20
           exact hrR.trans (by
             simpa [lemma114_suzukiZero_card] using R.card_subgroup_dvd_card)
-      letI : Subsingleton R := (Nat.card_eq_one_iff_unique.mp hRcard).1
+      let : Subsingleton R := (Nat.card_eq_one_iff_unique.mp hRcard).1
       exact isCyclic_of_subsingleton
   · by_cases hRbot : (R : Subgroup (SuzukiMatrixGroup m)) = ⊥
     · have hRcard : Nat.card R = 1 := by
         rw [show Nat.card R =
             Nat.card (R : Subgroup (SuzukiMatrixGroup m)) by rfl,
           hRbot, Subgroup.card_bot]
-      letI : Subsingleton R := (Nat.card_eq_one_iff_unique.mp hRcard).1
+      let : Subsingleton R := (Nat.card_eq_one_iff_unique.mp hRcard).1
       exact isCyclic_of_subsingleton
     · have hRcardne : Nat.card R ≠ 1 := by
         intro hcard
         exact hRbot (Subgroup.card_eq_one.mp hcard)
       have hrR : r ∣ Nat.card R :=
-        R.isPGroup'.card_eq_or_dvd.resolve_left hRcardne
+        R.isPGroup.card_eq_or_dvd.resolve_left hRcardne
       have hrG : r ∣ Nat.card (SuzukiMatrixGroup m) :=
         hrR.trans R.card_subgroup_dvd_card
       let K := BinaryGaloisField (2 * m + 1)
@@ -1171,7 +1171,7 @@ public theorem lemma114_q_coprime_nonsplit_order (q : ℕ) (hq : 1 ≤ q) :
   apply ((Nat.coprime_self_add_right).mpr (Nat.coprime_one_right q)).coprime_dvd_right
   apply Nat.div_dvd_of_dvd
   convert Nat.dvd_add (Nat.gcd_dvd_left (q - 1) 2)
-    (Nat.gcd_dvd_right (q - 1) 2) using 1 <;> omega
+    (Nat.gcd_dvd_right (q - 1) 2) using 1; omega
 
 public theorem lemma114_split_nonsplit_order_coprime (q : ℕ) (hq : 2 ≤ q) :
     Nat.Coprime
@@ -1189,7 +1189,7 @@ public theorem lemma114_split_nonsplit_order_coprime (q : ℕ) (hq : 2 ≤ q) :
     simp only [Nat.div_one]
     have hcop : Nat.Coprime (q - 1) ((q - 1) + 2) :=
       (Nat.coprime_self_add_right).mpr hq_sub_one_odd.coprime_two_right
-    convert hcop using 1 <;> omega
+    convert hcop using 1; omega
   · have hq_odd : Odd q := Nat.not_even_iff_odd.mp hq_even
     have htwo_dvd : 2 ∣ q - 1 := by
       rcases hq_odd with ⟨k, hk⟩
@@ -1217,7 +1217,7 @@ public theorem lemma114_cyclic_le_unique_partition_family
     (hxT : x ∈ T) (hTfamily : Family T)
     (hxV : x ∈ V) (hVcyclic : IsCyclic V) :
     V ≤ T := by
-  letI : IsCyclic V := hVcyclic
+  let : IsCyclic V := hVcyclic
   rcases IsCyclic.exists_zpow_surjective (G := V) with ⟨v, hv⟩
   have hv_ne : (v : G) ≠ 1 := by
     intro hv_one
@@ -1253,7 +1253,7 @@ public theorem lemma114_psl2_oddSylow_isCyclic
   have hKcard : Nat.card K = 2 ^ n := by
     simpa [K, BinaryGaloisField] using
       GaloisField.card 2 n (by omega : n ≠ 0)
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨U, S, hUc, hUcard, hSc, hScard, hpart⟩ :=
     External.huppert_II_8_5_a_psl2_partition
       (F := K) (p := 2) (f := n) hKcard
@@ -1280,7 +1280,7 @@ public theorem lemma114_psl2_oddSylow_isCyclic
     (Subgroup.one_lt_card_iff_ne_bot _).2 hRbot
   obtain ⟨k, hk⟩ : ∃ k : ℕ,
       Nat.card (R : Subgroup (PSL2BinaryMatrixGroup n)) = r ^ k :=
-    (IsPGroup.iff_card.mp R.isPGroup')
+    (IsPGroup.iff_card.mp R.isPGroup)
   have hkpos : 0 < k := by
     by_contra hk0
     have hkz : k = 0 := Nat.eq_zero_of_not_pos hk0
@@ -1294,20 +1294,20 @@ public theorem lemma114_psl2_oddSylow_isCyclic
         Nat.card (⊤ : Subgroup (PSL2BinaryMatrixGroup n)) :=
       Subgroup.card_dvd_of_le le_top
     exact dvd_trans hrdivR (by simpa using hcarddiv)
-  letI : Nontrivial (R : Type _) :=
+  let : Nontrivial (R : Type _) :=
     Finite.one_lt_card_iff_nontrivial.mp hRcard_gt
   have hcenterNontrivial :
       Nontrivial (Subgroup.center (R : Subgroup (PSL2BinaryMatrixGroup n))) :=
     IsPGroup.center_nontrivial
       (G := (R : Subgroup (PSL2BinaryMatrixGroup n)))
-      (Sylow.isPGroup' R)
+      (Sylow.isPGroup R)
   have hcenterCard_gt : 1 < Nat.card (Subgroup.center
       (R : Subgroup (PSL2BinaryMatrixGroup n))) :=
     Finite.one_lt_card_iff_nontrivial.mpr hcenterNontrivial
   have hrdivCenter : r ∣ Nat.card (Subgroup.center
       (R : Subgroup (PSL2BinaryMatrixGroup n))) := by
     obtain ⟨kc, hkc⟩ :=
-      (IsPGroup.iff_card.mp ((Sylow.isPGroup' R).to_subgroup
+      (IsPGroup.iff_card.mp ((Sylow.isPGroup R).to_subgroup
         (Subgroup.center (R : Subgroup (PSL2BinaryMatrixGroup n)))))
     have hkcpos : 0 < kc := by
       by_contra hk0
@@ -1393,7 +1393,7 @@ public theorem lemma114_psl2_oddSylow_isCyclic
     rcases hTP with ⟨g, hg⟩
     have hTPgroup : IsPGroup 2 T := by
       rw [hg]
-      exact IsPGroup.map (Sylow.isPGroup'
+      exact IsPGroup.map (Sylow.isPGroup
         (default : Sylow 2 (PSL2MatrixGroup K)))
         (MulAut.conj g).toMonoidHom
     obtain ⟨j, hj⟩ :=
@@ -1561,7 +1561,7 @@ public theorem lemma114_psl2_oddSylow_isCyclic
     have hTcyclic : IsCyclic T := by
       rw [hg]
       exact (MulEquiv.subgroupMap (MulAut.conj g) U).isCyclic.mp hUc
-    letI : IsCyclic T := hTcyclic
+    let : IsCyclic T := hTcyclic
     exact Subgroup.isCyclic_of_le
       (lemma114_odd_subgroup_le_of_normalizer_card_two hRnorm hRodd hTnormcard)
 
@@ -1706,7 +1706,7 @@ public theorem lemma114_psl2_oddSylow_isCyclic
     have hTcyclic : IsCyclic T := by
       rw [hg]
       exact (MulEquiv.subgroupMap (MulAut.conj g) S).isCyclic.mp hSc
-    letI : IsCyclic T := hTcyclic
+    let : IsCyclic T := hTcyclic
     exact Subgroup.isCyclic_of_le
       (lemma114_odd_subgroup_le_of_normalizer_card_two hRnorm hRodd hTnormcard)
 
@@ -1753,7 +1753,7 @@ public theorem lemma114_twoPrimeCore_eq_bot_of_model
     (hcore : twoPrimeCore E = Subgroup.center E) :
     twoPrimeCore E = ⊥ := by
   let Z : Subgroup E := twoPrimeCore E
-  letI : Z.Normal := by dsimp [Z]; infer_instance
+  let : Z.Normal := by dsimp [Z]; infer_instance
   have hperfect : commutator E = ⊤ := by
     exact perfect_of_twoPrimeResidual_eq_top_of_model_quotient
       hres hprime (by
@@ -1809,7 +1809,7 @@ public theorem lemma114_model_psl_or_suzuki_of_model
       ∃ m : ℕ,
         n = 2 * m + 1 ∧ Nonempty (E ≃* SuzukiMatrixGroup m) := by
   let Z : Subgroup E := twoPrimeCore E
-  letI : Z.Normal := by dsimp [Z]; infer_instance
+  let : Z.Normal := by dsimp [Z]; infer_instance
   have hZbot : Z = ⊥ := by
     simpa [Z] using
       lemma114_twoPrimeCore_eq_bot_of_model hprime hmodel hres hcore
@@ -1876,19 +1876,19 @@ public theorem lemma114_quotient_model_psl_or_suzuki_of_model
   · exfalso
     rcases hPSU with
       ⟨E, hEfield, hEfinite, J, hJ, hEcard, hfixedCard, ⟨e⟩⟩
-    letI : Field E := hEfield
-    letI : Finite E := hEfinite
-    letI : Fintype E := Fintype.ofFinite E
-    letI : Finite (Matrix.ProjGenLinGroup (Fin 3) E) :=
+    let : Field E := hEfield
+    let : Finite E := hEfinite
+    let : Fintype E := Fintype.ofFinite E
+    let : Finite (Matrix.ProjGenLinGroup (Fin 3) E) :=
       Finite.of_surjective Matrix.ProjGenLinGroup.mk
         Matrix.ProjGenLinGroup.mk_surjective
-    letI : Finite (ProjectiveSpecialUnitaryMatrixGroup J) :=
+    let : Finite (ProjectiveSpecialUnitaryMatrixGroup J) :=
       Finite.of_injective
         (fun x : ProjectiveSpecialUnitaryMatrixGroup J =>
           (x : Matrix.ProjGenLinGroup (Fin 3) E)) Subtype.coe_injective
     let F0 : Subgroup X := lemma114FZero A
     let Z : Subgroup F0 := twoPrimeCore F0
-    letI : Z.Normal := by dsimp [Z]; infer_instance
+    let : Z.Normal := by dsimp [Z]; infer_instance
     let q : F0 →* F0 ⧸ Z := QuotientGroup.mk' Z
     let Y : Subgroup F0 := (F0 ⊓ M).subgroupOf F0
     let B0 : Subgroup (F0 ⧸ Z) := Y.map q
@@ -2059,10 +2059,9 @@ private theorem lemma114_card_eq_of_isRegularOn
     intro s r hsr
     obtain ⟨f, hf, huniq⟩ := hreg halpha
       (hstable s alpha halpha)
-    have hsEq : s = f := huniq s (by simpa using hf)
+    have hsEq : s = f := huniq s (by simp)
     have hrEq : r = f := by
       apply huniq r
-      change (r : X) • alpha = (s : X) • alpha
       exact (congrArg Subtype.val hsr).symm
     exact hsEq.trans hrEq.symm
   exact Nat.card_congr (Equiv.ofBijective orbitMap
@@ -2131,7 +2130,7 @@ public theorem lemma114_fixedPoints_punctured_card_of_root
     (hYV : Y ≤ V)
     (hVnormS : V ≤ Subgroup.normalizer (root.S : Set X))
     (hVmul : (V : Set X) = (Y : Set X) * (P : Set X))
-    (hVM : V ≤ M)
+    (_hVM : V ≤ M)
     (hVright : V ≤ rightConjugate M t) :
     Nat.card (root.S ⊓ Subgroup.centralizer (P : Set X) : Subgroup X) =
       Nat.card {omega : conjugateCosetSpace M //
@@ -2564,15 +2563,15 @@ private theorem lemma114_borel_index_eq_sylow_card_add_one
   classical
   have hBne : B ≠ ⊤ := by
     intro hBtop
-    letI : Group.IsSolvable B := hBorel.1
+    let : Group.IsSolvable B := hBorel.1
     have hsurj : Function.Surjective B.subtype := by
       intro g
       refine ⟨⟨g, ?_⟩, rfl⟩
       rw [hBtop]
       exact Subgroup.mem_top g
-    letI : Group.IsSolvable G :=
+    let : Group.IsSolvable G :=
       Group.isSolvable_of_surjective (f := B.subtype) hsurj
-    letI : IsSimpleGroup G := hmodel.isSimple
+    let : IsSimpleGroup G := hmodel.isSimple
     exact (Group.IsSolvable.commutator_lt_top_of_nontrivial G).ne hperfect
   obtain ⟨Q, _hQnormal, hQregular⟩ :=
     simpleBender_borel_normalSylow_regular hBorel hmodel
@@ -2581,7 +2580,7 @@ private theorem lemma114_borel_index_eq_sylow_card_add_one
   let punct : Set (G ⧸ B) := {omega | omega ≠ base}
   obtain ⟨g, hg⟩ : ∃ g : G, g ∉ B := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hBne (top_unique (fun g _hg => h g))
   have halpha : (QuotientGroup.mk g : G ⧸ B) ∈ punct := by
     intro h
@@ -2616,12 +2615,10 @@ private theorem lemma114_borel_index_eq_sylow_card_add_one
       _ = Nat.card {omega : G ⧸ B // omega ∈ punct} := hQGcard
   have hpunct : Nat.card {omega : G ⧸ B // omega ∈ punct} =
       Nat.card (G ⧸ B) - 1 := by
-    letI : Fintype (G ⧸ B) := Fintype.ofFinite (G ⧸ B)
-    letI : Fintype {omega : G ⧸ B // omega ∈ punct} :=
+    let : Fintype (G ⧸ B) := Fintype.ofFinite (G ⧸ B)
+    let : Fintype {omega : G ⧸ B // omega ∈ punct} :=
       Fintype.ofFinite {omega : G ⧸ B // omega ∈ punct}
-    simpa [punct, base, Nat.card_eq_fintype_card] using
-      (Fintype.card_subtype_compl
-        (fun omega : G ⧸ B => omega = base))
+    simp [punct, base, Nat.card_eq_fintype_card]
   rw [B.index_eq_card]
   have hquotPos : 0 < Nat.card (G ⧸ B) := Nat.card_pos
   omega
@@ -2667,7 +2664,7 @@ private theorem lemma114_root_S_J_disjoint
     rw [hScard]
     exact Nat.Coprime.pow_left f hJodd.coprime_two_left
   rw [disjoint_iff]
-  exact Subgroup.inf_eq_bot_of_coprime hcoprime
+  exact (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcoprime))
 
 /-- If the ambient model order has the expected Borel factorization, the
 retained Corollary 8.5 subgroups `S` and `J` fill the whole Borel. -/
@@ -2732,7 +2729,7 @@ private theorem lemma114_borel_factorization_of_card
       exact hj
     exact ⟨hj'.1.1.1, hj'.2⟩
   have hJnormS : root.J ≤ Subgroup.normalizer (root.S : Set X) := by
-    letI : (root.S.subgroupOf (normalizerIn M Y)).Normal := root.S_normal
+    let : (root.S.subgroupOf (normalizerIn M Y)).Normal := root.S_normal
     exact hJleNormalizerIn.trans
       (Subgroup.le_normalizer_of_normal_subgroupOf root.S_le_normalizer)
   have hdisj : Disjoint root.S root.J :=
@@ -2881,7 +2878,7 @@ private theorem lemma114_FHat_inf_M_eq_root_fixed
         congrArg (fun z => (z.2 : X)) hpair⟩
     have hPne : P ≠ ⊥ := by
       intro hPbot
-      have hcard : Nat.card P = 1 := by simpa [hPbot]
+      have hcard : Nat.card P = 1 := by simp [hPbot]
       omega
     obtain ⟨p, hpne⟩ :=
       Subgroup.ne_bot_iff_exists_ne_one.mp hPne
@@ -2946,7 +2943,7 @@ private theorem lemma114_suzuki_sylow_card
     hqEven.pow_of_ne_zero (by norm_num)
   have houterOdd : Odd ((q ^ 2 + 1) * (q - 1)) :=
     hqSqEven.add_one.mul (Nat.Even.sub_odd hqPos hqEven odd_one)
-  obtain ⟨f, hScard⟩ := S.isPGroup'.exists_card_eq
+  obtain ⟨f, hScard⟩ := S.isPGroup.exists_card_eq
   have hScoprime : Nat.Coprime (Nat.card S)
       ((q ^ 2 + 1) * (q - 1)) := by
     rw [hScard]
@@ -2984,12 +2981,12 @@ private theorem lemma114_suzuki_borel_sylow_card
     {B : Subgroup (SuzukiMatrixGroup m)} (hB : IsBorelSubgroup B)
     (S : Sylow 2 B) :
     Nat.card S = (2 ^ (2 * m + 1)) ^ 2 := by
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rcases hB with ⟨_hsolvable, Q, hBQ⟩
   have hQleB : (Q : Subgroup (SuzukiMatrixGroup m)) ≤ B := by
     rw [hBQ]
     exact Subgroup.le_normalizer
-  letI : Nonempty
+  let : Nonempty
       ((Q : Subgroup (SuzukiMatrixGroup m)).subgroupOf B) := ⟨1⟩
   let QB : Sylow 2 B := Q.subtype hQleB
   calc
@@ -3133,7 +3130,7 @@ private theorem lemma114_suzuki_twoSubgroup_pow_four
     (m : ℕ) (hm : 0 < m)
     (R : Subgroup (SuzukiMatrixGroup m)) (hR : IsPGroup 2 R)
     (x : R) : x ^ 4 = 1 := by
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S, hRS⟩ := hR.exists_le_sylow
   obtain ⟨S0, hS0pow⟩ := lemma114_suzuki_exists_sylow_pow_four m hm
   let e : S ≃* S0 := Sylow.equiv S S0
@@ -3199,8 +3196,8 @@ private theorem lemma114_twoGroup_card_le_eight_of_not_twoRank_pow_four
     rw [hcard]
     exact (Nat.le_of_dvd (by norm_num) hdvd).trans (by norm_num)
   · let k := 2 ^ (n - 2)
-    letI : NeZero k := ⟨pow_ne_zero _ (by norm_num)⟩
-    letI : Fact (1 < 2 * k) := ⟨by
+    let : NeZero k := ⟨pow_ne_zero _ (by norm_num)⟩
+    let : Fact (1 < 2 * k) := ⟨by
       have hk : 0 < k := Nat.pos_of_ne_zero (NeZero.ne k)
       omega⟩
     let a : QuaternionGroup k :=
@@ -3255,7 +3252,7 @@ public theorem lemma114_suzuki_fixedSylow_card_ambient
     root.Q0 ⊓ Subgroup.centralizer ((P.subgroupOf N) : Set N)
   have hQfixedCard : Nat.card Qfixed = 2 := by
     simpa [N, Qfixed] using root.fixed_Q0_card
-  letI : Nontrivial Qfixed :=
+  let : Nontrivial Qfixed :=
     Finite.one_lt_card_iff_nontrivial.mp (by rw [hQfixedCard]; norm_num)
   obtain ⟨q, hq⟩ := exists_ne (1 : Qfixed)
   have hqS : (q : X) ∈ root.S := root.Q0_le_S q.property.1
@@ -3274,7 +3271,7 @@ public theorem lemma114_suzuki_fixedSylow_card_ambient
     apply Subtype.ext
     apply Subtype.ext
     exact hqX
-  letI : Nontrivial C := ⟨⟨qC, 1, hqCne⟩⟩
+  let : Nontrivial C := ⟨⟨qC, 1, hqCne⟩⟩
   have hCrank : ¬ TwoRankAtLeastTwo C := by
     intro hCtwoRank
     exact hcentralizerRank
@@ -3288,8 +3285,8 @@ public theorem lemma114_suzuki_fixedSylow_card_ambient
     exact congrArg (fun z : root.S => (z : X)) hxS
   have hCcardLe : Nat.card C ≤ 8 :=
     lemma114_twoGroup_card_le_eight_of_not_twoRank_pow_four hCp hCrank hCpow
-  letI : Fact (Nat.Prime (Nat.card P)) := ⟨hPprime⟩
-  letI : Subgroup.Normalizes P root.S := ⟨hPnormS⟩
+  let : Fact (Nat.Prime (Nat.card P)) := ⟨hPprime⟩
+  let : Subgroup.Normalizes P root.S := ⟨hPnormS⟩
   have hPgroup : IsPGroup (Nat.card P) P := by
     apply IsPGroup.of_card (n := 1)
     simp
@@ -3373,7 +3370,7 @@ The alternative value `1` is excluded by simplicity of `A₅`. -/
 private theorem lemma114_perm5_sylow_count :
     Nat.card (Sylow 5 (Equiv.Perm (Fin 5))) = 6 := by
   let G := Equiv.Perm (Fin 5)
-  letI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  let : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   let P : Sylow 5 G := default
   have hGcard : Nat.card G = 120 := by
     change Nat.card (Equiv.Perm (Fin 5)) = 120
@@ -3405,7 +3402,7 @@ private theorem lemma114_perm5_sylow_count :
     interval_cases n <;> simp_all [Nat.ModEq]
   rcases hn with hn | hn
   · exfalso
-    haveI : Subsingleton (Sylow 5 G) :=
+    have : Subsingleton (Sylow 5 G) :=
       (Nat.card_eq_one_iff_unique.mp (by simpa [n] using hn)).1
     have hPnormal : (P : Subgroup G).Normal :=
       Sylow.normal_of_subsingleton P
@@ -3453,7 +3450,7 @@ private theorem lemma114_order20_subgroup_eq_normalizer
     ∃ P : Sylow 5 (Equiv.Perm (Fin 5)),
       A = Subgroup.normalizer (P : Subgroup (Equiv.Perm (Fin 5))) := by
   let G := Equiv.Perm (Fin 5)
-  letI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  let : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   let PA : Sylow 5 A := default
   have hPAcard : Nat.card PA = 5 := by
     rw [Sylow.card_eq_multiplicity, hAcard]
@@ -3472,13 +3469,13 @@ private theorem lemma114_order20_subgroup_eq_normalizer
   have hdivA : nA ∣ 4 := by
     simpa [nA, hPAindex] using PA.card_dvd_index
   have hnApos : 0 < nA := by
-    simpa [nA] using Nat.card_pos (α := Sylow 5 A)
+    simp [nA]
   have hnAle : nA ≤ 4 := Nat.le_of_dvd (by norm_num) hdivA
   have hmodA : nA ≡ 1 [MOD 5] := by
     simpa [nA] using card_sylow_modEq_one 5 A
   have hnA : nA = 1 := by
     interval_cases nA <;> simp_all [Nat.ModEq]
-  letI : Subsingleton (Sylow 5 A) :=
+  let : Subsingleton (Sylow 5 A) :=
     (Nat.card_eq_one_iff_unique.mp (by simpa [nA] using hnA)).1
   have hPAnormal : (PA : Subgroup A).Normal :=
     Sylow.normal_of_subsingleton PA
@@ -3508,9 +3505,7 @@ private theorem lemma114_order20_subgroup_eq_normalizer
   have hsubeq : PAmap.subgroupOf A = (PA : Subgroup A) := by
     ext a
     change (a : G) ∈ PAmap ↔ a ∈ (PA : Subgroup A)
-    simpa [PAmap] using
-      (Subgroup.mem_map_iff_mem A.subtype_injective
-        (K := (PA : Subgroup A)) (x := a))
+    simp [PAmap]
   have hPAmapNormal : (PAmap.subgroupOf A).Normal := by
     rw [hsubeq]
     exact hPAnormal
@@ -3542,7 +3537,7 @@ private theorem lemma114_order20_subgroups_perm5_conjugate
     (hAcard : Nat.card A = 20) (hBcard : Nat.card B = 20) :
     ∃ g : Equiv.Perm (Fin 5),
       A.map (MulAut.conj g).toMonoidHom = B := by
-  letI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  let : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨P, hA⟩ :=
     lemma114_order20_subgroup_eq_normalizer A hAcard
   obtain ⟨Q, hB⟩ :=
@@ -3633,7 +3628,7 @@ private theorem lemma114_card_mul_pred_le_of_twoTransitiveOn
       right_inv := fun _ ↦ rfl }
   have hcardPairs : Nat.card Pair =
         Nat.card Fixed * (Nat.card Fixed - 1) := by
-    letI : Fintype Fixed := Fintype.ofFinite Fixed
+    let : Fintype Fixed := Fintype.ofFinite Fixed
     have hfiber (x : Fixed) :
         Nat.card {y : Fixed // y ≠ x} = Nat.card Fixed - 1 := by
       change ({y : Fixed | y ≠ x} : Set Fixed).ncard = Nat.card Fixed - 1
@@ -3678,7 +3673,7 @@ private theorem lemma114_toPermHom_injective_of_sharp_twoTransitive
       right_inv := fun _ => rfl }
   have hcardPairs : Nat.card Pair =
       Nat.card Omega * (Nat.card Omega - 1) := by
-    letI : Fintype Omega := Fintype.ofFinite Omega
+    let : Fintype Omega := Fintype.ofFinite Omega
     have hfiber (x : Omega) :
         Nat.card {y : Omega // y ≠ x} = Nat.card Omega - 1 := by
       change ({y : Omega | y ≠ x} : Set Omega).ncard = Nat.card Omega - 1
@@ -3746,9 +3741,9 @@ private theorem lemma114_card_eq_fixed_mul_inf_stabilizer
         rw [hstab]
         exact hfH
       exact MulAction.mem_stabilizer_iff.mp hf
-  letI : Fintype F := Fintype.ofFinite F
-  letI : Fintype (MulAction.orbit F alpha) := Fintype.ofFinite _
-  letI : Fintype (MulAction.stabilizer F alpha) := Fintype.ofFinite _
+  let : Fintype F := Fintype.ofFinite F
+  let : Fintype (MulAction.orbit F alpha) := Fintype.ofFinite _
+  let : Fintype (MulAction.stabilizer F alpha) := Fintype.ofFinite _
   have horbitStabilizer :
       Nat.card (MulAction.orbit F alpha) *
           Nat.card (MulAction.stabilizer F alpha) = Nat.card F := by
@@ -3810,7 +3805,7 @@ private theorem lemma114_card_fixed_eq_punct_add_one
       simp]
     simp
   have hFixedPos : 0 < Nat.card Fixed := by
-    letI : Nonempty Fixed := ⟨alphaFixed⟩
+    let : Nonempty Fixed := ⟨alphaFixed⟩
     exact Nat.card_pos
   calc
     Nat.card {omega : Omega // omega ∈ A} = Nat.card Fixed := rfl
@@ -3959,7 +3954,7 @@ private theorem lemma114_suzukiZero_exists_faithful_permHom_finFive :
       LinearMap.GeneralLinearGroup K (Fin 4 → K) :=
     Matrix.GeneralLinearGroup.toLin.toMonoidHom.comp
       (SuzukiMatrixGroup 0).subtype
-  letI : MulAction (SuzukiMatrixGroup 0) (ℙ K (Fin 4 → K)) :=
+  let : MulAction (SuzukiMatrixGroup 0) (ℙ K (Fin 4 → K)) :=
     MulAction.compHom (ℙ K (Fin 4 → K)) linRep
   let Omega : SubMulAction (SuzukiMatrixGroup 0)
       (ℙ K (Fin 4 → K)) :=
@@ -3967,7 +3962,7 @@ private theorem lemma114_suzukiZero_exists_faithful_permHom_finFive :
       smul_mem' := by
         intro g z hz
         exact hpres g z hz }
-  letI : MulAction (SuzukiMatrixGroup 0) Omega := Omega.mulAction
+  let : MulAction (SuzukiMatrixGroup 0) Omega := Omega.mulAction
   let rho0 : SuzukiMatrixGroup 0 →* Equiv.Perm Omega :=
     MulAction.toPermHom (SuzukiMatrixGroup 0) Omega
   have hrho0 : Function.Injective rho0 := by
@@ -4056,7 +4051,7 @@ private theorem lemma114_zpowers_orbitMap_injective_of_prime_card
     Function.Injective
       (fun z : Subgroup.zpowers g ↦ (z : X) • alpha) := by
   let Z := Subgroup.zpowers g
-  letI : Fact (Nat.card Z).Prime := ⟨by simpa [Z] using hprime⟩
+  let : Fact (Nat.card Z).Prime := ⟨by simpa [Z] using hprime⟩
   have hstab : MulAction.stabilizer Z alpha = ⊥ := by
     rcases (MulAction.stabilizer Z alpha).eq_bot_or_eq_top_of_prime_card with
       hbot | htop
@@ -4422,7 +4417,7 @@ public theorem lemma114_modelTransport_of_endpoint
     have hA1V : d.choice.initial.A1 ≤ V := hAV
     have hVnormA : V ≤ Subgroup.normalizer
         (d.choice.initial.A1 : Set X) := by
-      letI : (d.choice.initial.A1.subgroupOf V).Normal :=
+      let : (d.choice.initial.A1.subgroupOf V).Normal :=
         d.choice.initial.A1_normal_V
       exact Subgroup.le_normalizer_of_normal_subgroupOf hA1V
     exact fun x hx => ⟨
@@ -4431,7 +4426,7 @@ public theorem lemma114_modelTransport_of_endpoint
         exact inf_le_left.trans inf_le_left) hx,
       hVnormA hx⟩
   have hVnormS : V ≤ Subgroup.normalizer (root.S : Set X) := by
-    letI : (root.S.subgroupOf (normalizerIn M d.choice.initial.A1)).Normal :=
+    let : (root.S.subgroupOf (normalizerIn M d.choice.initial.A1)).Normal :=
       root.S_normal
     exact hVleN.trans
       (Subgroup.le_normalizer_of_normal_subgroupOf root.S_le_normalizer)
@@ -4550,7 +4545,7 @@ public theorem lemma114_modelTransport_of_endpoint
             (omega : conjugateCosetSpace M) =
           (f : X) • ((g : X) • (omega : conjugateCosetSpace M))
         rw [mul_smul] }
-  letI : MulAction Fhat Fixed := fixedAction
+  let : MulAction Fhat Fixed := fixedAction
   have htwoFixed :
       MulAction.IsMultiplyPretransitive Fhat Fixed 2 := by
     rw [MulAction.is_two_pretransitive_iff]

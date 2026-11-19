@@ -41,7 +41,7 @@ theorem prime_eq_three_of_twistedE6_compConfig
     (p : ℕ) (G0 A B1 D J L K : Subgroup X) (e : X)
     (hcfg : RCKRP.RCKCompConfig .twistedE6 n 1 psi p G0 A B1 D J L K e) : p = 3 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hG0, hOddCent, hp, hp2, hA, hB1A, hDB1, hDcard, hAnormG0, hMarkG,
     hB1normJ, hB1cap, hB1card, hApow, hAcap, hAcapBot, hB1normL, hMarkL, hJcompD,
     hOddCenJ, hLG0, hExists, hNotCent, hCompL, hNoA6, heD, hene, hKcomp, hJK, hOddK⟩ := hcfg
@@ -92,7 +92,7 @@ theorem prime_eq_three_of_twistedE6_compConfig
     have hπUker : πU.ker ≤ Subgroup.center U := by
       change π.ker ≤ Subgroup.center (twistedE6Group 2 1)
       exact hπker.le
-    haveI hUperf : Group.IsPerfect U := by
+    have hUperf : Group.IsPerfect U := by
       change Group.IsPerfect (twistedE6Group 2 1)
       exact Group.isPerfect_def.2
         (MpStdTwE6.commutator_twistedE6Group (f := 1) (by norm_num))
@@ -143,7 +143,7 @@ theorem prime_eq_three_of_twistedE6_compConfig
         rw [← hAcapBot]
         exact hmem
       exact Subtype.ext (Subgroup.mem_bot.mp hbot)
-    haveI hG0perf : Group.IsPerfect ↥G0 := Group.isPerfect_def.2 hperfG0
+    have hG0perf : Group.IsPerfect ↥G0 := Group.isPerfect_def.2 hperfG0
     have hφinj : Function.Injective φHom := by
       rw [injective_iff_map_eq_one]
       exact hφker

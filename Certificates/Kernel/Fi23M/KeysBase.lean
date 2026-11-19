@@ -29,17 +29,17 @@ theorem tr_pt {k : ℕ} (hk : k < 31671) (hk0 : k ≠ 0) : tb G 91 k < k ∧
     cases e : k.beq 0
     · rfl
     · exact absurd (Nat.eq_of_beq_eq_true e) hk0
-  rw [bIf_eq, hb, if_neg Bool.false_ne_true, strictB_eq, bAnd_eq, Bool.and_eq_true, bIf_eq] at h
+  rw [bIf_eq, hb, ite_eq_right Bool.false_ne_true, strictB_eq, bAnd_eq, Bool.and_eq_true, bIf_eq] at h
   obtain ⟨h1, h2⟩ := h
   refine ⟨by simpa [Nat.blt_eq] using h1, fun hl => ?_, fun hl => ?_⟩
   · have e : Nat.beq (tb G 92 k) 1 = true := by rw [hl]; rfl
-    rw [e, if_pos rfl] at h2
+    rw [e, ite_eq_left rfl] at h2
     exact Nat.eq_of_beq_eq_true h2
   · have e : Nat.beq (tb G 92 k) 1 = false := by
       cases e : Nat.beq (tb G 92 k) 1
       · rfl
       · exact absurd (Nat.eq_of_beq_eq_true e) hl
-    rw [e, if_neg Bool.false_ne_true, bAnd_eq, Bool.and_eq_true] at h2
+    rw [e, ite_eq_right Bool.false_ne_true, bAnd_eq, Bool.and_eq_true] at h2
     exact Nat.eq_of_beq_eq_true h2.2
 
 section
@@ -62,10 +62,10 @@ theorem gk_pt : ∀ f k, k < 31671 → tb G 93 k < f → ((phiX (gk f k)) ⟨0, 
     have e2 : gk (f + 1) k = if k = 0 then 1 else if tb G 92 k = 1 then wα * gk f (tb G 91 k)
         else wβ * gk f (tb G 91 k) := rfl
     by_cases h0 : k = 0
-    · rw [if_pos h0] at e2
+    · rw [ite_eq_left h0] at e2
       rw [e2, map_one, Equiv.Perm.one_apply]
       exact h0.symm
-    rw [if_neg h0] at e2
+    rw [ite_eq_right h0] at e2
     obtain ⟨hp, hA, hB⟩ := tr_pt hk h0
     have hpN : tb G 91 k < 31671 := by omega
     have hdp : tb G 93 (tb G 91 k) < f := by
@@ -73,9 +73,9 @@ theorem gk_pt : ∀ f k, k < 31671 → tb G 93 k < f → ((phiX (gk f k)) ⟨0, 
       omega
     have e : phiX (gk f (tb G 91 k)) ⟨0, hn⟩ = ⟨tb G 91 k, hpN⟩ := Fin.ext (gk_pt f _ hpN hdp)
     by_cases hl : tb G 92 k = 1
-    · rw [if_pos hl] at e2
+    · rw [ite_eq_left hl] at e2
       rw [e2, map_mul, Equiv.Perm.mul_apply, e, phiX_wα _ hpN, hA hl]
-    · rw [if_neg hl] at e2
+    · rw [ite_eq_right hl] at e2
       rw [e2, map_mul, Equiv.Perm.mul_apply, e, phiX_wβ _ hpN, hB hl]
 
 noncomputable abbrev tk (k : ℕ) : PG := gk 200 k
@@ -180,7 +180,7 @@ theorem move_root {t : ℕ} (ht : t < 31671) (ht0 : t ≠ 0) :
     cases e : t.beq 0
     · rfl
     · exact absurd (Nat.eq_of_beq_eq_true e) ht0
-  rw [bIf_eq, hb, if_neg Bool.false_ne_true, bIf_eq] at h
+  rw [bIf_eq, hb, ite_eq_right Bool.false_ne_true, bIf_eq] at h
   split_ifs at h with h1
   · rw [bAnd_eq, Bool.and_eq_true] at h1
     have hk1 : r32 (TT 1 1) t < CNT 1 := by simpa [Nat.blt_eq] using h1.1

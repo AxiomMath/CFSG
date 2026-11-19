@@ -115,7 +115,7 @@ theorem fzr_B_cent {G : Type} [Group G] [Finite G] {t tau lam rho : G}
     exact ⟨hP.EP (h.ZE hz), by rw [← pow_two]; exact h.Z_sq z hz⟩
   have hXc : ∀ x ∈ X, ∀ y ∈ X, x * y = y * x :=
     fun x hx y hy => hPc x (hXP hx) y (hXP hy)
-  letI : CommGroup X :=
+  let : CommGroup X :=
     { (inferInstance : Group X) with mul_comm := fun a b => Subtype.ext (hXc a a.2 b b.2) }
   have hX2 : ∀ x : X, x * x = 1 := by
     intro x
@@ -264,7 +264,7 @@ theorem fzr_B_cent {G : Type} [Group G] [Finite G] {t tau lam rho : G}
     fun x => fzrAux_commMap_conj A_tau A_lam hAB_taulam x
   have hc : ∃ x : X, c x ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hXleZ : X ≤ Z := by
       intro x hx
       have hcx : c ⟨x, hx⟩ = 1 := hcon ⟨x, hx⟩

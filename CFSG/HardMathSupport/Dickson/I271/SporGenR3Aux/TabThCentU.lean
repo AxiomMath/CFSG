@@ -231,7 +231,7 @@ theorem th_shape_U : ShapeRkAt 3 (LeafType 3) (fun _ _ => True) thU := by
   refine pConstrainedShape_of_map_injective J.subtype J.subtype_injective ?_
   rw [map_centralizer_subtype']
   obtain ⟨R, hle, hnorm, hcard, hcent⟩ := th_caseU_spec
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact pConstrainedShape_of_normal_pgroup hle (normal_subgroupOf_of_conj hnorm)
     (IsPGroup.of_card (n := 5) hcard) hcent
 

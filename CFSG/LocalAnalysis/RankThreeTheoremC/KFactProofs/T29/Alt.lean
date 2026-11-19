@@ -27,7 +27,7 @@ theorem le_pCore_of_selfCentralizing {C : Type} [Group C] [Finite C]
     (hF : IsCyclic ↥(CFSG.pCore 3 C))
     (hself : centralizer ((CFSG.pCore 3 C : Subgroup C) : Set C) ≤ CFSG.pCore 3 C)
     {D : Subgroup C} (hD : IsPGroup 3 D) : D ≤ CFSG.pCore 3 C := by
-  haveI : (CFSG.pCore 3 C).Normal := CFSG.pCore_normal
+  have : (CFSG.pCore 3 C).Normal := CFSG.pCore_normal
   have key : ∀ g : C, (MulAut.conjNormal : C →* MulAut ↥(CFSG.pCore 3 C)) g = 1 →
       g ∈ centralizer ((CFSG.pCore 3 C : Subgroup C) : Set C) := by
     intro g hg
@@ -115,6 +115,7 @@ section Alt
 
 variable {X : Type} [Group X] [Finite X] {L : Subgroup X} {x : X}
 
+omit [Finite X] in
 theorem conjNormal_injective_of_centralizer_eq_bot (M : Subgroup X) [M.Normal]
     (hC : centralizer (M : Set X) = ⊥) :
     Function.Injective (MulAut.conjNormal : X →* MulAut M) := by
@@ -131,7 +132,7 @@ theorem conjNormal_injective_of_centralizer_eq_bot (M : Subgroup X) [M.Normal]
 
 theorem T29Setup.centralizer_eq_bot (h : T29Setup X L x) (hZ : center ↥L = ⊥) :
     centralizer (L : Set X) = ⊥ := by
-  haveI hLn : L.Normal := h.normal
+  have hLn : L.Normal := h.normal
   by_contra hC1
   have hCn : (centralizer (L : Set X)).Normal := by
     refine ⟨fun c hc g => ?_⟩
@@ -146,8 +147,8 @@ theorem T29Setup.centralizer_eq_bot (h : T29Setup X L x) (hZ : center ↥L = ⊥
       _ = g * c * g⁻¹ * l := by group
   have hL1 : L ≠ ⊥ := by
     obtain ⟨-, -, -, hsimp⟩ := h.comp
-    haveI : Nontrivial (↥L ⧸ center ↥L) := hsimp.toNontrivial
-    haveI : Nontrivial ↥L :=
+    have : Nontrivial (↥L ⧸ center ↥L) := hsimp.toNontrivial
+    have : Nontrivial ↥L :=
       Function.Surjective.nontrivial
         (QuotientGroup.mk_surjective : Function.Surjective (QuotientGroup.mk : ↥L → ↥L ⧸ center ↥L))
     exact (Subgroup.nontrivial_iff_ne_bot L).mp inferInstance
@@ -173,12 +174,12 @@ theorem T29Setup.centralizer_eq_bot (h : T29Setup X L x) (hZ : center ↥L = ⊥
 theorem T29Setup.pRank_top_le_alt (h : T29Setup X L x) (hZ : center ↥L = ⊥) {n : ℕ}
     (hn : 5 ≤ n) (e : (↥L ⧸ center ↥L) ≃* alternatingGroup (Fin n)) :
     CFSG.Open.pRank 3 (⊤ : Subgroup X) ≤ n / 3 := by
-  haveI hLn : L.Normal := h.normal
+  have hLn : L.Normal := h.normal
   have hC : centralizer (L : Set X) = ⊥ := T29Setup.centralizer_eq_bot h hZ
   have hinj : Function.Injective (MulAut.conjNormal : X →* MulAut L) :=
     conjNormal_injective_of_centralizer_eq_bot L hC
   obtain ⟨-, -, hcomm, -⟩ := h.comp
-  haveI : Group.IsPerfect ↥L := ⟨hcomm⟩
+  have : Group.IsPerfect ↥L := ⟨hcomm⟩
   have h1 := CFSG.SectionRank.pRank_top_le_of_injective (p := 3) (by norm_num)
     (MulAut.conjNormal : X →* MulAut L) hinj
   have h2 := CFSG.HardMathSupport.Timmesfeld.Tables.Alt.pRank_aut_le hn e Nat.prime_three
@@ -187,7 +188,7 @@ theorem T29Setup.pRank_top_le_alt (h : T29Setup X L x) (hZ : center ↥L = ⊥) 
 
 theorem T29Setup.false_of_alt_large (h : T29Setup X L x) (hZ : center ↥L = ⊥) {n : ℕ}
     (hn : 9 ≤ n) (e : (↥L ⧸ center ↥L) ≃* alternatingGroup (Fin n)) : False := by
-  haveI hLn : L.Normal := h.normal
+  have hLn : L.Normal := h.normal
   have hC : centralizer (L : Set X) = ⊥ := T29Setup.centralizer_eq_bot h hZ
   have hinj : Function.Injective (MulAut.conjNormal : X →* MulAut L) :=
     conjNormal_injective_of_centralizer_eq_bot L hC
@@ -218,7 +219,7 @@ theorem T29Setup.false_of_alt_large (h : T29Setup X L x) (hZ : center ↥L = ⊥
         MulAut.conjNormal (H := alternatingGroup (Fin n)) 1 := by
       rw [map_pow, map_one, ← hφσ, hφ3]
     exact CFSG.GroupTheory.AutAlternating.conjNormal_injective_alternatingGroup n (by omega) hc
-  haveI hp3 : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hp3 : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨B, instB, F, hBcomm, hBpow, hBcard, hFinj, hFσ⟩ :=
     CFSG.LocalAnalysis.RankFourTheoremC.exists_hom_elemAbelian_commute_of_pow_eq_one
       (p := 3) (by norm_num) n (Fin n) (Fintype.card_fin n) σ hσ3
@@ -349,7 +350,7 @@ variable {X : Type} [Group X] [Finite X] {L : Subgroup X} {x : X}
 theorem T29Setup.card_center_alt (h : T29Setup X L x) (hZ : center ↥L ≠ ⊥) {n : ℕ}
     (hn : 5 ≤ n) (e : (↥L ⧸ center ↥L) ≃* alternatingGroup (Fin n)) :
     Nat.card (center ↥L) = 3 ∧ (n = 6 ∨ n = 7) := by
-  haveI : Group.IsPerfect ↥L := Group.isPerfect_def.mpr h.comp.2.2.1
+  have : Group.IsPerfect ↥L := Group.isPerfect_def.mpr h.comp.2.2.1
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp h.center_isPGroup
   have hk0 : k ≠ 0 := by
     rintro rfl
@@ -367,11 +368,11 @@ theorem T29Setup.card_center_alt (h : T29Setup X L x) (hZ : center ↥L ≠ ⊥)
   have hk1 : k = 1 := by omega
   rw [hk, hk1, pow_one]
 
-theorem T29Setup.exists_mul_alt (h : T29Setup X L x) {n : ℕ} (hn : 5 ≤ n) (hn7 : n ≤ 7)
+theorem T29Setup.exists_mul_alt (h : T29Setup X L x) {n : ℕ} (hn : 5 ≤ n) (_hn7 : n ≤ 7)
     (e : (↥L ⧸ center ↥L) ≃* alternatingGroup (Fin n)) {g : X} (hg : g ^ 3 = 1) :
     ∃ l ∈ L, ∃ c ∈ centralizer (L : Set X), g = l * c := by
-  clear hn7
-  haveI hLn : L.Normal := h.normal
+  clear _hn7
+  have hLn : L.Normal := h.normal
   have hN : ∀ y : X, y ∈ Subgroup.normalizer (L : Set X) := by
     intro y
     rw [Subgroup.normalizer_eq_top_iff.mpr hLn]
@@ -464,13 +465,14 @@ section CentralizerOfL
 
 variable {X : Type} [Group X] [Finite X] {L : Subgroup X} {x : X}
 
+omit [Finite X] in
 theorem centralizer_normal (hL : L.Normal) : (centralizer (L : Set X)).Normal :=
   inferInstance
 
 theorem map_pPrimeCore_le {C : Subgroup X} [C.Normal] :
     (CFSG.pPrimeCore 3 ↥C).map C.subtype ≤
       CFSG.RankThreeCoreUniqueness.Helpers.primeComplementCore (G := X) 3 := by
-  haveI : (CFSG.pPrimeCore 3 ↥C).Characteristic :=
+  have : (CFSG.pPrimeCore 3 ↥C).Characteristic :=
     CFSG.RankThreeCoreUniqueness.Helpers.primeComplementCore_characteristic (G := ↥C) 3
   have hnorm : ((CFSG.pPrimeCore 3 ↥C).map C.subtype).Normal := inferInstance
   have hN : Nat.Coprime 3 (Nat.card ↥(CFSG.pPrimeCore 3 ↥C)) :=
@@ -481,8 +483,8 @@ theorem map_pPrimeCore_le {C : Subgroup X} [C.Normal] :
 
 theorem pPrimeCore_centralizer_eq_bot (h : T29Setup X L x) :
     CFSG.pPrimeCore 3 ↥(centralizer (L : Set X)) = ⊥ := by
-  haveI hLn : L.Normal := h.normal
-  haveI : (centralizer (L : Set X)).Normal := centralizer_normal hLn
+  have hLn : L.Normal := h.normal
+  have : (centralizer (L : Set X)).Normal := centralizer_normal hLn
   rw [eq_bot_iff]
   intro n hn
   have h1 : ((n : ↥(centralizer (L : Set X))) : X) ∈
@@ -495,8 +497,8 @@ theorem pPrimeCore_centralizer_eq_bot (h : T29Setup X L x) :
 
 theorem layer_centralizer_eq_bot (h : T29Setup X L x) :
     CFSG.layer ↥(centralizer (L : Set X)) = ⊥ := by
-  haveI hLn : L.Normal := h.normal
-  haveI : (centralizer (L : Set X)).Normal := centralizer_normal hLn
+  have hLn : L.Normal := h.normal
+  have : (centralizer (L : Set X)).Normal := centralizer_normal hLn
   rw [CFSG.layer.eq_sSup]
   refine le_bot_iff.mp (sSup_le fun J hJ => ?_)
   exfalso
@@ -540,9 +542,9 @@ theorem layer_centralizer_eq_bot (h : T29Setup X L x) :
 theorem T29Setup.map_pCore_centralizer_le (h : T29Setup X L x) :
     (CFSG.pCore 3 ↥(centralizer (L : Set X))).map (centralizer (L : Set X)).subtype ≤
       CFSG.pCore 3 X := by
-  haveI hLn : L.Normal := h.normal
-  haveI : (centralizer (L : Set X)).Normal := centralizer_normal hLn
-  haveI : (CFSG.pCore 3 ↥(centralizer (L : Set X))).Characteristic :=
+  have hLn : L.Normal := h.normal
+  have : (centralizer (L : Set X)).Normal := centralizer_normal hLn
+  have : (CFSG.pCore 3 ↥(centralizer (L : Set X))).Characteristic :=
     CFSG.RankThreeCoreUniqueness.Helpers.pCore_characteristic (G := ↥(centralizer (L : Set X))) 3
   have hnorm : ((CFSG.pCore 3 ↥(centralizer (L : Set X))).map
       (centralizer (L : Set X)).subtype).Normal := inferInstance
@@ -555,9 +557,9 @@ theorem T29Setup.map_pCore_centralizer_le (h : T29Setup X L x) :
 theorem T29Setup.centralizer_pCore_le (h : T29Setup X L x) :
     centralizer ((CFSG.pCore 3 ↥(centralizer (L : Set X)) : Subgroup ↥(centralizer (L : Set X))) :
       Set ↥(centralizer (L : Set X))) ≤ CFSG.pCore 3 ↥(centralizer (L : Set X)) := by
-  haveI hLn : L.Normal := h.normal
-  haveI : (centralizer (L : Set X)).Normal := centralizer_normal hLn
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hLn : L.Normal := h.normal
+  have : (centralizer (L : Set X)).Normal := centralizer_normal hLn
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact CFSG.isCharacteristicP_of_pPrimeCore_eq_bot_of_layer_eq_bot
     ↥(centralizer (L : Set X)) 3 (pPrimeCore_centralizer_eq_bot h) (layer_centralizer_eq_bot h)
 
@@ -577,8 +579,8 @@ theorem T29Setup.le_pCore_of_centralizer (h : T29Setup X L x)
       (Subgroup.subgroupOfEquivOfLe hDC).injective
   have hF : IsCyclic ↥(CFSG.pCore 3 ↥C) := by
     have h1 := h.map_pCore_centralizer_le
-    haveI : IsCyclic ↥(CFSG.pCore 3 X) := hO
-    haveI : IsCyclic ↥((CFSG.pCore 3 ↥C).map C.subtype) := isCyclic_of_le h1
+    have : IsCyclic ↥(CFSG.pCore 3 X) := hO
+    have : IsCyclic ↥((CFSG.pCore 3 ↥C).map C.subtype) := isCyclic_of_le h1
     exact isCyclic_of_surjective ((CFSG.pCore 3 ↥C).equivMapOfInjective C.subtype
       C.subtype_injective).symm.toMonoidHom
       ((CFSG.pCore 3 ↥C).equivMapOfInjective C.subtype C.subtype_injective).symm.surjective
@@ -590,8 +592,8 @@ theorem T29Setup.le_pCore_of_centralizer (h : T29Setup X L x)
 theorem T29Setup.false_of_alt_center_ne_bot (h : T29Setup X L x) (hN1 : NoncyclicCentreRank)
     (hA : AltTripleCoverAbelianBound) (hZ : center ↥L ≠ ⊥) {n : ℕ} (hn : 5 ≤ n)
     (e : (↥L ⧸ center ↥L) ≃* alternatingGroup (Fin n)) : False := by
-  haveI hLn : L.Normal := h.normal
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hLn : L.Normal := h.normal
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hcard3, hn67⟩ := h.card_center_alt hZ hn e
   have hn7 : n ≤ 7 := by omega
   have hO : IsCyclic ↥(CFSG.pCore 3 X) := h.isCyclic_pCore hN1
@@ -606,8 +608,8 @@ theorem T29Setup.false_of_alt_center_ne_bot (h : T29Setup X L x) (hN1 : Noncycli
   have hEC : Nat.card (E ⊓ C : Subgroup X) ≤ 3 := by
     have hle : (E ⊓ C : Subgroup X) ≤ CFSG.pCore 3 X :=
       h.le_pCore_of_centralizer hO (hEp.to_le inf_le_left) inf_le_right
-    haveI : IsCyclic ↥(CFSG.pCore 3 X) := hO
-    haveI : IsCyclic ↥(E ⊓ C : Subgroup X) := isCyclic_of_le hle
+    have : IsCyclic ↥(CFSG.pCore 3 X) := hO
+    have : IsCyclic ↥(E ⊓ C : Subgroup X) := isCyclic_of_le hle
     refine card_le_three_of_cyclic (W := ↥(E ⊓ C : Subgroup X)) ?_
     intro w
     have := hEel.2 (w : X) w.2.1
@@ -629,7 +631,7 @@ theorem T29Setup.false_of_alt_center_ne_bot (h : T29Setup X L x) (hN1 : Noncycli
   have hC3 : ∀ B : Subgroup X, B ≤ C → IsPGroup 3 B → ∀ b ∈ B, ∀ b' ∈ B, b * b' = b' * b := by
     intro B hBC hB b hb b' hb'
     have hle : B ≤ CFSG.pCore 3 X := h.le_pCore_of_centralizer hO hB hBC
-    haveI : IsCyclic ↥(CFSG.pCore 3 X) := hO
+    have : IsCyclic ↥(CFSG.pCore 3 X) := hO
     have := (inferInstance : IsMulCommutative ↥(CFSG.pCore 3 X)).is_comm.comm
       (⟨b, hle hb⟩ : ↥(CFSG.pCore 3 X)) ⟨b', hle hb'⟩
     exact congrArg Subtype.val this

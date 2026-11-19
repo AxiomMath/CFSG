@@ -17,7 +17,7 @@ private lemma pow_zmod_two_add {Q : Type} [Monoid Q] (hsq : ∀ x : Q, x * x = 1
     (x : Q) (a b : ZMod 2) : x ^ (a + b).val = x ^ a.val * x ^ b.val := by
   rw [ZMod.val_add]
   rcases zmod_two_val_eq a with ha | ha <;> rcases zmod_two_val_eq b with hb | hb <;>
-    rw [ha, hb] <;> norm_num <;> simp [hsq]
+    rw [ha, hb] <;> norm_num; simp [hsq]
 
 private def Pc {Q : Type} [CommMonoid Q] (q : Fin 5 → Q) (c : Fin 5 → ZMod 2) : Q :=
   ∏ i, q i ^ (c i).val
@@ -50,7 +50,7 @@ theorem sec121_closure_pairs {Q : Type} [Group Q] (hcomm : ∀ x y : Q, x * y = 
     (hsq : ∀ x : Q, x * x = 1) (q : Fin 5 → Q) (ℓ : Q → Fin 5 → ZMod 2)
     (hℓ : ∀ x y, ℓ (x * y) = ℓ x + ℓ y) (hq : ∀ i, ℓ (q i) = wvec i) :
     ∀ x ∈ Subgroup.closure {z : Q | ∃ i j, z = q i * q j}, ℓ x = 0 → x = 1 := by
-  letI : CommGroup Q := { ‹Group Q› with mul_comm := hcomm }
+  let : CommGroup Q := { ‹Group Q› with mul_comm := hcomm }
   have hsq' : ∀ x : Q, x * x = 1 := fun x => hsq x
   have hℓ' : ∀ x y : Q, ℓ (x * y) = ℓ x + ℓ y := fun x y => hℓ x y
   have hℓ_one : ℓ (1 : Q) = 0 := by

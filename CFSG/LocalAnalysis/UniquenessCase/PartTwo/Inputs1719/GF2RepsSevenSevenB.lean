@@ -33,13 +33,16 @@ namespace SevenSevenB
 variable {Y K A D : Subgroup (MulAut W)} {k : ℕ}
 variable [Fintype ↥D] [DecidableEq ↥D]
 
+omit [Finite W] [Fintype ↥D] [DecidableEq ↥D] in
 theorem le_y_of_le_a_77 {k : ℕ} (hA : A ∈ E3.aSet k Y) (hDA : D ≤ A) : D ≤ Y :=
   hDA.trans hA.1
 
+omit [Finite W] [Fintype ↥D] [DecidableEq ↥D] in
 theorem centralizerProductD_le_a_77 (hDA : D ≤ A) : centralizerProductD A K D ≤ A := by
   rw [centralizerProductD]
   exact sup_le inf_le_left hDA
 
+omit [Finite W] in
 theorem exists_compl_normalizerInA_77 {Y K A : Subgroup (MulAut W)} {k : ℕ}
     (hA : A ∈ E3.aSet k Y) :
     ∃ D : Subgroup (MulAut W), D ≤ A ∧ D ⊓ normalizerInA A K = ⊥ ∧
@@ -49,11 +52,13 @@ theorem exists_compl_normalizerInA_77 {Y K A : Subgroup (MulAut W)} {k : ℕ}
   obtain ⟨D, hDA, hDB, hBD⟩ := CFSG.Quasithin.E6.exists_compl_of_le (V := A) hV hB
   exact ⟨D, hDA, by rwa [inf_comm], hBD⟩
 
+omit [Finite W] [Fintype ↥D] [DecidableEq ↥D] in
 theorem commute_centralizerInA_77 {k : ℕ} (hA : A ∈ E3.aSet k Y) (hDA : D ≤ A) :
     ∀ c ∈ centralizerInA A K, ∀ d ∈ D, c * d = d * c := by
   intro c hc d hd
   exact hA.2.2.1.1 c hc.1 d (hDA hd)
 
+omit [Finite W] [Fintype ↥D] [DecidableEq ↥D] in
 theorem stableUnder_fixVProduct_77 {k : ℕ} (hA : A ∈ E3.aSet k Y) (hDA : D ≤ A) :
     ∀ a ∈ A, ∀ u ∈ fixVProduct A K D, a u ∈ fixVProduct A K D := by
   have hAN : A ≤ Subgroup.normalizer (centralizerProductD A K D : Set (MulAut W)) :=
@@ -65,6 +70,7 @@ theorem stableUnder_fixVProduct_77 {k : ℕ} (hA : A ∈ E3.aSet k Y) (hDA : D �
   exact fun a ha u hu =>
     CFSG.Quasithin.fixV_apply_mem_of_mem_normalizer (hAN ha) hu
 
+omit [Finite W] [Fintype ↥D] [DecidableEq ↥D] in
 theorem isPGroup_centralizerProductD_77 {k : ℕ} (hA : A ∈ E3.aSet k Y) (hDA : D ≤ A) :
     IsPGroup 2 ↥(centralizerProductD A K D) := by
   intro e
@@ -73,6 +79,7 @@ theorem isPGroup_centralizerProductD_77 {k : ℕ} (hA : A ∈ E3.aSet k Y) (hDA 
   show ((e : MulAut W) ^ (2 ^ 1)) = 1
   simpa using hA.2.2.1.2 (e : MulAut W) (centralizerProductD_le_a_77 hDA e.2)
 
+omit [DecidableEq ↥D] in
 theorem centralizerInA_le_centralizer_diag_77 (hK : IsComponentOf K Y) (hA : A ∈ E3.aSet k Y)
     (hDY : D ≤ Y) (hDA : D ≤ A)
     (hDreg : D ⊓ Subgroup.normalizer (K : Set (MulAut W)) = ⊥) :
@@ -91,6 +98,7 @@ theorem centralizerInA_le_centralizer_diag_77 (hK : IsComponentOf K Y) (hA : A �
       _ = diagHom77 hK hDY hDreg x * c := by rw [h]
   exact h1.symm
 
+omit [DecidableEq ↥D] in
 theorem D_le_centralizer_diag_77 (hK : IsComponentOf K Y) (hDY : D ≤ Y)
     (hDreg : D ⊓ Subgroup.normalizer (K : Set (MulAut W)) = ⊥) :
     D ≤ Subgroup.centralizer ((diagHom77 hK hDY hDreg).range : Set (MulAut W)) := by
@@ -106,6 +114,7 @@ theorem D_le_centralizer_diag_77 (hK : IsComponentOf K Y) (hDY : D ≤ Y)
       _ = diagHom77 hK hDY hDreg x * d := by rw [h]
   exact h1.symm
 
+omit [DecidableEq ↥D] in
 theorem centralizerProductD_le_centralizer_diag_77 (hK : IsComponentOf K Y)
     (hA : A ∈ E3.aSet k Y) (hDY : D ≤ Y) (hDA : D ≤ A)
     (hDreg : D ⊓ Subgroup.normalizer (K : Set (MulAut W)) = ⊥) :
@@ -114,6 +123,7 @@ theorem centralizerProductD_le_centralizer_diag_77 (hK : IsComponentOf K Y)
   sup_le (centralizerInA_le_centralizer_diag_77 hK hA hDY hDA hDreg)
     (D_le_centralizer_diag_77 hK hDY hDreg)
 
+omit [DecidableEq ↥D] in
 theorem diagHom_range_le_normalizer_centralizerProductD_77 (hK : IsComponentOf K Y)
     (hA : A ∈ E3.aSet k Y) (hDY : D ≤ Y) (hDA : D ≤ A)
     (hDreg : D ⊓ Subgroup.normalizer (K : Set (MulAut W)) = ⊥) :
@@ -123,8 +133,9 @@ theorem diagHom_range_le_normalizer_centralizerProductD_77 (hK : IsComponentOf K
     (centralizerProductD_le_centralizer_diag_77 hK hA hDY hDA hDreg)).trans
     (Subgroup.centralizer_le_normalizer _)
 
+omit [DecidableEq ↥D] in
 theorem stableUnder_fixVProduct_diag_77 (hK : IsComponentOf K Y) (hA : A ∈ E3.aSet k Y)
-    (hDA : D ≤ A) (hAD : A = normalizerInA A K ⊔ D)
+    (hDA : D ≤ A) (_hAD : A = normalizerInA A K ⊔ D)
     (hDreg : D ⊓ Subgroup.normalizer (K : Set (MulAut W)) = ⊥) :
     ∀ y ∈ (diagHom77 hK (le_y_of_le_a_77 hA hDA) hDreg).range,
       ∀ u ∈ fixVProduct A K D, y u ∈ fixVProduct A K D := by

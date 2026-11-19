@@ -25,7 +25,7 @@ theorem nfProd_eq_heisNF {G : Type*} [Group G] (x y : Fin 4 → G) (z : G) (e : 
       ((e.getD 8 0 : ℕ) : ZMod 3) := by
   unfold nfProd heisNF
   simp only [List.ofFn_succ, List.ofFn_zero, List.prod_cons, List.prod_nil, mul_one,
-    Fin.coe_castAdd, Fin.coe_natAdd, Fin.val_zero, Fin.val_succ, Fin.succ_zero_eq_one,
+    Fin.val_castAdd, Fin.val_natAdd, Fin.val_zero, Fin.val_succ, Fin.succ_zero_eq_one,
     Fin.succ_one_eq_two]
   rw [ZMod.val_cast_of_lt (he 0 (by norm_num)), ZMod.val_cast_of_lt (he 1 (by norm_num)),
     ZMod.val_cast_of_lt (he 2 (by norm_num)), ZMod.val_cast_of_lt (he 3 (by norm_num)),
@@ -55,7 +55,7 @@ theorem exists_z_components_dvd :
         IsComponentOf K (Subgroup.centralizer ({z} : Set NativeSporadic.B)) →
         9 ∣ (Subgroup.center ↥K).index → 3 ^ 8 ∣ Nat.card (MulAut ↥K) := by
   obtain ⟨x, y, z, g, hH, hy3, hgx, hgy, hgz, hrk⟩ := bNF_holds
-  haveI : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
+  have : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
   have hn : 0 < 4 := by norm_num
   have hz3 : z ^ 3 = 1 := hH.zp
   refine ⟨z, orderOf_z hH, hrk, ?_⟩

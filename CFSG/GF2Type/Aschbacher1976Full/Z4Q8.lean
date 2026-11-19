@@ -17,7 +17,7 @@ theorem valuation_three_one {p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hf : 1 �
   have hp3 : p = 3 := (key p (Nat.mem_divisors.mpr ⟨hdvd, by norm_num⟩) hp).resolve_left hp2
   subst hp3
   refine ⟨rfl, ?_⟩
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   have h3 : padicValNat 3 96 = 1 := by
     have e : (96 : ℕ) = 3 * 32 := by norm_num
     rw [e, padicValNat.mul (by norm_num) (by norm_num), padicValNat_self,
@@ -30,7 +30,7 @@ section Certified
 theorem leafZ4Q8_holds : Asc76LeafZ4Q8 := by
   intro G _ _ z hsetting hZ4
   obtain ⟨hsimp, hnab, hz, -⟩ := hsetting
-  haveI := hsimp
+  have := hsimp
   have hdih : ∀ x : G, orderOf x = 4 →
       CFSG.EvenSporadicStandard.Finkelstein77.WeaklyClosedInNormalizer (Subgroup.zpowers x) →
       CFSG.ComponentClassification.AschbacherKnownGroup.HasDihedralSylowTwo G ∨

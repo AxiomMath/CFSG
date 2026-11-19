@@ -39,7 +39,7 @@ theorem card_dot_zero {m : ℕ} (hm : 1 ≤ m) :
     Nat.card {p : (Fin m → K) × (Fin m → K) // dotProduct p.1 p.2 = 0} + Nat.card K ^ (m - 1) =
       Nat.card K ^ m + Nat.card K ^ (2 * m - 1) := by
   classical
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hcardK : Fintype.card K = Nat.card K := (Nat.card_eq_fintype_card).symm
   obtain ⟨k, rfl⟩ : ∃ k, m = k + 1 := ⟨m - 1, by omega⟩
   rw [Nat.card_congr (Equiv.subtypeProdEquivSigmaSubtype fun (x y : Fin (k + 1) → K) =>
@@ -56,10 +56,10 @@ theorem card_dot_zero {m : ℕ} (hm : 1 ≤ m) :
       exact (Nat.card_congr (Equiv.subtypeEquivRight fun y => by simp [dotLin])).trans h
   simp_rw [hf]
   rw [← Finset.add_sum_erase Finset.univ _ (Finset.mem_univ 0)]
-  rw [Finset.sum_congr rfl (fun x hx => if_neg (Finset.ne_of_mem_erase hx))]
+  rw [Finset.sum_congr rfl (fun x hx => ite_eq_right (Finset.ne_of_mem_erase hx))]
   rw [Finset.sum_const, Finset.card_erase_of_mem (Finset.mem_univ _), Finset.card_univ,
     Fintype.card_fun, Fintype.card_fin, hcardK]
-  simp only [if_true, smul_eq_mul]
+  simp only [ite_true, smul_eq_mul]
   have hpos : 1 ≤ Nat.card K ^ (k + 1) := Nat.one_le_pow _ _ Nat.card_pos
   have e1 : k + 1 - 1 = k := by omega
   have e2 : 2 * (k + 1) - 1 = (k + 1) + k := by omega
@@ -97,7 +97,7 @@ variable {K : Type} [Field K] [Finite K]
 theorem card_plane_zero (c : K) :
     Nat.card {p : K × K // p.1 * (p.1 * c + p.2) = 0} + 1 = 2 * Nat.card K := by
   classical
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hcardK : Fintype.card K = Nat.card K := (Nat.card_eq_fintype_card).symm
   rw [Nat.card_congr (Equiv.subtypeProdEquivSigmaSubtype fun (b a : K) => b * (b * c + a) = 0),
     Nat.card_sigma]
@@ -106,7 +106,7 @@ theorem card_plane_zero (c : K) :
     split_ifs with hb
     · subst hb
       rw [Nat.card_congr (Equiv.subtypeUnivEquiv (fun a => by simp))]
-    · haveI : Unique {a : K // b * (b * c + a) = 0} :=
+    · have : Unique {a : K // b * (b * c + a) = 0} :=
         { default := ⟨-(b * c), by ring⟩
           uniq := fun ⟨a, ha⟩ => Subtype.ext (by
             have := (mul_eq_zero.1 ha).resolve_left hb
@@ -114,9 +114,9 @@ theorem card_plane_zero (c : K) :
       exact Nat.card_unique
   simp_rw [hf]
   rw [← Finset.add_sum_erase Finset.univ _ (Finset.mem_univ 0)]
-  rw [Finset.sum_congr rfl (fun x hx => if_neg (Finset.ne_of_mem_erase hx))]
+  rw [Finset.sum_congr rfl (fun x hx => ite_eq_right (Finset.ne_of_mem_erase hx))]
   rw [Finset.sum_const, Finset.card_erase_of_mem (Finset.mem_univ _), Finset.card_univ, hcardK]
-  simp only [if_true, smul_eq_mul, mul_one]
+  simp only [ite_true, smul_eq_mul, mul_one]
   have : 1 ≤ Nat.card K := Nat.card_pos
   omega
 
@@ -139,7 +139,7 @@ theorem card_sing_plane (Q : QuadraticForm K V) (F : Submodule K V) (hF2 : finra
     exact inv_mul_cancel₀ hc'
   have hff : polar Q f f = 0 := by
     rw [polar_self, hfQ]
-    simp [h2]
+    simp
   set Φ : K × K → V := fun p => p.2 • f + p.1 • g with hΦ
   have hQΦ : ∀ p : K × K, Q (Φ p) = p.1 * (p.1 * Q g + p.2) := by
     intro p
@@ -168,14 +168,14 @@ theorem card_sing_plane (Q : QuadraticForm K V) (F : Submodule K V) (hF2 : finra
     exact Prod.ext hb ha
   have hΦsurj : ∀ v ∈ F, ∃ p, Φ p = v := by
     classical
-    haveI := Fintype.ofFinite K
+    have := Fintype.ofFinite K
     let Φ' : K × K → F := fun p => ⟨Φ p, hΦF p⟩
     have hΦ'inj : Function.Injective Φ' := fun p p' h => hΦinj (congrArg Subtype.val h)
     have hcard : Nat.card (K × K) = Nat.card F := by
       rw [Nat.card_prod, CFSG.LocalAnalysis.GLTheoremA.D4T.card_submodule, hF2]
       ring
-    haveI : Finite V := Module.finite_of_finite K
-    haveI : Finite F := inferInstance
+    have : Finite V := Module.finite_of_finite K
+    have : Finite F := inferInstance
     have hsurj : Function.Surjective Φ' :=
       (Function.Injective.bijective_of_nat_card_le hΦ'inj hcard.ge).2
     intro v hv
@@ -210,7 +210,7 @@ theorem no_cube_root {K : Type} [Field K] [Finite K] [CharP K 2] (hQ3 : Nat.card
   set u : Kˣ := Units.mk0 c hc0 with hu
   have hu3 : u ^ 3 = 1 := Units.ext (by simpa [hu] using hc3)
   have hu1 : u ≠ 1 := fun h => hc1 (by simpa [hu] using congrArg Units.val h)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf u = 3 := orderOf_eq_prime hu3 hu1
   have hdvd : 3 ∣ Nat.card Kˣ := hord ▸ orderOf_dvd_natCard u
   rw [Nat.card_units] at hdvd

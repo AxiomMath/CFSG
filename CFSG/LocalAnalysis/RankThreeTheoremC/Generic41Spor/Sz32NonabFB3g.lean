@@ -14,6 +14,7 @@ section Part
 
 variable {Y : Type} [Group Y] [Finite Y] {F Γ B R₀ : Subgroup Y} {x : Y} {L : Subgroup Y} {z : Y}
 
+omit [Finite Y] in
 private theorem mem_of_conjNormal_eq_conj [L.Normal]
     (hcent : Subgroup.centralizer (L : Set Y) = ⊥)
     {y : Y} {l : L} (h : MulAut.conjNormal y = MulAut.conj l) : y ∈ L := by
@@ -37,7 +38,7 @@ private theorem mem_of_conjNormal_eq_conj [L.Normal]
 theorem nf5_not_suzuki (hSz : Sz32Facts) (hSig : Sz32SigOne) (hc : NF5Cfg F Γ B R₀ x L z) :
     ¬ IsoLie ↥L (.suzuki 2) := by
   intro h
-  haveI : L.Normal := hc.normal
+  have : L.Normal := hc.normal
   have hdata := hc.data
   have hT : IsSz32Type 5 ↥L := by
     unfold IsSz32Type
@@ -85,8 +86,7 @@ theorem nf5_not_suzuki (hSz : Sz32Facts) (hSig : Sz32SigOne) (hc : NF5Cfg F Γ B
     rw [Subgroup.mem_set_normalizer_iff]
     intro m
     have hm := Subgroup.mem_set_normalizer_iff.1 hzN (m : Y)
-    simp only [SetLike.mem_coe, Subgroup.mem_subgroupOf, Subgroup.coe_mul, Subgroup.coe_inv,
-      Subgroup.coe_mk]
+    simp only [SetLike.mem_coe, Subgroup.mem_subgroupOf, Subgroup.coe_mul, Subgroup.coe_inv]
     exact hm
   have hWbot : R₀.subgroupOf L = ⊥ :=
     hSig ↥L hT ⟨z, hc.zL⟩ hxord (R₀.subgroupOf L) hcop hxN

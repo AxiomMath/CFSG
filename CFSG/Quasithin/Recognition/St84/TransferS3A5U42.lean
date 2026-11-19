@@ -15,6 +15,7 @@ open scoped Pointwise commutatorElement
 
 variable {H : Type} [Group H] [Finite H]
 
+omit [Finite H] in
 private theorem isElemSec_bot_of_isElemAbelian {E : Subgroup H} (hE : IsElemAbelian 2 E) :
     IsElemSec (⊥ : Subgroup H) E :=
   ⟨bot_le, (F7.commutator_self_eq_bot hE).le, fun e he => by
@@ -94,6 +95,7 @@ theorem f112sa_two_elem_normalizer_QA
       (((le_sup_right : S ≤ bigB L1 L2 S).trans
         (le_sup_right : bigB L1 L2 S ≤ f112P2 L1 L2 S)) hcS)
 
+omit [Finite H] in
 private theorem f112sa_bot_sec_facts {L1 L2 S : Subgroup H}
     (hU : S3A5U42Hyp L1 L2 S) :
     IsElemSec (⊥ : Subgroup H) (pCoreOf 2 (f112saP2' L1 L2 S)) ∧

@@ -149,7 +149,7 @@ theorem LeviFactor.diag_of_mem_centralizer {F : Type} [Field F] {m : ℕ}
     rw [Matrix.diagonal_apply]
     by_cases hij : i = j
     · subst hij; simp
-    · rw [if_neg hij]; exact hD i j hij
+    · rw [ite_eq_right hij]; exact hD i j hij
   have hDaa : ∀ a : Fin m, (D : Matrix (Fin m) (Fin m) F) a a ≠ 0 := by
     intro a h0
     have hDinv : (D : Matrix (Fin m) (Fin m) F) *

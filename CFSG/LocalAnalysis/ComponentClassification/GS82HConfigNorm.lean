@@ -147,7 +147,7 @@ theorem orbJoin_eq_sup (B K : Subgroup G) : orbJoin B K = K ⊔ orbRest B K := b
 
 theorem orbRest_le_centralizer [Finite G] {B K : Subgroup G} (hK : IsComponent K) :
     orbRest B K ≤ centralizer (K : Set G) :=
-  iSup₂_le fun b _ => iSup_le fun hne => fun x hx => mem_centralizer_iff.mpr fun k hk =>
+  iSup₂_le fun b _ => iSup_le fun hne => fun _x hx => mem_centralizer_iff.mpr fun _k hk =>
     (commute_of_isComponent hK (isComponent_cj hK b) (Ne.symm hne) hk hx)
 
 theorem stab_le_normalizer_orbRest [Finite G] {B K : Subgroup G} :
@@ -212,6 +212,7 @@ theorem normMap_apply (x : ↥(K ⊓ centralizer (stab B K : Set G))) :
   rfl
 
 include hK in
+omit [Finite G] hK [Fintype (Orb B K)] in
 theorem rep_one_mem_stab : rep (orbOne B K) ∈ stab B K := by
   have h := (cj_rep_eq_self_iff (orbOne B K)).mpr rfl
   exact mem_inf.mpr ⟨rep_mem _, cj_eq_self_iff.mp h⟩
@@ -258,7 +259,7 @@ theorem inv_mul_normMap_mem (x : ↥(K ⊓ centralizer (stab B K : Set G))) :
   rw [normMap_apply, ← Finset.mul_noncommProd_erase _ (Finset.mem_univ (orbOne B K))]
   have h1 : normPart B K (orbOne B K) x = x := by
     rw [normPart_apply]
-    have := mem_centralizer_iff.mp (mem_inf.mp x.2).2 _ (rep_one_mem_stab hK)
+    have := mem_centralizer_iff.mp (mem_inf.mp x.2).2 _ (rep_one_mem_stab)
     rw [this, mul_inv_cancel_right]
   rw [h1, inv_mul_cancel_left]
   refine Subgroup.noncommProd_mem _ _ fun q hq => ?_

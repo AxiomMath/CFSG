@@ -125,7 +125,7 @@ theorem not_five_dvd_card_CMOf (hR : Nat.card ↥(Rc X) ≤ 2) {x : G}
   rw [hcard, hk] at h5
   have h5' : 5 ∣ Nat.card ↥(((CMOf M x).subgroupOf M).map C.θ) :=
     (Nat.Coprime.dvd_of_dvd_mul_left (Nat.Coprime.pow_right k (by norm_num)) h5)
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨⟨σ, hσ⟩, hσo⟩ := exists_prime_orderOf_dvd_card' 5 h5'
   have hσo' : orderOf σ = 5 := by rw [← hσo, Subgroup.orderOf_mk]
   obtain ⟨m, hm, rfl⟩ := Subgroup.mem_map.1 hσ

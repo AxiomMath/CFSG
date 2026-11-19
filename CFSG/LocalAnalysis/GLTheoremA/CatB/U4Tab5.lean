@@ -75,12 +75,12 @@ theorem innerAut_mulEquiv_quot (Q : Type) [Group Q] :
 theorem glaPrimeCoreOf_innerAut_eq_bot {Q : Type} [Group Q] [Finite Q]
     (hQ : CFSG.Open.IsQuasisimple Q) (hS : Nat.card (Q ⧸ Subgroup.center Q) = 25920) :
     GLAPPrimeCoreOf 3 (innerAut Q) = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  haveI : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hQ.2
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hQ.2
   obtain ⟨e⟩ := innerAut_mulEquiv_quot Q
   have hcardI : Nat.card (innerAut Q) = 25920 := by
     rw [← hS, Nat.card_congr e.toEquiv]
-  haveI : IsSimpleGroup (innerAut Q) := e.symm.isSimpleGroup
+  have : IsSimpleGroup (innerAut Q) := e.symm.isSimpleGroup
   have hcore : GLAPPrimeCore 3 ↥(innerAut Q) = ⊥ := by
     refine CFSG.pPrimeCore_eq_bot_iff.2 ?_
     intro K hK hcop
@@ -95,7 +95,7 @@ theorem glaPrimeCoreOf_innerAut_eq_bot {Q : Type} [Group Q] [Finite Q]
 theorem u4two_inner {Q : Type} [Group Q] [Finite Q] (hQ : CFSG.Open.IsQuasisimple Q)
     (hZ : catalogIs (Q ⧸ Subgroup.center Q) S9.isU4two) (v : MulAut Q) (hU : U4Hyp v) :
     GLAPPrimeCoreOf 3 (innerAut Q ⊓ Subgroup.centralizer ({v} : Set (MulAut Q))) = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨J, hJsub, _hJq, hJcat⟩ := hU
   have hSn : Nat.card (Q ⧸ Subgroup.center Q) = 25920 := card_of_catalogIs_u4two hZ
   have hPn : Nat.card (PSimple 3 J) = 25920 := card_of_catalogIs_u4two hJcat

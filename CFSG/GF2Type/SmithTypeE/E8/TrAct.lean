@@ -26,9 +26,9 @@ theorem exists_of_xr_sub_ne_zero {β : Fin (Tag.rank .E7) → ℤ} (hβ : IsRoot
   rw [F.coord_rho_sub hβ] at h
   obtain ⟨a, -, ha⟩ := Finset.exists_ne_zero_of_sum_ne_zero h
   by_cases hc : (e7Data.wt a ⬝ᵥ β = -1 ∧ e7Data.wt c = e7Data.wt a + MinData.toWeight β)
-  · rw [if_pos hc] at ha
+  · rw [ite_eq_left hc] at ha
     exact ⟨a, ha, hc.1, hc.2⟩
-  · rw [if_neg hc] at ha
+  · rw [ite_eq_right hc] at ha
     exact absurd rfl ha
 
 theorem xr_apply_eq_of_support {β : Fin (Tag.rank .E7) → ℤ} (hβ : IsRoot .E7 β)
@@ -107,9 +107,9 @@ theorem exists_of_xr_apply_ne_zero {β : Fin (Tag.rank .E7) → ℤ} (hβ : IsRo
     rw [F.coord_rho hβ, hwc, zero_add] at h
     obtain ⟨a, -, ha⟩ := Finset.exists_ne_zero_of_sum_ne_zero h
     by_cases hc : (e7Data.wt a ⬝ᵥ β = -1 ∧ e7Data.wt c = e7Data.wt a + MinData.toWeight β)
-    · rw [if_pos hc] at ha
+    · rw [ite_eq_left hc] at ha
       exact ⟨a, ha, hc.1, hc.2⟩
-    · rw [if_neg hc] at ha
+    · rw [ite_eq_right hc] at ha
       exact absurd rfl ha
   · exact Or.inl hwc
 
@@ -134,7 +134,7 @@ theorem single_add_single_ne_zero {a c d : Fin e7Data.d}
   by_contra hne
   push Not at hne
   apply h
-  simp [Finsupp.single_apply, Ne.symm hne.1, Ne.symm hne.2]
+  simp [Ne.symm hne.1, Ne.symm hne.2]
 
 theorem actL_pivot (L : List (Fin (Tag.rank .E7) → ℤ)) (hL : ∀ γ ∈ L, IsRoot .E7 γ)
     (hnd : L.Nodup) (γ₀ : Fin (Tag.rank .E7) → ℤ) (h0 : γ₀ ∈ L) (a c : Fin e7Data.d)
@@ -151,11 +151,11 @@ theorem actL_pivot (L : List (Fin (Tag.rank .E7) → ℤ)) (hL : ∀ γ ∈ L, I
         intro γ' hγ' d hd
         have hda : d = a := by
           by_contra hne
-          exact hd (by simp [Finsupp.single_apply, Ne.symm hne])
+          exact hd (by simp [Ne.symm hne])
         subst hda
         exact (hothers γ' (List.mem_cons_of_mem _ hγ')
           (fun h => hnd.1 (hγ.trans h.symm ▸ hγ'))).1
-      rw [actL_cons, hfix, e7Rep56_pinnedElt_single (hL γ List.mem_cons_self) a, hγ, if_pos ha,
+      rw [actL_cons, hfix, e7Rep56_pinnedElt_single (hL γ List.mem_cons_self) a, hγ, ite_eq_left ha,
         wt_e7Shift hc]
     · have h0' : γ₀ ∈ L := (List.mem_cons.1 h0).resolve_left (fun h => hγ h.symm)
       have ih' := ih (fun x hx => hL x (List.mem_cons_of_mem _ hx)) hnd.2 h0'
@@ -200,7 +200,7 @@ theorem actL_coord_prod (L : List (Fin (Tag.rank .E7) → ℤ)) (hL : ∀ γ ∈
       (fun d hd => by
         have : d = a := by
           by_contra hne'
-          exact hd (by simp [Finsupp.single_apply, Ne.symm hne'])
+          exact hd (by simp [Ne.symm hne'])
         rw [this])
     rw [actL_cons]
     by_cases hPγ : P γ = true
@@ -230,9 +230,9 @@ theorem actL_coord_prod (L : List (Fin (Tag.rank .E7) → ℤ)) (hL : ∀ γ ∈
         rw [hc', add_dotProduct, hcγ, neg_dotProduct, F.tw_dot_self hγr]
         norm_num
       rw [Finset.sum_eq_single c']
-      · rw [if_pos ⟨hc'γ, by rw [hc']; abel⟩, hu1]
+      · rw [ite_eq_left ⟨hc'γ, by rw [hc']; abel⟩, hu1]
       · intro a' _ ha'
-        rw [if_neg]
+        rw [ite_eq_right]
         rintro ⟨-, h2⟩
         apply ha'
         refine e7Data_valid.wt_injective ?_
@@ -255,13 +255,13 @@ theorem actL_coord_prod (L : List (Fin (Tag.rank .E7) → ℤ)) (hL : ∀ γ ∈
         refine Finset.sum_eq_zero fun a' _ => ?_
         by_cases hcond : (e7Data.wt a' ⬝ᵥ γ = -1 ∧
             e7Data.wt c = e7Data.wt a' + MinData.toWeight γ)
-        · rw [if_pos hcond]
+        · rw [ite_eq_left hcond]
           by_contra hne'
           have h1 := hsupp a' hne'
           have h2 : e7Data.wt c ⬝ᵥ γ = e7Data.wt a' ⬝ᵥ γ + 2 := by
             rw [hcond.2, add_dotProduct, F.tw_dot_self hγr]
           omega
-        · rw [if_neg hcond]
+        · rw [ite_eq_right hcond]
       rw [hsum, add_zero]
 
 @[expose] noncomputable def commSp (a : ↥(adjointGroup .E7 (ZMod 2))) :

@@ -20,7 +20,7 @@ theorem pow_two_modEq_five_of_le_three {d e : ℕ} (hle : e ≤ d) (hd : d ≤ 3
 
 private theorem natCard_eq_two_pow_finrank (V : Type) [AddCommGroup V] [Module (ZMod 2) V]
     [Finite V] : Nat.card V = 2 ^ Module.finrank (ZMod 2) V := by
-  haveI : Module.Finite (ZMod 2) V := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) V := Module.Finite.of_finite
   have h := Module.natCard_eq_pow_finrank (K := ZMod 2) (V := V)
   rwa [Nat.card_zmod] at h
 
@@ -28,8 +28,8 @@ private theorem card_modEq_fixedSubmodule_of_pow_five {V : Type} [AddCommGroup V
     [Module (ZMod 2) V] [Finite V] (T : V →ₗ[ZMod 2] V) (hT : T ^ 5 = 1) :
     Nat.card V ≡ Nat.card (LinearMap.ker (T - 1)) [MOD 5] := by
   classical
-  haveI : Fintype V := Fintype.ofFinite V
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fintype V := Fintype.ofFinite V
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   let g : Function.End V := fun v => T v
   have hg : g ^ 5 ^ 1 = 1 := by
     rw [pow_one]
@@ -82,6 +82,7 @@ theorem isProj_subgroupAverage_invariants {B V : Type} [Group B] [Finite B] [Add
   ⟨CFSG.SolvableHall.subgroupAverage_mem_invariants ρ H,
    fun _ hv => CFSG.SolvableHall.subgroupAverage_eq_self ρ (by norm_num) hH hv⟩
 
+omit [Finite G] in
 theorem normal_subgroupOf_of_commutator_le {N M : Subgroup G} (hMN : M ≤ N)
     (hcomm : ∀ x ∈ N, ∀ y ∈ N, ⁅x, y⁆ ∈ M) : (M.subgroupOf N).Normal := by
   rw [Subgroup.normal_subgroupOf_iff hMN]
@@ -89,7 +90,8 @@ theorem normal_subgroupOf_of_commutator_le {N M : Subgroup G} (hMN : M ≤ N)
   rw [show n * m * n⁻¹ = ⁅n, m⁆ * m by rw [commutatorElement_def]; group]
   exact M.mul_mem (hcomm n hn m (hMN hm)) hm
 
-theorem isElementaryAbelian_quotient49 {N M : Subgroup G} (hMN : M ≤ N)
+omit [Finite G] in
+theorem isElementaryAbelian_quotient49 {N M : Subgroup G} (_hMN : M ≤ N)
     (hcomm : ∀ x ∈ N, ∀ y ∈ N, ⁅x, y⁆ ∈ M) (hsq : ∀ x ∈ N, x ^ 2 ∈ M)
     [(M.subgroupOf N).Normal] :
     CFSG.IsElementaryAbelian 2 (N ⧸ M.subgroupOf N) where
@@ -146,8 +148,8 @@ private theorem exists_hyperplane_operator_fixing_not (k : ℕ)
     (hinj : Function.Injective ρ) :
     ∃ D : {D : Subgroup B // D ≤ ⊤ ∧ D.relIndex ⊤ = 5},
       ∃ b : B, ∃ v ∈ Representation.invariants (ρ.comp D.1.subtype), ρ b v ≠ v := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨by norm_num⟩
   have hAtop : CFSG.Open.IsElemAbelian 5 (⊤ : Subgroup B) :=
     ⟨⟨⟨fun a b => Subtype.ext (hcomm (a : B) (b : B))⟩⟩, fun x _ => hpow (x : B)⟩
   have hBnt : Nontrivial B := by
@@ -167,7 +169,7 @@ private theorem exists_hyperplane_operator_fixing_not (k : ℕ)
       Representation.invariants (ρ.comp D.1.subtype) = ⊤ :=
     CFSG.SolvableHall.iSup_invariants_hyperplanes_eq_top ρ (by norm_num) (by norm_num)
       (by norm_num) hAtop hA1
-  haveI : Nontrivial B := hBnt
+  have : Nontrivial B := hBnt
   exact exists_hyperplane_operator_fixing_not_of_span ρ hinj hspan
 
 private theorem card_of_relIndex_five (k : ℕ) {B : Type} [Group B] [Finite B] {D : Subgroup B}
@@ -344,10 +346,10 @@ theorem five_finrank_bound : ∀ (k : ℕ), ∀ {B V : Type} [Group B] [Finite B
 theorem fiveRankBound : FiveRankBound := by
   intro G _ _ N M B k hMN hcomm hsq hBel hBcard hBN hBM hfaith
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨by norm_num⟩
   have hMnorm : (M.subgroupOf N).Normal := normal_subgroupOf_of_commutator_le hMN hcomm
-  haveI := hMnorm
-  haveI hEel : CFSG.IsElementaryAbelian 2 (N ⧸ M.subgroupOf N) :=
+  have := hMnorm
+  have hEel : CFSG.IsElementaryAbelian 2 (N ⧸ M.subgroupOf N) :=
     isElementaryAbelian_quotient49 hMN hcomm hsq
   let rep : Representation (ZMod 2) ↥B (Additive (N ⧸ M.subgroupOf N)) :=
     (Units.coeHom (Additive (N ⧸ M.subgroupOf N) →ₗ[ZMod 2] Additive (N ⧸ M.subgroupOf N))).comp
@@ -365,7 +367,7 @@ theorem fiveRankBound : FiveRankBound := by
     exact hBel.2 (b : G) b.2
   have hcommB : ∀ a b : ↥B, a * b = b * a := fun a b => hBel.1.is_comm.comm a b
   have hbound := five_finrank_bound k rep hpowB hcommB hBcard hrepinj
-  haveI : Module.Finite (ZMod 2) (Additive (N ⧸ M.subgroupOf N)) := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) (Additive (N ⧸ M.subgroupOf N)) := Module.Finite.of_finite
   have hVfin : Nat.card (Additive (N ⧸ M.subgroupOf N)) =
       2 ^ Module.finrank (ZMod 2) (Additive (N ⧸ M.subgroupOf N)) := by
     have := Module.natCard_eq_pow_finrank (K := ZMod 2) (V := Additive (N ⧸ M.subgroupOf N))

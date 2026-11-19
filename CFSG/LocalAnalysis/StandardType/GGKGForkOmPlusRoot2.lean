@@ -76,7 +76,7 @@ private theorem ggKGOmR_sep {m p : ℕ} {K : Type} [Field K] {ζ : Kˣ}
     funext j_1
     by_cases hj : j_1 = j
     · subst hj; simp
-    · rw [Pi.mulSingle_apply, if_neg hj, map_one, Pi.mulSingle_apply, if_neg hj]
+    · rw [Pi.mulSingle_apply, ite_eq_right hj, map_one, Pi.mulSingle_apply, ite_eq_right hj]
   have hnotinl : ∀ {j l : Fin m}, j ≠ l → (Sum.inl l : Fin m ⊕ Fin m) ∉ coords j := by
     intro j l hjl hmem
     simp only [coords, Set.mem_insert_iff, Set.mem_singleton_iff, Sum.inl.injEq] at hmem
@@ -186,10 +186,10 @@ private theorem ggKGOmR_commRank_flip {m : ℕ} {K : Type} [Field K] (i : Fin m)
   have hw_inr : w (Sum.inr i) = -1 := by simp [w, Pi.single_eq_same]
   have hw_inl_ne : ∀ j, j ≠ i → w (Sum.inl j) = 0 := by
     intro j hj
-    simp [w, Pi.single_apply, hj, Sum.inl.injEq]
+    simp [w, hj, Sum.inl.injEq]
   have hw_inr_ne : ∀ j, j ≠ i → w (Sum.inr j) = 0 := by
     intro j hj
-    simp [w, Pi.single_apply, hj, Sum.inr.injEq]
+    simp [w, hj, Sum.inr.injEq]
   have hf_inl : OmegaPilot.flipPerm {i} (Sum.inl i) = Sum.inr i := by
     simp [OmegaPilot.flipPerm_apply, OmegaPilot.flipPermFun]
   have hf_inr : OmegaPilot.flipPerm {i} (Sum.inr i) = Sum.inl i := by
@@ -223,15 +223,15 @@ private theorem ggKGOmR_commRank_flip {m : ℕ} {K : Type} [Field K] (i : Fin m)
       · by_cases hj : j = i
         · subst hj
           rw [hf_inl, hw_inl]
-          simp [Pi.single_apply]
+          simp
         · rw [hf_inl_ne j hj, hw_inl_ne j hj]
-          simp [Pi.single_apply, hj]
+          simp
       · by_cases hj : j = i
         · subst hj
           rw [hf_inr, hw_inr]
-          simp [Pi.single_apply]
+          simp
         · rw [hf_inr_ne j hj, hw_inr_ne j hj]
-          simp [Pi.single_apply, hj]
+          simp [hj]
   rw [hspan, finrank_span_singleton hwne]
 
 private def ggKGOmR_diagEquiv {m : ℕ} {K : Type} [Field K]
@@ -283,7 +283,7 @@ private theorem ggKGOmR_diag_form_prod {m : ℕ} {K : Type} [Field K]
       w (Sum.inl j) * w (Sum.inr j) := by
     rw [CFSG.LieType.Universal.Spin.quadPlus_apply]
     simp only [Matrix.mulVec_diagonal, Pi.add_apply, Pi.single_apply, Sum.inl.injEq,
-      Sum.inr.injEq, reduceIte]
+      Sum.inr.injEq]
     rw [Finset.sum_eq_single j]
     · simp
     · intro b _ hbj
@@ -293,7 +293,7 @@ private theorem ggKGOmR_diag_form_prod {m : ℕ} {K : Type} [Field K]
   have h2 : (CFSG.LieType.Universal.Spin.quadPlus m K)
       (Pi.single (Sum.inl j) 1 + Pi.single (Sum.inr j) 1) = 1 := by
     rw [CFSG.LieType.Universal.Spin.quadPlus_apply]
-    simp only [Pi.add_apply, Pi.single_apply, Sum.inl.injEq, Sum.inr.injEq, reduceIte]
+    simp only [Pi.add_apply, Pi.single_apply, Sum.inl.injEq, Sum.inr.injEq]
     rw [Finset.sum_eq_single j]
     · simp
     · intro b _ hbj
@@ -333,7 +333,7 @@ theorem ggKGOmR_not_sgnAut {m p : ℕ} {K : Type} [Field K] [Finite K] [CharP K 
     ¬ ∃ w₀ : StatedOmega (StatedQuadPlus m K),
       ∀ f, w₀ * omPlusTorus hζ f * w₀⁻¹ = omPlusTorus hζ (sgnAut i f) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   rintro ⟨w₀, hw₀⟩
   set g : GL (Fin m ⊕ Fin m) K := (w₀ : GL (Fin m ⊕ Fin m) K) with hgdef
   set flip : GL (Fin m ⊕ Fin m) K := OmegaPilot.flipGL K {i} with hflipdef

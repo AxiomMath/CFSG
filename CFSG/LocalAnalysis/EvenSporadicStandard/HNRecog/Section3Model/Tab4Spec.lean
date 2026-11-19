@@ -71,9 +71,9 @@ theorem tab4_base_ncard (hP : Nat.card ↥P1408 = 177408000) :
     · exact isConj_pB_pA_mul_pB hP
   have hset : tab4Base pA pB pB = {c | IsConj pB c} \ {pB, pA * pB} := by
     ext c
-    simp only [tab4Base, Set.mem_setOf_eq, Set.mem_diff, Set.mem_insert_iff,
+    simp only [tab4Base, Set.mem_ofPred_eq, Set.mem_sdiff, Set.mem_insert_iff,
       Set.mem_singleton_iff, not_or]
-  rw [hset, Set.ncard_diff hsub (Set.toFinite _), hcl, Set.ncard_pair hne]
+  rw [hset, Set.ncard_sdiff hsub (Set.toFinite _), hcl, Set.ncard_pair hne]
 
 private theorem tab4_ord : orderOf pA = 2 ∧ orderOf pZ = 2 ∧ orderOf pB = 2 ∧ orderOf pZ₁ = 2 := by
   obtain ⟨hA, hZ, hB, hZ₁, -⟩ := twoHSBasic_spec

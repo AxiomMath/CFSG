@@ -15,6 +15,7 @@ open scoped commutatorElement Pointwise
 variable {G : Type} [Group G] [Finite G]
 
 
+omit [Finite G] in
 private theorem seven_eight_core_hyp_deltaSet_ne_one {V H E J L : Subgroup G}
     (h : Hyp78 V H E J L) {Q : Type} [Group Q] {φ : ↥H →* Q} (hφ : IsBarMap H J φ)
     {v : G} (hv : v ∈ V) (hvJ : v ∉ J)
@@ -29,8 +30,9 @@ private theorem seven_eight_core_hyp_deltaSet_ne_one {V H E J L : Subgroup G}
       _ = 1 := by group
   exact hvJ ((hφ.ker_iff ⟨v, h.omega_le V h.mem hv⟩).mp hv1)
 
+omit [Finite G] in
 private theorem seven_eight_core_hyp_phi_mul_inv {H J : Subgroup G} {Q : Type} [Group Q]
-    {φ : ↥H →* Q} (hφ : IsBarMap H J φ) {v : G} {a a' : Q} {x y : G}
+    {φ : ↥H →* Q} (_hφ : IsBarMap H J φ) {v : G} {a a' : Q} {x y : G}
     {hxH : x * v * x⁻¹ ∈ H} {hyH : y * v * y⁻¹ ∈ H}
     (hx : a = φ ⟨x * v * x⁻¹, hxH⟩) (hy : a' = φ ⟨y * v * y⁻¹, hyH⟩)
     (hprod : (x * v * x⁻¹)⁻¹ * (y * v * y⁻¹) ∈ H) :
@@ -50,7 +52,7 @@ theorem Hyp78.commute_of_mem_commutator_zpowers_deltaSet {V H E J L : Subgroup G
       ∀ a' ∈ deltaSet (barSub H φ (pCoreOf 2 L)) (φ ⟨v, h.omega_le V h.mem hv⟩), a ≠ a' →
         ∀ m ∈ ⁅Xb, Subgroup.zpowers a⁆, a' * m = m * a' := by
   have hJH : J ≤ H := h.pcore_le.trans (CFSG.LieType.BorelTits.pCoreOf_le 2 H)
-  haveI : (J.subgroupOf (barPre H φ Xb)).Normal :=
+  have : (J.subgroupOf (barPre H φ Xb)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer
       ((barPre_le H φ Xb).trans (le_normalizer_of_subgroupOf_normal hJH h.jnormal))
   intro a ha a' ha' hane m hm
@@ -139,7 +141,7 @@ theorem Hyp78.inf_commutator_zpowers_eq_bot {V H E J L : Subgroup G}
       ∀ a' ∈ deltaSet (barSub H φ (pCoreOf 2 L)) (φ ⟨v, h.omega_le V h.mem hv⟩), a ≠ a' →
         ⁅Xb, Subgroup.zpowers a⁆ ⊓ ⁅Xb, Subgroup.zpowers a'⁆ = ⊥ := by
   have hJH : J ≤ H := h.pcore_le.trans (CFSG.LieType.BorelTits.pCoreOf_le 2 H)
-  haveI : (J.subgroupOf (barPre H φ Xb)).Normal :=
+  have : (J.subgroupOf (barPre H φ Xb)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer
       ((barPre_le H φ Xb).trans (le_normalizer_of_subgroupOf_normal hJH h.jnormal))
   intro a ha a' ha' hane
@@ -225,7 +227,7 @@ theorem Hyp78.card_commutator_zpowers_eq {V H E J L : Subgroup G}
   obtain ⟨hUom, -⟩ := Hyp78.conjSubgroup_inv_mem_omegaSet h hxcore
   have hMX : M ≤ Xb := commutator_zpowers_le haXb
   have hoddM : Odd (Nat.card ↥M) := by
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp (hXp.to_le hMX)
     rw [hn]
     exact (hp.odd_of_ne_two hp2).pow

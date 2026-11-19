@@ -26,7 +26,7 @@ theorem dihedral_subgroup_automorphism_isTwoGroup
     hcyclic | ⟨k, hk, ⟨f⟩⟩
   · let : IsCyclic U := eU.isCyclic.mpr hcyclic
     exact FiveTransitive.CyclicTwoAutomorphismKernel.automorphism_two_group
-      (IsPGroup.to_le S.isPGroup' hUS)
+      (IsPGroup.to_le S.isPGroup hUS)
   · have hk2 : 2 ≤ k := by
       by_contra h
       have hk1 : k = 1 := by omega

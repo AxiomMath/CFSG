@@ -34,8 +34,8 @@ theorem ggMaxRank_levi_false {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.P
     rw [CoxeterMatrix.reindex_apply]
     rfl
   obtain ⟨-, V, instACV, instMV, ι, φ, h, α, hlin, hrefl, hchain, -, -, -, hdim7, -, -⟩ := hX
-  letI : AddCommGroup V := instACV
-  letI : Module (ZMod p) V := instMV
+  let : AddCommGroup V := instACV
+  let : Module (ZMod p) V := instMV
   obtain ⟨fJ, hfJ⟩ := hfJ
   have hconjInput : ∀ k : Fin 8, ∃ (w : ↥(ggAutomizer J Bs)) (i : ΛJ),
       eJ ((CoxeterMatrix.A 8).simple k) = w * fJ (MJ.simple i) * w⁻¹ := by
@@ -113,10 +113,10 @@ theorem ggMaxRank_notLevi {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prim
   classical
   rintro ⟨Λ, instFL, instDL, b, M, C, MJ, V', instAC', instM', ι', φ', h', α',
     hM, hC, hMJ, hMJe, hlin', hrefl', hpair', hfY, hAY, hfJ, hAJgen, hconj⟩
-  letI : Fintype Λ := instFL
-  letI : DecidableEq Λ := instDL
-  letI : AddCommGroup V' := instAC'
-  letI : Module (ZMod p) V' := instM'
+  let : Fintype Λ := instFL
+  let : DecidableEq Λ := instDL
+  let : AddCommGroup V' := instAC'
+  let : Module (ZMod p) V' := instM'
   exact ggMaxRank_levi_false (ΛJ := {j : Λ // j ≠ b}) (MJ := MJ) eJ hX hMJ ι'
     (fun j => φ' j) (fun j => h' j) (fun j => α' j)
     (fun i w => hlin' i w) (fun i => hrefl' i) hfJ hAJgen hconj

@@ -371,8 +371,8 @@ theorem heisTorusFun_levelPerm_self {k : Fin (n / 2)} (hk : ¬k.val + 1 < n / 2)
   rcases Nat.even_or_odd' n with ⟨r, hr | hr⟩ <;>
   · have hc : s.val = k.val ∨ s.val = n - 1 - k.val ∨ s.val = k.val + 1 ∨
         (s.val ≠ k.val ∧ s.val ≠ n - 1 - k.val ∧ s.val ≠ k.val + 1) := by omega
-    rcases hc with h1 | h1 | h1 | ⟨h1, h2, h3⟩ <;> tsimp <;> (try simp only [hσ]) <;>
-      (try field_simp)
+    rcases hc with h1 | h1 | h1 | ⟨h1, h2, h3⟩ <;> tsimp <;> (try simp only [hσ])
+    try field_simp
 
 omit hσ in
 theorem heisTorusFun_levelPerm_succ {j k : Fin (n / 2)} (hj : j.val + 1 < n / 2)

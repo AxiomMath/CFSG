@@ -138,7 +138,7 @@ theorem exists_diag_of_homology_unitary (hf : Odd f) (h : UnitaryFieldData 2 f K
     rw [e1, hζdef, Units.val_mul, Units.val_mul, Units.val_mul, coe_swap02, coe_diagE,
       ← map_inv, GeneralLinearGroup.coe_scalar, scalar_apply]
     ext i j
-    simp only [Matrix.mul_apply, Matrix.mul_diagonal, Fin.sum_univ_three, Matrix.diagonal_apply]
+    simp only [Matrix.mul_apply, Fin.sum_univ_three, Matrix.diagonal_apply]
     fin_cases i <;> fin_cases j <;> simp [Units.val_inv_eq_inv_val]
 
 theorem psuConj_unitaryProj (h : UnitaryFieldData 2 f K) (g w : unitarySU 2 f K 3) :

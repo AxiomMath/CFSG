@@ -21,13 +21,13 @@ variable {M V₀ V U S H P : Subgroup G}
 theorem exists_oddCore (hI : NamedInputs15 G) (hW : W15Eight1 G)
     (hS : Std15 G) (h : Cex15 M V₀ V U S) (hP : Hyp1510 V₀ V U S H P) :
     ∃ Q₀ : Subgroup G, OddCore15 V₀ U H Q₀ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hIH : iHull15 V₀ U H ≤ H := (hP.iHull15_le_P h).trans hP.P_le
-  haveI hIn : ((iHull15 V₀ U H).subgroupOf H).Normal :=
+  have hIn : ((iHull15 V₀ U H).subgroupOf H).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hIH).2 (le_normalizer_iHull15 V₀ U H)
   let Hs := ↥H ⧸ (iHull15 V₀ U H).subgroupOf H
   let π : ↥H →* Hs := QuotientGroup.mk' ((iHull15 V₀ U H).subgroupOf H)
-  haveI : Finite Hs := Finite.of_surjective π (QuotientGroup.mk'_surjective _)
+  have : Finite Hs := Finite.of_surjective π (QuotientGroup.mk'_surjective _)
   let Ps : Subgroup Hs := (P.subgroupOf H).map π
   have hPs2 : IsPGroup 2 Ps := by
     have h1 : IsPGroup 2 (P.subgroupOf H) :=
@@ -44,7 +44,7 @@ theorem exists_oddCore (hI : NamedInputs15 G) (hW : W15Eight1 G)
     exact hP.sylow.not_dvd_relIndex
   let S : Sylow 2 Hs := hPs2.toSylow hPsidx
   have hS_coe : (S : Subgroup Hs) = Ps := rfl
-  obtain ⟨v, hvV₀, hvI⟩ := SetLike.not_le_iff_exists.1 (hP.not_V₀_le_iHull15 h)
+  obtain ⟨v, hvV₀, hvI⟩ := IsConcreteLE.not_le_iff_exists.1 (hP.not_V₀_le_iHull15 h)
   have hvH : v ∈ H := hP.V₀_le_H hvV₀
   set t₀ : Hs := π ⟨v, hvH⟩ with ht0_def
   have ht0_ne : t₀ ≠ 1 := by
@@ -169,7 +169,7 @@ theorem exists_oddCore (hI : NamedInputs15 G) (hW : W15Eight1 G)
     exact hK g hgvV₀
   obtain ⟨-, hcen⟩ := CFSG.Adapters.glauberman_zStar S t hzZ hz hwc
   let N : Subgroup Hs := CFSG.oddCore Hs
-  haveI hNnormal : N.Normal := by change (CFSG.oddCore Hs).Normal; infer_instance
+  have hNnormal : N.Normal := by change (CFSG.oddCore Hs).Normal; infer_instance
   have hNodd : Odd (Nat.card N) := by
     change Odd (Nat.card (CFSG.oddCore Hs))
     exact CFSG.ComponentClassification.OddCore.odd_card Hs
@@ -257,7 +257,7 @@ theorem exists_oddCore (hI : NamedInputs15 G) (hW : W15Eight1 G)
       have hfx : (f x : N) = ψ x := rfl
       rw [hfx]
       simpa [ψ] using hx2
-  haveI hQ0normal : ((iHull15 V₀ U H).subgroupOf Q₀).Normal :=
+  have hQ0normal : ((iHull15 V₀ U H).subgroupOf Q₀).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hI_le_Q).2
       (hQH.trans (le_normalizer_iHull15 V₀ U H))
   let Φ : ↥Q₀ ⧸ (iHull15 V₀ U H).subgroupOf Q₀ →* ↥N :=

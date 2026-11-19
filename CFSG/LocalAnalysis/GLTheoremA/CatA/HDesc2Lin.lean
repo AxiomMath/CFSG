@@ -15,7 +15,7 @@ theorem card_le_three_of_faithful_plane {K : Type} [Field K] [Finite K] [CharP K
     (hcomm : ∀ a b : E, a * b = b * a) (σ : E →* Module.End K X) (hσ : Function.Injective σ) :
     Nat.card E ≤ 3 := by
   classical
-  haveI : Module.Finite K X := Module.finite_of_finrank_pos (by omega)
+  have : Module.Finite K X := Module.finite_of_finrank_pos (by omega)
   let b : Module.Basis (Fin 2) K X := Module.finBasisOfFinrankEq K X hX
   let M : Module.End K X ≃ₐ[K] Matrix (Fin 2) (Fin 2) K := LinearMap.toMatrixAlgEquiv b
   have hdet : ∀ y : E, (M (σ y)).det = 1 := by

@@ -16,7 +16,7 @@ theorem lemma_3_1 (𝔖 : Sec3Setting G) (A B : Subgroup G) (hAS : A ≤ 𝔖.S)
     (hg : A.map (MulAut.conj g).toMonoidHom = B) :
     ∃ s ∈ (𝔖.S : Subgroup G), A.map (MulAut.conj s).toMonoidHom = B :=
   lemma_3_1_of_odd 𝔖
-    (fun _D _D₁ _D₂ B' u hd hB' hB16 huN huodd =>
+    (fun _D _D₁ _D₂ _B' _u hd hB' hB16 huN huodd =>
       odd_normalizes_e16_of_dd hd huodd huN hB' hB16)
     A B hAS hBS hA hB g hg
 

@@ -176,7 +176,7 @@ private theorem omPlus_iso_of_hasLabel_D {K : Type} [Group K] [Finite K]
   obtain ⟨-, -, hM⟩ := CFSG.LocalAnalysis.GLTheoremA.quasisimple_markedModel_of_isLabel hmark
   have hM' : CFSG.Blueprint.LieModel (K ⧸ Subgroup.center K) .POmegaPlus n 2 f := by
     simpa [CFSG.StandardType.MarkedModel, CFSG.StandardType.markTag, CFSG.StandardType.markRank,
-      CFSG.StandardType.markChar, CFSG.StandardType.markDeg, if_neg (by omega : n ≠ 3)] using hM
+      CFSG.StandardType.markChar, CFSG.StandardType.markDeg, ite_eq_right (by omega : n ≠ 3)] using hM
   have hmod : StatedClassicalModel (K ⧸ Subgroup.center K) .POmegaPlus n 2 f :=
     hM'.statedClassicalModel (by decide)
   have hZ : Subgroup.center K = ⊥ := center_eq_bot_of_pomegaPlus_model hY hn hf hnf hmod
@@ -201,7 +201,7 @@ private theorem omMinus_iso_of_hasLabel_twD {K : Type} [Group K] [Finite K]
   have hM' : CFSG.Blueprint.LieModel (K ⧸ Subgroup.center K) .POmegaMinus n 2 f := by
     simpa [CFSG.StandardType.MarkedModel, CFSG.StandardType.markTag, CFSG.StandardType.markRank,
       CFSG.StandardType.markChar, CFSG.StandardType.markDeg,
-      if_neg (by omega : n ≠ 2), if_neg (by omega : n ≠ 3)] using hM
+      ite_eq_right (by omega : n ≠ 2), ite_eq_right (by omega : n ≠ 3)] using hM
   have hmod : StatedClassicalModel (K ⧸ Subgroup.center K) .POmegaMinus n 2 f :=
     hM'.statedClassicalModel (by decide)
   have hZ : Subgroup.center K = ⊥ := center_eq_bot_of_pomegaMinus_model hY hn hf hmod

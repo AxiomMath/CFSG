@@ -18,7 +18,7 @@ theorem alternating_card_not_dvd_pred_of_lt_fixed_card
     {p : ℕ} (hp : p.Prime)
     (hpLt : p < Fintype.card F) :
     ¬Nat.card (alternatingGroup F) ∣ p - 1 := by
-  letI : Nontrivial F :=
+  let : Nontrivial F :=
     Fintype.one_lt_card_iff_nontrivial.mp (by
       omega)
   let f := Fintype.card F

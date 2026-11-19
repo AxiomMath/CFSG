@@ -44,7 +44,7 @@ theorem lieSOut_A1W (hD : LieSOutTypeW T tm tf tN) : TypeOuterAt T Pc FamA1 := b
     have hm : CFSG.Models.LieModel S .PSL 2 q.p q.exponent := CFSG.Models.lieModel_A 1 q hv e
     obtain ⟨-, K, _, _, hK, ⟨eK⟩⟩ :=
       hm.2.resolve_right (fun h => absurd h.1 (by norm_num))
-    haveI : Finite (StatedProj (StatedSL 2 K)) := Finite.of_equiv S eK.toEquiv
+    have : Finite (StatedProj (StatedSL 2 K)) := Finite.of_equiv S eK.toEquiv
     have hβ3 : MulAut.congr eK α ^ 3 = 1 := by rw [← map_pow, hp.1, map_one]
     have hβ1 : MulAut.congr eK α ≠ 1 := fun h =>
       hp.2.1 ((MulAut.congr eK).injective (h.trans (map_one _).symm))
@@ -61,10 +61,10 @@ theorem lieSOut_A1W (hD : LieSOutTypeW T tm tf tN) : TypeOuterAt T Pc FamA1 := b
         by_cases h4 : 4 ≤ Nat.card F₀
         · obtain ⟨hQ₀, hZ₀⟩ := l2fld_isQuasisimple_psl2 h4
           have hsimple : IsSimpleGroup (StatedProj (StatedSL 2 F₀)) := by
-            haveI := hQ₀.2
+            have := hQ₀.2
             exact ((QuotientGroup.quotientMulEquivOfEq hZ₀).trans
               QuotientGroup.quotientBot).symm.isSimpleGroup
-          haveI := hsimple
+          have := hsimple
           refine typeLayer_of_fixed_equiv β ψ1 hsimple
             (exists_noncomm_of_center_bot hZ₀) fun hT => ?_
           obtain ⟨g, hg⟩ : ∃ g : ℕ, Nat.card F₀ = 2 ^ g := by
@@ -84,7 +84,7 @@ theorem lieSOut_A1W (hD : LieSOutTypeW T tm tf tN) : TypeOuterAt T Pc FamA1 := b
             (lieModel_classical_iff (by decide)).mpr
               ⟨hadm, F₀, inferInstance, inferInstance, hg, ⟨MulEquiv.refl _⟩⟩
           exact absurd (hD.det hT hmodel).1 (by decide)
-        · haveI : Group.IsSolvable (StatedProj (StatedSL 2 F₀)) :=
+        · have : Group.IsSolvable (StatedProj (StatedSL 2 F₀)) :=
             l2fld_isSolvable_psl2_of_card_le_three (F := F₀) (by omega)
           exact typeLayer_of_solvable_fixed
             (Group.isSolvable_of_isSolvable_injective (f := ψ1.toMonoidHom) ψ1.injective)
@@ -104,7 +104,7 @@ theorem typeLayer_fieldAut_pslW (hD : LieSOutTypeW T tm tf tN) {n : ℕ} (hn3 : 
   have hinj := linearSubfieldInclusion_injective (by omega : 0 < n) k
   let S : Subgroup (projectiveSL n K) := (linearSubfieldInclusion n k).range
   let eS : ↥S ≃* projectiveSL n ↥k := (MonoidHom.ofInjective hinj).symm
-  haveI : IsSimpleGroup (projectiveSL n ↥k) := KCLinearSubfield.isSimpleGroup_projectiveSL hn3
+  have : IsSimpleGroup (projectiveSL n ↥k) := KCLinearSubfield.isSimpleGroup_projectiveSL hn3
   have hnabk : ∃ a b : projectiveSL n ↥k, a * b ≠ b * a := by
     have h1 := KCLinearSubfield.not_commutative_projectiveSL (n := n) (K := ↥k) hn3
     push Not at h1
@@ -140,7 +140,7 @@ theorem lieSOut_lin_modelW (hD : LieSOutTypeW T tm tf tN) {n f : ℕ} (hn : 3 �
   have hC : StatedClassicalModel S .PSL n 2 f := (lieModel_classical_iff (by decide)).mp hm
   obtain ⟨hadm, K, _, _, hK, ⟨e0⟩⟩ := hC
   let e : S ≃* projectiveSL n K := e0.trans (statedProjEquiv n K)
-  haveI : Finite (projectiveSL n K) := Finite.of_equiv S e.toEquiv
+  have : Finite (projectiveSL n K) := Finite.of_equiv S e.toEquiv
   have hψ3 : MulAut.congr e α ^ 3 = 1 := by rw [← map_pow, hp.1, map_one]
   by_cases hdiag : MulAut.congr e α ∈ linearAutGroup n K
   · exact hα ((mem_innAutDerived_congr e).mp

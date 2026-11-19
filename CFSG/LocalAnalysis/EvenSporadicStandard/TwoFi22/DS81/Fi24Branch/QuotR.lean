@@ -10,6 +10,7 @@ open Subgroup
 
 variable {C : Type} [Group C] [Finite C] {c : CInv C} {R : Subgroup C}
 
+omit [Finite C] in
 theorem bar_R_sq (hR : RData c R) : ∀ x ∈ c.bar R, x ^ 2 = 1 := by
   intro x hx
   change x ∈ R.map c.qmap at hx
@@ -17,6 +18,7 @@ theorem bar_R_sq (hR : RData c R) : ∀ x ∈ c.bar R, x ^ 2 = 1 := by
   rw [← map_pow]
   exact c.qmap_eq_one_iff.mpr (hR.sq r hr)
 
+omit [Finite C] in
 theorem bar_R_comm (hR : RData c R) : ∀ a ∈ c.bar R, ∀ b ∈ c.bar R, a * b = b * a := by
   intro a ha b hb
   change a ∈ R.map c.qmap at ha
@@ -32,6 +34,7 @@ theorem bar_R_comm (hR : RData c R) : ∀ a ∈ c.bar R, ∀ b ∈ c.bar R, a * 
     _ = c.qmap (s * r) := h2
     _ = c.qmap s * c.qmap r := map_mul c.qmap s r
 
+omit [Finite C] in
 theorem bar_R_card (hR : RData c R) : Nat.card ↥(c.bar R) = 2 ^ 12 := by
   have hle : zpowers c.z ≤ R := Subgroup.zpowers_le.mpr hR.z_mem
   have h := c.card_bar hle
@@ -39,12 +42,14 @@ theorem bar_R_card (hR : RData c R) : Nat.card ↥(c.bar R) = 2 ^ 12 := by
   norm_num at h ⊢
   omega
 
+omit [Finite C] in
 theorem bar_R_ne_bot (hR : RData c R) : c.bar R ≠ ⊥ := by
   intro h
   have hc := bar_R_card hR
   rw [h, Subgroup.card_bot] at hc
   norm_num at hc
 
+omit [Finite C] in
 theorem bar_R_cent (hR : RData c R) : centralizer (c.bar R : Set c.Qt) ≤ c.bar R := by
   intro b hb
   rw [Subgroup.mem_centralizer_iff] at hb
@@ -63,6 +68,7 @@ theorem bar_R_cent (hR : RData c R) : centralizer (c.bar R : Set c.Qt) ≤ c.bar
     group
   exact h1
 
+omit [Finite C] in
 theorem bar_R_irr (hR : RData c R) (U : Subgroup c.Qt) (hU : U ≤ c.bar R)
     (hn : ∀ x ∈ normalizer (c.bar R : Set c.Qt), ∀ u ∈ U, x * u * x⁻¹ ∈ U) :
     U = ⊥ ∨ U = c.bar R := by
@@ -104,6 +110,7 @@ theorem bar_R_irr (hR : RData c R) (U : Subgroup c.Qt) (hU : U ≤ c.bar R)
   · right
     rw [← c.bar_comap U, h]
 
+omit [Finite C] in
 theorem bar_R_isPGroup (hR : RData c R) : IsPGroup 2 ↥(c.bar R) := by
   exact c.isPGroup_bar (IsPGroup.of_card (p := 2) (n := 13) hR.card)
 

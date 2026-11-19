@@ -59,7 +59,7 @@ theorem gz_irreducible (hD : AschbacherDichotomy) {G : Type} [Group G] [Finite G
       (∀ g ∈ derivedOf (Gx z), ∀ w ∈ W, g * w * g⁻¹ ∈ W) →
         W = Subgroup.zpowers z ∨ W = Qz z := by
   obtain ⟨Q, hQ, hQW, hQz⟩ := exists_Qz_eq h.cent_z
-  haveI : Q.Normal := hQ
+  have : Q.Normal := hQ
   obtain ⟨q, hqQz, hq1, hqz, hsh⟩ := hq
   have hqQz' : q ∈ Q.map (Gx z).subtype := by rwa [hQz] at hqQz
   obtain ⟨q', hq'Q, hq'eq⟩ := Subgroup.mem_map.mp hqQz'

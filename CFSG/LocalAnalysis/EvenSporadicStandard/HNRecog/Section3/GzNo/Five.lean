@@ -77,7 +77,7 @@ theorem gzNo_five (hC : CSideFacts) {G : Type} [Group G] [Finite G] {a z : G}
       obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.mp hyzp
       have hqzk : q = z ^ k := by
         rw [← hyeq, ← hk]
-        simp [Subgroup.coe_zpow, GxSelf]
+        simp [GxSelf]
       have hord : (orderOf z : ℤ) = 2 := by rw [h.orderOf_z]; norm_num
       rw [hqzk, ← zpow_mod_orderOf z k, hord]
       rcases Int.emod_two_eq_zero_or_one k with hk0 | hk1

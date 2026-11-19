@@ -98,7 +98,7 @@ theorem ggF4JB_unitary_block
     have heB : e ∈ Bs := hDleBs he
     have hδe : δ e = δwit e heB := by
       simp only [δ]
-      exact dif_pos heB
+      exact dite_eq_left heB
     rw [hδe]
     exact Classical.choose_spec (nsJA2Cover_mem_suPairs h'.card
       (Classical.choose_spec (hd e heB)).1 (Classical.choose_spec (hd e heB)).2)
@@ -114,7 +114,7 @@ theorem ggF4JB_unitary_block
   have hmem : i ∈ P := LinTorus.self_mem_diagClass (D : Set G) δ i
   by_cases hP2 : P.card ≤ 2
   ·
-    haveI : Nontrivial (Fin (m + 1)) := Fin.nontrivial_iff_two_le.mpr (by omega)
+    have : Nontrivial (Fin (m + 1)) := Fin.nontrivial_iff_two_le.mpr (by omega)
     obtain ⟨a, b, hab, hPsub⟩ := nsJA2_exists_pair_of_card_le_two hmem hP2
     have hYpair : Y ≤ (ggSuPairBlock K 2 f' (m + 1) a b).map ψc := by
       simpa [Y, ψ'] using nsJA2Cover_map_blockSU_le_pairBlock h'.card ψc hPsub

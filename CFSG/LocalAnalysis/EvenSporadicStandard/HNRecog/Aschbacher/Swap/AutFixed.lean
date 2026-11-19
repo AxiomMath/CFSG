@@ -15,7 +15,7 @@ private theorem t₀_sq : t₀ ^ 2 = 1 := by decide +kernel
 private theorem t₀_a₀_cube : (t₀ * a₀) ^ 3 = 1 := by decide +kernel
 
 private theorem orderOf_t₀_a₀ : orderOf (t₀ * a₀) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by decide⟩
+  have : Fact (Nat.Prime 3) := ⟨by decide⟩
   rw [orderOf_eq_prime_iff]
   exact ⟨t₀_a₀_cube, by decide +kernel⟩
 
@@ -45,7 +45,7 @@ private theorem fifteen_le_card_closure :
     have hcop : (5 : ℕ).Coprime 3 := by decide
     have h := Nat.Coprime.mul_dvd_of_dvd_of_dvd hcop h5 h3
     simpa using h
-  haveI : Nonempty K := ⟨1⟩
+  have : Nonempty K := ⟨1⟩
   exact Nat.le_of_dvd Nat.card_pos h15
 
 private theorem closure_a₀_t₀_eq_top : Subgroup.closure ({a₀, t₀} : Set A5) = ⊤ :=

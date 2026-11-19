@@ -37,7 +37,7 @@ theorem exists_split_Q {q : ModGL Tag.F4 K} (hq : q ∈ Qθ Tag.F4 K) :
     refine mem_X1_of_coord_M_zero K hsQ fun β' hβ' => ?_
     rw [hsc]
     simp only [f]
-    rw [if_neg]
+    rw [ite_eq_right]
     push Not
     exact mRoots_ne_S β' hβ'
   refine ⟨s, hsX1, s⁻¹ * q, mul_mem (inv_mem hsQ) hq, by group, fun ν hν => ?_⟩
@@ -57,7 +57,7 @@ theorem exists_split_Q {q : ModGL Tag.F4 K} (hq : q ∈ Qθ Tag.F4 K) :
 
 theorem case_one {H B : Subgroup (ModGL Tag.F4 K)} (hBH : B ≤ H) (hBQ : B ≤ Qθ Tag.F4 K)
     (hnot : ¬ B ≤ XS K) : MPart K H := by
-  obtain ⟨b, hb, hbX⟩ := SetLike.not_le_iff_exists.1 hnot
+  obtain ⟨b, hb, hbX⟩ := IsConcreteLE.not_le_iff_exists.1 hnot
   refine ⟨b, hBH hb, hBQ hb, ?_⟩
   by_contra hne
   apply hbX

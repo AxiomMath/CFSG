@@ -110,7 +110,7 @@ theorem eq_top_of_invariant_gramSU (hE : UnitaryFieldData 2 f E) (hf : 2 ^ f = 2
           apply hrk
           have := (Equiv.swap_apply_eq_iff.1 h)
           simpa [Equiv.swap_apply_left] using this
-        simp [hrk, Pi.single_apply, this]
+        simp [hrk, this]
   rw [eq_top_iff]
   intro w _
   rw [← Finset.univ_sum_single w]
@@ -133,7 +133,7 @@ theorem noNormalPPrime_three_gramSU (hE : UnitaryFieldData 2 f E) (hf : 2 ^ f = 
     Nat.Coprime.dvd_of_dvd_mul_right (Nat.Coprime.pow_right 3 hNc.symm) hdvd
   obtain ⟨j, -, hj⟩ := (Nat.dvd_prime_pow Nat.prime_two).1 hN2
   have hpg : IsPGroup 2 N := IsPGroup.of_card hj
-  letI : MulAction N (Fin m → E) := MulAction.compHom (Fin m → E)
+  let : MulAction N (Fin m → E) := MulAction.compHom (Fin m → E)
     ((Matrix.GeneralLinearGroup.toLin : GL (Fin m) E ≃* _).toMonoidHom.comp N.subtype)
   have hsmul : ∀ (n : N) (v : Fin m → E),
       n • v = ((n : GL (Fin m) E) : Matrix (Fin m) (Fin m) E) *ᵥ v := fun n v => rfl
@@ -143,7 +143,7 @@ theorem noNormalPPrime_three_gramSU (hE : UnitaryFieldData 2 f E) (hf : 2 ^ f = 
     norm_num
   have hpα : 2 ∣ Nat.card (Fin m → E) := by
     rw [Nat.card_pi]
-    simp only [Nat.card_eq_fintype_card, Fintype.card_fin, Finset.prod_const, Finset.card_univ]
+    simp only [Fintype.card_fin, Finset.prod_const, Finset.card_univ]
     rw [hcardE]
     exact dvd_pow (by norm_num : 2 ∣ 4) (by omega)
   have h0 : (0 : Fin m → E) ∈ MulAction.fixedPoints N (Fin m → E) := fun n =>
@@ -327,7 +327,7 @@ theorem noNormalPPrime_three_sesqUnitaryGroup :
   by_cases h0 : Module.finrank E W = 0
   · have : Subsingleton W := Module.finrank_zero_iff.1 h0
     intro N _ _ _
-    haveI : Subsingleton (sesqUnitaryGroup Hf) :=
+    have : Subsingleton (sesqUnitaryGroup Hf) :=
       ⟨fun a b => Subtype.ext (Units.ext (LinearMap.ext fun w => Subsingleton.elim _ _))⟩
     exact Subgroup.eq_bot_of_subsingleton N
   have hn1 : 1 ≤ Module.finrank E W := Nat.one_le_iff_ne_zero.2 h0

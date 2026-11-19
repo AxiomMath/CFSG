@@ -16,7 +16,7 @@ theorem cyclic_center {F G V : Type*} [Field F] [Group G] [Finite G]
     (hfaith : Function.Injective ρ) (hirr : ρ.IsIrreducible) :
     IsCyclic (Subgroup.center G) := by
   classical
-  haveI : IsSimpleModule F[G] ρ.asModule :=
+  have : IsSimpleModule F[G] ρ.asModule :=
     (Representation.irreducible_iff_isSimpleModule_asModule ρ).mp hirr
   let E := Module.End F[G] ρ.asModule
   let c : Subgroup.center G → E := fun g =>

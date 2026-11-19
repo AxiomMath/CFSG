@@ -16,6 +16,7 @@ open scoped commutatorElement
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 private theorem s16h_L3_le_stabSub (L : Subgroup (MulAut W)) :
     L ≤ stabSub (commSub ⊤ L) := by
   intro g hg
@@ -36,15 +37,18 @@ private noncomputable def s16h_L3_resHom (L : Subgroup (MulAut W)) :
     ↥L →* MulAut ↥(commSub ⊤ L) :=
   (resHom (commSub ⊤ L)).comp (Subgroup.inclusion (s16h_L3_le_stabSub L))
 
+omit [Finite W] in
 private theorem s16h_L3_resHom_apply (L : Subgroup (MulAut W)) (l : ↥L)
     (u : ↥(commSub ⊤ L)) :
     ((s16h_L3_resHom L l) u : W) = (l : MulAut W) u.1 := by
   simp [s16h_L3_resHom, resHom_apply]
 
+omit [Finite W] in
 private theorem s16h_L3_resHom_mem_autSub (L : Subgroup (MulAut W)) (l : ↥L) :
     s16h_L3_resHom L l ∈ autSub L (commSub ⊤ L) := by
   refine mem_autSub.mpr ⟨⟨(l : MulAut W), s16h_L3_le_stabSub L l.2⟩, l.2, rfl⟩
 
+omit [Finite W] in
 private theorem s16h_L3_resHom_range (L : Subgroup (MulAut W)) :
     (s16h_L3_resHom L).range = autSub L (commSub ⊤ L) := by
   ext ψ
@@ -58,6 +62,7 @@ private theorem s16h_L3_resHom_range (L : Subgroup (MulAut W)) :
     ext u
     rw [s16h_L3_resHom_apply, resHom_apply]
 
+omit [Finite W] in
 private theorem s16h_L3_mem_fixV_of_mem_fixV_autSub {L : Subgroup (MulAut W)}
     {v : ↥(commSub ⊤ L)} (hv : v ∈ fixV (autSub L (commSub ⊤ L))) :
     (v : W) ∈ fixV L := by
@@ -104,8 +109,8 @@ private theorem s16h_L3_resHom_injective {A L : Subgroup (MulAut W)} {t : MulAut
       rw [Subgroup.mem_bot]
       ext w
       exact mem_fixV.mp (hWfix (Subgroup.mem_top w)) l hl
-    haveI : Nontrivial (↥L ⧸ Subgroup.center ↥L) := hLq.2.toNontrivial
-    haveI hnt : Nontrivial ↥L :=
+    have : Nontrivial (↥L ⧸ Subgroup.center ↥L) := hLq.2.toNontrivial
+    have hnt : Nontrivial ↥L :=
       (QuotientGroup.mk'_surjective (Subgroup.center ↥L)).nontrivial
     exact (Subgroup.nontrivial_iff_ne_bot L).mp hnt hLbot
   have hker : (s16h_L3_resHom L).ker ≤ Subgroup.center ↥L :=
@@ -117,11 +122,11 @@ private theorem s16h_L3_resHom_injective {A L : Subgroup (MulAut W)} {t : MulAut
 private theorem s16h_L3_isQuasisimple_of_mulEquiv {G H : Type*} [Group G] [Group H]
     (e : G ≃* H) (h : CFSG.Open.IsQuasisimple H) : CFSG.Open.IsQuasisimple G := by
   obtain ⟨hperf, hsimple⟩ := h
-  haveI : Group.IsPerfect H := ⟨hperf⟩
-  haveI : Group.IsPerfect G :=
+  have : Group.IsPerfect H := ⟨hperf⟩
+  have : Group.IsPerfect G :=
     Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
   refine ⟨Group.IsPerfect.commutator_eq_top, ?_⟩
-  haveI : IsSimpleGroup (H ⧸ Subgroup.center H) := hsimple
+  have : IsSimpleGroup (H ⧸ Subgroup.center H) := hsimple
   exact (QuotientGroup.congr (Subgroup.center G) (Subgroup.center H) e
     (Subgroup.map_center_eq e)).isSimpleGroup
 
@@ -144,7 +149,7 @@ private theorem s16h_L3_res_le {A L : Subgroup (MulAut W)} {t : MulAut W}
   autSub_mono (le_inf hc.comp.1 Subgroup.le_normalizer) _
 
 private theorem s16h_L3_res_normal {A L : Subgroup (MulAut W)} {t : MulAut W}
-    (hc : s16h_H5Cfg A L t) :
+    (_hc : s16h_H5Cfg A L t) :
     autSub (A ⊓ Subgroup.normalizer (L : Set (MulAut W))) (commSub ⊤ L) ≤
       Subgroup.normalizer (autSub L (commSub ⊤ L) : Set (MulAut ↥(commSub ⊤ L))) := by
   intro φ hφ

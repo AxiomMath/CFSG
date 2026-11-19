@@ -124,7 +124,7 @@ theorem MinCex.fourGroup' (c : MinCex r Ω K S R W H) {K' : Subgroup G} (hK' : K
     · rfl
   have hcomm : ∀ x ∈ U, ∀ y ∈ U, x * y = y * x := by
     intro x hx y hy
-    haveI : IsMulCommutative U :=
+    have : IsMulCommutative U :=
       Subgroup.isMulCommutative_closure fun x hx y hy _ => hkcomm x hx y hy
     exact congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : U) ⟨y, hy⟩)
   have hsq : ∀ x ∈ U, x * x = 1 := by

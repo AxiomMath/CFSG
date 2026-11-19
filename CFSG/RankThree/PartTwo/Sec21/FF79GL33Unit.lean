@@ -16,7 +16,7 @@ variable (v w₁ w₂ : Vec)
 
 theorem isUnit_basisMat (hli : LinearIndependent (ZMod 3) ![v, w₁, w₂]) :
     IsUnit (basisMat v w₁ w₂) := by
-  refine (Matrix.linearIndependent_rows_iff_isUnit
+  refine (Matrix.linearIndependent_row_iff_isUnit
     (A := basisMat v w₁ w₂)).mp ?_
   exact hli
 
@@ -31,7 +31,7 @@ theorem li_vecMul (P : GL (Fin 3) (ZMod 3)) (hli : LinearIndependent (ZMod 3) ![
       fin_cases i <;> simp [basisMat, Matrix.mul_apply, Matrix.vecMul, dotProduct]
     rw [this]
     exact (isUnit_basisMat v w₁ w₂ hli).mul P.isUnit
-  exact (Matrix.linearIndependent_rows_iff_isUnit
+  exact (Matrix.linearIndependent_row_iff_isUnit
     (A := basisMat (Matrix.vecMul v (P : Mat)) (Matrix.vecMul w₁ (P : Mat))
       (Matrix.vecMul w₂ (P : Mat)))).mpr hu
 

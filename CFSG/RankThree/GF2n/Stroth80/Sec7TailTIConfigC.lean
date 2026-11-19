@@ -25,6 +25,7 @@ namespace TIConfigC
 
 variable {H V N : Subgroup X}
 
+omit [Finite X] in
 theorem ne_bot_of_N_le (h : TIConfigC H V N) {S : Subgroup X} (hNS : N ≤ S) : S ≠ ⊥ := by
   intro h0
   apply h.V_ne_bot
@@ -32,6 +33,7 @@ theorem ne_bot_of_N_le (h : TIConfigC H V N) {S : Subgroup X} (hNS : N ≤ S) : 
   rw [h0] at hVS
   exact le_bot_iff.mp hVS
 
+omit [Finite X] in
 theorem N_le_of_maximal (h : TIConfigC H V N) {S : Subgroup X} (hSK : S ≤ NormIn H V)
     (hSp : IsPGroup 2 S) (hS : ∀ T : Subgroup X, T ≤ NormIn H V → IsPGroup 2 T → S ≤ T → T = S) :
     N ≤ S := by
@@ -40,6 +42,7 @@ theorem N_le_of_maximal (h : TIConfigC H V N) {S : Subgroup X} (hSK : S ≤ Norm
   have h1 := hS (N ⊔ S) (sup_le h.N_le hSK) hNS le_sup_right
   exact le_sup_left.trans h1.le
 
+omit [Finite X] in
 theorem cenIn_le_V (h : TIConfigC H V N) {S : Subgroup X} (hSK : S ≤ NormIn H V)
     (hSp : IsPGroup 2 S)
     (hS : ∀ T : Subgroup X, T ≤ NormIn H V → IsPGroup 2 T → S ≤ T → T = S) :

@@ -22,7 +22,7 @@ private theorem w16g_two_ne_zero_zmod_three : (2 : ZMod 3) ≠ 0 := by
 
 private theorem w16g_add_self_eq_zero {x : ZMod 3} (h : x + x = 0) : x = 0 := by
   have h2 : (2 : ZMod 3) * x = 0 := by rw [two_mul]; exact h
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   exact (mul_eq_zero.mp h2).resolve_left w16g_two_ne_zero_zmod_three
 
 private theorem w16g_sum_two {ι : Type*} [Fintype ι] [DecidableEq ι] (g : ι → ZMod 3)
@@ -41,14 +41,14 @@ theorem w16g_const_of_preserves {ι : Type*} [Fintype ι] [DecidableEq ι] (π :
     (f c : ι → ZMod 3) (hf : ∀ i, f i ≠ 0)
     (h : ∀ y : ι → ZMod 3, (∑ i, f i * y i) = 0 → (∑ i, f (π i) * (c i * y i)) = 0) :
     ∀ i j, f (π i) * c i * (f i)⁻¹ = f (π j) * c j * (f j)⁻¹ := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   intro i j
   by_cases hij : i = j
   · subst hij; rfl
   · have hy : (∑ k, f k * (if k = i then (f i)⁻¹ else if k = j then -((f j)⁻¹) else 0)) = 0 := by
       rw [w16g_sum_two (fun k => f k * (if k = i then (f i)⁻¹ else
         if k = j then -((f j)⁻¹) else 0)) hij]
-      · rw [if_neg (Ne.symm hij)]
+      · rw [ite_eq_right (Ne.symm hij)]
         simp
         rw [mul_inv_cancel₀ (hf i), mul_inv_cancel₀ (hf j)]
         ring
@@ -60,7 +60,7 @@ theorem w16g_const_of_preserves {ι : Type*} [Fintype ι] [DecidableEq ι] (π :
         f (π i) * (c i * (f i)⁻¹) - f (π j) * (c j * (f j)⁻¹) := by
       rw [w16g_sum_two (fun k => f (π k) * (c k * (if k = i then (f i)⁻¹ else
         if k = j then -((f j)⁻¹) else 0))) hij]
-      · rw [if_neg (Ne.symm hij)]
+      · rw [ite_eq_right (Ne.symm hij)]
         simp
         ring
       · intro k hki hkj
@@ -69,10 +69,10 @@ theorem w16g_const_of_preserves {ι : Type*} [Fintype ι] [DecidableEq ι] (π :
     have h3 : f (π i) * (c i * (f i)⁻¹) = f (π j) * (c j * (f j)⁻¹) := sub_eq_zero.mp hh
     simpa only [mul_assoc] using h3
 
-theorem w16g_eps_pair {ι : Type*} [DecidableEq ι] (π : Equiv.Perm ι) (hπ : ∀ i, π (π i) = i)
-    (m : ι → ZMod 3) (u u' : ι) (hu : u ≠ u') (hmu : m u ≠ 0) (hmu' : m u' ≠ 0)
+theorem w16g_eps_pair {ι : Type*} [DecidableEq ι] (π : Equiv.Perm ι) (_hπ : ∀ i, π (π i) = i)
+    (m : ι → ZMod 3) (u u' : ι) (_hu : u ≠ u') (hmu : m u ≠ 0) (hmu' : m u' ≠ 0)
     (hsum : m u + m u' = 0) (hzero : ∀ v, v ≠ u → v ≠ u' → m v = 0)
-    (ε : ZMod 3) (hε : ε = 1 ∨ ε = -1) (hq : ∀ v, ε * m v = - m (π v)) :
+    (ε : ZMod 3) (_hε : ε = 1 ∨ ε = -1) (hq : ∀ v, ε * m v = - m (π v)) :
     (ε = 1 → π u = u' ∧ π u' = u) ∧ (ε = -1 → π u = u ∧ π u' = u') := by
   have key : ∀ v : ι, m v ≠ 0 → v = u ∨ v = u' := by
     intro v hv

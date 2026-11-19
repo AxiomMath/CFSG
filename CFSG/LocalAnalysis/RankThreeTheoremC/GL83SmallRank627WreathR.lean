@@ -83,7 +83,7 @@ theorem exists_noncyclic_le_normalizer_gamma_one_le (hS : Setting G) (hU0 : Full
   have hBP : B ≤ P := sup_le (zpowers_le.mpr hx.mem) (zpowers_le.mpr hz.mem)
   have hBc : Nat.card B = 9 := hplane.card_eq.trans (by norm_num)
   have hBlt : B < (P : Subgroup G) := lt_of_le_of_ne hBP fun h => by rw [h, hPc] at hBc; omega
-  obtain ⟨g, hgP, hgN, hgB⟩ := wreathR_exists_mem_normalizer_not_mem P.isPGroup' hBlt
+  obtain ⟨g, hgP, hgN, hgB⟩ := wreathR_exists_mem_normalizer_not_mem P.isPGroup hBlt
   set N : Subgroup G := normalizer (B : Set G)
   have hBNP : B < N ⊓ P := lt_of_le_of_ne (le_inf Subgroup.le_normalizer hBP) fun h =>
     hgB (by rw [h]; exact mem_inf.mpr ⟨hgN, hgP⟩)
@@ -113,7 +113,7 @@ theorem exists_noncyclic_le_normalizer_gamma_one_le (hS : Setting G) (hU0 : Full
     by_contra hlt
     push Not at hlt
     nlinarith
-  refine ⟨V ⊓ N, hRP, inf_le_right, (P.isPGroup').to_le hRP, ?_, ?_⟩
+  refine ⟨V ⊓ N, hRP, inf_le_right, (P.isPGroup).to_le hRP, ?_, ?_⟩
   ·
     intro hcyclic
     obtain ⟨c, hc⟩ := hcyclic.exists_generator

@@ -22,7 +22,7 @@ theorem false_of_A6_U33_aux_perfect {G : Type*} [Group G] {V L C : Subgroup G} [
     [L.Normal] (hC : C ≤ Subgroup.centralizer (V : Set G)) (hL : L = ⁅L, L⁆ ⊔ C) :
     ⁅V, L⁆ ≤ ⁅⁅V, L⁆, L⁆ := by
   set W : Subgroup G := ⁅⁅V, L⁆, L⁆
-  haveI : W.Normal := inferInstance
+  have : W.Normal := inferInstance
   let f : G →* G ⧸ W := QuotientGroup.mk' W
   have hker : f.ker = W := QuotientGroup.ker_mk' W
   have h1 : ⁅⁅L.map f, V.map f⁆, L.map f⁆ = ⊥ := by
@@ -66,7 +66,7 @@ theorem false_of_A6_U33_aux_star {X : Type} [Group X] [Finite X] {T : Subgroup X
     {Ls : Subgroup (X ⧸ gnC T)} {L : Subgroup X} (hL : LiftOf T L Ls) (hLn : L.Normal)
     (hsimple : IsSimpleGroup ↥Ls) (hcen : Subgroup.center ↥Ls = ⊥) {y : X} (hy : y ∈ cMHat L) :
     toStar T y ∈ Subgroup.centralizer (Ls : Set (X ⧸ gnC T)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set N : Subgroup (X ⧸ gnC T) := (O2In L).map (toStar T) with hN
   have hLs : L.map (toStar T) = Ls := hL.2
   have hNLs : N ≤ Ls := by
@@ -108,8 +108,8 @@ theorem false_of_A6_U33_aux_star {X : Type} [Group X] [Finite X] {T : Subgroup X
     have hN2 : IsPGroup 2 ↥N :=
       ((CFSG.pCore_isPGroup (p := 2) (G := X)).to_le inf_le_right).map (toStar T)
     have hLs2 : IsPGroup 2 ↥Ls := by rw [← hNtop]; exact hN2
-    haveI := hsimple.toNontrivial
-    haveI := hLs2.center_nontrivial
+    have := hsimple.toNontrivial
+    have := hLs2.center_nontrivial
     obtain ⟨⟨z, hz⟩, hz1⟩ := exists_ne (1 : ↥(Subgroup.center ↥Ls))
     rw [hcen, Subgroup.mem_bot] at hz
     exact hz1 (Subtype.ext hz)
@@ -181,7 +181,7 @@ theorem false_of_A6_U33_aux_lift {A B : Type*} [Group A] [Group B] [Finite A] {p
 theorem false_of_A6_U33_aux_pElement_map {X Y : Type*} [Group X] [Finite X] [Group Y]
     (φ : X →* Y) (hφ : Function.Surjective φ) (P : Subgroup Y) :
     pElementSubgroup 2 P ≤ (pElementSubgroup 2 (P.comap φ)).map φ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   unfold pElementSubgroup
   refine (Subgroup.closure_le _).2 ?_
   rintro y ⟨hyP, k, hk⟩
@@ -199,7 +199,7 @@ theorem false_of_A6_U33_aux_pElement_map {X Y : Type*} [Group X] [Finite X] [Gro
 
 theorem false_of_A6_U33_aux_c {X : Type} [Group X] [Finite X] {T : Subgroup X} (hX : GNSetting X T)
     {Ls : Subgroup (X ⧸ gnC T)} {L : Subgroup X} (hLs : CFSG.Open.IsComponentOf Ls ⊤)
-    (hL : LiftOf T L Ls) [hLn : L.Normal] {P : Subgroup (X ⧸ gnC T)} (hPLs : P ≤ Ls)
+    (hL : LiftOf T L Ls) [_hLn : L.Normal] {P : Subgroup (X ⧸ gnC T)} (hPLs : P ≤ Ls)
     {Z : Subgroup X} (hZ : pElementSubgroup 2 (P.comap (toStar T)) ≤ Subgroup.centralizer (Z : Set X))
     (hZC : gnC T ≤ Subgroup.centralizer (Z : Set X)) {y : X ⧸ gnC T}
     (hy : y ∈ pElementSubgroup 2 P) (hy3 : orderOf y = 3) :
@@ -209,7 +209,7 @@ theorem false_of_A6_U33_aux_c {X : Type} [Group X] [Finite X] {T : Subgroup X} (
   have hxP : toStar T x ∈ P := pElementSubgroup_le (P.comap (toStar T)) hx
   have hxLs : x ∈ Ls.comap (toStar T) := hPLs hxP
   rw [(liftOf_central_ext hX hLs hL).2] at hxLs
-  haveI : (gnC T).Normal := inferInstance
+  have : (gnC T).Normal := inferInstance
   obtain ⟨l, hl, z, hz, hlz⟩ := Subgroup.mem_sup_of_normal_right.1 hxLs
   have hlx : l = x * z⁻¹ := by rw [← hlz]; group
   have hlC : l ∈ Subgroup.centralizer (Z : Set X) := by
@@ -235,12 +235,12 @@ theorem false_of_A6_U33_aux_two_mul {O : Type*} [Group O] [Finite O] {r j : ℕ}
     (hr2 : r ≠ 2) {R : Subgroup O} (hR : Nat.card R = r)
     (hN : Nat.card (Subgroup.normalizer (R : Set O)) = 2 ^ j * r) (hj : ¬ 2 ^ j ∣ r - 1) :
     ∃ g : O, orderOf g = 2 * r := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set N := Subgroup.normalizer (R : Set O) with hNdef
-  haveI hRn : (R.subgroupOf N).Normal := Subgroup.normal_subgroupOf_of_le_normalizer le_rfl
+  have hRn : (R.subgroupOf N).Normal := Subgroup.normal_subgroupOf_of_le_normalizer le_rfl
   have hRnc : Nat.card (R.subgroupOf N) = r := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe (Subgroup.le_normalizer : R ≤ N)).toEquiv, hR]
-  haveI : IsCyclic ↥(R.subgroupOf N) := isCyclic_of_prime_card hRnc
+  have : IsCyclic ↥(R.subgroupOf N) := isCyclic_of_prime_card hRnc
   let ψ : ↥N →* MulAut ↥(R.subgroupOf N) := MulAut.conjNormal
   have hAut : Nat.card (MulAut ↥(R.subgroupOf N)) = r - 1 := by
     rw [IsCyclic.card_mulAut, hRnc, Nat.totient_prime hr.out]
@@ -281,7 +281,7 @@ theorem false_of_A6_U33_aux_order {O : Type*} [Group O] [Finite O] {a r : ℕ} [
     (hr2 : r ≠ 2) (hO : Nat.card O = 2 ^ a * r)
     (hcase : ∀ k ≤ a, 2 ^ k % r = 1 → ¬ 2 ^ (a - k) ∣ r - 1) :
     ∃ g : O, orderOf g = 2 * r := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := O) r (by rw [hO]; exact dvd_mul_left _ _)
   set R : Subgroup O := Subgroup.zpowers x with hRdef
   have hR : Nat.card R = r := by rw [Nat.card_zpowers, hx]
@@ -328,7 +328,7 @@ theorem false_of_A6_U33_aux_normalizer {Y : Type*} [Group Y] (p : ℕ) (P : Subg
       refine ⟨k, ?_⟩
       have := orderOf_injective (MulAut.conj g).toMonoidHom (MulAut.conj g).injective x
       simpa [MulAut.conj_apply, hk] using this
-    | one => simpa using Subgroup.one_mem _
+    | one => simp
     | mul x y _ _ hx hy =>
       have : g * (x * y) * g⁻¹ = (g * x * g⁻¹) * (g * y * g⁻¹) := by group
       rw [this]
@@ -347,8 +347,8 @@ theorem false_of_A6_U33_aux_three_of_order {Y : Type} [Group Y] [Finite Y] {Ls S
     (hcase : ∀ k ≤ a, 2 ^ k % r = 1 → ¬ 2 ^ (a - k) ∣ r - 1)
     (hno : ∀ g ∈ Ls, orderOf g ≠ 2 * r) (hS₀ : CFSG.QuasithinUnique.IsSylowTwoOf S₀ Ls)
     (hP : IsMinOverBorel Ls S₀ P) : ∃ y ∈ pElementSubgroup 2 P, orderOf y = 3 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hcon
   push Not at hcon
   set O : Subgroup Y := pElementSubgroup 2 P with hOdef
@@ -433,9 +433,9 @@ theorem false_of_A6_U33_aux_xlevel_gen (k542 : K542) {X : Type} [Group X] [Finit
   have hLs := hl.comp
   have hL := hl.lift
   have hLfeq : Ls.comap (toStar T) = L ⊔ gnC T := (liftOf_central_ext hl.gn hLs.1 hL).2
-  haveI hLfn : (Ls.comap (toStar T)).Normal := by rw [hLfeq]; infer_instance
-  haveI hVn : (gnV T).Normal := by unfold gnV; infer_instance
-  haveI hUn : ⁅gnV T, Ls.comap (toStar T)⁆.Normal := inferInstance
+  have hLfn : (Ls.comap (toStar T)).Normal := by rw [hLfeq]; infer_instance
+  have hVn : (gnV T).Normal := by unfold gnV; infer_instance
+  have hUn : ⁅gnV T, Ls.comap (toStar T)⁆.Normal := inferInstance
   have hUV : ⁅gnV T, Ls.comap (toStar T)⁆ ≤ gnV T := Subgroup.commutator_le_left _ _
   have hk := k542 X T hl.gn Ls hLs.1 (hl.good.shape Ls hLs).1 (by
     rcases hbig with h | ⟨d, ⟨q, hq, hd⟩, he⟩
@@ -487,7 +487,7 @@ theorem false_of_A6_U33_aux_xlevel_gen (k542 : K542) {X : Type} [Group X] [Finit
         rw [Subgroup.map_comap_eq_self_of_surjective (QuotientGroup.mk'_surjective _)]
         exact ha
       exact (Subgroup.mem_bot).2 ((QuotientGroup.eq_one_iff _).2 (h2 hl))
-    haveI := hsimple.toNontrivial
+    have := hsimple.toNontrivial
     exact (Subgroup.nontrivial_iff_ne_bot Ls).1 inferInstance (le_bot_iff.1 h3)
   exact ⟨hPU0, false_of_A6_U33_aux_Z1 hl.gn hUV hU0⟩
 
@@ -581,7 +581,7 @@ theorem false_of_A6_U33_aux_three (hU33 : U33NoOrderFourteen) {Y : Type} [Group 
     (hS₀ : CFSG.QuasithinUnique.IsSylowTwoOf S₀ Ls) (hP : IsMinOverBorel Ls S₀ P) :
     ∃ y ∈ pElementSubgroup 2 P, orderOf y = 3 := by
   rcases hbig with ⟨⟨e⟩⟩ | h
-  · haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  · have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     refine false_of_A6_U33_aux_three_of_order (a := 3) (b := 2) (r := 5) (by norm_num) ?_
       (by decide) ?_ hS₀ hP
     · rw [Nat.card_congr e.toEquiv, card_alternatingGroup_six]
@@ -590,7 +590,7 @@ theorem false_of_A6_U33_aux_three (hU33 : U33NoOrderFourteen) {Y : Type} [Group 
       refine false_of_A6_U33_aux_no_ten ((e ⟨g, hg⟩ : alternatingGroup (Fin 6)) : Equiv.Perm (Fin 6)) ?_
       rw [Subgroup.orderOf_coe, MulEquiv.orderOf_eq, ← Subgroup.orderOf_coe ⟨g, hg⟩]
       exact hg10
-  · haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  · have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     refine false_of_A6_U33_aux_three_of_order (a := 5) (b := 3) (r := 7) (by norm_num) ?_
       (by decide) ?_ hS₀ hP
     · rw [(small1522_simple_center_aux5 h).2]
@@ -634,13 +634,13 @@ theorem false_of_A6_U33_of_u33_gen (hU33 : U33NoOrderFourteen) (k542 : K542) {G 
     [Group G] [Finite G] {M T : Subgroup G}
     {T₁ T₂ : Subgroup ↥M}
     (ctx : CFSG.LocalAnalysis.AGL81TheoremCD.Section15.S15CtxGen G M T T₁ T₂)
-    (hR : LiftRankBound G M T T₁ T₂) (h11 : Row1511 G M T T₁ T₂)
+    (hR : LiftRankBound G M T T₁ T₂) (_h11 : Row1511 G M T T₁ T₂)
     (h20 : Row1520 G M T T₁ T₂) (h23 : Row1523 G M T T₁ T₂)
     {Ls : Subgroup (↥M ⧸ gnC (T.subgroupOf M))} {L : Subgroup ↥M}
     (hLs : GNYComponent (T.subgroupOf M) T₁ T₂ Ls) (hL : LiftOf (T.subgroupOf M) L Ls)
     (hLn : L.Normal) (hbig : Nonempty (↥Ls ≃* alternatingGroup (Fin 6)) ∨ IsUThreeThree ↥Ls)
     (hU : ∀ A : Subgroup ↥M, A ≤ L → Nat.card A = 3 → A.map M.subtype ∈ uniqueSet M) : False := by
-  haveI := hLn
+  have := hLn
   have hTM : T ≤ M := ctx.sylow.le
   have hl := hR.liftCtxGen ctx.gn ctx.good hLs hL
   have hsmall : Small1522 ↥Ls := by
@@ -663,7 +663,7 @@ theorem false_of_A6_U33_of_u33_gen (hU33 : U33NoOrderFourteen) (k542 : K542) {G 
     hrk2.trans (CFSG.SectionRank.le_pRank hpP.one_lt le_rfl hP₀a hP₀c)
   obtain ⟨hPU0, z, hz, hz1⟩ := false_of_A6_U33_aux_xlevel_gen k542 hl hbig hP₀le
   have hexp := (gnV_comm_exp_two ctx.gn).2
-  haveI hVn : (gnV (T.subgroupOf M)).Normal := by unfold gnV; infer_instance
+  have hVn : (gnV (T.subgroupOf M)).Normal := by unfold gnV; infer_instance
   have hZmap : (CFSG.Quasithin.omegaOneCenterOf (T.subgroupOf M)).map M.subtype =
       CFSG.Quasithin.omegaOneCenterOf T := map_omegaOneCenterOf_subgroupOf hTM
   obtain ⟨Q, -, hw⟩ := ctx.witness p hp

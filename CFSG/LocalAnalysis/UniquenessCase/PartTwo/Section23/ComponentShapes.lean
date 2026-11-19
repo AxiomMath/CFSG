@@ -91,7 +91,7 @@ theorem hyp2120_two_of_s23_8 (hJ : J1NotSp4SU3) (D : Data G) (Ch : Choice2011 G)
   rintro ⟨n, -, hsp | hsu⟩
   · have hshape : (∃ n : ℕ, IsSp4 (BarInf L) n) ∨ (∃ n : ℕ, IsSU3 (Bar2 L) n) := by
       left
-      haveI : IsSimpleGroup (Bar2 L) :=
+      have : IsSimpleGroup (Bar2 L) :=
         CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (t := .PSp) (by decide) hsp
       have hc : Subgroup.center (Bar2 L) = ⊥ := uc22p21k_center_eq_bot hL.2.2
       obtain ⟨e⟩ := uc22p21k_barInf_equiv_of_center_bot hL.2.2 hc
@@ -111,7 +111,7 @@ theorem hyp2120_two_of_s23_8 (hJ : J1NotSp4SU3) (D : Data G) (Ch : Choice2011 G)
     · exact hnotL2 a haL2
     · exact hnotSz a haSz
     · rcases hsecond with ⟨q, -, -, hqL2Odd⟩ | hj1 | ⟨a, haL2⟩
-      · haveI : IsSimpleGroup (Bar2 L) :=
+      · have : IsSimpleGroup (Bar2 L) :=
           CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (t := .PSL) (by decide)
             hqL2Odd
         have hc : Subgroup.center (Bar2 L) = ⊥ := uc22p21k_center_eq_bot hsu.1

@@ -110,9 +110,9 @@ theorem card_S3 : Nat.card S3 = 27 := by
         exact Subsingleton.elim _ _
       · have hc : IsCyclic S3 := isCyclic_of_prime_card (p := 3) (by simpa using hn)
         intro a b
-        letI := IsCyclic.commGroup (α := S3)
+        let := IsCyclic.commGroup (α := S3)
         exact mul_comm a b
-      · exact IsPGroup.commutative_of_card_eq_prime_sq hn
+      · exact (IsPGroup.isMulCommutative_of_card_eq_prime_sq hn).is_comm.comm
     exact xg_xg'_ne (congrArg Subtype.val (hcomm ⟨xg, xg_mem⟩ ⟨xg', xg'_mem⟩))
   rw [hn, le_antisymm hn3 hnn]
   norm_num

@@ -13,6 +13,7 @@ open CFSG.LocalAnalysis.UniquenessCase.PartTwo (thin_four_twentySix_commutator_e
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 theorem normalizer_zpowers_of_center {X Y : Subgroup (MulAut W)} {ω : MulAut W}
     (hcenter : ∀ z ∈ Subgroup.centralizer (X : Set (MulAut W)),
       (∀ c ∈ Subgroup.centralizer (X : Set (MulAut W)), c * z = z * c) →

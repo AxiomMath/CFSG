@@ -18,11 +18,11 @@ theorem KT.mem_ins (t : KT) (k x : Nat) : (t.ins k).mem x = (x == k || t.mem x) 
     unfold KT.ins
     by_cases h0 : k = k0
     · subst h0
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       unfold KT.mem
       by_cases hx : x = k <;> simp [hx]
     · by_cases hk : k < k0
-      · rw [if_neg h0, if_pos hk]
+      · rw [ite_eq_right h0, ite_eq_left hk]
         unfold KT.mem
         rw [ihl]
         by_cases hx : x = k0
@@ -31,11 +31,11 @@ theorem KT.mem_ins (t : KT) (k x : Nat) : (t.ins k).mem x = (x == k || t.mem x) 
           · simp [hx, hxl]
           · have : x ≠ k := by omega
             simp [hx, hxl, this]
-      · rw [if_neg h0, if_neg hk]
+      · rw [ite_eq_right h0, ite_eq_right hk]
         unfold KT.mem
         rw [ihr]
         by_cases hx : x = k0
-        · simp [hx, Ne.symm h0]
+        · simp [hx]
         · by_cases hxl : x < k0
           · have : x ≠ k := by omega
             simp [hx, hxl, this]
@@ -147,8 +147,8 @@ theorem round_all (hcs : ∀ c ∈ cs, ∀ x ∈ c, x < 2 ^ n) {i : Nat} :
       unfold orbRound
       simp only
       by_cases h : seen.contains (maskKey ((bs.getD i []).map (actM (cs.getD g [])))) = true
-      · rw [if_pos h]
-      · rw [if_neg h, Array.size_push]
+      · rw [ite_eq_left h]
+      · rw [ite_eq_right h, Array.size_push]
         omega
     have hi' : i < (orbRound cs i s g).1.size := by omega
     obtain ⟨A, B, C, D⟩ := ih (fun g' hg' => hL g' (List.mem_cons_of_mem g hg')) _ _ hi' I' R'
@@ -197,7 +197,7 @@ theorem orbTwin_eq (hcs : ∀ c ∈ cs, ∀ x ∈ c, x < 2 ^ n) :
         rw [hb] at B
         obtain ⟨s', I', e1, e2⟩ := ih (i + 1) _ _ A B (by omega)
         refine ⟨s', I', ?_, ?_⟩
-        · rw [orbBFS, if_pos hlt]
+        · rw [orbBFS, ite_eq_left hlt]
           exact e1
         · rw [← he]
           exact e2
@@ -216,7 +216,7 @@ theorem orbTwin_eq (hcs : ∀ c ∈ cs, ∀ x ∈ c, x < 2 ^ n) :
           simp only [orbTwin, hbk]
     · have hiq : s.1.toList.drop i = [] := List.drop_eq_nil_of_le (by simp; omega)
       refine ⟨s, I, ?_, ?_⟩
-      · rw [orbBFS, if_neg (by omega)]
+      · rw [orbBFS, ite_eq_right (by omega)]
       · obtain ⟨fr, bk, c, tr⟩ := t
         have hq := R.queue
         rw [hiq] at hq

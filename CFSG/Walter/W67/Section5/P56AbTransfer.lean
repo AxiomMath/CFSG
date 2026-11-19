@@ -248,7 +248,7 @@ theorem exists_conj_Jbar {g : MulAut d.V} (hg : g ∈ d.Nbar) (hog : orderOf g =
     apply Subgroup.eq_of_le_of_card_ge hSle
     rw [Nat.card_zpowers, hy]
     have := d.card_le_two_of_le_Nbar (Subgroup.map_subtype_le (S : Subgroup d.Nbar))
-      (S.isPGroup'.map _)
+      (S.isPGroup.map _)
     rwa [Subgroup.card_map_of_injective d.Nbar.subtype_injective] at this
   obtain ⟨S₁, hS₁⟩ := hS J₁ hoJ₁
   obtain ⟨S₂, hS₂⟩ := hS J₂ hoJ₂

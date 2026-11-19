@@ -22,7 +22,7 @@ theorem exists_d_mem_K (h45 : Sec4.Item4_5) (C : Cfg611 G A c L E T d S K)
     (hZ3 : Nat.card (Subgroup.center (K ⧸ aschbacherSolvableCore 3 K)) = 3) :
     ∃ dK : K, (dK : G) = d ∧ Subgroup.center (K ⧸ aschbacherSolvableCore 3 K) =
       Subgroup.zpowers (QuotientGroup.mk' (aschbacherSolvableCore 3 K) dK) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hAe := C.toFrame611.isElemAbelian
   have hAmax := C.toFrame611.maximal
   have hAK := C.A_le_normalizer_K h45

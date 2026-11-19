@@ -33,6 +33,7 @@ private lemma y4_mem_zpowers_z_iff (c : Ctx4 s e) {x : G} :
     · exact Subgroup.one_mem _
     · exact Subgroup.mem_zpowers _
 
+omit [Finite G] in
 private lemma y4_commutator_mul_eq {c u y : G} (h : u * y = y * u) :
     ⁅c, y⁆ = ⁅c * u, y⁆ := by
   rw [commutatorElement_def, commutatorElement_def,

@@ -1871,7 +1871,7 @@ theorem faithful_local_empty
 
 end Quasithin
 
-open Quasithin in
+open _root_.CFSG.Assembly.Quasithin in
 theorem quasithin
     (G : Type) [Group G] [Finite G] [IsSimpleGroup G]
     (hnonab : ∃ a b : G, a * b ≠ b * a) (hK : KProper InCatalog G) (hchar : IsCharTwoType G)

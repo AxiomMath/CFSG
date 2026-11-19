@@ -37,9 +37,9 @@ theorem card_fixed_lineMap_eq_two_or_five {K V : Type*} [Field K] [AddCommGroup 
     Nat.card {L : LineOf (K := K) (V := V) // lineMap g L = L} = 2 ∨
       Nat.card {L : LineOf (K := K) (V := V) // lineMap g L = L} = 5 := by
   classical
-  haveI : Finite (LineOf (K := K) (V := V)) :=
+  have : Finite (LineOf (K := K) (V := V)) :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
-  letI : Fintype (LineOf (K := K) (V := V)) := Fintype.ofFinite _
+  let : Fintype (LineOf (K := K) (V := V)) := Fintype.ofFinite _
   have hcard5 : Fintype.card (LineOf (K := K) (V := V)) = 5 := by
     rw [Fintype.card_eq_nat_card, hcard]
   let pi : Equiv.Perm (LineOf (K := K) (V := V)) := MulAction.toPerm g
@@ -68,7 +68,7 @@ theorem x_line_fixed_eq_two_or_five {W : Type*} [CommGroup W] [Finite W]
       lineMap (hGaloisLinearEquiv hw2 x hx3 hfix x (by rfl)) L = L} = 2 ∨
     Nat.card {L : LineOf (K := GaloisField 2 2) (V := Additive W) //
       lineMap (hGaloisLinearEquiv hw2 x hx3 hfix x (by rfl)) L = L} = 5 := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   let g := hGaloisLinearEquiv hw2 x hx3 hfix x (by rfl)
   have hc3 : ((x * x) * x) * x = x * ((x * x) * x) := by group
   have hc4 : x ^ 3 * x = x * x ^ 3 := by group

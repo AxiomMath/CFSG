@@ -28,7 +28,7 @@ theorem exists_conj_mem_funSet {X : Type} [Group X] [Finite X]
       (K₀.map (MulAut.conj g).toMonoidHom) := by
     simpa only [CFSG.Open.uniqueFourConj, inv_inv] using
       CFSG.LocalAnalysis.UniquenessCase.UC22.uc22p22r_isSylowOf_conj hQ g⁻¹
-  have heq := hS.eq_of_le (le_inf hg hS.le) inf_le_right (P.isPGroup'.to_inf_left)
+  have heq := hS.eq_of_le (le_inf hg hS.le) inf_le_right (P.isPGroup.to_inf_left)
   rw [heq]
   exact hS
 
@@ -61,14 +61,14 @@ theorem exists_conj_pair_mem_funSet {X : Type} [Group X] [Finite X]
       simpa only [CFSG.Open.uniqueFourConj, inv_inv] using
         CFSG.LocalAnalysis.UniquenessCase.UC22.uc22p22r_isSylowOf_conj hK g⁻¹
     have heq := hS.eq_of_le (le_inf ((Subgroup.map_mono inf_le_left).trans hg) hS.le)
-      inf_le_right P.isPGroup'.to_inf_left
+      inf_le_right P.isPGroup.to_inf_left
     rw [heq]
     exact hS
   exact ⟨g, ⟨hconj g h₁, key hQ₁⟩, ⟨hconj g h₂, key hQ₂⟩⟩
 
 theorem commute_of_map_mem_map {U X : Type} [Group U] [Group X] (ψ : U →* X)
     (hker : ψ.ker ≤ Subgroup.center U) {R S : Subgroup U}
-    (hRS : ∀ x ∈ R, ∀ y ∈ S, x * y = y * x) {a : U} (ha : a ∈ R) (haS : ψ a ∈ S.map ψ) :
+    (hRS : ∀ x ∈ R, ∀ y ∈ S, x * y = y * x) {a : U} (_ha : a ∈ R) (haS : ψ a ∈ S.map ψ) :
     ∀ y ∈ R, a * y = y * a := by
   obtain ⟨b, hb, hab⟩ := haS
   have hc : b⁻¹ * a ∈ Subgroup.center U := hker (by

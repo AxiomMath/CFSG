@@ -32,7 +32,7 @@ theorem fritzHyp_of_smallF3
     have h1 : t = 1 := congrArg Subtype.val hc
     rw [h1, orderOf_one] at ht2
     exact absurd ht2 (by norm_num)
-  haveI := hS.simple
+  have := hS.simple
   exact ⟨t, {
     orderOf_t := ht2
     model := hmodel

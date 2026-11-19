@@ -20,6 +20,7 @@ variable {G : Type} [Group G] [Finite G]
 @[expose] def IeStarOf (K : Subgroup G) (e : G) : Subgroup G :=
   ⨆ g ∈ Cg e, GLBConj g (IeOf K e)
 
+omit [Finite G] in
 theorem ieOf_le_ieStarOf (K : Subgroup G) (e : G) : IeOf K e ≤ IeStarOf K e := by
   intro x hx
   have h1 : x ∈ GLBConj 1 (IeOf K e) := by
@@ -27,6 +28,7 @@ theorem ieOf_le_ieStarOf (K : Subgroup G) (e : G) : IeOf K e ≤ IeStarOf K e :=
     simpa using hx
   exact (le_iSup₂ (f := fun g (_ : g ∈ Cg e) => GLBConj g (IeOf K e)) 1 (Subgroup.one_mem _)) h1
 
+omit [Finite G] in
 theorem ieStarOf_le_cg (K : Subgroup G) (e : G) : IeStarOf K e ≤ Cg e := by
   refine iSup₂_le fun g hg => ?_
   intro x hx
@@ -35,6 +37,7 @@ theorem ieStarOf_le_cg (K : Subgroup G) (e : G) : IeStarOf K e ≤ Cg e := by
   have := (Cg e).mul_mem ((Cg e).mul_mem ((Cg e).inv_mem hg) hxC) hg
   simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem cg_le_normalizer_ieStarOf (K : Subgroup G) (e : G) :
     Cg e ≤ Subgroup.normalizer ((IeStarOf K e : Subgroup G) : Set G) := by
   have hle : ∀ h ∈ Cg e, ∀ x ∈ IeStarOf K e, h * x * h⁻¹ ∈ IeStarOf K e := by
@@ -82,12 +85,15 @@ theorem cg_le_normalizer_ieStarOf (K : Subgroup G) (e : G) :
     rw [e']
     exact h1
 
+omit [Finite G] in
 theorem mem_cRIeStar {R K : Subgroup G} {e x : G} :
     x ∈ CRIeStar R K e ↔ x ∈ R ∧ x ∈ Cg e ∧
       ∀ y ∈ IeStarOf K e, x * y * x⁻¹ * y⁻¹ ∈ GLAPPrimeCoreOf 5 (Cg e) := Iff.rfl
 
+omit [Finite G] in
 theorem cRIeStar_le (R K : Subgroup G) (e : G) : CRIeStar R K e ≤ R := fun _ hx => hx.1
 
+omit [Finite G] in
 theorem inf_ieStarOf_normal {R K : Subgroup G} {e : G} (hRC : R ≤ Cg e) :
     ((R ⊓ IeStarOf K e).subgroupOf R).Normal := by
   rw [Subgroup.normal_subgroupOf_iff_le_normalizer inf_le_left]
@@ -104,6 +110,7 @@ theorem inf_ieStarOf_normal {R K : Subgroup G} {e : G} (hRC : R ≤ Cg e) :
     have := R.mul_mem (R.mul_mem (R.inv_mem hr) (Subgroup.mem_inf.1 hx).1) hr
     simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem cRIeStar_normal {R K : Subgroup G} {e : G} (hRC : R ≤ Cg e) :
     ((CRIeStar R K e).subgroupOf R).Normal := by
   have key : ∀ r ∈ R, ∀ x ∈ CRIeStar R K e, r * x * r⁻¹ ∈ CRIeStar R K e := by
@@ -140,7 +147,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem exists_conj_B_le {m : ℕ} {B M E A : Subgroup G} {a : G} {K : Subgroup G}
     (h : Cex117 G m 5 B M E A a K) {R : Subgroup G} (hR : IsSylowIn 5 M R) :
     ∃ B₁ : Subgroup G, B₁ ≤ R ∧ inD 5 M B₁ ∧ IsElemAbelian 5 B₁ ∧ Nat.card ↥B₁ = 5 ^ m := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hS := h.toCex117Base.toSec11.toSec10Fails
   have hBM : B ≤ M := le_of_isPreUniquenessTwoLocal hS.standing hS.bOne hS.pre
   have hBel : IsElemAbelian 5 B := hS.bOne.1.1
@@ -156,7 +163,7 @@ theorem normalizer_plane_le {m : ℕ} {B M E A : Subgroup G} {a : G} {K : Subgro
     (hB₁D : inD 5 M B₁) (hB₁el : IsElemAbelian 5 B₁) (hB₁c : Nat.card ↥B₁ = 5 ^ m)
     (hVp : IsPPlane 5 V) (hB₁V : B₁ ≤ Subgroup.normalizer (V : Set G)) :
     Subgroup.normalizer (V : Set G) ≤ M := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hS := h.toCex117Base.toSec11.toSec10Fails
   obtain ⟨hrk, -, -, -⟩ := h119 h
   have hm4 : 4 ≤ m := hS.standing.four_le
@@ -199,7 +206,7 @@ theorem ieStarOf_le_M_of_not_isCyclic (h119 : Lemma119Statement) (h111 : Prop111
     (heZ : e ∈ omegaOne 5 (centerOf R)) (he1 : e ≠ 1) (hnc : ¬ IsCyclic ↥(CRIeStar R K e)) :
     IeStarOf K e ≤ M := by
   have hp : Nat.Prime 5 := by norm_num
-  haveI : Fact (Nat.Prime 5) := ⟨hp⟩
+  have : Fact (Nat.Prime 5) := ⟨hp⟩
   have hS := h.toCex117Base.toSec11.toSec10Fails
   have hsc := lemma104_ii_holds hS h.pair
   have hZle : omegaOne 5 (centerOf R) ≤ E ⊓ A :=
@@ -237,7 +244,7 @@ theorem exists_orderOf_five_mem_ke (hI1421 : Input14_21) (hF : Fi22Facts) (h119 
     (hfi : IsSporType .Fi22 (barOf 5 K)) {e : G} (heA : e ∈ E ⊓ A) (he1 : e ≠ 1) :
     ∃ x ∈ GLAPLayer 5 (K ⊓ Cg e), orderOf x = 5 := by
   have hp : Nat.Prime 5 := by norm_num
-  haveI : Fact (Nat.Prime 5) := ⟨hp⟩
+  have : Fact (Nat.Prime 5) := ⟨hp⟩
   have hS := h.toCex117Base.toSec11.toSec10Fails
   have hsc := lemma104_ii_holds hS h.pair
   obtain ⟨-, hN, hfaith, hinn⟩ := h119 h
@@ -390,7 +397,7 @@ theorem inf_ne_bot_of_sylow {p : ℕ} [Fact p.Prime] {R N : Subgroup G} (hR : Is
   rw [hSR] at hyS
   have h1 : y⁻¹ * x * y ∈ R := hyS (by
     rw [mem_gLBConj]
-    simpa [mul_assoc] using Subgroup.mem_zpowers x)
+    simp [mul_assoc])
   have h2 : y⁻¹ * x * y ∈ N := by
     have := (Subgroup.mem_normalizer_iff.1 (Subgroup.inv_mem _ hyX) x).1 hxN
     simpa using this
@@ -427,8 +434,9 @@ section Reductions
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem le_cg_of_mem_omegaOne {R : Subgroup G} {e : G} (heZ : e ∈ omegaOne 5 (centerOf R)) :
-    R ≤ Cg e := fun r hr => Subgroup.mem_centralizer_singleton_iff.2
+    R ≤ Cg e := fun _r hr => Subgroup.mem_centralizer_singleton_iff.2
   (comm_of_mem_centerOf (omegaOne_le' 5 _ heZ) hr)
 
 end Reductions
@@ -437,7 +445,7 @@ theorem reIRCClaim_of_ieStar (hI1421 : Input14_21) (hF : Fi22Facts) (h119 : Lemm
     (hIe : IeStarClaim) : ReIRCClaim := by
   intro G _ _ m p B M E A a K h hb R hR hEAR e heZ he1
   obtain ⟨rfl, hfi⟩ := hb
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hS := h.toCex117Base.toSec11.toSec10Fails
   have hsc := lemma104_ii_holds hS h.pair
   obtain ⟨hrk, -, -, -⟩ := h119 h

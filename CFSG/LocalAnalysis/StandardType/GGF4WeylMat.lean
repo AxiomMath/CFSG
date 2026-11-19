@@ -16,12 +16,11 @@ theorem M4.toMat_mul (x y : M4) : (x.mul y).toMat = x.toMat * y.toMat := by
   ext i j
   fin_cases i <;> fin_cases j <;>
     first
-    | (simp [M4.toMat, M4.mul, Matrix.mul_apply, Fin.sum_univ_four]; done)
-    | (simp [M4.toMat, M4.mul, Matrix.mul_apply, Fin.sum_univ_four]; ring)
+    | (simp [M4.toMat, M4.mul, Matrix.mul_apply, Fin.sum_univ_four])
 
 theorem M4.toMat_one : M4.one.toMat = 1 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [M4.toMat, M4.one, Matrix.one_apply]
+  fin_cases i <;> fin_cases j <;> simp [M4.toMat, M4.one]
 
 theorem M4.ext' {x y : M4} (h00 : x.m00 = y.m00) (h01 : x.m01 = y.m01) (h02 : x.m02 = y.m02)
     (h03 : x.m03 = y.m03) (h10 : x.m10 = y.m10) (h11 : x.m11 = y.m11) (h12 : x.m12 = y.m12)
@@ -31,8 +30,7 @@ theorem M4.ext' {x y : M4} (h00 : x.m00 = y.m00) (h01 : x.m01 = y.m01) (h02 : x.
   cases x
   cases y
   first
-  | (simp_all; done)
-  | (dsimp only at *; subst_vars; rfl)
+  | (simp_all)
 
 theorem M4.toMat_injective : Function.Injective M4.toMat := by
   intro x y h

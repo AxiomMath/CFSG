@@ -8,7 +8,7 @@ namespace CFSG
 
 namespace FiveTransitive.Degree15
 
-@[expose] abbrev NonidentitySylowElements
+abbrev NonidentitySylowElements
     (p : ℕ) (G : Type) [Group G] :=
   Σ S : Sylow p G, {u : S // u ≠ 1}
 
@@ -165,7 +165,7 @@ private theorem stabilizer_factor_one_eight_or_thirty_impossible
     rcases hk with rfl | rfl | rfl <;> norm_num
   have hkNot13 : ¬13 ∣ k := by
     rcases hk with rfl | rfl | rfl <;> norm_num
-  letI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 11) := ⟨by norm_num⟩
   let S11 : Sylow 11 P := Sylow.nonempty.some
   have hS11card : Nat.card S11 = 11 := by
     rw [S11.card_eq_multiplicity, hPcard]
@@ -191,7 +191,7 @@ private theorem stabilizer_factor_one_eight_or_thirty_impossible
       sylow_normalizer_constraints_of_not_alternating
         X P hcard h5 hnotAlt (p := 11) (by norm_num)
           (Or.inl rfl) S11 hS11card
-  letI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 13) := ⟨by norm_num⟩
   let S13 : Sylow 13 P := Sylow.nonempty.some
   have hS13card : Nat.card S13 = 13 := by
     rw [S13.card_eq_multiplicity, hPcard]
@@ -348,16 +348,16 @@ private theorem stabilizer_factor_one_eight_or_thirty_impossible
     ext i
     exact hg i
   have hP2 : MulAction.IsMultiplyPretransitive P X 2 := by
-    letI : MulAction.IsMultiplyPretransitive P X 5 := hP5
+    let : MulAction.IsMultiplyPretransitive P X 5 := hP5
     exact MulAction.isMultiplyPretransitive_of_le
       (G := P) (α := X) (m := 2) (n := 5) (by omega) (by
         rw [Nat.card_eq_fintype_card, hcard]
         omega)
-  letI : MulAction.IsMultiplyPretransitive P X 2 := hP2
-  letI : MulAction.IsPretransitive P X :=
+  let : MulAction.IsMultiplyPretransitive P X 2 := hP2
+  let : MulAction.IsPretransitive P X :=
     MulAction.isPretransitive_of_is_two_pretransitive
-  letI : Nonempty X := Fintype.card_pos_iff.mp (by omega)
-  letI : Unique (MulAction.orbitRel.Quotient P X) :=
+  let : Nonempty X := Fintype.card_pos_iff.mp (by omega)
+  let : Unique (MulAction.orbitRel.Quotient P X) :=
     Classical.choice
       ((MulAction.pretransitive_iff_unique_quotient_of_nonempty
         P X).mp inferInstance)

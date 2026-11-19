@@ -158,17 +158,17 @@ theorem entries_eq_of_commute_blk {A : SL(6, ZMod 2)} (k : Fin 5)
     exact absurd hdet (by decide)
   refine ⟨fun i => ?_, fun i => ?_, fun j => ?_, fun j => ?_⟩
   · by_cases hi : i = p
-    · rw [hi, hpp, if_pos rfl]
-    · rw [hcp i hi, if_neg hi]
+    · rw [hi, hpp, ite_eq_left rfl]
+    · rw [hcp i hi, ite_eq_right hi]
   · by_cases hi : i = q
-    · rw [hi, ← hd, hpp, if_pos rfl]
-    · rw [hcq i hi, if_neg hi]
+    · rw [hi, ← hd, hpp, ite_eq_left rfl]
+    · rw [hcq i hi, ite_eq_right hi]
   · by_cases hj : j = p
-    · rw [hj, hpp, if_pos rfl]
-    · rw [hrp j hj, if_neg hj]
+    · rw [hj, hpp, ite_eq_left rfl]
+    · rw [hrp j hj, ite_eq_right hj]
   · by_cases hj : j = q
-    · rw [hj, ← hd, hpp, if_pos rfl]
-    · rw [hrq j hj, if_neg hj]
+    · rw [hj, ← hd, hpp, ite_eq_left rfl]
+    · rw [hrq j hj, ite_eq_right hj]
 
 theorem col_eq_of_commute_blk_zero {A : SL(6, ZMod 2)} (hA : ∀ x ∈ blk 0, A * x = x * A) :
     (∀ i, (A : Matrix (Fin 6) (Fin 6) (ZMod 2)) i 0 = if i = 0 then 1 else 0) ∧
@@ -341,12 +341,12 @@ theorem blk_three_le_of_mem {A : SL(6, ZMod 2)} (hA0 : ∀ x ∈ blk 0, A * x = 
       rw [hYdef, conj_transvection_apply, mul_one, rowMat, Matrix.add_apply, Matrix.of_apply,
         ← hM, ← hN, hc1 i, add_right_inj]
       by_cases hi : i = 1
-      · rw [if_pos hi, if_pos hi, one_mul]
+      · rw [ite_eq_left hi, ite_eq_left hi, one_mul]
         fin_cases j
         · simpa using hi0 2
         · simpa using hi1 2
         all_goals rfl
-      · rw [if_neg hi, if_neg hi, zero_mul]
+      · rw [ite_eq_right hi, ite_eq_right hi, zero_mul]
     obtain ⟨X, hXdef⟩ : ∃ X : SL2 (ZMod 2), X = rowSel (N 2 4) (N 2 5) := ⟨_, rfl⟩
     have hx : blockSL2 (ZMod 2) 5 4 X ∈ H := h4 ⟨X, rfl⟩
     obtain ⟨T₁, hT₁⟩ : ∃ T₁ : SL(6, ZMod 2), T₁ =
@@ -379,10 +379,10 @@ theorem blk_three_le_of_mem {A : SL(6, ZMod 2)} (hA0 : ∀ x ∈ blk 0, A * x = 
       rw [hZdef, conj_transvection_apply, mul_one, colMat, Matrix.add_apply, Matrix.of_apply,
         ← hM, ← hN, hr1 j, add_right_inj]
       by_cases hj : j = 1
-      · rw [if_pos hj, if_pos hj, mul_one]
+      · rw [ite_eq_left hj, ite_eq_left hj, mul_one]
         fin_cases i
         all_goals first | rfl | exact hcol2 _ (by decide)
-      · rw [if_neg hj, if_neg hj, mul_zero]
+      · rw [ite_eq_right hj, ite_eq_right hj, mul_zero]
     obtain ⟨X, hXdef⟩ : ∃ X : SL2 (ZMod 2), X = colSel (M 4 2) (M 5 2) := ⟨_, rfl⟩
     have hx : blockSL2 (ZMod 2) 5 4 X ∈ H := h4 ⟨X, rfl⟩
     have hmem : blockSL2 (ZMod 2) 5 4 X * Z * blockSL2 (ZMod 2) 5 4 X ∈ H :=

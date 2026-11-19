@@ -55,7 +55,7 @@ theorem gammaCheck_eq_closure_stab {W : Type*} [CommGroup W] [Finite W] (k : ℕ
     (P : Subgroup (MulAut W)) :
     E3.gammaCheck k P =
       Subgroup.closure {w : W | E3.mQuot P (P ⊓ centSub (Subgroup.zpowers w)) ≤ k} := by
-  haveI : Finite (MulAut W) := MulEquiv.finite_left
+  have : Finite (MulAut W) := MulEquiv.finite_left
   unfold E3.gammaCheck
   apply le_antisymm
   · refine iSup_le fun X => iSup₂_le fun hX hk w hw => ?_
@@ -98,15 +98,15 @@ theorem gammaCheck_two_range {W : Type*} [CommGroup W] [Finite W]
     E3.gammaCheck 2 ρ.range =
       Subgroup.closure
         {w : W | 4 ≤ Nat.card {ε : Fin 4 → ZMod 2 // ρ (Multiplicative.ofAdd ε) w = w}} := by
-  haveI : Finite (MulAut W) := MulEquiv.finite_left
+  have : Finite (MulAut W) := MulEquiv.finite_left
   rw [gammaCheck_eq_closure_stab]
   congr 1
   ext w
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   have hcardP : Nat.card ρ.range = 2 ^ 4 := by
     rw [← Nat.card_congr (MonoidHom.ofInjective hρ).toEquiv]
     show Nat.card (Fin 4 → ZMod 2) = 2 ^ 4
-    simp [Nat.card_fun]
+    simp
   have hP : IsPGroup 2 ρ.range := IsPGroup.of_card hcardP
   have hcardS : Nat.card ↥(ρ.range ⊓ centSub (Subgroup.zpowers w)) =
       Nat.card {ε : Fin 4 → ZMod 2 // ρ (Multiplicative.ofAdd ε) w = w} := by

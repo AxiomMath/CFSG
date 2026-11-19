@@ -112,13 +112,13 @@ theorem sec12J_transvection {W Γ : Type} [Group W] [Finite W] [Group Γ] {ψ : 
     { carrier := {w | ψ y w = w}
       mul_mem' := by
         intro a b ha hb
-        simp only [Set.mem_setOf_eq] at ha hb ⊢
+        simp only [Set.mem_ofPred_eq] at ha hb ⊢
         rw [map_mul, ha, hb]
       one_mem' := by
-        simp only [Set.mem_setOf_eq, map_one, MulAut.one_apply]
+        simp only [Set.mem_ofPred_eq, map_one]
       inv_mem' := by
         intro a ha
-        simp only [Set.mem_setOf_eq] at ha ⊢
+        simp only [Set.mem_ofPred_eq] at ha ⊢
         rw [map_inv, ha] }
   have hCmem : ∀ w, w ∈ C ↔ ψ y w = w := fun w => Iff.rfl
   by_contra hle0

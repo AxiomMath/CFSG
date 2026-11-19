@@ -22,11 +22,13 @@ variable {G : Type} [Group G] [Finite G] {V T A K S X : Subgroup G} {p : ℕ} {g
 @[expose] def nineSwapCA (V A S : Subgroup G) : Subgroup G :=
   nineSwapStab V A S ⊓ centralizer (A : Set G)
 
+omit [Finite G] in
 private theorem nineThree_conj_sup (P Q : Subgroup G) (g : G) :
     conjSubgroup (P ⊔ Q) g = conjSubgroup P g ⊔ conjSubgroup Q g := by
   simp only [CFSG.Quasithin.conjSubgroup]
   exact Subgroup.map_sup _ _ _
 
+omit [Finite G] in
 private theorem nineThree_conj_mem_nineSwapStab {c g : G}
     (hg : g ∈ nineDeltaStab V S) (hV : conjSubgroup V g = A)
     (hA : conjSubgroup A g = V) (hc : c ∈ nineSwapStab V A S) :
@@ -48,6 +50,7 @@ private theorem nineThree_conj_mem_nineSwapStab {c g : G}
       exact hcV
     rwa [E3.conjSubgroup_normalizer, hV] at h1
 
+omit [Finite G] in
 private theorem nineThree_conj_mem_nineSwapCV {c g : G}
     (hg : g ∈ nineDeltaStab V S) (hV : conjSubgroup V g = A)
     (hA : conjSubgroup A g = V) (hc : c ∈ nineSwapCV V A S) :
@@ -61,6 +64,7 @@ private theorem nineThree_conj_mem_nineSwapCV {c g : G}
     exact hcC
   rwa [E3.conjSubgroup_centralizer, hV] at h1
 
+omit [Finite G] in
 private theorem nineThree_conj_mem_nineSwapCA {c g : G}
     (hg : g ∈ nineDeltaStab V S) (hV : conjSubgroup V g = A)
     (hA : conjSubgroup A g = V) (hc : c ∈ nineSwapCA V A S) :
@@ -74,6 +78,7 @@ private theorem nineThree_conj_mem_nineSwapCA {c g : G}
     exact hcC
   rwa [E3.conjSubgroup_centralizer, hA] at h1
 
+omit [Finite G] in
 theorem conj_nineSwapCV (hg : g ∈ nineDeltaStab V S) (hV : conjSubgroup V g = A)
     (hA : conjSubgroup A g = V) :
     conjSubgroup (nineSwapCV V A S) g = nineSwapCA V A S := by
@@ -91,6 +96,7 @@ theorem conj_nineSwapCV (hg : g ∈ nineDeltaStab V S) (hV : conjSubgroup V g = 
     rw [mem_conjSubgroup_iff]
     simpa using h
 
+omit [Finite G] in
 theorem conj_nineSwapCA (hg : g ∈ nineDeltaStab V S) (hV : conjSubgroup V g = A)
     (hA : conjSubgroup A g = V) :
     conjSubgroup (nineSwapCA V A S) g = nineSwapCV V A S := by
@@ -108,6 +114,7 @@ theorem conj_nineSwapCA (hg : g ∈ nineDeltaStab V S) (hV : conjSubgroup V g = 
     rw [mem_conjSubgroup_iff]
     simpa using h
 
+omit [Finite G] in
 private theorem nineThree_isSylowIn_conj (g : G) {P H : Subgroup G}
     (h : IsSylowIn 2 P H) : IsSylowIn 2 (conjSubgroup P g) (conjSubgroup H g) := by
   have h' := (E1.isSylowIn_map_mulEquiv (p := 2) (MulAut.conj g⁻¹)).mpr h
@@ -127,7 +134,7 @@ theorem Nine3Core.exists_isSylowIn_nineSwap (h : Nine3Core V T A K S X p) :
     ∃ Y : Subgroup G, IsSylowIn 2 Y (nineSwapCV V A S ⊔ nineSwapCA V A S) ∧
       (T ⊓ centralizer (A : Set G)) ⊔
         (S ⊓ centralizer (V : Set G) ⊓ normalizer (A : Set G)) ≤ Y := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hP : T ⊓ centralizer (A : Set G) ≤ nineSwapCV V A S ⊔ nineSwapCA V A S :=
     le_sup_of_le_right (Nine3Core.isSylowIn_nineSwapCA h).le
   have hS0 : S ⊓ centralizer (V : Set G) ⊓ normalizer (A : Set G) ≤
@@ -150,7 +157,7 @@ theorem Nine3Core.exists_swap_normalizing (h : Nine3Core V T A K S X p) {Y : Sub
     (hY : IsSylowIn 2 Y (nineSwapCV V A S ⊔ nineSwapCA V A S)) :
     ∃ g ∈ nineDeltaStab V S, conjSubgroup V g = A ∧ conjSubgroup A g = V ∧
       conjSubgroup Y g = Y := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨g₁, hg₁N, hVg₁, hAg₁⟩ := nine_three_two_transitive h h.V_mem_nineDelta
     h.A_mem_nineDelta h.A_mem_nineDelta h.V_mem_nineDelta h.ne.symm h.ne
   have hChat : conjSubgroup (nineSwapCV V A S ⊔ nineSwapCA V A S) g₁ =
@@ -253,7 +260,7 @@ theorem Nine3Core.exists_choice_sym (h763 : SevenSixThreeAbelian V)
     (h : Nine3Core V T A K S X p) :
     ∃ g x : G, Nine3Choice V T A K S X p g x ∧ Nine3Choice V T A K S X p g⁻¹ x := by
   obtain ⟨g, hg, hVg, hAg, hgg, hS, hS'⟩ := nine_three_exists_swap_sym h
-  haveI : IsCyclic ↥X := nine_two_four h763 h.hyp7 h.rk_gt h.hyp
+  have : IsCyclic ↥X := nine_two_four h763 h.hyp7 h.rk_gt h.hyp
   obtain ⟨y, hy⟩ := IsCyclic.exists_generator (α := ↥X)
   have hx : X = Subgroup.zpowers (y : G) := by
     apply le_antisymm
@@ -264,6 +271,7 @@ theorem Nine3Core.exists_choice_sym (h763 : SevenSixThreeAbelian V)
   refine ⟨g, (y : G), ⟨h, hg, hVg, hAg, hgg, hS, y.2, hx⟩, ?_⟩
   exact Nine3Choice.inv ⟨h, hg, hVg, hAg, hgg, hS, y.2, hx⟩ hS'
 
+omit [Finite G] in
 theorem nine_H0_le_normalizer_sym
     (hN : nineH V K ≤ normalizer (nineI0 V K g : Set G))
     (hN' : nineH V K ≤ normalizer (nineI0 V K g⁻¹ : Set G)) :

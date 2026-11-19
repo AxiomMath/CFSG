@@ -27,7 +27,7 @@ theorem unipotentPolynomialPowers_eval (N : Matrix ι ι k) (d : ℕ) (t : k) :
   ext a b
   simp only [unipotentPolynomialPowers, Matrix.map_apply, Matrix.sum_apply,
     Matrix.smul_apply, smul_eq_mul, Polynomial.coe_evalRingHom]
-  rw [Polynomial.eval_finset_sum]
+  rw [eval_finsetSum]
   apply sum_congr rfl
   intro j _
   rw [Polynomial.eval_mul, Polynomial.eval_C]

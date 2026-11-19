@@ -61,7 +61,7 @@ variable {K : Type} [Group K] [Finite K]
 omit [Finite K] in
 theorem exists_pow_two_pow_eq_one_of_mem_sylow (S : Sylow 2 K) {x : K}
     (hx : x ∈ (S : Subgroup K)) : ∃ j : ℕ, x ^ (2 ^ j) = 1 := by
-  obtain ⟨j, hj⟩ := (IsPGroup.iff_orderOf.1 S.isPGroup') ⟨x, hx⟩
+  obtain ⟨j, hj⟩ := (IsPGroup.iff_orderOf.1 S.isPGroup) ⟨x, hx⟩
   refine ⟨j, ?_⟩
   have h : orderOf x = 2 ^ j := by
     rw [← Subgroup.orderOf_mk x hx]

@@ -63,7 +63,7 @@ theorem exists_std_iso {a b : Fin 24}
     (hreal : RealizesBy (FFModel.golaySec Γ (golayC ⊓ pairKer a b)
       (Subgroup.zpowers (G6.allOnes 24))) ρ.range ⊤ ⊥ ρ.rangeRestrict β) :
     ∃ c : P24, c a = 0 ∧ c b = 1 ∧ c • O = Ostd ∧ c • S = Sstd ∧ c • B = Bstd ∧
-      ∃ (hcΓ : conjSubg c Γ = mog22plus) (φ : ↥Γ →* ↥mog22plus),
+      ∃ (_hcΓ : conjSubg c Γ = mog22plus) (φ : ↥Γ →* ↥mog22plus),
         (∀ g : ↥Γ, (φ g : P24) = c * g * c⁻¹) ∧
         ∃ e : V ≃* W10, ∀ (g : ↥Γ) (v : V), e (ρ g v) = R (φ g) (e v) := by
   obtain ⟨c, hc, hca, hcb, hcO, hcS, hcB, hcΓ⟩ :=

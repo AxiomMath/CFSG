@@ -712,7 +712,7 @@ theorem exists_pow_mem_centralizer_closure_prime_pow {X : Type*} [Group X] [Fini
   have hUI : U ≤ I := Finset.sup_le fun i _ => range_commMap_le hc (hu i)
   have hUcard : Nat.card U ≤ ∏ i, a i := by
     refine (natCard_finset_sup_le hc Finset.univ _ fun i _ => range_commMap_le hc (hu i)).trans ?_
-    refine Finset.prod_le_prod' fun i _ => ?_
+    refine Finset.prod_le_prod fun i _ => ?_
     rw [natCard_range_commMap]
     exact hua i
   have hle : closure (Set.range u) ≤ trivialMod I U := by
@@ -764,7 +764,7 @@ theorem exists_subgroup_normalized_closure {X : Type*} [Group X] [Finite X] {I :
   have hUI : U ≤ I := Finset.sup_le fun i _ => range_commMap_le hc (hu i)
   have hUcard : Nat.card U ≤ ∏ i, a i := by
     refine (natCard_finset_sup_le hc Finset.univ _ fun i _ => range_commMap_le hc (hu i)).trans ?_
-    refine Finset.prod_le_prod' fun i _ => ?_
+    refine Finset.prod_le_prod fun i _ => ?_
     rw [natCard_range_commMap]
     exact hua i
   have hle : closure (Set.range u) ≤ trivialMod I U := by
@@ -821,7 +821,7 @@ theorem exists_card_fixed_of_orderOf_eq_prime {U : Type*} [Group U] [Finite U] {
     Nat.Coprime.pow_right _ ((Nat.coprime_primes hp Nat.prime_two).2 hp2)
   have hdvd := pow_dvd_ncard_compl_fixedSubgroup hp hτ
   rw [pow_zero, pow_one] at hdvd
-  simp only [zero_add, pow_one] at hdvd
+  simp only [pow_one] at hdvd
   rw [← hFdef, hcompl] at hdvd
   refine ⟨c, hlt, ?_, hcop.dvd_of_dvd_mul_left hdvd⟩
   rw [← hcF]

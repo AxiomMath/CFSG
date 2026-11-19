@@ -29,7 +29,7 @@ theorem l33_pair
   have hPT : (P : Subgroup ↥K) = T.subgroupOf K := by
     rw [hP]
     rfl
-  have hQ : IsPGroup 2 (T.subgroupOf K) := hPT ▸ P.isPGroup'
+  have hQ : IsPGroup 2 (T.subgroupOf K) := hPT ▸ P.isPGroup
   have hQi : ¬ 2 ∣ (T.subgroupOf K).index := hPT ▸ P.not_dvd_index
   have hQcard : Nat.card (T.subgroupOf K) = 16 := by
     have h1 : Nat.card (T.subgroupOf K) = Nat.card (P : Subgroup ↥K) := by rw [← hPT]

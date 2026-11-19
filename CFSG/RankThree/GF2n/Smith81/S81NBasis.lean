@@ -58,15 +58,15 @@ private theorem transvGL_mulVec_e_self {i j : Fin 6} (hij : i ≠ j) (c : K) :
   funext k
   by_cases hki : k = i
   · subst hki
-    simp [Matrix.single_apply, Matrix.col_apply, e, Pi.single_apply]
-  · simp [Matrix.single_apply, Matrix.col_apply, e, Pi.single_apply, hki, Ne.symm hki]
+    simp [Matrix.col_apply, e, Pi.single_apply]
+  · simp [Matrix.col_apply, e, Pi.single_apply, hki, Ne.symm hki]
 
 private theorem transvGL_mulVec_e_of_ne {i j m : Fin 6} (hij : i ≠ j) (c : K) (hm : m ≠ j) :
     ((transvGL K i j hij c : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) *ᵥ e K m = e K m := by
   rw [transvGL_val, Matrix.transvection, Matrix.add_mulVec, Matrix.one_mulVec,
     Matrix.mulVec_single_one]
   funext k
-  simp [Matrix.single_apply, Matrix.col_apply, Ne.symm hm]
+  simp [Matrix.col_apply, Ne.symm hm]
 
 private theorem rho_ι3_e (g : GL (Fin 6) K) (x y z : Fin 6) :
     rho K g (ιMulti K 3 ![e K x, e K y, e K z]) =
@@ -81,7 +81,7 @@ private theorem exists_triple_of_mem (I : Set.powersetCard (Fin 6) 3) {j : Fin 6
     (hj : j ∈ I.val) :
     ∃ b d : Fin 6, j ≠ b ∧ j ≠ d ∧ b ≠ d ∧ I.val.erase j = {b, d} ∧ I.val = {j, b, d} := by
   have hc : (I.val.erase j).card = 2 := by
-    simp [Finset.card_erase_of_mem hj, I.prop]
+    simp [Finset.card_erase_of_mem hj]
   obtain ⟨b, d, hbd, hI'⟩ := Finset.card_eq_two.mp hc
   have hb : b ∈ I.val.erase j := by rw [hI']; simp
   have hd : d ∈ I.val.erase j := by rw [hI']; simp
@@ -107,20 +107,20 @@ theorem rho_transvGL_cubeBasis_gen [CharP K 2] (i j : Fin 6) (hij : i ≠ j) (c 
         · exact absurd h hij
         · rw [h]; exact ι3_eq_fst_snd _ _
         · rw [h]; exact ι3_eq_fst_thd _ _
-      rw [dif_neg hn, hz, smul_zero, add_zero]
+      rw [dite_eq_right hn, hz, smul_zero, add_zero]
     · have hn : j ∈ I.val ∧ i ∉ I.val := ⟨hjI, hiI⟩
       have hib : i ≠ b := fun h => hiI (by rw [hI, h]; simp)
       have hid : i ≠ d := fun h => hiI (by rw [hI, h]; simp)
       have hRval : (replSet I i j hn.1 hn.2).val = {i, b, d} := by
         show insert i (I.val.erase j) = {i, b, d}
         rw [hbd']
-      rw [dif_pos hn, ι3_e_eq_cubeBasis hib hid hbd (replSet I i j hn.1 hn.2) hRval]
+      rw [dite_eq_left hn, ι3_e_eq_cubeBasis hib hid hbd (replSet I i j hn.1 hn.2) hRval]
   · obtain ⟨x, y, z, hxy, hxz, hyz, hI⟩ := exists_triple I
     have hxj : x ≠ j := fun h => hjI (by rw [hI, h]; simp)
     have hyj : y ≠ j := fun h => hjI (by rw [hI, h]; simp)
     have hzj : z ≠ j := fun h => hjI (by rw [hI, h]; simp)
     have hn : ¬ (j ∈ I.val ∧ i ∉ I.val) := fun h => hjI h.1
-    rw [dif_neg hn, ← ι3_e_eq_cubeBasis hxy hxz hyz I hI, rho_ι3_e,
+    rw [dite_eq_right hn, ← ι3_e_eq_cubeBasis hxy hxz hyz I hI, rho_ι3_e,
       transvGL_mulVec_e_of_ne hij c hxj, transvGL_mulVec_e_of_ne hij c hyj,
       transvGL_mulVec_e_of_ne hij c hzj]
 
@@ -130,27 +130,27 @@ private theorem coord_rho_cubeBasis_pos_gen [CharP K 2] {i j : Fin 6} (hij : i �
       coord K (cubeBasis K I) J + c * coord K (cubeBasis K I) (replSet J j i hJ.1 hJ.2) := by
   rw [rho_transvGL_cubeBasis_gen i j hij c I]
   by_cases h : j ∈ I.val ∧ i ∉ I.val
-  · rw [dif_pos h]
-    simp only [coord_add, coord_smul, coord_cubeBasis, smul_eq_mul]
+  · rw [dite_eq_left h]
+    simp only [coord_add, coord_smul, coord_cubeBasis]
     by_cases hq : replSet I i j h.1 h.2 = J
-    · rw [if_pos hq, if_pos ((replSet_eq_iff h.1 h.2 hJ.1 hJ.2).mp hq)]
-    · rw [if_neg hq, if_neg (fun h' => hq ((replSet_eq_iff h.1 h.2 hJ.1 hJ.2).mpr h'))]
-  · rw [dif_neg h]
+    · rw [ite_eq_left hq, ite_eq_left ((replSet_eq_iff h.1 h.2 hJ.1 hJ.2).mp hq)]
+    · rw [ite_eq_right hq, ite_eq_right (fun h' => hq ((replSet_eq_iff h.1 h.2 hJ.1 hJ.2).mpr h'))]
+  · rw [dite_eq_right h]
     simp only [coord_cubeBasis]
     have hq : ¬ (I = replSet J j i hJ.1 hJ.2) := fun h' => h (replSet_mem_imp hij hJ.1 hJ.2 h')
-    rw [if_neg hq, mul_zero, add_zero]
+    rw [ite_eq_right hq, mul_zero, add_zero]
 
 private theorem coord_rho_cubeBasis_neg_gen [CharP K 2] {i j : Fin 6} (hij : i ≠ j) (c : K)
     (I J : Set.powersetCard (Fin 6) 3) (hJ : ¬ (i ∈ J.val ∧ j ∉ J.val)) :
     coord K (rho K (transvGL K i j hij c) (cubeBasis K I)) J = coord K (cubeBasis K I) J := by
   rw [rho_transvGL_cubeBasis_gen i j hij c I]
   by_cases h : j ∈ I.val ∧ i ∉ I.val
-  · rw [dif_pos h]
-    simp only [coord_add, coord_smul, coord_cubeBasis, smul_eq_mul]
+  · rw [dite_eq_left h]
+    simp only [coord_add, coord_smul, coord_cubeBasis]
     by_cases hq : replSet I i j h.1 h.2 = J
     · exact absurd (replSet_eq_imp hij h.1 h.2 hq) hJ
-    · rw [if_neg hq, mul_zero, add_zero]
-  · rw [dif_neg h]
+    · rw [ite_eq_right hq, mul_zero, add_zero]
+  · rw [dite_eq_right h]
 
 theorem coord_rho_transvGL_gen [CharP K 2] (i j : Fin 6) (hij : i ≠ j) (c : K) (ξ : Cube K)
     (J : Set.powersetCard (Fin 6) 3) :
@@ -161,7 +161,7 @@ theorem coord_rho_transvGL_gen [CharP K 2] (i j : Fin 6) (hij : i ≠ j) (c : K)
     rw [(cubeBasis K).span_eq]
     exact Submodule.mem_top
   by_cases hJ : i ∈ J.val ∧ j ∉ J.val
-  · rw [dif_pos hJ]
+  · rw [dite_eq_left hJ]
     induction hξ using Submodule.span_induction with
     | mem x hx =>
       obtain ⟨I, rfl⟩ := hx
@@ -175,7 +175,7 @@ theorem coord_rho_transvGL_gen [CharP K 2] (i j : Fin 6) (hij : i ≠ j) (c : K)
       simp only [map_smul, coord_smul]
       rw [hx]
       ring
-  · rw [dif_neg hJ, add_zero]
+  · rw [dite_eq_right hJ, add_zero]
     induction hξ using Submodule.span_induction with
     | mem x hx =>
       obtain ⟨I, rfl⟩ := hx
@@ -206,7 +206,7 @@ theorem linearIndependent_of_pivots {ι : Type*} [Fintype ι] (f : ι → Cube K
   rw [coord_finset_sum, coord_zero, Finset.sum_eq_single i] at key
   · simpa [h i i] using key
   · intro j _ hji
-    rw [h j i, if_neg hji, mul_zero]
+    rw [h j i, ite_eq_right hji, mul_zero]
   · intro hi'
     exact absurd hi hi'
 

@@ -127,8 +127,8 @@ private theorem subgroupOf_inf_eNorm_ne_top
     (Subgroup.normal_subgroupOf_iff_le_normalizer hP).mpr hle
   have hcard : Nat.card ((eSub hv).subgroupOf heP) = 2 ^ k := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hP).toEquiv, card_eSub]
-  haveI : IsSimpleGroup ↥heP := heP_simple
-  haveI := hN
+  have : IsSimpleGroup ↥heP := heP_simple
+  have := hN
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((eSub hv).subgroupOf heP) with hbot | htop'
   · rw [hbot, Subgroup.card_bot] at hcard
     omega
@@ -263,7 +263,7 @@ theorem L7_eq_N7 :
   have hL : chainL7.originalSubgroup ≤ heP ⊓ eNorm basis_Q := by
     rw [L7_eq, Subgroup.closure_le]
     rintro _ ⟨w, hw, rfl⟩
-    simp only [l7GenW, List.mem_cons, List.not_mem_nil, List.mem_singleton, or_false] at hw
+    simp only [l7GenW, List.mem_cons, List.not_mem_nil, or_false] at hw
     rcases hw with hw | hw
     · rw [hw]
       exact x7_mem

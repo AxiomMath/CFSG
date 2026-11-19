@@ -17,7 +17,7 @@ theorem exists_mul_centralizer_of_comm_mem {W W₁ X : Subgroup G} (hW : IsPGrou
     ∃ n ∈ W₁, ∃ c ∈ W, (∀ x ∈ X, c * x = x * c) ∧ w = n * c := by
   have hWX : W ⊓ X = ⊥ := by
     obtain ⟨k, hk⟩ := hW.exists_card_eq
-    refine inf_eq_bot_of_coprime ?_
+    refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
     rw [hk]
     exact Nat.Coprime.pow_left k (Nat.coprime_two_left.mpr hX)
   have hXW₁' : X ⊓ W₁ = ⊥ := by

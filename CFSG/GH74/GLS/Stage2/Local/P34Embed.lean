@@ -57,7 +57,7 @@ theorem not_exists_stronglyEmbedded (hstd : Std G) : ¬ ∃ M : Subgroup G, Disc
   apply hstd.noUniq
   refine ⟨M, hM.1, S, fun _ => ?_, fun h => absurd h (by omega)⟩
   refine iSup_le fun Q => iSup_le fun hQS => iSup_le fun hQ2 => iSup_le fun _ => ?_
-  have hQ : IsPGroup 2 ↥Q := IsPGroup.to_le S.isPGroup' hQS
+  have hQ : IsPGroup 2 ↥Q := IsPGroup.to_le S.isPGroup hQS
   exact stronglyEmbedded_even_subgroup_normalizer_le M hM Q (hQS.trans hSM)
     (even_card_of_pRank hQ (by omega))
 

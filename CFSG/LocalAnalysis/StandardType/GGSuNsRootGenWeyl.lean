@@ -34,7 +34,7 @@ theorem coe_uvecSU (hp : p.Prime) {u : Kˣ} (hu : u ^ p = 1) (hord : orderOf u =
 theorem uvecSU_pow (hp : p.Prime) {u : Kˣ} (hu : u ^ p = 1) (hord : orderOf u = p)
     (huq : u ^ (2 ^ n + 1) = 1) (f : ↥(sumZero d p)) :
     uvecSU h hp hu hord huq f ^ p = 1 := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   apply Subtype.ext
   rw [Subgroup.coe_pow, Subgroup.coe_one, coe_uvecSU, ← map_pow]
   have hup : uvec hu f ^ p = 1 := funext fun k => uvec_pow_eq_one hu f k
@@ -83,7 +83,7 @@ theorem torusMapUOf_apply (hp : p.Prime) (hM : IsDiagTorusModelU p φ A)
 theorem torusMapUOf_surjective (hp : p.Prime) (hM : IsDiagTorusModelU p φ A)
     {u : Kˣ} (hu : u ^ p = 1) (hord : orderOf u = p) (huq : u ^ (2 ^ n + 1) = 1) :
     Function.Surjective (torusMapUOf h hp hM hu hord huq) := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   intro a
   obtain ⟨D, ⟨σ, hD⟩, hDp, ha⟩ := (hM (a : MulAut L')).mp a.2
   have hσp : ∀ k, σ k ^ p = 1 := pow_eq_one_of_diagHom hD hDp
@@ -101,7 +101,7 @@ theorem torusMapUOf_injective (hp : p.Prime) (hpd : ¬ p ∣ d) (hd : 3 ≤ d)
     (huq : u ^ (2 ^ n + 1) = 1) :
     Function.Injective (torusMapUOf h hp hM hu hord huq) := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   rw [injective_iff_map_eq_one]
   intro f hf
   set D : ↥(unitarySU 2 n K d) := uvecSU h hp hu hord huq f with hDdef
@@ -330,7 +330,6 @@ theorem ggConjAut_swapU_eq_of (hp : p.Prime) (hpd : ¬ p ∣ d) (hd : 3 ≤ d)
     change MulAut.conj (φ w) * (MulAut.conj (φ (uvecSU h hp hu hord huq f))) *
         (MulAut.conj (φ w))⁻¹ = _
     rw [← map_mul, ← map_mul, ← map_inv]
-    congr 1
     rw [← hDw]
     simp only [map_mul, map_inv]
   rw [hval]

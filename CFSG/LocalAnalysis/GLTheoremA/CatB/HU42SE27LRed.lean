@@ -76,7 +76,7 @@ theorem LocShapeOn.of_mulEquiv {G G' : Type} [Group G] [Group G'] (e : G ≃* G'
     exact hKperf'
   have hU4 : HasU4Quot K := by
     obtain ⟨Y, Ygrp, hY, f, hf⟩ := hU4'
-    letI : Group Y := Ygrp
+    let : Group Y := Ygrp
     let ψ : ↥K ≃* ↥K' := (e.subgroupMap K).trans (MulEquiv.subgroupCongr hKmap)
     exact ⟨Y, Ygrp, hY, f.comp (ψ : ↥K →* ↥K'), hf.comp ψ.surjective⟩
   obtain ⟨T, hTK, hT2, hEN, hTE, hT8⟩ :=
@@ -109,7 +109,7 @@ theorem locShapeOn_of_hosts {G : Type} [Group G] [Finite G] (hS : CentSplitOn G)
   have hnoU4 : ¬ NoU4Sect s := by
     intro hno
     obtain ⟨Y, Ygrp, hYcat, f, hf⟩ := hU4
-    letI : Group Y := Ygrp
+    let : Group Y := Ygrp
     have hYcard : Nat.card Y = 25920 := card_of_catalogIs_u4two hYcat
     have hdvd : Nat.card Y ∣ Nat.card ↥K := Subgroup.card_dvd_of_surjective hf
     exact hno K hK hKperf (dvd_trans (by rw [hYcard]; norm_num) hdvd)
@@ -217,7 +217,7 @@ theorem locShapeOn_of_hosts {G : Type} [Group G] [Finite G] (hS : CentSplitOn G)
     have h27 : Nat.card E = 27 := by rw [hE27]; norm_num
     omega
   obtain ⟨Y, Ygrp, hYcat, f, hf⟩ := hU4
-  letI : Group Y := Ygrp
+  let : Group Y := Ygrp
   have hYcard : Nat.card Y = 25920 := card_of_catalogIs_u4two hYcat
   have hbij : Function.Bijective f := by
     rw [Nat.bijective_iff_surjective_and_card f]

@@ -58,7 +58,7 @@ def mulEquiv : SL25S ≃* SL25 where
 end SL25S
 
 theorem card_SL25S : Nat.card SL25S = 120 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   rw [Nat.card_congr SL25S.mulEquiv.toEquiv]
   refine (Matrix.card_SL_field 2 (𝔽 := ZMod 5)).trans ?_
   simp [Fin.prod_univ_two, ZMod.card]

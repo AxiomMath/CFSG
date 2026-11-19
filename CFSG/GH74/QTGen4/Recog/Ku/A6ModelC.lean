@@ -30,11 +30,11 @@ theorem IsPolarForm.symm' {ω : A → A → ZMod 2} (hω : IsPolarForm ω) (x y 
 
 theorem zp_zero (b : A) : zp b 0 = 1 := by
   unfold zp
-  exact if_neg (by decide)
+  exact ite_eq_right (by decide)
 
 theorem zp_one (b : A) : zp b 1 = b := by
   unfold zp
-  exact if_pos rfl
+  exact ite_eq_left rfl
 
 theorem zp_form {ω : A → A → ZMod 2} (hω : IsPolarForm ω) (b c : A) (s t : ZMod 2) :
     ω (zp b s) (zp c t) = s * t * ω b c := by
@@ -56,7 +56,7 @@ theorem zmod2_add_self_zero : ∀ a : ZMod 2, a + a = 0 := by decide
 theorem exists_form_one {ω : A → A → ZMod 2} (hnd : ∀ x : A, (∀ w, ω x w = 0) → x = 1)
     {z : A} (hz : z ≠ 1) : ∃ x, ω z x = 1 := by
   by_contra h
-  push_neg at h
+  push Not at h
   exact hz (hnd z fun w => zmod2_eq_zero_of_ne_one _ (h w))
 
 theorem exists_form_on_kernel {ω : A → A → ZMod 2} (hω : IsPolarForm ω)
@@ -64,7 +64,7 @@ theorem exists_form_on_kernel {ω : A → A → ZMod 2} (hω : IsPolarForm ω)
     {z z' : A} (hz1 : z ≠ 1) (hz'1 : z' ≠ 1) (hzz : z' ≠ z) :
     ∃ w, ω z w = 0 ∧ ω z' w = 1 := by
   by_contra h
-  push_neg at h
+  push Not at h
   obtain ⟨x, hx⟩ := exists_form_one hnd hz1
   have hker : ∀ v, ω z v = 0 → ω z' v = 0 := fun v hv =>
     zmod2_eq_zero_of_ne_one _ (h v hv)
@@ -151,7 +151,7 @@ theorem coordMap_bijective {ω : A → A → ZMod 2} (hω : IsPolarForm ω) (hca
     {b : Fin 4 → A} (hG : ∀ i j, ω (b i) (b j) = sympGram i j) :
     Function.Bijective (coordMap b) := by
   have hfin : Finite A := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
-  letI : Fintype A := Fintype.ofFinite A
+  let : Fintype A := Fintype.ofFinite A
   have hA : Fintype.card A = 16 := by rw [← Nat.card_eq_fintype_card, hcard]
   rw [Fintype.bijective_iff_injective_and_card]
   refine ⟨coordMap_inj_of_gram hω hG, ?_⟩

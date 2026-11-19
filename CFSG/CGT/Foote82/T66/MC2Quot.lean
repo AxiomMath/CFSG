@@ -96,6 +96,7 @@ theorem sq_dvd_card_of_two_le_pRank {Γ : Type*} [Group Γ] [Finite Γ] {p : ℕ
   have h1 : p ^ 2 ∣ Nat.card E := hE ▸ pow_dvd_pow p h
   exact h1.trans (Subgroup.card_dvd_of_le hEH)
 
+omit [Finite V] in
 theorem card_center_eq (G : Subgroup (GLV V)) :
     Nat.card ↥(Subgroup.center ↥G) = Nat.card ↥(G ⊓ Subgroup.centralizer (G : Set (GLV V))) := by
   have hmap : (Subgroup.center ↥G).map G.subtype = G ⊓ Subgroup.centralizer (G : Set (GLV V)) := by
@@ -115,9 +116,11 @@ theorem odd_card_center {G L : Subgroup (GLV V)} {s : GLV V} (h : StdForm G L s)
   rw [card_center_eq]
   exact h.extremal.setup.odd_card_center
 
+omit [Finite V] in
 theorem stdForm_L_le {G L : Subgroup (GLV V)} {s : GLV V} (h : StdForm G L s) : L ≤ G :=
   h.extremal.toConf66.L_le
 
+omit [Finite V] in
 theorem centralizer_subgroupOf_eq {G L : Subgroup (GLV V)} (hLG : L ≤ G) :
     Subgroup.centralizer ((L.subgroupOf G : Subgroup ↥G) : Set ↥G) =
       (G ⊓ Subgroup.centralizer (L : Set (GLV V))).subgroupOf G := by
@@ -125,6 +128,7 @@ theorem centralizer_subgroupOf_eq {G L : Subgroup (GLV V)} (hLG : L ≤ G) :
   ext x
   simp [Subgroup.mem_subgroupOf]
 
+omit [Finite V] in
 theorem standard_subgroupOf {G L : Subgroup (GLV V)} {s : GLV V} (h : StdForm G L s)
     (hev : Even (Nat.card ↥(G ⊓ Subgroup.centralizer (L : Set (GLV V))))) :
     standardComponentIsStandard (L.subgroupOf G) := by

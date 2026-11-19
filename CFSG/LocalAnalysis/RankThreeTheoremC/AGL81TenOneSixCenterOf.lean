@@ -17,6 +17,7 @@ variable {G : Type} [Group G] [Finite G]
 
 namespace TenOneSixCenter
 
+omit [Finite G] in
 theorem conj_mem_of_mk_mem_centralizer {M S : Subgroup G} (hSM : S ≤ M) (hQS : pCoreOf 2 M ≤ S)
     (w : ↥M) (hw : QuotientGroup.mk' (CFSG.pCore 2 ↥M) w ∈ centralizer (barM M S : Set _))
     {s : G} (hs : s ∈ S) : (w : G) * s * (w : G)⁻¹ ∈ S := by
@@ -34,6 +35,7 @@ theorem conj_mem_of_mk_mem_centralizer {M S : Subgroup G} (hSM : S ≤ M) (hQS :
   rw [heq]
   exact S.mul_mem h3 hs
 
+omit [Finite G] in
 theorem mem_normalizer_of_mk_mem_centralizer {M S : Subgroup G} (hSM : S ≤ M)
     (hQS : pCoreOf 2 M ≤ S) (w : ↥M)
     (hw : QuotientGroup.mk' (CFSG.pCore 2 ↥M) w ∈ centralizer (barM M S : Set _)) :

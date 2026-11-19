@@ -251,7 +251,7 @@ private theorem CFSG.section10_malpha_hasPLengthOne_of_high_primeRank
   let QK : Subgroup K := (Q : Subgroup K)
   let Qmap : Subgroup M := QK.map K.subtype
   have hQmap_p : IsPGroup q.val Qmap := by
-    exact IsPGroup.map (p := q.val) (H := QK) Q.isPGroup' K.subtype
+    exact IsPGroup.map (p := q.val) (H := QK) Q.isPGroup K.subtype
   have hQmap_le_K : Qmap ≤ K := by
     intro y hy
     rcases Subgroup.mem_map.mp hy with ⟨z, _hz, rfl⟩

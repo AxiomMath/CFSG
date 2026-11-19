@@ -20,7 +20,7 @@ theorem burnsideF429a_key_U4 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subg
     (hyp : HypF_4_4 .U4 2 f Gp M₁ M₂) :
     ∀ r ∈ M₁ ⊓ M₂, ∀ k : ℕ, r ^ 2 ^ k = 1 →
       (∀ b ∈ Gp ⊓ (M₁ ⊓ M₂), r * b * r⁻¹ * b⁻¹ ∈ pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂))) → r ∈ Gp := by
-  haveI := hyp.normal
+  have := hyp.normal
   obtain ⟨marking, h1, h2⟩ := burnsideF4g_marking (c := .U4) hyp.toHypF_4_4g
   obtain ⟨Φ, e1, e2⟩ := burnsideF4gU4_exists_equiv marking
   have hB : (M₁ ⊓ M₂).subgroupOf Gp =
@@ -48,7 +48,7 @@ theorem burnsideF429a_key_U5 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subg
     (hyp : HypF_4_4 .U5 2 f Gp M₁ M₂) :
     ∀ r ∈ M₁ ⊓ M₂, ∀ k : ℕ, r ^ 2 ^ k = 1 →
       (∀ b ∈ Gp ⊓ (M₁ ⊓ M₂), r * b * r⁻¹ * b⁻¹ ∈ pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂))) → r ∈ Gp := by
-  haveI := hyp.normal
+  have := hyp.normal
   obtain ⟨marking, h1, h2⟩ := burnsideF4g_marking (c := .U5) hyp.toHypF_4_4g
   obtain ⟨Ψ, e1, e2⟩ := burnsideF429a_U5_equiv marking
   have hB : (M₁ ⊓ M₂).subgroupOf Gp =

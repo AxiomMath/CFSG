@@ -51,7 +51,7 @@ theorem z4i_card_mod_three_of_fpf {S : Type*} [Group S] [Finite S] (ρ : MulAut 
     (hρ : ρ ^ 3 = 1) (hfpf : ∀ g : S, ρ g = g → g = 1) (H : Subgroup S)
     (hH : ∀ h ∈ H, ρ h ∈ H) : Nat.card H % 3 = 1 := by
   classical
-  haveI : Fintype H := Fintype.ofFinite H
+  have : Fintype H := Fintype.ofFinite H
   let f : Function.End H := fun h => ⟨ρ h, hH h h.2⟩
   have hf : ∀ k : ℕ, ∀ h : H, ((f ^ k) h : S) = (ρ ^ k) h := by
     intro k
@@ -140,7 +140,7 @@ lemma z4i_conjAut_pow_three {S : Type*} [Group S] [Finite S] (ρ : S) (R : Subgr
     (hR : ∀ x ∈ R, ρ * x * ρ⁻¹ ∈ R) (hρ3 : ρ ^ 3 = 1) :
     z4i_conjAut ρ R hR ^ 3 = 1 := by
   refine MulEquiv.ext fun x => Subtype.ext ?_
-  simp only [pow_succ, MulAut.mul_apply, z4i_conjAut_apply]
+  simp only [pow_succ, MulAut.mul_apply]
   calc ρ * (ρ * (ρ * (x : S) * ρ⁻¹) * ρ⁻¹) * ρ⁻¹
       = (ρ * ρ * ρ) * (x : S) * (ρ * ρ * ρ)⁻¹ := by group
     _ = ρ ^ 3 * (x : S) * (ρ ^ 3)⁻¹ := by rw [← pow_three']
@@ -166,7 +166,7 @@ lemma z4i_cover_of_card_four {T : Type*} [Group T] [Finite T] (hcard : Nat.card 
     (α : MulAut T) (hα3 : α ^ 3 = 1) (hfpf : ∀ t : T, α t = t → t = 1)
     {t : T} (ht : t ≠ 1) (x : T) : x = 1 ∨ x = t ∨ x = α t ∨ x = α (α t) := by
   classical
-  haveI : Fintype T := Fintype.ofFinite T
+  have : Fintype T := Fintype.ofFinite T
   have hα3' : ∀ y : T, α (α (α y)) = y := by
     intro y
     have h := congrArg (fun f : MulAut T => f y) hα3
@@ -187,16 +187,12 @@ lemma z4i_cover_of_card_four {T : Type*} [Group T] [Finite T] (hcard : Nat.card 
       | rfl
       | exact absurd hij ht
       | exact absurd hij.symm ht
-      | exact absurd hij hαt1
       | exact absurd hij.symm hαt1
-      | exact absurd hij hα2t1
       | exact absurd hij.symm hα2t1
       | exact absurd hij htαt
       | exact absurd hij.symm htαt
       | exact absurd hij htα2t
       | exact absurd hij.symm htα2t
-      | exact absurd hij hαtα2t
-      | exact absurd hij.symm hαtα2t
   have hbij : Function.Bijective f :=
     (Fintype.bijective_iff_injective_and_card f).mpr
       ⟨hf, by rw [Fintype.card_fin, ← Nat.card_eq_fintype_card]; exact hcard.symm⟩

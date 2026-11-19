@@ -69,7 +69,7 @@ theorem dJ_ne_one : dJ ≠ 1 := by
   exact absurd h1 (by norm_num)
 
 theorem orderOf_dJ : orderOf dJ = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact orderOf_eq_prime (xJ_pow_three (by norm_num)) dJ_ne_one
 
 theorem isConj_dJ :

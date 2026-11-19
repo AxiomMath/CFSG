@@ -20,8 +20,8 @@ theorem IsPairAt.kerMOf_le_of_commutator_le (hMult : SchurMultiplierInput)
     (htype : ∃ n : ℕ, 1 < n ∧ (CFSG.Quasithin.IsPSL 2 2 n (KerQuot M X) ∨
       CFSG.Quasithin.IsSz n (KerQuot M X))) :
     kerMOf M X ≤ C := by
-  haveI : (C.subgroupOf X).Normal := hCn
-  haveI : ((kerMOf M X).subgroupOf X).Normal := normal_subgroupOf_kerMOf M X
+  have : (C.subgroupOf X).Normal := hCn
+  have : ((kerMOf M X).subgroupOf X).Normal := normal_subgroupOf_kerMOf M X
   have hKX : kerMOf M X ≤ X := kerMOf_le_group M X
   have hCX : C ≤ X := hCK.trans hKX
   have hconj : conjClosure A X ≤ X :=
@@ -75,7 +75,7 @@ theorem IsPairAt.kerMOf_le_of_commutator_le (hMult : SchurMultiplierInput)
         (((kerMOf M X).subgroupOf X).inv_mem hkerK)
     exact Subgroup.mem_subgroupOf.mpr (hAK (Subgroup.mem_inf.mpr
       ⟨Subgroup.mem_subgroupOf.mp hα, Subgroup.mem_subgroupOf.mp hαK⟩))
-  haveI : ((conjClosure A X).subgroupOf X).Normal :=
+  have : ((conjClosure A X).subgroupOf X).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (le_normalizer_conjClosure A X)
   have hN_eq : Subgroup.normalClosure (((A.subgroupOf X : Subgroup ↥X) : Set ↥X))
       = (conjClosure A X).subgroupOf X := by

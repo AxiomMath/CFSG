@@ -13,7 +13,7 @@ open Subgroup Certificates.Asc82NormA6
 private theorem isSylow2Of_card_eq {G G' : Type} [Group G] [Finite G] [Group G'] [Finite G']
     {S : Subgroup G} {S' : Subgroup G'} (hS : IsSylow2Of S ⊤) (hS' : IsSylow2Of S' ⊤)
     (hcard : Nat.card G = Nat.card G') : Nat.card S = Nat.card S' := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hP⟩ := hS.exists_sylow
   obtain ⟨P', hP'⟩ := hS'.exists_sylow
   have h1 : Nat.card (⊤ : Subgroup G) = Nat.card G := Subgroup.card_top
@@ -46,7 +46,7 @@ theorem sec8t84_facts_transfer {F : Facts} {Y : Type} [Group Y] [Finite Y] {E P 
       exact le_of_eq (isSylow2Of_card_eq hP hP₀ (Nat.card_congr Θ.toEquiv)).symm
   have hhom : θ.toMonoidHom = (MulAut.conj c).toMonoidHom.comp Θ.toMonoidHom := rfl
   have hEθ : E.map θ.toMonoidHom = Sec8T84FPV0 F := by
-    haveI : (Sec8T84FPV0 F).Normal := sec8t84FPV0_normal F
+    have : (Sec8T84FPV0 F).Normal := sec8t84FPV0_normal F
     rw [hhom, ← Subgroup.map_map, hΘ]
     exact Subgroup.Normal.map_conj_eq (Sec8T84FPV0 F) c
   have hV : (Sec8T84FPV0 F).map θ.symm.toMonoidHom = E := by

@@ -45,7 +45,7 @@ theorem exists_diag_frame (S : LinSetting p q₀ d k K ψ E) :
     ∃ P : GL (Fin d) k, Matrix.GeneralLinearGroup.map S.τ.toRingHom P = P ∧
       ∀ x, S.IsLift x → ∀ i j, i ≠ j → ((P * x * P⁻¹ : GL (Fin d) k) : Matrix (Fin d) (Fin d) k) i j = 0 := by
   classical
-  haveI : NeZero p := ⟨S.hp.ne_zero⟩
+  have : NeZero p := ⟨S.hp.ne_zero⟩
   set k₀ := FQ.fixF S.τ with hk₀
   set ι₀ : GL (Fin d) k₀ →* GL (Fin d) k := Matrix.GeneralLinearGroup.map k₀.subtype with hι₀
   have hι₀inj : Function.Injective ι₀ := FQ.glMap_subtype_injective S.τ
@@ -54,7 +54,7 @@ theorem exists_diag_frame (S : LinSetting p q₀ d k K ψ E) :
     hι₀inj (by rw [map_mul, map_mul]; exact S.isLift_comm hA hB)
   have hpow : ∀ A ∈ L0, A ^ p = 1 := fun A hA => hι₀inj (by rw [map_pow, hA.1, map_one])
   obtain ⟨ω, hω⟩ := S.exists_primitive_fix
-  haveI : Finite L0 := Set.toFinite L0
+  have : Finite L0 := Set.toFinite L0
   obtain ⟨P, hP⟩ := TypeA.PGLTor.exists_conj_diagonal hω L0 hcomm hpow
   refine ⟨ι₀ P, FQ.glMap_subtype_fixed S.τ P, fun x hx i j hij => ?_⟩
   obtain ⟨A, hA⟩ := FQ.exists_descend S.τ x (S.map_tau_of_isLift hx)
@@ -132,7 +132,7 @@ theorem frame_separating (S : LinSetting p q₀ d k K ψ E) {P : GL (Fin d) k}
   have hconj : P * (P⁻¹ * diagGL d t * P) * P⁻¹ = diagGL d t := by group
   rw [hconj, coe_diagGL, diagonal_apply_eq, diagonal_apply_eq, ht,
     NbrLangTypeA.torusVec_apply, NbrLangTypeA.torusVec_apply]
-  simp only [if_true, hij, Ne.symm hij, if_false, mul_one, one_mul]
+  simp only [ite_true, hij, Ne.symm hij, ite_false, mul_one, one_mul]
   intro h
   have h2 : ω ^ 2 = 1 := by
     have h3 : ω = ω⁻¹ := Units.ext h

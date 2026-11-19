@@ -156,7 +156,6 @@ theorem nullOn_023 (hK : Nat.card K = (p ^ f) ^ 2) (hq : 3 ≤ p ^ f) (hg : Good
   have hu : ({0, 2, 3} : Set (Fin 4)) = {0} ∪ {2, 3} := by
     ext j
     simp only [Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_union]
-    try tauto
   refine twoHomotopic_nil_of_union (J₁ := {0}) (J₂ := {2, 3}) ?_
     (fun c d => residue_inter_023 hK hq hg c d)
     (fun c γ hγ hJ hend => twoHomotopic_nil_of_encard_le_two (phanSystem S)

@@ -17,7 +17,7 @@ open CFSG CFSG.Assembly CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
 theorem triD4Line_center_bot
     {n : ℕ} (hn : 1 ≤ n) (K : Type) [Field K] (hK : Nat.card K = (2 ^ n) ^ 3) :
     Subgroup.center (GGTriD4R n K) = ⊥ := by
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
   have hchar : CharP K 2 := charP_two_of_card (m := n * 3) (by rw [hK, pow_mul])
   set σ := iterateFrobeniusEquiv K 2 n with hσdef
   have hσ : ∀ c, σ c = c ^ 2 ^ n := fun c => by
@@ -134,18 +134,18 @@ private theorem triD4Line_E_card_and_gens {R : Type} [Group R] [Finite R]
         ∀ a ∈ A, ∃ e ∈ A.comap (MulAut.conj : R →* MulAut R), ∃ j : ℕ,
           a = MulAut.conj e * f ^ j := by
   classical
-  haveI : ((MulAut.conj : R →* MulAut R).range).Normal := normal_range_conj_mulAut
+  have : ((MulAut.conj : R →* MulAut R).range).Normal := normal_range_conj_mulAut
   set Inn : Subgroup (MulAut R) := (MulAut.conj : R →* MulAut R).range with hInn
   let π : A →* MulAut R ⧸ Inn := (QuotientGroup.mk' Inn).comp A.subtype
   obtain ⟨φ₀, hφ₀⟩ := hOut
-  haveI hcyc : IsCyclic (MulAut R ⧸ Inn) := by
+  have hcyc : IsCyclic (MulAut R ⧸ Inn) := by
     refine ⟨⟨QuotientGroup.mk φ₀, fun q => ?_⟩⟩
     obtain ⟨α, rfl⟩ := QuotientGroup.mk_surjective q
     obtain ⟨i, hi, z, hz, rfl⟩ := Subgroup.mem_sup_of_normal_left.1 (hφ₀ α)
     obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 hz
     refine Subgroup.mem_zpowers_iff.2 ⟨k, ?_⟩
     rw [QuotientGroup.mk_mul, (QuotientGroup.eq_one_iff i).2 hi, one_mul, QuotientGroup.mk_zpow]
-  haveI : Finite π.range := Finite.of_surjective _ π.rangeRestrict_surjective
+  have : Finite π.range := Finite.of_surjective _ π.rangeRestrict_surjective
   have hrange_le : Nat.card π.range ≤ 3 := by
     refine TableB.card_le_of_isCyclic (by norm_num) (Subgroup.isCyclic π.range) ?_
     rintro _ ⟨a, rfl⟩
@@ -189,7 +189,7 @@ private theorem triD4Line_E_card_and_gens {R : Type} [Group R] [Finite R]
   have hrange3 : Nat.card π.range = 3 := by
     rw [hker9] at hprod
     omega
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hexists : ∃ a : A, π a ≠ 1 := by
     by_contra h
     have hbot : π.range = ⊥ := by
@@ -242,14 +242,14 @@ theorem triD4Line_A_structure
     Nat.card (triD4LineE n K A) = 9 ∧
       ∃ f ∈ A, f ∉ Set.range (MulAut.conj : GGTriD4R n K →* MulAut (GGTriD4R n K)) ∧
         f ^ 3 = 1 ∧ ∀ a ∈ A, ∃ e ∈ triD4LineE n K A, ∃ j : ℕ, a = MulAut.conj e * f ^ j := by
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
   have : CharP K 2 := charP_two_of_card (m := n * 3) (by rw [hK, pow_mul])
   set σ := iterateFrobeniusEquiv K 2 n with hσdef
   have hσ : ∀ c, σ c = c ^ 2 ^ n := fun c => by
     rw [hσdef, iterateFrobeniusEquiv_apply, iterateFrobenius_def]
   obtain ⟨e⟩ := TableBExcSmallRest.nonempty_triD4_equiv hn K hK σ hσ
   have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
-  haveI : Finite (GGTriD4R n K) := Finite.of_equiv _ e.symm.toEquiv
+  have : Finite (GGTriD4R n K) := Finite.of_equiv _ e.symm.toEquiv
   have hZ : Subgroup.center (GGTriD4R n K) = ⊥ := triD4Line_center_bot hn K hK
   have hOut : GGOutCyclic (GGTriD4R n K) := ggOutCyclic_triD4 hn K hK
   have h3 : 3 ∣ 2 ^ n - 1 := (gffa2_three_dvd_pow_sub_one_iff n).mpr hev

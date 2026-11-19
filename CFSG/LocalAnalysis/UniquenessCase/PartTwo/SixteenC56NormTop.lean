@@ -26,7 +26,7 @@ private theorem inv_eq_self' (w : W) : w⁻¹ = w :=
 private theorem exists_ne_zero_ne_one (K : Type*) [Field K] [Finite K] [CharP K 2]
     (h : 4 ≤ Nat.card K) : ∃ a : K, a ≠ 0 ∧ a ≠ 1 := by
   classical
-  letI := Fintype.ofFinite K
+  let := Fintype.ofFinite K
   have hcard : 4 ≤ Fintype.card K := by simpa [Nat.card_eq_fintype_card] using h
   have h2 : ({0, 1} : Finset K).card = 2 := Finset.card_pair_eq_two_iff.mpr zero_ne_one
   have hlt : ({0, 1} : Finset K).card < (Finset.univ : Finset K).card := by
@@ -39,7 +39,7 @@ private theorem exists_ne_zero_ne_one (K : Type*) [Field K] [Finite K] [CharP K 
 private theorem Q_ofVec_single (i : OmI) :
     S.Q (S.ofVec (Pi.single i 1)) = 0 := by
   rcases i with i | i <;> fin_cases i <;>
-    simp [Q, StatedQuadPlus, CFSG.MatrixModel.plusQuadCore, S.vec_ofVec, Fin.sum_univ_two]
+    simp [Q, StatedQuadPlus, S.vec_ofVec]
 
 private theorem vec_prod (s : Finset OmI) (f : OmI → W) :
     S.vec (∏ i ∈ s, f i) = ∑ i ∈ s, S.vec (f i) := by

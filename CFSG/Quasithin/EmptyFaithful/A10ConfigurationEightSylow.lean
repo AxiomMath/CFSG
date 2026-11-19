@@ -171,7 +171,7 @@ theorem sylow_centralizer_eq {H : Type*} [Group H] [Finite H]
     rw [← hPcard]
     exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hPC).toEquiv
   have hP'p : IsPGroup p P' :=
-    (P.isPGroup').of_equiv (Subgroup.subgroupOfEquivOfLe hPC).symm
+    (P.isPGroup).of_equiv (Subgroup.subgroupOfEquivOfLe hPC).symm
   have hCdvd : Nat.card C ∣ p * 2 ^ a := hcard ▸ Subgroup.card_subgroup_dvd_card C
   have hidx : P'.index * p = Nat.card C := by
     have := Subgroup.card_mul_index P'

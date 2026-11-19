@@ -56,7 +56,7 @@ theorem N7Setup.exists_of_cases (G : Type) [Group G] [Finite G] (b₀ : G) (K E 
         ⟨g, hgN0, B.acts_matOf hg⟩
       rwa [hN0] at hmem
   · exact hodd
-  · obtain ⟨g, hgN, hgnot⟩ := SetLike.not_le_iff_exists.mp hfus.1
+  · obtain ⟨g, hgN, hgnot⟩ := IsConcreteLE.not_le_iff_exists.mp hfus.1
     refine ⟨⟨ggConjAut B.span hgN, ggConjAut_mem_ggAutomizer (Subgroup.mem_top g) hgN⟩, ?_⟩
     rintro ⟨c, hc⟩
     exact hgnot (hcond (ggConjAut B.span hgN) g (ggConjAut_apply B.span hgN) ⟨c, hc⟩)

@@ -362,8 +362,8 @@ noncomputable def QE8Sylow : Sylow 3 (WeylGroup Tag.E8) :=
 
 theorem exists_conj_mem_QE8 (x : WeylGroup Tag.E8) (hx : ∃ k : ℕ, x ^ 3 ^ k = 1) :
     ∃ g : WeylGroup Tag.E8, g * x * g⁻¹ ∈ QE8 := by
-  haveI := finite_WE8
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := finite_WE8
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, hk⟩ := hx
   have hP : IsPGroup 3 (Subgroup.zpowers x) := by
     rintro ⟨g, hg⟩
@@ -672,16 +672,16 @@ theorem fix_param_of_certE8 {k : ℕ} {v : Fin 5 → Fin 3} {f : Fin k → Fin T
     rw [Finset.sum_congr rfl fun j _ => e j, Finset.sum_comm]
     refine Finset.sum_eq_zero fun m _ => ?_
     rw [← Finset.mul_sum, Finset.sum_sub_distrib, hcol m, Finset.sum_ite_eq,
-      if_pos (Finset.mem_univ _), sub_self, mul_zero]
+      ite_eq_left (Finset.mem_univ _), sub_self, mul_zero]
   have e2 : ∑ j, ((if i = j then 1 else 0 : ZMod 3) -
       ∑ l, C i l * (if f l = j then 1 else 0)) * z j = z i - ∑ l, C i l * z (f l) := by
     simp only [sub_mul, Finset.sum_sub_distrib, Finset.sum_mul, ite_mul, one_mul, zero_mul,
-      Finset.sum_ite_eq, Finset.mem_univ, if_true]
+      Finset.sum_ite_eq, Finset.mem_univ, ite_true]
     congr 1
     rw [Finset.sum_comm]
     refine Finset.sum_congr rfl fun l _ => ?_
-    simp only [mul_assoc, mul_ite, mul_one, mul_zero, ite_mul, one_mul, zero_mul]
-    rw [Finset.sum_ite_eq, if_pos (Finset.mem_univ _)]
+    simp only [mul_ite, mul_one, mul_zero, ite_mul, zero_mul]
+    rw [Finset.sum_ite_eq, ite_eq_left (Finset.mem_univ _)]
   rw [e2] at key
   exact sub_eq_zero.1 key
 
@@ -825,9 +825,9 @@ theorem e8_cube_stab_fixes_root {L : Type} [Field L] (A : Subgroup (Fin Tag.E8.r
     {y : WeylGroup Tag.E8} (hy : ∀ a ∈ A, ∀ v, rootChar a (y • v) = rootChar a v) (hy1 : y ≠ 1) :
     ∃ β, IsRoot Tag.E8 β ∧ y • β = β := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite A := Nat.finite_of_card_ne_zero (by rw [hA]; norm_num)
-  haveI := Aux.finite_WE8
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite A := Nat.finite_of_card_ne_zero (by rw [hA]; norm_num)
+  have := Aux.finite_WE8
   obtain ⟨a₀, ha₀A, ha₀1⟩ : ∃ a ∈ A, a ≠ 1 := by
     by_contra h
     push Not at h
@@ -872,7 +872,7 @@ theorem e8_cube_stab_fixes_root {L : Type} [Field L] (A : Subgroup (Fin Tag.E8.r
   have hempty : {s | ∃ α ∈ rootKernel (col a1) ∩ rootKernel (col a2) ∩ rootKernel (col a3),
       s = rootReflection α} = (∅ : Set (WeylGroup Tag.E8)) := by
     ext s
-    simp only [Set.mem_setOf_eq, Set.mem_empty_iff_false, iff_false]
+    simp only [Set.mem_ofPred_eq, Set.mem_empty_iff_false, iff_false]
     rintro ⟨α, ⟨⟨⟨hα, h1⟩, ⟨-, h2⟩⟩, ⟨-, h3'⟩⟩, -⟩
     obtain ⟨a, haA, hane⟩ := hreg α hα
     exact hane (hcl _ (hk α a1 ha1 h1) (hk α a2 ha2 h2) (hk α a3 ha3 h3') haA)
@@ -964,10 +964,10 @@ theorem normalizesRGroup_of_fixed_root_E8 {K : Type} [Field K] [Finite K]
   classical
   have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, hℓ, hf⟩ := FiniteField.card K (ringChar K)
-  haveI : Fact (ringChar K).Prime := ⟨hℓ⟩
-  haveI : CharP K (ringChar K) := ringChar.charP K
+  have : Fact (ringChar K).Prime := ⟨hℓ⟩
+  have : CharP K (ringChar K) := ringChar.charP K
   have hq : Nat.card K = ringChar K ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hf
-  haveI : CharP (AlgebraicClosure K) (ringChar K) :=
+  have : CharP (AlgebraicClosure K) (ringChar K) :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective _
   obtain ⟨ε, hε, hεc⟩ := exists_canonicalRep_mul_pinnedX_mul_inv (AlgebraicClosure K) D.w hβ
   rw [hwβ] at hεc

@@ -153,9 +153,9 @@ private theorem card_le_pow_of_fixed_line {K : Type} [Field K] [Finite K] {m : �
     have h1 := Subspace.finrank_add_finrank_dualAnnihilator_eq (Submodule.span K {u})
     rw [finrank_span_singleton hu, Module.finrank_fintype_fun_eq_card, Fintype.card_fin] at h1
     omega
-  haveI : Module.Finite K (Module.Dual K (Fin m → K)) := inferInstance
-  haveI : Module.Finite K (Submodule.span K {u}).dualAnnihilator := inferInstance
-  haveI : Finite (Submodule.span K {u}).dualAnnihilator := Module.finite_of_finite (R := K)
+  have : Module.Finite K (Module.Dual K (Fin m → K)) := inferInstance
+  have : Module.Finite K (Submodule.span K {u}).dualAnnihilator := inferInstance
+  have : Finite (Submodule.span K {u}).dualAnnihilator := Module.finite_of_finite (R := K)
   calc Nat.card P ≤ Nat.card (Submodule.span K {u}).dualAnnihilator :=
         Nat.card_le_card_of_injective Ψ hΨ
     _ = Nat.card K ^ (m - 1) := by
@@ -163,8 +163,7 @@ private theorem card_le_pow_of_fixed_line {K : Type} [Field K] [Finite K] {m : �
           hdim]
 
 theorem classicalPointSL : ClassicalPointSLStatement := by
-  intro K _ _ _ _ m _
-  intro u hu P hPX hP2 hPu hPnorm
+  intro K _ _ _ _ m _ u hu P hPX hP2 hPu hPnorm
   have hlin : CFSG.ClassicalGroups.PCoreSection.IsLinearAction K
       (fun (g : GL (Fin m) K) (x : Fin m → K) => (g : Matrix (Fin m) (Fin m) K) *ᵥ x) :=
     { one := fun x => by simp
@@ -198,7 +197,7 @@ theorem classicalPointSL : ClassicalPointSLStatement := by
     intro X hLX _ hXinv
     by_cases hX : X ≤ Submodule.span K {u}
     · exact Or.inl (le_antisymm hX hLX)
-    · obtain ⟨x, hxX, hxL⟩ := SetLike.not_le_iff_exists.mp hX
+    · obtain ⟨x, hxX, hxL⟩ := IsConcreteLE.not_le_iff_exists.mp hX
       exact Or.inr (eq_top_of_stable X hxX hxL hXinv)
   have key : ∀ p ∈ P, ∀ x : Fin m → K,
       (p : Matrix (Fin m) (Fin m) K) *ᵥ x - x ∈ Submodule.span K {u} :=

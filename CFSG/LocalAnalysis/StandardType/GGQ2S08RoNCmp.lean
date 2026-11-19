@@ -383,7 +383,7 @@ theorem _root_.CFSG.StandardType.ggQ2s08rN_frame_not_mem {M : GGQ2LDatum 3 Bs L 
   have hlin := Fintype.linearIndependent_iff.mp hf.1
   have hsum : ∑ i, (a - if i = j then 1 else 0) • f i = 0 := by
     simp only [sub_smul, Finset.sum_sub_distrib, ite_smul, one_smul, zero_smul,
-      Finset.sum_ite_eq', Finset.mem_univ, if_true, ← Finset.smul_sum, ha, sub_self]
+      Finset.sum_ite_eq', Finset.mem_univ, ite_true, ← Finset.smul_sum, ha, sub_self]
   have h1 := hlin _ hsum j
   obtain ⟨i, hij⟩ : ∃ i : Fin (n + 1), i ≠ j := by
     rcases eq_or_ne j 0 with hj | hj
@@ -394,8 +394,8 @@ theorem _root_.CFSG.StandardType.ggQ2s08rN_frame_not_mem {M : GGQ2LDatum 3 Bs L 
       simp at this
     · exact ⟨0, fun h' => hj h'.symm⟩
   have h2 := hlin _ hsum i
-  rw [if_pos rfl, sub_eq_zero] at h1
-  rw [if_neg hij] at h2
+  rw [ite_eq_left rfl, sub_eq_zero] at h1
+  rw [ite_eq_right hij] at h2
   rw [sub_eq_zero] at h2
   rw [h2] at h1
   exact zero_ne_one h1
@@ -487,9 +487,9 @@ theorem frame_cmp (c : GGQ2S08RoN n Bs L x) (M : GGQ2LDatum 3 Bs L x)
       refine ⟨1, fun p => ?_⟩
       rw [one_mul]
       by_cases hp : p = ⟨0, hm⟩
-      · rw [if_pos hp, hp]
+      · rw [ite_eq_left hp, hp]
         rfl
-      · rw [if_neg hp]
+      · rw [ite_eq_right hp]
         exact hbase p (fun h => hp (h.trans (Fin.ext rfl)))
     | succ m ih =>
       intro hm
@@ -506,8 +506,8 @@ theorem frame_cmp (c : GGQ2S08RoN n Bs L x) (M : GGQ2LDatum 3 Bs L x)
       have hiff : Equiv.swap (⟨m, by omega⟩ : Fin (n + 1)) ⟨m + 1, hm⟩ p = ⟨m, by omega⟩ ↔
           p = ⟨m + 1, hm⟩ := Equiv.swap_apply_eq_iff.trans (by rw [Equiv.swap_apply_left])
       by_cases hp : p = ⟨m + 1, hm⟩
-      · rw [if_pos (hiff.mpr hp), if_pos hp]
-      · rw [if_neg (fun h => hp (hiff.mp h)), if_neg hp]
+      · rw [ite_eq_left (hiff.mpr hp), ite_eq_left hp]
+      · rw [ite_eq_right (fun h => hp (hiff.mp h)), ite_eq_right hp]
   refine ⟨a.symm.trans b, fun j => ?_⟩
   obtain ⟨μ, hμ⟩ := hind (a.symm j) (a.symm j).2
   have hval : ∀ p, c.vdiag M (f j) (b p) =
@@ -521,10 +521,10 @@ theorem frame_cmp (c : GGQ2S08RoN n Bs L x) (M : GGQ2LDatum 3 Bs L x)
     have hp : b.symm i ≠ a.symm j := fun h => hi (by
       rw [Equiv.trans_apply, ← h, Equiv.apply_symm_apply])
     have := hval (b.symm i)
-    rw [Equiv.apply_symm_apply, if_neg hp] at this
+    rw [Equiv.apply_symm_apply, ite_eq_right hp] at this
     exact this
   refine ⟨fun i i' hi hi' => by rw [hoff i hi, hoff i' hi'], fun i hi => ?_⟩
-  rw [hoff i hi, Equiv.trans_apply, hval, if_pos rfl]
+  rw [hoff i hi, Equiv.trans_apply, hval, ite_eq_left rfl]
   exact fun h => hne (mul_left_cancel h).symm
 
 end GGQ2S08RoN

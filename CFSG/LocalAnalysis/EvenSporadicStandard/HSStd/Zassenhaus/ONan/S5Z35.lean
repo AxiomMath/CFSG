@@ -35,7 +35,7 @@ private lemma nat_card_A5z35 : Nat.card A5z35 = 60 := by
 private theorem isPerfect_of_simple {G : Type*} [Group G] (hG : IsSimpleGroup G)
     (hcomm : ∃ x y : G, x * y ≠ y * x) : Group.IsPerfect G := by
   rw [Group.isPerfect_def]
-  haveI : (commutator G).Normal := inferInstance
+  have : (commutator G).Normal := inferInstance
   rcases hG.eq_bot_or_eq_top_of_normal (commutator G) with h | h
   · exfalso
     have hc : Subgroup.center G = ⊤ := (commutator_eq_bot_iff_center_eq_top G).mp h
@@ -47,8 +47,8 @@ private theorem isPerfect_of_simple {G : Type*} [Group G] (hG : IsSimpleGroup G)
 
 private theorem eq_A5z35_of_simple {K : Subgroup Z35} (hK : IsSimpleGroup ↥K)
     (hK' : ∃ x ∈ K, ∃ y ∈ K, x * y ≠ y * x) : K = A5z35 := by
-  haveI : IsSimpleGroup ↥K := hK
-  haveI : Group.IsPerfect ↥K := by
+  have : IsSimpleGroup ↥K := hK
+  have : Group.IsPerfect ↥K := by
     refine isPerfect_of_simple hK ?_
     obtain ⟨x, hx, y, hy, hne⟩ := hK'
     exact ⟨⟨x, hx⟩, ⟨y, hy⟩, fun h => hne (by simpa using congrArg Subtype.val h)⟩
@@ -94,12 +94,12 @@ theorem eq_bot_of_normal_of_coprime_z35 {K : Subgroup Z35} (hK : K.Normal)
     (hc : Nat.Coprime 3 (Nat.card K)) : K = ⊥ := by
   let f : Z35 →* Equiv.Perm (Fin 5) := MonoidHom.snd _ _
   have hf : Function.Surjective f := fun x => ⟨(1, x), rfl⟩
-  haveI hKf : (K.map f).Normal := hK.map f hf
+  have hKf : (K.map f).Normal := hK.map f hf
   have hc' : Nat.Coprime 3 (Nat.card (K.map f)) :=
     hc.of_dvd_right (Subgroup.card_map_dvd K f)
   have hbot : K.map f = ⊥ := by
     by_contra hne
-    haveI : Nontrivial (K.map f) := (Subgroup.nontrivial_iff_ne_bot _).mpr hne
+    have : Nontrivial (K.map f) := (Subgroup.nontrivial_iff_ne_bot _).mpr hne
     have hle := Equiv.Perm.alternatingGroup_le_of_normal (α := Fin 5) five_le_card_fin5
       (N := K.map f) (inferInstance : Nontrivial (K.map f))
     have h60 : Nat.card (alternatingGroup (Fin 5)) = 60 :=
@@ -145,7 +145,7 @@ theorem exists_simple_z35 :
     (Equiv.Perm.isThreeCycle_swap_mul_swap_same (a := (0 : Fin 5)) (b := 1) (c := 3)
       (by decide) (by decide) (by decide)).mem_alternatingGroup
   have hsimp : IsSimpleGroup ↥A5z35 := by
-    haveI : IsSimpleGroup ↥(alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by simp)
+    have : IsSimpleGroup ↥(alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by simp)
     exact (Subgroup.equivMapOfInjective (alternatingGroup (Fin 5)) g hg).symm.isSimpleGroup
   have hne : σ * τ ≠ τ * σ := by decide
   refine ⟨A5z35, hsimp, g σ, Subgroup.mem_map.mpr ⟨σ, hσ, rfl⟩,
@@ -212,7 +212,7 @@ theorem eq_zpowers_of_normal_z35 {M : Subgroup Z35} (hM : M.Normal) {z : Z35}
     refine ⟨k, ?_⟩
     rw [hcardM, hk]
     ring
-  haveI : M.Normal := hM
+  have : M.Normal := hM
   have hK_normal : K.Normal := by
     show (M ⊓ f.ker).Normal
     infer_instance
@@ -231,10 +231,10 @@ theorem exists_simple_le_of_mulEquiv {Y : Type*} [Group Y] {C : Subgroup Y} (e :
   let K : Subgroup Y := K₁.map C.subtype
   have hKC : K ≤ C := Subgroup.map_subtype_le K₁
   have hsimp : IsSimpleGroup ↥K := by
-    haveI : IsSimpleGroup ↥K₀ := hK₀simp
+    have : IsSimpleGroup ↥K₀ := hK₀simp
     have h₁ : IsSimpleGroup ↥K₁ :=
       (Subgroup.equivMapOfInjective K₀ e.symm.toMonoidHom e.symm.injective).symm.isSimpleGroup
-    haveI : IsSimpleGroup ↥K₁ := h₁
+    have : IsSimpleGroup ↥K₁ := h₁
     exact (Subgroup.equivMapOfInjective K₁ C.subtype C.subtype_injective).symm.isSimpleGroup
   let x : Y := C.subtype (e.symm x₀)
   let y : Y := C.subtype (e.symm y₀)
@@ -260,11 +260,11 @@ theorem eq_of_simple_le_of_mulEquiv {Y : Type*} [Group Y] {C : Subgroup Y} (e : 
   let K₀ : Subgroup Z35 := (K.subgroupOf C).map e.toMonoidHom
   let L₀ : Subgroup Z35 := (L.subgroupOf C).map e.toMonoidHom
   have hK₀simp : IsSimpleGroup ↥K₀ := by
-    haveI : IsSimpleGroup ↥K := hK
+    have : IsSimpleGroup ↥K := hK
     exact ((Subgroup.equivMapOfInjective (K.subgroupOf C) e.toMonoidHom e.injective).symm.trans
       (Subgroup.subgroupOfEquivOfLe hKC)).isSimpleGroup
   have hL₀simp : IsSimpleGroup ↥L₀ := by
-    haveI : IsSimpleGroup ↥L := hL
+    have : IsSimpleGroup ↥L := hL
     exact ((Subgroup.equivMapOfInjective (L.subgroupOf C) e.toMonoidHom e.injective).symm.trans
       (Subgroup.subgroupOfEquivOfLe hLC)).isSimpleGroup
   have hK₀' : ∃ x ∈ K₀, ∃ y ∈ K₀, x * y ≠ y * x := by

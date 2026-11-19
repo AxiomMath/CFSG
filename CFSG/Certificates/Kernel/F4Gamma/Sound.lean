@@ -164,7 +164,7 @@ noncomputable def formR (r : ℕ) : RootModule ReeTag.F4.tag K →ₗ[K] K :=
 
 theorem cast_xor [CharP K 2] {a b : ℕ} (ha : a < 2) (hb : b < 2) :
     ((a ^^^ b : ℕ) : K) = a + b := by
-  interval_cases a <;> interval_cases b <;> simp [Nat.xor_self, CharTwo.add_self_eq_zero]
+  interval_cases a <;> interval_cases b <;> simp [CharTwo.add_self_eq_zero]
 
 theorem dotAux_spec [CharP K 2] (r v : ℕ) : ∀ n, dotAux r v n < 2 ∧
     ((dotAux r v n : ℕ) : K) = ∑ p ∈ Finset.range n, bitK K (r.testBit p && v.testBit p)
@@ -193,7 +193,7 @@ theorem formR_col [CharP K 2] {r B j₀ : ℕ} (h : coordChk r B j₀ = true) {j
   by_cases e : j = j₀
   · subst e
     simp
-  · rw [if_neg e, beq_false_of_ne e]
+  · rw [ite_eq_right e, beq_false_of_ne e]
     simp
 
 theorem formR_kill [CharP K 2] {r B a : ℕ} (h : coordChk r B a = true) (ha : a ≤ 52) :
@@ -202,7 +202,7 @@ theorem formR_kill [CharP K 2] {r B a : ℕ} (h : coordChk r B a = true) (ha : a
     rw [flagE, Submodule.span_le]
     rintro _ ⟨i, hi, rfl⟩
     have hi' : i < a := hi
-    rw [SetLike.mem_coe, LinearMap.mem_ker, formR_col h (by omega), if_neg (by omega)]
+    rw [SetLike.mem_coe, LinearMap.mem_ker, formR_col h (by omega), ite_eq_right (by omega)]
   exact fun u hu => hle hu
 
 theorem formR_decomp [CharP K 2] {r B a : ℕ} (h : coordChk r B a = true) (ha : a < 52) :
@@ -216,9 +216,9 @@ theorem formR_decomp [CharP K 2] {r B a : ℕ} (h : coordChk r B a = true) (ha :
       LinearMap.smulRight_apply, formR_col h (by omega)]
     by_cases e : i = a
     · subst e
-      rw [if_pos rfl, one_smul, sub_self]
+      rw [ite_eq_left rfl, one_smul, sub_self]
       exact Submodule.zero_mem _
-    · rw [if_neg e, zero_smul, sub_zero]
+    · rw [ite_eq_right e, zero_smul, sub_zero]
       exact mem_flagE B (by omega)
   intro u hu
   have := hle hu
@@ -233,7 +233,7 @@ theorem formR_flag_one [CharP K 2] {r B a : ℕ} (h : coordChk r B a = true) (ha
     hf a ha _ (mem_flagE B (by omega))
   have h0 := formR_kill h ha.le _ hfa
   have e1 := formR_col (K := K) h ha
-  rw [if_pos rfl] at e1
+  rw [ite_eq_left rfl] at e1
   have h0' : formR K r (f (bitVec K (col B a))) - formR K r (bitVec K (col B a)) = 0 :=
     ((formR K r).map_sub _ _).symm.trans h0
   rw [e1] at h0'
@@ -252,7 +252,7 @@ theorem form_mul [CharP K 2] {r B a b : ℕ} (h : coordChk r B a = true) (hb : a
   have h2 := formR_kill h (by omega) _ (hf.mapsTo a (by omega) _ hw)
   have h3 : formR K r (g (bitVec K (col B (a + 1))) - bitVec K (col B (a + 1))) =
       formR K r (g (bitVec K (col B (a + 1)))) := by
-    rw [map_sub, formR_col h ha, if_neg (by omega), sub_zero]
+    rw [map_sub, formR_col h ha, ite_eq_right (by omega), sub_zero]
   set u := g (bitVec K (col B (a + 1))) - bitVec K (col B (a + 1)) with hu_def
   set w := u - formR K r u • bitVec K (col B a) with hw_def
   have hgu : g (bitVec K (col B (a + 1))) =
@@ -278,13 +278,13 @@ theorem form_sq [CharP K 2] {l m B : ℕ} (hl : coordChk l B 48 = true)
   have hz := formR_kill hl (by norm_num) _ (hf.mapsTo 48 (by norm_num) _ hw')
   have hmu : formR K m (f (bitVec K (col B 50)) - bitVec K (col B 50)) =
       formR K m (f (bitVec K (col B 50))) := by
-    rw [map_sub, formR_col hm (by norm_num), if_neg (by norm_num), sub_zero]
+    rw [map_sub, formR_col hm (by norm_num), ite_eq_right (by norm_num), sub_zero]
   set u := f (bitVec K (col B 50)) - bitVec K (col B 50) with hu_def
   set w := u - formR K m u • bitVec K (col B 49) with hw_def
   set w' := w - formR K l w • bitVec K (col B 48) with hw'_def
   have hlw : formR K l w = formR K l (f (bitVec K (col B 50))) := by
     rw [hw_def, hu_def, map_sub, map_sub, map_smul, formR_col hl (by norm_num : 49 < 52),
-      formR_col hl (by norm_num : 50 < 52), if_neg (by norm_num), if_neg (by norm_num),
+      formR_col hl (by norm_num : 50 < 52), ite_eq_right (by norm_num), ite_eq_right (by norm_num),
       smul_eq_mul, mul_zero, sub_zero, sub_zero]
   have he : f (bitVec K (col B 50)) = bitVec K (col B 50) +
       (formR K m u • bitVec K (col B 49) + (formR K l w • bitVec K (col B 48) + w')) := by
@@ -297,7 +297,7 @@ theorem form_sq [CharP K 2] {l m B : ℕ} (hl : coordChk l B 48 = true)
         (formR K l w * formR K l (f (bitVec K (col B 48))) + formR K l (f w'))) := by
     conv_lhs => rw [he]
     simp only [map_add, map_smul, smul_eq_mul]
-  rw [hff, formR_col hl (by norm_num), if_neg (by norm_num), h48, hz, hmu, hlw] at key
+  rw [hff, formR_col hl (by norm_num), ite_eq_right (by norm_num), h48, hz, hmu, hlw] at key
   have h2A := CharTwo.add_self_eq_zero (formR K l (f (bitVec K (col B 50))))
   linear_combination -key - h2A
 
@@ -355,7 +355,7 @@ theorem form_inv [CharP K 2] {r B a b : ℕ} (h : coordChk r B a = true) (hb : a
       -formR K r (endOf x (bitVec K (col B b))) := by
   subst hb
   have h0 := form_mul h rfl ha hx hx'
-  rw [endOf_inv_apply, formR_col h ha, if_neg (by omega)] at h0
+  rw [endOf_inv_apply, formR_col h ha, ite_eq_right (by omega)] at h0
   linear_combination h0 + (formR K r (endOf x⁻¹ (bitVec K (col B (a + 1)))) +
     formR K r (endOf x (bitVec K (col B (a + 1))))) * (CharTwo.two_eq_zero : (2 : K) = 0)
 
@@ -382,9 +382,9 @@ theorem invClosure_ne_of_flag [CharP K 2] {B l m : ℕ} (hB : basisChk B = true)
       rw [endOf_mul, Module.End.mul_apply]
       exact form_mul hm (rfl : 49 + 1 = 50) (by norm_num) (hF x hx) (hF y hy)
   have hχ1 : formR K l (endOf (1 : adjointGroup ReeTag.F4.tag K) (bitVec K (col B 49))) = 0 := by
-    rw [endOf_one, Module.End.one_apply, formR_col hl (by norm_num), if_neg (by norm_num)]
+    rw [endOf_one, Module.End.one_apply, formR_col hl (by norm_num), ite_eq_right (by norm_num)]
   have hγ1 : formR K m (endOf (1 : adjointGroup ReeTag.F4.tag K) (bitVec K (col B 50))) = 0 := by
-    rw [endOf_one, Module.End.one_apply, formR_col hm (by norm_num), if_neg (by norm_num)]
+    rw [endOf_one, Module.End.one_apply, formR_col hm (by norm_num), ite_eq_right (by norm_num)]
   have heq : ∀ x ∈ Subgroup.closure S, formR K l (endOf x (bitVec K (col B 49))) =
       formR K m (endOf x (bitVec K (col B 50))) := by
     intro x hx

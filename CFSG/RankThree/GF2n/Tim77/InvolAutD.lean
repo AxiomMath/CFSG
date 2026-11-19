@@ -192,7 +192,7 @@ theorem invAutD_mem_or_mem {K H : Subgroup G} (hK : H.relIndex K = 2) {a y : G} 
   have haH' : a⁻¹ ∉ H := fun h' => haH (by simpa using H.inv_mem h')
   have h := Subgroup.mul_mem_iff_of_index_two (H := H.subgroupOf K) hK
     (a := ⟨a⁻¹, K.inv_mem ha⟩) (b := ⟨y, hy⟩)
-  simp only [Subgroup.mem_subgroupOf, Subgroup.coe_mul, Subgroup.coe_mk] at h
+  simp only [Subgroup.mem_subgroupOf, Subgroup.coe_mul] at h
   exact h.mpr (by simp [haH', hyH])
 
 theorem invAutD_closure_pred {T : Set G} {Q : G → Prop} (h1 : Q 1) (hgen : ∀ x ∈ T, Q x)
@@ -561,7 +561,7 @@ theorem invAutD_conj_rot [Finite G] (S : Prop24Setup A Ab L Lb M) (hrel : L.relI
 
 theorem invAutD_defect [Finite G] (S : Prop24Setup A Ab L Lb M) (hrel : L.relIndex A = 2)
     {a b : G} (ha : a ∈ A) (haL : a ∉ L) (hb : b ∈ Ab) (hbL : b ∉ Lb)
-    {u : G} (hu : conjSubgroup u (A ⊔ Ab) = A ⊔ Ab) (hC : u ∈ centralizer (A : Set G))
+    {u : G} (_hu : conjSubgroup u (A ⊔ Ab) = A ⊔ Ab) (hC : u ∈ centralizer (A : Set G))
     {k : ℤ} {m₀ : G} (hm₀ : m₀ ∈ M) (hR : u * (a * b) * u⁻¹ = (a * b) ^ k * m₀) :
     ∀ v ∈ M, invAutDD (a * b) k v = invAutDD (a * b) 1 v := by
   have hrM := invAutD_rM S ha hb
@@ -841,7 +841,7 @@ theorem prop24InnerD_holds :
   intro G _ _ A Ab L Lb M S hrel u hu hC
   obtain ⟨hN, hO2, -⟩ := S.tim77_2_4_one CFSG.CGT.T75N.benderCenterInput
     CFSG.CGT.T75N.unitaryTwoGenerationInput
-  haveI := hN
+  have := hN
   have hMu : conjSubgroup u M = M :=
     invAut_conj_eq_of_normalizes hO2 S.M_le_X (fun m hm => S.mem_M_sq hm) hu
   exact invAutD_main S hrel hu hC hMu

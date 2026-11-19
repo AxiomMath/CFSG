@@ -27,7 +27,6 @@ theorem sporadic_two_part (s : TauCeti.SporadicName)
   all_goals first
     | exact Or.inl rfl
     | exact Or.inr rfl
-    | (exfalso; exact h)
 
 variable {K : Type} [Group K] [Finite K]
 

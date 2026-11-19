@@ -42,7 +42,7 @@ theorem card_model_sp6 {H : Type} [Group H] (hH : StatedClassicalModel H .PSp 3 
 
 theorem isQuasisimple_of_model_sp6 {H : Type} [Group H] (hH : StatedClassicalModel H .PSp 3 2 1) :
     CFSG.IsQuasisimple H := by
-  haveI : IsSimpleGroup H := CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel hH
+  have : IsSimpleGroup H := CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel hH
   refine CFSG.HardMathSupport.Timmesfeld.CrossChar.isQuasisimple_of_simple_nonabelian ?_
   intro hcomm
   have hcen : Subgroup.center H = ⊤ :=
@@ -98,7 +98,7 @@ theorem card_cen_of_model {x : F42C} (hx : orderOf x = 3) {K : Subgroup F42C}
     (hKx : Subgroup.zpowers x ⊔ K = Subgroup.centralizer ({x} : Set F42C))
     (hKm : StatedClassicalModel ↥K .PSp 3 2 1) :
     Nat.card ↥(Subgroup.centralizer ({x} : Set F42C)) = 2 ^ 9 * 3 ^ 5 * 5 * 7 := by
-  haveI : Finite F42C := finite_adjF
+  have : Finite F42C := finite_adjF
   have hKc : K ≤ Subgroup.centralizer ({x} : Set F42C) := le_sup_right.trans hKx.le
   have hKz : K ≤ Subgroup.centralizer (Subgroup.zpowers x : Set F42C) :=
     hKc.trans (centralizer_singleton_eq_zpowers (K := ZMod 2) x).le
@@ -163,7 +163,7 @@ theorem K12C {x : F42C}
     · refine ⟨MulAut.conj c⁻¹, ?_⟩
       rw [MulAut.conj_apply, ← hc]
       group
-    · haveI : CharP (ZMod 2) ReeTag.F4.prime := inferInstanceAs (CharP (ZMod 2) 2)
+    · have : CharP (ZMod 2) ReeTag.F4.prime := inferInstanceAs (CharP (ZMod 2) 2)
       obtain ⟨c', hc'⟩ := isConj_iff.1 phi_link_C
       refine ⟨(ReeTag.F4.finiteExceptionalAut (ZMod 2)).trans (MulAut.conj (c⁻¹ * c')), ?_⟩
       rw [MulEquiv.trans_apply, MulAut.conj_apply]

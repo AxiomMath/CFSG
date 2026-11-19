@@ -36,7 +36,7 @@ theorem tailGroup_sup_residueGroup_eq_top (hR : R.HasFrameImages Δ P Q)
     have hiL : i ≠ ⟨r - 1, Nat.sub_lt hr Nat.one_pos⟩ := by
       intro h
       have hv := congrArg Fin.val h
-      simp only [Fin.val_mk] at hv
+      simp only at hv
       omega
     refine le_inf (sup_le ?_ ?_) (sup_le ?_ ?_)
     · intro g hg
@@ -71,7 +71,7 @@ theorem tailGroup_sup_residueGroup_eq_top (hR : R.HasFrameImages Δ P Q)
     have hab : (⟨j, Nat.lt_of_succ_lt hj⟩ : Fin r) ≠ ⟨j + 1, hj⟩ := by
       intro h
       have hv := congrArg Fin.val h
-      simp only [Fin.val_mk] at hv
+      simp only at hv
       omega
     refine (hF.exists_conjSub_eq_of_shortRootGroup_le hthick hab
       (M := R.tailGroup j) ?_ ?_ hA4 hW).imp fun g hg =>
@@ -134,7 +134,7 @@ theorem map_rankOne_last_le_range
   refine ⟨su3Chord (unitaryInvolution F 2 n) y, ?_⟩
   have h := DFunLike.congr_fun hθc y
   have hy : (CFSG.LieType.Steinberg.rankOneLastEvenEquiv hFn he
-      (by simp only [Fin.val_mk]; omega)).symm y = ⟨x, hx⟩ := by
+      (by simp only; omega)).symm y = ⟨x, hx⟩ := by
     dsimp only [y, e]
     exact MulEquiv.symm_apply_apply _ _
   simp only [MonoidHom.comp_apply, SURelations.lastBlock, MulEquiv.coe_toMonoidHom,
@@ -160,7 +160,7 @@ theorem range_toHom_sup_residueGroup_eq_top
           (Nat.le_trans (Nat.le_add_right 2 2) hm) Nat.two_pos) Nat.zero_lt_one⟩) g = X) :
     (R.toHom hFn he hm).range ⊔ residueGroup Δ P Q ⟨m / 2 - 1, Nat.sub_lt (Nat.div_pos
       (Nat.le_trans (Nat.le_add_right 2 2) hm) Nat.two_pos) Nat.zero_lt_one⟩ = ⊤ := by
-  haveI := h.finite
+  have := h.finite
   have hthick := thickLines_of_meetsLines h.cls h.center hML
   have hiso := h.cls.noIsolated h.points h.rank
   have htop := hR.tailGroup_sup_residueGroup_eq_top h.cls h.points hML hthick

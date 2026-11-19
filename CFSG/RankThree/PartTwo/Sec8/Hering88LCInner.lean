@@ -18,6 +18,7 @@ theorem perfectResidual_normal (M : Type*) [Group M] : (perfectResidual M).Norma
   rw [Subgroup.mem_iInf] at hx ⊢
   exact fun n => (derivedSeries_normal M n).conj_mem x (hx n) g
 
+omit [Finite G] in
 theorem inSubgroup_perfectResidual_le' (M : Subgroup G) : inSubgroup perfectResidual M ≤ M := by
   rintro _ ⟨y, -, rfl⟩
   exact y.2
@@ -36,7 +37,7 @@ theorem theta_inf_le_theta' {H K : Subgroup G} (hKH : K ≤ H) :
   have hN3 : ¬ 3 ∣ Nat.card N := fun h => h3 (h.trans (Subgroup.card_dvd_of_le inf_le_left))
   exact Sec6.le_theta_of_normal inf_le_right hKN hNsol hN3
 
-@[expose] noncomputable abbrev barAut (Y : Subgroup G) (x : G)
+noncomputable abbrev barAut (Y : Subgroup G) (x : G)
     (hx : x ∈ Subgroup.normalizer (Y : Set G)) : MulAut (Y ⧸ aschbacherSolvableCore 3 Y) :=
   Sec4.thetaQuotMulAut Y (Sec4.compAction Y ⟨x, hx⟩)
 
@@ -46,6 +47,7 @@ theorem barAut_mk {Y : Subgroup G} {x : G} (hx : x ∈ Subgroup.normalizer (Y : 
       QuotientGroup.mk' (aschbacherSolvableCore 3 Y) ⟨x * y * x⁻¹, hxy⟩ :=
   rfl
 
+omit [Finite G] in
 theorem conj_mem_of_mem_normalizer {Y : Subgroup G} {x y : G}
     (hx : x ∈ Subgroup.normalizer (Y : Set G)) (hy : y ∈ Y) : x * y * x⁻¹ ∈ Y :=
   (Subgroup.mem_normalizer_iff.mp hx y).mp hy
@@ -116,7 +118,7 @@ theorem mem_residual_of_mem_imageModTheta {Y : Subgroup G} {d w : G} (hwY : w �
   obtain ⟨v, hv, hvu⟩ := Subgroup.mem_subgroupOf.mp hu'
   have hθ : u'⁻¹ * ⟨w, hwY⟩ ∈ aschbacherSolvableCore 3 Y := QuotientGroup.eq.mp hu'w
   have hwM : w ∈ M := ⟨hwY, hwd⟩
-  haveI : (perfectResidual M).Normal := perfectResidual_normal M
+  have : (perfectResidual M).Normal := perfectResidual_normal M
   set π := QuotientGroup.mk' (perfectResidual M) with hπ
   set θM : M := v⁻¹ * ⟨w, hwM⟩ with hθM
   have hπv : π v = 1 := (QuotientGroup.eq_one_iff _).mpr hv
@@ -310,7 +312,7 @@ theorem not_isQuasisimple_of_residual_eq_bot {Y : Subgroup G} {d : G}
       | H y => induction z using QuotientGroup.induction_on with
         | H z => rw [Subsingleton.elim y z]
     exact Subsingleton.elim _ _
-  haveI : Group.IsPerfect (U ⧸ aschbacherSolvableCore 3 U) := hP
+  have : Group.IsPerfect (U ⧸ aschbacherSolvableCore 3 U) := hP
   exact Group.IsPerfect.not_isSolvable _ hQs
 
 end CFSG.RankThree.PartTwo.Sec8.Hering88LC

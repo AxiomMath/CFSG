@@ -60,7 +60,7 @@ theorem sigmaFacts_psl3_of_equiv
   obtain ⟨N, hQ, hNfix, -, hNcomm, ⟨eN⟩⟩ :=
     CFSG.GH74.Generic.BProg.B2.PumpupTableOutL3.lin_graph_centralizer_psl2
       hchar hcard3 hA
-  haveI : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) K) :=
+  have : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) K) :=
     Matrix.ProjectiveSpecialLinearGroup.rank_two_simple (by omega)
   have hsimple : IsSimpleGroup ↥N := eN.isSimpleGroup
   have hperfect : Group.IsPerfect ↥N := hQ.1
@@ -102,7 +102,7 @@ theorem sigmaFacts_psl3_of_equiv
       rw [CFSG.ComponentClassification.Burgoyne.PSL.conjAut_mul_dualAut_proj, hgl]
     let πΩ : ↥Ω →* ↥P := (proj 3 K).subgroupMap Ω
     have hπΩ : Function.Surjective πΩ := MonoidHom.subgroupMap_surjective _ _
-    haveI : Group.IsPerfect ↥Ω := hΩperf
+    have : Group.IsPerfect ↥Ω := hΩperf
     have hPperf : Group.IsPerfect ↥P :=
       Group.IsPerfect.ofSurjective (f := πΩ) hπΩ
     have hNcommβ : ∀ x y : projectiveSL 3 K, β x = x → β y = y → ⁅x, y⁆ ∈ N := by
@@ -137,8 +137,8 @@ theorem sigmaFacts_psl3_outer
     SecU1.SigmaFacts L b := by
   obtain ⟨K, hKfld, hKfin, hKcard, ⟨e⟩⟩ :=
     CFSG.ClassicalInvolution.Q3.TL4.E3C269G.exists_projectiveSL_equiv hL
-  letI : Field K := hKfld
-  letI : Finite K := hKfin
+  let : Field K := hKfld
+  let : Finite K := hKfin
   exact sigmaFacts_psl3_of_equiv hp hp2 hKcard hf hq hAS.centralizer_eq e hbL hb2
 
 end CFSG.LocalAnalysis.WeakClosure81

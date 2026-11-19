@@ -15,7 +15,7 @@ namespace ThreeKIB
 open Module Module.End
 
 private theorem pairs_three_inj {K : Type*} [Field K] (h11 : (-1 : K) ≠ 1) {d : K}
-    (hd : d = 1 ∨ d = -1) :
+    (_hd : d = 1 ∨ d = -1) :
     ∀ i j : Fin 3, ![-1, d, -d] i = ![-1, d, -d] j → ![d, -d, -1] i = ![d, -d, -1] j → i = j := by
   intro i j hi hj
   fin_cases i <;> fin_cases j <;> simp at hi hj ⊢ <;> grind
@@ -53,7 +53,7 @@ theorem exists_fixed_of_four {L J : Type} [Group L] [Finite L] [Group J] [Finite
     (hŷ : φ ŷ = y) : ∃ w : W, w ≠ 0 ∧ τ ŷ w = w := by
   have hk3 : ¬ 3 ∣ Nat.card φ.ker := (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).1
     (Nat.Coprime.of_dvd_left (dvd_mul_left 3 2) hcop.symm)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨f', ŷ₀, hf', hŷ₀, hN⟩ := exists_lift_hom φ hφ
     (Nat.Coprime.of_dvd_left (dvd_mul_right 2 3) hcop.symm) isPGroup_four f hyN
   obtain ⟨y₁, hy₁z, ⟨k, hk⟩, hφy₁⟩ := CFSG.RankThree.PartTwo.Sec13.Res7Proof.exists_three_part φ
@@ -166,10 +166,10 @@ private theorem e4b_facts : (a6α * a6γ) ^ 3 = 1 ∧
 
 theorem coverActsTriviallyOnSmall_alt6 :
     CoverActsTriviallyOnSmall 3 (alternatingGroup (Fin 6)) := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
   refine coverActsTriviallyOnSmall_of_rep Nat.prime_three
     fun J _ _ φ hφ hcop K _ _ h2K h3K W _ _ _ hW τ hτ => ?_
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hN9, hinj9, hconj₁, hconj₂, hα, hαγ, hne⟩ := e9_facts
   obtain ⟨f', t₁, hf', ht₁, hN⟩ := exists_lift_hom φ hφ
     (Nat.Coprime.of_dvd_left (dvd_mul_left 3 2) hcop.symm) isPGroup_nine e9 hN9

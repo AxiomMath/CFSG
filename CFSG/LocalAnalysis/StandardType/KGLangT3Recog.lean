@@ -129,15 +129,15 @@ theorem kgLangT3_conj_z0 {n : ℕ} (hn : 2 ≤ n) (hev : Even n) (K : Type) [Fie
     (E : Type) [Field E] [Finite E]
     (θ₀ : ↥J₀ ⧸ Subgroup.center ↥J₀ ≃* LargeEvenProj (LargeEvenSLGroup (Fin 3) E)) :
     ∃ g : GGTriD4R n K, g * h * g⁻¹ = D.z₀ := by
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by
+  have : Finite K := Nat.finite_of_card_ne_zero (by
     rw [hK]
     exact pow_ne_zero 3 (pow_ne_zero n (by norm_num)))
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Finite k := Nat.finite_of_card_ne_zero (by
+  have : Fintype K := Fintype.ofFinite K
+  have : Finite k := Nat.finite_of_card_ne_zero (by
     rw [hk]
     exact pow_ne_zero n (by norm_num))
   have hn1 : 1 ≤ n := by omega
-  haveI : CharP K 2 := CFSG.StandardType.charP_two_of_card (m := n * 3) (by rw [hK, pow_mul])
+  have : CharP K 2 := CFSG.StandardType.charP_two_of_card (m := n * 3) (by rw [hK, pow_mul])
   set σ := iterateFrobeniusEquiv K 2 n with hσdef
   have hσ : ∀ c, σ c = c ^ 2 ^ n := fun c => by
     rw [hσdef, iterateFrobeniusEquiv_apply, iterateFrobenius_def]
@@ -202,7 +202,7 @@ theorem kgLangT3_conj_z0 {n : ℕ} (hn : 2 ≤ n) (hev : Even n) (K : Type) [Fie
       e.injective)).symm.trans ιz
   obtain ⟨g₂, hg₂⟩ := l02qj5b1_lemmaA (2 ^ n) σ hK hσ h3q hσ3 hez3 hez1
     (Jz.map e.toMonoidHom) hJz' k hθz
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hA3 : orderOf (g₁ * (e h) * g₁⁻¹) = 3 := by
     have hconj : (g₁ * e h * g₁⁻¹) ^ 3 = g₁ * (e h) ^ 3 * g₁⁻¹ := by
       calc (g₁ * e h * g₁⁻¹) ^ 3 = ((MulAut.conj g₁) (e h)) ^ 3 := by rw [MulAut.conj_apply]

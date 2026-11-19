@@ -18,7 +18,7 @@ open CFSG.Open CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.AltBlocks
 variable {k p m : ℕ}
 
 private theorem exists_smul_of_zpowers_eq [NeZero p] {f f' : Fin k → ZMod p}
-    {A : Type} [Group A] (ι : A →* Equiv.Perm (Ω k p m)) (hι : Function.Injective ι) {a a' : A}
+    {A : Type} [Group A] (ι : A →* Equiv.Perm (Ω k p m)) (_hι : Function.Injective ι) {a a' : A}
     (ha : ι a = baseHom (Multiplicative.ofAdd f)) (ha' : ι a' = baseHom (Multiplicative.ofAdd f'))
     (h : a' ∈ Subgroup.zpowers a) : ∃ c : ℤ, f' = c • f := by
   obtain ⟨c, rfl⟩ := Subgroup.mem_zpowers_iff.1 h
@@ -37,7 +37,7 @@ private theorem exists_move [NeZero p] (hp : p.Prime) (hp2 : p ≠ 2) (hk : 2 �
     (hf : f ≠ 0) :
     ∃ (π : Equiv.Perm (Fin k × ZMod p)) (f' : Fin k → ZMod p), Equiv.Perm.sign π = 1 ∧
       π * transl f * π⁻¹ = transl f' ∧ ∀ c : ℤ, f' ≠ c • f := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpo : Odd p := hp.odd_of_ne_two hp2
   obtain ⟨r, hr⟩ := exists_sign_scale_eq_neg_one hp hp2 (⟨0, by omega⟩ : Fin k)
   by_cases hz : ∃ i, f i = 0
@@ -58,7 +58,7 @@ private theorem exists_move [NeZero p] (hp : p.Prime) (hp2 : p ≠ 2) (hk : 2 �
         scale_mul_transl_mul_inv, swapB_mul_transl_mul_inv]
     · intro c hc
       have h1 := congrFun hc i
-      simp only [Function.comp_apply, Equiv.swap_apply_left, f₁, if_pos rfl, Pi.smul_apply,
+      simp only [Function.comp_apply, Equiv.swap_apply_left, f₁, Pi.smul_apply,
         hi, smul_zero] at h1
       exact mul_ne_zero s.ne_zero hj h1
   · push Not at hz
@@ -87,7 +87,7 @@ private theorem exists_move [NeZero p] (hp : p.Prime) (hp2 : p ≠ 2) (hk : 2 �
         have h0 := congrFun hc i₀
         have h1 := congrFun hc i₁
         simp only [Function.comp_apply, Equiv.swap_apply_left, Equiv.swap_apply_right, f₁,
-          Pi.smul_apply, zsmul_eq_mul, if_neg h01.symm, if_pos rfl, ↓reduceIte] at h0 h1
+          Pi.smul_apply, zsmul_eq_mul, ite_eq_right h01.symm, ↓reduceIte] at h0 h1
         have hf0 := hz i₀
         have hc2 : (r : ZMod 3) = (c : ZMod 3) ^ 2 := by
           have : (r : ZMod 3) * f i₀ = ((c : ZMod 3) ^ 2) * f i₀ := by
@@ -124,17 +124,17 @@ private theorem exists_move [NeZero p] (hp : p.Prime) (hp2 : p ≠ 2) (hk : 2 �
           rw [Pi.smul_apply, zsmul_eq_mul] at h
           rw [← h]
           show (u : ZMod p) * f i₀ = if i₀ = i₀ then (u : ZMod p) * f₁ i₀ else f₁ i₀
-          rw [if_pos rfl]
+          rw [ite_eq_left rfl]
           show (u : ZMod p) * f i₀ = (u : ZMod p) * (if i₀ = i₁ then _ else f i₀)
-          rw [if_neg h01]
+          rw [ite_eq_right h01]
         have h1 : ((u⁻¹ : (ZMod p)ˣ) : ZMod p) * f i₁ = (c : ZMod p) * f i₁ := by
           have h := congrFun hc i₁
           rw [Pi.smul_apply, zsmul_eq_mul] at h
           rw [← h]
           show ((u⁻¹ : (ZMod p)ˣ) : ZMod p) * f i₁ = if i₁ = i₀ then (u : ZMod p) * f₁ i₁ else f₁ i₁
-          rw [if_neg h01.symm]
+          rw [ite_eq_right h01.symm]
           show ((u⁻¹ : (ZMod p)ˣ) : ZMod p) * f i₁ = if i₁ = i₁ then _ else f i₁
-          rw [if_pos rfl]
+          rw [ite_eq_left rfl]
         have hc0 : (c : ZMod p) = u := (mul_right_cancel₀ (hz i₀) h0).symm
         have hc1 : (c : ZMod p) = ((u⁻¹ : (ZMod p)ˣ) : ZMod p) :=
           (mul_right_cancel₀ (hz i₁) h1).symm
@@ -145,7 +145,7 @@ private theorem exists_move [NeZero p] (hp : p.Prime) (hp2 : p ≠ 2) (hk : 2 �
 private theorem wcOn_block [NeZero p] (hp : p.Prime) (hp2 : p ≠ 2) (hk : 2 ≤ k) (hkp : k < p)
     (hm : m < p) :
     WCOn p (alternatingGroup (Ω k p m)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpo : Odd p := hp.odd_of_ne_two hp2
   set Alt := alternatingGroup (Ω k p m)
   have hle : base (k := k) (p := p) (m := m) ≤ Alt := base_le_alternatingGroup hpo
@@ -218,7 +218,7 @@ private theorem wcOn_block [NeZero p] (hp : p.Prime) (hp2 : p ≠ 2) (hk : 2 ≤
 
 theorem wcAlt_holds : WCAlt := by
   intro n hn5 p hp hp2
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_cases hsq : p ^ 2 ≤ n
   · intro P hPab
     exact absurd hPab (not_isMulCommutative_sylow_alternatingGroup hp hp2 hsq P)
@@ -242,7 +242,7 @@ theorem wcAlt_holds : WCAlt := by
       rw [Nat.div_lt_iff_lt_mul hp.pos]
       nlinarith
     have hm : n % p < p := Nat.mod_lt _ hp.pos
-    haveI : NeZero p := ⟨hp.ne_zero⟩
+    have : NeZero p := ⟨hp.ne_zero⟩
     have e : Fin n ≃ Ω (n / p) p (n % p) :=
       (Fintype.equivFinOfCardEq (by
         rw [← Nat.card_eq_fintype_card, card_Ω, mul_comm, Nat.div_add_mod])).symm

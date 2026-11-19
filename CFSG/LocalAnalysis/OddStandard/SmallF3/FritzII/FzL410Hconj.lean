@@ -49,15 +49,15 @@ theorem fz410_comm_le_L {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau : G}
     rw [inf_eq_left.mpr le_sup_right] at hlag
     rw [hcardK, hK] at hlag
     have hpos : 0 < Nat.card L := by
-      haveI : Nonempty ↥L := ⟨⟨1, L.one_mem⟩⟩
+      have : Nonempty ↥L := ⟨⟨1, L.one_mem⟩⟩
       exact Nat.card_pos
     exact Nat.mul_right_cancel hpos hlag
   rw [hrel] at hmul
-  haveI : (L.subgroupOf (invCent t)).Normal := h.hyp.normal
+  have : (L.subgroupOf (invCent t)).Normal := h.hyp.normal
   have hLidx : L.relIndex (invCent t) = 4 := by omega
   have hcard4 : Nat.card (↥(invCent t) ⧸ L.subgroupOf (invCent t)) = 4 := hLidx
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : IsMulCommutative (↥(invCent t) ⧸ L.subgroupOf (invCent t)) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsMulCommutative (↥(invCent t) ⧸ L.subgroupOf (invCent t)) :=
     IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 2) (by rw [hcard4]; norm_num)
   have hcomm : _root_.commutator ↥(invCent t) ≤ L.subgroupOf (invCent t) :=
     Subgroup.Normal.quotient_commutative_iff_commutator_le.mp inferInstance

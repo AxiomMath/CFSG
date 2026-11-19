@@ -18,8 +18,8 @@ theorem exists_invertedIn_of_shape {L X : Subgroup G} {n r : ℕ}
     (hshape : IsL2 (Bar2 L) n ∨ IsSz (Bar2 L) n)
     (hXL : X ≤ L) (hXcard : Nat.card X = r) (hr : r.Prime) (hr2 : r ≠ 2) :
     UC22.F05.InvertedIn L X := by
-  haveI : Fact (Nat.Prime r) := ⟨hr⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime r) := ⟨hr⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hr1 : 1 < r := hr.one_lt
   have hXcard1 : 1 < Nat.card X := by rw [hXcard]; exact hr1
   have hnt : Nontrivial X := Finite.one_lt_card_iff_nontrivial.mp hXcard1

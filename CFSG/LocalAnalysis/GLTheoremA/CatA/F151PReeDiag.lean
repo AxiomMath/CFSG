@@ -158,11 +158,11 @@ theorem exists_reeF4_data {S : Type} [Group S] [Finite S]
   have hR := CFSG.LieType.SeitzGeneration.reeTitsModel_cat_reeF4 hv
   obtain ⟨K, hfield, hfinite, hcharK, hKcard, ⟨eK⟩⟩ :=
     CFSG.LieType.ChevTwo.Semi.exists_mulEquiv_reeGamma hm1 hR
-  letI := hfield
-  letI := hfinite
-  haveI : CharP K ReeTag.F4.prime := hcharK
+  let := hfield
+  let := hfinite
+  have : CharP K ReeTag.F4.prime := hcharK
   let e : S ≃* ↥(ReeTag.F4.reeGamma K m) := eS.trans eK
-  haveI : IsSimpleGroup ↥(ReeTag.F4.reeGamma K m) :=
+  have : IsSimpleGroup ↥(ReeTag.F4.reeGamma K m) :=
     CFSG.SignalizerFunctorTheorem.CatalogBridge.isSimpleGroup_reeGamma_F4 hm1 hKcard
   have hΓ : ∃ a b : ↥(ReeTag.F4.reeGamma K m), a * b ≠ b * a :=
     CFSG.LieType.Ree.LargeReeInvolution.exists_mul_ne_mul_of_commutator_eq_top
@@ -173,11 +173,10 @@ theorem exists_reeF4_data {S : Type} [Group S] [Finite S]
     hab (by simpa using congrArg e h)⟩
 
 theorem reeF4Diag_holds : SimpleDiagModel (CharTwoOf isReeF4Idx) := by
-  intro S _ _ p hp hp2 hcat hshape
-  intro x y hx1 hxp hyp hcomm J hJ hyN
+  intro S _ _ p hp hp2 hcat hshape x y hx1 hxp hyp hcomm J hJ hyN
   obtain ⟨m, hv, hS, hnc, ⟨eS⟩⟩ := exists_reeF4_data hcat
-  haveI : IsSimpleGroup S := hS
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : IsSimpleGroup S := hS
+  have : Fact p.Prime := ⟨hp⟩
   have hm : orderOf x = p := orderOf_eq_prime hxp hx1
   have hyc : y ∈ Subgroup.centralizer ({x} : Set S) := by
     rw [Subgroup.mem_centralizer_singleton_iff]
@@ -203,7 +202,7 @@ theorem reeF4Diag_holds : SimpleDiagModel (CharTwoOf isReeF4Idx) := by
     have hSqTop : CFSG.Open.IsQuasisimple ↥(⊤ : Subgroup S) :=
       CFSG.Open.IsQuasisimple.of_mulEquiv Subgroup.topEquiv hSqS
     have hSpTop : GLAPPrimeCore p ↥(⊤ : Subgroup S) = ⊥ := by
-      haveI : IsSimpleGroup ↥(⊤ : Subgroup S) := Subgroup.topEquiv.isSimpleGroup
+      have : IsSimpleGroup ↥(⊤ : Subgroup S) := Subgroup.topEquiv.isSimpleGroup
       refine CFSG.HardMathSupport.Timmesfeld.Proving.glaPPrimeCore_eq_bot_of_isSimpleGroup
         hp ?_
       rw [Subgroup.card_top]

@@ -301,7 +301,7 @@ theorem wit_line {v : ℕ} (hv : v < 75735) (hin : uw7InB (uw7E0 ()) v = true)
     rw [planeImg_eq_planeImgM]
     exact h4
 
-theorem orbit_roots (O : Set TD6) (hne : O.Nonempty) (hK : ∀ u ∈ O, u ∈ K0) (h1 : (1 : TD6) ∉ O)
+theorem orbit_roots (O : Set TD6) (_hne : O.Nonempty) (hK : ∀ u ∈ O, u ∈ K0) (h1 : (1 : TD6) ∉ O)
     (hinv : ∀ g ∈ Stab0, ∀ u ∈ O, g * u * g⁻¹ ∈ O) (hdvd : O.ncard ∣ 41664)
     (hts : ∀ u ∈ O, ∀ E : Fin 75735, ¬ Opp E.val (u • E).val) :
     ∀ u ∈ O, ∃ p : Fin 365211, (∀ x ∈ lineSet p.val, x ∈ planeSub 0) ∧
@@ -314,7 +314,7 @@ theorem orbit_roots (O : Set TD6) (hne : O.Nonempty) (hK : ∀ u ∈ O, u ∈ K0
     have hfB : fB (wt (uw7E0 ())) (wt ((u • E0 : Fin 75735) : ℕ)) = true := by
       by_contra hf
       unfold uw7BCls at h3
-      rw [if_neg hf] at h3
+      rw [ite_eq_right hf] at h3
       split_ifs at h3 <;> omega
     exact hts u hu E0 ((opp_iff_fB E0.2 (u • E0).2).2 hfB)
   have hinj : Set.InjOn (fun u : TD6 => u • E0) O := by

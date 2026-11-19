@@ -25,7 +25,7 @@ open Module Native CFSG.Sporadic.SmallF2.Native Matrix
 
 theorem getD_take_of_lt {α : Type} (l : List α) {n k : ℕ} (hk : k < n) (a : α) :
     (l.take n).getD k a = l.getD k a := by
-  simp only [List.getD_eq_getElem?_getD, List.getElem?_take, hk, if_true]
+  simp only [List.getD_eq_getElem?_getD, List.getElem?_take, hk, ite_true]
 
 theorem getD_drop {α : Type} (l : List α) (i k : ℕ) (a : α) :
     (l.drop i).getD k a = l.getD (i + k) a := by
@@ -96,7 +96,7 @@ theorem echelonOK_of_echOKL {N n : ℕ} {L masks piv : List ℕ} (h : echOKL N L
   rw [List.mem_range] at hk
   obtain ⟨h1, h2, -⟩ := spec k hk
   rw [Bool.and_eq_true, Bool.and_eq_true, decide_eq_true_eq, List.all_eq_true]
-  simp only [toArray_getElem!, xorSel_eq, List.toList_toArray]
+  simp only [toArray_getElem!, xorSel_eq]
   refine ⟨⟨h1, h2⟩, fun j hj => ?_⟩
   rw [List.mem_range] at hj
   rw [Bool.or_eq_true, decide_eq_true_eq]
@@ -174,21 +174,21 @@ theorem validClass_certOf {d k : ℕ} {refs : Array (Array (Array ℕ))} {taus :
     obtain ⟨N, hN, he⟩ := h0 rfl
     have e : (0 == 0) = true := rfl
     have e' : ((certOf c 0).kind == 0) = true := rfl
-    rw [if_pos e, decide_eq_true_eq] at hk
-    rw [if_pos e', Bool.and_eq_true, decide_eq_true_eq]
+    rw [ite_eq_left e, decide_eq_true_eq] at hk
+    rw [ite_eq_left e', Bool.and_eq_true, decide_eq_true_eq]
     exact ⟨hk, echelonOK_of_echOKL he hN⟩
   have n0 : ¬((k == 0) = true) := by simpa using hk0
   have n0' : ¬(((certOf c k).kind == 0) = true) := n0
-  rw [if_neg n0] at hk
-  rw [if_neg n0']
+  rw [ite_eq_right n0] at hk
+  rw [ite_eq_right n0']
   by_cases hk1 : k = 1
   · subst hk1
     have h := h1 rfl
     have e : (1 == 1) = true := rfl
     have e' : ((certOf c 1).kind == 1) = true := rfl
-    rw [if_pos e, decide_eq_true_eq] at hk
+    rw [ite_eq_left e, decide_eq_true_eq] at hk
     rw [Bool.and_eq_true, Bool.and_eq_true] at h
-    rw [if_pos e', Bool.and_eq_true, Bool.and_eq_true, Bool.and_eq_true, decide_eq_true_eq]
+    rw [ite_eq_left e', Bool.and_eq_true, Bool.and_eq_true, Bool.and_eq_true, decide_eq_true_eq]
     refine ⟨⟨⟨?_, hk⟩, ?_⟩, closedC_of_closedCL h.2⟩
     · rw [xorSel_eq]
       exact h.1.1
@@ -196,20 +196,20 @@ theorem validClass_certOf {d k : ℕ} {refs : Array (Array (Array ℕ))} {taus :
       exact h.1.2
   have n1 : ¬((k == 1) = true) := by simpa using hk1
   have n1' : ¬(((certOf c k).kind == 1) = true) := n1
-  rw [if_neg n1] at hk
-  rw [if_neg n1']
+  rw [ite_eq_right n1] at hk
+  rw [ite_eq_right n1']
   by_cases hk2 : k = 2
   · subst hk2
     have e : (2 == 2) = true := rfl
     have e' : ((certOf c 2).kind == 2) = true := rfl
-    rw [if_pos e, Bool.and_eq_true, Bool.and_eq_true, decide_eq_true_eq,
+    rw [ite_eq_left e, Bool.and_eq_true, Bool.and_eq_true, decide_eq_true_eq,
       decide_eq_true_eq] at hk
-    rw [if_pos e', Bool.and_eq_true, Bool.and_eq_true, decide_eq_true_eq, decide_eq_true_eq]
+    rw [ite_eq_left e', Bool.and_eq_true, Bool.and_eq_true, decide_eq_true_eq, decide_eq_true_eq]
     refine ⟨⟨hk.1.1, ?_⟩, refOK_of_refOKL hk.2⟩
     have := hk.1.2
     rwa [refsL, List.length_map, Array.length_toList] at this
   · have n2 : ¬((k == 2) = true) := by simpa using hk2
-    rw [if_neg n2] at hk
+    rw [ite_eq_right n2] at hk
     exact absurd hk Bool.false_ne_true
 
 theorem validClass_of_validCL {taus : Array (Array ℕ)} {r14 r20 : Array (Array (Array ℕ))}
@@ -223,15 +223,15 @@ theorem validClass_of_validCL {taus : Array (Array ℕ)} {r14 r20 : Array (Array
     intro h1
     have h1' : (c.k14 == 1 || c.k20 == 1) = true := by
       rcases h1 with h1 | h1 <;> simp [h1]
-    rwa [if_pos h1'] at hs
+    rwa [ite_eq_left h1'] at hs
   refine ⟨validClass_certOf hd hk14 (fun h0 => ?_) (fun h1 => hsm (Or.inl h1)),
     validClass_certOf hd hk20 (fun h0 => ⟨21, le_rfl, ?_⟩) (fun h1 => hsm (Or.inr h1))⟩
   · by_cases h20 : c.k20 = 0
-    · rw [if_pos (by simp [h20])] at he
+    · rw [ite_eq_left (by simp [h20])] at he
       exact ⟨21, by norm_num, he⟩
-    · rw [if_neg (by simpa using h20), if_pos (by simp [h0])] at he
+    · rw [ite_eq_right (by simpa using h20), ite_eq_left (by simp [h0])] at he
       exact ⟨15, le_rfl, he⟩
-  · rwa [if_pos (by simp [h0])] at he
+  · rwa [ite_eq_left (by simp [h0])] at he
 
 theorem validCL_of_checkClassFrom {tl : List (List ℕ)} {r14 r20 : List (List (List ℕ))}
     {od : OrbData} : ∀ (cs : List ClassRec) (n : ℕ), checkClassFrom tl r14 r20 od n cs = true →

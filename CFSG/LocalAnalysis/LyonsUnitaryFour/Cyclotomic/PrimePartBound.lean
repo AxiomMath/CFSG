@@ -31,12 +31,12 @@ theorem sylow_card_dvd_of_faithful_cyclotomic_character
     hfaithful.comp Subtype.val_injective
   have hrational' : ∀ y, ∃ q : ℚ, data'.character y = q := by
     intro y
-    obtain ⟨e, he⟩ := P.isPGroup' y
+    obtain ⟨e, he⟩ := P.isPGroup y
     have hy : (y : G) ^ p ^ e = 1 := by rw [← Subgroup.coe_pow, he, Subgroup.coe_one]
     exact character_rat_of_pow_prime_pow data.representation hm hξ hp.out hpm hy (hχ y)
   obtain ⟨Q⟩ := (inferInstance : Nonempty (Sylow p H))
   have h := sylow_card_dvd_of_faithful_rational_character data' hfaithful' hrational' Q
-  rw [card_sylow_eq_of_isPGroup P.isPGroup' Q] at h
+  rw [card_sylow_eq_of_isPGroup P.isPGroup Q] at h
   exact h
 
 theorem factorization_le_of_faithful_cyclotomic_character

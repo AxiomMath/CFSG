@@ -71,7 +71,7 @@ theorem actV_aff (A : Matrix.SpecialLinearGroup (Fin 3) (ZMod 2)) (a c) :
 
 theorem aperm_zero_zero (A : Matrix.SpecialLinearGroup (Fin 3) (ZMod 2)) : aperm A 0 0 = 0 := by
   rw [aperm_apply]
-  simp only [aapply, Matrix.mulVec_zero, add_zero]
+  simp only [aapply, add_zero]
   have : bin 0 = 0 := bin_zero
   rw [this, Matrix.mulVec_zero, ← this, binIdx_bin]
 

@@ -127,8 +127,8 @@ theorem BrauerSpanChar.le_BrauerSpanLin [IsAlgClosed k] [CharZero k] :
     BrauerSpanChar (k := k) (G := G) ≤ BrauerSpanLin := by
   rw [BrauerSpanChar, InducedCharacterSpan, Submodule.span_le]
   rintro φ ⟨H, hH_elem, V, rfl⟩
-  haveI : Group.IsNilpotent H := hH_elem.isNilpotent
-  haveI:  NeZero ↑(Nat.card ↥H) := ⟨One.natCard_ne_zero_of_finite H⟩
+  have : Group.IsNilpotent H := hH_elem.isNilpotent
+  have:  NeZero ↑(Nat.card ↥H) := ⟨One.natCard_ne_zero_of_finite H⟩
   have h_decomp : ClassFun.character V ∈
       Submodule.span ℤ { ψ | ∃ (S : FDRep k H)
     (_ : CategoryTheory.Simple S), ψ = ClassFun.character S } := by
@@ -145,9 +145,9 @@ theorem BrauerSpanChar.le_BrauerSpanLin [IsAlgClosed k] [CharZero k] :
           ClassFun.character (FDRep.indLin K ψ_lin) :=
       ClassFun.char_eq_of_iso h_iso
     rw [h_char_eq]
-    letI : DecidablePred fun x : G => x ∈ H := Classical.decPred _
-    letI: Fintype G := Fintype.ofFinite G
-    letI : Fintype H := H.instFintypeSubtypeMemOfDecidablePred
+    let : DecidablePred fun x : G => x ∈ H := Classical.decPred _
+    let: Fintype G := Fintype.ofFinite G
+    let : Fintype H := H.instFintypeSubtypeMemOfDecidablePred
     rw [ClassFun.character_indLin (G := H) K ψ_lin]
     unfold P
     let K_G : Subgroup G := K.map H.subtype

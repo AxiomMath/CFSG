@@ -44,7 +44,7 @@ variable
 theorem exists_outHom_F4Eight (hK : Nat.card K = 2 ^ 3) :
     ∃ Θ : MulAut (adjointGroup .F4 K) →* Multiplicative (ZMod 6),
       Θ.ker = (MulAut.conj : adjointGroup .F4 K →* MulAut (adjointGroup .F4 K)).range := by
-  haveI : CharP K ReeTag.F4.prime := ‹CharP K 2›
+  have : CharP K ReeTag.F4.prime := ‹CharP K 2›
   obtain ⟨-, -, ⟨Θ, -, -, hker⟩, -⟩ :=
     even_F4_exact_automorphism_normal_form (by norm_num : 1 ≤ 3) K hK
   exact ⟨Θ, hker⟩
@@ -55,7 +55,7 @@ theorem exists_conj_entrywise_of_noninner (hK : Nat.card K = 2 ^ 3)
     (hβ3 : orderOf β = 3) :
     ∃ σ : K ≃+* K, orderOf σ = 3 ∧
       ∃ ψ : MulAut (adjointGroup .F4 K), ψ * β * ψ⁻¹ = entrywiseAdjointAut .F4 σ := by
-  haveI : CharP K ReeTag.F4.prime := ‹CharP K 2›
+  have : CharP K ReeTag.F4.prime := ‹CharP K 2›
   obtain ⟨-, hNF, -⟩ := even_F4_exact_automorphism_normal_form (by norm_num : 1 ≤ 3) K hK
   obtain ⟨⟨g, k⟩, hgk, -⟩ := hNF β
   obtain ⟨-, -, ⟨σ, hσ⟩, hall, -⟩ :=
@@ -69,7 +69,7 @@ theorem card_le_three_mul_card_inf_conj (hK : Nat.card K = 2 ^ 3)
     {E : Subgroup (MulAut (adjointGroup .F4 K))} (hE : IsPGroup 3 E) :
     Nat.card E ≤ 3 * Nat.card ↥(E ⊓ (MulAut.conj : adjointGroup .F4 K →*
       MulAut (adjointGroup .F4 K)).range) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Θ, hker⟩ := exists_outHom_F4Eight hK
   have h := card_eq_inf_ker_mul_map Θ E
   rw [hker] at h

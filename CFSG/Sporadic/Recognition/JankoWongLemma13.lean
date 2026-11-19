@@ -112,7 +112,7 @@ theorem exists_three_element_normalizing {G : Type*} [Group G] [Finite G] {A : S
     have h3 : m ≤ (Nat.card G).factorization 3 :=
       (Nat.Prime.pow_dvd_iff_le_factorization Nat.prime_three hne).mp hm
     exact Nat.pow_le_pow_right (by norm_num) h3
-  have hQ3 : IsPGroup 3 ↥(Q : Subgroup G) := Q.isPGroup'
+  have hQ3 : IsPGroup 3 ↥(Q : Subgroup G) := Q.isPGroup
   have : Group.IsNilpotent ↥(Q : Subgroup G) := hQ3.isNilpotent
   have hNC : NormalizerCondition ↥(Q : Subgroup G) := Group.normalizerCondition_of_isNilpotent
   set H₀ : Subgroup ↥(Q : Subgroup G) := A.subgroupOf Q with hH₀

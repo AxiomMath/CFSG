@@ -25,6 +25,7 @@ theorem hinf_map_mulEquiv_eq_bot_iff (e : G ≃* G') (P : Subgroup G) :
   · intro h
     rw [← Hinf_map e.toMonoidHom P, h, Subgroup.map_bot]
 
+omit [Finite G] [Finite G'] in
 theorem map_mulEquiv_eq_top_iff (e : G ≃* G') (P : Subgroup G) :
     P.map e.toMonoidHom = ⊤ ↔ P = ⊤ := by
   constructor

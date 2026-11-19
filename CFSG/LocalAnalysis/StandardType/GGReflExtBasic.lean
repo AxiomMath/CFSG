@@ -35,17 +35,17 @@ theorem natVec_lt (P : Pt) [Fact P.p.Prime] (v : P.V) : ∀ x ∈ natVec P v, x 
   intro x hx
   simp only [natVec, List.mem_map, List.mem_range] at hx
   obtain ⟨i, hi, rfl⟩ := hx
-  haveI : NeZero P.p := ⟨(Fact.out : P.p.Prime).ne_zero⟩
-  rw [dif_pos hi]
+  have : NeZero P.p := ⟨(Fact.out : P.p.Prime).ne_zero⟩
+  rw [dite_eq_left hi]
   exact ZMod.val_lt _
 
 theorem vec_natVec (P : Pt) [Fact P.p.Prime] (v : P.V) : P.vec (natVec P v) = v := by
-  haveI : NeZero P.p := ⟨(Fact.out : P.p.Prime).ne_zero⟩
+  have : NeZero P.p := ⟨(Fact.out : P.p.Prime).ne_zero⟩
   funext j
   show (((natVec P v).getD j.val 0 : ℕ) : ZMod P.p) = v j
   simp only [natVec]
   rw [pww2_getD_range_map P.D (fun i => if h : i < P.D then (v ⟨i, h⟩).val else 0) j]
-  rw [dif_pos j.isLt]
+  rw [dite_eq_left j.isLt]
   exact ZMod.natCast_zmod_val (v ⟨j.val, j.isLt⟩)
 
 theorem allVecsP_mem {p : ℕ} :
@@ -124,7 +124,7 @@ theorem wfCheck_withExtra {P0 : Pt} (h0 : wfCheck P0 = true) {extra : List Refl}
   unfold wfCheck
   rw [List.all_eq_true]
   intro r hr
-  simp only [withExtra, List.mem_append] at hr
+  simp only [List.mem_append] at hr
   rcases hr with hr | hr
   · exact List.all_eq_true.mp h0 r hr
   · exact he r hr
@@ -204,15 +204,15 @@ theorem asym_transv {P : Pt} [Fact P.p.Prime] (hp2 : P.p ≠ 2)
       (P.vec ρ.h) (P.vec c.h) ht hs hρ2 hc2 k2 k1
 
 theorem finite_linEquiv (P : Pt) [Fact P.p.Prime] : Finite (P.V ≃ₗ[ZMod P.p] P.V) := by
-  haveI : NeZero P.p := ⟨(Fact.out : P.p.Prime).ne_zero⟩
+  have : NeZero P.p := ⟨(Fact.out : P.p.Prime).ne_zero⟩
   exact Finite.of_injective (fun e : P.V ≃ₗ[ZMod P.p] P.V => (e : P.V → P.V)) DFunLike.coe_injective
 
 theorem order_contra (P0 : Pt) [Fact P0.p.Prime] (extra : List Refl) {o : OWit}
     (hwf : (withExtra P0 extra).WF) (hv : verifyO (withExtra P0 extra) o P0.bound = true)
     (A : Subgroup (P0.V ≃ₗ[ZMod P0.p] P0.V)) (hle : (withExtra P0 extra).group ≤ A)
     (hcard : Nat.card A ≤ P0.bound) : False := by
-  haveI := finite_linEquiv P0
-  haveI : Fact (withExtra P0 extra).p.Prime := ‹Fact P0.p.Prime›
+  have := finite_linEquiv P0
+  have : Fact (withExtra P0 extra).p.Prime := ‹Fact P0.p.Prime›
   have h1 : P0.bound < Nat.card (withExtra P0 extra).group := verifyO_sound hwf hv
   have h2 : Nat.card (withExtra P0 extra).group ≤ Nat.card A := Subgroup.card_le_of_le hle
   omega

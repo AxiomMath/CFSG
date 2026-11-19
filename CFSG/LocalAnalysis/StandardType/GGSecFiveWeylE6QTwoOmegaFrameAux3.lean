@@ -102,9 +102,9 @@ theorem exists_frame_of_perp (hP : ∀ i j, α i (h j) = (CartanMatrix.E 6 i j :
     have h := cv_form (α := α) hP hV hB (F i) (F j)
     rw [hFcv i, hFcv j, frameGramOk_spec hframe i j] at h
     by_cases hij : i = j
-    · rw [if_pos hij] at h ⊢
+    · rw [ite_eq_left hij] at h ⊢
       exact (by decide : ∀ t : ZMod 3, 2 = 2 * t → t = 1) _ h
-    · rw [if_neg hij] at h ⊢
+    · rw [ite_eq_right hij] at h ⊢
       exact (by decide : ∀ t : ZMod 3, 0 = 2 * t → t = 0) _ h
   refine ⟨fun k => g (F k), ?_, ?_, ?_⟩
   · intro i j

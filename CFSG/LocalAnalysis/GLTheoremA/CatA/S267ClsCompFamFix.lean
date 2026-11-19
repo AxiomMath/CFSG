@@ -37,7 +37,7 @@ theorem extLin_apply_mem (g : E₀ →ₗ[F] E₀) (x : E₀) : extLin b b₀ g 
   exact Finset.sum_congr rfl fun i _ => by rw [map_smul, extLin_apply_basis]
 
 @[expose] noncomputable def extEquiv (g : E₀ ≃ₗ[F] E₀) : E ≃ₗ[K] E :=
-  LinearEquiv.ofLinear (extLin b b₀ g.toLinearMap) (extLin b b₀ g.symm.toLinearMap)
+  LinearEquiv.ofLinearMap (extLin b b₀ g.toLinearMap) (extLin b b₀ g.symm.toLinearMap)
     (b.ext fun i => by
       rw [LinearMap.comp_apply, extLin_apply_basis, extLin_apply_mem b b₀ hb, LinearEquiv.coe_coe,
         LinearEquiv.coe_coe, LinearEquiv.apply_symm_apply, LinearMap.id_apply, hb])
@@ -131,6 +131,7 @@ variable {τ : K →+* K}
     rw [LinearEquiv.apply_symm_apply, LinearEquiv.apply_symm_apply] at h
     exact h.symm
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem mem_isomU₀ {β : (ι → K) →ₗ[K] (ι → K) →ₛₗ[τ] K} {F : Subfield K} {U₀ : Submodule F U}
     {g : U₀ ≃ₗ[F] U₀} : g ∈ isomU₀ U β U₀ ↔
       ∀ x y : U₀, β ((g x : U) : ι → K) ((g y : U) : ι → K) =
@@ -180,7 +181,7 @@ theorem exists_fixBasis [Finite K] (hσ : orderOf σ = p) :
     ∃ (b : Basis (Fin (finrank K U)) K U)
       (b₀ : Basis (Fin (finrank K U)) (semilinearFixedSubfield σ) (fixU A σ U)),
       ∀ i, (b₀ i : U) = b i := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨r, -, n, hr, hcard⟩ := FiniteField.card' K
   have hK : Nat.card K = r ^ (n : ℕ) := by rw [Nat.card_eq_fintype_card, hcard]
   obtain ⟨-, -, b, b₀, -, hb, -, -⟩ := coprime_finite_field_semilinear_fixed_basis hr n.pos hK σ hσ
@@ -196,6 +197,7 @@ section Layer
 
 variable {τ : K →+* K} {β : (ι → K) →ₗ[K] (ι → K) →ₛₗ[τ] K}
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem extEquiv_mem_isomU {U : Submodule K (ι → K)} {F : Subfield K} {U₀ : Submodule F U}
     {m : ℕ} (b : Basis (Fin m) K U) (b₀ : Basis (Fin m) F U₀) (hb : ∀ i, (b₀ i : U) = b i)
     {g : U₀ ≃ₗ[F] U₀} (hg : g ∈ isomU₀ U β U₀) : extEquiv b b₀ hb g ∈ isomU β U := by

@@ -28,7 +28,7 @@ theorem c626gen_of_l34
   classical
   intro p hp P hP hPne
   have hpp : p.Prime := (Dat.sig_prime _ hp).1
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have hp2 : p ≠ 2 := (Dat.sig_prime _ hp).2
   have hp3 : p ≠ 3 := by
     rintro rfl

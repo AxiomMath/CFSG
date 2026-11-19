@@ -142,7 +142,7 @@ private theorem w183_conjSubgroup_map {G G' : Type*} [Group G] [Group G'] (ψ : 
   rw [Subgroup.map_map, Subgroup.map_map]
   congr 1
   ext x
-  simp [MulAut.conj_apply, map_mul, map_inv]
+  simp [map_mul, map_inv]
 
 private theorem w183_conjSubgroup_le_of_mem_normalizer {G : Type*} [Group G]
     {P L : Subgroup G} (hP : P ≤ L) {g : G}
@@ -271,6 +271,7 @@ theorem w183_corConfig_lift {X X' : Type*} [Group X] [Group X'] (π : X →* X')
 
 variable {G G' : Type} [Group G] [Group G'] [Finite G] [Finite G']
 
+omit [Finite G] [Finite G'] in
 theorem w183_actsOnDynkin_map (ψ : G →* G') {L : Subgroup G}
     (hinj : ∀ a ∈ L, ∀ b ∈ L, ψ a = ψ b → a = b) {t : G} (h : ActsOnDynkinMod ⊥ L t) :
     ActsOnDynkinMod ⊥ (L.map ψ) (ψ t) := by

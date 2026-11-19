@@ -89,7 +89,7 @@ theorem exists_fixed_mod_of_pow {G : Type*} [Group G] [DistribMulAction G M] [Fi
     (hZ : ∀ g : G, ∀ z ∈ Z, g • z ∈ Z) (hX : ∀ g : G, ∀ x ∈ X, g • x ∈ X)
     (hG : ∀ g : G, ∃ k : ℕ, ∀ z ∈ Z, (g ^ 2 ^ k) • z - z ∈ X) (hZX : ¬ Z ≤ X) :
     ∃ c ∈ Z, c ∉ X ∧ ∀ g : G, g • c - c ∈ X := by
-  letI : DistribMulAction G (Z ⧸ X.addSubgroupOf Z) := X.subquotientDistribMulAction Z hX hZ
+  let : DistribMulAction G (Z ⧸ X.addSubgroupOf Z) := X.subquotientDistribMulAction Z hX hZ
   have hsmul : ∀ (g : G) (z : Z), g • (z : Z ⧸ X.addSubgroupOf Z) =
       ((⟨g • (z : M), hZ g z z.2⟩ : Z) : Z ⧸ X.addSubgroupOf Z) := fun g z => rfl
   have hQ2 : ∀ q : Z ⧸ X.addSubgroupOf Z, q + q = 0 := by
@@ -232,7 +232,7 @@ theorem exists_commL_fixed [Finite Ω] [Finite M] (h2 : ∀ m : M, m + m = 0) {L
     have := hV l hl ω₀ v hv
     rwa [hlω] at this
   choose s hsL hsω using fun μ : Ω => htrans ω₀ μ
-  letI : Fintype Ω := Fintype.ofFinite Ω
+  let : Fintype Ω := Fintype.ofFinite Ω
   have hodd' : Fintype.card Ω % 2 = 1 := by
     rw [← Nat.card_eq_fintype_card]; exact Nat.odd_iff.mp hodd
   obtain ⟨Av, hAv⟩ : ∃ Av : M → M, ∀ v, Av v = ∑ μ, s μ • v := ⟨_, fun _ => rfl⟩
@@ -328,7 +328,7 @@ theorem exists_avg_of_isPGroup [Finite Ω] [Finite M] (h2 : ∀ m : M, m + m = 0
       (∀ p ∈ P, ∀ l ∈ L, l • ω₀ = p • ω₀ → p • c - l • c ∈ X) ∧
       (∀ y ∈ commL M L, (∀ l ∈ L, l • y - y ∈ X) → y ∈ X) := by
   classical
-  haveI : Finite (AddSubgroup M) :=
+  have : Finite (AddSubgroup M) :=
     Finite.of_injective (SetLike.coe : AddSubgroup M → Set M) SetLike.coe_injective
   obtain ⟨X, hXs, hXmax⟩ := Set.Finite.exists_maximal
     (s := {Y : AddSubgroup M | Y ≤ commL M L ∧ Y ≠ commL M L ∧

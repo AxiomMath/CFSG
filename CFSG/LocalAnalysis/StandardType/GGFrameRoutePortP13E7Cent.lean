@@ -144,7 +144,7 @@ theorem p13e7_commute_rho_of_mem_hyp_frame {f : adjointGroup .E7 K}
     by_cases hi : i = 0
     · subst hi
       simp [φ]
-    · simp only [φ, if_neg hi]
+    · simp only [φ, ite_eq_right hi]
       rw [tC_apply_rho]
       exact commute_rho frameE7 (Ne.symm hi) A _
   have hcommφ : Pairwise fun i j => ∀ x y, Commute (φ i x) (φ j y) := by
@@ -155,7 +155,7 @@ theorem p13e7_commute_rho_of_mem_hyp_frame {f : adjointGroup .E7 K}
     · by_cases hj : j = 0
       · subst hj
         simp [φ]
-      · simp only [φ, if_neg hi, if_neg hj]
+      · simp only [φ, ite_eq_right hi, ite_eq_right hj]
         exact tC_commute frameE7 hij x y
   have hval : MonoidHom.noncommPiCoprod φ hcommφ
         (fun j => Multiplicative.ofAdd (v j)) =
@@ -166,7 +166,7 @@ theorem p13e7_commute_rho_of_mem_hyp_frame {f : adjointGroup .E7 K}
     by_cases hi : i = 0
     · subst hi
       simp [φ, hv]
-    · simp only [φ, if_neg hi]
+    · simp only [φ, ite_eq_right hi]
   have hmain := MonoidHom.commute_noncommPiCoprod (ϕ := φ) (hcomm := hcommφ)
     (m := TableBExcTwo.rho K frameE7 0 A) hφ (fun j => Multiplicative.ofAdd (v j))
   rw [ha', tE_apply, ← hval]
@@ -212,7 +212,7 @@ theorem p13e7_centralizer_hyp_of_not_root (hK : Nat.card K = 2) {ψ : V} (hψ : 
     have hker0 : famKernel (p13e7Fam ω hω3 ψ) = ∅ := by
       rw [p13e7_famKernel hω hω3 hψ]
       ext α
-      simp only [Set.mem_setOf_eq, Set.mem_empty_iff_false, iff_false]
+      simp only [Set.mem_ofPred_eq, Set.mem_empty_iff_false, iff_false]
       rintro ⟨hα, h | h⟩
       · exact (hroot α hα).1 h
       · exact (hroot α hα).2 h
@@ -300,7 +300,7 @@ theorem p13e7_centralizer_hyp_frame (hK : Nat.card K = 2) :
   have hfam_eq : famKernel (p13e7Fam ω hω3 θ) = {frameE7.root 0, -frameE7.root 0} := by
     ext α
     rw [p13e7_famKernel hω hω3 hθ0]
-    simp only [Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
+    simp only [Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
     constructor
     · rintro ⟨hα, h | h⟩
       · left

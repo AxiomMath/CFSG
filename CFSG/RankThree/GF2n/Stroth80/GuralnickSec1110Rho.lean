@@ -18,6 +18,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   [(Q.subgroupOf M).Normal] {K : Type} [Field K] [Finite K] [CharP K 2] {γ : G → K}
   {M₀ : Tim79.QuadModel Q Z K γ}
 
+omit [Finite K] [CharP K 2] in
 private theorem Ctx.exists_cmCommAct_factor (hc : Ctx M Q Z B)
     (φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E))
     (hφk : ∀ g : ↥(H0 M Z), φ g = 1 ↔ (g : G) ∈ Q) :

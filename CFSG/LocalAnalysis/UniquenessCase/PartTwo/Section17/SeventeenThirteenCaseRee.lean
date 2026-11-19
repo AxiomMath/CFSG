@@ -337,7 +337,7 @@ theorem delta17_12_case_ree_triple (hRee : K_ReeSylowGeneration) {D : Data G}
         CFSG.LocalAnalysis.WeakClosure81.barImage H D.T = ⊤ ∧
       OddComponentShapeCore q (↥K ⧸ Subgroup.center ↥K) := by
   classical
-  rw [Delta17_12, dif_neg h1, dif_pos h2] at hH
+  rw [Delta17_12, dite_eq_right h1, dite_eq_left h2] at hH
   obtain ⟨X, hXL, hperm, hX, rfl⟩ := hH
   obtain ⟨hNcard, hO2T, hconjX⟩ := ree_case_core hRee hC h9 h2 hXL hperm hX
   let H' : Subgroup G := D.T ⊔ X

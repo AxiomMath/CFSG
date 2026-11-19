@@ -55,6 +55,7 @@ theorem burnsideF4nC_card_ext_succ (hc : c.IsFaithful) (a l y : c.Γ) {n : ℕ} 
   simp only [hfib, Finset.sum_const, Finset.card_univ, smul_eq_mul]
   rw [Fintype.card_eq_nat_card]
 
+omit [Finite Y] in
 theorem burnsideF4nC_card_ext_two {a l y : c.Γ} (hal : c.graph.Adj a l) (hly : c.graph.Adj l y)
     (hay : a ≠ y) : Nat.card ↥(burnsideF4nC_ext c a l y 2) = 1 := by
   let r : GPath c.graph 2 := ((GPath.triv a).snoc l hal).snoc y hly
@@ -97,6 +98,7 @@ section Apartments
 
 variable {α : RankTwoAmalgam.{0}} {Y : Type} [Group Y] [Finite Y] {c : α.Completion Y}
 
+omit [Finite Y] in
 theorem burnsideF4nC_eq_end_of_mem {m : ℕ} {a b : c.Γ} {p q : GPath c.graph m}
     (hp : p ∈ c.geods m a b) (hq : q ∈ c.geods m a b) {v : c.Γ} (hv : v ∈ p.verts ∪ q.verts)
     (hd : c.graph.dist a v = m) : v = b := by
@@ -133,7 +135,7 @@ theorem burnsideF4nC_ncard_Bset (F : c.Facts46 GLKind.Tits.m) (hs : c.IsSmall GL
     obtain ⟨hS, -, -⟩ := (F.lemma_F414_1 (F.dist_m c.xv p hp.1) _).2
       ⟨p, (hq p hp).choose, hpg, ht, hne, rfl⟩
     refine ⟨hS, ?_⟩
-    rw [if_pos rfl, GPath.range_cycSeq (by omega) (hpg.1.trans ht.1.symm)
+    rw [ite_eq_left rfl, GPath.range_cycSeq (by omega) (hpg.1.trans ht.1.symm)
       (hpg.2.1.trans ht.2.1.symm)]
     intro u hu
     simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hu
@@ -167,7 +169,7 @@ theorem burnsideF4nC_ncard_Bset (F : c.Facts46 GLKind.Tits.m) (hs : c.IsSmall GL
   ·
     intro S hS
     obtain ⟨hSap, hsub⟩ := hS
-    rw [if_pos rfl] at hsub
+    rw [ite_eq_left rfl] at hsub
     have hccS : cc ∈ S := hsub (by simp)
     have hx : c.xv ∈ S := hsub (by simp)
     have hl : c.lv ∈ S := hsub (by simp)
@@ -213,11 +215,11 @@ theorem burnsideF4nC_ncard_Pset (h45 : F_4_5) (h46 : F_4_6) {p f : ℕ} {E : Typ
     (hcc : cc ∈ CosetGeom.nbrs β.xv) (hccl : cc ≠ β.lv) (hy : y ∈ CosetGeom.nbrs β.lv)
     (hyx : y ≠ β.xv) (hy' : y' ∈ CosetGeom.nbrs cc) (hy'x : y' ≠ β.xv) :
     (Pset β GLKind.Tits cc y y').ncard = 2 ^ 9 := by
-  haveI : Finite E := hyp.finite
-  haveI := burnsideF4b_finite_G1 M₁ M₂
-  haveI := burnsideF4b_finite_G2 M₁ M₂
+  have : Finite E := hyp.finite
+  have := burnsideF4b_finite_G1 M₁ M₂
+  have := burnsideF4b_finite_G2 M₁ M₂
   have F := burnsideF4n_facts46_at h46 hyp β hβ
-  haveI : Finite Y := burnsideF4b_finite_of_small F hs
+  have : Finite Y := burnsideF4b_finite_of_small F hs
   have hbij := burnside_as_F_4_19_of h45 h46 GLKind.Tits p f E Gp M₁ M₂ hyp hGp (Or.inr rfl) Y β
     hβ hs cc hcc hccl y hy hyx y' hy' hy'x
   obtain ⟨hq1, hq2⟩ := burnsideF45_q_Tits hyp hGp

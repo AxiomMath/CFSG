@@ -11,7 +11,7 @@ namespace Certificates
 theorem certificate270003 : CFSG.ClassicalInvolution.Q3.Q3TW.B3Collapse := by
   refine CFSG.KC.Q3Coll.b3Collapse_of_tables fun k hk => ?_
   fin_cases k
-  all_goals first | exact absurd hk (by decide) | skip
+  all_goals try exact absurd hk (by decide)
   exacts [CFSG.KBFact.F270003k4, CFSG.KBFact.F270003k5, CFSG.KBFact.F270003k6,
     CFSG.KBFact.F270003k7, CFSG.KBFact.F270003k8, CFSG.KBFact.F270003k9, CFSG.KBFact.F270003k10,
     CFSG.KBFact.F270003k11, CFSG.KBFact.F270003k12, CFSG.KBFact.F270003k13,

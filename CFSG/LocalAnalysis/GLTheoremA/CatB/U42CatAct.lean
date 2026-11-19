@@ -15,7 +15,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem conj_injective_pSimple {X L : Subgroup G} (hL : GLAPComponent 3 X L) :
     Function.Injective (MulAut.conj : PSimple 3 L →* MulAut (PSimple 3 L)) := by
-  haveI : Group.IsPerfect (PQuot 3 L) := ⟨(isQuasisimple_pQuot_of_glaPComponent Nat.prime_three hL).1⟩
+  have : Group.IsPerfect (PQuot 3 L) := ⟨(isQuasisimple_pQuot_of_glaPComponent Nat.prime_three hL).1⟩
   have hZ : Subgroup.center (PSimple 3 L) = ⊥ :=
     Group.IsPerfect.center_quotient_center_eq_bot (PQuot 3 L)
   rw [injective_iff_map_eq_one]
@@ -136,7 +136,7 @@ theorem exists_act {B : Subgroup G} {x : G} {L : Subgroup G} (hS : IsSStarMax 3 
       Nat.card_zpowers, hxo] at h1
     exact h1
   refine ⟨ρ, hρ, hker, hcard, ?_⟩
-  haveI := hBe.1
+  have := hBe.1
   refine ⟨⟨⟨fun a b => ?_⟩⟩, fun a ha => ?_⟩
   · obtain ⟨a', ha'⟩ := ρ.mem_range.1 a.2
     obtain ⟨b', hb'⟩ := ρ.mem_range.1 b.2

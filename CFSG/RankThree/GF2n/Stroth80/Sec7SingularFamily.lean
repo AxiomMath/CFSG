@@ -50,7 +50,7 @@ theorem alg_sing_exists_ne_zero_ne_one (K : Type) [Field K] [Finite K] (hK : 4 â
   classical
   by_contra hcon
   push Not at hcon
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hsub : (Finset.univ : Finset K) âŠ† {0, 1} := by
     intro c _
     by_cases h : c = 0

@@ -77,7 +77,7 @@ theorem alpha_lower : ∀ s ∈ slOn (m + 1) {j : Fin (m + 1) | 2 ≤ j.val},
     have hsub : (fun i : Fin (m + 1) => i.succ.succ) '' {j : Fin (m + 1) | 2 ≤ j.val} ⊆
         {i : Fin (m + 1 + 1 + 1) | 4 ≤ i.val} := by
       rintro i ⟨j, hj, rfl⟩
-      simp only [Set.mem_setOf_eq, Fin.val_succ] at hj ⊢
+      simp only [Set.mem_ofPred_eq, Fin.val_succ] at hj ⊢
       omega
     have hmem : slLower2Hom m s ∈
         (slOn (m + 1) {j : Fin (m + 1) | 2 ≤ j.val}).map (slLower2Hom m) :=
@@ -89,7 +89,7 @@ theorem alpha_lower : ∀ s ∈ slOn (m + 1) {j : Fin (m + 1) | 2 ≤ j.val},
     have hsub : (fun i : Fin (m + 1) => i.castSucc.castSucc) '' {j : Fin (m + 1) | 2 ≤ j.val} ⊆
         {i : Fin (m + 1 + 1 + 1) | 2 ≤ i.val ∧ i.val ≤ m} := by
       rintro i ⟨j, hj, rfl⟩
-      simp only [Set.mem_setOf_eq, Fin.val_castSucc] at hj ⊢
+      simp only [Set.mem_ofPred_eq, Fin.val_castSucc] at hj ⊢
       exact ⟨hj, by have := j.isLt; omega⟩
     have hmem : slUpper2Hom m s ∈
         (slOn (m + 1) {j : Fin (m + 1) | 2 ≤ j.val}).map (slUpper2Hom m) :=
@@ -97,7 +97,7 @@ theorem alpha_lower : ∀ s ∈ slOn (m + 1) {j : Fin (m + 1) | 2 ≤ j.val},
     rw [slUpper2Hom_map_slOn m {j : Fin (m + 1) | 2 ≤ j.val}] at hmem
     exact slOn_mono hsub hmem
   have hfixL : ∀ i ∈ {i : Fin (m + 1 + 1 + 1) | 4 ≤ i.val}, sigmaPerm m i = i :=
-    fun i hi => sigmaPerm_apply_of_val_ge_four (by simpa only [Set.mem_setOf_eq] using hi)
+    fun i hi => sigmaPerm_apply_of_val_ge_four (by simpa only [Set.mem_ofPred_eq] using hi)
   have hfixU : ∀ i ∈ {i : Fin (m + 1 + 1 + 1) | 2 ≤ i.val ∧ i.val ≤ m}, tauPerm m i = i :=
     fun i hi => tauPerm_apply_of_val_between hi.1 hi.2
   have hcommL : slPerm gf2_two (sigmaPerm m) * slLower2Hom m s =

@@ -19,7 +19,7 @@ theorem parabComm_of_uni
     (hF : IsLieOf IdxTwistedA (↥Y ⧸ Subgroup.center ↥Y)) (hpar : IsParabolicTwo Y P)
     (hne : P ≠ Y) (hna : ∃ x ∈ P, ∃ y ∈ P, x * y * x⁻¹ * y⁻¹ ∉ pCoreOf 2 P) :
     PairComm p Y P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hodd : Odd (Nat.card (Subgroup.center ↥Y)) :=
     Lin.odd_card_center_of_pCore_eq_bot (pCore_eq_bot_of_pCoreOf h2)
   obtain ⟨K, _, f, t, s, ε, h, I, hε, hI, ⟨C⟩⟩ := exists_uniCover hY hodd hF hpar hne

@@ -23,8 +23,8 @@ open CFSG.Assembly.LowTwoRank CFSG.HardMathSupport.Solomon.Coordinator.LieComp i
 theorem blockSU_eq_commutator {f n : ℕ} {E : Type} [Field E] (h : UnitaryFieldData 2 f E)
     (hn : 3 ≤ n) (hne : ¬(n = 3 ∧ 2 ^ f = 2)) :
     blockSU h n = commutator ↥(primeFormUnitary h (oneGram E n)) := by
-  haveI := h.finite
-  haveI := Fintype.ofFinite E
+  have := h.finite
+  have := Fintype.ofFinite E
   have hEcard : Fintype.card E = (2 ^ f) ^ 2 := by
     rw [Fintype.card_eq_nat_card]
     exact h.card_eq_sq
@@ -103,6 +103,7 @@ section Lift
 
 variable {r f : ℕ} {F : Type} [Field F] [Finite F]
 
+omit [Finite F] in
 theorem mem_spSemilinearAutGroup_of_pow_three (hF : Nat.card F = 2 ^ f) (hf1 : 1 ≤ f)
     (hr : 2 ≤ r) {β : MulAut (StatedProj (StatedSp r F))} (hβ : β ^ 3 = 1) :
     β ∈ spSemilinearAutGroup r F := by
@@ -118,10 +119,10 @@ theorem exists_semiStab_lift {X : Type} [Group X] {K B : Subgroup X} (hB : IsSCp
     (hax : uniAut e ⟨a, hBK ha⟩ = MulAut.conj (SymplecticFlag.proj r F x)) :
     ∃ lam : ↥B →* semiStab x, ∀ b : ↥B,
       spNormalFormHom r F (lam b : SemiSp r F) = uniAut e ⟨b, hBK b.2⟩ := by
-  haveI : NeZero r := ⟨by omega⟩
-  haveI := Fintype.ofFinite F
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (f := f) (by rw [Fintype.card_eq_nat_card, hF])
+  have : NeZero r := ⟨by omega⟩
+  have := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := charP_of_card_eq_prime_pow (f := f) (by rw [Fintype.card_eq_nat_card, hF])
   have hinj := spNormalFormHom_injective (r := r) (K := F)
   let μ : ↥B →* MulAut (StatedProj (StatedSp r F)) := (uniAut e).comp (Subgroup.inclusion hBK)
   have hμ : ∀ b, μ b ∈ (spNormalFormHom r F).range := fun b => by
@@ -159,9 +160,9 @@ theorem blockFrame_of_selfDual {Y : Type} [Group Y] {K B J : Subgroup Y} (hB : I
     BlockFrame e B J hBK := by
   classical
   have hf1 : 1 ≤ f := by omega
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (f := f) (by rw [Fintype.card_eq_nat_card, hF])
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_card_eq_prime_pow (f := f) (by rw [Fintype.card_eq_nat_card, hF])
   obtain ⟨d, hd, -, -, -, -, -, -, -, hE, -, Hf, hHf, hHfl, ⟨η, hη0, hηbar, htrf⟩, ⟨e₀, -⟩, φ,
     hφ⟩ := hS.exists_half
   have hdeg : (X ^ 2 + X + 1 : F[X]).natDegree = 2 := by compute_degree!
@@ -169,8 +170,8 @@ theorem blockFrame_of_selfDual {Y : Type} [Group Y] {K B J : Subgroup Y} (hB : I
     rw [hg, hdeg] at hd
     omega
   subst hd1
-  haveI : CharP (AdjoinRoot (g : F[X])) 2 := hE.charP
-  haveI : FiniteDimensional (AdjoinRoot (g : F[X])) (primaryComponent (spEnd x) (g : F[X])) :=
+  have : CharP (AdjoinRoot (g : F[X])) 2 := hE.charP
+  have : FiniteDimensional (AdjoinRoot (g : F[X])) (primaryComponent (spEnd x) (g : F[X])) :=
     Module.Finite.of_basis e₀
   have htr : ∀ (v w : primaryComponent (spEnd x) (g : F[X])) (c : AdjoinRoot (g : F[X])),
       Algebra.trace F (AdjoinRoot (g : F[X])) (c * (η⁻¹ • Hf) v w) =

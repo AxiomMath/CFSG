@@ -32,7 +32,7 @@ variable [Finite G]
 
 theorem sq_mem_of_abelian_irred {R N Z0 Q L L' : Subgroup G}
     (hirr : IsIrredModule R N Z0) (hopp : IsOppDecomp N Z0 L L' (L ⊓ N) (L' ⊓ N))
-    (hLR : L ≤ R) (hL'R : L' ≤ R) (hQN : Q ≤ N)
+    (hLR : L ≤ R) (hL'R : L' ≤ R) (_hQN : Q ≤ N)
     (hQn : ∀ c ∈ N, ∀ t ∈ Q, c * t * c⁻¹ ∈ Q) (hQR : ∀ ρ ∈ R, ∀ t ∈ Q, ρ * t * ρ⁻¹ ∈ Q)
     (hRN : ∀ ρ ∈ R, ∀ c ∈ N, ρ * c * ρ⁻¹ ∈ N) (hNN : ∀ c ∈ N, ∀ c' ∈ N, ⁅c, c'⁆ ∈ Q)
     (hZc : ∀ z ∈ Z0, ∀ ρ ∈ R, ⁅z, ρ⁆ ∈ Q) (hZsq : ∀ z ∈ Z0, z ^ 2 ∈ Q) :
@@ -46,7 +46,7 @@ theorem sq_mem_of_abelian_irred {R N Z0 Q L L' : Subgroup G}
         refine ⟨N.mul_mem ha hb, ?_⟩
         rw [sq_mul_eq_comm]
         exact Q.mul_mem (hQn a ha _ (hNN b hb a ha)) (Q.mul_mem ha2 hb2)
-      one_mem' := ⟨N.one_mem, by simpa using Q.one_mem⟩
+      one_mem' := ⟨N.one_mem, by simp⟩
       inv_mem' := by
         rintro a ⟨ha, ha2⟩
         refine ⟨N.inv_mem ha, ?_⟩

@@ -40,7 +40,7 @@ theorem inf_zpowers_eq_bot {H : Type} [Group H] [Finite H] {E : Subgroup H} {x :
 
 theorem psi_ne_one_of_pow {p : ℕ} (hp : p.Prime) {L : Subgroup G} {y : NL L} (hy : y ^ p = 1)
     (hy1 : y ≠ 1) : psi p L y ≠ 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro h
   have hyN : y ∈ Np p L := (psi_eq_one_iff y).1 h
   have hord : orderOf y = p := orderOf_eq_prime hy hy1
@@ -48,6 +48,7 @@ theorem psi_ne_one_of_pow {p : ℕ} (hp : p.Prime) {L : Subgroup G} {y : NL L} (
   rw [Subgroup.orderOf_mk, hord] at hdvd
   exact (Nat.Prime.coprime_iff_not_dvd hp).1 (coprime_card_Np p L) hdvd
 
+omit [Finite G] in
 theorem isElemAbelian_Ev {p : ℕ} {L E : Subgroup G} (hE : IsElemAbelian p E) :
     IsElemAbelian p (Ev L E) := by
   refine ⟨⟨⟨fun a b => ?_⟩⟩, fun a ha => ?_⟩
@@ -58,6 +59,7 @@ theorem isElemAbelian_Ev {p : ℕ} {L E : Subgroup G} (hE : IsElemAbelian p E) :
   · apply Subtype.ext
     exact hE.2 _ ((mem_Ev (L := L) a).1 ha)
 
+omit [Finite G] in
 theorem Ev_map_subtype (L E : Subgroup G) (hE : E ≤ Subgroup.normalizer (L : Set G)) :
     (Ev L E).map (Subgroup.subtype (Subgroup.normalizer (L : Set G))) = E := by
   ext y
@@ -67,6 +69,7 @@ theorem Ev_map_subtype (L E : Subgroup G) (hE : E ≤ Subgroup.normalizer (L : S
   · intro hy
     exact ⟨⟨y, hE hy⟩, (mem_Ev _).2 hy, rfl⟩
 
+omit [Finite G] in
 theorem Ev_mono {L E F : Subgroup G} (h : E ≤ F) : Ev L E ≤ Ev L F := fun x hx =>
   (mem_Ev x).2 (h ((mem_Ev x).1 hx))
 
@@ -82,6 +85,7 @@ theorem isElemAbelian_map_hom {H K : Type} [Group H] [Group K] {p : ℕ} (f : H 
     obtain ⟨x, hx, hxw⟩ := (Subgroup.mem_map).1 hw
     rw [← hxw, ← map_pow, hE.2 x hx, map_one]
 
+omit [Finite G] in
 theorem Yv_map_subtype {L : Subgroup G} (E : Subgroup (NL L)) :
     (Lv L ⊓ Subgroup.centralizer (E : Set (NL L))).map
         (Subgroup.subtype (Subgroup.normalizer (L : Set G))) =
@@ -103,6 +107,7 @@ theorem Yv_map_subtype {L : Subgroup G} (E : Subgroup (NL L)) :
     apply Subtype.ext
     exact h1
 
+omit [Finite G] in
 theorem coprime_inf_ker_subtype (p : ℕ) [Fact p.Prime] (L : Subgroup G) (A : Subgroup (NL L)) :
     Nat.Coprime p (Nat.card ↥(A ⊓ (Subgroup.subtype (Subgroup.normalizer (L : Set G))).ker)) := by
   rw [(MonoidHom.ker_eq_bot_iff (Subgroup.subtype (Subgroup.normalizer (L : Set G)))).2
@@ -116,6 +121,7 @@ theorem coprime_inf_ker_psi (p : ℕ) [Fact p.Prime] (L : Subgroup G) (A : Subgr
   exact (Nat.Coprime.coprime_dvd_left (Subgroup.card_dvd_of_le inf_le_right)
     (coprime_card_Np p L).symm).symm
 
+omit [Finite G] in
 theorem exists_comp_of_layer_ne_bot {p : ℕ} {X : Subgroup G} (h : GLAPLayer p X ≠ ⊥) :
     ∃ J : Subgroup G, GLAPComponent p X J := by
   by_contra hno
@@ -123,7 +129,7 @@ theorem exists_comp_of_layer_ne_bot {p : ℕ} {X : Subgroup G} (h : GLAPLayer p 
   apply h
   have hempty : {J : Subgroup G | GLAPComponent p X J} = ∅ := by
     ext J
-    simp only [Set.mem_setOf_eq, Set.mem_empty_iff_false, iff_false]
+    simp only [Set.mem_ofPred_eq, Set.mem_empty_iff_false, iff_false]
     exact hno J
   show sSup {J : Subgroup G | GLAPComponent p X J} = ⊥
   rw [hempty, sSup_empty]
@@ -147,7 +153,7 @@ theorem layer_ne_bot_of_Gcomp {L : Subgroup G} (hp : Nat.Prime 3) {E : Subgroup 
     (hJ : GLAPComponent 3 (L ⊓ Subgroup.centralizer ((E.map (Subgroup.subtype
       (Subgroup.normalizer (L : Set G))) : Subgroup G) : Set G)) J) :
     GLAPLayer 3 (Kgrp 3 L ⊓ Subgroup.centralizer ((E.map (psi 3 L) : Subgroup (Gam 3 L)) : Set (Gam 3 L))) ≠ ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   rw [← Yv_map_subtype E] at hJ
   obtain ⟨Jv, hJv, -⟩ := exists_glaPComponent_map_eq hp (Subgroup.subtype (Subgroup.normalizer (L : Set G)))
     (coprime_inf_ker_subtype 3 L _) hJ
@@ -155,9 +161,10 @@ theorem layer_ne_bot_of_Gcomp {L : Subgroup G} (hp : Nat.Prime 3) {E : Subgroup 
   rw [map_inf_centralizer_eq hp E hEp (coprime_card_Np 3 L)] at hJK
   exact layer_ne_bot_of_comp hp hJK
 
+omit [Finite G] in
 theorem inf_centralizer_K_eq_zpowers {L B : Subgroup G} {x : G}
     (hxN : x ∈ Subgroup.normalizer (L : Set G))
-    (hBx : B ⊓ centModSubgroup 3 L = Subgroup.zpowers x) (hBN : B ≤ Subgroup.normalizer (L : Set G))
+    (hBx : B ⊓ centModSubgroup 3 L = Subgroup.zpowers x) (_hBN : B ≤ Subgroup.normalizer (L : Set G))
     (E : Subgroup (NL L)) (hEB : E ≤ Ev L B) (hxE : (⟨x, hxN⟩ : NL L) ∈ E) :
     E.map (psi 3 L) ⊓ Subgroup.centralizer ((Kgrp 3 L : Subgroup (Gam 3 L)) : Set (Gam 3 L)) =
       Subgroup.zpowers (psi 3 L ⟨x, hxN⟩) := by
@@ -253,7 +260,7 @@ theorem layer_mono {L : Subgroup G} (hLB : LBalanceAt (Gam 3 L) 3)
     (hEel : IsElemAbelian 3 E) (hEcard : Nat.card ↥E = 3 ^ 3) :
     GLAPLayer 3 (Kgrp 3 L ⊓ Subgroup.centralizer ((E.map (psi 3 L) : Subgroup (Gam 3 L)) : Set (Gam 3 L))) ≤
       GLAPLayer 3 (Kgrp 3 L ⊓ Subgroup.centralizer ((D.map (psi 3 L) : Subgroup (Gam 3 L)) : Set (Gam 3 L))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcop := coprime_card_Np 3 L
   refine glaPLayer_inf_centralizer_anti Nat.prime_three hLB hK (Subgroup.map_mono hDE) ?_ ?_ ?_
   · intro f hf
@@ -281,7 +288,7 @@ theorem comp_of_layer {Q : TauCeti.CFSGIndex → Prop} (hfact : FactShape Q) {L 
         (((E.map (Subgroup.subtype (Subgroup.normalizer (L : Set G)))) : Subgroup G) : Set G)) J ∧
       ¬ catalogIs (PSimple 3 J) S9.isL2prime := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : Nat.Prime 3 := Nat.prime_three
   have hcop := coprime_card_Np 3 L
   have hEp : IsPGroup 3 E := IsPGroup.iff_card.2 ⟨3, hEcard⟩
@@ -330,7 +337,7 @@ theorem comp_of_layer {Q : TauCeti.CFSGIndex → Prop} (hfact : FactShape Q) {L 
 
 theorem exists_D {H : Type} [Group H] [Finite H] {E₀ : Subgroup H}
     (hcard : Nat.card ↥E₀ = 3 ^ 3) : ∃ D : Subgroup H, D ≤ E₀ ∧ Nat.card ↥D = 3 ^ 2 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨K₀, hK₀⟩ := Sylow.exists_subgroup_card_pow_prime (G := ↥E₀) 3 (n := 2)
     ⟨3, by rw [hcard]; ring⟩
   refine ⟨K₀.map E₀.subtype, Subgroup.map_subtype_le _, ?_⟩
@@ -346,7 +353,7 @@ theorem core {Q : TauCeti.CFSGIndex → Prop} (hfact : FactShape Q)
       ∃ J : Subgroup G, GLAPComponent 3 (L ⊓ Subgroup.centralizer (E : Set G)) J ∧
         ¬ catalogIs (PSimple 3 J) S9.isL2prime := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : Nat.Prime 3 := Nat.prime_three
   obtain ⟨E₀, hE₀B, hE₀el, hE₀card, hE₀N, hE₀layer⟩ := hGB
   obtain ⟨J₀, hJ₀⟩ : ∃ J₀ : Subgroup G, GLAPComponent 3 (L ⊓ Subgroup.centralizer (E₀ : Set G)) J₀ := by
@@ -355,7 +362,7 @@ theorem core {Q : TauCeti.CFSGIndex → Prop} (hfact : FactShape Q)
     apply hE₀layer
     have hempty : {J : Subgroup G | GLAPComponent 3 (L ⊓ Subgroup.centralizer (E₀ : Set G)) J} = ∅ := by
       ext J
-      simp only [Set.mem_setOf_eq, Set.mem_empty_iff_false, iff_false]
+      simp only [Set.mem_ofPred_eq, Set.mem_empty_iff_false, iff_false]
       exact hno J
     show sSup {J : Subgroup G | GLAPComponent 3 (L ⊓ Subgroup.centralizer (E₀ : Set G)) J} = ⊥
     rw [hempty, sSup_empty]

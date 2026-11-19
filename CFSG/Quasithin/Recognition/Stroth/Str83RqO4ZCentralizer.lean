@@ -30,6 +30,7 @@ private abbrev vertexCentralizerMod (L Q Z : Subgroup G)
     (h : L ⊔ Q ≤ Subgroup.normalizer ((Z ⊓ Q : Subgroup G) : Set G)) : Subgroup G :=
   commutatorCentralizerIn (L ⊔ Q) (Z ⊓ Q) Q h
 
+omit [Finite G] in
 private theorem le_normalizer_commutatorCentralizerIn {M C T N : Subgroup G}
     (hMC : M ≤ Subgroup.normalizer (C : Set G)) (hNC : N ≤ Subgroup.normalizer (C : Set G))
     (hNM : N ≤ Subgroup.normalizer (M : Set G)) (hNT : N ≤ Subgroup.normalizer (T : Set G)) :
@@ -49,6 +50,7 @@ private theorem le_normalizer_commutatorCentralizerIn {M C T N : Subgroup G}
     group
   rwa [hid]
 
+omit [Finite G] in
 private theorem le_sup_pCoreOf_of_inf_of_simple {M C D0 : Subgroup G}
     (hC : C ≤ M) (hCN : M ≤ Subgroup.normalizer (C : Set G))
     (hD0N : M ≤ Subgroup.normalizer (D0 : Set G))
@@ -76,7 +78,7 @@ private theorem le_sup_pCoreOf_of_inf_of_simple {M C D0 : Subgroup G}
       rwa [CFSG.openPCoreOf_subgroupOf 2 M]
     exact Subgroup.mem_subgroupOf.mp h2'
   have htop : ((C ⊓ D0).subgroupOf M).map π = ⊤ := by
-    haveI : (((C ⊓ D0).subgroupOf M).map π).Normal := hNmap
+    have : (((C ⊓ D0).subgroupOf M).map π).Normal := hNmap
     rcases hsimple.eq_bot_or_eq_top_of_normal (((C ⊓ D0).subgroupOf M).map π) with h | h
     · exact absurd h hne'
     · exact h
@@ -164,6 +166,7 @@ private theorem pCoreOf_sup_eq {L Q Z D P S : Subgroup G} (hd : CentralizerData 
   · refine le_pCoreOf_of_le_normalizer 2 le_sup_right (hQP.trans' hLβP) ?_
     exact hd.hQ ▸ pCoreOf_isPGroup 2 P
 
+omit [Finite G] in
 private theorem normalizer_inf_of_data {L Q Z D P S : Subgroup G}
     (hd : CentralizerData L Q Z D P S) (h : L ≤ vertexCentralizer L Q Z ⊔ Q) :
     Q ≤ Subgroup.normalizer ((Z ⊓ Q : Subgroup G) : Set G) ∧
@@ -188,6 +191,7 @@ private theorem normalizer_inf_of_data {L Q Z D P S : Subgroup G}
     rw [hid]
     exact Q.mul_mem h1 (Q.inv_mem hq)
 
+omit [Finite G] in
 private theorem Z_le_inf_of_data {L Q Z D P S : Subgroup G} (hd : CentralizerData L Q Z D P S)
     (hWLβ : L ⊔ Q ≤ Subgroup.normalizer ((Z ⊓ Q : Subgroup G) : Set G))
     (hcomm : ∀ z ∈ Z, ∀ q ∈ Q, z * q * z⁻¹ * q⁻¹ ∈ (Z ⊓ Q : Subgroup G)) :
@@ -202,6 +206,7 @@ private theorem Z_le_inf_of_data {L Q Z D P S : Subgroup G} (hd : CentralizerDat
   · exact (mem_commutatorCentralizerIn hWLβ).mpr
       ⟨hZLβ hz, fun q hq => by simpa only [commutatorElement_def] using hcomm z hz q hq⟩
 
+omit [Finite G] in
 private theorem normalizer_centralizers {L Q Z D P S : Subgroup G}
     (hd : CentralizerData L Q Z D P S)
     (hWLβ : L ⊔ Q ≤ Subgroup.normalizer ((Z ⊓ Q : Subgroup G) : Set G)) :
@@ -310,6 +315,7 @@ private theorem not_le_centralizer_sup_of_vertex {L Q Z D P S : Subgroup G}
   have hcover := sup_inf_cover hd hWLβ hZC hZD0 hCN hD0N
   exact false_of_data hd hWLβ (D_le_inf hd hWLβ hCN hD0N hcover)
 
+omit [Finite G] in
 private theorem bigB_le_sup (L1 L2 S : Subgroup G) : bigB L1 L2 S ≤ L1 ⊔ L2 ⊔ S := by
   rw [bigB]
   exact sup_le (sup_le ((F1.borelOf_le L1 S).trans (le_sup_left.trans le_sup_left))
@@ -400,6 +406,7 @@ private theorem Zv_one_not_le_Qv_zero {a f : ℕ}
   rw [hF.1.o2] at hle
   exact t.Zv_ne_bot hF 1 (le_bot_iff.mp hle)
 
+omit [Finite G] in
 private theorem charTwo_P1 {a f : ℕ} (hfr : Frame L1 L2 S a f) :
     CharTwo (t.Gv 0) := by
   have h := hfr.hF.1.h1.charTwo
@@ -414,6 +421,7 @@ private theorem charTwo_P1 {a f : ℕ} (hfr : Frame L1 L2 S a f) :
   rw [heq]
   exact h
 
+omit [Finite G] in
 private theorem charTwo_P2 {a f : ℕ} (hfr : Frame L1 L2 S a f) :
     CharTwo (t.Gv 1) := by
   have h := hfr.hF.1.h2.charTwo
@@ -430,11 +438,11 @@ private theorem charTwo_P2 {a f : ℕ} (hfr : Frame L1 L2 S a f) :
 
 private theorem simple_oTwoQuot_sup_Qv_one {a f : ℕ}
     (hfr : Frame L1 L2 S a f) : IsSimpleGroup (oTwoQuot ↥(L2 ⊔ t.Qv 1)) := by
-  haveI : IsSimpleGroup (oTwoQuot ↥L2) := by
+  have : IsSimpleGroup (oTwoQuot ↥L2) := by
     obtain ⟨e⟩ := hfr.hL2
-    haveI : IsSimpleGroup
+    have : IsSimpleGroup
         (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 f)) := by
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       have hKcard : Nat.card (GaloisField 2 f) = 2 ^ f :=
         GaloisField.card (p := 2) (n := f) (by have h := hfr.hf; omega)
       have hq4 : 4 ≤ Nat.card (GaloisField 2 f) := by
@@ -447,9 +455,9 @@ private theorem simple_oTwoQuot_sup_Qv_one {a f : ℕ}
 
 private theorem simple_oTwoQuot_sup_Qv_zero {a f : ℕ}
     (hfr : Frame L1 L2 S a f) : IsSimpleGroup (oTwoQuot ↥(L1 ⊔ t.Qv 0)) := by
-  haveI : IsSimpleGroup (oTwoQuot ↥L1) := by
+  have : IsSimpleGroup (oTwoQuot ↥L1) := by
     obtain ⟨e⟩ := hfr.hSz
-    haveI : IsSimpleGroup (Sz a) :=
+    have : IsSimpleGroup (Sz a) :=
       CFSG.SignalizerFunctorTheorem.McBride.SzModel.sz_isSimpleGroup hfr.ha
     exact MulEquiv.isSimpleGroup e
   have h1 : oTwoQuot ↥(L1 ⊔ Q1 L1 L2 S) ≃* oTwoQuot ↥L1 := oTwoQuotSupEquiv hfr.hF.1

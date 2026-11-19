@@ -16,6 +16,7 @@ section Basic
 
 variable {G : Type} [Group G] [Finite G] {Ω : Type} [Group Ω] [Finite Ω]
 
+omit [Finite Ω] in
 private theorem t158s15_eq_one {p : ℕ} (hp : p.Prime) {H : Type} [Group H] {π : H →* Ω}
     (hN : ¬ p ∣ Nat.card π.ker) {u : H} (hu : u ^ p = 1) (hπ : π u = 1) : u = 1 := by
   have hker : u ∈ π.ker := hπ
@@ -28,7 +29,7 @@ private theorem t158s15_eq_one {p : ℕ} (hp : p.Prime) {H : Type} [Group H] {π
 
 private theorem t158s15_dvd_of_zpow_eq_one {M : Type*} [Group M] {p : ℕ} (hp : p.Prime) {a : M}
     (hap : a ^ p = 1) (hne : a ≠ 1) {i : ℤ} (hi : a ^ i = 1) : (p : ℤ) ∣ i := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   rw [← orderOf_eq_prime hap hne]
   exact orderOf_dvd_iff_zpow_eq_one.2 hi
 
@@ -210,7 +211,7 @@ theorem t158Shape15_of_fact15 (h15 : I171.I171ShapeFact15) : T158Shape15 := by
     have := (t158s15_split hh h1 (htriv L₁) (htriv L₂)).1
     rw [zpow_one] at this
     exact hx1 this
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hz1 : Nat.card (Subgroup.zpowers x₁) = p := by
     rw [Nat.card_zpowers]; exact orderOf_eq_prime hx1p hx1
   have hz2 : Nat.card (Subgroup.zpowers x₂) = p := by
@@ -244,7 +245,7 @@ theorem t158Shape15_of_fact15 (h15 : I171.I171ShapeFact15) : T158Shape15 := by
     have h := normalizer_le_normalizer_glaPPrimeCoreOf p M
     rw [Subgroup.normalizer_eq_top_iff.2 hMn, top_le_iff] at h
     exact Subgroup.normalizer_eq_top_iff.1 h
-  haveI := hN0n
+  have := hN0n
   set N0 : Subgroup ↥H := GLAPPrimeCoreOf p M with hN0def
   set π : ↥H →* ↥H ⧸ N0 := QuotientGroup.mk' N0 with hπdef
   have hN : ¬ p ∣ Nat.card π.ker := by
@@ -292,7 +293,7 @@ theorem t158Shape15_of_fact15 (h15 : I171.I171ShapeFact15) : T158Shape15 := by
       have hmem : ((u : ↥H) : X) ∈ A := Subgroup.mem_subgroupOf.1 u.2
       have hu' : (u : ↥H) ^ p = 1 := Subtype.ext (by simpa using hAel.2 _ hmem)
       exact Subtype.ext (t158s15_eq_one hp hN hu' hu)
-    rw [hEdef, ← MonoidHom.restrict_range, ← Nat.card_congr (MonoidHom.ofInjective hinj).toEquiv,
+    rw [hEdef, ← MonoidHom.domRestrict_range, ← Nat.card_congr (MonoidHom.ofInjective hinj).toEquiv,
       Nat.card_congr (Subgroup.subgroupOfEquivOfLe hAH).toEquiv, hcardA]
   have hdE : π ⟨x₁, hx1H⟩ ∈ E := Subgroup.mem_map.2 ⟨⟨x₁, hx1H⟩, Subgroup.mem_subgroupOf.2 hx1A, rfl⟩
   have hbE : π ⟨x₂, hx2H⟩ ∈ E := Subgroup.mem_map.2 ⟨⟨x₂, hx2H⟩, Subgroup.mem_subgroupOf.2 hx2A, rfl⟩

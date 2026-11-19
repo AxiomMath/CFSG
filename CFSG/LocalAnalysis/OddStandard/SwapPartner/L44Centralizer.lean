@@ -164,7 +164,7 @@ theorem exists_fixed_orderOf_of_commute {P : Type*} [Group P] {Y : Type*} [Group
     rw [orderOf_one] at h1
     omega
   have hworder : orderOf w = 7 := by
-    haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     exact orderOf_eq_prime hw7 hwne
   have hcomm : Ψ d * MulAut.conj w = MulAut.conj w * Ψ d := by
     have h := congrArg Ψ hdz

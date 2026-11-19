@@ -71,7 +71,7 @@ theorem str83G4_d2_inf_h2_eq_bot {L1 L2 S : Subgroup G} {a : ℕ}
     d.D2 ⊓ centralizerMod (pCoreOf 2 L2) (d.D1 ⊔ d.D2) L2 = ⊥ := by
   classical
   obtain ⟨-, -, -, -, hL2, -⟩ := hfr
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [eq_bot_iff]
   intro c hc
   have hcD : c ∈ d.D2 := hc.1
@@ -202,7 +202,7 @@ theorem str83G4_exists_data_centralizer
         (centralizerMod (pCoreOf 2 L2) (d.D1 ⊔ d.D2) L2 : Set G) := by
   classical
   obtain ⟨hF, hB, ha, hSz, hL2, -⟩ := hfr
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set H2 : Subgroup G := centralizerMod (pCoreOf 2 L2) (d.D1 ⊔ d.D2) L2 with hH2def
   set C2 : Subgroup G := Subgroup.centralizer (H2 : Set G) with hC2def
   set Q2' : Subgroup G := Q2 L1 L2 S with hQ2def
@@ -241,7 +241,7 @@ theorem str83G4_exists_data_centralizer
     intro y hy
     exact (d.hcomm x hx y hy).symm
   have hD2centD2 : d.D2 ≤ Subgroup.centralizer (d.D2 : Set G) := by
-    letI : CommGroup ↥d.D2 := hD2cyc.commGroup
+    let : CommGroup ↥d.D2 := hD2cyc.commGroup
     intro x hx
     rw [Subgroup.mem_centralizer_iff]
     intro y hy

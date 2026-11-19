@@ -134,7 +134,7 @@ theorem false_of_u5 {r n : ℕ} (hr : 4 ≤ r) {Y : Type} [Group Y] [Finite Y] {
     {S : Sylow 2 R} {t : Y} (h : PerpHypR r n Y R S t)
     (hsmall : TwoSubgroupsFourGenerated ↥(genFittingFStar Y))
     (hF : SmallU5 ↥(genFittingFStar Y)) : False := by
-  haveI := h.core.simple
+  have := h.core.simple
   obtain ⟨p, f, hp, hp2, hf, h4, hm⟩ := hF
   have hsm := Q5L5U5.statedClassicalModel_of_lieModel_psu hm
   have hg : Odd (Nat.gcd 5 (p ^ f + 1)) :=

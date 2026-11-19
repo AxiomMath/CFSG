@@ -22,12 +22,12 @@ theorem isSL3Eps_exists_over {Y : Type} [Group Y] (hY : IsSL3Eps Y) :
     ∃ q : ℕ, IsSL3EpsOver Y q := by
   rcases hY with ⟨hSL | hSU, hcenter⟩
   · rcases hSL with ⟨F, fieldF, finiteF, hequiv⟩
-    letI : Field F := fieldF
-    letI : Finite F := finiteF
+    let : Field F := fieldF
+    let : Finite F := finiteF
     exact ⟨Nat.card F, Or.inl ⟨F, fieldF, finiteF, rfl, hequiv⟩, hcenter⟩
   · rcases hSU with ⟨F, fieldF, finiteF, q, hcard, hequiv⟩
-    letI : Field F := fieldF
-    letI : Finite F := finiteF
+    let : Field F := fieldF
+    let : Finite F := finiteF
     exact ⟨q, Or.inr ⟨F, fieldF, finiteF, hcard, hequiv⟩, hcenter⟩
 
 structure Input14_33Setup {X : Type} [Group X] [Finite X]

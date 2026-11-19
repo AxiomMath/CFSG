@@ -98,15 +98,15 @@ theorem hasFpfTorusGen_statedOmegaMinus {K : Type} [Field K] [Finite K] [CharP K
     by_cases hi : i = 0
     · subst hi
       have hk : k ≠ 0 := by rintro rfl; exact hik rfl
-      simp only [d₀, if_pos rfl, if_neg hk]
+      simp only [d₀, ite_eq_left rfl, ite_eq_right hk]
       rw [hlinv]
       exact hl2inv
     · by_cases hk : k = 0
       · subst hk
-        simp only [d₀, if_neg hi, if_pos rfl]
+        simp only [d₀, ite_eq_right hi, ite_eq_left rfl]
         rw [mul_comm, hlinv]
         exact hl2inv
-      · simp only [d₀, if_neg hi, if_neg hk]
+      · simp only [d₀, ite_eq_right hi, ite_eq_right hk]
         rw [← pow_two]
         exact hl2
   have hd₁ : ∀ i k : Fin 4, i ≠ k → d₁ i * d₁ k ≠ 1 := by
@@ -114,15 +114,15 @@ theorem hasFpfTorusGen_statedOmegaMinus {K : Type} [Field K] [Finite K] [CharP K
     by_cases hi : i = 1
     · subst hi
       have hk : k ≠ 1 := by rintro rfl; exact hik rfl
-      simp only [d₁, if_pos rfl, if_neg hk]
+      simp only [d₁, ite_eq_left rfl, ite_eq_right hk]
       rw [hlinv]
       exact hl2inv
     · by_cases hk : k = 1
       · subst hk
-        simp only [d₁, if_neg hi, if_pos rfl]
+        simp only [d₁, ite_eq_right hi, ite_eq_left rfl]
         rw [mul_comm, hlinv]
         exact hl2inv
-      · simp only [d₁, if_neg hi, if_neg hk]
+      · simp only [d₁, ite_eq_right hi, ite_eq_right hk]
         rw [← pow_two]
         exact hl2
   have hfix_t : ∀ (t : SUid (unitaryInvolution E 2 n) 4) (d : Fin 4 → E),

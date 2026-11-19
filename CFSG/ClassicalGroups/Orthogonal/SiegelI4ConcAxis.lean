@@ -20,12 +20,13 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2]
     (π : Submodule K N) : Submodule K V :=
   axisInf (planeFamily hBN ρ π)
 
+omit [Finite K] [FiniteDimensional K N] [FiniteDimensional K V] [CharP K 2] in
 theorem concPt_map (g : Gsp BN) (π : Submodule K N) :
     concPt hBN ρ (π.map g.lin) = (concPt hBN ρ π).map (ρ g : V →ₗ[K] V) := by
   unfold concPt
   rw [planeFamily_map, axisInf_conjSubgroup]
 
-omit [Finite K] [CharP K 2] in
+omit [Finite K] [CharP K 2] [FiniteDimensional K N] in
 theorem Gsp.map_lin_inv_map_lin (g : Gsp BN) (S : Submodule K N) :
     (S.map g.lin).map g⁻¹.lin = S := by
   have := Gsp.map_lin_map_lin_inv g⁻¹ S
@@ -34,6 +35,7 @@ theorem Gsp.map_lin_inv_map_lin (g : Gsp BN) (S : Submodule K N) :
 @[expose] def ConstLine (hBN : BN.IsAlt) (ρ : Gsp BN →* (V ≃ₗ[K] V)) (ℓ : Submodule K N) : Prop :=
   ∀ π π', IsPlane BN π → IsPlane BN π' → ℓ ≤ π → ℓ ≤ π' → concPt hBN ρ π = concPt hBN ρ π'
 
+omit [Finite K] [FiniteDimensional K N] [FiniteDimensional K V] [CharP K 2] in
 theorem constLine_map {ℓ : Submodule K N} (hc : ConstLine hBN ρ ℓ) (g : Gsp BN) :
     ConstLine hBN ρ (ℓ.map g.lin) := by
   have key : ∀ σ : Submodule K N, IsPlane BN σ → ℓ.map g.lin ≤ σ →

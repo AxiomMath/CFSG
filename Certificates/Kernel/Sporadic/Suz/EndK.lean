@@ -515,13 +515,13 @@ theorem delta_pres (k : Nat) (hk : k < arrL.size) (x : Fin 1782) :
   rw [arrL_get hk4]
   have hs := (prep_of (pL hk4)).1
   have e := beq_eq (CFSG.KS.allN_spec (CFSG.KS.allN_spec hd.1 k hk4) x x.2)
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   rw [ap hs, e]
 
 theorem out_of {y : Equiv.Perm (Fin 1782)} {p q : Nat} (hp : p < 1782)
     (hy : ((y ⟨p, hp⟩ : Fin 1782) : ℕ) = q) (h0 : bitD q = 0) :
     y ⟨p, hp⟩ ∉ {x : Fin 1782 | bitD x.val = 1} := fun h => by
-  rw [Set.mem_setOf_eq, hy, h0] at h
+  rw [Set.mem_ofPred_eq, hy, h0] at h
   exact Nat.zero_ne_one h
 
 theorem delta_L : (∀ k < arrL.size, ∀ x : Fin 1782,

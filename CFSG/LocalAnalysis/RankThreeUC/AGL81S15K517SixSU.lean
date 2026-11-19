@@ -77,13 +77,13 @@ theorem su_not_mem_center_of_row_col (hσ : ∀ c, σ (σ c) = c) {g : SU σ n} 
   have h := congrArg (fun y : SU σ n => mat σ n y i j) hcomm
   simp only [map_mul, Matrix.mul_apply] at h
   rw [Finset.sum_eq_single i, Finset.sum_eq_single j] at h
-  · rw [hrow i, if_pos rfl, hcol j, if_pos rfl, hxij] at h
+  · rw [hrow i, ite_eq_left rfl, hcol j, ite_eq_left rfl, hxij] at h
     exact hcc (by simpa using h)
   · intro t _ ht
-    rw [hcol t, if_neg ht, mul_zero]
+    rw [hcol t, ite_eq_right ht, mul_zero]
   · simp
   · intro t _ ht
-    rw [hrow t, if_neg ht, zero_mul]
+    rw [hrow t, ite_eq_right ht, zero_mul]
   · simp
 
 theorem su_row_rev_of_col {x : SU σ n} {a : Fin n} {c c' : F} (hcc : σ c * c' = 1)
@@ -91,12 +91,12 @@ theorem su_row_rev_of_col {x : SU σ n} {a : Fin n} {c c' : F} (hcc : σ c * c' 
     mat σ n x (Fin.rev a) b = if b = Fin.rev a then c' else 0 := by
   have h := sum_mat_mul_mat x a b
   rw [Finset.sum_eq_single a] at h
-  · rw [hcol a, if_pos rfl] at h
+  · rw [hcol a, ite_eq_left rfl] at h
     split_ifs at h ⊢ with hb
     · linear_combination c' * h - mat σ n x (Fin.rev a) b * hcc
     · linear_combination c' * h - mat σ n x (Fin.rev a) b * hcc
   · intro u _ hu
-    rw [hcol u, if_neg hu, map_zero, zero_mul]
+    rw [hcol u, ite_eq_right hu, map_zero, zero_mul]
   · simp
 
 theorem su_eq_diagonal_of_isBlkOn {r : ℕ} {e : Fin r → Fin n} (he : Function.Injective e)
@@ -113,13 +113,13 @@ theorem su_eq_diagonal_of_isBlkOn {r : ℕ} {e : Fin r → Fin n} (he : Function
       rw [h, Matrix.diagonal_apply, he.extend_apply]
       simp only [he.eq_iff]
     · have huv : u ≠ v := fun h => hv (h ▸ hu)
-      rw [hM u v (Or.inr hv), Matrix.diagonal_apply, if_neg huv, Matrix.one_apply_ne huv]
+      rw [hM u v (Or.inr hv), Matrix.diagonal_apply, ite_eq_right huv, Matrix.one_apply_ne huv]
   · rw [hM u v (Or.inl hu), Matrix.diagonal_apply, Matrix.one_apply]
     by_cases huv : u = v
     · subst huv
-      rw [if_pos rfl, if_pos rfl, Function.extend_apply' _ _ _ (fun ⟨a, ha⟩ => hu ⟨a, ha⟩)]
+      rw [ite_eq_left rfl, ite_eq_left rfl, Function.extend_apply' _ _ _ (fun ⟨a, ha⟩ => hu ⟨a, ha⟩)]
       rfl
-    · rw [if_neg huv, if_neg huv]
+    · rw [ite_eq_right huv, ite_eq_right huv]
 
 @[expose] noncomputable def su_scalarGL {r : ℕ} {c : F} (hc : c ≠ 0) : GL (Fin r) F :=
   ⟨Matrix.diagonal fun _ => c, Matrix.diagonal fun _ => c⁻¹,
@@ -130,7 +130,7 @@ theorem su_eq_diagonal_of_isBlkOn {r : ℕ} {e : Fin r → Fin n} (he : Function
     (hdet : c ^ r = 1) (hiso : σ c * c = 1) : SU σ r :=
   ⟨su_scalarGL hc, mem_SU.2 ⟨by simp [su_scalarGL, Matrix.det_diagonal, hdet], by
     ext i j
-    simp [su_scalarGL, conjTr, Matrix.diagonal_map, Matrix.mul_assoc, Matrix.diagonal_mul,
+    simp [su_scalarGL, conjTr, Matrix.diagonal_map, Matrix.diagonal_mul,
       Matrix.mul_diagonal]
     linear_combination (antidiag r : Matrix (Fin r) (Fin r) F) i j * hiso⟩⟩
 
@@ -266,13 +266,13 @@ theorem su_last_E9 {F : Type} [Field F] [Finite F] [CharP F 2] {f : ℕ}
     by_cases ht : t = lowIdx k
     · subst ht
       simp [hdp]
-    · rw [if_neg ht, if_neg (Ne.symm ht)]
+    · rw [ite_eq_right ht, ite_eq_right (Ne.symm ht)]
   · intro t
     rw [hbmat, Matrix.diagonal_apply]
     by_cases ht : t = lowIdx (⟨0, hj0⟩ : Fin (n / 2))
     · subst ht
       simp [hdj]
-    · rw [if_neg ht, if_neg ht]
+    · rw [ite_eq_right ht, ite_eq_right ht]
 
 end Last
 
@@ -375,31 +375,31 @@ theorem su_mat_shortDiag {t s : F} (hts : t * s = 1) :
   have hcolp : ∀ u, mat σ n x u p = if u = p then t else 0 := by
     intro u
     by_cases hup : u = p
-    · rw [hup, hpp, if_pos rfl]
+    · rw [hup, hpp, ite_eq_left rfl]
     · by_cases huq : u = q
-      · rw [huq, hqp0, if_neg (Ne.symm hpq)]
-      · rw [(hout u p (Or.inl rfl) hup huq).1, if_neg hup]
+      · rw [huq, hqp0, ite_eq_right (Ne.symm hpq)]
+      · rw [(hout u p (Or.inl rfl) hup huq).1, ite_eq_right hup]
   have hcolq : ∀ u, mat σ n x u q = if u = q then s else 0 := by
     intro u
     by_cases huq : u = q
-    · rw [huq, hqq, if_pos rfl]
+    · rw [huq, hqq, ite_eq_left rfl]
     · by_cases hup : u = p
-      · rw [hup, hpq0, if_neg hpq]
-      · rw [(hout u q (Or.inr rfl) hup huq).1, if_neg huq]
+      · rw [hup, hpq0, ite_eq_right hpq]
+      · rw [(hout u q (Or.inr rfl) hup huq).1, ite_eq_right huq]
   have hrowp : ∀ b, mat σ n x p b = if b = p then t else 0 := by
     intro b
     by_cases hbp : b = p
-    · rw [hbp, hpp, if_pos rfl]
+    · rw [hbp, hpp, ite_eq_left rfl]
     · by_cases hbq : b = q
-      · rw [hbq, hpq0, if_neg hpq.symm]
-      · rw [(hout b p (Or.inl rfl) hbp hbq).2, if_neg hbp]
+      · rw [hbq, hpq0, ite_eq_right hpq.symm]
+      · rw [(hout b p (Or.inl rfl) hbp hbq).2, ite_eq_right hbp]
   have hrowq : ∀ b, mat σ n x q b = if b = q then s else 0 := by
     intro b
     by_cases hbq : b = q
-    · rw [hbq, hqq, if_pos rfl]
+    · rw [hbq, hqq, ite_eq_left rfl]
     · by_cases hbp : b = p
-      · rw [hbp, hqp0, if_neg hpq]
-      · rw [(hout b q (Or.inr rfl) hbp hbq).2, if_neg hbq]
+      · rw [hbp, hqp0, ite_eq_right hpq]
+      · rw [(hout b q (Or.inr rfl) hbp hbq).2, ite_eq_right hbq]
   have hrowp' : ∀ b, mat σ n x (Fin.rev p) b = if b = Fin.rev p then σ s else 0 :=
     su_row_rev_of_col (by rw [← map_mul, hts, map_one]) hcolp
   have hrowq' : ∀ b, mat σ n x (Fin.rev q) b = if b = Fin.rev q then σ t else 0 :=
@@ -409,7 +409,7 @@ theorem su_mat_shortDiag {t s : F} (hts : t * s = 1) :
     intro u b h1 h2 h3 h4
     refine hblk u b fun h => h.2 ?_
     unfold blkShort
-    rw [if_neg (by tauto), if_neg (by tauto)]
+    rw [ite_eq_right (by tauto), ite_eq_right (by tauto)]
   have key : ∀ (c : F) (a b : Fin n), (if b = a then c else 0) = if a = b then c else 0 := by
     intro c a b
     by_cases h : b = a
@@ -574,14 +574,14 @@ theorem su_short_pair_E9 {F : Type} [Field F] [Finite F] [CharP F 2] {f : ℕ}
       rw [hbmat, Matrix.diagonal_apply]
       by_cases ht : t = cp
       · subst ht
-        simp only [if_true, hdp]
-      · rw [if_neg ht, if_neg (Ne.symm ht)]
+        simp only [ite_true, hdp]
+      · rw [ite_eq_right ht, ite_eq_right (Ne.symm ht)]
     · intro t
       rw [hbmat, Matrix.diagonal_apply]
       by_cases ht : t = cj
       · subst ht
-        simp only [if_true, hdj]
-      · rw [if_neg ht, if_neg ht]
+        simp only [ite_true, hdj]
+      · rw [ite_eq_right ht, ite_eq_right ht]
   exact ⟨_, x * y, _, (rankOneShortEquiv (hσ := hσ) hk).symm w |>.2,
     (rankOneShortEquiv (hσ := hσ) hk).symm m₀ |>.2, Subgroup.mul_mem_sup hxmem hymem, ha3, hb3,
     not_mem_center_of_inverted (p := 3) (by decide) ha3 ha1 hma, hbc, hma,
@@ -590,7 +590,7 @@ theorem su_short_pair_E9 {F : Type} [Field F] [Finite F] [CharP F 2] {f : ℕ}
 
 
 theorem su_short_pair_q {F : Type} [Field F] [Finite F] [CharP F 2] {f : ℕ}
-    (hF : Nat.card F = (2 ^ f) ^ 2) {n : ℕ} (hn : 6 ≤ n) (heven : Even n)
+    (hF : Nat.card F = (2 ^ f) ^ 2) {n : ℕ} (_hn : 6 ≤ n) (_heven : Even n)
     {r : ℕ} (hr : r.Prime) (hr5 : 5 ≤ r) (hrd : r ∣ 2 ^ f + 1)
     (k k' : Fin (n / 2)) (hk' : k'.val = k.val + 1) (hkk' : k'.val + 1 < n / 2) :
     ∃ a b m : SU (unitaryInvolution F 2 f) n,
@@ -600,7 +600,7 @@ theorem su_short_pair_q {F : Type} [Field F] [Finite F] [CharP F 2] {f : ℕ}
       a ∉ Subgroup.center (SU (unitaryInvolution F 2 f) n) ∧
       b ∉ Subgroup.center (SU (unitaryInvolution F 2 f) n) ∧
       m * a * m⁻¹ = a⁻¹ ∧ a * b = b * a ∧ m * b = b * m := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hσ := unitaryInvolution_involutive hF
   have hf1 : 1 ≤ 2 ^ f := Nat.one_le_two_pow
   have hr2 : r ≠ 2 := by omega
@@ -707,14 +707,14 @@ theorem su_short_pair_q {F : Type} [Field F] [Finite F] [CharP F 2] {f : ℕ}
       rw [hbmat, Matrix.diagonal_apply]
       by_cases ht : t = cp
       · subst ht
-        simp only [if_true, hdp]
-      · rw [if_neg ht, if_neg (Ne.symm ht)]
+        simp only [ite_true, hdp]
+      · rw [ite_eq_right ht, ite_eq_right (Ne.symm ht)]
     · intro t
       rw [hbmat, Matrix.diagonal_apply]
       by_cases ht : t = cr
       · subst ht
-        simp only [if_true, hdcr]
-      · rw [if_neg ht, if_neg ht]
+        simp only [ite_true, hdcr]
+      · rw [ite_eq_right ht, ite_eq_right ht]
   set e := rankOneShortEquiv (hσ := hσ) hk with he
   obtain ⟨har, -, hma, -, -⟩ := su_transport_q (K := SU (unitaryInvolution F 2 f) n) e
     (r := r) (A := w) (B := 1) (M := m₀) hw (one_pow r) hm

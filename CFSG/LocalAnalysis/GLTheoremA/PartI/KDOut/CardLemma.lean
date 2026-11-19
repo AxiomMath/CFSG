@@ -27,8 +27,8 @@ theorem outTwoTowerAt_of_card_outer_le_four {K : Type*} [Group K] [Finite K] {p 
     (hp2 : p ≠ 2) (hcard : Nat.card (Outer K) ≤ 4) : OutTwoTowerAt K p := by
   refine ⟨⊤, fun _ _ _ => Subgroup.mem_top _, ?_⟩
   rintro α ⟨k, hk⟩ δ _ ⟨m, hm⟩
-  haveI : (inner K).Normal := inner_normal K
-  haveI : Finite (MulAut K) := MulEquiv.finite_left
+  have : (inner K).Normal := inner_normal K
+  have : Finite (MulAut K) := MulEquiv.finite_left
   let π : MulAut K →* MulAut K ⧸ inner K := QuotientGroup.mk' (inner K)
   have hk' : π α ^ (p ^ k) = 1 := by rw [← map_pow, hk, map_one]
   have hm' : π δ ^ (2 ^ m) = 1 := by

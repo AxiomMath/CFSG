@@ -38,12 +38,12 @@ theorem card_le_of_sylowPlaced (hz : FourGen Q z) (h : Setting J Q B) {w : J}
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set X := quasiNormalizer w with hX
   set T := (Q : Subgroup J) ⊓ X with hT
-  have hT2 : IsPGroup 2 T := Q.isPGroup'.to_le inf_le_left
+  have hT2 : IsPGroup 2 T := Q.isPGroup.to_le inf_le_left
   obtain ⟨T₀, hT₀⟩ := (hT2.comap_of_injective X.subtype X.subtype_injective).exists_le_sylow
   set P₀ := (T₀ : Subgroup X).map X.subtype with hP₀
   have hTP₀ : T ≤ P₀ := fun t ht => ⟨⟨t, ht.2⟩, hT₀ ht, rfl⟩
   have hP₀X : P₀ ≤ X := Subgroup.map_subtype_le _
-  have hP₀2 : IsPGroup 2 P₀ := T₀.isPGroup'.map _
+  have hP₀2 : IsPGroup 2 P₀ := T₀.isPGroup.map _
   have hzT : z ∈ T := ⟨hz.mem, h.mem_quasiNormalizer_of_mul_eq hw hwz.symm⟩
   have hP₀T : P₀ ≤ T := by
     by_contra hne

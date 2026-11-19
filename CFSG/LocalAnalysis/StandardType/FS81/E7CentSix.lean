@@ -18,24 +18,24 @@ open CFSG.QuasithinUnique
 open scoped commutatorElement
 
 private lemma isSolvable_of_fixedPointFree_three {X : Type} [Group X] [Finite X]
-    (α : MulAut X) (hα : orderOf α = 3) (hfix : ∀ x, α x = x → x = 1) : IsSolvable X := by
+    (α : MulAut X) (hα : orderOf α = 3) (hfix : ∀ x, α x = x → x = 1) : Group.IsSolvable X := by
   have hnil : Group.IsNilpotent X :=
     CFSG.RankThree.PartOne.MB3.isNilpotent_of_fixedPointFree_prime α
       (show Nat.Prime (orderOf α) by rw [hα]; exact Nat.prime_three) hfix
-  haveI := hnil
+  have := hnil
   exact IsNilpotent.to_isSolvable
 
 private lemma exists_normalizer_lt_of_isPGroup {X : Type*} [Group X] [Finite X] {p : ℕ}
     [hp : Fact p.Prime] (hX : IsPGroup p X) {H : Subgroup X} (hH : H ≠ ⊤) :
     ∃ x ∈ Subgroup.normalizer (H : Set X), x ∉ H := by
-  haveI : Group.IsNilpotent X := IsPGroup.isNilpotent hX
+  have : Group.IsNilpotent X := IsPGroup.isNilpotent hX
   have hnc : NormalizerCondition X := Group.normalizerCondition_of_isNilpotent
   have hNne : Subgroup.normalizer (H : Set X) ≠ H := by
     intro heq
     exact hH ((normalizerCondition_iff_only_full_group_self_normalizing.mp hnc H heq))
   have hlt : H < Subgroup.normalizer (H : Set X) :=
     lt_of_le_of_ne Subgroup.le_normalizer hNne.symm
-  exact SetLike.exists_of_lt hlt
+  exact _root_.IsConcreteLE.exists_of_lt hlt
 
 private lemma six_normalizers {G : Type} [Group G] {M P : Subgroup G} {k : G}
     (hPM : P ≤ Subgroup.normalizer (M : Set G)) (hPk : ∀ p ∈ P, p * k = k * p) :
@@ -136,18 +136,18 @@ private lemma six_fix {G : Type} [Group G] [Finite G] {M P : Subgroup G} {b k b�
 private lemma six_solvable_quotient {G : Type} [Group G] [Finite G] {T T₀ P : Subgroup G}
     (hPT : P ≤ Subgroup.normalizer (T : Set G))
     (hPT₀ : P ≤ Subgroup.normalizer (T₀ : Set G))
-    (hP : Nonempty (↥P ≃* Matrix.SpecialLinearGroup (Fin 3) (ZMod 2)))
+    (_hP : Nonempty (↥P ≃* Matrix.SpecialLinearGroup (Fin 3) (ZMod 2)))
     {b₁ : G} (hb₁P : b₁ ∈ P) (hb₁ : orderOf b₁ = 3)
     (hfix : ∀ t ∈ T, b₁ * t * b₁⁻¹ * t⁻¹ ∈ T₀ → t ∈ T₀)
     [hN : (T₀.subgroupOf T).Normal] :
-    IsSolvable (↥T ⧸ T₀.subgroupOf T) := by
+    Group.IsSolvable (↥T ⧸ T₀.subgroupOf T) := by
   by_cases hsub : Subsingleton (↥T ⧸ T₀.subgroupOf T)
-  · haveI : Subsingleton (↥T ⧸ T₀.subgroupOf T) := hsub
+  · have : Subsingleton (↥T ⧸ T₀.subgroupOf T) := hsub
     exact Group.isSolvable_of_comm (fun a b => Subsingleton.elim _ _)
   · obtain ⟨τ, hfixτ⟩ := l3Two_quotient_fixedPointFree hPT hPT₀ hb₁P hfix
     let α : MulAut (↥T ⧸ T₀.subgroupOf T) := τ ⟨b₁, hb₁P⟩
     have hb₁3 : b₁ ^ 3 = 1 := by
-      have h3 : orderOf b₁ ∣ 3 := by simpa [hb₁] using (dvd_refl 3 : (3 : ℕ) ∣ 3)
+      have h3 : orderOf b₁ ∣ 3 := by simp [hb₁]
       rwa [orderOf_dvd_iff_pow_eq_one] at h3
     have hα3 : α ^ 3 = 1 := by
       change τ ⟨b₁, hb₁P⟩ ^ 3 = 1
@@ -177,12 +177,12 @@ private lemma six_solvable {G : Type} [Group G] [Finite G] {T T₀ P : Subgroup 
     {b₁ k : G} (hb₁P : b₁ ∈ P) (hb₁ : orderOf b₁ = 3)
     (hfix : ∀ t ∈ T, b₁ * t * b₁⁻¹ * t⁻¹ ∈ T₀ → t ∈ T₀)
     (hT₀ : T₀ = Subgroup.zpowers k) :
-    IsSolvable ↥T := by
-  haveI hNnormal : (T₀.subgroupOf T).Normal :=
+    Group.IsSolvable ↥T := by
+  have hNnormal : (T₀.subgroupOf T).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hT₀T).mpr hTnorm
-  haveI hquot : IsSolvable (↥T ⧸ T₀.subgroupOf T) :=
+  have hquot : Group.IsSolvable (↥T ⧸ T₀.subgroupOf T) :=
     six_solvable_quotient hPT hPT₀ hP hb₁P hb₁ hfix
-  haveI hT₀solv : IsSolvable ↥(T₀.subgroupOf T) := by
+  have hT₀solv : Group.IsSolvable ↥(T₀.subgroupOf T) := by
     rw [hT₀]
     apply Group.isSolvable_of_comm
     intro a b
@@ -208,9 +208,9 @@ private lemma six_sylow_absurd {G : Type} [Group G] [Finite G] {M : Subgroup G} 
     intro htop
     exact hne (show (R : Subgroup ↥M) = P₀ from
       le_antisymm (Subgroup.subgroupOf_eq_top.mp htop) hRle)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨x, hxN, hxnot⟩ :=
-    exists_normalizer_lt_of_isPGroup (p := 2) R.isPGroup'
+    exists_normalizer_lt_of_isPGroup (p := 2) R.isPGroup
       (H := P₀.subgroupOf (R : Subgroup ↥M)) hHne
   have hkmem : kM ∈ P₀ := Subgroup.mem_zpowers kM
   have hkR : (⟨kM, hRle hkmem⟩ : ↥R) ∈ P₀.subgroupOf (R : Subgroup ↥M) :=
@@ -219,7 +219,7 @@ private lemma six_sylow_absurd {G : Type} [Group G] [Finite G] {M : Subgroup G} 
     (Subgroup.mem_normalizer_iff.mp hxN _).mp hkR
   have hzP₀ : (x.val * kM * x.val⁻¹ : ↥M) ∈ P₀ := by
     have h := Subgroup.mem_subgroupOf.mp hconj
-    convert h using 2 <;> simp
+    convert h using 2
   have hz_eq : (x.val * kM * x.val⁻¹ : ↥M) = kM := by
     rcases (Subgroup.mem_zpowers_iff_of_orderOf_eq_two hkMord).mp hzP₀ with h1 | hk'
     · exfalso
@@ -313,11 +313,10 @@ private lemma six_index_two {G : Type} [Group G] [Finite G] {M : Subgroup G} {k 
     exact hk
   obtain ⟨R, hRP₀⟩ := six_sylow hkM hk hT
   have hNR := six_normalizer_le_centralizer hkM hk hRP₀
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨K, hKnormal, -, hKindex, -, -, -, hsup, hinf, -, -⟩ :=
     CFSG.GroupTheory.burnside_normal_complement (p := 2) R hNR
   have hcardR : Nat.card R = 2 := by
-    change Nat.card ↥(R : Subgroup ↥M) = 2
     rw [hRP₀, Nat.card_zpowers, hkMord]
   exact ⟨K, hKnormal, hKindex.trans hcardR, by rw [← hRP₀]; exact hsup,
     by rw [← hRP₀]; exact hinf⟩
@@ -325,7 +324,7 @@ private lemma six_index_two {G : Type} [Group G] [Finite G] {M : Subgroup G} {k 
 private lemma six_b_mem {G : Type} [Group G] [Finite G] {M : Subgroup G} {b : G}
     (hbM : b ∈ M) (hb : orderOf b = 3) {K : Subgroup ↥M} (hKnormal : K.Normal)
     (hKindex : K.index = 2) : (⟨b, hbM⟩ : ↥M) ∈ K := by
-  haveI : K.Normal := hKnormal
+  have : K.Normal := hKnormal
   have hqcard : Nat.card (↥M ⧸ K) = 2 := by
     rw [← Subgroup.index_eq_card K, hKindex]
   have hdvd2 : orderOf (QuotientGroup.mk' K ⟨b, hbM⟩) ∣ 2 := by
@@ -355,7 +354,7 @@ private lemma six_K_abelian {G : Type} [Group G] [Finite G] {M : Subgroup G} {k 
   have hkM2 : kM * kM = 1 := by
     rw [← pow_two, ← hkMord]
     exact pow_orderOf_eq_one kM
-  haveI : K.Normal := hKnormal
+  have : K.Normal := hKnormal
   let φ : MulAut ↥K := MulAut.conjNormal (H := K) kM
   have hφff : MonoidHom.FixedPointFree (φ : ↥K → ↥K) := by
     intro x hx
@@ -418,7 +417,7 @@ theorem fs81SixLemma_holds : FS81SixLemma := by
   obtain ⟨hTnorm, hPT₀, hPT⟩ := six_normalizers hPM hPk
   have hfix : ∀ t ∈ T, b₁ * t * b₁⁻¹ * t⁻¹ ∈ T₀ → t ∈ T₀ :=
     six_fix hkM hb hk hbk hb₁P hb₁ hPk hCb₁ hTnorm
-  have hsol : IsSolvable ↥T :=
+  have hsol : Group.IsSolvable ↥T :=
     six_solvable hT₀leT hTnorm hPT hPT₀ hP hb₁P hb₁ hfix rfl
   have hTleT₀ : T ≤ T₀ :=
     le_of_l3TwoFixedPointFree (b := b₁) hT₀leT hTnorm hPT hPT₀ hP hb₁P hb₁ hsol hfix

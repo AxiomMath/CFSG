@@ -817,7 +817,7 @@ theorem conj_not_mem_L (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f)) (g : G
     · have hS2 : IsPGroup 2 d.S := by
         obtain ⟨P, hP⟩ := d.exists_sylow_eq_S
         rw [← hP]
-        exact P.isPGroup'
+        exact P.isPGroup
       refine h.conj_ne_of_mem_commutator_of_isPGroup d hf
         (K := (d.S ⊓ centralizer ({d.x₄ 1} : Set L)).map L.subtype)
         ((hS2.to_le inf_le_left).map _) (hcent inf_le_right) ?_ ((m : G) * g) hg'

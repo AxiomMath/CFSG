@@ -16,14 +16,17 @@ section Generic
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_cqImg {U T : Subgroup G} {y : CQ U} :
     y ∈ cqImg U T ↔ ∃ c : ↥(CenS U), (c : G) ∈ T ∧ (QuotientGroup.mk c : CQ U) = y := by
   unfold cqImg
   simp only [Subgroup.mem_map, Subgroup.mem_subgroupOf, QuotientGroup.mk'_apply]
 
+omit [Finite G] in
 theorem mk_mem_cqImg {U T : Subgroup G} (c : ↥(CenS U)) (hc : (c : G) ∈ T) :
     (QuotientGroup.mk c : CQ U) ∈ cqImg U T := mem_cqImg.mpr ⟨c, hc, rfl⟩
 
+omit [Finite G] in
 theorem isPGroup_subgroupOf {T C : Subgroup G} (hT3 : IsPGroup 3 T) (hTC : T ≤ C) :
     IsPGroup 3 (T.subgroupOf C) :=
   hT3.of_surjective (Subgroup.subgroupOfEquivOfLe hTC).symm.toMonoidHom
@@ -34,7 +37,7 @@ theorem coprime_pPrimeCore (U : Subgroup G) :
 
 theorem cqImg_card {U T : Subgroup G} (hT3 : IsPGroup 3 T) (hTC : T ≤ CenS U) :
     Nat.card (cqImg U T) = Nat.card T := by
-  haveI : (pPrimeCore 3 ↥(CenS U)).Normal := pPrimeCore_normal
+  have : (pPrimeCore 3 ↥(CenS U)).Normal := pPrimeCore_normal
   have h1 := pp_card_map (pPrimeCore 3 ↥(CenS U)) (coprime_pPrimeCore U)
     (isPGroup_subgroupOf hT3 hTC)
   unfold cqImg
@@ -44,15 +47,16 @@ theorem cqImg_card {U T : Subgroup G} (hT3 : IsPGroup 3 T) (hTC : T ≤ CenS U) 
 theorem cq_eq_of_mk_eq {U T : Subgroup G} (hT3 : IsPGroup 3 T) (hTC : T ≤ CenS U)
     {x y : ↥(CenS U)} (hx : (x : G) ∈ T) (hy : (y : G) ∈ T)
     (h : (QuotientGroup.mk x : CQ U) = QuotientGroup.mk y) : x = y := by
-  haveI : (pPrimeCore 3 ↥(CenS U)).Normal := pPrimeCore_normal
+  have : (pPrimeCore 3 ↥(CenS U)).Normal := pPrimeCore_normal
   exact pp_eq_of_mk_eq (pPrimeCore 3 ↥(CenS U)) (coprime_pPrimeCore U)
     (isPGroup_subgroupOf hT3 hTC) (Subgroup.mem_subgroupOf.mpr hx) (Subgroup.mem_subgroupOf.mpr hy)
     h
 
+omit [Finite G] in
 theorem cqImg_elemAb {U T : Subgroup G} (hT : IsElementaryAbelian 3 T) (hTC : T ≤ CenS U) :
     IsElementaryAbelian 3 (cqImg U T) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : IsElementaryAbelian 3 (T.subgroupOf (CenS U)) := IsElementaryAbelian.subgroupOf hTC
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsElementaryAbelian 3 (T.subgroupOf (CenS U)) := IsElementaryAbelian.subgroupOf hTC
   unfold cqImg
   exact IsElementaryAbelian.map _
 
@@ -71,6 +75,7 @@ theorem elemAb_of_cqImg {U T : Subgroup G} (hT3 : IsPGroup 3 T) (hTC : T ≤ Cen
       T.one_mem (this.trans rfl)
     simpa using congrArg Subtype.val h2
 
+omit [Finite G] in
 theorem cqβ_mk_of_cen {U : Subgroup G} {b : G} (hb : b ∈ Nor U) (x : ↥(CenS U))
     (hx : (x : G) ∈ Cen b) : cqβ U b hb (QuotientGroup.mk x : CQ U) = QuotientGroup.mk x := by
   rw [mk_conjAut_eq]
@@ -79,6 +84,7 @@ theorem cqβ_mk_of_cen {U : Subgroup G} {b : G} (hb : b ∈ Nor U) (x : ↥(CenS
   show b * (x : G) * b⁻¹ = x
   exact mul_inv_eq_iff_eq_mul.mpr (Subgroup.mem_centralizer_iff.mp hx b (Set.mem_singleton b))
 
+omit [Finite G] in
 theorem cqβ_pow_three {U : Subgroup G} {b : G} (hb : b ∈ Nor U) (hb3 : b ^ 3 = 1) :
     cqβ U b hb ^ 3 = 1 := by
   ext y
@@ -91,9 +97,11 @@ theorem cqβ_pow_three {U : Subgroup G} {b : G} (hb : b ∈ Nor U) (hb3 : b ^ 3 
   rw [conjAut_pow3 (nor_cenS_of_nor hb) hb3]
   rfl
 
+omit [Finite G] in
 theorem le_cenS_of_le {T V : Subgroup G} (hT : IsMulCommutative T) (hVT : V ≤ T) : T ≤ CenS V :=
-  fun x hx => Subgroup.mem_centralizer_iff.mpr fun h hh => setLike_mul_comm (hVT hh) hx
+  fun _x hx => Subgroup.mem_centralizer_iff.mpr fun _h hh => setLike_mul_comm (hVT hh) hx
 
+omit [Finite G] in
 theorem cqImg_le_center {U T : Subgroup G} (hTU : T ≤ U) :
     cqImg U T ≤ Subgroup.center (CQ U) := by
   intro y hy
@@ -125,7 +133,7 @@ theorem sec34_AleC (h : FF79Sec34In b J B A P D) (hU : FF79Sec34UFacts b a J A) 
 
 theorem sec34_ap_basic (hs : FF79Sec3 b J) (h : FF79Sec34In b J B A P D)
     (hU : FF79Sec34UFacts b a J A) (hoa : orderOf a = 3)
-    (hK : IsLnq 2 2 2 (Lay (J ⊓ Cen a))) (haC : a ∈ CenS (U34 b a J A)) :
+    (_hK : IsLnq 2 2 2 (Lay (J ⊓ Cen a))) (haC : a ∈ CenS (U34 b a J A)) :
     cqβ (U34 b a J A) b hU.b_nor ^ 3 = 1 ∧ pPrimeCore 3 (CQ (U34 b a J A)) = ⊥ ∧
     (∃ S : Subgroup (CQ (U34 b a J A)), IsSylowOf 3 S ⊤ ∧ IsMulCommutative S) ∧
     cqImg (U34 b a J A) (U34 b a J A) ≤ Subgroup.center (CQ (U34 b a J A)) ∧
@@ -137,8 +145,8 @@ theorem sec34_ap_basic (hs : FF79Sec3 b J) (h : FF79Sec34In b J B A P D)
       QuotientGroup.mk (⟨a, haC⟩ : ↥(CenS (U34 b a J A))) ∧
     (∃ A' : Subgroup (CQ (U34 b a J A)), IsElemAb 3 4 A' ∧
       cqImg (U34 b a J A) (U34 b a J A) ≤ A') := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : (pPrimeCore 3 ↥(CenS (U34 b a J A))).Normal := pPrimeCore_normal
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : (pPrimeCore 3 ↥(CenS (U34 b a J A))).Normal := pPrimeCore_normal
   have hb3 : orderOf b = 3 := h.hyp.ord
   have hb3' : b ^ 3 = 1 := by rw [← hb3]; exact pow_orderOf_eq_one b
   have hU3 : IsPGroup 3 (U34 b a J A) :=
@@ -150,14 +158,14 @@ theorem sec34_ap_basic (hs : FF79Sec3 b J) (h : FF79Sec34In b J B A P D)
     have hS := sec34_As_syl hs h hU hAs
     have hAsC : As ≤ CenS (U34 b a J A) := hS.1
     have hSyl : IsSylowOf 3 (As.subgroupOf (CenS (U34 b a J A))) ⊤ := by
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       refine L41.isSylowOf_of_card_p le_top ?_
       rw [Subgroup.card_top, Nat.card_congr (Subgroup.subgroupOfEquivOfLe hAsC).toEquiv,
         L41.isSylowOf_card_p hS]
     refine ⟨(As.subgroupOf (CenS (U34 b a J A))).map
       (QuotientGroup.mk' (pPrimeCore 3 ↥(CenS (U34 b a J A)))),
       pp_isSylowOf_map _ (coprime_pPrimeCore _) hSyl, ?_⟩
-    haveI : IsMulCommutative As := hAs.2.2.1
+    have : IsMulCommutative As := hAs.2.2.1
     infer_instance
   · rw [cqImg_card hU3 (sec34_UleC hU), hUcard]
   · have h1 : orderOf (⟨a, haC⟩ : ↥(CenS (U34 b a J A))) = 3 := by

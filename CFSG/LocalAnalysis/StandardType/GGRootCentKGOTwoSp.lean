@@ -250,7 +250,7 @@ private theorem pCoreOf_le_range_of_card_two {F : Type} [Field F] [Finite F] [Ch
   obtain ⟨g, σ, hg⟩ := exists_inn_field_of_mem_normalizer hn hker hC haN
   have hσ1 : σ = 1 := by
     have hcardu : Nat.card Fˣ = 1 := by rw [Nat.card_units, hcard]
-    haveI : Subsingleton Fˣ := (Nat.card_eq_one_iff_unique.1 hcardu).1
+    have : Subsingleton Fˣ := (Nat.card_eq_one_iff_unique.1 hcardu).1
     ext x
     by_cases hx : x = 0
     · rw [hx, map_zero, map_zero]
@@ -273,7 +273,7 @@ theorem pCoreOf_le_range_of_siegDiag {F : Type} [Field F] [Finite F] [CharP F 2]
   by_cases hcard : Nat.card F = 2
   · exact pCoreOf_le_range_of_card_two (by omega) ψ hψ hC hcard
   · have h4 : 4 ≤ Nat.card F := by
-      haveI : Fintype F := Fintype.ofFinite F
+      have : Fintype F := Fintype.ofFinite F
       obtain ⟨k, -, hk⟩ := FiniteField.card F 2
       have hk2 : 2 ≤ (k : ℕ) := by
         by_contra h
@@ -295,7 +295,7 @@ theorem pCoreOf_le_range_of_siegDiag {F : Type} [Field F] [Finite F] [CharP F 2]
       refine ggRCST_pCoreOf_eq centralizer_siegDiag_eq_sup isPGroup_transvRadical
         complSp_le_normalizer_transvRadical ?_
       intro N hN hN2 hNN
-      haveI : (N.subgroupOf (complSp F i)).Normal :=
+      have : (N.subgroupOf (complSp F i)).Normal :=
         (Subgroup.normal_subgroupOf_iff_le_normalizer hN).mpr hNN
       have hN'2 : IsPGroup 2 (N.subgroupOf (complSp F i)) :=
         hN2.comap_of_injective (complSp F i).subtype (complSp F i).subtype_injective
@@ -329,7 +329,7 @@ theorem pCoreOf_le_range_of_twoCentralElt {F : Type} [Field F] [Finite F] [CharP
   by_cases hcard : Nat.card F = 2
   · exact pCoreOf_le_range_of_card_two (by omega) ψ hψ hC hcard
   · have h4 : 4 ≤ Nat.card F := by
-      haveI : Fintype F := Fintype.ofFinite F
+      have : Fintype F := Fintype.ofFinite F
       obtain ⟨k, -, hk⟩ := FiniteField.card F 2
       have hk2 : 2 ≤ (k : ℕ) := by
         by_contra h
@@ -362,7 +362,7 @@ theorem pCoreOf_le_range_of_twoCentralElt {F : Type} [Field F] [Finite F] [CharP
       refine ggRCST_pCoreOf_eq hfacts.1 (isPGroup_wRadical (one_ne_two_fin (n := m)))
         hLQ ?_
       intro N hN hN2 hNN
-      haveI : (N.subgroupOf (a2Levi F m)).Normal :=
+      have : (N.subgroupOf (a2Levi F m)).Normal :=
         (Subgroup.normal_subgroupOf_iff_le_normalizer hN).mpr hNN
       have hN'2 : IsPGroup 2 (N.subgroupOf (a2Levi F m)) :=
         hN2.comap_of_injective (a2Levi F m).subtype (a2Levi F m).subtype_injective
@@ -392,7 +392,7 @@ theorem ggRootCentOTwoTag_PSp : GGRootCentOTwoTag .PSp := by
   obtain ⟨p, Bs, hp, hp2, hBsE, hcard, -, hBsI⟩ := hBs
   have hn4 : 4 ≤ n :=
     AutPSp.four_le_of_bstar (K := GaloisField 2 f) hn2 ψs hker hC hp hp2 hBsE hcard hBsI
-  haveI : NeZero n := ⟨by omega⟩
+  have : NeZero n := ⟨by omega⟩
   have hcenter : Subgroup.center (ggU .PSp n f).K = ⊥ := AutPSp.center_eq_bot
   have hψ : Function.Injective ψs :=
     (MonoidHom.ker_eq_bot_iff ψs).mp

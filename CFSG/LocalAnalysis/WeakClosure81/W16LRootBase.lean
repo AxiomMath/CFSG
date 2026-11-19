@@ -51,8 +51,8 @@ theorem sylowCenter_conj_exists {X : Type} [Group X] (Q : Sylow 2 X) (g : X) :
 
 theorem exists_conj_eq_sylowCenter {X : Type} [Group X] [Finite X] (Q Q' : Sylow 2 X) :
     ∃ h : X, conjSubgroup (sylowCenter Q) h = sylowCenter Q' := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (Sylow 2 X) := Sylow.finite_of_finiteIndex Q
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (Sylow 2 X) := Sylow.finite_of_finiteIndex Q
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq X Q Q'
   refine ⟨g⁻¹, ?_⟩
   rw [← w16l_sylowCenter_smul Q g, hg]
@@ -62,6 +62,7 @@ section Certified
 
 variable {P : Type} [Group P] [Finite P] {n : ℕ}
 
+omit [Finite P] in
 theorem IsPSUGp.isU3Shape (hP : IsPSUGp P 3 n) : IsU3Shape P n := by
   have hperf : Group.IsPerfect P := CFSG.ClassicalGroups.Unitary.isPerfect_of_lieModel_psu3 hP
   have hsimple : IsSimpleGroup P :=

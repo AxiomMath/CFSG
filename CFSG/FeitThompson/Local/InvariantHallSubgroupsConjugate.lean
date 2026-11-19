@@ -25,7 +25,7 @@ theorem mem_inf_centralizer_iff_forall_mul_comm {c : X} :
 theorem sup_eq_top_iff_coe_mul_coe_eq_univ [K.Normal] :
     K ⊔ A = ⊤ ↔ (K : Set X) * (A : Set X) = Set.univ := by
   rw [← Subgroup.normal_mul K A]
-  simp [Subgroup.eq_top_iff', Set.eq_univ_iff_forall, SetLike.ext'_iff]
+  simp [Set.eq_univ_iff_forall, SetLike.ext'_iff]
 
 theorem conj_smul_le_normalizer_conj_smul (g : X) {S T : Subgroup X}
     (h : T ≤ normalizer (S : Set X)) :

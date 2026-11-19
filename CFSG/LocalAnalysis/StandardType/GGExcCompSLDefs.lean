@@ -30,7 +30,7 @@ theorem GGCompFieldAtSL.of_centerQuotEquiv {G H : Type} [Group G] [Group H] {X :
     {Y : Subgroup H} {Q : ℕ} (θ : ↥X ⧸ Subgroup.center ↥X ≃* ↥Y ⧸ Subgroup.center ↥Y)
     (h : GGCompFieldAtSL Q X) : GGCompFieldAtSL Q Y := by
   obtain ⟨lab, hlab, hchar, hdeg, hsl, hhas, R, instR, hR, ⟨φ⟩⟩ := h
-  letI : Group R := instR
+  let : Group R := instR
   have hhas' : GGHasLabel lab (↥Y ⧸ Subgroup.center ↥Y) := by
     unfold GGHasLabel at hhas ⊢
     refine largeEvenRawDatum_mono ?_ hhas

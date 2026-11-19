@@ -134,7 +134,7 @@ theorem burnsideF411a_borel_aut [Finite K] (β : MulAut (projectiveSL 3 K))
         β = conjAut 3 K A * fieldAut 3 K σ := by
   classical
   obtain ⟨p, hchar⟩ := CharP.exists K
-  haveI : Fact p.Prime := ⟨CharP.char_is_prime K p⟩
+  have : Fact p.Prime := ⟨CharP.char_is_prime K p⟩
   obtain ⟨-, hinj, -⟩ := maximal_parabolics (K := K) p (n := 3) (by norm_num)
   obtain ⟨A, σ, ε, hε, rfl⟩ := (automorphism_generation (K := K) (n := 3) (by norm_num)).2 β
   obtain ⟨v0F1, v1F2, v1nF1, hF2nt, v0nO1, v0nO2, v1O1, v2O2, hF12⟩ :=

@@ -36,13 +36,14 @@ theorem pRank_three_eq_one_of_isAlt_five {L : Subgroup G} (hAlt : IsAlt (Bar2 L)
     CFSG.SectionRank.pRank_top_eq_of_mulEquiv (p := 3) (by norm_num) e]
   exact CFSG.RankThree.PartTwo.Sec4.RonanK432.alt_pRank_three_five
 
+omit [Finite G] in
 theorem barImage_inf_centralizer_eq_bot {M X : Subgroup G}
     (hXA : IsA5xA5 ↥(barImage M X)) :
     barImage M X ⊓ Subgroup.centralizer (barImage M X : Set (Bar2 M)) = ⊥ :=
   CFSG.AGLEmbedding.inf_centralizer_eq_bot_of_center (center_eq_bot_of_isA5xA5 hXA)
 
 theorem pRank_add_pRank_le_of_le_centralizer {D : Data G} {X : Subgroup G} {q : ℕ}
-    (hq : q.Prime) (hq2 : q ≠ 2) (hXA : IsA5xA5 ↥(barImage D.M X)) {C : Subgroup (Bar2 D.M)}
+    (hq : q.Prime) (_hq2 : q ≠ 2) (hXA : IsA5xA5 ↥(barImage D.M X)) {C : Subgroup (Bar2 D.M)}
     (hC : C ≤ Subgroup.centralizer (barImage D.M X : Set (Bar2 D.M))) :
     CFSG.Open.pRank q (barImage D.M X) + CFSG.Open.pRank q C ≤
       CFSG.Open.pRank q (barImage D.M X ⊔ C) := by

@@ -24,8 +24,8 @@ theorem catLayer_holds
   obtain ⟨i, hi, ⟨e⟩⟩ := hcat
   cases i with
   | lie idx =>
-    haveI : IsSimpleGroup idx.Group := (CFSG.Assembly.lie_finite_simple idx).2
-    haveI : IsSimpleGroup R := e.isSimpleGroup
+    have : IsSimpleGroup idx.Group := (CFSG.Assembly.lie_finite_simple idx).2
+    have : IsSimpleGroup R := e.isSimpleGroup
     have hna : ∃ a b : R, a * b ≠ b * a :=
       CFSG.LocalAnalysis.GLTheoremA.chevTwoNonabelian_holds R
         (inferInstance : IsSimpleGroup R)
@@ -63,8 +63,8 @@ theorem catChevComps_holds
   obtain ⟨i, hi, ⟨e⟩⟩ := hcat
   cases i with
   | lie idx =>
-    haveI : IsSimpleGroup idx.Group := (CFSG.Assembly.lie_finite_simple idx).2
-    haveI : IsSimpleGroup R := e.isSimpleGroup
+    have : IsSimpleGroup idx.Group := (CFSG.Assembly.lie_finite_simple idx).2
+    have : IsSimpleGroup R := e.isSimpleGroup
     have hna : ∃ a b : R, a * b ≠ b * a :=
       CFSG.LocalAnalysis.GLTheoremA.chevTwoNonabelian_holds R
         (inferInstance : IsSimpleGroup R)

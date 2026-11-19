@@ -20,6 +20,7 @@ open scoped commutatorElement
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 variable {K : Type} [Field K] [Finite K] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ}
 
+omit [Finite G] in
 theorem isA2_iff_isOrthA2 (H : StrothHyp M Q Z) (h : GlobalModelData M Q Z γ M₀)
     {φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E)}
     (hφπ : ∀ (g : ↥(H0 M Z)) (x : G), x ∈ Q → M₀.π ((g : G) * x * (g : G)⁻¹) = φ g (M₀.π x))
@@ -55,13 +56,13 @@ theorem isA2_iff_isOrthA2 (H : StrothHyp M Q Z) (h : GlobalModelData M Q Z γ M�
   map_one' := liftF_one hφker
   map_mul' c d := liftF_mul hφker (mem_bar_H0_iff.mp c.2) (mem_bar_H0_iff.mp d.2)
 
-omit [Finite K] in
+omit [Finite K] [Finite G] in
 theorem barH0Act_apply [(Q.subgroupOf M).Normal] (φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E))
     (hφker : ∀ g : ↥(H0 M Z), φ g = 1 ↔ (g : G) ∈ Q) (c : ↥(bar M Q (H0 M Z))) :
     barH0Act φ hφker c = liftF φ c :=
   rfl
 
-omit [Finite K] in
+omit [Finite K] [Finite G] in
 theorem barH0Act_injective [(Q.subgroupOf M).Normal] {φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E)}
     (hφker : ∀ g : ↥(H0 M Z), φ g = 1 ↔ (g : G) ∈ Q) :
     Function.Injective (barH0Act φ hφker) := by
@@ -75,7 +76,7 @@ theorem barH0Act_injective [(Q.subgroupOf M).Normal] {φ : ↥(H0 M Z) →* (M�
   rw [← hg]
   exact (mkH_eq_one_iff g).mpr ((hφker g).mp h1)
 
-omit [Finite K] in
+omit [Finite K] [Finite G] in
 theorem orderOf_liftF [(Q.subgroupOf M).Normal] {φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E)}
     (hφker : ∀ g : ↥(H0 M Z), φ g = 1 ↔ (g : G) ∈ Q) {c : Mbar M Q}
     (hc : c ∈ bar M Q (H0 M Z)) : orderOf (liftF φ c) = orderOf c := by
@@ -114,7 +115,7 @@ theorem Ctx.isOrthA2_liftF_of_mem_Ebar [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z
   rw [liftF_mkH hφker]
   exact hc.isOrthA2_of_mem_Ebar h h.card g.2 he (hφπ g)
 
-omit [Finite K] in
+omit [Finite K] [Finite G] in
 theorem commSpace_liftF_conj [(Q.subgroupOf M).Normal] {φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E)}
     (hφker : ∀ g : ↥(H0 M Z), φ g = 1 ↔ (g : G) ∈ Q) {c t : Mbar M Q}
     (hc : c ∈ bar M Q (H0 M Z)) (ht : t ∈ bar M Q (H0 M Z)) :

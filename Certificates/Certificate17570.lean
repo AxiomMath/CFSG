@@ -22,14 +22,12 @@ theorem certificate17570_of_bridge
         #[8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]) :
  CFSG.HardMathSupport.Timmesfeld.SporadicBalance.Fi24Three.Fi24PairOrbitFacts :=
   by
-    intros
     exact CFSG.KD.Fi24Pair.Group.fi24PairOrbitFacts_of hL hC hlv
 
 theorem certificate17570 : 
     CFSG.HardMathSupport.Timmesfeld.SporadicBalance.Fi24Three.Fi24PairOrbitFacts :=
   certificate17570_of_bridge (KernelFi24OrbL.bridge.letter)
     (KernelFi24OrbL.bridge.cls) (by
-      intros
       rw [KernelFi24OrbL.levelLetters_eq 2 (by norm_num)]
       decide)
 

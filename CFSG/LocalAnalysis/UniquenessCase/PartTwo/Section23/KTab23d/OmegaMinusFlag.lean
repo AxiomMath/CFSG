@@ -128,7 +128,7 @@ private lemma span_symm_eq_tailFlag_Q16 {K : Type} [Field K] {b c : K} (k : ℕ)
   rw [show y = hypVec K (Fin 2 → K) (Sum.inl (0 : Fin (k + 2))) from hsymm, tailFlag]
   congr 1
   ext v
-  simp only [Set.mem_image, Set.mem_setOf_eq, Set.mem_singleton_iff]
+  simp only [Set.mem_image, Set.mem_ofPred_eq, Set.mem_singleton_iff]
   constructor
   · intro hv
     exact ⟨0, by simp, hv.symm⟩

@@ -60,7 +60,7 @@ theorem shapeSimple_of_l28 {K : Type} [Group K] [Finite K] (hK : IsCaseTwoGroup 
     (S : Sylow 3 K) {P : Subgroup (MulAut K)} (hP : IsPGroup 3 P)
     (hSP : (S : Subgroup K).map (MulAut.conj : K →* MulAut K) ≤ P) : ShapeSimple P := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ε₀⟩ := nonempty_equiv_G8 hK
   have hD := l28Data_of_equiv ε₀ S
   set I := (S : Subgroup K).map (MulAut.conj : K →* MulAut K) with hI

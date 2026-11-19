@@ -212,7 +212,7 @@ theorem exists_sylow_le (hsc : ∀ u ∈ U, ∀ g : G, g * u * g⁻¹ ∈ M → 
   obtain ⟨P₀⟩ : Nonempty (Sylow 2 ↥M) := inferInstance
   set S₀ := (P₀ : Subgroup ↥M).map M.subtype with hS₀
   have hS₀M : S₀ ≤ M := Subgroup.map_subtype_le _
-  have hS₀2 : IsPGroup 2 S₀ := P₀.isPGroup'.map M.subtype
+  have hS₀2 : IsPGroup 2 S₀ := P₀.isPGroup.map M.subtype
   have hUS₀ : U ≤ S₀ := by
     have hn : (U.subgroupOf M).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer H.le).mpr H.normal
@@ -223,7 +223,7 @@ theorem exists_sylow_le (hsc : ∀ u ∈ U, ∀ g : G, g * u * g⁻¹ ∈ M → 
   obtain ⟨Q, hQ⟩ := hS₀2.exists_le_sylow
   have hQM : (Q : Subgroup G) ⊓ M ≤ S₀ := by
     have h2 : IsPGroup 2 (((Q : Subgroup G) ⊓ M).subgroupOf M) :=
-      Q.isPGroup'.to_inf_left.comap_of_injective _ Subtype.val_injective
+      Q.isPGroup.to_inf_left.comap_of_injective _ Subtype.val_injective
     have h1 : (P₀ : Subgroup ↥M) ≤ ((Q : Subgroup G) ⊓ M).subgroupOf M := fun z hz =>
       Subgroup.mem_subgroupOf.mpr ⟨hQ ⟨z, hz, rfl⟩, z.2⟩
     have h3 := P₀.maximal_isPGroup.eq_of_ge h2 h1
@@ -246,7 +246,7 @@ theorem exists_sylow_le (hsc : ∀ u ∈ U, ∀ g : G, g * u * g⁻¹ ∈ M → 
       rw [← H.normalizer_U_eq]
       exact hqU
     exact hQM ⟨hq, hqM⟩
-  have : Group.IsNilpotent Q := Q.isPGroup'.isNilpotent
+  have : Group.IsNilpotent Q := Q.isPGroup.isNilpotent
   have hself : Subgroup.normalizer ((S₀.subgroupOf Q : Subgroup Q) : Set Q) = S₀.subgroupOf Q := by
     rw [← Subgroup.subgroupOf_normalizer_eq hQ]
     ext x

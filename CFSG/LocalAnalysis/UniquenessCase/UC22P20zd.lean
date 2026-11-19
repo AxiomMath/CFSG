@@ -14,6 +14,7 @@ variable {G : Type} [Group G] [Finite G]
 @[expose] def uc22pwuImg (L K : Subgroup G) : Subgroup (Bar2 L) :=
   (K.subgroupOf L).map (QuotientGroup.mk' (CFSG.pCore 2 ↥L))
 
+omit [Finite G] in
 theorem uc22pwu_map_img {L K : Subgroup G} (hKL : K ≤ L) {g : G} (hg : g ∈ normalizer (L : Set G)) :
     (uc22pwuImg L K).map (uc22p20uInd L g hg).toMonoidHom = uc22pwuImg L (uc22p20bCj g K) := by
   ext y
@@ -29,6 +30,7 @@ theorem uc22pwu_map_img {L K : Subgroup G} (hKL : K ≤ L) {g : G} (hg : g ∈ n
     rw [uc22p20uInd_mk]
     exact congrArg (QuotientGroup.mk' _) (Subtype.ext hkl)
 
+omit [Finite G] in
 theorem uc22pwu_mem_img_iff {L K : Subgroup G} (hKL : K ≤ L) {g : G}
     (hg : g ∈ normalizer (L : Set G)) (x : Bar2 L) :
     x ∈ uc22pwuImg L K ↔ uc22p20uInd L g hg x ∈ uc22pwuImg L (uc22p20bCj g K) := by
@@ -40,13 +42,16 @@ theorem uc22pwu_swap {D : Data G} {L K K' : Subgroup G} (hL : L ∈ calL D.T D.M
   rw [← hg]
   exact uc22pwu_mem_img_iff hKL (hL.1 g.2) x
 
+omit [Finite G] in
 theorem uc22pwu_cj_inv_cj (s : G) (K : Subgroup G) : uc22p20bCj s⁻¹ (uc22p20bCj s K) = K := by
   rw [uc22p20b_cj_cj, inv_mul_cancel, uc22p20b_cj_one]
 
+omit [Finite G] in
 theorem uc22pwu_cj_injective (s : G) {A B : Subgroup G} (h : uc22p20bCj s A = uc22p20bCj s B) : A = B := by
   have := congrArg (uc22p20bCj s⁻¹) h
   rwa [uc22pwu_cj_inv_cj, uc22pwu_cj_inv_cj] at this
 
+omit [Finite G] in
 theorem uc22pwu_sup_img {L K K₂ : Subgroup G} (hKL : K ≤ L) (hK₂L : K₂ ≤ L) (hLK : L = K ⊔ K₂) :
     uc22pwuImg L K ⊔ uc22pwuImg L K₂ = ⊤ := by
   have hsup : K.subgroupOf L ⊔ K₂.subgroupOf L = ⊤ := by
@@ -57,7 +62,7 @@ theorem uc22pwu_sup_img {L K K₂ : Subgroup G} (hKL : K ≤ L) (hK₂L : K₂ �
   rw [← Subgroup.map_sup, hsup, Subgroup.map_top_of_surjective _ (QuotientGroup.mk'_surjective _)]
 
 theorem uc22pwu_cComp_cases (D : Data G) {L K K₂ : Subgroup G} (hL : L ∈ calL D.T D.M)
-    (hK : K ∈ calC L) (hK₂ : K₂ ∈ calC L) (hne : K₂ ≠ K) (hLK : L = K ⊔ K₂) {C : Subgroup G}
+    (hK : K ∈ calC L) (hK₂ : K₂ ∈ calC L) (_hne : K₂ ≠ K) (hLK : L = K ⊔ K₂) {C : Subgroup G}
     (hC : C ∈ CFSG.Quasithin.cComp L) : C = K ∨ C = K₂ := by
   by_contra hcon
   push Not at hcon
@@ -87,6 +92,7 @@ theorem uc22pwu_cComp_cases (D : Data G) {L K K₂ : Subgroup G} (hL : L ∈ cal
   rw [map_mul, map_mul]
   exact hcen _ (e x).2 _
 
+omit [Finite G] in
 theorem uc22pwu_cj_mem_cComp {L C : Subgroup G} (hC : C ∈ CFSG.Quasithin.cComp L) {s : G}
     (hs : s ∈ normalizer (L : Set G)) : uc22p20bCj s C ∈ CFSG.Quasithin.cComp L := by
   have h := CFSG.Quasithin.cComp_map_mulEquiv (MulAut.conj s) hC

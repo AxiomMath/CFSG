@@ -63,17 +63,20 @@ theorem isSimpleSection_comap {Y Z : Type} [Group Y] [Group Z] (π : Y →* Z)
 
 variable {G : Type} [Group G] [Finite G] {p : ℕ} {H D S B L M : Subgroup G} {z : G}
 
+omit [Finite G] in
 theorem pre_isSimpleSection [hDn : (D.subgroupOf H).Normal] {K N : Subgroup (QA H D)}
     (h : S622IsSimpleSection K N) : S622IsSimpleSection (pre H D K) (pre H D N) :=
   L6LeavesNS.s622IsSimpleSection_map H.subtype H.subtype_injective
     (isSimpleSection_comap (qmk H D) qmk_surjective h)
 
+omit [Finite G] in
 theorem relIndex_pre [hDn : (D.subgroupOf H).Normal] {N Y : Subgroup (QA H D)} :
     (pre H D N).relIndex (pre H D Y) = N.relIndex Y := by
   unfold pre
   rw [Subgroup.relIndex_map_map_of_injective _ _ H.subtype_injective, Subgroup.relIndex_comap,
     Subgroup.map_comap_eq_self_of_surjective qmk_surjective]
 
+omit [Finite G] in
 theorem mem_normalizer_map_subtype {H : Subgroup G} {P : Subgroup ↥H} {n : ↥H}
     (hn : n ∈ normalizer (P : Set ↥H)) :
     (n : G) ∈ normalizer ((P.map H.subtype : Subgroup G) : Set G) := by
@@ -104,9 +107,10 @@ variable (d : KGData p H D S B L M z) [hDn : (D.subgroupOf H).Normal]
 
 include d
 
+omit hDn in
 theorem coprime_D'_of_ne_two {f : ℕ} (hf : f.Prime) (hf2 : f ≠ 2) :
     Nat.Coprime f (Nat.card (D.subgroupOf H)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe d.D_le_H).toEquiv]
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp d.D_two
   rw [hk]
@@ -114,7 +118,7 @@ theorem coprime_D'_of_ne_two {f : ℕ} (hf : f.Prime) (hf2 : f ≠ 2) :
 
 theorem coprime_pre {T : Subgroup (QA H D)} (hT : Nat.Coprime p (Nat.card T)) :
     Nat.Coprime p (Nat.card (pre H D T)) := by
-  haveI : Fact p.Prime := ⟨d.prime⟩
+  have : Fact p.Prime := ⟨d.prime⟩
   rw [Nat.Prime.coprime_iff_not_dvd d.prime] at hT ⊢
   intro hdvd
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' (G := ↥(pre H D T)) p hdvd
@@ -146,7 +150,7 @@ theorem coprime_pre {T : Subgroup (QA H D)} (hT : Nat.Coprime p (Nat.card T)) :
 
 theorem rank3_pre {Y : Subgroup (QA H D)} :
     rankThreePrimeCore p (pre H D Y) = pre H D (rankThreePrimeCore p Y) := by
-  haveI : Fact p.Prime := ⟨d.prime⟩
+  have : Fact p.Prime := ⟨d.prime⟩
   apply le_antisymm
   ·
     set Y' := pre H D Y with hY'
@@ -198,7 +202,7 @@ theorem stronglyEmbedded_of_img (hs : KGStrongEmb p M z) {f : ℕ} (hf : f.Prime
     {Y : Subgroup (QA H D)} (hYM : Y ≤ img H D M) (hzY : qmk H D ⟨z, d.z_mem_H⟩ ∈ Y)
     (hsec : S622IsSimpleSection Y (rankThreePrimeCore p Y))
     (hrel : f ∣ (rankThreePrimeCore p Y).relIndex Y) : CFSG.Open.GLBStronglyEmbedded f M := by
-  haveI : Fact p.Prime := ⟨d.prime⟩
+  have : Fact p.Prime := ⟨d.prime⟩
   set Y' := pre H D Y with hY'
   have hY'M : Y' ≤ M := fun g hg => by
     obtain ⟨h, rfl, hmem⟩ := mem_pre.mp hg
@@ -220,8 +224,8 @@ theorem strong_img (hs : KGStrongEmb p M z) :
     ∀ F : Subgroup (QA H D), IsPGroup f F → F ⊓ Y ≠ ⊥ → ∀ F₁ : Subgroup (QA H D), F₁ ≤ F →
       F₁ ≠ ⊥ → normalizer (F₁ : Set (QA H D)) ≤ img H D M := by
   intro f hf hf2 hfp Y hYM hzY hsec hrel F hF hFY F₁ hF₁F hF₁1
-  haveI : Fact p.Prime := ⟨d.prime⟩
-  haveI : Fact f.Prime := ⟨hf⟩
+  have : Fact p.Prime := ⟨d.prime⟩
+  have : Fact f.Prime := ⟨hf⟩
   set Y' := pre H D Y with hY'
   have hY'M : Y' ≤ M := fun g hg => by
     obtain ⟨h, rfl, hmem⟩ := mem_pre.mp hg
@@ -310,7 +314,7 @@ theorem strongEmb_img (hs : KGStrongEmb p M z) :
     ∀ g : QA H D, g ∉ img H D M →
       ¬ f ∣ Nat.card ↥(img H D M ⊓ CFSG.Open.GLBConj g (img H D M)) := by
   intro f hf hf2 hfp Y hYM hzY hsec hrel g hg hdvd
-  haveI : Fact f.Prime := ⟨hf⟩
+  have : Fact f.Prime := ⟨hf⟩
   have hsE := d.stronglyEmbedded_of_img hs hf hf2 hfp hYM hzY hsec hrel
   obtain ⟨h, rfl⟩ := qmk_surjective g
   have hhM : (h : G) ∉ M := fun hh => hg (mem_img.mpr ⟨h, hh, rfl⟩)
@@ -350,7 +354,7 @@ theorem strongEmb_img (hs : KGStrongEmb p M z) :
       have := (mem_pre_img d.D_le_M).mp (mem_pre.mpr ⟨h * u * h⁻¹, rfl, hy ▸ hyM⟩)
       exact this.1
     refine Subgroup.mem_map.mpr ⟨(h : G) * u * (h : G)⁻¹, hmem, ?_⟩
-    simp [MulAut.conj_apply, mul_assoc]
+    simp [mul_assoc]
   have hdvd' : f ∣ Nat.card ↥(M ⊓ CFSG.Open.GLBConj (h : G) M) := by
     have h1 : f ∣ Nat.card ↥(P.map H.subtype) := by
       rw [Subgroup.card_map_of_injective H.subtype_injective]

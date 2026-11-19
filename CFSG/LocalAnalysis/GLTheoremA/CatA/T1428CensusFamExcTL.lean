@@ -109,7 +109,7 @@ private theorem excTLInnerTwoAll_of_ne_G2 {τ : Tag} (hτ : τ ≠ .G2) :
       ⟨a₁, ha₁, a₂, ha₂, a₃, ha₃, n1, n2, n3, p12, p23, p13⟩
   · obtain ⟨hfin, hcard⟩ := excTL_two_card_le hτ hK hγr hδr nγ nδ hform
       (S := componentRoots χ i) hsub
-    haveI : Finite ↥(componentRootSpan K χ i) := hfin
+    have : Finite ↥(componentRootSpan K χ i) := hfin
     exact excTL_false_of_card8 φ (by rw [hF]; exact hq) hcard
   · exact excTL_two_false_of_chain hτ hK φ ha₁ ha₂ ha₃ n1 n2 n3 p12 p23 p13
 
@@ -140,11 +140,11 @@ private theorem excres_inner_not_typeL2_all {τ : Tag}
   intro hq
   obtain ⟨hs0, hs, hmin⟩ := outer_componentOrbitLength_spec S hT i
   set s := componentOrbitLength S.ρ (componentRoots (rootCharHom a) i) with hsdef
-  haveI : NeZero s := ⟨hs0.ne'⟩
+  have : NeZero s := ⟨hs0.ne'⟩
   have hinner := twistInner_of_twistKind_eq_innerT S rootAutIsWeyl_holds hT i hk
   obtain ⟨σ, z, hσ, hnorm, hz⟩ := exists_untwistT S hT i hs0 hinner
   obtain ⟨r, e, hr, hchar, he, hq'⟩ := exists_char_pow S
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hr3 : r ≠ 3 := by
     rintro rfl
     exact hL3 (by simpa using CharP.cast_eq_zero L 3)
@@ -210,12 +210,12 @@ private theorem three_ne_zero_of_rootDiagUnit {τ : Tag} {L : Type} [Field L] {a
   rw [this, rootDiagUnit_one]
 
 private theorem excres_outer_not_typeL2_all {τ : Tag}
-    (hτ : τ = .F4 ∨ τ = .E6 ∨ τ = .E7 ∨ τ = .E8) {L : Type} [Field L] [IsAlgClosed L]
+    (_hτ : τ = .F4 ∨ τ = .E6 ∨ τ = .E7 ∨ τ = .E8) {L : Type} [Field L] [IsAlgClosed L]
     {p₀ : ℕ} (S : LangSetup τ L p₀) {a : Fin τ.rank → Lˣ}
     (hT : rootDiagUnit τ a ∈ S.D.torus) (ha3 : ∀ i, a i ^ 3 = 1) (h1 : rootDiagUnit τ a ≠ 1)
     (i : KernelComponent (rootCharHom a))
     (hk : twistKind S.ρ (rootCharHom a) i ≠ .inner)
-    (hQS : CFSG.IsQuasisimple (rationalComponent S.ρ S.Γ (rootCharHom a) i)) {q : ℕ}
+    (_hQS : CFSG.IsQuasisimple (rationalComponent S.ρ S.Γ (rootCharHom a) i)) {q : ℕ}
     (hq8 : 8 ≤ q) : ¬ IsTypeL2 q ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) := by
   classical
   intro hq
@@ -225,8 +225,8 @@ private theorem excres_outer_not_typeL2_all {τ : Tag}
   | inner => exact hk hk'
   | exc =>
     obtain ⟨r, e, hr, hchar, he, hq'⟩ := exists_char_pow S
-    haveI : Fact r.Prime := ⟨hr⟩
-    haveI : CharP L r := hchar
+    have : Fact r.Prime := ⟨hr⟩
+    have : CharP L r := hchar
     obtain ⟨hnin, hA | ⟨hr4, hc24, -⟩⟩ := exc_kind hk'
     · have hNo := ssOth_e6class S Nat.prime_three hL3 hT hTp h1 i hA.1 hA.2 hnin hr
       obtain ⟨F, _, _, _, ⟨e'⟩⟩ := hq
@@ -236,8 +236,8 @@ private theorem excres_outer_not_typeL2_all {τ : Tag}
       exact (hNo F).false e'
   | twoD =>
     obtain ⟨r, e, hr, hchar, he, hq'⟩ := exists_char_pow S
-    haveI : Fact r.Prime := ⟨hr⟩
-    haveI : CharP L r := hchar
+    have : Fact r.Prime := ⟨hr⟩
+    have : CharP L r := hchar
     obtain ⟨hnin, h4, hcard⟩ := twoD_kind_unpack hk'
     by_cases h5 : 5 ≤ compRank (componentRoots (rootCharHom a) i)
     · have hτ5 : 5 ≤ τ.rank := h5.trans (compRank_le_rank _)
@@ -259,13 +259,13 @@ private theorem excres_outer_not_typeL2_all {τ : Tag}
     obtain ⟨r, e, hr, hchar, he, hq'⟩ := exists_char_pow S
     obtain ⟨σQ, hσc, f, hf1, hfker, hf2⟩ :=
       ssexc_suN_exists_hom S hT i hν hψ hΨ π hπ hr hchar he hq'
-    haveI : Fact r.Prime := ⟨hr⟩
-    haveI : CharP L r := hchar
+    have : Fact r.Prime := ⟨hr⟩
+    have : CharP L r := hchar
     have hes : 0 < e * s := Nat.mul_pos he hs0
     obtain ⟨hfin, hqsC, hcard⟩ := stdUnitary_fixSubgroup (ν := ν) hr hes σQ hσc hν
-    haveI := hfin
-    haveI : Finite ↥f.range := Finite.of_surjective f.rangeRestrict f.rangeRestrict_surjective
-    haveI : Finite ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) :=
+    have := hfin
+    have : Finite ↥f.range := Finite.of_surjective f.rangeRestrict f.rangeRestrict_surjective
+    have : Finite ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) :=
       Finite.of_injective (Subgroup.inclusion hf1) (Subgroup.inclusion_injective hf1)
     by_cases hne : (ν, r ^ (e * s)) = (3, 2)
     · have h216 := hcard hne
@@ -294,10 +294,10 @@ private theorem excres_outer_not_typeL2_all {τ : Tag}
       have hqC := (excres_isTypeL2_of_central_surjection hCperf g hgsurj hgker).1 hq
       obtain ⟨F, hFcard, ⟨e'⟩⟩ := ssexc_suN_exists_equiv hr hes σQ hσc hν
       have hqS := p6_isTypeL2_of_equiv e'.symm hqC
-      haveI : Finite F := Nat.finite_of_card_ne_zero (by
+      have : Finite F := Nat.finite_of_card_ne_zero (by
         rw [hFcard]
         exact (pow_pos (pow_pos hr.pos _) 2).ne')
-      haveI : CharP F r := charP_of_card_sq hFcard
+      have : CharP F r := charP_of_card_sq hFcard
       have hSU : CFSG.LieType.Universal.Unitary.SUid
           (CFSG.LieType.BorelTits.unitaryInvolution F r (e * s)) ν =
           StatedSU ν (r ^ (e * s)) F :=
@@ -331,9 +331,9 @@ theorem exc_three_components_false {τ : Tag} (hτ : τ = .F4 ∨ τ = .E6 ∨ �
     (β : MulAut C)
     (hβ : ∀ c, ι (β c) = rootDiagUnit τ a * ι c * (rootDiagUnit τ a)⁻¹) {q : ℕ} (hq8 : 8 ≤ q)
     {J₁ J₂ J₃ : Subgroup C} (hJ₁ : IsComponentOf J₁ (fixSubgroup β))
-    (hJ₂ : IsComponentOf J₂ (fixSubgroup β)) (hJ₃ : IsComponentOf J₃ (fixSubgroup β))
-    (h12 : J₁ ≠ J₂) (h13 : J₁ ≠ J₃) (h23 : J₂ ≠ J₃) (hL₁ : IsTypeL2 q ↥J₁)
-    (hL₂ : IsTypeL2 q ↥J₂) (hL₃ : IsTypeL2 q ↥J₃) : False := by
+    (hJ₂ : IsComponentOf J₂ (fixSubgroup β)) (_hJ₃ : IsComponentOf J₃ (fixSubgroup β))
+    (h12 : J₁ ≠ J₂) (_h13 : J₁ ≠ J₃) (_h23 : J₂ ≠ J₃) (hL₁ : IsTypeL2 q ↥J₁)
+    (hL₂ : IsTypeL2 q ↥J₂) (_hL₃ : IsTypeL2 q ↥J₃) : False := by
   classical
   have hτG2 : τ ≠ .G2 := by rcases hτ with rfl | rfl | rfl | rfl <;> decide
   have hTame := langSetup_hTame_of_prime S Nat.prime_three (by exact_mod_cast hL3)

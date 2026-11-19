@@ -31,7 +31,7 @@ theorem coe_Phi (g : GL (Fin 7) K) : ((Phi g : GL Idx K) : Matrix Idx Idx K) =
     Matrix.reindex e7 e7 (g : M7) := rfl
 
 theorem Qidx_eq (v : Idx → K) : StatedQuadOdd 3 K v = Q7 (fun i => v (e7 i)) := by
-  simp [StatedQuadOdd, Q7, Fintype.sum_sum_type, Fin.sum_univ_three, e7]
+  simp [StatedQuadOdd, Q7, Fin.sum_univ_three, e7]
 
 theorem Phi_mulVec (g : GL (Fin 7) K) (v : Idx → K) :
     ((Phi g : GL Idx K) : Matrix Idx Idx K) *ᵥ v =
@@ -42,7 +42,7 @@ theorem Phi_mulVec (g : GL (Fin 7) K) (v : Idx → K) :
 theorem Phi_mem_iff (g : GL (Fin 7) K) :
     Phi g ∈ {A : GL Idx K | ∀ v, StatedQuadOdd 3 K ((A : Matrix Idx Idx K) *ᵥ v) =
       StatedQuadOdd 3 K v} ↔ g ∈ isoSet := by
-  simp only [Set.mem_setOf_eq, isoSet]
+  simp only [Set.mem_ofPred_eq, isoSet]
   constructor
   · intro h w
     have := h (fun i => w (e7.symm i))

@@ -99,7 +99,7 @@ theorem ntpD4_rat_twisted
       rw [MonoidHom.mem_ker, h1] at h2
       exact hδ h2
     · set τ : K ≃+* K := σ ^ 2 with hτdef
-      haveI : Fintype K := Fintype.ofFinite K
+      have : Fintype K := Fintype.ofFinite K
       have hτ : ∀ c, τ c = c ^ ((2 : ℕ) ^ f) := by
         intro c
         have hq3 : ∀ d : K, d ^ ((2 : ℕ) ^ f) ^ 3 = d := fun d => by

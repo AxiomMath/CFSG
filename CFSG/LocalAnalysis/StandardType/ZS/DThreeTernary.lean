@@ -66,7 +66,7 @@ private theorem frameVec_frameSum_forms {m : ℕ} {δ : ZMod 3} (hm : 8 ≤ m �
     intro i j hij
     change diagF3 m δ (Pi.single (Fin.castLE hm7 i) 1) (Pi.single (Fin.castLE hm7 j) 1) = 0
     rw [diagF3_single_single hm (Fin.castLE hm7 i) (Fin.castLE hm7 j) (by simp) (by simp)]
-    rw [if_neg (fun h => hij (Fin.castLE_injective hm7 h))]
+    rw [ite_eq_right (fun h => hij (Fin.castLE_injective hm7 h))]
   have hwv : ∀ i, diagF3 m δ (frameSum m hm7) (frameVec m hm7 i) = 1 := by
     intro i
     rw [frameSum, LinearMap.BilinForm.sum_left, Finset.sum_eq_single i]

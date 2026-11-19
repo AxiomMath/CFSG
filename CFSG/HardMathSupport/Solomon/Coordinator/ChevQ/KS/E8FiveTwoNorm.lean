@@ -38,7 +38,7 @@ theorem exists_pointStabilizer_action_of_nontoral {ζ : L} (hζ : IsPrimitiveRoo
         griessZ hζ ^ ((g : SL3) 0 2).val * a ^ ((g : SL3) 1 2).val *
           b ^ ((g : SL3) 2 2).val := by
   have h5 : (5 : L) ≠ 0 := by
-    haveI : NeZero (5 : L) := hζ.neZero'
+    have : NeZero (5 : L) := hζ.neZero'
     exact NeZero.ne (5 : L)
   have hza : griessZ hζ * a = a * griessZ hζ := hbasis.comm_ab.eq
   have hzb : griessZ hζ * b = b * griessZ hζ := hbasis.comm_ac.eq
@@ -171,7 +171,7 @@ theorem det_eq_one_of_actual_fix_z
     (hγb : γ * b * γ⁻¹ = griessZ hζ ^ (M 0 2).val * a ^ (M 1 2).val * b ^ (M 2 2).val) :
     (M : Matrix (Fin 3) (Fin 3) (ZMod 5)).det = 1 := by
   have h5 : (5 : L) ≠ 0 := by
-    haveI : NeZero (5 : L) := hζ.neZero'
+    have : NeZero (5 : L) := hζ.neZero'
     exact NeZero.ne (5 : L)
   obtain ⟨Y, U, Y', U', hYa, hYb, hnc⟩ := nc_lifts_of_nontoral h5 hζ ha hb
     hbas.comm_bc.eq hbas.pow_b hbas.pow_c hbas.comm_ab.eq hbas.comm_ac.eq hnt
@@ -191,7 +191,7 @@ theorem det_eq_one_of_actual_fix_z
   have h20 : M 2 0 = 0 := by simpa [CFSG.GroupTheory.SL3Five.e0] using hcol 2
   rw [Matrix.det_fin_three]
   simp only [h00, h10, h20, one_mul, mul_zero, zero_mul, sub_zero, add_zero]
-  convert hdet using 1 <;> ring
+  convert hdet using 1; ring
 
 section LinearImage
 
@@ -523,7 +523,7 @@ theorem isPerfect_normalizerRange_of_nontoral_cube
       F.map (adjointGroup Tag.E8 L).subtype) :
     Group.IsPerfect F.normalizerMonoidHom.range := by
   have h5 : (5 : L) ≠ 0 := by
-    haveI : NeZero (5 : L) := hζ.neZero'
+    have : NeZero (5 : L) := hζ.neZero'
     exact NeZero.ne (5 : L)
   let e := Two.CubeCoordinates.cubeCoordEquivOfMap F (adjointGroup Tag.E8 L).subtype
     (adjointGroup Tag.E8 L).subtype_injective hbasis hcl

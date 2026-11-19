@@ -120,7 +120,7 @@ theorem exists_mem_le_of_isSylowOf {Q : Type} [Group Q] [Finite Q] {T : Subgroup
   obtain ⟨B, hB⟩ := hne
   have hB2 : IsPGroup 2 B :=
     fun g => ⟨1, Subtype.ext (by simpa using (hΩ.isElemAbelian B hB).2 g g.2)⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S, hBS⟩ := hB2.exists_le_sylow
   have hS : IsSylowIn 2 (S : Subgroup Q) ⊤ := isSylowIn_top S
   have hT' : IsSylowIn 2 T ⊤ := CFSG.ABGLocalTools.isSylowOf_iff.mp hT

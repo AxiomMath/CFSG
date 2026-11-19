@@ -79,7 +79,7 @@ theorem actual_odd_kernel_preserves_local_parameter_and_regularity
   obtain ⟨hzt, ht2, hcent, hsC, hs2, hst⟩ := supplied_t_s_facts hn fS ht
   have hGbar : ∀ U : Subgroup (G ⧸ K), U.index ≠ 2 := quotient_index_ne_two K hG
   have hSinj : Function.Injective (π.comp (S : Subgroup G).subtype) :=
-    injective_mk_comp_subtype K hK S.isPGroup'
+    injective_mk_comp_subtype K hK S.isPGroup
   let barS : Sylow 2 (G ⧸ K) := S.mapSurjective (QuotientGroup.mk'_surjective K)
   have hbarS : (barS : Subgroup (G ⧸ K)) = (S : Subgroup G).map π :=
     Sylow.coe_mapSurjective (QuotientGroup.mk'_surjective K) S

@@ -26,7 +26,7 @@ theorem exists_lift_of_odd {Y Z : Type} [Group Y] [Finite Y] [Group Z] (ε : Y �
     rw [hZc, Subgroup.mem_comap, MonoidHom.mem_ker.mp hx]
     exact C.one_mem
   set N' : Subgroup Zc := ε.ker.subgroupOf Zc with hN'
-  haveI hN'n : N'.Normal := Subgroup.Normal.subgroupOf inferInstance Zc
+  have hN'n : N'.Normal := Subgroup.Normal.subgroupOf inferInstance Zc
   let ε' : Zc →* C := (ε.comp Zc.subtype).codRestrict C fun z => z.2
   have hε'ker : ε'.ker = N' := by
     ext z
@@ -68,7 +68,7 @@ theorem exists_lift_of_odd {Y Z : Type} [Group Y] [Finite Y] [Group Z] (ε : Y �
 theorem card_ne_one {H : Type*} [Group H] [Finite H] :
     Nat.card {h : H // h ≠ 1} = Nat.card H - 1 := by
   classical
-  haveI := Fintype.ofFinite H
+  have := Fintype.ofFinite H
   rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card]
   have := Fintype.card_congr (Equiv.optionSubtypeNe (1 : H))
   rw [Fintype.card_option] at this
@@ -163,7 +163,7 @@ theorem T0_relIndex_le_of_frobenius (h48 : Hyp48 M B T g) {n : ℕ} {K₁ : Subg
   have hnorm : ¬ M ≤ Subgroup.normalizer (T₀ : Set G) := fun hMn =>
     hT₀B (H.eq_B_of_normal_comm hBT₀ inf_le_left hMn fun a ha b hb =>
       comm_of_isElemAbelian hT₀e ha hb)
-  obtain ⟨h, hhM, hh⟩ := SetLike.not_le_iff_exists.mp hnorm
+  obtain ⟨h, hhM, hh⟩ := IsConcreteLE.not_le_iff_exists.mp hnorm
   set E := conjSubgroup h T₀ with hE
   have hhT : h ∈ Subgroup.normalizer (T : Set G) := H.M_le_normalizer_T hhM
   have hET : E ≤ T := by
@@ -385,7 +385,7 @@ theorem false_of_sz (h48 : Hyp48 M B T g) (hP : ¬ conjSubgroup g B ≤ P) (C : 
     omega
   have hlt : B < T ⊓ kernel48 B T g :=
     lt_of_le_not_ge hBT₀ fun hle => hm0ne (Subgroup.relIndex_eq_one.mpr hle)
-  obtain ⟨x₀, hx₀, hx₀B⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨x₀, hx₀, hx₀B⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   exact H.false_of_regular hx₀.1 hx₀B (CFSG.Open.IsElemAbelian.mul_self_eq_one hT₀e hx₀)
     (hE1.2 hEq)
 

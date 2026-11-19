@@ -157,7 +157,7 @@ theorem mem_normalizer_inf {G : Type*} [Group G] {W D : Subgroup G} {x : G}
     x ∈ Subgroup.normalizer ((W ⊓ D : Subgroup G) : Set G) := by
   rw [Subgroup.mem_normalizer_iff] at hW hD ⊢
   intro h
-  simp only [SetLike.mem_coe, Subgroup.mem_inf]
+  simp only [Subgroup.mem_inf]
   rw [hW h, hD h]
 
 theorem commute_of_inf_eq_bot {G : Type*} [Group G] {W D : Subgroup G} (hWD : W ⊓ D = ⊥)
@@ -195,9 +195,9 @@ theorem eq_bot_of_heisData (hI : Input27_2_innDiag) (hO : Input27_2_outer) (hN :
     exact mem_normalizer_inf (hJW α hα hα1 y hy) (hDD _ (hJD y))
   have hDn : D.Normal := hN p q n hp hp2 hq hq2 hqp Y hY hYO F H Γ hD θ
   by_contra hne
-  haveI : Finite (MulAut Y) :=
+  have : Finite (MulAut Y) :=
     Finite.of_injective (fun β : MulAut Y => (β : Y → Y)) fun _ _ h => MulEquiv.ext (congrFun h)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hdvd : 2 ∣ Nat.card ↥W := by
     obtain ⟨k, hk⟩ := hW2.exists_card_eq
     rcases k with _ | k
@@ -345,7 +345,7 @@ theorem innDiag_normal_SL [Finite F] (hn : 3 ≤ n)
     (θ : (Y ⧸ Subgroup.center Y) ≃* StatedProj (StatedSL n F)) :
     (innDiag (StatedSL n F) ⊤ θ).Normal := by
   rw [innDiag_eq_comap]
-  haveI := linearAutGroup_normal_of_three_le (K := F) hn
+  have := linearAutGroup_normal_of_three_le (K := F) hn
   exact Subgroup.Normal.comap inferInstance _
 
 end NormalL
@@ -500,7 +500,7 @@ theorem innDiag_normal_SU (hm3 : 3 ≤ m) (hq : ¬(m = 3 ∧ q ^ e = 2))
     exact mem_innDiag_iff_primeAct h (by omega) θ b
   rw [heq]
   have hker := ker_primeFormFieldFactor h (C := (1 : GL (Fin m) F)) isPrimeFormGram_one hm3 hq
-  haveI : (primeFormD h ((1 : GL (Fin m) F) : Matrix (Fin m) (Fin m) F)).Normal := by
+  have : (primeFormD h ((1 : GL (Fin m) F) : Matrix (Fin m) (Fin m) F)).Normal := by
     rw [← hker]
     infer_instance
   exact Subgroup.Normal.comap inferInstance _
@@ -543,7 +543,7 @@ theorem not_outer_SU (hm3 : 3 ≤ m) (hq : ¬(m = 3 ∧ q ^ e = 2)) {p : ℕ} (h
     (hzD : z ∉ innDiag (StatedSU m (q ^ e) F) (GUn m (q ^ e) F) θ)
     (hzA : ∀ a ∈ A, z * a = a * z) : False := by
   have hm1 : 1 ≤ m := by omega
-  haveI : Finite F := h.finite
+  have : Finite F := h.finite
   have hC : IsPrimeFormGram (1 : GL (Fin m) F) := isPrimeFormGram_one
   set U : Subgroup (GL (Fin m) F) := primeFormUnitary h ((1 : GL (Fin m) F) : Matrix (Fin m) (Fin m) F)
     with hUdef
@@ -781,10 +781,12 @@ variable {X : Type} [Group X] [Finite X]
   toSubgroup := P
   maximal_isPGroup := ⟨hP.2.1, fun {Q} hQ hle => le_of_eq (hP.2.2 Q le_top hQ hle)⟩
 
+omit [Finite X] in
 theorem coe_sylowOf {p : ℕ} {P : Subgroup X} (hP : IsSylowIn p ⊤ P) :
     ((sylowOf hP : Sylow p X) : Subgroup X) = P :=
   rfl
 
+omit [Finite X] in
 theorem isElemAbelian_zpowers' {p : ℕ} {x : X} (hx : x ^ p = 1) :
     IsElemAbelian p (Subgroup.zpowers x) := by
   refine ⟨⟨⟨fun a b => Subtype.ext ?_⟩⟩, fun y hy => ?_⟩
@@ -799,7 +801,7 @@ theorem mem_of_pow_eq_one_of_cyclic {p : ℕ} (hp : p.Prime) {C Z : Subgroup X} 
     (hZC : Z ≤ C) (hZ : Nat.card Z = p) {c : X} (hcC : c ∈ C) (hcp : c ^ p = 1) : c ∈ Z := by
   by_cases hc1 : c = 1
   · rw [hc1]; exact Z.one_mem
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcZ : Nat.card (Subgroup.zpowers (⟨c, hcC⟩ : ↥C)) = p := by
     rw [Nat.card_zpowers]
     refine orderOf_eq_prime (Subtype.ext hcp) ?_
@@ -817,7 +819,7 @@ theorem mem_of_pow_eq_one_of_cyclic {p : ℕ} (hp : p.Prime) {C Z : Subgroup X} 
 theorem card_sup_zpowers {p : ℕ} (hp : p.Prime) {A : Subgroup X} {x : X} (hx : x ^ p = 1)
     (hxA : x ∉ A) (hc : ∀ a ∈ A, a * x = x * a) :
     Nat.card ↥(A ⊔ Subgroup.zpowers x) = Nat.card A * p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hx1 : x ≠ 1 := fun h => hxA (h ▸ A.one_mem)
   have hcz : Nat.card (Subgroup.zpowers x) = p := by
     rw [Nat.card_zpowers]
@@ -843,6 +845,7 @@ theorem card_sup_zpowers {p : ℕ} (hp : p.Prime) {A : Subgroup X} {x : X} (hx :
   rw [hinf, Subgroup.card_bot, mul_one, hcz] at h
   exact h
 
+omit [Finite X] in
 theorem isElemAbelian_sup_zpowers {p : ℕ} {A : Subgroup X} {x : X} (hA : IsElemAbelian p A)
     (hx : x ^ p = 1) (hc : ∀ a ∈ A, a * x = x * a) : IsElemAbelian p (A ⊔ Subgroup.zpowers x) := by
   refine CFSG.PreuniquenessRankFour.Helpers.elementary_abelian_sup_of_commuting p hA
@@ -855,7 +858,7 @@ theorem isElemAbelian_sup_zpowers {p : ℕ} {A : Subgroup X} {x : X} (hA : IsEle
 
 theorem not_isPGroup_of_isQuasisimple {Q : Type*} [Group Q] [Finite Q] {p : ℕ} [Fact p.Prime]
     (hq : CFSG.Open.IsQuasisimple Q) (hQ : IsPGroup p Q) : False := by
-  haveI : Group.IsNilpotent Q := hQ.isNilpotent
+  have : Group.IsNilpotent Q := hQ.isNilpotent
   have hperf := hq.1
   have htop : ∀ n, derivedSeries Q n = ⊤ := by
     intro n
@@ -864,7 +867,7 @@ theorem not_isPGroup_of_isQuasisimple {Q : Type*} [Group Q] [Finite Q] {p : ℕ}
     | succ n ih => rw [derivedSeries_succ, ih]; exact hperf
   obtain ⟨n, hn⟩ := Group.IsSolvable.solvable (G := Q)
   rw [htop n] at hn
-  haveI : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hq.2
+  have : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hq.2
   have hnt : Nontrivial (Q ⧸ Subgroup.center Q) := IsSimpleGroup.toNontrivial
   obtain ⟨x, hx⟩ := exists_ne (1 : Q ⧸ Subgroup.center Q)
   obtain ⟨y, rfl⟩ := QuotientGroup.mk_surjective x
@@ -875,7 +878,7 @@ theorem not_isPGroup_of_isQuasisimple {Q : Type*} [Group Q] [Finite Q] {p : ℕ}
 
 theorem exists_mem_center_orderOf {p : ℕ} (hp : p.Prime) (hO : GLAPPrimeCore p X = ⊥)
     (hZ : Subgroup.center X ≠ ⊥) : ∃ z ∈ Subgroup.center X, orderOf z = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hZp : IsPGroup p ↥(Subgroup.center X) := by
     have h := CFSG.HardMathSupport.Timmesfeld.ComponentBalance.i112_isPGroup_inf_centralizer hp hO
       (N := ⊤) (CFSG.Open.IsSubnormal.refl ⊤)
@@ -892,9 +895,10 @@ theorem exists_mem_center_orderOf {p : ℕ} (hp : p.Prime) (hO : GLAPPrimeCore p
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' p hdvd
   exact ⟨z, z.2, by rw [← hz, Subgroup.orderOf_coe]⟩
 
+omit [Finite X] in
 theorem mem_centerOf_of_mem_center {p : ℕ} [Fact p.Prime] {P : Subgroup X} (hP : IsSylowIn p ⊤ P)
     {z : X} (hzZ : z ∈ Subgroup.center X) (hz : orderOf z = p) : z ∈ P ∧ z ∈ centerOf P := by
-  haveI hzn : (Subgroup.zpowers z).Normal :=
+  have hzn : (Subgroup.zpowers z).Normal :=
     Subgroup.normal_of_le_center ((Subgroup.zpowers_le).2 hzZ)
   have hzp : IsPGroup p ↥(Subgroup.zpowers z) := by
     refine IsPGroup.of_card (n := 1) ?_
@@ -910,7 +914,7 @@ theorem mem_centerOf_of_mem_center {p : ℕ} [Fact p.Prime] {P : Subgroup X} (hP
 theorem mem_of_le_normalizer {p : ℕ} (hp : p.Prime) {P : Subgroup X} (hP : IsSylowIn p ⊤ P)
     (hZP : IsCyclic ↥(centerOf P)) {z : X} (hzZ : z ∈ Subgroup.center X) (hz : orderOf z = p)
     {N : Subgroup X} (hPN : P ≤ Subgroup.normalizer (N : Set X)) (hPN' : P ⊓ N ≠ ⊥) : z ∈ N := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hN' : (N.subgroupOf P).Normal := by
     refine ⟨fun n hn g => ?_⟩
     rw [Subgroup.mem_subgroupOf] at hn ⊢
@@ -923,7 +927,7 @@ theorem mem_of_le_normalizer {p : ℕ} (hp : p.Prime) {P : Subgroup X} (hP : IsS
     have : (⟨x, hxP⟩ : ↥P) ∈ N.subgroupOf P := Subgroup.mem_subgroupOf.2 hxN
     rw [h, Subgroup.mem_bot] at this
     exact Subgroup.mem_bot.2 (congrArg Subtype.val this)
-  haveI : Group.IsNilpotent ↥P := hP.2.1.isNilpotent
+  have : Group.IsNilpotent ↥P := hP.2.1.isNilpotent
   have hT := Group.IsNilpotent.inf_center_ne_bot_of_normal hne
   have hTp : IsPGroup p ↥(N.subgroupOf P ⊓ Subgroup.center ↥P) := hP.2.1.to_subgroup _
   have hdvd : p ∣ Nat.card ↥(N.subgroupOf P ⊓ Subgroup.center ↥P) := by
@@ -937,7 +941,7 @@ theorem mem_of_le_normalizer {p : ℕ} (hp : p.Prime) {P : Subgroup X} (hP : IsS
   have hwC : ((w : ↥P) : X) ∈ centerOf P := ⟨w, w.2.2, rfl⟩
   have hwo : orderOf ((w : ↥P) : X) = p := by rw [Subgroup.orderOf_coe, Subgroup.orderOf_coe, hw]
   obtain ⟨-, hzC⟩ := mem_centerOf_of_mem_center hP hzZ hz
-  haveI := hZP
+  have := hZP
   have hZle : Subgroup.zpowers ((w : ↥P) : X) ≤ centerOf P := (Subgroup.zpowers_le).2 hwC
   have hzW := mem_of_pow_eq_one_of_cyclic hp hZle (by rw [Nat.card_zpowers, hwo]) hzC
     (by rw [← hz]; exact pow_orderOf_eq_one z)
@@ -948,7 +952,7 @@ theorem center_ne_bot_of_isComponentOf {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hO : GLAPPrimeCore p X = ⊥) {P : Subgroup X} (hP : IsSylowIn p ⊤ P)
     (hZP : IsCyclic ↥(centerOf P)) {z : X} (hzZ : z ∈ Subgroup.center X) (hz : orderOf z = p)
     {K : Subgroup X} (hK : IsComponentOf K ⊤) : Subgroup.center ↥K ≠ ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set J : Subgroup X := i112J P K with hJ
   have hPJ : P ≤ Subgroup.normalizer (J : Set X) := i112_B_le_normalizer_J
   obtain ⟨t, htPK, ht, -⟩ :=
@@ -994,6 +998,7 @@ theorem le_centralizer_of_ne_component {K L : Subgroup X} (hK : IsComponentOf K 
     (hL : IsComponentOf L ⊤) (hne : L ≠ K) : L ≤ Subgroup.centralizer (K : Set X) :=
   fun _ ha => Subgroup.mem_centralizer_iff.2 fun _ hb => comm_of_ne_component hK hL hne.symm hb ha
 
+omit [Finite X] in
 theorem mem_of_mul_self_mem {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {P H : Subgroup X}
     (hP : IsPGroup p ↥P) {b : X} (hb : b ∈ P) (hb2 : b * b ∈ H) : b ∈ H := by
   obtain ⟨k, hk⟩ := hP ⟨b, hb⟩
@@ -1004,6 +1009,7 @@ theorem mem_of_mul_self_mem {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {P H : Subg
   rw [e]
   exact H.pow_mem hb2 _
 
+omit [Finite X] in
 theorem conj_not_mem_centralizer {H : Subgroup X} {x : X} (hx : x ∉ Subgroup.centralizer (H : Set X))
     (b : X) : b⁻¹ * x * b ∉ Subgroup.centralizer (GLBConj b H : Set X) := by
   intro h
@@ -1016,33 +1022,38 @@ theorem conj_not_mem_centralizer {H : Subgroup X} {x : X} (hx : x ∉ Subgroup.c
   have e2 : x * y = b * ((b⁻¹ * x * b) * (b⁻¹ * y * b)) * b⁻¹ := by group
   rw [e1, e2, this]
 
+omit [Finite X] in
 theorem conj_mem_gLBConj {H : Subgroup X} {x : X} (hx : x ∈ H) (b : X) : b⁻¹ * x * b ∈ GLBConj b H :=
   mem_gLBConj.2 (by group; exact hx)
 
+omit [Finite X] in
 theorem conj_pow_eq_one {p : ℕ} {x : X} (hx : x ^ p = 1) (b : X) : (b⁻¹ * x * b) ^ p = 1 := by
   have h := conj_pow (a := b⁻¹) (b := x) (i := p)
   rw [inv_inv] at h
   rw [h, hx, mul_one, inv_mul_cancel]
 
+omit [Finite X] in
 theorem sup_zpowers_le_centralizer {A : Subgroup X} {x y : X}
     (hA : A ≤ Subgroup.centralizer ({y} : Set X)) (hxy : x * y = y * x) :
     A ⊔ Subgroup.zpowers x ≤ Subgroup.centralizer ({y} : Set X) :=
   sup_le hA ((Subgroup.zpowers_le).2 (Subgroup.mem_centralizer_singleton_iff.2 hxy))
 
+omit [Finite X] in
 theorem sup_zpowers_le_centralizer' {A K : Subgroup X} {x : X}
     (hA : A ≤ Subgroup.centralizer (K : Set X)) (hx : x ∈ Subgroup.centralizer (K : Set X)) :
     A ⊔ Subgroup.zpowers x ≤ Subgroup.centralizer (K : Set X) :=
   sup_le hA ((Subgroup.zpowers_le).2 hx)
 
+omit [Finite X] in
 theorem comm_of_le_centralizer_singleton {A : Subgroup X} {x : X}
-    (hA : A ≤ Subgroup.centralizer ({x} : Set X)) : ∀ a ∈ A, a * x = x * a := fun a ha =>
+    (hA : A ≤ Subgroup.centralizer ({x} : Set X)) : ∀ _a ∈ A, _a * x = x * _a := fun _a ha =>
   Subgroup.mem_centralizer_singleton_iff.1 (hA ha)
 
 theorem le_x0_of_not_le_normalizer {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hO : GLAPPrimeCore p X = ⊥) {P : Subgroup X} (hP : IsSylowIn p ⊤ P) {z : X}
     (hzZ : z ∈ Subgroup.center X) (hz : orderOf z = p) {K : Subgroup X} (hK : IsComponentOf K ⊤)
     (hPK : ¬ P ≤ Subgroup.normalizer (K : Set X)) : K ≤ x0 p P := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨b, hbP, hbK⟩ := Set.not_subset.1 hPK
   set K₂ : Subgroup X := GLBConj b K with hK₂def
   set K₃ : Subgroup X := GLBConj b K₂ with hK₃def
@@ -1146,6 +1157,7 @@ section NotCyclic
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem isComponentOf_subgroupOf_top {K Y : Subgroup X} (hK : IsComponentOf K ⊤) (hKY : K ≤ Y) :
     IsComponentOf (K.subgroupOf Y) ⊤ := by
   have hKY' : IsComponentOf K Y := ⟨hKY, isSubnormal_of_le_of_le hK.2.1 hKY le_top, hK.2.2⟩
@@ -1171,6 +1183,7 @@ theorem le_centralizer_pCoreOf {p : ℕ} [Fact p.Prime] {K Y : Subgroup X} (hK :
     have h := commutatorElement_eq_one_iff_mul_comm.mp hmem
     exact (congrArg Subtype.val h).symm
 
+omit [Finite X] in
 theorem pCoreOf_le_of_isSylowIn {p : ℕ} [Fact p.Prime] {P Y : Subgroup X} (hP : IsSylowIn p ⊤ P)
     (hPY : P ≤ Y) : pCoreOf p Y ≤ P := by
   let S : Sylow p ↥Y :=
@@ -1193,9 +1206,9 @@ theorem le_x0_of_not_isCyclic {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {P : Subgroup X} (hP : IsSylowIn p ⊤ P) (hZP : IsCyclic ↥(centerOf P))
     (h5 : 5 ≤ CFSG.Open.pRank p (⊤ : Subgroup X)) {z : X} (hzZ : z ∈ Subgroup.center X)
     (hz : orderOf z = p) {K : Subgroup X} (hK : IsComponentOf K ⊤)
-    (hPK : P ≤ Subgroup.normalizer (K : Set X)) (hQ : ¬ IsCyclic ↥(pCoreOf p (P ⊔ K))) :
+    (_hPK : P ≤ Subgroup.normalizer (K : Set X)) (hQ : ¬ IsCyclic ↥(pCoreOf p (P ⊔ K))) :
     K ≤ x0 p P := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set Y : Subgroup X := P ⊔ K with hY
   set Q : Subgroup X := pCoreOf p Y with hQdef
   have hQP : Q ≤ P := pCoreOf_le_of_isSylowIn hP le_sup_left
@@ -1246,7 +1259,7 @@ theorem le_x0_of_not_isCyclic {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     have := hn.conj_mem _ h k⁻¹
     rwa [inv_inv] at this
   have hSc : S.ncard = p ^ 2 - p := by
-    rw [hSdef, Set.ncard_diff (fun x hx => hzUle hx), ← Nat.card_coe_set_eq,
+    rw [hSdef, Set.ncard_sdiff (fun x hx => hzUle hx), ← Nat.card_coe_set_eq,
       ← Nat.card_coe_set_eq]
     simp only [SetLike.coe_sort_coe]
     rw [hUc, hcz]
@@ -1332,7 +1345,7 @@ theorem input24_5_of_inputs (hA : Input24_5_comp) (hB : Input24_5_small) : Lemma
   by_cases hcon : CFSG.ABGLocalTools.IsPConstrained p X
   · exact Or.inl hcon
   right
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨z, hzZ, hz⟩ := exists_mem_center_orderOf hp hO hZ
   have hcZ : ∀ K : Subgroup X, IsComponentOf K ⊤ → Subgroup.center ↥K ≠ ⊥ := fun K hKc =>
     center_ne_bot_of_isComponentOf hp hp2 hO hP hZP hzZ hz hKc
@@ -1342,7 +1355,7 @@ theorem input24_5_of_inputs (hA : Input24_5_comp) (hB : Input24_5_small) : Lemma
     Subgroup.le_normalizer.trans (normalizer_le_x0 le_rfl (by have := five_le_pRank_sylow hP h5; omega))
   have hOp : CFSG.pCore p X ≤ x0 p P :=
     ((CFSG.pCore_isPGroup (p := p) (G := X)).le_sylow_of_normal (sylowOf hP)).trans hPx
-  haveI : (CFSG.ComponentClassification.Layer.subgroup X).Normal :=
+  have : (CFSG.ComponentClassification.Layer.subgroup X).Normal :=
     CFSG.ComponentClassification.Layer.normal X
   by_cases hr : 4 ≤ CFSG.Open.pRank p (P ⊓ (CFSG.ComponentClassification.Layer.subgroup X ⊔ CFSG.pCore p X))
   · exact (x0_eq_top_of_normal hP (sup_le hE hOp) hr).symm

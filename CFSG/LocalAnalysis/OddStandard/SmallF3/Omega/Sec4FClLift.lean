@@ -150,8 +150,8 @@ theorem sec4FCl_lift [Finite G] [Finite Pr] (h : Sec4FDCover L s X y ρ) {K : Su
       exact Subgroup.mem_center_iff.mp hnc (f m)
     · exact h.cover.odd_card_ker.of_dvd_nat
         (Subgroup.card_comap_dvd_of_injective (ρ.ker) f hf_inj)
-  haveI : Finite ↥Y := Subtype.finite
-  haveI : Finite ↥Z := Subtype.finite
+  have : Finite ↥Y := Subtype.finite
+  have : Finite ↥Z := Subtype.finite
   have htopZ : ((⊤ : Subgroup ↥Z).map Z.subtype) = Z := by
     rw [← MonoidHom.range_eq_map, Subgroup.range_subtype]
   have hK₁ : IsComponentIn (K.subgroupOf Z) ⊤ := by

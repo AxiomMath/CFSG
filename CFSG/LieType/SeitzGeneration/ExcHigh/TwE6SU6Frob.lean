@@ -87,17 +87,17 @@ theorem conjDiag_tv (d : Fin 6 → Kˣ) {i j : Fin 6} (hij : i ≠ j) (c : K) :
   rw [coe_conjDiag]
   change dmat d * Matrix.transvection i j c * dmatInv d = Matrix.transvection i j _
   ext a b
-  simp only [dmat, dmatInv, Matrix.transvection, Matrix.mul_add, Matrix.add_mul, Matrix.mul_one,
+  simp only [dmat, dmatInv, Matrix.transvection, Matrix.mul_add, Matrix.mul_one,
     Matrix.add_apply, Matrix.diagonal_mul, Matrix.mul_diagonal, Matrix.one_apply,
     Matrix.single_apply]
   by_cases hab : a = b
   · subst hab
     have h2 : ¬ (i = a ∧ j = a) := fun h => hij (h.1.trans h.2.symm)
-    simp [Matrix.diagonal_apply, h2]
+    simp [h2]
   · by_cases h2 : i = a ∧ j = b
     · obtain ⟨rfl, rfl⟩ := h2
-      simp [Matrix.diagonal_apply, hab]
-    · simp [Matrix.diagonal_apply, hab, h2]
+      simp [hab]
+    · simp [hab, h2]
 
 theorem eq_scalar_of_conjDiag (d : Fin 6 → Kˣ) {B : SL(6, K)} {r : K}
     (h : ((conjDiag d B : SL(6, K)) : Matrix (Fin 6) (Fin 6) K) = Matrix.scalar (Fin 6) r) :
@@ -143,7 +143,7 @@ theorem eTw_sigma (σ : K →+* K) {ε : K} (hε : σ ε = -ε) (t : Fin 5) :
 theorem perm_a5Node : ∀ t : Fin 5, TwistTag.E6.perm (a5Node t) = a5Node (Fin.rev t) := by
   decide
 
-theorem exists_psiTw (σ : K →+* K) (hσσ : ∀ c, σ (σ c) = c) {ε : K} (hε0 : ε ≠ 0)
+theorem exists_psiTw (σ : K →+* K) (_hσσ : ∀ c, σ (σ c) = c) {ε : K} (hε0 : ε ≠ 0)
     (hε : σ ε = -ε) {p f : ℕ} (hp : p.Prime) (hf : 1 ≤ f) (hK : Nat.card K = p ^ f) :
     ∃ Ψ : SL(6, K) →* ModGL TwistTag.E6.tag K,
       (∀ B, Ψ B = 1 →

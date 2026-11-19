@@ -175,13 +175,13 @@ theorem tensorA6Z3WithMarking_of_homogeneous
     (hmove : ∀ p ∈ P, p ≠ 1 → conjSub p I ≠ I) :
     TensorA6Z3WithMarking E P φ := by
   subst hrange
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hU : Nat.card (GaloisField 2 2)ˣ = 3 := by
     rw [Nat.card_units, GaloisField.card 2 2 two_ne_zero]
     norm_num
   let θ : ↥P ≃* (GaloisField 2 2)ˣ := mulEquivOfPrimeCardEq hPcard hU
-  haveI : Finite ↥P := Nat.finite_of_card_ne_zero (by rw [hPcard]; norm_num)
-  haveI : Nontrivial ↥P := Finite.one_lt_card_iff_nontrivial.mp (by rw [hPcard]; norm_num)
+  have : Finite ↥P := Nat.finite_of_card_ne_zero (by rw [hPcard]; norm_num)
+  have : Nontrivial ↥P := Finite.one_lt_card_iff_nontrivial.mp (by rw [hPcard]; norm_num)
   obtain ⟨p₀, hp₀⟩ := exists_ne (1 : ↥P)
   have hp₀3 : p₀ ^ 3 = 1 := by
     have h := pow_card_eq_one' (x := p₀)

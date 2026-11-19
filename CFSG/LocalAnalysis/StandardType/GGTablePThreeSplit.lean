@@ -64,7 +64,7 @@ abbrev DatumPred : Type 1 :=
         ¬ ∃ U : Subgroup (MulAut X), U ≠ ⊥ ∧ IsPGroup 2 U ∧ ∀ a ∈ A, ∀ u ∈ U, a * u * a⁻¹ ∈ U)
 
 theorem known_iff :
-    GGTablePThreeKnown ↔ KnownOver fun X _ A δ J => GGTablePThreeDatum A δ J :=
+    GGTablePThreeKnown ↔ KnownOver fun _X _ A δ J => GGTablePThreeDatum A δ J :=
   Iff.rfl
 
 @[expose] def fam : Fin 11 → LargeEvenLieTag → Prop
@@ -80,7 +80,7 @@ theorem known_iff :
   | 9 => fun t => t = .E8
   | 10 => fun t => t = .G2 ∨ t = .G2der ∨ t = .triD4 ∨ t = .twB2 ∨ t = .twF4 ∨ t = .twF4der
 
-@[expose] def DatumOn (F : LargeEvenLieTag → Prop) : DatumPred := fun X [inst : Group X] A δ J =>
+@[expose] def DatumOn (F : LargeEvenLieTag → Prop) : DatumPred := fun X [_inst : Group X] A δ J =>
   GGKLocal A δ J ∧
     (∀ Q : Subgroup X, IsComponentOf Q (ggAutFixedSubgroup δ) → Q = J) ∧
     3 ^ 3 ≤ Nat.card A ∧
@@ -167,8 +167,8 @@ theorem KnownOver.mono {D D' : DatumPred}
   · exact fun X _ _ hX A δ J hd => h.2.2.2.2.2.2.2 X hX A δ J (hDD X A δ J hd)
 
 theorem known_iff_families :
-    GGTablePThreeKnown ↔ ∀ i : Fin 11, KnownOver (DatumOn (fam i)) :=
-  ⟨fun h i => KnownOver.mono (fun _ _ _ _ _ hd => datumOn_to_datum hd) (known_iff.mp h),
+    GGTablePThreeKnown ↔ ∀ _i : Fin 11, KnownOver (DatumOn (fam _i)) :=
+  ⟨fun h _i => KnownOver.mono (fun _ _ _ _ _ hd => datumOn_to_datum hd) (known_iff.mp h),
     ggTablePThreeKnown_of_families⟩
 
 @[expose] def LeafSmallVac : Prop :=
@@ -179,7 +179,7 @@ theorem knownOn_small (h : LeafSmallVac) : KnownOver (DatumOn (fam 10)) := by
   refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩ <;> intro X _ _ hX A δ J hd <;>
     exact absurd hd (h X hX A δ J)
 
-@[expose] abbrev LeafLin : Prop := KnownOver (DatumOn (fam 0))
+abbrev LeafLin : Prop := KnownOver (DatumOn (fam 0))
 
 end CFSG.StandardType.TablePThreeKG
 

@@ -62,7 +62,7 @@ theorem rootU_le_conj_of_not_two_dvd_index (hF : Nat.card F = (2 ^ f) ^ 2)
     · intro h
       exact hs₁ne (congrArg Subtype.val h)
   obtain ⟨P₀, hP₀⟩ := hs₁2.exists_le_sylow
-  have hP2 : IsPGroup 2 ((P₀ : Subgroup W').map W'.subtype) := P₀.isPGroup'.map _
+  have hP2 : IsPGroup 2 ((P₀ : Subgroup W').map W'.subtype) := P₀.isPGroup.map _
   have hPs : 𝔰₁ ∈ (P₀ : Subgroup W').map W'.subtype :=
     ⟨⟨𝔰₁, hs₁⟩, hP₀ (Subgroup.mem_zpowers _), rfl⟩
   have hPU : (P₀ : Subgroup W').map W'.subtype ≤ rootU hF := le_rootU_of_mem hF hP2 hPs

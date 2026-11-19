@@ -32,7 +32,7 @@ def sec39dECent (V E : Subgroup G) (hV : ∀ v ∈ V, ∀ e ∈ E, v * e = e * v
       rw [← hV _ hcb a ha]
       group]
     exact mul_mem hcb hca
-  one_mem' := ⟨one_mem _, by simpa using one_mem V⟩
+  one_mem' := ⟨one_mem _, by simp⟩
   inv_mem' := by
     rintro a ⟨ha, hca⟩
     refine ⟨inv_mem ha, ?_⟩
@@ -237,7 +237,7 @@ theorem sec39d_key_abstract [Finite G] (q : ℕ) (hq : 2 ≤ q)
     (S E V R Ω : Subgroup G) (t : G) (ht : t * t = 1)
     (hVS : ∀ v ∈ V, ∀ s ∈ S, v * s = s * v)
     (hVE : V ≤ E) (hES : E ≤ S) (hEn : ∀ s ∈ S, ∀ e ∈ E, s * e * s⁻¹ ∈ E)
-    (hE1 : ∀ x ∈ E, x * x ∈ V) (hE2 : ∀ x ∈ E, ∀ y ∈ E, ⁅x, y⁆ ∈ V)
+    (_hE1 : ∀ x ∈ E, x * x ∈ V) (hE2 : ∀ x ∈ E, ∀ y ∈ E, ⁅x, y⁆ ∈ V)
     (hcardE : Nat.card E = q ^ 14)
     (hRS : R ≤ S) (hdec : ∀ s ∈ S, ∃ e ∈ E, ∃ y ∈ R, s = e * y)
     (hER : ∀ x ∈ E, x ∈ R → x = 1)
@@ -318,10 +318,10 @@ theorem sec39d_jf_inj {X Y : Type*} [Group X] [Group Y] (φ : X →* Y)
 theorem sec39d_lift {X Y : Type*} [Group X] [Finite X] [Group Y] (φ : X →* Y)
     (hker : Odd (Nat.card φ.ker)) (T : Subgroup Y) (hT : IsPGroup 2 T) (hTr : T ≤ φ.range) :
     ∃ T' : Subgroup X, IsPGroup 2 T' ∧ T'.map φ = T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK : (T.comap φ).map φ = T := Subgroup.map_comap_eq_self hTr
-  haveI hrfin : Finite φ.range := Finite.of_surjective φ.rangeRestrict φ.rangeRestrict_surjective
-  haveI hTfin : Finite T := Finite.of_injective (Subgroup.inclusion hTr)
+  have hrfin : Finite φ.range := Finite.of_surjective φ.rangeRestrict φ.rangeRestrict_surjective
+  have hTfin : Finite T := Finite.of_injective (Subgroup.inclusion hTr)
     (Subgroup.inclusion_injective hTr)
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card).mp hT
   have hdvd : 2 ^ k ∣ Nat.card (T.comap φ) := by
@@ -353,7 +353,7 @@ theorem sec39d_lift {X Y : Type*} [Group X] [Finite X] [Group Y] (φ : X →* Y)
 open scoped Pointwise in
 theorem sec39d_jf_conj {X : Type*} [Group X] [Finite X] (Q' Q : Sylow 2 X) :
     ∃ g : X, ∀ x ∈ (Q' : Subgroup X), g * x * g⁻¹ ∈ (Q : Subgroup X) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq X Q' Q
   refine ⟨g, fun x hx => ?_⟩
   have h1 : MulAut.conj g • x ∈ MulAut.conj g • (Q' : Subgroup X) :=
@@ -399,7 +399,7 @@ theorem sec39d_J_facts {X J : Type*} [Group X] [Finite X] [Group J] (φ : X →*
       (∀ x ∈ T, ∀ y ∈ T, x * x = 1 → y * y = 1 → x * y = y * x) ∧
       Nat.card {x : J // x ∈ T ∧ x * x = 1} ≤ q ∧ Nat.card T ≤ Nat.card P₀ := by
   intro T hT
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q, rfl⟩ := hP₀
   obtain ⟨T', hT'p, hT'T⟩ := sec39d_lift φ hker T hT
     (by rw [MonoidHom.range_eq_top_of_surjective φ hφ]; exact le_top)
@@ -567,11 +567,11 @@ section Generic39dNormal
 theorem sec39d_nonabelian_simple_not_pGroup {X : Type*} [Group X] [Finite X] (D : Subgroup X)
     (hs : IsSimpleGroup ↥D) (hnab : ∃ x y : ↥D, x * y ≠ y * x) : ¬ IsPGroup 2 D := by
   intro hp
-  haveI : Nontrivial ↥D := by
+  have : Nontrivial ↥D := by
     obtain ⟨x, y, hxy⟩ := hnab
     refine ⟨⟨x, y, fun h => hxy ?_⟩⟩
     rw [h]
-  haveI := hp.center_nontrivial
+  have := hp.center_nontrivial
   have hz : Subgroup.center ↥D = ⊤ := by
     rcases hs.eq_bot_or_eq_top_of_normal (Subgroup.center ↥D) with h | h
     · exfalso
@@ -590,7 +590,7 @@ theorem sec39d_inf_eq_bot_of_simple {X : Type*} [Group X] [Finite X] (D T : Subg
     refine ⟨fun n hn' g => ?_⟩
     rw [mem_subgroupOf, mem_inf] at hn' ⊢
     exact ⟨hn _ g.2 _ hn'.1, mul_mem (mul_mem g.2 hn'.2) (inv_mem g.2)⟩
-  haveI := hN
+  have := hN
   rcases hs.eq_bot_or_eq_top_of_normal ((T ⊓ D).subgroupOf D) with h | h
   · rw [eq_bot_iff]
     intro x hx
@@ -702,10 +702,12 @@ variable {G : Type} [Group G] [Finite G] {f : ℕ} {K : Type} [Field K]
 
 
 
+omit [Finite G] in
 theorem sec39d_ec_z_mem {z : G} (hz : z ∈ d.CPI₆) : z ∈ d.P ∧ z ∈ d.N₂ := by
   obtain ⟨g, hg, rfl⟩ := hz
   exact ⟨⟨g, patSub_le_U _ _ hg, rfl⟩, ⟨g, patSub_sI₆_le_N₂sub hg, rfl⟩⟩
 
+omit [Finite G] in
 theorem sec39d_ec_z_not_mem_A₂ {z : G} (hz : z ∈ d.CPI₆) (hz1 : z ≠ 1) : z ∉ d.A₂ := by
   obtain ⟨g, hg, rfl⟩ := hz
   rintro ⟨g', hg', hgg⟩
@@ -721,17 +723,20 @@ theorem sec39d_ec_z_NC (hd : d.Hyp) {z : G} (hz : z ∈ d.CPI₆) :
   have h := Subgroup.mem_inf.1 (hd.N₂_le_K₀ (sec39d_ec_z_mem hz).2)
   exact ⟨(Subgroup.mem_inf.1 h.1).1, h.2⟩
 
+omit [Finite G] in
 theorem sec39d_ec_key {z : G} (hz : z ∈ d.CPI₆) (hz1 : z ≠ 1) {a : G}
     (ha : a ∈ d.A₂) (hc : ⁅a, z⁆ ∈ d.Zp) : a ∈ d.A₂ ⊓ d.A₃ :=
   (sec2_2_five d).2 z (sec39d_ec_z_mem hz).1 (sec39d_ec_z_not_mem_A₂ hz hz1) a ha hc
 
 open CFSG.RankThree.PartOne.U5K.Hyp in
+omit [Finite G] in
 theorem sec39d_ec_card_A₂A₃ : Nat.card (d.A₂ ⊓ d.A₃ : Subgroup G) = (2 ^ f) ^ 5 := by
   have e : d.A₂ ⊓ d.A₃ = d.pull (A₂sub h ⊓ Ssub h) :=
     (d.pull_inf A₂sub_le_U (Ssub_le_Usub)).symm
   rw [e, d.card_pull (inf_le_left.trans A₂sub_le_U), card_A₂sub_inf_Ssub]
 
 open CFSG.RankThree.PartOne.U5K.Hyp in
+omit [Finite G] in
 theorem sec39d_ec_Zp_le_A₃ : d.Zp ≤ d.A₃ :=
   d.pull_mono (ZPsub_le_Vsub.trans Vsub_le_Ssub)
 
@@ -872,11 +877,13 @@ theorem sec39d_card_ECent_le (hGMS : GMSK.GMSUnitarySharpKRankOneStatement) (hd 
 
 
 
+omit [Finite G] in
 theorem sec39d_N₂_le_M₂ (d : Data G h) : d.N₂ ≤ d.M₂ := by
   intro n hn
   refine ⟨⟨n, d.N₂_le_centralizer_I₂ hn⟩, Subgroup.subset_normalClosure ?_, rfl⟩
   exact mem_subgroupOf.2 hn
 
+omit [Finite G] in
 theorem sec39d_M₂_le_centralizer (d : Data G h) : d.M₂ ≤ centralizer (d.I₂ : Set G) := by
   rintro _ ⟨x, -, rfl⟩
   exact x.2
@@ -1016,6 +1023,7 @@ theorem sec39d_structure (hp : d.ProductCaseHyp) :
 
 
 
+omit [Finite G] in
 theorem sec39d_D_char {S : Subgroup G} (hc : d.Sec39c S) :
     (d.D.subgroupOf S).Characteristic := by
   obtain ⟨-, hW, hD⟩ := hc
@@ -1035,6 +1043,7 @@ theorem sec39d_D_char {S : Subgroup G} (hc : d.Sec39c S) :
   rw [key]
   infer_instance
 
+omit [Finite G] in
 theorem sec39d_mem_V_iff {S : Subgroup G} (hV : CFSG.centerIn S = d.V) (v : S) :
     (v : G) ∈ d.V ↔ v ∈ Subgroup.center ↥S := by
   rw [← hV, CFSG.centerIn, mem_inf, Subgroup.mem_center_iff, mem_centralizer_iff]
@@ -1044,6 +1053,7 @@ theorem sec39d_mem_V_iff {S : Subgroup G} (hV : CFSG.centerIn S = d.V) (v : S) :
   · intro hv
     exact ⟨v.2, fun w hw => congrArg Subtype.val (hv ⟨w, hw⟩)⟩
 
+omit [Finite G] in
 theorem sec39d_E_char (S : Subgroup G) (hV : CFSG.centerIn S = d.V) (hES : d.E ≤ S)
     (hcardE : Nat.card d.E = (2 ^ f) ^ 14) (hEab : ElemAbMod d.V d.E)
     (key : ∀ X : Subgroup G, d.V ≤ X → X ≤ S → ElemAbMod d.V X →
@@ -1113,12 +1123,14 @@ theorem sec39d_E_char (S : Subgroup G) (hV : CFSG.centerIn S = d.V) (hES : d.E �
   rw [hXE] at this
   exact this
 
+omit [Finite G] in
 theorem sec39d_CPI₆_sq (d : Data G h) {x : G} (hx : x ∈ d.CPI₆) : x * x = 1 := by
   obtain ⟨u, hu, rfl⟩ := hx
   have hu2 : u * u = 1 :=
     (mul_self_eq_one_iff_mem_patSub_sI₆ (patSub_sI₆_le_sI₂ hu)).2 hu
   rw [← map_mul, hu2, map_one]
 
+omit [Finite G] in
 theorem sec39d_mem_CPI₆_of_sq (d : Data G h) {x : G} (hx : x ∈ d.CPI₂) (hx2 : x * x = 1) :
     x ∈ d.CPI₆ := by
   rw [← d.closure_involutions_CPI₂.1]
@@ -1194,7 +1206,7 @@ theorem sec39d_R_facts (hp : d.ProductCaseHyp) (S : Subgroup G) (hS2 : IsPGroup 
     exact w.2
 
 theorem sec39d_of_hyp (hp : d.ProductCaseHyp) (k8 : d.Know8) (S : Subgroup G)
-    (hS : IsSylowOf 2 S d.L₂) (hP : d.P ≤ S) (ha : d.Sec39a S) (hb : d.Sec39b)
+    (hS : IsSylowOf 2 S d.L₂) (hP : d.P ≤ S) (ha : d.Sec39a S) (_hb : d.Sec39b)
     (hc : d.Sec39c S) : d.Sec39d S := by
   refine ⟨?_, sec39d_D_char hc⟩
   have hd := hp.hyp
@@ -1293,7 +1305,7 @@ theorem sec39d_of_hyp (hp : d.ProductCaseHyp) (k8 : d.Know8) (S : Subgroup G)
   have hΩcard : Nat.card Ω ≤ (2 ^ f) ^ 2 := hcard
   have hz₀ : ∃ z ∈ Ω, z ≠ 1 ∧ d.t * z * d.t⁻¹ = z := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hall : ∀ x ∈ d.CPI₆, x = 1 := by
       intro x hx
       have hN₂CPI : d.CPI₂ ≤ d.N₂ := (d.isSylowOf_N₂_inf_P.2).le

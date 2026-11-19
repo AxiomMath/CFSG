@@ -282,8 +282,8 @@ private theorem theorem_12_15_value_isRational_of_constant_on_subgroup_complemen
     (g : G) (hgK : g ∈ K) (hgK' : g ∉ K') :
     ∃ q : ℚ, psi g = (q : ℂ) := by
   classical
-  letI : Fintype K := Fintype.ofFinite K
-  letI : Fintype K' := Fintype.ofFinite K'
+  let : Fintype K := Fintype.ofFinite K
+  let : Fintype K' := Fintype.ofFinite K'
   have hresK := theorem_12_15_subgroupRestriction_isVirtualCharacter K hpsi
   have hresK' := theorem_12_15_subgroupRestriction_isVirtualCharacter K' hpsi
   rcases Section3.scalarProduct_isVirtualCharacter_eq_int hresK
@@ -346,7 +346,7 @@ private theorem theorem_12_15_value_isRational_of_constant_on_subgroup_complemen
       (fun z : K => (z : G) ∈ K') (fun z : K => psi (z : G))
   have hcompNonempty : Nonempty {z : K // (z : G) ∉ K'} :=
     ⟨⟨⟨g, hgK⟩, hgK'⟩⟩
-  letI : Nonempty {z : K // (z : G) ∉ K'} := hcompNonempty
+  let : Nonempty {z : K // (z : G) ∉ K'} := hcompNonempty
   have hcomp : (Fintype.card {z : K // (z : G) ∉ K'} : ℂ) ≠ 0 := by
     exact_mod_cast Fintype.card_ne_zero
   have hrel :
@@ -485,7 +485,7 @@ public theorem theorem_12_15_result_source_leaf
         rw [hDM]
         exact fun hgD => hgD.2 hC
       have hRMbot : RM (g : G) = ⊥ := hRbotM (g : G) ⟨hgA0M, hgnotD⟩
-      letI : Fintype (RM (g : G)) := Fintype.ofFinite _
+      let : Fintype (RM (g : G)) := Fintype.ofFinite _
       rw [hρM.2, Section7.dadeProjection, Section2.dadeAveragingFunction]
       have hsum :
           (∑ z : RM (g : G), ψ ((g : G) * (z : G))) =
@@ -543,7 +543,7 @@ public theorem theorem_12_15_result_source_leaf
       have hRMle : RM (g : G) ≤ NF := by
         rw [hRMg]
         exact fun _ hz => hz.1
-      letI : Fintype (RM (g : G)) := Fintype.ofFinite _
+      let : Fintype (RM (g : G)) := Fintype.ofFinite _
       rw [hρM.2, Section7.dadeProjection, Section2.dadeAveragingFunction]
       have hsum :
           (∑ z : RM (g : G), ψ ((g : G) * (z : G))) =

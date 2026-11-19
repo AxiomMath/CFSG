@@ -300,7 +300,7 @@ private theorem gkb5_h_conj_mem
   exact pow_mem (qFive_mem j) _
 
 private theorem gkb5_hQ
-    : ∀ g ∈ QFive, hFive⁻¹ * g * hFive ∈ QFive := fun g hg =>
+    : ∀ _g ∈ QFive, hFive⁻¹ * _g * hFive ∈ QFive := fun _g hg =>
   CommData.conj_mem gkb5_h_conj_mem hg
 
 private theorem gkb5_actMat_x
@@ -345,8 +345,8 @@ private theorem gkb5_F1F4_z
     (hno : ∀ C : Subgroup NativeSporadic.B,
       ¬ LargeEvenPComponent 5 (Subgroup.centralizer ({zFive} : Set NativeSporadic.B)) C) :
     BMPCentralF1At 5 zFive ∧ BMPCentralF4At 5 zFive := by
-  haveI : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hD := commData_five
   set L : Subgroup NativeSporadic.B := Subgroup.closure (Set.range qFive ∪ {xFive, hFive}) with hL
   have hxL : xFive ∈ L := Subgroup.subset_closure (Or.inr (Or.inl rfl))
@@ -431,17 +431,17 @@ private theorem gkb5_component_sFiveA
     :
     ∃ J : Subgroup NativeSporadic.B,
       LargeEvenPComponent 5 (Subgroup.centralizer ({sFiveA} : Set NativeSporadic.B)) J := by
-  haveI : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
+  have : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
   obtain ⟨E, hEC, ⟨eE⟩⟩ := tabBFiveAHS_of_cert
   have hsimple : IsSimpleGroup NativeSporadic.HS := CFSG.Sporadic.HS.isSimpleGroup_HS
-  haveI : IsSimpleGroup ↥E := @MulEquiv.isSimpleGroup _ _ NativeSporadic.HS _ hsimple eE
+  have : IsSimpleGroup ↥E := @MulEquiv.isSimpleGroup _ _ NativeSporadic.HS _ hsimple eE
   have hcard : Nat.card ↥E = 44352000 := by
     rw [Nat.card_congr eE.toEquiv]
     exact CFSG.Sporadic.HS.card_HS
   have hnab : ∃ a b : ↥E, a * b ≠ b * a := by
     by_contra hc
     push Not at hc
-    letI : CommGroup ↥E := { (inferInstance : Group ↥E) with mul_comm := hc }
+    let : CommGroup ↥E := { (inferInstance : Group ↥E) with mul_comm := hc }
     have hp := IsSimpleGroup.prime_card (α := ↥E)
     rw [hcard] at hp
     norm_num at hp
@@ -463,7 +463,7 @@ private theorem gkb5_component_sFiveA
 theorem ggSporK_bmPCentralF1F4_B_five_native
     :
     BMPCentralF1 5 NativeSporadic.B ∧ BMPCentralF4 5 NativeSporadic.B := by
-  haveI : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
+  have : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
   obtain ⟨J5, hJ5⟩ := gkb5_component_sFiveA
   have key : ∀ y : NativeSporadic.B, orderOf y = 5 →
       (∀ C : Subgroup NativeSporadic.B,

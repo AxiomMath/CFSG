@@ -32,7 +32,7 @@ theorem dispatchE3 (hAlt : KDI278Alt) (hChevP : KDI278ChevP) (hL2 : KDI278L2p2) 
     (hK2 : 2 ≤ Open.pRank p ((Q : Subgroup Z) ⊓ K)) :
     ∀ W : Subgroup Z, B ⊔ U ≤ normalizer (W : Set Z) → Nat.Coprime (Nat.card W) (2 * p) →
       W = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   have hsimple := isSimpleGroup_of_center_eq_bot hK hcenK
   have hcatK : IsCatalogGroup ↥K := hcat.simple_subgroup K hsimple.1 hsimple.2
@@ -142,7 +142,7 @@ theorem two_ZE3 (hRank1 : KDI278Rank1) (hAlt : KDI278Alt) (hChevP : KDI278ChevP)
     (hΓ2 : ∀ S : Subgroup Z, S ≤ Q → 2 ≤ Open.pRank p S → normalizer (S : Set Z) ≤ Y) :
     ∀ W : Subgroup Z, B ⊔ U ≤ normalizer (W : Set Z) → Nat.Coprime (Nat.card W) (2 * p) →
       W = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   have hQrk : Open.pRank p (Q : Subgroup Z) ≤ 2 := (SU1.pRank_mono hp.one_lt le_top).trans hrk
   have hQ2 : 2 ≤ Open.pRank p (Q : Subgroup Z) := SU1.le_pRank hp.one_lt hBQ hBel (k := 2) hBc

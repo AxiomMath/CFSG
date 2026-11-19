@@ -55,7 +55,7 @@ theorem ggNbrClauseFiveMarking_map_of_central {G G' : Type} [Group G] [Group G']
   obtain ⟨hcomm, lab, hlab, hraw⟩ := h
   have hφ : Function.Surjective (π.subgroupMap K) := MonoidHom.subgroupMap_surjective π K
   have hkerφ : (π.subgroupMap K).ker ≤ Subgroup.center ↥K := subgroupMap_ker_le_center π hker K
-  haveI : Group.IsPerfect ↥K := ⟨hcomm⟩
+  have : Group.IsPerfect ↥K := ⟨hcomm⟩
   let e : ↥K ⧸ Subgroup.center ↥K ≃* ↥(K.map π) ⧸ Subgroup.center ↥(K.map π) :=
     CFSG.SeitzReduction.F4Pilot.centerQuotientEquivOfSurjective (π.subgroupMap K) hφ hkerφ
   have he : ∀ j : ↥K, e (QuotientGroup.mk' (Subgroup.center ↥K) j) =

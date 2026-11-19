@@ -130,8 +130,8 @@ theorem ptsArr_spec {G : Array (Array Nat)} {Lm : Nat → Nat → Nat} {par lab 
       · rw [hk, Array.getD_eq_getD_getElem?, ← hsz, Array.getElem?_push_size, Option.getD_some,
           hsz]
         by_cases hj0 : j = 0
-        · rw [if_pos hj0, hj0, h0]
-        · rw [if_neg hj0]
+        · rw [ite_eq_left hj0, hj0, h0]
+        · rw [ite_eq_right hj0]
           obtain ⟨hp, hl, hF⟩ := hs j (by omega) (by omega)
           rw [hget _ hp, hF]
           exact good_img (hG _ hl) (hlt _ (by omega))

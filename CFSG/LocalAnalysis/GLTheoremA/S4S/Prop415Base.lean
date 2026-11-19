@@ -38,12 +38,12 @@ theorem D3Data.of_core {p : ℕ} (hpp : p.Prime) (hp2 : p ≠ 2) (hp3 : p = 3) {
     intro hG
     have h1 := tripleLevel_le_dLevel hSt
     unfold tripleLevel at h1
-    rw [if_pos hG, hd] at h1
+    rw [ite_eq_left hG, hd] at h1
     omega
   have hS0 : IsS0 p B x L := by
     refine ⟨hSt, ?_⟩
     unfold tripleLevel
-    rw [if_neg hnoG, hlev, hd]
+    rw [ite_eq_right hnoG, hlev, hd]
     omega
   set Cx : Subgroup G := Subgroup.centralizer ({x} : Set G) with hCx
   set Ox : Subgroup G := GLAPPrimeCoreOf p Cx with hOx
@@ -112,6 +112,7 @@ theorem component_cent_of_two {p : ℕ} (hp : p.Prime) {x y : G} {L L₀ : Subgr
   rw [hC]
   exact glaPComponent_of_isSubnormal' hp hsn hL₀
 
+omit [Finite G] in
 private theorem inducesInnerMod_of_centMod_mul {p : ℕ} {L : Subgroup G} {k g : G}
     (hk : k ∈ centModSubgroup p L) (hg : g ∈ L) : InducesInnerMod p L (k * g) := by
   have hkN : k ∈ Subgroup.normalizer (L : Set G) := (mem_centModSubgroup.1 hk).1
@@ -139,11 +140,13 @@ private theorem inducesInnerMod_of_centMod_mul {p : ℕ} {L : Subgroup G} {k g :
   rw [e]
   exact h
 
+omit [Finite G] in
 private theorem inducesInnerMod_of_mem_centModSubgroup {p : ℕ} {L : Subgroup G} {k : G}
     (hk : k ∈ centModSubgroup p L) : InducesInnerMod p L k := by
   have h := inducesInnerMod_of_centMod_mul hk (Subgroup.one_mem L)
   rwa [mul_one] at h
 
+omit [Finite G] in
 private theorem mem_center_mk_of_forall_commute {p : ℕ} {L₀ : Subgroup G} {a : G} (ha : a ∈ L₀)
     (hc : ∀ l ∈ L₀, l * a = a * l) :
     (QuotientGroup.mk (⟨a, ha⟩ : L₀) : PQuot p L₀) ∈ Subgroup.center (PQuot p L₀) := by
@@ -156,7 +159,7 @@ private theorem mem_center_mk_of_forall_commute {p : ℕ} {L₀ : Subgroup G} {a
 
 private theorem eq_one_of_mem_glaPPrimeCoreOf' {p : ℕ} (hp : p.Prime) {L : Subgroup G} {a : G}
     (hO : a ∈ GLAPPrimeCoreOf p L) (hap : a ^ p = 1) : a = 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hord : orderOf a ∣ p := orderOf_dvd_of_pow_eq_one hap
   have hdvd : orderOf a ∣ Nat.card ↥(GLAPPrimeCoreOf p L) := by
     rw [← Nat.card_zpowers]
@@ -167,6 +170,7 @@ private theorem eq_one_of_mem_glaPPrimeCoreOf' {p : ℕ} (hp : p.Prime) {L : Sub
   rw [hcop.gcd_eq_one] at hg
   exact orderOf_eq_one_iff.1 (Nat.dvd_one.1 hg)
 
+omit [Finite G] in
 private theorem not_isCyclic_of_card_nine {D : Subgroup G} (hD : IsElemAbelian 3 D)
     (hc : Nat.card D = 9) : ¬ IsCyclic D := by
   intro hcyc
@@ -176,7 +180,7 @@ private theorem not_isCyclic_of_card_nine {D : Subgroup G} (hD : IsElemAbelian 3
 theorem exists_B0_elem {x y : G} {L L₀ D₀ : Subgroup G} (hx3 : x ^ 3 = 1) (hx1 : x ≠ 1)
     (hL : L ≤ Subgroup.centralizer ({x} : Set G))
     (hy : y ∈ Subgroup.centralizer ({x} : Set G)) (hy3 : y ^ 3 = 1)
-    (hyL : y ∈ Subgroup.normalizer (L : Set G)) (hyout : ¬ InducesInnerMod 3 L y)
+    (_hyL : y ∈ Subgroup.normalizer (L : Set G)) (hyout : ¬ InducesInnerMod 3 L y)
     (hx0 : CentMod 3 L x) (hL₀ : L₀ ≤ L ⊓ Subgroup.centralizer ({y} : Set G))
     (hZ0 : Subgroup.center (PQuot 3 L₀) = ⊥) (hD₀ : D₀ ≤ L₀) (hD₀el : IsElemAbelian 3 D₀)
     (hD₀c : Nat.card D₀ = 9) {z : G} (hz : z ∈ D₀) (hz1 : z ≠ 1) :
@@ -184,7 +188,7 @@ theorem exists_B0_elem {x y : G} {L L₀ D₀ : Subgroup G} (hx3 : x ^ 3 = 1) (h
       D = Subgroup.zpowers x ⊔ Subgroup.zpowers y ∧ D ≤ E ∧ E ≤ B₀ ∧ ¬ IsCyclic D ∧
       IsElemAbelian 3 D ∧ Nat.card D = 9 ∧ IsElemAbelian 3 E ∧ Nat.card E = 27 ∧
       E = D ⊔ Subgroup.zpowers z ∧ B₀ ≤ Subgroup.normalizer (L₀ : Set G) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp3 : Nat.Prime 3 := Nat.prime_three
   have hx0' : x ∈ centModSubgroup 3 L := centMod_iff.1 hx0
   have hxL : ∀ l ∈ L, l * x = x * l := fun l hl => Subgroup.mem_centralizer_singleton_iff.1 (hL hl)
@@ -380,6 +384,7 @@ theorem exists_isGStar_pump (h183 : Input18_3_4) {p : ℕ} (hp : p.Prime)
       (le_inf ((hT.1.trans inf_le_left).trans hJK) (hT.1.trans inf_le_right)) inf_le_right
   exact le_bot_iff.1 (hle.trans (le_of_eq hbot))
 
+omit [Finite G] in
 theorem not_isCyclic_of_card_sq {p : ℕ} (hp : p.Prime) {D : Subgroup G} (hD : IsElemAbelian p D)
     (hc : Nat.card D = p ^ 2) : ¬ IsCyclic D := by
   intro hcyc
@@ -493,15 +498,17 @@ theorem d4_contradiction {m : ℕ} (hctx : ThmACtx G m) {p : ℕ} (hp : p ∈ Mu
       hctx.1.kProper hB₀ hDE hEB₀ hDel hEel hEc (hD'D haD') ha1 (hD'ess a haD' ha1) hL₀comp hlayE
     have h5 := tripleLevel_le_dLevel hL₁S
     unfold tripleLevel at h5
-    rw [if_pos hL₁G, hd] at h5
+    rw [ite_eq_left hL₁G, hd] at h5
     omega
 
+omit [Finite G] in
 private theorem mem_oPPrimeP_413 {p : ℕ} {X : Subgroup G} {y : G} :
     y ∈ oPPrimeP p X ↔ ∃ h : y ∈ X,
       QuotientGroup.mk' (GLAPPrimeCore p ↥X) ⟨y, h⟩ ∈ CFSG.pCore p (↥X ⧸ GLAPPrimeCore p ↥X) := by
   unfold oPPrimeP
   simp [Subgroup.mem_map]
 
+omit [Finite G] in
 private theorem glaPPrimeCoreOf_le_oPPrimeP_413 (p : ℕ) (X : Subgroup G) :
     GLAPPrimeCoreOf p X ≤ oPPrimeP p X := by
   intro y hy
@@ -516,11 +523,11 @@ theorem exists_not_centralize {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {Y L B R 
     (hBL : B ≤ Subgroup.normalizer (L : Set G)) (hmax : IsMaxRankIn p B (L ⊔ B))
     (hXL : X ≤ L) (hLX : L ≤ Subgroup.normalizer (X : Set G)) (hXO : X ≤ GLAPPrimeCoreOf p L)
     (hR2 : IsPGroup 2 R) (hRX : R ≤ X) (hRidx : ¬ 2 ∣ R.relIndex X)
-    (hBR : B ≤ Subgroup.normalizer (R : Set G))
+    (_hBR : B ≤ Subgroup.normalizer (R : Set G))
     (hC : L ⊓ Subgroup.centralizer (R : Set G) ≤ oPPrimeP p L) : (⁅B, R⁆ : Subgroup G) ≠ ⊥ := by
   intro hBR0
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hBC : B ≤ Subgroup.centralizer (R : Set G) :=
     Subgroup.commutator_eq_bot_iff_le_centralizer.1 hBR0
   have hmax' : ∀ E : Subgroup G, IsElemAbelian p E → B ≤ E → E ≤ L ⊔ B → E = B :=
@@ -573,8 +580,8 @@ theorem exists_not_centralize {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {Y L B R 
       ((oPPrimeP p L).inv_mem hxO)) hxb
   have hLO : L ≤ oPPrimeP p L := hLB.trans hcomm
   have hQ := isQuasisimple_pQuot_of_glaPComponent hp hL
-  haveI := isQuasisimple_nontrivial hQ
-  haveI : Group.IsPerfect (PQuot p L) := Group.isPerfect_def.2 hQ.1
+  have := isQuasisimple_nontrivial hQ
+  have : Group.IsPerfect (PQuot p L) := Group.isPerfect_def.2 hQ.1
   have hall : ∀ q : PQuot p L, q ∈ CFSG.pCore p (PQuot p L) := by
     intro q
     obtain ⟨⟨l, hl⟩, rfl⟩ := QuotientGroup.mk_surjective q

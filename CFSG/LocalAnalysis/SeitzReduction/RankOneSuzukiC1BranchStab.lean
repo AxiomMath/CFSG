@@ -159,7 +159,7 @@ theorem not_two_dvd_relIndex
   intro h2
   have hU2 : IsPGroup 2 (U.subgroupOf Y) := h.isPGroup_U.comap_subtype
   obtain ⟨Q, hUQ⟩ := hU2.exists_le_sylow
-  have hQ2 : IsPGroup 2 ((Q : Subgroup Y).map Y.subtype) := Q.isPGroup'.map _
+  have hQ2 : IsPGroup 2 ((Q : Subgroup Y).map Y.subtype) := Q.isPGroup.map _
   have hUQ' : U ≤ (Q : Subgroup Y).map Y.subtype := fun x hx =>
     ⟨⟨x, hUY hx⟩, hUQ (mem_subgroupOf.mpr hx), rfl⟩
   have hQN : (Q : Subgroup Y).map Y.subtype ≤ normalizer (szT₁ L T : Set G) :=

@@ -16,17 +16,17 @@ open CFSG.Open
 
 theorem burnsideA315x_normal {G : Type} [Group G] {L T B : Subgroup G}
     (h : CFSG.Quasithin.A315Hyp L T B) : L.Normal := by
-  haveI := h.sqtk.finite
+  have := h.sqtk.finite
   have hn : (CFSG.generalizedFitting G).Normal :=
     (CFSG.LocalCores.generalized_fitting_characteristic (G := G)).2
   rwa [h.fitting] at hn
 
 theorem burnsideA315x_centralizer_eq_bot {G : Type} [Group G] {L T B : Subgroup G}
     (h : CFSG.Quasithin.A315Hyp L T B) : Subgroup.centralizer (L : Set G) = ⊥ := by
-  haveI := h.sqtk.finite
+  have := h.sqtk.finite
   have hle := CFSG.centralizer_generalizedFitting_le G
   rw [h.fitting] at hle
-  haveI := h.simple
+  have := h.simple
   obtain ⟨a, b, hab⟩ := h.nonabelian
   rw [eq_bot_iff]
   intro x hx
@@ -48,7 +48,7 @@ theorem burnsideA315x_odd_mem {G : Type} [Group G] {L T B : Subgroup G}
     (h : CFSG.Quasithin.A315Hyp L T B)
     (hOut : ∀ α : MulAut ↥L, Odd (orderOf α) → ∃ l : ↥L, α = MulAut.conj l)
     {g : G} (hg : Odd (orderOf g)) : g ∈ L := by
-  haveI := burnsideA315x_normal h
+  have := burnsideA315x_normal h
   have hodd : Odd (orderOf (MulAut.conjNormal (H := L) g)) :=
     Odd.of_dvd_nat hg (orderOf_map_dvd _ g)
   obtain ⟨l, hl⟩ := hOut _ hodd
@@ -234,7 +234,7 @@ open scoped Pointwise in
 theorem burnsideA315x_config_of_le {G : Type} [Group G] {L T B : Subgroup G}
     (h : CFSG.Quasithin.A315Hyp L T B) (hBL : B ≤ L) :
     burnsideA315x_Config ↥L ((T ⊓ L).subgroupOf L) (B.subgroupOf L) := by
-  haveI := burnsideA315x_normal h
+  have := burnsideA315x_normal h
   have hsyl := burnsideA315x_sylow_inf (L := L) h.sylow
   have eB : ↥(B.subgroupOf L) ≃* ↥B := Subgroup.subgroupOfEquivOfLe hBL
   refine ⟨⟨le_top, ?_, ?_⟩, ?_, ?_, ?_, ?_⟩
@@ -264,7 +264,7 @@ theorem burnsideA315x_config_of_hyp {G : Type} [Group G] {L T B : Subgroup G}
     (h : CFSG.Quasithin.A315Hyp L T B)
     (hOut : ∀ α : MulAut ↥L, Odd (orderOf α) → ∃ l : ↥L, α = MulAut.conj l) :
     B ≤ L ∧ burnsideA315x_Config ↥L ((T ⊓ L).subgroupOf L) (B.subgroupOf L) := by
-  haveI := burnsideA315x_normal h
+  have := burnsideA315x_normal h
   have hBL : B ≤ L := burnsideA315x_le_of_out h hOut
   exact ⟨hBL, burnsideA315x_config_of_le h hBL⟩
 
@@ -459,7 +459,7 @@ theorem burnsideA315x_alt6_odd_inner {α : MulAut (alternatingGroup (Fin 6))}
     exact hα
   have hmem : (b : P10) ∈ A6Models.psl29 := by
     let N : Subgroup ↥A6Models.autA6 := A6Models.psl29.subgroupOf A6Models.autA6
-    haveI hN : N.Normal := ⟨fun n hn g => by
+    have hN : N.Normal := ⟨fun n hn g => by
       rw [Subgroup.mem_subgroupOf] at hn ⊢
       simpa using psl29_normal (g : P10) g.2 (n : P10) hn⟩
     have hcardN : Nat.card N = 360 := by
@@ -547,8 +547,8 @@ theorem burnsideA315x_Config.exists_order_mul {X : Type} [Group X] [Finite X] {S
     (hc : burnsideA315x_Config X S B) {r s : ℕ} (hr : r.Prime) (hs : s.Prime) (hrs : r ≠ s)
     (hrB : r ∣ Nat.card ↥B) (hsB : s ∣ Nat.card ↥B) : ∃ z : X, z ∈ B ∧ orderOf z = r * s := by
   rcases hc.cases with hab | ⟨q, hq, hBq⟩
-  · haveI : Fact r.Prime := ⟨hr⟩
-    haveI : Fact s.Prime := ⟨hs⟩
+  · have : Fact r.Prime := ⟨hr⟩
+    have : Fact s.Prime := ⟨hs⟩
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥B) r hrB
     obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' (G := ↥B) s hsB
     have hcomm : Commute x y := hab.is_comm.comm x y
@@ -558,7 +558,7 @@ theorem burnsideA315x_Config.exists_order_mul {X : Type} [Group X] [Finite X] {S
     refine ⟨((x * y : ↥B) : X), (x * y : ↥B).2, ?_⟩
     rw [Subgroup.orderOf_coe, hcomm.orderOf_mul_eq_mul_orderOf_of_coprime hcop, hx, hy]
   · exfalso
-    haveI : Fact q.Prime := ⟨hq⟩
+    have : Fact q.Prime := ⟨hq⟩
     obtain ⟨k, hk⟩ := hBq.exists_card_eq
     rw [hk] at hrB hsB
     have h1 := (Nat.prime_dvd_prime_iff_eq hr hq).1 (hr.dvd_of_dvd_pow hrB)
@@ -600,7 +600,7 @@ open CFSG.QuasithinUnique CFSG.QuasithinUnique.Vol2Native.A312L in
 theorem burnsideA315x_alt_false
     {X : Type} [Group X] {S B : Subgroup X} (hc : burnsideA315x_Config X S B) {n : ℕ}
     (hn5 : 5 ≤ n) (hn8 : n ≤ 8) (e : X ≃* alternatingGroup (Fin n)) : False := by
-  haveI : Finite X := Finite.of_equiv _ e.symm.toEquiv
+  have : Finite X := Finite.of_equiv _ e.symm.toEquiv
   have h3 : ∀ (k : ℕ), Nat.card ↥B = 3 ^ k → False := fun k h => hc.false_of_pow_three h
   have two : ∀ r s : ℕ, r.Prime → s.Prime → r ≠ s → n < r + s → n < r * s →
       r ∣ Nat.card ↥B → s ∣ Nat.card ↥B → False :=
@@ -820,7 +820,7 @@ theorem burnsideA315x_rot_cyclic {X : Type} [Group X] {H : Subgroup X} {z : ℕ}
     refine ⟨(i.val : ℤ), ?_⟩
     show DihedralGroup.r 1 ^ ((i.val : ℕ) : ℤ) = DihedralGroup.r i
     rw [zpow_natCast, DihedralGroup.r_one_pow, ZMod.natCast_zmod_val]
-  haveI : IsCyclic ↥(Subgroup.zpowers (DihedralGroup.r 1 : DihedralGroup z)) := inferInstance
+  have : IsCyclic ↥(Subgroup.zpowers (DihedralGroup.r 1 : DihedralGroup z)) := inferInstance
   have h1 : IsCyclic ↥f.range := burnsideA315x_cyclic_of_le hrange inferInstance
   exact isCyclic_of_surjective (MonoidHom.ofInjective hf).symm.toMonoidHom
     (MonoidHom.ofInjective hf).symm.surjective
@@ -836,7 +836,7 @@ theorem burnsideA315x_case_dihedral {X : Type} [Group X] [Finite X] {S B : Subgr
     intro h
     rw [h, mul_zero] at hHz
     exact (Nat.card_pos (α := ↥(B ⊔ S))).ne' hHz
-  haveI : NeZero z := ⟨hz0⟩
+  have : NeZero z := ⟨hz0⟩
   obtain ⟨k', rfl⟩ : ∃ k', k = k' + 2 := ⟨k - 2, by omega⟩
   have hz : z = Nat.card ↥B * 2 ^ (k' + 1) := by
     have h1 : 2 * z = 2 * (Nat.card ↥B * 2 ^ (k' + 1)) := by
@@ -931,7 +931,7 @@ theorem burnsideA315x_case_subfield {X Y : Type} [Group X] [Finite X] [Group Y]
     rcases (Nat.Prime.dvd_mul hp).1 hpY' with h | h
     · exact h
     · exact absurd ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).1 (hp.dvd_of_dvd_pow h)) hp2
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨u, hu⟩ := exists_prime_orderOf_dvd_card' (G := ↥B) p hpB
   let ι : ↥B →* Y := e.toMonoidHom.comp (Subgroup.inclusion le_sup_left)
   have hι : Function.Injective ι := fun a b hab =>
@@ -940,7 +940,7 @@ theorem burnsideA315x_case_subfield {X Y : Type} [Group X] [Finite X] [Group Y]
     intro r hr hrB
     by_contra hrp
     rcases hc.cases with hab | ⟨q, hq, hBq⟩
-    · haveI : Fact r.Prime := ⟨hr⟩
+    · have : Fact r.Prime := ⟨hr⟩
       obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥B) r hrB
       have hcomm : Commute u x := hab.is_comm.comm u x
       refine hnc (ι u) (ι x) ?_ ?_ ?_ ?_ (hcomm.map ι)
@@ -948,7 +948,7 @@ theorem burnsideA315x_case_subfield {X Y : Type} [Group X] [Finite X] [Group Y]
       · rw [orderOf_injective ι hι x, hx]; exact hr
       · rw [orderOf_injective ι hι x, hx]; exact hrp
       · rw [orderOf_injective ι hι x, hx]; exact Odd.of_dvd_nat hc.odd hrB
-    · haveI : Fact q.Prime := ⟨hq⟩
+    · have : Fact q.Prime := ⟨hq⟩
       obtain ⟨j, hj⟩ := hBq.exists_card_eq
       rw [hj] at hpB hrB
       have h1 := (Nat.prime_dvd_prime_iff_eq hp hq).1 (hp.dvd_of_dvd_pow hpB)
@@ -997,7 +997,7 @@ theorem burnsideA315x_psl2_no_commute {p m : ℕ} [Fact p.Prime] (hm : 1 ≤ m)
     (u x : CFSG.GorensteinWalter.PSL2 (GaloisField p m)) (hu : orderOf u = p)
     (hx : (orderOf x).Prime) (hxp : orderOf x ≠ p) : ¬ Commute u x := by
   intro hcomm
-  haveI : Fact (orderOf x).Prime := ⟨hx⟩
+  have : Fact (orderOf x).Prime := ⟨hx⟩
   exact CFSG.GorensteinWalter.psl2_no_commuting_distinct_prime_order (F := GaloisField p m)
     (r := p) (f := m) (p := orderOf x) (GaloisField.card p m (by omega)) hxp hu rfl hcomm
 
@@ -1034,8 +1034,7 @@ theorem burnsideA315x_case_pgl {X : Type} [Group X] [Finite X] {S B : Subgroup X
     ?_ ?_
   · show Nat.card (CFSG.GorensteinWalter.PGL2 (GaloisField p m)) * 1 = _
     rw [hcard, mul_one]
-  · intro u x hu hx hxp hxodd
-    intro hcomm
+  · intro u x hu hx hxp hxodd hcomm
     have hpodd : Odd p := (Fact.out : p.Prime).odd_of_ne_two hp2
     obtain ⟨a, ha⟩ := CFSG.RankThree.PartTwo.KFacts.exists_toPGL_eq_of_pow_odd
       (g := u) (n := orderOf u) (by rw [hu]; exact hpodd) (pow_orderOf_eq_one u)
@@ -1162,7 +1161,7 @@ theorem burnsideA315x_l2_core {p e : ℕ} [Fact p.Prime]
       Fintype.card_fin]
     decide
   · exfalso
-    haveI := hP
+    have := hP
     exact burnsideA315x_case_ext le_sup_right (Fact.out : p.Prime) hp2 hSc hSnc P hPc hQc
   · exfalso
     have hm0 : 1 ≤ m' := Nat.pos_of_dvd_of_pos hm' (by omega)
@@ -1176,7 +1175,7 @@ theorem burnsideA315x_l2_core {p e : ℕ} [Fact p.Prime]
 
 theorem burnsideA315x_l2Fact : CFSG.Quasithin.A315L2Fact := by
   intro G _ L T B h p e hp hp2 he1 he2 hL
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, K, _, _, hK, ⟨eK⟩⟩ := id hL
   let _ : Fintype K := Fintype.ofFinite K
   let _ : Fintype (GaloisField p e) := Fintype.ofFinite _
@@ -1198,7 +1197,7 @@ theorem burnsideA315x_l2Fact : CFSG.Quasithin.A315L2Fact := by
   have hcardB : Nat.card ↥((B.subgroupOf L).map eL.toMonoidHom) = Nat.card ↥B :=
     (Nat.card_congr eB.toEquiv).symm
   refine ⟨p, e, hp, hp2, he1, he2, hL, hBL, ?_, ⟨ε, hε1, hε2, ?_⟩, ?_⟩
-  · haveI := hcyc
+  · have := hcyc
     exact isCyclic_of_surjective eB.symm.toMonoidHom eB.symm.surjective
   · rw [← hcardB]
     exact hε3
@@ -1283,8 +1282,8 @@ theorem burnsideA315x_gl3_tori (F : Type) [Field F] [Finite F] :
       Nat.card ↥T = (Nat.card F ^ 2 - 1) * (Nat.card F - 1)) ∧
     (∃ T : Subgroup (GL (Fin 3) F), IsMulCommutative ↥T ∧ Nat.card ↥T = Nat.card F ^ 3 - 1) := by
   obtain ⟨p, hp⟩ := CharP.exists F
-  haveI : CharP F p := hp
-  haveI : Fact p.Prime := ⟨CharP.char_is_prime F p⟩
+  have : CharP F p := hp
+  have : Fact p.Prime := ⟨CharP.char_is_prime F p⟩
   refine ⟨?_, ?_, ?_⟩
   · obtain ⟨T, hT, hc⟩ := burnsideA315x_algebra_torus F (Fin 3 → F) (by simp)
     refine ⟨T, hT, ?_⟩
@@ -1478,7 +1477,7 @@ theorem burnsideA315x_gl3_key (F : Type) [Field F] [Finite F] {r : ℕ} (hr : r.
 theorem burnsideA315x_gl3_rsub_abelian (F : Type) [Field F] [Finite F] {r : ℕ} (hr : r.Prime)
     (hr5 : 5 ≤ r) (hrq : ¬ r ∣ Nat.card F) (R : Subgroup (GL (Fin 3) F))
     (hR : IsPGroup r ↥R) : IsMulCommutative ↥R := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨A, hA, hdvd⟩ := burnsideA315x_gl3_key F hr hr5 hrq
   obtain ⟨PA⟩ : Nonempty (Sylow r ↥A) := inferInstance
   have hPAcard : Nat.card ↥(PA : Subgroup ↥A) = r ^ (Nat.card ↥A).factorization r :=
@@ -1522,12 +1521,12 @@ theorem burnsideA315x_quot_abelian {G Q : Type} [Group G] [Group Q] [Finite G] {
     [Fact r.Prime] (π : G →* Q) (hπ : Function.Surjective π)
     (hab : ∀ R : Subgroup G, IsPGroup r ↥R → IsMulCommutative ↥R) (R : Subgroup Q)
     (hR : IsPGroup r ↥R) : IsMulCommutative ↥R := by
-  haveI : Finite Q := Finite.of_surjective _ hπ
+  have : Finite Q := Finite.of_surjective _ hπ
   obtain ⟨P', hRP'⟩ := hR.exists_le_sylow
   obtain ⟨S, hS⟩ := Sylow.mapSurjective_surjective hπ r P'
   have hPS : (P' : Subgroup Q) = (S : Subgroup G).map π := by
     rw [← hS, Sylow.coe_mapSurjective]
-  have hSab := hab (S : Subgroup G) S.isPGroup'
+  have hSab := hab (S : Subgroup G) S.isPGroup
   refine ⟨⟨fun x y => ?_⟩⟩
   have hx : (x : Q) ∈ (S : Subgroup G).map π := hPS ▸ hRP' x.2
   have hy : (y : Q) ∈ (S : Subgroup G).map π := hPS ▸ hRP' y.2
@@ -1541,7 +1540,7 @@ theorem burnsideA315x_quot_abelian {G Q : Type} [Group G] [Group Q] [Finite G] {
 theorem burnsideA315x_proj_rsub_abelian {F : Type} [Field F] [Finite F] {r : ℕ} (hr : r.Prime)
     (hr5 : 5 ≤ r) (hrq : ¬ r ∣ Nat.card F) (H : Subgroup (GL (Fin 3) F))
     (R : Subgroup (StatedProj H)) (hR : IsPGroup r ↥R) : IsMulCommutative ↥R := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   refine burnsideA315x_quot_abelian (QuotientGroup.mk' ((StatedScalars (Fin 3) F).subgroupOf H))
     (QuotientGroup.mk'_surjective _) (fun R' hR' => ?_) R hR
   have h1 : IsPGroup r ↥(R'.map H.subtype) := hR'.map _
@@ -1571,7 +1570,7 @@ theorem burnsideA315x_dihedral_witness {X : Type} [Group X] {α γ : X} (h1 : α
   have hN : Subgroup.zpowers α ≤ Subgroup.normalizer (Subgroup.zpowers γ : Set X) := by
     rw [Subgroup.zpowers_le, Subgroup.mem_normalizer_iff]
     intro y
-    simp only [SetLike.mem_coe, Subgroup.mem_zpowers_iff]
+    simp only [Subgroup.mem_zpowers_iff]
     constructor
     · rintro ⟨n, rfl⟩
       exact ⟨-n, (hconj n).symm⟩
@@ -1595,26 +1594,26 @@ theorem burnsideA315x_dihedral_witness {X : Type} [Group X] {α γ : X} (h1 : α
 
 @[expose] def burnsideA315x_gA (K : Type) [Field K] : GL (Fin 3) K :=
   ⟨!![0, 1, 0; 1, 0, 0; 0, 0, -1], !![0, 1, 0; 1, 0, 0; 0, 0, -1],
-    by simp [Matrix.mul_fin_three, Matrix.one_fin_three],
-    by simp [Matrix.mul_fin_three, Matrix.one_fin_three]⟩
+    by simp [Matrix.one_fin_three],
+    by simp [Matrix.one_fin_three]⟩
 
 @[expose] def burnsideA315x_gC (K : Type) [Field K] : GL (Fin 3) K :=
   ⟨!![0, -1, 0; 1, 0, 0; 0, 0, 1], !![0, 1, 0; -1, 0, 0; 0, 0, 1],
-    by simp [Matrix.mul_fin_three, Matrix.one_fin_three],
-    by simp [Matrix.mul_fin_three, Matrix.one_fin_three]⟩
+    by simp [Matrix.one_fin_three],
+    by simp [Matrix.one_fin_three]⟩
 
 theorem burnsideA315x_gA_sq (K : Type) [Field K] : burnsideA315x_gA K ^ 2 = 1 := by
   apply Units.ext
-  simp [pow_two, burnsideA315x_gA, Matrix.mul_fin_three, Matrix.one_fin_three]
+  simp [pow_two, burnsideA315x_gA, Matrix.one_fin_three]
 
 theorem burnsideA315x_gC_pow_four (K : Type) [Field K] : burnsideA315x_gC K ^ 4 = 1 := by
   apply Units.ext
-  simp [pow_succ, burnsideA315x_gC, Matrix.mul_fin_three, Matrix.one_fin_three]
+  simp [pow_succ, burnsideA315x_gC, Matrix.one_fin_three]
 
 theorem burnsideA315x_gA_gC (K : Type) [Field K] :
     burnsideA315x_gA K * burnsideA315x_gC K * (burnsideA315x_gA K)⁻¹ = (burnsideA315x_gC K)⁻¹ := by
   apply Units.ext
-  simp [burnsideA315x_gA, burnsideA315x_gC, Matrix.mul_fin_three]
+  simp [burnsideA315x_gA, burnsideA315x_gC]
 
 theorem burnsideA315x_gC_sq_not_scalar (K : Type) [Field K] (hK : (2 : K) ≠ 0) :
     burnsideA315x_gC K ^ 2 ∉ StatedScalars (Fin 3) K := by
@@ -1623,7 +1622,7 @@ theorem burnsideA315x_gC_sq_not_scalar (K : Type) [Field K] (hK : (2 : K) ≠ 0)
   simp only [Matrix.GeneralLinearGroup.coe_scalar] at h
   have h0 := congrFun (congrFun h 0) 0
   have h2 := congrFun (congrFun h 2) 2
-  simp [pow_two, burnsideA315x_gC, Matrix.mul_fin_three, Matrix.scalar_apply,
+  simp [pow_two, burnsideA315x_gC, Matrix.scalar_apply,
     -Units.val_eq_one] at h0 h2
   have h0' : (u : K) = -1 := by simpa using congrArg Units.val h0
   apply hK
@@ -1653,7 +1652,7 @@ theorem burnsideA315x_proj_witness {K : Type} [Field K] (hK : (2 : K) ≠ 0)
 theorem burnsideA315x_twoGroup_comm {X : Type} [Group X] [Finite X] {S : Subgroup X}
     (hS : CFSG.QuasithinUnique.IsSylowTwoOf S ⊤) (hab : IsMulCommutative ↥S) (D : Subgroup X)
     (hD : IsPGroup 2 ↥D) : IsMulCommutative ↥D := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨h1, h2⟩ := CFSG.Quasithin.H13.FiveNorm.isSylowTwoOf_top_index hS
   let PS : Sylow 2 X := h1.toSylow h2
   obtain ⟨P', hDP'⟩ := hD.exists_le_sylow
@@ -1684,18 +1683,18 @@ theorem burnsideA315x_false_of_comm_sylow {X : Type} [Group X] [Finite X] {S : S
 
 theorem burnsideA315x_comm_of_card_dvd_sq {G : Type} [Group G] {p : ℕ} (hp : p.Prime)
     (h : Nat.card G ∣ p ^ 2) : IsMulCommutative G := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨i, hi, hcard⟩ := (Nat.dvd_prime_pow hp).1 h
   interval_cases i
-  · haveI : Subsingleton G := (Nat.card_eq_one_iff_unique.1 (by simpa using hcard)).1
+  · have : Subsingleton G := (Nat.card_eq_one_iff_unique.1 (by simpa using hcard)).1
     exact ⟨⟨fun a b => Subsingleton.elim _ _⟩⟩
-  · haveI : Finite G := Nat.finite_of_card_ne_zero (by rw [hcard]; exact (pow_pos hp.pos 1).ne')
-    haveI : IsCyclic G := isCyclic_of_prime_card (by simpa using hcard)
+  · have : Finite G := Nat.finite_of_card_ne_zero (by rw [hcard]; exact (pow_pos hp.pos 1).ne')
+    have : IsCyclic G := isCyclic_of_prime_card (by simpa using hcard)
     infer_instance
   · exact IsPGroup.isMulCommutative_of_card_eq_prime_sq hcard
 
 theorem burnsideA315x_eq_of_nonabelian {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.Prime)
-    {B Q : Subgroup G} (hBQ : B ≤ Q) (hQ : Nat.card ↥Q = p ^ 3) (hB : IsPGroup p ↥B)
+    {B Q : Subgroup G} (hBQ : B ≤ Q) (hQ : Nat.card ↥Q = p ^ 3) (_hB : IsPGroup p ↥B)
     (hnab : ¬ IsMulCommutative ↥B) : B = Q := by
   by_contra hne
   have hdvd : Nat.card ↥B ∣ p ^ 3 := hQ ▸ Subgroup.card_dvd_of_le hBQ
@@ -1747,11 +1746,11 @@ theorem burnsideA315x_upper_two_comm {K : Type} [Field K] [Finite K] {p : ℕ} [
     (hp : p.Prime) (hp2 : p ≠ 2) {n : ℕ} (hn : 1 ≤ n) {D : Subgroup (projectiveSL n K)}
     (hD : IsPGroup 2 ↥D) (hDle : ∀ x ∈ D, ∃ y ∈ upperTriangular n K, proj n K y = x) :
     IsMulCommutative ↥D := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨P, hP⟩ := exists_sylow_projUnitriangular (K := K) p (n := n) hn
   have hdisj : Disjoint D (projUnitriangular n K) := by
     rw [← hP]
-    exact IsPGroup.disjoint_of_coprime hD P.isPGroup'
+    exact IsPGroup.disjoint_of_coprime hD P.isPGroup
       ((Nat.coprime_primes Nat.prime_two hp).2 (Ne.symm hp2))
   refine ⟨⟨fun a b => ?_⟩⟩
   obtain ⟨x, hx, hxa⟩ := hDle a a.2
@@ -1771,12 +1770,12 @@ open scoped Pointwise in
 theorem burnsideA315x_Config.sup_solvable {X : Type} [Group X] [Finite X] {S B : Subgroup X}
     (hc : burnsideA315x_Config X S B) (hBnil : Group.IsNilpotent ↥B) :
     Group.IsSolvable ↥(B ⊔ S) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hle, -⟩ := hc.sup_card
   have hBle : B ≤ B ⊔ S := le_sup_left
   have eA : ↥(B.subgroupOf (B ⊔ S)) ≃* ↥B := Subgroup.subgroupOfEquivOfLe hBle
   have eC : ↥(S.subgroupOf (B ⊔ S)) ≃* ↥S := Subgroup.subgroupOfEquivOfLe hle
-  haveI := hBnil
+  have := hBnil
   refine CFSG.GroupTheory.WielandtProduct.wielandt_coprime_product (B.subgroupOf (B ⊔ S))
     (S.subgroupOf (B ⊔ S)) (Group.nilpotent_of_mulEquiv eA.symm)
     ((hc.sylow.2.1.of_equiv eC.symm).isNilpotent) ?_ ?_
@@ -1795,7 +1794,7 @@ theorem burnsideA315x_l3_core {K : Type} [Field K] [Finite K] {p : ℕ} [CharP K
     (hK : Nat.card K = p) (hp : p.Prime) (hp5 : 5 ≤ p)
     {S B : Subgroup (projectiveSL 3 K)} (hc : burnsideA315x_Config _ S B)
     (hB : IsPGroup p ↥B) (hnab : ¬ IsMulCommutative ↥B) : IsMulCommutative ↥S := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   obtain ⟨P, hP⟩ := exists_sylow_projUnitriangular (K := K) p (n := 3) (by norm_num)
   obtain ⟨P', hBP'⟩ := hB.exists_le_sylow
@@ -1820,7 +1819,7 @@ theorem burnsideA315x_l3_core {K : Type} [Field K] [Finite K] {p : ℕ} [CharP K
       rw [hBeq, ← hg, Sylow.coe_subgroup_smul]
       exact Subgroup.smul_mem_pointwise_smul u (MulAut.conj g) _ hu
     refine ⟨(MulAut.conj g) u, (le_sup_left : B ≤ B ⊔ S) hb, ?_⟩
-    simp only [φ, MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply]
+    simp only [φ, MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply]
     group
   have hK4 : 4 ≤ Nat.card K := by omega
   have hH'le : ∀ x ∈ H', ∃ y ∈ upperTriangular 3 K, proj 3 K y = x := by
@@ -1870,7 +1869,7 @@ theorem burnsideA315x_u3_core {X : Type} [Group X] [Finite X] {p : ℕ} (hp : p.
     (hp2 : p ≠ 2) (hX : StatedClassicalModel X .PSU 3 p 1) {S B : Subgroup X}
     (hc : burnsideA315x_Config X S B) (hB : IsPGroup p ↥B) (hnab : ¬ IsMulCommutative ↥B) :
     IsCyclic ↥S := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨T, hBT⟩ := hB.exists_le_sylow
   obtain ⟨K, _, h, Φ, hΦ, hrange, hcomap⟩ := exists_perm_comap_rkOneUStar_eq hX T
   have hcardT : Nat.card ↥(T : Subgroup X) = p ^ 3 := by
@@ -1968,9 +1967,9 @@ theorem burnsideA315x_l3r_core {X : Type} [Group X] [Finite X] {S B : Subgroup X
     obtain ⟨-, K, _, _, hK, ⟨e⟩⟩ := hX'
     rcases eq_or_ne r p with rfl | hrp
     · have hcyc := burnsideA315x_u3_core hr hp2 hX (hc := hc) hBr hnab
-      haveI := hcyc
+      have := hcyc
       have hScomm : IsMulCommutative ↥S := burnsideA315x_comm_of_cyclic
-      haveI : CharP K r :=
+      have : CharP K r :=
         CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hr
           (k := 2) (by norm_num) (by rw [hK]; ring)
       have h2 : (2 : K) ≠ 0 := by
@@ -1994,7 +1993,7 @@ theorem burnsideA315x_l3r_core {X : Type} [Group X] [Finite X] {S B : Subgroup X
     obtain ⟨-, K, _, _, hK, ⟨e⟩⟩ := hX'
     rcases eq_or_ne r p with rfl | hrp
     · have hK' : Nat.card K = r := by simpa using hK
-      haveI : CharP K r :=
+      have : CharP K r :=
         CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hr
           (k := 1) le_rfl (by simpa using hK)
       let e' : X ≃* CFSG.LocalAnalysis.ComponentInitial.LinearFlag.projectiveSL 3 K :=
@@ -2028,7 +2027,7 @@ theorem burnsideA315x_l3r_core {X : Type} [Group X] [Finite X] {S B : Subgroup X
 
 theorem burnsideA315x_l3rFact : CFSG.Quasithin.A315L3RFact := by
   intro G _ L T B h hnab δ p hp hp2 hL r hr hr3 hBr hBL
-  haveI : Finite G := h.sqtk.finite
+  have : Finite G := h.sqtk.finite
   have hc := burnsideA315x_config_of_le h hBL
   have eB : ↥(B.subgroupOf L) ≃* ↥B := Subgroup.subgroupOfEquivOfLe hBL
   refine burnsideA315x_l3r_core hc δ hp hp2 hL hr hr3 (hBr.of_equiv eB.symm) (fun hab => hnab ?_)

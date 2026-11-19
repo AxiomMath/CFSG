@@ -48,7 +48,7 @@ private theorem exists_normalized_two_sylow_norm [Finite M] {p : ℕ} (hp : p.Pr
   · intro h
     exact Q.ne_bot_of_dvd_card hV2
       ((Subgroup.map_eq_bot_iff_of_injective (Q : Subgroup V) V.subtype_injective).1 h)
-  · exact Q.isPGroup'.map V.subtype
+  · exact Q.isPGroup.map V.subtype
   · refine le_normalizer_of_forward_norm fun x hx y hy => ?_
     obtain ⟨s, hs, rfl⟩ := hy
     have h1 := Subgroup.smul_mem_pointwise_smul s (⟨x, hx⟩ : K) (Q : Subgroup V) hs
@@ -85,7 +85,7 @@ theorem exists_lift_twoLocal_of_le_normalizer
   set Pm : Subgroup M := (P0 : Subgroup Mhat).map Mhat.subtype with hPm
   have hPmcard : Nat.card Pm = p ^ n := by
     rw [hPm, Subgroup.card_map_of_injective Mhat.subtype_injective]; exact hP0card
-  have hPmp : IsPGroup p Pm := P0.isPGroup'.map Mhat.subtype
+  have hPmp : IsPGroup p Pm := P0.isPGroup.map Mhat.subtype
   have hPmle : Pm ≤ Mhat := by
     rintro _ ⟨x, -, rfl⟩; exact x.2
   have hPmπ : ∀ x ∈ Pm, π x ∈ Pbar := fun x hx => hPmle hx

@@ -84,7 +84,7 @@ theorem swalk_sound {α : Type} {cands : α → List ℕ} {upd : α → ℕ → 
       have hf : swalk cands upd visit fuel (node ++ node.map (v ^^^ ·)) (Nat.log2 v + 1)
           (upd a v) = true := by
         have hv := hall' v hvc
-        rwa [if_pos hguard] at hv
+        rwa [ite_eq_left hguard] at hv
       have hchild : ∀ x, x ∈ node ++ node.map (v ^^^ ·) ↔
           x ∈ S ∧ x < 2 ^ (Nat.log2 v + 1) := by
         intro x

@@ -13,7 +13,7 @@ open CFSG CFSG.Open CFSG.RankThreeCoreUniqueness.Helpers Subgroup
 
 theorem kd291_aux_PS_prime_card {Q : Type} [Group Q] [IsSimpleGroup Q] (hQ : Group.IsSolvable Q) :
     (Nat.card Q).Prime := by
-  haveI : IsMulCommutative Q := IsMulCommutative.of_comm (IsSimpleGroup.comm_iff_isSolvable.mpr hQ)
+  have : IsMulCommutative Q := IsMulCommutative.of_comm (IsSimpleGroup.comm_iff_isSolvable.mpr hQ)
   exact Group.is_simple_iff_prime_card.mp inferInstance
 
 theorem kd291_isPSolvable_of_map {p : ℕ} (hp : p.Prime) {G B : Type} [Group G] [Finite G]
@@ -24,10 +24,10 @@ theorem kd291_isPSolvable_of_map {p : ℕ} (hp : p.Prime) {G B : Type} [Group G]
     intro b hb
     obtain ⟨x, rfl⟩ := MonoidHom.mem_range.mp hb
     exact MonoidHom.mem_range.mpr ⟨x.1, rfl⟩
-  haveI : Group.IsSolvable (φ.comp H.subtype).range :=
+  have : Group.IsSolvable (φ.comp H.subtype).range :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hle)
       (Subgroup.inclusion_injective hle)
-  haveI hA : Group.IsSolvable (H ⧸ (φ.comp H.subtype).ker) :=
+  have hA : Group.IsSolvable (H ⧸ (φ.comp H.subtype).ker) :=
     Group.isSolvable_of_isSolvable_injective
       (f := (QuotientGroup.quotientKerEquivRange (φ.comp H.subtype)).toMonoidHom)
       (QuotientGroup.quotientKerEquivRange (φ.comp H.subtype)).injective
@@ -37,7 +37,7 @@ theorem kd291_isPSolvable_of_map {p : ℕ} (hp : p.Prime) {G B : Type} [Group G]
       simp [MonoidHom.mem_ker, Subgroup.mem_subgroupOf]
     rw [hN]
     exact Subgroup.card_comap_dvd_of_injective φ.ker H.subtype H.subtype_injective
-  haveI : ((φ.comp H.subtype).ker.map (QuotientGroup.mk' T)).Normal :=
+  have : ((φ.comp H.subtype).ker.map (QuotientGroup.mk' T)).Normal :=
     Subgroup.Normal.map inferInstance (QuotientGroup.mk' T) (QuotientGroup.mk'_surjective T)
   rcases Subgroup.Normal.eq_bot_or_eq_top
       ((φ.comp H.subtype).ker.map (QuotientGroup.mk' T)) with h | h
@@ -56,7 +56,7 @@ theorem kd291_isPSolvable_of_map {p : ℕ} (hp : p.Prime) {G B : Type} [Group G]
       intro q
       obtain ⟨x, rfl⟩ := QuotientGroup.mk'_surjective T q
       exact ⟨QuotientGroup.mk' (φ.comp H.subtype).ker x, rfl⟩
-    haveI : Group.IsSolvable (H ⧸ T) := Group.isSolvable_of_surjective hsurj
+    have : Group.IsSolvable (H ⧸ T) := Group.isSolvable_of_surjective hsurj
     have hprime := kd291_aux_PS_prime_card (Q := H ⧸ T) inferInstance
     rw [Subgroup.index_eq_card]
     by_cases hrp : Nat.card (H ⧸ T) = p
@@ -84,10 +84,10 @@ section CertificateInstances
 
 theorem gammaCentP_holds : GammaCentP := by
   intro p hp hp5 X _ _ P x hcat hxP hx1 hx5 hP hC hperf _ hcomp
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨L, hLn, hLs, hLnab, hLcat, hLlu, hLC, hxL, -⟩ :=
     gammaStructureP_holds p hp hp5 X P x hcat hxP hx1 hx5 hP hC hperf hcomp
-  haveI := hLn
+  have := hLn
   have hxo : orderOf x = p := orderOf_eq_prime hx5 hx1
   have hY : 3 ≤ Open.pRank p (⊤ : Subgroup (X ⧸ primeComplementCore (G := X) p)) :=
     (kd291_pRank_quot hp P hP).ge
@@ -121,7 +121,7 @@ theorem gammaCentP_holds : GammaCentP := by
       change (QuotientGroup.mk (c : X) : X ⧸ primeComplementCore (G := X) p) * QuotientGroup.mk x =
         QuotientGroup.mk x * QuotientGroup.mk (c : X)
       rw [← QuotientGroup.mk_mul, ← QuotientGroup.mk_mul, h]
-    exact solvable_of_solvable_injective (Subgroup.inclusion_injective hle)
+    exact Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hle)
 
 end CertificateInstances
 

@@ -18,16 +18,19 @@ private def validIdx : Finset (Fin 6 × Fin 6 × Fin 6) :=
 
 private theorem validIdx_card : validIdx.card = 48 := by decide
 
+omit [Finite G] in
 private theorem six_cls {i j : Fin 6} (hij : i.val / 2 = j.val / 2) :
     six b b₁ b₂ i = six b b₁ b₂ j ∨ six b b₁ b₂ i = (six b b₁ b₂ j)⁻¹ := by
   fin_cases i <;> fin_cases j <;> simp [six] at hij ⊢
 
+omit [Finite G] in
 private theorem exists_idx {y : G} (hy : y ∈ ({b, b⁻¹, b₁, b₁⁻¹, b₂, b₂⁻¹} : Set G)) :
     ∃ i : Fin 6, six b b₁ b₂ i = y := by
   simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hy
   rcases hy with rfl | rfl | rfl | rfl | rfl | rfl
   exacts [⟨0, rfl⟩, ⟨1, rfl⟩, ⟨2, rfl⟩, ⟨3, rfl⟩, ⟨4, rfl⟩, ⟨5, rfl⟩]
 
+omit [Finite G] in
 private theorem class_ne {x y n : G} (hxy : y ∉ Subgroup.zpowers x) {i j : Fin 6}
     (hi : six b b₁ b₂ i = n * x * n⁻¹) (hj : six b b₁ b₂ j = n * y * n⁻¹) :
     i.val / 2 ≠ j.val / 2 := by

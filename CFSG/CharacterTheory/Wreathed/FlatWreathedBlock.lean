@@ -23,7 +23,7 @@ variable {G : Type*} [Group G] [Fintype G]
     (nb : FiniteIrreducibleCharacterBasis (Subgroup.normalizer ((S : Subgroup G) : Set G)))
     (θhat : nb.index),
     InflatedLabel (oddCore_le_normalizer S) nb eb θ θhat ∧
-    brauerNormalizerCharacterResidueHom ideal 2 (S : Subgroup G) S.isPGroup'
+    brauerNormalizerCharacterResidueHom ideal 2 (S : Subgroup G) S.isPGroup
         (Subgroup.normalizer ((S : Subgroup G) : Set G)) (Subgroup.centralizer_le_normalizer _)
         le_rfl nb θhat =
       centralCharacterResidueHom basis ideal B ∧
@@ -74,14 +74,14 @@ theorem canonicalLabel_character_eq (basis : FiniteIrreducibleCharacterBasis G)
       (Subgroup.centralizer ((S : Subgroup G) : Set G)))) (θ : eb.index)
     (nb : FiniteIrreducibleCharacterBasis (Subgroup.normalizer ((S : Subgroup G) : Set G)))
     (θhat : nb.index) (hθ : InflatedLabel (oddCore_le_normalizer S) nb eb θ θhat)
-    (hB : brauerNormalizerCharacterResidueHom ideal 2 (S : Subgroup G) S.isPGroup'
+    (hB : brauerNormalizerCharacterResidueHom ideal 2 (S : Subgroup G) S.isPGroup
         (Subgroup.normalizer ((S : Subgroup G) : Set G)) (Subgroup.centralizer_le_normalizer _)
         le_rfl nb θhat = centralCharacterResidueHom basis ideal B)
     (eb' : FiniteIrreducibleCharacterBasis (BaseFourCentralizerStructure.ambientOddCore
       (Subgroup.centralizer ((S : Subgroup G) : Set G)))) (θ' : eb'.index)
     (nb' : FiniteIrreducibleCharacterBasis (Subgroup.normalizer ((S : Subgroup G) : Set G)))
     (θhat' : nb'.index) (hθ' : InflatedLabel (oddCore_le_normalizer S) nb' eb' θ' θhat')
-    (hB' : brauerNormalizerCharacterResidueHom ideal 2 (S : Subgroup G) S.isPGroup'
+    (hB' : brauerNormalizerCharacterResidueHom ideal 2 (S : Subgroup G) S.isPGroup
         (Subgroup.normalizer ((S : Subgroup G) : Set G)) (Subgroup.centralizer_le_normalizer _)
         le_rfl nb' θhat' = centralCharacterResidueHom basis ideal B) :
     (eb.representation θ).character = (eb'.representation θ').character := by
@@ -93,7 +93,7 @@ theorem canonicalLabel_character_eq (basis : FiniteIrreducibleCharacterBasis G)
     intro v x
     rw [hθhat₀, hθ₀]
     exact hθ' v x
-  have hB₀ : brauerNormalizerCharacterResidueHom ideal 2 (S : Subgroup G) S.isPGroup'
+  have hB₀ : brauerNormalizerCharacterResidueHom ideal 2 (S : Subgroup G) S.isPGroup
       (Subgroup.normalizer ((S : Subgroup G) : Set G)) (Subgroup.centralizer_le_normalizer _)
       le_rfl nb θhat₀ = centralCharacterResidueHom basis ideal B := by
     rw [brauerNormalizerCharacterResidueHom_eq_of_character_eq ideal 2 _ _ _ _ _ nb nb' hθhat₀]
@@ -114,7 +114,7 @@ theorem FlatWreathedBlock.exists_family {basis : FiniteIrreducibleCharacterBasis
       (Subgroup.centralizer ((S : Subgroup G) : Set G)))) (θ : eb.index)
     (nb : FiniteIrreducibleCharacterBasis (Subgroup.normalizer ((S : Subgroup G) : Set G)))
     (θhat : nb.index) (hθ : InflatedLabel (oddCore_le_normalizer S) nb eb θ θhat)
-    (hB : brauerNormalizerCharacterResidueHom ideal 2 (S : Subgroup G) S.isPGroup'
+    (hB : brauerNormalizerCharacterResidueHom ideal 2 (S : Subgroup G) S.isPGroup
         (Subgroup.normalizer ((S : Subgroup G) : Set G)) (Subgroup.centralizer_le_normalizer _)
         le_rfl nb θhat = centralCharacterResidueHom basis ideal B)
     (θt : Subgroup.centralizer ((S : Subgroup G) : Set G) → ℂ)
@@ -142,7 +142,7 @@ theorem FlatWreathedBlock.of_family (basis : FiniteIrreducibleCharacterBasis G)
       (Subgroup.centralizer ((S : Subgroup G) : Set G)))) (θ : eb.index)
     (nb : FiniteIrreducibleCharacterBasis (Subgroup.normalizer ((S : Subgroup G) : Set G)))
     (θhat : nb.index) (hθ : InflatedLabel (oddCore_le_normalizer S) nb eb θ θhat)
-    (hB : brauerNormalizerCharacterResidueHom ideal 2 (S : Subgroup G) S.isPGroup'
+    (hB : brauerNormalizerCharacterResidueHom ideal 2 (S : Subgroup G) S.isPGroup
         (Subgroup.normalizer ((S : Subgroup G) : Set G)) (Subgroup.centralizer_le_normalizer _)
         le_rfl nb θhat = centralCharacterResidueHom basis ideal B)
     (θt : Subgroup.centralizer ((S : Subgroup G) : Set G) → ℂ)

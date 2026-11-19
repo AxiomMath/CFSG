@@ -14,6 +14,7 @@ variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ l
 
 namespace Ctx4Z
 
+omit [Finite G] in
 private theorem isElemAbelian_zpowers_of_mul_self {g : G} (hgg : g * g = 1) :
     CFSG.Open.IsElemAbelian 2 (zpowers g) := by
   refine ⟨inferInstance, ?_⟩
@@ -22,14 +23,16 @@ private theorem isElemAbelian_zpowers_of_mul_self {g : G} (hgg : g * g = 1) :
   · rw [h]; exact one_pow 2
   · rw [h, pow_two, hgg]
 
+omit [Finite G] in
 theorem E8_eq_sup : closure ({t, tau, lam} : Set G) =
     closure ({t, tau} : Set G) ⊔ zpowers lam := by
   have hset : ({t, tau, lam} : Set G) = ({t, tau} : Set G) ∪ {lam} := by
-    ext x; simp [or_comm, or_left_comm, or_assoc]
+    ext x; simp [or_comm, or_left_comm]
   rw [hset, Subgroup.closure_union, ← Subgroup.zpowers_eq_closure lam]
 
+omit [Finite G] in
 theorem T_eq_sup : closure ({t, tau} : Set G) = zpowers t ⊔ zpowers tau := by
-  rw [show ({t, tau} : Set G) = {t} ∪ {tau} by ext x; simp [or_comm, or_left_comm, or_assoc],
+  rw [show ({t, tau} : Set G) = {t} ∪ {tau} by ext x; simp [or_comm],
     Subgroup.closure_union, ← Subgroup.zpowers_eq_closure t, ← Subgroup.zpowers_eq_closure tau]
 
 variable (hz : Ctx4Z t L S x₁ x₂ lam rho tau)
@@ -74,10 +77,10 @@ private theorem lam_not_mem_T : lam ∉ closure ({t, tau} : Set G) := by
     rintro h (rfl | rfl)
     · exact mem_centralizer_iff.mpr (fun a ha => by
         rw [Set.mem_singleton_iff.mp ha]
-        exact (hz.t_comm_V (x₁ ^ 2) hz.y_mem_V).symm)
+        exact (hz.t_comm_V (x₁ ^ 2) CFSG.OddStandard.SmallF3.HarrisU33.Ctx4Q.y_mem_V).symm)
     · exact mem_centralizer_iff.mpr (fun a ha => by
         rw [Set.mem_singleton_iff.mp ha]
-        exact (hz.tau_cent_Y (x₁ ^ 2) (hz.V_le_Y hz.y_mem_V)).symm)
+        exact (hz.tau_cent_Y (x₁ ^ 2) (hz.V_le_Y CFSG.OddStandard.SmallF3.HarrisU33.Ctx4Q.y_mem_V)).symm)
   intro hh
   have h1 : x₁ ^ 2 * lam = lam * x₁ ^ 2 := mem_centralizer_iff.mp (hyT hh) (x₁ ^ 2) rfl
   have h2 : lam * x₁ ^ 2 * lam⁻¹ = x₁ ^ 2 := by rw [← h1]; group
@@ -145,17 +148,17 @@ theorem mem_E8_iff {g : G} :
     rcases (S4B.mem_closure_pair_of_invol hz.t_mul_self hz.tau_mul_self hz.t_comm_tau).mp hh
       with h1 | h1 | h1 | h1
     · rcases z4_mem_zpowers_of_mul_self hz.lam_mul_self hk with h2 | h2
-      · left; simp only [h1, h2, one_mul, mul_one]
-      · right; right; right; right; left; simp only [h1, h2, one_mul, mul_one]
+      · left; simp only [h1, h2, mul_one]
+      · right; right; right; right; left; simp only [h1, h2, one_mul]
     · rcases z4_mem_zpowers_of_mul_self hz.lam_mul_self hk with h2 | h2
-      · right; left; simp only [h1, h2, one_mul, mul_one]
-      · right; right; right; right; right; left; simp only [h1, h2, one_mul, mul_one]
+      · right; left; simp only [h1, h2, mul_one]
+      · right; right; right; right; right; left; simp only [h1, h2]
     · rcases z4_mem_zpowers_of_mul_self hz.lam_mul_self hk with h2 | h2
-      · right; right; left; simp only [h1, h2, one_mul, mul_one]
-      · right; right; right; right; right; right; left; simp only [h1, h2, one_mul, mul_one]
+      · right; right; left; simp only [h1, h2, mul_one]
+      · right; right; right; right; right; right; left; simp only [h1, h2]
     · rcases z4_mem_zpowers_of_mul_self hz.lam_mul_self hk with h2 | h2
-      · right; right; right; left; simp only [h1, h2, one_mul, mul_one]
-      · right; right; right; right; right; right; right; simp only [h1, h2, one_mul, mul_one]
+      · right; right; right; left; simp only [h1, h2, mul_one]
+      · right; right; right; right; right; right; right; simp only [h1, h2]
   · rintro (rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl)
     · exact one_mem _
     · exact subset_closure (by simp)
@@ -232,19 +235,19 @@ theorem E8_cent_Y : ∀ g ∈ closure ({t, tau, lam} : Set G),
       hz.nPre.not_cent_t_Y
     intro a ha
     exact hcent a ha
-  · have hy : x₁ ^ 2 ∈ ctxYq t tau x₁ x₂ rho := hz.V_le_Y hz.y_mem_V
+  · have hy : x₁ ^ 2 ∈ ctxYq t tau x₁ x₂ rho := hz.V_le_Y CFSG.OddStandard.SmallF3.HarrisU33.Ctx4Q.y_mem_V
     rw [h] at hcent
     have h2 : lam * x₁ ^ 2 * lam⁻¹ = x₁ ^ 2 := by
       rw [hcent (x₁ ^ 2) hy]; group
     rw [hz.nGood.lam_conj_y] at h2
     exact absurd h2.symm hz.y_ne_w
-  · have hy : x₁ ^ 2 ∈ ctxYq t tau x₁ x₂ rho := hz.V_le_Y hz.y_mem_V
+  · have hy : x₁ ^ 2 ∈ ctxYq t tau x₁ x₂ rho := hz.V_le_Y CFSG.OddStandard.SmallF3.HarrisU33.Ctx4Q.y_mem_V
     rw [h, hz.t_lam_comm] at hcent
     have h2 : (lam * t) * x₁ ^ 2 * (lam * t)⁻¹ = x₁ ^ 2 := by
       rw [hcent (x₁ ^ 2) hy]; group
     rw [hz.sigma_y] at h2
     exact absurd h2.symm hz.y_ne_w
-  · have hy : x₁ ^ 2 ∈ ctxYq t tau x₁ x₂ rho := hz.V_le_Y hz.y_mem_V
+  · have hy : x₁ ^ 2 ∈ ctxYq t tau x₁ x₂ rho := hz.V_le_Y CFSG.OddStandard.SmallF3.HarrisU33.Ctx4Q.y_mem_V
     rw [h, hz.tau_lam] at hcent
     have hc : ∀ a ∈ ctxYq t tau x₁ x₂ rho, lam * a = a * lam :=
       cent_Y_of_mul_tau hz (e := lam) (u := tau) (mem_zpowers tau) hcent
@@ -252,7 +255,7 @@ theorem E8_cent_Y : ∀ g ∈ closure ({t, tau, lam} : Set G),
       rw [hc (x₁ ^ 2) hy]; group
     rw [hz.nGood.lam_conj_y] at h2
     exact absurd h2.symm hz.y_ne_w
-  · have hy : x₁ ^ 2 ∈ ctxYq t tau x₁ x₂ rho := hz.V_le_Y hz.y_mem_V
+  · have hy : x₁ ^ 2 ∈ ctxYq t tau x₁ x₂ rho := hz.V_le_Y CFSG.OddStandard.SmallF3.HarrisU33.Ctx4Q.y_mem_V
     rw [h] at hcent
     have hct : ∀ a ∈ ctxYq t tau x₁ x₂ rho,
         ((t * lam) * tau) * a = a * ((t * lam) * tau) := by

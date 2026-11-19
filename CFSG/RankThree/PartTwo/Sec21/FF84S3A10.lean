@@ -540,7 +540,7 @@ theorem no_pow2_of_three_orbit (g : P8) (x : Fin 8) (hk : ∃ k, g ^ (2 ^ k) = 1
   · rw [hr, pow_one] at hz; exact h1 hz
   · rw [hr, pow_two, Perm.mul_apply] at hz; exact h2 hz
 
-theorem fix_of_cent_three (c g : P8) (p q r : Fin 8) (hpq : p ≠ q) (hqr : q ≠ r) (hrp : r ≠ p)
+theorem fix_of_cent_three (c g : P8) (p q r : Fin 8) (hpq : p ≠ q) (_hqr : q ≠ r) (hrp : r ≠ p)
     (hcpq : c p = q) (hcqr : c q = r) (hcrp : c r = p)
     (hout : ∀ a, a ≠ p → a ≠ q → a ≠ r → c a = a) (hgc : g * c = c * g)
     (hpow : ∃ k, g ^ (2 ^ k) = 1) : g p = p ∧ g q = q ∧ g r = r := by
@@ -822,7 +822,7 @@ theorem eq_of_card_two (R : Subgroup P8) (h : Nat.card R = 2) {t s : P8} (ht : t
       | exact e3.trans e2.symm
   exact congrArg Subtype.val key
 
-theorem R_bot {Y : Subgroup P8} {m : P8} (hYA : Y ≤ A8s) (hY2 : IsPGroup 2 Y)
+theorem R_bot {Y : Subgroup P8} {m : P8} (hYA : Y ≤ A8s) (_hY2 : IsPGroup 2 Y)
     (hcc : cc ∈ Subgroup.normalizer (Y : Set P8)) (hdd : dd ∈ Subgroup.normalizer (Y : Set P8))
     (hmcc : cc * m = m * cc) (hmdd : dd * m = m * dd)
     (hcard : Nat.card ↥(Y ⊓ Subgroup.centralizer ({m} : Set P8)) ∣ 2) :
@@ -1079,10 +1079,10 @@ theorem U1_eq_Ub : U₁ = Ub := by
     · exact Subgroup.mem_sup_left (v4_gen1 3 4 5 7)
     · exact Subgroup.mem_sup_left (v4_gen2 3 4 5 7)
   · refine sup_le (v4_closure_le 3 4 5 7 U₁ ?_ ?_) (v4_closure_le 0 1 2 6 U₁ ?_ ?_)
-    · exact Subgroup.subset_closure (by simp [U₁])
-    · exact Subgroup.subset_closure (by simp [U₁])
-    · exact Subgroup.subset_closure (by simp [U₁])
-    · exact Subgroup.subset_closure (by simp [U₁])
+    · exact Subgroup.subset_closure (by simp)
+    · exact Subgroup.subset_closure (by simp)
+    · exact Subgroup.subset_closure (by simp)
+    · exact Subgroup.subset_closure (by simp)
 
 theorem U2_eq_Ua : U₂ = Ua := by
   rw [Ua_eq_def]
@@ -1097,10 +1097,10 @@ theorem U2_eq_Ua : U₂ = Ua := by
     · exact Subgroup.mem_sup_left (v4_gen1 3 4 5 6)
     · exact Subgroup.mem_sup_left (v4_gen2 3 4 5 6)
   · refine sup_le (v4_closure_le 3 4 5 6 U₂ ?_ ?_) (v4_closure_le 0 1 2 7 U₂ ?_ ?_)
-    · exact Subgroup.subset_closure (by simp [U₂])
-    · exact Subgroup.subset_closure (by simp [U₂])
-    · exact Subgroup.subset_closure (by simp [U₂])
-    · exact Subgroup.subset_closure (by simp [U₂])
+    · exact Subgroup.subset_closure (by simp)
+    · exact Subgroup.subset_closure (by simp)
+    · exact Subgroup.subset_closure (by simp)
+    · exact Subgroup.subset_closure (by simp)
 
 theorem tau_V3457 : (v4 3 4 5 7).map (MulAut.conj τ₀).toMonoidHom = v4 3 4 5 6 := by
   have e1 : (MulAut.conj τ₀).toMonoidHom (swap 3 4 * swap 5 7) = swap 3 4 * swap 5 6 := by decide

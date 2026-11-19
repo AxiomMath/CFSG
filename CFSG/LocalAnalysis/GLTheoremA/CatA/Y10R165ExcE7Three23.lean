@@ -21,7 +21,7 @@ open Matrix CFSG CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
 open scoped Matrix MatrixGroups Pointwise
 
 
-private theorem exists_e7T3_conjugator {K : Type} [Field K] [Finite K] {p : ℕ} (hp : p.Prime)
+private theorem exists_e7T3_conjugator {K : Type} [Field K] [Finite K] {p : ℕ} (_hp : p.Prime)
     {L : Type} [Field L] [Algebra K L] [CharP L 2] {f : ℕ} {ε : ℤ}
     (F : E7ThreeFrame K L 2 f p ε)
     (A : Subgroup (adjointGroup Tag.E7 K)) (hA : IsElemAbelian p A) :
@@ -34,7 +34,7 @@ private theorem concl165_e7_split (K : Type) [Field K] [Finite K] [CharP K 2]
     (n p q : ℕ) (hcard : Nat.card K = 2 ^ n) (hn : 1 ≤ n)
     (hp : p.Prime) (hp2 : p ≠ 2) (hp3 : 3 < p)
     (hpf : (p : ℤ) ∣ (Nat.card K : ℤ) ^ 2 + (Nat.card K : ℤ) + 1)
-    (hq : q.Prime) (hq2 : q ≠ 2) (hqp : q ≠ p)
+    (hq : q.Prime) (hq2 : q ≠ 2) (_hqp : q ≠ p)
     (hqdiv : q ∣ 2 ^ n - 1 ∨ n = 1 ∧ q = 3)
     (Ã : Subgroup (adjointGroup Tag.E7 K)) (hAe : IsElemAbelian p Ã)
     (hΩ : ∀ g ∈ Subgroup.centralizer (Ã : Set (adjointGroup Tag.E7 K)),
@@ -43,9 +43,9 @@ private theorem concl165_e7_split (K : Type) [Field K] [Finite K] [CharP K 2]
     Concl165 (adjointGroup Tag.E7 K) p q Ã := by
   classical
   let L := AlgebraicClosure K
-  haveI : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨F⟩ := exists_e7ThreeFrame (K := K) (ℓ := 2) (f := n) (p := p) (L := L)
     hn hcard hp hp3 (Or.inl rfl) (by simpa using hpf)
   have hpL : (p : L) ≠ 0 := by
@@ -74,14 +74,14 @@ private theorem concl165_e7_split (K : Type) [Field K] [Finite K] [CharP K 2]
         _ = g * (c * a * c⁻¹) := h
         _ = c * ((c⁻¹ * g * c) * a) * c⁻¹ := by group
     have hg0ord : orderOf (c⁻¹ * g * c) = p := by
-      rw [show c⁻¹ * g * c = MulAut.conj c⁻¹ g by simp [MulAut.conj_apply]]
+      rw [show c⁻¹ * g * c = MulAut.conj c⁻¹ g by simp]
       exact (orderOf_injective (MulAut.conj c⁻¹).toMonoidHom
         (MulAut.conj c⁻¹).injective g).trans hgord
     have hg0A : c⁻¹ * g * c ∈ Ã := hΩ _ hg0C hg0ord
     have hg : g = c * (c⁻¹ * g * c) * c⁻¹ := by group
     rw [hg]
     exact Subgroup.mem_map.mpr ⟨c⁻¹ * g * c, hg0A, by simp [MulAut.conj_apply]⟩
-  haveI : Finite ↥(adjointGroup Tag.E7 K) := inferInstance
+  have : Finite ↥(adjointGroup Tag.E7 K) := inferInstance
   have hcardÃ : Nat.card Ã = p ^ CFSG.Open.pRank p Ã :=
     CFSG.GroupTheory.card_eq_pow_pRank_of_isElemAbelian hp hAe
   have hcardA' : Nat.card A' = Nat.card Ã :=
@@ -120,9 +120,9 @@ private theorem concl165_e7_split (K : Type) [Field K] [Finite K] [CharP K 2]
 
 theorem e7Model165At_three : E7Model165At 3 := by
   intro K hField hFinite hChar n p q hcard hn hp hp2 hrk hq hq2 hqp hqdiv Ã hAe hΩ hmax hA3
-  letI : Field K := hField
-  letI : Finite K := hFinite
-  letI : CharP K 2 := hChar
+  let : Field K := hField
+  let : Finite K := hFinite
+  let : CharP K 2 := hChar
   have hp3 : 3 < p := three_lt_of_card hcard hp hp2 hrk
   have hpf : (p : ℤ) ∣ (Nat.card K : ℤ) ^ 2 + (Nat.card K : ℤ) + 1 :=
     three_dvd_card_sq_add_int hcard hp hp2 hrk
@@ -132,7 +132,7 @@ private theorem concl165_e7_unitary (K : Type) [Field K] [Finite K] [CharP K 2]
     (n p q : ℕ) (hcard : Nat.card K = 2 ^ n) (hn : 1 ≤ n)
     (hp : p.Prime) (hp2 : p ≠ 2) (hp3 : 3 < p) (hn2 : 2 < 2 ^ n)
     (hpf : (p : ℤ) ∣ (Nat.card K : ℤ) ^ 2 + (-1) * (Nat.card K : ℤ) + 1)
-    (hq : q.Prime) (hq2 : q ≠ 2) (hqp : q ≠ p)
+    (hq : q.Prime) (hq2 : q ≠ 2) (_hqp : q ≠ p)
     (hqdiv : q ∣ 2 ^ n - 1)
     (Ã : Subgroup (adjointGroup Tag.E7 K)) (hAe : IsElemAbelian p Ã)
     (hΩ : ∀ g ∈ Subgroup.centralizer (Ã : Set (adjointGroup Tag.E7 K)),
@@ -141,9 +141,9 @@ private theorem concl165_e7_unitary (K : Type) [Field K] [Finite K] [CharP K 2]
     Concl165 (adjointGroup Tag.E7 K) p q Ã := by
   classical
   let L := AlgebraicClosure K
-  haveI : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨F⟩ := exists_e7ThreeFrame (K := K) (ℓ := 2) (f := n) (p := p) (L := L)
     hn hcard hp hp3 (Or.inr rfl) (by simpa using hpf)
   have hpL : (p : L) ≠ 0 := by
@@ -172,14 +172,14 @@ private theorem concl165_e7_unitary (K : Type) [Field K] [Finite K] [CharP K 2]
         _ = g * (c * a * c⁻¹) := h
         _ = c * ((c⁻¹ * g * c) * a) * c⁻¹ := by group
     have hg0ord : orderOf (c⁻¹ * g * c) = p := by
-      rw [show c⁻¹ * g * c = MulAut.conj c⁻¹ g by simp [MulAut.conj_apply]]
+      rw [show c⁻¹ * g * c = MulAut.conj c⁻¹ g by simp]
       exact (orderOf_injective (MulAut.conj c⁻¹).toMonoidHom
         (MulAut.conj c⁻¹).injective g).trans hgord
     have hg0A : c⁻¹ * g * c ∈ Ã := hΩ _ hg0C hg0ord
     have hg : g = c * (c⁻¹ * g * c) * c⁻¹ := by group
     rw [hg]
     exact Subgroup.mem_map.mpr ⟨c⁻¹ * g * c, hg0A, by simp [MulAut.conj_apply]⟩
-  haveI : Finite ↥(adjointGroup Tag.E7 K) := inferInstance
+  have : Finite ↥(adjointGroup Tag.E7 K) := inferInstance
   have hcardÃ : Nat.card Ã = p ^ CFSG.Open.pRank p Ã :=
     CFSG.GroupTheory.card_eq_pow_pRank_of_isElemAbelian hp hAe
   have hcardA' : Nat.card A' = Nat.card Ã :=
@@ -218,9 +218,9 @@ private theorem concl165_e7_unitary (K : Type) [Field K] [Finite K] [CharP K 2]
 
 theorem e7Model165At_six : E7Model165At 6 := by
   intro K hField hFinite hChar n p q hcard hn hp hp2 hrk hq hq2 hqp hqdiv Ã hAe hΩ hmax hA3
-  letI : Field K := hField
-  letI : Finite K := hFinite
-  letI : CharP K 2 := hChar
+  let : Field K := hField
+  let : Finite K := hFinite
+  let : CharP K 2 := hChar
   have hp3 : 3 < p := by
     have := seven_le_of_rk2Ord_six hp hp2 hrk
     omega

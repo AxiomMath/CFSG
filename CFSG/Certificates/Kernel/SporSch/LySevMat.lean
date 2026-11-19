@@ -53,12 +53,12 @@ theorem mulPad_ent {PU : Array (Array Nat)} (hPU : IsPad PU) (A : Array (Array N
     ((mulM 5 111 A PU)[i]!)[j]! = if j < 7 then ((mulXU A)[i]!)[j]! else 0 := by
   rw [mulM_ent _ _ hi hj]
   by_cases h7 : j < 7
-  · rw [if_pos h7, mulXU_ent A hi h7]
+  · rw [ite_eq_left h7, mulXU_ent A hi h7]
     refine congrArg (· % 5) (Finset.sum_congr rfl fun k hk => ?_)
-    rw [hPU k (Finset.mem_range.1 hk) j hj, if_pos h7]
-  · rw [if_neg h7]
+    rw [hPU k (Finset.mem_range.1 hk) j hj, ite_eq_left h7]
+  · rw [ite_eq_right h7]
     have : ∑ k ∈ Finset.range 111, (A[i]!)[k]! * (PU[k]!)[j]! = 0 :=
-      Finset.sum_eq_zero fun k hk => by rw [hPU k (Finset.mem_range.1 hk) j hj, if_neg h7, Nat.mul_zero]
+      Finset.sum_eq_zero fun k hk => by rw [hPU k (Finset.mem_range.1 hk) j hj, ite_eq_right h7, Nat.mul_zero]
     rw [this]
 
 theorem mulXU_lt (A : Array (Array Nat)) {i m : Nat} (hi : i < 111) (hm : m < 7) :
@@ -139,7 +139,7 @@ theorem restr_eqL {w S T L H CM RM ONE LV HV X UP : Nat}
   refine congrArg Array.ofFn (funext fun t => ?_)
   have ht7 : t.val / 7 < 111 := by omega
   have hm7 : t.val % 7 < 7 := Nat.mod_lt _ (by norm_num)
-  rw [← unpack_ent ht7 (by omega), pm_eq hc hX hU, mulPad_ent hUP _ ht7 (by omega), if_pos hm7]
+  rw [← unpack_ent ht7 (by omega), pm_eq hc hX hU, mulPad_ent hUP _ ht7 (by omega), ite_eq_left hm7]
 
 theorem arr2_ext {A B : Array (Array Nat)} {n m : Nat} (hA : A.size = n) (hB : B.size = n)
     (hA' : ∀ i < n, (A[i]!).size = m) (hB' : ∀ i < n, (B[i]!).size = m) :
@@ -219,17 +219,17 @@ theorem stab_facts {w S T L H CM RM ONE LV HV X UP : Nat}
         rw [hS']
         have : w * j + w ≤ 111 * w := by nlinarith
         nlinarith
-      rw [if_pos h1, pent i hi j hj]
+      rw [ite_eq_left h1, pent i hi j hj]
       by_cases hj7 : j < 7
-      · rw [if_pos hj7, if_pos ⟨hi7, hj7⟩]
-      · rw [if_neg hj7, if_neg (fun h => hj7 h.2)]
+      · rw [ite_eq_left hj7, ite_eq_left ⟨hi7, hj7⟩]
+      · rw [ite_eq_right hj7, ite_eq_right (fun h => hj7 h.2)]
     · have h1 : ¬ S * i + w * j + w ≤ 7 * S := by
         rw [hS']
         nlinarith
       have h2 : 7 * S ≤ S * i + w * j := by
         rw [hS']
         nlinarith
-      rw [if_neg h1, if_pos h2, if_neg (fun h => hi7 h.1)]
+      rw [ite_eq_right h1, ite_eq_left h2, ite_eq_right (fun h => hi7 h.1)]
   have cQ : Canon 5 111 w (Nat.land Pm (2 ^ (7 * S) - 1)) := by
     refine canon_of_lanes (Nat.lt_of_le_of_lt Nat.and_le_left cP.1) fun i hi j hj => ?_
     have e : 111 * w * i = S * i := by rw [hS']
@@ -258,25 +258,25 @@ theorem stab_facts {w S T L H CM RM ONE LV HV X UP : Nat}
         (by have := Finset.mem_range.1 hx; omega))]
       · refine Finset.sum_congr rfl fun k hk => ?_
         have hk7 := Finset.mem_range.1 hk
-        rw [hUP i hi k (by omega), if_pos hk7, q'ent k (by omega) j hj]
+        rw [hUP i hi k (by omega), ite_eq_left hk7, q'ent k (by omega) j hj]
         by_cases hj7 : j < 7
-        · rw [if_pos ⟨hk7, hj7⟩, if_pos hj7]
-        · rw [if_neg (fun h => hj7 h.2), if_neg hj7]
+        · rw [ite_eq_left ⟨hk7, hj7⟩, ite_eq_left hj7]
+        · rw [ite_eq_right (fun h => hj7 h.2), ite_eq_right hj7]
       · intro k hk hk'
         have hk7 : ¬ k < 7 := fun h => hk' (Finset.mem_range.2 h)
-        rw [hUP i hi k (Finset.mem_range.1 hk), if_neg hk7, Nat.zero_mul]
+        rw [hUP i hi k (Finset.mem_range.1 hk), ite_eq_right hk7, Nat.zero_mul]
     rw [hsplit]
     by_cases hj7 : j < 7
-    · rw [if_pos hj7, mulUR_ent _ hi hj7]
-      simp only [if_pos hj7]
+    · rw [ite_eq_left hj7, mulUR_ent _ hi hj7]
+      simp only [ite_eq_left hj7]
       refine congrArg (· % 5) (Finset.sum_congr rfl fun k hk => ?_)
       have hk7 := Finset.mem_range.1 hk
       rw [restr_ent A (by omega)]
       have e1 : (7 * k + j) / 7 = k := by omega
       have e2 : (7 * k + j) % 7 = j := by omega
       rw [e1, e2]
-    · rw [if_neg hj7]
-      simp only [if_neg hj7, Nat.mul_zero, Finset.sum_const_zero, Nat.zero_mod]
+    · rw [ite_eq_right hj7]
+      simp only [ite_eq_right hj7, Nat.mul_zero, Finset.sum_const_zero, Nat.zero_mod]
   unfold stabOK
   rw [Bool.eq_iff_iff, beq_iff_eq, beq_iff_eq]
   rw [arr2_ext (mulXU_size A).1 (mulUR_size _).1 (mulXU_size A).2 (mulUR_size _).2,
@@ -289,7 +289,7 @@ theorem stab_facts {w S T L H CM RM ONE LV HV X UP : Nat}
     · rfl
   · intro h i hi j hj
     have := h i hi j (by omega)
-    rwa [mulPad_ent hUP A hi (by omega), m2ent i hi j (by omega), if_pos hj, if_pos hj] at this
+    rwa [mulPad_ent hUP A hi (by omega), m2ent i hi j (by omega), ite_eq_left hj, ite_eq_left hj] at this
 
 theorem stab_eqL {w S T L H CM RM ONE LV HV X UP : Nat}
     (hc : constsOK 5 w S 111 T L H CM RM ONE LV HV = true)

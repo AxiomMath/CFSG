@@ -49,7 +49,7 @@ theorem glaPComponent_derived_of_simple {C : Type*} [Group C] [Finite C] {M T : 
   refine ⟨MovingAround.Claims126.glaPComponent_of_simple_normal Nat.prime_three hTM hnorm hs hnc
     h3, fun L hL => ?_⟩
   refine MovingAround.SporFacts.glaPComponent_eq_of_simple_normal hTM hnorm hs ?_ hL
-  haveI := hnorm
+  have := hnorm
   refine Group.isSolvable_of_comm fun a b => ?_
   induction a using QuotientGroup.induction_on with
   | H x =>
@@ -66,7 +66,7 @@ theorem isLieQuot_of_simple_mulEquiv {G : Type} [Group G] (hs : IsSimpleGroup G)
     (hnc : ∃ x y : G, x * y ≠ y * x) {P : TauCeti.LieTypeIndex → Prop}
     {d : TauCeti.ValidLieTypeIndex} (hd : P d.1) (e : G ≃* (TauCeti.CFSGIndex.lie d).Group) :
     IsLieQuot G P := by
-  haveI := hs
+  have := hs
   have hZ : Subgroup.center G = ⊥ := by
     rcases (inferInstance : (Subgroup.center G).Normal).eq_bot_or_eq_top with h | h
     · exact h
@@ -118,7 +118,7 @@ theorem e6_fix_unique_component {K : Type} [Field K] [Finite K] (hK : Nat.card K
     twisted_E6_canonical_odd_field_derived_subgroup_and_pointwise_centralizer (ℓ := 2) (d := 1)
       (m := 3) Nat.prime_two (le_refl 1) (le_refl 3) (by decide) K (by rw [hK6]) T
       (fun c => hT c) σ (fun c => hσ c) σ₀ hσ₀ (T ^ 2) hε
-  haveI : Finite (fixSubfield T) := Subtype.finite
+  have : Finite (fixSubfield T) := Subtype.finite
   have hfix : fixSubgroup (fieldActor (t := TwistTag.E6) σ η) =
       fixSubgroup (fieldActor (t := TwistTag.E6) σ (T ^ 2)) := by
     rcases hηT with h | h
@@ -137,7 +137,7 @@ theorem e6_fix_unique_component {K : Type} [Field K] [Finite K] (hK : Nat.card K
   set J := subfieldRootGroupImage TwistTag.E6 (fixSubfield T) σ₀ with hJ
   have hder' : ⁅fixSubgroup (fieldActor (t := TwistTag.E6) σ (T ^ 2)),
       fixSubgroup (fieldActor (t := TwistTag.E6) σ (T ^ 2))⁆ = J.subgroupOf C := hder
-  haveI := hsJ
+  have := hsJ
   let eJC : J.subgroupOf C ≃* J := Subgroup.subgroupOfEquivOfLe hJC
   have hs : IsSimpleGroup (J.subgroupOf C) := eJC.isSimpleGroup_congr.2 hsJ
   have hnc : ∃ x y : J.subgroupOf C, x * y ≠ y * x := by

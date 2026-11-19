@@ -25,7 +25,7 @@ namespace Sec7Core4
 theorem solvable_or_of_stronglyEmbeddedSolvable_of_kIDExcluded (k : Sec7Core4 G) (h5 : 5 ≤ k.p)
     (hno : KIDExcluded k) {H : Subgroup G} (hH : Config k H) (h75 : Step75 k)
     (hS : StronglyEmbeddedSolvable) :
-    IsSolvable ↥(((H ⊓ k.M).subgroupOf H).map (QuotientGroup.mk' (CFSG.pPrimeCore k.p ↥H))) ∨
+    Group.IsSolvable ↥(((H ⊓ k.M).subgroupOf H).map (QuotientGroup.mk' (CFSG.pPrimeCore k.p ↥H))) ∨
       (k.p = 5 ∧
         (Nat.card ↥(((H ⊓ k.M).subgroupOf H).map
           (QuotientGroup.mk' (CFSG.pPrimeCore k.p ↥H)))).factorization 5 ≤ 2 ∧
@@ -33,7 +33,7 @@ theorem solvable_or_of_stronglyEmbeddedSolvable_of_kIDExcluded (k : Sec7Core4 G)
           Y ≤ ((H ⊓ k.M).subgroupOf H).map (QuotientGroup.mk' (CFSG.pPrimeCore k.p ↥H)) →
           ⁅Y, Y⁆ = Y → Nat.card Y ≤ 3600) := by
   have hp : k.p.Prime := k.prime
-  haveI : Fact k.p.Prime := ⟨hp⟩
+  have : Fact k.p.Prime := ⟨hp⟩
   have hKH : CFSG.Open.IsKGroup ↥H :=
     CFSG.LocalAnalysis.GLTheoremB.isKGroup_of_isKProper k.standing.kProper hH.ne_top
   exact hS k.p hp h5 _
@@ -62,13 +62,13 @@ theorem normalizer_le_of_solvable_or (hG : IsSimpleGroup G) {p r : ℕ} (hp : p.
     (hAM : A ≤ M) (hAr : Nat.card A = r)
     (hY : (L ⊓ centralizer (A : Set G)) ⊔ pCoreOf 2 L = L)
     (hK : ∀ H : Subgroup G, H ≠ ⊤ → ¬ H ≤ M → 2 ≤ CFSG.Open.pRank p (H ⊓ M) →
-      IsSolvable ↥(((H ⊓ M).subgroupOf H).map (QuotientGroup.mk' (CFSG.pPrimeCore p ↥H))) ∨
+      Group.IsSolvable ↥(((H ⊓ M).subgroupOf H).map (QuotientGroup.mk' (CFSG.pPrimeCore p ↥H))) ∨
         (p = 5 ∧ Odd (Nat.card (CFSG.pPrimeCore p ↥H)) ∧
           ∀ Y : Subgroup (↥H ⧸ CFSG.pPrimeCore p ↥H),
             Y ≤ ((H ⊓ M).subgroupOf H).map (QuotientGroup.mk' (CFSG.pPrimeCore p ↥H)) →
             ⁅Y, Y⁆ = Y → Nat.card Y ≤ 3600)) :
     normalizer (A : Set G) ≤ M := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hHM
   have hYL : L ⊓ centralizer (A : Set G) ≤ L := inf_le_left
   have hYH : L ⊓ centralizer (A : Set G) ≤ normalizer (A : Set G) :=
@@ -79,7 +79,7 @@ theorem normalizer_le_of_solvable_or (hG : IsSimpleGroup G) {p r : ℕ} (hp : p.
       (CFSG.SectionRank.pRank_mono hp.one_lt (le_inf hYH hYM)))
   have htop : normalizer (A : Set G) ≠ ⊤ := by
     intro htop
-    haveI : A.Normal := Subgroup.normalizer_eq_top_iff.1 htop
+    have : A.Normal := Subgroup.normalizer_eq_top_iff.1 htop
     rcases (inferInstance : A.Normal).eq_bot_or_eq_top with h | h
     · rw [h, Subgroup.card_bot] at hAr
       exact hr.one_lt.ne hAr
@@ -92,7 +92,7 @@ theorem normalizer_le_of_solvable_or (hG : IsSimpleGroup G) {p r : ℕ} (hp : p.
     Subgroup.map_mono (Subgroup.comap_mono (le_inf hYH hYM))
   rcases hK _ htop hHM hrank with hsol | ⟨hp5, hodd, hle⟩
   ·
-    haveI : Group.IsSolvable ↥(((normalizer (A : Set G) ⊓ M).subgroupOf
+    have : Group.IsSolvable ↥(((normalizer (A : Set G) ⊓ M).subgroupOf
         (normalizer (A : Set G))).map
           (QuotientGroup.mk' (CFSG.pPrimeCore p ↥(normalizer (A : Set G))))) := hsol
     have hsY : Group.IsSolvable ↥(((L ⊓ centralizer (A : Set G)).subgroupOf

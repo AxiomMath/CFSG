@@ -24,10 +24,10 @@ theorem Ctx.exists_hypPlane_of_spMNat (h34 : Stroth34Statement)
     ∃ r ∈ Rt M (LB M Q B) t, HypPlane Q Z B (conjSubgroup r B) t := by
   classical
   obtain ⟨K, iK, iF, hK, φ, hφ, hker, hact⟩ := hsp
-  letI := iK
-  letI := iF
+  let := iK
+  let := iF
   obtain ⟨-, hn, ψ, hψ⟩ := hact
-  haveI := hn
+  have := hn
   have ht : t ∈ LB M Q B := hs.mem
   have hnat : SpNat hc t :=
     ⟨K, inferInstance, inferInstance, hK, m, hm, φ, hφ, hker, hc.Rt_normalizes_Vt ht, hn, ψ, hψ⟩
@@ -38,7 +38,7 @@ theorem Ctx.exists_hypPlane_of_spMNat (h34 : Stroth34Statement)
   have hBV : B ≤ Vt M (LB M Q B) B Z t := hc.B_le_Vt ht
   have hZV : Z ≤ Vt M (LB M Q B) B Z t := sec39_Z_le_Vt
   let D := hc.natCommData ht hchi.1 hchi.2
-  haveI : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
+  have : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
   obtain ⟨nn, γ, M₀, h, θ, hθ⟩ :=
     hc.exists_globalRingEquiv ht hK addCommutantScalar_statedSp φ hφ ψ hψ
   obtain ⟨b₀, hb₀B, hu0, hBiff⟩ := hc.exists_point_of_le hBV ψ h θ hθ
@@ -206,7 +206,7 @@ theorem sec83_count_A_of_sec8Pts (h53 : Stroth53Statement)
       Nat.card ↥(Sec8W1 M Q Z B t r) =
         Nat.card ↥(Sec8V1 M Q Z B t r) * Nat.card Z ^ (a * 2 ^ m) := by
   classical
-  haveI := hpts.charP
+  have := hpts.charP
   have hq2 : 2 ≤ Nat.card Z := by have := hc.hyp.q4; omega
   have hrM : r ∈ M := hc.Rt_le_M t hrR
   obtain ⟨hV1c, hWc, -⟩ := h53.1 G M Q Z B hc n t hs hpts.spNat r hrR hplane
@@ -221,7 +221,7 @@ theorem sec83_count_A_of_sec8Pts (h53 : Stroth53Statement)
     (Vt M (LB M Q B) B Z t) (Wt Q (Vt M (LB M Q B) B Z t)) rfl rfl rfl
   have hV := hpts.card_V
   obtain ⟨-, hN, -⟩ := hpts.act
-  haveI := hN
+  have := hN
   have hchi := card_mul_card_of_isChiIso he (inf_le_left : Wt Q (Vt M (LB M Q B) B Z t) ≤ Q)
     (sec39_Z_le_Vt : Z ≤ Vt M (LB M Q B) B Z t)
   have hLeR : LB M Q B ≤ Rt M (LB M Q B) t := le_Rt (M := M) (LB M Q B) hs.mem
@@ -265,7 +265,7 @@ theorem sec83seven_main_of_sec8Pts (h34 : Stroth34Statement)
     False := by
   have hTrans := sp4ModTransStatement_holds
   classical
-  haveI := hpts.charP
+  have := hpts.charP
   have h8 : Sec8Hyp hc n t := ⟨hs, 2, hpts.two_le, hpts.spMNat⟩
   have hrM : r ∈ M := hc.Rt_le_M t hrR
   have hRM : Rt M (LB M Q B) t ≤ M := hc.Rt_le_M t
@@ -303,7 +303,7 @@ theorem sec83seven_main_of_sec8Pts (h34 : Stroth34Statement)
   have hSecX : SecHyp (Rt M (LB M Q B) t) (Sec8W1 M Q Z B t r) (Sec8V1 M Q Z B t r) :=
     ⟨hV₁W₁, hcomm, hsq, hnormW1, hnormV1⟩
   obtain ⟨X, _, _, κ, hκ⟩ := exists_sectionModule hSecX
-  haveI : Finite X := hκ.finite
+  have : Finite X := hκ.finite
   have hXcard : Nat.card X = Nat.card Z ^ 4 := by
     have h1 := natCard_eq_of_isSecMod hV₁W₁ hκ
     rw [hcardW1, hcardV1] at h1
@@ -479,8 +479,8 @@ theorem sec83SevenStatement_of_minimal' (h34 : Stroth34Statement) (h53 : Stroth5
   obtain ⟨r, hrR, hplane⟩ := hc.exists_hypPlane_of_spMNat h34 hs (by norm_num) hsp
   obtain ⟨K, iK, iF, hK, m', hm', φ, u, u', hrange, hker, hact, huu', hL, hL'⟩ :=
     hPts G M Q Z B hc n t hs h8.spNat r hrR hplane
-  letI := iK
-  letI := iF
+  let := iK
+  let := iF
   have hpts : Sec8Pts hc t r m' K φ u u' := ⟨hm', hK, hrange, hker, hact, huu', hL, hL'⟩
   obtain rfl : m' = 2 := hpts.spMNat.m_unique hsp
   exact sec83seven_main_of_sec8Pts h34 h53 hs hrR hplane

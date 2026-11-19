@@ -200,7 +200,7 @@ theorem le_card_centralizer (hF : IsFrameOf S H F) (hc : ConfHyp S H)
     have hXp : IsPGroup 3 (zpowers (⟨x, hxM⟩ : S.M)) :=
       IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, orderOf_eq_prime hx3 hx1, pow_one])
     obtain ⟨P, hXP⟩ := hXp.exists_le_sylow
-    obtain ⟨n, hn⟩ := P.isPGroup'.exists_card_eq
+    obtain ⟨n, hn⟩ := P.isPGroup.exists_card_eq
     have hd1 : 3 ^ 2 ∣ 3 ^ n := by
       rw [← hn]
       exact P.pow_dvd_card_of_pow_dvd_card (by rcases hM with h | h <;> rw [h] <;> norm_num)

@@ -123,7 +123,7 @@ private theorem unitary_block (h : UnitaryFieldData p f K) (hq3 : p ^ f % 3 = 2)
 
 private theorem unitary_field (h : UnitaryFieldData p f K) (hq3 : p ^ f % 3 = 2) :
     FieldProp (unitarySU p f K 3).subtype := by
-  haveI := h.finite
+  have := h.finite
   intro α T σ B hH hσ hα hmono hdiag
   obtain ⟨ζ, hζq, hζ, h1, h2, h3⟩ := exists_zeta_unitary h hq3 hσ
   refine field_false (Subgroup.subtype_injective _) hH hα hmono hdiag hζ ?_ h1 h2 h3
@@ -132,7 +132,7 @@ private theorem unitary_field (h : UnitaryFieldData p f K) (hq3 : p ^ f % 3 = 2)
 
 theorem unitaryModelGen (h : UnitaryFieldData p f K) (hq : 2 < p ^ f) (hq3 : p ^ f % 3 = 2) :
     ModelGen ↥(unitarySU p f K 3) := by
-  haveI := h.finite
+  have := h.finite
   exact model_generic (Subgroup.subtype_injective _) (unitary_conj h) (unitary_frame h hq3)
     (classify_unitary h hq) (unitary_block h hq3 hq) (unitary_field h hq3)
 

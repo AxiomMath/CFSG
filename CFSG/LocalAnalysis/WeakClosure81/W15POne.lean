@@ -14,6 +14,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem w15p_commutator_mem_of_relIndex_two {E D : Subgroup G} (hidx : D.relIndex E = 2)
     {m : G} (hmE : m ∈ normalizer (E : Set G)) (hmD : m ∈ normalizer (D : Set G))
     {x : G} (hx : x ∈ E) : ⁅m, x⁆ ∈ D := by
@@ -111,7 +112,7 @@ end Cex15
 theorem w15Eight1_of_namedInputs (hI : NamedInputs15 G) :
     W15Eight1 G := by
   intro M V₀ V U S hS h
-  obtain ⟨g, hg, hgM⟩ := SetLike.not_le_iff_exists.1 h.not_le
+  obtain ⟨g, hg, hgM⟩ := IsConcreteLE.not_le_iff_exists.1 h.not_le
   rw [← h.inf_conjSubgroup_eq_v1Sub15 hI hS hg hgM]
   unfold E3.mQuot
   rw [h.relIndex_inf_conjSubgroup_eq_two hI hS hg hgM]

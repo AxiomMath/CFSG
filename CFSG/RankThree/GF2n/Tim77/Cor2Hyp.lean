@@ -33,9 +33,9 @@ theorem Prop24Setup.not_isPGroup
   have hMX : M ≤ A ⊔ Ab := by
     rw [S.hM]
     exact sup_le_sup S.L_le S.Lb_le
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsNilpotent ↥(A ⊔ Ab) := hP.isNilpotent
-  haveI hN : (M.subgroupOf (A ⊔ Ab)).Normal :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsNilpotent ↥(A ⊔ Ab) := hP.isNilpotent
+  have hN : (M.subgroupOf (A ⊔ Ab)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hMX).mpr S.sup_le_normalizer_M
   have hne : M.subgroupOf (A ⊔ Ab) ≠ ⊥ := by
     intro h
@@ -50,8 +50,8 @@ theorem Prop24Setup.not_isPGroup
   obtain ⟨⟨m, hm⟩, hm1⟩ :=
     Subgroup.ne_bot_iff_exists_ne_one.mp (Group.IsNilpotent.inf_center_ne_bot_of_normal hne)
   obtain ⟨hmM, hmZ⟩ := Subgroup.mem_inf.mp hm
-  obtain ⟨a, ha, haL⟩ := SetLike.exists_of_lt (lt_of_le_of_ne S.L_le S.ne)
-  obtain ⟨b, hb, hbL⟩ := SetLike.exists_of_lt (lt_of_le_of_ne S.Lb_le S.Lb_ne)
+  obtain ⟨a, ha, haL⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne S.L_le S.ne)
+  obtain ⟨b, hb, hbL⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne S.Lb_le S.Lb_ne)
   have hcomm : ∀ x ∈ A ⊔ Ab, x * (m : G) = m * x := by
     intro x hx
     have := Subgroup.mem_center_iff.mp hmZ ⟨x, hx⟩

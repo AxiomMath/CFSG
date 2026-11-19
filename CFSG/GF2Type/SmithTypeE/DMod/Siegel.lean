@@ -23,7 +23,7 @@ theorem smul_add_self_V12 (c : ZMod 2) (v : V12) : c • v + c • v = 0 := by
 
 theorem siegelLin_apply (u w x : V12) :
     siegelLin u w x = x + B12 x w • u + B12 x u • w := by
-  simp [siegelLin, B12L_apply, LinearMap.flip_apply]
+  simp [siegelLin, B12L_apply]
 
 theorem siegelLin_siegelLin {u w : V12} (h : TsPair u w) (x : V12) :
     siegelLin u w (siegelLin u w x) = x := by
@@ -48,7 +48,7 @@ theorem siegelLin_involutive {u w : V12} (h : TsPair u w) : Function.Involutive 
 
 theorem siegelEquiv_eq_ofInvolutive {u w : V12} (h : TsPair u w) :
     siegelEquiv u w = LinearEquiv.ofInvolutive (siegelLin u w) (siegelLin_involutive h) := by
-  rw [siegelEquiv, dif_pos h] <;> rfl
+  rw [siegelEquiv, dite_eq_left h]
 
 theorem siegelEquiv_apply {u w : V12} (h : TsPair u w) (x : V12) :
     siegelEquiv u w x = x + B12 x w • u + B12 x u • w := by
@@ -69,7 +69,7 @@ theorem q12_siegelEquiv {u w : V12} (h : TsPair u w) (x : V12) :
   rw [siegelEquiv_apply h x]
   obtain ⟨hu, hw, huw⟩ := h
   simp only [q12_add, q12_smul, B12_add_left, B12_smul_left, B12_smul_right, hu, hw, huw,
-    mul_zero, zero_mul, add_zero, zero_add]
+    mul_zero, add_zero]
   generalize q12 x = s
   generalize B12 x w = p
   generalize B12 x u = r
@@ -147,6 +147,6 @@ theorem siegelEquiv_dec12 {u w : Nat} (hu : qf u = false) (hw : qf w = false)
     siegelEquiv (dec12 u) (dec12 w) (dec12 x) = dec12 (sgl u w x) := by
   rw [siegelEquiv_apply (tsPair_dec12 hu hw huw), B12_dec12, B12_dec12]
   unfold sgl
-  cases hb : bf x w <;> cases hb' : bf x u <;> simp [bit, dec12_xor, dec12_zero, hb, hb']
+  cases hb : bf x w <;> cases hb' : bf x u <;> simp [bit, dec12_xor]
 
 end CFSG.GF2Type.SmithTypeE.DMod

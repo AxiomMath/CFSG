@@ -18,7 +18,7 @@ theorem hdRo7SmAAux_d8Hom_swap_last_apply (v : SMV 7) :
   fin_cases i <;>
     simp [hdRo7SmAAux_d8Hom, hdRo7SmAAux_d8, hdRo7SmAAux_delProj, hdRo7SmAAux_delEmbed,
       hdRo7SmAAux_permLin_apply, LinearMap.pi_apply, Equiv.swap_apply_def, sm7A7b, smDual,
-      Fin.sum_univ_seven, Pi.sub_apply, Pi.smul_apply, Pi.single_apply]
+      Fin.sum_univ_seven, Pi.sub_apply]
   ring_nf
   rw [show (4 : ZMod 3) = 1 by decide]
   ring

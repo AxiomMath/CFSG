@@ -19,7 +19,7 @@ theorem OuterS16Hyp.xiOuter
       (ξ * y * ξ⁻¹)⁻¹ * (d * y * d⁻¹) ∉ zpowers β := by
   intro d hd
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hβL : β ∈ L := h.outerB.B_le h.outerB.beta_mem
   have hβ3 := h.outerB.beta_order
   have hdL : d ∈ L := hd.1

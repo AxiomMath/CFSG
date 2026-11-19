@@ -22,9 +22,9 @@ private theorem sylowSeven_normalizer_card_le_eightyFour
     (S : Sylow 7 P) (hScard : Nat.card S = 7) :
     Nat.card (Subgroup.normalizer (S : Set P)) ≤ 84 := by
   classical
-  letI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  letI : IsCyclic S := isCyclic_of_prime_card hScard
-  letI : IsMulCommutative S := IsCyclic.isMulCommutative
+  let : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  let : IsCyclic S := isCyclic_of_prime_card hScard
+  let : IsMulCommutative S := IsCyclic.isMulCommutative
   obtain ⟨u, huorder⟩ :=
     IsCyclic.exists_ofOrder_eq_natCard (α := S)
   have huorder' : orderOf u = 7 := huorder.trans hScard
@@ -99,7 +99,7 @@ private theorem nonidentity_sylowSeven_fixed_points_of_card_seven
     (u : S) (hu : u ≠ 1) :
     Fintype.card (MulAction.fixedBy X (u : P)) = 4 := by
   classical
-  letI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   let g : Equiv.Perm X := (u : P)
   have huorder : orderOf u = 7 :=
     Degree15.orderOf_eq_prime_of_card_eq_prime hScard hu
@@ -149,7 +149,7 @@ theorem alternatingGroup_le_of_five_transitive_of_card_eq_eighteen
     alternatingGroup X ≤ P := by
   classical
   by_contra hnotAlt
-  letI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   let S : Sylow 7 P := Sylow.nonempty.some
   have hScard : Nat.card S = 7 :=
     sylowSeven_card_eq_seven X P hcard h5 hnotAlt S
@@ -227,17 +227,17 @@ theorem alternatingGroup_le_of_five_transitive_of_card_eq_eighteen
     ext i
     exact hg i
   have hP4 : MulAction.IsMultiplyPretransitive P X 4 := by
-    letI : MulAction.IsMultiplyPretransitive P X 5 := hP5
+    let : MulAction.IsMultiplyPretransitive P X 5 := hP5
     exact MulAction.isMultiplyPretransitive_of_le
       (G := P) (α := X) (m := 4) (n := 5) (by omega) (by
         rw [Nat.card_eq_fintype_card, hcard]
         omega)
-  letI : MulAction.IsMultiplyPretransitive P X 4 := hP4
-  letI : Nonempty (Fin 4 ↪ X) :=
+  let : MulAction.IsMultiplyPretransitive P X 4 := hP4
+  let : Nonempty (Fin 4 ↪ X) :=
     Fintype.card_pos_iff.mp (by
       rw [Fintype.card_embedding_eq, Fintype.card_fin, hcard]
       norm_num)
-  letI : Unique
+  let : Unique
       (MulAction.orbitRel.Quotient P (Fin 4 ↪ X)) :=
     Classical.choice
       ((MulAction.pretransitive_iff_unique_quotient_of_nonempty

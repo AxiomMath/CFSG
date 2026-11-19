@@ -17,6 +17,7 @@ variable {K : Type} [Group K] {D : UniversalRootDatum K} {n : Fin D.rank → K}
   {Kf : Type} [Field Kf] [Finite Kf] {f : ℕ} [CharP Kf 2] (κ : Kf ≃+* L.Fld)
   (hκ : ∀ c, κ (unitaryInvolution Kf 2 f c) = L.θ (κ c))
 
+omit [Finite Kf] [CharP Kf 2] in
 theorem hmbGood_units_map_symm (a : L.Fldˣ) :
     Units.map κ.toMonoidHom (Units.map κ.symm.toMonoidHom a) = a := by
   ext

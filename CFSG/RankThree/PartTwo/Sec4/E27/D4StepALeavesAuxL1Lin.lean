@@ -156,7 +156,7 @@ theorem layerLinearModel_of_model {ℓ f : ℕ} (hℓ : ℓ.Prime) (hℓ3 : ℓ 
     hord v hv x hx hε hFrs hstab hD
   obtain ⟨hcl, h₀⟩ := setup_k₀ (Ω := Ω) hℓ hf hK hσ
   have h₁ := natCard_eqLocusField_frob (Ω := Ω) hℓ hf hFr
-  haveI := hcl
+  have := hcl
   set k₀ := RingHom.eqLocusField σ.toRingHom (RingHom.id X) with hk₀
   obtain ⟨π, b, hb⟩ := threeSix_phi_split Fr hFrs v hstab
   obtain ⟨-, ⟨H₀, hH₀⟩, -⟩ :=

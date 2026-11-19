@@ -17,9 +17,11 @@ variable {𝓜 : Type} [Group 𝓜] [Finite 𝓜] {K : Type} [Field K] [Finite K
 
 private def P0pre (L R : Subgroup 𝓜) : Subgroup ↥(NL L) := (P0frak L R).comap (mkG L)
 
+omit [Finite 𝓜] in
 private lemma mem_P0pre_iff {g : ↥(NL L)} :
     g ∈ P0pre L R ↔ mkG L g ∈ P0frak L R := Iff.rfl
 
+omit [Finite 𝓜] in
 private lemma P0pre_le_R (hC : Levi108 K L R N Y ρ μ T) {g : ↥(P0pre L R)} :
     (g : 𝓜) ∈ R :=
   hC.mem_R_of_mem_Pfrak (P0frak_le_Pfrak L R g.2)
@@ -28,6 +30,7 @@ private lemma P0pre_rho00 (hC : Levi108 K L R N Y ρ μ T) {g : ↥(P0pre L R)} 
     (ρ ⟨(g : 𝓜), P0pre_le_R hC⟩ : Matrix (Fin 3) (Fin 3) K) 0 0 = 1 :=
   (hC.mem_P0frak_iff (g : ↥(NL L)) (P0pre_le_R hC)).1 g.2
 
+omit [Finite 𝓜] in
 private lemma P0pre_normalizer (hC : Levi108 K L R N Y ρ μ T) {g : ↥(P0pre L R)} :
     (ρ ⟨(g : 𝓜), P0pre_le_R hC⟩ : Matrix (Fin 3) (Fin 3) K) 1 0 = 0 ∧
       (ρ ⟨(g : 𝓜), P0pre_le_R hC⟩ : Matrix (Fin 3) (Fin 3) K) 2 0 = 0 :=
@@ -37,6 +40,7 @@ private def block (hC : Levi108 K L R N Y ρ μ T) (g : ↥(P0pre L R)) :
     Matrix (Fin 2) (Fin 2) K :=
   fun i j => (ρ ⟨(g : 𝓜), P0pre_le_R hC⟩ : Matrix (Fin 3) (Fin 3) K) i.succ j.succ
 
+omit [Finite 𝓜] in
 private lemma block_mul (hC : Levi108 K L R N Y ρ μ T) (g h : ↥(P0pre L R)) :
     block hC (g * h) = block hC g * block hC h := by
   have h10 := (P0pre_normalizer hC (g := g)).1
@@ -79,6 +83,7 @@ private noncomputable def blockHom (hC : Levi108 K L R N Y ρ μ T) :
 private def diagBlock (A : Matrix (Fin 2) (Fin 2) K) : Matrix (Fin 3) (Fin 3) K :=
   !![1, 0, 0; 0, A 0 0, A 0 1; 0, A 1 0, A 1 1]
 
+omit [Finite K] [CharP K 2] in
 private lemma diagBlock_det (A : Matrix (Fin 2) (Fin 2) K) (hA : A.det = 1) :
     (diagBlock A).det = 1 := by
   rw [Matrix.det_fin_two] at hA
@@ -115,6 +120,7 @@ private lemma blockHom_surjective (hC : Levi108 K L R N Y ρ μ T) :
   rw [hmat]
   fin_cases i <;> fin_cases j <;> simp [diagBlock]
 
+omit [Finite 𝓜] in
 private lemma rho_eq_one_of_mem_N (hC : Levi108 K L R N Y ρ μ T) {n : 𝓜} (hnR : n ∈ R)
     (hnN : n ∈ N) : (ρ ⟨n, hnR⟩ : Matrix (Fin 3) (Fin 3) K) = 1 := by
   have hmem : (⟨n, hnR⟩ : ↥R) ∈ ρ.ker := by
@@ -154,7 +160,7 @@ private lemma blockHom_apply_L (hC : Levi108 K L R N Y ρ μ T) {l : ↥(NL L)}
   rw [show (ρ ⟨(l : 𝓜), P0pre_le_R hC (g := ⟨l, hlP⟩)⟩ : Matrix (Fin 3) (Fin 3) K) =
       (ρ ⟨(l : 𝓜), hC.L_le_R (Subgroup.mem_subgroupOf.1 hlL)⟩ : Matrix (Fin 3) (Fin 3) K)
       from congrArg (fun x : ↥R => (ρ x : Matrix (Fin 3) (Fin 3) K)) hsub, hu]
-  fin_cases i <;> fin_cases j <;> simp [Matrix.vecMulVec, e₀, Matrix.one_apply]
+  fin_cases i <;> fin_cases j <;> simp [Matrix.vecMulVec, e₀]
 
 private lemma block_eq_one_exists_param (hC : Levi108 K L R N Y ρ μ T)
     {g : ↥(P0pre L R)} (hbmat : block hC g = 1) :
@@ -179,7 +185,7 @@ private lemma block_eq_one_exists_param (hC : Levi108 K L R N Y ρ μ T)
     (ρ ⟨(g : 𝓜), P0pre_le_R hC⟩ : Matrix (Fin 3) (Fin 3) K) 0 j, by simp, ?_⟩
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [hA, h10, h20, h11, h12, h21, h22, Matrix.vecMulVec, e₀, Matrix.one_apply]
+    simp [hA, h10, h20, h11, h12, h21, h22, Matrix.vecMulVec, e₀]
 
 private lemma blockHom_one_mem_Yhat (hC : Levi108 K L R N Y ρ μ T)
     {g : ↥(P0pre L R)} (hb : blockHom hC g = 1) :
@@ -247,6 +253,7 @@ private noncomputable def P0preToP0 (L R : Subgroup 𝓜) :
   map_one' := by ext; simp [mkG]
   map_mul' g h := by ext; simp [mkG]
 
+omit [Finite 𝓜] in
 private lemma P0preToP0_surjective (L R : Subgroup 𝓜) :
     Function.Surjective (P0preToP0 L R) := by
   intro x
@@ -256,6 +263,7 @@ private lemma P0preToP0_surjective (L R : Subgroup 𝓜) :
     exact x.2
   · exact Subtype.ext hg
 
+omit [Finite 𝓜] in
 private lemma P0preToP0_ker (L R : Subgroup 𝓜) :
     (P0preToP0 L R).ker = (L.subgroupOf (NL L)).subgroupOf (P0pre L R) := by
   ext g
@@ -271,6 +279,7 @@ private noncomputable def P0quotEquiv (L R : Subgroup 𝓜) :
   (QuotientGroup.quotientMulEquivOfEq (P0preToP0_ker L R).symm).trans
     (QuotientGroup.quotientKerEquivOfSurjective (P0preToP0 L R) (P0preToP0_surjective L R))
 
+omit [Finite 𝓜] in
 private lemma P0quotEquiv_apply (L R : Subgroup 𝓜) (g : ↥(P0pre L R)) :
     P0quotEquiv L R (QuotientGroup.mk g) = P0preToP0 L R g := by
   simp [P0quotEquiv, QuotientGroup.quotientKerEquivOfSurjective, QuotientGroup.kerLift_mk]
@@ -310,14 +319,17 @@ private lemma beta0_ker (hC : Levi108 K L R N Y ρ μ T) :
 
 private def permMat : Matrix (Fin 3) (Fin 3) K := !![0, 1, 0; 1, 0, 0; 0, 0, 1]
 
+omit [Finite K] [CharP K 2] in
 private lemma permMat_self : permMat (K := K) * permMat = 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [permMat, Matrix.mul_apply, Fin.sum_univ_three]
 
+omit [Finite K] in
 private lemma permMat_det : (permMat (K := K)).det = 1 := by
   rw [Matrix.det_fin_three]
   simp [permMat, CharTwo.neg_eq]
 
+omit [Finite 𝓜] in
 private lemma exists_permElem (hC : Levi108 K L R N Y ρ μ T) :
     ∃ r : ↥R, (ρ r : Matrix (Fin 3) (Fin 3) K) = permMat := by
   let B : GL (Fin 3) K := Matrix.GeneralLinearGroup.mkOfDetNeZero (permMat (K := K))
@@ -329,20 +341,23 @@ private lemma exists_permElem (hC : Levi108 K L R N Y ρ μ T) :
   obtain ⟨r, hr⟩ := MonoidHom.mem_range.1 hB
   exact ⟨r, by rw [hr, hBmat]⟩
 
+omit [Finite K] [CharP K 2] in
 private lemma permMat_inv : (permMat (K := K))⁻¹ = permMat :=
   Matrix.inv_eq_right_inv permMat_self
 
+omit [Finite K] [CharP K 2] in
 private lemma permMat_conj_vecMulVec {u : Fin 3 → K} (hu0 : u 0 = 0) :
     permMat (K := K) * (1 + Matrix.vecMulVec (e₀ K) u) * permMat =
       1 + Matrix.vecMulVec (Pi.single 1 1) (permMat *ᵥ u) := by
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [permMat, Matrix.mul_apply, Fin.sum_univ_three, Matrix.vecMulVec, Matrix.vecMul,
-      dotProduct, e₀, hu0, Matrix.one_apply, Matrix.vecHead, Matrix.vecTail]
+      dotProduct, e₀, hu0, Matrix.one_apply]
 
 private noncomputable def rPerm (hC : Levi108 K L R N Y ρ μ T) : ↥R :=
   Classical.choose (exists_permElem hC)
 
+omit [Finite 𝓜] in
 private lemma rPerm_rho (hC : Levi108 K L R N Y ρ μ T) :
     (ρ (rPerm hC) : Matrix (Fin 3) (Fin 3) K) = permMat :=
   Classical.choose_spec (exists_permElem hC)
@@ -353,17 +368,21 @@ private noncomputable def conjL (hC : Levi108 K L R N Y ρ μ T) : Subgroup 𝓜
 private noncomputable def Csub (hC : Levi108 K L R N Y ρ μ T) : Subgroup 𝓜 :=
   conjL hC ⊓ NL L
 
+omit [Finite 𝓜] in
 private lemma conjL_le_R (hC : Levi108 K L R N Y ρ μ T) : conjL hC ≤ R := by
   intro g hg
   obtain ⟨l, hl, rfl⟩ := Subgroup.mem_map.1 hg
   simpa [MulAut.conj_apply] using
     R.mul_mem (R.mul_mem (rPerm hC).2 (hC.L_le_R hl)) (R.inv_mem (rPerm hC).2)
 
+omit [Finite 𝓜] in
 private lemma Csub_le_R (hC : Levi108 K L R N Y ρ μ T) : Csub hC ≤ R :=
   (inf_le_left.trans (conjL_le_R hC))
 
+omit [Finite 𝓜] in
 private lemma Csub_le_NL (hC : Levi108 K L R N Y ρ μ T) : Csub hC ≤ NL L := inf_le_right
 
+omit [Finite 𝓜] in
 private lemma rho_conj_eq (hC : Levi108 K L R N Y ρ μ T) {l : 𝓜} (hl : l ∈ L) :
     let hR : (rPerm hC : 𝓜) * l * (rPerm hC : 𝓜)⁻¹ ∈ R :=
       R.mul_mem (R.mul_mem (rPerm hC).2 (hC.L_le_R hl)) (R.inv_mem (rPerm hC).2)
@@ -391,14 +410,17 @@ private lemma rho_conj_eq (hC : Levi108 K L R N Y ρ μ T) {l : 𝓜} (hl : l �
 private noncomputable def Chat (hC : Levi108 K L R N Y ρ μ T) : Subgroup (GG L) :=
   ((Csub hC).subgroupOf (NL L)).map (mkG L)
 
+omit [Finite 𝓜] in
 private lemma Csub_isElemAbelian (hC : Levi108 K L R N Y ρ μ T) :
     IsElemAbelian 2 (Csub hC) :=
   (hC.elemAb_L.map (MulAut.conj (rPerm hC : 𝓜)).toMonoidHom).mono inf_le_left
 
+omit [Finite 𝓜] in
 private lemma Chat_isElemAbelian (hC : Levi108 K L R N Y ρ μ T) :
     IsElemAbelian 2 (Chat hC) :=
   ((Csub_isElemAbelian hC).subgroupOf (NL L)).map (mkG L)
 
+omit [Finite 𝓜] in
 private lemma Csub_rho00 (hC : Levi108 K L R N Y ρ μ T) {g : 𝓜} (hg : g ∈ Csub hC) :
     (ρ ⟨g, Csub_le_R hC hg⟩ : Matrix (Fin 3) (Fin 3) K) 0 0 = 1 := by
   obtain ⟨l, hl, hgl⟩ := Subgroup.mem_map.1 ((inf_le_left : Csub hC ≤ conjL hC) hg)
@@ -416,7 +438,7 @@ private lemma Csub_rho00 (hC : Levi108 K L R N Y ρ μ T) {g : 𝓜} (hg : g ∈
     rho_conj_eq hC hl]
   obtain ⟨u, hu0, hu⟩ := hC.rho_L l hl
   rw [hu, permMat_conj_vecMulVec hu0]
-  simp [Matrix.vecMulVec, e₀]
+  simp [Matrix.vecMulVec]
 
 private lemma Csub_mem_P0pre (hC : Levi108 K L R N Y ρ μ T) {g : 𝓜} (hg : g ∈ Csub hC) :
     (⟨g, Csub_le_NL hC hg⟩ : ↥(NL L)) ∈ P0pre L R := by
@@ -432,10 +454,12 @@ private lemma Chat_le_P0 (hC : Levi108 K L R N Y ρ μ T) : Chat hC ≤ P0frak L
     Subtype.ext rfl
   rwa [heq] at hpre
 
+omit [Finite K] [CharP K 2] in
 private lemma permMat_transpose : (permMat (K := K))ᵀ = permMat := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [permMat, Matrix.transpose_apply]
 
+omit [Finite 𝓜] in
 private lemma N_conj_mem (hC : Levi108 K L R N Y ρ μ T) {r n : 𝓜} (hr : r ∈ R)
     (hn : n ∈ N) : r * n * r⁻¹ ∈ N := by
   have hnR : n ∈ R := hC.N_le_R hn
@@ -450,6 +474,7 @@ private lemma N_conj_mem (hC : Levi108 K L R N Y ρ μ T) {r n : 𝓜} (hr : r �
   rw [hC.ker_rho] at hmem
   exact Subgroup.mem_subgroupOf.1 hmem
 
+omit [Finite 𝓜] in
 private lemma rho_inv_perm (hC : Levi108 K L R N Y ρ μ T) :
     (ρ ((rPerm hC)⁻¹ : ↥R) : Matrix (Fin 3) (Fin 3) K) = permMat := by
   let a : ↥R := ⟨(rPerm hC : 𝓜), (rPerm hC).2⟩
@@ -459,6 +484,7 @@ private lemma rho_inv_perm (hC : Levi108 K L R N Y ρ μ T) :
       congrArg (fun x : ↥R => (ρ x : Matrix (Fin 3) (Fin 3) K)) hsub,
     map_inv, GeneralLinearGroup.coe_inv, rPerm_rho, permMat_inv]
 
+omit [Finite 𝓜] in
 private lemma exists_conj_mem_L (hC : Levi108 K L R N Y ρ μ T) {n : ↥(NL L)}
     (hnN : n ∈ N.subgroupOf (NL L)) :
     ∃ m : 𝓜, ∃ (hmN : m ∈ N), ∃ l' : 𝓜, l' ∈ L ∧
@@ -496,7 +522,7 @@ private lemma exists_conj_mem_L (hC : Levi108 K L R N Y ρ μ T) {n : ↥(NL L)}
         map_mul, map_inv, toAdd_mul, toAdd_inv]
       abel
     rw [h1, hmμ']
-    simp [c, e₀, Pi.smul_apply, sub_eq_add_neg]
+    simp [c, e₀, Pi.smul_apply]
   have hmnL : (m : 𝓜) * (n : 𝓜)⁻¹ ∈ L := (hC.mem_L_iff_mu _ hmnN).2 hmnμ0
   have hmnNL : (m : 𝓜) * (n : 𝓜)⁻¹ ∈ NL L := hC.N_le_NL hmnN
   have heq : mkG L ⟨(m : 𝓜), hC.N_le_NL hmN⟩ = mkG L n := by
@@ -506,6 +532,7 @@ private lemma exists_conj_mem_L (hC : Levi108 K L R N Y ρ μ T) {n : ↥(NL L)}
   simp only [l']
   group
 
+omit [Finite 𝓜] in
 private lemma Yhat_le_Chat (hC : Levi108 K L R N Y ρ μ T) : Yhat L N ≤ Chat hC := by
   intro x hx
   obtain ⟨n, hnN, rfl⟩ := Subgroup.mem_map.1 hx
@@ -520,6 +547,7 @@ private lemma Yhat_le_Chat (hC : Levi108 K L R N Y ρ μ T) : Yhat L N ≤ Chat 
   rw [heq] at hmChat
   exact hmChat
 
+omit [Finite 𝓜] in
 private lemma rho_conj_transvection (hC : Levi108 K L R N Y ρ μ T) {l : 𝓜} (hl : l ∈ L)
     (a : K)
     (hlρ : (ρ ⟨l, hC.L_le_R hl⟩ : Matrix (Fin 3) (Fin 3) K) =
@@ -532,7 +560,7 @@ private lemma rho_conj_transvection (hC : Levi108 K L R N Y ρ μ T) {l : 𝓜} 
   rw [rho_conj_eq hC hl, hlρ, permMat_conj_vecMulVec (by simp)]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [permMat, Matrix.vecMulVec, e₀, Matrix.transvection, Pi.single, Matrix.mulVec,
+    simp [permMat, Matrix.vecMulVec, Matrix.transvection, Pi.single, Matrix.mulVec,
       dotProduct, Fin.sum_univ_three, Pi.smul_apply]
 
 private lemma Yhat_le_P0frak (hC : Levi108 K L R N Y ρ μ T) :
@@ -577,17 +605,19 @@ private noncomputable def transvectionHom :
       Multiplicative.toAdd x + Multiplicative.toAdd y from rfl,
       Matrix.SpecialLinearGroup.transvection_add (by decide)]
 
+omit [Finite K] [CharP K 2] in
 private lemma transvectionHom_injective : Function.Injective (transvectionHom (K := K)) := by
   intro x y h
   have h' := congrFun (congrFun (congrArg Subtype.val h) 0) 1
   change (Matrix.transvection (n := Fin 2) 0 1 (Multiplicative.toAdd x)) 0 1 =
     (Matrix.transvection (n := Fin 2) 0 1 (Multiplicative.toAdd y)) 0 1 at h'
-  simp [Matrix.transvection, Matrix.one_apply, Matrix.single] at h'
+  simp [Matrix.transvection, Matrix.single] at h'
   exact Multiplicative.toAdd.injective h'
 
 private noncomputable def rootGroup : Subgroup (SpecialLinearGroup (Fin 2) K) :=
   (⊤ : Subgroup (Multiplicative K)).map transvectionHom
 
+omit [Finite K] [CharP K 2] in
 private lemma card_rootGroup : Nat.card (rootGroup (K := K)) = Nat.card K := by
   rw [rootGroup, Subgroup.card_map_of_injective transvectionHom_injective]
   rw [Nat.card_congr Subgroup.topEquiv.toEquiv, Nat.card_congr Multiplicative.toAdd]
@@ -688,6 +718,7 @@ private lemma card_Chatsub (hC : Levi108 K L R N Y ρ μ T) :
   rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe (Chat_le_P0 hC)).toEquiv]
   exact card_Chat hC
 
+omit [Finite 𝓜] in
 private lemma Chatsub_isPGroup (hC : Levi108 K L R N Y ρ μ T) :
     IsPGroup 2 ((Chat hC).subgroupOf (P0frak L R)) :=
   ((Chat_isElemAbelian hC).subgroupOf (P0frak L R)).isPGroup
@@ -707,7 +738,7 @@ private lemma Chatsub_index (hC : Levi108 K L R N Y ρ μ T) :
 private lemma Chatsub_not_dvd_index (hC : Levi108 K L R N Y ρ μ T) :
     ¬ 2 ∣ ((Chat hC).subgroupOf (P0frak L R)).index := by
   rw [Chatsub_index hC]
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, -, hn⟩ := FiniteField.card K 2
   have hEven : Even (Nat.card K) := by
     rw [Nat.card_eq_fintype_card, hn]
@@ -738,14 +769,17 @@ private lemma V_normal (hC : Levi108 K L R N Y ρ μ T) :
     ((Yhat L N).subgroupOf (P0frak L R)).Normal :=
   Subgroup.normal_of_le_center (V_le_center hC)
 
+omit [Finite 𝓜] in
 private lemma V_isElemAbelian (hC : Levi108 K L R N Y ρ μ T) :
     IsElemAbelian 2 ((Yhat L N).subgroupOf (P0frak L R)) :=
   hC.isElemAbelian_Yhat.subgroupOf _
 
+omit [Finite 𝓜] in
 private lemma Chatsub_isElemAbelian (hC : Levi108 K L R N Y ρ μ T) :
     IsElemAbelian 2 ((Chat hC).subgroupOf (P0frak L R)) :=
   (Chat_isElemAbelian hC).subgroupOf _
 
+omit [Finite 𝓜] in
 private lemma exists_compl_Chatsub (hC : Levi108 K L R N Y ρ μ T) :
     ∃ K : Subgroup ↥(P0frak L R), K ≤ (Chat hC).subgroupOf (P0frak L R) ∧
       ((Yhat L N).subgroupOf (P0frak L R)) ⊓ K = ⊥ ∧
@@ -754,7 +788,7 @@ private lemma exists_compl_Chatsub (hC : Levi108 K L R N Y ρ μ T) :
     intro x hx
     rw [Subgroup.mem_subgroupOf] at hx ⊢
     exact Yhat_le_Chat hC hx
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact CFSG.HardMathSupport.Solomon.Coordinator.i224_exists_compl
     (Chatsub_isElemAbelian hC) hle
 
@@ -762,9 +796,9 @@ private lemma exists_compl_P0 (hC : Levi108 K L R N Y ρ μ T) :
     ∃ K : Subgroup ↥(P0frak L R),
       ((Yhat L N).subgroupOf (P0frak L R)) ⊓ K = ⊥ ∧
       ((Yhat L N).subgroupOf (P0frak L R)) ⊔ K = ⊤ := by
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : ((Yhat L N).subgroupOf (P0frak L R)).Normal := V_normal hC
-  haveI : IsMulCommutative ((Yhat L N).subgroupOf (P0frak L R)) :=
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : ((Yhat L N).subgroupOf (P0frak L R)).Normal := V_normal hC
+  have : IsMulCommutative ((Yhat L N).subgroupOf (P0frak L R)) :=
     (V_isElemAbelian hC).1
   have hVp : IsPGroup 2 ((Yhat L N).subgroupOf (P0frak L R)) :=
     (V_isElemAbelian hC).isPGroup
@@ -806,7 +840,7 @@ private lemma Kbeta_surjective (hC : Levi108 K L R N Y ρ μ T)
     {Kc : Subgroup ↥(P0frak L R)}
     (hsupK : ((Yhat L N).subgroupOf (P0frak L R)) ⊔ Kc = ⊤) :
     Function.Surjective (Kbeta hC Kc) := by
-  haveI : ((Yhat L N).subgroupOf (P0frak L R)).Normal := V_normal hC
+  have : ((Yhat L N).subgroupOf (P0frak L R)).Normal := V_normal hC
   intro A
   obtain ⟨x, hx⟩ := beta0_surjective hC A
   have hxmem : x ∈ ((Yhat L N).subgroupOf (P0frak L R)) ⊔ Kc :=
@@ -850,7 +884,7 @@ private lemma K_commutator_eq_self (hC : Levi108 K L R N Y ρ μ T)
 
 private lemma K_normal (hC : Levi108 K L R N Y ρ μ T) {Kc : Subgroup ↥(P0frak L R)}
     (hsupK : ((Yhat L N).subgroupOf (P0frak L R)) ⊔ Kc = ⊤) : Kc.Normal := by
-  haveI : ((Yhat L N).subgroupOf (P0frak L R)).Normal := V_normal hC
+  have : ((Yhat L N).subgroupOf (P0frak L R)).Normal := V_normal hC
   refine ⟨fun k hk g => ?_⟩
   have hg : g ∈ ((Yhat L N).subgroupOf (P0frak L R)) ⊔ Kc := hsupK ▸ Subgroup.mem_top g
   obtain ⟨v, hv, k', hk', rfl⟩ :=
@@ -867,18 +901,19 @@ private lemma K_normal (hC : Levi108 K L R N Y ρ μ T) {Kc : Subgroup ↥(P0fra
 
 private lemma commutator_P0_le_K (hC : Levi108 K L R N Y ρ μ T)
     {Kc : Subgroup ↥(P0frak L R)}
-    (hVK : ((Yhat L N).subgroupOf (P0frak L R)) ⊓ Kc = ⊥)
+    (_hVK : ((Yhat L N).subgroupOf (P0frak L R)) ⊓ Kc = ⊥)
     (hsupK : ((Yhat L N).subgroupOf (P0frak L R)) ⊔ Kc = ⊤) :
     commutator ↥(P0frak L R) ≤ Kc := by
-  haveI : Kc.Normal := K_normal hC hsupK
-  haveI : IsMulCommutative ((Yhat L N).subgroupOf (P0frak L R)) :=
+  have : Kc.Normal := K_normal hC hsupK
+  have : IsMulCommutative ((Yhat L N).subgroupOf (P0frak L R)) :=
     (V_isElemAbelian hC).1
   have hsup : Kc ⊔ ((Yhat L N).subgroupOf (P0frak L R)) = ⊤ := by
     rw [sup_comm]
     exact hsupK
   exact Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup
 
-private lemma Xlevi_eq_commutator_map (hC : Levi108 K L R N Y ρ μ T) :
+omit [Finite 𝓜] in
+private lemma Xlevi_eq_commutator_map (_hC : Levi108 K L R N Y ρ μ T) :
     Xlevi L R = (commutator ↥(P0frak L R)).map (P0frak L R).subtype := by
   exact (Subgroup.map_subtype_commutator (P0frak L R)).symm
 
@@ -932,12 +967,14 @@ private lemma exists_Xlevi_block_data (hC : Levi108 K L R N Y ρ μ T)
     rfl
   rw [← hblock, hkbeta]
 
+omit [Finite K] [CharP K 2] in
 private lemma scalar_det (ω : K) (hω3 : ω ^ 3 = 1) :
     (Matrix.scalar (Fin 3) ω : Matrix (Fin 3) (Fin 3) K).det = 1 := by
   rw [Matrix.det_fin_three]
   simp [Matrix.scalar_apply]
   rw [show ω * ω * ω = ω ^ 3 by ring, hω3]
 
+omit [Finite 𝓜] in
 private lemma exists_scalar_r (hC : Levi108 K L R N Y ρ μ T) {ω : K}
     (hω3 : ω ^ 3 = 1) :
     ∃ r : ↥R, (ρ r : Matrix (Fin 3) (Fin 3) K) = Matrix.scalar (Fin 3) ω := by
@@ -950,6 +987,7 @@ private lemma exists_scalar_r (hC : Levi108 K L R N Y ρ μ T) {ω : K}
   obtain ⟨r, hr⟩ := MonoidHom.mem_range.1 hB
   exact ⟨r, by rw [hr, hBmat]⟩
 
+omit [Finite K] [CharP K 2] in
 private lemma scalar_pow_three (ω : K) (hω3 : ω ^ 3 = 1) :
     (Matrix.scalar (Fin 3) ω : Matrix (Fin 3) (Fin 3) K) ^ 3 = 1 := by
   rw [Matrix.scalar_apply, Matrix.diagonal_pow]
@@ -959,11 +997,12 @@ private lemma scalar_pow_three (ω : K) (hω3 : ω ^ 3 = 1) :
   rw [hfun]
   simp
 
+omit [Finite 𝓜] in
 private lemma exists_omega (hC : Levi108 K L R N Y ρ μ T) (hq : Nat.card K = 4) :
     ∃ ω : K, ω ≠ 1 ∧ ω ^ 3 = 1 := by
   obtain ⟨ω, hω0, hω1⟩ := CFSG.RankThree.GF2n.Smith81.D2.exists_ne_zero_ne_one hC.four_le_card
   refine ⟨ω, hω1, ?_⟩
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have h := FiniteField.pow_card_sub_one_eq_one ω hω0
   rw [show Fintype.card K = 4 by rw [← Nat.card_eq_fintype_card]; exact hq] at h
   norm_num at h
@@ -982,6 +1021,7 @@ private lemma inf_Yhat_Xlevi (hC : Levi108 K L R N Y ρ μ T) :
   rw [Xlevi_eq_X1 hC hVK hsupK]
   exact hinf
 
+omit [Finite 𝓜] in
 private lemma exists_tau_order (hC : Levi108 K L R N Y ρ μ T) (hq : Nat.card K = 4) :
     ∃ (r : ↥R) (ω : K), ω ≠ 1 ∧ ω ^ 3 = 1 ∧
       (ρ r : Matrix (Fin 3) (Fin 3) K) = Matrix.scalar (Fin 3) ω ∧
@@ -1012,6 +1052,7 @@ private lemma exists_tau_order (hC : Levi108 K L R N Y ρ μ T) (hq : Nat.card K
     exact h2
   exact ⟨r, ω, hω1, hω3, hr, h6⟩
 
+omit [Finite 𝓜] in
 private lemma tau_of_data (hC : Levi108 K L R N Y ρ μ T) {r : ↥R} {ω : K}
     (hω1 : ω ≠ 1) (hω3 : ω ^ 3 = 1)
     (hρ : (ρ r : Matrix (Fin 3) (Fin 3) K) = Matrix.scalar (Fin 3) ω)
@@ -1032,7 +1073,6 @@ private lemma tau_of_data (hC : Levi108 K L R N Y ρ μ T) {r : ↥R} {ω : K}
   have hτρ : (ρ ⟨(τ : 𝓜), hτR⟩ : Matrix (Fin 3) (Fin 3) K) = Matrix.scalar (Fin 3) ω := by
     have hpow : (((ρ r : GL (Fin 3) K)) ^ 4 : Matrix (Fin 3) (Fin 3) K) =
         Matrix.scalar (Fin 3) ω := by
-      change (ρ r : Matrix (Fin 3) (Fin 3) K) ^ 4 = Matrix.scalar (Fin 3) ω
       rw [hρ]
       rw [show (Matrix.scalar (Fin 3) ω : Matrix (Fin 3) (Fin 3) K) ^ 4 =
           Matrix.scalar (Fin 3) (ω ^ 4) by
@@ -1055,6 +1095,7 @@ private lemma tau_of_data (hC : Levi108 K L R N Y ρ μ T) {r : ↥R} {ω : K}
     exact hω1 (Matrix.scalar_inj.1 hsc')
   exact ⟨τ, hτR, orderOf_eq_prime hτ3 hτne, hτρ⟩
 
+omit [Finite 𝓜] in
 private lemma commutator_N_of_scalar (hC : Levi108 K L R N Y ρ μ T) {τ g : ↥(NL L)}
     (hτR : (τ : 𝓜) ∈ R) (hgR : (g : 𝓜) ∈ R) {ω : K}
     (hτρ : (ρ ⟨(τ : 𝓜), hτR⟩ : Matrix (Fin 3) (Fin 3) K) = Matrix.scalar (Fin 3) ω) :

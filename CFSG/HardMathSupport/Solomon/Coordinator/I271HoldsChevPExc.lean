@@ -20,17 +20,17 @@ theorem i271ChevPExc_holds : I271ChevPExc := by
   obtain ⟨hBN, hAut⟩ := hNorm
   have hBel : IsElemAbelian 3 B := hH.scp.2.1
   have hq : CFSG.Open.IsQuasisimple ↥K := i116e_isQuasisimple hH.core hH.comp
-  haveI : Group.IsPerfect ↥K := ⟨hq.1⟩
+  have : Group.IsPerfect ↥K := ⟨hq.1⟩
   have hOK : GLAPPrimeCore 3 ↥K = ⊥ := i271h_primeCore_eq_bot hH.core hH.comp
   obtain ⟨F, _, _, hF, ⟨e⟩⟩ := h27
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hZ : Subgroup.center ↥K = ⊥ := by
     let π : ↥K →* CFSG.Open.StatedProj (CFSG.Open.StatedSL 2 F) :=
       e.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center ↥K))
     have hπs : Function.Surjective π := e.surjective.comp (QuotientGroup.mk'_surjective _)
     have hker : π.ker = Subgroup.center ↥K := by
       ext x
-      simp [π, MonoidHom.mem_ker, QuotientGroup.eq_one_iff]
+      simp [π]
     have hodd : Odd (Nat.card π.ker) := by
       rw [hker]
       exact odd_card_center Nat.prime_three (by norm_num) hOK

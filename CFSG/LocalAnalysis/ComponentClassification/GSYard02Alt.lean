@@ -59,7 +59,7 @@ private theorem natCard_closure {gs : List G} (hinv : ∀ g ∈ gs, g * g = 1)
   have hset : ((Subgroup.closure {g | g ∈ gs} : Subgroup G) : Set G) =
       ↑(subprods gs).toFinset := by
     ext y
-    simp only [SetLike.mem_coe, List.coe_toFinset, Set.mem_setOf_eq]
+    simp only [SetLike.mem_coe, List.coe_toFinset, Set.mem_ofPred_eq]
     exact ⟨mem_subprods_of_mem_closure hinv hcl, subprods_mem_closure gs y⟩
   have h1 : Nat.card (Subgroup.closure {g | g ∈ gs}) =
       ((Subgroup.closure {g | g ∈ gs} : Subgroup G) : Set G).ncard := Nat.card_coe_set_eq _
@@ -185,8 +185,8 @@ private theorem exists_sylow_of_tables {n : ℕ} (hn : 2 ≤ n) (gsE gsK : List 
       (S : Subgroup (alternatingGroup (Fin n))) ≤ normalizer (A : Set (alternatingGroup (Fin n))) ∧
         (∀ a ∈ A, a * a = 1) ∧ 8 ≤ Nat.card A := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr hn
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr hn
   obtain ⟨hsq, hdisj, hnorm⟩ := hEK
   have hinvE := hE.involutions
   have hinvK := hK.involutions

@@ -17,14 +17,14 @@ namespace CFSG.StandardType
 
 open CFSG.Assembly CFSG.Open CFSG.StandardType.GGHalf CFSG.LieType.Universal.SpecialLinear Matrix
 
-private theorem hjan_row_A (m : ℕ) (hm : 3 ≤ m) (X : LargeEvenLabel)
+private theorem hjan_row_A (m : ℕ) (_hm : 3 ≤ m) (X : LargeEvenLabel)
     (h : GGTablePRow 3 ⟨.A, m, 1⟩ X) :
     X = ⟨.A, m + 2, 1⟩ ∨ (m = 5 ∧ X = ⟨.E6, 0, 1⟩) := by
   unfold GGTablePRow at h
   rcases X with ⟨t, r, n⟩
   cases t <;>
     simp only [LargeEvenLabel.mk.injEq, reduceCtorEq, true_and, false_and,
-      and_true, and_false, or_false, false_or, true_or, or_true] at h
+      and_true, and_false, or_false, false_or] at h
   · rcases h with h | h | h | h | h | h
     · obtain ⟨h3, -⟩ := h; norm_num at h3
     · obtain ⟨-, -, rfl, rfl⟩ := h; exact Or.inl rfl
@@ -49,7 +49,7 @@ private theorem hjan_row_D3 (X : LargeEvenLabel) (h : GGTablePRow 3 ⟨.D, 3, 1�
   rcases X with ⟨t, r, n⟩
   cases t <;>
     simp only [LargeEvenLabel.mk.injEq, reduceCtorEq, true_and, false_and,
-      and_true, and_false, or_false, false_or, true_or, or_true] at h
+      and_true, and_false, or_false, false_or] at h
   · norm_num at h
   · obtain ⟨-, rfl, rfl⟩ := h; rfl
   · norm_num at h

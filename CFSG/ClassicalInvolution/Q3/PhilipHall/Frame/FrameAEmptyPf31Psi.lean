@@ -126,7 +126,7 @@ noncomputable def epsK (K : Subgroup G) (y : G) : ℤˣ :=
 theorem epsK_of_mem (K : Subgroup G) {y : G} (hy : y ∈ Subgroup.normalizer (K : Set G)) :
     epsK K y = Equiv.Perm.sign (psiK K ⟨y, hy⟩) := by
   unfold epsK
-  exact dif_pos hy
+  exact dite_eq_left hy
 
 theorem epsK_mul (K : Subgroup G) {a b : G} (ha : a ∈ Subgroup.normalizer (K : Set G))
     (hb : b ∈ Subgroup.normalizer (K : Set G)) : epsK K (a * b) = epsK K a * epsK K b := by

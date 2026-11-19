@@ -42,8 +42,8 @@ theorem fj_pocket_dichotomy (hQ : Q.Nondegenerate) (hn : Module.finrank (ZMod 3)
       blockHom hs (a, c) = (z : OGroup Q) ∧
         ((c = 1 ∧ 5 ≤ Module.finrank (ZMod 3) (fixSp s)) ∨
           (a = 1 ∧ 5 ≤ Module.finrank (ZMod 3) (commSp s))) := by
-  haveI : Finite (OGroup Q) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
-  haveI : Finite (omegaGroup hQ) := Subtype.finite
+  have : Finite (OGroup Q) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
+  have : Finite (omegaGroup hQ) := Subtype.finite
   obtain ⟨q, r, hqK, hrK, hqq, hrr, hrq⟩ := fj_exists_quaternion_pair hKsl hzK hz
   have hzz : z * z = 1 := by
     rw [← pow_two]

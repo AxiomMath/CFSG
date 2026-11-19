@@ -15,6 +15,7 @@ variable {k : Type} [Field k] {V : Type} [AddCommGroup V] [Module k V] [FiniteDi
 
 variable (Q : QuadraticForm k V) {t : V ≃ₗ[k] V}
 
+omit [FiniteDimensional k V] in
 theorem centralizer_le_torE (ht : t ∈ orthogonalGroup Q) (ht3 : t ^ 3 = 1) (h3 : (3 : k) ≠ 0) :
     orthogonalGroup Q ⊓ Subgroup.centralizer {t} ≤ torE₀ Q t ⊔ torE₁ Q t := by
   intro c hc
@@ -41,42 +42,42 @@ theorem centralizer_le_torE (ht : t ∈ orthogonalGroup Q) (ht3 : t ^ 3 = 1) (h3
     intro v hv
     change ((c : V →ₗ[k] V) * π + ((1 : V →ₗ[k] V) - π)) v = c v
     rw [LinearMap.add_apply, Module.End.mul_apply, LinearMap.sub_apply,
-      Module.End.one_apply, hπ₀ v hv, sub_self, add_zero] <;> rfl
+      Module.End.one_apply, hπ₀ v hv, sub_self, add_zero]; rfl
   have c₀_V₁ : ∀ v ∈ torV₁ t, c₀lm v = v := by
     intro v hv
     change ((c : V →ₗ[k] V) * π + ((1 : V →ₗ[k] V) - π)) v = v
     rw [LinearMap.add_apply, Module.End.mul_apply, LinearMap.sub_apply,
-      Module.End.one_apply, hπ₁ v hv, map_zero, zero_add, sub_zero] <;> rfl
+      Module.End.one_apply, hπ₁ v hv, map_zero, zero_add, sub_zero]
   have c₁_V₀ : ∀ v ∈ torV₀ t, c₁lm v = v := by
     intro v hv
     change (π + (c : V →ₗ[k] V) * ((1 : V →ₗ[k] V) - π)) v = v
     rw [LinearMap.add_apply, Module.End.mul_apply, LinearMap.sub_apply,
-      Module.End.one_apply, hπ₀ v hv, sub_self, map_zero, add_zero] <;> rfl
+      Module.End.one_apply, hπ₀ v hv, sub_self, map_zero, add_zero]
   have c₁_V₁ : ∀ v ∈ torV₁ t, c₁lm v = c v := by
     intro v hv
     change (π + (c : V →ₗ[k] V) * ((1 : V →ₗ[k] V) - π)) v = c v
     rw [LinearMap.add_apply, Module.End.mul_apply, LinearMap.sub_apply,
-      Module.End.one_apply, hπ₁ v hv, sub_zero, zero_add] <;> rfl
+      Module.End.one_apply, hπ₁ v hv, sub_zero, zero_add]; rfl
   have d₀_V₀ : ∀ v ∈ torV₀ t, d₀lm v = c⁻¹ v := by
     intro v hv
     change (((c⁻¹ : V ≃ₗ[k] V) : V →ₗ[k] V) * π + ((1 : V →ₗ[k] V) - π)) v = c⁻¹ v
     rw [LinearMap.add_apply, Module.End.mul_apply, LinearMap.sub_apply,
-      Module.End.one_apply, hπ₀ v hv, sub_self, add_zero] <;> rfl
+      Module.End.one_apply, hπ₀ v hv, sub_self, add_zero]; rfl
   have d₀_V₁ : ∀ v ∈ torV₁ t, d₀lm v = v := by
     intro v hv
     change (((c⁻¹ : V ≃ₗ[k] V) : V →ₗ[k] V) * π + ((1 : V →ₗ[k] V) - π)) v = v
     rw [LinearMap.add_apply, Module.End.mul_apply, LinearMap.sub_apply,
-      Module.End.one_apply, hπ₁ v hv, map_zero, zero_add, sub_zero] <;> rfl
+      Module.End.one_apply, hπ₁ v hv, map_zero, zero_add, sub_zero]
   have d₁_V₀ : ∀ v ∈ torV₀ t, d₁lm v = v := by
     intro v hv
     change (π + ((c⁻¹ : V ≃ₗ[k] V) : V →ₗ[k] V) * ((1 : V →ₗ[k] V) - π)) v = v
     rw [LinearMap.add_apply, Module.End.mul_apply, LinearMap.sub_apply,
-      Module.End.one_apply, hπ₀ v hv, sub_self, map_zero, add_zero] <;> rfl
+      Module.End.one_apply, hπ₀ v hv, sub_self, map_zero, add_zero]
   have d₁_V₁ : ∀ v ∈ torV₁ t, d₁lm v = c⁻¹ v := by
     intro v hv
     change (π + ((c⁻¹ : V ≃ₗ[k] V) : V →ₗ[k] V) * ((1 : V →ₗ[k] V) - π)) v = c⁻¹ v
     rw [LinearMap.add_apply, Module.End.mul_apply, LinearMap.sub_apply,
-      Module.End.one_apply, hπ₁ v hv, sub_zero, zero_add] <;> rfl
+      Module.End.one_apply, hπ₁ v hv, sub_zero, zero_add]; rfl
   have hcomp₀ : c₀lm.comp d₀lm = LinearMap.id := by
     apply LinearMap.ext_on_codisjoint hcompl.codisjoint
     · intro v hv
@@ -213,6 +214,7 @@ theorem centralizer_le_torE (ht : t ∈ orthogonalGroup Q) (ht3 : t ^ 3 = 1) (h3
   have hmem : c₀ * c₁ ∈ torE₀ Q t ⊔ torE₁ Q t := Subgroup.mul_mem_sup hc₀E₀ hc₁E₁
   rwa [← heq] at hmem
 
+omit [FiniteDimensional k V] in
 theorem torE₀_normal (ht : t ∈ orthogonalGroup Q) (ht3 : t ^ 3 = 1) (h3 : (3 : k) ≠ 0)
     (hQ : (polarBilin Q).Nondegenerate) :
     ((torE₀ Q t).subgroupOf (orthogonalGroup Q ⊓ Subgroup.centralizer {t})).Normal := by
@@ -224,6 +226,7 @@ theorem torE₀_normal (ht : t ∈ orthogonalGroup Q) (ht3 : t ^ 3 = 1) (h3 : (3
     (fun a ha b hb => torE₀_commute_torE₁ Q ht ht3 h3 hQ ha hb)
     (centralizer_le_torE Q ht ht3 h3 hk) hh
 
+omit [FiniteDimensional k V] in
 theorem torE₁_normal (ht : t ∈ orthogonalGroup Q) (ht3 : t ^ 3 = 1) (h3 : (3 : k) ≠ 0)
     (hQ : (polarBilin Q).Nondegenerate) :
     ((torE₁ Q t).subgroupOf (orthogonalGroup Q ⊓ Subgroup.centralizer {t})).Normal := by
@@ -237,6 +240,7 @@ theorem torE₁_normal (ht : t ∈ orthogonalGroup Q) (ht3 : t ^ 3 = 1) (h3 : (3
   exact plh_conj_mem_of_mem_sup_of_commute
     (fun a ha b hb => (torE₀_commute_torE₁ Q ht ht3 h3 hQ hb ha).symm) hk' hh
 
+omit [FiniteDimensional k V] in
 theorem torP₀_normal (ht : t ∈ orthogonalGroup Q) (ht3 : t ^ 3 = 1) (h3 : (3 : k) ≠ 0)
     (hQ : (polarBilin Q).Nondegenerate) :
     ((torP₀ Q t).subgroupOf (orthogonalGroup Q ⊓ Subgroup.centralizer {t})).Normal := by
@@ -266,6 +270,7 @@ theorem torP₀_normal (ht : t ∈ orthogonalGroup Q) (ht3 : t ^ 3 = 1) (h3 : (3
       _ = torP₀ Q t := rfl
   exact hmap ⟨h, hh, rfl⟩
 
+omit [FiniteDimensional k V] in
 theorem torP₁_normal (ht : t ∈ orthogonalGroup Q) (ht3 : t ^ 3 = 1) (h3 : (3 : k) ≠ 0)
     (hQ : (polarBilin Q).Nondegenerate) :
     ((torP₁ Q t).subgroupOf (orthogonalGroup Q ⊓ Subgroup.centralizer {t})).Normal := by
@@ -294,6 +299,7 @@ theorem torP₁_normal (ht : t ∈ orthogonalGroup Q) (ht3 : t ^ 3 = 1) (h3 : (3
       _ = torP₁ Q t := rfl
   exact hmap ⟨h, hh, rfl⟩
 
+omit [FiniteDimensional k V] in
 theorem torP₀_le (ht : t ∈ orthogonalGroup Q) (ht3 : t ^ 3 = 1) (h3 : (3 : k) ≠ 0)
     (hQ : (polarBilin Q).Nondegenerate) :
     torP₀ Q t ≤ orthDerived Q ⊓ Subgroup.centralizer {t} := by
@@ -302,12 +308,14 @@ theorem torP₀_le (ht : t ∈ orthogonalGroup Q) (ht3 : t ^ 3 = 1) (h3 : (3 : k
   · exact (Subgroup.commutator_le_self (torE₀ Q t)).trans
       (torE₀_le_centralizer Q ht ht3 h3 hQ)
 
+omit [FiniteDimensional k V] in
 theorem torP₁_le : torP₁ Q t ≤ orthDerived Q ⊓ Subgroup.centralizer {t} := by
   refine le_inf ?_ ?_
   · exact Subgroup.commutator_mono (inf_le_left.trans inf_le_left)
       (inf_le_left.trans inf_le_left)
   · exact (Subgroup.commutator_le_self (torE₁ Q t)).trans (torE₁_le_centralizer Q)
 
+omit [FiniteDimensional k V] in
 theorem torP_commute (ht : t ∈ orthogonalGroup Q) (ht3 : t ^ 3 = 1) (h3 : (3 : k) ≠ 0)
     (hQ : (polarBilin Q).Nondegenerate) {a b : V ≃ₗ[k] V} (ha : a ∈ torP₀ Q t)
     (hb : b ∈ torP₁ Q t) : a * b = b * a :=
@@ -315,6 +323,7 @@ theorem torP_commute (ht : t ∈ orthogonalGroup Q) (ht3 : t ^ 3 = 1) (h3 : (3 :
     (Subgroup.commutator_le_self (torE₀ Q t) ha)
     (Subgroup.commutator_le_self (torE₁ Q t) hb)
 
+omit [FiniteDimensional k V] in
 theorem perfect_le_torP (ht : t ∈ orthogonalGroup Q) (ht3 : t ^ 3 = 1) (h3 : (3 : k) ≠ 0)
     (hQ : (polarBilin Q).Nondegenerate) {J : Subgroup (V ≃ₗ[k] V)}
     (hJ : J ≤ orthogonalGroup Q ⊓ Subgroup.centralizer {t}) (hperf : ⁅J, J⁆ = J) :

@@ -19,13 +19,13 @@ theorem stronglyEmbedded_of_centralizers (K : Subgroup G) (hK : K ≠ ⊤) (S : 
   have heven : Even (Nat.card K) := by
     by_cases h2G : 2 ∣ Nat.card G
     · have h2S : 2 ∣ Nat.card (S : Subgroup G) := by
-        rcases S.isPGroup'.card_eq_or_dvd with h | h
+        rcases S.isPGroup.card_eq_or_dvd with h | h
         · exact absurd (Subgroup.card_eq_one.1 h) (S.ne_bot_of_dvd_card h2G)
         · exact h
       exact even_iff_two_dvd.2 (h2S.trans (Subgroup.card_dvd_of_le hSK))
     · exfalso
       have hS : (S : Subgroup G) = ⊥ := by
-        rcases S.isPGroup'.card_eq_or_dvd with h | h
+        rcases S.isPGroup.card_eq_or_dvd with h | h
         · exact Subgroup.card_eq_one.1 h
         · exact absurd (h.trans (Subgroup.card_subgroup_dvd_card _)) h2G
       apply hK
@@ -35,7 +35,7 @@ theorem stronglyEmbedded_of_centralizers (K : Subgroup G) (hK : K ≠ ⊤) (S : 
       intro g _
       rw [mem_normalizer_iff]
       intro x
-      simp only [SetLike.mem_coe, mem_bot]
+      simp only [mem_bot]
       constructor
       · rintro rfl
         group

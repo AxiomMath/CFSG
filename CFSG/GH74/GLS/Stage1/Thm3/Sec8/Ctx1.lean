@@ -86,7 +86,7 @@ theorem gq_P (hII : II4_4_4_center) (hq : II4_4_quat) (hs : Setup8 G z S K₁ K�
   have hstd := hs.fused.std
   obtain ⟨n, hn3, ⟨e⟩⟩ := hq G hstd.simple z hstd.orderOf_z S K hstd.sylow
     (hstd.comp_isPCompIn hK) (hstd.comp_pRank hK)
-  haveI : NeZero (2 ^ (n - 2)) := ⟨by positivity⟩
+  have : NeZero (2 ^ (n - 2)) := ⟨by positivity⟩
   have hm : 2 ≤ 2 ^ (n - 2) := by
     calc 2 = 2 ^ 1 := by norm_num
       _ ≤ 2 ^ (n - 2) := Nat.pow_le_pow_right (by norm_num) (by omega)
@@ -95,7 +95,7 @@ theorem gq_P (hII : II4_4_4_center) (hq : II4_4_quat) (hs : Setup8 G z S K₁ K�
 theorem gq_Q₁ (hII : II4_4_4_center) (hs : Setup8 G z S K₁ K₂ W₁ W₂ U u h) :
     Basic.GQ (Qof S K₁) z := by
   obtain ⟨n, hn3, ⟨e⟩⟩ := hs.fused.p66.1.1
-  haveI : NeZero (2 ^ (n - 2)) := ⟨by positivity⟩
+  have : NeZero (2 ^ (n - 2)) := ⟨by positivity⟩
   have hm : 2 ≤ 2 ^ (n - 2) := by
     calc 2 = 2 ^ 1 := by norm_num
       _ ≤ 2 ^ (n - 2) := Nat.pow_le_pow_right (by norm_num) (by omega)
@@ -104,7 +104,7 @@ theorem gq_Q₁ (hII : II4_4_4_center) (hs : Setup8 G z S K₁ K₂ W₁ W₂ U 
 theorem gq_Q₂ (hII : II4_4_4_center) (hs : Setup8 G z S K₁ K₂ W₁ W₂ U u h) :
     Basic.GQ (Qof S K₂) z := by
   obtain ⟨n, hn3, ⟨e⟩⟩ := hs.fused.p66.1.2.1
-  haveI : NeZero (2 ^ (n - 2)) := ⟨by positivity⟩
+  have : NeZero (2 ^ (n - 2)) := ⟨by positivity⟩
   have hm : 2 ≤ 2 ^ (n - 2) := by
     calc 2 = 2 ^ 1 := by norm_num
       _ ≤ 2 ^ (n - 2) := Nat.pow_le_pow_right (by norm_num) (by omega)

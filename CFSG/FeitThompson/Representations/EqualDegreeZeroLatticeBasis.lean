@@ -95,7 +95,7 @@ theorem linearIndependent_sub_of_subset_Irr [Finite L] (hS : S ⊆ Irr L) (hχ�
   simp only [h0, hij, sub_zero] at key
   rw [Finset.sum_congr rfl (fun i _ => by rw [mul_ite, mul_one, mul_zero] :
     ∀ i ∈ t, (g i : ℂ) * (if i = j then 1 else 0) = if i = j then (g i : ℂ) else 0),
-    Finset.sum_ite_eq' t j (fun i => (g i : ℂ)), if_pos hj] at key
+    Finset.sum_ite_eq' t j (fun i => (g i : ℂ)), ite_eq_left hj] at key
   exact_mod_cast key
 
 noncomputable def charSpanZeroBasis [Finite L] (hSfin : S.Finite) (hS : S ⊆ Irr L)

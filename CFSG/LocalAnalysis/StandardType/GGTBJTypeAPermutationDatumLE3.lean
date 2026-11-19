@@ -8,7 +8,7 @@ public noncomputable section
 namespace CFSG.StandardType
 
 theorem exists_adapted_typeA_datum_of_supported_permutations_corank
-    {G : Type} [Group G] [Finite G] {p r c : ℕ} [Fact p.Prime] (hrc : 1 ≤ r - c) (hcr : c ≤ r)
+    {G : Type} [Group G] [Finite G] {p r c : ℕ} [Fact p.Prime] (_hrc : 1 ≤ r - c) (hcr : c ≤ r)
     {Bs X J : Subgroup G} {V : Type} [AddCommGroup V] [Module (ZMod p) V]
     (ι : Additive ↥Bs ≃+ V) (ρ : Equiv.Perm (Fin (r + 1)) →* MulAut Bs)
     (hρX : ∀ σ, ρ σ ∈ ggAutomizer X Bs)

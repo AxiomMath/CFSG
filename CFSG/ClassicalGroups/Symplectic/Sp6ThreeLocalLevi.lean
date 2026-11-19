@@ -14,7 +14,7 @@ variable {K : Type} [Field K]
 
 theorem exists_orderOf_eq_specialLinearGroup [Finite K] {p : ℕ} (hp : p.Prime)
     (hpq : p ∣ Nat.card K ^ 2 - 1) : ∃ z : SL(2, K), orderOf z = p := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have : p ∣ Nat.card SL(2, K) := by
     rw [CFSG.SL2MinimalFaithful.card_specialLinearGroup_fin_two]
     exact Dvd.dvd.mul_left hpq _
@@ -39,10 +39,10 @@ theorem leviMat_one : leviMat (1 : SL(2, K)) = 1 := by
   mkSp (fromBlocks M 0 0 Nᵀ) (fromBlocks N 0 0 Mᵀ)
     (by
       rw [fromBlocks_multiply]
-      simp [h₁, ← Matrix.transpose_mul, h₂])
+      simp [h₁, ← Matrix.transpose_mul])
     (by
       rw [fromBlocks_multiply]
-      simp [h₂, ← Matrix.transpose_mul, h₁])
+      simp [h₂, ← Matrix.transpose_mul])
     (by
       rw [fromBlocks_transpose]
       simp only [Matrix.transpose_zero, Matrix.transpose_transpose]
@@ -105,7 +105,7 @@ theorem commute_c₀_point_111_leviSL {s : SL(2, K)} (hs : IsCubeRootBlock s) {�
   rw [e]
   unfold Commute SemiconjBy
   rw [fromBlocks_multiply, fromBlocks_multiply]
-  simp [Matrix.smul_mul, Matrix.mul_smul]
+  simp
 
 theorem dvd_card_centralizer_c₀_weight_three_of_dvd_add_one [Finite K] {s : SL(2, K)}
     (hs : IsCubeRootBlock s) {ω : Kˣ} (hsω : s = cubeRootDiag ω) {p : ℕ} (hp : p.Prime)

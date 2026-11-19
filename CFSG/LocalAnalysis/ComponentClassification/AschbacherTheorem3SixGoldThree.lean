@@ -27,7 +27,7 @@ theorem le_normalizer_component {Y : Type} [Group Y] [Finite Y] {Gb Zb Pb Tb : S
   obtain ⟨Q, hQ⟩ := hPb
   have hQtop : IsSylowOf 2 (Q : Subgroup Gb) ⊤ := by
     rw [isSylowOf_iff, Subgroup.relIndex_top_right]
-    exact ⟨le_top, Q.isPGroup', Q.not_dvd_index⟩
+    exact ⟨le_top, Q.isPGroup, Q.not_dvd_index⟩
   have hQK : IsSylowOf 2 ((Q : Subgroup Gb) ⊓ K) K :=
     hQtop.inf_of_le_normalizer le_top (by rw [Subgroup.normalizer_eq_top])
   have hQKne : (Q : Subgroup Gb) ⊓ K ≠ ⊥ := by
@@ -43,7 +43,7 @@ theorem le_normalizer_component {Y : Type} [Group Y] [Finite Y] {Gb Zb Pb Tb : S
     have := CFSG.LocalCores.isQuasisimple_nontrivial hK'.1
     rw [hle] at this
     exact (not_nontrivial_iff_subsingleton.mpr inferInstance) this
-  have hQK2 : IsPGroup 2 ((Q : Subgroup Gb) ⊓ K : Subgroup Gb) := Q.isPGroup'.to_le inf_le_left
+  have hQK2 : IsPGroup 2 ((Q : Subgroup Gb) ⊓ K : Subgroup Gb) := Q.isPGroup.to_le inf_le_left
   have hdvd : 2 ∣ Nat.card ((Q : Subgroup Gb) ⊓ K : Subgroup Gb) := by
     rcases hQK2.card_eq_or_dvd with h1 | h1
     · exact absurd (Subgroup.card_eq_one.mp h1) hQKne

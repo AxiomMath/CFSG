@@ -60,7 +60,7 @@ theorem lieMap_ιMulti_coe_basis_eq_trace_smul {U : Submodule R M} {d : ℕ}
         b.repr (f.restrict hf (b r)) r • exteriorPower.ιMulti R d (fun i => (b i : M)) := by
     intro r
     have hfr : f (b r : M) = ∑ s, b.repr (f.restrict hf (b r)) s • (b s : M) := by
-      conv_lhs => rw [← LinearMap.restrict_coe_apply f hf (b r),
+      conv_lhs => rw [← (_root_.LinearMap.coe_restrict_apply hf (b r)),
         ← b.sum_repr (f.restrict hf (b r))]
       simp only [Submodule.coe_sum, Submodule.coe_smul]
     rw [hfr, AlternatingMap.map_update_sum]
@@ -175,9 +175,9 @@ theorem map_le_of_lieMap_ιMulti_coe_basis_mem (b : Module.Basis (Fin d) k U) (f
     simp only [π, LinearMap.pi_apply]
     by_cases hj : j = r
     · subst hj
-      rw [Function.update_self, if_pos rfl]
+      rw [Function.update_self, ite_eq_left rfl]
       exact LinearMap.mem_ker.mp (hUl (b s).2)
-    · rw [Function.update_of_ne hj, if_neg hj]
+    · rw [Function.update_of_ne hj, ite_eq_right hj]
       exact extend_coord_apply b hμ s j
   have h0 : Φ (exteriorPower.ιMulti k d (fun i => (b i : V))) = 0 := by
     rw [hΦ]

@@ -23,7 +23,7 @@ section Certs
 theorem perfSubnormalBot_of_pgl {X : Type} [Group X] {C : Subgroup X} {f : ℕ} {π : Bool}
     {F : Type} [Field F] (hPi : Sec4.PiField π 2 f F) (hpar : cond π (Even f) (Odd f))
     (Φ : ↥C ≃* ↥(projImage (Sec4.glPi π 3 (2 ^ f) F))) : PerfSubnormalBot C := by
-  haveI := hPi.finite
+  have := hPi.finite
   by_cases hq2 : 2 < 2 ^ f
   · obtain ⟨Q, hQC, hQcomm, hQs, -, ⟨ι⟩⟩ := Sec8.Hering418.exists_core_of_pgl hPi hq2 Φ
     have hmod : Sec4.ModThree π (2 ^ f) := by
@@ -57,8 +57,8 @@ theorem perfSubnormalBot_of_pgl {X : Type} [Group X] {C : Subgroup X} {f : ℕ} 
       generalize (2 ^ f) ^ 3 * ((2 ^ f) ^ 2 - 1) *
         cond π ((2 ^ f) ^ 3 - 1) ((2 ^ f) ^ 3 + 1) = M at hcardP h9
       omega
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-    haveI : Finite ↥Q := Finite.of_equiv _ ι.symm.toEquiv
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Finite ↥Q := Finite.of_equiv _ ι.symm.toEquiv
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 3 h3
     have hx3 : x ^ 3 = 1 := by rw [← hx]; exact pow_orderOf_eq_one x
     have hx1 : x ≠ 1 := fun h => by simp [h] at hx
@@ -77,7 +77,7 @@ theorem perfSubnormalBot_of_pgl {X : Type} [Group X] {C : Subgroup X} {f : ℕ} 
     cases π with
     | true => exact absurd hpar (by rw [hf1]; decide)
     | false =>
-      haveI : Group.IsSolvable ↥(projImage (Sec4.glPi false 3 (2 ^ f) F)) :=
+      have : Group.IsSolvable ↥(projImage (Sec4.glPi false 3 (2 ^ f) F)) :=
         Sec13.isSolvable_projImage_glPi_two hPi h2
       exact perfSubnormalBot_of_isSolvable
         (Group.isSolvable_of_isSolvable_injective (f := Φ.toMonoidHom) Φ.injective)
@@ -95,6 +95,7 @@ theorem d4_sigma_pow_three (hK : Nat.card K = (2 ^ f) ^ 3) (hσ : ∀ c, σ c = 
   rw [pow_three, RingAut.mul_apply, RingAut.mul_apply]
   exact ringEquiv_cube_apply_eq hK hσ c
 
+omit [Field K] [Finite K] in
 theorem d4_four_le_card (hf : 1 ≤ f) (hK : Nat.card K = (2 ^ f) ^ 3) : 4 ≤ Nat.card K := by
   rw [hK]
   have h2 : 2 ≤ 2 ^ f := by
@@ -105,7 +106,7 @@ theorem d4_four_le_card (hf : 1 ≤ f) (hK : Nat.card K = (2 ^ f) ^ 3) : 4 ≤ N
 
 theorem exists_order_three_d4 (hσ3 : σ ^ 3 = 1) (hK3 : ¬ 3 ∣ Nat.card K) :
     ∃ x ∈ d4ShortSL2 K σ.toRingHom, x ≠ 1 ∧ x ^ 3 = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcard := KS11Lie4Proof.card_d4ShortSL2 (K := K) hσ3
   have h3 : 3 ∣ Nat.card (d4ShortSL2 K σ.toRingHom) := by
     rw [hcard]
@@ -198,8 +199,8 @@ theorem b3Fix_d4_of_outer (hf : 1 ≤ f) (hK : Nat.card K = (2 ^ f) ^ 3)
       (MulEquiv.subgroupCongr (by ext; rfl)).trans ψ
     set Φ := e1.trans e2 with hΦ
     have hcard := card_fixSubfield_of_cube hf hK hσ
-    haveI : CharP K 2 := ringChar.of_eq hK2
-    haveI : CharP (fixSubfield σ) 2 :=
+    have : CharP K 2 := ringChar.of_eq hK2
+    have : CharP (fixSubfield σ) 2 :=
       RingHom.charP (fixSubfield σ).subtype (fixSubfield σ).subtype_injective 2
     have hk₀3 : ringChar (fixSubfield σ) ≠ 3 := by rw [ringChar.eq _ 2]; norm_num
     by_cases hf2 : 2 ≤ f

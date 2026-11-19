@@ -22,7 +22,7 @@ theorem gomi_TwE6_outer_false
       (MonoidHom.id (graphFixedRootGroup TwistTag.E6 F σ.toRingHom))))
     (hL : CFSG.IsComponent L) (hLd : Nat.card L ∣ 51840) : False := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hodd : Odd (p ^ f) := (hp.odd_of_ne_two hp2).pow
   have : CharP F p := LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hp
     (show 1 ≤ f * 2 by omega) (by rw [hF, ← pow_mul])

@@ -34,7 +34,7 @@ theorem v_mem_NHA₂ (h : d.Hyp) : d.v ∈ normalizer (d.A₂ : Set G) ⊓ d.H :
 
 theorem v_mem_XC₀ (h : d.Hyp) : d.v ∈ d.XC₀ := h.NHA₂_le_XC₀ h.v_mem_NHA₂
 
-theorem crossed_inv_conj_of_mem_H (h : d.Hyp) {g : G} (hg : g ∈ d.H) (x : G) :
+theorem crossed_inv_conj_of_mem_H (_h : d.Hyp) {g : G} (hg : g ∈ d.H) (x : G) :
     (g⁻¹ * x * g) * d.t * (g⁻¹ * x * g)⁻¹ * d.t = g⁻¹ * (x * d.t * x⁻¹ * d.t) * g := by
   have e2 : g * d.t = d.t * g := mem_centralizer_singleton_iff.1 hg
   have e1 : g * d.t * g⁻¹ = d.t := by rw [e2]; group
@@ -56,7 +56,7 @@ theorem mem_X₄F_of_mul_mem (h : d.Hyp) {α y : G} (hα : α ∈ d.A₂) (hy : 
   rw [show α = a * (a⁻¹ * α) by group]
   exact mul_mem (mem_sup_left ha) (mem_sup_right hF)
 
-theorem mem_F_of_mem_X₄F_of_conj_v (h : d.Hyp) {α : G} (hα : α ∈ d.A₂) (h1 : α ∈ d.X₄ ⊔ d.F)
+theorem mem_F_of_mem_X₄F_of_conj_v (_h : d.Hyp) {α : G} (hα : α ∈ d.A₂) (h1 : α ∈ d.X₄ ⊔ d.F)
     (h2 : d.v⁻¹ * α * d.v ∈ d.X₄ ⊔ d.F) : α ∈ d.F := by
   obtain ⟨α₀, hα₀, rfl⟩ := hα
   have h1' : α₀ ∈ X₄sub ⊔ Fsub := by
@@ -80,7 +80,7 @@ theorem mem_F_of_mem_X₄F_of_conj_v (h : d.Hyp) {α : G} (hα : α ∈ d.A₂) 
   rw [commutator_Ssub_inf_map_vSU] at hmem
   exact d.ι_mem_pull_iff.2 hmem
 
-theorem D₀_le_R₃ (h : d.Hyp) : d.D₀ ≤ d.R₃ := fun x hx =>
+theorem D₀_le_R₃ (h : d.Hyp) : d.D₀ ≤ d.R₃ := fun _x hx =>
   h.mem_R₃_of_mem_D₂_of_crossed_mem (h.D₀_le_D₂ hx)
     (mem_sup_right (h.crossed_mem_Y_of_mem_D₀ hx))
 
@@ -126,7 +126,7 @@ theorem R₃_inf_conj_inf_D₂ (h : d.Hyp) :
     rw [mem_map_conj_iff]
     exact h.D₀_le_R₃ (h.conj_v_mem_D₀ hx)
 
-theorem D₂_le_centralizer_W (h : d.Hyp) : d.D₂ ≤ centralizer (d.W : Set G) := fun e he =>
+theorem D₂_le_centralizer_W (_h : d.Hyp) : d.D₂ ≤ centralizer (d.W : Set G) := fun _e he =>
   mem_centralizer_iff.2 fun w hw => (mem_D₂_iff.1 he).2 w (d.W_le_Y hw)
 
 theorem S₃_le_S_sup_D₂ (h : d.Hyp) : d.S₃ ≤ d.S ⊔ d.D₂ := by

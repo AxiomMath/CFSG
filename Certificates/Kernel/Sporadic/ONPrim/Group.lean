@@ -49,7 +49,7 @@ theorem lineRegs_one_nq : lineRegs 1 = nqRho h1Word := by
     decide
   rw [CFSG.Sporadic.ONOddCore.lineRegs_one, nqRho, nqEv2, e]
   simp only [Quiver.SchreierGraph.evalWord_cons_true, Quiver.SchreierGraph.evalWord_cons_false,
-    Quiver.SchreierGraph.evalWord_nil, Fin.val_zero, Fin.val_one, if_true, one_ne_zero, if_false]
+    Quiver.SchreierGraph.evalWord_nil, Fin.val_zero, Fin.val_one, ite_true, one_ne_zero, ite_false]
   group
 
 theorem lineRegs_two_nq : lineRegs 2 = nqRho h2Word := by
@@ -60,7 +60,7 @@ theorem lineRegs_two_nq : lineRegs 2 = nqRho h2Word := by
     decide
   rw [CFSG.Sporadic.ONOddCore.lineRegs_two, nqRho, nqEv2, e]
   simp only [Quiver.SchreierGraph.evalWord_cons_true, Quiver.SchreierGraph.evalWord_cons_false,
-    Quiver.SchreierGraph.evalWord_nil, Fin.val_zero, Fin.val_one, if_true, one_ne_zero, if_false]
+    Quiver.SchreierGraph.evalWord_nil, Fin.val_zero, Fin.val_one, ite_true, one_ne_zero, ite_false]
   group
 
 theorem TT_two (x : Fin nL) : TT 2 x = (lineRegs 1 x : ℕ) := by

@@ -453,7 +453,7 @@ theorem l2pri_pRank_le_two_of_cubic {M : Type} [Group M] [Finite M] {p : ℕ} (h
   have hsyl : ∀ (R : Sylow p M) (F : Subgroup M), F ≤ (R : Subgroup M) → Nat.card F = p ^ 3 →
       F = (R : Subgroup M) := by
     intro R F hFR hF
-    obtain ⟨m, hm⟩ := IsPGroup.exists_card_eq (G := ↥(R : Subgroup M)) R.isPGroup'
+    obtain ⟨m, hm⟩ := IsPGroup.exists_card_eq (G := ↥(R : Subgroup M)) R.isPGroup
     have h1 : p ^ 3 ∣ p ^ m := by
       rw [← hm, ← hF]
       exact Subgroup.card_dvd_of_le hFR
@@ -1304,7 +1304,7 @@ theorem l2cr_fixed_pelement {C : Type} [Group C] [Finite C] {p : ℕ} (hp : p.Pr
   obtain ⟨⟨z, hz⟩, hz1⟩ := exists_ne (⟨1, hone⟩ : Function.fixedPoints g)
   have hzne : (z : C) ≠ 1 := fun h => hz1 (Subtype.ext (Subtype.ext h))
   have hzτ : τ (z : C) = z := congrArg Subtype.val hz
-  obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 P.isPGroup') z
+  obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 P.isPGroup) z
   have hk1 : k ≠ 0 := by
     rintro rfl
     exact hzne (orderOf_eq_one_iff.1 (by rw [Subgroup.orderOf_coe, hk]; simp))

@@ -60,7 +60,7 @@ theorem card_monomialSubgroup :
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe torusGroup_le_monomialSubgroup).toEquiv
   have h3 : Nat.card (weylQuotientHom Tag.E8 K).range = 696729600 := by
     rw [MonoidHom.range_eq_top_of_surjective _ (weylQuotientHom_surjective K), Subgroup.card_top]
-    haveI : Fintype (WeylGroup Tag.E8) := Fintype.ofFinite _
+    have : Fintype (WeylGroup Tag.E8) := Fintype.ofFinite _
     exact (CFSG.RankThree.Chevalley.E8_weyl_length_polynomial).2
   rw [h2, h3, card_torusGroup K] at h1
   exact h1.symm
@@ -85,7 +85,7 @@ theorem factorization_card_monomialN (h5 : 5 ∣ Nat.card K - 1) :
 
 theorem exists_conj_into_monomialN (h5 : 5 ∣ Nat.card K - 1) {Q : Subgroup (adjointGroup Tag.E8 K)}
     (hQ : IsPGroup 5 Q) : ∃ c : adjointGroup Tag.E8 K, ∀ x ∈ Q, c * x * c⁻¹ ∈ monomialN K := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   exact Four.exists_conj_le_of_factorization_eq
     5 (monomialN K) (factorization_card_monomialN K h5) hQ
 
@@ -129,13 +129,13 @@ theorem e8Five_exp_injective :
   exact Prod.ext (Fin.ext hi') (Fin.ext hj')
 
 theorem card_sylowW : Nat.card sylowW = 25 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   exact card_closure_pair (p := 5) e8Five_comm e8FiveG1_pow e8FiveG2_pow e8Five_exp_injective
 
 theorem exists_conj_le_sylowW {R : Subgroup (WeylGroup Tag.E8)} (hR : IsPGroup 5 R) :
     ∃ x : WeylGroup Tag.E8, ∀ r ∈ R, x * r * x⁻¹ ∈ sylowW := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Fintype (WeylGroup Tag.E8) := Fintype.ofFinite _
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fintype (WeylGroup Tag.E8) := Fintype.ofFinite _
   refine Four.exists_conj_le_of_factorization_eq 5 sylowW ?_ hR
   rw [card_sylowW, (CFSG.RankThree.Chevalley.E8_weyl_length_polynomial).2,
     CFSG.RankThree.PartOne.KE8F.factorization_five, show (25 : ℕ) = 5 ^ 2 by norm_num,

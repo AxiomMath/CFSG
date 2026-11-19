@@ -58,9 +58,9 @@ private theorem phi_single (m : Fin 6) (x : V) :
     phi b v (Matrix.single m m 1) x = x + b x (v m) • v m := by
   simp only [phi, Matrix.single_mulVec_eq, one_mul, Pi.smul_apply, Pi.single_apply, smul_eq_mul,
     mul_ite, mul_one, mul_zero, ite_smul, zero_smul, Finset.sum_ite_eq', Finset.mem_univ,
-    if_true]
+    ite_true]
 
-private theorem phi_commute (hv : ∀ i j, b (v i) (v j) = gramSix i j)
+private theorem phi_commute (_hv : ∀ i j, b (v i) (v j) = gramSix i j)
     (A : Matrix (Fin 6) (Fin 6) (ZMod 2)) (g : V →ₗ[ZMod 2] V)
     (hg : ∀ x y, b (g x) (g y) = b x y) (hgv : ∀ i, g (v i) = v i) (x : V) :
     phi b v A (g x) = g (phi b v A x) := by
@@ -185,7 +185,7 @@ theorem exists_isometry_orderOf_seven (hb : b.IsAlt) (e f : Fin 3 → V)
     ∃ T : V ≃ₗ[ZMod 2] V, T ∈ TauCeti.BilinForm.isometryGroup b ∧ orderOf T = 7 ∧
       ∀ g : V →ₗ[ZMod 2] V, (∀ x y, b (g x) (g y) = b x y) → (∀ i, g (e i) = e i) →
         (∀ i, g (f i) = f i) → ∀ x, T (g x) = g (T x) := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hv := chain_gram hb hee hff hef
   refine ⟨tT hb (chain e f), ?_, ?_, ?_⟩
   · have h := tv_mem (b := b) hb

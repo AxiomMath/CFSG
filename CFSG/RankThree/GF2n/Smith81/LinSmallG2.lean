@@ -57,7 +57,7 @@ theorem exists_fixed_vec_of_comm_mem {K : Type} [Field K]
     ∃ u : Fin 2 → K, u ≠ 0 ∧ act (φ s) *ᵥ u = u := by
   classical
   obtain ⟨hSV, hN, ψ, hψ⟩ := hs
-  letI := hN
+  let := hN
   have hcomm' : ⁅(s : G), v⁆ ∈ Z := by
     rw [← commutatorElement_inv]
     exact Z.inv_mem hcomm
@@ -136,10 +136,10 @@ theorem pCoreOf_Lgen_le_Q [Finite G]
   classical
   set L := Lgen M (LB M Q B) with hLdef
   obtain ⟨K, hKfield, hKfin, hKcard, φ, hrange, hker, -⟩ := hS
-  letI := hKfield
-  letI := hKfin
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := f) (by
+  let := hKfield
+  let := hKfin
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := f) (by
     rw [← Nat.card_eq_fintype_card, hKcard, hf])
   have hK4 : 4 ≤ Nat.card K := by rw [hKcard]; exact hc.hyp.q4
   let P : Subgroup L := pCore 2 L
@@ -153,7 +153,7 @@ theorem pCoreOf_Lgen_le_Q [Finite G]
     obtain ⟨s, hs⟩ := hy
     exact ⟨s, Subtype.ext (by simpa [φ'] using hs)⟩
   have hPnorm : (P.map φ').Normal := Subgroup.Normal.map pCore_normal φ' hφ'surj
-  haveI := hPnorm
+  have := hPnorm
   have hP2 : IsPGroup 2 (P.map φ') :=
     IsPGroup.map (pCore_isPGroup (p := 2) (G := L)) φ'
   have hbot := normal_pGroup_statedSL_eq_bot (k := 2) (by norm_num) hK4
@@ -228,10 +228,10 @@ theorem _root_.CFSG.RankThree.GF2n.Smith81.LinSetup.mem_Z_of_orderOf_three [Fini
     obtain ⟨-, -, -, -, -, -, hN₁, hN₂, -, -⟩ := hS.basic
     obtain ⟨K, hKfield, hKfin, hKcard, φ, hrange, hker, hZV₁, hV₁Q, hZV₂, hV₂Q, hint,
       hsup, hs₁, hs₂, hswap, hcent⟩ := hS
-    letI := hKfield
-    letI := hKfin
-    haveI : Fintype K := Fintype.ofFinite K
-    haveI : CharP K 2 := by
+    let := hKfield
+    let := hKfin
+    have : Fintype K := Fintype.ofFinite K
+    have : CharP K 2 := by
       obtain ⟨f, -, hf, -⟩ := hc.hyp.cp
       exact charP_of_card_eq_prime_pow (p := 2) (f := f) (by
         rw [← Nat.card_eq_fintype_card, hKcard, hf])

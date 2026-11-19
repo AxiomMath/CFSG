@@ -9,10 +9,10 @@ namespace CFSG.LocalAnalysis.UniquenessCase.PartOne.Theorem82E3
 
 theorem card_le_three_of_isPGroup_mulAut {T : Type*} [Group T] [Finite T] (hT : Nat.card T = 9)
     {Q : Subgroup (MulAut T)} (hQ : IsPGroup 3 Q) : Nat.card Q ≤ 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcard : Nat.card T = 3 ^ 2 := by rw [hT]; norm_num
   by_cases hcyc : IsCyclic T
-  · haveI : IsCyclic T := hcyc
+  · have : IsCyclic T := hcyc
     have hdvd : Nat.card Q ∣ 6 := by
       have h : Nat.card Q ∣ Nat.card (MulAut T) := Subgroup.card_subgroup_dvd_card Q
       rwa [IsCyclic.card_mulAut T, hT, show Nat.totient 9 = 6 by decide] at h
@@ -28,7 +28,7 @@ theorem card_le_three_of_isPGroup_mulAut {T : Type*} [Group T] [Finite T] (hT : 
       norm_num at h96
     calc 3 ^ n ≤ 3 ^ 1 := Nat.pow_le_pow_right (by norm_num) hnle
       _ = 3 := by norm_num
-  · haveI : Nontrivial T := by
+  · have : Nontrivial T := by
       rw [← not_subsingleton_iff_nontrivial]
       intro hsub
       have h1 : Nat.card T ≤ 1 := Finite.card_le_one_iff_subsingleton.mpr hsub
@@ -53,10 +53,10 @@ private lemma isSylowOf_inf_of_normal {L : Subgroup X} (hLn : L.Normal) (R : Syl
     CFSG.ABGLocalTools.IsSylowOf 3 ((R : Subgroup X) ⊓ L) L ∧
       (R : Subgroup X) ≤
         Subgroup.normalizer (((R : Subgroup X) ⊓ L : Subgroup X) : Set X) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hRsyl : CFSG.ABGLocalTools.IsSylowOf 3 (R : Subgroup X) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    exact ⟨le_top, R.isPGroup', by simpa using R.not_dvd_index⟩
+    exact ⟨le_top, R.isPGroup, by simpa using R.not_dvd_index⟩
   have hTsyl : CFSG.ABGLocalTools.IsSylowOf 3 ((R : Subgroup X) ⊓ L) L :=
     CFSG.ABGLocalTools.IsSylowOf.inf_of_le_normalizer hRsyl le_top
       (by rw [Subgroup.normalizer_eq_top_iff.mpr hLn])
@@ -65,7 +65,7 @@ private lemma isSylowOf_inf_of_normal {L : Subgroup X} (hLn : L.Normal) (R : Syl
   have hsub : ((R : Subgroup X) ⊓ L).subgroupOf (R : Subgroup X) =
       L.subgroupOf (R : Subgroup X) := by
     ext x
-    simp [Subgroup.mem_inf, and_comm]
+    simp
   have hN : (((R : Subgroup X) ⊓ L).subgroupOf (R : Subgroup X)).Normal := by
     rw [hsub]
     exact hLn.subgroupOf (R : Subgroup X)
@@ -74,7 +74,7 @@ private lemma isSylowOf_inf_of_normal {L : Subgroup X} (hLn : L.Normal) (R : Syl
 private lemma card_eq_nine_of_isSylowOf {L : Subgroup X} {T : Subgroup X}
     (hTsyl : CFSG.ABGLocalTools.IsSylowOf 3 T L)
     (h9 : 9 ∣ Nat.card L) (h27 : ¬ 27 ∣ Nat.card L) : Nat.card T = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hfac : Nat.card ↥T = 3 ^ (Nat.card ↥L).factorization 3 := hTsyl.card_eq
   have h9' : 3 ^ 2 ∣ Nat.card ↥L := by
     rw [show 3 ^ 2 = 9 by norm_num]
@@ -93,11 +93,12 @@ private lemma card_eq_nine_of_isSylowOf {L : Subgroup X} {T : Subgroup X}
   rw [hfac, le_antisymm hle2 hge2]
   norm_num
 
+omit [Finite X] in
 private lemma exists_sylow_ne_bot_isMulCommutative {L : Subgroup X} {T : Subgroup X}
     (hTsyl : CFSG.ABGLocalTools.IsSylowOf 3 T L) (hTcard : Nat.card T = 9) :
     ∃ P : Sylow 3 ↥L, (P : Subgroup ↥L) = T.subgroupOf L ∧
       (P : Subgroup ↥L) ≠ ⊥ ∧ IsMulCommutative (P : Subgroup ↥L) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P, hP⟩ := hTsyl.exists_sylow_eq_subgroupOf
   have hPcard : Nat.card ↥(P : Subgroup ↥L) = 9 := by
     rw [hP]
@@ -117,6 +118,7 @@ private lemma exists_sylow_ne_bot_isMulCommutative {L : Subgroup X} {T : Subgrou
     norm_num at h1
   exact ⟨P, hP, hPne, hPcomm⟩
 
+omit [Finite X] in
 private lemma conjNormal_pow_three_and_commute {L : Subgroup X} (hLn : L.Normal)
     {T : Subgroup X} {P : Sylow 3 ↥L} (hP : (P : Subgroup ↥L) = T.subgroupOf L)
     {R : Sylow 3 X} {r : X} (hrR : r ∈ (R : Subgroup X))
@@ -124,9 +126,9 @@ private lemma conjNormal_pow_three_and_commute {L : Subgroup X} (hLn : L.Normal)
     (∃ n : ℕ, (MulAut.conjNormal (H := L) r) ^ (3 ^ n) = 1) ∧
       ∀ g ∈ (P : Subgroup ↥L), MulAut.conjNormal (H := L) r * MulAut.conj g =
         MulAut.conj g * MulAut.conjNormal (H := L) r := by
-  haveI : L.Normal := hLn
+  have : L.Normal := hLn
   constructor
-  · obtain ⟨n, hn⟩ := R.isPGroup' ⟨r, hrR⟩
+  · obtain ⟨n, hn⟩ := R.isPGroup ⟨r, hrR⟩
     refine ⟨n, ?_⟩
     have hrpow : r ^ (3 ^ n) = 1 := by simpa using hn
     rw [← map_pow, hrpow, map_one]
@@ -145,11 +147,12 @@ private lemma conjNormal_pow_three_and_commute {L : Subgroup X} (hLn : L.Normal)
       _ = MulAut.conj g * MulAut.conjNormal (H := L) r := by
           rw [← MulAut.conjNormal_val]
 
+omit [Finite X] in
 private lemma inv_mul_mem_centralizer_of_conjNormal_eq {L : Subgroup X} (hLn : L.Normal)
     {r : X} {g₀ : ↥L}
     (hφg : MulAut.conjNormal (H := L) r = MulAut.conj g₀) :
     (g₀ : X)⁻¹ * r ∈ Subgroup.centralizer (L : Set X) := by
-  haveI : L.Normal := hLn
+  have : L.Normal := hLn
   rw [Subgroup.mem_centralizer_iff]
   intro y hy
   have hφy : MulAut.conjNormal (H := L) r ⟨y, hy⟩ = MulAut.conj g₀ ⟨y, hy⟩ := by
@@ -168,7 +171,7 @@ private lemma mem_of_commute (hIA : RankThreeTheoremC.KFactInnerAction)
     {T : Subgroup X} (hTsyl : CFSG.ABGLocalTools.IsSylowOf 3 T L) (hTcard : Nat.card T = 9)
     {R : Sylow 3 X} {r : X} (hrR : r ∈ (R : Subgroup X))
     (hrC : ∀ t ∈ T, r * t = t * r) : r ∈ T := by
-  haveI : L.Normal := hLn
+  have : L.Normal := hLn
   obtain ⟨P, hP, hPne, hPcomm⟩ :=
     exists_sylow_ne_bot_isMulCommutative hTsyl hTcard
   obtain ⟨hφ, hcomm⟩ := conjNormal_pow_three_and_commute hLn hP hrR hrC
@@ -201,9 +204,9 @@ private lemma conjAction_ker (hIA : RankThreeTheoremC.KFactInnerAction)
     (hTcard : Nat.card T = 9) (R : Sylow 3 X)
     (hTN : (R : Subgroup X) ≤ Subgroup.normalizer (T : Set X)) :
     (conjAction R T hTN).ker = T.subgroupOf (R : Subgroup X) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hTcomm : ∀ a b : ↥T, a * b = b * a :=
-    IsPGroup.commutative_of_card_eq_prime_sq (p := 3) (by rw [hTcard]; norm_num)
+    (IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3) (by rw [hTcard]; norm_num)).is_comm.comm
   ext r
   rw [MonoidHom.mem_ker, Subgroup.mem_subgroupOf]
   constructor
@@ -233,7 +236,7 @@ private lemma card_le_twentyseven_of_conjAction {T : Subgroup X} (hTcard : Nat.c
     (R : Sylow 3 X) (hTN : (R : Subgroup X) ≤ Subgroup.normalizer (T : Set X))
     (hker : Nat.card ↥(conjAction R T hTN).ker = 9) : Nat.card ↥R ≤ 27 := by
   have hrange : IsPGroup 3 (conjAction R T hTN).range := by
-    have htop : IsPGroup 3 (⊤ : Subgroup ↥R) := R.isPGroup'.to_subgroup ⊤
+    have htop : IsPGroup 3 (⊤ : Subgroup ↥R) := R.isPGroup.to_subgroup ⊤
     have hmap := IsPGroup.map htop (conjAction R T hTN)
     rwa [Subgroup.map_top] at hmap
   have hle3 : Nat.card ↥(conjAction R T hTN).range ≤ 3 :=
@@ -247,7 +250,7 @@ private lemma card_le_twentyseven_of_conjAction {T : Subgroup X} (hTcard : Nat.c
 private lemma not_eightyone_dvd_card_of_card_le {R : Sylow 3 X}
     (hRle : Nat.card ↥R ≤ 27) : ¬ 81 ∣ Nat.card X := by
   intro h81
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hRcard : Nat.card ↥R = 3 ^ (Nat.card X).factorization 3 :=
     Sylow.card_eq_multiplicity R
   have h81' : 3 ^ 4 ∣ Nat.card X := by
@@ -271,8 +274,8 @@ theorem not_eightyone_dvd_card_of_innerAction (hIA : RankThreeTheoremC.KFactInne
     ¬ 81 ∣ Nat.card X := by
   classical
   intro h81
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : L.Normal := hLn
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : L.Normal := hLn
   obtain ⟨R⟩ := Sylow.nonempty (p := 3) (G := X)
   obtain ⟨hTsyl, hTN⟩ := isSylowOf_inf_of_normal hLn R
   set T : Subgroup X := (R : Subgroup X) ⊓ L with hTdef

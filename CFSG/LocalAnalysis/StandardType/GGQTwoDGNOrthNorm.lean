@@ -49,14 +49,17 @@ variable {Φ : OrthFrameCore p Bs X} [Algebra Φ.F 𝔽₄] (N : OrthNormData Φ
     (Φ.V ≃ₗ[Φ.F] Φ.V) ≃* ((Fin Φ.r → 𝔽₄) ≃ₗ[Φ.F] (Fin Φ.r → 𝔽₄)) :=
   LinearEquiv.autCongr N.χ
 
+omit [Fact (Nat.Prime p)] in
 theorem OrthNormData.cχ_apply (g : Φ.V ≃ₗ[Φ.F] Φ.V) (u : Fin Φ.r → 𝔽₄) :
     N.cχ g u = N.χ (g (N.χ.symm u)) := by
   simp [OrthNormData.cχ, LinearEquiv.autCongr_apply]
 
+omit [Fact (Nat.Prime p)] in
 theorem OrthNormData.cχ_symm_apply (g : (Fin Φ.r → 𝔽₄) ≃ₗ[Φ.F] (Fin Φ.r → 𝔽₄)) (v : Φ.V) :
     N.cχ.symm g v = N.χ.symm (g (N.χ v)) :=
   LinearEquiv.autCongr_symm_apply_apply N.χ g v
 
+omit [Fact p.Prime] in
 theorem OrthNormData.cχ_mem_iff (g : Φ.V ≃ₗ[Φ.F] Φ.V) :
     N.cχ g ∈ TauCeti.QuadraticMap.orthogonalGroup (Qn N.E Φ.r) ↔
       g ∈ TauCeti.QuadraticMap.orthogonalGroup Φ.Q := by
@@ -69,6 +72,7 @@ theorem OrthNormData.cχ_mem_iff (g : Φ.V ≃ₗ[Φ.F] Φ.V) :
   · intro h u
     rw [N.cχ_apply, N.hχQ, h, ← N.hχQ, LinearEquiv.apply_symm_apply]
 
+omit [Fact p.Prime] in
 theorem OrthNormData.cχ_tau (g : Fin Φ.r → Multiplicative (ZMod p)) :
     N.cχ (Φ.Δ.τ g) = diagHom Φ.F σ₂ Φ.r (fun i => N.ζ ^ (toAdd (g i)).val) := by
   apply LinearEquiv.ext
@@ -79,20 +83,24 @@ theorem OrthNormData.cχ_tau (g : Fin Φ.r → Multiplicative (ZMod p)) :
   (N.cχ.symm : ((Fin Φ.r → 𝔽₄) ≃ₗ[Φ.F] (Fin Φ.r → 𝔽₄)) ≃* (Φ.V ≃ₗ[Φ.F] Φ.V)).toMonoidHom.comp
     (suEndN (F := Φ.F) σ₂ Φ.r)
 
+omit [Fact (Nat.Prime p)] in
 theorem OrthNormData.cχ_rep (g : Su 𝔽₄ 2 1 Φ.r) :
     N.cχ (N.rep g) = suEndN (F := Φ.F) σ₂ Φ.r g := by
   simp [OrthNormData.rep]
 
+omit [Fact p.Prime] in
 theorem OrthNormData.rep_apply (g : Su 𝔽₄ 2 1 Φ.r) (v : Φ.V) :
     N.rep g v = N.χ.symm (g • N.χ v) := by
   rw [OrthNormData.rep, MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, N.cχ_symm_apply,
     suEndN_apply]
 
+omit [Fact p.Prime] in
 theorem OrthNormData.rep_mem_orth (g : Su 𝔽₄ 2 1 Φ.r) :
     N.rep g ∈ TauCeti.QuadraticMap.orthogonalGroup Φ.Q := by
   rw [← N.cχ_mem_iff, N.cχ_rep]
   exact suEndN_mem_orthogonalGroup N.E Φ.r g
 
+omit [Fact p.Prime] in
 theorem OrthNormData.rep_range_le (hr : 4 ≤ Φ.r) : N.rep.range ≤ orthDerived Φ.Q := by
   have hperf : commutator (Su 𝔽₄ 2 1 Φ.r) = ⊤ :=
     Group.isPerfect_def.mp (isPerfect_su_two (F := 𝔽₄) (by simpa using qTwoD_card_gf4) hr)
@@ -107,6 +115,7 @@ theorem OrthNormData.rep_range_le (hr : 4 ≤ Φ.r) : N.rep.range ≤ orthDerive
     _ ≤ ⁅TauCeti.QuadraticMap.orthogonalGroup Φ.Q, TauCeti.QuadraticMap.orthogonalGroup Φ.Q⁆ :=
         Subgroup.commutator_mono hO hO
 
+omit [Fact (Nat.Prime p)] in
 theorem OrthNormData.herm_eq_one {u : Fin Φ.r → 𝔽₄} (h : Qn N.E Φ.r u = 1) :
     herm σ₂ u u = 1 := by
   have h1 := algebraMap_Qn N.E Φ.r u
@@ -115,6 +124,7 @@ theorem OrthNormData.herm_eq_one {u : Fin Φ.r → 𝔽₄} (h : Qn N.E Φ.r u =
     _ = ∑ i, u i * σ₂ (u i) := Finset.sum_congr rfl fun i _ => mul_comm _ _
     _ = 1 := h1.symm
 
+omit [Fact p.Prime] in
 theorem OrthNormData.exists_su_smul_eq (hr : 4 ≤ Φ.r) {u u' : Fin Φ.r → 𝔽₄}
     (hu : Qn N.E Φ.r u = 1) (hu' : Qn N.E Φ.r u' = 1) :
     ∃ t : Su 𝔽₄ 2 1 Φ.r, t • u = u' := by
@@ -131,10 +141,10 @@ variable {Φ : OrthFrameCore p Bs X} [Algebra Φ.F 𝔽₄] (N : OrthNormData Φ
 
 private theorem qtg_pow_val_neg {M : Type*} [Group M] {ζ : M} (hζ : ζ ^ p = 1) (a : ZMod p) :
     ζ ^ ((-a).val) = (ζ ^ a.val)⁻¹ := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   rcases eq_or_ne a 0 with rfl | ha
   · simp
-  · rw [ZMod.neg_val, if_neg ha]
+  · rw [ZMod.neg_val, ite_eq_right ha]
     have hlt : a.val < p := ZMod.val_lt a
     have hsum : p - a.val + a.val = p := Nat.sub_add_cancel (Nat.le_of_lt hlt)
     have h1 : ζ ^ (p - a.val) * ζ ^ a.val = 1 := by
@@ -150,9 +160,11 @@ private theorem qtg_sigma_eq_inv {K : Type*} [Field K] {σ : K ≃+* K} (u : nor
 @[expose] noncomputable def OrthNormData.tauV (i : Fin Φ.r) : Φ.V ≃ₗ[Φ.F] Φ.V :=
   N.cχ.symm (tauAt N.E i)
 
+omit [Fact (Nat.Prime p)] in
 theorem OrthNormData.cχ_tauV (i : Fin Φ.r) : N.cχ (N.tauV i) = tauAt N.E i :=
   N.cχ.apply_symm_apply _
 
+omit [Fact p.Prime] in
 theorem OrthNormData.tauV_mem_orth (i : Fin Φ.r) :
     N.tauV i ∈ TauCeti.QuadraticMap.orthogonalGroup Φ.Q := by
   rw [← N.cχ_mem_iff, N.cχ_tauV]
@@ -178,9 +190,9 @@ theorem OrthNormData.tauV_conj_tau (i : Fin Φ.r) (f : Fin Φ.r → Multiplicati
   funext j
   by_cases hj : j = i
   · simp only [LinearEquiv.mul_apply, diagHom_apply, tauAt_apply, hj, Function.update_self,
-      if_true, map_mul, N.E.isUnitary.invol, qtg_sigma_eq_inv]
+      ite_true, map_mul, N.E.isUnitary.invol, qtg_sigma_eq_inv]
   · simp only [LinearEquiv.mul_apply, diagHom_apply, tauAt_apply, Function.update_of_ne hj,
-      if_false, if_neg hj]
+      ite_eq_right hj]
 
 end Twist
 

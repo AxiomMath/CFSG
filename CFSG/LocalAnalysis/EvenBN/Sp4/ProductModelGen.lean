@@ -22,6 +22,7 @@ open CFSG.LocalAnalysis.EvenBN.Sp4.BothTrivialProductAxis
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] in
 theorem rootA_le_antiUnipotent (i : Axis) : rootA K i ≤ antiUnipotent K := by
   cases i
   · exact radA1_le_antiUnipotent
@@ -75,6 +76,7 @@ theorem dElt_eq_sHom_mul (l : Kˣ) :
   ext i j
   fin_cases i <;> fin_cases j <;> simp [dMat, sMat, Matrix.mul_apply, Fin.sum_univ_four]
 
+omit [Finite K] [CharP K 2] in
 theorem firstCol_inv_mul {g q : antiSp K} {c : K} (h : ∀ j, mat g j 0 = c * mat q j 0) :
     FirstCol (q⁻¹ * g) := by
   have key : ∀ i, mat (q⁻¹ * g) i 0 = c * (1 : Matrix (Fin 4) (Fin 4) K) i 0 := fun i => by
@@ -86,6 +88,7 @@ theorem firstCol_inv_mul {g q : antiSp K} {c : K} (h : ∀ j, mat g j 0 = c * ma
     exact Finset.sum_congr rfl fun j _ => by rw [h j]; ring
   exact ⟨by rw [key]; simp, by rw [key]; simp, by rw [key]; simp⟩
 
+omit [Finite K] [CharP K 2] in
 theorem mem_of_firstCol_proportional {H : Subgroup (antiSp K)} (hH : ∀ g, FirstCol g → g ∈ H)
     {g q : antiSp K} (hq : q ∈ H) (c : K) (h : ∀ j, mat g j 0 = c * mat q j 0) : g ∈ H := by
   have := mul_mem hq (hH _ (firstCol_inv_mul h))
@@ -120,15 +123,15 @@ theorem rootC_sup_rootC (hK : 4 ≤ Nat.card K) : rootC K Axis.one ⊔ rootC K A
           (q := uElt (mat g 0 0 / mat g 1 0) 0 0 0 * weylElt K Axis.one)
           (mul_mem (hA2 ⟨_, 0, 0, rfl⟩) (hW Axis.one)) (mat g 1 0) ?_
         intro j
-        fin_cases j <;> simp [mat_mul, mat, weylElt, glMat_uElt, weylMat, uMat, Matrix.mul_apply,
-          Fin.sum_univ_four, h2, h3] <;> field_simp
+        fin_cases j <;> simp [mat, weylElt, glMat_uElt, weylMat, uMat, Matrix.mul_apply,
+          Fin.sum_univ_four, h2, h3]; field_simp
     ·
       refine mem_of_firstCol_proportional hline
         (q := uElt 0 (mat g 0 0 / mat g 2 0) 0 (mat g 1 0 / mat g 2 0) *
           (weylElt K Axis.two * weylElt K Axis.one))
         (mul_mem (hA1 ⟨_, 0, _, rfl⟩) (mul_mem (hW Axis.two) (hW Axis.one))) (mat g 2 0) ?_
       intro j
-      fin_cases j <;> simp [mat_mul, mat, weylElt, glMat_uElt, weylMat, uMat, Matrix.mul_apply,
+      fin_cases j <;> simp [mat, weylElt, glMat_uElt, weylMat, uMat, Matrix.mul_apply,
         Fin.sum_univ_four, h3] <;> field_simp
   ·
     refine mem_of_firstCol_proportional hline
@@ -137,7 +140,7 @@ theorem rootC_sup_rootC (hK : 4 ≤ Nat.card K) : rootC K Axis.one ⊔ rootC K A
       (mul_mem (hA2 ⟨_, _, _, rfl⟩) (mul_mem (mul_mem (hW Axis.one) (hW Axis.two)) (hW Axis.one)))
       (mat g 3 0) ?_
     intro j
-    fin_cases j <;> simp [mat_mul, mat, weylElt, glMat_uElt, weylMat, uMat, Matrix.mul_apply,
+    fin_cases j <;> simp [mat, weylElt, glMat_uElt, weylMat, uMat, Matrix.mul_apply,
       Fin.sum_univ_four] <;> field_simp
 
 end ProductModel

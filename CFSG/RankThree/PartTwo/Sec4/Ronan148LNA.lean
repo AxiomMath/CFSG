@@ -21,6 +21,7 @@ section Core
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem not_normalizer_le_of_e27Move {S : Type} [Group S] {L A : Subgroup G} (φ : L ≃* S)
     (hmove : E27Move S) (hAL : A ≤ L) (hA : Late.IsE27 A) {c : G} (hcA : c ∈ A) (hc1 : c ≠ 1) :
     ¬ Subgroup.normalizer (A : Set G) ≤ Subgroup.normalizer (Subgroup.zpowers c : Set G) := by
@@ -50,7 +51,7 @@ theorem eq_one_of_mem_centralizer_of_rank (h3 : CFSG.Open.pRank 3 (⊤ : Subgrou
     {L E : Subgroup G} (hZ : ∀ x ∈ L, x ∈ Subgroup.centralizer (L : Set G) → x = 1)
     (hEL : E ≤ L) (hE : Late.IsE27 E) {w : G} (hw : w ∈ Subgroup.centralizer (L : Set G))
     (hw3 : w ^ 3 = 1) : w = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hw1
   have hW : CFSG.Assembly.IsElemAbelian 3 (Subgroup.zpowers w) :=
     CFSG.RankThree.PartTwo.Sec13.isElemAbelian_zpowers hw3
@@ -82,7 +83,7 @@ section Row
 theorem center_eq_bot_of_noThreeCover {G : Type} [Group G] [Finite G] {S : Type} [Group S]
     (h3 : NoThreeCover S) (hθ : aschbacherSolvableCore 3 G = ⊥) {L : Subgroup G}
     (hL : IsComponent L) (eL : L ⧸ Subgroup.center L ≃* S) : Subgroup.center L = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, hk⟩ := (RonanK429.isPGroup_center_of_isComponent hθ hL).exists_card_eq
   have hn3 : ¬ 3 ∣ Nat.card (Subgroup.center L) :=
     h3 L (HardMathSupport.Solomon.Coordinator.LieSemisimple.open_isQuasisimple hL.1) ⟨eL⟩

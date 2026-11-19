@@ -14,9 +14,9 @@ variable {X : Type} [Group X] [Finite X]
 
 theorem k37b_inf_primeCore_eq_bot {K E S : Subgroup X} (h : K37Setting X K E S) :
     K ⊓ GLAPPrimeCore 3 X = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set R := GLAPPrimeCore 3 X
-  haveI hRn : R.Normal := GLAPPrimeCore.normal 3 X
+  have hRn : R.Normal := GLAPPrimeCore.normal 3 X
   have hN : (R.subgroupOf K).Normal := hRn.subgroupOf K
   have hcopR : Nat.Coprime 3 (Nat.card R) := CFSG.pPrimeCore_coprime_card
   have hcop : Nat.Coprime 3 (Nat.card (R.subgroupOf K)) := by
@@ -35,7 +35,7 @@ theorem k37b_mem_centralizer_of_map {K E S : Subgroup X} (h : K37Setting X K E S
       Subgroup.centralizer ((K.map (QuotientGroup.mk' (GLAPPrimeCore 3 X)) : Subgroup _) :
         Set (X ⧸ GLAPPrimeCore 3 X))) :
     x ∈ Subgroup.centralizer (K : Set X) := by
-  haveI hRn : (GLAPPrimeCore 3 X).Normal := GLAPPrimeCore.normal 3 X
+  have hRn : (GLAPPrimeCore 3 X).Normal := GLAPPrimeCore.normal 3 X
   set π := QuotientGroup.mk' (GLAPPrimeCore 3 X)
   rw [Subgroup.mem_centralizer_iff]
   intro k hk
@@ -57,9 +57,9 @@ theorem k37b_quot {K E S : Subgroup X} (h : K37Setting X K E S) (h3 : 3 ∣ Nat.
       CFSG.Open.IsKGroup Y ∧ GLAPPrimeCore 3 Y = ⊥ ∧ GLAPComponent 3 ⊤ K' ∧ IsSCp 3 ⊤ B' ∧
       B' ≤ Subgroup.normalizer (K' : Set Y) ∧ 9 ≤ autOrderIn B' K' ∧
       (IsStronglyBalancedIn 3 B' K' → S ≤ Subgroup.centralizer (K : Set X)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨B, hB, hEB, hBS⟩ := k37b_exists_scp h
-  haveI hRn : (GLAPPrimeCore 3 X).Normal := GLAPPrimeCore.normal 3 X
+  have hRn : (GLAPPrimeCore 3 X).Normal := GLAPPrimeCore.normal 3 X
   set π := QuotientGroup.mk' (GLAPPrimeCore 3 X)
   have hKR := k37b_inf_primeCore_eq_bot h
   have hψ : Function.Injective (π.comp K.subtype) := by

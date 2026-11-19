@@ -133,7 +133,7 @@ theorem Gen.act_mem_D_iff (c : CritData D E R z) (hg : Gen c a k) {f : P} {s : �
 
 theorem Gen.comm_mem (c : CritData D E R z) (hg : Gen c a k) (hk : 1 ≤ k) (f : P) {y : P}
     (hy : y ∈ Zof D) : f * y * f⁻¹ * y⁻¹ ∈ zpowers (a ^ 2) := by
-  haveI := c.Z_normal
+  have := c.Z_normal
   obtain ⟨s, ⟨t, ht⟩, hs⟩ := exists_act hg.mem hg.gen hg.ord hk f
   obtain ⟨n, rfl⟩ := hg.gen y hy
   refine mem_zpowers_iff.mpr ⟨t * n, ?_⟩
@@ -170,7 +170,7 @@ theorem Gen.x_act (c : CritData D E R z) (hg : Gen c a k) (hk : 3 ≤ k) {x : P}
     (hxD : x ∉ D) (hx2 : x ^ 2 ∈ D)
     (hx4 : x * a ^ ((2 : ℤ) ^ (k - 2)) * x⁻¹ = a ^ ((2 : ℤ) ^ (k - 2))) :
     x * a * x⁻¹ = a ^ ((1 : ℤ) + 2 ^ (k - 1)) := by
-  haveI := c.Z_normal
+  have := c.Z_normal
   obtain ⟨s, -, hs⟩ := exists_act hg.mem hg.gen hg.ord (by omega) x
   have hs1 : x * a * x⁻¹ = a ^ s := by simpa using hs 1
   have h4 : (4 : ℤ) ∣ s - 1 := by

@@ -267,7 +267,7 @@ theorem seitzEvenCentre_cases {K : Type} [Group K] [Finite K] {lab : GLALabel}
         (exceptionalOrders (markTag lab) (markRank lab) 2 (markDeg lab)).2 := by
       unfold exceptionalOrders
       split <;> norm_num
-    haveI : Finite (griessHopfMultiplier (K ⧸ Subgroup.center K)) :=
+    have : Finite (griessHopfMultiplier (K ⧸ Subgroup.center K)) :=
       Nat.finite_of_card_ne_zero (by rw [hcard]; positivity)
     have hQ' : CFSG.IsQuasisimple K :=
       (CFSG.Foundations.SteinbergCA.quasisimple_iff K).2.2.1.2 hQ

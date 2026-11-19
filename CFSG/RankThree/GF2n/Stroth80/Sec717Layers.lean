@@ -35,6 +35,7 @@ structure Sec717LayerData {K E X : Type*} [Field K] [AddCommGroup E] [Module K E
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   [(Q.subgroupOf M).Normal]
 
+omit [Finite G] in
 theorem quadModel_isom_of_act {K : Type} [Field K] {γ : G → K}
     (M₀ : Tim79.QuadModel Q Z K γ) (hQM : ∀ y ∈ M, ∀ x ∈ Q, y * x * y⁻¹ ∈ Q)
     (φ : ↥(bar M Q (H0 M Z)) →* (M₀.E ≃ₗ[K] M₀.E))
@@ -241,9 +242,9 @@ theorem Ctx.sec717LayerData (h34 : Stroth34Statement) (h311a : Stroth311aStateme
     · exact h10
     all_goals omega
   have hq : 2 ≤ Nat.card Z := two_le_card_Z_of_ctx hc
-  haveI := Fintype.ofFinite K
-  haveI : Finite M₀.E := Module.finite_of_finite K
-  haveI : Fintype M₀.E := Fintype.ofFinite _
+  have := Fintype.ofFinite K
+  have : Finite M₀.E := Module.finite_of_finite K
+  have : Fintype M₀.E := Fintype.ofFinite _
   have hfinE : Module.finrank K M₀.E = 20 := by
     have himg := natCard_image_pi M₀ (W := Q) le_rfl hZQ
     have huniv : M₀.π '' (Q : Set G) = Set.univ := by

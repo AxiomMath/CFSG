@@ -56,7 +56,7 @@ theorem mem_normalizer_map (N : Subgroup M5) [N.Normal] (x : M5) :
 
 instance : T0.Normal := by
   unfold T0
-  haveI : (monDet : M5 →* C5).ker.Normal := MonoidHom.normal_ker _
+  have : (monDet : M5 →* C5).ker.Normal := MonoidHom.normal_ker _
   infer_instance
 
 @[expose] def ddv : Fin 5 → ZMod 5 := fun i => ((i : ℕ) : ZMod 5)
@@ -205,7 +205,7 @@ theorem monS_not_mem_Jt (hΦ : KerSc Φ) {τ : Perm (Fin 5)} (hτ : τ ≠ 1) :
 theorem monS_zpow' (a : Perm (Fin 5)) (n : ℤ) : monS (C := C5) (a ^ n) = (monS a) ^ n :=
   map_zpow (SemidirectProduct.inr : Perm (Fin 5) →* M5) a n
 
-theorem pow_five_ddv (hΦ : KerSc Φ) : (Φ (mT ddv)) ^ 5 = 1 := by
+theorem pow_five_ddv (_hΦ : KerSc Φ) : (Φ (mT ddv)) ^ 5 = 1 := by
   rw [← map_pow, mT_pow]
   have : (5 : ℕ) • ddv = 0 := by
     funext i
@@ -265,7 +265,7 @@ theorem mon_cfg (hΦ : KerSc Φ) {z : A} (hzP : z ∈ Pt Φ) (hzc : ∀ p ∈ Pt
     have := conj_zpow (a := w⁻¹) (b := (Φ (mT ddv))⁻¹) (i := -(k : ℤ))
     rw [inv_inv] at this
     rw [this, hzk]
-    simp [zpow_neg, inv_zpow]
+    simp [zpow_neg]
   refine
     { J_le := Jt_le_Pt
       J_abel := isElemAbelian_Jt

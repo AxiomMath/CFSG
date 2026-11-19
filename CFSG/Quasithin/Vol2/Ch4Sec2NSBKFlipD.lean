@@ -39,6 +39,7 @@ section Succ
 
 variable {G : Type} [Group G] [Finite G] {T M L Mm I H K : Subgroup G} {m k j : ℕ}
 
+omit [Finite G] in
 theorem ainv_of_normalizes (D : StdData G T L I K m k (m + 1) j)
     (hKU : ∀ x : ↥K, ∀ z ∈ uZero I K, (x : G) * z * (x : G)⁻¹ ∈ uZero I K) {l : ↥K}
     (hl : ∀ v ∈ vV T L, (l : G) * v * (l : G)⁻¹ ∈ vV T L) : AInv D l := by
@@ -58,6 +59,7 @@ theorem ainv_of_normalizes (D : StdData G T L I K m k (m + 1) j)
   rw [h, hvi] at h0
   exact h0
 
+omit [Finite G] in
 theorem mem_vV_iff_wSub (D : StdData G T L I K m k (m + 1) j) (hVU : vV T L ≤ uZero I K)
     (hjk : j = k) {t : G} : t ∈ vV T L ↔ t ∈ wSub D := by
   constructor

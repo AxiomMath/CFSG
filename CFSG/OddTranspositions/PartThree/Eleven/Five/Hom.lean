@@ -76,7 +76,7 @@ theorem Q_smul (c : ZMod 5) (y : Fin 5 → ZMod 5) :
   rw [FiveSquareFrameGeneration.Q, FiveSquareFrameGeneration.Generic.Q,
     QuadraticMap.weightedSumSquares_apply, QuadraticMap.weightedSumSquares_apply,
     Fin.sum_univ_five, Fin.sum_univ_five]
-  simp only [Pi.one_apply, one_smul, Pi.smul_apply, smul_eq_mul, one_mul]
+  simp only [Pi.one_apply, Pi.smul_apply, smul_eq_mul, one_mul]
   ring
 
 theorem Q_Tinv (x : Fin 5 → ZMod 5) :
@@ -87,7 +87,7 @@ theorem Q_Tinv (x : Fin 5 → ZMod 5) :
   rw [← Q_T (((fiveT⁻¹ : GL (Fin 5) (ZMod 5)) :
     Matrix (Fin 5) (Fin 5) (ZMod 5)) *ᵥ x)]
   rw [Matrix.mulVec_mulVec]
-  simp [Matrix.GeneralLinearGroup.coe_mul, Matrix.GeneralLinearGroup.coe_inv]
+  simp
 
 end FiveHom
 
@@ -169,7 +169,7 @@ private theorem fiveT_inv_matrix :
       Matrix (Fin 5) (Fin 5) (ZMod 5)) * Matrix.diagonal ![1, 1, 1, 1, 2] = 1 := by
     rw [Matrix.diagonal_mul_diagonal]
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [Matrix.diagonal] <;> decide
+    fin_cases i <;> fin_cases j <;> simp [Matrix.diagonal]; decide
   rw [Matrix.inv_eq_left_inv h]
 
 private theorem fiveReflOf_zx_matrix :
@@ -179,7 +179,7 @@ private theorem fiveReflOf_zx_matrix :
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [fiveReflOf, fiveReflMatrix, zx, fiveFormVec, fiveForm, Fin.sum_univ_four,
-      Pi.single_apply, Matrix.vecMulVec_apply] <;> decide
+      Pi.single_apply, Matrix.vecMulVec_apply]; decide
 
 private theorem det_zx_coe :
     ((Matrix.GeneralLinearGroup.det (fiveReflOf 4 true zx) : (ZMod 5)ˣ) : ZMod 5) = -1 := by
@@ -199,7 +199,7 @@ private theorem fiveTrT :
   rw [fiveT_matrix, fiveT_inv_matrix, fiveReflOf_zx_matrix,
     Matrix.diagonal_mul_diagonal, Matrix.diagonal_mul_diagonal]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.diagonal] <;> decide
+  fin_cases i <;> fin_cases j <;> simp [Matrix.diagonal]; decide
 
 private theorem fivePlusMap_zx_apply (i : Fin 5) :
     fiveGLEquiv (fivePlusMap (fiveReflOf 4 true zx))
@@ -214,8 +214,7 @@ private theorem fivePlusMap_zx_apply (i : Fin 5) :
         exact fiveTrT]
   rw [fiveReflOf_zx_matrix, FiveSquareFrameGeneration.z_e i]
   fin_cases i <;> ext j <;> fin_cases j <;>
-    simp [Matrix.mulVec_diagonal, Pi.single_apply, Pi.smul_apply, neg_one_smul,
-      FiveSquareFrameGeneration.Generic.e_apply FiveSquareFrameGeneration.F] <;> decide
+    simp [Pi.smul_apply, FiveSquareFrameGeneration.Generic.e_apply FiveSquareFrameGeneration.F]
 
 theorem exists_fivePlusMap_eq_z :
     ∃ r ∈ fiveReflections 4 true true,
@@ -256,7 +255,7 @@ theorem fivePlusMap_mem_derived {g : GL (Fin 5) (ZMod 5)}
     rw [hmem]
     exact conj_mem_derived_of_mem_O (fivePlusMap_mem_O hu)
       FiveSquareFrameGeneration.z_mem_derived
-  · simpa using (FiveSquareFrameGeneration.derived).one_mem
+  · simp
   · intro x y hx hy hpx hpy
     simpa only [map_mul] using (FiveSquareFrameGeneration.derived).mul_mem hpx hpy
   · intro x hx hpx
@@ -265,7 +264,7 @@ theorem fivePlusMap_mem_derived {g : GL (Fin 5) (ZMod 5)}
 private theorem fiveForm_polar (x y : Fin 5 → ZMod 5) :
     (2 : ZMod 5) * fiveForm 4 true x y =
       fiveForm 4 true (x + y) (x + y) - fiveForm 4 true x x - fiveForm 4 true y y := by
-  simp [fiveForm, Fin.sum_univ_four, Pi.add_apply, Finset.sum_add_distrib]
+  simp [fiveForm, Fin.sum_univ_four, Pi.add_apply]
   ring
 
 theorem exists_isometry_fivePlusMap_conj

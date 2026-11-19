@@ -36,6 +36,7 @@ private theorem factorization_two_of_eq_two_pow_mul_odd {k m : ℕ} (hm0 : m ≠
   rw [Finsupp.add_apply, Nat.factorization_pow_self Nat.prime_two,
     Nat.factorization_eq_zero_of_not_dvd hm, add_zero]
 
+omit [Finite G] hN in
 private theorem inf_centralizer_eq_map_centralizer (y : H z) :
     H z ⊓ Subgroup.centralizer ({(y : G)} : Set G) =
       (Subgroup.centralizer ({y} : Set ↥(H z))).map (H z).subtype := by
@@ -50,6 +51,7 @@ private theorem inf_centralizer_eq_map_centralizer (y : H z) :
     exact ⟨h.2, Subgroup.mem_centralizer_singleton_iff.mpr
       (congrArg Subtype.val (Subgroup.mem_centralizer_singleton_iff.mp hh))⟩
 
+omit hN [Finite G] in
 private theorem center_subgroupOf_le_centralizerJ_of_conjZ_eq_one {x : H z}
     (hx : conjZ z x = 1) : Subgroup.center (J z) ≤ centralizerJ x := by
   intro j hj
@@ -61,12 +63,14 @@ private theorem center_subgroupOf_le_centralizerJ_of_conjZ_eq_one {x : H z}
   exact Subgroup.mem_centralizer_singleton_iff.mp
     (centerIn_le_centralizer_of_conjZ_eq_one (z := z) (x := x) hx hjZ)
 
+omit hN [Finite G] in
 private theorem card_centralizerJ_inf_center_eq_four_of_conjZ_eq_one (h : Tim79a.ParrottHyp z)
     {x : H z} (hx : conjZ z x = 1) :
     Nat.card ↥(centralizerJ x ⊓ Subgroup.center (J z)) = 4 := by
   rw [inf_eq_right.mpr (center_subgroupOf_le_centralizerJ_of_conjZ_eq_one (z := z) hx)]
   exact card_center_subgroupOf_J (z := z) h
 
+omit hN in
 private theorem card_centralizerJ_eq_four_mul_two_pow_fixDim_of_conjZ
     (h : Tim79a.ParrottHyp z) {x : H z} (hx3 : orderOf x = 3) (hxZ : conjZ z x = 1) :
     Nat.card (centralizerJ x) = 4 * 2 ^ fixDimV h x := by
@@ -120,7 +124,7 @@ private theorem conjZ_mul_sigma2_eq_one (h : Tim79a.ParrottHyp z) {σ₂ : H z}
     conjZ z (sigma1Nine (z := z) D * σ₂) = 1 := by
   rw [map_mul, conjZ_sigma1Nine h D, conjZ_sigma2_of_qH (z := z) D h hq₂, mul_one]
 
-theorem orderOf_sigma1Nine_mul_inv (h : Tim79a.ParrottHyp z) {σ₂ : ↥(H z)}
+theorem orderOf_sigma1Nine_mul_inv (_h : Tim79a.ParrottHyp z) {σ₂ : ↥(H z)}
     (hσ₂ : orderOf σ₂ = 3)
     (hq₂ : qH (z := z) D σ₂ = (⟨sigma2, sigma2_mem_A⟩ : QA45.originalSubgroup))
     (hc₂ : σ₂ * sigma1Nine (z := z) D = sigma1Nine (z := z) D * σ₂) :
@@ -145,7 +149,7 @@ theorem orderOf_sigma1Nine_mul_inv (h : Tim79a.ParrottHyp z) {σ₂ : ↥(H z)}
   apply sigma1_mul_sigma2_inv_ne_one
   rw [← qH_mul_sigma2_inv_eq (z := z) D hq₂, h1, map_one]
 
-theorem orderOf_sigma1Nine_mul (h : Tim79a.ParrottHyp z) {σ₂ : ↥(H z)}
+theorem orderOf_sigma1Nine_mul (_h : Tim79a.ParrottHyp z) {σ₂ : ↥(H z)}
     (hσ₂ : orderOf σ₂ = 3)
     (hq₂ : qH (z := z) D σ₂ = (⟨sigma2, sigma2_mem_A⟩ : QA45.originalSubgroup))
     (hc₂ : σ₂ * sigma1Nine (z := z) D = sigma1Nine (z := z) D * σ₂) :
@@ -167,6 +171,7 @@ theorem orderOf_sigma1Nine_mul (h : Tim79a.ParrottHyp z) {σ₂ : ↥(H z)}
   apply sigma1_mul_sigma2_ne_one
   rw [← qH_mul_sigma2_eq (z := z) D hq₂, h1, map_one]
 
+omit [Finite G] in
 private theorem map_mk_eq_of_map_qH_eq {P Q : Subgroup (H z)}
     (h : P.map (qH D) = Q.map (qH D)) :
     P.map (QuotientGroup.mk' ((J z).subgroupOf (H z))) =
@@ -182,7 +187,7 @@ private theorem map_mk_eq_of_map_qH_eq {P Q : Subgroup (H z)}
     obtain ⟨p, hp, hpq⟩ := Subgroup.mem_map.mp hq'
     exact Subgroup.mem_map.mpr ⟨p, hp, (mk_eq_mk_iff D p q).mpr hpq⟩
 
-private theorem exists_conj_of_model_conj (h : Tim79a.ParrottHyp z) {r : G}
+private theorem exists_conj_of_model_conj (_h : Tim79a.ParrottHyp z) {r : G}
     (hrH : r ∈ H z) (hr3 : orderOf r = 3) {x : QA45.originalSubgroup} {y : H z}
     (hy3 : orderOf y = 3) (hqy : qH D y = x) {g : QA45.originalSubgroup}
     (hg : (Subgroup.zpowers (qH D ⟨r, hrH⟩)).map (MulAut.conj g).toMonoidHom =
@@ -221,9 +226,9 @@ private theorem exists_conj_of_model_conj (h : Tim79a.ParrottHyp z) {r : G}
     group
   have hsubG : Subgroup.zpowers ((y : H z) : G) =
       Subgroup.zpowers ((w : G) * r * (w : G)⁻¹) := by
-    have h := congrArg (fun S : Subgroup (H z) => S.map (H z).subtype) hw
-    rw [MonoidHom.map_zpowers, MonoidHom.map_zpowers] at h
-    simpa [rH, Subgroup.coe_mul, Subgroup.coe_inv] using h
+    have _h := congrArg (fun S : Subgroup (H z) => S.map (H z).subtype) hw
+    rw [MonoidHom.map_zpowers, MonoidHom.map_zpowers] at _h
+    simpa [rH, Subgroup.coe_mul, Subgroup.coe_inv] using _h
   refine ⟨((w : G)⁻¹), (H z).inv_mem w.2, ?_⟩
   rw [CFSG.conjugate, inv_inv, MonoidHom.map_zpowers]
   simpa [MulAut.conj_apply] using hsubG.symm
@@ -297,7 +302,7 @@ private theorem exists_inv_of_qH_eq_inv {σ m : H z} (hσ : orderOf σ = 3)
   have hval := congrArg (fun x : H z => (x : G)) hconj
   simpa [Subgroup.coe_mul, Subgroup.coe_inv] using hval
 
-theorem exists_inv_sigma1Nine (h : Tim79a.ParrottHyp z) :
+theorem exists_inv_sigma1Nine (_h : Tim79a.ParrottHyp z) :
     ∃ w₁ ∈ H z, w₁ * ((sigma1Nine (z := z) D : ↥(H z)) : G) * w₁⁻¹ =
       ((sigma1Nine (z := z) D : ↥(H z)) : G)⁻¹ := by
   have hm : qH D (vH D * sigma1Nine D * (vH D)⁻¹) = (qH D (sigma1Nine D))⁻¹ := by
@@ -342,7 +347,7 @@ theorem exists_inv_sigma1Nine_mul_inv (h : Tim79a.ParrottHyp z) {σ₂ : ↥(H z
 
 private theorem card_isSylowOf_two_eq_two_pow_factorization {T K : Subgroup G}
     (hT : IsSylowOf 2 T K) : Nat.card T = 2 ^ (Nat.card K).factorization 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact hT.card_eq
 
 theorem card_isSylowOf_centralizer_sigma1Nine (h : Tim79a.ParrottHyp z) {T₁ : Subgroup G}

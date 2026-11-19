@@ -23,7 +23,7 @@ theorem isPGroup_two_of_forall_prime_dvd {H : Subgroup G}
 
 theorem pCoreOf_two_le_rankThreePrimeCore_three (N : Subgroup G) :
     pCoreOf 2 N ≤ rankThreePrimeCore 3 N := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 N)
   have hnorm : ((pCoreOf 2 N).subgroupOf N).Normal := by
     have : (CFSG.Open.pCore 2 N).Normal := CFSG.LieType.BorelTits.pCore_normal 2
@@ -35,7 +35,7 @@ theorem pCoreOf_two_le_rankThreePrimeCore_three (N : Subgroup G) :
 
 theorem coprime_six_of_isPGroup {f : ℕ} (hf : f.Prime) (hf2 : f ≠ 2) (hf3 : f ≠ 3)
     {F : Subgroup G} (hF : IsPGroup f F) : Nat.Coprime (Nat.card F) 6 := by
-  haveI : Fact f.Prime := ⟨hf⟩
+  have : Fact f.Prime := ⟨hf⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 hF
   rw [hn]
   refine Nat.Coprime.pow_left n ((Nat.Prime.coprime_iff_not_dvd hf).2 fun h => ?_)
@@ -49,7 +49,7 @@ theorem rankThreePrimeCore_eq_pCoreOf_two (hK1 : KFactRankTwoUniqueness)
     {P : Sylow 3 G} {M : Subgroup G} {x z : G} (hsit : Sit P M x z)
     (hα : HasPrimeConstraint (G := M) 3) {N T : Subgroup G} (hloc : LocalPair M x z N T) :
     rankThreePrimeCore 3 N = pCoreOf 2 N := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hS := hsit.setting
   have hpl := SmallRankPlane.of_situation hS hsit.situation hsit.point hsit.central
   have hB3 : IsPGroup 3 ↥(zpowers x ⊔ zpowers z) := IsPGroup.of_card (n := 2) hpl.card_eq
@@ -65,7 +65,7 @@ theorem rankThreePrimeCore_eq_pCoreOf_two (hK1 : KFactRankTwoUniqueness)
     have hf3 : f ≠ 3 := by
       rintro rfl
       exact hOp hfO
-    haveI : Fact f.Prime := ⟨hf⟩
+    have : Fact f.Prime := ⟨hf⟩
     have hbotf : IsPGroup f (⊥ : Subgroup G) := IsPGroup.of_card (n := 0) (by simp)
     have hBbot : zpowers x ⊔ zpowers z ≤ normalizer ((⊥ : Subgroup G) : Set G) := by
       rw [normalizer_eq_top_iff.mpr inferInstance]

@@ -34,7 +34,7 @@ private lemma tcPSL_embedMat_scalar_ne {m r r' : ℕ} {F : Type} [Field F]
   simp [hRb, Matrix.reindex_apply, Matrix.scalar_apply,
     Matrix.fromBlocks] at e1 e2
   apply hc
-  first | exact e2.symm.trans e1.symm | exact e2.trans e1 | exact e2.trans e1.symm
+  exact e2.trans e1.symm
 
 private lemma tcPSL_conj_embedMat {m r r' : ℕ} {F : Type} [Field F]
     {eidx : Fin r ⊕ Fin r' ≃ Fin (m + 1)}

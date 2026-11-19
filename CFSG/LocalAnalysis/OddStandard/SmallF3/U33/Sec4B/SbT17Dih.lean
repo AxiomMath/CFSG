@@ -20,7 +20,7 @@ private lemma comm_of_sq_eq_one {x y : B} (hx : x * x = 1) (hy : y * y = 1)
   exact h1.symm
 
 private lemma sq_eq_of_not_commute {a₁ l₁ : B} (hexp : ∀ x : B, x ^ 4 = 1)
-    (ha₁ : a₁ * a₁ = 1) (hl₁ : l₁ * l₁ = 1) (hcomm : a₁ * l₁ = l₁ * a₁)
+    (ha₁ : a₁ * a₁ = 1) (_hl₁ : l₁ * l₁ = 1) (hcomm : a₁ * l₁ = l₁ * a₁)
     (hC : ∀ x : B, x * a₁ = a₁ * x → x = 1 ∨ x = a₁ ∨ x = l₁ ∨ x = a₁ * l₁)
     (hnc : ∀ x : B, x * a₁ * x⁻¹ ≠ l₁) {a₂ : B} (ha₂ : a₂ * a₂ = 1)
     (hna : a₂ * a₁ ≠ a₁ * a₂) : (a₁ * a₂) * (a₁ * a₂) = l₁ := by
@@ -231,7 +231,7 @@ private lemma mem_zpowers_of_sq_eq_one {g x : B} (hg : g * g = 1) :
     · left; rw [hx, inv_one]
     · right; rw [hx, mul_eq_one_iff_inv_eq.mp hg]
 
-private lemma zpowers_order_four_inv [Finite B] {c l : B} (hc2 : c * c = l) (hl : l * l = 1)
+private lemma zpowers_order_four_inv [Finite B] {c l : B} (hc2 : c * c = l) (_hl : l * l = 1)
     (hl1 : l ≠ 1) (hc4 : (c*c)*(c*c) = 1) :
     ∀ x, x ∈ Subgroup.zpowers c → x*x = 1 → x = 1 ∨ x = l := by
   classical
@@ -348,7 +348,7 @@ private lemma zpow_even_mem {c l : B} (hc2 : c * c = l) (hl : l * l = 1) {k : �
   rw [hm, show m + m = 2 * m by ring, zpow_mul, hc2z]
   exact mem_zpowers_of_sq_eq_one hl (Subgroup.zpow_mem_zpowers l m)
 
-private lemma zpow_odd_sq {c l : B} (hc4 : c^4 = 1) (hc2 : c * c = l) (hl : l * l = 1)
+private lemma zpow_odd_sq {c l : B} (hc4 : c^4 = 1) (hc2 : c * c = l) (_hl : l * l = 1)
     {k : ℤ} (hk : Odd k) : (c^k)*(c^k) = l := by
   rw [← zpow_add, show k + k = 2 * k by ring]
   obtain ⟨m, hm⟩ := hk
@@ -401,13 +401,13 @@ theorem exists_index_two_of_four_centralizer {B : Type*} [Group B] [Finite B]
       · exact hal h
     · intro x hx hx2
       exact mem_zpowers_of_sq_eq_one (g := l) hl' hx
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Group.IsNilpotent B := IsPGroup.isNilpotent (p := 2) hB
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Group.IsNilpotent B := IsPGroup.isNilpotent (p := 2) hB
     have hncB : NormalizerCondition B := Group.normalizerCondition_of_isNilpotent
     have hEne : E ≠ Subgroup.normalizer E := by
       intro h
       exact hEt ((normalizerCondition_iff_only_full_group_self_normalizing.mp hncB E) h.symm)
-    obtain ⟨c, hcN, hcE⟩ := SetLike.exists_of_lt (lt_of_le_of_ne le_normalizer hEne)
+    obtain ⟨c, hcN, hcE⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne le_normalizer hEne)
     have haE : a ∈ E := subset_closure (by simp)
     have hca_mem : c*a*c⁻¹ ∈ E := (Subgroup.mem_normalizer_iff.mp hcN a).mp haE
     have hca' : c*a*c⁻¹ = a*l := by
@@ -463,9 +463,9 @@ theorem exists_index_two_of_four_centralizer {B : Type*} [Group B] [Finite B]
     have hc'2 : c'*c' = l := by
       rw [hc'def]
       by_cases hcc : c*c = l
-      · simp only [if_pos hcc]; exact hcc
+      · simp only [ite_eq_left hcc]; exact hcc
       · have hc1 : c*c = 1 := by rcases hc2 with h | h; exact h; exact absurd h hcc
-        simp only [if_neg hcc]
+        simp only [ite_eq_right hcc]
         calc (c*a)*(c*a) = (c*a*c⁻¹)*(c*c)*a := by group
           _ = (a*l)*(c*c)*a := by rw [hca']
           _ = (a*l)*1*a := by rw [hc1]
@@ -473,8 +473,8 @@ theorem exists_index_two_of_four_centralizer {B : Type*} [Group B] [Finite B]
     have hc'a_conj : c'*a*c'⁻¹ = a*l := by
       rw [hc'def]
       by_cases hcc : c*c = l
-      · simp only [if_pos hcc]; exact hca'
-      · simp only [if_neg hcc]
+      · simp only [ite_eq_left hcc]; exact hca'
+      · simp only [ite_eq_right hcc]
         calc (c*a)*a*(c*a)⁻¹ = c*a*c⁻¹ := by group
           _ = a*l := hca'
     have hc'a_inv : a*c'*a = c'⁻¹ := a_mul_conj_inv ha' hl' hc'2 hc'a_conj
@@ -515,7 +515,7 @@ theorem exists_index_two_of_four_centralizer {B : Type*} [Group B] [Finite B]
       have hDne' : D ≠ Subgroup.normalizer D := by
         intro h
         exact hDne ((normalizerCondition_iff_only_full_group_self_normalizing.mp hncB D) h.symm)
-      obtain ⟨e, heN, heD⟩ := SetLike.exists_of_lt (lt_of_le_of_ne le_normalizer hDne')
+      obtain ⟨e, heN, heD⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne le_normalizer hDne')
       have haD : a ∈ D := Subgroup.subset_closure (by simp)
       have hpaD : e*a*e⁻¹ ∈ D := (Subgroup.mem_normalizer_iff.mp heN a).mp haD
       have hpcD : e*c'*e⁻¹ ∈ D := (Subgroup.mem_normalizer_iff.mp heN c').mp hc'D

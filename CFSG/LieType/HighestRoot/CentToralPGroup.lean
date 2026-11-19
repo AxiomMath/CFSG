@@ -18,7 +18,7 @@ theorem mem_toralRootGroup_of_pow_eq_one
     (hxn : x ^ n = 1) : x ∈ toralRootGroup τ K a := by
   obtain ⟨-, hnormal, -, -, φ, hφ, -⟩ :=
     Chevalley_toral_centralizer_root_generated_quotient τ K a
-  haveI : ((toralRootGroup τ K a).subgroupOf (toralCentralizer τ K a)).Normal := hnormal
+  have : ((toralRootGroup τ K a).subgroupOf (toralCentralizer τ K a)).Normal := hnormal
   have hG : IsPGroup p (toralCentralizer τ K a ⧸
       (toralRootGroup τ K a).subgroupOf (toralCentralizer τ K a)) :=
     IsPGroup.of_surjective (isPGroup_quotient hp ha) φ hφ
@@ -53,7 +53,7 @@ theorem mem_rootSpan_of_mem_toralCentralizer_of_charPow [Finite K]
     (hxr : ∃ n : ℕ, x ^ (ringChar K ^ n) = 1) :
     x ∈ rootSpan τ K (rootCharKernel a) := by
   obtain ⟨n, hn⟩ := hxr
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨m, hchar, hcard⟩ := FiniteField.card K (ringChar K)
   have hm : (m : ℕ) ≠ 0 := m.ne_zero
   have hcop : Nat.Coprime (ringChar K ^ n) p := by

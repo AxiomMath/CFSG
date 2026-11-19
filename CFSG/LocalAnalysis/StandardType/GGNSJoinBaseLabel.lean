@@ -118,7 +118,7 @@ theorem nsRestEnnolaLab_cases {p : ℕ} (hp : p.Prime) {lab : LargeEvenLabel}
     rcases hr with rfl | rfl
     · refine Or.inl ⟨_, _, _, _, _, GGTBTorRowAt.aInd (Or.inr ht) (by decide : ¬ 3 ∣ 3 + 1) ?_,
         Or.inl (Or.inl ⟨3, Equiv.refl _, le_rfl, (ggCoxeterMatrix_reindex_refl _).symm⟩), le_rfl⟩
-      simpa [ggTorM, ht] using hpn
+      simp [ggTorM, ht]
     · exact Or.inr ⟨ht, rfl, rfl, hpn⟩
   ·
     simp only at ht hr3 hpn hn hr
@@ -173,7 +173,7 @@ theorem nsBaseFrame_of_torData {G : Type} [Group G] [Finite G] {p m N : ℕ} {Bs
     ∃ (ιL : Type) (_ : Fintype ιL) (ML : CoxeterMatrix ιL),
       (GGIsWeylMatrixAD ML ∨ GGIsWeylMatrixE ML) ∧ GGWeylOfType p ML (ggAutomizer X Bs) ∧
         Nat.card ↥Bs ≤ p ^ (Fintype.card ιL + 1) ∧ 3 ≤ Fintype.card ιL := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hW := weylOfType_of_torData hp2 hm hpm hMC hBs hS hN hTor
   refine ⟨Fin N, inferInstance, M, hM, hW, ?_, by rw [Fintype.card_fin]; exact hN3⟩
   have hle := card_le_pow_mul_card_of_weylOfType hW ((Subgroup.zpowers x).subgroupOf Bs)
@@ -200,7 +200,7 @@ theorem nsBaseFrame_of_tbTorLab (hW : GGTBTorWRows) (hLift : GGTBTorLiftRows) {G
       (GGIsWeylMatrixAD ML ∨ GGIsWeylMatrixE ML) ∧ GGWeylOfType p ML (ggAutomizer L Bs) ∧
         Nat.card ↥Bs ≤ p ^ (Fintype.card ιL + 1) ∧ 3 ≤ Fintype.card ιL := by
   obtain ⟨hp, hBs, hxBs, -, -⟩ := hcfg.tableB_facts
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := hcfg.1.2.2.2.2.2.1.2.1
   obtain ⟨_lab, _r, m, N, C, M, R, _instR, θ, I, hN, hperf, hlab, hrow, ⟨hM, hN3⟩, hBsI, hlift,
     hT, -⟩ := l05nPlQ_marking_with hW hLift hp2
@@ -227,7 +227,7 @@ theorem nsBaseFrame_twA5Three
     exact hp3
   subst hp3
   obtain ⟨hp, hBs, hxBs, hLx, -⟩ := hcfg.tableB_facts
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   have hS : LargeEvenSStar 3 B x L := hcfg.1.2.2.2.2.2.2.1
   have hM : GGInnerDiagOnLab GGUnitDvd63Label 3 Bs L := by
     refine largeEvenMarking_mono (fun lab R _ I F θ hP => ?_) hL
@@ -374,9 +374,9 @@ theorem nsBaseFrameInputOf_of_lab {T : ∀ {ι : Type}, CoxeterMatrix ι → Pro
   ·
     obtain ⟨K, hKf, hKfin, hKchar, f, n, ψ, hcard, hn4, hker, hrange, hdvd, hacts, -⟩ :=
       ggNSLie_cover_of_esu (X := L) h
-    letI : Field K := hKf
-    letI : Finite K := hKfin
-    letI : CharP K 2 := hKchar
+    let : Field K := hKf
+    let : Finite K := hKfin
+    let : CharP K 2 := hKchar
     have hh : GGNSLocalHyp p B Bs K f n ψ :=
       ggNSLocalHyp_of_routeCfg hcfg (Or.inl rfl) hcard hn4 hker hrange hdvd hacts
     obtain ⟨c, hc⟩ := ggNSLocal_exists_diag ggSecFiveNSCornerInput_holds hh
@@ -392,7 +392,7 @@ theorem nsBaseFrameInputOf_of_lab {T : ∀ {ι : Type}, CoxeterMatrix ι → Pro
       ⟨hcfg, hns, ι, M, e, hpres, hTM, hbig⟩
     have hconf : GGConfig p B Bs x L D J := hcfg.1.1
     obtain ⟨hp, hBs_ea, hxBs, -, -⟩ := hconf.tableB_facts
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hS : LargeEvenSStar p B x L := hconf.1.2.2.2.2.2.2.1
     have hx : orderOf x = p := orderOf_eq_prime (hBs_ea.2 x hxBs) hS.2.2.1
     exact nsBaseFrame_of_posSU hn4 hpos htor hx hFix

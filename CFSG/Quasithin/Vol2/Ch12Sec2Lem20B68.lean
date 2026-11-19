@@ -191,11 +191,11 @@ theorem exists_sylow_of_minParabolic {H T M : Subgroup G} (h : MinParabolic H T 
   obtain ⟨p, hp, hp2, hsyl⟩ := sylow_structure h.subgroupOf hsolv
   have : Fact p.Prime := ⟨hp⟩
   obtain ⟨P₀⟩ := (inferInstance : Nonempty (Sylow p ↥H))
-  obtain ⟨hsup, hinf⟩ := hsyl P₀ P₀.isPGroup' P₀.not_dvd_index
+  obtain ⟨hsup, hinf⟩ := hsyl P₀ P₀.isPGroup P₀.not_dvd_index
   set P := (P₀ : Subgroup ↥H).map H.subtype with hP
   have hPsub : P.subgroupOf H = P₀ :=
     Subgroup.comap_map_eq_self_of_injective H.subtype_injective _
-  refine ⟨P, p, hp, hp2, P₀.isPGroup'.map H.subtype, Subgroup.map_subtype_le _, ?_, ?_, ?_⟩
+  refine ⟨P, p, hp, hp2, P₀.isPGroup.map H.subtype, Subgroup.map_subtype_le _, ?_, ?_, ?_⟩
   · show ¬ p ∣ (P.subgroupOf H).index
     rw [hPsub]
     exact P₀.not_dvd_index

@@ -28,6 +28,6 @@ public theorem a7_cube_eq_one_of_pow_nine :
     (Equiv.Perm.le_card_support_of_mem_cycleType hn).trans
       ((x : Equiv.Perm (Fin 7)).support.card_le_univ.trans_eq (by simp))
   have hnlt : 1 < n := Equiv.Perm.one_lt_of_mem_cycleType hn
-  interval_cases n <;> norm_num at hndvd <;> omega
+  interval_cases n <;> norm_num at hndvd; omega
 
 end CFSG.GorensteinWalter

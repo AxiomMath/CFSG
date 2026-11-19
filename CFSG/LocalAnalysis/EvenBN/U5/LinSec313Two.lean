@@ -126,7 +126,7 @@ theorem comm_mem_V_of_decomp {S F V W D P Q U₀ U₁ : Subgroup G}
     ∀ s ∈ S, ∀ f ∈ F, s * f * s⁻¹ * f⁻¹ ∈ V := by
   let T : Subgroup G :=
     { carrier := {s | s ∈ S ∧ ∀ f ∈ F, s * f * s⁻¹ * f⁻¹ ∈ V}
-      one_mem' := ⟨one_mem _, fun f _ => by simpa using one_mem V⟩
+      one_mem' := ⟨one_mem _, fun f _ => by simp⟩
       mul_mem' := by
         rintro a b ⟨ha, hac⟩ ⟨hb, hbc⟩
         refine ⟨mul_mem ha hb, fun f hf => ?_⟩
@@ -196,9 +196,9 @@ include hl k c
 
 theorem lin_isSimpleGroup_Y : IsSimpleGroup (Common.prodFactorTwo c.ψ) := by
   have hp := hl.toCaseHyp
-  haveI : IsSimpleGroup SL(2, c.k) := GMSK.sl2_isSimpleGroup
-    (s313a_two_eq_zero hp k c.S_syl c.P_le_S c.card_k)
-    (s313a_four_le_card hp k c.S_syl c.P_le_S c.card_k)
+  have : IsSimpleGroup SL(2, c.k) := GMSK.sl2_isSimpleGroup
+    (s313a_two_eq_zero hp c.card_k)
+    (s313a_four_le_card hp c.card_k)
   exact (Common.prodFactorTwoEquiv c.ψ).isSimpleGroup
 
 theorem lin_exists_mul_ne_Y : ∃ x y : Common.prodFactorTwo c.ψ, x * y ≠ y * x := by
@@ -224,7 +224,7 @@ theorem lin_D_sup_X_ne : d.D ⊔ c.X ≠ d.D ⊔ c.Y := by
       rwa [hDM, mem_bot] at this
     rw [hxd, hd1, one_mul]
     exact hy
-  obtain ⟨a, b, hab⟩ := s313a_exists_mul_ne_X hp k c.S_syl c.P_le_S c.ψ
+  obtain ⟨a, b, hab⟩ := s313a_exists_mul_ne_X c.ψ
   have ha : (a : G) ∈ c.X ⊓ c.Y := Subgroup.mem_inf.2 ⟨a.2, hXY a.2⟩
   have hb : (b : G) ∈ c.X ⊓ c.Y := Subgroup.mem_inf.2 ⟨b.2, hXY b.2⟩
   rw [c.X_inf_Y, mem_bot] at ha hb
@@ -250,9 +250,9 @@ theorem lin_F_split
     ((lin_X_le_L₁ hl k c).trans (lin_L₁_le_normalizer_F hl k c))
     ((lin_Y_le_L₁ hl k c).trans (lin_L₁_le_normalizer_F hl k c))
     (fun x hx y hy => (mem_centralizer_iff.1 (c.X_le_centralizer_Y hx) y hy).symm)
-    (s313a_F_inf_centralizer_X_inf_centralizer_Y hp k c.S_syl c.P_le_S c.ψ)
-    (s313a_isSylowOf_X_inf_S hp k c.S_syl c.P_le_S c.ψ) hP' hPP
-    (s313a_isSylowOf_Y_inf_S hp k c.S_syl c.P_le_S c.ψ) hQ' hQQ hX hY
+    (s313a_F_inf_centralizer_X_inf_centralizer_Y hp c.ψ)
+    (s313a_isSylowOf_X_inf_S k c.S_syl c.P_le_S c.ψ) hP' hPP
+    (s313a_isSylowOf_Y_inf_S k c.S_syl c.P_le_S c.ψ) hQ' hQQ hX hY
   exact hsup
 
 theorem lin_card_centerIn_Uc_le :
@@ -298,12 +298,12 @@ theorem lin_card_centerIn_Uc_le :
   have hjX : ∀ j ∈ J, j ∈ normalizer ((d.D ⊔ c.X : Subgroup G) : Set G) := fun j hj =>
     LinCase.normalizer_sup_of_odd (lin_D_le_L₁ hl k c) (lin_L₁_le_normalizer_D hl k c)
       (lin_X_le_L₁ hl k c) (lin_Y_le_L₁ hl k c) hLeq hDXY c.X_le_centralizer_Y c.X_inf_Y
-      (s313a_isSimpleGroup_X hp k hS hP c.ψ c.card_k) (s313a_exists_mul_ne_X hp k hS hP c.ψ)
+      (s313a_isSimpleGroup_X hp c.ψ c.card_k) (s313a_exists_mul_ne_X c.ψ)
       (lin_isSimpleGroup_Y hl k c) (lin_exists_mul_ne_Y hl k c) (lin_D_sup_X_ne hl k c)
       (hJL j hj) (hJD j hj) (hJodd' j hj)
   have hKe : d.D ⊔ d.Kc c.X = d.D ⊔ c.X :=
-    le_antisymm (sup_le le_sup_left (s313a_Kc_le_D_sup_X hp k hS hP c.ψ))
-      (sup_le_sup_left (s313a_X_le_Kc hp k hS hP c.ψ) _)
+    le_antisymm (sup_le le_sup_left (s313a_Kc_le_D_sup_X hp k c.ψ))
+      (sup_le_sup_left (s313a_X_le_Kc k c.ψ) _)
   have hUc : d.Uc c.S c.X = c.S ⊓ (d.D ⊔ c.X) := by
     unfold Data.Uc; rw [hKe]
   have hJU : ∀ j ∈ J, j ∈ normalizer ((d.Uc c.S c.X : Subgroup G) : Set G) := fun j hj => by
@@ -330,7 +330,7 @@ theorem lin_card_centerIn_Uc_le :
     exact hlt
   have hsplit := lin_F_split hl k c hX
   have htS : d.t ∈ normalizer (c.S : Set G) := s313a_t_mem_normalizer_S hp k hS hP
-  have htW : d.t ∈ normalizer (d.W : Set G) := s313a_mem_normalizer_W hp k hS hP htS
+  have htW : d.t ∈ normalizer (d.W : Set G) := s313a_mem_normalizer_W k hS hP htS
   have htF : d.t ∈ normalizer (d.F : Set G) := hd.t_mem_normalizer_F
   rcases LinCase.le_or_decomp_of_transitive (E := d.E) (F := d.F)
       (U₀ := CFSG.centerIn (d.Uc c.S c.X)) (J := J) (Z := (c.S ⊓ d.M₂) ⊓ centralizer ((c.S ⊓ d.M₂ : Subgroup G) : Set G))
@@ -408,8 +408,8 @@ theorem lin_card_centerIn_Uc_le :
       (fun q hq z hz => mem_centralizer_iff.1 hz.2 q hq)
       inf_le_right inf_le_right hDS
       (by
-        have e : c.S ⊓ d.M₁ = (c.X ⊓ c.S) ⊔ (c.Y ⊓ c.S) := s313a_S_inf_M₁_eq hp k hS hP c.ψ
-        have e2 : c.S = d.D ⊔ (c.S ⊓ d.M₁) := s313a_S_eq_D_sup hp k hS hP
+        have e : c.S ⊓ d.M₁ = (c.X ⊓ c.S) ⊔ (c.Y ⊓ c.S) := s313a_S_inf_M₁_eq k hS hP c.ψ
+        have e2 : c.S = d.D ⊔ (c.S ⊓ d.M₁) := s313a_S_eq_D_sup k hS hP
         rw [← e]; exact e2.le)
       hF0 hF1
     intro f hf
@@ -426,7 +426,7 @@ theorem lin_card_centerIn_Uc_le :
     have h2 := mem_centralizer_iff.1 (Subgroup.mem_inf.1 (hVc ▸ hv : _ ∈ CFSG.centerIn c.S)).2
       (g : G) g.2
     apply Subtype.ext
-    simp only [Subgroup.coe_mul, InvMemClass.coe_inv]
+    simp only [Subgroup.coe_mul]
     exact h2
 
 end A0

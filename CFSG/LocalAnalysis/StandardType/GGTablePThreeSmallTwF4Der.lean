@@ -38,13 +38,13 @@ theorem svRankTwF4der_holds :
     rw [Subgroup.closure_eq] at hBcl
     exact hBcl hx) hB
   by_cases hfin : Finite B
-  · haveI : Finite B := hfin
+  · have : Finite B := hfin
     obtain ⟨k, hk⟩ := (CFSG.Open.IsElemAbelian.isPGroup hB).exists_card_eq
     rw [hk] at hlt ⊢
     have hk2 : k ≤ 2 := Nat.lt_succ_iff.mp ((Nat.pow_lt_pow_iff_right (by norm_num)).mp hlt)
     calc 3 ^ k ≤ 3 ^ 2 := Nat.pow_le_pow_right (by norm_num) hk2
       _ = 9 := by norm_num
-  · haveI : Infinite B := ⟨hfin⟩
+  · have : Infinite B := ⟨hfin⟩
     rw [Nat.card_eq_zero_of_infinite]
     norm_num
 

@@ -18,7 +18,7 @@ theorem ntpA2_ggCompFieldAt_of_centerQuotEquiv {G H : Type} [Group G] [Group H]
     (θ : ↥X ⧸ Subgroup.center ↥X ≃* ↥Y ⧸ Subgroup.center ↥Y) (h : GGCompFieldAt Q X) :
     GGCompFieldAt Q Y := by
   obtain ⟨lab, hlab, hchar, hdeg, h1, h2, h3, hhas, R, instR, hR, ⟨φ⟩⟩ := h
-  letI : Group R := instR
+  let : Group R := instR
   refine ⟨lab, hlab, hchar, hdeg, h1, h2, h3, ?_, R, instR, hR, ⟨θ.symm.trans φ⟩⟩
   unfold GGHasLabel at hhas ⊢
   refine largeEvenRawDatum_mono ?_ hhas
@@ -91,9 +91,9 @@ theorem ntpA2_orbitDichotomy
   classical
   obtain ⟨hcard3, σ, hσne, hσ3, hσspan, hcompat, hlayer⟩ := hS L p₀ S a n hpair hker
   let I := KernelComponent (rootCharHom a)
-  haveI hFin : Finite I := Nat.finite_of_card_ne_zero (by rw [hcard3]; norm_num)
-  letI : Fintype I := Fintype.ofFinite _
-  haveI : DecidableEq I := Classical.decEq _
+  have hFin : Finite I := Nat.finite_of_card_ne_zero (by rw [hcard3]; norm_num)
+  let : Fintype I := Fintype.ofFinite _
+  have : DecidableEq I := Classical.decEq _
   have hcardF : Fintype.card I = 3 := by
     rw [← Nat.card_eq_fintype_card]
     exact hcard3
@@ -243,7 +243,7 @@ theorem ntpA2_orbitDichotomy
         rw [pow_succ', Equiv.Perm.mul_apply, hd_sigma ((σ ^ m) i), ih]
     rw [← hk]
     exact hstep k
-  haveI : Nonempty I := (Fintype.card_pos_iff).mp (by rw [hcardF]; norm_num)
+  have : Nonempty I := (Fintype.card_pos_iff).mp (by rw [hcardF]; norm_num)
   let i₀ : I := Classical.choice ‹Nonempty I›
   rcases hd13 i₀ with h | h
   · left

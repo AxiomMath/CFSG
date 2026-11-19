@@ -95,7 +95,7 @@ private theorem s11v_coset_eq_or_mul (h : ElevenOneHyp hC)
 private theorem s11v_commute_of_commute_mul {a b c : G} (hD : IsOddTransp D)
     (ha : a ∈ D) (hb : b ∈ D) (hc : c ∈ D) (hab : Commute a b) (hne : a ≠ b)
     (hct : Commute c (a * b)) : Commute c a := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have ha2 : a * a = 1 := hD.mul_self_eq_one ha
   have hb2 : b * b = 1 := hD.mul_self_eq_one hb
   have hc2 : c * c = 1 := hD.mul_self_eq_one hc
@@ -247,7 +247,7 @@ private theorem s11v_frame_pair (h : ElevenOneHyp hC)
   obtain ⟨T, hKT⟩ := IsPGroup.exists_le_sylow hK
   have hTmap : IsPGroup 2 ((T : Subgroup (Halpha D hC.alpha)).map
       (Halpha D hC.alpha).subtype) :=
-    T.isPGroup'.map (Halpha D hC.alpha).subtype
+    T.isPGroup.map (Halpha D hC.alpha).subtype
   obtain ⟨S, hTmapS⟩ := IsPGroup.exists_le_sylow hTmap
   obtain ⟨v, hv⟩ := h.exists_frame S T hTmapS
   have hxT : x ∈ (T : Subgroup (Halpha D hC.alpha)) :=
@@ -315,13 +315,13 @@ private theorem s11v_frame_pair (h : ElevenOneHyp hC)
     intro a ha b hb hab
     obtain ⟨m, rfl⟩ := ha
     obtain ⟨n, rfl⟩ := hb
-    exact commute_of_mul_mem_of_isPGroup hC.setup.oddT S.isPGroup'
+    exact commute_of_mul_mem_of_isPGroup hC.setup.oddT S.isPGroup
       (DalphaStar_subset hC.isBlock_alpha (hv.mem m))
       (DalphaStar_subset hC.isBlock_alpha (hv.mem n))
       (S.mul_mem (hvS m) (hvS n))
   let V : Subgroup G := Subgroup.closure (Set.range v)
-  letI : IsMulCommutative V := Subgroup.isMulCommutative_closure hv_comm
-  letI : CommGroup V := IsMulCommutative.instCommGroup
+  let : IsMulCommutative V := Subgroup.isMulCommutative_closure hv_comm
+  let : CommGroup V := IsMulCommutative.instCommGroup
   let f : Fin 4 → V := fun m => ⟨v m, Subgroup.subset_closure (Set.mem_range_self m)⟩
   let uV : V := ⟨hC.d, by
     rw [← hv.prod_eq]
@@ -352,7 +352,7 @@ private theorem s11v_frame_pair (h : ElevenOneHyp hC)
   have hvj2 : v j * v j = 1 :=
     hC.setup.oddT.mul_self_eq_one (DalphaStar_subset hC.isBlock_alpha (hv.mem j))
   have hvij : Commute (v i) (v j) :=
-    commute_of_mul_mem_of_isPGroup hC.setup.oddT S.isPGroup'
+    commute_of_mul_mem_of_isPGroup hC.setup.oddT S.isPGroup
       (DalphaStar_subset hC.isBlock_alpha (hv.mem i))
       (DalphaStar_subset hC.isBlock_alpha (hv.mem j))
       (S.mul_mem (hvS i) (hvS j))
@@ -367,7 +367,7 @@ private theorem s11v_frame_pair (h : ElevenOneHyp hC)
   refine ⟨v k, v l, DalphaStar_subset hC.isBlock_alpha (hv.mem k),
     DalphaStar_subset hC.isBlock_alpha (hv.mem l), ?_, ?_, ?_⟩
   · intro h; exact hkl (hv.injective h)
-  · exact commute_of_mul_mem_of_isPGroup hC.setup.oddT S.isPGroup'
+  · exact commute_of_mul_mem_of_isPGroup hC.setup.oddT S.isPGroup
       (DalphaStar_subset hC.isBlock_alpha (hv.mem k))
       (DalphaStar_subset hC.isBlock_alpha (hv.mem l))
       (S.mul_mem (hvS k) (hvS l))
@@ -455,7 +455,7 @@ theorem involution_mem (h : ElevenOneHyp hC) {y : G} (hy : y ∈ Halpha D hC.alp
       exact absurd (s11v_mk_eq_one_of_mem_lift h e hML hy hy2 hyL) hyq
 
 theorem not_mem_of_not_mem_Halpha (h : ElevenOneHyp hC) {x : G}
-    (hx : x ∈ Subgroup.centralizer {hC.d}) (hxH : x ∉ Halpha D hC.alpha) (hx2 : orderOf x = 2) :
+    (hx : x ∈ Subgroup.centralizer {hC.d}) (hxH : x ∉ Halpha D hC.alpha) (_hx2 : orderOf x = 2) :
     x ∉ D ∧ ¬ ∃ a ∈ D, ∃ b ∈ D, a ≠ b ∧ Commute a b ∧ x = a * b := by
   have hxu : Commute x hC.d := Subgroup.mem_centralizer_singleton_iff.mp hx
   constructor

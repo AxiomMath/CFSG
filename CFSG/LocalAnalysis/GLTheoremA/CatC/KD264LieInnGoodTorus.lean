@@ -152,7 +152,7 @@ theorem exists_perfect_le_centralizer_toralComponent {p : ℕ} (hp : p.Prime) {t
     componentRootSpan_le_toralCentralizer a i
   have hS_perf : ⁅componentRootSpan K χ i, componentRootSpan K χ i⁆ =
       componentRootSpan K χ i := by
-    haveI : Group.IsPerfect ↥(componentRootSpan K χ i) := hS_quasi.1
+    have : Group.IsPerfect ↥(componentRootSpan K χ i) := hS_quasi.1
     exact Subgroup.commutator_eq_self
   have hmem : canonicalRep (coxeterSystem τ) K 1 * torusElt τ K k t *
       (canonicalRep (coxeterSystem τ) K 1)⁻¹ ∈ componentTorus K χ i :=
@@ -222,7 +222,7 @@ theorem perfectCentralizerPlanes_of_conj_le_of_components {p : ℕ} (hp : p.Prim
   obtain ⟨a, hdaD, hda1, L, hLle, hLq, hLnc⟩ :=
     exists_component_of_toralPlane hp hET hcomp hβ hDE hDpow hDcard'
   have hLperf : ⁅L, L⁆ = L := by
-    haveI : Group.IsPerfect ↥L := hLq.1
+    have : Group.IsPerfect ↥L := hLq.1
     exact Subgroup.commutator_eq_self
   exact ⟨rootDiagUnit τ a, hdaD, hda1, L, hLle, hLperf,
     (Nat.Prime.dvd_iff_not_coprime hp).mpr hLnc⟩

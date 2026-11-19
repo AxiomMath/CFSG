@@ -63,6 +63,7 @@ section Pieces
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   {K : Type} [Field K] {γ : G → K}
 
+omit [Finite G] in
 theorem sec8_img_inf_eq_zero (M₀ : Tim79.QuadModel Q Z K γ) {S S' : Subgroup G} (hZS' : Z ≤ S')
     (h : S ⊓ S' ≤ Z) {e : M₀.E} (he : e ∈ M₀.img S) (he' : e ∈ M₀.img S') : e = 0 := by
   obtain ⟨a, haS, haQ, rfl⟩ := (Tim79.QuadModel.mem_img M₀).mp he
@@ -74,6 +75,7 @@ theorem sec8_img_inf_eq_zero (M₀ : Tim79.QuadModel Q Z K γ) {S S' : Subgroup 
     exact S'.mul_mem hbS' (hZS' hz)
   exact (M₀.π_ker a haQ).mpr (h ⟨haS, haS'⟩)
 
+omit [Finite G] in
 theorem sec8_img_sup_le (M₀ : Tim79.QuadModel Q Z K γ) (hc : Ctx M Q Z B) {e : M₀.E}
     (he : e ∈ M₀.img (Z ⊔ B)) : e ∈ M₀.img B := by
   obtain ⟨y, hy, hyQ, rfl⟩ := (Tim79.QuadModel.mem_img M₀).mp he
@@ -86,6 +88,7 @@ theorem sec8_img_sup_le (M₀ : Tim79.QuadModel Q Z K γ) (hc : Ctx M Q Z B) {e 
   rw [M₀.π_mul b hbQ z hzQ, (M₀.π_ker z hzQ).mpr hz, add_zero]
   exact Tim79.QuadModel.pi_mem_img M₀ hb hbQ
 
+omit [Finite G] in
 theorem sec8_card_img_B_le [Finite K] (M₀ : Tim79.QuadModel Q Z K γ) (hc : Ctx M Q Z B)
     (hD : GlobalModelData M Q Z γ M₀) : Nat.card ↥(M₀.img B) ≤ Nat.card K := by
   obtain ⟨g, hg⟩ := hc.conj
@@ -121,8 +124,8 @@ theorem sec8_bridge_S_card [Finite K] (M₀ : Tim79.QuadModel Q Z K γ) (hc : Ct
   have hS : Nat.card ↥(M₀.img (Q ⊓ QB B)) = Nat.card Z ^ n := by
     rw [hcard, pow_succ'] at h1
     exact (Nat.eq_of_mul_eq_mul_left hzpos h1).symm
-  haveI : Finite M₀.E := by
-    haveI : Module.Finite K M₀.E := M₀.fin
+  have : Finite M₀.E := by
+    have : Module.Finite K M₀.E := M₀.fin
     exact Module.finite_of_finite K
   have himgQ : M₀.img Q = ⊤ := by
     rw [eq_top_iff]

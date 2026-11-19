@@ -129,7 +129,7 @@ theorem wreath_prod_flip {S : Type} [Group S] {z : Fin 3 → S} {t e m : S}
       (vecElt z ![1, 1, 1] ^ a * e ^ k) * (m * (vecElt z ![1, 1, 1] ^ a * e ^ k) * m⁻¹) ∧
     m * (vecElt z ![1, 1, 1] ^ a * e ^ k) * m⁻¹ ∉
       Subgroup.zpowers (vecElt z ![1, 1, 1] ^ a * e ^ k) := by
-  haveI : IsMulCommutative (baseA z) := (isElemAbelian_baseA hf).1
+  have : IsMulCommutative (baseA z) := (isElemAbelian_baseA hf).1
   set c := vecElt z ![1, 1, 1] with hc
   have h1v : ((1 : ZMod 3)).val = 1 := rfl
   have h2v : ((2 : ZMod 3)).val = 2 := rfl
@@ -246,7 +246,7 @@ theorem listRow_of_wreath3_prod_gen {S : Type} [Group S] [Finite S] {z : Fin 3 �
           Subgroup.zpowers (vecElt z ![1, 1, 1] ^ a * e ^ k)) :
     ListRow S := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hWe := commute_wreathW_of_commute hec het
   set W := wreathW z t with hWdef
   have hWQ : W ≤ W ⊔ zpowers e := le_sup_left
@@ -279,7 +279,7 @@ theorem listRow_of_wreath3_prod_gen {S : Type} [Group S] [Finite S] {z : Fin 3 �
     · rfl
   have hQcard : Nat.card (W ⊔ zpowers e : Subgroup S) = 3 ^ 5 := by rw [hk5, hk5eq]
   have hS' : ¬ 3 ^ (5 + 1) ∣ Nat.card S := by norm_num; exact hS
-  haveI : IsMulCommutative (baseA z) := (isElemAbelian_baseA hf).1
+  have : IsMulCommutative (baseA z) := (isElemAbelian_baseA hf).1
   have hc3 : (vecElt z ![1, 1, 1]) ^ 3 = 1 := (isElemAbelian_baseA hf).2 _ (vecElt_mem_baseA hf _)
   refine listRow_of_sylow_center 5 (W ⊔ zpowers e) hQcard hS' fun u huQ huo hucent => ?_
   obtain ⟨w, hwW, k, hu⟩ := mem_sup_zpowers_of_commute hWe huQ

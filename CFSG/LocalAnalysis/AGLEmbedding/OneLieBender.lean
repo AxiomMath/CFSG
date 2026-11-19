@@ -93,7 +93,7 @@ theorem ReducedNongeneration.false_of_isComponentOf_le (h : ReducedNongeneration
     exists_mem_sylow_inf_component hp h.ne_two h.core_eq_bot Rb hL
   have hWS := le_inf_of_normal_subgroupOf Rb hWC hWp hCW
   have hS : IsCyclic ((Rb : Subgroup Y) ⊓ C : Subgroup Y) :=
-    hcyc _ inf_le_right (Rb.isPGroup'.to_le inf_le_left)
+    hcyc _ inf_le_right (Rb.isPGroup.to_le inf_le_left)
   obtain ⟨w, hw⟩ : ∃ w : W, orderOf w = p := by
     have : Nontrivial W := (Subgroup.nontrivial_iff_ne_bot W).mpr hW1
     obtain ⟨k, hk, hWk⟩ := hWp.nontrivial_iff_card.mp this

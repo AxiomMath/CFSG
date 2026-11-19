@@ -19,11 +19,13 @@ section TvAct
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {σ : F ≃+* F} {K : Type} [Field K]
   {e : K ≃+* Fσ σ}
 
+omit [Finite F] in
 private theorem isTransvec_mul_self {g : GL (Fin 6) F} (h : IsTransvec F g) : g * g = 1 := by
   apply Units.ext
   rw [Units.val_mul, Units.val_one]
   exact sq_eq_one_of_sub_one_sq h.1
 
+omit [Finite F] in
 theorem eq_of_e3uWact_eq_of_isTransvec (hσ : IsUnitaryInvolution σ) {g₁ g₂ : SUid σ 6}
     (h₁ : IsTransvec F (g₁ : GL (Fin 6) F)) (h₂ : IsTransvec F (g₂ : GL (Fin 6) F))
     (h : e3uWact σ e g₁ = e3uWact σ e g₂) : g₁ = g₂ := by

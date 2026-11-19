@@ -138,7 +138,7 @@ theorem exists_sylow_ge [Finite G] {M B : Subgroup G} (hB : IsPGroup 2 B) (hBM :
   have hB' : IsPGroup 2 ↥(B.subgroupOf M) := hB.comap_subtype
   obtain ⟨P, hP⟩ := hB'.exists_le_sylow
   refine ⟨(P : Subgroup ↥M).map M.subtype, Subgroup.map_subtype_le _, ?_, ?_, ?_⟩
-  · exact P.isPGroup'.map M.subtype
+  · exact P.isPGroup.map M.subtype
   · have e : ((P : Subgroup ↥M).map M.subtype).subgroupOf M = P :=
       Subgroup.comap_map_eq_self_of_injective M.subtype_injective _
     unfold Subgroup.relIndex

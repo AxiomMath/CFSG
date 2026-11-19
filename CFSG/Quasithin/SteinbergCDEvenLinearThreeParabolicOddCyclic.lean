@@ -168,7 +168,7 @@ theorem even_projective_linear_three_parabolic_solvable_normal_odd_cyclic {k : T
     exact isCyclic_of_surjective e.symm.toMonoidHom e.symm.surjective
   refine ⟨hmain, fun r hr hr2 S => ?_⟩
   have : Fact r.Prime := ⟨hr⟩
-  obtain ⟨m, hm⟩ := IsPGroup.iff_card.1 (S.isPGroup'.map N.subtype)
+  obtain ⟨m, hm⟩ := IsPGroup.iff_card.1 (S.isPGroup.map N.subtype)
   have hc := hmain _ (map_subtype_le _) r m hr hr2 hm
   have e : (S : Subgroup N) ≃* (S : Subgroup N).map N.subtype :=
     (S : Subgroup N).equivMapOfInjective _ N.subtype_injective

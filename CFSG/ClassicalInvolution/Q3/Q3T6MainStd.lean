@@ -175,7 +175,7 @@ theorem exists_sylow_le :
   have hRK := hstd.isSylow2In_R
   obtain ⟨Q, hQ⟩ := (hRK.2.1.comap_subtype : IsPGroup 2 (R.subgroupOf K)).exists_le_sylow
   have heq : (Q : Subgroup K).map K.subtype = R :=
-    hRK.2.2 _ (Subgroup.map_subtype_le _) (Q.isPGroup'.map _)
+    hRK.2.2 _ (Subgroup.map_subtype_le _) (Q.isPGroup.map _)
       (by rw [← Subgroup.map_subgroupOf_eq_of_le hRK.1]; exact Subgroup.map_mono hQ)
   exact ⟨Q, heq ▸ hstd.hRS⟩
 
@@ -291,7 +291,7 @@ theorem le_centralizer [IsSimpleGroup G] :
       have e : x = s * (s⁻¹ * x * s) * s⁻¹ := by group
       rw [e]
       exact Subgroup.mul_mem _ (Subgroup.mul_mem _ hs (hQS hx')) (Subgroup.inv_mem _ hs)
-    exact conjSubgroup_eq_self_iff.mp (ht.conjSubgroup_sylow_eq Q₀ S.isPGroup' hQS hle)
+    exact conjSubgroup_eq_self_iff.mp (ht.conjSubgroup_sylow_eq Q₀ S.isPGroup hQS hle)
   intro s hs
   rw [Subgroup.mem_centralizer_singleton_iff]
   have h1 := hzR.conj_eq (conjSub_eq_of_mem_normalizer (hSN hs))

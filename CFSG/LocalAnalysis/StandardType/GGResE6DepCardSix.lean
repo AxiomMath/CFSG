@@ -40,18 +40,18 @@ theorem ggResLeaf_e6Dep_cardSix (hB36 : GGNbrTablePNbrInputOnL GGRegimeB36L) :
       ¬ (GGResRowAt ggRowSUCorank2 p J L ∨ GGResRowAt ggRowSUCorank2 p J K) := by
   intro G _ _ p B Bs x L D J y K hH hfact hF hS hE hP
   obtain ⟨hp3, hcard, hD, hno3, hres, hrowTN, hrowC, hrowSU⟩ := hP
-  haveI : Fact p.Prime := hfact
+  have : Fact p.Prime := hfact
   have hDdep : GGResLeviDatumExact2 p Bs L J K ggSelDep ggTypLE6 := hD
   subst hp3
   obtain ⟨Λ, i1, i2, S, Λa, i3, i4, ML, CL, MK, CK, V, i5, i6, ι, φ, h, α,
     hS2, hA1, hA3, hWML, hCLL, hWMK, hCKK, htyp, hlin, hrefl, hpairL, hpairK, hsel,
     hfL, hfK, hclosL, hclosK, hdel, hclosJ⟩ := hD
-  letI := i1
-  letI := i2
-  letI := i3
-  letI := i4
-  letI := i5
-  letI := i6
+  let := i1
+  let := i2
+  let := i3
+  let := i4
+  let := i5
+  let := i6
   rcases (by omega : Nat.card Λa = 1 ∨ Nat.card Λa = 2 ∨ Nat.card Λa = 3) with
     hΛa1 | hΛa2 | hΛa3
   ·
@@ -82,13 +82,12 @@ theorem ggResLeaf_e6Dep_cardSix (hB36 : GGNbrTablePNbrInputOnL GGRegimeB36L) :
       have hsub : Fintype.card {i : Λ // i ∈ S} = S.card := by
         rw [Fintype.card_subtype]; simp
       have hcomp : Fintype.card {i : Λ // i ∉ S} = Fintype.card Λ - S.card := by
-        change Fintype.card {i : Λ // i ∉ S} = Fintype.card Λ - S.card
         rw [Fintype.card_subtype_compl (fun i : Λ => i ∈ S), hsub]
       have hT4 : Fintype.card {i : Λ // i ∉ S} = 4 := by omega
       have hK6 : Fintype.card ({i : Λ // i ∉ S} ⊕ Λa) = 6 := by
         rw [Fintype.card_sum, hT4, ← Nat.card_eq_fintype_card, hΛa2]
       obtain ⟨e, he⟩ :=
-        rank_six_CK_E6_of_witness (ML := ML) (CL := CL) hH hWMK hCKK hlin hpairK hclosK hK6 hcard
+        rank_six_CK_E6_of_witness (_ML := ML) (_CL := CL) hH hWMK hCKK hlin hpairK hclosK hK6 hcard
       obtain ⟨fK, hfK'⟩ := hfK
       have hφmem : ∀ o : {i : Λ // i ∉ S} ⊕ Λa,
           φ (o.map Subtype.val id) ∈ ggAutomizer K Bs := by
@@ -121,7 +120,7 @@ theorem ggResLeaf_e6Dep (hB36 : GGNbrTablePNbrInputOnL GGRegimeB36L) :
       ¬ (GGResRowAt ggRowSUCorank2 p J L ∨ GGResRowAt ggRowSUCorank2 p J K) := by
   intro G _ _ p B Bs x L D J y K hH hfact hF hS hE hP
   obtain ⟨hp3, hD, hno3, hres, hrowTN, hrowC, hrowSU⟩ := hP
-  haveI : Fact p.Prime := hfact
+  have : Fact p.Prime := hfact
   subst hp3
   rcases hH.card_Bs_six_or_seven_of_original_L_E6_datum hD with h6 | h7
   · exact ggResLeaf_e6Dep_cardSix hB36 G 3 B Bs x L D J y K hH hF hS hE
@@ -140,17 +139,17 @@ theorem ggResLeaf_e6ExactTwo (hB36 : GGNbrTablePNbrInputOnL GGRegimeB36L) :
   classical
   intro G _ _ p B Bs x L D J y K hH hfact hF hS hE hP
   obtain ⟨hp3, hD, hno3, hres, hrowTN, hrowC, hrowSU⟩ := hP
-  haveI : Fact p.Prime := hfact
+  have : Fact p.Prime := hfact
   subst hp3
   obtain ⟨Λ, i1, i2, S, Λa, i3, i4, ML, CL, MK, CK, V, i5, i6, ι, φ, h, α,
     hS2, hA1, hA3, hWML, hCLL, hWMK, hCKK, htyp, hlin, hrefl, hpairL, hpairK, _,
     hfL, hfK, hclosL, hclosK, hdel, hclosJ⟩ := hD
-  letI := i1
-  letI := i2
-  letI := i3
-  letI := i4
-  letI := i5
-  letI := i6
+  let := i1
+  let := i2
+  let := i3
+  let := i4
+  let := i5
+  let := i6
   by_cases hLI : LinearIndependent (ZMod 3) (fun i : Λ => h (Sum.inl i))
   · apply hH.e6_exactTwo_independent_L_weyl_join
     exact ⟨Λ, i1, i2, S, Λa, i3, i4, ML, CL, MK, CK, V, i5, i6, ι, φ, h, α,
@@ -168,7 +167,7 @@ theorem ggResMultiNodeRestTwoCellInput_e6Split_three
       (fun p lab => p = 3 ∧ lab.tag = .E6 ∧ p ∣ 2 ^ lab.n - 1) := by
   intro G _ _ p B Bs x L D J y K hH hfact hF hS hE hP
   obtain ⟨hD, _, _, hL, _, _, _, hno3, hres, htwo, hC, hSU⟩ := hP
-  haveI : Fact p.Prime := hfact
+  have : Fact p.Prime := hfact
   have hp3 : p = 3 := by
     obtain ⟨lab, _, _, _, _, _, _, _, hmark⟩ :=
       largeEvenMarking_exists_hasLabel hL
@@ -187,7 +186,7 @@ theorem ggResMultiNodeRestTwoCellInput_twE6Plus_three
       (fun p lab => p = 3 ∧ lab.tag = .twE6 ∧ p ∣ 2 ^ lab.n + 1) := by
   intro G _ _ p B Bs x L D J y K hH hfact hF hS hE hP
   obtain ⟨hD, _, _, hL, _, _, _, hno3, hres, htwo, hC, hSU⟩ := hP
-  haveI : Fact p.Prime := hfact
+  have : Fact p.Prime := hfact
   have hp3 : p = 3 := by
     obtain ⟨lab, _, _, _, _, _, _, _, hmark⟩ :=
       largeEvenMarking_exists_hasLabel hL

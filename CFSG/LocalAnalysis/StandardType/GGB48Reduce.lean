@@ -60,7 +60,7 @@ private theorem conjAutOfMem_apply {G : Type*} [Group G] {Bs : Subgroup G} (w : 
 
 theorem ggB48_reduce {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs N : Subgroup G}
     (hBs : GGBstar p B Bs) (hZ : Subgroup.center ↥N = ⊥)
-    (hnorm : Bs ≤ Subgroup.normalizer (N : Set G))
+    (_hnorm : Bs ≤ Subgroup.normalizer (N : Set G))
     (hinner : ∀ b ∈ Bs, ∃ g ∈ N, ∀ k ∈ N, b * k * b⁻¹ = g * k * g⁻¹) :
     ∃ E : Subgroup G, E ≤ N ∧ IsElemAbelian p E ∧
       (∀ g ∈ N, g ∈ Subgroup.centralizer (E : Set G) → g ^ p = 1 → g ∈ E) ∧
@@ -105,7 +105,7 @@ theorem ggB48_reduce {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs N : Subgrou
       _ = (π b : G) * ((π b' : G) * (k : G) * (π b' : G)⁻¹) * (π b : G)⁻¹ := by
           simpa only [Subgroup.coe_mul, Subgroup.coe_inv] using hπ b (π b' * k * (π b')⁻¹)
       _ = ((π b * π b' : ↥N) : G) * (k : G) * (((π b * π b' : ↥N) : G))⁻¹ := by
-          simp only [Subgroup.coe_mul, Subgroup.coe_inv]
+          simp only [Subgroup.coe_mul]
           group
   have π_mul_G : ∀ b b' : ↥Bs, (π (b * b') : G) = (π b : G) * (π b' : G) :=
     fun b b' => congrArg Subtype.val (π_mul b b')

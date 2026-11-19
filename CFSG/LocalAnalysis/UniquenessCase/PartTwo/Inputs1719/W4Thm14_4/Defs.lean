@@ -83,7 +83,7 @@ theorem two_mul_rk_commV_of_inv_fpf {W : Type} [CommGroup W] [Finite W]
     (hW : ∀ w : W, w ^ 2 = 1) {z t : MulAut W} (hz : z ^ 3 = 1)
     (hfix : fixV (Subgroup.zpowers z) = ⊥) (ht : t * t = 1) (htz : t * z * t⁻¹ = z⁻¹) :
     2 * rk ↥(commV (Subgroup.zpowers t)) = rk W := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := CFSG.LocalAnalysis.WeakClosure81.GF2Reps13Alt.exists_card_eq_four_pow hW hz
     (U := ⊤) (fun u _ => Subgroup.mem_top _) (fun u _ hu => by
       have h : u ∈ fixV (Subgroup.zpowers z) := CFSG.Quasithin.mem_fixV_zpowers_iff_apply.mpr hu
@@ -108,7 +108,7 @@ theorem inf_eq_bot_of_commute_isAlt_five {G : Type} [Group G] {L₁ L₂ : Subgr
 
 theorem w4Thm14_4_dichotomy {W : Type} [CommGroup W] [Finite W]
     {Y L₁ L₂ X : Subgroup (MulAut W)} (hc₁ : IsComponentOf L₁ Y) (hc₂ : IsComponentOf L₂ Y)
-    (ha₁ : IsAlt ↥L₁ 5) (ha₂ : IsAlt ↥L₂ 5) (hne : L₁ ≠ L₂) (hX : X = L₁ ⊔ L₂)
+    (_ha₁ : IsAlt ↥L₁ 5) (_ha₂ : IsAlt ↥L₂ 5) (hne : L₁ ≠ L₂) (hX : X = L₁ ⊔ L₂)
     (hXn : (X.subgroupOf Y).Normal) :
     (∃ g ∈ Y, L₂ = L₁.map (MulAut.conj g).toMonoidHom) ∨
       ((L₁.subgroupOf Y).Normal ∧ (L₂.subgroupOf Y).Normal) := by
@@ -155,8 +155,8 @@ theorem w4Thm14_4_dichotomy {W : Type} [CommGroup W] [Finite W]
       exact hKcomm a.1 a.2 b.1 hb
     have hq : CFSG.Open.IsQuasisimple ↥K := hK.2.2
     have hbot : commutator ↥K = ⊥ := (commutator_eq_bot_iff (G := ↥K)).mpr hKabel
-    haveI : _root_.IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hq.2
-    haveI : Nontrivial ↥K :=
+    have : _root_.IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hq.2
+    have : Nontrivial ↥K :=
       (QuotientGroup.mk_surjective (s := Subgroup.center ↥K)).nontrivial
     have htopbot : (⊤ : Subgroup ↥K) = ⊥ := by rw [← hq.1, hbot]
     exact top_ne_bot htopbot
@@ -207,7 +207,7 @@ theorem w4Thm14_4_dichotomy {W : Type} [CommGroup W] [Finite W]
 
 theorem iSup_conj_eq_of_swap {W : Type} [CommGroup W] [Finite W]
     {Y L₁ L₂ X : Subgroup (MulAut W)} (hc₁ : IsComponentOf L₁ Y) (hc₂ : IsComponentOf L₂ Y)
-    (ha₁ : IsAlt ↥L₁ 5) (ha₂ : IsAlt ↥L₂ 5) (hne : L₁ ≠ L₂) (hX : X = L₁ ⊔ L₂)
+    (_ha₁ : IsAlt ↥L₁ 5) (_ha₂ : IsAlt ↥L₂ 5) (_hne : L₁ ≠ L₂) (hX : X = L₁ ⊔ L₂)
     (hXn : (X.subgroupOf Y).Normal)
     (hsw : ∃ g ∈ Y, L₂ = L₁.map (MulAut.conj g).toMonoidHom) :
     (⨆ g ∈ Y, L₁.map (MulAut.conj g).toMonoidHom) = X := by

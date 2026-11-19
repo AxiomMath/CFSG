@@ -42,12 +42,12 @@ theorem asc82FactZetaInv6_of_parts
   classical
   intro G _ _ L hL V _ _ _ Q hQ φ hcov w o hact hdet hsn x hx
   obtain ⟨hqs, hZcard, hmodel⟩ := hL
-  haveI hperf : Group.IsPerfect ↥L := hqs.1
+  have hperf : Group.IsPerfect ↥L := hqs.1
   let O : Subgroup ↥L := CFSG.oddCore ↥L
   let Z : Subgroup ↥L := Subgroup.center ↥L
   have hne : O ≠ ⊤ := by
     intro htop
-    haveI : Subsingleton (↥L ⧸ O) := (QuotientGroup.subsingleton_iff).mpr htop
+    have : Subsingleton (↥L ⧸ O) := (QuotientGroup.subsingleton_iff).mpr htop
     have h1 : Nat.card (Subgroup.center (↥L ⧸ O)) ≤ 1 :=
       Finite.card_le_one_iff_subsingleton.mpr inferInstance
     have h2 : Nat.card (Subgroup.center (↥L ⧸ O)) = 2 := hZcard

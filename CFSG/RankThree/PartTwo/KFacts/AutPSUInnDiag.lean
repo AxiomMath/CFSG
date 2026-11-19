@@ -12,7 +12,7 @@ open CFSG.ASVolI CFSG.ASVolI.ChA CFSG.LocalAnalysis.ComponentInitial
 theorem map_range_psuConj_le_innDiagSubgroup {X : Type} [Group X] {n : ℕ} {K : Type}
     [Field K] (hu : UnitaryFieldData 2 n K) (e : X ≃* unitaryPSU hu 3) :
     (psuConj hu).range.map (MulAut.congr e.symm).toMonoidHom ≤ innDiagSubgroup X := by
-  haveI : Finite K := hu.finite
+  have : Finite K := hu.finite
   rintro _ ⟨A, ⟨a, rfl⟩, rfl⟩
   refine Subgroup.subset_closure (show IsInnDiagAut X _ from Or.inr (Or.inr ?_))
   refine ⟨n, K, inferInstance, inferInstance, e.trans
@@ -30,8 +30,8 @@ theorem map_range_psuConj_le_innDiagSubgroup {X : Type} [Group X] {n : ℕ} {K :
 theorem commutator_mem_range_psuConj {p f : ℕ} {K : Type} [Field K]
     (h : UnitaryFieldData p f K) (hq : 2 < p ^ f) (α β : MulAut (unitaryPSU h 3)) :
     α * β * α⁻¹ * β⁻¹ ∈ (psuConj h).range := by
-  haveI : Finite K := h.finite
-  haveI : (psuConj h).range.Normal := (stdPinnedPSU3_stable (h := h) hq).normal
+  have : Finite K := h.finite
+  have : (psuConj h).range.Normal := (stdPinnedPSU3_stable (h := h) hq).normal
   obtain ⟨A, σ, rfl⟩ := exists_psuConj_mul_psuField hq α
   obtain ⟨B, τ, rfl⟩ := exists_psuConj_mul_psuField hq β
   have hqA : QuotientGroup.mk' (psuConj h).range (psuConj h A) = 1 :=

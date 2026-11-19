@@ -65,9 +65,10 @@ theorem uc22p22xf_UleT (D : Data G) : D.U ≤ D.T := by
   obtain ⟨hU1, -⟩ := uCore_le_and_isElemAbelian D.standing.charTwo D.maxLocal.1 D.sylowM
   exact (hU1.trans inf_le_left).trans (uc22p22e_pCoreOf_le_T D)
 
+omit [Finite G] in
 theorem mbarImage_mono (M V : Subgroup G) {X Y : Subgroup G} (h : X ≤ Y) :
     mbarImage M V X ≤ mbarImage M V Y :=
-  Subgroup.map_mono fun x hx => h hx
+  Subgroup.map_mono fun _x hx => h hx
 
 @[expose] def stabSub {X : Type} [Group X] {W : Type} [AddCommGroup W] [Module (ZMod 2) W]
     (ρ : Representation (ZMod 2) X W) (w : W) : Subgroup X where
@@ -85,10 +86,12 @@ theorem mbarImage_mono (M V : Subgroup G) {X Y : Subgroup G} (h : X ≤ Y) :
 
 variable {Umod : Type} [AddCommGroup Umod] [Module (ZMod 2) Umod] [Finite Umod]
 
+omit [Module (ZMod 2) Umod] [Finite Umod] in
 theorem card_module_eq (D : Data G) (e : ↥D.U ≃* Multiplicative Umod) :
     Nat.card Umod = Nat.card D.U :=
   (Nat.card_congr (e.toEquiv.trans Multiplicative.toAdd)).symm
 
+omit [Finite Umod] in
 theorem relIndex_mul_card_fixSub (D : Data G) (e : ↥D.U ≃* Multiplicative Umod)
     (ρ : Representation (ZMod 2) (MBar D.M D.U) Umod) (hc : ConjModule D.M D.U e ρ)
     {A' : Subgroup G} (hA'M : A' ≤ D.M) :

@@ -43,7 +43,7 @@ theorem prime_of_isChevSimple {p : ℕ} (hp2 : p ≠ 2) {S : Type} [Group S] (h 
 theorem card_le_three_of_l2Eight {F : Type} [Field F] [Finite F] (hF : Nat.card F = 2 ^ 3)
     {S : Type} [Group S] (e : S ≃* CFSG.GorensteinWalter.PSL2 F) {D : Subgroup (MulAut S)}
     (hDI : D ⊓ innerAut S = ⊥) : Nat.card D ≤ 3 := by
-  haveI : CharP F 2 := charP_two_of_card hF
+  have : CharP F 2 := charP_two_of_card hF
   let ρ : ↥D →* (F ≃+* F) :=
     SemidirectProduct.rightHom.comp ((autEquiv e).toMonoidHom.comp D.subtype)
   have hρ : Function.Injective ρ := by
@@ -71,8 +71,8 @@ theorem coreFree_outer_simple {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {S : Type
     (hDI : D ⊓ innerAut S = ⊥) :
     GLAPPrimeCoreOf p (innerAut S ⊓ Subgroup.centralizer (D : Set (MulAut S))) = ⊥ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (MulAut S) := finite_mulAut S
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (MulAut S) := finite_mulAut S
   obtain ⟨⟨d, hdD⟩, hd1'⟩ := (Subgroup.ne_bot_iff_exists_ne_one).1 hD1
   have hd1 : d ≠ 1 := fun h => hd1' (Subtype.ext h)
   have hdp : d ^ p = 1 := hD.2 d hdD
@@ -157,8 +157,8 @@ theorem coreFree_outer_simple {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {S : Type
 theorem i196OuterCore_holds : ∀ p : ℕ, I196OuterCore p := by
   intro p hp2 K _ _ hK hch D hDel hD1 hDI
   have hp : p.Prime := prime_of_isChevSimple hp2 hch
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (MulAut K) := finite_mulAut K
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (MulAut K) := finite_mulAut K
   by_cases h27 : p = 3 ∧ catalogIs (K ⧸ Subgroup.center K) (onLie (isL2 27))
   · exact Or.inr h27
   left

@@ -155,7 +155,7 @@ theorem line_cert_ok : lineCert (digitsW CFSG.ONSchreier.Data.rootDigits) 122760
       obtain ⟨p1, -, pneg, nne, pa, pb⟩ := piAt_spec (pi_pt i hi)
       obtain ⟨n1, n2⟩ := ON.neg_facts hi
       obtain ⟨-, ma, mb, -, -⟩ := hmv i hi
-      simp [ofFnGet hi, ofFnGet n1, ofFnGet ma, ofFnGet mb, hkU _ p1, hkO i hi, hkO _ n1,
+      simp [ofFnGet hi, ofFnGet ma, ofFnGet mb, hkU _ p1, hkO i hi, hkO _ n1,
         nu_vec hi, key_neg hi, ← wOfK_vneg (ON.canon_key i hi), ap_of hOa hi, ap_of hOb hi,
         ap_of hUa p1, ap_of hUb p1, p1, n1, n2, nne, pneg, pa, pb]
     · apply allIn0_of

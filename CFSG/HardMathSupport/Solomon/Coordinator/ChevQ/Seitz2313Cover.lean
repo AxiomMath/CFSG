@@ -22,11 +22,11 @@ open CFSG.Open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Universal Ta
 
 theorem EvenTag.isFundTag {t : StatedLieTag} (h : EvenTag t) :
     CFSG.ClassicalInvolution.Generic.IsFundTag t := by
-  cases t <;> first | trivial | exact h.elim
+  cases t <;> first | trivial
 
 theorem EvenTag.isFundTag' {t : StatedLieTag} (h : EvenTag t) :
     CFSG.ClassicalInvolution.ModelFacts.IsFundTag t := by
-  cases t <;> first | trivial | exact h.elim
+  cases t <;> first | trivial
 
 theorem modelUniv_eq {t : StatedLieTag} (ht : EvenTag t) (n p f : ℕ) (hp : p.Prime) :
     CFSG.ClassicalInvolution.Generic.modelUniv t n p f hp = lieUniversal t n p f hp := by
@@ -91,7 +91,7 @@ theorem exists_cover_aux {U : LieUniversal} {t : StatedLieTag} (ht : EvenTag t) 
       IsSimpleGroup X ∧ ∃ a b : X, a * b ≠ b * a := by
   obtain ⟨E⟩ := lieModel_unique_even ht hY hX
   have hsimple : IsSimpleGroup (U.K ⧸ Subgroup.center U.K) := hq.2
-  haveI := hsimple
+  have := hsimple
   have hsimpleX : IsSimpleGroup X := MulEquiv.isSimpleGroup E.symm
   set ψ₀ : U.K →* X := E.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center U.K)) with hψ₀
   have hsurj : Function.Surjective ψ₀ := E.surjective.comp (QuotientGroup.mk'_surjective _)
@@ -108,7 +108,7 @@ theorem exists_cover_aux {U : LieUniversal} {t : StatedLieTag} (ht : EvenTag t) 
     rw [MonoidHom.mem_ker, map_commutatorElement]
     exact commutatorElement_eq_one_iff_commute.2 (hcomm _ _)
   rw [hq.1] at hcom
-  haveI := hsimpleX.toNontrivial
+  have := hsimpleX.toNontrivial
   obtain ⟨x, hx⟩ := exists_ne (1 : X)
   obtain ⟨k, rfl⟩ := hsurj x
   exact hx (hcom (Subgroup.mem_top k))

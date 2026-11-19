@@ -34,11 +34,11 @@ theorem mem_of_isSylowOf_of_comm {A R : Subgroup G} {r : ℕ} [hr : Fact r.Prime
     obtain ⟨k, -, hk⟩ := (Nat.dvd_prime_pow hr.out).mp hdvd
     exact IsPGroup.of_card (n := k) (by rw [Nat.card_zpowers]; exact hk)
   obtain ⟨Q', hQ'⟩ := hzp.exists_le_sylow
-  haveI : (Q : Subgroup ↥A).Normal := by
-    haveI : IsMulCommutative ↥A := hcomm
+  have : (Q : Subgroup ↥A).Normal := by
+    have : IsMulCommutative ↥A := hcomm
     exact Subgroup.normal_of_isMulCommutative _
   have hQQ' : Q' = Q := by
-    haveI := Sylow.unique_of_normal Q inferInstance
+    have := Sylow.unique_of_normal Q inferInstance
     exact Subsingleton.elim _ _
   refine ⟨y, ?_, rfl⟩
   rw [← hQQ']
@@ -93,6 +93,7 @@ theorem exists_isSylowOf_le_normalizer_torsion {M I A E : Subgroup G} {r : ℕ}
       group
   exact ⟨P, hPsyl, hER.trans hRP, hPN.trans hNRE⟩
 
+omit [Finite G] in
 theorem permutes_torsion_of_le_normalizer_inf {M I A E T : Subgroup G} {r : ℕ}
     (hTM : T ≤ M) (hMI : M ≤ normalizer (I : Set G)) (hAI : A ≤ I)
     (hAT : Permutes A T) (hAN : A ≤ normalizer ((T ⊓ I : Subgroup G) : Set G))
@@ -167,8 +168,8 @@ theorem gap19_22_P_of (D : Data G) {V₀ V : Subgroup G} {p : ℕ} {L A : Subgro
     (E : Subgroup G) : Gap19_22_P D V₀ V p L A t B r h E := by
   intro hEA hEel hEcard
   have hr : r.Prime := h.hr.1
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI hcomm : IsMulCommutative ↥A := isMulCommutative_of_isZModSq h.hAcard
+  have : Fact r.Prime := ⟨hr⟩
+  have hcomm : IsMulCommutative ↥A := isMulCommutative_of_isZModSq h.hAcard
   have hEeq := eq_powTorsionSubgroup_of_isElemAbelian_card h.hAcard hr h.hr.2 hEA hEel hEcard
   have hE : ∀ x, x ∈ E ↔ x ∈ A ∧ x ^ r = 1 := by
     intro x
@@ -184,7 +185,7 @@ theorem gap19_22_P_of (D : Data G) {V₀ V : Subgroup G} {p : ℕ} {L A : Subgro
     intro x hx
     have hx2 : IsPGroup 2 ↥(A ⊓ D.T) := hT2.to_le inf_le_right
     have hdvd : Nat.card ↥(A ⊓ D.T) ∣ Nat.card A := Subgroup.card_dvd_of_le inf_le_left
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨k, hk⟩ := hx2.exists_card_eq
     have hk0 : k = 0 := by
       by_contra hk0
@@ -207,7 +208,7 @@ theorem factorization_card_A_eq_card_IOf_of_hBar {D : Data G} {V₀ V : Subgroup
     (Nat.card A).factorization r = (Nat.card (IOf D p L)).factorization r := by
   classical
   have hr : r.Prime := h.hr.1
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   set n := S17.nOf L with hn
   set I := IOf D p L with hI
   have hBar' : (Nat.card (Bar2 I)).factorization r = 2 * (2 ^ n - 1).factorization r := by
@@ -251,7 +252,7 @@ theorem factorization_card_A_eq_card_IOf_of_shape
     (Nat.card A).factorization r = (Nat.card (IOf D p L)).factorization r := by
   classical
   have hr : r.Prime := h.hr.1
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   set n := S17.nOf L with hn
   set I := IOf D p L with hI
   have hr2 : r ≠ 2 := by
@@ -297,7 +298,7 @@ theorem factorization_card_A_eq_card_IOf_of_shape
       rw [hX, hpow2]
       exact CFSG.GroupTheory.factorization_card_L2Square hr hr2 h2q hq
     · obtain ⟨A', B', gA, gB, ⟨e⟩, hL2A, hU3B⟩ := hU3
-      haveI : Finite B' := CFSG.LocalAnalysis.EvenBN.GMSK.finite_of_lieModel_PSU3 hU3B
+      have : Finite B' := CFSG.LocalAnalysis.EvenBN.GMSK.finite_of_lieModel_PSU3 hU3B
       have hAfac : Nat.card A' = 2 ^ n * (4 ^ n - 1) :=
         CFSG.Quasithin.H13.card_of_lieModel_L2 hn1 hL2A
       have hc := CFSG.LocalAnalysis.EvenBN.GMSK.card_mul_gcd_of_lieModel_PSU3 hU3B
@@ -366,7 +367,7 @@ theorem A_le_normalizer_T_inf_IOf_of_shape {D : Data G} {V₀ V : Subgroup G} {p
     (hn3 : 3 ≤ S17.nOf L) (hK : K_BorelOvergroup) :
     A ≤ normalizer ((D.T ⊓ IOf D p L : Subgroup G) : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set I := IOf D p L with hI
   set n := S17.nOf L with hn
   set V := D.T ⊓ I with hV
@@ -531,7 +532,7 @@ theorem A_le_normalizer_T_inf_IOf {D : Data G} {V₀ V : Subgroup G} {p : ℕ} {
     (hK : K_BorelOvergroup) :
     A ≤ normalizer ((D.T ⊓ IOf D p L : Subgroup G) : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set I := IOf D p L with hI
   set n := S17.nOf L with hn
   have hn3 : 3 ≤ n := by

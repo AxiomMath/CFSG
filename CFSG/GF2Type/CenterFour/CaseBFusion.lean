@@ -19,6 +19,7 @@ private theorem fused_mul_z_of_centralizer (hC : Config z n) {w : G} (hw : Fused
   obtain ⟨g', hg'⟩ := hC.exists_conj_eq_mul_z hwC hne
   exact ⟨g', hg'⟩
 
+omit [Finite G] in
 private theorem mem_core_of_fused_centralizes {z₁ : G} (hC1 : Config z₁ n) {w : G}
     (hw : Fused z₁ w) (hwK : w ∈ centralizer (centerAt z₁ : Set G)) : w ∈ coreAt z₁ := by
   obtain ⟨k, rfl⟩ := hw

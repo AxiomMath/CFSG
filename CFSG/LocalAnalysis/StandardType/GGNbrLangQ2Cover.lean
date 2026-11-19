@@ -51,7 +51,7 @@ private theorem l02qq2cv_isElemAbelian_range {G : Type} [Group G] {Bs : Subgroup
     {p : ℕ} (hE : IsElemAbelian p Bs) {L : Subgroup G}
     (hN : Bs ≤ Subgroup.normalizer (L : Set G)) :
     IsElemAbelian p (ggGamma L hN).range := by
-  haveI : IsMulCommutative ↥Bs := hE.1
+  have : IsMulCommutative ↥Bs := hE.1
   exact isElemAbelian_range
     (fun a b : ↥Bs => mul_comm' a b)
     (fun a : ↥Bs => Subtype.ext (by simpa using hE.2 a a.2))
@@ -277,7 +277,7 @@ theorem q2RowSolverInput_of_rLevel {kind : Q2RowKind} (h : Q2RLevel kind) : Q2Ro
       apply Subtype.ext
       rw [Subgroup.subgroupOfEquivOfLe_apply_coe, l02qq2cv_ggBsAut_apply_coe,
         Subgroup.subgroupOfEquivOfLe_apply_coe]
-      simp only [ggGamma_coe, Subgroup.coe_subgroupOf]
+      simp only [ggGamma_coe]
       rfl
     have hxx' : (⟨ggGamma L hNL' b x, hxJmem⟩ : ↥(J.subgroupOf L)) =
         φ.symm ((ggBsAut hN b) (φ xJ)) := by

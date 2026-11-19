@@ -66,7 +66,7 @@ theorem no_alt_order (b : Bool) {N m : ℕ} (hm : 4 ≤ m) (hN : 5 ≤ N)
     rw [← this, h]; ring
   have hE : m * (m - 1) + 2 ≤ N := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     apply two_pow_not_dvd_factorial' (n := N) (by omega)
     have : 2 ^ N ∣ 2 ^ (m * (m - 1) + 1) := pow_dvd_pow 2 (by omega)
     exact this.trans (hfac ▸ dvd_mul_right _ _)
@@ -134,7 +134,7 @@ theorem card_omegaMinus (n : ℕ) (hn : 3 ≤ n) :
 theorem card_alt_eq_of_equiv {G : Type*} [Group G] (hZ : Subgroup.center G = ⊥) {N : ℕ}
     (hN : 2 ≤ N) (e : alternatingGroup (Fin N) ≃* (G ⧸ Subgroup.center G)) :
     N.factorial / 2 = Nat.card G := by
-  haveI : Nontrivial (Fin N) := ⟨⟨⟨0, by omega⟩, ⟨1, by omega⟩, by simp [Fin.ext_iff]⟩⟩
+  have : Nontrivial (Fin N) := ⟨⟨⟨0, by omega⟩, ⟨1, by omega⟩, by simp [Fin.ext_iff]⟩⟩
   have h1 : Nat.card (alternatingGroup (Fin N)) = N.factorial / 2 := by
     rw [nat_card_alternatingGroup]; simp
   rw [← h1, Nat.card_congr e.toEquiv]
@@ -156,9 +156,9 @@ theorem center_eq_bot_of_equiv {G H : Type*} [Group G] [Group H] (e : G ≃* H)
 
 theorem not_isSolvable_alt {n₀ : ℕ} (hn₀ : 5 ≤ n₀) :
     ¬ Group.IsSolvable (alternatingGroup (Fin n₀)) := by
-  haveI : Group.IsPerfect (alternatingGroup (Fin n₀)) :=
+  have : Group.IsPerfect (alternatingGroup (Fin n₀)) :=
     ⟨commutator_alternatingGroup_eq_top (by simpa using hn₀)⟩
-  haveI : Nontrivial (alternatingGroup (Fin n₀)) :=
+  have : Nontrivial (alternatingGroup (Fin n₀)) :=
     alternatingGroup.nontrivial_of_three_le_card (by simp; omega)
   exact Group.IsPerfect.not_isSolvable _
 
@@ -227,8 +227,8 @@ theorem plus_degree {n₀ n : ℕ} (hn₀ : 5 ≤ n₀) (hn : 1 ≤ n)
         Subgroup.center ↥(StatedOmega (StatedQuadPlus (n + 1) (ZMod 2))))) : n = 2 := by
   rcases (by omega : n = 1 ∨ n = 2 ∨ 3 ≤ n) with rfl | rfl | h3
   · exfalso
-    haveI := solvable_omegaPlusFour
-    haveI : Group.IsSolvable
+    have := solvable_omegaPlusFour
+    have : Group.IsSolvable
         (↥(StatedOmega (StatedQuadPlus (1 + 1) (ZMod 2))) ⧸
           Subgroup.center ↥(StatedOmega (StatedQuadPlus (1 + 1) (ZMod 2)))) := inferInstance
     exact not_isSolvable_alt hn₀

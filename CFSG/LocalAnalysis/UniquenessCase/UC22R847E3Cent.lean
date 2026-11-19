@@ -47,7 +47,7 @@ theorem R847E3.normalizer_le_of_thin_five_of_cent (hSE : StronglyEmbeddedFive)
     normalizer (X : Set G) ≤ S.M := by
   have hSg := UC6S846.sigmaStd_dataOfSetup hS S
   obtain ⟨hpP, hp2⟩ := (dataOfSetup hS S).sig_prime p hp
-  haveI : Fact p.Prime := ⟨hpP⟩
+  have : Fact p.Prime := ⟨hpP⟩
   have hsp := UC6S846.sp_of_mem_sig hSg (UC6S846.not_solvable_of_mem_calC hY) hp
   let k : Sec7Core4 G := Sec7Core4.ofThree hS S.M S.witness.maxLocal p hpP hp2 hsp
     (PartTwo.Three.normalizer_le_of_mem_sigmaOf S hp)

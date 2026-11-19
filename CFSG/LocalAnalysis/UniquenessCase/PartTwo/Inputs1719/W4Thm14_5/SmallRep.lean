@@ -54,7 +54,7 @@ theorem subRep_isIrreducible (θ : I ≃* Multiplicative W) {X L : Subgroup (Mul
   have hirrV : ∀ J : Subgroup I, (∀ l ∈ L, ∀ v ∈ J, l v ∈ J) → J = ⊥ ∨ J = ⊤ :=
     fun J hJL => hJ J hJL bot_le le_top
   have hntW : Nontrivial W := by
-    obtain ⟨v, -, hv⟩ := SetLike.exists_of_lt hlt
+    obtain ⟨v, -, hv⟩ := _root_.IsConcreteLE.exists_of_lt hlt
     replace hv : v ≠ 1 := fun h => hv (h ▸ Subgroup.one_mem _)
     refine ⟨⟨Multiplicative.toAdd (θ v), 0, fun h => hv ?_⟩⟩
     have h1 : θ v = 1 := Multiplicative.toAdd.injective (by simpa using h)
@@ -115,7 +115,7 @@ theorem mGV_subRep [Finite I] (θ : I ≃* Multiplicative W) (X : Subgroup (MulA
   have : Finite W := Finite.of_equiv I (θ.toEquiv.trans Multiplicative.toAdd)
   unfold F05.mGV E3.mParam
   by_cases hev : Even (Nat.card ↥X)
-  · rw [if_pos hev, if_pos hev]
+  · rw [ite_eq_left hev, ite_eq_left hev]
     congr 1
     ext k
     constructor
@@ -127,7 +127,7 @@ theorem mGV_subRep [Finite I] (θ : I ≃* Multiplicative W) (X : Subgroup (MulA
       refine ⟨⟨t, htX⟩, by rw [← Subgroup.orderOf_coe]; exact ht, ?_⟩
       rw [finrank_quotient_fixSub_subRep, MonoidHom.map_zpowers]
       rfl
-  · rw [if_neg hev, if_neg hev]
+  · rw [ite_eq_right hev, ite_eq_right hev]
     have hcardW : Nat.card W = Nat.card I :=
       Nat.card_congr (θ.toEquiv.trans Multiplicative.toAdd).symm
     have hpow : Nat.card W = 2 ^ Module.finrank (ZMod 2) W := by
@@ -162,7 +162,7 @@ theorem numConj_subgroupOf_eq_one {X L : Subgroup (MulAut I)} (hLn : (L.subgroup
   have hset : {K : Subgroup ↥X | ∃ g : ↥X, K = (L.subgroupOf X).map (MulAut.conj g).toMonoidHom} =
       {L.subgroupOf X} := by
     ext K
-    simp only [Set.mem_setOf_eq, Set.mem_singleton_iff]
+    simp only [Set.mem_ofPred_eq, Set.mem_singleton_iff]
     constructor
     · rintro ⟨g, rfl⟩
       exact map_conj_subgroupOf_eq hLn g

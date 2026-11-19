@@ -80,18 +80,18 @@ theorem outerRow_H6 : OuterRow H6 :=
   outerRow_of_forall_pow_three_inner fun σ _ => Item434SmallTwoIII.mem_range_conj_H6 σ
 
 theorem listRow_sp62 : ListRow (projSp 3 (GaloisField 2 1)) := by
-  haveI : Finite (projSp 3 (GaloisField 2 1)) :=
+  have : Finite (projSp 3 (GaloisField 2 1)) :=
     Finite.of_equiv _ Item434SmallTwoIII.sp62Equiv.symm.toEquiv
   exact ListRow.of_mulEquiv Item434SmallTwoIII.sp62Equiv.symm listRow_H6
 
 theorem outerRow_sp62 : OuterRow (projSp 3 (GaloisField 2 1)) := by
-  haveI : Finite (projSp 3 (GaloisField 2 1)) :=
+  have : Finite (projSp 3 (GaloisField 2 1)) :=
     Finite.of_equiv _ Item434SmallTwoIII.sp62Equiv.symm.toEquiv
   exact OuterRow.of_mulEquiv Item434SmallTwoIII.sp62Equiv.symm outerRow_H6
 
 theorem row_sp62 : RowOf (projSp 3 (GaloisField 2 1)) := by
   intro S _ _ _ _ ⟨e⟩
-  haveI : Finite (projSp 3 (GaloisField 2 1)) := Finite.of_equiv _ e.toEquiv
+  have : Finite (projSp 3 (GaloisField 2 1)) := Finite.of_equiv _ e.toEquiv
   exact GoodRow.of_mulEquiv (S := projSp 3 (GaloisField 2 1)) e.symm
     ⟨listRow_sp62, outerRow_sp62⟩
 

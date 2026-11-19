@@ -59,7 +59,7 @@ theorem e7FrameSelfCent :
         ((TableBExcTwoTB.tE (GaloisField 2 1) TableBExcTwo.frameE7).range :
           Set (CFSG.Blueprint.Chevalley.adjointGroup .E7 (GaloisField 2 1))) ≤
       (TableBExcTwoTB.tE (GaloisField 2 1) TableBExcTwo.frameE7).range := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hGF : Nat.card (GaloisField 2 1) = 2 ^ 1 := GaloisField.card 2 1 (by omega)
   exact (TableBExcTwoTB.centralizer_tE_frameE7 (by simpa using hGF)).le
 
@@ -83,10 +83,10 @@ theorem exists_mulEquiv_adjointGroup_of_isLabel_E7'
   have hCEM : ChevalleyExceptionalModel K .E7 2 lab.n :=
     hL.chevalleyExceptionalModel (by decide)
   obtain ⟨F, hF, hFin, hcard, ⟨iso⟩⟩ := hCEM.2
-  letI : Field F := hF
-  letI : Finite F := hFin
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fintype (GaloisField 2 lab.n) := Fintype.ofFinite _
+  let : Field F := hF
+  let : Finite F := hFin
+  have : Fintype F := Fintype.ofFinite F
+  have : Fintype (GaloisField 2 lab.n) := Fintype.ofFinite _
   have hGFcard : Nat.card (GaloisField 2 lab.n) = 2 ^ lab.n :=
     GaloisField.card 2 lab.n (by omega)
   let φ : F ≃+* GaloisField 2 lab.n := FiniteField.ringEquivOfCardEq (by
@@ -108,7 +108,7 @@ theorem e7TwoSelfCentInput_of_frame
   subst hn
   have ht : t = .E7 := by rcases hmt with ⟨-, h⟩ | ⟨h, -⟩ <;> [exact h; omega]
   obtain ⟨φ⟩ := exists_mulEquiv_adjointGroup_of_isLabel_E7' (lab := ⟨t, r, 1⟩) hlab ht hZ
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hGF : Nat.card (GaloisField 2 1) = 2 ^ 1 := GaloisField.card 2 1 (by omega)
   let E₂ := (E.subgroupOf K).map φ.toMonoidHom
   have hE₂ : IsElemAbelian 3 E₂ := (hE.subgroupOf K).map _

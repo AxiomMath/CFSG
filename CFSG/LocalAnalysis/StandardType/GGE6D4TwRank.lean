@@ -18,7 +18,7 @@ theorem pow_five_le_card_range_ggGamma {G : Type} [Group G] [Finite G] {Bs J X :
     {d : G} (hdBs : d ∈ Bs) (hdJ : d ∈ Subgroup.centralizer (J : Set G))
     (hdX : d ∉ Subgroup.centralizer (X : Set G)) :
     3 ^ 5 ≤ Nat.card (ggGamma X hN).range := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hd1 : d ≠ 1 := by
     intro h
     exact hdX (by rw [h]; exact Subgroup.one_mem _)

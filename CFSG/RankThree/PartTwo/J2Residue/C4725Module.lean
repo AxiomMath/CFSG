@@ -96,8 +96,8 @@ theorem bv_two_pow (c : Fin 12) : bv (2 ^ (c : ℕ)) = Pi.single c 1 := by
   funext r
   simp only [bv, Nat.testBit_two_pow, Pi.single_apply, decide_eq_true_eq]
   by_cases h : (c : ℕ) = r
-  · rw [if_pos h, if_pos (Fin.ext h).symm]
-  · rw [if_neg h, if_neg fun h' => h (congrArg Fin.val h'.symm)]
+  · rw [ite_eq_left h, ite_eq_left (Fin.ext h).symm]
+  · rw [ite_eq_right h, ite_eq_right fun h' => h (congrArg Fin.val h'.symm)]
 
 theorem bv_foldl {α : Type*} (l : List α) (f : α → ℕ) (x : ℕ) :
     bv (l.foldl (fun acc n => acc ^^^ f n) x) = bv x + (l.map fun n => bv (f n)).sum := by
@@ -223,8 +223,8 @@ theorem vecF_two_pow {a : ℕ} (ha : a < 4725) : vecF (2 ^ a) = ev ⟨a, ha⟩ :
   funext k
   simp only [vecF, Nat.testBit_two_pow, ev, Pi.single_apply, Fin.ext_iff, decide_eq_true_eq]
   by_cases h : a = (k : ℕ)
-  · rw [if_pos h, if_pos h.symm]
-  · rw [if_neg h, if_neg (Ne.symm h)]
+  · rw [ite_eq_left h, ite_eq_left h.symm]
+  · rw [ite_eq_right h, ite_eq_right (Ne.symm h)]
 
 theorem vecF_foldl {α : Type*} (l : List α) (f : α → ℕ) (x : ℕ) :
     vecF (l.foldl (fun acc n => acc ^^^ f n) x) = vecF x + (l.map fun n => vecF (f n)).sum := by
@@ -382,26 +382,26 @@ theorem kept_mem
     (W : Submodule (ZMod 2) PSpace)
     (hT : ∀ j < 2, ∀ f ∈ W, T (letterP j) f ∈ W)
     (hO : ∀ a : Fin 4725, ev a + ev (cosetAct a x0P) + ev (cosetAct (cosetAct a x0P) x0P) ∈ W) :
-    ∀ n < 4713, ∃ (h1 : ((keptTri ())[n]!).1 < 4725) (h2 : ((keptTri ())[n]!).2.1 < 4725)
-      (h3 : ((keptTri ())[n]!).2.2 < 4725), vecF (triBits (keptTri ())[n]!) ∈ W := by
+    ∀ n < 4713, ∃ (_h1 : ((keptTri ())[n]!).1 < 4725) (_h2 : ((keptTri ())[n]!).2.1 < 4725)
+      (_h3 : ((keptTri ())[n]!).2.2 < 4725), vecF (triBits (keptTri ())[n]!) ∈ W := by
   intro n
   induction n using Nat.strong_induction_on with
   | _ n ih =>
   intro hn
   rcases keptCheck_spec hn with ⟨-, ha, e1, e2, e3⟩ | ⟨hq, e1, e2, e3⟩
   · set t := (keptTri ())[n]!
-    have h1 : t.1 < 4725 := e1 ▸ ha
-    have h2 : t.2.1 < 4725 := e2 ▸ xAct_lt ⟨t.1, h1⟩
-    have h3 : t.2.2 < 4725 := e3 ▸ xAct_lt ⟨t.2.1, h2⟩
-    refine ⟨h1, h2, h3, ?_⟩
-    rw [vecF_triBits h1 h2 h3]
-    have k1 : cosetAct ⟨t.1, h1⟩ x0P = ⟨t.2.1, h2⟩ := by
+    have _h1 : t.1 < 4725 := e1 ▸ ha
+    have _h2 : t.2.1 < 4725 := e2 ▸ xAct_lt ⟨t.1, _h1⟩
+    have _h3 : t.2.2 < 4725 := e3 ▸ xAct_lt ⟨t.2.1, _h2⟩
+    refine ⟨_h1, _h2, _h3, ?_⟩
+    rw [vecF_triBits _h1 _h2 _h3]
+    have k1 : cosetAct ⟨t.1, _h1⟩ x0P = ⟨t.2.1, _h2⟩ := by
       rw [cosetAct_x0P]
       exact Fin.ext e2.symm
-    have k2 : cosetAct ⟨t.2.1, h2⟩ x0P = ⟨t.2.2, h3⟩ := by
+    have k2 : cosetAct ⟨t.2.1, _h2⟩ x0P = ⟨t.2.2, _h3⟩ := by
       rw [cosetAct_x0P]
       exact Fin.ext e3.symm
-    have := hO ⟨t.1, h1⟩
+    have := hO ⟨t.1, _h1⟩
     rwa [k1, k2] at this
   · set t := (keptTri ())[n]!
     set q := keptCodes[n]! / 3
@@ -409,18 +409,18 @@ theorem kept_mem
     have hj : j < 2 := by omega
     obtain ⟨g1, g2, g3, hp⟩ := ih q hq (by omega)
     set p := (keptTri ())[q]!
-    have h1 : t.1 < 4725 := e1 ▸ actT_lt j ⟨p.1, g1⟩
-    have h2 : t.2.1 < 4725 := e2 ▸ actT_lt j ⟨p.2.1, g2⟩
-    have h3 : t.2.2 < 4725 := e3 ▸ actT_lt j ⟨p.2.2, g3⟩
-    refine ⟨h1, h2, h3, ?_⟩
-    have k1 : cosetAct ⟨p.1, g1⟩ (letterP j) = ⟨t.1, h1⟩ :=
+    have _h1 : t.1 < 4725 := e1 ▸ actT_lt j ⟨p.1, g1⟩
+    have _h2 : t.2.1 < 4725 := e2 ▸ actT_lt j ⟨p.2.1, g2⟩
+    have _h3 : t.2.2 < 4725 := e3 ▸ actT_lt j ⟨p.2.2, g3⟩
+    refine ⟨_h1, _h2, _h3, ?_⟩
+    have k1 : cosetAct ⟨p.1, g1⟩ (letterP j) = ⟨t.1, _h1⟩ :=
       Fin.ext ((cosetAct_letterP _ j).trans e1.symm)
-    have k2 : cosetAct ⟨p.2.1, g2⟩ (letterP j) = ⟨t.2.1, h2⟩ :=
+    have k2 : cosetAct ⟨p.2.1, g2⟩ (letterP j) = ⟨t.2.1, _h2⟩ :=
       Fin.ext ((cosetAct_letterP _ j).trans e2.symm)
-    have k3 : cosetAct ⟨p.2.2, g3⟩ (letterP j) = ⟨t.2.2, h3⟩ :=
+    have k3 : cosetAct ⟨p.2.2, g3⟩ (letterP j) = ⟨t.2.2, _h3⟩ :=
       Fin.ext ((cosetAct_letterP _ j).trans e3.symm)
     have key : vecF (triBits t) = T (letterP j) (vecF (triBits p)) := by
-      rw [vecF_triBits h1 h2 h3, vecF_triBits g1 g2 g3, map_add, map_add, T_ev, T_ev, T_ev, k1,
+      rw [vecF_triBits _h1 _h2 _h3, vecF_triBits g1 g2 g3, map_add, map_add, T_ev, T_ev, T_ev, k1,
         k2, k3]
     rw [key]
     exact hT j hj _ hp
@@ -519,7 +519,7 @@ variable {V : Type*} [AddCommGroup V] [Module (ZMod 2) V]
 theorem exists_fixed_ne_zero
     [Finite V] [Nontrivial V] (ρ : P →* Module.End (ZMod 2) V) :
     ∃ v : V, v ≠ 0 ∧ ∀ s : S, ρ (incl s) v = v := by
-  letI : MulAction S V := MulAction.compHom V (ρ.comp incl)
+  let : MulAction S V := MulAction.compHom V (ρ.comp incl)
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS : IsPGroup 2 S := IsPGroup.of_card (n := 7) (by rw [card_S]; norm_num)
   have h2 : 2 ∣ Nat.card V := by

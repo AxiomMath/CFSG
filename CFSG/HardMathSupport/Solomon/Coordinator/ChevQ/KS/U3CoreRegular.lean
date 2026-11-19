@@ -68,7 +68,7 @@ theorem pow_three_mul_comm_of_mul_eq_smul {Ym Zm Zi : Matrix (Fin 3) (Fin 3) F} 
     have h1 := hpowY 3
     rw [hY3, Matrix.mul_smul, Matrix.mul_one, Matrix.smul_mul, Matrix.one_mul, smul_smul] at h1
     have h2 := congrArg (fun A => A * Zi) h1
-    simp only [Matrix.smul_mul, Matrix.mul_assoc, hZi, Matrix.mul_one] at h2
+    simp only [Matrix.smul_mul, hZi] at h2
     have h3 := congrFun (congrFun h2 0) 0
     simp only [Matrix.smul_apply, Matrix.one_apply_eq, smul_eq_mul, mul_one] at h3
     have h4 : c ^ 3 * κ = 1 * κ := by rw [one_mul]; exact h3.symm
@@ -81,7 +81,7 @@ theorem exists_isometry_conj_diag (h : UnitaryFieldData 2 3 F) {Y : unitaryIsom3
       (((P⁻¹ * Y * P : unitaryIsom3 h) : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) =
         Matrix.diagonal d := by
   obtain ⟨ζ, hζ⟩ := exists_isPrimitiveRoot_nine h
-  haveI : NeZero (9 : ℕ) := ⟨by norm_num⟩
+  have : NeZero (9 : ℕ) := ⟨by norm_num⟩
   let Y' : primeFormUnitary h (idGram F 3) := ⟨(Y : GL (Fin 3) F), by
     rw [mem_primeFormUnitary]
     have := mem_unitaryIsom3.1 Y.2

@@ -16,7 +16,7 @@ variable {G : Type} [Group G] [Finite G] {t tau lam rho s : G} {Z E W Q R T P : 
 include M
 
 theorem mu_one : fz410Mu emb t s lam FzL410.oneT = 1 := by
-  have h := M.mu_pe 0
+  have h := (CFSG.OddStandard.SmallF3.FritzII.Fz410Mod.mu_pe (t := t) (lam := lam) (s := s) (emb := emb)) 0
   rw [M.emb.emb_zero] at h
   exact h
 
@@ -29,7 +29,7 @@ theorem mu_comm_iff (x y : FzL410.TM) :
 theorem mu_comm_pe (y : FzL410.TM) (a : FzL410.A) :
     fz410Mu emb t s lam y * emb a = emb a * fz410Mu emb t s lam y ↔
       FzL410.mulT (FzL410.pe a) y = FzL410.mulT y (FzL410.pe a) := by
-  rw [← M.mu_pe a, M.mu_comm_iff]
+  rw [← (CFSG.OddStandard.SmallF3.FritzII.Fz410Mod.mu_pe (t := t) (lam := lam) (s := s) (emb := emb)) a, M.mu_comm_iff]
   exact ⟨fun h => h.symm, fun h => h.symm⟩
 
 theorem mu_sq (x : FzL410.TM) :

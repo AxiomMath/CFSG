@@ -214,7 +214,7 @@ theorem sylow_centralizer_closure_pair
   have hS2 : IsPGroup 2 h.S := by
     obtain ⟨R, hR⟩ := h.S_sylow
     have h1 : IsPGroup 2 (h.S.subgroupOf (centralizer ({h.a} : Set X) ⊓
-        normalizer (h.J : Set X))) := hR ▸ R.isPGroup'
+        normalizer (h.J : Set X))) := hR ▸ R.isPGroup
     have h2 := h1.map (centralizer ({h.a} : Set X) ⊓ normalizer (h.J : Set X)).subtype
     rwa [map_subgroupOf_eq_of_le h.S_le] at h2
   set C₀ := h.S ⊓ Y with hC₀
@@ -234,7 +234,7 @@ theorem sylow_centralizer_closure_pair
   have hC₀R₀ : C₀ ≤ R₀ := by
     intro g hg
     exact ⟨⟨g, hC₀Y hg⟩, hR (mem_subgroupOf.mpr hg), rfl⟩
-  have hR₀2 : IsPGroup 2 R₀ := R.isPGroup'.map _
+  have hR₀2 : IsPGroup 2 R₀ := R.isPGroup.map _
   have hR₀a : R₀ ≤ centralizer ({h.a} : Set X) := by
     intro g hg
     exact mem_centralizer_singleton_iff.mpr ((hYmem g).mp (hR₀Y hg)).1.symm
@@ -344,7 +344,7 @@ theorem prop62 [IsSimpleGroup X] (hS : SchreierFor Blueprint.Catalog)
   have hS2 : IsPGroup 2 h.S := by
     obtain ⟨R, hR⟩ := h.S_sylow
     have h1 : IsPGroup 2 (h.S.subgroupOf (centralizer ({h.a} : Set X) ⊓
-        normalizer (h.J : Set X))) := hR ▸ R.isPGroup'
+        normalizer (h.J : Set X))) := hR ▸ R.isPGroup
     have h2 := h1.map (centralizer ({h.a} : Set X) ⊓ normalizer (h.J : Set X)).subtype
     rwa [map_subgroupOf_eq_of_le h.S_le] at h2
   have hBS : h.B ≤ h.S := h.B_le.trans inf_le_left
@@ -453,7 +453,7 @@ theorem prop62 [IsSimpleGroup X] (hS : SchreierFor Blueprint.Catalog)
   have hTM : T ≤ M := map_subtype_le _
   have hS0T : h.S ⊓ normalizer (B₀ : Set X) ≤ T := fun z hz =>
     ⟨⟨z, hS0M hz⟩, hRT (mem_subgroupOf.mpr hz), rfl⟩
-  have hT2 : IsPGroup 2 T := RT.isPGroup'.map _
+  have hT2 : IsPGroup 2 T := RT.isPGroup.map _
   have hTE : T ≤ centralizer (E : Set X) := hTM.trans inf_le_right
   obtain ⟨g, hgE, hgT⟩ := exists_conjugate_le_of_sylow hCSE hTE hT2
   have hga : g ∈ centralizer ({h.a} : Set X) :=

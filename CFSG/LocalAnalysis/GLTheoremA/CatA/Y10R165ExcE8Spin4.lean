@@ -51,7 +51,7 @@ theorem exists_elemAbelian_e8D4Perp (K : Type) [Field K] [Finite K] [CharP K 2] 
     ∃ F : Subgroup (adjointGroup .E8 K), F ≤ e8D4Perp K ∧ CFSG.Open.IsElemAbelian q F ∧
       Nat.card F = q ^ 3 ∧ 3 ≤ CFSG.Open.pRank q F := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨c, hcp, hc1⟩ := exists_sl2_orderOf (K := K) hq hqK
   obtain ⟨ρ, hρ, hcomm, -⟩ := exists_e8D8_family_param K
   have hleaf : ∀ i : Fin 3, ρ (e8D4Leaf i) c ∈ e8D4Levi K := by

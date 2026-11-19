@@ -22,7 +22,7 @@ open CFSG.RankThree.PartTwo.Sec21.FF79
 variable {G : Type} [Group G] [Finite G] {b : G} {L : Subgroup G}
 
 theorem FF81Hyp.B1_invariant_of_torus
-    (h : FF81Hyp b L) (hT : KF_Sp6Torus)
+    (h : FF81Hyp b L) (_hT : KF_Sp6Torus)
     (hTF : KF_Sp6TorusFree) (hOut : KF_Sp62Out)
     (hnoL : ∀ g : G, g * b * g⁻¹ ∉ L)
     {b₁ b₂ b₃ τ : G}
@@ -163,7 +163,7 @@ theorem FF81Hyp.B1_invariant_of_torus
   have hYab : ∀ a b : X, a ∈ oddCore X → b ∈ oddCore X → a * b = b * a :=
     FF81Hyp.oddCore_commute_of_CYtau hτXmem hτX2 hCY
   have hB3 : IsPGroup 3 ↥B := by
-    haveI : IsElementaryAbelian 3 ↥B := hE4.1
+    have : IsElementaryAbelian 3 ↥B := hE4.1
     exact IsElementaryAbelian.isPGroup 3 ↥B
   have hBnt : Nontrivial ↥B := by
     refine ⟨bB, 1, ?_⟩
@@ -197,7 +197,7 @@ theorem FF81Hyp.B1_invariant_of_torus
     simpa [b₁B] using h
   have hYfix : ∀ y : X, y ∈ oddCore X → (y : MulAut ↥B) b₁B = b₁B := by
     intro y hy
-    haveI hEab : IsElementaryAbelian 3 ↥B := hE4.1
+    have hEab : IsElementaryAbelian 3 ↥B := hE4.1
     have hpow3 : ∀ x : ↥B, x ^ 3 = 1 := fun x =>
       Monoid.exponent_dvd_iff_forall_pow_eq_one.mp
         (IsElementaryAbelian.exponent_dvd_p 3 ↥B) x
@@ -271,8 +271,8 @@ theorem FF81Hyp.B1_invariant_of_torus
         _ = 1 := by rw [hτX2, ht₁2, one_mul]
     have hτt₁inv : (τX * t₁)⁻¹ = τX * t₁ := inv_eq_of_mul_eq_one_right hτt₁2
     let Y : Subgroup ↥X := oddCore X
-    haveI hYnormal : Y.Normal := oddCore_normal X
-    letI hYcomm : CommGroup ↥Y :=
+    have hYnormal : Y.Normal := oddCore_normal X
+    let hYcomm : CommGroup ↥Y :=
       { (inferInstance : Group ↥Y) with
         mul_comm := fun a b => Subtype.ext (hYab (a : ↥X) (b : ↥X) a.2 b.2) }
     have hYodd : Odd (Nat.card ↥Y) := CFSG.ABGLocalTools.odd_card_oddCore (H := ↥X)
@@ -490,8 +490,7 @@ theorem FF81Hyp.B1_invariant_of_torus
       simp only [← Subgroup.closure_union]
       congr 1
       ext x
-      simp only [Set.mem_union, Set.mem_insert_iff, Set.mem_singleton_iff, or_assoc,
-        or_comm, or_left_comm]
+      simp only [Set.mem_union, Set.mem_insert_iff, Set.mem_singleton_iff, or_comm, or_left_comm]
     let Y₁ : Subgroup (MulAut ↥B) :=
       Yb ⊓ Subgroup.centralizer ({τX * t₁} : Set (MulAut ↥B))
     have hCmem : ∀ v : ↥B, v ∈ C₁ ↔ (τX * t₁) v = v := by

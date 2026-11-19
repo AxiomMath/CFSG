@@ -65,7 +65,7 @@ private theorem aut_mul_central_b (α : MulAut U4) (x : U4) (c : F4c) :
         = (α (⟨v.1, v.2, 0⟩ : UT3 F4c)).a + (α (⟨w.1, w.2, 0⟩ : UT3 F4c)).a
       rw [show (⟨(v + w).1, (v + w).2, (0 : F4c)⟩ : UT3 F4c)
             = ⟨(v + w).1, (v + w).2, v.1 * w.2⟩ * ⟨0, 0, -(v.1 * w.2)⟩ by
-          ext <;> simp only [UT3.mul_def, add_zero, mul_zero, zero_mul] <;> ring]
+          ext <;> simp only [UT3.mul_def, add_zero, mul_zero] <;> ring]
       rw [aut_mul_central_a]
       rw [show (⟨(v + w).1, (v + w).2, v.1 * w.2⟩ : UT3 F4c)
             = (⟨v.1, v.2, 0⟩ : UT3 F4c) * ⟨w.1, w.2, 0⟩ by
@@ -78,7 +78,7 @@ private theorem aut_mul_central_b (α : MulAut U4) (x : U4) (c : F4c) :
         = (α (⟨v.1, v.2, 0⟩ : UT3 F4c)).b + (α (⟨w.1, w.2, 0⟩ : UT3 F4c)).b
       rw [show (⟨(v + w).1, (v + w).2, (0 : F4c)⟩ : UT3 F4c)
             = ⟨(v + w).1, (v + w).2, v.1 * w.2⟩ * ⟨0, 0, -(v.1 * w.2)⟩ by
-          ext <;> simp only [UT3.mul_def, add_zero, mul_zero, zero_mul] <;> ring]
+          ext <;> simp only [UT3.mul_def, add_zero, mul_zero] <;> ring]
       rw [aut_mul_central_b]
       rw [show (⟨(v + w).1, (v + w).2, v.1 * w.2⟩ : UT3 F4c)
             = (⟨v.1, v.2, 0⟩ : UT3 F4c) * ⟨w.1, w.2, 0⟩ by
@@ -90,7 +90,7 @@ private theorem aut_mul_central_b (α : MulAut U4) (x : U4) (c : F4c) :
 
 theorem linAdd_apply (α : MulAut U4) (x : U4) : linAdd α (x.a, x.b) = ((α x).a, (α x).b) := by
   have hx : x = (⟨x.a, x.b, 0⟩ : UT3 F4c) * ⟨0, 0, x.c⟩ := by
-    ext <;> simp only [UT3.mul_def, add_zero, mul_zero, zero_mul] <;> ring
+    ext <;> simp only [UT3.mul_def, add_zero, mul_zero] <;> ring
   apply Prod.ext
   · change (α (⟨x.a, x.b, 0⟩ : UT3 F4c)).a = (α x).a
     have hxa : (α x).a = (α ((⟨x.a, x.b, 0⟩ : UT3 F4c) * ⟨0, 0, x.c⟩)).a :=
@@ -111,7 +111,7 @@ theorem linAdd_apply (α : MulAut U4) (x : U4) : linAdd α (x.a, x.b) = ((α x).
     rfl
   map_add' c c' := by
     have h : (⟨0, 0, c⟩ : UT3 F4c) * ⟨0, 0, c'⟩ = ⟨0, 0, c + c'⟩ := by
-      ext <;> simp only [UT3.mul_def, add_zero, mul_zero, zero_mul] <;> ring
+      ext <;> simp only [UT3.mul_def, add_zero, mul_zero]
     rw [← h, map_mul, UT3.mul_def, aut_central_a α c]
     ring
 

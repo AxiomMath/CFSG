@@ -43,7 +43,7 @@ theorem mem_innerSub {g : P} :
   Iff.rfl
 
 theorem le_innerSub : Yh ≤ innerSub Yh := fun g hg =>
-  ⟨⟨g, hg⟩, fun u => rfl⟩
+  ⟨⟨g, hg⟩, fun _u => rfl⟩
 
 theorem exists_innerAct [Yh.Normal] (hZ : Subgroup.center ↥Yh = ⊥) (hB : Bh ≤ innerSub Yh) :
     ∃ ψ : ↥(Yh ⊔ Bh) →* ↥Yh, ∀ (g : ↥(Yh ⊔ Bh)) (u : ↥Yh),
@@ -92,7 +92,7 @@ theorem eq_of_inner (a : Act Yh Bh) (hZ : Subgroup.center ↥Yh = ⊥) {g : ↥(
 
 theorem apply_mem (a : Act Yh Bh) (hZ : Subgroup.center ↥Yh = ⊥) (l : ↥Yh)
     (hl : (l : P) ∈ Yh ⊔ Bh) : a.ψ ⟨l, hl⟩ = l :=
-  a.eq_of_inner hZ fun u => rfl
+  a.eq_of_inner hZ fun _u => rfl
 
 theorem apply_central (a : Act Yh Bh) (hZ : Subgroup.center ↥Yh = ⊥) {g : ↥(Yh ⊔ Bh)}
     (hg : ∀ p : P, (g : P) * p = p * (g : P)) : a.ψ g = 1 :=

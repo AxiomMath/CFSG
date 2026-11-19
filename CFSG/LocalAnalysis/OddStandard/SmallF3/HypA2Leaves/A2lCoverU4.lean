@@ -74,13 +74,13 @@ theorem a2l_centralDatum_psu43 (hC : HypA2.ChevOddInChev2) {K : Type} [Group K] 
     (hq : IsQuasisimple K) (h2 : IsPGroup 2 ↥(center K)) (hZ : center K ≠ ⊥)
     (hnF : ¬ HypA2.IsFStar K) (hm : LieModel (K ⧸ center K) .PSU 4 3 1) :
     HypA2.CentralDatum K := by
-  haveI : Group.IsPerfect K := hq.1
+  have : Group.IsPerfect K := hq.1
   obtain ⟨-, F, _, _, hcard, ⟨e⟩⟩ := hm.statedClassicalModel (by decide)
   have hd := a2l_unitaryFieldData_three hcard
-  haveI := hd.finite
-  haveI := hd.charP
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := Fintype.ofFinite F
+  have := hd.finite
+  have := hd.charP
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := Fintype.ofFinite F
   have hF9 : Nat.card F = 9 := by rw [hcard]; norm_num
   have hFc : Fintype.card F = 9 := by rw [← Nat.card_eq_fintype_card]; exact hF9
   have hc3 : 3 ≤ Nat.card (center K) := by

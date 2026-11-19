@@ -19,7 +19,7 @@ private theorem kgLangInnerAux_isElemAbelian_of_le {p : ℕ} {G : Type*} [Group 
   refine ⟨?_, ?_⟩
   · refine isMulCommutative_iff.mpr fun a b => Subtype.ext ?_
     show (a : G) * b = (b : G) * a
-    letI : IsMulCommutative B := hB.1
+    let : IsMulCommutative B := hB.1
     exact congrArg Subtype.val (mul_comm' (⟨a, hAB a.2⟩ : B) (⟨b, hAB b.2⟩ : B))
   · intro x hx
     exact hB.2 x (hAB hx)
@@ -33,7 +33,7 @@ private theorem kgLangInnerAux_isElemAbelian_map {p : ℕ} {G N : Type*} [Group 
     obtain ⟨b', hb', hbeq⟩ := Subgroup.mem_map.mp b.2
     change (a : N) * (b : N) = (b : N) * (a : N)
     rw [← haeq, ← hbeq, ← map_mul, ← map_mul]
-    letI : IsMulCommutative A := hA.1
+    let : IsMulCommutative A := hA.1
     exact congrArg f (congrArg Subtype.val (mul_comm' (⟨a', ha'⟩ : A) (⟨b', hb'⟩ : A)))
   · intro x hx
     obtain ⟨x', hx', hxeq⟩ := Subgroup.mem_map.mp hx
@@ -85,11 +85,11 @@ theorem kgLangTorusMPart_of_inner {p : ℕ} (hp : p.Prime) {R : Type} [Group R] 
     (hG1 : ∀ u ∈ I, GGL45IsPElt p u → ∃ r : R, u = MulAut.conj r)
     (hT : ∀ J : Subgroup (MulAut R), (J : Set (MulAut R)) = I → ∀ f ∈ F, orderOf f = p →
       KGLangTorusInput p J (MulAut.conj f).toMonoidHom)
-    (hZ : ∀ [Finite (HopfCover R)] (θ : HopfCover R ⧸ Subgroup.center (HopfCover R) ≃* R),
+    (hZ : ∀ [Finite (HopfCover R)] (_θ : HopfCover R ⧸ Subgroup.center (HopfCover R) ≃* R),
       commutator (HopfCover R) = ⊤ → Nat.Coprime (Nat.card (Subgroup.center (HopfCover R))) p) :
     KGLangTorusMPart p R I F := by
-  intro hfin θ hcomm A hA hAI hA0 α₀ hα₀ hα₀I
-  haveI : Finite (HopfCover R) := hfin
+  intro hfin _θ hcomm A hA hAI hA0 α₀ hα₀ hα₀I
+  have : Finite (HopfCover R) := hfin
   obtain ⟨J, S, hJI, hJS, hJn, hcycquot, hS⟩ := hcyc hs hna
   have hJmem : ∀ u : MulAut R, u ∈ J ↔ u ∈ I := fun u => by
     change u ∈ (J : Set (MulAut R)) ↔ u ∈ I
@@ -120,9 +120,9 @@ theorem kgLangTorusMPart_of_inner {p : ℕ} (hp : p.Prime) {R : Type} [Group R] 
     obtain ⟨r, hr⟩ := hG1 (g : MulAut R) hmemI hpelt
     exact ⟨r, Subtype.ext hr.symm⟩
   obtain ⟨u₀, hu₀I, f₀, hf₀, huf⟩ := hAI α₀ hα₀
-  let ᾱ₀ : MulAut R := kgInducedAut θ α₀
+  let ᾱ₀ : MulAut R := kgInducedAut _θ α₀
   have hᾱ₀p : ᾱ₀ ^ p = 1 := by
-    rw [show ᾱ₀ = kgInducedAut θ α₀ from rfl, ← map_pow, hA.2 α₀ hα₀, map_one]
+    rw [show ᾱ₀ = kgInducedAut _θ α₀ from rfl, ← map_pow, hA.2 α₀ hα₀, map_one]
   have hnotI : u₀ * f₀ ∉ I := by rw [← huf]; exact hα₀I
   have hxp : (u₀ * f₀) ^ p = 1 := by
     rw [← huf, ← map_pow, hA.2 α₀ hα₀, map_one]
@@ -142,7 +142,7 @@ theorem kgLangTorusMPart_of_inner {p : ℕ} (hp : p.Prime) {R : Type} [Group R] 
     exact (Subgroup.normal_subgroupOf_iff hJS).mp hJn g ᾱ₀ hg hᾱ₀S
   obtain ⟨β, hβ⟩ := kgLang_exists_mulAut_restrict F₁ hstabβ
     (fun x _ y _ hxy => (MulAut.conj ᾱ₀).injective hxy)
-  have hβι : ∀ r, ι (kgInducedAut θ α₀ r) = β (ι r) := by
+  have hβι : ∀ r, ι (kgInducedAut _θ α₀ r) = β (ι r) := by
     intro r
     apply Subtype.ext
     rw [hβ]
@@ -150,22 +150,22 @@ theorem kgLangTorusMPart_of_inner {p : ℕ} (hp : p.Prime) {R : Type} [Group R] 
     rw [MulAut.conj_apply]
     exact kgLangInnerAux_conj_mul_apply ᾱ₀ r
   let A₀ : Subgroup (MulAut (HopfCover R)) :=
-    A ⊓ Subgroup.comap (kgInducedAut θ) J
+    A ⊓ Subgroup.comap (kgInducedAut _θ) J
   have hA₀elem : IsElemAbelian p A₀ := kgLangInnerAux_isElemAbelian_of_le hA inf_le_left
-  let Ā : Subgroup (MulAut R) := Subgroup.map (kgInducedAut θ) A₀
-  have hĀelem : IsElemAbelian p Ā := kgLangInnerAux_isElemAbelian_map (kgInducedAut θ) hA₀elem
+  let Ā : Subgroup (MulAut R) := Subgroup.map (kgInducedAut _θ) A₀
+  have hĀelem : IsElemAbelian p Ā := kgLangInnerAux_isElemAbelian_map (kgInducedAut _θ) hA₀elem
   have hĀJ : Ā ≤ J := by
     rintro a ⟨α, hα, rfl⟩
     exact hα.2
   have hᾱ₀conj : ∀ a ∈ Ā, F₁ a = a := by
     rintro a ⟨α, hα, rfl⟩
     have hcommA : α₀ * α = α * α₀ := by
-      letI : IsMulCommutative A := hA.1
+      let : IsMulCommutative A := hA.1
       exact congrArg (fun x : A => (x : MulAut (HopfCover R)))
         (mul_comm' (⟨α₀, hα₀⟩ : A) (⟨α, hα.1⟩ : A))
-    change MulAut.conj ᾱ₀ (kgInducedAut θ α) = kgInducedAut θ α
+    change MulAut.conj ᾱ₀ (kgInducedAut _θ α) = kgInducedAut _θ α
     rw [MulAut.conj_apply]
-    have h2 := congrArg (kgInducedAut θ) hcommA
+    have h2 := congrArg (kgInducedAut _θ) hcommA
     rw [map_mul, map_mul] at h2
     rw [h2, mul_assoc, mul_inv_cancel, mul_one]
   have hu'J : u' ∈ J := (hJmem u').mpr hu'I
@@ -271,15 +271,15 @@ theorem kgLangTorusMPart_of_inner {p : ℕ} (hp : p.Prime) {R : Type} [Group R] 
     apply Subtype.ext
     ext r
     simpa using hfix r
-  obtain ⟨h, hh1, hh2, hh3⟩ := kgLangModelHom θ hcomm ι hι hG5 J hG6 A hA α₀ hα₀ β hβι
-  have hmeq : ∀ α ∈ A, ∀ (hαJ : kgInducedAut θ α ∈ J), kgInducedAut θ α ∈ I →
-      h α = ⟨kgInducedAut θ α, hαJ⟩ := by
+  obtain ⟨h, hh1, hh2, hh3⟩ := kgLangModelHom _θ hcomm ι hι hG5 J hG6 A hA α₀ hα₀ β hβι
+  have hmeq : ∀ α ∈ A, ∀ (hαJ : kgInducedAut _θ α ∈ J), kgInducedAut _θ α ∈ I →
+      h α = ⟨kgInducedAut _θ α, hαJ⟩ := by
     intro α hα hαJ hαI
     exact kgLangInnerAux_eq_of_conj ι hG5 (hh1 α hα hαJ).2.2 (fun r => by
       apply Subtype.ext
-      show MulAut.conj (kgInducedAut θ α r) =
-        kgInducedAut θ α * (ι r : MulAut R) * (kgInducedAut θ α)⁻¹
-      exact kgLangInnerAux_conj_mul_apply (kgInducedAut θ α) r)
+      show MulAut.conj (kgInducedAut _θ α r) =
+        kgInducedAut _θ α * (ι r : MulAut R) * (kgInducedAut _θ α)⁻¹
+      exact kgLangInnerAux_conj_mul_apply (kgInducedAut _θ α) r)
   let N : Subgroup ↥J := N₀.subgroupOf J
   have hNab : ∀ a ∈ N, ∀ b ∈ N, a * b = b * a := by
     intro a ha b hb
@@ -310,11 +310,11 @@ theorem kgLangTorusMPart_of_inner {p : ℕ} (hp : p.Prime) {R : Type} [Group R] 
     refine ⟨⟨s, hN₀J hsN₀⟩, Subgroup.mem_subgroupOf.mpr hsN₀, ?_⟩
     apply Subtype.ext
     rw [hs, Subgroup.coe_mul, Subgroup.coe_inv, hβ]
-  have hh : ∀ α ∈ A, kgInducedAut θ α ∈ I → h α ∈ N ∧ h α ^ p = 1 ∧ β (h α) = h α ∧
-      ∀ r, ι (kgInducedAut θ α r) = h α * ι r * (h α)⁻¹ := by
+  have hh : ∀ α ∈ A, kgInducedAut _θ α ∈ I → h α ∈ N ∧ h α ^ p = 1 ∧ β (h α) = h α ∧
+      ∀ r, ι (kgInducedAut _θ α r) = h α * ι r * (h α)⁻¹ := by
     intro α hα hαI
-    have hαJ : kgInducedAut θ α ∈ J := (hJmem _).mpr hαI
-    have hαĀ : kgInducedAut θ α ∈ Ā := by
+    have hαJ : kgInducedAut _θ α ∈ J := (hJmem _).mpr hαI
+    have hαĀ : kgInducedAut _θ α ∈ Ā := by
       refine Subgroup.mem_map.mpr ⟨α, Subgroup.mem_inf.mpr ⟨hα, ?_⟩, rfl⟩
       exact (hJmem _).mpr hαI
     have hspec := hh1 α hα hαJ
@@ -322,10 +322,10 @@ theorem kgLangTorusMPart_of_inner {p : ℕ} (hp : p.Prime) {R : Type} [Group R] 
     rw [hmeq α hα hαJ hαI]
     exact Subgroup.mem_subgroupOf.mpr (hĀN₀ hαĀ)
   obtain ⟨α₁, hα₁A, hα₁ne, hα₁I⟩ := hA0
-  have hne : ∃ α ∈ A, kgInducedAut θ α ∈ I ∧ h α ≠ 1 :=
+  have hne : ∃ α ∈ A, kgInducedAut _θ α ∈ I ∧ h α ≠ 1 :=
     ⟨α₁, hα₁A, hα₁I, hh2 α₁ hα₁A ((hJmem _).mpr hα₁I) hα₁ne⟩
   obtain ⟨M, hMab, hMst, hMfix, hM90, e, heM, he1, hep, heα₀, -⟩ :=
-    kgLangLT5_of_model hp θ (hZ θ hcomm) I A α₀ ι hι hG1' β hβι N hNab hβN hH90 h hh hne
+    kgLangLT5_of_model hp _θ (hZ _θ hcomm) I A α₀ ι hι hG1' β hβι N hNab hβN hH90 h hh hne
   exact ⟨M, hMab, hMst, hMfix, hM90, e, heM, he1, hep, heα₀⟩
 
 end CFSG.StandardType

@@ -20,8 +20,8 @@ variable {n : ℕ} {K : Type} [Field K]
 
 theorem blkMat_mul (M N : Fin n → Matrix (Fin 2) (Fin 2) K) :
     blkMat M * blkMat N = blkMat (fun i => M i * N i) := by
-  simp only [blkMat, fromBlocks_multiply, diagonal_mul_diagonal, ← diagonal_add]
-  congr 1 <;> congr 1 <;> funext i <;> simp [Matrix.mul_apply, Fin.sum_univ_two]
+  simp only [blkMat, fromBlocks_multiply, diagonal_mul_diagonal]
+  congr 1 <;> funext i <;> simp [Matrix.mul_apply, Fin.sum_univ_two]
 
 theorem blkMat_one : blkMat (n := n) (fun _ => (1 : Matrix (Fin 2) (Fin 2) K)) = 1 := by
   simp only [blkMat, fromBlocks_one.symm]
@@ -43,8 +43,8 @@ theorem blkMat_symplectic (M : Fin n → Matrix (Fin 2) (Fin 2) K) (hM : ∀ i, 
     (blkMat M)ᵀ * (fromBlocks 0 1 (-1) 0 : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K) * blkMat M =
       fromBlocks 0 1 (-1) 0 := by
   simp only [blkMat, fromBlocks_transpose, diagonal_transpose, fromBlocks_multiply,
-    diagonal_mul_diagonal, Matrix.mul_zero, Matrix.zero_mul, zero_add, add_zero, Matrix.mul_one,
-    Matrix.mul_neg, Matrix.neg_mul, Matrix.one_mul]
+    diagonal_mul_diagonal, Matrix.mul_zero, zero_add, add_zero, Matrix.mul_one,
+    Matrix.mul_neg, Matrix.neg_mul]
   have hd : ∀ i, M i 0 0 * M i 1 1 - M i 0 1 * M i 1 0 = 1 := fun i => by
     rw [← Matrix.det_fin_two (M i)]; exact hM i
   have key : ∀ f g : Fin n → K, -(diagonal f) + diagonal g = diagonal (fun i => g i - f i) := by
@@ -150,7 +150,7 @@ theorem matrix_of_basis_mem_J (b : Module.Basis (Fin n ⊕ Fin n) K (Fin n ⊕ F
   set P : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K := Matrix.of fun r c => b c r with hP
   have hcol : ∀ c, P *ᵥ Pi.single c 1 = b c := fun c => by
     ext r
-    simp [hP, Matrix.mulVec_single_one]
+    simp [hP]
   ext x y
   have h1 := hb x y
   rw [← hcol x, ← hcol y] at h1
@@ -252,7 +252,7 @@ theorem le_pRank_of_conj_blkGL [Finite K] (hn : 1 ≤ n) (g : StatedSp n K) (hg3
     (hgM : (g : GL (Fin n ⊕ Fin n) K) = P * blkGL M * P⁻¹) :
     n ≤ CFSG.Open.pRank 3 (Subgroup.centralizer
       ({(QuotientGroup.mk g : StatedProj (StatedSp n K))} : Set (StatedProj (StatedSp n K)))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hconj : (g : GL (Fin n ⊕ Fin n) K) = MulAut.conj P (blkGL M) := by
     rw [hgM, MulAut.conj_apply]
   have hM3 : ∀ i, M i ^ 3 = 1 := by
@@ -391,7 +391,7 @@ theorem pRank_map_mulEquiv {G H : Type*} [Group G] [Group H] [Finite G] [Finite 
 theorem le_pRank_fixSubgroup_fieldAut_sp {r : ℕ} (hr : 1 ≤ r) {F : Type} [Field F] [Finite F]
     {σ : F ≃+* F} (hσ : σ ^ 3 = 1) :
     r ≤ CFSG.Open.pRank 3 (fixSubgroup (fieldAut r F σ)) := by
-  haveI : NeZero r := ⟨by omega⟩
+  have : NeZero r := ⟨by omega⟩
   have hfix : fixSubgroup (fieldAut r F σ) =
       (CFSG.RankThree.PartOne.KCSpComm.subfieldInj (r := r) σ).range := by
     rw [CFSG.RankThree.PartOne.KCSpComm.range_subfieldInj,
@@ -407,7 +407,7 @@ theorem three_le_pRank_fixSubgroup_projSp {r : ℕ} (hr : 3 ≤ r) {F : Type} [F
     (β : MulAut (StatedProj (StatedSp r F))) (hβ : β ^ 3 = 1)
     (hout : β ∉ (MulAut.conj : StatedProj (StatedSp r F) →* MulAut _).range) :
     3 ≤ CFSG.Open.pRank 3 (fixSubgroup β) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hO := CFSG.RankThree.PartOne.KCSpComm.spOuter (K := F) (r := r) hℓ hf (by omega) hF
   have hodd : Odd (orderOf β) := (by decide : Odd 3).of_dvd_nat (orderOf_dvd_of_pow_eq_one hβ)
   have hE : β ∈ spSemilinearAutGroup r F :=
@@ -548,7 +548,7 @@ variable {G X : Type*} [Group G] [MulAction G X]
     Multiplicative (ZMod 3) × (Multiplicative (ZMod 3) × Multiplicative (ZMod 3) ×
       Multiplicative (ZMod 3)) →* G :=
   (powHom t₁ h₁).noncommCoprod (cubeHom t₂ t₃ t₄ h₂ h₃ h₄ c₂₃ c₂₄ c₃₄)
-    fun a p => (c₁₂.pow_pow _ _).mul_right ((c₁₃.pow_pow _ _).mul_right (c₁₄.pow_pow _ _))
+    fun _a _p => (c₁₂.pow_pow _ _).mul_right ((c₁₃.pow_pow _ _).mul_right (c₁₄.pow_pow _ _))
 
 theorem quadHom_apply (t₁ t₂ t₃ t₄ : G) (h₁ : t₁ ^ 3 = 1) (h₂ : t₂ ^ 3 = 1) (h₃ : t₃ ^ 3 = 1)
     (h₄ : t₄ ^ 3 = 1) (c₁₂ : Commute t₁ t₂) (c₁₃ : Commute t₁ t₃) (c₁₄ : Commute t₁ t₄)
@@ -562,9 +562,9 @@ theorem quadHom_injective (t₁ t₂ t₃ t₄ : G) (h₁ : t₁ ^ 3 = 1) (h₂ 
     (c₁₄ : Commute t₁ t₄) (c₂₃ : Commute t₂ t₃) (c₂₄ : Commute t₂ t₄) (c₃₄ : Commute t₃ t₄)
     (x₁ x₂ x₃ x₄ : X) (n₁ : t₁ • x₁ ≠ x₁) (n₂ : t₂ • x₂ ≠ x₂) (n₃ : t₃ • x₃ ≠ x₃)
     (n₄ : t₄ • x₄ ≠ x₄) (f₁₂ : t₂ • x₁ = x₁) (f₁₃ : t₃ • x₁ = x₁) (f₁₄ : t₄ • x₁ = x₁)
-    (f₂₁ : t₁ • x₂ = x₂) (f₂₃ : t₃ • x₂ = x₂) (f₂₄ : t₄ • x₂ = x₂)
-    (f₃₁ : t₁ • x₃ = x₃) (f₃₂ : t₂ • x₃ = x₃) (f₃₄ : t₄ • x₃ = x₃)
-    (f₄₁ : t₁ • x₄ = x₄) (f₄₂ : t₂ • x₄ = x₄) (f₄₃ : t₃ • x₄ = x₄) :
+    (_f₂₁ : t₁ • x₂ = x₂) (f₂₃ : t₃ • x₂ = x₂) (f₂₄ : t₄ • x₂ = x₂)
+    (_f₃₁ : t₁ • x₃ = x₃) (f₃₂ : t₂ • x₃ = x₃) (f₃₄ : t₄ • x₃ = x₃)
+    (_f₄₁ : t₁ • x₄ = x₄) (f₄₂ : t₂ • x₄ = x₄) (f₄₃ : t₃ • x₄ = x₄) :
     Function.Injective (quadHom t₁ t₂ t₃ t₄ h₁ h₂ h₃ h₄ c₁₂ c₁₃ c₁₄ c₂₃ c₂₄ c₃₄) := by
   rw [injective_iff_map_eq_one]
   rintro ⟨a, b, c, d⟩ habcd
@@ -817,7 +817,7 @@ theorem exists_torusHom_rank4 (hσ : IsUnitaryInvolution σ) (hp : p.Prime) (hp5
       Function.Injective F ∧
       (∀ x, s * ((F x : SUid σ n) : GL (Fin n) K) = ((F x : SUid σ n) : GL (Fin n) K) * s) ∧
       ∀ x, ((F x : SUid σ n) : GL (Fin n) K) ∈ StatedScalars (Fin n) K → F x = 1 := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hp0 : (p : K) ≠ 0 := (hζ.neZero').out
   set sM : Matrix (Fin n) (Fin n) K := ((s : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) with hsM
   have hspow : sM ^ p = 1 := by
@@ -867,12 +867,12 @@ theorem exists_torusHom_rank4 (hσ : IsUnitaryInvolution σ) (hp : p.Prime) (hp5
       (hms _ _ _ (norm_charHom hζ hσζ _))) (hms _ _ _ (norm_charHom hζ hσζ _))
   have hdet : ∀ x, ∏ j, T x j = 1 := by
     intro x
-    simp only [hTx, Finset.prod_mul_distrib, Finset.prod_pi_mulSingle', Finset.mem_univ, if_true]
+    simp only [hTx, Finset.prod_mul_distrib, Finset.prod_pi_mulSingle', Finset.mem_univ, ite_true]
     rw [← map_mul, ← map_mul, ← map_mul, ← map_mul, mul_inv_cancel, map_one]
   obtain ⟨F, hF⟩ := exists_hom_conjDiag hσ.invol hP T hT hdet
   have hne : ∀ a b : Fin n, a.val ≠ b.val → a ≠ b := fun a b h e => h (congrArg Fin.val e)
   have hone : ∀ (i j : Fin n) (a : K), j ≠ i → (Pi.mulSingle i a : Fin n → K) j = 1 :=
-    fun i j a h => by simp [Pi.mulSingle_apply, h]
+    fun i j a h => by simp [h]
   have hT0 : ∀ x, T x i0 = charHom hζ (x 0) := by
     intro x
     rw [hTx, Pi.mulSingle_eq_same, hone i1 i0 _ (hne _ _ (by simp [i0, i1])),
@@ -964,8 +964,8 @@ theorem three_le_pRank_top_projSU {K : Type} [Field K] [Finite K] {Q n : ℕ}
     (hn : (3 ∣ Q + 1 ∧ 4 ≤ n) ∨ (¬ 3 ∣ Q + 1 ∧ 6 ≤ n)) :
     3 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup (StatedProj (StatedSU n Q K))) := by
   obtain ⟨r, f, hr, hchar, rfl⟩ := exists_prime_pow_of_card_sq hK
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI := hchar
+  have : Fact r.Prime := ⟨hr⟩
+  have := hchar
   have hσ : IsUnitaryInvolution (unitaryInvolution K r f) :=
     isUnitaryInvolution_unitaryInvolution hK
   have hq : 1 < r ^ f := one_lt_pow_of_card hK
@@ -1048,8 +1048,8 @@ theorem three_le_pRank_fixSubgroup_primeFormP {ℓ f n : ℕ} {K : Type} [Field 
     (hβo : β ∉ (MulAut.conj : primeFormP h (idGram K n) →* MulAut _).range) :
     3 ≤ CFSG.Open.pRank 3 (CFSG.HardMathSupport.Solomon.Coordinator.fixSubgroup β) := by
   classical
-  haveI := h.finite
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := h.finite
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hn4 : 4 ≤ n := by omega
   have hn3 : 3 ≤ n := by omega
   have hne : ¬ (n = 3 ∧ ℓ ^ f = 2) := by omega
@@ -1081,7 +1081,7 @@ theorem three_le_pRank_fixSubgroup_primeFormP {ℓ f n : ℕ} {K : Type} [Field 
       hσord n hn3 hne hZ
   set h₀ := CFSG.RankThree.Classical.fixSubfield_unitaryFieldData h Nat.prime_three
     (by norm_num) hσord with hh₀
-  haveI := h₀.finite
+  have := h₀.finite
   have hmod : StatedClassicalModel (primeFormP h₀ ((1 : GL (Fin n)
       (CFSG.LieType.Chevalley.fixSubfield σ)) : Matrix (Fin n) (Fin n)
         (CFSG.LieType.Chevalley.fixSubfield σ))) .PSU n ℓ (f / 3) := by
@@ -1126,7 +1126,7 @@ theorem outer295At_typeTwistedA {r : ℕ} {q : TauCeti.PrimePower}
   obtain ⟨-, -, -, -, F, _, h, ⟨θ⟩⟩ :=
     CFSG.RankThree.PartOne.exists_primeFormP_of_statedClassicalModel_PSU
       (CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA r q hv e)
-  haveI := h.finite
+  have := h.finite
   have hqc : q.card = q.p ^ q.exponent := TauCeti.PrimePower.card_def q
   have hβ := three_le_pRank_fixSubgroup_primeFormP h hp3 (by rwa [← hqc]) (by
       rw [← hqc]

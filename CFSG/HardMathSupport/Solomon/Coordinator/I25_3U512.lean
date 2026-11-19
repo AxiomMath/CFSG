@@ -15,7 +15,7 @@ theorem i253_mem_zpowers_of_cyclic {M : Type*} [Group M] [Finite M] {E : Subgrou
     [IsCyclic ↥E] {α ε : M} (hα : α ∈ E) (hε : ε ∈ E) (hα3 : α ^ 3 = 1) (hα1 : α ≠ 1)
     (hε3 : ε ^ 3 = 1) : ε ∈ Subgroup.zpowers α := by
   classical
-  haveI := Fintype.ofFinite ↥E
+  have := Fintype.ofFinite ↥E
   let a : ↥E := ⟨α, hα⟩
   let e : ↥E := ⟨ε, hε⟩
   have ha3 : a ^ 3 = 1 := Subtype.ext (by simpa using hα3)
@@ -134,7 +134,7 @@ theorem i253_su38Trivial_512 {G : Type} [Group G] [Finite G]
     {L A J₀ : Subgroup G} {x : G}
     (hLq : CFSG.Open.IsQuasisimple (barOf 3 L))
     (hty : IsExtremalType (barOf 3 L) ∨ IsSLThreeEps (barOf 3 L))
-    (hz : ∃ z ∈ Subgroup.center (barOf 3 L), z ≠ 1)
+    (_hz : ∃ z ∈ Subgroup.center (barOf 3 L), z ≠ 1)
     (hx3 : x ^ 3 = 1) (hxN : x ∈ Subgroup.normalizer (L : Set G))
     (hA3 : ∀ a ∈ A, a ^ 3 = 1) (hAC : A ≤ Cen x)
     (hfld : ∀ g ∈ A ⊔ Subgroup.zpowers x, InducesFieldAut 3 L g)
@@ -173,7 +173,7 @@ theorem i253_su38Trivial_512 {G : Type} [Group G] [Finite G]
     have : γ ^ 3 = 1 := Subtype.ext (by
       simpa using i253_pow_three_of_mem_sup hx3 hA3 hAcomm (Subgroup.mem_subgroupOf.1 hγ))
     rw [this, map_one]
-  haveI : IsCyclic ↥E := isCyclic_fieldAutThree_of_exponent_three hLq E hEf hE3
+  have : IsCyclic ↥E := isCyclic_fieldAutThree_of_exponent_three hLq E hEf hE3
   by_cases hα1 : barAut 3 L ⟨x, hxN⟩ = 1
   · exfalso
     apply i253_not_isSU38 hty

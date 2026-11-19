@@ -18,14 +18,16 @@ section Levi
 variable {K Y : Type} [Group K] [Finite K] [Group Y] [Finite Y] {D : UniversalRootDatum K}
   {n : Fin D.rank → K} {H : Fin D.rank → Subgroup K} {π : K →* Y} {M : ℕ}
 
+omit [Finite Y] in
 private theorem exists_sylow_map_posUnipotent (h : BorelQuotient D n H π M) :
     ∃ S : Sylow 2 Y, (S : Subgroup Y) = (posUnipotent D).map π := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hU2 : IsPGroup 2 (posUnipotent D) := isPGroup_iSup_pos h.extras h.pGroup
   have hidx : ¬ 2 ∣ ((posUnipotent D).map π).index := fun hd =>
     h.not_dvd_index (hd.trans (Subgroup.index_map_dvd _ h.surj))
   exact ⟨(hU2.map π).toSylow hidx, rfl⟩
 
+omit [Finite K] [Finite Y] in
 private theorem conj_n_mem_negUnipotent (h : BorelQuotient D n H π M) (i : Fin D.rank) {x : K}
     (hx : x ∈ D.rootGroup (Pi.single i 1)) : n i * x * (n i)⁻¹ ∈ negUnipotent D := by
   have hα : (Pi.single i 1 : Fin D.rank → ℤ) ∈ D.roots :=
@@ -39,6 +41,7 @@ private theorem conj_n_mem_negUnipotent (h : BorelQuotient D n H π M) (i : Fin 
   have := ht_single_pos (D := D) i
   omega
 
+omit [Finite K] [Finite Y] in
 private theorem exists_mul_of_mem_posUnipotent (h : BorelQuotient D n H π M) (i : Fin D.rank) {u : K}
     (hu : u ∈ posUnipotent D) : ∃ w ∈ posUnipotentExcept D i,
       ∃ x ∈ D.rootGroup (Pi.single i 1), u = w * x := by
@@ -48,6 +51,7 @@ private theorem exists_mul_of_mem_posUnipotent (h : BorelQuotient D n H π M) (i
   obtain ⟨w, hw, x, hx, rfl⟩ := hu
   exact ⟨w, hw, x, hx, rfl⟩
 
+omit [Finite K] [Finite Y] in
 private theorem mem_posUnipotentExcept_of_conj (h : BorelQuotient D n H π M) (i : Fin D.rank) {u' : K}
     (hu' : u' ∈ posUnipotent D) {v : K} (hv : v ∈ posUnipotent D) (hvu : v = n i * u' * (n i)⁻¹) :
     v ∈ posUnipotentExcept D i := by
@@ -64,12 +68,13 @@ private theorem mem_posUnipotentExcept_of_conj (h : BorelQuotient D n H π M) (i
   rw [hvu, hsplit, hx2, mul_one]
   exact hw'
 
+omit [Finite Y] in
 theorem le_map_posUnipotentExcept_of_normal (h : BorelQuotient D n H π M) (i : Fin D.rank)
     {N : Subgroup Y} (hNR : N ≤ (unipJ D {i}).map π)
     (hN : (N.subgroupOf ((unipJ D {i}).map π)).Normal) (hN2 : IsPGroup 2 N) :
     N ≤ (posUnipotentExcept D i).map π := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S, hS⟩ := exists_sylow_map_posUnipotent h
   have hU2 : IsPGroup 2 (posUnipotent D) := isPGroup_iSup_pos h.extras h.pGroup
   set Rb : Subgroup Y := (unipJ D {i}).map π with hRb
@@ -78,7 +83,7 @@ theorem le_map_posUnipotentExcept_of_normal (h : BorelQuotient D n H π M) (i : 
     exact Subgroup.map_mono (posUnipotent_le_unipJ {i})
   have hnR : π (n i) ∈ Rb :=
     ⟨n i, rankOne_le_unipJ (Set.mem_singleton i) (h.ct.n_mem i), rfl⟩
-  haveI := hN
+  have := hN
   have hN2' : IsPGroup 2 (N.subgroupOf Rb) := hN2.comap_subtype
   have key : ∀ T : Sylow 2 Y, (T : Subgroup Y) ≤ Rb → N ≤ T := by
     intro T hT x hx
@@ -134,10 +139,12 @@ theorem le_map_posUnipotentExcept_of_normal (h : BorelQuotient D n H π M) (i : 
   have hmem : u ∈ posUnipotentExcept D i := mem_posUnipotentExcept_of_conj h i hu' hu hub
   exact ⟨u, hmem, rfl⟩
 
+omit [Finite K] [Finite Y] in
 theorem map_posUnipotentExcept_le (h : BorelQuotient D n H π M) (i : Fin D.rank) :
     (posUnipotentExcept D i).map π ≤ (unipJ D {i}).map π :=
   Subgroup.map_mono (by rw [unipJ_singleton h i]; exact le_sup_right)
 
+omit [Finite Y] in
 theorem map_posUnipotentExcept_normal (h : BorelQuotient D n H π M) (i : Fin D.rank) :
     (((posUnipotentExcept D i).map π).subgroupOf ((unipJ D {i}).map π)).Normal := by
   rw [Subgroup.normal_subgroupOf_iff_le_normalizer (map_posUnipotentExcept_le h i),
@@ -145,10 +152,12 @@ theorem map_posUnipotentExcept_normal (h : BorelQuotient D n H π M) (i : Fin D.
   exact sup_le ((Subgroup.map_mono (rankOne_le_normalizer_posUnipotentExcept h.ct h.extras i)).trans
     (Subgroup.le_normalizer_map π)) Subgroup.le_normalizer
 
+omit [Finite K] [Finite Y] in
 theorem isPGroup_map_posUnipotentExcept (h : BorelQuotient D n H π M) (i : Fin D.rank) :
     IsPGroup 2 ((posUnipotentExcept D i).map π) :=
   (isPGroup_posUnipotentExcept h i).map π
 
+omit [Finite Y] in
 theorem exists_mulEquiv_levi (h : BorelQuotient D n H π M) (i : Fin D.rank)
     [hWn : (((posUnipotentExcept D i).map π).subgroupOf ((unipJ D {i}).map π)).Normal]
     (hLU : rankOne D.rootGroup i ⊓ posUnipotentExcept D i = ⊥)
@@ -157,7 +166,7 @@ theorem exists_mulEquiv_levi (h : BorelQuotient D n H π M) (i : Fin D.rank)
       ((posUnipotentExcept D i).map π).subgroupOf ((unipJ D {i}).map π) ≃*
         ↥(rankOne D.rootGroup i)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Rb : Subgroup Y := (unipJ D {i}).map π with hRb
   set W : Subgroup Y := (posUnipotentExcept D i).map π with hW
   have hL : rankOne D.rootGroup i ≤ unipJ D {i} := rankOne_le_unipJ (Set.mem_singleton i)

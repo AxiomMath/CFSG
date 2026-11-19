@@ -37,7 +37,7 @@ abbrev dTor (F : Type) [Field F] [CharP F 2] : Subgroup (antiSp F) :=
     rintro _ ⟨a, rfl⟩
     refine ⟨a, ?_⟩
     rw [uElt_inv]
-    congr 1 <;> ring
+    congr 1; ring
 
 @[expose] def rootXb (F : Type) [Field F] [CharP F 2] : Subgroup (antiSp F) where
   carrier := {g | ∃ d : F, g = uElt 0 0 0 d}
@@ -51,8 +51,9 @@ abbrev dTor (F : Type) [Field F] [CharP F 2] : Subgroup (antiSp F) :=
     rintro _ ⟨a, rfl⟩
     refine ⟨a, ?_⟩
     rw [uElt_inv]
-    congr 1 <;> ring
+    congr 1; ring
 
+omit [Finite F] in
 theorem mem_dTor {x : antiSp F} : x ∈ dTor F ↔ ∃ s t : Fˣ, x = dSp s t := by
   constructor
   · rintro ⟨p, hp⟩
@@ -60,9 +61,11 @@ theorem mem_dTor {x : antiSp F} : x ∈ dTor F ↔ ∃ s t : Fˣ, x = dSp s t :=
   · rintro ⟨s, t, rfl⟩
     exact CFSG.Quasithin.F7Two.torElt_mem_antiTorus s t
 
+omit [Finite F] in
 theorem dSp_mem_dTor (s t : Fˣ) : dSp s t ∈ dTor F :=
   CFSG.Quasithin.F7Two.torElt_mem_antiTorus s t
 
+omit [Finite F] [CharP F 2] in
 theorem dSp_inj {s t s' t' : Fˣ} (h : dSp s t = (dSp s' t' : antiSp F)) : s = s' ∧ t = t' := by
   have h' := congrArg (fun x : antiSp F => glMat (x : GL (Fin 4) F)) h
   have h0 := congrFun (congrFun h' 0) 0
@@ -70,17 +73,20 @@ theorem dSp_inj {s t s' t' : Fˣ} (h : dSp s t = (dSp s' t' : antiSp F)) : s = s
   simp [glMat_dSp, dSpMat] at h0 h1
   exact ⟨Units.ext h0, Units.ext h1⟩
 
+omit [Finite F] in
 theorem dTor_comm {a b : antiSp F} (ha : a ∈ dTor F) (hb : b ∈ dTor F) : a * b = b * a := by
   obtain ⟨s, t, rfl⟩ := mem_dTor.mp ha
   obtain ⟨s', t', rfl⟩ := mem_dTor.mp hb
   rw [dSp_mul, dSp_mul]
   congr 1 <;> exact mul_comm _ _
 
+omit [Finite F] in
 theorem dTor_le : dTor F ≤ B0 F := by
   intro x hx
   obtain ⟨s, t, rfl⟩ := mem_dTor.mp hx
   exact dSp_mem_normalizer s t
 
+omit [Finite F] in
 theorem card_dTor (hF : Nat.card F = 2 ^ 2) : Nat.card (dTor F) = 9 := by
   have hcard : Nat.card (Fˣ × Fˣ) = Nat.card (dTor F) := by
     refine Nat.card_congr (Equiv.ofBijective
@@ -117,6 +123,7 @@ theorem card_antiUnipotentCenter (hF : Nat.card F = 2 ^ 2) :
   rw [h, hF]
   norm_num
 
+omit [Finite F] in
 theorem antiUnipotent_inf_dTor : antiUnipotent F ⊓ dTor F = ⊥ := by
   refine le_antisymm ?_ bot_le
   rintro x ⟨hxU, hxT⟩
@@ -145,15 +152,18 @@ theorem card_B0 (hF : Nat.card F = 2 ^ 2) : Nat.card (B0 F) = 2 ^ 8 * 3 ^ 2 := b
   rw [h]
   norm_num
 
+omit [Finite F] in
 theorem rootU₁_le_antiUnipotentCenter : rootU₁ F ≤ antiUnipotentCenter F := by
   rintro _ ⟨b, rfl⟩
   exact ⟨b, 0, rfl⟩
 
+omit [Finite F] in
 theorem rootU₂_le_antiUnipotentCenter : rootU₂ F ≤ antiUnipotentCenter F := by
   rintro _ ⟨c, rfl⟩
   exact ⟨0, c, rfl⟩
 
-theorem centralizer_dSp_diag (hF : Nat.card F = 2 ^ 2) {s : Fˣ} (hs : s ≠ 1) {x : antiSp F}
+omit [Finite F] in
+theorem centralizer_dSp_diag (_hF : Nat.card F = 2 ^ 2) {s : Fˣ} (hs : s ≠ 1) {x : antiSp F}
     (hx : x ∈ antiUnipotent F) (hc : dSp s s * x = x * dSp s s) : x ∈ rootXa F := by
   obtain ⟨a, b, c, d, rfl⟩ := hx
   have hconj : dSp s s * uElt a b c d * (dSp s s)⁻¹ = uElt a b c d := by
@@ -180,13 +190,14 @@ theorem centralizer_dSp_diag (hF : Nat.card F = 2 ^ 2) {s : Fˣ} (hs : s ≠ 1) 
   rw [hb0, hc0, hd0]
   exact ⟨a, rfl⟩
 
-theorem centralizer_dSp_left (hF : Nat.card F = 2 ^ 2) {s : Fˣ} (hs : s ≠ 1) {x : antiSp F}
+omit [Finite F] in
+theorem centralizer_dSp_left (_hF : Nat.card F = 2 ^ 2) {s : Fˣ} (hs : s ≠ 1) {x : antiSp F}
     (hx : x ∈ antiUnipotent F) (hc : dSp s 1 * x = x * dSp s 1) : x ∈ rootXb F := by
   obtain ⟨a, b, c, d, rfl⟩ := hx
   have hconj : dSp s 1 * uElt a b c d * (dSp s 1)⁻¹ = uElt a b c d := by
     rw [hc, mul_assoc, mul_inv_cancel, mul_one]
   rw [dSp_conj_uElt] at hconj
-  simp only [Units.val_one, inv_one, mul_one, one_mul] at hconj
+  simp only [Units.val_one, inv_one, mul_one] at hconj
   obtain ⟨ha, hb, hc', -⟩ := uElt_inj hconj
   have hs1 : (s : F) - 1 ≠ 0 := sub_ne_zero.mpr (fun h => hs (Units.ext h))
   have hsq1 : (s : F) ^ 2 ≠ 1 := by
@@ -209,7 +220,8 @@ theorem centralizer_dSp_left (hF : Nat.card F = 2 ^ 2) {s : Fˣ} (hs : s ≠ 1) 
   rw [ha0, hb0, hc0]
   exact ⟨d, rfl⟩
 
-theorem dSp_mem_Kb_iff (hF : Nat.card F = 2 ^ 2) (s t : Fˣ) :
+omit [Finite F] in
+theorem dSp_mem_Kb_iff (_hF : Nat.card F = 2 ^ 2) (s t : Fˣ) :
     (∀ x ∈ radA1 F, dSp s t * x * (dSp s t)⁻¹ * x⁻¹ ∈ antiUnipotentCenter F) ↔ t = 1 := by
   constructor
   · intro H
@@ -217,7 +229,7 @@ theorem dSp_mem_Kb_iff (hF : Nat.card F = 2 ^ 2) (s t : Fˣ) :
     have hmem := H _ h1
     have hxinv : (uElt (0 : F) 0 0 1 : antiSp F)⁻¹ = uElt 0 0 0 1 := by
       rw [uElt_inv]
-      congr 1 <;> ring
+      congr 1; ring
     have hcomm : dSp s t * uElt 0 0 0 1 * (dSp s t)⁻¹ * (uElt 0 0 0 1)⁻¹ =
         uElt 0 0 0 ((t : F) ^ 2 + 1) := by
       rw [dSp_conj_uElt, hxinv, uElt_mul]
@@ -236,16 +248,17 @@ theorem dSp_mem_Kb_iff (hF : Nat.card F = 2 ^ 2) (s t : Fˣ) :
     obtain ⟨b, c, d, rfl⟩ := hx
     have hxinv : (uElt (0 : F) b c d : antiSp F)⁻¹ = uElt 0 b c d := by
       rw [uElt_inv]
-      congr 1 <;> ring
+      congr 1; ring
     have hcomm : dSp s 1 * uElt 0 b c d * (dSp s 1)⁻¹ * (uElt 0 b c d)⁻¹ =
         uElt 0 ((1 + (s : F)) * b) ((1 + (s : F) ^ 2) * c) 0 := by
       rw [dSp_conj_uElt, hxinv, uElt_mul]
-      simp only [Units.val_one, Units.val_inv_eq_inv_val, inv_one, mul_one, one_mul, pow_one]
+      simp only [Units.val_one, inv_one, mul_one]
       congr 1 <;> (ring_nf; try simp [CharTwo.two_eq_zero])
     rw [hcomm]
     exact ⟨(1 + (s : F)) * b, (1 + (s : F) ^ 2) * c, rfl⟩
 
-theorem dSp_mem_Ka_iff (hF : Nat.card F = 2 ^ 2) (s t : Fˣ) :
+omit [Finite F] in
+theorem dSp_mem_Ka_iff (_hF : Nat.card F = 2 ^ 2) (s t : Fˣ) :
     (∀ x ∈ radA2 F, dSp s t * x * (dSp s t)⁻¹ * x⁻¹ ∈ antiUnipotentCenter F) ↔ s = t := by
   constructor
   · intro H
@@ -253,7 +266,7 @@ theorem dSp_mem_Ka_iff (hF : Nat.card F = 2 ^ 2) (s t : Fˣ) :
     have hmem := H _ h1
     have hxinv : (uElt (1 : F) 0 0 0 : antiSp F)⁻¹ = uElt 1 0 0 0 := by
       rw [uElt_inv]
-      congr 1 <;> ring
+      congr 1; ring
     have hcomm : dSp s t * uElt 1 0 0 0 * (dSp s t)⁻¹ * (uElt 1 0 0 0)⁻¹ =
         uElt ((s : F) * ((t⁻¹ : Fˣ) : F) + 1) 0 0 0 := by
       rw [dSp_conj_uElt, hxinv, uElt_mul]
@@ -270,17 +283,18 @@ theorem dSp_mem_Ka_iff (hF : Nat.card F = 2 ^ 2) (s t : Fˣ) :
     obtain ⟨a, b, c, rfl⟩ := hx
     have hxinv : (uElt a b c (0 : F) : antiSp F)⁻¹ = uElt a b c 0 := by
       rw [uElt_inv]
-      congr 1 <;> ring
+      congr 1; ring
     have hcomm : dSp s s * uElt a b c 0 * (dSp s s)⁻¹ * (uElt a b c 0)⁻¹ =
         uElt 0 ((1 + (s : F) ^ 2) * b) ((1 + (s : F) ^ 2) * (c + a * b)) 0 := by
       rw [dSp_conj_uElt, hxinv, uElt_mul]
-      simp only [Units.val_one, Units.val_inv_eq_inv_val, inv_one, mul_one, one_mul, pow_one]
+      simp only [Units.val_inv_eq_inv_val]
       rw [mul_inv_cancel₀ (Units.ne_zero s), one_mul]
       congr 1 <;> (ring_nf; try simp [CharTwo.two_eq_zero])
     rw [hcomm]
     exact ⟨_, _, rfl⟩
 
-theorem dSp_mem_K2ab_iff (hF : Nat.card F = 2 ^ 2) (s t : Fˣ) :
+omit [Finite F] in
+theorem dSp_mem_K2ab_iff (_hF : Nat.card F = 2 ^ 2) (s t : Fˣ) :
     (∀ x ∈ rootU₂ F, dSp s t * x * (dSp s t)⁻¹ = x) ↔ s = 1 := by
   constructor
   · intro H
@@ -301,6 +315,7 @@ theorem dSp_mem_K2ab_iff (hF : Nat.card F = 2 ^ 2) (s t : Fˣ) :
     rw [dSp_conj_uElt]
     norm_num
 
+omit [Finite F] in
 theorem card_rootU₁ (hF : Nat.card F = 2 ^ 2) : Nat.card (rootU₁ F) = 4 := by
   have h : Nat.card F = Nat.card (rootU₁ F) := by
     refine Nat.card_congr (Equiv.ofBijective
@@ -312,6 +327,7 @@ theorem card_rootU₁ (hF : Nat.card F = 2 ^ 2) : Nat.card (rootU₁ F) = 4 := b
   rw [← h, hF]
   norm_num
 
+omit [Finite F] in
 theorem card_rootU₂ (hF : Nat.card F = 2 ^ 2) : Nat.card (rootU₂ F) = 4 := by
   have h : Nat.card F = Nat.card (rootU₂ F) := by
     refine Nat.card_congr (Equiv.ofBijective
@@ -349,7 +365,7 @@ theorem eq_rootU_of_dTor_normal (hF : Nat.card F = 2 ^ 2) {W : Subgroup (antiSp 
       simpa using congrArg (fun x : Fˣ => (x : F)) h
     · intro h
       rw [h, one_pow]
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hone_lt : 1 < Fintype.card Fˣ := by
     rw [← Nat.card_eq_fintype_card, hcu]
     norm_num
@@ -509,24 +525,28 @@ theorem eq_rootU_of_dTor_normal (hF : Nat.card F = 2 ^ 2) {W : Subgroup (antiSp 
       exact this.1
     exact (Subgroup.eq_of_le_of_card_ge hle (by rw [hWc, card_rootU₁ hF])).symm
 
+omit [Finite F] in
 theorem conj_mem_antiUnipotentCenter {u z : antiSp F} (hu : u ∈ antiUnipotent F)
     (hz : z ∈ antiUnipotentCenter F) : u * z * u⁻¹ ∈ antiUnipotentCenter F := by
   have hcomm : u * z = z * u := (antiUnipotentCenter_comm hz hu).symm
   rw [hcomm, mul_assoc, mul_inv_cancel, mul_one]
   exact hz
 
+omit [Finite F] in
 theorem conj_mem_rootU₁ {u y : antiSp F} (hu : u ∈ antiUnipotent F) (hy : y ∈ rootU₁ F) :
     u * y * u⁻¹ = y := by
   have hz : y ∈ antiUnipotentCenter F := rootU₁_le_antiUnipotentCenter hy
   have hcomm : u * y = y * u := (antiUnipotentCenter_comm hz hu).symm
   rw [hcomm, mul_assoc, mul_inv_cancel, mul_one]
 
+omit [Finite F] in
 theorem conj_mem_rootU₂ {u y : antiSp F} (hu : u ∈ antiUnipotent F) (hy : y ∈ rootU₂ F) :
     u * y * u⁻¹ = y := by
   have hz : y ∈ antiUnipotentCenter F := rootU₂_le_antiUnipotentCenter hy
   have hcomm : u * y = y * u := (antiUnipotentCenter_comm hz hu).symm
   rw [hcomm, mul_assoc, mul_inv_cancel, mul_one]
 
+omit [Finite F] in
 theorem dTor_conj_mem_rootU₁ {h x : antiSp F} (hh : h ∈ dTor F) (hx : x ∈ rootU₁ F) :
     h * x * h⁻¹ ∈ rootU₁ F := by
   obtain ⟨s, t, rfl⟩ := mem_dTor.mp hh
@@ -535,6 +555,7 @@ theorem dTor_conj_mem_rootU₁ {h x : antiSp F} (hh : h ∈ dTor F) (hx : x ∈ 
   refine ⟨(s : F) * (t : F) * b, ?_⟩
   congr 1 <;> ring
 
+omit [Finite F] in
 theorem dTor_conj_mem_rootU₂ {h x : antiSp F} (hh : h ∈ dTor F) (hx : x ∈ rootU₂ F) :
     h * x * h⁻¹ ∈ rootU₂ F := by
   obtain ⟨s, t, rfl⟩ := mem_dTor.mp hh
@@ -657,7 +678,7 @@ theorem B0_le_closure (hF : Nat.card F = 2 ^ 2) :
   have hq : Nat.card F = 4 := by rw [hF]; norm_num
   have hcu : Nat.card Fˣ = 3 := by rw [Nat.card_units, hq]
   have htwo : (2 : F) = 0 := CharTwo.two_eq_zero
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have h1lt : 1 < Fintype.card Fˣ := by
     rw [← Nat.card_eq_fintype_card, hcu]
     norm_num
@@ -693,10 +714,10 @@ theorem B0_le_closure (hF : Nat.card F = 2 ^ 2) :
         uElt 0 (α * δ) (α ^ 2 * δ) 0 := by
       have hxinv' : (uElt α 0 0 0 : antiSp F)⁻¹ = uElt α 0 0 0 := by
         rw [uElt_inv]
-        congr 1 <;> ring
+        congr 1; ring
       have hyinv' : (uElt 0 0 0 δ : antiSp F)⁻¹ = uElt 0 0 0 δ := by
         rw [uElt_inv]
-        congr 1 <;> ring
+        congr 1; ring
       rw [hxinv', hyinv']
       have hxy : uElt α 0 0 0 * uElt 0 0 0 δ = uElt α (α * δ) 0 δ := by
         rw [uElt_mul]
@@ -775,14 +796,17 @@ theorem B0_le_closure (hF : Nat.card F = 2 ^ 2) :
   rw [hfac]
   exact V.mul_mem (V.mul_mem (V.mul_mem (hxa a) (hxb d)) (hZ ⟨_, _, rfl⟩)) (hT s t)
 
+omit [Finite F] in
 theorem rootXa_le_antiUnipotent : rootXa F ≤ antiUnipotent F := by
   rintro _ ⟨a, rfl⟩
   exact ⟨a, 0, 0, 0, rfl⟩
 
+omit [Finite F] in
 theorem rootXb_le_antiUnipotent : rootXb F ≤ antiUnipotent F := by
   rintro _ ⟨d, rfl⟩
   exact ⟨0, 0, 0, d, rfl⟩
 
+omit [Finite F] in
 theorem rootXa_comm_dSp (s : Fˣ) {x : antiSp F} (hx : x ∈ rootXa F) :
     dSp s s * x = x * dSp s s := by
   obtain ⟨a, rfl⟩ := hx
@@ -793,6 +817,7 @@ theorem rootXa_comm_dSp (s : Fˣ) {x : antiSp F} (hx : x ∈ rootXa F) :
       = (dSp s s * uElt a 0 0 0 * (dSp s s)⁻¹) * dSp s s := by group
     _ = uElt a 0 0 0 * dSp s s := by rw [h]
 
+omit [Finite F] in
 theorem rootXb_comm_dSp_left (s : Fˣ) {x : antiSp F} (hx : x ∈ rootXb F) :
     dSp s 1 * x = x * dSp s 1 := by
   obtain ⟨d, rfl⟩ := hx
@@ -810,7 +835,7 @@ theorem frobAut_pow_dSp (j : ℕ) (s t : Fˣ) :
   show (dSpMat s t).map (fun x => x ^ 2 ^ j) = dSpMat (s ^ 2 ^ j) (t ^ 2 ^ j)
   ext a b
   fin_cases a <;> fin_cases b <;>
-    simp [dSpMat, Matrix.diagonal_apply, Units.val_pow_eq_pow_val, inv_pow]
+    simp [dSpMat, Units.val_pow_eq_pow_val, inv_pow]
 
 theorem frobAut_dSp (hF : Nat.card F = 2 ^ 2) (s t : Fˣ) :
     frobAut F (dSp s t) = dSp s⁻¹ t⁻¹ := by
@@ -857,20 +882,25 @@ theorem isSylowTwoOf_antiUnipotent_B0 (hF : Nat.card F = 2 ^ 2) :
   rw [hidx]
   norm_num
 
+omit [Finite F] in
 theorem rootU₁_le_B0 : rootU₁ F ≤ B0 F :=
   rootU₁_le_antiUnipotentCenter.trans (antiUnipotentCenter_le.trans Subgroup.le_normalizer)
 
+omit [Finite F] in
 theorem rootU₂_le_B0 : rootU₂ F ≤ B0 F :=
   rootU₂_le_antiUnipotentCenter.trans (antiUnipotentCenter_le.trans Subgroup.le_normalizer)
 
+omit [Finite F] in
 theorem card_dTor_subgroupOf (hF : Nat.card F = 2 ^ 2) :
     Nat.card ((dTor F).subgroupOf (B0 F)) = 9 :=
   (Nat.card_congr (Subgroup.subgroupOfEquivOfLe dTor_le).toEquiv).trans (card_dTor hF)
 
+omit [Finite F] in
 theorem card_rootU₁_subgroupOf (hF : Nat.card F = 2 ^ 2) :
     Nat.card ((rootU₁ F).subgroupOf (B0 F)) = 4 :=
   (Nat.card_congr (Subgroup.subgroupOfEquivOfLe rootU₁_le_B0).toEquiv).trans (card_rootU₁ hF)
 
+omit [Finite F] in
 theorem card_rootU₂_subgroupOf (hF : Nat.card F = 2 ^ 2) :
     Nat.card ((rootU₂ F).subgroupOf (B0 F)) = 4 :=
   (Nat.card_congr (Subgroup.subgroupOfEquivOfLe rootU₂_le_B0).toEquiv).trans (card_rootU₂ hF)

@@ -17,7 +17,7 @@ private theorem natCard_A5 : Nat.card A5 = 60 := by
   norm_num
 
 private theorem natCard_A5WrTwo : Nat.card A5WrTwo = 7200 := by
-  haveI : Finite (Multiplicative (ZMod 2)) := inferInstance
+  have : Finite (Multiplicative (ZMod 2)) := inferInstance
   rw [RegularWreathProduct.card]
   have h5 : Nat.card (alternatingGroup (Fin 5)) = 60 := by
     rw [nat_card_alternatingGroup, Nat.card_fin]
@@ -30,7 +30,7 @@ private theorem natCard_A5WrTwo : Nat.card A5WrTwo = 7200 := by
 private theorem exists_snd_ne_one_mem {S : Subgroup (A5 × A5)} (hS : IsPGroup 2 S)
     (hcard : 16 ≤ Nat.card S) : ∃ y : A5, y ≠ 1 ∧ (1, y) ∈ S := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let f1 : A5 × A5 →* A5 := MonoidHom.fst A5 A5
   let f1S : S →* A5 := f1.comp S.subtype
   have hrange : f1S.range = S.map f1 := by
@@ -81,7 +81,7 @@ private theorem exists_snd_ne_one_mem {S : Subgroup (A5 × A5)} (hS : IsPGroup 2
 private theorem exists_fst_ne_one_mem {S : Subgroup (A5 × A5)} (hS : IsPGroup 2 S)
     (hcard : 16 ≤ Nat.card S) : ∃ x : A5, x ≠ 1 ∧ (x, 1) ∈ S := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let f2 : A5 × A5 →* A5 := MonoidHom.snd A5 A5
   let f2S : S →* A5 := f2.comp S.subtype
   have hrange : f2S.range = S.map f2 := by
@@ -131,16 +131,16 @@ private theorem exists_fst_ne_one_mem {S : Subgroup (A5 × A5)} (hS : IsPGroup 2
 
 theorem AschbacherHyp.exists_sylow_meets_factors [Finite C] (hC : AschbacherHyp C Q)
     (θ : ↥(commutator C) →* alternatingGroup (Fin 5) × alternatingGroup (Fin 5))
-    (hθs : Function.Surjective θ) (hθk : ∀ l : ↥(commutator C), θ l = 1 ↔ (l : C) ∈ Q)
-    {t : C} (ht : t ∉ commutator C) (ht2 : t ^ 2 = 1) :
+    (_hθs : Function.Surjective θ) (hθk : ∀ l : ↥(commutator C), θ l = 1 ↔ (l : C) ∈ Q)
+    {t : C} (_ht : t ∉ commutator C) (ht2 : t ^ 2 = 1) :
     ∃ T : Sylow 2 C, t ∈ T ∧
       (∃ x : alternatingGroup (Fin 5), x ≠ 1 ∧
         ∃ l : ↥(commutator C), (l : C) ∈ (T : Subgroup C) ∧ θ l = (x, 1)) ∧
       (∃ y : alternatingGroup (Fin 5), y ≠ 1 ∧
         ∃ l : ↥(commutator C), (l : C) ∈ (T : Subgroup C) ∧ θ l = (1, y)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hQfin : Finite Q := hC.plus.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hQfin : Finite Q := hC.plus.finite
   let L : Subgroup C := commutator C
   have hcardQ : Nat.card Q = 2 ^ 9 := by
     have h := hC.plus.2.1
@@ -206,7 +206,7 @@ theorem AschbacherHyp.exists_sylow_meets_factors [Finite C] (hC : AschbacherHyp 
     apply Subtype.ext
     exact congrArg (fun q : Q => (q : C)) h
   have hS_p : IsPGroup 2 S := by
-    have hM_p : IsPGroup 2 M := T.isPGroup'.to_le hMleT
+    have hM_p : IsPGroup 2 M := T.isPGroup.to_le hMleT
     exact hM_p.of_surjective φ.rangeRestrict φ.rangeRestrict_surjective
   have hS16 : 16 ≤ Nat.card S := by
     have hM := Subgroup.card_ker_mul_card_range φ

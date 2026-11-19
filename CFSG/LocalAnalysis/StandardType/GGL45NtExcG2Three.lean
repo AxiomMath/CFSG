@@ -67,7 +67,7 @@ theorem card_mu3sq_le {K : Type} [Field K] (τ : Tag) :
     fun b j => ⟨b.1 j, (mem_rootsOfUnity _ _).2 (b.2 j)⟩
   have hf : Function.Injective f := fun b b' h => Subtype.ext (funext fun j =>
     congrArg Subtype.val (congrFun h j))
-  haveI : Finite (rootsOfUnity 3 K) := inferInstance
+  have : Finite (rootsOfUnity 3 K) := inferInstance
   calc Nat.card (mu3sq τ K) ≤ Nat.card (Fin τ.rank → rootsOfUnity 3 K) :=
         Nat.card_le_card_of_injective f hf
     _ = _ := by rw [Nat.card_fun, Nat.card_eq_fintype_card (α := Fin τ.rank), Fintype.card_fin]
@@ -112,7 +112,7 @@ theorem familyKernel_empty_G2_three {K : Type} [Field K] {ι : Type}
     have : Nat.card (rootsOfUnity 3 K) ≤ 2 := by omega
     have := Nat.pow_le_pow_left this 2
     omega
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ζ, hζ⟩ := exists_prime_orderOf_dvd_card' (G := rootsOfUnity 3 K) 3 (by rw [hμ])
   have hζ' : orderOf (ζ : Kˣ) = 3 := by rw [Subgroup.orderOf_coe, hζ]
   ext α

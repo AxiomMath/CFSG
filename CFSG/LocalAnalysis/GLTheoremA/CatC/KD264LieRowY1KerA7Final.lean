@@ -12,7 +12,7 @@ open CFSG.LocalAnalysis.GLTheoremA.KD264LieA4
 
 theorem galois_no_quad_root (q : TauCeti.PrimePower) (h3 : 3 ∣ q.card + 1) :
     ∀ x : GaloisField q.p q.exponent, x ^ 2 + x + 1 ≠ 0 := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hcard : Nat.card (GaloisField q.p q.exponent) = q.card := by
     rw [CFSG.Models.card_galoisField q, TauCeti.PrimePower.card_def q]
   have hQpos : 0 < q.card := by
@@ -37,7 +37,7 @@ theorem galois_no_quad_root (q : TauCeti.PrimePower) (h3 : 3 ∣ q.card + 1) :
   have hx0 : x ≠ 0 := by
     rintro rfl
     norm_num at hx
-  haveI : Fintype (GaloisField q.p q.exponent) := Fintype.ofFinite _
+  have : Fintype (GaloisField q.p q.exponent) := Fintype.ofFinite _
   have hfc : Fintype.card (GaloisField q.p q.exponent) = q.card := by
     rw [← Nat.card_eq_fintype_card, hcard]
   have hferm : x ^ (q.card - 1) = 1 := by
@@ -56,7 +56,7 @@ theorem KD264Y1KerA7_holds : KD264Y1KerA7 := by
   intro d _hfin _hns _hk2 _hk3 hP E hE hc
   obtain ⟨d1, hd1⟩ := d
   obtain ⟨q, rfl, h3⟩ := hP
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   let e := CFSG.ClassicalModels.linearCatalogCandidateEquivPSL 6 q hd1
   apply kerConcl_of_equiv e E
   apply KA7.kerConcl_PSL7 (galois_no_quad_root q h3)

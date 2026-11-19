@@ -121,7 +121,7 @@ private theorem trace_cosetRep_mul_inv_eq_zero (hF : (2 : F) ≠ 0) {Q : Subgrou
   classical
   let z : ↥Q := ⟨-1, hneg⟩
   let Z : Subgroup ↥Q := Subgroup.zpowers z
-  haveI : Z.Normal := Subgroup.normal_of_le_center (zpowers_neg_one_le_center hneg)
+  have : Z.Normal := Subgroup.normal_of_le_center (zpowers_neg_one_le_center hneg)
   have hs : ∀ a : ↥Q ⧸ Z, ((Quotient.out a : ↥Q) : ↥Q ⧸ Z) = a := fun a => Quotient.out_eq' a
   have hxZ : (Quotient.out a : ↥Q) * (Quotient.out b : ↥Q)⁻¹ ∉ Z := by
     intro hmem
@@ -150,9 +150,9 @@ theorem linearIndependent_cosetReps (hF : (2 : F) ≠ 0)
   classical
   let z : ↥Q := ⟨-1, hneg⟩
   let Z : Subgroup ↥Q := Subgroup.zpowers z
-  haveI : Z.Normal := Subgroup.normal_of_le_center (zpowers_neg_one_le_center hneg)
-  haveI : Fintype ↥Q := Fintype.ofFinite _
-  haveI : Fintype (↥Q ⧸ Z) := Fintype.ofFinite _
+  have : Z.Normal := Subgroup.normal_of_le_center (zpowers_neg_one_le_center hneg)
+  have : Fintype ↥Q := Fintype.ofFinite _
+  have : Fintype (↥Q ⧸ Z) := Fintype.ofFinite _
   let f : (↥Q ⧸ Z) → Matrix σ σ F := fun a =>
     (((Quotient.out a : ↥Q) : GL σ F) : Matrix σ σ F)
   let w : (↥Q ⧸ Z) → Matrix σ σ F := fun b =>
@@ -192,8 +192,8 @@ theorem card_le_of_symplecticType (hF : (2 : F) ≠ 0)
   classical
   let Z : Subgroup ↥Q := Subgroup.zpowers (⟨-1, hneg⟩ : ↥Q)
   have hli := linearIndependent_cosetReps hF hσF hneg hZ hcomm
-  haveI : Fintype ↥Q := Fintype.ofFinite _
-  haveI : Fintype (↥Q ⧸ Z) := Fintype.ofFinite _
+  have : Fintype ↥Q := Fintype.ofFinite _
+  have : Fintype (↥Q ⧸ Z) := Fintype.ofFinite _
   have hcard := hli.fintype_card_le_finrank
   rw [Module.finrank_matrix, Module.finrank_self, mul_one] at hcard
   have hZcard : Nat.card Z = 2 := card_zpowers_neg_one hF hσF hneg
@@ -218,10 +218,10 @@ theorem eq_card_imp_scalar_of_symplecticType (hF : (2 : F) ≠ 0)
   let z : ↥Q := ⟨-1, hneg⟩
   let Z : Subgroup ↥Q := Subgroup.zpowers z
   have hZcard : Nat.card Z = 2 := card_zpowers_neg_one hF hσF hneg
-  haveI : Z.Normal := Subgroup.normal_of_le_center (zpowers_neg_one_le_center hneg)
+  have : Z.Normal := Subgroup.normal_of_le_center (zpowers_neg_one_le_center hneg)
   have hli := linearIndependent_cosetReps hF hσF hneg hZ hcomm
-  haveI : Fintype ↥Q := Fintype.ofFinite _
-  haveI : Fintype (↥Q ⧸ Z) := Fintype.ofFinite _
+  have : Fintype ↥Q := Fintype.ofFinite _
+  have : Fintype (↥Q ⧸ Z) := Fintype.ofFinite _
   let f : (↥Q ⧸ Z) → Matrix σ σ F := fun a =>
     (((Quotient.out a : ↥Q) : GL σ F) : Matrix σ σ F)
   change LinearIndependent F f at hli

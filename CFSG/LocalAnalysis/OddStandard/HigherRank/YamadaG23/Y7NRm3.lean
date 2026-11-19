@@ -12,6 +12,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private lemma conjSub_le_of_le {H K : Subgroup G} {x : G} (hHK : H ≤ K)
     (hx : x ∈ Subgroup.normalizer (K : Set G)) : conjSub x H ≤ K := by
   intro y hy
@@ -19,6 +20,7 @@ private lemma conjSub_le_of_le {H K : Subgroup G} {x : G} (hHK : H ≤ K)
   obtain ⟨h, hh, rfl⟩ := hy
   exact ((Subgroup.mem_normalizer_iff (H := K)).mp hx h).mp (hHK hh)
 
+omit [Finite G] in
 private lemma le_normalizer_conjSub {H K : Subgroup G} {x : G}
     (hHK : K ≤ Subgroup.normalizer (H : Set G)) (hx : x ∈ Subgroup.normalizer (K : Set G)) :
     K ≤ Subgroup.normalizer (conjSub x H : Set G) := by

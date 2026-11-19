@@ -70,7 +70,7 @@ theorem uc22pwex_twisted_torus_orbit {t : TwistTag} {K : Type} [Field K] [Finite
     have h2n : 1 ≤ 2 ^ n := Nat.one_le_two_pow
     rw [hσ, show 2 ^ n = p * k + 1 by omega, pow_succ, pow_mul, h1, one_pow, one_mul]
   let ι : (Fin t.foldedTag.rank → μ) →* (Fin t.tag.rank → Kˣ) :=
-    Pi.monoidHom fun i => μ.subtype.comp (Pi.evalMonoidHom (fun _ => μ) (t.orbitIndex i))
+    _root_.MonoidHom.pi fun i => μ.subtype.comp (Pi.evalMonoidHom (fun _ => μ) (t.orbitIndex i))
   have hι : ∀ s, ι s ∈ compatSubgroup σ := by
     intro s
     rw [mem_compatSubgroup]

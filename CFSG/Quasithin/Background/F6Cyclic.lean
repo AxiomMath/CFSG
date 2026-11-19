@@ -13,6 +13,7 @@ namespace F6
 
 variable {D : Type*} [Group D] [Finite D] {G₁ G₂ : Subgroup D}
 
+omit [Finite D] in
 theorem openPCore_eq_pCore (p : ℕ) [Fact p.Prime] : Open.pCore p D = CFSG.pCore p D :=
   (CFSG.pCore_eq_open D p).symm
 

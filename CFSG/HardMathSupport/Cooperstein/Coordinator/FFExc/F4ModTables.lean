@@ -114,7 +114,7 @@ theorem dotK_single (i : Ix) (x : Ix → K) : dotK (Pi.single i 1) x = x i := by
     funext j
     by_cases h : j = i
     · subst h; simp
-    · simp [Pi.single_apply, h]
+    · simp [h]
   rw [this, single_dotProduct, one_mul]
 
 theorem dotK_Nrow (k : ℕ) (w : Ix → ZMod 2) (x : Ix → K)

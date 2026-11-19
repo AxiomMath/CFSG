@@ -10,7 +10,7 @@ namespace CFSG.GF2Type.Smith1979.IdxFour
 open CFSG.GF2Type.Smith1979.GammaU CFSG.GF2Type.Smith1979.GammaU.StepA
 open CFSG.GF2Type.Smith1979.GammaU.Viol
 
-@[expose] noncomputable def x0 : V12 ≃ₗ[ZMod 2] V12 := s12e
+noncomputable def x0 : V12 ≃ₗ[ZMod 2] V12 := s12e
 
 theorem x0_apply_code (v : V12) : x0 v = vecOf (appN s12Rows (codeOf v)) := by
   have h : x0 v = linOfRows s12Rows v := rfl
@@ -32,7 +32,7 @@ theorem theta0_w0 : theta0 w0 = vecOf 192 := by
   rw [show theta0N 3 = 192 by decide] at this
   exact this.symm
 
-@[expose] def W0 : Submodule (ZMod 2) V12 := spanOf [3, 192]
+def W0 : Submodule (ZMod 2) V12 := spanOf [3, 192]
 
 theorem mem_W0_iff (w : V12) :
     w ∈ W0 ↔ codeOf w = 0 ∨ codeOf w = 192 ∨ codeOf w = 3 ∨ codeOf w = 195 := by

@@ -68,9 +68,9 @@ theorem mul_comm_statedSL_of_le_one {F : Type} [Field F] {a : ℕ} (ha : a ≤ 1
 theorem center_statedSU_eq (hK : Nat.card K = (2 ^ f) ^ 2) (hf : 2 ≤ f) {k : ℕ} (hk : 2 ≤ k) :
     Subgroup.center (StatedSU k (2 ^ f) K) =
       (StatedScalars (Fin k) K).subgroupOf (StatedSU k (2 ^ f) K) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := f * 2)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := f * 2)
     (by rw [← Nat.card_eq_fintype_card, hK, pow_mul])
   rcases (show k = 2 ∨ 3 ≤ k by omega) with rfl | hk3
   · apply le_antisymm
@@ -89,10 +89,10 @@ theorem nonempty_quotientCenter_equiv_statedProj_statedSU (hK : Nat.card K = (2 
     (QuotientGroup.quotientMulEquivOfEq (center_statedSU_eq hK hf hk))⟩
 
 theorem isQuasisimple_or_isSolvable_statedSU (hK : Nat.card K = (2 ^ f) ^ 2) (hf : 2 ≤ f) (k : ℕ) :
-    CFSG.Assembly.IsQuasisimple (StatedSU k (2 ^ f) K) ∨ IsSolvable (StatedSU k (2 ^ f) K) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := f * 2)
+    CFSG.Assembly.IsQuasisimple (StatedSU k (2 ^ f) K) ∨ Group.IsSolvable (StatedSU k (2 ^ f) K) := by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := f * 2)
     (by rw [← Nat.card_eq_fintype_card, hK, pow_mul])
   rcases (show k ≤ 1 ∨ 2 ≤ k by omega) with hk | hk
   · exact Or.inr <| Group.isSolvable_of_comm fun a b => mul_comm_statedSU_of_le_one hk a b
@@ -101,7 +101,7 @@ theorem isQuasisimple_or_isSolvable_statedSU (hK : Nat.card K = (2 ^ f) ^ 2) (hf
       (CFSG.ComponentClassification.RankTwoClassical.isQuasisimple_statedSU_of_two_le hK hf hk)
 
 theorem isQuasisimple_or_isSolvable_statedSL (hK : 4 ≤ Nat.card K) (a : ℕ) :
-    CFSG.Assembly.IsQuasisimple (StatedSL a K) ∨ IsSolvable (StatedSL a K) := by
+    CFSG.Assembly.IsQuasisimple (StatedSL a K) ∨ Group.IsSolvable (StatedSL a K) := by
   rcases (show a ≤ 1 ∨ 2 ≤ a by omega) with ha | ha
   · exact Or.inr <| Group.isSolvable_of_comm fun x y => mul_comm_statedSL_of_le_one ha x y
   · exact Or.inl <| (CFSG.ComponentClassification.AssemblyBPredicates.isQuasisimple_iff_open _).mpr

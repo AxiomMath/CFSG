@@ -120,7 +120,7 @@ theorem kRecOK_succ {R : ℕ → ℕ} {n nl : ℕ} {Gk : ℕ → ℕ → ℕ} {k
     kpar (R k) < n ∧ klab (R k) < nl ∧ kdep (R (kpar (R k))) < kdep (R k) ∧ kdep (R k) < 33 ∧
       keys3 (Gk (klab (R k))) (R (kpar (R k))) (R k) = true := by
   unfold kRecOK at h
-  simp only [strictB_eq, beq_false hk, bIf_f, bAnd_iff, blt_iff] at h
+  simp only [strictB_eq, beq_false hk, bAnd_iff, blt_iff] at h
   exact h
 
 theorem keys3_spec {G : ℕ → ℕ} {r r' : ℕ} (h : keys3 G r r' = true) :
@@ -302,7 +302,7 @@ theorem cRecOK_succ {R : ℕ → ℕ} {n : ℕ} {Lp : ℕ → ℕ → ℕ} {k : 
     cpar (R k) < n ∧ cdep (R (cpar (R k))) < cdep (R k) ∧ cdep (R k) < 33 ∧
       orM (cf (R k)) 20 = orM (fun t => Lp (clab (R k)) (cf (R (cpar (R k))) t)) 20 := by
   unfold cRecOK at h
-  simp only [strictB_eq, beq_false hk, bIf_f, bAnd_iff, blt_iff, beq_iff] at h
+  simp only [strictB_eq, beq_false hk, bAnd_iff, blt_iff, beq_iff] at h
   exact h
 
 theorem cFix_spec {R : ℕ → ℕ} {A : ℕ → ℕ} (h : cFix R A = true) :

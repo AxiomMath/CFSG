@@ -409,14 +409,14 @@ theorem exists_eq_add_of_eq_smul (hK : IsKleinFrame t₁ t₂ a b y)
   obtain ⟨α, β, γ, hv⟩ := hK.span (f k)
   have hys : f.repr y l = c := by
     rw [hy, map_smul, Finsupp.smul_apply, smul_eq_mul, Module.Basis.repr_self_apply,
-      if_pos rfl, mul_one]
+      ite_eq_left rfl, mul_one]
   have hcoord : f.repr (f k) l = γ * c := by
     rw [hv, map_add, map_add, map_smul, map_smul, map_smul, Finsupp.add_apply,
       Finsupp.add_apply, Finsupp.smul_apply, Finsupp.smul_apply, Finsupp.smul_apply,
       ha, hb, hys]
     ring
   have hrep : f.repr (f k) l = 0 := by
-    rw [Module.Basis.repr_self_apply, if_neg hk]
+    rw [Module.Basis.repr_self_apply, ite_eq_right hk]
   have hγ : γ = 0 := by
     have h : γ * c = 0 := by rw [← hcoord, hrep]
     exact (mul_eq_zero.mp h).resolve_right hc

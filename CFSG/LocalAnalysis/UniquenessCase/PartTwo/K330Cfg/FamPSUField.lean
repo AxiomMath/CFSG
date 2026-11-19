@@ -240,7 +240,7 @@ theorem k330c_card_fieldFixedPSU_le {ℓ f n : ℕ} {K : Type} [Field K]
     (h : UnitaryFieldData ℓ f K) (hn : n = 4 ∨ n = 5) {σ : K ≃+* K} (hσ : orderOf σ = 7) :
     Nat.card (fieldFixedPSU h n σ) ≤ (ℓ ^ (f / 7)) ^ (n ^ 2 - 1) := by
   classical
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   have hn3 : 3 ≤ n := by rcases hn with rfl | rfl <;> norm_num
   have hq : ¬(n = 3 ∧ ℓ ^ f = 2) := by
     rintro ⟨h1, -⟩
@@ -392,7 +392,7 @@ private theorem k330c_hasFieldRP_primeFormP {ℓ f n : ℕ} {K : Type}
   have hσ7 : σ ^ 7 = 1 := by
     change (primeFormFieldFactor h hC hn3 hq a) ^ 7 = 1
     rw [← map_pow, ha7, map_one]
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   have hσord : orderOf σ = 7 := orderOf_eq_prime hσ7 hσ1
   obtain ⟨hpf, -, -, -, -, M, hM⟩ :=
     CFSG.RankThree.UnitaryDescent.unitary_prime_semilinear_field_descent h hn3 hq
@@ -479,8 +479,8 @@ theorem hasFieldRP_PSU (n : ℕ) (hn : n = 4 ∨ n = 5) {J : Type}
   have hn0 : n ≠ 0 := by rcases hn with rfl | rfl <;> norm_num
   obtain ⟨⟨hprime, hf1, -, -⟩, K, hKfield, hKfin, hKcard, ⟨eSU⟩⟩ :=
     LieModel.statedClassicalModel_of_ne_zero hn0 e
-  letI : Field K := hKfield
-  haveI : Finite K := hKfin
+  let : Field K := hKfield
+  have : Finite K := hKfin
   have h : UnitaryFieldData p f K :=
     { prime := hprime
       one_le := hf1

@@ -56,7 +56,7 @@ theorem false_of_isCyclic_omegaZ
   have hWc : ∀ w ∈ W, ∀ y ∈ (P : Subgroup G), w * y = y * w := fun w hw y hy => hw.2.1 y hy
   have hWP : W ≤ P := omegaZ_le
   have hP1 : (P : Subgroup G) ≠ ⊥ := fun h0 => hPc (by rw [h0]; infer_instance)
-  have hW1 : W ≠ ⊥ := omegaZ_ne_bot P.isPGroup' hP1
+  have hW1 : W ≠ ⊥ := omegaZ_ne_bot P.isPGroup hP1
   have hWcard : Nat.card W = p :=
     card_eq_of_isCyclic_of_pow_eq_one hW hW1 fun w hw => pow_eq_one_of_mem_omegaZ hw
   have he₀1 : e₀ ≠ 1 := fun h0 => he₀W (h0 ▸ W.one_mem)
@@ -80,7 +80,7 @@ theorem false_of_isCyclic_omegaZ
     group
   set P₀ := (P : Subgroup G) ⊓ Subgroup.centralizer ({e₀} : Set G) with hP₀def
   have hP₀P : P₀ ≤ P := inf_le_left
-  have hP₀p : IsPGroup p P₀ := P.isPGroup'.to_le hP₀P
+  have hP₀p : IsPGroup p P₀ := P.isPGroup.to_le hP₀P
   have hPN₀ : (P : Subgroup G) ≤ Subgroup.normalizer (P₀ : Set G) := by
     intro x hx
     refine mem_normalizer_of_conj_mem fun z hz => ⟨P.mul_mem (P.mul_mem hx hz.1) (P.inv_mem hx), ?_⟩
@@ -196,7 +196,7 @@ theorem false_of_isCyclic_omegaZ
     exact this ▸ Subgroup.mem_zpowers e₀
   obtain ⟨u', hu'T, hu'1, hWu'⟩ : ∃ u' ∈ c.T₀, u' ≠ 1 ∧
       W ≤ Subgroup.centralizer ({u'} : Set G) := by
-    have hBW := h.card_eq_mul_of_le_normalizer hp3 c hpq (P.isPGroup'.to_le hWP)
+    have hBW := h.card_eq_mul_of_le_normalizer hp3 c hpq (P.isPGroup.to_le hWP)
       (hT₀P.trans normalizer_le_normalizer_omegaZ)
     rw [hWcard] at hBW
     have hfull : ∀ v : G, Nat.card (W ⊓ Subgroup.centralizer ({v} : Set G) : Subgroup G) = p →
@@ -237,7 +237,7 @@ theorem false_of_isCyclic_omegaZ
   have hPsC₀ : Ps ≤ C₀ := Subgroup.map_subtype_le _
   have hP₀Ps : P₀ ≤ Ps := fun x hx =>
     ⟨⟨x, hP₀C₀ hx⟩, hS (by rw [Subgroup.mem_comap]; exact hx), rfl⟩
-  have hPsp : IsPGroup p Ps := S.isPGroup'.map _
+  have hPsp : IsPGroup p Ps := S.isPGroup.map _
   have hPscard : Nat.card Ps = Nat.card (P : Subgroup G) := by
     apply le_antisymm
     · obtain ⟨Q, hQ⟩ := hPsp.exists_le_sylow
@@ -245,7 +245,7 @@ theorem false_of_isCyclic_omegaZ
         _ = Nat.card (P : Subgroup G) := by
           rw [Sylow.card_eq_multiplicity, Sylow.card_eq_multiplicity]
     · have hPgp : IsPGroup p ((P : Subgroup G).map (MulAut.conj g).toMonoidHom) :=
-        P.isPGroup'.map _
+        P.isPGroup.map _
       obtain ⟨S', hS'⟩ := (hPgp.comap_subtype (K := C₀)).exists_le_sylow
       have h1 : Nat.card (((P : Subgroup G).map (MulAut.conj g).toMonoidHom).comap
           C₀.subtype) = Nat.card (P : Subgroup G) := by
@@ -351,7 +351,7 @@ theorem false_of_isCyclic_omegaZ
             omega
         · exact hkerodd h2
       obtain ⟨S₃, hS₃⟩ := exists_sylow_normalized_of_coprime c.isPGroup_T₀ hTMG hMG2 3
-      have hS₃bot := h.eq_bot_of_isPGroup_three_of_le_normalizer hp3 (S₃.isPGroup'.map _)
+      have hS₃bot := h.eq_bot_of_isPGroup_three_of_le_normalizer hp3 (S₃.isPGroup.map _)
         c.isPGroup_T₀ (by rw [c.isKleinFour_T₀.card_four]) hS₃
       have hS₃1 : Nat.card (S₃ : Subgroup MG) = 1 := by
         rw [← Subgroup.card_map_of_injective MG.subtype_injective, hS₃bot, Subgroup.card_bot]
@@ -395,7 +395,7 @@ theorem false_of_isCyclic_omegaZ
     calc x * (a : G) = (x * a * x⁻¹) * x := by group
       _ = (a : G) * x := by rw [this]
   have haP : (a : G) ∈ (P : Subgroup G) := hP₀P (hEsP₀ a.2)
-  have haW : (a : G) ∈ W := ⟨haP, fun y hy => (hfixG P.isPGroup' hPEs y hy).symm,
+  have haW : (a : G) ∈ W := ⟨haP, fun y hy => (hfixG P.isPGroup hPEs y hy).symm,
     hEsexp _ a.2⟩
   have haWs : (a : G) ∈ omegaZ Ps p := ⟨hP₀Ps (hEsP₀ a.2),
     fun y hy => (hfixG hPsp hPsEs y hy).symm, hEsexp _ a.2⟩

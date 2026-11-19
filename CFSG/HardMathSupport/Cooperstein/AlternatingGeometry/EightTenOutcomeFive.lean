@@ -21,7 +21,7 @@ theorem outcomeFive_of_caseA (h84 : Asc81bEightFour)
     (hL : IsWeakSBlock X S L) {m r s : ℕ} (hm : 8 < m) (hmeven : Even m)
     (e : ↥(barM (L ⊔ S) L) ⧸ Subgroup.center ↥(barM (L ⊔ S) L) ≃* alternatingGroup (Fin m))
     (hN : NaturalSectionLSL S L m) (hr1 : 1 ≤ r) (hrs : 2 * r + s = m)
-    (hr : r = 1 ∨ r = 3 ∨ 5 ≤ r) (hs6 : 6 ≤ s)
+    (_hr : r = 1 ∨ r = 3 ∨ 5 ≤ r) (hs6 : 6 ≤ s)
     (hEBX : EightBlockDataX S L r s) (hY : HasSym3LiftS S L (L ⊔ S)) :
     ∃ N r' : ℕ, Even N ∧ 2 * r' ≤ N ∧ 1 ≤ r' ∧ 6 ≤ N - 2 * r' ∧
       EightBlockData X S L r' (N - 2 * r') ∧ IsShort2 L ∧ IsTypeScriptL L := by
@@ -59,6 +59,7 @@ theorem outcomeFive_of_caseA (h84 : Asc81bEightFour)
   exact hEBX X hA hL hSL hAut
 
 
+omit [Finite G] in
 theorem isAltType_of_isAltNaturalType {n : ℕ} (hn : Odd n) (h : IsAltNaturalType L n) :
     IsAltType L n := by
   obtain ⟨α, hαs, hαk, β, hβs, hβk, hR⟩ := h

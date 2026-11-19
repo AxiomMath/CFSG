@@ -218,7 +218,7 @@ theorem ggDepAThreeCheck_core {p N : ℕ} [Fact p.Prime] (hp : 3 ≤ p) (hpN : p
   have h2 := List.all_eq_true.mp h1 c0.val hc0_mem
   have h3 := List.all_eq_true.mp h2 mi hmi_mem
   have h4 := List.all_eq_true.mp h3 ni hni_mem
-  rw [if_pos hpatB] at h4
+  rw [ite_eq_left hpatB] at h4
   cases hlook : data.lookup (b.val, c0.val, mi, ni) with
   | none => rw [hlook] at h4; simp at h4
   | some wits =>
@@ -280,7 +280,7 @@ theorem ggDepAThreeCheck_core {p N : ℕ} [Fact p.Prime] (hp : 3 ≤ p) (hpN : p
         (v % p) % p != 0) = true := by
       rw [Bool.and_eq_true]
       exact ⟨beq_iff_eq.mpr hdotN, bne_iff_ne.mpr hvv⟩
-    rw [if_pos hcond] at hcase
+    rw [ite_eq_left hcond] at hcase
     have hlenH : (ggDepANHaParam p N b.val c0.val ((p - ni) % p) (s % p) (t % p)).length = N :=
       l05nND_HaParam_length ..
     have hlenA : (ggDepANAaParam p N b.val c0.val ((p - mi) % p) (u % p) (v % p)).length = N :=

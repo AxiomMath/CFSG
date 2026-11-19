@@ -355,14 +355,14 @@ theorem weylTuple_e6SplitRefl_mem (hS : E6SplitLangTwo S) (i : ExcRaw.Root 1)
     by_cases hlong : ExcRaw.tabFix1.getD i.val false = true
     · have hσeq : permLattice (τ := .E6) TwistTag.E6.perm (e6SplitRoot i) = e6SplitRoot i :=
         (permLattice_e6SplitRoot_eq_iff i).2 hlong
-      rw [e6SplitRefl, if_pos hlong] at h1
+      rw [e6SplitRefl, ite_eq_left hlong] at h1
       rw [rootReflection_inv hγ, rootReflection_smul hγ] at h1
       rw [rootChar_sub_smul, hroot_b j, hroot_b i] at h1
       have hc1 : corootPair (e6SplitRoot i) (e6SplitRoot j) =
           (ExcRaw.pairing 1 j i : ℤ) := by
         calc corootPair (e6SplitRoot i) (e6SplitRoot j)
             = e6RelCorootPair (e6SplitRoot i) (e6SplitRoot j) := by
-              rw [e6RelCorootPair, if_pos hσeq]
+              rw [e6RelCorootPair, ite_eq_left hσeq]
           _ = (ExcRaw.pairing 1 j i : ℤ) := (pairing_one_eq_e6RelCorootPair j i).symm
       rw [hc1, zeta_pow_val_mul_zpow (ζ := d.ζ) d.ζ_pow_three
         (ExcRaw.root 1 j v) (ExcRaw.root 1 i v) (ExcRaw.pairing 1 j i)] at h1
@@ -373,7 +373,7 @@ theorem weylTuple_e6SplitRefl_mem (hS : E6SplitLangTwo S) (i : ExcRaw.Root 1)
       have hσne : permLattice (τ := .E6) TwistTag.E6.perm (e6SplitRoot i) ≠ e6SplitRoot i :=
         fun h => hlong ((permLattice_e6SplitRoot_eq_iff i).1 h)
       have horth := (e6SplitRoot_corootPair_orth i hfalse).1
-      rw [e6SplitRefl, if_neg hlong] at h1
+      rw [e6SplitRefl, ite_eq_right hlong] at h1
       rw [mul_inv_rev, rootReflection_inv hγ, rootReflection_inv hσγ] at h1
       rw [mul_smul, rootReflection_smul hγ, rootReflection_smul hσγ] at h1
       have hinv : ∀ x : Fin Tag.E6.rank → ℤ,
@@ -395,7 +395,7 @@ theorem weylTuple_e6SplitRefl_mem (hS : E6SplitLangTwo S) (i : ExcRaw.Root 1)
             (permLattice (τ := .E6) TwistTag.E6.perm (e6SplitRoot j)) =
           (ExcRaw.pairing 1 j i : ℤ) := by
         have h := pairing_one_eq_e6RelCorootPair j i
-        rw [e6RelCorootPair, if_neg hσne] at h
+        rw [e6RelCorootPair, ite_eq_right hσne] at h
         rw [← hperm]
         exact h.symm
       rw [mul_assoc, ← zpow_add, ← neg_add, hc,

@@ -38,8 +38,8 @@ theorem u81_exists_basis (u : U4P D L K n p) {r : ℕ} (hr : r.Prime) (hrp : r �
     (hB0 : barImage D.M B ⊓ centralizer
       ((barImage D.M L ⊔ barImage D.M K : Subgroup (Bar2 D.M)) : Set (Bar2 D.M)) ≠ ⊥) :
     ∃ b : Fin 3 → G, U81BasisR D L K r B b := by
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : NeZero r := ⟨hr.ne_zero⟩
+  have : Fact r.Prime := ⟨hr⟩
+  have : NeZero r := ⟨hr.ne_zero⟩
   have hBM : B ≤ D.M := hBR.trans hR.le
   have hBp : IsPGroup r B := hR.isPGroup.to_le hBR
   obtain ⟨-, hinf, -, -, -, -, hXC⟩ := u4x_bar_structure u.hL u.hK u.hne u.hset u.shape
@@ -156,8 +156,8 @@ namespace U81BasisR
 variable {D : Data G} {L K B : Subgroup G} {r : ℕ} {b : Fin 3 → G}
 
 theorem orderOf_eq (hb : U81BasisR D L K r B b) (hr : r.Prime) (i : Fin 3) : orderOf (b i) = r := by
-  haveI : NeZero r := ⟨hr.ne_zero⟩
-  haveI : Fact (1 < r) := ⟨hr.one_lt⟩
+  have : NeZero r := ⟨hr.ne_zero⟩
+  have : Fact (1 < r) := ⟨hr.one_lt⟩
   rcases hr.eq_one_or_self_of_dvd _ (orderOf_dvd_of_pow_eq_one (hb.frame.pow_eq_one i)) with h | h
   · rw [orderOf_eq_one_iff] at h
     have h0 := congrFun (hb.frame.indep (Pi.single i 1) (by rw [hb.frame.coord_single_one, h])) i

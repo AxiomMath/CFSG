@@ -36,7 +36,7 @@ theorem form_eq_ite_twChi27 {k : Type} [Field k] [Finite k] [CharP k 2] [Algebra
     (hfm : ∀ z ∈ augSub ρ (twistedE6CoverData hf hK σ hσ).datum.L, fm z = 0) (hfy : fm y = 1)
     (g : ↥(TwistedE6.fixedGroup K σ)) :
     fm (ρ g y) = if twChi27 σ g = 0 then 0 else 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨μ, hμ⟩ := ht.exists_mu hρ (twistedCover_split hf hK σ hσ k)
   have ht27 := twRep27_isCoverType hf hK σ hσ
   obtain ⟨μ27, hμ27⟩ := ht27.exists_mu (isSimpleRep_twRep27 hf hK σ hσ)
@@ -69,8 +69,8 @@ theorem form_eq_ite_twChi27 {k : Type} [Field k] [Finite k] [CharP k 2] [Algebra
   have hres := coinvScalar_residual hf hK σ hσ ht hχ hμ ω
   rw [hfa, hsph k χ μ, hχh, one_mul, hres]
   by_cases hω : twN0 ∈ ω
-  · rw [if_pos hω, if_pos (hiff.2 hω)]
+  · rw [ite_eq_left hω, ite_eq_left (hiff.2 hω)]
   · have hn : ¬ (twChi27 σ g = 0) := fun h0 => hω (hiff.1 h0)
-    rw [if_neg hω, if_neg hn]
+    rw [ite_eq_right hω, ite_eq_right hn]
 
 end CFSG.HardMathSupport.Cooperstein.Coordinator.TwE6

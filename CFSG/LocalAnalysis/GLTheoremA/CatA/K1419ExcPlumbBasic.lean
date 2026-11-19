@@ -53,13 +53,13 @@ theorem l3u3Plumb_isSimpleGroup {X : Type} [Group X] (h : L3U3 X) : IsSimpleGrou
   | cyclic _ _ => exact absurd hi (by simp [CFSG.LocalAnalysis.GLTheoremA.l3u3Index, onLie])
   | alternating _ _ => exact absurd hi (by simp [CFSG.LocalAnalysis.GLTheoremA.l3u3Index, onLie])
   | lie d =>
-    haveI : IsSimpleGroup d.Group := (CFSG.Assembly.lie_finite_simple d).2
+    have : IsSimpleGroup d.Group := (CFSG.Assembly.lie_finite_simple d).2
     exact e.isSimpleGroup_congr.mpr inferInstance
   | sporadic _ => exact absurd hi (by simp [CFSG.LocalAnalysis.GLTheoremA.l3u3Index, onLie])
 
 theorem l3u3Plumb_center_eq_bot {X : Type} [Group X] (h : L3U3 X) (hq : CFSG.Open.IsQuasisimple X) :
     Subgroup.center X = ⊥ := by
-  haveI := l3u3Plumb_isSimpleGroup h
+  have := l3u3Plumb_isSimpleGroup h
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center X) with h0 | h0
   · exact h0
   · exfalso

@@ -597,7 +597,7 @@ theorem ae8e_lin (w : Fin 6 → Fin 6 → ZMod 2)
   simp [Pi.single_apply]
 
 @[expose] def ae8e_iota (σ : Equiv.Perm (Fin 8)) : Fin 6 ↪ Fin 8 :=
-  ⟨fun a => σ (ae8e_c6 a), fun a b h => ae8e_c6_injective (σ.injective h)⟩
+  ⟨fun _a => σ (ae8e_c6 _a), fun _a _b h => ae8e_c6_injective (σ.injective h)⟩
 
 theorem ae8e_iota_apply (σ : Equiv.Perm (Fin 8)) (a : Fin 6) :
     ae8e_iota σ a = σ (ae8e_c6 a) := rfl
@@ -617,6 +617,7 @@ section Model
 
 variable {c : Chart Ω u} {co : Coords c}
 
+omit [Finite G] in
 theorem ae8e_delta_mem (cl : Classes co) (x : ↥(Delta u)) : (x : G) ∈ zGroup Ω := by
   obtain ⟨hx, -⟩ := (cl.u_class (x : G)).mp x.2
   exact hx
@@ -624,10 +625,12 @@ theorem ae8e_delta_mem (cl : Classes co) (x : ↥(Delta u)) : (x : G) ∈ zGroup
 @[expose] def ae8e_coord (cl : Classes co) (x : ↥(Delta u)) : Fin 6 → ZMod 2 :=
   (co.e ⟨(x : G), ae8e_delta_mem cl x⟩).toAdd
 
+omit [Finite G] in
 theorem ae8e_coord_inW (cl : Classes co) (x : ↥(Delta u)) : ae8e_inW (ae8e_coord cl x) := by
   obtain ⟨hx, h⟩ := (cl.u_class (x : G)).mp x.2
   exact h
 
+omit [Finite G] in
 theorem ae8e_coord_inj (cl : Classes co) {x y : ↥(Delta u)}
     (h : ae8e_coord cl x = ae8e_coord cl y) : x = y := by
   unfold ae8e_coord at h
@@ -638,6 +641,7 @@ theorem ae8e_coord_inj (cl : Classes co) {x y : ↥(Delta u)}
   have h3 : (x : G) = (y : G) := congrArg (fun d : ↥(zGroup Ω) => (d : G)) h2
   exact Subtype.ext h3
 
+omit [Finite G] in
 theorem ae8e_coord_surj (cl : Classes co) {w : Fin 6 → ZMod 2} (hw : ae8e_inW w) :
     ∃ x : ↥(Delta u), ae8e_coord cl x = w := by
   have hd : (co.e.symm (Multiplicative.ofAdd w) : G) ∈ Delta u := by
@@ -645,6 +649,7 @@ theorem ae8e_coord_surj (cl : Classes co) {w : Fin 6 → ZMod 2} (hw : ae8e_inW 
     simpa using hw
   exact ⟨⟨_, hd⟩, by simp [ae8e_coord]⟩
 
+omit [Finite G] in
 theorem ae8e_coord_mul (cl : Classes co) {x y z : ↥(Delta u)} (h : (z : G) = (x : G) * y) :
     ae8e_coord cl z = ae8e_coord cl x + ae8e_coord cl y := by
   have h' : (⟨(z : G), ae8e_delta_mem cl z⟩ : ↥(zGroup Ω)) =
@@ -652,7 +657,8 @@ theorem ae8e_coord_mul (cl : Classes co) {x y z : ↥(Delta u)} (h : (z : G) = (
   unfold ae8e_coord
   rw [h', map_mul, toAdd_mul]
 
-theorem ae8e_mul_mem_iff (cl : Classes co) {x y : ↥(Delta u)} (hxy : x ≠ y) :
+omit [Finite G] in
+theorem ae8e_mul_mem_iff (cl : Classes co) {x y : ↥(Delta u)} (_hxy : x ≠ y) :
     (x : G) * y ∈ Delta u ↔ ae8e_inW (ae8e_coord cl x + ae8e_coord cl y) := by
   constructor
   · intro hm
@@ -690,6 +696,7 @@ theorem ae8e_card_pos (s : {s : Finset (Fin 8) // s.card = 2}) :
     (s : Finset (Fin 8)).Nonempty :=
   Finset.card_pos.mp (by rw [s.2]; norm_num)
 
+omit [Finite G] in
 theorem ae8e_exists_perm (cl : Classes co) (pt : Points u) :
     ∃ σ : Equiv.Perm (Fin 8), ∀ x : ↥(Delta u),
       (pt.E x : Finset (Fin 8)) = (ae8e_pair (ae8e_coord cl x)).image σ := by
@@ -730,7 +737,8 @@ namespace Points
 
 variable {c : Chart Ω u} {co : Coords c}
 
-theorem mul_eq (H : End18.Hyp Ω) (cl : Classes co) (pt : Points u) {x y z : ↥(Delta u)}
+omit [Finite G] in
+theorem mul_eq (_H : End18.Hyp Ω) (cl : Classes co) (pt : Points u) {x y z : ↥(Delta u)}
     {i j k : Fin 8} (hij : i ≠ j) (hjk : j ≠ k) (hik : i ≠ k)
     (hx : (pt.E x : Finset (Fin 8)) = {i, j}) (hy : (pt.E y : Finset (Fin 8)) = {j, k})
     (hz : (pt.E z : Finset (Fin 8)) = {i, k}) : (x : G) * y = z := by
@@ -774,10 +782,12 @@ theorem ae8e_even_gen : ∀ f : Fin 8 → ZMod 2, ∑ k, f k = 0 →
 @[expose] noncomputable def ae8e_x (pt : Points u) (i j : Fin 8) (h : i ≠ j) : ↥(Delta u) :=
   pt.E.symm ⟨{i, j}, Finset.card_pair h⟩
 
+omit [Finite G] in
 theorem ae8e_x_E (pt : Points u) (i j : Fin 8) (h : i ≠ j) :
     (pt.E (ae8e_x pt i j h) : Finset (Fin 8)) = {i, j} := by
   simp [ae8e_x]
 
+omit [Finite G] in
 theorem ae8e_x_comm (pt : Points u) (i j : Fin 8) (h : i ≠ j) :
     ae8e_x pt i j h = ae8e_x pt j i h.symm := by
   simp only [ae8e_x]
@@ -793,20 +803,25 @@ theorem ae8e_x_comm (pt : Points u) (i j : Fin 8) (h : i ≠ j) :
   AddMonoidHom.mk' (fun f => ∑ i, f i • ae8e_vv cl pt i)
     (fun f g => by simp [add_smul, Finset.sum_add_distrib])
 
+omit [Finite G] in
 theorem ae8e_lam_apply (cl : Classes co) (pt : Points u) (f : Fin 8 → ZMod 2) :
     ae8e_lam cl pt f = ∑ i, f i • ae8e_vv cl pt i := rfl
 
+omit [Finite G] in
 theorem ae8e_lam_ind (cl : Classes co) (pt : Points u) (s : Finset (Fin 8)) :
     ae8e_lam cl pt (ae8e_ind s) = ∑ k ∈ s, ae8e_vv cl pt k := by
   simp [ae8e_lam_apply, ae8e_ind, ite_smul, Finset.sum_ite_mem]
 
+omit [Finite G] in
 theorem ae8e_vv_seven (cl : Classes co) (pt : Points u) : ae8e_vv cl pt 7 = 0 := by
   simp [ae8e_vv]
 
+omit [Finite G] in
 theorem ae8e_vv_of_ne (cl : Classes co) (pt : Points u) {i : Fin 8} (h : i ≠ 7) :
     ae8e_vv cl pt i = ae8e_coord cl (ae8e_x pt i 7 h) := by
   simp [ae8e_vv, h]
 
+omit [Finite G] in
 theorem ae8e_vv_add (H : End18.Hyp Ω) (cl : Classes co) (pt : Points u) {i j : Fin 8}
     (hij : i ≠ j) :
     ae8e_vv cl pt i + ae8e_vv cl pt j = ae8e_coord cl (ae8e_x pt i j hij) := by
@@ -822,11 +837,13 @@ theorem ae8e_vv_add (H : End18.Hyp Ω) (cl : Classes co) (pt : Points u) {i j : 
     (ae8e_x_E pt i 7 hi) (by rw [ae8e_x_E pt j 7 hj, Finset.pair_comm]) (ae8e_x_E pt i j hij)
   exact (ae8e_coord_mul cl hmul.symm).symm
 
+omit [Finite G] in
 theorem ae8e_lam_pair (H : End18.Hyp Ω) (cl : Classes co) (pt : Points u) {i j : Fin 8}
     (hij : i ≠ j) :
     ae8e_lam cl pt (ae8e_ind {i, j}) = ae8e_coord cl (ae8e_x pt i j hij) := by
   rw [ae8e_lam_ind, Finset.sum_pair hij, ae8e_vv_add H cl pt hij]
 
+omit [Finite G] in
 theorem ae8e_coord_symm (cl : Classes co) (x : ↥(Delta u)) :
     ((co.e.symm (Multiplicative.ofAdd (ae8e_coord cl x)) : ↥(zGroup Ω)) : G) = (x : G) := by
   simp [ae8e_coord]
@@ -836,15 +853,18 @@ theorem ae8e_coord_symm (cl : Classes co) (x : ↥(Delta u)) :
   (zGroup Ω).subtype.comp
     ((co.e.symm.toMonoidHom).comp (AddMonoidHom.toMultiplicative (ae8e_lam cl pt)))
 
+omit [Finite G] in
 theorem ae8e_beta_ofAdd (cl : Classes co) (pt : Points u) (f : Fin 8 → ZMod 2) :
     ae8e_beta cl pt (Multiplicative.ofAdd f) =
       ((co.e.symm (Multiplicative.ofAdd (ae8e_lam cl pt f)) : ↥(zGroup Ω)) : G) := rfl
 
+omit [Finite G] in
 theorem ae8e_beta_pair (H : End18.Hyp Ω) (cl : Classes co) (pt : Points u) {i j : Fin 8}
     (hij : i ≠ j) :
     ae8e_beta cl pt (Multiplicative.ofAdd (ae8e_ind {i, j})) = (ae8e_x pt i j hij : G) := by
   rw [ae8e_beta_ofAdd, ae8e_lam_pair H cl pt hij, ae8e_coord_symm]
 
+omit [Finite G] in
 theorem ae8e_lam_surj (H : End18.Hyp Ω) (cl : Classes co) (pt : Points u)
     (w : Fin 6 → ZMod 2) :
     ∃ f : Fin 8 → ZMod 2, ∑ i, f i = 0 ∧ ae8e_lam cl pt f = w := by
@@ -881,12 +901,14 @@ theorem ae8e_star : ∀ q : Fin 8, ∑ w ∈ Finset.univ.filter
     (fun w : Fin 6 → ZMod 2 => ae8e_inW w ∧ q ∈ ae8e_pair w), w = 0 := by
   decide +kernel
 
+omit [Finite G] in
 theorem ae8e_eq_x (pt : Points u) {x : ↥(Delta u)} {i j : Fin 8} (h : i ≠ j)
     (hE : (pt.E x : Finset (Fin 8)) = {i, j}) : x = ae8e_x pt i j h := by
   apply pt.E.injective
   apply Subtype.ext
   rw [ae8e_x_E pt i j h, hE]
 
+omit [Finite G] in
 theorem ae8e_star_sum (cl : Classes co) (pt : Points u) (σ : Equiv.Perm (Fin 8))
     (hσ : ∀ x : ↥(Delta u), (pt.E x : Finset (Fin 8)) = (ae8e_pair (ae8e_coord cl x)).image σ) :
     ∑ i, ae8e_vv cl pt i = 0 := by
@@ -937,7 +959,7 @@ theorem ae8e_star_sum (cl : Classes co) (pt : Points u) (σ : Equiv.Perm (Fin 8)
     rcases h7 with h7 | h7
     · have hb : b ≠ 7 := fun hb => hab (h7.symm.trans hb.symm)
       refine ⟨b, ?_, ?_⟩
-      · simp [Finset.mem_erase, hb]
+      · simp [hb]
       · have hEb : (pt.E x : Finset (Fin 8)) = {b, 7} := by
           rw [hE, ← h7, Finset.pair_comm]
         show ae8e_vv cl pt b = w
@@ -945,7 +967,7 @@ theorem ae8e_star_sum (cl : Classes co) (pt : Points u) (σ : Equiv.Perm (Fin 8)
         exact hx
     · have ha : a ≠ 7 := fun ha => hab (ha.trans h7)
       refine ⟨a, ?_, ?_⟩
-      · simp [Finset.mem_erase, ha]
+      · simp [ha]
       · have hEa : (pt.E x : Finset (Fin 8)) = {a, 7} := by
           rw [hE, ← h7]
         show ae8e_vv cl pt a = w
@@ -974,6 +996,7 @@ theorem ae8e_card_even : Nat.card ↥(ae8e_sumH.ker) = 128 := by
   rw [h2, h256] at h
   omega
 
+omit [Finite G] in
 theorem ae8e_kernel (H : End18.Hyp Ω) (cl : Classes co) (pt : Points u)
     (hstar : ∑ i, ae8e_vv cl pt i = 0) {f : Fin 8 → ZMod 2} (hf : ∑ i, f i = 0)
     (h0 : ae8e_lam cl pt f = 0) : f = 0 ∨ f = fun _ => 1 := by
@@ -1018,10 +1041,12 @@ theorem ae8e_perm_ind (s : Equiv.Perm (Fin 8)) (i j : Fin 8) :
   funext k
   simp [ae8e_ind, Equiv.symm_apply_eq]
 
+omit [Finite G] in
 theorem ae8e_conj_mem (g : G) (x : ↥(Delta u)) : g * (x : G) * g⁻¹ ∈ Delta u := by
   obtain ⟨h, hx⟩ := x.2
   exact ⟨g * h, by rw [hx]; group⟩
 
+omit [Finite G] in
 theorem ae8e_conj_x (pt : Points u) (g : G) {i j : Fin 8} (hij : i ≠ j) :
     g * (ae8e_x pt i j hij : G) * g⁻¹ =
       (ae8e_x pt (pt.π g i) (pt.π g j) ((pt.π g).injective.ne hij) : G) := by
@@ -1032,6 +1057,7 @@ theorem ae8e_conj_x (pt : Points u) (g : G) {i j : Fin 8} (hij : i ≠ j) :
   have := ae8e_eq_x pt ((pt.π g).injective.ne hij) hy
   rw [← this]
 
+omit [Finite G] in
 theorem ae8e_beta_eq_one_iff (cl : Classes co) (pt : Points u) (f : Fin 8 → ZMod 2) :
     ae8e_beta cl pt (Multiplicative.ofAdd f) = 1 ↔ ae8e_lam cl pt f = 0 := by
   rw [ae8e_beta_ofAdd]
@@ -1046,6 +1072,7 @@ theorem ae8e_beta_eq_one_iff (cl : Classes co) (pt : Points u) (f : Fin 8 → ZM
     rw [h, ofAdd_zero, map_one]
     rfl
 
+omit [Finite G] in
 theorem ae8e_conj (H : End18.Hyp Ω) (cl : Classes co) (pt : Points u) (g : G)
     (f : Multiplicative (Fin 8 → ZMod 2)) (hf : ∑ i, f.toAdd i = 0) :
     g * ae8e_beta cl pt f * g⁻¹ = ae8e_beta cl pt (ae8e_perm (pt.π g) f) := by
@@ -1102,6 +1129,7 @@ section Labels
 
 variable {c : Chart Ω u} {co : Coords c}
 
+omit [Finite G] in
 theorem ae8e_coord_e2 (cl : Classes co) (pt : Points u) (σ : Equiv.Perm (Fin 8))
     (hσ : ∀ x : ↥(Delta u),
       (pt.E x : Finset (Fin 8)) = (ae8e_pair (ae8e_coord cl x)).image σ)
@@ -1116,6 +1144,7 @@ theorem ae8e_coord_e2 (cl : Classes co) (pt : Points u) (σ : Equiv.Perm (Fin 8)
     simp [ae8e_iota_apply, Finset.image_insert]
   exact ae8e_e2_unique _ a b hab (ae8e_coord_inW cl _) (Finset.image_injective σ.injective h2)
 
+omit [Finite G] in
 theorem ae8e_vv_e2 (H : End18.Hyp Ω) (cl : Classes co) (pt : Points u) (σ : Equiv.Perm (Fin 8))
     (hσ : ∀ x : ↥(Delta u),
       (pt.E x : Finset (Fin 8)) = (ae8e_pair (ae8e_coord cl x)).image σ)
@@ -1124,6 +1153,7 @@ theorem ae8e_vv_e2 (H : End18.Hyp Ω) (cl : Classes co) (pt : Points u) (σ : Eq
   have h : ae8e_iota σ a ≠ ae8e_iota σ b := (ae8e_iota σ).injective.ne hab
   rw [ae8e_vv_add H cl pt h, ae8e_coord_e2 cl pt σ hσ hab h]
 
+omit [Finite G] in
 theorem ae8e_lam_ext6 (H : End18.Hyp Ω) (cl : Classes co) (pt : Points u)
     (σ : Equiv.Perm (Fin 8))
     (hσ : ∀ x : ↥(Delta u),
@@ -1138,6 +1168,7 @@ theorem ae8e_lam_ext6 (H : End18.Hyp Ω) (cl : Classes co) (pt : Points u)
   · intro k hk
     simp only [ae8e_ext6_of_not_mem _ _ hk, zero_smul]
 
+omit [Finite G] in
 theorem ae8e_beta_vec (H : End18.Hyp Ω) (cl : Classes co) (pt : Points u) (σ : Equiv.Perm (Fin 8))
     (hσ : ∀ x : ↥(Delta u),
       (pt.E x : Finset (Fin 8)) = (ae8e_pair (ae8e_coord cl x)).image σ)
@@ -1158,7 +1189,8 @@ section Perm
 
 variable {c : Chart Ω u} {co : Coords c}
 
-theorem ae8e_perm_iota (H : End18.Hyp Ω) (cl : Classes co) (pt : Points u)
+omit [Finite G] in
+theorem ae8e_perm_iota (_H : End18.Hyp Ω) (cl : Classes co) (pt : Points u)
     (σ : Equiv.Perm (Fin 8))
     (hσ : ∀ x : ↥(Delta u),
       (pt.E x : Finset (Fin 8)) = (ae8e_pair (ae8e_coord cl x)).image σ)
@@ -1206,6 +1238,7 @@ theorem ae8e_perm_iota (H : End18.Hyp Ω) (cl : Classes co) (pt : Points u)
     · exact absurd ((c.ψ y : AE.Wr 6).perm.injective
         ((ae8e_iota σ).injective (h1.symm.trans h2))) hbe
 
+omit [Finite G] in
 theorem ae8e_perm_Y (H : End18.Hyp Ω) (cl : Classes co) (pt : Points u)
     (σ : Equiv.Perm (Fin 8))
     (hσ : ∀ x : ↥(Delta u),
@@ -1262,12 +1295,15 @@ theorem ae8e_permQ_mk (w : AE.Wr 8) : ae8e_permQ (AE.mkQ 8 w) = AE.permHom 8 w :
   (AE.mkQ 8).comp ((ae8e_relab6 (ae8e_iota σ)).comp
     ((AE.aeSub 6).subtype.comp c.ψ.toMonoidHom))
 
+omit [Finite G] in
 theorem ae8e_rho_apply (σ : Equiv.Perm (Fin 8)) (y : ↥(pSpan (Generic.centMembers Ω u))) :
     ae8e_rho c σ y = AE.mkQ 8 (ae8e_relab6 (ae8e_iota σ) (c.ψ y : AE.Wr 6)) := rfl
 
+omit [Finite G] in
 theorem ae8e_permQ_rho (σ : Equiv.Perm (Fin 8)) (y : ↥(pSpan (Generic.centMembers Ω u))) :
     ae8e_permQ (ae8e_rho c σ y) = ae8e_permExt6 (ae8e_iota σ) (c.ψ y : AE.Wr 6).perm := rfl
 
+omit [Finite G] in
 theorem ae8e_permQ_phi (pt : Points u) {H : Subgroup G} {β : Multiplicative (Fin 8 → ZMod 2) →* G}
     (hS : AESplitHyp (zGroup Ω) H (pt.π.comp H.subtype) β) (hker : pt.π.ker = zGroup Ω)
     {φ : G →* AE.AEQ 8}
@@ -1285,6 +1321,7 @@ theorem ae8e_permQ_phi (pt : Points u) {H : Subgroup G} {β : Multiplicative (Fi
     hπβ, one_mul]
   simp [AE.permHom, AE.Wr.ofVec, AE.Wr.ofPerm]
 
+omit [Finite G] in
 theorem ae8e_mkQ_ofVec_eq {β : Multiplicative (Fin 8 → ZMod 2) →* G}
     (hβ1 : ∀ f : Multiplicative (Fin 8 → ZMod 2), ∑ i, f.toAdd i = 0 →
       (β f = 1 ↔ f.toAdd = 0 ∨ f.toAdd = fun _ => 1))
@@ -1419,6 +1456,7 @@ theorem ae8e_phi_eq_rho (H : End18.Hyp Ω) (cl : Classes co) (pt : Points u)
 
 end Assembly
 
+omit [Finite G] in
 theorem ae8e_beta_spec (H : End18.Hyp Ω) (cl : Classes co) (pt : Points u) :
     (∀ g : G, g ∈ zGroup Ω ↔
         ∃ f : Multiplicative (Fin 8 → ZMod 2), ∑ i, f.toAdd i = 0 ∧ ae8e_beta cl pt f = g) ∧
@@ -1463,6 +1501,7 @@ theorem ae8e_beta_spec (H : End18.Hyp Ω) (cl : Classes co) (pt : Points u) :
       simp only [ae8e_ind, hE]
     rw [hind, ae8e_beta_pair H cl pt hij, hx]
 
+omit [Finite G] in
 theorem exists_beta (H : End18.Hyp Ω) (cl : Classes co) (pt : Points u) :
     ∃ β : Multiplicative (Fin 8 → ZMod 2) →* G,
       (∀ g : G, g ∈ zGroup Ω ↔
@@ -1522,7 +1561,8 @@ theorem exists_splitHyp (H : End18.Hyp Ω) (cl : Classes co)
   obtain ⟨Hc, hS, hr, -⟩ := ae8e_split H cl pt
   exact ⟨Hc, pt.π.comp Hc.subtype, ae8e_beta cl pt, hS, hr⟩
 
-theorem ae8e_D_comm (cl : Classes co) {x y : G} (hx : x ∈ zGroup Ω) (hy : y ∈ zGroup Ω) :
+omit [Finite G] in
+theorem ae8e_D_comm (_cl : Classes co) {x y : G} (hx : x ∈ zGroup Ω) (hy : y ∈ zGroup Ω) :
     x * y = y * x := by
   have h : (⟨x, hx⟩ : ↥(zGroup Ω)) * ⟨y, hy⟩ = ⟨y, hy⟩ * ⟨x, hx⟩ := by
     apply co.e.injective
@@ -1530,7 +1570,8 @@ theorem ae8e_D_comm (cl : Classes co) {x y : G} (hx : x ∈ zGroup Ω) (hy : y �
     exact mul_comm _ _
   exact congrArg Subtype.val h
 
-theorem ae8e_D_sq (cl : Classes co) {x : G} (hx : x ∈ zGroup Ω) : x * x = 1 := by
+omit [Finite G] in
+theorem ae8e_D_sq (_cl : Classes co) {x : G} (hx : x ∈ zGroup Ω) : x * x = 1 := by
   have h : (⟨x, hx⟩ : ↥(zGroup Ω)) * ⟨x, hx⟩ = 1 := by
     apply co.e.injective
     rw [map_mul, map_one]

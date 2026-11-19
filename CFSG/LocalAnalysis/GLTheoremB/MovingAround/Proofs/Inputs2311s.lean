@@ -105,7 +105,7 @@ theorem not_isA2Type_d4Graph_one_inputs2311s (hK2 : ringChar K ≠ 2) (hK3 : rin
   obtain ⟨-, -, hns⟩ := Inputs2311m.exists_rGen_escape_of_isPGLPiThree (x := 1) hK5 hfix hrp hK3 hrK
     (map_one _) (one_pow 3)
   apply hns
-  haveI := isSimpleGroup_fixedSubgroup_d4Graph_one_inputs2311s (K := K) (by omega)
+  have := isSimpleGroup_fixedSubgroup_d4Graph_one_inputs2311s (K := K) (by omega)
   have hs := isSimpleGroup_fixedSubgroup_conj_inputs2311s ψ (d4Graph K 1)
   rcases h with h | h
   · rwa [h] at hs
@@ -160,7 +160,7 @@ theorem fixedSubgroup_le_normalizer_of_isA2Type_inputs2311s (hK2 : ringChar K �
   classical
   obtain ⟨φ, B, hB3, hB1, hφ⟩ := hβ
   set E₁ := E.map (MulAut.congr φ).toMonoidHom with hE₁
-  haveI hE₁a : CFSG.IsElementaryAbelian 3 ↥E₁ := CFSG.IsElementaryAbelian.map _
+  have hE₁a : CFSG.IsElementaryAbelian 3 ↥E₁ := CFSG.IsElementaryAbelian.map _
   have hc₁ : Nat.card E₁ = 3 ^ 2 := by
     rw [hE₁, Subgroup.card_map_of_injective (MulAut.congr φ).injective, hc]
   have hβE₁ : φ * β * φ⁻¹ ∈ E₁ := ⟨β, hβE, Inputs2311q.mulAut_congr_self_inputs2311q φ β⟩
@@ -442,7 +442,7 @@ theorem uniPlaneClosure_eq_top_nonsplit_of_ext_inputs2311s {K : Type} [Field K] 
   suffices h : uniPlaneClosure (ringChar K) (E.map (MulAut.congr (MulAut.conj c⁻¹)).toMonoidHom) = ⊤ from
     (uniPlaneGen_map_congr (MulAut.conj c⁻¹) (ringChar K) E).1 h
   set E' := E.map (MulAut.congr (MulAut.conj c⁻¹)).toMonoidHom with hE'
-  haveI hE'a : CFSG.IsElementaryAbelian 3 ↥E' := CFSG.IsElementaryAbelian.map _
+  have hE'a : CFSG.IsElementaryAbelian 3 ↥E' := CFSG.IsElementaryAbelian.map _
   have hc' : Nat.card E' = 3 ^ 2 := by
     rw [hE', Subgroup.card_map_of_injective (MulAut.congr (MulAut.conj c⁻¹)).injective, hc]
   have hαE' : gammaP K (orderThreeSL K) ∈ E' :=
@@ -491,7 +491,7 @@ theorem uniPlaneClosure_eq_top_nonsplit_of_ext_inputs2311s {K : Type} [Field K] 
         rw [hy]
         exact hd
     have hHn : H.Normal := Subgroup.normalizer_eq_top_iff.1 hN
-    haveI hGs : IsSimpleGroup ↥(adjointGroup Tag.D4 K) := isSimpleGroup_adjointGroup_D4 K
+    have hGs : IsSimpleGroup ↥(adjointGroup Tag.D4 K) := isSimpleGroup_adjointGroup_D4 K
     have hfix := CFSG.HardMathSupport.Solomon.Coordinator.ChevQ.OuterHighD4Odd.d4GraphA2FixIsoOdd_holds K hK2
       hK3 hK5 (orderThreeSL K) hB3 hB1
     obtain ⟨-, ⟨y₀, hαy₀, hy₀1, hy₀r⟩, -⟩ :=
@@ -677,7 +677,7 @@ theorem d4NonsplitGraphPlanes_holds : Inputs2311r.D4NonsplitGraphPlanes := by
   have := Fintype.ofFinite K
   obtain ⟨n, hp, -⟩ := FiniteField.card K (ringChar K)
   have : Fact (ringChar K).Prime := ⟨hp⟩
-  haveI := hEa
+  have := hEa
   exact uniPlaneClosure_eq_top_nonsplit_of_ext_inputs2311s hK2 hK3 hq
     (FiniteField.natCard_extension K (ringChar K) 2)
     (FiniteField.Extension.frob K (ringChar K) 2).toRingEquiv.toRingHom

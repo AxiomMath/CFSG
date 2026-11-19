@@ -69,14 +69,14 @@ theorem bfsAt_spec {T : Nat → Nat → Nat} {rt off lab gen par pos pts : Nat �
   · intro k hk
     rw [bIf_eq] at h5
     split_ifs at h5 with hr
-    · simp only [bAnd_eq, Bool.and_eq_true] at h5
+    · simp only [Bool.and_eq_true] at h5
       exact (nbrsOK_spec h5.2.2.2 hk).1
     · unfold inner at h5
       simp only [strictB_eq, bAnd_eq, Bool.and_eq_true] at h5
       exact (nbrsOK_spec h5.2.2.2.2.2.2 hk).1
   · intro hp
-    rw [bIf_eq, if_pos (by rw [hp]; exact Nat.beq_refl _)] at h5
-    simp only [bAnd_eq, Bool.and_eq_true] at h5
+    rw [bIf_eq, ite_eq_left (by rw [hp]; exact Nat.beq_refl _)] at h5
+    simp only [Bool.and_eq_true] at h5
     exact ⟨Nat.eq_of_beq_eq_true h5.1, Nat.eq_of_beq_eq_true h5.2.1,
       Nat.eq_of_beq_eq_true h5.2.2.1⟩
   · intro hp
@@ -84,14 +84,14 @@ theorem bfsAt_spec {T : Nat → Nat → Nat} {rt off lab gen par pos pts : Nat �
       cases e : Nat.beq (pos y) (off (lab y))
       · rfl
       · exact absurd (Nat.eq_of_beq_eq_true e) hp
-    rw [bIf_eq, hb, if_neg Bool.false_ne_true] at h5
+    rw [bIf_eq, hb, ite_eq_right Bool.false_ne_true] at h5
     unfold inner at h5
     simp only [strictB_eq, bAnd_eq, Bool.and_eq_true] at h5
     obtain ⟨g1, g2, g3, g4, g5, g6, g7⟩ := h5
     refine ⟨g1, by simpa [Nat.blt_eq] using g2, Nat.eq_of_beq_eq_true g3,
       Nat.eq_of_beq_eq_true g4, by simpa [Nat.blt_eq] using g5, fun hlt => ?_,
       fun k hk => (nbrsOK_spec g7 hk).2⟩
-    rw [bIf_eq, if_pos (by simpa [Nat.blt_eq] using hlt)] at g6
+    rw [bIf_eq, ite_eq_left (by simpa [Nat.blt_eq] using hlt)] at g6
     simpa [Nat.blt_eq] using g6
 
 theorem depAt_spec {rt lab par dep : Nat → Nat} {y : Nat} (h : depAt rt lab par dep y = true) :
@@ -100,13 +100,13 @@ theorem depAt_spec {rt lab par dep : Nat → Nat} {y : Nat} (h : depAt rt lab pa
   rw [strictB_eq, bAnd_eq, Bool.and_eq_true, bIf_eq] at h
   obtain ⟨h1, h2⟩ := h
   refine ⟨by simpa [Nat.blt_eq] using h1, fun hy => ?_, fun hy => ?_⟩
-  · rw [if_pos (by rw [← hy]; exact Nat.beq_refl _)] at h2
+  · rw [ite_eq_left (by rw [← hy]; exact Nat.beq_refl _)] at h2
     exact Nat.eq_of_beq_eq_true h2
   · have hb : Nat.beq y (rt (lab y)) = false := by
       cases e : Nat.beq y (rt (lab y))
       · rfl
       · exact absurd (Nat.eq_of_beq_eq_true e) hy
-    rw [hb, if_neg Bool.false_ne_true] at h2
+    rw [hb, ite_eq_right Bool.false_ne_true] at h2
     exact Nat.eq_of_beq_eq_true h2
 
 theorem bfsHd_spec {rt off lab pos : Nat → Nat} (h : bfsHd rt off lab pos = true) :
@@ -118,7 +118,7 @@ theorem bfsHd_spec {rt off lab pos : Nat → Nat} (h : bfsHd rt off lab pos = tr
   refine ⟨Nat.eq_of_beq_eq_true h1, by simpa [Nat.blt_eq] using h2, by simpa [Nat.blt_eq] using h3,
     by simpa [Nat.blt_eq] using h4, Nat.eq_of_beq_eq_true h5, fun c hc => ?_⟩
   have h := allN_iff.1 h6 c hc
-  simp only [bAnd_eq, Bool.and_eq_true] at h
+  simp only [Bool.and_eq_true] at h
   exact ⟨by simpa [Nat.blt_eq] using h.1, Nat.eq_of_beq_eq_true h.2.1, Nat.eq_of_beq_eq_true h.2.2⟩
 
 end CFSG.KC.Fi23P

@@ -11,12 +11,13 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {V T A K S X : Subgroup G} {p : ℕ} {g x : G}
 
+omit [Finite G] in
 private theorem nine3_conjSubgroup_iSup {ι : Sort*} (B : ι → Subgroup G) (g : G) :
     conjSubgroup (⨆ i, B i) g = ⨆ i, conjSubgroup (B i) g := by
   simp only [CFSG.Quasithin.conjSubgroup]
   exact Subgroup.map_iSup _ _
 
-theorem nine3_oddFrame_trans (hc : Nine3Choice V T A K S X p g x) (hI : Nine3IFacts V K S)
+theorem nine3_oddFrame_trans (hc : Nine3Choice V T A K S X p g x) (_hI : Nine3IFacts V K S)
     {ρ : ↥K →* Equiv.Perm (ZMod p)} (hρ : Nine3FibreAct K S p x ρ) (a b : ZMod p) (hab : a ≠ b)
     {d e : Nine3Hbar V K} (hd : d ∈ Nine3Dbar V K)
     (hda : nine3Pi V K ρ hρ.le_ker d = zmodRefl p a) (he : e ∈ Nine3Dbar V K)

@@ -48,7 +48,7 @@ theorem pCore_fixed_of_ndc (hLin : KFacts.NoDoubleComponentGL) (hXs : Group.IsSo
   classical
   set P := CFSG.pCore r X with hP
   have hPp : IsPGroup r P := BaerSuzuki.Helpers.pCore_isPGroup r
-  haveI : P.Characteristic := BaerSuzuki.Helpers.pCore_characteristic r
+  have : P.Characteristic := BaerSuzuki.Helpers.pCore_characteristic r
   obtain ⟨-, hcomm, hpow⟩ := SectionRank.Ccomm.frattini_quotient_elementary hPp
   obtain ⟨s, hs3, hs⟩ := h3gen P hPp
   have hgen : ∃ s : Finset (P ⧸ frattini P), s.card ≤ 3 ∧
@@ -71,7 +71,7 @@ theorem pCore_fixed_of_ndc (hLin : KFacts.NoDoubleComponentGL) (hXs : Group.IsSo
       ext y
       simpa using hx y
     simp [ρ, ρX, this]
-  haveI : Group.IsSolvable ρX.range :=
+  have : Group.IsSolvable ρX.range :=
     Group.isSolvable_of_surjective (f := ρX.rangeRestrict) ρX.rangeRestrict_surjective
   have hsolv : Group.IsSolvable (T.map ρ) :=
     Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hle)
@@ -120,7 +120,7 @@ theorem fitting_fixed_of_ndc (hLin : KFacts.NoDoubleComponentGL) (hXs : Group.Is
     rw [LocalCores.fittingSubgroup_eq_iSup_pCore]
     refine iSup_le fun p => ?_
     have hp : (p : ℕ).Prime := Nat.prime_of_mem_primeFactors p.2
-    haveI : Fact (p : ℕ).Prime := ⟨hp⟩
+    have : Fact (p : ℕ).Prime := ⟨hp⟩
     by_cases h5 : (p : ℕ) < 5
     · rw [hlow p hp h5]
       exact bot_le

@@ -30,8 +30,8 @@ theorem uc22p20f_lift_normalizer {X G : Type} [Group X] [Finite X] [Group G] (φ
     ∃ p : ℕ, p.Prime ∧ p ≠ 2 ∧ ∀ P : Sylow 2 X,
       ∃ x ∈ Subgroup.normalizer ((P : Subgroup X) : Set X), orderOf x = p ∧
         x ∉ Subgroup.center X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite G := Finite.of_surjective φ hφ
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite G := Finite.of_surjective φ hφ
   have hord1 : orderOf d₀ ≠ 1 := fun h => hd₀1 (orderOf_eq_one_iff.mp h)
   have hord0 : orderOf d₀ ≠ 0 := (orderOf_pos d₀).ne'
   have hpprime : (orderOf d₀).minFac.Prime := Nat.minFac_prime hord1
@@ -96,13 +96,13 @@ theorem uc22p20f_isPGroup_two_ker {X J : Type} [Group X] [Finite X] [Group.IsPer
     (f : X →* J) (hf : Function.Surjective f) (hker : f.ker ≤ Subgroup.center X)
     (hcyc : ∀ (r : ℕ) [Fact r.Prime], r ≠ 2 → ∀ R : Sylow r J, IsCyclic R) :
     IsPGroup 2 f.ker := by
-  haveI : Finite J := Finite.of_surjective f hf
+  have : Finite J := Finite.of_surjective f hf
   rw [IsPGroup.iff_card]
   refine ⟨(Nat.card f.ker).primeFactorsList.length,
     Nat.eq_prime_pow_of_unique_prime_dvd (p := 2) Nat.card_pos.ne' ?_⟩
   intro r hr hrdvd
   by_contra hr2
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := f.ker) r hrdvd
   have hzp : IsPGroup r (Subgroup.zpowers z) := by
     refine IsPGroup.of_card (n := 1) ?_
@@ -217,13 +217,13 @@ theorem uc22p20f_suzukiCoverFact : SuzukiCoverFact := by
   intro X _ _ hq ⟨f, hf⟩
   obtain ⟨m, hm, ⟨e⟩⟩ :=
     CFSG.LieType.Simplicity.exists_mulEquiv_suzukiMatrixGroup_of_suzukiModel hf
-  haveI : Group.IsPerfect X := ⟨hq.1⟩
+  have : Group.IsPerfect X := ⟨hq.1⟩
   let φ : X →* SuzukiMatrixGroup m :=
     e.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center X))
   have hφ : Function.Surjective φ := e.surjective.comp (QuotientGroup.mk'_surjective _)
   have hker : φ.ker = Subgroup.center X := by
     ext g
-    simp [φ, MonoidHom.mem_ker, QuotientGroup.eq_one_iff]
+    simp [φ]
   have hZ : IsPGroup 2 φ.ker :=
     uc22p20f_isPGroup_two_ker φ hφ hker.le fun r _ hr R =>
       lemma114_suzuki_oddSylow_isCyclic_of_equiv (MulEquiv.refl _) r hr R
@@ -234,7 +234,7 @@ theorem uc22p20f_suzukiCoverFact : SuzukiCoverFact := by
 theorem uc22p20f_threeNoncentral_of_threeFree {X : Type} [Group X] [Finite X]
     (h3 : 3 ∣ Nat.card (X ⧸ Subgroup.center X)) (hZ : ¬ 3 ∣ Nat.card (Subgroup.center X)) :
     ∃ x : X, orderOf x = 3 ∧ x ∉ Subgroup.center X := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hX : 3 ∣ Nat.card X := h3.trans (Subgroup.card_quotient_dvd_card _)
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := X) 3 hX
   refine ⟨x, hx, fun hxZ => hZ ?_⟩
@@ -248,19 +248,19 @@ theorem uc22p20f_threeNoncentral_of_uniqueThree {X : Type} [Group X] [Finite X]
     ∃ x : X, orderOf x = 3 ∧ x ∉ Subgroup.center X := by
   by_contra hcon
   push Not at hcon
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Group.IsPerfect X := ⟨hX⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Group.IsPerfect X := ⟨hX⟩
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := Subgroup.center X) 3 h3
   have hz3 : orderOf (z : X) = 3 := by rw [Subgroup.orderOf_coe, hz]
   have hzcard : Nat.card (Subgroup.zpowers (z : X)) = 3 := by rw [Nat.card_zpowers, hz3]
   have hzp : IsPGroup 3 (Subgroup.zpowers (z : X)) := IsPGroup.of_card (n := 1) (by rw [hzcard, pow_one])
   obtain ⟨S, hS⟩ := hzp.exists_le_sylow
   have hScyc : IsCyclic (S : Subgroup X) :=
-    CFSG.Quasithin.A318P.isCyclic_of_unique_three (Z := Subgroup.zpowers (z : X)) S.isPGroup'
+    CFSG.Quasithin.A318P.isCyclic_of_unique_three (Z := Subgroup.zpowers (z : X)) S.isPGroup
       hzcard fun r _ hr3 => hu (z : X) r z.2 (hcon r hr3) hz3 hr3
   have hzS : (z : X) ∈ (S : Subgroup X) := hS (Subgroup.mem_zpowers _)
   have hder := CFSG.ShultStronglyClosedTI.central_element_mem_sylow_derived S ⟨z, hzS⟩ z.2
-  haveI : IsMulCommutative (S : Subgroup X) := ⟨⟨fun a b => IsCyclic.commGroup.mul_comm a b⟩⟩
+  have : IsMulCommutative (S : Subgroup X) := ⟨⟨fun a b => IsCyclic.commGroup.mul_comm a b⟩⟩
   rw [commutator_eq_bot] at hder
   have hz1 : (z : X) = 1 := congrArg Subtype.val (Subgroup.mem_bot.mp hder)
   rw [hz1, orderOf_one] at hz3
@@ -305,7 +305,7 @@ theorem uc22p20f_zpowers_of_pow_mem_cyclic {A G B : Type*} [Group A] [Group G] [
     (hC : ∀ x : A, ∃ y : B, x ^ N = f y) {a b : G} (ha : a ∈ ψ.range) (hb : b ∈ ψ.range)
     (ha3 : orderOf a = 3) (hb3 : orderOf b = 3) : b ∈ Subgroup.zpowers a := by
   let Y : Subgroup G := (ψ.comp f).range
-  haveI : IsCyclic Y := isCyclic_of_surjective (ψ.comp f).rangeRestrict
+  have : IsCyclic Y := isCyclic_of_surjective (ψ.comp f).rangeRestrict
     (MonoidHom.rangeRestrict_surjective _)
   have hmem : ∀ z : G, z ∈ ψ.range → orderOf z = 3 → z ∈ Y := by
     intro z hz hz3
@@ -329,10 +329,10 @@ theorem uc22p20f_zpowers_of_pow_mem_cyclic {A G B : Type*} [Group A] [Group G] [
     rw [Nat.card_zpowers]
     have : orderOf b' = 3 := by rw [← hb3]; exact Subgroup.orderOf_mk b hbY
     exact this
-  haveI : Finite ↥(Subgroup.zpowers a') := by
+  have : Finite ↥(Subgroup.zpowers a') := by
     have : Nat.card (Subgroup.zpowers a') ≠ 0 := by rw [hca]; norm_num
     exact Nat.finite_of_card_ne_zero this
-  haveI : Finite ↥(Subgroup.zpowers b') := by
+  have : Finite ↥(Subgroup.zpowers b') := by
     have : Nat.card (Subgroup.zpowers b') ≠ 0 := by rw [hcb]; norm_num
     exact Nat.finite_of_card_ne_zero this
   have heq : Subgroup.zpowers a' = Subgroup.zpowers b' :=
@@ -344,7 +344,7 @@ theorem uc22p20f_zpowers_of_pow_mem_cyclic {A G B : Type*} [Group A] [Group G] [
 theorem uc22p20f_nine_dvd_card_of_central {G : Type*} [Group G] [Finite G] {a b : G}
     (ha : a ∈ Subgroup.center G) (ha3 : orderOf a = 3) (hb3 : orderOf b = 3)
     (hba : b ∉ Subgroup.zpowers a) : 9 ∣ Nat.card G := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hn : (Subgroup.zpowers a).Normal :=
     Subgroup.normal_of_le_center (Subgroup.zpowers_le.mpr ha)
   have hmk : (QuotientGroup.mk b : G ⧸ Subgroup.zpowers a) ≠ 1 := by
@@ -379,7 +379,7 @@ theorem uc22p20f_nine_dvd_card_center {G : Type*} [Group G] [Finite G] {a b : G}
 theorem uc22p20f_genericOrders_snd_not_three (t : StatedLieTag) (n p f : ℕ) :
     ¬ 3 ∣ (genericOrders t n p f).2 := by
   unfold genericOrders
-  cases t <;> simp <;> split_ifs <;> omega
+  cases t <;> simp; split_ifs <;> omega
 
 theorem uc22p20f_exceptionalOrders_snd_not_three (t : StatedLieTag) (n p f : ℕ)
     (h : ¬ (t = .PSU ∧ n = 4 ∧ p = 3 ∧ f = 1)) : ¬ 3 ∣ (exceptionalOrders t n p f).2 := by
@@ -462,7 +462,7 @@ theorem uc22p20f_exists_surj_centre {X : Type} [Group X] [Finite X] (hX : commut
     (hm : CFSG.Models.LieModel (X ⧸ Subgroup.center X) t n p f) :
     ∃ ψ : generic t n p f × exceptional t n p f →* X,
       ∀ z ∈ Subgroup.center X, z ∈ ψ.range := by
-  haveI : Group.IsPerfect X := ⟨hX⟩
+  have : Group.IsPerfect X := ⟨hX⟩
   let q : X →* X ⧸ Subgroup.center X := QuotientGroup.mk' (Subgroup.center X)
   have hq : Function.Surjective q := QuotientGroup.mk'_surjective _
   have hker : q.ker = Subgroup.center X := QuotientGroup.ker_mk' _
@@ -557,7 +557,7 @@ theorem uc22p20f_noncentral_of_u43 {X : Type} [Group X]
   have hφ : Function.Surjective φ := eX.surjective.comp (QuotientGroup.mk'_surjective _)
   have hker : φ.ker = Subgroup.center X := by
     ext g
-    simp [φ, MonoidHom.mem_ker, QuotientGroup.eq_one_iff]
+    simp [φ]
   have hu1 : NineCoverU43.u1 ∈ NineCoverU43.theta.range := ⟨_, rfl⟩
   obtain ⟨y, hy, hy3⟩ := NineCoverU43.exists_lift_of_mem_range hφ hker.le hu1
   have hu1ne : NineCoverU43.u1 ≠ 1 := by
@@ -581,7 +581,7 @@ theorem uc22p20f_threeNoncentralNoncyclicCentre_of_tables
     (hSpor : CFSG.RankThree.PartTwo.Sec4.Census.SporadicMultipliers) :
     ThreeNoncentralNoncyclicCentre := by
   intro X _ _ hq hcat ⟨a, b, ha, hb, ha3, hb3, hba⟩
-  haveI : Group.IsPerfect X := ⟨hq.1⟩
+  have : Group.IsPerfect X := ⟨hq.1⟩
   have h9 : 9 ∣ Nat.card (Subgroup.center X) := uc22p20f_nine_dvd_card_center ha hb ha3 hb3 hba
   obtain ⟨i, ⟨e⟩⟩ := hcat
   cases i with

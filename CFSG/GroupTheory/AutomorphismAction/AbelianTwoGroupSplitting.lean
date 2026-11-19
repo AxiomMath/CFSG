@@ -18,7 +18,7 @@ theorem abelian_twoGroup_splitting {H : Type*} [Group H] [Finite H] (R A : Subgr
       ⁅R, A⁆ ≤ Subgroup.centralizer
         ((R ⊓ Subgroup.centralizer (A : Set H) : Subgroup H) : Set H) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have coprime_decomp_gen {R A : Subgroup H} (hR : IsPGroup 2 R)
       (hA_norm_R : A ≤ Subgroup.normalizer (R : Set H)) (hAodd : Odd (Nat.card A)) :
       (R : Set H) =
@@ -62,9 +62,9 @@ theorem abelian_twoGroup_splitting {H : Type*} [Group H] [Finite H] (R A : Subgr
         rw [← hcommMap] at hk
         exact Subgroup.map_subtype_le Ccomm hk
       exact R.mul_mem hkR hc.1
-  haveI : Fintype A := Fintype.ofFinite A
+  have : Fintype A := Fintype.ofFinite A
   have hcomm : ∀ x y : R, x * y = y * x := fun x y => hRab.is_comm.comm x y
-  letI : CommGroup R := { (inferInstance : Group R) with mul_comm := hcomm }
+  let : CommGroup R := { (inferInstance : Group R) with mul_comm := hcomm }
   have hconj : ∀ a : A, ∀ r ∈ R, (a : H)⁻¹ * r * (a : H) ∈ R := by
     intro a r hr
     have ha := hAR a.2

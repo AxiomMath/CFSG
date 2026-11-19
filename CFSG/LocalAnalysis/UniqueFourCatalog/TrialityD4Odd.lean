@@ -124,8 +124,8 @@ theorem not_isCharTwoType_twistedGroup_odd [Finite K] [Finite (twistedGroup σ)]
   have hσ : ∀ c, σ (σ (σ c)) = c := sigma_three_of_card hK hσq
   have hF : Nat.card (fixedField σ) = p ^ f := card_fixedField_of_card_cube hp hf hK hσq
   have hodd : Odd (p ^ f) := (hp.odd_of_ne_two hp2).pow
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CharP K p :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : CharP K p :=
     CFSG.SectionRank.ClassicalOdd.charP_of_card (p := p) (f := f * 3) (by rw [hK, pow_mul])
   have hK2 : ringChar K ≠ 2 := by rw [ringChar.eq K p]; exact hp2
   have hgF : ∀ g : twistedGroup σ, td4Incl σ g ∈ graphFixedRootGroup TwistTag.D4 K σ := fun g => by
@@ -189,10 +189,10 @@ theorem false_of_trialityD4_odd {G : Type} [Group G] [Finite G] (hS : Standing4 
     have h256 := hS.two_pow_eight_dvd_card
     rw [hcard, hq3] at h256
     exact absurd h256 (by unfold CFSG.Open.ordTrialityD4; norm_num)
-  · haveI : Finite K := hKfin
+  · have : Finite K := hKfin
     obtain ⟨eS⟩ := nonempty_derivedCentralQuotient_equiv_twistedGroup hq2 hK3 hσ
     let e' : G ≃* twistedGroup σ := e.trans eS
-    haveI : Finite (twistedGroup σ) := Finite.of_equiv G e'.toEquiv
+    have : Finite (twistedGroup σ) := Finite.of_equiv G e'.toEquiv
     exact hS.false_of_not_isCharTwoType e'
       (not_isCharTwoType_twistedGroup_odd hpp hp2 hf (by omega) hK3 hσ)
 

@@ -94,7 +94,6 @@ theorem witness_sound {cl : List Nat} (h : witness cl = true) : Witness {x | x �
     obtain ⟨a, haC, ha⟩ := h
     rw [List.mem_filter] at haC
     obtain ⟨haCl, hacs⟩ := haC
-    beta_reduce at ha
     simp only [Bool.and_eq_true_iff] at ha
     obtain ⟨⟨hane, ha2ne⟩, ha4⟩ := ha
     rw [bne_iff_ne] at hane ha2ne
@@ -103,10 +102,8 @@ theorem witness_sound {cl : List Nat} (h : witness cl = true) : Witness {x | x �
   · right
     rw [List.any_eq_true] at h
     obtain ⟨a, haI, hb⟩ := h
-    beta_reduce at hb
     rw [List.any_eq_true] at hb
     obtain ⟨b, hbI, hab⟩ := hb
-    beta_reduce at hab
     rw [List.mem_filter] at haI hbI
     obtain ⟨haC, hai⟩ := haI
     obtain ⟨hbC, hbi⟩ := hbI
@@ -168,7 +165,7 @@ theorem ff1 {S : Set Nat} (hP : ∀ x ∈ S, x ∈ Plist) (h1 : one ∈ S)
       rw [hSeq, ← List.coe_toFinset H0, Set.ncard_coe_finset,
         List.toFinset_card_of_nodup H0_card.2, H0_card.1]
     have hnot : ¬ (8 ∣ 12) := by decide
-    exact hnot (by simpa [hcard] using h8)
+    exact hnot (by simp [hcard] at h8)
   · have hex : ∃ x, x ∈ S ∧ x ∉ H0 := by simpa [not_forall] using hSH0
     obtain ⟨g0, hg0, hg0H0⟩ := hex
     obtain ⟨_, _, _, _, hg48S⟩ := hrep g0 hg0 hg0H0

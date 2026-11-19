@@ -42,6 +42,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem autIn_eq_bot_of_inf_eq_bot {E K : Subgroup G}
     (hEN : E ≤ Subgroup.normalizer (K : Set G)) (h : E ⊓ K = ⊥) : Sec4.autIn K E = ⊥ := by
   rw [eq_bot_iff]
@@ -60,6 +61,7 @@ theorem autIn_eq_bot_of_inf_eq_bot {E K : Subgroup G}
   calc k * (e : G) * k⁻¹ = ((e : G) * k * (e : G)⁻¹ * k⁻¹)⁻¹ * e := by group
     _ = e := by rw [h1, inv_one, one_mul]
 
+omit [Finite G] in
 theorem inf_ne_bot_of_autIn {E K : Subgroup G} (hEN : E ≤ Subgroup.normalizer (K : Set G))
     (hAut : Nonempty (Sec4.autIn K E ≃* Multiplicative (ZMod 3))) : E ⊓ K ≠ ⊥ := by
   intro h0

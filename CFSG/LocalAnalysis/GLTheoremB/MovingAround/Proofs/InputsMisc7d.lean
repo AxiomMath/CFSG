@@ -28,7 +28,7 @@ theorem hasNormalPComplement_of_quotient {G : Type*} [Group G] [Finite G] [hp : 
     {H : Subgroup G} [H.Normal] (hH : ∀ h ∈ H, h ^ p = 1 → h = 1)
     (hq : CFSG.HasNormalPComplement p (G ⧸ H)) : CFSG.HasNormalPComplement p G := by
   obtain ⟨M, hMn, hMc, hMq⟩ := hq
-  haveI := hMn
+  have := hMn
   refine ⟨M.comap (QuotientGroup.mk' H), inferInstance, ?_, ?_⟩
   · rw [Nat.Prime.coprime_iff_not_dvd hp.out]
     intro hdvd
@@ -54,7 +54,7 @@ theorem hasNormalPComplement_of_quotient {G : Type*} [Group G] [Finite G] [hp : 
 theorem hasNormalPComplement_quotient_of_le {A : Type*} [Group A] [Finite A] [hp : Fact p.Prime]
     {I D : Subgroup A} [I.Normal] [D.Normal] (hID : I ≤ D) (hD : ∀ δ ∈ D, δ ^ p ∈ I → δ ∈ I)
     (hq : CFSG.HasNormalPComplement p (A ⧸ D)) : CFSG.HasNormalPComplement p (A ⧸ I) := by
-  haveI : (D.map (QuotientGroup.mk' I)).Normal :=
+  have : (D.map (QuotientGroup.mk' I)).Normal :=
     Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective I)
   refine hasNormalPComplement_of_quotient (H := D.map (QuotientGroup.mk' I)) ?_ ?_
   · rintro _ ⟨δ, hδ, rfl⟩ hδp
@@ -66,10 +66,10 @@ theorem hasNormalPComplement_quotient_of_le {A : Type*} [Group A] [Finite A] [hp
 
 theorem hasNormalPComplement_outer_of_outPNice {X : Type*} [Group X] [Finite X] (hp : p.Prime)
     (h : OutPNice p X) : CFSG.HasNormalPComplement p (Outer X) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨D, E, hID, hD2, hpE, hcomm, -⟩ := h
   have hDE : ∀ δ ∈ D, δ ∈ E := fun δ hδ => hpE δ ⟨0, by rwa [pow_zero, pow_one]⟩
-  haveI : D.Normal := ⟨fun δ hδ γ => by
+  have : D.Normal := ⟨fun δ hδ γ => by
     have e : γ * δ * γ⁻¹ = ⁅γ, δ⁆ * δ := by rw [commutatorElement_def]; group
     rw [e]
     exact D.mul_mem (hcomm γ δ (hDE δ hδ)) hδ⟩
@@ -161,7 +161,7 @@ theorem commutator_mem_normalCore {F y z : X} (hO : ∀ a : A, a • F = F ∨ a
 
 theorem coprime_index_of_forall_pow [Finite A] [hp : Fact p.Prime] {I D : Subgroup A} [I.Normal]
     (hD : ∀ δ ∈ D, δ ^ p ∈ I → δ ∈ I) : Nat.Coprime p (I.subgroupOf D).index := by
-  haveI : (I.subgroupOf D).Normal := Subgroup.Normal.subgroupOf inferInstance D
+  have : (I.subgroupOf D).Normal := Subgroup.Normal.subgroupOf inferInstance D
   rw [Nat.Prime.coprime_iff_not_dvd hp.out, Subgroup.index_eq_card]
   intro hdvd
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' p hdvd
@@ -178,7 +178,7 @@ theorem coprime_index_of_forall_pow [Finite A] [hp : Fact p.Prime] {I D : Subgro
   rw [h2, orderOf_one] at hx
   exact hp.out.one_lt.ne hx
 
-theorem exists_pPrime_subgroup {I C D : Subgroup A} (hIC : I ≤ C) (hID : I ≤ D)
+theorem exists_pPrime_subgroup {I C D : Subgroup A} (_hIC : I ≤ C) (hID : I ≤ D)
     (hCD : ∀ a ∈ C, ∀ b ∈ C, ⁅a, b⁆ ∈ D) {r : ℕ} (hrc : Nat.Coprime p r)
     (hDr : ∀ δ ∈ D, δ ^ r ∈ I) :
     ∃ R : Subgroup A, ∀ x, x ∈ R ↔ x ∈ C ∧ ∃ m : ℕ, Nat.Coprime p m ∧ x ^ m ∈ I := by
@@ -190,7 +190,7 @@ theorem exists_pPrime_subgroup {I C D : Subgroup A} (hIC : I ≤ C) (hID : I ≤
     refine ⟨C.mul_mem haC hbC, m * n * r,
       Nat.Coprime.mul_right (Nat.Coprime.mul_right hm hn) hrc, ?_⟩
     have hD' : (a * b) ^ (m * n) ∈ D := by
-      haveI : (D.subgroupOf C).Normal := ⟨fun d hd c => by
+      have : (D.subgroupOf C).Normal := ⟨fun d hd c => by
         rw [Subgroup.mem_subgroupOf] at hd ⊢
         have e : ((c * d * c⁻¹ : C) : A) = ⁅(c : A), (d : A)⁆ * d := by
           simp only [Subgroup.coe_mul, Subgroup.coe_inv, commutatorElement_def]
@@ -233,12 +233,12 @@ theorem hasNormalPComplement_quotient_of_three_point [Finite A] [hp : Fact p.Pri
   have hrc : Nat.Coprime p (I.subgroupOf D).index := coprime_index_of_forall_pow hD
   have hDr : ∀ δ ∈ D, δ ^ (I.subgroupOf D).index ∈ I := by
     intro δ hδ
-    haveI : (I.subgroupOf D).Normal := Subgroup.Normal.subgroupOf inferInstance D
+    have : (I.subgroupOf D).Normal := Subgroup.Normal.subgroupOf inferInstance D
     have := Subgroup.pow_index_mem (I.subgroupOf D) (⟨δ, hδ⟩ : D)
     rw [Subgroup.mem_subgroupOf] at this
     simpa using this
   obtain ⟨R, hR⟩ := exists_pPrime_subgroup hIC hID hCD hrc hDr
-  haveI : R.Normal := ⟨fun x hx g => by
+  have : R.Normal := ⟨fun x hx g => by
     obtain ⟨hxC, m, hm, hxm⟩ := (hR x).1 hx
     refine (hR _).2 ⟨(Subgroup.normalCore_normal _).conj_mem x hxC g, m, hm, ?_⟩
     rw [conj_pow]
@@ -286,7 +286,7 @@ open scoped Pointwise
 theorem hasNormalPComplement_outer_POmegaPlus_four {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
     {X : Type} [Group X] {r m : ℕ} (h : CFSG.Open.StatedClassicalModel X .POmegaPlus 4 r m) :
     CFSG.HasNormalPComplement p (Outer X) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h0 := h
   obtain ⟨-, K, _, _, hK, ⟨e⟩⟩ := h0
   have : Fintype K := Fintype.ofFinite K
@@ -322,7 +322,7 @@ theorem hasNormalPComplement_outer_POmegaPlus_four {p : ℕ} (hp : p.Prime) (hp5
         obtain ⟨g, rfl⟩ := MonoidHom.mem_range.1 ha'
         obtain ⟨g', rfl⟩ := MonoidHom.mem_range.1 hb'
         exact comm_mem_orthD _ g g')
-  haveI : Finite X := Finite.of_equiv _ (coordinatePlusWitnessEquiv K e).symm.toEquiv
+  have : Finite X := Finite.of_equiv _ (coordinatePlusWitnessEquiv K e).symm.toEquiv
   let e' := CFSG.ComponentClassification.OuterAutomorphisms.equivalence
     (coordinatePlusWitnessEquiv K e)
   exact InputsMisc5.hasNormalPComplement_of_injective e'.toMonoidHom e'.injective hP
@@ -380,8 +380,8 @@ theorem dvd_card_of_dvd_gcd_add {c n q p : ℕ} (hn : 3 ≤ n)
       omega
     have := Finset.prod_dvd_prod_of_subset _ _
       (fun i => if Even i then q ^ i - 1 else q ^ i + 1) hsub
-    rwa [Finset.prod_pair (by norm_num), if_pos (by decide : Even 2),
-      if_neg (by decide : ¬ Even 3)] at this
+    rwa [Finset.prod_pair (by norm_num), ite_eq_left (by decide : Even 2),
+      ite_eq_right (by decide : ¬ Even 3)] at this
   have hq2 : q + 1 ∣ q ^ 2 - 1 := by
     have e : q ^ 2 - 1 = q ^ 2 - 1 ^ 2 := by rw [one_pow]
     rw [e, Nat.sq_sub_sq]
@@ -448,7 +448,7 @@ open CFSG.RankThree.PartOne.OutStructure CFSG.Blueprint
 
 theorem resOddTrivialLie_holds : InputsMisc7.ResOddTrivialLie := by
   intro K _ _ hs hnab t n ℓ f hadm hmodel ht p hp hp2 hpK
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcard :=
     (CFSG.ComponentClassification.CatLeafProof.lieOrderFormulasInput K t n ℓ f hadm hmodel).2.1
   have nice : OutPNice p K → CFSG.HasNormalPComplement p (Outer K) :=

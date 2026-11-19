@@ -54,10 +54,10 @@ theorem exists_sylow_eq_of_normalizer {X : Type*} [Group X] [Finite X] {A' : Sub
   obtain ⟨P, hAP⟩ := hA'.exists_le_sylow
   refine ⟨P, ?_⟩
   by_contra hne
-  obtain ⟨n, hnP, hnN, hnA⟩ := exists_mem_normalizer_sub P.isPGroup' hAP (fun h => hne h.symm)
+  obtain ⟨n, hnP, hnN, hnA⟩ := exists_mem_normalizer_sub P.isPGroup hAP (fun h => hne h.symm)
   apply hnA
   apply hN n hnN
-  obtain ⟨k, hk⟩ := P.isPGroup' ⟨n, hnP⟩
+  obtain ⟨k, hk⟩ := P.isPGroup ⟨n, hnP⟩
   exact ⟨k, by simpa using congrArg Subtype.val hk⟩
 
 theorem mem_of_cube_mem_of_two_pow {G : Type*} [Group G] {A : Subgroup G} {n : G}
@@ -138,7 +138,7 @@ theorem exists_sylow_A (hc : Ctx19 S U M V x z A B R) (h194M : pPrimeCore 2 ↥M
     ∃ P : Sylow 2 ↥(centralizer ({a} : Set G)),
       (P : Subgroup ↥(centralizer ({a} : Set G))) = A.subgroupOf (centralizer ({a} : Set G)) := by
   classical
-  have hAp : IsPGroup 2 ↥A := S.isPGroup'.to_le (Cfg.A_le_S hc)
+  have hAp : IsPGroup 2 ↥A := S.isPGroup.to_le (Cfg.A_le_S hc)
   refine exists_sylow_eq_of_normalizer (Bar.isPGroup_subgroupOf hAp _) ?_
   rintro n hn ⟨k, hk⟩
   have hnN : (n : G) ∈ normalizer (A : Set G) := by

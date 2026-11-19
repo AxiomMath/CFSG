@@ -132,7 +132,7 @@ theorem eight_le_rkIdx_of_normalForm_su4
     · obtain ⟨c, hBc⟩ := hB
       have hc : c ≠ 0 := by
         rintro rfl
-        have hzero : (B : Matrix (Fin 2) (Fin 2) K) = 0 := by simpa using hBc
+        have hzero : (B : Matrix (Fin 2) (Fin 2) K) = 0 := by simp at hBc
         have hone : ((B⁻¹ : GL (Fin 2) K) : Matrix (Fin 2) (Fin 2) K) *
             (B : Matrix (Fin 2) (Fin 2) K) = 1 := by
           rw [← Units.val_mul, inv_mul_cancel, Units.val_one]
@@ -173,7 +173,7 @@ theorem eight_le_rkIdx_of_normalForm_su4
           rw [Finset.sum_eq_single p.1]
           · simp
           · intro b _ hb
-            simp [Matrix.one_apply, Ne.symm hb]
+            simp [Ne.symm hb]
           · intro hp
             exact (hp (Finset.mem_univ _)).elim
         rw [hinner]
@@ -225,7 +225,7 @@ theorem eight_le_mParam_natNorm_diag_su4
       H.Mult.exists_of_mem_normalizer_diag (k := 2) hΓ (hY htY)
     exact eight_le_rkIdx_of_normalForm_su4 hK hAσ hTσ hT ht2' ht1
   · unfold E3.mParam
-    rw [if_neg hev]
+    rw [ite_eq_right hev]
     have hK4 : Nat.card K = 2 ^ 4 := by
       rw [hK]
       norm_num
@@ -283,7 +283,7 @@ theorem aSet_seven_eq_empty_natNorm_diag_su4
     rw [Finset.sum_eq_single p1]
     · simp
     · intro b _ hb
-      simp [Matrix.one_apply, Ne.symm hb]
+      simp [Ne.symm hb]
     · intro hp
       exact (hp (Finset.mem_univ _)).elim
   have hI_X : ∀ x ∈ natImage (H.Mult.diagSub 2 Γ), ∀ w ∈ J, x w ∈ J := by

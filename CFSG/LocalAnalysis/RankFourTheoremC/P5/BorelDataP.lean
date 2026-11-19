@@ -146,12 +146,12 @@ theorem plane_card (hB : BorelDataP p P M x f W) {t₀ : GaloisField p n} (ht₀
 
 theorem exists_plane_eq (hB : BorelDataP p P M x f W) {U : Subgroup G} (hUP : U ≤ (P : Subgroup G))
     (hUe : IsElemAbelian p U) (hUc : Nat.card U = p ^ 2) (hxU : x ∈ U)
-    (hPab : IsMulCommutative (P : Subgroup G)) :
+    (_hPab : IsMulCommutative (P : Subgroup G)) :
     ∃ t₀ : GaloisField p n, t₀ ≠ 0 ∧ U = plane x f t₀ := by
   have hxo : orderOf x = p := orderOf_eq_prime hB.x_pow hB.x_ne_one
   obtain ⟨y, hyU, hyx⟩ : ∃ y ∈ U, y ∉ zpowers x := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     have h1 : Nat.card U ≤ Nat.card (zpowers x) := Subgroup.card_le_of_le (fun y hy => hall y hy)
     rw [Nat.card_zpowers, hxo, hUc] at h1
     nlinarith [hB.five_le]

@@ -23,7 +23,7 @@ theorem tits_normal_core (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLoc
     (hc : PointConfig IsTitsType G 5 P M x J)
     (hfus : (P : Subgroup G) ≤ Subgroup.centralizer ({x} : Set G) ∧ U3LineWC x (P : Subgroup G)) :
     M ≤ Subgroup.normalizer ((u3T P x J ⊔ rankThreePrimeCore 5 M : Subgroup G) : Set G) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨hPC, hwc⟩ := hfus
   have hpd := tits_pdata hX hc hPC
   obtain ⟨hFM, hFT, hFtrans⟩ := tits_F hS hD1 hU0 hX hc

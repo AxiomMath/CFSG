@@ -24,10 +24,10 @@ theorem odd_centralizer_centralizes_of_component_sp_of_card_ge_five
   classical
   obtain ⟨F, hFfield, hFfinite, hFchar, π, hFcard, hπsurj, hker⟩ :=
     exists_central_cover_sp_of_card_ge_five hL m hm Q hQ hv e hQcard
-  letI : Field F := hFfield
-  letI : Finite F := hFfinite
-  letI : CharP F 2 := hFchar
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Field F := hFfield
+  let : Finite F := hFfinite
+  let : CharP F 2 := hFchar
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcenter : Subgroup.center (StatedSp m F) = ⊥ :=
     center_statedSp_eq_bot_of_charP_two (m := m) (by omega)
   have hkerbot : π.ker = ⊥ := le_bot_iff.mp (hker.trans (le_of_eq hcenter))

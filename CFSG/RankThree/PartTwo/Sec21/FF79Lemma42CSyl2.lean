@@ -12,7 +12,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem exists_nor_of_ne {P Q : Subgroup G} (hQ : IsPGroup 3 Q) (hPQ : P ≤ Q) (hne : Q ≠ P) :
     ∃ x ∈ Q, x ∉ P ∧ x ∈ Nor P := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have : Group.IsNilpotent Q := hQ.isNilpotent
   have hlt : P.subgroupOf Q < ⊤ := by
     refine lt_of_le_of_ne le_top fun htop => hne (le_antisymm (fun x hx => ?_) hPQ)
@@ -36,11 +36,11 @@ theorem eq_of_normalizer {P Q : Subgroup G} (hQ : IsPGroup 3 Q) (hPQ : P ≤ Q)
 
 theorem isSylowOf_of_max {B C : Subgroup G} (hBC : B ≤ C) (hBp : IsPGroup 3 B)
     (hN : ∀ y ∈ C, y ∈ Nor B → (∃ k : ℕ, y ^ 3 ^ k = 1) → y ∈ B) : IsSylowOf 3 B C := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hB' : IsPGroup 3 (B.subgroupOf C) :=
     hBp.of_equiv (Subgroup.subgroupOfEquivOfLe hBC).symm
   obtain ⟨S, hS⟩ := hB'.exists_le_sylow
-  have hSp : IsPGroup 3 (S : Subgroup C) := S.isPGroup'
+  have hSp : IsPGroup 3 (S : Subgroup C) := S.isPGroup
   have hQ : IsPGroup 3 ((S : Subgroup C).map C.subtype) := hSp.map _
   have hBQ : B ≤ (S : Subgroup C).map C.subtype := fun x hx =>
     ⟨⟨x, hBC hx⟩, hS (show (⟨x, hBC hx⟩ : C) ∈ B.subgroupOf C from hx), rfl⟩
@@ -60,9 +60,10 @@ theorem isSylowOf_of_max {B C : Subgroup G} (hBC : B ≤ C) (hBp : IsPGroup 3 B)
   rw [← hSeq] at h
   exact h
 
+omit [Finite G] in
 theorem mem_of_normalizes {B C : Subgroup G} (h : IsSylowOf 3 B C) {y : G} (hyC : y ∈ C)
     (hyN : y ∈ Nor B) {k : ℕ} (hk : y ^ 3 ^ k = 1) : y ∈ B := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hBC, hBp, hcop⟩ := h
   have hp : IsPGroup 3 (B.subgroupOf C) :=
     hBp.of_equiv (Subgroup.subgroupOfEquivOfLe hBC).symm

@@ -193,7 +193,7 @@ theorem ggQ2_lemmaH4 {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime] (h
     (hnb : GGNbr p B x D J y K) (M : GGQ2NbrDatum p Bs K) (h3 : 3 ≤ Fintype.card M.Λ) :
     ∃ φ ∈ ggAutomizer K Bs, GGIsReflection p φ ∧ GGQ2MovesLine Bs x φ := by
   have hT1 : GGNoTransvection p Bs := hS.1.2.2.2.1
-  haveI : Finite M.V := Finite.of_equiv (Additive ↥Bs) M.model.toEquiv
+  have : Finite M.V := Finite.of_equiv (Additive ↥Bs) M.model.toEquiv
   have hp2 : p ≠ 2 := by rw [hp]; norm_num
   have hx : x ∈ Bs := ggQ2_x_mem_Bs hS
   set xV : M.V := M.model (Additive.ofMul (⟨x, hx⟩ : ↥Bs)) with hxV

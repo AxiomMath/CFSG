@@ -16,6 +16,7 @@ section Abstract
 
 variable {X : Type} [Group X] [Finite X] {Φ : Set (Subgroup X)}
 
+omit [Finite X] in
 theorem isUniqueInvolution_map_mulEquiv {K : Subgroup X} {z : X} (h : IsUniqueInvolution K z)
     (α : X ≃* X) : IsUniqueInvolution (K.map α.toMonoidHom) (α z) where
   mem := ⟨z, h.mem, rfl⟩
@@ -135,6 +136,7 @@ theorem mem_piSub_central {c : Wr 6} (hc : c ∈ piSub 6) (a : Wr 6) : c * a = a
   · rw [one_mul, mul_one]
   · exact allOnes_comm a
 
+omit [Finite X] in
 theorem exists_conj_of_aut (I : AEIdent Φ 6)
     (hperf : Group.IsPerfect ↥(pSpan Φ))
     (ψ : ↥(pSpan Φ) ≃* ↥(aeSub 6)) (hψ : ∀ x : ↥(pSpan Φ), mkQ 6 (ψ x : Wr 6) = I.φ x)
@@ -221,6 +223,7 @@ theorem exists_conj_of_aut (I : AEIdent Φ 6)
   intro x
   exact (inv_mul_eq_one.mp (hD x)).symm
 
+omit [Finite X] in
 theorem exists_restrict_aut (hgen : pSpan Φ = ⊤) (α : X ≃* X)
     (hαΦ : ∀ L ∈ Φ, L.map α.toMonoidHom ∈ Φ) :
     ∃ αP : MulAut ↥(pSpan Φ), (∀ x : ↥(pSpan Φ), ((αP x : ↥(pSpan Φ)) : X) = α (x : X)) ∧
@@ -252,6 +255,7 @@ theorem exists_restrict_aut (hgen : pSpan Φ = ⊤) (α : X ≃* X)
     rw [hαP]
     exact hly
 
+omit [Finite X] in
 theorem psi_eq_allOnes (I : AEIdent Φ 6) (ψ : ↥(pSpan Φ) ≃* ↥(aeSub 6))
     (hψ : ∀ x : ↥(pSpan Φ), mkQ 6 (ψ x : Wr 6) = I.φ x) {c : ↥(pSpan Φ)} (hc : c ∈ I.φ.ker)
     (hc1 : c ≠ 1) : (ψ c : Wr 6) = allOnes 6 := by

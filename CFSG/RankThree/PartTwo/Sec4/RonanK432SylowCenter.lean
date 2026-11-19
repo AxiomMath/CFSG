@@ -14,7 +14,7 @@ theorem exists_sylow_center_conj {S : Type} [Group S] [Finite S] (n : ℕ) (Q : 
     (hidx : ¬ 3 ∣ (Subgroup.centralizer ({z} : Set S)).index) :
     ∃ h : S, h * z * h⁻¹ ∈ Q ∧ ∀ q ∈ Q, q * (h * z * h⁻¹) = (h * z * h⁻¹) * q := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hGne : Nat.card S ≠ 0 := Nat.card_pos.ne'
   have hfacS : (Nat.card S).factorization 3 = n := by
     have h3 : 3 ^ n ∣ Nat.card S := hQ ▸ Subgroup.card_subgroup_dvd_card Q
@@ -101,7 +101,7 @@ theorem listRow_of_sylow_center {S : Type} [Group S] [Finite S] (n : ℕ) (Q : S
     refine Subgroup.mem_zpowers_iff.mpr ⟨k, ?_⟩
     have hpow : (h * z * h⁻¹) ^ k = h * z ^ k * h⁻¹ := by
       have := conj_zpow (a := h) (b := z) (i := k)
-      simpa using this
+      simp
     rw [hpow]
     calc h * z ^ k * h⁻¹ = h * (h⁻¹ * (g * (h * z * h⁻¹) * g⁻¹) * h) * h⁻¹ := by rw [hk]
       _ = g * (h * z * h⁻¹) * g⁻¹ := by group

@@ -111,7 +111,7 @@ theorem exists_conj_normalized {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {K S B :
   obtain ⟨Q, hQ⟩ := CFSG.DisconnectedInvolutionGraph.Helpers.coprime_pgroup_exists_invariant_sylow
     (G := ↥M) (A := ↥B) p 2 hB hMp
   have hQ' : CFSG.ABGLocalTools.IsSylowOf 2 (Q : Subgroup ↥M) ⊤ := by
-    refine CFSG.ABGLocalTools.isSylowOf_iff.2 ⟨le_top, Q.isPGroup', ?_⟩
+    refine CFSG.ABGLocalTools.isSylowOf_iff.2 ⟨le_top, Q.isPGroup, ?_⟩
     rw [Subgroup.relIndex_top_right]
     exact Q.not_dvd_index
   obtain ⟨g, -, hg⟩ := CFSG.ABGLocalTools.IsSylowOf.exists_mem_conj hsyl hQ'

@@ -97,7 +97,7 @@ theorem s21_8K_of_conclusion76 {D : Data G} {Ch : Choice2011 G} (hSg : UC6S846.S
       (le_inf hER hEC) hEel hEc
       (h76 p hpσ hp2 hsp 3 Nat.prime_three E (hEL.trans hLM) hEel hEc hpos hXN)
   unfold Data.k kParam
-  rw [if_pos hstr]
+  rw [ite_eq_left hstr]
 
 theorem s21_8K_dataOfSetup (hS : RankThreeUC.Standing G) (S : RankThreeUC.Setup G)
     {Ch : Choice2011 G} (h211 : S21_1 (PartTwo.Three.dataOfSetup hS S) Ch)

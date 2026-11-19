@@ -70,7 +70,7 @@ theorem rckClassicalModelID_of_blockExt {X U V : Type} [Group X] [Group U] [Grou
     have hcomm : κ z * κ w = κ w * κ z := by
       apply Subtype.ext
       have h := congrArg ι (hzc ((σ w : ↥J') : U))
-      simp only [map_mul, hσval w, hσval z, Subgroup.coe_mul] at h
+      simp only [map_mul, hσval w, hσval z] at h
       exact h.symm
     simpa only [map_mul] using hcomm.symm
   have hφconv : ∀ b ∈ B, GGPsiInnerDiag (ggU t m g).D φ b := by

@@ -17,9 +17,9 @@ theorem cent_all {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {E : Type} [Group E] [
     (∀ g : MulAut E, (∀ s ∈ S, g * s = s * g) →
       g ∈ Subgroup.center (MulAut E) ∧ ∃ k : ℕ, ∀ e : E, g e = e ^ k) ∧
     (∀ c ∈ Subgroup.center (MulAut E), c * c = 1 → c = 1 ∨ c = z) := by
-  letI : CommGroup E := { ‹Group E› with mul_comm := hcomm }
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : CFSG.IsElementaryAbelian q E :=
+  let : CommGroup E := { ‹Group E› with mul_comm := hcomm }
+  have : Fact q.Prime := ⟨hq⟩
+  have : CFSG.IsElementaryAbelian q E :=
     { toIsMulCommutative := ⟨⟨hcomm⟩⟩
       exponent_dvd_p := Monoid.exponent_dvd_of_forall_pow_eq_one hexp }
   let ρ := CFSG.SignalizerFunctor.Helpers.elementaryAutomorphismEnd q (GroupType := E)
@@ -27,7 +27,7 @@ theorem cent_all {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {E : Type} [Group E] [
     CFSG.SignalizerFunctor.Helpers.elementary_automorphism_end_injective q (GroupType := E)
   have happ : ∀ (g : MulAut E) (e : E), ρ g (Additive.ofMul e) = Additive.ofMul (g e) :=
     fun g e => CFSG.SignalizerFunctor.Helpers.elementary_automorphism_end_apply q g _
-  haveI : Module.Finite (ZMod q) (Additive E) := Module.Finite.of_finite
+  have : Module.Finite (ZMod q) (Additive E) := Module.Finite.of_finite
   have hfin : Module.finrank (ZMod q) (Additive E) = 4 := by
     have h1 := Module.natCard_eq_pow_finrank (K := ZMod q) (V := Additive E)
     rw [Nat.card_zmod, Nat.card_congr (Additive.ofMul : E ≃ Additive E).symm, hcard] at h1
@@ -79,7 +79,7 @@ theorem cent_all {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {E : Type} [Group E] [
     apply hinj
     rw [map_mul, map_mul, hk]
     ext v
-    simp [Module.End.mul_apply]
+    simp
   have hpow : ∀ g : MulAut E, (∀ s ∈ S, g * s = s * g) → ∃ k : ℕ, ∀ e : E, g e = e ^ k := by
     intro g hg
     obtain ⟨k, hk⟩ := hscalar g hg

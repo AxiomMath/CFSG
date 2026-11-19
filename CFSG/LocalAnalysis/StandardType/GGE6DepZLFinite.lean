@@ -50,7 +50,7 @@ theorem closureL_fixed_zero {v : Vec6} (h5 : v 5 = 0) (h : ∀ g ∈ closureL, g
 
 private lemma zl_one_apply (i : Fin 6) : (1 : Mat6) i = Pi.single i 1 := by
   funext j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.one_apply, Pi.single_apply]
+  fin_cases i <;> fin_cases j <;> simp
 
 private lemma zl_reflMat_mulVec (α h u : Vec6) :
     (reflMat α h).mulVec u = u - (α ⬝ᵥ u) • h := by
@@ -211,7 +211,7 @@ private lemma zl_reflNorm_mul_reflNorm_mulVec (u v w : Vec6) :
   rw [← Matrix.mulVec_mulVec]
   simp only [zl_reflNorm_mulVec, zl_bil6_add_left, zl_bil6_smul_left, zl_bil6_comm w v]
 
-private lemma zl_reflNorm_mul_comm (v w : Vec6) (hv : norm6 v = 1) (hw : norm6 w = 1)
+private lemma zl_reflNorm_mul_comm (v w : Vec6) (_hv : norm6 v = 1) (_hw : norm6 w = 1)
     (ht : bil6 v w = 0) : reflNorm v * reflNorm w = reflNorm w * reflNorm v := by
   rw [Matrix.ext_iff_mulVec]
   intro u
@@ -225,7 +225,7 @@ private lemma zl_reflNorm_braid_left_mulVec (u v w : Vec6) (hv : norm6 v = 1) :
   have hv' : bil6 v v = 1 := hv
   rw [← Matrix.mulVec_mulVec]
   simp only [zl_reflNorm_mulVec, zl_reflNorm_mul_reflNorm_mulVec, zl_bil6_add_left,
-    zl_bil6_smul_left, zl_bil6_smul_right, zl_bil6_comm w v, hv', mul_one]
+    zl_bil6_smul_left, hv', mul_one]
   funext i
   simp only [Pi.add_apply, Pi.smul_apply, smul_eq_mul]
   ring_nf
@@ -559,7 +559,7 @@ theorem zl_span_top (M : Submodule (ZMod 3) Vec6)
     · intro j _ hj
       have hkj : k ≠ j := fun h => hj h.symm
       rw [zl_one_apply j]
-      simp [Pi.single_apply, hkj]
+      simp [hkj]
     · intro hk
       exact absurd (Finset.mem_univ k) hk
   rw [hsum]

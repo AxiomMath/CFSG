@@ -109,7 +109,7 @@ theorem normalizer_le_of_isMaxParabolic
         (R : Subgroup (SpecialLinearGroup (Fin 3) (GaloisField 2 n))) P := by
     intro R hRP
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    exact ⟨hRP, R.isPGroup', fun h => R.not_dvd_index (h.trans
+    exact ⟨hRP, R.isPGroup, fun h => R.not_dvd_index (h.trans
       (Subgroup.relIndex_dvd_index_of_le hRP))⟩
   have hT₀P : (T₀ : Subgroup (SpecialLinearGroup (Fin 3) (GaloisField 2 n))) ≤ P :=
     Subgroup.le_normalizer.trans hT₀
@@ -144,7 +144,7 @@ theorem exists_and_not_mem_of_borel (hn : Odd n)
         (R : Subgroup (SpecialLinearGroup (Fin 3) (GaloisField 2 n))) ⊤ := by
     intro R
     rw [CFSG.ABGLocalTools.isSylowOf_iff, Subgroup.relIndex_top_right]
-    exact ⟨le_top, R.isPGroup', R.not_dvd_index⟩
+    exact ⟨le_top, R.isPGroup, R.not_dvd_index⟩
   obtain ⟨g, -, hg⟩ := Sec18.exists_map_conj_eq_of_isSylowOf (hsylTop U) (hsylTop Ut)
   rw [hUt] at hg
   set φ := MulAut.conj g with hφ

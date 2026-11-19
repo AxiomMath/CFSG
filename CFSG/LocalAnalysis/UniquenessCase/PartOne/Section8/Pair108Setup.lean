@@ -26,7 +26,7 @@ theorem card_center_of_isSylowOf_of_bar2 {K R : Subgroup G}
       ((QuotientGroup.mk' (CFSG.pCore 2 ↥K)).domRestrict (T : Subgroup ↥K)) := by
     rw [← MonoidHom.ker_eq_bot_iff, MonoidHom.ker_domRestrict, QuotientGroup.ker_mk',
       subgroupOf_eq_bot]
-    exact IsPGroup.disjoint_of_ne 2 3 (by norm_num) _ _ CFSG.pCore_isPGroup T.isPGroup'
+    exact IsPGroup.disjoint_of_ne 2 3 (by norm_num) _ _ CFSG.pCore_isPGroup T.isPGroup
   have h := hZS (T.mapSurjective (QuotientGroup.mk'_surjective (CFSG.pCore 2 ↥K)))
   rw [Sylow.coe_mapSurjective] at h
   let e₁ : ↥(T : Subgroup ↥K) ≃*

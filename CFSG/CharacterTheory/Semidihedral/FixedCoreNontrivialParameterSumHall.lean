@@ -56,7 +56,7 @@ theorem psl2_orderOf_ne (x : Matrix.ProjectiveSpecialLinearGroup (Fin 2) F') {m 
     obtain ⟨y, hy, rfl⟩ := hxT
     have hyord : orderOf ((MulAut.conj g).toMonoidHom y) = orderOf y := MulEquiv.orderOf_eq _ y
     obtain ⟨j, hj⟩ := (IsPGroup.iff_orderOf.mp
-      (default : Sylow p' (Matrix.ProjectiveSpecialLinearGroup (Fin 2) F')).isPGroup') ⟨y, hy⟩
+      (default : Sylow p' (Matrix.ProjectiveSpecialLinearGroup (Fin 2) F')).isPGroup) ⟨y, hy⟩
     rw [Subgroup.orderOf_mk] at hj
     rw [hyord, hj] at hx
     have hUdvd : Nat.card (torusU G t s₀ d) ∣ p' ^ j := ⟨m, by rw [hx]; ring⟩
@@ -125,7 +125,7 @@ theorem coprime_relIndex_inf_torusH_of_coprime
     apply Subtype.ext
     rw [← hyz]
     exact (QuotientGroup.eq_one_iff y).mpr (Subgroup.mem_subgroupOf.mpr hyW)
-  obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp Q.isPGroup') ⟨y, hyQ⟩
+  obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp Q.isPGroup) ⟨y, hyQ⟩
   rw [Subgroup.orderOf_mk, ← Subgroup.orderOf_coe] at hk
   have hyR : (y : G) ∈ R := y.2.1
   have hyH : (y : G) ∈ torusH G t s₀ := y.2.2

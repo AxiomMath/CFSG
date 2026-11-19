@@ -102,16 +102,16 @@ theorem centralizer_pCore_le_starImg (h713 : SevenOneThree) (hI : NineTenInputs)
     (hQ : CFSG.ABGLocalTools.IsSylowOf p Q H) (hNQ : normalizer (Q : Set G) ≤ M)
     (hQN : starImg p H Q ≤ compNormalizer (StarGroup p H)) (hL : pLayerIn p H ≤ M) :
     centralizer (CFSG.pCore p (StarGroup p H) : Set (StarGroup p H)) ≤ starImg p H M := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   let R : Subgroup (StarGroup p H) := CFSG.pCore p (StarGroup p H)
   let L : Subgroup (StarGroup p H) := CFSG.layer (StarGroup p H)
   let Yc : Subgroup (StarGroup p H) := centralizer (L : Set (StarGroup p H))
   let Cc : Subgroup (StarGroup p H) := centralizer (R : Set (StarGroup p H))
-  haveI hRn : R.Normal := inferInstance
-  haveI hLc : L.Characteristic := CFSG.LocalCores.layer_characteristic
-  haveI hLn : L.Normal := inferInstance
-  haveI hYcN : Yc.Normal := inferInstance
-  haveI hCcN : Cc.Normal := inferInstance
+  have hRn : R.Normal := inferInstance
+  have hLc : L.Characteristic := CFSG.LocalCores.layer_characteristic
+  have hLn : L.Normal := inferInstance
+  have hYcN : Yc.Normal := inferInstance
+  have hCcN : Cc.Normal := inferInstance
   let B : Subgroup (StarGroup p H) := starImg p H Q ⊔ Cc
   have hS := h.isSylowOf_starImg_top hQ
   have hSB : CFSG.ABGLocalTools.IsSylowOf p (starImg p H Q) B :=

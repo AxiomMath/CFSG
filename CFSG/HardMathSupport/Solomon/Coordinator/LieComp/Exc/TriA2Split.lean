@@ -253,13 +253,13 @@ theorem exists_hom_fixSub (h : A2Core σ d q)
   let Fx : Subgroup (adjointGroup d4 K) :=
     { carrier := {x | a2Conj σ d (x : ModGL TwistTag.D4.tag K) = x}
       mul_mem' := fun {x y} hx hy => by
-        simp only [Set.mem_setOf_eq, Subgroup.coe_mul, a2Conj_mul] at hx hy ⊢
+        simp only [Set.mem_ofPred_eq, Subgroup.coe_mul, a2Conj_mul] at hx hy ⊢
         rw [hx, hy]
       one_mem' := by
-        simp only [Set.mem_setOf_eq, OneMemClass.coe_one]
+        simp only [Set.mem_ofPred_eq, OneMemClass.coe_one]
         exact a2Conj_one σ d
       inv_mem' := fun {x} hx => by
-        simp only [Set.mem_setOf_eq, Subgroup.coe_inv] at hx ⊢
+        simp only [Set.mem_ofPred_eq, Subgroup.coe_inv] at hx ⊢
         rw [a2Conj_inv, hx] }
   have hfx : ∀ x, ψ x ∈ Fx :=
     forall_mem_of_transvections Fx ψ (fun c => by rw [h1]; exact fix_P1 h _ c.2)
@@ -318,7 +318,7 @@ theorem a2PlusCompsWith_holds {P : (X : Type) → [Group X] → Prop} (hP : IsCo
   have hCh : CharP K p :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hp (by omega) hK3
   have hch : ringChar (fixedField σ.toRingHom) = p := ringChar_subfield (ringChar.eq K p) _
-  haveI : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
+  have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
   have hq2 : 2 ≤ p ^ f := by
     have h3 : p ≤ p ^ f := Nat.le_self_pow (by omega) p
     have h2 := hp.two_le
@@ -334,8 +334,8 @@ theorem a2PlusComps_holds : A2PlusComps := by
   refine a2PlusCompsWith_holds (isComponentProperty_componentFactor p) ?_ hp hp2 hp3 hf hq hK hσ
     (d := d) hd hd3 hd1 (s := s) hs
   intro F _ _ hF Q _ _ ρ hρ hk
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype F := Fintype.ofFinite F
   have hFc : Fintype.card F = p ^ f := by rw [← Nat.card_eq_fintype_card]; exact hF
   have hcharP : CharP F p := charP_of_card_eq_prime_pow hFc
   exact componentFactor_sl_of_surjective (ringChar.eq F p) ρ hρ hk

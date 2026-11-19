@@ -99,7 +99,7 @@ theorem target_stable_of_central_actor
     (hsaq : s = a * q) (hscent : s ∈ Subgroup.center C)
     (hqlayer : q ∈ pLayer C 2) (hR : IsPComponent 2 R) :
     conjugate R a = R := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have haq : a = s * q⁻¹ := by simp [hsaq, mul_assoc]
   have haNorm : a ∈ normalizer (R : Set C) := by
     rw [haq]

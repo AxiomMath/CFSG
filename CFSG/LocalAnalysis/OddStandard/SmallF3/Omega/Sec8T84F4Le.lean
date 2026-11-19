@@ -12,6 +12,7 @@ open Subgroup CFSG.Blueprint
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private lemma mem_sup_or_mul_of_normalizes {t : G} {T0 T : Subgroup G}
     (ht : t * t = 1) (hT : T = zpowers t ⊔ T0)
     (hnorm : ∀ u ∈ T0, t * u * t⁻¹ ∈ T0) :

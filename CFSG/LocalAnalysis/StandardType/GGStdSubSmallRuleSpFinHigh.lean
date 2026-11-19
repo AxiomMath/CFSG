@@ -18,8 +18,8 @@ theorem spFinCore_holds : SpFinCore := by
   have hKc : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two (le_refl 1) (by rw [hK, pow_one])
-  haveI := finite_statedSp_group (K := K) (m := m)
-  haveI := finite_units_end (K := K) (V := Fin m ⊕ Fin m → K)
+  have := finite_statedSp_group (K := K) (m := m)
+  have := finite_units_end (K := K) (V := Fin m ⊕ Fin m → K)
   obtain ⟨U, hU1, hU2, hUÃ⟩ := hU
   obtain ⟨T, hT0, hTiso, hTÃ, -⟩ := SmallRule.exists_isotropic_card_sq_le hK (spLin m K)
     spLin_injective (spForm m K) spForm_nondegenerate spForm_isAlt.isRefl

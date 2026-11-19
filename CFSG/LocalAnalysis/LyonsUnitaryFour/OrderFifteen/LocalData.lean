@@ -105,7 +105,7 @@ theorem lyons_order_fifteen_local_data [IsSimpleGroup G] (hnonab : ∃ a b : G, 
     e.toMonoidHom
   refine ⟨_, inferInstance, Fintype.ofFinite _, _, h, π, hSC,
     ⟨hnormal, ?_, ?_, ?_, ?_, hh5, hsup, hinf, hfix, hfree⟩, ?_, ?_, ?_, ?_⟩
-  · exact (S.isPGroup'.comap_of_injective _ (Subgroup.subtype_injective _)).map _
+  · exact (S.isPGroup.comap_of_injective _ (Subgroup.subtype_injective _)).map _
   · rw [natCard_map_of_injective_comp_subtype _ _ hinj,
       Nat.card_congr (Subgroup.subgroupOfEquivOfLe hSC0).toEquiv]
     exact hcard64

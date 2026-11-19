@@ -62,27 +62,26 @@ theorem rckPairCoreGood_tw (t : TwistTag) (S : LangSetup t.tag GGL 5)
     rw [hz0eq]
     exact (adjointGroup t.tag GGL).inv_mem S.D.g0_mem
   obtain ⟨r, e, hr, hchar, he, hq⟩ := exists_char_pow S
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
+  have : Fact r.Prime := ⟨hr⟩
+  have : Fact (Nat.Prime 2) := Nat.fact_prime_two
   let n : ℕ := t.order * e
   have hn : n ≠ 0 := (Nat.mul_pos (order_pos t) he).ne'
   let K : Type := GaloisField 2 n
-  letI : Algebra K GGL := (ggRatEmb n).toAlgebra
-  haveI : CharP K 2 := inferInstance
-  haveI : CharP GGL 2 := charP_of_injective_algebraMap (algebraMap K GGL).injective 2
+  let : Algebra K GGL := (ggRatEmb n).toAlgebra
+  have : CharP K 2 := inferInstance
+  have : CharP GGL 2 := charP_of_injective_algebraMap (algebraMap K GGL).injective 2
   have hr2 : r = 2 := CharP.eq GGL hchar (inferInstance : CharP GGL 2)
   have hq2 : S.D.q = 2 ^ e := by rw [hq, hr2]
   have hFrsurj : Function.Surjective Fr := (S.frobenius_bijective hFr).2
   have hFr2 : ∀ c : GGL, Fr c = c ^ (2 ^ e) := fun c => by rw [hFr, hq2]
-  haveI : IsScalarTower (ZMod 2) K GGL :=
+  have : IsScalarTower (ZMod 2) K GGL :=
     IsScalarTower.of_algebraMap_eq' (RingHom.ext_zmod _ _)
-  haveI : IsAlgClosure K GGL :=
+  have : IsAlgClosure K GGL :=
     { isAlgClosed := inferInstance
       isAlgebraic := Algebra.IsAlgebraic.tower_top (K := ZMod 2) (L := K) }
   have hKcard : Nat.card K = (2 ^ e) ^ t.order := by
     change Nat.card (GaloisField 2 n) = (2 ^ e) ^ t.order
     rw [GaloisField.card 2 n hn]
-    change 2 ^ n = (2 ^ e) ^ t.order
     rw [show n = t.order * e from rfl, Nat.mul_comm t.order e, pow_mul]
   let σ : K →+* K := iterateFrobenius K 2 e
   have hσ : ∀ c : K, σ c = c ^ (2 ^ e) := fun c => iterateFrobenius_def 2 e c

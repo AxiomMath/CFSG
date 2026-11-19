@@ -340,7 +340,7 @@ theorem burnsideF429a_ctr_unipotent [CharP K 2] {y : StatedSp 2 K}
     Matrix.mul_zero, add_zero, zero_add]
   congr 1
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.single_apply, hC10, hC11]
+  fin_cases i <;> fin_cases j <;> simp [hC10, hC11]
 
 theorem burnsideF429a_Sp_ctr_U [CharP K 2] :
     ctr (unipotent 2 K) = burnsideF4gSpInv_Xl K ⊔ burnsideF4gSpInv_Xs K := by
@@ -363,7 +363,7 @@ theorem burnsideF429a_Sp_Xl_inf_Xs : burnsideF4gSpInv_Xl K ⊓ burnsideF4gSpInv_
   have e := congrArg (fun g : StatedSp 2 K =>
     ((g : GL (Fin 2 ⊕ Fin 2) K) : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K)
       (Sum.inl 0) (Sum.inr 0)) ht
-  simp [burnsideF4gSpInv_xl_val, burnsideF4gSpInv_xs_val, Matrix.single_apply] at e
+  simp [burnsideF4gSpInv_xl_val, burnsideF4gSpInv_xs_val] at e
   rw [Subgroup.mem_bot, ← e, burnsideF4gSpInv_xl_zero]
 
 end Sp4Model
@@ -386,7 +386,7 @@ theorem burnsideF429a_c7_Sp4 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subg
   obtain ⟨marking, hpts, hlines, hlong, hshort⟩ :=
     burnsideF4gSpInv_marking_of_chart hyp.toHypF_4_4g.chart
   have hK : Nat.card marking.field = 2 ^ f := by simpa using marking.field_card
-  haveI : CharP marking.field 2 := burnsideF4gSp_charP_of_card hK
+  have : CharP marking.field 2 := burnsideF4gSp_charP_of_card hK
   have hbasis : marking.basis = 1 := marking.basis_compatible
   have hinj : Function.Injective (marking.transport : StatedSp 2 marking.field →* ↥Gp) := by
     refine (injective_iff_map_eq_one _).2 fun a ha => ?_

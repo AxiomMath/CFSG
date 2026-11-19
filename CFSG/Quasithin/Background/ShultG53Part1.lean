@@ -43,7 +43,7 @@ theorem permAct_onesFn (g : X) : permAct V g (onesFn V) = onesFn V := by
   simp only [this]
 
 theorem weight_onesFn (hV : Nat.card V.carrier = 2 ^ 4) : weightHom V (onesFn V) = 1 := by
-  haveI : Fintype V.carrier := Fintype.ofFinite _
+  have : Fintype V.carrier := Fintype.ofFinite _
   rw [weightHom_apply']
   have h1 : ∑ w : V.carrier, onesFn V w = ((Finset.univ.filter (fun w : V.carrier => w ≠ 0)).card :
       ZMod 2) := by

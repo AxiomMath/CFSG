@@ -50,7 +50,7 @@ theorem exS_sound (A B : Matrix (Fin d) (Fin d) (ZMod 3)) (D : SData) (C : List 
     · rw [hc]
       simp [atomsM]
     rw [Bool.not_eq_true] at hc
-    rw [hc, cond_false]
+    rw [hc, Bool.cond_false]
     simp only [Bool.or_eq_false_iff] at hc
     have hx2 : ¬ x < 2 := fun h => by
       have h' : Nat.blt x 2 = true := by rw [Nat.blt_eq]; exact h
@@ -60,26 +60,26 @@ theorem exS_sound (A B : Matrix (Fin d) (Fin d) (ZMod 3)) (D : SData) (C : List 
     · subst h2
       simp [atomsM, val]
     have h2' : Nat.beq x 2 = false := Bool.eq_false_iff.2 fun h => h2 (Nat.eq_of_beq_eq_true h)
-    rw [h2', cond_false]
+    rw [h2', Bool.cond_false]
     obtain ⟨y, rfl⟩ : ∃ y, x = y + 3 := ⟨x - 3, by omega⟩
     have hy : y + 3 - 3 = y := by omega
     rw [hy, val.eq_4]
     by_cases hg : D.na.getD y 0 < y + 3 ∧ D.nb.getD y 0 < y + 3
     · have ha : Nat.blt (D.na.getD y 0) (y + 3) = true := by rw [Nat.blt_eq]; exact hg.1
       have hb : Nat.blt (D.nb.getD y 0) (y + 3) = true := by rw [Nat.blt_eq]; exact hg.2
-      rw [ha, hb, Bool.and_true, cond_true, dif_pos hg]
+      rw [ha, hb, Bool.and_true, _root_.Bool.cond_true, dite_eq_left hg]
       by_cases hk : D.nk.getD y 1 = 0
       · have hk' : Nat.beq (D.nk.getD y 1) 0 = true := by rw [hk]; rfl
-        rw [hk', if_pos hk, cond_true]
+        rw [hk', ite_eq_left hk, _root_.Bool.cond_true]
         simp only [atomsM_append, ih]
       · have hk' : Nat.beq (D.nk.getD y 1) 0 = false :=
           Bool.eq_false_iff.2 fun h => hk (Nat.eq_of_beq_eq_true h)
-        rw [hk', if_neg hk, cond_false, atomsM_powL, ih]
+        rw [hk', ite_eq_right hk, Bool.cond_false, atomsM_powL, ih]
     · have hg' : (Nat.blt (D.na.getD y 0) (y + 3) && Nat.blt (D.nb.getD y 0) (y + 3)) = false :=
         Bool.eq_false_iff.2 fun h => by
           rw [Bool.and_eq_true, Nat.blt_eq, Nat.blt_eq] at h
           exact hg h
-      rw [hg', cond_false, dif_neg hg]
+      rw [hg', Bool.cond_false, dite_eq_right hg]
       rfl
 
 theorem atomsM_consM (M : Nat → Matrix (Fin d) (Fin d) (ZMod 3)) (z e : Nat)
@@ -90,7 +90,7 @@ theorem atomsM_consM (M : Nat → Matrix (Fin d) (Fin d) (ZMod 3)) (z e : Nat)
     simp only [consM]
     by_cases h : z = y
     · subst h
-      simp only [Nat.beq_refl, cond_true, atomsM_cons]
+      simp only [Nat.beq_refl, _root_.Bool.cond_true, atomsM_cons]
       rw [pow_add, mul_assoc]
     · have h' : Nat.beq z y = false := Bool.eq_false_iff.2 fun e => h (Nat.eq_of_beq_eq_true e)
       rw [h']
@@ -103,10 +103,10 @@ theorem atomsM_mergeS (M : Nat → Matrix (Fin d) (Fin d) (ZMod 3)) :
     simp only [mergeS]
     by_cases h : e = 0
     · subst h
-      simp only [Nat.beq_refl, cond_true, atomsM_cons, pow_zero, one_mul]
+      simp only [Nat.beq_refl, _root_.Bool.cond_true, atomsM_cons, pow_zero, one_mul]
       exact atomsM_mergeS M l
     · have h' : Nat.beq e 0 = false := Bool.eq_false_iff.2 fun e' => h (Nat.eq_of_beq_eq_true e')
-      rw [h', cond_false, atomsM_consM, atomsM_mergeS M l, atomsM_cons]
+      rw [h', Bool.cond_false, atomsM_consM, atomsM_mergeS M l, atomsM_cons]
 
 theorem atomsM_wexS (A B : Matrix (Fin d) (Fin d) (ZMod 3)) (D : SData) (C : List Nat)
     (f : Nat) : ∀ w : Word, atomsM (val A B D) (wexS D C f w) = evalM (val A B D) D w

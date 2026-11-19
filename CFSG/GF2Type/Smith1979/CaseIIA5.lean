@@ -203,7 +203,7 @@ theorem card_Nbar_eq_two_mul : Nat.card (Nbar S g t) = 2 * Nat.card D.Gam0 := by
   rw [D.card_ker_resN] at h
   exact h.symm
 
-theorem sixteen_le_card_Nbar (hCE : S4.CentralExtInput.{u}) : 16 ≤ Nat.card (Nbar S g t) := by
+theorem sixteen_le_card_Nbar (_hCE : S4.CentralExtInput.{u}) : 16 ≤ Nat.card (Nbar S g t) := by
   obtain ⟨n, hnN, hnL⟩ := D.exists_Nbar_not_Lbar
   have hle : S.Lbar g ⊓ Nbar S g t ≤ Nbar S g t := inf_le_right
   have hdvd := Subgroup.card_dvd_of_le hle

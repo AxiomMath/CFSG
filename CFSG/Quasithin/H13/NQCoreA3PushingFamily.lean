@@ -47,7 +47,7 @@ theorem two_local_rank_actual_A3_pushing_family_common_normal_subgroup
         normalizer (conjJoin M (blockQ (Kf ⟨0, hr⟩)) : Set G) := by
   classical
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  have hR2 : IsPGroup 2 R := T.isPGroup'.to_le hRT
+  have hR2 : IsPGroup 2 R := T.isPGroup.to_le hRT
   have hdata := fun i => SteinbergBS.ReversalPair.a3_data (hK i) (h3 i)
   have halt := fun i => Setup.Campbell.short_order_three_is_alternating_four (hK i) (h3 i)
   set U := ⨆ i, blockQ (Kf i) with hUdef

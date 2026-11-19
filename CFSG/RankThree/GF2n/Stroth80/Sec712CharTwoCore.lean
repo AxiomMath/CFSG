@@ -15,7 +15,7 @@ theorem charTwo_of_centralizer_core {H : Type} [Group H] [Finite H] (R N : Subgr
     (hodd : ∀ x ∈ Subgroup.centralizer (N : Set H), Odd (orderOf x) →
       (∀ l ∈ Λ, l * x = x * l) → x = 1) :
     generalizedFitting H = pCore 2 H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hkey : ∀ y ∈ Subgroup.centralizer (N : Set H), Odd (orderOf y) → y = 1 := by
     intro y hy hyodd
     have hcent : ∀ x ∈ Subgroup.centralizer (N : Set H), ∀ c ∈ N, x * c = c * x := by

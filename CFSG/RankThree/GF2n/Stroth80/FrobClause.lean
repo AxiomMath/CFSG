@@ -74,7 +74,7 @@ theorem stroth_frobClause [Finite G] {M Q Z : Subgroup G}
             = (m : G) * ((m : G)⁻¹ * z * (m : G) * (x : G)) * (m : G)⁻¹ := by group
           _ = (m : G) * ((x : G) * ((m : G)⁻¹ * z * (m : G))) * (m : G)⁻¹ := by rw [h1]
           _ = ((m : G) * (x : G) * (m : G)⁻¹) * z := by group
-    haveI := hN
+    have := hN
     let τ' : ↥M := ⟨τ, hτM⟩
     have hτN : τ ^ (2 ^ n - 1) = 1 := by rw [← hτo]; exact pow_orderOf_eq_one τ
     have hord : orderOf (QuotientGroup.mk τ' : ↥M ⧸ (H0 M Z).subgroupOf M) = 2 ^ n - 1 := by

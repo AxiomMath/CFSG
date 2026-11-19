@@ -133,9 +133,9 @@ theorem prodC_cwQ : ∀ w : List ℤ,
       rw [← fi24Ca_eq]
       rfl
     · change prodC SB = _
-      rw [← fi24Cb_eq, if_neg (by intro h; injection h with h; omega)]
+      rw [← fi24Cb_eq, ite_eq_right (by intro h; injection h with h; omega)]
     · change prodC SB = _
-      rw [← fi24Cb_eq, if_neg (by intro h; cases h)]
+      rw [← fi24Cb_eq, ite_eq_right (by intro h; cases h)]
 
 theorem letters_ok : (∀ i < 5, ∀ z ∈ gW i, z = 1 ∨ z = -1 ∨ z = 2 ∨ z = -2) ∧
     (∀ k < 2, ∀ z ∈ nW k, z = 1 ∨ z = -1 ∨ z = 2 ∨ z = -2) := by decide

@@ -19,9 +19,9 @@ theorem exists_central_mod {N W Z : Subgroup G} [Finite N] (hN : IsPGroup 2 N)
     (hWN : W ≤ N) (hZc : ∀ z ∈ Z, ∀ n ∈ N, z * n = n * z)
     (hWn : ∀ n ∈ N, ∀ w ∈ W, n * w * n⁻¹ ∈ W) (hne : ∃ w ∈ W, w ∉ Z) :
     ∃ w ∈ W, w ∉ Z ∧ ∀ n ∈ N, n * w * n⁻¹ * w⁻¹ ∈ Z := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Zn : Subgroup N := Z.subgroupOf N
-  haveI hZnn : Zn.Normal := by
+  have hZnn : Zn.Normal := by
     constructor
     intro z hz g
     have hz' : (z : G) ∈ Z := hz
@@ -34,14 +34,14 @@ theorem exists_central_mod {N W Z : Subgroup G} [Finite N] (hN : IsPGroup 2 N)
         _ = z := by group
     rw [this]; exact hz
   let Wn : Subgroup N := W.subgroupOf N
-  haveI hWnn : Wn.Normal := by
+  have hWnn : Wn.Normal := by
     constructor
     intro w hw g
     have hw' : (w : G) ∈ W := hw
     show ((g * w * g⁻¹ : N) : G) ∈ W
     simpa using hWn g g.2 w hw'
   have hQ : IsPGroup 2 (N ⧸ Zn) := hN.to_quotient Zn
-  haveI : Group.IsNilpotent (N ⧸ Zn) := hQ.isNilpotent
+  have : Group.IsNilpotent (N ⧸ Zn) := hQ.isNilpotent
   let π := QuotientGroup.mk' Zn
   have hπ : Function.Surjective π := QuotientGroup.mk'_surjective Zn
   have hWq : (Wn.map π).Normal := hWnn.map π hπ
@@ -93,8 +93,8 @@ variable {G : Type*} [Group G]
 
 theorem eq_of_self_normalizing {Q W : Subgroup G} [Finite Q] (hQ : IsPGroup 2 Q) (hWQ : W ≤ Q)
     (h : ∀ y ∈ Q, y ∈ Subgroup.normalizer (W : Set G) → y ∈ W) : W = Q := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsNilpotent Q := hQ.isNilpotent
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsNilpotent Q := hQ.isNilpotent
   have hnc := Group.normalizerCondition_of_isNilpotent (G := Q)
   by_contra hne
   have hlt : W.subgroupOf Q < ⊤ := by
@@ -292,7 +292,7 @@ theorem Min32.scalar_of_centralizes [FiniteDimensional k V] (h2 : (2 : k) ≠ 0)
     (hdim : Module.finrank k V = 4) (h : Min32 R u) {y : (Module.End k V)ˣ}
     (hy : ∀ r ∈ R, y * r = r * y) :
     ∃ a : k, (y : Module.End k V) = algebraMap k (Module.End k V) a := by
-  haveI : Finite R := Nat.finite_of_card_ne_zero (by rw [h.card_eq]; norm_num)
+  have : Finite R := Nat.finite_of_card_ne_zero (by rw [h.card_eq]; norm_num)
   obtain ⟨z, hz, hzV⟩ := h.center
   let ρ : Representation k R V := (Units.coeHom (Module.End k V)).comp R.subtype
   have hρ : Function.Injective ρ := fun a b hab => Subtype.ext (Units.ext hab)
@@ -367,7 +367,7 @@ theorem Min32.eq_of_commutator_eq [FiniteDimensional k V] (h2 : (2 : k) ≠ 0)
   classical
   obtain ⟨t, ht⟩ := h.exists_pent hu5
   obtain ⟨hm1, -, -, -⟩ := h.facts
-  haveI : Nontrivial V := Module.nontrivial_of_finrank_pos (by rw [hdim]; norm_num)
+  have : Nontrivial V := Module.nontrivial_of_finrank_pos (by rw [hdim]; norm_num)
   let Z : Subgroup (Module.End k V)ˣ := Q ⊓ Subgroup.centralizer (R : Set (Module.End k V)ˣ)
   have hZsc : ∀ z ∈ Z, ∃ a : k, (z : Module.End k V) = algebraMap k (Module.End k V) a :=
     fun z hz => h.scalar_of_centralizes h2 hdim (y := z)
@@ -405,7 +405,7 @@ theorem Min32.eq_of_commutator_eq [FiniteDimensional k V] (h2 : (2 : k) ≠ 0)
     have := (Subgroup.mem_normalizer_iff.mp (inv_mem hnormW) w).mp hw
     simpa using this
   let N : Subgroup (Module.End k V)ˣ := Q ⊓ Subgroup.normalizer (W : Set (Module.End k V)ˣ)
-  haveI : Finite N := Finite.of_injective (Subgroup.inclusion (inf_le_left : N ≤ Q))
+  have : Finite N := Finite.of_injective (Subgroup.inclusion (inf_le_left : N ≤ Q))
     (Subgroup.inclusion_injective _)
   have hN2 : IsPGroup 2 N := hQ2.to_le inf_le_left
   have hWN : W ≤ N := fun w hw => ⟨hWQ hw, Subgroup.le_normalizer hw⟩
@@ -433,7 +433,7 @@ theorem Min32.eq_of_commutator_eq [FiniteDimensional k V] (h2 : (2 : k) ≠ 0)
         exact (Subgroup.mem_normalizer_iff.mp hnormW g).mpr h2
   let M : Subgroup (Module.End k V)ˣ :=
     { carrier := {w | w ∈ W ∧ ∀ n ∈ N, n * w * n⁻¹ * w⁻¹ ∈ Z}
-      one_mem' := ⟨W.one_mem, fun n _ => by simpa using Z.one_mem⟩
+      one_mem' := ⟨W.one_mem, fun n _ => by simp⟩
       mul_mem' := by
         rintro w w' ⟨hw, hcw⟩ ⟨hw', hcw'⟩
         refine ⟨W.mul_mem hw hw', fun n hn => ?_⟩
@@ -466,7 +466,7 @@ theorem Min32.eq_of_commutator_eq [FiniteDimensional k V] (h2 : (2 : k) ≠ 0)
         rw [e2]
         exact Z.inv_mem hc }
   have hZM : Z ≤ M := fun z hz =>
-    ⟨hZW z hz, fun n _ => by rw [← hZcen z hz n]; simpa using Z.one_mem⟩
+    ⟨hZW z hz, fun n _ => by rw [← hZcen z hz n]; simp⟩
   have huM : u ∈ Subgroup.normalizer (M : Set (Module.End k V)ˣ) := by
     refine mem_normalizer_of_five hu5 ?_
     rintro w ⟨hw, hcw⟩

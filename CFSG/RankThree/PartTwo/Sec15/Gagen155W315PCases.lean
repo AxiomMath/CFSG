@@ -30,7 +30,7 @@ namespace Proof155P
 
 theorem cases148_of_not_le
     {A L : Subgroup G} {c : G} (h : Sec14Std G A c L) (h148 : Item148 A (lB A))
-    (h149 : Item149 A (lB A))
+    (_h149 : Item149 A (lB A))
     {X Y M P : Subgroup G} (hf : Proof155Wx.Facts155W A X Y M P) (hX : X ∈ thetaComponentsIn M)
     [(ker148 A M).Normal] (hWO : ¬ w155 A M X ≤ pPrimeCoreOf 3 M) :
     ∃ d : G, d ∈ A ∧ d ≠ 1 ∧ (∀ w ∈ w155 A M X, ⁅w, d⁆ ∈ pPrimeCoreOf 3 M) ∧
@@ -39,7 +39,7 @@ theorem cases148_of_not_le
         (Sec4.IsTripleCover ↥(img148 A M (w155 A M X)) (alternatingGroup (Fin 6)) ∧
           CFSG.IsQuasisimple ↥(img148 A M (w155 A M X)))) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : (ker148 A M).Normal := ker148_normal hf.mem_m2.1.2
+  let : (ker148 A M).Normal := ker148_normal hf.mem_m2.1.2
   set W := w155 A M X with hWdef
   set D := img148 A M (deltaZero A (lB A) M) with hDdef
   have hWΔ : W ≤ deltaZero A (lB A) M := hf.w_le_i0.trans hf.i0_le_deltaZero
@@ -61,8 +61,8 @@ theorem cases148_of_not_le
     CFSG.LocalCores.isQuasisimple_of_mulEquiv eX (Proof1515.isQuasisimple_quot_pPrimeCore hf.mem_x4)
   have hEperf : Group.IsPerfect ↥E := by
     rw [hEdef]
-    haveI : Group.IsPerfect ↥(img148 A M W) := by
-      haveI : Group.IsPerfect W := Proof155Wx.isPerfect_w155 A M X
+    have : Group.IsPerfect ↥(img148 A M W) := by
+      have : Group.IsPerfect W := Proof155Wx.isPerfect_w155 A M X
       exact isPerfect_img148 (A := A) (Y := M) (J := W) hWMA
     exact Group.IsPerfect.ofSurjective
       (f := (Subgroup.subgroupOfEquivOfLe hEimg).symm.toMonoidHom) (MulEquiv.surjective _)
@@ -95,7 +95,7 @@ theorem cases148_of_not_le
     hVsub hVq hEperf hVE hEne
   rcases hshape with ⟨d, hdA, hd1, hdec, hT⟩ | ⟨eJ2⟩
   ·
-    haveI : Group.IsPerfect ↥D := by
+    have : Group.IsPerfect ↥D := by
       rw [hDdef]
       exact Read148Perf.isPerfect_img148 h h148 hf.mem_m2.1
     have hrank : ∀ F : Subgroup ↥D, CFSG.Assembly.IsElemAbelian 3 F → Nat.card F ≤ 27 := by

@@ -148,8 +148,7 @@ theorem comp_of_inner {H : Type} [Group H] {J : Subgroup H} {d : H} {Q : TauCeti
     have hX : (J ⊓ Subgroup.centralizer ({(j : H)} : Set H)).subgroupOf J =
         Subgroup.centralizer ({j} : Set ↥J) := by
       ext y
-      simp only [Subgroup.mem_subgroupOf, Subgroup.mem_inf, Subgroup.mem_centralizer_singleton_iff,
-        Set.mem_singleton_iff]
+      simp only [Subgroup.mem_subgroupOf, Subgroup.mem_inf, Subgroup.mem_centralizer_singleton_iff]
       constructor
       · rintro ⟨_, h2⟩
         exact Subtype.ext h2

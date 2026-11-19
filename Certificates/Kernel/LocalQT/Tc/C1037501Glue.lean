@@ -86,16 +86,16 @@ theorem letG_rp (hG : G.length = 46 ∧ ∀ j < 46, G.getD j 0 = tT (2 * j)) (z 
     RP 693 12 (letG (pidn 693 12) G G z) (u62L z) := by
   rcases z with (_ | j) | k
   · change RP 693 12 (pidn 693 12) (u62L 0)
-    rw [u62L, if_pos rfl]
+    rw [u62L, ite_eq_left rfl]
     exact rp_idn
   · change RP 693 12 (getTc (pidn 693 12) G j) _
     have hz : Int.ofNat (j + 1) ≠ 0 := by
       rw [Int.ofNat_eq_natCast]
       omega
-    rw [getTc_eq, u62L, if_neg hz, t46G_congr (z := Int.ofNat (j + 1)) (z' := (j : ℤ) + 1) (by simp)]
+    rw [getTc_eq, u62L, ite_eq_right hz, t46G_congr (z := Int.ofNat (j + 1)) (z' := (j : ℤ) + 1) (by simp)]
     exact getD_rp hG j
   · change RP 693 12 (getTc (pidn 693 12) G k) _
-    rw [getTc_eq, u62L, if_neg (Int.negSucc_ne_zero k),
+    rw [getTc_eq, u62L, ite_eq_right (Int.negSucc_ne_zero k),
       t46G_congr (z := Int.negSucc k) (z' := (k : ℤ) + 1) (by rw [Int.natAbs_negSucc]; omega)]
     exact getD_rp hG k
 

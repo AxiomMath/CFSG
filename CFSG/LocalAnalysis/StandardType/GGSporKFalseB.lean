@@ -54,7 +54,7 @@ theorem ggSporK_E_le_layer_B {W : Type} [Group W] [Finite W] (hOrd : BSevenOrd W
   have hH49 : 7 ^ 2 ∣ Nat.card ↥H := hEcard ▸ Subgroup.card_dvd_of_le hEH
   have hHW : Nat.card ↥H ∣ Nat.card W := Subgroup.card_subgroup_dvd_card H
   have hLW : Nat.card ↥L ∣ Nat.card W := Subgroup.card_subgroup_dvd_card L
-  haveI : Finite (MulAut ↥L) :=
+  have : Finite (MulAut ↥L) :=
     Finite.of_injective (fun φ : MulAut ↥L => (φ : ↥L → ↥L)) DFunLike.coe_injective
   have hAutne : Nat.card (MulAut ↥L) ≠ 0 := Nat.card_pos.ne'
   have hAut2 : 2 ≤ (Nat.card (MulAut ↥L)).factorization 7 :=
@@ -71,7 +71,7 @@ theorem ggSporK_E_le_layer_B {W : Type} [Group W] [Finite W] (hOrd : BSevenOrd W
   have hHeq : (Nat.card ↥H).factorization 7 = 2 :=
     le_antisymm hHle ((hp.pow_dvd_iff_le_factorization hHne).mp hH49)
   set N : Subgroup ↥H := L.subgroupOf H with hN
-  haveI hNn : N.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hLH).mpr hnorm
+  have hNn : N.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hLH).mpr hnorm
   have hNcard : Nat.card ↥N = Nat.card ↥L :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hLH).toEquiv
   have hidx : N.index ≠ 0 := Subgroup.index_ne_zero_of_finite
@@ -107,14 +107,14 @@ theorem ggSporK_E_le_layer_B {W : Type} [Group W] [Finite W] (hOrd : BSevenOrd W
 
 theorem ggSporK_false_of_E_le_layer_B {W : Type} [Group W] [Finite W] (ha : BSevenComp W)
     (hb : BSevenCentAbelian W) (hLie : LieSevenOddCentre7sq W) {H E : Subgroup W}
-    (hyp : GGHypThreeSixteenFlat 7 H E) {L : Subgroup W} (hLH : L ≤ H) (hLs : IsSimpleGroup ↥L)
+    (hyp : GGHypThreeSixteenFlat 7 H E) {L : Subgroup W} (_hLH : L ≤ H) (hLs : IsSimpleGroup ↥L)
     (hmark : StandardType.LargeEvenMarking ↥L (fun _ _ _ _ _ _ => True))
     (hnorm : H ≤ Subgroup.normalizer (L : Set W)) (hEL : E ≤ L) : False := by
   have hE7 : IsElemAbelian 7 E := hyp.1.2.2.1
   have hEcard : Nat.card E = 7 ^ 2 := hyp.1.2.2.2.1
   have hfus : GGControlsStrongFusion H E := hyp.1.2.2.2.2
   have hEH : E ≤ H := hfus.1
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hEcard49 : Nat.card E = 49 := by rw [hEcard]; norm_num
   have hE1 : E ≠ ⊥ := by
     rintro rfl

@@ -15,9 +15,10 @@ open CFSG.Assembly.LowTwoRank (StatedClassicalModel)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem nonempty_equiv_alt5_of_isLnq {K : Subgroup G} (hK : IsLnq 2 2 2 K) :
     Nonempty (K ≃* alternatingGroup (Fin 5)) := by
-  haveI := CFSG.Adapters.certificate43_holds
+  have := CFSG.Adapters.certificate43_holds
   obtain ⟨-, F, hF, hFin, hcard, ⟨e⟩⟩ := hK
   let _ := hF
   let _ := hFin
@@ -26,6 +27,7 @@ theorem nonempty_equiv_alt5_of_isLnq {K : Subgroup G} (hK : IsLnq 2 2 2 K) :
     (Or.inl hcard')
   exact ⟨e.trans e5⟩
 
+omit [Finite G] in
 theorem sec34_a5_elem3 {K : Subgroup G} (hK : IsLnq 2 2 2 K) (V : Subgroup G) (hV : V ≤ Nor K)
     (hV3 : IsElementaryAbelian 3 ↥V) : Nat.card V ≤ 3 * Nat.card (V ⊓ CenS K : Subgroup G) := by
   obtain ⟨e⟩ := nonempty_equiv_alt5_of_isLnq hK

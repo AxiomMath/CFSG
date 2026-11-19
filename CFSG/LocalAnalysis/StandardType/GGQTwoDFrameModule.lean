@@ -18,7 +18,7 @@ open CFSG.StandardType CFSG.Assembly
 theorem ggCoxeterMatrixD_M_le_three (m : ℕ) (i j : Fin m) (hij : i ≠ j) :
     (ggCoxeterMatrixD m).M i j ≤ 3 := by
   rw [show (ggCoxeterMatrixD m).M i j = ggCoxeterMatrixD m i j from rfl,
-    ggCoxeterMatrixD_apply, if_neg hij]
+    ggCoxeterMatrixD_apply, ite_eq_right hij]
   split_ifs <;> omega
 
 theorem reindexD_M_le_three {m : ℕ} {ι : Type} (e' : Fin m ≃ ι) (i j : ι) (hij : i ≠ j) :
@@ -38,6 +38,7 @@ variable {G : Type} [Group G] [Finite G]
     (ggCoxeterMatrixD m).Group ≃* ↥A :=
   ((ggCoxeterMatrixD m).reindexGroupEquiv e').symm.trans e
 
+omit [Finite G] in
 theorem qtwoE0_simple {Bs : Subgroup G} {A : Subgroup (MulAut ↥Bs)} {m : ℕ} {ι : Type}
     (e' : Fin m ≃ ι) (e : ((ggCoxeterMatrixD m).reindex e').Group ≃* ↥A) (i : Fin m) :
     qtwoE0 e' e ((ggCoxeterMatrixD m).simple i) =
@@ -47,7 +48,7 @@ theorem qtwoE0_simple {Bs : Subgroup G} {A : Subgroup (MulAut ↥Bs)} {m : ℕ} 
   rw [CoxeterMatrix.reindexGroupEquiv_symm_apply_simple]
 
 theorem ggQTwoDFrame_shape {B Bs : Subgroup G} {x : G} {L D J : Subgroup G}
-    {𝒦 : Finset (Subgroup G)} (hcfg : GGSecFiveRouteCfg 3 B Bs x L D J 𝒦) {m : ℕ} (hm : 4 ≤ m)
+    {𝒦 : Finset (Subgroup G)} (hcfg : GGSecFiveRouteCfg 3 B Bs x L D J 𝒦) {m : ℕ} (_hm : 4 ≤ m)
     {ι : Type} (e' : Fin m ≃ ι)
     {e : ((ggCoxeterMatrixD m).reindex e').Group ≃* ↥(ggAutomizerJoin L Bs 𝒦)}
     (hpres : GGCoxeterPres 3 (ggAutomizerJoin L Bs 𝒦) ((ggCoxeterMatrixD m).reindex e') e)
@@ -58,7 +59,7 @@ theorem ggQTwoDFrame_shape {B Bs : Subgroup G} {x : G} {L D J : Subgroup G}
         ggLin (p := 3) ι' ((qtwoE0 e' e ((ggCoxeterMatrixD m).simple i) :
           ↥(ggAutomizerJoin L Bs 𝒦)) : MulAut ↥Bs) v = v - f i v • h i := by
   classical
-  haveI : Fintype ι := Fintype.ofEquiv (Fin m) e'
+  have : Fintype ι := Fintype.ofEquiv (Fin m) e'
   obtain ⟨h, f, hpair, hform⟩ :=
     ggRefl_shape (p := 3) (by decide) hpres.1 (reindexD_M_le_three e') hpres.2
       (ggNoTransvection_of_le_automizer (ggRouteCfg_noTransvection hcfg)
@@ -98,7 +99,8 @@ theorem qtwo_intertwine_of_simple {m : ℕ} {V : Type} [AddCommGroup V] [Module 
           rw [LinearEquiv.mul_apply]
       _ = Θ (Φ₂ ((ggCoxeterMatrixD m).toCoxeterSystem.simple i * w) v) := by rw [map_mul]
 
-theorem ggQTwoDFrame_ker_eq_zero {B Bs : Subgroup G} {x : G} {L D J : Subgroup G}
+omit [Finite G] in
+theorem ggQTwoDFrame_ker_eq_zero {_B Bs : Subgroup G} {_x : G} {L _D _J : Subgroup G}
     {𝒦 : Finset (Subgroup G)} {m : ℕ} {ι : Type} (e' : Fin m ≃ ι)
     {e : ((ggCoxeterMatrixD m).reindex e').Group ≃* ↥(ggAutomizerJoin L Bs 𝒦)}
     {V : Type} [AddCommGroup V] [Module (ZMod 3) V] (ι' : Additive ↥Bs ≃+ V)
@@ -162,7 +164,7 @@ theorem ggQTwoDFrame_module {B Bs : Subgroup G} {x : G} {L D J : Subgroup G}
   obtain ⟨h, f, hpair, hform⟩ := ggQTwoDFrame_shape hcfg hm e' hpres ι'
   obtain ⟨ϑ, hϑ⟩ := dEven_equiv hm
   have hker : ∀ v : V, (∀ i, f i v = 0) → v = 0 :=
-    ggQTwoDFrame_ker_eq_zero (B := B) (x := x) (D := D) (J := J) (e := e) e' ι' h f hform hfix
+    ggQTwoDFrame_ker_eq_zero (_B := B) (_x := x) (_D := D) (_J := J) (e := e) e' ι' h f hform hfix
   have hker' : ∀ v : DVec m, (∀ i, dRootForm m i v = 0) → v = 0 :=
     eq_zero_of_dRootForm_eq_zero m hm
   have hpair' : ∀ i j, f i (h j) = dRootForm m i (dRoot m j) := by

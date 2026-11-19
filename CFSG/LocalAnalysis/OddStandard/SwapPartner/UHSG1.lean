@@ -142,7 +142,7 @@ theorem HSCtx.exists_involution_of_g (C : HSCtx z ι ιd Kh) [Finite G]
     rw [← hmap, Subgroup.card_map_of_injective Kh.subtype_injective]
   have hbound : 2880 ≤ Nat.card ↥(Kh ⊓ centralizer ({b} : Set G)) := by
     rw [hcard]
-    rcases hcent with h | h <;> rw [h] <;> norm_num
+    rcases hcent with h | h <;> rw [h]; norm_num
   exact ⟨hx2notKh, b, hbKh, hbform', hbound⟩
 
 end CFSG.OddStandard.AltStdSec.SwapPartner

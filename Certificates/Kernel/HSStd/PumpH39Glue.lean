@@ -38,7 +38,7 @@ theorem gensK_facts {ws : List (List Int)} {ng : ℕ} {G : ℕ → ℕ} (h : gen
 
 theorem map_get {ws : List (List Int)} {j : ℕ} (hj : j < ws.length) :
     (ws.map tW).toArray[j]! = tW (ws.getD j []) := by
-  simp [getElem!_def, hj, List.getD_eq_getElem?_getD]
+  simp [hj, List.getD_eq_getElem?_getD]
 
 theorem groupOK_of {ws : List (List Int)} {ng N : ℕ} {G T E S : ℕ → ℕ} {SK : List ℕ}
     (hg : gensK ws ng G = true) (hk : bfsK 182 8 ng G N T E S = true)

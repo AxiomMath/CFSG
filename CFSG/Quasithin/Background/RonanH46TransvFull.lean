@@ -12,18 +12,20 @@ open scoped MatrixGroups
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [CharP K 2] in
 private theorem tdPowFour (hK : Nat.card K = (2 ^ 1) ^ 2) (x : K) : x ^ 4 = x := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hc : Fintype.card K = 4 := by
     rw [← Nat.card_eq_fintype_card, hK]
     norm_num
   have h := FiniteField.pow_card x
   rwa [hc] at h
 
+omit [CharP K 2] in
 private theorem tdOmega (hK : Nat.card K = (2 ^ 1) ^ 2) : ∃ ω : K, ω ^ 2 + ω + 1 = 0 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hc : Fintype.card K = 4 := by
     rw [← Nat.card_eq_fintype_card, hK]
     norm_num

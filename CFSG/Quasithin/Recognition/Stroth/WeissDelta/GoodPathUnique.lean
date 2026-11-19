@@ -27,7 +27,7 @@ private theorem mem_fixingSubgroup_of_orderOf_two_of_odd_relIndex {z : V} {K : S
     have h := fixingSubgroup_neighborSet_smul (H := H) (Γ := Γ) k z
     rw [MulAction.mem_stabilizer_iff.mp (hK hk)] at h
     exact h.symm
-  haveI hN : ((fixingSubgroup H (Γ.neighborSet z)).subgroupOf K).Normal := by
+  have hN : ((fixingSubgroup H (Γ.neighborSet z)).subgroupOf K).Normal := by
     rw [Subgroup.normal_subgroupOf_iff_le_normalizer_inf]
     exact (le_inf hKA K.le_normalizer).trans Subgroup.inf_normalizer_le_normalizer_inf
   by_contra huA

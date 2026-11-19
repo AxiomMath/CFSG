@@ -65,12 +65,12 @@ private theorem kpw_eltK_loop (hn : n ≤ 32) (B : List (Perm (Fin n))) (m : ℕ
         exact P.beq_iff.2 hb
       have hm : ∀ σ τ : Perm (Fin n), P.mul n (P.code σ) (P.code τ) = P.code (σ * τ) :=
         P.code_mul hn
-      rw [if_pos hb, h1, kpw_getK_codes, hm]
+      rw [ite_eq_left hb, h1, kpw_getK_codes, hm]
       exact ih (acc * B.getD j 1) (j + 1)
     · have h1 : Nat.beq (Nat.mod (m / 2 ^ j) 2) 1 = false := by
         rw [Nat.testBit_eq_decide_div_mod_eq, decide_eq_true_eq] at hb
         exact Bool.eq_false_iff.2 fun h => hb (P.beq_iff.1 h)
-      rw [if_neg hb, h1]
+      rw [ite_eq_right hb, h1]
       exact ih acc (j + 1)
 
 theorem eltK_code (hn : n ≤ 32) (k m : ℕ) (B : List (Perm (Fin n))) :
@@ -93,8 +93,7 @@ private theorem kpw_eK_conj {l : List ℕ} (h : Syl.eK n l = true) :
       P.allL l (fun x => Nat.beq (P.mul n x x) (P.one n)) = true ∧
       P.allL l (fun x => P.allL l (fun y => P.comm n x y)) = true := by
   unfold Syl.eK at h
-  simp only [S.allBs_cons, S.allBs_nil, P.andB_iff, and_true, eq_self_iff_true,
-    true_and] at h
+  simp only [S.allBs_cons, S.allBs_nil, P.andB_iff, and_true] at h
   obtain ⟨h1, h2, -, h4, h5, h6, -⟩ := h
   exact ⟨h1, h2, h4, h5, h6⟩
 

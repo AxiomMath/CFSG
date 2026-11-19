@@ -57,9 +57,9 @@ private def addEquivAdditiveMultiplicative (V : Type) [AddCommGroup V] :
     Additive (Multiplicative V) ≃+ V where
   toFun x := x
   invFun x := x
-  left_inv x := rfl
-  right_inv x := rfl
-  map_add' x y := rfl
+  left_inv _x := rfl
+  right_inv _x := rfl
+  map_add' _x _y := rfl
 
 private noncomputable def c2spLinToMulAut (V : Type) [AddCommGroup V] [Module (ZMod 3) V] :
     (V ≃ₗ[ZMod 3] V) →* MulAut (Multiplicative V) where
@@ -119,12 +119,12 @@ theorem c2spSubgroup_eq_of_closure_card {V : Type} [AddCommGroup V] [Module (ZMo
     exact hg j
   have hcardImg : Nat.card (A.map (ggLin (p := 3) ι)) = Nat.card A :=
     Subgroup.card_map_of_injective (ggLin_injective ι)
-  haveI : Finite (V ≃ₗ[ZMod 3] V) := by
+  have : Finite (V ≃ₗ[ZMod 3] V) := by
     refine Finite.of_injective (fun e : V ≃ₗ[ZMod 3] V => (e : V → V)) ?_
     intro e f h
     ext v
     exact congrFun h v
-  haveI : Finite (c2spSubgroup b) := Subtype.finite
+  have : Finite (c2spSubgroup b) := Subtype.finite
   have hC := card_c2spSubgroup_le (n := 5) b
   norm_num at hC
   refine Subgroup.eq_of_le_of_card_ge hle ?_

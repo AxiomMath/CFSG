@@ -27,10 +27,12 @@ variable {G : Type} [Group G] [Finite G]
   ggOTwoPrime (X ⊓ Subgroup.centralizer
     ((ggHyperplane Bs r ⊓ ggHyperplane Bs r' : Subgroup G) : Set G))
 
+omit [Finite G] in
 theorem ggRankTwo_comm (Bs : Subgroup G) (r r' : MulAut ↥Bs) :
     ggRankTwo Bs r r' = ggRankTwo Bs r' r := by
   rw [ggRankTwo, ggRankTwo, inf_comm]
 
+omit [Finite G] in
 theorem ggRankTwo_map_conj {Bs : Subgroup G} {g : G} {a : MulAut ↥Bs}
     (ha : ∀ b : ↥Bs, ((a b : ↥Bs) : G) = g * b * g⁻¹) (r r' : MulAut ↥Bs) :
     (ggRankTwo Bs r r').map (MulAut.conj g).toMonoidHom =
@@ -39,6 +41,7 @@ theorem ggRankTwo_map_conj {Bs : Subgroup G} {g : G} {a : MulAut ↥Bs}
     Subgroup.map_inf _ _ _ (MulAut.conj g).injective, ggHyperplane_map_conj ha r,
     ggHyperplane_map_conj ha r']
 
+omit [Finite G] in
 theorem ggRankTwoIn_map_conj {X Bs : Subgroup G} {g : G} {a : MulAut ↥Bs}
     (ha : ∀ b : ↥Bs, ((a b : ↥Bs) : G) = g * b * g⁻¹) (r r' : MulAut ↥Bs) :
     (ggRankTwoIn X Bs r r').map (MulAut.conj g).toMonoidHom =
@@ -57,14 +60,17 @@ theorem ggRankTwoIn_map_conj {X Bs : Subgroup G} {g : G} {a : MulAut ↥Bs}
   if ggCoxeterMatrixD m i j = 3 then ggRankTwo Bs (r i) (r j)
   else qtwoNode Bs r i ⊔ qtwoNode Bs r j
 
+omit [Finite G] in
 theorem qtwoW_of_edge {Bs : Subgroup G} {m : ℕ} (r : Fin m → MulAut ↥Bs) {i j : Fin m}
     (h : ggCoxeterMatrixD m i j = 3) : qtwoW Bs r i j = ggRankTwo Bs (r i) (r j) := by
-  rw [qtwoW, if_pos h]
+  rw [qtwoW, ite_eq_left h]
 
+omit [Finite G] in
 theorem qtwoW_of_nonedge {Bs : Subgroup G} {m : ℕ} (r : Fin m → MulAut ↥Bs) {i j : Fin m}
     (h : ggCoxeterMatrixD m i j = 2) : qtwoW Bs r i j = qtwoNode Bs r i ⊔ qtwoNode Bs r j := by
-  rw [qtwoW, if_neg (by omega)]
+  rw [qtwoW, ite_eq_right (by omega)]
 
+omit [Finite G] in
 theorem qtwoW_symm (Bs : Subgroup G) {m : ℕ} (r : Fin m → MulAut ↥Bs) (i j : Fin m) :
     qtwoW Bs r i j = qtwoW Bs r j i := by
   rw [qtwoW, qtwoW, (ggCoxeterMatrixD m).symmetric i j]
@@ -161,12 +167,12 @@ theorem qtwo_rankOne_six_of_rk1 (hRk1 : GGSecFiveRk1PhanInput) {G : Type} [Group
   have hr : GGIsReflection p r := ggCoxRefl_isReflection hpres.2 hrC
   obtain ⟨F, hF, hfin, θ, hchar, hθinj, hθrange, -, hnsplit, -⟩ :=
     ggRankOneIn_sl2_of_rk1 hRk1 hcfg hns hpres h3 (Or.inl rfl) hrA hr
-  haveI := hchar
+  have := hchar
   have hcard : Nat.card F * (Nat.card F ^ 2 - 1) = 6 := by
     rw [← h6, ← hθrange, ← ggSL2_card F]
     exact Nat.card_congr (MonoidHom.ofInjective hθinj).toEquiv
   have hq : Nat.card F = 2 := by
-    haveI := Fintype.ofFinite F
+    have := Fintype.ofFinite F
     obtain ⟨n, -, hn⟩ := FiniteField.card F 2
     rw [Nat.card_eq_fintype_card, hn] at hcard ⊢
     rcases Nat.lt_or_ge (n : ℕ) 2 with h | h

@@ -47,7 +47,7 @@ variable {φ : ↥G ≃* alternatingGroup (Fin N)} {n : ℕ} {τ : Fin n ↪ Fin
 @[expose] def pairE (i j : Fin n) : evenWeight n :=
   ⟨Pi.single i 1 + Pi.single j 1, mem_evenWeight_iff.2 (by
     simp only [Pi.add_apply, Finset.sum_add_distrib, Finset.sum_pi_single', Finset.mem_univ,
-      if_true]
+      ite_true]
     decide)⟩
 
 theorem pairE_apply (i j k : Fin n) :
@@ -185,10 +185,10 @@ theorem heartW_of_natural (hn : 1 ≤ n) {F : Finset (Fin N)} (hF : F = Finset.u
       refine ⟨fun k hk => ?_, ?_⟩
       · rw [hxk]
         refine Finset.sum_eq_zero fun i _ => ?_
-        rw [if_neg fun h => hk ((hmemF k).2 ⟨i, h.symm⟩), mul_zero]
+        rw [ite_eq_right fun h => hk ((hmemF k).2 ⟨i, h.symm⟩), mul_zero]
       · simp_rw [hxk]
         rw [Finset.sum_comm]
-        simp only [mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+        simp only [mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
         exact mem_evenWeight_iff.1 z.2
     have hres : resE τ hF hxE = z := by
       apply Subtype.ext
@@ -196,7 +196,7 @@ theorem heartW_of_natural (hn : 1 ≤ n) {F : Finset (Fin N)} (hF : F = Finset.u
       show x (τ j) = _
       rw [hxk]
       simp only [τ.injective.eq_iff, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq,
-        Finset.mem_univ, if_true]
+        Finset.mem_univ, ite_true]
     have hd : (⟨v, hv⟩ : ↥(commSpace (AS φ F) ⊤)) - ⟨θ x, hmem x⟩ ∈ β.ker := by
       rw [AddMonoidHom.mem_ker, map_sub, hβθ x hxE, hres, hz, sub_self]
     rw [hβk] at hd
@@ -218,9 +218,9 @@ theorem heartW_of_natural (hn : 1 ≤ n) {F : Finset (Fin N)} (hF : F = Finset.u
         funext k
         by_cases hk : k ∈ F
         · obtain ⟨i, rfl⟩ := (hmemF k).1 hk
-          rw [jS_apply, if_pos hk]
+          rw [jS_apply, ite_eq_left hk]
           exact congrFun h1 i
-        · rw [jS_apply, if_neg hk]
+        · rw [jS_apply, ite_eq_right hk]
           exact hy.1 k hk
     · rintro (rfl | rfl)
       · left

@@ -106,7 +106,7 @@ theorem exists_aut_etaAut_apply_eq {f : ℕ} (hf : 1 ≤ f) {K : Type} [Field K]
   · refine ⟨φ, fun y hy => ?_⟩
     have hk : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)
     obtain ⟨ι⟩ := CFSG.LieType.Chevalley.E6GraphFullCoset.nonempty_ringHom_of_card hf hk hK
-    letI : Algebra (GaloisField 2 f) K := ι.toAlgebra
+    let : Algebra (GaloisField 2 f) K := ι.toAlgebra
     exact etaAut_apply_eq_of_xiAut_apply_eq hf hk hK σ hσ (φ y) (hfix φ _ hφ y hy)
 
 theorem fieldActor_commute_etaAut {f : ℕ} (hf : 1 ≤ f) {K : Type} [Field K] [Finite K]
@@ -129,7 +129,7 @@ theorem exists_inndiag_diagramMap_commute {f : ℕ} (hf : 1 ≤ f) {K : Type} [F
       diagramMap TwistTag.E6 K * ((c : ModGL TwistTag.E6.tag K) * y *
         (c : ModGL TwistTag.E6.tag K)⁻¹) = (c : ModGL TwistTag.E6.tag K) * y *
           (c : ModGL TwistTag.E6.tag K)⁻¹ * diagramMap TwistTag.E6 K := by
-  haveI : CharP K 2 := CFSG.SeitzReduction.TwistedE6Pilot.charP_two_of_card hf hK
+  have : CharP K 2 := CFSG.SeitzReduction.TwistedE6Pilot.charP_two_of_card hf hK
   have hσ' : ∀ c, σ.toRingHom c = c ^ 2 ^ f := hσ
   have htI' : t ∉ (MulAut.conj : twistedE6RootGroup K σ →*
       MulAut (twistedE6RootGroup K σ)).range := fun h =>

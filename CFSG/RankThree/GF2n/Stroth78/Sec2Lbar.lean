@@ -17,10 +17,12 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {z : G} {E F : Subgroup G}
 
-abbrev L0 (S : Setting z E F) (a : G) : Subgroup G := QaOf a ⊓ H z
+abbrev L0 (_S : Setting z E F) (a : G) : Subgroup G := QaOf a ⊓ H z
 
+omit [Finite G] in
 theorem La_eq_sup_L0 (S : Setting z E F) (a : G) : La S a = Q z ⊔ L0 S a := rfl
 
+omit [Finite G] in
 theorem L0_le_H (S : Setting z E F) (a : G) : L0 S a ≤ H z := inf_le_right
 
 theorem map_L0_eq_Lbar (S : Setting z E F) (a : G) :
@@ -83,6 +85,7 @@ theorem commutator_mem_zpowers_of_mem_Q (S : Setting z E F) {x y : G}
   have h := Subgroup.commutator_mem_commutator hx hy
   rwa [Q_deriv_eq S] at h
 
+omit [Finite G] in
 theorem eq_one_or_z_of_mem_zpowers (S : Setting z E F) {x : G}
     (hx : x ∈ Subgroup.zpowers z) : x = 1 ∨ x = z := by
   have hz2 : z ^ 2 = 1 := by
@@ -115,7 +118,7 @@ theorem QaInterImage_le_orthogonal (S : Setting z E F) {A : Subgroup G}
     (hcomm : ∀ x ∈ A, ∀ y ∈ A, x * y = y * x) :
     QaInterImage S A ≤
       LinearMap.BilinForm.orthogonal (qS S).polarBilin (QaInterImage S A) := by
-  letI : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
+  let : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
   intro v hv
   rw [LinearMap.BilinForm.mem_orthogonal_iff]
   intro u hu
@@ -129,8 +132,8 @@ theorem QaInterImage_le_orthogonal (S : Setting z E F) {A : Subgroup G}
 theorem finrank_QbarOf_eq_two_mul (S : Setting z E F) {w : ℕ}
     (hw : Nat.card F = 2 ^ (2 * w + 1)) :
     finrank (ZMod 2) (Additive (QbarOf S)) = 2 * w := by
-  haveI : Finite (Additive (QbarOf S)) := inferInstance
-  haveI : Module.Finite (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
+  have : Finite (Additive (QbarOf S)) := inferInstance
+  have : Module.Finite (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
   have hcardQbar : Nat.card (QbarOf S) = 2 ^ (2 * w) := by
     have hcardQZ : Nat.card (ZQ z) * Nat.card (QbarOf S) = Nat.card (Q z) := by
       have h := Subgroup.card_mul_index ((ZQ z).subgroupOf (Q z))
@@ -158,9 +161,9 @@ theorem finrank_QaInterImage_le (S : Setting z E F) {A : Subgroup G}
     (hcomm : ∀ x ∈ A, ∀ y ∈ A, x * y = y * x) {w : ℕ}
     (hw : Nat.card F = 2 ^ (2 * w + 1)) :
     finrank (ZMod 2) (QaInterImage S A) ≤ w := by
-  letI : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
-  haveI : Finite (Additive (QbarOf S)) := inferInstance
-  haveI : Module.Finite (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
+  let : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
+  have : Finite (Additive (QbarOf S)) := inferInstance
+  have : Module.Finite (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
   have horth := QaInterImage_le_orthogonal S hcomm
   have h1 : finrank (ZMod 2)
       ↥(LinearMap.BilinForm.orthogonal (qS S).polarBilin (QaInterImage S A)) =

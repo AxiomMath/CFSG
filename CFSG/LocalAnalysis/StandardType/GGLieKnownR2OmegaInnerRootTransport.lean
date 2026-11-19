@@ -25,7 +25,7 @@ theorem ggTrivialOnNormalizer_conj {K : Type*} [Group K] (R : Subgroup K) (y τ 
       rw [Subgroup.map_map, Subgroup.map_map]
       congr 1
       ext x
-      simp [MulAut.mul_apply, mul_assoc]
+      simp [mul_assoc]
     rw [hmap, hR]
   ·
     intro n hn

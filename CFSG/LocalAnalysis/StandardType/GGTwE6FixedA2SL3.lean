@@ -208,7 +208,7 @@ theorem invTransposeSL_diagSL3 (s u : Lˣ) :
       (Matrix.diagonal ![((s⁻¹ : Lˣ) : L), ((s⁻¹⁻¹ * u⁻¹ : Lˣ) : L), ((u⁻¹⁻¹ : Lˣ) : L)])) i j =
         (1 : Matrix (Fin 3) (Fin 3) L) i j
     rw [Matrix.diagonal_mul_diagonal]
-    fin_cases i <;> fin_cases j <;> simp [Matrix.diagonal_apply, Matrix.one_apply] <;> field_simp
+    fin_cases i <;> fin_cases j <;> simp; field_simp
   ext i j
   rw [CFSG.RankThree.Classical2.coe_invTransposeSL, hinv]
   change (Matrix.diagonal ![((s⁻¹ : Lˣ) : L), ((s⁻¹⁻¹ * u⁻¹ : Lˣ) : L),
@@ -227,7 +227,7 @@ theorem diagSL3_perm_12 (s u : Lˣ) :
   rw [CFSG.RankThree.Classical2.coe_conjSLn]
   fin_cases i <;> fin_cases j <;>
     simp [permGL3_12, permGL3, diagSL3, Matrix.mul_apply, Fin.sum_univ_three,
-      Matrix.diagonal_apply, Matrix.vecMul_diagonal] <;> ring
+      Matrix.vecMul_diagonal]
 
 @[expose] def permGL3_23 : GL (Fin 3) L :=
   permGL3 !![1, 0, 0; 0, 0, 1; 0, 1, 0] !![1, 0, 0; 0, 0, 1; 0, 1, 0]
@@ -240,7 +240,7 @@ theorem diagSL3_perm_23 (s u : Lˣ) :
   rw [CFSG.RankThree.Classical2.coe_conjSLn]
   fin_cases i <;> fin_cases j <;>
     simp [permGL3_23, permGL3, diagSL3, Matrix.mul_apply, Fin.sum_univ_three,
-      Matrix.diagonal_apply, Matrix.vecMul_diagonal] <;> ring
+      Matrix.vecMul_diagonal]; ring
 
 @[expose] def permGL3_13 : GL (Fin 3) L :=
   permGL3 !![0, 0, 1; 0, 1, 0; 1, 0, 0] !![0, 0, 1; 0, 1, 0; 1, 0, 0]
@@ -253,7 +253,7 @@ theorem diagSL3_perm_13 (s u : Lˣ) :
   rw [CFSG.RankThree.Classical2.coe_conjSLn]
   fin_cases i <;> fin_cases j <;>
     simp [permGL3_13, permGL3, diagSL3, Matrix.mul_apply, Fin.sum_univ_three,
-      Matrix.diagonal_apply, Matrix.vecMul_diagonal] <;> ring
+      Matrix.vecMul_diagonal]; ring
 
 @[expose] def permGL3_123 : GL (Fin 3) L :=
   permGL3 !![0, 1, 0; 0, 0, 1; 1, 0, 0] !![0, 0, 1; 1, 0, 0; 0, 1, 0]
@@ -266,7 +266,7 @@ theorem diagSL3_perm_123 (s u : Lˣ) :
   rw [CFSG.RankThree.Classical2.coe_conjSLn]
   fin_cases i <;> fin_cases j <;>
     simp [permGL3_123, permGL3, diagSL3, Matrix.mul_apply, Fin.sum_univ_three,
-      Matrix.diagonal_apply, Matrix.vecMul_diagonal] <;> ring
+      Matrix.vecMul_diagonal]
 
 @[expose] def permGL3_132 : GL (Fin 3) L :=
   permGL3 !![0, 0, 1; 1, 0, 0; 0, 1, 0] !![0, 1, 0; 0, 0, 1; 1, 0, 0]
@@ -279,7 +279,7 @@ theorem diagSL3_perm_132 (s u : Lˣ) :
   rw [CFSG.RankThree.Classical2.coe_conjSLn]
   fin_cases i <;> fin_cases j <;>
     simp [permGL3_132, permGL3, diagSL3, Matrix.mul_apply, Fin.sum_univ_three,
-      Matrix.diagonal_apply, Matrix.vecMul_diagonal] <;> ring
+      Matrix.vecMul_diagonal]; ring
 
 theorem exists_conj_diagSL3_perm (μ ν : ℤ × ℤ)
     (h : (μ, ν) ∈ [((1, 0), (0, 1)), ((-1, 1), (0, 1)), ((1, 0), (1, -1)), ((0, -1), (-1, 0)),
@@ -504,7 +504,7 @@ theorem rootChar_diagTuple {L : Type} [Field L] (s u : Lˣ) (ℓ : Label Tag.E6)
     rootChar (diagTuple s u) (labelWt Tag.E6 ℓ) = s ^ diagWt 0 ℓ * u ^ diagWt 2 ℓ := by
   rw [diagTuple, rootChar_weylTuple, fixedA2V, ← CoxeterSystem.wordProd_reverse,
     CFSG.LieType.Chevalley.wordProd_smul]
-  simp only [rootChar, diagWt, Pi.mul_apply, mul_zpow, Finset.prod_mul_distrib, ← zpow_mul]
+  simp only [rootChar, diagWt, mul_zpow, Finset.prod_mul_distrib, ← zpow_mul]
   rw [Finset.prod_zpow_eq_zpow_sum, Finset.prod_zpow_eq_zpow_sum]
   simp only [mul_comm]
 
@@ -1040,7 +1040,6 @@ theorem diagTuple_pow {L : Type} [Field L] (s u : Lˣ) (q : ℕ) :
   simp only [mul_zpow, ← zpow_mul]
   first
   | (congr 1 <;> congr 1 <;> ring)
-  | (rw [mul_comm]; congr 1 <;> congr 1 <;> ring)
 
 theorem diagSL3_apply_ne {L : Type} [Field L] (s u : Lˣ) {i j : Fin 3} (hij : i ≠ j) :
     (diagSL3 s u : Matrix (Fin 3) (Fin 3) L) i j = 0 :=

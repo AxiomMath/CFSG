@@ -125,11 +125,17 @@ theorem Cfg.D_card (b86 : Five86 t w₁ X₁ v) : Nat.card ↥(DD v w₁ X₁) =
 theorem Cfg.E_le_R2 : EE v t w₁ X₁ ≤ RR t X₁ :=
   sup_le (sup_le c.X2_le_R2 c.X4_le_R2) c.X6_le_R2
 
+omit [Finite G] c in
 theorem Cfg.X2_le_E : XB t X₁ ≤ EE v t w₁ X₁ := le_sup_left.trans le_sup_left
+omit [Finite G] c in
 theorem Cfg.X4_le_E : X4 v t X₁ ≤ EE v t w₁ X₁ := le_sup_right.trans le_sup_left
+omit [Finite G] c in
 theorem Cfg.X6_le_E : X6 v t w₁ X₁ ≤ EE v t w₁ X₁ := le_sup_right
+omit [Finite G] c in
 theorem Cfg.X1_le_D : X₁ ≤ DD v w₁ X₁ := le_sup_left.trans le_sup_left
+omit [Finite G] c in
 theorem Cfg.X3_le_D : X3 v X₁ ≤ DD v w₁ X₁ := le_sup_right.trans le_sup_left
+omit [Finite G] c in
 theorem Cfg.X5_le_D : X5 v w₁ X₁ ≤ DD v w₁ X₁ := le_sup_right
 
 theorem Cfg.ED_eq : EE v t w₁ X₁ ⊔ DD v w₁ X₁ = RR t X₁ ⊔ X₁ := by
@@ -137,15 +143,15 @@ theorem Cfg.ED_eq : EE v t w₁ X₁ ⊔ DD v w₁ X₁ = RR t X₁ ⊔ X₁ := 
   · refine sup_le (c.E_le_R2.trans le_sup_left) ?_
     exact sup_le (sup_le le_sup_right (c.X3_le_R2.trans le_sup_left))
       (c.X5_le_R2.trans le_sup_left)
-  · refine sup_le ?_ (c.X1_le_D.trans le_sup_right)
+  · refine sup_le ?_ (CFSG.GH74.GLS.LU.Local.Five.Cfg.X1_le_D.trans le_sup_right)
     have hY : Y ≤ EE v t w₁ X₁ ⊔ DD v w₁ X₁ := by
       rw [c.Y_eq]
-      exact sup_le (c.X3_le_D.trans le_sup_right) (c.X4_le_E.trans le_sup_left)
+      exact sup_le (Cfg.X3_le_D.trans le_sup_right) (Cfg.X4_le_E.trans le_sup_left)
     have hY' : cjL w₁ Y ≤ EE v t w₁ X₁ ⊔ DD v w₁ X₁ := by
       rw [c.Y'_eq]
-      exact sup_le (c.X5_le_D.trans le_sup_right) (c.X6_le_E.trans le_sup_left)
+      exact sup_le (Cfg.X5_le_D.trans le_sup_right) (Cfg.X6_le_E.trans le_sup_left)
     rw [c.b85.R_eq]
-    exact sup_le (sup_le (c.X2_le_E.trans le_sup_left) hY) hY'
+    exact sup_le (sup_le (CFSG.GH74.GLS.LU.Local.Five.Cfg.X2_le_E.trans le_sup_left) hY) hY'
 
 theorem Cfg.ED_card : Nat.card ↥(RR t X₁ ⊔ X₁ : Subgroup G) = 5 ^ 6 := by
   have hnorm : X₁ ≤ normalizer ((RR t X₁ : Subgroup G) : Set G) :=
@@ -161,7 +167,7 @@ theorem Cfg.ED_card : Nat.card ↥(RR t X₁ ⊔ X₁ : Subgroup G) = 5 ^ 6 := b
 
 theorem Cfg.D_le_normalizer_E (b86 : Five86 t w₁ X₁ v) :
     DD v w₁ X₁ ≤ normalizer ((EE v t w₁ X₁ : Subgroup G) : Set G) := by
-  have hR := c.R2_le_normalizer (A := EE v t w₁ X₁) c.X2_le_E c.E_le_R2
+  have hR := c.R2_le_normalizer (A := EE v t w₁ X₁) CFSG.GH74.GLS.LU.Local.Five.Cfg.X2_le_E c.E_le_R2
   have h3 : X3 v X₁ ≤ normalizer ((EE v t w₁ X₁ : Subgroup G) : Set G) := c.X3_le_R2.trans hR
   have h5 : X5 v w₁ X₁ ≤ normalizer ((EE v t w₁ X₁ : Subgroup G) : Set G) := c.X5_le_R2.trans hR
   have h1 : X₁ ≤ normalizer ((EE v t w₁ X₁ : Subgroup G) : Set G) := by

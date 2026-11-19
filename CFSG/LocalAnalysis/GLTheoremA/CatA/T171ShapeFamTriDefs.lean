@@ -19,7 +19,7 @@ open CFSG.ComponentClassification.PerfectAutomorphisms (centerQuotientHom)
 @[expose] def TriFieldData (f : ℕ) (K : Type) [Field K] (σ : K ≃+* K) : Prop :=
   1 ≤ f ∧ Nat.card K = (2 ^ f) ^ 3 ∧ ∀ c : K, σ c = c ^ (2 ^ f)
 
-@[expose] abbrev TriGrp (K : Type)
+abbrev TriGrp (K : Type)
     [Field K] (σ : K ≃+* K) : Type :=
   ↥(CFSG.LieType.Chevalley.graphFixedRootGroup CFSG.Blueprint.Chevalley.TwistTag.D4 K σ.toRingHom)
 

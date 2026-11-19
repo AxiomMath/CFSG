@@ -23,9 +23,9 @@ theorem uc22p22r_hall_core_H207 (D : Data G) (hK : F10.K108H207) (h201 : S20_1_1
     (hBK : B ≤ normalizer (K : Set G)) (hBc : ∀ a ∈ B, ∀ b ∈ B, a * b = b * a) (hBo : Odd (Nat.card B))
     (hBT : Permutes B D.T) (hBr : ∀ r : ℕ, r.Prime → r ∣ Nat.card B → CFSG.Open.pRank r B ≤ 2)
     (hXB : X ≤ B) (hXp : (Nat.card X).Prime) (hX2 : Nat.card X ≠ 2) (hU : X ∈ uniqueSet D.M) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.card X).Prime := ⟨hXp⟩
-  haveI hcyc : IsCyclic ↥X := isCyclic_of_prime_card rfl
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.card X).Prime := ⟨hXp⟩
+  have hcyc : IsCyclic ↥X := isCyclic_of_prime_card rfl
   obtain ⟨g, hg⟩ := hcyc.exists_generator
   set x : G := (g : G) with hxdef
   have hX : X = Subgroup.zpowers x := by
@@ -77,8 +77,8 @@ theorem uc22p22r_core211L_of_count_H207 (D : Data G) (Ch : Choice2011 G) (hK : F
   intro h1930 _ X hX H hH hXTH L hL
   obtain ⟨hp, hp2, -, ⟨A, ⟨hAY, hAo, k, hk⟩, hAc⟩, hrank, hU⟩ := hX
   by_contra hLM
-  haveI : Fact (Nat.card X).Prime := ⟨hp⟩
-  haveI hcyc : IsCyclic ↥X := isCyclic_of_prime_card rfl
+  have : Fact (Nat.card X).Prime := ⟨hp⟩
+  have hcyc : IsCyclic ↥X := isCyclic_of_prime_card rfl
   obtain ⟨g, hg⟩ := hcyc.exists_generator
   set x : G := (g : G) with hxdef
   have hX : X = Subgroup.zpowers x := by
@@ -117,7 +117,7 @@ theorem uc22p22r_core211L_of_count_H207 (D : Data G) (Ch : Choice2011 G) (hK : F
     rw [hA'card, ← hk]
     exact uc22p22r_card_eq_mul_index hAY
   have hTY : CFSG.ABGLocalTools.IsSylowOf 2 D.T (X ⊔ D.T) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact D.sylowG.of_le le_sup_right le_top
   have hA'T : Permutes A' D.T := uc22p22r_permutes_of_hall hA'Y hA'o hYcard hTY
   have hA'c : ∀ a ∈ A', ∀ b ∈ A', a * b = b * a := by
@@ -138,7 +138,7 @@ theorem uc22p22r_core211L_of_count_H207 (D : Data G) (Ch : Choice2011 G) (hK : F
 
 theorem uc22p22r_core211L_of_k108H207 (D : Data G) (Ch : Choice2011 G) (hK : F10.K108H207)
     (h201 : S20_1_124 D) (h207 : S20_7 D) : Core211L D Ch :=
-  uc22p22r_core211L_of_count_H207 D Ch hK h201 h207 fun h1930 L hL K₁ h₁ K₂ h₂ K₃ h₃ =>
+  uc22p22r_core211L_of_count_H207 D Ch hK h201 h207 fun h1930 _L hL _K₁ h₁ _K₂ h₂ _K₃ h₃ =>
     uc22p22r_calC_card_le_two D h207 h1930 hL h₁ h₂ h₃
 
 theorem uc22p22r_s21_1_of_k108H207 (D : Data G) (Ch : Choice2011 G) (hK : F10.K108H207)

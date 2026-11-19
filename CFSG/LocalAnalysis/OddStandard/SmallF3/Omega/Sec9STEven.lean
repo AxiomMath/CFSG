@@ -21,6 +21,7 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMo
     ∀ S : Finset (Fin n), Even S.card → ∃ g ∈ Ft,
       ∀ i, (g : V ≃ₗ[ZMod 3] V) (b i) = (if i ∈ S then (-1 : ZMod 3) else 1) • b i
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem IsEvenFrame.mem_iff {n : ℕ} {b : Module.Basis (Fin n) (ZMod 3) V}
     {Ft : Subgroup (OGroup Q)} (hb : IsEvenFrame b Ft) {g : OGroup Q} :
     g ∈ Ft ↔ ∃ S : Finset (Fin n), Even S.card ∧
@@ -49,14 +50,14 @@ theorem sec9t_exists_evenFrame (hQ : Q.Nondegenerate) (h6 : Module.finrank (ZMod
     intro f hf hne
     obtain ⟨t, htt, htf, -, -⟩ := hlift f hf hne
     exact ⟨t, htt, htf⟩
-  haveI : Finite V := Module.finite_of_finite (ZMod 3)
-  haveI : Finite (V ≃ₗ[ZMod 3] V) :=
+  have : Finite V := Module.finite_of_finite (ZMod 3)
+  have : Finite (V ≃ₗ[ZMod 3] V) :=
     Finite.of_injective (fun e : V ≃ₗ[ZMod 3] V => (e : V → V))
       (fun e₁ e₂ h => LinearEquiv.ext (congrFun h))
-  haveI : Finite (OGroup Q) :=
+  have : Finite (OGroup Q) :=
     Finite.of_injective (fun g : OGroup Q => (g : V ≃ₗ[ZMod 3] V)) Subtype.val_injective
-  haveI : Finite E := Finite.of_injective (Subtype.val : E → OGroup Q) Subtype.val_injective
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Finite E := Finite.of_injective (Subtype.val : E → OGroup Q) Subtype.val_injective
+  have : Fintype E := Fintype.ofFinite E
   let ρ : E →* (V ≃ₗ[ZMod 3] V) :=
     (Subgroup.subtype (TauCeti.QuadraticMap.orthogonalGroup Q)).comp (Subgroup.subtype Ft)
   have hρ : Function.Injective ρ :=

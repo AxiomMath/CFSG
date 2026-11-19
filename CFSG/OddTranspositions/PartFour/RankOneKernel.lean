@@ -313,8 +313,9 @@ theorem ncard_Dalpha_inter_alpha_eq (h89 : PartThree.Lemma8_9)
     ⟨hβline, by simpa using hβ.2.2.1⟩
   have hcard := ncard_blockLine_diff_eq h113 hC hrad hn3 hHns hβ
   rw [hr1, hm, one_mul] at hcard
-  rw [Set.ncard_diff_singleton_of_mem hβmem, hcard]
+  rw [Set.ncard_sdiff_singleton_of_mem hβmem, hcard]
 
+omit [Finite G] in
 theorem ncard_Dalpha_eq_of_mem_blockClass (hC : HypothesisC D) {x : Set G}
     (hx : x ∈ blockClass hC.alpha) : (Dalpha D x).ncard = (Dalpha D hC.alpha).ncard := by
   obtain ⟨g, hg⟩ := mem_blockClass_iff.mp hx
@@ -324,6 +325,7 @@ theorem ncard_Dalpha_eq_of_mem_blockClass (hC : HypothesisC D) {x : Set G}
   rw [hset]
   exact Set.ncard_image_of_injective _ (cimg_injective g)
 
+omit [Finite G] in
 theorem exists_ncard_Dalpha_inter_eq (hC : HypothesisC D) {x y : Set G}
     (hx : x ∈ blockClass hC.alpha) (hy : y ∈ Dalpha D x) :
     ∃ β ∈ Dalpha D hC.alpha,
@@ -492,7 +494,7 @@ theorem exists_kernel_config_of_rankOne (h87 : PartThree.Theorem8_7)
       γ ∉ perp D α' ∧ hC.alpha ∉ blockLine D α' γ := by
   by_contra hker
   classical
-  letI : Fintype ↥(blockClass hC.alpha) := Fintype.ofFinite _
+  let : Fintype ↥(blockClass hC.alpha) := Fintype.ofFinite _
   obtain ⟨β, hβ, hmβ⟩ :=
     rankOneKernel_exists_one_lt h89 h113 hC hrad hW hn3 hMZ hHns hr1 hS hm hs
   have hDcard : (Dalpha D hC.alpha).ncard =

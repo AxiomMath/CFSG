@@ -40,7 +40,7 @@ theorem exists_orderOf_reflect_mul_reflect_eq [Finite F] [CharP F 2] [FiniteDime
     (hU : finrank F U = 2) (han : ∀ x ∈ U, Q x = 0 → x = 0) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hpq : p ∣ Nat.card F + 1) :
     ∃ x ∈ U, ∃ y ∈ U, Q x ≠ 0 ∧ Q y ≠ 0 ∧ orderOf (reflect Q x * reflect Q y) = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hani : ∀ x : U, x ≠ 0 → (Q.comp U.subtype) x ≠ 0 := fun x hx h =>
     hx (Subtype.ext (han x x.2 h))
   have hani' : ∀ x : U, (Q.comp U.subtype) x = 0 → x = 0 := fun x h => Subtype.ext (han x x.2 h)
@@ -48,7 +48,7 @@ theorem exists_orderOf_reflect_mul_reflect_eq [Finite F] [CharP F 2] [FiniteDime
     finite_anisotropic_plane_regular (by rw [hU]) hani
   have hR : IsCompl U (orthPerp Q U) := isCompl_orthPerp hreg
   have hcard := CFSG.Timmesfeld.ClassicalOrders.card_orthogonalGroup_of_anisotropic hU hani
-  haveI : Finite (TauCeti.QuadraticMap.orthogonalGroup (Q.comp U.subtype)) :=
+  have : Finite (TauCeti.QuadraticMap.orthogonalGroup (Q.comp U.subtype)) :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; positivity)
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' p (by rw [hcard]; exact Dvd.dvd.mul_left hpq 2)
   obtain ⟨l, hl2, hl0, hgl⟩ := orthogonal_char_two_anisotropic_plane_generation hU hreg hani' g.2

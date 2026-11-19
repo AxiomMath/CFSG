@@ -24,7 +24,7 @@ theorem borel166Conclusion_of_benderType_u3 {K : Type} [Group K] [Finite K] {n e
     hc.mem_rootCenter_of_mul_self (hYQ hy) (by simpa [pow_two] using hYe.2 y hy)
   have hYZ : Y = rootCenter (Q : Subgroup K) :=
     Subgroup.eq_of_le_of_card_ge hYZle (by simp [hc.card_center, hY])
-  haveI : IsCyclic (cartan (Q : Subgroup K) t) := hc.isCyclic
+  have : IsCyclic (cartan (Q : Subgroup K) t) := hc.isCyclic
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := cartan (Q : Subgroup K) t)
   set h : K := (g : K) with hh
   have hgen : ∀ d ∈ cartan (Q : Subgroup K) t, ∃ k : ℤ, h ^ k = d := by

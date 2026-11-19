@@ -14,7 +14,7 @@ variable {G : Subgroup (LGL 2 V)} {Γ : Set (Subgroup (LGL 2 V))}
   {VA : Subgroup (LGL 2 V) → Submodule (ZMod 2) V} {i : ℕ}
 
 theorem exists_isBarMap_kSub_UAOf_zpowers (h : Assumption131 G Γ VA i)
-    (hrank : ∀ A ∈ Γ, mRank A ≤ i) (hVAle : ∀ A ∈ Γ, VA A ≤ fixSub A) {a : ↥G}
+    (hrank : ∀ A ∈ Γ, mRank A ≤ i) (_hVAle : ∀ A ∈ Γ, VA A ≤ fixSub A) {a : ↥G}
     (ha : Subgroup.zpowers (a : LGL 2 V) ∈ Γ) (ha2 : orderOf a = 2)
     (hG2 : pCoreOf 2 G = ⊥) {U K : Subgroup (VG G)}
     (hU : U = UAOf G VA (Subgroup.zpowers (a : LGL 2 V)))
@@ -22,7 +22,7 @@ theorem exists_isBarMap_kSub_UAOf_zpowers (h : Assumption131 G Γ VA i)
     ∃ φ : ↥K →* ↥(Subgroup.normalClosure ({a} : Set ↥G)),
       IsBarMap K (pCoreOf 2 K) φ ∧ Nat.card (barSub K φ U) = 2 ∧
         barSub K φ U = Subgroup.zpowers ⟨a, Subgroup.subset_normalClosure rfl⟩ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hinr := normalClosure_le_comap_inr_kSub h hrank ha hU
   have hΩ := (omegaSet_UAOf_zpowers h hrank ha).1
   have hUΩ : U ∈ omegaSet U (⊤ : Subgroup (VG G)) (vHat G) := by
@@ -30,7 +30,7 @@ theorem exists_isBarMap_kSub_UAOf_zpowers (h : Assumption131 G Γ VA i)
     exact ⟨_, ⟨1, by simp⟩, rfl⟩
   have hUK : U ≤ K := hK ▸ le_kSub hUΩ
   set N : Subgroup ↥G := Subgroup.normalClosure ({a} : Set ↥G) with hNdef
-  haveI hNn : N.Normal := Subgroup.normalClosure_normal
+  have hNn : N.Normal := Subgroup.normalClosure_normal
   have haN : a ∈ N := Subgroup.subset_normalClosure rfl
   have hKN : K ≤ N.comap (SemidirectProduct.rightHom : VG G →* ↥G) := by
     rw [hK]
@@ -57,7 +57,7 @@ theorem exists_isBarMap_kSub_UAOf_zpowers (h : Assumption131 G Γ VA i)
     have hx : (SemidirectProduct.inr (x : ↥G) : VG G) ∈ K := by rw [hK]; exact hinr x.2
     exact ⟨⟨_, hx⟩, Subtype.ext (by rw [hφ]; exact SemidirectProduct.rightHom_inr _)⟩
   have hPbot : pCoreOf 2 N = ⊥ := by
-    haveI hPn : (pCoreOf 2 N).Normal := by
+    have hPn : (pCoreOf 2 N).Normal := by
       apply Subgroup.normalizer_eq_top_iff.mp
       refine top_le_iff.mp ?_
       have h1 : Subgroup.normalizer (N : Set ↥G) = ⊤ := Subgroup.normalizer_eq_top_iff.mpr hNn

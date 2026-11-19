@@ -171,7 +171,7 @@ theorem exists_conj_le_isPGroup {p : ℕ} [Fact p.Prime] (H : Subgroup G) {P Q :
   obtain ⟨P₁, hP₁⟩ := (hP.comap_of_injective H.subtype H.subtype_injective).exists_le_sylow
   obtain ⟨Q₁, hQ₁⟩ := (hQ.comap_of_injective H.subtype H.subtype_injective).exists_le_sylow
   obtain ⟨c, hc⟩ := MulAction.exists_smul_eq H Q₁ P₁
-  refine ⟨c, c.2, (P₁ : Subgroup H).map H.subtype, P₁.isPGroup'.map _, ?_, ?_⟩
+  refine ⟨c, c.2, (P₁ : Subgroup H).map H.subtype, P₁.isPGroup.map _, ?_, ?_⟩
   · intro x hx
     exact ⟨⟨x, hPH hx⟩, hP₁ hx, rfl⟩
   · rintro _ ⟨y, hy, rfl⟩
@@ -184,15 +184,15 @@ theorem exists_conj_le_isPGroup {p : ℕ} [Fact p.Prime] (H : Subgroup G) {P Q :
 theorem cor4_centralizer_eq (T : Sylow 2 G) {W A : Subgroup G} (hWT : W ≤ T)
     (hweak : ∀ g : G, W.map (MulAut.conj g).toMonoidHom ≤ (T : Subgroup G) →
       W.map (MulAut.conj g).toMonoidHom = W)
-    (hAT : A ≤ T) (hAW : A ≤ centralizer (W : Set G))
+    (_hAT : A ≤ T) (hAW : A ≤ centralizer (W : Set G))
     (hAN : ∀ n ∈ normalizer (W : Set G), ∀ a ∈ A, n * a * n⁻¹ ∈ A)
-    {B : Subgroup G} (hBT : B ≤ T) (hBA : ∃ h : G, B.map (MulAut.conj h).toMonoidHom ≤ A) :
+    {B : Subgroup G} (_hBT : B ≤ T) (hBA : ∃ h : G, B.map (MulAut.conj h).toMonoidHom ≤ A) :
     B ⊓ centralizer (W : Set G) = B ⊓ A := by
   obtain ⟨h, hh⟩ := hBA
   refine le_antisymm (fun x hx => ⟨hx.1, ?_⟩) (inf_le_inf_left B hAW)
   have hh₁ : (B ⊓ centralizer (W : Set G)).map (MulAut.conj h).toMonoidHom ≤ A :=
     (map_mono inf_le_left).trans hh
-  have hW2 : IsPGroup 2 W := T.isPGroup'.to_le hWT
+  have hW2 : IsPGroup 2 W := T.isPGroup.to_le hWT
   have hWC : W ≤ centralizer ((B ⊓ centralizer (W : Set G) : Subgroup G) : Set G) :=
     fun w hw => mem_centralizer_iff.2 fun b hb => ((mem_centralizer_iff.1 hb.2) w hw).symm
   obtain ⟨c, hc, R, hR, hWR, hW'R⟩ := exists_conj_le_isPGroup _ hW2 (hW2.map _) hWC
@@ -223,10 +223,10 @@ theorem cor4_exists_conj (T : Sylow 2 G) {W A : Subgroup G} (hWT : W ≤ T)
     ∃ g : G, B.map (MulAut.conj g).toMonoidHom ≤ A ∧
       (T ⊓ normalizer (B : Set G) : Subgroup G).map (MulAut.conj g).toMonoidHom ≤ T := by
   obtain ⟨h, hh⟩ := hBA
-  have hW2 : IsPGroup 2 W := T.isPGroup'.to_le hWT
+  have hW2 : IsPGroup 2 W := T.isPGroup.to_le hWT
   have hWh := map_conj_inv_le_centralizer hAW hh
   obtain ⟨n, hn, R, hR, hNR, hW1R⟩ := exists_conj_le_isPGroup (normalizer (B : Set G))
-    (T.isPGroup'.to_le inf_le_left) (hW2.map _) inf_le_right
+    (T.isPGroup.to_le inf_le_left) (hW2.map _) inf_le_right
     (hWh.trans (centralizer_le_normalizer _))
   obtain ⟨g, hg⟩ := exists_map_conj_le_sylow T hR
   have e : W.map (MulAut.conj (g * (n * h⁻¹))).toMonoidHom = W := by
@@ -439,7 +439,7 @@ theorem stronglyClosed_of_rank (T : Sylow 2 G) {A : Subgroup G} (hA : IsElemAbel
   obtain ⟨B, hBT, hBel, ⟨h, hBA⟩, hBnA, hcard, -⟩ :=
     cor4 T hAT hweak hA hAT hAW hAN htT ht2 htA htc
   have hq1 : A.relIndex B ≠ 1 := fun h1 => hBnA (relIndex_eq_one.1 h1)
-  obtain ⟨k, hk⟩ := (T.isPGroup'.to_le hBT).exists_card_eq
+  obtain ⟨k, hk⟩ := (T.isPGroup.to_le hBT).exists_card_eq
   obtain ⟨m, -, hqm⟩ := (Nat.dvd_prime_pow Nat.prime_two).1
     (hk ▸ relIndex_dvd_card (H := A) (K := B))
   rcases Nat.lt_or_ge m 2 with hm2 | hm2
@@ -448,7 +448,7 @@ theorem stronglyClosed_of_rank (T : Sylow 2 G) {A : Subgroup G} (hA : IsElemAbel
     · have h4 := hP1 _ htT htA ht2
       rw [hqm, pow_one] at hcard
       omega
-  obtain ⟨d, hd⟩ := (T.isPGroup'.to_le (inf_le_right.trans hBT : A ⊓ B ≤ T)).exists_card_eq
+  obtain ⟨d, hd⟩ := (T.isPGroup.to_le (inf_le_right.trans hBT : A ⊓ B ≤ T)).exists_card_eq
   have hBcard : Nat.card B = 2 ^ m * 2 ^ d := by
     rw [← hqm, ← hd]
     exact (relIndex_mul_card (H := A) (K := B)).symm
@@ -466,7 +466,7 @@ theorem stronglyClosed_of_rank (T : Sylow 2 G) {A : Subgroup G} (hA : IsElemAbel
     coe_mul_of_right_le_normalizer_left A F' (hF'T.trans hTN)
   have hFT : A ⊔ F' ≤ T := sup_le hAT hF'T
   have hrelF : A.relIndex (A ⊔ F') = 4 := by
-    haveI : (A.subgroupOf T).Normal := (normal_subgroupOf_iff_le_normalizer hAT).2 hTN
+    have : (A.subgroupOf T).Normal := (normal_subgroupOf_iff_le_normalizer hAT).2 hTN
     have h1 := relIndex_sup_left (K := A.subgroupOf T) (H := F'.subgroupOf T)
     rw [← subgroupOf_sup hAT hF'T, relIndex_subgroupOf hFT, relIndex_subgroupOf hF'T] at h1
     rw [h1, hrelF']

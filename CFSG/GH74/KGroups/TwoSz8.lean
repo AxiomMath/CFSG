@@ -53,8 +53,8 @@ theorem rank_ge4
   have hker : π.ker = Z := QuotientGroup.ker_mk' Z
   obtain ⟨T⟩ : Nonempty (Sylow 2 (K ⧸ Z)) := inferInstance
   obtain ⟨hT1, hT2, hT3, x, hxN, hxtrans⟩ :=
-    Sz8.bender hK (T : Subgroup (K ⧸ Z)) T.isPGroup' T.not_dvd_index
-  have hcard := Sz8.bender_card hK (T : Subgroup (K ⧸ Z)) T.isPGroup' T.not_dvd_index
+    Sz8.bender hK (T : Subgroup (K ⧸ Z)) T.isPGroup T.not_dvd_index
+  have hcard := Sz8.bender_card hK (T : Subgroup (K ⧸ Z)) T.isPGroup T.not_dvd_index
   set Abar : Subgroup (K ⧸ Z) := (T : Subgroup (K ⧸ Z)) ⊓
     Subgroup.centralizer ((T : Subgroup (K ⧸ Z)) : Set (K ⧸ Z)) with hAbar
   set A : Subgroup K := Abar.comap π with hAdef

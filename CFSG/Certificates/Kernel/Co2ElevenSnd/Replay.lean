@@ -25,7 +25,7 @@ private theorem rec_facts {stepK : Nat → Nat → Nat} {ngen N start : Nat}
     simp only [Bool.and_eq_true] at this
     exact ⟨of_decide_eq_true this.1, Nat.eq_of_beq_eq_true this.2⟩
   · subst hk
-    rw [if_pos rfl] at h5
+    rw [ite_eq_left rfl] at h5
     simp only [Bool.and_eq_true] at h5
     obtain ⟨⟨⟨a, b⟩, -⟩, d⟩ := h5
     exact ⟨Nat.eq_of_beq_eq_true a, Nat.eq_of_beq_eq_true b, Nat.eq_of_beq_eq_true d⟩
@@ -47,7 +47,7 @@ private theorem stR_succ (T PA LB : Nat → Nat) (c : Nat) :
 
 private theorem take_succ_getD {l : List Nat} {j : Nat} (hj : j < l.length) :
     l.take (j + 1) = l.take j ++ [l.getD j 0] := by
-  rw [List.take_succ, List.getElem?_eq_getElem hj, Option.toList_some, List.getD_eq_getElem?_getD,
+  rw [List.take_add_one, List.getElem?_eq_getElem hj, Option.toList_some, List.getD_eq_getElem?_getD,
     List.getElem?_eq_getElem hj, Option.getD_some]
 
 private theorem row_run {F : Nat → Nat → Nat} {lv : List Nat} {N h c0 : Nat}
@@ -83,7 +83,7 @@ private theorem row_run {F : Nat → Nat → Nat} {lv : List Nat} {N h c0 : Nat}
     · have hmem : T (TB h j) ∈ (stR T PA LB c).pts := by
         simp only [stR, List.mem_map, List.mem_range]
         exact ⟨TB h j, hlt, rfl⟩
-      rw [if_pos hmem, e]
+      rw [ite_eq_left hmem, e]
     · have hcN : c < N := by omega
       have hnm : T (TB h j) ∉ (stR T PA LB c).pts := by
         simp only [stR, List.mem_map, List.mem_range, not_exists, not_and]
@@ -91,7 +91,7 @@ private theorem row_run {F : Nat → Nat → Nat} {lv : List Nat} {N h c0 : Nat}
         rw [heq] at e'
         have := hinj a (by omega) c hcN e'
         omega
-      rw [if_neg hnm, e, stR_succ, heq, hpa, hlb c hcN (by omega), hla]
+      rw [ite_eq_right hnm, e, stR_succ, heq, hpa, hlb c hcN (by omega), hla]
 
 theorem run_of_rec {F : Nat → Nat → Nat} {lv : List Nat} {n N r : Nat}
     {T PA LA LB M S : Nat → Nat} {TB : Nat → Nat → Nat} (hN : 0 < N) (hNn : N ≤ n)
@@ -105,9 +105,9 @@ theorem run_of_rec {F : Nat → Nat → Nat} {lv : List Nat} {n N r : Nat}
   have C : Counts PA LA M TB lv.length N := ⟨hN, hM0, fun h hh => (hF h hh).2.1, hlast⟩
   obtain ⟨hcn, hlt⟩ := C.facts
   have hlb' : ∀ k < N, 0 < k → LB k = lv.getD (LA k) 0 := fun k hk hk0 => by
-    rw [hlb k hk, if_neg (by omega)]
+    rw [hlb k hk, ite_eq_right (by omega)]
   have hinit : (⟨[r], [0], [0]⟩ : BS) = stR T PA LB 1 := by
-    rw [show stR T PA LB 1 = ⟨[T 0], [PA 0], [LB 0]⟩ from rfl, hT0, hP0, hlb 0 hN, if_pos rfl]
+    rw [show stR T PA LB 1 = ⟨[T 0], [PA 0], [LB 0]⟩ from rfl, hT0, hP0, hlb 0 hN, ite_eq_left rfl]
   have key : ∀ k ≤ n, (List.range k).foldl (BS.step F lv) ⟨[r], [0], [0]⟩ =
       stR T PA LB (M (min k N)) := by
     intro k
@@ -122,7 +122,7 @@ theorem run_of_rec {F : Nat → Nat → Nat} {lv : List Nat} {n N r : Nat}
       unfold BS.step
       by_cases hkN : k < N
       · rw [Nat.min_eq_left (by omega : k ≤ N), Nat.min_eq_left (by omega : k + 1 ≤ N),
-          stR_len, if_pos (hlt k hkN).1, stR_getD _ _ _ (hlt k hkN).1, (hlt k hkN).2]
+          stR_len, ite_eq_left (hlt k hkN).1, stR_getD _ _ _ (hlt k hkN).1, (hlt k hkN).2]
         have hr := (hcn (k + 1) (by omega)).1
         have hrN := (hcn (k + 1) (by omega)).2
         rw [(hlt k hkN).2] at hr hrN
@@ -130,7 +130,7 @@ theorem run_of_rec {F : Nat → Nat → Nat} {lv : List Nat} {n N r : Nat}
         rw [List.take_length] at this
         exact this
       · rw [Nat.min_eq_right (by omega : N ≤ k), Nat.min_eq_right (by omega : N ≤ k + 1), hlast,
-          stR_len, if_neg hkN]
+          stR_len, ite_eq_right hkN]
   have := key n (Nat.le_refl _)
   rw [Nat.min_eq_right hNn, hlast] at this
   exact this

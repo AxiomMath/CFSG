@@ -203,7 +203,7 @@ theorem centralizes_omegaMinusEight {Y P : Subgroup A} (hPY : P ≤ Y)
         wSup (↥P ⧸ CFSG.pCore 2 ↥P) → b * w * b⁻¹ * w⁻¹ ∈ pCoreOf 2 P) :
     ∀ y ∈ Y, b * y = y * b := by
   have hMY := statedClassicalModel_omegaMinusEight d hd eY
-  haveI : IsSimpleGroup ↥Y :=
+  have : IsSimpleGroup ↥Y :=
     (CFSG.LieType.Simplicity.fam_classical_converse _
       ((CFSG.Milestones.fam_classical_model_membership_alltags _).2 ⟨_, _, _, _, hMY⟩)).2.2
   have hcardY : Nat.card ↥Y = 197406720 := by
@@ -211,9 +211,9 @@ theorem centralizes_omegaMinusEight {Y P : Subgroup A} (hPY : P ≤ Y)
     decide
   obtain ⟨q', hq2', hdq'⟩ := hd'
   obtain ⟨hqp', hqe'⟩ := primePower_eq_two hq2'
-  haveI : IsSimpleGroup (TauCeti.CFSGIndex.lie d').Group :=
+  have : IsSimpleGroup (TauCeti.CFSGIndex.lie d').Group :=
     (kFactSpTwoSimple_holds 3 d' le_rfl ⟨q', hq2', hdq'⟩).1
-  haveI : IsSimpleGroup (↥P ⧸ CFSG.pCore 2 ↥P) := eP.isSimpleGroup
+  have : IsSimpleGroup (↥P ⧸ CFSG.pCore 2 ↥P) := eP.isSimpleGroup
   have hcardP : Nat.card (↥P ⧸ CFSG.pCore 2 ↥P) = 1451520 := by
     rw [Nat.card_congr eP.toEquiv, card_catGroup_B_even le_rfl hqp' hdq', hqe']
     decide

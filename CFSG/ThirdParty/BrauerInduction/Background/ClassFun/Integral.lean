@@ -172,7 +172,7 @@ lemma pow_mem {f : ClassFun k G}
     ∀ n : ℕ, f ^ n ∈ ClassFun.C_Z k G := by
   intro n
   induction n with
-  | zero => simp only [pow_zero, Set.mem_setOf_eq]; apply one_mem
+  | zero => simp only [pow_zero, Set.mem_ofPred_eq]; apply one_mem
   | succ n ih => simpa [pow_succ] using mul_mem ih hf
 
 /-- Integer-valued class functions remain integer-valued after restriction. -/
@@ -226,7 +226,7 @@ lemma ind_mem_C_Z
     ClassFun.ind (G := G) (k := k) H q g = (z : k)
 
   simp only [ClassFun.ind_apply]
-  letI: Fintype G := Fintype.ofFinite G
+  let: Fintype G := Fintype.ofFinite G
   refine exists_int_cast_sum
     (s := Finset.univ)
     (f := fun x : G ⧸ H =>

@@ -54,7 +54,7 @@ theorem sec1011_conjClassIn_M_six (hs : Sec1011Setup t L S z φ)
     conjClassIn (secM t S L) t = {t} ∪ conjClassIn (secM t S L ⊓ L) (t * z) := by
   rw [sec1011_conjClassIn_M, h6, sec1011_conjClassIn_ML hs]
   ext y
-  simp only [Set.mem_image, Set.mem_setOf_eq, Set.mem_union, Set.mem_singleton_iff]
+  simp only [Set.mem_image, Set.mem_ofPred_eq, Set.mem_union, Set.mem_singleton_iff]
   constructor
   · rintro ⟨a, rfl | ⟨v, hv, hw, rfl⟩, rfl⟩
     · exact Or.inl rfl

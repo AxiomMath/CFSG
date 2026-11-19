@@ -27,6 +27,7 @@ theorem not_mem_of_inverted {G : Type*} [Group G] {u t : G} {S : Subgroup G}
 variable {W : Type} [Group W] [Finite W] {K Y : Type} [Group K] [Finite K] [Group Y]
   {D : UniversalRootDatum K} {n : Fin D.rank → K} {H : Fin D.rank → Subgroup K} {M : ℕ}
 
+omit [Finite K] in
 theorem node_lift {L A : Subgroup W} {π : K →* ↥L ⧸ Subgroup.center ↥L}
     (hsq : ∀ γ ∈ D.roots, ∀ x ∈ D.rootGroup γ, x ^ 2 = 1) {m : Fin D.rank}
     (hm : (rankOne D.rootGroup m).map π ≤
@@ -63,7 +64,8 @@ theorem node_lift {L A : Subgroup W} {π : K →* ↥L ⧸ Subgroup.center ↥L}
     · exact Subgroup.mem_subgroupOf.1 hb
   exact h hv_mem
 
-theorem false_of_triple_in_cover {L A : Subgroup W} (hL : IsComponentOf L ⊤)
+omit [Finite K] in
+theorem false_of_triple_in_cover {L A : Subgroup W} (_hL : IsComponentOf L ⊤)
     (hE : ∀ E : Subgroup W, E ≤ A ⊓ L → IsPGroup 3 E → ¬ IsCyclic E → Nat.card E = 9)
     {π : K →* ↥L ⧸ Subgroup.center ↥L} (hπ : BorelQuotient D n H π M)
     (hsq : ∀ γ ∈ D.roots, ∀ x ∈ D.rootGroup γ, x ^ 2 = 1)
@@ -286,6 +288,7 @@ theorem false_of_cover_triple {L S₀ A₁ A₂ : Subgroup W} (hL : IsComponentO
         (hord hπ') hij hik hjk cij cik cjk hi2 ((hnode j).resolve_left hj1)
         ((hnode k).resolve_left hk1)
 
+omit [Finite K] in
 theorem exists_orderThree_of_hasOrderThree {π : K →* Y} (hπ : BorelQuotient D n H π M)
     {k : Fin D.rank} (h3 : HasOrderThree D k) :
     ∃ x ∈ D.rootGroup (Pi.single k 1), ∃ y ∈ D.rootGroup (-Pi.single k 1),

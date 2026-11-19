@@ -42,7 +42,7 @@ theorem LUGood_of_conj {T : Type} [Group T] {p : ℕ} {D : Subgroup (MulAut T)} 
     {L : Subgroup T} (hL : LUCore p f L) (hxD : x ∈ D) (hx1 : x ≠ 1) (hx : x = β * f * β⁻¹) :
     LUGood p D := by
   obtain ⟨hLf, hs, hna, hp, hnorm⟩ := hL
-  haveI := hs
+  have := hs
   have hxg : ∀ g : T, x g = β (f (β.symm g)) := fun g => by rw [hx]; rfl
   have hfix : ∀ g : T, x g = g ↔ f (β.symm g) = β.symm g := fun g => by
     rw [hxg]
@@ -75,7 +75,7 @@ theorem LUGood_of_mulEquiv {S T : Type} [Group S] [Group T] (e : S ≃* T) {p : 
     {D : Subgroup (MulAut S)} (h : LUGood p (D.map (MulAut.congr e).toMonoidHom)) :
     LUGood p D := by
   obtain ⟨y', hy', hy'1, L', hL'f, hL's, hL'na, hL'p, hL'n⟩ := h
-  haveI := hL's
+  have := hL's
   obtain ⟨y, hyD, rfl⟩ := Subgroup.mem_map.1 hy'
   have hcg : ∀ (α : MulAut S) (g : S), (MulAut.congr e α) (e g) = e (α g) := fun α g => by
     simp [MulAut.congr_apply]

@@ -217,11 +217,11 @@ theorem comm_ge_of_closC [Finite G] (hT : TabData g P Lt nS 3)
     intro u hu
     have h1 := CFSG.KS.allBlk_spec hall u hu
     rw [Nat.add_eq, Nat.zero_add, sB_eq] at h1
-    simp only [bRec_and, Bool.and_eq_true, blt_iff] at h1
+    simp only [Bool.and_eq_true, blt_iff] at h1
     refine ⟨by rw [nS_eq]; exact h1.1, fun j hj => ?_⟩
     have h2 := CFSG.KS.allBlk_spec h1.2 j hj
     rw [Nat.add_eq, Nat.zero_add, sB_eq, sB_eq] at h2
-    simp only [bRec_and, Bool.and_eq_true, blt_iff, beq_iff] at h2
+    simp only [Bool.and_eq_true, blt_iff, beq_iff] at h2
     exact h2
   have hρ : ρ < nS := by rw [← hXp]; exact (hu p hpc).1
   obtain ⟨T, hTm, hTc⟩ := hT.exists_subgroup (by rw [nS_eq]; norm_num)

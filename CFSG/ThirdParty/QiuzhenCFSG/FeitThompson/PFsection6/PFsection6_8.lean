@@ -2687,7 +2687,7 @@ theorem theorem_6_8_sylow_map_subtype_of_sylow_normalizer
       _ = p ^ (Nat.card L).factorization p := hHcard
   have hHp : IsPGroup p Hmap := by
     have hPp : IsPGroup p (Subgroup.map L.subtype (P : Subgroup L)) :=
-      P.isPGroup'.map L.subtype
+      P.isPGroup.map L.subtype
     rw [hP] at hPp
     simpa [Hmap] using hPp
   have hnotidx : ¬ p ∣ Hmap.index := by
@@ -6318,7 +6318,7 @@ theorem theorem_6_8_scalarProduct_regularCharacter_right
   let : Fintype G := Fintype.ofFinite G
   unfold Section1.scalarProduct regularCharacter
   rw [Finset.sum_eq_single (1 : G)]
-  · simp only [if_true]
+  · simp only [ite_true]
     have hstar : star ((Nat.card G : ℂ)) = (Nat.card G : ℂ) := by simp
     rw [hstar]
     have hcard : (Fintype.card G : ℂ) ≠ 0 := by
@@ -10089,13 +10089,13 @@ theorem theorem_6_8_tau1_Y_orthonormal_of_familyData
   rw [theorem_6_8_coherentExtension_scalarProduct_of_mem hτ₁ η.2 ξ.2]
   by_cases hηξ : η = ξ
   · subst ξ
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     rcases theorem_6_8_Y_irreducible_of_familyData
         h68 hfamily (η : Section1.ClassFunction L) η.2 with
       ⟨_n, ρ, hρirr, hξeq⟩
     rw [hξeq]
     exact (Theory.Character.irreducible_iff_character_norm_one (ρ := ρ)).1 hρirr
-  · rw [if_neg hηξ]
+  · rw [ite_eq_right hηξ]
     have hval_ne :
         (η : Section1.ClassFunction L) ≠ (ξ : Section1.ClassFunction L) := by
       intro hval
@@ -15988,7 +15988,7 @@ theorem theorem_6_8_X_weighted_degree_sum_scalarProduct
     intro i j
     by_cases hij : i = j
     · subst j
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       exact theorem_6_8_scalarProduct_self_irreducible
         ((hXchar (i : Section1.ClassFunction L)).1 i.2).1
     · have hi : Section1.IsIrreducibleCharacterOnGroup
@@ -16003,7 +16003,7 @@ theorem theorem_6_8_X_weighted_degree_sum_scalarProduct
         exact hij (Subtype.ext h)
       rcases hi with ⟨ni, ρi, hρi, hiEq⟩
       rcases hj with ⟨nj, ρj, hρj, hjEq⟩
-      rw [if_neg hij]
+      rw [ite_eq_right hij]
       exact Section1.scalarProduct_irreducible_representationCharacter_eq_zero_of_ne
         (i : Section1.ClassFunction L) (j : Section1.ClassFunction L) ρi ρj
         hiEq hjEq hρi hρj hne
@@ -16781,7 +16781,7 @@ theorem theorem_6_8_induced_indexed_degree_sum_le_intermediate_sum
       have hji : YS1 j = YS1 i := by
         simpa [fiber] using hj
       dsimp [orbitOf]
-      rw [dif_pos hji]
+      rw [dite_eq_left hji]
       exact Classical.choose_spec (hconjS1 i j hji)
     have hinj : Set.InjOn orbitOf (fiber : Set ι) := by
       intro j hj k hk heq

@@ -36,7 +36,7 @@ theorem pow_three_eq_one_of_isLThreeFour_or_isSLThreeFour {Y : Type} [Group Y] [
       CFSG.LocalAnalysis.GLTheoremB.IsSLThreeFour Y)
     (hZ : Nat.card (Subgroup.center Y) ∣ 3) {k : Y} (hk : k ^ 3 ∈ Subgroup.center Y) :
     k ^ 3 = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P, hkP⟩ := IsPGroup.exists_le_sylow (p := 3)
     (isPGroup_zpowers_of_pow_three_mem_center hZ hk)
   have hkP' : k ∈ P := hkP (Subgroup.mem_zpowers k)
@@ -109,7 +109,7 @@ private theorem exists_inner_starImg_of_commutator
       b * y * b⁻¹ * (k * y * k⁻¹)⁻¹ ∈ CFSG.Open.GLAPPrimeCoreOf 3 L) :
     ∀ e ∈ starImg 3 H E, ∃ k ∈ starImg 3 H L, k ^ 3 = 1 ∧
       ∀ y ∈ starImg 3 H L, e * y * e⁻¹ = k * y * k⁻¹ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hGLA : GLAPComponent 3 H L :=
     (CFSG.HardMathSupport.Solomon.Coordinator.i183_glaPComponent_iff_isPComponent
       Nat.prime_three).2 hLH
@@ -173,7 +173,7 @@ theorem exists_inner_starImg
     (hL34 : IsL34Type (CFSG.LocalAnalysis.AGL81TheoremCD.Section14.threeStar L)) :
     ∀ e ∈ starImg 3 H E, ∃ k ∈ starImg 3 H L, k ^ 3 = 1 ∧
       ∀ y ∈ starImg 3 H L, e * y * e⁻¹ = k * y * k⁻¹ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hLH : IsPComponentIn 3 L H := hL.isPComponentIn
   have hLM : ¬ L ≤ M := hL.not_le_M hple
   have hGLA : GLAPComponent 3 H L :=

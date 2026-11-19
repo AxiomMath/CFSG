@@ -13,6 +13,7 @@ open CFSG.Open CFSG.AGLEmbedding Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem le_normalizer_pCoreOf_two (X : Subgroup G) : X ≤ normalizer (pCoreOf 2 X : Set G) := by
   intro x hx
   rw [Subgroup.mem_normalizer_iff]
@@ -39,7 +40,7 @@ theorem le_normalizer_pCoreOf_two (X : Subgroup G) : X ≤ normalizer (pCoreOf 2
 
 theorem pCoreOf_le_of_isTwoRadicalIn {X S : Subgroup G} (hS : CFSG.Quasithin.IsTwoRadicalIn X S) :
     pCoreOf 2 X ≤ S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine CFSG.Quasithin.le_of_isSignalizer_of_isTwoRadicalIn hS ⟨?_, ?_, ?_⟩
   · rintro _ ⟨x, -, rfl⟩
     exact x.2
@@ -68,7 +69,7 @@ theorem barM_inf_normalizer_ne {X S L : Subgroup G} (hA : Asc81bHyp X S)
 theorem isQuasisimple_of_surjective_of_isPGroup_ker {I C : Type} [Group I] [Finite I] [Group C]
     (hQ : Open.IsQuasisimple (I ⧸ CFSG.pCore 2 I)) (φ : I →* C) (hφ : Function.Surjective φ)
     (hk : IsPGroup 2 φ.ker) (hC : CFSG.pCore 2 C = ⊥) : Open.IsQuasisimple C := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hle : φ.ker ≤ CFSG.pCore 2 I := le_sSup ⟨MonoidHom.normal_ker φ, hk⟩
   have hge : CFSG.pCore 2 I ≤ φ.ker := by
     intro x hx
@@ -87,7 +88,7 @@ theorem eq_of_map_eq_of_isPGroup_ker {N : Subgroup G} {Q : Type*} [Group Q] (ψ 
     (hψ : IsPGroup 2 ψ.ker) {K₁ K₂ : Subgroup G} (h₁N : K₁ ≤ N) (h₂N : K₂ ≤ N)
     (h₁ : IsSubnormal K₁ N) (h₂ : IsSubnormal K₂ N) (hp₁ : ⁅K₁, K₁⁆ = K₁) (hp₂ : ⁅K₂, K₂⁆ = K₂)
     (he : (K₁.subgroupOf N).map ψ = (K₂.subgroupOf N).map ψ) : K₁ = K₂ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set T := ψ.ker.map N.subtype with hT
   have hT2 : IsPGroup 2 T := hψ.map N.subtype
   have hTN : T ≤ N := by

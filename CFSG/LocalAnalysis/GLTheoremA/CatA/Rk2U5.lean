@@ -54,7 +54,7 @@ theorem u5CaseAt_holds (G : Type) [Group G] [Finite G] : U5CaseAt G := by
   intro p q K B' x' J hC he4 n hn hJ
   have hq := hC.prime
   have hq2 := hC.odd
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hqdvd : q ∣ 2 ^ n + 1 := by
     rcases hC.seven with h7 | h7
     ·

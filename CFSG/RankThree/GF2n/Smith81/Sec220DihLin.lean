@@ -50,7 +50,7 @@ theorem exists_eq_dihTv_of_rank_eq_one {M : Matrix (Fin n) (Fin n) K} (h : (M - 
   have hsmul : ∀ (a : K) x, c (a • x) = a * c x := by
     intro a x
     apply smul_left_injective K hp
-    simp only [smul_eq_mul]
+    simp only
     rw [mul_smul, hc', hc', mulVec_smul]
   let f : (Fin n → K) →ₗ[K] K :=
     { toFun := c

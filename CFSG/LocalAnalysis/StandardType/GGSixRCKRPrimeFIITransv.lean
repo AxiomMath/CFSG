@@ -54,13 +54,13 @@ theorem rckFII_PSL_transv
     (hIRG : RCKIntrinsicRoot) {X : Type} [Group X] [Finite X] {m : ℕ}
     (φ : (ggU .PSL (m + 1) 1).K →* X) (hφk : φ.ker ≤ Subgroup.center (ggU .PSL (m + 1) 1).K)
     (S : Set (GL (Fin (m + 1)) (GaloisField 2 1))) (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
-    (hodd : ∀ s ∈ S, Odd (orderOf s)) {e : Matrix (Fin (m + 1)) (Fin (m + 1)) (GaloisField 2 1)}
+    (_hodd : ∀ s ∈ S, Odd (orderOf s)) {e : Matrix (Fin (m + 1)) (Fin (m + 1)) (GaloisField 2 1)}
     (he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 1) (Units.val '' S)) e)
     {J' : Subgroup (Matrix.SpecialLinearGroup (Fin (m + 1)) (GaloisField 2 1))}
     (hJe : IsComponentOf J' ⁅glBlockCentralizer Matrix.SpecialLinearGroup.toGL S e,
       glBlockCentralizer Matrix.SpecialLinearGroup.toGL S e⁆)
     (hdeg : blockDegree (Algebra.adjoin (GaloisField 2 1) (Units.val '' S)) e = 1)
-    {R Rm : Subgroup X} (hR : R ≤ J'.map φ) (hRm : Rm ≤ J'.map φ) (hpos : GGRootPosJ (J'.map φ) R Rm) :
+    {R Rm : Subgroup X} (_hR : R ≤ J'.map φ) (_hRm : Rm ≤ J'.map φ) (hpos : GGRootPosJ (J'.map φ) R Rm) :
     ∃ β : Fin (ggU .PSL (m + 1) 1).D.rank → ℤ, β ∈ (ggU .PSL (m + 1) 1).D.roots ∧
       GGLongRoot (ggU .PSL (m + 1) 1).D β ∧ GGRootVia (ggU .PSL (m + 1) 1) φ.range R β := by
   classical
@@ -72,10 +72,10 @@ theorem rckFII_PSL_transv
   have hm : 1 ≤ m := by
     by_contra hm0
     have hm0' : m + 1 = 1 := by omega
-    haveI : Subsingleton (Matrix.SpecialLinearGroup (Fin (m + 1)) (GaloisField 2 1)) := by
+    have : Subsingleton (Matrix.SpecialLinearGroup (Fin (m + 1)) (GaloisField 2 1)) := by
       rw [hm0']
       exact Matrix.SpecialLinearGroup.subsingleton_of_subsingleton
-    haveI : Subsingleton ↥J' := inferInstance
+    have : Subsingleton ↥J' := inferInstance
     exact (not_nontrivial_iff_subsingleton (α := ↥J')).mpr inferInstance
       (CFSG.ComponentClassification.Quasisimple.nontrivial hJ'q)
   have hZSL : Subgroup.center (Matrix.SpecialLinearGroup (Fin (m + 1)) (GaloisField 2 1)) = ⊥ := by
@@ -93,7 +93,7 @@ theorem rckFII_PSL_transv
     · simpa using h
     · exfalso
       exact h (by rw [GaloisField.card 2 1 (by norm_num)]; norm_num)
-  haveI hperf : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin (k + 1)) (GaloisField 2 1)) :=
+  have hperf : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin (k + 1)) (GaloisField 2 1)) :=
     ⟨hSLk.2.2.1⟩
   have hZSLk : Subgroup.center (Matrix.SpecialLinearGroup (Fin (k + 1)) (GaloisField 2 1)) = ⊥ := by
     apply Subgroup.card_eq_one.mp

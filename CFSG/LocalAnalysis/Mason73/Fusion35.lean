@@ -33,7 +33,7 @@ theorem exists_conj_w1T_eq (hn : 3 ≤ n) (p : Fin 2 × Fin 2 × Fin 2)
   obtain ⟨π, -, hπ⟩ := key p hp
   obtain ⟨d, hd⟩ := exists_detSum (n := n) π
   refine ⟨el d π hd, ?_⟩
-  rw [w1T, el_conj (by omega), omegaEl, dif_neg (by omega), el_eq_el_iff (by omega)]
+  rw [w1T, el_conj (by omega), omegaEl, dite_eq_right (by omega), el_eq_el_iff (by omega)]
   refine ⟨rfl, ?_⟩
   have : wv n (pat p) - pv (π : Perm (Fin 4)) (wv n ![1, 0, 0, 0]) =
       hv n (pat p) - hv n (fun i => ![1, 0, 0, 0] ((π : Perm (Fin 4))⁻¹ i)) := by

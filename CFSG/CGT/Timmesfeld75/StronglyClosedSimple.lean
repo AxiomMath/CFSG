@@ -33,7 +33,7 @@ theorem stronglyClosed_contains_involutions (hG : Goldschmidt1974) {F : Type} [G
   have : IsSimpleGroup ↥M := eM.isSimpleGroup
   have hF2 : 2 ∣ Nat.card F := by
     have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    obtain ⟨a, ha⟩ := T.isPGroup'.exists_card_eq
+    obtain ⟨a, ha⟩ := T.isPGroup.exists_card_eq
     have ha0 : a ≠ 0 := by
       rintro rfl
       have hT1 : Nat.card (T : Subgroup F) = 1 := by simpa using ha

@@ -446,7 +446,7 @@ theorem exists_isRefl_of_splitSupport {N : Subgroup (U ≃ₗ[ZMod p] U)} {l : �
   have hNbot : N = ⊥ := by
     have hS : {t | t ∈ N ∧ IsRefl p t} = ∅ := by
       ext x
-      simp only [Set.mem_setOf_eq, Set.mem_empty_iff_false, iff_false, not_and]
+      simp only [Set.mem_ofPred_eq, Set.mem_empty_iff_false, iff_false, not_and]
       exact fun hx hrefl => h ⟨x, hx, hrefl⟩
     rw [hN, hS, Subgroup.closure_empty]
   have hfin : Module.finrank (ZMod p) (HardMathSupport.Kantor79.commutatorSpace N) = 0 := by

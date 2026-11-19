@@ -57,12 +57,12 @@ theorem burnsideF429_c2ab_L3 {f : ℕ} (hyp : HypF_4_4 .L3 2 f Gp M₁ M₂) (hf
     {T : Subgroup E} (hT : ChF.IsSylowOf 2 T (M₁ ⊓ M₂)) :
     (∃ t ∈ T, T = Subgroup.zpowers t ⊔ pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂))) ∧
       ∃ H : Subgroup E, IsComplementIn H (pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂))) T := by
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   obtain ⟨F, hFf, hFfin, hFchar, Φ, ρ, R₁, R₂, s₁, s₂, hFcard, hΦ, hrange, hρ, hΦρ, hE, hD, hO,
     h₁, h₂, -⟩ := burnsideF447_setup hf hyp.toHypF_4_4g
-  haveI : Finite (projectiveSL 3 F) := Finite.of_injective Φ hΦ
-  haveI : Φ.range.Normal := by rw [hrange]; infer_instance
+  have : Finite (projectiveSL 3 F) := Finite.of_injective Φ hΦ
+  have : Φ.range.Normal := by rw [hrange]; infer_instance
   have hNp := burnsideF4d_Y2_pCore_eq Φ hΦ hD hO h₁ h₂
   have hS : pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) = (projUnitriangular 3 F).map Φ := by
     have hle : pCoreOf 2 (M₁ ⊓ M₂) ≤ Gp := burnsideF4d_Y2_pCore_le hf hyp.toHypF_4_4g
@@ -92,7 +92,7 @@ theorem burnsideF429_c2ab_L3 {f : ℕ} (hyp : HypF_4_4 .L3 2 f Gp M₁ M₂) (hf
     exact hfpΦ p
   obtain ⟨φ, -, -, hzp, -⟩ := finite_field_automorphism_fixed_field_cardinality Nat.prime_two
     (le_trans (by norm_num) hf) hFcard
-  haveI : IsCyclic (F ≃+* F) := isCyclic_iff_exists_zpowers_eq_top.mpr ⟨φ, hzp⟩
+  have : IsCyclic (F ≃+* F) := isCyclic_iff_exists_zpowers_eq_top.mpr ⟨φ, hzp⟩
   obtain ⟨σ₀, hσ₀⟩ := (Subgroup.isCyclic_iff_exists_zpowers_eq_top (T.map fp)).mp inferInstance
   obtain ⟨t₀, ht₀T, rfl⟩ : σ₀ ∈ T.map fp := by rw [← hσ₀]; exact Subgroup.mem_zpowers σ₀
   have hTN : t₀ ∈ Subgroup.normalizer (((projUnitriangular 3 F).map Φ : Subgroup E) : Set E) := by
@@ -135,7 +135,7 @@ theorem burnsideF429_frobAut_pow_dSp (j : ℕ) (s t : Fˣ) :
   show (dSpMat s t).map (fun x => x ^ 2 ^ j) = dSpMat (s ^ 2 ^ j) (t ^ 2 ^ j)
   ext a b
   fin_cases a <;> fin_cases b <;>
-    simp [dSpMat, Matrix.diagonal_apply, Units.val_pow_eq_pow_val, inv_pow]
+    simp [dSpMat, Units.val_pow_eq_pow_val, inv_pow]
 
 theorem burnsideF429_conj_dSp_frob_pow (s t : Fˣ) (k m : ℕ) :
     ∃ s' t' : Fˣ, (MulAut.conj (dSp s t) * frobAut F ^ k) ^ m =
@@ -148,6 +148,7 @@ theorem burnsideF429_conj_dSp_frob_pow (s t : Fˣ) (k m : ℕ) :
     rw [pow_succ, h, burnsideF429_conj_mul_conj, burnsideF429_frobAut_pow_dSp, dSp_mul, ← pow_add,
       mul_add, mul_one]
 
+omit [Finite F] in
 theorem burnsideF429_dSp_mem_U {s t : Fˣ} (h : dSp s t ∈ antiUnipotent F) : dSp s t = 1 := by
   have h0 := glMat_diag_of_mem_U h 0
   have h1 := glMat_diag_of_mem_U h 1
@@ -165,8 +166,8 @@ theorem burnsideF429_c2ab_Sp4 {f : ℕ} (hyp : HypF_4_4 .Sp4 2 f Gp M₁ M₂) (
     {T : Subgroup E} (hT : ChF.IsSylowOf 2 T (M₁ ⊓ M₂)) :
     (∃ t ∈ T, T = Subgroup.zpowers t ⊔ pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂))) ∧
       ∃ H : Subgroup E, IsComplementIn H (pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂))) T := by
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   obtain ⟨K, hKf, hKfin, hKchar, Ψ, hKcard, hS, hform⟩ := burnsideF429_Sp4_model hyp hf
   have hf1 : 1 ≤ f := le_trans (by norm_num) hf
   set φ : antiSp K →* E := Gp.subtype.comp Ψ.toMonoidHom with hφdef
@@ -219,7 +220,7 @@ theorem burnsideF429_c2ab_Sp4 {f : ℕ} (hyp : HypF_4_4 .Sp4 2 f Gp M₁ M₂) (
     have hg1 : QuotientGroup.mk' (inner (antiSp K)) (MulAut.conj g) = 1 :=
       (QuotientGroup.eq_one_iff (MulAut.conj g)).mpr ⟨g, rfl⟩
     rw [hgk, map_mul, hg1, one_mul, map_pow, zpow_natCast]
-  haveI : IsCyclic (T.map π) := Subgroup.isCyclic_of_le hTle
+  have : IsCyclic (T.map π) := Subgroup.isCyclic_of_le hTle
   obtain ⟨σ₀, hσ₀⟩ := (Subgroup.isCyclic_iff_exists_zpowers_eq_top (T.map π)).mp inferInstance
   obtain ⟨t₀, ht₀T, rfl⟩ : σ₀ ∈ T.map π := by rw [← hσ₀]; exact Subgroup.mem_zpowers σ₀
   obtain ⟨g, hg, k, hgk⟩ := hπform t₀ (hT.1 ht₀T)

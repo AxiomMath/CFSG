@@ -22,6 +22,7 @@ theorem odd_index_conjSubgroup_utri (a : SL(2, F)) :
   rw [h]
   exact CFSG.CGT.Timmesfeld75.odd_index_utri
 
+omit [Fintype F] [CharP F 2] in
 theorem exists_mul_conjSubgroup_conj_utri_eq_of_ne {a b c : SL(2, F)}
     (ha : conjSubgroup a (conjSubgroup c (utri F)) ≠ conjSubgroup c (utri F))
     (hb : conjSubgroup b (conjSubgroup c (utri F)) ≠ conjSubgroup c (utri F)) :
@@ -79,7 +80,7 @@ private theorem exists_singer_trace (p : ℕ) [Fact p.Prime] [CharP F p]
         (ζ : FiniteField.Extension F p 2) + (ζ : FiniteField.Extension F p 2)⁻¹ := by
   classical
   let E := FiniteField.Extension F p 2
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype E := Fintype.ofFinite E
   have hEcard : Nat.card E = Nat.card F ^ 2 := FiniteField.natCard_extension F p 2
   have hdvd : Nat.card F + 1 ∣ Nat.card E - 1 := by
     rw [hEcard]
@@ -113,12 +114,12 @@ private theorem exists_singer_trace (p : ℕ) [Fact p.Prime] [CharP F p]
               rw [add_mul, inv_mul_cancel₀ (Units.ne_zero ζ), pow_two]
           _ = 0 := h
       have hneg : (-1 : E) = 1 := by
-        haveI : CharP F 2 := by
+        have : CharP F 2 := by
           have hdvd : p ∣ 2 := (CharP.cast_eq_zero_iff F p 2).mp h2
           rcases (Nat.dvd_prime Nat.prime_two).mp hdvd with h | h
           · exact absurd h (Fact.out : p.Prime).ne_one
           · rw [← h]; infer_instance
-        haveI : CharP E 2 := charP_of_injective_algebraMap (algebraMap F E).injective 2
+        have : CharP E 2 := charP_of_injective_algebraMap (algebraMap F E).injective 2
         exact CharTwo.neg_eq 1
       linear_combination h' + hneg
     have hsqU : ζ ^ 2 = 1 := Units.ext hsq
@@ -130,6 +131,7 @@ private theorem exists_singer_trace (p : ℕ) [Fact p.Prime] [CharP F p]
     omega
   exact ⟨τ, hτ0, ζ, hζ, hτ⟩
 
+omit [Fintype F] in
 private theorem pow_lower_left_aux_rec
     (p : ℕ) [Fact p.Prime] [CharP F p] (h2 : (2 : F) = 0)
     {τ s t : F} (ht : t ≠ 0) (hst : s * t = τ) :
@@ -158,7 +160,7 @@ private theorem pow_lower_left_aux_rec
     linear_combination h2
   have hdet : Z.det = 1 := (utriElt s * ltriElt t).2
   have hneg : (-(1 : Matrix (Fin 2) (Fin 2) F)) = 1 := by
-    haveI : CharP F 2 := by
+    have : CharP F 2 := by
       have hdvd : p ∣ 2 := (CharP.cast_eq_zero_iff F p 2).mp h2
       rcases (Nat.dvd_prime Nat.prime_two).mp hdvd with h | h
       · exact absurd h (Fact.out : p.Prime).ne_one
@@ -208,12 +210,12 @@ private theorem pow_lower_left_aux_closed
     dsimp only [u, v]
     exact hτ.symm
   have hnegE : (-1 : E) = 1 := by
-    haveI : CharP F 2 := by
+    have : CharP F 2 := by
       have hdvd : p ∣ 2 := (CharP.cast_eq_zero_iff F p 2).mp h2
       rcases (Nat.dvd_prime Nat.prime_two).mp hdvd with h | h
       · exact absurd h (Fact.out : p.Prime).ne_one
       · rw [← h]; infer_instance
-    haveI : CharP E 2 := charP_of_injective_algebraMap (algebraMap F E).injective 2
+    have : CharP E 2 := charP_of_injective_algebraMap (algebraMap F E).injective 2
     exact CharTwo.neg_eq 1
   have hu2 : u ^ 2 = algebraMap F E τ * u + 1 := by
     have h : u ^ 2 + 1 = algebraMap F E τ * u := by
@@ -365,8 +367,8 @@ theorem exists_utri_mul_ltri_conj_pow (x : SL(2, F)) (hxU : x ∈ utri F) (hx1 :
   let P : Sylow 2 SL(2, F) := utriSylow F
   have hP : (P : Subgroup SL(2, F)) = utri F := by
     simpa [P] using coe_utriSylow
-  haveI : CharP F (ringChar F) := ringChar.charP F
-  haveI : Fact (ringChar F).Prime := ⟨CharP.char_is_prime F (ringChar F)⟩
+  have : CharP F (ringChar F) := ringChar.charP F
+  have : Fact (ringChar F).Prime := ⟨CharP.char_is_prime F (ringChar F)⟩
   obtain ⟨τ, hτ0, ζ, hζ, hτ⟩ := exists_singer_trace (F := F) (ringChar F) h2F
   obtain ⟨s, rfl⟩ := mem_utri_iff.mp hxU
   have hs : s ≠ 0 := fun h0 => hx1 (by rw [h0, utriElt_zero])

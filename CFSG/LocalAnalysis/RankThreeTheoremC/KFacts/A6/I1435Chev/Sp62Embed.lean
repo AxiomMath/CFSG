@@ -74,8 +74,7 @@ variable {K : Type} [Field K]
 
 theorem extMat_mul (m : ℕ) (A B : Matrix (Fin 3 ⊕ Fin 3) (Fin 3 ⊕ Fin 3) K) :
     extMat m (A * B) = extMat m A * extMat m B := by
-  rw [extMat, extMat, extMat, ← reindexAlgEquiv_apply K K, ← reindexAlgEquiv_apply K K,
-    ← reindexAlgEquiv_apply K K, ← map_mul, fromBlocks_multiply]
+  rw [extMat, extMat, extMat, ← Matrix.coe_reindexAlgEquiv K K, ← map_mul, fromBlocks_multiply]
   simp
 
 theorem extMat_one (m : ℕ) : extMat (K := K) m 1 = 1 := by
@@ -155,6 +154,7 @@ variable {F : Type} [Field F] [CharP F 2] [Finite F]
       Matrix (Fin 3 ⊕ Fin 3) (Fin 3 ⊕ Fin 3) (ZMod 2))).det = 1
     rw [← RingHom.map_det, det_eq_one_zmod_two, map_one]
 
+omit [Finite F] in
 theorem spSL_injective (m : ℕ) : Function.Injective (spSL (F := F) m) := by
   intro g g' h
   apply spField_injective (K := F)
@@ -193,6 +193,7 @@ variable {L : Type} [Field L] [CharP L 2]
 
 @[expose] def q0 (b ν : L) : Matrix (Fin 2) (Fin 2) L := !![1, b; 1, b * ν]
 
+omit [CharP L 2] in
 theorem det_q0 (b ν : L) : (q0 b ν).det = b * (ν - 1) := by
   rw [q0, det_fin_two_of]
   ring
@@ -216,6 +217,7 @@ theorem q0_gram (φ : L →+* L) {q : ℕ} (hφ : ∀ x, φ x = x ^ q) {b ν : L
     exact hbν'
   · exact hbb'
 
+omit [CharP L 2] in
 theorem planeMat_map (φ : L →+* L) (h : Fin 3 → Matrix (Fin 2) (Fin 2) L) :
     (planeMat h).map φ = planeMat fun j => (h j).map φ := by
   simp only [planeMat, fromBlocks_map, diagonal_map (map_zero φ), Matrix.map_apply]
@@ -225,6 +227,7 @@ theorem planeMat_map (φ : L →+* L) (h : Fin 3 → Matrix (Fin 2) (Fin 2) L) :
     rw [det_q0]
     exact mul_ne_zero hb (sub_ne_zero.2 hν))
 
+omit [CharP L 2] in
 theorem coe_qGL (b ν : L) (hb : b ≠ 0) (hν : ν ≠ 1) :
     ((qGL b ν hb hν : GL (Fin 3 ⊕ Fin 3) L) : Matrix (Fin 3 ⊕ Fin 3) (Fin 3 ⊕ Fin 3) L) =
       planeMat fun _ => q0 b ν := rfl

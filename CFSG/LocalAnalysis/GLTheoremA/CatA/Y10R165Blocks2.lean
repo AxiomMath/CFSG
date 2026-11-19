@@ -16,6 +16,7 @@ open scoped DirectSum CFSG.LocalAnalysis.GLTheoremA.Y10F.HypBlocks
 variable {F V : Type*} [Field F] [AddCommGroup V] [Module F V]
 variable (A : Subgroup (V ≃ₗ[F] V)) [Fintype A]
 
+omit [Fintype ↥A] in
 theorem mem_fixSub_iff' {D : Subgroup ↥A} {v : V} :
     v ∈ fixSub (actionEnd A) D ↔ ∀ d ∈ D, (d : V ≃ₗ[F] V) v = v :=
   ⟨fun h d hd => h d hd, fun h d hd => h d hd⟩
@@ -37,7 +38,7 @@ private theorem avgCoeff_mul_card (hp : p.Prime) (hpF : (p : F) ≠ 0) (hA : IsE
 
 private theorem actionEnd_mul_sumOp {q : ℕ} (hA : IsElemAbelian q A) (D : Subgroup ↥A) (a : ↥A) :
     actionEnd A a * sumOp (actionEnd A) D = sumOp (actionEnd A) D * actionEnd A a := by
-  haveI : IsMulCommutative ↥A := hA.1
+  have : IsMulCommutative ↥A := hA.1
   rw [sumOp, Finset.mul_sum, Finset.sum_mul]
   refine Finset.sum_congr rfl fun d _ => ?_
   rw [← map_mul, ← map_mul, mul_comm' a (d : ↥A)]
@@ -47,7 +48,7 @@ private theorem actionEnd_sumOp_apply {q : ℕ} (hA : IsElemAbelian q A) (D : Su
     actionEnd A a (sumOp (actionEnd A) D v) = sumOp (actionEnd A) D (actionEnd A a v) := by
   rw [← Module.End.mul_apply, ← Module.End.mul_apply, actionEnd_mul_sumOp A hA]
 
-@[expose] def projBlock (hp : p.Prime) (hpF : (p : F) ≠ 0) (hA : IsElemAbelian p A)
+@[expose] def projBlock (_hp : p.Prime) (_hpF : (p : F) ≠ 0) (_hA : IsElemAbelian p A)
     (D : Hyperplane A p) : Module.End F V :=
   avgCoeff A D.1 • sumOp (actionEnd A) D.1 -
     avgCoeff A (⊤ : Subgroup ↥A) • sumOp (actionEnd A) ⊤
@@ -62,7 +63,7 @@ theorem projBlock_apply_eq (hp : p.Prime) (hpF : (p : F) ≠ 0) (hA : IsElemAbel
 private theorem sumOp_top_sumOp {q : ℕ} (hA : IsElemAbelian q A) (D : Subgroup ↥A) (v : V) :
     sumOp (actionEnd A) ⊤ (sumOp (actionEnd A) D v)
       = ((Fintype.card ↥D : ℕ) : F) • sumOp (actionEnd A) ⊤ v := by
-  haveI : IsMulCommutative ↥A := hA.1
+  have : IsMulCommutative ↥A := hA.1
   have hL : sumOp (actionEnd A) ⊤ (sumOp (actionEnd A) D v)
       = ∑ a : ↥(⊤ : Subgroup ↥A), ∑ d : ↥D,
           actionEnd A (a : ↥A) (actionEnd A (d : ↥A) v) := by
@@ -138,7 +139,7 @@ theorem projBlock_apply_fixed (hp : p.Prime) (hpF : (p : F) ≠ 0) (hA : IsElemA
 theorem projBlock_apply_of_mem_block (hp : p.Prime) (hpF : (p : F) ≠ 0) (hA : IsElemAbelian p A)
     {D E : Hyperplane A p} (hDE : E ≠ D) {v : V} (hv : v ∈ blockSpace A E.1) :
     projBlock A hp hpF hA D v = 0 := by
-  haveI : IsMulCommutative ↥A := hA.1
+  have : IsMulCommutative ↥A := hA.1
   have hcomm : ∀ a ∈ (⊤ : Subgroup ↥A), ∀ b ∈ (⊤ : Subgroup ↥A), a * b = b * a :=
     fun a _ b _ => mul_comm' a b
   have hgen : D.1 ⊔ E.1 = ⊤ := by
@@ -185,11 +186,11 @@ theorem isCompl_blockSpace_ker (hp : p.Prime) (hpF : (p : F) ≠ 0) (hA : IsElem
     exact Submodule.add_mem _ (Submodule.mem_sup_left h1) (Submodule.mem_sup_right h2)
 
 abbrev blockEnd (hp : p.Prime) (hpF : (p : F) ≠ 0) (hA : IsElemAbelian p A)
-    (t : Hyperplane A p → ↥A) (ht : ∀ D, t D ∉ D.1) (D : Hyperplane A p) : V ≃ₗ[F] V :=
+    (t : Hyperplane A p → ↥A) (_ht : ∀ D, t D ∉ D.1) (D : Hyperplane A p) : V ≃ₗ[F] V :=
   glue (isCompl_blockSpace_ker A hp hpF hA D)
     (restrictEquiv (blockSpace A D.1) (t D : V ≃ₗ[F] V)
-      (fun u hu => blockSpace_invariant A hp hpF hA hu)
-      (fun u hu => blockSpace_invariant A hp hpF hA (a := (t D)⁻¹) hu))
+      (fun _u hu => blockSpace_invariant A hp hpF hA hu)
+      (fun _u hu => blockSpace_invariant A hp hpF hA (a := (t D)⁻¹) hu))
     1
 
 theorem blockEnd_apply_mem (hp : p.Prime) (hpF : (p : F) ≠ 0) (hA : IsElemAbelian p A)
@@ -258,7 +259,7 @@ theorem blockEnd_commute (hp : p.Prime) (hpF : (p : F) ≠ 0) (hA : IsElemAbelia
     (t : Hyperplane A p → ↥A) (ht : ∀ D, t D ∉ D.1) (D : Hyperplane A p) (a : ↥A) :
     (a : V ≃ₗ[F] V) * blockEnd A hp hpF hA t ht D =
       blockEnd A hp hpF hA t ht D * (a : V ≃ₗ[F] V) := by
-  haveI : IsMulCommutative ↥A := hA.1
+  have : IsMulCommutative ↥A := hA.1
   refine LinearEquiv.ext fun v => ?_
   obtain ⟨u, r, hcu, rfl⟩ :=
     exists_coe_add_of_isCompl (isCompl_blockSpace_ker A hp hpF hA D) v

@@ -107,7 +107,7 @@ private theorem tptd_extract_model_lift
     (hlabL : LargeEvenInLambda2 labL) (htag : labL.tag = .A) (hrank : 3 ≤ labL.rank)
     (hhL : GGHasLabel labL (L ⧸ Subgroup.center L))
     (hmark : LargeEvenMarking L (fun _ _ _ I _ θ => GGInducedInn E θ I))
-    {p : ℕ} (hp : p.Prime) {y : MulAut L} (hy : y ∈ E) (hE : IsElemAbelian p E) :
+    {p : ℕ} (_hp : p.Prime) {y : MulAut L} (hy : y ∈ E) (hE : IsElemAbelian p E) :
     ∃ (K : Type) (_ : Field K) (_ : Finite K),
       Nat.card K = 2 ^ labL.n ∧
       ∃ θ : L ⧸ Subgroup.center L ≃* projectiveSL (labL.rank + 1) K,
@@ -159,7 +159,7 @@ private theorem tptd_map_fixSubgroup_eq {G H : Type*} [Group G] [Group H] (e : G
     change (MulAut.congr e α) y = y
     rw [h, hy]
 
-private theorem tptd_component_transport {L : Type} [Group L] (hperf : commutator L = ⊤)
+private theorem tptd_component_transport {L : Type} [Group L] (_hperf : commutator L = ⊤)
     {K : Type} [Field K] {d : ℕ} {θ : L ⧸ Subgroup.center L ≃* projectiveSL d K}
     {g : GL (Fin d) K} {y : MulAut L} {J : Subgroup L}
     (hcomp : IsComponentOf J (ggAutFixedSubgroup y))
@@ -217,7 +217,7 @@ private theorem tptd_exists_specialFactor_not_fix
     ∃ A ∈ specialFactor g h,
       (slGL d K A : Module.End K (Fin d → K)) (w : Fin d → K) ≠ (w : Fin d → K) := by
   classical
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   obtain ⟨f, hf⟩ := Module.Projective.exists_dual_eq_one (AdjoinRoot h) hw
   have hker_ne_bot : LinearMap.ker f ≠ ⊥ := by
     intro hbot
@@ -298,7 +298,7 @@ private theorem tptd_blockScalar_unique
     (hm : 2 ≤ primaryMultiplicity (glA g : Module.End K (Fin d → K)) h)
     {c c' : AdjoinRoot h} (hc : tptd_IsBlockScalar g h B c)
     (hc' : tptd_IsBlockScalar g h B c') : c = c' := by
-  haveI : Nontrivial (primaryComponent (glA g : Module.End K (Fin d → K)) h) :=
+  have : Nontrivial (primaryComponent (glA g : Module.End K (Fin d → K)) h) :=
     Module.nontrivial_of_finrank_pos (R := AdjoinRoot h)
       (show 0 < primaryMultiplicity (glA g : Module.End K (Fin d → K)) h from by omega)
   obtain ⟨w, hw⟩ := exists_ne (0 : primaryComponent (glA g : Module.End K (Fin d → K)) h)
@@ -331,8 +331,7 @@ private theorem tptd_glA_scalar {K : Type} [Field K] {d : ℕ} (u : Kˣ) :
     (glA (Matrix.GeneralLinearGroup.scalar (Fin d) u) : Module.End K (Fin d → K)) =
       (u : K) • 1 := by
   ext v i
-  simp [glA, Matrix.GeneralLinearGroup.toLin, Matrix.toLin'_apply,
-    Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, Matrix.mulVec_diagonal]
+  simp [glA, Matrix.GeneralLinearGroup.toLin, Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, Matrix.mulVec_diagonal]
 
 private theorem tptd_glA_mul {K : Type} [Field K] {d : ℕ} (B₁ B₂ : GL (Fin d) K) :
     (glA (B₁ * B₂) : Module.End K (Fin d → K)) =
@@ -388,11 +387,11 @@ private theorem tptd_quotientScalar_exists
     have hfrV : Module.finrank K (Fin d → K) = d := Module.finrank_fin_fun (R := K) (n := d)
     have h1 : Module.finrank K Vh = d := by
       rw [htop]
-      simpa using hfrV
+      simp
     have hlt : d - 1 < d := Nat.sub_lt hd (by norm_num)
     have hfinVh' : Module.finrank K Vh = d - 1 := hfinVh
     omega
-  obtain ⟨v0, -, hv0⟩ := SetLike.exists_of_lt (lt_top_iff_ne_top.mpr hne)
+  obtain ⟨v0, -, hv0⟩ := _root_.IsConcreteLE.exists_of_lt (lt_top_iff_ne_top.mpr hne)
   let w0 : (Fin d → K) ⧸ Vh := Submodule.mkQ Vh v0
   have hw0 : w0 ≠ 0 := by
     intro hw
@@ -427,7 +426,7 @@ private theorem tptd_quotientScalar_unique
     (hne : primaryComponent (glA g : Module.End K (Fin d → K)) h ≠ ⊤)
     {δ δ' : K} (hδ : tptd_IsQuotientScalar g h B δ)
     (hδ' : tptd_IsQuotientScalar g h B δ') : δ = δ' := by
-  obtain ⟨v, -, hv⟩ := SetLike.exists_of_lt (lt_top_iff_ne_top.mpr hne)
+  obtain ⟨v, -, hv⟩ := _root_.IsConcreteLE.exists_of_lt (lt_top_iff_ne_top.mpr hne)
   have h2 : (δ' - δ) • v ∈ primaryComponent (glA g : Module.End K (Fin d → K)) h := by
     have heq : (δ' - δ) • v = ((glA B : Module.End K (Fin d → K)) v - δ • v) -
         ((glA B : Module.End K (Fin d → K)) v - δ' • v) := by
@@ -570,12 +569,12 @@ private theorem tptd_cyclic_centralizer
     (hinner : ∀ a ∈ H, ∃ B : GL (Fin d) K, a = conjAut d K B) :
     Nat.card H ≤ p := by
   classical
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   have hm : 2 ≤ primaryMultiplicity (glA g : Module.End K (Fin d → K)) h := by
     rw [hmult]; omega
   have hgood : IsGoodFactor g h := Or.inl (by rw [hmult]; omega)
   have hperf : ⁅specialFactor g h, specialFactor g h⁆ = specialFactor g h := by
-    haveI := (isQuasisimple_specialFactor (A := g) hsq hh hgood).1
+    have := (isQuasisimple_specialFactor (A := g) hsq hh hgood).1
     exact CFSG.GroupTheory.commutator_eq_self_of_isPerfect_subgroup
   have hfin : Module.finrank K (primaryComponent (glA g : Module.End K (Fin d → K)) h) = d - 1 := by
     rw [CFSG.RankThree.PartOne.KCPrimary.finrank_primaryComponent, hdeg]
@@ -587,11 +586,11 @@ private theorem tptd_cyclic_centralizer
       rw [htop, finrank_top]
       exact Module.finrank_fin_fun (R := K) (n := d)
     omega
-  haveI : Nontrivial (primaryComponent (glA g : Module.End K (Fin d → K)) h) :=
+  have : Nontrivial (primaryComponent (glA g : Module.End K (Fin d → K)) h) :=
     Module.nontrivial_of_finrank_pos (R := AdjoinRoot h)
       (show 0 < primaryMultiplicity (glA g : Module.End K (Fin d → K)) h from by omega)
-  haveI : Finite (AdjoinRoot h) := by
-    haveI : Module.Finite K (AdjoinRoot h) :=
+  have : Finite (AdjoinRoot h) := by
+    have : Module.Finite K (AdjoinRoot h) :=
       (AdjoinRoot.powerBasis (monic_of_mem_primaryFactors hh).ne_zero).finite
     exact Module.finite_of_finite K
   have hAlgNe : ∀ x : K, x ≠ 0 → algebraMap K (AdjoinRoot h) x ≠ 0 := by
@@ -643,7 +642,7 @@ private theorem tptd_cyclic_centralizer
     simp
   have hquot_one : tptd_IsQuotientScalar g h (1 : GL (Fin d) K) 1 := by
     intro v
-    simp [tptd_IsQuotientScalar]
+    simp
   have ca_ne_zero : ∀ a : H, ca a ≠ 0 := by
     intro a h0
     obtain ⟨w, hw⟩ := exists_ne (0 : primaryComponent (glA g : Module.End K (Fin d → K)) h)
@@ -779,7 +778,7 @@ private theorem tptd_cyclic_centralizer
     rw [← MonoidHom.ker_eq_bot_iff, Subgroup.eq_bot_iff_forall]
     intro a ha
     exact Ψ_eq_one a (MonoidHom.mem_ker.mp ha)
-  haveI : IsCyclic (AdjoinRoot h)ˣ := instIsCyclicUnitsOfFinite
+  have : IsCyclic (AdjoinRoot h)ˣ := instIsCyclicUnitsOfFinite
   have hcyc : IsCyclic H := isCyclic_of_injective Ψ Ψ_inj
   exact TableB.card_le_of_isCyclic hp.pos hcyc hH.2
 
@@ -820,9 +819,9 @@ theorem ggI1PairRankOn_TypeA_dvd
     obtain ⟨e⟩ := CFSG.LocalAnalysis.GLTheoremA.Y10F.quotEquiv_of_perfect_central
       (ψ.subgroupMap J) (ψ.subgroupMap_surjective J) hperfJ hker
     exact ggHasLabel_of_mulEquiv e hhJ
-  haveI hcharK : CharP K 2 := by
-    haveI : Fintype K := Fintype.ofFinite K
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hcharK : CharP K 2 := by
+    have : Fintype K := Fintype.ofFinite K
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact charP_of_card_eq_prime_pow (p := 2) (f := labL.n) (by
       rw [← Nat.card_eq_fintype_card]; exact hK)
   have hd4 : 4 ≤ labL.rank + 1 := by omega

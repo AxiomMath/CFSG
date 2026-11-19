@@ -12,6 +12,7 @@ open CFSG.Quasithin CFSG.GorensteinWalter CFSG.Quasithin.H13
 
 variable {Q : Type} [Group Q] [Finite Q]
 
+omit [Finite Q] in
 theorem yo2_comm_of_two_sub {A A' Rb : Subgroup Q}
     (hc : ∀ a ∈ A, ∀ b ∈ A', a * b = b * a) (hi : A ⊓ A' = ⊥)
     (hA : ∀ R : Subgroup Q, R ≤ A → IsPGroup 2 R → ∀ a ∈ R, ∀ b ∈ R, a * b = b * a)
@@ -167,6 +168,7 @@ theorem yo2_comm_of_small {A A' Rb : Subgroup Q} (hc : ∀ a ∈ A, ∀ b ∈ A'
     simpa using h
   exact mul_inv_eq_iff_eq_mul.mp this
 
+omit [Finite Q] in
 theorem yo2_card_symm {A A' Rb : Subgroup Q} {σ : Q} (hσR : ∀ r, r ∈ Rb ↔ σ * r * σ⁻¹ ∈ Rb)
     (hσA : ∀ a, a ∈ A ↔ σ * a * σ⁻¹ ∈ A') : Nat.card ↥(Rb ⊓ A') = Nat.card ↥(Rb ⊓ A) := by
   refine Nat.card_congr
@@ -318,14 +320,14 @@ theorem yo2_abstract {F : Type} [Field F] [Finite F] {q : ℕ}
     have hpow₁ : ∀ i : ℕ, x₁ ^ i ∈ Yb ∧ τ * x₁ ^ i * τ⁻¹ * (x₁ ^ i)⁻¹ ∈ Rb := by
       intro i
       induction i with
-      | zero => exact ⟨by simpa using Yb.one_mem, by simpa using Rb.one_mem⟩
+      | zero => exact ⟨by simp, by simp⟩
       | succ i ih =>
         rw [pow_succ']
         exact ⟨Yb.mul_mem (hPY hx₁P) ih.1, hmul _ _ (hPY hx₁P) ih.1 hcx₁ ih.2⟩
     have hpow₂ : ∀ i : ℕ, x₂ ^ i ∈ Yb ∧ τ * x₂ ^ i * τ⁻¹ * (x₂ ^ i)⁻¹ ∈ Rb := by
       intro i
       induction i with
-      | zero => exact ⟨by simpa using Yb.one_mem, by simpa using Rb.one_mem⟩
+      | zero => exact ⟨by simp, by simp⟩
       | succ i ih =>
         rw [pow_succ']
         exact ⟨Yb.mul_mem (hPY hx₂P) ih.1, hmul _ _ (hPY hx₂P) ih.1 hcx₂ ih.2⟩

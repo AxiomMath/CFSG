@@ -34,7 +34,7 @@ theorem exists_kgPieces_twoCentralElt {F : Type} [Field F] [Finite F] [CharP F 2
       ∀ J ∈ 𝒥, GGRCSKGPiece
         (ψ.range ⊓ Subgroup.centralizer {ψ (twoCentralElt (m + 3) 1 2 (0 : F) 1)}) E J := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set x₀ : StatedSp (m + 3) F := twoCentralElt (m + 3) 1 2 (0 : F) 1 with hx₀
   set C₀ : Subgroup G := ψ.range ⊓ Subgroup.centralizer {ψ x₀} with hC₀def
   set QW : Subgroup (StatedSp (m + 3) F) := wRadical F (1 : Fin (m + 3)) 2

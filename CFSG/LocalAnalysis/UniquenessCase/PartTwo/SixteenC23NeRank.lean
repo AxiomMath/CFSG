@@ -15,6 +15,7 @@ open CFSG.Quasithin CFSG.Quasithin.FFC CFSG.Open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem c23ne_rk_eq_three_of_card_eight {V₀ V : Subgroup G} {hV : IsElemAbelian 2 V}
     {W : Subgroup (Vtil V₀ V hV)} (hW : Nat.card ↥W = 8) : rk ↥W = 3 := by
   unfold rk

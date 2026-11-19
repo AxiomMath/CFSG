@@ -14,6 +14,7 @@ section Form
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type} [AddCommGroup V] [Module F V]
   [Finite V] {H : Type} [Group H]
 
+omit [Finite F] in
 theorem rigidProp_form (Φ : ReflForm F V) (Sing : V → Prop) (TS : Submodule F V → Prop)
     (ρ : H →* Module.End F V) (P : Equiv.Perm V → Prop) (𝔉 : Subgroup H → ℕ → Submodule F V)
     (p : ℕ) (hp : p.Prime) (hp2 : p ≠ 2) (hσΦ : ∀ c, Φ.σ (Φ.σ c) = c)
@@ -103,7 +104,7 @@ theorem rigidProp_form (Φ : ReflForm F V) (Sing : V → Prop) (TS : Submodule F
         have := Submodule.finrank_mono hle
         rw [finrank_span_singleton hx0] at this
         omega
-      obtain ⟨y₁, hy₁P, hy₁⟩ := SetLike.not_le_iff_exists.1 hnle1
+      obtain ⟨y₁, hy₁P, hy₁⟩ := IsConcreteLE.not_le_iff_exists.1 hnle1
       have hnle2 : ¬ Φ.perp (X (k + 1)) ≤ Submodule.span F ({x, y₁} : Set V) := by
         intro hle
         have h1 := Submodule.finrank_mono hle
@@ -113,7 +114,7 @@ theorem rigidProp_form (Φ : ReflForm F V) (Sing : V → Prop) (TS : Submodule F
           simp only [Finset.coe_insert, Finset.coe_singleton] at this
           exact le_trans this h3
         omega
-      obtain ⟨y₂, hy₂P, hy₂⟩ := SetLike.not_le_iff_exists.1 hnle2
+      obtain ⟨y₂, hy₂P, hy₂⟩ := IsConcreteLE.not_le_iff_exists.1 hnle2
       exact hC.line_of_eichler hσΦ hx0 hy₁ hy₂ (hE x hx hx0 y₁ hy₁P) (hE x hx hx0 y₂ hy₂P)
   obtain ⟨j, hj⟩ := hRhp ⟨r, hr⟩
   have hrj : r ^ p ^ j = 1 := by simpa using congrArg Subtype.val hj

@@ -30,7 +30,7 @@ theorem pow_three_eq_one_of_isSylowOf (h415 : Sec4.Item4_15)
   obtain ⟨y, hy, rfl⟩ := hx
   set π := QuotientGroup.mk' (aschbacherSolvableCore 3 ↥L) with hπ
   have hinj : Set.InjOn π ((S₀ : Subgroup ↥L) : Set ↥L) :=
-    injOn_mk_of_isPGroup Nat.prime_three S₀.isPGroup'
+    injOn_mk_of_isPGroup Nat.prime_three S₀.isPGroup
   set Sb : Sylow 3 (↥L ⧸ aschbacherSolvableCore 3 ↥L) :=
     S₀.mapSurjective (QuotientGroup.mk'_surjective _) with hSbdef
   have hSb : (Sb : Subgroup _) = (S₀ : Subgroup ↥L).map π := Sylow.coe_mapSurjective _ _

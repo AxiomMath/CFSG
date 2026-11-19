@@ -22,8 +22,8 @@ theorem ree_exists_order_eightynine_commute {K : Type} [Field K] [Finite K] [Cha
       ∃ w : F4.reeGamma K a, orderOf w = 89 ∧ Commute w y := by
   obtain ⟨-, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, hcz, hct, -⟩ :=
     large_Ree_two_involution_centralizers a ha K hK
-  haveI : Fact (Nat.Prime 89) := ⟨by norm_num⟩
-  haveI : Finite (ModGL F4.tag K) := finite_modGL
+  have : Fact (Nat.Prime 89) := ⟨by norm_num⟩
+  have : Finite (ModGL F4.tag K) := finite_modGL
   have key : ∀ (r : ModGL F4.tag K) (hr : r ∈ F4.reeGamma K a),
       89 ∣ Nat.card ↥(F4.reeGamma K a ⊓ Subgroup.centralizer {r}) →
       ∃ w : F4.reeGamma K a, orderOf w = 89 ∧ Commute w ⟨r, hr⟩ := by
@@ -60,7 +60,7 @@ theorem lie23To89At_twistedF4 : Lie23To89At .twistedF4 := by
   obtain ⟨-, hRM⟩ := hM.reeTitsModel (by decide)
   have hmodel := large_Ree_model_Schreier X 2 f hRM
   obtain ⟨-, a, hfa, K, _, _, hK, ⟨e⟩⟩ := hRM
-  haveI : CharP K F4.prime :=
+  have : CharP K F4.prime :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
       hadm.2.1 hK
   have ha : 1 ≤ a := by
@@ -73,7 +73,7 @@ theorem lie23To89At_twistedF4 : Lie23To89At .twistedF4 := by
   have h89 : 89 ∣ 2 ^ (2 * a + 1) - 1 := by
     rw [← hfa]
     exact (eightynine_dvd_two_pow_sub_one_iff f).2 h11
-  haveI : Fact (Nat.Prime 89) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 89) := ⟨by norm_num⟩
   exact prime_dvd_card_centralizer_of_classesCover E (classesCover_ree ha hK' hz ht)
     (ree_exists_order_eightynine_commute ha hK' h89 hz ht) hτ
 

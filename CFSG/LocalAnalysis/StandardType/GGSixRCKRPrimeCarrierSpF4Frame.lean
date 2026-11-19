@@ -21,6 +21,7 @@ open CFSG.Open CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
 variable {L : Type} [Field L] [IsAlgClosed L] [CharP L 2] [Algebra (ZMod 2) L]
   [Algebra.IsAlgebraic (ZMod 2) L]
 
+omit [IsAlgClosed L] [CharP L 2] [Algebra (ZMod 2) L] [Algebra.IsAlgebraic (ZMod 2) L] in
 theorem exists_spFrame_of_adjoint {n : ℕ} {S : Set (Fin Tag.F4.rank → ℤ)}
     (ι : ↥(StatedSp n L) →* ↥(adjointGroup Tag.F4 L)) (hinj : Function.Injective ι)
     (hrange : MonoidHom.range ((adjointGroup Tag.F4 L).subtype.comp ι)
@@ -116,6 +117,7 @@ private theorem exists_baseFrame_b3 {J : Set (Fin Tag.F4.rank)} (hJ : J = f4Levi
   exact exists_spFrame_of_adjoint _ (CFSG.StandardType.F4ExplicitPos.B3Algebraic.iBΩ_injective L)
     hrange hnat (fun t ht => exists_mem_rootSpan_conj_eq_f4Levi (Or.inl hJ) ht)
 
+omit [IsAlgClosed L] [CharP L 2] [Algebra (ZMod 2) L] [Algebra.IsAlgebraic (ZMod 2) L] in
 theorem exists_spFrame_conj (v : WeylGroup Tag.F4) {n : ℕ}
     {S : Set (Fin Tag.F4.rank → ℤ)} (hS : ∀ α ∈ S, IsRoot Tag.F4 α)
     (ι₀ : ↥(StatedSp n L) →* ModGL Tag.F4 L) (hinj : Function.Injective ι₀)

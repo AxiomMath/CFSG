@@ -19,7 +19,7 @@ open CFSG.AGLEmbedding.KFactProofs.Sp62Local CFSG.RankThree.PartTwo.Census.Carri
 theorem sp62_card_dvd_of_not_dvd_index
     {Y : Subgroup H6} (hY : Y ≠ ⊤) (h3 : ¬ 3 ∣ Y.index) :
     Nat.card Y ∣ 51840 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine CFSG.StandardType.SylowOvergroup.forall_of_sylow_le T0S (fun Y => Nat.card Y ∣ 51840)
     ?_ ?_ hY h3
   · intro g Y hY'

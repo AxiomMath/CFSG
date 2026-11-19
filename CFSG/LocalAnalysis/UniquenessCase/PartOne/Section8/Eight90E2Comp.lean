@@ -20,6 +20,7 @@ open CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719 (K_CatalogueThreePrime
 
 variable {H : Type} [Group H] [Finite H]
 
+omit [Finite H] in
 theorem twentyseven_dvd_card_of_nine_dvd_card_quotient_center {Y C : Subgroup H}
     (hY3 : Nat.card Y = 3) (hYcent : Y ≤ Subgroup.centralizer (C : Set H))
     (hsplit : Y ≤ C ∨ Y ⊓ C = ⊥) (h9 : 9 ∣ Nat.card (↥C ⧸ center ↥C)) :

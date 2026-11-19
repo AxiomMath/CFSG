@@ -22,7 +22,7 @@ noncomputable def specialLinearEmbedding (E P : Submodule K V) (h : IsCompl E P)
     ext v
     simp only [LinearEquiv.trans_apply, LinearEquiv.symm_apply_apply,
       LinearEquiv.prodCongr_apply, SpecialLinearGroup.coe_mul, LinearEquiv.mul_apply,
-      LinearEquiv.refl_apply, Prod.fst, Prod.snd]
+      LinearEquiv.refl_apply]
 
 @[simp] theorem specialLinearEmbedding_apply_add {E P : Submodule K V} (h : IsCompl E P)
     (g : SpecialLinearGroup K E) (x : E) (y : P) :

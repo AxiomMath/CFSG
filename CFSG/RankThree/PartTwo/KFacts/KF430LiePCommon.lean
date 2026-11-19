@@ -121,7 +121,7 @@ theorem card_le_nine_of_forall_ne {X : Type*} [Group X] [Finite X]
   by_contra hlt
   push Not at hlt
   have h27 : 3 ^ 3 ≤ Nat.card E := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨n, hn⟩ := hP.exists_card_eq
     rw [hn] at hlt ⊢
     apply Nat.pow_le_pow_right (by norm_num)
@@ -252,7 +252,7 @@ theorem e9Move_of_std {X : Type*} [Group X] [Finite X]
     exact h20 (hinj 2 1 h1).1
   have hmove₀ : HasMove ψ.range :=
     ⟨σ * w, hnN, ⟨g, hgE, by rw [hn2]; exact hg2⟩, ⟨g, hgE, by rw [hn3]; exact hhg⟩⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro V hV hV9
   have hVp : IsPGroup 3 V := fun x => ⟨1, Subtype.ext (by simpa using hV.2 x x.2)⟩
   have hE₀p : IsPGroup 3 ψ.range := fun x => ⟨1, Subtype.ext (by simpa using hE₀.2 x x.2)⟩

@@ -31,7 +31,7 @@ theorem roots7 : allRoots 2048 (invsOf wM.sE7.keys) (List.range 4096) = true := 
   have hr : List.range 4096 = (List.range 4096).filter fun _ => true :=
     (List.filter_eq_self.2 fun _ _ => rfl).symm
   have hb : ∀ v < 4096, (2 ^ 4096 - 1 : ℕ).testBit v = (fun _ => true) v := fun v hv => by
-    simp [Nat.testBit_two_pow_sub_one, hv]
+    rw [Nat.testBit_two_pow_sub_one]; simp [hv]
   rw [invsOf_wM7, hr, allRoots_eqM sw_eqM (Nat.sub_one_lt (by positivity)) hb]
   refine all_of_getD invS7_length fun i hi => ?_
   interval_cases i <;> decide +kernel

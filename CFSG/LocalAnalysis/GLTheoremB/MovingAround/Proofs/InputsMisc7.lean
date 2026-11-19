@@ -21,22 +21,22 @@ theorem fixerAut_eq_sylowFixingAut {K : Type} [Group K] (S : Subgroup K) :
 theorem eq_bot_of_normal_of_odd {K : Type} [Group K] [Finite K] (hs : IsSimpleGroup K)
     (hnab : ∃ a b : K, a * b ≠ b * a) (N : Subgroup K) (hN : N.Normal) (hodd : Odd (Nat.card N)) :
     N = ⊥ := by
-  haveI := hs
-  haveI := hN
+  have := hs
+  have := hN
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal N with h | h
   · exact h
   · exfalso
     have hoddK : Odd (Nat.card K) := by
       rw [h, Subgroup.card_top] at hodd
       exact hodd
-    haveI := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hoddK
+    have := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hoddK
     obtain ⟨a, b, hab⟩ := hnab
     exact hab (IsSimpleGroup.comm_iff_isSolvable.2 inferInstance a b)
 
 theorem hasNormalPComplement_two_fixerAut_of_simple {K : Type} [Group K] [Finite K]
     (hs : IsSimpleGroup K) (hnab : ∃ a b : K, a * b ≠ b * a) (S : Subgroup K)
     (hS : CFSG.Open.fusionIsSylowIn 2 S ⊤) : CFSG.HasNormalPComplement 2 ↥(fixerAut S) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let S' : Sylow 2 K := ⟨S, hS.2.1, fun {Q} hQ hle => le_of_eq (hS.2.2 Q le_top hQ hle)⟩
   obtain ⟨N, hN, hodd, hq⟩ := CFSG.ClassicalInvolution.GlaubermanAut.exists_normal_two_complement
     (fun N hN hodd => eq_bot_of_normal_of_odd hs hnab N hN hodd) hS.2.1 (Sylow.not_dvd_index S')
@@ -58,7 +58,7 @@ theorem hasNormalPComplement_of_not_dvd_card {G : Type*} [Group G] [Finite G] [h
   refine ⟨⊤, inferInstance, ?_, fun g => ⟨0, ?_⟩⟩
   · rw [Subgroup.card_top]
     exact (Nat.Prime.coprime_iff_not_dvd hp.out).2 h
-  · haveI := QuotientGroup.subsingleton_quotient_top (G := G)
+  · have := QuotientGroup.subsingleton_quotient_top (G := G)
     exact Subsingleton.elim _ _
 
 theorem hasNormalPComplement_fixerAut_of_forall_inner [hp : Fact p.Prime] (hp2 : p ≠ 2)
@@ -78,11 +78,11 @@ theorem hasNormalPComplement_fixerAut_of_hom [hp : Fact p.Prime] (hZ : Subgroup.
       (∀ x ∈ (P : Subgroup K), α x = x) → α ∈ inner K) :
     CFSG.HasNormalPComplement p ↥(fixerAut (P : Subgroup K)) := by
   obtain ⟨MO, hMOn, hMOc, hMOq⟩ := hG'
-  haveI := hMOn
+  have := hMOn
   set C : Subgroup (MulAut K) := fixerAut (P : Subgroup K) with hC
   let π : ↥C →* G' := ψ.comp C.subtype
   let N : Subgroup ↥C := MO.comap π
-  haveI hNn : N.Normal := Subgroup.Normal.comap hMOn π
+  have hNn : N.Normal := Subgroup.Normal.comap hMOn π
   refine InputsMisc5.hasNormalPComplement_of_normal (N := N) ?_ ?_
   · intro q
     induction q using QuotientGroup.induction_on with
@@ -189,7 +189,7 @@ theorem input7_10_1ResOdd_of_nonab (hnonab : InputsMisc5.Input7_10_1ResOddNonab)
   · exfalso
     apply hO
     refine htriv p hp hp2 K hs hnab hcat fun hpK => ?_
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' p hpK
     have hz : IsPGroup p (Subgroup.zpowers g) :=
       IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hg, pow_one])
@@ -248,8 +248,8 @@ open CFSG.ComponentClassification.CatLeaf (lieOrderDivisor)
 theorem input7_10_1ResOddNonab_of_residues (hPSL : ResOddPSL) (hPSU : ResOddPSU) (hE6 : ResOddE6)
     (hTwE6 : ResOddTwE6) (hD4 : ResOddD4) : InputsMisc5.Input7_10_1ResOddNonab := by
   intro p hp hp2 K _ _ hs hnab hcat _ P hP hPnab
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsSimpleGroup K := hs
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsSimpleGroup K := hs
   have hZ := InputsMisc5.center_eq_bot_of_simple hs hnab
   let S : Sylow p K := ⟨P, hP.2.1, fun {Q} hQ hle => le_of_eq (hP.2.2 Q le_top hQ hle)⟩
   have hSidx : ¬ p ∣ P.index := Sylow.not_dvd_index S
@@ -318,8 +318,8 @@ theorem input7_10_1ResOddNonab_of_residues (hPSL : ResOddPSL) (hPSU : ResOddPSU)
 
 theorem resOddTrivial_of_lie (hLie : ResOddTrivialLie) : ResOddTrivial := by
   intro p hp hp2 K _ _ hs hnab hcat hpK
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsSimpleGroup K := hs
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsSimpleGroup K := hs
   rcases CFSG.RankThree.PartOne.PlaneCases.catalog_cases
       (CFSG.RankThree.PartOne.TCB.tauCetiCatalogBridge K hnab hcat) with
     ⟨q, hq, ⟨e⟩⟩ | ⟨n, hn5, ⟨e⟩⟩ | ⟨t, n, ℓ, f, hadm, hmodel⟩ | ⟨s, ⟨e⟩⟩

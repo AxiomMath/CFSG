@@ -38,7 +38,7 @@ section LiftP
 variable {A Y : Subgroup G} [(ker148 A Y).Normal]
 
 theorem exists_lift_isPGroup_three148 (hA3 : IsPGroup 3 A)
-    (hAY : A ≤ Subgroup.normalizer (Y : Set G))
+    (_hAY : A ≤ Subgroup.normalizer (Y : Set G))
     {P' : Subgroup (↥(Y ⊔ A) ⧸ ker148 A Y)} (hP' : IsPGroup 3 P')
     (hAP' : img148 A Y A ≤ P') :
     ∃ P : Subgroup G, A ≤ P ∧ P ≤ Y ⊔ A ∧ IsPGroup 3 P ∧ img148 A Y P = P' ∧
@@ -63,7 +63,7 @@ theorem exists_lift_isPGroup_three148 (hA3 : IsPGroup 3 A)
   have hS1 : IsPGroup 3 (A.subgroupOf (Y ⊔ A)) := hA3.comap_subtype
   have hS0 : IsPGroup 3 ((A.subgroupOf (Y ⊔ A)).subgroupOf Q) := hS1.comap_subtype
   obtain ⟨T, hTS⟩ := hS0.exists_le_sylow
-  obtain ⟨j, hj⟩ := T.isPGroup'.exists_card_eq
+  obtain ⟨j, hj⟩ := T.isPGroup.exists_card_eq
   have hTidx : ¬ 3 ∣ (T : Subgroup ↥Q).index := Sylow.not_dvd_index T
   have hidx : 3 ^ j * (T : Subgroup ↥Q).index = Nat.card ↥(ker148 A Y) * 3 ^ m := by
     rw [← hj, ← hm, ← hQcard]

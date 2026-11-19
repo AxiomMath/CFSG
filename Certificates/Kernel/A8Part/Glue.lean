@@ -105,7 +105,7 @@ theorem conj_gen {a : ℕ} (ha : a < 4) :
   have hle : Q0 ≤ Q0.comap (MulAut.conj h).toMonoidHom := by
     rw [Q0, cl, Subgroup.closure_le]
     intro y hy
-    simp only [qgens, List.mem_cons, List.not_mem_nil, or_false, Set.mem_setOf_eq] at hy
+    simp only [qgens, List.mem_cons, List.not_mem_nil, or_false, Set.mem_ofPred_eq] at hy
     simp only [SetLike.mem_coe, Subgroup.mem_comap, MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
     rcases hy with rfl | rfl
     · exact hgen 0 (by norm_num)
@@ -368,7 +368,7 @@ theorem KCp_code {p ci l : ℕ} (hp : p < 7) (hci : ci < 24) (hl : l < 2) :
   unfold KCp
   cases hb : Nat.beq (Nat.mod ci (nat_lit 2)) (nat_lit 0)
   · have h : ¬ ci % 2 = 0 := Nat.ne_of_beq_eq_false hb
-    rw [cE, if_neg h]
+    rw [cE, ite_eq_right h]
     change KX (24 * xk p + (2 * (ci / 2) + l)) = _
     have hx : (x p)⁻¹ = x p := s_sq (xk_lt p hp)
     have e2 : x p * r (ci / 2) * q l * (x p * r (ci / 2))⁻¹ =
@@ -377,7 +377,7 @@ theorem KCp_code {p ci l : ℕ} (hp : p < 7) (hci : ci < 24) (hl : l < 2) :
       group
     rw [e2, henc.enc_mul, henc.enc_mul, x_code hp, KX_code (xk_lt p hp) (by omega), KC_code hj hl]
   · have h : ci % 2 = 0 := Nat.eq_of_beq_eq_true hb
-    rw [cE, if_pos h]
+    rw [cE, ite_eq_left h]
     change KC (2 * (ci / 2) + l) = _
     exact KC_code hj hl
 
@@ -517,9 +517,9 @@ theorem hcand : ∀ p < 7, ∀ j < 12, ∀ c : Perm (Fin 8), (c = r j ∨ c = x 
   obtain ⟨ci, hci, rfl⟩ : ∃ ci < 24, c = cE p ci := by
     rcases hc with rfl | rfl
     · refine ⟨2 * j, by omega, ?_⟩
-      rw [cE, if_pos (show 2 * j % 2 = 0 by omega), show 2 * j / 2 = j by omega]
+      rw [cE, ite_eq_left (show 2 * j % 2 = 0 by omega), show 2 * j / 2 = j by omega]
     · refine ⟨2 * j + 1, by omega, ?_⟩
-      rw [cE, if_neg (show ¬ (2 * j + 1) % 2 = 0 by omega), show (2 * j + 1) / 2 = j by omega]
+      rw [cE, ite_eq_right (show ¬ (2 * j + 1) % 2 = 0 by omega), show (2 * j + 1) / 2 = j by omega]
   have hJ := JGen_in hp hci hTK hQK
   have hl : (getWWW cand p).length = 24 := by
     rw [← lenWW_eq]

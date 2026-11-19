@@ -46,6 +46,7 @@ theorem P3Hyp.eq_one_of_mem_centMod (H : P3Hyp q S B) (hZ : Subgroup.center ↥S
   rw [hZ, Subgroup.mem_bot] at h
   exact congrArg Subtype.val h
 
+omit [Finite Ω] in
 theorem map_centralizer_eq {X : Type} [Group X] (φ : X →* Ω) (hφ : Function.Injective φ)
     (A : Subgroup X) :
     (Subgroup.centralizer (A : Set X)).map φ =
@@ -61,6 +62,7 @@ theorem map_centralizer_eq {X : Type} [Group X] (φ : X →* Ω) (hφ : Function
     rw [map_mul, map_mul]
     exact (Subgroup.mem_centralizer_iff.1 hy) (φ a) ⟨a, ha, rfl⟩
 
+omit [Finite Ω] in
 private theorem mem_centralizer_sup {y : Ω} {H K : Subgroup Ω} (hH : ∀ h ∈ H, h * y = y * h)
     (hK : ∀ k ∈ K, k * y = y * k) : y ∈ Subgroup.centralizer ((H ⊔ K : Subgroup Ω) : Set Ω) := by
   have hle : H ⊔ K ≤ Subgroup.centralizer ({y} : Set Ω) :=
@@ -69,6 +71,7 @@ private theorem mem_centralizer_sup {y : Ω} {H K : Subgroup Ω} (hH : ∀ h ∈
   exact Subgroup.mem_centralizer_iff.2 fun g hg =>
     Subgroup.mem_centralizer_singleton_iff.1 (hle hg)
 
+omit [Finite Ω] in
 private theorem inf_centralizer_sup {H K L : Subgroup Ω} (hHL : ∀ h ∈ H, ∀ l ∈ L, h * l = l * h) :
     L ⊓ Subgroup.centralizer ((H ⊔ K : Subgroup Ω) : Set Ω) =
       L ⊓ Subgroup.centralizer (K : Set Ω) := by
@@ -78,6 +81,7 @@ private theorem inf_centralizer_sup {H K L : Subgroup Ω} (hHL : ∀ h ∈ H, �
     exact ⟨hyL, mem_centralizer_sup (fun h hh => hHL h hh y hyL)
       (fun k hk => Subgroup.mem_centralizer_iff.1 hyK k hk)⟩
 
+omit [Finite Ω] in
 private theorem mem_normalizer_of_comm {g : Ω} {K : Subgroup Ω} (hg : ∀ k ∈ K, g * k = k * g) :
     g ∈ Subgroup.normalizer (K : Set Ω) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -96,7 +100,7 @@ theorem concA_of_modelA (H : P3Hyp q S B) (hZ : Subgroup.center ↥S = ⊥) {X :
     S267ConcA 3 S B := by
   obtain ⟨A, A₁, A₁₂, J, t, hA, hAc, h1, h12, hA₁c, hA₁₂c, hJ, hAN, hcent, hlay, ht1, ht2, hJt,
     hAt⟩ := hM
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set B₀ := B ⊓ centModSubgroup 3 S with hB₀
   have hmapS : ∀ (K : Subgroup X), K.map φ ≤ S := fun K => by
     rw [← hφS]

@@ -24,7 +24,7 @@ private theorem i167COrth_label_isOmPA_aux1 {X : Type} [Group X] {P : GLALabel �
   exact ⟨lab, hS, hX, lab, hlam, CFSG.StandardType.Canonical.largeEvenRawDatum_mono
     (fun _ _ _ _ ⟨hs, hna, θ, _⟩ => ⟨hs, hna, θ, rfl⟩) hraw⟩
 
-private theorem i167COrth_label_isOmPA_aux2 {lab : GLALabel} {n k : ℕ} (hn : 4 ≤ n)
+private theorem i167COrth_label_isOmPA_aux2 {lab : GLALabel} {n k : ℕ} (_hn : 4 ≤ n)
     (hP : CFSG.StandardType.markTag lab = .POmegaPlus ∧ CFSG.StandardType.markRank lab = n ∧
       CFSG.StandardType.markChar lab = 2 ∧ CFSG.StandardType.markDeg lab = k) :
     canonLabel lab = ⟨.D, n, k⟩ := by
@@ -32,7 +32,7 @@ private theorem i167COrth_label_isOmPA_aux2 {lab : GLALabel} {n k : ℕ} (hn : 4
   cases tg <;>
     simp only [CFSG.StandardType.markTag, CFSG.StandardType.markRank, CFSG.StandardType.markChar,
       CFSG.StandardType.markDeg, canonLabel] at hP ⊢ <;>
-    (try split_ifs at hP ⊢) <;> simp_all <;> omega
+    (try split_ifs at hP ⊢) <;> simp_all
 
 private theorem i167COrth_label_isOmPA_aux3 {lab : GLALabel} {k : ℕ}
     (hP : CFSG.StandardType.markTag lab = .PSL ∧ CFSG.StandardType.markRank lab = 4 ∧
@@ -42,7 +42,7 @@ private theorem i167COrth_label_isOmPA_aux3 {lab : GLALabel} {k : ℕ}
   cases tg <;>
     simp only [CFSG.StandardType.markTag, CFSG.StandardType.markRank, CFSG.StandardType.markChar,
       CFSG.StandardType.markDeg, canonLabel] at hP ⊢ <;>
-    (try split_ifs at hP ⊢) <;> simp_all <;> omega
+    (try split_ifs at hP ⊢) <;> simp_all
 
 private theorem i167COrth_label_isOmPA_aux4 {X : Type} [Group X] (hq : CFSG.Open.IsQuasisimple X)
     {n k : ℕ} (hk : 1 ≤ k) {i : TauCeti.CFSGIndex} (hi : isOmP n (2 ^ k) i)
@@ -74,7 +74,7 @@ private theorem i167COrth_label_isOmPA_aux4 {X : Type} [Group X] (hq : CFSG.Open
         CFSG.StandardType.Canonical.largeEvenMarking_of_lieModel_centerQuot hq.1 hmB
       obtain ⟨lab, hP, hLab⟩ := i167COrth_label_isOmPA_aux1 hmark
       have hn3 : n ≠ 3 := by omega
-      exact ⟨lab, hLab, by rw [if_neg hn3]; exact i167COrth_label_isOmPA_aux2 (by omega) hP⟩
+      exact ⟨lab, hLab, by rw [ite_eq_right hn3]; exact i167COrth_label_isOmPA_aux2 (by omega) hP⟩
     | _ => simp [onLie] at hi
 
 private theorem i167COrth_label_isOmPA_aux5 {X : Type} [Group X] (hq : CFSG.Open.IsQuasisimple X)
@@ -123,7 +123,7 @@ theorem i167COrth_label_isOmPA {X : Type} [Group X] (hq : CFSG.Open.IsQuasisimpl
   · obtain ⟨lab, hLab, hcanon⟩ := i167COrth_label_isOmPA_aux5 hq (hk3 rfl) hi e
     exact ⟨lab, hLab, by simpa using hcanon⟩
 
-private theorem i167COrth_label_isOmMA_aux1 {lab : GLALabel} {n k : ℕ} (hn : 4 ≤ n)
+private theorem i167COrth_label_isOmMA_aux1 {lab : GLALabel} {n k : ℕ} (_hn : 4 ≤ n)
     (hP : CFSG.StandardType.markTag lab = .POmegaMinus ∧ CFSG.StandardType.markRank lab = n ∧
       CFSG.StandardType.markChar lab = 2 ∧ CFSG.StandardType.markDeg lab = k) :
     canonLabel lab = ⟨.twD, n, k⟩ := by
@@ -131,7 +131,7 @@ private theorem i167COrth_label_isOmMA_aux1 {lab : GLALabel} {n k : ℕ} (hn : 4
   cases tg <;>
     simp only [CFSG.StandardType.markTag, CFSG.StandardType.markRank, CFSG.StandardType.markChar,
       CFSG.StandardType.markDeg, canonLabel] at hP ⊢ <;>
-    (try split_ifs at hP ⊢) <;> simp_all <;> omega
+    (try split_ifs at hP ⊢) <;> simp_all
 
 private theorem i167COrth_label_isOmMA_aux2 {X : Type} [Group X] (hq : CFSG.Open.IsQuasisimple X)
     {n k : ℕ} (hn : 4 ≤ n) (hk : 1 ≤ k) {i : TauCeti.CFSGIndex} (hi : isOmM n (2 ^ k) i)

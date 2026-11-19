@@ -188,6 +188,7 @@ theorem chain_numerics {A : Subgroup (MulAut V)} {Y Z₁ Z₀ M₁ M₀ : Subgro
     _ ≤ a * (Nat.card (fixV (autSec A Z₁ Z₀)) * Nat.card (fixV (autSec A M₁ M₀))) := key4
     _ = a * (Nat.card (fixV (autSec A M₁ M₀)) * Nat.card (fixV (autSec A Z₁ Z₀))) := by ring
 
+omit [Finite V] in
 theorem xInv_Y {n : ℕ} {L A : Subgroup (MulAut V)} (h : U4OffenderData n L A) :
     XInv L A (commV L ⊓ fixV (cenD L A)) :=
   (xInv_commV h.normalizes).inf (xInv_fixV_cenD h.comm)

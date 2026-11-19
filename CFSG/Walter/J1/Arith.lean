@@ -9,7 +9,7 @@ public import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
 public import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
 public import Mathlib.Combinatorics.Enumerative.DyckWord
 public import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.Data.NNRat.Floor
 public import Mathlib.Data.Nat.Choose.Multinomial
 public import Mathlib.Geometry.Euclidean.Volume.Basic
@@ -130,7 +130,7 @@ theorem false_of_card_sylow {G : Type*} [Group G] [Finite G] [IsSimpleGroup G] {
   obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow p G))
   have hpp : p.Prime := hp.out
   have hP : Nat.card P = p := by
-    obtain ⟨k, hk⟩ := P.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := P.isPGroup.exists_card_eq
     have h1 : p ^ k ∣ p * M := by rw [← hk, ← hG]; exact Subgroup.card_subgroup_dvd_card _
     have h2 : p ∣ p ^ k := by
       rw [← hk]

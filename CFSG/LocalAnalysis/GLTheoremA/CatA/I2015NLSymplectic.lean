@@ -20,7 +20,7 @@ theorem sympSimpleNonabelianRange (hr : 2 ≤ r) (σ : K ≃+* K)
     (hk : ¬ (r = 2 ∧ Nat.card (descentField σ) = 2)) :
     IsSimpleGroup (KCSpComm.subfieldProj (r := r) σ).range ∧
       ∃ x y : (KCSpComm.subfieldProj (r := r) σ).range, x * y ≠ y * x := by
-  haveI : NeZero r := ⟨by omega⟩
+  have : NeZero r := ⟨by omega⟩
   obtain ⟨hs, hperf⟩ := KCSpComm.simple_perfect_statedProj (k := descentField σ) hr hk
   rw [← KCSpComm.range_subfieldInj]
   let e := MonoidHom.ofInjective (KCSpComm.subfieldInj_injective (r := r) σ)
@@ -29,8 +29,8 @@ theorem sympSimpleNonabelianRange (hr : 2 ≤ r) (σ : K ≃+* K)
   push Not at hcon
   have hcomm : ∀ a b : StatedProj (StatedSp r (descentField σ)), a * b = b * a :=
     fun a b => e.injective (by rw [map_mul, map_mul]; exact hcon _ _)
-  haveI : Nontrivial (StatedProj (StatedSp r (descentField σ))) := hs.toNontrivial
-  haveI : IsMulCommutative (StatedProj (StatedSp r (descentField σ))) :=
+  have : Nontrivial (StatedProj (StatedSp r (descentField σ))) := hs.toNontrivial
+  have : IsMulCommutative (StatedProj (StatedSp r (descentField σ))) :=
     isMulCommutative_iff.mpr hcomm
   exact Group.IsPerfect.not_isMulCommutative (StatedProj (StatedSp r (descentField σ))) ‹_›
 
@@ -48,8 +48,8 @@ theorem sympFieldAut_data {p n : ℕ} (hr : 1 ≤ r) (hn : 1 ≤ n) (hK : Nat.ca
     (hf : f ∈ LargeEvenMatFieldImage (LargeEvenProjMk (LargeEvenSpGroup K r)))
     (hord : orderOf f = p) :
     ∃ σ : K ≃+* K, f = fieldAut r K σ ∧ p ∣ n ∧ Nat.card (descentField σ) = 2 ^ (n / p) := by
-  haveI : NeZero r := ⟨by omega⟩
-  haveI : CharP K 2 := charP_two_of_card hK
+  have : NeZero r := ⟨by omega⟩
+  have : CharP K 2 := charP_two_of_card hK
   obtain ⟨σ, rfl⟩ := RecipeFieldSp.exists_fieldAut_of_mem hf
   have hσ : orderOf σ = p := by
     rw [← orderOf_injective (fieldAut r K) FieldFixSp.fieldAut_injective σ]

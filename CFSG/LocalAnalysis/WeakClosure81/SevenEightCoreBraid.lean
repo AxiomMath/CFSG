@@ -11,6 +11,7 @@ open scoped commutatorElement Pointwise
 
 variable {Q : Type*} [Group Q] [Finite Q]
 
+omit [Finite Q] in
 private lemma seven_eight_core_braid_eq_one_of_sq_eq_one {H : Subgroup Q} {x : Q}
     (hodd : Odd (Nat.card H)) (hx : x ∈ H) (h2 : x ^ 2 = 1) : x = 1 := by
   have hdvd : orderOf x ∣ Nat.card H := Subgroup.orderOf_dvd_natCard H hx
@@ -20,6 +21,7 @@ private lemma seven_eight_core_braid_eq_one_of_sq_eq_one {H : Subgroup Q} {x : Q
   · exact orderOf_eq_one_iff.mp h
   · exact absurd (h ▸ hodd') (Nat.not_odd_iff_even.mpr (by decide))
 
+omit [Finite Q] in
 private lemma seven_eight_core_braid_closure_comm_involutions {S : Set Q} {c : Q}
     (hS1 : ∀ x ∈ S, x * x = 1) (hSc : ∀ x ∈ S, c * x = x * c)
     (hScomm : ∀ x ∈ S, ∀ y ∈ S, x * y = y * x) :
@@ -77,6 +79,7 @@ private lemma seven_eight_core_braid_choose_two_gt {n : ℕ} (hn : 4 ≤ n) : n 
   have h2 : 2 * n < n * (n - 1) - 1 := Nat.lt_sub_iff_add_lt.mpr h1
   simpa [Nat.mul_comm] using h2
 
+omit [Finite Q] in
 private lemma seven_eight_core_braid_eq_inv_of_pow_three {s m : Q} (h3 : s ^ 3 = 1)
     (hm : s * m * s⁻¹ = m⁻¹) : m = m⁻¹ := by
   have hmid : s * m⁻¹ * s⁻¹ = m := by
@@ -92,6 +95,7 @@ private lemma seven_eight_core_braid_eq_inv_of_pow_three {s m : Q} (h3 : s ^ 3 =
   have h1 : s ^ 3 * m * (s ^ 3)⁻¹ = m := by rw [h3]; group
   exact h1.symm.trans h2
 
+omit [Finite Q] in
 theorem commutator_zpowers_le_iSup_of_pow_three {Xb : Subgroup Q} (hodd : Odd (Nat.card Xb))
     {ι : Type*} (a : ι → Q) (hinv : ∀ i, a i * a i = 1) (hcomm : ∀ i j, a i * a j = a j * a i)
     (hnorm : ∀ i, a i ∈ Subgroup.normalizer (Xb : Set Q))
@@ -249,7 +253,7 @@ theorem exists_mul_commute_of_ncard_le {ι : Type*} [Finite ι] (hι : 4 ≤ Nat
     (hmem : ∀ i j, i ≠ j → (a i * a j)⁻¹ * b * (a i * a j) ∈ S) :
     ∃ i, ∃ f ∈ Subgroup.closure (a '' {j | j ≠ i}), a i * f * b = b * (a i * f) := by
   classical
-  letI := Fintype.ofFinite ι
+  let := Fintype.ofFinite ι
   let xOf (p : Finset ι) (h : p.card = 2) : ι := Classical.choose (Finset.card_eq_two.mp h)
   let yOf (p : Finset ι) (h : p.card = 2) : ι :=
     Classical.choose (Classical.choose_spec (Finset.card_eq_two.mp h))
@@ -277,7 +281,7 @@ theorem exists_mul_commute_of_ncard_le {ι : Type*} [Finite ι] (hι : 4 ≤ Nat
     have hgr : g r = (a (xOf r hr2) * a (yOf r hr2))⁻¹ * b *
         (a (xOf r hr2) * a (yOf r hr2)) := by
       dsimp only [g]
-      rw [dif_pos hr2]
+      rw [dite_eq_left hr2]
     rw [hgr]
     exact hmem (xOf r hr2) (yOf r hr2) hspec.1
   obtain ⟨p, hp, q, hq, hpq, hgp⟩ :=
@@ -301,7 +305,7 @@ theorem exists_mul_commute_of_ncard_le {ι : Type*} [Finite ι] (hι : 4 ≤ Nat
         * (a (xOf q hq2) * a (yOf q hq2)) := by
     have h := hgp
     dsimp only [g] at h
-    rw [dif_pos hp2, dif_pos hq2] at h
+    rw [dite_eq_left hp2, dite_eq_left hq2] at h
     exact h
   have hcomm_b : (a (xOf p hp2) * a (yOf p hp2)) * (a (xOf q hq2) * a (yOf q hq2))⁻¹ * b
       = b * ((a (xOf p hp2) * a (yOf p hp2)) * (a (xOf q hq2) * a (yOf q hq2))⁻¹) := by
@@ -362,6 +366,7 @@ theorem exists_mul_commute_of_ncard_le {ι : Type*} [Finite ι] (hι : 4 ≤ Nat
       rw [hid]
       exact hcomm_b
 
+omit [Finite Q] in
 theorem false_of_map_conj_eq {Xb : Subgroup Q} (hodd : Odd (Nat.card Xb)) {ι : Type*}
     (a : ι → Q) (hinv : ∀ i, a i * a i = 1) (hnorm : ∀ i, a i ∈ Subgroup.normalizer (Xb : Set Q))
     (hcent : ∀ i j, i ≠ j → ∀ m ∈ ⁅Xb, Subgroup.zpowers (a j)⁆, a i * m = m * a i)

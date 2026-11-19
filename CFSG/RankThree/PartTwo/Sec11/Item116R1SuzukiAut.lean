@@ -27,11 +27,11 @@ variable {a : ℕ} {K : Type} [Field K] [Finite K]
 
 theorem sz_exists_order_five (hK : Nat.card K = 2 ^ (2 * a + 1)) :
     ∃ x : suzukiGroup a K, orderOf x = 5 ∧ ∀ τ : RingAut K, szFieldAut a K τ x = x := by
-  haveI : CharP K 2 := CFSG.LieType.BorelTits.charP_of_natCard_eq (p := 2) (f := 2 * a + 1) hK
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : CharP K 2 := CFSG.LieType.BorelTits.charP_of_natCard_eq (p := 2) (f := 2 * a + 1) hK
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hcard : Nat.card (suzukiGroup 0 (ZMod 2)) = 20 :=
     CFSG.RankThree.PartTwo.KFacts.KP7.card_suzukiGroup_two
-  haveI : Finite (suzukiGroup 0 (ZMod 2)) :=
+  have : Finite (suzukiGroup 0 (ZMod 2)) :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   obtain ⟨x₀, hx₀⟩ := exists_prime_orderOf_dvd_card' (G := suzukiGroup 0 (ZMod 2)) 5
     (by rw [hcard]; norm_num)
@@ -197,12 +197,12 @@ variable {a : ℕ} {K : Type} [Field K] [Finite K]
 
 theorem sz_O2_fixed_eq_bot (ha : 1 ≤ a)
     (hK : Nat.card K = 2 ^ (2 * a + 1)) (τ : RingAut K) (N : Subgroup (suzukiGroup a K))
-    (hN : IsPGroup 2 N) (hfix : ∀ n ∈ N, szFieldAut a K τ n = n)
+    (hN : IsPGroup 2 N) (_hfix : ∀ n ∈ N, szFieldAut a K τ n = n)
     (hnorm : ∀ f : suzukiGroup a K, szFieldAut a K τ f = f → ∀ n ∈ N, f * n * f⁻¹ ∈ N) :
     N = ⊥ := by
   by_contra hne
-  haveI : Finite (suzukiGroup a K) := CFSG.LieType.Ree.finite_suzukiGroup hK
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (suzukiGroup a K) := CFSG.LieType.Ree.finite_suzukiGroup hK
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hNnt : Nontrivial N := (Subgroup.nontrivial_iff_ne_bot N).2 hne
   obtain ⟨x, hx5, hxfix⟩ := sz_exists_order_five hK
   have hxinvφ : szFieldAut a K τ x⁻¹ = x⁻¹ := by
@@ -299,7 +299,7 @@ theorem szCentralizerFixed_eq_bot'
     rw [← hP₀, Subgroup.mem_centralizer_singleton_iff]
     exact (Subgroup.mem_centralizer_iff.1 hd _ hzC).symm
   have hDp : IsPGroup 2 (Subgroup.centralizer (C : Set (suzukiGroup a K))) :=
-    P₀.isPGroup'.to_le hDP
+    P₀.isPGroup.to_le hDP
   by_contra hne
   have h2dvd : 2 ∣ Nat.card (Subgroup.centralizer (C : Set (suzukiGroup a K))) :=
     hDp.card_eq_or_dvd.resolve_left fun h => hne (Subgroup.card_eq_one.1 h)
@@ -310,7 +310,7 @@ theorem szCentralizerFixed_eq_bot'
     intro c hc
     rw [← hP₁, Subgroup.mem_centralizer_singleton_iff]
     exact Subgroup.mem_centralizer_iff.1 d.2 c hc
-  have hCp : IsPGroup 2 C := P₁.isPGroup'.to_le hCP
+  have hCp : IsPGroup 2 C := P₁.isPGroup.to_le hCP
   exact hn2 hCp
 
 theorem szMem_zpowers_of_fixes' (ha : 1 ≤ a)

@@ -19,15 +19,15 @@ variable {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A : Subgroup G} {a :
 theorem exists_le_isElemAbelian_card_pow {p : ℕ} (hp : p.Prime) {X : Type*} [Group X] {D : Subgroup X}
     (hD : IsElemAbelian p D) {k k' : ℕ} (hk : k' ≤ k) (hcard : Nat.card D = p ^ k) :
     ∃ D' ≤ D, IsElemAbelian p D' ∧ Nat.card D' = p ^ k' := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite D := Nat.finite_of_card_ne_zero (by rw [hcard]; exact pow_ne_zero _ hp.ne_zero)
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite D := Nat.finite_of_card_ne_zero (by rw [hcard]; exact pow_ne_zero _ hp.ne_zero)
   obtain ⟨K, hK⟩ := Sylow.exists_subgroup_card_pow_prime (G := D) p (n := k')
     (hcard ▸ Nat.pow_dvd_pow p hk)
   refine ⟨K.map D.subtype, Subgroup.map_subtype_le _, CFSG.Open.IsElemAbelian.mono hD
     (Subgroup.map_subtype_le _), ?_⟩
   rw [Subgroup.card_map_of_injective D.subtype_injective, hK]
 
-theorem isLocallyOTwoBalanced_of_le {p k k' : ℕ} (hp : p.Prime) (hk : 1 ≤ k) (hkk : k ≤ k')
+theorem isLocallyOTwoBalanced_of_le {p k k' : ℕ} (hp : p.Prime) (_hk : 1 ≤ k) (hkk : k ≤ k')
     {K : Type*} [Group K] {A : Subgroup (MulAut K)} (h : IsLocallyOTwoBalanced p k A) :
     IsLocallyOTwoBalanced p k' A := by
   intro D hD H hH hN
@@ -36,6 +36,7 @@ theorem isLocallyOTwoBalanced_of_le {p k k' : ℕ} (hp : p.Prime) (hk : 1 ≤ k)
   have h0 := h D' ⟨hD'D.trans hDA, hD'el, hD'card⟩ H hH (hD'D.trans hN)
   exact le_bot_iff.1 ((localDeltaTwoIn_anti hD'D).trans h0.le)
 
+omit [Finite G] in
 theorem not_isLocallyOTwoBalanced_two {p r : ℕ} (hp : p.Prime) (hr : 2 ≤ r) {D B' L : Subgroup G}
     (hDB : D ≤ B') (h : ¬ IsCompLocallyOTwoBalanced p r D L) :
     ¬ IsLocallyOTwoBalanced p 2 (autBar p B' L) := by
@@ -151,7 +152,7 @@ theorem mem_normalizer_localDeltaTwoIn {Y : Type*} [Group Y] {H D : Subgroup Y} 
 theorem chev2_weak (hI1920 : Input19_20_1) (hI712 : Input7_12_2) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {Y : Type} [Group Y] [Finite Y] (hq : CFSG.Open.IsQuasisimple Y)
     (hY : IsChevSimple 2 (Y ⧸ Subgroup.center Y)) : IsWeaklyLocallyOTwoBalancedWrtP p 1 Y := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro A hA D hD H hH hAH
   obtain ⟨hDA, hDel, hDcard⟩ := hD
   have hnt : D ≠ ⊥ := by
@@ -218,6 +219,7 @@ theorem exists_barAut_ne_one {K D : Subgroup G} {r : ℕ} (P : Prep123 G m p B M
     (GLAPPrimeCoreOf p (Cg a)).inv_mem (glaPPrimeCoreOf_le_of_isSubnormal hp P.hK.2.1 hmemG)
   simpa [commutatorElement_def, mul_assoc] using hmemG'
 
+omit [Finite G] in
 theorem barAut_of_mem {p : ℕ} {L : Subgroup G} {l : G} (hl : l ∈ L)
     (hlN : l ∈ Subgroup.normalizer (L : Set G)) :
     barAut p L ⟨l, hlN⟩ = MulAut.conj (QuotientGroup.mk (⟨l, hl⟩ : ↥L) : barOf p L) := by
@@ -229,6 +231,7 @@ theorem barAut_of_mem {p : ℕ} {L : Subgroup G} {l : G} (hl : l ∈ L)
     rw [MulAut.conj_apply, ← QuotientGroup.mk_inv, ← QuotientGroup.mk_mul, ← QuotientGroup.mk_mul]
     rfl
 
+omit [Finite G] in
 theorem inducesInner_of_autBar_le_innerAut {p : ℕ} {B' K : Subgroup G}
     (hBN : B' ≤ Subgroup.normalizer (K : Set G)) (h : autBar p B' K ≤ innerAut (barOf p K)) :
     ∀ x ∈ B', InducesInner p K x := by
@@ -291,8 +294,8 @@ theorem case_chev2_ge2 (h122 : Lemma122_i_iiStatement) (hI191img : Input19_1_O2_
         ∃ hu : u ∈ Subgroup.normalizer (K : Set G), IsUnitaryAut (barAut p K ⟨u, hu⟩) := by
   have hp : p.Prime := P.cex.standing.prime
   have hp2 : p ≠ 2 := P.cex.standing.ne_two
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsSimpleGroup G := P.cex.standing.simple
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsSimpleGroup G := P.cex.standing.simple
   have hSec : Sec11 G m p B M E A := P.cex.toSec11
   have hq : CFSG.Open.IsQuasisimple (barOf p K) :=
     CFSG.LocalAnalysis.GLTheoremA.isQuasisimple_pQuot_of_glaPComponent hp P.hK
@@ -383,8 +386,8 @@ theorem case_chev_odd (h112 : Prop112Statement) (h1116 : Prop1116StrongStatement
     (hchev : IsChevSimple q (barOf p K ⧸ Subgroup.center (barOf p K))) : False := by
   have hp : p.Prime := P.cex.standing.prime
   have hp2 : p ≠ 2 := P.cex.standing.ne_two
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsSimpleGroup G := P.cex.standing.simple
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsSimpleGroup G := P.cex.standing.simple
   have hSec : Sec11 G m p B M E A := P.cex.toSec11
   have ha : a ∈ A := P.cex.ha.1
   have ha1 : a ≠ 1 := P.cex.ha.2

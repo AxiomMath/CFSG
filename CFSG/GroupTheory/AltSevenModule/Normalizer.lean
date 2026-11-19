@@ -147,7 +147,7 @@ private theorem eNineConj_map_conj_le_alternatingGroup (c : Equiv.Perm (Fin 7)) 
 
 theorem exists_elemAbelian_three_le_normalizer {T : Subgroup ↥(alternatingGroup (Fin 7))}
     (hT : IsPGroup 2 T) (hT8 : Nat.card T ≠ 8) {c : Equiv.Perm (Fin 7)}
-    (hc : c ∈ alternatingGroup (Fin 7))
+    (_hc : c ∈ alternatingGroup (Fin 7))
     (hcT : kleinRegular7.map (MulAut.conj c).toMonoidHom ≤
       T.map (alternatingGroup (Fin 7)).subtype) :
     ∃ E : Subgroup ↥(alternatingGroup (Fin 7)),
@@ -239,7 +239,7 @@ theorem exists_elemAbelian_three_le_normalizer {T : Subgroup ↥(alternatingGrou
       exact CFSG.IsElementaryAbelian.map (p := 3) (A := eNineConj)
         (MulAut.conj c).toMonoidHom
     constructor
-    · haveI : IsMulCommutative ↥E₂ := hE₂_class.toIsMulCommutative
+    · have : IsMulCommutative ↥E₂ := hE₂_class.toIsMulCommutative
       exact Subgroup.comap_injective_isMulCommutative E₂
         (f := (alternatingGroup (Fin 7)).subtype)
         (alternatingGroup (Fin 7)).subtype_injective

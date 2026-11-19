@@ -17,7 +17,7 @@ theorem card_le_of_isElemAbelian_E6_three (h3 : 3 ∣ Nat.card K + 1)
     {E : Subgroup (adjointGroup .E6 K)} (hE : IsElemAbelian 3 E) :
     Nat.card E ≤ 3 ^ 4 := by
   classical
-  haveI : Finite (adjointGroup .E6 K) := generated_group_finite .E6 K
+  have : Finite (adjointGroup .E6 K) := generated_group_finite .E6 K
   obtain ⟨A₀, ι₀, hA₀, hA₀4, hA₀SC, hι₀, hrange, -⟩ :=
     CFSG.StandardType.ExcFrames.e6ThreeRefFrame_holds h3
   have hA₀card : Nat.card A₀ = 3 ^ 4 := by
@@ -55,7 +55,7 @@ theorem card_le_of_isElemAbelian_E6_three (h3 : 3 ∣ Nat.card K + 1)
 theorem sc_of_card_eq_E6_three (h3 : 3 ∣ Nat.card K + 1)
     {A : Subgroup (adjointGroup .E6 K)} (hA : IsElemAbelian 3 A) (hAcard : Nat.card A = 3 ^ 4) :
     ∀ c ∈ Subgroup.centralizer (A : Set (adjointGroup .E6 K)), c ^ 3 = 1 → c ∈ A := by
-  haveI : Finite (adjointGroup .E6 K) := generated_group_finite .E6 K
+  have : Finite (adjointGroup .E6 K) := generated_group_finite .E6 K
   intro c hc hc3
   exact CFSG.StandardType.mem_of_mem_centralizer_of_maximal hA
     (fun E hE => (card_le_of_isElemAbelian_E6_three h3 hE).trans hAcard.ge) hc hc3

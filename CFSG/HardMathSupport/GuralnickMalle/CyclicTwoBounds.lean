@@ -17,6 +17,7 @@ variable {A B : Type*} [AddCommGroup A] [Module K A] [AddCommGroup B] [Module K 
 noncomputable def wedgeInlInr (a : A) (b : B) : ⋀[K]^2 (A × B) :=
   exteriorPower.ιMulti K 2 ![LinearMap.inl K A B a, LinearMap.inr K A B b]
 
+omit [CharP K 2] in
 lemma wedgeInlInr_coe (a : A) (b : B) :
     (wedgeInlInr (K := K) a b : ExteriorAlgebra K (A × B)) =
       ExteriorAlgebra.ι K (LinearMap.inl K A B a) *
@@ -25,6 +26,7 @@ lemma wedgeInlInr_coe (a : A) (b : B) :
     ExteriorAlgebra.ιMulti_succ_apply, ExteriorAlgebra.ιMulti_zero_apply, mul_one]
   rfl
 
+omit [CharP K 2] in
 lemma wedgeInlInr_add_left (a₁ a₂ : A) (b : B) :
     wedgeInlInr (K := K) (a₁ + a₂) b =
       wedgeInlInr (K := K) a₁ b + wedgeInlInr (K := K) a₂ b := by
@@ -33,6 +35,7 @@ lemma wedgeInlInr_add_left (a₁ a₂ : A) (b : B) :
   rw [wedgeInlInr_coe, wedgeInlInr_coe, wedgeInlInr_coe]
   simp only [map_add, add_mul]
 
+omit [CharP K 2] in
 lemma wedgeInlInr_smul_left (c : K) (a : A) (b : B) :
     wedgeInlInr (K := K) (c • a) b = c • wedgeInlInr (K := K) a b := by
   apply Subtype.ext
@@ -40,6 +43,7 @@ lemma wedgeInlInr_smul_left (c : K) (a : A) (b : B) :
   rw [wedgeInlInr_coe, wedgeInlInr_coe]
   simp only [map_smul, smul_mul_assoc]
 
+omit [CharP K 2] in
 lemma wedgeInlInr_add_right (a : A) (b₁ b₂ : B) :
     wedgeInlInr (K := K) a (b₁ + b₂) =
       wedgeInlInr (K := K) a b₁ + wedgeInlInr (K := K) a b₂ := by
@@ -48,6 +52,7 @@ lemma wedgeInlInr_add_right (a : A) (b₁ b₂ : B) :
   rw [wedgeInlInr_coe, wedgeInlInr_coe, wedgeInlInr_coe]
   simp only [map_add, mul_add]
 
+omit [CharP K 2] in
 lemma wedgeInlInr_smul_right (c : K) (a : A) (b : B) :
     wedgeInlInr (K := K) a (c • b) = c • wedgeInlInr (K := K) a b := by
   apply Subtype.ext
@@ -60,6 +65,7 @@ noncomputable def wedgeCross : A ⊗[K] B →ₗ[K] ⋀[K]^2 (A × B) :=
     (LinearMap.mk₂ K (fun a b => wedgeInlInr (K := K) a b)
       wedgeInlInr_add_left wedgeInlInr_smul_left wedgeInlInr_add_right wedgeInlInr_smul_right)
 
+omit [CharP K 2] in
 @[simp]
 lemma wedgeCross_tmul (a : A) (b : B) :
     wedgeCross (K := K) (a ⊗ₜ[K] b) = wedgeInlInr (K := K) a b := by
@@ -76,6 +82,7 @@ noncomputable def exteriorProdMap :
   ((exteriorPower.map 2 (LinearMap.inl K A B)).coprod (wedgeCross (K := K))).coprod
     (exteriorPower.map 2 (LinearMap.inr K A B))
 
+omit [CharP K 2] in
 @[simp]
 lemma exteriorProdMap_apply (x : ⋀[K]^2 A) (y : A ⊗[K] B) (z : ⋀[K]^2 B) :
     exteriorProdMap (K := K) ((x, y), z) =
@@ -83,6 +90,7 @@ lemma exteriorProdMap_apply (x : ⋀[K]^2 A) (y : A ⊗[K] B) (z : ⋀[K]^2 B) :
         exteriorPower.map 2 (LinearMap.inr K A B) z := by
   simp [exteriorProdMap, LinearMap.coprod_apply, add_assoc]
 
+omit [CharP K 2] in
 theorem finrank_ker_prodMap_sub_one {V W : Type*} [AddCommGroup V] [Module K V]
     [AddCommGroup W] [Module K W] [FiniteDimensional K V] [FiniteDimensional K W]
     (f : V →ₗ[K] V) (g : W →ₗ[K] W) :
@@ -91,13 +99,14 @@ theorem finrank_ker_prodMap_sub_one {V W : Type*} [AddCommGroup V] [Module K V]
   have hker : LinearMap.ker (f.prodMap g - 1) = (LinearMap.ker (f - 1)).prod (LinearMap.ker (g - 1)) := by
     ext z
     simp only [LinearMap.mem_ker, Submodule.mem_prod, LinearMap.sub_apply, LinearMap.prodMap_apply,
-      Module.End.one_apply, Prod.mk_sub_mk, sub_eq_zero]
+      Module.End.one_apply, sub_eq_zero]
     exact Prod.ext_iff
   rw [hker, LinearEquiv.finrank_eq (Submodule.prodEquiv _ _), Module.finrank_prod]
 
 noncomputable def blockJ : K × K →ₗ[K] K × K :=
   LinearMap.prod (LinearMap.fst K K K) ((LinearMap.fst K K K) + (LinearMap.snd K K K))
 
+omit [CharP K 2] in
 @[simp]
 lemma blockJ_apply (p q : K) : blockJ (K := K) (p, q) = (p, p + q) := by
   simp [blockJ]
@@ -129,11 +138,12 @@ noncomputable def submodulePiEquiv {ι : Type*} {M : ι → Type*}
     (Submodule.pi Set.univ p) ≃ₗ[K] (∀ i, p i) where
   toFun z i := ⟨z.1 i, z.2 i trivial⟩
   invFun z := ⟨fun i => (z i).1, fun i _ => (z i).2⟩
-  map_add' x y := by ext i <;> rfl
-  map_smul' c x := by ext i <;> rfl
-  left_inv z := by ext i <;> rfl
-  right_inv z := by ext i <;> rfl
+  map_add' x y := by ext i; rfl
+  map_smul' c x := by ext i; rfl
+  left_inv z := by ext i; rfl
+  right_inv z := by ext i; rfl
 
+omit [CharP K 2] in
 theorem finrank_ker_piMap_sub_one {ι : Type*} [Fintype ι] {M : ι → Type*}
     [∀ i, AddCommGroup (M i)] [∀ i, Module K (M i)] [∀ i, FiniteDimensional K (M i)]
     (f : ∀ i, M i →ₗ[K] M i) :
@@ -154,6 +164,7 @@ noncomputable def blockAction {W : Type*} [AddCommGroup W] [Module K W]
     (S : W →ₗ[K] W) : W × W →ₗ[K] W × W :=
   LinearMap.prod (S.comp (LinearMap.fst K W W)) ((S.comp (LinearMap.fst K W W)) + (S.comp (LinearMap.snd K W W)))
 
+omit [CharP K 2] in
 @[simp]
 theorem blockAction_apply {W : Type*} [AddCommGroup W] [Module K W]
     (S : W →ₗ[K] W) (u v : W) : blockAction S (u, v) = (S u, S u + S v) := by
@@ -164,21 +175,22 @@ noncomputable def tensorBlockEquiv (W : Type*) [AddCommGroup W] [Module K W] :
   (TensorProduct.prodLeft K K K K W).trans
     ((TensorProduct.lid K W).prodCongr (TensorProduct.lid K W))
 
+omit [CharP K 2] in
 @[simp]
 theorem tensorBlockEquiv_tmul {W : Type*} [AddCommGroup W] [Module K W]
     (p q : K) (w : W) :
     tensorBlockEquiv W ((p, q) ⊗ₜ[K] w) = (p • w, q • w) := by
   simp [tensorBlockEquiv]
 
+omit [CharP K 2] in
 theorem tensorBlockEquiv_map {W : Type*} [AddCommGroup W] [Module K W]
     (S : W →ₗ[K] W) (x : (K × K) ⊗[K] W) :
     tensorBlockEquiv W (TensorProduct.map (blockJ (K := K)) S x) =
       blockAction S (tensorBlockEquiv W x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul p w =>
     obtain ⟨p, q⟩ := p
-    simp [blockJ, blockAction, add_smul, smul_add]
+    simp [blockJ, blockAction, add_smul]
   | add x y hx hy => simp only [map_add, hx, hy]
 
 lemma blockAction_fixed_iff {W : Type*} [AddCommGroup W] [Module K W]
@@ -261,6 +273,7 @@ theorem finrank_ker_blockJ_tensor {W : Type*} [AddCommGroup W] [Module K W]
     (fun x => tensorBlockEquiv_map S x)
   rw [← h, finrank_ker_blockAction S hS]
 
+omit [CharP K 2] in
 lemma piLeft_tmul {ι : Type*} [Fintype ι] [DecidableEq ι] {M : ι → Type*}
     [∀ i, AddCommGroup (M i)] [∀ i, Module K (M i)]
     {W : Type*} [AddCommGroup W] [Module K W] (m : ∀ i, M i) (w : W) :
@@ -270,33 +283,34 @@ lemma piLeft_tmul {ι : Type*} [Fintype ι] [DecidableEq ι] {M : ι → Type*}
   ext i
   simp [TensorProduct.comm_tmul]
 
+omit [CharP K 2] in
 theorem finrank_ker_tensor_one_left {W : Type*} [AddCommGroup W] [Module K W]
     (S : W →ₗ[K] W) :
     finrank K (LinearMap.ker (TensorProduct.map (1 : K →ₗ[K] K) S - 1)) =
       finrank K (LinearMap.ker (S - 1)) := by
   have h : ∀ x, TensorProduct.lid K W (TensorProduct.map (1 : K →ₗ[K] K) S x) = S (TensorProduct.lid K W x) := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul r w => simp
     | add x y hx hy => simp [map_add, hx, hy]
   exact (CFSG.QuasithinUnique.Setup.SL2Modules.finrank_ker_of_intertwining
     (TensorProduct.lid K W) (TensorProduct.map (1 : K →ₗ[K] K) S) S h).symm
 
+omit [CharP K 2] in
 lemma piLeft_map_piMap {ι : Type*} [Fintype ι] [DecidableEq ι] {M : ι → Type*}
     [∀ i, AddCommGroup (M i)] [∀ i, Module K (M i)]
     {W : Type*} [AddCommGroup W] [Module K W]
     (f : ∀ i, M i →ₗ[K] M i) (S : W →ₗ[K] W) (x : (∀ i, M i) ⊗[K] W) :
     TensorProduct.piLeft K W M (TensorProduct.map (LinearMap.piMap f) S x) =
       LinearMap.piMap (fun i => TensorProduct.map (f i) S) (TensorProduct.piLeft K W M x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => ext i; simp [LinearMap.piMap]
+  induction x using TensorProduct.inductionOn with
   | tmul m w =>
     simp only [TensorProduct.map_tmul, piLeft_tmul, LinearMap.piMap, LinearMap.pi_apply,
       LinearMap.coe_comp, Function.comp_apply, LinearMap.coe_proj]
     rfl
   | add x y hx hy => simp only [map_add, hx, hy]
 
+omit [CharP K 2] in
 theorem finrank_ker_tensor_piMap {ι : Type*} [Fintype ι] [DecidableEq ι] {M : ι → Type*}
     [∀ i, AddCommGroup (M i)] [∀ i, Module K (M i)] [∀ i, FiniteDimensional K (M i)]
     {W : Type*} [AddCommGroup W] [Module K W] [FiniteDimensional K W]
@@ -311,12 +325,14 @@ theorem finrank_ker_tensor_piMap {ι : Type*} [Fintype ι] [DecidableEq ι] {M :
   rw [← h]
   exact finrank_ker_piMap_sub_one (fun i => TensorProduct.map (f i) S)
 
+omit [CharP K 2] in
 theorem one_eq_piMap_one (a : ℕ) :
     (1 : (Fin a → K) →ₗ[K] (Fin a → K)) =
       LinearMap.piMap (fun _ : Fin a => (1 : K →ₗ[K] K)) := by
   ext x i
   simp [LinearMap.piMap]
 
+omit [CharP K 2] in
 theorem one_add_stdN_eq_prodMap (a b : ℕ) :
     (1 + stdN (K := K) a b :
         ((Fin a → K) × (Fin b → K × K)) →ₗ[K] ((Fin a → K) × (Fin b → K × K))) =
@@ -330,14 +346,14 @@ theorem one_add_stdN_eq_prodMap (a b : ℕ) :
   funext i
   simp [LinearMap.prodMap_apply, LinearMap.piMap, blockJ]
 
+omit [CharP K 2] in
 theorem prodLeft_map_prodMap {A B W : Type*} [AddCommGroup A] [Module K A]
     [AddCommGroup B] [Module K B] [AddCommGroup W] [Module K W]
     (f : A →ₗ[K] A) (g : B →ₗ[K] B) (S : W →ₗ[K] W) (x : (A × B) ⊗[K] W) :
     TensorProduct.prodLeft K K A B W (TensorProduct.map (f.prodMap g) S x) =
       (TensorProduct.map f S).prodMap (TensorProduct.map g S)
         (TensorProduct.prodLeft K K A B W x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => rfl
+  induction x using TensorProduct.inductionOn with
   | tmul p w =>
     obtain ⟨a, b⟩ := p
     simp [LinearMap.prodMap_apply]
@@ -373,6 +389,7 @@ theorem finrank_fixed_tensor_model {W : Type*} [AddCommGroup W] [Module K W]
     exact hsum
   rw [hA, hB]
 
+omit [CharP K 2] in
 theorem finrank_ker_tensorMap_congr {V V' W W' : Type*}
     [AddCommGroup V] [Module K V] [AddCommGroup V'] [Module K V']
     [AddCommGroup W] [Module K W] [AddCommGroup W'] [Module K W']
@@ -384,8 +401,7 @@ theorem finrank_ker_tensorMap_congr {V V' W W' : Type*}
   let Φ : (V ⊗[K] W) ≃ₗ[K] (V' ⊗[K] W') := TensorProduct.congr eV eW
   have h : ∀ x, Φ (TensorProduct.map T S x) = TensorProduct.map T' S' (Φ x) := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul v w => simp [Φ, TensorProduct.congr_tmul, TensorProduct.map_tmul, hT, hS]
     | add x y hx hy => simp [map_add, hx, hy]
   exact (CFSG.QuasithinUnique.Setup.SL2Modules.finrank_ker_of_intertwining

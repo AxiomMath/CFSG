@@ -58,17 +58,17 @@ theorem key_facts : ∀ f k, RowsWF (toVM (keyW f k)) ∧ canonM 253 (toVM (keyW
     have e2 : gk (f + 1) k = if k = 0 then 1 else if tb G 92 k = 1 then wα * gk f (tb G 91 k)
         else wβ * gk f (tb G 91 k) := rfl
     by_cases h0 : k = 0
-    · rw [if_pos h0] at e1 e2
+    · rw [ite_eq_left h0] at e1 e2
       rw [e1, e2, one_mul, inv_one, mul_one, σ_wD]
       exact ⟨matD_facts.2.1, canonM_matD, matD_facts.2.2⟩
-    rw [if_neg h0] at e1 e2
+    rw [ite_eq_right h0] at e1 e2
     by_cases hl : tb G 92 k = 1
-    · rw [if_pos hl] at e1 e2
+    · rw [ite_eq_left hl] at e1 e2
       rw [e1, e2]
       refine ⟨RowsWF.conjW rowsWF_matA rowsWF_matA ih1,
         canonM_conjW matA_size rowsWF_matA ih1 canonM_matA, ?_⟩
       rw [toMatW_conjW matA_size rowsWF_matA rowsWF_matA ih1, toMatW_matA, ih2, conjA_val]
-    · rw [if_neg hl] at e1 e2
+    · rw [ite_eq_right hl] at e1 e2
       rw [e1, e2]
       refine ⟨RowsWF.conjW rowsWF_matB rowsWF_matBi ih1,
         canonM_conjW matB_size rowsWF_matB ih1 canonM_matBi, ?_⟩

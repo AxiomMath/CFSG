@@ -63,7 +63,7 @@ private theorem isPGroup_ker_phiQ (c : Ctx23L D Ch)
     (f : ↥c.QV →* (↥(c.L ⊔ D.T) ⧸ c.L.subgroupOf (c.L ⊔ D.T)))
     (hmem : ∀ x : ↥f.ker, ((x : ↥c.QV) : G) ∈ CFSG.Open.pCoreOf 2 c.L) :
     IsPGroup 2 f.ker := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hL2 : IsPGroup 2 (CFSG.Open.pCoreOf 2 c.L) :=
     (CFSG.pCore_isPGroup (p := 2) (G := ↥c.L)).map c.L.subtype
   let ψ : ↥f.ker →* ↥(CFSG.Open.pCoreOf 2 c.L) :=
@@ -84,17 +84,17 @@ private theorem isPGroup_QV (c : Ctx23L D Ch)
   let H : Subgroup G := c.L ⊔ D.T
   have hLH : c.L ≤ H := le_sup_left
   have hQVH : c.QV ≤ H := inf_le_left
-  haveI hKnormal : (c.L.subgroupOf H).Normal :=
+  have hKnormal : (c.L.subgroupOf H).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hLH).2
       (sup_le Subgroup.le_normalizer c.hL.1.1)
   obtain ⟨QH, hQHcoe, hKsup⟩ := c.exists_sylow_of_sup_QV
   have hT2 : IsPGroup 2 (D.T.subgroupOf H) := by
     rw [← hQHcoe]
-    exact QH.isPGroup'
+    exact QH.isPGroup
   have hquot : IsPGroup 2 (↥H ⧸ c.L.subgroupOf H) :=
     CFSG.QuasithinUnique.Setup.Family.isPGroup_quotient_of_sup_eq_top
       (c.L.subgroupOf H) (D.T.subgroupOf H) hT2 hKsup
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hL2 : IsPGroup 2 (CFSG.Open.pCoreOf 2 c.L) :=
     (CFSG.pCore_isPGroup (p := 2) (G := ↥c.L)).map c.L.subtype
   let f : ↥c.QV →* (↥H ⧸ c.L.subgroupOf H) :=
@@ -123,7 +123,7 @@ theorem QV_le_T (c : Ctx23L D Ch)
   obtain ⟨QH, hQHcoe, -⟩ := c.exists_sylow_of_sup_QV
   have hQV2H : IsPGroup 2 (c.QV.subgroupOf H) :=
     (c.isPGroup_QV hCLV).of_equiv (Subgroup.subgroupOfEquivOfLe hQVH).symm
-  haveI hQVnormal : (c.QV.subgroupOf H).Normal :=
+  have hQVnormal : (c.QV.subgroupOf H).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hQVH).2 (c.sup_le_normalizer_QV)
   have hle := IsPGroup.le_sylow_of_normal hQV2H QH
   rw [hQHcoe] at hle
@@ -140,14 +140,14 @@ theorem fixV_sylowStar_eq_Ztil (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V)
     (h4 : S23_4 D Ch) (h1930 : H1930 D) :
     CFSG.Quasithin.fixV ((c.sylowStar hV : Subgroup ↥(c.H hV)).map (c.H hV).subtype) =
       c.Ztil hV := by
-  letI : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
+  let : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
     MulDistribMulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (c.W hV) :=
+  let : MulAction ↥(c.H hV) (c.W hV) :=
     MulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulDistribMulAction ↥(c.sylowStar hV) (c.W hV) :=
+  let : MulDistribMulAction ↥(c.sylowStar hV) (c.W hV) :=
     MulDistribMulAction.compHom (c.W hV)
       ((c.H hV).subtype.comp (c.sylowStar hV : Subgroup ↥(c.H hV)).subtype)
-  letI : MulAction ↥(c.sylowStar hV) (c.W hV) :=
+  let : MulAction ↥(c.sylowStar hV) (c.W hV) :=
     MulAction.compHom (c.W hV)
       ((c.H hV).subtype.comp (c.sylowStar hV : Subgroup ↥(c.H hV)).subtype)
   have h := c.fixedPointSubgroup_sylowStar_eq_Ztil hV hA hnat h4 h1930
@@ -418,7 +418,7 @@ theorem V_le_jOf (c : Ctx23L D Ch)
   exact hVleA0.trans hA0leJ
 
 private theorem normalizer_jOf_le_N (c : Ctx23L D Ch)
-    (hV : IsElemAbelian 2 c.V) (h4 : S23_4 D Ch) (h1930 : H1930 D)
+    (_hV : IsElemAbelian 2 c.V) (h4 : S23_4 D Ch) (h1930 : H1930 D)
     (hCLV : c.L ⊓ Subgroup.centralizer (c.V : Set G) ≤ CFSG.Open.pCoreOf 2 c.L)
     (hVleJ : c.V ≤ F12.jOf D.T) (hJleQV : F12.jOf D.T ≤ c.QV) :
     Subgroup.normalizer (F12.jOf D.T : Set G) ≤ c.N := by
@@ -489,7 +489,7 @@ theorem V_le_jOne (c : Ctx23L D Ch)
     rw [CFSG.higherElemThompson]
     refine sSup_le fun A hA => ?_
     have hAfam := (CFSG.mem_higherElemThompsonFamily_iff 0 A).mp hA
-    haveI : CFSG.IsElementaryAbelian 2 ↥A := hAfam.1
+    have : CFSG.IsElementaryAbelian 2 ↥A := hAfam.1
     have hrankA : CFSG.pRank 2 ↥A = CFSG.pRank 2 ↥D.T := by
       rw [CFSG.pRank_eq_of_card_eq_pow (p := 2) one_lt_two hAfam.2, Nat.sub_zero]
     exact CFSG.Quasithin.SteinbergBK.le_higherElemThompson_of_le_pRank hm' hAfam.1

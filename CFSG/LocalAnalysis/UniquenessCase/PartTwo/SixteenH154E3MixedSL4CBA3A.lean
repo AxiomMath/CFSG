@@ -129,7 +129,7 @@ theorem s16h_sl4_cba3_E9_of_fixed
   let Y : Subgroup (MulAut ↥V₁) :=
     (D.T.subgroupOf N).map (Subgroup.normalizerMonoidHom (H := V₁))
   have hYp : IsPGroup 2 Y := (D.sylowM.isPGroup.comap_subtype).map _
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨a, ha1, hafix⟩ := s16h_sl4_cba3_exists_ne_one_fixed_of_pgroup hV1p hV1gt hYp
   let v : G := (a : G)
   have hvV : v ∈ V := hV1le a.2

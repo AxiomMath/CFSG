@@ -33,7 +33,7 @@ theorem isLThreeUThreeIndex_cases (dd : TauCeti.LieTypeIndex) (h : IsLThreeUThre
 theorem field_facts_of_card_eq {F₀ : Type} [Field F₀] [Finite F₀] {p e : ℕ} (hp : p.Prime)
     (he : 1 ≤ e) (hp2 : p ≠ 2) (hp3 : p ≠ 3) (hcard : Nat.card F₀ = p ^ e) :
     5 ≤ Nat.card F₀ ∧ ringChar F₀ ≠ 2 ∧ ringChar F₀ ≠ 3 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have := Fintype.ofFinite F₀
   have hcharP : CharP F₀ p := charP_of_card_eq_prime_pow (by rwa [← Nat.card_eq_fintype_card])
   have hring : ringChar F₀ = p := ringChar.eq F₀ p

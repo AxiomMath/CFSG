@@ -66,7 +66,7 @@ theorem inf_fixSp_diag (hd : 1 ≤ d) (hK2 : ringChar K ≠ 2)
   ext z
   obtain ⟨c, rfl⟩ := hbij.2 z
   simp only [SetLike.mem_coe, Submodule.mem_inf, mem_fixSp, hT, hT', suppSet, Set.mem_image,
-    Set.mem_setOf_eq]
+    Set.mem_ofPred_eq]
   constructor
   · rintro ⟨h1, h2⟩
     have h1' := fun i => congrFun (hinj h1) i

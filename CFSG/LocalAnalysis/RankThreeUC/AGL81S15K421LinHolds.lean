@@ -46,7 +46,7 @@ theorem nonempty_equiv_GL_of_typeA (r : ℕ) {S : Type} [Group S]
   have hmod := CFSG.Models.LieModel.statedClassicalModel_of_ne_zero (by omega)
     (CFSG.Models.lieModel_A r Q hv e)
   rw [hp.1, hp.2] at hmod
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e1⟩ := CFSG.GH74.KGroups.PSLN.psl_equiv_of_stated (F := ZMod 2) (r + 1) 2 1
     (by norm_num) (by rw [Nat.card_zmod, pow_one]) hmod
   exact ⟨e1.trans ((CFSG.LargeExtraspecial.DW.slEquivPSL (r + 1)).symm.trans

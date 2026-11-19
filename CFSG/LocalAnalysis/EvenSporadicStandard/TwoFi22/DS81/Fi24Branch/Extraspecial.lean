@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {E : Subgroup G} {t z : G}
 
+omit [Finite G] in
 theorem phi2_le (R : Subgroup G) : Phi2 R ≤ R := by
   rw [Phi2]
   refine sup_le ?_ ?_
@@ -23,6 +24,7 @@ theorem phi2_le (R : Subgroup G) : Phi2 R ≤ R := by
     rintro x ⟨y, hy, rfl⟩
     exact R.pow_mem hy 2
 
+omit [Finite G] in
 theorem map_Phi2_le {R : Subgroup G} {f : G →* G} (h : R.map f ≤ R) :
     (Phi2 R).map f ≤ Phi2 R := by
   rw [Phi2, Subgroup.map_sup]
@@ -69,7 +71,7 @@ theorem rExtra (c : Core3 E t z) : RExtra t z := by
             Nat.mul_le_mul (le_of_eq c.m24.card_E) c.jr.phi_card
         _ ≤ 2 ^ 15 := by norm_num
     have hge : 0 < Nat.card ↥(Phi2 (Rg t z) ⊓ E) := by
-      haveI : Nonempty ↥(Phi2 (Rg t z) ⊓ E) := ⟨1, Subgroup.one_mem _⟩
+      have : Nonempty ↥(Phi2 (Rg t z) ⊓ E) := ⟨1, Subgroup.one_mem _⟩
       exact Nat.card_pos
     exact (Nat.le_mul_of_pos_right _ hge).trans h1
   have hS_ne_P : Phi2 (Rg t z) ⊔ E ≠ Pg E z := by

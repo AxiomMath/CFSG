@@ -142,7 +142,7 @@ private lemma ocCycAux_closure_eq_of_gens (hp2 : p ≠ 2) (S : Sylow p K)
   by_cases hne : Nt = (S : Subgroup K)
   · exact hne
   · obtain ⟨M, hNtM, hMlt, hcomm⟩ :=
-      ocCycAux_exists_lt_of_le S.isPGroup' hNtS hne
+      ocCycAux_exists_lt_of_le S.isPGroup hNtS hne
     have hcommLe : ⁅(S : Subgroup K), (S : Subgroup K)⁆ ≤ M :=
       Subgroup.commutator_le.mpr hcomm
     have hLM : Nt ⊔ ⁅(S : Subgroup K), (S : Subgroup K)⁆ ≤ M := sup_le hNtM hcommLe
@@ -264,7 +264,7 @@ theorem isCyclic_sylow_of_omega_central (hp2 : p ≠ 2) (S : Sylow p K)
       have h := congrArg (fun z : ↥(S : Subgroup K) => (z : K)) hgt
       rwa [ht g] at h
     have hcyc : IsCyclic (Subgroup.closure {g : ↥(S : Subgroup K) | t g = g⁻¹}) :=
-      isCyclic_closure_inv hp2 S.isPGroup' t ht2 hcen'
+      isCyclic_closure_inv hp2 S.isPGroup t ht2 hcen'
         (U.comap (S : Subgroup K).subtype) hU' hUinv'
     have hgenle : Subgroup.closure {g : ↥(S : Subgroup K) | ∃ y : ↥(S : Subgroup K),
         g = y⁻¹ * t y} ≤ Subgroup.closure {g : ↥(S : Subgroup K) | t g = g⁻¹} := by

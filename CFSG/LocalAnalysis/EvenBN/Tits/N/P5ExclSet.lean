@@ -16,6 +16,7 @@ variable {X : Type} [Group X] [Finite X]
 
 @[expose] noncomputable def piA (A : Subgroup X) : ↥A →* Mbar A := (proj A).comp (incl A)
 
+omit [Finite X] in
 theorem piA_apply (A : Subgroup X) (a : ↥A) :
     piA A a = proj A ⟨(a : X), Subgroup.le_normalClosure a.2⟩ := rfl
 
@@ -41,18 +42,22 @@ theorem piA_injective {A : Subgroup X} (hA2 : ∀ a ∈ A, a ^ 2 = 1) : Function
   have h2 : (((incl A a : ↥(nc A)) : X)) = 1 := congrArg Subtype.val h1
   exact Subtype.ext h2
 
+omit [Finite X] in
 theorem Abar_eq_range (A : Subgroup X) : Abar A = (piA A).range := by
   unfold Abar piA
   rw [MonoidHom.range_comp, incl, Subgroup.inclusion_range]
 
+omit [Finite X] in
 theorem mem_Abar_iff (A : Subgroup X) {q : Mbar A} : q ∈ Abar A ↔ ∃ a : ↥A, piA A a = q := by
   rw [Abar_eq_range, MonoidHom.mem_range]
 
+omit [Finite X] in
 theorem piA_mem_Abar (A : Subgroup X) (a : ↥A) : piA A a ∈ Abar A :=
   (mem_Abar_iff A).2 ⟨a, rfl⟩
 
+omit [Finite X] in
 theorem isElemAbelian_Abar {A : Subgroup X} (hEA : IsElemAbelian 2 A) : IsElemAbelian 2 (Abar A) := by
-  haveI := hEA.1
+  have := hEA.1
   refine ⟨?_, ?_⟩
   · rw [Abar_eq_range]
     infer_instance
@@ -66,9 +71,11 @@ theorem card_Abar {A : Subgroup X} (hEA : IsElemAbelian 2 A) : Nat.card (Abar A)
   rw [Abar_eq_range]
   exact (Nat.card_congr (MonoidHom.ofInjective (piA_injective hEA.2)).toEquiv).symm
 
+omit [Finite X] in
 theorem rhoHom_piA (A : Subgroup X) {g : X} (hg : g ∈ normalizer (A : Set X)) (a : ↥A) :
     rhoHom A g (piA A a) = piA A ⟨g * a * g⁻¹, (Subgroup.mem_normalizer_iff.1 hg a).1 a.2⟩ := rfl
 
+omit [Finite X] in
 theorem rhoHom_mem_Abar (A : Subgroup X) {g : X} (hg : g ∈ normalizer (A : Set X)) {q : Mbar A}
     (hq : q ∈ Abar A) : rhoHom A g q ∈ Abar A := by
   obtain ⟨a, rfl⟩ := (mem_Abar_iff A).1 hq
@@ -88,6 +95,7 @@ theorem rhoHom_fpf {A : Subgroup X} (hEA : IsElemAbelian 2 A) {x : X}
 
 @[expose] noncomputable def Ubar (A U : Subgroup X) : Subgroup (Mbar A) := (U.subgroupOf A).map (piA A)
 
+omit [Finite X] in
 theorem Ubar_le_Abar (A U : Subgroup X) : Ubar A U ≤ Abar A := by
   rw [Abar_eq_range]
   exact Subgroup.map_le_range _ _
@@ -121,7 +129,7 @@ theorem rhoHom_fixed_iff {A U : Subgroup X} (hEA : IsElemAbelian 2 A) {t : X}
 
 theorem exists_sylow_Mbar (S : Sylow 2 X) (A : Subgroup X) :
     ∃ Sb : Sylow 2 (Mbar A), (Sb : Subgroup (Mbar A)) = Sbar (S : Subgroup X) A := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨PM, hPM⟩ := CFSG.Walter.exists_sylow_map_eq_inf_of_isSubnormal S
     (Subgroup.normalClosure_normal : (nc A).Normal).isSubnormal
   have hPMeq : (PM : Subgroup ↥(nc A)) = (S : Subgroup X).subgroupOf (nc A) := by
@@ -153,8 +161,8 @@ theorem isSolvable_fixSub_rhoHom (A : Subgroup X) {t : X} (ht2 : t * t = 1)
     let f : ↥(P5.fixSub (MulAut.conjNormal t : MulAut ↥(nc A))) →* ↥(centralizer ({t} : Set X)) :=
       ((nc A).subtype.comp (P5.fixSub (MulAut.conjNormal t : MulAut ↥(nc A))).subtype).codRestrict
         (centralizer ({t} : Set X)) hmem
-    haveI := hsolv
-    refine solvable_of_solvable_injective (f := f) fun m₁ m₂ h => ?_
+    have := hsolv
+    refine Group.isSolvable_of_isSolvable_injective (f := f) fun m₁ m₂ h => ?_
     apply Subtype.ext
     apply Subtype.ext
     have h' := congrArg Subtype.val h

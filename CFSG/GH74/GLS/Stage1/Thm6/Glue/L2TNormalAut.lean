@@ -31,7 +31,7 @@ theorem decomp_NT {a : MulAut ↥Kb} (ha : a ∈ (N.T : Subgroup (MulAut ↥Kb))
   have ha' : a ∈ IVK.innDiagSub e ⊔ IVK.fieldAutSub e := by
     rw [IVK.innDiagSub_sup_fieldAutSub e]; exact Subgroup.mem_top a
   obtain ⟨d, hd, f, hf, rfl⟩ := Subgroup.mem_sup_of_normal_left.1 ha'
-  have hp : IsPGroup 2 ↥(N.T : Subgroup (MulAut ↥Kb)) := N.T.isPGroup'
+  have hp : IsPGroup 2 ↥(N.T : Subgroup (MulAut ↥Kb)) := N.T.isPGroup
   obtain ⟨k, hk⟩ := hp ⟨d * f, ha⟩
   have hk1 : (d * f) ^ (2 ^ k) = 1 := by simpa using congrArg Subtype.val hk
   have hmk : (QuotientGroup.mk' (IVK.innDiagSub e)) d = 1 := (QuotientGroup.eq_one_iff d).2 hd

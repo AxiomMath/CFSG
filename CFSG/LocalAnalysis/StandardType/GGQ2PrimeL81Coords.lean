@@ -32,8 +32,8 @@ theorem exists_mem_of_perm_fix {G : Type} [Group G] {Bs : Subgroup G} {A AL : Su
       rw [hσ, hW.x_coord, hW.x_coord] at e
       by_cases h1 : σ.symm j = m <;> by_cases h2 : j = m
       · exact ⟨fun _ => h2, fun _ => h1⟩
-      · rw [if_pos h1, if_neg h2] at e; exact absurd e one_ne_ω3
-      · rw [if_neg h1, if_pos h2] at e; exact absurd e.symm one_ne_ω3
+      · rw [ite_eq_left h1, ite_eq_right h2] at e; exact absurd e one_ne_ω3
+      · rw [ite_eq_right h1, ite_eq_left h2] at e; exact absurd e.symm one_ne_ω3
       · exact ⟨fun h => absurd h h1, fun h => absurd h h2⟩
     rw [MulAction.mem_stabilizer_iff, Equiv.Perm.smul_def]
     have := (key (σ m)).1 (by simp)
@@ -139,7 +139,7 @@ theorem ker_eq_of_invariant {G : Type} [Group G] {Bs : Subgroup G} {A AL : Subgr
         rw [hκb', hbm, hκd]
         simp [Ne.symm hrm, Ne.symm hs₀]
       have hb'r : κ r b' = 1 := by
-        rw [hκb', hκd, if_pos rfl, if_neg hrs, one_mul, inv_pow]
+        rw [hκb', hκd, ite_eq_left rfl, ite_eq_right hrs, one_mul, inv_pow]
         apply mul_inv_eq_one.2
         apply Multiplicative.toAdd.injective
         rw [toAdd_pow]

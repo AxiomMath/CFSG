@@ -264,7 +264,7 @@ theorem exists_mul_mem_normalizer_of_commutator_mem [Finite X] {N B T : Subgroup
   have hPT : P ≤ T := Subgroup.map_subtype_le _
   have hBP : B ≤ P := fun b hb => ⟨⟨b, hBT hb⟩,
     hBS ((Subgroup.mem_subgroupOf).mpr hb), rfl⟩
-  have hP2 : IsPGroup 2 P := S.isPGroup'.map _
+  have hP2 : IsPGroup 2 P := S.isPGroup.map _
   have hyT : ∀ t ∈ T, y * t * y⁻¹ ∈ T := by
     intro t ht
     rw [hT] at ht
@@ -349,7 +349,7 @@ theorem map_oddCoreCentralizer_le [Finite X] {Z : Type*} [Group Z] (φ : X →* 
   have hBT : B ≤ T := le_sup_left
   have hPT : P ≤ T := Subgroup.map_subtype_le _
   have hBP : B ≤ P := fun b hb => ⟨⟨b, hBT hb⟩, hS ((Subgroup.mem_subgroupOf).mpr hb), rfl⟩
-  have hP2 : IsPGroup 2 P := S.isPGroup'.map _
+  have hP2 : IsPGroup 2 P := S.isPGroup.map _
   have hchain := oddCoreCentralizer_le_sup_of_le (N := N) _ le_rfl hBP hP2 hPT
   have hsub : (oddCoreCentralizer P).map φ ≤ oddCoreCentralizer (B.map φ) := by
     apply le_oddCoreCentralizer

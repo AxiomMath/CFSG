@@ -21,7 +21,7 @@ theorem z4i_e4_false (hG : Sec4Glob G) (hz : Ctx4Z t L S x₁ x₂ lam rho tau)
     (hsyl : IsSylowIn 2 (ctxQ t tau x₁ x₂ rho) (ctxCQ t tau x₁ x₂ rho))
     (hrel : (ctxCQ t tau x₁ x₂ rho).relIndex (ctxKI t tau x₁ x₂ rho) = 4) : False := by
   obtain ⟨N, hNn, V', hD⟩ := hz.z4iData hsyl hrel
-  haveI : N.Normal := hNn
+  have : N.Normal := hNn
   obtain ⟨P, M, t', hP2, hmax, hQf, hMP, hM2, ht'P, ht'M, ht'sq, ⟨g₀, hg₀⟩, hinv⟩ :=
     hD.exists_syl
   obtain ⟨Sy, hSy⟩ :=
@@ -51,7 +51,7 @@ theorem z4i_e4_false (hG : Sec4Glob G) (hz : Ctx4Z t L S x₁ x₂ lam rho tau)
     refine ⟨x₁ ^ 2, lam, fun hcv => ?_⟩
     have hconj : lam * x₁ ^ 2 * lam⁻¹ = x₁ ^ 2 := by rw [← hcv]; group
     exact hz.y_ne_x₂_sq (hconj.symm.trans hz.nGood.lam_conj_y)
-  haveI : IsSimpleGroup G := hG.simple
+  have : IsSimpleGroup G := hG.simple
   obtain ⟨w, hwM, -, -⟩ :=
     Outside.H74_of_simple hnab hPg2 hPgi hMgP hMg2 htgP htgMg htg2
   rw [hMg] at hwM

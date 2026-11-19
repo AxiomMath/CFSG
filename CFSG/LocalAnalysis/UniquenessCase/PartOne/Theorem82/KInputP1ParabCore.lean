@@ -23,9 +23,9 @@ theorem isSolvable_normalizer_sylow {K : Type} [Field K] [Finite K] [CharP K 2] 
       Set (projectiveSL 3 K))) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨g, -, -, hg, -⟩ := exists_eq_map_conj_flagStabilizer 2 (n := 3) (by norm_num) T ⊤ le_top
-  haveI : Group.IsSolvable (upperTriangular 3 K) :=
+  have : Group.IsSolvable (upperTriangular 3 K) :=
     CFSG.LieType.SteinbergBR.isSolvable_upperTriangular_of_card Nat.prime_two hf 3
-  haveI : Group.IsSolvable ↥(projUpperTriangular 3 K) :=
+  have : Group.IsSolvable ↥(projUpperTriangular 3 K) :=
     isSolvable_map (proj 3 K) (upperTriangular 3 K)
   rw [hg]
   exact isSolvable_map _ _
@@ -41,7 +41,7 @@ theorem hasOffender_projectiveSL (hD : DicksonSL2) {K : Type} [Field K] [Finite 
   by_cases heq : J = Subgroup.normalizer (T : Set (projectiveSL 3 K))
   · have hsolv := isSolvable_normalizer_sylow hf (sylowOfTopTwo hT)
     rw [coe_sylowOfTopTwo hT, ← heq] at hsolv
-    haveI := hsolv
+    have := hsolv
     exact absurd (eq_bot_of_perfect_of_le_solvable hHJ hH) hne
   · obtain ⟨g, d, hd, hJg⟩ :=
       eq_map_conj_projStabilizer_of_sylow 2 (sylowOfTopTwo hT) J hNJ heq hJ

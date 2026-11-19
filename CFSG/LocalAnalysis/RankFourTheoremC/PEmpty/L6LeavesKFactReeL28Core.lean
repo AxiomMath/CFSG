@@ -35,7 +35,7 @@ theorem index_modEq_one {G : Type*} [Group G] [Finite G] {p : ℕ}
 theorem eq_sup_of_card_504 {G : Type*} [Group G] [Finite G] {H T : Subgroup G} {z : G}
     (hH : Nat.card H = 504) (hTH : T ≤ H) (hT : Nat.card T = 8) (hz : z ∈ H)
     (hz7 : orderOf z = 7) : H = (normalizer (zpowers z : Set G) ⊓ H) ⊔ T := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   set J : Subgroup G := (normalizer (zpowers z : Set G) ⊓ H) ⊔ T with hJ
   have hJH : J ≤ H := sup_le inf_le_right hTH
   have hzH : zpowers z ≤ H := Subgroup.zpowers_le.mpr hz
@@ -120,7 +120,7 @@ theorem exists_conj_mem_zpowers {G : Type*} [Group G] [Finite G] {S : Subgroup G
     (hg : g ∈ normalizer (S : Set G)) (hg7 : orderOf g = 7) :
     ∃ y ∈ normalizer (S : Set G), y⁻¹ * z * y ∈ zpowers g := by
   classical
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   set N : Subgroup G := normalizer (S : Set G) with hN
   have h49 := not_dvd_card_normalizer hS8 hC
   have hsyl : ∀ x : G, x ∈ N → orderOf x = 7 → ∃ P : Sylow 7 ↥N,
@@ -159,8 +159,8 @@ theorem exists_conj_mem_zpowers {G : Type*} [Group G] [Finite G] {S : Subgroup G
 
 theorem ReeL28Data.of_mulEquiv {G G' : Type} [Group G] [Group G'] [Finite G] (e : G ≃* G')
     (h : ReeL28Data G) : ReeL28Data G' := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite G' := Finite.of_equiv G e.toEquiv
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite G' := Finite.of_equiv G e.toEquiv
   obtain ⟨hC, h8, D, S, g, hD, hD504, hSD, hgD, hg7, hgS⟩ := h
   have hmapS : ∀ S' : Sylow 2 G', ((S'.mapSurjective (f := e.symm.toMonoidHom)
       e.symm.surjective : Sylow 2 G) : Subgroup G) = (S' : Subgroup G').map e.symm.toMonoidHom :=

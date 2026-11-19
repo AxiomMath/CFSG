@@ -94,10 +94,11 @@ section Finite
 
 variable [Finite G]
 
+omit [Finite G] in
 theorem l24_card_eq (K : Subgroup G) (hK : StatedClassicalModel K .PSL 2 2 2) :
     Nat.card K = 60 := by
   obtain ⟨-, F, _, _, hcard, ⟨e⟩⟩ := hK
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   obtain ⟨p, hp, n, hpp, hpn⟩ := FiniteField.card' (K := F)
   have hcard4 : Fintype.card F = 4 := by
     rw [← Nat.card_eq_fintype_card, hcard]; norm_num
@@ -107,7 +108,7 @@ theorem l24_card_eq (K : Subgroup G) (hK : StatedClassicalModel K .PSL 2 2 2) :
     have h2 : p ∣ 2 ^ 2 := by simpa using h1
     exact (Nat.prime_dvd_prime_iff_eq hpp Nat.prime_two).1 (hpp.dvd_of_dvd_pow h2)
   subst hp2
-  haveI : CharP F 2 := hp
+  have : CharP F 2 := hp
   have hN := CFSG.Open.StatedAPI.statedScalars_subgroupOf_statedSL_two_eq_bot (K := F)
   have h1 : Nat.card K = Nat.card (StatedProj (StatedSL 2 F)) := Nat.card_congr e.toEquiv
   have h2 := Subgroup.card_eq_card_quotient_mul_card_subgroup
@@ -121,8 +122,8 @@ theorem l24_card_eq (K : Subgroup G) (hK : StatedClassicalModel K .PSL 2 2 2) :
 
 theorem inf_opp_eq_bot_of_l24 {N K : Subgroup G} (hKN : K ≤ N)
     (hK : StatedClassicalModel K .PSL 2 2 2) : K ⊓ Opp 3 N = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : IsSimpleGroup K := (CFSG.LieType.Simplicity.fam_PSL_simplicity K 2 2 2 hK).2
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsSimpleGroup K := (CFSG.LieType.Simplicity.fam_PSL_simplicity K 2 2 2 hK).2
   have hnorm : ((Opp 3 N).subgroupOf K).Normal := by
     constructor
     intro y hy k

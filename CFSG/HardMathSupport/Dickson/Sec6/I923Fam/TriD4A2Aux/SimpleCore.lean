@@ -19,13 +19,13 @@ theorem SimpleCore.of_equiv {G G' : Type*} [Group G] [Group G'] (e : G ≃* G') 
     (h : SimpleCore G x C) : SimpleCore G' x C := by
   obtain ⟨S, hSn, hsol, hs, ⟨a, b, hab⟩, hx, hC⟩ := h
   have hmap : S.map e.toMonoidHom = S.map e.toMonoidHom := rfl
-  haveI : (S.map e.toMonoidHom).Normal := hSn.map e.toMonoidHom e.surjective
+  have : (S.map e.toMonoidHom).Normal := hSn.map e.toMonoidHom e.surjective
   let q : G ⧸ S ≃* G' ⧸ S.map e.toMonoidHom := QuotientGroup.congr S (S.map e.toMonoidHom) e rfl
   let eS : ↥S ≃* ↥(S.map e.toMonoidHom) := Subgroup.equivMapOfInjective S e.toMonoidHom e.injective
   refine ⟨S.map e.toMonoidHom, inferInstance, ?_, ?_, ?_, ?_, ?_⟩
-  · haveI := hsol
+  · have := hsol
     exact Group.isSolvable_of_surjective (f := q.toMonoidHom) q.surjective
-  · haveI := hs
+  · have := hs
     exact eS.symm.isSimpleGroup
   · refine ⟨eS a, eS b, fun h' => hab (eS.injective ?_)⟩
     rw [map_mul, map_mul]

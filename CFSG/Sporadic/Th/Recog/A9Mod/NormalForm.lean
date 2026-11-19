@@ -64,7 +64,7 @@ theorem evalPoly_iterate (T : V →ₗ[ZMod 2] V) (u : V) (hu : (T ^ 6) u = (T ^
     rw [Function.iterate_succ_apply', evalPoly_mulX T u hu, ih, apply_pow_apply]
 
 theorem evalPoly_single (T : V →ₗ[ZMod 2] V) (u : V) : evalPoly T u (Pi.single 0 1) = u := by
-  simp [evalPoly_apply, Pi.single_apply]
+  simp [evalPoly_apply]
 
 theorem mem_of_evalPoly (T : V →ₗ[ZMod 2] V) (u : V) (hu : (T ^ 6) u = (T ^ 3) u + u)
     (W : Submodule (ZMod 2) V) (hW : ∀ x ∈ W, T x ∈ W) {c : Fin 6 → ZMod 2} (hc : c ≠ 0)
@@ -99,7 +99,7 @@ theorem equivFun_toLin (b : Basis (Fin 8) (ZMod 2) V) (T : V →ₗ[ZMod 2] V) (
 theorem exists_nf (hV : Module.finrank (ZMod 2) V = 8) (T : V →ₗ[ZMod 2] V) (h9 : T ^ 9 = 1)
     (h3 : T ^ 3 ≠ 1) :
     ∃ e : V ≃ₗ[ZMod 2] V8, (∀ v, e (T v) = toLin N1 (e v)) ∨ (∀ v, e (T v) = toLin N2 (e v)) := by
-  haveI : Module.Finite (ZMod 2) V := Module.finite_of_finrank_pos (by omega)
+  have : Module.Finite (ZMod 2) V := Module.finite_of_finrank_pos (by omega)
   have hTT : ∀ (a b : ℕ) (x : V), (T ^ a) ((T ^ b) x) = (T ^ (a + b)) x := fun a b x => by
     rw [pow_add, Module.End.mul_apply]
   have h9x : ∀ x, (T ^ 9) x = x := fun x => by rw [h9, Module.End.one_apply]
@@ -152,7 +152,7 @@ theorem exists_nf (hV : Module.finrank (ZMod 2) V = 8) (T : V →ₗ[ZMod 2] V) 
           _ = x := by rw [ZModModule.add_self, ZModModule.add_self, zero_add, zero_add]
   obtain ⟨v0, hv0⟩ : ∃ v0, (T ^ 3) v0 ≠ v0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact h3 (LinearMap.ext fun x => by rw [h x, Module.End.one_apply])
   set v := (T ^ 3) v0 - v0 with hv
   have hvB : (T ^ 6) v = (T ^ 3) v + v := by
@@ -176,7 +176,7 @@ theorem exists_nf (hV : Module.finrank (ZMod 2) V = 8) (T : V →ₗ[ZMod 2] V) 
     rw [hR6] at h1
     by_contra hne6
     have hlt : R < KB := lt_of_le_of_ne hRKB fun h => hne6 (by rw [← h]; exact hR6)
-    obtain ⟨w, hwKB, hwR⟩ := SetLike.exists_of_lt hlt
+    obtain ⟨w, hwKB, hwR⟩ := _root_.IsConcreteLE.exists_of_lt hlt
     have hw : (T ^ 6) w = (T ^ 3) w + w := (mKB w).1 hwKB
     have hw0 : w ≠ 0 := fun h => hwR (h ▸ R.zero_mem)
     have hR'6 : finrank (ZMod 2) (LinearMap.range (evalPoly T w)) = 6 := by
@@ -227,7 +227,7 @@ theorem exists_nf (hV : Module.finrank (ZMod 2) V = 8) (T : V →ₗ[ZMod 2] V) 
         funext i
         fin_cases i <;> rfl
       · exact absurd h (by decide)
-    · push_neg at hfix
+    · push Not at hfix
       obtain ⟨u, huKA, hTu⟩ := hfix
       have hu3 : (T ^ 3) u = u := (mKA u).1 huKA
       have hw : T u - u ∈ KA := KA.sub_mem (hKAinv u huKA) huKA

@@ -47,7 +47,7 @@ theorem gTb : pairData.gT.size = 2 ∧ ∀ k < 2, pairData.gT[k]! = unpack 1755 
 theorem hInv : checkInv pairData = true := checkInv_ofT gTb.1 gTb.2 dArrs_perm
 
 theorem hSound : Sound pairData titsS := by
-  have hlen : titsS.length = pairData.gT.size := by simp [titsS, pairData]
+  have hlen : titsS.length = pairData.gT.size := by simp [titsS]
   have hG : pairG pairData titsS = CFSG.Sporadic.Schreier.Tits.titsD :=
     (titsD_eq_closure_titsS).symm
   refine ⟨fun j => ?_, hlen, hInv, ?_⟩
@@ -92,12 +92,12 @@ theorem n_pt {i : Nat} (hi : i < NE.cnt) : penumPtK 1755 11 (mask 11) (1755 * 11
 theorem hEP : enumBFS pairData.n (pGens pairData) pairData.pOrder =
       penumRec 1755 11 PE.cnt PE.T PE.PL ∧
     enumOK pairData.n (pGens pairData) (penumRec 1755 11 PE.cnt PE.T PE.PL) = true :=
-  penumK_left_sound szOK1755 hgP k_ph (fun i hi => p_pt hi)
+  penumK_left_sound szOK1755 hgP k_ph (fun _i hi => p_pt hi)
 
 theorem hEN : enumBFS pairData.n (nGens pairData) pairData.nOrder =
       penumRec 1755 11 NE.cnt NE.T NE.PL ∧
     enumOK pairData.n (nGens pairData) (penumRec 1755 11 NE.cnt NE.T NE.PL) = true :=
-  penumK_left_sound szOK1755 hgN k_nh (fun i hi => n_pt hi)
+  penumK_left_sound szOK1755 hgN k_nh (fun _i hi => n_pt hi)
 
 theorem hP : checkP pairData = true := checkP_ofT hEP rfl
 
@@ -272,7 +272,7 @@ theorem hSide : checkSide pairData = true :=
   kw := 22
   PT := r32 PT
   FS := FS
-  KS := KS
+  KSt := KS
   RB := RB
   H := H
   CN := r32 CN
@@ -438,7 +438,7 @@ theorem hMemW : checkMemW pairData memWords = true :=
   kw := 11
   PT := r32 C0PT
   FS := C0FS
-  KS := C0KS
+  KSt := C0KS
   RB := C0RB
   H := C0H
   CN := r32 C0CN
@@ -486,7 +486,7 @@ theorem hMemW : checkMemW pairData memWords = true :=
   kw := 22
   PT := r32 C1PT
   FS := C1FS
-  KS := C1KS
+  KSt := C1KS
   RB := C1RB
   H := C1H
   CN := r32 C1CN

@@ -18,7 +18,7 @@ private theorem ml_glMap_coe_inv {K : Type*} [Field K] (σ : RingAut K) (B : GL 
 private theorem ml_key {K : Type*} [Field K] (τ : RingAut K) (B : Matrix (Fin 2) (Fin 2) K)
     (u : Fin 2 → K) (i : Fin 2) :
     τ ((B.map τ.symm *ᵥ u) i) = (B *ᵥ fun j => τ (u j)) i := by
-  simp [Matrix.mulVec, dotProduct, map_sum, map_mul]
+  simp [Matrix.mulVec, dotProduct, map_mul]
 
 theorem wMap_mul {K : Type*} [Field K] (σ₁ σ₂ : RingAut K) (B₁ B₂ : GL (Fin 2) K) :
     wMap K σ₁ B₁ * wMap K σ₂ B₂ = wMap K (σ₁ * σ₂) (glMap K σ₂⁻¹ B₁ * B₂) := by

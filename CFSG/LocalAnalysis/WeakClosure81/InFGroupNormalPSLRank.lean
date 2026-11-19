@@ -20,7 +20,7 @@ private theorem mem_pCoreOf_of_conjModO2_eq_one {G : Type} [Group G] {J : Subgro
     {g : G} (hgN : g ∈ Subgroup.normalizer (J : Set G)) (hgJ : g ∈ J)
     (hg : CFSG.Quasithin.H13.Ch4.L4315.conjModO2 J ⟨g, hgN⟩ = 1) :
     g ∈ pCoreOf 2 J := by
-  haveI : IsSimpleGroup (ModO2 J) := hJs
+  have : IsSimpleGroup (ModO2 J) := hJs
   let z : ↥J := ⟨g, hgJ⟩
   have hconj : MulAut.conj (QuotientGroup.mk z : ModO2 J) = 1 := by
     have h1 := CFSG.Quasithin.H13.Ch4.L4315.conjModO2_of_mem J z
@@ -69,8 +69,8 @@ theorem mQuot_pCoreOf_le_of_normal_psl {G : Type} [Group G] [Finite G] {n : ℕ}
     (hJs : IsSimpleGroup (ModO2 J)) (hJnab : ∃ a b : ModO2 J, a * b ≠ b * a)
     (hJpsl : IsPSL 2 2 n (ModO2 J)) (hK2 : ∀ x ∈ K, ∃ k : ℕ, x ^ 2 ^ k ∈ J) (hAK : A ≤ K)
     (hA2 : IsElemAbelian 2 A) : E3.mQuot A (pCoreOf 2 K) ≤ n := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : IsSimpleGroup (ModO2 J) := hJs
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsSimpleGroup (ModO2 J) := hJs
   have hKN : K ≤ Subgroup.normalizer (J : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hJK).mp hJn
   let ρ : ↥K →* MulAut (ModO2 J) :=

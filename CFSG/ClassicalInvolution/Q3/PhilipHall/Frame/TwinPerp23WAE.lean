@@ -144,10 +144,10 @@ theorem permQ_fix_of_comm_zBar {α : Finset (Fin 5)} (h : α.card = 4) {p : Fin 
   show a.perm p = p
   rcases zmod_two_cases ε with h0 | h1
   · have hp0 := hv p
-    rw [zOf_vec_apply, zOf_vec_apply, if_neg hpr, h0, add_zero] at hp0
+    rw [zOf_vec_apply, zOf_vec_apply, ite_eq_right hpr, h0, add_zero] at hp0
     have hnot : a.perm.symm p ∉ Set.range ι := by
       intro hmem
-      rw [if_pos hmem] at hp0
+      rw [ite_eq_left hmem] at hp0
       exact absurd hp0 (by decide)
     have : a.perm.symm p = p := eq_of_not_mem_range ι hnot hpr
     exact (Equiv.symm_apply_eq a.perm).mp this |>.symm
@@ -155,10 +155,10 @@ theorem permQ_fix_of_comm_zBar {α : Finset (Fin 5)} (h : α.card = 4) {p : Fin 
     have hy : ∀ i : Fin 4, a.perm.symm (ι i) = p := by
       intro i
       have h5 := hv (ι i)
-      rw [zOf_vec_apply, zOf_vec_apply, if_pos ⟨i, rfl⟩, h1] at h5
+      rw [zOf_vec_apply, zOf_vec_apply, ite_eq_left ⟨i, rfl⟩, h1] at h5
       have hnot : a.perm.symm (ι i) ∉ Set.range ι := by
         intro hmem
-        rw [if_pos hmem] at h5
+        rw [ite_eq_left hmem] at h5
         exact absurd h5 (by decide)
       exact eq_of_not_mem_range ι hnot hpr
     have h0 := hy 0

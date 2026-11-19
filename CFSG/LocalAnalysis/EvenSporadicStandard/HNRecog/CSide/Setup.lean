@@ -33,11 +33,13 @@ theorem CSideSetup.rho_eq (S : CSideSetup C Q) {l : C} (hl : l ∈ commutator C)
     conjLinEquiv hQn l = S.σ (S.θ ⟨l, hl⟩) :=
   (S.sigma_eq ⟨l, hl⟩).symm
 
+omit [Module (ZMod 2) (Additive (Abelianization ↥Q))] in
 theorem map_commutator_mk : (commutator C).map (QuotientGroup.mk' Q) = commutator (C ⧸ Q) := by
   rw [_root_.commutator_def, Subgroup.map_commutator,
     Subgroup.map_top_of_surjective _ (QuotientGroup.mk'_surjective Q)]
   rfl
 
+omit [Module (ZMod 2) (Additive (Abelianization Q))] in
 theorem mem_commutator_of_mk_mem (hQL : Q ≤ commutator C) {t : C}
     (ht : (t : C ⧸ Q) ∈ commutator (C ⧸ Q)) : t ∈ commutator C := by
   rw [← map_commutator_mk] at ht
@@ -50,6 +52,7 @@ theorem mem_commutator_of_mk_mem (hQL : Q ≤ commutator C) {t : C}
   rw [this]
   exact mul_mem hl (hQL hq)
 
+omit [Module (ZMod 2) (Additive (Abelianization Q))] in
 theorem mk_mem_commutator_of_mem {t : C} (ht : t ∈ commutator C) :
     (t : C ⧸ Q) ∈ commutator (C ⧸ Q) := by
   rw [← map_commutator_mk]

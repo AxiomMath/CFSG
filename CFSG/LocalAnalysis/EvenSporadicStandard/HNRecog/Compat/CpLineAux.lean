@@ -221,7 +221,7 @@ theorem cp_isLine_of_comm {c u v : G} (hc : c ≠ 1) (hcu : IsConj c u) (hcv : I
     · exact hcuv
   · rw [Set.ncard_eq_three]
     exact ⟨u, v, u * v, hne, huv_ne_u.symm, huv_ne_v.symm, rfl⟩
-  · haveI : IsKleinFour (Subgroup.closure ({u, v, u * v} : Set G)) :=
+  · have : IsKleinFour (Subgroup.closure ({u, v, u * v} : Set G)) :=
       isKleinFour_closure_three_comm hu hv huv hu1 hv1 hne
     exact IsKleinFour.nonempty_mulEquiv
 

@@ -15,9 +15,9 @@ variable {G : Type} [Group G] {A B : Subgroup G}
 theorem IsL2Gen.mem_of_commute (h : IsL2Gen A B) {a z : G} (ha : a ∈ A) (ha1 : a ≠ 1)
     (hz : z ∈ A ⊔ B) (hc : Commute a z) : z ∈ A := by
   obtain ⟨F, hField, hFin, hCharP, φ, hcard, hA, hB⟩ := h
-  letI := hField
-  letI := hFin
-  letI := hCharP
+  let := hField
+  let := hFin
+  let := hCharP
   let aH : ↥(A ⊔ B) := ⟨a, Subgroup.mem_sup_left ha⟩
   let zH : ↥(A ⊔ B) := ⟨z, hz⟩
   have haH : aH ∈ A.subgroupOf (A ⊔ B) := Subgroup.mem_subgroupOf.mpr ha
@@ -61,9 +61,9 @@ theorem IsL2Gen.exists_conj_of_ne_one (h : IsL2Gen A B) {a a' : G} (ha : a ∈ A
     (ha1 : a ≠ 1) (ha' : a' ∈ A) (ha1' : a' ≠ 1) :
     ∃ y ∈ A ⊔ B, y * a * y⁻¹ = a' ∧ y ∈ Subgroup.normalizer (A : Set G) := by
   obtain ⟨F, hField, hFin, hCharP, φ, hcard, hA, hB⟩ := h
-  letI := hField
-  letI := hFin
-  letI := hCharP
+  let := hField
+  let := hFin
+  let := hCharP
   let aH : ↥(A ⊔ B) := ⟨a, Subgroup.mem_sup_left ha⟩
   let aH' : ↥(A ⊔ B) := ⟨a', Subgroup.mem_sup_left ha'⟩
   have haH : aH ∈ A.subgroupOf (A ⊔ B) := Subgroup.mem_subgroupOf.mpr ha

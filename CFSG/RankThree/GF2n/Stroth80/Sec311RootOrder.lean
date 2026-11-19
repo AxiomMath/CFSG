@@ -17,8 +17,8 @@ theorem card_sq_le_of_elationFull {K V : Type} [Field K] [Finite K] [CharP K 2] 
     {A : Subgroup (V ≃ₗ[K] V)} (hful : Classify.ElationFull F (A : Set (V ≃ₗ[K] V)) e) :
     Nat.card K ^ 2 ≤ Nat.card A := by
   classical
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Finite (V ≃ₗ[K] V) :=
+  have : Finite V := Module.finite_of_finite K
+  have : Finite (V ≃ₗ[K] V) :=
     Finite.of_injective (fun g : V ≃ₗ[K] V => (g : V → V)) DFunLike.coe_injective
   obtain ⟨f₀, hf₀⟩ : ∃ f₀, F e f₀ ≠ 0 := by
     by_contra hcon

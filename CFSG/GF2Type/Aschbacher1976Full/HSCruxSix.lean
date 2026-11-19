@@ -193,7 +193,7 @@ theorem noY_transfer {Q : Type} [Group Q] [Finite Q] (ι : Q →* Perm (Fin 6))
   obtain ⟨y₁, hy₁, y₂, hy₂, h1, h2, h12⟩ :
       ∃ y₁ ∈ Y, ∃ y₂ ∈ Y, y₁ ≠ 1 ∧ y₂ ≠ 1 ∧ y₁ ≠ y₂ := by
     classical
-    haveI : Fintype Y := Fintype.ofFinite Y
+    have : Fintype Y := Fintype.ofFinite Y
     have h5 : 1 < (Finset.univ.erase (1 : Y)).card := by
       rw [Finset.card_erase_of_mem (Finset.mem_univ _), Finset.card_univ,
         ← Nat.card_eq_fintype_card]
@@ -249,7 +249,7 @@ theorem conjNine_of_conj {Q : Type} [Group Q] (ι : Q →* Perm (Fin 6)) (σ₀ 
   obtain ⟨σ, h1, h2⟩ := h
   have e : ∀ d : Q, σ * ((MulAut.conj σ₀).toMonoidHom.comp ι) d * σ⁻¹ =
       (σ * σ₀) * ι d * (σ * σ₀)⁻¹ := fun d => by
-    simp only [MonoidHom.comp_apply, MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe,
+    simp only [MonoidHom.comp_apply, MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass,
       MulAut.conj_apply, mul_inv_rev, mul_assoc]
   refine ⟨σ * σ₀, fun d hd => ?_, fun s hs => ?_⟩
   · rw [← e]; exact h1 d hd

@@ -19,7 +19,7 @@ private lemma nat_eq_zero_or_eq_of_dvd_of_lt {n m : ℕ} (hn : 0 < n) (hdvd : n 
 
 private lemma zmod_two_eq_zero {n : ℕ} [NeZero n] {i : ZMod (2 * n)} (h : i + i = 0) :
     i = 0 ∨ i = n := by
-  haveI : NeZero (2 * n) := ⟨mul_ne_zero (by norm_num) (NeZero.ne n)⟩
+  have : NeZero (2 * n) := ⟨mul_ne_zero (by norm_num) (NeZero.ne n)⟩
   have hn : 0 < n := Nat.pos_of_neZero n
   have hcast : ((2 * i.val : ℕ) : ZMod (2 * n)) = 0 := by
     rw [Nat.cast_mul, Nat.cast_ofNat, ← ZMod.natCast_zmod_val i]

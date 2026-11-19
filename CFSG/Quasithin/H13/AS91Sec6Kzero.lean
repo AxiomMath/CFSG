@@ -50,7 +50,7 @@ open Classical in
 
 theorem kzPerm_repT {t : Array ℕ} {σ : S24} (h : RepT t σ) : RepT t (kzPerm t) := by
   have h' : ∃ σ : S24, RepT t σ := ⟨σ, h⟩
-  rw [kzPerm, dif_pos h']
+  rw [kzPerm, dite_eq_left h']
   exact h'.choose_spec
 
 theorem kzPerm_eq {t : Array ℕ} {σ : S24} (h : RepT t σ) : kzPerm t = σ :=
@@ -261,7 +261,7 @@ theorem kz_syl_enum {r : Array (Array ℕ) × Array ℕ × Array ℕ} (hd : Kzer
 
 theorem le_sylS0_of_normalized (N : Subgroup S24) (hNM : N ≤ M24g) (hN2 : IsPGroup 2 N)
     (hxn : ∀ x ∈ sylS0, ∀ n ∈ N, x * n * x⁻¹ ∈ N) : N ≤ sylS0 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS : IsPGroup 2 sylS0 := IsPGroup.of_card (n := 10) card_sylS0
   have hnorm : sylS0 ≤ Subgroup.normalizer (N : Set S24) := by
     intro x hx
@@ -413,18 +413,18 @@ theorem normal_two_subgroup_of_base_sextet (N : Subgroup S24) (hNM : N ≤ M24g)
       (K0base_le_of_ne_bot N hNM hN2 hnorm hbot))
 
 theorem eq_K0base_of_normal (N : Subgroup S24) (hNM : N ≤ M24g) (hN2 : IsPGroup 2 N)
-    (hNU : ∀ σ ∈ N, σ • sextFin 0 = sextFin 0)
+    (_hNU : ∀ σ ∈ N, σ • sextFin 0 = sextFin 0)
     (hnorm : ∀ σ ∈ M24g, σ • sextFin 0 = sextFin 0 → ∀ n ∈ N, σ * n * σ⁻¹ ∈ N)
     (hcard : Nat.card N = 2 ^ 6) : N = K0base := by
-  clear hNU
+  clear _hNU
   exact Subgroup.eq_of_le_of_card_ge (le_K0base_of_normal N hNM hN2 hnorm)
     (by rw [card_K0base, hcard])
 
 theorem normal_two_subgroup_of_sextet {U : Finset (Finset (Fin 24))} (hU : IsSextet U)
-    (N : Subgroup S24) (hNM : N ≤ M24g) (hN2 : IsPGroup 2 N) (hNU : ∀ σ ∈ N, σ • U = U)
+    (N : Subgroup S24) (hNM : N ≤ M24g) (hN2 : IsPGroup 2 N) (_hNU : ∀ σ ∈ N, σ • U = U)
     (hnorm : ∀ σ ∈ M24g, σ • U = U → ∀ n ∈ N, σ * n * σ⁻¹ ∈ N) :
     N = ⊥ ∨ Nat.card N = 2 ^ 6 := by
-  clear hNU
+  clear _hNU
   obtain ⟨g, hg, hgU⟩ := sextet_transitive hU
   let N' : Subgroup S24 := N.map (MulAut.conj g).toMonoidHom
   have hmem : ∀ x, x ∈ N' ↔ ∃ y ∈ N, g * y * g⁻¹ = x := fun x => Iff.rfl

@@ -20,9 +20,9 @@ open CFSG.EvenSmallLie.OmegaEight.Weyl (pairArr pairRepArr pArr)
 
 theorem getElem!_getD (a : Array Nat) (i : Nat) : a[i]! = a.getD i 0 := by
   by_cases h : i < a.size
-  · rw [getElem!_pos a i h, Array.getD, dif_pos h]
+  · rw [getElem!_pos a i h, Array.getD, dite_eq_left h]
     rfl
-  · rw [getElem!_neg a i h, Array.getD, dif_neg h]
+  · rw [getElem!_neg a i h, Array.getD, dite_eq_right h]
     rfl
 
 theorem allLt_iff {n : Nat} {p : Nat → Bool} :

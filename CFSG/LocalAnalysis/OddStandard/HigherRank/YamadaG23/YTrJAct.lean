@@ -11,6 +11,7 @@ open Subgroup CFSG.Open CFSG.OddStandard.HigherRank.G2Three
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
+omit [Finite G] in
 private theorem actsAs_pow' {g : G} {α : MulAut (L ⧸ center L)} (h : ActsAs L g α) (n : ℕ) :
     ActsAs L (g ^ n) (α ^ n) := by
   induction n with
@@ -25,6 +26,7 @@ private theorem actsAs_zpow' {g : G} {α : MulAut (L ⧸ center L)} (h : ActsAs 
   · obtain ⟨n, rfl⟩ := Int.eq_ofNat_of_zero_le hk
     simpa [zpow_natCast] using actsAs_pow' h n
 
+omit [Finite G] in
 private theorem eq_one_of_pow_eq_one_of_odd {x : G} (h2 : IsPGroup 2 ↥(zpowers x)) {M : ℕ}
     (hM : Odd M) (hxM : x ^ M = 1) : x = 1 := by
   obtain ⟨k, hk⟩ := isPGroup_iff_pow_pow_eq_one.mp h2 ⟨x, Subgroup.mem_zpowers x⟩

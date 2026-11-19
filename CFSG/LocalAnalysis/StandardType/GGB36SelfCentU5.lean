@@ -90,7 +90,7 @@ theorem twA41_selfCent_elemAbelian_three :
     rwa [hcardK] at h1
   let diagH : W →* ↥(unitarySU 2 1 K 5) :=
     MonoidHom.codRestrict ((diagHom 5).comp W.subtype) (unitarySU 2 1 K 5) (fun σ => by
-      have hσker : prodHom σ = 1 := MonoidHom.mem_ker.mp (by simpa [W] using σ.2)
+      have hσker : prodHom σ = 1 := MonoidHom.mem_ker.mp (by simp [W])
       exact TableBUE.diagHom_mem_unitarySU h (fun k => hpow3 ((σ : Fin 5 → Kˣ) k))
         (by simpa [prodHom] using hσker))
   set D : Subgroup ↥(unitarySU 2 1 K 5) := (⊤ : Subgroup W).map diagH with hD

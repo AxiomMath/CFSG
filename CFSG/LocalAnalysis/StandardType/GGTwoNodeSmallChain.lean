@@ -27,10 +27,10 @@ theorem card_ge_of_orbit_chain {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup
     (hO : ∀ k, ∀ v ∈ O k, v ∈ MulAction.orbit (Subgroup.closure (S k)) (b k)) :
     ∏ k, (O k).card ≤ Nat.card R := by
   classical
-  haveI hGfin : Finite (V ≃ₗ[ZMod p] V) :=
+  have hGfin : Finite (V ≃ₗ[ZMod p] V) :=
     Finite.of_injective (fun e : V ≃ₗ[ZMod p] V => (e : V → V))
       (fun e₁ e₂ h => LinearEquiv.ext (fun v => congr_fun h v))
-  haveI : Finite R :=
+  have : Finite R :=
     Finite.of_injective (Subtype.val : R → (V ≃ₗ[ZMod p] V)) Subtype.val_injective
   let b' : ℕ → V := fun i => if h : i < m then b ⟨i, h⟩ else 0
   let P' : ℕ → Finset V := fun i => if h : i < m then O ⟨i, h⟩ else ∅

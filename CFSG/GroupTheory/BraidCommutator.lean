@@ -179,7 +179,7 @@ theorem braid_cube_eq {Q : Type*} [Group Q] (hcomm : ∀ x y : Q, x * y = y * x)
     (hαβα : ∀ y, α (β (α y)) = α y) (hβαβ : ∀ y, β (α (β y)) = β y)
     {s t : Q → Q} (hs : ∀ y, s y = α y * y) (ht : ∀ y, t y = β y * y) (y : Q) :
     s (t (s (t (s (t y))))) = y := by
-  letI : CommGroup Q := { ‹Group Q› with mul_comm := hcomm }
+  let : CommGroup Q := { ‹Group Q› with mul_comm := hcomm }
   have hconj : ∀ x z : Q, x * z * x = z := by
     intro x z
     calc
@@ -218,7 +218,7 @@ theorem braid_cube_eq {Q : Type*} [Group Q] (hcomm : ∀ x y : Q, x * y = y * x)
       _ = (β y * α y * β y) * y := by group
       _ = α y * y := by rw [hconj (β y) (α y)]
   rw [h5, hs]
-  simp only [map_mul, hαα, mul_one, one_mul]
+  simp only [map_mul, hαα, one_mul]
   calc
     α y * (α y * y) = (α y * α y) * y := by group
     _ = y := by rw [hQ (α y), one_mul]
@@ -237,8 +237,7 @@ private theorem quotient_comm_and_mul_self {P V : Subgroup G} [(V.subgroupOf P).
         rw [Subgroup.mem_subgroupOf]
         have h := hPP (y : G)⁻¹ (P.inv_mem y.2) (x : G)⁻¹ (P.inv_mem x.2)
         convert h using 1
-        simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_pow,
-          commutatorElement_def]
+        simp only [Subgroup.coe_mul, Subgroup.coe_inv, commutatorElement_def]
         group
   · intro x
     induction x using QuotientGroup.induction_on with
@@ -433,7 +432,7 @@ private theorem quotientConjAut_braid_cube {P V : Subgroup G} [(V.subgroupOf P).
   have hcommQ := (quotient_comm_and_mul_self hPP hsq).1
   have hsqQ := (quotient_comm_and_mul_self hPP hsq).2
   let Q := ↥P ⧸ V.subgroupOf P
-  letI : Group Q := inferInstanceAs (Group (↥P ⧸ V.subgroupOf P))
+  let : Group Q := inferInstanceAs (Group (↥P ⧸ V.subgroupOf P))
   let s : Q ≃* Q := quotientConjAut P V a haP haV
   let t : Q ≃* Q := quotientConjAut P V b hbP hbV
   let α : Q →* Q := quotientTransvection P V hPP hsq a haP haV
@@ -463,7 +462,7 @@ theorem commutator_pow_three_mem_of_braid {P V : Subgroup G}
     (hαβα : ∀ x ∈ P, ⁅a, x⁆⁻¹ * ⁅a, ⁅b, ⁅a, x⁆⁆⁆ ∈ V)
     (hβαβ : ∀ x ∈ P, ⁅b, x⁆⁻¹ * ⁅b, ⁅a, ⁅b, x⁆⁆⁆ ∈ V) :
     ∀ x ∈ P, ⁅(a * b) ^ 3, x⁆ ∈ V := by
-  haveI hNV : (V.subgroupOf P).Normal := normal_subgroupOf_of_commutator_le hPP
+  have hNV : (V.subgroupOf P).Normal := normal_subgroupOf_of_commutator_le hPP
   intro x hx
   have hcube := quotientConjAut_braid_cube hPP hsq haP hbP haV hbV hαα hββ hαβα hβαβ
     ⟨x, hx⟩

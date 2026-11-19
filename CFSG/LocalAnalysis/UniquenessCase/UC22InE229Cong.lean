@@ -22,6 +22,7 @@ theorem uc22ine229_odd_orderOf {H : Type*} [Group H] {q : ℕ} (hq : q.Prime) (h
   rw [hj]
   exact (hq.odd_of_ne_two hq2).pow
 
+omit [Finite G] in
 theorem uc22ine229_exists_pow_eq_one {q : ℕ} {M P : Subgroup G} (hP : IsPGroup q P) {x : ↥M}
     (hx : (x : G) ∈ P) : ∃ k : ℕ, x ^ q ^ k = 1 := by
   obtain ⟨k, hk⟩ := hP ⟨x, hx⟩
@@ -101,9 +102,9 @@ theorem uc22ine229_exists_elemAbelian_pair {M A₀ : Subgroup G} {W₁ W₂ : Su
     ∃ E : Subgroup G, E ≤ M ∧ IsElemAbelian r E ∧ Nat.card E = r ^ 2 ∧
       A₀ ≤ normalizer (E : Set G) ∧
       ∀ R : Subgroup G, R ≤ M → IsPGroup r R → E ≤ R → E ≤ centralizer (R : Set G) := by
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact r.Prime := ⟨hr⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hAb : IsPGroup p (barImage M A₀) := hA₀.comap_subtype.map _
   have hAbN : ∀ a ∈ barImage M A₀,
       a ∈ normalizer (W₁ : Set (Bar2 M)) ⊓ normalizer (W₂ : Set (Bar2 M)) := by
@@ -151,7 +152,7 @@ theorem uc22ine229_exists_elemAbelian_pair {M A₀ : Subgroup G} {W₁ W₂ : Su
     exact (map_subtype_le _).trans (uc22p21c_barPreimage_le M Eb)
   have hEr : IsPGroup r E := by
     rw [hE]
-    exact S.isPGroup'.map _
+    exact S.isPGroup.map _
   have hdisj : Disjoint (E.subgroupOf M) (QuotientGroup.mk' (CFSG.pCore 2 ↥M)).ker := by
     rw [QuotientGroup.ker_mk']
     refine Subgroup.disjoint_def.2 fun {x} hxE hxO => Subtype.ext ?_

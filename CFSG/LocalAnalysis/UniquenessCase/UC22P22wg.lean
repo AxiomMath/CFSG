@@ -187,7 +187,7 @@ theorem isIndecomposable_of_factorShape22 {Z : Type} [Group Z] [Finite Z] (h : F
     IsIndecomposableGroup Z := by
   rcases h with ⟨n, h⟩ | h | h
   · exact P22y.isIndecomposable_of_isL2Ev h
-  · haveI := PartTwo.isSimpleGroup_of_isL3 h
+  · have := PartTwo.isSimpleGroup_of_isL3 h
     exact P22y.isIndecomposable_of_isSimpleGroup
   · obtain ⟨e⟩ := h
     exact Sigma3Dec.isIndecomposableGroup_of_mulEquiv e isIndecomposable_perm_five

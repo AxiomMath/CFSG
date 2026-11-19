@@ -35,7 +35,7 @@ theorem nbrpmmx_K_model {X : Type} [Group X] (n f : ℕ) (hn : 4 ≤ n) (hf : 1 
     (hS' : ∀ s ∈ S', ∀ s'' ∈ S', Commute s s'') (hodd' : ∀ s ∈ S', Odd (orderOf s))
     (K' R' : Subgroup (UK n f)) (ε' e' : Mx n f)
     (hε' : IsPrimAdjIdemIn (RingHom.id (GaloisField 2 f)) (Gm n f) (AdS f S') ε')
-    (he' : IsPrimIdemIn (AdS f S') e') (he'ε' : e' * ε' = e')
+    (he' : IsPrimIdemIn (AdS f S') e') (_he'ε' : e' * ε' = e')
     (hsplit' : e' = ε' ∨ (e' ≠ ε' ∧ Fadj n f e' ≠ e' ∧ ε' = e' + Fadj n f e'))
     (hK'ε' : IsComponentOf K' ⁅BlkC n f S' ε', BlkC n f S' ε'⁆) (hR'K' : R' ≤ K')
     (hgeo : ∃ a₁ a₂ : Ix n → GaloisField 2 f, a₁ ≠ 0 ∧ a₂ ≠ 0 ∧

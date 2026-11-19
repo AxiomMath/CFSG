@@ -65,10 +65,6 @@ theorem cube_eq_one_of_commute_torus [Fintype F] (hF : Fintype.card F = 4) {x : 
         | exact ⟨![ω, 1], by simpa using e1.symm⟩
         | exact ⟨![ω, 1], by simpa using e2⟩
         | exact ⟨![ω, 1], by simpa using e2.symm⟩
-        | exact ⟨![ω, 1], by simpa using e3⟩
-        | exact ⟨![ω, 1], by simpa using e3.symm⟩
-        | exact ⟨![1, ω], by simpa using e1⟩
-        | exact ⟨![1, ω], by simpa using e1.symm⟩
         | exact ⟨![1, ω], by simpa using e2⟩
         | exact ⟨![1, ω], by simpa using e2.symm⟩
     obtain ⟨t, ht⟩ := key

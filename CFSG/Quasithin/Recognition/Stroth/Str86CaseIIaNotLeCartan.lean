@@ -15,6 +15,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem str86_bigB_le_normalizer_z1_inf_q2 (L1 L2 S : Subgroup G) :
     bigB L1 L2 S ≤
       Subgroup.normalizer ((Z1 L1 L2 S ⊓ Q2 L1 L2 S : Subgroup G) : Set G) := by
@@ -43,8 +44,8 @@ theorem str86_caseIIa_notLe_cartan_false
       (Z1 L1 L2 S ⊓ Q2 L1 L2 S) = 2 ^ k)
     (hZX : (Z1 L1 L2 S ⊓ Q2 L1 L2 S).relIndex (Z1 L1 L2 S) = 2 ^ k) : False := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : CommGroup ↥N := commGroupOfElemAbelian hN
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : CommGroup ↥N := commGroupOfElemAbelian hN
   set Z : Subgroup G := Z1 L1 L2 S with hZdef
   set X : Subgroup G := Z ⊓ Q2 L1 L2 S with hXdef
   set Y : Subgroup G := Z ⊓ Subgroup.centralizer ({t} : Set G) with hYdef

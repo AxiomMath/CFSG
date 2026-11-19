@@ -11,6 +11,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {z : G} {n : ℕ}
 
+omit [Finite G] in
 private theorem mem_conjugate_iff' {H : Subgroup G} {g x : G} :
     x ∈ CFSG.conjugate H g ↔ g * x * g⁻¹ ∈ H := by
   unfold CFSG.conjugate
@@ -19,12 +20,14 @@ private theorem mem_conjugate_iff' {H : Subgroup G} {g x : G} :
   · rintro ⟨y, hy, rfl⟩
     simpa [MulAut.conj_apply, mul_assoc] using hy
   · intro hx
-    exact ⟨g * x * g⁻¹, hx, by simp [MulAut.conj_apply, mul_assoc]⟩
+    exact ⟨g * x * g⁻¹, hx, by simp [mul_assoc]⟩
 
+omit [Finite G] in
 private theorem orderOf_conj_eq' (x g : G) : orderOf (g⁻¹ * x * g) = orderOf x := by
   have h := orderOf_injective (MulAut.conj g⁻¹).toMonoidHom (MulEquiv.injective _) x
   simpa [MulAut.conj_apply] using h
 
+omit [Finite G] in
 private theorem ne_one_of_config (hC : Config z n) : z ≠ 1 := by
   intro h
   have h2 := hC.orderOf_eq
@@ -74,11 +77,12 @@ theorem Config.eq_of_inf_conj_ne_bot (hC : Config z n) (g : G)
   calc g⁻¹ * z * g = g⁻¹ * (g * z * g⁻¹) * g := by rw [hxz]
     _ = z := by group
 
+omit [Finite G] in
 theorem Config.exists_conj_eq_mul (hC : Config z n) {a : G} (ha : a ∈ coreAt z) (ha2 : a ^ 2 = 1)
     (haZ : a ∉ centerAt z) : ∃ q ∈ coreAt z, q⁻¹ * a * q = a * z := by
   have hnc : ∃ x ∈ coreAt z, a * x ≠ x * a := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply haZ
     have hmem : (⟨a, ha⟩ : coreAt z) ∈ center (coreAt z) := by
       rw [Subgroup.mem_center_iff]
@@ -150,7 +154,7 @@ theorem Config.exists_conj_eq_mul_z (hC : Config z n) {g : G}
       _ = g⁻¹ * z * g * z := huz.symm
 
 theorem Config.conj_center_not_le_core (hC : Config z n) {g : G}
-    (ha : g⁻¹ * z * g ∈ coreAt z) (hne : g⁻¹ * z * g ≠ z) :
+    (_ha : g⁻¹ * z * g ∈ coreAt z) (hne : g⁻¹ * z * g ≠ z) :
     ¬ CFSG.conjugate (centerAt z) g ≤ coreAt z := by
   intro hle
   obtain ⟨k, hZk, hk4, hk2⟩ := hC.exists_generator

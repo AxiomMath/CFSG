@@ -14,7 +14,7 @@ open CFSG.LieType.Universal.Spin CFSG.ClassicalGroups.Orthogonal CFSG.Open Quadr
 
 private theorem omSevenGI_two_ne_zero {K : Type*} [Field K] [Finite K] (hK : Nat.card K = 3) :
     (2 : K) ≠ 0 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcard : Fintype.card K = 3 := by rwa [Nat.card_eq_fintype_card] at hK
   let e : ZMod 3 ≃+* K := ZMod.ringEquivOfPrime (R := K) (p := 3) (by norm_num) hcard
   intro h2
@@ -26,7 +26,7 @@ private theorem omSevenGI_two_ne_zero {K : Type*} [Field K] [Finite K] (hK : Nat
 
 private theorem omSevenGI_three_eq_zero {K : Type*} [Field K] [Finite K] (hK : Nat.card K = 3) :
     (3 : K) = 0 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcard : Fintype.card K = 3 := by rwa [Nat.card_eq_fintype_card] at hK
   let e : ZMod 3 ≃+* K := ZMod.ringEquivOfPrime (R := K) (p := 3) (by norm_num) hcard
   have h3 : (3 : ZMod 3) = 0 := by decide
@@ -36,7 +36,7 @@ private theorem omSevenGI_three_eq_zero {K : Type*} [Field K] [Finite K] (hK : N
 
 private theorem omSevenGI_sq_eq_one {K : Type*} [Field K] [Finite K] (hK : Nat.card K = 3)
     {a : K} (ha : a ≠ 0) : a ^ 2 = 1 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcard : Fintype.card K = 3 := by rwa [Nat.card_eq_fintype_card] at hK
   have h := FiniteField.pow_card_sub_one_eq_one a ha
   rwa [hcard] at h
@@ -59,7 +59,7 @@ private theorem omSevenGI_three_zero_zmod (a b c : ZMod 3) (ha : a ≠ 0) (hb : 
 private theorem omSevenGI_rep_two {K : Type*} [Field K] [Finite K] (hK : Nat.card K = 3)
     {a b c : K} (ha : a ≠ 0) (hb : b ≠ 0) (hc : c ≠ 0) :
     ∃ x y : K, a * x ^ 2 + b * y ^ 2 = c := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcard : Fintype.card K = 3 := by rwa [Nat.card_eq_fintype_card] at hK
   let e : ZMod 3 ≃+* K := ZMod.ringEquivOfPrime (R := K) (p := 3) (by norm_num) hcard
   have ha' : e.symm a ≠ 0 := by
@@ -79,7 +79,7 @@ private theorem omSevenGI_rep_two {K : Type*} [Field K] [Finite K] (hK : Nat.car
 private theorem omSevenGI_three_zero {K : Type*} [Field K] [Finite K] (hK : Nat.card K = 3)
     {a b c : K} (ha : a ≠ 0) (hb : b ≠ 0) (hc : c ≠ 0) :
     ∃ x y z : K, (x, y, z) ≠ 0 ∧ a * x ^ 2 + b * y ^ 2 + c * z ^ 2 = 0 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcard : Fintype.card K = 3 := by rwa [Nat.card_eq_fintype_card] at hK
   let e : ZMod 3 ≃+* K := ZMod.ringEquivOfPrime (R := K) (p := 3) (by norm_num) hcard
   have ha' : e.symm a ≠ 0 := by
@@ -113,7 +113,7 @@ private theorem omSevenGI_exists_orthogonal_basis {K M : Type*} [Field K] [Finit
     ∃ b : Module.Basis (Fin (Module.finrank K M)) K M,
       (∀ i j, i ≠ j → q.IsOrtho (b i) (b j)) ∧ ∀ i, q (b i) ≠ 0 := by
   have h2 : (2 : K) ≠ 0 := omSevenGI_two_ne_zero hK
-  letI : Invertible (2 : K) := invertibleOfNonzero h2
+  let : Invertible (2 : K) := invertibleOfNonzero h2
   exact hq.exists_orthogonal_basis
 
 private theorem omSevenGI_isOrtho_smul {K M : Type*} [Field K] [AddCommGroup M] [Module K M]
@@ -207,7 +207,7 @@ private theorem omSevenGI_exists_hypPair {K M : Type*} [Field K] [Finite K]
     ∃ e f : M, q e = 0 ∧ q f = 0 ∧ polar q e f = 1 := by
   obtain ⟨u, hu0, huq⟩ := omSevenGI_exists_singular hK q hq hrank
   have h2 : (2 : K) ≠ 0 := omSevenGI_two_ne_zero hK
-  letI : Invertible (2 : K) := invertibleOfNonzero h2
+  let : Invertible (2 : K) := invertibleOfNonzero h2
   have hiso : ¬ q.Anisotropic := not_anisotropic_iff_exists q |>.mpr ⟨u, hu0, huq⟩
   obtain ⟨x, y, hx, hxq, hyq, hxy⟩ :=
     exists_isotropic_pair_of_radical_eq_bot hq.radical_eq_bot hiso
@@ -241,19 +241,19 @@ private theorem omSevenGI_A_sq {K : Type*} [Field K]
 
 private theorem omSevenGI_mem_plus_decomp {K : Type*} [Field K]
     (A : (OmegaSevenIdx → K) ≃ₗ[K] (OmegaSevenIdx → K)) (hA2 : A * A = 1)
-    (h2 : (2 : K) ≠ 0) (x : OmegaSevenIdx → K) :
+    (_h2 : (2 : K) ≠ 0) (x : OmegaSevenIdx → K) :
     (2 : K)⁻¹ • (x + A x) ∈ omSevenGI_plus A := by
   rw [omSevenGI_mem_plus, map_smul, map_add, omSevenGI_A_sq A hA2]
   exact congrArg (fun y => (2 : K)⁻¹ • y) (add_comm (A x) x)
 
 private theorem omSevenGI_mem_minus_decomp {K : Type*} [Field K]
     (A : (OmegaSevenIdx → K) ≃ₗ[K] (OmegaSevenIdx → K)) (hA2 : A * A = 1)
-    (h2 : (2 : K) ≠ 0) (x : OmegaSevenIdx → K) :
+    (_h2 : (2 : K) ≠ 0) (x : OmegaSevenIdx → K) :
     (2 : K)⁻¹ • (x - A x) ∈ omSevenGI_minus A := by
   rw [omSevenGI_mem_minus, map_smul, map_sub, omSevenGI_A_sq A hA2, ← smul_neg, neg_sub]
 
 private theorem omSevenGI_decomp {K : Type*} [Field K]
-    (A : (OmegaSevenIdx → K) ≃ₗ[K] (OmegaSevenIdx → K)) (hA2 : A * A = 1)
+    (A : (OmegaSevenIdx → K) ≃ₗ[K] (OmegaSevenIdx → K)) (_hA2 : A * A = 1)
     (h2 : (2 : K) ≠ 0) (x : OmegaSevenIdx → K) :
     (2 : K)⁻¹ • (x + A x) + (2 : K)⁻¹ • (x - A x) = x := by
   rw [← smul_add]
@@ -272,7 +272,7 @@ private theorem omSevenGI_sup_plus_minus {K : Type*} [Field K]
     omSevenGI_mem_minus_decomp A hA2 h2 x, rfl⟩
 
 private theorem omSevenGI_inf_plus_minus {K : Type*} [Field K]
-    (A : (OmegaSevenIdx → K) ≃ₗ[K] (OmegaSevenIdx → K)) (hA2 : A * A = 1)
+    (A : (OmegaSevenIdx → K) ≃ₗ[K] (OmegaSevenIdx → K)) (_hA2 : A * A = 1)
     (h2 : (2 : K) ≠ 0) : omSevenGI_plus A ⊓ omSevenGI_minus A = ⊥ := by
   rw [eq_bot_iff]
   intro x hx
@@ -294,7 +294,7 @@ private theorem omSevenGI_isCompl {K : Type*} [Field K]
 
 private theorem omSevenGI_polar_plus_minus {K : Type*} [Field K]
     (A : (OmegaSevenIdx → K) ≃ₗ[K] (OmegaSevenIdx → K))
-    (hA : A ∈ TauCeti.QuadraticMap.orthogonalGroup (quadOdd 3 K)) (hA2 : A * A = 1)
+    (hA : A ∈ TauCeti.QuadraticMap.orthogonalGroup (quadOdd 3 K)) (_hA2 : A * A = 1)
     (h2 : (2 : K) ≠ 0) {u w : OmegaSevenIdx → K} (hu : u ∈ omSevenGI_plus A)
     (hw : w ∈ omSevenGI_minus A) : polar (quadOdd 3 K) u w = 0 := by
   have hu' := (omSevenGI_mem_plus A u).mp hu
@@ -344,7 +344,7 @@ private theorem omSevenGI_restrict_plus_nondegenerate {K : Type*} [Field K]
     (hA : A ∈ TauCeti.QuadraticMap.orthogonalGroup (quadOdd 3 K)) (hA2 : A * A = 1)
     (h2 : (2 : K) ≠ 0) :
     ((quadOdd 3 K).restrict (omSevenGI_plus A)).Nondegenerate := by
-  letI : Invertible (2 : K) := invertibleOfNonzero h2
+  let : Invertible (2 : K) := invertibleOfNonzero h2
   exact (QuadraticMap.nondegenerate_polar_iff).mp
     (nondegenerate_polarBilin_restrict (omSevenGI_polarNondegOn_plus A hA hA2 h2))
 
@@ -353,7 +353,7 @@ private theorem omSevenGI_restrict_minus_nondegenerate {K : Type*} [Field K]
     (hA : A ∈ TauCeti.QuadraticMap.orthogonalGroup (quadOdd 3 K)) (hA2 : A * A = 1)
     (h2 : (2 : K) ≠ 0) :
     ((quadOdd 3 K).restrict (omSevenGI_minus A)).Nondegenerate := by
-  letI : Invertible (2 : K) := invertibleOfNonzero h2
+  let : Invertible (2 : K) := invertibleOfNonzero h2
   exact (QuadraticMap.nondegenerate_polar_iff).mp
     (nondegenerate_polarBilin_restrict (omSevenGI_polarNondegOn_minus A hA hA2 h2))
 
@@ -448,14 +448,14 @@ private theorem omSevenGI_restrict_orthogonal_line_nondegenerate {K : Type*} [Fi
     (h2 : (2 : K) ≠ 0) (v : OmegaSevenIdx → K) (hQv : quadOdd 3 K v ≠ 0) :
     ((quadOdd 3 K).restrict
       (LinearMap.BilinForm.orthogonal (polarBilin (quadOdd 3 K)) (K ∙ v))).Nondegenerate := by
-  letI : Invertible (2 : K) := invertibleOfNonzero h2
+  let : Invertible (2 : K) := invertibleOfNonzero h2
   exact (QuadraticMap.nondegenerate_polar_iff).mp
     (nondegenerate_polarBilin_restrict (omSevenGI_polarNondegOn_orthogonal_line h2 v hQv))
 
 private theorem omSevenGI_eichler_pair_apply {K : Type*} [Field K]
     {q : QuadraticForm K (OmegaSevenIdx → K)} {v e f : OmegaSevenIdx → K}
     (hQe : q e = 0) (hQf : q f = 0) (hev : polar q e v = 0) (hfv : polar q f v = 0)
-    (hef : polar q e f = 1) (h2 : (2 : K) ≠ 0) (h3 : (3 : K) = 0)
+    (hef : polar q e f = 1) (_h2 : (2 : K) ≠ 0) (h3 : (3 : K) = 0)
     (hqv : q v = 1 ∨ q v = -1) :
     eichler q f ((2 * q v) • v) (eichler q e v v) = q v • e + f := by
   have hve : polar q v e = 0 := by rw [polar_comm]; exact hev
@@ -467,24 +467,24 @@ private theorem omSevenGI_eichler_pair_apply {K : Type*} [Field K]
   rw [eichler_apply hQf hf2]
   rcases hqv with hqv | hqv
   · rw [hqv] at hvv ⊢
-    simp only [mul_one, one_mul, neg_mul, mul_neg, neg_neg] at hvv ⊢
-    simp only [polar_add_right, polar_add_left, polar_sub_right, polar_sub_left,
-      polar_smul_right_eq, polar_smul_left_eq, hve, hev, hvf, hvv, hqv, hQe, hQf, hef,
+    simp only [mul_one, one_mul] at hvv ⊢
+    simp only [polar_add_left, polar_sub_left,
+      polar_smul_right_eq, polar_smul_left_eq, hve, hev, hvf, hvv, hqv, hef,
       map_smul_eq_sq]
     ring_nf
     have h2eq : (2 : K) = -1 := by linear_combination h3
     have h4eq : (4 : K) = 1 := by linear_combination h3
-    simp only [h2eq, h4eq, h3]
+    simp only [h2eq, h4eq]
     module
   · rw [hqv] at hvv ⊢
-    simp only [mul_one, one_mul, neg_mul, mul_neg, neg_neg] at hvv ⊢
-    simp only [polar_add_right, polar_add_left, polar_sub_right, polar_sub_left,
-      polar_smul_right_eq, polar_smul_left_eq, hve, hev, hvf, hvv, hqv, hQe, hQf, hef,
+    simp only [mul_one, one_mul, neg_mul, mul_neg] at hvv ⊢
+    simp only [polar_add_left, polar_sub_left,
+      polar_smul_right_eq, polar_smul_left_eq, hve, hev, hvf, hvv, hqv, hef,
       map_smul_eq_sq]
     ring_nf
     have h2eq : (2 : K) = -1 := by linear_combination h3
     have h4eq : (4 : K) = 1 := by linear_combination h3
-    simp only [h2eq, h4eq, h3]
+    simp only [h2eq, h4eq]
     module
 
 
@@ -529,7 +529,7 @@ private theorem omSevenGI_first_disjunct_of_ranks {K : Type} [Field K] [Finite K
 
 private theorem omSevenGI_line_case {K : Type} [Field K] [Finite K] (hK : Nat.card K = 3)
     (A : (OmegaSevenIdx → K) ≃ₗ[K] (OmegaSevenIdx → K))
-    (hA : A ∈ TauCeti.QuadraticMap.orthogonalGroup (quadOdd 3 K)) (hA2 : A * A = 1)
+    (_hA : A ∈ TauCeti.QuadraticMap.orthogonalGroup (quadOdd 3 K)) (_hA2 : A * A = 1)
     {ε : K} (hε : ε = 1 ∨ ε = -1) {v : OmegaSevenIdx → K} (hv0 : v ≠ 0)
     (hAv : A v = ε • v)
     (hperp : ∀ x : OmegaSevenIdx → K, polar (quadOdd 3 K) x v = 0 ↔ A x = -ε • x)
@@ -546,7 +546,7 @@ private theorem omSevenGI_line_case {K : Type} [Field K] [Finite K] (hK : Nat.ca
         (g * A * g⁻¹) u = A u ∧ (g * A * g⁻¹) w = -(A w)) := by
   have h2 : (2 : K) ≠ 0 := omSevenGI_two_ne_zero hK
   have h3 : (3 : K) = 0 := omSevenGI_three_eq_zero hK
-  letI : Invertible (2 : K) := invertibleOfNonzero h2
+  let : Invertible (2 : K) := invertibleOfNonzero h2
   have hε2 : ε * ε = 1 := by rcases hε with rfl | rfl <;> norm_num
   have hε2neg : -ε * ε = -1 := by rw [neg_mul, hε2]
   have hε2neg' : ε * -ε = -1 := by rw [mul_neg, hε2]
@@ -677,7 +677,7 @@ private theorem omSevenGI_line_case {K : Type} [Field K] [Finite K] (hK : Nat.ca
       rw [hgv_perp] at hp
       exact (mul_ne_zero h2 hQv) hp.symm
     have hPfin : Module.finrank K P ≤ 2 := by
-      haveI : Fintype ({v, g v} : Set (OmegaSevenIdx → K)) :=
+      have : Fintype ({v, g v} : Set (OmegaSevenIdx → K)) :=
         (Set.toFinite _).fintype
       calc Module.finrank K P ≤ ({v, g v} : Set (OmegaSevenIdx → K)).toFinset.card :=
             finrank_span_le_card _
@@ -714,14 +714,12 @@ private theorem omSevenGI_line_case {K : Type} [Field K] [Finite K] (hK : Nat.ca
       intro p hp
       obtain ⟨a, b, rfl⟩ := Submodule.mem_span_pair.mp hp
       simp only [LinearEquiv.mul_apply, map_add, map_smul, map_neg, hA'v, hA'gv, hAv, hAgv,
-        smul_smul, hε2, hε2neg, hε2neg', hε2negneg, neg_mul, neg_mul_neg, one_mul, mul_one,
-        neg_smul, one_smul, neg_add, neg_neg, mul_assoc, mul_neg, smul_neg]
+        smul_smul, hε2, neg_smul, one_smul, neg_add, smul_neg]
     have hA'Ap : ∀ p : OmegaSevenIdx → K, p ∈ P → (A' * A) p = -p := by
       intro p hp
       obtain ⟨a, b, rfl⟩ := Submodule.mem_span_pair.mp hp
       simp only [LinearEquiv.mul_apply, map_add, map_smul, map_neg, hA'v, hA'gv, hAv, hAgv,
-        smul_smul, hε2, hε2neg, hε2neg', hε2negneg, neg_mul, neg_mul_neg, one_mul, mul_one,
-        neg_smul, one_smul, neg_add, neg_neg, mul_assoc, mul_neg, smul_neg]
+        smul_smul, hε2, neg_smul, one_smul, neg_add, smul_neg]
     have hAA'_y : ∀ y : OmegaSevenIdx → K,
         y ∈ LinearMap.BilinForm.orthogonal (polarBilin (quadOdd 3 K)) P → (A * A') y = y := by
       intro y hy
@@ -771,8 +769,7 @@ private theorem omSevenGI_line_case {K : Type} [Field K] [Finite K] (hK : Nat.ca
       linear_combination -h3
     have hAA'_w : (A * A') (v + g v) = -(v + g v) := by
       simp only [LinearEquiv.mul_apply, map_add, map_smul, map_neg, hA'v, hA'gv, hAv, hAgv,
-        smul_smul, hε2, hε2neg, hε2neg', hε2negneg, neg_mul, neg_mul_neg, one_mul, mul_one,
-        neg_smul, one_smul, neg_add, neg_neg, mul_assoc, mul_neg, smul_neg]
+        smul_smul, hε2, neg_smul, one_smul, neg_add, smul_neg]
     have huw : polar (quadOdd 3 K) (u : OmegaSevenIdx → K) (v + g v) = 0 := by
       rw [polar_add_right, hu_v, hu_gv, add_zero]
     have hA'u_eq : A' (u : OmegaSevenIdx → K) = A (u : OmegaSevenIdx → K) := by
@@ -894,7 +891,7 @@ theorem involution_geometry {K : Type} [Field K] [Finite K] (hK : Nat.card K = 3
         intro y hy
         have hyk : y ∈ K ∙ v := by rwa [← hspan]
         obtain ⟨c, rfl⟩ := Submodule.mem_span_singleton.mp hyk
-        simp [polar_smul_right, polar_self_eq_two_mul, h0]
+        simp [polar_smul_right, h0]
       exact hv0 (hperp v hv hvorth)
     have hAv : A v = (1 : K) • v := by
       rw [one_smul]
@@ -915,7 +912,7 @@ theorem involution_geometry {K : Type} [Field K] [Finite K] (hK : Nat.card K = 3
         intro y hy
         have hyk : y ∈ K ∙ v := by rwa [← hspan]
         obtain ⟨c, rfl⟩ := Submodule.mem_span_singleton.mp hyk
-        simp [polar_smul_right, polar_self_eq_two_mul, h0]
+        simp [polar_smul_right, h0]
       exact hv0 (hperp v hv hvorth)
     have hAv : A v = (-1 : K) • v := by
       simpa using (omSevenGI_mem_minus A v).mp hv

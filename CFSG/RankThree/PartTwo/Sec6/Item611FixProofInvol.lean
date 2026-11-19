@@ -216,7 +216,7 @@ theorem false_of_not_mem_normalizer (he : CFSG.Assembly.evenRank G = 3) {d x : G
     CFSG.RankThreeEvenClassification.Helpers.exists_normalized_sylow_in_prime_complement_subgroup
       3 Nat.prime_three P N hP3 hN3 hPN 2 Nat.prime_two
   set RG := (R : Subgroup N).map N.subtype with hRG
-  have hRG2 : IsPGroup 2 RG := R.isPGroup'.map N.subtype
+  have hRG2 : IsPGroup 2 RG := R.isPGroup.map N.subtype
   have hRG1 : RG ≠ ⊥ := by
     intro hbot
     obtain ⟨y, -, hle⟩ := exists_le_conj_sylow R (le_sup_left : Subgroup.zpowers x ≤ N) hT2

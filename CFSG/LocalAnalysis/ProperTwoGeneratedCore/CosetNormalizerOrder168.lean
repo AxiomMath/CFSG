@@ -278,7 +278,7 @@ theorem exists_sylow_seven_labeling (G : Type*) [Group G] [Finite G] [IsSimpleGr
     have hxN : x ∈ Subgroup.normalizer ((Q₀ : Subgroup G) : Set G) :=
       Sylow.smul_eq_iff_mem_normalizer.mp hxQ
     have hxQ₀ : x ∈ (Q₀ : Subgroup G) :=
-      ((IsPGroup.inf_normalizer_sylow P.isPGroup' Q₀).le ⟨hxP, hxN⟩).2
+      ((IsPGroup.inf_normalizer_sylow P.isPGroup Q₀).le ⟨hxP, hxN⟩).2
     have hle : (P : Subgroup G) ≤ Q₀ := by
       rw [← hzpowers x hxP hx1, Subgroup.zpowers_le]
       exact hxQ₀

@@ -19,7 +19,7 @@ variable {Y : Type*} [Group Y]
 theorem conjOn_apply (A : Subgroup Y) [A.Normal] (y : Y) (a : A) :
     ((conjOn A y a : A) : Y) = y * a * y⁻¹ := rfl
 
-@[expose] def secCommGroup (A B : Subgroup Y) [B.Normal]
+@[instance_reducible, expose] def secCommGroup (A B : Subgroup Y) [B.Normal]
     (hab : ∀ a ∈ A, ∀ b ∈ A, a * b * a⁻¹ * b⁻¹ ∈ B) : CommGroup (A ⧸ B.subgroupOf A) :=
   { (inferInstance : Group (A ⧸ B.subgroupOf A)) with
     mul_comm := fun x y => by
@@ -36,7 +36,7 @@ theorem map_conjOn_le (A B : Subgroup Y) [A.Normal] [hB : B.Normal] (y : Y) :
   rw [mem_comap, mem_subgroupOf, conjOn_apply]
   exact hB.conj_mem _ hb y
 
-@[expose] def secAct (A B : Subgroup Y) [A.Normal] [B.Normal] :
+@[instance_reducible, expose] def secAct (A B : Subgroup Y) [A.Normal] [B.Normal] :
     DistribMulAction Y (Additive (A ⧸ B.subgroupOf A)) where
   smul y m := Additive.ofMul (QuotientGroup.map (B.subgroupOf A) (B.subgroupOf A) (conjOn A y)
     (map_conjOn_le A B y) m.toMul)

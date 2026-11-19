@@ -70,10 +70,10 @@ theorem G_eq :
   rcases Nat.lt_or_ge j 5 with h | h
   · rw [Array.getElem_push_lt (by simpa [hs] using h), Array.getElem_map,
       ← getElem!_pos FAData.pLift j (by rw [hs]; exact h), lift_arrJ (hl j h)]
-    simp only [PG, if_pos h]
+    simp only [PG, ite_eq_left h]
   · have e : j = 5 := by omega
     subst e
-    rw [Array.getElem_push, dif_neg (by simp [hs]), pword_arrJ SJ_arrs _ hk]
+    rw [Array.getElem_push, dite_eq_right (by simp [hs]), pword_arrJ SJ_arrs _ hk]
     simp only [PG]
     rfl
 
@@ -107,8 +107,8 @@ theorem pev_eq : ∀ (f i x : ℕ), x < nPts →
   | f + 1, i, x, hx => by
     rw [pev, EA]
     by_cases hi : i = 0
-    · rw [if_pos hi, if_pos hi, gi_one hx]
-    · rw [if_neg hi, if_neg hi, pev_eq f _ x hx, G_get (lab_lt i), gi_mul _ _ hx,
+    · rw [ite_eq_left hi, ite_eq_left hi, gi_one hx]
+    · rw [ite_eq_right hi, ite_eq_right hi, pev_eq f _ x hx, G_get (lab_lt i), gi_mul _ _ hx,
         arrJ_get _ (gi_lt _ hx)]
 
 theorem EA_stable : ∀ i < 729, ∀ f, i < f → EA f i = E i := by
@@ -119,18 +119,18 @@ theorem EA_stable : ∀ i < 729, ∀ f, i < f → EA f i = E i := by
     obtain ⟨f', rfl⟩ : ∃ f', f = f' + 1 := ⟨f - 1, by omega⟩
     rw [show E i = EA (728 + 1) i from rfl, EA, EA]
     by_cases hi0 : i = 0
-    · rw [if_pos hi0, if_pos hi0]
-    · rw [if_neg hi0, if_neg hi0]
+    · rw [ite_eq_left hi0, ite_eq_left hi0]
+    · rw [ite_eq_right hi0, ite_eq_right hi0]
       have hp := (par_data.2.2 i hi hi0).1
       rw [ih _ hp (by omega) f' (by omega), ih _ hp (by omega) 728 (by omega)]
 
 theorem E_succ {i : ℕ} (hi : i < 729) (hi0 : i ≠ 0) :
     E i = PG (FAData.pParents[i]!).2 * E (FAData.pParents[i]!).1 := by
   have hp := (par_data.2.2 i hi hi0).1
-  rw [show E i = EA (728 + 1) i from rfl, EA, if_neg hi0, EA_stable _ (by omega) 728 (by omega)]
+  rw [show E i = EA (728 + 1) i from rfl, EA, ite_eq_right hi0, EA_stable _ (by omega) 728 (by omega)]
 
 theorem E_zero : E 0 = 1 := by
-  rw [show E 0 = EA (728 + 1) 0 from rfl, EA, if_pos rfl]
+  rw [show E 0 = EA (728 + 1) 0 from rfl, EA, ite_eq_left rfl]
 
 theorem C3S_eq : C3S = C3W := rfl
 
@@ -162,10 +162,10 @@ theorem GM_mat {j : ℕ} (hj : j < 6) :
     have := liftM_mat _ (hl j h) (one_sound CFSG.KD.OrdHN.consts).1
       (by rw [HNXP.one_ord, ← matJ_one])
     rw [one_mul] at this
-    simp only [PG, if_pos h]
+    simp only [PG, ite_eq_left h]
     exact this
   · obtain rfl : j = 5 := by omega
-    simp only [PG, if_neg (by norm_num : ¬ (5 < 5))]
+    simp only [PG, ite_eq_right (by norm_num : ¬ (5 < 5))]
     exact strong_elem (Nat.eq_of_beq_eq_true hk).symm (by rw [scodeK_eq]) hkl
 
 theorem EM_mat : ∀ f i, Canon 5 133 13 (emat GMf PARf LABf f i) ∧
@@ -178,7 +178,7 @@ theorem EM_mat : ∀ f i, Canon 5 133 13 (emat GMf PARf LABf f i) ∧
     · subst hi
       refine ⟨(one_sound CFSG.KD.OrdHN.consts).1, ?_⟩
       change OM' CFSG.KD.OrdHN.ONE = matJ (EA (f + 1) 0)
-      rw [HNXP.one_ord, EA, if_pos rfl, matJ_one]
+      rw [HNXP.one_ord, EA, ite_eq_left rfl, matJ_one]
     · have e : emat GMf PARf LABf (f + 1) i =
           CFSG.KC.LL.HN.mm (GMf (LABf i)) (emat GMf PARf LABf f (PARf i)) := by
         change nIf(Nat.beq i 0, _, _) = _
@@ -190,7 +190,7 @@ theorem EM_mat : ∀ f i, Canon 5 133 13 (emat GMf PARf LABf f i) ∧
       obtain ⟨c2, m2⟩ := EM_mat f (PARf i)
       have hm := HNXP.mm_sound c1 c2
       refine ⟨hm.1, ?_⟩
-      rw [hm.2, m1, m2, ← matJ_mul, EA, if_neg hi]
+      rw [hm.2, m1, m2, ← matJ_mul, EA, ite_eq_right hi]
       rfl
 
 noncomputable abbrev Om (t : ℕ) : ℕ := f21 OM t
@@ -214,8 +214,8 @@ theorem pt_img {j t : ℕ} (hj : j < 6) (ht : t < 15312) :
     show Nat.mod (15 * j + t / 1024) 15 = t / 1024 by change (15 * j + t / 1024) % 15 = t / 1024; omega] at h
   have hn : nIf(Nat.blt (t / 1024) 14, 1024, 976) = if t / 1024 < 14 then 1024 else 976 := by
     by_cases hc : t / 1024 < 14
-    · rw [if_pos hc, show Nat.blt (t / 1024) 14 = true from Nat.blt_eq.mpr hc]
-    · rw [if_neg hc, show Nat.blt (t / 1024) 14 = false from
+    · rw [ite_eq_left hc, show Nat.blt (t / 1024) 14 = true from Nat.blt_eq.mpr hc]
+    · rw [ite_eq_right hc, show Nat.blt (t / 1024) 14 = false from
         Bool.eq_false_iff.mpr fun e => hc (Nat.blt_eq.mp e)]
   rw [hn] at h
   have hk : t % 1024 < if t / 1024 < 14 then 1024 else 976 := by split_ifs <;> omega
@@ -263,7 +263,7 @@ theorem slice61 {f : ℕ → Bool} (h : ∀ s < 12, (allN 61 fun d => strictB (N
   have e : Nat.add (Nat.add (Nat.mul 61 ((i - 1) / 61)) ((i - 1) % 61)) 1 = i := by
     change 61 * ((i - 1) / 61) + (i - 1) % 61 + 1 = i
     omega
-  rw [sb_eq, e, bi_eq, if_pos (Nat.blt_eq.mpr hi)] at hs
+  rw [sb_eq, e, bi_eq, ite_eq_left (Nat.blt_eq.mpr hi)] at hs
   exact hs
 
 theorem v_lt {i k : ℕ} (hi : i < 729) (hk : k < 22) : Vr i k < 15312 := by
@@ -411,7 +411,7 @@ theorem dist_ok {i k : ℕ} (hi : i < 729) (hk : k < 729) (hik : i < k) :
   have hk61 : k / 61 < 12 := by omega
   have hd := allN_spec (dK.all (k / 61) hk61) (k % 61) (Nat.mod_lt _ (by norm_num))
   rw [sb_eq, show Nat.add (Nat.mul 61 (k / 61)) (k % 61) = k from Nat.div_add_mod k 61, bi_eq,
-    if_pos (Nat.blt_eq.mpr hk)] at hd
+    ite_eq_left (Nat.blt_eq.mpr hk)] at hd
   have := allN_spec hd i hik
   rw [Bool.not_eq_true', ki, kk] at this
   change (Nat.beq (Om (Vr k 0) + 2097152 * Om (Vr k 1)) (Om (Vr i 0) + 2097152 * Om (Vr i 1))) = false
@@ -427,7 +427,7 @@ theorem memL_eq : ∀ (l : List ℕ) (x : ℕ), memL l x = l.contains x
     by_cases h : a = x
     · subst h
       simp
-    · rw [if_neg (fun e => h (Nat.eq_of_beq_eq_true e))]
+    · rw [ite_eq_right (fun e => h (Nat.eq_of_beq_eq_true e))]
       simp [Ne.symm h]
 
 theorem cub_get {i : ℕ} (hi : i < 729) : cub i = true := by
@@ -469,11 +469,11 @@ theorem cub_spec {i : ℕ} (hi : i < 729) :
   generalize g0 Data.baseList (fldW CK (Nat.mul 5 i) 5) = b at hc ⊢
   unfold cubF at hc
   rw [bi_eq] at hc
-  refine ⟨fun hm => by rwa [if_pos hm] at hc, fun hm h0 => ?_⟩
+  refine ⟨fun hm => by rwa [ite_eq_left hm] at hc, fun hm h0 => ?_⟩
   have hm' : ¬ (memL SylowData.order3 i = true) := fun e => by
     rw [hm] at e
     exact Bool.false_ne_true e
-  rw [if_neg hm', bi_eq, if_neg (fun e => h0 (Nat.eq_of_beq_eq_true e)),
+  rw [ite_eq_right hm', bi_eq, ite_eq_right (fun e => h0 (Nat.eq_of_beq_eq_true e)),
     ba_eq, Bool.and_eq_true] at hc
   refine ⟨hc.1, fun h => ?_⟩
   have := hc.2
@@ -637,7 +637,7 @@ theorem sylow_ok : sylowChecks (hnsData.orbit ()) = true := by
     by_cases h0 : i = 0
     · simp [h0]
     · have := p3 i hi h0
-      simp [h0, this.1, this.2]
+      simp [this.1, this.2]
   case w1 =>
     simp only [allBelowN_eq]
     exact cls_a

@@ -33,8 +33,8 @@ theorem card_eq_eight_of_normalized {G : Type*} [Group G] [Finite G] (hG : Nat.c
     (hAg : ∀ x ∈ A, g * x * g⁻¹ ∈ A) (hAg' : ∃ x ∈ A, g * x * g⁻¹ ≠ x) :
     Nat.card A = 8 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hgN : g ∈ normalizer (A : Set G) := mem_normalizer_of_conj_mem hAg
   have hApg : IsPGroup 2 A := fun x => ⟨1, by
     rw [pow_one]
@@ -43,7 +43,7 @@ theorem card_eq_eight_of_normalized {G : Type*} [Group G] [Finite G] (hG : Nat.c
   have hdvd : Nat.card A ∣ 504 := hG ▸ Subgroup.card_subgroup_dvd_card A
   have hn3 : n ≤ 3 := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have h16 : 2 ^ 4 ∣ 504 := (Nat.pow_dvd_pow 2 hlt).trans (hn ▸ hdvd)
     norm_num at h16
   let φ : ↥(normalizer (A : Set G)) →* Equiv.Perm ↥A :=
@@ -83,9 +83,9 @@ theorem reeL28_sub {a : ℕ} {K : Type} [Field K] [Finite K] [CharP K ReeTag.G2.
         g ∈ normalizer ((S : Subgroup ↥(ReeTag.G2.reeGamma K a)) :
           Set ↥(ReeTag.G2.reeGamma K a)) := by
   classical
-  haveI : Finite (ModGL ReeTag.G2.tag K) := finite_modGL
-  haveI : Finite ↥(ReeTag.G2.reeGamma K a) := Subtype.finite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (ModGL ReeTag.G2.tag K) := finite_modGL
+  have : Finite ↥(ReeTag.G2.reeGamma K a) := Subtype.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨w₀, hw₀, -⟩ := weyl_longest_element ReeTag.G2.tag
   obtain ⟨e⟩ := nonempty_srD_mulEquiv (K := K) hw₀
   have hDΓ : Subgroup.closure {ReeTag.g2U₀ K, canonicalRep (coxeterSystem ReeTag.G2.tag) K w₀} ≤

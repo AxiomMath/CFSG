@@ -17,10 +17,12 @@ open CFSG.CGT.Timmesfeld75 (IsTI conjSubgroup)
 variable {G : Type} [Group G] [Finite G]
 variable {D : Data G} {Ch : Choice2011 G}
 
+omit [Finite G] in
 theorem IrrOn.mono {N₁ N₂ E : Subgroup G} (hirr : IrrOn N₁ E) (h : N₁ ≤ N₂) :
     IrrOn N₂ E :=
   fun W hW hNW => hirr W hW (h.trans hNW)
 
+omit [Finite G] in
 theorem le_normalizer_inf_conjSubgroup {U₀ M₁ : Subgroup G} {y : G}
     (hU₀ : M₁ ≤ Subgroup.normalizer (U₀ : Set G))
     (hy : y ∈ Subgroup.normalizer (M₁ : Set G)) :
@@ -36,12 +38,14 @@ theorem le_normalizer_inf_conjSubgroup {U₀ M₁ : Subgroup G} {y : G}
       _ = Subgroup.normalizer (conjSubgroup U₀ y : Set G) := hmap
   exact (le_inf hU₀ hNVy).trans Subgroup.inf_normalizer_le_normalizer_inf
 
+omit [Finite G] in
 theorem conjClosure_le_normalizer {N E F : Subgroup G}
     (hN : N ≤ Subgroup.normalizer (F : Set G))
     (hE : E ≤ Subgroup.normalizer (F : Set G)) :
     conjClosure N E ≤ Subgroup.normalizer (F : Set G) :=
   uc22p22v_conjClosure_le (hN.trans Subgroup.le_normalizer) hE
 
+omit [Finite G] in
 theorem conjSubgroup_le_of_mem_normalizer {A B : Subgroup G} {y : G}
     (hAB : A ≤ B) (hy : y ∈ Subgroup.normalizer (B : Set G)) :
     conjSubgroup A y ≤ B := by
@@ -63,6 +67,7 @@ theorem inf_conjSubgroup_eq_bot_of_irreducible {U₀ M₁ : Subgroup G} {y : G}
     have hcard : Nat.card (conjSubgroup U₀ y) = Nat.card U₀ := E3.card_conjSubgroup _ _
     exact hyU₀ (Subgroup.eq_of_le_of_card_ge hle (le_of_eq hcard)).symm
 
+omit [Finite G] in
 theorem mem_normalizer_inf_conjClosure {M Y L : Subgroup G} {y : G}
     (hyM : y ∈ M) (hyY : y ∈ Y) :
     y ∈ Subgroup.normalizer (M ⊓ conjClosure Y L : Set G) := by

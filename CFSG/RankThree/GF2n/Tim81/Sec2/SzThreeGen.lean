@@ -16,7 +16,7 @@ private theorem involutions_conjugate (hK : Nat.card K = 2 ^ (2 * a + 1))
     {x y : ↥(suzukiGroup a K)} (hx : x * x = 1) (hx1 : x ≠ 1)
     (hy : y * y = 1) (hy1 : y ≠ 1) :
     ∃ g : ↥(suzukiGroup a K), g * y * g⁻¹ = x := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hxo : orderOf x = 2 := orderOf_eq_prime (by rw [pow_two]; exact hx) hx1
   have hyo : orderOf y = 2 := orderOf_eq_prime (by rw [pow_two]; exact hy) hy1
   obtain ⟨g, hg⟩ := isConj_iff.1
@@ -57,7 +57,7 @@ theorem exists_closure_three_conj_eq_top_of_closure (hK : Nat.card K = 2 ^ (2 * 
   rw [hmap]
   congr 1
   ext y
-  simp [MulAut.conj_apply, hux]
+  simp [hux]
 
 private theorem suzukiSElt_zero_one_sq (hK : Nat.card K = 2 ^ (2 * a + 1)) :
     suzukiSElt a K 0 1 * suzukiSElt a K 0 1 = 1 := by
@@ -211,8 +211,8 @@ private theorem suzuki_closure_involutions_eq_top (hK : Nat.card K = 2 ^ (2 * a 
       Subgroup.subset_closure ⟨suzukiSElt_zero_one_sq hK, suzukiSElt_zero_one_ne_one hK⟩
     rw [h] at hx
     exact suzukiSElt_zero_one_ne_one hK (by simpa using hx)
-  haveI : IsSimpleGroup ↥(suzukiGroup a K) := (suzuki_simple ha hK).2.2
-  haveI := hnorm
+  have : IsSimpleGroup ↥(suzukiGroup a K) := (suzuki_simple ha hK).2.2
+  have := hnorm
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.closure S) with h | h
   · exact absurd h hne
   · exact h
@@ -265,7 +265,7 @@ theorem suzuki_eq_top_of_suzukiZ0_le_of_W_mem (hK : Nat.card K = 2 ^ (2 * a + 1)
         (suzukiU_le_suzukiB a K (suzukiSElt_mem_suzukiU a K c d))
   have hInv : ∀ z : ↥(suzukiGroup a K), z * z = 1 → z ≠ 1 → z ∈ H := by
     intro z hz hz1
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hzo : orderOf z = 2 := orderOf_eq_prime (by rw [pow_two]; exact hz) hz1
     have hx0o : orderOf (suzukiSElt a K 0 1) = 2 :=
       orderOf_eq_prime (by rw [pow_two]; exact suzukiSElt_zero_one_sq hK)

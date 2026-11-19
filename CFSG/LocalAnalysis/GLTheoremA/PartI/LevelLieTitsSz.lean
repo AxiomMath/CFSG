@@ -25,7 +25,7 @@ private theorem lieRowSz_fixSubgroup_solvable {K : Type} [Field K] [Finite K]
     (hβ1 : β ≠ 1) : Group.IsSolvable ↥(fixSubgroup β) := by
   have hp : Nat.Prime 5 := by norm_num
   have hp2 : (5 : ℕ) ≠ 2 := by norm_num
-  haveI : Fact (Nat.Prime 5) := ⟨hp⟩
+  have : Fact (Nat.Prime 5) := ⟨hp⟩
   have hord : orderOf β = 5 := orderOf_eq_prime hβ hβ1
   have hZ : Subgroup.center (suzukiGroup 2 K) = ⊥ :=
     CFSG.RankThree.PartOne.KE.suzuki_center_eq_bot (by norm_num) hK
@@ -46,7 +46,7 @@ private theorem lieRowSz_fixSubgroup_solvable {K : Type} [Field K] [Finite K]
     subst hb0
     have hk2 : Nat.card k = 2 := by rw [hk]; norm_num
     have hcard := (CFSG.LieType.Ree.suzuki_two_normal_five_complement_core_trivial hk2).1
-    haveI : Finite (suzukiGroup 0 k) := CFSG.LieType.Simplicity.finite_suzukiGroup 0 k
+    have : Finite (suzukiGroup 0 k) := CFSG.LieType.Simplicity.finite_suzukiGroup 0 k
     have hsolv : Group.IsSolvable (suzukiGroup 0 k) :=
       CFSG.GroupTheory.groups_order_below_sixty_solvable (by rw [hcard]; norm_num)
     have hfix : Group.IsSolvable ↥(fixSubgroup (szFieldAut 2 K σ)) :=
@@ -71,11 +71,11 @@ theorem kdLieRowSzFive_holds : KDLieRowSzFive := by
   obtain ⟨hfin, hsimp, hncSz⟩ :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieComp.suzukiGroup_simple_nonab (b := 2)
       (by norm_num) hK'
-  haveI : Finite (suzukiGroup 2 K) := hfin
-  haveI : IsSimpleGroup (suzukiGroup 2 K) := hsimp
-  haveI : Finite (TauCeti.CFSGIndex.lie ⟨.suzuki 2, hv⟩).Group :=
+  have : Finite (suzukiGroup 2 K) := hfin
+  have : IsSimpleGroup (suzukiGroup 2 K) := hsimp
+  have : Finite (TauCeti.CFSGIndex.lie ⟨.suzuki 2, hv⟩).Group :=
     Finite.of_equiv _ θ.symm.toEquiv
-  haveI : IsSimpleGroup (TauCeti.CFSGIndex.lie ⟨.suzuki 2, hv⟩).Group :=
+  have : IsSimpleGroup (TauCeti.CFSGIndex.lie ⟨.suzuki 2, hv⟩).Group :=
     (MulEquiv.isSimpleGroup_congr θ).mpr hsimp
   have hnc : ∃ a b : (TauCeti.CFSGIndex.lie ⟨.suzuki 2, hv⟩).Group, a * b ≠ b * a := by
     obtain ⟨x, y, hxy⟩ := hncSz

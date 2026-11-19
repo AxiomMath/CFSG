@@ -177,7 +177,7 @@ theorem b_not_mem_commutator_XsubHat (S : Setting z E F) {a : G} {w : ℕ} (h : 
   have hεX : ∀ g : ↥(XsubPre S a), ε g ∈ XsubHat S a := fun g =>
     (mem_XsubHat_iff S a).mpr ⟨(g : ↥(H z)).2, g.2⟩
   let N : Subgroup ↥(XsubPre S a) := (FsubH S a).comap ε
-  haveI hNn : N.Normal := ⟨fun n hn g => by
+  have hNn : N.Normal := ⟨fun n hn g => by
     change ε (g * n * g⁻¹) ∈ FsubH S a
     rw [map_mul, map_mul, map_inv]
     exact conj_mem_FsubH S a (hεH g) hn⟩
@@ -275,7 +275,7 @@ theorem b_not_mem_commutator_XsubHat (S : Setting z E F) {a : G} {w : ℕ} (h : 
     have e2 : g = c * (c⁻¹ * g) := by group
     rw [e2]
     exact Subgroup.mul_mem _ hc hkC
-  haveI : Group.IsPerfect ↥(XsubPre S a) := hLperf
+  have : Group.IsPerfect ↥(XsubPre S a) := hLperf
   have hsq := (CFSG.Alternating.Multipliers.Spin.sq_eq_of_perfect_double_cover (n := 8)
     le_rfl π hπsurj hker hζc hζ1).1
   let tL : ↥(XsubPre S a) := ⟨⟨t, htH⟩, htX⟩
@@ -333,7 +333,7 @@ theorem exists_index_two_not_mem_of_pointMaps (S : Setting z E F) {a : G} {w : �
     ∃ H₁ : Subgroup G, H₁ ≤ H z ∧ H₁.relIndex (H z) = 2 ∧ b ∉ H₁ ∧
       ⁅XsubHat S a, XsubHat S a⁆ ≤ H₁ := by
   classical
-  haveI := Xsub_normal S a
+  have := Xsub_normal S a
   have hbQ : b ∈ Q z := (inf_le_left : ZQ z ≤ Q z) hbZ
   have hbH : b ∈ H z := Q_le_H S hbQ
   obtain ⟨r, hrL0, hrX⟩ := exists_mem_L0_not_mem_XsubHat S h hZ hX1

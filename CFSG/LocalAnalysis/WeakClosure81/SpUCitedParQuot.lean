@@ -17,7 +17,7 @@ private lemma spUCitedParQuot_conjSubgroup_map (π : G →* Q) (K : Subgroup G) 
   have hhom : (MulAut.conj ((π g)⁻¹)).toMonoidHom.comp π
       = π.comp (MulAut.conj (g⁻¹)).toMonoidHom := by
     ext y
-    simp [MulAut.conj_apply]
+    simp
   unfold conjSubgroup
   simp only [Subgroup.map_map]
   rw [hhom]
@@ -31,7 +31,7 @@ theorem spUCited_rootParabolic_map [Finite G] (π : G →* Q) (hπ : Function.Su
       Subgroup.map α.toMonoidHom (Pα.map π) = Pα.map π) :
     RootParabolic (R.map π) (Sy.map π) (X₂.map π) (Pα.map π) e := by
   have hmem := h.mem
-  simp only [rootGroupsIn, Set.mem_setOf_eq] at hmem
+  simp only [rootGroupsIn, Set.mem_ofPred_eq] at hmem
   obtain ⟨⟨g, hg⟩, hX₂le⟩ := hmem
   have hX₂ : IsPGroup 2 X₂ := by
     rw [hg]

@@ -23,7 +23,7 @@ theorem mem_of_odd_index_centralizer {K : Type} [Field K] [Finite K] [CharP K 2]
   have hoddC : Odd C.index := hodd
   let P : Sylow 2 C := Classical.choice Sylow.nonempty
   let T : Subgroup L := (P : Subgroup C).map C.subtype
-  have hTp : IsPGroup 2 T := P.isPGroup'.map C.subtype
+  have hTp : IsPGroup 2 T := P.isPGroup.map C.subtype
   have hTindex : ¬ 2 ∣ T.index := by
     rw [Subgroup.index_map_subtype]
     exact Nat.Prime.not_dvd_mul Nat.prime_two P.not_dvd_index hoddC.not_two_dvd_nat

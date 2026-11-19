@@ -318,7 +318,7 @@ variable {n : ℕ} {F : Type} [Field F] {I : Set (Fin n)}
 
 theorem leviM_mono {J J' : Set (Fin n)} (h : J ⊆ J') :
     leviM (rootDatum n F) J ≤ leviM (rootDatum n F) J' :=
-  iSup₂_le fun i hi => rankOne_le_leviM (h hi)
+  iSup₂_le fun _i hi => rankOne_le_leviM (h hi)
 
 theorem leviOb_sp [Finite F] [CharP F 2] {Y : Type} [Group Y]
     (π : StatedSp n F →* Y) (hker : ∀ z ∈ π.ker, z ∈ Subgroup.center (StatedSp n F))

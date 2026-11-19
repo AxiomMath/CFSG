@@ -228,7 +228,7 @@ theorem exists_signedPermVec_normalization_of_isGramArray_fin {d m n : ℕ} (hn 
     intro k
     have hlt : ((Fin.castLE h6 k : Fin d) : ℕ) < 6 := k.isLt
     rw [hεdef]
-    simp only [dif_pos hlt]
+    simp only [dite_eq_left hlt]
     congr 1
   refine ⟨h6, σ, ε, ?_, signedPermVec_eq_of_eq_three_single hα hσ hε hueq,
     signedPermVec_eq_of_eq_three_single hα hσ hε hveq,

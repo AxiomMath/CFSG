@@ -43,7 +43,7 @@ namespace CFSG.LocalAnalysis.UniquenessCase.PartTwo
 theorem s16t3_cycleType_of_isPGroup_three {n : ℕ} (hn : n ≤ 8) (σ : Equiv.Perm (Fin n))
     (hσ : IsPGroup 3 (Subgroup.zpowers σ)) :
     σ.cycleType = 0 ∨ σ.cycleType = {3} ∨ σ.cycleType = {3, 3} := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨k, hk⟩ :=
     hσ.exists_orderOf_eq_pow (⟨σ, Subgroup.mem_zpowers σ⟩ : Subgroup.zpowers σ)
   have horder : orderOf σ = 3 ^ k := by

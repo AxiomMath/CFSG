@@ -56,7 +56,7 @@ theorem Sec7Ctx.t_mem_S [Finite G] {t : G} {L S : Subgroup G} {z : G} (h : Sec7C
     apply Subtype.ext
     show (a : G) * t = t * (a : G)
     exact Subgroup.mem_centralizer_singleton_iff.mp a.2
-  haveI : P.Normal := Subgroup.normal_of_le_center hPcenter
+  have : P.Normal := Subgroup.normal_of_le_center hPcenter
   obtain ⟨Q, hQ⟩ := h.sylow.exists_sylow
   have htHQ : tH ∈ Q := hP.le_sylow_of_normal Q (Subgroup.mem_zpowers tH)
   have htmap : t ∈ (Q : Subgroup ↥H).map H.subtype := Subgroup.mem_map.mpr ⟨tH, htHQ, rfl⟩
@@ -64,7 +64,7 @@ theorem Sec7Ctx.t_mem_S [Finite G] {t : G} {L S : Subgroup G} {z : G} (h : Sec7C
 
 theorem Sec7Ctx.isSylow2Of_inf [Finite G] (h36 : Asc82Lemma36) {t : G} {L S : Subgroup G} {z : G}
     (h : Sec7Ctx G t L S z) : IsSylow2Of (S ⊓ L) L := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS : CFSG.ABGLocalTools.IsSylowOf 2 S (centralizer ({t} : Set G)) :=
     CFSG.ABGLocalTools.isSylowOf_iff.mpr h.sylow
   have hinf : CFSG.ABGLocalTools.IsSylowOf 2 (S ⊓ L) L :=
@@ -222,7 +222,7 @@ theorem eq_one_or_eq_of_commute [Finite G] {L : Subgroup G}
   let C : Subgroup G := centralizer (L : Set G)
   have hcyc' : ∀ P : Sylow 2 ↥C, IsCyclic (P : Subgroup ↥C) := by
     intro P
-    haveI : IsCyclic ↥((P : Subgroup ↥C).map C.subtype) := hcyc _ (isSylow2Of_map_sylow P)
+    have : IsCyclic ↥((P : Subgroup ↥C).map C.subtype) := hcyc _ (isSylow2Of_map_sylow P)
     exact isCyclic_of_injective
       (Subgroup.equivMapOfInjective (P : Subgroup ↥C) C.subtype C.subtype_injective).toMonoidHom
       (Subgroup.equivMapOfInjective (P : Subgroup ↥C) C.subtype C.subtype_injective).injective

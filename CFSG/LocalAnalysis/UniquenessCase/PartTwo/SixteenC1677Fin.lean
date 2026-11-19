@@ -145,7 +145,7 @@ theorem Case167_7F.sixteen_sixtyOne (D : Data G) {V₀ V : Subgroup G} {hV : IsE
       ¬ centralizer (E3.cClos V D.k D.T : Set G) ≤ D.M ∨ (calO2 D.k D.M V₀ V).Nonempty)
     (hN : normalizer (E3.wClos V 0 D.T : Set G) ≤ D.M) (h0 : V₀ = ⊥) :
     calO2 2 D.M V₀ V = ∅ ∧ ¬ centralizer (E3.cClos V 2 D.T : Set G) ≤ D.M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   subst h0
   have hm2 : MBarGT D.M ⊥ V 2 := h7.mBarGT_two hH.hyp125
   have hk : D.k ≤ 2 := TwelveSeven.k_le_two D
@@ -172,7 +172,7 @@ theorem Case167_7F.sixteen_sixtyTwo (D : Data G) (hx : DataExt D) (h61 : UC6.R6_
       centralizer ({z} : Set G) ≤ D.M := by
   subst h0
   obtain ⟨X₀, _, hX₀, ⟨φ⟩⟩ := h7.1
-  haveI : Finite X₀ := s16c7_finite_of_psi φ
+  have : Finite X₀ := s16c7_finite_of_psi φ
   have hT := h7.tensor_realizes
   have hsig : D.sig = {7} := h7.2.2
   have h7s : (7 : ℕ) ∈ D.sig := by rw [hsig]; exact Set.mem_singleton 7

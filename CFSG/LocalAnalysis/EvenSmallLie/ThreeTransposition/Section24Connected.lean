@@ -78,7 +78,7 @@ theorem exists_mem_sylow_of_le [Finite G] {p : ℕ} [Fact p.Prime] {K P Q : Subg
   obtain ⟨S, hS⟩ := (hP.comap_subtype (K := K)).exists_le_sylow
   obtain ⟨S₂, hS₂⟩ := (hQ.comap_subtype (K := K)).exists_le_sylow
   obtain ⟨k, hk⟩ := MulAction.exists_smul_eq K S₂ S
-  obtain ⟨T, hT⟩ := (S.isPGroup'.map K.subtype).exists_le_sylow
+  obtain ⟨T, hT⟩ := (S.isPGroup.map K.subtype).exists_le_sylow
   refine ⟨k, k.2, T, fun x hx => hT ⟨⟨x, hPK hx⟩, hS hx, rfl⟩, fun x hx => ?_⟩
   have h2 : k * ⟨x, hQK hx⟩ * k⁻¹ ∈ S := by
     rw [← hk, mem_smul_sylow_iff, show k⁻¹ * (k * ⟨x, hQK hx⟩ * k⁻¹) * k = ⟨x, hQK hx⟩ by group]
@@ -110,7 +110,7 @@ theorem exists_mem_normalizer_conj_eq [Finite G] (hDinv : ∀ g : G, ∀ x ∈ D
     · change g * x * g⁻¹ * f = f * (g * x * g⁻¹)
       rw [← hgef]
       exact (conj_commute_iff g x e).2 (hcomm x hx e he)
-  have hP : IsPGroup 2 P := T.isPGroup'.to_le ((Subgroup.closure_le _).2 Set.inter_subset_left)
+  have hP : IsPGroup 2 P := T.isPGroup.to_le ((Subgroup.closure_le _).2 Set.inter_subset_left)
   obtain ⟨k, hkK, T', hPT', hQT'⟩ := exists_mem_sylow_of_le hPK hQK hP (hP.map _)
   have hT' : (T' : Set G) ∩ D = (T : Set G) ∩ D :=
     sylow_inter_eq_of_subset hDinv fun x hx => hPT' (Subgroup.subset_closure hx)
@@ -236,7 +236,7 @@ theorem IsOddTranspositionSet.centralizer_le_normalizer_of_mem_sylow [Finite G]
     (hc : c ∈ (T : Set G) ∩ D) :
     Subgroup.centralizer {a * b * c} ≤ Subgroup.normalizer (compSet D a) := by
   have hΩ : ∀ u ∈ (T : Set G) ∩ D, ∀ v ∈ (T : Set G) ∩ D, u * v = v * u :=
-    fun u hu v hv => hodd.commute_of_mem_pGroup hD2 T.isPGroup' hu.2 hu.1 hv.2 hv.1
+    fun u hu v hv => hodd.commute_of_mem_pGroup hD2 T.isPGroup hu.2 hu.1 hv.2 hv.1
   have hΩy : ∀ u ∈ (T : Set G) ∩ D, u * (a * b * c) = a * b * c * u := fun u hu =>
     Commute.mul_right (Commute.mul_right (hΩ u hu a ha : Commute u a) (hΩ u hu b hb))
       (hΩ u hu c hc)
@@ -337,7 +337,7 @@ theorem IsOddTranspositionSet.connected_of_sylow [Finite G]
   have hd2 := mul_self_of_orderOf (hD2 d hd.2)
   have he2 := mul_self_of_orderOf (hD2 e he.2)
   have hde : d * e = e * d :=
-    hodd.commute_of_mem_pGroup hD2 T.isPGroup' hd.2 hd.1 he.2 he.1
+    hodd.commute_of_mem_pGroup hD2 T.isPGroup hd.2 hd.1 he.2 he.1
   have hed : e ≠ d := fun h => hx1 (by rw [h, hd2])
   have heloc : e ∈ LocalClass D d := ⟨he.2, hed, hde.symm⟩
   have hx2 : d * e * (d * e) = 1 := mul_mul_self_of_commute hd2 he2 hde

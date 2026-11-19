@@ -206,7 +206,7 @@ theorem exists_commute_rho_eq_of_pow_three {x : G} (hxM : x ∈ S.M) (hx3 : x ^ 
   set ρH : H →* S.O := S.ρ.comp H.subtype with hρH
   have hinj : ∀ a ∈ (P₁ : Subgroup H), ρH a = 1 → a = 1 := by
     intro a ha h1
-    obtain ⟨k, hk⟩ := P₁.isPGroup' ⟨a, ha⟩
+    obtain ⟨k, hk⟩ := P₁.isPGroup ⟨a, ha⟩
     have hk' : a ^ 3 ^ k = 1 := congrArg Subtype.val hk
     have haQ : ((a : S.M) : G) ∈ S.QG := (S.ρ_eq_one_iff _).mp h1
     have h4 : a ^ 4 = 1 := Subtype.ext (Subtype.ext (by

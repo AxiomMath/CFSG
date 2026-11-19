@@ -63,7 +63,7 @@ theorem gk7c_centralizer_le_of_core {K : Type*} [Group K] {p : ℕ} {e t : K} {J
   have hNcard : Nat.card ↥N = 2 := by
     rw [hN]
     exact (Nat.card_congr (Subgroup.subgroupOfEquivOfLe hle).toEquiv).trans h2
-  haveI hNnormal : N.Normal := hcore ▸ LargeEvenPPrimeCore.normal p C
+  have hNnormal : N.Normal := hcore ▸ LargeEvenPPrimeCore.normal p C
   have htN : (⟨t, hJ ht.1⟩ : ↥C) ∈ N := by
     rw [hN]
     exact Subgroup.mem_subgroupOf.2 ht

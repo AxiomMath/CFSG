@@ -101,13 +101,13 @@ theorem existsUnique_isCompatible_insert (hL : Monotone L) {S : Set ι} {j : ι}
       · exact hk⟩
   have phiJ : ∀ (hp : j ∈ insert j S), φ' ⟨j, hp⟩ = ψj := by
     intro hp
-    simp only [φ', dif_pos rfl]
+    simp only [φ', dite_eq_left rfl]
     rw [show (MulEquiv.subgroupCongr (congrArg L rfl)).toMonoidHom = MonoidHom.id (L j) from rfl]
     exact MonoidHom.comp_id ψj
   have phiS : ∀ i : S, φ' ⟨i.1, Set.mem_insert_of_mem j i.2⟩ = φ i := by
     intro i
     have hne : i.1 ≠ j := fun h => hj (h ▸ i.2)
-    simp only [φ', dif_neg hne]
+    simp only [φ', dite_eq_right hne]
   have hφ' : IsCompatible (fun i : ↥(insert j S) => L i.1) φ' := by
     rintro ⟨kv, kp⟩ ⟨kv', kp'⟩ hkk' x y hxy
     by_cases hk : kv = j
@@ -138,7 +138,7 @@ theorem existsUnique_isCompatible_insert (hL : Monotone L) {S : Set ι} {j : ι}
         have hψ : ψj y = θ ⟨kv, hlt⟩ (⟨y, hy⟩ : (L kv).subgroupOf (L j)) := by
           simpa using hx
         have hx' : φ' ⟨kv, kp⟩ x = φ ⟨kv, hkS⟩ x := by
-          simp only [φ', dif_neg hk]
+          simp only [φ', dite_eq_right hk]
         have hy' : φ' ⟨j, kp'⟩ y = ψj y := DFunLike.congr_fun (phiJ kp') y
         rw [hx', hy', hψ]
         have hφk : φ ⟨kv, hkS⟩ = φ ⟨kv, hSj kv hlt⟩ := by
@@ -161,9 +161,9 @@ theorem existsUnique_isCompatible_insert (hL : Monotone L) {S : Set ι} {j : ι}
           · exact absurd h hk'
           · exact h
         have hx' : φ' ⟨kv, kp⟩ x = φ ⟨kv, hkS⟩ x := by
-          simp only [φ', dif_neg hk]
+          simp only [φ', dite_eq_right hk]
         have hy' : φ' ⟨kv', kp'⟩ y = φ ⟨kv', hk'S⟩ y := by
-          simp only [φ', dif_neg hk']
+          simp only [φ', dite_eq_right hk']
         rw [hx', hy']
         exact hφ ⟨kv, hkS⟩ ⟨kv', hk'S⟩ (show kv ≤ kv' from hkk') x y hxy
   refine ⟨φ', ⟨hφ', phiS⟩, ?_⟩

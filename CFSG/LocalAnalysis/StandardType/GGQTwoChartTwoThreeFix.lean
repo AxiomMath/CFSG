@@ -16,19 +16,23 @@ variable {G : Type} [Group G] [Finite G]
 variable {B Bs : Subgroup G} {x : G} {L D J : Subgroup G} {𝒦 : Finset (Subgroup G)} {m n : ℕ}
 variable {F0 : Type} [Field F0] [Finite F0] [CharP F0 2]
 
+omit [Finite F0] [CharP F0 2] in
 private theorem qTwoChartTwoThree_diag_coe (c : Fin m → F0ˣ) :
     ((qTwoChartTwoThree_diag c : GL (Fin m) F0) : Matrix (Fin m) (Fin m) F0) =
       Matrix.diagonal fun i => ((c i : F0ˣ) : F0) := rfl
 
+omit [Finite F0] [CharP F0 2] in
 private theorem qTwoChartTwoThree_diag_inv_coe (c : Fin m → F0ˣ) :
     (((qTwoChartTwoThree_diag c)⁻¹ : GL (Fin m) F0) : Matrix (Fin m) (Fin m) F0) =
       Matrix.diagonal fun i => (((c i)⁻¹ : F0ˣ) : F0) := rfl
 
+omit [Finite F0] [CharP F0 2] in
 private theorem qTwoChartTwoThree_diag_mulVec_single (c : Fin m → F0ˣ) (k : Fin m) :
     ((qTwoChartTwoThree_diag c : GL (Fin m) F0) : Matrix (Fin m) (Fin m) F0) *ᵥ
       Pi.single k 1 = Pi.single k ((c k : F0ˣ) : F0) := by
   rw [qTwoChartTwoThree_diag_coe, Matrix.diagonal_mulVec_single, mul_one]
 
+omit [Finite F0] [CharP F0 2] in
 private theorem qTwoChartTwoThree_diag_inv_mulVec_single (c : Fin m → F0ˣ) (k : Fin m) :
     (((qTwoChartTwoThree_diag c)⁻¹ : GL (Fin m) F0) : Matrix (Fin m) (Fin m) F0) *ᵥ
       Pi.single k 1 = Pi.single k ((((c k)⁻¹ : F0ˣ)) : F0) := by

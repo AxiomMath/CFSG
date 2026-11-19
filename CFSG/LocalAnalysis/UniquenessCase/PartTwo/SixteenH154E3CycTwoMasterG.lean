@@ -49,7 +49,7 @@ theorem s16h_e3_CycTwoMasterG [Finite X] [Finite (MulAut X)] (hq : q.Prime) (hq2
     ∃ P : Subgroup (MulAut X), P ≤ Mb ∧ Mb ≤ Subgroup.normalizer (P : Set (MulAut X)) ∧
       ¬ q ∣ P.relIndex Mb ∧ IsPGroup q ↥P ∧ IsElemAbelianOfRank q 3 ↥P ∧
       Subgroup.centralizer (P : Set (MulAut X)) ⊓ Mb ≤ P := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hDe : IsElemAbelian q D := s16h_e3_CycTwoMasterG_isElemAbelian_of_rank hDab
   have hDcard : Nat.card ↥D = q ^ 2 := s16h_e3_CycTwoMasterG_rank_card hDab
   have hPel : IsElemAbelian q (F.core D) := s16h_e3_CycTwoCoreAG_isElemAbelian F hDe

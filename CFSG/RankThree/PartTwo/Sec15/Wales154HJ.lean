@@ -336,7 +336,7 @@ theorem hj_branch (hKf : KS154J2PerfNorm) {A : Subgroup G} {c : G} {L : Subgroup
     exact (Subgroup.mem_normalizer_iff.mp (hAX haA) x).mp hxX
   obtain ⟨hRs4, hRsexp, ⟨eK⟩, hfix⟩ :=
     hKf Q ⟨φJ⟩ E K Rs hE3 (hEcard ▸ hA9) hK1 hKp hEK hRs1 hRs2 hEN hKN
-  have : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   have hA5card : Nat.card (alternatingGroup (Fin 5)) = 60 := by
     rw [nat_card_alternatingGroup, Nat.card_eq_fintype_card, Fintype.card_fin]
     rfl

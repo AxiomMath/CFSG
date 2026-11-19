@@ -26,6 +26,7 @@ theorem charpoly_neg_one :
   rw [h0, h]
   simp [Polynomial.pow_comp, Polynomial.X_comp]
 
+omit [FiniteDimensional F V] in
 theorem isCompl_ker_involution_of_two_ne_zero (h2 : (2 : F) ≠ 0) (f : V →ₗ[F] V)
     (hf : f ∘ₗ f = LinearMap.id) :
     IsCompl (LinearMap.ker (f - 1)) (LinearMap.ker (f + 1)) := by
@@ -88,7 +89,7 @@ theorem charpoly_involution (h2 : (2 : F) ≠ 0) (f : V →ₗ[F] V) (hf : f ∘
             (Submodule.coe_prodEquivOfIsCompl' Kp Km hc (e.symm v)).symm
         _ = v := e.apply_symm_apply v
     conv_rhs => rw [← hsum, map_add, hfa, hfb]
-    simp [e, g, Submodule.coe_prodEquivOfIsCompl', map_neg]
+    simp [e, g, Submodule.coe_prodEquivOfIsCompl']
   have hmain : (e.conj g).charpoly = (X - 1) ^ finrank F Kp * (X + 1) ^ finrank F Km := by
     rw [LinearEquiv.charpoly_conj]
     rw [show g = (LinearMap.id : Kp →ₗ[F] Kp).prodMap

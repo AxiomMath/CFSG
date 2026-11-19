@@ -47,7 +47,7 @@ private theorem es_not_three_dvd_ordSuzuki {n : ℕ} (hn : Odd n) :
     have hge : 1 ≤ 2 ^ n := by omega
     have hpow : 2 ^ n = (2 ^ n - 1) + 1 := by omega
     have : 2 ^ n % 3 = 1 := by
-      rw [hpow, Nat.add_mod, hz] <;> norm_num
+      rw [hpow, Nat.add_mod, hz]
     omega
 
 private theorem es_ordTwistedF4_le_pow28 {q : ℕ} (hq : 2 ≤ q) :
@@ -138,7 +138,7 @@ private theorem ggTorsionKnownOverTagsE67_smallOrd :
     largeEvenMarking_exists_markedModel hmark
   obtain ⟨h3J, hJge⟩ := ggTorsion_markingE67_card hJ
   obtain ⟨H, hHne, hJdvdH⟩ := ggTorsion_dvd_proper hX θ hδ1 hcomp.1
-  haveI : Finite R := Finite.of_equiv (X ⧸ Subgroup.center X) θ.toEquiv
+  have : Finite R := Finite.of_equiv (X ⧸ Subgroup.center X) θ.toEquiv
   have hHdvdR : Nat.card ↥H ∣ Nat.card R := Subgroup.card_subgroup_dvd_card H
   have hHleR : Nat.card ↥H ≤ Nat.card R :=
     Nat.card_le_card_of_injective H.subtype H.subtype_injective
@@ -224,7 +224,7 @@ private theorem ggTorsionKnownOverTagsE67_typeTwF4 :
   have hge := ggTorsion_markingE67_card_ge_twF4 ha hm hJ hlab' hdeg hhasJ
   rw [hn2] at hge
   obtain ⟨H, hHne, hJdvdH⟩ := ggTorsion_dvd_proper hX θ hδ1 hcomp.1
-  haveI : Finite (LargeEvenCenterQuot (LargeEvenTwF4H ((n - 1) / 2) K)) :=
+  have : Finite (LargeEvenCenterQuot (LargeEvenTwF4H ((n - 1) / 2) K)) :=
     Finite.of_equiv (X ⧸ Subgroup.center X) θ.toEquiv
   have hHleR : Nat.card ↥H ≤ Nat.card (LargeEvenCenterQuot (LargeEvenTwF4H ((n - 1) / 2) K)) :=
     Nat.card_le_card_of_injective H.subtype H.subtype_injective

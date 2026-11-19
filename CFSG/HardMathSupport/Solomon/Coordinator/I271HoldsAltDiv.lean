@@ -19,15 +19,18 @@ section AltDiv
 
 variable {Ω : Type*} [Fintype Ω] [DecidableEq Ω] {p : ℕ} [Fact p.Prime]
 
+omit [Fintype Ω] [DecidableEq Ω] [Fact (Nat.Prime p)] in
 theorem i271h_comm_of_mem_elemAbelian {A : Subgroup (Perm Ω)} (hA : IsElemAbelian p A) {a b : Perm Ω}
     (ha : a ∈ A) (hb : b ∈ A) : a * b = b * a := by
   have := hA.1.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩
   exact congrArg Subtype.val this
 
+omit [Fintype Ω] [DecidableEq Ω] [Fact (Nat.Prime p)] in
 theorem i271h_isPGroup_of_elemAbelian {A : Subgroup (Perm Ω)} (hel : IsElemAbelian p A) :
     IsPGroup p A := fun g => ⟨1, by
   rw [pow_one]; exact Subtype.ext (by simpa using hel.2 g g.2)⟩
 
+omit [Fact p.Prime] in
 theorem i271h_perm_orbit_translation_mem {A : Subgroup (Perm Ω)}
     (hA : IsSCp p (⊤ : Subgroup (Perm Ω)) A) {δ ω : Ω}
     (hω : ∀ a ∈ A, a δ ≠ ω) (hstab : ∀ a ∈ A, a δ = δ → a ω = ω) : ∀ t ∈ A, t ω = ω := by
@@ -112,7 +115,7 @@ theorem i271h_perm_no_fixed_point {A : Subgroup (Perm Ω)} (hA : IsSCp p (⊤ : 
       exact (Nat.modEq_zero_iff_dvd).2 hp
     exact (Nat.modEq_zero_iff_dvd).1 (hmod.symm.trans h1)
   have hpos : 0 < Nat.card Fx := by
-    haveI : Nonempty Fx := ⟨⟨ω, hωF⟩⟩
+    have : Nonempty Fx := ⟨⟨ω, hωF⟩⟩
     exact Nat.card_pos
   have hple : p ≤ Nat.card Fx := Nat.le_of_dvd hpos hdvd
   have hS : ∃ S : Finset Ω, (∀ x ∈ S, x ∈ Fx) ∧ S.card = p := by
@@ -213,7 +216,7 @@ theorem i271h_perm_coprime_normalized_eq_bot {A T : Subgroup (Perm Ω)}
     obtain ⟨t', ht', he⟩ := hK1 d hd t ht
     exact ⟨t' * u, T.mul_mem ht' hu, by simp only [Perm.mul_apply]; rw [hdu, he]⟩
   have hDfix : ∃ ω' ∈ Δ, ∀ d ∈ D, d ω' = ω' := by
-    letI : MulAction D Δ :=
+    let : MulAction D Δ :=
       { smul := fun d x => ⟨(d : Perm Ω) x.1, hDΔ d d.2 x.1 x.2⟩
         one_smul := fun x => Subtype.ext rfl
         mul_smul := fun d e x => Subtype.ext rfl }
@@ -225,7 +228,7 @@ theorem i271h_perm_coprime_normalized_eq_bot {A T : Subgroup (Perm Ω)}
       intro hd
       have hor : (MulAction.orbit T ω) = Δ := by
         ext x
-        simp only [MulAction.mem_orbit_iff, hΔ, Set.mem_setOf_eq]
+        simp only [MulAction.mem_orbit_iff, hΔ, Set.mem_ofPred_eq]
         constructor
         · rintro ⟨g, rfl⟩; exact ⟨g, g.2, rfl⟩
         · rintro ⟨t, ht, rfl⟩; exact ⟨⟨t, ht⟩, rfl⟩
@@ -239,7 +242,7 @@ theorem i271h_perm_coprime_normalized_eq_bot {A T : Subgroup (Perm Ω)}
       exact (Fact.out : p.Prime).one_lt.ne' (hT.eq_one_of_dvd (hd.trans h1))
     by_contra hno
     push Not at hno
-    haveI : IsEmpty (MulAction.fixedPoints D Δ) := ⟨fun ⟨x, hx⟩ => by
+    have : IsEmpty (MulAction.fixedPoints D Δ) := ⟨fun ⟨x, hx⟩ => by
       obtain ⟨d, hd, hne⟩ := hno x.1 x.2
       have := MulAction.mem_fixedPoints.1 hx ⟨d, hd⟩
       exact hne (congrArg Subtype.val this)⟩
@@ -279,6 +282,7 @@ section Bridge
 variable {X : Type} [Group X] [Finite X]
 
 open GL83.PiGen in
+omit [Finite X] in
 theorem i271h_permHom_apply_of_mem_K {K A : Subgroup X} (hA : A ≤ Subgroup.normalizer (K : Set X))
     {n : ℕ} (hn : 5 ≤ n) (hn6 : n ≠ 6)
     (e : K ⧸ Subgroup.center K ≃* alternatingGroup (Fin n)) (a : A) (k : K) (hak : (a : X) = k) :
@@ -299,6 +303,7 @@ theorem i271h_permHom_apply_of_mem_K {K A : Subgroup X} (hA : A ≤ Subgroup.nor
   simp [QuotientGroup.mk_mul, map_mul]
 
 open GL83.PiGen in
+omit [Finite X] in
 theorem i271h_map_permHom_isSCp {p n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {K B : Subgroup X}
     [Group.IsPerfect K] (hBsc : IsSCp p ⊤ B) (hBN : B ≤ Subgroup.normalizer (K : Set X))
     (hZ : Subgroup.center K = ⊥) (hn : 5 ≤ n) (hn6 : n ≠ 6)
@@ -406,11 +411,11 @@ theorem i271AltDiv_holds : I271AltDiv := by
   intro X _ _ hXK p K B hH hNorm n hn he hpn
   obtain ⟨hBN, hp2⟩ := hNorm
   have hp : p.Prime := hH.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpodd : p ≠ 2 := hH.odd
   have hBel : IsElemAbelian p B := hH.scp.2.1
   have hq : CFSG.Open.IsQuasisimple ↥K := i116e_isQuasisimple hH.core hH.comp
-  haveI : Group.IsPerfect ↥K := ⟨hq.1⟩
+  have : Group.IsPerfect ↥K := ⟨hq.1⟩
   obtain ⟨e0⟩ := he
   have e : ↥K ⧸ Subgroup.center ↥K ≃* alternatingGroup (Fin n) := e0
   by_cases hn6 : n = 6

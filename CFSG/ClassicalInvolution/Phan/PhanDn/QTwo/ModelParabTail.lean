@@ -48,7 +48,7 @@ theorem qtsPrefixIdx_injective (m : ℕ) (hm : 3 ≤ m) :
   map_add' x y := by
     simp only [Pi.add_apply, add_smul, Finset.sum_add_distrib]
   map_smul' c x := by
-    simp only [Pi.smul_apply, smul_add, Finset.smul_sum, smul_assoc, RingHom.id_apply]
+    simp only [Pi.smul_apply, Finset.smul_sum, smul_assoc, RingHom.id_apply]
 
 @[expose] noncomputable def qtsTailCoords (m : ℕ) (hm : 3 ≤ m) :
     (Fin (m + 1) → K) →ₗ[F] (Fin 3 → K) where
@@ -62,7 +62,7 @@ theorem qtsPrefixIdx_injective (m : ℕ) (hm : 3 ≤ m) :
   map_add' x y := by
     simp only [Pi.add_apply, add_smul, Finset.sum_add_distrib]
   map_smul' c x := by
-    simp only [Pi.smul_apply, smul_add, Finset.smul_sum, smul_assoc, RingHom.id_apply]
+    simp only [Pi.smul_apply, Finset.smul_sum, smul_assoc, RingHom.id_apply]
 
 @[expose] noncomputable def qtsPrefixCoords (m : ℕ) (hm : 3 ≤ m) :
     (Fin (m + 1) → K) →ₗ[F] (Fin (m - 2) → K) where
@@ -70,6 +70,7 @@ theorem qtsPrefixIdx_injective (m : ℕ) (hm : 3 ≤ m) :
   map_add' x y := by ext i; rfl
   map_smul' c x := by ext i; rfl
 
+omit [Finite K] [CharP K 2] in
 theorem qtsTailCoords_tailLift (m : ℕ) (hm : 3 ≤ m) (x : Fin 3 → K) :
     qtsTailCoords (F := F) (K := K) m hm (qtsTailLift (F := F) (K := K) m hm x) = x := by
   ext t
@@ -85,6 +86,7 @@ theorem qtsTailCoords_tailLift (m : ℕ) (hm : 3 ≤ m) (x : Fin 3 → K) :
   · intro h
     exact absurd (Finset.mem_univ t) h
 
+omit [Finite K] [CharP K 2] in
 theorem qtsPrefixCoords_prefixLift (m : ℕ) (hm : 3 ≤ m) (x : Fin (m - 2) → K) :
     qtsPrefixCoords (F := F) (K := K) m hm (qtsPrefixLift (F := F) (K := K) m hm x) = x := by
   ext i
@@ -101,6 +103,7 @@ theorem qtsPrefixCoords_prefixLift (m : ℕ) (hm : 3 ≤ m) (x : Fin (m - 2) →
   · intro h
     exact absurd (Finset.mem_univ i) h
 
+omit [Finite K] [CharP K 2] in
 theorem qtsTailLift_apply_prefix (m : ℕ) (hm : 3 ≤ m) (x : Fin 3 → K)
     (i : Fin (m + 1)) (hi : i.val < m - 2) : qtsTailLift (F := F) (K := K) m hm x i = 0 := by
   change (∑ t : Fin 3, x t • Pi.single (qtsTailIdx m hm t) (1 : K)) i = 0
@@ -113,6 +116,7 @@ theorem qtsTailLift_apply_prefix (m : ℕ) (hm : 3 ≤ m) (x : Fin 3 → K)
     omega
   simp [hne]
 
+omit [Finite K] [CharP K 2] in
 theorem qtsPrefixLift_apply_tail (m : ℕ) (hm : 3 ≤ m) (x : Fin (m - 2) → K)
     (i : Fin (m + 1)) (hi : m - 2 ≤ i.val) : qtsPrefixLift (F := F) (K := K) m hm x i = 0 := by
   change (∑ t : Fin (m - 2), x t • Pi.single (qtsPrefixIdx m hm t) (1 : K)) i = 0
@@ -125,6 +129,7 @@ theorem qtsPrefixLift_apply_tail (m : ℕ) (hm : 3 ≤ m) (x : Fin (m - 2) → K
     omega
   simp [hne]
 
+omit [Finite K] [CharP K 2] in
 theorem qtsPrefixLift_apply_prefix (m : ℕ) (hm : 3 ≤ m) (x : Fin (m - 2) → K)
     (i : Fin (m - 2)) :
     qtsPrefixLift (F := F) (K := K) m hm x (qtsPrefixIdx m hm i) = x i := by
@@ -140,6 +145,7 @@ theorem qtsPrefixLift_apply_prefix (m : ℕ) (hm : 3 ≤ m) (x : Fin (m - 2) →
   · intro h
     exact absurd (Finset.mem_univ i) h
 
+omit [Finite K] [CharP K 2] in
 theorem qtsTailLift_apply_tail (m : ℕ) (hm : 3 ≤ m) (x : Fin 3 → K) (t : Fin 3) :
     qtsTailLift (F := F) (K := K) m hm x (qtsTailIdx m hm t) = x t := by
   change (∑ b : Fin 3, x b • Pi.single (qtsTailIdx m hm b) (1 : K))
@@ -154,6 +160,7 @@ theorem qtsTailLift_apply_tail (m : ℕ) (hm : 3 ≤ m) (x : Fin 3 → K) (t : F
   · intro h
     exact absurd (Finset.mem_univ t) h
 
+omit [Finite K] [CharP K 2] in
 theorem qts_eq_prefix_add_tail (m : ℕ) (hm : 3 ≤ m) (v : Fin (m + 1) → K) :
     qtsPrefixLift (F := F) (K := K) m hm
         (qtsPrefixCoords (F := F) (K := K) m hm v) +
@@ -166,7 +173,7 @@ theorem qts_eq_prefix_add_tail (m : ℕ) (hm : 3 ≤ m) (v : Fin (m + 1) → K) 
     have hij : qtsPrefixIdx m hm j = i := Fin.ext (by simp [j, qtsPrefixIdx])
     rw [← hij]
     rw [qtsPrefixLift_apply_prefix,
-      qtsTailLift_apply_prefix _ _ _ _ (by simpa [qtsPrefixIdx] using hi), add_zero]
+      qtsTailLift_apply_prefix _ _ _ _ (by simp [qtsPrefixIdx]), add_zero]
     rfl
   · have hi' : m - 2 ≤ i.val := by omega
     let t : Fin 3 := ⟨i.val - (m - 2), by omega⟩
@@ -188,6 +195,7 @@ theorem qts_eq_prefix_add_tail (m : ℕ) (hm : 3 ≤ m) (v : Fin (m + 1) → K) 
     Submodule F (Fin (m + 1) → K) :=
   LinearMap.ker (R := F) (R₂ := F) (τ₁₂ := RingHom.id F) (qtsPrefixCoords (F := F) (K := K) m hm)
 
+omit [Finite K] [CharP K 2] in
 theorem qtsPrefixLift_single (m : ℕ) (hm : 3 ≤ m) (i : Fin (m - 2)) (a : K) :
     qtsPrefixLift (F := F) (K := K) m hm (Pi.single i a) =
       (Pi.single (qtsPrefixIdx m hm i) a : Fin (m + 1) → K) := by
@@ -204,6 +212,7 @@ theorem qtsPrefixLift_single (m : ℕ) (hm : 3 ≤ m) (i : Fin (m - 2)) (a : K) 
   · intro h
     exact absurd (Finset.mem_univ i) h
 
+omit [Finite K] [CharP K 2] in
 theorem qtsTailLift_single (m : ℕ) (hm : 3 ≤ m) (t : Fin 3) (a : K) :
     qtsTailLift (F := F) (K := K) m hm (Pi.single t a) =
       (Pi.single (qtsTailIdx m hm t) a : Fin (m + 1) → K) := by
@@ -220,6 +229,7 @@ theorem qtsTailLift_single (m : ℕ) (hm : 3 ≤ m) (t : Fin 3) (a : K) :
   · intro h
     exact absurd (Finset.mem_univ t) h
 
+omit [Finite K] [CharP K 2] in
 theorem qtsPrefixLift_mem_qtsP (m : ℕ) (hm : 3 ≤ m) (x : Fin (m - 2) → K) :
     qtsPrefixLift (F := F) (K := K) m hm x ∈ qtsP (F := F) (K := K) m hm := by
   change qtsPrefixLift (F := F) (K := K) m hm x ∈
@@ -230,6 +240,7 @@ theorem qtsPrefixLift_mem_qtsP (m : ℕ) (hm : 3 ≤ m) (x : Fin (m - 2) → K) 
   change qtsPrefixLift (F := F) (K := K) m hm x (qtsTailIdx m hm t) = 0
   exact qtsPrefixLift_apply_tail _ _ _ _ (by simp [qtsTailIdx])
 
+omit [Finite K] [CharP K 2] in
 theorem qtsTailLift_mem_qtsT (m : ℕ) (hm : 3 ≤ m) (x : Fin 3 → K) :
     qtsTailLift (F := F) (K := K) m hm x ∈ qtsT (F := F) (K := K) m hm := by
   change qtsTailLift (F := F) (K := K) m hm x ∈
@@ -240,6 +251,7 @@ theorem qtsTailLift_mem_qtsT (m : ℕ) (hm : 3 ≤ m) (x : Fin 3 → K) :
   change qtsTailLift (F := F) (K := K) m hm x (qtsPrefixIdx m hm t) = 0
   exact qtsTailLift_apply_prefix _ _ _ _ (by simp [qtsPrefixIdx])
 
+omit [Finite K] [CharP K 2] in
 theorem qtsP_apply_tail {m : ℕ} (hm : 3 ≤ m) {v : Fin (m + 1) → K}
     (hv : v ∈ qtsP (F := F) (K := K) m hm) {i : Fin (m + 1)} (hi : m - 2 ≤ i.val) :
     v i = 0 := by
@@ -252,6 +264,7 @@ theorem qtsP_apply_tail {m : ℕ} (hm : 3 ≤ m) {v : Fin (m + 1) → K}
   change v (qtsTailIdx m hm t) = 0 at h
   simpa [hit] using h
 
+omit [Finite K] [CharP K 2] in
 theorem qtsT_apply_prefix {m : ℕ} (hm : 3 ≤ m) {v : Fin (m + 1) → K}
     (hv : v ∈ qtsT (F := F) (K := K) m hm) {i : Fin (m + 1)} (hi : i.val < m - 2) :
     v i = 0 := by
@@ -263,6 +276,7 @@ theorem qtsT_apply_prefix {m : ℕ} (hm : 3 ≤ m) {v : Fin (m + 1) → K}
   change v (qtsPrefixIdx m hm t) = 0 at h
   simpa [hit] using h
 
+omit [Finite K] [CharP K 2] in
 theorem qtsP_sup_qtsT (m : ℕ) (hm : 3 ≤ m) :
     qtsP (F := F) (K := K) m hm ⊔ qtsT (F := F) (K := K) m hm = ⊤ := by
   rw [eq_top_iff]
@@ -272,6 +286,7 @@ theorem qtsP_sup_qtsT (m : ℕ) (hm : 3 ≤ m) :
     ⟨qtsPrefixLift m hm (qtsPrefixCoords m hm v), qtsPrefixLift_mem_qtsP m hm _,
       qtsTailLift m hm (qtsTailCoords m hm v), qtsTailLift_mem_qtsT m hm _, h⟩
 
+omit [Finite K] [CharP K 2] in
 theorem qtsP_inf_qtsT (m : ℕ) (hm : 3 ≤ m) :
     qtsP (F := F) (K := K) m hm ⊓ qtsT (F := F) (K := K) m hm = ⊥ := by
   rw [eq_bot_iff]
@@ -284,6 +299,7 @@ theorem qtsP_inf_qtsT (m : ℕ) (hm : 3 ≤ m) :
   · have hi' : m - 2 ≤ i.val := by omega
     exact qtsP_apply_tail hm hv.1 hi'
 
+omit [Finite K] [CharP K 2] in
 theorem qtsPrefixLift_single_mem (m : ℕ) (hm : 3 ≤ m) (i : Fin (m - 2)) (a : K) :
     (Pi.single (qtsPrefixIdx m hm i) a : Fin (m + 1) → K) ∈ qtsP (F := F) (K := K) m hm := by
   change (Pi.single (qtsPrefixIdx m hm i) a : Fin (m + 1) → K) ∈
@@ -299,6 +315,7 @@ theorem qtsPrefixLift_single_mem (m : ℕ) (hm : 3 ≤ m) (i : Fin (m - 2)) (a :
     omega
   exact Pi.single_eq_of_ne (M := fun _ : Fin (m + 1) => K) (Ne.symm hne) a
 
+omit [Finite K] [CharP K 2] in
 theorem qtsTailLift_single_mem (m : ℕ) (hm : 3 ≤ m) (t : Fin 3) (a : K) :
     (Pi.single (qtsTailIdx m hm t) a : Fin (m + 1) → K) ∈ qtsT (F := F) (K := K) m hm := by
   change (Pi.single (qtsTailIdx m hm t) a : Fin (m + 1) → K) ∈
@@ -397,6 +414,7 @@ theorem qts_orthogonal_qtsP (m : ℕ) (hm : 3 ≤ m) :
   ∀ (i : Fin (m + 1)), i.val < m - 2 → ∀ a : K,
     X (Pi.single i a : Fin (m + 1) → K) = Pi.single i a
 
+omit [Finite K] [CharP K 2] in
 theorem qtsX_fixes_prefix (m : ℕ) (hm : 3 ≤ m)
     (X : (Fin (m + 1) → K) ≃ₗ[F] (Fin (m + 1) → K))
     (hfix : qtsFixesPrefix (F := F) (K := K) m X) (x : Fin (m - 2) → K) :
@@ -414,6 +432,7 @@ theorem qtsX_fixes_prefix (m : ℕ) (hm : 3 ≤ m)
     simp
   rw [hsingle, hfix (qtsPrefixIdx m hm i) (by simp [qtsPrefixIdx])]
 
+omit [Finite K] [CharP K 2] in
 theorem qtsX_symm_fixes_prefix (m : ℕ) (hm : 3 ≤ m)
     (X : (Fin (m + 1) → K) ≃ₗ[F] (Fin (m + 1) → K))
     (hfix : qtsFixesPrefix (F := F) (K := K) m X) (x : Fin (m - 2) → K) :
@@ -467,6 +486,7 @@ theorem qtsX_maps_tail (m : ℕ) (hm : 3 ≤ m)
 
 
 
+omit [Finite K] [CharP K 2] in
 theorem qtsPrefixCoords_tailLift (m : ℕ) (hm : 3 ≤ m) (x : Fin 3 → K) :
     qtsPrefixCoords (F := F) (K := K) m hm
       (qtsTailLift (F := F) (K := K) m hm x) = 0 := by
@@ -474,6 +494,7 @@ theorem qtsPrefixCoords_tailLift (m : ℕ) (hm : 3 ≤ m) (x : Fin 3 → K) :
   change qtsTailLift (F := F) (K := K) m hm x (qtsPrefixIdx m hm i) = 0
   exact qtsTailLift_apply_prefix _ _ _ _ (by simp [qtsPrefixIdx])
 
+omit [Finite K] [CharP K 2] in
 theorem qtsTailCoords_prefixLift (m : ℕ) (hm : 3 ≤ m) (x : Fin (m - 2) → K) :
     qtsTailCoords (F := F) (K := K) m hm
       (qtsPrefixLift (F := F) (K := K) m hm x) = 0 := by
@@ -487,6 +508,7 @@ theorem qtsTailCoords_prefixLift (m : ℕ) (hm : 3 ≤ m) (x : Fin (m - 2) → K
   (qtsTailCoords (F := F) (K := K) m hm).comp
     (X.toLinearMap.comp (qtsTailLift (F := F) (K := K) m hm))
 
+omit [Finite K] [CharP K 2] in
 theorem qtsTailRestrict_apply (m : ℕ) (hm : 3 ≤ m)
     (X : (Fin (m + 1) → K) ≃ₗ[F] (Fin (m + 1) → K)) (x : Fin 3 → K) :
     qtsTailRestrict (F := F) (K := K) m hm X x =
@@ -509,6 +531,7 @@ theorem qtsX_tailLift_apply (m : ℕ) (hm : 3 ≤ m)
   rw [hv, map_zero, zero_add] at h
   exact h.symm
 
+omit [Finite K] [CharP K 2] in
 theorem qtsFixesPrefix_symm (m : ℕ)
     (X : (Fin (m + 1) → K) ≃ₗ[F] (Fin (m + 1) → K))
     (hfix : qtsFixesPrefix (F := F) (K := K) m X) :
@@ -627,21 +650,25 @@ theorem qtsTailEquiv_mem_orthogonalGroup (m : ℕ) (hm : 3 ≤ m)
     | Sum.inl t => LinearMap.proj (Sum.inl (qtsTailIdx m hm t))
     | Sum.inr t => LinearMap.proj (Sum.inr (qtsTailIdx m hm t))
 
+omit [Finite K] [CharP K 2] in
 theorem qtsFlipPrefixProj_inl (m : ℕ) (hm : 3 ≤ m)
     (v : Fin (m + 1) ⊕ Fin (m + 1) → K) (i : Fin (m - 2)) :
     qtsFlipPrefixProj (K := K) m hm v (Sum.inl i) = v (Sum.inl (qtsPrefixIdx m hm i)) := by
   simp [qtsFlipPrefixProj]
 
+omit [Finite K] [CharP K 2] in
 theorem qtsFlipPrefixProj_inr (m : ℕ) (hm : 3 ≤ m)
     (v : Fin (m + 1) ⊕ Fin (m + 1) → K) (i : Fin (m - 2)) :
     qtsFlipPrefixProj (K := K) m hm v (Sum.inr i) = v (Sum.inr (qtsPrefixIdx m hm i)) := by
   simp [qtsFlipPrefixProj]
 
+omit [Finite K] [CharP K 2] in
 theorem qtsFlipTailProj_inl (m : ℕ) (hm : 3 ≤ m)
     (v : Fin (m + 1) ⊕ Fin (m + 1) → K) (t : Fin 3) :
     qtsFlipTailProj (K := K) m hm v (Sum.inl t) = v (Sum.inl (qtsTailIdx m hm t)) := by
   simp [qtsFlipTailProj]
 
+omit [Finite K] [CharP K 2] in
 theorem qtsFlipTailProj_inr (m : ℕ) (hm : 3 ≤ m)
     (v : Fin (m + 1) ⊕ Fin (m + 1) → K) (t : Fin 3) :
     qtsFlipTailProj (K := K) m hm v (Sum.inr t) = v (Sum.inr (qtsTailIdx m hm t)) := by
@@ -655,6 +682,7 @@ theorem qtsFlipTailProj_inr (m : ℕ) (hm : 3 ≤ m)
     Submodule K (Fin (m + 1) ⊕ Fin (m + 1) → K) :=
   LinearMap.ker (qtsFlipPrefixProj (K := K) m hm)
 
+omit [Finite K] [CharP K 2] in
 theorem qtsFlipP_inf_qtsFlipT (m : ℕ) (hm : 3 ≤ m) :
     qtsFlipP (K := K) m hm ⊓ qtsFlipT (K := K) m hm = ⊥ := by
   rw [eq_bot_iff]
@@ -685,7 +713,7 @@ theorem qtsFlipP_inf_qtsFlipT (m : ℕ) (hm : 3 ≤ m) :
       have h := congrFun (LinearMap.mem_ker.mp hv.1) (Sum.inr t)
       simpa [qtsFlipTailProj_inr, hit] using h
 
-@[expose] noncomputable def qtsLp (m : ℕ) (hm : 3 ≤ m) :
+@[expose] noncomputable def qtsLp (m : ℕ) (_hm : 3 ≤ m) :
     Submodule K (Fin (m + 1) ⊕ Fin (m + 1) → K) :=
   Submodule.span K (stdE (K := K) (n := m + 1) '' {i : Fin (m + 1) | i.val < m - 2})
 
@@ -700,22 +728,23 @@ theorem qtsFlipP_inf_qtsFlipT (m : ℕ) (hm : 3 ≤ m) :
   map_smul' c v := by
     simp only [Pi.smul_apply, smul_add, Finset.smul_sum, smul_assoc, RingHom.id_apply]
 
+omit [Finite K] [CharP K 2] in
 theorem qtsTailStdEmb_single_inl (m : ℕ) (hm : 3 ≤ m) (t : Fin 3) :
     qtsTailStdEmb (K := K) m hm
         (Pi.single (Sum.inl t) (1 : K) : Fin 3 ⊕ Fin 3 → K) =
       stdE (K := K) (n := m + 1) (qtsTailIdx m hm t) := by
   ext s
-  simp [qtsTailStdEmb, stdE, stdF, Pi.single_apply, Finset.sum_eq_single,
-    Sum.inl.injEq, Sum.inr.injEq]
+  simp [qtsTailStdEmb, stdE, stdF, Pi.single_apply, Sum.inl.injEq]
 
+omit [Finite K] [CharP K 2] in
 theorem qtsTailStdEmb_single_inr (m : ℕ) (hm : 3 ≤ m) (t : Fin 3) :
     qtsTailStdEmb (K := K) m hm
         (Pi.single (Sum.inr t) (1 : K) : Fin 3 ⊕ Fin 3 → K) =
       stdF (K := K) (n := m + 1) (qtsTailIdx m hm t) := by
   ext s
-  simp [qtsTailStdEmb, stdE, stdF, Pi.single_apply, Finset.sum_eq_single,
-    Sum.inl.injEq, Sum.inr.injEq]
+  simp [qtsTailStdEmb, stdE, stdF, Pi.single_apply, Sum.inr.injEq]
 
+omit [Finite K] [CharP K 2] in
 theorem qtsTailStdEmb_apply_inl (m : ℕ) (hm : 3 ≤ m)
     (v : Fin 3 ⊕ Fin 3 → K) (t : Fin 3) :
     qtsTailStdEmb (K := K) m hm v (Sum.inl (qtsTailIdx m hm t)) = v (Sum.inl t) := by
@@ -729,6 +758,7 @@ theorem qtsTailStdEmb_apply_inl (m : ℕ) (hm : 3 ≤ m)
   · intro h
     exact absurd (Finset.mem_univ t) h
 
+omit [Finite K] [CharP K 2] in
 theorem qtsTailStdEmb_apply_inr (m : ℕ) (hm : 3 ≤ m)
     (v : Fin 3 ⊕ Fin 3 → K) (t : Fin 3) :
     qtsTailStdEmb (K := K) m hm v (Sum.inr (qtsTailIdx m hm t)) = v (Sum.inr t) := by
@@ -742,6 +772,7 @@ theorem qtsTailStdEmb_apply_inr (m : ℕ) (hm : 3 ≤ m)
   · intro h
     exact absurd (Finset.mem_univ t) h
 
+omit [Finite K] [CharP K 2] in
 theorem qtsTailStdEmb_injective (m : ℕ) (hm : 3 ≤ m) :
     Function.Injective (qtsTailStdEmb (K := K) m hm) := by
   intro v w h
@@ -752,11 +783,13 @@ theorem qtsTailStdEmb_injective (m : ℕ) (hm : 3 ≤ m) :
   · have := congrFun h (Sum.inr (qtsTailIdx m hm t))
     simpa [qtsTailStdEmb_apply_inr] using this
 
+omit [Finite K] [CharP K 2] in
 theorem qtsTailStdEmb_stdE (m : ℕ) (hm : 3 ≤ m) (t : Fin 3) :
     qtsTailStdEmb (K := K) m hm (stdE (K := K) (n := 3) t) =
       stdE (K := K) (n := m + 1) (qtsTailIdx m hm t) :=
   qtsTailStdEmb_single_inl m hm t
 
+omit [Finite K] [CharP K 2] in
 theorem qtsTailStdEmb_stdF (m : ℕ) (hm : 3 ≤ m) (t : Fin 3) :
     qtsTailStdEmb (K := K) m hm (stdF (K := K) (n := 3) t) =
       stdF (K := K) (n := m + 1) (qtsTailIdx m hm t) :=
@@ -766,6 +799,7 @@ theorem qtsTailStdEmb_stdF (m : ℕ) (hm : 3 ≤ m) (t : Fin 3) :
     Submodule K (Fin (m + 1) ⊕ Fin (m + 1) → K) :=
   (stdLag 3 K).map (qtsTailStdEmb (K := K) m hm)
 
+omit [Finite K] [CharP K 2] in
 theorem qtsLt_eq_span (m : ℕ) (hm : 3 ≤ m) :
     qtsLt (K := K) m hm =
       Submodule.span K (stdE (K := K) (n := m + 1) '' {i : Fin (m + 1) | m - 2 ≤ i.val}) := by
@@ -786,11 +820,13 @@ theorem qtsLt_eq_span (m : ℕ) (hm : 3 ≤ m) :
     exact ⟨stdE (K := K) (n := 3) t, ⟨t, rfl⟩,
       by rw [qtsTailStdEmb_stdE, hit]⟩
 
+omit [Finite K] [CharP K 2] in
 theorem qtsLp_finrank (m : ℕ) (hm : 3 ≤ m) :
     Module.finrank K (qtsLp (K := K) m hm) = m - 2 := by
   rw [qtsLp]
   exact aRes_finrank_stdE_span (K := K) (m + 1) (m - 2) (by omega)
 
+omit [Finite K] [CharP K 2] in
 theorem qtsLt_finrank (m : ℕ) (hm : 3 ≤ m) :
     Module.finrank K (qtsLt (K := K) m hm) = 3 := by
   rw [qtsLt]
@@ -798,6 +834,7 @@ theorem qtsLt_finrank (m : ℕ) (hm : 3 ≤ m) :
     (qtsTailStdEmb_injective m hm) (stdLag 3 K)
   rw [← e.finrank_eq, finrank_stdLag]
 
+omit [Finite K] [CharP K 2] in
 theorem qtsPrefixStdE_mem_qtsFlipP (m : ℕ) (hm : 3 ≤ m)
     (i : Fin (m + 1)) (hi : i.val < m - 2) :
     stdE (K := K) (n := m + 1) i ∈ qtsFlipP (K := K) m hm := by
@@ -809,12 +846,13 @@ theorem qtsPrefixStdE_mem_qtsFlipP (m : ℕ) (hm : 3 ≤ m)
       intro h
       have hidx : qtsTailIdx m hm j = i := by simpa using h
       have hval := congrArg Fin.val hidx
-      simp [qtsPrefixIdx, qtsTailIdx] at hval
+      simp [qtsTailIdx] at hval
       omega
     exact Pi.single_eq_of_ne (M := fun _ : Fin (m + 1) ⊕ Fin (m + 1) => K) hne (1 : K)
   · rw [qtsFlipTailProj_inr]
     simp [stdE]
 
+omit [Finite K] [CharP K 2] in
 theorem qtsTailStdE_mem_qtsFlipT (m : ℕ) (hm : 3 ≤ m)
     (i : Fin (m + 1)) (hi : m - 2 ≤ i.val) :
     stdE (K := K) (n := m + 1) i ∈ qtsFlipT (K := K) m hm := by
@@ -832,6 +870,7 @@ theorem qtsTailStdE_mem_qtsFlipT (m : ℕ) (hm : 3 ≤ m)
   · rw [qtsFlipPrefixProj_inr]
     simp [stdE]
 
+omit [Finite K] [CharP K 2] in
 theorem qtsLp_le_qtsFlipP (m : ℕ) (hm : 3 ≤ m) :
     qtsLp (K := K) m hm ≤ qtsFlipP (K := K) m hm := by
   rw [qtsLp]
@@ -839,6 +878,7 @@ theorem qtsLp_le_qtsFlipP (m : ℕ) (hm : 3 ≤ m) :
   rintro v ⟨i, hi, rfl⟩
   exact qtsPrefixStdE_mem_qtsFlipP m hm i hi
 
+omit [Finite K] [CharP K 2] in
 theorem qtsLt_le_qtsFlipT (m : ℕ) (hm : 3 ≤ m) :
     qtsLt (K := K) m hm ≤ qtsFlipT (K := K) m hm := by
   rw [qtsLt_eq_span]
@@ -848,7 +888,7 @@ theorem qtsLt_le_qtsFlipT (m : ℕ) (hm : 3 ≤ m) :
 
 
 
-theorem qts_bcLin_stdE_prefix (m : ℕ) (hm : 3 ≤ m)
+theorem qts_bcLin_stdE_prefix (m : ℕ) (_hm : 3 ≤ m)
     (X : (Fin (m + 1) → K) ≃ₗ[F] (Fin (m + 1) → K))
     (hfix : qtsFixesPrefix (F := F) (K := K) m X)
     (i : Fin (m + 1)) (hi : i.val < m - 2) :
@@ -876,7 +916,7 @@ theorem qts_bcLin_stdE_prefix (m : ℕ) (hm : 3 ≤ m)
   simp only [Pi.smul_apply, smul_eq_mul] at hcoord
   exact mul_left_cancel₀ (bcDelta_ne_zero E) hcoord
 
-theorem qts_bcLin_stdF_prefix (m : ℕ) (hm : 3 ≤ m)
+theorem qts_bcLin_stdF_prefix (m : ℕ) (_hm : 3 ≤ m)
     (X : (Fin (m + 1) → K) ≃ₗ[F] (Fin (m + 1) → K))
     (hfix : qtsFixesPrefix (F := F) (K := K) m X)
     (i : Fin (m + 1)) (hi : i.val < m - 2) :
@@ -906,6 +946,7 @@ theorem qts_bcLin_stdF_prefix (m : ℕ) (hm : 3 ≤ m)
 
 
 
+omit [Finite K] [CharP K 2] in
 theorem qtsPrefixCoords_single_tail (m : ℕ) (hm : 3 ≤ m)
     (i : Fin (m + 1)) (hi : m - 2 ≤ i.val) (a : K) :
     qtsPrefixCoords (F := F) (K := K) m hm
@@ -1043,6 +1084,7 @@ theorem eq_of_eqOn_range_jEmb_of_codomain {m n : ℕ}
   · intro c u _ hu
     rw [map_smul, map_smul, hu]
 
+omit [Finite K] [CharP K 2] in
 theorem qtsTailStdEmb_apply_prefix_inl (m : ℕ) (hm : 3 ≤ m)
     (v : Fin 3 ⊕ Fin 3 → K) (j : Fin (m + 1)) (hj : j.val < m - 2) :
     qtsTailStdEmb (K := K) m hm v (Sum.inl j) = 0 := by
@@ -1053,7 +1095,7 @@ theorem qtsTailStdEmb_apply_prefix_inl (m : ℕ) (hm : 3 ≤ m)
       v (Sum.inr t) • (Pi.single (Sum.inr (qtsTailIdx m hm t)) 1 :
         Fin (m + 1) ⊕ Fin (m + 1) → K) (Sum.inl j)) = 0 := by
     refine Finset.sum_eq_zero fun t _ => ?_
-    simp [Pi.single_apply]
+    simp
   rw [h2, add_zero]
   refine Finset.sum_eq_zero fun t _ => ?_
   have hne : qtsTailIdx m hm t ≠ j := by
@@ -1061,8 +1103,9 @@ theorem qtsTailStdEmb_apply_prefix_inl (m : ℕ) (hm : 3 ≤ m)
     have hval := congrArg Fin.val h
     simp [qtsTailIdx] at hval
     omega
-  simp [Pi.single_apply, hne]
+  simp [hne]
 
+omit [Finite K] [CharP K 2] in
 theorem qtsTailStdEmb_apply_prefix_inr (m : ℕ) (hm : 3 ≤ m)
     (v : Fin 3 ⊕ Fin 3 → K) (j : Fin (m + 1)) (hj : j.val < m - 2) :
     qtsTailStdEmb (K := K) m hm v (Sum.inr j) = 0 := by
@@ -1073,7 +1116,7 @@ theorem qtsTailStdEmb_apply_prefix_inr (m : ℕ) (hm : 3 ≤ m)
       v (Sum.inl t) • (Pi.single (Sum.inl (qtsTailIdx m hm t)) 1 :
         Fin (m + 1) ⊕ Fin (m + 1) → K) (Sum.inr j)) = 0 := by
     refine Finset.sum_eq_zero fun t _ => ?_
-    simp [Pi.single_apply]
+    simp
   rw [h1, zero_add]
   refine Finset.sum_eq_zero fun t _ => ?_
   have hne : qtsTailIdx m hm t ≠ j := by
@@ -1081,7 +1124,7 @@ theorem qtsTailStdEmb_apply_prefix_inr (m : ℕ) (hm : 3 ≤ m)
     have hval := congrArg Fin.val h
     simp [qtsTailIdx] at hval
     omega
-  simp [Pi.single_apply, hne]
+  simp [hne]
 
 theorem qtsTailStdEmb_jEmb (m : ℕ) (hm : 3 ≤ m) (x : Fin 3 → K) :
     qtsTailStdEmb (K := K) m hm (jEmb E 3 x) =
@@ -1147,6 +1190,7 @@ theorem qts_bcLin_comp_tailStdEmb (m : ℕ) (hm : 3 ≤ m)
 
 
 
+omit [Finite K] [CharP K 2] in
 theorem qts_inf_sup_sup_eq_sup_inf {V : Type} [AddCommGroup V] [Module K V]
     {Wp Wt Lp Lt Yt : Submodule K V}
     (hW : Wp ⊓ Wt = ⊥) (hLp : Lp ≤ Wp) (hLt : Lt ≤ Wt) (hYt : Yt ≤ Wt) :
@@ -1201,6 +1245,7 @@ theorem qts_bcLin_qtsLt_map_le_qtsFlipT (m : ℕ) (hm : 3 ≤ m)
 
 
 
+omit [Finite K] [CharP K 2] in
 theorem qts_stdLag_eq_sup (m : ℕ) (hm : 3 ≤ m) :
     stdLag (m + 1) K = qtsLp (K := K) m hm ⊔ qtsLt (K := K) m hm := by
   rw [stdLag_eq_span_stdE, qtsLp, qtsLt_eq_span, ← Submodule.span_union]
@@ -1356,6 +1401,7 @@ theorem qtsTailEquiv_mem_rulingGroup (m : ℕ) (hm : 3 ≤ m)
 
 
 
+omit [Finite K] [CharP K 2] in
 theorem qts_winExt_prefixLift (m : ℕ) (hm : 3 ≤ m)
     (φ : Module.End F (Fin 3 → K)) (x : Fin (m - 2) → K) :
     CFSG.StandardType.QTwo.winExt (F := F) (K := K) m hm φ
@@ -1382,6 +1428,7 @@ theorem qts_winExt_prefixLift (m : ℕ) (hm : 3 ≤ m)
       (qtsPrefixLift_apply_tail (F := F) (K := K) m hm x (qtsTailIdx m hm t)
         (by simp [qtsTailIdx])).symm
 
+omit [Finite K] [CharP K 2] in
 theorem qts_winExt_tailLift (m : ℕ) (hm : 3 ≤ m)
     (φ : Module.End F (Fin 3 → K)) (x : Fin 3 → K) :
     CFSG.StandardType.QTwo.winExt (F := F) (K := K) m hm φ
@@ -1501,7 +1548,7 @@ theorem qts_forkHom_range_le (hK : Nat.card K = 4) (m : ℕ) (hm : 3 ≤ m)
       simpa only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom] using h0 h
     rw [hcomp0, MonoidHom.range_comp, MonoidHom.range_comp,
       MonoidHom.range_eq_top.mpr (revSU3 K 2 1).surjective, Subgroup.map_top]
-    rw [← qtwoStdW_fork E m hm j k (by simp [j, k]) (by simp [k])]
+    rw [← qtwoStdW_fork E m hm j k (by simp [j]) (by simp [k])]
     exact le_sup_of_le_right le_rfl
   · have hcomp1 : θ.comp (blockEmb K 2 1 4 3 1 (by norm_num)) =
         qtwoStdWin (F := F) (K := K) m (m - 2) 3 (by omega) := by
@@ -1572,13 +1619,13 @@ theorem qTwo_supported_three_mem_levi_fork (hK : Nat.card K = 4) (m : ℕ) (hm :
     rw [qtwoLabel_three_iff hm]
     right
     left
-    exact ⟨by simp [i, j]; omega, by simp [i, j]⟩
+    exact ⟨by simp [i, j]; omega, by simp [i]⟩
   have h3jk : CFSG.StandardType.ggCoxeterMatrixD (m + 1) j k = 3 := by
     rw [qtwoLabel_three_iff hm]
     right
     right
     left
-    exact ⟨by simp [j, k]; omega, by simp [k]⟩
+    exact ⟨by simp [j]; omega, by simp [k]⟩
   have hWij_le : qtwoStdW E m hm i j ≤ (S.levi C).map
       (Subgroup.subtype (CFSG.RankThree.Classical2.orthDerived (Qn E (m + 1)))) := by
     rw [← map_range_qTwoStdTheta_of_three E m hm h3ij]

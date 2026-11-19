@@ -41,9 +41,9 @@ private theorem fzb_qs_mul {G : Type} [Group G] {q s : G} (hq : q ^ 4 = 1) (hs :
     (q ^ i * s ^ k) * (q ^ i' * s ^ k') =
       q ^ ((i + (if k = 0 then i' else 3 * i')) % 4) * s ^ ((k + k') % 2) := by
   interval_cases k
-  · rw [pow_zero, mul_one, if_pos rfl, Nat.zero_add]
+  · rw [pow_zero, mul_one, ite_eq_left rfl, Nat.zero_add]
     rw [← mul_assoc, ← pow_add q i i', fzb_q_pow_mod hq (i + i'), fzb_s_pow_mod hs k']
-  · rw [pow_one, if_neg (by decide : ¬ ((1 : ℕ) = 0))]
+  · rw [pow_one, ite_eq_right (by decide : ¬ ((1 : ℕ) = 0))]
     calc
       (q ^ i * s) * (q ^ i' * s ^ k')
           = q ^ i * (s * (q ^ i' * s ^ k')) := mul_assoc _ _ _

@@ -48,16 +48,16 @@ theorem sympComponentOrbit {m n p : ℕ} {K : Type} [Field K] [Finite K]
       have h2 : 1 < Nat.card K := Finite.one_lt_card
       omega
     · exact h
-  haveI hchar : CharP K 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    letI : Fintype K := Fintype.ofFinite K
+  have hchar : CharP K 2 := by
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    let : Fintype K := Fintype.ofFinite K
     exact charP_of_card_eq_prime_pow (p := 2) (f := n) (by rw [Fintype.card_eq_nat_card, hK])
   have hpK : (p : K) ≠ 0 := by
     intro h
     rw [CharP.cast_eq_zero_iff K 2] at h
     exact hp2 (Nat.prime_dvd_prime_iff_eq Nat.prime_two hp |>.1 h).symm
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero m := ⟨by omega⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero m := ⟨by omega⟩
   have hm1 : 1 ≤ m := by omega
   have ha1 : proj m K x ≠ 1 := fun h => hx1
     ((CFSG.LocalAnalysis.ComponentInitial.UnitaryHigher.proj_bijective_of_charTwo
@@ -65,7 +65,7 @@ theorem sympComponentOrbit {m n p : ℕ} {K : Type} [Field K] [Finite K]
   have ha : orderOf (proj m K x) = p :=
     orderOf_eq_prime (by rw [← map_pow, hx, map_one]) ha1
   have hxp : orderOf x = p := orderOf_eq_prime hx hx1
-  haveI : Finite (reciprocalOrbits (spEnd x)) :=
+  have : Finite (reciprocalOrbits (spEnd x)) :=
     (Set.Finite.image _ (Finset.finite_toSet _)).to_subtype
   have hblocks : SpPrimaryBlocks 2 n p x (proj m K x) :=
     (symplectic_cross_prime_primary_centralizer_blocks (ℓ := 2) (f := n) (p := p) (r := m)
@@ -105,7 +105,7 @@ theorem sympComponentOrbit {m n p : ℕ} {K : Type} [Field K] [Finite K]
   exact ⟨O, O.2, hJeq⟩
 
 @[expose] def SympComponentDescent : Prop :=
-  ∀ {G : Type} [Group G] [Finite G] (p : ℕ) (L J A : Subgroup G) (d b : G) (m n : ℕ)
+  ∀ {G : Type} [Group G] [Finite G] (p : ℕ) (L J A : Subgroup G) (d b : G) (m _n : ℕ)
     (K : Type) [Field K] [Finite K] (x y : StatedSp m K)
     (θ : ↥L ⧸ Subgroup.center ↥L ≃* StatedProj (StatedSp m K)),
     (hS : Setup p L J A d b) →

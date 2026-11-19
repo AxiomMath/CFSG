@@ -88,13 +88,13 @@ theorem lieSTwo_u62_noSp (hLO : LieOrderBridge) {S : Type} [Group S] [Finite S]
   refine ⟨?_, ?_⟩
   · rintro ⟨J, hJ, hT⟩
     have hc := lieSTwo_card_sp6two hLO hT
-    haveI : Nontrivial (PSimple 3 J) := by
+    have : Nontrivial (PSimple 3 J) := by
       rw [← Finite.one_lt_card_iff_nontrivial, hc]
       norm_num
     rcases lieSTwo_u62_card hLO hv hq e hα3 hα1 hJ inferInstance with h | h | h <;> omega
   · rintro ⟨J, hJ, hT⟩
     have hc := lieSTwo_card_sp48 hLO hT
-    haveI : Nontrivial (PSimple 3 J) := by
+    have : Nontrivial (PSimple 3 J) := by
       rw [← Finite.one_lt_card_iff_nontrivial, hc]
       norm_num
     rcases lieSTwo_u62_card hLO hv hq e hα3 hα1 hJ inferInstance with h | h | h <;> omega

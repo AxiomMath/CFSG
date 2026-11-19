@@ -41,7 +41,7 @@ theorem exists_odd_complement_of_commute {K Z : Subgroup G} (hZ : fusionIsSylowI
     have hodd' : Nat.Coprime 2 (orderOf (⟨k, hk⟩ : K)) := by
       rw [Nat.coprime_two_left, Subgroup.orderOf_mk]
       exact hodd
-    exact orderOf_eq_one_iff.mp (Nat.Coprime.eq_one_of_dvd (P.isPGroup'.orderOf_coprime hodd' _)
+    exact orderOf_eq_one_iff.mp (Nat.Coprime.eq_one_of_dvd (P.isPGroup.orderOf_coprime hodd' _)
       (orderOf_map_dvd τ _))
 
 end CFSG.Holt

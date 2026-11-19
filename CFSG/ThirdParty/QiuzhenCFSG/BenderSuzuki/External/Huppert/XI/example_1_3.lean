@@ -39,7 +39,7 @@ public theorem huppertXI13_card_pgl2
     Nat.card (Matrix.ProjGenLinGroup (Fin 2) K) =
       Nat.card K * (Nat.card K ^ 2 - 1) := by
   classical
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   let GL2 := GL (Fin 2) K
   let PGL2 := Matrix.ProjGenLinGroup (Fin 2) K
   let centerGL := Subgroup.center GL2
@@ -93,7 +93,7 @@ private theorem huppertXI13_alternating_fin_three_regular :
     ∀ a b : Fin 3, ∃! g : alternatingGroup (Fin 3),
       (g : Equiv.Perm (Fin 3)) a = b := by
   classical
-  letI : MulAction.IsPretransitive (alternatingGroup (Fin 3)) (Fin 3) :=
+  let : MulAction.IsPretransitive (alternatingGroup (Fin 3)) (Fin 3) :=
     alternatingGroup.isPretransitive_of_three_le_card (Fin 3) (by simp)
   intro a b
   let orbit : alternatingGroup (Fin 3) → Fin 3 := fun g => g • a
@@ -120,7 +120,7 @@ private def huppertXI13_kleinFourPerm : Subgroup (Equiv.Perm (Fin 4)) :=
 
 private theorem huppertXI13_kleinFourPerm_normal :
     huppertXI13_kleinFourPerm.Normal := by
-  letI : (alternatingGroup.kleinFour (Fin 4)).Characteristic :=
+  let : (alternatingGroup.kleinFour (Fin 4)).Characteristic :=
     alternatingGroup.characteristic_kleinFour (by simp)
   change ((alternatingGroup.kleinFour (Fin 4)).map
     (alternatingGroup (Fin 4)).subtype).Normal
@@ -140,7 +140,7 @@ private theorem huppertXI13_kleinFourPerm_regular :
         (α := Fin 4) (by simp)
       rw [Set.ext_iff] at hset
       have := (hset k).mp hk
-      simpa only [Set.mem_union, Set.mem_singleton_iff, Set.mem_setOf_eq,
+      simpa only [Set.mem_union, Set.mem_singleton_iff, Set.mem_ofPred_eq,
         Subgroup.coe_one, Subgroup.mk_eq_one] using this
     rcases hk' with rfl | hkcycle
     · apply Subtype.ext
@@ -341,7 +341,7 @@ public theorem huppert_blackburn_XI_example_1_3_a
     classical
     let GL2 := GL (Fin 2) K
     let SL2m := Matrix.SpecialLinearGroup (Fin 2) K
-    letI : MulAction GL2 Omega :=
+    let : MulAction GL2 Omega :=
       MulAction.compHom Omega
         Matrix.GeneralLinearGroup.toLin.toMonoidHom
     have hscalar (u : Kˣ) (z : Omega) :
@@ -504,7 +504,7 @@ public theorem huppert_blackburn_XI_example_1_3_a
   have hPSL_index : iota.range.index = 1 ∨ iota.range.index = 2 := by
     classical
     let GL2 := GL (Fin 2) K
-    letI : Fintype K := Fintype.ofFinite K
+    let : Fintype K := Fintype.ofFinite K
     let SL2m := Matrix.SpecialLinearGroup (Fin 2) K
     let centerGL := Subgroup.center GL2
     let centerSL := Subgroup.center SL2m
@@ -696,8 +696,8 @@ public theorem huppert_blackburn_XI_example_1_3_a
       rw [← Matrix.toLin'_apply'] at heM
       have hm := congrArg LinearMap.toMatrix' heM
       simpa [LinearMap.toMatrix_id, Matrix.smul_one_eq_diagonal] using hm.symm
-    letI : Fintype K := Fintype.ofFinite K
-    letI : Fintype Omega := Fintype.ofFinite Omega
+    let : Fintype K := Fintype.ofFinite K
+    let : Fintype Omega := Fintype.ofFinite Omega
     let source : Fin 3 ↪ Omega :=
       ⟨![a, b, c], by
         intro i j hij
@@ -799,7 +799,7 @@ public theorem huppert_blackburn_XI_example_1_3_a
     classical
     have hsimple : IsSimpleGroup PSL2 :=
       huppert_II_6_13 2 (by omega) (Or.inr (by omega)) (Or.inr (by omega))
-    letI : IsSimpleGroup PSL2 := hsimple
+    let : IsSimpleGroup PSL2 := hsimple
     obtain ⟨rhoPSL, hrhoPSL, hrhoPSL_apply, htwo⟩ :=
       huppert_II_6_11_projective_action (K := K) 2 (by omega)
     have hcompat (x : PSL2) : rho (iota x) = rhoPSL x := by
@@ -816,14 +816,14 @@ public theorem huppert_blackburn_XI_example_1_3_a
     have hOmega_card_gt_one : 1 < Nat.card Omega := by
       rw [hprojective_line_card]
       omega
-    letI : Nontrivial Omega :=
+    let : Nontrivial Omega :=
       Finite.one_lt_card_iff_nontrivial.mp hOmega_card_gt_one
     have htrans (a b : Omega) : ∃ x : PSL2, rhoPSL x a = b := by
       obtain ⟨c, hca⟩ := exists_ne a
       obtain ⟨d, hdb⟩ := exists_ne b
       rcases htwo a c b d hca.symm hdb.symm with ⟨x, hx, _⟩
       exact ⟨x, hx⟩
-    letI : Fintype Omega := Fintype.ofFinite Omega
+    let : Fintype Omega := Fintype.ofFinite Omega
     obtain ⟨triple : Fin 3 ↪ Omega⟩ :=
       Function.Embedding.nonempty_of_card_le (α := Fin 3) (β := Omega) (by
       rw [Fintype.card_fin, ← Nat.card_eq_fintype_card,
@@ -861,8 +861,8 @@ public theorem huppert_blackburn_XI_example_1_3_a
       have hSnormal : S.Normal := hRnormal.comap iota
       rcases hSnormal.eq_bot_or_eq_top with hSbot | hStop
       · have hcomm (r : R) : Commute (iota x) (r : PGL2) := by
-          letI : iota.range.Normal := hPSL_normal
-          letI : R.Normal := hRnormal
+          let : iota.range.Normal := hPSL_normal
+          let : R.Normal := hRnormal
           have hcomm_mem : ⁅iota x, (r : PGL2)⁆ ∈ ⁅iota.range, R⁆ :=
             Subgroup.commutator_mem_commutator
               (show iota x ∈ iota.range from ⟨x, rfl⟩) r.property
@@ -963,7 +963,7 @@ public theorem huppert_blackburn_XI_example_1_3_a
           ∀ a b : Omega, ∃! r : R, rho (r : PGL2) a = b := by
     intro hK
     classical
-    letI : Fintype Omega := Fintype.ofFinite Omega
+    let : Fintype Omega := Fintype.ofFinite Omega
     have hOmega_card : Nat.card Omega = 3 := by
       rw [hprojective_line_card, hK]
     let eOmega : Omega ≃ Fin 3 := Finite.equivFinOfCardEq hOmega_card
@@ -994,7 +994,7 @@ public theorem huppert_blackburn_XI_example_1_3_a
           ∀ a b : Omega, ∃! r : R, rho (r : PGL2) a = b := by
     intro hK
     classical
-    letI : Fintype Omega := Fintype.ofFinite Omega
+    let : Fintype Omega := Fintype.ofFinite Omega
     have hOmega_card : Nat.card Omega = 4 := by
       rw [hprojective_line_card, hK]
     let eOmega : Omega ≃ Fin 4 := Finite.equivFinOfCardEq hOmega_card

@@ -18,7 +18,7 @@ theorem finiteExceptionalAut_F4_weylElement
     (i : Fin Tag.F4.rank) :
     ReeTag.F4.finiteExceptionalAut K (CFSG.LieType.Chevalley.weylElement .F4 K i) =
       CFSG.LieType.Chevalley.weylElement .F4 K (ReeTag.F4.perm i) := by
-  haveI : CharP K 2 := ‹CharP K ReeTag.F4.prime›
+  have : CharP K 2 := ‹CharP K ReeTag.F4.prime›
   let φ : MulAut (adjointGroup Tag.F4 K) := ReeTag.F4.finiteExceptionalAut K
   let ρ : Fin Tag.F4.rank → Fin Tag.F4.rank := fun j => ReeTag.F4.perm j
   change φ (CFSG.LieType.Chevalley.weylElement Tag.F4 K i) =

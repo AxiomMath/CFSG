@@ -32,7 +32,7 @@ theorem InnerNotQConfig.component_facts (hk : D1CaseTwoKFacts3 G)
       hC.cfg.pRank_rbar_eq_three hC.isComponent hC.not_le
   obtain ⟨T⟩ : Nonempty (Sylow p L) := inferInstance
   have hT := hk.sylow p L hiso T
-  obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp T.isPGroup'
+  obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp T.isPGroup
   have hK2 : p ^ 2 ∣ Nat.card L := by
     refine dvd_trans ?_ (Subgroup.card_subgroup_dvd_card (T : Subgroup L))
     rw [hn] at hT ⊢
@@ -71,7 +71,7 @@ theorem InnerNotQConfig.false_of_base_ih_ext {H₀ : Subgroup G}
   have hglob : AGLGlobal G := hC.cfg.glob.toU.toAGLGlobal
   have hBH : B ≤ H := hBR.trans he.le_H
   have hBM : B ≤ M := hBR.trans he.le_M
-  have hBQ : IsAGLQ p M B := ⟨hBM, P.isPGroup'.to_le (hBR.trans he.le_P),
+  have hBQ : IsAGLQ p M B := ⟨hBM, P.isPGroup.to_le (hBR.trans he.le_P),
     Or.inr ⟨E, hEB, hC.fieldOmega.2.1, hC.fieldOmega.2.2.1, hC.gamma⟩⟩
   have htc : pCoreOf 2 (H ⊓ M) = pCoreOf 2 H := twoCore_inf_eq h93 hb3 hBH hBM he.twoCore_le
   have hOM : (primeComplementCore (G := H) p).map H.subtype ≤ M := by

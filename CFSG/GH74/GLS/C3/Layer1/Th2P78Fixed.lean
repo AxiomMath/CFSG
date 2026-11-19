@@ -35,6 +35,7 @@ theorem mem_kBarFixedBy {J V : Subgroup G} (hVJ : V ≤ normalizer (J : Set G))
   · intro h v
     exact (mem_fixedSubgroup_iff _).2 (h v)
 
+omit [Finite G] in
 theorem map_kBarFixedBy_eq_centralizer
     {J B V : Subgroup G} (hBJ : B ≤ normalizer (J : Set G)) (hVB : V ≤ B)
     (Φ : kBar J ≃* alternatingGroup (Fin 7)) (θ : ↥B →* Equiv.Perm (Fin 7))
@@ -126,13 +127,14 @@ theorem pPrimeCoreOf_centralizer_inter_alternating
       (TwoThin.card_pPrimeCoreOf_odd CS)
   exact le_antisymm (by simpa [CS, CA] using hle2) (by simpa [CS, CA] using hle1)
 
+omit [Finite G] in
 theorem kBarFixedBy_oddCore_of_A7
     {J B V : Subgroup G} (hBJ : B ≤ normalizer (J : Set G)) (hVB : V ≤ B)
     (Φ : kBar J ≃* alternatingGroup (Fin 7)) (θ : ↥B →* Equiv.Perm (Fin 7))
     (hrel : ∀ (b : ↥B) (x : kBar J),
       ((Φ (barAct J ⟨b, hBJ b.2⟩ x) : alternatingGroup (Fin 7)) : Equiv.Perm (Fin 7)) =
         θ b * ((Φ x : alternatingGroup (Fin 7)) : Equiv.Perm (Fin 7)) * (θ b)⁻¹)
-    {c' : Equiv.Perm (Fin 7)} (hc'A : c' ∈ alternatingGroup (Fin 7))
+    {c' : Equiv.Perm (Fin 7)} (_hc'A : c' ∈ alternatingGroup (Fin 7))
     (hc'core : c' ∈ pPrimeCoreOf 2
       (Subgroup.centralizer (Set.range (θ.comp (Subgroup.inclusion hVB)) :
         Set (Equiv.Perm (Fin 7)))))

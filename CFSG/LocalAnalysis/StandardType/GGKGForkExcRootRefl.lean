@@ -27,10 +27,10 @@ theorem ggKGExc_reflection_isRoot
           (F.D.g0⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K)) (e : ModGL τ K) * F.D.g0) *
           (canonicalRep (coxeterSystem τ) (AlgebraicClosure K) (rootReflection γ))⁻¹ := by
   classical
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_ringHom (algebraMap K (AlgebraicClosure K)).injective 2
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hp2 : p ≠ 2 := by intro h; omega
   have hr : 0 < τ.rank := by rcases hτ with rfl | rfl | rfl | rfl <;> decide
   have hconj : ∀ e : E, w₀ * (e : adjointGroup τ K) * w₀⁻¹ ∈ E :=
@@ -88,10 +88,10 @@ theorem ggKGExc_reflection_isRoot
     rcases hp.eq_one_or_self_of_dvd 2 h with h1 | h2
     · norm_num at h1
     · exact hp2 h2.symm
-  haveI : NeZero (p : AlgebraicClosure K) := ⟨by
+  have : NeZero (p : AlgebraicClosure K) := ⟨by
     intro h0
     exact h2p ((CharP.cast_eq_zero_iff (AlgebraicClosure K) 2 p).1 h0)⟩
-  obtain ⟨ζ, hζ0⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot (AlgebraicClosure K) p
+  obtain ⟨ζ, hζ0⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot (AlgebraicClosure K) p
   let ζu : (AlgebraicClosure K)ˣ := Units.mk0 ζ (IsPrimitiveRoot.ne_zero hζ0 hp.ne_zero)
   have hζcoe : IsPrimitiveRoot (ζu : AlgebraicClosure K) p := by
     simpa [ζu] using hζ0

@@ -14,8 +14,8 @@ variable {G : Type} [Group G] [Finite G] {b b₁ b₂ : G} {L B K : Subgroup G}
 theorem two_elt_mem_X (hA : A8Model L) (h : FF84Sec4 b L B K b₁ b₂)
     {u : G} (huc : u ∈ Cen b) (huL : u ∈ CenS L) {k : ℕ} (hk : u ^ 2 ^ k = 1) :
     u ∈ Opp 3 (Cen b) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨i, x, hx, hux⟩ := Q_decomp' h (Z_sq hA) u ⟨huc, huL⟩
   have hxc : x ∈ Cen b := FF79.L14.Opp_le 3 _ hx
   have hbx : Commute b x := (Subgroup.mem_centralizer_singleton_iff.mp hxc).symm

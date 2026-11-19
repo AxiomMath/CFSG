@@ -78,12 +78,12 @@ theorem blockOK_of (i : ℕ) (b : OuterBlock)
 
 theorem block2_eq : outerBlock 2 = B2 := by
   unfold outerBlock outerBlock2
-  rw [if_pos rfl, owLines, parseBlock_eq owW 0 2 2 ch25030M_hdr.1]
+  rw [ite_eq_left rfl, owLines, parseBlock_eq owW 0 2 2 ch25030M_hdr.1]
   rfl
 
 theorem block3_eq : outerBlock 3 = B3 := by
   unfold outerBlock outerBlock3
-  rw [if_neg (by decide), owLines, parseBlock_eq owW 0 2 2 ch25030M_hdr.1]
+  rw [ite_eq_right (by decide), owLines, parseBlock_eq owW 0 2 2 ch25030M_hdr.1]
   change (outerParseBlock owW.toArray 10).1 = B3
   rw [parseBlock_eq owW 10 2 2 ch25030M_hdr.2]
   rfl

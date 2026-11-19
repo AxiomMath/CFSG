@@ -236,8 +236,8 @@ theorem K37Setting.concl_of_l34
     (h : K37Setting X K E S) (hL34 : AGL81C.IsL34Type ↥K)
     (hSC : ¬ S ≤ Subgroup.centralizer (K : Set X)) : K37Concl K S := by
   refine Or.inl ⟨hL34, fun r hr hrd => ?_⟩
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact r.Prime := ⟨hr⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e⟩ := nonempty_mulEquiv_projSL_quotient_center_of_isL34Type hL34
   have hL3 : CFSG.LocalAnalysis.GLTheoremB.IsLThreeFour (↥K ⧸ Subgroup.center ↥K) :=
     ⟨GaloisField 2 2, inferInstance, inferInstance,
@@ -249,7 +249,7 @@ theorem K37Setting.concl_of_l34
     rw [Nat.card_congr φ.toEquiv, CFSG.RankThree.PartTwo.KFacts.L34.card_projectiveSL hk]
     norm_num
   have hin := h.autIm_le_range_of_l34 hL34 h3
-  haveI : Group.IsPerfect ↥K := h.quasi.1
+  have : Group.IsPerfect ↥K := h.quasi.1
   obtain ⟨Ψ, hΨinj, hΨc⟩ : ∃ Ψ : MulAut ↥K →* MulAut (projectiveSL 3 k), Function.Injective Ψ ∧
       ∀ y : ↥K, Ψ (MulAut.conj y) =
         MulAut.conj (φ (QuotientGroup.mk' (Subgroup.center ↥K) y)) := by
@@ -279,7 +279,7 @@ theorem K37Setting.concl_of_l34
       Subgroup.card_map_of_injective hΨinj, h.card_autIm]
     norm_num
   have hY3 : ¬ 3 ∣ Nat.card Y := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨n, hn⟩ := (isPGroup_autIm (K := K) h.two).exists_card_eq
     rw [hY, Subgroup.card_map_of_injective hΨinj, hn]
     intro h3n
@@ -303,7 +303,7 @@ theorem K37Setting.concl_of_l34
         φ (QuotientGroup.mk' (Subgroup.center ↥K) y) := by
     intro y hyS
     have hyK : (y : X) ∈ Subgroup.normalizer (K : Set X) := by
-      haveI := h.normal
+      have := h.normal
       rw [Subgroup.normalizer_eq_top]
       trivial
     have h1 := mem_normalizer_autIm hyK hyS

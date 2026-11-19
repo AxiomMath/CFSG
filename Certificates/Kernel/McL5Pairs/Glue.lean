@@ -35,7 +35,7 @@ theorem hrep : ∀ i < 114, (repT mclFiveDataP).getD i (idTab 275) = unpack 275 
 theorem hA : mclTabA = unpack 275 9 (GP 0) := gT_bind 0 (by decide)
 theorem hB : mclTabB = unpack 275 9 (GP 1) := gT_bind 1 (by decide)
 
-theorem hng : ∀ j < 4, (nGens mclFiveDataP)[j]! = unpack 275 9 (NE.G j) := fun j hj => c_ng_get hc hj
+theorem hng : ∀ _j < 4, (nGens mclFiveDataP)[_j]! = unpack 275 9 (NE.G _j) := fun _j hj => c_ng_get hc hj
 theorem hnp : ∀ j < 4, perm275 (NE.G j) (NGI j) = true := fun j hj => hc.hNI j hj
 theorem hngs : (nGens mclFiveDataP).size = 4 := (c_ngens hc).1
 

@@ -357,8 +357,8 @@ theorem projMk_eq_one_iff (hd : 0 < d) {x : ↥(unitarySU 2 n K d)} :
     ext i j
     by_cases hij : i = j
     · subst hij
-      simp [Matrix.diagonal_apply, Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply]
-    · simp [Matrix.diagonal_apply, Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, hij]
+      simp [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply]
+    · simp [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, hij]
   · rintro ⟨c, hc⟩
     have hc0 : c ≠ 0 := by
       have := diag_ne_zero_of_eq (t := fun _ => c) hc ⟨0, hd⟩

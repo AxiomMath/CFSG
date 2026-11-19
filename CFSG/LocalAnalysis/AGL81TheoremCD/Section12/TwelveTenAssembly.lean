@@ -25,7 +25,7 @@ open CFSG.LocalAnalysis.AGL81TheoremCD.Section14 (HypCGen)
 
 variable {G : Type} [Group G] [Finite G]
 
-def twelveCtx_of_hypCGen_of_h4 {M : Subgroup G} {q p : ℕ} {E H H' Q : Subgroup G}
+theorem twelveCtx_of_hypCGen_of_h4 {M : Subgroup G} {q p : ℕ} {E H H' Q : Subgroup G}
     (hC : HypCGen G M q E H) (hQ : Q ∈ QSet M p) (hH : H' ∈ H4StarFam p M Q) :
     TwelveCtx G M p Q H' where
   cstar := hC.cstar

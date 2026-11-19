@@ -15,7 +15,7 @@ open scoped commutatorElement Pointwise Matrix
 variable {W : Type} [CommGroup W] [Finite W] {G X D : Subgroup (MulAut W)} {s : MulAut W}
   {Y : Subgroup W} {n : ℕ}
 
-theorem Std139.exists_gen (hw2 : ∀ w : W, w ^ 2 = 1) (S : Std139 G X D s Y n) :
+theorem Std139.exists_gen (_hw2 : ∀ w : W, w ^ 2 = 1) (S : Std139 G X D s Y n) :
     ∃ x : MulAut W, X = Subgroup.zpowers x ∧ x ^ 3 = 1 ∧ x ≠ 1 ∧ fixV X = ⊥ ∧
       s * x * s⁻¹ = x⁻¹ := by
   have hXne : X ≠ ⊥ := by
@@ -25,7 +25,7 @@ theorem Std139.exists_gen (hw2 : ∀ w : W, w ^ 2 = 1) (S : Std139 G X D s Y n) 
     omega
   have hfixX : fixV X = ⊥ := fixV_eq_bot_of_irreducible S.irr S.XG S.Xnorm hXne
   have hXcard' : Nat.card ↥X = 3 := S.Xcard
-  letI : Fintype ↥X := Fintype.ofFinite _
+  let : Fintype ↥X := Fintype.ofFinite _
   have hXcardF : Fintype.card ↥X = 3 := by
     rw [← Nat.card_eq_fintype_card, hXcard']
   obtain ⟨xX, hxXne⟩ : ∃ xX : ↥X, xX ≠ 1 := by
@@ -113,7 +113,7 @@ theorem xstable_two_le_mQuot (hw2 : ∀ w : W, w ^ 2 = 1) {X : Subgroup (MulAut 
     exact (ne_of_lt hBA) (le_antisymm hBA.le hsub)
   obtain ⟨a, haA, ha_notB⟩ := Set.not_subset.mp hnot_le
   have hXcard' : Nat.card ↥X = 3 := hX
-  letI : Fintype ↥X := Fintype.ofFinite _
+  let : Fintype ↥X := Fintype.ofFinite _
   have hXcardF : Fintype.card ↥X = 3 := by
     rw [← Nat.card_eq_fintype_card, hXcard']
   obtain ⟨xX, hxXne⟩ : ∃ xX : ↥X, xX ≠ 1 := by

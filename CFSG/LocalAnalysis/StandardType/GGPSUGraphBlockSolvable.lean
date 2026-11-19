@@ -56,7 +56,7 @@ private lemma psuC2d_SL_nontrivial {F : Type} [Field F] {k : ℕ} (hk : 2 ≤ k)
     intro i
     simp [M]
   have hdet : M.det = 1 := by
-    rw [Matrix.det_of_upperTriangular htri]
+    rw [det_of_isUpperTriangular htri]
     exact Finset.prod_eq_one fun i _ => hdiag i
   let g : Matrix.SpecialLinearGroup (Fin k) F := ⟨M, hdet⟩
   refine ⟨g, 1, ?_⟩
@@ -80,7 +80,7 @@ private lemma psuC2d_SL_nonsolvable {F : Type} [Field F] [Finite F] {k : ℕ} (h
         (s := (Finset.univ : Finset F)) (n := 4)
         (by rw [Finset.card_univ, ← Nat.card_eq_fintype_card]; exact hF)
       exact ⟨s, hs⟩
-  haveI : Nontrivial (Matrix.SpecialLinearGroup (Fin k) F) := psuC2d_SL_nontrivial hk
+  have : Nontrivial (Matrix.SpecialLinearGroup (Fin k) F) := psuC2d_SL_nontrivial hk
   intro hsolv
   exact Group.IsPerfect.not_isSolvable _ hsolv
 
@@ -97,7 +97,7 @@ private lemma psuC2d_sigma_eq_unitaryInvolution {E : Type} [Field E] [Finite E] 
     intro h
     obtain ⟨c, hc⟩ := hσ.exists_ne
     exact hc (by rw [h]; rfl)
-  letI : Fintype E := Fintype.ofFinite E
+  let : Fintype E := Fintype.ofFinite E
   obtain ⟨n, -, hcard⟩ := FiniteField.card E 2
   have hcard' : Nat.card E = 2 ^ (n : ℕ) := by
     rw [Nat.card_eq_fintype_card]
@@ -141,7 +141,7 @@ private lemma psuC2d_SUid_nontrivial {E : Type} [Field E] [CharP E 2]
     rw [CFSG.ClassicalGroups.Unitary.herm_add_left,
       CFSG.ClassicalGroups.Unitary.herm_single_left,
       CFSG.ClassicalGroups.Unitary.herm_single_left]
-    simp [h01, hσ.invol, hchar]
+    simp [h01, hchar]
   let g : ↥(CFSG.LieType.Universal.Unitary.SUid σ k) :=
     CFSG.ClassicalGroups.Unitary.tv hσ.invol ha hc
   refine ⟨g, 1, ?_⟩
@@ -154,10 +154,10 @@ private lemma psuC2d_SUid_nontrivial {E : Type} [Field E] [CharP E 2]
     rw [CFSG.ClassicalGroups.Unitary.herm_add_left,
       CFSG.ClassicalGroups.Unitary.herm_single_left,
       CFSG.ClassicalGroups.Unitary.herm_single_left]
-    simp [h01, hσ.invol]
+    simp [h01]
   rw [hherm] at hv
   have h1 := congrFun hv i1
-  simp [v, a, i0, i1, h01, Pi.single_eq_same, Pi.single_eq_of_ne] at h1
+  simp [v, a, i0, i1, Pi.single_eq_same, Pi.single_eq_of_ne] at h1
 
 private lemma psuC2d_SU_equiv_SUid {E : Type} [Field E] [CharP E 2]
     (σ : E ≃+* E) (hσ : CFSG.ClassicalGroups.Unitary.IsUnitaryInvolution σ) (k : ℕ) :
@@ -214,7 +214,7 @@ private lemma psuC2d_SU_nonsolvable {E : Type} [Field E] [Finite E] [CharP E 2] 
       rw [CFSG.LieType.BorelTits.unitaryInvolution_apply, one_pow]
       exact hone
     have hcard2 : 2 ≤ Nat.card E := by
-      haveI : Fintype E := Fintype.ofFinite E
+      have : Fintype E := Fintype.ofFinite E
       rw [Nat.card_eq_fintype_card]
       exact Fintype.one_lt_card
     have hQne2 : Q ≠ 2 := fun h => hex ⟨h, Or.inl rfl⟩
@@ -245,21 +245,21 @@ private lemma psuC2d_SU_nonsolvable {E : Type} [Field E] [Finite E] [CharP E 2] 
         ↥(CFSG.LieType.Universal.Unitary.SU
           (CFSG.LieType.BorelTits.unitaryInvolution E 2 m) 2) := by
       intro hsolv
-      exact hnsSL (solvable_of_solvable_injective (f := eSL.toMonoidHom) eSL.injective)
+      exact hnsSL (Group.isSolvable_of_isSolvable_injective (f := eSL.toMonoidHom) eSL.injective)
     have hnsSUid : ¬ Group.IsSolvable
         ↥(CFSG.LieType.Universal.Unitary.SUid
           (CFSG.LieType.BorelTits.unitaryInvolution E 2 m) 2) := by
       intro hsolv
-      exact hnsSU (solvable_of_solvable_injective (f := eSU2.toMonoidHom) eSU2.injective)
+      exact hnsSU (Group.isSolvable_of_isSolvable_injective (f := eSU2.toMonoidHom) eSU2.injective)
     intro hsolv
-    exact hnsSUid (solvable_of_solvable_injective (f := eSU2.symm.toMonoidHom) eSU2.symm.injective)
+    exact hnsSUid (Group.isSolvable_of_isSolvable_injective (f := eSU2.symm.toMonoidHom) eSU2.symm.injective)
   · have hk3 : 3 ≤ k := by omega
     have hnq : (k, 2 ^ m) ≠ (3, 2) := by
       intro h
       have hk3' : k = 3 := congrArg Prod.fst h
       have hq2 : 2 ^ m = 2 := congrArg Prod.snd h
       exact hex ⟨hQm.trans hq2, Or.inr hk3'⟩
-    haveI : Nontrivial
+    have : Nontrivial
         ↥(CFSG.LieType.Universal.Unitary.SUid
           (CFSG.LieType.BorelTits.unitaryInvolution E 2 m) k) :=
       psuC2d_SUid_nontrivial (CFSG.LieType.BorelTits.unitaryInvolution E 2 m) hσ' hk
@@ -273,7 +273,7 @@ private lemma psuC2d_SU_nonsolvable {E : Type} [Field E] [Finite E] [CharP E 2] 
           (CFSG.LieType.BorelTits.unitaryInvolution E 2 m) k) :=
       Group.IsPerfect.not_isSolvable _
     intro hsolv
-    exact hnsSUid (solvable_of_solvable_injective (f := eSU.symm.toMonoidHom) eSU.symm.injective)
+    exact hnsSUid (Group.isSolvable_of_isSolvable_injective (f := eSU.symm.toMonoidHom) eSU.symm.injective)
 
 private noncomputable def psuC2dS_hf {f n : ℕ} {K : Type} [Field K] (h : UnitaryFieldData 2 f K)
     (u v : Fin n → K) : K :=
@@ -378,7 +378,7 @@ private lemma psuC2dS_comm {n : ℕ} {K : Type} [Field K] (B : GL (Fin n) K) :
     rintro a ⟨s, hs, rfl⟩ b ⟨s', hs', rfl⟩ _
     rw [Set.mem_singleton_iff] at hs hs'
     rw [hs, hs']
-  haveI : IsMulCommutative (psuAlg B) := Algebra.isMulCommutative_adjoin K hcommP
+  have : IsMulCommutative (psuAlg B) := Algebra.isMulCommutative_adjoin K hcommP
   intro a ha b hb
   exact Subtype.ext_iff.mp (mul_comm' (⟨a, ha⟩ : psuAlg B) (⟨b, hb⟩ : psuAlg B))
 
@@ -618,7 +618,7 @@ private lemma psuC2dG_eq_unitaryInvolution {E : Type} [Field E] [Finite E] [Char
     intro h
     obtain ⟨c, hc⟩ := hσ1
     exact hc (by rw [h]; rfl)
-  letI : Fintype E := Fintype.ofFinite E
+  let : Fintype E := Fintype.ofFinite E
   obtain ⟨n, -, hcard⟩ := FiniteField.card E 2
   have hcard' : Nat.card E = 2 ^ (n : ℕ) := by
     rw [Nat.card_eq_fintype_card]
@@ -644,7 +644,7 @@ private lemma psuC2dS_isUnitaryInvolution {F : Type} [Field F] [Finite F] [CharP
     (τ : F ≃+* F) (hττ : ∀ x, τ (τ x) = x) (hne : ∃ x, τ x ≠ x) :
     CFSG.ClassicalGroups.Unitary.IsUnitaryInvolution τ := by
   classical
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   obtain ⟨n, -, hcard⟩ := FiniteField.card F 2
   have hcard' : Nat.card F = 2 ^ (n : ℕ) := by
     rw [Nat.card_eq_fintype_card]
@@ -733,11 +733,11 @@ private lemma psuC2dS_SUid_perfect {E : Type} [Field E] [Finite E] [CharP E 2] (
         _ ≤ 2 ^ m := Nat.pow_le_pow_right (by norm_num) hm2
     have hcardFix : Nat.card (CFSG.LieType.Steinberg.fixedSubfield E 2 m) = 2 ^ m :=
       CFSG.LieType.Steinberg.card_fixedSubfield hK
-    haveI : Fintype (CFSG.LieType.Steinberg.fixedSubfield E 2 m) := Fintype.ofFinite _
+    have : Fintype (CFSG.LieType.Steinberg.fixedSubfield E 2 m) := Fintype.ofFinite _
     obtain ⟨s, -, hs⟩ := Finset.exists_subset_card_eq
       (s := (Finset.univ : Finset (CFSG.LieType.Steinberg.fixedSubfield E 2 m))) (n := 4)
       (by rw [Finset.card_univ, ← Nat.card_eq_fintype_card, hcardFix]; exact hQ4)
-    haveI hSL : Group.IsPerfect
+    have hSL : Group.IsPerfect
         (Matrix.SpecialLinearGroup (Fin 2) (CFSG.LieType.Steinberg.fixedSubfield E 2 m)) :=
       CFSG.LinearGroups.special_linear_isPerfect (n := 2) le_rfl (Or.inr ⟨s, hs⟩)
     have hchar : (1 : E) + 1 = 0 := by
@@ -750,7 +750,7 @@ private lemma psuC2dS_SUid_perfect {E : Type} [Field E] [Finite E] [CharP E 2] (
       exact hone
     have eSL := CFSG.LieType.Steinberg.hypEquiv (p := 2) (f := m) (ζ := 1)
       one_ne_zero hone'
-    haveI hSU : Group.IsPerfect
+    have hSU : Group.IsPerfect
         ↥(CFSG.LieType.Universal.Unitary.SU
           (CFSG.LieType.BorelTits.unitaryInvolution E 2 m) 2) :=
       Group.IsPerfect.ofSurjective (f := eSL.toMonoidHom) eSL.surjective
@@ -989,7 +989,7 @@ private lemma psuC2dE_H_eq_Hc {k : ℕ} {F : Type} [Field F] {τ : F ≃+* F} {V
     rw [Finset.sum_eq_single i]
     · simp [hb]
     · intro j _ hji
-      rw [hb, if_neg (Ne.symm hji), mul_zero]
+      rw [hb, ite_eq_right (Ne.symm hji), mul_zero]
     · intro hi
       exact absurd (Finset.mem_univ i) hi
   rw [hinner]
@@ -1001,12 +1001,10 @@ private noncomputable def psuC2dE_conjEquiv {k : ℕ} {F : Type} [Field F] {V : 
   invFun L := b.equivFun.symm.trans (L.trans b.equivFun)
   left_inv L := by
     ext x
-    simp only [LinearEquiv.trans_apply, LinearEquiv.symm_apply_apply,
-      LinearEquiv.apply_symm_apply]
+    simp only [LinearEquiv.trans_apply, LinearEquiv.apply_symm_apply]
   right_inv L := by
     ext x
-    simp only [LinearEquiv.trans_apply, LinearEquiv.symm_apply_apply,
-      LinearEquiv.apply_symm_apply]
+    simp only [LinearEquiv.trans_apply, LinearEquiv.symm_apply_apply]
   map_mul' L L' := by
     ext x
     simp only [LinearEquiv.trans_apply, LinearEquiv.mul_apply]
@@ -1224,7 +1222,7 @@ private lemma psuC2dE_psiA_det {n k : ℕ} {K : Type} [Field K]
     (b : Module.Basis (Fin k) F V) (ψ : (V ≃ₗ[F] V) →* GL (Fin n) K)
     (hperf : Group.IsPerfect (SUid τ k)) (A : SUid τ k) :
     ((psuC2dE_psiA b ψ A : GL (Fin n) K) : Matrix (Fin n) (Fin n) K).det = 1 := by
-  haveI : Group.IsPerfect (SUid τ k) := hperf
+  have : Group.IsPerfect (SUid τ k) := hperf
   have htriv : Matrix.GeneralLinearGroup.det.comp (psuC2dE_psiA (τ := τ) b ψ) = 1 :=
     psuC2dE_hom_trivial_of_perfect _
   have h := congrArg (fun f : SUid τ k →* Kˣ => f A) htriv
@@ -1282,7 +1280,7 @@ private noncomputable def psuC2dE_phi {f n : ℕ} {K : Type} [Field K]
       rw [psuC2dE_psiA_apply]
       exact (hψB (psuC2dE_gA b (A : GL (Fin k) F))).symm
     · have hε : psuOrbitIdem h e = e := by
-        rw [psuOrbitIdem, if_pos hde]
+        rw [psuOrbitIdem, ite_eq_left hde]
       change ((psuC2dE_psiA b ψ A : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) *
           (1 - psuOrbitIdem h e) = 1 - psuOrbitIdem h e
       rw [hε, psuC2dE_psiA_apply]
@@ -1349,7 +1347,7 @@ private lemma psuC2dD_dual_facts {f n : ℕ} {K : Type} [Field K] [Finite K] [Ch
   have horth' : psuDag h e * e = 0 := hP.2.1 (psuDag h e) hedP e he hde
   have horb : psuOrbitIdem h e = e + psuDag h e := by
     unfold psuOrbitIdem
-    rw [if_neg hde]
+    rw [ite_eq_right hde]
   refine ⟨hedP, horth, horth', horb, ?_⟩
   have hee : e * e = e := ((hP.1 e).mp he).2.1
   have hdd : psuDag h e * psuDag h e = psuDag h e := ((hP.1 (psuDag h e)).mp hedP).2.1
@@ -1364,7 +1362,7 @@ private lemma psuC2dD_card {f d : ℕ} {K F : Type} [Field K]
 
 private lemma psuC2dD_card_ge_four {f d : ℕ} {F : Type} [Field F] [Finite F]
     (hcard : Nat.card F = (2 ^ f) ^ (2 * d)) : 4 ≤ Nat.card F := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have h2 : 2 ≤ Nat.card F := by
     rw [Nat.card_eq_fintype_card]
     exact Fintype.one_lt_card
@@ -1400,7 +1398,7 @@ private lemma psuC2dD_SL_isPerfect {k : ℕ} {F : Type} [Field F] [Finite F]
   by_cases hk3 : 3 ≤ k
   · exact Or.inl hk3
   · right
-    haveI : Fintype F := Fintype.ofFinite F
+    have : Fintype F := Fintype.ofFinite F
     have h4 : 4 ≤ (Finset.univ : Finset F).card := by
       rw [Finset.card_univ, ← Nat.card_eq_fintype_card]
       exact hbig
@@ -1450,7 +1448,7 @@ private lemma psuC2dD_SL_to_lin {k : ℕ} {F V : Type} [Field F] [AddCommGroup V
       map_mul' := fun e f => by
         apply LinearEquiv.ext
         intro w
-        simp [LinearEquiv.trans_apply, map_mul] }
+        simp [LinearEquiv.trans_apply] }
   let iota : Matrix.SpecialLinearGroup (Fin k) F →* (V ≃ₗ[F] V) := conjC.toMonoidHom.comp iotaBar
   exact ⟨iota, conjC.injective.comp hIotaBar⟩
 
@@ -1831,12 +1829,11 @@ private lemma psuC2dD_M_comm_dag {f n : ℕ} {K : Type} [Field K] [Finite K] [Ch
     exact psuC2dD_Mdag_decomp S P hP e he hde Ψ hΨB hΨe hΨfix g
   have hleft : Mg' * Dg = e * Mg' * e + De * Dg * De + (1 - e - De) := by
     rw [hd', hd]
-    simp only [add_mul, mul_add, Matrix.mul_assoc, hee, hdd, hr, horth, horth', hpr, hrp, hqr, hrq,
-      hp', hq', hr', hpq', hqp', hpr', hrp', hqr', hrq', mul_zero, zero_mul, add_zero, zero_add]
+    simp only [add_mul, mul_add, Matrix.mul_assoc, hee, hdd, hr, horth, horth', hpr, hrp, hqr, hp', hq', hpq', hrq', mul_zero, add_zero, zero_add]
   have hright : Dg * Mg' = e * Mg' * e + De * Dg * De + (1 - e - De) := by
     rw [hd, hd']
-    simp only [add_mul, mul_add, Matrix.mul_assoc, hee, hdd, hr, horth, horth', hpr, hrp, hqr, hrq,
-      hp', hq', hr', hpq', hqp', hpr', hrp', hqr', hrq', mul_zero, zero_mul, add_zero, zero_add]
+    simp only [add_mul, mul_add, Matrix.mul_assoc, hee, hdd, hr, horth, horth', hpr, hqr, hrq,
+      hp', hq', hqp', hrp', mul_zero, add_zero, zero_add]
   rw [hleft, hright]
 
 private lemma psuC2dD_dagUnit_mul {f n : ℕ} {K : Type} [Field K]
@@ -2231,10 +2228,10 @@ private theorem psuC2d_dualPair_embed {f n : ℕ} {K : Type} [Field K] [Finite K
   obtain ⟨F, hFld, hAlg, hFin, hChar, π, hM, hT, ψ, hπ, hker, hdim, hcard, hact, hrank, hpos,
     hψinj, hψw, hψfix, hψe, hψB⟩ :=
     exists_blockEmbed S.odd rfl ((hP.1 e).1 he)
-  letI : Field F := hFld
-  letI : Algebra K F := hAlg
-  letI : Module F (LinearMap.range e.mulVecLin) := hM
-  letI : IsScalarTower K F (LinearMap.range e.mulVecLin) := hT
+  let : Field F := hFld
+  let : Algebra K F := hAlg
+  let : Module F (LinearMap.range e.mulVecLin) := hM
+  let : IsScalarTower K F (LinearMap.range e.mulVecLin) := hT
   have hcardF : Nat.card F = (2 ^ f) ^ (2 * blockDegree (psuAlg B) e) :=
     psuC2dD_card (d := blockDegree (psuAlg B) e) h hcard
   have hk : 2 ≤ Module.finrank F (LinearMap.range e.mulVecLin) := by
@@ -2246,7 +2243,7 @@ private theorem psuC2d_dualPair_embed {f n : ℕ} {K : Type} [Field K] [Finite K
   obtain ⟨ι, hιinj⟩ :=
     psuC2dD_SL_to_lin (k := Module.finrank F (LinearMap.range e.mulVecLin))
       (Module.finBasis F (LinearMap.range e.mulVecLin))
-  haveI : Group.IsPerfect
+  have : Group.IsPerfect
       (Matrix.SpecialLinearGroup (Fin (Module.finrank F (LinearMap.range e.mulVecLin))) F) :=
     psuC2dD_SL_isPerfect hk hbig
   have hdet : ∀ s, ((x (ι s) : GL (Fin n) K) : Matrix (Fin n) (Fin n) K).det = 1 :=
@@ -2271,10 +2268,10 @@ private theorem psuC2d_selfDual_embed {f n : ℕ} {K : Type} [Field K] [Finite K
   classical
   obtain ⟨F, hFld, hAlg, hFin, hChar, π, hM, hT, ψ, hπ, hker, hdim, hcard, hact, hrank, hpos,
     hψinj, hψw, hψfix, -, hψB⟩ := exists_blockEmbed S.odd rfl ((hP.1 e).1 he)
-  letI : Field F := hFld
-  letI : Algebra K F := hAlg
-  letI : Module F (psuC2dS_V e) := hM
-  letI : IsScalarTower K F (psuC2dS_V e) := hT
+  let : Field F := hFld
+  let : Algebra K F := hAlg
+  let : Module F (psuC2dS_V e) := hM
+  let : IsScalarTower K F (psuC2dS_V e) := hT
   have heA : e ∈ psuAlg B := ((hP.1 e).1 he).1
   have hee : e * e = e := ((hP.1 e).1 he).2.1.eq
   obtain ⟨τ, hττ, hτσ, hτπ⟩ := psuC2dS_tau S heA hde π hπ hker
@@ -2292,8 +2289,8 @@ private theorem psuC2d_selfDual_embed {f n : ℕ} {K : Type} [Field K] [Finite K
       (fun x y z => hKaddL x y z) (fun x y z => hKaddR x y z)
       (fun c x y => hKsmulR c x y)
       (fun x y => hKherm x y) hKnd hKF
-  haveI : Module.Finite K (psuC2dS_V e) := Module.Finite.of_finite
-  haveI : Module.Finite F (psuC2dS_V e) :=
+  have : Module.Finite K (psuC2dS_V e) := Module.Finite.of_finite
+  have : Module.Finite F (psuC2dS_V e) :=
     Module.Finite.of_restrictScalars_finite K F (psuC2dS_V e)
   obtain ⟨k, hk⟩ : ∃ k, Module.finrank F (psuC2dS_V e) = k := ⟨_, rfl⟩
   obtain ⟨b, hb⟩ := exists_hermOrthonormalBasis τ hτU H k hk hHherm hHaddL hHsmulL hHaddR hHsmulR
@@ -2334,8 +2331,8 @@ private lemma psuC2d_dualPair_nonsolvable_subgroup {f n : ℕ} {K : Type} [Field
   classical
   obtain ⟨E, hEfield, hEfin, k, hEcard, hk, Y, ⟨eY⟩⟩ :=
     psuC2d_dualPair_embed S P hP e he hde hr
-  letI : Field E := hEfield
-  letI : Finite E := hEfin
+  let : Field E := hEfield
+  let : Finite E := hEfin
   refine ⟨Y, ?_⟩
   have hf1 : 1 ≤ f := h.one_le
   have hdpos : 0 < blockDegree (psuAlg B) e := psuC2d_blockDegree_pos S P hP e he
@@ -2349,7 +2346,7 @@ private lemma psuC2d_dualPair_nonsolvable_subgroup {f n : ℕ} {K : Type} [Field
   have hns : ¬ Group.IsSolvable (Matrix.SpecialLinearGroup (Fin k) E) :=
     psuC2d_SL_nonsolvable hk hE4
   intro hsolv
-  exact hns (solvable_of_solvable_injective (f := eY.symm.toMonoidHom) eY.symm.injective)
+  exact hns (Group.isSolvable_of_isSolvable_injective (f := eY.symm.toMonoidHom) eY.symm.injective)
 
 private lemma psuC2d_selfDual_nonsolvable_subgroup {f n : ℕ} {K : Type} [Field K] [Finite K]
     [CharP K 2] {h : UnitaryFieldData 2 f K} {X B : GL (Fin n) K} (S : PSUGraphSetting h n X B)
@@ -2363,14 +2360,14 @@ private lemma psuC2d_selfDual_nonsolvable_subgroup {f n : ℕ} {K : Type} [Field
   classical
   obtain ⟨E, hEfield, hEfin, hEchar, σ, Q, k, hσ, hcardE, hQeq, hk, hex, Y, ⟨eY⟩⟩ :=
     psuC2d_selfDual_embed S P hP e he hde hr hcon
-  letI : Field E := hEfield
-  letI : Finite E := hEfin
-  letI : CharP E 2 := hEchar
+  let : Field E := hEfield
+  let : Finite E := hEfin
+  let : CharP E 2 := hEchar
   refine ⟨Y, ?_⟩
   have hns : ¬ Group.IsSolvable ↥(CFSG.LieType.Universal.Unitary.SU σ k) :=
     psuC2d_SU_nonsolvable σ hσ hcardE hk hex
   intro hsolv
-  exact hns (solvable_of_solvable_injective (f := eY.symm.toMonoidHom) eY.symm.injective)
+  exact hns (Group.isSolvable_of_isSolvable_injective (f := eY.symm.toMonoidHom) eY.symm.injective)
 
 theorem psuGraph_block_solvable_cases {f n : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
     {h : UnitaryFieldData 2 f K} {X B : GL (Fin n) K} (S : PSUGraphSetting h n X B)
@@ -2382,18 +2379,18 @@ theorem psuGraph_block_solvable_cases {f n : ℕ} {K : Type} [Field K] [Finite K
           (Matrix.rank e = 2 * blockDegree (psuAlg B) e ∨
             Matrix.rank e = 3 * blockDegree (psuAlg B) e))) := by
   intro hsolv
-  haveI : Group.IsSolvable ↥(psuBlock h B e) := hsolv
+  have : Group.IsSolvable ↥(psuBlock h B e) := hsolv
   by_cases hde : psuDag h e = e
   · by_cases hr : Matrix.rank e = blockDegree (psuAlg B) e
     · exact Or.inl hr
     · refine Or.inr ⟨hde, ?_⟩
       by_contra hcon
       obtain ⟨Y, hYns⟩ := psuC2d_selfDual_nonsolvable_subgroup S P hP e he hde hr hcon
-      exact hYns (solvable_of_solvable_injective (Subgroup.subtype_injective Y))
+      exact hYns (Group.isSolvable_of_isSolvable_injective (Subgroup.subtype_injective Y))
   · by_cases hr : Matrix.rank e = blockDegree (psuAlg B) e
     · exact Or.inl hr
     · obtain ⟨Y, hYns⟩ := psuC2d_dualPair_nonsolvable_subgroup S P hP e he hde hr
-      exact absurd (solvable_of_solvable_injective (Subgroup.subtype_injective Y)) hYns
+      exact absurd (Group.isSolvable_of_isSolvable_injective (Subgroup.subtype_injective Y)) hYns
 
 open scoped commutatorElement
 
@@ -2443,11 +2440,11 @@ private def psuKg1_thetaFixed {f n : ℕ} {K : Type} [Field K] (h : UnitaryField
     simp [psuTheta_one]
   mul_mem' := by
     intro a b ha hb
-    simp only [Set.mem_setOf_eq] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq] at ha hb ⊢
     rw [Subgroup.coe_mul, Units.val_mul, psuTheta_mul, ha, hb]
   inv_mem' := by
     intro a ha
-    simp only [Set.mem_setOf_eq] at ha ⊢
+    simp only [Set.mem_ofPred_eq] at ha ⊢
     rw [psuKg1_theta_inv_XJ, ha, Subgroup.coe_inv, Matrix.coe_units_inv]
 
 private lemma psuKg1_smul_inv_unit {n : ℕ} {K : Type} [Field K] (d : K) (hd : d ≠ 0)
@@ -2664,13 +2661,13 @@ private lemma psuK_sl_in_commutator {f n : ℕ} {K : Type} [Field K] [Finite K] 
         (((y : AutPSU.XJ h n) : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) *ᵥ (w : Fin n → K) =
           ((g w : LinearMap.range e.mulVecLin) : Fin n → K) := by
   classical
-  haveI : Module.Finite K (LinearMap.range e.mulVecLin) := Module.Finite.of_finite
-  haveI : Module.Finite F (LinearMap.range e.mulVecLin) :=
+  have : Module.Finite K (LinearMap.range e.mulVecLin) := Module.Finite.of_finite
+  have : Module.Finite F (LinearMap.range e.mulVecLin) :=
     Module.Finite.of_restrictScalars_finite K F (LinearMap.range e.mulVecLin)
   have hcardF : Nat.card F = (2 ^ f) ^ (2 * blockDegree (psuAlg B) e) :=
     psuC2dD_card (d := blockDegree (psuAlg B) e) h hbd.hcard
   have hbig : 4 ≤ Nat.card F := psuC2dD_card_ge_four hcardF
-  haveI : Group.IsPerfect
+  have : Group.IsPerfect
       (Matrix.SpecialLinearGroup (Fin (Module.finrank F (LinearMap.range e.mulVecLin))) F) :=
     psuC2dD_SL_isPerfect hk hbig
   obtain ⟨x, hx, hxinj, hxU, hxB, hxfix⟩ :=
@@ -2711,7 +2708,7 @@ private lemma psuK_sl_in_commutator {f n : ℕ} {K : Type} [Field K] [Finite K] 
         apply Subtype.ext
         show x (ι (t * u)) = x (ι t) * x (ι u)
         rw [map_mul ι, map_mul x] }
-  haveI : Group.IsPerfect ↥(Φ.range) := Group.IsPerfect.range Φ
+  have : Group.IsPerfect ↥(Φ.range) := Group.IsPerfect.range Φ
   have hle : Φ.range ≤
       ⁅(⊤ : Subgroup ↥(psuBlock h B e)), (⊤ : Subgroup ↥(psuBlock h B e))⁆ :=
     psuKg2_perfect_le_commutator Φ.range
@@ -2788,7 +2785,6 @@ private lemma psuKg3_hf_sub_left {f n : ℕ} {K : Type} [Field K]
     (h : UnitaryFieldData 2 f K) (x y z : Fin n → K) :
     psuC2dS_hf h (x - y) z = psuC2dS_hf h x z - psuC2dS_hf h y z := by
   rw [sub_eq_add_neg, psuC2dS_hf_add_left]
-  congr 1
   have : (-y : Fin n → K) = (-1 : K) • y := by
     ext i
     simp
@@ -3033,14 +3029,14 @@ private lemma psuKg3_eq_one_of_restrict_trivial {f n : ℕ} {K : Type} [Field K]
   · have hfix' : (((x : AutPSU.XJ h n) : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) *
         (1 - e) = 1 - e := by
       have hh := hfix
-      rw [show psuOrbitIdem h e = e from by rw [psuOrbitIdem, if_pos hde]] at hh
+      rw [show psuOrbitIdem h e = e from by rw [psuOrbitIdem, ite_eq_left hde]] at hh
       exact hh
     exact Units.ext (psuKg3_eq_one_selfdual ((x : AutPSU.XJ h n) : GL (Fin n) K) hfix' hxe)
   · have hfix' : (((x : AutPSU.XJ h n) : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) *
         (1 - (e + psuDag h e)) = 1 - (e + psuDag h e) := by
       have hh := hfix
       rw [show psuOrbitIdem h e = e + psuDag h e from by
-        rw [psuOrbitIdem, if_neg hde]] at hh
+        rw [psuOrbitIdem, ite_eq_right hde]] at hh
       exact hh
     exact Units.ext (psuKg3_eq_one_dual S P hP he ((x : AutPSU.XJ h n) : GL (Fin n) K)
       (x : AutPSU.XJ h n).2 hde hxcde hfix' hxe)
@@ -3129,10 +3125,10 @@ private lemma psuK_solvable_of_finrank_one {f n : ℕ} {K : Type} [Field K] [Fin
     calc x = x * y⁻¹ * y := by group
       _ = 1 * y := by rw [h2]
       _ = y := by rw [one_mul]
-  haveI : Group.IsSolvable
+  have : Group.IsSolvable
       (LinearMap.range e.mulVecLin ≃ₗ[F] LinearMap.range e.mulVecLin) :=
     psuKg3_gl_solvable_one hk
-  exact solvable_of_solvable_injective hρinj
+  exact Group.isSolvable_of_isSolvable_injective hρinj
 
 private lemma psuCKU_alg_comm {n : ℕ} {K : Type} [Field K] (B : GL (Fin n) K) :
     ∀ a ∈ psuAlg B, ∀ b ∈ psuAlg B, a * b = b * a := by
@@ -3144,7 +3140,7 @@ private lemma psuCKU_alg_comm {n : ℕ} {K : Type} [Field K] (B : GL (Fin n) K) 
     subst hs
     subst ht
     exact Commute.refl _
-  haveI : IsMulCommutative (psuAlg B) := Algebra.isMulCommutative_adjoin K hcommP
+  have : IsMulCommutative (psuAlg B) := Algebra.isMulCommutative_adjoin K hcommP
   exact Subtype.ext_iff.mp (mul_comm' (⟨a, ha⟩ : psuAlg B) (⟨b, hb⟩ : psuAlg B))
 
 private lemma psuCKU_comm_of_centralizes {n : ℕ} {K : Type} [Field K] {B : GL (Fin n) K}
@@ -3216,25 +3212,25 @@ private lemma psuCKU_kind1_facts {f n : ℕ} {K : Type} [Field K] (h : UnitaryFi
     psuDag h e = e ∧ psuPsi h X e ≠ e := by
   rw [psuKind] at hk
   by_cases hde : psuDag h e = e
-  · rw [if_pos hde] at hk
+  · rw [ite_eq_left hde] at hk
     by_cases hpsi : psuPsi h X e = e
-    · rw [if_pos hpsi] at hk
+    · rw [ite_eq_left hpsi] at hk
       omega
-    · rw [if_neg hpsi] at hk
+    · rw [ite_eq_right hpsi] at hk
       exact ⟨hde, hpsi⟩
-  · rw [if_neg hde] at hk
+  · rw [ite_eq_right hde] at hk
     by_cases hpsi : psuPsi h X e = e
-    · rw [if_pos hpsi] at hk
+    · rw [ite_eq_left hpsi] at hk
       by_cases htriv : psuPsiTrivial h X B e
-      · rw [if_pos htriv] at hk
+      · rw [ite_eq_left htriv] at hk
         omega
-      · rw [if_neg htriv] at hk
+      · rw [ite_eq_right htriv] at hk
         omega
-    · rw [if_neg hpsi] at hk
+    · rw [ite_eq_right hpsi] at hk
       by_cases hdag : psuPsi h X e = psuDag h e
-      · rw [if_pos hdag] at hk
+      · rw [ite_eq_left hdag] at hk
         omega
-      · rw [if_neg hdag] at hk
+      · rw [ite_eq_right hdag] at hk
         omega
 
 private lemma psuCKU_kind5_facts {f n : ℕ} {K : Type} [Field K] (h : UnitaryFieldData 2 f K)
@@ -3242,25 +3238,25 @@ private lemma psuCKU_kind5_facts {f n : ℕ} {K : Type} [Field K] (h : UnitaryFi
     psuDag h e ≠ e ∧ psuPsi h X e ≠ e ∧ psuPsi h X e ≠ psuDag h e := by
   rw [psuKind] at hk
   by_cases hde : psuDag h e = e
-  · rw [if_pos hde] at hk
+  · rw [ite_eq_left hde] at hk
     by_cases hpsi : psuPsi h X e = e
-    · rw [if_pos hpsi] at hk
+    · rw [ite_eq_left hpsi] at hk
       omega
-    · rw [if_neg hpsi] at hk
+    · rw [ite_eq_right hpsi] at hk
       omega
-  · rw [if_neg hde] at hk
+  · rw [ite_eq_right hde] at hk
     by_cases hpsi : psuPsi h X e = e
-    · rw [if_pos hpsi] at hk
+    · rw [ite_eq_left hpsi] at hk
       by_cases htriv : psuPsiTrivial h X B e
-      · rw [if_pos htriv] at hk
+      · rw [ite_eq_left htriv] at hk
         omega
-      · rw [if_neg htriv] at hk
+      · rw [ite_eq_right htriv] at hk
         omega
-    · rw [if_neg hpsi] at hk
+    · rw [ite_eq_right hpsi] at hk
       by_cases hdag : psuPsi h X e = psuDag h e
-      · rw [if_pos hdag] at hk
+      · rw [ite_eq_left hdag] at hk
         omega
-      · rw [if_neg hdag] at hk
+      · rw [ite_eq_right hdag] at hk
         exact ⟨hde, hpsi, hdag⟩
 
 private lemma psuCKU_orbitIdem_mul_theta_eq_zero {f n : ℕ} {K : Type} [Field K] [Finite K]
@@ -3275,7 +3271,7 @@ private lemma psuCKU_orbitIdem_mul_theta_eq_zero {f n : ℕ} {K : Type} [Field K
     have hpsiP : psuPsi h X e ∈ P := (hstar e he).2
     have hε : psuOrbitIdem h e = e := by
       unfold psuOrbitIdem
-      rw [if_pos hde]
+      rw [ite_eq_left hde]
     have hθe : psuTheta h X e = psuPsi h X e := by
       rw [psuCKU_theta_eq_psi_dag h X e, hde]
     rw [hε, hθe]
@@ -3299,7 +3295,7 @@ private lemma psuCKU_orbitIdem_mul_theta_eq_zero {f n : ℕ} {K : Type} [Field K
         exact h'.symm)
     have hε : psuOrbitIdem h e = e + psuDag h e := by
       unfold psuOrbitIdem
-      rw [if_neg hde]
+      rw [ite_eq_right hde]
     have hθsum : psuTheta h X (e + psuDag h e) =
         psuDag h (psuPsi h X e) + psuPsi h X e := by
       rw [psuTheta_add, psuCKU_theta_eq_psi_dag h X e,
@@ -3508,10 +3504,9 @@ private lemma psuCDg1_exists_notMem_span {F V : Type} [Field F]
   have hrel : b ⟨1, by omega⟩ = (c1 / c0) • b ⟨0, by omega⟩ := by
     rw [← hc1, ← hc0, smul_smul, div_mul_cancel₀ c1 hc0ne]
   have hcoord := congrArg (b.coord ⟨1, by omega⟩) hrel
-  simp only [map_smul, Module.Basis.coord_apply, Module.Basis.repr_self, Finsupp.smul_apply,
-    smul_eq_mul, Finsupp.single_eq_same, mul_one] at hcoord
+  simp only [map_smul, Module.Basis.coord_apply, Module.Basis.repr_self, smul_eq_mul, Finsupp.single_eq_same] at hcoord
   have hone : (1 : F) = 0 := by
-    simpa using hcoord
+    simp at hcoord
   exact one_ne_zero hone
 
 private lemma psuCDg1_const_multiplier {F V : Type} [Field F]
@@ -3854,7 +3849,7 @@ private lemma psuCKD_s_exists {f n : ℕ} {K : Type} [Field K]
         psuTheta h X (a : Matrix (Fin n) (Fin n) K) *ᵥ psuCDg2_sFun h X (x : Fin n → K) := by
       rw [hτa, hbd.hact, hsdef x]
     rw [hsdef (c • x), hcx, hR, psuCDg2_sFun_mulVec]
-  · haveI : FiniteDimensional F (LinearMap.range e.mulVecLin) :=
+  · have : FiniteDimensional F (LinearMap.range e.mulVecLin) :=
       FiniteDimensional.of_finrank_pos hbd.hpos
     obtain ⟨x, hx⟩ := Module.finrank_pos_iff_exists_ne_zero.mp hbd.hpos
     refine ⟨x, ?_⟩
@@ -3956,7 +3951,7 @@ private lemma psuCKCg1_Msymm {f n : ℕ} {K : Type} [Field K]
 private lemma psuCKCg1_Mdet_isUnit {n : ℕ} {K : Type} [Field K] (X : GL (Fin n) K) :
     IsUnit (psuCKCg1_M X).det := by
   refine (Matrix.isUnit_iff_isUnit_det (psuCKCg1_M X)).mp ?_
-  simpa [psuCKCg1_M] using ((AutPSU.gramJ n).isUnit.mul (X⁻¹).isUnit)
+  simp [psuCKCg1_M]
 
 private lemma psuCKCg1_M_formAdj {f n : ℕ} {K : Type} [Field K]
     {h : UnitaryFieldData 2 f K} {X : GL (Fin n) K}
@@ -4298,8 +4293,8 @@ private lemma psuCKCg1_isometry {f n : ℕ} {K : Type} [Field K] [Finite K] [Cha
     ∀ t : LinearMap.range e.mulVecLin ≃ₗ[F] LinearMap.range e.mulVecLin,
       LinearMap.det (t : LinearMap.range e.mulVecLin →ₗ[F] LinearMap.range e.mulVecLin) = 1 →
       ∀ x y, H (t x) (t y) = H x y := by
-  haveI : Module.Finite K F := Module.Finite.of_finite
-  haveI : Algebra.IsSeparable K F := by infer_instance
+  have : Module.Finite K F := Module.Finite.of_finite
+  have : Algebra.IsSeparable K F := by infer_instance
   intro t htdet
   obtain ⟨y0, hy0mem, hy0act⟩ := psuK_sl_in_commutator S P hP e he hne π ψ hbd hk t htdet
   have hθ : psuTheta h X (((y0 : AutPSU.XJ h n) : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) =
@@ -4465,9 +4460,9 @@ private lemma psuCKC_kind3_false {f n : ℕ} {K : Type} [Field K] [Finite K] [Ch
   have hneτ : ∃ x, τ x ≠ x := psuCKC_tau_ne S e heA hψ hnt π ψ hbd τ hτπ
   have hτU : CFSG.ClassicalGroups.Unitary.IsUnitaryInvolution τ :=
     psuC2dS_isUnitaryInvolution τ hττ hneτ
-  haveI : Module.Finite F (LinearMap.range e.mulVecLin) :=
+  have : Module.Finite F (LinearMap.range e.mulVecLin) :=
     Module.Finite.of_restrictScalars_finite K F (LinearMap.range e.mulVecLin)
-  haveI : Nontrivial (LinearMap.range e.mulVecLin) :=
+  have : Nontrivial (LinearMap.range e.mulVecLin) :=
     Module.nontrivial_of_finrank_pos (R := F) (by omega)
   obtain ⟨v0, hv0⟩ := exists_anisotropic_of_hermitian τ hτU.exists_ne H hHherm hHaddL hHsmulL
     hHaddR hHsmulR hHnd
@@ -4494,7 +4489,7 @@ private lemma psuCKC_kind2_rank {f n : ℕ} {K : Type} [Field K] [Finite K] [Cha
   obtain ⟨τ, H, _hττ, _hτK, hτπ, hHaddL, hHaddR, hHsmulL, hHsmulR, _hHherm, hHnd,
     _hHtrace, hiso⟩ := psuCKC_form_transfer S P hP e he hne hψ π ψ hbd hk
   have hτid : ∀ x, τ x = x := psuCKC_tau_eq_id S e heA hψ htriv π ψ hbd τ hτπ
-  haveI : Module.Finite F (LinearMap.range e.mulVecLin) :=
+  have : Module.Finite F (LinearMap.range e.mulVecLin) :=
     Module.Finite.of_restrictScalars_finite K F (LinearMap.range e.mulVecLin)
   have hsmulL_id : ∀ (a : F) x y, H (a • x) y = a * H x y :=
     fun a x y => by rw [hHsmulL a x y, hτid a]
@@ -4568,11 +4563,11 @@ private lemma psuCKAs_involutions_eq {F : Type} [Field F] [Finite F]
     (α β : F ≃+* F) (hα : ∀ x, α (α x) = x) (hβ : ∀ x, β (β x) = x)
     (hαne : ∃ x, α x ≠ x) (hβne : ∃ x, β x ≠ x) : α = β := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Finite (F ≃+* F) :=
+  have : Fintype F := Fintype.ofFinite F
+  have : Finite (F ≃+* F) :=
     Finite.of_injective (fun σ : F ≃+* F => (σ : F → F)) DFunLike.coe_injective
-  haveI : Fintype (F ≃+* F) := Fintype.ofFinite _
-  haveI : IsCyclic (F ≃+* F) := psuCKAsg1_isCyclic_ringAut F
+  have : Fintype (F ≃+* F) := Fintype.ofFinite _
+  have : IsCyclic (F ≃+* F) := psuCKAsg1_isCyclic_ringAut F
   have hα2 : α ^ 2 = 1 := by
     rw [pow_two]
     ext x
@@ -4909,7 +4904,7 @@ private lemma psuCKAsg3_permMatrix_mem {k : ℕ} {F : Type} [Field F] [CharP F 2
   let P : Matrix (Fin k) (Fin k) F := ρ.permMatrix F
   have hPentry : ∀ i j, P i j = if ρ i = j then (1 : F) else 0 := by
     intro i j
-    simp [P, Equiv.Perm.permMatrix, Matrix.submatrix_apply, Matrix.one_apply]
+    simp [P, Equiv.Perm.permMatrix]
   have hmap : P.map τ = P := by
     ext i j
     rw [Matrix.map_apply, hPentry i j]
@@ -4991,10 +4986,10 @@ private lemma psuCKAs_comm_gA {f n : ℕ} {K : Type} [Field K] [Finite K] [CharP
     ∀ (A : SUid τ k) (w : LinearMap.range e.mulVecLin),
       sV (psuC2dE_gA b (A : GL (Fin k) F) w) = psuC2dE_gA b (A : GL (Fin k) F) (sV w) := by
   intro A w
-  haveI : Group.IsPerfect ↥(SUid τ k) := hperf
+  have : Group.IsPerfect ↥(SUid τ k) := hperf
   let φ : SUid τ k →* ↥(psuBlock h B e) :=
     psuC2dE_phi hee hde ψ hψw hψfix hψB τ H hHaddL hHaddR hHsmulL hHsmulR htr k b hb hperf
-  haveI : Group.IsPerfect ↥φ.range := Group.IsPerfect.range φ
+  have : Group.IsPerfect ↥φ.range := Group.IsPerfect.range φ
   have hle : φ.range ≤ ⁅(⊤ : Subgroup ↥(psuBlock h B e)), ⊤⁆ :=
     psuCKAsg3_perfect_le_commutator φ.range
   have hmemCom : φ A ∈ ⁅(⊤ : Subgroup ↥(psuBlock h B e)), ⊤⁆ := hle ⟨A, rfl⟩
@@ -5139,7 +5134,7 @@ private lemma psuCKAs_matrix_data {k : ℕ} {F : Type} [Field F] [CharP F 2]
       funext i
       by_cases hij : i = j
       · subst hij; simp
-      · rw [Pi.single_apply, if_neg hij, map_zero]
+      · rw [Pi.single_apply, ite_eq_right hij, map_zero]
     have h := hstep (Pi.single j (1 : F))
     rw [hsingle, Matrix.mulVec_single_one, Matrix.mulVec_single_one] at h
     have h2 := congrFun h i
@@ -5151,7 +5146,7 @@ private lemma psuCKAs_matrix_data {k : ℕ} {F : Type} [Field F] [CharP F 2]
     rw [hA] at h
     have hP : ∀ i j, (ρ.permMatrix F) i j = if ρ i = j then (1 : F) else 0 := by
       intro i j
-      simp [Equiv.Perm.permMatrix, Matrix.submatrix_apply, Matrix.one_apply]
+      simp [Equiv.Perm.permMatrix]
     have hmapP : (ρ.permMatrix F).map τ = ρ.permMatrix F := by
       ext i j
       rw [Matrix.map_apply, hP i j]
@@ -5224,8 +5219,8 @@ private theorem psuCKA_selfDual_commutation_data {f n : ℕ} {K : Type} [Field K
       (fun x y => psuC2dS_hf h (x : Fin n → K) (y : Fin n → K))
       (fun x y z => hKaddL x y z) (fun x y z => hKaddR x y z)
       (fun c x y => hKsmulR c x y) (fun x y => hKherm x y) hKnd hKF
-  haveI : Module.Finite K (LinearMap.range e.mulVecLin) := Module.Finite.of_finite
-  haveI : Module.Finite F (LinearMap.range e.mulVecLin) :=
+  have : Module.Finite K (LinearMap.range e.mulVecLin) := Module.Finite.of_finite
+  have : Module.Finite F (LinearMap.range e.mulVecLin) :=
     Module.Finite.of_restrictScalars_finite K F (LinearMap.range e.mulVecLin)
   obtain ⟨b, hb⟩ := exists_hermOrthonormalBasis τ hτU H
     (Module.finrank F (LinearMap.range e.mulVecLin)) rfl hHherm hHaddL hHsmulL hHaddR hHsmulR hHnd
@@ -5562,8 +5557,8 @@ private lemma psuCKAg1_chi_inj {f n : ℕ} {K : Type} [Field K] [Finite K] [Char
 
 private lemma psuCKAg1_unitarySU_two_solvable {K : Type} [Field K] (h : UnitaryFieldData 2 1 K) :
     Group.IsSolvable ↥(CFSG.ClassicalGroups.UnitaryFlag.unitarySU 2 1 K 2) := by
-  haveI : Finite K := h.finite
-  haveI : CharP K 2 := h.charP
+  have : Finite K := h.finite
+  have : CharP K 2 := h.charP
   have hc := CFSG.RankThree.PartOne.KFU.card_statedSU_eq h (n := 2) (by norm_num)
   have hcard : Nat.card ↥(CFSG.ClassicalGroups.UnitaryFlag.unitarySU 2 1 K 2) = 6 := by
     have e : Nat.card ↥(CFSG.ClassicalGroups.UnitaryFlag.unitarySU 2 1 K 2) =
@@ -5573,7 +5568,7 @@ private lemma psuCKAg1_unitarySU_two_solvable {K : Type} [Field K] (h : UnitaryF
     rw [h2, Finset.prod_singleton] at hc
     have hc1 : (Nat.card (CFSG.Open.StatedSU 2 (2 ^ 1) K) : ℤ) = 6 := by rw [hc]; norm_num
     exact_mod_cast hc1
-  haveI : Fintype ↥(CFSG.ClassicalGroups.UnitaryFlag.unitarySU 2 1 K 2) := Fintype.ofFinite _
+  have : Fintype ↥(CFSG.ClassicalGroups.UnitaryFlag.unitarySU 2 1 K 2) := Fintype.ofFinite _
   exact CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow
     (a := 1) (b := 1) Nat.prime_two Nat.prime_three (by norm_num)
     (by rw [← Nat.card_eq_fintype_card, hcard]; norm_num)
@@ -5617,7 +5612,7 @@ private lemma psuCKAg1_specialIsometry_solvable {f n : ℕ} {K : Type} [Field K]
     rw [hbar, CFSG.LieType.Universal.Unitary.SUid_eq_statedSU (p := 2) (f := 1)
       (by rw [h.card, hf1]; norm_num) 2]
   have hK : UnitaryFieldData 2 1 K := by rw [hf1] at h; exact h
-  haveI : Group.IsSolvable ↥(CFSG.ClassicalGroups.UnitaryFlag.unitarySU 2 1 K 2) :=
+  have : Group.IsSolvable ↥(CFSG.ClassicalGroups.UnitaryFlag.unitarySU 2 1 K 2) :=
     psuCKAg1_unitarySU_two_solvable hK
   have e' := eSU.trans (MulEquiv.subgroupCongr hSUtype)
   exact Group.isSolvable_of_isSolvable_injective (f := e'.toMonoidHom) e'.injective
@@ -5768,7 +5763,7 @@ private lemma psuCKAg3_scalar {k : ℕ} {F : Type} [Field F]
     exact hμ
   have hoff : c a b = 0 := by
     have hzero : c a b * (τ μ - 1) = 0 := by
-      simpa [mul_sub, mul_one, hentry]
+      simp [mul_sub, mul_one, hentry]
     exact (mul_eq_zero.mp hzero).resolve_right hτμne
   have hoffdiag : ∀ i j : Fin k, i ≠ j → c i j = 0 := by
     intro i j hij
@@ -5837,7 +5832,7 @@ private lemma psuCKAg3_final_contradiction {k : ℕ} {F : Type} [Field F] [CharP
         · subst i
           rw [hl2]
           simp
-        · have hi2 : lam2 i = 1 := by simp [lam2, hia, hib, hil]
+        · have hi2 : lam2 i = 1 := by simp [lam2, hia, hib]
           rw [hi2]
           simp
   have hprod2 : ∏ i, lam2 i = 1 := by
@@ -5916,17 +5911,17 @@ private lemma psuCKA_small_k_two_Q_two_solvable {f n : ℕ} {K : Type} [Field K]
   have hrank : Module.finrank K (LinearMap.range e.mulVecLin) = 2 := by
     rw [← show Matrix.rank e = Module.finrank K (LinearMap.range e.mulVecLin) from rfl,
       hbd.hrank, hbd.hdim, hd1, one_mul, hk]
-  haveI : Group.IsSolvable
+  have : Group.IsSolvable
       ↥(CFSG.ComponentClassification.CatalogueBUnitaryIsometry.isometryGroup
         (psuCKAg1_hfK (h := h) e)) := by
-    haveI : Group.IsSolvable
+    have : Group.IsSolvable
         ↥(CFSG.ComponentClassification.CatalogueBUnitaryIsometry.specialIsometry
           (psuCKAg1_hfK (h := h) e)) :=
       psuCKAg1_specialIsometry_solvable S P hP e he hde π ψ hbd hf1 hrank
     exact Group.isSolvable_of_subgroup_quotient
       (CFSG.ComponentClassification.CatalogueBUnitaryIsometry.specialIsometry
         (psuCKAg1_hfK (h := h) e))
-  exact solvable_of_solvable_injective (f := psuCKAg1_chi (h := h) B e heA hde)
+  exact Group.isSolvable_of_isSolvable_injective (f := psuCKAg1_chi (h := h) B e heA hde)
     (psuCKAg1_chi_inj (h := h) B e heA hde)
 
 private lemma psuCKAg2_comm_e {f n : ℕ} {K : Type} [Field K]
@@ -5993,7 +5988,7 @@ private lemma psuCKAg2_comm_e {f n : ℕ} {K : Type} [Field K]
             algebraMap K (Matrix (Fin n) (Fin n) K) c =
           algebraMap K (Matrix (Fin n) (Fin n) K) c *
             (((x : AutPSU.XJ h n) : GL (Fin n) K) : Matrix (Fin n) (Fin n) K)
-        simp [Algebra.algebraMap_eq_smul_one, mul_smul_comm, smul_mul_assoc] }
+        simp [Algebra.algebraMap_eq_smul_one] }
   have hle : psuAlg B ≤ C := by
     rw [psuAlg, Algebra.adjoin_le_iff]
     rintro a ⟨b, hb, rfl⟩
@@ -6190,7 +6185,7 @@ private lemma psuCKAg2_fixes {f n : ℕ} {K : Type} [Field K]
       Subgroup.centralizer ({B} : Set (GL (Fin n) K)) ⊓ glFixing (1 - psuOrbitIdem h e) :=
     Subgroup.mem_comap.mp x.2
   have h := (Subgroup.mem_inf.mp hxmem).2
-  rwa [psuOrbitIdem, if_pos hde] at h
+  rwa [psuOrbitIdem, ite_eq_left hde] at h
 
 private lemma psuCKAg2_restrict_mem {f n : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
     {h : UnitaryFieldData 2 f K} {B : GL (Fin n) K}
@@ -6303,10 +6298,10 @@ private lemma psuCKA_small_k_three_Q_two_solvable {f n : ℕ} {K : Type} [Field 
     have h := Module.finrank_mul_finrank K F (psuC2dS_V e)
     rw [hdimKF, hk, one_mul] at h
     omega
-  haveI : Group.IsSolvable ↥(sesqUnitaryGroup (psuCKAg2_form h e)) :=
+  have : Group.IsSolvable ↥(sesqUnitaryGroup (psuCKAg2_form h e)) :=
     psuCKAg2_isSolvable_of_card_two_three (a := 3) (b := 4) (by norm_num) (by norm_num)
       (by rw [psuCKAg2_card e hee hde hdim]; norm_num)
-  exact solvable_of_solvable_injective (f := psuCKAg2_embed h P hP e he)
+  exact Group.isSolvable_of_isSolvable_injective (f := psuCKAg2_embed h P hP e he)
     (psuCKAg2_embed_injective h P hP e he hde)
 
 private lemma psuCKA_Q_eq_two_of_not_four_le {f n : ℕ} {K : Type} [Field K]
@@ -6321,7 +6316,7 @@ private lemma psuCKA_Q_eq_two_of_not_four_le {f n : ℕ} {K : Type} [Field K]
     (2 ^ f) ^ blockDegree (psuAlg B) e = 2 := by
   have hf : 1 ≤ f := h.one_le
   have hF2 : 2 ≤ Nat.card F := by
-    haveI : Fintype F := Fintype.ofFinite F
+    have : Fintype F := Fintype.ofFinite F
     rw [Nat.card_eq_fintype_card]
     exact Fintype.one_lt_card
   have hd : 1 ≤ blockDegree (psuAlg B) e := by
@@ -6386,16 +6381,16 @@ private lemma psuCT_kind_four_facts {f n : ℕ} {K : Type} [Field K] [Finite K] 
   have hde : psuDag h e ≠ e := by
     intro hde
     unfold psuKind at hk
-    rw [if_pos hde] at hk
-    split_ifs at hk <;> omega
+    rw [ite_eq_left hde] at hk
+    split_ifs at hk; omega
   have hψdag' : psuPsi h X e = psuDag h e := by
     by_contra hψdag
     unfold psuKind at hk
-    rw [if_neg hde] at hk
+    rw [ite_eq_right hde] at hk
     by_cases hψ : psuPsi h X e = e
-    · rw [if_pos hψ] at hk
+    · rw [ite_eq_left hψ] at hk
       split_ifs at hk <;> omega
-    · rw [if_neg hψ, if_neg hψdag] at hk
+    · rw [ite_eq_right hψ, ite_eq_right hψdag] at hk
       omega
   refine ⟨?_, hde⟩
   have h1 : psuTheta h X (psuDag h e) = psuDag h e := hψdag'
@@ -6410,17 +6405,17 @@ private lemma psuCT_kind_three_facts {f n : ℕ} {K : Type} [Field K]
   have hde : psuDag h e ≠ e := by
     intro hde
     unfold psuKind at hk
-    rw [if_pos hde] at hk
-    split_ifs at hk <;> omega
+    rw [ite_eq_left hde] at hk
+    split_ifs at hk; omega
   have hψ : psuPsi h X e = e := by
     by_contra hψ
     unfold psuKind at hk
-    rw [if_neg hde, if_neg hψ] at hk
+    rw [ite_eq_right hde, ite_eq_right hψ] at hk
     split_ifs at hk <;> omega
   have hnt : ¬ psuPsiTrivial h X B e := by
     intro htr
     unfold psuKind at hk
-    rw [if_neg hde, if_pos hψ, if_pos htr] at hk
+    rw [ite_eq_right hde, ite_eq_left hψ, ite_eq_left htr] at hk
     omega
   exact ⟨hde, hψ, hnt⟩
 
@@ -6431,17 +6426,17 @@ private lemma psuCT_kind_two_facts {f n : ℕ} {K : Type} [Field K]
   have hde : psuDag h e ≠ e := by
     intro hde
     unfold psuKind at hk
-    rw [if_pos hde] at hk
-    split_ifs at hk <;> omega
+    rw [ite_eq_left hde] at hk
+    split_ifs at hk; omega
   have hψ : psuPsi h X e = e := by
     by_contra hψ
     unfold psuKind at hk
-    rw [if_neg hde, if_neg hψ] at hk
+    rw [ite_eq_right hde, ite_eq_right hψ] at hk
     split_ifs at hk <;> omega
   have htr : psuPsiTrivial h X B e := by
     by_contra htr
     unfold psuKind at hk
-    rw [if_neg hde, if_pos hψ, if_neg htr] at hk
+    rw [ite_eq_right hde, ite_eq_left hψ, ite_eq_right htr] at hk
     omega
   exact ⟨hde, hψ, htr⟩
 
@@ -6452,12 +6447,12 @@ private lemma psuCT_kind_zero_facts {f n : ℕ} {K : Type} [Field K]
   have hde : psuDag h e = e := by
     by_contra hde
     unfold psuKind at hk
-    rw [if_neg hde] at hk
-    split_ifs at hk <;> omega
+    rw [ite_eq_right hde] at hk
+    split_ifs at hk
   have hψ : psuPsi h X e = e := by
     by_contra hψ
     unfold psuKind at hk
-    rw [if_pos hde, if_neg hψ] at hk
+    rw [ite_eq_left hde, ite_eq_right hψ] at hk
     omega
   exact ⟨hde, hψ⟩
 
@@ -6476,12 +6471,12 @@ theorem psuGraph_kind_D {f n : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
     Group.IsSolvable ↥(psuBlock h B e) := by
   obtain ⟨F, hFld, hAlg, hFin, hChar, π, hM, hT, ψ, hπ, hker, hdim, hcard, hact, hrank, hpos,
     hψinj, hψw, hψfix, hψe, hψB⟩ := exists_blockEmbed S.odd rfl ((hP.1 e).1 he)
-  letI : Field F := hFld
-  letI : Algebra K F := hAlg
-  letI : Finite F := hFin
-  letI : CharP F 2 := hChar
-  letI : Module F (LinearMap.range e.mulVecLin) := hM
-  letI : IsScalarTower K F (LinearMap.range e.mulVecLin) := hT
+  let : Field F := hFld
+  let : Algebra K F := hAlg
+  let : Finite F := hFin
+  let : CharP F 2 := hChar
+  let : Module F (LinearMap.range e.mulVecLin) := hM
+  let : IsScalarTower K F (LinearMap.range e.mulVecLin) := hT
   obtain ⟨hθe, hne⟩ := psuCT_kind_four_facts S e hk
   exact psuCK_kind_D_core S P hP e he hθe hne π ψ
     ⟨hπ, hker, hdim, hcard, hact, hrank, hpos, hψinj, hψw, hψfix, hψe, hψB⟩
@@ -6493,12 +6488,12 @@ theorem psuGraph_kind_C2 {f n : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
     Group.IsSolvable ↥(psuBlock h B e) := by
   obtain ⟨F, hFld, hAlg, hFin, hChar, π, hM, hT, ψ, hπ, hker, hdim, hcard, hact, hrank, hpos,
     hψinj, hψw, hψfix, hψe, hψB⟩ := exists_blockEmbed S.odd rfl ((hP.1 e).1 he)
-  letI : Field F := hFld
-  letI : Algebra K F := hAlg
-  letI : Finite F := hFin
-  letI : CharP F 2 := hChar
-  letI : Module F (LinearMap.range e.mulVecLin) := hM
-  letI : IsScalarTower K F (LinearMap.range e.mulVecLin) := hT
+  let : Field F := hFld
+  let : Algebra K F := hAlg
+  let : Finite F := hFin
+  let : CharP F 2 := hChar
+  let : Module F (LinearMap.range e.mulVecLin) := hM
+  let : IsScalarTower K F (LinearMap.range e.mulVecLin) := hT
   obtain ⟨hne, hψ, hnt⟩ := psuCT_kind_three_facts e hk
   exact psuCK_kind_C2_core S P hP e he hne hψ hnt π ψ
     ⟨hπ, hker, hdim, hcard, hact, hrank, hpos, hψinj, hψw, hψfix, hψe, hψB⟩
@@ -6511,12 +6506,12 @@ theorem psuGraph_kind_C1 {f n : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
     Matrix.rank e = 2 * blockDegree (psuAlg B) e := by
   obtain ⟨F, hFld, hAlg, hFin, hChar, π, hM, hT, ψ, hπ, hker, hdim, hcard, hact, hrank, hpos,
     hψinj, hψw, hψfix, hψe, hψB⟩ := exists_blockEmbed S.odd rfl ((hP.1 e).1 he)
-  letI : Field F := hFld
-  letI : Algebra K F := hAlg
-  letI : Finite F := hFin
-  letI : CharP F 2 := hChar
-  letI : Module F (LinearMap.range e.mulVecLin) := hM
-  letI : IsScalarTower K F (LinearMap.range e.mulVecLin) := hT
+  let : Field F := hFld
+  let : Algebra K F := hAlg
+  let : Finite F := hFin
+  let : CharP F 2 := hChar
+  let : Module F (LinearMap.range e.mulVecLin) := hM
+  let : IsScalarTower K F (LinearMap.range e.mulVecLin) := hT
   obtain ⟨hne, hψ, htriv⟩ := psuCT_kind_two_facts e hk
   have hk2 := psuCK_kind_C1_core S P hP e he hne hψ htriv hns π ψ
     ⟨hπ, hker, hdim, hcard, hact, hrank, hpos, hψinj, hψw, hψfix, hψe, hψB⟩
@@ -6531,12 +6526,12 @@ theorem psuGraph_kind_A {f n : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
     Matrix.rank e = 2 * blockDegree (psuAlg B) e ∧ 4 ≤ (2 ^ f) ^ blockDegree (psuAlg B) e := by
   obtain ⟨F, hFld, hAlg, hFin, hChar, π, hM, hT, ψ, hπ, hker, hdim, hcard, hact, hrank, hpos,
     hψinj, hψw, hψfix, hψe, hψB⟩ := exists_blockEmbed S.odd rfl ((hP.1 e).1 he)
-  letI : Field F := hFld
-  letI : Algebra K F := hAlg
-  letI : Finite F := hFin
-  letI : CharP F 2 := hChar
-  letI : Module F (LinearMap.range e.mulVecLin) := hM
-  letI : IsScalarTower K F (LinearMap.range e.mulVecLin) := hT
+  let : Field F := hFld
+  let : Algebra K F := hAlg
+  let : Finite F := hFin
+  let : CharP F 2 := hChar
+  let : Module F (LinearMap.range e.mulVecLin) := hM
+  let : IsScalarTower K F (LinearMap.range e.mulVecLin) := hT
   obtain ⟨hde, hψ⟩ := psuCT_kind_zero_facts e hk
   have hc := psuCK_kind_A_core S P hP e he hde hψ hns π ψ
     ⟨hπ, hker, hdim, hcard, hact, hrank, hpos, hψinj, hψw, hψfix, hψe, hψB⟩

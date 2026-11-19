@@ -60,7 +60,7 @@ theorem quasithinIsCComponent_kz3 {G : Type} [Group G] [Finite G] {Lz T : Subgro
           Subgroup.mem_map_of_mem _ hy
         rw [hSb, Subgroup.mem_bot] at h1
         exact (QuotientGroup.eq_one_iff y).mp h1
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       have h2grp : IsPGroup 2 ↥(K.comap Lz.subtype) :=
         IsPGroup.to_le (CFSG.pCore_isPGroup (p := 2) (G := ↥Lz)) hle
       have hbot : K.comap Lz.subtype = ⊥ :=
@@ -101,7 +101,7 @@ theorem lz_construct_kz3 {G : Type} [Group G] [Finite G] (L T : Subgroup G) (z :
     ∃ Lz : Subgroup G, Lz ≤ Subgroup.centralizer ({z} : Set G) ∧ ⁅Lz, Lz⁆ = Lz ∧ Lz ≠ ⊥ ∧
       T ≤ Subgroup.normalizer (Lz : Set G) ∧
       Nonempty (↥Lz ⧸ CFSG.pCore 2 ↥Lz ≃* ↥Pq ⧸ CFSG.pCore 2 ↥Pq) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hperf' : ⁅(Subgroup.comap L.subtype (Subgroup.centralizer ({z} : Set G))).map
       (QuotientGroup.mk' (CFSG.pCore 2 ↥L)),
       (Subgroup.comap L.subtype (Subgroup.centralizer ({z} : Set G))).map

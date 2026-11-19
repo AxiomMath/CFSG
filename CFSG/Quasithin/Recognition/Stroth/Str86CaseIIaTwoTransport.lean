@@ -12,6 +12,7 @@ open CFSG.Open CFSG.Quasithin
 
 variable {V : Type} [CommGroup V] [Finite V]
 
+omit [Finite V] in
 theorem binaryNaturalSU3_realization {H : Subgroup (MulAut V)} {k : ℕ}
     (h : BinaryNaturalSU3 H ⊤ ⊥ k) :
     ∃ (K : Type) (_ : Field K) (_ : Finite K), Nat.card K = (2 ^ k) ^ 2 ∧

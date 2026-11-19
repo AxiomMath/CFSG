@@ -109,8 +109,8 @@ theorem kDiag_reeGamma_strong (ha : 1 ≤ a) (hK : Nat.card K = 2 ^ (2 * a + 1))
       (S : Subgroup (F4.reeGamma K a)) ≤
         Subgroup.normalizer (P : Set (F4.reeGamma K a)) →
       ∀ x ∈ P, θ x ∈ P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (ModGL F4.tag K) := finite_modGL
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (ModGL F4.tag K) := finite_modGL
   intro θ S hSθ P hPpar hSP x hx
   let U : Subgroup (F4.reeGamma K a) :=
     (F4.reeFixedPosUnipotent K a).subgroupOf (F4.reeGamma K a)
@@ -139,7 +139,7 @@ theorem kDiag_reeGamma_strong (ha : 1 ≤ a) (hK : Nat.card K = 2 ^ (2 * a + 1))
   have hSsyl : CFSG.ABGLocalTools.IsSylowOf 2
       ((S : Subgroup (F4.reeGamma K a))) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    exact ⟨le_top, S.isPGroup',
+    exact ⟨le_top, S.isPGroup,
       by rw [Subgroup.relIndex_top_right]; exact S.not_dvd_index⟩
   obtain ⟨k, -, hk⟩ := hSsyl.exists_mem_conj hUsyl'
   have hSmap : ((S : Subgroup (F4.reeGamma K a))).map θ.toMonoidHom =
@@ -182,7 +182,7 @@ theorem kDiag_reeGamma_strong (ha : 1 ≤ a) (hK : Nat.card K = 2 ^ (2 * a + 1))
     rw [← hBnorm]
     exact hxN
   have hSP' : ((S : Subgroup (F4.reeGamma K a))) ≤ P :=
-    hPpar.le_of_le_normalizer S.isPGroup' hSP
+    hPpar.le_of_le_normalizer S.isPGroup hSP
   have hNSP : Subgroup.normalizer (((S : Subgroup (F4.reeGamma K a))) :
       Set (F4.reeGamma K a)) ≤ P :=
     hPpar.normalizer_le S hSP'
@@ -233,8 +233,8 @@ private theorem kDiag_transport_strong_aux {X Y : Type} [Group X] [Group Y] [Fin
     ∀ P : Subgroup X, IsParabolicTwo X P →
       (S : Subgroup X) ≤ Subgroup.normalizer (P : Set X) →
       ∀ x ∈ P, θ x ∈ P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite Y := Finite.of_surjective e e.surjective
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite Y := Finite.of_surjective e e.surjective
   intro θ S hSθ P hP hSP x hx
   let θ' : MulAut Y := MulAut.congr e θ
   let S' : Sylow 2 Y := S.mapSurjective (f := e.toMonoidHom) e.surjective
@@ -277,9 +277,9 @@ theorem kDiag_of_lieModel_twistedF4_strong {n : ℕ} {X : Type} [Group X] [Finit
       CFSG.Blueprint.reeTitsTags)).2
   obtain ⟨a, K, hfield, hfinite, hchar, ha, hn, hK, ⟨e⟩⟩ :=
     CFSG.QuasithinUnique.Setup.X6.exists_mulEquiv_largeRee_model hRee
-  letI : Field K := hfield
-  letI : Finite K := hfinite
-  letI : CharP K F4.prime := hchar
+  let : Field K := hfield
+  let : Finite K := hfinite
+  let : CharP K F4.prime := hchar
   have hK' : Nat.card K = 2 ^ (2 * a + 1) := by
     rw [hK, hn]
   exact kDiag_transport_strong_aux e (kDiag_reeGamma_strong (K := K) (a := a) ha hK')

@@ -28,7 +28,7 @@ theorem uc22p22yd_mem_of_mk_mem (D : Data G) {K : Subgroup G} (hK : D.M ⊓ cent
 theorem uc22p22yd_exists_lift (D : Data G) {r : ℕ} (hr : r.Prime) {Y : Subgroup (MBar D.M D.U)}
     (hYr : IsPGroup r ↥Y) (hYc : ¬ IsCyclic ↥Y) :
     ∃ R : Subgroup G, R ≤ preMbar D Y ∧ IsPGroup r ↥R ∧ ¬ IsCyclic ↥R := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   set W : Subgroup ↥D.M := Y.comap (QuotientGroup.mk' (kerAct D.M D.U).normalCore) with hW
   set g : ↥W →* ↥Y := ((QuotientGroup.mk' (kerAct D.M D.U).normalCore).comp W.subtype).codRestrict Y
     (fun w => w.2) with hg
@@ -48,7 +48,7 @@ theorem uc22p22yd_exists_lift (D : Data G) {r : ℕ} (hr : r.Prime) {Y : Subgrou
     intro hS
     apply hYc
     have h1 : IsCyclic ↥((S : Subgroup ↥W).map g) := by
-      haveI := hS
+      have := hS
       exact isCyclic_of_surjective (g.subgroupMap (S : Subgroup ↥W)) (g.subgroupMap_surjective _)
     have h2 : (S : Subgroup ↥W).map g = ⊤ := hStop
     rw [h2] at h1
@@ -57,7 +57,7 @@ theorem uc22p22yd_exists_lift (D : Data G) {r : ℕ} (hr : r.Prime) {Y : Subgrou
   refine ⟨((S : Subgroup ↥W).map W.subtype).map D.M.subtype, ?_, ?_, ?_⟩
   · rintro _ ⟨_, ⟨s, -, rfl⟩, rfl⟩
     exact ⟨(s : ↥D.M), s.2, rfl⟩
-  · exact (S.isPGroup'.map _).map _
+  · exact (S.isPGroup.map _).map _
   · intro hc
     apply hSc
     have e := ((S : Subgroup ↥W).equivMapOfInjective W.subtype W.subtype_injective).trans
@@ -94,7 +94,7 @@ theorem uc22p22yd_two_factors (D : Data G) (Ch : Choice2011 G) (h2 : S22_3_2 D C
     (hr : r.Prime) (hrk : r ∣ Nat.card (Nb k)) (hrl : r ∣ Nat.card (Nb l)) :
     ∃ X : Subgroup G, X ≤ D.M ∧ X ≤ normalizer (proofEiHat D (preN D (Nb i)) : Set G) ∧
       IsPGroup r ↥X ∧ ¬ IsCyclic ↥X := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨a, ha⟩ := exists_prime_orderOf_dvd_card' r hrk
   obtain ⟨b, hb⟩ := exists_prime_orderOf_dvd_card' r hrl
   set A : Subgroup (MBar D.M D.U) := Subgroup.zpowers (a : MBar D.M D.U) with hA

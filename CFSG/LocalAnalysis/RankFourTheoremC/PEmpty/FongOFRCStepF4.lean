@@ -32,7 +32,7 @@ theorem untwCrossRankStep_F4 : UntwCrossRankStep Tag.F4 := by
   refine untwCrossRankStep_of_row (D := [12, 8, 6, 2]) (N := 24) (by decide)
     (fun K _ _ => card_adjointGroup_F4_dvd K) ?_
   intro ℓ f₀ p hℓ hf₀ hp hp5 hne K k _ _ _ _ hK hk m hm hpm hrk
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcong := natCast_card_eq_of_pow (p := p) hK hk
   have hpk : ¬ p ∣ Nat.card k := by
     rw [hk]

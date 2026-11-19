@@ -150,7 +150,7 @@ theorem kgNotC_innerRecog_E6
         ↥(CFSG.Blueprint.Chevalley.rootSpan τ K
             (CFSG.HardMathSupport.Solomon.Coordinator.LieComp.rootsOfFam β (Set.range l))) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨U, ρ, hgen, hcomm, hρ, hψ⟩ := weakCT_data hτ β hroot l (edgeE 6) hgram hframe
   have hadm : StatedLieAdmissible .E6 0 p f := ⟨hp, hf, rfl⟩
   obtain ⟨-, -, -, hqs, -, hmodel⟩ := weakCT_e6_of_frame p f hadm hK U hgen hcomm hρ hψ
@@ -198,7 +198,7 @@ theorem kgNotC_innerRecog_E7
         ↥(CFSG.Blueprint.Chevalley.rootSpan τ K
             (CFSG.HardMathSupport.Solomon.Coordinator.LieComp.rootsOfFam β (Set.range l))) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨U, ρ, hgen, hcomm, hρ, hψ⟩ := weakCT_data hτ β hroot l (edgeE 7) hgram hframe
   have hadm : StatedLieAdmissible .E7 0 p f := ⟨hp, hf, rfl⟩
   obtain ⟨-, -, -, hqs, -, hmodel⟩ := weakCT_e7_of_frame p f hadm hK U hgen hcomm hρ hψ
@@ -246,7 +246,7 @@ theorem kgNotC_innerRecog_E8
         ↥(CFSG.Blueprint.Chevalley.rootSpan τ K
             (CFSG.HardMathSupport.Solomon.Coordinator.LieComp.rootsOfFam β (Set.range l))) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨U, ρ, hgen, hcomm, hρ, hψ⟩ := weakCT_data hτ β hroot l (edgeE 8) hgram hframe
   have hadm : StatedLieAdmissible .E8 0 p f := ⟨hp, hf, rfl⟩
   obtain ⟨-, -, -, hqs, -, hmodel⟩ := weakCT_e8_of_frame p f hadm hK U hgen hcomm hρ hψ
@@ -337,7 +337,7 @@ theorem kgNotC_of_tree
     (l : Fin n → Option (Fin τ.rank))
     (hroots : CFSG.LieType.Chevalley.componentRoots (CFSG.LieType.AlgebraicGroups.rootCharHom a) i =
       (fun (α : Fin τ.rank → ℤ) => v • α) '' K.rootsOf (Set.range l))
-    (hrec : ∀ (K' : Type) [inst : Field K'] [Finite K'] (p f : ℕ),
+    (hrec : ∀ (K' : Type) [_inst : Field K'] [Finite K'] (p f : ℕ),
       Nat.Prime p →
         0 < f →
           Nat.card K' = p ^ f →
@@ -388,8 +388,8 @@ theorem kgNotC_of_tree
     show rootSpan τ K' (componentRoots (rootCharHom a) i) = _
     rw [hroots, hset]
   rw [hcomp]
-  haveI : Fintype ↥K' := Fintype.ofFinite ↥K'
-  haveI : CharP ↥K' (ringChar ↥K') := ringChar.charP ↥K'
+  have : Fintype ↥K' := Fintype.ofFinite ↥K'
+  have : CharP ↥K' (ringChar ↥K') := ringChar.charP ↥K'
   obtain ⟨f, hprime, hcardK⟩ := FiniteField.card ↥K' (ringChar ↥K')
   have hring : ringChar ↥K' = ringChar L := ringChar_subfield' K'
   rw [hring] at hprime hcardK
@@ -407,17 +407,17 @@ theorem kgNotC_of_dClass
     {E : List (ℕ × ℕ)}
     {tp : ℕ → ℕ → List ℕ}
     (hT : CFSG.HardMathSupport.Timmesfeld.CrossChar.IsTreePaths (τ.rank + 1) E tp)
-    (hadj : ∀ (x y : Option (Fin τ.rank)),
-      K.Adj x y ↔
-        (CFSG.HardMathSupport.Timmesfeld.CrossChar.nodeIdx x,
+    (hadj : ∀ (_x y : Option (Fin τ.rank)),
+      K.Adj _x y ↔
+        (CFSG.HardMathSupport.Timmesfeld.CrossChar.nodeIdx _x,
           CFSG.HardMathSupport.Timmesfeld.CrossChar.nodeIdx y) ∈ E)
     {cands : List (List ℕ)}
     (hcheck : ((List.range (τ.rank + 1)).sublists.all fun (zl : List ℕ) =>
-        !(fun (x : List ℕ) => Bool.true) zl ||
-          zl.all fun (x : ℕ) =>
+        !(fun (_x : List ℕ) => Bool.true) zl ||
+          zl.all fun (_x : ℕ) =>
             cands.any
               (CFSG.HardMathSupport.Timmesfeld.CrossChar.sameSet
-                (CFSG.HardMathSupport.Timmesfeld.CrossChar.compIdx (τ.rank + 1) tp zl x))) =
+                (CFSG.HardMathSupport.Timmesfeld.CrossChar.compIdx (τ.rank + 1) tp zl _x))) =
       Bool.true)
     (hlt : ∀ c ∈ cands, ∀ w ∈ c, w < τ.rank + 1)
     (hcard : ∀ c ∈ cands,
@@ -448,12 +448,12 @@ theorem kgNotC_of_dClass
                 (CFSG.HardMathSupport.Timmesfeld.CrossChar.nodeIdx (P.get c),
                     CFSG.HardMathSupport.Timmesfeld.CrossChar.nodeIdx (P.get d)) ∈
                   E)
-    (hframes : ∀ {F : Type} [inst : Field F] (x y : Option (Fin τ.rank)),
-      (CFSG.HardMathSupport.Timmesfeld.CrossChar.nodeIdx x,
+    (hframes : ∀ {F : Type} [_inst : Field F] (_x y : Option (Fin τ.rank)),
+      (CFSG.HardMathSupport.Timmesfeld.CrossChar.nodeIdx _x,
         CFSG.HardMathSupport.Timmesfeld.CrossChar.nodeIdx y) ∈ E →
         ∃ (ρ : Matrix.SpecialLinearGroup (Fin 3) F →* CFSG.Blueprint.Chevalley.ModGL τ F) (σ :
           Fin 3 → Fin 3 → Fin τ.rank → ℤ),
-          CFSG.RankThree.PartOne.KF4.IsA2Frame ρ σ ∧ σ 0 1 = K.extRoot x ∧ σ 1 2 = K.extRoot y)
+          CFSG.RankThree.PartOne.KF4.IsA2Frame ρ σ ∧ σ 0 1 = K.extRoot _x ∧ σ 1 2 = K.extRoot y)
     {L : Type}
     [Field L]
     [IsAlgClosed L]
@@ -494,7 +494,7 @@ theorem kgNotC_of_dClass
       hcount htrees (fun _ => True) (fun _ _ => trivial) S hp hpL hTp i h4 hn
   refine kgNotC_of_tree K S hTor i hinner v l hroots ?_
   intro K' _ _ p' f hp' hf hK'
-  exact kgNotC_innerRecog_D hτ hn4 hp' hf hK' (fun x => v • K.extRoot x)
+  exact kgNotC_innerRecog_D hτ hn4 hp' hf hK' (fun _x => v • K.extRoot _x)
     (fun b => IsRoot.smul (K.isRoot_extRoot b) v) l
     (fun c d hcd h1 h2 => by
       show iform (v • K.extRoot (l c)) (v • K.extRoot (l d)) = 0
@@ -512,17 +512,17 @@ theorem kgNotC_of_eClass
     {E : List (ℕ × ℕ)}
     {tp : ℕ → ℕ → List ℕ}
     (hT : CFSG.HardMathSupport.Timmesfeld.CrossChar.IsTreePaths (τ.rank + 1) E tp)
-    (hadj : ∀ (x y : Option (Fin τ.rank)),
-      K.Adj x y ↔
-        (CFSG.HardMathSupport.Timmesfeld.CrossChar.nodeIdx x,
+    (hadj : ∀ (_x y : Option (Fin τ.rank)),
+      K.Adj _x y ↔
+        (CFSG.HardMathSupport.Timmesfeld.CrossChar.nodeIdx _x,
           CFSG.HardMathSupport.Timmesfeld.CrossChar.nodeIdx y) ∈ E)
     {cands : List (List ℕ)}
     (hcheck : ((List.range (τ.rank + 1)).sublists.all fun (zl : List ℕ) =>
-        !(fun (x : List ℕ) => Bool.true) zl ||
-          zl.all fun (x : ℕ) =>
+        !(fun (_x : List ℕ) => Bool.true) zl ||
+          zl.all fun (_x : ℕ) =>
             cands.any
               (CFSG.HardMathSupport.Timmesfeld.CrossChar.sameSet
-                (CFSG.HardMathSupport.Timmesfeld.CrossChar.compIdx (τ.rank + 1) tp zl x))) =
+                (CFSG.HardMathSupport.Timmesfeld.CrossChar.compIdx (τ.rank + 1) tp zl _x))) =
       Bool.true)
     (hlt : ∀ c ∈ cands, ∀ w ∈ c, w < τ.rank + 1)
     (hcard : ∀ c ∈ cands,
@@ -554,12 +554,12 @@ theorem kgNotC_of_eClass
                     CFSG.HardMathSupport.Timmesfeld.CrossChar.nodeIdx (P.get d)) ∈
                   E)
     (hlen : ∀ P ∈ trees, P.length = 6 ∨ P.length = 7 ∨ P.length = 8)
-    (hframes : ∀ {F : Type} [inst : Field F] (x y : Option (Fin τ.rank)),
-      (CFSG.HardMathSupport.Timmesfeld.CrossChar.nodeIdx x,
+    (hframes : ∀ {F : Type} [_inst : Field F] (_x y : Option (Fin τ.rank)),
+      (CFSG.HardMathSupport.Timmesfeld.CrossChar.nodeIdx _x,
         CFSG.HardMathSupport.Timmesfeld.CrossChar.nodeIdx y) ∈ E →
         ∃ (ρ : Matrix.SpecialLinearGroup (Fin 3) F →* CFSG.Blueprint.Chevalley.ModGL τ F) (σ :
           Fin 3 → Fin 3 → Fin τ.rank → ℤ),
-          CFSG.RankThree.PartOne.KF4.IsA2Frame ρ σ ∧ σ 0 1 = K.extRoot x ∧ σ 1 2 = K.extRoot y)
+          CFSG.RankThree.PartOne.KF4.IsA2Frame ρ σ ∧ σ 0 1 = K.extRoot _x ∧ σ 1 2 = K.extRoot y)
     {L : Type}
     [Field L]
     [IsAlgClosed L]
@@ -598,18 +598,18 @@ theorem kgNotC_of_eClass
   refine kgNotC_of_tree K S hTor i hinner v l hroots ?_
   intro K' _ _ p' f hp' hf hK'
   have hgr : ∀ c d : Fin n, c ≠ d → ¬ edgeE n c d → ¬ edgeE n d c →
-      iform ((fun x => v • K.extRoot x) (l c)) ((fun x => v • K.extRoot x) (l d)) = 0 := by
+      iform ((fun _x => v • K.extRoot _x) (l c)) ((fun _x => v • K.extRoot _x) (l d)) = 0 := by
     intro c d hcd h1 h2
     show iform (v • K.extRoot (l c)) (v • K.extRoot (l d)) = 0
     rw [iform_smul]
     exact hnon c d hcd h1 h2
   have hfr := treeFrames K hframes v l (edgeE n) hE (F := K')
-  have hroot : ∀ b, IsRoot τ ((fun x => v • K.extRoot x) b) :=
+  have hroot : ∀ b, IsRoot τ ((fun _x => v • K.extRoot _x) b) :=
     fun b => IsRoot.smul (K.isRoot_extRoot b) v
   rcases hQ with rfl | rfl | rfl
-  · exact kgNotC_innerRecog_E6 hτ hp' hf hK' (fun x => v • K.extRoot x) hroot l hgr hfr
-  · exact kgNotC_innerRecog_E7 hτ hp' hf hK' (fun x => v • K.extRoot x) hroot l hgr hfr
-  · exact kgNotC_innerRecog_E8 hτ hp' hf hK' (fun x => v • K.extRoot x) hroot l hgr hfr
+  · exact kgNotC_innerRecog_E6 hτ hp' hf hK' (fun _x => v • K.extRoot _x) hroot l hgr hfr
+  · exact kgNotC_innerRecog_E7 hτ hp' hf hK' (fun _x => v • K.extRoot _x) hroot l hgr hfr
+  · exact kgNotC_innerRecog_E8 hτ hp' hf hK' (fun _x => v • K.extRoot _x) hroot l hgr hfr
 
 theorem kgNotC_inner_nonA_E6
     {L : Type}

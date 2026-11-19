@@ -65,7 +65,7 @@ theorem cyclic_standard_original_Sylow_conjugate_escape {G : Type} [Group G] [Fi
       _ = m * (c * (m⁻¹ * l * m)) * m⁻¹ := by rw [h1]
       _ = m * c * m⁻¹ * l := by group
   have hT'M : T' ≤ M := map_subtype_le _
-  have hT'2 : IsPGroup 2 T' := T.isPGroup'.map M.subtype
+  have hT'2 : IsPGroup 2 T' := T.isPGroup.map M.subtype
   have hCT : C ⊓ T' = Sg := by
     refine le_antisymm ?_ (le_inf hSgC hST)
     have hQ : IsPGroup 2 ((C ⊓ T').subgroupOf C) :=
@@ -147,7 +147,7 @@ theorem cyclic_standard_original_Sylow_conjugate_escape {G : Type} [Group G] [Fi
         refine lt_top_iff_ne_top.mpr fun h => hTVne (le_antisymm hTV fun v hv => ?_)
         have : (⟨v, hv⟩ : V) ∈ T'.subgroupOf V := h ▸ mem_top _
         exact this
-      have : Group.IsNilpotent (V : Subgroup G) := V.isPGroup'.isNilpotent
+      have : Group.IsNilpotent (V : Subgroup G) := V.isPGroup.isNilpotent
       obtain ⟨y, hyN, hyT⟩ :=
         IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hlt)
       have hnorm : ∀ z ∈ T', (y : G) * z * (y : G)⁻¹ ∈ T' ∧ (y : G)⁻¹ * z * y ∈ T' := by
@@ -164,7 +164,7 @@ theorem cyclic_standard_original_Sylow_conjugate_escape {G : Type} [Group G] [Fi
         have hWV : W ≤ V := sup_le hTV (zpowers_le.mpr y.2)
         have hWM : W ≤ M := sup_le hT'M (zpowers_le.mpr hyM)
         have hW2 : IsPGroup 2 (W.subgroupOf M) :=
-          (V.isPGroup'.to_le hWV).of_equiv (subgroupOfEquivOfLe hWM).symm
+          (V.isPGroup.to_le hWV).of_equiv (subgroupOfEquivOfLe hWM).symm
         have hTW : (T : Subgroup M) ≤ W.subgroupOf M := fun s hs => by
           rw [mem_subgroupOf]
           exact mem_sup_left ⟨s, hs, rfl⟩
@@ -179,7 +179,7 @@ theorem cyclic_standard_original_Sylow_conjugate_escape {G : Type} [Group G] [Fi
       rw [mem_centralizer_singleton_iff]
       calc (y : G) * t = y * ((y : G)⁻¹ * t * y) := by rw [hyt]
         _ = t * y := by group
-  have hSg2 : IsPGroup 2 Sg := S.isPGroup'.map C.subtype
+  have hSg2 : IsPGroup 2 Sg := S.isPGroup.map C.subtype
   set R₀ := Sg.map (MulAut.conj x⁻¹).toMonoidHom ⊓ M with hR₀
   have hR₀2 : IsPGroup 2 (R₀.subgroupOf M) :=
     ((hSg2.map _).to_le inf_le_left).of_equiv (subgroupOfEquivOfLe inf_le_right).symm

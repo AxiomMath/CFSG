@@ -57,7 +57,7 @@ theorem levi5_of_simple_index_two {Z : Type} [Group Z] [Finite Z] {K : Subgroup 
     have h := K.card_mul_index
     rw [hK, hZ] at h
     omega
-  haveI hKn : K.Normal := Subgroup.normal_of_index_eq_two hidx
+  have hKn : K.Normal := Subgroup.normal_of_index_eq_two hidx
   have huK : u ∉ K := fun huK =>
     hu1 (congrArg Subtype.val (P7.eq_one_of_commutes hnab (x := (⟨u, huK⟩ : ↥K))
       fun n => Subtype.ext (hu n.1).symm))
@@ -70,7 +70,7 @@ theorem levi5_of_simple_index_two {Z : Type} [Group Z] [Finite Z] {K : Subgroup 
     exact congrArg Subtype.val h2
   have hou : orderOf u = 2 := orderOf_eq_prime hu2 hu1
   set V : Subgroup Z := Subgroup.zpowers u with hV
-  haveI hVn : V.Normal := ⟨fun n hn g => by
+  have hVn : V.Normal := ⟨fun n hn g => by
     obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hn
     have : g * u ^ k * g⁻¹ = u ^ k := by
       rw [(Commute.zpow_left (show Commute u g from hu g) k).eq.symm]
@@ -184,7 +184,7 @@ theorem card_Y16 : Nat.card (E2P.SporB.j1Y 16) = 168 := by
 theorem good_Y16 : GoodGam (innerU E2P.SporB.j1S) (E2P.SporB.j1Y 16) := by
   by_cases hs : Group.IsSolvable ↥(E2P.SporB.j1Y 16)
   · exact GoodGam.solvable (inv_of_inner (E2P.SporB.j1_S_le_Y 16)) hs
-  · haveI : IsSimpleGroup ↥(E2P.SporB.j1Y 16) := A312Ru.isSimpleGroup_of_card_168 card_Y16 hs
+  · have : IsSimpleGroup ↥(E2P.SporB.j1Y 16) := A312Ru.isSimpleGroup_of_card_168 card_Y16 hs
     have hpsl : IsPSL 3 2 1 ↥(E2P.SporB.j1Y 16) :=
       CFSG.Quasithin.HSRuLoc.Mod.isPSL_three_two_of_simple_card_168 card_Y16
     obtain ⟨φ⟩ := P7.exists_mulEquiv_sl3_of_isPSL hpsl
@@ -200,9 +200,9 @@ theorem exists_central_involution :
   have hcard : Nat.card ↥E2P.SporB.j1S = 8 := by
     rw [E2P.SporB.j1_card_S]
     rfl
-  haveI : Nontrivial ↥E2P.SporB.j1S :=
+  have : Nontrivial ↥E2P.SporB.j1S :=
     Finite.one_lt_card_iff_nontrivial.mp (by rw [hcard]; norm_num)
-  haveI : Nontrivial ↥(Subgroup.center ↥E2P.SporB.j1S) := hS2.center_nontrivial
+  have : Nontrivial ↥(Subgroup.center ↥E2P.SporB.j1S) := hS2.center_nontrivial
   have hC2 : IsPGroup 2 ↥(Subgroup.center ↥E2P.SporB.j1S) := hS2.to_subgroup _
   obtain ⟨n, hn0, hn⟩ := hC2.nontrivial_iff_card.mp inferInstance
   have hdvd : 2 ∣ Nat.card ↥(Subgroup.center ↥E2P.SporB.j1S) := hn ▸ dvd_pow_self 2 (ne_of_gt hn0)
@@ -228,7 +228,7 @@ theorem exists_good_centralizer :
     rw [h, orderOf_one] at hou
     exact absurd hou (by norm_num)
   have eK : ↥(KJ.subgroupOf C) ≃* ↥KJ := Subgroup.subgroupOfEquivOfLe hKJle
-  haveI : IsSimpleGroup ↥(KJ.subgroupOf C) := eK.isSimpleGroup
+  have : IsSimpleGroup ↥(KJ.subgroupOf C) := eK.isSimpleGroup
   have hK60 : Nat.card ↥(KJ.subgroupOf C) = 60 := by rw [Nat.card_congr eK.toEquiv, hKJ60]
   have hlevi : ∃ ρ : ↥C →* Equiv.Perm (Fin 5),
       IsPGroup 2 ρ.ker ∧ alternatingGroup (Fin 5) ≤ ρ.range :=
@@ -237,7 +237,7 @@ theorem exists_good_centralizer :
       (fun h => hu1 (congrArg Subtype.val h))
   exact ⟨C, hSC, h120, GoodGam.levi5 (inv_of_inner hSC) hlevi⟩
 
-theorem sup_Y16 {C : Subgroup ↥J} (hSC : E2P.SporB.j1S ≤ C) (hC : Nat.card C = 120) :
+theorem sup_Y16 {C : Subgroup ↥J} (_hSC : E2P.SporB.j1S ≤ C) (hC : Nat.card C = 120) :
     E2P.SporB.j1Y 16 ⊔ C = ⊤ := by
   have hS : E2P.SporB.j1S ≤ E2P.SporB.j1Y 16 ⊔ C := le_sup_of_le_left (E2P.SporB.j1_S_le_Y 16)
   rcases member_or_top hS with ⟨j, hj, hjeq⟩ | htop

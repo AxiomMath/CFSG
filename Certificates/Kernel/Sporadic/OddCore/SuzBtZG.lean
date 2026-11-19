@@ -107,8 +107,8 @@ theorem l1_le_cent : genSub 1782 4 lgp ≤ Subgroup.centralizer (genSub 1782 8 m
   intro y hy
   exact ((Subgroup.mem_centralizer_iff.1 (hle hy)) _ rfl).symm
 
-theorem hfixM : ∀ h ∈ genSub 1782 8 mgp, (∀ t, h (c1Base t) = c1Base t) → h = 1 :=
-  fun h hh hfix => invE1_eq_one (m1_le hh) hfix
+theorem hfixM : ∀ _h ∈ genSub 1782 8 mgp, (∀ t, _h (c1Base t) = c1Base t) → _h = 1 :=
+  fun _h hh hfix => invE1_eq_one (m1_le hh) hfix
 
 theorem hSM : ∀ j < 8, ∀ t : Fin 3,
     pg 11 (mask 11) (btKey 33 (mask 33) SuzBtM1.K (SuzBtM1Z.S j)) t = mgp j (c1Base t) :=

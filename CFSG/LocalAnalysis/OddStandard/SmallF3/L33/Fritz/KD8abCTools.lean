@@ -153,7 +153,7 @@ theorem card_le_of_orbit {N : Subgroup X} {x : X} (I : Finset X)
 theorem false_of_transfer [IsSimpleGroup X] (hX : ∃ a b : X, a * b ≠ b * a)
     (ht : orderOf t = 2) (P : Sylow 2 X) {M : Subgroup X} (hMP : M ≤ P)
     (hindex : M.relIndex P = 2) (hM : ∀ m ∈ M, ¬ ConjTo t m) : False :=
-  KD8ab.false_of_transfer' hX ht P.isPGroup' (fun _ hR hle => P.maximal_isPGroup.eq_of_ge hR hle)
+  KD8ab.false_of_transfer' hX ht P.isPGroup (fun _ hR hle => P.maximal_isPGroup.eq_of_ge hR hle)
     hMP hindex hM
 
 theorem exists_mem_normalizer {T Q : Subgroup X} (hQ : IsPGroup 2 Q) (hTQ : T < Q) :

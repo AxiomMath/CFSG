@@ -90,11 +90,11 @@ private lemma bmPSL_blockDegree_eq_one {ι F : Type} [Fintype ι] [DecidableEq �
   let M : Submodule F (Matrix ι ι F) :=
     (Subalgebra.toSubmodule A).map (LinearMap.mulRight F e)
   have heM : e ∈ M :=
-    ⟨1, by simpa using A.one_mem, by rw [LinearMap.mulRight_apply, one_mul]⟩
+    ⟨1, by simp, by rw [LinearMap.mulRight_apply, one_mul]⟩
   have hne : (⟨e, heM⟩ : M) ≠ 0 := by
     intro h
     exact he.2.2.1 (by simpa using congrArg Subtype.val h)
-  haveI : Nontrivial M := ⟨⟨⟨e, heM⟩, 0, hne⟩⟩
+  have : Nontrivial M := ⟨⟨⟨e, heM⟩, 0, hne⟩⟩
   have hpos : 0 < Module.finrank F M := Module.finrank_pos_iff.mpr inferInstance
   have hlt : Module.finrank F M < 2 := hdeg
   change Module.finrank F M = 1
@@ -109,7 +109,7 @@ private lemma bmPSL_mul_e_eq_smul {ι F : Type} [Fintype ι] [DecidableEq ι] [F
     (Subalgebra.toSubmodule A).map (LinearMap.mulRight F e)
   have hfin : Module.finrank F M = 1 := hdeg1
   have heM : e ∈ M :=
-    ⟨1, by simpa using A.one_mem, by rw [LinearMap.mulRight_apply, one_mul]⟩
+    ⟨1, by simp, by rw [LinearMap.mulRight_apply, one_mul]⟩
   have hspan : M = F ∙ e :=
     eq_span_singleton_of_mem_of_finrank_eq_one hfin heM he.2.2.1
   intro a ha
@@ -192,12 +192,10 @@ lemma bmPSL_exists_conj_diag {m : ℕ} {F : Type} [Field F]
   have hPinvP : Pinv * P = 1 := Module.Basis.toMatrix_mul_toMatrix_flip b0 bFin
   have hbV_inl : ∀ a : Fin r, bV (Sum.inl a) = (bp a : V) := by
     intro a
-    simp [bV, bprod, Module.Basis.map_apply, Module.Basis.prod_apply,
-      Submodule.coe_prodEquivOfIsCompl]
+    simp [bV, bprod, Module.Basis.map_apply, Module.Basis.prod_apply]
   have hbV_inr : ∀ b : Fin r', bV (Sum.inr b) = (bq b : V) := by
     intro b
-    simp [bV, bprod, Module.Basis.map_apply, Module.Basis.prod_apply,
-      Submodule.coe_prodEquivOfIsCompl]
+    simp [bV, bprod, Module.Basis.map_apply, Module.Basis.prod_apply]
   have hE_range : ∀ x ∈ p, E x = x :=
     fun x hx => (LinearMap.IsIdempotentElem.mem_range_iff hE).mp hx
   have hE_ker : ∀ x ∈ q, E x = 0 := fun x hx => (LinearMap.mem_ker).mp hx
@@ -209,9 +207,9 @@ lemma bmPSL_exists_conj_diag {m : ℕ} {F : Type} [Field F]
         rw [hbV_inl]; exact hE_range (bp j) (bp j).2]
       rw [Module.Basis.repr_self_apply]
       by_cases h : i = j
-      · subst h; simp [D0, Matrix.fromBlocks, Matrix.of_apply, Matrix.one_apply]
+      · subst h; simp [D0, Matrix.fromBlocks, Matrix.of_apply]
       · have hji : j ≠ i := fun hh => h hh.symm
-        simp [h, hji, D0, Matrix.fromBlocks, Matrix.of_apply, Matrix.one_apply]
+        simp [h, hji, D0, Matrix.fromBlocks, Matrix.of_apply]
     · rw [LinearMap.toMatrix_apply]
       rw [show E (bV (Sum.inr j)) = 0 by
         rw [hbV_inr]; exact hE_ker (bq j) (bq j).2]
@@ -273,7 +271,7 @@ private lemma bmPSL_block_diag_mul {r r' : ℕ} {F : Type} [Field F]
   have h' := h
   rw [← Matrix.fromBlocks_toBlocks A] at h'
   rw [Matrix.fromBlocks_multiply, Matrix.fromBlocks_multiply] at h'
-  simp only [mul_zero, add_zero, zero_mul, zero_add, one_mul] at h'
+  simp only [mul_zero, add_zero, zero_mul, one_mul] at h'
   rw [Matrix.fromBlocks_inj] at h'
   obtain ⟨-, h12, h21, -⟩ := h'
   have h12' : A.toBlocks₁₂ = 0 := by simpa using h12.symm
@@ -324,7 +322,7 @@ private lemma bmPSL_block_diag {m r r' : ℕ} {F : Type} [Field F]
   have hcommα : hα * D0 = D0 * hα := by
     have h' := congrArg (Matrix.reindexAlgEquiv F F eidx.symm) hcomm
     simp only [map_mul] at h'
-    simpa [hα, h, D0, Dfin, hD', Matrix.reindexAlgEquiv_apply, Matrix.reindex_apply,
+    simpa [hα, h, D0, Dfin, hD', Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply,
       Equiv.symm_apply_apply, Equiv.apply_symm_apply] using h'
   obtain ⟨x, y, hxy⟩ := bmPSL_block_diag_mul hcommα
   have hblock : h = Matrix.reindex eidx eidx (Matrix.fromBlocks x 0 0 y) := by
@@ -354,15 +352,15 @@ private lemma bmPSL_block_diag {m r r' : ℕ} {F : Type} [Field F]
         (1 : Matrix (Fin r') (Fin r') F) := by
     ext i j
     rcases i with i | i <;> rcases j with j | j <;>
-      simp [D0, Matrix.fromBlocks, Matrix.of_apply, Matrix.one_apply, sub_eq_zero]
+      simp [D0, Matrix.fromBlocks, Matrix.of_apply, Matrix.one_apply]
   have hy : y = 1 := by
     have hfixα : hα * (1 - D0) = 1 - D0 := by
       have h' := congrArg (Matrix.reindexAlgEquiv F F eidx.symm) hfix
       rw [map_mul, map_sub, map_one] at h'
-      simpa [hα, h, D0, Dfin, hD', Matrix.reindexAlgEquiv_apply, Matrix.reindex_apply,
+      simpa [hα, h, D0, Dfin, hD', Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply,
         Equiv.symm_apply_apply, Equiv.apply_symm_apply] using h'
     rw [hxy, h1D, Matrix.fromBlocks_multiply] at hfixα
-    simp only [mul_zero, add_zero, zero_mul, zero_add, one_mul, mul_one] at hfixα
+    simp only [mul_zero, zero_add, mul_one] at hfixα
     rw [Matrix.fromBlocks_inj] at hfixα
     simpa using hfixα.2.2.2
   exact ⟨x, y, hblock, hy⟩
@@ -423,7 +421,7 @@ lemma bmPSL_block_diag_comm {m r r' : ℕ} {F : Type} [Field F]
   have hcommα : hα * D0 = D0 * hα := by
     have h' := congrArg (Matrix.reindexAlgEquiv F F eidx.symm) hcomm
     simp only [map_mul] at h'
-    simpa [hα, h, D0, Dfin, hD', Matrix.reindexAlgEquiv_apply, Matrix.reindex_apply,
+    simpa [hα, h, D0, Dfin, hD', Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply,
       Equiv.symm_apply_apply, Equiv.apply_symm_apply] using h'
   obtain ⟨x, y, hxy⟩ := bmPSL_block_diag_mul hcommα
   have hblock : h = Matrix.reindex eidx eidx (Matrix.fromBlocks x 0 0 y) := by
@@ -544,7 +542,7 @@ private lemma bmPSL_Dx_mul_one_sub {r r' : ℕ} {F : Type} [Field F]
         (1 : Matrix (Fin r') (Fin r') F) := by
     ext i j
     rcases i with i | i <;> rcases j with j | j <;>
-      simp [Matrix.fromBlocks, Matrix.of_apply, Matrix.one_apply, sub_eq_zero]
+      simp [Matrix.fromBlocks, Matrix.of_apply, Matrix.one_apply]
   rw [h1D, Matrix.fromBlocks_multiply]
   simp
 
@@ -561,7 +559,7 @@ private lemma bmPSL_scalar_mul_D0 {r r' : ℕ} {F : Type} [Field F]
     a = c • (1 : Matrix (Fin r) (Fin r) F) := by
   have h' := h
   rw [Matrix.fromBlocks_multiply] at h'
-  simp only [mul_zero, add_zero, zero_mul, zero_add, one_mul, mul_one] at h'
+  simp only [mul_zero, add_zero, mul_one] at h'
   have hR : c • Matrix.fromBlocks (1 : Matrix (Fin r) (Fin r) F)
       (0 : Matrix (Fin r) (Fin r') F) (0 : Matrix (Fin r') (Fin r) F)
       (0 : Matrix (Fin r') (Fin r') F) =
@@ -640,12 +638,12 @@ private lemma bmPSL_embedMat_centralizes {m r r' : ℕ} {F : Type} [Field F]
       (0 : Matrix (Fin r') (Fin r) F) b := by
     have h' := congrArg (Matrix.reindexAlgEquiv F F eidx.symm) hblock_s
     simp only [map_mul] at h'
-    simpa [Hsα, Hs, D0, Matrix.reindexAlgEquiv_apply, Matrix.reindex_apply,
+    simpa [Hsα, Hs, D0, Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply,
       Equiv.symm_apply_apply, Equiv.apply_symm_apply] using h'
   have hHsαD : Hsα * D0 = c • D0 := by
     have h' := congrArg (Matrix.reindexAlgEquiv F F eidx.symm) hHsD
     simp only [map_mul, map_smul] at h'
-    simpa [Hsα, D0, Dfin, hD', Matrix.reindexAlgEquiv_apply, Matrix.reindex_apply,
+    simpa [Hsα, D0, Dfin, hD', Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply,
       Equiv.symm_apply_apply, Equiv.apply_symm_apply] using h'
   have ha : a = c • (1 : Matrix (Fin r) (Fin r) F) := by
     apply bmPSL_scalar_mul_D0 (b := b) (c := c)
@@ -664,7 +662,7 @@ private lemma bmPSL_embedMat_centralizes {m r r' : ℕ} {F : Type} [Field F]
       Matrix.fromBlocks (c • (1 : Matrix (Fin r) (Fin r) F))
         (0 : Matrix (Fin r) (Fin r') F) (0 : Matrix (Fin r') (Fin r) F) b
     rw [Matrix.fromBlocks_multiply, Matrix.fromBlocks_multiply]
-    simp only [mul_zero, add_zero, zero_mul, zero_add, one_mul, mul_one]
+    simp only [one_mul, mul_one]
     rw [Matrix.fromBlocks_inj]
     refine ⟨?_, ?_, ?_, ?_⟩
     · rw [Matrix.smul_mul, Matrix.one_mul, Matrix.mul_smul, Matrix.mul_one]
@@ -674,7 +672,7 @@ private lemma bmPSL_embedMat_centralizes {m r r' : ℕ} {F : Type} [Field F]
   have hcommFin : Hs * Dx = Dx * Hs := by
     have h' := congrArg (Matrix.reindexAlgEquiv F F eidx) hcommα
     simp only [map_mul] at h'
-    simpa [Hsα, Dxα, Hs, Dx, D0, Dfin, Matrix.reindexAlgEquiv_apply, Matrix.reindex_apply,
+    simpa [Hsα, Dxα, Hs, Dx, D0, Dfin, Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply,
       Equiv.symm_apply_apply, Equiv.apply_symm_apply] using h'
   have hs_eq : (s : Matrix (Fin (m + 1)) (Fin (m + 1)) F) = Pinv * Hs * P := by
     calc (s : Matrix (Fin (m + 1)) (Fin (m + 1)) F)
@@ -722,11 +720,11 @@ private lemma bmPSL_embedMat_fix {m r r' : ℕ} {F : Type} [Field F]
   have hDx : Dx * X = X := by
     have h' := congrArg (Matrix.reindexAlgEquiv F F eidx) hDx0
     simp only [map_mul, map_sub, map_one] at h'
-    simpa [Dx, X, D0, Dfin, Matrix.reindexAlgEquiv_apply, Matrix.reindex_apply,
+    simpa [Dx, X, D0, Dfin, Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply,
       Equiv.symm_apply_apply, Equiv.apply_symm_apply] using h'
   have hone : (1 : Matrix (Fin (m + 1)) (Fin (m + 1)) F) - e = Pinv * X * P := by
     have h := bmPSL_one_sub eidx hconv hPinvP hD'
-    simpa [X, Dfin, hD', Matrix.reindexAlgEquiv_apply, Matrix.reindex_apply,
+    simpa [X, Dfin, hD', Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply,
       Equiv.symm_apply_apply, Equiv.apply_symm_apply] using h
   have hfix : (Pinv * Dx * P) * (Pinv * X * P) = Pinv * X * P := by
     calc (Pinv * Dx * P) * (Pinv * X * P)
@@ -840,7 +838,7 @@ private lemma bmPSL_block_fromBlocks_transvection {r r' : ℕ} {F : Type} [Field
   ext i j
   rcases i with i | i <;> rcases j with j | j <;>
     simp [Matrix.fromBlocks, bmPSL_liftVec, Matrix.vecMulVec, Matrix.one_apply,
-      Matrix.add_apply, Matrix.smul_apply]
+      Matrix.add_apply]
 
 private lemma bmPSL_reindex_transvection {m r r' : ℕ} {F : Type} [Field F]
     (eidx : Fin r ⊕ Fin r' ≃ Fin (m + 1)) (u w : Fin r → F) (c : F) :
@@ -854,7 +852,7 @@ private lemma bmPSL_reindex_transvection {m r r' : ℕ} {F : Type} [Field F]
         Matrix (Fin (m + 1)) (Fin (m + 1)) F) := by
   ext i j
   simp [Matrix.reindex_apply, bmPSL_reindexVec, Matrix.vecMulVec, Matrix.add_apply,
-    Matrix.smul_apply, Matrix.one_apply]
+    Matrix.one_apply]
 
 private noncomputable def bmPSL_blockGL {m r r' : ℕ} {F : Type} [Field F]
     (eidx : Fin r ⊕ Fin r' ≃ Fin (m + 1)) :
@@ -983,7 +981,7 @@ private lemma bmPSL_transv_le_embedGL_support {m r r' : ℕ} {F : Type} [Field F
     rw [show φ ᵥ* Matrix.vecMulVec v φ = (φ ⬝ᵥ v) • φ by
       ext j
       simp [Matrix.vecMul_apply, Matrix.vecMulVec_apply, dotProduct, Finset.mul_sum,
-        mul_assoc, mul_comm, mul_left_comm]]
+        mul_comm, mul_left_comm]]
     rw [hdot, zero_smul]
     ext i j
     simp [Matrix.vecMulVec]
@@ -1041,7 +1039,7 @@ private lemma bmPSL_transv_le_embedGL_support {m r r' : ℕ} {F : Type} [Field F
     have h := hconj.symm.trans hP
     have h' := congrArg (Matrix.reindexAlgEquiv F F eidx.symm) h
     simp only [map_add, map_one] at h'
-    simp only [Matrix.reindexAlgEquiv_apply] at h'
+    simp only [Matrix.coe_reindexAlgEquiv] at h'
     rw [bmPSL_reindex_vecMulVec] at h'
     rw [bmPSL_reindex_symm_reindex] at h'
     simpa [V, Φ] using h'
@@ -1270,7 +1268,7 @@ private lemma bmPSL_embedMat_injective {m r r' : ℕ} {F : Type} [Field F]
       (0 : Matrix (Fin r') (Fin r) F) (1 : Matrix (Fin r') (Fin r') F) =
       Matrix.fromBlocks y (0 : Matrix (Fin r) (Fin r') F)
         (0 : Matrix (Fin r') (Fin r) F) (1 : Matrix (Fin r') (Fin r') F) := by
-    simpa [Dx, Dy, Matrix.reindexAlgEquiv_apply, Matrix.reindex_apply,
+    simpa [Dx, Dy, Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply,
       Equiv.symm_apply_apply, Equiv.apply_symm_apply] using h'
   rw [Matrix.fromBlocks_inj] at h''
   exact h''.1
@@ -1290,12 +1288,12 @@ lemma bmPSL_embedHom_injective {m r r' : ℕ} {F : Type} [Field F]
 private lemma bmPSL_solvable_SL_two_of_card_two {F : Type} [Field F] [Finite F]
     (hcard : Nat.card F = 2) :
     Group.IsSolvable (Matrix.SpecialLinearGroup (Fin 2) F) := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hF : Fintype.card F = 2 := by
     rw [← Nat.card_eq_fintype_card]
     exact hcard
   obtain ⟨e⟩ := TauCeti.nonempty_mulEquiv_permFinThree hF
-  haveI : Group.IsSolvable (Equiv.Perm (Fin 3)) :=
+  have : Group.IsSolvable (Equiv.Perm (Fin 3)) :=
     Equiv.Perm.isSolvable (by norm_num)
   have hGL : Group.IsSolvable (GL (Fin 2) F) :=
     Group.isSolvable_of_surjective (f := e.symm.toMonoidHom) e.symm.surjective
@@ -1455,7 +1453,7 @@ theorem exists_blockModel_PSL_rank
   obtain ⟨k, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hrnz
   by_cases hk0 : k = 0
   · subst hk0
-    haveI : Subsingleton
+    have : Subsingleton
         (Matrix.SpecialLinearGroup (Fin 1) (GaloisField 2 f)) :=
       Matrix.SpecialLinearGroup.subsingleton_of_subsingleton
     have hbot_range :
@@ -1476,12 +1474,12 @@ theorem exists_blockModel_PSL_rank
         (Matrix.SpecialLinearGroup (Fin (m + 1)) (GaloisField 2 f))) := by
       simpa [hcommbot] using hJe.1
     have hJbot : J' = ⊥ := le_bot_iff.mp hle
-    haveI : Subsingleton J' := by
+    have : Subsingleton J' := by
       rw [hJbot]
       infer_instance
     obtain ⟨-, hsimpleJ⟩ := hJe.2.2
-    haveI : Nontrivial (J' ⧸ Subgroup.center J') := hsimpleJ.toNontrivial
-    haveI : Nontrivial J' :=
+    have : Nontrivial (J' ⧸ Subgroup.center J') := hsimpleJ.toNontrivial
+    have : Nontrivial J' :=
       Function.Surjective.nontrivial (QuotientGroup.mk'_surjective (Subgroup.center J'))
     exfalso
     exact (not_subsingleton_iff_nontrivial.mpr
@@ -1491,10 +1489,10 @@ theorem exists_blockModel_PSL_rank
     by_cases hsmall : k = 1 ∧ Nat.card (GaloisField 2 f) = 2
     · obtain ⟨hk1, hcard⟩ := hsmall
       subst hk1
-      haveI : Group.IsSolvable
+      have : Group.IsSolvable
           (Matrix.SpecialLinearGroup (Fin 2) (GaloisField 2 f)) :=
         bmPSL_solvable_SL_two_of_card_two hcard
-      haveI hRangeSol : Group.IsSolvable
+      have hRangeSol : Group.IsSolvable
           (bmPSL_embedHom eidx P Pinv hPP hPinvP).range :=
         Group.isSolvable_of_surjective
           (f := (MonoidHom.ofInjective
@@ -1504,23 +1502,23 @@ theorem exists_blockModel_PSL_rank
       have hGsol : Group.IsSolvable
           (glBlockCentralizer Matrix.SpecialLinearGroup.toGL S e) :=
         hrange ▸ hRangeSol
-      haveI : Group.IsSolvable
+      have : Group.IsSolvable
           (glBlockCentralizer Matrix.SpecialLinearGroup.toGL S e) := hGsol
-      haveI hCommSol : Group.IsSolvable
+      have hCommSol : Group.IsSolvable
           ↥(⁅glBlockCentralizer Matrix.SpecialLinearGroup.toGL S e,
             glBlockCentralizer Matrix.SpecialLinearGroup.toGL S e⁆) :=
         Group.isSolvable_of_isSolvable_injective
           (f := Subgroup.inclusion
             (Subgroup.commutator_le_self _))
           (fun _ _ h => (Subgroup.inclusion_inj _).mp h)
-      haveI : Group.IsSolvable J' :=
+      have : Group.IsSolvable J' :=
         Group.isSolvable_of_isSolvable_injective
           (f := Subgroup.inclusion hJe.1)
           (fun _ _ h => (Subgroup.inclusion_inj hJe.1).mp h)
-      haveI : Nontrivial (J' ⧸ Subgroup.center J') := hsimpleJ.toNontrivial
-      haveI : Nontrivial J' :=
+      have : Nontrivial (J' ⧸ Subgroup.center J') := hsimpleJ.toNontrivial
+      have : Nontrivial J' :=
         Function.Surjective.nontrivial (QuotientGroup.mk'_surjective (Subgroup.center J'))
-      haveI : Group.IsPerfect J' := Group.IsPerfect.mk hperfJ
+      have : Group.IsPerfect J' := Group.IsPerfect.mk hperfJ
       exfalso
       exact (Group.IsPerfect.not_isSolvable J') inferInstance
     · have hQ : CFSG.Assembly.IsQuasisimple
@@ -1549,7 +1547,7 @@ theorem exists_blockModel_PSL_rank
           ⁅glBlockCentralizer Matrix.SpecialLinearGroup.toGL S e,
             glBlockCentralizer Matrix.SpecialLinearGroup.toGL S e⁆ =
             glBlockCentralizer Matrix.SpecialLinearGroup.toGL S e := by
-        haveI : Group.IsPerfect
+        have : Group.IsPerfect
             (glBlockCentralizer Matrix.SpecialLinearGroup.toGL S e) :=
           Group.IsPerfect.mk hQGe.1
         exact Subgroup.commutator_eq_self
@@ -1568,9 +1566,9 @@ theorem exists_blockModel_PSL_rank
       let e0 : Fin (k + 1) → GaloisField 2 f := Pi.single 0 1
       let elast : Fin (k + 1) → GaloisField 2 f := Pi.single (Fin.last k) 1
       have h1 : elast ⬝ᵥ e0 = 0 := by
-        simp [elast, e0, dotProduct, Pi.single_apply, h0last, Ne.symm h0last]
+        simp [elast, e0, dotProduct, Pi.single_apply, h0last]
       have h2 : e0 ⬝ᵥ elast = 0 := by
-        simp [elast, e0, dotProduct, Pi.single_apply, h0last, Ne.symm h0last]
+        simp [elast, e0, dotProduct, Pi.single_apply, Ne.symm h0last]
       have h3 : elast ⬝ᵥ elast = 1 := by
         simp [elast, dotProduct, Pi.single_apply]
       have h4 : e0 ⬝ᵥ e0 = 1 := by
@@ -1796,7 +1794,7 @@ theorem exists_blockModelClosure_PSL_rank
   obtain ⟨k, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hrnz
   by_cases hk0 : k = 0
   · subst hk0
-    haveI : Subsingleton
+    have : Subsingleton
         (Matrix.SpecialLinearGroup (Fin 1) (GaloisField 2 f)) :=
       Matrix.SpecialLinearGroup.subsingleton_of_subsingleton
     have hbot_range :
@@ -1817,12 +1815,12 @@ theorem exists_blockModelClosure_PSL_rank
         (Matrix.SpecialLinearGroup (Fin (m + 1)) (GaloisField 2 f))) := by
       simpa [hcommbot] using hJe.1
     have hJbot : J' = ⊥ := le_bot_iff.mp hle
-    haveI : Subsingleton J' := by
+    have : Subsingleton J' := by
       rw [hJbot]
       infer_instance
     obtain ⟨-, hsimpleJ⟩ := hJe.2.2
-    haveI : Nontrivial (J' ⧸ Subgroup.center J') := hsimpleJ.toNontrivial
-    haveI : Nontrivial J' :=
+    have : Nontrivial (J' ⧸ Subgroup.center J') := hsimpleJ.toNontrivial
+    have : Nontrivial J' :=
       Function.Surjective.nontrivial (QuotientGroup.mk'_surjective (Subgroup.center J'))
     exfalso
     exact (not_subsingleton_iff_nontrivial.mpr
@@ -1832,10 +1830,10 @@ theorem exists_blockModelClosure_PSL_rank
     by_cases hsmall : k = 1 ∧ Nat.card (GaloisField 2 f) = 2
     · obtain ⟨hk1, hcard⟩ := hsmall
       subst hk1
-      haveI : Group.IsSolvable
+      have : Group.IsSolvable
           (Matrix.SpecialLinearGroup (Fin 2) (GaloisField 2 f)) :=
         bmPSL_solvable_SL_two_of_card_two hcard
-      haveI hRangeSol : Group.IsSolvable
+      have hRangeSol : Group.IsSolvable
           (bmPSL_embedHom eidx P Pinv hPP hPinvP).range :=
         Group.isSolvable_of_surjective
           (f := (MonoidHom.ofInjective
@@ -1845,23 +1843,23 @@ theorem exists_blockModelClosure_PSL_rank
       have hGsol : Group.IsSolvable
           (glBlockCentralizer Matrix.SpecialLinearGroup.toGL S e) :=
         hrange ▸ hRangeSol
-      haveI : Group.IsSolvable
+      have : Group.IsSolvable
           (glBlockCentralizer Matrix.SpecialLinearGroup.toGL S e) := hGsol
-      haveI hCommSol : Group.IsSolvable
+      have hCommSol : Group.IsSolvable
           ↥(⁅glBlockCentralizer Matrix.SpecialLinearGroup.toGL S e,
             glBlockCentralizer Matrix.SpecialLinearGroup.toGL S e⁆) :=
         Group.isSolvable_of_isSolvable_injective
           (f := Subgroup.inclusion
             (Subgroup.commutator_le_self _))
           (fun _ _ h => (Subgroup.inclusion_inj _).mp h)
-      haveI : Group.IsSolvable J' :=
+      have : Group.IsSolvable J' :=
         Group.isSolvable_of_isSolvable_injective
           (f := Subgroup.inclusion hJe.1)
           (fun _ _ h => (Subgroup.inclusion_inj hJe.1).mp h)
-      haveI : Nontrivial (J' ⧸ Subgroup.center J') := hsimpleJ.toNontrivial
-      haveI : Nontrivial J' :=
+      have : Nontrivial (J' ⧸ Subgroup.center J') := hsimpleJ.toNontrivial
+      have : Nontrivial J' :=
         Function.Surjective.nontrivial (QuotientGroup.mk'_surjective (Subgroup.center J'))
-      haveI : Group.IsPerfect J' := Group.IsPerfect.mk hperfJ
+      have : Group.IsPerfect J' := Group.IsPerfect.mk hperfJ
       exfalso
       exact (Group.IsPerfect.not_isSolvable J') inferInstance
     · have hQ : CFSG.Assembly.IsQuasisimple
@@ -1890,7 +1888,7 @@ theorem exists_blockModelClosure_PSL_rank
           ⁅glBlockCentralizer Matrix.SpecialLinearGroup.toGL S e,
             glBlockCentralizer Matrix.SpecialLinearGroup.toGL S e⁆ =
             glBlockCentralizer Matrix.SpecialLinearGroup.toGL S e := by
-        haveI : Group.IsPerfect
+        have : Group.IsPerfect
             (glBlockCentralizer Matrix.SpecialLinearGroup.toGL S e) :=
           Group.IsPerfect.mk hQGe.1
         exact Subgroup.commutator_eq_self

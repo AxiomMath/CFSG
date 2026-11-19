@@ -28,12 +28,12 @@ theorem exists_autQuot {X : Type} [Group X] [Finite X] {S : Subgroup X}
     · have : (g * x * g⁻¹) ^ 2 = g * x ^ 2 * g⁻¹ := conj_pow
       rw [this, hx.2]
       group
-  haveI hnormal : (Subgroup.closure
+  have hnormal : (Subgroup.closure
       {x : X | CFSG.BenderSuzuki.PFAppendixIII.IsInvolution x}).Normal := by
     refine ⟨fun n hn g => ?_⟩
     induction hn using Subgroup.closure_induction with
     | mem x hx => exact Subgroup.subset_closure (hconj g x hx)
-    | one => simpa using Subgroup.one_mem _
+    | one => simp
     | mul x y _ _ hx hy =>
       have : g * (x * y) * g⁻¹ = (g * x * g⁻¹) * (g * y * g⁻¹) := by group
       rw [this]
@@ -70,12 +70,12 @@ theorem exists_autQuot {X : Type} [Group X] [Finite X] {S : Subgroup X}
 theorem card_le_two_pow_of_isL2Gp {Y : Type} [Group Y] {n : ℕ} (hY : IsL2Gp Y n)
     {A : Subgroup (MulAut Y)} (hA : IsElemAbelian 2 A) : Nat.card A ≤ 2 ^ n := by
   obtain ⟨F, _, hFin, hF, ⟨e⟩⟩ := hY
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hn : 1 ≤ n :=
     Nat.one_le_iff_ne_zero.2 (Nat.one_lt_two_pow_iff.1 (hF ▸ Finite.one_lt_card))
-  haveI : CharP F 2 := by
+  have : CharP F 2 := by
     classical
-    letI : Fintype F := Fintype.ofFinite F
+    let : Fintype F := Fintype.ofFinite F
     exact charP_of_card_eq_prime_pow (p := 2) (f := n) (by rw [← Nat.card_eq_fintype_card, hF])
   let ψ : MulAut Y ≃* MulAut (Matrix.SpecialLinearGroup (Fin 2) F) := MulAut.congr e
   have hc : ∀ a ∈ A.map ψ.toMonoidHom, ∀ b ∈ A.map ψ.toMonoidHom, a * b = b * a := by
@@ -111,13 +111,13 @@ theorem card_eq_of_suzukiRoot {X : Type} [Group X] [Finite X] {S : Subgroup X}
     (hX : IsSzGp (X ⧸ Subgroup.center X) n) (hR : IsSuzukiRootGroup X S) :
     Nat.card S = 2 ^ n := by
   obtain ⟨T, hT⟩ := hR
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hO2 : ∀ N : Subgroup X, N.Normal → IsPGroup 2 N → N = ⊥ := fun N hN hp =>
     le_bot_iff.1 (hS.pCore_eq_bot ▸ CFSG.LieType.BorelTits.le_pCore 2 hN hp)
   have hodd : Odd (Nat.card (Subgroup.center X)) := CFSG.CGT.Timmesfeld75.odd_card_center hO2
   have hTZ : (T : Subgroup X) ⊓ Subgroup.center X = ⊥ := by
     have h2 : IsPGroup 2 ↥((T : Subgroup X) ⊓ Subgroup.center X) :=
-      T.isPGroup'.to_le inf_le_left
+      T.isPGroup.to_le inf_le_left
     obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 h2
     have hdvd : Nat.card ↥((T : Subgroup X) ⊓ Subgroup.center X) ∣
         Nat.card (Subgroup.center X) := Subgroup.card_dvd_of_le inf_le_right

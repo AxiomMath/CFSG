@@ -23,14 +23,14 @@ private theorem anyN_iff {m : Nat} {f : Nat → Bool} :
   unfold CFSG.KS.SporSch.anyN
   simp only [CFSG.KS.PK.bIf_eq]
   by_cases h : allN m (fun i => if f i = true then false else true) = true
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     have h' := CFSG.KS.PK.allN_iff.1 h
     simp only [Bool.false_eq_true, false_iff, not_exists, not_and]
     intro i hi hf
     have := h' i hi
-    rw [if_pos hf] at this
+    rw [ite_eq_left hf] at this
     exact Bool.false_ne_true this
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     simp only [true_iff]
     rw [CFSG.KS.PK.allN_iff] at h
     simp only [not_forall] at h
@@ -262,23 +262,23 @@ private theorem scan_sound {MT : Nat → Nat} {IV n : Nat} {CM : Nat → Nat} (h
       · rfl
       · have := Nat.eq_of_beq_eq_true h
         omega
-    rw [h1, if_neg Bool.false_ne_true]
+    rw [h1, ite_eq_right Bool.false_ne_true]
     by_cases hbit : hasBit mask (tcommK MT IV (q / n) (q % n)) = true
-    · rw [if_pos hbit]
+    · rw [ite_eq_left hbit]
       rw [CFSG.KS.PK.hasBit_eq] at hbit
       have hmem := (hM _).1 hbit
       have hstep : CS MT IV n (q + 1) = CS MT IV n q := by
         rw [CS_succ]
         unfold cstep
-        rw [if_neg]
+        rw [ite_eq_right]
         rw [← any_fst_iff] at hmem
         simp [hmem]
       have := scan_sound hn hiv hr len (q + 1) cnt mask (by omega)
         ⟨by rw [hstep]; exact hc, by rw [hstep]; exact hCM, by rw [hstep]; exact hM⟩
       rwa [show q + 1 + len = q + (len + 1) by omega] at this
-    · rw [if_neg hbit]
+    · rw [ite_eq_right hbit]
       by_cases hen : Nat.beq (CM cnt) (enc (tcommK MT IV (q / n) (q % n)) (q / n) (q % n)) = true
-      · rw [if_pos hen]
+      · rw [ite_eq_left hen]
         rw [CFSG.KS.PK.hasBit_eq] at hbit
         have hnot : ¬ ∃ e ∈ (CS MT IV n q).toList, e.1 = tcommK MT IV (q / n) (q % n) :=
           fun h => hbit ((hM _).2 h)
@@ -286,7 +286,7 @@ private theorem scan_sound {MT : Nat → Nat} {IV n : Nat} {CM : Nat → Nat} (h
             (CS MT IV n q).push (tcommK MT IV (q / n) (q % n), q / n, q % n) := by
           rw [CS_succ]
           unfold cstep
-          rw [if_pos]
+          rw [ite_eq_left]
           rw [← any_fst_iff] at hnot
           simpa using hnot
         have hI' : Inv MT IV n CM (q + 1) (cnt + 1)
@@ -320,7 +320,7 @@ private theorem scan_sound {MT : Nat → Nat} {IV n : Nat} {CM : Nat → Nat} (h
               · exact Or.inr (decide_eq_true rfl)
         have := scan_sound hn hiv hr len (q + 1) (cnt + 1) _ (by omega) hI'
         rwa [show q + 1 + len = q + (len + 1) by omega] at this
-      · rw [if_neg hen]
+      · rw [ite_eq_right hen]
         left
         rfl
 
@@ -476,7 +476,7 @@ private theorem comms_final {n nC nS len : Nat} {MT CM ST : Nat → Nat} {IV : N
     · intro i h1 h2
       rw [Array.getElem_ofFn, ← (hent i (by omega)).1, getElem!_pos _ i h1]
 
-private noncomputable def istep (MT CM DT : Nat → Nat) (nC nD h t cur : Nat) : Nat :=
+private noncomputable def istep (MT CM DT : Nat → Nat) (_nC nD h t cur : Nat) : Nat :=
   nIf(Nat.beq cur (nat_lit 0), nat_lit 0,
     strictN (tmK MT (b8 (CM t) 0) (b8 (DT h) 0)) (fun y =>
       nIf(CFSG.KS.SporSch.anyN cur (fun i => Nat.beq (b8 (DT i) 0) y), cur,
@@ -503,26 +503,25 @@ private theorem istep_spec {MT CM DT : Nat → Nat} {nC nD h t cur : Nat} (h0 : 
     · exact absurd (Nat.eq_of_beq_eq_true e) h0
   unfold istep at hne ⊢
   rw [hb0] at hne ⊢
-  simp only [CFSG.KS.PK.strictN_eq, CFSG.KS.PK.nIf_eq, CFSG.KS.PK.bAnd_eq, Bool.false_eq_true,
-    if_false] at hne ⊢
+  simp only [CFSG.KS.PK.strictN_eq, CFSG.KS.PK.nIf_eq, CFSG.KS.PK.bAnd_eq] at hne ⊢
   by_cases ha : CFSG.KS.SporSch.anyN cur
       (fun i => Nat.beq (b8 (DT i) 0) (tmK MT (b8 (CM t) 0) (b8 (DT h) 0))) = true
   · left
-    rw [if_pos ha]
+    rw [ite_eq_left ha]
     refine ⟨?_, rfl⟩
     obtain ⟨i, hi, e⟩ := anyN_iff.1 ha
     exact ⟨i, hi, Nat.eq_of_beq_eq_true e⟩
   · right
-    rw [if_neg ha] at hne ⊢
+    rw [ite_eq_right ha] at hne ⊢
     have hna : ¬ ∃ i < cur, b8 (DT i) 0 = tmK MT (b8 (CM t) 0) (b8 (DT h) 0) :=
       fun ⟨i, hi, e⟩ => ha (anyN_iff.2 ⟨i, hi, by rw [e]; exact Nat.beq_refl _⟩)
     by_cases hc : (Nat.blt cur nD && (Nat.beq (b8 (DT cur) 0) (tmK MT (b8 (CM t) 0) (b8 (DT h) 0)) &&
         (Nat.beq (b8 (DT cur) 1) h && (Nat.beq (b8 (DT cur) 2) (b8 (CM t) 1) &&
           Nat.beq (b8 (DT cur) 3) (b8 (CM t) 2))))) = true
-    · rw [if_pos hc]
+    · rw [ite_eq_left hc]
       simp only [Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq] at hc
       exact ⟨hna, rfl, hc.1, hc.2.1, hc.2.2.1, hc.2.2.2.1, hc.2.2.2.2⟩
-    · rw [if_neg hc] at hne
+    · rw [ite_eq_right hc] at hne
       exact absurd rfl hne
 
 private theorem tstep_sound {MT CM DT : Nat → Nat} {n nC nD h t cur : Nat}
@@ -544,13 +543,13 @@ private theorem tstep_sound {MT CM DT : Nat → Nat} {n nC nD h t cur : Nat}
   simp only [hd, hy]
   rcases istep_spec h0 hne with ⟨hex, heq⟩ | ⟨hnex, heq, -, f0, f1, f2, f3⟩
   · have hc := (hcont _).2 hex
-    rw [if_neg (by rw [hc]; exact Bool.false_ne_true), heq]
+    rw [ite_eq_right (by rw [hc]; exact Bool.false_ne_true), heq]
     exact ⟨rfl, hh, hB⟩
   · have hc : (stt DT cur).1.contains (tmK MT (b8 (CM t) 0) (b8 (DT h) 0)) = false := by
       cases e : (stt DT cur).1.contains (tmK MT (b8 (CM t) 0) (b8 (DT h) 0))
       · rfl
       · exact absurd ((hcont _).1 e) hnex
-    rw [if_pos (by rw [hc]; rfl), heq]
+    rw [ite_eq_left (by rw [hc]; rfl), heq]
     refine ⟨?_, by omega, ?_⟩
     · have p0 : (Array.ofFn (n := cur) fun k => b8 (DT k.val) 0).push (b8 (DT cur) 0) =
           Array.ofFn (n := cur + 1) fun k => b8 (DT k.val) 0 :=
@@ -580,7 +579,7 @@ private theorem tstep_sound {MT CM DT : Nat → Nat} {n nC nD h t cur : Nat}
 
 private theorem inner_sound {MT CM DT : Nat → Nat} {n nC nD h cur : Nat}
     (hr : ∀ i < n, ∀ j < n, tmK MT i j < n) (hc : ∀ t < nC, b8 (CM t) 0 < n)
-    (h0 : cur ≠ 0) (hh : h < cur) (hB : ∀ k < cur, b8 (DT k) 0 < n)
+    (_h0 : cur ≠ 0) (hh : h < cur) (hB : ∀ k < cur, b8 (DT k) 0 < n)
     (hfin : dtHead MT CM DT nC nD h cur ≠ 0) :
     (Array.ofFn (n := nC) fun t => (b8 (CM t.val) 0, b8 (CM t.val) 1, b8 (CM t.val) 2)).foldl
         (tstep (TBL MT n) h) (stt DT cur) = stt DT (dtHead MT CM DT nC nD h cur) ∧
@@ -691,11 +690,11 @@ private theorem outer_sound {MT CM DT : Nat → Nat} {n nC nD : Nat}
     unfold hstep
     rw [hs]
     by_cases hlt : h < FH MT CM DT nC nD h
-    · rw [if_pos hlt, ostep_lt hlt]
+    · rw [ite_eq_left hlt, ostep_lt hlt]
       refine inner_sound hr hc (hFne h) hlt e2 ?_
       rw [← ostep_lt hlt, ← FH_succ]
       exact hFne (h + 1)
-    · rw [if_neg hlt, ostep_ge hlt]
+    · rw [ite_eq_right hlt, ostep_ge hlt]
       exact ⟨rfl, e2⟩
 
 theorem derived_sound {n nC nD nS len : Nat} {MT CM DT ST : Nat → Nat} {IV : Nat}

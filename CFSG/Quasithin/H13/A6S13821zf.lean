@@ -169,7 +169,7 @@ theorem false_of_quad_l24
   have hconj : ∀ (g : ↥H) (x : G), x ∈ VH → (g : G) * x * (g : G)⁻¹ ∈ VH := fun g x hx =>
     (Subgroup.mem_normalizer_iff.mp (hVN g.2) x).mp hx
   obtain ⟨v₀, hv₀V, hv₀U⟩ :=
-    SetLike.not_le_iff_exists.mp (S.V_not_le_UH hS.hNS h13315 h1356two hH h13314)
+    IsConcreteLE.not_le_iff_exists.mp (S.V_not_le_UH hS.hNS h13315 h1356two hH h13314)
   have hv₀VH : v₀ ∈ VH := le_conjClosure V H hv₀V
   have hidx : (S.V3.subgroupOf V).index = 2 := S.relIndex_V3_V
   have hV3U : S.V3 ≤ UH := le_conjClosure _ _

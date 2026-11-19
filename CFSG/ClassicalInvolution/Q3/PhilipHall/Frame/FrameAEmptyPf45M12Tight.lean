@@ -146,7 +146,7 @@ theorem tight_ht
   by_contra hnot
   have heven : Even (Nat.card ↥(firstFactor K ⊓ rightConjugate (firstFactor K) g)) :=
     Nat.not_odd_iff_even.mp hnot
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 2 (even_iff_two_dvd.mp heven)
   have hx' : orderOf (x : T) = 2 := (Subgroup.orderOf_coe x).trans hx
   have ha2 : (x : T) * (x : T) = 1 := by rw [← pow_two]; exact hx' ▸ pow_orderOf_eq_one _
@@ -214,7 +214,7 @@ theorem false_of_tight
   have hΛtop : firstFactor K ≠ ⊤ := fun h => hHtop (top_le_iff.mp (h ▸ cfg.ht_le))
   have hq : CFSG.IsQuasisimple (↥(firstFactor K) ⧸ classicalInvolutionOddCore ↥(firstFactor K)) := by
     obtain ⟨e⟩ := cfg.equiv
-    haveI : IsSimpleGroup NativeSporadic.M12 := CFSG.Sporadic.Mathieu.fam_m12_simplicity.2.2
+    have : IsSimpleGroup NativeSporadic.M12 := CFSG.Sporadic.Mathieu.fam_m12_simplicity.2.2
     exact CFSG.IsQuasisimple.of_mulEquiv e
       (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup
         ⟨_, _, CFSG.Sporadic.Schreier.m12_gens_not_comm⟩).1

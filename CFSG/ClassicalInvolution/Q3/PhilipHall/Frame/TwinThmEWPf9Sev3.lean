@@ -110,7 +110,7 @@ theorem MinCexQ8.part2 (h : E18_6Q8) (h4 : E18_4CQ8) (hO4 : E187Orbit4Q8)
   have hdS : ∀ d : G, d ∈ W' → GoodInv H t d → d ∈ conjSub g₂ (S' : Subgroup G) :=
     fun d hd gd => hCS d (hWS hd) gd.comm_t.symm
   obtain ⟨m₁, m₂, m₃⟩ := endgame_cases_Q8 hΩ hq8 hbad hK₁ hK₁t
-    (isPGroup_conjSub g₂ S'.isPGroup') (hRsyl.conj g₂) (conjSub_mono hRS) (hdS d₁ hW₁ g₁')
+    (isPGroup_conjSub g₂ S'.isPGroup) (hRsyl.conj g₂) (conjSub_mono hRS) (hdS d₁ hW₁ g₁')
     (hdS d₂ hW₂ g₂') g₁' g₂' g₃' hc
   exact hO4 G Ω K S' R W' H c' z g₂ t d₁ d₂ hz hzW' hzH hSylz hg₂H ht ht₃S hCS hCSyl g₁' g₂' g₃' hc
     hW₁ hW₂ hshape m₁ m₂ m₃

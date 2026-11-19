@@ -12,7 +12,7 @@ variable {ι : Type}
 @[expose] def GGSimplyLacedConnected (M : CoxeterMatrix ι) : Prop :=
   GGSimplyLaced M ∧ ∀ i j : ι, Relation.ReflTransGen (fun a b : ι => M.M a b = 3) i j
 
-private theorem reflTransGen_symm {α : Type*} {r : α → α → Prop} (hsymm : Symmetric r)
+private theorem reflTransGen_symm {α : Type*} {r : α → α → Prop} (hsymm : (∀ ⦃a₀ b₀⦄, r a₀ b₀ → r b₀ a₀))
     {a b : α} (h : Relation.ReflTransGen r a b) : Relation.ReflTransGen r b a := by
   induction h with
   | refl => exact Relation.ReflTransGen.refl
@@ -24,7 +24,7 @@ private theorem ggSimplyLacedConnected_mk {M : CoxeterMatrix ι}
     GGSimplyLacedConnected M := by
   refine ⟨hlab, ?_⟩
   intro i j
-  have hsymm : Symmetric (fun a c : ι => M.M a c = 3) :=
+  have hsymm : (∀ ⦃a₀ b₀⦄, (fun a c : ι => M.M a c = 3) a₀ b₀ → (fun a c : ι => M.M a c = 3) b₀ a₀) :=
     fun a c h => (M.symmetric c a).trans h
   exact (hb i).trans (reflTransGen_symm hsymm (hb j))
 
@@ -71,54 +71,54 @@ private theorem ggSimplyLacedConnected_A (n : ℕ) (hn : 1 ≤ n) :
 
 theorem ggSimplyLaced_D (n : ℕ) : GGSimplyLaced (ggCoxeterMatrixD n) := by
   intro i j hij
-  rw [ggCoxeterMatrixD_apply, if_neg hij]
+  rw [ggCoxeterMatrixD_apply, ite_eq_right hij]
   split_ifs <;> simp
 
 private theorem ggCoxeterMatrixD_edge_succ (n : ℕ) (hn : 4 ≤ n) (j : ℕ)
     (hj : j + 1 ≤ n - 3) :
     (ggCoxeterMatrixD n).M ⟨j + 1, by omega⟩ ⟨j, by omega⟩ = 3 := by
   rw [ggCoxeterMatrixD_apply,
-    if_neg (by intro h; have := congrArg Fin.val h; simp only [Fin.val_mk] at this; omega)]
+    ite_eq_right (by intro h; have := congrArg Fin.val h; simp only at this; omega)]
   have hD : CartanMatrix.D n ⟨j + 1, by omega⟩ ⟨j, by omega⟩ = -1 := by
     rw [CartanMatrix.D, Matrix.of_apply]
-    simp only [Fin.val_mk]
-    rw [if_neg (by intro h; have := congrArg Fin.val h; simp only [Fin.val_mk] at this; omega),
-      if_neg (by omega),
-      if_neg (by rintro ⟨h1, h2⟩; omega)]
+    simp only
+    rw [ite_eq_right (by intro h; have := congrArg Fin.val h; simp only at this; omega),
+      ite_eq_right (by omega),
+      ite_eq_right (by rintro ⟨h1, h2⟩; omega)]
     simp only [true_and]
-    rw [if_pos (by omega)]
+    rw [ite_eq_left (by omega)]
   rw [hD]
   norm_num
 
 private theorem ggCoxeterMatrixD_edge_fork_left (n : ℕ) (hn : 4 ≤ n) :
     (ggCoxeterMatrixD n).M ⟨n - 2, by omega⟩ ⟨n - 3, by omega⟩ = 3 := by
   rw [ggCoxeterMatrixD_apply,
-    if_neg (by intro h; have := congrArg Fin.val h; simp only [Fin.val_mk] at this; omega)]
+    ite_eq_right (by intro h; have := congrArg Fin.val h; simp only at this; omega)]
   have hD : CartanMatrix.D n ⟨n - 2, by omega⟩ ⟨n - 3, by omega⟩ = -1 := by
     rw [CartanMatrix.D, Matrix.of_apply]
-    simp only [Fin.val_mk]
-    rw [if_neg (by intro h; have := congrArg Fin.val h; simp only [Fin.val_mk] at this; omega),
-      if_neg (by omega),
-      if_neg (by rintro ⟨h1, h2⟩; omega),
-      if_neg (by rintro ⟨h1, h2⟩; omega),
-      if_neg (by rintro ⟨h1, h2⟩; omega),
-      if_pos (by refine ⟨by omega, Or.inl (by omega)⟩)]
+    simp only
+    rw [ite_eq_right (by intro h; have := congrArg Fin.val h; simp only at this; omega),
+      ite_eq_right (by omega),
+      ite_eq_right (by rintro ⟨h1, h2⟩; omega),
+      ite_eq_right (by rintro ⟨h1, h2⟩; omega),
+      ite_eq_right (by rintro ⟨h1, h2⟩; omega),
+      ite_eq_left (by refine ⟨by omega, Or.inl (by omega)⟩)]
   rw [hD]
   norm_num
 
 private theorem ggCoxeterMatrixD_edge_fork_right (n : ℕ) (hn : 4 ≤ n) :
     (ggCoxeterMatrixD n).M ⟨n - 1, by omega⟩ ⟨n - 3, by omega⟩ = 3 := by
   rw [ggCoxeterMatrixD_apply,
-    if_neg (by intro h; have := congrArg Fin.val h; simp only [Fin.val_mk] at this; omega)]
+    ite_eq_right (by intro h; have := congrArg Fin.val h; simp only at this; omega)]
   have hD : CartanMatrix.D n ⟨n - 1, by omega⟩ ⟨n - 3, by omega⟩ = -1 := by
     rw [CartanMatrix.D, Matrix.of_apply]
-    simp only [Fin.val_mk]
-    rw [if_neg (by intro h; have := congrArg Fin.val h; simp only [Fin.val_mk] at this; omega),
-      if_neg (by omega),
-      if_neg (by rintro ⟨h1, h2⟩; omega),
-      if_neg (by rintro ⟨h1, h2⟩; omega),
-      if_neg (by rintro ⟨h1, h2⟩; omega),
-      if_pos (by refine ⟨by omega, Or.inr (by omega)⟩)]
+    simp only
+    rw [ite_eq_right (by intro h; have := congrArg Fin.val h; simp only at this; omega),
+      ite_eq_right (by omega),
+      ite_eq_right (by rintro ⟨h1, h2⟩; omega),
+      ite_eq_right (by rintro ⟨h1, h2⟩; omega),
+      ite_eq_right (by rintro ⟨h1, h2⟩; omega),
+      ite_eq_left (by refine ⟨by omega, Or.inr (by omega)⟩)]
   rw [hD]
   norm_num
 
@@ -289,7 +289,7 @@ theorem ggSimplyLacedConnected_of_weyl {M : CoxeterMatrix ι} (hM : GGIsWeylMatr
       have hne : e ⟨n - 1, by omega⟩ ≠ e ⟨n - 2, by omega⟩ := by
         intro hh
         have hv := congrArg Fin.val (e.injective hh)
-        simp only [Fin.val_mk] at hv
+        simp only at hv
         omega
       have hle := h3 (e ⟨n - 1, by omega⟩) (e ⟨n - 2, by omega⟩) hne
       rw [hB] at hle
@@ -300,7 +300,7 @@ theorem ggSimplyLacedConnected_of_weyl {M : CoxeterMatrix ι} (hM : GGIsWeylMatr
         have hneFin : (⟨n - 1, by omega⟩ : Fin n) ≠ ⟨n - 2, by omega⟩ := by
           intro hh
           have hv := congrArg Fin.val hh
-          simp only [Fin.val_mk] at hv
+          simp only at hv
           omega
         simp [CoxeterMatrix.B, Matrix.of_apply, hneFin]
       rw [hlab] at hle

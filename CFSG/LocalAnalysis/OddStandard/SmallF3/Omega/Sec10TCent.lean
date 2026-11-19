@@ -15,7 +15,7 @@ variable {G : Type} [Group G]
 
 private theorem tc_inv_eq_of_orderOf_eq_two {A : Type*} [Group A] [Finite A] [IsCyclic A]
     {x y : A} (hx : orderOf x = 2) (hy : orderOf y = 2) : x = y := by
-  haveI : Fintype A := Fintype.ofFinite A
+  have : Fintype A := Fintype.ofFinite A
   have hd : 2 ∣ Fintype.card A := hx ▸ orderOf_dvd_card
   have h := IsCyclic.card_orderOf_eq_totient (α := A) (d := 2) hd
   rw [Nat.totient_two] at h
@@ -28,15 +28,15 @@ private theorem tc_inv_eq_of_orderOf_eq_two {A : Type*} [Group A] [Finite A] [Is
 private theorem tc_isCyclic_of_isPGroup_le_centralizer [Finite G] (h102 : Asc82Lemma102)
     {t : G} {L : Subgroup G} (hset : Sec10Setting G t L) {X : Subgroup G}
     (hX : X ≤ centralizer (L : Set G)) (hX2 : IsPGroup 2 X) : IsCyclic ↥X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hX'2 : IsPGroup 2 (X.subgroupOf (centralizer (L : Set G))) :=
     hX2.of_equiv (Subgroup.subgroupOfEquivOfLe hX).symm
   obtain ⟨Q, hQle⟩ := hX'2.exists_le_sylow
   have hQcyc : IsCyclic ↥(Q : Subgroup (centralizer (L : Set G))) := h102 G t L hset Q
-  haveI : IsCyclic ↥(Q : Subgroup (centralizer (L : Set G))) := hQcyc
+  have : IsCyclic ↥(Q : Subgroup (centralizer (L : Set G))) := hQcyc
   have hX'cyc : IsCyclic ↥(X.subgroupOf (centralizer (L : Set G))) :=
     Subgroup.isCyclic_of_le hQle
-  haveI : IsCyclic ↥(X.subgroupOf (centralizer (L : Set G))) := hX'cyc
+  have : IsCyclic ↥(X.subgroupOf (centralizer (L : Set G))) := hX'cyc
   exact isCyclic_of_surjective (Subgroup.subgroupOfEquivOfLe hX)
     (Subgroup.subgroupOfEquivOfLe hX).surjective
 
@@ -61,7 +61,7 @@ theorem sec10T_invol_cent_eq [Finite G] (h102 : Asc82Lemma102) (hb : Asc82Basic1
     sup_le (Subgroup.zpowers_le.mpr hcC) (Subgroup.zpowers_le.mpr htC)
   have hXS : X ≤ S := sup_le (Subgroup.zpowers_le.mpr hcS) (Subgroup.zpowers_le.mpr htS)
   have hX2 : IsPGroup 2 X := hctx.sylow.2.1.to_le hXS
-  haveI : IsCyclic ↥X :=
+  have : IsCyclic ↥X :=
     tc_isCyclic_of_isPGroup_le_centralizer h102 hctx.toSec10Z.toSec10Setting hXcent hX2
   have hcX : c ∈ X := Subgroup.mem_sup_left (Subgroup.mem_zpowers c)
   have htX : t ∈ X := Subgroup.mem_sup_right (Subgroup.mem_zpowers t)

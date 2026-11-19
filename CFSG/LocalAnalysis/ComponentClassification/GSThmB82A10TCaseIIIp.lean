@@ -46,6 +46,7 @@ private theorem mem_autFixed_zpowers {L : Type*} [Group L] {σ : MulAut L} {x : 
     zpowers_le.mpr (MulAction.mem_stabilizer_iff.mpr h)
   exact MulAction.mem_stabilizer_iff.mp (hle hq)
 
+omit [Finite X] in
 private theorem actZ_zpowers {M : Subgroup X} {b : X} (hbN : b ∈ normalizer (M : Set X)) :
     actZ M (zpowers b) = zpowers (zStarAct M ⟨b, hbN⟩) := by
   have h : (zpowers b).subgroupOf (normalizer (M : Set X)) = zpowers ⟨b, hbN⟩ := by

@@ -145,7 +145,7 @@ theorem exists_lift_elemAbelian {G X : Type*} [Group G] [Group X] [Finite G] (π
     (hπ : Function.Surjective π) {m : ℕ} (hm : Nat.Coprime m 3)
     (hker : ∀ x, π x = 1 → x ^ m = 1) (E : Subgroup X) (hE : CFSG.Assembly.IsElemAbelian 3 E) :
     ∃ S : Subgroup G, CFSG.Assembly.IsElemAbelian 3 S ∧ Nat.card S = Nat.card E := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hEp : IsPGroup 3 E := fun x => ⟨1, Subtype.ext (by simpa using hE.2 x x.2)⟩
   obtain ⟨S, hSp, hSE⟩ :=
     CFSG.RankThree.PartTwo.Sec4.Ronan148L.exists_isPGroup_map_eq_of_surjective hπ hEp
@@ -180,16 +180,19 @@ variable {F : Type} [Field F] [Finite F]
 @[expose] noncomputable def reindexGL4 : GL (Fin 2 ⊕ Fin 2) F ≃* GL (Fin 4) F :=
   Units.mapEquiv (Matrix.reindexAlgEquiv F F finSumFinEquiv).toRingEquiv.toMulEquiv
 
+omit [Finite F] in
 theorem coe_reindexGL4 (A : GL (Fin 2 ⊕ Fin 2) F) :
     ((reindexGL4 A : GL (Fin 4) F) : Matrix (Fin 4) (Fin 4) F) =
       (A : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) F).submatrix finSumFinEquiv.symm
         finSumFinEquiv.symm := rfl
 
+omit [Finite F] in
 theorem det_reindexGL4 (A : GL (Fin 2 ⊕ Fin 2) F) :
     ((reindexGL4 A : GL (Fin 4) F) : Matrix (Fin 4) (Fin 4) F).det =
       (A : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) F).det := by
   rw [coe_reindexGL4, det_submatrix_equiv_self]
 
+omit [Finite F] in
 theorem reindexGL4_scalar (c : Fˣ) :
     reindexGL4 (Matrix.GeneralLinearGroup.scalar (Fin 2 ⊕ Fin 2) c) =
       Matrix.GeneralLinearGroup.scalar (Fin 4) c := by
@@ -200,12 +203,12 @@ theorem reindexGL4_scalar (c : Fˣ) :
 
 theorem e9Move_projSL4 {p : ℕ} [Fact p.Prime] [CharP F p] (hp3 : 3 < p) (hp2 : p % 3 = 2)
     (hF : Nat.card F = p) : E9Move (CFSG.PGLModel.projSL 4 F) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fintype F := Fintype.ofFinite F
   obtain ⟨h2, h3⟩ := two_three_ne_zero hp3 hF
   have hF3 : Nat.card F % 3 = 2 := by rw [hF]; exact hp2
   rw [← CFSG.PGLModel.projImage_statedSL]
-  haveI : Finite (CFSG.PGLModel.projImage (StatedSL 4 F)) := inferInstance
+  have : Finite (CFSG.PGLModel.projImage (StatedSL 4 F)) := inferInstance
   have hsyl := CFSG.RankThree.PartTwo.Sec4.Ronan148L.comm_sylow_projImage
     (H := StatedSL 4 F) (r := 3) fun P hP a ha b hb => by
       have hP' : IsPGroup 3 (P.map (StatedSL 4 F).subtype) := hP.map _

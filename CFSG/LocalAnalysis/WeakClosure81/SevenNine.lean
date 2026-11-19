@@ -17,9 +17,9 @@ theorem seven_nine_in (hIn : OrthReflParabolic) (h : Hyp73 V H E J) {X : Type} [
     {φ : ↥(kSub V H E) →* X} (hφ : IsBarMap (kSub V H E) J φ) {L : Subgroup X}
     (hVL : barSub (kSub V H E) φ V ≤ L)
     (hL : IsSevenNineGroup ↥L {x : ↥L | (x : X) ∈ barSub (kSub V H E) φ V ∧ x ≠ 1}) : False := by
-  haveI : Finite X := Finite.of_surjective φ hφ.surjective
+  have : Finite X := Finite.of_surjective φ hφ.surjective
   obtain ⟨_, -, -, hVnotle⟩ := mem_omegaSet.mp h.mem
-  obtain ⟨v, hvV, hvO⟩ := SetLike.not_le_iff_exists.mp hVnotle
+  obtain ⟨v, hvV, hvO⟩ := IsConcreteLE.not_le_iff_exists.mp hVnotle
   have hvJ : v ∉ J := fun hvJ => hvO (h.pcore_le hvJ)
   have hS : barSub (kSub V H E) φ V ≠ ⊥ := by
     intro hbot
@@ -28,7 +28,7 @@ theorem seven_nine_in (hIn : OrthReflParabolic) (h : Hyp73 V H E J) {X : Type} [
     rw [hbot] at hmem
     exact hvJ ((hφ.ker_iff ⟨v, le_kSub h.mem hvV⟩).mp (Subgroup.mem_bot.mp hmem))
   obtain ⟨p, Yb, Zb, hc⟩ := hIn X L (barSub (kSub V H E) φ V) hVL hS hL
-  haveI : Fact p.Prime := ⟨hc.prime⟩
+  have : Fact p.Prime := ⟨hc.prime⟩
   obtain ⟨P, hP⟩ := exists_sevenNineCompl h hφ hc hvV hvJ
   have hI : IsElemAbelian 2 (iSub V H E) :=
     seven_two_iSub_isElemAbelian_uncond h.elemAbelian h.ti h.abelian h.omega_le

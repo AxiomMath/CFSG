@@ -84,6 +84,7 @@ theorem exists_gammaSet_not_le_pCoreOf {V H S : Subgroup G} {i : ℕ} (hS : IsSy
   exact (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 H).trans
     (E3.normalizer_le_normalizer_wClos (V := V) (i := i) (pCoreOf 2 H))
 
+omit [Finite G] in
 private theorem twoResidual_le_of_le_sup_two {J S P : Subgroup G}
     (hSJ : S ≤ normalizer (J : Set G)) (hS2 : IsPGroup 2 S) (hP : P ≤ J ⊔ S) :
     twoResidual P ≤ J := by

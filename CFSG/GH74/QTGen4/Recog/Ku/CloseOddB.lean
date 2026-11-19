@@ -13,6 +13,7 @@ namespace KuA6Model
 variable [Finite G] {E W V2 N : Subgroup G} {z : G} (Ψ : KuA6Model E W V2 N z)
 include Ψ
 
+omit [Finite G] in
 theorem no_central_mod_X (hHN : Subgroup.centralizer ({z} : Set G) ≤ N) {x : G}
     (hxH : x ∈ Subgroup.centralizer ({z} : Set G)) (hx : orderOf x = 3) {u : G}
     (hux : u * x * u⁻¹ = x⁻¹)

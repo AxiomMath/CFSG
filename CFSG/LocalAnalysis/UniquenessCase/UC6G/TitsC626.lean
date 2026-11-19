@@ -29,7 +29,7 @@ theorem c626gen_of_tits (m : Mz614 Dat) (hL : m.L620) (hOL : CFSG.pPrimeCore m.r
   have hp2 : p ≠ 2 := (Dat.sig_prime _ hp).2
   have hp5 : p ≠ 5 := fun h => m.hrσ (hr ▸ h ▸ hp)
   have h620 := hL.1
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨e₀⟩ := TitsAut.lieModel_equiv hT
   let eL : ↥m.L ≃* ↥titsD := (m.equivLbar hOL).trans e₀
   have hLcard : Nat.card ↥m.L = 17971200 := by rw [Nat.card_congr eL.toEquiv, card_titsD]

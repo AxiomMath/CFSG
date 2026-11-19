@@ -47,7 +47,7 @@ theorem glaPLayer_centralizer_eq_bot_of_charP {p : ℕ} (hp : p.Prime) (hp2 : p 
     {w : Y} (hwL : w ∈ L) (hwp : w ^ p = 1) (hw1 : w ≠ 1) :
     GLAPLayer p (Subgroup.centralizer ({w} : Set Y)) = ⊥ := by
   obtain ⟨e⟩ := hLe
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨w', hw'⟩ : ∃ w' : L, (w' : Y) = w := ⟨⟨w, hwL⟩, rfl⟩
   have hw'p : w' ^ p = 1 := Subtype.ext (by simpa [hw'] using hwp)
   have hw'1 : w' ≠ 1 := fun h => hw1 (by rw [← hw', h, Subgroup.coe_one])
@@ -93,10 +93,10 @@ theorem glaPLayer_centralizer_eq_bot_of_charP {p : ℕ} (hp : p.Prime) (hp2 : p 
     have hperf : ⁅J, J⁆ = J := CFSG.LocalAnalysis.GLTheoremB.glaPComponent_perfect hJ
     have hJ' : ⁅J.map Ψ, J.map Ψ⁆ = J.map Ψ := by
       rw [← Subgroup.map_commutator, hperf]
-    haveI : Group.IsPerfect ↥(J.map Ψ) := Subgroup.isPerfect_iff.2 hJ'
+    have : Group.IsPerfect ↥(J.map Ψ) := Subgroup.isPerfect_iff.2 hJ'
     have htriv : J.map Ψ = ⊥ := by
       by_contra hne
-      haveI : Nontrivial ↥(J.map Ψ) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
+      have : Nontrivial ↥(J.map Ψ) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
       exact Group.IsPerfect.not_isSolvable (↥(J.map Ψ)) inferInstance
     intro j hj
     apply hΨ j

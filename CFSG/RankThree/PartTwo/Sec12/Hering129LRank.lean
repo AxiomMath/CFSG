@@ -39,9 +39,9 @@ theorem uElt_injective : Function.Injective (uElt : F → SpecialLinearGroup (Fi
 @[expose] def upperHom (F : Type) [Field F] : Multiplicative F →* SpecialLinearGroup (Fin 2) F where
   toFun t := uElt (Multiplicative.toAdd t)
   map_one' := uElt_zero
-  map_mul' s t := uElt_add _ _
+  map_mul' _s _t := uElt_add _ _
 
-theorem upperHom_injective : Function.Injective (upperHom F) := fun a b h =>
+theorem upperHom_injective : Function.Injective (upperHom F) := fun _a _b h =>
   Multiplicative.toAdd.injective (uElt_injective h)
 
 @[expose] def lElt (t : F) : SpecialLinearGroup (Fin 2) F :=
@@ -115,7 +115,7 @@ theorem exists_isTwoLocal_pRank_ge {Z : Type} [Group Z] [Finite Z] {F₁ F₂ : 
     rw [ht, pow_two, ← map_mul, negOne_mul_self, map_one]
   have hord : orderOf t = 2 := orderOf_eq_prime ht2 ht1
   have hP : IsPGroup 2 (Subgroup.zpowers t) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     refine IsPGroup.of_card (n := 1) ?_
     rw [Nat.card_zpowers, hord, pow_one]
   have hP1 : Subgroup.zpowers t ≠ ⊥ := by
@@ -204,10 +204,10 @@ theorem exists_isTwoLocal_pRank_ge_d4 {X : Type} [Group X] [Finite X] {r : TauCe
   rcases h with ⟨h1, -⟩ | ⟨-, hr, ⟨f⟩⟩
   · exact absurd h1 (by norm_num)
   obtain ⟨K, _, _, σ, hK, hσ, ⟨e⟩⟩ := Hering129KModels.exists_d4_model f
-  haveI : Fact r.p.Prime := ⟨r.prime_p⟩
+  have : Fact r.p.Prime := ⟨r.prime_p⟩
   have hK' : Nat.card K = r.p ^ (3 * r.exponent) := by
     rw [hK, TauCeti.PrimePower.card_def, ← pow_mul, mul_comm]
-  haveI : CharP K r.p :=
+  have : CharP K r.p :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic r.prime_p
       (by have := r.exponent_pos; omega) hK'
   have hσ3 : σ ^ 3 = 1 := by
@@ -216,8 +216,8 @@ theorem exists_isTwoLocal_pRank_ge_d4 {X : Type} [Group X] [Finite X] {r : TauCe
     simpa [pow_succ] using this
   obtain ⟨ι, η, hι, hη, hcomm⟩ :=
     CFSG.RankThree.Chevalley.triality_D4_commuting_faithful_extension_and_fixed_SL2 K σ hσ3
-  haveI : CharP (fixSubfield σ) r.p := inferInstance
-  haveI : Finite (fixSubfield σ) := inferInstance
+  have : CharP (fixSubfield σ) r.p := inferInstance
+  have : Finite (fixSubfield σ) := inferInstance
   obtain ⟨b, hb⟩ : ∃ b : ℕ, 1 ≤ b ∧ Nat.card (fixSubfield σ) = r.p ^ b := by
     have : Fintype (fixSubfield σ) := Fintype.ofFinite _
     obtain ⟨n, -, hn⟩ := FiniteField.card (fixSubfield σ) r.p
@@ -239,9 +239,9 @@ theorem exists_isTwoLocal_pRank_ge_g2 {X : Type} [Group X] [Finite X] {r : TauCe
   swap
   · exact absurd h3 (by norm_num)
   obtain ⟨K, _, _, hK, hKp, ⟨e⟩⟩ := Hering129KModels.exists_adjoint_model hX
-  haveI : Fact r.p.Prime := ⟨r.prime_p⟩
+  have : Fact r.p.Prime := ⟨r.prime_p⟩
   have hK' : Nat.card K = r.p ^ r.exponent := by rw [hK, TauCeti.PrimePower.card_def]
-  haveI : CharP K r.p := ringChar.of_eq hKp
+  have : CharP K r.p := ringChar.of_eq hKp
   obtain ⟨eS⟩ := Sec11.KS11Lie4Proof.nonempty_mulEquiv_g2ShortSL2 (K := K)
   obtain ⟨eM⟩ := Sec11.KS11Lie4Proof.nonempty_mulEquiv_g2LongSL2 (K := K)
   let ι : SpecialLinearGroup (Fin 2) K →* X :=

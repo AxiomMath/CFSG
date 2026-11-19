@@ -67,14 +67,14 @@ theorem false_of_five_cube_core {Y : Type} [Group Y] [Finite Y] {a b : Y}
     (hq : ∀ u, q u = 1 → (u : Y) = 1 ∨ (u : Y) = a)
     {E V : Subgroup Y} (hE : IsElemAbelian 5 E) (hEc : Nat.card E = 125)
     (hV : IsPGroup 2 V) (hV1 : V ≠ ⊥) (hEV : E ≤ Subgroup.normalizer (V : Set Y)) : False := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set W := omega1Z V with hWdef
   have hWV : W ≤ V := fun w hw => hw.1
   have hW2 : IsPGroup 2 W := hV.to_le hWV
   have hW1 : W ≠ ⊥ := by
-    haveI : Nontrivial V := (Subgroup.nontrivial_iff_ne_bot V).2 hV1
-    haveI := hV.center_nontrivial
+    have : Nontrivial V := (Subgroup.nontrivial_iff_ne_bot V).2 hV1
+    have := hV.center_nontrivial
     obtain ⟨z, hz1⟩ := exists_ne (1 : Subgroup.center V)
     obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 hV) (z : V)
     have hzk : ((z : V) : Y) ^ 2 ^ k = 1 := by
@@ -264,7 +264,7 @@ theorem i1016_HN_core {Y : Type} [Group Y] [Finite Y] {a b : Y}
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {E V : Subgroup Y} (hE : IsElemAbelian p E)
     (hV : IsPGroup 2 V) (hV1 : V ≠ ⊥) (hEV : E ≤ Subgroup.normalizer (V : Set Y))
     (h3 : p ^ 3 ≤ Nat.card E) : p = 3 ∧ Nat.card E ≤ 3 ^ 3 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hEp : IsPGroup p E := fun g => ⟨1, Subtype.ext (by simpa using hE.2 g g.2)⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hEp
   have hdvd : p ^ n ∣ 273030912000000 := hn ▸ hY ▸ Subgroup.card_subgroup_dvd_card E
@@ -351,11 +351,11 @@ theorem isElementaryAbelian_of {X : Type*} [Group X] {p : ℕ} {D : Subgroup X}
 
 theorem false_of_abelian_125_autHS (E : Subgroup (MulAut (NativeSporadic.Carrier .HS)))
     (hE : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a) (hc : Nat.card E = 125) : False := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hcard : Nat.card (NativeSporadic.Carrier .HS) = 44352000 := CFSG.Sporadic.HS.card_HS
   have hfin : Finite (NativeSporadic.Carrier .HS) :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
-  haveI : IsSimpleGroup (NativeSporadic.Carrier .HS) := CFSG.Sporadic.HS.isSimpleGroup_HS
+  have : IsSimpleGroup (NativeSporadic.Carrier .HS) := CFSG.Sporadic.HS.isSimpleGroup_HS
   have hZ : Subgroup.center (NativeSporadic.Carrier .HS) = ⊥ :=
     CFSG.HardMathSupport.Dickson.I271.center_eq_bot_of_simple_nonab
       (exists_noncomm_of_simple (by rw [hcard]; norm_num))

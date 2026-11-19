@@ -70,7 +70,7 @@ theorem isGateAt_restrict_iff (hB : IsWeylDistanceBuilding cs δ) (hIJ : I ⊆ J
     exact (resProj_eq hB hproj).symm
   · intro hg
     refine ⟨?_, ?_⟩
-    · rw [Set.mem_setOf_eq, hg]
+    · rw [Set.mem_ofPred_eq, hg]
       exact resProj_mem hB I x₁ (y : C)
     · intro z hz
       rw [p9uFA_cdist_restrict_eq hB J a y z, p9uFA_cdist_restrict_eq hB J a y g,
@@ -95,7 +95,7 @@ theorem mem_intrSet_restrict_iff (hB : IsWeylDistanceBuilding cs δ) (hIJ : I �
     exact hdist
   · rintro ⟨g, hg, hdist⟩
     refine ⟨g, ?_, (isGateAt_restrict_iff hB hIJ hx₁ y g).mpr hg, ?_⟩
-    · rw [Set.mem_setOf_eq, hg]
+    · rw [Set.mem_ofPred_eq, hg]
       exact resProj_mem hB I x₁ (y : C)
     · rw [p9uFA_cdist_restrict_eq hB J a y (ψ' g)]
       exact hdist
@@ -109,7 +109,7 @@ private lemma p9uFA_isFar_and_max_iff [Finite (cs.parabolic J)]
       resProj cs δ I x₁ c ∈ {x | x ∈ residue cs δ I x₁ ∧
         ∀ y ∈ residue cs δ I x₁, cs.length (δ y (ψ y)) ≤ cs.length (δ x (ψ x))}) ↔
       cs.length (δ c (ψ (resProj cs δ I x₁ c))) = cs.length (longest cs J) := by
-  haveI : Finite (cs.parabolic I) := p9uFA_finite_parabolic_of_subset hIJ
+  have : Finite (cs.parabolic I) := p9uFA_finite_parabolic_of_subset hIJ
   have hxgm : resProj cs δ I x₁ c ∈ residue cs δ I x₁ := resProj_mem hB I x₁ c
   have hψm : ψ (resProj cs δ I x₁ c) ∈ residue cs δ I (resProj cs δ I x₁ c) := by
     rw [residue_eq_of_mem hB hxgm]
@@ -133,7 +133,7 @@ private lemma p9uFA_isFar_and_max_iff [Finite (cs.parabolic J)]
       (x₁ := x₁) (c := c) hB hIJ hx₁ hc
   constructor
   · rintro ⟨hfar, hxmax⟩
-    simp only [Set.mem_setOf_eq] at hxmax
+    simp only [Set.mem_ofPred_eq] at hxmax
     have hbA : cs.length (δ (resProj cs δ I x₁ c) (ψ (resProj cs δ I x₁ c))) =
         cs.length (longest cs I) := by
       obtain ⟨x₀, hx₀, hx₀eq⟩ := hex
@@ -172,7 +172,7 @@ theorem setOf_isFar_eq_image_intrSet [Finite (cs.parabolic J)]
           ∀ y ∈ residue cs δ I x₁, cs.length (δ y (ψ y)) ≤ cs.length (δ x (ψ x))}} =
       Subtype.val '' IntrSet ((buildingOver cs δ J).restrict (residue cs δ J a))
         {c | (c : C) ∈ residue cs δ I x₁} ψ' (cs.length (longest cs J)) := by
-  haveI : Finite (cs.parabolic I) := p9uFA_finite_parabolic_of_subset hIJ
+  have : Finite (cs.parabolic I) := p9uFA_finite_parabolic_of_subset hIJ
   ext c
   by_cases hcR : c ∈ residue cs δ J a
   · have hxR : resProj cs δ I x₁ c ∈ residue cs δ J a := by
@@ -187,7 +187,7 @@ theorem setOf_isFar_eq_image_intrSet [Finite (cs.parabolic J)]
           resProj cs δ I x₁ c ∈ {x | x ∈ residue cs δ I x₁ ∧
             ∀ y ∈ residue cs δ I x₁, cs.length (δ y (ψ y)) ≤
               cs.length (δ x (ψ x))}) := by
-      simp only [Set.mem_setOf_eq, hcR, true_and]
+      simp only [Set.mem_ofPred_eq, hcR, true_and]
     have hexists :
         (∃ g : ↥(residue cs δ J a), (g : C) = resProj cs δ I x₁ c ∧
           cs.length (δ c (ψ' g)) = cs.length (longest cs J)) ↔
@@ -210,7 +210,7 @@ theorem setOf_isFar_eq_image_intrSet [Finite (cs.parabolic J)]
   · constructor
     · intro hc
       exfalso
-      simp only [Set.mem_setOf_eq] at hc
+      simp only [Set.mem_ofPred_eq] at hc
       exact hcR hc.1
     · intro hc
       exfalso
@@ -230,7 +230,7 @@ theorem flipMaxSet_eq_image_intrSet [Finite (cs.parabolic J)] (hB : IsWeylDistan
     flipMaxSet cs δ t J a =
       Subtype.val '' IntrSet ((buildingOver cs δ J).restrict (residue cs δ J a))
         {c | (c : C) ∈ residue cs δ I x₁} ψ' (cs.length (longest cs J)) := by
-  haveI : Finite (cs.parabolic I) := p9uFA_finite_parabolic_of_subset hIJ
+  have : Finite (cs.parabolic I) := p9uFA_finite_parabolic_of_subset hIJ
   have hx₁R : x₁ ∈ residue cs δ J a := by
     have hmem : x₁ ∈ Gate.flipCore cs δ t J a := by
       rw [hI]
@@ -267,7 +267,7 @@ theorem mem_flipMaxSet_iff_of_chamberIso [Finite (cs.parabolic J)]
       (c' : C) = Gate.flipPsi cs δ t J a c → Θ.Φ c' = ψ' (Θ.Φ c))
     (c : ↥(residue cs δ J a)) :
     (c : C) ∈ flipMaxSet cs δ t J a ↔ Θ.Φ c ∈ IntrSet Y R₀' ψ' (cs.length (longest cs J)) := by
-  haveI : Finite (cs.parabolic I) := p9uFA_finite_parabolic_of_subset hIJ
+  have : Finite (cs.parabolic I) := p9uFA_finite_parabolic_of_subset hIJ
   let ψR : ↥(residue cs δ J a) → ↥(residue cs δ J a) :=
     fun x => ⟨Gate.flipPsi cs δ t J a x, resProj_mem hB J a (t x)⟩
   have hψR : ∀ x : ↥(residue cs δ J a), (x : C) ∈ residue cs δ I x₁ →
@@ -317,7 +317,7 @@ theorem exists_length_flipPsi_eq_longest_of_chamberIso [Finite (cs.parabolic J)]
     (hY : ∃ x ∈ R₀', ∀ y ∈ R₀', ∀ z ∈ R₀', cdist Y y z ≤ cdist Y x (ψ' x)) :
     ∃ x ∈ residue cs δ I x₁,
       cs.length (δ x (Gate.flipPsi cs δ t J a x)) = cs.length (longest cs I) := by
-  haveI : Finite (cs.parabolic I) := p9uFA_finite_parabolic_of_subset hIJ
+  have : Finite (cs.parabolic I) := p9uFA_finite_parabolic_of_subset hIJ
   obtain ⟨x', hx'R₀, hx'max⟩ := hY
   let c : ↥(residue cs δ J a) := Θ.Φ.symm x'
   have hcΦ : Θ.Φ c = x' := Θ.Φ.apply_symm_apply x'

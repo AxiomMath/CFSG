@@ -11,6 +11,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {V T A K S X : Subgroup G} {p : ℕ} {g x : G}
 
+omit [Finite G] in
 theorem nineI_le_nineH (V K : Subgroup G) : nineI V K ≤ nineH V K :=
   iSup₂_mono fun _ _ => inf_le_left
 
@@ -29,6 +30,7 @@ abbrev Nine3Hbar (V K : Subgroup G) : Type := ↥(nineH V K) ⧸ (nineI V K).sub
     (ρ.comp (Subgroup.inclusion Nine3Choice.nineH_le_K))
     (fun _ ha => hker _ (Nine3Core.nineI_le_pCoreOf (Subgroup.mem_subgroupOf.mp ha)))
 
+omit [Finite G] in
 theorem nine3Pi_mk (V K : Subgroup G) {p : ℕ} (ρ : ↥K →* Equiv.Perm (ZMod p))
     (hker : ∀ k : ↥K, (k : G) ∈ pCoreOf 2 K → ρ k = 1) (u : ↥(nineH V K)) :
     nine3Pi V K ρ hker (QuotientGroup.mk u) = ρ ⟨u, Nine3Choice.nineH_le_K u.2⟩ :=

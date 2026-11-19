@@ -30,21 +30,22 @@ theorem modify_get {α : Type} [Inhabited α] {a : Array α} {l j : Nat} {f : α
   · rw [getElem!_pos (a.modify l f) j (by simpa using hj), Array.getElem_modify]
     by_cases e : l = j
     · subst e
-      rw [if_pos rfl, if_pos ⟨rfl, hj⟩, getElem!_pos a l hj]
-    · rw [if_neg e, if_neg (fun h => e h.1.symm), getElem!_pos a j hj]
+      rw [ite_eq_left rfl, ite_eq_left ⟨rfl, hj⟩, getElem!_pos a l hj]
+    · rw [ite_eq_right e, ite_eq_right (fun h => e h.1.symm), getElem!_pos a j hj]
   · rw [getElem!_neg (a.modify l f) j (by simpa using hj), getElem!_neg a j hj]
-    rw [if_neg (fun (h : j = l ∧ l < a.size) => hj (h.1 ▸ h.2))]
+    rw [ite_eq_right (fun (h : j = l ∧ l < a.size) => hj (h.1 ▸ h.2))]
 
+omit [Hashable Lab] in
 theorem idxL_some {x : Lab} : ∀ {l : List Lab} {j : Nat}, idxL x l = some j →
     j < l.length ∧ l[j]! = x
   | [], _, h => by simp [idxL] at h
   | y :: l, j, h => by
     unfold idxL at h
     by_cases hx : x = y
-    · rw [if_pos hx] at h
+    · rw [ite_eq_left hx] at h
       cases h
       exact ⟨by simp, by simp [hx]⟩
-    · rw [if_neg hx] at h
+    · rw [ite_eq_right hx] at h
       cases e : idxL x l with
       | none => rw [e] at h; simp at h
       | some j' =>
@@ -54,14 +55,15 @@ theorem idxL_some {x : Lab} : ∀ {l : List Lab} {j : Nat}, idxL x l = some j �
         obtain ⟨h1, h2⟩ := idxL_some e
         exact ⟨by simp; omega, by simpa using h2⟩
 
+omit [Hashable Lab] [Inhabited Lab] in
 theorem idxL_none {x : Lab} : ∀ {l : List Lab}, idxL x l = none → x ∉ l
   | [], _ => by simp
   | y :: l, h => by
     unfold idxL at h
     by_cases hx : x = y
-    · rw [if_pos hx] at h
+    · rw [ite_eq_left hx] at h
       simp at h
-    · rw [if_neg hx] at h
+    · rw [ite_eq_right hx] at h
       cases e : idxL x l with
       | some j => rw [e] at h; simp at h
       | none =>
@@ -70,6 +72,7 @@ theorem idxL_none {x : Lab} : ∀ {l : List Lab}, idxL x l = none → x ∉ l
         · exact hx hm
         · exact idxL_none e hm
 
+omit [DecidableEq Lab] [Hashable Lab] in
 theorem arr_get_of_list {a : Array Lab} {j : Nat} {x : Lab} (h : a.toList[j]! = x)
     (hj : j < a.size) : a[j]! = x := by
   rw [getElem!_pos a j hj]
@@ -98,13 +101,14 @@ def Inv (s : St4 Lab) (i l₀ : Nat) : Prop :=
 
 variable {actF m Δ Lset}
 
+omit [Hashable Lab] in
 theorem inv_step {s : St4 Lab} {i l₀ : Nat} {L : Lab} (h : Inv actF m Δ Lset s i l₀)
     (hl : l₀ < m) (hi : i < s.1.size) (hL : s.1[i]! = L) (hcl : actF l₀ L ∈ Lset) :
     Inv actF m Δ Lset (omStep actF L i s l₀) i (l₀ + 1) ∧ (omStep actF L i s l₀).1[i]! = L ∧
       s.1.size ≤ (omStep actF L i s l₀).1.size := by
   obtain ⟨h0, hΔ, hile, hnd, hin, hpar, hvia, htree, hpn, hrow⟩ := h
   obtain ⟨hrl, hrow0⟩ := hrow l₀ hl
-  rw [if_neg (by omega)] at hrl
+  rw [ite_eq_right (by omega)] at hrl
   unfold omStep
   cases hj : idxL (actF l₀ L) s.1.toList with
   | some j =>
@@ -117,22 +121,20 @@ theorem inv_step {s : St4 Lab} {i l₀ : Nat} {L : Lab} (h : Inv actF m Δ Lset 
       fun l hl' => ?_⟩, hL, le_refl _⟩
     · obtain ⟨t1, t2, t3, t4, t5⟩ := htree k hk hk0
       refine ⟨t1, t2, t3, by omega, ?_⟩
-      try dsimp only
       rw [modify_get]
       by_cases e : s.2.2.1[k]! = l₀
-      · rw [if_pos ⟨e, by omega⟩, ← e]
+      · rw [ite_eq_left ⟨e, by omega⟩, ← e]
         have hpi : s.2.1[k]! < (s.2.2.2[s.2.2.1[k]!]!).size := by
           rw [e, hrl]
           omega
         rw [push_get_lt hpi]
         exact t5
-      · rw [if_neg (fun h => e h.1)]
+      · rw [ite_eq_right (fun h => e h.1)]
         exact t5
-    · try dsimp only
-      rw [modify_get]
+    · rw [modify_get]
       by_cases e : l = l₀
       · subst e
-        rw [if_pos ⟨rfl, by omega⟩, if_pos (by omega)]
+        rw [ite_eq_left ⟨rfl, by omega⟩, ite_eq_left (by omega)]
         refine ⟨by simp [hrl], fun k hk => ?_⟩
         rw [Array.size_push, hrl] at hk
         by_cases hk' : k < i
@@ -142,37 +144,33 @@ theorem inv_step {s : St4 Lab} {i l₀ : Nat} {L : Lab} (h : Inv actF m Δ Lset 
           subst this
           rw [push_get_of_eq hrl.symm, hjx', hL]
           exact ⟨hjs, rfl⟩
-      · rw [if_neg (fun h => e h.1)]
+      · rw [ite_eq_right (fun h => e h.1)]
         obtain ⟨r1, r2⟩ := hrow l hl'
         refine ⟨?_, r2⟩
         rw [r1]
         by_cases hl0 : l < l₀
-        · rw [if_pos hl0, if_pos (by omega)]
-        · rw [if_neg hl0, if_neg (by omega)]
+        · rw [ite_eq_left hl0, ite_eq_left (by omega)]
+        · rw [ite_eq_right hl0, ite_eq_right (by omega)]
   | none =>
     unfold Inv
     try dsimp only
     have hM : actF l₀ L ∉ s.1.toList := idxL_none hj
     refine ⟨⟨by simp, ?_, by simp; omega, ?_, ?_, by simp [hpar], by simp [hvia], ?_,
       by simpa using hpn, fun l hl' => ?_⟩, ?_, by simp⟩
-    · try dsimp only
-      rw [push_get_lt h0]
+    · rw [push_get_lt h0]
       exact hΔ
-    · try dsimp only
-      rw [Array.toList_push]
+    · rw [Array.toList_push]
       exact List.nodup_append.2 ⟨hnd, List.nodup_singleton _, by
         intro a ha b hb e
         rw [List.mem_singleton] at hb
         subst hb e
         exact hM ha⟩
-    · try dsimp only
-      intro x hx
+    · intro x hx
       rw [Array.toList_push, List.mem_append, List.mem_singleton] at hx
       rcases hx with hx | rfl
       · exact hin x hx
       · exact hcl
-    · try dsimp only
-      intro k hk hk0
+    · intro k hk hk0
       rw [Array.size_push] at hk
       by_cases hks : k < s.1.size
       · obtain ⟨t1, t2, t3, t4, t5⟩ := htree k hks hk0
@@ -181,7 +179,7 @@ theorem inv_step {s : St4 Lab} {i l₀ : Nat} {L : Lab} (h : Inv actF m Δ Lset 
         refine ⟨t1, t2, t3, by omega, ?_⟩
         rw [modify_get]
         by_cases e : s.2.2.1[k]! = l₀
-        · rw [if_pos ⟨e, by omega⟩, ← e]
+        · rw [ite_eq_left ⟨e, by omega⟩, ← e]
           have hpi : s.2.1[k]! < (s.2.2.2[s.2.2.1[k]!]!).size := by
             rw [e, hrl]
             rcases t4 with t4 | t4
@@ -189,18 +187,17 @@ theorem inv_step {s : St4 Lab} {i l₀ : Nat} {L : Lab} (h : Inv actF m Δ Lset 
             · omega
           rw [push_get_lt hpi]
           exact t5
-        · rw [if_neg (fun h => e h.1)]
+        · rw [ite_eq_right (fun h => e h.1)]
           exact t5
       · have hk' : k = s.1.size := by omega
         subst hk'
         rw [push_get_of_eq hpar.symm, push_get_of_eq hvia.symm, push_get_eq, push_get_lt hi, hL]
         refine ⟨hi, hl, rfl, Or.inr ⟨rfl, by omega⟩, ?_⟩
-        rw [modify_get, if_pos ⟨rfl, by omega⟩, push_get_of_eq hrl.symm]
-    · try dsimp only
-      rw [modify_get]
+        rw [modify_get, ite_eq_left ⟨rfl, by omega⟩, push_get_of_eq hrl.symm]
+    · rw [modify_get]
       by_cases e : l = l₀
       · subst e
-        rw [if_pos ⟨rfl, by omega⟩, if_pos (by omega)]
+        rw [ite_eq_left ⟨rfl, by omega⟩, ite_eq_left (by omega)]
         refine ⟨by simp [hrl], fun k hk => ?_⟩
         rw [Array.size_push, hrl] at hk
         by_cases hk' : k < i
@@ -213,13 +210,13 @@ theorem inv_step {s : St4 Lab} {i l₀ : Nat} {L : Lab} (h : Inv actF m Δ Lset 
           subst this
           rw [push_get_of_eq hrl.symm, push_get_eq, push_get_lt hi, hL]
           exact ⟨by simp, rfl⟩
-      · rw [if_neg (fun h => e h.1)]
+      · rw [ite_eq_right (fun h => e h.1)]
         obtain ⟨r1, r2⟩ := hrow l hl'
         refine ⟨?_, fun k hk => ?_⟩
         · rw [r1]
           by_cases hl0 : l < l₀
-          · rw [if_pos hl0, if_pos (by omega)]
-          · rw [if_neg hl0, if_neg (by omega)]
+          · rw [ite_eq_left hl0, ite_eq_left (by omega)]
+          · rw [ite_eq_right hl0, ite_eq_right (by omega)]
         · obtain ⟨q1, q2⟩ := r2 k hk
           have hki : k < s.1.size := by
             rw [r1] at hk
@@ -227,10 +224,10 @@ theorem inv_step {s : St4 Lab} {i l₀ : Nat} {L : Lab} (h : Inv actF m Δ Lset 
           refine ⟨by simp; omega, ?_⟩
           rw [push_get_lt q1, push_get_lt hki]
           exact q2
-    · try dsimp only
-      rw [push_get_lt hi]
+    · rw [push_get_lt hi]
       exact hL
 
+omit [Hashable Lab] in
 theorem inv_fold {L : Lab} {i : Nat} (hclL : ∀ l < m, actF l L ∈ Lset) :
     ∀ (k l₀ : Nat) (s : St4 Lab), l₀ + k = m → Inv actF m Δ Lset s i l₀ → i < s.1.size →
       s.1[i]! = L →
@@ -245,6 +242,7 @@ theorem inv_fold {L : Lab} {i : Nat} (hclL : ∀ l < m, actF l L ∈ Lset) :
     obtain ⟨h', hL', hsz⟩ := inv_step h (by omega) hi hL (hclL l₀ (by omega))
     exact inv_fold hclL k (l₀ + 1) _ (by omega) h' (by omega) hL'
 
+omit [DecidableEq Lab] [Hashable Lab] in
 theorem inv_next {s : St4 Lab} {i : Nat} (h : Inv actF m Δ Lset s i m) (hi : i < s.1.size) :
     Inv actF m Δ Lset s (i + 1) 0 := by
   obtain ⟨h0, hΔ, hile, hnd, hin, hpar, hvia, htree, hpn, hrow⟩ := h
@@ -252,14 +250,16 @@ theorem inv_next {s : St4 Lab} {i : Nat} (h : Inv actF m Δ Lset s i m) (hi : i 
   · obtain ⟨t1, t2, t3, t4, t5⟩ := htree k hk hk0
     exact ⟨t1, t2, t3, Or.inl (by omega), t5⟩
   · obtain ⟨r1, r2⟩ := hrow l hl
-    rw [if_pos hl] at r1
+    rw [ite_eq_left hl] at r1
     exact ⟨by rw [r1]; simp, r2⟩
 
+omit [DecidableEq Lab] [Hashable Lab] in
 theorem size_le_of_inv {s : St4 Lab} {i l₀ : Nat} (h : Inv actF m Δ Lset s i l₀) :
     s.1.size ≤ Lset.length := by
   have hsub := List.Nodup.length_le_of_subset h.2.2.2.1 h.2.2.2.2.1
   simpa using hsub
 
+omit [Hashable Lab] in
 theorem omRun_spec {cap : Nat} (hclose : ∀ l < m, ∀ x ∈ Lset, actF l x ∈ Lset)
     (hcap : Lset.length ≤ cap) :
     ∀ (f : Nat) (s : St4 Lab) (i : Nat), Inv actF m Δ Lset s i 0 → Lset.length + 1 ≤ f + i →
@@ -272,20 +272,21 @@ theorem omRun_spec {cap : Nat} (hclose : ∀ l < m, ∀ x ∈ Lset, actF l x ∈
     have hsz := size_le_of_inv h
     unfold omRun
     by_cases hi : i < s.1.size
-    · rw [if_pos (by simp [hi]; omega)]
+    · rw [ite_eq_left (by simp [hi]; omega)]
       have hLs : s.1[i]! ∈ Lset := h.2.2.2.2.1 _ (getElem!_mem hi)
       obtain ⟨h', hi'⟩ := inv_fold (fun l hl => hclose l hl _ hLs) m 0 s (by omega) h hi rfl
       exact omRun_spec hclose hcap f _ (i + 1) (inv_next h' hi') (by omega)
-    · rw [if_neg (by simp [hi])]
+    · rw [ite_eq_right (by simp [hi])]
       have hie : i = s.1.size := by have := h.2.2.1; omega
       obtain ⟨h0, hΔ, -, hnd, hin, -, -, htree, -, hrow⟩ := h
       refine ⟨_, rfl, by simp [hie], h0, hΔ, hnd, hin, fun l hl k hk => ?_, fun k hk hk0 => ?_⟩
       · obtain ⟨r1, r2⟩ := hrow l hl
-        rw [if_neg (by omega)] at r1
+        rw [ite_eq_right (by omega)] at r1
         exact r2 k (by rw [r1, hie]; exact hk)
       · obtain ⟨t1, t2, -, -, t5⟩ := htree k hk hk0
         exact ⟨t1, t2, t5⟩
 
+omit [Hashable Lab] in
 theorem omTwin_spec {cap fuel : Nat} (hΔ : Δ ∈ Lset)
     (hclose : ∀ l < m, ∀ x ∈ Lset, actF l x ∈ Lset) (hcap : Lset.length ≤ cap)
     (hfuel : Lset.length < fuel) :
@@ -293,7 +294,7 @@ theorem omTwin_spec {cap fuel : Nat} (hΔ : Δ ∈ Lset)
   refine omRun_spec hclose hcap fuel _ 0 ?_ (by omega)
   refine ⟨by simp, by simp, by simp, by simp, by simpa using hΔ, by simp, by simp,
     fun k hk hk0 => by simp at hk; omega, by simp, fun l hl => ⟨?_, fun k hk => ?_⟩⟩
-  · rw [if_neg (by omega)]
+  · rw [ite_eq_right (by omega)]
     simp [getElem!_pos (Array.replicate m (#[] : Array Nat)) l (by simpa using hl)]
   · simp [getElem!_pos (Array.replicate m (#[] : Array Nat)) l (by simpa using hl)] at hk
 

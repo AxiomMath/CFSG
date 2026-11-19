@@ -157,7 +157,7 @@ noncomputable abbrev LM (v : Fin 3 → ZMod 3) : Subgroup M :=
 theorem block_le_LM {v : Fin 3 → ZMod 3} (hv : v ≠ 0) {κ : ZMod 3}
     (hbig : ∃ i j : Fin 4, i ≠ j ∧ ext v i = κ ∧ ext v j = κ) :
     blockSub {i : Fin 4 | ext v i = κ} ≤ LM v :=
-  block_le_layer (fun x => mem_blockSub) (isQuasisimple_blockSub_fibre hv hbig)
+  block_le_layer (fun _x => mem_blockSub) (isQuasisimple_blockSub_fibre hv hbig)
 
 theorem LM_le_block {v : Fin 3 → ZMod 3} (hv : v ≠ 0) {κ₀ : ZMod 3}
     (hκ : ∀ κ : ZMod 3, (∃ i j : Fin 4, i ≠ j ∧ ext v i = κ ∧ ext v j = κ) → κ = κ₀) :
@@ -183,7 +183,7 @@ theorem cent_le_normalizer_block (v : Fin 3 → ZMod 3) (κ : ZMod 3) :
     Subgroup.centralizer ({δ (Multiplicative.ofAdd v)} : Set M) ≤
       Subgroup.normalizer (blockSub {i : Fin 4 | ext v i = κ} : Set M) :=
   (block_normal (v := v) (κ := κ) (S := blockSub {i : Fin 4 | ext v i = κ})
-    (fun x => mem_blockSub)).2
+    (fun _x => mem_blockSub)).2
 
 @[expose] noncomputable def wM : M := permSL (Equiv.swap 0 1)
 
@@ -198,7 +198,7 @@ theorem wM_mul_self : wM * wM = 1 := by
 theorem wM_ne_one : wM ≠ 1 := by
   intro h
   have := congrFun₂ (congrArg (fun z : M => (z : Matrix (Fin 4) (Fin 4) F4)) h) 0 0
-  simp [wM, permSL, permMat, Matrix.one_apply, Equiv.swap_apply_def] at this
+  simp [wM, permSL, permMat] at this
 
 theorem wM_mem_block : wM ∈ blockSub {i : Fin 4 | i = 0 ∨ i = 1} := by
   rw [mem_blockSub]
@@ -217,7 +217,7 @@ theorem δ_mem_block {c : Set (Fin 4)} {w : Fin 3 → ZMod 3} (hw : ∀ i, i ∉
   mem_blockSub.mpr (isIdOutside_δ hw)
 
 theorem isSimpleGroup_block01 : IsSimpleGroup (blockSub {i : Fin 4 | i = 0 ∨ i = 1}) := by
-  haveI := isSimpleGroup_SL2
+  have := isSimpleGroup_SL2
   rw [blockSub_01_eq]
   exact (MonoidHom.ofInjective ι01_injective).symm.isSimpleGroup
 

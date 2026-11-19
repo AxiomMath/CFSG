@@ -10,11 +10,13 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho : G}
 
+omit [Finite G] in
 private theorem u_comm {E : Subgroup G} (hE : CFSG.Open.IsElemAbelian 2 E) {a b : G}
     (ha : a ∈ E) (hb : b ∈ E) : a * b = b * a := by
-  haveI : IsMulCommutative E := hE.1
+  have : IsMulCommutative E := hE.1
   exact congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : E) (⟨b, hb⟩ : E))
 
+omit [Finite G] in
 private theorem u_inv {E : Subgroup G} (hE : CFSG.Open.IsElemAbelian 2 E) {a : G}
     (ha : a ∈ E) : a⁻¹ = a :=
   inv_eq_of_mul_eq_one_right (by rw [← sq]; exact hE.2 a ha)
@@ -121,10 +123,12 @@ structure L41EData (t : G) (S 𝒮 E : Subgroup G) : Prop where
   four_le : 4 ≤ Nat.card ↥(E ⊓ centralizer ({t} : Set G))
   no_conj : ∀ g : G, ∀ e ∈ E, g * t * g⁻¹ ≠ e
 
+omit [Finite G] in
 theorem L41EData.mem_conj {𝒮 E : Subgroup G} (d : L41EData t S 𝒮 E) {e k : G} (he : e ∈ E)
     (hk : k ∈ 𝒮) : k * e * k⁻¹ ∈ E :=
   d.normal_𝒮.2 k hk e he
 
+omit [Finite G] in
 theorem L41EData.cent_eq {𝒮 E : Subgroup G} (d : L41EData t S 𝒮 E) (hSt : S ≤ invCent t) :
     E ⊓ centralizer ({t} : Set G) = E ⊓ S := by
   apply le_antisymm

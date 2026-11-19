@@ -12,7 +12,7 @@ open scoped commutatorElement
 theorem ggFixDer_eq_ggFixSub {R R₀ : Type} [Group R] [Group R₀] [IsSimpleGroup R₀]
     (hna : ∃ a b : R₀, a * b ≠ b * a) (f : MulAut R) (e : R₀ ≃* ↥(ggFixSub f)) :
     ggFixDer f = ggFixSub f := by
-  haveI : IsSimpleGroup ↥(ggFixSub f) := e.symm.isSimpleGroup
+  have : IsSimpleGroup ↥(ggFixSub f) := e.symm.isSimpleGroup
   have hnc : ¬ ∀ g h : ↥(ggFixSub f), g * h = h * g := by
     intro hc
     obtain ⟨a, b, hab⟩ := hna
@@ -27,7 +27,7 @@ theorem ggFixDer_eq_ggFixSub {R R₀ : Type} [Group R] [Group R₀] [IsSimpleGro
       rw [h, Subgroup.mem_bot] at hmem
       exact commutatorElement_eq_one_iff_mul_comm.mp hmem
     · exact h
-  haveI : Group.IsPerfect ↥(ggFixSub f) := ⟨hperf⟩
+  have : Group.IsPerfect ↥(ggFixSub f) := ⟨hperf⟩
   rw [ggFixDer]
   exact Subgroup.commutator_eq_self
 
@@ -101,7 +101,7 @@ theorem ggFixGeom_of_inn {R R₀ : Type} [Group R] [Group R₀] [IsSimpleGroup R
     have h2 : (⟨g, hg⟩ : ggFixDer f) = 1 :=
       θ₀.injective (by rw [h1, map_one])
     have hg1 : g = 1 := congrArg Subtype.val h2
-    simpa [hg1]
+    simp [hg1]
 
 end CFSG.StandardType
 

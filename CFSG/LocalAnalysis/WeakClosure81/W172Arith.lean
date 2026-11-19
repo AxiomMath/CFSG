@@ -23,7 +23,7 @@ theorem w172_geom_sum_odd {p a : ℕ} (hp : Odd p) (ha : Odd a) :
 theorem w172_padicValNat_geom_sum {p a : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (ha : Even a)
     (ha0 : a ≠ 0) :
     padicValNat 2 (∑ i ∈ Finset.range a, p ^ i) + 1 = padicValNat 2 (p + 1) + padicValNat 2 a := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp1 : 1 < p := hp.one_lt
   have h2p : ¬ 2 ∣ p := by
     intro h
@@ -47,7 +47,7 @@ theorem w172_padicValNat_geom_sum {p a : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (ha
 
 theorem w172_padicValNat_succ_le_orderOf {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) :
     padicValNat 2 (p + 1) ≤ orderOf (2 : ZMod p) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hle := CFSG.HardMathSupport.Meierfrankenfeld.LieOdd.succ_le_two_pow_orderOf (p := p) hp2
   have hdvd : 2 ^ padicValNat 2 (p + 1) ∣ p + 1 := pow_padicValNat_dvd
   have h2 := Nat.le_of_dvd (by omega : 0 < p + 1) hdvd
@@ -58,7 +58,7 @@ theorem w172_arith_false {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {a k c : ℕ} 
     (hk : 1 ≤ k) (hc : 2 * k ≤ c) (hdvd : 2 ^ c ∣ ∑ i ∈ Finset.range a, p ^ i)
     (h2 : a = 2 → 2 * orderOf (2 : ZMod p) ≤ 2 * k)
     (h3 : 3 ≤ a → 16 * a * orderOf (2 : ZMod p) ≤ 27 * (2 * k)) : False := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpodd : Odd p := hp.odd_of_ne_two hp2
   have hp3 : 3 ≤ p := hp.odd_iff.mp hpodd
   have ho2 : 2 ≤ orderOf (2 : ZMod p) := by

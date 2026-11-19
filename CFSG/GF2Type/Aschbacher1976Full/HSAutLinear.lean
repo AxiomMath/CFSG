@@ -15,13 +15,13 @@ theorem hsAut_exists_mulAut_pair {W : Type} [Group W] [Finite W] (hW : Nat.card 
     (hb' : b' ∉ Subgroup.zpowers a') :
     ∃ σ : MulAut W, σ a = a' ∧ σ b = b' := by
   have hs : ∀ s : ZMod 2, s = 0 ∨ s = 1 := by decide
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : CommGroup W := { ‹Group W› with mul_comm := hcomm }
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : CommGroup W := { ‹Group W› with mul_comm := hcomm }
   have h2 : ∀ x : Additive W, (2 : ℕ) • x = 0 := fun x => by
     apply Additive.toMul.injective
     rw [two_nsmul, toMul_add, toMul_zero]
     exact hsq _
-  letI : Module (ZMod 2) (Additive W) := AddCommGroup.zmodModule h2
+  let : Module (ZMod 2) (Additive W) := AddCommGroup.zmodModule h2
   have hcard : Nat.card (Additive W) = 8 := by
     rw [Nat.card_congr (Additive.toMul : Additive W ≃ W)]
     exact hW
@@ -67,7 +67,7 @@ theorem hsAut_exists_mulAut_pair {W : Type} [Group W] [Finite W] (hW : Nat.card 
       rw [htop, finrank_top, hrank] at hspan
       omega
     have hl : LinearIndependent (ZMod 2) ![c, Additive.ofMul x, Additive.ofMul y] :=
-      linearIndependent_fin_cons.mpr ⟨hli, hc⟩
+      linearIndependent_finCons.mpr ⟨hli, hc⟩
     refine ⟨basisOfLinearIndependentOfCardEqFinrank hl (by simp [hrank]), ?_, ?_⟩ <;>
       simp
   obtain ⟨B, hB1, hB2⟩ := key ha hb

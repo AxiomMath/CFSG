@@ -24,10 +24,10 @@ theorem eq_bot_of_normalized {Q : Type} [Group Q] [Finite Q] (hO2 : CFSG.pCore 2
     (hRn : ∀ f ∈ CFSG.generalizedFitting Q, ∀ r ∈ R, f * r * f⁻¹ ∈ R) : R = ⊥ := by
   classical
   set F := CFSG.generalizedFitting Q with hFdef
-  haveI hFchar : F.Characteristic := by
+  have hFchar : F.Characteristic := by
     rw [hFdef, CFSG.generalizedFitting_eq_componentClassification]
     exact CFSG.ComponentClassification.GeneralizedFitting.characteristic Q
-  haveI hFn : F.Normal := inferInstance
+  have hFn : F.Normal := inferInstance
   have hnorm2 : ∀ P : Subgroup Q, P.Normal → IsPGroup 2 P → P = ⊥ := fun P hPn hP2 =>
     le_bot_iff.mp (hO2 ▸ (le_sSup ⟨hPn, hP2⟩ : P ≤ CFSG.pCore 2 Q))
   have hFne : F ≠ ⊥ := by
@@ -45,9 +45,9 @@ theorem eq_bot_of_normalized {Q : Type} [Group Q] [Finite Q] (hO2 : CFSG.pCore 2
   have hS2 : IsPGroup 2 ↥(R ⊓ F) := hR.to_le inf_le_left
   have hRF : R ⊓ F = ⊥ := by
     rcases hF with hQ | ⟨p, hp, hcard⟩
-    · haveI : Group.IsPerfect ↥F := hQ.1
+    · have : Group.IsPerfect ↥F := hQ.1
       have hQ' : CFSG.Open.IsQuasisimple ↥F := ⟨Group.IsPerfect.commutator_eq_top, hQ.2.1⟩
-      haveI hSn : ((R ⊓ F).subgroupOf F).Normal := by
+      have hSn : ((R ⊓ F).subgroupOf F).Normal := by
         refine ⟨fun n hn g => ?_⟩
         rw [Subgroup.mem_subgroupOf] at hn ⊢
         refine ⟨?_, ?_⟩
@@ -100,7 +100,7 @@ theorem eq_bot_of_normalized {Q : Type} [Group Q] [Finite Q] (hO2 : CFSG.pCore 2
           have : (⟨f, hf⟩ : ↥F) ∈ (R ⊓ F).subgroupOf F := by rw [ht]; trivial
           exact (Subgroup.mem_subgroupOf.mp this).1
         exact hFne (hnorm2 F hFn (hR.to_le hFR))
-    · haveI : Fact (Nat.card ↥F).Prime := ⟨by rw [hcard]; exact hp⟩
+    · have : Fact (Nat.card ↥F).Prime := ⟨by rw [hcard]; exact hp⟩
       rcases Subgroup.eq_bot_or_eq_top_of_prime_card ((R ⊓ F).subgroupOf F) with hb | ht
       · have h := disjoint_iff.mp (Subgroup.subgroupOf_eq_bot.mp hb)
         rwa [inf_eq_left.mpr (inf_le_right : R ⊓ F ≤ F)] at h
@@ -131,10 +131,10 @@ theorem fstar_le_of_normalized {Q : Type} [Group Q] [Finite Q] (hO2 : CFSG.pCore
     CFSG.generalizedFitting Q ≤ Y := by
   classical
   set F := CFSG.generalizedFitting Q with hFdef
-  haveI hFchar : F.Characteristic := by
+  have hFchar : F.Characteristic := by
     rw [hFdef, CFSG.generalizedFitting_eq_componentClassification]
     exact CFSG.ComponentClassification.GeneralizedFitting.characteristic Q
-  haveI hFn : F.Normal := inferInstance
+  have hFn : F.Normal := inferInstance
   have hcen : Y ≤ Subgroup.centralizer (F : Set Q) → False := by
     intro hYc
     have hyc := Subgroup.mem_centralizer_iff.mp (hYc hyY)
@@ -159,14 +159,14 @@ theorem fstar_le_of_normalized {Q : Type} [Group Q] [Finite Q] (hO2 : CFSG.pCore
       by simpa [mul_assoc] using F.mul_mem hf (hFn.conj_mem f⁻¹ (F.inv_mem hf) z)⟩
   have hYcen_of : ⁅F, Y⁆ = ⊥ → Y ≤ Subgroup.centralizer (F : Set Q) := fun h =>
     Subgroup.commutator_eq_bot_iff_le_centralizer.mp (by rw [Subgroup.commutator_comm]; exact h)
-  haveI hSn : ((Y ⊓ F).subgroupOf F).Normal := by
+  have hSn : ((Y ⊓ F).subgroupOf F).Normal := by
     refine ⟨fun m hm g => ?_⟩
     rw [Subgroup.mem_subgroupOf] at hm ⊢
     refine ⟨?_, ?_⟩
     · simpa using hYn g g.2 m hm.1
     · simpa using F.mul_mem (F.mul_mem g.2 hm.2) (F.inv_mem g.2)
   rcases hF with hQ | ⟨p, hp, hcard⟩
-  · haveI : Group.IsPerfect ↥F := hQ.1
+  · have : Group.IsPerfect ↥F := hQ.1
     have hQ' : CFSG.Open.IsQuasisimple ↥F := ⟨Group.IsPerfect.commutator_eq_top, hQ.2.1⟩
     rcases CFSG.ComponentClassification.Quasisimple.normal_le_center_or_eq_top hQ'
       ((Y ⊓ F).subgroupOf F) with hc | ht
@@ -188,7 +188,7 @@ theorem fstar_le_of_normalized {Q : Type} [Group Q] [Finite Q] (hO2 : CFSG.pCore
         le_antisymm ((Subgroup.commutator_mono (hcomm_le.trans hYF) le_rfl).trans hZF.le) bot_le
       exact hYcen_of (CFSG.ComponentClassification.Quasisimple.perfect_double_commutator _ _ h3)
     · exact (Subgroup.subgroupOf_eq_top.mp ht).trans inf_le_left
-  · haveI : Fact (Nat.card ↥F).Prime := ⟨by rw [hcard]; exact hp⟩
+  · have : Fact (Nat.card ↥F).Prime := ⟨by rw [hcard]; exact hp⟩
     rcases Subgroup.eq_bot_or_eq_top_of_prime_card ((Y ⊓ F).subgroupOf F) with hb | ht
     · exfalso
       apply hcen
@@ -205,7 +205,7 @@ theorem xt_good {T H : Subgroup G} (hT : IsSylowIn 2 T ⊤) (hTH : T ≤ H)
     xt T H ≤ Subgroup.normalizer (T : Set G) ⊔ (T ⊔ Y) := by
   classical
   have hXH : xt T H ≤ H := sup_le (Subgroup.map_subtype_le _) hTH
-  haveI : (CFSG.pCore 2 ↥H).Normal := CFSG.pCore_normal (p := 2)
+  have : (CFSG.pCore 2 ↥H).Normal := CFSG.pCore_normal (p := 2)
   set ι : ↥(xt T H) →* ↥H := Subgroup.inclusion hXH
   set π := QuotientGroup.mk' (CFSG.pCore 2 ↥H)
   set φ : ↥(xt T H) →* ↥H ⧸ CFSG.pCore 2 ↥H := π.comp ι with hφ
@@ -219,7 +219,7 @@ theorem xt_good {T H : Subgroup G} (hT : IsSylowIn 2 T ⊤) (hTH : T ≤ H)
       exact (CFSG.pCore_isPGroup (p := 2) (G := ↥H)).comap_of_injective ι
         (Subgroup.inclusion_injective hXH)
     exact (le_sSup ⟨φ.normal_ker, hp⟩ : φ.ker ≤ CFSG.pCore 2 ↥(xt T H))
-  obtain ⟨b, hbYT, hb⟩ := SetLike.not_le_iff_exists.mp hYT
+  obtain ⟨b, hbYT, hb⟩ := IsConcreteLE.not_le_iff_exists.mp hYT
   obtain ⟨hbY, hbT⟩ := Subgroup.mem_inf.mp hbYT
   let b' : ↥(xt T H) := ⟨b, hY hbY⟩
   have hb'ne : φ b' ≠ 1 := by
@@ -263,13 +263,13 @@ theorem xt_good {T H : Subgroup G} (hT : IsSylowIn 2 T ⊤) (hTH : T ≤ H)
   exact le_sup_of_le_right
     (sup_le (hX.trans (sup_le le_sup_right (hRT.trans le_sup_left))) le_sup_left)
 
-theorem xt_rank {T H : Subgroup G} (hT : IsSylowIn 2 T ⊤) (hTH : T ≤ H)
+theorem xt_rank {T H : Subgroup G} (_hT : IsSylowIn 2 T ⊤) (hTH : T ≤ H)
     (hF : CFSG.IsQuasisimple ↥(fStarMod H) ∨ ∃ p : ℕ, p.Prime ∧ Nat.card ↥(fStarMod H) = p) :
     iRank (xt T H) ≤ iRank H := by
   classical
   have hXH : xt T H ≤ H := sup_le (Subgroup.map_subtype_le _) hTH
-  haveI : (CFSG.pCore 2 ↥H).Normal := CFSG.pCore_normal (p := 2)
-  haveI : (CFSG.pCore 2 ↥(xt T H)).Normal := CFSG.pCore_normal (p := 2)
+  have : (CFSG.pCore 2 ↥H).Normal := CFSG.pCore_normal (p := 2)
+  have : (CFSG.pCore 2 ↥(xt T H)).Normal := CFSG.pCore_normal (p := 2)
   set ι : ↥(xt T H) →* ↥H := Subgroup.inclusion hXH
   set π := QuotientGroup.mk' (CFSG.pCore 2 ↥H)
   set φ : ↥(xt T H) →* ↥H ⧸ CFSG.pCore 2 ↥H := π.comp ι with hφ
@@ -303,6 +303,7 @@ theorem xt_rank {T H : Subgroup G} (hT : IsSylowIn 2 T ⊤) (hTH : T ≤ H)
     (QuotientGroup.kerLift_injective φ).comp e.injective
   exact CFSG.SectionRank.pRank_top_le_of_injective (by norm_num) _ hinj
 
+omit [Finite G] in
 theorem xt_le {T H : Subgroup G} (hTH : T ≤ H) : xt T H ≤ H :=
   sup_le (Subgroup.map_subtype_le _) hTH
 

@@ -151,7 +151,7 @@ theorem conj_V0_mem_TrioSet
 
 theorem TrioSet_eq : TrioSet = maskSub '' trioL := by
   ext A
-  simp only [TrioSet, Set.mem_setOf_eq, Set.mem_image]
+  simp only [TrioSet, Set.mem_ofPred_eq, Set.mem_image]
   exact ⟨fun ⟨W, hW, e⟩ => ⟨W, hW, e.symm⟩, fun ⟨W, hW, e⟩ => ⟨W, hW, e.symm⟩⟩
 
 theorem TrioSet_finite : TrioSet.Finite := by
@@ -214,7 +214,7 @@ theorem idx_NV_ge (hM : MatFacts) :
   rw [hwe i, hwe j]
   exact hs.symm
 
-theorem mem_normalizer_V0 (hM : MatFacts) {g : J}
+theorem mem_normalizer_V0 (_hM : MatFacts) {g : J}
     (h1 : g * eta uJ 11 422 * g⁻¹ ∈ V0) (h2 : g * eta uJ 11 553 * g⁻¹ ∈ V0)
     (h3 : g * eta uJ 11 1131 * g⁻¹ ∈ V0) : g ∈ Subgroup.normalizer (V0 : Set J) := by
   have hconj : ∀ y ∈ Subgroup.closure ({eta uJ 11 422, eta uJ 11 553, eta uJ 11 1131} : Set J),

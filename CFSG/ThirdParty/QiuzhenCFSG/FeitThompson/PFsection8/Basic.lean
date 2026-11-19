@@ -53,7 +53,7 @@ taken inside the group `M`. -/
 @[expose] public def typeFData
     {G : Type u} [Group G] [Finite G]
     (M MF U U1 U0 : Subgroup G) : Prop :=
-  IsSolvable M ∧
+  Group.IsSolvable M ∧
     Odd (Nat.card M) ∧
     section16MFSubgroup M MF ∧
     ⊥ < MF ∧

@@ -64,22 +64,22 @@ theorem s16h_sl24_triv_of_triv_quot [Finite W] {L : Subgroup (MulAut W)}
     {β : ↥(commSub ⊤ L) →* StdMod (Fin 2) K}
     (hK : Nat.card K = 4)
     (hπs : Function.Surjective π) (hβs : Function.Surjective β)
-    (hβk : ∀ u : ↥(commSub ⊤ L), β u = 1 ↔ (u : W) ∈ commSub ⊤ L ⊓ fixV L)
-    (hβe : ∀ (γ : ↥(CFSG.Assembly.LowTwoRank.StatedSL 2 K)) (u : ↥(commSub ⊤ L))
+    (_hβk : ∀ u : ↥(commSub ⊤ L), β u = 1 ↔ (u : W) ∈ commSub ⊤ L ⊓ fixV L)
+    (_hβe : ∀ (γ : ↥(CFSG.Assembly.LowTwoRank.StatedSL 2 K)) (u : ↥(commSub ⊤ L))
       (hu : ((π γ : ↥L) : MulAut W) (u : W) ∈ commSub ⊤ L),
       β ⟨_, hu⟩ = natAct (CFSG.Assembly.LowTwoRank.StatedSL 2 K) γ (β u))
-    {n : MulAut W} (hn : n ∈ Subgroup.normalizer (L : Set (MulAut W))) (hn2 : n ^ 2 = 1)
-    (hnU' : ∀ u : ↥(commSub ⊤ L), n (u : W) ∈ commSub ⊤ L)
+    {n : MulAut W} (hn : n ∈ Subgroup.normalizer (L : Set (MulAut W))) (_hn2 : n ^ 2 = 1)
+    (_hnU' : ∀ u : ↥(commSub ⊤ L), n (u : W) ∈ commSub ⊤ L)
     (hntriv : ∀ u : ↥(commSub ⊤ L), n (u : W) * (u : W)⁻¹ ∈ commSub ⊤ L ⊓ fixV L) :
     ∀ u : ↥(commSub ⊤ L), n (u : W) = u := by
   classical
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have h4K : 4 ≤ Nat.card K := by omega
   have hQSL : CFSG.IsQuasisimple ↥(CFSG.Assembly.LowTwoRank.StatedSL 2 K) :=
     CFSG.RankThree.GF2n.Stroth80.statedSL_quasisimple_of_card 2 K le_rfl h4K
   have hMcard : Nat.card (StdMod (Fin 2) K) = 16 := by
     have hc : Fintype.card K = 4 := by rw [Fintype.card_eq_nat_card, hK]
-    simp [StdMod, Nat.card_fun, hc]
+    simp [StdMod, hc]
   have hUcard : 1 < Nat.card ↥(commSub ⊤ L) := by
     have hle := Nat.card_le_card_of_surjective β hβs
     omega
@@ -91,7 +91,7 @@ theorem s16h_sl24_triv_of_triv_quot [Finite W] {L : Subgroup (MulAut W)}
       rw [hbot]
       exact commSub_eq_bot_iff.mpr (by rw [B1.fixV_bot])
     exact (Subgroup.nontrivial_iff_ne_bot (commSub ⊤ L)).mp hUnt hUbot
-  haveI : Nontrivial ↥L := (Subgroup.nontrivial_iff_ne_bot L).mpr hLne
+  have : Nontrivial ↥L := (Subgroup.nontrivial_iff_ne_bot L).mpr hLne
   have hkerne : π.ker ≠ ⊤ := by
     intro htop
     apply hLne

@@ -12,10 +12,12 @@ open CFSG.RankThree.FFModules (fixSub mem_fixSub)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem uc22br_gt_conj_mem {M V : Subgroup G} (hV : M ≤ normalizer (V : Set G)) {m v : G}
     (hm : m ∈ M) (hv : v ∈ V) : m * v * m⁻¹ ∈ V :=
   (mem_normalizer_iff.1 (hV hm) v).1 hv
 
+omit [Finite G] in
 theorem uc22br_gt_centralizesMod_bot_iff (V : Subgroup G) (m : G) :
     CentralizesMod ⊥ V m ↔ m ∈ centralizer (V : Set G) := by
   rw [Subgroup.mem_centralizer_iff]
@@ -28,11 +30,13 @@ theorem uc22br_gt_centralizesMod_bot_iff (V : Subgroup G) (m : G) :
     rw [Subgroup.mem_bot, ← h v hv]
     group
 
+omit [Finite G] in
 theorem uc22br_gt_mk_eq_one_iff {M V : Subgroup G} (hV : M ≤ normalizer (V : Set G)) (m : ↥M) :
     (QuotientGroup.mk m : MBar M V) = 1 ↔ (m : G) ∈ centralizer (V : Set G) := by
-  haveI := kerAct_normal M V hV
+  have := kerAct_normal M V hV
   rw [QuotientGroup.eq_one_iff, Subgroup.normalCore_eq_self, kerAct, Subgroup.mem_subgroupOf]
 
+omit [Finite G] in
 theorem uc22br_gt_orderOf_mk_eq_two_iff {M V : Subgroup G} (hV : M ≤ normalizer (V : Set G))
     (m : ↥M) :
     orderOf (QuotientGroup.mk m : MBar M V) = 2 ↔
@@ -75,6 +79,7 @@ theorem uc22br_gt_mem_fixSub_zpowers {K : Type} [Group K] {W : Type} [AddCommGro
         rw [← Module.End.mul_apply, ← map_mul, inv_mul_cancel, map_one, Module.End.one_apply] }
   exact (zpowers_le.2 (show t ∈ S from h)) ha
 
+omit [Finite G] in
 theorem uc22br_gt_conj_iff (M V : Subgroup G) (hV : M ≤ normalizer (V : Set G))
     {Vmod : Type} [AddCommGroup Vmod] [Module (ZMod 2) Vmod]
     (e : ↥V ≃* Multiplicative Vmod) (ρ : Representation (ZMod 2) (MBar M V) Vmod)
@@ -93,6 +98,7 @@ theorem uc22br_gt_conj_iff (M V : Subgroup G) (hV : M ≤ normalizer (V : Set G)
     have h2 : (⟨(m : G) * v * (m : G)⁻¹, hmem⟩ : ↥V) = v := e.injective h1
     exact congrArg Subtype.val h2
 
+omit [Finite G] in
 theorem uc22br_gt_card_centMod (M V : Subgroup G) (hV : M ≤ normalizer (V : Set G))
     {Vmod : Type} [AddCommGroup Vmod] [Module (ZMod 2) Vmod]
     (e : ↥V ≃* Multiplicative Vmod) (ρ : Representation (ZMod 2) (MBar M V) Vmod)
@@ -106,7 +112,7 @@ theorem uc22br_gt_card_centMod (M V : Subgroup G) (hV : M ≤ normalizer (V : Se
     exact Multiplicative.ofAdd.injective (e.symm.injective h1)
   have hmemC : ∀ g : G, g ∈ centMod ⊥ V (m : G) ↔ g ∈ V ∧ (m : G) * g * (m : G)⁻¹ = g := by
     intro g
-    simp only [centMod, Set.mem_setOf_eq, Subgroup.mem_bot, mul_inv_eq_one]
+    simp only [centMod, Set.mem_ofPred_eq, Subgroup.mem_bot, mul_inv_eq_one]
   have himg : ψ '' (fixSub ρ (zpowers (QuotientGroup.mk m : MBar M V)) : Set Vmod) =
       centMod ⊥ V (m : G) := by
     ext g
@@ -131,12 +137,14 @@ theorem uc22br_gt_card_centMod (M V : Subgroup G) (hV : M ≤ normalizer (V : Se
         Nat.card_image_of_injective hψ _
     _ = _ := rfl
 
+omit [Finite G] in
 theorem uc22br_gt_card_V (V : Subgroup G) {Vmod : Type} [AddCommGroup Vmod]
     [Module (ZMod 2) Vmod] [Finite Vmod] (e : ↥V ≃* Multiplicative Vmod) :
     Nat.card ↥V = 2 ^ Module.finrank (ZMod 2) Vmod := by
   rw [Nat.card_congr e.toEquiv, ← CFSG.RankThree.FFModules.card_eq_two_pow_finrank']
   exact Nat.card_congr Multiplicative.toAdd
 
+omit [Finite G] in
 theorem uc22br_gt_card_cond (M V : Subgroup G) (hV : M ≤ normalizer (V : Set G))
     {Vmod : Type} [AddCommGroup Vmod] [Module (ZMod 2) Vmod] [Finite Vmod]
     (e : ↥V ≃* Multiplicative Vmod) (ρ : Representation (ZMod 2) (MBar M V) Vmod)
@@ -151,12 +159,12 @@ theorem uc22br_gt_card_cond (M V : Subgroup G) (hV : M ≤ normalizer (V : Set G
   omega
 
 theorem mbarGT_bot_iff_lt_mGV (M V : Subgroup G) (hV : M ≤ normalizer (V : Set G))
-    (hel : CFSG.Open.IsElemAbelian 2 V)
+    (_hel : CFSG.Open.IsElemAbelian 2 V)
     {Vmod : Type} [AddCommGroup Vmod] [Module (ZMod 2) Vmod] [Finite Vmod]
     (e : ↥V ≃* Multiplicative Vmod) (ρ : Representation (ZMod 2) (MBar M V) Vmod)
     (hc : ConjModule M V e ρ) (n : ℕ) :
     MBarGT M ⊥ V n ↔ n < F05.mGV ρ := by
-  clear hel
+  clear _hel
   have hA : (∀ m ∈ M, ¬ CentralizesMod ⊥ V m → CentralizesMod ⊥ V (m * m) →
         2 ^ (n + 1) * Nat.card (centMod ⊥ V m) ≤ Nat.card V) ↔
       ∀ t : MBar M V, orderOf t = 2 →
@@ -171,7 +179,7 @@ theorem mbarGT_bot_iff_lt_mGV (M V : Subgroup G) (hV : M ≤ normalizer (V : Set
         (h _ ((uc22br_gt_orderOf_mk_eq_two_iff hV ⟨m, hm⟩).2 ⟨h1, h2⟩))
   unfold MBarGT F05.mGV
   by_cases hev : Even (Nat.card (MBar M V))
-  · rw [if_pos hev]
+  · rw [ite_eq_left hev]
     obtain ⟨t0, ht0⟩ := (uc22br_gt_even_iff_exists_involution M V).1 hev
     have hS : {k | ∃ t : MBar M V, orderOf t = 2 ∧
         k = Module.finrank (ZMod 2) (Vmod ⧸ fixSub ρ (zpowers t))}.Nonempty :=
@@ -191,7 +199,7 @@ theorem mbarGT_bot_iff_lt_mGV (M V : Subgroup G) (hV : M ≤ normalizer (V : Set
     obtain ⟨m, rfl⟩ := QuotientGroup.mk_surjective t0
     obtain ⟨h1, h2⟩ := (uc22br_gt_orderOf_mk_eq_two_iff hV m).1 ht0
     exact absurd (hall m m.2 h2) h1
-  · rw [if_neg hev]
+  · rw [ite_eq_right hev]
     have hno : ∀ t : MBar M V, orderOf t ≠ 2 := fun t ht =>
       hev ((uc22br_gt_even_iff_exists_involution M V).2 ⟨t, ht⟩)
     have hall : ∀ m ∈ M, CentralizesMod ⊥ V (m * m) → CentralizesMod ⊥ V m := by

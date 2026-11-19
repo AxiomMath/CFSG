@@ -163,7 +163,7 @@ private noncomputable def ggQ2x_perm {n : ℕ} (σ : Equiv.Perm (Fin n)) :
     GGBCV n ≃ₗ[ZMod 3] GGBCV n where
   toFun v j := v (σ.symm j)
   invFun v j := v (σ j)
-  map_add' x y := by ext j; simp [add_comm]
+  map_add' x y := by ext j; simp
   map_smul' c x := by ext j; simp
   left_inv v := by ext j; simp
   right_inv v := by ext j; simp
@@ -176,9 +176,9 @@ private lemma ggQ2x_perm_single {n : ℕ} (σ : Equiv.Perm (Fin n)) (i : Fin n) 
   ext j
   simp only [ggQ2x_perm_apply, Pi.single_apply]
   by_cases h : σ.symm j = i
-  · rw [if_pos h, if_pos]
+  · rw [ite_eq_left h, ite_eq_left]
     rw [← h, Equiv.apply_symm_apply]
-  · rw [if_neg h, if_neg]
+  · rw [ite_eq_right h, ite_eq_right]
     intro hj
     exact h (by rw [hj, Equiv.symm_apply_apply])
 
@@ -234,12 +234,12 @@ private lemma ggQ2x_perm_swap {n : ℕ} (x y : Fin n) (hxy : x ≠ y) :
     ggQ2x_sub_single_apply x y j]
   rw [Equiv.symm_swap]
   by_cases hx : j = x
-  · rw [hx, Equiv.swap_apply_left, if_pos rfl, if_neg hxy]
+  · rw [hx, Equiv.swap_apply_left, ite_eq_left rfl, ite_eq_right hxy]
     exact ggQ2x_swap_scalar_left (v x) (v y)
   · by_cases hy : j = y
-    · rw [hy, Equiv.swap_apply_right, if_neg (Ne.symm hxy), if_pos rfl]
+    · rw [hy, Equiv.swap_apply_right, ite_eq_right (Ne.symm hxy), ite_eq_left rfl]
       exact ggQ2x_swap_scalar_right (v x) (v y)
-    · rw [Equiv.swap_apply_of_ne_of_ne hx hy, if_neg hx, if_neg hy]
+    · rw [Equiv.swap_apply_of_ne_of_ne hx hy, ite_eq_right hx, ite_eq_right hy]
       simp
 
 
@@ -277,7 +277,7 @@ private lemma ggQ2x_wt_sub_single {n : ℕ} (x y : Fin n) (hxy : x ≠ y) :
 private lemma ggQ2x_sub_single_mem_roots {n : ℕ} (x y : Fin n) (hxy : x ≠ y) :
     (Pi.single x (1 : ZMod 3) - Pi.single y 1 : GGBCV n) ∈ ggBCRoots n := by
   rw [ggBCRoots]
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   rw [ggQ2x_wt_sub_single x y hxy]
   decide
 
@@ -402,21 +402,21 @@ private lemma ggQ2x_diag_mem_W_aux {n : ℕ} (k : ℕ) :
         rw [LinearEquiv.mul_apply, hb j, map_smul]
         by_cases hji : j = i
         · subst hji
-          rw [if_pos hi, ggQ2x_short_apply_self, if_neg (by simp)]
+          rw [ite_eq_left hi, ggQ2x_short_apply_self, ite_eq_right (by simp)]
           calc (-1 : ZMod 3) • (-Pi.single j (1 : ZMod 3)) = Pi.single j 1 :=
                 ggQ2x_neg_one_smul_neg _
             _ = (1 : ZMod 3) • Pi.single j (1 : ZMod 3) := (one_smul _ _).symm
         · rw [ggQ2x_short_apply_of_ne i j hji]
           by_cases hjS : j ∈ S
-          · rw [if_pos hjS, if_pos (by rw [Finset.mem_erase]; exact ⟨hji, hjS⟩)]
-          · rw [if_neg hjS, if_neg (by rw [Finset.mem_erase]; exact fun h => hjS h.2)]
+          · rw [ite_eq_left hjS, ite_eq_left (by rw [Finset.mem_erase]; exact ⟨hji, hjS⟩)]
+          · rw [ite_eq_right hjS, ite_eq_right (by rw [Finset.mem_erase]; exact fun h => hjS h.2)]
       have hmem : ggQ2x_short i * b ∈ ggBCW n := ih (S.erase i) (ggQ2x_short i * b) hcard hb'
       have hshort : ggQ2x_short i ∈ ggBCW n := by
         rw [ggQ2x_short]
         exact Subgroup.subset_closure
           ⟨_, (by
             rw [ggBCRoots]
-            simp only [Set.mem_setOf_eq]
+            simp only [Set.mem_ofPred_eq]
             rw [ggQ2x_wt_single_of_ne_zero i 1 one_ne_zero]
             decide), ggQ2x_short_ne i, rfl⟩
       have hb_eq : b = (ggQ2x_short i)⁻¹ * (ggQ2x_short i * b) := by
@@ -534,7 +534,7 @@ private lemma ggQ2x_short_mem_W {n : ℕ} (k : Fin n) : ggQ2x_short k ∈ ggBCW 
   exact Subgroup.subset_closure
     ⟨_, (by
       rw [ggBCRoots]
-      simp only [Set.mem_setOf_eq]
+      simp only [Set.mem_ofPred_eq]
       rw [ggQ2x_wt_single_of_ne_zero k 1 one_ne_zero]
       decide), ggQ2x_short_ne k, rfl⟩
 
@@ -639,7 +639,7 @@ private lemma ggQ2x_center_ne {n : ℕ} (i k : Fin n) (hik : k ≠ i) (ε : ZMod
   exact ggQ2x_two_ne_zero
 
 private lemma ggQ2x_center_inj {n : ℕ} (i k k' : Fin n) (ε ε' : ZMod 3)
-    (hik : k ≠ i) (hik' : k' ≠ i) (hε : ε ≠ 0) (hε' : ε' ≠ 0)
+    (hik : k ≠ i) (hik' : k' ≠ i) (hε : ε ≠ 0) (_hε' : ε' ≠ 0)
     (hc1 : (Pi.single i (M := fun _ => ZMod 3) (1 : ZMod 3) +
       Pi.single k (M := fun _ => ZMod 3) ε : GGBCV n) ⬝ᵥ
       (Pi.single i (M := fun _ => ZMod 3) 1 + Pi.single k (M := fun _ => ZMod 3) ε) ≠ 0)
@@ -712,9 +712,9 @@ private lemma ggQ2x_short_or_one_self {n : ℕ} (i : Fin n) (u : ZMod 3) (hu : u
     (if u = -1 then ggQ2x_short i else 1) (Pi.single i (1 : ZMod 3)) =
       u • Pi.single i 1 := by
   by_cases h : u = -1
-  · rw [if_pos h, ggQ2x_short_apply_self, h]
+  · rw [ite_eq_left h, ggQ2x_short_apply_self, h]
     exact (ggQ2x_neg_one_smul (Pi.single i (1 : ZMod 3))).symm
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     rw [show u = 1 from by
       rcases ggQ2x_eq_one_or_neg_one u hu with h1 | h2
       · exact h1
@@ -724,8 +724,8 @@ private lemma ggQ2x_short_or_one_self {n : ℕ} (i : Fin n) (u : ZMod 3) (hu : u
 private lemma ggQ2x_short_or_one_ne {n : ℕ} (i k : Fin n) (hki : k ≠ i) (u : ZMod 3) :
     (if u = -1 then ggQ2x_short i else 1) (Pi.single k (1 : ZMod 3)) = Pi.single k 1 := by
   by_cases h : u = -1
-  · rw [if_pos h]; exact ggQ2x_short_apply_of_ne i k hki
-  · rw [if_neg h]; rfl
+  · rw [ite_eq_left h]; exact ggQ2x_short_apply_of_ne i k hki
+  · rw [ite_eq_right h]; rfl
 
 private lemma ggQ2x_S2a {n : ℕ} (w : GGBCV n ≃ₗ[ZMod 3] GGBCV n) (hw : w ∈ ggBCW n)
     (k : Fin n) :
@@ -770,7 +770,7 @@ private lemma ggQ2x_S2a {n : ℕ} (w : GGBCV n ≃ₗ[ZMod 3] GGBCV n) (hw : w �
       _ = x * ggQ2x_short m * x⁻¹ := by rw [hm]
       _ = ggQ2x_short m' := hm'
 
-private lemma ggQ2x_S2b {n : ℕ} (hn : 3 ≤ n) (i j : Fin n) (hij : i ≠ j)
+private lemma ggQ2x_S2b {n : ℕ} (_hn : 3 ≤ n) (i j : Fin n) (hij : i ≠ j)
     (u v : ZMod 3) (hu : u ≠ 0) (hv : v ≠ 0)
     (hc : (Pi.single i (M := fun _ => ZMod 3) u +
       Pi.single j (M := fun _ => ZMod 3) v : GGBCV n) ⬝ᵥ
@@ -814,15 +814,15 @@ private lemma ggQ2x_S2b {n : ℕ} (hn : 3 ≤ n) (i j : Fin n) (hij : i ≠ j)
     change ((if u = -1 then ggQ2x_short i else 1) x) ⬝ᵥ
       ((if u = -1 then ggQ2x_short i else 1) y) = x ⬝ᵥ y
     by_cases h : u = -1
-    · rw [if_pos h]; exact ggQ2x_short_isometry i x y
-    · rw [if_neg h]; exact ggQ2x_isometry_one x y
+    · rw [ite_eq_left h]; exact ggQ2x_short_isometry i x y
+    · rw [ite_eq_right h]; exact ggQ2x_isometry_one x y
   have hB_iso : ∀ x y, (B x) ⬝ᵥ (B y) = x ⬝ᵥ y := by
     intro x y
     change ((if ε / v = -1 then ggQ2x_short k else 1) x) ⬝ᵥ
       ((if ε / v = -1 then ggQ2x_short k else 1) y) = x ⬝ᵥ y
     by_cases h : ε / v = -1
-    · rw [if_pos h]; exact ggQ2x_short_isometry k x y
-    · rw [if_neg h]; exact ggQ2x_isometry_one x y
+    · rw [ite_eq_left h]; exact ggQ2x_short_isometry k x y
+    · rw [ite_eq_right h]; exact ggQ2x_isometry_one x y
   have hP_iso : ∀ x y, (P x) ⬝ᵥ (P y) = x ⬝ᵥ y :=
     ggQ2x_perm_isometry (Equiv.swap j k)
   have hw_iso : ∀ x y, (w x) ⬝ᵥ (w y) = x ⬝ᵥ y := by
@@ -835,11 +835,11 @@ private lemma ggQ2x_S2b {n : ℕ} (hn : 3 ≤ n) (i j : Fin n) (hij : i ≠ j)
     apply mul_mem
     · apply mul_mem
       · by_cases h : u = -1
-        · rw [if_pos h]; exact ggQ2x_short_mem_W i
-        · rw [if_neg h]; exact (ggBCW n).one_mem
+        · rw [ite_eq_left h]; exact ggQ2x_short_mem_W i
+        · rw [ite_eq_right h]; exact (ggBCW n).one_mem
       · by_cases h : ε / v = -1
-        · rw [if_pos h]; exact ggQ2x_short_mem_W k
-        · rw [if_neg h]; exact (ggBCW n).one_mem
+        · rw [ite_eq_left h]; exact ggQ2x_short_mem_W k
+        · rw [ite_eq_right h]; exact (ggBCW n).one_mem
     · exact ggQ2x_perm_mem_W (Equiv.swap j k)
   · rw [show w⁻¹ = w.symm from rfl, ggQ2x_conj_refl w hw_iso]
     simp only [hwc]
@@ -996,12 +996,12 @@ private lemma ggQ2x_S4 {n : ℕ} {a : GGBCV n ≃ₗ[ZMod 3] GGBCV n} (ha : ggQ2
       rw [LinearEquiv.mul_apply, hPinv, hact, Equiv.apply_symm_apply]
     rw [hbact]
     rcases ggQ2x_eq_one_or_neg_one (cf (σ.symm k)) (hcf (σ.symm k)) with h1 | hm1
-    · rw [h1, one_smul, if_neg, one_smul]
+    · rw [h1, one_smul, ite_eq_right, one_smul]
       rw [Finset.mem_filter]
       rintro ⟨-, h⟩
       rw [h1] at h
       exact ggQ2x_one_ne_neg_one h
-    · rw [hm1, if_pos]
+    · rw [hm1, ite_eq_left]
       rw [Finset.mem_filter]
       exact ⟨Finset.mem_univ _, hm1⟩
   have hPP : P.symm * P = 1 := by

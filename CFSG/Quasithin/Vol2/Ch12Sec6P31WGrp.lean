@@ -43,16 +43,16 @@ theorem eq_or_eq_of_isCoatom_subgroupOf {K B X : Subgroup G} (hB : IsCoatom (B.s
     exact Subgroup.mem_subgroupOf.mp hkX
   · exact fun hx => hBX hx
 
-theorem exists_pSubgroup_permuting [Finite G] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
-    {T L M Nh Q TL : Subgroup G} (hT : IsPGroup 2 T)
+theorem exists_pSubgroup_permuting [Finite G] {p : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2)
+    {T L M Nh Q TL : Subgroup G} (_hT : IsPGroup 2 T)
     (hLM : M ≤ Subgroup.normalizer L) (hNhM : Nh ≤ M) (hTNh : T ≤ Subgroup.normalizer Nh)
-    (hTLn : T ≤ Subgroup.normalizer L) (hTLdef : TL = T ⊓ L) (hQT : Q ≤ T) (hQNh : Q ≤ Nh)
+    (hTLn : T ≤ Subgroup.normalizer L) (hTLdef : TL = T ⊓ L) (hQT : Q ≤ T) (_hQNh : Q ≤ Nh)
     (hNhQ : Nh ≤ Subgroup.normalizer Q) (hNhQp : ∀ x ∈ Nh, ∃ n : ℕ, x ^ (p ^ n) ∈ Q)
     (hW : ¬ ⁅Nh, TL⁆ ≤ Q) :
     ∃ P : Subgroup G, P ≤ L ∧ P ≠ ⊥ ∧ IsPGroup p P ∧
       (P : Set G) * (T : Set G) = (T : Set G) * (P : Set G) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨W, hWdef⟩ : ∃ W : Subgroup G, W = ⁅Nh, TL⁆ := ⟨_, rfl⟩
   have hTL_mem : ∀ s ∈ TL, s ∈ T ∧ s ∈ L := by
     intro s hs
@@ -94,7 +94,7 @@ theorem exists_pSubgroup_permuting [Finite G] {p : ℕ} (hp : p.Prime) (hp2 : p 
       exact Subgroup.commutator_mem_commutator hn' hs'
     rw [hWdef] at hw ⊢
     exact hle hw
-  haveI hDn : (Q.subgroupOf W).Normal := ⟨fun n hn g => by
+  have hDn : (Q.subgroupOf W).Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     have hgN : (g : G) ∈ Nh := hWNh g.2
     have h1 := (Subgroup.mem_normalizer_iff.mp (hNhQ hgN) (n : G)).mp hn
@@ -126,7 +126,7 @@ theorem exists_pSubgroup_permuting [Finite G] {p : ℕ} (hp : p.Prime) (hp2 : p 
     exact s.2
   have hPpg : IsPGroup p P := by
     rw [hPdef]
-    exact S0.isPGroup'.map W.subtype
+    exact S0.isPGroup.map W.subtype
   have hdec : ∀ w ∈ W, ∃ p₀ ∈ P, ∃ d ∈ Q, w = p₀ * d := by
     intro w hw
     have hmem : φ ⟨w, hw⟩ ∈ S0.toSubgroup.map φ := by
@@ -182,7 +182,7 @@ theorem exists_pSubgroup_permuting [Finite G] {p : ℕ} (hp : p.Prime) (hp2 : p 
 
 theorem eq_of_le_prod_of_maximal {K₁ K₂ B₁ B₂ Y : Subgroup G}
     [IsSimpleGroup K₁] [IsSimpleGroup K₂]
-    (hcomm : ∀ x ∈ K₁, ∀ y ∈ K₂, x * y = y * x) (hK : K₁ ⊓ K₂ = ⊥)
+    (hcomm : ∀ x ∈ K₁, ∀ y ∈ K₂, x * y = y * x) (_hK : K₁ ⊓ K₂ = ⊥)
     (hB₁le : B₁ ≤ K₁) (hB₂le : B₂ ≤ K₂)
     (hB₁ : IsCoatom (B₁.subgroupOf K₁)) (hB₂ : IsCoatom (B₂.subgroupOf K₂))
     (hB₁ne : B₁ ≠ ⊥) (hBY : B₁ ⊔ B₂ ≤ Y) (hYK : Y ≤ K₁ ⊔ K₂) :
@@ -273,7 +273,7 @@ theorem eq_of_le_prod_of_maximal {K₁ K₂ B₁ B₂ Y : Subgroup G}
               intro g
               rw [hNtop]
               exact Subgroup.mem_top g
-            haveI hNorm : (B₁.subgroupOf K₁).Normal :=
+            have hNorm : (B₁.subgroupOf K₁).Normal :=
               ⟨fun n hn g => (Subgroup.mem_normalizer_iff.mp (hall g) n).mp hn⟩
             rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (B₁.subgroupOf K₁) with hbot | htop
             · exfalso

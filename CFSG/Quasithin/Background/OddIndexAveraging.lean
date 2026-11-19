@@ -12,8 +12,8 @@ open QuotientGroup
 variable {G : Type*} [Group G]
 
 theorem commutator_mem_and_sq_mem_of_fixed {H Q Z N : Subgroup G}
-    (hZN : Z ≤ N) (hNQ : N ≤ Q) (hHZ : H ≤ Subgroup.normalizer (Z : Set G))
-    (hHN : H ≤ Subgroup.normalizer (N : Set G)) (hHQ : H ≤ Subgroup.normalizer (Q : Set G))
+    (hZN : Z ≤ N) (hNQ : N ≤ Q) (_hHZ : H ≤ Subgroup.normalizer (Z : Set G))
+    (_hHN : H ≤ Subgroup.normalizer (N : Set G)) (_hHQ : H ≤ Subgroup.normalizer (Q : Set G))
     (hQZ : Q ≤ Subgroup.normalizer (Z : Set G))
     (hNab : ∀ a ∈ N, ∀ b ∈ N, a * b * a⁻¹ * b⁻¹ ∈ Z) (hNsq : ∀ a ∈ N, a * a ∈ Z)
     (hNQZ : ∀ a ∈ N, ∀ x ∈ Q, x * a * x⁻¹ * a⁻¹ ∈ Z)
@@ -41,9 +41,9 @@ theorem commutator_mem_and_sq_mem_of_fixed {H Q Z N : Subgroup G}
     Subgroup.normal_subgroupOf_of_le_normalizer hQN
   have hKN : (Z.subgroupOf N).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (hNQ.trans hQZ)
-  haveI : (N.subgroupOf Q).Normal := hLN
-  haveI : (Z.subgroupOf N).Normal := hKN
-  letI : IsMulCommutative (N ⧸ Z.subgroupOf N) := by
+  have : (N.subgroupOf Q).Normal := hLN
+  have : (Z.subgroupOf N).Normal := hKN
+  let : IsMulCommutative (N ⧸ Z.subgroupOf N) := by
     refine IsMulCommutative.of_comm ?_
     intro a b
     obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective a
@@ -53,11 +53,11 @@ theorem commutator_mem_and_sq_mem_of_fixed {H Q Z N : Subgroup G}
     have h := hNab (x : G) x.2 (y : G) y.2
     have h' : ((x * y / (y * x) : ↥N) : G) =
         (x : G) * (y : G) * (x : G)⁻¹ * (y : G)⁻¹ := by
-      simp only [Subgroup.coe_div, Subgroup.coe_mul, Subgroup.coe_inv, div_eq_mul_inv]
+      simp only [Subgroup.coe_mul, Subgroup.coe_inv, div_eq_mul_inv]
       group
     rw [h']
     exact h
-  letI : CommGroup (N ⧸ Z.subgroupOf N) := IsMulCommutative.instCommGroup
+  let : CommGroup (N ⧸ Z.subgroupOf N) := IsMulCommutative.instCommGroup
   have hsqbar : ∀ a : N ⧸ Z.subgroupOf N, a * a = 1 := by
     intro a
     obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective a
@@ -75,13 +75,13 @@ theorem commutator_mem_and_sq_mem_of_fixed {H Q Z N : Subgroup G}
       have h := hNQZ (b : G) b.2 (x : G) x.2
       have h' : ((b' / b : ↥N) : G) =
           (x : G) * (b : G) * (x : G)⁻¹ * (b : G)⁻¹ := by
-        simp only [b', b, Subgroup.coe_div, Subgroup.coe_mul, Subgroup.coe_inv, div_eq_mul_inv]
+        simp only [b', b, Subgroup.coe_mul, Subgroup.coe_inv, div_eq_mul_inv]
       rw [h']
       exact h
     have hcxy : c (x * y) h = QuotientGroup.mk (a * b') := by
       apply congrArg QuotientGroup.mk
       apply Subtype.ext
-      simp only [c, a, b', b, Subgroup.coe_mul, Subgroup.coe_inv]
+      simp only [a, b', b, Subgroup.coe_mul]
       group
     calc
       c (x * y) h = QuotientGroup.mk (a * b') := hcxy
@@ -120,7 +120,7 @@ theorem commutator_mem_and_sq_mem_of_fixed {H Q Z N : Subgroup G}
       _ = c ((x * y) * x⁻¹) h * c y⁻¹ h := by rw [hc_mul]
       _ = (c (x * y) h * c x⁻¹ h) * c y⁻¹ h := by rw [hc_mul]
       _ = ((c x h * c y h) * (c x h)⁻¹) * (c y h)⁻¹ := by rw [hxy, hix, hiy]
-      _ = 1 := by simp [mul_comm, mul_assoc]
+      _ = 1 := by simp [mul_comm]
   have hcommZ : ∀ x y : ↥Q,
       (x : G) * (y : G) * (x : G)⁻¹ * (y : G)⁻¹ ∈ Z := by
     intro x y
@@ -147,9 +147,9 @@ theorem commutator_mem_and_sq_mem_of_fixed {H Q Z N : Subgroup G}
     fun x hx => hsqZ ⟨x, hx⟩⟩
 
 theorem mem_of_centralizerMod_odd {P T Q Z N : Subgroup G} [Finite G]
-    (hTP : T ≤ P) (hodd : Odd (T.relIndex P))
+    (_hTP : T ≤ P) (hodd : Odd (T.relIndex P))
     (hZN : Z ≤ N) (hNQ : N ≤ Q) (hPZ : P ≤ Subgroup.normalizer (Z : Set G))
-    (hPN : P ≤ Subgroup.normalizer (N : Set G)) (hPQ : P ≤ Subgroup.normalizer (Q : Set G))
+    (_hPN : P ≤ Subgroup.normalizer (N : Set G)) (hPQ : P ≤ Subgroup.normalizer (Q : Set G))
     (hab : ∀ x ∈ Q, ∀ y ∈ Q, x * y * x⁻¹ * y⁻¹ ∈ Z) (hsq : ∀ x ∈ Q, x * x ∈ Z)
     (htriv : ∀ p ∈ P, ∀ x ∈ Q, p * x * p⁻¹ * x⁻¹ ∈ N)
     (hfix : ∀ x ∈ Q, (∀ p ∈ P, p * x * p⁻¹ * x⁻¹ ∈ Z) → x ∈ Z) :
@@ -192,9 +192,9 @@ theorem mem_of_centralizerMod_odd {P T Q Z N : Subgroup G} [Finite G]
     · intro ha
       have h := hNnormalQ x⁻¹ (Q.inv_mem hx) (x * a * x⁻¹) ha
       simpa [mul_assoc] using h
-  haveI : (Z.subgroupOf Q).Normal := hKnormal
-  haveI : (N.subgroupOf Q).Normal := hLnormal
-  letI : IsMulCommutative (Q ⧸ Z.subgroupOf Q) := by
+  have : (Z.subgroupOf Q).Normal := hKnormal
+  have : (N.subgroupOf Q).Normal := hLnormal
+  let : IsMulCommutative (Q ⧸ Z.subgroupOf Q) := by
     refine IsMulCommutative.of_comm ?_
     intro a b
     obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective a
@@ -204,11 +204,11 @@ theorem mem_of_centralizerMod_odd {P T Q Z N : Subgroup G} [Finite G]
     have h := hab (x : G) x.2 (y : G) y.2
     have h' : ((x * y / (y * x) : ↥Q) : G) =
         (x : G) * (y : G) * (x : G)⁻¹ * (y : G)⁻¹ := by
-      simp only [Subgroup.coe_div, Subgroup.coe_mul, Subgroup.coe_inv, div_eq_mul_inv]
+      simp only [Subgroup.coe_mul, Subgroup.coe_inv, div_eq_mul_inv]
       group
     rw [h']
     exact h
-  letI : CommGroup (Q ⧸ Z.subgroupOf Q) := IsMulCommutative.instCommGroup
+  let : CommGroup (Q ⧸ Z.subgroupOf Q) := IsMulCommutative.instCommGroup
   have hsqbar : ∀ a : Q ⧸ Z.subgroupOf Q, a * a = 1 := by
     intro a
     obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective a
@@ -241,7 +241,7 @@ theorem mem_of_centralizerMod_odd {P T Q Z N : Subgroup G} [Finite G]
       have h := (Subgroup.mem_normalizer_iff.mp (hPZ (P.inv_mem p.2)) (z : G)).mp hz'
       simpa [Subgroup.mem_subgroupOf, hρ_inv_apply p z] using h
   let C := ↥P ⧸ T.subgroupOf P
-  letI : Fintype C := Fintype.ofFinite C
+  let : Fintype C := Fintype.ofFinite C
   let rep : C → ↥P := fun c => Quotient.out c
   have hrep_mk : ∀ c : C, QuotientGroup.mk (rep c) = c := fun c => QuotientGroup.out_eq' c
   let conjQ : ↥P → ↥Q := fun x =>
@@ -270,7 +270,7 @@ theorem mem_of_centralizerMod_odd {P T Q Z N : Subgroup G} [Finite G]
         (Subgroup.mem_normalizer_iff.mp (hPZ x.2) _).mp htfix
       have h' : ((conjQ (x * t) / conjQ x : ↥Q) : G) =
           (x : G) * ((t : G) * v * (t : G)⁻¹ * v⁻¹) * (x : G)⁻¹ := by
-        simp only [conjQ, Subgroup.coe_div, Subgroup.coe_mul, Subgroup.coe_inv,
+        simp only [conjQ, Subgroup.coe_mul, Subgroup.coe_inv,
           div_eq_mul_inv]
         group
       rw [h']
@@ -324,7 +324,7 @@ theorem mem_of_centralizerMod_odd {P T Q Z N : Subgroup G} [Finite G]
     have h2 := (QuotientGroup.eq_iff_div_mem.mp h1)
     rw [Subgroup.mem_subgroupOf] at h2
     convert h2 using 1
-    simp only [hρ_apply, Subgroup.coe_div, Subgroup.coe_mul, Subgroup.coe_inv,
+    simp only [hρ_apply, Subgroup.coe_mul, Subgroup.coe_inv,
       div_eq_mul_inv]
   have hsZ : (s : G) ∈ Z := by
     apply hfix (s : G) s.2
@@ -333,7 +333,7 @@ theorem mem_of_centralizerMod_odd {P T Q Z N : Subgroup G} [Finite G]
   have hσbar_one : σbar = 1 := by
     rw [← hs_mk]
     exact (QuotientGroup.eq_one_iff s).mpr (by simpa [Subgroup.mem_subgroupOf] using hsZ)
-  letI : IsMulCommutative (Q ⧸ N.subgroupOf Q) := by
+  let : IsMulCommutative (Q ⧸ N.subgroupOf Q) := by
     refine IsMulCommutative.of_comm ?_
     intro a b
     obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective a
@@ -343,11 +343,11 @@ theorem mem_of_centralizerMod_odd {P T Q Z N : Subgroup G} [Finite G]
     have h := hab (x : G) x.2 (y : G) y.2
     have h' : ((x * y / (y * x) : ↥Q) : G) =
         (x : G) * (y : G) * (x : G)⁻¹ * (y : G)⁻¹ := by
-      simp only [Subgroup.coe_div, Subgroup.coe_mul, Subgroup.coe_inv, div_eq_mul_inv]
+      simp only [Subgroup.coe_mul, Subgroup.coe_inv, div_eq_mul_inv]
       group
     rw [h']
     exact hZN h
-  letI : CommGroup (Q ⧸ N.subgroupOf Q) := IsMulCommutative.instCommGroup
+  let : CommGroup (Q ⧸ N.subgroupOf Q) := IsMulCommutative.instCommGroup
   have hφwell : (Z.subgroupOf Q) ≤ (N.subgroupOf Q).comap (MonoidHom.id ↥Q) := by
     intro z hz
     exact hZN (by simpa [Subgroup.mem_subgroupOf] using hz)
@@ -362,7 +362,7 @@ theorem mem_of_centralizerMod_odd {P T Q Z N : Subgroup G} [Finite G]
       htriv (rep c : G) (rep c).2 v hvQ
     have h' : ((conjQ (rep c) / (⟨v, hvQ⟩ : ↥Q) : ↥Q) : G) =
         (rep c : G) * v * (rep c : G)⁻¹ * v⁻¹ := by
-      simp only [conjQ, Subgroup.coe_div, Subgroup.coe_mul, Subgroup.coe_inv,
+      simp only [conjQ, Subgroup.coe_mul, Subgroup.coe_inv,
         div_eq_mul_inv]
     have hmap : φ (QuotientGroup.mk (conjQ (rep c))) =
         QuotientGroup.mk (conjQ (rep c)) := by

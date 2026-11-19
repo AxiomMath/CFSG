@@ -81,13 +81,13 @@ theorem ggMemNormalizerInf {A B : Subgroup G} {g : G}
   refine Subgroup.mem_normalizer_iff.mpr fun h => ?_
   have h1 := Subgroup.mem_normalizer_iff.mp hA h
   have h2 := Subgroup.mem_normalizer_iff.mp hB h
-  simp only [SetLike.mem_coe, Subgroup.mem_inf] at h1 h2 ⊢
+  simp only [Subgroup.mem_inf] at h1 h2 ⊢
   rw [h1, h2]
 
 @[expose] def ggActTrivMod (A E : Subgroup G) : Subgroup G where
   carrier := {w | w ∈ Subgroup.normalizer (A : Set G) ∧ w ∈ Subgroup.normalizer (E : Set G) ∧
     ∀ a ∈ A, w * a * w⁻¹ * a⁻¹ ∈ E}
-  one_mem' := ⟨Subgroup.one_mem _, Subgroup.one_mem _, fun a _ => by simpa using E.one_mem⟩
+  one_mem' := ⟨Subgroup.one_mem _, Subgroup.one_mem _, fun a _ => by simp⟩
   mul_mem' := by
     rintro w w' ⟨hwA, hwE, hw⟩ ⟨hw'A, hw'E, hw'⟩
     refine ⟨Subgroup.mul_mem _ hwA hw'A, Subgroup.mul_mem _ hwE hw'E, fun a ha => ?_⟩
@@ -112,7 +112,7 @@ theorem ggMem_actTrivMod_of_centralizer {A E J : Subgroup G} (hA : A = J ⊔ E)
   refine ⟨hbA, hbE, ?_⟩
   let S : Subgroup G :=
     { carrier := {a | a ∈ A ∧ b * a * b⁻¹ * a⁻¹ ∈ E}
-      one_mem' := ⟨A.one_mem, by simpa using E.one_mem⟩
+      one_mem' := ⟨A.one_mem, by simp⟩
       mul_mem' := by
         rintro a a' ⟨ha, hba⟩ ⟨ha', hba'⟩
         refine ⟨A.mul_mem ha ha', ?_⟩

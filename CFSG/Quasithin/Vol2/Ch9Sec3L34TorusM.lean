@@ -346,7 +346,7 @@ theorem exists_pow_conjAut_eq_one [Finite k] [CharP k 2] {D : GL (Fin 3) k}
   have hmem : proj 3 k s ∈ (P : Subgroup (projectiveSL 3 k)) := by
     rw [hP]
     exact ⟨s, hs, rfl⟩
-  obtain ⟨m, hm⟩ := P.isPGroup' ⟨_, hmem⟩
+  obtain ⟨m, hm⟩ := P.isPGroup ⟨_, hmem⟩
   refine ⟨m, ?_⟩
   rw [hDs, map_mul, conjAut_scalar, one_mul, conjAut_toGL, ← map_pow]
   have hm' : proj 3 k s ^ 2 ^ m = 1 := by simpa using congrArg Subtype.val hm

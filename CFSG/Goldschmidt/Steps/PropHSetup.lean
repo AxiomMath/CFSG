@@ -72,7 +72,7 @@ theorem N31 : S_N31 := by
   intro G _ _ _ hnab S A U hAS hAab hcl hUA hU
   obtain ⟨hUS, hU1, hUcl, hUmin⟩ := hU
   have hUab : IsMulCommutative U := isMulCommutative_of_le hAab hUA
-  have hUp : IsPGroup 2 U := (S.isPGroup').to_le hUS
+  have hUp : IsPGroup 2 U := (S.isPGroup).to_le hUS
   have hsq : ∀ x ∈ U, x ^ 2 = 1 := by
     obtain ⟨V, hV⟩ : ∃ V : Subgroup G, ∀ x, x ∈ V ↔ x ∈ U ∧ x ^ 2 = 1 := by
       refine ⟨{ carrier := {x | x ∈ U ∧ x ^ 2 = 1}
@@ -104,7 +104,7 @@ theorem N31 : S_N31 := by
     exact ((hV x).1 (hVU ▸ hx)).2
   have hel : IsElemAbelian 2 U := ⟨hUab, hsq⟩
   have hNA : Subgroup.normalizer (A : Set G) ≤ Subgroup.normalizer (U : Set G) :=
-    N3a G S U A hUS hUcl ((S.isPGroup').to_le hAS) hUA
+    N3a G S U A hUS hUcl ((S.isPGroup).to_le hAS) hUA
   have hctl : ∀ x g : G, x ∈ Subgroup.normalizer (U : Set G) →
       g⁻¹ * x * g ∈ Subgroup.normalizer (U : Set G) → (∃ k : ℕ, x ^ (2 ^ k) = 1) →
       ∃ m ∈ Subgroup.normalizer (U : Set G), m⁻¹ * x * m = g⁻¹ * x * g :=

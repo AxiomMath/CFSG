@@ -260,8 +260,8 @@ theorem tw6SixFrame_kernelLayer {K Ω : Type} [Field K] [Finite K] [Field Ω] [A
     ∃ KL : KernelLayer (tw6N Ω) (twistE6 Ω Fr) (torusRootKernel x) K (Fin 2),
       ∀ i, KL.P i = tw6SixLayer (L := Ω) (Fr := Fr) tw6SixFrameWeyl i := by
   classical
-  haveI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hvS := tw6_torusRootKernel_smul_stable (Fr := Fr) hFr hx
   obtain ⟨h0, h1⟩ := tw6SixLayerRoots_smul hvS hW
   have hw₀ : ((tw6SixFrameWeyl • ·) '' tw6SixLayerRoots tw6SixFrameWeyl 0) =

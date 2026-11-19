@@ -160,7 +160,7 @@ theorem hasCyclicSylowTwo_inf {Y : Type} [Group Y] [Finite Y] {L C : Subgroup Y}
   obtain ⟨P⟩ : Nonempty (Sylow 2 (L ⊓ C : Subgroup Y)) := inferInstance
   refine ⟨P, ?_⟩
   set Q := (P : Subgroup (L ⊓ C : Subgroup Y)).map (L ⊓ C).subtype with hQ
-  have hQ2 : IsPGroup 2 Q := P.isPGroup'.map _
+  have hQ2 : IsPGroup 2 Q := P.isPGroup.map _
   have hQL : Q ≤ L := (Subgroup.map_subtype_le _).trans inf_le_left
   have hQ'2 : IsPGroup 2 (Q.subgroupOf L) := hQ2.comap_subtype
   have hr' : CFSG.Open.pRank 2 (Q.subgroupOf L) ≤ 1 := by

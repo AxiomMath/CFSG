@@ -160,11 +160,11 @@ theorem exists_reduced {R S H : Subgroup G} (hSR : S ≤ R) (hS : IsPGroup 2 S)
     (Subgroup.closure_le H).2 (fun g hg => hgenH g hg), hHcent, ?_⟩
   intro K hKR hKn hKpow
   obtain ⟨T, hT⟩ := exists_sylow_subgroupOf_of_odd hSR hS hSyl
-  haveI hCN : ((Subgroup.centralizer ((Subgroup.closure gens : Subgroup G) : Set G)).subgroupOf R).Normal :=
+  have hCN : ((Subgroup.centralizer ((Subgroup.closure gens : Subgroup G) : Set G)).subgroupOf R).Normal :=
     ⟨fun n hn g => by
       rw [Subgroup.mem_subgroupOf] at hn ⊢
       simpa using conj_mem_centralizer_of_normalizer (hRN g.2) hn⟩
-  haveI hDN : (K.subgroupOf R).Normal :=
+  have hDN : (K.subgroupOf R).Normal :=
     ⟨fun n hn g => by
       rw [Subgroup.mem_subgroupOf] at hn ⊢
       simpa using (Subgroup.mem_normalizer_iff.1 (hKn g.2) (n : G)).1 hn⟩

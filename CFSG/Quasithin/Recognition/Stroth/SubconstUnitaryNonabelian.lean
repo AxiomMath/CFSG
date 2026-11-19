@@ -82,8 +82,8 @@ private theorem centralizer_eq_bot_of_two_transitive {Y : Type*} [Group Y] [Fini
     (hPcard : Fintype.card Ω < Nat.card P) (ω : Ω) :
     Subgroup.centralizer (P : Set Y) = ⊥ := by
   classical
-  haveI : MulAction.IsPreprimitive Y Ω := MulAction.isPreprimitive_of_is_two_pretransitive h2
-  haveI : MulAction.IsQuasiPreprimitive Y Ω := MulAction.IsPreprimitive.isQuasiPreprimitive
+  have : MulAction.IsPreprimitive Y Ω := MulAction.isPreprimitive_of_is_two_pretransitive h2
+  have : MulAction.IsQuasiPreprimitive Y Ω := MulAction.IsPreprimitive.isQuasiPreprimitive
   have hPfix : MulAction.fixedPoints P Ω ≠ ⊤ := fun h =>
     hPne (eq_bot_of_fixedPoints_eq_top h)
   have hCtrans : ∀ {C : Subgroup Y}, C.Normal → C ≠ ⊥ → MulAction.IsPretransitive C Ω := by
@@ -151,7 +151,7 @@ private theorem card_abelian_two_le_psu3 {k : ℕ} (hk : 2 ≤ k) {F : Type} [Fi
   have hA'2 : IsPGroup 2 A' := hA2.map e'.toMonoidHom
   obtain ⟨S, hS⟩ := exists_sylow_hypProjUnitriangular (h := h)
   obtain ⟨T, hA'T⟩ := hA'2.exists_le_sylow
-  haveI : Finite (Sylow 2 (hypPSU h 1 1)) := inferInstance
+  have : Finite (Sylow 2 (hypPSU h 1 1)) := inferInstance
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq (hypPSU h 1 1) T S
   have hcoe : ((g • T : Sylow 2 (hypPSU h 1 1)) : Subgroup (hypPSU h 1 1)) =
       (T : Subgroup (hypPSU h 1 1)).map (MulAut.conj g).toMonoidHom := by
@@ -160,7 +160,7 @@ private theorem card_abelian_two_le_psu3 {k : ℕ} (hk : 2 ≤ k) {F : Type} [Fi
     change x ∈ ((g • T : Sylow 2 (hypPSU h 1 1)) : Set (hypPSU h 1 1)) ↔
       x ∈ ((T : Subgroup (hypPSU h 1 1)).map (MulAut.conj g).toMonoidHom : Set (hypPSU h 1 1))
     rw [Sylow.coe_smul]
-    simp [Set.mem_smul_set, Subgroup.mem_map, MulAut.conj_apply]
+    simp [Set.mem_smul_set, MulAut.conj_apply]
   let A'' : Subgroup (hypPSU h 1 1) := A'.map (MulAut.conj g).toMonoidHom
   have hA''le : A'' ≤ (S : Subgroup (hypPSU h 1 1)) := by
     rw [← hg, hcoe]
@@ -277,7 +277,7 @@ private theorem sylow_center_le_inf {P : Type} [Group P] [Finite P]
     exact ((hUcenter (u : P)).mp u.2).2 (v : P) hvQ
   have hUleQ : U ≤ (Q : Subgroup P) := fun u hu => ((hUcenter (u : P)).mp hu).1
   have hU2 : IsPGroup 2 U :=
-    Q.isPGroup'.of_injective (Subgroup.inclusion hUleQ) (Subgroup.inclusion_injective _)
+    Q.isPGroup.of_injective (Subgroup.inclusion hUleQ) (Subgroup.inclusion_injective _)
   have hcommAU : ∀ a ∈ A', ∀ u ∈ U, a * u = u * a := by
     intro a ha u hu
     have haQ : a ∈ (Q : Subgroup P) := hA'Q ha
@@ -451,7 +451,7 @@ private theorem rootCenterAut_index_contradiction {G : Type} [Group G] [Finite G
     rw [← hDsup]
     exact le_sup_right
   have hCroot_normal : Croot.Normal := hDnormal
-  haveI : Croot.Normal := hCroot_normal
+  have : Croot.Normal := hCroot_normal
   have htop : Croot ⊔ Droot = ⊤ := by
     have h := Subgroup.subgroupOf_sup (A := C) (A' := D)
       (B := rootCenterAut (Q : Subgroup G) U) hCroot hDroot_le
@@ -562,7 +562,7 @@ private theorem conjNormal_image_le_rootCenterAut {Y : Type} [Group Y] [Finite Y
       rw [Subgroup.mem_centralizer_iff]
       intro p hp
       have h2 := congrArg (fun f : MulAut ↥P => f ⟨p, hp⟩) h1
-      simp only [OneMemClass.coe_one, MulAut.one_apply, MulAut.conjNormal_apply] at h2
+      simp only [MulAut.one_apply] at h2
       have h3 : (a * b⁻¹ : Y) * p * (a * b⁻¹ : Y)⁻¹ = p := congrArg Subtype.val h2
       calc p * (a * b⁻¹) = ((a * b⁻¹) * p * (a * b⁻¹)⁻¹) * (a * b⁻¹) := by rw [h3]
         _ = (a * b⁻¹) * p := by group
@@ -619,7 +619,7 @@ theorem subconstUnitaryFourBound :
   obtain ⟨hΩ65, hcardR⟩ := card_degree_and_card_regular hF16 h2 hdeg hcopy ω R hRle hreg
   have hR2 : IsPGroup 2 R := IsPGroup.of_card (n := 6) (by norm_num [hcardR])
   obtain ⟨P, hPnormal, ⟨eP⟩⟩ := hcopy
-  haveI : P.Normal := hPnormal
+  have : P.Normal := hPnormal
   have hF4 : Nat.card F = (2 ^ 2) ^ 2 := by rw [hF16]; norm_num
   let eP4 : P ≃* StatedProj (StatedSU 3 (2 ^ 2) F) := by simpa using eP
   have hPcard : Fintype.card Ω < Nat.card P := by
@@ -714,7 +714,7 @@ theorem subconstUnitaryNonabelian_of_subconstNatural (hS : SubconstNatural)
     exact hnoncomm ⟨a, a.2, b, b.2, h⟩
   have hcopy0 := hcopy
   obtain ⟨P, hPnormal, ⟨eP⟩⟩ := hcopy
-  haveI : P.Normal := hPnormal
+  have : P.Normal := hPnormal
   have hΩcard : Fintype.card Ω = 2 ^ (3 * k) + 1 :=
     hS.2.2 Y Ω k F hk hF h2 hdeg ⟨P, hPnormal, ⟨eP⟩⟩
   have hq : (2 ^ k) ^ 3 = 2 ^ (3 * k) := by rw [← pow_mul, mul_comm]
@@ -814,7 +814,6 @@ theorem subconstUnitaryNonabelian_of_subconstNatural (hS : SubconstNatural)
       exact hF
     have hcopy4 : HasNormalCopy Y (StatedProj (StatedSU 3 4 F)) := by
       rw [hk2] at hcopy0
-      norm_num at hcopy0
       exact hcopy0
     exact h4 Y Ω F hF16 h2 hdeg hcopy4 ω R hRle hreg hRcomm
   · have hk3 : 3 ≤ k := by omega

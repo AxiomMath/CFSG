@@ -268,7 +268,7 @@ theorem Lf_spec {l : Nat} (hl : l < nL) :
   classical
   have e : Lf l = h.choose • O0 := by
     unfold Lf
-    rw [dif_pos h]
+    rw [dite_eq_left h]
   rw [e]
   exact ⟨⟨_, h.choose_spec.1, rfl⟩, h.choose_spec.2⟩
 

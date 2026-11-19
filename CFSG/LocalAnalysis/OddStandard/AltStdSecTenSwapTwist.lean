@@ -12,6 +12,7 @@ open Subgroup Equiv Equiv.Perm
 
 variable {G : Type} [Group G] [Finite G] {z : G} {ι : Perm (Fin 10) →* G}
 
+omit [Finite G] in
 theorem ι_liftS8_mem_centralizer (ι : Perm (Fin 10) →* G) (ρ : Perm (Fin 8)) :
     ι (liftS8 ρ) ∈ centralizer ({ι τ₀} : Set G) := by
   rw [mem_centralizer_singleton_iff, ← map_mul, ← map_mul, liftS8_mul_τ₀]
@@ -25,6 +26,7 @@ variable {x : G}
   (ι.comp liftS8).codRestrict _ fun ρ => by
     rw [hx]; exact ι_liftS8_mem_centralizer ι ρ
 
+omit [Finite G] in
 @[simp] theorem liftS8Centralizer_apply (hx : x = ι τ₀) (ρ : Perm (Fin 8)) :
     ((liftS8Centralizer (ι := ι) hx ρ : ↥(centralizer ({x} : Set G))) : G) =
       ι (liftS8 ρ) := rfl
@@ -34,17 +36,20 @@ variable {π : ↥(centralizer ({x} : Set G)) →* Perm (Fin 10)}
 @[expose] noncomputable def beta (hx : x = ι τ₀) : Perm (Fin 8) →* Perm (Fin 10) :=
   π.comp (liftS8Centralizer (ι := ι) hx)
 
+omit [Finite G] in
 theorem beta_apply (hx : x = ι τ₀) (ρ : Perm (Fin 8))
     (hρ : ι (liftS8 ρ) ∈ centralizer ({x} : Set G)) :
     beta (ι := ι) (π := π) hx ρ = π ⟨ι (liftS8 ρ), hρ⟩ := by
   rw [beta, MonoidHom.comp_apply]
   exact congrArg π (Subtype.ext rfl)
 
+omit [Finite G] in
 theorem z_mem_centralizer_of_oneSided (hC : CentData z ι) (hOS : OneSided z ι x π) :
     z ∈ centralizer ({x} : Set G) := by
   rw [hOS.eq, mem_centralizer_singleton_iff]
   exact hC.comm τ₀
 
+omit [Finite G] in
 theorem z_mul_liftS8_mem_centralizer (hC : CentData z ι) (hOS : OneSided z ι x π)
     (ρ : Perm (Fin 8)) : z * ι (liftS8 ρ) ∈ centralizer ({x} : Set G) := by
   rw [hOS.eq, mem_centralizer_singleton_iff]
@@ -56,6 +61,7 @@ theorem z_mul_liftS8_mem_centralizer (hC : CentData z ι) (hOS : OneSided z ι x
     _ = (ι τ₀ * z) * ι (liftS8 ρ) := by rw [hC.comm τ₀]
     _ = ι τ₀ * (z * ι (liftS8 ρ)) := by group
 
+omit [Finite G] in
 theorem beta_eq_one_iff (hC : CentData z ι) (hOS : OneSided z ι x π) (ρ : Perm (Fin 8)) :
     beta (ι := ι) (π := π) hOS.eq ρ = 1 ↔ ρ = 1 := by
   constructor
@@ -72,6 +78,7 @@ theorem beta_eq_one_iff (hC : CentData z ι) (hOS : OneSided z ι x π) (ρ : Pe
   · intro h
     rw [h, map_one]
 
+omit [Finite G] in
 theorem beta_injective (hC : CentData z ι) (hOS : OneSided z ι x π) :
     Function.Injective (beta (ι := ι) (π := π) hOS.eq) := by
   intro ρ σ h
@@ -81,6 +88,7 @@ theorem beta_injective (hC : CentData z ι) (hOS : OneSided z ι x π) :
   rw [mul_inv_eq_one] at h2
   exact h2
 
+omit [Finite G] in
 theorem beta_comm_τ₀ (hC : CentData z ι) (hOS : OneSided z ι x π) (ρ : Perm (Fin 8)) :
     beta (ι := ι) (π := π) hOS.eq ρ * τ₀ =
       τ₀ * beta (ι := ι) (π := π) hOS.eq ρ := by
@@ -95,6 +103,7 @@ theorem beta_comm_τ₀ (hC : CentData z ι) (hOS : OneSided z ι x π) (ρ : Pe
     τ₀ * π (liftS8Centralizer (ι := ι) hOS.eq ρ)
   rw [← hOS.swap hzx, ← map_mul, ← map_mul, huw]
 
+omit [Finite G] in
 theorem beta_ne_τ₀ (hC : CentData z ι) (hOS : OneSided z ι x π) (ρ : Perm (Fin 8)) :
     beta (ι := ι) (π := π) hOS.eq ρ ≠ τ₀ := by
   intro h
@@ -118,12 +127,14 @@ theorem beta_ne_τ₀ (hC : CentData z ι) (hOS : OneSided z ι x π) (ρ : Perm
       group
     exact hC.ne_z (liftS8 ρ * τ₀⁻¹) h5
 
+omit [Finite G] in
 theorem exists_sq_of_isConj {a b : G} (h : IsConj a b) (ha : ∃ y : G, y * y = a) :
     ∃ y : G, y * y = b := by
   obtain ⟨g, hg⟩ := isConj_iff.1 h
   obtain ⟨y, rfl⟩ := ha
   exact ⟨g * y * g⁻¹, by rw [← hg]; group⟩
 
+omit [Finite G] in
 theorem isConj_z_of_kappa_one_isSwap (hOS : OneSided z ι x π)
     {κ : ↥(centralizer ({x} : Set G)) →* ℤˣ} (hκ : Retraction z x κ)
     (hzx : z ∈ centralizer ({x} : Set G))
@@ -138,6 +149,7 @@ theorem isConj_z_of_kappa_one_isSwap (hOS : OneSided z ι x π)
   have h := isConj_of_retraction hOS.sec hκ.self hπ hκc'
   simpa using h
 
+omit [Finite G] in
 theorem twist_indicator_r₁'_ne_one (hC : CentData z ι) (hN : NoSwapConj z ι)
     {x : G} {π : ↥(centralizer ({x} : Set G)) →* Perm (Fin 10)} (hOS : OneSided z ι x π)
     {κ : ↥(centralizer ({x} : Set G)) →* ℤˣ} (hκ : Retraction z x κ)
@@ -165,12 +177,12 @@ theorem twist_indicator_r₁'_ne_one (hC : CentData z ι) (hN : NoSwapConj z ι)
   have hπx : π (selfC x) = 1 := (hOS.sec.ker (selfC x)).2 (Or.inr rfl)
   have hβ8 : β r₁' 8 ≠ 9 := by
     intro h8
-    have hneg : ε r₁' = -1 := by rw [hε r₁', if_pos h8]
+    have hneg : ε r₁' = -1 := by rw [hε r₁', ite_eq_left h8]
     rw [hε1] at hneg
     exact absurd hneg (by decide)
   have hβswap : (β r₁').IsSwap := by
     refine isSwap_of_card_cycleType_eq_one hβsq ?_
-    rw [hcard.1, hk1, if_neg hβ8, add_zero]
+    rw [hcard.1, hk1, ite_eq_right hβ8, add_zero]
   have hswap_u : (π u).IsSwap := by rw [hπu]; exact hβswap
   rcases Int.units_eq_one_or (κ u) with hκu | hκu
   · have hconj := isConj_z_of_kappa_one_isSwap hOS hκ hzx hκu hswap_u
@@ -197,6 +209,7 @@ theorem twist_indicator_r₁'_ne_one (hC : CentData z ι) (hN : NoSwapConj z ι)
     obtain ⟨y, hy⟩ := exists_sq_of_isConj hconj hdsq
     exact hC.not_sq y hy
 
+omit [Finite G] in
 theorem twist_indicator_r₁'_kappa_ne_one (hC : CentData z ι) (hN : NoSwapConj z ι)
     {x : G} {π : ↥(centralizer ({x} : Set G)) →* Perm (Fin 10)} (hOS : OneSided z ι x π)
     {κ : ↥(centralizer ({x} : Set G)) →* ℤˣ} (hκ : Retraction z x κ)
@@ -225,13 +238,13 @@ theorem twist_indicator_r₁'_kappa_ne_one (hC : CentData z ι) (hN : NoSwapConj
     rw [liftS8Centralizer_apply, liftS8_r₁']
   have hβ9 : β r₁' 8 = 9 := by
     by_contra h8
-    rw [hε r₁', if_neg h8] at hεneg
+    rw [hε r₁', ite_eq_right h8] at hεneg
     exact absurd hεneg (by decide)
   have hβτinv : (τ₀ * β r₁') * (τ₀ * β r₁') = 1 := by
     have hc : Commute τ₀ (β r₁') := (hcomm r₁').symm
     rw [← pow_two, hc.mul_pow 2, pow_two, pow_two, hτ0sq, hβsq, one_mul]
   have hcard2' : Multiset.card (τ₀ * β r₁').cycleType = 1 := by
-    rw [hcard.2, hk1, if_pos hβ9, add_zero]
+    rw [hcard.2, hk1, ite_eq_left hβ9, add_zero]
   have hβτswap : (τ₀ * β r₁').IsSwap := isSwap_of_card_cycleType_eq_one hβτinv hcard2'
   let c₁ : ↥(centralizer ({x} : Set G)) := ⟨z, hzx⟩ * u
   have hπc₁ : π c₁ = τ₀ * β r₁' := by
@@ -249,6 +262,7 @@ theorem twist_indicator_r₁'_kappa_ne_one (hC : CentData z ι) (hN : NoSwapConj
   have : IsConj z (z * ι r₁) := IsConj.symm (by simpa [hc₁val] using hconj)
   exact (hN r₁ hr1swap).2 this
 
+omit [Finite G] in
 theorem twist_indicator_r₁' (hC : CentData z ι) (hN : NoSwapConj z ι)
     {x : G} {π : ↥(centralizer ({x} : Set G)) →* Perm (Fin 10)} (hOS : OneSided z ι x π)
     {κ : ↥(centralizer ({x} : Set G)) →* ℤˣ} (hκ : Retraction z x κ)
@@ -265,6 +279,7 @@ theorem twist_indicator_r₁' (hC : CentData z ι) (hN : NoSwapConj z ι)
 
 end Centralizer
 
+omit [Finite G] in
 theorem twist_facts (hC : CentData z ι) (hN : NoSwapConj z ι) {x : G}
     {π : ↥(centralizer ({x} : Set G)) →* Perm (Fin 10)} (hOS : OneSided z ι x π)
     {κ : ↥(centralizer ({x} : Set G)) →* ℤˣ} (hκ : Retraction z x κ) (ρ : Perm (Fin 8))
@@ -315,10 +330,10 @@ theorem twist_facts (hC : CentData z ι) (hN : NoSwapConj z ι) {x : G}
           rw [hεsign, hsignk]
           exact ho.neg_one_pow
         by_contra h8
-        rw [hε ρ, if_neg h8] at h1
+        rw [hε ρ, ite_eq_right h8] at h1
         exact absurd h1 (by decide)
       · intro h8
-        have h1 : ε ρ = -1 := by rw [hε ρ, if_pos h8]
+        have h1 : ε ρ = -1 := by rw [hε ρ, ite_eq_left h8]
         have h2 : (-1 : ℤˣ) ^ Multiset.card ρ.cycleType = -1 := by
           rw [← hsignk, ← hεsign]
           exact h1
@@ -337,13 +352,13 @@ theorem twist_facts (hC : CentData z ι) (hN : NoSwapConj z ι) {x : G}
     have hif1 : (if β ρ 8 = 9 then (1 : ℕ) else 0) =
         (if Odd (Multiset.card ρ.cycleType) then 1 else 0) := by
       by_cases h8 : β ρ 8 = 9
-      · rw [if_pos h8, if_pos (hodd.mpr h8)]
-      · rw [if_neg h8, if_neg (fun ho => h8 (hodd.mp ho))]
+      · rw [ite_eq_left h8, ite_eq_left (hodd.mpr h8)]
+      · rw [ite_eq_right h8, ite_eq_right (fun ho => h8 (hodd.mp ho))]
     have hif2 : (if β ρ 8 = 9 then (0 : ℕ) else 1) =
         (if Odd (Multiset.card ρ.cycleType) then 0 else 1) := by
       by_cases h8 : β ρ 8 = 9
-      · rw [if_pos h8, if_pos (hodd.mpr h8)]
-      · rw [if_neg h8, if_neg (fun ho => h8 (hodd.mp ho))]
+      · rw [ite_eq_left h8, ite_eq_left (hodd.mpr h8)]
+      · rw [ite_eq_right h8, ite_eq_right (fun ho => h8 (hodd.mp ho))]
     exact ⟨by rw [hπρ, hcard.1, hif1], by rw [hπzρ, hcard.2, hif2]⟩
 
 end CFSG.OddStandard.AltStdSec.SwapPattern

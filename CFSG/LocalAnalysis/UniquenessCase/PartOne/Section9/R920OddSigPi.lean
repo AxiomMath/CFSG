@@ -33,7 +33,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem card_mulAut_of_isL2Odd {X : Type} [Group X] {q : ℕ} (hq : q.Prime) (h : IsL2Odd X q) :
     Nat.card (MulAut X) = q * (q ^ 2 - 1) := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨e⟩ := CFSG.GH74.KGroups.PSL2.psl2_equiv_of_lieModel (F := GaloisField q 1) q 1 one_pos
     (by simpa using GaloisField.card q 1 one_ne_zero) h
   rw [Nat.card_congr (MulAut.congr e).toEquiv,
@@ -55,6 +55,7 @@ theorem Shape919.of_isL2Odd {X : Type} [Group X] [Finite X] {q : ℕ} (hq : q.Pr
     rw [card_mulAut_of_isL2Odd hq h, two_mul_card_of_isL2Odd hq (by omega) h])
   not_alt_five := not_isAlt_five_of_isL2Odd hq5 h
 
+omit [Finite G] in
 theorem centralizesBar_of_not_dvd {L A : Subgroup G} {p : ℕ} (hp : p.Prime)
     (hpq : ¬ p ∣ Nat.card (MulAut (Bar2 L))) (hA : IsPGroup p A)
     (hAN : A ≤ normalizer (L : Set G)) : ∀ a ∈ A, CentralizesBar a L := by
@@ -93,8 +94,8 @@ theorem dvd_card_bar2_of_mem_sig (hSg : UC6S846.SigmaStd D) (h614 : UC6.R6_14 D)
   classical
   by_contra hpd
   obtain ⟨hpp, hp2, hp3⟩ := S.sig_prime_ne_three hSg hnsp hp
-  haveI : Fact p.Prime := ⟨hpp⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact p.Prime := ⟨hpp⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hL := S.L_mem
   have hns := S.not_isSolvable_M
   have h3σ := S.three_not_mem_sig hSg hnsp

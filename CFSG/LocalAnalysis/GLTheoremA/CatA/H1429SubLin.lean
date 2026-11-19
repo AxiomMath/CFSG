@@ -33,8 +33,8 @@ theorem exists_fixModel_psl_ge3 {S : Type} [Group S] [Finite S] {n f : ℕ} (hn 
   let _ := hfield
   let _ := hfin
   have hf : 1 ≤ f := hadm.2.1
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
-  haveI : CharP K 3 := finite_field_prime_power_characteristic hp hf hK
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : CharP K 3 := finite_field_prime_power_characteristic hp hf hK
   let θ' : S ≃* projectiveSL n K := θ.trans (projSLEquivStated n K).symm
   set β' : MulAut (projectiveSL n K) := MulAut.congr θ' β with hβ'def
   have hβ'ord : orderOf β' = 3 := by rw [hβ'def, MulEquiv.orderOf_eq]; exact hβ
@@ -81,7 +81,7 @@ theorem exists_fixModel_psl_ge3 {S : Type} [Group S] [Finite S] {n f : ℕ} (hn 
       rfl
     rw [h1, hβeq]
     group
-  haveI hnormC := normal_subgroupOf_self (fixSubgroup a)
+  have hnormC := normal_subgroupOf_self (fixSubgroup a)
   obtain ⟨e⟩ := exists_equiv_of_conj ψ hψ (J := fixSubgroup a) le_rfl (isSolvable_quotient_self _)
     hs hnc hdvd hI
   exact ⟨f / 3, hfp, by omega, hmodel.1, ↥k, inferInstance, inferInstance, hkcard, ⟨e.trans eC⟩⟩
@@ -110,8 +110,8 @@ theorem exists_fixModel_psl_two {S : Type} [Group S] [Finite S] {f : ℕ}
   let _ := hfield
   let _ := hfin
   have hf : 1 ≤ f := hadm.2.1
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
-  haveI : CharP K 3 := finite_field_prime_power_characteristic hp hf hK
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : CharP K 3 := finite_field_prime_power_characteristic hp hf hK
   let θ' : S ≃* projectiveSL 2 K := θ.trans (projSLEquivStated 2 K).symm
   set β' : MulAut (projectiveSL 2 K) := MulAut.congr θ' β with hβ'def
   have hβ'ord : orderOf β' = 3 := by rw [hβ'def, MulEquiv.orderOf_eq]; exact hβ
@@ -171,7 +171,7 @@ theorem exists_fixModel_psl_two {S : Type} [Group S] [Finite S] {f : ℕ}
         omega, fun h => by
         have := (Prod.mk.inj h).2
         omega⟩, ↥k, inferInstance, inferInstance, hkcard, ⟨eC⟩⟩
-    haveI hnormC := normal_subgroupOf_self (fixSubgroup a)
+    have hnormC := normal_subgroupOf_self (fixSubgroup a)
     obtain ⟨e⟩ := exists_equiv_of_conj ψ hψ (J := fixSubgroup a) le_rfl (isSolvable_quotient_self _)
       hs hnc hdvd hI
     exact ⟨f / 3, hfp, by omega, hmodel.1, ↥k, inferInstance, inferInstance, hkcard, ⟨e.trans eC⟩⟩

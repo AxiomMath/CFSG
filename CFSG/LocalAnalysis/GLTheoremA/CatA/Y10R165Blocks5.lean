@@ -28,7 +28,7 @@ theorem blockSpace_bilinear_orthogonal (hp : p.Prime) (hpF : (p : F) ≠ 0) (hA 
     (B : V →ₗ[F] V →ₗ[F] F) (hB : ∀ a : ↥A, ∀ u v : V, B ((a : V ≃ₗ[F] V) u) ((a : V ≃ₗ[F] V) v) = B u v)
     {D E : Hyperplane A p} (hDE : D ≠ E) {u v : V} (hu : u ∈ blockSpace A D.1)
     (hv : v ∈ blockSpace A E.1) : B u v = 0 := by
-  haveI : IsMulCommutative ↥A := hA.1
+  have : IsMulCommutative ↥A := hA.1
   have hcomm : ∀ a ∈ (⊤ : Subgroup ↥A), ∀ b ∈ (⊤ : Subgroup ↥A), a * b = b * a :=
     fun a _ b _ => mul_comm' a b
   have hgen : D.1 ⊔ E.1 = ⊤ := by

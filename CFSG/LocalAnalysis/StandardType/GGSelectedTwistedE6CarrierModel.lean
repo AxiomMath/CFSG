@@ -96,7 +96,7 @@ theorem TwistedE6SourceCover.exists_longModel_of_native_carrier
     intro hs
     have hR : Group.IsSolvable ↥((M.map pi).map iota) := by
       rw [← hφ]
-      exact solvable_of_surjective φ.rangeRestrict_surjective
+      exact Group.isSolvable_of_surjective φ.rangeRestrict_surjective
     rw [hposition] at hR
     obtain ⟨-, hsimple, u, v, huv⟩ := hqs
     exact huv (IsSimpleGroup.comm_iff_isSolvable.2 inferInstance u v)

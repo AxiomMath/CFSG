@@ -92,6 +92,7 @@ theorem centralizer_omegaCenter_eq_of_center (h : CampbellHyp X K R P) {C₀ : S
   rw [← hEq]
   exact hP₂le
 
+omit [Finite A] in
 theorem false_of_notCentralizer (h : CampbellHyp X K R P)
     (hNot : CFSG.Quasithin.C134NotCentralizerCore X (pCoreOf 2 P))
     (hC : X ⊓ centralizer ((omegaCenter R : Subgroup A) : Set A) = P) : False := by

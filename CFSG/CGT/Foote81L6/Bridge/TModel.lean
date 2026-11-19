@@ -417,7 +417,7 @@ theorem Atil_comm_Btil {n : ℕ} {y y' : P n} (hy : y ∈ Atil n) (hy' : y' ∈ 
   · rw [PHat.mul_x₃, PHat.mul_x₃, mem_Btil.1 hy', one_mul, mul_one]
   · rw [PHat.mul_e, PHat.mul_e, add_comm]
 
-theorem inf_map_Atil_Btil {n : ℕ} (hn : 2 ≤ n) :
+theorem inf_map_Atil_Btil {n : ℕ} (_hn : 2 ≤ n) :
     (Atil n).map (πT n) ⊓ (Btil n).map (πT n) = ⊥ := by
   rw [eq_bot_iff]
   rintro x ⟨⟨y, hy, rfl⟩, ⟨y', hy', hyy'⟩⟩

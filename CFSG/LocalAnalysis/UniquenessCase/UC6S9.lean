@@ -24,11 +24,12 @@ theorem exists_rankThreeIsMaxTwoLocal_ge_uc6 {H : Subgroup G} (hH : IsTwoLocal H
   have hKS : K ∈ S := ⟨hK, hHM.trans hMK⟩
   exact (Subgroup.eq_of_le_of_card_ge hMK (hmax K hKS)).symm
 
+omit [Finite G] in
 theorem normalizer_ne_top_of_card_prime_uc6 (hsimp : IsSimpleGroup G)
     (hnab : ∃ a b : G, a * b ≠ b * a) {p : ℕ} (hp : p.Prime) {X : Subgroup G}
     (hX : Nat.card X = p) : normalizer (X : Set G) ≠ ⊤ := by
   intro h
-  haveI : X.Normal := Subgroup.normalizer_eq_top_iff.1 h
+  have : X.Normal := Subgroup.normalizer_eq_top_iff.1 h
   rcases hsimp.eq_bot_or_eq_top_of_normal X with hb | ht
   · have : Nat.card X = 1 := by rw [hb]; exact Subgroup.card_bot
     rw [hX] at this
@@ -41,7 +42,7 @@ theorem normalizer_ne_top_of_card_prime_uc6 (hsimp : IsSimpleGroup G)
 
 theorem inf_normalizer_le_pCoreOf_uc6 (M X : Subgroup G) :
     pCoreOf 2 M ⊓ normalizer (X : Set G) ≤ pCoreOf 2 (normalizer (X : Set G) ⊓ M) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQM : pCoreOf 2 M ≤ M := CFSG.LieType.BorelTits.pCoreOf_le 2 M
   have hQp : IsPGroup 2 (pCoreOf 2 M) := CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 M
   refine CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2
@@ -106,12 +107,12 @@ theorem six9_key (hK : UCK.K47) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {X : Su
     {P : Subgroup G} (hPM : P ≤ S.M) (hPp : IsPGroup p P) (hXP : X ≤ P) {y : G} (hy : y ∈ P)
     (hyc : ∀ x ∈ X, ∀ w ∈ P, (y * x * y⁻¹ * x⁻¹) * w = w * (y * x * y⁻¹ * x⁻¹)) :
     ∀ x ∈ X, y * x = x * y := by
-  haveI := hS.simple
+  have := hS.simple
   have hMtop : S.M ≠ ⊤ :=
     CFSG.PreuniquenessRankFour.Helpers.twoLocal_ne_top hS.nonab S.maxLocal.1
   have hMg : CFSG.Open.IsKGroup ↥S.M := hS.kProper.isKGroup S.M hMtop
-  haveI hQn : (CFSG.pCore 2 ↥S.M).Normal := CFSG.LieType.BorelTits.pCore_normal 2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hQn : (CFSG.pCore 2 ↥S.M).Normal := CFSG.LieType.BorelTits.pCore_normal 2
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQ : IsPGroup 2 (CFSG.pCore 2 ↥S.M) := CFSG.LieType.BorelTits.pCore_isPGroup 2
   have hchar : centralizer ((CFSG.pCore 2 ↥S.M : Subgroup ↥S.M) : Set ↥S.M) ≤
       CFSG.pCore 2 ↥S.M := by
@@ -153,6 +154,7 @@ theorem six9_key (hK : UCK.K47) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {X : Su
   intro x hx
   exact congrArg Subtype.val (hk ⟨x, hXM hx⟩ hx)
 
+omit [Finite G] in
 theorem commutator_commutes_of_mem_upperCentralSeries_two_uc6 {P : Subgroup G} {a : ↥P}
     (ha : a ∈ Subgroup.upperCentralSeries ↥P 2) (g w : ↥P) :
     ((a * g * a⁻¹ * g⁻¹ : ↥P) : G) * (w : G) = (w : G) * ((a * g * a⁻¹ * g⁻¹ : ↥P) : G) := by

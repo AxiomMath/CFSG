@@ -49,6 +49,7 @@ structure TwelveSixIData (H L₁ L₂ L₃ : Subgroup G) (n₁ n₂ n₃ : ℕ) 
 
 namespace TwelveSixIData
 
+omit [Finite G] in
 private theorem isCZeroMember_map_conj_map {X I : Subgroup G} (h : IsCZeroMember X I) (g : G) :
     IsCZeroMember (X.map (MulAut.conj g).toMonoidHom)
       (I.map (MulAut.conj g).toMonoidHom) := by
@@ -81,6 +82,7 @@ private theorem isCZeroMember_map_conj_map {X I : Subgroup G} (h : IsCZeroMember
         (CFSG.HardMathSupport.Cooperstein.Proving.quotientPCoreMulEquiv 2
           ((MulAut.conj g).subgroupMap I)) hq
 
+omit [Finite G] in
 private theorem mem_three_of_mem_cZero {H L₁ L₂ L₃ : Subgroup G} {n₁ n₂ n₃ : ℕ}
     (D : TwelveSixIData H L₁ L₂ L₃ n₁ n₂ n₃) {L I : Subgroup G}
     (hL : L ∈ ({L₁, L₂, L₃} : Set (Subgroup G))) (hI : I ∈ cZero (H ⊓ L)) :
@@ -154,27 +156,34 @@ private theorem isSubnormal_of_le_jSub {H L₁ L₂ L₃ : Subgroup G} {n₁ n�
 
 variable {H L₁ L₂ L₃ : Subgroup G} {n₁ n₂ n₃ : ℕ} (D : TwelveSixIData H L₁ L₂ L₃ n₁ n₂ n₃)
 
+omit [Finite G] in
 theorem isCZeroMember₁ : IsCZeroMember (H ⊓ L₁) D.I₁ := by
   change D.I₁ ∈ cZero (H ⊓ L₁)
   rw [D.cZero₁]
   exact Set.mem_singleton _
 
+omit [Finite G] in
 theorem isCZeroMember₂ : IsCZeroMember (H ⊓ L₂) D.I₂ := by
   change D.I₂ ∈ cZero (H ⊓ L₂)
   rw [D.cZero₂]
   exact Set.mem_singleton _
 
+omit [Finite G] in
 theorem isCZeroMember₃ : IsCZeroMember (H ⊓ L₃) D.I₃ := by
   change D.I₃ ∈ cZero (H ⊓ L₃)
   rw [D.cZero₃]
   exact Set.mem_singleton _
 
+omit [Finite G] in
 theorem le_inf₁ : D.I₁ ≤ H ⊓ L₁ := D.isCZeroMember₁.le
 
+omit [Finite G] in
 theorem le_inf₂ : D.I₂ ≤ H ⊓ L₂ := D.isCZeroMember₂.le
 
+omit [Finite G] in
 theorem le_inf₃ : D.I₃ ≤ H ⊓ L₃ := D.isCZeroMember₃.le
 
+omit [Finite G] in
 theorem V_le : D.V ≤ D.I₁ ⊔ D.I₂ ⊔ D.I₃ := by
   rw [D.cfg.join]
   have h12 : D.W₁ ⊔ D.W₂ ≤ D.I₁ ⊔ D.I₂ :=

@@ -131,6 +131,7 @@ namespace Sec
 
 variable {I P Z J : Subgroup Γ}
 
+omit [Finite Γ] in
 theorem normal (hS : Sec I P Z J) : (Z.subgroupOf P).Normal :=
   (Subgroup.normal_subgroupOf_iff_le_normalizer hS.ZP).2 (hS.PI.trans hS.IZ)
 
@@ -139,12 +140,14 @@ variable [(Z.subgroupOf P).Normal]
 noncomputable abbrev act (hS : Sec I P Z J) : ↥I →* MulAut (↥P ⧸ Z.subgroupOf P) :=
   Dih.conjSecAut P Z I hS.IP hS.IZ
 
+omit [Finite Γ] in
 theorem act_mk (hS : Sec I P Z J) (i : I) (y : P) :
     hS.act i (y : ↥P ⧸ Z.subgroupOf P) =
       ((⟨(i : Γ) * y * (i : Γ)⁻¹, (Subgroup.mem_normalizer_iff.mp (hS.IP i.2) y).mp y.2⟩ : P) :
         ↥P ⧸ Z.subgroupOf P) :=
   Dih.conjSecAut_mk i y
 
+omit [Finite Γ] in
 theorem comm_quot (hS : Sec I P Z J) (a b : ↥P ⧸ Z.subgroupOf P) : a * b = b * a := by
   obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective a
   obtain ⟨y, rfl⟩ := QuotientGroup.mk_surjective b
@@ -156,15 +159,18 @@ theorem comm_quot (hS : Sec I P Z J) (a b : ↥P ⧸ Z.subgroupOf P) : a * b = b
   rw [e]
   exact hS.comm _ (P.inv_mem y.2) _ (P.inv_mem x.2)
 
+omit [Finite Γ] in
 theorem sq_quot (hS : Sec I P Z J) (a : ↥P ⧸ Z.subgroupOf P) : a * a = 1 := by
   obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective a
   rw [← QuotientGroup.mk_mul, QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf, Subgroup.coe_mul,
     ← pow_two]
   exact hS.sq x x.2
 
+omit [Finite Γ] in
 theorem mk_eq_one_iff (y : P) : ((y : ↥P ⧸ Z.subgroupOf P) = 1) ↔ (y : Γ) ∈ Z := by
   rw [QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf]
 
+omit [Finite Γ] in
 theorem irr_quot (hS : Sec I P Z J) (Y : Subgroup (↥P ⧸ Z.subgroupOf P))
     (hY : ∀ i : I, ∀ q ∈ Y, hS.act i q ∈ Y) : Y = ⊥ ∨ Y = ⊤ := by
   have key : ∀ i ∈ I, ∀ x ∈ Dih.liftSec Y, i * x * i⁻¹ ∈ Dih.liftSec Y := by
@@ -192,8 +198,6 @@ theorem irr_quot (hS : Sec I P Z J) (Y : Subgroup (↥P ⧸ Z.subgroupOf P))
     have hx : x ∈ Dih.liftSec Y := by rw [h]; exact hxP
     exact (Dih.mem_liftSec.1 hx).2
 
-variable [Finite Γ]
-
 theorem two_dvd_card (hS : Sec I P Z J) : 2 ∣ Nat.card (↥P ⧸ Z.subgroupOf P) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp : IsPGroup 2 (↥P ⧸ Z.subgroupOf P) := fun a => ⟨1, by rw [pow_one, pow_two, hS.sq_quot]⟩
@@ -212,7 +216,7 @@ theorem two_dvd_card (hS : Sec I P Z J) : 2 ∣ Nat.card (↥P ⧸ Z.subgroupOf 
 theorem act_eq_one (hS : Sec I P Z J) {j : Γ} (hj : j ∈ J) : hS.act ⟨j, hS.JI hj⟩ = 1 := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let τ : ↥J →* MulAut (↥P ⧸ Z.subgroupOf P) := hS.act.comp (Subgroup.inclusion hS.JI)
-  letI : MulAction ↥J (↥P ⧸ Z.subgroupOf P) := MulAction.compHom _ τ
+  let : MulAction ↥J (↥P ⧸ Z.subgroupOf P) := MulAction.compHom _ τ
   have hfix1 : (1 : ↥P ⧸ Z.subgroupOf P) ∈ MulAction.fixedPoints ↥J (↥P ⧸ Z.subgroupOf P) :=
     fun j' => map_one (τ j')
   obtain ⟨q, hq, hq1⟩ :=
@@ -255,6 +259,7 @@ theorem starAct_mk (hS : Sec I P Z J) (i : I) :
     hS.starAct (i : ↥I ⧸ J.subgroupOf I) = hS.act i :=
   QuotientGroup.lift_mk _ _ _
 
+omit [Finite Γ] [(J.subgroupOf I).Normal] in
 theorem conj_mem_of_act (hS : Sec I P Z J) {x b : Γ} (hx : x ∈ P) (hb : b ∈ P) {i : I}
     (h : hS.act i ((⟨b, hb⟩ : P) : ↥P ⧸ Z.subgroupOf P) = ((⟨x, hx⟩ : P) : ↥P ⧸ Z.subgroupOf P)) :
     ((i : Γ) * b * (i : Γ)⁻¹)⁻¹ * x ∈ Z := by

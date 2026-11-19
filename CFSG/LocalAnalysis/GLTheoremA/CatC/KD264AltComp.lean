@@ -18,6 +18,7 @@ variable {n : ℕ} (K : Subgroup Y) (hK : K.Normal) (e : K ≃* alternatingGroup
 variable {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hn : 5 ≤ n)
 variable (B : Subgroup Y) (hB : ∀ b ∈ B, b ^ p = 1)
 
+omit [Finite Y] in
 theorem comm_iff_psi (b : B) (k : K) :
     (b : Y) * (k : Y) = (k : Y) * (b : Y) ↔
       psiHom K hK e hp hp2 hn B hB b * e k = e k * psiHom K hK e hp hp2 hn B hB b := by
@@ -49,6 +50,7 @@ theorem comm_iff_psi (b : B) (k : K) :
 @[expose] noncomputable def psiImage (E : Subgroup Y) : Subgroup (alternatingGroup (Fin n)) :=
   (E.subgroupOf B).map (psiHom K hK e hp hp2 hn B hB)
 
+omit [Finite Y] in
 theorem centralizer_psiImage_map (E : Subgroup Y) (hEB : E ≤ B) :
     (Subgroup.centralizer ((psiImage K hK e hp hp2 hn B hB E : Subgroup _) :
         Set (alternatingGroup (Fin n)))).map (K.subtype.comp e.symm.toMonoidHom) =
@@ -81,6 +83,7 @@ theorem centralizer_psiImage_map (E : Subgroup Y) (hEB : E ≤ B) :
     · show (e.symm (e ⟨y, hyK⟩) : Y) = y
       rw [MulEquiv.symm_apply_apply]
 
+omit [Finite Y] in
 theorem glaPLayer_ne_bot_of_psi (E : Subgroup Y) (hEB : E ≤ B)
     (τ : alternatingGroup (Fin n)) (hτ : τ ∈ psiImage K hK e hp hp2 hn B hB E)
     (hsupp : ∀ g ∈ psiImage K hK e hp hp2 hn B hB E,
@@ -105,7 +108,7 @@ theorem glaPLayer_ne_bot_of_psi (E : Subgroup Y) (hEB : E ≤ B)
       (τ : Equiv.Perm (Fin n)) rfl
     have h1 := Nat.card_congr φ.toEquiv
     rw [hbot, Subgroup.card_bot] at h1
-    haveI : IsSimpleGroup (alternatingGroup (Fin (n - (τ : Equiv.Perm (Fin n)).support.card))) :=
+    have : IsSimpleGroup (alternatingGroup (Fin (n - (τ : Equiv.Perm (Fin n)).support.card))) :=
       alternatingGroup.isSimpleGroup (by rw [Nat.card_eq_fintype_card, Fintype.card_fin]; exact h5)
     have h2 := Finite.one_lt_card (α := alternatingGroup (Fin (n - (τ : Equiv.Perm (Fin n)).support.card)))
     omega

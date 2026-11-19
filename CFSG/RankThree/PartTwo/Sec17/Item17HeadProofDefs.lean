@@ -217,7 +217,7 @@ theorem exists_invariant_sylow {A Q : Subgroup G} (hA : IsPGroup 3 A)
   have : Fact r.Prime := ⟨hr⟩
   obtain ⟨S, hS⟩ := CFSG.OrderReductions.InvariantSylow.exists_invariant_sylow_of_coprime 3 r
     hA hQ (Q.normalizerMonoidHom.comp (Subgroup.inclusion hAQ))
-  refine ⟨(S : Subgroup Q).map Q.subtype, Subgroup.map_subtype_le _, S.isPGroup'.map _,
+  refine ⟨(S : Subgroup Q).map Q.subtype, Subgroup.map_subtype_le _, S.isPGroup.map _,
     fun a ha => ?_, ?_⟩
   · rw [Subgroup.mem_normalizer_iff_map_conj_eq]
     conv_rhs => rw [← hS ⟨a, ha⟩]

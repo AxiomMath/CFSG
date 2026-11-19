@@ -319,7 +319,7 @@ theorem exact_GL2_centralizer_order_alternatives_core {G : Type} [Group G] [Fint
       ψ ≠ (χ₇ : G → ℂ) → ∀ s ∈ (S : Subgroup G), s ≠ 1 → ψ s = 0 := by
     intro ψ hψ e0 e1 e2 e3 e4 e5 e6 e7 s hs hs1
     apply hvanish ψ hψ e0 e1 e2 e3 e4 e5 e6 e7 s
-    obtain ⟨k, hk⟩ := (S.isPGroup' ⟨s, hs⟩)
+    obtain ⟨k, hk⟩ := (S.isPGroup ⟨s, hs⟩)
     have hord : orderOf s ∣ 2 ^ k := by
       rw [← Subgroup.orderOf_mk s hs]
       exact orderOf_dvd_of_pow_eq_one hk

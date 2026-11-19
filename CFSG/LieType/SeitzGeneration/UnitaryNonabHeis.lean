@@ -32,8 +32,7 @@ theorem charpoly_comp_C_mul_X_eq {p : ℕ} (A : Matrix (Fin p) (Fin p) K) {c : K
         Matrix.diagonal_apply_eq, Matrix.smul_apply, smul_eq_mul, map_sub, Polynomial.aeval_X,
         Polynomial.aeval_C, Polynomial.algebraMap_eq, mul_sub, hcc]
     · simp only [AlgHom.mapMatrix_apply, Matrix.map_apply, charmatrix_apply,
-        Matrix.diagonal_apply_ne _ hij, Matrix.smul_apply, smul_eq_mul, map_sub, map_zero,
-        Polynomial.aeval_C, Polynomial.algebraMap_eq, zero_sub, mul_sub, mul_neg, map_neg, hcc]
+        Matrix.diagonal_apply_ne _ hij, Matrix.smul_apply, smul_eq_mul, Polynomial.aeval_C, Polynomial.algebraMap_eq, zero_sub, mul_neg, map_neg, hcc]
   have key := AlgHom.map_det (Polynomial.aeval (Polynomial.C c * Polynomial.X) :
     Polynomial K →ₐ[K] Polynomial K) (charmatrix A)
   rw [hmat, Matrix.det_smul, Fintype.card_fin] at key
@@ -123,7 +122,7 @@ theorem det_eq_scalar_of_heis (hp : p.Prime) (hp2 : p ≠ 2) {g h : GL (Fin p) K
       ζ • ((g : Matrix (Fin p) (Fin p) K) * (h : Matrix (Fin p) (Fin p) K))) :
     (g : Matrix (Fin p) (Fin p) K).det = α := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hζ0 : ζ ≠ 0 := by
     rintro rfl
     have h1 := hζ.pow_eq_one
@@ -173,13 +172,13 @@ theorem det_eq_scalar_of_heis (hp : p.Prime) (hp2 : p ≠ 2) {g h : GL (Fin p) K
     rw [Polynomial.coeff_add, Polynomial.coeff_X_pow, Polynomial.coeff_C]
     rcases Nat.lt_trichotomy k p with hk | hk | hk
     · rcases Nat.eq_zero_or_pos k with hk0 | hk0
-      · rw [hk0, if_neg (Ne.symm hp.ne_zero), if_pos rfl, zero_add]
-      · rw [hcoef k hk0 hk, if_neg (show k ≠ p by omega), if_neg (show k ≠ 0 by omega), add_zero]
-    · rw [hk, if_pos rfl, if_neg hp.ne_zero, add_zero]
+      · rw [hk0, ite_eq_right (Ne.symm hp.ne_zero), ite_eq_left rfl, zero_add]
+      · rw [hcoef k hk0 hk, ite_eq_right (show k ≠ p by omega), ite_eq_right (show k ≠ 0 by omega), add_zero]
+    · rw [hk, ite_eq_left rfl, ite_eq_right hp.ne_zero, add_zero]
       exact hlead
     · have hz : (g : Matrix (Fin p) (Fin p) K).charpoly.coeff k = 0 :=
         Polynomial.coeff_eq_zero_of_natDegree_lt (by rw [hdeg]; exact hk)
-      rw [hz, if_neg (show k ≠ p by omega), if_neg (show k ≠ 0 by omega), add_zero]
+      rw [hz, ite_eq_right (show k ≠ p by omega), ite_eq_right (show k ≠ 0 by omega), add_zero]
   have hCH := Matrix.aeval_self_charpoly (g : Matrix (Fin p) (Fin p) K)
   rw [hPeq] at hCH
   simp only [map_add, map_pow, Polynomial.aeval_X, Polynomial.aeval_C,
@@ -331,7 +330,7 @@ theorem eq_top_of_heis_pair_prime_gu [Finite K] [Fact ℓ.Prime] [CharP K ℓ]
   classical
   obtain ⟨μ, hμ⟩ := hα
   have hp2 : p ≠ 2 := by omega
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hα0 : α ≠ 0 := scalar_ne_zero_of_pow hg₁p
   have hμ0 : μ ≠ 0 := by
     rintro rfl
@@ -395,8 +394,8 @@ theorem eq_top_of_heis_pair_p [Finite K] [Fact ℓ.Prime] [CharP K ℓ] (h : Uni
       HeisTensor.Cent H ((g₁ * g₀ ^ j : GL (Fin n) K) : Matrix (Fin n) (Fin n) K)) : H = ⊤ := by
   classical
   have hp2 : p ≠ 2 := by omega
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : NeZero n := ⟨by omega⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero n := ⟨by omega⟩
   have hσ := Nonsplit.isUnitaryInvolution h
   have hα0 : α ≠ 0 := scalar_ne_zero_of_pow hg₁p
   have hαN : h.bar α * α = 1 := bar_mul_eq_one_of_scalar_pow h (by omega) hg₁ hg₁p

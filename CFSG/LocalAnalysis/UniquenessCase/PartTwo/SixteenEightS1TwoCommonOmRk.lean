@@ -15,7 +15,7 @@ private theorem s16e_twoOR_false_of_card_le_two {G : Type*} [Group G] [Finite G]
     (hy : y ∈ A) (h1 : y₁ ∈ A) (h2 : y₂ ∈ A)
     (h1y : y₁ ≠ y) (h2y : y₂ ≠ y) (h12 : y₁ ≠ y₂) : False := by
   classical
-  haveI : Fintype ↥A := Fintype.ofFinite ↥A
+  have : Fintype ↥A := Fintype.ofFinite ↥A
   let v : Fin 3 → ↥A := ![⟨y₁, h1⟩, ⟨y₂, h2⟩, ⟨y, hy⟩]
   have hv : Function.Injective v := by
     intro i j hij
@@ -27,14 +27,14 @@ private theorem s16e_twoOR_false_of_card_le_two {G : Type*} [Group G] [Finite G]
   omega
 
 theorem s16e_two_om_comm_rk_ge {W : Type} [CommGroup W] [Finite W] {H : Subgroup (MulAut W)}
-    {J : Subgroup W} {n : ℕ} (hn : n = 6 ∨ n = 8) (h : NatOmegaMinus H J ⊥ n 1) {x : MulAut W}
+    {J : Subgroup W} {n : ℕ} (_hn : n = 6 ∨ n = 8) (h : NatOmegaMinus H J ⊥ n 1) {x : MulAut W}
     (hx : x ∈ H) (hx1 : x ≠ 1) (hx2 : x ^ 2 = 1) :
     2 ≤ rk ↥(commSub J (Subgroup.zpowers x)) := by
   have _ := hx2
   obtain ⟨-, K, hK, hKf, b, c, hK2, hpoly, hReal⟩ := h
-  letI := hK
-  haveI : Finite K := hKf
-  haveI : Fintype K := Fintype.ofFinite K
+  let := hK
+  have : Finite K := hKf
+  have : Fintype K := Fintype.ofFinite K
   let d : ℕ := n / 2
   obtain ⟨π, hπ⟩ := hReal
   let R := CFSG.Quasithin.SzN15.NatReal.of_realizesVia hπ
@@ -143,7 +143,7 @@ theorem s16e_two_om_comm_rk_ge {W : Type} [CommGroup W] [Finite W] {H : Subgroup
     rw [show β (⟨xπ (u : W), hu⟩ : ↥J) =
         natAct (StatedOmega (StatedQuadMinus (n / 2) K b c)) γ (β u) by
       exact hβe γ u hu]
-    simp only [natAct, toAdd_ofAdd]
+    simp only [natAct]
     rw [show (β u)⁻¹ = Multiplicative.ofAdd (-(Multiplicative.toAdd (β u))) from rfl]
     rw [← ofAdd_add, sub_eq_add_neg]
   have hu₀β : β u₀J = Multiplicative.ofAdd a := by

@@ -11,6 +11,7 @@ open CFSG.Quasithin CFSG.Open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem s16h_sl4be_mkTil_bot_injective {V : Subgroup G} (hV : IsElemAbelian 2 V) :
     Function.Injective (mkTil (⊥ : Subgroup G) V hV) := by
   rw [← MonoidHom.ker_eq_bot_iff]
@@ -24,8 +25,9 @@ theorem s16h_sl4be_mkTil_bot_injective {V : Subgroup G} (hV : IsElemAbelian 2 V)
   · rintro rfl
     exact map_one _
 
-theorem s16h_sl4be_imgTil_inf {V A B : Subgroup G} (hV : IsElemAbelian 2 V) (hA : A ≤ V)
-    (hB : B ≤ V) :
+omit [Finite G] in
+theorem s16h_sl4be_imgTil_inf {V A B : Subgroup G} (hV : IsElemAbelian 2 V) (_hA : A ≤ V)
+    (_hB : B ≤ V) :
     imgTil ⊥ V hV (A ⊓ B) = imgTil ⊥ V hV A ⊓ imgTil ⊥ V hV B := by
   ext q
   rw [mem_imgTil, Subgroup.mem_inf, mem_imgTil, mem_imgTil]
@@ -63,6 +65,7 @@ theorem s16h_sl4be_fixV_map_conj {W : Type*} [CommGroup W] (X : Subgroup (MulAut
     show (g * a * g⁻¹) (g w) = g w
     rw [MulAut.mul_apply, MulAut.mul_apply, MulAut.inv_apply_self W g w, haw]
 
+omit [Finite G] in
 theorem s16h_sl4be_fixV_barSub {W V : Subgroup G} (hV : IsElemAbelian 2 V)
     (hW : W ≤ stabTil ⊥ V) :
     fixV (barSub ⊥ V hV W) = imgTil ⊥ V hV (V ⊓ centralizer (W : Set G)) := by
@@ -90,6 +93,7 @@ theorem s16h_sl4be_fixV_barSub {W V : Subgroup G} (hV : IsElemAbelian 2 V)
     rw [actStab_apply_val]
     exact mul_inv_eq_iff_eq_mul.2 ((Subgroup.mem_centralizer_iff.1 hyC) m hm)
 
+omit [Finite G] in
 theorem s16h_sl4be_preTil_fixV {V L : Subgroup G} (hV : IsElemAbelian 2 V)
     (hL : L ≤ stabTil ⊥ V) :
     preTil ⊥ V hV (fixV (lBar ⊥ V hV L)) = V ⊓ centralizer (L : Set G) := by
@@ -115,6 +119,7 @@ theorem s16h_sl4be_preTil_fixV {V L : Subgroup G} (hV : IsElemAbelian 2 V)
       show lBar ⊥ V hV L = barSub ⊥ V hV L from rfl, hfix, mem_imgTil]
     exact ⟨IntMod.mk hV ⟨g, hgV⟩, Subgroup.mem_inf.2 ⟨hgV, hgC⟩, rfl⟩
 
+omit [Finite G] in
 theorem s16h_sl4be_imgTil_wSub_inf_cent {V L : Subgroup G} (hV : IsElemAbelian 2 V)
     (hL : L ≤ stabTil ⊥ V) :
     imgTil ⊥ V hV (wSub ⊥ V hV L ⊓ centralizer (L : Set G)) =

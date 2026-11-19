@@ -38,7 +38,7 @@ theorem hm_corootE7 {γ : Fin Tag.E7.rank → ℤ} (hγ : IsRoot Tag.E7 γ)
   have hB : Tag.E7.symmetrizedCartan = Tag.E7.cartan := by
     simp [Tag.symmetrizedCartan, Tag.symmetrizer]
   have e : iform γ δ = ∑ i, δ i * corootE7 γ i := by
-    simp only [iform, hB, corootE7, Finset.mul_sum, Finset.sum_mul]
+    simp only [iform, hB, corootE7, Finset.mul_sum]
     rw [Finset.sum_comm]
     refine Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun j _ => ?_
     ring

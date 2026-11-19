@@ -217,7 +217,7 @@ public theorem CFSG.isPiGroup_quotient_fixingSubgroup_of_stabilizesNormalSeries 
         (hp_prime.coprime_iff_not_dvd).mpr h_coprime_G'
       have hp_prime_fact : Fact (Nat.Prime p.val) := ⟨hp_prime⟩
       rcases Sylow.nonempty (p := p.val) (G := Q) with ⟨P⟩
-      have hP_pgroup : IsPGroup p.val P := P.isPGroup'
+      have hP_pgroup : IsPGroup p.val P := P.isPGroup
       let P' : Subgroup Q := P
       have hinvP : ∀ i, IsInvariant P' G (Gi i) := fun i => IsInvariant.subgroup (Gi i) P'
       have hfactorP : ∀ i (a : P') (g : G), g ∈ Gi i → (a • g) * g⁻¹ ∈ Gi (next i) := by

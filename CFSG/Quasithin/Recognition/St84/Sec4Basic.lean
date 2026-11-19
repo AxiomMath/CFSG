@@ -114,7 +114,6 @@ private theorem int_path_aut {σ : ℤ → ℤ} (hinj : Function.Injective σ)
     | zero => simp
     | succ n ih =>
         have h := hd (n : ℤ)
-        push_cast at h ⊢
         omega
     | pred n ih =>
         have h := hd (-(n : ℤ) - 1)
@@ -132,7 +131,6 @@ private theorem int_path_aut {σ : ℤ → ℤ} (hinj : Function.Injective σ)
     | zero => simp
     | succ n ih =>
         have h := hd (n : ℤ)
-        push_cast at h ⊢
         omega
     | pred n ih =>
         have h := hd (-(n : ℤ) - 1)
@@ -596,7 +594,7 @@ theorem le_r_of_fixes (H : X.Sec4Hyp s r) {U : Subgroup G} (hU : IsPGroup 2 U) (
   rw [hbot] at hle
   exact hne (le_bot_iff.mp hle)
 
-private theorem card_eq_two_pow_of_K_invariant (H : X.Sec4Hyp s r) {a : ℤ} {W : Subgroup G}
+private theorem card_eq_two_pow_of_K_invariant (_H : X.Sec4Hyp s r) {a : ℤ} {W : Subgroup G}
     (hWE : W ≤ X.edgeSylow a) (hWK : X.K ≤ Subgroup.normalizer (W : Set G))
     (hWne : W ≠ ⊥) (hWQ : W ⊓ X.Q a = ⊥) : Nat.card W = 2 ^ X.n a := by
   have hsup := X.sup_Q_eq_edgeSylow_of_left_gen a (inf_le_left.trans hWK) hWE
@@ -614,7 +612,7 @@ private theorem card_eq_two_pow_of_K_invariant (H : X.Sec4Hyp s r) {a : ℤ} {W 
       Nat.card (X.edgeSylow a) := by
     have h := Subgroup.relIndex_mul_card (X.Q a) (X.edgeSylow a)
     rwa [inf_eq_left.mpr (X.Q_le_edgeSylow_left a)] at h
-  haveI : Finite ↥(X.Q a) := finite_of_le_stabilizer X.hyp (H := X.Q a) (X.Q_le_Gi a)
+  have : Finite ↥(X.Q a) := finite_of_le_stabilizer X.hyp (H := X.Q a) (X.Q_le_Gi a)
   have hQpos : 0 < Nat.card (X.Q a) := Nat.card_pos
   have heq : 2 ^ X.n a * Nat.card (X.Q a) = Nat.card W * Nat.card (X.Q a) := by
     rw [← hrel, hcard2, hcard, mul_comm]
@@ -708,7 +706,7 @@ theorem le_pCoreOf_arcStab_r (H : X.Sec4Hyp s r) {U : Subgroup G} {a : ℤ}
   have hKA : X.K ≤ A := X.K_le_GT.trans (X.GT_le_arcStab a (a + (r : ℤ)))
   have hA : A ≤ X.Gi a ⊓ X.Gi (a + 1) :=
     le_inf (X.arcStab_le_Gi_left hlt) (X.arcStab_le_Gi_left_succ hlt)
-  haveI : Finite ↥(X.Gi a ⊓ X.Gi (a + 1)) :=
+  have : Finite ↥(X.Gi a ⊓ X.Gi (a + 1)) :=
     finite_of_le_stabilizer X.hyp (H := X.Gi a ⊓ X.Gi (a + 1)) inf_le_left
   rw [(X.pCoreOf_eq_inf_edgeSylow a hKA hA).1]
   exact le_inf hfix (le_of_normal_isSylowTwoOf (X.isSylowTwoOf_edgeSylow a)
@@ -739,8 +737,8 @@ theorem eq_of_le_pCoreOf_arcStab_r (H : X.Sec4Hyp s r) {U : Subgroup G} {a : ℤ
       _ = ⊥ := hPinfQa
   have hcardU : Nat.card U = 2 ^ X.n a :=
     X.card_eq_two_pow_of_K_invariant H hU_edge hK hne hUinfQ
-  haveI hAfin : Finite ↥A := finite_of_le_stabilizer X.hyp (H := A) (X.arcStab_le_Gi_left hlt)
-  haveI hPfin : Finite ↥P := Finite.of_injective
+  have hAfin : Finite ↥A := finite_of_le_stabilizer X.hyp (H := A) (X.arcStab_le_Gi_left hlt)
+  have hPfin : Finite ↥P := Finite.of_injective
     (Subgroup.inclusion (CFSG.LieType.BorelTits.pCoreOf_le 2 A))
     (Subgroup.inclusion_injective _)
   have hcardle : Nat.card P ≤ Nat.card U := by rw [hcardP, hcardU]
@@ -756,13 +754,13 @@ private theorem isElemAbelian_of_invariant_eq_top {G : Type*} [Group G]
   let Ω : Subgroup ↥C := CFSG.omega₁ ↥C (p := p)
   let V : Subgroup ↥P := Ω.map C.subtype
   let U : Subgroup G := V.map P.subtype
-  haveI hCchar : C.Characteristic := Subgroup.centerCharacteristic
-  haveI hΩchar : Ω.Characteristic := CFSG.omega₁_characteristic ↥C
-  haveI hVchar : V.Characteristic :=
+  have hCchar : C.Characteristic := Subgroup.centerCharacteristic
+  have hΩchar : Ω.Characteristic := CFSG.omega₁_characteristic ↥C
+  have hVchar : V.Characteristic :=
     Subgroup.characteristic_of_characteristic_of_characteristic
   have hC2 : IsPGroup p ↥C := hP2.to_subgroup C
-  haveI : Nontrivial ↥P := (Subgroup.nontrivial_iff_ne_bot P).mpr hPne
-  haveI hCnt : Nontrivial ↥C := hP2.center_nontrivial
+  have : Nontrivial ↥P := (Subgroup.nontrivial_iff_ne_bot P).mpr hPne
+  have hCnt : Nontrivial ↥C := hP2.center_nontrivial
   have hCdiv : p ∣ Nat.card ↥C := by
     rcases hC2.card_eq_or_dvd with h | h
     · have h1 : 1 < Nat.card ↥C := Finite.one_lt_card
@@ -778,7 +776,7 @@ private theorem isElemAbelian_of_invariant_eq_top {G : Type*} [Group G]
   have hKU : K ≤ Subgroup.normalizer (U : Set G) :=
     hKP.trans (CFSG.LieType.BorelTits.normalizer_le_normalizer_map_of_characteristic V)
   have hUeq : U = P := hmax U hUle hKU hUne
-  haveI hΩelem : CFSG.IsElementaryAbelian p ↥Ω :=
+  have hΩelem : CFSG.IsElementaryAbelian p ↥Ω :=
     CFSG.IsElementaryAbelian.omega₁_of_isMulCommutative ↥C
   have hkey : ∀ x ∈ P, x ^ p = 1 ∧ ∀ y ∈ P, x * y = y * x := by
     intro x hx
@@ -809,9 +807,9 @@ theorem isElemAbelian_pCoreOf_arcStab_r (H : X.Sec4Hyp s r) (a : ℤ) :
   · have hlt : a < a + (r : ℤ) := by
       have := H.longReg.1.1
       omega
-    haveI hAfin : Finite ↥A :=
+    have hAfin : Finite ↥A :=
       finite_of_le_stabilizer X.hyp (H := A) (X.arcStab_le_Gi_left hlt)
-    haveI hPfin : Finite ↥P := Finite.of_injective
+    have hPfin : Finite ↥P := Finite.of_injective
       (Subgroup.inclusion (CFSG.LieType.BorelTits.pCoreOf_le 2 A))
       (Subgroup.inclusion_injective _)
     have hP2 : IsPGroup 2 P := by

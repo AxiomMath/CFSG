@@ -98,7 +98,7 @@ theorem theta_val (al : AlignedFam K V ψ) {k l : Fin 3} (hkl : k ≠ l) (x : �
   edgeAut_val (ψ k) (ψ l) (al.edge k l hkl.symm) (al.edge l k hkl) x hx g hg
 
 theorem exists_pre (al : AlignedFam K V ψ) {k l : Fin 3} (hkl : k ≠ l) (g : ↥(ae6ModelE k l)) :
-    ∃ (x : ↥(V k)) (hx : (x : Y) ∈ V l), (g : AE6Om) = ((ψ k x : ↥(ae6ModelV k)) : AE6Om) := by
+    ∃ (x : ↥(V k)) (_hx : (x : Y) ∈ V l), (g : AE6Om) = ((ψ k x : ↥(ae6ModelV k)) : AE6Om) := by
   have hgk : (g : AE6Om) ∈ ae6ModelV k := g.2.1
   have hgl : (g : AE6Om) ∈ ae6ModelV l := g.2.2
   have hψ : ((ψ k ((ψ k).symm ⟨g, hgk⟩) : ↥(ae6ModelV k)) : AE6Om) = g := by

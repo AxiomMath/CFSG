@@ -120,12 +120,12 @@ theorem three_fpf_check_K :
   have h5 : Nat.beq (enc τ) 106180641 = false := by rw [← enc_a]; exact beq_enc_false h16 na
   have h6 : Nat.beq (enc τ) 106180866 = false := by rw [← enc_a2]; exact beq_enc_false h16 na2
   rw [qFpf.eq_1, h1, h2, h4, h5, h6] at h
-  simp only [Bool.not_false, Bool.and_self, Bool.and_true, Bool.true_and, Bool.not_true,
+  simp only [Bool.not_false, Bool.and_self, Bool.not_true,
     Bool.false_or, Bool.and_eq_true,
     Bool.not_eq_true'] at h
   obtain ⟨⟨hx, hy⟩, hxy⟩ := h
   have hcv := fix_comm hfix
-  simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false] at hv
+  simp only [List.mem_cons, List.not_mem_nil, or_false] at hv
   exfalso
   rcases hv with rfl | rfl | rfl
   · rw [← enc_x, ← Bool.not_eq_true, commK_iff] at hx

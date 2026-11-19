@@ -137,7 +137,7 @@ theorem primeFormConjHom_mem_inner_of_fix_sylow {ℓ f : ℕ} {F : Type} [Field 
       primeFormConjHom h ((1 : GL (Fin n) F) : Matrix (Fin n) (Fin n) F) A x = x) :
     primeFormConjHom h ((1 : GL (Fin n) F) : Matrix (Fin n) (Fin n) F) A ∈
       inner (primeFormP h ((1 : GL (Fin n) F) : Matrix (Fin n) (Fin n) F)) := by
-  haveI := h.finite
+  have := h.finite
   obtain ⟨ζ', hζ'⟩ := exists_prime_orderOf_dvd_card' (G := (Units.map h.normHom).ker) p
     (by rw [(unitary_field_norm h).2.2.1]; exact hpq)
   set ζ : Fˣ := (ζ' : Fˣ) with hζdef

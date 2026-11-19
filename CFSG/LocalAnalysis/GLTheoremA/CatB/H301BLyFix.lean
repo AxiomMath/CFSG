@@ -10,8 +10,10 @@ open Equiv Equiv.Perm MulAction Subgroup
 
 variable {X : Type*} [Fintype X] [DecidableEq X]
 
+omit [Fintype X] [DecidableEq X] in
 private theorem inv_apply' (f : Perm X) (x : X) : f⁻¹ (f x) = x := f.symm_apply_apply x
 
+omit [Fintype X] [DecidableEq X] in
 theorem card_eq_orbit_mul (T : Subgroup (Perm X)) (x : X) :
     Nat.card T =
       Nat.card (orbit T x) * Nat.card (T ⊓ stabilizer (Perm X) x : Subgroup (Perm X)) := by
@@ -23,6 +25,7 @@ theorem card_eq_orbit_mul (T : Subgroup (Perm X)) (x : X) :
       left_inv := fun _ => rfl
       right_inv := fun _ => rfl }
 
+omit [DecidableEq X] in
 theorem exists_card_orbit_eq {T : Subgroup (Perm X)} (hT : IsPGroup 2 T) (x : X) :
     ∃ k, Nat.card (orbit T x) = 2 ^ k := by
   obtain ⟨n, hn⟩ := hT.exists_card_eq
@@ -33,7 +36,7 @@ theorem exists_card_orbit_eq {T : Subgroup (Perm X)} (hT : IsPGroup 2 T) (x : X)
 theorem exists_comm_of_conj_invariant {G : Type*} [Group G] {p : ℕ} [Fact p.Prime]
     {F : Subgroup G} (hF : IsPGroup p F) (S : Set G) (hS : ∀ f ∈ F, ∀ s ∈ S, f * s * f⁻¹ ∈ S)
     (hcard : ¬ p ∣ Nat.card S) : ∃ s ∈ S, ∀ f ∈ F, f * s = s * f := by
-  letI : MulAction F S :=
+  let : MulAction F S :=
     { smul := fun f s => ⟨f * s * f⁻¹, hS f f.2 s s.2⟩
       one_smul := fun s => Subtype.ext (by
         show (1 : F).1 * s.1 * (1 : F).1⁻¹ = s.1
@@ -46,6 +49,7 @@ theorem exists_comm_of_conj_invariant {G : Type*} [Group G] {p : ℕ} [Fact p.Pr
   have h := congrArg Subtype.val (mem_fixedPoints.1 hs ⟨f, hf⟩)
   exact mul_inv_eq_iff_eq_mul.1 h
 
+omit [DecidableEq X] in
 theorem not_three_dvd_fiber {W : Subgroup (Perm X)} (hW : IsPGroup 2 W) {x y : X}
     (h : ∃ w ∈ W, w x = y) : ¬ 3 ∣ Nat.card {w : Perm X | w ∈ W ∧ w x = y} := by
   obtain ⟨w1, hw1, h1⟩ := h
@@ -69,6 +73,7 @@ theorem not_three_dvd_fiber {W : Subgroup (Perm X)} (hW : IsPGroup 2 W) {x y : X
   rw [hcard] at h3
   exact absurd (Nat.prime_three.dvd_of_dvd_pow (h3.trans hd)) (by norm_num)
 
+omit [DecidableEq X] in
 theorem exists_comm_elt {E W : Subgroup (Perm X)} (hE : IsPGroup 3 E) (hW : IsPGroup 2 W)
     (hEW : E ≤ normalizer W) {x y : X} (h : ∃ w ∈ W, w x = y) :
     ∃ w ∈ W, w x = y ∧ ∀ e ∈ E, e x = x → e y = y → e * w = w * e := by
@@ -86,6 +91,7 @@ theorem exists_comm_elt {E W : Subgroup (Perm X)} (hE : IsPGroup 3 E) (hW : IsPG
     (not_three_dvd_fiber hW h)
   exact ⟨s, hsW, hsx, fun e he hex hey => hs e ⟨⟨he, hex⟩, hey⟩⟩
 
+omit [Fintype X] [DecidableEq X] in
 private theorem pow_apply_eq {w a : Perm X} (hc : w * a = a * w) {z : X} {m : ℕ}
     (h : w z = (a ^ m) z) (k : ℕ) : (w ^ k) z = (a ^ (m * k)) z := by
   have hcm : Commute w a := hc

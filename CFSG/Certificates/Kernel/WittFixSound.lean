@@ -19,7 +19,7 @@ theorem fixCk_eq (y : Nat) : ∀ k, fixCk y k = ((Finset.range k).filter fun i =
     · have hne : pt y k ≠ k := fun he => by rw [he, Nat.beq_refl] at hb; exact absurd hb (by decide)
       simp [hne]
     · have he : pt y k = k := Nat.eq_of_beq_eq_true hb
-      simp only [he, if_true]
+      simp only [he, ite_true]
       rw [Finset.card_insert_of_notMem (by simp)]
 
 theorem fixC_pkw (τ : Equiv.Perm (Fin 22)) :

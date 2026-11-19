@@ -153,10 +153,10 @@ theorem card_eq_of_elemTwo {L F : Subgroup X} (hL8 : Nat.card L = 8)
   obtain ⟨nF, hnF⟩ := card_eq_three_pow_of_four hodd (hL2 a0 ha0L) (hL2 b0 hb0L)
     hab0_comm (hnorm a0 ha0L) (hnorm b0 hb0L) (h9 a0 ha0L ha01) (h9 b0 hb0L hb01)
     (h9 (a0 * b0) hab0_mem hab0_ne_one)
-  haveI hLel : CFSG.IsElementaryAbelian 2 L :=
+  have hLel : CFSG.IsElementaryAbelian 2 L :=
     CFSG.IsElementaryAbelian.two_of_forall_mul_self hLc hL2
-  letI : CommGroup L := IsMulCommutative.instCommGroup
-  letI : Module (ZMod 2) (Additive L) := CFSG.IsElementaryAbelian.isVectorSpace 2
+  let : CommGroup L := IsMulCommutative.instCommGroup
+  let : Module (ZMod 2) (Additive L) := CFSG.IsElementaryAbelian.isVectorSpace 2
   have hcardL : Nat.card (Additive L) = 8 :=
     (Nat.card_congr Additive.ofMul).symm.trans hL8
   have hfindim : Module.finrank (ZMod 2) (Additive L) = 3 := by

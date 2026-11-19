@@ -15,31 +15,31 @@ noncomputable section
 
 private lemma l02qfri_single_eq_of_ne {N : ℕ} (i j : Fin N) (h : i ≠ j) (x : UnitRaw.F) :
     (Pi.single i x : UnitRaw.W N) j = 0 := by
-  simp [Pi.single_apply, Ne.symm h]
+  simp [Ne.symm h]
 
 private lemma l02qfri_single_eq_same {N : ℕ} (i : Fin N) (x : PlaneRaw.F) :
     (Pi.single i x : PlaneRaw.V N) i = x := by
-  simp [Pi.single_apply]
+  simp
 
 private lemma l02qfri_negEquiv_moves {t : ℕ} (i : Fin t) :
     PlaneRaw.negEquiv t i (Pi.single i (1 : PlaneRaw.F)) ≠ Pi.single i (1 : PlaneRaw.F) := by
   intro h
   have h' := congrArg (fun v => v i) h
-  simp [PlaneRaw.negEquiv, LinearEquiv.piCongrRight_apply, l02qfri_single_eq_same] at h'
+  simp [PlaneRaw.negEquiv, LinearEquiv.piCongrRight_apply] at h'
   exact (by decide : (-1 : PlaneRaw.F) ≠ 1) h'
 
 private lemma l02qfri_swapEquiv_moves {t : ℕ} {i j : Fin t} (hij : i ≠ j) :
     PlaneRaw.swapEquiv t i j (Pi.single i (1 : PlaneRaw.F)) ≠ Pi.single i (1 : PlaneRaw.F) := by
   intro h
   have h' := congrArg (fun v => v j) h
-  simp [PlaneRaw.swapEquiv, LinearEquiv.funCongrLeft_apply, hij, l02qfri_single_eq_same] at h'
+  simp [PlaneRaw.swapEquiv, LinearEquiv.funCongrLeft_apply, hij] at h'
 
 private lemma l02qfri_rotEquiv_moves {t : ℕ} {i j : Fin t} (hij : i ≠ j) :
     PlaneRaw.rotEquiv t i j (Pi.single i (1 : PlaneRaw.F)) ≠ Pi.single i (1 : PlaneRaw.F) := by
   intro h
   have h' := congrArg (fun v => v j) h
   simp [PlaneRaw.rotEquiv, PlaneRaw.swapEquiv, PlaneRaw.negEquiv, LinearEquiv.funCongrLeft_apply,
-    LinearEquiv.piCongrRight_apply, LinearEquiv.mul_apply, hij, l02qfri_single_eq_same] at h'
+    LinearEquiv.piCongrRight_apply, LinearEquiv.mul_apply, hij] at h'
 
 private lemma l02qfri_orientEquiv_mul_self (t : ℕ) (e : PlaneRaw.V t) :
     PlaneRaw.orientEquiv t e * PlaneRaw.orientEquiv t e = 1 := by
@@ -64,35 +64,23 @@ private lemma l02qfri_swapTwist_moves {t : ℕ} {e : PlaneRaw.V t} {i j : Fin t}
   · exact absurd hxi hei
   · rcases hy with hyj | hyj | hyj
     · exact absurd hyj hej
-    · simp [PlaneRaw.swapTwist, PlaneRaw.orientEquiv, PlaneRaw.swapEquiv, PlaneRaw.negEquiv,
-        l02qfri_orientEquiv_symm, LinearEquiv.piCongrRight_apply, LinearEquiv.funCongrLeft_apply,
-        LinearEquiv.mul_apply, hij, l02qfri_single_eq_same, hxi, hyj] at h'
-      norm_num at h'
+    · simp [PlaneRaw.swapTwist, PlaneRaw.orientEquiv, PlaneRaw.swapEquiv, LinearEquiv.piCongrRight_apply, LinearEquiv.funCongrLeft_apply,
+        LinearEquiv.mul_apply, hij, hxi, hyj] at h'
       first
         | exact (by decide : (-1 : PlaneRaw.F) ≠ 1) h'
-        | exact (by decide : (1 : PlaneRaw.F) ≠ -1) h'
-    · simp [PlaneRaw.swapTwist, PlaneRaw.orientEquiv, PlaneRaw.swapEquiv, PlaneRaw.negEquiv,
-        l02qfri_orientEquiv_symm, LinearEquiv.piCongrRight_apply, LinearEquiv.funCongrLeft_apply,
-        LinearEquiv.mul_apply, hij, l02qfri_single_eq_same, hxi, hyj] at h'
-      norm_num at h'
+    · simp [PlaneRaw.swapTwist, PlaneRaw.orientEquiv, PlaneRaw.swapEquiv, LinearEquiv.piCongrRight_apply, LinearEquiv.funCongrLeft_apply,
+        LinearEquiv.mul_apply, hij, hxi, hyj] at h'
       first
         | exact (by decide : (-1 : PlaneRaw.F) ≠ 1) h'
-        | exact (by decide : (1 : PlaneRaw.F) ≠ -1) h'
   · rcases hy with hyj | hyj | hyj
     · exact absurd hyj hej
-    · simp [PlaneRaw.swapTwist, PlaneRaw.orientEquiv, PlaneRaw.swapEquiv, PlaneRaw.negEquiv,
-        l02qfri_orientEquiv_symm, LinearEquiv.piCongrRight_apply, LinearEquiv.funCongrLeft_apply,
-        LinearEquiv.mul_apply, hij, l02qfri_single_eq_same, hxi, hyj] at h'
-      norm_num at h'
+    · simp [PlaneRaw.swapTwist, PlaneRaw.orientEquiv, PlaneRaw.swapEquiv, LinearEquiv.piCongrRight_apply, LinearEquiv.funCongrLeft_apply,
+        LinearEquiv.mul_apply, hij, hxi, hyj] at h'
       first
-        | exact (by decide : (-1 : PlaneRaw.F) ≠ 1) h'
         | exact (by decide : (1 : PlaneRaw.F) ≠ -1) h'
-    · simp [PlaneRaw.swapTwist, PlaneRaw.orientEquiv, PlaneRaw.swapEquiv, PlaneRaw.negEquiv,
-        l02qfri_orientEquiv_symm, LinearEquiv.piCongrRight_apply, LinearEquiv.funCongrLeft_apply,
-        LinearEquiv.mul_apply, hij, l02qfri_single_eq_same, hxi, hyj] at h'
-      norm_num at h'
+    · simp [PlaneRaw.swapTwist, PlaneRaw.orientEquiv, PlaneRaw.swapEquiv, LinearEquiv.piCongrRight_apply, LinearEquiv.funCongrLeft_apply,
+        LinearEquiv.mul_apply, hij, hxi, hyj] at h'
       first
-        | exact (by decide : (-1 : PlaneRaw.F) ≠ 1) h'
         | exact (by decide : (1 : PlaneRaw.F) ≠ -1) h'
 
 theorem planeEntry_rawInsideMoved (k : PlaneRaw.PlaneKind) (t : ℕ) :
@@ -138,8 +126,8 @@ theorem planeEntry_rawInsideMoved (k : PlaneRaw.PlaneKind) (t : ℕ) :
               Subgroup.zpowers (if h : ∃ i j, i ∈ S ∧ j ∈ S ∧ i ≠ j then
                 PlaneRaw.rotEquiv t h.choose h.choose_spec.choose else 1)
             else PlaneRaw.signedPermGroupOn t S)
-          rw [if_pos hS2]
-          rw [dif_pos hex]
+          rw [ite_eq_left hS2]
+          rw [dite_eq_left hex]
           exact Subgroup.mem_zpowers _
         · rw [PlaneRaw.mem_inside_zero]
           intro k hk
@@ -162,7 +150,7 @@ theorem planeEntry_rawInsideMoved (k : PlaneRaw.PlaneKind) (t : ℕ) :
               Subgroup.zpowers (if h : ∃ i j, i ∈ S ∧ j ∈ S ∧ i ≠ j then
                 PlaneRaw.rotEquiv t h.choose h.choose_spec.choose else 1)
             else PlaneRaw.signedPermGroupOn t S)
-          rw [if_neg hS2]
+          rw [ite_eq_right hS2]
           apply Subgroup.subset_closure
           exact Or.inr ⟨i, hi, rfl⟩
         · rw [PlaneRaw.mem_inside_zero]
@@ -185,7 +173,7 @@ theorem planeEntry_rawInsideMoved (k : PlaneRaw.PlaneKind) (t : ℕ) :
         refine ⟨PlaneRaw.swapEquiv t i j, ?_, Pi.single i (1 : PlaneRaw.F), ?_, ?_⟩
         · change PlaneRaw.swapEquiv t i j ∈
             (if δ.val = 0 then PlaneRaw.evenSignedPermGroupOn t S else PlaneRaw.signedPermGroupOn t S)
-          rw [if_pos hδ]
+          rw [ite_eq_left hδ]
           apply Subgroup.subset_closure
           exact Or.inl ⟨i, hi, j, hj, rfl⟩
         · rw [PlaneRaw.mem_inside_zero]
@@ -209,7 +197,7 @@ theorem planeEntry_rawInsideMoved (k : PlaneRaw.PlaneKind) (t : ℕ) :
         refine ⟨PlaneRaw.negEquiv t i, ?_, Pi.single i (1 : PlaneRaw.F), ?_, ?_⟩
         · change PlaneRaw.negEquiv t i ∈
             (if δ.val = 0 then PlaneRaw.evenSignedPermGroupOn t S else PlaneRaw.signedPermGroupOn t S)
-          rw [if_neg hδ]
+          rw [ite_eq_right hδ]
           apply Subgroup.subset_closure
           exact Or.inr ⟨i, hi, rfl⟩
         · rw [PlaneRaw.mem_inside_zero]

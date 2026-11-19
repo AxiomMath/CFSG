@@ -231,7 +231,7 @@ private theorem e16l_q8_group {A : Type*} [AddCommGroup A] [Module (ZMod 2) A]
       (fun g => e16l_lin (e16l_cls (θ (a 1))) (e16l_cls (θ (xa 0))) (e16l_cls g))
       ?_ ?_ ?_ ?_ g
     · intro g h
-      simp only [map_mul, e16l_cls_mul, e16l_lin_add]
+      simp only [map_mul, e16l_cls_mul]
     · intro g h
       simp only [e16l_cls_mul, e16l_lin_add]
     · simp only [e16l_cls_a1, e16l_lin]
@@ -498,12 +498,12 @@ private theorem e16l_aux {G : Type} [Group G] [Finite G] {Ω : Set (Subgroup G)}
       decide
     rcases (hS.eq_one_iff _ (by simpa using hsum)).mp hone with h1 | h1
     · have := congrFun h1 l
-      simp [Pi.single_apply, hne] at this
+      simp [hne] at this
     · obtain ⟨i, hil, him⟩ : ∃ i : Fin 7, i ≠ l ∧ i ≠ m := by
         have key : ∀ l' m' : Fin 7, l' ≠ m' → ∃ i : Fin 7, i ≠ l' ∧ i ≠ m' := by decide
         exact key l m hne
       have := congrFun h1 i
-      simp [Pi.single_apply, hil, him] at this
+      simp [hil, him] at this
   have hτinj : Function.Injective τ := fun l m hlm => hPinj l m (by rw [← hτP l, ← hτP m, hlm])
   have hτsurj : Function.Surjective τ := Finite.surjective_of_injective hτinj
   let τe : Equiv.Perm (Fin 7) := Equiv.ofBijective τ (Finite.injective_iff_bijective.mp hτinj)
@@ -554,7 +554,7 @@ private theorem e16l_aux {G : Type} [Group G] [Finite G] {Ω : Set (Subgroup G)}
   obtain ⟨vγ, hvγ⟩ : ∃ v : Fin 7 → ZMod 2, v = fun i => Pi.single a1 (1 : ZMod 2) i +
       Pi.single b1 1 i + Pi.single c1 1 i + 1 := ⟨_, rfl⟩
   have hvγ_even : ∑ i, vγ i = 0 := by
-    simp only [hvγ, Pi.add_apply]
+    simp only [hvγ]
     rw [Finset.sum_add_distrib, Finset.sum_add_distrib, Finset.sum_add_distrib,
       e16l_sum_single, e16l_sum_single, e16l_sum_single]
     simp only [Finset.sum_const, Finset.card_univ, Fintype.card_fin]
@@ -575,7 +575,7 @@ private theorem e16l_aux {G : Type} [Group G] [Finite G] {Ω : Set (Subgroup G)}
     intro i
     simp only [hvγ, AE.range_emb, Finset.mem_coe, hγmem]
     by_cases h1 : i = a1 <;> by_cases h2 : i = b1 <;> by_cases h3 : i = c1 <;>
-      simp [Pi.single_apply, h1, h2, h3, hab, hac, hbc, Ne.symm hab, Ne.symm hac,
+      simp [h1, h2, h3, hab, hac, hbc, Ne.symm hab, Ne.symm hac,
         Ne.symm hbc] <;> decide
   obtain ⟨φ, hφinj, -, hφβ, hφH⟩ := hS.exists_hom_aeModel hA
   obtain ⟨L, hLdef⟩ : ∃ L : G →* AE.Wr 7, L = e16l_lift7.comp φ := ⟨_, rfl⟩
@@ -602,8 +602,8 @@ private theorem e16l_aux {G : Type} [Group G] [Finite G] {Ω : Set (Subgroup G)}
       funext i
       by_cases hi : i = l
       · subst hi
-        simp [e16l_w] <;> decide
-      · simp [e16l_w, hi, Pi.single_apply]
+        simp [e16l_w]; decide
+      · simp [e16l_w, hi]
     rw [hP, hfun, map_mul, hβπ, mul_one]
   have hLP : ∀ l, L (P l) = AE.Wr.ofVec (e16l_w l) := by
     intro l
@@ -685,7 +685,7 @@ private theorem e16l_aux {G : Type} [Group G] [Finite G] {Ω : Set (Subgroup G)}
           (x ^ 3 ^ j)⁻¹ = (x ^ 3 ^ j) ^ 3 * k * ((x ^ 3 ^ j) ^ 3)⁻¹ := by group
       _ = k := h1
   have hynon : ∃ k ∈ K, y * k * y⁻¹ ≠ k := by
-    push_neg at hnotj
+    push Not at hnotj
     obtain ⟨k, hk, hne⟩ := hnotj
     exact ⟨k, hk, by rw [hydef]; exact hne⟩
   have hLy : L y = (L x) ^ 3 ^ j := by rw [hydef, map_pow]
@@ -716,7 +716,7 @@ private theorem e16l_aux {G : Type} [Group G] [Finite G] {Ω : Set (Subgroup G)}
     · rfl
   obtain ⟨kk, hkk1, ⟨e8⟩⟩ := h.isQuatSub_of_mem hK
   have hkk : kk = 1 := by
-    haveI : NeZero (2 ^ kk) := ⟨by positivity⟩
+    have : NeZero (2 ^ kk) := ⟨by positivity⟩
     have h1 : Nat.card K = 4 * 2 ^ kk := by
       rw [Nat.card_congr e8.toEquiv, Nat.card_eq_fintype_card, QuaternionGroup.card]
     have h2 : 2 ^ kk = 2 := by omega
@@ -725,8 +725,8 @@ private theorem e16l_aux {G : Type} [Group G] [Finite G] {Ω : Set (Subgroup G)}
   let e : K ≃* QuaternionGroup 2 := e8
   let θK : K →* K :=
     { toFun := fun k => ⟨y * k * y⁻¹, hyK k k.2⟩
-      map_one' := Subtype.ext (by simp only [Subgroup.coe_mk, OneMemClass.coe_one]; group)
-      map_mul' := fun a b => Subtype.ext (by simp only [Subgroup.coe_mk, Subgroup.coe_mul]; group) }
+      map_one' := Subtype.ext (by simp only [OneMemClass.coe_one]; group)
+      map_mul' := fun a b => Subtype.ext (by simp only [Subgroup.coe_mul]; group) }
   have hθK3 : ∀ k : K, θK (θK (θK k)) = k := fun k => Subtype.ext (hy3 k k.2)
   let θQ : QuaternionGroup 2 →* QuaternionGroup 2 :=
     e.toMonoidHom.comp (θK.comp e.symm.toMonoidHom)
@@ -761,7 +761,7 @@ private theorem e16l_aux {G : Type} [Group G] [Finite G] {Ω : Set (Subgroup G)}
     have h1 := hQ0 (e ⟨k, hk⟩)
     have h2 : fS k = 0 := by simpa [fQ] using h1
     have h3 := congrFun h2 i
-    rw [hfS, if_pos hi] at h3
+    rw [hfS, ite_eq_left hi] at h3
     exact h3
   have hsupp : ∀ k ∈ K, AE.SupportedOn (L k) (Set.range (AE.emb (Sset)ᶜ hγcard)) := by
     intro k hk i hi

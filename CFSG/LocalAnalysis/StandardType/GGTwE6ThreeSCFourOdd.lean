@@ -17,7 +17,7 @@ theorem ggTwE6SCFourNotTwoLocal_of_odd {R : Type} [Group R] {I : Set (MulAut R)}
   intro L' _ _ ψ hs hk hc A hA hAI hcard hSC
   obtain ⟨K₂, hK₂le, hK₂p, hK₂all⟩ := SCFourOdd.exists_twoPart hk
   have hK₂c : K₂ ≤ Subgroup.center L' := hK₂le.trans hk
-  haveI : K₂.Normal := Subgroup.normal_of_le_center hK₂c
+  have : K₂.Normal := Subgroup.normal_of_le_center hK₂c
   have hAK₂ : ∀ a ∈ A, ∀ z ∈ K₂, a z ∈ K₂ := by
     intro a ha z hz
     obtain ⟨φ, _, hφ⟩ := hAI a ha

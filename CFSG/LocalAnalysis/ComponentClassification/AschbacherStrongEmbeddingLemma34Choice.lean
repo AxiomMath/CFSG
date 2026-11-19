@@ -190,13 +190,13 @@ theorem Hyp.escape_center (h : Hyp S A₁ A₂) (h12 : ¬ A₁ ≤ A₂) (h21 : 
   have hIS : A₁ ⊓ A₂ ≤ (S : Subgroup G) := inf_le_left.trans h.le_one
   have hnorm : t ∈ Subgroup.normalizer ((A₁ ⊓ A₂ : Subgroup G) : Set G) := by
     rw [← rightConjugate_eq_self_iff, rightConjugate_inf_eq, hs₁, hs₂, inf_comm]
-  obtain ⟨z, hzI, hz1, hzt⟩ := exists_commute_of_mem_normalizer S.isPGroup' hIS hI htS hnorm
+  obtain ⟨z, hzI, hz1, hzt⟩ := exists_commute_of_mem_normalizer S.isPGroup hIS hI htS hnorm
   set P := A₁ ⊓ A₂ ⊓ Subgroup.centralizer ({t} : Set G) with hPdef
   have hmemP : ∀ {p : G}, p ∈ A₁ ⊓ A₂ → Commute t p → p ∈ P := by
     intro p hp hpt
     exact ⟨hp, Subgroup.mem_centralizer_singleton_iff.mpr hpt.eq.symm⟩
   have hP2 : Nat.card P ≤ 2 := by
-    refine card_le_two_of_lt_four (S.isPGroup'.to_le (inf_le_left.trans hIS)) ?_
+    refine card_le_two_of_lt_four (S.isPGroup.to_le (inf_le_left.trans hIS)) ?_
     by_contra hcon
     refine h.choice_not_le h12 h21 hc (X := P) (fun x hx => ?_) (not_lt.mp hcon)
       (fun x hx => hc.centralizer_le (Subgroup.mem_inf.mp hx).2)

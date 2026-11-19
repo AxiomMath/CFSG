@@ -114,7 +114,7 @@ theorem eq_of_isComponentOf_of_le_normalizer {G : Type*} [Group G] {H J K' : Sub
       exact hcomm y x
     have htop := hJ.1
     rw [hbot] at htop
-    haveI := hJ.2.toNontrivial
+    have := hJ.2.toNontrivial
     have hsub : Subsingleton ↥J := by
       refine ⟨fun a b => ?_⟩
       have ha : a ∈ (⊥ : Subgroup ↥J) := htop ▸ Subgroup.mem_top a
@@ -305,14 +305,14 @@ private theorem e6a3xa_pinnedX_commute
   pinnedX_commute_of_iform_eq_zero F4 hα hβ h0 hp c d
 
 private theorem e6a3xa_commute_pp
-    {i j : Fin (Tag.rank .E6)} (hij : i ≠ j)
+    {i j : Fin (Tag.rank .E6)} (_hij : i ≠ j)
     (h0 : iform (Pi.single i 1) (Pi.single j 1) = 0) (c d : F4) :
     Commute (pinnedX .E6 F4 (Pi.single i 1) c) (pinnedX .E6 F4 (Pi.single j 1) d) :=
   e6a3xa_pinnedX_commute (isRoot_single .E6 i) (isRoot_single .E6 j) h0
     (e6a3xa_not_isRoot_add_of_orthogonal (isRoot_single .E6 i) (isRoot_single .E6 j) h0) c d
 
 private theorem e6a3xa_commute_pn
-    {i j : Fin (Tag.rank .E6)} (hij : i ≠ j)
+    {i j : Fin (Tag.rank .E6)} (_hij : i ≠ j)
     (h0 : iform (Pi.single i 1) (Pi.single j 1) = 0) (c d : F4) :
     Commute (pinnedX .E6 F4 (Pi.single i 1) c) (pinnedX .E6 F4 (-Pi.single j 1) d) := by
   have h0' : iform (Pi.single i 1) (-Pi.single j 1) = 0 := by rw [iform_neg_right, h0, neg_zero]
@@ -320,7 +320,7 @@ private theorem e6a3xa_commute_pn
     (e6a3xa_not_isRoot_add_of_orthogonal (isRoot_single .E6 i) (isRoot_neg_single .E6 j) h0') c d
 
 private theorem e6a3xa_commute_np
-    {i j : Fin (Tag.rank .E6)} (hij : i ≠ j)
+    {i j : Fin (Tag.rank .E6)} (_hij : i ≠ j)
     (h0 : iform (Pi.single i 1) (Pi.single j 1) = 0) (c d : F4) :
     Commute (pinnedX .E6 F4 (-Pi.single i 1) c) (pinnedX .E6 F4 (Pi.single j 1) d) := by
   have h0' : iform (-Pi.single i 1) (Pi.single j 1) = 0 := by rw [iform_neg_left, h0, neg_zero]
@@ -328,7 +328,7 @@ private theorem e6a3xa_commute_np
     (e6a3xa_not_isRoot_add_of_orthogonal (isRoot_neg_single .E6 i) (isRoot_single .E6 j) h0') c d
 
 private theorem e6a3xa_commute_nn
-    {i j : Fin (Tag.rank .E6)} (hij : i ≠ j)
+    {i j : Fin (Tag.rank .E6)} (_hij : i ≠ j)
     (h0 : iform (Pi.single i 1) (Pi.single j 1) = 0) (c d : F4) :
     Commute (pinnedX .E6 F4 (-Pi.single i 1) c) (pinnedX .E6 F4 (-Pi.single j 1) d) := by
   have h0' : iform (-Pi.single i 1) (-Pi.single j 1) = 0 := by
@@ -502,8 +502,8 @@ private theorem e6a3xa_wF_eq :
       ((pinnedX .E6 F4 (e6a3_alpha e6a3_i3) 1 * pinnedX .E6 F4 (-(e6a3_alpha e6a3_i3)) 1) *
       (pinnedX .E6 F4 (e6a3_alpha e6a3_i5) 1 * pinnedX .E6 F4 (-(e6a3_alpha e6a3_i5)) 1)) := by
   rw [e6a3_wF, wOmegaE]
-  simp only [cOmegaE, xr, Subgroup.coe_mul, Subgroup.coe_one, map_mul, baseChangeGL_pinnedX,
-    map_one, one_mul, mul_one]
+  simp only [cOmegaE, xr, Subgroup.coe_mul, map_mul, baseChangeGL_pinnedX,
+    map_one]
   rw [e6a3xa_a5Root_0, e6a3xa_a5Root_0', e6a3xa_a5Root_1, e6a3xa_a5Root_1',
     e6a3xa_a5Root_2, e6a3xa_a5Root_2']
   group
@@ -662,7 +662,7 @@ private def e6a3xc1_PhiDfin : Finset (Fin (Tag.rank .E6) → ℤ) :=
 private theorem e6a3xc1_mem_component_iff (l : List (Fin (Tag.rank .E6) → ℤ))
     (v : Fin (Tag.rank .E6) → ℤ) :
     v ∈ e6a3_component l ↔ v ∈ l.toFinset ∪ (l.toFinset.image Neg.neg) := by
-  simp only [e6a3_component, Set.mem_setOf_eq, Finset.mem_union, List.mem_toFinset,
+  simp only [e6a3_component, Set.mem_ofPred_eq, Finset.mem_union, List.mem_toFinset,
     Finset.mem_image]
   constructor
   · rintro (h | h)
@@ -698,7 +698,7 @@ private theorem e6a3xc1_PhiDfin_check : ∀ v ∈ e6a3xc1_PhiDfin,
 private theorem e6a3xb_rootCharKernel_eq :
     rootCharKernel e6a3_dChar = e6a3_PhiD := by
   ext α
-  rw [rootCharKernel, Set.mem_setOf_eq, e6a3xc1_dvd_iff]
+  rw [rootCharKernel, Set.mem_ofPred_eq, e6a3xc1_dvd_iff]
   constructor
   · rintro ⟨hroot, hdvd⟩
     exact e6a3xc1_fin_to_PhiD (e6a3xc1_root_check α (mem_rootFinset.mpr hroot) hdvd)
@@ -994,21 +994,21 @@ private theorem e6a3xc2_mem_A {γ : Fin (Tag.rank .E6) → ℤ} :
     γ ∈ e6a3_A ↔ γ = e6a3xc2_vA0 ∨ γ = e6a3xc2_vA1 ∨ γ = e6a3xc2_vA2 ∨
       -γ = e6a3xc2_vA0 ∨ -γ = e6a3xc2_vA1 ∨ -γ = e6a3xc2_vA2 := by
   have hA : e6a3_Apos = [e6a3xc2_vA0, e6a3xc2_vA1, e6a3xc2_vA2] := rfl
-  simp only [e6a3_A, e6a3_component, hA, Set.mem_setOf_eq, List.mem_cons,
+  simp only [e6a3_A, e6a3_component, hA, Set.mem_ofPred_eq, List.mem_cons,
     List.not_mem_nil, or_false, or_assoc]
 
 private theorem e6a3xc2_mem_B {γ : Fin (Tag.rank .E6) → ℤ} :
     γ ∈ e6a3_B ↔ γ = e6a3xc2_vB0 ∨ γ = e6a3xc2_vB1 ∨ γ = e6a3xc2_vB2 ∨
       -γ = e6a3xc2_vB0 ∨ -γ = e6a3xc2_vB1 ∨ -γ = e6a3xc2_vB2 := by
   have hB : e6a3_Bpos = [e6a3xc2_vB0, e6a3xc2_vB1, e6a3xc2_vB2] := rfl
-  simp only [e6a3_B, e6a3_component, hB, Set.mem_setOf_eq, List.mem_cons,
+  simp only [e6a3_B, e6a3_component, hB, Set.mem_ofPred_eq, List.mem_cons,
     List.not_mem_nil, or_false, or_assoc]
 
 private theorem e6a3xc2_mem_C {γ : Fin (Tag.rank .E6) → ℤ} :
     γ ∈ e6a3_C ↔ γ = e6a3xc2_vC0 ∨ γ = e6a3xc2_vC1 ∨ γ = e6a3xc2_vC2 ∨
       -γ = e6a3xc2_vC0 ∨ -γ = e6a3xc2_vC1 ∨ -γ = e6a3xc2_vC2 := by
   have hC : e6a3_Cpos = [e6a3xc2_vC0, e6a3xc2_vC1, e6a3xc2_vC2] := rfl
-  simp only [e6a3_C, e6a3_component, hC, Set.mem_setOf_eq, List.mem_cons,
+  simp only [e6a3_C, e6a3_component, hC, Set.mem_ofPred_eq, List.mem_cons,
     List.not_mem_nil, or_false, or_assoc]
 
 private def e6a3xc2_Avecs : List (Fin (Tag.rank .E6) → ℤ) :=
@@ -1023,17 +1023,17 @@ private def e6a3xc2_PhiDvecs : List (Fin (Tag.rank .E6) → ℤ) :=
 private theorem e6a3xc2_Avecs_mem {x : Fin (Tag.rank .E6) → ℤ} :
     x ∈ e6a3xc2_Avecs ↔ x ∈ e6a3_A := by
   have hA : e6a3_Apos = [e6a3xc2_vA0, e6a3xc2_vA1, e6a3xc2_vA2] := rfl
-  simp only [e6a3xc2_Avecs, e6a3_A, e6a3_component, hA, Set.mem_setOf_eq, List.mem_cons,
+  simp only [e6a3xc2_Avecs, e6a3_A, e6a3_component, hA, Set.mem_ofPred_eq, List.mem_cons,
     List.not_mem_nil, or_false, or_assoc, neg_eq_iff_eq_neg]
 private theorem e6a3xc2_Bvecs_mem {x : Fin (Tag.rank .E6) → ℤ} :
     x ∈ e6a3xc2_Bvecs ↔ x ∈ e6a3_B := by
   have hB : e6a3_Bpos = [e6a3xc2_vB0, e6a3xc2_vB1, e6a3xc2_vB2] := rfl
-  simp only [e6a3xc2_Bvecs, e6a3_B, e6a3_component, hB, Set.mem_setOf_eq, List.mem_cons,
+  simp only [e6a3xc2_Bvecs, e6a3_B, e6a3_component, hB, Set.mem_ofPred_eq, List.mem_cons,
     List.not_mem_nil, or_false, or_assoc, neg_eq_iff_eq_neg]
 private theorem e6a3xc2_Cvecs_mem {x : Fin (Tag.rank .E6) → ℤ} :
     x ∈ e6a3xc2_Cvecs ↔ x ∈ e6a3_C := by
   have hC : e6a3_Cpos = [e6a3xc2_vC0, e6a3xc2_vC1, e6a3xc2_vC2] := rfl
-  simp only [e6a3xc2_Cvecs, e6a3_C, e6a3_component, hC, Set.mem_setOf_eq, List.mem_cons,
+  simp only [e6a3xc2_Cvecs, e6a3_C, e6a3_component, hC, Set.mem_ofPred_eq, List.mem_cons,
     List.not_mem_nil, or_false, or_assoc, neg_eq_iff_eq_neg]
 
 private theorem e6a3xc2_PhiDvecs_mem {x : Fin (Tag.rank .E6) → ℤ} :
@@ -1329,7 +1329,7 @@ private theorem e6a3xc2_noncomm
     {S T : Set (Fin (Tag.rank .E6) → ℤ)} (h : rootSpan .E6 F4 S = rootSpan .E6 F4 T)
     (hSroot : ∀ γ ∈ S, IsRoot .E6 γ)
     {β : Fin (Tag.rank .E6) → ℤ} (hβ : IsRoot .E6 β)
-    (hβT : β ∈ T) (hnegβT : -β ∈ T) (horth : ∀ γ ∈ S, iform β γ = 0) : False := by
+    (_hβT : β ∈ T) (hnegβT : -β ∈ T) (horth : ∀ γ ∈ S, iform β γ = 0) : False := by
   have hUnbS : rootSubgroup .E6 F4 (-β) ≤ rootSpan .E6 F4 S :=
     h.symm ▸ rootSubgroup_le_rootSpan hnegβT
   have hcross : ∀ x ∈ rootSubgroup .E6 F4 β, ∀ y ∈ rootSubgroup .E6 F4 (-β),
@@ -1526,19 +1526,19 @@ private theorem e6a3xc2_uinv_image_C
     :
     (fun α => e6a3xb_u⁻¹ • α) '' e6a3_C = e6a3_A := by
   rw [← e6a3xc2_u_image_A, Set.image_image]
-  simp [smul_inv_smul]
+  simp
 
 private theorem e6a3xc2_uinv_image_A
     :
     (fun α => e6a3xb_u⁻¹ • α) '' e6a3_A = e6a3_C := by
   rw [← e6a3xc2_u_image_C, Set.image_image]
-  simp [smul_inv_smul]
+  simp
 
 private theorem e6a3xc2_uinv_image_B
     :
     (fun α => e6a3xb_u⁻¹ • α) '' e6a3_B = e6a3_B := by
   rw [← e6a3xc2_u_image_B, Set.image_image]
-  simp only [Function.comp_apply, inv_smul_smul]
+  simp only [inv_smul_smul]
   rw [e6a3xc2_u_image_B]
   exact Set.image_id e6a3_B
 
@@ -1588,7 +1588,7 @@ private theorem e6a3xb_S_isRoot :
   have hA : e6a3_Apos = [e6a3xc2_vA0, e6a3xc2_vA1, e6a3xc2_vA2] := rfl
   have hC : e6a3_Cpos = [e6a3xc2_vC0, e6a3xc2_vC1, e6a3xc2_vC2] := rfl
   simp only [e6a3_S, e6a3_A, e6a3_C, e6a3_component, hA, hC,
-    Set.mem_union, Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false,
+    Set.mem_union, Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false,
     or_assoc] at hα
   rcases hα with h | h | h | h | h | h | h | h | h | h | h | h
   · subst h; rw [← e6a3xc2_root_vA0]; exact CFSG.LieType.Chevalley.C2E6Std.isRoot_e6Root _
@@ -1684,7 +1684,7 @@ private theorem e6a3xc3_map_conj_one {G : Type*} [Group G] (K : Subgroup G) :
     K.map (MulAut.conj (1 : G)).toMonoidHom = K := by
   have hconj : MulAut.conj (1 : G) = 1 := by
     ext x
-    simp [MulAut.conj_apply]
+    simp
   rw [hconj]
   exact Subgroup.map_id K
 
@@ -2087,8 +2087,7 @@ private lemma e6a3xc_a5Root_40 : a5Root (4 : Fin 6) (0 : Fin 6) = -![1, 0, 1, 1,
 private lemma e6a3xc_a5Root_mem_S {i j : Fin 6} (hij : i ≠ j)
     (hpar : (i : ℕ) % 2 = (j : ℕ) % 2) : a5Root i j ∈ e6a3_S := by
   fin_cases i <;> fin_cases j <;>
-    (simp only [e6a3_S, e6a3_A, e6a3_C, e6a3_component, Set.mem_union, Set.mem_setOf_eq,
-      List.mem_cons, List.not_mem_nil, or_false]) <;>
+    (simp only [e6a3_S, e6a3_A, e6a3_C, e6a3_component, Set.mem_union, Set.mem_ofPred_eq]) <;>
     first
       | exact absurd rfl hij
       | exact absurd hpar (by decide)
@@ -2096,7 +2095,7 @@ private lemma e6a3xc_a5Root_mem_S {i j : Fin 6} (hij : i ≠ j)
 
 private lemma e6a3xc_exists_of_mem_S {γ : Fin (Tag.rank .E6) → ℤ} (hγ : γ ∈ e6a3_S) :
     ∃ i j : Fin 6, i ≠ j ∧ (i : ℕ) % 2 = (j : ℕ) % 2 ∧ a5Root i j = γ := by
-  simp only [e6a3_S, e6a3_A, e6a3_C, e6a3_component, Set.mem_union, Set.mem_setOf_eq] at hγ
+  simp only [e6a3_S, e6a3_A, e6a3_C, e6a3_component, Set.mem_union, Set.mem_ofPred_eq] at hγ
   rcases hγ with (h | h) | (h | h)
   · obtain ⟨n, hn⟩ := List.mem_iff_get.mp h
     fin_cases n
@@ -2210,7 +2209,7 @@ private theorem e6a3xc_Phi_MP
 
 private theorem e6a3xd1_frob_involutive (z : F4) :
     frobenius F4 2 (frobenius F4 2 z) = z := by
-  haveI : Fintype F4 := Fintype.ofFinite F4
+  have : Fintype F4 := Fintype.ofFinite F4
   have hcard : Fintype.card F4 = 4 := by
     rw [← Nat.card_eq_fintype_card, GaloisField.card 2 2 (by norm_num)]
     norm_num
@@ -2235,7 +2234,7 @@ private theorem e6a3xd1_frob_eq_self_iff (z : F4) :
       have hsq := f4Omega_sq
       rw [h2] at hsq
       rw [CharTwo.add_self_eq_zero] at hsq
-      exact (one_ne_zero : (1 : F4) ≠ 0) (by simpa using hsq)
+      exact (one_ne_zero : (1 : F4) ≠ 0) (by simp at hsq)
     · exfalso
       have h2 : (f4Omega ^ 2) ^ 2 = f4Omega ^ 2 := by
         have h := hz
@@ -2249,9 +2248,9 @@ private theorem e6a3xd1_frob_eq_self_iff (z : F4) :
       have hsq := f4Omega_sq
       rw [h3] at hsq
       rw [CharTwo.add_self_eq_zero] at hsq
-      exact (one_ne_zero : (1 : F4) ≠ 0) (by simpa using hsq)
+      exact (one_ne_zero : (1 : F4) ≠ 0) (by simp at hsq)
   · rintro ⟨a, rfl⟩
-    haveI : Fintype F2 := Fintype.ofFinite F2
+    have : Fintype F2 := Fintype.ofFinite F2
     have hcard : Fintype.card F2 = 2 := by
       rw [← Nat.card_eq_fintype_card, GaloisField.card 2 1 (by norm_num)]
       norm_num
@@ -2309,12 +2308,12 @@ private theorem e6a3xd2_eps_omega : e6a3xd2_eps f4Omega = !![0, 1; 1, 1] := by
 private theorem e6a3xd2_eps_omega_sq : e6a3xd2_eps (f4Omega ^ 2) = !![1, 1; 1, 0] := by
   rw [pow_two, map_mul, e6a3xd2_eps_omega]
   ext i j; fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_fin_two, CharTwo.add_self_eq_zero]
+    simp [CharTwo.add_self_eq_zero]
 
 private theorem e6a3xd2_B0_mul_B0inv : e6a3xd2_B0 * e6a3xd2_B0inv = 1 := by
   ext i j; fin_cases i <;> fin_cases j <;>
-    (simp [e6a3xd2_B0, e6a3xd2_B0inv, Matrix.mul_fin_two, e6a3xd2_omega_sq,
-      CharTwo.add_self_eq_zero] <;>
+    (simp [e6a3xd2_B0, e6a3xd2_B0inv, e6a3xd2_omega_sq,
+      CharTwo.add_self_eq_zero]; try
      (ring_nf; simp [CharTwo.two_eq_zero, CharTwo.add_self_eq_zero]))
 
 private theorem e6a3xd2_conj_eps (a : F4) :
@@ -2323,10 +2322,10 @@ private theorem e6a3xd2_conj_eps (a : F4) :
   rcases f4_cases a with rfl | rfl | rfl | rfl
   · rw [map_zero]
     ext i j; fin_cases i <;> fin_cases j <;>
-      simp [e6a3xd2_B0, e6a3xd2_B0inv, Matrix.mul_fin_two, Matrix.diagonal_apply]
+      simp [e6a3xd2_B0, e6a3xd2_B0inv]
   · rw [map_one, Matrix.mul_one]
     ext i j; fin_cases i <;> fin_cases j <;>
-      (simp [e6a3xd2_B0, e6a3xd2_B0inv, Matrix.mul_fin_two, Matrix.diagonal_apply] <;>
+      (simp [e6a3xd2_B0, e6a3xd2_B0inv];
        first
          | linear_combination (1 : F4) * f4Omega_sq
          | linear_combination (1 : F4) * CharTwo.add_self_eq_zero f4Omega
@@ -2339,12 +2338,11 @@ private theorem e6a3xd2_conj_eps (a : F4) :
          | linear_combination (1 : F4) * f4Omega_sq +
              (1 : F4) * CharTwo.add_self_eq_zero f4Omega +
              (1 : F4) * CharTwo.add_self_eq_zero (1 : F4)
-         | (ring_nf; simp [e6a3xd2_omega_sq, f4Omega_pow_three, e6a3xd2_omega_four, pow_succ,
-             CharTwo.two_eq_zero, CharTwo.add_self_eq_zero] <;>
-            (ring_nf; simp [CharTwo.two_eq_zero, CharTwo.add_self_eq_zero])))
+         | (ring_nf; simp [e6a3xd2_omega_sq, CharTwo.two_eq_zero]; try
+            (ring_nf; simp [CharTwo.two_eq_zero])))
   · rw [e6a3xd2_eps_omega]
     ext i j; fin_cases i <;> fin_cases j <;>
-      (simp [e6a3xd2_B0, e6a3xd2_B0inv, Matrix.mul_fin_two, Matrix.diagonal_apply] <;>
+      (simp [e6a3xd2_B0, e6a3xd2_B0inv];
        first
          | linear_combination (1 : F4) * f4Omega_sq
          | linear_combination (1 : F4) * CharTwo.add_self_eq_zero f4Omega
@@ -2357,12 +2355,11 @@ private theorem e6a3xd2_conj_eps (a : F4) :
          | linear_combination (1 : F4) * f4Omega_sq +
              (1 : F4) * CharTwo.add_self_eq_zero f4Omega +
              (1 : F4) * CharTwo.add_self_eq_zero (1 : F4)
-         | (ring_nf; simp [e6a3xd2_omega_sq, f4Omega_pow_three, e6a3xd2_omega_four, pow_succ,
-             CharTwo.two_eq_zero, CharTwo.add_self_eq_zero] <;>
-            (ring_nf; simp [CharTwo.two_eq_zero, CharTwo.add_self_eq_zero])))
+         | (ring_nf; simp [e6a3xd2_omega_sq, f4Omega_pow_three];
+            (ring_nf; simp [CharTwo.two_eq_zero])))
   · rw [e6a3xd2_eps_omega_sq]
     ext i j; fin_cases i <;> fin_cases j <;>
-      (simp [e6a3xd2_B0, e6a3xd2_B0inv, Matrix.mul_fin_two, Matrix.diagonal_apply] <;>
+      (simp [e6a3xd2_B0, e6a3xd2_B0inv];
        first
          | linear_combination (1 : F4) * f4Omega_sq
          | linear_combination (1 : F4) * CharTwo.add_self_eq_zero f4Omega
@@ -2375,9 +2372,8 @@ private theorem e6a3xd2_conj_eps (a : F4) :
          | linear_combination (1 : F4) * f4Omega_sq +
              (1 : F4) * CharTwo.add_self_eq_zero f4Omega +
              (1 : F4) * CharTwo.add_self_eq_zero (1 : F4)
-         | (ring_nf; simp [e6a3xd2_omega_sq, f4Omega_pow_three, e6a3xd2_omega_four, pow_succ,
-             CharTwo.two_eq_zero, CharTwo.add_self_eq_zero] <;>
-            (ring_nf; simp [CharTwo.two_eq_zero, CharTwo.add_self_eq_zero])))
+         | (ring_nf; simp [e6a3xd2_omega_sq, f4Omega_pow_three, e6a3xd2_omega_four];
+            (ring_nf; simp [CharTwo.two_eq_zero])))
 
 private theorem e6a3xd2_eps_mul_B0 (a : F4) :
     e6a3xd2_eps a * e6a3xd2_B0 = e6a3xd2_B0 * Matrix.diagonal ![a, a ^ 2] := by
@@ -2490,7 +2486,7 @@ private theorem e6a3xd2_conj (X : Matrix (Fin 3) (Fin 3) F4) :
   ext i j
   fin_cases i <;> fin_cases j <;>
     (simp only [Matrix.mul_apply, Fin.sum_univ_six, e6a3xd2_P2, e6a3xd2_blk,
-      e6a3xd2_resF4_apply] <;> norm_num)
+      e6a3xd2_resF4_apply]; norm_num)
   all_goals
     first
       | exact e6a3xd2_B0_diag_00 _
@@ -2524,7 +2520,7 @@ private theorem e6a3xd2_re_symm (M : Matrix (Fin 3 ⊕ Fin 3) (Fin 3 ⊕ Fin 3) 
 
 private theorem e6a3xd2_re_apply (g : Matrix (Fin 6) (Fin 6) F4) (i j : Fin 3 ⊕ Fin 3) :
     e6a3xd2_re g i j = g (e6a3xd2_σ i) (e6a3xd2_σ j) := by
-  simp [e6a3xd2_re, Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply, Matrix.submatrix_apply,
+  simp [e6a3xd2_re, Matrix.reindex_apply, Matrix.submatrix_apply,
     Equiv.symm_symm]
 
 private noncomputable def e6a3xd2_ev (g : Matrix (Fin 6) (Fin 6) F4) : Matrix (Fin 3) (Fin 3) F4 :=
@@ -2562,12 +2558,12 @@ private noncomputable def e6a3xd2_BDhom :
 private theorem e6a3xd2_two_ne (k k' : Fin 3) (h : k ≠ k') :
     (⟨2 * k.val, by omega⟩ : Fin 6) ≠ ⟨2 * k'.val, by omega⟩ := by
   intro hh
-  exact h (Fin.ext (by have := congrArg Fin.val hh; simp only [Fin.val_mk] at this; omega))
+  exact h (Fin.ext (by have := congrArg Fin.val hh; simp only at this; omega))
 
 private theorem e6a3xd2_two_add_one_ne (k k' : Fin 3) (h : k ≠ k') :
     (⟨2 * k.val + 1, by omega⟩ : Fin 6) ≠ ⟨2 * k'.val + 1, by omega⟩ := by
   intro hh
-  exact h (Fin.ext (by have := congrArg Fin.val hh; simp only [Fin.val_mk] at this; omega))
+  exact h (Fin.ext (by have := congrArg Fin.val hh; simp only at this; omega))
 
 private theorem e6a3xd2_re_transvection_even (k k' : Fin 3) (h : k ≠ k') (c : F4) :
     e6a3xd2_re ((Matrix.SpecialLinearGroup.transvection
@@ -2580,10 +2576,10 @@ private theorem e6a3xd2_re_transvection_even (k k' : Fin 3) (h : k ≠ k') (c : 
     simp only [e6a3xd2_re_apply, e6a3xd2_σ_inl, e6a3xd2_σ_inr,
       Matrix.SpecialLinearGroup.transvection_coe, Matrix.single_apply, Matrix.one_apply,
       Matrix.fromBlocks_apply₁₁, Matrix.fromBlocks_apply₁₂, Matrix.fromBlocks_apply₂₁,
-      Matrix.fromBlocks_apply₂₂, Matrix.zero_apply, Matrix.of_apply, Matrix.add_apply]
+      Matrix.fromBlocks_apply₂₂, Matrix.zero_apply, Matrix.add_apply]
   all_goals
     fin_cases a <;> fin_cases b <;>
-      (simp only [Fin.ext_iff] <;> split_ifs <;> simp_all <;> omega)
+      (simp only [Fin.ext_iff]; split_ifs <;> simp_all; try omega)
 
 private theorem e6a3xd2_re_transvection_odd (k k' : Fin 3) (h : k ≠ k') (c : F4) :
     e6a3xd2_re ((Matrix.SpecialLinearGroup.transvection
@@ -2596,10 +2592,10 @@ private theorem e6a3xd2_re_transvection_odd (k k' : Fin 3) (h : k ≠ k') (c : F
     simp only [e6a3xd2_re_apply, e6a3xd2_σ_inl, e6a3xd2_σ_inr,
       Matrix.SpecialLinearGroup.transvection_coe, Matrix.single_apply, Matrix.one_apply,
       Matrix.fromBlocks_apply₁₁, Matrix.fromBlocks_apply₁₂, Matrix.fromBlocks_apply₂₁,
-      Matrix.fromBlocks_apply₂₂, Matrix.zero_apply, Matrix.of_apply, Matrix.add_apply]
+      Matrix.fromBlocks_apply₂₂, Matrix.zero_apply, Matrix.add_apply]
   all_goals
     fin_cases a <;> fin_cases b <;>
-      (simp only [Fin.ext_iff] <;> split_ifs <;> simp_all <;> omega)
+      (simp only [Fin.ext_iff]; split_ifs <;> simp_all; try omega)
 
 private theorem e6a3xd2_even_mem (k k' : Fin 3) (h : k ≠ k') (c : F4)
     (hij : (⟨2 * k.val, by omega⟩ : Fin 6) ≠ ⟨2 * k'.val, by omega⟩) :
@@ -2628,10 +2624,10 @@ private theorem e6a3xe1_re_scalar (r : F4) :
   rcases a with a | a <;> rcases b with b | b <;>
     simp only [e6a3xd2_re_apply, e6a3xd2_σ_inl, e6a3xd2_σ_inr, Matrix.scalar_apply,
       Matrix.diagonal_apply, Matrix.fromBlocks_apply₁₁, Matrix.fromBlocks_apply₁₂,
-      Matrix.fromBlocks_apply₂₁, Matrix.fromBlocks_apply₂₂, Matrix.zero_apply, Pi.zero_apply]
+      Matrix.fromBlocks_apply₂₁, Matrix.fromBlocks_apply₂₂, Matrix.zero_apply]
   all_goals
     fin_cases a <;> fin_cases b <;>
-      (simp only [Fin.ext_iff] <;> split_ifs <;> simp_all <;> omega)
+      (simp only [Fin.ext_iff]; try split_ifs <;> simp_all)
 
 private theorem e6a3xe1_decomp :
     ∀ i j : Fin 6, i ≠ j → (i : ℕ) % 2 = (j : ℕ) % 2 →
@@ -2690,7 +2686,7 @@ private theorem e6a3xd2_ev_blk (X Y : Matrix (Fin 3) (Fin 3) F4) :
     e6a3xd2_ev (e6a3xd2_blk X Y) = X := by
   ext k k'
   rw [e6a3xd2_ev, Matrix.toBlocks₁₁, Matrix.of_apply, e6a3xd2_re_apply]
-  simp [e6a3xd2_blk, e6a3xd2_σ_inl, Nat.mul_mod_right, Nat.mul_div_right]
+  simp [e6a3xd2_blk, e6a3xd2_σ_inl, Nat.mul_mod_right]
 
 private theorem e6a3xe2_re_blk (X Y : Matrix (Fin 3) (Fin 3) F4) :
     e6a3xd2_re (e6a3xd2_blk X Y) = Matrix.fromBlocks X 0 0 Y := by
@@ -2737,7 +2733,7 @@ private theorem e6a3xe2_scalar_map :
       Matrix.scalar (Fin 3) (f4Omega ^ 2) := by
   ext i j
   by_cases h : i = j <;>
-    simp [Matrix.scalar_apply, Matrix.diagonal_apply, Matrix.map_apply, h]
+    simp [Matrix.scalar_apply, Matrix.map_apply, h]
 
 private theorem e6a3xe2_P'_conj_D :
     (e6a3xc_P' : Matrix (Fin 6) (Fin 6) F4) * e6a3xe2_Dmat =
@@ -2797,7 +2793,7 @@ private theorem e6a3xe2_exists_M {y : Matrix.SpecialLinearGroup (Fin 6) F4}
     ∃ m ∈ e6a3xc_M, y = e6a3xc_P' * m * e6a3xc_P'⁻¹ := by
   rw [e6a3xc_MP] at hy
   obtain ⟨m, hm, hmy⟩ := Subgroup.mem_map.mp hy
-  exact ⟨m, hm, by rw [← hmy]; simp [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]⟩
+  exact ⟨m, hm, by rw [← hmy]; simp [MulAut.conj_apply]⟩
 
 private theorem e6a3xd2_fwd (A : Matrix.SpecialLinearGroup (Fin 6) F2)
     (hA : Matrix.SpecialLinearGroup.map e6a3_iota A ∈ e6a3xc_MP) : A ∈ sl3four := by
@@ -2955,7 +2951,7 @@ private theorem e6a3xe3_transvection_mem (i j : Fin 3) (hij : i ≠ j) (c : F4) 
       (E : Matrix (Fin 6) (Fin 6) F4) * (O : Matrix (Fin 6) (Fin 6) F4) := by
     apply e6a3xd2_re.injective
     rw [e6a3xe3_re_blk, map_mul, hE, hO, Matrix.fromBlocks_multiply]
-    simp [Matrix.mul_one, Matrix.mul_zero, Matrix.zero_mul, add_zero, zero_add]
+    simp [add_zero, zero_add]
   have hE_mem : E ∈ e6a3xc_M := by
     rw [e6a3xc_M]
     refine Subgroup.subset_closure ?_

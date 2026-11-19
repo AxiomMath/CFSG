@@ -6,7 +6,7 @@ public import Mathlib.Data.Matrix.Mul
 import Mathlib.Algebra.BigOperators.Fin
 public import Mathlib.Algebra.Group.End
 public import Mathlib.Algebra.Order.Ring.Nat
-public import Mathlib.Data.Nat.SuccPred
+public import Mathlib.Order.SuccPred.Nat
 public import Mathlib.Data.ZMod.Defs
 import Mathlib.Tactic.Ring.RingNF
 
@@ -281,8 +281,7 @@ theorem cast_testBit_vecmul {x : ℕ} (hx : x < 2 ^ 24) (M : ℕ) {j : ℕ} (hj 
   rw [Nat.testBit_and, rowMask_testBit hj, Bool.and_true]
   conv_lhs => rw [h0]
   simp only [testBit_fold45, testBit_fold3, testBit_fold2, testBit_fold1, testBit_T x M _ hj hx,
-    cast_xor, cast_and, Nat.reduceAdd, -Nat.reduceMul, Nat.reduceLT, decide_true, decide_false,
-    Bool.true_and, Bool.false_and, Bool.toNat_false, Nat.cast_zero, add_zero, zero_add]
+    cast_xor, cast_and, Nat.reduceAdd, -Nat.reduceMul, Nat.reduceLT, decide_true, Bool.true_and, zero_add]
   rw [Fin.sum_univ_eq_sum_range (fun k => ((x.testBit k).toNat : ZMod 2) *
     (M.testBit (24 * k + j)).toNat) 24]
   simp only [Finset.sum_range_succ, Finset.sum_range_zero, zero_add]
@@ -542,7 +541,7 @@ theorem rowsOK_spec {n P : ℕ} (h : rowsOK n P = true) :
     omega)
   exact Nat.blt_eq.mp this
 
-theorem rows_pos_mono {n P : ℕ} (h : rowsOK n P = true) (hn : 0 < n) :
+theorem rows_pos_mono {n P : ℕ} (h : rowsOK n P = true) (_hn : 0 < n) :
     (∀ i < n, 0 < rowOf P i) ∧ ∀ i j, i < j → j < n → rowOf P i < rowOf P j := by
   obtain ⟨h0, hinc⟩ := rowsOK_spec h
   have hmono : ∀ i j, i < j → j < n → rowOf P i < rowOf P j := by
@@ -683,7 +682,7 @@ theorem ptS_inj {n P Q : ℕ} (hP : P < 2 ^ (24 * n)) (hQ : Q < 2 ^ (24 * n))
     · rintro ⟨i, rfl⟩
       obtain ⟨j, hj⟩ := hsub h.symm i
       exact ⟨j, hj⟩
-  have hf := (hfP.range_inj hfQ).1 hr
+  have hf := (hfP.range_inj_of_wellFoundedLT hfQ).1 hr
   exact eq_of_rows_eq hP hQ fun i hi => congrFun hf ⟨i, hi⟩
 
 theorem permRows_zero (tau n : ℕ) : permRows 0 tau n = 0 := by
@@ -711,7 +710,7 @@ theorem actOK_zero {n sel P Q tau : ℕ} (hsel : DceS.selOK n sel = true)
     have hQe : Q = vecmul P 0 := Nat.eq_of_beq_eq_true h
     have hv0 : vecmul P 0 = 0 := by
       unfold vecmul
-      simp [fold1, fold2, fold3, fold45, Nat.and_zero, Nat.zero_xor, Nat.zero_shiftRight]
+      simp [fold1, fold2, fold3, fold45, Nat.and_zero, Nat.zero_shiftRight]
     rw [hQe, hv0] at hpos
     simp [rowOf] at hpos
 

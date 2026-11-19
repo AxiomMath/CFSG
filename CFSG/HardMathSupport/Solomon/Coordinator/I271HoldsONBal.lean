@@ -192,7 +192,7 @@ theorem i271on_R_bot {S : Type} [Group S] [Finite S] (hcen : Subgroup.center S =
     have : τ = 1 := congrArg Subtype.val hz
     rw [this, map_one]
   set I : Subgroup (MulAut S) := (MulAut.conj : S →* MulAut S).range with hI
-  haveI hInorm : I.Normal := i2326o_normal_inner
+  have hInorm : I.Normal := i2326o_normal_inner
   have hindex : I.index ≤ 2 := Nat.le_of_dvd (by norm_num) hOut
   have hRinj : ∀ σ ∈ R, σ ∈ I → σ = 1 := fun σ hσ hσI => hinner σ hσ hσI
   rw [eq_bot_iff]

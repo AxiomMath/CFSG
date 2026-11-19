@@ -166,7 +166,7 @@ theorem ftc_gen (τ : MulAut ↥X6) (g : MulAut W10)
     g (toW 10 m) = ((τ ⟨toW 10 m, h⟩ : ↥X6) : W10)) ?_ ?_ w6 hbasis
   · refine ⟨zero_mem_combos w6, fun h => ?_⟩
     have e : (⟨toW 10 0, h⟩ : ↥X6) = 1 := Subtype.ext (toW_zero 10)
-    rw [e, map_one, toW_zero, map_one] <;> rfl
+    rw [e, map_one, toW_zero, map_one]; rfl
   · intro a b ha hb
     refine ⟨xor_mem_combos w6 ha.1 hb.1, fun h => ?_⟩
     have ha' : toW 10 a ∈ X6 := toW_mem_maskSub (n := 10) (l := w6) ha.1

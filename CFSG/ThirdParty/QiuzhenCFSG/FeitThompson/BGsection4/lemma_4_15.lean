@@ -41,13 +41,13 @@ public theorem CFSG.lemma_4_15 {R : Type*} [Group R] [Finite R] {p : ℕ} [Fact 
           rw [← hc_eq]
           rfl
     exact hconj ▸ S.mul_mem c.property hs
-  letI : S.Normal := hS_normal
+  let : S.Normal := hS_normal
   let ZS : Subgroup R := (Subgroup.center S).map S.subtype
   have hZS_normal : ZS.Normal := by
-    letI : (Subgroup.center S).Characteristic := Subgroup.centerCharacteristic
+    let : (Subgroup.center S).Characteristic := Subgroup.centerCharacteristic
     dsimp [ZS]
     exact ConjAct.normal_of_characteristic_of_normal
-  letI : ZS.Normal := hZS_normal
+  let : ZS.Normal := hZS_normal
   have hder_le_ZS : (derivedSubgroup S).map S.subtype ≤ ZS := by
     exact Subgroup.map_mono (commutator_le_center_of_isExtraspecial_local (q := p) (K := S))
   have hZS_card : Nat.card ZS = p := by

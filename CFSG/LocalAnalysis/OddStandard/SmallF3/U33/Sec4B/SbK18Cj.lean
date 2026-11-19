@@ -76,7 +76,7 @@ theorem isElemAbelian_cj {g : G} {H : Subgroup G} (h : CFSG.Open.IsElemAbelian 2
     show (a : G) * (b : G) = (b : G) * (a : G)
     have ha : g⁻¹ * (a : G) * g ∈ H := (mem_cj (H := H)).mp a.2
     have hb : g⁻¹ * (b : G) * g ∈ H := (mem_cj (H := H)).mp b.2
-    haveI : IsMulCommutative ↥H := hcomm
+    have : IsMulCommutative ↥H := hcomm
     have key : (g⁻¹ * (a : G) * g) * (g⁻¹ * (b : G) * g) =
         (g⁻¹ * (b : G) * g) * (g⁻¹ * (a : G) * g) :=
       congrArg Subtype.val (mul_comm' (⟨g⁻¹ * (a : G) * g, ha⟩ : ↥H)

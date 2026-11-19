@@ -24,6 +24,7 @@ variable {Φ : ReflForm F V} {Sing : V → Prop} {TS : Submodule F V → Prop}
   {ρ : H →* Module.End F V} {p : ℕ} [Fact p.Prime]
   {Rh : Subgroup (Equiv.Perm V)} {X : ℕ → Submodule F V} {m : ℕ} {M W' : Submodule F V}
 
+omit [Finite F] in
 theorem caseM_swap (hp2 : p ≠ 2) (C : RaiseCtx Φ Sing TS ρ p Rh X m M W') (x : H)
     (hx : x ∈ flagKernel ρ (isoCompletion Φ X m)) (hxc : CommR ρ Rh x)
     (hM : ∃ y ∈ M, ρ x y ≠ y) :
@@ -36,17 +37,20 @@ theorem caseM_swap (hp2 : p ≠ 2) (C : RaiseCtx Φ Sing TS ρ p Rh X m M W') (x
     (fun v hv => by simpa using FormsCases.fk_mid hx (FormsCases.ctx_M_le_perp C hv))
     ⟨y, hyM, sub_ne_zero.mpr hy⟩
 
+omit [Finite F] [CharP F 2] [Fact p.Prime] in
 theorem realize_mid (C : RaiseCtx Φ Sing TS ρ p Rh X m M W') (a : V →ₗ[F] V) (ha : ∀ v, a v ∈ M)
     (ha0 : ∀ v ∈ M ⊔ W', a v = 0) :
     ∃ u ∈ Urad Φ ρ W', ∀ w ∈ X m, ρ u w - w - a w ∈ W' :=
   FormsCases.realize_mid_core C a ha ha0
 
+omit [Finite F] in
 theorem lift_mid (hp2 : p ≠ 2) (C : RaiseCtx Φ Sing TS ρ p Rh X m M W') (a : V →ₗ[F] V)
     (hac : ∀ r ∈ Rh, ∀ v, r (a v) = a (r v)) (u₀ : H) (hu₀ : u₀ ∈ Urad Φ ρ W')
     (hlead : ∀ w ∈ X m, ρ u₀ w - w - a w ∈ W') :
     ∃ y ∈ Urad Φ ρ W', CommR ρ Rh y ∧ ∀ w ∈ X m, ρ y w - w - a w ∈ W' :=
   FormsCases.lift_mid_core hp2 C a hac u₀ hu₀ hlead
 
+omit [Finite F] in
 theorem caseG_raise (hp2 : p ≠ 2) (C : RaiseCtx Φ Sing TS ρ p Rh X m M W') (x : H)
     (hx : x ∈ flagKernel ρ (isoCompletion Φ X m)) (hxc : CommR ρ Rh x)
     (hG : ∃ w ∈ X m, ρ x w ≠ w) :
@@ -60,7 +64,7 @@ theorem caseG_raise (hp2 : p ≠ 2) (C : RaiseCtx Φ Sing TS ρ p Rh X m M W') (
     · rw [min_eq_left (by omega : k + 1 ≤ m)] at hv
       rw [min_eq_left hk.le]
       exact FormsCases.fk_low hx hk hv
-    · push_neg at hk
+    · push Not at hk
       rw [min_eq_right (by omega : m ≤ k + 1)] at hv
       rw [min_eq_right hk]
       exact sub_mem (FormsCases.fs_apply (flagKernel_le_flagStab ρ _ hx) le_rfl hv) hv
@@ -73,15 +77,18 @@ theorem caseG_raise (hp2 : p ≠ 2) (C : RaiseCtx Φ Sing TS ρ p Rh X m M W') (
     ⟨m, w, by simpa using hw, by simpa using sub_ne_zero.mpr hρw⟩
   exact ⟨g, min k m, hgc, hg2, hgW, hgD, v, hv, hgv⟩
 
+omit [Fact p.Prime] [Finite F] [CharP F 2] in
 theorem realize_levi (C : RaiseCtx Φ Sing TS ρ p Rh X m M W') (g : V →ₗ[F] V)
     (hg2 : ∀ v, g (g v) = 0) (hgW : ∀ v, g v ∈ X m) (hgD : ∀ v ∈ M ⊔ W', g v = 0) :
     ∃ u : H, LevProp Φ ρ (X m) g u := FormsCases.realize_levi_core C g hg2 hgW hgD
 
+omit [Finite F] in
 theorem lift_levi (hp2 : p ≠ 2) (C : RaiseCtx Φ Sing TS ρ p Rh X m M W') (g : V →ₗ[F] V)
     (hgc : ∀ r ∈ Rh, ∀ v, r (g v) = g (r v)) (u₀ : H) (hu₀ : LevProp Φ ρ (X m) g u₀) :
     ∃ y : H, CommR ρ Rh y ∧ LevProp Φ ρ (X m) g y :=
   FormsCases.lift_levi_core hp2 C g hgc u₀ hu₀
 
+omit [Finite F] in
 theorem caseZ_dual (hp2 : p ≠ 2) (C : RaiseCtx Φ Sing TS ρ p Rh X m M W')
     (hZtype : EA2 Φ Sing ρ ∨
       ∀ (h : H) (w : V), Sing (ρ h w - w) → Φ.β w (ρ h w - w) = 0)
@@ -92,16 +99,18 @@ theorem caseZ_dual (hp2 : p ≠ 2) (C : RaiseCtx Φ Sing TS ρ p Rh X m M W')
       (EA2 Φ Sing ρ ∨ ∀ u, Φ.β u (c u) = 0) :=
   FormsCases.caseZ_dual_core hp2 C hZtype x hx hxc hZ
 
+omit [Finite F] [Fact p.Prime] in
 theorem realize_siegel (C : RaiseCtx Φ Sing TS ρ p Rh X m M W') (c : V →ₗ[F] V)
     (hcW' : ∀ v, c v ∈ W') (hc0 : ∀ v ∈ M ⊔ W', c v = 0) (hsa : ∀ u v, Φ.β (c u) v = Φ.β u (c v))
     (hdiag : EA2 Φ Sing ρ ∨ ∀ u, Φ.β u (c u) = 0) :
     ∃ u : H, ∀ v, ρ u v = v + c v := FormsCases.realize_siegel_core C c hcW' hc0 hsa hdiag
 
+omit [Finite F] [CharP F 2] [Finite V] [Fact (Nat.Prime p)] in
 theorem trichotomy (C : RaiseCtx Φ Sing TS ρ p Rh X m M W') (x : H) (hx1 : x ≠ 1) :
     (∃ w ∈ X m, ρ x w ≠ w) ∨ (∃ y ∈ M, ρ x y ≠ y) ∨
       ((∀ w ∈ X m, ρ x w = w) ∧ (∀ y ∈ M, ρ x y = y) ∧ ∃ w ∈ W', ρ x w ≠ w) := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨h1, h2, h3⟩ := hcon
   have h3' := h3 h1 h2
   apply hx1
@@ -114,6 +123,7 @@ theorem trichotomy (C : RaiseCtx Φ Sing TS ρ p Rh X m M W') (x : H) (hx1 : x �
     exact ⟨w, hw, μ, hμ, w', hw', rfl⟩
   simp [map_add, h1 w hw, h2 μ hμ, h3' w' hw']
 
+omit [Finite F] in
 theorem caseG (hp2 : p ≠ 2) (C : RaiseCtx Φ Sing TS ρ p Rh X m M W') (x : H)
     (hx : x ∈ flagKernel ρ (isoCompletion Φ X m)) (hxc : CommR ρ Rh x)
     (hG : ∃ w ∈ X m, ρ x w ≠ w) :
@@ -124,12 +134,13 @@ theorem caseG (hp2 : p ≠ 2) (C : RaiseCtx Φ Sing TS ρ p Rh X m M W') (x : H)
   refine ⟨y, hyc, fun hy => ?_⟩
   have hkm : k < m := by
     by_contra hkm
-    push_neg at hkm
+    push Not at hkm
     exact hgv (C.hXmono hkm (hgW v))
   have h1 : ρ y v ∈ X k := FormsCases.fs_apply hy hkm.le hv
   rw [hyL.1 v (C.hXmono hkm.le hv)] at h1
   exact hgv (by simpa using sub_mem h1 hv)
 
+omit [Finite F] in
 theorem caseM (hp2 : p ≠ 2) (C : RaiseCtx Φ Sing TS ρ p Rh X m M W') (x : H)
     (hx : x ∈ flagKernel ρ (isoCompletion Φ X m)) (hxc : CommR ρ Rh x)
     (hM : ∃ y ∈ M, ρ x y ≠ y) :
@@ -154,6 +165,7 @@ theorem caseM (hp2 : p ≠ 2) (C : RaiseCtx Φ Sing TS ρ p Rh X m M W') (x : H)
     exact neg_mem h2
   exact haw (Submodule.disjoint_def.mp C.hsplit.disj_M _ (haM w) h7)
 
+omit [Finite F] in
 theorem caseZ (hp2 : p ≠ 2) (C : RaiseCtx Φ Sing TS ρ p Rh X m M W')
     (hZtype : EA2 Φ Sing ρ ∨
       ∀ (h : H) (w : V), Sing (ρ h w - w) → Φ.β w (ρ h w - w) = 0)
@@ -178,6 +190,7 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type} [AddCommGroup V]
 variable (Φ : ReflForm F V) (Sing : V → Prop) (TS : Submodule F V → Prop)
   (ρ : H →* Module.End F V) (p : ℕ) [Fact p.Prime]
 
+omit [Finite F] in
 theorem raise_form (P : Equiv.Perm V → Prop) (hP : ∀ r, P r → SemiIso Φ r)
     (hσ : ∀ c, Φ.σ (Φ.σ c) = c) (hsymm : ∀ u v, Φ.β v u = Φ.σ (Φ.β u v))
     (hSing : ∀ v, Sing v → Φ.β v v = 0) (hTS : ∀ U, TS U → Φ.IsTotallyIsotropic U)

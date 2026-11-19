@@ -125,7 +125,7 @@ theorem exists_normal_two_complement_of_klein {K : Subgroup G} [Finite K] {a u :
     ∃ N : Subgroup G, N ≤ K ∧ (N.subgroupOf K).Normal ∧ ¬ 2 ∣ Nat.card ↥N ∧
       N ⊓ Subgroup.closure ({a, u} : Set G) = ⊥ ∧
       N ⊔ Subgroup.closure ({a, u} : Set G) = K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let T : Subgroup G := Subgroup.closure ({a, u} : Set G)
   have haT : a ∈ T := Subgroup.subset_closure (by simp)
   have huT : u ∈ T := Subgroup.subset_closure (by simp)
@@ -284,12 +284,12 @@ theorem exists_normal_two_complement_of_klein {K : Subgroup G} [Finite K] {a u :
           (Subgroup.normalizer (T : Set G))).comap (Subgroup.inclusion hMn) := by
         rw [Subgroup.comap_inclusion_subgroupOf]
       have hDnormal : D.Normal := by
-        haveI : ((Subgroup.centralizer (T : Set G)).subgroupOf
+        have : ((Subgroup.centralizer (T : Set G)).subgroupOf
             (Subgroup.normalizer (T : Set G))).Normal :=
           Subgroup.normal_subgroupOf_centralizer_normalizer (T : Set G)
         rw [hDeq]
         infer_instance
-      haveI := hDnormal
+      have := hDnormal
       have hTsub_le_D : (T.subgroupOf M) ≤ D := by
         intro x hx
         rw [Subgroup.mem_subgroupOf] at hx
@@ -341,7 +341,7 @@ theorem exists_normal_two_complement_of_involution {K : Subgroup G} [Finite K] {
     (ha : a * a = 1) (ha1 : a ≠ 1) (hsyl : padicValNat 2 (Nat.card ↥K) = 1) :
     ∃ N : Subgroup G, N ≤ K ∧ (N.subgroupOf K).Normal ∧ ¬ 2 ∣ Nat.card ↥N ∧
       N ⊓ Subgroup.zpowers a = ⊥ ∧ N ⊔ Subgroup.zpowers a = K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let T : Subgroup G := Subgroup.zpowers a
   have hTK : T ≤ K := Subgroup.zpowers_le.mpr haK
   have horder : orderOf a = 2 := orderOf_eq_prime (p := 2) (by simpa [sq] using ha) ha1

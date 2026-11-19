@@ -60,7 +60,7 @@ theorem innDiag_linear_data {S : Type} [Group S] [Finite S] {labK : GLALabel} {�
     exact ⟨K, hK, hKf, labK.rank + 1, by omega, by rw [hc]; exact hcard, A', u', e', hα', hg'⟩
   ·
     unfold LargeEvenRawDatum at hraw
-    simp only [ht, hr, if_true] at hraw
+    simp only [ht, hr, ite_true] at hraw
     unfold LargeEvenRecipeLinear at hraw
     obtain ⟨K, hK, hKf, hcard, hQ'⟩ := hraw
     obtain ⟨-, -, θ, -, u, hu, hind⟩ := hQ'
@@ -71,7 +71,7 @@ theorem innDiag_linear_data {S : Type} [Group S] [Finite S] {labK : GLALabel} {�
     exact ⟨K, hK, hKf, 4, by norm_num, by rw [hc]; exact hcard, A', u', e', hα', hg'⟩
   ·
     unfold LargeEvenRawDatum at hraw
-    simp only [ht, hr, if_true] at hraw
+    simp only [ht, hr, ite_true] at hraw
     unfold LargeEvenRecipeLinear at hraw
     obtain ⟨K, hK, hKf, hcard, hQ'⟩ := hraw
     obtain ⟨-, -, θ, -, u, hu, hind⟩ := hQ'
@@ -94,7 +94,7 @@ theorem innDiagLin_of_pieces (hSL : SLComponentsTrivial) (hP1 : LinPCompIsComp) 
       omega
     · exact h0
   have h2 : (2 : K) = 0 := by
-    haveI := Fintype.ofFinite K
+    have := Fintype.ofFinite K
     obtain ⟨q, hq, n, hqp, hqcard⟩ := FiniteField.card' K
     rw [Nat.card_eq_fintype_card, hqcard] at hcard
     have hdvd : q ∣ 2 ^ (canonLabel labK).n := by

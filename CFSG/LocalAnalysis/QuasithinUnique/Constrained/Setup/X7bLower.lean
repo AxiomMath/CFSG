@@ -44,7 +44,7 @@ theorem lowU_symp [CharP K 2] (a b c d : K) :
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [lowU, minorJ_apply, Matrix.mul_apply, Matrix.transpose_apply, Fin.sum_univ_four] <;>
-    first | ring1 | (ring_nf; simp [h2])
+    (ring_nf; simp [h2])
 
 theorem lowUGL_mem [CharP K 2] (a b c d : K) : lowUGL a b c d ∈ antiSp K := by
   rw [mem_antiSp]
@@ -129,7 +129,6 @@ theorem mem_lowerUniSp_iff [CharP K 2] (g : antiSp K) :
     fin_cases i <;> fin_cases j <;> simp_all [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero,
       Matrix.cons_val_one] <;>
       first
-      | ring1
       | linear_combination h01 + (-(glMat (g : GL (Fin 4) K) 2 0 +
           glMat (g : GL (Fin 4) K) 1 0 * glMat (g : GL (Fin 4) K) 2 1)) * h2
       | linear_combination h02 + (-(glMat (g : GL (Fin 4) K) 1 0)) * h2
@@ -170,7 +169,7 @@ theorem minorMap_minorMap_lowU [CharP K 2] (a b c d : K) :
   have h4 : (4 : K) = 0 := by rw [show (4 : K) = 2 * 2 by norm_num, h2, zero_mul]
   rw [minorMap_lowU, minorMap_lowU]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [lowU] <;> first | ring1 | (ring_nf; simp [h2, h4])
+  fin_cases i <;> fin_cases j <;> simp [lowU] <;> (ring_nf; simp [h2, h4])
 
 theorem minorMap_minorJ [CharP K 2] : minorMap (minorJ K) = minorJ K := by
   ext i j
@@ -260,7 +259,7 @@ theorem minorHom_minorHom_lowUSp [CharP K 2] (a b c d : K) :
   rw [minorHom_lowUSp, minorHom_lowUSp]
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
   have h4 : (4 : K) = 0 := by rw [show (4 : K) = 2 * 2 by norm_num, h2, zero_mul]
-  congr 1 <;> first | ring1 | (ring_nf; simp [h2, h4])
+  congr 1 <;> (ring_nf; simp [h2, h4])
 
 theorem minorHom_Jsp [CharP K 2] : minorHom K (Jsp : antiSp K) = Jsp :=
   Subtype.ext (Units.ext minorMap_minorJ)

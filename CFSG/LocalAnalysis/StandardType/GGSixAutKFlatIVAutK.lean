@@ -32,7 +32,7 @@ theorem ggItem2_main (hS1 : GGStructSOne) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 
     GGHypRestIVComponentwise p
       (((D.map (MulAut.conj m⁻¹).toMonoidHom).subgroupOf (ggAutKW D K m)).map
         (ggAutKPi D K (Subgroup.normalizer (G₀ : Set G)) m)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro x hx hx1 C hC
   set E₀ : Subgroup G := D.map (MulAut.conj m⁻¹).toMonoidHom with hE₀
   have hE0el : IsElemAbelian p E₀ := CFSG.Open.IsElemAbelian.map hDel _
@@ -62,7 +62,7 @@ theorem ggItem2_main (hS1 : GGStructSOne) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 
   obtain ⟨d, hd, hde⟩ := Subgroup.mem_map.mp heE
   have hed : (e' : G) = m⁻¹ * d * (m⁻¹)⁻¹ := by
     rw [← hde]
-    simp [MulAut.conj_apply]
+    simp
   have hdBs : d ∈ Bs := hDBs hd
   have hmk := hmark (inv_mem hm) hb hdBs
   rw [← hed] at hmk

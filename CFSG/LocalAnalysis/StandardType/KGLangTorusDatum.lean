@@ -11,7 +11,7 @@ namespace CFSG.StandardType
 open CFSG CFSG.Assembly CFSG.RankThree.PerfectCover
 
 theorem kgLangLT1_decomp {p : ℕ} (hp : p.Prime) {K R : Type} [Group K] [Group R]
-    (θ : K ⧸ Subgroup.center K ≃* R) {J S : Subgroup (MulAut R)} (hJS : J ≤ S)
+    (θ : K ⧸ Subgroup.center K ≃* R) {J S : Subgroup (MulAut R)} (_hJS : J ≤ S)
     (hN : (J.subgroupOf S).Normal) (hcyc : ∃ g ∈ S, ∀ s ∈ S, ∃ k : ℤ, g ^ k * s ∈ J)
     {A : Subgroup (MulAut K)} (hA : IsElemAbelian p A) (hAS : ∀ α ∈ A, kgInducedAut θ α ∈ S)
     {α₀ : MulAut K} (hα₀ : α₀ ∈ A) (hα₀J : kgInducedAut θ α₀ ∉ J) :
@@ -77,7 +77,7 @@ theorem kgLangLT3_norms {p : ℕ} {K : Type} [Group K] [Finite K] {M : Subgroup 
     (hβM : ∀ t : K, β t ∈ M ↔ t ∈ M)
     (h90 : ∀ c ∈ M, ((List.range p).map fun i => (β ^ i) c).prod = 1 → ∃ s ∈ M, c = s⁻¹ * β s) :
     ∀ t ∈ M, β t = t → ∃ s ∈ M, t = ((List.range p).map fun i => (β ^ i) s).prod := by
-  letI : CommGroup M := CommGroup.mk fun a b => Subtype.ext (hM a a.2 b b.2)
+  let : CommGroup M := CommGroup.mk fun a b => Subtype.ext (hM a a.2 b b.2)
   have hβmem : ∀ (i : ℕ) {x : K}, x ∈ M → (β ^ i) x ∈ M := by
     intro i
     induction i with
@@ -110,7 +110,7 @@ theorem kgLangLT3_norms {p : ℕ} {K : Type} [Group K] [Finite K] {M : Subgroup 
   have hN_list : ∀ s : M, N s = ((List.range p).map (fun i => φ i s)).prod := by
     intro s
     show Finset.prod (Finset.range p) φ s = ((List.range p).map (fun i => φ i s)).prod
-    rw [MonoidHom.finset_prod_apply]
+    rw [MonoidHom.finsetProd_apply]
     exact kgLangDatumAux_fin_range_prod_eq_list p (fun i => φ i s)
   have hN_eval : ∀ s : M,
       (N s : K) = ((List.range p).map fun i => (β ^ i) (s : K)).prod := by

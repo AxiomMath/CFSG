@@ -39,7 +39,7 @@ theorem residue_two_subgroup_sylow_promotes [Finite G]
     exact hp2 (Nat.modEq_zero_iff_dvd.mp
       (hindex.symm.trans (Nat.modEq_zero_iff_dvd.mpr hdvd)))
   let W : Subgroup G := (Q : Subgroup B).map B.subtype
-  have hWp : IsPGroup p W := Q.isPGroup'.map _
+  have hWp : IsPGroup p W := Q.isPGroup.map _
   have hWi : ¬ p ∣ W.index := by
     rw [Subgroup.index_map_subtype]
     exact hp.not_dvd_mul Q.not_dvd_index hnot

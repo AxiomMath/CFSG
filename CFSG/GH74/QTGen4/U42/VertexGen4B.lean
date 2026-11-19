@@ -14,7 +14,7 @@ open CFSG.Open CFSG.BenderSuzuki CFSG.BenderSuzuki.MatrixGroups
 open scoped MatrixGroups
 
 theorem card_GL4_two : Nat.card (GL (Fin 4) (ZMod 2)) = 20160 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [CFSG.SectionRank.Ccomm.card_GL_zmod 4]
   norm_num [Fin.prod_univ_four]
 
@@ -100,7 +100,7 @@ theorem card_statedSU_gt {F : Type} [Field F] {n : ℕ} (hn : 2 ≤ n)
     (hF : Nat.card F = (2 ^ n) ^ 2)
     (hfin : Finite (CFSG.Assembly.LowTwoRank.StatedSU 3 (2 ^ n) F)) :
     20160 < Nat.card (CFSG.Assembly.LowTwoRank.StatedSU 3 (2 ^ n) F) := by
-  haveI := hfin
+  have := hfin
   refine lt_of_lt_of_le (card_statedProj_statedSU_gt hn hF) ?_
   exact Nat.card_le_card_of_surjective
     (QuotientGroup.mk' ((CFSG.Assembly.LowTwoRank.StatedScalars (Fin 3) F).subgroupOf

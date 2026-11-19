@@ -37,7 +37,7 @@ theorem normalizer_le_d1X0_of_elemAbelian {P : Sylow 3 G} {M H Q : Subgroup G}
     normalizer (A : Set (H ⧸ primeComplementCore (G := H) 3)) ≤ d1X0 3 M H := by
   classical
   have hp : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   obtain ⟨H₁, R₁, he⟩ := hd.escape
   set O := primeComplementCore (G := H) 3
   set π := QuotientGroup.mk' O

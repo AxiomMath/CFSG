@@ -45,7 +45,7 @@ theorem exists_trace_dvd91 {K : Type*} [Field K] [Finite K] [CharP K 2] {r : ℕ
   have hr2 : r ≠ 2 := by
     rintro rfl
     have h2q : 2 ∣ Nat.card K := by
-      letI := Fintype.ofFinite K
+      let := Fintype.ofFinite K
       rw [Nat.card_eq_fintype_card]
       exact (CharP.cast_eq_zero_iff K 2 _).1 (Nat.cast_card_eq_zero K)
     have hq1 : 1 ≤ Nat.card K ^ 2 := Nat.one_le_pow _ _ Nat.card_pos
@@ -110,7 +110,7 @@ theorem exists_trace_dvd91 {K : Type*} [Field K] [Finite K] [CharP K 2] {r : ℕ
 
 theorem exists_eichler_pair_order91 {K V : Type*} [Field K] [Finite K] [CharP K 2]
     [AddCommGroup V] [Module K V] {Q : QuadraticForm K V}
-    (hQ : (polarBilin Q).Nondegenerate) {u u' a : V} (hu : Q u = 0) (hu' : Q u' = 0)
+    (_hQ : (polarBilin Q).Nondegenerate) {u u' a : V} (hu : Q u = 0) (hu' : Q u' = 0)
     (hp : polar Q u u' ≠ 0) (ha : polar Q u a = 0) (ha' : polar Q u' a = 0) (hc : Q a ≠ 0)
     {r : ℕ} (hr : r.Prime) (hrq : r ∣ Nat.card K ^ 2 - 1) :
     ∃ κ : K, κ ≠ 0 ∧ (eichler Q u' (κ • a) * eichler Q u a) ^ r = 1 := by

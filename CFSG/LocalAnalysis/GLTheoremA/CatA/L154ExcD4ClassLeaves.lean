@@ -306,9 +306,9 @@ theorem l154d4_excl_f4_cover (S : LangSetup Tag.F4 L p₀) {a : Fin Tag.F4.rank 
   classical
   obtain ⟨K, hfin, hcard, g, hg, hker⟩ := l154f4_exists_spSurj S hT i hinner (m := m)
     (fun K hfin hK => by
-      haveI := hfin
+      have := hfin
       obtain ⟨hch, f, hf, hKf, hadm, h4⟩ := l154f4_subfield_params K hm hK hQ
-      haveI := hch
+      have := hch
       refine ⟨Group.isPerfect_def.mp
         (CFSG.LieType.Universal.Symplectic.isQuasisimple_of_admissible m ↥K hadm hKf).1, ?_⟩
       obtain ⟨Ψ, hΨk, hΨr⟩ := hcov ↥K f hf hKf h4
@@ -317,7 +317,7 @@ theorem l154d4_excl_f4_cover (S : LangSetup Tag.F4 L p₀) {a : Fin Tag.F4.rank 
       rw [hr']
       show _ = rootSpan Tag.F4 ↥K (componentRoots (rootCharHom a) i)
       rw [hroots])
-  haveI := hfin
+  have := hfin
   obtain ⟨-, f, -, hKf, hadm, -⟩ := l154f4_subfield_params K hm hcard hQ
   exact l154d4_f4_excl_of_spSurj hadm hKf g hg hker
 
@@ -342,7 +342,7 @@ theorem l154d4_excl_f4_b2_two (S : LangSetup Tag.F4 L p₀) {a : Fin Tag.F4.rank
   classical
   obtain ⟨K', hfin, C, D, hC, hD, hcard, f, hf1, -, hf2⟩ :=
     exists_inner_cover_derived_two S hT i hinner hQ
-  haveI := hfin
+  have := hfin
   obtain ⟨φ, hφ⟩ := l154f4_b2Hom (K := ↥K')
   have hr : ((adjointGroup .F4 ↥K').subtype.comp φ).range = subsystemGroup .F4 ↥K' f4LeviB2 := by
     rw [MonoidHom.range_comp, hφ, map_subtype_sup_b2]

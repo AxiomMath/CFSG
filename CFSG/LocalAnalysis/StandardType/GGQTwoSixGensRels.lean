@@ -50,7 +50,7 @@ theorem qTwoSixRels_evalG_commutator {X : Type} [Group X] (g : Fin 18 → X) (a 
     evalG g [(a, true), (b, true), (a, false), (b, false)] =
       g a * g b * (g a)⁻¹ * (g b)⁻¹ := by
   simp only [evalG, List.map_cons, List.map_nil, List.prod_cons, List.prod_nil,
-    cond_true, cond_false]
+    Bool.cond_true, Bool.cond_false]
   group
 
 theorem qTwoSixRels_commutator_eq_one {G : Type} [Group G] {x y : G} (h : Commute x y) :

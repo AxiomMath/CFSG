@@ -19,6 +19,7 @@ variable {𝕜 : Type*} [Field 𝕜]
   (ρ : Representation 𝕜 Γ V) (W : Fin 6 → Submodule 𝕜 V)
   (σ : Γ →* Equiv.Perm (Fin 6))
 
+omit [FiniteDimensional 𝕜 V] in
 private lemma exists_nonzero_mem_line (h1 : ∀ i, Module.finrank 𝕜 (W i) = 1) (i : Fin 6) :
     ∃ b ∈ W i, b ≠ 0 := by
   apply Submodule.exists_mem_ne_zero_of_ne_bot
@@ -27,6 +28,7 @@ private lemma exists_nonzero_mem_line (h1 : ∀ i, Module.finrank 𝕜 (W i) = 1
   rw [hbot, finrank_bot] at h
   exact zero_ne_one h
 
+omit [Finite Γ] [FiniteDimensional 𝕜 V] in
 private lemma exists_scalar_of_map_line {g : Γ} {i : Fin 6}
     (h1 : Module.finrank 𝕜 (W i) = 1) (hg : (W i).map (ρ g) = W i) :
     ∃ c : 𝕜ˣ, ∀ v ∈ W i, ρ g v = (c : 𝕜) • v := by
@@ -68,10 +70,12 @@ private lemma exists_scalar_of_map_line {g : Γ} {i : Fin 6}
     _ = (c : 𝕜) • (a • b) := by rw [smul_smul]
     _ = (c : 𝕜) • v := by rw [hav]
 
+omit [FiniteDimensional 𝕜 V] in
 private lemma units_eq_of_smul_eq {b : V} (hb : b ≠ 0) {c d : 𝕜ˣ}
     (h : (c : 𝕜) • b = (d : 𝕜) • b) : c = d :=
   Units.ext (smul_left_injective (R := 𝕜) (M := V) hb h)
 
+omit [Finite Γ] [FiniteDimensional 𝕜 V] in
 private lemma map_line_ker (hσW : ∀ g i, (W i).map (ρ g) = W (σ g i)) (i : Fin 6)
     (n : σ.ker) : (W i).map (ρ (n : Γ)) = W i := by
   rw [hσW, MonoidHom.mem_ker.mp n.2, Equiv.Perm.one_apply]
@@ -81,6 +85,7 @@ private noncomputable def chi (h1 : ∀ i, Module.finrank 𝕜 (W i) = 1)
   (exists_scalar_of_map_line (ρ := ρ) (W := W) (g := (n : Γ)) (h1 := h1 i)
     (map_line_ker (ρ := ρ) (W := W) (σ := σ) hσW i n)).choose
 
+omit [Finite Γ] [FiniteDimensional 𝕜 V] in
 private lemma chi_spec (h1 : ∀ i, Module.finrank 𝕜 (W i) = 1)
     (hσW : ∀ g i, (W i).map (ρ g) = W (σ g i)) (i : Fin 6) (n : σ.ker)
     (v : V) (hv : v ∈ W i) :
@@ -89,6 +94,7 @@ private lemma chi_spec (h1 : ∀ i, Module.finrank 𝕜 (W i) = 1)
   exact Classical.choose_spec (exists_scalar_of_map_line (ρ := ρ) (W := W) (g := (n : Γ))
     (h1 := h1 i) (map_line_ker (ρ := ρ) (W := W) (σ := σ) hσW i n)) v hv
 
+omit [Finite Γ] [FiniteDimensional 𝕜 V] in
 private lemma chi_one (h1 : ∀ i, Module.finrank 𝕜 (W i) = 1)
     (hσW : ∀ g i, (W i).map (ρ g) = W (σ g i)) (i : Fin 6) :
     chi ρ W σ h1 hσW i 1 = 1 := by
@@ -96,6 +102,7 @@ private lemma chi_one (h1 : ∀ i, Module.finrank 𝕜 (W i) = 1)
   apply units_eq_of_smul_eq hb0
   simpa using (chi_spec ρ W σ h1 hσW i 1 b hbW).symm
 
+omit [Finite Γ] [FiniteDimensional 𝕜 V] in
 private lemma chi_mul (h1 : ∀ i, Module.finrank 𝕜 (W i) = 1)
     (hσW : ∀ g i, (W i).map (ρ g) = W (σ g i)) (i : Fin 6) (n m : σ.ker) :
     chi ρ W σ h1 hσW i (n * m) = chi ρ W σ h1 hσW i n * chi ρ W σ h1 hσW i m := by
@@ -127,6 +134,7 @@ private noncomputable def chiJoint (h1 : ∀ i, Module.finrank 𝕜 (W i) = 1)
   map_one' := by funext i; exact map_one (chiHom ρ W σ h1 hσW i)
   map_mul' n m := by funext i; exact map_mul (chiHom ρ W σ h1 hσW i) n m
 
+omit [Finite Γ] [FiniteDimensional 𝕜 V] in
 private lemma chiJoint_injective (h1 : ∀ i, Module.finrank 𝕜 (W i) = 1)
     (hσW : ∀ g i, (W i).map (ρ g) = W (σ g i))
     (hWtop : ⨆ i, W i = ⊤) (hfaith : Function.Injective ρ) :
@@ -150,6 +158,7 @@ private lemma chiJoint_injective (h1 : ∀ i, Module.finrank 𝕜 (W i) = 1)
   have hnm : (n : Γ) = (m : Γ) := hfaith hρ
   exact Subtype.ext hnm
 
+omit [Finite Γ] [FiniteDimensional 𝕜 V] in
 private lemma mul_comm_ker (h1 : ∀ i, Module.finrank 𝕜 (W i) = 1)
     (hσW : ∀ g i, (W i).map (ρ g) = W (σ g i)) (hWtop : ⨆ i, W i = ⊤)
     (hfaith : Function.Injective ρ) (a b : σ.ker) : a * b = b * a := by
@@ -260,9 +269,9 @@ private lemma exists_threeCycle_diff_two (S : Set (Fin 6)) (hne : S.Nonempty)
   let e : Fin 6 := if c ∈ S then c else a
   have hbe : b ≠ e := by
     by_cases hcS : c ∈ S
-    · simp only [e, if_pos hcS]
+    · simp only [e, ite_eq_left hcS]
       exact fun h => hcb h.symm
-    · simp only [e, if_neg hcS]
+    · simp only [e, ite_eq_right hcS]
       exact fun h => hab h.symm
   have hπA : π ∈ alternatingGroup (Fin 6) :=
     Equiv.Perm.mul_mem_alternatingGroup_of_isSwap
@@ -280,7 +289,7 @@ private lemma ringChar_ne_two_of_two_ne_zero {𝕜 : Type*} [Field 𝕜]
     (h2 : (2 : 𝕜) ≠ 0) : ringChar 𝕜 ≠ 2 := by
   intro h
   apply h2
-  have hdvd : ringChar 𝕜 ∣ 2 := by simpa [h] using (dvd_refl 2 : (2 : ℕ) ∣ 2)
+  have hdvd : ringChar 𝕜 ∣ 2 := by simp [h]
   exact (ringChar.spec (R := 𝕜) 2).mpr hdvd
 
 private lemma neg_one_ne_one {𝕜 : Type*} [Field 𝕜] (h2 : (2 : 𝕜) ≠ 0) :
@@ -289,6 +298,7 @@ private lemma neg_one_ne_one {𝕜 : Type*} [Field 𝕜] (h2 : (2 : 𝕜) ≠ 0)
   have h' : (-1 : 𝕜) = 1 := by simpa using congrArg Units.val h
   exact Ring.neg_one_ne_one_of_char_ne_two (ringChar_ne_two_of_two_ne_zero h2) h'
 
+omit [Finite Γ] [FiniteDimensional 𝕜 V] in
 private lemma chi_sq_eq_one (h1 : ∀ i, Module.finrank 𝕜 (W i) = 1)
     (hσW : ∀ g i, (W i).map (ρ g) = W (σ g i)) (i : Fin 6) (n : σ.ker)
     (hn2 : n * n = 1) :
@@ -301,6 +311,7 @@ private lemma chi_sq_eq_one (h1 : ∀ i, Module.finrank 𝕜 (W i) = 1)
   · exact Or.inl h
   · exact Or.inr h
 
+omit [Finite Γ] [FiniteDimensional 𝕜 V] in
 private lemma chi_conj (h1 : ∀ i, Module.finrank 𝕜 (W i) = 1)
     (hσW : ∀ g i, (W i).map (ρ g) = W (σ g i)) (g : Γ) (n : σ.ker) (i : Fin 6)
     (hmem : g * (n : Γ) * g⁻¹ ∈ σ.ker) :
@@ -328,6 +339,7 @@ private lemma chi_conj (h1 : ∀ i, Module.finrank 𝕜 (W i) = 1)
     _ = (chi ρ W σ h1 hσW ((σ g)⁻¹ i) n : 𝕜) • ρ g w := by rw [map_smul]
     _ = (chi ρ W σ h1 hσW ((σ g)⁻¹ i) n : 𝕜) • b := by rw [hw]
 
+omit [Finite Γ] [FiniteDimensional 𝕜 V] in
 private lemma chi_product_eq_one (h2 : (2 : 𝕜) ≠ 0)
     (h1 : ∀ i, Module.finrank 𝕜 (W i) = 1)
     (hσW : ∀ g i, (W i).map (ρ g) = W (σ g i))
@@ -361,6 +373,7 @@ private lemma chi_product_eq_one (h2 : (2 : 𝕜) ≠ 0)
           ext
           simp
 
+omit [Finite Γ] [FiniteDimensional 𝕜 V] in
 private lemma chi_at_e_eq_neg_one (h1 : ∀ i, Module.finrank 𝕜 (W i) = 1)
     (hσW : ∀ g i, (W i).map (ρ g) = W (σ g i))
     (n hN : σ.ker) (hn2 : n * n = 1)
@@ -380,9 +393,10 @@ private lemma chi_at_e_eq_neg_one (h1 : ∀ i, Module.finrank 𝕜 (W i) = 1)
     _ = (-1) * 1 := by rw [hne_e, hconj e, hpre']
     _ = -1 := by simp
 
+omit [Finite Γ] in
 private lemma four_le_finrank_of_chi_off (h1 : ∀ i, Module.finrank 𝕜 (W i) = 1)
     (hσW : ∀ g i, (W i).map (ρ g) = W (σ g i))
-    (hWind : iSupIndep W) (u : σ.ker) (hu2 : u * u = 1) {b e : Fin 6} (hbe : b ≠ e)
+    (hWind : iSupIndep W) (u : σ.ker) (_hu2 : u * u = 1) {b e : Fin 6} (hbe : b ≠ e)
     (hchi : ∀ i, i ≠ b → i ≠ e → chi ρ W σ h1 hσW i u = 1) :
     4 ≤ Module.finrank 𝕜 (LinearMap.ker (ρ (u : Γ) - 1)) := by
   classical
@@ -421,6 +435,7 @@ private lemma four_le_finrank_of_chi_off (h1 : ∀ i, Module.finrank 𝕜 (W i) 
     rwa [hcardT] at h
   exact hle
 
+omit [Finite Γ] [FiniteDimensional 𝕜 V] in
 private lemma exists_conj_involution_data (h1 : ∀ i, Module.finrank 𝕜 (W i) = 1)
     (hσW : ∀ g i, (W i).map (ρ g) = W (σ g i))
     (hWtop : ⨆ i, W i = ⊤) (hfaith : Function.Injective ρ)
@@ -452,6 +467,7 @@ private lemma exists_conj_involution_data (h1 : ∀ i, Module.finrank 𝕜 (W i)
     exact h
   exact ⟨hN, hh2, hcomm, hconj⟩
 
+omit [Finite Γ] in
 private lemma false_of_involution_minus_one_on_proper
     (h2 : (2 : 𝕜) ≠ 0) (h1 : ∀ i, Module.finrank 𝕜 (W i) = 1)
     (hσW : ∀ g i, (W i).map (ρ g) = W (σ g i))
@@ -503,6 +519,7 @@ private lemma false_of_involution_minus_one_on_proper
   have hle3 := hr3 (u : Γ) hpg hu1
   omega
 
+omit [Finite Γ] in
 private lemma involution_dichotomy (h2 : (2 : 𝕜) ≠ 0)
     (h1 : ∀ i, Module.finrank 𝕜 (W i) = 1)
     (hσW : ∀ g i, (W i).map (ρ g) = W (σ g i))
@@ -577,6 +594,7 @@ private lemma doubleTransposition_sq : doubleTransposition * doubleTransposition
 
 private lemma doubleTransposition_ne_one : doubleTransposition ≠ 1 := by decide
 
+omit [Finite Γ] [FiniteDimensional 𝕜 V] in
 private lemma rho_inv_apply_of_scalar {i : Fin 6} {g : Γ}
     (hg : (W i).map (ρ g) = W i) {c : 𝕜ˣ}
     (hc : ∀ v ∈ W i, ρ g v = (c : 𝕜) • v) :
@@ -599,6 +617,7 @@ private lemma rho_inv_apply_of_scalar {i : Fin 6} {g : Γ}
     _ = (c : 𝕜)⁻¹ • v := by rw [hcv]
     _ = ((c⁻¹ : 𝕜ˣ) : 𝕜) • v := by rw [Units.val_inv_eq_inv_val]
 
+omit [Finite Γ] [FiniteDimensional 𝕜 V] in
 private lemma rho_commutator_apply_self {i : Fin 6} (h1 : Module.finrank 𝕜 (W i) = 1)
     {x y : Γ} (hx : (W i).map (ρ x) = W i) (hy : (W i).map (ρ y) = W i)
     {v : V} (hv : v ∈ W i) : ρ (x * y * x⁻¹ * y⁻¹) v = v := by
@@ -611,13 +630,13 @@ private lemma rho_commutator_apply_self {i : Fin 6} (h1 : Module.finrank 𝕜 (W
   rw [h1', hyb v hv, map_smul, hxa v hv, smul_smul,
     map_smul, hb v hv, smul_smul,
     map_smul, ha v hv, smul_smul]
-  congr 1
   rw [Units.val_inv_eq_inv_val, Units.val_inv_eq_inv_val]
   field_simp
   simp
 
+omit [Finite Γ] [FiniteDimensional 𝕜 V] in
 private lemma linearIndependent_four_of_swap_shape
-    (h1 : ∀ i, Module.finrank 𝕜 (W i) = 1) (hWind : iSupIndep W)
+    (_h1 : ∀ i, Module.finrank 𝕜 (W i) = 1) (hWind : iSupIndep W)
     (t : Γ) (ht2 : t * t = 1)
     (hmap01 : (W 0).map (ρ t) = W 1) (hmap23 : (W 2).map (ρ t) = W 3)
     {b0 b2 b4 b5 : V} (hb0W : b0 ∈ W 0) (hb2W : b2 ∈ W 2) (hb4W : b4 ∈ W 4)
@@ -647,7 +666,7 @@ private lemma linearIndependent_four_of_swap_shape
     · simpa [c] using Submodule.smul_mem (W 3) (g 3) ht2'
     · simpa [c] using Submodule.smul_mem (W 4) (g 0) hb4W
     · simpa [c] using Submodule.smul_mem (W 5) (g 1) hb5W
-  have hzero := (iSupIndep_iff_finset_sum_eq_zero_imp_eq_zero (p := W)).mp hWind
+  have hzero := (iSupIndep_iff_finsetSum_eq_zero_imp_eq_zero (p := W)).mp hWind
     Finset.univ c hmem hc
   have hcoef : ∀ (a : 𝕜) (b : V), b ≠ 0 → a • b = 0 → a = 0 := fun a b hb ha =>
     (smul_eq_zero.mp ha).resolve_right hb
@@ -662,6 +681,7 @@ private lemma linearIndependent_four_of_swap_shape
   · exact hg2
   · exact hg3
 
+omit [Finite Γ] in
 private lemma four_le_finrank_ker_of_swap_shape
     (h1 : ∀ i, Module.finrank 𝕜 (W i) = 1) (hWind : iSupIndep W)
     (t : Γ) (ht2 : t * t = 1)
@@ -694,14 +714,16 @@ private lemma four_le_finrank_ker_of_swap_shape
     hu.codRestrict _ hfix
   simpa using hli.fintype_card_le_finrank
 
+omit [Finite Γ] [FiniteDimensional 𝕜 V] in
 private lemma rho_pow_apply_eq_self {i : Fin 6} {g : Γ}
     (h : ∀ v ∈ W i, ρ g v = v) (k : ℕ) : ∀ v ∈ W i, ρ (g ^ k) v = v := by
   induction k with
-  | zero => intro v hv; simpa using hv
+  | zero => intro v hv; simp
   | succ k ih =>
     intro v hv
     rw [pow_succ, map_mul, Module.End.mul_apply, h v hv, ih v hv]
 
+omit [Finite Γ] [FiniteDimensional 𝕜 V] in
 private lemma exists_commutator_q (h1 : ∀ i, Module.finrank 𝕜 (W i) = 1)
     (hσW : ∀ g i, (W i).map (ρ g) = W (σ g i))
     (hσ : σ.range = alternatingGroup (Fin 6)) :
@@ -723,8 +745,9 @@ private lemma exists_commutator_q (h1 : ∀ i, Module.finrank 𝕜 (W i) = 1)
   · exact rho_commutator_apply_self (ρ := ρ) (W := W) (h1 4) hx4 hy4 hv
   · exact rho_commutator_apply_self (ρ := ρ) (W := W) (h1 5) hx5 hy5 hv
 
-private lemma exists_odd_power_involution (h1 : ∀ i, Module.finrank 𝕜 (W i) = 1)
-    (t : Γ) (a : ℕ) (ha : 1 ≤ a) (ha2 : 2 ≤ a) (ht_order : orderOf t = 2 ^ a)
+omit [FiniteDimensional 𝕜 V] in
+private lemma exists_odd_power_involution (_h1 : ∀ i, Module.finrank 𝕜 (W i) = 1)
+    (t : Γ) (a : ℕ) (_ha : 1 ≤ a) (ha2 : 2 ≤ a) (ht_order : orderOf t = 2 ^ a)
     (hσt : σ t = doubleTransposition) (ht4 : ∀ v ∈ W 4, ρ t v = v) :
     ∃ n : Γ, n * n = 1 ∧ n ∈ σ.ker ∧ n ≠ 1 ∧
       (∀ v ∈ W 4, ρ n v = v) ∧ n = t ^ (2 ^ (a - 1)) := by
@@ -770,7 +793,7 @@ private lemma two_part_sq_eq_one (h2 : (2 : 𝕜) ≠ 0)
     (hr3 : ∀ t : Γ, IsPGroup 2 (Subgroup.zpowers t) → t ≠ 1 →
       Module.finrank 𝕜 (LinearMap.ker (ρ t - 1)) ≤ 3)
     (t : Γ) (a : ℕ) (ha : 1 ≤ a) (ht_order : orderOf t = 2 ^ a)
-    (hσt : σ t = doubleTransposition) (ht_ne : t ≠ 1)
+    (hσt : σ t = doubleTransposition) (_ht_ne : t ≠ 1)
     (ht4 : ∀ v ∈ W 4, ρ t v = v) : t * t = 1 := by
   by_contra hne
   have ha2 : 2 ≤ a := by
@@ -808,6 +831,7 @@ private lemma two_part_sq_eq_one (h2 : (2 : 𝕜) ≠ 0)
     · exact absurd h h2
     · exact hv0 h
 
+omit [FiniteDimensional 𝕜 V] in
 private lemma exists_two_part_data (q : Γ) (hqσ : σ q = doubleTransposition)
     (hq4 : ∀ v ∈ W 4, ρ q v = v) (hq5 : ∀ v ∈ W 5, ρ q v = v) :
     ∃ (t : Γ) (a : ℕ), 1 ≤ a ∧ orderOf t = 2 ^ a ∧ σ t = doubleTransposition ∧

@@ -21,7 +21,7 @@ variable {W : Type} [CommGroup W] [Finite W]
 
 private theorem s15_Three_derived_le {J B : Subgroup (MulAut W)} (hBJ : B ≤ J)
     (hB : (B.subgroupOf J).Normal) (hidx : (B.subgroupOf J).index ≤ 2) : ⁅J, J⁆ ≤ B := by
-  haveI : (B.subgroupOf J).Normal := hB
+  have : (B.subgroupOf J).Normal := hB
   have hdvd : Nat.card (↥J ⧸ B.subgroupOf J) ∣ 2 := by
     have hle : Nat.card (↥J ⧸ B.subgroupOf J) ≤ 2 := by
       rw [← Subgroup.index_eq_card]
@@ -29,8 +29,8 @@ private theorem s15_Three_derived_le {J B : Subgroup (MulAut W)} (hBJ : B ≤ J)
     have hge : 1 ≤ Nat.card (↥J ⧸ B.subgroupOf J) := Nat.card_pos
     have hcases : Nat.card (↥J ⧸ B.subgroupOf J) = 1 ∨
         Nat.card (↥J ⧸ B.subgroupOf J) = 2 := by omega
-    rcases hcases with h | h <;> rw [h] <;> norm_num
-  haveI : IsMulCommutative (↥J ⧸ B.subgroupOf J) :=
+    rcases hcases with h | h <;> rw [h]; norm_num
+  have : IsMulCommutative (↥J ⧸ B.subgroupOf J) :=
     (isCyclic_of_card_dvd_prime (p := 2) hdvd).isMulCommutative
   have hmap : (_root_.commutator ↥J).map (QuotientGroup.mk' (B.subgroupOf J)) = ⊥ := by
     rw [_root_.commutator_def, Subgroup.map_commutator, Subgroup.map_top,
@@ -75,6 +75,7 @@ private theorem s15_Three_eq_derived {J B : Subgroup (MulAut W)} (hBJ : B ≤ J)
   have htop : J'.subgroupOf B = ⊤ := hno2 (J'.subgroupOf B) hN ⟨n, hn⟩
   exact le_antisymm (Subgroup.subgroupOf_eq_top.mp htop) hJ'B
 
+omit [Finite W] in
 private theorem s15_Three_conj_mem_tgroup {A : Subgroup (MulAut W)} {t a : MulAut W}
     (ha : a ∈ A) {j : MulAut W} (hj : j ∈ s15TGroup A t) :
     a * j * a⁻¹ ∈ s15TGroup A t := by
@@ -92,6 +93,7 @@ private theorem s15_Three_conj_mem_tgroup {A : Subgroup (MulAut W)} {t a : MulAu
     rw [show a * x⁻¹ * a⁻¹ = (a * x * a⁻¹)⁻¹ by group]
     exact inv_mem hx
 
+omit [Finite W] in
 private theorem s15_Three_normalizes_tgroup {A : Subgroup (MulAut W)} {t a : MulAut W}
     (ha : a ∈ A) : ∀ j : MulAut W, j ∈ s15TGroup A t ↔ a * j * a⁻¹ ∈ s15TGroup A t := by
   intro j
@@ -100,6 +102,7 @@ private theorem s15_Three_normalizes_tgroup {A : Subgroup (MulAut W)} {t a : Mul
   have h' : a⁻¹ * (a * j * a⁻¹) * (a⁻¹)⁻¹ = j := by group
   rwa [h'] at h
 
+omit [Finite W] in
 private theorem s15_Three_mem_stabSub {A : Subgroup (MulAut W)} {R : Subgroup W}
     (hR : StableUnder A R) {a : MulAut W} (ha : a ∈ A) : a ∈ stabSub R := by
   intro u
@@ -107,6 +110,7 @@ private theorem s15_Three_mem_stabSub {A : Subgroup (MulAut W)} {R : Subgroup W}
   have h := hR a⁻¹ (A.inv_mem ha) (a u) hu
   simpa [MulAut.inv_apply] using h
 
+omit [Finite W] in
 private theorem s15_Three_mem_stabSub_zpowers {t : MulAut W} {R : Subgroup W}
     (hRt : StableUnder (Subgroup.zpowers t) R) {x : MulAut W}
     (hx : x ∈ Subgroup.zpowers t) : x ∈ stabSub R := by
@@ -115,6 +119,7 @@ private theorem s15_Three_mem_stabSub_zpowers {t : MulAut W} {R : Subgroup W}
   have h := hRt x⁻¹ (Subgroup.inv_mem _ hx) (x u) hu
   simpa [MulAut.inv_apply] using h
 
+omit [Finite W] in
 private theorem s15_Three_tgroup_stable_R {A : Subgroup (MulAut W)} {t : MulAut W}
     {R : Subgroup W} (hR : StableUnder A R) (hRt : StableUnder (Subgroup.zpowers t) R) :
     StableUnder (s15TGroup A t) R := by
@@ -129,7 +134,7 @@ private theorem s15_Three_tgroup_stable_R {A : Subgroup (MulAut W)} {t : MulAut 
   exact (mem_stabSub.mp (hle hx) r).2 hr
 
 private theorem s15_Three_act_trivial {A J B : Subgroup (MulAut W)} {R : Subgroup W}
-    (hR : StableUnder A R) (hBJ : B ≤ J) (hB : (B.subgroupOf J).Normal)
+    (hR : StableUnder A R) (_hBJ : B ≤ J) (hB : (B.subgroupOf J).Normal)
     (hidx : (B.subgroupOf J).index ≤ 2)
     (hno2A : ∀ N : Subgroup ↥A, N.Normal → (∃ n : ℕ, N.index = 2 ^ n) → N = ⊤)
     (hfaith : ∀ j ∈ J, (∀ r ∈ R, j r = r) → j = 1)
@@ -163,7 +168,7 @@ private theorem s15_Three_act_trivial {A J B : Subgroup (MulAut W)} {R : Subgrou
       map_mul' := fun a b => by
         apply Subtype.ext
         exact hmul a b }
-  haveI : (B.subgroupOf J).Normal := hB
+  have : (B.subgroupOf J).Normal := hB
   let θ : ↥A →* ↥J ⧸ (B.subgroupOf J) := (QuotientGroup.mk' (B.subgroupOf J)).comp f
   have hker_le : θ.ker.index ≤ 2 := by
     rw [Subgroup.index_ker]
@@ -187,6 +192,7 @@ private theorem s15_Three_act_trivial {A J B : Subgroup (MulAut W)} {R : Subgrou
   exact ⟨jOf ⟨a, ha⟩, Subgroup.mem_subgroupOf.mp hmemN, fun r hr =>
     hjOf_act ⟨a, ha⟩ r hr⟩
 
+omit [Finite W] in
 private theorem s15_Three_commSub_sup (B : Subgroup (MulAut W)) (X Y : Subgroup W) :
     commSub (X ⊔ Y) B = commSub X B ⊔ commSub Y B := by
   refine le_antisymm ?_ ?_
@@ -207,6 +213,7 @@ private theorem s15_Three_commSub_sup (B : Subgroup (MulAut W)) (X Y : Subgroup 
       (Subgroup.mem_sup_right (Subgroup.subset_closure ⟨b, hb, y, hy, rfl⟩))
   · exact sup_le (commSub_mono le_sup_left le_rfl) (commSub_mono le_sup_right le_rfl)
 
+omit [Finite W] in
 private theorem s15_Three_commSub_stable {A B : Subgroup (MulAut W)} {R : Subgroup W}
     (hR : StableUnder A R) (hBA : ∀ a ∈ A, ∀ b ∈ B, a⁻¹ * b * a ∈ B) :
     StableUnder A (commSub R B) := by
@@ -224,6 +231,7 @@ private theorem s15_Three_commSub_stable {A B : Subgroup (MulAut W)} {R : Subgro
   | mul x y _ _ hx hy => rw [map_mul]; exact mul_mem hx hy
   | inv x _ hx => rw [map_inv]; exact inv_mem hx
 
+omit [Finite W] in
 private theorem s15_Three_commSub_eq_bot_or_top {A B : Subgroup (MulAut W)} {R : Subgroup W}
     (hR : IsIrrOn A R ⊥) (hBA : ∀ a ∈ A, ∀ b ∈ B, a⁻¹ * b * a ∈ B)
     (hBR : StableUnder B R) : commSub R B = ⊥ ∨ commSub R B = R := by
@@ -280,6 +288,7 @@ private theorem s15_Three_comm_eq_bot_of_card_two {A : Subgroup (MulAut W)} {R :
         exact hcne hc1'
       · exact h2'
 
+omit [Finite W] in
 private theorem s15_Three_commSub_zpowers_stable {A : Subgroup (MulAut W)} {t : MulAut W}
     {R : Subgroup W} (hR : StableUnder A R) (hRt : StableUnder (Subgroup.zpowers t) R)
     (hcomm : ∀ a ∈ A, ∀ u ∈ R, t (a u) = a (t u)) :
@@ -315,7 +324,7 @@ private theorem s15_Three_commSub_zpowers_stable {A : Subgroup (MulAut W)} {t : 
               simpa [MulAut.mul_apply, MulAut.inv_apply] using hw
             have hw2 : a (t⁻¹ (x v)) = t⁻¹ (a (x v)) := by
               rw [← hw']
-              simp [MulAut.mul_apply, MulAut.inv_apply]
+              simp [MulAut.inv_apply]
             exact hw2.symm⟩)
         k).2 u hu
     rw [map_mul, map_inv, ← hk]
@@ -421,7 +430,7 @@ theorem s15_Three_core (hDer : RJPrime153) (hNorm : RNormNat153) (hW : ∀ w : W
 
 theorem s15_Three_abstract (hMcL : RMcLaughlin) (hDer : RJPrime153) (hNorm : RNormNat153)
     (hW : ∀ w : W, w ^ 2 = 1)
-    {A N : Subgroup (MulAut W)} {t : MulAut W} (hAN : A ≤ N)
+    {A N : Subgroup (MulAut W)} {t : MulAut W} (_hAN : A ≤ N)
     (hNA : ∀ n ∈ N, ∀ a : MulAut W, a ∈ A ↔ n * a * n⁻¹ ∈ A) (htN : t ∈ N)
     (ht : InducesTransvection t ⊤) (hF : Fstar A = A) (hO : s15TwoCoreTrivial A)
     (hcomm : commSub ⊤ A = ⊤) (hsemi : s15Semisimple A)

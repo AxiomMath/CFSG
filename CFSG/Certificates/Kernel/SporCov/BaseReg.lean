@@ -22,9 +22,9 @@ variable {G : Type} [Group G]
   | 0 => fP a b
   | i + 1 => fun c => if c < 4 then fP a b c else wE (fG a b Rg i) (nthW Rg (c - 4))
 
-theorem fG_lt (a b : G) (Rg : List (List ℕ)) : ∀ (i : ℕ) {c : ℕ}, c < 4 → fG a b Rg i c = fP a b c
+theorem fG_lt (a b : G) (Rg : List (List ℕ)) : ∀ (_i : ℕ) {_c : ℕ}, _c < 4 → fG a b Rg _i _c = fP a b _c
   | 0, _, _ => rfl
-  | i + 1, c, hc => if_pos hc
+  | _i + 1, _c, hc => ite_eq_left hc
 
 theorem wE_congr {f g : ℕ → G} : ∀ {w : List ℕ}, (∀ d ∈ w, f d = g d) → wE f w = wE g w
   | [], _ => rfl
@@ -44,7 +44,7 @@ theorem fG_succ (a b : G) {Rg : List (List ℕ)} :
     · rw [fG_lt a b Rg _ h4, fG_lt a b Rg _ h4]
     · change (if c < 4 then fP a b c else wE (fG a b Rg (i + 1)) (nthW Rg (c - 4))) =
         (if c < 4 then fP a b c else wE (fG a b Rg i) (nthW Rg (c - 4)))
-      rw [if_neg h4, if_neg h4]
+      rw [ite_eq_right h4, ite_eq_right h4]
       have hw := lt_of_chW_letRL (hR (c - 4) (by omega))
       exact wE_congr fun d hd => fG_succ a b i (fun j hj => hR j (by omega)) d
         (by have := hw d hd; omega)
@@ -65,7 +65,7 @@ theorem fG_reg (a b : G) {Rg : List (List ℕ)} {n : ℕ}
     fG a b Rg n (4 + i) = wE (fG a b Rg n) (nthW Rg i) := by
   rw [fG_stable a b hR (k := i + 1) hi (by omega)]
   change (if 4 + i < 4 then fP a b (4 + i) else wE (fG a b Rg i) (nthW Rg (4 + i - 4))) = _
-  rw [if_neg (by omega), Nat.add_sub_cancel_left]
+  rw [ite_eq_right (by omega), Nat.add_sub_cancel_left]
   exact (wE_congr fun d hd => fG_stable a b hR hi.le
     (lt_of_chW_letRL (hR i hi) d hd)).symm
 
@@ -100,7 +100,7 @@ theorem gLB_eq (Rg : List (List ℕ)) :
     · have e : Nat.blt c 4 = false := by rw [Bool.eq_false_iff, ne_eq, Nat.blt_eq]; exact h4
       rw [e]
       change _ = idx N (if c < 4 then fP a b c else wE (fG a b Rg i) (nthW Rg (c - 4))) x
-      rw [if_neg h4]
+      rw [ite_eq_right h4]
       exact imF_eq (fun c' x' hx' => gLB_eq Rg i c' x' hx') _ hx
 
 variable {lg : ℕ → ℕ} {tb : ℕ → ℕ → ℕ} {Rg : List (List ℕ)} {n m : ℕ}
@@ -118,8 +118,8 @@ theorem glB_of_ge {s : ℕ} (hs : N ≤ s) : glB N lg s = lg (s - N) := by
 
 def VB (N m s : ℕ) : Prop := s < N ∨ (N ≤ s ∧ s - N < m)
 
-theorem stB_spec (hlg : ∀ j < m, lg j < N) {i : ℕ} (hin : i ≤ n)
-    (hR : ∀ j < n, chW (letRL j) (nthW Rg j) = true)
+theorem stB_spec (hlg : ∀ j < m, lg j < N) {i : ℕ} (_hin : i ≤ n)
+    (_hR : ∀ j < n, chW (letRL j) (nthW Rg j) = true)
     (hT : ∀ i' < i, ∀ j < m, tb i' j < m ∧ lg (tb i' j) = idx N (fG a b Rg n (4 + i')) (lg j))
     {c s : ℕ} (hc : c < 4 + i) (hs : VB N m s) :
     VB N m (stB N fA fAi fB fBi lg tb Rg n c s) ∧

@@ -55,7 +55,7 @@ section Action
 variable {H G : Type} [Group H] [Group G] {ψ : H →* G}
 
 theorem isElemAbelian_conjOf (hinj : Function.Injective ψ) (hZ : Subgroup.center H = ⊥)
-    {D : Subgroup G} (hDel : IsElemAbelian 5 D) (hDs : ∀ e ∈ D, ∃ s, (e, s) ∈ ggConjPairs ψ) :
+    {D : Subgroup G} (hDel : IsElemAbelian 5 D) (_hDs : ∀ e ∈ D, ∃ s, (e, s) ∈ ggConjPairs ψ) :
     IsElemAbelian 5 (conjOf ψ D) := by
   refine ⟨⟨⟨fun a b => Subtype.ext ?_⟩⟩, fun s hs => ?_⟩
   · obtain ⟨e, he, hea⟩ := mem_conjOf.mp a.2

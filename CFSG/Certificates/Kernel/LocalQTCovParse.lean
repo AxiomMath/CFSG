@@ -50,10 +50,10 @@ private theorem splitRec_eq (q : Char → Bool) : ∀ (cs cur : List Char),
     dsimp only
     cases q c with
     | false =>
-      rw [if_neg Bool.false_ne_true]
+      rw [ite_eq_right Bool.false_ne_true]
       exact splitRec_eq q cs (c :: cur)
     | true =>
-      rw [if_pos rfl, List.splitOnP_eq_splitOnPPrepend]
+      rw [ite_eq_left rfl, List.splitOnP_eq_splitOnPPrepend]
       exact congrArg (List.cons cur.reverse) (splitRec_eq q cs [])
 
 private theorem nl_beq (c : Char) : Nat.beq c.toNat 10 = (c == '\n') := by

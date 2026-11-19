@@ -34,8 +34,8 @@ private lemma tblJ_mul_self {n : ℕ} {F : Type} [Field F] :
     tblJ n F * tblJ n F = -1 := by
   unfold tblJ
   rw [Matrix.fromBlocks_multiply]
-  simp only [Matrix.mul_zero, Matrix.mul_one, Matrix.zero_mul, zero_add, add_zero,
-    Matrix.mul_neg, Matrix.neg_mul, neg_zero]
+  simp only [Matrix.mul_zero, Matrix.mul_one, zero_add, add_zero,
+    Matrix.mul_neg, neg_zero]
   rw [show (-1 : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) =
       Matrix.fromBlocks (-1) 0 0 (-1) by
     rw [← Matrix.fromBlocks_one, Matrix.fromBlocks_neg]
@@ -562,7 +562,7 @@ theorem trivialBlock_PSp (n : ℕ) (F : Type) [Field F] [Finite F] [CharP F 2] {
       ∀ g : ↥(StatedSp n F), Commute g s →
         ∃ r ∈ trivBlock n F p s, ∀ l ∈ trivBlock n F p s, g⁻¹ * l * g = r⁻¹ * l * r := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   let b : GL (Fin n ⊕ Fin n) F := (s : GL (Fin n ⊕ Fin n) F)
   have hb : b ∈ StatedSp n F := s.2
   have hpow : b ^ p = 1 := by
@@ -596,7 +596,7 @@ theorem trivialBlock_PSp (n : ℕ) (F : Type) [Field F] [Finite F] [CharP F 2] {
     · rw [show fixIdem p (s : GL (Fin n ⊕ Fin n) F) = fixIdem p b from rfl, hε0,
         Matrix.rank_zero]
     · rw [hbot]
-      haveI : Subsingleton ↥(StatedSp 0 F) := by
+      have : Subsingleton ↥(StatedSp 0 F) := by
         constructor
         intro x y
         apply Subtype.ext
@@ -669,8 +669,7 @@ theorem trivialBlock_PSp (n : ℕ) (F : Type) [Field F] [Finite F] [CharP F 2] {
       rw [trivBlock, glBlockCentralizer, Subgroup.mem_comap]
       refine ⟨?_, ?_⟩
       · exact (tbl_coe_mem_centralizer_singleton s (k * h * k⁻¹)).mpr hmemC
-      · push_cast
-        exact tbl_conj_fixes (k : GL (Fin n ⊕ Fin n) F) (h : GL (Fin n ⊕ Fin n) F) hkε hhfix
+      · exact tbl_conj_fixes (k : GL (Fin n ⊕ Fin n) F) (h : GL (Fin n ⊕ Fin n) F) hkε hhfix
     · intro g hg
       have hg_comm : Commute (g : GL (Fin n ⊕ Fin n) F) b := by
         have := congrArg (fun x : ↥(StatedSp n F) => (x : GL (Fin n ⊕ Fin n) F)) hg

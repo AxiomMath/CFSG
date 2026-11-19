@@ -18,7 +18,7 @@ theorem p8d_small_label_exclusion
     {n : ℕ} (hBs : IsElemAbelian 3 Bs) (hcard : Nat.card Bs = 3 ^ n) (hn : 7 ≤ n) (hz : z ∈ Bs)
     (hz1 : z ≠ 1) (hN : Bs ≤ Subgroup.normalizer (K : Set G))
     (hker : Bs ⊓ Subgroup.centralizer (K : Set G) = Subgroup.zpowers z)
-    (hBstar : ∀ g ∈ Subgroup.centralizer (Bs : Set G), g ^ 3 = 1 → g ∈ Bs)
+    (_hBstar : ∀ g ∈ Subgroup.centralizer (Bs : Set G), g ^ 3 = 1 → g ∈ Bs)
     (hK : GGInnerDiagOnLabel (fun _ lab => lab.n = 1 ∧ (lab.tag = .F4 ∨ lab.tag = .twF4der ∨
       lab.tag = .triD4 ∨ lab.tag = .B2der ∨ lab.tag = .G2der)) 3 Bs K) : False := by
   have hK' : GGInnerDiagOnLabel (fun _ lab => (lab.n = 1 ∧ lab.tag = .F4) ∨ (lab.n = 1 ∧

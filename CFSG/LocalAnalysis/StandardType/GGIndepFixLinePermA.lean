@@ -18,7 +18,7 @@ noncomputable def l6kp_H0 (p M : ℕ) : Submodule (ZMod p) (Fin M → ZMod p) :=
 
 private lemma l6kp_mem_H0 {p M : ℕ} {v : Fin M → ZMod p} :
     v ∈ l6kp_H0 p M ↔ ∑ i, v i = 0 := by
-  simp [l6kp_H0, l6kp_sumLM, LinearMap.mem_ker, Finset.sum_apply, LinearMap.proj_apply]
+  simp [l6kp_H0, l6kp_sumLM, LinearMap.mem_ker, Finset.sum_apply]
 
 private lemma l6kp_sum_perm {p M : ℕ} (v : Fin M → ZMod p) (σ : Equiv.Perm (Fin M)) :
     (∑ i, v (σ.symm i)) = ∑ i, v i :=
@@ -124,8 +124,7 @@ private noncomputable def l6kp_PhiV {p N : ℕ} [Fact p.Prime] {V : Type} [AddCo
 private lemma l6kp_PhiV_apply {p N : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V]
     [Module (ZMod p) V] (h : Fin (N - 1) → V) (v : Fin (N - 1 + 1) → ZMod p) :
     l6kp_PhiV (p := p) (N := N) h v = ∑ j, (l6kp_prefLM p N v) j • h j := by
-  simp [l6kp_PhiV, l6kp_linCombV, LinearMap.comp_apply, Finset.sum_apply, LinearMap.proj_apply,
-    LinearMap.toSpanSingleton_apply]
+  simp [l6kp_PhiV, l6kp_linCombV, LinearMap.comp_apply, Finset.sum_apply, LinearMap.toSpanSingleton_apply]
 
 private lemma l6kp_PhiV_w {p N : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V]
     [Module (ZMod p) V] {h : Fin (N - 1) → V} (i : Fin (N - 1)) :
@@ -135,7 +134,7 @@ private lemma l6kp_PhiV_w {p N : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V]
       (if i = x then (1 : ZMod p) else 0) • h x = if i = x then h x else 0 := by
     intro x
     by_cases h : i = x <;> simp [h]
-  simp only [hterm, Finset.sum_ite_eq, Finset.mem_univ, if_true]
+  simp only [hterm, Finset.sum_ite_eq, Finset.mem_univ, ite_true]
 
 private lemma l6kp_PhiV_mem {p N : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V]
     [Module (ZMod p) V] (h : Fin (N - 1) → V) (v : Fin (N - 1 + 1) → ZMod p) :
@@ -201,7 +200,7 @@ private lemma l6kp_finrank_H0' {p N : ℕ} [Fact p.Prime] (hN : 1 ≤ N) :
 private lemma l6kp_PhiR_surj {p N : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V]
     [Module (ZMod p) V] {h : Fin (N - 1) → V} {α : Fin (N - 1) → Module.Dual (ZMod p) V}
     {r : Fin (N - 1) → (V ≃ₗ[ZMod p] V)} {ι : Type} {s : ι → (V ≃ₗ[ZMod p] V)} {x : V}
-    (S : GGFixLineHyp p N h α r s x) :
+    (_S : GGFixLineHyp p N h α r s x) :
     Function.Surjective (l6kp_PhiR (p := p) (N := N) h) := by
   intro z
   have hz : (z : V) ∈ LinearMap.range (l6kp_PhiH (p := p) (N := N) h) := by
@@ -329,11 +328,11 @@ private lemma l6kp_rho_eq_one {p N : ℕ} [Fact p.Prime] (hN : 2 ≤ N) (hp : p 
   have hb : b ≠ i := by
     dsimp only [b]
     by_cases h : z = i
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       intro hc
       have hv : (o : ℕ) = (z : ℕ) := by rw [hc, ← h]
       simp [o, z] at hv
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       exact h
   let v : Fin (N - 1 + 1) → ZMod p :=
     fun k => (if i = k then (1 : ZMod p) else 0) - (if b = k then (1 : ZMod p) else 0)
@@ -364,13 +363,13 @@ private lemma l6kp_rho_eq_one {p N : ℕ} [Fact p.Prime] (hN : 2 ≤ N) (hp : p 
   rw [h8] at h7
   have hnei : σ i ≠ i := hne
   have h9 : (if i = σ i then (1 : ZMod p) else 0) = 0 := by
-    rw [if_neg (fun h => hnei h.symm)]
+    rw [ite_eq_right (fun h => hnei h.symm)]
   rw [h9, zero_sub] at h7
   by_cases hbi : b = σ i
-  · rw [if_pos hbi] at h7
+  · rw [ite_eq_left hbi] at h7
     exact l6kp_neg_one_ne_one hp h7
-  · rw [if_neg hbi] at h7
-    have h0 : (0 : ZMod p) = 1 := by simpa using h7
+  · rw [ite_eq_right hbi] at h7
+    have h0 : (0 : ZMod p) = 1 := by simp at h7
     exact zero_ne_one h0
 
 lemma l6kp_rho_inj {p N : ℕ} [Fact p.Prime] (hN : 2 ≤ N) (hp : p ≠ 2) :
@@ -389,11 +388,11 @@ lemma l6kp_cartanA {p N : ℕ} (i j : Fin (N - 1)) :
     simp only [Matrix.of_apply]
   rw [hd]
   by_cases h1 : i = j
-  · rw [if_pos h1, if_pos h1]; norm_num
-  · rw [if_neg h1, if_neg h1]
+  · rw [ite_eq_left h1, ite_eq_left h1]; norm_num
+  · rw [ite_eq_right h1, ite_eq_right h1]
     by_cases h2 : (i : ℕ) + 1 = j ∨ (j : ℕ) + 1 = i
-    · rw [if_pos h2, if_pos h2]; norm_num
-    · rw [if_neg h2, if_neg h2]; norm_num
+    · rw [ite_eq_left h2, ite_eq_left h2]; norm_num
+    · rw [ite_eq_right h2, ite_eq_right h2]; norm_num
 
 private lemma l6kp_shat_single {p M : ℕ} (σ : Equiv.Perm (Fin M)) (l : Fin M) :
     l6kp_shat (p := p) σ (fun k => if l = k then (1 : ZMod p) else 0)
@@ -404,13 +403,13 @@ private lemma l6kp_shat_single {p M : ℕ} (σ : Equiv.Perm (Fin M)) (l : Fin M)
   · have h2 : l = σ.symm k := by
       rw [← h]
       exact (Equiv.symm_apply_apply σ l).symm
-    rw [if_pos h, if_pos h2]
+    rw [ite_eq_left h, ite_eq_left h2]
   · have h2 : ¬ (l = σ.symm k) := by
       intro hh
       apply h
       rw [hh]
       exact Equiv.apply_symm_apply σ k
-    rw [if_neg h, if_neg h2]
+    rw [ite_eq_right h, ite_eq_right h2]
 
 lemma l6kp_shat_w {p N : ℕ} (i j : Fin (N - 1)) :
     l6kp_shat (p := p) (Equiv.swap i.castSucc i.succ) (l6kp_w (p := p) j)
@@ -429,9 +428,9 @@ lemma l6kp_shat_w {p N : ℕ} (i j : Fin (N - 1)) :
   simp only [Pi.sub_apply, Pi.smul_apply, smul_eq_mul]
   by_cases hji : j = i
   · subst hji
-    rw [hA, if_pos rfl, Equiv.swap_apply_left, Equiv.swap_apply_right]
+    rw [hA, ite_eq_left rfl, Equiv.swap_apply_left, Equiv.swap_apply_right]
     ring
-  · rw [hA, if_neg (Ne.symm hji)]
+  · rw [hA, ite_eq_right (Ne.symm hji)]
     have hja' : j.castSucc ≠ i.castSucc := by
       intro h
       exact hji (Fin.ext (by simpa using congrArg Fin.val h))
@@ -452,7 +451,7 @@ lemma l6kp_shat_w {p N : ℕ} (i j : Fin (N - 1)) :
         have := congrArg Fin.val h2
         simp only [Fin.val_castSucc, Fin.val_succ] at this
         omega
-      rw [if_pos (Or.inr h2v)]
+      rw [ite_eq_left (Or.inr h2v)]
       rw [h2, Equiv.swap_apply_left, Equiv.swap_apply_of_ne_of_ne hja' hjb]
       ring
     · by_cases h3 : j.castSucc = i.succ
@@ -460,14 +459,14 @@ lemma l6kp_shat_w {p N : ℕ} (i j : Fin (N - 1)) :
           have := congrArg Fin.val h3
           simp only [Fin.val_castSucc, Fin.val_succ] at this
           omega
-        rw [if_pos (Or.inl h3v)]
+        rw [ite_eq_left (Or.inl h3v)]
         rw [h3, Equiv.swap_apply_right, Equiv.swap_apply_of_ne_of_ne h2 hss]
         ring
       · have hAv : ¬ ((i : ℕ) + 1 = j ∨ (j : ℕ) + 1 = i) := by
           rintro (h | h)
           · exact h3 (Fin.ext (by simp only [Fin.val_castSucc, Fin.val_succ]; omega))
           · exact h2 (Fin.ext (by simp only [Fin.val_castSucc, Fin.val_succ]; omega))
-        rw [if_neg hAv]
+        rw [ite_eq_right hAv]
         rw [Equiv.swap_apply_of_ne_of_ne hja' h3, Equiv.swap_apply_of_ne_of_ne h2 hss]
         ring
 

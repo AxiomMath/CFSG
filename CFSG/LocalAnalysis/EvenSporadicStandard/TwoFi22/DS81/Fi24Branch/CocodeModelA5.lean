@@ -265,7 +265,7 @@ theorem commutator_r0_mem_KSp {g : Equiv.Perm (Fin 24)} (hg : g ∈ Lz) :
     · have h : lzY * r0 * lzY⁻¹ * r0⁻¹ = ksP 3 := by
         rw [lzY_mul_r0]; group
       rw [h]; exact ksP_mem_KSp 3
-  | one => simpa using KSp.one_mem
+  | one => simp
   | mul x y hx hy ihx ihy =>
     have hid : (x * y) * r0 * (x * y)⁻¹ * r0⁻¹ =
         (x * (y * r0 * y⁻¹ * r0⁻¹) * x⁻¹) * (x * r0 * x⁻¹ * r0⁻¹) := by group
@@ -322,7 +322,7 @@ theorem commutator_mem_img11_KSp_of_mem_sup {a r : MulAut W11} (ha : a ∈ img11
             (a * r1 * a⁻¹ * r1⁻¹) * (r1 * (a * r2 * a⁻¹ * r2⁻¹) * r1⁻¹) := by group
         rw [hid]
         exact K.mul_mem hr1c ((Subgroup.mem_normalizer_iff.1 hr1n _).1 hr2c)
-      one_mem' := ⟨Subgroup.one_mem _, by simpa using K.one_mem⟩
+      one_mem' := ⟨Subgroup.one_mem _, by simp⟩
       inv_mem' := by
         rintro r ⟨hrn, hrc⟩
         refine ⟨inv_mem hrn, ?_⟩

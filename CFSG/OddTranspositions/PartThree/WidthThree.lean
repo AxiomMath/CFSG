@@ -37,7 +37,7 @@ theorem sylow_inter_le_centSet {G : Type} [Group G] {D : Set G} (hD : IsOddTrans
     (hz : z = a * b * c) : D ∩ (S : Set G) ⊆ centSet D z := by
   intro d hd
   have hcomm : ∀ x ∈ D ∩ (S : Set G), ∀ y ∈ D ∩ (S : Set G), Commute x y := fun x hx y hy =>
-    hD.commute_of_isPGroup S.isPGroup' hx.1 hy.1 hx.2 hy.2
+    hD.commute_of_isPGroup S.isPGroup hx.1 hy.1 hx.2 hy.2
   refine ⟨hd.1, ?_⟩
   rw [hz]
   exact ((hcomm d hd a ha).mul_right (hcomm d hd b hb)).mul_right (hcomm d hd c hc)
@@ -171,7 +171,7 @@ theorem ncard_inter_sylow_le_three {G : Type} [Group G] [Finite G] {D : Set G}
   push Not at h4
   refine hfix (CFSG.Timmesfeld.Bridge.Asc72.YRank.exists_two_commute (D ∩ (S : Set G)) hz2
     (fun d hd => hS.oddT.mul_self_eq_one hd.1) hLz
-    (fun d hd e he => hS.oddT.commute_of_isPGroup S.isPGroup' hd.1 he.1 hd.2 he.2)
+    (fun d hd e he => hS.oddT.commute_of_isPGroup S.isPGroup hd.1 he.1 hd.2 he.2)
     hmulL (fun h => hzD h.1) haa haz haL ?_)
   omega
 
@@ -187,7 +187,7 @@ theorem widthLe_three_of_mul_mem_of_conj_eq {G : Type} [Group G] [Finite G] {D :
   obtain ⟨S₀, hu₀, hv₀, hd₀, hzS, hz2, hzuvd⟩ :=
     exists_sylow_inter_data hS hu hv huv hc hmul
   have hLcomm : ∀ d ∈ D ∩ (S₀ : Set G), ∀ e ∈ D ∩ (S₀ : Set G), Commute d e :=
-    fun d hd e he => hS.oddT.commute_of_isPGroup S₀.isPGroup' hd.1 he.1 hd.2 he.2
+    fun d hd e he => hS.oddT.commute_of_isPGroup S₀.isPGroup hd.1 he.1 hd.2 he.2
   have hLC : D ∩ (S₀ : Set G) ⊆ centSet D z :=
     sylow_inter_le_centSet hS.oddT S₀ hu₀ hv₀ hd₀ hzuvd
   have hLz : ∀ d ∈ D ∩ (S₀ : Set G), Commute d z := fun d hd => (hLC hd).2

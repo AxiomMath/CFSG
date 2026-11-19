@@ -33,7 +33,7 @@ theorem rckTw6_step_lang
       S.D.step (S.D.g0⁻¹ * g * S.D.g0) = S.D.g0⁻¹ * S.D.Φ g * S.D.g0 := by
   intro g
   show S.D.n * S.D.Φ (S.D.g0⁻¹ * g * S.D.g0) * S.D.n⁻¹ = S.D.g0⁻¹ * S.D.Φ g * S.D.g0
-  simp only [map_mul, map_inv, S.D.lang, inv_inv]
+  simp only [map_mul, map_inv, S.D.lang]
   group
 
 theorem rckTw6_Pfix
@@ -196,7 +196,7 @@ theorem rckTw6_perfect
     {p₀ : ℕ} (S : LangSetup TwistTag.E6.tag GGL p₀) (h : ℕ) (hf : 1 ≤ h)
     (hΦtw : S.D.Φ = twistHom TwistTag.E6 GGL (ggFrobT h)) :
     ⁅S.Γ, S.Γ⁆ = S.Γ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hPkg : GGLangPkg S.D (rckTw6_iota h) := rckTw6_langPkg S h hf hΦtw
   have hΓ : S.D.Γ = (show Subgroup (ModGL TwistTag.E6.tag GGL) from
       (rckTw6_iota h).range).map (MulAut.conj S.D.g0⁻¹).toMonoidHom :=
@@ -227,7 +227,7 @@ theorem rckTw6_cover_all
     {a : Fin TwistTag.E6.tag.rank → GGLˣ}
     (hT : rootDiagUnit TwistTag.E6.tag a ∈ S.D.torus)
     (i : KernelComponent (rootCharHom a))
-    (h6 : compRank (componentRoots (rootCharHom a) i) = 6)
+    (_h6 : compRank (componentRoots (rootCharHom a) i) = 6)
     (hn : (componentRoots (rootCharHom a) i).ncard = 72)
     (hout : ¬ twistInner (componentRoots (rootCharHom a) i)
       ((S.ρ : (Fin TwistTag.E6.tag.rank → ℤ) → _)^[componentOrbitLength S.ρ
@@ -254,7 +254,7 @@ theorem rckTw6_cover_all
           ((rootSubgroup TwistTag.E6.tag ↥(fixSubfield σ) (-γ)).map
             (baseChangeGL (fixSubfield σ).subtype)).map (MulAut.conj z).toMonoidHom := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hf : 1 ≤ h := hh
   obtain ⟨hΨ, hs1⟩ := rckTw6_orbit S hT i hn
   have hout1 : ¬ twistInner (componentRoots (rootCharHom a) i) S.ρ := by

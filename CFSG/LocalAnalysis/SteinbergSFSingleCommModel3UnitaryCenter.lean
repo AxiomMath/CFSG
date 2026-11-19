@@ -171,7 +171,7 @@ private theorem u2_std (hF' : UnitaryFieldData 2 m F') :
       (center ↥(P : Subgroup ↥(unitarySU 2 m F' 3))).map
           (P : Subgroup ↥(unitarySU 2 m F' 3)).subtype = isotropicTransvectionGroup hF' 3 L ∧
         ∀ g ∈ (P : Subgroup ↥(unitarySU 2 m F' 3)), g • L = L := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Rm, hR⟩ := exists_isHypTransport (r := 1) (ε := 1) hF'
   let Φ : hypSU hF' 1 1 ≃* unitarySU 2 m F' (2 * 1 + 1) := hypTransport hF' hR
   obtain ⟨-, ⟨P0, hP0⟩, -⟩ := unitary_order_and_Sylow hF' (r := 1) (ε := 1) le_rfl le_rfl
@@ -217,10 +217,10 @@ theorem model3_unitary_center_eq_point (hF' : UnitaryFieldData 2 m F')
       (center ↥(R : Subgroup ↥(unitarySU 2 m F' 3))).map
           (R : Subgroup ↥(unitarySU 2 m F' 3)).subtype = isotropicTransvectionGroup hF' 3 L ∧
         ∀ g ∈ (R : Subgroup ↥(unitarySU 2 m F' 3)), g • L = L := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite F' := hF'.finite
-  haveI : Finite ↥(unitarySU 2 m F' 3) := inferInstance
-  haveI : Finite (Sylow 2 ↥(unitarySU 2 m F' 3)) := inferInstance
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite F' := hF'.finite
+  have : Finite ↥(unitarySU 2 m F' 3) := inferInstance
+  have : Finite (Sylow 2 ↥(unitarySU 2 m F' 3)) := inferInstance
   obtain ⟨P, L, hL, hZ, hfix⟩ := u2_std hF'
   obtain ⟨γ, rfl⟩ := MulAction.exists_smul_eq ↥(unitarySU 2 m F' 3) P R
   obtain ⟨L', hL', h1, h2⟩ := u2_conj hF' γ (P : Subgroup _) ⟨L, hL, hZ, hfix⟩

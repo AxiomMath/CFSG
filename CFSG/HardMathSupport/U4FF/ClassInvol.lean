@@ -29,13 +29,13 @@ private theorem one_add_single03_map :
     (1 + Matrix.single 0 3 1 : Matrix (Fin 4) (Fin 4) (ZMod 2)).map
         (ZMod.castHom (dvd_refl 2) k) = 1 + Matrix.single 0 3 1 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.one_apply, Matrix.single_apply]
+  fin_cases i <;> fin_cases j <;> simp
 
 private theorem one_add_single02_single13_map :
     (1 + Matrix.single 0 2 1 + Matrix.single 1 3 1 : Matrix (Fin 4) (Fin 4) (ZMod 2)).map
         (ZMod.castHom (dvd_refl 2) k) = 1 + Matrix.single 0 2 1 + Matrix.single 1 3 1 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.one_apply, Matrix.single_apply]
+  fin_cases i <;> fin_cases j <;> simp
 
 private theorem witness_gen (σ : Equiv.Perm (Fin 4)) (P Q N : Matrix (Fin 4) (Fin 4) (ZMod 2))
     (hPQ : P * Q = 1) (hQP : Q * P = 1) (h : permMat (ZMod 2) σ * P = P * N) :
@@ -157,6 +157,7 @@ theorem involution_normal_form (z : Matrix (Fin 4) (Fin 4) k) (hz : z * z = 1) (
   · obtain ⟨P', hP'⟩ := key _ h3
     exact ⟨P', Or.inr hP'⟩
 
+omit [CharP k 2] in
 private theorem sl_ext {A B : SL(4, k)}
     (h : (A : Matrix (Fin 4) (Fin 4) k) = (B : Matrix (Fin 4) (Fin 4) k)) : A = B :=
   Subtype.ext h
@@ -195,17 +196,19 @@ private theorem exists_sl_conj [Finite k] (z N P Q : Matrix (Fin 4) (Fin 4) k)
     apply sl_ext
     rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_one, hP0, hB0]
     simp only [Matrix.smul_mul, Matrix.mul_smul, smul_smul, mul_inv_cancel₀ hc0,
-      inv_mul_cancel₀ hc0, one_smul]
+      one_smul]
     exact hQP
   refine ⟨P0, ?_⟩
   rw [inv_eq_of_mul_eq_one_right hPB, hP0, hB0]
   simp only [Matrix.smul_mul, Matrix.mul_smul, smul_smul, mul_inv_cancel₀ hc0,
-    inv_mul_cancel₀ hc0, one_smul]
+    one_smul]
   exact hN
 
+omit [CharP k 2] in
 private theorem a1_coe : ((a1 k : SL(4, k)) : Matrix (Fin 4) (Fin 4) k) =
     1 + Matrix.single 0 3 1 := rfl
 
+omit [CharP k 2] in
 private theorem a2_coe : ((a2 k : SL(4, k)) : Matrix (Fin 4) (Fin 4) k) =
     1 + Matrix.single 0 2 1 + Matrix.single 1 3 1 := by
   simp only [a2, Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.transvection_coe]

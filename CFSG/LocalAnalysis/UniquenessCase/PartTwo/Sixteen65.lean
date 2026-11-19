@@ -17,8 +17,8 @@ open scoped commutatorElement Pointwise
 variable {G : Type} [Group G] [Finite G]
 
 theorem s1665_centralizer_le_of_mem (D : Data G) {V₀ V L : Subgroup G} {hV : IsElemAbelian 2 V}
-    (hS : Sect16 D V₀ V L hV) (hs : Sit1665 D V₀ V hV L) {x : G} (hxM : x ∈ D.M)
-    (hxn : x ∉ nBar D.M V₀ V hV L) {u : G}
+    (_hS : Sect16 D V₀ V L hV) (hs : Sit1665 D V₀ V hV L) {x : G} (hxM : x ∈ D.M)
+    (_hxn : x ∉ nBar D.M V₀ V hV L) {u : G}
     (hu : u ∈ wSub V₀ V hV L ∨ u ∈ conjSubgroup (wSub V₀ V hV L) x) (hu1 : u ≠ 1) :
     centralizer ({u} : Set G) ≤ D.M := by
   have key : ∀ u ∈ wSub V₀ V hV L, u ≠ 1 → centralizer ({u} : Set G) ≤ D.M := by
@@ -112,7 +112,7 @@ theorem s1665_normalizer_le_of_generic (D : Data G) (hSg : UC6S846.SigmaStd D)
       Monoid.exponent_dvd_of_forall_pow_eq_one fun y : ↥F => by
         have hy := (hEea.mono hFle).2 (y : G) y.2
         exact Subtype.ext (by simpa using hy)
-    haveI : IsCyclic ↥F := hcyc
+    have : IsCyclic ↥F := hcyc
     rw [IsCyclic.exponent_eq_card] at hexp
     have : Nat.card F ≤ 3 := Nat.le_of_dvd (by norm_num) hexp
     omega
@@ -162,7 +162,7 @@ theorem r16_65_holds (D : Data G) (hSg : UC6S846.SigmaStd D) (h61 : UC6.R6_1 D)
   refine le_iInf₂ fun U hU => ?_
   suffices h3 : (3 : ℕ) ≤ E3.mQuot V U by exact_mod_cast h3
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hm2 : E3.mQuot V U ≤ 2 := by omega
   have hVcard : Nat.card V = 16 := by
     have h := s1667_card_eq D h1217 hS hs.1

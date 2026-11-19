@@ -20,14 +20,14 @@ theorem isPSolvable_three_of_hasPrimeConstraint_of_cyclic {B : Type} [Group B] [
   obtain ⟨W, hW3, hWR⟩ :=
     CFSG.AGLEmbeddingD2.exists_isPGroup_map_mk_eq_of_isPGroup
       (primeComplementCore (G := B) 3) hR3
-  haveI : IsCyclic W := hcyc W hW3
+  have : IsCyclic W := hcyc W hW3
   have hRcyc : IsCyclic R := by
     rw [← hWR]
     exact isCyclic_of_surjective ((QuotientGroup.mk' (primeComplementCore (G := B) 3)).subgroupMap W)
       (MonoidHom.subgroupMap_surjective _ W)
-  haveI := hRcyc
+  have := hRcyc
   have hsol : Group.IsSolvable (B ⧸ primeComplementCore (G := B) 3) := by
-    haveI : Group.IsSolvable R := inferInstance
+    have : Group.IsSolvable R := inferInstance
     apply isSolvable_of_commutatorElement_mem R
     intro a b
     have hcomm := commutator_centralizes_cyclic R (a := a⁻¹) (b := b⁻¹)
@@ -37,7 +37,7 @@ theorem isPSolvable_three_of_hasPrimeConstraint_of_cyclic {B : Type} [Group B] [
     rw [Subgroup.mem_centralizer_iff]
     intro r hr
     have := hcomm r hr
-    simp only [inv_inv, commutatorElement_def]
+    simp only [commutatorElement_def]
     simpa [mul_assoc] using this.symm
   exact isPSolvable_of_normal_coprime_quotient_solvable (primeComplementCore (G := B) 3)
     (primeComplementCore_coprime 3) hsol
@@ -47,7 +47,7 @@ theorem isPSolvable_three_of_coprime {K : Type} [Group K] [Finite K]
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine isPSolvable_of_normal_coprime_quotient_solvable (⊤ : Subgroup K) ?_ ?_
   · rwa [Subgroup.card_top]
-  · haveI : Subsingleton (K ⧸ (⊤ : Subgroup K)) := QuotientGroup.subsingleton_quotient_top
+  · have : Subsingleton (K ⧸ (⊤ : Subgroup K)) := QuotientGroup.subsingleton_quotient_top
     infer_instance
 
 theorem exists_three_component_of_cyclic {B : Type} [Group B] [Finite B]

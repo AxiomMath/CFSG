@@ -47,16 +47,18 @@ theorem isOmega4MinusType_card_quot {L : Subgroup G} {n : ℕ} (h : IsOmega4Minu
 
 variable [Finite G] {L1 L2 S : Subgroup G} {f : ℕ}
 
+omit [Finite G] in
 theorem U4qLocalData.one_le (hD : U4qLocalData L1 L2 S f) : 1 ≤ f := by
   obtain ⟨F, hField, hFintype, hFcard, -⟩ := hD.twoNat_left
-  letI := hField
-  letI := hFintype
+  let := hField
+  let := hFintype
   have htwo : 2 ≤ Fintype.card F := Fintype.one_lt_card
   by_contra hf
   have hf0 : f = 0 := by omega
   rw [hf0, pow_zero] at hFcard
   omega
 
+omit [Finite G] in
 theorem U4qLocalData.twoPart_left (hD : U4qLocalData L1 L2 S f) :
     twoPart L1 = 2 ^ (6 * f) := by
   have hf := hD.one_le
@@ -67,6 +69,7 @@ theorem U4qLocalData.twoPart_left (hD : U4qLocalData L1 L2 S f) :
     rw [show 6 * f = f + 5 * f by ring, pow_add]
     ring
 
+omit [Finite G] in
 theorem U4qLocalData.twoPart_right (hD : U4qLocalData L1 L2 S f) :
     twoPart L2 = 2 ^ (6 * f) := by
   have hf := hD.one_le
@@ -90,6 +93,7 @@ theorem U4qLocalData.le_right (hH : Hyp111 L1 L2 S) (hD : U4qLocalData L1 L2 S f
     rw [IsSylowTwoOf.card_eq hH.h2.sylow, hD.twoPart_right, hS]
   exact inf_eq_left.mp (Subgroup.eq_of_le_of_card_ge inf_le_left (by rw [hcard]))
 
+omit [Finite G] in
 private theorem U4qLocalData.commutator_eq_center_left (hD : U4qLocalData L1 L2 S f) :
     commutator ↥(pCoreOf 2 L1) = Subgroup.center ↥(pCoreOf 2 L1) := by
   rcases hD.special_left.1.2 with ⟨hab, -⟩ | ⟨hc, -, -⟩
@@ -107,6 +111,7 @@ private theorem U4qLocalData.commutator_eq_center_left (hD : U4qLocalData L1 L2 
     omega
   · exact hc
 
+omit [Finite G] in
 private theorem U4qLocalData.card_center_left (hD : U4qLocalData L1 L2 S f) :
     Nat.card (centerOf (pCoreOf 2 L1)) = 2 ^ f := by
   have he : centerOf (pCoreOf 2 L1) = (Subgroup.center ↥(pCoreOf 2 L1)).map
@@ -122,6 +127,7 @@ private theorem U4qLocalData.card_center_left (hD : U4qLocalData L1 L2 S f) :
   rw [he, Subgroup.card_map_of_injective (pCoreOf 2 L1).subtype_injective]
   exact hD.special_left.2.2
 
+omit [Finite G] in
 private theorem U4qLocalData.center_le_blockZ_left (hD : U4qLocalData L1 L2 S f) :
     centerOf (pCoreOf 2 L1) ≤ blockZ L1 := by
   refine le_inf ?_ (Subgroup.le_centralizer_iff.mp hD.center_left)
@@ -137,11 +143,12 @@ private theorem U4qLocalData.center_le_blockZ_left (hD : U4qLocalData L1 L2 S f)
       (pCoreOf_le 2 L1 b.2)
   exact key hzc
 
+omit [Finite G] in
 private theorem U4qLocalData.card_blockU_left (hD : U4qLocalData L1 L2 S f) :
     Nat.card (blockU L1) = Nat.card (blockZ L1) * 2 ^ (4 * f) := by
   obtain ⟨F, hField, hFintype, hFcard, α, -, -, β, hβsurj, hβker, -⟩ := hD.twoNat_left
-  letI := hField
-  letI := hFintype
+  let := hField
+  let := hFintype
   have hcardrange : Nat.card β.range = 2 ^ (4 * f) := by
     rw [MonoidHom.range_eq_top.mpr hβsurj, Subgroup.card_top,
       Nat.card_congr Multiplicative.toAdd]
@@ -199,7 +206,7 @@ private theorem card_le_herm {F : Type} [Field F] [Fintype F] {n : ℕ} (hn : 1 
     have e12 := congrFun (congrFun hX 0) 1
     have e22 := congrFun (congrFun hX 1) 1
     simp only [g, Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.empty_val', Matrix.cons_val_fin_one, Matrix.head_cons] at e11 e12 e22
+      Matrix.empty_val', Matrix.cons_val_fin_one] at e11 e12 e22
     exact Prod.ext (Subtype.ext e11) (Prod.ext (Subtype.ext e22) e12)
   have hcard : Nat.card (hU.fixedField × hU.fixedField × F) = 2 ^ (4 * n) := by
     rw [Nat.card_prod, Nat.card_prod, hU.card_fixedField, Nat.card_eq_fintype_card, hF,
@@ -208,11 +215,12 @@ private theorem card_le_herm {F : Type} [Field F] [Fintype F] {n : ℕ} (hn : 1 
   rw [← hcard]
   exact Nat.card_le_card_of_injective g hg
 
+omit [Finite G] in
 private theorem U4qLocalData.card_range_right (hD : U4qLocalData L1 L2 S f) :
     ∃ (k : ℕ), Nat.card (blockU L2) = Nat.card (blockZ L2) * k ∧ 2 ^ (4 * f) ≤ k := by
   obtain ⟨F, hField, hFintype, hFcard, α, -, -, β, hβrange, hβker, -⟩ := hD.omega_right
-  letI := hField
-  letI := hFintype
+  let := hField
+  let := hFintype
   have hkerZ : Nat.card β.ker = Nat.card (blockZ L2) := by
     rw [hβker]
     exact Nat.card_congr
@@ -251,13 +259,13 @@ theorem U4qLocalData.isElemAbelian_right (hD : U4qLocalData L1 L2 S f) :
     IsElemAbelian 2 (pCoreOf 2 L2) := by
   rw [← hD.blockU_right]
   obtain ⟨F, hField, hFintype, hFcard, α, -, -, β, -, hβker, -⟩ := hD.omega_right
-  letI := hField
-  letI := hFintype
+  let := hField
+  let := hFintype
   have hker : β.ker = ⊥ := by
     rw [hβker, hD.blockZ_right]
     simp
   have hβinj : Function.Injective β := (MonoidHom.ker_eq_bot_iff β).mp hker
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow hFcard
+  have : CharP F 2 := charP_of_card_eq_prime_pow hFcard
   have hcomm : ∀ a b : ↥(blockU L2), a * b = b * a := by
     intro a b
     exact hβinj (by rw [map_mul, map_mul, mul_comm])

@@ -18,7 +18,7 @@ lemma ggTWR_ggTorM_A {n rank : ℕ} :
   have htag : (⟨.A, rank, n⟩ : LargeEvenLabel).tag = .A := rfl
   unfold ggTorM
   rw [htag]
-  rw [if_neg (by decide : ¬ ((.A : LargeEvenLieTag) = .twA ∨
+  rw [ite_eq_right (by decide : ¬ ((.A : LargeEvenLieTag) = .twA ∨
     (.A : LargeEvenLieTag) = .twE6))]
 
 lemma ggTWR_ggTorM_twA {n rank : ℕ} :
@@ -26,7 +26,7 @@ lemma ggTWR_ggTorM_twA {n rank : ℕ} :
   have htag : (⟨.twA, rank, n⟩ : LargeEvenLabel).tag = .twA := rfl
   unfold ggTorM
   rw [htag]
-  rw [if_pos (by decide : ((.twA : LargeEvenLieTag) = .twA ∨
+  rw [ite_eq_left (by decide : ((.twA : LargeEvenLieTag) = .twA ∨
     (.twA : LargeEvenLieTag) = .twE6))]
 
 theorem ggTWR_iso_eq {lab labX : LargeEvenLabel} (hiso : GGLabelIso lab labX)

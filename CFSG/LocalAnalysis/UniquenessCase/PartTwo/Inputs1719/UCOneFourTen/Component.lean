@@ -278,7 +278,7 @@ private theorem inducerSubgroup_le_normalizer {C L : Subgroup X} {n : ℕ}
       ⟨Classical.choose (hinner (a : X) a.2),
        (Classical.choose_spec (hinner (a : X) a.2)).1⟩ := by
     intro a ha
-    simp only [cfun, dif_pos ha]
+    simp only [cfun, dite_eq_left ha]
   have hc_ind : ∀ a ∈ S₀, conjAct C (cfun a) = conjActOf C L hLC a := by
     intro a ha
     rw [hcfun_spec a ha]

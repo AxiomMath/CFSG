@@ -190,7 +190,7 @@ theorem isPGroup_centralizer {S : Sylow 3 J} {Z : Subgroup J} {φ : MulAut J}
       group)
     (by rw [hE', Subgroup.card_map_of_injective (MulAut.conj c).injective, hE9])
   have hCE' : IsPGroup 3 (Subgroup.centralizer (E' : Set J)) :=
-    S.isPGroup'.to_le ((Subgroup.centralizer_le (Set.singleton_subset_iff.mpr hzE')).trans hzC)
+    S.isPGroup.to_le ((Subgroup.centralizer_le (Set.singleton_subset_iff.mpr hzE')).trans hzC)
   intro g
   have hg' : c * (g : J) * c⁻¹ ∈ Subgroup.centralizer (E' : Set J) := by
     rw [Subgroup.mem_centralizer_iff]

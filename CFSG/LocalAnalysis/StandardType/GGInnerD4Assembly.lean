@@ -24,7 +24,7 @@ private theorem ltrd4s_cover (lab : LargeEvenLabel)
       (lab.tag = .G2 ∨ lab.tag = .triD4 ∨ lab.tag = .twB2 ∨ lab.tag = .twF4 ∨
         lab.tag = .B2der ∨ lab.tag = .G2der ∨ lab.tag = .twF4der) := by
   rcases lab with ⟨t, r, n⟩
-  cases t <;> simp_all <;> (first | omega | tauto)
+  cases t <;> simp_all <;> (first | omega)
 
 theorem ggInnerOnD4_of_regimes
     (hB : GGK0ExcB) (hRA : GGInnerOnD4RA) (hD : GGInnerOnD4DGen)

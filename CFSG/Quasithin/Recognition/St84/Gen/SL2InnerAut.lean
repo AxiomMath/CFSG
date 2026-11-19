@@ -73,9 +73,9 @@ theorem exists_conj_of_unitriangular {F : Type} [Field F] [Finite F] [CharP F 2]
   have e01 : ∀ s : F, Mm 0 0 * σ s = ν * s * Mm 1 1 := by
     intro s
     have h0 := congrFun (congrFun (key s) 0) 1
-    simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.vecMul, dotProduct] at h0
+    simp [Matrix.mul_apply, Fin.sum_univ_two] at h0
     linear_combination h0
-  simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.vecMul, dotProduct] at e00
+  simp [Matrix.mul_apply, Fin.sum_univ_two] at e00
   have hm10 : Mm 1 0 = 0 := by
     rcases e00 with h0 | h0
     · exact absurd h0 hν

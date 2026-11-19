@@ -75,7 +75,7 @@ theorem dvd_of_component_of_triv {T : Type} [Group T] [Finite T] (hT : CompTriv 
     rw [Subgroup.mem_centralizer_iff]
     intro j hj
     have hj' : t⁻¹ * j * t ∈ J.map (MulAut.conj t⁻¹).toMonoidHom :=
-      ⟨j, hj, by simp [MulAut.conj_apply]⟩
+      ⟨j, hj, by simp⟩
     have h1 := Subgroup.mem_centralizer_iff.1 haJ' _ hj'
     calc j * (t * a * t⁻¹) = t * ((t⁻¹ * j * t) * a) * t⁻¹ := by group
       _ = t * (a * (t⁻¹ * j * t)) * t⁻¹ := by rw [h1]

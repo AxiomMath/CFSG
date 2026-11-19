@@ -119,7 +119,7 @@ private lemma t84H1_le_conj (F : Facts) (H₁ : Subgroup (GL (Fin 4) (ZMod 2)))
       exact Subgroup.mem_map.mpr ⟨sec8t84RhoGL F b,
         Subgroup.mem_map.mpr ⟨b, Equiv.Perm.mem_alternatingGroup.mpr hb, rfl⟩,
         by simpa only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply] using hy_eq.symm⟩
-  · simpa using Subgroup.one_mem _
+  · simp
   · intro x y _ _ ihx ihy
     simpa using Subgroup.mul_mem _ ihx ihy
   · intro x _ ih
@@ -219,7 +219,7 @@ theorem sec8t84_a6_conj {G : Type} [Group G]
         ∀ b : ↥B, Multiplicative.toAdd (e (h b)) = rho a *ᵥ Multiplicative.toAdd (e b) := by
   have hcomm : ∀ a b : ↥B, a * b = b * a := fun a b => hB.1.1.is_comm.comm a b
   have hpow : ∀ a : ↥B, a ^ 2 = 1 := fun a => Subtype.ext (by simpa using hB.1.2 (a : G) a.2)
-  haveI : Finite ↥B := Nat.finite_of_card_ne_zero (by rw [hB.2]; norm_num)
+  have : Finite ↥B := Nat.finite_of_card_ne_zero (by rw [hB.2]; norm_num)
   obtain ⟨e₀⟩ := CFSG.SectionRank.Ccomm.nonempty_mulEquiv_of_elementary (p := 2)
     (W := ↥B) hcomm hpow (n := 4) hB.2
   let Φ : MulAut ↥B ≃* GL (Fin 4) (ZMod 2) := CFSG.SectionRank.Ccomm.elemAutEquivGL e₀

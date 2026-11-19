@@ -19,7 +19,7 @@ open CFSG.HardMathSupport.RichardWeiss.RecognitionPresentation.StrongThree (gamm
       CoverActsTriviallyOnSmall 3 ↥(CFSG.generalizedFitting X) ∧
         Nat.card ↥(CFSG.pPrimeCore 3 ↥N) ≤ 2 ∧
         CentralizerHasPElementOutside 3 N ∧
-        IsSolvable ↥N
+        Group.IsSolvable ↥N
 
 @[expose] def BadNoStrongThree : Prop :=
   ∀ p : ℕ, p.Prime → 5 ≤ p →

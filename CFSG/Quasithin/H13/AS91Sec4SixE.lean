@@ -17,6 +17,7 @@ open CFSG.GF2Type.Smith1979.IdxFour
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_zpowers_z_cases (S : Setting G) {c : G} (hc : c ∈ zpowers S.z) :
     c = 1 ∨ c = S.z := by
   obtain ⟨k, rfl⟩ := mem_zpowers_iff.mp hc
@@ -44,7 +45,7 @@ theorem exists_centralize (S : Setting G) {U : Subgroup G} (hU : U ≤ S.QG) (m 
   classical
   have hc2 : ∀ a : ZMod 2, a = 0 ∨ a = 1 := by decide
   obtain ⟨ε, hε0, hε1⟩ : ∃ ε : ZMod 2 → G, ε 0 = 1 ∧ ε 1 = S.z :=
-    ⟨fun a => if a = 0 then 1 else S.z, if_pos rfl, if_neg one_ne_zero⟩
+    ⟨fun a => if a = 0 then 1 else S.z, ite_eq_left rfl, ite_eq_right one_ne_zero⟩
   have hεadd : ∀ a b : ZMod 2, ε (a + b) = ε a * ε b := by
     intro a b
     rcases hc2 a with rfl | rfl <;> rcases hc2 b with rfl | rfl
@@ -163,7 +164,8 @@ theorem exists_centralize (S : Setting G) {U : Subgroup G} (hU : U ≤ S.QG) (m 
       _ = q⁻¹ * (q * u * q⁻¹) * q := by rw [hconj u hu]
       _ = u := by group
 
-theorem mul_comm_eq_of_sq {x y z : G} (hz : z * z = 1) (hzy : z * y = y * z) (hx : x * x = z)
+omit [Finite G] in
+theorem mul_comm_eq_of_sq {x y z : G} (hz : z * z = 1) (_hzy : z * y = y * z) (hx : x * x = z)
     (hy : y * y = z) (hxy : x * y * (x * y) = z) : y * x = x * y * z := by
   have hzi : z⁻¹ = z := inv_eq_of_mul_eq_one_right hz
   have hxi : x⁻¹ = x * z := by
@@ -177,6 +179,7 @@ theorem mul_comm_eq_of_sq {x y z : G} (hz : z * z = 1) (hzy : z * y = y * z) (hx
     _ = x * (z * z) * (y * z) := by group
     _ = x * y * z := by rw [hz]; group
 
+omit [Finite G] in
 theorem eq_one_of_sq {a b c z : G} (hz : z * z = 1) (hzb : z * b = b * z) (hzc : z * c = c * z)
     (ha : a * a = z) (hb : b * b = z) (hc : c * c = z) (hab : a * b * (a * b) = z)
     (hac : a * c * (a * c) = z) (hbc : b * c * (b * c) = z)
@@ -266,10 +269,10 @@ theorem E1_sq {x : G} (hx : x ∈ D.E1) : x * x = 1 := by
   rw [← pow_two, ← h.setting.q_cl_eq_zero_iff hx.1, ← D.q0_ψV]
   exact Two.q0_of_mem_W1 hx.2
 
-theorem E_le_M : D.E ≤ h.setting.M := fun x hx =>
+theorem E_le_M : D.E ≤ h.setting.M := fun _x hx =>
   h.setting.mem_M_iff.mpr ((D.mem_E.mp hx) z D.z_mem_E1).symm
 
-theorem E1_le_E : D.E1 ≤ D.E := fun x hx =>
+theorem E1_le_E : D.E1 ≤ D.E := fun _x hx =>
   D.mem_E.mpr fun _ hy => D.E1_comm hy hx
 
 theorem z_comm_E {x : G} (hx : x ∈ D.E) : z * x = x * z := (D.mem_E.mp hx) z D.z_mem_E1
@@ -382,6 +385,7 @@ variable
 
 include hOut hTw
 
+omit hOut hTw in
 theorem Φo_θ_comm {A : V12 ≃ₗ[ZMod 2] V12} (hA : A ∈ Two.ebGrp) :
     D.Φo D.θ * A = A * D.Φo D.θ := by
   refine LinearEquiv.ext fun v => ?_
@@ -398,7 +402,7 @@ theorem commutator_c_mem_E1 {a : G} (ha : a ∈ D.E) :
   have hcomm : D.Φo (h.setting.ρ D.c) * D.Φo (h.setting.ρ ⟨a, haM⟩) =
       D.Φo (h.setting.ρ ⟨a, haM⟩) * D.Φo (h.setting.ρ D.c) := by
     rw [D.ρ_c]
-    exact D.Φo_θ_comm hOut hTw (D.Φo_mem_eb hOut hTw ha haM)
+    exact D.Φo_θ_comm (D.Φo_mem_eb hOut hTw ha haM)
   have h1 : h.setting.ρ (D.c * ⟨a, haM⟩ * D.c⁻¹ * (⟨a, haM⟩ : h.setting.M)⁻¹) = 1 := by
     apply D.Φo_injective
     rw [map_one, map_mul, map_mul, map_mul, map_inv, map_inv, map_mul, map_mul, map_mul, map_inv,

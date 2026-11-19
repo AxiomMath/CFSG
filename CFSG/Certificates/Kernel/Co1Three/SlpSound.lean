@@ -85,7 +85,7 @@ theorem okRefK_sound {S : List Nat} {lo k r : Nat} (h : okRefK S.length lo k r =
   rw [brec_eq_true] at h
   rw [nrec_eq]
   rcases h with ⟨h1, -⟩ | ⟨h1, h2⟩
-  · rw [if_pos h1]
+  · rw [ite_eq_left h1]
     rw [Nat.blt_eq] at h1
     exact Or.inl (getL_mem h1)
   · rw [h1]
@@ -151,7 +151,7 @@ theorem layFromK_cons (WL : Nat → List Nat) (N st lo : Nat) (S : List Nat) (CH
       (Bool.rec (motive := fun _ => Bool) (Bool.rec (motive := fun _ => Bool) false (eqLK S pS) (Nat.beq lo plo))
         true (Nat.beq lo st))) (Nat.beq st s)) = true ↔ _
   rw [strictB_eq, strictB_eq, lenL_eq]
-  simp only [brec_eq_true, Bool.false_eq_true, and_false, or_false, Nat.beq_eq, true_and, and_true]
+  simp only [brec_eq_true, Bool.false_eq_true, and_false, or_false, Nat.beq_eq, and_true]
   constructor
   · rintro ⟨h1, h2, h3⟩
     refine ⟨h1, ?_, h3⟩

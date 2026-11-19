@@ -57,7 +57,7 @@ theorem ggTorusWNormSC_recipe_twE6_relative {K : Type} [Field K] [Finite K]
     (by rw [hk0]; exact hker) hZ Λ0 hΛ0 hΛψ0 E0 A hAout t ht rfl
     (fun i => E6RelativeWeyl.nNative (K := K) (σ := σ.toRingHom) i) hnN
     (fun i v => E6RelativeWeyl.nNative_conj (K := K) (σ := σ.toRingHom)
-      (hp := hp) (hζo := hζo) (hζ := hζp) (hζσ := hζσ) i v)
+      (hp := hp) (_hζo := hζo) (hζ := hζp) (hζσ := hζσ) i v)
     (fun g hg => E6RelativeWeyl.normalizer_action (K := K) (σ := σ.toRingHom)
       (hp := hp) (hp5 := hp5) (hζo := hζo) (hζ := hζp) (hζσ := hζσ) g hg)
     hAut (by decide) (ExcFrames.isUnit_det_symmetrizedCartan (Or.inl rfl) (by omega))

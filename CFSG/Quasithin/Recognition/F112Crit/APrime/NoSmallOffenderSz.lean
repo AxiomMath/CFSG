@@ -110,7 +110,7 @@ private theorem two_pow_four_mul_le_index_fixV {V : Type} [CommGroup V] [Finite 
     (hB : BenderType ↥L (2 * a + 1) 2 1) :
     2 ^ (4 * (2 * a + 1)) ≤ (fixV L).index := by
   obtain ⟨p, hp, hp2, hord, hpdvd⟩ := hppd ↥L (2 * a + 1) hB
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥L) p hpdvd
   let c : MulAut V := (x : MulAut V)
   have hcpow : c ^ p = 1 := by
@@ -209,7 +209,7 @@ theorem two_mul_card_lt_index_fixV_sz_of
     {a : ℕ} (ha : 1 ≤ a) (α : ↥L ⧸ Subgroup.center ↥L ≃* CFSG.Open.Sz a)
     {A : Subgroup (MulAut V)} (hAX : A ≤ X) (hA : A ≠ ⊥) (hAe : IsElemAbelian2 A) :
     2 * Nat.card A < (fixV A).index := by
-  haveI : Finite ↥L := inferInstance
+  have : Finite ↥L := inferInstance
   have hZbot : Subgroup.center ↥L = ⊥ := center_eq_bot_of_sz_quotient hperf hZ ha α
   let eL : ↥L ⧸ Subgroup.center ↥L ≃* ↥L :=
     (QuotientGroup.quotientMulEquivOfEq hZbot).trans QuotientGroup.quotientBot
@@ -281,7 +281,7 @@ theorem two_mul_card_lt_index_fixV_sz_of
       refine MonoidHom.ext fun y => ?_
       change ((MulAut.conj g) y : MulAut V) = MulAut.conj g' ((y : ↥L) : MulAut V)
       rw [MulAut.conj_apply, MulAut.conj_apply]
-      simp [Subgroup.coe_mul, Subgroup.coe_inv, g']
+      simp [Subgroup.coe_mul, g']
     have hBmap : Subgroup.map L.subtype
         ((A.subgroupOf L).map (MulAut.conj g).toMonoidHom) =
         A.map (MulAut.conj g').toMonoidHom := by

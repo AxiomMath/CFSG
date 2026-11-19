@@ -322,7 +322,7 @@ private noncomputable def tt : G → GaloisField 2 n := fun y =>
 
 private theorem φ_eq {y : G} (hy : y ∈ Q) :
     N.φ ⟨y, Subgroup.mem_sup_left hy⟩ = upperElt (GaloisField 2 n) (N.tt y) := by
-  simp only [tt, dif_pos hy]
+  simp only [tt, dite_eq_left hy]
   exact Classical.choose_spec (N.exists_t hy)
 
 private theorem tt_add {a b : G} (ha : a ∈ Q) (hb : b ∈ Q) : N.tt (a * b) = N.tt a + N.tt b := by
@@ -368,7 +368,7 @@ private theorem tt_ker [Finite G] (hVn : Nat.card V = 2 ^ n) (hn : n ≠ 0)
     simp only [Matrix.cons_val_zero, h3, h4, mul_one, zero_add] at h2
     exact h2.symm
 
-private theorem comm_aux [Finite G] (hVn : Nat.card V = 2 ^ n) (hn : n ≠ 0)
+private theorem comm_aux [Finite G] (_hVn : Nat.card V = 2 ^ n) (_hn : n ≠ 0)
     (hUc : ∀ q ∈ conjSubgroup g Q, ∀ u ∈ conjSubgroup g V, q * u = u * q) {y u : G}
     (hy : y ∈ Q) (hu : u ∈ conjSubgroup g V) :
     ⁅y, u⁆ ∈ V ∧ N.gam ⁅y, u⁆ = N.tt y * N.psiU u := by
@@ -530,19 +530,19 @@ private theorem Hyp79.centralizes_conj [Finite G]
 
 private noncomputable def NatData.toMulData [Finite G] {V Q : Subgroup G} {g : G} {n : ℕ}
     (N : NatData V Q g n) (hVn : Nat.card V = 2 ^ n) (hn : n ≠ 0)
-    (hUc : ∀ q ∈ conjSubgroup g Q, ∀ u ∈ conjSubgroup g V, q * u = u * q) :
+    (hUc : ∀ q ∈ conjSubgroup g Q, ∀ _u ∈ conjSubgroup g V, q * _u = _u * q) :
     MulData V (conjSubgroup g V) Q (GaloisField 2 n) :=
   ⟨N.gam, N.psiU, N.tt,
-    fun a ha b hb => N.gam_add ha hb,
-    fun a ha h => N.gam_inj ha h,
+    fun _a ha _b hb => N.gam_add ha hb,
+    fun _a ha h => N.gam_inj ha h,
     N.gam_surj,
-    fun a ha b hb => N.psiU_add ha hb,
-    fun a ha h => N.psiU_inj hUc ha h,
+    fun _a ha _b hb => N.psiU_add ha hb,
+    fun _a ha h => N.psiU_inj hUc ha h,
     fun s => N.psiU_surj hVn hn hUc s,
-    fun a ha b hb => N.tt_add ha hb,
+    fun _a ha _b hb => N.tt_add ha hb,
     N.tt_surj,
-    fun a ha => N.tt_ker hVn hn hUc ha,
-    fun y hy u hu => N.comm_aux hVn hn hUc hy hu⟩
+    fun _a ha => N.tt_ker hVn hn hUc ha,
+    fun _y hy _u hu => N.comm_aux hVn hn hUc hy hu⟩
 
 theorem Hyp79.exists_mulData [Finite G] {M V Q : Subgroup G}
     (H : Hyp79 M V Q) {g : G} (hgV : conjSubgroup g V ≠ V) (hgQ : conjSubgroup g V ≤ Q) :

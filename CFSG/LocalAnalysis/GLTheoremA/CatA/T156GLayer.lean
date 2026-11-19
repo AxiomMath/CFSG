@@ -68,6 +68,7 @@ section Kernel
 
 variable {Ω : Type} [Group Ω] [Finite Ω]
 
+omit [Finite Ω] in
 theorem ker_chevQuotHom_le_center {p : ℕ} {S : Subgroup Ω} (hcore : GLAPPrimeCore p ↥S = ⊥) :
     (chevQuotHom p S).ker ≤ Subgroup.center ↥S := by
   intro x hx
@@ -210,7 +211,7 @@ theorem exists_pComponent_of_simple {p : ℕ} (hp : p.Prime) {S : Subgroup Ω}
     obtain ⟨j, hj, rfl⟩ := he
     exact ⟨⟨j, hj⟩, rfl⟩
   have hZE : Subgroup.center ↥E = ⊥ := by
-    haveI := hE
+    have := hE
     exact center_eq_bot_of_simple' hna
   have hkerZ : ρ.ker = Subgroup.center ↥JS := by
     apply le_antisymm
@@ -233,7 +234,7 @@ theorem exists_pComponent_of_simple {p : ℕ} (hp : p.Prime) {S : Subgroup Ω}
     refine ⟨?_, ?_⟩
     · apply Subgroup.map_injective JS.subtype_injective
       rw [Subgroup.map_subtype_commutator, hJperf, ← MonoidHom.range_eq_map, Subgroup.range_subtype]
-    · haveI := hE
+    · have := hE
       exact (MulEquiv.isSimpleGroup_congr eQ).2 inferInstance
   have eJ : ↥JS ≃* ↥J := Subgroup.equivMapOfInjective JS S.subtype S.subtype_injective
   have hJq : CFSG.Open.IsQuasisimple ↥J :=
@@ -256,7 +257,7 @@ theorem exists_pSimple_equiv {p : ℕ} (hp : p.Prime) {S X J : Subgroup Ω} (hJ 
       ((Θ (QuotientGroup.mk (QuotientGroup.mk j : PQuot p J)) : ↥E) : PSimple p S) =
         chevQuotHom p S ⟨(j : Ω), hXS (hJ.1 j.2)⟩ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hJS : J ≤ S := hJ.1.trans hXS
   let ρ0 : ↥J →* PSimple p S := (chevQuotHom p S).comp (Subgroup.inclusion hJS)
   have hρ0 : ∀ j : ↥J, ρ0 j ∈ E := fun j => by
@@ -269,9 +270,9 @@ theorem exists_pSimple_equiv {p : ℕ} (hp : p.Prime) {S X J : Subgroup Ω} (hJ 
     obtain ⟨s, hs, rfl⟩ := he
     exact ⟨⟨s, Subgroup.mem_subgroupOf.1 hs⟩, rfl⟩
   have hO : GLAPPrimeCore p ↥J ≤ ρ.ker := by
-    haveI : (GLAPPrimeCore p ↥J).Normal := GLAPPrimeCore.normal p ↥J
-    haveI : ((GLAPPrimeCore p ↥J).map ρ).Normal := Subgroup.Normal.map inferInstance ρ hρs
-    haveI := hE
+    have : (GLAPPrimeCore p ↥J).Normal := GLAPPrimeCore.normal p ↥J
+    have : ((GLAPPrimeCore p ↥J).map ρ).Normal := Subgroup.Normal.map inferInstance ρ hρs
+    have := hE
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((GLAPPrimeCore p ↥J).map ρ) with h | h
     · exact (Subgroup.map_eq_bot_iff _).1 h
     · exfalso
@@ -286,7 +287,7 @@ theorem exists_pSimple_equiv {p : ℕ} (hp : p.Prime) {S X J : Subgroup Ω} (hJ 
     obtain ⟨j, rfl⟩ := hρs e
     exact ⟨QuotientGroup.mk j, rfl⟩
   have hZE : Subgroup.center ↥E = ⊥ := by
-    haveI := hE
+    have := hE
     exact center_eq_bot_of_simple' hna
   have hZ : Subgroup.center (PQuot p J) ≤ ρ₁.ker := by
     intro z hz
@@ -330,8 +331,8 @@ theorem exists_ne_one_of_one_lt_card {G : Type*} [Group G] {E : Subgroup G} (h :
 theorem innRank_of_outdiagCyclic {p : ℕ} (hp : 0 < p) {R : Type} [Group R] {I F : Set (MulAut R)}
     (h : GGOutdiagCyclic R I) : InnRank p R I F := by
   intro hRf E hE hEI hcard
-  haveI := hRf
-  haveI : Finite (MulAut R) := Finite.of_injective _ MulEquiv.toEquiv_injective
+  have := hRf
+  have : Finite (MulAut R) := Finite.of_injective _ MulEquiv.toEquiv_injective
   obtain ⟨φ₀, hφ₀⟩ := h
   set N := (MulAut.conj : R →* MulAut R).range with hN
   let f : ↥E →* MulAut R ⧸ N := (QuotientGroup.mk' N).comp E.subtype

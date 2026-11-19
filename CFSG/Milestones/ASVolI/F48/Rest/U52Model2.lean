@@ -22,8 +22,8 @@ variable {K : Type} [Field K] {ω : K}
 theorem burnsideF48t_gf4D_surj (hK : Nat.card K = 4) (h2 : (2 : K) = 0) (hω : ω ^ 2 = ω + 1)
     (c : K) : ∃ a < 4, burnsideF48t_gf4D ω a = c := by
   classical
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
+  have : Fintype K := Fintype.ofFinite K
   let f : Fin 4 → K := fun a => burnsideF48t_gf4D ω a
   have hf : Function.Injective f := fun a b h =>
     Fin.ext (burnsideF48t_gf4D_inj h2 hω a.2 b.2 h)
@@ -149,7 +149,7 @@ theorem burnsideF48t_u52_pt_inj (hK : Nat.card K = 4) (h2 : (2 : K) = 0) (hω : 
   have he := burnsideF48t_u52_dv_inj h2 hω hsi (burnsideF48t_u52_size_scale _ _) hi'
     (burnsideF48t_u52_small_scale ha4 hj') h
   have hmem : a ∈ [1, 2, 3] := by
-    simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false]
+    simp only [List.mem_cons, List.not_mem_nil, or_false]
     omega
   exact burnsideF48t_u52_ptln.2.2.2.2.1 i hi j hj hij a hmem he
 
@@ -202,7 +202,7 @@ theorem burnsideF48t_u52_Ob'_injective (hK : Nat.card K = 4) (h2 : (2 : K) = 0)
   intro o o' h
   simp only [burnsideF48t_u52Ob'] at h
   by_cases ho : (o : ℕ) < 165 <;> by_cases ho' : (o' : ℕ) < 165 <;>
-    simp only [ho, ho', if_true, if_false] at h
+    simp only [ho, ho', ite_true, ite_false] at h
   · apply Fin.ext
     exact burnsideF48t_u52_ObPt_eq hK h2 hω ho ho' (h ▸ burnsideF48t_u52_mem_ObPt _)
   · exact absurd h (hpl o ((o' : ℕ) - 165) ho (by omega))
@@ -222,10 +222,10 @@ theorem burnsideF48t_u52_RGen_smul_pt (h2 : (2 : K) = 0) (hω : ω ^ 2 = ω + 1)
   have hus := (burnsideF48t_u52_U' hk).1
   obtain ⟨hlt, l, hl, he⟩ := burnsideF48t_u52_ptln.2.2.2.2.2.2.2.1 k hk i hi
   have hl4 : l < 4 := by
-    simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false] at hl
+    simp only [List.mem_cons, List.not_mem_nil, or_false] at hl
     omega
   have hl0 : burnsideF48t_gf4D ω l ≠ 0 := by
-    simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false] at hl
+    simp only [List.mem_cons, List.not_mem_nil, or_false] at hl
     rcases hl with rfl | rfl | rfl <;> simp only [burnsideF48t_gf4D] <;> norm_num <;>
       intro h0 <;> grind
   have hact : burnsideF48t_u52RGen ω bar k • burnsideF48t_u52dv ω (burnsideF48t_u52Pt ())[i]! =
@@ -246,7 +246,7 @@ theorem burnsideF48t_u52_RGen_smul_pt (h2 : (2 : K) = 0) (hω : ω ^ 2 = ω + 1)
       ⟨c' / burnsideF48t_gf4D ω l, div_ne_zero hc' hl0, rfl⟩, ?_⟩
     rw [smul_comm, hact, smul_smul, div_mul_cancel₀ _ hl0]
 
-theorem burnsideF48t_u52_RGen_smul' (hK : Nat.card K = 4) (h2 : (2 : K) = 0)
+theorem burnsideF48t_u52_RGen_smul' (_hK : Nat.card K = 4) (h2 : (2 : K) = 0)
     (hω : ω ^ 2 = ω + 1) (bar : K →+* K) (hbar : ∀ c, bar c = c ^ 2) {k : ℕ} (hk : k < 6)
     (o : Fin 462) :
     burnsideF48t_u52RGen ω bar k • burnsideF48t_u52Ob' ω o =
@@ -256,13 +256,13 @@ theorem burnsideF48t_u52_RGen_smul' (hK : Nat.card K = 4) (h2 : (2 : K) = 0)
   obtain ⟨-, -, -, -, -, hL, -, hpt, hln⟩ := burnsideF48t_u52_ptln
   by_cases ho : (o : ℕ) < 165
   · have ht := (hpt k hk o ho).1
-    simp only [burnsideF48t_u52Ob', ho, if_true, hγ, ht]
+    simp only [burnsideF48t_u52Ob', ho, ite_true, hγ, ht]
     exact burnsideF48t_u52_RGen_smul_pt h2 hω bar hbar hk ho
   · obtain ⟨ht1, -, hf, hb⟩ := hln k hk ((o : ℕ) - 165) (by omega)
     have e165 : 165 + ((o : ℕ) - 165) = o := by omega
     rw [e165] at ht1 hf hb
     have ht' : ¬ ((burnsideF48t_u52Gens ())[k]!)[(o : ℕ)]! < 165 := by omega
-    simp only [burnsideF48t_u52Ob', hγ, ho, ht', if_false]
+    simp only [burnsideF48t_u52Ob', hγ, ho, ht', ite_false]
     have hLmem : burnsideF48t_u52LnPts[(o : ℕ) - 165]! ∈ burnsideF48t_u52LnPts := by
       rw [getElem!_pos _ _ (by rw [burnsideF48t_u52_ptln.2.1]; omega)]
       exact Array.getElem_mem _
@@ -363,8 +363,8 @@ theorem burnsideF48t_u52_SU_equiv_X' (h : UnitaryFieldData 2 1 K) (hK : Nat.card
 theorem burnsideF48t_u52_equiv_X' {H : Type} [Group H] (hH : ChF.IsGenLie H .U5 2 1) :
     Nonempty (↥burnsideF48t_u52X ≃* H) := by
   obtain ⟨-, -, K, fK, finK, hK, ⟨e⟩⟩ := hH
-  letI := fK
-  haveI := finK
+  let := fK
+  have := finK
   have hK4 : Nat.card K = 4 := by rw [hK]; norm_num
   obtain ⟨h2, ω, hω⟩ := burnsideF48t_gf4_exists_ω hK4
   have h : UnitaryFieldData 2 1 K := ⟨Nat.prime_two, le_rfl, by rw [hK4]; norm_num⟩

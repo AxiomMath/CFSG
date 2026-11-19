@@ -13,13 +13,14 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {z : G} {E F : Subgroup G}
 
+omit [Finite G] in
 theorem QaOf_isPGroup (S : Setting z E F) {a : G} (hconj : IsConj z a) :
     IsPGroup 2 (QaOf a) := by
   obtain ⟨g, hg⟩ := QaOf_eq_map_of_isConj S hconj
   rw [hg]
   exact (Q_isPGroup S).map (MulAut.conj g).toMonoidHom
 
-theorem zpowers_mem_centerIn_QaOf (S : Setting z E F) (a : G) :
+theorem zpowers_mem_centerIn_QaOf (_S : Setting z E F) (a : G) :
     Subgroup.zpowers a ≤ centerIn (QaOf a) := by
   refine Subgroup.zpowers_le.mpr (Subgroup.mem_inf.mpr ⟨mem_QaOf_self a, ?_⟩)
   rw [Subgroup.mem_centralizer_iff]
@@ -27,7 +28,8 @@ theorem zpowers_mem_centerIn_QaOf (S : Setting z E F) (a : G) :
   exact (Subgroup.mem_centralizer_iff.mp
     (fStar_le (Subgroup.centralizer ({a} : Set G)) hy) a (Set.mem_singleton a)).symm
 
-theorem QaOf_eq_map_of_conj_eq (S : Setting z E F) {a g : G}
+omit [Finite G] in
+theorem QaOf_eq_map_of_conj_eq (_S : Setting z E F) {a g : G}
     (hg : g * z * g⁻¹ = a) :
     QaOf a = (Q z).map (MulAut.conj g).toMonoidHom := by
   have hcent : Subgroup.centralizer ({a} : Set G) =
@@ -38,6 +40,7 @@ theorem QaOf_eq_map_of_conj_eq (S : Setting z E F) {a g : G}
   rw [hcent, fStar_map_conj]
   rfl
 
+omit [Finite G] in
 theorem centerIn_QaOf_eq_map_of_conj_eq (S : Setting z E F) {a g : G}
     (hg : g * z * g⁻¹ = a) :
     centerIn (QaOf a) = (ZQ z).map (MulAut.conj g).toMonoidHom := by
@@ -57,7 +60,8 @@ theorem centerIn_QaOf_eq_map_of_conj_eq (S : Setting z E F) {a g : G}
             φ.injective).symm
     _ = (ZQ z).map φ.toMonoidHom := rfl
 
-theorem mem_centralizer_QaOf_iff (S : Setting z E F) {a g x : G}
+omit [Finite G] in
+theorem mem_centralizer_QaOf_iff (_S : Setting z E F) {a g x : G}
     (hg : g * z * g⁻¹ = a) :
     x ∈ Subgroup.centralizer ({a} : Set G) ↔ g⁻¹ * x * g ∈ H z := by
   have hC : Subgroup.centralizer ({a} : Set G) =

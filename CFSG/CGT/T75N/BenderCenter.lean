@@ -34,7 +34,7 @@ theorem benderCenterInput : BenderCenterInput := by
     obtain ⟨P⟩ : Nonempty (Sylow p K) := inferInstance
     let π : K →* K ⧸ Subgroup.center K := QuotientGroup.mk' _
     have hPcyc : IsCyclic (P.map π) :=
-      isCyclic_of_isPGroup_benderModel hmodel hp2 (P.map π) (P.isPGroup'.map π)
+      isCyclic_of_isPGroup_benderModel hmodel hp2 (P.map π) (P.isPGroup.map π)
     let g : (P : Subgroup K) →* (P.map π : Subgroup (K ⧸ Subgroup.center K)) :=
       (π.comp (P : Subgroup K).subtype).codRestrict (P.map π)
         (fun x => Subgroup.mem_map_of_mem π x.2)

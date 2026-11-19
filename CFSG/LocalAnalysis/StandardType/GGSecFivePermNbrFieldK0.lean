@@ -24,7 +24,7 @@ private theorem ggMultDatumA_trivial_orbit {p nf d : ℕ} {tw : Bool} {mm : List
     o.lab.n = nf ∧ (d = 1 → o.lab.tag = .A) ∧
       (d = 2 → o.lab.tag = .twA ∨ (o.lab.tag = .A ∧ o.lab.rank = 1)) := by
   simp only [ggMultDatumA] at ho
-  rw [if_pos htriv] at ho
+  rw [ite_eq_left htriv] at ho
   simp only [List.mem_map, List.mem_filter, List.mem_range, decide_eq_true_eq] at ho
   obtain ⟨j, -, hjo⟩ := ho
   rw [← hjo]
@@ -35,7 +35,7 @@ private theorem ggMultDatumA_trivial_orbit {p nf d : ℕ} {tw : Bool} {mm : List
   · intro hd
     rw [hd]
     unfold ggMultBlockA
-    rw [if_neg (by decide : ¬ (2 : ℕ) = 1)]
+    rw [ite_eq_right (by decide : ¬ (2 : ℕ) = 1)]
     split_ifs <;> simp
 
 theorem ggMultValidCl_linear_orbit {lab : LargeEvenLabel} {p : ℕ} {D : GGKacDatum}
@@ -54,7 +54,7 @@ theorem ggMultValidCl_linear_orbit {lab : LargeEvenLabel} {p : ℕ} {D : GGKacDa
   rw [hDeq] at ho
   have hd1 : ggMultOrd p e = 1 := by
     unfold ggMultOrd
-    rw [if_pos hd]
+    rw [ite_eq_left hd]
   rw [hd1] at ho
   obtain ⟨hnO, htagO, -⟩ :=
     ggMultDatumA_trivial_orbit (p := p) (nf := e) (d := 1) (tw := false) (mm := mm)
@@ -77,7 +77,7 @@ theorem ggMultValidCl_unitary_orbit {lab : LargeEvenLabel} {p : ℕ} {D : GGKacD
   rw [hDeq] at ho
   have hd2 : ggMultOrd p e = 2 := by
     unfold ggMultOrd
-    rw [if_neg hnd, if_pos hd]
+    rw [ite_eq_right hnd, ite_eq_left hd]
   rw [hd2] at ho
   obtain ⟨hnO, -, htwO⟩ :=
     ggMultDatumA_trivial_orbit (p := p) (nf := e) (d := 2) (tw := true) (mm := mm)

@@ -81,7 +81,7 @@ theorem centralizer_isPGroup_isCyclic_of_center [Finite G] {L : Subgroup G}
     Subgroup.eq_top_of_card_eq _ hCS.symm
   refine ⟨fun x => ?_, ?_⟩
   · have hx : x ∈ (S : Subgroup (centralizer (L : Set G))) := hStop ▸ mem_top x
-    obtain ⟨k, hk⟩ := S.isPGroup' ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨x, hx⟩
     exact ⟨k, by simpa using congrArg Subtype.val hk⟩
   · exact (MulEquiv.isCyclic ((MulEquiv.subgroupCongr hStop).trans Subgroup.topEquiv)).mp hS
 

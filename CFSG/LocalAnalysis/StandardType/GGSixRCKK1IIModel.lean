@@ -37,7 +37,7 @@ private theorem rckK1IIm_not_two_le_n {lab : LargeEvenLabel}
   all_goals
     intro h2
     first
-      | (rw [if_pos h2] at hrow; exact absurd hrow (by decide))
+      | (rw [ite_eq_left h2] at hrow; exact absurd hrow (by decide))
       | exact absurd hrow (by decide)
 
 private theorem rckK1IIm_rawDatum_imp {lab : LargeEvenLabel} (hlab : LargeEvenInLambda2 lab)
@@ -65,25 +65,25 @@ private theorem rckK1IIm_rawDatum_imp {lab : LargeEvenLabel} (hlab : LargeEvenIn
   case D =>
     split_ifs at h hQQ' ⊢ with h3
     · exfalso
-      rw [if_pos h3] at hrow
+      rw [ite_eq_left h3] at hrow
       by_cases h2n : 2 ≤ n
-      · rw [if_pos h2n] at hrow; exact absurd hrow (by decide)
-      · rw [if_neg h2n] at hrow; exact absurd hrow (by decide)
+      · rw [ite_eq_left h2n] at hrow; exact absurd hrow (by decide)
+      · rw [ite_eq_right h2n] at hrow; exact absurd hrow (by decide)
     · refine recipeOmegaPlus_imp (fun K _ _ hK I F hq => hQQ' _ I F hq ?_) h
       exact Or.inl ⟨by decide, statedClassicalModel_omegaPlus l n hK
         ⟨Nat.prime_two, hn, by omega⟩⟩
   case twD =>
     split_ifs at h hQQ' ⊢ with h2 h3
     · exfalso
-      rw [if_pos h2] at hrow
+      rw [ite_eq_left h2] at hrow
       by_cases h2n : 2 ≤ n
-      · rw [if_pos h2n] at hrow; exact absurd hrow (by decide)
-      · rw [if_neg h2n] at hrow; exact absurd hrow (by decide)
+      · rw [ite_eq_left h2n] at hrow; exact absurd hrow (by decide)
+      · rw [ite_eq_right h2n] at hrow; exact absurd hrow (by decide)
     · exfalso
-      rw [if_neg h2, if_pos h3] at hrow
+      rw [ite_eq_right h2, ite_eq_left h3] at hrow
       by_cases h2n : 2 ≤ n
-      · rw [if_pos h2n] at hrow; exact absurd hrow (by decide)
-      · rw [if_neg h2n] at hrow; exact absurd hrow (by decide)
+      · rw [ite_eq_left h2n] at hrow; exact absurd hrow (by decide)
+      · rw [ite_eq_right h2n] at hrow; exact absurd hrow (by decide)
     · refine recipeOmegaMinus_imp (fun K _ _ hK b c hbc I F hq => hQQ' _ I F hq ?_) h
       exact Or.inl ⟨by decide, statedClassicalModel_omegaMinus l n hK b c hbc
         ⟨Nat.prime_two, hn, by omega⟩⟩
@@ -114,7 +114,7 @@ private theorem rckK1IIm_rawDatum_imp {lab : LargeEvenLabel} (hlab : LargeEvenIn
   all_goals
     exfalso
     first
-      | (split_ifs at hrow <;> exact absurd hrow (by decide))
+      | (split_ifs at hrow)
       | exact absurd hrow (by decide)
 
 private theorem rckK1IIm_markChar_two {lab : LargeEvenLabel}
@@ -123,9 +123,7 @@ private theorem rckK1IIm_markChar_two {lab : LargeEvenLabel}
   cases t <;> simp only [markChar, ggSixRCKLabelRow] at hrow ⊢
   all_goals
     first
-      | rfl
       | (exfalso; first
-          | (split_ifs at hrow <;> exact absurd hrow (by decide))
           | exact absurd hrow (by decide))
 
 private theorem rckK1IIm_markDeg_one {lab : LargeEvenLabel} (hlab : LargeEvenInLambda2 lab)
@@ -138,18 +136,16 @@ private theorem rckK1IIm_markDeg_one {lab : LargeEvenLabel} (hlab : LargeEvenInL
   case twD =>
     have hl2 : l ≠ 2 := by
       intro h
-      rw [if_pos h] at hrow
+      rw [ite_eq_left h] at hrow
       by_cases h2n : 2 ≤ n
-      · rw [if_pos h2n] at hrow; exact absurd hrow (by decide)
-      · rw [if_neg h2n] at hrow; exact absurd hrow (by decide)
-    rw [if_neg hl2]
+      · rw [ite_eq_left h2n] at hrow; exact absurd hrow (by decide)
+      · rw [ite_eq_right h2n] at hrow; exact absurd hrow (by decide)
+    rw [ite_eq_right hl2]
     omega
   all_goals
     first
-      | rfl
       | omega
       | (exfalso; first
-          | (split_ifs at hrow <;> exact absurd hrow (by decide))
           | exact absurd hrow (by decide))
 
 private theorem rckK1IIm_pos_or_tri {lab : LargeEvenLabel}
@@ -169,14 +165,14 @@ private theorem rckK1IIm_pos_or_tri {lab : LargeEvenLabel}
   all_goals
     exfalso
     first
-      | (split_ifs at hrow <;> exact absurd hrow (by decide))
+      | (split_ifs at hrow)
       | exact absurd hrow (by decide)
 
 private theorem rckK1IIm_markRank_zero_of_tri {lab : LargeEvenLabel}
     (htri : markTag lab = .trialityD4) : markRank lab = 0 := by
   obtain ⟨t, l, n⟩ := lab
   cases t <;> simp only [markTag, markRank] at htri ⊢
-  all_goals (try (split_ifs at htri)) <;> simp_all
+  all_goals (try (split_ifs at htri)); try simp_all
 
 private theorem rckK1IIm_model_or_tri {lab : LargeEvenLabel} (hlab : LargeEvenInLambda2 lab)
     (hrow : ggSixRCKLabelRow lab = .II) :
@@ -188,34 +184,34 @@ private theorem rckK1IIm_model_or_tri {lab : LargeEvenLabel} (hlab : LargeEvenIn
     have h4 : 4 ≤ l := by
       by_contra hlt
       by_cases h2n : 2 ≤ n
-      · rw [if_pos h2n] at hrow; exact absurd hrow (by decide)
-      · rw [if_neg h2n] at hrow
+      · rw [ite_eq_left h2n] at hrow; exact absurd hrow (by decide)
+      · rw [ite_eq_right h2n] at hrow
         by_cases hl3 : l = 3
-        · rw [if_pos hl3] at hrow; exact absurd hrow (by decide)
-        · rw [if_neg hl3, if_neg hlt] at hrow; exact absurd hrow (by decide)
+        · rw [ite_eq_left hl3] at hrow; exact absurd hrow (by decide)
+        · rw [ite_eq_right hl3, ite_eq_right hlt] at hrow; exact absurd hrow (by decide)
     right; left; exact ⟨rfl, by omega⟩
   case D =>
     have hl' : 3 ≤ l := hl
     have hl3 : l ≠ 3 := by
       intro h
       by_cases h2n : 2 ≤ n
-      · rw [if_pos h2n] at hrow; exact absurd hrow (by decide)
-      · rw [if_neg h2n, if_pos h] at hrow; exact absurd hrow (by decide)
-    simp only [if_neg hl3]
+      · rw [ite_eq_left h2n] at hrow; exact absurd hrow (by decide)
+      · rw [ite_eq_right h2n, ite_eq_left h] at hrow; exact absurd hrow (by decide)
+    simp only [ite_eq_right hl3]
     right; right; left; exact ⟨rfl, by omega⟩
   case twD =>
     have hl' : 2 ≤ l := hl
     have hl2 : l ≠ 2 := by
       intro h
       by_cases h2n : 2 ≤ n
-      · rw [if_pos h2n] at hrow; exact absurd hrow (by decide)
-      · rw [if_neg h2n, if_pos h] at hrow; exact absurd hrow (by decide)
+      · rw [ite_eq_left h2n] at hrow; exact absurd hrow (by decide)
+      · rw [ite_eq_right h2n, ite_eq_left h] at hrow; exact absurd hrow (by decide)
     have hl3 : l ≠ 3 := by
       intro h
       by_cases h2n : 2 ≤ n
-      · rw [if_pos h2n] at hrow; exact absurd hrow (by decide)
-      · rw [if_neg h2n, if_neg hl2, if_pos h] at hrow; exact absurd hrow (by decide)
-    simp only [if_neg hl2, if_neg hl3]
+      · rw [ite_eq_left h2n] at hrow; exact absurd hrow (by decide)
+      · rw [ite_eq_right h2n, ite_eq_right hl2, ite_eq_left h] at hrow; exact absurd hrow (by decide)
+    simp only [ite_eq_right hl2, ite_eq_right hl3]
     right; right; right; left; exact ⟨rfl, by omega⟩
   case E6 => right; simp [RCKRowIIModel]
   case E7 => right; simp [RCKRowIIModel]
@@ -226,7 +222,7 @@ private theorem rckK1IIm_model_or_tri {lab : LargeEvenLabel} (hlab : LargeEvenIn
   all_goals
     exfalso
     first
-      | (split_ifs at hrow <;> exact absurd hrow (by decide))
+      | (split_ifs at hrow)
       | exact absurd hrow (by decide)
 
 theorem rckK1II_model

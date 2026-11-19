@@ -25,13 +25,13 @@ private theorem s16c4v1_enh_actTil_eq_one_of_centralizes (S : s16c4v1_Sit D V L 
   rw [show k * v * k⁻¹ * v⁻¹ = 1 by rw [hcomm]; group]
   exact (v1Sub D.M ⊥ V hV L).one_mem
 
-theorem s16c4v1_frattini_three (S : s16c4v1_Sit D V L hV) (hstd : s16c4v1_Std D) :
+theorem s16c4v1_frattini_three (S : s16c4v1_Sit D V L hV) (_hstd : s16c4v1_Std D) :
     ∃ X : Subgroup G, X ≤ D.M ∧
       X ≤ Subgroup.normalizer ((D.T ⊓ Subgroup.centralizer (V : Set G) : Subgroup G) : Set G) ∧
       IsPGroup 3 X ∧ ¬ IsCyclic X := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let V1 : Subgroup G := v1Sub D.M ⊥ V hV L
   let Cv : Subgroup G := Subgroup.centralizer (V : Set G)
   let Q : Subgroup G := D.T ⊓ Cv

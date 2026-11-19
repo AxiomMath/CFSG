@@ -198,7 +198,7 @@ theorem D1OneSmallData.mem_centralizer_of_mem_sup_star (hd : D1OneSmallData p P 
     rwa [Nat.card_zpowers, hzsp] at this
   have h3 : p < Nat.card ((Rbars : Subgroup (Hs ⧸ primeComplementCore (G := Hs) p)) ⊓ Ks :
       Subgroup _) :=
-    lt_card_of_not_isCyclic (Rbars.isPGroup'.to_le inf_le_left) hds.noncyclic
+    lt_card_of_not_isCyclic (Rbars.isPGroup.to_le inf_le_left) hds.noncyclic
   obtain ⟨hsimple, hnab⟩ := (⟨hd.cfg, hd.comp, hd.center, hd.noncyclic, hd.z⟩ :
     D1CompI p P M H R Rbar K).isSimpleGroup
   exact false_of_inner_cover f hfs hnab hfk g hgk Ks C hKC hcomm hk hc hk1 hkp hgKC hgz hm ht hs

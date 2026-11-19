@@ -15,7 +15,7 @@ variable {G : Type*} [Group G]
 private theorem not_isCyclic_of_four {K : Type*} [Group K] {V W : Subgroup K} (hWV : W ≤ V)
     (hW2 : ∀ x ∈ W, x * x = 1) (hW4 : Nat.card W = 4) : ¬ IsCyclic V := by
   intro hV
-  haveI : IsCyclic W := Subgroup.isCyclic_of_le hWV
+  have : IsCyclic W := Subgroup.isCyclic_of_le hWV
   have hexp : Monoid.exponent W ∣ 2 := Monoid.exponent_dvd_of_forall_pow_eq_one fun g => by
     rw [pow_two]
     exact Subtype.ext (hW2 g g.2)

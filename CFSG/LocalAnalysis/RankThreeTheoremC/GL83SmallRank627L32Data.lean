@@ -357,7 +357,7 @@ private theorem index_normalizer_eq_seven {P : Subgroup GL32} (hP : Nat.card P =
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S, hPS⟩ := (IsPGroup.of_card (p := 2) (n := 2) (by rw [hP]; norm_num)).exists_le_sylow
   have h8 : 2 ^ 3 ∣ Nat.card S := S.pow_dvd_card_of_pow_dvd_card (by rw [card_GL]; norm_num)
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 S.isPGroup'
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 S.isPGroup
   have hSdvd : Nat.card S ∣ 168 := card_GL ▸ (S : Subgroup GL32).card_subgroup_dvd_card
   have hS8 : Nat.card S = 8 := by
     rw [hk] at h8 hSdvd ⊢

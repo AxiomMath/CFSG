@@ -59,10 +59,13 @@ theorem burnsideF48d_φ_pow (hω : ω ^ 3 = ω + 1) (a k : ℕ) :
   | succ k ih =>
     rw [burnsideF48d_powC, burnsideF48d_φ_mul ω hω, ih, pow_succ, mul_comm]
 
+omit [CharP K 3] in
 theorem burnsideF48d_φ_zero : burnsideF48d_φ ω 0 = 0 := by simp [burnsideF48d_φ]
 
+omit [CharP K 3] in
 theorem burnsideF48d_φ_one : burnsideF48d_φ ω 1 = 1 := by simp [burnsideF48d_φ]
 
+omit [CharP K 3] in
 theorem burnsideF48d_φ_three : burnsideF48d_φ ω 3 = ω := by simp [burnsideF48d_φ]
 
 theorem burnsideF48d_φ_intC (z : ℤ) : burnsideF48d_φ ω (burnsideF48d_intC z) = (z : K) := by
@@ -132,12 +135,12 @@ end Inj
 theorem burnsideF48d_exists_omega {K : Type*} [Field K] [Fintype K] (hK : Fintype.card K = 27) :
     ∃ ω : K, ω ^ 3 = ω + 1 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : CharP K 3 := charP_of_card_eq_prime_pow (f := 3) (by rw [hK]; norm_num)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : CharP K 3 := charP_of_card_eq_prime_pow (f := 3) (by rw [hK]; norm_num)
   have h3 : (3 : K) = 0 := by exact_mod_cast CharP.cast_eq_zero K 3
   have hcard : Fintype.card Kˣ = 26 := by
     rw [Fintype.card_units, hK]
-  haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
   obtain ⟨u, hu⟩ := exists_prime_orderOf_dvd_card 13 (by rw [hcard]; norm_num)
   set g : K := (u : K) with hg
   have h13 : g ^ 13 = 1 := by

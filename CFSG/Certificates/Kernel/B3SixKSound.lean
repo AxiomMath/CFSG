@@ -213,7 +213,7 @@ theorem lookup_map_self (f : List Tab → List (List Tab)) : ∀ (l : List (List
   | a :: as, K, h => by
     by_cases hK : K = a
     · subst hK
-      simp [List.lookup]
+      simp
     · have hb : (K == a) = false := by simpa using hK
       simp only [List.map_cons, List.lookup, hb]
       exact lookup_map_self f as K ((List.mem_cons.1 h).resolve_left hK)

@@ -40,11 +40,11 @@ theorem threeFourSolvThreeNoneAt_m11 :
   intro Y _ _ K Y₀ E R I₀ _ _ σ hKn hKX hZ _ hrkC hC hcomp hER hE hEc hcore hO2 hker hσY hσs hb
     _ hdir
   classical
-  haveI := hKn
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hKn
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set C := centralizer (K : Set Y) with hCdef
-  haveI : C.Normal := by rw [hCdef]; infer_instance
+  have : C.Normal := by rw [hCdef]; infer_instance
   set J := (CFSG.ComponentClassification.AS76b.oUpperTwo (⊤ : Subgroup I₀)).map σ with hJdef
   obtain ⟨hout, hsyl⟩ := CFSG.AGLEmbeddingD2.kFactM11Three ↥K hKX
   have hinnerAll : ∀ α : MulAut ↥K, ∃ g : ↥K, MulAut.conj g = α := by
@@ -95,7 +95,7 @@ theorem threeFourSolvThreeNoneAt_m11 :
       obtain ⟨hzRC, hzK⟩ := hz
       rw [← SetLike.mem_coe, Subgroup.mul_normal (R : Subgroup Y) C] at hzRC
       obtain ⟨r, hr, c, hc, hrc⟩ := Set.mem_mul.mp hzRC
-      obtain ⟨m, hm⟩ := (R.isPGroup' ⟨r, hr⟩)
+      obtain ⟨m, hm⟩ := (R.isPGroup ⟨r, hr⟩)
       have hm' : r ^ 3 ^ m = 1 := by simpa using congrArg Subtype.val hm
       have hzc : (z : Y) * c⁻¹ = c⁻¹ * z :=
         mem_centralizer_iff.mp (C.inv_mem hc) (z : Y) hzK
@@ -142,7 +142,7 @@ theorem threeFourSolvThreeNoneAt_m11 :
     refine Subgroup.mul_mem _ (hTYR ⟨_, hkt, rfl⟩) ?_
     exact Subgroup.mul_mem _ (Subgroup.inv_mem _ (hTYR ⟨t, ht, rfl⟩)) hr
   have hKsimple : IsSimpleGroup ↥K := by
-    haveI := CFSG.ClassicalInvolution.Q3.isSimpleGroup_m11_kernel
+    have := CFSG.ClassicalInvolution.Q3.isSimpleGroup_m11_kernel
     exact (eK.trans eC.symm).isSimpleGroup
   have hnab : ∃ a b : ↥K, a * b ≠ b * a := by
     by_contra h
@@ -153,8 +153,8 @@ theorem threeFourSolvThreeNoneAt_m11 :
     rw [Subgroup.card_top, Subgroup.card_bot, hcardK] at h1
     norm_num at h1
   have hKcomp : IsComponentOf K ⊤ := by
-    haveI := hKsimple
-    haveI : Group.IsPerfect ↥K := ⟨CFSG.ComponentClassification.Helpers.commutator_eq_top ↥K hnab⟩
+    have := hKsimple
+    have : Group.IsPerfect ↥K := ⟨CFSG.ComponentClassification.Helpers.commutator_eq_top ↥K hnab⟩
     exact ⟨le_top, IsSubnormal.step le_top inferInstance (IsSubnormal.refl ⊤),
       CFSG.ComponentClassification.Quasisimple.simple_of_perfect ↥K⟩
   have hY₀K : Y₀.comap K.subtype = normalizer ((T : Subgroup ↥K) : Set ↥K) := by
@@ -178,7 +178,7 @@ theorem threeFourSolvThreeNoneAt_m11 :
       (hJsub.comap K.subtype) (hJp.comap_of_injective K.subtype K.subtype_injective)
     rw [hY₀K] at h1
     have hp := (pCoreOf_isPGroup 3 (normalizer ((T : Subgroup ↥K) : Set ↥K))).to_sup_of_normal_left'
-      T.isPGroup' (le_normalizer.trans (localGroup_le_normalizer_pCoreOf 3 _))
+      T.isPGroup (le_normalizer.trans (localGroup_le_normalizer_pCoreOf 3 _))
     exact h1.trans (le_sup_left.trans (T.maximal_isPGroup.le_of_ge hp le_sup_right))
   have hJT : J ≤ TY := by
     rw [← hJ'map]

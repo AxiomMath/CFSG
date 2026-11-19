@@ -92,6 +92,7 @@ section Copies
 
 variable {V : Type} [CommGroup V] [Finite V] {G L : Subgroup (MulAut V)} {n : ℕ}
 
+omit [Finite V] in
 theorem rkIdx_fixV_conjSub (g : MulAut V) (C : Subgroup (MulAut V)) :
     rkIdx (fixV (conjSub g C)) = rkIdx (fixV C) :=
   CFSG.Quasithin.ConjTransport.rkIdx_fixV_map_conj C g

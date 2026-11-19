@@ -27,7 +27,7 @@ theorem rckCarrierA1_holds :
   obtain ⟨β, hβ, hΨ⟩ := rckA1_componentRoots_eq_pair i h1
   obtain ⟨hs0, hs, hmin⟩ := outer_componentOrbitLength_spec S hT i
   set s := componentOrbitLength S.ρ (componentRoots (rootCharHom a) i) with hsdef
-  haveI : NeZero s := ⟨hs0.ne'⟩
+  have : NeZero s := ⟨hs0.ne'⟩
   have hinner : twistInner (componentRoots (rootCharHom a) i)
       ((S.ρ : (Fin τ.rank → ℤ) → _)^[s]) := by
     have hs' := hs

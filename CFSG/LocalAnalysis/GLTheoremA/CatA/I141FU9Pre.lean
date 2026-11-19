@@ -15,7 +15,7 @@ theorem u9_simple_nonabelian {Γ : Type} [Group Γ] {A K : Subgroup Γ} (h : S10
     IsSimpleGroup (PSimple 3 K) ∧ ∃ a b : PSimple 3 K, a * b ≠ b * a := by
   obtain ⟨-, lab, -, R, _, I, F, θ, hs, ⟨a, b, hab⟩, -⟩ :=
     CFSG.StandardType.Canonical.largeEvenMarking_exists h.2
-  haveI := hs
+  have := hs
   refine ⟨θ.isSimpleGroup, θ.symm a, θ.symm b, fun hc => hab ?_⟩
   exact θ.symm.injective (by simpa using hc)
 

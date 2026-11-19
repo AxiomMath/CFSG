@@ -14,12 +14,14 @@ variable {K V : Type*} [Field K] [CharP K 2] [AddCommGroup V] [Module K V]
 theorem polar_self_zero (q : QuadraticForm K V) (v : V) : polar q v v = 0 := by
   rw [polar_self_eq_two_mul, CharTwo.two_eq_zero, zero_mul]
 
+omit [CharP K 2] in
 theorem eichler_sub_self {a s w : V} (ha : q a = 0) (hw : polar q a w = 0)
     (hsa : polar q s a = 1) (hsw : polar q s w = 0) :
     eichler q a w s - s = w - q w • a := by
   rw [eichler_apply ha hw, hsa, hsw, one_smul, zero_add, mul_one]
   abel
 
+omit [CharP K 2] in
 theorem polar_smul_mem_of_eichler_stable {S : AddSubgroup V} {a s w w' : V}
     (ha : q a = 0) (hs : s ∈ S) (hsa : polar q s a = 1)
     (hw : polar q a w = 0 ∧ polar q s w = 0) (hw' : polar q a w' = 0 ∧ polar q s w' = 0)
@@ -83,7 +85,7 @@ theorem exists_perp_pair (hnd : ∀ u, (∀ v, polar q u v = 0) → u = 0)
   let Φ : V →ₗ[K] K × K := (q.polarBilin s).prod (q.polarBilin a)
   have hker : ∀ v, v ∈ LinearMap.ker Φ ↔ polar q s v = 0 ∧ polar q a v = 0 := by
     intro v
-    simp [Φ, LinearMap.mem_ker, Prod.ext_iff]
+    simp [Φ, LinearMap.mem_ker]
   have h1 := LinearMap.finrank_range_add_finrank_ker Φ
   have h2 : Module.finrank K (LinearMap.range Φ) ≤ 2 := by
     have := Submodule.finrank_le (LinearMap.range Φ)
@@ -160,6 +162,7 @@ theorem eq_top_of_stable (hnd : ∀ u, (∀ v, polar q u v = 0) → u = 0)
 
 end Dim
 
+omit [CharP K 2] in
 theorem exists_dual (hnd : ∀ u, (∀ v, polar q u v = 0) → u = 0) {u w : V}
     (hind : LinearIndependent K ![u, w]) :
     ∃ f₁ f₂ : V, polar q u f₁ = 1 ∧ polar q w f₁ = 0 ∧ polar q u f₂ = 0 ∧ polar q w f₂ = 1 := by
@@ -202,10 +205,12 @@ theorem eichler_swap {u w : V} (hu : q u = 0) (hw : q w = 0) (huw : polar q u w 
   rw [eichler_apply hu huw, eichler_apply hw hwu, hu, hw]
   linear_combination (norm := module) h2 (polar q x u • w) - h2 (polar q x w • u)
 
+omit [CharP K 2] in
 theorem eichler_comm_left {a b c : V} (hb : polar q a b = 0) (hc : polar q a c = 0) :
     eichler q a b * eichler q a c = eichler q a c * eichler q a b := by
   rw [eichler_mul hb hc, eichler_mul hc hb, add_comm]
 
+omit [CharP K 2] in
 theorem eichler_apply_perp {a b x : V} (ha : q a = 0) (hb : polar q a b = 0)
     (hx : polar q x a = 0) : eichler q a b x = x - polar q x b • a := by
   rw [eichler_apply ha hb, hx]

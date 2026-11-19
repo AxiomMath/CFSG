@@ -263,7 +263,7 @@ theorem repsA_get {k : ℕ} (hk : k < 16) :
     rw [getElem!_pos (repsA ()) k (by rw [size_repsA]; exact hk), List.getD_eq_getElem?_getD,
       List.getElem?_eq_getElem hk', Option.getD_some]
     simp [repsA]
-  rw [he, repfam, repfam, if_pos rfl, if_neg one_ne_zero]
+  rw [he, repfam, repfam, ite_eq_left rfl, ite_eq_right one_ne_zero]
   exact ⟨wordA_gX (letters_lt_two.2.1 _ hmem).1, wordA_gX (letters_lt_two.2.1 _ hmem).2⟩
 
 theorem code_eq_idA_iff (x : StatedSp 3 (ZMod 2)) : code x = idA () ↔ x = 1 := by
@@ -604,14 +604,14 @@ theorem chain_of_stepsOK (ψ : ↥X0 →* StatedSp 3 (ZMod 2)) {k : ℕ} (hk : k
       (List.mem_cons_of_mem _ hs)) hrest)
     cases kind with
     | true =>
-      simp only [if_true, Bool.and_eq_true, decide_eq_true_eq] at hstep
+      simp only [ite_true, Bool.and_eq_true, decide_eq_true_eq] at hstep
       obtain ⟨hin, hc⟩ := hstep
       have hwc := mem_of_wordsIn hin wc List.mem_cons_self
       refine FusionStep.hhat (yword wc) (yword_mem_Hhat hwc) (code_injective ?_)
       rw [code_mul, code_mul, code_yword fun i hi => (idxHhat_spec (hwc i hi)).1,
         ← wordA_gX hnxt, ← wordA_gX hcur, hc]
     | false =>
-      simp only [Bool.false_eq_true, if_false, Bool.and_eq_true, decide_eq_true_eq] at hstep
+      simp only [Bool.false_eq_true, ite_false, Bool.and_eq_true, decide_eq_true_eq] at hstep
       obtain ⟨hin, hc⟩ := hstep
       have hwc := mem_of_wordsIn hin wc List.mem_cons_self
       set c := yword wc

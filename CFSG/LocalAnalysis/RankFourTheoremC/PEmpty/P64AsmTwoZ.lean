@@ -22,6 +22,7 @@ theorem not_isCyclic_of_two_le_pRank (hp : p.Prime) {Q : Subgroup Z} (h2 : 2 ≤
       (Subgroup.subgroupOfEquivOfLe hEQ).surjective
   exact not_isCyclic_of_elemAbelian hp hE (by rw [hEc]) hEcyc
 
+omit [Finite Z] in
 theorem normal_sSup_components :
     (sSup {M : Subgroup Z | IsComponentOf M ⊤}).Normal := by
   refine ⟨fun n hn g => ?_⟩
@@ -35,14 +36,14 @@ theorem normal_sSup_components :
 theorem two_le_pRank_inf_of_center (hp : p.Prime) (hp2 : p ≠ 2) (Q : Sylow p Z) {K : Subgroup Z}
     (hK : IsComponentOf K ⊤) (hdvd : p ∣ Nat.card (Subgroup.center ↥K)) :
     2 ≤ Open.pRank p ((Q : Subgroup Z) ⊓ K) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hsub : K.IsSubnormal := CFSG.Open.IsSubnormal.top_iff.1 hK.2.1
   obtain ⟨P, hP⟩ := CFSG.Walter.exists_sylow_map_eq_inf_of_isSubnormal Q hsub
   have hnonab := (GL83.I_6_10_1_proved ↥K hK.2.2 p hp hp2 hdvd P).1
   have hnc : ¬ IsCyclic ↥(P : Subgroup ↥K) := fun hc => hnonab (by
-    haveI := hc
+    have := hc
     infer_instance)
-  have h2 := two_le_pRank_of_isPGroup_not_isCyclic hp hp2 P.isPGroup' hnc
+  have h2 := two_le_pRank_of_isPGroup_not_isCyclic hp hp2 P.isPGroup hnc
   rw [← hP, pRank_map_subtype hp.one_lt]
   exact h2
 
@@ -73,9 +74,9 @@ theorem dvd_card_center_of_pCore_ne_bot (hp : p.Prime) (hp2 : p ≠ 2)
     (hwo : orderOf w = p) (hwc : ∀ q ∈ (Q : Subgroup Z), q * w = w * q) {L : Subgroup Z}
     (hL : IsComponentOf L ⊤) (huniq : ∀ K : Subgroup Z, IsComponentOf K ⊤ → K = L)
     (hne : CFSG.pCore p Z ≠ ⊥) : p ∣ Nat.card (Subgroup.center ↥L) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI hLn : L.Normal := normal_of_unique_component hL huniq
-  haveI : (CFSG.pCore p Z).Normal := CFSG.pCore_normal
+  have : Fact p.Prime := ⟨hp⟩
+  have hLn : L.Normal := normal_of_unique_component hL huniq
+  have : (CFSG.pCore p Z).Normal := CFSG.pCore_normal
   have hlayer : CFSG.layer Z = L := layer_eq_of_unique_component hL huniq
   have hwO : w ∈ CFSG.pCore p Z := w_mem_of_normal hp hp2 hZ Q hZc hwQ hwo hwc hne
   obtain ⟨y, hyQL, hyo, hyc⟩ := exists_mem_inf_sylow_component hp hp2 hZ Q hL
@@ -107,14 +108,14 @@ theorem caseII (hRank1 : KDI278Rank1) (hp : p.Prime) (hp5 : 5 ≤ p)
       a * b ≠ b * a)
     (hI : Open.pRank p ((Q : Subgroup Z) ⊓ sSup {M : Subgroup Z | IsComponentOf M ⊤}) ≤ 1) :
     False := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   have huniq : ∀ K : Subgroup Z, IsComponentOf K ⊤ → K = L := by
     intro K hK
     by_contra hKL
     have := two_le_pRank_of_two_components hp hp2 hZ Q hL hK (Ne.symm hKL)
     omega
-  haveI hLn : L.Normal := normal_of_unique_component hL huniq
+  have hLn : L.Normal := normal_of_unique_component hL huniq
   have hNL : sSup {M : Subgroup Z | IsComponentOf M ⊤} = L :=
     le_antisymm (sSup_le fun M hM => (huniq M hM).le) (le_sSup hL)
   have hIL : Open.pRank p ((Q : Subgroup Z) ⊓ L) ≤ 1 := by
@@ -141,6 +142,7 @@ theorem caseII (hRank1 : KDI278Rank1) (hp : p.Prime) (hp5 : 5 ≤ p)
   obtain ⟨a, ha, b, hb, hap, hbp, hab⟩ := hnc
   exact hab (hRank1 p hp hp5 Z L hLn hsimple.1 hsimple.2 hcatL hCL ⟨P, hPrk⟩ Q a ha b hb hap hbp)
 
+omit [Finite Z] in
 theorem layer_eq_sSup_components :
     CFSG.layer Z = sSup {M : Subgroup Z | IsComponentOf M ⊤} := by
   rw [CFSG.layer.eq_sSup]
@@ -176,9 +178,9 @@ theorem caseI (hp : p.Prime) (hp5 : 5 ≤ p) (hZ : primeComplementCore (G := Z) 
     ∃ K : Subgroup Z, IsComponentOf K ⊤ ∧ K.Normal ∧
       (∀ M : Subgroup Z, IsComponentOf M ⊤ → M = K) ∧ Subgroup.center ↥K = ⊥ ∧
       centralizer (K : Set Z) = ⊥ ∧ ¬ K ≤ Y ∧ 2 ≤ Open.pRank p ((Q : Subgroup Z) ⊓ K) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
-  haveI hNn : (sSup {M : Subgroup Z | IsComponentOf M ⊤}).Normal := normal_sSup_components
+  have hNn : (sSup {M : Subgroup Z | IsComponentOf M ⊤}).Normal := normal_sSup_components
   have hNY : ¬ sSup {M : Subgroup Z | IsComponentOf M ⊤} ≤ Y := fun h =>
     hY (top_le_of_normal hp Q h hI hΓ2)
   have hw1 : w ≠ 1 := by
@@ -187,7 +189,7 @@ theorem caseI (hp : p.Prime) (hp5 : 5 ≤ p) (hZ : primeComplementCore (G := Z) 
     exact hp.one_lt.ne hwo
   have hOp : CFSG.pCore p Z = ⊥ := by
     by_contra hne
-    haveI : (CFSG.pCore p Z).Normal := CFSG.pCore_normal
+    have : (CFSG.pCore p Z).Normal := CFSG.pCore_normal
     have hwO : w ∈ CFSG.pCore p Z := w_mem_of_normal hp hp2 hZ Q hZc hwQ hwo hwc hne
     apply hNY
     have hcent : w ∈ centralizer ((sSup {M : Subgroup Z | IsComponentOf M ⊤} : Subgroup Z) :
@@ -248,7 +250,7 @@ theorem dispatch (hAlt : KDI278Alt) (hChevP : KDI278ChevP) (hL2 : KDI278L2p2) (h
     (hK2 : 2 ≤ Open.pRank p ((Q : Subgroup Z) ⊓ K)) :
     ∀ W : Subgroup Z, B ⊔ U ≤ normalizer (W : Set Z) → Nat.Coprime (Nat.card W) (2 * p) →
       W = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   have hsimple := isSimpleGroup_of_center_eq_bot hK hcenK
   have hcatK : IsCatalogGroup ↥K := hcat.simple_subgroup K hsimple.1 hsimple.2
@@ -349,7 +351,7 @@ theorem two_Z (hRank1 : KDI278Rank1) (hAlt : KDI278Alt) (hChevP : KDI278ChevP)
     (hΓ2 : ∀ S : Subgroup Z, S ≤ Q → 2 ≤ Open.pRank p S → normalizer (S : Set Z) ≤ Y) :
     ∀ W : Subgroup Z, B ⊔ U ≤ normalizer (W : Set Z) → Nat.Coprime (Nat.card W) (2 * p) →
       W = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   have hQrk : Open.pRank p (Q : Subgroup Z) ≤ 2 := (SU1.pRank_mono hp.one_lt le_top).trans hrk
   have hQ2 : 2 ≤ Open.pRank p (Q : Subgroup Z) := SU1.le_pRank hp.one_lt hBQ hBel (k := 2) hBc

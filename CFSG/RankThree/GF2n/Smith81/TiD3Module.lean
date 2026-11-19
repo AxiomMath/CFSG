@@ -49,6 +49,7 @@ structure D3Data {S : Subgroup G} (Q Z : Subgroup G) (M₀ : Tim79.QuadModel Q Z
     D3.act (FiniteField.frobeniusAlgHom K F : F →+* F) ((p m : SL(2, F)) : Mat2 F) (θ e)
   quad_eq : ∀ e, algebraMap K F (M₀.Qf e) = D3.quad (θ e : D3.Hyp F)
 
+omit [Finite G] in
 theorem exists_d3Data (hMod : D3ModuleStatement)
     (hc : Ctx M Q Z B) (hw : Width Q Z 4)
     (hcase : QuotSat (Lgen M (LB M Q B)) Q (IsSLModel 2 (Nat.card Z ^ 3)))
@@ -183,10 +184,11 @@ namespace D3Data
 variable (D : D3Data Q Z M₀ φS F)
 
 include D in
+omit [Finite G] [CharP K 2] in
 theorem tau3 (a : F) :
     (FiniteField.frobeniusAlgHom K F) ((FiniteField.frobeniusAlgHom K F)
       ((FiniteField.frobeniusAlgHom K F) a)) = a := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have h := FiniteField.pow_card a
   have hq : Fintype.card F = Fintype.card K * (Fintype.card K * Fintype.card K) := by
     rw [← Nat.card_eq_fintype_card, D.card_F, ← Nat.card_eq_fintype_card]
@@ -199,20 +201,24 @@ noncomputable def ptv (w : Fin 2 → F) : M₀.E :=
   D.θ.symm ⟨D3.pt (FiniteField.frobeniusAlgHom K F : F →+* F) w,
     D3.pt_mem_kForm _ D.tau3 w⟩
 
+omit [Finite G] [CharP K 2] in
 theorem θ_ptv (w : Fin 2 → F) :
     (D.θ (D.ptv w) : D3.Hyp F) = D3.pt (FiniteField.frobeniusAlgHom K F : F →+* F) w := by
   simp [ptv]
 
+omit [Finite G] [CharP K 2] in
 theorem φS_ptv (m : ↥S) (w : Fin 2 → F) :
     φS m (D.ptv w) = D.ptv ((D.p m : Mat2 F) *ᵥ w) := by
   apply D.θ.injective
   apply Subtype.ext
   rw [D.act, D.θ_ptv, D.θ_ptv, D3.act_pt]
 
+omit [Finite G] [CharP K 2] [Finite F] in
 theorem φS_eq_of_p_eq {m m' : ↥S} (h : D.p m = D.p m') : φS m = φS m' := by
   refine LinearEquiv.ext fun e => D.θ.injective (Subtype.ext ?_)
   rw [D.act, D.act, h]
 
+omit [Finite G] [CharP K 2] [Finite F] in
 theorem algebraMap_B (e f : M₀.E) :
     algebraMap K F (M₀.B e f) = D3.polar (D.θ e : D3.Hyp F) (D.θ f : D3.Hyp F) := by
   have h2 := congrArg (algebraMap K F) (M₀.Qf_add e f)
@@ -223,6 +229,7 @@ theorem algebraMap_B (e f : M₀.E) :
   rw [h3, D3.quad_add] at h2
   linear_combination -h2
 
+omit [Finite G] [CharP K 2] in
 theorem algebraMap_B_ptv (v w : Fin 2 → F) :
     algebraMap K F (M₀.B (D.ptv v) (D.ptv w)) =
       (v 0 * w 1 + v 1 * w 0) * (FiniteField.frobeniusAlgHom K F) (v 0 * w 1 + v 1 * w 0) *
@@ -231,17 +238,19 @@ theorem algebraMap_B_ptv (v w : Fin 2 → F) :
   rw [D.algebraMap_B, D.θ_ptv, D.θ_ptv, D3.polar_pt]
   rfl
 
+omit [Finite G] [CharP K 2] in
 theorem ptv_ne_zero {w : Fin 2 → F} (hw : w ≠ 0) : D.ptv w ≠ 0 := by
   intro h
   apply D3.pt_ne_zero (FiniteField.frobeniusAlgHom K F : F →+* F) hw
   rw [← D.θ_ptv, h, map_zero]
   rfl
 
+omit [Finite G] [CharP K 2] in
 theorem ptv_smul (s : F) (w : Fin 2 → F) : ∃ κ : K,
     algebraMap K F κ = s * (FiniteField.frobeniusAlgHom K F) s *
       (FiniteField.frobeniusAlgHom K F) ((FiniteField.frobeniusAlgHom K F) s) ∧
     D.ptv (s • w) = κ • D.ptv w := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hF : Fintype.card F = Fintype.card K ^ 3 := by
     rw [← Nat.card_eq_fintype_card, D.card_F, ← Nat.card_eq_fintype_card]
   obtain ⟨κ, hκ⟩ := D3.nrm_mem_range hF s
@@ -255,6 +264,7 @@ theorem ptv_smul (s : F) (w : Fin 2 → F) : ∃ κ : K,
   funext i j k
   simp only [Pi.smul_apply, smul_eq_mul, Algebra.smul_def, hκ', AlgHom.coe_toRingHom]
 
+omit [Finite G] in
 theorem exists_smul_of_B_eq_zero {v w : Fin 2 → F} (hv : v ≠ 0)
     (h : M₀.B (D.ptv v) (D.ptv w) = 0) : ∃ κ : K, D.ptv w = κ • D.ptv v := by
   have h1 := D.algebraMap_B_ptv v w

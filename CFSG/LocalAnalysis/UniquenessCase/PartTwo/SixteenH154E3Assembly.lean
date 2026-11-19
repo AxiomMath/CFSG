@@ -30,7 +30,7 @@ theorem s16h_r16_4_hyp154_of_three (D : Data G) (S : s16h_Std D)
     s16fh_delta_hyp_of_not_concl hRows D h1217 h163c h ⟨t, ht, ht2, ht1, htr, hW⟩ hnot
   rcases hW.2.2 with h133 | htens | hcomp3 | hcomp4
   · by_cases hp : (Nat.card ↥(lBar V₀ V hV L)).Prime
-    · haveI : Fact (Nat.card ↥(lBar V₀ V hV L)).Prime := ⟨hp⟩
+    · have : Fact (Nat.card ↥(lBar V₀ V hV L)).Prime := ⟨hp⟩
       exact s16h_hyp154_of_cyclic_e3 D S hr3 hσ hσG h ⟨t, ht, ht2, ht1, htr, hW⟩ hs hnot hδ hp
         ⟨isCyclic_of_prime_card rfl, rfl⟩
     · exact s16h_hyp154_of_pgroup_e3 D S hσ h hs hnot hδ ht ht2 ht1 htr hW h133 hp

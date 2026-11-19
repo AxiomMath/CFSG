@@ -198,7 +198,7 @@ theorem rootSubgroup_reflect_le {δ : Fin Tag.E8.rank → ℤ} (hδ : IsRoot .E8
   have hnD : n ∈ D := by
     have h0 := rootSubgroup_d4d4Start_le (K := K) j true
     have h1 := rootSubgroup_d4d4Start_le (K := K) j false
-    simp only [d4d4Start, if_true, Bool.false_eq_true, if_false] at h0 h1
+    simp only [d4d4Start, ite_true, Bool.false_eq_true, ite_false] at h0 h1
     exact (sup_le h0 h1) hnU
   intro x hx
   have hconj := conj_mem_rootSpan_of_mapsRootLines (inv_mem hnN) hnM.inv

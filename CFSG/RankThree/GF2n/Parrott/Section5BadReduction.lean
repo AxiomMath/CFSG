@@ -24,6 +24,7 @@ local notation "uA" => (⟨u, u_mem_A⟩ : A45)
 set_option quotPrecheck false in
 local notation "s2A" => (⟨sigma2, sigma2_mem_A⟩ : A45)
 
+omit [Finite G] in
 private theorem exists_conj_bad_qH_eq {σ y : G} (hyH : y ∈ H z) (hy : orderOf y = 2)
     (hyz : y ≠ z) (hbad : ∀ c ∈ H z, c * y * c⁻¹ ∉ lemma54T₂ D σ) {a : A45}
     (hc : IsConj (qH (z := z) D ⟨y, hyH⟩) a) :

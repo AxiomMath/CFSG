@@ -156,7 +156,7 @@ theorem act_dg_pvec (c : Fin 4 → Kˣ) (k : Fin 4) (b : Bool) :
     rw [Pi.smul_apply]
     rcases ie_or_jf i with ⟨l, rfl⟩ | ⟨l, rfl⟩
     · rw [twHom_ie]
-      simp [ie_ne_jf]
+      simp
     · rw [twHom_jf]
       by_cases h : l = k
       · subst h
@@ -172,7 +172,7 @@ theorem act_dg_pvec (c : Fin 4 → Kˣ) (k : Fin 4) (b : Bool) :
         simp
       · simp [ie_injective.ne h]
     · rw [twHom_jf]
-      simp [ie_ne_jf]
+      simp
 
 omit [Finite K] [CharP K 2] in
 theorem act_eichlerC (g : Om8 K) (u w y : Fin (2 * 4) → K) :
@@ -217,7 +217,7 @@ theorem act_X8_lv_iu {i j : Fin 4} (hij : i ≠ j) (s t : Bool) :
     simp only [true_and]
     have h : s ≠ Bool.not s := by cases s <;> simp
     exact h
-  rw [if_neg h1, if_neg h2]
+  rw [ite_eq_right h1, ite_eq_right h2]
   simp
 
 omit [Finite K] in
@@ -227,7 +227,7 @@ theorem act_X8_lv_inu {i j : Fin 4} (hij : i ≠ j) (s t : Bool) :
   rw [act_X8_pvec (K := K) hij (toStdD_fromStd_lv i j s t hij) (1 : K)]
   have h1 : ¬(i = j ∧ Bool.not s = Bool.not t) := by simp [hij]
   have h2 : i = i ∧ Bool.not s = Bool.not s := ⟨rfl, rfl⟩
-  rw [if_neg h1, if_pos h2, one_smul, sub_eq_add_neg, D4Rank.neg_vec]
+  rw [ite_eq_right h1, ite_eq_left h2, one_smul, sub_eq_add_neg, D4Rank.neg_vec]
   simp
 
 omit [Finite K] in
@@ -239,7 +239,7 @@ theorem act_X8_lv_jt {i j : Fin 4} (hij : i ≠ j) (s t : Bool) :
     have h : t ≠ Bool.not t := by cases t <;> simp
     exact h
   have h2 : ¬(j = i ∧ t = Bool.not s) := by simp [Ne.symm hij]
-  rw [if_neg h1, if_neg h2]
+  rw [ite_eq_right h1, ite_eq_right h2]
   simp
 
 omit [Finite K] in
@@ -249,7 +249,7 @@ theorem act_X8_lv_jnt {i j : Fin 4} (hij : i ≠ j) (s t : Bool) :
   rw [act_X8_pvec (K := K) hij (toStdD_fromStd_lv i j s t hij) (1 : K)]
   have h1 : j = j ∧ Bool.not t = Bool.not t := ⟨rfl, rfl⟩
   have h2 : ¬(j = i ∧ Bool.not t = Bool.not s) := by simp [Ne.symm hij]
-  rw [if_pos h1, if_neg h2, one_smul, sub_eq_add_neg, D4Rank.neg_vec]
+  rw [ite_eq_left h1, ite_eq_right h2, one_smul, sub_eq_add_neg, D4Rank.neg_vec]
   simp
 
 omit [Finite K] in
@@ -259,7 +259,7 @@ theorem act_X8_lv_other {i j k : Fin 4} (hij : i ≠ j) (hki : k ≠ i) (hkj : k
   rw [act_X8_pvec (K := K) hij (toStdD_fromStd_lv i j s t hij) (1 : K)]
   have h1 : ¬(k = j ∧ r = !t) := by simp [hkj]
   have h2 : ¬(k = i ∧ r = !s) := by simp [hki]
-  rw [if_neg h1, if_neg h2]
+  rw [ite_eq_right h1, ite_eq_right h2]
   simp
 
 omit [Finite K] in
@@ -374,7 +374,7 @@ private theorem dotProduct_add_self (α β : Fin 4 → ℤ) :
   ring
 
 theorem add_ne_zero_of_dotProduct_nonneg {α β : Fin 4 → ℤ} (hα : IsD4Root α)
-    (hβ : IsD4Root β) (h : 0 ≤ α ⬝ᵥ β) : α + β ≠ 0 := by
+    (_hβ : IsD4Root β) (h : 0 ≤ α ⬝ᵥ β) : α + β ≠ 0 := by
   intro h0
   have hα' : α ⬝ᵥ α = 2 := hα
   have hb : β = -α := eq_neg_of_add_eq_zero_right h0

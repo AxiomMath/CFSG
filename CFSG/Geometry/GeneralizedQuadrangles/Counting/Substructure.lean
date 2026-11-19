@@ -60,7 +60,7 @@ theorem ncard_points_eq_of_closed [Fintype V] [DecidableRel Γ.Adj]
           · rw [SimpleGraph.dist_comm]
             exact dist_eq_two_of_adj_of_adj_of_ne hP hzN hzL hLne.symm
       rw [hset, Finset.card_erase_of_mem]
-      · rw [card_neighborFinset_eq_degree, hdeg z, if_pos (hF z hzF)]
+      · rw [card_neighborFinset_eq_degree, hdeg z, ite_eq_left (hF z hzF)]
         omega
       · simpa [mem_neighborFinset] using hzN.symm
     have hCl : ∀ L ∈ Cs, (Is.bipartiteBelow r L).card = 1 := by
@@ -236,13 +236,13 @@ theorem ncard_lines_eq_of_closed [Fintype V] [DecidableRel Γ.Adj]
         exact hxL
       · intro hxL
         exact ⟨by simpa [Bs] using hFB x hxF L hxL, hxL⟩
-    rw [hset, card_neighborFinset_eq_degree, hdeg x, if_pos (hF x hxF)]
+    rw [hset, card_neighborFinset_eq_degree, hdeg x, ite_eq_left (hF x hxF)]
   have hBelow : ∀ L ∈ Bs, (Fs.bipartiteBelow Γ.Adj L).card = s' + 1 := by
     intro L hL
     have hLB : L ∈ B := by simpa [Bs] using hL
     have hset : Fs.bipartiteBelow Γ.Adj L = (Γ.neighborSet L ∩ F).toFinset := by
       ext x
-      simp only [Finset.mem_bipartiteBelow, mem_neighborFinset, Set.mem_toFinset,
+      simp only [Finset.mem_bipartiteBelow, Set.mem_toFinset,
         Set.mem_inter_iff]
       constructor
       · rintro ⟨hxFs, hxL⟩
@@ -291,7 +291,7 @@ theorem eq_or_mul_le_of_closed [Fintype V] [DecidableRel Γ.Adj]
       rw [← hBF N hN]
       exact Set.ncard_le_ncard Set.inter_subset_left
     have hdegN : Γ.degree N = s + 1 := by
-      rw [hdeg N, if_neg (by rw [hB N hN]; decide)]
+      rw [hdeg N, ite_eq_right (by rw [hB N hN]; decide)]
     rw [SimpleGraph.ncard_neighborSet, hdegN] at hle
     omega
   obtain ⟨x, hxNF⟩ : (Γ.neighborSet N ∩ F).Nonempty := by
@@ -302,7 +302,7 @@ theorem eq_or_mul_le_of_closed [Fintype V] [DecidableRel Γ.Adj]
   have hxF : x ∈ F := hxNF.2
   have ht2 : 2 ≤ t := by
     have hxdeg : Γ.degree x = t + 1 := by
-      rw [hdeg x, if_pos (hF x hxF)]
+      rw [hdeg x, ite_eq_left (hF x hxF)]
     have := hT x
     omega
   let Fs : Finset V := F.toFinset
@@ -311,11 +311,11 @@ theorem eq_or_mul_le_of_closed [Fintype V] [DecidableRel Γ.Adj]
     intro L hL
     have hLB : L ∈ B := by simpa using hL
     have hdegL : Γ.degree L = s + 1 := by
-      rw [hdeg L, if_neg (by rw [hB L hLB]; decide)]
+      rw [hdeg L, ite_eq_right (by rw [hB L hLB]; decide)]
     have hinter : (Fs ∩ Γ.neighborFinset L).card = s' + 1 := by
       have hEq : Fs ∩ Γ.neighborFinset L = (F ∩ Γ.neighborSet L).toFinset := by
         ext y
-        simp [Fs, mem_neighborFinset, Set.mem_toFinset, and_comm]
+        simp [Fs, mem_neighborFinset, Set.mem_toFinset]
       calc
         (Fs ∩ Γ.neighborFinset L).card = (F ∩ Γ.neighborSet L).ncard := by
           rw [hEq]
@@ -452,14 +452,14 @@ theorem eq_or_mul_le_of_closed_dual [Fintype V] [DecidableRel Γ.Adj]
         have h1 : c v = 1 := (hdc0 v).mp h
         rw [hc0] at h1
         exact absurd h1 (by decide)
-      rw [hdeg v, if_pos hc0, if_neg hdc0']
+      rw [hdeg v, ite_eq_left hc0, ite_eq_right hdc0']
     · have hc1 : c v = 1 := by
         have hfin : ∀ a : Fin 2, a = 0 ∨ a = 1 := by decide
         rcases hfin (c v) with h | h
         · exact absurd h hc0
         · exact h
       have hdc0' : dc v = 0 := (hdc0 v).mpr hc1
-      rw [hdeg v, if_neg hc0, if_pos hdc0']
+      rw [hdeg v, ite_eq_right hc0, ite_eq_left hdc0']
   exact eq_or_mul_le_of_closed (s := t) (t := s) hP hT dc hdeg'
     (F := B) (B := F) (s' := p)
     (fun L hL => (hdc0 L).mpr (hB L hL))

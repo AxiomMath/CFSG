@@ -160,7 +160,7 @@ private theorem l94c_center_trivial {K : Subgroup H} (hKs : IsSimpleGroup K)
         rw [hZtop]
         exact Subgroup.mem_top a
       exact ((Subgroup.mem_center_iff.1 ha) b).symm
-    haveI hWn : (W.subgroupOf K).Normal :=
+    have hWn : (W.subgroupOf K).Normal :=
       ⟨fun n hn g => by
         have e : g * n * g⁻¹ = n := by
           rw [hcomm g n]
@@ -412,7 +412,7 @@ theorem l94_decomp_or_large {H : Type*} [Group H] [Finite H] {K Bb Tb : Subgroup
     have hP_TR : AK ⊔ AR ≤ Subgroup.normalizer (TR : Set H) := sup_le hAK_TR hAR_TR
     have hP_W : AK ⊔ AR ≤ Subgroup.normalizer ((TK ⊔ TR : Subgroup H) : Set H) :=
       l94c_normalizer_sup hP_TK hP_TR
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 hT2
     have hTK2 : Nat.card TK ∣ 2 ^ k := by
       rw [← hk]
@@ -517,7 +517,7 @@ theorem l94_decomp_or_large {H : Type*} [Group H] [Finite H] {K Bb Tb : Subgroup
   ·
     obtain ⟨t, htT, htN⟩ : ∃ t ∈ Tb, t ∉ Subgroup.normalizer (K : Set H) := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hTN (fun t ht => hcon t ht)
     set K' : Subgroup H := K.map (MulAut.conj t).toMonoidHom with hK'def
     have hK' : IsComponentOf K' ⊤ := CFSG.Quasithin.F918V5G.isComponentOf_map_conj hK (Subgroup.mem_top t)

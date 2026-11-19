@@ -14,8 +14,9 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem c23ne_eps_mul {V₀ : Subgroup G} {z a b : G}
-    (ha : a ∈ normalizer (V₀ : Set G)) (hb : b ∈ normalizer (V₀ : Set G))
+    (ha : a ∈ normalizer (V₀ : Set G)) (_hb : b ∈ normalizer (V₀ : Set G))
     (ha' : a * z * a⁻¹ * z⁻¹ ∈ V₀) (hb' : b * z * b⁻¹ * z⁻¹ ∈ V₀) :
     a * b * z * (a * b)⁻¹ * z⁻¹ ∈ V₀ := by
   have h1 : a * b * z * (a * b)⁻¹ * z⁻¹ =
@@ -23,6 +24,7 @@ private theorem c23ne_eps_mul {V₀ : Subgroup G} {z a b : G}
   rw [h1]
   exact V₀.mul_mem ((Subgroup.mem_normalizer_iff.1 ha _).1 hb') ha'
 
+omit [Finite G] in
 private theorem c23ne_eps_inv {V₀ : Subgroup G} {z a : G}
     (ha : a ∈ normalizer (V₀ : Set G)) (ha' : a * z * a⁻¹ * z⁻¹ ∈ V₀) :
     a⁻¹ * z * (a⁻¹)⁻¹ * z⁻¹ ∈ V₀ := by
@@ -40,8 +42,8 @@ theorem c23ne_exists_X_cover {D : Data G} {V₀ V L : Subgroup G} {hV : IsElemAb
       CFSG.ABGLocalTools.IsSylowOf 3 X (K₁ ⊔ K₂) ∧
       (∀ n ∈ (K₁ ⊔ K₂) ⊓ normalizer (X : Set G), n * z.val * n⁻¹ * (z.val)⁻¹ ∈ V₀) ∧
       ∀ j ∈ K₁ ⊔ K₂, j * z.val * j⁻¹ * (z.val)⁻¹ ∈ V₀ → ∃ g ∈ X, ∃ t ∈ D.T, j = g * t := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hK₁M : K₁ ≤ D.M := uc22p22a_le_of_isSubnormal hctx.mem₁.1
   have hK₂M : K₂ ≤ D.M := uc22p22a_le_of_isSubnormal hctx.mem₂.1
   have h𝓛M : K₁ ⊔ K₂ ≤ D.M := sup_le hK₁M hK₂M
@@ -222,6 +224,7 @@ theorem c23ne_exists_X_cover {D : Data G} {V₀ V L : Subgroup G} {hV : IsElemAb
     rw [hqG]
     group
 
+omit [Finite G] in
 theorem c23ne_permutes_of_cover {X T L V₀ : Subgroup G} {z : G} (hXL : X ≤ L)
     (hTL : T ≤ normalizer (L : Set G)) (hL₀ : L ≤ normalizer (V₀ : Set G))
     (hT₀ : T ≤ normalizer (V₀ : Set G)) (hTz : ∀ t ∈ T, t * z * t⁻¹ * z⁻¹ ∈ V₀)

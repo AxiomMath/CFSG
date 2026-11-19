@@ -391,7 +391,7 @@ theorem exists_mem_mul_normalizer [Finite G] {p : ℕ} [Fact p.Prime] {A : Subgr
     ((hAp.map (MulAut.conj h).toMonoidHom).comap_subtype (K := K)).exists_le_sylow
   obtain ⟨k, hk⟩ := MulAction.exists_smul_eq K Q Q'
   refine ⟨k, k.2, ?_⟩
-  obtain ⟨S, hS⟩ := (Q.isPGroup'.map K.subtype).exists_le_sylow
+  obtain ⟨S, hS⟩ := (Q.isPGroup.map K.subtype).exists_le_sylow
   have hAS : A ≤ S := fun a ha =>
     hS ⟨⟨a, hAK ha⟩, hQ (Subgroup.mem_subgroupOf.mpr ha), rfl⟩
   set c := (k : G)⁻¹ * h

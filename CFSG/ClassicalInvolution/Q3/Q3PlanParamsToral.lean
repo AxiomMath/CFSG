@@ -82,7 +82,7 @@ theorem commutator_toralRootGroup_le (a : Fin τ.rank → Kˣ) :
     rw [this, Subgroup.subgroupOf_self]
   have hTc : ∀ g ∈ torusGroup τ K, ∀ g' ∈ torusGroup τ K, g * g' = g' * g :=
     (triangular_borel_structure.{0, 0} τ K).1
-  haveI hcomm : IsMulCommutative ↥((torusGroup τ K).subgroupOf M) :=
+  have hcomm : IsMulCommutative ↥((torusGroup τ K).subgroupOf M) :=
     ⟨⟨fun u v => Subtype.ext (Subtype.ext (hTc _ (Subgroup.mem_subgroupOf.mp u.2) _
       (Subgroup.mem_subgroupOf.mp v.2)))⟩⟩
   have hle := Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup

@@ -27,7 +27,7 @@ private lemma hdRo7CLOF4Aux_card_Bs {G : Type} [Group G] [Finite G]
     [Module (ZMod p) V] (ι : Additive ↥Bs ≃+ V)
     (b : Module.Basis (Fin (n + 1)) (ZMod p) V) :
     Nat.card ↥Bs = p ^ (n + 1) := by
-  haveI : Finite V := Finite.of_surjective ι.toEquiv ι.toEquiv.surjective
+  have : Finite V := Finite.of_surjective ι.toEquiv ι.toEquiv.surjective
   change Nat.card (Additive ↥Bs) = p ^ (n + 1)
   rw [Nat.card_congr ι.toEquiv, ← FiniteField.pow_finrank_eq_natCard p V]
   congr 1
@@ -66,7 +66,7 @@ theorem c2_lorder_f4
     (hLlab : GGHasLabel lab (↥L ⧸ Subgroup.center ↥L)) (htag : lab.tag = .F4) (hn1 : lab.n = 1) :
     False := by
   have hp : Nat.Prime p := hH.1.tableB_facts.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hperf : commutator ↥L = ⊤ := (hH.2.2.1.1).1
   have hmark := ggInnerDiagOn_relabel hRig (hH.2.2.1.1) hlab hLlab
   have hmark2 := largeEvenMarking_and_labelAll_simple
@@ -81,7 +81,7 @@ theorem c2_lorder_f4
     hmark
   obtain ⟨-, lab', hlab', hraw''⟩ := hmark2
   obtain ⟨R, hRgrp, I, F, hsimple, hnonab, θ, hP, hInn⟩ := largeEvenRawDatum_exists hraw''
-  letI : Group R := hRgrp
+  let : Group R := hRgrp
   obtain ⟨hlab'_eq, hBsN, hact⟩ := hP
   have hT : CFSG.Blueprint.UntwistedChevalleyModel R .F4 2 := by
     have hlab_eq : lab = ⟨.F4, 0, 1⟩ := by
@@ -98,8 +98,8 @@ theorem c2_lorder_f4
       have h := hLlab
       rw [hlab_eq] at h
       obtain ⟨K, hKfld, hKfin, hKcard, ⟨e⟩⟩ := h
-      letI : Field K := hKfld
-      letI : Finite K := hKfin
+      let : Field K := hKfld
+      let : Finite K := hKfin
       have hK2 : Nat.card K = 2 := by simpa using hKcard
       obtain ⟨K', iF, iFi, hK', ⟨e'⟩⟩ := untwistedChevalleyModel_largeEven .F4 hK2
       exact ⟨K', iF, iFi, hK', ⟨e.trans e'⟩⟩
@@ -157,7 +157,7 @@ theorem c2_lorder_f4
   have hdvd : 3 ^ 5 ∣ Nat.card ρ.range := by
     rw [hcard_im, hp3]
     exact Nat.pow_dvd_pow 3 hn
-  haveI : Finite ρ.range :=
+  have : Finite ρ.range :=
     Finite.of_surjective ρ.rangeRestrict (MonoidHom.rangeRestrict_surjective ρ)
   obtain ⟨D, hDcard, -, hDle⟩ := Sylow.exists_subgroup_card_pow_prime_le_le Nat.prime_three
     (H := (⊥ : Subgroup R)) (L := ρ.range) (by simp) hdvd bot_le

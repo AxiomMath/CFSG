@@ -75,9 +75,11 @@ private theorem sub_one_mul_self [Nonempty (Fin n)] {u : Matrix (Fin n) (Fin n) 
     _ = (1 + 1) - (u + u) := by noncomm_ring
     _ = 0 := by rw [hu, h1]; simp
 
+omit [CharP K 2] in
 private theorem sub_one_ne_zero {u : Matrix (Fin n) (Fin n) K} (hu1 : u ≠ 1) :
     u - 1 ≠ 0 := fun h => hu1 (sub_eq_zero.mp h)
 
+omit [CharP K 2] in
 private theorem exists_mulVec_ne_zero {N : Matrix (Fin n) (Fin n) K} (hN : N ≠ 0) :
     ∃ v : Fin n → K, N *ᵥ v ≠ 0 := by
   by_contra h
@@ -86,6 +88,7 @@ private theorem exists_mulVec_ne_zero {N : Matrix (Fin n) (Fin n) K} (hN : N ≠
     ext i j
     simpa [Matrix.mulVec_single_one] using congrFun (h (Pi.single j 1)) i)
 
+omit [CharP K 2] in
 private theorem linearIndependent_pair_mulVec {N : Matrix (Fin n) (Fin n) K} (hN2 : N * N = 0)
     {v : Fin n → K} (hv : N *ᵥ v ≠ 0) : LinearIndependent K ![v, N *ᵥ v] := by
   rw [LinearIndependent.pair_iff]
@@ -103,6 +106,7 @@ private theorem linearIndependent_pair_mulVec {N : Matrix (Fin n) (Fin n) K} (hN
   rw [zero_smul, zero_add] at hab
   exact ⟨rfl, (smul_eq_zero.mp hab).resolve_right hv⟩
 
+omit [CharP K 2] in
 private theorem exists_linearMap_eq_zero_one {V : Type*} [AddCommGroup V] [Module K V] {v w : V}
     (h : LinearIndependent K ![v, w]) : ∃ β : V →ₗ[K] K, β v = 0 ∧ β w = 1 := by
   let f : (Fin 2 → K) →ₗ[K] V :=
@@ -141,17 +145,19 @@ private theorem exists_linearMap_eq_zero_one {V : Type*} [AddCommGroup V] [Modul
     rw [← hw, h1]
     simp
 
+omit [CharP K 2] in
 private theorem transvection_mulVec (p : Fin 2 → K) :
     transvection (1 : Fin 2) 0 (1 : K) *ᵥ p = ![p 0, p 0 + p 1] := by
   funext i
   fin_cases i <;>
-    simp [Matrix.transvection, Matrix.single_apply, Matrix.mulVec, Fin.sum_univ_two]
+    simp [Matrix.transvection, Matrix.single_apply, Matrix.mulVec]
 
 private theorem transvection_mul_self :
     transvection (1 : Fin 2) 0 (1 : K) * transvection (1 : Fin 2) 0 (1 : K) = 1 := by
   rw [Matrix.transvection_mul_transvection_same (1 : Fin 2) 0 (by decide) (1 : K) (1 : K)]
   rw [show (1 : K) + 1 = 0 from CharTwo.add_self_eq_zero 1, Matrix.transvection_zero]
 
+omit [CharP K 2] in
 private theorem matrix_eq_of_mulVec_eq {m : Type*} {X Y : Matrix m (Fin n) K}
     (h : ∀ x, X *ᵥ x = Y *ᵥ x) : X = Y := by
   have h' : Matrix.toLin' X = Matrix.toLin' Y := LinearMap.ext h
@@ -173,23 +179,26 @@ private theorem exists_normalFormVectors {u : Matrix (Fin n) (Fin n) K} (hu2 : u
   have hn : n ≠ 0 := by
     rintro rfl
     exact hu1 (Subsingleton.elim u 1)
-  haveI : Nonempty (Fin n) := Fin.pos_iff_nonempty.mp (Nat.pos_of_ne_zero hn)
+  have : Nonempty (Fin n) := Fin.pos_iff_nonempty.mp (Nat.pos_of_ne_zero hn)
   have hN2 : (u - 1) * (u - 1) = 0 := sub_one_mul_self hu2
   obtain ⟨v, hv⟩ := exists_mulVec_ne_zero (sub_one_ne_zero hu1)
   refine ⟨v, (u - 1) *ᵥ v, rfl, ?_, linearIndependent_pair_mulVec hN2 hv⟩
   rw [Matrix.mulVec_mulVec, hN2, Matrix.zero_mulVec]
 
+omit [CharP K 2] in
 private theorem nfRow_dot (β : (Fin n → K) →ₗ[K] K) (x : Fin n → K) :
     nfRow β ⬝ᵥ x = β x := by
   rw [LinearMap.pi_apply_eq_sum_univ β x]
-  simp only [dotProduct, nfRow, Pi.smul_apply, smul_eq_mul]
+  simp only [dotProduct, nfRow, smul_eq_mul]
   exact Finset.sum_congr rfl fun i _ => mul_comm _ _
 
+omit [CharP K 2] in
 private theorem nfA_mulVec (v w : Fin n → K) (p : Fin 2 → K) :
     nfA v w *ᵥ p = p 0 • v + p 1 • w := by
   funext i
-  simp [nfA, Matrix.mulVec, dotProduct, Fin.sum_univ_two, Fin.sum_univ_one, mul_comm]
+  simp [nfA, Matrix.mulVec, dotProduct, Fin.sum_univ_two, mul_comm]
 
+omit [CharP K 2] in
 private theorem nfB_mulVec (u : Matrix (Fin n) (Fin n) K) (β : (Fin n → K) →ₗ[K] K)
     (y : Fin n → K) : nfB u β *ᵥ y = ![β ((u - 1) *ᵥ y), β y] := by
   funext i
@@ -199,6 +208,7 @@ private theorem nfB_mulVec (u : Matrix (Fin n) (Fin n) K) (β : (Fin n → K) �
   · change nfB u β 1 ⬝ᵥ y = β y
     rw [show nfB u β 1 = nfRow β from rfl, nfRow_dot]
 
+omit [CharP K 2] in
 private theorem nfB_mul_nfA {u : Matrix (Fin n) (Fin n) K} {v w : Fin n → K}
     {β : (Fin n → K) →ₗ[K] K} (hNv : (u - 1) *ᵥ v = w) (hNw : (u - 1) *ᵥ w = 0)
     (hβv : β v = 0) (hβw : β w = 1) : nfB u β * nfA v w = 1 := by
@@ -217,6 +227,7 @@ private theorem nfB_mul_nfA {u : Matrix (Fin n) (Fin n) K} {v w : Fin n → K}
           funext i
           fin_cases i <;> simp
 
+omit [CharP K 2] in
 private theorem nf_u_mul_nfA {u : Matrix (Fin n) (Fin n) K} {v w : Fin n → K}
     (hNv : (u - 1) *ᵥ v = w) (hNw : (u - 1) *ᵥ w = 0) :
     u * nfA v w = nfA v w * transvection (1 : Fin 2) 0 (1 : K) := by
@@ -239,6 +250,7 @@ private theorem nf_u_mul_nfA {u : Matrix (Fin n) (Fin n) K} {v w : Fin n → K}
     _ = nfA v w *ᵥ (transvection (1 : Fin 2) 0 (1 : K) *ᵥ p) := by rw [transvection_mulVec]
     _ = (nfA v w * transvection (1 : Fin 2) 0 (1 : K)) *ᵥ p := by rw [Matrix.mulVec_mulVec]
 
+omit [CharP K 2] in
 private theorem nf_nfB_mul_u {u : Matrix (Fin n) (Fin n) K} {β : (Fin n → K) →ₗ[K] K}
     (hNu : (u - 1) * u = u - 1) :
     nfB u β * u = transvection (1 : Fin 2) 0 (1 : K) * nfB u β := by
@@ -273,7 +285,7 @@ theorem exists_mul_eq_mul_of_mul_self_eq_one {K : Type*} [Field K] [CharP K 2] {
   have hn : n ≠ 0 := by
     rintro rfl
     exact hu1 (Subsingleton.elim u 1)
-  haveI : Nonempty (Fin n) := Fin.pos_iff_nonempty.mp (Nat.pos_of_ne_zero hn)
+  have : Nonempty (Fin n) := Fin.pos_iff_nonempty.mp (Nat.pos_of_ne_zero hn)
   obtain ⟨v, w, hNv, hNw, hli⟩ := exists_normalFormVectors hu2 hu1
   obtain ⟨β, hβv, hβw⟩ := exists_linearMap_eq_zero_one (K := K) hli
   exact ⟨nfA v w, nfB u β, nfB_mul_nfA hNv hNw hβv hβw,
@@ -295,6 +307,7 @@ private theorem ne_one_of_conj_eq_inv {K : Type} [Field K] [Finite K] [CharP K 2
   have h2 : 2 ≤ Nat.card K := Finite.one_lt_card
   omega
 
+omit [CharP K 2] in
 private theorem det_conj {A B : Matrix (Fin 2) (Fin 2) K} (hBA : B * A = 1)
     (g : SpecialLinearGroup (Fin 2) K) : (B * (g : Matrix (Fin 2) (Fin 2) K) * A).det = 1 := by
   have hBAdet : B.det * A.det = 1 := by rw [← Matrix.det_mul, hBA, Matrix.det_one]
@@ -304,6 +317,7 @@ private theorem det_conj {A B : Matrix (Fin 2) (Fin 2) K} (hBA : B * A = 1)
     _ = B.det * A.det := by rw [g.2, mul_one]
     _ = 1 := hBAdet
 
+omit [CharP K 2] in
 private theorem orderOf_conj {A B : Matrix (Fin 2) (Fin 2) K} (hBA : B * A = 1)
     (hAB : A * B = 1) {S : SpecialLinearGroup (Fin 2) K} (g : SpecialLinearGroup (Fin 2) K)
     (hS : (S : Matrix (Fin 2) (Fin 2) K) = B * (g : Matrix (Fin 2) (Fin 2) K) * A) :
@@ -321,6 +335,7 @@ private theorem orderOf_conj {A B : Matrix (Fin 2) (Fin 2) K} (hBA : B * A = 1)
         exact (SemiconjBy.orderOf_eq (P⁻¹) (by simp [SemiconjBy, mul_assoc])).symm
     _ = orderOf g := orderOf_injective _ Matrix.SpecialLinearGroup.toGL_injective g
 
+omit [CharP K 2] in
 private theorem mul_conj_inv {A B : Matrix (Fin 2) (Fin 2) K} (hBA : B * A = 1)
     (hAB : A * B = 1) (g : SpecialLinearGroup (Fin 2) K) :
     (B * (g : Matrix (Fin 2) (Fin 2) K) * A) *
@@ -342,6 +357,7 @@ private theorem mul_conj_inv {A B : Matrix (Fin 2) (Fin 2) K} (hBA : B * A = 1)
           Matrix.mul_one]
     _ = 1 := hBA
 
+omit [CharP K 2] in
 private theorem transvection_conj {A B : Matrix (Fin 2) (Fin 2) K}
     {t g : SpecialLinearGroup (Fin 2) K} (htg : t * g * t = g⁻¹)
     (htA : (t : Matrix (Fin 2) (Fin 2) K) * A = A * transvection (1 : Fin 2) 0 (1 : K))
@@ -560,7 +576,7 @@ private theorem exists_lift_of_orderOf_eq_two {K : Type} [Field K] [Finite K] [C
 theorem exists_inv_conj_statedProj_statedSL {K : Type} [Field K] [Finite K] [CharP K 2] {n : ℕ}
     {d : StatedProj (StatedSL n K)} (hd : orderOf d = 2) :
     ∃ τ : StatedProj (StatedSL n K), orderOf τ = Nat.card K + 1 ∧ d⁻¹ * τ * d = τ⁻¹ := by
-  haveI : Nonempty (Fin n) := nonempty_fin_of_orderOf_eq_two hd
+  have : Nonempty (Fin n) := nonempty_fin_of_orderOf_eq_two hd
   obtain ⟨u, hu2, hu1, hmk⟩ := exists_lift_of_orderOf_eq_two hd
   have huGL2 : ((u : GL (Fin n) K)) ^ 2 = 1 := by
     rw [pow_two]
@@ -598,9 +614,9 @@ theorem exists_inv_conj_of_lieModel_psl_of_orderOf_eq_two {Y : Type} [Group Y] {
     (h : CFSG.Blueprint.LieModel Y .PSL m 2 x) {d : Y} (hd : orderOf d = 2) :
     ∃ τ : Y, orderOf τ = 2 ^ x + 1 ∧ d⁻¹ * τ * d = τ⁻¹ := by
   obtain ⟨-, K, hKf, hKfin, hKcard, ⟨e⟩⟩ := h.statedClassicalModel (by decide)
-  letI : Field K := hKf
-  haveI : Finite K := hKfin
-  haveI : CharP K 2 := CFSG.Quasithin.R3c.charP_two_of_natCard_eq_two_pow hKcard
+  let : Field K := hKf
+  have : Finite K := hKfin
+  have : CharP K 2 := CFSG.Quasithin.R3c.charP_two_of_natCard_eq_two_pow hKcard
   have hd' : orderOf (e d) = 2 := by rw [MulEquiv.orderOf_eq, hd]
   obtain ⟨τ, hτ, hrel⟩ := exists_inv_conj_statedProj_statedSL (d := e d) hd'
   refine ⟨e.symm τ, ?_, ?_⟩

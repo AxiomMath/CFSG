@@ -82,6 +82,7 @@ end U2DFrame
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem uc22r8u2d_conj_cases {M L K : Subgroup G} (hne : K ≠ L)
     (hset : conjSetOf M L = {L, K}) {t : G} (ht : t ∈ M) :
     (t ∈ normalizer (L : Set G) ∧ t ∈ normalizer (K : Set G)) ∨

@@ -234,7 +234,7 @@ theorem GGL45Config.kg_V_inter
     (hc : c ∈ U ⊓ Subgroup.centralizer (K : Set G))
     (hcg : g⁻¹ * c * g ∈ U ⊓ Subgroup.centralizer (K : Set G)) : c = 1 := by
   have hp := hcfg.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hc1
   obtain ⟨N, hN⟩ := hcfg.isPGroup ⟨c, hc.1⟩
   have hex : ∃ i, c ^ p ^ i = 1 := ⟨N, by simpa using congrArg Subtype.val hN⟩
@@ -291,7 +291,7 @@ theorem GGL45Config.kg_abelian_of_move
     {g : G} (hg : g ∈ Subgroup.normalizer (U : Set G))
     (hgN : g ∉ Subgroup.normalizer (U₁ : Set G)) :
     ∀ a ∈ U₁, ∀ b ∈ U₁, a * b = b * a := by
-  haveI : Fact p.Prime := ⟨hcfg.prime⟩
+  have : Fact p.Prime := ⟨hcfg.prime⟩
   have hp := hcfg.prime
   obtain ⟨-, -, hcommV, -⟩ := hcfg.kg_torus θ hinn hiff hpk
   obtain ⟨s, hs, -, -, -, -, hP2m, hP2e, hP2n, hP2f, ⟨a₁, a₂, ha₁, ha₂, -, -, -, hind⟩, hP4⟩ :=
@@ -429,7 +429,7 @@ theorem GGL45Config.kg_abelian_of_move
           simpa using congrArg Subtype.val (hP2e ⟨h, hh.2⟩ (hcfg.kg_inS_of_mem hh.1 hh.2))
         have hp1 : (g⁻¹ * h ^ p ^ (s - 1) * g) ^ p ∈ U ⊓ Subgroup.centralizer (K : Set G) := by
           rw [conj_inv_pow', hhp]
-          simpa using (U ⊓ Subgroup.centralizer (K : Set G)).one_mem
+          simp
         have hg1 := ggL45_pow_gcd_mem hc' hp1
         rwa [Nat.gcd_comm, (Nat.Prime.coprime_iff_not_dvd hp).mpr hk', pow_one] at hg1
       have hzind := hcfg.kg_zind θ hinn hiff hx hs hP2m hP2e hP4 ha₁ ha₂ hind 1 hp.not_dvd_one
@@ -498,7 +498,7 @@ theorem ggL45FiveRankInput_of_known (hraw : GGRawInnFieldInput)
     (hStdL : GGTriD4StdSubInput) (hE6 : GGTwE6LocalRankInput) (hT : GGStdSubNotTorsionInput)
     (hK : GGL45KnownForms) : GGL45FiveRankInput := by
   intro G _ _ p B Bs x L D J X B₂ d y K U U₁ hcfg hI1 hΩ
-  haveI : Fact p.Prime := ⟨hcfg.prime⟩
+  have : Fact p.Prime := ⟨hcfg.prime⟩
   obtain ⟨R, _, I, θ, hinn, hiff, hpk⟩ :=
     hcfg.kg_package hraw hisoI hsub hgr hD4 hnone hStdL hE6 hT hK hI1
   obtain ⟨hB₁U₁, hxU₁, -⟩ := ggL4546_basic hraw hisoI hcfg

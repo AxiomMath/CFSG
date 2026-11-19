@@ -50,7 +50,7 @@ theorem exists_complement_of_coords
   have hu : ∀ g, π (u g) = g := fun g => by
     by_cases hg : g = 1
     · simp [u, hg]
-    · simp only [u, if_neg hg]
+    · simp only [u, ite_eq_right hg]
       exact (hπ g).choose_spec
   have hu1 : u 1 = 1 := by simp [u]
   have hmem : ∀ g h, u g * u h * (u (g * h))⁻¹ ∈ M := fun g h => (hker _).1 (by
@@ -82,7 +82,7 @@ theorem exists_complement_of_coords
         (inferInstance : M.Normal).conj_mem _ (n h).2 (u g)⟩ * m g h := by
       apply e.injective
       rw [he, he, hact, hu]
-      simp only [n, c, Equiv.apply_symm_apply, map_neg]
+      simp only [n, Equiv.apply_symm_apply, map_neg]
       have := congrFun (congrFun hβ g) h
       simp only [c] at this
       rw [this, H2.cob]
@@ -142,8 +142,8 @@ theorem exists_coords_of_action
     (hfix : ∀ a : A, σ x0J a = a → a = 1) :
     ∃ (ρ : ↥P →* Module.End (ZMod 2) V12) (e : A ≃ V12), IsMRep ρ ∧
       (∀ a b : A, e (a * b) = e a + e b) ∧ ∀ (g : ↥P) (a : A), e (σ (eJP g) a) = ρ g (e a) := by
-  haveI : Finite (Additive A) := Finite.of_equiv A Additive.ofMul
-  haveI : Nontrivial (Additive A) := Additive.ofMul.symm.nontrivial
+  have : Finite (Additive A) := Finite.of_equiv A Additive.ofMul
+  have : Nontrivial (Additive A) := Additive.ofMul.symm.nontrivial
   have hirrJ := submodule_eq_bot_or_top σ hirr
   obtain ⟨θ, hθ⟩ := exists_linearEquiv_of_fixed_J2 ((mulAutToEnd A).comp σ) hirrJ fun u hu => by
     rw [← ofMul_toMul u, MonoidHom.comp_apply, mulAutToEnd_apply] at hu
@@ -158,8 +158,7 @@ theorem exists_coords_of_action
       rw [h1, h2, conjRep_apply, ← hθ 1 (by norm_num), LinearEquiv.symm_apply_apply]
   · simp only [Equiv.trans_apply, ofMul_mul, LinearEquiv.coe_toEquiv, map_add]
   · simp only [Equiv.trans_apply, LinearEquiv.coe_toEquiv, conjRep_apply,
-      LinearEquiv.apply_symm_apply, MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, eJPHom_apply,
-      eJPinvHom_apply,
+      LinearEquiv.apply_symm_apply, MonoidHom.comp_apply, eJPHom_apply,
       mulAutToEnd_apply]
 
 theorem exists_proj {L : Type*}
@@ -170,13 +169,13 @@ theorem exists_proj {L : Type*}
     fun x => ?_, fun ℓ => ?_⟩
   · obtain ⟨q, hq⟩ := QuotientGroup.mk_surjective (ψ.symm (eJP g))
     refine ⟨q, ?_⟩
-    simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, eJPHom_apply, eJPinvHom_apply,
+    simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, eJPinvHom_apply,
       QuotientGroup.mk'_apply, hq,
       MulEquiv.apply_symm_apply, MulEquiv.symm_apply_apply]
-  · simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, eJPHom_apply, eJPinvHom_apply,
+  · simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, eJPinvHom_apply,
       QuotientGroup.mk'_apply]
     rw [MulEquiv.map_eq_one_iff, MulEquiv.map_eq_one_iff, QuotientGroup.eq_one_iff]
-  · simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, eJPHom_apply, eJPinvHom_apply,
+  · simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, eJPinvHom_apply,
       QuotientGroup.mk'_apply,
       MulEquiv.apply_symm_apply]
 
@@ -187,14 +186,14 @@ theorem kJSplit_holds :
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hEA : IsElementaryAbelian 2 ↥M :=
     isElementaryAbelian_of_minimalNormal inferInstance hM2 hM1 hmin
-  letI : CommGroup ↥M := IsMulCommutative.instCommGroup
+  let : CommGroup ↥M := IsMulCommutative.instCommGroup
   have hsq : ∀ m : ↥M, m ^ 2 = 1 := fun m =>
     Subtype.ext (by simpa using elemPow_eq_one_of_isElementaryAbelian (p := 2) (m : L) m.2)
-  letI : Module (ZMod 2) (Additive ↥M) := AddCommGroup.zmodModule (n := 2) fun x => by
+  let : Module (ZMod 2) (Additive ↥M) := AddCommGroup.zmodModule (n := 2) fun x => by
     rw [← ofMul_toMul x, ← ofMul_pow, hsq, ofMul_one]
   have hRM : ∀ r ∈ M, ∀ m ∈ M, r * m = m * r := fun r hr m hm =>
     congrArg Subtype.val (mul_comm (⟨r, hr⟩ : ↥M) ⟨m, hm⟩)
-  haveI : Nontrivial ↥M := (Subgroup.nontrivial_iff_ne_bot M).2 hM1
+  have : Nontrivial ↥M := (Subgroup.nontrivial_iff_ne_bot M).2 hM1
   have hσ : ∀ (ℓ : L) (m : ↥M), conjActionJ2 hRM ψ (ψ (ℓ : L ⧸ M)) m =
       ⟨ℓ * m * ℓ⁻¹, (inferInstance : M.Normal).conj_mem m m.2 ℓ⟩ :=
     fun ℓ m => Subtype.ext (conjActionJ2_mk hRM ψ ℓ m)

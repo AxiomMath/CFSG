@@ -86,7 +86,7 @@ theorem lit_perf_map [Finite X] {π : X →* G} (hπ : Function.Surjective π) {
 theorem lit_perfect_le_of_le_sup_solvable {H D P : Subgroup X} [D.Normal] (hH : ⁅H, H⁆ = H)
     (hP : Group.IsSolvable ↥P) (hHDP : H ≤ D ⊔ P) : H ≤ D := by
   let q : X →* X ⧸ D := QuotientGroup.mk' D
-  haveI : Group.IsSolvable ↥P := hP
+  have : Group.IsSolvable ↥P := hP
   have hDmap : D.map q = ⊥ := by
     rw [Subgroup.map_eq_bot_iff]
     show D ≤ q.ker
@@ -95,16 +95,16 @@ theorem lit_perfect_le_of_le_sup_solvable {H D P : Subgroup X} [D.Normal] (hH : 
     calc H.map q ≤ (D ⊔ P).map q := Subgroup.map_mono hHDP
       _ = D.map q ⊔ P.map q := Subgroup.map_sup D P q
       _ = P.map q := by rw [hDmap, bot_sup_eq]
-  haveI : Group.IsSolvable ↥(P.map q) :=
+  have : Group.IsSolvable ↥(P.map q) :=
     Group.isSolvable_of_surjective (MonoidHom.subgroupMap_surjective q P)
-  haveI : Group.IsSolvable ↥(H.map q) :=
+  have : Group.IsSolvable ↥(H.map q) :=
     Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hHmap_le)
   have hperf_map : ⁅H.map q, H.map q⁆ = H.map q := by
     rw [← Subgroup.map_commutator, hH]
   have hbot : H.map q = ⊥ := by
     by_contra hne
-    haveI : Nontrivial ↥(H.map q) := (Subgroup.nontrivial_iff_ne_bot _).mpr hne
-    haveI : Group.IsPerfect ↥(H.map q) := Subgroup.isPerfect_iff.mpr hperf_map
+    have : Nontrivial ↥(H.map q) := (Subgroup.nontrivial_iff_ne_bot _).mpr hne
+    have : Group.IsPerfect ↥(H.map q) := Subgroup.isPerfect_iff.mpr hperf_map
     exact (Group.IsPerfect.not_isSolvable ↥(H.map q)) inferInstance
   rwa [Subgroup.map_eq_bot_iff, show q.ker = D from QuotientGroup.ker_mk' D] at hbot
 

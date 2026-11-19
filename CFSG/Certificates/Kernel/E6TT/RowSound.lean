@@ -169,9 +169,9 @@ theorem idxK_spec (x : Vec) : ∀ (Hs : List (List Nat)) (i : Nat),
       nIf_eqE _ _ _
     rw [e]
     by_cases hm : meetK H x = true
-    · rw [if_pos hm]
+    · rw [ite_eq_left hm]
       exact ⟨le_rfl, fun _ => by rw [Nat.sub_self, List.getD_cons_zero]; exact hm⟩
-    · rw [if_neg hm]
+    · rw [ite_eq_right hm]
       obtain ⟨h1, h2⟩ := idxK_spec x Hs (i + 1)
       refine ⟨by omega, fun hlt => ?_⟩
       have e2 : idxK x Hs (i + 1) - i = (idxK x Hs (i + 1) - (i + 1)) + 1 := by omega
@@ -426,7 +426,7 @@ theorem classPermK (k : Fin 5) (ρ : Equiv.Perm (Fin Tag.E6.rank → ℤ)) (π :
       classSet (cl.getD jj.val []) = classSet (cl.getD jj.val [])} =
       {s : ℕ | 0 < s ∧ (p^[s]) jj = jj} := by
     ext s
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     rw [hiter s]
     constructor
     · rintro ⟨h1, h2⟩

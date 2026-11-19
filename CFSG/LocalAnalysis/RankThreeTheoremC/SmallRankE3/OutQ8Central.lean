@@ -321,7 +321,7 @@ theorem two_gen_of_quatLike (hB : QuatLike B Y ζ) (H : Subgroup K) (hH : H ≤ 
   by_cases hHY : H ≤ Y
   · refine ⟨c, c, ?_⟩
     rw [Set.pair_eq_singleton, ← Subgroup.zpowers_eq_closure, ← hc, inf_eq_left.mpr hHY]
-  · obtain ⟨g, hgH, hgY⟩ := SetLike.not_le_iff_exists.mp hHY
+  · obtain ⟨g, hgH, hgY⟩ := IsConcreteLE.not_le_iff_exists.mp hHY
     refine ⟨c, g, le_antisymm ?_ ?_⟩
     · intro h hh
       by_cases hhY : h ∈ Y
@@ -389,11 +389,11 @@ theorem le_closure_qpairs_of_quatLike (hB : QuatLike B Y ζ) (H : Subgroup K) (h
   obtain ⟨y₁, hy₁H, hy₁Y, hy₁sq⟩ := hy1
   have hg0 : ∃ g₀ ∈ H, g₀ ∉ Y := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hYc : ∀ a ∈ Y, ∀ b ∈ Y, a * b = b * a := by
       intro a ha b hb
-      haveI := hB.Y_cyc
-      letI : CommGroup Y := IsCyclic.commGroup
+      have := hB.Y_cyc
+      let : CommGroup Y := IsCyclic.commGroup
       exact congrArg Subtype.val (mul_comm (⟨a, ha⟩ : Y) ⟨b, hb⟩)
     have hcomm : v * u = u * v := hYc v (hcon v hv) u (hcon u hu)
     have h1 : u * v * v⁻¹ = u⁻¹ := by
@@ -410,7 +410,7 @@ theorem le_closure_qpairs_of_quatLike (hB : QuatLike B Y ζ) (H : Subgroup K) (h
     have hg2 : g ^ 2 = ζ := hB.out_sq g hgB hgY
     have hg4 : g ^ 4 = 1 := by
       have e4 : g ^ 4 = (g ^ 2) ^ 2 := by
-        rw [← pow_mul] <;> norm_num
+        rw [← pow_mul]
       rw [e4, hg2, hB.ζ_sq]
     have hy1g : y₁ ^ 2 = g ^ 2 := hy₁sq.trans hg2.symm
     have hinv : y₁⁻¹ ∈ Y := Y.inv_mem hy₁Y
@@ -480,7 +480,7 @@ theorem relIndex_sup_le_of_comm [Finite K] (hcomm : ∀ a ∈ A, ∀ b ∈ B, a 
       ↥(A ⊔ B) ⧸ B.subgroupOf (A ⊔ B)) = QuotientGroup.mk s
     rw [QuotientGroup.eq, mem_subgroupOf]
     simpa [hs] using hb
-  haveI : Finite (Quotient (QuotientGroup.leftRel (B.subgroupOf A))) :=
+  have : Finite (Quotient (QuotientGroup.leftRel (B.subgroupOf A))) :=
     Finite.of_surjective _ (QuotientGroup.mk_surjective (s := B.subgroupOf A))
   show Nat.card (↥(A ⊔ B) ⧸ B.subgroupOf (A ⊔ B)) ≤ Nat.card (↥A ⧸ B.subgroupOf A)
   exact Nat.card_le_card_of_surjective _ hf
@@ -500,7 +500,7 @@ theorem relIndex_inf_le_four [Finite K] (hcomm : ∀ a ∈ A, ∀ b ∈ B, a * b
     intro h0
     have hd := relIndex_dvd_card (H := B) (K := A ⊔ B)
     rw [h0, zero_dvd_iff] at hd
-    haveI : Nonempty ↥(A ⊔ B) := ⟨1⟩
+    have : Nonempty ↥(A ⊔ B) := ⟨1⟩
     have hpos : 0 < Nat.card ↥(A ⊔ B) := Nat.card_pos
     omega
   have h2 : B.relIndex Q ≤ B.relIndex (A ⊔ B) := relIndex_le_of_le_right hQ hne

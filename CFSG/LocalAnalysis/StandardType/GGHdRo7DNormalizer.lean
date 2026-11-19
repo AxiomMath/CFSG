@@ -115,11 +115,11 @@ private lemma hdRo7DNormAux_unique {V : Type} [AddCommGroup V] [Module (ZMod 3) 
       rw [← hdRo7DNormAux_sigma_spec b s i, h i]
     have hcoord := congrArg (fun v => b.coord (hdRo7DNormAux_sigma b s i) v) heq
     rw [hdRo7DNormAux_coord_smul_basis, hdRo7DNormAux_coord_smul_basis] at hcoord
-    rw [if_pos rfl, mul_one] at hcoord
+    rw [ite_eq_left rfl, mul_one] at hcoord
     by_cases hsi : σ i = hdRo7DNormAux_sigma b s i
-    · rw [if_pos hsi, mul_one] at hcoord
+    · rw [ite_eq_left hsi, mul_one] at hcoord
       exact ⟨hsi.symm, hcoord⟩
-    · rw [if_neg hsi, mul_zero] at hcoord
+    · rw [ite_eq_right hsi, mul_zero] at hcoord
       exfalso
       rcases hdRo7DNormAux_sign_pm b s i with h1 | h1 <;> rw [h1] at hcoord <;>
         exact absurd hcoord (by decide)
@@ -349,7 +349,7 @@ private lemma hdRo7DNormAux_double_apply {V : Type} [AddCommGroup V] [Module (ZM
     · rw [LinearEquiv.mul_apply,
         CFSG.StandardType.OrthF3.ggOrthSignChange_apply_of_ne (f := b) (i := k) (j := i) hik,
         CFSG.StandardType.OrthF3.ggOrthSignChange_apply_of_ne (f := b) (i := j) (j := i) hij]
-      rw [if_neg]
+      rw [ite_eq_right]
       · simp
       · simp only [Finset.mem_insert, Finset.mem_singleton, not_or]
         exact ⟨hij, hik⟩
@@ -363,7 +363,7 @@ private lemma hdRo7DNormAux_double_mem_P {V : Type} [AddCommGroup V] [Module (ZM
     rfl, ?_, ?_, ?_, ?_⟩
   · change (if (0 : Fin (n + 1)) ∈ ({j, k} : Finset (Fin (n + 1))) then
       (-1 : ZMod 3) else 1) = 1
-    rw [if_neg (by
+    rw [ite_eq_right (by
       simp only [Finset.mem_insert, Finset.mem_singleton, not_or]
       exact ⟨Ne.symm hj, Ne.symm hk⟩)]
   · intro i
@@ -444,9 +444,9 @@ private lemma hdRo7DNormAux_double_range {V : Type} [AddCommGroup V] [Module (ZM
     rw [Module.Basis.constr_basis, LinearMap.sub_apply, LinearMap.id_apply,
       LinearEquiv.coe_toLinearMap, hdRo7DNormAux_double_apply b hjk i]
     by_cases hi : i ∈ ({j, k} : Finset (Fin (n + 1)))
-    · rw [if_pos hi, if_pos hi, neg_one_smul, one_smul]
+    · rw [ite_eq_left hi, ite_eq_left hi, neg_one_smul, one_smul]
       exact hdRo7DNormAux_char3 (b i)
-    · rw [if_neg hi, if_neg hi]
+    · rw [ite_eq_right hi, ite_eq_right hi]
       simp
   rw [hT, Module.Basis.constr_range]
   apply le_antisymm
@@ -455,14 +455,14 @@ private lemma hdRo7DNormAux_double_range {V : Type} [AddCommGroup V] [Module (ZM
     by_cases hi : i ∈ ({j, k} : Finset (Fin (n + 1)))
     · change (if i ∈ ({j, k} : Finset (Fin (n + 1))) then (1 : ZMod 3) else 0) • b i ∈
         Submodule.span (ZMod 3) ({b j, b k} : Set V)
-      rw [if_pos hi, one_smul]
+      rw [ite_eq_left hi, one_smul]
       rw [Finset.mem_insert, Finset.mem_singleton] at hi
       rcases hi with rfl | rfl
       · exact Submodule.subset_span (by simp)
       · exact Submodule.subset_span (by simp)
     · change (if i ∈ ({j, k} : Finset (Fin (n + 1))) then (1 : ZMod 3) else 0) • b i ∈
         Submodule.span (ZMod 3) ({b j, b k} : Set V)
-      rw [if_neg hi, zero_smul]
+      rw [ite_eq_right hi, zero_smul]
       exact Submodule.zero_mem _
   · rw [Submodule.span_le]
     intro x hx
@@ -470,10 +470,10 @@ private lemma hdRo7DNormAux_double_range {V : Type} [AddCommGroup V] [Module (ZM
     rcases hx with rfl | rfl
     · refine Submodule.subset_span ⟨j, ?_⟩
       change (if j ∈ ({j, k} : Finset (Fin (n + 1))) then (1 : ZMod 3) else 0) • b j = b j
-      rw [if_pos (by simp), one_smul]
+      rw [ite_eq_left (by simp), one_smul]
     · refine Submodule.subset_span ⟨k, ?_⟩
       change (if k ∈ ({j, k} : Finset (Fin (n + 1))) then (1 : ZMod 3) else 0) • b k = b k
-      rw [if_pos (by simp), one_smul]
+      rw [ite_eq_left (by simp), one_smul]
 
 private lemma hdRo7DNormAux_finrank_span_pair {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
     {n : ℕ} (b : Module.Basis (Fin (n + 1)) (ZMod 3) V) {j k : Fin (n + 1)} (hjk : j ≠ k) :
@@ -617,9 +617,9 @@ private lemma hdRo7DNormAux_coord_diag {V : Type} [AddCommGroup V] [Module (ZMod
     simp only [Module.Basis.coord_apply]
   rw [h, map_sum]
   rw [Finset.sum_eq_single m]
-  · rw [hdRo7DNormAux_coord_smul_basis, if_pos rfl, mul_one, mul_comm]
+  · rw [hdRo7DNormAux_coord_smul_basis, ite_eq_left rfl, mul_one, mul_comm]
   · intro i _ him
-    rw [hdRo7DNormAux_coord_smul_basis, if_neg him, mul_zero]
+    rw [hdRo7DNormAux_coord_smul_basis, ite_eq_right him, mul_zero]
   · intro hm
     exact absurd (Finset.mem_univ m) hm
 
@@ -676,7 +676,7 @@ private lemma hdRo7DNormAux_coord_line {V : Type} [AddCommGroup V] [Module (ZMod
   have hdv₁ : d₁.1 v = -v := by
     have hε : ε₁ (b i.succ) = -b i.succ := by
       rw [hdRo7DNormAux_double_apply b hsucc_ne i.succ]
-      rw [if_pos (by simp)]
+      rw [ite_eq_left (by simp)]
       simp
     rw [hv]
     show (a * ε₁ * a⁻¹) (a (b i.succ)) = -a (b i.succ)
@@ -726,7 +726,7 @@ private lemma hdRo7DNormAux_coord_line {V : Type} [AddCommGroup V] [Module (ZMod
   have hdv₂ : d₂.1 v = -v := by
     have hε : ε₂ (b i.succ) = -b i.succ := by
       rw [hdRo7DNormAux_double_apply b hsucc_ne₂ i.succ]
-      rw [if_pos (by simp)]
+      rw [ite_eq_left (by simp)]
       simp
     rw [hv]
     show (a * ε₂ * a⁻¹) (a (b i.succ)) = -a (b i.succ)
@@ -836,12 +836,12 @@ private lemma hdRo7DNormAux_coord_line {V : Type} [AddCommGroup V] [Module (ZMod
       have hval : ε₂ (b j₁.succ) = b j₁.succ := by
         rw [show ε₂ = CFSG.StandardType.OrthF3.ggOrthSignChange b i.succ *
           CFSG.StandardType.OrthF3.ggOrthSignChange b j₂.succ from rfl]
-        rw [hdRo7DNormAux_double_apply b hsucc_ne₂ j₁.succ, if_neg h]
+        rw [hdRo7DNormAux_double_apply b hsucc_ne₂ j₁.succ, ite_eq_right h]
         simp
       have hval₁ : ε₁ (b j₁.succ) = -b j₁.succ := by
         rw [show ε₁ = CFSG.StandardType.OrthF3.ggOrthSignChange b i.succ *
           CFSG.StandardType.OrthF3.ggOrthSignChange b j₁.succ from rfl]
-        rw [hdRo7DNormAux_double_apply b hsucc_ne j₁.succ, if_pos (by simp)]
+        rw [hdRo7DNormAux_double_apply b hsucc_ne j₁.succ, ite_eq_left (by simp)]
         simp
       rw [← hε_eq, hval₁] at hval
       exact hne_basis hval.symm
@@ -883,7 +883,7 @@ theorem d_normalizer_holds : DNormalizerLeaf := by
     rw [show b.coord j.succ (b j.succ) = 1 from by
       simp,
       hdRo7DNormAux_coord_smul_basis] at h4
-    rw [if_neg (fun hh => hne (Fin.succ_injective n hh).symm), mul_zero] at h4
+    rw [ite_eq_right (fun hh => hne (Fin.succ_injective n hh).symm), mul_zero] at h4
     exact one_ne_zero h4
   let τe : Equiv.Perm (Fin n) := Equiv.ofBijective τ ⟨hτinj, Finite.surjective_of_injective hτinj⟩
   let σ : Equiv.Perm (Fin (n + 1)) := Equiv.Perm.decomposeFin.symm (0, τe)
@@ -895,12 +895,12 @@ theorem d_normalizer_holds : DNormalizerLeaf := by
     rfl
   refine ⟨σ, fun i => if h : i = 0 then 1 else lam (Fin.pred i h), hσ0, ?_, ?_, ?_⟩
   · dsimp only
-    rw [dif_pos rfl]
+    rw [dite_eq_left rfl]
   · intro i
     dsimp only
     by_cases hi : i = 0
-    · subst hi; rw [dif_pos rfl]; exact Or.inl rfl
-    · rw [dif_neg hi]
+    · subst hi; rw [dite_eq_left rfl]; exact Or.inl rfl
+    · rw [dite_eq_right hi]
       have hpm : ∀ x : ZMod 3, x ≠ 0 → x = 1 ∨ x = -1 := by
         intro x hx
         fin_cases x
@@ -912,9 +912,9 @@ theorem d_normalizer_holds : DNormalizerLeaf := by
     dsimp only
     by_cases hi : i = 0
     · subst hi
-      rw [dif_pos rfl, hfix, hσ0]
+      rw [dite_eq_left rfl, hfix, hσ0]
       simp
-    · rw [dif_neg hi]
+    · rw [dite_eq_right hi]
       have hτ : (Fin.pred i hi).succ = i := Fin.succ_pred i hi
       have hσi : σ i = (τ (Fin.pred i hi)).succ := by
         conv_lhs => rw [show i = (Fin.pred i hi).succ from hτ.symm]

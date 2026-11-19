@@ -75,7 +75,7 @@ theorem socleOutAbelian_u3 {F : Type} [Group F] [Finite F] (h : SmallU3Ne3 F) :
     (by decide : Odd 3).of_dvd_nat (Nat.gcd_dvd_left 3 _)
   have hcyc := CFSG.ClassicalInvolution.Q3.TA3.outTwoCyclic_PSU hm hodd
   intro P hP
-  haveI := hcyc P hP
+  have := hcyc P hP
   exact IsCyclic.isMulCommutative
 
 theorem socleOutAbelian_l3 {F : Type} [Group F] [Finite F] (h : SmallL3Ne3 F) :

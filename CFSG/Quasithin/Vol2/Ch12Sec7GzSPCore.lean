@@ -41,7 +41,7 @@ theorem pcore_max {G : Type} [Group G] (H : Subgroup G) {X : Subgroup G} (hXH : 
 
 theorem pcore_le_of_odd {G : Type} [Group G] [Finite G] {H P : Subgroup G} (hPH : P ≤ H)
     (hP2 : IsPGroup 2 ↥P) (hodd : ¬ 2 ∣ P.relIndex H) : pCoreOf 2 H ≤ P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hP' : IsPGroup 2 ↥(P.subgroupOf H) :=
     hP2.of_equiv (Subgroup.subgroupOfEquivOfLe hPH).symm
   have hidx : ¬ 2 ∣ (P.subgroupOf H).index := hodd

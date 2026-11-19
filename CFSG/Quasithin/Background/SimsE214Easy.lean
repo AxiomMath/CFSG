@@ -67,6 +67,7 @@ theorem isBorelIn_of_psl_or_sz {H T M V I : Subgroup Γ} (hI : IsInIHTV H T M V 
     omega
   · exact hB
 
+omit [Finite Γ] in
 theorem exists_ne_one_odd_of_card {X : Subgroup Γ} {k : ℕ} (hk : 1 < k)
     (hXc : Nat.card X = 2 ^ k - 1) : ∃ y ∈ X, y ≠ 1 ∧ Odd (orderOf y) := by
   obtain ⟨y, hyX, hy1⟩ : ∃ y ∈ X, y ≠ 1 := by

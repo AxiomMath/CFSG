@@ -35,6 +35,7 @@ instance (V : Submodule K E) (hV : ∀ g : Γ, ∀ x ∈ V, g • x ∈ V) :
 @[expose] def NAInvSub.mk (V : Submodule K E) (hV : ∀ g : Γ, ∀ x ∈ V, g • x ∈ V) (x : E)
     (hx : x ∈ V) : NAInvSub V hV := (⟨x, hx⟩ : ↥V)
 
+omit [SMulCommClass Γ K E] in
 theorem NAInvSub.smul_mk (V : Submodule K E) (hV : ∀ g : Γ, ∀ x ∈ V, g • x ∈ V) (g : Γ) (x : E)
     (hx : x ∈ V) :
     g • NAInvSub.mk V hV x hx = NAInvSub.mk V hV (g • x) (hV g x hx) := rfl
@@ -74,15 +75,19 @@ instance (V : Submodule K E) (hV : ∀ g : Γ, ∀ x ∈ V, g • x ∈ V) :
     SMulCommClass Γ K (NAInvQuot V hV) :=
   ⟨fun g c q => map_smul (quotActLin V hV g) c q⟩
 
+omit [SMulCommClass Γ K E] in
 theorem NAInvQuot.mk_add (V : Submodule K E) (hV : ∀ g : Γ, ∀ x ∈ V, g • x ∈ V) (x y : E) :
     NAInvQuot.mk V hV (x + y) = NAInvQuot.mk V hV x + NAInvQuot.mk V hV y := rfl
 
+omit [SMulCommClass Γ K E] in
 theorem NAInvQuot.mk_eq_zero (V : Submodule K E) (hV : ∀ g : Γ, ∀ x ∈ V, g • x ∈ V) (x : E) :
     NAInvQuot.mk V hV x = 0 ↔ x ∈ V := Submodule.Quotient.mk_eq_zero V
 
+omit [SMulCommClass Γ K E] in
 theorem NAInvQuot.mk_eq_mk (V : Submodule K E) (hV : ∀ g : Γ, ∀ x ∈ V, g • x ∈ V) (x y : E) :
     NAInvQuot.mk V hV x = NAInvQuot.mk V hV y ↔ x - y ∈ V := Submodule.Quotient.eq V
 
+omit [SMulCommClass Γ K E] in
 theorem NAInvQuot.mk_surjective (V : Submodule K E) (hV : ∀ g : Γ, ∀ x ∈ V, g • x ∈ V) :
     Function.Surjective (NAInvQuot.mk V hV) := Submodule.Quotient.mk_surjective V
 

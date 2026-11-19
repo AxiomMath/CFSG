@@ -104,7 +104,7 @@ open CFSG.Quasithin.H13.S127.Mod Certificates.Data.S1277Struct Certificates.Data
   decide (8 ≤ Xl.length)
 
 @[expose] def sigCheck (T : KTab) (Olist N : List Nat) (zN : Nat) (Pl : List Nat) (d typ : Nat)
-    (tab : HashMap Nat Nat) (pt : List Nat) (sl : List (List Nat)) : Bool :=
+    (tab : HashMap Nat Nat) (_pt : List Nat) (sl : List (List Nat)) : Bool :=
   let n := N.length
   let kk := (klist T).length
   let s := sl.length

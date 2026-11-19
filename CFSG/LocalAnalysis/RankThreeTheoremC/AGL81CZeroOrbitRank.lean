@@ -18,11 +18,13 @@ open CFSG.ComponentClassification.AS76b (oUpperTwo)
 
 variable {Y : Type} [Group Y] [Finite Y]
 
+omit [Finite Y] in
 theorem map_map_mulAut (H : Subgroup Y) (σ τ : MulAut Y) :
     (H.map τ.toMonoidHom).map σ.toMonoidHom = H.map (σ * τ).toMonoidHom := by
   rw [Subgroup.map_map]
   rfl
 
+omit [Finite Y] in
 theorem map_pow_ne {H : Subgroup Y} {σ : MulAut Y} {p k : ℕ} (hp : p.Prime)
     (hσ : σ ^ p ^ k = 1) (hH : H.map σ.toMonoidHom ≠ H) {i j : ℕ} (hij : i < j) (hjp : j < p) :
     H.map (σ ^ i).toMonoidHom ≠ H.map (σ ^ j).toMonoidHom := by
@@ -58,7 +60,7 @@ theorem le_pRank_of_family (n : ℕ) (B : Fin n → Subgroup Y) (e : Fin n → Y
 
 theorem card_le_of_pRank_le {E : Subgroup Y} (hE : IsElemAbelian 3 E) {r : ℕ}
     (hr : CFSG.Open.pRank 3 (⊤ : Subgroup Y) ≤ r) : Nat.card E ≤ 3 ^ r := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : IsPGroup 3 E := fun x => ⟨1, Subtype.ext (by simpa using hE.2 _ x.2)⟩
   obtain ⟨s, hs⟩ := hp.exists_card_eq
   have hsle : s ≤ CFSG.Open.pRank 3 (⊤ : Subgroup Y) :=
@@ -72,7 +74,7 @@ theorem rank_of_orbit (hO : CFSG.pCore 2 Y = ⊥) {T : Subgroup Y} (hT : IsSubno
     (hmove : (oUpperTwo T).map σ.toMonoidHom ≠ oUpperTwo T) :
     2 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup Y) ∧ (5 ≤ p → 4 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup Y)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hTi : ∀ i : ℕ, IsSubnormal (T.map (σ ^ i).toMonoidHom) ⊤ := by
     intro i
     have := hT.map (σ ^ i).toMonoidHom
@@ -194,7 +196,7 @@ theorem rank_of_orbit (hO : CFSG.pCore 2 Y = ⊥) {T : Subgroup Y} (hT : IsSubno
   ·
     have hperf : ⁅T, T⁆ = T := Subgroup.isPerfect_iff.mp (Group.isPerfect_def.mpr hC.2.2.1)
     have hOT : oUpperTwo T = T := SevenFourL34.oUpperTwo_eq_of_perfect hperf
-    haveI : Group.IsPerfect ↥T := Subgroup.isPerfect_iff.mpr hperf
+    have : Group.IsPerfect ↥T := Subgroup.isPerfect_iff.mpr hperf
     obtain ⟨e, he3, hez⟩ :=
       CFSG.RankThree.PartOne.exists_pow_eq_one_not_mem_center_of_isPerfect (p := 3) (by norm_num)
         (inferInstance : Group.IsPerfect ↥T) h3

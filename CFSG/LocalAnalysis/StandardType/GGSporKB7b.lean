@@ -114,7 +114,7 @@ theorem bSevenCentAbelian_native
   have hEle : E ≤ Subgroup.centralizer ({α'} : Set NativeSporadic.B) := le_trans hEcent hcle
   obtain ⟨ψ⟩ := CFSG.Monster.GMS.nonempty_centralizer_mulEquiv_Eam
     CFSG.Monster.Existence.babyTableIII hα'
-  haveI : Finite ↥CFSG.Monster.B.TwoA.Amalgam.Eam := Finite.of_equiv _ ψ.toEquiv
+  have : Finite ↥CFSG.Monster.B.TwoA.Amalgam.Eam := Finite.of_equiv _ ψ.toEquiv
   obtain ⟨hidx, -, -, hcen', hZ2, ⟨φ⟩, -⟩ :=
     CFSG.Monster.B.TwoA.Amalgam.short_F4_derived_standard_perfect_cover
   have hZY : Subgroup.zpowers CFSG.Monster.B.TwoA.Amalgam.cE' ≤
@@ -171,7 +171,7 @@ theorem ggSporK_bSevenCentAbelian_B
   obtain ⟨e⟩ := CFSG.Sporadic.Bridge.B.nonempty_mulEquiv
   let e' : NativeSporadic.B ≃* (TauCeti.CFSGIndex.sporadic .B).Group :=
     e.trans (MulEquiv.refl _)
-  haveI : Finite NativeSporadic.B := Finite.of_equiv _ e'.symm.toEquiv
+  have : Finite NativeSporadic.B := Finite.of_equiv _ e'.symm.toEquiv
   exact @bSevenCentAbelian_of_mulEquiv NativeSporadic.B
     (TauCeti.CFSGIndex.sporadic .B).Group _ _ _ _ e' bSevenCentAbelian_native
 

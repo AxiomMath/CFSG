@@ -66,7 +66,7 @@ open CFSG.KC.Loop
   bAnd(normM P C V Ss Zm, bAnd(joinK C (jrU P C V Q L RG m Ss Zm) R A,
   bAnd(Nat.beq (prodM C F Sg) Fs, bAnd(permB P C F Sg, bAnd(joinK C (jrU P C V Q L RG m Ss 1) R Fs,
   bAnd(elemAbK P C Q Fs, bAnd(Nat.beq (pop Fs) 16,
-  bAnd(Nat.beq (entL L kF) F, bAnd(Nat.beq (entL L kFs) Fs, bAnd(Bool.not' (Nat.beq kF kFs),
+  bAnd(Nat.beq (entL L kF) F, bAnd(Nat.beq (entL L kFs) Fs, bAnd(not (Nat.beq kF kFs),
   strictB (maxIdx L (secC Q L m S 1) m) fun MxS =>
   bAnd(hasB MxS kF, Nat.beq (maxIdx L (secC Q L m Ss 1) m)
     (Nat.lor (Nat.sub MxS (Nat.shiftLeft 1 kF)) (Nat.shiftLeft 1 kFs)))))))))))))))))))))

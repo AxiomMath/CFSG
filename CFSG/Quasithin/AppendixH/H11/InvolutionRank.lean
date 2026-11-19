@@ -47,7 +47,7 @@ theorem exists_inverted_orderOf_eleven
       ↥CFSG.Blueprint.NativeSporadic.M12) :
     ∃ x : ↥CFSG.Blueprint.NativeSporadic.M12, orderOf x = 11 ∧ α x = x⁻¹ := by
   obtain ⟨g, hg⟩ := CFSG.ComponentClassification.M12Cover.exists_conj_beta_of_outer h2 hα
-  haveI : Fact (Nat.Prime 11) := ⟨Nat.prime_eleven⟩
+  have : Fact (Nat.Prime 11) := ⟨Nat.prime_eleven⟩
   have hbetaw : CFSG.ComponentClassification.M12Cover.beta w12 = w12⁻¹ := by
     have hbw : (CFSG.ComponentClassification.M12Cover.beta w12 : Equiv.Perm (Fin 12)) =
         wL CFSG.Sporadic.Mathieu.m12gA CFSG.Sporadic.Schreier.m12bp := by
@@ -232,7 +232,7 @@ theorem mParam_eq_four [Finite V] [Finite (MulAut V)]
     (c : NativeCoords L) (hV : ∀ v : V, v ^ 2 = 1) (hLM : IsOver L M)
     (hC : Subgroup.centralizer (L : Set (MulAut V)) = ⊥) : E3.mParam M = 4 := by
   unfold E3.mParam
-  rw [if_pos (even_card hLM c.mulEquiv.symm)]
+  rw [ite_eq_left (even_card hLM c.mulEquiv.symm)]
   have hmem : 4 ∈ {n : ℕ | ∃ t ∈ M, orderOf t = 2 ∧
       n = rkIdx (fixV (Subgroup.zpowers t))} := by
     refine ⟨((c.π CFSG.Sporadic.Mathieu.m12a : ↥L) : MulAut V),

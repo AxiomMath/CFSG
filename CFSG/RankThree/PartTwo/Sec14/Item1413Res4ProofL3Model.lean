@@ -149,7 +149,7 @@ theorem mk_tInv_ne (h2 : (2 : K) ≠ 0) {i j : Fin 3} (hij : i ≠ j) :
   obtain ⟨h0, h1⟩ := eq_of_diagUnits_mem_statedScalars (mk_eq_one_iff_mem_statedScalars.mp h')
   have hne := neg_one_ne_one_units h2
   fin_cases i <;> fin_cases j <;> simp [sgnAt] at hij h0 h1 <;>
-    first | exact hne h0 | exact hne h0.symm | exact hne h1 | exact hne h1.symm
+    first | exact hne h0 | exact hne h0.symm | exact hne h1.symm
 
 theorem tInv_eq_one (h2 : (2 : K) = 0) (i : Fin 3) : (tInv i : GL (Fin 3) K) = 1 := by
   have hn : (-1 : Kˣ) = 1 := Units.ext (by

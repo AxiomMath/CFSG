@@ -18,7 +18,7 @@ variable {X : Type} [Group X] [Finite X]
 omit [Finite X] in
 theorem isPGroup_of_isSylowTwoIn {P K : Subgroup X} (hP : IsSylowTwoIn P K) : IsPGroup 2 P := by
   obtain ⟨hPK, Q, hQ⟩ := hP
-  have h := (Q.isPGroup').map K.subtype
+  have h := (Q.isPGroup).map K.subtype
   rwa [hQ, subgroupOf_map_subtype, inf_eq_left.mpr hPK] at h
 
 theorem exists_sylowTwoIn_normalized {K T : Subgroup X} (hT : IsPGroup 2 T)

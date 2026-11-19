@@ -87,7 +87,7 @@ private theorem joinSeq_succ (G : ProjectiveSpace P) (p0 : P) (k : ℕ) :
 private theorem joinStep_eq (G : ProjectiveSpace P) {S : Set P} (h : ∃ p : P, p ∉ S) :
     joinStep G S = G.join S (Classical.choose h) := by
   unfold joinStep
-  rw [dif_pos h]
+  rw [dite_eq_left h]
 
 theorem hasDimension_of_card {P : Type u} [Finite P] (G : ProjectiveSpace P)
     {s n : ℕ} (hs1 : 1 ≤ s) (hs : ∀ ℓ ∈ G.lines, ℓ.ncard = s + 1)
@@ -123,7 +123,7 @@ theorem hasDimension_of_card {P : Type u} [Finite P] (G : ProjectiveSpace P)
     rw [hP]
     refine Finset.sum_pos (fun i _ => Nat.pow_pos hs0) ?_
     exact Finset.nonempty_range_iff.2 (Nat.succ_ne_zero n)
-  haveI : Nonempty P := Finite.card_pos_iff.mp hPpos
+  have : Nonempty P := Finite.card_pos_iff.mp hPpos
   let p0 : P := Classical.arbitrary P
   have key : ∀ k ≤ n, G.IsSubspace (joinSeq G p0 k) ∧ (joinSeq G p0 k).Nonempty ∧
       (joinSeq G p0 k).ncard = ∑ i ∈ Finset.range (k + 1), s ^ i ∧

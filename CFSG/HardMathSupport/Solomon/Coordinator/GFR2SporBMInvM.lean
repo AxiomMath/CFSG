@@ -48,7 +48,7 @@ theorem false_of_isHat_of_invertedByTwoA (hOG : UniquenessMaximal.InputONGroup) 
     (hinv : InvertedByTwoA s) {K : Subgroup G}
     (hK : IsComponentOf K (Subgroup.centralizer ({s} : Set G)))
     (h : IsHatSix ↥K ∨ IsHatON ↥K) : False := by
-  haveI : Finite G := hE.1.1
+  have : Finite G := hE.1.1
   have hO := gLAPPrimeCoreOf_eq_bot_of_invertedByTwoA hE Nat.prime_three (by norm_num) hs hinv
   obtain ⟨α, H, hα, hαs, hH, -, hcard, hHα, hHs, hHn, hCQ⟩ := M_inverted_data hE hs hinv
   have hG : Nat.card G = 808017424794512875886459904961710757005754368000000000 := by
@@ -68,14 +68,14 @@ theorem false_of_isHat_of_invertedByTwoA (hOG : UniquenessMaximal.InputONGroup) 
     · have h1080 : Nat.card ↥K = 1080 := gfr2_card_isHatSix h
       refine ⟨360, le_rfl, by rw [hZ3, h1080], ?_⟩
       rw [h1080]
-      rcases hcard with hc | hc <;> rw [hc] <;> exact (not_dvd_sq_M (by simp [hc])).1
+      rcases hcard with hc | hc <;> rw [hc] <;> exact (not_dvd_sq_M (by simp)).1
     · have hq := UniquenessMaximal.isSimple_card_of_isHatON hOG h
       have hKcard : Nat.card ↥K = orderON * 3 := by
         rw [Subgroup.card_eq_card_quotient_mul_card_subgroup (Subgroup.center ↥K), hq.2, hZ3]
       refine ⟨orderON, ?_, by rw [hZ3, hKcard], ?_⟩
       · unfold orderON; norm_num
       · rw [hKcard]
-        rcases hcard with hc | hc <;> rw [hc] <;> exact (not_dvd_sq_M (by simp [hc])).2
+        rcases hcard with hc | hc <;> rw [hc] <;> exact (not_dvd_sq_M (by simp)).2
   refine key hH hHα hHs hHn hCQ m ?_ hcomp hmZ hnc hsq
   intro k hk hdvd
   rw [hG] at hk

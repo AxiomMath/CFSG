@@ -317,7 +317,7 @@ theorem u6SizeModel_holds : U6SizeModel := by
     exact hMB_pow_three y
   have hω : ∃ ω : Kˣ, ω ^ 3 = 1 ∧ ω ≠ 1 := by
     obtain ⟨h3, -⟩ := card_units_dvd_odd h hpq
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨ω, hω⟩ := exists_prime_orderOf_dvd_card' 3 h3
     refine ⟨ω, by rw [← hω]; exact pow_orderOf_eq_one ω, fun h1 => ?_⟩
     rw [h1, orderOf_one] at hω

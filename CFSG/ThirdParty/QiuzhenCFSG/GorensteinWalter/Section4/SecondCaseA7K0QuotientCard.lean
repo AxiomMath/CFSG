@@ -56,7 +56,7 @@ public theorem secondCase_a7_k0_quotient_card_eq_three
   have hFmap : (F.subgroupOf M).map q = ⊥ := by
     apply (Subgroup.map_eq_bot_iff (F.subgroupOf M)).2
     intro x hx
-    rw [show q.ker = O by simpa [q] using QuotientGroup.ker_mk' O]
+    rw [show q.ker = O by simp [q]]
     exact hFsubO hx
   have hmap : (Y.subgroupOf M).map q =
       (K0.subgroupOf M).map q ⊔ (F.subgroupOf M).map q := by

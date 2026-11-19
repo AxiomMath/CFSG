@@ -15,7 +15,7 @@ variable {b t b₁ b₂ : H} {J : Subgroup H}
 theorem FS79Hyp.odd_cenS_B (h : FS79Hyp b t b₁ b₂ J) :
     Odd (Nat.card (CenS (Subgroup.closure ({b, b₁, b₂} : Set H)))) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set B : Subgroup H := Subgroup.closure ({b, b₁, b₂} : Set H) with hB
   set C : Subgroup H := CenS B with hC
   by_contra hodd

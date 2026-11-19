@@ -47,9 +47,9 @@ theorem burnsideF46_g2d_Q_fix (hyp : HypF_4_4 .G2d 2 1 ⊤ M₁ M₂) {Y : Type}
     (c : Cpl M₁ M₂ Y) :
     (∀ w, c.graph.Adj c.xv w → Qx 2 ⊤ c ≤ stv c w) ∧
       (∀ w, c.graph.Adj c.lv w → Ql 2 ⊤ c ≤ stv c w) := by
-  haveI : Finite E := hyp.finite
+  have : Finite E := hyp.finite
   obtain ⟨K, fK, finK, hK, π, h1, h2⟩ := burnsideF45_g2d_chart hyp.toHypF_4_4g
-  letI := fK
+  let := fK
   have hP := burnsideF45_g2d_isLie hK π h1 h2
   have hQle := burnsideF4b_pCoreOf_le Nat.prime_two hP
   exact ⟨fun w hw => burnsideF4b_Qx_le_stv 2 inferInstance hQle.1 c hw,
@@ -110,9 +110,9 @@ theorem burnsideF46_g2d_iota_point_card (hyp : HypF_4_4 .G2d 2 1 ⊤ M₁ M₂) 
 theorem burnsideF46_g2d_iota_edge_pGroup (hyp : HypF_4_4 .G2d 2 1 ⊤ M₁ M₂)
     {w : (incl M₁ M₂).Γ} (hw : (incl M₁ M₂).graph.Adj (incl M₁ M₂).xv w) :
     IsPGroup 2 ↥(stv (incl M₁ M₂) (incl M₁ M₂).xv ⊓ stv (incl M₁ M₂) w) := by
-  haveI : Finite E := hyp.finite
+  have : Finite E := hyp.finite
   obtain ⟨K, fK, finK, hK, π, h1, h2⟩ := burnsideF45_g2d_chart hyp.toHypF_4_4g
-  letI := fK
+  let := fK
   have hB := burnsideF45_g2d_borel_pGroup hK π h1 h2
   have hbij := burnsideF45_toE_bijective hyp.gen
   have hBι : IsPGroup 2 ↥(stv (incl M₁ M₂) (incl M₁ M₂).xv ⊓ stv (incl M₁ M₂) (incl M₁ M₂).lv) := by
@@ -134,7 +134,7 @@ theorem burnsideF46_g2d_iota_edge_pGroup (hyp : HypF_4_4 .G2d 2 1 ⊤ M₁ M₂)
 theorem burnsideF46_g2d_iota_relIndex (hyp : HypF_4_4 .G2d 2 1 ⊤ M₁ M₂)
     {w : (incl M₁ M₂).Γ} (hw : (incl M₁ M₂).graph.Adj (incl M₁ M₂).xv w) :
     (Qx 2 ⊤ (incl M₁ M₂)).relIndex (stv (incl M₁ M₂) (incl M₁ M₂).xv ⊓ stv (incl M₁ M₂) w) = 2 := by
-  haveI : Finite E := hyp.finite
+  have : Finite E := hyp.finite
   obtain ⟨h6, -, -⟩ := burnsideF45_excKind_G2d 2 1 E ⊤ M₁ M₂ hyp
   obtain ⟨-, -, htr, hker, hcard⟩ := h6 (incl M₁ M₂).xv w hw
   rw [burnsideF46_g2d_Qu_xv (incl M₁ M₂) 2 inferInstance] at hker

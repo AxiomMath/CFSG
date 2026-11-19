@@ -31,7 +31,7 @@ theorem starFor_of_starCore {H : Type} [Group H] [Finite H] (h : StarCore H) : S
 theorem starCore_of_mulEquiv {H K : Type} [Group H] [Finite H] [Group K] [Finite K]
     (e : H ≃* K) (h : StarCore K) : StarCore H := by
   intro hs t ht I hI D hDI hD hID hc
-  haveI := hs
+  have := hs
   have hsK : IsSimpleGroup K := e.symm.isSimpleGroup
   have hN : Subgroup.normalizer (Subgroup.zpowers (e t) : Set K) ≤ I.map e.toMonoidHom := by
     intro y hy
@@ -129,7 +129,7 @@ theorem commutator_eq_bot_of_card_le_two [Finite G] {D : Subgroup G} (hD : Nat.c
     apply hd1
     have := congrArg (fun x => t⁻¹ * x * t) h
     simpa [mul_assoc] using this
-  letI : Fintype D := Fintype.ofFinite D
+  let : Fintype D := Fintype.ofFinite D
   have hcard : ({1, ⟨d, hd⟩, ⟨t * d * t⁻¹, hd'⟩} : Finset D).card = 3 := by
     rw [Finset.card_insert_of_notMem, Finset.card_pair]
     · intro h
@@ -148,8 +148,8 @@ theorem eq_bot_of_isSimpleGroup {I D : Subgroup G} (hs : IsSimpleGroup I) (hDI :
     rw [Subgroup.normal_subgroupOf_iff hDI]
     intro h k hh hk
     exact (Subgroup.mem_normalizer_iff.mp (hID hk) h).mp hh
-  haveI := hs
-  haveI := hN
+  have := hs
+  have := hN
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (D.subgroupOf I) with h | h
   · rw [Subgroup.subgroupOf_eq_bot] at h
     exact le_bot_iff.mp fun d hd => (Subgroup.disjoint_def.mp h) hd (hDI hd)
@@ -197,7 +197,7 @@ variable {F : Type} [Field F] [Finite F] {p f : ℕ} [Fact p.Prime]
 
 theorem three_ne_zero_of_card (hF : Nat.card F = p ^ f) (hp3 : p ≠ 3) : (3 : F) ≠ 0 := by
   classical
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   intro h
   have hc : ringChar F ∣ 3 := by
     have : ((3 : ℕ) : F) = 0 := by exact_mod_cast h
@@ -213,7 +213,7 @@ theorem three_ne_zero_of_card (hF : Nat.card F = p ^ f) (hp3 : p ≠ 3) : (3 : F
 theorem exists_inv_psl2 (hF : Nat.card F = p ^ f) (hp3 : p ≠ 3)
     {t : PSL2MatrixGroup F} (ht : orderOf t = 3) : ∃ w, w * t * w⁻¹ = t⁻¹ := by
   classical
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨s, hsdet, hs⟩ := exists_inverting_det_one (three_ne_zero_of_card hF hp3)
   set s' : Matrix.SpecialLinearGroup (Fin 2) F := ⟨s, hsdet⟩ with hs'def
@@ -345,12 +345,12 @@ theorem starCore_psl2 (hF : Nat.card F = p ^ f) (hp3 : p ≠ 3) :
       interval_cases hq : Nat.card F <;> first | rfl | norm_num at h16
     ·
       left
-      have : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+      have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
       rw [eq_bot_of_isSimpleGroup e.isSimpleGroup hDI hD hID ht htI]
       exact Subgroup.commutator_bot_left _
     ·
       exfalso
-      haveI := hEn
+      have := hEn
       have hw' : (⟨w, hwI⟩ : I) * ⟨t, htI⟩ * (⟨w, hwI⟩ : I)⁻¹ = (⟨t, htI⟩ : I)⁻¹ := Subtype.ext hw
       have h2 := sq_mem_of_inv_of_sup hCc hsup hw'
       have htE : (⟨t, htI⟩ : I) ∈ E := by
@@ -362,7 +362,7 @@ theorem starCore_psl2 (hF : Nat.card F = p ^ f) (hp3 : p ≠ 3) :
             _ = ⟨t, htI⟩ := by rw [this, one_mul]
         rw [← h4]
         exact pow_mem h2 2
-      haveI := hEel
+      have := hEel
       obtain ⟨k, hk⟩ := CFSG.IsElementaryAbelian.isPGroup p E ⟨_, htE⟩
       have hk' : (⟨t, htI⟩ : I) ^ (p ^ k) = 1 := by simpa using congrArg Subtype.val hk
       have h3 : 3 ∣ p ^ k := hto ▸ orderOf_dvd_of_pow_eq_one hk'
@@ -392,7 +392,7 @@ theorem starCore_psl2 (hF : Nat.card F = p ^ f) (hp3 : p ≠ 3) :
           refine le_antisymm (Nat.le_of_dvd Nat.card_pos (Subgroup.card_subgroup_dvd_card I)) ?_
           rw [Nat.card_congr e.toEquiv]
           exact hle
-        haveI := hs
+        have := hs
         have hsI : IsSimpleGroup I :=
           ((MulEquiv.subgroupCongr hItop).trans Subgroup.topEquiv).isSimpleGroup
         rw [eq_bot_of_isSimpleGroup hsI hDI hD hID ht htI]

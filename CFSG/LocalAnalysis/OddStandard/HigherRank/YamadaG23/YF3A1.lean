@@ -350,14 +350,14 @@ theorem f3_P_inf_L {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) :
   · intro x hx
     exact Subgroup.mem_inf.mpr ⟨Subgroup.mem_sup_left hx, f3_B_le_L s hx⟩
 
-theorem f3_mem_P_not_L {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) {p : G}
+theorem f3_mem_P_not_L {s : Setting3 G L} {e : Setting3.Ext s} (_hH : F33Hyp s e) {p : G}
     (hp : p ∈ f3P s) (hpL : p ∉ L) : ∃ b ∈ s.fr.B, p = b * s.t := by
   rcases f3_mem_P p hp with h | h
   · exact absurd (f3_B_le_L s h) hpL
   · exact h
 
 theorem f3_P_isPGroup (s : Setting3 G L) : IsPGroup 2 ↥(f3P s) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hB : IsPGroup 2 ↥s.fr.B := s3_isPGroup_of_le s (s3_B_le_S s)
   have ht : IsPGroup 2 ↥(Subgroup.zpowers s.t) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, s.t_order]; norm_num)
@@ -375,9 +375,9 @@ theorem f3_P_isPGroup (s : Setting3 G L) : IsPGroup 2 ↥(f3P s) := by
 theorem f3_exists_tau {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) :
     ∃ τ ∈ s.T, τ ∈ s.fr.S ∧ τ ∈ normalizer (s.fr.B : Set G) ∧
       ∀ w ∈ cen s.fr.B, w ≠ 1 → w ≠ s.fr.z → τ * w * τ⁻¹ = s.fr.z * w := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hmax : IsMaximalIn s.fr.S s.fr.B := hH.hLF.fact14.2.2.1.2.2.1
-  obtain ⟨τ, hτS, hτBmem⟩ := SetLike.exists_of_lt hmax.1
+  obtain ⟨τ, hτS, hτBmem⟩ := _root_.IsConcreteLE.exists_of_lt hmax.1
   have hBS : s.fr.B ≤ s.fr.S := s3_B_le_S s
   have hcoatom : IsCoatom (s.fr.B.subgroupOf s.fr.S) := by
     rw [isCoatom_iff_ge_of_le]
@@ -389,7 +389,7 @@ theorem f3_exists_tau {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) 
       exact Subgroup.mem_subgroupOf.mp this
     · intro K hKne hBK
       by_contra hKB
-      obtain ⟨k, hkK, hkB⟩ := SetLike.not_le_iff_exists.mp hKB
+      obtain ⟨k, hkK, hkB⟩ := IsConcreteLE.not_le_iff_exists.mp hKB
       let M : Subgroup G := K.map (Subgroup.subtype s.fr.S)
       have hMS : M ≤ s.fr.S := by
         intro x hx
@@ -407,7 +407,7 @@ theorem f3_exists_tau {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) 
         rw [← Subgroup.comap_subtype]
         exact K.comap_map_eq_self_of_injective (Subtype.coe_injective)
       exact hKne (by rw [← hKM, hMtop, Subgroup.subgroupOf_self])
-  haveI : Group.IsNilpotent ↥(s.fr.S) := (s3_isPGroup_S s).isNilpotent
+  have : Group.IsNilpotent ↥(s.fr.S) := (s3_isPGroup_S s).isNilpotent
   have hidx : (s.fr.B.subgroupOf s.fr.S).index = 2 :=
     (IsPGroup.isCoatom_iff_index_eq_prime (p := 2) (s3_isPGroup_S s)).mp hcoatom
   have hnormal : (s.fr.B.subgroupOf s.fr.S).Normal := Subgroup.normal_of_index_eq_two hidx

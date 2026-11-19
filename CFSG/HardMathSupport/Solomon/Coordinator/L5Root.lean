@@ -118,12 +118,14 @@ section TwoLift
 variable (hΓ : Function.Surjective Γ) (hZ : Γ.ker ≤ Subgroup.center L)
   (hodd : Odd (Nat.card Γ.ker)) {Ubar : Subgroup S} (hUc : IsMulCommutative Ubar)
 
+omit [Finite L] in
 theorem isPGroup_twoLift : IsPGroup 2 (twoLift hZ hodd Ubar hUc) := by
   intro x
   obtain ⟨-, e, he⟩ := x.2
   exact ⟨e, Subtype.ext he⟩
 
 include hΓ in
+omit [Finite L] in
 theorem map_twoLift (hU2 : IsPGroup 2 Ubar) : (twoLift hZ hodd Ubar hUc).map Γ = Ubar := by
   refine le_antisymm ?_ ?_
   · rintro _ ⟨x, hx, rfl⟩
@@ -134,6 +136,7 @@ theorem map_twoLift (hU2 : IsPGroup 2 Ubar) : (twoLift hZ hodd Ubar hUc).map Γ 
     obtain ⟨u, hu, hu2⟩ := exists_two_lift hΓ hodd he'
     exact ⟨u, ⟨by rw [hu]; exact hg, e, hu2⟩, hu⟩
 
+omit [Finite L] in
 theorem mem_normalizer_twoLift {g : L} (hg : Γ g ∈ Subgroup.normalizer (Ubar : Set S)) :
     g ∈ Subgroup.normalizer ((twoLift hZ hodd Ubar hUc : Subgroup L) : Set L) := by
   have key : ∀ g' : L, Γ g' ∈ Subgroup.normalizer (Ubar : Set S) → ∀ y : L,
@@ -152,6 +155,7 @@ theorem mem_normalizer_twoLift {g : L} (hg : Γ g ∈ Subgroup.normalizer (Ubar 
   have := key g⁻¹ hg' _ hx
   rwa [show g⁻¹ * (g * x * g⁻¹) * g⁻¹⁻¹ = x by group] at this
 
+omit [Finite L] in
 theorem twoLift_fixed {β : MulAut L} {b : MulAut S} (hβ : ∀ x, Γ (β x) = b (Γ x))
     (hUfix : ∀ u ∈ Ubar, b u = u) {u : L} (hu : u ∈ twoLift hZ hodd Ubar hUc) : β u = u := by
   obtain ⟨huU, e, he⟩ := hu
@@ -159,6 +163,7 @@ theorem twoLift_fixed {β : MulAut L} {b : MulAut S} (hβ : ∀ x, Γ (β x) = b
   rw [hβ, hUfix _ huU]
 
 include hΓ in
+omit [Finite L] in
 theorem twoLift_ne_bot (hU2 : IsPGroup 2 Ubar) (hU1 : Ubar ≠ ⊥) :
     twoLift hZ hodd Ubar hUc ≠ ⊥ := by
   intro h

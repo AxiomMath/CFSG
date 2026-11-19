@@ -88,7 +88,7 @@ theorem vp_C₁_le (h : T6Ctx N u p) {m n : ℕ} (hm : N.q₁ = p ^ m) (hn : N.q
   have : Fact p.Prime := ⟨h.prime⟩
   obtain ⟨Q⟩ : Nonempty (Sylow p ↥(N.K₁ ⊔ N.K₂ ⊔ N.S)) := inferInstance
   set Q' : Subgroup G := (Q : Subgroup ↥(N.K₁ ⊔ N.K₂ ⊔ N.S)).map (N.K₁ ⊔ N.K₂ ⊔ N.S).subtype with hQ'
-  have hQ'p : IsPGroup p ↥Q' := Q.isPGroup'.map _
+  have hQ'p : IsPGroup p ↥Q' := Q.isPGroup.map _
   have hQ'K : Q' ≤ N.K₁ ⊔ N.K₂ := by
     rintro x ⟨c, hc, rfl⟩
     have hodd := t6_odd_of_pGroup h.prime h.p_ne_two hQ'p ⟨c, hc, rfl⟩

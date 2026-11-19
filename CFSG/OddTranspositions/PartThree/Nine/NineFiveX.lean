@@ -180,7 +180,7 @@ theorem odd_card_closure_mul_of_forall_commute (hD : IsOddTransp D) {P : Set G} 
   have hS : Setup Y (((↑) : Y → G) ⁻¹' P) := by
     refine ⟨⟨⟨x, hxY⟩, ?_⟩, (hD.mono hPD).preimage Y, Subgroup.closure_closure_coe_preimage⟩
     ext g
-    simp only [Set.mem_preimage, Set.mem_setOf_eq]
+    simp only [Set.mem_preimage, Set.mem_ofPred_eq]
     constructor
     · intro hg
       obtain ⟨c, hc, hcx⟩ := hconj g hg

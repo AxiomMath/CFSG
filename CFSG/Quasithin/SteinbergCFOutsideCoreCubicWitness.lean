@@ -204,7 +204,7 @@ theorem index_two_inverting_join {G : Type*} [Group G] [Finite G] {x : G} (hx1 :
       hE2grp.comap_of_injective I.subtype I.subtype_injective
     obtain ⟨S, hS⟩ := hEsub.exists_le_sylow
     have hSE : (S : Subgroup ↥I) ≤ E.subgroupOf I := by
-      have h1 := hmax ((S : Subgroup ↥I).map I.subtype) (S.isPGroup'.map _)
+      have h1 := hmax ((S : Subgroup ↥I).map I.subtype) (S.isPGroup.map _)
         (fun e he => ⟨⟨e, hEI he⟩, hS (show (⟨e, hEI he⟩ : ↥I) ∈ E.subgroupOf I from he), rfl⟩)
         ((map_subtype_le _).trans hIK)
       intro s hs
@@ -593,7 +593,7 @@ theorem solvable_minimal_parabolic_outside_core_seed_cubic_witness {H : Type*} [
   refine ⟨g, ?_⟩
   intro I
   have hIimg : I.map π = V.map π ⊔ conjugate (V.map π) x := himage g hgπ
-  obtain ⟨hsyl, hidx⟩ := sylow_inf_and_relIndex_pCoreOf π hker hQ2 T.isPGroup' hQT hVT
+  obtain ⟨hsyl, hidx⟩ := sylow_inf_and_relIndex_pCoreOf π hker hQ2 T.isPGroup hQT hVT
     le_sup_left hBV hB2 (by rw [hIimg]; exact hodd) (by rw [hIimg]; exact hBn)
     (by rw [hIimg]; exact hcore)
   have hQV : Q ≤ normalizer (V : Set H) := hQT.trans hTV

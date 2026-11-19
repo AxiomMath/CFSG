@@ -82,7 +82,7 @@ theorem ggF4QTwoOmegaEnd_setup
       intro g
       apply Subtype.ext
       have h := Subgroup.mem_centralizer_singleton_iff.mp (hLx g.2)
-      first | exact h | exact h.symm
+      first | exact h
     rw [hZ, Subgroup.mem_bot] at hxcen
     have hx1 : x = 1 := by simpa using congrArg Subtype.val hxcen
     have hox := hC.orderOf_x

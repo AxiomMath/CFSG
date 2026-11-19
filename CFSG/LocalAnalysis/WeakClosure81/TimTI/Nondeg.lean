@@ -15,11 +15,11 @@ variable {X : Type} [Group X] [Finite X] {S : Subgroup X}
 
 namespace Hyp
 
-theorem timHyp_quot (h : Hyp X S) (hnd : ∃ d ∈ dSet S, ∃ e ∈ dSet S, orderOf (d * e) = 4) :
+theorem timHyp_quot (h : Hyp X S) (hnd : ∃ _d ∈ dSet S, ∃ e ∈ dSet S, orderOf (_d * e) = 4) :
     CFSG.Timmesfeld.Hyp (X ⧸ Subgroup.center X)
       (QuotientGroup.mk' (Subgroup.center X) '' dSet S) :=
   CFSG.Timmesfeld.image_hyp_center h.exists_isClass h.root h.closure_dSet
-    h.le_center_of_isSolvable (fun d hd => h.not_mem_center hd) hnd
+    h.le_center_of_isSolvable (fun _d hd => h.not_mem_center hd) hnd
 
 theorem false_of_le_rootGroup (h : Hyp X S)
     (hnd : ∃ d ∈ dSet S, ∃ e ∈ dSet S, orderOf (d * e) = 4) {d : X ⧸ Subgroup.center X}
@@ -27,7 +27,7 @@ theorem false_of_le_rootGroup (h : Hyp X S)
     (hle : S.map (QuotientGroup.mk' (Subgroup.center X)) ≤
       CFSG.Timmesfeld.rootGroup (QuotientGroup.mk' (Subgroup.center X) '' dSet S) d) : False := by
   have hH := h.timHyp_quot hnd
-  haveI := hH.finite
+  have := hH.finite
   obtain ⟨d₁, hd₁, e₁, he₁, h41⟩ := hH.nondeg
   obtain ⟨g, hg⟩ := isConj_iff.mp (hH.isConj hd₁ hd)
   have he₂ : g * e₁ * g⁻¹ ∈ QuotientGroup.mk' (Subgroup.center X) '' dSet S :=
@@ -114,7 +114,7 @@ theorem isWC_map_center
     CFSG.CGT.Timmesfeld75.IsWC (S.map (QuotientGroup.mk' (Subgroup.center X))) := by
   by_contra hwc
   have hH := h.timHyp_quot hnd
-  haveI := hH.finite
+  have := hH.finite
   have hne : S.map (QuotientGroup.mk' (Subgroup.center X)) ≠ ⊥ := by
     intro hbot
     have h1 : Nat.card (S.map (QuotientGroup.mk' (Subgroup.center X))) = 1 := by
@@ -135,12 +135,12 @@ theorem psl_or_alt6
     (∃ n f : ℕ, 3 ≤ n ∧ 1 ≤ f ∧ StatedClassicalModel (X ⧸ Subgroup.center X) .PSL n 2 f) ∨
       Nonempty ((X ⧸ Subgroup.center X) ≃* alternatingGroup (Fin 6)) := by
   have hH := h.timHyp_quot hnd
-  haveI := hH.finite
+  have := hH.finite
   have hsimple : IsSimpleGroup (X ⧸ Subgroup.center X) :=
     (CFSG.Timmesfeld.conclusions _ (QuotientGroup.mk' (Subgroup.center X) '' dSet S)
       hH.isClass hH.root.1 hH.gen hH.oddCore hH.twoCore hH.root.2.1 hH.root.2.2
       hH.nondeg).1.1
-  haveI := hsimple
+  have := hsimple
   have hcl := h.classD_map_center
   have hyp : CFSG.CGT.Timmesfeld75.Lemma26Hyp (X ⧸ Subgroup.center X)
       (S.map (QuotientGroup.mk' (Subgroup.center X))) :=

@@ -35,7 +35,7 @@ theorem sfm9_iso_statedProj {S : Type} [Group S] (hcat : catalogIs S S9.isL3char
 
 theorem sfm9_cube_root (F : Type) [Field F] [Finite F] (h : Nat.card F % 3 = 1) :
     ∃ ω : Fˣ, ω ^ 3 = 1 ∧ ω ≠ 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcard : Nat.card Fˣ = Nat.card F - 1 := Nat.card_units F
   have hdvd : 3 ∣ Nat.card Fˣ := by
     rw [hcard]
@@ -50,7 +50,7 @@ theorem sfm9_cube_root (F : Type) [Field F] [Finite F] (h : Nat.card F % 3 = 1) 
 
 theorem sfm9_O3_eq_bot {K : Type} [Group K] [Finite K] (hZ : Nat.card (Subgroup.center K) = 3)
     (hQ : CFSG.Open.IsQuasisimple K) : GLAPPrimeCore 3 K = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3K : 3 ∣ Nat.card K := by
     have h := Subgroup.card_subgroup_dvd_card (Subgroup.center K)
     rw [hZ] at h
@@ -129,9 +129,9 @@ theorem I114FactA_holds : I114FactA := by
   by_cases hZK : Subgroup.center K ≤ commutator K
   · have hperf : Group.IsPerfect (K ⧸ Subgroup.center K) := isPerfect_quot_of_iso eF
     have hcomm : commutator K = ⊤ := commutator_eq_top_of_center_le hperf hZK
-    haveI hsimpP : IsSimpleGroup (StatedProj (StatedSL 3 F)) :=
+    have hsimpP : IsSimpleGroup (StatedProj (StatedSL 3 F)) :=
       isSimpleGroup_statedProj_statedSL F (by norm_num) (Or.inl (by norm_num)) (Or.inl (by norm_num))
-    haveI hsimpK : IsSimpleGroup (K ⧸ Subgroup.center K) := eF.isSimpleGroup
+    have hsimpK : IsSimpleGroup (K ⧸ Subgroup.center K) := eF.isSimpleGroup
     have hQ : CFSG.Open.IsQuasisimple K := by
       unfold CFSG.Open.IsQuasisimple
       exact ⟨hcomm, hsimpK⟩

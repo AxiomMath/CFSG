@@ -271,7 +271,7 @@ theorem prFacts {r : Nat} (hr : r < 58) :
 theorem fP_inj : Set.InjOn fP {j | j < 2187} := by
   intro i hi j hj h
   have h' := congrArg Subtype.val h
-  simp only [fP, dif_pos (show i < 2187 from hi), dif_pos (show j < 2187 from hj)] at h'
+  simp only [fP, dite_eq_left (show i < 2187 from hi), dite_eq_left (show j < 2187 from hj)] at h'
   exact Tp_inj hi hj h'
 
 theorem card_image_fP {L : List Nat} (hL : L.Nodup) (hlt : ∀ j ∈ L, j < 2187) :
@@ -321,7 +321,7 @@ theorem pr_cover {r : Nat} (hr : r < 58) {y : Equiv.Perm (Fin 276)} (hy : y ∈ 
     apply Subtype.ext
     dsimp only
     rw [ConjAct.smul_def, ConjAct.ofConjAct_toConjAct]
-    simp only [fP, dif_pos htl, dif_pos hjl, inv_inv, Subgroup.coe_mul, Subgroup.coe_inv,
+    simp only [fP, dite_eq_left htl, dite_eq_left hjl, inv_inv, Subgroup.coe_mul, Subgroup.coe_inv,
       hxrdef]
     rw [conj_of_rec hd, hdr]
   set J := (nthL PD.pr r).map jOf with hJdef
@@ -343,7 +343,7 @@ theorem pr_cover {r : Nat} (hr : r < 58) {y : Equiv.Perm (Fin 276)} (hy : y ∈ 
     rw [SetLike.mem_coe, MulAction.mem_stabilizer_iff, ConjAct.smul_def,
       ConjAct.ofConjAct_toConjAct]
     apply Subtype.ext
-    simp only [fP, dif_pos hjl, Subgroup.coe_mul, Subgroup.coe_inv, hxrdef]
+    simp only [fP, dite_eq_left hjl, Subgroup.coe_mul, Subgroup.coe_inv, hxrdef]
     rw [← hcomm, mul_inv_cancel_right]
   have hstab : J.length ≤ Nat.card (MulAction.stabilizer (ConjAct P) xr) := by
     rw [← hFc, ← Set.ncard_coe_finset]
@@ -378,7 +378,7 @@ theorem pr_cover {r : Nat} (hr : r < 58) {y : Equiv.Perm (Fin 276)} (hy : y ∈ 
   obtain ⟨e, he, rfl⟩ := List.mem_map.1 (List.mem_toFinset.1 hj)
   refine ⟨e, he, ?_⟩
   have h2 := congrArg Subtype.val (ConjAct.toConjAct.injective hu')
-  simpa only [fP, dif_pos (hmem e he).2.1] using h2
+  simpa only [fP, dite_eq_left (hmem e he).2.1] using h2
 
 theorem pair_conj {x y : Equiv.Perm (Fin 276)} (hx : x ∈ P) (hy : y ∈ P) (hx3 : x ^ 3 = 1)
     (hx1 : x ≠ 1) (hy3 : y ^ 3 = 1) (hxy : x * y = y * x) (hyx : y ∉ Subgroup.zpowers x) :

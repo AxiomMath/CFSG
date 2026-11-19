@@ -105,7 +105,7 @@ theorem gen4_of_normal (hw : S.width = 2)
     exact Subtype.ext (Subtype.ext this)
   have hK : SectionalTwoRankLE K 4 := SectionalTwoRankLE.of_injective f hf (S.gen4_M hw)
   refine AS35W.fourGen_of_sylow P fun Q hQ => ?_
-  exact AS35W.fourGen_of_le_subgroup hK (hQ.trans hP) (P.isPGroup'.to_le hQ)
+  exact AS35W.fourGen_of_le_subgroup hK (hQ.trans hP) (P.isPGroup.to_le hQ)
 
 end Setting
 

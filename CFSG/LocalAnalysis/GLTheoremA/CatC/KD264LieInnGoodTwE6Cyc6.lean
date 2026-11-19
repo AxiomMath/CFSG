@@ -22,11 +22,11 @@ theorem perfectCentralizerPlanes_twistedE6_six {ℓ f : ℕ} (hℓ : ℓ.Prime) 
   classical
   obtain ⟨Fr, hFr, g0, hg0C, hg0, S, hSD, hsyl, ⟨ε⟩⟩ :=
     springer_exists_langSetup_twistedE6_six frobeniusOnRoots_proved hℓ hf K hK σ hσ hp hp7 hpK he
-  haveI : IsAlgClosed (AlgebraicClosure K) := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed (AlgebraicClosure K) := IsAlgClosure.isAlgClosed K
   have hK0 : Nat.card K ≠ 0 := by
     rw [hK]
     exact pow_ne_zero _ (pow_ne_zero _ hℓ.ne_zero)
-  haveI : Finite K := Nat.finite_of_card_ne_zero hK0
+  have : Finite K := Nat.finite_of_card_ne_zero hK0
   have hq : S.D.q = ℓ ^ f := by rw [hSD]; rfl
   have hΦ' : S.D.Φ = twistHom TwistTag.E6 (AlgebraicClosure K) Fr := by rw [hSD]; rfl
   have hAlg : S.IsAlgebraic := S.isAlgebraic_of_algebraic K 2 (by rw [hK, hq])

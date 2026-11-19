@@ -38,7 +38,7 @@ theorem exists_ggKacDatum_core
   have hgenlab : Gen lab p := hgen lab hlab hhas
   have hraw' := largeEvenLabelAll_and (hK0 p lab hlab hgenlab) (hS p lab hlab hgenlab) _ hraw
   obtain ⟨R, hR, I, F, hP⟩ := largeEvenRawDatum_exists hraw'
-  letI := hR
+  let := hR
   obtain ⟨hQ, hPk, hPs⟩ := hP
   obtain ⟨-, -, θ, hSlab, -, hind⟩ := hQ
   let ψ : X →* R := θ.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center X))
@@ -105,7 +105,7 @@ theorem exists_ggKacDatum_of_ggK0MainB_qsOne
           LargeEvenInLambda2 o.lab ∧ GGHasLabel o.lab (↥J ⧸ Subgroup.center ↥J) := by
   obtain ⟨R, hR, I, ψ, lab, D, hrest⟩ :=
     exists_ggKacDatum_core hK0 hS hloc h8 hm hgen
-  letI := hR
+  let := hR
   obtain ⟨hlab, hSlab, hgenlab, hhas, hZ, hValid, hC, -, hbij, hrest⟩ := hrest
   obtain ⟨o', ho', hqs', hndvd, hΛ, hlabJ⟩ := hrest
   obtain ⟨o, horbits, hqs, huniq⟩ := eqs_exists_unique_qs_orbit hbij hloc.2.2.2.1 hC

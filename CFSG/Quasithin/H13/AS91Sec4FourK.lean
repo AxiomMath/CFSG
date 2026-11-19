@@ -31,6 +31,7 @@ theorem QG_le_normalizer (T : Setting G) {Y : Subgroup G} (hY : Y ≤ T.QG) (hz 
     rw [e]
     exact mul_mem hz hy
 
+omit [Finite G] in
 theorem facts_of_theta {Zs K : Subgroup G}
     (θ : ↥(normalizer (Zs : Set G)) →* GL (Fin 3) (ZMod 2)) (hθs : Function.Surjective θ)
     (hθk : θ.ker = (centralizer (Zs : Set G)).subgroupOf (normalizer (Zs : Set G)))
@@ -45,8 +46,8 @@ theorem facts_of_theta {Zs K : Subgroup G}
   have hmem : ∀ x : ↥(normalizer (Zs : Set G)), θ x = 1 ↔ (x : G) ∈ centralizer (Zs : Set G) :=
     fun x => by rw [← MonoidHom.mem_ker, hθk, mem_subgroupOf]
   have htop : (K.subgroupOf (normalizer (Zs : Set G))).map θ = ⊤ := by
-    haveI := CFSG.ComponentClassification.GHarris.isSimpleGroup_GL32_gh
-    haveI := hK'n.map θ hθs
+    have := CFSG.ComponentClassification.GHarris.isSimpleGroup_GL32_gh
+    have := hK'n.map θ hθs
     refine (IsSimpleGroup.eq_bot_or_eq_top_of_normal _).resolve_left fun hbot => ?_
     obtain ⟨u, huK, huC⟩ := hne
     apply huC
@@ -159,7 +160,7 @@ theorem exists_conj_eq_of_mem {x : G} (hx : x ∈ Zinf (h := h) g₁ s₀) (hx1 
   have hO0 : z ∈ O := ⟨1, one_mem _, by group⟩
   have hcz : D.ψV (S.cl z) = 0 := by rw [show S.cl z = 0 from S.cl_z, map_zero]
   have hc₁ : D.ψV (S.cl r₁) = vecOf 3 := D.ψV_cl_rep 3
-  have hc₂ : D.ψV (S.cl r₂) = vecOf 192 := D.ψV_cl_conj_rep3 hOut hTw hg₁ hs₀
+  have hc₂ : D.ψV (S.cl r₂) = vecOf 192 := D.ψV_cl_conj_rep3 hs₀
   have hne : ∀ {a b : G}, D.ψV (S.cl a) ≠ D.ψV (S.cl b) → a ≠ b := fun hab e => hab (by rw [e])
   have hne1 : ∀ {a : G}, a ∈ S.QG → D.ψV (S.cl a) ≠ 0 → a ≠ 1 ∧ a ≠ S.z := fun ha hc =>
     ⟨fun e => hc (by rw [e, S.cl_one, map_zero]),
@@ -209,6 +210,9 @@ theorem exists_conj_eq_of_mem {x : G} (hx : x ∈ Zinf (h := h) g₁ s₀) (hx1 
   · exact hfin _ hy₃ (mul_mem (mul_mem hzZ hr₁Z) hr₂Z) (by rw [hcy₃]; exact h195) x hx
       (by rw [hx195, hcy₃])
 
+omit hOut hTw hg₁ hs₀ in
+include h in
+variable (h) in
 theorem conj_ne_one_of_mem {g : G} : g * z * g⁻¹ ≠ 1 := fun e => h.setting.z_ne_one (by
   have hz : z = g⁻¹ * (g * z * g⁻¹) * g := by group
   rw [h.setting_z, hz, e]
@@ -217,7 +221,7 @@ theorem conj_ne_one_of_mem {g : G} : g * z * g⁻¹ ≠ 1 := fun e => h.setting.
 theorem exists_Qa_eq {g : G} (hg : g * z * g⁻¹ ∈ Zinf (h := h) g₁ s₀) :
     ∃ n ∈ K0 (h := h) g₁ s₀, h.setting.Qa g = h.setting.Qa n := by
   obtain ⟨n, hn, hnz⟩ := D.exists_conj_eq_of_mem hOut hTw hg₁ hs₀ hg
-    (D.conj_ne_one_of_mem hOut hTw hg₁ hs₀)
+    ((CFSG.Quasithin.H13.AS91.Data41.conj_ne_one_of_mem h))
   exact ⟨n, hn, h.setting.Qa_eq_of_conj_eq (by rw [h.setting_z]; exact hnz.symm)⟩
 
 theorem Kgrp_eq_K0 : Kgrp (h := h) g₁ s₀ = K0 (h := h) g₁ s₀ := by
@@ -300,7 +304,7 @@ theorem fourteen_dvd : 14 ∣ Nat.card (Zinf (h := h) g₁ s₀).normalizerMonoi
     have e : ({a | a ≠ 1} : Set ↥(Zinf (h := h) g₁ s₀)) = Set.univ \ {1} := by
       ext a
       simp
-    rw [horb, e, Set.ncard_diff_singleton_of_mem (Set.mem_univ _), Set.ncard_univ,
+    rw [horb, e, Set.ncard_sdiff_singleton_of_mem (Set.mem_univ _), Set.ncard_univ,
       D.card_Zinf hOut hTw hg₁ hs₀] at h1
     rw [show 7 = 8 - 1 from rfl, ← h1]
     exact Subgroup.index_dvd_card _

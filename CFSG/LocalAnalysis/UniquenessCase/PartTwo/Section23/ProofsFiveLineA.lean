@@ -39,7 +39,7 @@ noncomputable def sylowL (c : Ctx23L D Ch) : Sylow 2 ↥c.L :=
 theorem isPGroup_T_subgroupOf (c : Ctx23L D Ch) :
     IsPGroup 2 (D.T.subgroupOf c.L) := by
   rw [← sylowL_coe c]
-  exact (sylowL c).isPGroup'
+  exact (sylowL c).isPGroup
 
 noncomputable def Pstar (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V) (P : Subgroup G) :
     Subgroup ↥(c.H hV) :=
@@ -56,7 +56,7 @@ theorem isParabolicTwo_Pstar (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V)
   obtain ⟨-, hpar⟩ := parabolicOf_iff.mp hP.1.1
   exact hpar.map (c.phiL hV) (c.phiL_surjective hV)
 
-theorem T_subgroupOf_le_P (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V)
+theorem T_subgroupOf_le_P (c : Ctx23L D Ch) (_hV : IsElemAbelian 2 c.V)
     (P : Subgroup G) (hP : MinTInvParabolic D.T D.M c.L P) :
     D.T.subgroupOf c.L ≤ P.subgroupOf c.L := by
   obtain ⟨hPL, hpar⟩ := parabolicOf_iff.mp hP.1.1
@@ -154,12 +154,12 @@ theorem not_le_stabilizer_fixedPoint (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V
     ¬ Pstar c hV P ≤ MulAction.stabilizer ↥(c.H hV)
         ((fixedPointSubgroup ↥(c.sylowStar hV) (c.W hV) : Subgroup (c.W hV)) :
           Set (c.W hV)) := by
-  letI : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
+  let : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
     MulDistribMulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (c.W hV) :=
+  let : MulAction ↥(c.H hV) (c.W hV) :=
     MulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (Set (c.W hV)) := Set.mulActionSet
-  letI : MulDistribMulAction ↥(c.sylowStar hV) (c.W hV) :=
+  let : MulAction ↥(c.H hV) (Set (c.W hV)) := Set.mulActionSet
+  let : MulDistribMulAction ↥(c.sylowStar hV) (c.W hV) :=
     MulDistribMulAction.compHom (c.W hV)
       ((c.H hV).subtype.comp (c.sylowStar hV : Subgroup ↥(c.H hV)).subtype)
   intro hle
@@ -301,12 +301,12 @@ theorem minimal_good_Pstar (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V)
           Pstar.map (c.H hV).subtype) ∧
       ¬ Pstar ≤ Pℓ
     Minimal Good (Pstar c hV P) := by
-  letI : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
+  let : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
     MulDistribMulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (c.W hV) :=
+  let : MulAction ↥(c.H hV) (c.W hV) :=
     MulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (Set (c.W hV)) := Set.mulActionSet
-  letI : MulDistribMulAction ↥(c.sylowStar hV) (c.W hV) :=
+  let : MulAction ↥(c.H hV) (Set (c.W hV)) := Set.mulActionSet
+  let : MulDistribMulAction ↥(c.sylowStar hV) (c.W hV) :=
     MulDistribMulAction.compHom (c.W hV)
       ((c.H hV).subtype.comp (c.sylowStar hV : Subgroup ↥(c.H hV)).subtype)
   let ℓ' : Subgroup (c.W hV) := fixedPointSubgroup ↥(c.sylowStar hV) (c.W hV)

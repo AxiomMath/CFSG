@@ -12,6 +12,7 @@ namespace CFSG.LocalAnalysis.UniquenessCase.PartOne.Theorem82E3.A10Gen
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem nonempty_mulEquiv_zwr_subgroupOf {Q H : Subgroup G}
     (hQZ : Nonempty (↥Q ≃* UC22.InS3.UC326.ZWr 1)) (hQH : Q ≤ H) :
     Nonempty (↥(Q.subgroupOf H) ≃* UC22.InS3.UC326.ZWr 1) := by

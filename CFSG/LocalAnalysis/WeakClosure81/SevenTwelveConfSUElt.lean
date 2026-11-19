@@ -68,7 +68,7 @@ private lemma suConf_add_add_comm [CharP F 2] (x y : Fin m → F) : x + (y + x) 
 
 private lemma suConf_suTv_zero (hσ : IsUnitaryInvolution σ) {a : Fin m → F}
     (ha : herm σ a a = 0) : suTv hσ a 0 = 1 := by
-  rw [suTv, dif_pos ⟨ha, by rw [map_zero, add_zero]⟩, tv_zero]
+  rw [suTv, dite_eq_left ⟨ha, by rw [map_zero, add_zero]⟩, tv_zero]
 
 private lemma suConf_t_smul_e (hσ : IsUnitaryInvolution σ) [CharP F 2]
     (he : herm σ e e = 0) : suConfT hσ e • e = e := by

@@ -36,7 +36,7 @@ theorem mem_commModSub_of_gen {Λ : Subgroup (MulAut Y)} (hΛ : ∀ l ∈ Λ, �
           simp only [map_mul, map_inv]
           have : g⁻¹ (g u) = u := by
             have := congrArg (fun φ : MulAut Y => φ u) (inv_mul_cancel g)
-            simpa [MulAut.mul_apply] using this
+            simp
           rw [this]
           group
         rw [e, hgi]

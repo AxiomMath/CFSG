@@ -135,7 +135,7 @@ theorem ordD_not_isL33U35L37HeOrder {n q f : ℕ} (hq : q = 2 ^ f) :
   · refine ordD_false_of_two_part (n := n) hq (e := 5) (m := 58653) (by norm_num)
       (by norm_num) (h.trans (by norm_num)) ?_
     intro n' f' h1 h2 h3
-    interval_cases n' <;> interval_cases f' <;> first | omega | (unfold ordD; decide)
+    interval_cases n' <;> interval_cases f' <;> first | omega
   · refine ordD_false_of_two_part (n := n) hq (e := 10) (m := 3935925) (by norm_num)
       (by norm_num) (h.trans (by norm_num)) ?_
     intro n' f' h1 h2 h3
@@ -155,7 +155,7 @@ theorem ordTwistedD_not_isL33U35L37HeOrder {n q f : ℕ} (hq : q = 2 ^ f) :
   · refine ordTwistedD_false_of_two_part (n := n) hq (e := 5) (m := 58653) (by norm_num)
       (by norm_num) (h.trans (by norm_num)) ?_
     intro n' f' h1 h2 h3
-    interval_cases n' <;> interval_cases f' <;> first | omega | (unfold ordTwistedD; decide)
+    interval_cases n' <;> interval_cases f' <;> first | omega
   · refine ordTwistedD_false_of_two_part (n := n) hq (e := 10) (m := 3935925) (by norm_num)
       (by norm_num) (h.trans (by norm_num)) ?_
     intro n' f' h1 h2 h3
@@ -174,7 +174,7 @@ theorem card_alternatingGroup_not_isL33U35L37HeOrder (n : ℕ) :
         · exact Subsingleton.elim _ _)
     rw [h1]
     rintro (h | h | h | h) <;> omega
-  · haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr hn
+  · have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr hn
     have hAc := nat_card_alternatingGroup (α := Fin n)
     rw [Nat.card_eq_fintype_card (α := Fin n), Fintype.card_fin] at hAc
     rw [hAc]

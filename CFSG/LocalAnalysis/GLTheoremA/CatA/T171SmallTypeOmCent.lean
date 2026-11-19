@@ -56,7 +56,7 @@ theorem centralizer_layer_eq_rot_plus_five (hQ : (QuadraticMap.polarBilin Q).Non
     Bb ⊓ Subgroup.centralizer
         (GLALayer (Subgroup.centralizer ({y} : Set ↥(orthDerived Q))) : Set ↥(orthDerived Q)) =
       Subgroup.zpowers y := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hl := hF.isFrame
   have hpp := hl.pair p hp
   have hyt : (y : V ≃ₗ[ZMod 2] V) ∈ torus Q l := by
@@ -160,10 +160,10 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [FiniteDimensional (ZMo
 theorem not_smallOrd_layer_rot_plus_five (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
     (hdim : finrank (ZMod 2) V = 2 * 5) (hplus : CFSG.GroupTheory.WeirSylow.IsPlusType Q)
     {Bb : Subgroup ↥(orthDerived Q)} {l : List (V × V)} (hF : FrameOf Q Bb 4 l)
-    {p : V × V} (hp : p ∈ l) {y : ↥(orthDerived Q)} (hyB : y ∈ Bb)
+    {p : V × V} (hp : p ∈ l) {y : ↥(orthDerived Q)} (_hyB : y ∈ Bb)
     (hyrot : (y : V ≃ₗ[ZMod 2] V) = rot Q p.1 p.2) :
     ¬ HStdExcl.SmallOrd (GLALayer (Subgroup.centralizer ({y} : Set ↥(orthDerived Q)))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hl := hF.isFrame
   have hpp := hl.pair p hp
   have hyt : (y : V ≃ₗ[ZMod 2] V) ∈ torus Q l := by
@@ -208,11 +208,11 @@ theorem not_smallOrd_layer_rot_plus_five (hQ : (QuadraticMap.polarBilin Q).Nonde
     exact hcardA
   have hT : ∃ U : Submodule (ZMod 2) W, finrank (ZMod 2) U = 3 ∧
       ∀ u ∈ U, (Q.comp W.subtype) u = 0 := by
-    haveI : Nontrivial W := Module.nontrivial_of_finrank_pos (R := ZMod 2) (by omega)
+    have : Nontrivial W := Module.nontrivial_of_finrank_pos (R := ZMod 2) (by omega)
     exact CFSG.StandardType.OrthRestOdd.exists_totallySingular_three
       (R := Q.comp W.subtype) hx.polarBilin_fixed_nondegenerate (by omega)
   have hcenterW : Subgroup.center ↥(orthDerived (Q.comp W.subtype)) = ⊥ := by
-    haveI : Nontrivial W := Module.nontrivial_of_finrank_pos (R := ZMod 2) (by omega)
+    have : Nontrivial W := Module.nontrivial_of_finrank_pos (R := ZMod 2) (by omega)
     exact CFSG.RankThree.PartOne.center_orthDerived_eq_bot
       hx.polarBilin_fixed_nondegenerate hT
   have hcenterA : Subgroup.center ↥(supportedFixedDerived Q (y : V ≃ₗ[ZMod 2] V)) = ⊥ :=
@@ -254,7 +254,7 @@ theorem stdAt_rot_plus_five (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
     {Bb : Subgroup ↥(orthDerived Q)} {l : List (V × V)} (hF : FrameOf Q Bb 4 l)
     {p : V × V} (hp : p ∈ l) {y : ↥(orthDerived Q)} (hyB : y ∈ Bb)
     (hyrot : (y : V ≃ₗ[ZMod 2] V) = rot Q p.1 p.2) : StdAt Bb y := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hl := hF.isFrame
   have hpp := hl.pair p hp
   have hyt : (y : V ≃ₗ[ZMod 2] V) ∈ torus Q l := by
@@ -431,13 +431,13 @@ theorem card_eq_three_pow_three_of_smallModel_minus_four
 theorem layer_eq_rot_minus_four (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
     (hdim : finrank (ZMod 2) V = 2 * 4) (hminus : ¬ CFSG.GroupTheory.WeirSylow.IsPlusType Q)
     {Bb : Subgroup ↥(orthDerived Q)} {l : List (V × V)} (hF : FrameOf Q Bb 3 l)
-    {p : V × V} (hp : p ∈ l) {y : ↥(orthDerived Q)} (hyB : y ∈ Bb)
+    {p : V × V} (hp : p ∈ l) {y : ↥(orthDerived Q)} (_hyB : y ∈ Bb)
     (hyrot : (y : V ≃ₗ[ZMod 2] V) = rot Q p.1 p.2) :
     GLALayer (Subgroup.centralizer ({y} : Set ↥(orthDerived Q))) =
         (supportedFixedDerived Q (y : V ≃ₗ[ZMod 2] V)).subgroupOf (orthDerived Q) ∧
       IsComponentOf ((supportedFixedDerived Q (y : V ≃ₗ[ZMod 2] V)).subgroupOf (orthDerived Q))
         (Subgroup.centralizer ({y} : Set ↥(orthDerived Q))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hl := hF.isFrame
   have hpp := hl.pair p hp
   have hyt : (y : V ≃ₗ[ZMod 2] V) ∈ torus Q l := by
@@ -510,7 +510,7 @@ theorem centralizer_layer_eq_rot_minus_four (hQ : (QuadraticMap.polarBilin Q).No
     Bb ⊓ Subgroup.centralizer
         (GLALayer (Subgroup.centralizer ({y} : Set ↥(orthDerived Q))) : Set ↥(orthDerived Q)) =
       Subgroup.zpowers y := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hl := hF.isFrame
   have hpp := hl.pair p hp
   have hyt : (y : V ≃ₗ[ZMod 2] V) ∈ torus Q l := by
@@ -583,7 +583,7 @@ theorem not_smallOrd_layer_rot_minus_four (hQ : (QuadraticMap.polarBilin Q).Nond
     {p : V × V} (hp : p ∈ l) {y : ↥(orthDerived Q)} (hyB : y ∈ Bb)
     (hyrot : (y : V ≃ₗ[ZMod 2] V) = rot Q p.1 p.2) :
     ¬ HStdExcl.SmallOrd (GLALayer (Subgroup.centralizer ({y} : Set ↥(orthDerived Q)))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hl := hF.isFrame
   have hpp := hl.pair p hp
   have hyt : (y : V ≃ₗ[ZMod 2] V) ∈ torus Q l := by
@@ -633,7 +633,7 @@ theorem not_smallOrd_layer_rot_minus_four (hQ : (QuadraticMap.polarBilin Q).Nond
     have h3' : 2 * finrank (ZMod 2) U = 2 * 3 := by omega
     exact Nat.eq_of_mul_eq_mul_left (by norm_num : 0 < 2) h3'
   have hcenterW : Subgroup.center ↥(orthDerived (Q.comp W.subtype)) = ⊥ := by
-    haveI : Nontrivial W := Module.nontrivial_of_finrank_pos (R := ZMod 2) (by omega)
+    have : Nontrivial W := Module.nontrivial_of_finrank_pos (R := ZMod 2) (by omega)
     exact CFSG.RankThree.PartOne.center_orthDerived_eq_bot
       hx.polarBilin_fixed_nondegenerate hT
   have hcenterA : Subgroup.center ↥(supportedFixedDerived Q (y : V ≃ₗ[ZMod 2] V)) = ⊥ :=

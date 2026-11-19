@@ -154,6 +154,7 @@ private lemma f7_toProj_mem_twoRes (hQ : Q.Nondegenerate) (fr : NFrame Q (Fin 6)
   show toProj Q h' ∈ centralizer ({toProj Q (fr.signChange J)} : Set (ProjOrth Q))
   rw [Subgroup.mem_centralizer_singleton_iff, ← map_mul, ← map_mul, hc]
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma f7_toProj_inj (fr : NFrame Q (Fin 6) c) {J₄ : Finset (Fin 6)} (hc4 : J₄.card = 4)
     {A B : Finset (Fin 6)} (hA : A ⊆ J₄) (hB : B ⊆ J₄)
     (h : toProj Q (fr.signChange A) = toProj Q (fr.signChange B)) : A = B := by
@@ -175,6 +176,7 @@ private lemma f7_card_even_subsets :
       8 ≤ (J₄.powerset.filter (fun A => Even A.card)).card := by
   decide +kernel
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem f7_exists_big (fr : NFrame Q (Fin 6) c) {J : Finset (Fin 6)} (hJe : Even J.card) :
     ∃ J' : Finset (Fin 6), 4 ≤ J'.card ∧
       toProj Q (fr.signChange J') = toProj Q (fr.signChange J) := by

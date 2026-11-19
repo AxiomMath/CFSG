@@ -45,13 +45,13 @@ theorem charpoly_eq_pow_sub_one {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {c : F}
   have hc0 : c ≠ 0 := hc.ne_zero hp.ne_zero
   have hodd : Odd p := hp.odd_of_ne_two hp2
   have hdeg : A.charpoly.natDegree = p := by
-    simpa using Matrix.charpoly_natDegree_eq_dim A
+    simp
   refine Polynomial.ext fun k => ?_
   rcases lt_trichotomy k p with hk | rfl | hk
   · rcases Nat.eq_zero_or_pos k with rfl | hk0
     · have h1 := Matrix.det_eq_sign_charpoly_coeff A
       rw [hdet, Fintype.card_fin, hodd.neg_one_pow] at h1
-      simp only [coeff_sub, coeff_X_pow, coeff_one, if_neg hp.ne_zero.symm, if_true]
+      simp only [coeff_sub, coeff_X_pow, coeff_one, ite_eq_right hp.ne_zero.symm, ite_true]
       linear_combination h1
     · have h1 := coeff_charpoly_smul A hc0 k
       rw [hch, Fintype.card_fin, hc.pow_eq_one, one_mul] at h1
@@ -165,8 +165,8 @@ theorem smul_heisDiagMat_mulVec_single {p : ℕ} (ω ξ : F) (k : Fin p) :
   ext i
   by_cases h : i = k
   · subst h
-    simp [heisDiagMat, Matrix.mulVec_diagonal]
-  · simp [heisDiagMat, Matrix.mulVec_diagonal, h]
+    simp [heisDiagMat]
+  · simp [heisDiagMat, h]
 
 theorem heisShiftMat_mulVec_single {p : ℕ} (k : Fin p) :
     (heisShiftMat F p).mulVec (Pi.single k 1) = Pi.single ((finRotate p).symm k) 1 := by
@@ -174,9 +174,9 @@ theorem heisShiftMat_mulVec_single {p : ℕ} (k : Fin p) :
   ext i
   simp only [Function.comp_apply, Pi.single_apply, Equiv.eq_symm_apply]
 
-private theorem val_finRotate_eq_mod {p : ℕ} (hp : 0 < p) (i : Fin p) :
+private theorem val_finRotate_eq_mod {p : ℕ} (_hp : 0 < p) (i : Fin p) :
     ((finRotate p i : Fin p) : ℕ) = ((i : ℕ) + 1) % p := by
-  haveI : NeZero p := ⟨hp.ne'⟩
+  have : NeZero p := ⟨_hp.ne'⟩
   rw [finRotate_apply, Fin.val_add, Fin.val_one', Nat.add_mod_mod]
 
 end Basis

@@ -33,7 +33,7 @@ theorem K9J2Order_holds :
 theorem K9J2Out_holds :
     K9J2Out := by
   intro σ hσ
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier .J2) := CFSG.Sporadic.J2.fam_j2_simplicity.1
+  have : Finite (CFSG.Blueprint.NativeSporadic.Carrier .J2) := CFSG.Sporadic.J2.fam_j2_simplicity.1
   have hodd : Odd (orderOf σ) := by
     have hdvd : orderOf σ ∣ 7 := orderOf_dvd_of_pow_eq_one hσ
     rcases Nat.dvd_prime Nat.prime_seven |>.1 hdvd with h | h <;> rw [h] <;> norm_num

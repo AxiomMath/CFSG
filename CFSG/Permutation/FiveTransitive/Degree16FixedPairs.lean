@@ -23,7 +23,7 @@ private theorem sylow_prime_fixed_pair_bound
     N.index * (p - 1) * (16 - p).descFactorial 2 ≤ Nat.card P := by
   classical
   dsimp
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   let A := Degree15.NonidentitySylowElements p P
   let val : A → P :=
     Degree15.nonidentitySylowElementVal p P
@@ -107,19 +107,19 @@ private theorem sylow_prime_fixed_pair_bound
     ext i
     exact hg i
   have hP2 : MulAction.IsMultiplyPretransitive P X 2 := by
-    letI : MulAction.IsMultiplyPretransitive P X 5 := hP5
+    let : MulAction.IsMultiplyPretransitive P X 5 := hP5
     exact MulAction.isMultiplyPretransitive_of_le
       (G := P) (α := X) (m := 2) (n := 5) (by omega) (by
         rw [Nat.card_eq_fintype_card, hcard]
         omega)
-  letI : MulAction.IsPretransitive P T := by
+  let : MulAction.IsPretransitive P T := by
     change MulAction.IsMultiplyPretransitive P X 2
     exact hP2
-  letI : Nonempty T := Fintype.card_pos_iff.mp (by
+  let : Nonempty T := Fintype.card_pos_iff.mp (by
     change 0 < Fintype.card (Fin 2 ↪ X)
     rw [Fintype.card_embedding_eq, Fintype.card_fin, hcard]
     norm_num)
-  letI : Unique (MulAction.orbitRel.Quotient P T) :=
+  let : Unique (MulAction.orbitRel.Quotient P T) :=
     Classical.choice
       ((MulAction.pretransitive_iff_unique_quotient_of_nonempty
         P T).mp hP2)
@@ -198,19 +198,19 @@ theorem two_family_fixed_pair_bound
     ext i
     exact hg i
   have hP2 : MulAction.IsMultiplyPretransitive P X 2 := by
-    letI : MulAction.IsMultiplyPretransitive P X 5 := hP5
+    let : MulAction.IsMultiplyPretransitive P X 5 := hP5
     exact MulAction.isMultiplyPretransitive_of_le
       (G := P) (α := X) (m := 2) (n := 5) (by omega) (by
         rw [Nat.card_eq_fintype_card, hcard]
         omega)
-  letI : MulAction.IsPretransitive P T := by
+  let : MulAction.IsPretransitive P T := by
     change MulAction.IsMultiplyPretransitive P X 2
     exact hP2
-  letI : Nonempty T := Fintype.card_pos_iff.mp (by
+  let : Nonempty T := Fintype.card_pos_iff.mp (by
     change 0 < Fintype.card (Fin 2 ↪ X)
     rw [Fintype.card_embedding_eq, Fintype.card_fin, hcard]
     norm_num)
-  letI : Unique (MulAction.orbitRel.Quotient P T) :=
+  let : Unique (MulAction.orbitRel.Quotient P T) :=
     Classical.choice
       ((MulAction.pretransitive_iff_unique_quotient_of_nonempty
         P T).mp hP2)
@@ -291,7 +291,7 @@ theorem five_point_stabilizer_card_cases_after_fixed_pairs
   have hkNot13 : ¬13 ∣ k := by
     intro h
     exact (by norm_num : ¬13 ∣ 7920) (h.trans hkdiv)
-  letI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 13) := ⟨by norm_num⟩
   let S13 : Sylow 13 P := Sylow.nonempty.some
   have hS13card : Nat.card S13 = 13 := by
     rw [S13.card_eq_multiplicity, hPcard]
@@ -358,7 +358,7 @@ theorem five_point_stabilizer_card_cases_after_fixed_pairs
       · exact
           ((show Nat.Prime 11 by norm_num).dvd_iff_one_le_factorization
             hkne).mp hk11
-    letI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+    let : Fact (Nat.Prime 11) := ⟨by norm_num⟩
     let S11 : Sylow 11 P := Sylow.nonempty.some
     have hS11card : Nat.card S11 = 11 := by
       rw [S11.card_eq_multiplicity, hPcard,

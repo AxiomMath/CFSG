@@ -129,7 +129,7 @@ theorem natCard_monoidHom_le_pow {E A : Type*} [CommGroup E] [Finite E] [CommGro
   have h2 : ∀ x : Additive E, (2 : ℕ) • x = 0 := fun x => by
     rw [two_nsmul]
     exact hE (Additive.toMul x)
-  letI : Module (ZMod 2) (Additive E) := AddCommGroup.zmodModule h2
+  let : Module (ZMod 2) (Additive E) := AddCommGroup.zmodModule h2
   have h1 : Nat.card (Additive E) = 2 ^ Module.finrank (ZMod 2) (Additive E) := by
     rw [Module.natCard_eq_pow_finrank (K := ZMod 2), Nat.card_zmod]
   have hrank : Module.finrank (ZMod 2) (Additive E) = r := by

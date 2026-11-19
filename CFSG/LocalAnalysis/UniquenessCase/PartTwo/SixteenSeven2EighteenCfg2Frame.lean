@@ -56,7 +56,7 @@ theorem s16c167_cfg2_perfect {X L K : Subgroup (MulAut W)} (hLX : L ≤ X)
     (hK : K = X ⊓ Subgroup.centralizer (L : Set (MulAut W)))
     (hcenter : ∀ κ ∈ K, (∀ y ∈ K, y * κ = κ * y) → κ = 1) : ⁅L, L⁆ = L := by
   have hle : ⁅L, L⁆ ≤ L := Subgroup.commutator_le_of_le le_rfl le_rfl
-  haveI : ((⁅L, L⁆).subgroupOf L).Normal :=
+  have : ((⁅L, L⁆).subgroupOf L).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer
       (Subgroup.normalizer_commutator_ge_left (H₁ := L) (H₂ := L))
   rcases hsimple.eq_bot_or_eq_top_of_normal ((⁅L, L⁆).subgroupOf L) with hH | hH

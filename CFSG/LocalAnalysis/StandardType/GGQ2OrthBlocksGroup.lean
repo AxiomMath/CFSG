@@ -100,10 +100,10 @@ theorem planeQ_add {K : Type} [Field K] [CharP K 2] (t : ℕ) (δ : Fin 2)
   rw [hdot, ← Finset.sum_add_distrib, ← Finset.sum_add_distrib]
   refine Finset.sum_congr rfl fun i _ => ?_
   by_cases h : (i : ℕ) < t
-  · simp only [h, if_true]
+  · simp only [h, ite_true]
     linear_combination (v (Sum.inl i) * w (Sum.inl i) +
       v (Sum.inr i) * w (Sum.inr i)) * h2
-  · simp only [h, if_false]
+  · simp only [h, ite_false]
     ring
 
 theorem largeEvenOrthGroup_planeQ_le_statedSp {K : Type} [Field K] [CharP K 2] (t : ℕ)

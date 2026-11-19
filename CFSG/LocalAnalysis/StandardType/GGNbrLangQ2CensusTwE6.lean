@@ -74,11 +74,11 @@ theorem q2c_twE6_recipe_perfect {n : ℕ} {Fld : Type} [Field Fld] [Finite Fld]
     rcases Nat.eq_zero_or_pos n with h | h
     · exfalso
       have h1 : Nat.card Fld = 1 := by rw [h] at hFldcard; simpa using hFldcard
-      haveI : Nontrivial Fld := inferInstance
+      have : Nontrivial Fld := inferInstance
       have h2 : 1 < Nat.card Fld := Finite.one_lt_card
       omega
     · exact h
-  haveI hchar : CharP Fld 2 := charP_two_of_card (m := n * 2) (by rw [hFldcard, pow_mul])
+  have hchar : CharP Fld 2 := charP_two_of_card (m := n * 2) (by rw [hFldcard, pow_mul])
   have hK : Nat.card Fld = (2 ^ n) ^ CFSG.Blueprint.Chevalley.TwistTag.E6.order := by
     rw [show CFSG.Blueprint.Chevalley.TwistTag.E6.order = 2 from rfl, hFldcard]
   obtain ⟨-, -, hΓ, -, hcomm⟩ :=
@@ -98,12 +98,12 @@ theorem q2c_twE6_recipe_perfect {n : ℕ} {Fld : Type} [Field Fld] [Finite Fld]
           CFSG.Blueprint.Chevalley.TwistTag.E6 Fld (iterateFrobenius Fld 2 n))) ≃*
       LargeEvenCenterQuot (LargeEvenTwistedH (LargeEvenCartanE 6) Fld LargeEvenRhoE6 n) :=
     QuotientGroup.congr _ _ e (Subgroup.map_center_eq e)
-  haveI : Group.IsPerfect (↥(CFSG.LieType.Chevalley.graphFixedRootGroup
+  have : Group.IsPerfect (↥(CFSG.LieType.Chevalley.graphFixedRootGroup
         CFSG.Blueprint.Chevalley.TwistTag.E6 Fld (iterateFrobenius Fld 2 n)) ⧸
       Subgroup.center ↥(CFSG.LieType.Chevalley.graphFixedRootGroup
         CFSG.Blueprint.Chevalley.TwistTag.E6 Fld (iterateFrobenius Fld 2 n))) :=
     Group.isPerfect_def.mpr hcomm
-  haveI : Finite (↥(CFSG.LieType.Chevalley.graphFixedRootGroup
+  have : Finite (↥(CFSG.LieType.Chevalley.graphFixedRootGroup
         CFSG.Blueprint.Chevalley.TwistTag.E6 Fld (iterateFrobenius Fld 2 n))) :=
     Subtype.finite
   exact ⟨Finite.of_injective (eQ.symm : _ → _) eQ.symm.injective,
@@ -124,7 +124,7 @@ private theorem q2cTE6_recipe {n m : ℕ} {Fld : Type} [Field Fld] [Finite Fld]
     rcases Nat.eq_zero_or_pos n with h | h
     · exfalso
       have h1 : Nat.card Fld = 1 := by rw [h] at hFldcard; simpa using hFldcard
-      haveI : Nontrivial Fld := inferInstance
+      have : Nontrivial Fld := inferInstance
       have h2 : 1 < Nat.card Fld := Finite.one_lt_card
       omega
     · exact h
@@ -133,8 +133,8 @@ private theorem q2cTE6_recipe {n m : ℕ} {Fld : Type} [Field Fld] [Finite Fld]
   have hsimple : IsSimpleGroup (q2cTE6G n Fld) :=
     CFSG.Timmesfeld.isSimpleGroup_of_lieModel (Or.inr (Or.inl ⟨rfl, by decide, hchev⟩))
   obtain ⟨hFinR, hcomm⟩ := q2c_twE6_recipe_perfect (n := n) hFldcard
-  haveI : Finite (q2cTE6G n Fld) := hFinR
-  haveI : Group.IsPerfect (q2cTE6G n Fld) := Group.isPerfect_def.mpr hcomm
+  have : Finite (q2cTE6G n Fld) := hFinR
+  have : Group.IsPerfect (q2cTE6G n Fld) := Group.isPerfect_def.mpr hcomm
   have hnaR : ∃ a b : q2cTE6G n Fld, a * b ≠ b * a := by
     by_contra h
     push Not at h
@@ -159,7 +159,6 @@ private theorem q2cTE6_recipe {n m : ℕ} {Fld : Type} [Field Fld] [Finite Fld]
     ext r
     obtain ⟨y, rfl⟩ := θ.surjective r
     obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective y
-    change ggInducedAut θ u (θ (QuotientGroup.mk x)) = u (θ (QuotientGroup.mk x))
     rw [ggInducedAut_apply, hθmk, hθmk x]
   have hlabL : LargeEvenInLambda2 (⟨.twE6, 0, n⟩ : LargeEvenLabel) := ⟨hn, rfl⟩
   have hHasL : GGHasLabel (⟨.twE6, 0, n⟩ : LargeEvenLabel)
@@ -318,11 +317,11 @@ theorem q2cTE6_five_transport {n m : ℕ} {Fld : Type} [Field Fld] [Finite Fld]
     rcases Nat.eq_zero_or_pos n with h | h
     · exfalso
       have h1 : Nat.card Fld = 1 := by rw [h] at hFldcard; simpa using hFldcard
-      haveI : Nontrivial Fld := inferInstance
+      have : Nontrivial Fld := inferInstance
       have h2 : 1 < Nat.card Fld := Finite.one_lt_card
       omega
     · exact h
-  haveI hchar : CharP Fld 2 := charP_two_of_card (m := n * 2) (by rw [hFldcard, pow_mul])
+  have hchar : CharP Fld 2 := charP_two_of_card (m := n * 2) (by rw [hFldcard, pow_mul])
   set σ : Fld ≃+* Fld := RingEquiv.ofBijective (iterateFrobenius Fld 2 n)
     ⟨(iterateFrobenius Fld 2 n).injective,
       Finite.surjective_of_injective (iterateFrobenius Fld 2 n).injective⟩
@@ -358,7 +357,7 @@ theorem q2cTE6_five_transport {n m : ℕ} {Fld : Type} [Field Fld] [Finite Fld]
       (NoOffTwE6Three.twInndiagGroup_le_twistedE6InndiagGL σ w.2)
       (fun c => RecipeExcLang.coe_twConj σ w c)
       (by rw [← Subgroup.coe_pow, hwp]; rfl) (fun h1 => hw1 (Subtype.ext h1))
-  haveI hcharL : CharP (AlgebraicClosure Fld) 2 :=
+  have hcharL : CharP (AlgebraicClosure Fld) 2 :=
     charP_of_injective_algebraMap (algebraMap Fld (AlgebraicClosure Fld)).injective 2
   have hpL : ((5 : ℕ) : AlgebraicClosure Fld) ≠ 0 :=
     natCast_ne_zero_algebraicClosure_of_ne Nat.prime_two Nat.prime_five hFldcard (by norm_num)

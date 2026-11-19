@@ -51,11 +51,11 @@ private theorem canonical_commutator_card_eq_two
   have hQS' : Q = (S : Subgroup (Equiv.Perm (Fin 4))) := by
     apply Subgroup.eq_of_le_of_card_ge hQS
     rw [hQcard]
-    exact TwoGroupQuadCommutatorImage.card_le_eight _ (by simp) S.isPGroup'
+    exact TwoGroupQuadCommutatorImage.card_le_eight _ (by simp) S.isPGroup
   have hDT' : D = (T : Subgroup (Equiv.Perm (Fin 4))) := by
     apply Subgroup.eq_of_le_of_card_ge hDT
     rw [hDcard]
-    exact TwoGroupQuadCommutatorImage.card_le_eight _ (by simp) T.isPGroup'
+    exact TwoGroupQuadCommutatorImage.card_le_eight _ (by simp) T.isPGroup
   let e : Q ≃* D := (MulEquiv.subgroupCongr hQS').trans
     ((Sylow.equiv S T).trans (MulEquiv.subgroupCongr hDT'.symm))
   have hne : commutator D ≠ ⊥ := fun hh => hDnoncomm ((commutator_eq_bot_iff D).mp hh)

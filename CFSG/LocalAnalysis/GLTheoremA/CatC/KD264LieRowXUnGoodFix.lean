@@ -26,7 +26,7 @@ theorem exists_conj_eq_mul_central {N : ℕ} (hN : 1 ≤ N) (d : uU xunH N)
   have hc' : ((⟨(d : GL (Fin N) xunK) * (u : GL (Fin N) xunK) * (d : GL (Fin N) xunK)⁻¹,
       uConjSU_mem xunH d u⟩ : StatedSU N (2 ^ 1) xunK) : GL (Fin N) xunK)⁻¹ *
       (u : GL (Fin N) xunK) = Matrix.GeneralLinearGroup.scalar (Fin N) c := hc.symm
-  simp only [Subgroup.coe_mk] at hc'
+  simp only at hc'
   have hinv := eq_mul_inv_of_mul_eq hc'
   refine ⟨(Matrix.GeneralLinearGroup.scalar (Fin N) c)⁻¹, ?_, ?_⟩
   · rw [Matrix.GeneralLinearGroup.center_eq_range_scalar]

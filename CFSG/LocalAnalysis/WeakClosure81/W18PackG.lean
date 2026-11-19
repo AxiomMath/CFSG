@@ -19,6 +19,7 @@ variable {G : Type} [Group G] [Finite G]
   Gam183 V H E i g ∧
     E3.mQuot (vInH V H g) (vInH V H g ⊓ Subgroup.centralizer (E : Set G)) ≤ k
 
+omit [Finite G] in
 theorem vInH_mul {V H : Subgroup G} (g : G) {y : G} (hy : y ∈ H) :
     vInH V H (g * y) = conjSubgroup (vInH V H g) y := by
   unfold vInH
@@ -134,6 +135,7 @@ namespace Gam188
 
 variable {D : Data G} {V₀ V H : Subgroup G} {i j k : ℕ}
 
+omit [Finite G] in
 theorem conj {E : Subgroup G} (hE : H ≤ normalizer (E : Set G)) {g y : G} (hy : y ∈ H)
     (hg : Gam188 V H E i k g) : Gam188 V H E i k (g * y) := by
   have hHy : conjSubgroup H y = H :=

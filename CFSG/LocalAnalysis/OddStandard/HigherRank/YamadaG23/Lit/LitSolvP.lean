@@ -15,8 +15,8 @@ private theorem isSolvable_sup_of_normal_solvable {X : Type*} [Group X]
     Group.IsSolvable ↥(N₁ ⊔ N₂) := by
   let L : Subgroup X := N₁ ⊔ N₂
   let M : Subgroup ↥L := N₁.subgroupOf L
-  haveI hM : M.Normal := Subgroup.normal_subgroupOf
-  haveI hMsolv : Group.IsSolvable M :=
+  have hM : M.Normal := Subgroup.normal_subgroupOf
+  have hMsolv : Group.IsSolvable M :=
     Group.isSolvable_of_isSolvable_injective
       (f := (Subgroup.subgroupOfEquivOfLe (le_sup_left : N₁ ≤ L)).toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe le_sup_left).injective
@@ -31,7 +31,7 @@ private theorem isSolvable_sup_of_normal_solvable {X : Type*} [Group X]
     rw [QuotientGroup.mk'_apply, QuotientGroup.mk'_apply, QuotientGroup.eq,
       Subgroup.mem_subgroupOf]
     simpa [mul_assoc] using hN₁.conj_mem' a ha b
-  haveI : Group.IsSolvable (↥L ⧸ M) := Group.isSolvable_of_surjective hf
+  have : Group.IsSolvable (↥L ⧸ M) := Group.isSolvable_of_surjective hf
   exact Group.isSolvable_of_subgroup_quotient M
 
 theorem lit_solvable_oddCore (X : Type*) [Group X] [Finite X] :
@@ -40,8 +40,8 @@ theorem lit_solvable_oddCore (X : Type*) [Group X] [Finite X] :
 
 theorem lit_solvable_sup {X : Type*} [Group X] {T P : Subgroup X} [P.Normal]
     (hT : Group.IsSolvable ↥T) (hP : Group.IsSolvable ↥P) : Group.IsSolvable ↥(T ⊔ P) := by
-  haveI := hT
-  haveI := hP
+  have := hT
+  have := hP
   rw [sup_comm]
   exact isSolvable_sup_of_normal_solvable P T
 

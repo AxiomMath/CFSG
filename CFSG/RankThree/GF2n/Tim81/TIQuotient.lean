@@ -25,7 +25,7 @@ private theorem exists_sylow_conj_data (h : Hyp M V) (hPH : Pc M V ≤ H) {g : G
       conjSubgroup g (Pc M V) ≤ T ∧ conjSubgroup (c : G) (Pc M V) ≤ T := by
 
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hP2 : IsPGroup 2 (Pc M V) := (inSubgroup_pCore_two M).1.to_le inf_le_left
   have hPne : Pc M V ≠ ⊥ := fun hbot => h.ne_bot (le_bot_iff.mp (h.le_Pc.trans_eq hbot))
   have hPg2 : IsPGroup 2 (conjSubgroup g (Pc M V)) := hP2.map (MulAut.conj g).toMonoidHom
@@ -33,7 +33,7 @@ private theorem exists_sylow_conj_data (h : Hyp M V) (hPH : Pc M V ≤ H) {g : G
     IsPGroup.comap_subtype (K := H) hPg2
   obtain ⟨T', hT'⟩ := hPg2H.exists_le_sylow
   set T : Subgroup G := (T' : Subgroup ↥H).map H.subtype with hTdef
-  have hT2 : IsPGroup 2 T := T'.isPGroup'.map H.subtype
+  have hT2 : IsPGroup 2 T := T'.isPGroup.map H.subtype
   have hTne : T ≠ ⊥ := by
     intro hbot
     have h1 : conjSubgroup g (Pc M V) = ⊥ := by
@@ -62,8 +62,8 @@ private theorem conj_V_eq_of_central_element (h : Hyp M V) {g : G} {T : Subgroup
     (hPcT : conjSubgroup (c : G) (Pc M V) ≤ T) :
     conjSubgroup g V = conjSubgroup (c : G) V := by
 
-  haveI : Nontrivial ↥T := (Subgroup.nontrivial_iff_ne_bot T).mpr hTne
-  haveI : Nontrivial ↥(Subgroup.center ↥T) := hT2.center_nontrivial
+  have : Nontrivial ↥T := (Subgroup.nontrivial_iff_ne_bot T).mpr hTne
+  have : Nontrivial ↥(Subgroup.center ↥T) := hT2.center_nontrivial
   obtain ⟨w, hw1⟩ := exists_ne (1 : Subgroup.center ↥T)
   set t : G := ((w : ↥T) : G) with ht
   have ht1 : t ≠ 1 := fun h1 => hw1 (Subtype.ext (Subtype.ext h1))
@@ -207,6 +207,7 @@ theorem conj_eq_of_inf_conj_Pc_ne_bot (h : RootHyp M V) {g : G}
     rw [hbot] at hle
     exact h3 (le_bot_iff.mp hle)
 
+omit [Finite G] in
 theorem xOf_le_pCore (hVH : V ≤ inSubgroup (pCore 2) H) :
     Tim79a.xOf V H ≤ inSubgroup (pCore 2) H :=
   iSup₂_le fun _ hU => by
@@ -357,6 +358,7 @@ theorem isElemAbelian_imgK (h : RootHyp M V) (hPH : Pc M V ≤ H)
       _ = piK V H (p ^ 2) := (map_pow (piK V H) p 2).symm
       _ = 1 := h1
 
+omit [Finite G] in
 private theorem commutatorElement_mul_left_of_centralizes {W : Subgroup G} {k w x : G}
     (hw : w ∈ W) (hz : w * x * w⁻¹ * x⁻¹ ∈ W)
     (hk : k ∈ Subgroup.centralizer (W : Set G)) :
@@ -374,6 +376,7 @@ private theorem commutatorElement_mul_left_of_centralizes {W : Subgroup G} {k w 
     _ = w * x * w⁻¹ * x⁻¹ := by rw [← hkz]; group
 
 
+omit [Finite G] in
 private theorem conjSubgroup_iInf_eq_of_perm {ι : Type*} [Nonempty ι] (r : G)
     (f : ι → Subgroup G) (σ σ' : ι → ι) (hσ : ∀ i, conjSubgroup r (f i) = f (σ i))
     (hσσ' : ∀ i, σ (σ' i) = i) :
@@ -454,7 +457,7 @@ private theorem isTI_hkey_comm_mem (h : RootHyp M V) (hPH : Pc M V ≤ H)
       have hinv : (x / x₀ : ↥H)⁻¹ ∈ (kOf V H).subgroupOf H := Subgroup.inv_mem _ hdiv
       rw [Subgroup.mem_subgroupOf] at hinv
       have hval : (((x / x₀ : ↥H)⁻¹) : G) = t * (x : G)⁻¹ := by
-        simp [div_eq_mul_inv, ht, mul_assoc]
+        simp [div_eq_mul_inv, ht]
       rw [← hval]
       exact hinv
     have hzW : w * (x : G) * w⁻¹ * (x : G)⁻¹ ∈ Tim79a.xOf V H := by
@@ -497,6 +500,7 @@ private theorem isTI_hkey_comm_mem (h : RootHyp M V) (hPH : Pc M V ≤ H)
         (Subgroup.commutator_mem_commutator hw hxP))).2
   exact hcomm_mem
 
+omit [Finite G] in
 private theorem isTI_hPN (h : RootHyp M V) (hPH : Pc M V ≤ H) {y : ↥H}
     {N : Subgroup G}
     (hNdef : N = Tim79a.xOf V H ⊓ Pc M V ⊓
@@ -543,7 +547,7 @@ private theorem isTI_ne_final (h : RootHyp M V) {y : ↥H}
       Subgroup.commutator_mono le_rfl hN_le_P
     have hVinf : V ⊓ conjSubgroup (y : G) (Pc M V) = ⊥ := by
       by_contra hcon
-      exact hVy (conj_eq_of_inf_conj_Pc_ne_bot h (by rwa [inf_comm] at hcon ⊢))
+      exact hVy (conj_eq_of_inf_conj_Pc_ne_bot h (by rw [inf_comm] at hcon ⊢; assumption))
     have hcomm_triv : ⁅Pc M V, N⁆ = ⊥ := by
       have hle : ⁅Pc M V, N⁆ ≤ N ⊓ V :=
         le_inf hcommPN (hcommPP.trans (hPhiP.trans h.toHyp.frattini_Pc_le))
@@ -619,13 +623,13 @@ theorem isTI_imgK (h : RootHyp M V) (hPH : Pc M V ≤ H)
 private theorem inf_centralizer_ne_bot_of_isPGroup {A W : Subgroup G} (hA : IsPGroup 2 A)
     (hW : IsPGroup 2 W) (hAW : A ≤ Subgroup.normalizer (W : Set G)) (hWne : W ≠ ⊥) :
     W ⊓ Subgroup.centralizer (A : Set G) ≠ ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set R : Subgroup G := A ⊔ W with hRdef
   have hR2 : IsPGroup 2 R := hA.to_sup_of_normal_right' hW hAW
   have hWR : W ≤ R := le_sup_right
   have hRN : R ≤ Subgroup.normalizer (W : Set G) :=
     sup_le hAW (Subgroup.le_normalizer (H := W))
-  haveI hNormal : (W.subgroupOf R).Normal :=
+  have hNormal : (W.subgroupOf R).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hWR).mpr hRN
   have hWne' : W.subgroupOf R ≠ ⊥ := by
     intro hbot
@@ -633,7 +637,7 @@ private theorem inf_centralizer_ne_bot_of_isPGroup {A W : Subgroup G} (hA : IsPG
     have h := congrArg (Subgroup.map R.subtype) hbot
     rw [Subgroup.map_subgroupOf_eq_of_le hWR, Subgroup.map_bot] at h
     exact h
-  haveI : Group.IsNilpotent ↥R := hR2.isNilpotent
+  have : Group.IsNilpotent ↥R := hR2.isNilpotent
   have hZ := Group.IsNilpotent.inf_center_ne_bot_of_normal (G := ↥R)
     (H := W.subgroupOf R) hWne'
   obtain ⟨z, hz1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hZ
@@ -705,6 +709,7 @@ theorem imgK_eq_iff_sup_kOf_eq {S T : Subgroup G} (hS : S ≤ H) (hT : T ≤ H) 
 
 namespace RootHyp
 
+omit [Finite G] in
 private theorem conj_mem_normalizer_sup_kOf (hPH : Pc M V ≤ H)
     {g : G} (hg : g ∈ H)
     (hnorm : imgK V H (conjSubgroup g (Pc M V)) ≤
@@ -1012,6 +1017,7 @@ theorem imgK_ne_bot_and_ne_of_sup (h : RootHyp M V) (hPH : Pc M V ≤ H)
       exact hV1.symm.trans (h2.trans hVy1)
     exact contra hVeq.symm
 
+omit [Finite G] in
 private theorem commutatorElement_mul_right_of_centralizes {W : Subgroup G} {k w x : G}
     (hw : w ∈ W) (hk : k ∈ Subgroup.centralizer (W : Set G)) :
     ⁅w, x * k⁆ = ⁅w, x⁆ := by
@@ -1026,6 +1032,7 @@ private theorem commutatorElement_mul_right_of_centralizes {W : Subgroup G} {k w
     _ = w * x * (w⁻¹ * k) * k⁻¹ * x⁻¹ := by rw [hkw']
     _ = w * x * w⁻¹ * x⁻¹ := by group
 
+omit [Finite G] in
 private theorem commutatorElement_mul_left_eq_of_centralizes {W : Subgroup G} {k a x : G}
     (ha : a * x * a⁻¹ ∈ W) (hk : k ∈ Subgroup.centralizer (W : Set G)) :
     ⁅k * a, x⁆ = ⁅a, x⁆ := by
@@ -1037,8 +1044,9 @@ private theorem commutatorElement_mul_left_eq_of_centralizes {W : Subgroup G} {k
     _ = (a * x * a⁻¹) * k * k⁻¹ * x⁻¹ := by rw [← hk']
     _ = a * x * a⁻¹ * x⁻¹ := by group
 
+omit [Finite G] in
 private theorem exists_mul_zpowers_of_mem_pc
-    (h : RootHyp M V) (hPH : Pc M V ≤ H)
+    (_h : RootHyp M V) (hPH : Pc M V ≤ H)
     {xα : ↥H} {α : G} (hα : α = (xα : G))
     {abar : ↥(imgK V H (Pc M V))}
     (hαP : α ∈ Pc M V) (hαH : α ∈ H)
@@ -1055,8 +1063,8 @@ private theorem exists_mul_zpowers_of_mem_pc
           Subgroup.mem_map.mpr ⟨⟨p, hPH hp⟩, Subgroup.mem_subgroupOf.mpr hp, rfl⟩⟩ :
           ↥(imgK V H (Pc M V))) = abar := by
         refine hbar_uniq _ ?_
-        intro h
-        exact hpK ((piK_eq_one_iff (⟨p, hPH hp⟩ : ↥H)).mp (congrArg Subtype.val h))
+        intro _h
+        exact hpK ((piK_eq_one_iff (⟨p, hPH hp⟩ : ↥H)).mp (congrArg Subtype.val _h))
       have hpi : piK V H ⟨p, hPH hp⟩ = piK V H xα := by
         have h1 : piK V H ⟨p, hPH hp⟩ = (abar : HBar V H) := congrArg Subtype.val hbar_p
         rw [h1, ← hαpi]

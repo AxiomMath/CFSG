@@ -216,7 +216,7 @@ theorem caseII_bound [Module.Finite k V] {n : ℕ} (hn : 1 ≤ n) (hK : Nat.card
         exact Prod.ext this.1 this.2
       have hli2 : LinearIndependent k v := by
         refine linearIndependent_of_wcls exists_weyl_neg_E8 ρ v ν hv (fun c => ?_)
-        haveI : Subsingleton {p : Fin 240 × Fin 56 // wcls .E8 K k (ν p) = c} :=
+        have : Subsingleton {p : Fin 240 × Fin 56 // wcls .E8 K k (ν p) = c} :=
           ⟨fun p q => Subtype.ext (hsep p.1 q.1 (p.2.trans q.2.symm))⟩
         exact li_of_subsingleton' _ (fun p => hv0 p.1)
       exact hli2.fintype_card_le_finrank

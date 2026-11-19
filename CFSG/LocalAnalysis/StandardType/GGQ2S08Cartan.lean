@@ -34,30 +34,30 @@ theorem ggQ2_cartan_A {n : ℕ} (e : Fin n ≃ Λ) (hM : M = (CoxeterMatrix.A n)
   refine cartan_of_simplyLaced e hM hC (ggIntCartan_A n) ?_
   intro i j hij
   simp only [CoxeterMatrix.A, Matrix.of_apply]
-  rw [if_neg hij]
+  rw [ite_eq_right hij]
   split_ifs <;> omega
 
 theorem ggQ2_cartan_D {n : ℕ} (e : Fin n ≃ Λ) (hM : M = (ggCoxeterMatrixD n).reindex e)
     (hC : GGIntCartan M C) : ∀ i j : Fin n, C (e i) (e j) = CartanMatrix.D n i j := by
   refine cartan_of_simplyLaced e hM hC (ggIntCartan_D n) ?_
   intro i j hij
-  rw [ggCoxeterMatrixD_apply, if_neg hij]
+  rw [ggCoxeterMatrixD_apply, ite_eq_right hij]
   split_ifs <;> omega
 
 theorem ggQ2_cartan_E₆ (e : Fin 6 ≃ Λ) (hM : M = CoxeterMatrix.E₆.reindex e)
-    (hC : GGIntCartan M C) : ∀ i j : Fin 6, C (e i) (e j) = CartanMatrix.E₆ i j := by
+    (hC : GGIntCartan M C) : ∀ i j : Fin 6, C (e i) (e j) = (CartanMatrix.E 6) i j := by
   refine cartan_of_simplyLaced e hM hC ggIntCartan_E₆ ?_
   intro i j hij
   fin_cases i <;> fin_cases j <;> simp_all <;> decide
 
 theorem ggQ2_cartan_E₇ (e : Fin 7 ≃ Λ) (hM : M = CoxeterMatrix.E₇.reindex e)
-    (hC : GGIntCartan M C) : ∀ i j : Fin 7, C (e i) (e j) = CartanMatrix.E₇ i j := by
+    (hC : GGIntCartan M C) : ∀ i j : Fin 7, C (e i) (e j) = (CartanMatrix.E 7) i j := by
   refine cartan_of_simplyLaced e hM hC ggIntCartan_E₇ ?_
   intro i j hij
   fin_cases i <;> fin_cases j <;> simp_all <;> decide
 
 theorem ggQ2_cartan_E₈ (e : Fin 8 ≃ Λ) (hM : M = CoxeterMatrix.E₈.reindex e)
-    (hC : GGIntCartan M C) : ∀ i j : Fin 8, C (e i) (e j) = CartanMatrix.E₈ i j := by
+    (hC : GGIntCartan M C) : ∀ i j : Fin 8, C (e i) (e j) = (CartanMatrix.E 8) i j := by
   refine cartan_of_simplyLaced e hM hC ggIntCartan_E₈ ?_
   intro i j hij
   fin_cases i <;> fin_cases j <;> simp_all <;> decide

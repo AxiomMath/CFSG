@@ -155,7 +155,7 @@ theorem lifts310 {t : ℕ}
     rw [hRRf] at h
     rw [← h, hR2]
     simp only [map_add, map_zsmul, hV0c', hV1', hV2']
-    simp only [map_add, map_zsmul, hR0, hR1, hR2, hRt]
+    simp only [hR0, hR1, hR2, hRt]
     module
   have hWt : ∀ x y z : ℤ, W (tor300 (t + 1) x y z) = tor300 (t + 1) (x - 4 * z) (x - y - 2 * z) (-z) := by
     intro x y z
@@ -163,13 +163,13 @@ theorem lifts310 {t : ℕ}
         (x * 2 ^ (t + 1)) • (𝔤 (t + 1) 0) + (y * 2 ^ (t + 1 + 1)) • (𝔤 (t + 1) 1) + (z * 2 ^ (t + 1 + 1)) • (𝔤 (t + 1) 2) := rfl
     rw [e, map_add, map_add, map_zsmul, map_zsmul, map_zsmul, hW0, hW1, hW2]
     simp only [smul_add, smul_sub, smul_neg, pow_succ_zsmul_tor300, pow_zsmul_tor310, add_zero,
-      sub_zero, neg_zero]
+      sub_zero]
     simp only [tor300]
     module
   have hx0p1 : 2 ∣ -p1 + r2 - r0 ∧ 2 ∣ p1 + 2 * r1 - x0 + 2 * x1 := by
     have h := hUW (𝔤 (t + 1) 1)
     rw [hW1, hU1'] at h
-    simp only [map_add, map_sub, map_neg, map_zsmul] at h
+    simp only [map_add, map_sub, map_neg] at h
     rw [hU1', hUt, hUt, hV2', hVt] at h
     simp only [map_add, map_zsmul] at h
     rw [hW0c, hW1, hW2, hWt, hWt] at h
@@ -268,7 +268,7 @@ theorem images310 {t : ℕ}
     rw [hRRf] at h
     rw [← h, hR2]
     simp only [map_add, map_zsmul, hV0c', hV1e, hV2e]
-    simp only [map_add, map_zsmul, hR0, hR1, hR2, hRt]
+    simp only [hR0, hR1, hR2, hRt]
     module
   have a_uv0 : (Type110.action t).φuv (𝔤 (t + 1) 0) = (-3 : ℤ) • (𝔤 (t + 1) 0) +
       (4 * (2 ^ t) - 2 : ℤ) • (𝔤 (t + 1) 1) + (-2 : ℤ) • (𝔤 (t + 1) 2) := Type110.uv_c t

@@ -100,7 +100,7 @@ theorem sec79_no_i1_of_mem_A [Finite G] (h36 : Asc82Lemma36) (hP : Asc82Tab6P) {
     (hy : y ∈ zpowers t ⊔ B) (hyC : y ∉ centralizer (L : Set G)) :
     ¬ ∃ α : ℤˣ, InducesTypeSome L y 6 1 1 α := by
   rintro ⟨α, hα⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hctx := hc.ctx
   have hB_S : B ≤ S := hc.normalE16.1.trans inf_le_left
   have hB_L : B ≤ L := hc.normalE16.1.trans inf_le_right

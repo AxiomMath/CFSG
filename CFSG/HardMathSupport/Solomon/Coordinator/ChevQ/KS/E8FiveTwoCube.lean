@@ -89,14 +89,14 @@ theorem CubeBasis.swap' {a b c : G} (h : CubeBasis a b c) : CubeBasis a c b wher
 
 theorem CubeBasis.card {a b c : G} (h : CubeBasis a b c) :
     Nat.card (Subgroup.closure ({a, b, c} : Set G)) = 5 ^ 3 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   exact closure_triple_facts h.comm_ab h.comm_ac h.comm_bc h.pow_a h.pow_b h.pow_c h.inj
 
 theorem CubeBasis.line {a b c : G} (h : CubeBasis a b c) (i j : ℕ) (hij : ¬ (5 ∣ i ∧ 5 ∣ j)) :
     Subgroup.closure ({a, b ^ i * c ^ j} : Set G) ≤ Subgroup.closure ({a, b, c} : Set G) ∧
     (Subgroup.closure ({a, b ^ i * c ^ j} : Set G)).relIndex
       (Subgroup.closure ({a, b, c} : Set G)) = 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hle : Subgroup.closure ({a, b ^ i * c ^ j} : Set G) ≤
       Subgroup.closure ({a, b, c} : Set G) := by
     rw [Subgroup.closure_le]
@@ -158,7 +158,7 @@ theorem CubeBasis.of_card {a b c : G} (hab : Commute a b) (hac : Commute a c) (h
   pow_b := hb
   pow_c := hc
   inj := by
-    haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     let f : Fin 5 × Fin 5 × Fin 5 → Subgroup.closure ({a, b, c} : Set G) := fun v =>
       ⟨a ^ (v.1 : ℕ) * b ^ (v.2.1 : ℕ) * c ^ (v.2.2 : ℕ),
         (mem_closure_triple_iff hab hac hbc ha hb hc _).2 ⟨v, rfl⟩⟩
@@ -281,7 +281,7 @@ def cubeCoordHom (h : CubeBasis a b c) :
 def cubeCoordEquiv (h : CubeBasis a b c) :
     Multiplicative (Fin 3 → ZMod 5) ≃* Subgroup.closure ({a, b, c} : Set G) :=
   MulEquiv.ofBijective (cubeCoordHom h)
-    ⟨fun v w hvw => cubeCoord_injective h (congrArg Subtype.val hvw),
+    ⟨fun _v _w hvw => cubeCoord_injective h (congrArg Subtype.val hvw),
       cubeCoord_surjective h⟩
 
 @[simp]

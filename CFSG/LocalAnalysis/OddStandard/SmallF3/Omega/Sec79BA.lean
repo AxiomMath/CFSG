@@ -101,7 +101,7 @@ private theorem transfer_ker_le_oddCoreIn [Finite G] {K : Subgroup G} (P : Sylow
     (hPc : Subgroup.normalizer (P : Set ↥K) ≤ Subgroup.centralizer (P : Set ↥K)) :
     ((MonoidHom.transferSylow P hPc).ker.map K.subtype ≤ oddCoreIn K) ∧
       ∀ x ∈ K, Odd (orderOf x) → x ∈ (MonoidHom.transferSylow P hPc).ker.map K.subtype := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTodd : Odd (Nat.card (MonoidHom.transferSylow P hPc).ker) :=
     Nat.not_even_iff_odd.mp fun h =>
       MonoidHom.not_dvd_card_ker_transferSylow P hPc (Even.two_dvd h)
@@ -120,7 +120,7 @@ private theorem transfer_ker_le_oddCoreIn [Finite G] {K : Subgroup G} (P : Sylow
   have hcop : Nat.Coprime 2 (orderOf (⟨x, hxK⟩ : ↥K)) := by
     rw [Nat.coprime_two_left, Subgroup.orderOf_mk]
     exact hxodd
-  exact orderOf_eq_one_iff.mp (Nat.Coprime.eq_one_of_dvd (P.isPGroup'.orderOf_coprime hcop _)
+  exact orderOf_eq_one_iff.mp (Nat.Coprime.eq_one_of_dvd (P.isPGroup.orderOf_coprime hcop _)
     (orderOf_map_dvd (MonoidHom.transferSylow P hPc) _))
 
 private theorem normalizer_sylow_le_centralizer [Finite G] {K Z : Subgroup G} (P : Sylow 2 ↥K)
@@ -177,7 +177,7 @@ theorem commute_of_normal_two_odd [Finite G] {K P O : Subgroup G} (hPK : P ≤ K
     intro x hxP hxO
     have hdvdP : orderOf (x : G) ∣ Nat.card P := Subgroup.orderOf_dvd_natCard P hxP
     have hdvdO : orderOf (x : G) ∣ Nat.card O := Subgroup.orderOf_dvd_natCard O hxO
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨m, hm⟩ := IsPGroup.iff_card.mp hP
     have hdvd2 : orderOf (x : G) ∣ 2 ^ m := by rw [← hm]; exact hdvdP
     have hcop : Nat.Coprime (orderOf (x : G)) (Nat.card O) :=

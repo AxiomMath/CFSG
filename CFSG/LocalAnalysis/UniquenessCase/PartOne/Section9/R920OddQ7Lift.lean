@@ -25,12 +25,14 @@ variable {G : Type} [Group G] [Finite G]
     (F09.img9 H K) fun x =>
       Subgroup.mem_map.2 ⟨Subgroup.inclusion hKH x, Subgroup.mem_subgroupOf.2 x.2, rfl⟩
 
+omit [Finite G] in
 theorem toImg9_surjective {H K : Subgroup G} (hKH : K ≤ H) :
     Function.Surjective (toImg9 hKH) := by
   rintro ⟨z, hz⟩
   obtain ⟨y, hy, rfl⟩ := Subgroup.mem_map.1 hz
   exact ⟨⟨y, Subgroup.mem_subgroupOf.1 hy⟩, Subtype.ext rfl⟩
 
+omit [Finite G] in
 theorem mem_ker_toImg9 {H K : Subgroup G} (hKH : K ≤ H) {x : ↥K} :
     x ∈ (toImg9 hKH).ker ↔ (x : G) ∈ F09.I9 H := by
   rw [MonoidHom.mem_ker, ← Subtype.coe_inj, Subgroup.coe_one]
@@ -65,7 +67,7 @@ theorem opp_inf_I9_le_pCoreOf (S : SliceCore D L D₃ Y H) :
   have hJn : J.Normal := ⟨fun x hx g => by
     rw [hJ, Subgroup.mem_subgroupOf] at hx ⊢
     simpa using (Subgroup.mem_normalizer_iff.mp (hHI (hXH g.2)) (x : G)).mp hx⟩
-  haveI : (J.map (QuotientGroup.mk' Q)).Normal := hJn.map _ (QuotientGroup.mk'_surjective Q)
+  have : (J.map (QuotientGroup.mk' Q)).Normal := hJn.map _ (QuotientGroup.mk'_surjective Q)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (J.map (QuotientGroup.mk' Q)) with h | h
   · intro x hx
     have h1 : QuotientGroup.mk' Q ⟨x, hx.1⟩ ∈ J.map (QuotientGroup.mk' Q) :=

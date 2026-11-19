@@ -40,8 +40,8 @@ open CFSG.Open CFSG.LocalAnalysis.RankThreeTheoremC Subgroup
 theorem gl83I294Two_of (hΔ : KDInndiagP5) (h29 : KD29Inner) (hOD : I294OutDiagExcluded) :
     GL83I294Two := by
   intro p hp h5 X _ _ L _ hs hn hc hcen D hD hcard hsyl hrank z g hz hz1 hg hlow
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsMulCommutative D := hD.1
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsMulCommutative D := hD.1
   have hp2 : p ≠ 2 := by omega
   have hout : ¬ IsLinearOrUnitaryAt p L :=
     hOD p hp h5 X L hs hn hc hcen D hD hcard hsyl hrank z g hz hz1 hg hlow

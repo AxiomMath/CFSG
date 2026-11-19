@@ -58,14 +58,17 @@ structure TSys (A : Subgroup (Equiv.Perm P)) (τ : P → Equiv.Perm P) : Prop wh
 @[expose] def Orb (τ : P → Equiv.Perm P) (X : Set P) (y : P) : Set P :=
   {x | ∃ g ∈ Subgroup.closure (τ '' X), g y = x}
 
+omit [DecidableEq P] in
 theorem orb_self (τ : P → Equiv.Perm P) (X : Set P) (y : P) : y ∈ Orb τ X y :=
   ⟨1, one_mem _, rfl⟩
 
+omit [DecidableEq P] in
 theorem orb_step {τ : P → Equiv.Perm P} {X : Set P} {y x s : P} (hx : x ∈ Orb τ X y)
     (hs : s ∈ X) : τ s x ∈ Orb τ X y := by
   obtain ⟨g, hg, rfl⟩ := hx
   exact ⟨τ s * g, mul_mem (Subgroup.subset_closure ⟨s, hs, rfl⟩) hg, rfl⟩
 
+omit [DecidableEq P] in
 theorem orb_mono {τ : P → Equiv.Perm P} {X Y : Set P} (h : X ⊆ Y) {y x : P}
     (hx : x ∈ Orb τ X y) : x ∈ Orb τ Y y := by
   obtain ⟨g, hg, rfl⟩ := hx
@@ -126,9 +129,11 @@ theorem orbit_sub {α G : Type*} [Group G] [Finite G] [MulAction G α] {Gab : Se
   rw [h] at hT'
   exact hT'.1
 
+omit [DecidableEq P] in
 theorem perm_apply_inv (g : Equiv.Perm P) (x : P) : g (g⁻¹ x) = x := by
   rw [← Equiv.Perm.mul_apply, mul_inv_cancel, Equiv.Perm.one_apply]
 
+omit [DecidableEq P] in
 theorem perm_inv_apply (g : Equiv.Perm P) (x : P) : g⁻¹ (g x) = x := by
   rw [← Equiv.Perm.mul_apply, inv_mul_cancel, Equiv.Perm.one_apply]
 
@@ -137,15 +142,19 @@ namespace TSys
 variable {A : Subgroup (Equiv.Perm P)} {τ : P → Equiv.Perm P} (hs : TSys A τ)
 include hs
 
+omit [DecidableEq P] in
 theorem inv (x : P) : (τ x)⁻¹ = τ x := inv_eq_of_mul_eq_one_right (hs.sq x)
 
+omit [DecidableEq P] in
 theorem self (x : P) : τ x x = x := by
   apply hs.inj
   rw [hs.conj _ (hs.mem x), hs.inv, hs.sq, one_mul]
 
+omit [DecidableEq P] in
 theorem conj_self (y x : P) : τ (τ y x) = τ y * τ x * τ y := by
   rw [hs.conj _ (hs.mem y), hs.inv]
 
+omit [DecidableEq P] in
 theorem conj_inv {g : Equiv.Perm P} (hg : g ∈ A) (x : P) : τ x = g * τ (g⁻¹ x) * g⁻¹ := by
   rw [← hs.conj g hg, perm_apply_inv]
 
@@ -176,6 +185,7 @@ theorem adj_smul_iff {g : Equiv.Perm P} (hg : g ∈ A) {V W : Finset P} :
   have h' := hs.adj_smul (inv_mem hg) h
   rwa [inv_smul_smul, inv_smul_smul] at h'
 
+omit [DecidableEq P] in
 theorem closure_le (X : Set P) : Subgroup.closure (τ '' X) ≤ A := by
   rw [Subgroup.closure_le]
   rintro _ ⟨x, -, rfl⟩
@@ -191,6 +201,7 @@ theorem fix_closure {X : Set P} {V : Finset P} (hX : ∀ s ∈ X, τ s • V = V
   exact MulAction.mem_stabilizer_iff.1 (hle hg)
 
 omit hs in
+omit [DecidableEq P] in
 theorem fix_closure_pt {X : Set P} {y : P} (hX : ∀ s ∈ X, τ s y = y) {g : Equiv.Perm P}
     (hg : g ∈ Subgroup.closure (τ '' X)) : g y = y := by
   have hle : Subgroup.closure (τ '' X) ≤ MulAction.stabilizer (Equiv.Perm P) y := by
@@ -205,6 +216,7 @@ theorem smul_τ {g : Equiv.Perm P} (hg : g ∈ A) {T : Finset P} (hT : g • T =
   congr 2
   rw [← hT, inv_smul_smul, hT]
 
+omit hs in
 theorem not_mem_smul {g : Equiv.Perm P} {T : Finset P} (hT : g • T = T) {f : P} (hf : f ∉ T) :
     g f ∉ T := by
   rw [← hT, ← Equiv.Perm.smul_def, Finset.smul_mem_smul_finset_iff]
@@ -238,6 +250,7 @@ theorem q_eq {g : Equiv.Perm P} (hg : g ∈ A) (hx0 : x0 ∈ g • T) (hSg : ∀
     exact Finset.smul_mem_smul_finset hx0
   exact (Finset.eq_of_subset_of_card_le hsub (by rw [Finset.card_smul_finset])).symm
 
+omit hS h0 [DecidableEq P] in
 theorem τ_mem_H (hST : S ⊆ T) {s1 : P} (hs1 : s1 ∈ S) {x : P} (hx : x ∈ T) :
     τ x ∈ Subgroup.closure (τ '' S) := by
   have key : ∀ g ∈ Subgroup.closure (τ '' S), ∀ y, τ (g y) = g * τ y * g⁻¹ :=

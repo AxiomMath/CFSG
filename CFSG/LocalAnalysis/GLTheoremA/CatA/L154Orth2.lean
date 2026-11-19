@@ -71,11 +71,11 @@ variable {E W : Type*} [Field E] [AddCommGroup W] [Module E W]
   inv := 1 - a • T
   val_inv := LinearMap.ext fun w => by
     simp only [Module.End.mul_apply, LinearMap.add_apply, LinearMap.sub_apply, Module.End.one_apply,
-      LinearMap.smul_apply, map_sub, map_smul, hT, smul_zero, sub_zero]
+      LinearMap.smul_apply, map_sub, map_smul, hT, smul_zero]
     abel
   inv_val := LinearMap.ext fun w => by
     simp only [Module.End.mul_apply, LinearMap.add_apply, LinearMap.sub_apply, Module.End.one_apply,
-      LinearMap.smul_apply, map_add, map_smul, hT, smul_zero, add_zero]
+      LinearMap.smul_apply, map_add, map_smul, hT, smul_zero]
     abel
 
 theorem orthUnipotent_apply (T : W →ₗ[E] W) (hT : ∀ w, T (T w) = 0) (a : E) (w : W) :
@@ -248,9 +248,9 @@ theorem orthBlockData_paired (hx : OddOrderIsometry Q p x) (hp : p.Prime) (hp2 :
     (hh : h ∈ primaryFactors x.toLinearMap) (hne1 : h ≠ X - 1) (hne : h ≠ reciprocalPolynomial h)
     (hq : CFSG.IsQuasisimple ↥(specialBlock Q x h)) : OrthBlockData p (specialBlock Q x h) := by
   classical
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
-  haveI : CharP (AdjoinRoot h) 2 := charP_two_of_algebra (K := K)
-  haveI : Finite (AdjoinRoot h) := finite_adjoinRoot_of_fact h
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : CharP (AdjoinRoot h) 2 := charP_two_of_algebra (K := K)
+  have : Finite (AdjoinRoot h) := finite_adjoinRoot_of_fact h
   set n := primaryMultiplicity x.toLinearMap h with hn
   have hn2 : 2 ≤ n := by
     by_contra hlt
@@ -263,7 +263,7 @@ theorem orthBlockData_paired (hx : OddOrderIsometry Q p x) (hp : p.Prime) (hp2 :
     have := hx.p_lt_card_adjoinRoot hp hh hne1
     omega
   obtain ⟨f', hf'⟩ : ∃ f' : ℕ, Nat.card (AdjoinRoot h) = 2 ^ f' := by
-    haveI := Fintype.ofFinite (AdjoinRoot h)
+    have := Fintype.ofFinite (AdjoinRoot h)
     obtain ⟨m, -, hm⟩ := FiniteField.card (AdjoinRoot h) 2
     exact ⟨m, by rw [Nat.card_eq_fintype_card, hm]⟩
   have hf'2 : 2 ≤ f' := by
@@ -319,7 +319,7 @@ theorem orthBlockData_paired (hx : OddOrderIsometry Q p x) (hp : p.Prime) (hp2 :
     unfold OrthRealized CFSG.Assembly.LargeEvenRawDatum
     dsimp only
     unfold LargeEvenRecipeLinear
-    haveI := hs
+    have := hs
     exact ⟨AdjoinRoot h, inferInstance, inferInstance, hf', hs,
       orth_exists_noncomm_of_surjective hq.1 Θ₁ hΘs, Θ₁, hΘs, hΘk, hreal⟩
   ·
@@ -332,7 +332,7 @@ theorem orthBlockData_paired (hx : OddOrderIsometry Q p x) (hp : p.Prime) (hp2 :
       (β.coord i1).smulRight (β i0) with hT
     have hTT : ∀ w, T (T w) = 0 := by
       intro w
-      simp [hT, Module.Basis.coord_apply, Module.Basis.repr_self, Finsupp.single_apply, hi]
+      simp [hT, Module.Basis.coord_apply, Module.Basis.repr_self, hi]
     have hT0 : T ≠ 0 := by
       intro h0
       have h1 : T (β i1) = β i0 := by simp [hT]
@@ -401,7 +401,7 @@ theorem orth_selfDual_setting (hx : OddOrderIsometry Q p x) (hp : p.Prime) (hp2 
   have hbar' : ∀ z, frobPow K (AdjoinRoot h) d z = hU.bar z := fun z => by
     rw [hbar, frobPow_apply]
   obtain ⟨f₂, hf₂⟩ : ∃ f₂ : ℕ, Nat.card K = 2 ^ f₂ := by
-    haveI := Fintype.ofFinite K
+    have := Fintype.ofFinite K
     obtain ⟨m, -, hm⟩ := FiniteField.card K 2
     exact ⟨m, by rw [Nat.card_eq_fintype_card, hm]⟩
   have hℓ2 : ℓ = 2 := by
@@ -453,6 +453,7 @@ open CFSG.LocalAnalysis.ComponentInitial
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {V : Type} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {Q : QuadraticForm K V} {p : ℕ} {x : V ≃ₗ[K] V}
 
+omit [Finite K] in
 theorem orth_kline_selfDual (hx : OddOrderIsometry Q p x) {h : K[X]} [Fact (Irreducible h)]
     (hh : h ∈ primaryFactors x.toLinearMap) {f₀ : ℕ} (hU : UnitaryFieldData 2 f₀ (AdjoinRoot h))
     (B : primaryComponent x.toLinearMap h →ₛₗ[hU.bar]
@@ -465,7 +466,7 @@ theorem orth_kline_selfDual (hx : OddOrderIsometry Q p x) {h : K[X]} [Fact (Irre
     (hn2 : 2 ≤ Module.finrank (AdjoinRoot h) (primaryComponent x.toLinearMap h)) :
     ∃ N : V →ₗ[K] V, N ≠ 0 ∧ ∀ c : K, ∃ ω ∈ specialBlock Q x h, ∀ v, ω v = v + c • N v := by
   classical
-  haveI : CharP (AdjoinRoot h) 2 := charP_two_of_algebra (K := K)
+  have : CharP (AdjoinRoot h) 2 := charP_two_of_algebra (K := K)
   have h2 : (2 : AdjoinRoot h) = 0 := CharTwo.two_eq_zero
   obtain ⟨e, he⟩ := hU.exists_orthonormal_basis hBsymm hBl
   set i0 : Fin (Module.finrank (AdjoinRoot h) (primaryComponent x.toLinearMap h)) := ⟨0, by omega⟩ with hi0
@@ -475,10 +476,10 @@ theorem orth_kline_selfDual (hx : OddOrderIsometry Q p x) {h : K[X]} [Fact (Irre
     exact fun h01 => absurd (congrArg Fin.val h01) (by simp)
   set u₀ := e i0 + e i1 with hu₀
   have hB00 : B u₀ u₀ = 0 := by
-    simp only [hu₀, map_add, LinearMap.add_apply, he, ↓reduceIte, hi, hi.symm, if_false]
+    simp only [hu₀, map_add, LinearMap.add_apply, he, ↓reduceIte, hi, hi.symm]
     linear_combination h2
   have hB0 : B u₀ (e i0) = 1 := by
-    simp only [hu₀, map_add, LinearMap.add_apply, he, ↓reduceIte, hi.symm, if_false, add_zero]
+    simp only [hu₀, map_add, LinearMap.add_apply, he, ↓reduceIte, hi.symm, add_zero]
   set T : primaryComponent x.toLinearMap h →ₗ[AdjoinRoot h] primaryComponent x.toLinearMap h :=
     (B u₀).smulRight u₀ with hT
   have hTv : ∀ w, T w = B u₀ w • u₀ := fun w => rfl
@@ -500,8 +501,7 @@ theorem orth_kline_selfDual (hx : OddOrderIsometry Q p x) {h : K[X]} [Fact (Irre
     set a := algebraMap K (AdjoinRoot h) c with ha
     have hba : hU.bar a = a := hbarK c
     have hsym : hU.bar (B u₀ u) = B u u₀ := hBsymm.eq u₀ u
-    simp only [map_add, map_smulₛₗ, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul, map_smul,
-      hba, hsym, hB00]
+    simp only [map_add, map_smulₛₗ, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul, hba, hsym, hB00]
     linear_combination (a * B u₀ w * B u u₀) * h2
   set g : K → ↥(supportedBlock Q x h) := fun c => (hpres c).choose with hg
   have hgv : ∀ c, blockGL Q x h (g c) = orthUnipotent T hTT (algebraMap K (AdjoinRoot h) c) :=
@@ -514,10 +514,10 @@ theorem orthBlockData_selfDual (hx : OddOrderIsometry Q p x) (hp : p.Prime) (hp2
     (hh : h ∈ primaryFactors x.toLinearMap) (hne1 : h ≠ X - 1) (hself : h = reciprocalPolynomial h)
     (hq : CFSG.IsQuasisimple ↥(specialBlock Q x h)) : OrthBlockData p (specialBlock Q x h) := by
   classical
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
-  haveI : CharP (AdjoinRoot h) 2 := charP_two_of_algebra (K := K)
-  haveI : Finite (AdjoinRoot h) := finite_adjoinRoot_of_fact h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : CharP (AdjoinRoot h) 2 := charP_two_of_algebra (K := K)
+  have : Finite (AdjoinRoot h) := finite_adjoinRoot_of_fact h
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨f₀, hU, B, hBsymm, hBl, -, hbarq, hbarK, hrangeB, hrange⟩ :=
     orth_selfDual_setting hx hp hp2 hh hne1 hself
   set n := primaryMultiplicity x.toLinearMap h with hn
@@ -530,14 +530,14 @@ theorem orthBlockData_selfDual (hx : OddOrderIsometry Q p x) (hp : p.Prime) (hp2
   have hE : Nat.card (AdjoinRoot h) = (2 ^ f₀) ^ 2 := by rw [hU.card, ← pow_mul, mul_comm]
   set e₁ : ↥(specialBlock Q x h) ≃* ↥(sesqSpecialUnitaryGroup B) :=
     (MonoidHom.ofInjective (hx.specialBlockGL_injective hh)).trans (MulEquiv.subgroupCongr hrange) with he₁
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
+  have : Finite V := Module.finite_of_finite K
+  have : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
     fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
   have hsmall : ¬ (f₀ = 1 ∧ (n = 2 ∨ n = 3)) := by
     rintro ⟨hf, hn23⟩
     have hcard := (CFSG.LinearGroups.unitary_full_group_order hU hBsymm hBl hnW (by omega)).2.1
     apply orth_not_isSolvable_of_isQuasisimple hq
-    haveI := Fintype.ofFinite ↥(specialBlock Q x h)
+    have := Fintype.ofFinite ↥(specialBlock Q x h)
     rcases hn23 with h2' | h3'
     · rw [h2', show (2 : ℕ) ^ f₀ = 2 ^ 1 by rw [hf]] at hcard
       have e : ((2 ^ 1 : ℕ) : ℤ) ^ (2 * (2 - 1) / 2) *
@@ -564,7 +564,7 @@ theorem orthBlockData_selfDual (hx : OddOrderIsometry Q p x) (hp : p.Prime) (hp2
       exact hsmall ⟨by omega, Or.inl hn2'⟩
     obtain ⟨eSL⟩ := CFSG.RankThree.Classical.nonempty_sesqSpecialUnitaryGroup_mulEquiv_SL2 hU hBsymm hBl
       (by rw [hnW, hn2'])
-    haveI : CharP ↥hU.fixedField 2 :=
+    have : CharP ↥hU.fixedField 2 :=
       ((algebraMap ↥hU.fixedField (AdjoinRoot h)).charP_iff_charP 2).2 inferInstance
     obtain ⟨eZ⟩ := CFSG.LocalAnalysis.GLTheoremA.Y10GCenterQuot.nonempty_centerQuot_sl 2 (e₁.trans eSL)
     have hlab : LargeEvenInLambda2 ⟨.A, 1, f₀⟩ := by
@@ -682,7 +682,7 @@ theorem orthBlockData_selfDual (hx : OddOrderIsometry Q p x) (hp : p.Prime) (hp2
     unfold OrthRealized CFSG.Assembly.LargeEvenRawDatum
     dsimp only
     unfold LargeEvenRecipeUnitary
-    haveI := hs
+    have := hs
     exact ⟨AdjoinRoot h, inferInstance, inferInstance, hE, hs, orth_exists_noncomm_of_surjective hq.1 Θ₁ hΘs,
       Θ₁, hΘs, hΘk, hreal⟩
 
@@ -761,7 +761,7 @@ theorem orth_exists_hyperbolic_fixed (hx : OddOrderIsometry Q p x) {s : ℕ} (hs
       rw [h1, h2, polar_quadPlus, Finset.sum_eq_single i0]
       · simp [he', hf']
       · intro i _ hi
-        simp [he', hf', Pi.single_apply, hi]
+        simp [he', hf', hi]
       · simp
   · obtain ⟨ψ⟩ := hψ
     set i0 : Fin (s - 1) := ⟨0, by omega⟩
@@ -784,7 +784,7 @@ theorem orth_exists_hyperbolic_fixed (hx : OddOrderIsometry Q p x) {s : ℕ} (hs
       rw [h1, h2, polar_quadMinus, Finset.sum_eq_single i0]
       · simp [he', hf']
       · intro i _ hi
-        simp [he', hf', Pi.single_apply, hi]
+        simp [he', hf', hi]
       · simp
 
 theorem orth_obstruction_fixed [CharP K 2] (hx : OddOrderIsometry Q p x) (hQ : (polarBilin Q).Nondegenerate)
@@ -814,7 +814,7 @@ theorem orth_linear_inn_data (hq : CFSG.IsQuasisimple ↥J₀) {E : Type} [Field
     LargeEvenRecipeLinear d N fun R _ I _ => IsSimpleGroup R ∧ (∃ a b : R, a * b ≠ b * a) ∧
       I ⊆ LargeEvenInnSet R ∧ ∃ Θ₁ : ↥J₀ →* R, Function.Surjective Θ₁ ∧ Θ₁.ker ≤ Subgroup.center ↥J₀ := by
   have h3 : Nat.card E ≠ 3 := by
-    haveI := Fintype.ofFinite E
+    have := Fintype.ofFinite E
     obtain ⟨m, -, hm⟩ := FiniteField.card E 2
     rw [Nat.card_eq_fintype_card, hm]
     intro h
@@ -825,7 +825,7 @@ theorem orth_linear_inn_data (hq : CFSG.IsQuasisimple ↥J₀) {E : Type} [Field
   have hs : IsSimpleGroup (LargeEvenProj (LargeEvenSLGroup (Fin d) E)) := by
     rw [largeEvenSLGroup_eq_statedSL]
     exact CFSG.Open.StatedAPI.isSimpleGroup_statedProj_statedSL E hd2 h22 (Or.inr h3)
-  haveI := hs
+  have := hs
   set Θ₁ : ↥J₀ →* LargeEvenProj (LargeEvenSLGroup (Fin d) E) :=
     (LargeEvenProjMk _).comp e'.toMonoidHom with hΘ₁
   have hΘs : Function.Surjective Θ₁ := (QuotientGroup.mk'_surjective _).comp e'.surjective
@@ -839,11 +839,11 @@ theorem orth_unitary4_inn_data (hq : CFSG.IsQuasisimple ↥J₀) {E : Type} [Fie
     {f : ℕ} (hf : 1 ≤ f) (hE : Nat.card E = (2 ^ f) ^ 2) (e : ↥J₀ ≃* ↥(StatedSU 4 (2 ^ f) E)) :
     LargeEvenRecipeUnitary 4 (2 ^ f) fun R _ I _ => IsSimpleGroup R ∧ (∃ a b : R, a * b ≠ b * a) ∧
       I ⊆ LargeEvenInnSet R ∧ ∃ Θ₁ : ↥J₀ →* R, Function.Surjective Θ₁ ∧ Θ₁.ker ≤ Subgroup.center ↥J₀ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hs : IsSimpleGroup (LargeEvenProj (LargeEvenSUGroup (Fin 4) E (2 ^ f))) :=
     CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU E 2 f hE 4 (by norm_num)
       (fun h => absurd (congrArg Prod.fst h) (by norm_num))
-  haveI := hs
+  have := hs
   set e' : ↥J₀ ≃* ↥(LargeEvenSUGroup (Fin 4) E (2 ^ f)) :=
     e.trans (MulEquiv.subgroupCongr (largeEvenSUGroup_eq_statedSU 4 (2 ^ f)).symm) with he'
   set Θ₁ : ↥J₀ →* LargeEvenProj (LargeEvenSUGroup (Fin 4) E (2 ^ f)) :=
@@ -950,8 +950,8 @@ theorem orthBlockData_fixed_split (hx : OddOrderIsometry Q p x) (hlist : FixedLa
     ((F.subgroupOf (supportedBlock Q x (X - 1))).equivMapOfInjective
       (fixedBlockEquiv hx).toMonoidHom (fixedBlockEquiv hx).injective) with heFL
   have hLq : CFSG.IsQuasisimple ↥L := CFSG.LocalCores.isQuasisimple_of_mulEquiv eFL hFq
-  haveI : Finite (fixedSpace x) := Module.finite_of_finite K
-  haveI : Finite ((fixedSpace x) ≃ₗ[K] (fixedSpace x)) :=
+  have : Finite (fixedSpace x) := Module.finite_of_finite K
+  have : Finite ((fixedSpace x) ≃ₗ[K] (fixedSpace x)) :=
     Finite.of_injective (fun g : (fixedSpace x) ≃ₗ[K] (fixedSpace x) => (g : fixedSpace x → fixedSpace x))
       fun g₁ g₂ h => LinearEquiv.ext (congrFun h)
   set Lf := (determinantLeftFactor K).map e.symm.toMonoidHom with hLf
@@ -1109,6 +1109,7 @@ section FixedMain
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {V : Type} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {Q : QuadraticForm K V} {p : ℕ} {x : V ≃ₗ[K] V}
 
+omit [Finite K] [CharP K 2] in
 theorem orth_eq_supportedFixedDerived (hx : OddOrderIsometry Q p x) {F : Subgroup (V ≃ₗ[K] V)}
     (hFq : CFSG.IsQuasisimple ↥F) (hFle : F ≤ supportedFixedDerived Q x)
     (hFn : (F.subgroupOf (supportedFixedDerived Q x)).Normal)
@@ -1144,7 +1145,7 @@ theorem orthBlockData_fixed (hx : OddOrderIsometry Q p x) (hQ : (polarBilin Q).N
     have := hlist.1
     omega
   obtain ⟨f, hK⟩ : ∃ f : ℕ, Nat.card K = 2 ^ f := by
-    haveI := Fintype.ofFinite K
+    have := Fintype.ofFinite K
     obtain ⟨m, -, hm⟩ := FiniteField.card K 2
     exact ⟨m, by rw [Nat.card_eq_fintype_card, hm]⟩
   have hf1 : 1 ≤ f := by
@@ -1213,8 +1214,8 @@ theorem orthBlockData_fixed (hx : OddOrderIsometry Q p x) (hQ : (polarBilin Q).N
           push Not at hcon
           exact hT ⟨U, hU, hcon⟩
         obtain ⟨E, _, _, D, ψ, hψ⟩ := exists_evenMinus_model R hR (n := 3) (by norm_num) (by omega) hts
-        haveI : CharP E 2 := charP_two_of_algebra (K := K)
-        haveI := D.finite_E
+        have : CharP E 2 := charP_two_of_algebra (K := K)
+        have := D.finite_E
         let e1 : R.IsometryEquiv (evenNormTailForm D.N 2) :=
           { toLinearEquiv := ψ
             map_app' := fun w => hψ w }

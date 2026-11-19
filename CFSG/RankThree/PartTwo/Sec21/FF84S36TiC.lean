@@ -82,6 +82,7 @@ theorem S36_cen_b_two {b t b₁ b₂ : G} {L B : Subgroup G} (d : F6Data b L B b
   rw [hbk, one_mul]
   exact hl
 
+omit [Finite G] in
 theorem S36_op2_map_le (c : G ≃* G) (H : Subgroup G) :
     Op 2 (H.map c.toMonoidHom) ≤ (Op 2 H).map c.toMonoidHom := by
   set W := Op 2 (H.map c.toMonoidHom) with hW

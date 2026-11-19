@@ -28,7 +28,7 @@ private theorem false_of_B_label_four {ι : Type} {M : CoxeterMatrix ι} {n : �
     (h3 : ∀ i j : ι, i ≠ j → M.M i j ≤ 3) : False := by
   have hne : (⟨n - 1, by omega⟩ : Fin n) ≠ ⟨n - 2, by omega⟩ := fun h => by
     have := congrArg Fin.val h
-    simp only [Fin.val_mk] at this
+    simp only at this
     omega
   refine false_of_big_label hM h3 hne ?_
   rw [show (CoxeterMatrix.B n).M ⟨n - 1, by omega⟩ ⟨n - 2, by omega⟩ = 4 by

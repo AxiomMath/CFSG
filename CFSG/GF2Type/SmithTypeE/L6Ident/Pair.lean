@@ -332,7 +332,7 @@ theorem blkMat_injective : Function.Injective blkMat := by
   map_one' := Subtype.ext blkMat_one
   map_mul' A B := Subtype.ext (blkMat_mul A.1 B.1)
 
-theorem embSL_injective : Function.Injective embSL := fun A B h =>
+theorem embSL_injective : Function.Injective embSL := fun _A _B h =>
   Subtype.ext (blkMat_injective (congrArg Subtype.val h))
 
 @[expose] def ext0 (v : Fin 4 → ZMod 2) : Fin 6 → ZMod 2 :=
@@ -350,7 +350,7 @@ theorem blkMat_transvec (v φ : Fin 4 → ZMod 2) :
   obtain ⟨x, rfl⟩ := e24.surjective a
   obtain ⟨y, rfl⟩ := e24.surjective b
   rcases x with x | x <;> rcases y with y | y <;>
-    simp [blkMat, Matrix.reindexAlgEquiv_apply, Matrix.reindex_apply, Matrix.submatrix_apply,
+    simp [blkMat, Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply, Matrix.submatrix_apply,
       ext0, Matrix.one_apply, vecMulVec_apply, Matrix.fromBlocks_apply₁₁,
       Matrix.fromBlocks_apply₁₂, Matrix.fromBlocks_apply₂₁, Matrix.fromBlocks_apply₂₂]
 
@@ -375,7 +375,7 @@ theorem eq_top_of_elementary_gen {ι : Type*} [Fintype ι] [DecidableEq ι] [Non
       apply Subtype.ext
       ext k l
       by_cases hkl : k = l <;>
-        simp [SpecialLinearGroup.diag2n_coe, Matrix.diagonal_apply, Matrix.one_apply, hkl]
+        simp [SpecialLinearGroup.diag2n_coe, hkl]
     rw [hone]
     exact S.one_mem
   · intro i j hij a
@@ -471,7 +471,7 @@ theorem actPerm_embSL_transvection {i j : Fin 4} (hij : i ≠ j) :
     simp at this
   obtain ⟨k, hkm, hk0, hk31⟩ := exists_tv_blk (hne i) (hne j) (by
     rw [dotProduct_single, mul_one]
-    simp [Pi.single_apply, hij])
+    simp [hij])
   refine ⟨k, ⟨hk0, hk31⟩, ?_⟩
   have : embSL (SpecialLinearGroup.transvection hij (1 : ZMod 2)) = tvSL k := by
     apply Subtype.ext
@@ -550,11 +550,11 @@ theorem card_closure_std : Nat.card (closure (tvP '' {k : Fin 1953 |
   card_closure_stdComm
 
 theorem isSimpleGroup_closure_stdComm : IsSimpleGroup (closure (tvP '' stdComm)) := by
-  haveI : IsSimpleGroup PSL(4, ZMod 2) :=
+  have : IsSimpleGroup PSL(4, ZMod 2) :=
     CFSG.BenderSuzuki.External.huppert_II_6_13 4 (by norm_num) (.inl (by norm_num))
       (.inl (by norm_num))
-  haveI : IsSimpleGroup SL(4, ZMod 2) := (CFSG.LargeExtraspecial.DW.slEquivPSL 4).isSimpleGroup
-  haveI : IsSimpleGroup (actPerm.comp embSL).range :=
+  have : IsSimpleGroup SL(4, ZMod 2) := (CFSG.LargeExtraspecial.DW.slEquivPSL 4).isSimpleGroup
+  have : IsSimpleGroup (actPerm.comp embSL).range :=
     (MonoidHom.ofInjective injective_actPerm_embSL).symm.isSimpleGroup
   have h : closure (tvP '' stdComm) = (actPerm.comp embSL).range := closure_stdComm_eq_range
   exact (MulEquiv.subgroupCongr h).isSimpleGroup
@@ -604,7 +604,7 @@ theorem isSimpleGroup_closure_pair {kt ku : Fin 1953} (hord : orderOf (tvP kt * 
     IsSimpleGroup (closure (tvP '' {k : Fin 1953 |
       Commute (tvP k) (tvP kt) ∧ Commute (tvP k) (tvP ku)})) := by
   obtain ⟨e⟩ := nonempty_mulEquiv_closure_pair hord
-  haveI := isSimpleGroup_closure_stdComm
+  have := isSimpleGroup_closure_stdComm
   exact e.symm.isSimpleGroup
 
 end Gen

@@ -209,6 +209,7 @@ section Case148
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem false_of_case7 {A Y : Subgroup G} [(ker148 A Y).Normal] (hAab : IsMulCommutative A)
     {D J₁ J₂ : Subgroup G} (hJ₁ : J₁ ≤ Y) (hJ₂ : J₂ ≤ Y) (hq : IsQuasisimple ↥(img148 A Y D))
     (hsup : img148 A Y J₁ ⊔ img148 A Y J₂ = img148 A Y D)

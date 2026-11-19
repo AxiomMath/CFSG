@@ -162,7 +162,7 @@ theorem isCyclic_sylow_of_isSLThreeEpsAt {X : Type} [Group X] {p e : ℕ} [Fact 
     obtain ⟨S, rfl⟩ := Sylow.mapSurjective_surjective hf 3 Q
     have := SectionRank.OddCover.isCyclic_of_isPGroup_of_le_GL_three (K := K)
       (H := CFSG.Assembly.LowTwoRank.StatedSL 3 K) (by rw [hK]; omega) (by rw [hK]; omega)
-      S.isPGroup'
+      S.isPGroup
     rw [Sylow.coe_mapSurjective]
     exact isCyclic_of_surjective _ (MonoidHom.subgroupMap_surjective _ _)
   ·

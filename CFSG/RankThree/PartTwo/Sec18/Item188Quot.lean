@@ -80,7 +80,7 @@ theorem le_map_of_normal_coprime {G : Type} [Group G] [Finite G] {M A P T : Subg
     (hA3 : ∀ x : G, x ^ 3 = 1 → (∀ a ∈ A, a * x = x * a) → x ∈ A)
     (hT : IsPGroup 2 T) (hTM : T ≤ M) (hAT : A ≤ Subgroup.normalizer (T : Set G)) :
     T ≤ N.map M.subtype := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set π : M →* M ⧸ N := QuotientGroup.mk' N with hπ
   have hAM : A ≤ M := hAP.trans hPM
   have hAM3 : IsPGroup 3 (A.subgroupOf M) := (hP3.to_le hAP).comap_subtype
@@ -120,7 +120,7 @@ theorem le_inSubgroup_pPrimeCore_of_isPConstrained {G : Type} [Group G] [Finite 
     (hA3 : ∀ x : G, x ^ 3 = 1 → (∀ a ∈ A, a * x = x * a) → x ∈ A)
     (hT : IsPGroup 2 T) (hTM : T ≤ M) (hAT : A ≤ Subgroup.normalizer (T : Set G)) :
     T ≤ inSubgroup (CFSG.pPrimeCore 3) M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hPM, hP3, hPdvd⟩ := (CFSG.ABGLocalTools.isSylowOf_iff).mp hP
   have hN : Nat.Coprime 3 (Nat.card (CFSG.pPrimeCore 3 ↥M)) := pPrimeCore_coprime_card
   exact le_map_of_normal_coprime hN

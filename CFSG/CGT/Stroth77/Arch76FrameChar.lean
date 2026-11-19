@@ -193,13 +193,14 @@ theorem forall_mem_map_iff (P : G → Prop) : (∀ q ∈ Q, P (σ q)) ↔ (∀ q
   · intro h q hq
     exact h _ ((hσ q).mpr hq)
 
+omit hσ in
 theorem comm_map_iff (x y : G) : σ x * σ y = σ y * σ x ↔ x * y = y * x := by
   rw [← map_mul, ← map_mul, σ.injective.eq_iff]
 
 theorem Z1_map_iff (z : G) : (σ z ∈ Q ∧ ∀ q ∈ Q, σ z * q = q * σ z) ↔
     (z ∈ Q ∧ ∀ q ∈ Q, z * q = q * z) := by
   rw [hσ, ← forall_mem_map_iff σ hσ (fun q => σ z * q = q * σ z)]
-  simp only [comm_map_iff σ hσ]
+  simp only [comm_map_iff σ]
 
 theorem Z2_map_iff (z : G) : (σ z ∈ Q ∧ ∀ q₁ ∈ Q, ∀ q₂ ∈ Q, ⁅⁅σ z, q₁⁆, q₂⁆ = 1) ↔
     (z ∈ Q ∧ ∀ q₁ ∈ Q, ∀ q₂ ∈ Q, ⁅⁅z, q₁⁆, q₂⁆ = 1) := by
@@ -251,6 +252,7 @@ theorem comm_uv_s : ⁅C.uv, s⁆ = C.ev (C.act s⁻¹ va) := by
 
 include hs2
 
+omit [C.A.Normal] in
 theorem comm_s_uv : ⁅s, C.uv⁆ = C.ev va := by
   rw [commutatorElement_def]
   calc s * C.uv * s⁻¹ * C.uv⁻¹ = (s⁻¹ * C.uv * s) * C.uv⁻¹ := by rw [hs2]
@@ -336,7 +338,7 @@ theorem coe_mem_centralizer {q : Subgroup.normalizer (F.A : Set G)}
   simpa using this
 
 theorem A_comm {a b : G} (ha : a ∈ F.A) (hb : b ∈ F.A) : a * b = b * a := by
-  haveI := F.dA.isMulCommutative
+  have := F.dA.isMulCommutative
   exact setLike_mul_comm (s := F.A) ha hb
 
 theorem u_mem_T : F.dA.u ∈ F.A ⊔ Subgroup.closure {F.dA.uv, F.dA.t, F.dA.u} :=
@@ -484,7 +486,7 @@ theorem normalizes_A_of_T
     intro q
     refine and_congr (hσ q) ?_
     rw [← hforall]
-    simp only [hZ2σ, comm_map_iff σ hσ]
+    simp only [hZ2σ, comm_map_iff σ]
   have hZ1σ : ∀ z, ((σ z ∈ T ∧ ∀ q₁ ∈ T, σ z * q₁ = q₁ * σ z) ↔
       (z ∈ T ∧ ∀ q₁ ∈ T, z * q₁ = q₁ * z)) := Z1_map_iff σ hσ
   have hcharσ : ∀ q, σ q ∈ F.A ↔ q ∈ F.A := by
@@ -492,7 +494,7 @@ theorem normalizes_A_of_T
     rw [hchar, hchar, hY2σ]
     refine and_congr Iff.rfl ?_
     rw [← hforall]
-    simp only [hY2σ, ← map_pow, hZ1σ, comm_map_iff σ hσ]
+    simp only [hY2σ, ← map_pow, hZ1σ, comm_map_iff σ]
   rw [Subgroup.mem_normalizer_iff]
   intro h
   rw [← MulAut.conj_apply, hcharσ]
@@ -696,7 +698,7 @@ theorem normalizes_A_of_T₁
     rw [hchar, hchar]
     refine and_congr (hσ q) ?_
     rw [← hforall]
-    simp only [Z3_map_iff σ hσ, comm_map_iff σ hσ]
+    simp only [Z3_map_iff σ hσ, comm_map_iff σ]
   rw [Subgroup.mem_normalizer_iff]
   intro h
   rw [← MulAut.conj_apply, hcharσ]
@@ -704,7 +706,7 @@ theorem normalizes_A_of_T₁
 theorem le_normalizer_A
     (hCA : Subgroup.centralizer (F.A : Set G) ⊓ (F.S : Subgroup G) = F.A) :
     (F.S : Subgroup G) ≤ Subgroup.normalizer (F.A : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set N := Subgroup.normalizer (F.A : Set G) with hN
   set Q := (F.S : Subgroup G) ⊓ N with hQ
   have hQN : ∀ g : G, g ∈ Subgroup.normalizer (Q : Set G) → g ∈ N := by
@@ -715,7 +717,7 @@ theorem le_normalizer_A
     · rw [hQ, hQeq] at hg
       exact F.normalizes_A_of_T₁ hCA (Subgroup.mem_inf.mp hs).1 (Subgroup.mem_inf.mp hs).2 hs2
         hsc hsa hsb (hrel.imp (fun h => h.1) (fun h => h.1)) hg
-  haveI : Group.IsNilpotent (F.S : Subgroup G) := F.S.isPGroup'.isNilpotent
+  have : Group.IsNilpotent (F.S : Subgroup G) := F.S.isPGroup.isNilpotent
   set Q' := Q.subgroupOf (F.S : Subgroup G) with hQ'
   have hself : Subgroup.normalizer (Q' : Set (F.S : Subgroup G)) = Q' := by
     refine le_antisymm (fun x hx => ?_) Subgroup.le_normalizer

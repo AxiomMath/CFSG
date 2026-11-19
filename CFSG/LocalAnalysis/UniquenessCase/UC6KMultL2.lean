@@ -17,7 +17,7 @@ theorem kMultL2_holds : KMultL2 := by
   obtain ⟨r, hr, hr5, hL⟩ := hlist
   have hr2 : r ≠ 2 := by omega
   obtain ⟨F, _, _, e, -, hFq⟩ := CFSG.GH74.GLS.EvenSelP.exists_l2Field_of_lieModel' hr hr2 hL
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   let φ : J ⧸ N ≃* PSL(2, F) := CFSG.GH74.GLS.IVK.toPSL e
   have hcenQ : center (J ⧸ N) = ⊥ :=
     CFSG.GorensteinWalter.center_eq_bot_of_mulEquiv φ (CFSG.GorensteinWalter.psl2_center_eq_bot F)

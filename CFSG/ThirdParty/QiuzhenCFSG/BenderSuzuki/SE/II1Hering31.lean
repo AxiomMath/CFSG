@@ -66,7 +66,7 @@ public theorem ii1Hering31ConjugationAction_twoPretransitive
     letI : MulAction X (II1Hering31Involutions X) :=
       ii1Hering31ConjugationAction X
     MulAction.IsMultiplyPretransitive X (II1Hering31Involutions X) 2 := by
-  letI : MulAction X (II1Hering31Involutions X) :=
+  let : MulAction X (II1Hering31Involutions X) :=
     ii1Hering31ConjugationAction X
   rw [MulAction.is_two_pretransitive_iff]
   intro a b c d hab hcd
@@ -156,7 +156,7 @@ private theorem exists_two_distinct_nontrivial_of_card_four
     {A : Type*} [Group A] [Finite A] (hcard : Nat.card A = 4) :
     ∃ a b : A, a ≠ 1 ∧ b ≠ 1 ∧ a ≠ b := by
   classical
-  letI : Fintype A := Fintype.ofFinite A
+  let : Fintype A := Fintype.ofFinite A
   have hcardF : Fintype.card A = 4 := by
     simpa [Nat.card_eq_fintype_card] using hcard
   have htwo_lt : 2 < Fintype.card A := by omega
@@ -230,7 +230,7 @@ private theorem ii1Hering31_pair_stabilizer
     ∃ pair : Fin 2 ↪ II1Hering31Involutions X,
       MulAction.stabilizer X pair = Subgroup.centralizer (V : Set X) := by
   classical
-  letI : MulAction X (II1Hering31Involutions X) :=
+  let : MulAction X (II1Hering31Involutions X) :=
     ii1Hering31ConjugationAction X
   have haInvV : IsInvolution a := ⟨ha, ha2⟩
   have hbInvV : IsInvolution b := ⟨hb, hb2⟩
@@ -491,7 +491,7 @@ public theorem ii1Hering31_pointStabilizerCore_eq_centralizer
     pointStabilizerCore X (II1Hering31Involutions X) =
       Subgroup.centralizer
         (ii1Hering31InvolutionSubgroup X hcomm : Set X) := by
-  letI : MulAction X (II1Hering31Involutions X) :=
+  let : MulAction X (II1Hering31Involutions X) :=
     ii1Hering31ConjugationAction X
   ext g
   constructor
@@ -533,7 +533,7 @@ public theorem ii1Hering31_involutions_le_twoCore
     (hcomm : ∀ {x y : X}, IsInvolution x → IsInvolution y → Commute x y) :
     ∀ x : X, IsInvolution x → x ∈ pCore 2 X := by
   classical
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro x hx
   have hxP : IsPElement (p := 2) x := by
     refine ⟨1, ?_⟩
@@ -598,7 +598,7 @@ public theorem ii1Hering31_twoCore_le_centralizer
     apply hNne
     rw [eq_bot_iff]
     simpa [hQbot] using hNQ
-  letI : Nontrivial Q := (Subgroup.nontrivial_iff_ne_bot Q).2 hQne
+  let : Nontrivial Q := (Subgroup.nontrivial_iff_ne_bot Q).2 hQne
   have hQ2 : IsPGroup 2 Q := by
     simpa [Q] using pCore_isPGroup (G := X) (p := 2)
   have hcenter_nontrivial : Nontrivial (Subgroup.center Q) :=
@@ -623,18 +623,18 @@ public theorem ii1Hering31_twoCore_le_centralizer
   have hz : IsInvolution z :=
     IsInvolution.map_of_injective hzQ Q.subtype Q.subtype_injective
   let Z : Subgroup X := (Subgroup.center Q).map Q.subtype
-  letI : (Subgroup.center Q).Characteristic := Subgroup.centerCharacteristic
+  let : (Subgroup.center Q).Characteristic := Subgroup.centerCharacteristic
   have hZnormal : Z.Normal := by
     dsimp [Z]
     exact ConjAct.normal_of_characteristic_of_normal
   have hzZ : z ∈ Z := by
     exact Subgroup.mem_map_of_mem Q.subtype zC.property
-  letI : MulAction X (II1Hering31Involutions X) :=
+  let : MulAction X (II1Hering31Involutions X) :=
     ii1Hering31ConjugationAction X
-  haveI : MulAction.IsMultiplyPretransitive X
+  have : MulAction.IsMultiplyPretransitive X
       (II1Hering31Involutions X) 2 :=
     ii1Hering31ConjugationAction_twoPretransitive htwo
-  haveI : MulAction.IsPretransitive X (II1Hering31Involutions X) :=
+  have : MulAction.IsPretransitive X (II1Hering31Involutions X) :=
     MulAction.isPretransitive_of_is_two_pretransitive
   have hNZ : N ≤ Z := by
     intro n hn
@@ -676,9 +676,9 @@ private theorem ii1Hering31_normalizer_conjugation
       (involutionsInSet
         (⊤ : Subgroup (Subgroup.normalizer (P : Set X)))) := by
   classical
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Fact (Nat.Prime q) := ⟨hq⟩
-  letI : MulAction X (II1Hering31Involutions X) :=
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime q) := ⟨hq⟩
+  let : MulAction X (II1Hering31Involutions X) :=
     ii1Hering31ConjugationAction X
   have htwoF' : IsTwoTransitiveOn (Subgroup.normalizer (P : Set X))
       (fixedPointsOfSubgroup X (II1Hering31Involutions X) P) := htwoF
@@ -809,11 +809,11 @@ public theorem ii1Hering31_four_centralizer
     (hVsq : ∀ x : V, x ^ 2 = 1) :
     IsPGroup 2 (Subgroup.centralizer (V : Set X)) := by
   classical
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hCtwo
   obtain ⟨a, b, ha, hb, hab⟩ :=
     exists_two_distinct_nontrivial_of_card_four hVcard
-  letI : MulAction X (II1Hering31Involutions X) :=
+  let : MulAction X (II1Hering31Involutions X) :=
     ii1Hering31ConjugationAction X
   obtain ⟨pair, hpair⟩ :=
     ii1Hering31_pair_stabilizer V hVcard a b ha hb hab
@@ -829,7 +829,7 @@ public theorem ii1Hering31_four_centralizer
   obtain ⟨q, hq, hqD, hq2⟩ :=
     External.hkt_exists_prime_dvd_ne_of_not_prime_power
       Nat.card_pos.ne' hDnotPow
-  letI : Fact (Nat.Prime q) := ⟨hq⟩
+  let : Fact (Nat.Prime q) := ⟨hq⟩
   let S : Sylow q D := default
   let P : Subgroup X := (S : Subgroup D).map D.subtype
   have hSne : (S : Subgroup D) ≠ ⊥ :=
@@ -840,7 +840,7 @@ public theorem ii1Hering31_four_centralizer
     exact (Subgroup.map_eq_bot_iff_of_injective
       (S : Subgroup D) D.subtype_injective).mp hP
   have hPq : IsPGroup q P := by
-    exact S.isPGroup'.map D.subtype
+    exact S.isPGroup.map D.subtype
   have htwoAct : MulAction.IsMultiplyPretransitive X
       (II1Hering31Involutions X) 2 :=
     ii1Hering31ConjugationAction_twoPretransitive htwo
@@ -855,10 +855,10 @@ public theorem ii1Hering31_four_centralizer
     ii1Hering31_normalizer_conjugation hcomm hq hq2 P hPq htwoFixed
   let H : Subgroup X := Subgroup.normalizer (P : Set X)
   let PH : Subgroup H := P.subgroupOf H
-  letI : PH.Normal := Subgroup.normal_in_normalizer
+  let : PH.Normal := Subgroup.normal_in_normalizer
   have hPHne : PH ≠ ⊥ := by
     rw [← Subgroup.nontrivial_iff_ne_bot]
-    letI : Nontrivial P := (Subgroup.nontrivial_iff_ne_bot P).2 hPne
+    let : Nontrivial P := (Subgroup.nontrivial_iff_ne_bot P).2 hPne
     exact (Subgroup.subgroupOfEquivOfLe
       (Subgroup.le_normalizer : P ≤ H)).toEquiv.nontrivial
   have hPHodd : Odd (Nat.card PH) := by
@@ -957,7 +957,7 @@ public theorem ii1Hering31_centralizer_involutionSubgroup_eq_twoCore
     ii1Hering31_four_centralizer hsmall htwo hcomm V hVcard hVsq
   have hCtwo : IsPGroup 2 (Subgroup.centralizer (N : Set X)) :=
     hCVtwo.to_le hCle
-  letI : N.Normal := ii1Hering31InvolutionSubgroup_normal hcomm
+  let : N.Normal := ii1Hering31InvolutionSubgroup_normal hcomm
   have hCleQ : Subgroup.centralizer (N : Set X) ≤ Q := by
     exact le_sSup ⟨inferInstance, hCtwo⟩
   exact le_antisymm hCleQ hQle
@@ -1002,10 +1002,10 @@ public theorem ii1Hering31_range_twoPretransitive
     MulAction.IsMultiplyPretransitive A (II1Hering31Nonidentity N) 2 := by
   dsimp only
   let N : Subgroup X := ii1Hering31InvolutionSubgroup X hcomm
-  letI : N.Normal := ii1Hering31InvolutionSubgroup_normal hcomm
+  let : N.Normal := ii1Hering31InvolutionSubgroup_normal hcomm
   let phi : X →* MulAut N := MulAut.conjNormal (H := N)
   let A : Subgroup (MulAut N) := phi.range
-  letI : MulAction A (II1Hering31Nonidentity N) :=
+  let : MulAction A (II1Hering31Nonidentity N) :=
     ii1Hering31NonidentityAction N A
   rw [MulAction.is_two_pretransitive_iff]
   intro a b c d hab hcd
@@ -1037,7 +1037,7 @@ private theorem ii1Hering31_natCard_nonidentity
     (N : Type*) [Group N] [Finite N] :
     Nat.card (II1Hering31Nonidentity N) = Nat.card N - 1 := by
   classical
-  letI : Fintype N := Fintype.ofFinite N
+  let : Fintype N := Fintype.ofFinite N
   unfold II1Hering31Nonidentity
   rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card]
   rw [Fintype.card_subtype_compl (fun n : N => n = 1)]
@@ -1086,7 +1086,7 @@ private theorem ii1Hering31_prime_card_faithful_action_regular
     exact hp.out.ne_one hKcardOne
   have hstabilizer : ∀ x : Omega, MulAction.stabilizer K x = ⊥ := by
     intro x
-    letI : Fact (Nat.Prime (Nat.card K)) := ⟨hKcard.symm ▸ hp.out⟩
+    let : Fact (Nat.Prime (Nat.card K)) := ⟨hKcard.symm ▸ hp.out⟩
     rcases (MulAction.stabilizer K x).eq_bot_or_eq_top_of_prime_card with
       hbot | htop
     · exact hbot
@@ -1130,9 +1130,9 @@ public theorem ii1Hering31_orderSeven_actor
       letI : MulDistribMulAction A N :=
         MulDistribMulAction.compHom N A.subtype
       ActionRegularOn K N (involutions N) := by
-  letI : MulAction A (II1Hering31Nonidentity N) :=
+  let : MulAction A (II1Hering31Nonidentity N) :=
     ii1Hering31NonidentityAction N A
-  letI : FaithfulSMul A (II1Hering31Nonidentity N) := by
+  let : FaithfulSMul A (II1Hering31Nonidentity N) := by
     rw [faithfulSMul_iff]
     intro a ha
     apply Subtype.ext
@@ -1142,14 +1142,14 @@ public theorem ii1Hering31_orderSeven_actor
     · subst n
       simp
     · exact congrArg Subtype.val (ha ⟨n, hn⟩)
-  letI : MulAction.IsMultiplyPretransitive A
+  let : MulAction.IsMultiplyPretransitive A
       (II1Hering31Nonidentity N) 2 := htwo
-  letI : MulAction.IsPretransitive A (II1Hering31Nonidentity N) :=
+  let : MulAction.IsPretransitive A (II1Hering31Nonidentity N) :=
     MulAction.isPretransitive_of_is_two_pretransitive
-  letI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  let : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   have hOmegaCard : Nat.card (II1Hering31Nonidentity N) = 7 := by
     rw [ii1Hering31_natCard_nonidentity, hcard]
-  letI : Nonempty (II1Hering31Nonidentity N) :=
+  let : Nonempty (II1Hering31Nonidentity N) :=
     Finite.card_pos_iff.mp (by omega)
   let omega0 : II1Hering31Nonidentity N := Classical.choice inferInstance
   have hindex : (MulAction.stabilizer A omega0).index = 7 := by
@@ -1161,7 +1161,7 @@ public theorem ii1Hering31_orderSeven_actor
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' 7 hsevenDvd
   refine ⟨g, hg, ?_⟩
   let K : Subgroup A := Subgroup.zpowers g
-  letI : MulDistribMulAction A N :=
+  let : MulDistribMulAction A N :=
     MulDistribMulAction.compHom N A.subtype
   have hKcard : Nat.card K = 7 := by
     change Nat.card (Subgroup.zpowers g) = 7
@@ -1252,7 +1252,7 @@ private theorem ii1Hering31_four_stabilizer_surjective
       (MulAction.toPermHom (MulAction.stabilizer A S) S) := by
   classical
   dsimp only
-  letI : MulAction A (II1Hering31Nonidentity N) :=
+  let : MulAction A (II1Hering31Nonidentity N) :=
     ii1Hering31NonidentityAction N A
   let S : Set (II1Hering31Nonidentity N) := {n | (n : N) ∈ V}
   have hScard : Nat.card S = 3 := by
@@ -1281,7 +1281,7 @@ private theorem ii1Hering31_four_stabilizer_surjective
       _ = Nat.card V - 1 := ii1Hering31_natCard_nonidentity V
       _ = 3 := by omega
   have htwoS : 2 < Nat.card S := by omega
-  letI : Fintype S := Fintype.ofFinite S
+  let : Fintype S := Fintype.ofFinite S
   have htwoSF : 2 < Fintype.card S := by
     simpa [Nat.card_eq_fintype_card] using htwoS
   obtain ⟨a, b, c, hab, hac, hbc⟩ :=
@@ -1412,7 +1412,7 @@ public theorem ii1Hering31_odd_rotation
     ∃ q : ℕ, q.Prime ∧ q ≠ 2 ∧
       ∃ r : G, orderOf r = q ∧ rightConjugateElem r t = r⁻¹ := by
   classical
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have htP : IsPElement (p := 2) t := by
     refine ⟨1, ?_⟩
     simpa using orderOf_eq_prime ht.sq_eq_one ht.ne_one
@@ -1420,7 +1420,7 @@ public theorem ii1Hering31_odd_rotation
       (∃ g : G, y = g * t * g⁻¹) ∧
         ¬ IsPGroup 2 (Subgroup.closure ({t, y} : Set G)) := by
     by_contra hpair
-    push_neg at hpair
+    push Not at hpair
     have htmem := gorenstein_3_8_2_conjugacy_class_le_pCore
       (G := G) (p := 2) (x := t) htP hpair t ⟨1, by simp⟩
     exact htcore htmem
@@ -1537,7 +1537,7 @@ private theorem ii1Hering31_four_stabilizer_dihedral_three
         rightConjugateElem r t = r⁻¹ := by
   classical
   dsimp only
-  letI : MulAction A (II1Hering31Nonidentity N) :=
+  let : MulAction A (II1Hering31Nonidentity N) :=
     ii1Hering31NonidentityAction N A
   let S : Set (II1Hering31Nonidentity N) := {n | (n : N) ∈ V}
   let D : Subgroup A := MulAction.stabilizer A S
@@ -1593,7 +1593,7 @@ private theorem ii1Hering31_four_stabilizer_dihedral_three
     exact h
   have hnmove : ∃ n : N, (t0A : MulAut N) n ≠ n := by
     by_contra hn
-    push_neg at hn
+    push Not at hn
     apply ht0AutNe
     apply MulEquiv.ext
     intro n
@@ -1609,7 +1609,7 @@ private theorem ii1Hering31_four_stabilizer_dihedral_three
     intro h
     apply hnmove
     exact congrArg Subtype.val h.symm
-  letI : Fintype S := Fintype.ofFinite S
+  let : Fintype S := Fintype.ofFinite S
   have htwoSF : 2 < Fintype.card S := by
     have : 2 < Nat.card S := by omega
     simpa [Nat.card_eq_fintype_card] using this
@@ -1790,7 +1790,7 @@ private theorem ii1Hering31_four_stabilizer_dihedral_three
         have haFix := congrArg (fun p : Equiv.Perm S => p a) h
         simp only [hua, Equiv.Perm.one_apply] at haFix
         exact (Ne.symm hac) haFix
-      letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       exact orderOf_eq_prime huCube huNe
     let uCore : pCore 2 D := ⟨u, huCore⟩
     obtain ⟨k, huk⟩ := (IsPGroup.iff_orderOf.mp
@@ -1866,10 +1866,10 @@ public theorem ii1Hering31_four_normalizer_dihedral_three
   dsimp only
   let N : Subgroup X := ii1Hering31InvolutionSubgroup X hcomm
   intro V hVcard
-  letI : N.Normal := ii1Hering31InvolutionSubgroup_normal hcomm
+  let : N.Normal := ii1Hering31InvolutionSubgroup_normal hcomm
   let phi : X →* MulAut N := MulAut.conjNormal (H := N)
   let A : Subgroup (MulAut N) := phi.range
-  letI : MulAction A (II1Hering31Nonidentity N) :=
+  let : MulAction A (II1Hering31Nonidentity N) :=
     ii1Hering31NonidentityAction N A
   let S : Set (II1Hering31Nonidentity N) := {n | (n : N) ∈ V}
   let D : Subgroup A := MulAction.stabilizer A S
@@ -1942,7 +1942,7 @@ private theorem ii1Hering31_nonidentity_action_faithful
       ii1Hering31NonidentityAction N A
     Function.Injective
       (MulAction.toPermHom A (II1Hering31Nonidentity N)) := by
-  letI : MulAction A (II1Hering31Nonidentity N) :=
+  let : MulAction A (II1Hering31Nonidentity N) :=
     ii1Hering31NonidentityAction N A
   intro a b hab
   apply Subtype.ext
@@ -1975,10 +1975,10 @@ private theorem ii1Hering31_four_range_card_eq_six
   classical
   dsimp only
   let N : Subgroup X := ii1Hering31InvolutionSubgroup X hcomm
-  letI : N.Normal := ii1Hering31InvolutionSubgroup_normal hcomm
+  let : N.Normal := ii1Hering31InvolutionSubgroup_normal hcomm
   let phi : X →* MulAut N := MulAut.conjNormal (H := N)
   let A : Subgroup (MulAut N) := phi.range
-  letI : MulAction A (II1Hering31Nonidentity N) :=
+  let : MulAction A (II1Hering31Nonidentity N) :=
     ii1Hering31NonidentityAction N A
   let rho : A →* Equiv.Perm (II1Hering31Nonidentity N) :=
     MulAction.toPermHom A (II1Hering31Nonidentity N)
@@ -2024,17 +2024,17 @@ private theorem ii1Hering31_normal_nontrivial_fixedPointSubgroup_eq_bot
     (P : Subgroup A) [P.Normal] (hPne : P ≠ ⊥) :
     fixedPointSubgroup P N = ⊥ := by
   classical
-  letI : MulAction A (II1Hering31Nonidentity N) :=
+  let : MulAction A (II1Hering31Nonidentity N) :=
     ii1Hering31NonidentityAction N A
-  letI : MulAction.IsMultiplyPretransitive A
+  let : MulAction.IsMultiplyPretransitive A
       (II1Hering31Nonidentity N) 2 := htwo
-  haveI : MulAction.IsPretransitive A (II1Hering31Nonidentity N) :=
+  have : MulAction.IsPretransitive A (II1Hering31Nonidentity N) :=
     MulAction.isPretransitive_of_is_two_pretransitive
   rw [Subgroup.eq_bot_iff_forall]
   intro n hn
   by_contra hnOne
   let nI : II1Hering31Nonidentity N := ⟨n, hnOne⟩
-  letI : Nontrivial P := (Subgroup.nontrivial_iff_ne_bot P).mpr hPne
+  let : Nontrivial P := (Subgroup.nontrivial_iff_ne_bot P).mpr hPne
   obtain ⟨p, hpNe⟩ := exists_ne (1 : P)
   have hpFix : ∀ x : N, (p : A) • x = x := by
     intro x
@@ -2104,11 +2104,11 @@ public theorem ii1Hering31_four_card_ne
     Nat.card N ≠ 4 := by
   classical
   dsimp only
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let N : Subgroup X := ii1Hering31InvolutionSubgroup X hcomm
   intro hNcard
-  letI : N.Normal := ii1Hering31InvolutionSubgroup_normal hcomm
+  let : N.Normal := ii1Hering31InvolutionSubgroup_normal hcomm
   let phi : X →* MulAut N := MulAut.conjNormal (H := N)
   let A : Subgroup (MulAut N) := phi.range
   let psi : X →* A := phi.rangeRestrict
@@ -2126,7 +2126,7 @@ public theorem ii1Hering31_four_card_ne
       exact Subgroup.card_subgroup_dvd_card (PA : Subgroup A)
     have hPAle : Nat.card PA ≤ 6 := Nat.le_of_dvd (by norm_num) hPAdvd
     have hPAodd : Odd (Nat.card PA) := by
-      rcases IsPGroup.iff_card.mp PA.isPGroup' with ⟨m, hm⟩
+      rcases IsPGroup.iff_card.mp PA.isPGroup with ⟨m, hm⟩
       rw [hm]
       have hthreeOdd : Odd 3 := ⟨1, rfl⟩
       exact hthreeOdd.pow
@@ -2137,7 +2137,7 @@ public theorem ii1Hering31_four_card_ne
     have hmul := (PA : Subgroup A).index_mul_card
     rw [hPAcard, hAcard] at hmul
     omega
-  letI : (PA : Subgroup A).Normal :=
+  let : (PA : Subgroup A).Normal :=
     Subgroup.normal_of_index_eq_two hPAindex
   have hPAne : (PA : Subgroup A) ≠ ⊥ := by
     intro h
@@ -2149,7 +2149,7 @@ public theorem ii1Hering31_four_card_ne
     simpa only [Sylow.coe_mapSurjective] using
       congrArg (fun Q : Sylow 3 A => (Q : Subgroup A)) hPmap
   let M : Subgroup X := (PA : Subgroup A).comap psi
-  letI : M.Normal :=
+  let : M.Normal :=
     (inferInstance : (PA : Subgroup A).Normal).comap psi
   have hP_le_M : (P : Subgroup X) ≤ M := by
     change (P : Subgroup X) ≤ (PA : Subgroup A).comap psi
@@ -2210,10 +2210,10 @@ public theorem ii1Hering31_four_card_ne
           (ii1Hering31InvolutionSubgroup_sq_eq_one hcomm n) hn⟩
   have hNPdisjoint : Disjoint N (P : Subgroup X) :=
     IsPGroup.disjoint_of_ne 2 3 (by norm_num) N (P : Subgroup X)
-      hN2 P.isPGroup'
+      hN2 P.isPGroup
   have hKbot : K = ⊥ := by
     by_contra hKne
-    letI : Nontrivial K := (Subgroup.nontrivial_iff_ne_bot K).mpr hKne
+    let : Nontrivial K := (Subgroup.nontrivial_iff_ne_bot K).mpr hKne
     have htwoDvdK : 2 ∣ Nat.card K := by
       rcases (IsPGroup.nontrivial_iff_card hK2).mp inferInstance with
         ⟨m, hm, hmcard⟩
@@ -2337,7 +2337,7 @@ private theorem ii1Hering31_normal_pSubgroup_acts_trivially
     (he : ∀ a : A, a • e = e)
     (htrans : ∀ x y : α, x ≠ e → y ≠ e → ∃ a : A, a • x = y) :
     ∀ k : K, ∀ x : α, (k : A) • x = x := by
-  letI : MulAction K α := MulAction.compHom α K.subtype
+  let : MulAction K α := MulAction.compHom α K.subtype
   obtain ⟨b, hbfix, hbne⟩ :=
     hK.exists_fixed_point_of_prime_dvd_card_of_fixed_point
       α hdiv (a := e) (by
@@ -2381,9 +2381,9 @@ public theorem ii1Hering31_odd_prime_fixed_card_le_two
       Nat.card (fixedPointSubgroup (Subgroup.zpowers r) N) ≤ 2 := by
   classical
   dsimp only
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let N : Subgroup X := ii1Hering31InvolutionSubgroup X hcomm
-  letI : N.Normal := ii1Hering31InvolutionSubgroup_normal hcomm
+  let : N.Normal := ii1Hering31InvolutionSubgroup_normal hcomm
   let phi : X →* MulAut N := MulAut.conjNormal (H := N)
   let A : Subgroup (MulAut N) := phi.range
   intro r hrPrime hrTwo
@@ -2468,7 +2468,6 @@ public theorem ii1Hering31_odd_prime_fixed_card_le_two
     simpa [xC] using (Subgroup.orderOf_coe xC).trans hm
   have hrDvd : orderOf r ∣ orderOf x := by
     rw [← Subgroup.orderOf_coe r]
-    change orderOf (r : MulAut N) ∣ orderOf x
     rw [← hx]
     exact orderOf_map_dvd phi x
   rw [hxOrder] at hrDvd
@@ -2493,10 +2492,10 @@ public theorem ii1Hering31_involution_fixed_index_le_two
     (z : A) (hz : IsInvolution z) :
     (fixedPointSubgroup (Subgroup.zpowers z) N).index ≤ 2 := by
   classical
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : IsMulCommutative N := ⟨⟨fun x y => (hcomm x y).eq⟩⟩
-  letI : CommGroup N := IsMulCommutative.instCommGroup
-  letI : MulAction A (II1Hering31Nonidentity N) :=
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : IsMulCommutative N := ⟨⟨fun x y => (hcomm x y).eq⟩⟩
+  let : CommGroup N := IsMulCommutative.instCommGroup
+  let : MulAction A (II1Hering31Nonidentity N) :=
     ii1Hering31NonidentityAction N A
   have hN2 : IsPGroup 2 N := by
     rw [IsPGroup.iff_orderOf]
@@ -2509,7 +2508,7 @@ public theorem ii1Hering31_involution_fixed_index_le_two
     exact hz.ne_one (Subtype.ext h)
   have hnmove : ∃ n : N, (z : MulAut N) n ≠ n := by
     by_contra hn
-    push_neg at hn
+    push Not at hn
     apply hzAutNe
     apply MulEquiv.ext
     intro n
@@ -2578,7 +2577,7 @@ public theorem ii1Hering31_involution_fixed_index_le_two
     have hFeq : F = Subgroup.zpowers a := by
       symm
       apply Subgroup.eq_of_le_of_card_ge hLleF
-      simpa [hFcard, hLcard]
+      simp [hFcard, hLcard]
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hN2
     have hcop : Nat.Coprime (Nat.card R) (Nat.card N) := by
       change Nat.Coprime (Nat.card (Subgroup.zpowers r)) (Nat.card N)
@@ -2638,17 +2637,17 @@ public theorem ii1Hering31_involution_fixed_index_le_two
       have heq : x = h • x := by
         simpa using hfixL h⁻¹ hx
       rwa [heq]
-  letI : IsInvariant H N L := hLinv
-  letI : L.Normal := by infer_instance
-  letI : MulAction.QuotientAction H L :=
+  let : IsInvariant H N L := hLinv
+  let : L.Normal := by infer_instance
+  let : MulAction.QuotientAction H L :=
     quotientAction_of_isInvariant (A := H) L hLinv
-  letI : MulDistribMulAction H (N ⧸ L) :=
+  let : MulDistribMulAction H (N ⧸ L) :=
     quotientMulDistribMulAction (A := H) (G := N) L hLinv
   have hLneTop : L ≠ ⊤ := by
     intro htop
     have hNcard : Nat.card N = 2 := by simpa [htop] using hLcard
     omega
-  letI : Nontrivial (N ⧸ L) := QuotientGroup.nontrivial_iff.mpr hLneTop
+  let : Nontrivial (N ⧸ L) := QuotientGroup.nontrivial_iff.mpr hLneTop
   have hQ2 : IsPGroup 2 (N ⧸ L) := hN2.to_quotient L
   have htwoDvdQ : 2 ∣ Nat.card (N ⧸ L) := by
     rcases (IsPGroup.nontrivial_iff_card hQ2).mp inferInstance with
@@ -2656,7 +2655,7 @@ public theorem ii1Hering31_involution_fixed_index_le_two
     rw [hmcard]
     exact dvd_pow_self 2 (Nat.pos_iff_ne_zero.mp hm)
   let K : Subgroup H := pCore 2 H
-  letI : K.Normal := by simpa [K] using pCore_normal (G := H) (p := 2)
+  let : K.Normal := by simpa [K] using pCore_normal (G := H) (p := 2)
   have hK2 : IsPGroup 2 K := by
     simpa [K] using pCore_isPGroup (G := H) (p := 2)
   have htrans : ∀ b c : N ⧸ L, b ≠ 1 → c ≠ 1 →
@@ -2741,7 +2740,7 @@ public theorem ii1Hering31_involution_fixed_index_le_two
       have hzx := hx ⟨z, Subgroup.mem_zpowers z⟩
       change z • x = x at hzx
       rw [MonoidHom.mem_ker]
-      simpa [delta, hzx]
+      simp [delta, hzx]
   rw [← hdeltaKer, Subgroup.index_ker]
   rw [← hLcard]
   exact Nat.card_le_card_of_injective
@@ -2764,12 +2763,12 @@ public theorem ii1Hering31_involution_subgroup_card
     (hcomm : ∀ {x y : X}, IsInvolution x → IsInvolution y → Commute x y) :
     Nat.card (ii1Hering31InvolutionSubgroup X hcomm) = 8 := by
   classical
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let N : Subgroup X := ii1Hering31InvolutionSubgroup X hcomm
-  letI : N.Normal := ii1Hering31InvolutionSubgroup_normal hcomm
+  let : N.Normal := ii1Hering31InvolutionSubgroup_normal hcomm
   let phi : X →* MulAut N := MulAut.conjNormal (H := N)
   let A : Subgroup (MulAut N) := phi.range
-  letI : MulAction A (II1Hering31Nonidentity N) :=
+  let : MulAction A (II1Hering31Nonidentity N) :=
     ii1Hering31NonidentityAction N A
   have hNcardGe : 4 ≤ Nat.card N :=
     ii1Hering31InvolutionSubgroup_card_ge_four hrank hcomm
@@ -2901,15 +2900,15 @@ private theorem ii1Hering31_mulAut_card_eq_168
     [IsElementaryAbelian 2 N]
     (hcard : Nat.card N = 8) :
     Nat.card (MulAut N) = 168 := by
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : IsMulCommutative N :=
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : IsMulCommutative N :=
     (inferInstance : IsElementaryAbelian 2 N).toIsMulCommutative
-  letI : CommGroup N := IsMulCommutative.instCommGroup
+  let : CommGroup N := IsMulCommutative.instCommGroup
   let Q := Additive N
-  letI : AddCommGroup Q := Additive.addCommGroup
-  letI : Module (ZMod 2) Q := inferInstance
-  letI : Finite Q := inferInstance
-  letI : Module.Finite (ZMod 2) Q := Module.Finite.of_finite
+  let : AddCommGroup Q := Additive.addCommGroup
+  let : Module (ZMod 2) Q := inferInstance
+  let : Finite Q := inferInstance
+  let : Module.Finite (ZMod 2) Q := Module.Finite.of_finite
   let eAdd : MulAut N ≃* Multiplicative (AddAut Q) :=
     (AddAutAdditive N).toMultiplicative.symm
   let eAddLin : Multiplicative (AddAut Q) ≃* (Q ≃ₗ[ZMod 2] Q) :=
@@ -2960,15 +2959,15 @@ private theorem ii1Hering31_mulAut_equiv_GL3
     [IsElementaryAbelian 2 N]
     (hcard : Nat.card N = 8) :
     Nonempty (MulAut N ≃* GL (Fin 3) (ZMod 2)) := by
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : IsMulCommutative N :=
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : IsMulCommutative N :=
     (inferInstance : IsElementaryAbelian 2 N).toIsMulCommutative
-  letI : CommGroup N := IsMulCommutative.instCommGroup
+  let : CommGroup N := IsMulCommutative.instCommGroup
   let Q := Additive N
-  letI : AddCommGroup Q := Additive.addCommGroup
-  letI : Module (ZMod 2) Q := inferInstance
-  letI : Finite Q := inferInstance
-  letI : Module.Finite (ZMod 2) Q := Module.Finite.of_finite
+  let : AddCommGroup Q := Additive.addCommGroup
+  let : Module (ZMod 2) Q := inferInstance
+  let : Finite Q := inferInstance
+  let : Module.Finite (ZMod 2) Q := Module.Finite.of_finite
   let eAdd : MulAut N ≃* Multiplicative (AddAut Q) :=
     (AddAutAdditive N).toMultiplicative.symm
   let eAddLin : Multiplicative (AddAut Q) ≃* (Q ≃ₗ[ZMod 2] Q) :=
@@ -3016,15 +3015,15 @@ private theorem ii1Hering31_orderEight_equiv_abelianV
     {N : Type*} [Group N] [Finite N]
     [IsElementaryAbelian 2 N] (hcard : Nat.card N = 8) :
     Nonempty (N ≃* II1Hering31AbelianV) := by
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : IsMulCommutative N :=
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : IsMulCommutative N :=
     (inferInstance : IsElementaryAbelian 2 N).toIsMulCommutative
-  letI : CommGroup N := IsMulCommutative.instCommGroup
+  let : CommGroup N := IsMulCommutative.instCommGroup
   let Q := Additive N
-  letI : AddCommGroup Q := Additive.addCommGroup
-  letI : Module (ZMod 2) Q := inferInstance
-  letI : Finite Q := inferInstance
-  letI : Module.Finite (ZMod 2) Q := Module.Finite.of_finite
+  let : AddCommGroup Q := Additive.addCommGroup
+  let : Module (ZMod 2) Q := inferInstance
+  let : Finite Q := inferInstance
+  let : Module.Finite (ZMod 2) Q := Module.Finite.of_finite
   let n := Module.finrank (ZMod 2) Q
   let basis : Module.Basis (Fin n) (ZMod 2) Q :=
     Module.finBasis (ZMod 2) Q
@@ -3200,12 +3199,12 @@ private theorem ii1Hering31AbelianV_mulAut_involutions_conjugate
     (ha1 : a ≠ 1) (ha2 : a ^ 2 = 1)
     (hb1 : b ≠ 1) (hb2 : b ^ 2 = 1) :
     ∃ c : MulAut II1Hering31AbelianV, c⁻¹ * a * c = b := by
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : IsMulCommutative II1Hering31AbelianV :=
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : IsMulCommutative II1Hering31AbelianV :=
     ⟨⟨fun x y => by
       ext i
       exact add_comm (x.toAdd i) (y.toAdd i)⟩⟩
-  letI : IsElementaryAbelian 2 II1Hering31AbelianV :=
+  let : IsElementaryAbelian 2 II1Hering31AbelianV :=
     { toIsMulCommutative := inferInstance
       exponent_dvd_p :=
         Monoid.exponent_dvd_iff_forall_pow_eq_one.2 (by
@@ -3280,7 +3279,7 @@ private theorem ii1Hering31_mulAut_isSimple
   obtain ⟨eAutGL⟩ := ii1Hering31_mulAut_equiv_GL3 hcard
   let e : MulAut N ≃* PSL3 :=
     (eAutGL.trans eGLSL).trans ePSLSL.symm
-  letI : IsSimpleGroup PSL3 :=
+  let : IsSimpleGroup PSL3 :=
     External.huppert_II_6_13 3 (by omega) (Or.inl (by omega))
       (Or.inl (by omega))
   exact e.isSimpleGroup
@@ -3303,12 +3302,12 @@ private theorem ii1Hering31_range_eq_top
     A = ⊤ := by
   classical
   let Omega := II1Hering31Nonidentity N
-  letI : MulAction A Omega := ii1Hering31NonidentityAction N A
-  letI : MulAction.IsMultiplyPretransitive A Omega 2 := htwo
-  letI : MulDistribMulAction A N :=
+  let : MulAction A Omega := ii1Hering31NonidentityAction N A
+  let : MulAction.IsMultiplyPretransitive A Omega 2 := htwo
+  let : MulDistribMulAction A N :=
     MulDistribMulAction.compHom N A.subtype
   have hOmegaCard : Nat.card Omega = 7 := by
-    letI : Fintype N := Fintype.ofFinite N
+    let : Fintype N := Fintype.ofFinite N
     unfold Omega II1Hering31Nonidentity
     rw [Nat.card_eq_fintype_card]
     rw [Fintype.card_subtype_compl (fun n : N => n = 1)]
@@ -3316,7 +3315,7 @@ private theorem ii1Hering31_range_eq_top
       simpa [Nat.card_eq_fintype_card] using hcard
     rw [hcardF]
     norm_num
-  letI : Fintype Omega := Fintype.ofFinite Omega
+  let : Fintype Omega := Fintype.ofFinite Omega
   have hOmegaCardF : Fintype.card Omega = 7 := by
     simpa [Nat.card_eq_fintype_card] using hOmegaCard
   have htwoOmega : 2 < Fintype.card Omega := by omega
@@ -3346,7 +3345,7 @@ private theorem ii1Hering31_range_eq_top
     omega
   have hAdiv : Nat.card A ∣ 168 := by
     simpa [hAutCard] using Subgroup.card_subgroup_dvd_card A
-  haveI : IsSimpleGroup (MulAut N) := ii1Hering31_mulAut_isSimple hcard
+  have : IsSimpleGroup (MulAut N) := ii1Hering31_mulAut_isSimple hcard
   have hkCases : k = 1 ∨ k = 2 ∨ k = 3 ∨ k = 4 := by omega
   rcases hkCases with rfl | rfl | rfl | rfl
   · have hAcard : Nat.card A = 42 := by omega
@@ -3365,7 +3364,7 @@ private theorem ii1Hering31_range_eq_top
         omega
       · rw [hi] at hFcardFormula
         omega
-    letI : Fintype F := Fintype.ofFinite F
+    let : Fintype F := Fintype.ofFinite F
     have htwoF : 2 < Fintype.card F := by
       simpa [Nat.card_eq_fintype_card] using
         lt_of_lt_of_le (by omega : 2 < 4) hFcard
@@ -3462,21 +3461,21 @@ public theorem ii1Hering31_conjNormal_surjective
     Function.Surjective (MulAut.conjNormal (H := N)) := by
   classical
   dsimp only
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let N : Subgroup X := ii1Hering31InvolutionSubgroup X hcomm
-  letI : N.Normal := ii1Hering31InvolutionSubgroup_normal hcomm
-  letI : IsMulCommutative N :=
+  let : N.Normal := ii1Hering31InvolutionSubgroup_normal hcomm
+  let : IsMulCommutative N :=
     ⟨⟨fun x y => (ii1Hering31InvolutionSubgroup_commute hcomm x y).eq⟩⟩
-  letI : IsElementaryAbelian 2 N :=
+  let : IsElementaryAbelian 2 N :=
     { toIsMulCommutative := inferInstance
       exponent_dvd_p :=
         Monoid.exponent_dvd_iff_forall_pow_eq_one.2
           (ii1Hering31InvolutionSubgroup_sq_eq_one hcomm) }
   let phi : X →* MulAut N := MulAut.conjNormal (H := N)
   let A : Subgroup (MulAut N) := phi.range
-  letI : MulAction A (II1Hering31Nonidentity N) :=
+  let : MulAction A (II1Hering31Nonidentity N) :=
     ii1Hering31NonidentityAction N A
-  letI : MulDistribMulAction A N :=
+  let : MulDistribMulAction A N :=
     MulDistribMulAction.compHom N A.subtype
   have hNcard : Nat.card N = 8 :=
     ii1Hering31_involution_subgroup_card hsmall htwo hrank hcomm
@@ -3517,21 +3516,21 @@ public theorem ii1Hering31_twoCore_quotient
     Nonempty (X ⧸ pCore 2 X ≃* MulAut N) := by
   classical
   dsimp only
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let N : Subgroup X := ii1Hering31InvolutionSubgroup X hcomm
-  letI : N.Normal := ii1Hering31InvolutionSubgroup_normal hcomm
-  letI : IsMulCommutative N :=
+  let : N.Normal := ii1Hering31InvolutionSubgroup_normal hcomm
+  let : IsMulCommutative N :=
     ⟨⟨fun x y => (ii1Hering31InvolutionSubgroup_commute hcomm x y).eq⟩⟩
-  letI : IsElementaryAbelian 2 N :=
+  let : IsElementaryAbelian 2 N :=
     { toIsMulCommutative := inferInstance
       exponent_dvd_p :=
         Monoid.exponent_dvd_iff_forall_pow_eq_one.2
           (ii1Hering31InvolutionSubgroup_sq_eq_one hcomm) }
   let phi : X →* MulAut N := MulAut.conjNormal (H := N)
   let A : Subgroup (MulAut N) := phi.range
-  letI : MulAction A (II1Hering31Nonidentity N) :=
+  let : MulAction A (II1Hering31Nonidentity N) :=
     ii1Hering31NonidentityAction N A
-  letI : MulDistribMulAction A N :=
+  let : MulDistribMulAction A N :=
     MulDistribMulAction.compHom N A.subtype
   have hNcard : Nat.card N = 8 :=
     ii1Hering31_involution_subgroup_card hsmall htwo hrank hcomm
@@ -3694,7 +3693,7 @@ private theorem ii1Hering31_exists_rightInverse_of_surjective_isPGroup_ker
     (hker : IsPGroup p phi.ker) (hcop : Nat.Coprime p (Nat.card Q)) :
     ∃ sigma : Q →* E, Function.RightInverse sigma phi := by
   classical
-  haveI : phi.ker.Normal := inferInstance
+  have : phi.ker.Normal := inferInstance
   have hkerCard : Nat.Coprime (Nat.card phi.ker) phi.ker.index := by
     rcases (IsPGroup.iff_card (p := p) (G := phi.ker)).1 hker with
       ⟨n, hcard⟩
@@ -3808,16 +3807,16 @@ private theorem ii1Hering31_twoCore_actor
         ActionRegularOn K Q (involutions Q) := by
   classical
   dsimp only
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let N : Subgroup X := ii1Hering31InvolutionSubgroup X hcomm
-  letI : N.Normal := ii1Hering31InvolutionSubgroup_normal hcomm
+  let : N.Normal := ii1Hering31InvolutionSubgroup_normal hcomm
   let Q : Subgroup X := pCore 2 X
-  letI : Q.Normal := pCore_normal
+  let : Q.Normal := pCore_normal
   let phi : X →* MulAut N := MulAut.conjNormal (H := N)
   let A : Subgroup (MulAut N) := phi.range
-  letI : MulAction A (II1Hering31Nonidentity N) :=
+  let : MulAction A (II1Hering31Nonidentity N) :=
     ii1Hering31NonidentityAction N A
-  letI : MulDistribMulAction A N :=
+  let : MulDistribMulAction A N :=
     MulDistribMulAction.compHom N A.subtype
   have hNcard : Nat.card N = 8 :=
     ii1Hering31_involution_subgroup_card hsmall htwo hrank hcomm
@@ -3848,7 +3847,7 @@ private theorem ii1Hering31_twoCore_actor
     ii1Hering31_exists_lift_of_surjective_isPGroup_ker_of_coprime
       phi hphiSurj hkerTwo hcop rho
   let psi : K →* MulAut Q := (MulAut.conjNormal (H := Q)).comp lift
-  letI : MulDistribMulAction K Q :=
+  let : MulDistribMulAction K Q :=
     MulDistribMulAction.compHom Q psi
   have hNleQ : N ≤ Q :=
     ii1Hering31InvolutionSubgroup_le_twoCore hcomm
@@ -3950,7 +3949,7 @@ public theorem ii1Hering31_twoCore_commutative_or_suzuki
     IsMulCommutative Q ∨ IsSuzukiTwoGroup Q := by
   classical
   dsimp only
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let N : Subgroup X := ii1Hering31InvolutionSubgroup X hcomm
   let Q : Subgroup X := pCore 2 X
   by_cases hQcomm : IsMulCommutative Q
@@ -4087,12 +4086,12 @@ private noncomputable def ii1Hering31_abelianExtensionData
         · simpa using congrArg Q.subtype hq
   have hVtransitive : ∀ v w : N, v ≠ 1 → w ≠ 1 →
       ∃ x : X, x * (v : X) * x⁻¹ = (w : X) := by
-    letI : MulAction X (II1Hering31Involutions X) :=
+    let : MulAction X (II1Hering31Involutions X) :=
       ii1Hering31ConjugationAction X
-    haveI : MulAction.IsMultiplyPretransitive X
+    have : MulAction.IsMultiplyPretransitive X
         (II1Hering31Involutions X) 2 :=
       ii1Hering31ConjugationAction_twoPretransitive htwo
-    haveI : MulAction.IsPretransitive X (II1Hering31Involutions X) :=
+    have : MulAction.IsPretransitive X (II1Hering31Involutions X) :=
       MulAction.isPretransitive_of_is_two_pretransitive
     intro v w hv hw
     let vI : II1Hering31Involutions X :=
@@ -4244,8 +4243,8 @@ private theorem ii1Hering31_abelian_twoCore_homocyclic
   let Q : Subgroup X := pCore 2 X
   obtain ⟨K, hKGroup, hKAction, _hKcyclic, _hKfaithful, hKregular⟩ :=
     ii1Hering31_twoCore_actor hsmall htwo hrank hcomm
-  letI : Group K := hKGroup
-  letI : MulDistribMulAction K Q := hKAction
+  let : Group K := hKGroup
+  let : MulDistribMulAction K Q := hKAction
   obtain ⟨e, r, he, ⟨f⟩⟩ :=
     External.Higman.homocyclic_of_abelian_twoGroup_of_involutions_transitive
       (P := Q) (X := K) pCore_isPGroup hQcomm
@@ -4281,9 +4280,9 @@ private theorem ii1Hering31_abelian_twoCore_frattini_quotient_card
   dsimp only
   let N : Subgroup X := ii1Hering31InvolutionSubgroup X hcomm
   let Q : Subgroup X := pCore 2 X
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : IsMulCommutative Q := hQcomm
-  letI : Fact (IsPGroup 2 Q) := ⟨pCore_isPGroup⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : IsMulCommutative Q := hQcomm
+  let : Fact (IsPGroup 2 Q) := ⟨pCore_isPGroup⟩
   have hOmega : omega₁ (G := Q) (p := 2) = N.subgroupOf Q :=
     ii1Hering31_twoCore_omegaOne_eq_involutionSubgroup hcomm
   have hNcard : Nat.card N = 8 :=
@@ -4317,8 +4316,8 @@ private theorem ii1Hering31_involutionSubgroup_le_frattini_of_twoCore_ne
   let N : Subgroup X := ii1Hering31InvolutionSubgroup X hcomm
   let Q : Subgroup X := pCore 2 X
   let Phi : Subgroup Q := frattini Q
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Q.Normal := pCore_normal
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Q.Normal := pCore_normal
   have hNleQ : N ≤ Q := ii1Hering31InvolutionSubgroup_le_twoCore hcomm
   have hPhiNeBot : Phi ≠ ⊥ := by
     intro hPhiBot
@@ -4331,7 +4330,7 @@ private theorem ii1Hering31_involutionSubgroup_le_frattini_of_twoCore_ne
     have hNQ : N = Q :=
       Subgroup.eq_of_le_of_card_ge hNleQ (by rw [hNcard, hQcard])
     exact hQneN hNQ.symm
-  letI : Nontrivial Phi := (Subgroup.nontrivial_iff_ne_bot Phi).mpr hPhiNeBot
+  let : Nontrivial Phi := (Subgroup.nontrivial_iff_ne_bot Phi).mpr hPhiNeBot
   have hPhiP : IsPGroup 2 Phi := pCore_isPGroup.to_subgroup Phi
   have htwoDvdPhi : 2 ∣ Nat.card Phi := by
     rcases (IsPGroup.nontrivial_iff_card hPhiP).mp inferInstance with
@@ -4349,19 +4348,19 @@ private theorem ii1Hering31_involutionSubgroup_le_frattini_of_twoCore_ne
   have hzX : IsInvolution zX :=
     IsInvolution.map_of_injective hzQ Q.subtype Q.subtype_injective
   let PhiX : Subgroup X := Phi.map Q.subtype
-  letI : Phi.Characteristic := by
+  let : Phi.Characteristic := by
     simpa [Phi] using (frattini_characteristic (G := Q))
   have hPhiXNormal : PhiX.Normal := by
     dsimp [PhiX]
     exact ConjAct.normal_of_characteristic_of_normal
   have hzPhiX : zX ∈ PhiX := by
     exact Subgroup.mem_map_of_mem Q.subtype z.property
-  letI : MulAction X (II1Hering31Involutions X) :=
+  let : MulAction X (II1Hering31Involutions X) :=
     ii1Hering31ConjugationAction X
-  haveI : MulAction.IsMultiplyPretransitive X
+  have : MulAction.IsMultiplyPretransitive X
       (II1Hering31Involutions X) 2 :=
     ii1Hering31ConjugationAction_twoPretransitive htwo
-  haveI : MulAction.IsPretransitive X (II1Hering31Involutions X) :=
+  have : MulAction.IsPretransitive X (II1Hering31Involutions X) :=
     MulAction.isPretransitive_of_is_two_pretransitive
   have hNlePhiX : N ≤ PhiX := by
     intro n hn
@@ -4566,8 +4565,6 @@ private theorem ii1Hering31_triple_forbidden_center_aut
           rw [Subgroup.mem_center_iff]
           intro x
           rcases hsurj x with ⟨d, a, b, hx⟩
-          change x * tripleLift c.toAdd 0 0 =
-            tripleLift c.toAdd 0 0 * x
           rw [hx, hmul, hmul, hzeroLeft, hzeroRight]
           simp [add_comm]⟩
       map_one' := by
@@ -4739,8 +4736,8 @@ private theorem ii1Hering31_typeA_forbidden_center_aut
   classical
   rcases hP.2.2.2 with
     ⟨K, hKGroup, hKAction, hKcyclic, hKfaithful, hKregular⟩
-  letI : Group K := hKGroup
-  letI : MulDistribMulAction K P := hKAction
+  let : Group K := hKGroup
+  let : MulDistribMulAction K P := hKAction
   obtain ⟨n, hn, theta, pairLift, cocycle, _eK, eQ, eZ,
       _hperiod, htheta, _haddLeft, _haddRight, hdiag, _hmem,
       _hone, hsurj, _hinj, hmul, hcenterCardN, _hKQ, _hKZ,
@@ -4830,7 +4827,7 @@ private theorem ii1Hering31_typeB_forbidden_center_aut
     · intro x
       rcases hsurj x (Subgroup.mem_top x) with ⟨c, a, b, hx⟩
       exact ⟨(c, a, b), hx.symm⟩
-  letI : Finite P := Finite.of_surjective
+  let : Finite P := Finite.of_surjective
     (fun cab : F × F × F => tripleLift cab.1 cab.2.1 cab.2.2)
     htripleBijective.2
   let tripleEquiv : F × F × F ≃ P :=
@@ -4898,7 +4895,7 @@ private theorem ii1Hering31_typeC_forbidden_center_aut
   have hpowPos : 0 < 2 ^ (n - 1) := pow_pos (by norm_num) _
   have hzeroLeft : ∀ a b : F, cocycle 0 0 a b = 0 := by
     intro a b
-    simp [cocycle, hpowPos.ne']
+    simp [cocycle]
   have hzeroRight : ∀ a b : F, cocycle a b 0 0 = 0 := by
     intro a b
     simp [cocycle]
@@ -4920,7 +4917,7 @@ private theorem ii1Hering31_typeC_forbidden_center_aut
     · intro x
       rcases hsurj x (Subgroup.mem_top x) with ⟨c, a, b, hx⟩
       exact ⟨(c, a, b), hx.symm⟩
-  letI : Finite P := Finite.of_surjective
+  let : Finite P := Finite.of_surjective
     (fun cab : F × F × F => tripleLift cab.1 cab.2.1 cab.2.2)
     htripleBijective.2
   let tripleEquiv : F × F × F ≃ P :=
@@ -5055,8 +5052,8 @@ private theorem ii1Hering31_suzuki_twoCore_false
   classical
   let N : Subgroup X := ii1Hering31InvolutionSubgroup X hcomm
   let Q : Subgroup X := pCore 2 X
-  letI : N.Normal := ii1Hering31InvolutionSubgroup_normal hcomm
-  letI : Q.Normal := pCore_normal
+  let : N.Normal := ii1Hering31InvolutionSubgroup_normal hcomm
+  let : Q.Normal := pCore_normal
   have hNleQ : N ≤ Q :=
     ii1Hering31InvolutionSubgroup_le_twoCore hcomm
   have hcenterEq : N.subgroupOf Q = Subgroup.center Q :=

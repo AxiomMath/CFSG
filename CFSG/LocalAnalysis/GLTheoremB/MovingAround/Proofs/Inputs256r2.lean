@@ -132,7 +132,7 @@ theorem twoElt_mem_glaLayer_twE6_gf4 {K : Type} [Field K] (hK : Nat.card K = (2 
     (β : MulAut S) (hβ : orderOf β = 3) {s : S} (hs : β s = s) {m : ℕ} (hsm : s ^ 2 ^ m = 1) :
     s ∈ GLALayer (fixSubgroup β) := by
   classical
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
   have hK2 : ringChar K = 2 :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieComp.ringChar_eq_of_card_eq_pow (n := 2 * 2) Nat.prime_two
       (by norm_num) (by rw [hK, ← pow_mul])

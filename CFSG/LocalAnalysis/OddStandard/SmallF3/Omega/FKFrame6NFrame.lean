@@ -12,6 +12,7 @@ namespace CFSG.OddStandard.SmallF3.Omega
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem fk_fr_exists_nframe (hdim : Module.finrank (ZMod 3) V = 6) {c : ZMod 3} (hc : c ≠ 0)
     (v : Fin 6 → V) (hv : ∀ i, Q (v i) = c)
     (horth : ∀ i j, i ≠ j → QuadraticMap.polar Q (v i) (v j) = 0) :

@@ -194,17 +194,17 @@ private theorem rckp3_pair_of_eq {F : Type} [Field F] [Finite F] [CharP F 2]
     rw [show (Multiplicative.ofAdd (1 : F)) * (Multiplicative.ofAdd (1 : F)) =
         Multiplicative.ofAdd ((1 : F) + (1 : F)) from rfl, h11]
     exact map_one _
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hxord : orderOf x = 2 := orderOf_eq_prime (by rw [pow_two]; exact hx2) hx1
   have hcard_range : Nat.card (Fr.longRoot h01 true true).range = 2 := by
     have hinj := HypFrame.longRoot_injective Fr.toHypFrame h01 true true
-    haveI : Finite ↥(Fr.longRoot h01 true true).range :=
+    have : Finite ↥(Fr.longRoot h01 true true).range :=
       Finite.of_injective ((MonoidHom.ofInjective hinj).toEquiv.symm) (Equiv.injective _)
     rw [← Nat.card_congr (MonoidHom.ofInjective hinj).toEquiv]
     exact (Nat.card_congr Multiplicative.toAdd).trans hcard
   have heq_range :=
     (MonoidHom.ofInjective (HypFrame.longRoot_injective Fr.toHypFrame h01 true true)).toEquiv.symm
-  haveI : Finite ↥(Fr.longRoot h01 true true).range :=
+  have : Finite ↥(Fr.longRoot h01 true true).range :=
     Finite.of_injective heq_range heq_range.injective
   have hroot : (Spin.Twisted.minusDatum n hirr).rootGroup β = Subgroup.zpowers x := by
     have hrl : (Spin.Twisted.minusDatum n hirr).rootGroup β =
@@ -258,7 +258,7 @@ private theorem rckp3_pair_of_eq {F : Type} [Field F] [Finite F] [CharP F 2]
       exact add_left_cancel h'
     have hp := Fr.polar_vec_not i0 true
     rw [hv0] at hp
-    exact (zero_ne_one : (0 : F) ≠ 1) (by simpa using hp)
+    exact (zero_ne_one : (0 : F) ≠ 1) (by simp at hp)
   have hn_conj : nn * x * nn⁻¹ = y := by
     have h := HypFrame.conj_longRoot Fr.toHypFrame nn h01 true true h02 true true
       (l := (1 : F)) (m := (-1 : F))
@@ -360,9 +360,9 @@ private theorem rckp3_pair_of_eq {F : Type} [Field F] [Finite F] [CharP F 2]
   exact ⟨β, x, V, hβmem, hβlong, hroot, hx2, hx1, hxV, hVab, hVcard, hVpc, hconj⟩
 
 theorem rckIIPair_OmegaMinus
-    (n : ℕ) (hn : 4 ≤ n) (hadm : StatedLieAdmissible .POmegaMinus n 2 1) :
+    (n : ℕ) (hn : 4 ≤ n) (_hadm : StatedLieAdmissible .POmegaMinus n 2 1) :
       RCKIIPair .POmegaMinus n := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard : Nat.card (GaloisField 2 1) = 2 := by
     rw [GaloisField.card 2 1 (by norm_num), pow_one]
   have e : ggU .POmegaMinus n 1 =

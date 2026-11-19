@@ -44,7 +44,7 @@ theorem inv_of_fixedPointFree {G : Type*} [Group G] {N : Subgroup G} [hN : N.Nor
 
 theorem invClass_core {G : Type*} [Group G] [Finite G] {s t t₁ t₂ : G} {n a : ℕ}
     {Q : Subgroup G} (hs : ∀ g : G, s * g = g * s) (hs7 : orderOf s = 7) (ht2 : t ^ 2 = 1)
-    (ht1 : t ≠ 1) (hn : n ≤ (conjugatesOf t).ncard) (hQt : Q ≤ Subgroup.centralizer {t})
+    (_ht1 : t ≠ 1) (hn : n ≤ (conjugatesOf t).ncard) (hQt : Q ≤ Subgroup.centralizer {t})
     (hQ : Nat.card Q = 2 ^ a) (hG : Nat.card G = 2 ^ a * (7 * n)) (hodd : Odd n)
     (hinv : ∀ q ∈ Q, q ^ 2 = 1 → q ≠ 1 → IsConj t q) (h₁ : IsConj t t₁) (h₂ : IsConj t t₂)
     (h7 : orderOf (t * t₁ * t₂) = 7) :

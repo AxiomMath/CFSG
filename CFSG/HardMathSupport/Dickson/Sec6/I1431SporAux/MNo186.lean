@@ -173,7 +173,7 @@ theorem exists_second_involution [Finite G] {a : G} {c : Fin 9 → G} (ha : orde
     exact (isConj_iff.2 ⟨g, rfl⟩ : IsConj (t * s) (g * (t * s) * g⁻¹)).symm.trans hs.2
   have hStrans : ∀ s ∈ S, ∃ g ∈ cent t, g * β₀ * g⁻¹ = s := fun s hs =>
     h3i t β₀ s ht hβ₀ hs.1 (hαβ₀.trans hs.2.symm)
-  letI : MulAction (cent t) S := conjSMulOn (cent t) S hSclosed
+  let : MulAction (cent t) S := conjSMulOn (cent t) S hSclosed
   let s₀ : S := ⟨β₀, hS0⟩
   have horbit : MulAction.orbit (cent t) s₀ = Set.univ := by
     ext s
@@ -238,8 +238,8 @@ theorem noOrder186_of_noOrder93_Th
     NoOrder 186 G := by
   obtain ⟨⟨hfin, -, -, -⟩, a, z, ha, hz, hnc, hinv, hA, hBz, hgraph⟩ := hE
   obtain ⟨h3i, c, -, -, -, -, hord, hcov, hocc, hshape, -⟩ := hgraph
-  haveI := hfin
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hfin
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro g hg
   have hAcard : ∀ α : G, IsConj a α → Nat.card ↥(cent α) = 2 * monsterBabyOrder := fun α hα =>
     card_cent_of_isTwoACentralizer ((orderOf_eq_of_isConj'' hα).symm.trans ha) (hA α hα) hB

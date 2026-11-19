@@ -16,6 +16,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem uc9r96_conj_mem_pCoreOf_I9 {H : Subgroup G} {h o : G} (hh : h ∈ H)
     (ho : o ∈ pCoreOf 2 (F09.I9 H)) : h * o * h⁻¹ ∈ pCoreOf 2 (F09.I9 H) := by
   have hHI : H ≤ normalizer (F09.I9 H : Set G) :=
@@ -96,7 +97,7 @@ theorem mul_mul_inv_mul_inv_mem_pCoreOf (S : Core D Y H q) (h17 : F09.I9 H ≤ D
     convert this using 1
     simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
     group
-  · exact ⟨H.one_mem, fun i _ => by simpa using (pCoreOf 2 (F09.I9 H)).one_mem⟩
+  · exact ⟨H.one_mem, fun i _ => by simp⟩
   · rintro a b ⟨ha, hA⟩ ⟨hb, hB⟩
     refine ⟨H.mul_mem ha hb, fun i hi => ?_⟩
     have e : a * b * i * (a * b)⁻¹ * i⁻¹ =

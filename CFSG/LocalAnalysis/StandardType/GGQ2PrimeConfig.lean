@@ -108,7 +108,7 @@ theorem o1ppMk_mem_bar {G : Type} [Group G] {x zn : G}
 
 theorem exists_of_mem_bar {G : Type} [Group G] {x zn : G}
     {W : Subgroup G} {y : O1ppBar x zn} (hy : y ∈ O1ppXBar x zn W) :
-    ∃ a ∈ W, ∃ haH : a ∈ centralizer ({x * zn⁻¹} : Set G), y = o1ppMk x zn a := by
+    ∃ a ∈ W, ∃ _haH : a ∈ centralizer ({x * zn⁻¹} : Set G), y = o1ppMk x zn a := by
   obtain ⟨w, hw, rfl⟩ := hy
   exact ⟨w, mem_subgroupOf.1 hw, w.2, by rw [o1ppMk_of_mem w.2]; rfl⟩
 
@@ -163,8 +163,8 @@ theorem o1pp_X_inf_core {G : Type} [Group G] [Finite G] {B L X Xk Tk : Subgroup 
   obtain ⟨hHO, hO3⟩ := o1pp_core_facts x zn
   obtain ⟨hXs, -, h3⟩ := o1pp_X_facts u52SimpleSix h
   have hXO : X ≤ normalizer ((O1ppCore x zn : Subgroup G) : Set G) := le_trans h.X_le hHO
-  haveI := hXs
-  haveI := normal_subgroupOf_of_le_normalizer hXO
+  have := hXs
+  have := normal_subgroupOf_of_le_normalizer hXO
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((O1ppCore x zn).subgroupOf X) with h' | h'
   · rw [subgroupOf_eq_bot] at h'
     exact disjoint_iff.1 h'.symm
@@ -235,10 +235,10 @@ theorem o1pp_Xbar_facts {G : Type} [Group G] [Finite G] {B L X Xk Tk : Subgroup 
       center (O1ppXBar x zn X) = ⊥ := by
   obtain ⟨e⟩ := o1pp_X_equiv h
   obtain ⟨hXs, h2, h3⟩ := o1pp_X_facts u52SimpleSix h
-  haveI := hXs
+  have := hXs
   obtain ⟨a, b, hab⟩ : ∃ a b : X, a * b ≠ b * a := exists_noncomm_of_simple Nat.prime_three h3
     (fun h' => by rw [h'] at h2; omega)
-  haveI : IsSimpleGroup (O1ppXBar x zn X) := (MulEquiv.isSimpleGroup_congr e).1 hXs
+  have : IsSimpleGroup (O1ppXBar x zn X) := (MulEquiv.isSimpleGroup_congr e).1 hXs
   have hncb : ∃ a b : O1ppXBar x zn X, a * b ≠ b * a :=
     ⟨e a, e b, fun h' => hab (e.injective (by simpa [map_mul] using h'))⟩
   refine ⟨⟨(e a : O1ppBar x zn), (e a).2, (e b : O1ppBar x zn), (e b).2, fun h' => hab ?_⟩,
@@ -413,7 +413,7 @@ theorem o1pp_config {G : Type} [Group G] [Finite G] {B L X Xk Tk : Subgroup G} {
     rw [he1, one_mul]
     exact hc'
   · intro g hg3 hgC
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     set H := centralizer ({x * zn⁻¹} : Set G) with hHdef
     have hBp : IsPGroup 3 (B.subgroupOf H) := hBab.isPGroup.comap_subtype
     have hcop : Nat.Coprime 3 (Nat.card (LargeEvenPPrimeCore 3 H)) :=
@@ -463,7 +463,7 @@ theorem o1pp_config {G : Type} [Group G] [Finite G] {B L X Xk Tk : Subgroup G} {
     rw [hgm, ← map_pow]
     exact pow_mem (mem_map_of_mem _ (mem_subgroupOf.2 hcB)) m
   · intro g hg
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     set H := centralizer ({x * zn⁻¹} : Set G) with hHdef
     set π := QuotientGroup.mk' (LargeEvenPPrimeCore 3 ↥H) with hπdef
     have hzk3 : ∃ n : ℕ, (⟨zk, hzkH⟩ : H) ^ 3 ^ n = 1 :=

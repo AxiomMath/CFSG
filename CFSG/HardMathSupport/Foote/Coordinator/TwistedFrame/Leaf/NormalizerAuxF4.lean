@@ -68,7 +68,7 @@ theorem quasisimple_outer_frame_of_fixedRoot {τ : Tag} {K : Type} [Field K] [Fi
     (h : CFSG.IsQuasisimple ↥(fixedRoot D S) ∧ Group.IsSolvable (Outer ↥(fixedRoot D S))) :
     CFSG.IsQuasisimple ↥(D.frame S) ∧ Group.IsSolvable (Outer ↥(D.frame S)) := by
   have e := frameEquivFixedRoot D h.1.1
-  haveI := h.2
+  have := h.2
   exact ⟨CFSG.IsQuasisimple.of_mulEquiv e h.1, CFSG.ComponentClassification.OuterAutomorphisms.solvable_of_equiv e.symm⟩
 
 theorem frameRoots_f4Long :

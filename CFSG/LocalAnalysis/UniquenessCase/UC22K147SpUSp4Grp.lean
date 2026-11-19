@@ -177,7 +177,7 @@ theorem exists_mul_conj_involution {L : Subgroup G} {n : ℕ} (hSp : IsSp4 ↥L 
       K148.AutAux.condHom_apply]
     show t * (((e.symm l : ↥L) : G)⁻¹ * t * (e.symm l : ↥L)) =
       (t * (e.symm l : ↥L) * t⁻¹)⁻¹ * (e.symm l : ↥L)
-    simp only [mul_inv_rev, inv_inv, htinv]
+    simp only [mul_inv_rev, htinv]
     group
   refine ⟨(e.symm l : G), (e.symm l).2, ?_, ?_, ?_⟩
   · rw [key]

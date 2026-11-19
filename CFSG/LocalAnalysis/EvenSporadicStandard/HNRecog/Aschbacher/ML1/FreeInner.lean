@@ -14,7 +14,7 @@ private theorem inner_free (u β : Module.End (ZMod 2) V) (hu : u ^ 2 = 1) (hβ5
     (hcomm : β * u = u * β) (hβfree : ∀ w : V, β w = w → w = 0)
     (h8 : finrank (ZMod 2) V = 8) (hu1 : u ≠ 1) :
     ∀ w : V, u w = w → ∃ w' : V, w = w' + u w' := by
-  haveI : FiniteDimensional (ZMod 2) V := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) V := Module.Finite.of_finite
   intro w hw
   let U : Module.End (ZMod 2) V := u + 1
   have h2 : (2 : ZMod 2) = 0 := by decide
@@ -84,10 +84,10 @@ theorem exists_eq_add_of_fixed_inner (σ : A5 × A5 →* (V ≃ₗ[ZMod 2] V)) (
     rwa [orderOf_a₀] at h
   constructor
   · have hp2 : ((a, 1) : A5 × A5) ^ 2 = 1 := by
-      ext <;> simp [Prod.pow_fst, Prod.pow_snd, ha2]
+      ext <;> simp [ha2]
     have hu : (ρ (a, 1)) ^ 2 = 1 := by rw [← map_pow, hp2, map_one]
     have hq5 : ((1, a₀) : A5 × A5) ^ 5 = 1 := by
-      ext <;> simp [Prod.pow_fst, Prod.pow_snd, ha0]
+      ext <;> simp [ha0]
     have hβ5 : (ρ (1, a₀)) ^ 5 = 1 := by rw [← map_pow, hq5, map_one]
     have hcomm : ρ (1, a₀) * ρ (a, 1) = ρ (a, 1) * ρ (1, a₀) := by
       have h : ((1, a₀) : A5 × A5) * (a, 1) = (a, 1) * (1, a₀) := by ext <;> simp
@@ -103,10 +103,10 @@ theorem exists_eq_add_of_fixed_inner (σ : A5 × A5 →* (V ≃ₗ[ZMod 2] V)) (
       simpa using congrArg Prod.fst hpair
     exact inner_free (ρ (a, 1)) (ρ (1, a₀)) hu hβ5 hcomm hfixB h8 hu1
   · have hp2 : ((1, a) : A5 × A5) ^ 2 = 1 := by
-      ext <;> simp [Prod.pow_fst, Prod.pow_snd, ha2]
+      ext <;> simp [ha2]
     have hu : (ρ (1, a)) ^ 2 = 1 := by rw [← map_pow, hp2, map_one]
     have hp5 : ((a₀, 1) : A5 × A5) ^ 5 = 1 := by
-      ext <;> simp [Prod.pow_fst, Prod.pow_snd, ha0]
+      ext <;> simp [ha0]
     have hβ5 : (ρ (a₀, 1)) ^ 5 = 1 := by rw [← map_pow, hp5, map_one]
     have hcomm : ρ (a₀, 1) * ρ (1, a) = ρ (1, a) * ρ (a₀, 1) := by
       have h : ((a₀, 1) : A5 × A5) * (1, a) = (1, a) * (a₀, 1) := by ext <;> simp

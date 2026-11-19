@@ -102,7 +102,7 @@ theorem length_le_card_range_of_sig {n : ℕ} {H : Subgroup Γ12} (π : ↥H →
     apply List.map_congr_left
     intro i hi
     have hin : i < n := List.mem_range.mp hi
-    simp only [dif_pos hin]
+    simp only [dite_eq_left hin]
     exact (hmask x ⟨i, hin⟩).symm
   have h1 : (l.map π).map F = ws.attach.map (fun x => sigOf Pg n x.1) := by
     simp only [l, List.map_map]
@@ -132,10 +132,10 @@ private theorem mem_spanN_singleton (y : ℕ) : ∀ z, z ∈ spanN [y] ↔ z = 0
       | false => rfl
       | true => exact absurd (List.contains_iff_mem.mp hcont) (by simp [hy])
     rw [hc]
-    simp only [Bool.false_eq_true, if_false]
-    simp [Nat.zero_xor]
+    simp only [Bool.false_eq_true, ite_false]
+    simp
 
-theorem card_vecStab_mul_le {c : ℕ} (hc0 : 0 < c) (hc : c < 4096) {l : List ℕ} (hnd : l.Nodup)
+theorem card_vecStab_mul_le {c : ℕ} (_hc0 : 0 < c) (hc : c < 4096) {l : List ℕ} (hnd : l.Nodup)
     (hpos : ∀ x ∈ l, 0 < x) (hl : ∀ x ∈ l, ∃ h ∈ G0, gmv h c = x) :
     l.length * Nat.card (vecStab c) ≤ Nat.card G0 := by
   classical
@@ -192,7 +192,7 @@ theorem spanSub_append (b b' : List ℕ) : spanSub b ⊔ spanSub b' = spanSub (b
   rw [spanSub, spanSub, spanSub, ← Subgroup.closure_union]
   congr 1
   ext x
-  simp only [Set.mem_union, Set.mem_setOf_eq]
+  simp only [Set.mem_union, Set.mem_ofPred_eq]
   constructor
   · rintro (⟨c, hc, rfl⟩ | ⟨c, hc, rfl⟩)
     · exact ⟨c, List.mem_append.mpr (Or.inl hc), rfl⟩

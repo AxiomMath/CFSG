@@ -184,9 +184,9 @@ theorem In3_iff_of_mem_YStar {g : Perm (OmegaE r s)} (hg : g ∈ YStar i₀ f₀
   · exact hx ((In3_pairSig i₀ f₀ x).1 (e ▸ h))
 
 @[expose] noncomputable def rhoStar : ↥(YStar i₀ f₀) →* Perm (X3 i₀ f₀) where
-  toFun g := (g.1).subtypePerm fun x => (In3_iff_of_mem_YStar i₀ f₀ g.2 x).symm
-  map_one' := Equiv.ext fun x => Subtype.ext rfl
-  map_mul' g h := Equiv.ext fun x => Subtype.ext rfl
+  toFun g := (g.1).subtypePerm fun _x => (In3_iff_of_mem_YStar i₀ f₀ g.2 _x).symm
+  map_one' := Equiv.ext fun _x => Subtype.ext rfl
+  map_mul' _g _h := Equiv.ext fun _x => Subtype.ext rfl
 
 theorem rhoStar_apply (g : ↥(YStar i₀ f₀)) (x : X3 i₀ f₀) :
     ((rhoStar i₀ f₀ g x : X3 i₀ f₀) : OmegaE r s) = g.1 x := rfl

@@ -219,7 +219,7 @@ theorem isPGroup_unitriangular [Finite F] [CharP F 2] : IsPGroup 2 (unitriangula
   obtain ⟨P, hP⟩ := exists_sylow_unitriangular (K := F) 2 (n := 3) (by norm_num)
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [← hP]
-  exact P.isPGroup'
+  exact P.isPGroup
 
 theorem lconf_lift [Finite F] [CharP F 2] {R K : Subgroup (projectiveSL 3 F)} (hc : LConf R K)
     (hR : R ≤ projUnitriangular 3 F) :

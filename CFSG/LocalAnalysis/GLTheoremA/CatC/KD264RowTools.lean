@@ -15,13 +15,13 @@ theorem false_of_pConstrainedShape_of_normal_simple {Q : Type} [Group Q] [Finite
     (hp : p.Prime) {C L : Subgroup Q} (hLC : L ≤ C) (hLn : ∀ g ∈ C, ∀ l ∈ L, g * l * g⁻¹ ∈ L)
     (hs : IsSimpleGroup ↥L) (hnab : ∃ a b : ↥L, a * b ≠ b * a)
     (h : CFSG.HardMathSupport.Timmesfeld.SporadicBalance.PConstrainedShape p C) : False := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨R, hRC, hRn, hRp, hcR⟩ := h
   have hLR : L ≤ R := by
     have hN : (R.subgroupOf L).Normal := ⟨fun n hn g => by
       rw [Subgroup.mem_subgroupOf] at hn ⊢
       exact hRn g (hLC g.2) n hn⟩
-    haveI := hN
+    have := hN
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (R.subgroupOf L) with hbot | htop
     · intro l hl
       refine hcR ⟨hLC hl, Subgroup.mem_centralizer_iff.2 fun r hr => ?_⟩
@@ -41,7 +41,7 @@ theorem false_of_pConstrainedShape_of_normal_simple {Q : Type} [Group Q] [Finite
       exact Subgroup.mem_subgroupOf.1 this
   have hLp : IsPGroup p ↥L := hRp.to_le hLR
   obtain ⟨a, b, hab⟩ := hnab
-  haveI : Nontrivial ↥L := ⟨⟨a * b, b * a, hab⟩⟩
+  have : Nontrivial ↥L := ⟨⟨a * b, b * a, hab⟩⟩
   have hZ := hLp.center_nontrivial
   have hZtop : Subgroup.center ↥L = ⊤ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center ↥L) with h | h
@@ -58,7 +58,7 @@ theorem exists_glaPComponent_of_bound {Q : Type} [Group Q] [Finite Q] {p : ℕ} 
     (hnab : ∃ a b : ↥L, a * b ≠ b * a) (hpL : p ∣ Nat.card ↥L)
     (hbound : Nat.card ↥(Subgroup.centralizer ({x} : Set Q)) ≤ p * Nat.card ↥L) :
     ∃ J : Subgroup Q, GLAPComponent p (Subgroup.centralizer ({x} : Set Q)) J := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set C := Subgroup.centralizer ({x} : Set Q) with hC
   have hord : orderOf x = p := orderOf_eq_prime hxp hx1
   have hcomm : ∀ l ∈ L, l * x = x * l := fun l hl =>
@@ -97,7 +97,7 @@ theorem exists_glaPComponent_of_index2 {Q : Type} [Group Q] [Finite Q] {p : ℕ}
     (hnab : ∃ a b : ↥L, a * b ≠ b * a) (hpL : p ∣ Nat.card ↥L)
     (hbound : Nat.card ↥(Subgroup.centralizer ({x} : Set Q)) ≤ 2 * (p * Nat.card ↥L)) :
     ∃ J : Subgroup Q, GLAPComponent p (Subgroup.centralizer ({x} : Set Q)) J := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set C := Subgroup.centralizer ({x} : Set Q) with hC
   set K : Subgroup Q := Subgroup.zpowers x ⊔ L with hK
   have hord : orderOf x = p := orderOf_eq_prime hxp hx1
@@ -185,7 +185,7 @@ theorem kd264RowData_of_sq {T : Type} [Group T] [Finite T] {p : ℕ} (hp : p.Pri
     (hsq : p ^ 2 ∣ Nat.card T) (hcube : ¬ p ^ 3 ∣ Nat.card T) (z₀ : T) (hz₀ : orderOf z₀ = p)
     {J₀ : Subgroup T} (hJ₀ : GLAPComponent p (Subgroup.centralizer ({z₀} : Set T)) J₀) :
     KD264RowData p T := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hno3 : ∀ S : Subgroup T, IsElemAbelian p S → Nat.card S < p ^ 3 := by
     intro S hS
     obtain ⟨n, hn⟩ := (isPGroup_of_isElemAbelian hS).exists_card_eq
@@ -205,7 +205,7 @@ theorem kd264RowData_of_sq {T : Type} [Group T] [Finite T] {p : ℕ} (hp : p.Pri
     omega
   have hP₀card : Nat.card (P₀ : Subgroup T) = p ^ 2 := by
     rw [Sylow.card_eq_multiplicity, hfac]
-  have hcommP := IsPGroup.commutative_of_card_eq_prime_sq hP₀card
+  have hcommP := (IsPGroup.isMulCommutative_of_card_eq_prime_sq hP₀card).is_comm.comm
   refine kd264RowData_of_central hp hno3 z₀ hz₀ P₀ (fun g hg => ?_) hJ₀
   have h := hcommP ⟨g, hg⟩ ⟨z₀, hzP₀ (Subgroup.mem_zpowers z₀)⟩
   exact congrArg Subtype.val h

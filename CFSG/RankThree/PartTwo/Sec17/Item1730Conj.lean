@@ -242,7 +242,7 @@ theorem false_of_le_thetaQuotCentralizer (h415 : Sec4.Item4_15)
   obtain ⟨U, hTU, hU1⟩ :=
     CFSG.SignalizerFunctor.Helpers.normalized_subgroup_invariant_sylow_nontrivial 3 2
       Nat.prime_three Nat.prime_two T V₀ hT3 hTV₀ hcop h2
-  have hU2 : IsPGroup 2 ((U : Subgroup V₀).map V₀.subtype) := U.isPGroup'.map V₀.subtype
+  have hU2 : IsPGroup 2 ((U : Subgroup V₀).map V₀.subtype) := U.isPGroup.map V₀.subtype
   obtain ⟨E, hE27⟩ := Sylow.exists_subgroup_card_pow_prime (G := T) 3 (n := 3)
     (by rw [hT81]; norm_num)
   have hET : E.map T.subtype ≤ T := Subgroup.map_subtype_le E

@@ -31,6 +31,7 @@ namespace S11
 
 variable {G : Type} [Group G] [Finite G] {m p p' : ℕ} {B B' : Subgroup G} {x x' : G} {L J : Subgroup G}
 
+omit [Finite G] in
 private theorem lemma117_le_of_comm {H J N : Subgroup G} (hJH : J ≤ H)
     (hq : CFSG.Open.IsQuasisimple ↥J) (hN : ∀ j ∈ J, ∀ l ∈ H, ⁅l, j⁆ ∈ N) : J ≤ N := by
   have key : commutator ↥J ≤ N.subgroupOf J := by
@@ -85,7 +86,7 @@ private theorem lemma117_not_Q8_action {G : Type} [Group G] [Finite G] {m : ℕ}
     (hzc : Nat.card (Subgroup.zpowers z) = 3) (hBc : Nat.card B = 3 ^ m)
     (e : S ≃* QuaternionGroup 2) : False := by
   classical
-  haveI : Fintype B := Fintype.ofFinite B
+  have : Fintype B := Fintype.ofFinite B
   set i₀ : S := e.symm (QuaternionGroup.a 1) with hi₀def
   set j₀ : S := e.symm (QuaternionGroup.xa 0) with hj₀def
   have hi₀ : e i₀ = QuaternionGroup.a 1 := e.apply_symm_apply _
@@ -219,7 +220,7 @@ private theorem lemma117_not_Q8_action {G : Type} [Group G] [Finite G] {m : ℕ}
 theorem bstar_facts (hctx : ThmACtx G m) (hc : Cfg116 G m p L p' B' x' J) :
     GLAIsBmax p' B' ∧ IsEssential p' B' x' := by
   classical
-  haveI : Fact p'.Prime := ⟨hc.cfg.prime⟩
+  have : Fact p'.Prime := ⟨hc.cfg.prime⟩
   have hm4 : 4 ≤ m := hctx.1.four_le
   have hBc : Nat.card B' = p' ^ m := by rw [← hc.e_eq]; exact hc.cfg.rank_B
   have hord : orderOf x' = p' := orderOf_eq_prime (hc.cfg.elem.2 x' hc.cfg.mem) hc.cfg.ne_one
@@ -281,7 +282,7 @@ theorem bstar_facts (hctx : ThmACtx G m) (hc : Cfg116 G m p L p' B' x' J) :
 
 theorem twoLocalRank_quot_le {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) (X : Subgroup G) :
     GLATwoLocalRank r (PQuot r X) ≤ GLATwoLocalRank r ↥X := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hN : ¬ r ∣ Nat.card (GLAPPrimeCore r ↥X) :=
     (Nat.Prime.coprime_iff_not_dvd hr).1 CFSG.pPrimeCore_coprime_card
   exact glaTwoLocalRank_quotient_le hr hr2 (GLAPPrimeCore r ↥X) hN
@@ -295,6 +296,7 @@ private theorem lemma117_isMulCommutative_map {H K : Type} [Group H] [Group K] {
     show f a * f b = f b * f a
     rw [← map_mul, ← map_mul, h]⟩⟩
 
+omit [Finite G] in
 private theorem lemma117_comm_mem {r : ℕ} {C : Subgroup G} {j : G} (hj : j ∈ C) (c : ↥C)
     (h : Commute (QuotientGroup.mk' (GLAPPrimeCore r ↥C) (⟨j, hj⟩ : ↥C))
       (QuotientGroup.mk' (GLAPPrimeCore r ↥C) c)) :
@@ -306,16 +308,16 @@ private theorem lemma117_comm_mem {r : ℕ} {C : Subgroup G} {j : G} (hj : j ∈
     exact (QuotientGroup.eq_one_iff _).1 hmap
   exact Subgroup.mem_map.2 ⟨_, hK, rfl⟩
 
-theorem exists_faithful_two_group (hctx : ThmACtx G m) (hc : Cfg116 G m p L p' B' x' J) {r : ℕ} (hr : r = p ∨ r = p')
-    (hrp : r.Prime) (hr2 : r ≠ 2)
+theorem exists_faithful_two_group (_hctx : ThmACtx G m) (hc : Cfg116 G m p L p' B' x' J) {r : ℕ} (_hr : r = p ∨ r = p')
+    (_hrp : r.Prime) (_hr2 : r ≠ 2)
     (hnc : ¬ (⁅J, oPPrimeP r (Subgroup.centralizer ({x'} : Set G))⁆ : Subgroup G) ≤
       GLAPPrimeCoreOf r (Subgroup.centralizer ({x'} : Set G))) :
     ∃ U R : Subgroup (PQuot r (Subgroup.centralizer ({x'} : Set G))),
       IsElemAbelian 2 U ∧ Nat.card U = 2 ^ (m + 2) ∧ IsPGroup r R ∧
         U ≤ Subgroup.normalizer (R : Set (PQuot r (Subgroup.centralizer ({x'} : Set G)))) ∧
         ∀ u ∈ U, R ≤ Subgroup.centralizer ({u} : Set (PQuot r (Subgroup.centralizer ({x'} : Set G)))) → u = 1 := by
-  haveI : Fact r.Prime := ⟨hrp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact r.Prime := ⟨_hrp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hJC : J ≤ Subgroup.centralizer ({x'} : Set G) := fun j hj => (hc.cfg.comp.1.1 hj).2
   have hJq : CFSG.Open.IsQuasisimple ↥J := hc.cfg.comp.1.2.2
   let φ : ↥J →* PQuot r (Subgroup.centralizer ({x'} : Set G)) :=
@@ -360,7 +362,7 @@ theorem exists_faithful_two_group (hctx : ThmACtx G m) (hc : Cfg116 G m p L p' B
       exact this
     have hcomm := (Subgroup.mem_centralizer_iff.1 hjM) _ hcR
     exact lemma117_comm_mem (hJC hj) c hcomm.symm
-  haveI := hMn
+  have := hMn
   have hMc : M ≤ Subgroup.center ↥J := le_center_of_normal_of_isQuasisimple hJq hMn hMtop
   have hkey : ∀ u₀ ∈ U₀, φ u₀ ∈ Subgroup.centralizer (R : Set (PQuot r (Subgroup.centralizer ({x'} : Set G)))) →
       u₀ = 1 := fun u₀ hu₀ hcen =>
@@ -400,7 +402,7 @@ theorem jbar_cent_R (hctx : ThmACtx G m) (hc : Cfg116 G m p L p' B' x' J) {r : �
   obtain ⟨u, hu, hu1, Q₁, -, hQel, hQcard, hQu, -⟩ :=
     P55.dihedralUsed (PQuot r (Subgroup.centralizer ({x'} : Set G))) r hrp hr2 R U (m + 1) hRr hU2 hUcard hUN hfaith
   have hu2 : IsPGroup 2 (Subgroup.zpowers u) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hord : orderOf u = 2 := orderOf_eq_prime (hU2.2 u hu) hu1
     exact IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hord]; simp)
   have hM : IsTwoLocal (Subgroup.normalizer (Subgroup.zpowers u : Set (PQuot r (Subgroup.centralizer ({x'} : Set G))))) :=
@@ -439,7 +441,7 @@ private theorem lemma117_card_le {G : Type} [Group G] [Finite G] :
   | _ n ih =>
   intro Ω hΩn hΩne E hE hcl k hEk hfaith
   obtain ⟨Y₀, hY₀⟩ := hΩne
-  letI := lemma117Act E
+  let := lemma117Act E
   have hcomm : ∀ e ∈ E, ∀ f ∈ E, e * f = f * e := fun e he f hf =>
     congrArg Subtype.val (hE.1.is_comm.comm ⟨e, he⟩ ⟨f, hf⟩)
   set T : Set (Subgroup G) := MulAction.orbit E Y₀ with hT
@@ -451,7 +453,7 @@ private theorem lemma117_card_le {G : Type} [Group G] [Finite G] :
     exact hcl Y₀ hY₀ (e : G)⁻¹ (E.inv_mem e.2)
   have hOT : (T : Set (Subgroup G)) = ↑O := by
     ext Y
-    simp only [hO, Finset.coe_filter, Set.mem_setOf_eq]
+    simp only [hO, Finset.coe_filter, Set.mem_ofPred_eq]
     exact ⟨fun hY => ⟨hTΩ Y hY, hY⟩, fun hY => hY.2⟩
   have hOcard : Nat.card T = O.card := by
     rw [Nat.card_coe_set_eq, hOT, Set.ncard_coe_finset]
@@ -536,20 +538,20 @@ private theorem lemma117_card_le {G : Type} [Group G] [Finite G] :
 private theorem lemma117_exists_two_rank {H : Type} [Group H] [Finite H] {n : ℕ}
     (hH : n ≤ CFSG.Open.pRank 2 (⊤ : Subgroup H)) : ∃ U : Subgroup H, IsElemAbelian 2 U ∧
       Nat.card U = 2 ^ n := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨E, -, hE2, hEcard⟩ :=
     CFSG.SectionRank.exists_pRank (p := 2) (by norm_num) (⊤ : Subgroup H)
   obtain ⟨U, -, hU2, hUcard⟩ := exists_le_isElemAbelian_card hE2 (n := n)
     (by rw [hEcard]; exact pow_dvd_pow 2 hH)
   exact ⟨U, hU2, hUcard⟩
 
-theorem exists_many_components (hctx : ThmACtx G m) (hc : Cfg116 G m p L p' B' x' J) {r : ℕ} (hr : r = p ∨ r = p')
-    (hrp : r.Prime) (hr2 : r ≠ 2)
+theorem exists_many_components (_hctx : ThmACtx G m) (hc : Cfg116 G m p L p' B' x' J) {r : ℕ} (_hr : r = p ∨ r = p')
+    (_hrp : r.Prime) (_hr2 : r ≠ 2)
     (hN : ¬ ∀ Y : Subgroup G, GLAPComponent r (Subgroup.centralizer ({x'} : Set G)) Y → J ≤ Subgroup.normalizer (Y : Set G)) :
     ∃ 𝒮 : Finset (Subgroup G), (∀ Y ∈ 𝒮, GLAPComponent r (Subgroup.centralizer ({x'} : Set G)) Y) ∧ m + 2 ≤ 𝒮.card := by
   classical
-  haveI : Fact r.Prime := ⟨hrp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact r.Prime := ⟨_hrp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set C : Subgroup G := Subgroup.centralizer ({x'} : Set G) with hCdef
   have hJC : J ≤ C := fun j hj => (hc.cfg.comp.1.1 hj).2
   have hJq : CFSG.Open.IsQuasisimple ↥J := hc.cfg.comp.1.2.2
@@ -563,10 +565,10 @@ theorem exists_many_components (hctx : ThmACtx G m) (hc : Cfg116 G m p L p' B' x
   obtain ⟨Y₀, hY₀, j₀, hj₀, hj₀N⟩ : ∃ Y : Subgroup G, GLAPComponent r C Y ∧
       ∃ j ∈ J, j ∉ Subgroup.normalizer (Y : Set G) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hN fun Y hY => fun j hj => by
       by_contra hjN
-      exact absurd (hcon Y hY) (by push_neg; exact ⟨j, hj, hjN⟩)
+      exact absurd (hcon Y hY) (by push Not; exact ⟨j, hj, hjN⟩)
   have hY₀Ω : Y₀ ∈ Ω := (hΩ Y₀).2 hY₀
   have hΩne : Ω.Nonempty := ⟨Y₀, hY₀Ω⟩
   let Jo : Subgroup ↥J :=
@@ -600,7 +602,7 @@ theorem exists_many_components (hctx : ThmACtx G m) (hc : Cfg116 G m p L p' B' x
     apply hj₀N
     rw [mem_normalizer_iff_gLBConj_eq]
     exact hjJo Y₀ hY₀Ω
-  haveI := hJon
+  have := hJon
   have hJoZ : Jo ≤ Subgroup.center ↥J := le_center_of_normal_of_isQuasisimple hJq hJon hJoT
   have hJ2 : m + 2 ≤ CFSG.Open.pRank 2 (⊤ : Subgroup ↥J) := by
     have h := hc.cfg.m2
@@ -655,11 +657,11 @@ private theorem y10x_isSubnormal_coprime_eq_bot {H : Type} [Group H] [Finite H] 
 private theorem y10x_isPGroup_center {H : Type} [Group H] [Finite H] {r : ℕ} (hr : r.Prime)
     (hO : GLAPPrimeCore r H = ⊥) {K : Subgroup H} (hK : IsSubnormal K ⊤) :
     IsPGroup r (Subgroup.center ↥K) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   rw [IsPGroup.iff_card]
   refine ⟨_, Nat.eq_prime_pow_of_unique_prime_dvd (Nat.card_pos.ne') fun {d} hd hdvd => ?_⟩
   by_contra hne
-  haveI : Fact d.Prime := ⟨hd⟩
+  have : Fact d.Prime := ⟨hd⟩
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := Subgroup.center ↥K) d hdvd
   set w : H := ((z : ↥K) : H) with hw
   have hwc : ((z : ↥K)) ∈ Subgroup.center ↥K := z.2
@@ -716,7 +718,7 @@ private theorem y10x_comm_central_right {Q : Type*} [Group Q] {z : Q} (hz : z �
 private theorem y10x_dvd_card_quot_center {H : Type} [Group H] [Finite H] {r : ℕ} (hr : r.Prime)
     (hO : GLAPPrimeCore r H = ⊥) {K : Subgroup H} (hK : CFSG.Open.IsComponentOf K ⊤) :
     r ∣ Nat.card (↥K ⧸ Subgroup.center ↥K) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hKs : IsSubnormal K ⊤ := hK.2.1
   have hq : CFSG.Open.IsQuasisimple ↥K := hK.2.2
   by_contra hndvd
@@ -758,7 +760,7 @@ private theorem y10x_dvd_card_quot_center {H : Type} [Group H] [Finite H] {r : �
 private theorem y10x_exists_rElement {H : Type} [Group H] [Finite H] {r : ℕ} (hr : r.Prime)
     (hO : GLAPPrimeCore r H = ⊥) {K : Subgroup H} (hK : CFSG.Open.IsComponentOf K ⊤) :
     ∃ y : H, y ∈ K ∧ (∃ k ∈ K, k * y ≠ y * k) ∧ ∃ n : ℕ, y ^ (r ^ n) = 1 := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨gb, hgb⟩ := exists_prime_orderOf_dvd_card' (G := ↥K ⧸ Subgroup.center ↥K) r
     (y10x_dvd_card_quot_center hr hO hK)
   obtain ⟨g, rfl⟩ := QuotientGroup.mk_surjective gb
@@ -789,7 +791,7 @@ private theorem y10x_exists_rElement {H : Type} [Group H] [Finite H] {r : ℕ} (
 
 private theorem y10x_exists_involution {H : Type} [Group H] [Finite H] {K : Subgroup H}
     (hq : CFSG.Open.IsQuasisimple ↥K) : ∃ t ∈ K, t ≠ 1 ∧ t ^ 2 = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hperf : Group.IsPerfect ↥K := ⟨hq.1⟩
   have hnt : Nontrivial ↥K := isQuasisimple_nontrivial hq
   have heven : 2 ∣ Nat.card ↥K := by
@@ -836,14 +838,14 @@ private theorem y10x_counting {H : Type} [Group H] [Finite H] {r : ℕ} (hr : r.
     (a0 : H) (ha0 : ∀ i, y i * a0 = a0 * y i) :
     ∃ E : Subgroup H, IsElemAbelian r E ∧ r ^ Fintype.card ι ≤ Nat.card E ∧
       ∀ e ∈ E, e * a0 = a0 * e := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hSc : (Set.range y).Pairwise Commute := by
     rintro _ ⟨i, rfl⟩ _ ⟨j, rfl⟩ hne
     have hij : i ≠ j := fun h => hne (congrArg y h)
     exact hcomm i j hij _ (hyK i) _ (hyK j)
-  haveI : IsMulCommutative ↥(Subgroup.closure (Set.range y)) :=
+  have : IsMulCommutative ↥(Subgroup.closure (Set.range y)) :=
     Subgroup.isMulCommutative_closure hSc
-  letI : CommGroup ↥(Subgroup.closure (Set.range y)) := by
+  let : CommGroup ↥(Subgroup.closure (Set.range y)) := by
     open scoped IsMulCommutative in exact inferInstance
   let yD : ι → ↥(Subgroup.closure (Set.range y)) := fun i => ⟨y i, Subgroup.subset_closure ⟨i, rfl⟩⟩
   have hgen : ∀ (h : H) (hh : h ∈ Subgroup.closure (Set.range y)),
@@ -1019,7 +1021,7 @@ private theorem y10x_fitting_le_pCore {H : Type} [Group H] [Finite H] {r : ℕ} 
   by_cases h : (p : ℕ) = r
   · rw [h]
   · have hp : (p : ℕ).Prime := Nat.prime_of_mem_primeFactors p.2
-    haveI : Fact (p : ℕ).Prime := ⟨hp⟩
+    have : Fact (p : ℕ).Prime := ⟨hp⟩
     have hle : CFSG.pCore (p : ℕ) H ≤ GLAPPrimeCore r H := by
       refine le_sSup ⟨CFSG.pCore_normal, ?_⟩
       obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 (CFSG.pCore_isPGroup (p := (p : ℕ)) (G := H))
@@ -1030,7 +1032,8 @@ private theorem y10x_fitting_le_pCore {H : Type} [Group H] [Finite H] {r : ℕ} 
     rw [hbot]
     exact bot_le
 
-private theorem y10x_barX_conj_mem {C Y : Subgroup G} {r : ℕ} (hYC : Y ≤ C) {x : ↥C}
+omit [Finite G] in
+private theorem y10x_barX_conj_mem {C Y : Subgroup G} {r : ℕ} (_hYC : Y ≤ C) {x : ↥C}
     (hx : (x : G) ∈ Subgroup.normalizer (Y : Set G)) :
     ∀ h ∈ barX r C Y, (QuotientGroup.mk' (GLAPPrimeCore r ↥C) x) * h *
       (QuotientGroup.mk' (GLAPPrimeCore r ↥C) x)⁻¹ ∈ barX r C Y := by
@@ -1043,6 +1046,7 @@ private theorem y10x_barX_conj_mem {C Y : Subgroup G} {r : ℕ} (hYC : Y ≤ C) 
     simpa using this
   · rw [map_mul, map_mul, map_inv]
 
+omit [Finite G] in
 private theorem y10x_barX_normalizer {C Y : Subgroup G} {r : ℕ} (hYC : Y ≤ C) {x : ↥C}
     (hx : (x : G) ∈ Subgroup.normalizer (Y : Set G)) :
     QuotientGroup.mk' (GLAPPrimeCore r ↥C) x ∈
@@ -1067,6 +1071,7 @@ private theorem y10x_isCatalog_iso : ∀ {X Y : Type} [Group X] [Group Y], X ≃
   obtain ⟨i, ⟨f⟩⟩ := hY
   exact ⟨i, ⟨e.trans f⟩⟩
 
+omit [Finite G] in
 private theorem y10x_perfect_barX {C J : Subgroup G} {r : ℕ} (hJC : J ≤ C) [Group.IsPerfect ↥J] :
     Group.IsPerfect ↥(barX r C J) := by
   let ψJ : ↥J →* (↥C ⧸ GLAPPrimeCore r ↥C) :=
@@ -1082,8 +1087,9 @@ private theorem y10x_perfect_barX {C J : Subgroup G} {r : ℕ} (hJC : J ≤ C) [
   have h := Group.IsPerfect.range ψJ
   rwa [hrange] at h
 
+omit [Finite G] in
 private theorem y10x_commute_pCore {C J : Subgroup G} {r : ℕ}
-    (hJC : J ≤ C) (hR : ⁅J, oPPrimeP r C⁆ ≤ GLAPPrimeCoreOf r C) :
+    (_hJC : J ≤ C) (hR : ⁅J, oPPrimeP r C⁆ ≤ GLAPPrimeCoreOf r C) :
     ∀ x ∈ barX r C J, ∀ h ∈ CFSG.pCore r (↥C ⧸ GLAPPrimeCore r ↥C), h * x = x * h := by
   intro x hx h hh
   obtain ⟨j, hj, rfl⟩ := Subgroup.mem_map.1 hx
@@ -1101,6 +1107,7 @@ private theorem y10x_commute_pCore {C J : Subgroup G} {r : ℕ}
   rw [map_commutatorElement] at hmap
   exact (commutatorElement_eq_one_iff_mul_comm.1 hmap).symm
 
+omit [Finite G] in
 private theorem y10x_core_le_oPPrimeP {C : Subgroup G} {r : ℕ} :
     GLAPPrimeCoreOf r C ≤ oPPrimeP r C := by
   intro w hw
@@ -1111,7 +1118,7 @@ private theorem y10x_core_le_oPPrimeP {C : Subgroup G} {r : ℕ} :
   exact one_mem _
 
 private theorem y10x_outer_solvable {m r : ℕ} {C Y : Subgroup G} (hctx : ThmACtx G m)
-    (hSch : CFSG.AGLEmbedding.KFactCatalogSchreier) (hrp : r.Prime)
+    (hSch : CFSG.AGLEmbedding.KFactCatalogSchreier) (_hrp : r.Prime)
     (hY : GLAPComponent r C Y) (hCtop : C ≠ ⊤) :
     Group.IsSolvable (CFSG.ComponentClassification.OuterAutomorphisms.Outer
       (↥(barX r C Y) ⧸ Subgroup.center ↥(barX r C Y))) := by
@@ -1119,7 +1126,7 @@ private theorem y10x_outer_solvable {m r : ℕ} {C Y : Subgroup G} (hctx : ThmAC
   have hYC : Y ≤ C := hY.1
   have hK : CFSG.Open.IsComponentOf (barX r C Y) ⊤ := hY.2.2.1
   have hq : CFSG.Open.IsQuasisimple ↥(barX r C Y) := hK.2.2
-  haveI : IsSimpleGroup (↥(barX r C Y) ⧸ Subgroup.center ↥(barX r C Y)) := hq.2
+  have : IsSimpleGroup (↥(barX r C Y) ⧸ Subgroup.center ↥(barX r C Y)) := hq.2
   have hYtop : Y ≠ ⊤ := fun h => hCtop (top_le_iff.1 (h ▸ hYC))
   let ψ0 : ↥Y →* (↥C ⧸ GLAPPrimeCore r ↥C) :=
     (QuotientGroup.mk' (GLAPPrimeCore r ↥C)).comp (Subgroup.inclusion hYC)
@@ -1147,8 +1154,8 @@ theorem twoLocalRank_of_components {r : ℕ} (hrp : r.Prime) (hr2 : r ≠ 2) {X 
   classical
   rcases 𝒮.eq_empty_or_nonempty with hempty | ⟨Y₀, hY₀⟩
   · simp [hempty]
-  haveI : Fact r.Prime := ⟨hrp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact r.Prime := ⟨hrp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hO : GLAPPrimeCore r (↥X ⧸ GLAPPrimeCore r ↥X) = ⊥ := glaPPrimeCore_quotient_eq_bot hrp
   set T : Finset (Subgroup G) := 𝒮.erase Y₀ with hT
   have hTmem : ∀ Y ∈ T, Y ∈ 𝒮 := fun Y hY => Finset.mem_of_mem_erase hY
@@ -1209,23 +1216,23 @@ theorem j_norm_comps (hctx : ThmACtx G m) (hc : Cfg116 G m p L p' B' x' J) {r : 
   omega
 
 theorem jbar_le_layer_mul (hSch : CFSG.AGLEmbedding.KFactCatalogSchreier) (hctx : ThmACtx G m)
-    (hc : Cfg116 G m p L p' B' x' J) {r : ℕ} (hr : r = p ∨ r = p') (hrp : r.Prime)
+    (hc : Cfg116 G m p L p' B' x' J) {r : ℕ} (_hr : r = p ∨ r = p') (hrp : r.Prime)
     (hR : ⁅J, oPPrimeP r (Subgroup.centralizer ({x'} : Set G))⁆ ≤ GLAPPrimeCoreOf r (Subgroup.centralizer ({x'} : Set G)))
     (hN : ∀ Y : Subgroup G, GLAPComponent r (Subgroup.centralizer ({x'} : Set G)) Y → J ≤ Subgroup.normalizer (Y : Set G)) :
     J ≤ GLAPLayer r (Subgroup.centralizer ({x'} : Set G)) ⊔ oPPrimeP r (Subgroup.centralizer ({x'} : Set G)) := by
   classical
-  haveI : Fact r.Prime := ⟨hrp⟩
+  have : Fact r.Prime := ⟨hrp⟩
   set C : Subgroup G := Subgroup.centralizer ({x'} : Set G) with hCdef
   have hJC : J ≤ C := fun j hj => (hc.cfg.comp.1.1 hj).2
   have hJq : CFSG.Open.IsQuasisimple ↥J := hc.cfg.comp.1.2.2
-  haveI : Group.IsPerfect ↥J := ⟨hJq.1⟩
+  have : Group.IsPerfect ↥J := ⟨hJq.1⟩
   have hCtop : C ≠ ⊤ := by
     intro hCt
     have hz : x' ∈ Subgroup.center G := by
       refine Subgroup.mem_center_iff.2 fun g => ?_
       have hg : g ∈ C := by rw [hCt]; exact Subgroup.mem_top g
       exact (Subgroup.mem_centralizer_iff.1 hg) x' (Set.mem_singleton x') |>.symm
-    haveI := hctx.1.simple
+    have := hctx.1.simple
     rcases Subgroup.Normal.eq_bot_or_eq_top (Subgroup.center G) with h | h
     · exact hc.cfg.ne_one (Subgroup.mem_bot.1 (h ▸ hz))
     · obtain ⟨a, b, hab⟩ := hctx.1.nonabelian
@@ -1285,7 +1292,7 @@ theorem jbar_le_layer_mul (hSch : CFSG.AGLEmbedding.KFactCatalogSchreier) (hctx 
 private theorem lemma117_perfect_hom_mem {H Q : Type} [Group H] [Group Q] [Finite H] [Finite Q] {p : ℕ}
     (hp : p.Prime) (hH : commutator H = ⊤) {A R : Subgroup Q} (hA : A.Normal) (hR : IsPGroup p R)
     (f : H →* Q) (hf : ∀ h, f h ∈ A ⊔ R) (h : H) : f h ∈ A := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set g : H →* Q ⧸ A := (QuotientGroup.mk' A).comp f with hg
   have hTR : g.range ≤ R.map (QuotientGroup.mk' A) := by
     rintro _ ⟨x, rfl⟩
@@ -1304,15 +1311,15 @@ private theorem lemma117_perfect_hom_mem {H Q : Type} [Group H] [Group Q] [Finit
     have hmem : g h ∈ g.range := ⟨h, rfl⟩
     rw [h0, Subgroup.mem_bot] at hmem
     exact (QuotientGroup.eq_one_iff _).1 hmem
-  haveI : Group.IsPerfect ↥g.range := Subgroup.isPerfect_iff.2 hTperf
-  haveI : Group.IsNilpotent ↥g.range := hTp.isNilpotent
-  haveI : Nontrivial ↥g.range := (Subgroup.nontrivial_iff_ne_bot _).2 hne
+  have : Group.IsPerfect ↥g.range := Subgroup.isPerfect_iff.2 hTperf
+  have : Group.IsNilpotent ↥g.range := hTp.isNilpotent
+  have : Nontrivial ↥g.range := (Subgroup.nontrivial_iff_ne_bot _).2 hne
   exact Group.IsPerfect.not_isSolvable ↥g.range inferInstance
 
 theorem le_layer_of_le_mul {r : ℕ} (hrp : r.Prime) {C J : Subgroup G} (hJC : J ≤ C) (hJq : CFSG.Open.IsQuasisimple ↥J)
     (hJr : r ∣ Nat.card (↥J ⧸ Subgroup.center ↥J))
     (h : J ≤ GLAPLayer r C ⊔ oPPrimeP r C) : J ≤ GLAPLayer r C := by
-  haveI : Fact r.Prime := ⟨hrp⟩
+  have : Fact r.Prime := ⟨hrp⟩
   have hΛC : GLAPLayer r C ≤ C := sSup_le fun L hL => hL.1
   have hOC : oPPrimeP r C ≤ C := Subgroup.map_subtype_le _
   have hΛn : ((GLAPLayer r C).subgroupOf C).Normal :=
@@ -1435,7 +1442,7 @@ private theorem lemma117_qs_normal_dichotomy {S A : Subgroup Q} (hS : CFSG.Open.
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     have := hnorm (g : Q) g.2 (n : Q) hn
     simpa [mul_assoc] using this
-  haveI : (A'.map π).Normal := hA'n.map π (QuotientGroup.mk'_surjective _)
+  have : (A'.map π).Normal := hA'n.map π (QuotientGroup.mk'_surjective _)
   rcases hS.2.eq_bot_or_eq_top_of_normal (A'.map π) with h | h
   · left
     intro a ha s hs
@@ -1569,7 +1576,7 @@ private theorem lemma117_en_of_iSup {ι : Type} {S : ι → Subgroup Q} {T : Sub
     exact hx _ (hy t ht)
 
 private theorem lemma117_qs_nontrivial {G : Type} [Group G] (h : CFSG.Open.IsQuasisimple G) : Nontrivial G := by
-  haveI := h.2.toNontrivial
+  have := h.2.toNontrivial
   by_contra hn
   rw [not_nontrivial_iff_subsingleton] at hn
   exact not_subsingleton (G ⧸ Subgroup.center G) inferInstance
@@ -1723,7 +1730,7 @@ private theorem lemma117_closure_core_abstract {ι κ : Type} {ℓ : ℕ} (hℓ 
           intro w hw
           exact (lemma117_mem_zc.1 (hYzc hw)).2 y hy |>.symm
         have hbot : Y j = ⊥ := (lemma117_qs_comm_self (hq j)).symm.trans hcomm_bot
-        haveI := lemma117_qs_nontrivial (hq j)
+        have := lemma117_qs_nontrivial (hq j)
         obtain ⟨x, hx⟩ := exists_ne (1 : ↥(Y j))
         exact hx (Subtype.ext (Subgroup.mem_bot.1 (hbot.le x.2)))
       obtain ⟨c, hc⟩ := hsome
@@ -1772,6 +1779,7 @@ private theorem lemma117_closure_core_abstract {ι κ : Type} {ℓ : ℕ} (hℓ 
   have hk' : k ∈ Subgroup.centralizer (M : Set Q) := hLM (hKL hk)
   exact ((Subgroup.mem_centralizer_iff.1 hk') m hm).symm
 
+omit [Finite G] in
 private theorem lemma117_barX_iSup_le {p : ℕ} {Cg : Subgroup G} {ι : Type} (K : ι → Subgroup G)
     (hK : ∀ i, K i ≤ Cg) :
     barX p Cg (⨆ i, K i) ≤ ⨆ i, barX p Cg (K i) := by
@@ -1801,6 +1809,7 @@ private theorem lemma117_barX_iSup_le {p : ℕ} {Cg : Subgroup G} {ι : Type} (K
   obtain ⟨hg, hmem⟩ := key a.1 haK
   exact hmem
 
+omit [Finite G] in
 private theorem lemma117_map_conj_eq_GLBConj_inv (a : G) (J : Subgroup G) :
     J.map (MulAut.conj a).toMonoidHom = GLBConj a⁻¹ J := by
   unfold GLBConj
@@ -1808,15 +1817,15 @@ private theorem lemma117_map_conj_eq_GLBConj_inv (a : G) (J : Subgroup G) :
 
 end Lemma117Closure
 
-theorem closureCore_le_oPPrimeP (hctx : ThmACtx G m) (hc : Cfg116 G m p L p' B' x' J) (hp : p.Prime)
+theorem closureCore_le_oPPrimeP (_hctx : ThmACtx G m) (hc : Cfg116 G m p L p' B' x' J) (hp : p.Prime)
     (hJp : J ≤ GLAPLayer p (Subgroup.centralizer ({x'} : Set G))) :
     ⁅closureIn J (Subgroup.centralizer ({x'} : Set G)), GLAPPrimeCoreOf p' (closureIn J (Subgroup.centralizer ({x'} : Set G)))⁆ ≤
       GLAPPrimeCoreOf p (closureIn J (Subgroup.centralizer ({x'} : Set G))) := by
   classical
   set Cg : Subgroup G := Subgroup.centralizer ({x'} : Set G) with hCg
   have hp' : p'.Prime := hc.cfg.prime
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact p'.Prime := ⟨hp'⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact p'.Prime := ⟨hp'⟩
   have hJCg : J ≤ Cg := fun j hj => (hc.cfg.comp.1.1 hj).2
   have hJq : CFSG.Open.IsQuasisimple ↥J := hc.cfg.comp.1.2.2
   let ι := {Y : Subgroup G // GLAPComponent p Cg Y}
@@ -2240,8 +2249,8 @@ theorem y10xA_comm_prod {Γ : Type} [Group Γ] {a b c d : Γ} (hbc : Commute b c
     _ = a * c * ((a⁻¹ * c⁻¹) * (b * d * b⁻¹ * d⁻¹)) := by rw [hX2.eq]
     _ = a * c * a⁻¹ * c⁻¹ * (b * d * b⁻¹ * d⁻¹) := by group
 
-theorem y10xA_comm_central {Γ : Type} [Group Γ] {a b z w : Γ} (hza : Commute z a)
-    (hzb : Commute z b) (hwa : Commute w a) (hwb : Commute w b) (hzw : Commute z w) :
+theorem y10xA_comm_central {Γ : Type} [Group Γ] {a b z w : Γ} (_hza : Commute z a)
+    (hzb : Commute z b) (hwa : Commute w a) (_hwb : Commute w b) (hzw : Commute z w) :
     ⁅a * z, b * w⁆ = ⁅a, b⁆ := by
   have hzwz : z * w * z⁻¹ = w := by
     rw [hzw.eq]
@@ -2319,7 +2328,7 @@ theorem y10xA_single_orbit {Γ : Type} [Group Γ] [Finite Γ] {ι : Type} (Y : �
     · exact le_sup_of_le_right (le_iSup (fun j : {j // ¬ 𝒞 j} => Y j.1) ⟨i, hi⟩)
   obtain ⟨j₁, hj₁⟩ : ∃ j, 𝒞 j := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     apply hne
     rw [← le_bot_iff]
     refine le_trans hĴW (iSup_le fun j => ?_)
@@ -2376,7 +2385,7 @@ theorem y10xA_single_orbit {Γ : Type} [Group Γ] [Finite Γ] {ι : Type} (Y : �
       rw [y10xA_map_conj_map]
       have hid : (MulAut.conj (σ⁻¹ * σ)).toMonoidHom = MonoidHom.id Γ := by
         ext x
-        simp [MulAut.conj_apply]
+        simp
       rw [hid, Subgroup.map_id]
     rw [hYj, hτ j, hn, y10xA_map_conj_map, hσinv, pow_add]
   have hσM₁ : ∀ m ∈ M₁, σ * m * σ⁻¹ ∈ M₁ := by
@@ -2459,7 +2468,7 @@ theorem y10xA_single_orbit {Γ : Type} [Group Γ] [Finite Γ] {ι : Type} (Y : �
     rw [hn]
     exact le_iSup (fun n : ℕ => (Y j₁).map (MulAut.conj (σ ^ n)).toMonoidHom) n
   exfalso
-  push_neg at hall
+  push Not at hall
   obtain ⟨j₂, hj₂𝒞, hj₂P⟩ := hall
   have hM₁y₂ : ∀ m ∈ M₁, ∀ y ∈ Y j₂, m * y = y * m := fun m hm y hy =>
     y10xA_iSup_centralizes (fun j : {j // 𝒞 j ∧ P₁ j} => Y j.1) y
@@ -2469,7 +2478,7 @@ theorem y10xA_single_orbit {Γ : Type} [Group Γ] [Finite Γ] {ι : Type} (Y : �
     refine ⟨0, ?_⟩
     have hid : (MulAut.conj (σ ^ 0)).toMonoidHom = MonoidHom.id Γ := by
       ext x
-      simp [MulAut.conj_apply]
+      simp
     rw [hid, Subgroup.map_id]
   have hM₂y₁ : ∀ m ∈ M₂, ∀ y ∈ Y j₁, m * y = y * m := fun m hm y hy =>
     y10xA_iSup_centralizes (fun j : {j // 𝒞 j ∧ ¬ P₁ j} => Y j.1) y
@@ -2589,10 +2598,12 @@ section Conc
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem y10xA_comm_mem {X : Subgroup G} {a b : G} (ha : a ∈ X) (hb : b ∈ X) : ⁅a, b⁆ ∈ X := by
   rw [commutatorElement_def]
   exact X.mul_mem (X.mul_mem (X.mul_mem ha hb) (X.inv_mem ha)) (X.inv_mem hb)
 
+omit [Finite G] in
 theorem y10xA_mem_core {s : ℕ} {X : Subgroup G} {y : G} (hy : y ∈ GLAPPrimeCoreOf s X)
     (hX : y ∈ X) : (⟨y, hX⟩ : ↥X) ∈ GLAPPrimeCore s ↥X := by
   obtain ⟨z, hz, hzy⟩ := Subgroup.mem_map.1 hy
@@ -2600,10 +2611,12 @@ theorem y10xA_mem_core {s : ℕ} {X : Subgroup G} {y : G} (hy : y ∈ GLAPPrimeC
   rw [← hzeq]
   exact hz
 
+omit [Finite G] in
 theorem y10xA_of_mem_core {s : ℕ} {X : Subgroup G} {y : G} (hX : y ∈ X)
     (h : (⟨y, hX⟩ : ↥X) ∈ GLAPPrimeCore s ↥X) : y ∈ GLAPPrimeCoreOf s X :=
   Subgroup.mem_map.2 ⟨⟨y, hX⟩, h, rfl⟩
 
+omit [Finite G] in
 theorem y10xA_quot_comm_of_mem {s : ℕ} {X : Subgroup G} {a b : G} (ha : a ∈ X) (hb : b ∈ X)
     (hab : ⁅a, b⁆ ∈ GLAPPrimeCoreOf s X) :
     QuotientGroup.mk' (GLAPPrimeCore s ↥X) (⟨a, ha⟩ : ↥X) *
@@ -2623,6 +2636,7 @@ theorem y10xA_comm_mod {s : ℕ} (hs : s.Prime) {X Y Y' : Subgroup G}
   have hmem := le_centModSubgroup_of_ne hs hY' hY hne hy'
   exact glaPPrimeCoreOf_le_of_isSubnormal hs hY.2.1 ((mem_centModSubgroup.1 hmem).2 y hy)
 
+omit [Finite G] in
 theorem y10xA_barX_isComponent {s : ℕ} {C Y : Subgroup G} (hY : GLAPComponent s C Y) :
     IsComponentOf (barX s C Y) ⊤ := by
   obtain ⟨-, -, hc, -⟩ := hY
@@ -2637,7 +2651,8 @@ theorem y10xA_cn_mod {s : ℕ} {C K Y : Subgroup G} (hY : GLAPComponent s C Y)
   exact y10xA_cn (y10xA_barX_isComponent hY) le_top
     (by rw [Subgroup.normalizer_eq_top_iff.2 hNn])
 
-theorem y10xA_le_sup_of_barX_le {s : ℕ} {C K Y : Subgroup G} (hKC : K ≤ C) (hYC : Y ≤ C)
+omit [Finite G] in
+theorem y10xA_le_sup_of_barX_le {s : ℕ} {C K Y : Subgroup G} (_hKC : K ≤ C) (hYC : Y ≤ C)
     (h : barX s C Y ≤ barX s C K) : Y ≤ K ⊔ GLAPPrimeCoreOf s C := by
   intro y hy
   have hyC : y ∈ C := hYC hy
@@ -2661,6 +2676,7 @@ section Conc2
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem y10xA_conj_closureIn {C J : Subgroup G} {c x : G} (hc : c ∈ C)
     (hx : x ∈ closureIn J C) : c * x * c⁻¹ ∈ closureIn J C := by
   have key : ∀ x ∈ closureIn J C, ∀ c ∈ C, c * x * c⁻¹ ∈ closureIn J C := by
@@ -2692,10 +2708,12 @@ theorem y10xA_conj_closureIn {C J : Subgroup G} {c x : G} (hc : c ∈ C)
         (h₁ c hc') (h₂ c hc')
   exact key x hx c hc
 
+omit [Finite G] in
 theorem y10xA_closureIn_normalizer {C J : Subgroup G} :
     C ≤ Subgroup.normalizer ((closureIn J C : Subgroup G) : Set G) :=
-  y10xA_le_normalizer fun c hc n hn => y10xA_conj_closureIn hc hn
+  y10xA_le_normalizer fun _c hc _n hn => y10xA_conj_closureIn hc hn
 
+omit [Finite G] in
 theorem y10xA_closureIn_le {C J : Subgroup G} (hJC : J ≤ C) : closureIn J C ≤ C := by
   unfold closureIn
   refine iSup₂_le fun a ha => ?_
@@ -2703,12 +2721,14 @@ theorem y10xA_closureIn_le {C J : Subgroup G} (hJC : J ≤ C) : closureIn J C �
   have := hJC hj
   exact C.mul_mem (C.mul_mem ha this) (C.inv_mem ha)
 
+omit [Finite G] in
 theorem y10xA_le_closureIn {C J : Subgroup G} (hC : (1 : G) ∈ C) : J ≤ closureIn J C := by
   intro j hj
   unfold closureIn
   refine le_iSup₂ (f := fun (a : G) (_ : a ∈ C) => J.map (MulAut.conj a).toMonoidHom) 1 hC ?_
   exact Subgroup.mem_map.2 ⟨j, hj, by simp⟩
 
+omit [Finite G] in
 theorem y10xA_comm_core_normalizer {s : ℕ} {C K : Subgroup G} (hKC : C ≤ Subgroup.normalizer (K : Set G)) :
     C ≤ Subgroup.normalizer ((⁅K, GLAPPrimeCoreOf s K⁆ : Subgroup G) : Set G) := by
   refine y10xA_le_normalizer fun c hc n hn => ?_
@@ -2742,7 +2762,8 @@ theorem y10xA_barX_comm {s : ℕ} {C Y Y' : Subgroup G} (hs : s.Prime)
   have hw' : (w : G) ∈ Y' := Subgroup.mem_subgroupOf.1 hw
   exact y10xA_quot_comm_of_mem z.2 w.2 (y10xA_comm_mod hs hY hY' hne hz' hw')
 
-theorem y10xA_barX_layer {s : ℕ} {C J : Subgroup G} (hJlay : J ≤ GLAPLayer s C) (hJC : J ≤ C) :
+omit [Finite G] in
+theorem y10xA_barX_layer {s : ℕ} {C J : Subgroup G} (hJlay : J ≤ GLAPLayer s C) (_hJC : J ≤ C) :
     barX s C J ≤ ⨆ (Y : {Y : Subgroup G // GLAPComponent s C Y}), barX s C Y.1 := by
   have hlay : GLAPLayer s C ≤ ⨆ (Y : {Y : Subgroup G // GLAPComponent s C Y}), Y.1 := by
     unfold GLAPLayer
@@ -2843,6 +2864,7 @@ section Conc5
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem y10xA_mem_sup_of_barX {s : ℕ} {C : Subgroup G} {ι : Type} (F : ι → Subgroup G)
     {z : ↥C ⧸ GLAPPrimeCore s ↥C} (hz : z ∈ ⨆ i, barX s C (F i)) :
     ∀ (a : G) (ha : a ∈ C), QuotientGroup.mk' (GLAPPrimeCore s ↥C) (⟨a, ha⟩ : ↥C) = z →
@@ -2861,7 +2883,7 @@ theorem y10xA_mem_sup_of_barX {s : ℕ} {C : Subgroup G} {ι : Type} (F : ι →
     have hO : (((w⁻¹ * ⟨a, ha⟩ : ↥C)) : G) ∈ GLAPPrimeCoreOf s C :=
       y10xA_of_mem_core (w⁻¹ * ⟨a, ha⟩ : ↥C).2 hcore
     have hsplit : a = (w : G) * (((w⁻¹ * ⟨a, ha⟩ : ↥C)) : G) := by
-      simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subtype.coe_mk]
+      simp only [Subgroup.coe_mul, Subgroup.coe_inv]
       group
     rw [hsplit]
     exact ((⨆ i, F i) ⊔ GLAPPrimeCoreOf s C).mul_mem
@@ -2883,12 +2905,13 @@ theorem y10xA_mem_sup_of_barX {s : ℕ} {C : Subgroup G} {ι : Type} (F : ι →
     have hO : (((x₁ * x₂)⁻¹ * ⟨a, ha⟩ : ↥C) : G) ∈ GLAPPrimeCoreOf s C :=
       y10xA_of_mem_core ((x₁ * x₂)⁻¹ * ⟨a, ha⟩ : ↥C).2 hcore
     have hsplit : a = (((x₁ * x₂ : ↥C)) : G) * ((((x₁ * x₂)⁻¹ * ⟨a, ha⟩ : ↥C)) : G) := by
-      simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subtype.coe_mk]
+      simp only [Subgroup.coe_mul, Subgroup.coe_inv]
       group
     rw [hsplit]
     exact ((⨆ i, F i) ⊔ GLAPPrimeCoreOf s C).mul_mem
       (((⨆ i, F i) ⊔ GLAPPrimeCoreOf s C).mul_mem hx₁ hx₂) (Subgroup.mem_sup_right hO)
 
+omit [Finite G] in
 theorem y10xA_closureIn_le_of {C J X : Subgroup G} (hJX : J ≤ X)
     (hX : ∀ c ∈ C, ∀ x ∈ X, c * x * c⁻¹ ∈ X) : closureIn J C ≤ X := by
   unfold closureIn
@@ -2896,6 +2919,7 @@ theorem y10xA_closureIn_le_of {C J X : Subgroup G} (hJX : J ≤ X)
   rintro _ ⟨j, hj, rfl⟩
   exact hX a ha j (hJX hj)
 
+omit [Finite G] in
 theorem y10xA_sup_conj_mem {C A B : Subgroup G} (hAB : ∀ h ∈ A, ∀ t ∈ B, h * t * h⁻¹ ∈ B)
     (hA : ∀ c ∈ C, ∀ a ∈ A, c * a * c⁻¹ ∈ A) (hB : ∀ c ∈ C, ∀ b ∈ B, c * b * c⁻¹ ∈ B)
     {c : G} (hc : c ∈ C) {x : G} (hx : x ∈ A ⊔ B) : c * x * c⁻¹ ∈ A ⊔ B := by
@@ -2905,6 +2929,7 @@ theorem y10xA_sup_conj_mem {C A B : Subgroup G} (hAB : ∀ h ∈ A, ∀ t ∈ B,
   exact (A ⊔ B).mul_mem (Subgroup.mem_sup_left (hA c hc a ha))
     (Subgroup.mem_sup_right (hB c hc b hb))
 
+omit [Finite G] in
 theorem y10xA_conj_mem_S {s : ℕ} {C K Y : Subgroup G} {c : G} (hcC : c ∈ C)
     (hCn : C ≤ Subgroup.normalizer (C : Set G)) (hKC : K ≤ C)
     (hKn : ∀ c ∈ C, ∀ k ∈ K, c * k * c⁻¹ ∈ K)
@@ -2938,22 +2963,26 @@ def y10xA_img (C N : Subgroup G) [(N.subgroupOf C).Normal] (H : Subgroup G) :
     Subgroup (↥C ⧸ N.subgroupOf C) :=
   (H.subgroupOf C).map (QuotientGroup.mk' (N.subgroupOf C))
 
+omit [Finite G] in
 theorem y10xA_mem_img {C N H : Subgroup G} [(N.subgroupOf C).Normal] {c : G} (hcC : c ∈ C)
     (hc : c ∈ H) : QuotientGroup.mk' (N.subgroupOf C) (⟨c, hcC⟩ : ↥C) ∈ y10xA_img C N H :=
   Subgroup.mem_map.2 ⟨⟨c, hcC⟩, Subgroup.mem_subgroupOf.2 hc, rfl⟩
 
+omit [Finite G] in
 theorem y10xA_exists_of_mem_img {C N H : Subgroup G} [(N.subgroupOf C).Normal]
     {z : ↥C ⧸ N.subgroupOf C} (hz : z ∈ y10xA_img C N H) :
     ∃ c : ↥C, (c : G) ∈ H ∧ QuotientGroup.mk' (N.subgroupOf C) c = z := by
   obtain ⟨c, hc, hcz⟩ := Subgroup.mem_map.1 hz
   exact ⟨c, Subgroup.mem_subgroupOf.1 hc, hcz⟩
 
+omit [Finite G] in
 theorem y10xA_img_mono {C N H H' : Subgroup G} [(N.subgroupOf C).Normal] (h : H ≤ H') :
     y10xA_img C N H ≤ y10xA_img C N H' := by
   intro z hz
   obtain ⟨c, hc, rfl⟩ := y10xA_exists_of_mem_img hz
   exact Subgroup.mem_map.2 ⟨c, Subgroup.mem_subgroupOf.2 (h hc), rfl⟩
 
+omit [Finite G] in
 theorem y10xA_mem_of_mk_eq {C N K : Subgroup G} [(N.subgroupOf C).Normal] (hNK : N ≤ K)
     {k c : ↥C} (hk : (k : G) ∈ K)
     (h : QuotientGroup.mk' (N.subgroupOf C) k = QuotientGroup.mk' (N.subgroupOf C) c) :
@@ -2964,7 +2993,7 @@ theorem y10xA_mem_of_mk_eq {C N K : Subgroup G} [(N.subgroupOf C).Normal] (hNK :
   rw [e]
   exact K.mul_mem hk (hNK hn)
 
-theorem y10xA_isPGroup_zpowers {Q : Type} [Group Q] {p : ℕ} (hp : p.Prime) {a : Q}
+theorem y10xA_isPGroup_zpowers {Q : Type} [Group Q] {p : ℕ} (_hp : p.Prime) {a : Q}
     (ha : a ^ p = 1) : IsPGroup p (Subgroup.zpowers a) := by
   intro g
   obtain ⟨n, hn⟩ := Subgroup.mem_zpowers_iff.1 g.2
@@ -2996,7 +3025,7 @@ theorem y10xA_img_inf_centralizer {p : ℕ} (hp : p.Prime) {C K N : Subgroup G}
           Set (↥C ⧸ N.subgroupOf C)) =
       y10xA_img C N (K ⊓ Subgroup.centralizer ({x} : Set G)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hNC : N ≤ C := hNK.trans hKC
   have hNp' : ¬ p ∣ Nat.card (N.subgroupOf C) := by
     rwa [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hNC).toEquiv]
@@ -3083,11 +3112,13 @@ theorem y10xA_comm_mem_gen {Q : Type} [Group Q] {X : Subgroup Q} {a b : Q} (ha :
   rw [commutatorElement_def]
   exact X.mul_mem (X.mul_mem (X.mul_mem ha hb) (X.inv_mem ha)) (X.inv_mem hb)
 
+omit [Finite G] in
 theorem y10xA_coreOf_le {s : ℕ} (X : Subgroup G) : GLAPPrimeCoreOf s X ≤ X := by
   intro y hy
   obtain ⟨z, -, rfl⟩ := Subgroup.mem_map.1 hy
   exact z.2
 
+omit [Finite G] in
 theorem y10xA_mk_eq_iff {s : ℕ} {C : Subgroup G} {a b : G} (ha : a ∈ C) (hb : b ∈ C) :
     QuotientGroup.mk' (GLAPPrimeCore s ↥C) (⟨a, ha⟩ : ↥C) =
         QuotientGroup.mk' (GLAPPrimeCore s ↥C) (⟨b, hb⟩ : ↥C) ↔
@@ -3104,7 +3135,7 @@ theorem y10xA_mk_eq_iff {s : ℕ} {C : Subgroup G} {a b : G} (ha : a ∈ C) (hb 
   · intro h
     obtain ⟨z, hz, hzeq⟩ := Subgroup.mem_map.1 h
     have e : (⟨a, ha⟩⁻¹ * ⟨b, hb⟩ : ↥C) = z :=
-      Subtype.ext (by simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subtype.coe_mk]; exact hzeq.symm)
+      Subtype.ext (by simp only [Subgroup.coe_mul, Subgroup.coe_inv]; exact hzeq.symm)
     rw [e]
     exact hz
 
@@ -3133,8 +3164,9 @@ theorem y10xA_inf_le_coreK {s : ℕ} (hs : s.Prime) {C K : Subgroup G} (hKC : K 
         rwa [e] at h2
   exact le_glaPPrimeCoreOf_of_le_normalizer inf_le_left hKN hcop
 
-theorem y10xA_img_central {C K T N : Subgroup G} [(N.subgroupOf C).Normal] (hKC : K ≤ C)
-    (hTK : T ≤ K) (hcomm : ∀ k ∈ K, ∀ t ∈ T, ⁅k, t⁆ ∈ N) :
+omit [Finite G] in
+theorem y10xA_img_central {C K T N : Subgroup G} [(N.subgroupOf C).Normal] (_hKC : K ≤ C)
+    (_hTK : T ≤ K) (hcomm : ∀ k ∈ K, ∀ t ∈ T, ⁅k, t⁆ ∈ N) :
     ∀ z ∈ y10xA_img C N T, ∀ g ∈ y10xA_img C N K, g * z = z * g := by
   intro z hz g hg
   obtain ⟨o, ho, rfl⟩ := y10xA_exists_of_mem_img hz
@@ -3149,6 +3181,7 @@ theorem y10xA_img_central {C K T N : Subgroup G} [(N.subgroupOf C).Normal] (hKC 
   rw [e]
   exact N.inv_mem hm
 
+omit [Finite G] in
 theorem y10xA_mk_mem_barX_of_sup {s : ℕ} {C Y : Subgroup G} (hYC : Y ≤ C)
     (hO : C ≤ Subgroup.normalizer ((GLAPPrimeCoreOf s C : Subgroup G) : Set G)) {p : G}
     (hpC : p ∈ C) (hp : p ∈ Y ⊔ GLAPPrimeCoreOf s C) :
@@ -3165,7 +3198,8 @@ theorem y10xA_mk_mem_barX_of_sup {s : ℕ} {C Y : Subgroup G} (hYC : Y ≤ C)
   rw [e]
   exact (GLAPPrimeCoreOf s C).inv_mem ho
 
-theorem y10xA_barX_le_P {s : ℕ} {C K Y : Subgroup G} (hKC : K ≤ C) (hYC : Y ≤ C)
+omit [Finite G] in
+theorem y10xA_barX_le_P {s : ℕ} {C K Y : Subgroup G} (hKC : K ≤ C) (_hYC : Y ≤ C)
     (hYK : Y ≤ K ⊔ GLAPPrimeCoreOf s C)
     (hO : C ≤ Subgroup.normalizer ((GLAPPrimeCoreOf s C : Subgroup G) : Set G)) :
     barX s C Y ≤ barX s C (K ⊓ (Y ⊔ GLAPPrimeCoreOf s C)) := by
@@ -3303,7 +3337,7 @@ theorem y10xA_img_P_commute {s : ℕ} (hs : s.Prime) {C K N : Subgroup G}
     (hO : C ≤ Subgroup.normalizer ((GLAPPrimeCoreOf s C : Subgroup G) : Set G))
     (hcomm : ∀ k ∈ K, ∀ t ∈ GLAPPrimeCoreOf s K, ⁅k, t⁆ ∈ N)
     (hY : GLAPComponent s C Y) (hYK : Y ≤ K ⊔ GLAPPrimeCoreOf s C)
-    (hY' : GLAPComponent s C Y') (hYK' : Y' ≤ K ⊔ GLAPPrimeCoreOf s C) (hne : Y' ≠ Y) :
+    (hY' : GLAPComponent s C Y') (_hYK' : Y' ≤ K ⊔ GLAPPrimeCoreOf s C) (hne : Y' ≠ Y) :
     y10xA_Commute (y10xA_img C N (K ⊓ (Y ⊔ GLAPPrimeCoreOf s C)))
       (y10xA_img C N (K ⊓ (Y' ⊔ GLAPPrimeCoreOf s C))) := by
   set P1 : Subgroup G := K ⊓ (Y ⊔ GLAPPrimeCoreOf s C) with hP1
@@ -3373,6 +3407,7 @@ def y10xA_fam (s : ℕ) (C K N : Subgroup G) [(N.subgroupOf C).Normal] :
   | none => y10xA_img C N (GLAPPrimeCoreOf s K)
   | some Y => y10xA_img C N (K ⊓ (Y.1 ⊔ GLAPPrimeCoreOf s C))
 
+omit [Finite G] in
 theorem y10xA_barX_iSup_mem {s : ℕ} {C : Subgroup G} {ι : Type} (F : ι → Subgroup G)
     (hF : ∀ i, F i ≤ C) {y : G} (hy : y ∈ ⨆ i, F i) :
     ∃ hyC : y ∈ C, QuotientGroup.mk' (GLAPPrimeCore s ↥C) (⟨y, hyC⟩ : ↥C) ∈
@@ -3393,6 +3428,7 @@ theorem y10xA_barX_iSup_mem {s : ℕ} {C : Subgroup G} {ι : Type} (F : ι → S
     rw [e, map_mul]
     exact (⨆ i, barX s C (F i)).mul_mem h1 h2
 
+omit [Finite G] in
 theorem y10xA_img_iSup_mem {C N : Subgroup G} [(N.subgroupOf C).Normal] {ι : Type}
     (F : ι → Subgroup G) (hF : ∀ i, F i ≤ C) {y : G} (hy : y ∈ ⨆ i, F i) :
     ∃ hyC : y ∈ C, QuotientGroup.mk' (N.subgroupOf C) (⟨y, hyC⟩ : ↥C) ∈
@@ -3412,6 +3448,7 @@ theorem y10xA_img_iSup_mem {C N : Subgroup G} [(N.subgroupOf C).Normal] {ι : Ty
     rw [e, map_mul]
     exact (⨆ i, y10xA_img C N (F i)).mul_mem h1 h2
 
+omit [Finite G] in
 theorem y10xA_iSup_conj_mem {ι : Type} {C : Subgroup G} (F : ι → Subgroup G)
     (hF : ∀ i, ∀ c ∈ C, ∀ y ∈ F i, ∃ j, c * y * c⁻¹ ∈ F j) :
     ∀ c ∈ C, ∀ a ∈ ⨆ i, F i, c * a * c⁻¹ ∈ ⨆ i, F i := by
@@ -3426,6 +3463,7 @@ theorem y10xA_iSup_conj_mem {ι : Type} {C : Subgroup G} (F : ι → Subgroup G)
     rw [e]
     exact (⨆ i, F i).mul_mem hx hy
 
+omit [Finite G] in
 theorem y10xA_sup_normalized {s : ℕ} {C K : Subgroup G} (hKC : K ≤ C)
     (hCn : C ≤ Subgroup.normalizer (C : Set G))
     (hKn : ∀ c ∈ C, ∀ k ∈ K, c * k * c⁻¹ ∈ K)
@@ -3508,6 +3546,7 @@ section Conc9
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem y10xA_gLBConj_le {C Y : Subgroup G} {c : G} (hc : c ∈ C) (hYC : Y ≤ C) :
     GLBConj c⁻¹ Y ≤ C := by
   intro w hw
@@ -3516,7 +3555,8 @@ theorem y10xA_gLBConj_le {C Y : Subgroup G} {c : G} (hc : c ∈ C) (hYC : Y ≤ 
   rw [e]
   exact C.mul_mem (C.mul_mem hc h2) (C.inv_mem hc)
 
-theorem y10xA_conj_P {s : ℕ} {C K Y : Subgroup G} (hKC : K ≤ C) (hYC : Y ≤ C)
+omit [Finite G] in
+theorem y10xA_conj_P {s : ℕ} {C K Y : Subgroup G} (_hKC : K ≤ C) (hYC : Y ≤ C)
     (hKn : ∀ c ∈ C, ∀ k ∈ K, c * k * c⁻¹ ∈ K)
     (hO : C ≤ Subgroup.normalizer ((GLAPPrimeCoreOf s C : Subgroup G) : Set G)) {c : G}
     (hc : c ∈ C) :
@@ -3536,8 +3576,9 @@ theorem y10xA_conj_P {s : ℕ} {C K Y : Subgroup G} (hKC : K ≤ C) (hYC : Y ≤
     exact hy
   · exact (Subgroup.mem_normalizer_iff.1 (hO hc) o).1 ho
 
+omit [Finite G] in
 theorem y10xA_map_conj_img_of {C H H' N : Subgroup G} [(N.subgroupOf C).Normal] {c : G}
-    (hc : c ∈ C) (hHC : H ≤ C) (hH'C : H' ≤ C)
+    (hc : c ∈ C) (hHC : H ≤ C) (_hH'C : H' ≤ C)
     (hH : ∀ h ∈ H, c * h * c⁻¹ ∈ H') (hH' : ∀ h ∈ H', c⁻¹ * h * c ∈ H) :
     (y10xA_img C N H).map
         (MulAut.conj (QuotientGroup.mk' (N.subgroupOf C) (⟨c, hc⟩ : ↥C))).toMonoidHom =
@@ -3565,15 +3606,17 @@ theorem y10xA_map_conj_img_of {C H H' N : Subgroup G} [(N.subgroupOf C).Normal] 
     apply Subtype.ext
     simp [mul_assoc]
 
+omit [Finite G] in
 theorem y10xA_fam_le_img {s : ℕ} {C K N : Subgroup G} [(N.subgroupOf C).Normal]
     (a : Option (y10xA_I s C K)) : y10xA_fam s C K N a ≤ y10xA_img C N K := by
   cases a with
   | none => exact y10xA_img_mono (y10xA_coreOf_le K)
   | some Y => exact y10xA_img_mono inf_le_left
 
+omit [Finite G] in
 theorem y10xA_img_K_eq {s : ℕ} {C K N : Subgroup G} [(N.subgroupOf C).Normal]
     (hKC : K ≤ C) (hKN : C ≤ Subgroup.normalizer (K : Set G))
-    (hO : C ≤ Subgroup.normalizer ((GLAPPrimeCoreOf s C : Subgroup G) : Set G))
+    (_hO : C ≤ Subgroup.normalizer ((GLAPPrimeCoreOf s C : Subgroup G) : Set G))
     (hKP : K ≤ (⨆ Y : y10xA_I s C K, K ⊓ (Y.1 ⊔ GLAPPrimeCoreOf s C)) ⊔ GLAPPrimeCoreOf s K) :
     y10xA_img C N K = ⨆ a : Option (y10xA_I s C K), y10xA_fam s C K N a := by
   have hOK : C ≤ Subgroup.normalizer ((GLAPPrimeCoreOf s K : Subgroup G) : Set G) :=
@@ -3612,8 +3655,9 @@ section Conc10
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem y10xA_lift_iSup {C N : Subgroup G} [(N.subgroupOf C).Normal] {ι : Type}
-    (F : ι → Subgroup G) (hF : ∀ i, F i ≤ C) {z : ↥C ⧸ N.subgroupOf C}
+    (F : ι → Subgroup G) (_hF : ∀ i, F i ≤ C) {z : ↥C ⧸ N.subgroupOf C}
     (hz : z ∈ ⨆ i, y10xA_img C N (F i)) :
     ∀ (a : G) (ha : a ∈ C), QuotientGroup.mk' (N.subgroupOf C) (⟨a, ha⟩ : ↥C) = z →
       a ∈ (⨆ i, F i) ⊔ N := by
@@ -3651,6 +3695,7 @@ theorem y10xA_lift_iSup {C N : Subgroup G} [(N.subgroupOf C).Normal] {ι : Type}
     rw [hsplit]
     exact ((⨆ i, F i) ⊔ N).mul_mem (((⨆ i, F i) ⊔ N).mul_mem hx₁ hx₂) (Subgroup.mem_sup_right hm)
 
+omit [Finite G] in
 theorem y10xA_le_of_le_sup_core {s : ℕ} {J M O : Subgroup G}
     (hJq : CFSG.Open.IsQuasisimple ↥J) (hsJ : s ∣ Nat.card (↥J ⧸ Subgroup.center ↥J))
     (hOs : ¬ s ∣ Nat.card ↥O) (hMO : ∀ o ∈ O, ∀ m ∈ M, o * m * o⁻¹ ∈ M)
@@ -3663,7 +3708,7 @@ theorem y10xA_le_of_le_sup_core {s : ℕ} {J M O : Subgroup G}
     rw [e]
     exact M.mul_mem (M.mul_mem ha h1) (M.inv_mem ha)
   have hQM : M ⊔ O ≤ Subgroup.normalizer (M : Set G) := y10xA_le_normalizer hQn
-  haveI hMQ : (M.subgroupOf (M ⊔ O)).Normal :=
+  have hMQ : (M.subgroupOf (M ⊔ O)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer le_sup_left).2 hQM
   let φO : ↥O →* (↥(M ⊔ O) ⧸ M.subgroupOf (M ⊔ O)) :=
     (QuotientGroup.mk' (M.subgroupOf (M ⊔ O))).comp (Subgroup.inclusion le_sup_right)
@@ -3676,7 +3721,7 @@ theorem y10xA_le_of_le_sup_core {s : ℕ} {J M O : Subgroup G}
     rw [Subgroup.mem_subgroupOf]
     have e : ((((⟨b, Subgroup.mem_sup_right hb⟩ : ↥(M ⊔ O)))⁻¹ * q : ↥(M ⊔ O)) : G) =
         b⁻¹ * a * b⁻¹⁻¹ := by
-      simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subtype.coe_mk]
+      simp only [Subgroup.coe_mul, Subgroup.coe_inv]
       rw [← hab]
       group
     show ((((⟨b, Subgroup.mem_sup_right hb⟩ : ↥(M ⊔ O)))⁻¹ * q : ↥(M ⊔ O)) : G) ∈ M
@@ -3704,6 +3749,7 @@ theorem y10xA_le_of_le_sup_core {s : ℕ} {J M O : Subgroup G}
       exact Subgroup.card_subgroup_dvd_card _
     exact hcardQ ((hsJ.trans hidx).trans hr)
 
+omit [Finite G] in
 theorem y10xA_barX_conj_le {s : ℕ} {C Y : Subgroup G} (hYC : Y ≤ C)
     (hO : C ≤ Subgroup.normalizer ((GLAPPrimeCoreOf s C : Subgroup G) : Set G)) {o : G}
     (ho : o ∈ GLAPPrimeCoreOf s C) :
@@ -3756,6 +3802,7 @@ section Conc11
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem y10xA_fam_conj {s : ℕ} {C K N : Subgroup G} [(N.subgroupOf C).Normal] (hKC : K ≤ C)
     (hKN : C ≤ Subgroup.normalizer (K : Set G))
     (hO : C ≤ Subgroup.normalizer ((GLAPPrimeCoreOf s C : Subgroup G) : Set G)) {c : G}
@@ -3831,7 +3878,7 @@ theorem y10xA_iSup_O_normal {s : ℕ} {C : Subgroup G} {Yf : ℕ → Subgroup G}
     (hYc : ∀ n, GLAPComponent s C (Yf n)) :
     ∀ o ∈ GLAPPrimeCoreOf s C, ∀ m ∈ ⨆ n, Yf n, o * m * o⁻¹ ∈ ⨆ n, Yf n :=
   fun o ho m hm => y10xA_iSup_conj_mem (C := GLAPPrimeCoreOf s C) (fun n => Yf n)
-    (fun n o' ho' y hy => ⟨n, y10xA_O_conj_mem_comp (hYc n) hO ho' hy⟩) o ho m hm
+    (fun n _o' ho' _y hy => ⟨n, y10xA_O_conj_mem_comp (hYc n) hO ho' hy⟩) o ho m hm
 
 end Conc11
 
@@ -3845,6 +3892,7 @@ theorem y10xA_centralizer_inv {Q : Type} [Group Q] (g : Q) :
   rw [Subgroup.mem_centralizer_singleton_iff, Subgroup.mem_centralizer_singleton_iff]
   exact Commute.inv_right_iff
 
+omit [Finite G] in
 theorem y10xA_fam_conj_some {s : ℕ} {C K N : Subgroup G} [(N.subgroupOf C).Normal]
     (hKC : K ≤ C) (hKN : C ≤ Subgroup.normalizer (K : Set G))
     (hO : C ≤ Subgroup.normalizer ((GLAPPrimeCoreOf s C : Subgroup G) : Set G)) {c : G}
@@ -3906,7 +3954,7 @@ theorem lemma117_khat_concrete {s p : ℕ} (hs : s.Prime) (hp : p.Prime) {C J : 
   have hNnorm : C ≤ Subgroup.normalizer (N : Set G) := y10xA_comm_core_normalizer hCK
   have hNn : (N.subgroupOf C).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNC).2 hNnorm
-  haveI hNinst : (N.subgroupOf C).Normal := hNn
+  have hNinst : (N.subgroupOf C).Normal := hNn
   have hcommN : ∀ k ∈ K, ∀ t ∈ OK, ⁅k, t⁆ ∈ N := fun k hk t ht =>
     Subgroup.commutator_mem_commutator hk ht
   have hNp' : ¬ p ∣ Nat.card N := fun h =>
@@ -4066,7 +4114,7 @@ theorem lemma117_khat_concrete {s p : ℕ} (hs : s.Prime) (hp : p.Prime) {C J : 
 
 end Conc12
 
-theorem dichotomy (hI25 : Input2_5) (hctx : ThmACtx G m) (hc : Cfg116 G m p L p' B' x' J) {x : G} (hp : p.Prime)
+theorem dichotomy (_hI25 : Input2_5) (hctx : ThmACtx G m) (hc : Cfg116 G m p L p' B' x' J) {x : G} (hp : p.Prime)
     (hx : x ^ p = 1) (hxx : x ∈ Subgroup.centralizer ({x'} : Set G))
     (hJc : IsComponentOf J (Subgroup.centralizer ({x'} : Set G) ⊓ Subgroup.centralizer ({x} : Set G)))
     (hJp : J ≤ GLAPLayer p' (Subgroup.centralizer ({x'} : Set G)))
@@ -4218,7 +4266,7 @@ theorem y10xD_marking_transfer {A B : Type} [Group A] [Group B] (lab₀ : CFSG.A
 
 theorem y10xD_card_pow {Δ : Type} [Group Δ] [Finite Δ] {r : ℕ} (hr : r.Prime) {E : Subgroup Δ}
     (hE : CFSG.Open.IsElemAbelian r E) : ∃ n : ℕ, Nat.card E = r ^ n := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hP : IsPGroup r ↥E := by
     rw [IsPGroup.iff_orderOf]
     intro g
@@ -4260,7 +4308,7 @@ theorem y10xD_tlr_attained {Δ : Type} [Group Δ] [Finite Δ] {r : ℕ} (hr : r.
   exact ⟨K, hK, hKeq⟩
 
 theorem y10xD_normalizer_map {Δ Γ : Type} [Group Δ] [Group Γ] (φ : Δ →* Γ)
-    (hφ : Function.Injective φ) {P : Subgroup Δ} {g : Δ}
+    (_hφ : Function.Injective φ) {P : Subgroup Δ} {g : Δ}
     (hg : g ∈ Subgroup.normalizer (P : Set Δ)) :
     φ g ∈ Subgroup.normalizer ((P.map φ : Subgroup Γ) : Set Γ) := by
   rw [Subgroup.mem_normalizer_iff] at hg ⊢
@@ -4310,7 +4358,7 @@ theorem y10xD_count {Γ : Type} [Group Γ] [Finite Γ] {r : ℕ} (hr : r.Prime)
     CFSG.Open.pRank r (⊤ : Subgroup ↥H₀) + CFSG.Open.GLATwoLocalRank r ↥H₀ ≤
       CFSG.Open.GLATwoLocalRank r Γ + CFSG.Open.pRank r (Subgroup.center ↥H₀) := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   let g0 : ↥H₀ := ⟨t, htH⟩
   have hg0 : g0 ^ 2 = 1 := Subtype.ext (by simpa using ht2)
   have hg0ne : g0 ≠ 1 := fun h => ht1 (congrArg Subtype.val h)
@@ -4568,7 +4616,7 @@ theorem y10xD_comp_eq_B {Γ : Type} [Group Γ] [Finite Γ] (B : ℕ → Subgroup
     {L : Subgroup Γ} (hL : CFSG.Open.IsComponentOf L (⨆ m, B m)) : ∃ m, L = B m := by
   classical
   by_contra hne
-  push_neg at hne
+  push Not at hne
   have hLX : L ≤ ⨆ m, B m := hL.1
   have hLB : ∀ m, ∀ a ∈ L, ∀ b ∈ B m, a * b = b * a := by
     intro m a ha b hb
@@ -4660,7 +4708,7 @@ theorem y10xD_input25_B {Γ : Type} [Group Γ] [Finite Γ] (hI25 : Input2_5) {p 
     refine Subgroup.iSup_induction B (C := fun h => σ⁻¹ * h * σ ∈ ⨆ m, B m) hh ?_ ?_ ?_
     · intro m h hh'
       have hmem : σ⁻¹ * h * σ⁻¹⁻¹ ∈ GLBConj σ (B m) :=
-        Subgroup.mem_map.2 ⟨h, hh', by simp [MulAut.conj_apply]⟩
+        Subgroup.mem_map.2 ⟨h, hh', by simp⟩
       rw [hconj m] at hmem
       exact le_iSup B (m + 1) (by simpa using hmem)
     · simp
@@ -4783,7 +4831,7 @@ theorem y10xD_barX_qs {G : Type} [Group G] [Finite G] {s : ℕ} {C J : Subgroup 
   exact (y10xD_isQuasisimple_iff hf hJq.1 hker).1 hJq
 
 theorem y10xD_barX_shift {G : Type} [Group G] [Finite G] {s : ℕ} {C J Q : Subgroup G} {x : G}
-    (hJC : J ≤ C) (hJx : J ≤ Subgroup.centralizer ({x} : Set G)) (hxC : x ∈ C)
+    (_hJC : J ≤ C) (hJx : J ≤ Subgroup.centralizer ({x} : Set G)) (hxC : x ∈ C)
     (h : ∃ a ∈ barX s C Q, ∃ b ∈ barX s C J, a * b ≠ b * a) :
     ∃ a ∈ barX s C (GLBConj x Q), ∃ b ∈ barX s C J, a * b ≠ b * a := by
   classical
@@ -4819,14 +4867,14 @@ theorem y10xD_barX_shift {G : Type} [Group G] [Finite G] {s : ℕ} {C J Q : Subg
     exact mul_right_cancel h5
 
 theorem y10xD_barX_exists {G : Type} [Group G] [Finite G] {s p : ℕ} {C J : Subgroup G} {x : G}
-    {Y : Subgroup G} (hs : s.Prime) (hJC : J ≤ C) (hJx : J ≤ Subgroup.centralizer ({x} : Set G))
+    {Y : Subgroup G} (hs : s.Prime) (hJC : J ≤ C) (_hJx : J ≤ Subgroup.centralizer ({x} : Set G))
     (hxC : x ∈ C) (hJq : CFSG.Open.IsQuasisimple ↥J)
     (hsJ : s ∣ Nat.card (↥J ⧸ Subgroup.center ↥J))
     (hJY : J ≤ ⨆ i : Fin p, GLBConj (x ^ (i : ℕ)) Y) (hYC : Y ≤ C) :
     ∃ i : ℕ, i < p ∧ ∃ a ∈ barX s C (GLBConj (x ^ i) Y), ∃ b ∈ barX s C J, a * b ≠ b * a := by
   classical
   by_contra hno
-  push_neg at hno
+  push Not at hno
   have hqs := y10xD_barX_qs (s := s) hs hJC hJq hsJ
   have hF : ∀ i : Fin p, GLBConj (x ^ (i : ℕ)) Y ≤ C := fun i =>
     y10xD_glbConj_le (C.pow_mem hxC _) hYC
@@ -4856,7 +4904,7 @@ theorem y10xD_barX_exists {G : Type} [Group G] [Finite G] {s p : ℕ} {C J : Sub
   exact hcomm_all a.1 (hsub a.2) b.1 b.2
 
 theorem y10xD_barX_noncomm {G : Type} [Group G] [Finite G] {s p : ℕ} {C J : Subgroup G} {x : G}
-    {Y : Subgroup G} (hs : s.Prime) (hp : 0 < p) (hJC : J ≤ C)
+    {Y : Subgroup G} (hs : s.Prime) (_hp : 0 < p) (hJC : J ≤ C)
     (hJx : J ≤ Subgroup.centralizer ({x} : Set G)) (hxC : x ∈ C) (hxp : x ^ p = 1)
     (hJq : CFSG.Open.IsQuasisimple ↥J)
     (hsJ : s ∣ Nat.card (↥J ⧸ Subgroup.center ↥J))
@@ -4889,14 +4937,16 @@ def y10xD_proj {C N : Subgroup G} [hN : (N.subgroupOf C).Normal] (hNO : N ≤ GL
     rw [Subgroup.mem_comap, MonoidHom.id_apply]
     exact y10xA_mem_core (hNO (Subgroup.mem_subgroupOf.1 hc)) c.2)
 
-theorem y10xD_proj_mk {C N : Subgroup G} [hN : (N.subgroupOf C).Normal]
+omit [Finite G] in
+theorem y10xD_proj_mk {C N : Subgroup G} [_hN : (N.subgroupOf C).Normal]
     (hNO : N ≤ GLAPPrimeCoreOf s C) (c : ↥C) :
     y10xD_proj (s := s) hNO (QuotientGroup.mk' (N.subgroupOf C) c) =
       QuotientGroup.mk' (GLAPPrimeCore s ↥C) c := by
   simp [y10xD_proj]
 
+omit [Finite G] in
 theorem y10xD_map_proj {C N H : Subgroup G} [hN : (N.subgroupOf C).Normal]
-    (hNO : N ≤ GLAPPrimeCoreOf s C) (hHC : H ≤ C) :
+    (hNO : N ≤ GLAPPrimeCoreOf s C) (_hHC : H ≤ C) :
     (y10xA_img C N H).map (y10xD_proj (s := s) hNO) = barX s C H := by
   ext z
   constructor
@@ -4927,6 +4977,7 @@ theorem y10xD_commutator_top_of_self {Δ : Type} [Group Δ] {B : Subgroup Δ} (h
         Subgroup.map_commutator _ _ _
     _ = B := by rw [← MonoidHom.range_eq_map, Subgroup.range_subtype]; exact h
 
+omit [Finite G] in
 theorem y10xD_img_eq {C N H : Subgroup G} [hN : (N.subgroupOf C).Normal] :
     y10xA_img C N H = (H.subgroupOf C).map (QuotientGroup.mk' (N.subgroupOf C)) := by
   ext z
@@ -4971,7 +5022,8 @@ theorem y10xD_Bhat_perfect {C K N Y : Subgroup G} [hN : (N.subgroupOf C).Normal]
   rw [y10xD_img_eq, ← Subgroup.map_commutator]
   exact hperf
 
-theorem y10xD_Bhat_proj {C K N Y : Subgroup G} [hN : (N.subgroupOf C).Normal] (hs : s.Prime)
+omit [Finite G] in
+theorem y10xD_Bhat_proj {C K N Y : Subgroup G} [hN : (N.subgroupOf C).Normal] (_hs : s.Prime)
     (hKC : K ≤ C) (hNO : N ≤ GLAPPrimeCoreOf s C) (hY : GLAPComponent s C Y)
     (hYK : Y ≤ K ⊔ GLAPPrimeCoreOf s C) :
     (y10xD_Bhat s (C := C) (N := N) (K := K) (Y := Y)).map (y10xD_proj (s := s) hNO) =
@@ -5054,7 +5106,7 @@ section Family
 variable {G : Type} [Group G] [Finite G]
 
 theorem y10xD_img_K_eq {s : ℕ} {C K N : Subgroup G} [hN : (N.subgroupOf C).Normal] (hs : s.Prime)
-    (hKC : K ≤ C) (hCK : C ≤ Subgroup.normalizer (K : Set G))
+    (hKC : K ≤ C) (_hCK : C ≤ Subgroup.normalizer (K : Set G))
     (hO : C ≤ Subgroup.normalizer ((GLAPPrimeCoreOf s C : Subgroup G) : Set G))
     (hKX : K ≤ (⨆ Y : y10xA_I s C K, Y.1) ⊔ GLAPPrimeCoreOf s C) :
     y10xA_img C N K = ⨆ i : Option (y10xA_I s C K), y10xA_fam s C K N i := by
@@ -5089,6 +5141,7 @@ theorem y10xD_img_K_eq {s : ℕ} {C K N : Subgroup G} [hN : (N.subgroupOf C).Nor
     | none => exact y10xA_img_mono ((y10xA_coreOf_le K))
     | some Y => exact y10xA_img_mono inf_le_left
 
+omit [Finite G] in
 theorem y10xD_fam_conj {s : ℕ} {C K N Y : Subgroup G} [hN : (N.subgroupOf C).Normal]
     (hKC : K ≤ C) (hCK : C ≤ Subgroup.normalizer (K : Set G))
     (hO : C ≤ Subgroup.normalizer ((GLAPPrimeCoreOf s C : Subgroup G) : Set G))
@@ -5169,6 +5222,7 @@ theorem y10xD_Fam_comm {s : ℕ} {C K N : Subgroup G} [hN : (N.subgroupOf C).Nor
       intro v hv
       exact Subgroup.mem_centralizer_iff.1 (Subgroup.commutator_eq_bot_iff_le_centralizer.1 hbot hu) v hv
 
+omit [Finite G] in
 theorem y10xD_Fam_sigma {s : ℕ} {C K N : Subgroup G} [hN : (N.subgroupOf C).Normal]
     (hKC : K ≤ C) (hCK : C ≤ Subgroup.normalizer (K : Set G))
     (hO : C ≤ Subgroup.normalizer ((GLAPPrimeCoreOf s C : Subgroup G) : Set G))
@@ -5200,6 +5254,7 @@ section Gamma2
 variable {G : Type} [Group G] [Finite G] {s : ℕ}
 
 
+omit [Finite G] in
 theorem y10xD_barX_P_eq {s : ℕ} {C K Y : Subgroup G} (hKC : K ≤ C) (hY : GLAPComponent s C Y)
     (hYK : Y ≤ K ⊔ GLAPPrimeCoreOf s C) :
     barX s C (K ⊓ (Y ⊔ GLAPPrimeCoreOf s C)) = barX s C Y := by
@@ -5267,6 +5322,7 @@ theorem y10xD_Bhat_inj {s : ℕ} {C K N Y Y' : Subgroup G} [hN : (N.subgroupOf C
   rw [h] at h1
   exact CFSG.HardMathSupport.Solomon.LocalBalance.glaPComponent_uniqueAux hY hY' (h1.symm.trans h2)
 
+omit [Finite G] in
 theorem y10xD_img_conj {s : ℕ} {C K N Y : Subgroup G} [hN : (N.subgroupOf C).Normal]
     (hKC : K ≤ C) (hCK : C ≤ Subgroup.normalizer (K : Set G))
     (hO : C ≤ Subgroup.normalizer ((GLAPPrimeCoreOf s C : Subgroup G) : Set G))
@@ -5281,6 +5337,7 @@ theorem y10xD_img_conj {s : ℕ} {C K N Y : Subgroup G} [hN : (N.subgroupOf C).N
   show y10xA_img C N (K ⊓ (Y'.1 ⊔ GLAPPrimeCoreOf s C)) = _
   rw [hY'1]
 
+omit [Finite G] in
 theorem y10xD_img_conj_pow {s : ℕ} {C K N : Subgroup G} [hN : (N.subgroupOf C).Normal]
     (hKC : K ≤ C) (hCK : C ≤ Subgroup.normalizer (K : Set G))
     (hO : C ≤ Subgroup.normalizer ((GLAPPrimeCoreOf s C : Subgroup G) : Set G))
@@ -5323,7 +5380,7 @@ section JHat
 
 variable {G : Type} [Group G] [Finite G] {s : ℕ}
 
-theorem y10xD_not_le_N {C K N J : Subgroup G} (hs : s.Prime) (hJK : J ≤ K)
+theorem y10xD_not_le_N {_C K N J : Subgroup G} (hs : s.Prime) (_hJK : J ≤ K)
     (hNO : N ≤ GLAPPrimeCoreOf s K) (hsJ : s ∣ Nat.card (↥J ⧸ Subgroup.center ↥J)) :
     ¬ J ≤ N := by
   intro hJN
@@ -5333,6 +5390,7 @@ theorem y10xD_not_le_N {C K N J : Subgroup G} (hs : s.Prime) (hJK : J ≤ K)
   exact not_dvd_card_glaPPrimeCoreOf hs K
     ((hsJ'.trans (Subgroup.card_dvd_of_le (hJN.trans hNO))))
 
+omit [Finite G] in
 theorem y10xD_Jhat_qs {C N J : Subgroup G} [hN : (N.subgroupOf C).Normal] (hJC : J ≤ C)
     (hJq : CFSG.Open.IsQuasisimple ↥J) (hNJ : ¬ J ≤ N) :
     CFSG.Open.IsQuasisimple ↥(y10xA_img C N J) := by
@@ -5374,8 +5432,9 @@ theorem y10xD_Jhat_qs {C N J : Subgroup G} [hN : (N.subgroupOf C).Normal] (hJC :
     exact hNJc (show a ∈ NJ from h2)
   exact (y10xD_isQuasisimple_iff hf hJq.1 hker).1 hJq
 
+omit [Finite G] in
 theorem y10xD_Jhat_centralizer {C N J : Subgroup G} [hN : (N.subgroupOf C).Normal] {x : G}
-    (hJC : J ≤ C) (hxC : x ∈ C)
+    (_hJC : J ≤ C) (hxC : x ∈ C)
     (hJx : J ≤ Subgroup.centralizer ({x} : Set G)) :
     y10xA_img C N J ≤ Subgroup.centralizer ({QuotientGroup.mk' (N.subgroupOf C) (⟨x, hxC⟩ : ↥C)} :
       Set (↥C ⧸ N.subgroupOf C)) := by
@@ -5456,7 +5515,7 @@ theorem y10xD_orbit {s p : ℕ} {C J Y N : Subgroup G} [hN : (N.subgroupOf C).No
     intro k hk t ht
     rw [hNdef]
     exact Subgroup.commutator_mem_commutator hk ht
-  have hJN : ¬ J ≤ N := y10xD_not_le_N (C := C) hs hJK hNOK hsJ
+  have hJN : ¬ J ≤ N := y10xD_not_le_N (_C := C) hs hJK hNOK hsJ
   have hS1 := y10xD_S1 (C := C) (J := J) (Y := Y) hs hp.pos hxC hx hJC hJx hJq hsJ hJY hY
   have hYfx : ∀ m, GLBConj x (GLBConj (x ^ m) Y) = GLBConj (x ^ (m + 1)) Y := by
     intro m
@@ -5606,6 +5665,7 @@ section Kernels
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem y10xD_ker_central_J {C N J : Subgroup G} [hN : (N.subgroupOf C).Normal] (hJC : J ≤ C)
     (hJq : CFSG.Open.IsQuasisimple ↥J) (hNJ : ¬ J ≤ N) :
     ∀ a : ↥J, (QuotientGroup.mk' (N.subgroupOf C) (Subgroup.inclusion hJC a) :
@@ -5643,6 +5703,7 @@ theorem y10xD_Yhat_comm {s : ℕ} {C K N Y Y' : Subgroup G} [hN : (N.subgroupOf 
   have hc := y10xA_img_P_commute hs hKC hO hcommN hY hYK hY' hYK' hne
   exact y10xA_bot_of_commute hc
 
+omit [Finite G] in
 theorem y10xD_Bhat_conj {s : ℕ} {C K N Y : Subgroup G} [hN : (N.subgroupOf C).Normal]
     (hKC : K ≤ C) (hCK : C ≤ Subgroup.normalizer (K : Set G))
     (hO : C ≤ Subgroup.normalizer ((GLAPPrimeCoreOf s C : Subgroup G) : Set G))
@@ -5666,7 +5727,7 @@ theorem y10xD_Jhat_involution {C N J : Subgroup G} [hN : (N.subgroupOf C).Normal
     (hodd : Odd (Nat.card (Subgroup.center ↥J))) :
     ∃ t ∈ y10xA_img C N J, t ≠ 1 ∧ t ^ 2 = 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨E₂, -, hE₂el, hE₂card⟩ :=
     CFSG.SectionRank.exists_pRank (by norm_num : 1 < 2) (⊤ : Subgroup ↥J)
   have h2dvd : 2 ∣ Nat.card ↥E₂ := by
@@ -5711,7 +5772,7 @@ theorem y10xD_B_involution {Γ : Type} [Group Γ] [Finite Γ] {Λ X : Subgroup �
     [Z.Normal] (e : ↥Λ ≃* ↥X ⧸ Z) (hτ : ∃ t ∈ Λ, t ≠ 1 ∧ t ^ 2 = 1) :
     ∃ b ∈ X, b ≠ 1 ∧ b ^ 2 = 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨t, htΛ, ht1, ht2⟩ := hτ
   have hto : orderOf t = 2 := orderOf_eq_prime ht2 ht1
   have h2Λ : 2 ∣ Nat.card ↥Λ := by
@@ -5763,7 +5824,7 @@ theorem y10xD_core {s p : ℕ} {C J Y N : Subgroup G} [hN : (N.subgroupOf C).Nor
         5 + CFSG.Open.pRank s (Subgroup.center K₀) ≤
           CFSG.Open.GLATwoLocalRank s K₀ + CFSG.Open.pRank s (⊤ : Subgroup K₀)) : False := by
   classical
-  haveI : Fact s.Prime := ⟨hs⟩
+  have : Fact s.Prime := ⟨hs⟩
   have hKC : closureIn J C ≤ C := y10xA_closureIn_le hJC
   have hJK : J ≤ closureIn J C := y10xA_le_closureIn C.one_mem
   have hCK : C ≤ Subgroup.normalizer ((closureIn J C : Subgroup G) : Set G) :=
@@ -5787,7 +5848,7 @@ theorem y10xD_core {s p : ℕ} {C J Y N : Subgroup G} [hN : (N.subgroupOf C).Nor
     intro k hk t ht
     rw [hNdef]
     exact Subgroup.commutator_mem_commutator hk ht
-  have hJN : ¬ J ≤ N := y10xD_not_le_N (C := C) hs hJK hNOK hsJ
+  have hJN : ¬ J ≤ N := y10xD_not_le_N (_C := C) hs hJK hNOK hsJ
   have hNp' : ¬ p ∣ Nat.card ↥N := by
     rw [hNdef]
     exact hNp
@@ -6017,7 +6078,7 @@ theorem no_diag_SU5 (hI25 : Input2_5) (hU5 : U5CaseAt G) (hctx : ThmACtx G m) (h
   have hNC : ⁅closureIn J C, GLAPPrimeCoreOf p' (closureIn J C)⁆ ≤ C := hNK.trans hKC
   have hCK : C ≤ Subgroup.normalizer ((closureIn J C : Subgroup G) : Set G) :=
     y10xA_closureIn_normalizer
-  haveI hNn : ((⁅closureIn J C, GLAPPrimeCoreOf p' (closureIn J C)⁆ : Subgroup G).subgroupOf C).Normal :=
+  have hNn : ((⁅closureIn J C, GLAPPrimeCoreOf p' (closureIn J C)⁆ : Subgroup G).subgroupOf C).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNC).2 (y10xA_comm_core_normalizer hCK)
   have hMJ : GLAMarking ↥J (fun lab _ _ _ _ _ => lab = ⟨.twA, 4, labJ.n⟩) := hlabJ'
   exact y10xD_core (C := C) (N := ⁅closureIn J C, GLAPPrimeCoreOf p' (closureIn J C)⁆) (x := x)
@@ -6028,18 +6089,21 @@ section Ranks
 
 variable {Q : Type} [Group Q] [Finite Q]
 
+omit [Finite Q] in
 theorem y10xE_isMulComm_of_forall {E : Subgroup Q} (h : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x) :
     IsMulCommutative E :=
   ⟨⟨fun a b => Subtype.ext (h a a.2 b b.2)⟩⟩
 
+omit [Finite Q] in
 theorem y10xE_comm_of_elemAb {p : ℕ} {A : Subgroup Q} (hA : CFSG.Open.IsElemAbelian p A)
     {a b : Q} (ha : a ∈ A) (hb : b ∈ A) : a * b = b * a :=
   congrArg Subtype.val (hA.1.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
 
+omit [Finite Q] in
 theorem y10xE_elemAb_mono {p : ℕ} {A T : Subgroup Q} (hA : CFSG.Open.IsElemAbelian p A)
     (hTA : T ≤ A) : CFSG.Open.IsElemAbelian p T :=
-  ⟨y10xE_isMulComm_of_forall fun x hx y hy => y10xE_comm_of_elemAb hA (hTA hx) (hTA hy),
-    fun x hx => hA.2 x (hTA hx)⟩
+  ⟨y10xE_isMulComm_of_forall fun _x hx _y hy => y10xE_comm_of_elemAb hA (hTA hx) (hTA hy),
+    fun _x hx => hA.2 _x (hTA hx)⟩
 
 theorem y10xE_pRank_le_card {p : ℕ} (hp : p.Prime) (H : Subgroup Q) :
     CFSG.Open.pRank p H ≤ Nat.card Q := by
@@ -6109,12 +6173,14 @@ theorem y10xE_attain {H : Type} [Group H] [Finite H] (S0 : Subgroup H) (hS0 : S0
       rw [h0]
       simp
 
+omit [Finite Q] in
 theorem y10xE_elem_of_bot {A B : Subgroup Q} (h : ⁅A, B⁆ = ⊥) :
     ∀ a ∈ A, ∀ b ∈ B, a * b = b * a := by
   intro a ha b hb
   have h1 := Subgroup.commutator_eq_bot_iff_le_centralizer.1 h ha
   exact (Subgroup.mem_centralizer_iff.1 h1 b hb).symm
 
+omit [Finite Q] in
 theorem y10xE_bot_of_elem {A B : Subgroup Q} (h : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a) :
     ⁅A, B⁆ = ⊥ := by
   rw [Subgroup.commutator_eq_bot_iff_le_centralizer]
@@ -6123,6 +6189,7 @@ theorem y10xE_bot_of_elem {A B : Subgroup Q} (h : ∀ a ∈ A, ∀ b ∈ B, a * 
   intro b hb
   exact (h a ha b hb).symm
 
+omit [Finite Q] in
 theorem y10xE_elemAb_sup {p : ℕ} {A B : Subgroup Q} (hA : CFSG.Open.IsElemAbelian p A)
     (hB : CFSG.Open.IsElemAbelian p B) (hAB : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a) :
     CFSG.Open.IsElemAbelian p (A ⊔ B) := by
@@ -6145,6 +6212,7 @@ theorem y10xE_elemAb_sup {p : ℕ} {A B : Subgroup Q} (hA : CFSG.Open.IsElemAbel
   have hc : Commute a b := hAB a ha b hb
   rw [hc.mul_pow, hA.2 a ha, hB.2 b hb, one_mul]
 
+omit [Finite Q] in
 theorem y10xE_card_sup_mul {A B : Subgroup Q} (hAB : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a) :
     Nat.card (A ⊔ B : Subgroup Q) * Nat.card (A ⊓ B : Subgroup Q) =
       Nat.card A * Nat.card B := by
@@ -6213,6 +6281,7 @@ section Count
 
 variable {Q : Type} [Group Q] [Finite Q]
 
+omit [Finite Q] in
 theorem y10xE_normalizes_of_comm {S : Subgroup Q} {g : Q} (hg : ∀ h ∈ S, g * h = h * g) :
     g ∈ Subgroup.normalizer (S : Set Q) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -6253,6 +6322,7 @@ theorem y10xE_pow3_pair {X Y a e : ℕ} (h : X * Y = 3 ^ a * 3 ^ e) :
   rw [← pow_add, ← pow_add] at h
   exact Nat.pow_right_injective (by norm_num : 2 ≤ 3) h
 
+omit [Finite Q] in
 theorem y10xE_count {Y0 Y1 S A E1 : Subgroup Q} {a e z : ℕ}
     (hcomm : ∀ x ∈ Y0, ∀ y ∈ Y1, x * y = y * x)
     (hS : S ≤ Y0) (hA : A ≤ Y0) (hAN : A ≤ Subgroup.normalizer (S : Set Q))
@@ -6287,6 +6357,7 @@ section QS
 
 variable {H : Type} [Group H] [Finite H]
 
+omit [Finite H] in
 theorem y10xE_eq_top_of_sup_center (hH : commutator H = ⊤) {N : Subgroup H}
     (hN : N ⊔ Subgroup.center H = ⊤) : N = ⊤ := by
   have hnorm : ∀ n ∈ N, ∀ t ∈ Subgroup.center H, n * t * n⁻¹ ∈ Subgroup.center H := by
@@ -6312,6 +6383,7 @@ theorem y10xE_eq_top_of_sup_center (hH : commutator H = ⊤) {N : Subgroup H}
   rw [hH] at key
   exact top_le_iff.1 key
 
+omit [Finite H] in
 theorem y10xE_sup_center_of_map_top {M : Subgroup H}
     (h : M.map (QuotientGroup.mk' (Subgroup.center H)) = ⊤) : M ⊔ Subgroup.center H = ⊤ := by
   rw [eq_top_iff]
@@ -6327,6 +6399,7 @@ theorem y10xE_sup_center_of_map_top {M : Subgroup H}
   exact (M ⊔ Subgroup.center H).mul_mem ((le_sup_left : M ≤ M ⊔ Subgroup.center H) hn)
     ((le_sup_right : Subgroup.center H ≤ M ⊔ Subgroup.center H) hz)
 
+omit [Finite H] in
 theorem y10xE_le_center_of_map_bot {M : Subgroup H}
     (h : M.map (QuotientGroup.mk' (Subgroup.center H)) = ⊥) : M ≤ Subgroup.center H := by
   intro n hn
@@ -6335,13 +6408,14 @@ theorem y10xE_le_center_of_map_bot {M : Subgroup H}
   rw [h, Subgroup.mem_bot, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff] at hg
   exact hg
 
+omit [Finite H] in
 theorem y10xE_normal_dich (hH : CFSG.Open.IsQuasisimple H) {N : Subgroup H} (hN : N.Normal) :
     N ≤ Subgroup.center H ∨ N = ⊤ := by
   obtain ⟨hcomm, hsimp⟩ := hH
-  haveI := hsimp
+  have := hsimp
   have hmap : (N.map (QuotientGroup.mk' (Subgroup.center H))).Normal :=
     hN.map _ (QuotientGroup.mk'_surjective _)
-  haveI := hmap
+  have := hmap
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (N.map (QuotientGroup.mk' (Subgroup.center H))) with h0 | h1
   · exact Or.inl (y10xE_le_center_of_map_bot h0)
   · exact Or.inr (y10xE_eq_top_of_sup_center hcomm (y10xE_sup_center_of_map_top h1))
@@ -6366,7 +6440,7 @@ theorem y10xE_subnormal_simple {K₀ : Type} [Group K₀] [Finite K₀] [IsSimpl
 theorem y10xE_eq_of_subnormal_qs (hH : CFSG.Open.IsQuasisimple H) {M : Subgroup H}
     (hM : CFSG.Open.IsSubnormal M ⊤) (hMq : CFSG.Open.IsQuasisimple ↥M) : M = ⊤ := by
   obtain ⟨hcomm, hsimp⟩ := hH
-  haveI := hsimp
+  have := hsimp
   have hsub := CFSG.Open.IsSubnormal.map (QuotientGroup.mk' (Subgroup.center H)) hM
   rw [Subgroup.map_top_of_surjective _ (QuotientGroup.mk'_surjective _)] at hsub
   rcases y10xE_subnormal_simple hsub rfl with h0 | h1
@@ -6389,6 +6463,7 @@ section CentreQuot
 
 variable {H : Type} [Group H] [Finite H]
 
+omit [Finite H] in
 theorem y10xE_central_of_quot (hH : commutator H = ⊤) {Z : Subgroup H} (hZ : Z ≤ Subgroup.center H)
     {h : H} (hc : ∀ g : H, h⁻¹ * g⁻¹ * h * g ∈ Z) : h ∈ Subgroup.center H := by
   set q : H → H := fun g => h⁻¹ * g⁻¹ * h * g with hqdef
@@ -6437,6 +6512,7 @@ theorem y10xE_central_of_quot (hH : commutator H = ⊤) {Z : Subgroup H} (hZ : Z
   have hg := Subgroup.mem_centralizer_iff.1 (hT (Subgroup.mem_top g)) h (Set.mem_singleton h)
   exact hg.symm
 
+omit [Finite H] in
 theorem y10xE_center_quot (hH : commutator H = ⊤) (Z : Subgroup H) [Z.Normal]
     (hZ : Z ≤ Subgroup.center H) :
     Subgroup.center (H ⧸ Z) = (Subgroup.center H).map (QuotientGroup.mk' Z) := by
@@ -6477,8 +6553,9 @@ def y10xE_quot_center_equiv {A B : Type} [Group A] [Group B] (e : A ≃* B) :
     rw [map_mul, map_mul, MulEquiv.apply_symm_apply]
     exact Subgroup.mem_center_iff.1 hb (e g)
 
+omit [Finite H] in
 theorem y10xE_qs_quot (hH : CFSG.Open.IsQuasisimple H) {Z : Subgroup H} [Z.Normal]
-    (hZ : Z ≤ Subgroup.center H) (hZne : Z ≠ ⊤) : CFSG.Open.IsQuasisimple (H ⧸ Z) := by
+    (_hZ : Z ≤ Subgroup.center H) (hZne : Z ≠ ⊤) : CFSG.Open.IsQuasisimple (H ⧸ Z) := by
   have hK : CFSG.Open.IsQuasisimple ↥(⊤ : Subgroup H) :=
     CFSG.Open.IsQuasisimple.of_mulEquiv Subgroup.topEquiv hH
   have hK' : CFSG.IsQuasisimple ↥(⊤ : Subgroup H) := (y10xA_fnd_iff_open _).2 hK
@@ -6520,7 +6597,7 @@ theorem y10xE_barX_perfect_nontriv {C J : Subgroup G} (hJC : J ≤ C)
   constructor
   · rw [← barX_commutator 3 hJC hJC, y10xA_qs_comm_self hJq]
   · intro h
-    obtain ⟨j, hj, hjO⟩ := SetLike.not_le_iff_exists.1 hJnot
+    obtain ⟨j, hj, hjO⟩ := IsConcreteLE.not_le_iff_exists.1 hJnot
     have hmem : QuotientGroup.mk' (GLAPPrimeCore 3 ↥C) (⟨j, hJC hj⟩ : ↥C) ∈ barX 3 C J :=
       Subgroup.mem_map.2 ⟨⟨j, hJC hj⟩, Subgroup.mem_subgroupOf.2 hj, rfl⟩
     rw [h, Subgroup.mem_bot, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff] at hmem
@@ -6556,7 +6633,7 @@ theorem y10xE_qs_of_surj {G' Γ : Type} [Group G'] [Group Γ] [Finite G'] (f : G
   have e1 := y10xE_quot_quot_center_equiv hcommB f'.ker hkerc
   have e2 := QuotientGroup.quotientKerEquivOfSurjective f' hsurj
   have e3 := y10xE_quot_center_equiv e2
-  haveI : IsSimpleGroup (↥(B.map f) ⧸ Subgroup.center ↥(B.map f)) := hT.2
+  have : IsSimpleGroup (↥(B.map f) ⧸ Subgroup.center ↥(B.map f)) := hT.2
   have hsimp : IsSimpleGroup (↥B ⧸ Subgroup.center ↥B) := MulEquiv.isSimpleGroup (e1.symm.trans e3)
   exact ⟨hcommB, hsimp⟩
 
@@ -6569,6 +6646,7 @@ section Orbit
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem y10xE_barX_conj {C Y : Subgroup G} {g : G} (hg : g ∈ C) :
     barX 3 C (GLBConj g Y) =
       (barX 3 C Y).map (MulAut.conj (QuotientGroup.mk' (GLAPPrimeCore 3 ↥C) (⟨g, hg⟩ : ↥C))⁻¹).toMonoidHom := by
@@ -6598,7 +6676,7 @@ theorem y10xE_barX_conj {C Y : Subgroup G} {g : G} (hg : g ∈ C) :
     have hmem : ((⟨g, hg⟩ : ↥C)⁻¹ * c' * ⟨g, hg⟩ : ↥C) ∈ (GLBConj g Y).subgroupOf C := by
       rw [Subgroup.mem_subgroupOf]
       refine Subgroup.mem_map.2 ⟨(c' : G), hc'Y, ?_⟩
-      simp [MulAut.conj_apply]
+      simp
     have e : (MulEquiv.toMonoidHom (MulAut.conj (QuotientGroup.mk' (GLAPPrimeCore 3 ↥C)
         (⟨g, hg⟩ : ↥C))⁻¹)) (QuotientGroup.mk' (GLAPPrimeCore 3 ↥C) c') =
         QuotientGroup.mk' (GLAPPrimeCore 3 ↥C) ((⟨g, hg⟩ : ↥C)⁻¹ * c' * ⟨g, hg⟩ : ↥C) := by
@@ -6607,8 +6685,8 @@ theorem y10xE_barX_conj {C Y : Subgroup G} {g : G} (hg : g ∈ C) :
     rw [e]
     exact Subgroup.mem_map.2 ⟨_, hmem, rfl⟩
 
-theorem y10xE_orbit_contra {p : ℕ} (hp : p.Prime) {C J Y₀ : Subgroup G} {x : G}
-    (hxC : x ∈ C) (hx : x ^ p = 1) (hJC : J ≤ C) (hJq : CFSG.Open.IsQuasisimple ↥J)
+theorem y10xE_orbit_contra {p : ℕ} (_hp : p.Prime) {C J Y₀ : Subgroup G} {x : G}
+    (hxC : x ∈ C) (_hx : x ^ p = 1) (hJC : J ≤ C) (hJq : CFSG.Open.IsQuasisimple ↥J)
     (h3J : 3 ∣ Nat.card (↥J ⧸ Subgroup.center ↥J)) (hJx : ∀ j ∈ J, x * j = j * x)
     (hY₀ : GLAPComponent 3 C Y₀) (hJsup : J ≤ ⨆ i : Fin p, GLBConj (x ^ (i : ℕ)) Y₀)
     (hcomm0 : ∀ a ∈ barX 3 C Y₀, ∀ t ∈ barX 3 C J, a * t = t * a) : False := by
@@ -6671,12 +6749,14 @@ section Family
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem y10xE_fam_le_img {C K N : Subgroup G} [(N.subgroupOf C).Normal]
     (a : Option (y10xA_I 3 C K)) : y10xA_fam 3 C K N a ≤ y10xA_img C N K := by
   cases a with
   | none => exact y10xA_img_mono (y10xA_coreOf_le K)
   | some Y => exact y10xA_img_mono inf_le_left
 
+omit [Finite G] in
 theorem y10xE_img_le_iSup_fam {C K N : Subgroup G} [(N.subgroupOf C).Normal] (hKC : K ≤ C)
     (hKP : K ≤ (⨆ Y : y10xA_I 3 C K, K ⊓ (Y.1 ⊔ GLAPPrimeCoreOf 3 C)) ⊔ GLAPPrimeCoreOf 3 K) :
     y10xA_img C N K ≤ ⨆ a, y10xA_fam 3 C K N a := by
@@ -6713,7 +6793,8 @@ theorem y10xE_img_le_iSup_fam {C K N : Subgroup G} [(N.subgroupOf C).Normal] (hK
     exact hle hm
   · exact le_iSup (fun a' => y10xA_fam 3 C K N a') none (y10xA_mem_img hoC ho)
 
-theorem y10xE_gLBConj_KO {C K : Subgroup G} (hKC : K ≤ C)
+omit [Finite G] in
+theorem y10xE_gLBConj_KO {C K : Subgroup G} (_hKC : K ≤ C)
     (hCK : C ≤ Subgroup.normalizer (K : Set G))
     (hO : C ≤ Subgroup.normalizer ((GLAPPrimeCoreOf 3 C : Subgroup G) : Set G)) {c : G} (hc : c ∈ C) :
     GLBConj c (K ⊔ GLAPPrimeCoreOf 3 C) = K ⊔ GLAPPrimeCoreOf 3 C := by
@@ -6749,6 +6830,7 @@ theorem y10xE_fam_comm {C K N : Subgroup G} [(N.subgroupOf C).Normal] (hKC : K �
       exact y10xA_bot_of_commute (y10xA_img_P_commute (s := 3) Nat.prime_three hKC hO hcomm
         Y.2.1 Y.2.2 Y'.2.1 Y'.2.2 hne)
 
+omit [Finite G] in
 theorem y10xE_fam_conj_none {C K N : Subgroup G} [(N.subgroupOf C).Normal] (hKC : K ≤ C)
     (hCK : C ≤ Subgroup.normalizer (K : Set G)) {c : G} (hc : c ∈ C) :
     (y10xA_fam 3 C K N none).map (MulAut.conj (QuotientGroup.mk' (N.subgroupOf C) (⟨c, hc⟩ : ↥C))).toMonoidHom =
@@ -6761,6 +6843,7 @@ theorem y10xE_fam_conj_none {C K N : Subgroup G} [(N.subgroupOf C).Normal] (hKC 
   have h2 := (Subgroup.mem_normalizer_iff.1 (hOKn (C.inv_mem hc)) h).1 hh
   simpa using h2
 
+omit [Finite G] in
 theorem y10xE_gLBConj_mem {C K : Subgroup G} (hKC : K ≤ C)
     (hCK : C ≤ Subgroup.normalizer (K : Set G))
     (hO : C ≤ Subgroup.normalizer ((GLAPPrimeCoreOf 3 C : Subgroup G) : Set G))
@@ -6774,6 +6857,7 @@ theorem y10xE_gLBConj_mem {C K : Subgroup G} (hKC : K ≤ C)
       y10xE_gLBConj_KO hKC hCK hO (C.inv_mem hc)
     exact (Subgroup.map_mono Y.2.2 : GLBConj c⁻¹ Y.1 ≤ GLBConj c⁻¹ (K ⊔ GLAPPrimeCoreOf 3 C)).trans h2.le
 
+omit [Finite G] in
 theorem y10xE_fam_conj_some {C K N : Subgroup G} [(N.subgroupOf C).Normal] (hKC : K ≤ C)
     (hCK : C ≤ Subgroup.normalizer (K : Set G))
     (hO : C ≤ Subgroup.normalizer ((GLAPPrimeCoreOf 3 C : Subgroup G) : Set G))
@@ -6808,13 +6892,15 @@ variable {G : Type} [Group G] [Finite G]
       have hnG : (n : G) ∈ GLAPPrimeCoreOf 3 C := hNO (Subgroup.mem_subgroupOf.1 hn)
       exact y10xA_mem_core hnG n.2)
 
+omit [Finite G] in
 theorem y10xE_rho_mk' {C N : Subgroup G} [(N.subgroupOf C).Normal] (hNO : N ≤ GLAPPrimeCoreOf 3 C)
     (c : ↥C) :
     y10xE_rho hNO (QuotientGroup.mk' (N.subgroupOf C) c) = QuotientGroup.mk' (GLAPPrimeCore 3 ↥C) c :=
   QuotientGroup.map_mk' _ _ _ _ _
 
+omit [Finite G] in
 theorem y10xE_rho_img {C N H : Subgroup G} [(N.subgroupOf C).Normal] (hNO : N ≤ GLAPPrimeCoreOf 3 C)
-    (hHC : H ≤ C) :
+    (_hHC : H ≤ C) :
     (y10xA_img C N H).map (y10xE_rho hNO) = barX 3 C H := by
   ext z
   constructor
@@ -6836,11 +6922,13 @@ section DiagY
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem y10xE_barX_mono {C J K : Subgroup G} (hJK : J ≤ K) : barX 3 C J ≤ barX 3 C K := by
   intro t ht
   obtain ⟨z, hz, rfl⟩ := Subgroup.mem_map.1 ht
   exact Subgroup.mem_map.2 ⟨z, Subgroup.mem_subgroupOf.2 (hJK (Subgroup.mem_subgroupOf.1 hz)), rfl⟩
 
+omit [Finite G] in
 theorem y10xE_comm_of_comp {C J : Subgroup G} {x : G}
     (hJc : CFSG.Open.IsComponentOf J (C ⊓ Subgroup.centralizer ({x} : Set G))) :
     ∀ j ∈ J, x * j = j * x := by
@@ -6868,6 +6956,7 @@ section OrbitAux
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem y10xE_barX_P {C K Y : Subgroup G} (hKC : K ≤ C)
     (hO : C ≤ Subgroup.normalizer ((GLAPPrimeCoreOf 3 C : Subgroup G) : Set G))
     (hYK : Y ≤ K ⊔ GLAPPrimeCoreOf 3 C) (hYC : Y ≤ C) :
@@ -6925,6 +7014,7 @@ theorem y10xE_map_conj_pow {Q' : Type} [Group Q'] {H : Subgroup Q'} {σ : Q'}
       simp [pow_succ, mul_assoc]
     rw [hcomp, ← Subgroup.map_map, hH, ih]
 
+omit [Finite G] in
 theorem y10xE_conj_img {C K N Y : Subgroup G} [(N.subgroupOf C).Normal] (hKC : K ≤ C)
     (hCK : C ≤ Subgroup.normalizer (K : Set G))
     (hO : C ≤ Subgroup.normalizer ((GLAPPrimeCoreOf 3 C : Subgroup G) : Set G))
@@ -6959,7 +7049,7 @@ theorem y10xE_noncomm {p : ℕ} (hp : p.Prime) {C J K N Y : Subgroup G} {x : G}
     [(N.subgroupOf C).Normal] (hNO : N ≤ GLAPPrimeCoreOf 3 C)
     (hY : GLAPComponent 3 C Y) (hYK : Y ≤ K ⊔ GLAPPrimeCoreOf 3 C)
     (hdiag : J ≤ ⨆ i : Fin p, GLBConj (x ^ (i : ℕ)) Y)
-    (hJK : J ≤ K)
+    (_hJK : J ≤ K)
     (hall : ∀ g ∈ y10xA_img C N J, ∀ y ∈ y10xA_img C N (K ⊓ (Y ⊔ GLAPPrimeCoreOf 3 C)), g * y = y * g) :
     False := by
   have hOn : ∀ h ∈ C, ∀ t ∈ GLAPPrimeCoreOf 3 C, h * t * h⁻¹ ∈ GLAPPrimeCoreOf 3 C :=
@@ -7100,7 +7190,7 @@ theorem y10xE_Rdata {p : ℕ} (hp : p.Prime) {C J : Subgroup G} {x : G} (hxC : x
   set Yi : y10xA_I 3 C K := ⟨Y, hY, hYK⟩ with hYidef
   have hnc : ∃ g ∈ y10xA_img C N J, ∃ y ∈ y10xA_fam 3 C K N (some Yi), g * y ≠ y * g := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact y10xE_noncomm hp hxC hx hJC hJq h3J hJc hKC hO hNO hY hYK hdiag hJK
       (fun g hg y hy => hcon g hg y hy)
   obtain ⟨m, hm⟩ := hnon (some Yi) hnc
@@ -7172,6 +7262,7 @@ section DiagAbs
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem y10xF_subnormal_subgroupOf {H K : Subgroup G} (h : CFSG.Open.IsSubnormal H K) :
     CFSG.Open.IsSubnormal (H.subgroupOf K) ⊤ := by
   induction h with
@@ -7206,7 +7297,7 @@ theorem y10xF_qs_of_mulEquiv {A B : Type} [Group A] [Group B] (e : A ≃* B)
     rw [Subgroup.map_commutator, Subgroup.map_top_of_surjective _ e.surjective] at h2
     rw [commutator_def]
     exact h2
-  · haveI := hs
+  · have := hs
     exact MulEquiv.isSimpleGroup (y10xE_quot_center_equiv e).symm
 
 theorem y10xF_eq_of_subnormal {K M : Subgroup G} (hK : CFSG.Open.IsQuasisimple ↥K)
@@ -7219,7 +7310,7 @@ theorem y10xF_eq_of_subnormal {K M : Subgroup G} (hK : CFSG.Open.IsQuasisimple �
   exact le_antisymm hMK (Subgroup.subgroupOf_eq_top.1 h2)
 
 theorem y10xF_comm_central {Q : Type} [Group Q] {a b z w : Q}
-    (hza : z * a = a * z) (hzb : z * b = b * z) (hwa : w * a = a * w) (hwb : w * b = b * w)
+    (_hza : z * a = a * z) (hzb : z * b = b * z) (hwa : w * a = a * w) (_hwb : w * b = b * w)
     (hzw : z * w = w * z) : ⁅a * z, b * w⁆ = ⁅a, b⁆ := by
   have hc : Commute a⁻¹ w := Commute.inv_left (show Commute a w from hwa.symm)
   have h2 : w * a⁻¹ * w⁻¹ = a⁻¹ := by
@@ -7294,11 +7385,12 @@ section DiagInput
 
 variable {Γ : Type} [Group Γ] [Finite Γ]
 
+omit [Finite Γ] in
 theorem y10xF_le_normalizer_of_bot {A B : Subgroup Γ} (h : ⁅A, B⁆ = ⊥) :
     A ≤ Subgroup.normalizer (B : Set Γ) := fun a ha =>
   y10xE_normalizes_of_comm (fun b hb => (y10xE_elem_of_bot h) a ha b hb)
 
-theorem y10xF_components_of_family {p : ℕ} (hp : p.Prime)
+theorem y10xF_components_of_family {p : ℕ} (_hp : p.Prime)
     {D : ℕ → Subgroup Γ} (hD_qs : ∀ k, CFSG.Open.IsQuasisimple ↥(D k))
     (hD_per : ∀ k, D (k + p) = D k)
     (hD_comm : ∀ k j, k % p ≠ j % p → ⁅D k, D j⁆ = ⊥) :
@@ -7493,6 +7585,7 @@ section DiagFam
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem y10xF_gconj_comp {C K Y : Subgroup G} {g : G} (hg : g ∈ C) (hYc : GLAPComponent 3 C Y)
     (hYK : Y ≤ K ⊔ GLAPPrimeCoreOf 3 C) (hKC : K ≤ C)
     (hCK : C ≤ Subgroup.normalizer (K : Set G))
@@ -7521,6 +7614,7 @@ theorem y10xF_gconj_comp {C K Y : Subgroup G} {g : G} (hg : g ∈ C) (hYc : GLAP
     Subgroup (↥C ⧸ N.subgroupOf C) :=
   y10xA_fam 3 C K N (some (y10xF_mem (C.pow_mem hxC k) hYc hYK hKC hCK hO))
 
+omit [Finite G] in
 theorem y10xF_P_map {C K N Y : Subgroup G} [(N.subgroupOf C).Normal] {x : G} (hxC : x ∈ C)
     (hYc : GLAPComponent 3 C Y) (hYK : Y ≤ K ⊔ GLAPPrimeCoreOf 3 C) (hKC : K ≤ C)
     (hCK : C ≤ Subgroup.normalizer (K : Set G))
@@ -7534,7 +7628,8 @@ theorem y10xF_P_map {C K N Y : Subgroup G} [(N.subgroupOf C).Normal] {x : G} (hx
   rw [y10xE_rho_img hNO (inf_le_left.trans hKC)]
   exact y10xE_barX_P hKC hO hle hcomp.1
 
-theorem y10xF_ker_img {C K N : Subgroup G} [(N.subgroupOf C).Normal] (hKC : K ≤ C)
+omit [Finite G] in
+theorem y10xF_ker_img {C K N : Subgroup G} [(N.subgroupOf C).Normal] (_hKC : K ≤ C)
     (hNO : N ≤ GLAPPrimeCoreOf 3 C) (hKO : K ⊓ GLAPPrimeCoreOf 3 C ≤ GLAPPrimeCoreOf 3 K)
     {H : Subgroup G} (hHK : H ≤ K) :
     ∀ b ∈ y10xA_img C N H, y10xE_rho hNO b = 1 → b ∈ y10xA_img C N (GLAPPrimeCoreOf 3 K) := by
@@ -7545,6 +7640,7 @@ theorem y10xF_ker_img {C K N : Subgroup G} [(N.subgroupOf C).Normal] (hKC : K �
     y10xA_of_mem_core c.2 ((QuotientGroup.eq_one_iff _).1 hb1)
   exact y10xA_mem_img c.2 (hKO ⟨hHK hcH, hcO⟩)
 
+omit [Finite G] in
 theorem y10xF_P_central {C K N Y : Subgroup G} [(N.subgroupOf C).Normal] {x : G} (hxC : x ∈ C)
     (hYc : GLAPComponent 3 C Y) (hYK : Y ≤ K ⊔ GLAPPrimeCoreOf 3 C) (hKC : K ≤ C)
     (hCK : C ≤ Subgroup.normalizer (K : Set G))
@@ -7621,7 +7717,7 @@ section Count3
 variable {Γ : Type} [Group Γ] [Finite Γ]
 
 theorem y10xF_normalizer_map {H Δ : Type} [Group H] [Group Δ] (f : H →* Δ)
-    (hf : Function.Injective f) {S A : Subgroup H} (hAN : A ≤ Subgroup.normalizer (S : Set H)) :
+    (_hf : Function.Injective f) {S A : Subgroup H} (hAN : A ≤ Subgroup.normalizer (S : Set H)) :
     A.map f ≤ Subgroup.normalizer ((S.map f : Subgroup Δ) : Set Δ) := by
   rintro _ ⟨a, ha, rfl⟩
   have hN := Subgroup.mem_normalizer_iff.1 (hAN ha)
@@ -7643,7 +7739,7 @@ theorem y10xF_normalizer_map {H Δ : Type} [Group H] [Group Δ] (f : H →* Δ)
     group
 
 theorem y10xF_elemAb_map {H Δ : Type} [Group H] [Group Δ] [Finite H] [Finite Δ] (f : H →* Δ)
-    (hf : Function.Injective f) {p : ℕ} {E : Subgroup H} (hE : CFSG.Open.IsElemAbelian p E) :
+    (_hf : Function.Injective f) {p : ℕ} {E : Subgroup H} (hE : CFSG.Open.IsElemAbelian p E) :
     CFSG.Open.IsElemAbelian p (E.map f) := by
   refine ⟨y10xE_isMulComm_of_forall ?_, ?_⟩
   · rintro _ ⟨a, ha, rfl⟩ _ ⟨b, hb, rfl⟩
@@ -7651,7 +7747,7 @@ theorem y10xF_elemAb_map {H Δ : Type} [Group H] [Group Δ] [Finite H] [Finite �
   · rintro _ ⟨a, ha, rfl⟩
     rw [← map_pow, hE.2 a ha, map_one]
 
-theorem y10xF_count_bound {X₀ X₁ : Subgroup Γ} (hX₀ : CFSG.Open.IsQuasisimple ↥X₀)
+theorem y10xF_count_bound {X₀ X₁ : Subgroup Γ} (_hX₀ : CFSG.Open.IsQuasisimple ↥X₀)
     (hcomm : ⁅X₀, X₁⁆ = ⊥)
     (hS0 : ∃ S0 : Subgroup ↥X₀, S0 ≠ ⊥ ∧ IsPGroup 2 S0)
     (hE1 : ∃ E1 : Subgroup Γ, E1 ≤ X₁ ∧ CFSG.Open.IsElemAbelian 3 E1 ∧
@@ -7707,7 +7803,7 @@ theorem y10xF_count_bound {X₀ X₁ : Subgroup Γ} (hX₀ : CFSG.Open.IsQuasisi
         exact hTe.2 _ (Subgroup.mem_subgroupOf.1 hx)
     have hcard : Nat.card (T.subgroupOf X₀) = Nat.card T :=
       Nat.card_congr (Subgroup.subgroupOfEquivOfLe hTX).toEquiv
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 (isPGroup_of_isElemAbelian hT'e)
     have hle := y10xE_le_pRank Nat.prime_three hT'c hT'e hn
     rw [← hcard, hn]
@@ -7744,6 +7840,7 @@ section Perfect
 
 variable {Γ : Type} [Group Γ] [Finite Γ]
 
+omit [Finite Γ] in
 theorem y10xF_sub_of_sup {X Z0 T : Subgroup Γ} (hZX : ∀ v ∈ Z0, ∀ w ∈ X, v * w = w * v)
     (hZT : ∀ v ∈ Z0, ∀ t ∈ T, v * t = t * v) (hT : T ≤ X ⊔ Z0) (hperf : ⁅T, T⁆ = T) :
     T ≤ X := by
@@ -7773,6 +7870,7 @@ theorem y10xF_layer_eq {X E Jh : Subgroup Γ}
   rw [inf_eq_left.2 hJL, inf_eq_right.2 hLle] at h1
   exact y10xF_eq_of_subnormal hLq hJL h1 hJh.2.2
 
+omit [Finite Γ] in
 theorem y10xF_layer_qs {X₁ L' Jh : Subgroup Γ} (hX₁ : CFSG.Open.IsQuasisimple ↥X₁)
     {Z : Subgroup ↥X₁} [Z.Normal] (hZ : Z ≤ Subgroup.center ↥X₁)
     (e : ↥L' ≃* (↥X₁ ⧸ Z)) (hJL : Jh ≤ L') (hJq : CFSG.Open.IsQuasisimple ↥Jh) :
@@ -7780,8 +7878,8 @@ theorem y10xF_layer_qs {X₁ L' Jh : Subgroup Γ} (hX₁ : CFSG.Open.IsQuasisimp
   have hZne : Z ≠ ⊤ := by
     intro hZtop
     subst hZtop
-    haveI : Subsingleton (↥X₁ ⧸ (⊤ : Subgroup ↥X₁)) := QuotientGroup.subsingleton_quotient_top
-    haveI : Subsingleton ↥L' := Equiv.subsingleton e.toEquiv
+    have : Subsingleton (↥X₁ ⧸ (⊤ : Subgroup ↥X₁)) := QuotientGroup.subsingleton_quotient_top
+    have : Subsingleton ↥L' := Equiv.subsingleton e.toEquiv
     apply y10xA_qs_ne_bot hJq
     rw [eq_bot_iff]
     intro y hy
@@ -7831,7 +7929,7 @@ theorem y10xF_quot_center_equiv_of_surj {J A : Type} [Group J] [Group A] [Finite
 theorem y10xF_two_local_exists {Q : Type} [Group Q] [Finite Q] {p : ℕ}
     (h : 0 < CFSG.Open.twoLocalPrimeRank p Q) : ∃ H : Subgroup Q, CFSG.Open.IsTwoLocal H := by
   by_contra hno
-  push_neg at hno
+  push Not at hno
   have hset : {k | ∃ H : Subgroup Q, CFSG.Open.IsTwoLocal H ∧ CFSG.Open.pRank p H = k} = ∅ := by
     ext k
     constructor
@@ -7850,14 +7948,16 @@ section DiagFam2
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem y10xF_pow_mod {x : G} {p : ℕ} (hx : x ^ p = 1) (k : ℕ) : x ^ k = x ^ (k % p) := by
   conv_lhs => rw [← Nat.mod_add_div k p, pow_add, pow_mul, hx, one_pow, mul_one]
 
+omit [Finite G] in
 theorem y10xF_P_shift {C K N Y : Subgroup G} [(N.subgroupOf C).Normal] {x : G} (hxC : x ∈ C)
     (hYc : GLAPComponent 3 C Y) (hYK : Y ≤ K ⊔ GLAPPrimeCoreOf 3 C) (hKC : K ≤ C)
     (hCK : C ≤ Subgroup.normalizer (K : Set G))
     (hO : C ≤ Subgroup.normalizer ((GLAPPrimeCoreOf 3 C : Subgroup G) : Set G))
-    (hNO : N ≤ GLAPPrimeCoreOf 3 C)
+    (_hNO : N ≤ GLAPPrimeCoreOf 3 C)
     (hKn : ∀ c ∈ C, ∀ k ∈ K, c * k * c⁻¹ ∈ K) (k : ℕ) :
     (y10xF_P N hxC hYc hYK hKC hCK hO k).map
         (MulAut.conj (QuotientGroup.mk' (N.subgroupOf C) (⟨x⁻¹, C.inv_mem hxC⟩ : ↥C))).toMonoidHom =
@@ -7868,11 +7968,12 @@ theorem y10xF_P_shift {C K N Y : Subgroup G} [(N.subgroupOf C).Normal] {x : G} (
   show GLBConj (x⁻¹)⁻¹ (GLBConj (x ^ k) Y) = GLBConj (x ^ (k + 1)) Y
   rw [inv_inv, gLBConj_gLBConj, pow_succ]
 
+omit [Finite G] in
 theorem y10xF_P_per {C K N Y : Subgroup G} [(N.subgroupOf C).Normal] {x : G} (hxC : x ∈ C)
     (hYc : GLAPComponent 3 C Y) (hYK : Y ≤ K ⊔ GLAPPrimeCoreOf 3 C) (hKC : K ≤ C)
     (hCK : C ≤ Subgroup.normalizer (K : Set G))
     (hO : C ≤ Subgroup.normalizer ((GLAPPrimeCoreOf 3 C : Subgroup G) : Set G))
-    (hNO : N ≤ GLAPPrimeCoreOf 3 C) {p : ℕ} (hx : x ^ p = 1) (k : ℕ) :
+    (_hNO : N ≤ GLAPPrimeCoreOf 3 C) {p : ℕ} (hx : x ^ p = 1) (k : ℕ) :
     y10xF_P N hxC hYc hYK hKC hCK hO (k + p) = y10xF_P N hxC hYc hYK hKC hCK hO k := by
   exact congrArg (fun a : y10xA_I 3 C K => y10xA_fam 3 C K N (some a))
     (Subtype.ext (by
@@ -7883,7 +7984,7 @@ theorem y10xF_D_comm {C K N Y : Subgroup G} [(N.subgroupOf C).Normal] {x : G} (h
     (hYc : GLAPComponent 3 C Y) (hYK : Y ≤ K ⊔ GLAPPrimeCoreOf 3 C) (hKC : K ≤ C)
     (hCK : C ≤ Subgroup.normalizer (K : Set G))
     (hO : C ≤ Subgroup.normalizer ((GLAPPrimeCoreOf 3 C : Subgroup G) : Set G))
-    (hNO : N ≤ GLAPPrimeCoreOf 3 C)
+    (_hNO : N ≤ GLAPPrimeCoreOf 3 C)
     (hcommN : ∀ k ∈ K, ∀ t ∈ GLAPPrimeCoreOf 3 K, ⁅k, t⁆ ∈ N)
     {p : ℕ} (hp : p.Prime) (hx : x ^ p = 1)
     (hdist : ∀ i j : ℕ, i < p → j < p → i ≠ j → GLBConj (x ^ i) Y ≠ GLBConj (x ^ j) Y)
@@ -7937,6 +8038,7 @@ theorem y10xF_D_ne {C K N Y : Subgroup G} [(N.subgroupOf C).Normal] {x : G} (hxC
   exact hne (glaPComponent_unique (y10xF_gconj_comp (C.pow_mem hxC k) hYc hYK hKC hCK hO).1
     (y10xF_gconj_comp (C.pow_mem hxC j) hYc hYK hKC hCK hO).1 hmap)
 
+omit [Finite G] in
 theorem y10xF_D_shift {C K N Y : Subgroup G} [(N.subgroupOf C).Normal] {x : G} (hxC : x ∈ C)
     (hYc : GLAPComponent 3 C Y) (hYK : Y ≤ K ⊔ GLAPPrimeCoreOf 3 C) (hKC : K ≤ C)
     (hCK : C ≤ Subgroup.normalizer (K : Set G))
@@ -7949,6 +8051,7 @@ theorem y10xF_D_shift {C K N Y : Subgroup G} [(N.subgroupOf C).Normal] {x : G} (
       ⁅y10xF_P N hxC hYc hYK hKC hCK hO (k + 1), y10xF_P N hxC hYc hYK hKC hCK hO (k + 1)⁆ := by
   rw [Subgroup.map_commutator, y10xF_P_shift hxC hYc hYK hKC hCK hO hNO hKn k]
 
+omit [Finite G] in
 theorem y10xF_KO_normalizer {C K O : Subgroup G} (hKC : K ≤ C)
     (hCK : C ≤ Subgroup.normalizer (K : Set G))
     (hO : C ≤ Subgroup.normalizer (O : Set G)) :
@@ -8072,6 +8175,7 @@ section MainAux
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem y10xF_normal_inf {C J N : Subgroup G} (hJC : J ≤ C)
     (hNnorm : C ≤ Subgroup.normalizer (N : Set G)) :
     ((J ⊓ N).subgroupOf J).Normal := by
@@ -8144,7 +8248,7 @@ theorem no_diag_SU6 (hI25 : Input2_5) (hU6 : U6CaseAt G) (hctx : ThmACtx G m) (h
   have hN3 : ¬ 3 ∣ Nat.card N := fun h =>
     not_dvd_card_glaPPrimeCoreOf Nat.prime_three K (h.trans (Subgroup.card_dvd_of_le hNOK))
   have hNnorm : C ≤ Subgroup.normalizer (N : Set G) := y10xA_comm_core_normalizer hCK
-  haveI hNn : (N.subgroupOf C).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hNC).2 hNnorm
+  have hNn : (N.subgroupOf C).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hNC).2 hNnorm
   have hNO : N ≤ O := le_glaPPrimeCoreOf_of_le_normalizer hNC hNnorm
     ((Nat.Prime.coprime_iff_not_dvd Nat.prime_three).2 hN3)
   have hcommN : ∀ k ∈ K, ∀ t ∈ OK, ⁅k, t⁆ ∈ N := fun k hk t ht =>
@@ -8213,7 +8317,7 @@ theorem no_diag_SU6 (hI25 : Input2_5) (hU6 : U6CaseAt G) (hctx : ThmACtx G m) (h
     rw [inf_eq_left.2 (le_inf hJX' hJC'), inf_eq_right.2 hBle] at hsub
     exact ⟨le_inf hJX' hJC', hsub, hJq'⟩
   obtain ⟨Z, hZn, hZc, ⟨e⟩⟩ := hlayer (D 0) (hcompD 0)
-  haveI := hZn
+  have := hZn
   have hJL : Jh ≤ GLALayer (X ⊓ Subgroup.centralizer (E : Set (↥C ⧸ N.subgroupOf C))) :=
     le_sSup (s := {K' : Subgroup (↥C ⧸ N.subgroupOf C) |
       CFSG.Open.IsComponentOf K' (X ⊓ Subgroup.centralizer (E : Set (↥C ⧸ N.subgroupOf C)))}) hJE
@@ -8292,7 +8396,7 @@ theorem no_diag_SU6 (hI25 : Input2_5) (hU6 : U6CaseAt G) (hctx : ThmACtx G m) (h
   have h2J : 2 ∣ Nat.card ↥J := by
     obtain ⟨H, hH⟩ := y10xF_two_local_exists hpos
     obtain ⟨P, hPne, hPp, -⟩ := hH
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hPp
     have hn0 : n ≠ 0 := by
       intro h0
@@ -8311,8 +8415,8 @@ theorem no_diag_SU6 (hI25 : Input2_5) (hU6 : U6CaseAt G) (hctx : ThmACtx G m) (h
   have h2D0 : 2 ∣ Nat.card ↥(D 0) := by
     rw [← hz_q, hZidx]
     exact Dvd.dvd.mul_left h2J1 _
-  haveI : Fintype ↥(D 0) := Fintype.ofFinite _
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype ↥(D 0) := Fintype.ofFinite _
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard2 : 2 ∣ Fintype.card ↥(D 0) := by
     rw [Fintype.card_eq_nat_card]
     exact h2D0
@@ -8464,7 +8568,7 @@ private theorem lemma117_diag_not_le {p : ℕ} {Yq : Fin p → Subgroup Q}
     intro h _
     exact Subtype.ext (hJcom h.1 h.2 a.1 a.2)
   have htop : (⊤ : Subgroup ↥J) = ⊥ := by rw [← hJperf, hcomm_bot]
-  haveI := hJnt
+  have := hJnt
   obtain ⟨x, hx⟩ := exists_ne (1 : ↥J)
   have hx' : x ∈ (⊤ : Subgroup ↥J) := Subgroup.mem_top x
   rw [htop, Subgroup.mem_bot] at hx'
@@ -8540,22 +8644,25 @@ section Diag4
 
 variable {Q : Type} [Group Q] [Finite Q]
 
+omit [Finite Q] in
 private theorem lemma117_diag_perfect_of_comm_self {D : Subgroup Q} (h : ⁅D, D⁆ = D) : commutator ↥D = ⊤ := by
   have h1 : Subgroup.map D.subtype (⊤ : Subgroup ↥D) = D := by
     rw [← MonoidHom.range_eq_map, Subgroup.range_subtype]
   apply Subgroup.map_injective (f := D.subtype) Subtype.coe_injective
   rw [commutator_def, Subgroup.map_commutator, h1, h]
 
+omit [Finite Q] in
 private theorem lemma117_diag_comm_mul_central {E : Subgroup Q} {z a b : Q} (hz : ∀ x ∈ E, x * z = z * x)
-    (ha : a ∈ E) (hb : b ∈ E) : ⁅a * z, b⁆ = ⁅a, b⁆ := by
+    (_ha : a ∈ E) (hb : b ∈ E) : ⁅a * z, b⁆ = ⁅a, b⁆ := by
   rw [commutatorElement_def, commutatorElement_def]
   have hzb : z * b = b * z := (hz b hb).symm
   calc a * z * b * (a * z)⁻¹ * b⁻¹ = a * (z * b) * z⁻¹ * a⁻¹ * b⁻¹ := by group
     _ = a * (b * z) * z⁻¹ * a⁻¹ * b⁻¹ := by rw [hzb]
     _ = a * b * a⁻¹ * b⁻¹ := by group
 
+omit [Finite Q] in
 private theorem lemma117_diag_comm_central_mul {E : Subgroup Q} {z a b : Q} (hz : ∀ x ∈ E, x * z = z * x)
-    (ha : a ∈ E) (hb : b ∈ E) : ⁅a, b * z⁆ = ⁅a, b⁆ := by
+    (ha : a ∈ E) (_hb : b ∈ E) : ⁅a, b * z⁆ = ⁅a, b⁆ := by
   rw [commutatorElement_def, commutatorElement_def]
   have hza : a * z = z * a := hz a ha
   have hza' : z * a⁻¹ = a⁻¹ * z := by
@@ -8587,7 +8694,7 @@ private theorem lemma117_diag_iso {p : ℕ} {Yq : Fin p → Subgroup Q}
     exact hJnorm j hj _ ((lemma117_diagQ Yq k).mul_mem ((lemma117_diagQ Yq k).mul_mem hq ht)
       ((lemma117_diagQ Yq k).inv_mem hq))
   set Qn : Subgroup ↥W := (lemma117_diagQ Yq k).subgroupOf W with hQn
-  haveI hQn_normal : Qn.Normal := by
+  have hQn_normal : Qn.Normal := by
     constructor
     intro n hn g
     rw [hQn, Subgroup.mem_subgroupOf] at hn ⊢
@@ -8635,7 +8742,7 @@ private theorem lemma117_diag_iso {p : ℕ} {Yq : Fin p → Subgroup Q}
     obtain ⟨y, hy, q, hq, hyq⟩ := lemma117_diag_E_cover hYc hJY k x.2
     refine ⟨⟨y, hy.2⟩, Subgroup.mem_subgroupOf.2 hy, ?_⟩
     rw [hQn_iff]
-    simp only [Subgroup.coe_mk]
+    simp only
     rw [← hyq, inv_mul_cancel_left]
     exact hq
   have hE_map : Subgroup.map pW E' = ⊤ := by
@@ -8739,6 +8846,7 @@ section Diag5
 
 variable {Q : Type} [Group Q] [Finite Q]
 
+omit [Finite Q] in
 private theorem lemma117_le_normalizer_of_forall {A T : Subgroup Q} (h : ∀ a ∈ A, ∀ t ∈ T, a * t * a⁻¹ ∈ T) :
     A ≤ Subgroup.normalizer (T : Set Q) := by
   intro a ha
@@ -8751,6 +8859,7 @@ private theorem lemma117_le_normalizer_of_forall {A T : Subgroup Q} (h : ∀ a �
     have := h a⁻¹ (A.inv_mem ha) _ ht
     simpa [mul_assoc] using this
 
+omit [Finite Q] in
 private theorem lemma117_le_normalizer_of_comm {A B : Subgroup Q} (h : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a) :
     B ≤ Subgroup.normalizer (A : Set Q) := by
   have key : ∀ c ∈ B, ∀ a ∈ A, c * a * c⁻¹ = a := by
@@ -8946,7 +9055,8 @@ private theorem lemma117_succ_mod_inj {p i j : ℕ} (hi : i < p) (hj : j < p) (h
     omega
   · omega
 
-private theorem lemma117_pow_mod {x : G} {p : ℕ} (hp0 : 0 < p) (hx : x ^ p = 1) (n : ℕ) :
+omit [Finite G] in
+private theorem lemma117_pow_mod {x : G} {p : ℕ} (_hp0 : 0 < p) (hx : x ^ p = 1) (n : ℕ) :
     x ^ n = x ^ (n % p) := by
   conv_lhs => rw [← Nat.mod_add_div n p]
   rw [pow_add, pow_mul, hx, one_pow, mul_one]
@@ -8969,7 +9079,7 @@ private theorem lemma117_no_diag {m p p' : ℕ} {L B' : Subgroup G} {x' : G} {J 
   have hq : p'.Prime := hc.cfg.prime
   have hq2 : p' ≠ 2 := hc.cfg.odd
   have hq1 : 1 < p' := hq.one_lt
-  haveI : Fact p'.Prime := ⟨hq⟩
+  have : Fact p'.Prime := ⟨hq⟩
   have hp0 : 0 < p := by omega
   have hxC : x ∈ Subgroup.centralizer ({x'} : Set G) := hxx
   set C : Subgroup G := Subgroup.centralizer ({x'} : Set G) with hCdef
@@ -9106,7 +9216,7 @@ private theorem lemma117_no_diag {m p p' : ℕ} {L B' : Subgroup G} {x' : G} {J 
         Subgroup.map_top_of_surjective ψJe.toMonoidHom hsurjψ]
     rw [← hmap, hJperf, Subgroup.map_top_of_surjective ψJe.toMonoidHom hsurjψ]
   have hJnt' : Nontrivial ↥(barX p' C J) := by
-    haveI := hJnt0
+    have := hJnt0
     exact ψJe.symm.toEquiv.nontrivial
   have hJtm' : ∀ (E : Type) [Group E] [Finite E], commutator E = ⊤ →
       ∀ π' : E →* ↥(barX p' C J), Function.Surjective π' →
@@ -9223,7 +9333,7 @@ private theorem lemma117_no_diag {m p p' : ℕ} {L B' : Subgroup G} {x' : G} {J 
       rw [hBC] at hmem
       exact hmem
     have hxord : orderOf x' = p' := by
-      haveI : Fact p'.Prime := ⟨hq⟩
+      have : Fact p'.Prime := ⟨hq⟩
       exact orderOf_eq_prime (hc.cfg.elem.2 x' hc.cfg.mem) hc.cfg.ne_one
     have hcardB : Nat.card B' ≤ p' := by
       have h1 := Subgroup.card_le_of_le hB'z
@@ -9299,7 +9409,7 @@ theorem j_unique (hc : Cfg116 G m p L p' B' x' J) {Y Y' : Subgroup G}
     (hJY : J ≤ Y) (hJY' : J ≤ Y') : Y = Y' := by
   by_contra hne
   have hp : p'.Prime := hc.cfg.prime
-  haveI : Fact p'.Prime := ⟨hp⟩
+  have : Fact p'.Prime := ⟨hp⟩
   have hYY' : Y ≤ centModSubgroup p' Y' := le_centModSubgroup_of_ne hp hY hY' hne
   have hJq : CFSG.Open.IsQuasisimple ↥J := hc.cfg.comp.1.2.2
   have hJN : J ≤ GLAPPrimeCoreOf p' Y' :=
@@ -9343,7 +9453,7 @@ private theorem y10xB_qdich_abs {K : Type} [Group K] [Finite K] (R : Subgroup K)
     rw [← map_commutatorElement] at hc
     exact (QuotientGroup.eq_one_iff _).1 hc
 
-private theorem y10xB_qdich {G : Type} [Group G] [Finite G] {L R S : Subgroup G} (hRL : R ≤ L)
+private theorem y10xB_qdich {G : Type} [Group G] [Finite G] {L R S : Subgroup G} (_hRL : R ≤ L)
     [hRn : (R.subgroupOf L).Normal] (hQ : CFSG.Open.IsQuasisimple (↥L ⧸ R.subgroupOf L))
     (hSL : S ≤ L) (hS : IsSubnormal (S.subgroupOf L) ⊤) :
     (∀ k ∈ L, ∃ s ∈ S, s⁻¹ * k ∈ R) ∨ (∀ s ∈ S, ∀ k ∈ L, ⁅s, k⁆ ∈ R) := by
@@ -9458,7 +9568,7 @@ private theorem y10xB_dvd_barX {G : Type} [Group G] [Finite G] {p q : ℕ} (hp :
   rw [← hcard]
   exact (show q ∣ (Subgroup.center ↥J).index from hqJ).trans hidx
 
-theorem l_comp_p (hctx : ThmACtx G m) (hc : Cfg116 G m p L p' B' x' J) (hp : p.Prime) {L' : Subgroup G}
+theorem l_comp_p (_hctx : ThmACtx G m) (hc : Cfg116 G m p L p' B' x' J) (hp : p.Prime) {L' : Subgroup G}
     (hL' : GLAPComponent p' (Subgroup.centralizer ({x'} : Set G)) L') (hJL : J ≤ L')
     (hJp : J ≤ GLAPLayer p (Subgroup.centralizer ({x'} : Set G))) :
     GLAPComponent p (Subgroup.centralizer ({x'} : Set G)) L' := by
@@ -9493,7 +9603,7 @@ theorem l_comp_p (hctx : ThmACtx G m) (hc : Cfg116 G m p L p' B' x' J) (hp : p.P
       exact hy
     · intro hx
       exact Subgroup.mem_map.2 ⟨x, hx, rfl⟩
-  haveI hRqn : (Rq.subgroupOf L').Normal := by
+  have hRqn : (Rq.subgroupOf L').Normal := by
     rw [hRq_sub]
     infer_instance
   have hQ : CFSG.Open.IsQuasisimple (↥L' ⧸ Rq.subgroupOf L') :=
@@ -9717,6 +9827,7 @@ theorem l_comp_p (hctx : ThmACtx G m) (hc : Cfg116 G m p L p' B' x' J) (hp : p.P
   rw [hEq]
   exact hcomp Y0 hY0c
 
+omit [Finite G] in
 theorem x_mem_normalizer {r : ℕ} {x x' : G} {J L' : Subgroup G} (hxx : x ∈ Subgroup.centralizer ({x'} : Set G))
     (hJx : x ∈ Subgroup.normalizer (J : Set G)) (hL' : GLAPComponent r (Subgroup.centralizer ({x'} : Set G)) L')
     (hJL : J ≤ L')
@@ -9734,15 +9845,16 @@ private theorem y10xC_outer_solvable (hSch : CFSG.AGLEmbedding.KFactCatalogSchre
     {K : Subgroup G} (hq : CFSG.Open.IsQuasisimple ↥K) (hKtop : K ≠ ⊤) :
     Group.IsSolvable (CFSG.ComponentClassification.OuterAutomorphisms.Outer ↥K) := by
   classical
-  haveI : Group.IsPerfect ↥K := ⟨hq.1⟩
-  haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hq.2
+  have : Group.IsPerfect ↥K := ⟨hq.1⟩
+  have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hq.2
   have hnonab := CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian _ hq
   have hcat : CFSG.Open.IsCatalogGroup (↥K ⧸ Subgroup.center ↥K) :=
     CFSG.KCore.KProperNonab.catalogue_of_surjective y10x_isCatalog_iso hctx.1.kProper K hKtop hnonab
       (QuotientGroup.mk' (Subgroup.center ↥K)) (QuotientGroup.mk'_surjective _)
-  haveI hcenter := hSch _ inferInstance hnonab hcat
+  have hcenter := hSch _ inferInstance hnonab hcat
   exact CFSG.ComponentClassification.OuterAutomorphisms.solvable_of_centerQuotient ↥K
 
+omit [Finite G] in
 private theorem y10xC_inner_of_perfect {K Y : Subgroup G} (hYK : Y ≤ Subgroup.normalizer (K : Set G))
     [Group.IsPerfect ↥Y]
     (hO : Group.IsSolvable (CFSG.ComponentClassification.OuterAutomorphisms.Outer ↥K))
@@ -9767,7 +9879,7 @@ private theorem y10xC_normalizer_le_centralizer {T : Subgroup G} {p : ℕ} [hp :
   have hxT1 : xT ≠ 1 := fun h => hx1 (congrArg Subtype.val h)
   have hxcT : ∀ t : ↥T, t * xT = xT * t := fun t => Subtype.ext (hxc t t.2)
   have hord : orderOf xT = p := orderOf_eq_prime hxTp hxT1
-  haveI hZn : (Subgroup.zpowers xT).Normal := by
+  have hZn : (Subgroup.zpowers xT).Normal := by
     refine ⟨fun a ha g => ?_⟩
     obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 ha
     have hc : g * xT ^ k * g⁻¹ = xT ^ k := by
@@ -9793,7 +9905,7 @@ private theorem y10xC_normalizer_le_centralizer {T : Subgroup G} {p : ℕ} [hp :
         have := congrArg Subtype.val hz
         simpa [hgTdef] using this
       exact Subgroup.mem_zpowers_iff.2 ⟨z, this⟩
-  obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 P.isPGroup'
+  obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 P.isPGroup
   have hordg : orderOf gT = p ^ k := by
     rw [← Nat.card_zpowers, hzS]
     exact hk
@@ -9907,7 +10019,7 @@ private theorem y10xC_normal_complement {T : Subgroup G} {p : ℕ} [hp : Fact p.
       ∀ t ∈ T, ∃ b : ℕ, t ^ (p ^ b) ∈ K := by
   classical
   obtain ⟨P⟩ : Nonempty (Sylow p ↥T) := inferInstance
-  obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 P.isPGroup'
+  obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 P.isPGroup
   have hPc : IsCyclic ↥(P : Subgroup ↥T) := by
     have hmapP : (P : Subgroup ↥T).map T.subtype ≤ T := Subgroup.map_subtype_le _
     have hPpm : IsPGroup p ((P : Subgroup ↥T).map T.subtype) := by
@@ -9921,7 +10033,7 @@ private theorem y10xC_normal_complement {T : Subgroup G} {p : ℕ} [hp : Fact p.
   have hcomp := MonoidHom.ker_transferSylow_isComplement' P hnorm
   have hnd := MonoidHom.not_dvd_card_ker_transferSylow P hnorm
   set K0 := (MonoidHom.transferSylow P hnorm).ker with hK0
-  haveI hK0n : K0.Normal := MonoidHom.normal_ker _
+  have hK0n : K0.Normal := MonoidHom.normal_ker _
   refine ⟨K0.map T.subtype, Subgroup.map_subtype_le _, ?_, ?_, ?_⟩
   · intro t ht k hk'
     obtain ⟨k0, hk0, rfl⟩ := Subgroup.mem_map.1 hk'
@@ -9957,10 +10069,11 @@ private theorem y10xC_perfect_pgroup_trivial {p : ℕ} [Fact p.Prime] {H : Type}
     [Group.IsPerfect H] (hH : IsPGroup p H) : Subsingleton H := by
   by_contra hnt
   have hnt' : Nontrivial H := not_subsingleton_iff_nontrivial.1 hnt
-  haveI : Group.IsNilpotent H := hH.isNilpotent
+  have : Group.IsNilpotent H := hH.isNilpotent
   exact Group.IsPerfect.not_isSolvable (G := H) inferInstance
 
-private theorem y10xC_ppp_of_gen {p : ℕ} [hp : Fact p.Prime] {Y : Subgroup G}
+omit [Finite G] in
+private theorem y10xC_ppp_of_gen {p : ℕ} [_hp : Fact p.Prime] {Y : Subgroup G}
     (hgen : Subgroup.closure {g : G | g ∈ Y ∧ ∃ k : ℕ, g ^ (p ^ k) = 1} = Y) : PPrimePerfect p Y := by
   intro M hMY hMn hcop
   have hcopQ : Nat.Coprime (Nat.card (↥Y ⧸ M.subgroupOf Y)) p := by
@@ -10036,7 +10149,7 @@ private theorem y10xC_le_prod_of_perfect {p : ℕ} [hp : Fact p.Prime] {L T K Y 
     simp only [Subgroup.coe_pow, Subgroup.coe_one]
     rw [← hy]
     exact hb
-  haveI : Group.IsPerfect ↥f.range := Group.IsPerfect.range f
+  have : Group.IsPerfect ↥f.range := Group.IsPerfect.range f
   have hsub := y10xC_perfect_pgroup_trivial hpg
   intro y hy
   have hf1 : f ⟨y, hy⟩ = 1 := by
@@ -10061,7 +10174,7 @@ private theorem y10xC_le_of_prod {p : ℕ} [hp : Fact p.Prime] {L K Y : Subgroup
       exact congrArg Subtype.val h
     rw [hb1, mul_one]
     exact L.pow_mem ha _
-  haveI hLM : (L.subgroupOf M).Normal := by
+  have hLM : (L.subgroupOf M).Normal := by
     refine ⟨fun n hn g => ?_⟩
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     have := hMN g g.2 n hn
@@ -10117,7 +10230,7 @@ private theorem y10xC_le_L_of_ppp (hSch : CFSG.AGLEmbedding.KFactCatalogSchreier
   classical
   have hH := rquad_hyp hsf hR
   have hp : p.Prime := hH.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨h3, h4o, h4, h5, -, -, -, -, -⟩ := hsf p hR.1
   have hc6 : S6Ctx G p := S6Ctx.of_ctx hctx hR.1 h3 h4o h4 h5
   have hlay : GLAPLayer p (Subgroup.centralizer ({x} : Set G)) = L := sstarMax_layer_eq hc6 hR.2.1
@@ -10139,14 +10252,14 @@ private theorem y10xC_le_L_of_ppp (hSch : CFSG.AGLEmbedding.KFactCatalogSchreier
       refine Subgroup.mem_center_iff.2 fun g => ?_
       have hg : g ∈ Subgroup.centralizer ({x} : Set G) := by rw [hCt]; exact Subgroup.mem_top g
       exact (Subgroup.mem_centralizer_iff.1 hg x (Set.mem_singleton x)).symm
-    haveI := hctx.1.simple
+    have := hctx.1.simple
     rcases Subgroup.Normal.eq_bot_or_eq_top (Subgroup.center G) with h | h
     · exact hx1 (Subgroup.mem_bot.1 (h ▸ hz))
     · obtain ⟨a, b, hab⟩ := hctx.1.nonabelian
       have ha : a ∈ Subgroup.center G := by rw [h]; exact Subgroup.mem_top a
       exact hab (Subgroup.mem_center_iff.1 ha b).symm
   have hOut := y10xC_outer_solvable hSch hctx hH.qs hLtop
-  haveI : Group.IsPerfect ↥Y := ⟨hperf⟩
+  have : Group.IsPerfect ↥Y := ⟨hperf⟩
   have hYN : Y ≤ Subgroup.normalizer (L : Set G) := fun y hy => hLN y (hY hy)
   set T : Subgroup G := Subgroup.centralizer (L : Set G) ⊓ Subgroup.centralizer ({x} : Set G) with hTdef
   have hYT : ∀ y ∈ Y, ∃ ℓ ∈ L, ℓ⁻¹ * y ∈ T := by
@@ -10208,7 +10321,7 @@ theorem pPerfect_le_L (hSch : CFSG.AGLEmbedding.KFactCatalogSchreier) (hctx : Th
     (hR : RQuad G m p B x L) {Y : Subgroup G} (hY : Y ≤ Subgroup.centralizer ({x} : Set G))
     (hperf : commutator ↥Y = ⊤)
     (hgen : Subgroup.closure {g : G | g ∈ Y ∧ ∃ k : ℕ, g ^ (p ^ k) = 1} = Y) : Y ≤ L := by
-  haveI : Fact p.Prime := ⟨(rquad_hyp hsf hR).prime⟩
+  have : Fact p.Prime := ⟨(rquad_hyp hsf hR).prime⟩
   exact y10xC_le_L_of_ppp hSch hctx hsf hR hY hperf (y10xC_ppp_of_gen hgen)
 
 theorem j_layer_eq (hSch : CFSG.AGLEmbedding.KFactCatalogSchreier) (hCQ : CentQuasiAt G) (hctx : ThmACtx G m)
@@ -10219,7 +10332,7 @@ theorem j_layer_eq (hSch : CFSG.AGLEmbedding.KFactCatalogSchreier) (hCQ : CentQu
   classical
   have hH := rquad_hyp hsf hR
   have hp : p.Prime := hH.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := hH.ne_two
   have hLC : L ≤ Subgroup.centralizer ({x} : Set G) := hH.comp.1
   have hJL0 : J ≤ L := (hc.cfg.comp.1.1).trans inf_le_left
@@ -10257,7 +10370,7 @@ theorem j_layer_eq (hSch : CFSG.AGLEmbedding.KFactCatalogSchreier) (hCQ : CentQu
       glaPComponent_of_le hp hYD₀ hYH hHD₀
     have hxL : x' ∈ L := hc.cfg.le hc.cfg.mem
     have hord : ∃ q : ℕ, q.Prime ∧ q ≠ 2 ∧ orderOf x' = q := by
-      haveI : Fact p'.Prime := ⟨hc.cfg.prime⟩
+      have : Fact p'.Prime := ⟨hc.cfg.prime⟩
       exact ⟨p', hc.cfg.prime, hc.cfg.odd, orderOf_eq_prime (hc.cfg.elem.2 x' hc.cfg.mem) hc.cfg.ne_one⟩
     have hYq : CFSG.Open.IsQuasisimple ↥Y :=
       hCQ L x' p hp hp2 hH.isChev2 hH.qs hxL hord Y hYH'

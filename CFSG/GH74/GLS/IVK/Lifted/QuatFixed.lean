@@ -93,7 +93,7 @@ theorem fixedCond_noncyclic_sylow {Q : Type} [Group Q] [Finite Q] (φ : MulAut Q
   intro hcyc
   obtain ⟨-, -, -, ⟨-, -, hidx, -⟩, -⟩ := cyclic_sylow_normal_odd_complement P hcyc
   have hX2 : IsPGroup 2 (↥(fixedSubgroup Q φ) ⧸ pPrimeCore 2 ↥(fixedSubgroup Q φ)) := by
-    obtain ⟨k, hk⟩ := P.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := P.isPGroup.exists_card_eq
     apply IsPGroup.of_card (n := k)
     show (pPrimeCore 2 ↥(fixedSubgroup Q φ)).index = 2 ^ k
     rw [hidx]

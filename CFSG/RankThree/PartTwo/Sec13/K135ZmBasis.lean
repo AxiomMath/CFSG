@@ -131,7 +131,7 @@ theorem fourCubeSeven_of_basis {a : Fin 3 → G} (ha : ∀ i, a i ^ 4 = 1)
     fun g hg h hh =>
       congrArg Subtype.val (mul_comm' (⟨g, hg⟩ : closure (Set.range a)) ⟨h, hh⟩)
   have hcard : Nat.card (closure (Set.range a)) = 4 ^ 3 := card_closure_fcBasis ha hc hinj
-  haveI hfin : Finite (closure (Set.range a)) :=
+  have hfin : Finite (closure (Set.range a)) :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hexp : ∀ g ∈ closure (Set.range a), g ^ 4 = 1 := by
     intro g hg

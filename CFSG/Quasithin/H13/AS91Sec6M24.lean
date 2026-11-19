@@ -101,8 +101,7 @@ theorem duad_cover_spec : ∀ m < 2048, m ≠ 0 → m ∈ Native.duadMasks () �
     (Native.scTab (Native.clsTab (Native.sextList ())))[m]! = true := by
   have h := duadCheck_parts.1
   unfold Native.duadCoverCheck at h
-  simp only [Native.allLt_iff, Bool.or_eq_true, beq_iff_eq, List.contains_iff_mem,
-    decide_eq_true_eq] at h
+  simp only [Native.allLt_iff, Bool.or_eq_true, beq_iff_eq, List.contains_iff_mem] at h
   intro m hm hm0
   rcases h m hm with (h0 | h1) | h2
   · exact absurd h0 hm0
@@ -148,7 +147,7 @@ theorem duad_scTab_iff {m : ℕ} (hm : m < 2048) :
       ∃ q < 1771, clsMask q = m := by
   unfold Native.scTab
   rw [getElem!_pos (Array.map _ (Array.range 2048)) m (by simpa using hm)]
-  simp only [Array.getElem_map, Array.getElem_range, List.contains_iff_mem, decide_eq_true_eq]
+  simp only [Array.getElem_map, Array.getElem_range, List.contains_iff_mem]
   have hsz : (Native.sextList ()).size = 1771 := clsDistinct_spec.1
   rw [Array.mem_toList_iff, Array.mem_iff_getElem]
   constructor
@@ -790,7 +789,7 @@ theorem duadGrp_ea (hm : gens.length = m) (hrep : ∀ j : Fin m, RepT (gens.getD
     unfold Native.duadEaCheck at he
     simp only [decide_eq_true_eq] at he
     exact he
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have h32 : Nat.card K < 32 := by
     by_contra h32
     push Not at h32
@@ -841,7 +840,7 @@ theorem duadGrp_ea (hm : gens.length = m) (hrep : ∀ j : Fin m, RepT (gens.getD
     have h3 := Finset.card_le_card hsub2
     have h4 := List.toFinset_card_le (Native.duadBad (duadGrpL gens n) n)
     omega
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card (G := K)).1 (duad_isPGroup_two_of_sq (K := K) hK2)
   rw [hk] at h32 ⊢
   have hk5 : k < 5 := by
@@ -856,7 +855,7 @@ theorem duad_card_le_sixteen_of_sylow {G : Type*} [Group G] [Finite G] {m : ℕ}
     (hG : Nat.card G = 2 ^ 7 * m) (S0 : Subgroup G) (hS0 : Nat.card S0 = 2 ^ 7)
     (hq : ∀ K : Subgroup G, K ≤ S0 → (∀ b ∈ K, b * b = 1) → Nat.card K ≤ 16)
     (A : Subgroup G) (hA : ∀ a ∈ A, a * a = 1) : Nat.card A ≤ 16 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS0p : IsPGroup 2 S0 := IsPGroup.of_card hS0
   have hidx : S0.index = m := by
     have h := S0.card_mul_index
@@ -876,7 +875,7 @@ theorem duad_card_le_sixteen_of_sylow {G : Type*} [Group G] [Finite G] {m : ℕ}
       MulAut.smul_def, MulAut.conj_inv_apply, hT] at h1
     exact h1
   have hconj : ∀ x : G, (MulAut.conj g⁻¹).toMonoidHom x = g⁻¹ * x * g := fun x => by
-    simp [MulAut.conj_apply]
+    simp
   have hB : A.map (MulAut.conj g⁻¹).toMonoidHom ≤ S0 := by
     rintro _ ⟨x, hx, rfl⟩
     rw [hconj]
@@ -962,8 +961,8 @@ attribute [local instance] CFSG.Monster.B.TwoA.restAction
 
 
 theorem natCard_stabS1 : Nat.card stabS1 = 40320 := by
-  haveI : MulAction.IsMultiplyPretransitive ↥Ppair Rest 2 := isMultiplyPretransitive_rest
-  haveI : MulAction.IsPretransitive ↥Ppair Rest := MulAction.isPretransitive_of_is_two_pretransitive
+  have : MulAction.IsMultiplyPretransitive ↥Ppair Rest 2 := isMultiplyPretransitive_rest
+  have : MulAction.IsPretransitive ↥Ppair Rest := MulAction.isPretransitive_of_is_two_pretransitive
   let x2 : Rest := ⟨2, by decide, by decide⟩
   have h1 : (MulAction.stabilizer ↥Ppair x2).index = 22 := by
     rw [MulAction.index_stabilizer_of_transitive, natCard_rest]

@@ -151,6 +151,7 @@ private def famZetaIdx (hC : IsUniformBridgeCoherenceData h σ ζ d n δ A T ω 
     ↑(indFam K (Irr ↥K \ {1})) := ⟨ζ, hC.local_data.mem_indFam⟩
 
 include hC in
+omit [K.Normal] in
 private theorem coherentImage_famZetaIdx :
     coherentImage (famEnum K) (famNu K ν) hC.famZetaIdx = hC.nuZeta := by
   have := h.isCyclicTIPair.finite_left
@@ -179,6 +180,7 @@ theorem one_sub_div_le_re_cfInner_self_dadeAverage_nuZeta
   exact key
 
 include hC in
+omit [K.Normal] in
 theorem nuZeta_mem_classFun : hC.nuZeta ∈ classFun G :=
   mem_classFun_of_mem_span_Irr (mem_span_Irr_of_mem_virtualChars hC.nuZeta_mem_virtualChars)
 

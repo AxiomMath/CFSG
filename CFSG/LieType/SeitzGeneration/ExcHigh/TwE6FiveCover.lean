@@ -26,10 +26,10 @@ theorem twE6SU6Cover_five (K : Type) [Field K] [Finite K] (σ : K ≃+* K) (ℓ 
         Subgroup.closure {h | ∃ x ∈ F, x ≠ 1 ∧ Commute h x} = ⊤) ∧
       frameTorusGroup σ.toRingHom ⊔ leviRootGroups σ.toRingHom ≤ ψ.range := by
   classical
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hK' : Nat.card K = ℓ ^ (2 * f) := by rw [hK, ← pow_mul, mul_comm]
   have hU : UnitaryFieldData ℓ f K := ⟨hℓ, hf, hK'⟩
-  haveI : CharP K ℓ := hU.charP
+  have : CharP K ℓ := hU.charP
   set σ' : K →+* K := σ.toRingHom with hσ'def
   have hσ' : ∀ c, σ' c = c ^ (ℓ ^ f) := hσ
   have hσσ : ∀ c, σ' (σ' c) = c := fun c => by
@@ -157,7 +157,7 @@ theorem twE6D4Cover_five (K : Type) [Field K] [Finite K] (σ : K ≃+* K) (ℓ f
     rw [show ℓ ^ f + 1 - (ℓ ^ f - 1) = 2 by omega] at h1
     have := Nat.le_of_dvd (by norm_num) h1
     omega
-  haveI := finite_spinPlus_four (RingHom.eqLocusField σ.toRingHom (RingHom.id K))
+  have := finite_spinPlus_four (RingHom.eqLocusField σ.toRingHom (RingHom.id K))
   have hcen := not_dvd_card_center_spinPlus_four hpF.out (by omega) hpq1
   have hcomm : ∀ (t : ↥(normOne σ.toRingHom) × ↥(normOne σ.toRingHom))
       (x : spinGroup (Spin.quadPlus 4 (RingHom.eqLocusField σ.toRingHom (RingHom.id K)))),

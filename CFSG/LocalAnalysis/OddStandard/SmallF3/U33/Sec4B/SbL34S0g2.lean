@@ -60,6 +60,7 @@ end Gen
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau : G}
 
 
+omit [Finite G] in
 private theorem mem_zpowers_eq_one_or_eq_aux {z g : G} (hz : z * z = 1)
     (hg : g ∈ zpowers z) : g = 1 ∨ g = z := by
   let H : Subgroup G :=
@@ -92,6 +93,7 @@ theorem card_T : Nat.card ↥(closure ({t, tau} : Set G)) = 4 :=
   card_closure_pair hc.t_mul_self hc.tau_mul_self hc.t_comm_tau hc.t_ne_one hc.tau_ne_one
     (t_ne_tau hc)
 
+omit [Finite G] hc in
 theorem E_eq : closure ({t, tau, lam} : Set G) = closure ({t, tau} : Set G) ⊔ zpowers lam := by
   rw [Subgroup.zpowers_eq_closure, ← Subgroup.closure_union]
   congr 1
@@ -125,7 +127,7 @@ theorem T_inf_zpowers_lam : closure ({t, tau} : Set G) ⊓ zpowers lam = ⊥ := 
 theorem card_E : Nat.card ↥(closure ({t, tau, lam} : Set G)) = 8 := by
   have hz : Nat.card (zpowers lam) = 2 := by
     rw [Nat.card_zpowers, hc.wreath.ord_lam]
-  rw [E_eq hc, card_sup_eq_mul_of_normalizes (zpowers_lam_le_normalizer_T hc)
+  rw [E_eq, card_sup_eq_mul_of_normalizes (zpowers_lam_le_normalizer_T hc)
     (T_inf_zpowers_lam hc), card_T hc, hz]
 
 theorem E_le_centralizer_q :
@@ -152,9 +154,9 @@ theorem E_le_U : closure ({t, tau, lam} : Set G) ≤ ctxU t tau x₁ x₂ lam :=
   intro g hg
   simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hg
   rcases hg with rfl | rfl | rfl
-  · exact O_le_U hc hc.t_mem_O
-  · exact O_le_U hc hc.tau_mem_O
-  · exact lam_mem_U hc
+  · exact O_le_U hc.t_mem_O
+  · exact O_le_U hc.tau_mem_O
+  · exact lam_mem_U
 
 theorem mem_E_iff {e : G} : e ∈ closure ({t, tau, lam} : Set G) ↔
     e ∈ closure ({t, tau} : Set G) ∨ ∃ s ∈ closure ({t, tau} : Set G), e = s * lam := by
@@ -168,7 +170,7 @@ theorem mem_E_iff {e : G} : e ∈ closure ({t, tau, lam} : Set G) ↔
   have hlamE : lam ∈ closure ({t, tau, lam} : Set G) := Subgroup.subset_closure (by simp)
   have hset : (closure ({t, tau, lam} : Set G) : Set G) =
       (closure ({t, tau} : Set G) : Set G) * (zpowers lam : Set G) := by
-    rw [E_eq hc]
+    rw [E_eq]
     exact Subgroup.coe_mul_of_right_le_normalizer_left _ _ (zpowers_lam_le_normalizer_T hc)
   constructor
   · intro he
@@ -213,7 +215,7 @@ theorem CU_tl : ctxU t tau x₁ x₂ lam ⊓ centralizer ({t * lam} : Set G) =
     rcases U_decomp hc hu.1 with huO | ⟨a, haO, rfl⟩
     · obtain ⟨b, hbQ, s, hsT, rfl⟩ := O_decomp hc huO
       have hsE : s ∈ closure ({t, tau, lam} : Set G) := by
-        rw [E_eq hc]
+        rw [E_eq]
         exact Subgroup.mem_sup_left hsT
       have hse : s ∈ centralizer ({t * lam} : Set G) := E_le_centralizer_q hc hsE
       have hbq : b ∈ centralizer ({t * lam} : Set G) := by
@@ -231,7 +233,7 @@ theorem CU_tl : ctxU t tau x₁ x₂ lam ⊓ centralizer ({t * lam} : Set G) =
       exact Subgroup.mul_mem_sup ⟨hbQ, hbq⟩ heE
   · refine sup_le ?_ ?_
     · intro x hx
-      exact ⟨O_le_U hc (hc.Q_le_O hx.1), hx.2⟩
+      exact ⟨O_le_U (hc.Q_le_O hx.1), hx.2⟩
     · intro e he
       exact ⟨E_le_U hc he, E_le_centralizer_q hc he⟩
 

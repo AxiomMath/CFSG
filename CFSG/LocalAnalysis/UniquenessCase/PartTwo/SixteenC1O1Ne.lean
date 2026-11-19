@@ -16,15 +16,17 @@ open CFSG.LocalAnalysis.WeakClosure81
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem conjSubgroup_inv_le_iff (B M : Subgroup G) (g : G) :
     conjSubgroup B g⁻¹ ≤ M ↔ B ≤ conjSubgroup M g :=
   (E3.le_conjSubgroup_iff_inv_le g).symm
 
+omit [Finite G] in
 private theorem conjSub_eq_conjSubgroup_inv' (h : G) (A : Subgroup G) :
     CFSG.Quasithin.A1b.conjSub h A = conjSubgroup A h⁻¹ := by
   rw [CFSG.Quasithin.A1b.conjSub, conjSubgroup, inv_inv]
 
-theorem mul_inv_mem_of_mQuot_le_one {V U : Subgroup G} (hV : IsPGroup 2 V) (hUV : U ≤ V)
+theorem mul_inv_mem_of_mQuot_le_one {V U : Subgroup G} (hV : IsPGroup 2 V) (_hUV : U ≤ V)
     (hm : E3.mQuot V U ≤ 1) {v v' : G} (hv : v ∈ V) (hv' : v' ∈ V) (hvU : v ∉ U)
     (hv'U : v' ∉ U) : v * v'⁻¹ ∈ U := by
   have hr := E3.relIndex_eq_two_pow hV U
@@ -87,7 +89,7 @@ theorem s16c1_one_lt_betaN (D : Data G) (h41 : R16_41 D) (hkitB : OmegaKitB) (hk
   have hWeq : W = V := (E3.mQuot_eq_zero_iff hV2 hWV).1 (Nat.le_zero.1 hmW)
   subst hWeq
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have hm2 : E3.mQuot W U < 2 := by exact_mod_cast hlt
   have hm1 : E3.mQuot W U ≤ 1 := by omega
   apply hP
@@ -95,7 +97,7 @@ theorem s16c1_one_lt_betaN (D : Data G) (h41 : R16_41 D) (hkitB : OmegaKitB) (hk
     obtain ⟨c, hcm, hcM⟩ := hsuff
     exact (Subgroup.centralizer_le (Set.singleton_subset_iff.2 hcm)).trans hcM
   by_cases hct : CentralizesMod V₀ W t
-  · obtain ⟨w, hwW, hwt⟩ := SetLike.not_le_iff_exists.1 hWt
+  · obtain ⟨w, hwW, hwt⟩ := IsConcreteLE.not_le_iff_exists.1 hWt
     have hwM : w ∈ D.M := hVM hwW
     have hz1 : w⁻¹ * t⁻¹ * w * t ≠ 1 := by
       intro hz
@@ -158,7 +160,7 @@ theorem s16c1_one_lt_betaN (D : Data G) (h41 : R16_41 D) (hkitB : OmegaKitB) (hk
       exact (actTil_eq_one_iff V₀ W hV _).1 h
     obtain ⟨a, ha⟩ : ∃ a, σ a ≠ a := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact hσ1 (MulEquiv.ext h)
     have hQne := quad_ne_zero_of_transvection hQm.1 σ hσQ hidx ha
     obtain ⟨x, rfl⟩ := mkTil_surjective V₀ W hV a
@@ -289,7 +291,7 @@ theorem s16c1_exists_conj_of_isE (D : Data G) {V H A K : Subgroup G} (hV : IsEle
   have hPM : pCoreOf 2 K ≤ D.M := hPT.trans hTM
   have hex : ∃ k ∈ K, ¬ conjSubgroup A k⁻¹ ≤ D.M := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hKM
     have hcc : CFSG.Quasithin.conjClosure A K ≤ D.M := by
       refine (Subgroup.closure_le _).2 ?_

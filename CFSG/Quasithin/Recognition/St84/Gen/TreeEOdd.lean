@@ -15,10 +15,10 @@ theorem f112_EOdd_inf_ofA_range_of_hyp111R {L1 L2 S : Subgroup H}
     (hF : F112HypW L1 L2 S) (hR : Hyp111R L1 L2 S) :
     f112EOdd L1 L2 S ⊓ (f112Gold L1 L2 S).ofA.range =
       ((f112saP1' L1 L2 S).subgroupOf (f112P1 L1 L2 S)).map (f112Gold L1 L2 S).ofA := by
-  haveI hN : (f112saK' L1 L2 S).Normal := f112saK'_normal_of_hyp111R hF hR
-  haveI hN1 : ((f112saP1' L1 L2 S).subgroupOf (f112P1 L1 L2 S)).Normal :=
+  have hN : (f112saK' L1 L2 S).Normal := f112saK'_normal_of_hyp111R hF hR
+  have hN1 : ((f112saP1' L1 L2 S).subgroupOf (f112P1 L1 L2 S)).Normal :=
     f112sa_P1'_normal hF
-  haveI hN2 : ((f112saP2' L1 L2 S).subgroupOf (f112P2 L1 L2 S)).Normal :=
+  have hN2 : ((f112saP2' L1 L2 S).subgroupOf (f112P2 L1 L2 S)).Normal :=
     f112sa_P2'_normal hF
   refine le_antisymm ?_ ?_
   · rintro u ⟨huE, huA⟩
@@ -38,10 +38,10 @@ theorem f112_EOdd_inf_ofB_range_of_hyp111R {L1 L2 S : Subgroup H}
     (hF : F112HypW L1 L2 S) (hR : Hyp111R L1 L2 S) :
     f112EOdd L1 L2 S ⊓ (f112Gold L1 L2 S).ofB.range =
       ((f112saP2' L1 L2 S).subgroupOf (f112P2 L1 L2 S)).map (f112Gold L1 L2 S).ofB := by
-  haveI hN : (f112saK' L1 L2 S).Normal := f112saK'_normal_of_hyp111R hF hR
-  haveI hN1 : ((f112saP1' L1 L2 S).subgroupOf (f112P1 L1 L2 S)).Normal :=
+  have hN : (f112saK' L1 L2 S).Normal := f112saK'_normal_of_hyp111R hF hR
+  have hN1 : ((f112saP1' L1 L2 S).subgroupOf (f112P1 L1 L2 S)).Normal :=
     f112sa_P1'_normal hF
-  haveI hN2 : ((f112saP2' L1 L2 S).subgroupOf (f112P2 L1 L2 S)).Normal :=
+  have hN2 : ((f112saP2' L1 L2 S).subgroupOf (f112P2 L1 L2 S)).Normal :=
     f112sa_P2'_normal hF
   refine le_antisymm ?_ ?_
   · rintro u ⟨huE, huB⟩

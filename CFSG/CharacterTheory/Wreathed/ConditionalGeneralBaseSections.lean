@@ -127,7 +127,7 @@ theorem abelian_section_value_column {G : Type} [Group G] [Fintype G]
           conj ((basis.representation χ).character g) = 0 := by
   let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let : NeZero (2 ^ r) := ⟨pow_ne_zero _ (by decide)⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot ℂ (2 ^ r)
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot ℂ (2 ^ r)
   let localBasis : FiniteIrreducibleCharacterBasis
       (Subgroup.centralizer (Subgroup.zpowers u : Set G)) :=
     Classical.choice finiteIrreducibleCharacterBasis_exists

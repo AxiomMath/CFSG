@@ -49,9 +49,9 @@ theorem not_isCyclic_of_exp_of_lt_card {D : Type*} [Group D] {p : ℕ} (hp : p.P
 
 theorem isCyclic_of_omega_le_cyclic {P : Type*} [Group P] [Finite P] {p : ℕ} [hp : Fact p.Prime]
     (hp2 : p ≠ 2) (hP : IsPGroup p P) {C D : Subgroup P} (hCD : ∀ x ∈ C, x ^ p = 1 → x ∈ D)
-    (hD : IsCyclic D) (hDexp : ∀ x ∈ D, x ^ p = 1) : IsCyclic C := by
+    (hD : IsCyclic D) (_hDexp : ∀ x ∈ D, x ^ p = 1) : IsCyclic C := by
   by_contra hCnc
-  haveI : Fact (IsPGroup p C) := ⟨hP.to_subgroup C⟩
+  have : Fact (IsPGroup p C) := ⟨hP.to_subgroup C⟩
   obtain ⟨S, -, hScard, hSel⟩ := CFSG.lemma_4_5_a hp2 hCnc
   have hSexp : ∀ x : C, x ∈ S → x ^ p = 1 := fun x hx =>
     CFSG.elemPow_eq_one_of_isElementaryAbelian x hx
@@ -88,8 +88,8 @@ theorem isCyclic_quotient_of_self_centralizing {P : Type*} [Group P] [Finite P] 
     obtain ⟨k, hk⟩ := (hP.to_subgroup C).exists_card_eq
     rw [hk]
     exact ZMod.isCyclic_units_of_prime_pow p hp.out hp2 k
-  haveI : IsCyclic φ.range := inferInstance
-  haveI : IsCyclic (P ⧸ φ.ker) :=
+  have : IsCyclic φ.range := inferInstance
+  have : IsCyclic (P ⧸ φ.ker) :=
     isCyclic_of_surjective (QuotientGroup.quotientKerEquivRange φ).symm.toMonoidHom
       (QuotientGroup.quotientKerEquivRange φ).symm.surjective
   refine isCyclic_of_surjective (QuotientGroup.map φ.ker C (MonoidHom.id P) hker) fun y => ?_
@@ -110,8 +110,8 @@ theorem exists_char_noncyclic_exp {P : Type*} [Group P] [Finite P] {p : ℕ} [hp
         rw [hset]
         exact ⟨hxC, hx⟩
       exact this
-    haveI : C.Normal := by
-      haveI := hC.1
+    have : C.Normal := by
+      have := hC.1
       infer_instance
     have hcen : Subgroup.centralizer (C : Set P) ≤ C := by
       rw [hC.2.2.2]
@@ -183,7 +183,7 @@ theorem exists_sylow_preimage {X : Type} [Group X] [Finite X] {Q : Subgroup X} [
       (P.map N.subtype : Subgroup X).map (QuotientGroup.mk' Q) = R ∧
       ∀ q : ℕ, q.Prime → q ≠ 2 → q ≠ r → ¬ q ∣ Nat.card N := by
   let N : Subgroup X := R.comap (QuotientGroup.mk' Q)
-  haveI hNn : N.Normal := Subgroup.Normal.comap inferInstance _
+  have hNn : N.Normal := Subgroup.Normal.comap inferInstance _
   let fN : ↥N →* ↥R := ((QuotientGroup.mk' Q).comp N.subtype).codRestrict R (fun x => x.2)
   have hfN : Function.Surjective fN := by
     intro y
@@ -223,7 +223,7 @@ theorem pCoreOf_normal {Y : Type*} [Group Y] (K : Subgroup Y) [K.Normal] (r : �
 theorem two_le_pRank_of_not_isCyclic {X : Type} [Group X] [Finite X] {r : ℕ} [hr : Fact r.Prime]
     (hr2 : r ≠ 2) {P : Subgroup X} (hP : IsPGroup r P) (hnc : ¬ IsCyclic P) :
     2 ≤ CFSG.Open.pRank r P := by
-  haveI : Fact (IsPGroup r P) := ⟨hP⟩
+  have : Fact (IsPGroup r P) := ⟨hP⟩
   obtain ⟨S, -, hScard, hSel⟩ := CFSG.lemma_4_5_a hr2 hnc
   have hE : CFSG.Open.IsElemAbelian r S :=
     (CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian r S).mp hSel
@@ -266,7 +266,7 @@ theorem cycHat_of_O1219Sigma_gen {G : Type} [Group G] [Finite G] {M T : Subgroup
     (ctx : S15CtxGen G M T T₁ T₂) : CycHat G M T := by
   intro r hr hr3
   by_contra hnc
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hr2 : r ≠ 2 := by omega
   have hr5 : 5 ≤ r := by
     have h4 : r ≠ 4 := by
@@ -275,9 +275,9 @@ theorem cycHat_of_O1219Sigma_gen {G : Type} [Group G] [Finite G] {M T : Subgroup
     omega
   have hTM : T ≤ M := ctx.sylow.le
   have hQC : CFSG.pCore 2 ↥M ≤ gnC (T.subgroupOf M) := pCore_le_gnC ctx.gn
-  haveI : (cHatImage G M T).Normal :=
+  have : (cHatImage G M T).Normal :=
     Subgroup.Normal.map (gnC_normal _) (QuotientGroup.mk' _) (QuotientGroup.mk'_surjective _)
-  haveI : (pCoreOf r (cHatImage G M T)).Normal := pCoreOf_normal _ r
+  have : (pCoreOf r (cHatImage G M T)).Normal := pCoreOf_normal _ r
   have hRp : IsPGroup r ↥(pCoreOf r (cHatImage G M T)) :=
     (CFSG.pCore_isPGroup).map (cHatImage G M T).subtype
   obtain ⟨N, hNn, P, hNmem, hPmap, hNcard⟩ := exists_sylow_preimage CFSG.pCore_isPGroup hRp
@@ -289,7 +289,7 @@ theorem cycHat_of_O1219Sigma_gen {G : Type} [Group G] [Finite G] {M T : Subgroup
     have h1 : c⁻¹ * x ∈ gnC (T.subgroupOf M) := hQC (QuotientGroup.eq.1 hcx)
     have h2 := (gnC (T.subgroupOf M)).mul_mem hc h1
     simpa using h2
-  have hPX : IsPGroup r ↥PX := P.isPGroup'.map N.subtype
+  have hPX : IsPGroup r ↥PX := P.isPGroup.map N.subtype
   have hPXC : PX ≤ gnC (T.subgroupOf M) := (Subgroup.map_subtype_le _).trans hNC
   have hPXnc : ¬ IsCyclic ↥PX := by
     intro hcyc
@@ -312,7 +312,7 @@ theorem cycHat_of_O1219Sigma_gen {G : Type} [Group G] [Finite G] {M T : Subgroup
   have hqp : q.Prime := sigmaA_prime q hq.1
   have hq2 : q ≠ 2 := sigmaA_odd q hq.1
   have hqr : q ≠ r := fun h => hrσ (h ▸ hq)
-  haveI : Fact q.Prime := ⟨hqp⟩
+  have : Fact q.Prime := ⟨hqp⟩
   have hfr : CFSG.Open.pRank q (Subgroup.normalizer (PX : Set ↥M)) =
       CFSG.Open.pRank q (⊤ : Subgroup ↥M) :=
     pRank_normalizer_sylow_eq P (hNcard q hqp hq2 hqr)

@@ -21,7 +21,7 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMo
 theorem t5_eq_of_inv_mul_mem_center {P Q' : Type} [Group P] [Group Q']
     (hP : Group.IsPerfect P) (f g : P →* Q')
     (h : ∀ b, (f b)⁻¹ * g b ∈ Subgroup.center Q') : f = g := by
-  haveI : Group.IsPerfect P := hP
+  have : Group.IsPerfect P := hP
   let k : P →* ↥(Subgroup.center Q') :=
   { toFun := fun b => ⟨(f b)⁻¹ * g b, h b⟩
     map_one' := Subtype.ext (by simp)
@@ -59,8 +59,9 @@ theorem t5_eq_of_inv_mul_mem_center {P Q' : Type} [Group P] [Group Q']
   s ∈ normalizer (L : Set G) ∧ ∀ l l' : ↥L, (l' : G) = s * l * s⁻¹ →
     ((φ l' : omegaGroup hQ) : OGroup Q) = simAct Q x ((φ l : omegaGroup hQ) : OGroup Q)
 
+omit [Finite G] in
 theorem t5_coverAct_of_inducesViaP (hL : IsOm6Z2 L) {φ : ↥L →* omegaGroup hQ}
-    (h : IsCoverMap L φ) {e : ↥L ⧸ Subgroup.center ↥L ≃* omegaProj hQ}
+    (_h : IsCoverMap L φ) {e : ↥L ⧸ Subgroup.center ↥L ≃* omegaProj hQ}
     (he : ∀ l : ↥L, e (QuotientGroup.mk l) = omegaToProj hQ (φ l)) {s : G} {x : ProjSim Q}
     (hx : InducesViaP L (Subgroup.center ↥L) hQ e s x) {x' : simGroup Q}
     (hx' : (QuotientGroup.mk x' : ProjSim Q) = x) : CoverAct L φ s x' := by
@@ -91,9 +92,9 @@ theorem t5_coverAct_of_inducesViaP (hL : IsOm6Z2 L) {φ : ↥L →* omegaGroup h
   have hmem : ∀ l : ↥L, (A l)⁻¹ * B l ∈ Subgroup.center (OGroup Q) := by
     intro l
     apply hcent
-    have h : toProj Q ((A l)⁻¹ * B l) = 1 := by
+    have _h : toProj Q ((A l)⁻¹ * B l) = 1 := by
       rw [map_mul (toProj Q), map_inv (toProj Q), hBA l, inv_mul_cancel]
-    have h' : (QuotientGroup.mk' (piGroup Q) ((A l)⁻¹ * B l) : ProjOrth Q) = 1 := h
+    have h' : (QuotientGroup.mk' (piGroup Q) ((A l)⁻¹ * B l) : ProjOrth Q) = 1 := _h
     rw [QuotientGroup.mk'_apply] at h'
     exact (QuotientGroup.eq_one_iff _).mp h'
   have hAB : A = B := t5_eq_of_inv_mul_mem_center hL.1.1 A B hmem
@@ -112,6 +113,7 @@ theorem t5_exists_coverAct (hL : IsOm6Z2 L) {φ : ↥L →* omegaGroup hQ} (h : 
   obtain ⟨x', hx'⟩ := QuotientGroup.mk_surjective x
   exact ⟨x', t5_coverAct_of_inducesViaP hL h he hx hx'⟩
 
+omit [Finite G] in
 theorem t5_cent_map_mem {φ : ↥L →* omegaGroup hQ} {s : G} {x : simGroup Q}
     (hx : CoverAct L φ s x) {l : ↥L} (hl : s * (l : G) = (l : G) * s) :
     simAct Q x ((φ l : omegaGroup hQ) : OGroup Q) = ((φ l : omegaGroup hQ) : OGroup Q) := by

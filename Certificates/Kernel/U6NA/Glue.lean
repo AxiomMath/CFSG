@@ -308,7 +308,7 @@ end Sel
 
 theorem naCheck_true (hf : u6ThreeCert.Facts) : u6ThreeCert.naCheck = true := by
   have hK : Nat.card (GaloisField 2 2) = (2 ^ 1) ^ 2 := by
-    simp [Nat.card_eq_fintype_card, GaloisField.card 2 2 (by norm_num : (2 : ℕ) ≠ 0)]
+    simp [GaloisField.card 2 2 (by norm_num : (2 : ℕ) ≠ 0)]
   obtain ⟨ω⟩ := exists_cube (K := GaloisField 2 2) (by rw [hK]; norm_num)
   have : Finite (Matrix (Fin 6) (Fin 6) (GaloisField 2 2)) :=
     inferInstanceAs (Finite (Fin 6 → Fin 6 → GaloisField 2 2))

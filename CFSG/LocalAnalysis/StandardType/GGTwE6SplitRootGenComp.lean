@@ -89,7 +89,7 @@ theorem familyKernel_frameCoord_twE6Split {K : Type}
         (ExcFrames.frameCoord TwistTag.E6.tag p (ExcFrames.twE6SplitTheta p s.1))) =
       signedSimpleRoots (↑(TwistTag.E6.orbit a) : Set (Fin TwistTag.E6.tag.rank)) := by
   ext β
-  simp only [familyKernel, Set.mem_setOf_eq]
+  simp only [familyKernel, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨hβ, hβ1⟩
     refine (forall_fix_sum_frameCoord_iff hp2 hβ a).1 fun s hs => ?_
@@ -114,7 +114,7 @@ theorem isComponentOf_orbitRankOneGroup_twE6Split [Finite K] [CharP K 2] (σ : K
       (Subgroup.centralizer (SuSplitRootGen.torusFix (ExcFrames.twE6SplitFrameHom σ ζ hζ hζσ)
         (TableBExc.torusAct .F4 p (simple Tag.F4 a)))) := by
   classical
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   let C₀ := graphFixedRootGroup TwistTag.E6 K σ
   let T := ExcFrames.twE6SplitFrameHom σ ζ hζ hζσ
   let f : (Fin Tag.F4.rank → ZMod p) → Fin Tag.F4.rank → ZMod p :=
@@ -128,7 +128,7 @@ theorem isComponentOf_orbitRankOneGroup_twE6Split [Finite K] [CharP K 2] (σ : K
       rootDiagUnit TwistTag.E6.tag (b s) := fun _ => rfl
   have hfix : SuSplitRootGen.torusFix T f = Set.range u := by
     ext y
-    simp only [SuSplitRootGen.torusFix, Set.mem_image, Set.mem_setOf_eq, Set.mem_range]
+    simp only [SuSplitRootGen.torusFix, Set.mem_image, Set.mem_ofPred_eq, Set.mem_range]
     constructor
     · rintro ⟨x, hx, rfl⟩
       exact ⟨⟨Multiplicative.toAdd x, hx⟩, rfl⟩

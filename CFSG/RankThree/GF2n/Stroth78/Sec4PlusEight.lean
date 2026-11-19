@@ -83,7 +83,7 @@ theorem rootClass_Xsub (S : Setting z E F) {a : G} {w : ℕ} (h : Sec3Hyp S a w)
 theorem a2Action_Xsub (S : Setting z E F) (a : G) :
     CFSG.LargeExtraspecial.A2Mod.A2Action (Subtype.val ⁻¹' Eset S a) (qS S) (rhoX S a) := by
   refine ⟨?_, ?_, ?_, ?_⟩
-  · letI := modAbF S
+  · let := modAbF S
     exact q_nondegenerate S
   · intro x y hxy
     exact Subtype.ext (rhoBar_injective S (Subtype.ext hxy))

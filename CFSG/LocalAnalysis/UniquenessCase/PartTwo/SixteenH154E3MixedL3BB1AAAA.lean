@@ -11,6 +11,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 private theorem s16h_H5_row_L3_three_le_stabSub (L : Subgroup (MulAut W)) :
     L ≤ stabSub (commSub ⊤ L) := by
   intro l hl
@@ -27,7 +28,7 @@ private theorem s16h_H5_row_L3_three_le_stabSub (L : Subgroup (MulAut W)) :
     exact commSub_top_stable151b (fun x hx => L.mul_mem (L.mul_mem hl hx) (L.inv_mem hl)) u hu
 
 private theorem s16h_H5_row_L3_three_Z_subgroupOf_eq_fixV {A L : Subgroup (MulAut W)}
-    {t : MulAut W} (hc : s16h_H5Cfg A L t) :
+    {t : MulAut W} (_hc : s16h_H5Cfg A L t) :
     (commSub ⊤ L ⊓ fixV L).subgroupOf (commSub ⊤ L) =
       fixV (autSub L (commSub ⊤ L)) := by
   apply Subgroup.map_injective (commSub ⊤ L).subtype_injective
@@ -103,7 +104,7 @@ private theorem s16h_H5_row_L3_three_seven_fix_Z {A L : Subgroup (MulAut W)} {t 
     intro r hr
     rw [Matrix.card_GL_field (n := r)]
     interval_cases r <;> norm_num [Fin.prod_univ_succ, ZMod.card]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hgZ1 : (resHom (fixV H) ⟨g, hgstabZc⟩ : MulAut ↥(fixV H)) = 1 :=
     CFSG.Sporadic.HN.eq_one_of_pow_eq_one (p := 2) (q := 7) (e := 2)
       (by norm_num) (by norm_num) hPZ hcarddvd hGL hgZpow

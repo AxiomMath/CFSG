@@ -23,13 +23,13 @@ open CFSG.Blueprint CFSG.Monster.GMS Subgroup CFSG.Monster.Existence.StdOdd
 section Abstract
 
 theorem not_dvd_pow_of_cover {Y R : Type*} [Group Y] [Finite Y] [Group R] {Z Y' : Subgroup Y}
-    [(Z.subgroupOf Y').Normal] (hY' : Y'.index = 2) (hZY' : Z ≤ Y') (hZ2 : Nat.card Z = 2)
+    [(Z.subgroupOf Y').Normal] (hY' : Y'.index = 2) (_hZY' : Z ≤ Y') (hZ2 : Nat.card Z = 2)
     (φ : Y' ⧸ Z.subgroupOf Y' ≃* R) {p q n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hq : q.Prime)
     (hq2 : q ≠ 2)
     (hR : ∀ s : R, orderOf s = p → ¬ q ^ n ∣ Nat.card (centralizer ({s} : Set R)))
     {y : Y} (hy : orderOf y = p) : ¬ q ^ n ∣ Nat.card (centralizer ({y} : Set Y)) := by
   intro hqn
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨K, hK⟩ := Sylow.exists_subgroup_card_pow_prime (G := centralizer ({y} : Set Y)) q hqn
   set T : Subgroup Y := K.map (centralizer ({y} : Set Y)).subtype with hTdef
   have hT : Nat.card T = q ^ n := by
@@ -107,8 +107,8 @@ theorem card_centralizer_seven_stdGroup : ∀ s : Rgrp, orderOf s = 7 →
   have hp3 : ¬ 7 ^ 3 ∣ Nat.card Rgrp := by
     rw [CFSG.LieType.Chevalley.C2E6Std.card_stdGroup]
     norm_num
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  haveI : Finite Rgrp := rgrp_finite
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Finite Rgrp := rgrp_finite
   obtain ⟨x₀, y₀, hx₀, hy₀, hc, hind, h0, hi⟩ := sylow_seven_fusion
   refine forall_of_sylow_elementary hp3 hx₀ hy₀ hc hind ({rep7A, rep7B} : Set Rgrp) ?_ ?_
     (fun s => Nat.card (centralizer ({s} : Set Rgrp)) = 141120 ∨
@@ -145,9 +145,9 @@ theorem not_dvd_pow_card_centralizer_of_le
     {q n : ℕ} (hq : q.Prime) (hq2 : q ≠ 2)
     (hR : ∀ s : Rgrp, orderOf s = 7 → ¬ q ^ n ∣ Nat.card (centralizer ({s} : Set Rgrp))) :
     ¬ q ^ n ∣ Nat.card (centralizer ({x} : Set NativeSporadic.B)) := by
-  haveI : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
+  have : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
   obtain ⟨ψ⟩ := nonempty_centralizer_mulEquiv_Eam hT3 hα
-  haveI : Finite ↥CFSG.Monster.B.TwoA.Amalgam.Eam := Finite.of_equiv _ ψ.toEquiv
+  have : Finite ↥CFSG.Monster.B.TwoA.Amalgam.Eam := Finite.of_equiv _ ψ.toEquiv
   obtain ⟨hidx, -, -, hcen', hZ2, ⟨φ⟩, -⟩ :=
     CFSG.Monster.B.TwoA.Amalgam.short_F4_derived_standard_perfect_cover
   have hZY : zpowers CFSG.Monster.B.TwoA.Amalgam.cE' ≤
@@ -169,7 +169,7 @@ theorem rank_ySeven
 theorem factorization_five_card_centralizer_xSeven
     :
     (Nat.card (centralizer ({xSeven} : Set NativeSporadic.B))).factorization 5 = 1 := by
-  haveI : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
+  have : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
   have P := bSevenElem_parts
   have hα : BabyInv 0 alphaB :=
     babyInv_zero_of_rank_1860 (orderOf_eq_prime P.alpha_sq P.alpha_ne) P.alpha_rank
@@ -187,7 +187,7 @@ theorem factorization_five_card_centralizer_xSeven
 theorem not_seven_dvd_card_centralizer_zFive
     :
     ¬ 7 ∣ Nat.card (centralizer ({zFive} : Set NativeSporadic.B)) := by
-  haveI : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
+  have : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
   have h5 : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have h7 : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have P := bSevenElem_parts

@@ -25,7 +25,7 @@ theorem false_of_alt6 (hd : Sec23Data V H)
   obtain ⟨-, ψ, -, -⟩ := CFSG.QuasithinUnique.Unc25K1.A6Model.exists_pslEquiv
   set φ : Xbar V H ⧸ Subgroup.center (Xbar V H) ≃* CFSG.ClassicalGroups.A6Klein.K0 :=
     e.trans ψ.symm with hφ
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
   have hsimple : IsSimpleGroup (Xbar V H ⧸ Subgroup.center (Xbar V H)) := e.isSimpleGroup
   have h4 : 4 ≤ Nat.card (barOf V H V) := by
     rcases hc.card_barOf_V_eq_two_or_four_le with h2 | h4
@@ -36,7 +36,7 @@ theorem false_of_alt6 (hd : Sec23Data V H)
   have hel : IsElemAbelian 2 ((Vtilde V H).map φ.toMonoidHom) :=
     hc.isElemAbelian_Vtilde.map _
   have hcard : 2 < Nat.card ((Vtilde V H).map φ.toMonoidHom) := by
-    rw [Subgroup.card_map_of_injective φ.injective, hc.card_Vtilde hd]
+    rw [Subgroup.card_map_of_injective φ.injective, CFSG.RankThree.GF2n.Tim79a.MinCex.card_Vtilde hd]
     omega
   obtain ⟨x, Λ, h1, h2, h3, h4'⟩ :=
     CFSG.ClassicalGroups.A6Klein.exists_inv_data_psl29 _ hel hcard

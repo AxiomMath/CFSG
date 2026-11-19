@@ -42,7 +42,7 @@ theorem c8_sp6InL_centralizer (D : Data G) {L T₀ : Subgroup G} {z : G} (hz1 : 
     (hz2 : z ^ 2 = 1) (hzM : ¬ centralizer ({z} : Set G) ≤ D.M)
     (hT₀ : T₀ ≤ centralizer ({z} : Set G)) :
     Sp6InL D L z T₀ (centralizer ({z} : Set G)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hzord : orderOf z = 2 := orderOf_eq_prime hz2 hz1
   have hP : IsPGroup 2 (Subgroup.zpowers z) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hzord]; norm_num)
@@ -75,7 +75,7 @@ theorem c8_exists_max_min (D : Data G) {L T₀ K₀ : Subgroup G} {v₀ : G}
 theorem c8_exists_sylow_inf (D : Data G) (K : Subgroup G) :
     ∃ T' : Subgroup G, CFSG.ABGLocalTools.IsSylowOf 2 T' D.M ∧
       IsSylowIn 2 (T' ⊓ K) (D.M ⊓ K) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S, hS, -⟩ := exists_isSylowIn_ge 2
     (bot_le : (⊥ : Subgroup G) ≤ D.M ⊓ K) IsPGroup.of_bot
   obtain ⟨T', hT', hST'⟩ :=
@@ -88,7 +88,7 @@ theorem c8_exists_sylow_inf (D : Data G) (K : Subgroup G) :
   have hT'2 : IsPGroup 2 T' := by
     obtain ⟨Q, hQ⟩ := hT'
     rw [← hQ]
-    exact Q.isPGroup'.map _
+    exact Q.isPGroup.map _
   refine ⟨T', hT', inf_le_inf_right K hT'M, hT'2.to_inf_left, ?_⟩
   intro hdvd
   exact hS.not_dvd_relIndex (hdvd.trans
@@ -99,7 +99,7 @@ theorem c8_exists_setUp (D : Data G) (h129 : R129_1 D) (h22 : R1622 D) (h26 : R1
     {V₀ V L : Subgroup G} {hV : IsElemAbelian 2 V} (hS : Sect16 D V₀ V L hV)
     (h8 : Case167_8 D V₀ V hV L) :
     ∃ (v₀ : IntMod V hV) (T₀ K T' : Subgroup G), C8SetUp D V₀ V L hV v₀ T₀ K T' := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨v₀, hnot, hne, he64⟩ := c8_exists_v₀ D h129 h22 h26 hS h8
   obtain ⟨T₀, hT₀, -⟩ := exists_isSylowIn_ge 2
     (bot_le : (⊥ : Subgroup G) ≤ D.M ⊓ centralizer ({v₀.val} : Set G)) IsPGroup.of_bot

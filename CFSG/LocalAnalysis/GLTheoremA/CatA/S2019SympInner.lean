@@ -132,6 +132,7 @@ section Blocks
 variable {r : ℕ} {K : Type} [Field K] [NeZero r]
 
 open _root_.Classical in
+omit [NeZero r] in
 theorem eq_zero_of_forall_primaryComponent {x : StatedSp r K}
     (hint : DirectSum.IsInternal
       (fun h : primaryFactors (spEnd x) => primaryComponent (spEnd x) (h : K[X])))
@@ -143,6 +144,7 @@ theorem eq_zero_of_forall_primaryComponent {x : StatedSp r K}
   rw [hint.submodule_iSup_eq_top, top_le_iff, LinearMap.ker_eq_top] at hle
   exact hle
 
+omit [NeZero r] in
 theorem sq_apply_eq_zero_of_not_mem {x g : StatedSp r K} {O : Set K[X]}
     (hg : g ∈ spSupported x O) {k : K[X]} (hk : k ∈ primaryFactors (spEnd x)) (hkO : k ∉ O)
     {v : Fin r ⊕ Fin r → K} (hv : v ∈ primaryComponent (spEnd x) k) :
@@ -154,7 +156,7 @@ theorem sq_apply_eq_zero_of_not_mem {x g : StatedSp r K} {O : Set K[X]}
 
 private theorem matrix_mul_comm_of_le_one {E : Type*} [CommRing E] {m : ℕ} (hm : m ≤ 1)
     (M N : Matrix (Fin m) (Fin m) E) : M * N = N * M := by
-  haveI : Subsingleton (Fin m) := Fin.subsingleton_iff_le_one.2 hm
+  have : Subsingleton (Fin m) := Fin.subsingleton_iff_le_one.2 hm
   ext i j
   rw [Matrix.mul_apply, Matrix.mul_apply, Fintype.sum_subsingleton _ i,
     Fintype.sum_subsingleton _ i, Subsingleton.elim j i, mul_comm]
@@ -170,10 +172,10 @@ private theorem not_comm_of_isQuasisimple {G : Type*} [Group G] {A : Subgroup G}
     exact (hc a ha b hb).symm
   obtain ⟨-, -, a, b, hab⟩ := hA
   apply hab
-  haveI : Subsingleton ↥⁅A, A⁆ := by
+  have : Subsingleton ↥⁅A, A⁆ := by
     rw [hbot]
     infer_instance
-  haveI : Subsingleton (↥⁅A, A⁆ ⧸ Subgroup.center ↥⁅A, A⁆) := Quotient.instSubsingletonQuotient _
+  have : Subsingleton (↥⁅A, A⁆ ⧸ Subgroup.center ↥⁅A, A⁆) := Quotient.instSubsingletonQuotient _
   exact Subsingleton.elim _ _
 
 @[expose] def SpBlockQuad (A : Subgroup (StatedSp r K)) : Prop :=
@@ -248,7 +250,7 @@ theorem spBlockQuad_paired [FiniteDimensional K (Fin r ⊕ Fin r → K)]
     SpBlockQuad (spSupported x {(h : K[X]), reciprocalPolynomial (h : K[X])}) := by
   have P := blocks.paired h hne
   obtain ⟨φ, hφ1, hφ2⟩ := P.factor
-  haveI : Fact (Irreducible (h : K[X])) := ⟨irreducible_of_mem_primaryFactors h.2⟩
+  have : Fact (Irreducible (h : K[X])) := ⟨irreducible_of_mem_primaryFactors h.2⟩
   obtain ⟨ψ⟩ := P.matrixFactor
   have hm : 2 ≤ primaryMultiplicity (spEnd x) (h : K[X]) := by
     by_contra hlt
@@ -324,7 +326,7 @@ theorem spBlockQuad_selfDual [FiniteDimensional K (Fin r ⊕ Fin r → K)]
     (hnc : ¬ ∀ g ∈ spSupported x {(h : K[X])}, ∀ g' ∈ spSupported x {(h : K[X])},
       g * g' = g' * g) :
     SpBlockQuad (spSupported x {(h : K[X])}) := by
-  haveI : Fact (Irreducible (h : K[X])) := ⟨irreducible_of_mem_primaryFactors h.2⟩
+  have : Fact (Irreducible (h : K[X])) := ⟨irreducible_of_mem_primaryFactors h.2⟩
   obtain ⟨d, -, -, σ, -, -, -, -, -, hE, hbar, Hf, hHs, -, ⟨η, hη0, hη, -⟩, ⟨e, he⟩, φ, hφ⟩ :=
     (blocks.selfDual h hX hsd).exists_half
   have hm : 2 ≤ primaryMultiplicity (spEnd x) (h : K[X]) := by
@@ -352,25 +354,22 @@ theorem spBlockQuad_selfDual [FiniteDimensional K (Fin r ⊕ Fin r → K)]
   set i₀ : Fin (primaryMultiplicity (spEnd x) (h : K[X])) := ⟨0, by omega⟩
   set i₁ : Fin (primaryMultiplicity (spEnd x) (h : K[X])) := ⟨1, by omega⟩
   have h01 : i₀ ≠ i₁ := by simp [i₀, i₁, Fin.ext_iff]
-  have h00 : Hf (e i₀) (e i₀) = 1 := by rw [he, if_pos rfl]
-  have h11 : Hf (e i₁) (e i₁) = 1 := by rw [he, if_pos rfl]
-  have h01' : Hf (e i₀) (e i₁) = 0 := by rw [he, if_neg h01]
-  have h10' : Hf (e i₁) (e i₀) = 0 := by rw [he, if_neg h01.symm]
+  have h00 : Hf (e i₀) (e i₀) = 1 := by rw [he, ite_eq_left rfl]
+  have h11 : Hf (e i₁) (e i₁) = 1 := by rw [he, ite_eq_left rfl]
+  have h01' : Hf (e i₀) (e i₁) = 0 := by rw [he, ite_eq_right h01]
+  have h10' : Hf (e i₁) (e i₀) = 0 := by rw [he, ite_eq_right h01.symm]
   have h2E : (2 : AdjoinRoot (h : K[X])) ≠ 0 := by
     have := (algebraMap K (AdjoinRoot (h : K[X]))).injective.ne h2
     rwa [map_ofNat, map_zero] at this
   have hvv : Hf (e i₀ + μ • e i₁) (e i₀ + μ • e i₁) = 0 := by
-    simp only [map_add, map_smulₛₗ, LinearMap.add_apply, LinearMap.smul_apply, map_smul,
-      smul_eq_mul, h00, h11, h01', h10', RingHom.id_apply]
+    simp only [map_add, map_smulₛₗ, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul, h00, h11, h01', h10', RingHom.id_apply]
     linear_combination hμ
   have hww : Hf ((2 : AdjoinRoot (h : K[X]))⁻¹ • (e i₀ - μ • e i₁))
       ((2 : AdjoinRoot (h : K[X]))⁻¹ • (e i₀ - μ • e i₁)) = 0 := by
-    simp only [map_sub, map_smulₛₗ, LinearMap.sub_apply, LinearMap.smul_apply, map_smul,
-      smul_eq_mul, h00, h11, h01', h10', RingHom.id_apply]
+    simp only [map_sub, map_smulₛₗ, LinearMap.sub_apply, LinearMap.smul_apply, smul_eq_mul, h00, h11, h01', h10', RingHom.id_apply]
     linear_combination (hE.bar (2 : AdjoinRoot (h : K[X]))⁻¹ * (2 : AdjoinRoot (h : K[X]))⁻¹) * hμ
   have hvw : Hf (e i₀ + μ • e i₁) ((2 : AdjoinRoot (h : K[X]))⁻¹ • (e i₀ - μ • e i₁)) = 1 := by
-    simp only [map_add, map_sub, map_smulₛₗ, LinearMap.add_apply, LinearMap.sub_apply,
-      LinearMap.smul_apply, map_smul, smul_eq_mul, h00, h11, h01', h10', RingHom.id_apply]
+    simp only [map_add, map_sub, map_smulₛₗ, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul, h00, h11, h01', h10', RingHom.id_apply]
     field_simp
     linear_combination -hμ
   have hlE : algebraMap K (AdjoinRoot (h : K[X])) l ≠ 0 := by
@@ -404,7 +403,7 @@ private theorem exists_ne_zero_sq_ne_one (hK : 4 ≤ Nat.card K) : ∃ l : K, l 
   classical
   by_contra h
   push Not at h
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hsub : (Finset.univ : Finset K) ⊆ {0, 1, -1} := by
     intro l _
     by_cases hl : l = 0
@@ -425,6 +424,7 @@ private theorem not_dvd_orderOf_of_isPGroup_two' {G : Type*} [Group G] {q : ℕ}
     simpa using this
   exact hq2 ((Nat.prime_dvd_prime_iff_eq hq Nat.prime_two).1 (hq.dvd_of_dvd_pow (hdvd.trans h1)))
 
+omit [Finite K] in
 private theorem sq_eq_one_of_mem_ker_proj [NeZero r] {s : StatedSp r K}
     (hs : s ∈ (proj r K).ker) : s ^ 2 = 1 := by
   rw [SymplecticHigher.ker_proj] at hs
@@ -437,11 +437,11 @@ theorem s2019FixCentralizes_conj_proj_sp {q f : ℕ} (hq : q.Prime) (hq5 : 5 ≤
     (x : StatedSp r K) (hx : x ^ p = 1) (hx1 : x ≠ 1) :
     S2019FixCentralizes p (MulAut.conj (proj r K x)) := by
   classical
-  haveI : NeZero r := ⟨by omega⟩
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := Fintype.ofFinite K
-  haveI : CharP K q := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
+  have : NeZero r := ⟨by omega⟩
+  have : Fact q.Prime := ⟨hq⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have := Fintype.ofFinite K
+  have : CharP K q := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
   have hq2 : q ≠ 2 := by omega
   have h2 : (2 : K) ≠ 0 := by
     intro h
@@ -480,7 +480,7 @@ theorem s2019FixCentralizes_conj_proj_sp {q f : ℕ} (hq : q.Prime) (hq5 : 5 ≤
     rw [CharP.cast_eq_zero_iff K q] at h
     exact hpq ((Nat.prime_dvd_prime_iff_eq hq hp).mp h).symm
   have hsq := (altPrimaryData_spLin hpK hx).squarefree
-  haveI : Finite (reciprocalOrbits (spEnd x)) :=
+  have : Finite (reciprocalOrbits (spEnd x)) :=
     (Set.Finite.image _ (Finset.finite_toSet _)).to_subtype
   obtain ⟨hcomm, -, hjoin⟩ := blocks.directProduct
   have hp3 : 3 ≤ p := by have := hp.two_le; omega
@@ -542,7 +542,7 @@ theorem s2019FixCentralizes_one_of_isSimpleGroup {G : Type} [Group G] [Finite G]
     simp [CFSG.HardMathSupport.Solomon.Coordinator.mem_fixSubgroup]
   have hsn : IsSubnormal L ⊤ := hfix ▸ hL.2.1
   have hLne : L ≠ ⊥ := by
-    haveI := CFSG.LocalAnalysis.GLTheoremA.AltDown.nontrivial_of_glaPComponent hp hL
+    have := CFSG.LocalAnalysis.GLTheoremA.AltDown.nontrivial_of_glaPComponent hp hL
     exact (Subgroup.nontrivial_iff_ne_bot L).1 inferInstance
   have hLtop : L = ⊤ := (CFSG.Open.IsSubnormal.eq_bot_or_top hsn).resolve_left hLne
   subst hLtop
@@ -551,23 +551,23 @@ theorem s2019FixCentralizes_one_of_isSimpleGroup {G : Type} [Group G] [Finite G]
     have hg := hLT (Subgroup.mem_top g)
     rw [Subgroup.mem_normalizer_iff] at hg
     exact (hg t).1 ht
-  haveI := hs
-  haveI := hTn
+  have := hs
+  have := hTn
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal T with h | h
   · rw [h, Subgroup.commutator_bot_left]
   · exfalso
     subst h
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hG2 : IsPGroup 2 G := hT.of_equiv Subgroup.topEquiv
-    haveI : Group.IsNilpotent G := hG2.isNilpotent
-    obtain ⟨n, hn⟩ := (isSolvable_def G).1 inferInstance
+    have : Group.IsNilpotent G := hG2.isNilpotent
+    obtain ⟨n, hn⟩ := (Group.isSolvable_def G).1 inferInstance
     have htop : ∀ m, derivedSeries G m = ⊤ := by
       intro m
       induction m with
       | zero => rfl
       | succ m ih => rw [derivedSeries_succ, ih, ← commutator_def, hperf.commutator_eq_top]
     rw [htop n] at hn
-    haveI := hs.toNontrivial
+    have := hs.toNontrivial
     obtain ⟨a, b, hab⟩ := exists_pair_ne G
     have ha : a ∈ (⊥ : Subgroup G) := hn ▸ Subgroup.mem_top a
     have hb : b ∈ (⊥ : Subgroup G) := hn ▸ Subgroup.mem_top b
@@ -577,7 +577,7 @@ theorem s2019FixCentralizes_one_of_isSimpleGroup {G : Type} [Group G] [Finite G]
 theorem s2019SympInner_five : S2019SympInner (5 ≤ ·) := by
   intro p q hp hp2 hq hq2 hqp hq5 G _ n f hG a ha
   obtain ⟨⟨-, hf, hn, -⟩, K, _, _, hK, ⟨e⟩⟩ := hG
-  haveI : Finite G := Finite.of_equiv _ e.toEquiv.symm
+  have : Finite G := Finite.of_equiv _ e.toEquiv.symm
   refine s2019FixCentralizes_of_congr hp e (MulAut.conj a) ?_
   rw [CFSG.ComponentClassification.OuterAutomorphisms.congr_conj]
   have hea : (e a) ^ p = 1 := by rw [← map_pow, ha, map_one]

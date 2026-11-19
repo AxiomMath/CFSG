@@ -13,7 +13,7 @@ theorem exists_stable_sylow_fixing {G : Type*} [Group G] [Finite G] (α : MulAut
     (hα : α ^ 3 = 1) (A : Subgroup G) (hA : IsElemAbelian 3 A) (hfix : ∀ a ∈ A, α a = a) :
     ∃ S : Sylow 3 G, A ≤ (S : Subgroup G) ∧ (S : Subgroup G).map α.toMonoidHom = S := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hAp : IsPGroup 3 A := fun g => ⟨1, Subtype.ext (by
     rw [pow_one, Subgroup.coe_pow, OneMemClass.coe_one]
     exact hA.2 g g.2)⟩
@@ -176,7 +176,7 @@ theorem card_fixed_pow_le {K : Type*} [Field K] [Finite K] {I : Type*} [Fintype 
     (hτ : ∀ (c : K) (a : I → K), τ (c • a) = σ c • τ a) :
     Nat.card {a : I → K // τ a = a} ^ 3 ≤ Nat.card K ^ Fintype.card I := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set A : Subgroup (K ≃+* K) := Subgroup.zpowers σ with hA
   set F₀ : Subfield K := FixedPoints.subfield A K with hF₀def
   have hord : orderOf σ = 3 := orderOf_eq_prime hσ3 hσ
@@ -211,7 +211,7 @@ theorem card_fixed_pow_le {K : Type*} [Field K] [Finite K] {I : Type*} [Fintype 
         have hc : c • a = (c : K) • a := rfl
         rw [hc, hτ, hσF c]
         exact congrArg ((c : K) • ·) ha }
-  haveI : Finite W := Finite.of_injective (fun w : W => (w : I → K)) Subtype.val_injective
+  have : Finite W := Finite.of_injective (fun w : W => (w : I → K)) Subtype.val_injective
   have hfin : Module.Finite F₀ W := Module.Finite.of_finite
   set d := Module.finrank F₀ W with hd
   let b := Module.finBasis F₀ W

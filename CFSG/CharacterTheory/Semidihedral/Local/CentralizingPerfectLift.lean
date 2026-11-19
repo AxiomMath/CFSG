@@ -138,7 +138,7 @@ theorem all_local_prime_centralizer_covers_produce_actual_centralizing_perfect_l
       rw [Subgroup.card_eq_one] at h1
       rw [h1]
       exact isCyclic_of_subsingleton
-    obtain ⟨k, hk⟩ := U.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := U.isPGroup.exists_card_eq
     have hk0 : k ≠ 0 := by
       rintro rfl
       exact hU1 (by rw [hk, pow_zero])

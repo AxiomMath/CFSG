@@ -23,9 +23,9 @@ theorem IsPlusExtraspecial.finite {m : ℕ} (h : IsPlusExtraspecial m Q) : Finit
 
 theorem IsPlusExtraspecial.isExtraspecialPGroup {m : ℕ} (h : IsPlusExtraspecial m Q) :
     IsExtraspecialPGroup 2 Q := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := h.1
-  haveI := h.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := h.1
+  have := h.finite
   exact CFSG.IsExtraspecial.isExtraspecialPGroup
 
 theorem IsPlusExtraspecial.card_abelianization {m : ℕ} (h : IsPlusExtraspecial m Q) :
@@ -42,8 +42,8 @@ variable [Module (ZMod 2) (Additive (Abelianization Q))]
 
 theorem IsPlusExtraspecial.finrank_quotient {m : ℕ} (h : IsPlusExtraspecial m Q) :
     finrank (ZMod 2) (Additive (Abelianization Q)) = 2 * m := by
-  haveI := h.finite
-  haveI : Finite (Additive (Abelianization Q)) := by
+  have := h.finite
+  have : Finite (Additive (Abelianization Q)) := by
     change Finite (Q ⧸ _root_.commutator Q)
     infer_instance
   have h1 := h.card_abelianization
@@ -98,7 +98,7 @@ omit [Module (ZMod 2) (Additive (Abelianization Q))] in
 theorem le_of_forall_commutator_mem_centerOf [hQn : Q.Normal] [Finite Q]
     (hE : IsExtraspecialPGroup 2 Q) (hC : centralizer (Q : Set H) ≤ Q) {K : Subgroup H}
     (hK : ∀ g ∈ K, ∀ x ∈ Q, ⁅g, x⁆ ∈ centerOf Q) : K ≤ Q := by
-  letI := CFSG.GroupTheory.extraspecialQuotientModule hE
+  let := CFSG.GroupTheory.extraspecialQuotientModule hE
   intro g hg
   refine mem_of_extraspecialConjOrth_eq_one hE hQn hC ?_
   refine Subtype.ext (LinearEquiv.ext fun v => ?_)

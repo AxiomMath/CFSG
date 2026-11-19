@@ -81,6 +81,7 @@ private theorem conj_mul_inv_mem_centerOf_left (hH : Hyp111 L1 L2 S)
       exact hZ1 (inv_mem hx.1) (inv_mem hx.2)
   exact (key z (c.centerOf_le_closure_commutator_W hz)).2
 
+omit [Finite G] in
 private theorem alpha_conj_eq (c : G2qCoordRight L2 S f) {h t h' x : G} (hdec : h = t * h')
     (ht : t ∈ L2) (hh' : h' ∈ trivOTwoQuot L2) (hx : x ∈ L2) (hc : h * x * h⁻¹ ∈ L2) :
     c.α ⟨h * x * h⁻¹, hc⟩ = c.α ⟨t, ht⟩ * c.α ⟨x, hx⟩ * (c.α ⟨t, ht⟩)⁻¹ := by
@@ -129,7 +130,7 @@ private theorem natSecVec_conj_commutator_zero (hH : Hyp111 L1 L2 S)
     (hdec : h = t * h') (ht : t ∈ L2) (htB : c.α ⟨t, ht⟩ ∈ borel c.F)
     (hh' : h' ∈ trivOTwoQuot L2) (ht1 : h ∈ trivOTwoQuot L1)
     (hhQ2 : h ∈ Subgroup.normalizer (pCoreOf 2 L2 : Set G)) {x a₀ : G} {r : c.F}
-    (hx : x ∈ pCoreOf 2 L1) (hxL2 : x ∈ L2) (hxα : c.α ⟨x, hxL2⟩ = utriElt r)
+    (_hx : x ∈ pCoreOf 2 L1) (hxL2 : x ∈ L2) (hxα : c.α ⟨x, hxL2⟩ = utriElt r)
     (ha₀ : a₀ ∈ pCoreOf 2 L2) (hva₀ : natSecVec β a₀ = ![0, 1]) :
     natSecVec β (h * ⁅x, a₀⁆ * h⁻¹) 0 = (c.α ⟨t, ht⟩ : SL(2, c.F)) 0 0 ^ 2 * r := by
   have hSL1 := le_left_of_g2q hH hD h1 h2
@@ -254,8 +255,8 @@ theorem G2qCoordRight.false_of_trivOTwoQuot_centralizes_W (hf : 2 ≤ f) (hH : H
     (hHcomm : ∀ a ∈ H, ∀ b ∈ H, a * b = b * a)
     (hcent : ∀ h ∈ H ⊓ trivOTwoQuot L1, ∀ w ∈ c.W, ⁅h, w⁆ ∈ centerOf (pCoreOf 2 L2)) :
     False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP c.F 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP c.F 2 :=
     charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, c.card])
   obtain ⟨-, hH0card, -, -, -⟩ := hD.torus_left_of_hall hf hH h1 h2 hHB hSH hSinfH hHcard hHcomm
   obtain ⟨-, -, hsup2, -, -⟩ := hD.torus_right_of_hall hf hH h1 h2 hHB hSH hSinfH hHcard hHcomm

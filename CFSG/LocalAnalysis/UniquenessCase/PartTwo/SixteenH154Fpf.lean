@@ -41,17 +41,17 @@ theorem s16h_card_le_mul_cent_of_fpf {V : Type} [CommGroup V] [Finite V]
   · have hUbot : U ≠ ⊥ := by
       intro hU
       apply hcyc
-      haveI : Subsingleton ↥U := by
+      have : Subsingleton ↥U := by
         rw [hU]
         exact ⟨fun a b => Subtype.ext (by
           rw [Subgroup.mem_bot.mp a.2, Subgroup.mem_bot.mp b.2])⟩
-      haveI : Subsingleton (MulAut ↥U) :=
+      have : Subsingleton (MulAut ↥U) :=
         ⟨fun f g => MulEquiv.ext fun x => Subsingleton.elim _ _⟩
       exact isCyclic_of_subsingleton
-    haveI : Nontrivial ↥U := (Subgroup.nontrivial_iff_ne_bot U).mpr hUbot
+    have : Nontrivial ↥U := (Subgroup.nontrivial_iff_ne_bot U).mpr hUbot
     have hW2 : IsPGroup 2 ↥U :=
       isPGroup_two_of_sq_eq_one fun u => Subtype.ext (by simpa using hV (u : V))
-    haveI : CFSG.IsElementaryAbelian q ↥(autSub E U) := hEab.isElementaryAbelian
+    have : CFSG.IsElementaryAbelian q ↥(autSub E U) := hEab.isElementaryAbelian
     obtain ⟨a, ha1, x, hx1, hax⟩ :=
       exists_nonidentity_actor_with_nonidentity_fixed_two_group
         (W := ↥U) (A := ↥(autSub E U)) hq (hq.odd_of_ne_two hq2) hcyc hW2
@@ -124,7 +124,7 @@ private lemma s16h_centSub_sup (U₁ U₂ : Subgroup V) :
 end Helpers
 
 theorem s16h_card_le_pow_mul_cent {V : Type} [CommGroup V] [Finite V]
-    (hV : ∀ v : V, v ^ 2 = 1) {p q : ℕ} (hp : p.Prime) (hq : q.Prime) (hp2 : p ≠ 2)
+    (hV : ∀ v : V, v ^ 2 = 1) {p q : ℕ} (hp : p.Prime) (hq : q.Prime) (_hp2 : p ≠ 2)
     (hq2 : q ≠ 2) {B E : Subgroup (MulAut V)} (hB : IsPGroup p ↥B) (hE : IsElemAbelian q E)
     (hBE : ∀ b ∈ B, ∀ x ∈ E, b * x = x * b) {U : Subgroup V}
     (hUB : ∀ b ∈ B, ∀ u ∈ U, b u ∈ U) (hUE : ∀ x ∈ E, ∀ u ∈ U, x u ∈ U)
@@ -132,8 +132,8 @@ theorem s16h_card_le_pow_mul_cent {V : Type} [CommGroup V] [Finite V]
     Nat.card ↥E ≤
       q ^ (rk ↥U / Nat.lcm (orderOf (2 : ZMod p)) (orderOf (2 : ZMod q))) *
         Nat.card ↥(E ⊓ centSub U) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact q.Prime := ⟨hq⟩
   set ℓ : ℕ := Nat.lcm (orderOf (2 : ZMod p)) (orderOf (2 : ZMod q)) with hℓ
   have key : ∀ n : ℕ, ∀ (E : Subgroup (MulAut V)) (U : Subgroup V), rk ↥U = n →
       IsElemAbelian q E →

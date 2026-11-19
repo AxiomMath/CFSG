@@ -219,7 +219,7 @@ private theorem component_cases {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
       (fun hlist => by
         rw [← fixedLayerImage_of_listed hlist]
         exact le_sup_right)
-    haveI := hS₀sol
+    have := hS₀sol
     exact perfect_le_of_le_sup_solvable hENN hS₀N hENn hcomm hPN (Subgroup.isPerfect_iff.1 ⟨hP⟩)
   let Fm : ι₁ ⊕ Fin n → Subgroup (ProjOrthDerived Q) := Sum.elim S C
   have hFm : ∀ i, CFSG.Open.IsComponentOf (Fm i) N := by
@@ -268,7 +268,7 @@ theorem compNormal_conj_projOrth {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
       simp only [MulAut.conj_apply, MulAut.one_apply] at h1
       calc g * a ^ p = a ^ p * g * (a ^ p)⁻¹ * a ^ p := by rw [h1]
         _ = a ^ p * g := by group
-    haveI := hsimple
+    have := hsimple
     rw [center_eq_bot_of_simple hnonab, Subgroup.mem_bot] at hc
     exact hc
   obtain ⟨x, ⟨hxa, hxp⟩, -, hcent⟩ := hlift p hp hp2 a (orderOf_eq_prime ha ha1)

@@ -57,7 +57,7 @@ theorem lift_fourCubeSeven_map {G S : Type*} [Group G] [Group S] (φ : G →* S)
     exact hord
   · rw [Subgroup.mem_normalizer_iff]
     intro s
-    simp only [SetLike.mem_coe, Subgroup.mem_map]
+    simp only [Subgroup.mem_map]
     constructor
     · rintro ⟨a, ha, rfl⟩
       exact ⟨x * a * x⁻¹, hx a ha, by simp only [map_mul, map_inv]⟩
@@ -228,7 +228,7 @@ theorem lift_card_sup_dvd {S : Type*} [Group S] {A : Subgroup S} {x : S}
   have hNN : N.Normal := by
     rw [hNdef]
     exact hN
-  haveI := hNN
+  have := hNN
   have hNmem : ∀ n : B, n ∈ N ↔ (n : S) ∈ A := fun n => by
     rw [hNdef, Subgroup.mem_subgroupOf]
   have hNcard : Nat.card N = Nat.card A := by

@@ -97,7 +97,7 @@ theorem zpow_eq_one_or_eq_self {t : G} (htt : t * t = 1) (k : ℤ) : t ^ k = 1 �
 theorem exists_mul_centralizer_of_perfect {X M : Subgroup G} [Group.IsSolvable (Outer X)]
     (hM : ⁅M, M⁆ = M) (hMX : M ≤ normalizer (X : Set G)) {x : G} (hx : x ∈ M) :
     ∃ a ∈ X, ∃ c ∈ centralizer (X : Set G), x = a * c := by
-  haveI : Group.IsPerfect M := (Common.isPerfect_subgroup_iff_commutator_eq M).2 hM
+  have : Group.IsPerfect M := (Common.isPerfect_subgroup_iff_commutator_eq M).2 hM
   obtain ⟨a, ha⟩ := CFSG.ComponentClassification.OuterAutomorphisms.perfect_action_inner
     (X.normalizerMonoidHom.comp (inclusion hMX)) ⟨x, hx⟩
   refine ⟨a, a.2, (a : G)⁻¹ * x, mem_centralizer_iff.2 fun g hg => ?_, by group⟩
@@ -123,7 +123,7 @@ theorem card_le_of_sq_eq_one {n : ℕ} (hn : 2 ≤ n)
     Nat.card R ≤ 2 ^ (3 * n) := by
   obtain ⟨hinj, hcyc, -, hout⟩ :=
     even_symplectic_four_outer_involution_rank_and_perfect_residual hn hK
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   set Inn : Subgroup (MulAut (antiSp K)) := inner (antiSp K) with hInn
   set A₀ : Subgroup (antiSp K) := R.comap (MulAut.conj : antiSp K →* MulAut (antiSp K)) with hA₀
   have hA₀sq : ∀ a ∈ A₀, a * a = 1 := by
@@ -142,7 +142,7 @@ theorem card_le_of_sq_eq_one {n : ℕ} (hn : 2 ≤ n)
   · rw [inf_eq_left.2 hin] at hJcard
     rw [hJcard]
     exact (elementary_abelian_card_le hK A₀ hA₀sq).1
-  · obtain ⟨θ, hθR, hθin⟩ := SetLike.not_le_iff_exists.mp hin
+  · obtain ⟨θ, hθR, hθin⟩ := IsConcreteLE.not_le_iff_exists.mp hin
     have hθθ : θ * θ = 1 := hR θ hθR
     have hcomm : ∀ r ∈ R, ∀ s ∈ R, r * s = s * r := fun r hr s hs =>
       comm_of_mul_self_eq_one (hR r hr) (hR s hs) (hR _ (mul_mem hr hs))
@@ -261,8 +261,8 @@ theorem perfect_le_of_le_centralizer
     (hS : Setup L K n φ (zpowers t) t) {H : Subgroup G}
     (hH : H ≤ centralizer ({t} : Set G)) (hp : ⁅H, H⁆ = H) : H ≤ L := by
   have hcent : H ≤ normalizer (L : Set G) := hH.trans hS.cent_le
-  haveI : Group.IsPerfect H := (Common.isPerfect_subgroup_iff_commutator_eq H).2 hp
-  haveI := Base.isSolvable_outer (K := K) hS.two_le hS.card_K
+  have : Group.IsPerfect H := (Common.isPerfect_subgroup_iff_commutator_eq H).2 hp
+  have := Base.isSolvable_outer (K := K) hS.two_le hS.card_K
   have hLT : ∀ x ∈ H, x ∈ L ⊔ zpowers t := by
     intro x hx
     obtain ⟨s, hs⟩ := CFSG.ComponentClassification.OuterAutomorphisms.perfect_action_inner
@@ -309,7 +309,7 @@ theorem card_le_of_le_centralizer
 
 theorem perfect_le_sup_of_le_normalizer
     (hS : Setup L K n φ (zpowers t) t) {G₀ : Subgroup G}
-    (hq : CFSG.Open.IsQuasisimple G₀) (hZ : Odd (Nat.card (center G₀)))
+    (hq : CFSG.Open.IsQuasisimple G₀) (_hZ : Odd (Nat.card (center G₀)))
     (h₁₂ : G₀.map (MulAut.conj t).toMonoidHom ≤ centralizer (G₀ : Set G))
     (hδ : ∀ x ∈ G₀, x * (t * x * t⁻¹) ∈ L)
     (hsurj : ∀ y ∈ L, ∃ x ∈ G₀, x * (t * x * t⁻¹) = y) {H : Subgroup G}
@@ -339,14 +339,14 @@ theorem perfect_le_sup_of_le_normalizer
     calc H = ⁅H, H⁆ := hp.symm
       _ ≤ _ := (commutator_mono hH hH).trans (Base.commutator_le_of_relIndex_eq_two h2)
   obtain ⟨ψ⟩ := Base.nonempty_mulEquiv_quotient_center φ htt h₁₂ hδ hsurj
-  haveI : Group.IsPerfect G₀ := ⟨hq.1⟩
-  haveI hsolvQ : Group.IsSolvable (Outer (G₀ ⧸ center G₀)) := by
-    haveI := Base.isSolvable_outer (K := K) hS.two_le hS.card_K
+  have : Group.IsPerfect G₀ := ⟨hq.1⟩
+  have hsolvQ : Group.IsSolvable (Outer (G₀ ⧸ center G₀)) := by
+    have := Base.isSolvable_outer (K := K) hS.two_le hS.card_K
     exact CFSG.ComponentClassification.OuterAutomorphisms.solvable_of_equiv ψ.symm
-  haveI hsolv₀ : Group.IsSolvable (Outer G₀) :=
+  have hsolv₀ : Group.IsSolvable (Outer G₀) :=
     CFSG.ComponentClassification.OuterAutomorphisms.solvable_of_centerQuotient G₀
   let e₂ : G₀ ≃* G₂ := Subgroup.equivMapOfInjective G₀ _ (MulAut.conj t).injective
-  haveI hsolv₂ : Group.IsSolvable (Outer G₂) :=
+  have hsolv₂ : Group.IsSolvable (Outer G₂) :=
     CFSG.ComponentClassification.OuterAutomorphisms.solvable_of_equiv e₂
   have hLD : L ≤ G₀ ⊔ G₂ := by
     intro y hy

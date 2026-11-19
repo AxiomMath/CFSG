@@ -107,7 +107,7 @@ private theorem n172g1_ker_eq {G : Type} [Group G] [Finite G] {J X : Subgroup G}
     (hX : X = J ⊔ inSubgroup (aschbacherSolvableCore 3) X) :
     (n172g1_quotHom hJX).ker = aschbacherSolvableCore 3 ↥J := by
   have hsurj := n172g1_quotHom_surjective hJX hX
-  haveI hθsolv : Group.IsSolvable (aschbacherSolvableCore 3 ↥X) :=
+  have hθsolv : Group.IsSolvable (aschbacherSolvableCore 3 ↥X) :=
     (solvable_prime_complement_core_characterization (H := ↥X) Nat.prime_three).1
   let ι : (n172g1_quotHom hJX).ker →* aschbacherSolvableCore 3 ↥X :=
     MonoidHom.codRestrict ((Subgroup.inclusion hJX).comp (n172g1_quotHom hJX).ker.subtype)

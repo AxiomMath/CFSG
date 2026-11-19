@@ -62,8 +62,8 @@ theorem kLowInfty_le' (T : Subgroup G) : kLowInfty T ≤ T :=
 
 theorem kLowInfty_ne_bot [Finite G] {p : ℕ} [Fact p.Prime] {T : Subgroup G} (hT : IsPGroup p T)
     (hT1 : T ≠ ⊥) : kLowInfty T ≠ ⊥ := by
-  haveI : Nontrivial T := (Subgroup.nontrivial_iff_ne_bot T).mpr hT1
-  haveI := hT.center_nontrivial
+  have : Nontrivial T := (Subgroup.nontrivial_iff_ne_bot T).mpr hT1
+  have := hT.center_nontrivial
   obtain ⟨z, hz⟩ := exists_ne (1 : center T)
   intro h
   apply hz
@@ -87,13 +87,13 @@ variable {G : Type*} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
 
 theorem lt_inf_normalizer {S T : Subgroup G} (hS : IsPGroup p S) (hTS : T < S) :
     T < S ⊓ normalizer (T : Set G) := by
-  haveI : Group.IsNilpotent S := hS.isNilpotent
+  have : Group.IsNilpotent S := hS.isNilpotent
   have hlt : T.subgroupOf S < ⊤ := by
     rw [lt_top_iff_ne_top]
     intro h
     exact hTS.not_ge (subgroupOf_eq_top.mp h)
   have h2 := Group.normalizerCondition_of_isNilpotent _ hlt
-  obtain ⟨x, hxN, hxT⟩ := SetLike.exists_of_lt h2
+  obtain ⟨x, hxN, hxT⟩ := _root_.IsConcreteLE.exists_of_lt h2
   refine lt_of_le_of_ne (le_inf hTS.le le_normalizer) fun h => hxT ?_
   have hx : (x : G) ∈ S ⊓ normalizer (T : Set G) := by
     refine Subgroup.mem_inf.mpr ⟨x.2, ?_⟩
@@ -158,6 +158,7 @@ theorem inf_commutator_le_of_fusIn {D T H : Subgroup G} (hT : IsSylowOf p H T)
     exact T.mul_mem (T.inv_mem haT) hgT
   exact hle hmem
 
+omit [Finite G] in
 theorem fusIn_of_le {D T H : Subgroup G} (hTH : T ≤ H) (h : T ⊓ ⁅H, H⁆ ≤ D) : FusIn D T H := by
   intro y hy k hk hyk
   refine h ⟨T.mul_mem (T.inv_mem hy) hyk, ?_⟩
@@ -181,7 +182,7 @@ theorem fusIn_alperin (S : Sylow p G) {D P : Subgroup G} (hP : P ≤ S) {g : G}
       have hyc : c⁻¹ * y * c ∈ Q := by
         apply hPQ
         refine ⟨y, hy, ?_⟩
-        simp [MulAut.conj_apply]
+        simp
       have hcard : Nat.card P ≤ Nat.card Q := by
         calc Nat.card P = Nat.card (P.map (MulAut.conj c⁻¹).toMonoidHom) :=
               (Subgroup.card_map_of_injective (MulAut.conj c⁻¹).injective).symm
@@ -197,6 +198,7 @@ theorem fusIn_alperin (S : Sylow p G) {D P : Subgroup G} (hP : P ≤ S) {g : G}
   rw [← hcg y hy]
   exact hdec c hc y hy
 
+omit [Finite G] in
 theorem map_conj_ne_top {H : Subgroup G} (hH : H ≠ ⊤) (g : G) :
     H.map (MulAut.conj g).toMonoidHom ≠ ⊤ := by
   intro h
@@ -215,7 +217,7 @@ theorem le_of_no_normal_pSubgroup (S : Sylow p G)
   set D := ⁅nK (S : Subgroup G), nK (S : Subgroup G)⁆ with hD
   by_cases hS1 : (S : Subgroup G) = ⊥
   · rw [hS1]; exact inf_le_left.trans bot_le
-  have hSp : IsPGroup p (S : Subgroup G) := S.isPGroup'
+  have hSp : IsPGroup p (S : Subgroup G) := S.isPGroup
   have hAlpQ : ∀ Q : Subgroup G, CFSG.RankTwoShapes.IsAlperinSubgroup p (S : Subgroup G) Q →
       normalizer (Q : Set G) ≠ ⊤ ∧
         IsSylowOf p (normalizer (Q : Set G)) ((S : Subgroup G) ⊓ normalizer (Q : Set G)) := by
@@ -305,10 +307,10 @@ theorem le_of_no_normal_pSubgroup (S : Sylow p G)
     have h1 := hi z hz0
     have h2 := hi _ hcz0
     have h3 : (g⁻¹ * z * g)⁻¹ * ((g⁻¹ * c * g)⁻¹ * (g⁻¹ * z * g) * (g⁻¹ * c * g)) ∈ D := by
-      refine hii _ ⟨z, hP0T2 hz0, by simp [MulAut.conj_apply]⟩ _
-        ⟨c, hc.2, by simp [MulAut.conj_apply]⟩ ?_
+      refine hii _ ⟨z, hP0T2 hz0, by simp⟩ _
+        ⟨c, hc.2, by simp⟩ ?_
       refine ⟨c⁻¹ * z * c, hP0T2 hcz0, ?_⟩
-      simp [MulAut.conj_apply]; group
+      simp; group
     have e : z⁻¹ * (c⁻¹ * z * c) = (z⁻¹ * (g⁻¹ * z * g)) *
         ((g⁻¹ * z * g)⁻¹ * ((g⁻¹ * c * g)⁻¹ * (g⁻¹ * z * g) * (g⁻¹ * c * g))) *
         ((c⁻¹ * z * c)⁻¹ * (g⁻¹ * (c⁻¹ * z * c) * g))⁻¹ := by group

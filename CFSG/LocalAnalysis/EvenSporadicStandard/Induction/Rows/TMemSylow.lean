@@ -203,7 +203,7 @@ theorem exists_sylow_Y {L K : Subgroup H} {u : H} (hu2 : orderOf u = 2) (huL : u
   let u' : ↥W := ⟨u, huW⟩
   have hu'2 : orderOf u' = 2 := by rw [Subgroup.orderOf_mk]; exact hu2
   obtain ⟨Q, hQ⟩ := (isPGroup_zpowers_two hu'2).exists_le_sylow
-  refine ⟨(Q : Subgroup ↥W).map W.subtype, Q.isPGroup'.map W.subtype, ?_, ?_, ?_⟩
+  refine ⟨(Q : Subgroup ↥W).map W.subtype, Q.isPGroup.map W.subtype, ?_, ?_, ?_⟩
   · intro h
     have hmem : u ∈ (Q : Subgroup ↥W).map W.subtype := ⟨u', hQ (mem_zpowers u'), rfl⟩
     rw [h, mem_bot] at hmem

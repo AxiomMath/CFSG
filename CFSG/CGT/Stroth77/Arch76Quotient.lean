@@ -219,8 +219,8 @@ theorem exists_oddComplement [Finite Y] (A : Subgroup Y) [A.Normal] (hAc : IsMul
     ∃ O : Subgroup Y, O.Normal ∧ O ≤ Subgroup.centralizer (A : Set Y) ∧ ¬ 2 ∣ Nat.card O ∧
       Subgroup.centralizer (A : Set Y) ≤ A ⊔ O := by
   set Z := Subgroup.centralizer (A : Set Y) with hZ
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Z.Normal := Subgroup.normal_centralizer
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Z.Normal := Subgroup.normal_centralizer
   have hAZle : A ≤ Z := fun a ha => Subgroup.mem_centralizer_iff.mpr fun b hb =>
     setLike_mul_comm hb ha
   have hP2 : IsPGroup 2 (A.subgroupOf Z) := hA2.comap_of_injective Z.subtype Subtype.val_injective
@@ -230,7 +230,7 @@ theorem exists_oddComplement [Finite Y] (A : Subgroup Y) [A.Normal] (hAc : IsMul
     rw [Subgroup.mem_centralizer_iff]
     intro p hp
     exact Subtype.ext ((Subgroup.mem_centralizer_iff.mp z.2) p (Subgroup.mem_subgroupOf.mp hp))
-  haveI : (Psyl : Subgroup Z).FiniteIndex := inferInstance
+  have : (Psyl : Subgroup Z).FiniteIndex := inferInstance
   set K := (MonoidHom.transferSylow Psyl hcen).ker
   have hK := MonoidHom.ker_transferSylow_isComplement' Psyl hcen
   have hKodd := MonoidHom.not_dvd_card_ker_transferSylow Psyl hcen
@@ -285,21 +285,23 @@ namespace Config
 
 variable {Y : Type*} [Group Y] [Finite Y] (C : Config Y)
 
+omit [Finite Y] in
 theorem isPGroup_A : IsPGroup 2 C.A := fun a => ⟨2, by
   obtain ⟨v, hv⟩ := C.exists_ev a.2
   apply Subtype.ext
   rw [Subgroup.coe_pow, Subgroup.coe_one, ← hv, ← ev_nsmul, show 2 ^ 2 = 4 by norm_num,
     four_nsmul_eq, ev_zero]⟩
 
-theorem A_le_centralizer : C.A ≤ Subgroup.centralizer (C.A : Set Y) := fun a ha =>
-  Subgroup.mem_centralizer_iff.mpr fun b hb => C.comm hb ha
+omit [Finite Y] in
+theorem A_le_centralizer : C.A ≤ Subgroup.centralizer (C.A : Set Y) := fun _a ha =>
+  Subgroup.mem_centralizer_iff.mpr fun _b hb => C.comm hb ha
 
 theorem not_dvd_relIndex_centralizer [C.A.Normal] (P : Sylow 2 Y)
     (hCP : Subgroup.centralizer (C.A : Set Y) ⊓ P = C.A) :
     ¬ 2 ∣ C.A.relIndex (Subgroup.centralizer (C.A : Set Y)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Z := Subgroup.centralizer (C.A : Set Y)
-  haveI : Z.Normal := Subgroup.normal_centralizer
+  have : Z.Normal := Subgroup.normal_centralizer
   have h1 := Subgroup.relIndex_mul_relIndex ((P : Subgroup Y) ⊓ Z) P ((P : Subgroup Y) ⊔ Z)
     inf_le_left le_sup_left
   have h2 := Subgroup.relIndex_mul_relIndex ((P : Subgroup Y) ⊓ Z) Z ((P : Subgroup Y) ⊔ Z)
@@ -326,18 +328,18 @@ theorem lemma2_of_centralizer_inf [C.A.Normal] (hρodd : Odd (orderOf C.ρ)) (P 
             s⁻¹ * C.u * s = C.u) ∨
           (s⁻¹ * C.uv * s = C.x⁻¹ * C.y * C.uv ∧ s⁻¹ * C.t * s = C.x⁻¹ * C.y ^ 2 * C.t ∧
             s⁻¹ * C.u * s = C.w * C.u)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨O, hON, hOZ, hOodd, hZAO⟩ := exists_oddComplement C.A C.hAc C.isPGroup_A
     (C.not_dvd_relIndex_centralizer P hCP)
-  haveI := hON
+  have := hON
   set π := QuotientGroup.mk' O with hπ
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective O
-  have hP2 : IsPGroup 2 (P : Subgroup Y) := P.isPGroup'
+  have hP2 : IsPGroup 2 (P : Subgroup Y) := P.isPGroup
   have hinjP := injOn_of_isPGroup hOodd hP2
   have hAP : C.A ≤ P := le_sup_left.trans hTP
   have hinjA : Set.InjOn π C.A := hinjP.mono hAP
   set CX := C.map π hinjA with hCX
-  haveI : CX.A.Normal := (inferInstance : C.A.Normal).map π hπs
+  have : CX.A.Normal := (inferInstance : C.A.Normal).map π hπs
   have hρoddX : Odd (orderOf CX.ρ) := hρodd.of_dvd_nat (orderOf_map_dvd π C.ρ)
   have hCAX : Subgroup.centralizer (CX.A : Set (Y ⧸ O)) = CX.A :=
     centralizer_map_mk' C.isPGroup_A hOodd C.A_le_centralizer hZAO
@@ -407,22 +409,22 @@ theorem lemma2_of_centralizer_inf [C.A.Normal] (hρodd : Odd (orderOf C.ρ)) (P 
     refine ⟨s, hs, le_antisymm (le_of_map_le hOodd hP2 hR (by rw [← hPXc, hPeq, hRmap])) hR,
       ?_, ?_, ?_, ?_, ?_⟩
     · exact hlift (pow_mem hs 2) (one_mem _) (by rw [map_pow, map_one]; exact hs2)
-    · exact hlift (hcP hwP) hwP (by simp only [map_mul, map_inv, map_pow]; exact hsw)
-    · exact hlift (hcP hxP) (inv_mem hxP) (by simp only [map_mul, map_inv, map_pow]; exact hsx)
-    · exact hlift (hcP hyP) (inv_mem hyP) (by simp only [map_mul, map_inv, map_pow]; exact hsy)
+    · exact hlift (hcP hwP) hwP (by simp only [map_mul, map_inv]; exact hsw)
+    · exact hlift (hcP hxP) (inv_mem hxP) (by simp only [map_mul, map_inv]; exact hsx)
+    · exact hlift (hcP hyP) (inv_mem hyP) (by simp only [map_mul, map_inv]; exact hsy)
     · rcases hrel with ⟨h1, h2, h3⟩ | ⟨h1, h2, h3⟩
       · left
         exact ⟨hlift (hcP huvP) (mul_mem (mul_mem hxP hyP) huvP)
-            (by simp only [map_mul, map_inv, map_pow]; exact h1),
+            (by simp only [map_mul, map_inv]; exact h1),
           hlift (hcP htP) (mul_mem (inv_mem hxP) htP)
-            (by simp only [map_mul, map_inv, map_pow]; exact h2),
-          hlift (hcP huP) huP (by simp only [map_mul, map_inv, map_pow]; exact h3)⟩
+            (by simp only [map_mul, map_inv]; exact h2),
+          hlift (hcP huP) huP (by simp only [map_mul, map_inv]; exact h3)⟩
       · right
         exact ⟨hlift (hcP huvP) (mul_mem (mul_mem (inv_mem hxP) hyP) huvP)
-            (by simp only [map_mul, map_inv, map_pow]; exact h1),
+            (by simp only [map_mul, map_inv]; exact h1),
           hlift (hcP htP) (mul_mem (mul_mem (inv_mem hxP) (pow_mem hyP 2)) htP)
             (by simp only [map_mul, map_inv, map_pow]; exact h2),
-          hlift (hcP huP) (mul_mem hwP huP) (by simp only [map_mul, map_inv, map_pow]; exact h3)⟩
+          hlift (hcP huP) (mul_mem hwP huP) (by simp only [map_mul, map_inv]; exact h3)⟩
 
 end Config
 

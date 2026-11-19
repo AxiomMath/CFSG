@@ -15,7 +15,7 @@ open Subgroup CFSG.SectionRank
 theorem false_of_cfg24 (hGH : GH73.GH73TheoremA64K) {Y : Type} [Group Y] [Finite Y]
     (hK : IsKGroupCat Y) {a t : Y} {τ : Y → Prop} {F P : Subgroup Y}
     (h : Cfg24 Y a t τ F P) : False := by
-  haveI : (zpowers a).Normal :=
+  have : (zpowers a).Normal :=
     Subgroup.normal_of_le_center (Subgroup.zpowers_le.mpr h.a_central)
   obtain ⟨hFp, hFz, hPF, hPcard, hPA8⟩ := quot_FP_data h
   obtain ⟨M, hMC, hMp, hM⟩ := quot_perfect60 h

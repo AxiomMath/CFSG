@@ -121,7 +121,7 @@ private noncomputable def CFSG.quotientPPrimeCoreEquivSylowOfHasNormalPComplemen
   have hM_cop : Nat.Coprime p (Nat.card M) := by
     simpa [M] using (pPrimeCore_coprime_card (G := G) (p := p))
   have hS_inf_M : (S : Subgroup G) ⊓ M = ⊥ :=
-    inf_eq_bot_of_pSubgroup_and_pPrime_card (G := G) (p := p) S.isPGroup' hM_cop
+    inf_eq_bot_of_pSubgroup_and_pPrime_card (G := G) (p := p) S.isPGroup hM_cop
   have hqS_ker : qS.ker = ⊥ := by
     have hker : qS.ker = M.subgroupOf (S : Subgroup G) := by
       simpa [qS, q, M, QuotientGroup.ker_mk'] using
@@ -268,7 +268,7 @@ private theorem CFSG.sylow_equiv_of_normal_quotient_pgroup_ne
   let π : G →* G ⧸ K := QuotientGroup.mk' K
   let Qmap : Subgroup (G ⧸ K) := (Q : Subgroup G).map π
   have hQmap_q : IsPGroup q Qmap := by
-    simpa [Qmap] using IsPGroup.map (p := q) (H := (Q : Subgroup G)) Q.isPGroup' π
+    simpa [Qmap] using IsPGroup.map (p := q) (H := (Q : Subgroup G)) Q.isPGroup π
   have hQmap_p : IsPGroup p Qmap := hquotp.to_subgroup Qmap
   have hQmap_bot : Qmap = ⊥ := by
     have hcard_one : Nat.card Qmap = 1 := by
@@ -312,7 +312,7 @@ private theorem CFSG.sylow_map_subtype_of_normal_quotient_pgroup_ne
   let π : G →* G ⧸ K := QuotientGroup.mk' K
   let Qmap : Subgroup (G ⧸ K) := (Q : Subgroup G).map π
   have hQmap_q : IsPGroup q Qmap := by
-    simpa [Qmap] using IsPGroup.map (p := q) (H := (Q : Subgroup G)) Q.isPGroup' π
+    simpa [Qmap] using IsPGroup.map (p := q) (H := (Q : Subgroup G)) Q.isPGroup π
   have hQmap_p : IsPGroup p Qmap := hquotp.to_subgroup Qmap
   have hQmap_bot : Qmap = ⊥ := by
     have hcard_one : Nat.card Qmap = 1 := by

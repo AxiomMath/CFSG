@@ -51,7 +51,7 @@ theorem d4_recognition_catalog {Y : Type} [Group Y] (x y : Fin 4 → Y)
       ∀ a ∈ (U i).subgroupOf N, ∀ b ∈ (U j).subgroupOf N, a * b = b * a := by
     intro i j hij h1 h2 a ha b hb
     exact Subtype.ext (d4_closure_commute (hcomm i j hij h1 h2) a.1 ha b.1 hb)
-  haveI hp3 : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hp3 : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e3⟩ := d4_ringEq
   have hpair : ∀ i j : Fin 4, edgeD 4 i j → ∃ W, LinearBlockStandardPair (GaloisField 3 1) W
       ((U i).subgroupOf N) ((U j).subgroupOf N) := by

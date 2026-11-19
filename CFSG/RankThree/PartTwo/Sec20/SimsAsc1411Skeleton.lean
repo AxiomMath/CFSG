@@ -64,7 +64,7 @@ theorem centralizes_omegaG_pCore_of_noSmall (hQS : CFSG.pCore 2 X ≤ S)
     ∀ l ∈ L, ∀ v ∈ Sec3.omegaG (CFSG.pCore 2 X), l * v * l⁻¹ = v := by
   by_contra hnc
   push Not at hnc
-  obtain ⟨t, htB, htQ⟩ := SetLike.not_le_iff_exists.mp hBQ
+  obtain ⟨t, htB, htQ⟩ := IsConcreteLE.not_le_iff_exists.mp hBQ
   have h4 := hNS _ (Sec3.omegaG_normal CFSG.pCore_normal) (Sec3.isElemTwo_omegaG _) hnc t
     (hB.1 htB) htQ (hB.2.1.2 t htB)
   have h5 := relIndex_centralizer_omegaG_le_four hQS hi hB (hidx B hB.1 hB.2.1) htB
@@ -86,6 +86,7 @@ theorem normal_omegaG_of_centralizes_omegaG_pCore
   · rw [hLV l hl n (hSV hn)]
     exact hn
 
+omit [Finite X] in
 theorem inf_mem_famG_one {Q A : Subgroup X} (hr : 1 ≤ CFSG.pRank 2 S)
     (hA : A ∈ Sec3.famG S 0) (h2 : Q.relIndex A = 2) : A ⊓ Q ∈ Sec3.famG S 1 := by
   refine ⟨inf_le_left.trans hA.1, ⟨fun a ha b hb => hA.2.1.1 a ha.1 b hb.1,
@@ -112,7 +113,7 @@ theorem normal_omegaG_jG_one_of_noSmall (hS2 : IsPGroup 2 S)
     apply hEnn
     rw [Sec3.omegaG_jG_one_eq_bot_of_pRank_le (by omega)]
     exact Subgroup.normal_bot
-  obtain ⟨t, htA, htQ⟩ := SetLike.not_le_iff_exists.mp hAQ
+  obtain ⟨t, htA, htQ⟩ := IsConcreteLE.not_le_iff_exists.mp hAQ
   have h2 : Q.relIndex A = 2 := by
     have h1 : Q.relIndex A ≠ 1 := fun h => hAQ (Subgroup.relIndex_eq_one.mp h)
     have h0 := Sec3.relIndex_ne_zero_of_finite Q A

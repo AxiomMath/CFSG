@@ -13,6 +13,7 @@ open CFSG.Quasithin Subgroup
 
 variable {W : Type*} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 theorem w16g_fixV_sup (X Y : Subgroup (MulAut W)) : fixV (X ⊔ Y) = fixV X ⊓ fixV Y := by
   ext w
   simp only [mem_fixV, Subgroup.mem_inf]
@@ -26,7 +27,7 @@ theorem w16g_fixV_sup (X Y : Subgroup (MulAut W)) : fixV (X ⊔ Y) = fixV X ⊓ 
         (fun y hy => MulAction.mem_stabilizer_iff.mpr (hY y hy))
     exact MulAction.mem_stabilizer_iff.mp (hle hz)
 
-theorem w16g_rk_finsetSup_eq_sum (hW : ∀ w : W, w ^ 2 = 1) {ι : Type*} (F : ι → Subgroup W)
+theorem w16g_rk_finsetSup_eq_sum (_hW : ∀ w : W, w ^ 2 = 1) {ι : Type*} (F : ι → Subgroup W)
     (s : Finset ι) (h : s.SupIndep F) : rk ↥(s.sup F) = ∑ i ∈ s, rk (F i) := by
   classical
   induction s using Finset.induction_on with

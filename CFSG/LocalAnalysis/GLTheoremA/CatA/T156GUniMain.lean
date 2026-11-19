@@ -21,7 +21,7 @@ theorem geomBody_unitary (hp : p.Prime) (hp2 : p ≠ 2) {lab : LargeEvenLabel}
       (LargeEvenMatConjImage (LargeEvenProjMk (LargeEvenSUGroup (Fin (l + 1)) K (2 ^ n)))
         (LargeEvenGUSet (Fin (l + 1)) K (2 ^ n)))
       (LargeEvenMatFieldImage (LargeEvenProjMk (LargeEvenSUGroup (Fin (l + 1)) K (2 ^ n)))) := by
-  haveI : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq (f := 2 * n)
+  have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq (f := 2 * n)
     (by rw [hK, ← pow_mul, mul_comm])
   refine fun _ _ => ⟨fun _ f hf hord => ?_, fun h' => absurd h' htag⟩
   have hd : 3 ≤ l + 1 := by omega

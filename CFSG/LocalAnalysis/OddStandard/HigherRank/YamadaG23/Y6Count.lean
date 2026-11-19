@@ -32,7 +32,7 @@ theorem y6_count {G : Type} [Group G] [Finite G] (X C Y K C1 : Subgroup G)
   set Yx : Subgroup ↥X := Y.subgroupOf X with hYx
   set Cx : Subgroup ↥X := C.subgroupOf X with hCx
   set C1x : Subgroup ↥X := C1.subgroupOf X with hC1x
-  haveI hKxNormal : Kx.Normal := by rw [← hker]; infer_instance
+  have hKxNormal : Kx.Normal := by rw [← hker]; infer_instance
   have hKxcard' : Nat.card ↥Kx = Nat.card ↥K := by rw [hKx]; exact hKxcard
   have hYxcard : Nat.card ↥Yx = Nat.card ↥Y := by
     rw [hYx]
@@ -149,10 +149,10 @@ theorem y6_count {G : Type} [Group G] [Finite G] (X C Y K C1 : Subgroup G)
         Nat.dvd_of_mul_dvd_mul_left (show 0 < 180 by norm_num) (by simpa using h360)
       obtain ⟨t, ht⟩ := h2s
       omega
-    · have hR36 : Nat.card ↥ψ.range = 360 * s := by rw [hR, hm36]; try ring
+    · have hR36 : Nat.card ↥ψ.range = 360 * s := by rw [hR, hm36]
       rcases (show s = 1 ∨ s = 2 by omega) with hs1 | hs2
       · exfalso
-        have hR360 : Nat.card ↥ψ.range = 360 := by rw [hR36, hs1]; try ring
+        have hR360 : Nat.card ↥ψ.range = 360 := by rw [hR36, hs1]
         have hAeq : alternatingGroup (Fin 6) = ψ.range := by
           refine Subgroup.eq_of_le_of_card_ge hA6le ?_
           rw [hR360, hA6card]
@@ -166,7 +166,7 @@ theorem y6_count {G : Type} [Group G] [Finite G] (X C Y K C1 : Subgroup G)
     have hks : k * s ≤ 2 := by rw [← hs]; exact hrle
     rw [hs2] at hks
     omega
-  have hr2 : r = 2 := by rw [hs, hs2, hk1]; try ring
+  have hr2 : r = 2 := by rw [hs, hs2, hk1]
   refine ⟨?_, ?_, hA6le, ?_⟩
   · rw [hr, hr2]; ring
   · have hKeq : Nat.card ↥K = Nat.card ↥C1 := by rw [hk, hk1, mul_one]
@@ -184,7 +184,7 @@ theorem y6_orbit_le {G : Type} [Group G] [Finite G] {N H0 : Subgroup G} {t : G} 
     intro s h
     have h1 : sec s = Classical.choose h := by
       simp only [sec]
-      rw [dif_pos h]
+      rw [dite_eq_left h]
     rw [h1]
     exact Classical.choose_spec h
   have hkey : ∀ n : ↥N, ((sec (f n) : ↥N) : G)⁻¹ * (n : G) ∈ H0 := by
@@ -235,7 +235,7 @@ theorem y6_orbit_le {G : Type} [Group G] [Finite G] {N H0 : Subgroup G} {t : G} 
   simpa only [Nat.card_prod] using hle
 
 theorem y6_normal_eq {G : Type} [Group G] [Finite G] {N X H0 : Subgroup G} {t : G} {S : Set G}
-    (hXN : X ≤ N) (hH0X : H0 ≤ X) (hH0 : H0 = N ⊓ centralizer ({t} : Set G))
+    (hXN : X ≤ N) (_hH0X : H0 ≤ X) (hH0 : H0 = N ⊓ centralizer ({t} : Set G))
     (hX : Nat.card ↥X = 40 * Nat.card ↥H0) (hS : ∀ n ∈ N, n * t * n⁻¹ ∈ S)
     (hSc : Nat.card ↥S ≤ 52) : X = N := by
   have hNle : Nat.card ↥N ≤ Nat.card ↥S * Nat.card ↥H0 := y6_orbit_le hH0 hS

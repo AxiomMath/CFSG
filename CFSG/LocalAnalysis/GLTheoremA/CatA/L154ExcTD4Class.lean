@@ -37,7 +37,7 @@ theorem l154td4_false_of_exact {X : Type} [Group X] (hX : CFSG.IsQuasisimple X)
     rw [← hmt]
     simp [markTag, htag]
   · obtain ⟨e⟩ := h6
-    haveI : IsSimpleGroup (X ⧸ Subgroup.center X) := hX.2.1
+    have : IsSimpleGroup (X ⧸ Subgroup.center X) := hX.2.1
     obtain ⟨lab, -, R, _, I, F, θ, -, -, hP, hMM⟩ :=
       CFSG.StandardType.Canonical.largeEvenMarking_exists_markedModel
         (l154_marking_b2der_label hperf e)

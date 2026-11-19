@@ -121,7 +121,7 @@ theorem exists_e7_data_model (s r : ↥(adjointGroup .E7 (ZMod 2)))
     (Subgroup.le_normalizer hcD)] at hmod
   have ht : (MulAut.conj (e7Incl h)).toMonoidHom tθ = tθ := by
     have := Subgroup.mem_centralizer_singleton_iff.1 hcC
-    simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply]
+    simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply]
     rw [mul_inv_eq_iff_eq_mul]
     exact this
   have hσ : (MulAut.conj (e7Incl h)).toMonoidHom (e7Incl s₇) = e7Incl s := by

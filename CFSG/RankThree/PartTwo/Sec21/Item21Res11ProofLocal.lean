@@ -255,7 +255,7 @@ theorem eq_bot_of_le_normalClosureIn
     intro h
     apply Sylow.ne_bot_of_dvd_card P h2
     exact (Subgroup.map_eq_bot_iff_of_injective _ Γ.subtype_injective).mp h
-  have h27 := Sec5.card_le_of_le_normalizer hpair.standing.evenRank_eq hP1 (P.isPGroup'.map _)
+  have h27 := Sec5.card_le_of_le_normalizer hpair.standing.evenRank_eq hP1 (P.isPGroup.map _)
     hAe hP
   rw [C.hA81] at h27
   norm_num at h27

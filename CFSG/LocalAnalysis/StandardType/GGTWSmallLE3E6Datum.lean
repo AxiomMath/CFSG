@@ -66,12 +66,12 @@ theorem ggLE3Small_E6_L
     hfex, hclos⟩ :=
     ggLE3_three_nodes_keep hp2 hBs (N := 6) (by norm_num) hKdatum5 hKside hL3 hL2
   obtain ⟨f, hf⟩ := hfex
-  letI := i1
-  letI := i2
-  letI := i3
-  letI := i4
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Module.Finite (ZMod 3) V := Module.Finite.of_finite
+  let := i1
+  let := i2
+  let := i3
+  let := i4
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Module.Finite (ZMod 3) V := Module.Finite.of_finite
   let z : V := ι (Additive.ofMul (⟨x, hxBs⟩ : ↥Bs))
   have hz0 : z ≠ 0 := by
     intro h0

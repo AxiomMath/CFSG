@@ -57,12 +57,12 @@ theorem exists_lift_SU3 {G C : Type} [Group G] [Group C] {π : G →* C}
     [Finite G] (hπ : Function.Surjective π) (hker : π.ker ≤ Subgroup.center G)
     (ρ₀ : unitarySU ℓ f k 3 →* C) :
     ∃ ρ : unitarySU ℓ f k 3 →* G, π.comp ρ = ρ₀ := by
-  haveI : Finite k := h.finite
+  have : Finite k := h.finite
   have hF : Nat.card k = (ℓ ^ f) ^ 2 := by
     rw [h.card, Nat.mul_comm 2 f, pow_mul]
   have hq : (3, ℓ ^ f) ≠ (3, 2) := fun hh => h2 (Prod.mk.inj hh).2
-  haveI : Fact ℓ.Prime := ⟨h.prime⟩
-  haveI : CharP k ℓ := h.charP
+  have : Fact ℓ.Prime := ⟨h.prime⟩
+  have : CharP k ℓ := h.charP
   obtain ⟨s, hs⟩ :=
     CFSG.LieType.Steinberg.CentralExt.SUOdd.statedSU_odd_exists_section_of_central
       (p := ℓ) (f := f) (F := k) hF h.one_le (n := 3) le_rfl (by norm_num) hq
@@ -102,8 +102,8 @@ theorem TwE6ThreeA2Line.torus_pow_eq_one
   have hbpow : b ^ (ringChar K ^ m) = 1 := by
     apply rootDiagUnit_injective
     rw [← rootDiagUnit_pow, hψpow, rootDiagUnit_one]
-  haveI : Fact (Nat.Prime (ringChar K)) := ⟨CharP.char_is_prime K (ringChar K)⟩
-  haveI : CharP (AlgebraicClosure K) (ringChar K) :=
+  have : Fact (Nat.Prime (ringChar K)) := ⟨CharP.char_is_prime K (ringChar K)⟩
+  have : CharP (AlgebraicClosure K) (ringChar K) :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective (ringChar K)
   have hfield : ∀ c : AlgebraicClosure K, c ^ (ringChar K ^ m) = 1 → c = 1 := by
     intro c hc
@@ -199,7 +199,7 @@ theorem TwE6ThreeA2Line.mem_iSup_of_charPow
   have hTcard : Nat.Coprime (Nat.card T) (ringChar K) := by
     rw [Nat.coprime_comm, Nat.Prime.coprime_iff_not_dvd hrprime]
     intro hdvd
-    haveI : Fact (ringChar K).Prime := ⟨hrprime⟩
+    have : Fact (ringChar K).Prime := ⟨hrprime⟩
     obtain ⟨u, hu⟩ := exists_prime_orderOf_dvd_card' (ringChar K) hdvd
     have hu1 : (u : ModGL TwistTag.E6.tag K) = 1 := by
       apply hL.torus_pow_eq_one u.2
@@ -237,7 +237,7 @@ theorem exists_twLine_frames_h0 {K : Type} [Field K] [Finite K] {σ : K ≃+* K}
     {T : Subgroup (ModGL TwistTag.E6.tag K)} {n : ModGL TwistTag.E6.tag K}
     (hL : TwE6ThreeA2Line K σ h₀ L T n)
     {E : Subgroup (MulAut (twistedE6RootGroup K σ))} (hE : IsElemAbelian 3 E)
-    (hcard : Nat.card E = 3 ^ 3)
+    (_hcard : Nat.card E = 3 ^ 3)
     (hED : E ≤ twistedE6Inn K σ ⊔ twistedE6Diag K σ)
     (hs : MulAut.conj (⟨h₀, hL.h₀_mem⟩ : twistedE6RootGroup K σ) ∈ E) :
     ∃ (ℓ f : ℕ) (h : UnitaryFieldData ℓ f K)
@@ -434,7 +434,7 @@ theorem exists_twThreeA2_frames {K : Type} [Field K] [Finite K] {σ : K ≃+* K}
         show ε * τ⁻¹ = τ⁻¹ * (τ * ε * τ⁻¹)
         group
       have h := congrArg (fun f : MulAut (twistedE6RootGroup K σ) => f x) hεeq
-      simpa [hτi, ε', MulAut.mul_apply] using h
+      simp [hτi, ε', MulAut.mul_apply]
     obtain ⟨m, hm1, hm2⟩ := hdec₀ ε' hε'E
     refine ⟨m, ?_, ?_⟩
     · intro i
@@ -504,7 +504,7 @@ theorem exists_lift_twLayer_le_seitzHyperGamma {G C : Type} [Group G] [Group C] 
     twLayerFacts_of_stmts twFixedNonCentral_holds twToralPlane_holds twInnerHeisPlane_holds
       twOuterHeisPlane_holds h hq3 hq (shiftQs_exists_noncomm hYq)
       (fun N _ => shiftQs_normal_dichotomy hYq N)
-  haveI : Group.IsPerfect (unitarySU ℓ f k 3) := hYq.1
+  have : Group.IsPerfect (unitarySU ℓ f k 3) := hYq.1
   obtain ⟨ρ, hρ, hρinj, hρcomm, hfix, hdecρ⟩ :=
     exists_lift_frames (Y := unitarySU ℓ f k 3) (C := C) (π := π)
       (Group.IsPerfect.commutator_eq_top)
@@ -609,13 +609,13 @@ theorem seitzHyperGamma_eq_top_of_twAll24Plane {K : Type} [Group K] [Finite K]
   have hL : ∀ φ ∈ Q, ind φ ≠ 1 → Lfun φ ≤ seitzHyperGamma 3 E := by
     intro φ hφ hφ1
     dsimp only [Lfun]
-    rw [dif_pos ⟨hφ, hφ1⟩]
+    rw [dite_eq_left ⟨hφ, hφ1⟩]
     exact (Classical.choose_spec (key φ hφ hφ1)).1
   have hr : ∀ φ ∈ Q, ind φ ≠ 1 → ∀ c : twistedE6RootGroup k σ, ind φ c = c →
       (∃ n : ℕ, c ^ (ringChar k ^ n) = 1) → c ∈ (Lfun φ).map π := by
     intro φ hφ hφ1 c hfix hpow
     dsimp only [Lfun]
-    rw [dif_pos ⟨hφ, hφ1⟩]
+    rw [dite_eq_left ⟨hφ, hφ1⟩]
     exact (Classical.choose_spec (key φ hφ hφ1)).2 c hfix hpow
   refine seitzHyperGamma_eq_top_of_uniPlaneGen_layers (π := π)
     hperf hπ hker ind (p := 3) (r := ringChar k) (E := E) (P := Q) ?_ Lfun hL hr
@@ -639,10 +639,10 @@ theorem uniPlaneGen_twE6 {k : Type} [Field k] [Finite k] {σ : k ≃+* k} {q : �
     (hcard : Nat.card P = 3 ^ 2) (h8 : q = 8 → P ≤ twistedE6Inn k σ) :
     Inputs2311c.UniPlaneGen (ringChar k) P := by
   classical
-  haveI : Fintype k := Fintype.ofFinite k
+  have : Fintype k := Fintype.ofFinite k
   have h1 : 1 < Nat.card k := Finite.one_lt_card
   rw [hkq] at h1
-  have hq0 : q ≠ 0 := by rintro rfl; simpa using h1
+  have hq0 : q ≠ 0 := by rintro rfl; simp at h1
   have hq1 : q ≠ 1 := by rintro rfl; norm_num at h1
   have hq2le : 2 ≤ q := by omega
   obtain ⟨hp, f, hf, hqf⟩ := prime_ringChar_and_eq_pow_of_card_sq k q hkq hq2le

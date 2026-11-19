@@ -19,10 +19,11 @@ section Model
 
 variable {K : Type} [Field K] {γ : G → K}
 
+omit [Finite G] in
 theorem QuadModel.card_orthogonal_mul_card [Finite K] (M₀ : Tim79.QuadModel Q Z K γ)
     (W : Submodule K M₀.E) :
     Nat.card ↥(M₀.B.orthogonal W) * Nat.card ↥W = Nat.card M₀.E := by
-  haveI : Module.Finite K M₀.E := M₀.fin
+  have : Module.Finite K M₀.E := M₀.fin
   have h1 : Nat.card ↥(M₀.B.orthogonal W) =
       Nat.card K ^ Module.finrank K ↥(M₀.B.orthogonal W) := Module.natCard_eq_pow_finrank
   have h2 : Nat.card ↥W = Nat.card K ^ Module.finrank K ↥W := Module.natCard_eq_pow_finrank
@@ -34,6 +35,7 @@ theorem QuadModel.card_orthogonal_mul_card [Finite K] (M₀ : Tim79.QuadModel Q 
     omega
   rw [h1, h2, h3, ← pow_add, h5]
 
+omit [Finite G] in
 private theorem img_Wt_eq_orthogonal_span (M₀ : Tim79.QuadModel Q Z K γ)
     (R : Tim79.GammaReg Q Z γ) {X : Subgroup G} (hXQ : X ≤ Q) {e : M₀.E} :
     e ∈ M₀.img (Wt Q X) ↔
@@ -51,6 +53,7 @@ private theorem img_Wt_eq_orthogonal_span (M₀ : Tim79.QuadModel Q Z K γ)
     have h1 := h v (Submodule.subset_span hv)
     rwa [Tim79.QuadModel.B_comm, neg_eq_zero] at h1
 
+omit [Finite G] in
 private theorem Z_le_Wt (M₀ : Tim79.QuadModel Q Z K γ) (R : Tim79.GammaReg Q Z γ)
     {X : Subgroup G} (hXQ : X ≤ Q) : Z ≤ Wt Q X := by
   intro z hz
@@ -59,6 +62,7 @@ private theorem Z_le_Wt (M₀ : Tim79.QuadModel Q Z K γ) (R : Tim79.GammaReg Q 
   rw [(M₀.π_ker z (R.V_le hz)).mpr hz]
   simp
 
+omit [Finite G] in
 private theorem card_Q_eq_card_Z_mul (M₀ : Tim79.QuadModel Q Z K γ)
     (R : Tim79.GammaReg Q Z γ) : Nat.card Q = Nat.card Z * Nat.card M₀.E := by
   have himgQ : M₀.img Q = ⊤ := by
@@ -69,11 +73,12 @@ private theorem card_Q_eq_card_Z_mul (M₀ : Tim79.QuadModel Q Z K γ)
   have h := Tim79.QuadModel.card_eq M₀ (S := Q) le_rfl R.V_le
   rwa [himgQ, AddSubgroup.card_top] at h
 
+omit [Finite G] in
 private theorem card_img_Wt_mul_card_img_le [Finite K] (M₀ : Tim79.QuadModel Q Z K γ)
     (R : Tim79.GammaReg Q Z γ) {X : Subgroup G} (hXQ : X ≤ Q) :
     Nat.card (M₀.img (Wt Q X)) * Nat.card (M₀.img X) ≤ Nat.card M₀.E := by
-  haveI : Module.Finite K M₀.E := M₀.fin
-  haveI : Finite M₀.E := Module.finite_of_finite K
+  have : Module.Finite K M₀.E := M₀.fin
+  have : Finite M₀.E := Module.finite_of_finite K
   set Sp := Submodule.span K (M₀.img X : Set M₀.E) with hSp
   have himgXle : Nat.card (M₀.img X) ≤ Nat.card ↥Sp :=
     Nat.card_le_card_of_injective
@@ -88,6 +93,7 @@ private theorem card_img_Wt_mul_card_img_le [Finite K] (M₀ : Tim79.QuadModel Q
       ≤ Nat.card ↥(M₀.B.orthogonal Sp) * Nat.card ↥Sp := Nat.mul_le_mul h1 himgXle
     _ = Nat.card M₀.E := QuadModel.card_orthogonal_mul_card M₀ Sp
 
+omit [Finite G] in
 theorem card_Wt_mul_card_le_of_gammaReg [Finite K] (M₀ : Tim79.QuadModel Q Z K γ)
     (R : Tim79.GammaReg Q Z γ) {X : Subgroup G} (hXQ : X ≤ Q) (hZX : Z ≤ X) :
     Nat.card ↥(Wt Q X) * Nat.card X ≤ Nat.card Q * Nat.card Z := by
@@ -110,6 +116,7 @@ theorem StrothHyp.card_Wt_mul_card_le (H : StrothHyp M Q Z) {X : Subgroup G} (hX
   obtain ⟨K, hK, hfin, hch, γ, M₀, hD⟩ := stroth_globalModelData H
   exact card_Wt_mul_card_le_of_gammaReg M₀ hD.reg hXQ hZX
 
+omit [Finite G] in
 private theorem toAdd_psi_ne_zero {ι : Type} [Fintype ι] [DecidableEq ι] {K : Type} [Field K]
     {V Z : Subgroup G} [hN : (Z.subgroupOf V).Normal]
     (ψ : ↥V ⧸ Z.subgroupOf V ≃* Multiplicative (ι → K))
@@ -118,6 +125,7 @@ private theorem toAdd_psi_ne_zero {ι : Type} [Fintype ι] [DecidableEq ι] {K :
   intro h0
   exact hwZ ((hker w).mp (by simpa using congrArg Multiplicative.ofAdd h0))
 
+omit [Finite G] in
 private theorem SLMNat.mem_of_not_mem_Z {hc : Ctx M Q Z B} {t : G} {m : ℕ}
     (h : SLMNat hc t m) (hm : 2 ≤ m) {X : Subgroup G} (hZX : Z ≤ X)
     (hXV : X ≤ Vt M (LB M Q B) B Z t)
@@ -127,7 +135,7 @@ private theorem SLMNat.mem_of_not_mem_Z {hc : Ctx M Q Z B} {t : G} {m : ℕ}
   set V := Vt M (LB M Q B) B Z t
   obtain ⟨K, hK, hfin, -, φ, hφrange, -, hSA⟩ := h
   obtain ⟨hRnV, hZn, ψ, hψ⟩ := hSA
-  haveI := hZn
+  have := hZn
   have hker : ∀ w : V, ψ (QuotientGroup.mk w) = 1 ↔ (w : G) ∈ Z := by
     intro w
     rw [← map_one ψ, ψ.injective.eq_iff, QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf]
@@ -156,6 +164,7 @@ private theorem SLMNat.mem_of_not_mem_Z {hc : Ctx M Q Z B} {t : G} {m : ℕ}
   rw [hv]
   exact X.mul_mem hrX hzX
 
+omit [Finite G] in
 theorem SLMNat.eq_or_eq_of_le_normalizer {hc : Ctx M Q Z B} {t : G} {m : ℕ}
     (h : SLMNat hc t m) (hm : 2 ≤ m) {X : Subgroup G} (hZX : Z ≤ X)
     (hXV : X ≤ Vt M (LB M Q B) B Z t)
@@ -165,7 +174,7 @@ theorem SLMNat.eq_or_eq_of_le_normalizer {hc : Ctx M Q Z B} {t : G} {m : ℕ}
   · exact Or.inl hXZ
   right
   have hlt : ¬ X ≤ Z := fun hle => hXZ (le_antisymm hle hZX)
-  obtain ⟨x, hxX, hxZ⟩ := SetLike.not_le_iff_exists.mp hlt
+  obtain ⟨x, hxX, hxZ⟩ := IsConcreteLE.not_le_iff_exists.mp hlt
   refine le_antisymm hXV fun v hvV => ?_
   by_cases hvZ : v ∈ Z
   · exact hZX hvZ

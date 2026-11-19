@@ -28,7 +28,7 @@ private theorem s16h_normal_le_center_or_eq_top {Q : Type*} [Group Q]
     (hQ : CFSG.Open.IsQuasisimple Q) (N : Subgroup Q) [N.Normal] :
     N ≤ Subgroup.center Q ∨ N = ⊤ := by
   obtain ⟨hperf, hsimple⟩ := hQ
-  haveI : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hsimple
+  have : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hsimple
   let π : Q →* Q ⧸ Subgroup.center Q := QuotientGroup.mk' _
   have hnorm : (N.map π).Normal :=
     Subgroup.Normal.map inferInstance π (QuotientGroup.mk'_surjective _)
@@ -70,6 +70,7 @@ private theorem s16h_commutatorElement_mul_central {G : Type*} [Group G]
   rw [show (d : G) * ⁅a, b⁆ * (d : G)⁻¹ = ⁅a, b⁆ by rw [hd ⁅a, b⁆]; group,
       show (c : G) * ⁅a, b⁆ * (c : G)⁻¹ = ⁅a, b⁆ by rw [hc ⁅a, b⁆]; group]
 
+omit [Finite W] in
 private theorem s16h_commSub_commSub_eq (L : Subgroup (MulAut W))
     (hperf : commutator ↥L = ⊤) :
     commSub (commSub ⊤ L) L = commSub ⊤ L := by
@@ -128,6 +129,7 @@ private theorem s16h_commSub_commSub_eq (L : Subgroup (MulAut W))
     exact key w l hl
   exact le_antisymm hle hge
 
+omit [Finite W] in
 theorem s16h_H5_triv_of_triv_quot {A L : Subgroup (MulAut W)} (hcomp : IsComponentOf L A)
     {x : MulAut W} (hx : x ∈ normalizer (L : Set (MulAut W)))
     (hxq : ∀ w ∈ commSub ⊤ L, x w * w⁻¹ ∈ commSub ⊤ L ⊓ fixV L) :
@@ -159,8 +161,8 @@ theorem s16h_H5_triv_of_triv_quot {A L : Subgroup (MulAut W)} (hcomp : IsCompone
     intro hbot
     have hLne : L ≠ ⊥ := by
       intro hLbot
-      haveI : Nontrivial (↥L ⧸ Subgroup.center ↥L) := hLq.2.toNontrivial
-      haveI hnt : Nontrivial ↥L :=
+      have : Nontrivial (↥L ⧸ Subgroup.center ↥L) := hLq.2.toNontrivial
+      have hnt : Nontrivial ↥L :=
         (QuotientGroup.mk'_surjective (Subgroup.center ↥L)).nontrivial
       exact (Subgroup.nontrivial_iff_ne_bot L).mp hnt hLbot
     have hsub : commSub ⊤ L = ⊥ := by rw [← hU]; exact hbot
@@ -276,7 +278,7 @@ theorem s16h_H5_triv_of_triv_quot {A L : Subgroup (MulAut W)} (hcomp : IsCompone
     rw [h4] at hcomm_bot
     exact hUne hcomm_bot
   have hKcenter : K ≤ Subgroup.center ↥L := by
-    haveI : K.Normal := hKnormal
+    have : K.Normal := hKnormal
     rcases s16h_normal_le_center_or_eq_top hLq K with h | h
     · exact h
     · exact absurd h hKne
@@ -288,8 +290,7 @@ theorem s16h_H5_triv_of_triv_quot {A L : Subgroup (MulAut W)} (hcomp : IsCompone
         group) }
   let d : ↥L → ↥L := fun l => cx l * l⁻¹
   have hdK : ∀ l : ↥L, d l ∈ K := by
-    intro l
-    intro u
+    intro l u
     have hv : ((l⁻¹ : ↥L) : MulAut W) u.1 ∈ U := hLU l⁻¹ u
     have h1 : x⁻¹ (((l⁻¹ : ↥L) : MulAut W) u.1) *
         (((l⁻¹ : ↥L) : MulAut W) u.1)⁻¹ ∈ Y := hxinvY _ hv

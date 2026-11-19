@@ -28,7 +28,7 @@ theorem normal_le_center_or_eq_top {X : Type*} [Group X] [Finite X]
     (hX : CFSG.IsQuasisimple X) {N : Subgroup X} (hN : N.Normal) :
     N ≤ Subgroup.center X ∨ N = ⊤ := by
   obtain ⟨hperf, hsimp, -⟩ := hX
-  haveI := hsimp
+  have := hsimp
   have hmap : (N.map (QuotientGroup.mk' (Subgroup.center X))).Normal :=
     hN.map (QuotientGroup.mk' (Subgroup.center X)) (QuotientGroup.mk'_surjective _)
   rcases Subgroup.Normal.eq_bot_or_eq_top (N.map (QuotientGroup.mk' (Subgroup.center X))) with
@@ -86,7 +86,7 @@ theorem normalClosure_eq_top_of_quasisimple {X : Type*} [Group X] [Finite X]
 theorem odd_card_center_of_normal_normal {Γ : Type} [Group Γ] [Finite Γ]
     (hΓ : CFSG.pCore 2 Γ = ⊥) {H X : Subgroup Γ} (hH : H.Normal) (hXH : X ≤ H)
     (hX : (X.subgroupOf H).Normal) : Odd (Nat.card (Subgroup.center ↥X)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hodd
   have h2 : 2 ∣ Nat.card (Subgroup.center ↥X) := by
     rcases Nat.even_or_odd (Nat.card (Subgroup.center ↥X)) with h | h

@@ -72,7 +72,7 @@ theorem a8_klein_classify (hab : a ≠ b) (hac : a ≠ c) (had : a ≠ d) (hbc :
   have hF : ∀ x, (x = a ∨ x = b ∨ x = c ∨ x = d) → σ x = a ∨ σ x = b ∨ σ x = c ∨ σ x = d := by
     intro x hx
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have h2 := hinv x
     rw [hout (σ x) hcon.1 hcon.2.1 hcon.2.2.1 hcon.2.2.2] at h2
     exact hfp x hx h2
@@ -115,8 +115,8 @@ theorem a8_klein_classify (hab : a ≠ b) (hac : a ≠ c) (had : a ≠ d) (hbc :
       by_cases h4 : x = d <;> simp_all [Perm.mul_apply, swap_apply_def, hab.symm, hac.symm,
         had.symm, hbc.symm, hbd.symm, hcd.symm]
 
-theorem a8_dt_fix {x y z u : Fin 8} (hxy : x ≠ y) (hzu : z ≠ u) (hxz : x ≠ z) (hxu : x ≠ u)
-    (hyz : y ≠ z) (hyu : y ≠ u) (w : Fin 8) (hw : w ≠ x ∧ w ≠ y ∧ w ≠ z ∧ w ≠ u) :
+theorem a8_dt_fix {x y z u : Fin 8} (_hxy : x ≠ y) (_hzu : z ≠ u) (_hxz : x ≠ z) (_hxu : x ≠ u)
+    (_hyz : y ≠ z) (_hyu : y ≠ u) (w : Fin 8) (hw : w ≠ x ∧ w ≠ y ∧ w ≠ z ∧ w ≠ u) :
     (swap x y * swap z u) w = w := by
   simp [Perm.mul_apply, swap_apply_of_ne_of_ne, hw.1, hw.2.1, hw.2.2.1, hw.2.2.2]
 
@@ -153,7 +153,7 @@ theorem a8_kW_isPGroup (hab : a ≠ b) (hac : a ≠ c) (had : a ≠ d) (hbc : b 
     · rw [hBA', hAB]
     · rfl
 
-theorem a8_kW_le_alt (hab : a ≠ b) (hac : a ≠ c) (had : a ≠ d) (hbc : b ≠ c) (hbd : b ≠ d)
+theorem a8_kW_le_alt (hab : a ≠ b) (hac : a ≠ c) (_had : a ≠ d) (_hbc : b ≠ c) (hbd : b ≠ d)
     (hcd : c ≠ d) : a8_kW a b c d ≤ alternatingGroup (Fin 8) := by
   refine (closure_le _).2 ?_
   rintro s (rfl | rfl)
@@ -166,12 +166,12 @@ theorem a8_kW_comm (hab : a ≠ b) (hac : a ≠ c) (had : a ≠ d) (hbc : b ≠ 
   have hA : Commute r (swap a b * swap c d) := Disjoint.commute (disjoint_iff_eq_or_eq.2 fun x => by
     by_cases hx : x = a ∨ x = b ∨ x = c ∨ x = d
     · exact Or.inl (hr x hx)
-    · push_neg at hx
+    · push Not at hx
       exact Or.inr (a8_dt_fix hab hcd hac had hbc hbd x ⟨hx.1, hx.2.1, hx.2.2.1, hx.2.2.2⟩))
   have hB : Commute r (swap a c * swap b d) := Disjoint.commute (disjoint_iff_eq_or_eq.2 fun x => by
     by_cases hx : x = a ∨ x = b ∨ x = c ∨ x = d
     · exact Or.inl (hr x hx)
-    · push_neg at hx
+    · push Not at hx
       exact Or.inr (a8_dt_fix hac hbd hab had hbc.symm hcd x ⟨hx.1, hx.2.2.1, hx.2.1, hx.2.2.2⟩))
   have hcen : a8_kW a b c d ≤ Subgroup.centralizer {r} := by
     refine (closure_le _).2 ?_
@@ -250,7 +250,7 @@ theorem a8_card_four_dvd {G : Type*} [Group G] [Finite G] (H : Subgroup G) (hH :
   rw [hn] at h3 ⊢
   have hn2 : 2 ≤ n := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     interval_cases n <;> norm_num at h3
   exact (pow_dvd_pow 2 hn2 : 2 ^ 2 ∣ 2 ^ n)
 
@@ -338,7 +338,7 @@ theorem a8_pair_comm (t : Perm (Fin 8)) (ht : t * t = 1) (y z : Fin 8) :
         exact this.symm
     exact swap_apply_of_ne_of_ne hxz hxtz
   · left
-    push_neg at hx
+    push Not at hx
     exact swap_apply_of_ne_of_ne hx.1 hx.2
 
 @[expose] def a8_pW (t : Perm (Fin 8)) : Subgroup (Perm (Fin 8)) :=
@@ -365,7 +365,7 @@ theorem a8_pW_commute (t : Perm (Fin 8)) (ht : t * t = 1) :
   intro w hw
   exact (Subgroup.mem_centralizer_singleton_iff.1 (hcen (Subgroup.mem_inf.1 hw).1)).symm
 
-theorem a8_pW_normal (t : Perm (Fin 8)) (ht : t * t = 1) (n : Perm (Fin 8))
+theorem a8_pW_normal (t : Perm (Fin 8)) (_ht : t * t = 1) (n : Perm (Fin 8))
     (hnt : ∀ y, n (t y) = t (n y)) : ∀ w ∈ a8_pW t, n * w * n⁻¹ ∈ a8_pW t := by
   intro w hw
   obtain ⟨hw1, hw2⟩ := Subgroup.mem_inf.1 hw
@@ -458,14 +458,14 @@ theorem a8_kW_props {a b c d : Fin 8} (R : Subgroup (Perm (Fin 8))) (hab : a ≠
     (hfix : ∀ r ∈ R, ∀ y, (y = a ∨ y = b ∨ y = c ∨ y = d) → r y = y)
     (hnorm : ∀ n ∈ Subgroup.normalizer (R : Set (Perm (Fin 8))), ∀ y,
       (y = a ∨ y = b ∨ y = c ∨ y = d) ↔ (n y = a ∨ n y = b ∨ n y = c ∨ n y = d)) :
-    (∀ w ∈ a8_kW a b c d, sign w = 1) ∧ IsPGroup 2 (a8_kW a b c d) ∧
-      (∀ w ∈ a8_kW a b c d, w ∈ Subgroup.normalizer (R : Set (Perm (Fin 8)))) ∧
-      (∀ n ∈ Subgroup.normalizer (R : Set (Perm (Fin 8))), ∀ w ∈ a8_kW a b c d,
-        n * w * n⁻¹ ∈ a8_kW a b c d) :=
-  ⟨fun w hw => mem_alternatingGroup.1 (a8_kW_le_alt hab hac had hbc hbd hcd hw),
+    (∀ _w ∈ a8_kW a b c d, sign _w = 1) ∧ IsPGroup 2 (a8_kW a b c d) ∧
+      (∀ _w ∈ a8_kW a b c d, _w ∈ Subgroup.normalizer (R : Set (Perm (Fin 8)))) ∧
+      (∀ n ∈ Subgroup.normalizer (R : Set (Perm (Fin 8))), ∀ _w ∈ a8_kW a b c d,
+        n * _w * n⁻¹ ∈ a8_kW a b c d) :=
+  ⟨fun _w hw => mem_alternatingGroup.1 (a8_kW_le_alt hab hac had hbc hbd hcd hw),
     a8_kW_isPGroup hab hac had hbc hbd hcd,
-    fun w hw => a8_comm_normalizer R w (fun r hr => a8_kW_comm hab hac had hbc hbd hcd r
-      (fun y hy => hfix r hr y hy) w hw),
-    fun n hn w hw => a8_kW_normal hab hac had hbc hbd hcd n (hnorm n hn) w hw⟩
+    fun _w hw => a8_comm_normalizer R _w (fun r hr => a8_kW_comm hab hac had hbc hbd hcd r
+      (fun y hy => hfix r hr y hy) _w hw),
+    fun n hn _w hw => a8_kW_normal hab hac had hbc hbd hcd n (hnorm n hn) _w hw⟩
 
 end CFSG.LocalAnalysis.GLTheoremA

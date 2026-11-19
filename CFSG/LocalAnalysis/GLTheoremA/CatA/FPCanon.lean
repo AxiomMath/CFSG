@@ -52,7 +52,7 @@ theorem canonAll_derived {lab : LargeEvenLabel} (hlab : LargeEvenInLambda2 lab)
 
 theorem canonOddAut {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {lab : LargeEvenLabel}
     (hlab : LargeEvenInLambda2 lab) (hD : ¬ (lab.tag = .D ∧ lab.rank = 4 ∧ p = 3)) :
-    CAll lab (LargeEvenSimpleGuard fun R _ I F => GGOddAutInnField p I F) := by
+    CAll lab (LargeEvenSimpleGuard fun _R _ I F => GGOddAutInnField p I F) := by
   by_cases hd : DerivedLab lab
   · refine canonAll_derived hlab hd ?_ ?_
     · intro _ K _ _ hK hs hna
@@ -60,7 +60,7 @@ theorem canonOddAut {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {lab : LargeEvenLab
         (fun φ hφ => Subgroup.subset_closure (Or.inl hφ)) le_rfl
     · intro _ a ha K _ _ hK hs hna
       subst ha
-      simp only [if_true]
+      simp only [ite_true]
       exact (RawAutSmall.ggOddAutInnField_twF4der rfl hK (hp.odd_of_ne_two hp2)).mono
         (fun φ hφ => Subgroup.subset_closure (Or.inl hφ)) le_rfl
   · exact (canonAll_iff_legacyAll hlab hd _).2 (ggOddAutOn_all p lab hp hp2 hlab trivial hD)
@@ -104,7 +104,7 @@ theorem canonRawFieldCentral {lab : LargeEvenLabel} (hlab : LargeEvenInLambda2 l
         (fun g hg => chevFieldImage_eq_one_of_card_two (by simpa using hK2) _ hg) hf
       subst hf1
       rw [mul_one]
-      simp only [if_true] at hu ⊢
+      simp only [ite_true] at hu ⊢
       set J : Subgroup (MulAut (LargeEvenCenterQuot (LargeEvenTwF4H 0 K))) :=
         Subgroup.closure (LargeEvenChevIDImage LargeEvenCartanF4 K (LargeEvenTwF4H 0 K) ∪
           LargeEvenParentConjImage (LargeEvenTwF4Parent 0 K) (LargeEvenTwF4H 0 K)) with hJdef
@@ -139,7 +139,7 @@ theorem canonRawPCyclic {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {lab : LargeEve
           exact Subgroup.subset_closure (Or.inl (conj_mem_chevIDImage _ r))) hs hna
     · intro _ a ha K _ _ hK hs hna
       subst ha
-      simp only [if_true]
+      simp only [ite_true]
       exact ggRawPCyclic_of_mem (F := ∅)
         (Subgroup.closure (LargeEvenChevIDImage LargeEvenCartanF4 K (LargeEvenTwF4H 0 K) ∪
           LargeEvenParentConjImage (LargeEvenTwF4Parent 0 K) (LargeEvenTwF4H 0 K))) rfl

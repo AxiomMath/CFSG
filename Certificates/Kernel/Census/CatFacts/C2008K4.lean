@@ -54,8 +54,7 @@ theorem conjE_gen {g : Equiv.Perm (Fin 8)}
     (h : ∀ e ∈ cfQE.original.toList, siftP cfQE (g * e * g⁻¹) 0 = true) {y : Equiv.Perm (Fin 8)}
     (hy : y ∈ cfQE.originalSubgroup) : g * y * g⁻¹ ∈ cfQE.originalSubgroup := by
   refine closure_all cfQE (P := fun y => g * y * g⁻¹ ∈ cfQE.originalSubgroup) ?_ ?_ ?_ hy
-  · beta_reduce
-    rw [mul_one, mul_inv_cancel]
+  · rw [mul_one, mul_inv_cancel]
     exact Subgroup.one_mem _
   · intro a b ha hb
     beta_reduce at ha hb ⊢
@@ -64,7 +63,6 @@ theorem conjE_gen {g : Equiv.Perm (Fin 8)}
     exact Subgroup.mul_mem _ ha hb
   · intro e he
     refine ⟨mem_cfQE (h e he), ?_⟩
-    beta_reduce
     have e' : g * e⁻¹ * g⁻¹ = (g * e * g⁻¹)⁻¹ := by group
     rw [e']
     exact Subgroup.inv_mem _ (mem_cfQE (h e he))

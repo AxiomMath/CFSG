@@ -21,7 +21,7 @@ open scoped commutatorElement Matrix
 
 theorem orthCoord_add (c d : Vec4) : orthCoord (c + d) = orthCoord c + orthCoord d := by
   funext i
-  fin_cases i <;> simp [orthCoord] <;> ring
+  fin_cases i <;> simp [orthCoord]; ring
 
 theorem orthCoordInv_orthCoord (c : Vec4) : orthCoordInv (orthCoord c) = c := by
   funext i
@@ -38,7 +38,7 @@ theorem pact_isEven (σ : Perm (Fin 5)) {x : Fin 5 → ZMod 2} (hx : isEven x) :
 
 theorem orthCoord_smul (a : ZMod 2) (c : Vec4) : orthCoord (a • c) = a • orthCoord c := by
   funext i
-  fin_cases i <;> simp [orthCoord] <;> ring
+  fin_cases i <;> simp [orthCoord]; ring
 
 theorem pact_smul (σ : Perm (Fin 5)) (a : ZMod 2) (x : Fin 5 → ZMod 2) :
     pact σ (a • x) = a • pact σ x := by

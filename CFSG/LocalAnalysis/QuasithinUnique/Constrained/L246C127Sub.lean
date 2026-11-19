@@ -83,7 +83,7 @@ theorem le_closure_oddPPow [Finite G] {K : Subgroup G}
       apply Subgroup.subset_closure
       refine ⟨y.2, q, hq, hq2, ?_⟩
       have hyP : Subgroup.zpowers y ≤ (P : Subgroup ↥K) := Subgroup.zpowers_le.2 hy
-      have := P.isPGroup'.to_le hyP
+      have := P.isPGroup.to_le hyP
       have h : Subgroup.zpowers (y : G) = (Subgroup.zpowers y).map K.subtype := by
         rw [MonoidHom.map_zpowers]
         rfl

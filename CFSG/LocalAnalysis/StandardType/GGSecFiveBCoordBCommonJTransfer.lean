@@ -139,7 +139,6 @@ theorem gammaHat_eq_one_iff (hcfg : GGConfig p B Bs x L D J) (hB : B = Bs)
       ext r
       obtain ⟨l, rfl⟩ := ggQuotHom_surjective θ r
       rw [MulAut.one_apply, ggBeta_eq]
-      change ggLAut L θ ⟨(b : G), hBsN b.2⟩ (ggQuotHom θ l) = ggQuotHom θ l
       rw [ggQuotHom_apply, ggLAut_apply]
       let l' : ↥L := ⟨(b : G) * l * (b : G)⁻¹,
         (Subgroup.mem_normalizer_iff.mp (hBsN b.2) l).mp l.2⟩
@@ -183,7 +182,7 @@ theorem card_range_gammaHat (hcfg : GGConfig p B Bs x L D J) (hB : B = Bs)
     Nat.card γ.range = p ^ (n - 1) := by
   classical
   have hp : p.Prime := hcfg.1.2.2.2.2.2.1.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hS : LargeEvenSStar p B x L := hcfg.1.2.2.2.2.2.2.1
   have hSB : LargeEvenSStar p Bs x L := hB ▸ hS
   have hcardBs : Nat.card ↥Bs = p ^ n := by
@@ -204,7 +203,7 @@ theorem card_range_gammaHat (hcfg : GGConfig p B Bs x L D J) (hB : B = Bs)
   have hn0 : n ≠ 0 := by
     intro hn
     have h2 : 2 ≤ Nat.card ↥Bs := by
-      haveI : Nontrivial ↥Bs :=
+      have : Nontrivial ↥Bs :=
         ⟨⟨⟨x, hSB.2.1⟩, ⟨1, Bs.one_mem⟩, by
           intro h
           exact hSB.2.2.1 (congrArg Subtype.val h)⟩⟩
@@ -221,7 +220,7 @@ theorem card_range_gammaHat (hcfg : GGConfig p B Bs x L D J) (hB : B = Bs)
   simpa using hrange
 
 theorem isComponentOf_map_J (hcfg : GGConfig p B Bs x L D J) (hB : B = Bs)
-    (hBsN : Bs ≤ Subgroup.normalizer (L : Set G)) (hR : Subgroup.center R = ⊥)
+    (hBsN : Bs ≤ Subgroup.normalizer (L : Set G)) (_hR : Subgroup.center R = ⊥)
     (hγ : GGGammaHatSpec θ γ) {z : ↥Bs} (hzD : (z : G) ∈ D)
     (hzx : (z : G) ∉ Subgroup.zpowers x) :
     CFSG.Assembly.IsComponentOf ((J.subgroupOf L).map (ggQuotHom θ))
@@ -267,7 +266,7 @@ theorem card_range_inf_centralizer_J (hcfg : GGConfig p B Bs x L D J) (hB : B = 
       Subgroup.centralizer (((J.subgroupOf L).map (ggQuotHom θ) : Subgroup R) : Set R)) = p := by
   classical
   have hp : p.Prime := hcfg.1.2.2.2.2.2.1.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hS : LargeEvenSStar p B x L := hcfg.1.2.2.2.2.2.2.1
   have hSB : LargeEvenSStar p Bs x L := hB ▸ hS
   have hpre : LargeEvenStdSubPre p B x L D J := hcfg.2.2.1
@@ -425,7 +424,7 @@ theorem nonempty_centerQuot_J (hcfg : GGConfig p B Bs x L D J) :
     rw [← MonoidHom.ker_eq_bot_iff, QuotientGroup.ker_map, hc]
     ext q
     obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective q
-    simp [Subgroup.mem_map, QuotientGroup.eq_one_iff]
+    simp [QuotientGroup.eq_one_iff]
   have hgsurj : Function.Surjective g := by
     intro q
     obtain ⟨y, rfl⟩ := QuotientGroup.mk_surjective q

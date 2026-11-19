@@ -47,7 +47,7 @@ theorem pPrimeCore_five_eq_bot {Y : Type} [Group Y] [Finite Y]
       rw [Nat.gcd_eq_left hqK] at h51
       norm_num at h51
   have hK2 : IsPGroup 2 K := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     rw [IsPGroup.iff_card]
     exact ⟨_, Nat.eq_prime_pow_of_unique_prime_dvd Nat.card_pos.ne' fun hd hdK => hdiv _ hd hdK⟩
   have hKc : K ≤ CFSG.pCore 2 Y := le_sSup ⟨hKn, hK2⟩
@@ -57,7 +57,7 @@ theorem pPrimeCore_five_eq_bot {Y : Type} [Group Y] [Finite Y]
 theorem isCharacteristicP_five_of_solvable {Y : Type} [Group Y] [Finite Y] [Group.IsSolvable Y]
     (hπ : ∀ q : ℕ, q.Prime → q ∣ Nat.card Y → q = 2 ∨ q = 5) (h2 : CFSG.pCore 2 Y = ⊥) :
     CFSG.IsCharacteristicP 5 Y := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   exact CFSG.isCharacteristicP_of_pPrimeCore_eq_bot_of_layer_eq_bot Y 5
     (pPrimeCore_five_eq_bot hπ h2) CFSG.WholeGroup.layer_eq_bot_of_isSolvable
 
@@ -67,16 +67,20 @@ variable {G : Type} [Group G] [Finite G] {A M H : Subgroup G} {c : G} {X : Subgr
 
 @[expose] noncomputable def oTwoFive (X : Subgroup G) : Subgroup G := (Sec4.oTwoP 5 ↥X).map X.subtype
 
+omit [Finite G] in
 theorem oTwoFive_le (X : Subgroup G) : oTwoFive X ≤ X := Subgroup.map_subtype_le _
 
+omit [Finite G] in
 theorem pCoreOf_le_oTwoFive (X : Subgroup G) : CFSG.Open.pCoreOf 2 X ≤ oTwoFive X :=
   Subgroup.map_mono (Sec4.pCore_two_le_oTwoP 5 ↥X)
 
+omit [Finite G] in
 theorem normalizer_le_normalizer_oTwoFive (X : Subgroup G) :
     Subgroup.normalizer (X : Set G) ≤ Subgroup.normalizer (oTwoFive X : Set G) := by
-  haveI := oTwoP_characteristic' (T := ↥X) 5
+  have := oTwoP_characteristic' (T := ↥X) 5
   exact CFSG.LieType.BorelTits.normalizer_le_normalizer_map_of_characteristic (Sec4.oTwoP 5 ↥X)
 
+omit [Finite G] in
 theorem exists_pow_mem_pCoreOf {x : G} (hx : x ∈ oTwoFive X) :
     ∃ n : ℕ, x ^ 5 ^ n ∈ CFSG.Open.pCoreOf 2 X := by
   obtain ⟨y, hy, rfl⟩ := hx
@@ -94,7 +98,7 @@ theorem exists_pow_mem_pCoreOf {x : G} (hx : x ∈ oTwoFive X) :
 theorem mem_oTwoFive_of_commutator_mem (hsol : Group.IsSolvable ↥X)
     (hπ : ∀ q : ℕ, q.Prime → q ∣ Nat.card X → q = 2 ∨ q = 5) {x : G} (hx : x ∈ X)
     (h : ∀ y ∈ oTwoFive X, ⁅x, y⁆ ∈ CFSG.Open.pCoreOf 2 X) : x ∈ oTwoFive X := by
-  haveI := hsol
+  have := hsol
   have hπY : ∀ q : ℕ, q.Prime → q ∣ Nat.card (↥X ⧸ CFSG.pCore 2 ↥X) → q = 2 ∨ q = 5 :=
     fun q hq hqY => hπ q hq (hqY.trans (Subgroup.card_quotient_dvd_card _))
   have hchar := isCharacteristicP_five_of_solvable hπY

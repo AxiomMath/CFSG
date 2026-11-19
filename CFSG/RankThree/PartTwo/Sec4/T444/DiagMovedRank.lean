@@ -64,7 +64,7 @@ private theorem dmr_sylow_surj {A : Type} [Group A] [Finite A] {E : Type} [Group
     [IsElementaryAbelian 3 E] (hE9 : Nat.card E = 3 ^ 2) (φ : A →* E)
     (hφ : Function.Surjective φ) :
     ∃ S : Subgroup A, IsPGroup 3 S ∧ ¬ IsCyclic S := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P⟩ := (Sylow.nonempty : Nonempty (Sylow 3 A))
   have htop : ∀ Q : Sylow 3 E, Q.toSubgroup = ⊤ := by
     intro Q
@@ -90,7 +90,7 @@ private theorem dmr_sylow_surj {A : Type} [Group A] [Finite A] {E : Type} [Group
       exact Subgroup.mem_top y
     rw [hmapeq] at hy
     exact Subgroup.mem_map.1 hy
-  refine ⟨P.toSubgroup, P.isPGroup', fun hcyc => ?_⟩
+  refine ⟨P.toSubgroup, P.isPGroup, fun hcyc => ?_⟩
   have hψ : Function.Surjective (φ.comp P.toSubgroup.subtype) := by
     intro y
     obtain ⟨x, hx, hxy⟩ := hsurjP y
@@ -125,10 +125,10 @@ private theorem dmr_Phi_surj {G : Type} [Group G] (Z : Subgroup G) [Z.Normal]
   rw [hpi, hh, MulEquiv.apply_symm_apply]
 
 theorem ys03_one_lt_pRank_of_hasSection_L34 {X : Type} [Group X] [Finite X] (K : Subgroup X)
-    (hZ : IsPGroup 3 (Subgroup.center K))
+    (_hZ : IsPGroup 3 (Subgroup.center K))
     (hsec : HasSection (K ⧸ Subgroup.center K) (projSL 3 (GaloisField 2 2))) :
     1 < CFSG.Open.pRank 3 K := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨H, N, hN, ⟨e⟩⟩ := hsec
   obtain ⟨E₀, hE0, hE9⟩ := dmr_exists_E9_L34
   let B : Subgroup K := H.comap (QuotientGroup.mk' (Subgroup.center K))
@@ -141,7 +141,7 @@ theorem ys03_one_lt_pRank_of_hasSection_L34 {X : Type} [Group X] [Finite X] (K :
     obtain ⟨b, hb⟩ := hΦ (y : ↥(projSL 3 (GaloisField 2 2)))
     exact ⟨⟨b, Subgroup.mem_comap.2 (by rw [hb]; exact y.2)⟩, Subtype.ext hb⟩
   obtain ⟨S, hSp, hScyc⟩ := dmr_sylow_surj hE9 φ hφ
-  haveI : Fact (IsPGroup 3 S) := ⟨hSp⟩
+  have : Fact (IsPGroup 3 S) := ⟨hSp⟩
   obtain ⟨T, -, hTcard, hTel⟩ := CFSG.lemma_4_5_a (p := 3) (by norm_num) hScyc
   let ι : ↥S →* X := K.subtype.comp (B.subtype.comp (Aa.subtype.comp S.subtype))
   have hι : Function.Injective ι :=
@@ -266,9 +266,9 @@ private theorem dmr_eq_one_of_central_coprime {X : Type} [Group X] [Finite X] {p
 theorem ys03_center_isPGroup_of_component {G : Type} [Group G] [Finite G]
     {K : Subgroup (G ⧸ CFSG.pPrimeCore 3 G)} (hK : CFSG.IsComponent K) :
     IsPGroup 3 (Subgroup.center K) := by
-  haveI : Finite (G ⧸ CFSG.pPrimeCore 3 G) :=
+  have : Finite (G ⧸ CFSG.pPrimeCore 3 G) :=
     Finite.of_surjective _ QuotientGroup.mk_surjective
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcore : CFSG.pPrimeCore 3 (G ⧸ CFSG.pPrimeCore 3 G) = ⊥ :=
     CFSG.pPrimeCore_quotient_eq_bot Nat.prime_three
   have hprime : ∀ d : ℕ, d.Prime → d ∣ Nat.card (Subgroup.center K) → d = 3 := by

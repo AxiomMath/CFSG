@@ -101,7 +101,7 @@ theorem mem_pCoreOf_of_conj_comm {M : Subgroup Q} {x : Q} (hxM : x ∈ M) (hx2 :
   exact CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2 hNM hMN hNp hxN
 
 theorem pCoreOf_normal {M : Subgroup Q} (hMn : M.Normal) : (pCoreOf 2 M).Normal := by
-  haveI := CFSG.LieType.BorelTits.pCore_characteristic 2 (G := ↥M)
+  have := CFSG.LieType.BorelTits.pCore_characteristic 2 (G := ↥M)
   refine ⟨fun x hx g => ?_⟩
   have hg : g ∈ Subgroup.normalizer ((M : Subgroup Q) : Set Q) := by
     rw [Subgroup.mem_normalizer_iff]
@@ -136,7 +136,7 @@ theorem conj_comm_of_mbar {M : Subgroup Q} (hMn : M.Normal) {eb : Q} (heM : eb �
       _ = q * (((q⁻¹ * m * q) * eb * (q⁻¹ * m * q)⁻¹) * eb) * q⁻¹ := by rw [h]
       _ = m * (q * eb * q⁻¹) * m⁻¹ * (q * eb * q⁻¹) := by group
   have hfO := mem_pCoreOf_of_conj_comm hfM hf2 hfc
-  haveI := pCoreOf_normal hMn
+  have := pCoreOf_normal hMn
   have hfT : f ∈ (T : Subgroup Q) :=
     IsPGroup.le_sylow_of_normal (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 M) T hfO
   exact (hT f hfT).symm

@@ -78,19 +78,19 @@ theorem e4_2_mixed (G : Type) [Group G] [Finite G] (V : Type) [CommGroup V] [Fin
     by_cases hHP : H ∈ P
     · have : bad H = (Finset.range (κ + 1)).filter
           (fun c => ¬ xt T H ≤ stabV ρ (Fx ρ (Wcl Ω c T))) := by
-        simp only [bad, piece, if_pos hHP]
+        simp only [bad, piece, ite_eq_left hHP]
       rw [this]
       exact (card_bad_xt_le hΩc hel hfx hT hTH hF).trans (Nat.le_add_right _ _)
     have hbH : bad H = (Finset.range (κ + 1)).filter
         (fun c => ¬ H ≤ stabV ρ (Fx ρ (Wcl Ω c T))) := by
-      simp only [bad, piece, if_neg hHP]
+      simp only [bad, piece, ite_eq_right hHP]
     rw [hbH]
     by_cases hspl : H ≤ Subgroup.normalizer ((fStarPre H ⊔ T : Subgroup G) : Set G)
     · exact (card_bad_le_of_split hΩc hel hfx hT hTH hF hspl).trans (Nat.le_add_right _ _)
     by_cases hHR : H ∈ R
-    · rw [if_pos hHR]
+    · rw [ite_eq_left hHR]
       exact (card_bad_le_of_index_two hΩc hel hfx hT hTH hF (hR H hHR) hspl).1
-    · rw [if_neg hHR, add_zero]
+    · rw [ite_eq_right hHR, add_zero]
       obtain ⟨hidx, hrk⟩ := (hcase H hHΔ hHP hHR).resolve_left hspl
       exact card_bad_le_of_rank hΩc hel hfx hT hTH hF hidx hspl hrk
   have hcard : (Δf.biUnion bad).card < (Finset.range (κ + 1)).card := by
@@ -106,10 +106,10 @@ theorem e4_2_mixed (G : Type) [Group G] [Finite G] (V : Type) [CommGroup V] [Fin
     exact hcn (Finset.mem_biUnion.2 ⟨H, (hmemΔ H).2 hHΔ, Finset.mem_filter.2 ⟨hc, hn⟩⟩)
   have hP : (⨆ H ∈ P, xt T H) ≤ stabV ρ (Fx ρ (Wcl Ω c T)) := iSup₂_le fun H hH => by
     have := hmem H (hPΔ hH)
-    simpa only [piece, if_pos hH] using this
+    simpa only [piece, ite_eq_left hH] using this
   have hQ : (⨆ H ∈ Δ \ P, H) ≤ stabV ρ (Fx ρ (Wcl Ω c T)) := iSup₂_le fun H hH => by
     have := hmem H hH.1
-    simpa only [piece, if_neg hH.2] using this
+    simpa only [piece, ite_eq_right hH.2] using this
   have hall : ∀ g : G, g ∈ stabV ρ (Fx ρ (Wcl Ω c T)) := by
     intro g
     have hle := sup_le (normalizer_le_stabV hΩc c) (sup_le hP hQ)

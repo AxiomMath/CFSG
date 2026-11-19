@@ -76,7 +76,7 @@ theorem s7f_not_mem_tB [Finite G] (h36 : Asc82Lemma36) (hP : Asc82Tab6P) {t : G}
     intro x hx
     refine ⟨s7f_layerCent_le L b hx, Subgroup.mem_centralizer_iff.mpr fun c hc' => ?_⟩
     exact (Subgroup.mem_centralizer_iff.mp (hBY c hc') x (hXY hx)).symm
-  haveI : IsMulCommutative B := hc.normalE16.2.1.1.1
+  have : IsMulCommutative B := hc.normalE16.2.1.1.1
   exact s7f_not_comm_of_quasisimple hXq fun x hx y hy =>
     setLike_mul_comm (hXB hx) (hXB hy)
 
@@ -87,12 +87,12 @@ theorem s7f_not_om6m_of_om6p [Finite G] {L : Subgroup G} (hL : IsOm6P L) (hM : I
   rw [h1] at h2
   exact absurd h2 (by norm_num)
 
-theorem s7f_cent_B_layer [Finite G] (h36 : Asc82Lemma36) (hP : Asc82Tab6P) (hF : Asc82AutFacts)
+theorem s7f_cent_B_layer [Finite G] (_h36 : Asc82Lemma36) (hP : Asc82Tab6P) (hF : Asc82AutFacts)
     (h79a : Asc82Lemma79a) {t : G} {L S : Subgroup G} {z g : G} {B : Subgroup G}
     (hc : Sec7Choice G t L S z g B) {b : G} (hbB : b ∈ B) (hb1 : b ≠ 1)
     (hbt : InducesTypeSome L b 6 1 2 (-1)) :
     B ⊓ centralizer ((layerCent L b : Subgroup G) : Set G) = zpowers b := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hLP : IsOm6P L := hc.ctx.isOm6P
   have hsq : ∀ x ∈ B, x ^ 2 = 1 := hc.normalE16.2.1.1.2
   have hb2 : orderOf b = 2 := orderOf_eq_prime (hsq b hbB) hb1

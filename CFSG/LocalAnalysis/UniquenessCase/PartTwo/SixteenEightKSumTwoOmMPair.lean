@@ -29,12 +29,12 @@ private theorem s16k_e_ne_zero {K : Type} [Field K] {m : ℕ} (i : Fin (m - 1)) 
     s16k_e K i ≠ 0 := by
   intro h
   have := congrFun h (Sum.inl i)
-  simp [s16k_e, Pi.single_apply] at this
+  simp [s16k_e] at this
 
 private theorem s16k_uu_ne_zero {K : Type} [Field K] (m : ℕ) : s16k_uu K m ≠ 0 := by
   intro h
   have := congrFun h (Sum.inr (Sum.inr 0))
-  simp [s16k_uu, Pi.single_apply] at this
+  simp [s16k_uu] at this
 
 private theorem s16k_Q_e {K : Type} [Field K] {m : ℕ} (b c : K) (i : Fin (m - 1)) :
     StatedQuadMinus m K b c (s16k_e K i) = 0 := by
@@ -42,7 +42,7 @@ private theorem s16k_Q_e {K : Type} [Field K] {m : ℕ} (b c : K) (i : Fin (m - 
 
 private theorem s16k_Q_uu {K : Type} [Field K] [CharP K 2] {m : ℕ} (b c : K) :
     StatedQuadMinus m K b c (s16k_uu K m) = 1 := by
-  simp [CFSG.Open.StatedQuadMinus, s16k_uu, Pi.single_apply]
+  simp [CFSG.Open.StatedQuadMinus, s16k_uu]
 
 private theorem s16k_eq_zero_or_one {K : Type} [Field K] [Fintype K] (hK : Fintype.card K = 2)
     (s : K) : s = 0 ∨ s = 1 := by
@@ -64,15 +64,15 @@ private theorem s16k_dot_minusA_eq {K : Type} [Field K] {m : ℕ} (b : K)
       x (Sum.inl i) + x (Sum.inr (Sum.inl i)) := by
     rw [← Finset.sum_subset (s₁ := ({i} : Finset (Fin (m - 1)))) (s₂ := Finset.univ)]
     · rw [Finset.sum_singleton]
-      simp [minusA, Pi.single_apply]
+      simp [minusA]
     · intro k _
       simp
     · intro k _ hk
       have hki : k ≠ i := by
-        intro h; exact hk (by simpa [h])
-      simp [minusA, Pi.single_apply, hki]
+        intro h; exact hk (by simp [h])
+      simp [minusA, hki]
   rw [hsum]
-  simp [minusA, Pi.single_apply]
+  simp [minusA]
 
 private theorem s16k_dot_minusB_eq {K : Type} [Field K] {m : ℕ} (b : K)
     (x : Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2 → K) {i j : Fin (m - 1)} (hij : i ≠ j) :
@@ -85,7 +85,7 @@ private theorem s16k_dot_minusB_eq {K : Type} [Field K] {m : ℕ} (b : K)
       x (Sum.inr (Sum.inl i)) + x (Sum.inl j) + x (Sum.inr (Sum.inl j)) := by
     rw [← Finset.sum_subset (s₁ := ({i, j} : Finset (Fin (m - 1)))) (s₂ := Finset.univ)]
     · rw [Finset.sum_pair hij]
-      simp [minusB, Pi.single_apply, hij, hij.symm]; ring
+      simp [minusB, hij, hij.symm]; ring
     · intro k _
       simp
     · intro k _ hk
@@ -93,9 +93,9 @@ private theorem s16k_dot_minusB_eq {K : Type} [Field K] {m : ℕ} (b : K)
         intro h; exact hk (by simp [h])
       have hkj : k ≠ j := by
         intro h; exact hk (by simp [h])
-      simp [minusB, Pi.single_apply, hki, hkj]
+      simp [minusB, hki, hkj]
   rw [hsum]
-  simp [minusB, Pi.single_apply, hij, hij.symm]
+  simp [minusB]
 
 private theorem s16k_dot_minusD_eq {K : Type} [Field K] {m : ℕ} (b : K)
     (x : Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2 → K) {i j : Fin (m - 1)} (hij : i ≠ j) :
@@ -108,7 +108,7 @@ private theorem s16k_dot_minusD_eq {K : Type} [Field K] {m : ℕ} (b : K)
       x (Sum.inl i) + x (Sum.inr (Sum.inl i)) + x (Sum.inr (Sum.inl j)) := by
     rw [← Finset.sum_subset (s₁ := ({i, j} : Finset (Fin (m - 1)))) (s₂ := Finset.univ)]
     · rw [Finset.sum_pair hij]
-      simp [s16c13bcA_minusD, Pi.single_apply, hij, hij.symm]
+      simp [s16c13bcA_minusD, hij, hij.symm]
     · intro k _
       simp
     · intro k _ hk
@@ -116,9 +116,9 @@ private theorem s16k_dot_minusD_eq {K : Type} [Field K] {m : ℕ} (b : K)
         intro h; exact hk (by simp [h])
       have hkj : k ≠ j := by
         intro h; exact hk (by simp [h])
-      simp [s16c13bcA_minusD, Pi.single_apply, hki, hkj]
+      simp [s16c13bcA_minusD, hki, hkj]
   rw [hsum]
-  simp [s16c13bcA_minusD, Pi.single_apply, hij, hij.symm]
+  simp [s16c13bcA_minusD]
 
 private theorem s16k_dot_minusA_zero {K : Type} [Field K] {m : ℕ} (b : K)
     {x : Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2 → K} {i : Fin (m - 1)}
@@ -317,9 +317,9 @@ private theorem s16k_omegaMinus_pair_fix_aux {K : Type} [Field K] [Finite K]
       ∀ g ∈ B, natAct (StatedOmega (StatedQuadMinus m K b c)) g x = x ∧
         natAct (StatedOmega (StatedQuadMinus m K b c)) g y = y := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime (p := 2)
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime (p := 2)
     (by rw [← Nat.card_eq_fintype_card]; exact hK)
   have hm4 : 4 ≤ m := by omega
   set xv : Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2 → K := Multiplicative.toAdd x with hxv
@@ -342,10 +342,10 @@ private theorem s16k_omegaMinus_pair_fix_aux {K : Type} [Field K] [Finite K]
       s16k_core hm (s16k_e K i0) yv'
         (fun i hi => by
           have hi0 : i ≠ i0 := fun h => hi (by simpa using congrArg Fin.val h)
-          simp [s16k_e, Pi.single_apply, hi0])
+          simp [s16k_e, hi0])
         (fun i hi => by
           have hi0 : i ≠ i0 := fun h => hi (by simpa using congrArg Fin.val h)
-          simp [s16k_e, Pi.single_apply, hi0])
+          simp [s16k_e])
     exact s16k_transport x y AΩ hAx' hAy B' hB'p hB'nc hB'fix
   · have hQx1 : StatedQuadMinus m K b c xv = 1 :=
       (s16k_eq_zero_or_one (by rw [← Nat.card_eq_fintype_card]; exact hK)
@@ -363,8 +363,8 @@ private theorem s16k_omegaMinus_pair_fix_aux {K : Type} [Field K] [Finite K]
         Multiplicative.ofAdd (s16k_uu K m) := congrArg Multiplicative.ofAdd hAx
     obtain ⟨B', hB'p, hB'nc, hB'fix⟩ :=
       s16k_core hm (s16k_uu K m) yv'
-        (fun _ _ => by simp [s16k_uu, Pi.single_apply])
-        (fun _ _ => by simp [s16k_uu, Pi.single_apply])
+        (fun _ _ => by simp [s16k_uu])
+        (fun _ _ => by simp [s16k_uu])
     exact s16k_transport x y AΩ hAx' hAy B' hB'p hB'nc hB'fix
 
 theorem s16k_omegaMinus_pair_fix {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) {m : ℕ}

@@ -22,9 +22,9 @@ theorem card_of_isShapeTwoTwoTimesA8 {X : Type*} [Group X] (h : IsShapeTwoTwoTim
 theorem card_of_isShapeTwoTwoSixS5 {X : Type*} [Group X] (h : IsShapeTwoTwoSixS5 X) :
     Nat.card X = 30720 := by
   obtain ⟨V, N, hVnorm, hNnorm, hVN, hVE, hNVE, hXNE⟩ := h
-  haveI : V.Normal := hVnorm
-  haveI : N.Normal := hNnorm
-  haveI : (V.subgroupOf N).Normal := hVnorm.subgroupOf N
+  have : V.Normal := hVnorm
+  have : N.Normal := hNnorm
+  have : (V.subgroupOf N).Normal := hVnorm.subgroupOf N
   have hcardV : Nat.card V = 2 ^ 2 := by
     rw [Nat.card_congr (Classical.choice hVE).toEquiv, card_Elem2_eq]
   have hcardNV : Nat.card (N ⧸ V.subgroupOf N) = 2 ^ 6 := by

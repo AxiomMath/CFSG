@@ -28,7 +28,7 @@ theorem isOmegaStar_of_lieModel_psp {X : Type} [Group X] (h : LieModel X .PSp 2 
     exact fun hmem => (by decide : ¬ Even (5 : ℕ)) hmem.1
   have hZ : Nat.card (Subgroup.center (omegaGroup hQ)) =
       if piOrth Q ∈ omegaGroup hQ then 2 else 1 := by
-    rw [if_neg hπ]
+    rw [ite_eq_right hπ]
     exact natCard_center_omegaGroup_five hQ hdim
   obtain ⟨e₂⟩ := nonempty_quotient_center_omegaGroup_mulEquiv hQ (by rw [hdim]; norm_num) hZ
   obtain ⟨e₁⟩ := CFSG.Blueprint.EvenSource.nonempty_mulEquiv_of_statedClassicalModel
@@ -54,7 +54,7 @@ theorem isOmegaStar_of_lieModel_psl {X : Type} [Group X] (h : LieModel X .PSL 4 
     exact one_ne_neg_one_units hmem.2
   have hZ : Nat.card (Subgroup.center (omegaGroup hQ)) =
       if piOrth Q ∈ omegaGroup hQ then 2 else 1 := by
-    rw [if_neg hπ]
+    rw [ite_eq_right hπ]
     exact natCard_center_omegaGroup_six_plus hQ hdim hs
   obtain ⟨e₂⟩ := nonempty_quotient_center_omegaGroup_mulEquiv hQ (by rw [hdim]; norm_num) hZ
   obtain ⟨e₁⟩ := CFSG.Blueprint.EvenSource.nonempty_mulEquiv_of_statedClassicalModel
@@ -82,7 +82,7 @@ theorem isOmegaStar_of_lieModel_psu {X : Type} [Group X] (h : LieModel X .PSU 4 
     exact neg_one_pow_three.symm
   have hZ : Nat.card (Subgroup.center (omegaGroup hQ)) =
       if piOrth Q ∈ omegaGroup hQ then 2 else 1 := by
-    rw [if_pos hπ]
+    rw [ite_eq_left hπ]
     exact natCard_center_omegaGroup_six_minus hQ hdim hs
   obtain ⟨e₂⟩ := nonempty_quotient_center_omegaGroup_mulEquiv hQ (by rw [hdim]; norm_num) hZ
   obtain ⟨e₁⟩ := CFSG.Blueprint.EvenSource.nonempty_mulEquiv_of_statedClassicalModel
@@ -105,7 +105,7 @@ theorem isOmegaStar_five_iff {X : Type} [Group X] :
     exact fun hmem => (by decide : ¬ Even (5 : ℕ)) hmem.1
   have hZ : Nat.card (Subgroup.center (omegaGroup hQ)) =
       if piOrth Q ∈ omegaGroup hQ then 2 else 1 := by
-    rw [if_neg hπ]
+    rw [ite_eq_right hπ]
     exact natCard_center_omegaGroup_five hQ hdim
   obtain ⟨e₂⟩ := nonempty_quotient_center_omegaGroup_mulEquiv hQ (by rw [hdim]; norm_num) hZ
   obtain ⟨e⟩ := IsOmegaStar.nonempty_equiv hX (by norm_num : 2 ≤ 5) hQ hdim hs
@@ -128,7 +128,7 @@ theorem isOmegaStar_six_plus_iff {X : Type} [Group X] :
     exact one_ne_neg_one_units hmem.2
   have hZ : Nat.card (Subgroup.center (omegaGroup hQ)) =
       if piOrth Q ∈ omegaGroup hQ then 2 else 1 := by
-    rw [if_neg hπ]
+    rw [ite_eq_right hπ]
     exact natCard_center_omegaGroup_six_plus hQ hdim hs
   obtain ⟨e₂⟩ := nonempty_quotient_center_omegaGroup_mulEquiv hQ (by rw [hdim]; norm_num) hZ
   obtain ⟨e⟩ := IsOmegaStar.nonempty_equiv hX (by norm_num : 2 ≤ 6) hQ hdim hs
@@ -153,7 +153,7 @@ theorem isOmegaStar_six_minus_iff {X : Type} [Group X] :
     exact neg_one_pow_three.symm
   have hZ : Nat.card (Subgroup.center (omegaGroup hQ)) =
       if piOrth Q ∈ omegaGroup hQ then 2 else 1 := by
-    rw [if_pos hπ]
+    rw [ite_eq_left hπ]
     exact natCard_center_omegaGroup_six_minus hQ hdim hs
   obtain ⟨e₂⟩ := nonempty_quotient_center_omegaGroup_mulEquiv hQ (by rw [hdim]; norm_num) hZ
   obtain ⟨e⟩ := IsOmegaStar.nonempty_equiv hX (by norm_num : 2 ≤ 6) hQ hdim hs

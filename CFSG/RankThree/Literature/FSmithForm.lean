@@ -195,7 +195,7 @@ theorem polar_extraspecialQuadForm_eq_zero_iff (x y : Q) :
 
 theorem extraspecialQuadForm_nondegenerate :
     (extraspecialQuadForm hQ).polarBilin.Nondegenerate := by
-  haveI : Finite (Abelianization Q) := Quotient.finite _
+  have : Finite (Abelianization Q) := Quotient.finite _
   have : Module.Finite (ZMod 2) (Additive (Abelianization Q)) := Module.Finite.of_finite
   refine LinearMap.BilinForm.Nondegenerate.ofSeparatingLeft fun v hv => ?_
   obtain ⟨x, rfl⟩ := exists_ofMul_of v
@@ -311,7 +311,7 @@ theorem mem_of_extraspecialConjOrth_eq_one (hCQ : centralizer (Q : Set H) ≤ Q)
         rw [ind_conj_mul_inv_mul hQ hQn hfix, ofAdd_add] }
   let μ' : Additive (Abelianization Q) →+ ZMod 2 :=
     MonoidHom.toAdditive (Abelianization.lift μ)
-  haveI : Finite (Abelianization Q) := Quotient.finite _
+  have : Finite (Abelianization Q) := Quotient.finite _
   have : Module.Finite (ZMod 2) (Additive (Abelianization Q)) := Module.Finite.of_finite
   obtain ⟨u, hu⟩ := (LinearMap.BilinForm.toDual (extraspecialQuadForm hQ).polarBilin
     (extraspecialQuadForm_nondegenerate hQ)).surjective (AddMonoidHom.toZModLinearMap 2 μ')

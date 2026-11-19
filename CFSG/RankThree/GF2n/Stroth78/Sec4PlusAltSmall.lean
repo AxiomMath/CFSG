@@ -40,7 +40,7 @@ theorem six_lt_finrank_commSpaceOf_Xsub_of_mulEquiv_alt8
   classical
   by_contra hle
   push Not at hle
-  haveI : FiniteDimensional (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
   have hR : Nat.card ↥(Rbar S a) = 2 := card_Rbar_eq_two_of_card_ZQ_eq_four S h hZ
   obtain ⟨⟨α, hαR⟩, hα1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp h.Rbar_ne_bot
   have hα1' : α ≠ 1 := fun h1 => hα1 (Subtype.ext h1)
@@ -60,7 +60,7 @@ theorem six_lt_finrank_commSpaceOf_Xsub_of_mulEquiv_alt8
     refine commSpace_le_commSpaceOf ρ (Subgroup.mem_top αX) ?_
     rw [hρ αX]
     exact hmem
-  letI : MulAction ↥(Xsub S a) (Additive (QbarOf S)) := MulAction.compHom _ ρ
+  let : MulAction ↥(Xsub S a) (Additive (QbarOf S)) := MulAction.compHom _ ρ
   have hsmul : ∀ (x : ↥(Xsub S a)) (v : Additive (QbarOf S)), x • v = ρ x v :=
     fun x v => rfl
   set K : Subgroup ↥(Xsub S a) := MulAction.stabilizer ↥(Xsub S a) ã with hK
@@ -88,7 +88,7 @@ theorem six_lt_finrank_commSpaceOf_Xsub_of_mulEquiv_alt8
       have h0' : ρ x ã = 0 := h0
       exact hã0 ((map_eq_zero_iff _ (LinearEquiv.injective _)).mp h0')
     have hncard := Set.ncard_le_ncard hsub (Set.toFinite _)
-    rw [Set.ncard_diff_singleton_of_mem (Submodule.zero_mem _)] at hncard
+    rw [Set.ncard_sdiff_singleton_of_mem (Submodule.zero_mem _)] at hncard
     have hnc : ((commSpaceOf ρ ⊤ : Submodule (ZMod 2) (Additive (QbarOf S))) :
         Set (Additive (QbarOf S))).ncard ≤ 64 := by
       rw [← Nat.card_coe_set_eq]
@@ -115,7 +115,7 @@ theorem six_lt_finrank_commSpaceOf_Xsub_of_mulEquiv_alt8
   set Cα : Subgroup ↥(Xsub S a) := Subgroup.centralizer ({αX} : Set ↥(Xsub S a)) with hCα
   have hprime : ∀ p : ℕ, p.Prime → p ∣ Nat.card ↥K → Odd p → p ∣ 192 := by
     intro p hp hpd hpo
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥K) p hpd
     have hxo : orderOf (x : ↥(Xsub S a)) = p := by rw [Subgroup.orderOf_coe]; exact hx
     have hcomm := hKodd x x.2 (by rw [hxo]; exact hpo)
@@ -135,7 +135,7 @@ theorem six_lt_finrank_commSpaceOf_Xsub_of_mulEquiv_alt8
     omega
   have h9 : ¬ 9 ∣ Nat.card ↥K := by
     intro hd
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     obtain ⟨P, hP⟩ := Sylow.exists_subgroup_card_pow_prime (G := ↥K) 3 (n := 2) (by simpa using hd)
     let P' : Subgroup ↥(Xsub S a) := P.map K.subtype
     have hP'card : Nat.card ↥P' = 9 := by

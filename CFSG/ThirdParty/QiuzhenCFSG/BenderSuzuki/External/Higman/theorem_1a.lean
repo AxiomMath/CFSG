@@ -28,15 +28,15 @@ public theorem theorem1_involutions_center
       involutions P ⊆ {z : P | z ∈ Subgroup.center P ∧ z ≠ 1} := by
     rcases hP.2.2.2 with
       ⟨X, hXGroup, hXAction, _hXcyclic, _hXfaithful, hXregular⟩
-    letI : Group X := hXGroup
-    letI : MulDistribMulAction X P := hXAction
+    let : Group X := hXGroup
+    let : MulDistribMulAction X P := hXAction
     have hXtrans : ∀ x : P, x ∈ involutions P →
         ∀ y : P, y ∈ involutions P → ∃ k : X, y = k • x := by
       intro x hx y hy
       rcases hXregular.2 x hx y hy with ⟨k, hk, _hunique⟩
       exact ⟨k, hk⟩
-    letI : Finite P := finite_of_isSuzukiTwoGroup hP
-    letI : Nontrivial P := by
+    let : Finite P := finite_of_isSuzukiTwoGroup hP
+    let : Nontrivial P := by
       rcases hP.2.2.1 with ⟨x, y, _hx, _hy, hxy⟩
       exact ⟨⟨x, y, hxy⟩⟩
     have hcenter_ne : Subgroup.center P ≠ ⊥ :=

@@ -12,6 +12,7 @@ open Matrix Subgroup CFSG.Quasithin.A94.HeJ
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem he42bf_relIndex {K L : Subgroup G} (hKL : K ≤ L)
     (hK : Nat.card ↥K = 768) (hL : Nat.card ↥L = 3840) : K.relIndex L = 5 := by
   have h := Subgroup.relIndex_mul_card (H := K) (K := L)
@@ -27,7 +28,7 @@ private theorem he42bf_side {A A' : Subgroup G} {u w : G → V2} {m : G → M2} 
       Nat.card ↥(N ⊓ centralizer ((((A ⊓ A') ⊓ centralizer ({x} : Set G)) : Subgroup G) : Set G)) =
         768 ∧
       A ⊔ A' ≤ N ⊓ centralizer ((((A ⊓ A') ⊓ centralizer ({x} : Set G)) : Subgroup G) : Set G) := by
-  obtain ⟨b, hb, hbm⟩ := hD.exists_b hxN hxa hx3
+  obtain ⟨b, hb, hbm⟩ := hD.exists_b hxN hxa
   obtain ⟨hb1, hba, hL, hK, -⟩ := hD.alt5 hN hxN hxa hx3 hb hbm
   have hc := hD.centralizer_B hxN hxa hx3 hb hb1 hba
   refine ⟨?_, ?_, ?_⟩
@@ -36,7 +37,7 @@ private theorem he42bf_side {A A' : Subgroup G} {u w : G → V2} {m : G → M2} 
   · rw [hc, ← inf_assoc]
     exact hK
   · rw [hc, ← inf_assoc]
-    exact hD.J_le_Kg hxN hxa hx3 hb hbm
+    exact hD.J_le_Kg hb
 
 theorem HeSetup.baseFacts (S : HeSetup G) : S.BaseFacts := by
   have hN' : S.N = normalizer ((S.A' ⊔ S.A : Subgroup G) : Set G) := by

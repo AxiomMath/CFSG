@@ -66,8 +66,8 @@ theorem barImage_le_centralizer_of_isCyclic {D : Data G} {Ch : Choice2011 G}
   have hcomm : ⁅Subgroup.zpowers bbar, barImage D.M X⁆ = barImage D.M X :=
     CFSG.GroupTheory.commutator_zpowers_map_subgroupOf_eq (uc22p21cPi D.M)
       (c.hBM hb1B0) hX_le_M hcommG
-  haveI : Dbar.Normal := hDn
-  haveI : IsCyclic ↥Dbar := hcyc
+  have : Dbar.Normal := hDn
+  have : IsCyclic ↥Dbar := hcyc
   have hnorm : ∀ Y : Subgroup (Bar2 D.M), Y ≤ Subgroup.normalizer (Dbar : Set (Bar2 D.M)) := by
     intro Y
     rw [Subgroup.normalizer_eq_top (H := Dbar)]
@@ -89,7 +89,7 @@ theorem exists_barImage_orderOf_eq {D : Data G} {Ch : Choice2011 G}
     omega
   have hrmem : r ∈ etaSet c.n := ⟨hr, hrdvd⟩
   rw [← c.hpi] at hrmem
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨b, hbord⟩ := exists_prime_orderOf_dvd_card' (G := ↥c.B0) r hrmem.2
   have hbr : orderOf (b : G) = r := by rw [Subgroup.orderOf_coe, hbord]
   refine ⟨uc22p21cPi D.M ⟨(b : G), c.hBM b.2⟩, ?_, ?_⟩
@@ -113,10 +113,10 @@ theorem barImage_B0_b7g_data {D : Data G} {Ch : Choice2011 G}
         ⁅Subgroup.zpowers a, barImage D.M X⁆ = barImage D.M X) := by
   have hX_le_M : X ≤ D.M := c.le_M_of_le_pCoreOf hX
   refine ⟨?_, ?_, ?_⟩
-  · haveI : IsMulCommutative c.B0 := c.hB0.2.1
-    haveI : IsMulCommutative (c.B0.subgroupOf D.M) :=
+  · have : IsMulCommutative c.B0 := c.hB0.2.1
+    have : IsMulCommutative (c.B0.subgroupOf D.M) :=
       Subgroup.comap_injective_isMulCommutative c.B0 D.M.subtype_injective
-    haveI : IsMulCommutative (barImage D.M c.B0) := Subgroup.map_isMulCommutative _ _
+    have : IsMulCommutative (barImage D.M c.B0) := Subgroup.map_isMulCommutative _ _
     exact fun a ha b hb => setLike_mul_comm ha hb
   · intro a ha ha1
     obtain ⟨m, hm, rfl⟩ := uc22p21c_mem_barImage.1 ha
@@ -156,9 +156,9 @@ theorem barImage_le_centralizer_of_not_isCyclic {D : Data G} {Ch : Choice2011 G}
     (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 (c.L ⊔ D.T)).to_le hX
   have hXbar2 : IsPGroup 2 (barImage D.M X) :=
     (hX2.comap_subtype (K := D.M)).map (uc22p21cPi D.M)
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Fact (IsPGroup q ↥Dbar) := ⟨hDq⟩
-  haveI : IsElementaryAbelian q (↥Dbar ⧸ frattini ↥Dbar) :=
+  have : Fact q.Prime := ⟨hq⟩
+  have : Fact (IsPGroup q ↥Dbar) := ⟨hDq⟩
+  have : IsElementaryAbelian q (↥Dbar ⧸ frattini ↥Dbar) :=
     CFSG.isElementaryAbelian_quotient_frattini
   obtain ⟨hAc, hAP, hTA⟩ :=
     Ctx23L.barImage_B0_b7g_data c h4 h23 h1930 h54 h6 h71 hsig hq hq2
@@ -196,8 +196,8 @@ theorem s23_38_perf_Oq_of (D : Data G) (Ch : Choice2011 G) (h4 : S23_4 D Ch)
   · rw [show CFSG.pCore q (Bar2 D.M) = ⊥ from hQ1,
       Subgroup.centralizer_eq_top_iff_subset.mpr (SetLike.coe_subset_coe.mpr bot_le)]
     exact le_top
-  · haveI : Fact q.Prime := ⟨hq⟩
-    haveI : Q.Normal := CFSG.pCore_normal
+  · have : Fact q.Prime := ⟨hq⟩
+    have : Q.Normal := CFSG.pCore_normal
     obtain ⟨D₀, hDn, hDq, hDne, hDexp, hDcl, hDfix⟩ :=
       CFSG.GroupTheory.exists_critical_map_subtype (q := q) (Q := Q) hq2
         CFSG.pCore_isPGroup hQ1

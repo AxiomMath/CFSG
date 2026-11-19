@@ -18,7 +18,7 @@ theorem exists_inner_mul_of_not_mem_inner_of_card_outer_center_le_two
     (hα : α ∉ CFSG.ComponentClassification.OuterAutomorphisms.inner P)
     (hβ : β ∉ CFSG.ComponentClassification.OuterAutomorphisms.inner P) :
     ∃ g : P, α * β⁻¹ = MulAut.conj g := by
-  haveI : Group.IsPerfect P := hP
+  have : Group.IsPerfect P := hP
   have hcenter_iff : ∀ γ : MulAut P,
       centerQuotientHom P γ ∈ inner (P ⧸ Subgroup.center P) ↔ γ ∈ inner P := by
     intro γ
@@ -54,7 +54,7 @@ theorem exists_inner_mul_of_not_mem_inner_of_card_outer_center_le_two
     have hcard : Nat.card (Outer (P ⧸ Subgroup.center P)) = 2 := by
       have hne1 : Nat.card (Outer (P ⧸ Subgroup.center P)) ≠ 1 := by
         intro h1
-        haveI : Subsingleton (Outer (P ⧸ Subgroup.center P)) :=
+        have : Subsingleton (Outer (P ⧸ Subgroup.center P)) :=
           (Nat.card_eq_one_iff_unique.mp h1).1
         exact hqα (Subsingleton.elim _ 1)
       have hpos : 0 < Nat.card (Outer (P ⧸ Subgroup.center P)) := Nat.card_pos
@@ -101,8 +101,8 @@ theorem mul_self_eq_one_of_isTwoM22TwoModel
     (hC : ∀ g : N, (∀ d ∈ D, g * d = d * g) → g ∈ D)
     {s : N} (hsD : s ∉ D) (hs : s * s = 1) {n : N} (hnD : n ∉ D)
     (hn : ∀ d ∈ D, n * n * d = d * (n * n)) : n * n = 1 := by
-  haveI : Group.IsPerfect ↥D := hperf
-  haveI : Group.IsPerfect ↥M := hmod.perfect
+  have : Group.IsPerfect ↥D := hperf
+  have : Group.IsPerfect ↥M := hmod.perfect
   obtain ⟨qM, hqM, hkerM⟩ := hmod.exists_quot
   have hcardD : Nat.card ↥D = 2 * 443520 :=
     card_eq_two_mul_card_M22_of_central_extension q hq hker hZ
@@ -167,13 +167,13 @@ theorem mul_self_eq_one_of_isTwoM22TwoModel
     have hcentral : ∀ d ∈ D, (d₀⁻¹ * s) * d = d * (d₀⁻¹ * s) := by
       intro d hd
       have h := congrArg (fun x : ↥D => (x : N)) (hconj ⟨d, hd⟩)
-      simp only [MulAut.conjNormal_apply, Subgroup.coe_inv] at h
+      simp only [MulAut.conjNormal_apply] at h
       calc ((d₀⁻¹ * s) * d : N) = (↑d₀)⁻¹ * (s * ↑d * s⁻¹) * s := by
-            simp only [Subgroup.coe_mul, Subgroup.coe_inv]
+            simp only [Subgroup.coe_inv]
             group
         _ = (↑d₀)⁻¹ * (↑d₀ * ↑d * (↑d₀)⁻¹) * s := by rw [h]
         _ = (d * (d₀⁻¹ * s) : N) := by
-            simp only [Subgroup.coe_mul, Subgroup.coe_inv]
+            simp only [Subgroup.coe_inv]
             group
     have hs_mem : d₀⁻¹ * s ∈ D := hC (d₀⁻¹ * s) hcentral
     apply hsD
@@ -186,11 +186,11 @@ theorem mul_self_eq_one_of_isTwoM22TwoModel
       have h := congrArg (fun f : MulAut ↥M => ((f ⟨x, hx⟩ : ↥M) : W)) hm₀
       simp only [hτ_apply, MulAut.conj_apply, Subgroup.coe_mul, Subgroup.coe_inv] at h
       calc ((m₀⁻¹ * T) * x : W) = (↑m₀)⁻¹ * (T * x * T⁻¹) * T := by
-            simp only [Subgroup.coe_mul, Subgroup.coe_inv]
+            simp only [Subgroup.coe_inv]
             group
         _ = (↑m₀)⁻¹ * ((↑m₀) * x * (↑m₀)⁻¹) * T := by rw [← h]
         _ = (x * (m₀⁻¹ * T) : W) := by
-            simp only [Subgroup.coe_mul, Subgroup.coe_inv]
+            simp only [Subgroup.coe_inv]
             group
     have hmem : m₀⁻¹ * T ∈ M := hmod.mem_of_commute (m₀⁻¹ * T) hcent
     apply hmod.T_not_mem

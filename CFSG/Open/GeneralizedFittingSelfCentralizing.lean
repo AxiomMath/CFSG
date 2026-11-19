@@ -6,7 +6,7 @@ public section
 
 universe u v w
 
-namespace CFSG.Open.Open
+namespace CFSG.Open.Thm
 
 open CFSG.Open in
 theorem generalized_fitting_self_centralizing
@@ -14,4 +14,4 @@ theorem generalized_fitting_self_centralizing
     Subgroup.centralizer (genFittingFStar G : Set G) ≤ genFittingFStar G :=
   _root_.CFSG.Milestones.lc_generalized_fitting_self_centralizing_stated G
 
-end CFSG.Open.Open
+end CFSG.Open.Thm

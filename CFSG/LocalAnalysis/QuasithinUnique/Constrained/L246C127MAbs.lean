@@ -21,6 +21,7 @@ section Abs
 
 variable {Ω : Type} [Group Ω] [Finite Ω]
 
+omit [Finite Ω] in
 theorem comm_eq_self {K : Subgroup Ω} (hK : IsQuasisimple ↥K) : ⁅K, K⁆ = K := by
   rw [← Subgroup.map_subtype_commutator, hK.1, Subgroup.map_top, Subgroup.range_subtype]
 

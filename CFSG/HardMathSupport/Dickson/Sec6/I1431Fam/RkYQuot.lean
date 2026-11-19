@@ -14,14 +14,14 @@ theorem RkY.card_le_quotient {Y : Type} [Group Y] [Finite Y] (h : RkY Y)
     (hE : E ≤ Subgroup.normalizer (U : Set (Y ⧸ Subgroup.center Y)))
     (hEa : IsElemAbelian 3 E) : Nat.card E ≤ 3 ^ 3 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let π : Y →* Y ⧸ Subgroup.center Y := QuotientGroup.mk' _
   have hπ : Function.Surjective π := QuotientGroup.mk'_surjective _
   have hπZ : ∀ y, π y = 1 → y ∈ Subgroup.center Y := fun y hy => (QuotientGroup.eq_one_iff y).1 hy
   set Ut : Subgroup Y := U.comap π with hUt
   set Et : Subgroup Y := E.comap π with hEt
-  haveI hUnil : Group.IsNilpotent U := hU2.isNilpotent
+  have hUnil : Group.IsNilpotent U := hU2.isNilpotent
   have hnil : Group.IsNilpotent Ut := by
     refine Subgroup.isNilpotent_of_ker_le_center ((π.comp Ut.subtype).codRestrict U (fun x => x.2)) ?_
     intro x hx
@@ -29,13 +29,13 @@ theorem RkY.card_le_quotient {Y : Type} [Group Y] [Finite Y] (h : RkY Y)
     have h2 := Subgroup.mem_center_iff.1 (hπZ _ h1)
     exact Subgroup.mem_center_iff.2 fun g => Subtype.ext (h2 (g : Y))
   obtain ⟨P⟩ : Nonempty (Sylow 2 Ut) := inferInstance
-  haveI : (P : Subgroup Ut).Normal := inferInstance
-  haveI : Unique (Sylow 2 Ut) := Sylow.unique_of_normal P inferInstance
+  have : (P : Subgroup Ut).Normal := inferInstance
+  have : Unique (Sylow 2 Ut) := Sylow.unique_of_normal P inferInstance
   have hPiff : ∀ x : Ut, x ∈ (P : Subgroup Ut) ↔ ∃ k : ℕ, x ^ (2 ^ k) = 1 := by
     intro x
     constructor
     · intro hx
-      obtain ⟨k, hk⟩ := P.isPGroup' ⟨x, hx⟩
+      obtain ⟨k, hk⟩ := P.isPGroup ⟨x, hx⟩
       exact ⟨k, congrArg Subtype.val hk⟩
     · rintro ⟨k, hk⟩
       obtain ⟨j, -, hj⟩ := (Nat.dvd_prime_pow Nat.prime_two).1 (orderOf_dvd_of_pow_eq_one hk)
@@ -54,7 +54,7 @@ theorem RkY.card_le_quotient {Y : Type} [Group Y] [Finite Y] (h : RkY Y)
       exact ⟨x.2, k, by simpa using congrArg Subtype.val hk⟩
     · rintro ⟨hy, k, hk⟩
       exact ⟨⟨y, hy⟩, (hPiff ⟨y, hy⟩).2 ⟨k, Subtype.ext (by simpa using hk)⟩, rfl⟩
-  have hU₂p : IsPGroup 2 U₂ := P.isPGroup'.map Ut.subtype
+  have hU₂p : IsPGroup 2 U₂ := P.isPGroup.map Ut.subtype
   have hdvd : Nat.card U ∣ Nat.card Ut := by
     have h1 := Subgroup.card_map_dvd (H := Ut) π
     rwa [Subgroup.map_comap_eq_self_of_surjective hπ] at h1
@@ -95,7 +95,7 @@ theorem RkY.card_le_quotient {Y : Type} [Group Y] [Finite Y] (h : RkY Y)
       simpa [mul_assoc] using this
   obtain ⟨R⟩ : Nonempty (Sylow 3 Et) := inferInstance
   let E₃ : Subgroup Y := (R : Subgroup Et).map Et.subtype
-  have hE₃p : IsPGroup 3 E₃ := R.isPGroup'.map Et.subtype
+  have hE₃p : IsPGroup 3 E₃ := R.isPGroup.map Et.subtype
   have hE₃le : E₃ ≤ Et := by
     rintro _ ⟨x, -, rfl⟩
     exact x.2

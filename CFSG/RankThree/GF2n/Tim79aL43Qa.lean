@@ -55,14 +55,12 @@ theorem blkD_blkDiag (a b : Matrix (Fin 2) (Fin 2) (ZMod 3)) :
 theorem blkDiag_mul (a b c d : Matrix (Fin 2) (Fin 2) (ZMod 3)) :
     blkDiag a b * blkDiag c d = blkDiag (a * c) (b * d) := by
   refine blk_ext ?_ ?_ ?_ ?_
-  · simp only [blkA_mul, blkA_blkDiag, blkB_blkDiag, blkC_blkDiag, Matrix.zero_mul,
-      Matrix.mul_zero, add_zero, zero_add]
+  · simp only [blkA_mul, blkA_blkDiag, blkB_blkDiag, blkC_blkDiag, Matrix.mul_zero, add_zero]
   · simp only [blkB_mul, blkA_blkDiag, blkB_blkDiag, blkD_blkDiag, Matrix.zero_mul,
-      Matrix.mul_zero, add_zero, zero_add]
+      Matrix.mul_zero, add_zero]
   · simp only [blkC_mul, blkC_blkDiag, blkD_blkDiag, blkA_blkDiag, Matrix.zero_mul,
-      Matrix.mul_zero, add_zero, zero_add]
-  · simp only [blkD_mul, blkD_blkDiag, blkC_blkDiag, blkB_blkDiag, Matrix.zero_mul,
-      Matrix.mul_zero, add_zero, zero_add]
+      Matrix.mul_zero, add_zero]
+  · simp only [blkD_mul, blkD_blkDiag, blkC_blkDiag, blkB_blkDiag, Matrix.mul_zero, zero_add]
 
 theorem blkDiag_one : blkDiag (1 : Matrix (Fin 2) (Fin 2) (ZMod 3)) 1 = 1 := by
   obtain ⟨h1, h2, h3, h4⟩ := blk_one (R := ZMod 3)
@@ -162,20 +160,20 @@ theorem coe_one_SL :
 
 theorem scalar_two_one : scalar (Fin 2) (1 : ZMod 3) = 1 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.scalar_apply, Matrix.one_apply]
+  fin_cases i <;> fin_cases j <;> simp [Matrix.scalar_apply]
 
 theorem scalar_two_neg_one : scalar (Fin 2) (-1 : ZMod 3) = -1 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.scalar_apply, Matrix.neg_apply, Matrix.one_apply]
+  fin_cases i <;> fin_cases j <;> simp [Matrix.scalar_apply, Matrix.neg_apply]
 
 theorem scalar_four_neg_one : scalar (Fin 4) (-1 : ZMod 3) = -1 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.scalar_apply, Matrix.neg_apply, Matrix.one_apply]
+  fin_cases i <;> fin_cases j <;> simp [Matrix.scalar_apply, Matrix.neg_apply]
 
 theorem blkDiag_neg_one : blkDiag (-1 : Matrix (Fin 2) (Fin 2) (ZMod 3))
     (-1 : Matrix (Fin 2) (Fin 2) (ZMod 3)) = (-1 : Matrix (Fin 4) (Fin 4) (ZMod 3)) := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [blkDiag, Matrix.neg_apply, Matrix.one_apply]
+  fin_cases i <;> fin_cases j <;> simp [blkDiag, Matrix.neg_apply]
 
 @[expose] def negOne2 : {a : Matrix (Fin 2) (Fin 2) (ZMod 3) // a ∈ q8List} :=
   ⟨-1, by decide⟩
@@ -286,7 +284,7 @@ theorem defect_mem_scalars {h' : SpecialLinearGroup (Fin 4) (ZMod 3)}
       proj 4 (ZMod 3) AS35W.dSL * proj 4 (ZMod 3) h') :
     h' * AS35W.dSL * h'⁻¹ * AS35W.dSL⁻¹ ∈ scalars 4 (ZMod 3) := by
   rw [← ker_proj, MonoidHom.mem_ker]
-  simp only [map_mul, map_inv, map_one]
+  simp only [map_mul, map_inv]
   rw [hh]
   group
 
@@ -733,7 +731,7 @@ theorem mem_zpowers_z2_iff {g : Qt} :
     g ∈ Subgroup.zpowers z2 ↔ g = 1 ∨ g = z2 := by
   rw [mem_zpowers_iff_mem_range_orderOf,
     orderOf_eq_prime z2_sq z2_ne_one]
-  simp only [Finset.mem_range, Finset.mem_image, Finset.mem_univ, true_and]
+  simp only [Finset.mem_range, Finset.mem_image]
   constructor
   · rintro ⟨k, hk, hkg⟩
     interval_cases k

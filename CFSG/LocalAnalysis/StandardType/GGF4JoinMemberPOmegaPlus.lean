@@ -238,7 +238,7 @@ theorem _root_.CFSG.StandardType.ggActualMember_POmegaPlus_selected
   obtain ⟨s, hsodd, ε, hε, C, hC, hCmap⟩ :=
     exists_block_of_actual_component hcfg hpres horigin (isQuasisimple_of_largeEvenMarking hmark)
   let F := GaloisField 2 f
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   let U := spinGroup (Spin.quadPlus (k + 3) F)
   let ψ₀ : U →* G := ψ
   have hψ₀ : ψ₀.ker ≤ Subgroup.center U := hpres.2.1.2

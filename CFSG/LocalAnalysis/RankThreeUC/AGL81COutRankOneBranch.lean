@@ -25,7 +25,7 @@ theorem isPClosedMod_component_of_pRank3_le_one_of_simple
   have hCN : C ≤ N := Subgroup.le_normalizer
   have hcomp : CFSG.IsComponent L := CFSG.LocalCores.component_overgroup hC hCN
   have hLn : L.Normal := Subgroup.normal_in_normalizer
-  haveI := hLn
+  have := hLn
   have hKC : CFSG.Open.IsKGroup ↥C := hK.subgroup C
   have h3C : CFSG.Open.pRank 3 (⊤ : Subgroup ↥C) ≤ 1 := by
     rwa [CFSG.SectionRank.pRank_eq_pRank_top_subgroup] at h3

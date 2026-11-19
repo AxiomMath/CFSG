@@ -15,7 +15,7 @@ theorem exists_conj_le_of_not_dvd_index {G : Type*} [Group G] [Finite G] {p : �
   have hTH : T ≤ H := by
     rintro _ ⟨x, _, rfl⟩
     exact x.2
-  have hTp : IsPGroup p T := S.isPGroup'.map H.subtype
+  have hTp : IsPGroup p T := S.isPGroup.map H.subtype
   have hTc : Nat.card T = Nat.card S := Subgroup.card_map_of_injective Subtype.val_injective
   have hGpos : 0 < Nat.card G := Nat.card_pos
   have hIne : H.index ≠ 0 := by

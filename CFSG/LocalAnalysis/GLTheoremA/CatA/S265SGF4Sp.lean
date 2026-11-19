@@ -32,8 +32,8 @@ theorem SG.rationalComponent_sp3_model_pow (S : LangSetup Tag.F4 L p₀)
         Subgroup.center ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i)) .PSp 3 2 f := by
   classical
   obtain ⟨σ, hfin, hcard, cov, hcov1, hker, hcov2⟩ := exists_inner_cover S hTor i hinner
-  haveI : Fintype ↥(fixSubfield σ) := Fintype.ofFinite ↥(fixSubfield σ)
-  haveI : CharP ↥(fixSubfield σ) 2 :=
+  have : Fintype ↥(fixSubfield σ) := Fintype.ofFinite ↥(fixSubfield σ)
+  have : CharP ↥(fixSubfield σ) 2 :=
     ((fixSubfield σ).subtype.charP_iff (fixSubfield σ).subtype_injective 2).2 inferInstance
   have hKcard : Nat.card ↥(fixSubfield σ) = 2 ^ f := by rw [hcard, hQ]
   have hK4 : 4 ≤ Nat.card ↥(fixSubfield σ) := by

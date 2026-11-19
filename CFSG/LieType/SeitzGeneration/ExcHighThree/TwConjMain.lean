@@ -63,12 +63,12 @@ theorem tw_conj_into_graph {p f : ℕ} (hp : p.Prime) (hf : 1 ≤ f)
         graphCentralizer TwistTag.E6.tag (AlgebraicClosure K)
           (diagramMap TwistTag.E6 (AlgebraicClosure K)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI hKp : CharP K p :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype K := Fintype.ofFinite K
+  have hKp : CharP K p :=
     charP_of_card_eq_prime_pow (f := f * 2)
       (by rw [← Nat.card_eq_fintype_card, hK, ← pow_mul])
-  haveI : CharP (AlgebraicClosure K) p :=
+  have : CharP (AlgebraicClosure K) p :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective p
   have hω3 : ω ^ 3 = 1 := Units.ext (by simpa using hω.pow_eq_one)
   have hFrEq : Fr = iterateFrobenius (AlgebraicClosure K) p f := RingHom.ext fun c => by
@@ -125,13 +125,13 @@ theorem tw_conj_into_graph {p f : ℕ} (hp : p.Prime) (hf : 1 ≤ f)
         baseChangeGL (algebraMap K (AlgebraicClosure K)) (x₁ : ModGL TwistTag.E6.tag K) := by
       rw [ha₁]
       group
-    simpa only [cond_true, e1] using h1
+    simpa only [_root_.Bool.cond_true, e1] using h1
   · have h1 := hhΓ false
     have e1 : g0 * rootDiagUnit TwistTag.E6.tag (fun i => ω ^ k₂ i) * g0⁻¹ =
         baseChangeGL (algebraMap K (AlgebraicClosure K)) (x₂ : ModGL TwistTag.E6.tag K) := by
       rw [ha₂]
       group
-    simpa only [cond_false, e1] using h1
+    simpa only [Bool.cond_false, e1] using h1
 
 theorem tw_regular_contained_gen {q : ℕ} {K : Type} [Field K] [Finite K] (σ : K ≃+* K)
     {k : Type} [Field k] [Finite k] [Algebra k K]
@@ -155,17 +155,17 @@ theorem tw_regular_contained_gen {q : ℕ} {K : Type} [Field K] [Finite K] (σ :
         ((phiG σ hfix).comp (e6FixedF4EquivAll k).symm.toMonoidHom).range := by
   classical
   obtain ⟨hp, f, hf, rfl⟩ := exists_pow_ringChar_of_card_sq K q hK (by omega)
-  haveI : Fact (ringChar K).Prime := ⟨hp⟩
-  haveI : CharP K (ringChar K) := ringChar.charP K
-  haveI : CharP (AlgebraicClosure K) (ringChar K) :=
+  have : Fact (ringChar K).Prime := ⟨hp⟩
+  have : CharP K (ringChar K) := ringChar.charP K
+  have : CharP (AlgebraicClosure K) (ringChar K) :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective _
   have hp3 : ringChar K ≠ 3 := by
     intro h
     rw [h] at hq
     have h3 : 3 ∣ 3 ^ f := dvd_pow_self 3 (by omega)
     omega
-  haveI : Finite E₀ := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
-  haveI : Nontrivial E₀ := Finite.one_lt_card_iff_nontrivial.1 (by rw [hcard]; norm_num)
+  have : Finite E₀ := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Nontrivial E₀ := Finite.one_lt_card_iff_nontrivial.1 (by rw [hcard]; norm_num)
   obtain ⟨⟨x₁, hx₁E⟩, hx₁ne⟩ := exists_ne (1 : E₀)
   have hx₁1 : x₁ ≠ 1 := fun h => hx₁ne (Subtype.ext h)
   have hx₁3 : x₁ ^ 3 = 1 := hexp x₁ hx₁E
@@ -283,7 +283,7 @@ theorem tw_regular_contained_gen {q : ℕ} {K : Type} [Field K] [Finite K] (σ :
   have e : ∀ w : twistedE6RootGroup K σ,
       (MulAut.conj (⟨y, hy⟩ : twistedE6RootGroup K σ)⁻¹).toMonoidHom w =
         (⟨y, hy⟩ : twistedE6RootGroup K σ)⁻¹ * w * ⟨y, hy⟩ := fun w => by
-    simp [MulAut.conj_apply]
+    simp
   rcases hz with rfl | rfl
   · rw [e]
     exact hrange _ hz₁

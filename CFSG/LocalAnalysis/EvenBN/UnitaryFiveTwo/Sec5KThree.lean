@@ -261,7 +261,7 @@ theorem exists_standard_of_gomiOneP {a : G} (ha : orderOf a = 2) (h1P : GomiOneP
         congr 1
         apply Subtype.ext
         exact mem_centralizer_iff.1 s.2.1 (m : G) ⟨m, hm, rfl⟩
-      obtain ⟨k, hk⟩ := S.isPGroup' ⟨s, hs⟩
+      obtain ⟨k, hk⟩ := S.isPGroup ⟨s, hs⟩
       have hk' : (⟨s, hsX⟩ : X) ^ 2 ^ k = 1 := by
         apply Subtype.ext
         have := congrArg (fun z : S => ((z : Q) : G)) hk

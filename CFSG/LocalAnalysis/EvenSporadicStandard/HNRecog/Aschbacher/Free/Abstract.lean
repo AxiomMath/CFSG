@@ -16,7 +16,7 @@ theorem four_le_finrank_range_of_fixed
     (σ : alternatingGroup (Fin 5) × alternatingGroup (Fin 5) →* (V ≃ₗ[ZMod 2] V))
     (hσ : Function.Injective σ)
     (hirr : ∀ U : Submodule (ZMod 2) V, (∀ g, ∀ u ∈ U, σ g u ∈ U) → U = ⊥ ∨ U = ⊤)
-    (b : V ≃ₗ[ZMod 2] V) (hb : b * b = 1) (x₀ : alternatingGroup (Fin 5))
+    (b : V ≃ₗ[ZMod 2] V) (_hb : b * b = 1) (x₀ : alternatingGroup (Fin 5))
     (hcomm : ∀ y : alternatingGroup (Fin 5),
       σ (x₀ * y * x₀⁻¹, y) * b = b * σ (x₀ * y * x₀⁻¹, y))
     (S : Subgroup (alternatingGroup (Fin 5) × alternatingGroup (Fin 5)))
@@ -129,9 +129,9 @@ theorem four_le_finrank_range_of_fixed
     omega
   have hNne : N ≠ ⊥ := by
     intro hbot
-    have hb : Fpf.a₀ ∈ (⊥ : Subgroup Fpf.A5) := hbot ▸ ha0N
-    rw [Subgroup.mem_bot] at hb
-    exact ha0_ne hb
+    have _hb : Fpf.a₀ ∈ (⊥ : Subgroup Fpf.A5) := hbot ▸ ha0N
+    rw [Subgroup.mem_bot] at _hb
+    exact ha0_ne _hb
   have hNnormal : N.Normal :=
     ⟨fun n hn g => by
       intro v hv
@@ -145,8 +145,8 @@ theorem four_le_finrank_range_of_fixed
               simp only [← LinearEquiv.mul_apply, ← map_mul, mul_inv_cancel, map_one,
                 LinearEquiv.coe_one]
               rfl⟩
-  haveI : IsSimpleGroup Fpf.A5 := alternatingGroup.isSimpleGroup (by simp)
-  haveI : N.Normal := hNnormal
+  have : IsSimpleGroup Fpf.A5 := alternatingGroup.isSimpleGroup (by simp)
+  have : N.Normal := hNnormal
   have hNtop : N = ⊤ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal N with h | h
     · exact absurd h hNne
@@ -213,9 +213,9 @@ theorem four_le_finrank_range_of_fixed
     exact hKu g
   have hFix_ne_bot : Fix ≠ ⊥ := by
     intro hbot
-    have hb : u ∈ (⊥ : Submodule (ZMod 2) V) := hbot ▸ huFix
-    rw [Submodule.mem_bot] at hb
-    exact hu_ne_zero hb
+    have _hb : u ∈ (⊥ : Submodule (ZMod 2) V) := hbot ▸ huFix
+    rw [Submodule.mem_bot] at _hb
+    exact hu_ne_zero _hb
   have hFix_top : Fix = ⊤ := by
     rcases hirr Fix hFix_inv with h | h
     · exact absurd h hFix_ne_bot

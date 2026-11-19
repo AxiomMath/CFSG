@@ -20,7 +20,7 @@ variable {G : Type} [Group G] [Finite G]
   ∀ L : Subgroup G, Ctx17_17 D V₀ V L → IsSpor (BarInf L) .M22 →
     IsIrrOn (barSub V₀ V hV.isElemAbelian L) ⊤ ⊥
 
-@[expose] def Gap17_21_M22HexadPair (D : Data G) (V₀ V : Subgroup G) (hV : Hyp125 D V₀ V) : Prop :=
+@[expose] def Gap17_21_M22HexadPair (D : Data G) (V₀ V : Subgroup G) (_hV : Hyp125 D V₀ V) : Prop :=
   ∀ L : Subgroup G, Ctx17_17 D V₀ V L → IsSpor (BarInf L) .M22 →
     ∃ E X₁ X₂ : Subgroup G,
       E ≤ D.M ∧ Nat.card E = 9 ∧ IsElemAbelian 3 E ∧
@@ -28,7 +28,7 @@ variable {G : Type} [Group G] [Finite G]
           Permutes X₁ D.T ∧ Permutes X₂ D.T ∧
             E ≤ X₁ ⊔ X₂ ⊔ D.T ∧ X₁ ⊔ X₂ ⊔ D.T ≤ D.M
 
-theorem exists_hexad_pair_of_calC {D : Data G} {V₀ V L : Subgroup G} (hV : Hyp125 D V₀ V)
+theorem exists_hexad_pair_of_calC {D : Data G} {V₀ V L : Subgroup G} (_hV : Hyp125 D V₀ V)
     (hL : L ∈ calC D.M)
     (hnorm : Tbar9 D ≤ Subgroup.normalizer (K1Nine D L : Set (Mbar9 D)))
     (hspor : IsSpor (BarInf L) .M22) (hK : Inputs1719.K_M22HexadPair) :
@@ -404,7 +404,7 @@ theorem pRank_mbar_le_mulAut_m22 {D : Data G} {V₀ V L : Subgroup G}
       intro x hx
       have h := congrArg (fun g : MulAut Lb => ((g ⟨x, hx⟩ : Lb) : MulAut W)) hm
       have hval : ((f m ⟨x, hx⟩ : Lb) : MulAut W) = (m : MulAut W) * x * (m : MulAut W)⁻¹ := by
-        simp [f, Subgroup.normalizerMonoidHom_apply_apply_coe, MulAut.conj_apply]
+        simp [f, Subgroup.normalizerMonoidHom_apply_apply_coe]
       rw [hval, MulAut.one_apply] at h
       calc x * (m : MulAut W) = ((m : MulAut W) * x * (m : MulAut W)⁻¹) * (m : MulAut W) := by
             rw [h]

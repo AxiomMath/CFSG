@@ -73,7 +73,7 @@ theorem p_le_finrank_of_stable {T : Module.End K V} {α : K} (hp : p.Prime)
       (by simpa [map_sum, map_mul, aeval_C, aeval_X_pow, LinearMap.sum_apply,
         Module.End.mul_apply, Module.algebraMap_end_apply] using hsum)
     have hci := congrArg (fun r : K[X] => r.coeff (i : ℕ)) hq
-    simpa [Polynomial.finset_sum_coeff, Polynomial.coeff_C_mul_X_pow, Fin.val_inj] using hci
+    simpa [finsetSum_coeff, Polynomial.coeff_C_mul_X_pow, Fin.val_inj] using hci
   simpa using hind.fintype_card_le_finrank
 
 end Basic
@@ -128,7 +128,7 @@ theorem iSup_eigenspace_eq_top_p {V : Type*} [AddCommGroup V] [Module K V] (hp :
     · have hu1 : ζ⁻¹ ^ i ≠ 1 := hw.pow_ne_one_of_pos_of_lt hpos.ne' hi'
       have hup : (ζ⁻¹ ^ i) ^ p = 1 := by
         rw [← pow_mul, mul_comm, pow_mul, hw.pow_eq_one, one_pow]
-      rw [geom_sum_fin_eq_zero hup hu1, mul_zero, if_neg hpos.ne']
+      rw [geom_sum_fin_eq_zero hup hu1, mul_zero, ite_eq_right hpos.ne']
   have hsum : ∀ v : V, ∑ j : Fin p, (∑ i ∈ Finset.range p, (c j • Y) ^ i) v = (p : K) • v := by
     intro v
     have hexp : ∀ j : Fin p, (∑ i ∈ Finset.range p, (c j • Y) ^ i) v =

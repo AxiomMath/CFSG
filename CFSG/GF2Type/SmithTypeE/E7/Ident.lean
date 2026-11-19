@@ -39,9 +39,9 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem card_eq_two_of_isPGroup_E7 {K : Type} [Group K] [Finite K] [IsSimpleGroup K]
     (hp : IsPGroup 2 K) : Nat.card K = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsNilpotent K := hp.isNilpotent
-  letI : CommGroup K := instCommGroupOfIsSimpleGroupOfIsNilpotent
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsNilpotent K := hp.isNilpotent
+  let : CommGroup K := instCommGroupOfIsSimpleGroupOfIsNilpotent
   have hpr : (Nat.card K).Prime := IsSimpleGroup.prime_card
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card (p := 2)).mp hp
   rw [hn] at hpr ⊢
@@ -94,7 +94,7 @@ theorem nonempty_mulEquiv_omega_of_card_centralizer (hC : SmithE7Compat) [IsSimp
   have he : Function.Injective e := Subtype.val_injective.comp he₂
   have heT : ∀ k : K, e k ∈ TD6 := fun k => (e₂ k).2
   have hK''T : e.range ≤ TD6 := by rintro _ ⟨k, rfl⟩; exact heT k
-  haveI : IsSimpleGroup e.range := (MonoidHom.ofInjective he).symm.isSimpleGroup
+  have : IsSimpleGroup e.range := (MonoidHom.ofInjective he).symm.isSimpleGroup
   obtain ⟨k₀, hk₀⟩ := h2' x (hKM hxK) hx hxQ
   have hex : e ⟨x, hxK⟩ = tvP k₀ := congrArg Subtype.val hk₀
   have hfix : ∀ a : K, (a : G) * x = x * a → e a k₀ = k₀ := fun a ha => by

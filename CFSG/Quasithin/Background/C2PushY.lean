@@ -17,7 +17,7 @@ theorem exists_isSylowTwoOf_ge_of_isPGroup {P H : Subgroup G} (hPH : P ≤ H) (h
     ∃ S : Subgroup G, IsSylowTwoOf S H ∧ P ≤ S := by
   have hPH' : IsPGroup 2 (P.subgroupOf H) := hP.of_equiv (Subgroup.subgroupOfEquivOfLe hPH).symm
   obtain ⟨Q, hQ⟩ := hPH'.exists_le_sylow
-  refine ⟨(Q : Subgroup ↥H).map H.subtype, ⟨Subgroup.map_subtype_le _, Q.isPGroup'.map _, ?_⟩, ?_⟩
+  refine ⟨(Q : Subgroup ↥H).map H.subtype, ⟨Subgroup.map_subtype_le _, Q.isPGroup.map _, ?_⟩, ?_⟩
   · have : ((Q : Subgroup ↥H).map H.subtype).subgroupOf H = (Q : Subgroup ↥H) :=
       Subgroup.comap_map_eq_self_of_injective H.subtype_injective _
     rw [this]
@@ -125,6 +125,7 @@ theorem conjClosure_eq_sup (L R : Subgroup G) [Fintype ↥R] :
     exact (Finset.le_sup (f := fun r : ↥R => conjByElt (r : G) L) (Finset.mem_univ ⟨h, hh⟩)) this
   · exact conjByElt_le_conjClosure r.2
 
+omit [Finite G] in
 theorem charTwo_of_pCoreOf_le {M Y : Subgroup G} (hM : CharTwo M) (hOY : pCoreOf 2 M ≤ Y)
     (hYM : Y ≤ M) : CharTwo Y := CFSG.QuasithinUnique.CharTwo.of_pCoreOf_le hM hYM hOY
 

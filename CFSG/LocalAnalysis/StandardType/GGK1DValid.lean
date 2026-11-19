@@ -18,13 +18,13 @@ open Matrix
 
 private theorem ggK1Dv_charP_two {K : Type} [Field K] [Finite K] {nf : ℕ}
     (hK : Nat.card K = 2 ^ nf) : CharP K 2 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   exact charP_of_card_eq_prime_pow (p := 2) (f := nf)
     (by rw [← Nat.card_eq_fintype_card]; exact hK)
 
 private theorem ggK1Dv_prime_cast_ne_zero {K : Type} [Field K] [Finite K] {p nf : ℕ}
     (hp : p.Prime) (hp2 : p ≠ 2) (hK : Nat.card K = 2 ^ nf) : (p : K) ≠ 0 := by
-  haveI : CharP K 2 := ggK1Dv_charP_two hK
+  have : CharP K 2 := ggK1Dv_charP_two hK
   intro h
   rw [CharP.cast_eq_zero_iff K 2] at h
   exact hp2 ((Nat.prime_dvd_prime_iff_eq Nat.prime_two hp).mp h).symm
@@ -47,7 +47,7 @@ private lemma ggK1Dv_lin_pow {ι K : Type*} [Fintype ι] [DecidableEq ι] [Field
   | succ n ih => rw [pow_succ, pow_succ, ggK1Dv_lin_mul, ih]
 
 private theorem ggK1Dv_omegaLift_plus {p nf r : ℕ} {K : Type} [Field K] [Finite K]
-    (hp : p.Prime) (hp2 : p ≠ 2) (hnf : 1 ≤ nf) (hK : Nat.card K = 2 ^ nf)
+    (hp : p.Prime) (hp2 : p ≠ 2) (_hnf : 1 ≤ nf) (hK : Nat.card K = 2 ^ nf)
     {x : ↥(LargeEvenOmega (LargeEvenQPlus K r))} (hx : x ^ p = 1) :
     OddOrderIsometry (TableBOrth.qPlusForm K r) p
       (ggK1DLin (x : GL (Fin r ⊕ Fin r) K)) := by
@@ -68,7 +68,7 @@ private theorem ggK1Dv_omegaLift_plus {p nf r : ℕ} {K : Type} [Field K] [Finit
       exact hv w)
 
 private theorem ggK1Dv_omegaLift_minus {p nf r : ℕ} {K : Type} [Field K] [Finite K]
-    (hp : p.Prime) (hp2 : p ≠ 2) (hnf : 1 ≤ nf) (hK : Nat.card K = 2 ^ nf) {b c : K}
+    (hp : p.Prime) (hp2 : p ≠ 2) (_hnf : 1 ≤ nf) (hK : Nat.card K = 2 ^ nf) {b c : K}
     (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0)
     {x : ↥(LargeEvenOmega (LargeEvenQMinus (r - 1) b c))} (hx : x ^ p = 1) :
     OddOrderIsometry (TableBOrth.qMinusForm K (r - 1) b c) p
@@ -105,7 +105,7 @@ private theorem ggK1Dv_eps0_of_head_zero {p nf r : ℕ} {K : Type} [Field K] [Fi
     (hx : x ^ p = 1) :
     m.headD 0 = 0 → ggMultEps0 p (ggMultOrd p nf) false m = true := by
   intro h0
-  haveI : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
+  have : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
   have hxO := ggK1Dv_omegaLift_plus (K := K) hp hp2 hnf hK hx
   obtain ⟨s, hs⟩ := hxO.even_finrank_fixed
   have hdim : Module.finrank K
@@ -118,7 +118,7 @@ private theorem ggK1Dv_eps0_of_head_zero {p nf r : ℕ} {K : Type} [Field K] [Fi
     omega
   have hbot : primaryComponent (ggK1DOrthEnd (x : GL (Fin r ⊕ Fin r) K)) (X - 1) = ⊥ :=
     Submodule.finrank_eq_zero.mp hfin0
-  haveI : Subsingleton ↥(primaryComponent
+  have : Subsingleton ↥(primaryComponent
       (ggK1DOrthEnd (x : GL (Fin r ⊕ Fin r) K)) (X - 1)) := by rw [hbot]; infer_instance
   have hP : IsPlusType
       ((TableBOrth.qPlusForm K r).restrict
@@ -138,7 +138,7 @@ private theorem ggK1Dv_eps0_of_head_zero_minus {p nf r : ℕ} {K : Type} [Field 
     (hx : x ^ p = 1) :
     m.headD 0 = 0 → ggMultEps0 p (ggMultOrd p nf) true m = true := by
   intro h0
-  haveI : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
+  have : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
   have hxO := ggK1Dv_omegaLift_minus (K := K) hp hp2 hnf hK hirr hx
   obtain ⟨s, hs⟩ := hxO.even_finrank_fixed
   have hdim : Module.finrank K
@@ -153,7 +153,7 @@ private theorem ggK1Dv_eps0_of_head_zero_minus {p nf r : ℕ} {K : Type} [Field 
   have hbot : primaryComponent
       (ggK1DOrthEnd (x : GL (LargeEvenMinusIdx (r - 1)) K)) (X - 1) = ⊥ :=
     Submodule.finrank_eq_zero.mp hfin0
-  haveI : Subsingleton ↥(primaryComponent
+  have : Subsingleton ↥(primaryComponent
       (ggK1DOrthEnd (x : GL (LargeEvenMinusIdx (r - 1)) K)) (X - 1)) := by
     rw [hbot]; infer_instance
   have hP : IsPlusType
@@ -172,13 +172,13 @@ theorem ggK1D_core_valid_plus {p nf r : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hm : GGK1DMultOf p nf (ggMultOrd p nf) r K (x : GL (Fin r ⊕ Fin r) K) m)
     (hx : x ^ p = 1) :
     GGMultValidCl ⟨.D, r, nf⟩ p (ggMultDatumD p nf (ggMultOrd p nf) false m) := by
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
   have hd0 : ggMultOrd p nf ≠ 0 := by
     rcases hdvd with h | h
-    · rw [ggMultOrd, if_pos h]; exact one_ne_zero
+    · rw [ggMultOrd, ite_eq_left h]; exact one_ne_zero
     · by_cases h1 : p ∣ 2 ^ nf - 1
-      · rw [ggMultOrd, if_pos h1]; exact one_ne_zero
-      · rw [ggMultOrd, if_neg h1, if_pos h]; exact two_ne_zero
+      · rw [ggMultOrd, ite_eq_left h1]; exact one_ne_zero
+      · rw [ggMultOrd, ite_eq_right h1, ite_eq_left h]; exact two_ne_zero
   refine ⟨.D r, false, nf, by simp [ggKacTypeClOfLabel, h4], ?_⟩
   exact (mem_ggMultTableCl_D hd0).mpr
     ⟨m, hm.length_eq, hm.sum_eq, ggK1Dv_eps0_of_head_zero hp hp2 hdvd hnf hK hm hx, rfl⟩
@@ -191,13 +191,13 @@ theorem ggK1D_core_valid_minus {p nf r : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hm : GGK1DMultOf p nf (ggMultOrd p nf) r K
       (x : GL (LargeEvenMinusIdx (r - 1)) K) m) (hx : x ^ p = 1) :
     GGMultValidCl ⟨.twD, r, nf⟩ p (ggMultDatumD p nf (ggMultOrd p nf) true m) := by
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
   have hd0 : ggMultOrd p nf ≠ 0 := by
     rcases hdvd with h | h
-    · rw [ggMultOrd, if_pos h]; exact one_ne_zero
+    · rw [ggMultOrd, ite_eq_left h]; exact one_ne_zero
     · by_cases h1 : p ∣ 2 ^ nf - 1
-      · rw [ggMultOrd, if_pos h1]; exact one_ne_zero
-      · rw [ggMultOrd, if_neg h1, if_pos h]; exact two_ne_zero
+      · rw [ggMultOrd, ite_eq_left h1]; exact one_ne_zero
+      · rw [ggMultOrd, ite_eq_right h1, ite_eq_left h]; exact two_ne_zero
   refine ⟨.D r, true, nf, by simp [ggKacTypeClOfLabel, h4], ?_⟩
   exact (mem_ggMultTableCl_D hd0).mpr
     ⟨m, hm.length_eq, hm.sum_eq,

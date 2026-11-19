@@ -63,7 +63,7 @@ theorem isComponent_of_conj_dichotomy {Q : Type} [Group Q] [Finite Q] {K T : Sub
 theorem isComponentOf_minimalNormal_quotient {Q : Type} [Group Q] [Finite Q]
     {K T : Subgroup Q} (hK : CFSG.IsComponent K) (hT : IsPGroup 2 T)
     (hKT : orbitClosure K T ⊔ T = ⊤) (Y : Subgroup Q) [Y.Normal]
-    (X : Subgroup (Q ⧸ Y)) (hXn : X.Normal) (hXne : X ≠ ⊥)
+    (X : Subgroup (Q ⧸ Y)) (hXn : X.Normal) (_hXne : X ≠ ⊥)
     (hXmin : ∀ N : Subgroup (Q ⧸ Y), N.Normal → N ≤ X → N = ⊥ ∨ N = X)
     (hXnc : ¬ IsMulCommutative X) (L : Subgroup (Q ⧸ Y))
     (hL : CFSG.Open.IsComponentOf L X) :

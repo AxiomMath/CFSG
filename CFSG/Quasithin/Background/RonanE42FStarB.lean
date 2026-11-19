@@ -24,7 +24,7 @@ theorem fStarPre_le {K Y T : Subgroup G} (hT2 : IsPGroup 2 T) (hTK : T ≤ K)
     (Subgroup.normal_subgroupOf_iff hY).mpr fun h k hh hk => hYn k hk h hh
   have hYbn : ((Y.subgroupOf K).map (QuotientGroup.mk' (CFSG.pCore 2 ↥K))).Normal :=
     Subgroup.Normal.map hY'n _ (QuotientGroup.mk'_surjective _)
-  obtain ⟨b, hbYT, hb⟩ := SetLike.not_le_iff_exists.mp hYT
+  obtain ⟨b, hbYT, hb⟩ := IsConcreteLE.not_le_iff_exists.mp hYT
   obtain ⟨hbY, hbT⟩ := Subgroup.mem_inf.mp hbYT
   have hbK : b ∈ K := hTK hbT
   have hy0Y : QuotientGroup.mk' (CFSG.pCore 2 ↥K) (⟨b, hbK⟩ : ↥K) ∈

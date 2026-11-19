@@ -106,8 +106,8 @@ theorem transitive_of_no_fixed {n : ℕ} {s : Finset (Fin n)} (hs : #s = 8)
     rw [hfix]
     simp
   have hK : K = ⊥ := by
-    haveI : IsSimpleGroup ↥(alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
-    haveI : IsSimpleGroup ↥H := hH.elim fun e => e.isSimpleGroup
+    have : IsSimpleGroup ↥(alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
+    have : IsSimpleGroup ↥H := hH.elim fun e => e.isSimpleGroup
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal K with h | h
     · exact h
     · exfalso

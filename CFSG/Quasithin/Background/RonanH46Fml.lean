@@ -44,8 +44,7 @@ theorem rhoW_col (hK : Nat.card K = (2 ^ n) ^ 2) {g : SL(3, K)} (hg : g ∈ perf
   rw [mat_rho_entry]
   fin_cases i <;>
     simp [blkMat, Matrix.mulVec, dotProduct, Fin.sum_univ_three, Fin.sum_univ_two, h20, h21,
-      h22] <;>
-    ring
+      h22]
 
 theorem rhoZ_block (hK : Nat.card K = (2 ^ n) ^ 2) {g : SL(3, K)} (hg : g ∈ perfZ K)
     (X : HMod n K) :
@@ -81,7 +80,7 @@ theorem rhoZ_corner (hK : Nat.card K = (2 ^ n) ^ 2) {g : SL(3, K)} (hg : g ∈ p
   obtain ⟨h10, h20, h00⟩ := hg
   rw [mat_rho_entry]
   simp [hermBlkZ, Fin.sum_univ_three, Fin.sum_univ_two, mat_col_zero_eq_bar hK X 1,
-    mat_col_zero_eq_bar hK X 2, h10, h20, h00]
+    mat_col_zero_eq_bar hK X 2, h00]
   ring
 
 end CFSG.Quasithin.RonanH46

@@ -161,7 +161,7 @@ theorem exists_isPGroup_le_map_eq [Finite G] {p : ℕ} [Fact p.Prime] (ρ : G �
   obtain ⟨T⟩ := (inferInstance : Nonempty (Sylow p L))
   have htop : (T : Subgroup L).map g = ⊤ :=
     (T.mapSurjective hf).maximal_isPGroup.eq_of_ge (hR.to_subgroup ⊤) le_top |>.symm
-  refine ⟨(T : Subgroup L).map L.subtype, ?_, T.isPGroup'.map _, ?_⟩
+  refine ⟨(T : Subgroup L).map L.subtype, ?_, T.isPGroup.map _, ?_⟩
   · rintro _ ⟨x, -, rfl⟩
     exact x.2.1
   · rw [Subgroup.map_map]
@@ -217,7 +217,7 @@ theorem exists_isPGroup_le_centralizer_card_eq {s : Perm Γ} (hs : s ^ 2 = 1)
       Nat.card P = 2 ^ padicValNat 2 (Nat.card Γ)! := by
   obtain ⟨T⟩ := (inferInstance : Nonempty (Sylow 2 (Subgroup.centralizer {s})))
   refine ⟨(T : Subgroup _).map (Subgroup.centralizer {s}).subtype, Subgroup.map_subtype_le _,
-    T.isPGroup'.map _, ?_⟩
+    T.isPGroup.map _, ?_⟩
   have hsupp : #s.support = Nat.card Γ := by
     rw [Nat.card_eq_fintype_card, Finset.card_eq_iff_eq_univ]
     ext x

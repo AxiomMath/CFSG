@@ -25,7 +25,7 @@ theorem uc22p2213t_sp4 (D : Data G) (Ch : Choice2011 G) (h117 : R117W D)
   have hO : ∀ x ∈ CFSG.pCore 2 ↥L, (x : G) ∈ centralizer (c.V : Set G) := fun x hx =>
     uc22p22f_pCoreOf_le_cent hV h1930 c (uc22p22r_pCoreOf_le_of_isSubnormal hL.1 ⟨x, hx, rfl⟩)
   obtain ⟨ψ, hψs, hψk, hψc⟩ := uc22p2213t_onto c.hVM hLM hO hL.2.2 hLV
-  haveI : IsSimpleGroup (Bar2 L) :=
+  have : IsSimpleGroup (Bar2 L) :=
     uc22p22r_lieModel_isSimple_classical (Or.inr (Or.inr (Or.inl rfl))) hsp
   have hψi : Function.Injective ψ := by
     rw [← MonoidHom.ker_eq_bot_iff, eq_bot_iff, ← P22w.center_eq_bot_of_isSimpleGroup hL.2.2]

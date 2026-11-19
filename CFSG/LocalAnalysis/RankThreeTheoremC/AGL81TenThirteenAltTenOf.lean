@@ -36,9 +36,9 @@ theorem agl81TenThirteenA10_of (hKF462 : KFactFourSixTwo) (hKFb : KFactBlockAFiv
     (h9 : AGL81NineCompetitorQ G) (hNX3 : D1NoXBlock3 G) : AGL81TenThirteenA10 G := by
   intro hS P M H Q K hd L hL I₀ hI₀ hI₀c heK f hf hker
   obtain ⟨eK⟩ := heK
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hin := kFactInputs_of_cfg h9 hS hd
-  haveI := hin.normal
+  have := hin.normal
   obtain ⟨R, E, hER, hE, hEc, hcore⟩ := hin.core
   have hLM : IsSubnormal L M := hL.subnormal
   have hI₀M : I₀ ≤ H ⊓ M := le_inf_of_cZero hLM hI₀
@@ -328,7 +328,7 @@ theorem agl81TenThirteenA10_of (hKF462 : KFactFourSixTwo) (hKFb : KFactBlockAFiv
     refine ⟨⟨i', hi'I⟩, ?_⟩
     exact inv_mul_eq_one.mp h4
   have hpR : Open.pRank 3 (barM M L) ≤ 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hker3 : ¬ 3 ∣ Nat.card (CFSG.pCore 2 ↥M) := by
       obtain ⟨k₀, hk₀⟩ := (CFSG.pCore_isPGroup (p := 2) (G := ↥M)).exists_card_eq
       rw [hk₀]

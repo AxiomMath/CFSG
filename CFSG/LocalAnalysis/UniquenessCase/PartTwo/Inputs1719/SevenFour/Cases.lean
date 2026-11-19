@@ -306,7 +306,7 @@ theorem field_bounds (hW : ∀ w : W, w ^ 2 = 1) (hLY : L ≤ Y) (hLn : (L.subgr
   have hFfin : F.Finite := by
     rw [hFdef]
     exact (finite_hyperplanes p E).subset fun D hD => hD.1
-  have hTfin : T.Finite := hSfin.subset Set.diff_subset
+  have hTfin : T.Finite := hSfin.subset Set.sdiff_subset
   have horb : orbLen p e ≤ S.ncard := by
     rw [hSdef]
     exact le_ncard_hypSupp hW hp hp2 hElem hE1 (N := L ⊓ normalizer (E : Set (MulAut W)))
@@ -319,7 +319,7 @@ theorem field_bounds (hW : ∀ w : W, w ^ 2 = 1) (hLY : L ≤ Y) (hLn : (L.subgr
       rw [hTdef]
       exact Set.le_ncard_sdiff (s := F) (t := S) hFfin
     have h2 : orbLen p e = (p ^ (2 * f) - 1) / (2 * (p - 1)) := by
-      rw [orbLen, if_pos (show Even e from ⟨f, hf⟩), hf2]
+      rw [orbLen, ite_eq_left (show Even e from ⟨f, hf⟩), hf2]
     omega
   have hTgood : ∀ D ∈ T, D ∈ hyperplanes p E ∧ D.map (MulAut.conj t).toMonoidHom ≠ D := by
     intro D hD
@@ -430,7 +430,7 @@ theorem field_bounds (hW : ∀ w : W, w ^ 2 = 1) (hLY : L ≤ Y) (hLn : (L.subgr
         exact Nat.pow_right_injective hp.two_le h2
       have hS4 : 4 ≤ S.ncard := by
         have h2 : orbLen p e = 4 := by
-          rw [orbLen, if_pos (show Even e from ⟨f, hf⟩), hf2, hf1, hp7]
+          rw [orbLen, ite_eq_left (show Even e from ⟨f, hf⟩), hf2, hf1, hp7]
           exact field_counts_small.2.2.1
         omega
       have hFs : F.ncard ≤ 2 := by
@@ -543,7 +543,7 @@ theorem four_le_rkIdx (hW : ∀ w : W, w ^ 2 = 1) (hLY : L ≤ Y)
           exact hinv ⟨E', hE', hinv'⟩
         have heodd : ¬ Even e := fun hev =>
           hq4 (pow_mod_four_eq_one_of_even (hp.odd_of_ne_two hp2) hev)
-        have horb : orbLen p e = (p ^ e - 1) / (p - 1) := by rw [orbLen, if_neg heodd]
+        have horb : orbLen p e = (p ^ e - 1) / (p - 1) := by rw [orbLen, ite_eq_right heodd]
         have hlow := dParam_mul_orbLen_le_rk hW hM hp2 hE
         rw [horb] at hlow
         by_cases he1 : e = 1
@@ -609,7 +609,7 @@ theorem eight_le_rkIdx (hW : ∀ w : W, w ^ 2 = 1) (hLY : L ≤ Y)
           exact hinv ⟨E', hE', hinv'⟩
         have heodd : ¬ Even e := fun hev =>
           hq4 (pow_mod_four_eq_one_of_even (hp.odd_of_ne_two hp2) hev)
-        have horb : orbLen p e = (p ^ e - 1) / (p - 1) := by rw [orbLen, if_neg heodd]
+        have horb : orbLen p e = (p ^ e - 1) / (p - 1) := by rw [orbLen, ite_eq_right heodd]
         have hlow := dParam_mul_orbLen_le_rk hW hM hp2 hE
         rw [horb] at hlow
         have h24 := twentyFour_le_dParam_mul hp hp2 he hq

@@ -26,6 +26,7 @@ variable {G : Type} [Group G] [Finite G] {D : Set G} {d e : G} {E : Set G} {n : 
   ((Subgroup.normalizer ((P : Subgroup (SzBar E)) : Set (SzBar E))).comap (szMk E)).map
     (Subgroup.closure E).subtype
 
+omit [Finite G] in
 theorem mem_szS_iff {P : Sylow 2 (SzBar E)} {x : G} : x ∈ szS E P ↔
     ∃ h : x ∈ Subgroup.closure E, szMk E ⟨x, h⟩ ∈ (P : Subgroup (SzBar E)) := by
   rw [szS, Subgroup.mem_map]
@@ -39,6 +40,7 @@ theorem mem_szS_iff {P : Sylow 2 (SzBar E)} {x : G} : x ∈ szS E P ↔
   · rintro ⟨hx, hxP⟩
     exact ⟨⟨x, hx⟩, hxP, rfl⟩
 
+omit [Finite G] in
 theorem mem_szN_iff {P : Sylow 2 (SzBar E)} {x : G} : x ∈ szN E P ↔
     ∃ h : x ∈ Subgroup.closure E,
       szMk E ⟨x, h⟩ ∈ Subgroup.normalizer ((P : Subgroup (SzBar E)) : Set (SzBar E)) := by
@@ -53,6 +55,7 @@ theorem mem_szN_iff {P : Sylow 2 (SzBar E)} {x : G} : x ∈ szN E P ↔
   · rintro ⟨hx, hxN⟩
     exact ⟨⟨x, hx⟩, hxN, rfl⟩
 
+omit [Finite G] in
 theorem szQ_le_szS (E : Set G) (P : Sylow 2 (SzBar E)) : szQ E ≤ szS E P := by
   intro x hx
   rw [mem_szS_iff]
@@ -63,25 +66,29 @@ theorem szQ_le_szS (E : Set G) (P : Sylow 2 (SzBar E)) : szQ E ≤ szS E P := by
   rw [h1]
   exact one_mem _
 
+omit [Finite G] in
 theorem szS_le_szN (E : Set G) (P : Sylow 2 (SzBar E)) : szS E P ≤ szN E P := by
   intro x hx
   rw [mem_szN_iff]
   obtain ⟨hxH, hxP⟩ := mem_szS_iff.mp hx
   exact ⟨hxH, Subgroup.le_normalizer hxP⟩
 
+omit [Finite G] in
 theorem szN_le_closure (E : Set G) (P : Sylow 2 (SzBar E)) : szN E P ≤ Subgroup.closure E :=
   fun _ hx => (mem_szN_iff.mp hx).1
 
+omit [Finite G] in
 theorem isPGroup_szS (E : Set G) (P : Sylow 2 (SzBar E)) : IsPGroup 2 ↥(szS E P) := by
   have hker : IsPGroup 2 (szMk E).ker := by
     rw [szMk, QuotientGroup.ker_mk']
     exact CFSG.pCore_isPGroup (p := 2) (G := Subgroup.closure E)
   have hpre : IsPGroup 2 ↥((P : Subgroup (SzBar E)).comap (szMk E)) :=
-    IsPGroup.comap_of_ker_isPGroup P.isPGroup' (szMk E) hker
+    IsPGroup.comap_of_ker_isPGroup P.isPGroup (szMk E) hker
   change IsPGroup 2 ↥((((P : Subgroup (SzBar E)).comap (szMk E)).map
     (Subgroup.closure E).subtype))
   exact hpre.map (Subgroup.closure E).subtype
 
+omit [Finite G] in
 theorem conj_mem_szS {P : Sylow 2 (SzBar E)} {h s : G} (hh : h ∈ szN E P)
     (hs : s ∈ szS E P) : h * s * h⁻¹ ∈ szS E P := by
   rw [mem_szS_iff] at hs ⊢
@@ -144,6 +151,7 @@ theorem not_two_dvd_index_szS (E : Set G) (P : Sylow 2 (SzBar E)) :
     Subgroup.relIndex_dvd_index_of_le (Subgroup.le_normalizer)
   exact fun h => Sylow.not_dvd_index P (h.trans hdvd)
 
+omit [Finite G] in
 theorem szMk_eq_one_iff_mem_szQ {x : G} (hx : x ∈ Subgroup.closure E) :
     szMk E ⟨x, hx⟩ = 1 ↔ x ∈ szQ E := by
   rw [szMk]
@@ -155,6 +163,7 @@ theorem szMk_eq_one_iff_mem_szQ {x : G} (hx : x ∈ Subgroup.closure E) :
     obtain ⟨_, hq⟩ := mem_szQ_iff.mp hxQ
     exact (QuotientGroup.eq_one_iff (N := CFSG.pCore 2 (Subgroup.closure E)) _).mpr hq
 
+omit [Finite G] in
 private theorem szMk_eq_of_inv_mul_mem {u v : G}
     (hu : u ∈ Subgroup.closure E) (hv : v ∈ Subgroup.closure E)
     (h : u⁻¹ * v ∈ szQ E) : szMk E ⟨v, hv⟩ = szMk E ⟨u, hu⟩ := by
@@ -169,6 +178,7 @@ private theorem szMk_eq_of_inv_mul_mem {u v : G}
       szMk E ⟨u, hu⟩ * ((szMk E ⟨u, hu⟩)⁻¹ * szMk E ⟨v, hv⟩) := by group
     _ = szMk E ⟨u, hu⟩ := by rw [h1, mul_one]
 
+omit [Finite G] in
 private theorem szMk_mul_self_eq_one (c : SzCfg G D d E e n) {a : G} (ha : a ∈ E) :
     szMk E ⟨a, Subgroup.subset_closure ha⟩ * szMk E ⟨a, Subgroup.subset_closure ha⟩ = 1 := by
   rw [← map_mul, ← map_one (szMk E)]
@@ -179,6 +189,7 @@ private theorem szMk_ne_one (c : SzCfg G D d E e n) {a : G} (ha : a ∈ E) :
     szMk E ⟨a, Subgroup.subset_closure ha⟩ ≠ 1 := fun h =>
   c.not_mem_szQ ha ((szMk_eq_one_iff_mem_szQ (Subgroup.subset_closure ha)).mp h)
 
+omit [Finite G] in
 theorem SzCfg.exists_szS (c : SzCfg G D d E e n) {a : G} (ha : a ∈ E) :
     ∃ P : Sylow 2 (SzBar E), a ∈ szS E P := by
   let aH : ↥(Subgroup.closure E) := ⟨a, Subgroup.subset_closure ha⟩
@@ -233,6 +244,7 @@ private theorem orderOf_szMk_eq_two (c : SzCfg G D d E e n) {a : G} (ha : a ∈ 
     orderOf (szMk E ⟨a, Subgroup.subset_closure ha⟩) = 2 :=
   orderOf_eq_prime (by rw [pow_two]; exact szMk_mul_self_eq_one c ha) (szMk_ne_one c ha)
 
+omit [Finite G] in
 private theorem exists_szN_of_mem_normalizer (E : Set G) (P : Sylow 2 (SzBar E))
     {g : SzBar E}
     (hg : g ∈ Subgroup.normalizer ((P : Subgroup (SzBar E)) : Set (SzBar E))) :
@@ -337,7 +349,7 @@ theorem SzCfg.mem_szQ_of_mem_szN (c : SzCfg G D d E e n) {P P' : Sylow 2 (SzBar 
   have hinfN : (P : Subgroup (SzBar E)) ⊓
       Subgroup.normalizer ((P' : Subgroup (SzBar E)) : Set (SzBar E)) =
       (P : Subgroup (SzBar E)) ⊓ P' :=
-    IsPGroup.inf_normalizer_sylow P.isPGroup' P'
+    IsPGroup.inf_normalizer_sylow P.isPGroup P'
   rw [hinfN] at hmem
   obtain ⟨q, k, hB, -⟩ := Asc72.IsBenderGroup.exists_fusionBenderBorel c.isBenderGroup
   have hinf : (P : Subgroup (SzBar E)) ⊓ P' = ⊥ :=
@@ -533,6 +545,7 @@ theorem SzCfg.exists_szN_conj (c : SzCfg G D d E e n) (P : Sylow 2 (SzBar E)) {a
     _ = (y : G) * b' * (y : G)⁻¹ := by rfl
     _ = b := hyconj
 
+omit [Finite G] in
 private theorem conj_mem_szQ_of_mem_closure {g x : G}
     (hg : g ∈ Subgroup.closure E) (hx : x ∈ szQ E) : g * x * g⁻¹ ∈ szQ E := by
   let H : Subgroup G := Subgroup.closure E

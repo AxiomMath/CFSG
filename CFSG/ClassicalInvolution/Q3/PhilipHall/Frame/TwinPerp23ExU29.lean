@@ -59,10 +59,10 @@ theorem p23_movedOddFree_ue (hD4 : ModelFactD42) (hT : TwinThmE.T4Supply) (hcit 
     (hP : TL4.TightBelowRPlus 3 n) (hc : P23Cfg n Y R S t K' W u e g) :
     MovedOddFreeAt u (u * e) (ue_comm_u hc) := by
   have hC := CoreData.of_S hc.std.perp.core
-  haveI : CFSG.ClassicalInvolution.Q8P.Asc77.CoreLike Y := CFSG.ClassicalInvolution.Q8P.coreLike_of_core hC
+  have : CFSG.ClassicalInvolution.Q8P.Asc77.CoreLike Y := CFSG.ClassicalInvolution.Q8P.coreLike_of_core hC
   have hst := CFSG.ClassicalInvolution.Q8P.ascStand_of_twinCore hC
   have hEIH : TwinThmE.EIHAll (Nat.card Y) := by
-    rw [hC.card]; intros; exact ⟨hcit, hP⟩
+    rw [hC.card]; exact ⟨hcit, hP⟩
   have h2 : ∀ M ∈ Om R, IsPGroup 2 (↥M ⧸ classicalInvolutionOddCore ↥M) :=
     TwinADescent3.isPGroup_two_quotient_conjClass
       (TwinEdge.isPGroup_two_quotient_of_le (tightCore_le R) hC.datum.twoGroup)

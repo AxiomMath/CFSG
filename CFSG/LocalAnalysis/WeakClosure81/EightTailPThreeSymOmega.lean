@@ -13,6 +13,7 @@ open CFSG.LocalAnalysis.WeakClosure81.SevenK
 variable {G : Type} [Group G] [Finite G] {V H T : Subgroup G}
   {X : Type} [Group X] {φ : ↥(kGenIn V H) →* X}
 
+omit [Finite G] in
 private theorem wc85om_exists_mul_eq_of_mem_sup_of_le_normalizer {S N : Subgroup G}
     (hN : S ≤ Subgroup.normalizer (N : Set G)) {x : G} (hx : x ∈ S ⊔ N) :
     ∃ s ∈ S, ∃ n ∈ N, s * n = x := by
@@ -25,7 +26,7 @@ private theorem wc85om_conjSubgroup_zpowers (t g : X) :
   change (Subgroup.zpowers t).map (MulAut.conj g⁻¹).toMonoidHom = _
   rw [MonoidHom.map_zpowers]
   congr 1
-  simp [MulAut.conj_apply]
+  simp
 
 theorem exists_conjSubgroup_eq_of_mem_omegaHIn (s : TailSetup V H T φ) {U : Subgroup G}
     (hU : U ∈ omegaHIn V H) : ∃ k : ↥(kGenIn V H), U = conjSubgroup V (k : G) := by
@@ -43,6 +44,7 @@ theorem exists_conjSubgroup_eq_of_mem_omegaHIn (s : TailSetup V H T φ) {U : Sub
       conjSubgroup_eq_iff_mem_normalizer.mpr (s.hyp83.T_le_normalizer ht₀T)]
   exact ⟨⟨k, hkK⟩, hconj⟩
 
+omit [Finite G] in
 theorem kGenIn_le_centralizer_of_comm_omegaHIn (hVH : V ≤ H) {U : Subgroup G}
     (hU : ∀ W ∈ omegaHIn V H, ∀ u ∈ U, ∀ w ∈ W, u * w = w * u) :
     kGenIn V H ≤ Subgroup.centralizer (U : Set G) := by
@@ -57,7 +59,7 @@ theorem conjSubgroup_le_T_iff_mem_symT (s : TailSetup V H T φ) {t : X}
     (hP : (P : Subgroup X) = barSub (kGenIn V H) φ T) (k : ↥(kGenIn V H)) :
     conjSubgroup V (k : G) ≤ T ↔ (φ k)⁻¹ * t * φ k ∈ symT t (P : Subgroup X) := by
   rw [conjSubgroup_le_iff_barSub_le s (kGenIn_le_H s.hyp83.le_H k.2)]
-  rw [barSub_conjSubgroup φ V k, ht, ← hP, symT, Set.mem_inter_iff, Set.mem_setOf_eq,
+  rw [barSub_conjSubgroup φ V k, ht, ← hP, symT, Set.mem_inter_iff, Set.mem_ofPred_eq,
     wc85om_conjSubgroup_zpowers, Subgroup.zpowers_le]
   constructor
   · intro hmem

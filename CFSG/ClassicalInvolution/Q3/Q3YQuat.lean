@@ -55,7 +55,7 @@ theorem IsClassicalMember3.exists_quaternion_pair_sq (h : IsClassicalMember3 L z
     norm_num
   have hinj : ∀ q ∈ (Q : Subgroup L), ρ q = 1 → q = 1 := by
     intro q hq hρq
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp Q.isPGroup') ⟨q, hq⟩
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp Q.isPGroup) ⟨q, hq⟩
     rw [Subgroup.orderOf_mk] at hk
     have hodd := odd_orderOf_of_mem_oddCore₃ (hρker q hρq)
     rw [hk] at hodd

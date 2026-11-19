@@ -53,7 +53,7 @@ private def sec5op6_cent (H Y N : Subgroup G) (hN : ∀ h ∈ H, ∀ n ∈ N, h 
         (a * (b * y * b⁻¹ * y⁻¹) * a⁻¹) * (a * y * a⁻¹ * y⁻¹) := by group
     rw [h1]
     exact N.mul_mem (hN a haH _ (hb y hy)) (ha y hy)
-  one_mem' := ⟨H.one_mem, fun y _ => by simpa using N.one_mem⟩
+  one_mem' := ⟨H.one_mem, fun y _ => by simp⟩
   inv_mem' := by
     rintro a ⟨haH, ha⟩
     refine ⟨H.inv_mem haH, fun y hy => ?_⟩
@@ -72,7 +72,7 @@ private theorem sec5op6_restrict {K M E : Subgroup G} (hEM : E ≤ M)
 private theorem sec5op6_trans_normal {K A B : Subgroup G} (hKA : K ≤ A) (hAB : A ≤ B)
     (hK : (K.subgroupOf A).IsSubnormal) (hA : (A.subgroupOf B).Normal) :
     (K.subgroupOf B).IsSubnormal :=
-  Subgroup.IsSubnormal.trans (fun x hx => hKA hx) (aor_subnormal_subgroupOf_subgroupOf hAB hKA hK)
+  Subgroup.IsSubnormal.trans (fun _x hx => hKA hx) (aor_subnormal_subgroupOf_subgroupOf hAB hKA hK)
     hA.isSubnormal
 
 theorem sec5op6_isSubnormal_sup {t z : G} {K Y N : Subgroup G} (ht : t * t = 1)
@@ -118,7 +118,7 @@ theorem sec5op6_isSubnormal_sup {t z : G} {K Y N : Subgroup G} (ht : t * t = 1)
     le_inf inf_le_right (inf_le_left.trans hDH)
   have hA : ((K.subgroupOf D).subgroupOf (C.subgroupOf D)).IsSubnormal :=
     aor_subnormal_subgroupOf_subgroupOf hCD hKC (sec5op6_restrict hCle hKsub)
-  haveI hNnorm : (N.subgroupOf D).Normal := by
+  have hNnorm : (N.subgroupOf D).Normal := by
     rw [Subgroup.normal_subgroupOf_iff hND]
     intro n d hn hd
     exact hNn d (hDH hd) n hn

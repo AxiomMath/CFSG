@@ -191,7 +191,7 @@ theorem exists_Mg : ∃ M : Subgroup G, M ≤ S.Cg ∧ (∀ x : G, x ∈ M ↔ x
   obtain ⟨P, hP⟩ := hP2.exists_le_sylow
   have hPeq : (P : Subgroup ↥C) = Subgroup.zpowers zC := by
     refine le_antisymm (fun x hx => ?_) hP
-    have h2 : IsPGroup 2 ((P : Subgroup ↥C).map C.subtype) := P.isPGroup'.map _
+    have h2 : IsPGroup 2 ((P : Subgroup ↥C).map C.subtype) := P.isPGroup.map _
     have hle : (P : Subgroup ↥C).map C.subtype ≤ S.Cg := by
       rintro _ ⟨k, -, rfl⟩
       exact k.2

@@ -20,7 +20,7 @@ variable {W : Type} [CommGroup W] [Finite W] {t : MulAut W} {P : Subgroup (MulAu
 theorem w16h_ext_center (h : Cfg132 t P) (hext : IsPOnePlusTwo 3 ↥P) :
     ∃ z : MulAut W, z ∈ P ∧ orderOf z = 3 ∧ (∀ y ∈ P, y * z = z * y) ∧ t * z * t⁻¹ = z ∧
       (∀ x ∈ P, (∀ y ∈ P, y * x = x * y) → x ∈ Subgroup.zpowers z) := by
-  haveI : CFSG.IsExtraspecial 3 ↥P := hext.1
+  have : CFSG.IsExtraspecial 3 ↥P := hext.1
   have hcardP : Nat.card ↥P = 27 := by rw [hext.2.1]; norm_num
   have hZcard : Nat.card (Subgroup.center ↥P) = 3 := CFSG.IsExtraspecial.center_order_p 3 ↥P
   have hnab : ¬ ∀ x ∈ P, ∀ y ∈ P, x * y = y * x := by
@@ -34,7 +34,7 @@ theorem w16h_ext_center (h : Cfg132 t P) (hext : IsPOnePlusTwo 3 ↥P) :
     have h3 := CFSG.IsExtraspecial.center_order_p 3 ↥P
     rw [hcentop, Subgroup.card_top, hcardP] at h3
     norm_num at h3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hZcyc : IsCyclic (Subgroup.center ↥P) := isCyclic_of_prime_card hZcard
   obtain ⟨z0, hz0gen⟩ := IsCyclic.exists_generator (α := Subgroup.center ↥P)
   have hz0top : Subgroup.zpowers z0 = ⊤ :=
@@ -98,6 +98,7 @@ private theorem w16g_commSub_stable_of_commute {M : Subgroup W} {X : Subgroup (M
   rw [h]
   exact ⟨u, hu, rfl⟩
 
+omit [Finite W] in
 private theorem w16g_commSub_sup_left (D M : Subgroup W) (X : Subgroup (MulAut W)) :
     commSub (D ⊔ M) X = commSub D X ⊔ commSub M X := by
   apply le_antisymm
@@ -114,6 +115,7 @@ private theorem w16g_commSub_sup_left (D M : Subgroup W) (X : Subgroup (MulAut W
       (Subgroup.mem_sup_right hm1)
   · exact sup_le (commSub_mono le_sup_left le_rfl) (commSub_mono le_sup_right le_rfl)
 
+omit [Finite W] in
 private theorem w16g_fixV_stable_of_commute {X : Subgroup (MulAut W)} {c : MulAut W}
     (hc : ∀ x ∈ X, c * x = x * c) : ∀ u ∈ fixV X, c u ∈ fixV X := by
   intro u hu
@@ -127,10 +129,12 @@ private theorem w16g_fixV_stable_of_commute {X : Subgroup (MulAut W)} {c : MulAu
 private def w16g_Faith (G : Subgroup (MulAut W)) (U : Subgroup W) : Prop :=
   ∀ y ∈ G, (∀ u ∈ U, y u = u) → y = 1
 
+omit [Finite W] in
 private theorem w16g_mem_map_subtype {V₀ : Subgroup W} {U : Subgroup ↥V₀} {u : ↥V₀} :
     (u : W) ∈ U.map V₀.subtype ↔ u ∈ U :=
   Subgroup.mem_map_iff_mem V₀.subtype_injective
 
+omit [Finite W] in
 private theorem w16g_stableUnder_range {G : Subgroup (MulAut W)} {V₀ : Subgroup W}
     (σ : G →* MulAut ↥V₀)
     (hσ : ∀ (x : G) (u : ↥V₀), ((σ x) u : W) = (x : MulAut W) (u : W))
@@ -149,6 +153,7 @@ private theorem w16g_stableUnder_range {G : Subgroup (MulAut W)} {V₀ : Subgrou
     rw [← hσ xg u] at hmem
     exact w16g_mem_map_subtype.mp hmem
 
+omit [Finite W] in
 private theorem w16g_faith_range {G : Subgroup (MulAut W)} {V₀ : Subgroup W}
     (σ : G →* MulAut ↥V₀)
     (hσ : ∀ (x : G) (u : ↥V₀), ((σ x) u : W) = (x : MulAut W) (u : W))
@@ -176,6 +181,7 @@ private theorem w16g_faith_range {G : Subgroup (MulAut W)} {V₀ : Subgroup W}
       exact this
     rw [show xg = 1 from Subtype.ext hxg1, map_one]
 
+omit [Finite W] in
 private theorem w16g_map_commSub_le {G : Subgroup (MulAut W)} {V₀ : Subgroup W}
     (σ : G →* MulAut ↥V₀)
     (hσ : ∀ (x : G) (u : ↥V₀), ((σ x) u : W) = (x : MulAut W) (u : W))
@@ -277,16 +283,16 @@ private theorem w16g_not_comm_of_isExtraspecial {p : ℕ} {X : Type*} [Group X]
     rw [Subgroup.mem_center_iff]
     intro y
     exact (hcomm.is_comm.comm x y).symm
-  haveI : Subsingleton (X ⧸ Subgroup.center X) :=
+  have : Subsingleton (X ⧸ Subgroup.center X) :=
     (QuotientGroup.subsingleton_iff (N := Subgroup.center X)).2 hcenter
-  haveI := CFSG.IsExtraspecial.quotient_nontrivial p X
+  have := CFSG.IsExtraspecial.quotient_nontrivial p X
   obtain ⟨x, y, hxy⟩ := exists_pair_ne (X ⧸ Subgroup.center X)
   exact hxy (Subsingleton.elim x y)
 
 private theorem w16g_card_isZ3Times {X : Type} [Group X] (h : IsZ3TimesPOnePlusTwo X) :
     Nat.card X = 81 := by
   obtain ⟨H, instH, hP1, ⟨e⟩⟩ := h
-  letI := instH
+  let := instH
   have hcardH : Nat.card H = 27 := by rw [hP1.2.1]; norm_num
   have hcardZ : Nat.card (Multiplicative (ZMod 3)) = 3 := by
     rw [Nat.card_eq_fintype_card, Fintype.card_multiplicative, ZMod.card]
@@ -298,6 +304,7 @@ private theorem w16g_card_isZ3Times {X : Type} [Group X] (h : IsZ3TimesPOnePlusT
 private theorem w16g_card_isZ3WrZ3 {X : Type} [Group X] (h : IsZ3WrZ3 X) :
     Nat.card X = 81 := h.1
 
+omit [Finite W] in
 private theorem w16g_map_inclusion_subgroupOf {G K : Subgroup (MulAut W)}
     (hGK : G ≤ K) {P : Subgroup (MulAut W)} (hPG : P ≤ G) :
     (P.subgroupOf G).map (Subgroup.inclusion hGK) = P.subgroupOf K := by
@@ -317,6 +324,7 @@ private theorem w16g_subgroupOf_commutator {M : Type} [Group M] {H₁ H₂ K : S
     Subgroup.map_subgroupOf_eq_of_le h₂,
     Subgroup.map_subgroupOf_eq_of_le (Subgroup.commutator_le_of_le h₁ h₂)]
 
+omit [Finite W] in
 private theorem w16g_map_commSub_subgroup {G : Subgroup (MulAut W)} {U : Subgroup W}
     {P : Subgroup (MulAut W)} (σ : G →* MulAut ↥U)
     (hσ : ∀ (x : G) (u : ↥U), ((σ x) u : W) = (x : MulAut W) (u : W))
@@ -342,6 +350,7 @@ private theorem w16g_map_commSub_subgroup {G : Subgroup (MulAut W)} {U : Subgrou
     · show (((σ g) ⟨w, hw⟩ * ⟨w, hw⟩⁻¹ : ↥U) : W) = p w * w⁻¹
       rw [Subgroup.coe_mul, Subgroup.coe_inv, hσ]
 
+omit [Finite W] in
 private theorem w16g_stableUnder_sup {A : Subgroup (MulAut W)} {X Y : Subgroup W}
     (hX : StableUnder A X) (hY : StableUnder A Y) : StableUnder A (X ⊔ Y) := by
   intro φ hφ u hu
@@ -395,7 +404,7 @@ private theorem w16g_rank_six_of_min_faithful (hMin : W4Lem13_2MinLe 27) {W : Ty
       (∀ y ∈ P, (∀ u ∈ U₁, y u = u) → y = 1) → U₁ = U) :
     rk ↥(commSub U P) = 6 ∧ commSub U (Subgroup.zpowers t) ≠ ⊥ := by
   classical
-  haveI : CFSG.IsExtraspecial 3 ↥P := hext.1
+  have : CFSG.IsExtraspecial 3 ↥P := hext.1
   have hcardP : Nat.card ↥P = 27 := by rw [hext.2.1]; norm_num
   let G : Subgroup (MulAut W) := P ⊔ Subgroup.zpowers t
   have htG : t ∈ G := Subgroup.mem_sup_right (Subgroup.mem_zpowers t)
@@ -594,7 +603,7 @@ private theorem w16g_rank_six_of_min_faithful (hMin : W4Lem13_2MinLe 27) {W : Ty
 theorem w16h_ext_faithful_part (hMin : W4Lem13_2MinLe 27) (h : Cfg132 t P)
     (hext : IsPOnePlusTwo 3 ↥P) {z : MulAut W} (hzP : z ∈ P) (hz3 : orderOf z = 3)
     (hzc : ∀ y ∈ P, y * z = z * y) (hzt : t * z * t⁻¹ = z)
-    (hZP : ∀ x ∈ P, (∀ y ∈ P, y * x = x * y) → x ∈ Subgroup.zpowers z) :
+    (_hZP : ∀ x ∈ P, (∀ y ∈ P, y * x = x * y) → x ∈ Subgroup.zpowers z) :
     rk ↥(commSub (commSub ⊤ (Subgroup.zpowers z)) (Subgroup.zpowers t)) = 2 ∧
       rk ↥(commSub ⊤ (Subgroup.zpowers z)) = 6 := by
   let zs : Subgroup (MulAut W) := Subgroup.zpowers z
@@ -730,7 +739,7 @@ theorem w16h_ext_faithful_part (hMin : W4Lem13_2MinLe 27) (h : Cfg132 t P)
     omega
   refine ⟨hK2, ?_⟩
   · classical
-    haveI : CFSG.IsExtraspecial 3 ↥P := hext.1
+    have : CFSG.IsExtraspecial 3 ↥P := hext.1
     have hPM : ∀ x ∈ P, ∀ u ∈ M, x u ∈ M := by
       intro x hx u hu
       change u ∈ commSub ⊤ zs at hu
@@ -934,7 +943,7 @@ theorem w16h_ext_faithful_part (hMin : W4Lem13_2MinLe 27) (h : Cfg132 t P)
     exact hU6
 
 private theorem w16g_rank_le_two_of_transvection {V : Type} [CommGroup V] [Finite V]
-    (hV2 : ∀ v : V, v ^ 2 = 1) {t x : MulAut V} (ht2 : t ^ 2 = 1) (hx3 : x ^ 3 = 1)
+    (hV2 : ∀ v : V, v ^ 2 = 1) {t x : MulAut V} (_ht2 : t ^ 2 = 1) (hx3 : x ^ 3 = 1)
     (htx : t * x * t⁻¹ = x⁻¹) (hCx : ∀ v : V, x v = v → v = 1)
     (hE1 : rk ↥(commSub ⊤ (Subgroup.zpowers t)) = 1) : rk V ≤ 2 := by
   let E : Subgroup V := commSub ⊤ (Subgroup.zpowers t)
@@ -1047,9 +1056,9 @@ private theorem w16g_commSub_stable_of_normalizes {D : Subgroup W} {X : Subgroup
   exact ⟨u, hu, rfl⟩
 
 theorem w16h_ext_trivial_part (h131 : W4Lem13_1) (h : Cfg132 t P) (hext : IsPOnePlusTwo 3 ↥P)
-    {z : MulAut W} (hzP : z ∈ P) (hz3 : orderOf z = 3) (hzc : ∀ y ∈ P, y * z = z * y)
+    {z : MulAut W} (_hzP : z ∈ P) (_hz3 : orderOf z = 3) (hzc : ∀ y ∈ P, y * z = z * y)
     (hzt : t * z * t⁻¹ = z)
-    (hZP : ∀ x ∈ P, (∀ y ∈ P, y * x = x * y) → x ∈ Subgroup.zpowers z)
+    (_hZP : ∀ x ∈ P, (∀ y ∈ P, y * x = x * y) → x ∈ Subgroup.zpowers z)
     (hD : rk ↥(commSub (fixV (Subgroup.zpowers z)) (Subgroup.zpowers t)) ≤ 1) :
     (rk ↥(commSub (fixV (Subgroup.zpowers z)) P) = 0 ∨
       rk ↥(commSub (fixV (Subgroup.zpowers z)) P) = 2) ∧

@@ -126,6 +126,7 @@ end Abstract
 section Concrete
 variable {X : Type} [Group X] [Finite X] {W K S : Subgroup X} [W.Normal]
 
+omit [Finite X] in
 theorem sq_mem {a : X} (hS2 : ∀ s ∈ S, s ∈ kerAct W K S ∨ a⁻¹ * s ∈ kerAct W K S) (haS : a ∈ S)
     (hna : a ∉ kerAct W K S) : a ^ 2 ∈ kerAct W K S := by
   rcases hS2 (a ^ 2) (S.pow_mem haS 2) with h | h
@@ -135,6 +136,7 @@ theorem sq_mem {a : X} (hS2 : ∀ s ∈ S, s ∈ kerAct W K S ∨ a⁻¹ * s ∈
     have : a⁻¹ * a ^ 2 = a := by rw [pow_two]; group
     rwa [this] at h
 
+omit [Finite X] in
 theorem relIndex_two (hR : Red28 W K S) {a : X} (haS : a ∈ S) (hna : a ∉ kerAct W K S)
     (hS2 : ∀ s ∈ S, s ∈ kerAct W K S ∨ a⁻¹ * s ∈ kerAct W K S) :
     ((kerAct W K S).subgroupOf S).index = 2 := by
@@ -175,7 +177,7 @@ theorem quot_aux (h : Setup28 W K S) (hR : Red28 W K S) {a : X} (haS : a ∈ S)
     sup_le le_sup_right (Subgroup.zpowers_le.2 (Subgroup.mem_sup_left hp))
   have hW₁Y : kerAct W K S ≤ Y := hR.w1_S.trans hSY
   set N₁ : Subgroup ↥Y := (kerAct W K S).subgroupOf Y with hN₁
-  haveI hN₁n : N₁.Normal :=
+  have hN₁n : N₁.Normal :=
     ⟨fun n hn g => by
       rw [hN₁, Subgroup.mem_subgroupOf] at hn ⊢
       have := hR.w1_nrm (g : X) (hYN g.2) (n : X) hn

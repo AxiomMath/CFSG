@@ -21,16 +21,16 @@ variable {D : Data G} {V L : Subgroup G} {hV : IsElemAbelian 2 V}
 
 theorem close16_not_solvable (hS : Close16Setting D V L hV) : ¬ Group.IsSolvable ↥D.M := by
   intro hsol
-  haveI : Group.IsSolvable ↥D.M := hsol
+  have : Group.IsSolvable ↥D.M := hsol
   obtain ⟨φ, hφsurj, -⟩ :=
     close16_exists_hom_barSub (hV := hV) (X := D.M) (close16_le_stabTil hS) le_rfl
-  haveI : Group.IsSolvable ↥(Mbar D.M ⊥ V hV) := solvable_of_surjective hφsurj
+  have : Group.IsSolvable ↥(Mbar D.M ⊥ V hV) := Group.isSolvable_of_surjective hφsurj
   have hle : lBar ⊥ V hV L ≤ Mbar D.M ⊥ V hV := close16_lbar_le_mbar hS
-  haveI : Group.IsSolvable ↥(lBar ⊥ V hV L) :=
+  have : Group.IsSolvable ↥(lBar ⊥ V hV L) :=
     Group.isSolvable_of_isSolvable_injective
       (f := (Subgroup.subgroupOfEquivOfLe hle).symm.toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hle).symm.injective
-  haveI : IsSimpleGroup ↥(lBar ⊥ V hV L) := close16_lbar_simple hS
+  have : IsSimpleGroup ↥(lBar ⊥ V hV L) := close16_lbar_simple hS
   exact close16_lbar_not_commutative hS
     ⟨⟨fun a b =>
       (IsSimpleGroup.comm_iff_isSolvable (G := ↥(lBar ⊥ V hV L))).mpr inferInstance a b⟩⟩
@@ -38,17 +38,17 @@ theorem close16_not_solvable (hS : Close16Setting D V L hV) : ¬ Group.IsSolvabl
 theorem close16_normalizer_ne_top (D : Data G) {A : Subgroup G} (hA : Nat.card A = 7) :
     normalizer (A : Set G) ≠ ⊤ := by
   intro htop
-  haveI : IsSimpleGroup G := D.standing.simple
+  have : IsSimpleGroup G := D.standing.simple
   have hnormal : A.Normal := Subgroup.normalizer_eq_top_iff.mp htop
-  haveI : A.Normal := hnormal
+  have : A.Normal := hnormal
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal A with hbot | htopA
   · rw [hbot, Subgroup.card_bot] at hA
     exact absurd hA (by norm_num)
   · have hcardG : Nat.card G = 7 := by
       rw [← Subgroup.card_top (G := G), ← htopA]
       exact hA
-    haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-    haveI : IsCyclic G := isCyclic_of_prime_card hcardG
+    have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+    have : IsCyclic G := isCyclic_of_prime_card hcardG
     obtain ⟨a, b, hab⟩ := D.standing.nonab
     exact hab (mul_comm a b)
 
@@ -116,7 +116,7 @@ theorem close16_exists_noncyclic_three (hS : Close16Setting D V L hV) {Y : Subgr
     exact Subgroup.centralizer_le_normalizer _ hkcentA
   have hEnc : ¬ IsCyclic ↥E := by
     intro hcyc
-    haveI : IsCyclic ↥E := hcyc
+    have : IsCyclic ↥E := hcyc
     obtain ⟨g, hg⟩ := IsCyclic.exists_ofOrder_eq_natCard (α := ↥E)
     have h9 : 9 ∣ orderOf g := by rw [hg, hEcard]
     have h9' : 9 ∣ orderOf (g : MulAut (Vtil ⊥ V hV)) := by rwa [Subgroup.orderOf_coe]
@@ -177,8 +177,8 @@ theorem close16_not_isCyclic_sylow_two (hS : Close16Setting D V L hV) {A : Subgr
     (hSyl : CFSG.ABGLocalTools.IsSylowOf 2 S (normalizer (A : Set G) ⊓ D.M)) :
     ¬ IsCyclic ↥S := by
   intro hcyc
-  haveI : IsCyclic ↥S := hcyc
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsCyclic ↥S := hcyc
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let K : Subgroup G := normalizer (A : Set G) ⊓ D.M
   let E : Subgroup G := V ⊓ centralizer (A : Set G)
   have hVT : V ≤ D.T := s15_13A_le_T hS.counterex.setting.hyp16.hyp125
@@ -196,18 +196,18 @@ theorem close16_not_isCyclic_sylow_two (hS : Close16Setting D V L hV) {A : Subgr
   have hSsub : IsCyclic ↥(S.subgroupOf K) :=
     isCyclic_of_injective (f := (Subgroup.subgroupOfEquivOfLe hSyl.le).toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hSyl.le).injective
-  haveI : IsCyclic ↥(S.subgroupOf K) := hSsub
-  haveI : IsCyclic ↥Q :=
+  have : IsCyclic ↥(S.subgroupOf K) := hSsub
+  have : IsCyclic ↥Q :=
     isCyclic_of_injective (f := (MulEquiv.subgroupCongr hQ).toMonoidHom)
       (MulEquiv.subgroupCongr hQ).injective
   have hE'2 : IsPGroup 2 (E.subgroupOf K) := hE2.comap_subtype
   obtain ⟨Q', hQ'⟩ := hE'2.exists_le_sylow
-  haveI : IsCyclic ↥Q' :=
+  have : IsCyclic ↥Q' :=
     isCyclic_of_surjective (f := (Sylow.equiv Q Q').toMonoidHom) (Sylow.equiv Q Q').surjective
-  haveI : IsCyclic ↥(E.subgroupOf K) :=
+  have : IsCyclic ↥(E.subgroupOf K) :=
     isCyclic_of_surjective (f := (Subgroup.subgroupOfEquivOfLe hQ').toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hQ').surjective
-  haveI : IsCyclic ↥E :=
+  have : IsCyclic ↥E :=
     isCyclic_of_surjective (f := (Subgroup.subgroupOfEquivOfLe hEK).toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hEK).surjective
   obtain ⟨g, hg⟩ := IsCyclic.exists_ofOrder_eq_natCard (α := ↥E)
@@ -222,7 +222,7 @@ theorem close16_three_centralizes {K A P P₀ : Subgroup G} (hAK : A ≤ K)
     (hKA : K ≤ normalizer (A : Set G)) (hA : Nat.card A = 7)
     (hP : CFSG.ABGLocalTools.IsSylowOf 3 P K) (hPn : K ≤ normalizer (P : Set G))
     (hP₀K : P₀ ≤ K) (hP₀ : IsPGroup 3 ↥P₀) : ∀ x ∈ P₀, ∀ a ∈ A, x * a = a * x := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hsup3 : IsPGroup 3 ↥(P₀ ⊔ P) :=
     IsPGroup.to_sup_of_normal_right' hP₀ hP.isPGroup (hP₀K.trans hPn)
   have hsup_eq : P₀ ⊔ P = P :=
@@ -262,7 +262,7 @@ theorem close16_normalizer_seven_le (h78 : R7_8At3 D)
   have hAD : A ≤ D.M := hAY.trans hY.le
   have hAK : A ≤ H ⊓ D.M := le_inf Subgroup.le_normalizer hAD
   have hKA : H ⊓ D.M ≤ normalizer (A : Set G) := inf_le_left
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨P, hP⟩ := CFSG.ABGLocalTools.exists_isSylowOf 3 (H ⊓ D.M)
   let D₀ : Subgroup G := CFSG.RankThree.PartOne.omegaOne 3 P
   obtain ⟨-, hcases⟩ := h78 H P D₀ hsec hP rfl

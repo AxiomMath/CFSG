@@ -12,13 +12,15 @@ namespace CFSG.OddStandard.SmallF3.Omega
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem simAct_mk_simConj {σ : V ≃ₗ[ZMod 3] V} {c : (ZMod 3)ˣ}
     (hσ : IsSimilitude Q σ c) (t : OGroup Q) :
     simAct Q ⟨σ, ⟨c, hσ⟩⟩ t = simConj hσ t := by
   apply Subtype.ext
   rw [coe_simAct, coe_simConj]
 
-theorem sec9u_orthToSim_simAct (γ : simGroup Q) (t : OGroup Q) :
+omit [FiniteDimensional (ZMod 3) V] in
+theorem sec9u_orthToSim_simAct [FiniteDimensional (ZMod 3) V] (γ : simGroup Q) (t : OGroup Q) :
     orthToSim Q (simAct Q γ t) = γ * orthToSim Q t * γ⁻¹ := by
   apply Subtype.ext
   apply LinearEquiv.ext
@@ -51,7 +53,7 @@ theorem sec9u_conj_dim3 (hQ : Q.Nondegenerate) (h6 : Module.finrank (ZMod 3) V =
           · exact absurd (h.trans h'.symm) hsign
           · simp only [h, h', neg_neg]
         · rcases Int.units_eq_one_or (invSign t') with h' | h'
-          · simp only [h, h', neg_neg]
+          · simp only [h, h']
           · exact absurd (h.trans h'.symm) hsign
       obtain ⟨σ, hσ⟩ := (exists_isSimilitude_neg_one_iff hQ).mpr (by rw [h6]; decide)
       have hodd : Odd (invDim t') := ⟨1, by simp [ht'3]⟩

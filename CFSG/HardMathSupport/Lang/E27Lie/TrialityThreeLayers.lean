@@ -143,18 +143,18 @@ theorem layerPhi_ker {k : ℕ} (x : layerN σ k) (hx : layerPhi σ k x = 1) :
 
 theorem cocycleData_layers {u : ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom)}
     (hu : (u : ModGL TwistTag.D4.tag K) ∈ posUnipotent TwistTag.D4.tag K) (b : ℕ → ℕ)
-    (hb : ∀ k, k < (maxHeight TwistTag.D4.tag).toNat →
-      Nat.card {a : LayerCoord (K := K) k // a ∈ (layerPhi σ k).range ∧
-        a * layerTau σ k a * layerTau σ k (layerTau σ k a) = 1} ≤ b k) :
+    (hb : ∀ _k, _k < (maxHeight TwistTag.D4.tag).toNat →
+      Nat.card {a : LayerCoord (K := K) _k // a ∈ (layerPhi σ _k).range ∧
+        a * layerTau σ _k a * layerTau σ _k (layerTau σ _k a) = 1} ≤ b _k) :
     CocycleData (betaAut σ u) (layerN σ) (maxHeight TwistTag.D4.tag).toNat
       (layerPhi σ) (layerTau σ) b where
   chain := layerN_chain σ
   bot := layerN_bot σ
-  stable := fun k x hx => betaAut_mem_layerN σ hu k hx
-  conj := fun k _ g hg x => layerPhi_conj σ hg x
-  act := fun k _ x => layerPhi_act σ hu k x
-  triv := fun k _ x hx => layerPhi_triv σ x hx
-  ker := fun k _ x hx => layerPhi_ker σ x hx
+  stable := fun _k _x hx => betaAut_mem_layerN σ hu _k hx
+  conj := fun _k _ _g hg _x => layerPhi_conj σ hg _x
+  act := fun _k _ _x => layerPhi_act σ hu _k _x
+  triv := fun _k _ _x hx => layerPhi_triv σ _x hx
+  ker := fun _k _ _x hx => layerPhi_ker σ _x hx
   bound := hb
 
 end CFSG.HardMathSupport.Lang.E27Lie

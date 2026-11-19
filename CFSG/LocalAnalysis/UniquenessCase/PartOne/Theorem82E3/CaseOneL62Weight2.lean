@@ -97,7 +97,7 @@ private theorem signed_e0_not_weight_two (σ : Equiv.Perm (Fin 3)) (ε : Fin 3 �
   decide +kernel
 
 private theorem not_good_of_weight_two
-    (hgood : ∀ v : Fin 3 → ZMod 3, v ≠ 0 → ((∀ i, v i ≠ 0) ∨ ∃ i, ∀ j, j ≠ i → v j = 0) →
+    (_hgood : ∀ v : Fin 3 → ZMod 3, v ≠ 0 → ((∀ i, v i ≠ 0) ∨ ∃ i, ∀ j, j ≠ i → v j = 0) →
       GoodPoint D.M (s.pt v))
     (hbad : ¬ GoodPoint D.M (s.pt ![1, 1, 0])) {v : Fin 3 → ZMod 3} (hv : v ≠ 0)
     (hz : Weight2 v) :
@@ -402,7 +402,7 @@ private theorem normalizes_plane_z1
     simpa [z1] using hk.symm
   rw [hz_eq]
   have hzp : n * z1 ^ k * n⁻¹ = (n * z1 * n⁻¹) ^ k := by
-    simpa [MulAut.conj_apply] using map_zpow (MulAut.conj n) z1 k
+    simp
   rw [hzp]
   rcases hlift with hg | hg
   · rw [hg]
@@ -441,7 +441,7 @@ private theorem normalizes_plane_z2
     simpa [z2] using hk.symm
   rw [hz_eq]
   have hzp : n * z2 ^ k * n⁻¹ = (n * z2 * n⁻¹) ^ k := by
-    simpa [MulAut.conj_apply] using map_zpow (MulAut.conj n) z2 k
+    simp
   rw [hzp]
   rcases hlift with hg | hg
   · rw [hg]
@@ -462,7 +462,7 @@ private theorem weak_closed_zpowers
       IsWeaklyClosedIn ((Subgroup.zpowers (s.pt ![1, 2, 0])).subgroupOf X)
         (h.A.subgroupOf X) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   let S : Subgroup ↥X := h.A.subgroupOf X
   let Z1 : Subgroup ↥X := (Subgroup.zpowers (s.pt ![0, 0, 1])).subgroupOf X
   let Z2 : Subgroup ↥X := (Subgroup.zpowers (s.pt ![1, 2, 0])).subgroupOf X
@@ -555,13 +555,13 @@ private theorem zpowers_pt_ne :
     simpa [ptHom_apply] using hk.symm
   have hk2 : (![0, 0, 1] : Fin 3 → ZMod 3) = k • ![1, 2, 0] := by
     have := congrArg Multiplicative.toAdd hk'
-    simpa [toAdd_zpow] using this
+    simp [toAdd_zpow] at this
   have h0 : (0 : ZMod 3) = (k : ZMod 3) := by
     simpa [zsmul_eq_mul] using congrFun hk2 0
   have h2 : (1 : ZMod 3) = (k : ZMod 3) * 0 := by
     simpa [zsmul_eq_mul] using congrFun hk2 2
   rw [← h0] at h2
-  simpa using h2
+  simp at h2
 
 private theorem frattini_sylow_data
     {X : Subgroup G} (hAX : h.A ≤ X)
@@ -708,7 +708,7 @@ private theorem frattini_normalizer
     (hNA : Subgroup.normalizer (h.A : Set G) ≤ D.M)
     {X : Subgroup G} (hAX : h.A ≤ X) :
     Subgroup.normalizer ((h.A.subgroupOf X : Subgroup ↥X) : Set ↥X) ≤ D.M.subgroupOf X :=
-  fun n hn => Subgroup.mem_subgroupOf.mpr
+  fun _n hn => Subgroup.mem_subgroupOf.mpr
     (hNA (mem_normalizer_of_mem_normalizer_subgroupOf (X := X) hAX hn))
 
 private theorem frattini_step_l62 (hK332 : UCK.K332ThreeAb)
@@ -722,7 +722,7 @@ private theorem frattini_step_l62 (hK332 : UCK.K332ThreeAb)
     (hsyl : CFSG.ABGLocalTools.IsSylowOf 3 h.A X) :
     X ≤ (X ⊓ D.M) ⊔ CFSG.Open.relPPrimeCore 3 X := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   let S : Subgroup ↥X := h.A.subgroupOf X
   let Z₁ : Subgroup ↥X := (Subgroup.zpowers (s.pt ![0, 0, 1])).subgroupOf X
   let Z₂ : Subgroup ↥X := (Subgroup.zpowers (s.pt ![1, 2, 0])).subgroupOf X
@@ -761,13 +761,13 @@ private def planeE1 : Subgroup (Multiplicative (Fin 3 → ZMod 3)) where
   carrier := {v | Multiplicative.toAdd v 1 = 0}
   mul_mem' := by
     intro a b ha hb
-    simp only [Set.mem_setOf_eq, toAdd_mul, Pi.add_apply] at *
+    simp only [Set.mem_ofPred_eq, toAdd_mul, Pi.add_apply] at *
     rw [ha, hb]
     simp
   one_mem' := by simp
   inv_mem' := by
     intro a ha
-    simp only [Set.mem_setOf_eq, toAdd_inv, Pi.neg_apply] at *
+    simp only [Set.mem_ofPred_eq, toAdd_inv, Pi.neg_apply] at *
     rw [ha]
     decide
 
@@ -805,7 +805,7 @@ private theorem relPPrimeCore_eq_iSup_plane {X : Subgroup G} (hAX : h.A ≤ X) :
     CFSG.Open.relPPrimeCore 3 X = ⨆ m : s.planeEF, ⨆ (_ : m ≠ 1),
       CFSG.Open.relPPrimeCore 3 X ⊓ Subgroup.centralizer ({(m : G)} : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hEFleA : s.planeEF ≤ h.A := s.map_ptHom_le_A planeE1
   have hEFleX : s.planeEF ≤ X := hEFleA.trans hAX
   have hcardEF : Nat.card s.planeEF = 9 := by
@@ -976,7 +976,7 @@ private theorem good_of_centralizer_e (hK332 : UCK.K332ThreeAb) (hCA : K7L6TwoCe
     GoodPoint D.M (s.pt ![1, 1, 0]) := by
   classical
   by_contra hbad
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   let X : Subgroup G := Subgroup.centralizer ({s.pt ![1, 1, 0]} : Set G)
   have hAX : h.A ≤ X := s.A_le_centralizer_pt ![1, 1, 0]
   have hXc : ∀ x : G, x ∈ X → x * s.pt ![1, 1, 0] = s.pt ![1, 1, 0] * x :=

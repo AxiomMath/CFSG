@@ -465,7 +465,7 @@ theorem e7_class_levi
       rw [hCdef, KacData.rootsOf_eq_parabolicRoots kacE7 hnone]
       congr 1
       ext j
-      simp only [Set.mem_setOf_eq, Set.mem_univ, iff_true]
+      simp only [Set.mem_ofPred_eq, Set.mem_univ, iff_true]
       fin_cases j <;> decide +kernel
     have hall : ∀ j : Fin Tag.E7.rank, a j = 1 := by
       intro j

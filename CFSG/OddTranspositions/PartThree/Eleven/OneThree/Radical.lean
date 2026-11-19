@@ -40,7 +40,7 @@ private theorem isSolvable_comap_center_pCore {X : Type} [Group X] [Finite X] {p
     exact ⟨⟨x, hx'⟩, rfl⟩
   have hN_solvable : Group.IsSolvable N := by
     have hN_p : IsPGroup p N := CFSG.pCore_isPGroup
-    haveI : Group.IsNilpotent N := IsPGroup.isNilpotent hN_p
+    have : Group.IsNilpotent N := IsPGroup.isNilpotent hN_p
     exact inferInstance
   have hZ_solvable : Group.IsSolvable (Subgroup.center (X ⧸ N)) := by
     refine Group.isSolvable_of_comm ?_
@@ -91,7 +91,7 @@ theorem map_solvableRadical_eq_center_of_oddCore_le_center {X : Type} [Group X] 
     (h : CFSG.oddCore (X ⧸ CFSG.pCore 2 X) ≤ Subgroup.center (X ⧸ CFSG.pCore 2 X)) :
     (CFSG.solvableRadical X).map (QuotientGroup.mk' (CFSG.pCore 2 X)) =
       Subgroup.center (X ⧸ CFSG.pCore 2 X) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let N := CFSG.pCore 2 X
   have hN : N ≤ CFSG.solvableRadical X := CFSG.pCore_le_solvableRadical 2 X
   have hO2 : CFSG.pCore 2 (X ⧸ N) = ⊥ := CFSG.ABGLocalTools.pCore_quotient_pCore_eq_bot
@@ -114,7 +114,7 @@ theorem oddCore_le_center_of_map_solvableRadical_eq_center {X : Type} [Group X] 
     (h : (CFSG.solvableRadical X).map (QuotientGroup.mk' (CFSG.pCore 2 X)) =
       Subgroup.center (X ⧸ CFSG.pCore 2 X)) :
     CFSG.oddCore (X ⧸ CFSG.pCore 2 X) ≤ Subgroup.center (X ⧸ CFSG.pCore 2 X) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let N := CFSG.pCore 2 X
   have hO_solvable : Group.IsSolvable (CFSG.oddCore (X ⧸ N)) := by
     have hodd : Odd (Nat.card (CFSG.oddCore (X ⧸ N))) :=

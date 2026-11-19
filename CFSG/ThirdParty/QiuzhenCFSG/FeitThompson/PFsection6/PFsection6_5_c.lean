@@ -41,7 +41,7 @@ theorem isMulCommutative_of_isPGroup_commutator_quotient_cyclic
     (hcyc : IsCyclic (Q ⧸ commutator Q)) :
     IsMulCommutative Q := by
   classical
-  haveI : Fact (IsPGroup p Q) := ⟨hQp⟩
+  have : Fact (IsPGroup p Q) := ⟨hQp⟩
   have hcomm_le_Φ : commutator Q ≤ frattini Q := by
     intro x hx
     rw [frattini_eq_closure_commutator_union_powers (R := Q) (p := p)]
@@ -80,7 +80,7 @@ theorem isMulCommutative_of_isPGroup_commutator_quotient_cyclic
   have hH_top : H = ⊤ := lemma_1_7_a (R := Q) (p := p) (H := H) hHsup_Φ
   have hQ_cyclic : IsCyclic Q := by
     exact (isCyclic_iff_exists_zpowers_eq_top).2 ⟨x, by simpa [H] using hH_top⟩
-  letI : IsCyclic Q := hQ_cyclic
+  let : IsCyclic Q := hQ_cyclic
   exact ⟨by infer_instance⟩
 
 theorem commutator_quotient_card_data_of_isPGroup_noncomm
@@ -121,14 +121,14 @@ theorem theorem_6_5_c_commutator_quotient_card_eq_relIndex
   classical
   let Msub : Subgroup K := M.subgroupOf K
   let Hsub : Subgroup K := H1.subgroupOf K
-  haveI : Msub.Normal := hMnormK
-  haveI : Hsub.Normal := hH1normK
+  have : Msub.Normal := hMnormK
+  have : Hsub.Normal := hH1normK
   have hMsubHsub : Msub ≤ Hsub := by
     intro x hx
     exact hMH1 hx
   let Q : Type u := K ⧸ Msub
   let Hbar : Subgroup Q := Hsub.map (QuotientGroup.mk' Msub)
-  haveI : Hbar.Normal := by
+  have : Hbar.Normal := by
     dsimp [Hbar]
     infer_instance
   let e₁ : Q ⧸ commutator Q ≃* Q ⧸ Hbar :=
@@ -190,7 +190,7 @@ public theorem theorem_6_5_c
     ⟨h61, hoddL, hMH1, hMK, hnil, hcomm, hfrob⟩
   rcases theorem_6_5_a K M H1 S SM T h64' hSM hnotSM with ⟨_hchief, hupper⟩
   rcases hpQ with ⟨_hpMK, _hpMnormK, _hpMnorm, _hpKnorm, hpprime, hQp, hnoncomm⟩
-  haveI : Fact p.Prime := ⟨hpprime⟩
+  have : Fact p.Prime := ⟨hpprime⟩
   rcases hcomm with
     ⟨_hMKc, _hH1K, hMH1c, hMnormK, _hMnormc, hH1norm, _hKnormc, hcommEq⟩
   have hH1normK : (H1.subgroupOf K).Normal := hH1norm.subgroupOf K

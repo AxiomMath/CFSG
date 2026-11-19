@@ -42,8 +42,8 @@ private lemma mw_sgn_val (i j : Fin n) :
     ((mw_sgn (p := p) i j : (ZMod p)ˣ) : ZMod p) = 1 ∨
       ((mw_sgn (p := p) i j : (ZMod p)ˣ) : ZMod p) = -1 := by
   by_cases h : j = i
-  · right; rw [mw_sgn, if_pos h]; exact Units.val_neg 1
-  · left; rw [mw_sgn, if_neg h]; exact Units.val_one
+  · right; rw [mw_sgn, ite_eq_left h]; exact Units.val_neg 1
+  · left; rw [mw_sgn, ite_eq_right h]; exact Units.val_one
 
 private lemma mw_sgn_apply_mul_self (i j : Fin n) :
     mw_sgn (p := p) i j * mw_sgn (p := p) i j = 1 := by
@@ -70,10 +70,10 @@ private lemma mw_pairUnit_val (i j k : Fin n) :
     ((pairUnit p i j (-1) k : (ZMod p)ˣ) : ZMod p) = 1 ∨
       ((pairUnit p i j (-1) k : (ZMod p)ˣ) : ZMod p) = -1 := by
   by_cases h0 : k = i
-  · right; rw [pairUnit, if_pos h0]; exact Units.val_neg 1
+  · right; rw [pairUnit, ite_eq_left h0]; exact Units.val_neg 1
   · by_cases h1 : k = j
-    · right; rw [pairUnit, if_neg h0, if_pos h1, inv_neg_one]; exact Units.val_neg 1
-    · left; rw [pairUnit, if_neg h0, if_neg h1]; exact Units.val_one
+    · right; rw [pairUnit, ite_eq_right h0, ite_eq_left h1, inv_neg_one]; exact Units.val_neg 1
+    · left; rw [pairUnit, ite_eq_right h0, ite_eq_right h1]; exact Units.val_one
 
 omit [Fact p.Prime] in
 private lemma mw_pairUnit_apply_left (a b : Fin n) : pairUnit p a b (-1) a = -1 := by
@@ -111,12 +111,12 @@ private lemma mw_pairUnit_neg_one_eq (a b : Fin n) (hab : a ≠ b) :
 private lemma mw_prod_sgn (i : Fin n) : ∏ j, (mw_sgn (p := p) i j : ZMod p) = -1 := by
   have h0 : ∀ b ∈ (Finset.univ : Finset (Fin n)), b ≠ i →
       ((mw_sgn (p := p) i b : (ZMod p)ˣ) : ZMod p) = 1 := by
-    intro b _ hb; rw [mw_sgn, if_neg hb]; exact Units.val_one
+    intro b _ hb; rw [mw_sgn, ite_eq_right hb]; exact Units.val_one
   have h1 : i ∉ (Finset.univ : Finset (Fin n)) →
       ((mw_sgn (p := p) i i : (ZMod p)ˣ) : ZMod p) = 1 := by
     intro h; exact absurd (Finset.mem_univ i) h
   have h := Finset.prod_eq_single (s := (Finset.univ : Finset (Fin n))) i h0 h1
-  rw [h, mw_sgn, if_pos rfl]
+  rw [h, mw_sgn, ite_eq_left rfl]
   exact Units.val_neg 1
 
 private lemma mw_prod_pairUnit_neg_one (a b : Fin n) (hab : a ≠ b) :
@@ -184,14 +184,14 @@ private lemma mw_support_erase (hp : p ≠ 2) {e : Fin n → (ZMod p)ˣ} {T : Fi
       have hea : (e i : ZMod p) = -1 := (hsupp i).mp hTi
       have h1 : ((e * mw_sgn (p := p) a) i : ZMod p) = 1 := by
         simp only [Pi.mul_apply]
-        rw [show mw_sgn (p := p) a i = -1 by rw [mw_sgn, if_pos hia]]
+        rw [show mw_sgn (p := p) a i = -1 by rw [mw_sgn, ite_eq_left hia]]
         rw [Units.val_mul, hea, Units.val_neg, Units.val_one]
         exact mw_neg_one_mul_neg_one
       rw [h1] at hcon
       exact (mw_one_ne_neg_one hp hcon).elim
   · rw [Finset.mem_erase, hsupp i]
     have h1 : ((e * mw_sgn (p := p) a) i : ZMod p) = (e i : ZMod p) := by
-      simp only [Pi.mul_apply, mw_sgn, if_neg hia, mul_one]
+      simp only [Pi.mul_apply, mw_sgn, ite_eq_right hia, mul_one]
     rw [h1]
     constructor
     · intro h; exact h.2
@@ -317,11 +317,11 @@ private lemma mw_diagMap_pairUnit_mem_gmmn (_hp : p ≠ 2) (b : Module.Basis (Fi
     have h1 : (σ.symm j = i₀) ↔ j = x := by rw [Equiv.symm_apply_eq, hσ0]
     have h2 : (σ.symm j = i₁) ↔ j = y := by rw [Equiv.symm_apply_eq, hσ1]
     by_cases hjx : j = x
-    · rw [if_pos (h1.mpr hjx), if_pos hjx]
-    · rw [if_neg (fun hc => hjx (h1.mp hc)), if_neg hjx]
+    · rw [ite_eq_left (h1.mpr hjx), ite_eq_left hjx]
+    · rw [ite_eq_right (fun hc => hjx (h1.mp hc)), ite_eq_right hjx]
       by_cases hjy : j = y
-      · rw [if_pos (h2.mpr hjy), if_pos hjy, inv_neg_one]
-      · rw [if_neg (fun hc => hjy (h2.mp hc)), if_neg hjy]
+      · rw [ite_eq_left (h2.mpr hjy), ite_eq_left hjy, inv_neg_one]
+      · rw [ite_eq_right (fun hc => hjy (h2.mp hc)), ite_eq_right hjy]
   rwa [heq] at hconj
 
 private lemma mw_card_ne_one_of_prod_one (hp : p ≠ 2) {e : Fin n → (ZMod p)ˣ}
@@ -629,11 +629,11 @@ private lemma mw_pairUnit_conj {p : ℕ} {π : Equiv.Perm (Fin 3)} (hπ1 : π 1 
   have h1 : (π.symm j = 1) ↔ j = 0 := by rw [Equiv.symm_apply_eq, hπ1]
   have h2 : (π.symm j = 2) ↔ j = 1 := by rw [Equiv.symm_apply_eq, hπ2]
   by_cases hj0 : j = 0
-  · rw [if_pos (h1.mpr hj0), if_pos hj0]
-  · rw [if_neg (fun hc => hj0 (h1.mp hc)), if_neg hj0]
+  · rw [ite_eq_left (h1.mpr hj0), ite_eq_left hj0]
+  · rw [ite_eq_right (fun hc => hj0 (h1.mp hc)), ite_eq_right hj0]
     by_cases hj1 : j = 1
-    · rw [if_pos (h2.mpr hj1), if_pos hj1, inv_neg_one]
-    · rw [if_neg (fun hc => hj1 (h2.mp hc)), if_neg hj1]
+    · rw [ite_eq_left (h2.mpr hj1), ite_eq_left hj1, inv_neg_one]
+    · rw [ite_eq_right (fun hc => hj1 (h2.mp hc)), ite_eq_right hj1]
 
 private lemma mwA3_perm_mem (_hp : p ≠ 2) (b : Module.Basis (Fin 3) (ZMod p) U)
     (σ : Equiv.Perm (Fin 3)) :

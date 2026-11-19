@@ -56,8 +56,8 @@ private theorem appendixIFpT_exists_normalized_addEquiv
     { toFun := fun k => k • v1
       map_zero' := Module.zero_smul v1
       map_add' := fun k l => Module.add_smul k l v1 }
-  letI : Fintype K := Fintype.ofFinite K
-  letI : Fintype (Additive (Multiplicative F)) :=
+  let : Fintype K := Fintype.ofFinite K
+  let : Fintype (Additive (Multiplicative F)) :=
     Fintype.ofFinite (Additive (Multiplicative F))
   have hcards : Fintype.card K = Fintype.card (Additive (Multiplicative F)) := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card]
@@ -129,19 +129,19 @@ public theorem rightNearField_irreducible_cyclic_field_coordinates
           (Set.range (algebraMap (ZMod p) K) ∪
             Set.range (fun a : A => e (((a : A) : Fˣ) : F))) = ⊤ := by
   let p := addOrderOf (1 : F)
-  letI : Fact (Nat.Prime p) := ⟨rightNearField_addOrderOf_one_prime⟩
-  letI : Module (ZMod p) F := rightNearFieldZModModule F
-  letI : IsMulCommutative A := hA_cyclic.isMulCommutative
-  letI : MulDistribMulAction A (Multiplicative F) :=
+  let : Fact (Nat.Prime p) := ⟨rightNearField_addOrderOf_one_prime⟩
+  let : Module (ZMod p) F := rightNearFieldZModModule F
+  let : IsMulCommutative A := hA_cyclic.isMulCommutative
+  let : MulDistribMulAction A (Multiplicative F) :=
     rightNearFieldUnitsMulDistribMulAction A
-  letI : FaithfulSMul A (Multiplicative F) := {
+  let : FaithfulSMul A (Multiplicative F) := {
     eq_of_smul_eq_smul h := by
       have h1 := h (Multiplicative.ofAdd (1 : F))
       change (1 : F) * ((_ : A) : Fˣ) = 1 * ((_ : A) : Fˣ) at h1
       apply Subtype.ext
       apply Units.ext
       simpa using h1 }
-  letI : IsElementaryAbelian p (Multiplicative F) :=
+  let : IsElementaryAbelian p (Multiplicative F) :=
     { toIsMulCommutative := { is_comm := ⟨mul_comm⟩ }
       exponent_dvd_p := by
         refine Monoid.exponent_dvd_iff_forall_pow_eq_one.2 ?_
@@ -150,13 +150,13 @@ public theorem rightNearField_irreducible_cyclic_field_coordinates
         exact rightNearField_addOrderOf_one_nsmul_eq_zero
           (F := F) (Multiplicative.toAdd x) }
   let T : Subgroup A := ⊤
-  letI : T.Normal := inferInstance
-  letI : IsCyclic A := hA_cyclic
-  letI : IsCyclic T := inferInstance
+  let : T.Normal := inferInstance
+  let : IsCyclic A := hA_cyclic
+  let : IsCyclic T := inferInstance
   let rhoT := PFAppendixI.AppendixIRepresentationOfT
     (p := p) (E := Multiplicative F) T
   have hIrr : Representation.IsIrreducible rhoT := hIrrA
-  letI : Representation.IsIrreducible rhoT := hIrr
+  let : Representation.IsIrreducible rhoT := hIrr
   obtain ⟨n, hcard⟩ := rightNearField_natCard_eq_addOrderOf_one_pow (F := F)
   let K := PFAppendixI.AppendixIFpT (p := p) (E := Multiplicative F) T
   have hKisField : IsField K := Finite.isField_of_domain K
@@ -168,11 +168,11 @@ public theorem rightNearField_irreducible_cyclic_field_coordinates
         letI : Module K (Additive (Multiplicative F)) := moduleInst
         Nat.card K = p ^ n ∧
           ∀ (k : K) (x : Additive (Multiplicative F)), k • x = k.1 x := by
-    letI : Field K := fieldInst
+    let : Field K := fieldInst
     obtain ⟨moduleInst, hmodule⟩ := hfield
     exact ⟨moduleInst, hmodule.1, hmodule.2.2⟩
   obtain ⟨moduleInst, hKcard, hsmul⟩ := hfieldData
-  letI : Module K (Additive (Multiplicative F)) := moduleInst
+  let : Module K (Additive (Multiplicative F)) := moduleInst
   obtain ⟨eKV, heKV1, heKV_mul⟩ :=
     appendixIFpT_exists_normalized_addEquiv A T hIrr
       (hKcard.trans hcard.symm) hsmul
@@ -254,7 +254,7 @@ public theorem rightNearField_semilinear_coordinates
         Set.range (fun a : A => e (((a : A) : Fˣ) : F))) = ⊤) :
     ∃ σHom : (Fˣ)ᵐᵒᵖ →* (K ≃+* K), ∀ (x : F) (y : Fˣ),
       e (x * (y : F)) = σHom (MulOpposite.op y) (e x) * e (y : F) := by
-  letI : Module (ZMod p) F :=
+  let : Module (ZMod p) F :=
     AddCommGroup.zmodModule (n := p) (by
       intro x
       apply e.injective

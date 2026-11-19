@@ -103,7 +103,7 @@ theorem componentCharacter_one [Field K] [Group G]
     (i : Fin n) :
     componentCharacter phi i 1 = (d i : K) := by
   rw [componentCharacter, ← MonoidAlgebra.one_def, map_one]
-  simpa using trace_scalar_fin (K := K) (d i) 1
+  simp
 
 private theorem trace_component_classSum [Field K] [Group G] [Fintype G]
     {n : ℕ} {d : Fin n → ℕ}

@@ -232,7 +232,7 @@ theorem ggQ2_dual_basis_iff {p : ℕ} [Fact p.Prime] (D : GGQ2Lin p)
     ∀ v : D.V, (∀ k, D.root k v = 0) → v = 0
   constructor
   · intro hbas
-    haveI : Nonempty D.ι := ⟨D.a⟩
+    have : Nonempty D.ι := ⟨D.a⟩
     have hspan : Submodule.span (ZMod p) (Set.range D.root) = ⊤ :=
       LinearIndependent.span_eq_top_of_card_eq_finrank hbas.1 hbas.2
     intro v hv

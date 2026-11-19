@@ -29,7 +29,7 @@ theorem sl23_q8_card : Fintype.card {x : SL23 // x ^ 4 = 1} = 8 := by
   one_mem' := one_pow 4
   inv_mem' := fun {a} ha => by
     have : a⁻¹ ^ 4 = (a ^ 4)⁻¹ := (inv_pow a 4)
-    simp only [Set.mem_setOf_eq] at ha ⊢
+    simp only [Set.mem_ofPred_eq] at ha ⊢
     rw [this, ha, inv_one]
 
 theorem sl23_q8_facts {Y : Type} [Group Y] {L : Subgroup Y}

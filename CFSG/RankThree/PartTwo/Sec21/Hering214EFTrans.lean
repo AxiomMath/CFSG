@@ -77,7 +77,7 @@ private theorem evenTheta_isElemAbelian_map {A B : Type} [Group A] [Group B] {p 
     IsElemAbelian p (K.map f) := by
   obtain ⟨hc, hp⟩ := hK
   refine ⟨?_, ?_⟩
-  · haveI := hc
+  · have := hc
     infer_instance
   · rintro _ ⟨x, hx, rfl⟩
     rw [← map_pow, hp x hx, map_one]

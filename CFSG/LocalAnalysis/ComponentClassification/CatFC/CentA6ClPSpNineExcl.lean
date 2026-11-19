@@ -29,7 +29,7 @@ theorem NineOut.of_mulEquiv {G G' : Type} [Group G] [Group G'] (e : G ≃* G') (
 theorem two_pow_seven_dvd_card_of_mulEquiv_GL_two {k : Type} [Field k] [Finite k]
     (hK : Nat.card k = 3 ^ 2) {G : Type} [Group G] (e : G ≃* GL (Fin 2) k) :
     2 ^ 7 ∣ Nat.card G := by
-  haveI := Fintype.ofFinite k
+  have := Fintype.ofFinite k
   have h9 : Fintype.card k = 9 := by
     rw [← Nat.card_eq_fintype_card, hK]
     norm_num

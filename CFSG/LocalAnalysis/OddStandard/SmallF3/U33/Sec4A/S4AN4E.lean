@@ -42,8 +42,8 @@ theorem perm_pow_four_of_two_pow {X : Type} [Finite X] (hX : Nat.card X = 4)
   exact E.injective (by rw [map_pow, h4, map_one])
 
 theorem n4_S_le_normalizer_O2 (h : L41GPh1 t L S x₁ x₂ lam rho) :
-    S ≤ normalizer ((l41O2 t x₁ x₂ : Subgroup G) : Set G) := fun s hs =>
-  mem_normalizer_of_conj_mem fun q hq => pCoreOf_two_conj_mem (n4_S_le_N h hs) hq
+    S ≤ normalizer ((l41O2 t x₁ x₂ : Subgroup G) : Set G) := fun _s hs =>
+  mem_normalizer_of_conj_mem fun _q hq => pCoreOf_two_conj_mem (n4_S_le_N h hs) hq
 
 theorem n4_V_le_N (h : L41GPh1 t L S x₁ x₂ lam rho) : l41V S t x₁ x₂ ≤ l41N t x₁ x₂ :=
   sup_le (pCoreOf_two_le _) (n4_S_le_N h)

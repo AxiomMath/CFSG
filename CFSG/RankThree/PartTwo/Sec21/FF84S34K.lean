@@ -78,7 +78,7 @@ theorem encF_congr {a b : ℕ → ℕ} {k : ℕ} (h : ∀ i < k, a i = b i) : en
 @[expose] noncomputable def mulK (c d : ℕ) : ℕ := encF (fun i => rd c (rd d i)) 8
 
 theorem rd_enc (σ : Perm (Fin 8)) (i : Fin 8) : rd (enc σ) i = σ i := by
-  rw [enc, rd_encF (fun j hj => by rw [dif_pos hj]; exact lt_of_lt_of_le (Fin.isLt _) (by norm_num))
+  rw [enc, rd_encF (fun j hj => by rw [dite_eq_left hj]; exact lt_of_lt_of_le (Fin.isLt _) (by norm_num))
     i.isLt]
   simp
 
@@ -87,14 +87,14 @@ theorem enc_mul (σ τ : Perm (Fin 8)) : enc (σ * τ) = mulK (enc σ) (enc τ) 
   conv_lhs => rw [enc]
   refine encF_congr fun i hi => ?_
   have h1 : rd (enc τ) i = τ ⟨i, hi⟩ := rd_enc τ ⟨i, hi⟩
-  rw [dif_pos hi, Perm.mul_apply, h1, rd_enc σ]
+  rw [dite_eq_left hi, Perm.mul_apply, h1, rd_enc σ]
 
 theorem enc_inj {σ τ : Perm (Fin 8)} (h : enc σ = enc τ) : σ = τ :=
   Equiv.ext fun i => Fin.ext (by rw [← rd_enc σ i, ← rd_enc τ i, h])
 
 theorem enc_lt (σ : Perm (Fin 8)) : enc σ < 2 ^ 32 := by
   have h := encF_lt (a := fun i => if h : i < 8 then (σ ⟨i, h⟩ : ℕ) else 0) (k := 8)
-    (fun i hi => by rw [dif_pos hi]; exact lt_of_lt_of_le (Fin.isLt _) (by norm_num))
+    (fun i hi => by rw [dite_eq_left hi]; exact lt_of_lt_of_le (Fin.isLt _) (by norm_num))
   rw [enc]
   calc _ < 16 ^ 8 := h
     _ = 2 ^ 32 := by norm_num
@@ -138,7 +138,7 @@ theorem enc_mem (σ : Perm (Fin 8)) : ∃ l ∈ permsL, encL l = enc σ := by
       exact ⟨σ.symm ⟨a, ha⟩, by simp⟩
   · rw [encL_eq, List.length_ofFn, enc]
     refine encF_congr fun i hi => ?_
-    rw [dif_pos hi, List.getD_eq_getElem?_getD, List.getElem?_ofFn]
+    rw [dite_eq_left hi, List.getD_eq_getElem?_getD, List.getElem?_ofFn]
     simp [hi]
 
 @[expose] def ifB (b x y : Bool) : Bool := Bool.rec y x b

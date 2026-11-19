@@ -17,10 +17,10 @@ theorem le_pCore_of_normal_isPGroup {G : Type} [Group G] (p : ℕ) {N : Subgroup
 
 theorem oddTwoCore_eq_center {K : Type} [Group K] [Finite K] (hK : CFSG.IsQuasisimple K)
     (hZ : Nat.card (Subgroup.center K) = 6) (E0 : Subgroup (K ⧸ Subgroup.center K))
-    (hE0 : IsElemAbelian 3 E0) (hE0c : Nat.card E0 = 9) :
+    (_hE0 : IsElemAbelian 3 E0) (hE0c : Nat.card E0 = 9) :
     CFSG.ASVolI.ChIJK.oddTwoCore K = Subgroup.center K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set O := CFSG.oddCore K with hOdef
   have hOodd : Odd (Nat.card O) := CFSG.ABGTheoremB.odd_card_oddCore K
   have hKeven : 2 ∣ Nat.card K := by
@@ -63,7 +63,7 @@ theorem oddTwoCore_eq_center {K : Type} [Group K] [Finite K] (hK : CFSG.IsQuasis
     have hmod := Nat.odd_iff.mp hOodd
     have hle : Nat.card O ≤ 6 := Nat.le_of_dvd (by norm_num) hd
     generalize Nat.card O = m at h1 hd hmod hle ⊢
-    interval_cases m <;> first | rfl | omega | norm_num at hd
+    interval_cases m <;> first | rfl | omega
   set Qm := K ⧸ O with hQmdef
   have hQm : CFSG.IsQuasisimple Qm := isQuasisimple_quot_of_le_center hK O hOZ
   have hZm := center_quot_eq hK.1.commutator_eq_top O hOZ

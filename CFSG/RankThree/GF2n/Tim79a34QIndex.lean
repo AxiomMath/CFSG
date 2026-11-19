@@ -39,8 +39,8 @@ variable [Finite G] {M V Q P H : Subgroup G}
 theorem relIndex_P_Q_le_two (hc : MinCex M V Q P H) (hV : Nat.card ↥V = 4) :
     P.relIndex Q ≤ 2 := by
   classical
-  haveI : Fintype ↥V := Fintype.ofFinite _
-  haveI : Fintype {v : ↥V // v ≠ 1} := Fintype.ofFinite _
+  have : Fintype ↥V := Fintype.ofFinite _
+  have : Fintype {v : ↥V // v ≠ 1} := Fintype.ofFinite _
   have hQM : Q ≤ M := hc.hQ ▸ (inSubgroup_pCore_two M).2.1
   have hQN : Q ≤ Subgroup.normalizer (V : Set G) := by
     have := hc.normalizer_eq

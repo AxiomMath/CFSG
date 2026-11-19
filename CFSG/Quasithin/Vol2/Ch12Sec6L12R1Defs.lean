@@ -27,10 +27,10 @@ open CFSG.Open CFSG.Blueprint CFSG.QuasithinUnique CFSG.Quasithin
   carrier := {x | α x = x}
   one_mem' := map_one α
   mul_mem' {a b} ha hb := by
-    simp only [Set.mem_setOf_eq] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq] at ha hb ⊢
     rw [map_mul, ha, hb]
   inv_mem' {a} ha := by
-    simp only [Set.mem_setOf_eq] at ha ⊢
+    simp only [Set.mem_ofPred_eq] at ha ⊢
     rw [map_inv, ha]
 
 theorem mem_autCentralizer {X : Type*} [Group X] {α : MulAut X} {x : X} :

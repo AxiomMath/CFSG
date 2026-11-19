@@ -92,6 +92,7 @@ section G72
 variable (hG : G72TabChk = true) (hC : G72Chk = true)
 include hG hC
 
+omit hC in
 theorem decide_mem_G72 {gsx : List (CV 16)} (hgs : ∀ g ∈ gsx, g ∈ G72C) (k : Nat) {y : CV 16}
     (hy : y ∈ G72C) :
     decide (y ∈ closureList gsx k) =
@@ -108,10 +109,11 @@ theorem covC_eq (x : CV 16) : covC x = n24CovC (closureList [yC, wC, x] 8) false
     dsimp only
     apply all_congr_mem
     intro a ha
-    rw [decide_mem_G72 hG hC (mem3 hy hw hx) 8 (hsub a ha)]
+    rw [decide_mem_G72 hG (mem3 hy hw hx) 8 (hsub a ha)]
     simp only [List.map_cons, List.map_nil]
   · rfl
 
+omit hG in
 theorem n24CovC_true (x : CV 16) : n24CovC (closureList [yC, wC, x] 8) true =
     n24CovC (closureList [yC, wC, twC⁻¹ * x * twC] 8) false := by
   obtain ⟨-, -, -, -, -, hty, htw⟩ := G72chk_facts hC
@@ -135,7 +137,7 @@ theorem n24CovC_true (x : CV 16) : n24CovC (closureList [yC, wC, x] 8) true =
 theorem n24TailC_eq (x : CV 16) (o : List Nat) : n24TailC x o = n24TailF x o := by
   unfold n24TailC n24TailF
   dsimp only
-  rw [covC_eq hG hC, covC_eq hG hC, n24CovC_true hG hC]
+  rw [covC_eq hG hC, covC_eq hG hC, n24CovC_true hC]
 
 theorem n24ChkC_eq (x : CV 16) : n24ChkC x = n24ChkF x := by
   unfold n24ChkC n24ChkF
@@ -158,7 +160,7 @@ theorem cHatC_eq (x : CV 16) : cHatC x = decide (cHC ∈ closureList [wC, n24C.g
       rw [List.getD_eq_getElem _ _ (by simp [n24C, n24L])]
       exact List.getElem_mem _
     unfold idx72
-    rw [decide_mem_G72 hG hC (mem3 hw h6 hx) 8 hc]
+    rw [decide_mem_G72 hG (mem3 hw h6 hx) 8 hc]
     simp only [List.map_cons, List.map_nil]
   · rfl
 
@@ -255,7 +257,6 @@ theorem d8ChkG_eq {i j : Nat} (hi : i < n) (hj : j < n) :
   intro a ha
   have ha' := List.mem_range.1 ha
   refine congrArg (fun z => _ || z) ?_
-  beta_reduce
   rw [List.all_map]
   apply all_congr_mem
   intro s hs

@@ -47,14 +47,14 @@ theorem single_mem_W0D_iff (a : Idx0) :
     have e1 : emb K (vAut0 K (xuWUnit hγ 1) (Finsupp.single a (1 : K)) - Finsupp.single a 1) =
         Finsupp.single (shift γ (a : Fin e7Data.d)) 1 := by
       rw [map_sub, vAut0_apply, xuWUnit_induces hγ 1, emb_single, e7Data_valid.xu_apply, one_smul,
-        rootOp_single hγ.1, if_pos h2]
+        rootOp_single hγ.1, ite_eq_left h2]
       abel
     have h4 := congrArg (emb K) ht
     rw [map_smul, emb_single, e1] at h4
     have h5 := congrArg (fun f : V K => f (shift γ (a : Fin e7Data.d))) h4
     have h6 : shift γ (a : Fin e7Data.d) = (a0 : Fin e7Data.d) := by
       by_contra hne
-      simp only [Finsupp.smul_apply, Finsupp.single_apply, if_neg (Ne.symm hne), if_true, smul_eq_mul,
+      simp only [Finsupp.smul_apply, Finsupp.single_apply, ite_eq_right (Ne.symm hne), ite_true, smul_eq_mul,
         mul_zero] at h5
       exact zero_ne_one h5
     have := wt_shift hγ.1 h2
@@ -69,11 +69,11 @@ theorem single_mem_W0D_iff (a : Idx0) :
     by_cases h2 : pr (a : Fin e7Data.d) γ = -1
     · have h3 : shift γ (a : Fin e7Data.d) = (a0 : Fin e7Data.d) := shift_eq (h γ hγ.1 h1 h2)
       have h4 : s (Finsupp.single a (1 : K)) - Finsupp.single a 1 = c • Finsupp.single a0 1 :=
-        emb_injective (by rw [e1, if_pos h2, h3, map_smul, emb_single])
+        emb_injective (by rw [e1, ite_eq_left h2, h3, map_smul, emb_single])
       rw [h4]
       exact Submodule.smul_mem _ _ (Submodule.mem_span_singleton_self _)
     · have h4 : s (Finsupp.single a (1 : K)) - Finsupp.single a 1 = 0 :=
-        emb_injective (by rw [e1, if_neg h2, smul_zero, map_zero])
+        emb_injective (by rw [e1, ite_eq_right h2, smul_zero, map_zero])
       rw [h4]
       exact Submodule.zero_mem _
 
@@ -104,6 +104,7 @@ theorem W0D_map_of_ULG {u : Gp K} (hu : u ∈ ULG K) {x : W K ≃ₗ[K] W K} (hx
   rw [e, ← ht, map_smul, indW_p0_of_ULG hu hx]
   exact Submodule.mem_span_singleton.2 ⟨t, rfl⟩
 
+omit [CharP K 2] in
 theorem torMon_weight {t₁ t₂ n : Gp K} {σ : Fin e7Data.d → Fin e7Data.d}
     {ρ : (Fin (Tag.rank .E7) → ℤ) → (Fin (Tag.rank .E7) → ℤ)} (ht₁ : t₁ ∈ Tor K) (ht₂ : t₂ ∈ Tor K)
     (hn : IsMon n σ ρ) (a : Fin e7Data.d) :
@@ -114,6 +115,7 @@ theorem torMon_weight {t₁ t₂ n : Gp K} {σ : Fin e7Data.d → Fin e7Data.d}
   show endoE t₁ (endoE n (endoE t₂ (Finsupp.single a 1))) = _
   rw [h₂, map_smul, hn.weight a, map_smul, h₁, smul_smul]
 
+omit [CharP K 2] in
 theorem torMon_inv_weight {t₁ t₂ n : Gp K} {σ : Fin e7Data.d → Fin e7Data.d}
     {ρ : (Fin (Tag.rank .E7) → ℤ) → (Fin (Tag.rank .E7) → ℤ)} (ht₁ : t₁ ∈ Tor K) (ht₂ : t₂ ∈ Tor K)
     (hn : IsMon n σ ρ) (a : Fin e7Data.d) :
@@ -126,7 +128,7 @@ theorem torMon_inv_weight {t₁ t₂ n : Gp K} {σ : Fin e7Data.d → Fin e7Data
   show endoE t₂⁻¹ (endoE n⁻¹ (endoE t₁⁻¹ (Finsupp.single (σ a) 1))) = _
   rw [h₁, map_smul, hn.endo_inv_single a, map_smul, h₂, smul_smul]
 
-theorem conj_UA0_of_line {g₀ : Gp K} (hg : g₀ ∈ LamG K) {c : K} (hc : c ≠ 0)
+theorem conj_UA0_of_line {g₀ : Gp K} (hg : g₀ ∈ LamG K) {c : K} (_hc : c ≠ 0)
     (h : endoE g₀ (Finsupp.single b0 1) = c • Finsupp.single b0 1) :
     ∀ x ∈ UA K b0, g₀ * x * g₀⁻¹ ∈ UA K b0 := by
   obtain ⟨u₁, hu₁, t₁, ht₁, t₂, ht₂, u₂, hu₂, n, σ, ρ, hn, hgeq⟩ := bruhat_L hg
@@ -147,7 +149,7 @@ theorem conj_UA0_of_line {g₀ : Gp K} (hg : g₀ ∈ LamG K) {c : K} (hc : c �
     have hL : (Finsupp.single (σ b0) (1 : K) : V K) (σ b0) = 1 := Finsupp.single_eq_same
     rw [h3] at hL
     have hR : ((s⁻¹ * c) • (Finsupp.single b0 1 : V K)) (σ b0) = 0 := by
-      rw [Finsupp.smul_apply, Finsupp.single_apply, if_neg (Ne.symm hne), smul_zero]
+      rw [Finsupp.smul_apply, Finsupp.single_apply, ite_eq_right (Ne.symm hne), smul_zero]
     rw [hR] at hL
     exact zero_ne_one hL
   intro x hx
@@ -193,6 +195,7 @@ theorem d6_U_norm : ∀ h ∈ EAut0 K, (∃ c : K, c ≠ 0 ∧ h (p0 K) = c • 
     have := conj_rootRad0_of_line (inv_mem hh) (inv_ne_zero hc) hw' u hu
     simpa using this
 
+omit [CharP K 2] in
 theorem indW_p0_mon {m : Gp K} {τ : Fin e7Data.d → Fin e7Data.d}
     {ρ : (Fin (Tag.rank .E7) → ℤ) → (Fin (Tag.rank .E7) → ℤ)} (hm : IsMon m τ ρ)
     {x : W K ≃ₗ[K] W K} (hx : IndW m x) (c' : Idx0) (hc : τ b0 = (c' : Fin e7Data.d)) :
@@ -228,7 +231,7 @@ theorem special_nf_L {g₀ u₁ u₂ t₁ t₂ n : Gp K} {σ : Fin e7Data.d → 
     rw [mem_V0]
     intro b hb
     have hne : b ≠ b0 := fun h => hb (h ▸ mem_idx0.2 pr_b0_theta)
-    rw [Finsupp.single_apply, if_neg (Ne.symm hne)]
+    rw [Finsupp.single_apply, ite_eq_right (Ne.symm hne)]
   have hσ0 : pr (σ b0) theta = 0 := by
     have h1 := Lam_stabilizes_V0 (mem_LamG.1 hM) hV0
     have h2 : endoE (t₁ * n * t₂) (Finsupp.single b0 1) ∈ V0 K := h1
@@ -256,18 +259,20 @@ theorem special_nf_L {g₀ u₁ u₂ t₁ t₂ n : Gp K} {σ : Fin e7Data.d → 
         (endoE u₁⁻¹ (Finsupp.single b0 1)) (Finsupp.single (σ b0) 1)
       have e2 : ((u₁ : (Module.End K (V K))ˣ) : Module.End K (V K))
           (endoE u₁⁻¹ (Finsupp.single b0 1)) = Finsupp.single b0 1 := endoE_endoE_inv u₁ _
-      rw [e2, ULG_fix (inv_mem hu₁), beta_single, if_pos hopp.symm] at e
+      rw [e2, ULG_fix (inv_mem hu₁), beta_single, ite_eq_left hopp.symm] at e
       exact e
     rw [h2, mul_one] at h1
     exact hs h1
 
+omit [CharP K 2] in
 theorem single_mem_V0_of {b : Fin e7Data.d} (hb : pr b theta = 0) :
     (Finsupp.single b (1 : K) : V K) ∈ V0 K := by
   rw [mem_V0]
   intro b' hb'
   have hne : b' ≠ b := fun h => hb' (h ▸ mem_idx0.2 hb)
-  rw [Finsupp.single_apply, if_neg (Ne.symm hne)]
+  rw [Finsupp.single_apply, ite_eq_right (Ne.symm hne)]
 
+omit [CharP K 2] in
 theorem pr_theta_of_smul_single_mem_V0 {a : Fin e7Data.d} {s : K} (hs : s ≠ 0)
     (h : s • (Finsupp.single a (1 : K) : V K) ∈ V0 K) : pr a theta = 0 := by
   by_contra hne
@@ -375,7 +380,7 @@ theorem d6_lemmaS : ∀ g ∈ EAut0 K, SpecialAt (betaWL K) (p0 K) (rootRad0 K) 
         Finsupp.single c₂ 1 := by
       rw [← hx₁]
       exact hm₁.weight x₁
-    rw [e1, e2, beta_single, if_neg (Ne.symm h6)] at e
+    rw [e1, e2, beta_single, ite_eq_right (Ne.symm h6)] at e
     exact e.symm
   · intro hmem
     have := (single_mem_W0D_iff _).1 hmem

@@ -38,12 +38,15 @@ structure Sec9T1 (M Q Z0 : Subgroup G) (s z : G) : Prop where
   comm : ∀ y ∈ Z0, ⁅z * s * z⁻¹, y⁆ ∈ Q
   not_mem : z * s * z⁻¹ ∉ Z0
 
+omit [Finite G] in
 theorem Sec9Hyp.mem {hc : Ctx M Q Z B} {n : ℕ} {t : G} (h : Sec9Hyp hc n t) : t ∈ LB M Q B :=
   h.toSec5.mem
 
+omit [Finite G] in
 theorem Sec9Hyp.notQ {hc : Ctx M Q Z B} {n : ℕ} {t : G} (h : Sec9Hyp hc n t) : t ∉ Q :=
   h.toSec5.notQ
 
+omit [Finite G] in
 theorem Sec9Hyp.large_t {hc : Ctx M Q Z B} {n : ℕ} {t : G} (h : Sec9Hyp hc n t) :
     Nat.card Q * Nat.card Z < Nat.card ↥(hc.CN t) :=
   h.large t h.mem h.notQ

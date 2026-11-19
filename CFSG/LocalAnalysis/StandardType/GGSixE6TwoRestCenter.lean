@@ -92,7 +92,7 @@ private theorem e6rz_subgroupOf_rootSpan_eq_closure
   have hset : {g : (Module.End F2 (RootModule .E6 F2))ˣ | ∃ β ∈ S, pinnedX .E6 F2 β 1 = g} =
       (Subtype.val '' {g : EC | ∃ β ∈ S, xr β = g}) := by
     ext g
-    simp only [Set.mem_setOf_eq, Set.mem_image]
+    simp only [Set.mem_ofPred_eq, Set.mem_image]
     constructor
     · rintro ⟨β, hβ, rfl⟩
       exact ⟨xr β, ⟨β, hβ, rfl⟩, rfl⟩
@@ -111,7 +111,7 @@ private theorem e6rz_z0Std_eq_closure :
   rw [z0Std, e6rz_subgroupOf_rootSpan_eq_closure]
 
 private theorem e6rz_xr_mul_self
-    {β : Fin Tag.E6.rank → ℤ} (hβ : IsRoot .E6 β) : xr β * xr β = 1 := by
+    {β : Fin Tag.E6.rank → ℤ} (_hβ : IsRoot .E6 β) : xr β * xr β = 1 := by
   refine Subtype.ext ?_
   change pinnedX .E6 F2 β 1 * pinnedX .E6 F2 β 1 = (1 : (Module.End F2 (RootModule .E6 F2))ˣ)
   rw [← pinnedX_add, CharTwo.add_self_eq_zero (1 : F2), pinnedX_zero]
@@ -272,7 +272,7 @@ private theorem e6rz_p_mem_qStd
 private theorem e6rz_K_mul_mem
     {u₁ u₂ : EC}
     {l₁ l₂ : List (Fin Tag.E6.rank → ℤ)} (hl₁ : ∀ β ∈ l₁, β ∈ stdQRoots)
-    (hl₂ : ∀ β ∈ l₂, β ∈ stdQRoots) (hz₁ : u₁ * (e6rz_p l₁)⁻¹ ∈ z0Std)
+    (_hl₂ : ∀ β ∈ l₂, β ∈ stdQRoots) (hz₁ : u₁ * (e6rz_p l₁)⁻¹ ∈ z0Std)
     (hz₂ : u₂ * (e6rz_p l₂)⁻¹ ∈ z0Std) :
     u₁ * u₂ * (e6rz_p (l₁ ++ l₂))⁻¹ ∈ z0Std := by
   obtain ⟨z₁, hz₁', rfl⟩ : ∃ z₁, z₁ ∈ z0Std ∧ u₁ = z₁ * e6rz_p l₁ :=
@@ -338,7 +338,7 @@ private theorem e6rz_qStd_le_K :
 
 private theorem e6rz_stdL1_subset_stdQRoots
     : e6rz_stdL1 ⊆ stdQRoots :=
-  fun γ hγ => e6rz_stdQRoots_eq ▸ Or.inl hγ
+  fun _γ hγ => e6rz_stdQRoots_eq ▸ Or.inl hγ
 
 private theorem e6rz_mem_stdL1_of_root_add
     {β δ : Fin Tag.E6.rank → ℤ} (hβ : β ∈ stdQRoots) (hδ : δ ∈ e6rz_stdL1)
@@ -488,7 +488,7 @@ private noncomputable def e6rz_zr
 private theorem e6rz_zr_of_mem
     {γ : Fin Tag.E6.rank → ℤ} (h : γ ∈ stdZRoots) : ((e6rz_zr γ : z0Std) : EC) = xr γ := by
   rw [e6rz_zr]
-  simp only [dif_pos h]
+  simp only [dite_eq_left h]
 
 private theorem e6rz_zr_pow_count
     {γ : Fin Tag.E6.rank → ℤ} (h : γ ∈ stdZRoots) (n : ℕ) :
@@ -498,9 +498,9 @@ private theorem e6rz_zr_pow_count
     rw [Subgroup.coe_mul, e6rz_zr_of_mem h, e6rz_xr_mul_self h.1]
     rfl
   rcases Nat.even_or_odd n with he | ho
-  · rw [if_neg (Nat.not_odd_iff_even.2 he)]
+  · rw [ite_eq_right (Nat.not_odd_iff_even.2 he)]
     exact e6rz_pow_even _ hzz he
-  · rw [if_pos ho]
+  · rw [ite_eq_left ho]
     exact e6rz_pow_odd _ hzz ho
 
 private noncomputable def e6rz_cz
@@ -514,7 +514,7 @@ private theorem e6rz_cz_of_mem
     {hl : ∀ β ∈ l, β ∈ stdQRoots} {β : Fin Tag.E6.rank → ℤ} (hβ : β ∈ l) :
     ((e6rz_cz l δ hδ hl β : z0Std) : EC) = ⁅xr β, xr δ⁆ := by
   rw [e6rz_cz]
-  simp only [dif_pos hβ]
+  simp only [dite_eq_left hβ]
 
 private theorem e6rz_pairing_eq
     {l : List (Fin Tag.E6.rank → ℤ)} (hl : ∀ β ∈ l, β ∈ stdQRoots)
@@ -540,13 +540,13 @@ private theorem e6rz_pairing_eq
         rw [hcz, e6rz_zr_of_mem hmemZ, e6rz_comm_eq_of_mem hβQ hδ hroot]
       rw [hczz, e6rz_zr_pow_count hmemZ (l.count β)]
       by_cases hodd : Odd (l.count β)
-      · rw [if_pos hodd, if_pos ⟨hodd, hroot⟩]
-      · rw [if_neg hodd, if_neg (fun h => hodd h.1)]
+      · rw [ite_eq_left hodd, ite_eq_left ⟨hodd, hroot⟩]
+      · rw [ite_eq_right hodd, ite_eq_right (fun h => hodd h.1)]
     · have hcz1 : e6rz_cz l δ hδ hl β = 1 := by
         apply Subtype.ext
         rw [hcz, e6rz_comm_eq_one_of_not_mem hβQ hδ hroot]
         rfl
-      rw [hcz1, one_pow, if_neg (fun h => hroot h.2)]
+      rw [hcz1, one_pow, ite_eq_right (fun h => hroot h.2)]
   · have hnotroot : (β + δ) ∉ rootFinset .E6 := by
       intro hmem
       have h3 : 3 ≤ iform (β + δ) E6Pilot.yLamAS := by
@@ -569,7 +569,7 @@ private theorem e6rz_pairing_eq
       apply Subtype.ext
       rw [hcz, hval]
       rfl
-    rw [hcz1, one_pow, if_neg (fun h => hnotroot h.2)]
+    rw [hcz1, one_pow, ite_eq_right (fun h => hnotroot h.2)]
 
 private theorem e6rz_z0_indep
     {T : Finset (Fin Tag.E6.rank → ℤ)} (hT : ∀ γ ∈ T, γ ∈ stdZRoots)
@@ -747,12 +747,12 @@ private noncomputable def e6rz_xrq
 private theorem e6rz_xrq_val
     {β : Fin Tag.E6.rank → ℤ} (hβ : β ∈ stdQRoots) : ((e6rz_xrq β : qStd) : EC) = xr β := by
   rw [e6rz_xrq]
-  simp only [dif_pos hβ]
+  simp only [dite_eq_left hβ]
 
 private theorem e6rz_p_mem_z0_of_even
     {l : List (Fin Tag.E6.rank → ℤ)} (hl : ∀ β ∈ l, β ∈ stdQRoots)
     (heven : ∀ β ∈ l, β ∈ e6rz_stdL1 → Even (l.count β)) : e6rz_p l ∈ z0Std := by
-  letI : CommMonoid (qStd ⧸ e6rz_N) :=
+  let : CommMonoid (qStd ⧸ e6rz_N) :=
     { (inferInstance : Group (qStd ⧸ e6rz_N)) with mul_comm := e6rz_quotient_mul_comm }
   have hp : (⟨e6rz_p l, e6rz_p_mem_qStd hl⟩ : qStd) = (l.map e6rz_xrq).prod := by
     apply Subtype.ext
@@ -776,7 +776,6 @@ private theorem e6rz_p_mem_z0_of_even
       exact z0Std.one_mem
     · have hone : QuotientGroup.mk' e6rz_N (e6rz_xrq β) = 1 := by
         rw [QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff, e6rz_N, Subgroup.mem_subgroupOf]
-        change ((e6rz_xrq β : qStd) : EC) ∈ z0Std
         rw [e6rz_xrq_val hβQ, e6rz_z0Std_eq_closure]
         exact Subgroup.subset_closure ⟨β, hβ2, rfl⟩
       rw [hone, one_pow]

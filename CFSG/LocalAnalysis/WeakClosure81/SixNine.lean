@@ -14,6 +14,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_cTilde_iff_centralizes {M V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
     (hM : M ≤ normalizer (V : Set G)) (hM₀ : M ≤ normalizer (V₀ : Set G)) {m : G} :
     m ∈ F11.CTilde M V₀ V ↔ m ∈ M ∧ CentralizesMod V₀ V m := by
@@ -24,18 +25,20 @@ theorem mem_cTilde_iff_centralizes {M V₀ V : Subgroup G} (hV : IsElemAbelian 2
   · rintro ⟨hmM, hc⟩
     exact ⟨hmM, ⟨hM hmM, hM₀ hmM⟩, (actTil_eq_one_iff V₀ V hV ⟨m, hM hmM, hM₀ hmM⟩).2 hc⟩
 
+omit [Finite G] in
 theorem centralizesMod_of_mem_cTilde {M V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
     (hM : M ≤ normalizer (V : Set G)) (hM₀ : M ≤ normalizer (V₀ : Set G)) {m : G}
     (hm : m ∈ F11.CTilde M V₀ V) : CentralizesMod V₀ V m :=
   ((mem_cTilde_iff_centralizes hV hM hM₀).1 hm).2
 
-theorem exists_sq_mem_of_not_le {Q C : Subgroup G} (hCQ : C ≤ Q) (hQ2 : IsPGroup 2 Q)
+omit [Finite G] in
+theorem exists_sq_mem_of_not_le {Q C : Subgroup G} (_hCQ : C ≤ Q) (hQ2 : IsPGroup 2 Q)
     (h : ¬ Q ≤ C) : ∃ q ∈ Q, q ∉ C ∧ q * q ∈ C := by
   obtain ⟨q, hqQ, hqC⟩ : ∃ q ∈ Q, q ∉ C := by
-    rw [SetLike.le_def] at h
+    rw [_root_.IsConcreteLE.le_iff] at h
     push Not at h
     exact h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨s, hs⟩ := (IsPGroup.iff_orderOf).1 hQ2 ⟨q, hqQ⟩
   have hqs : q ^ (2 ^ s) = 1 := by
     have := hs ▸ pow_orderOf_eq_one (⟨q, hqQ⟩ : Q)
@@ -57,6 +60,7 @@ theorem exists_sq_mem_of_not_le {Q C : Subgroup G} (hCQ : C ≤ Q) (hQ2 : IsPGro
         rw [← pow_succ, Nat.sub_add_cancel hkpos]]
     exact hkP
 
+omit [Finite G] in
 theorem betaN_le_of_mem {n : ℕ} {M V U : Subgroup G} (hU : U ∈ calBn n M V) :
     betaN n M V ≤ (E3.mQuot V U : ℕ∞) :=
   le_trans (iInf_le (fun U => ⨅ _ : U ∈ calBn n M V, (E3.mQuot V U : ℕ∞)) U)
@@ -107,6 +111,7 @@ theorem le_cTilde_of_lt_mBar {M V₀ V Q W : Subgroup G}
     (Nat.pow_le_pow_iff_right (by norm_num : 1 < 2)).1 hle1
   omega
 
+omit [Finite G] in
 theorem commElt_eq_bot_iff {A : Subgroup G} {t : G} :
     commElt A t = ⊥ ↔ ∀ a ∈ A, a⁻¹ * t⁻¹ * a * t = 1 := by
   constructor
@@ -185,7 +190,7 @@ theorem exists_not_isPGroup_sup_conj_of_not_le_pCore {E H : Subgroup G}
     (hEH : E ≤ H) (hE2 : IsPGroup 2 E) (hEne : ¬ E ≤ pCoreOf 2 H) :
     ∃ g ∈ H, ¬ IsPGroup 2 (E ⊔ conjSubgroup E g : Subgroup G) := by
   obtain ⟨a, haE, haO⟩ : ∃ a ∈ E, a ∉ pCoreOf 2 H := by
-    rw [SetLike.le_def] at hEne
+    rw [_root_.IsConcreteLE.le_iff] at hEne
     push Not at hEne
     exact hEne
   have haH : a ∈ H := hEH haE
@@ -226,6 +231,7 @@ theorem exists_not_isPGroup_sup_conj_of_not_le_pCore {E H : Subgroup G}
   have hc := IsPGroup.comap_of_injective himg H.subtype H.subtype_injective
   rwa [Subgroup.comap_map_eq_self_of_injective H.subtype_injective] at hc
 
+omit [Finite G] in
 private theorem conjSubgroup_inv_le_iff (B M : Subgroup G) (g : G) :
     conjSubgroup B g⁻¹ ≤ M ↔ B ≤ conjSubgroup M g := by
   have h := E3.conjSubgroup_le_conjSubgroup_iff (A := conjSubgroup B g⁻¹) (B := M) g
@@ -234,6 +240,7 @@ private theorem conjSubgroup_inv_le_iff (B M : Subgroup G) (g : G) :
   rw [e] at h
   exact h.symm
 
+omit [Finite G] in
 theorem isPGroup_sup_conj_of_conj_le_normalizer {V A M : Subgroup G} {g : G}
     (hV : IsPGroup 2 V) (hAV : A ≤ V)
     (hMV : M ≤ normalizer (V : Set G)) (hVg : conjSubgroup V g ≤ M) :
@@ -242,6 +249,7 @@ theorem isPGroup_sup_conj_of_conj_le_normalizer {V A M : Subgroup G} {g : G}
     IsPGroup.to_sup_of_normal_left' hV (E3.isPGroup_conjSubgroup hV g) (hVg.trans hMV)
   exact hsup.to_le (sup_le_sup hAV (E3.conjSubgroup_mono_left g hAV))
 
+omit [Finite G] in
 theorem isPGroup_sup_conj_of_le_conj_normalizer {V A M : Subgroup G} {g : G}
     (hV : IsPGroup 2 V) (hAV : A ≤ V)
     (hMnorm : normalizer (V : Set G) = M) (hVMg : V ≤ conjSubgroup M g) :
@@ -253,24 +261,27 @@ theorem isPGroup_sup_conj_of_le_conj_normalizer {V A M : Subgroup G} {g : G}
       (hVMg.trans (le_of_eq hMg_eq))
   exact hsup.to_le (sup_le_sup hAV (E3.conjSubgroup_mono_left g hAV))
 
+omit [Finite G] in
 theorem not_conjSubgroup_le_normalizer_of_not_isPGroup {V A M : Subgroup G} {g : G}
     (hV : IsPGroup 2 V) (hAV : A ≤ V) (hMV : M ≤ normalizer (V : Set G))
     (h : ¬ IsPGroup 2 (A ⊔ conjSubgroup A g : Subgroup G)) :
     ¬ conjSubgroup V g ≤ M :=
   fun hle => h (isPGroup_sup_conj_of_conj_le_normalizer hV hAV hMV hle)
 
+omit [Finite G] in
 theorem not_le_conjSubgroup_of_not_isPGroup {V A M : Subgroup G} {g : G}
     (hV : IsPGroup 2 V) (hAV : A ≤ V) (hMnorm : normalizer (V : Set G) = M)
     (h : ¬ IsPGroup 2 (A ⊔ conjSubgroup A g : Subgroup G)) :
     ¬ V ≤ conjSubgroup M g :=
   fun hle => h (isPGroup_sup_conj_of_le_conj_normalizer hV hAV hMnorm hle)
 
+omit [Finite G] in
 theorem exists_commElt_ne_bot_of_commutator_ne_bot {A Q : Subgroup G} (h : ⁅A, Q⁆ ≠ ⊥) :
     ∃ q ∈ Q, commElt A q ≠ ⊥ := by
   have h' : ¬ A ≤ Subgroup.centralizer (Q : Set G) := by
     rwa [← Subgroup.commutator_eq_bot_iff_le_centralizer]
   obtain ⟨a, haA, haQ⟩ : ∃ a ∈ A, a ∉ Subgroup.centralizer (Q : Set G) := by
-    rw [SetLike.le_def] at h'
+    rw [_root_.IsConcreteLE.le_iff] at h'
     push Not at h'
     exact h'
   rw [Subgroup.mem_centralizer_iff] at haQ
@@ -291,6 +302,7 @@ theorem exists_commElt_ne_bot_of_commutator_ne_bot {A Q : Subgroup G} (h : ⁅A,
     simpa [mul_assoc] using this
   exact h3.symm
 
+omit [Finite G] in
 theorem mQuot_bot (B : Subgroup G) : E3.mQuot B ⊥ = rk ↥B := by
   unfold E3.mQuot rk
   rw [Subgroup.relIndex_bot_left]

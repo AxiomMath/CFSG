@@ -109,6 +109,7 @@ private theorem rootsGe2_ncard : rootsGe2.ncard = rootsGe2NeC.ncard + 1 := by
   have hnot : rootC ∉ rootsGe2NeC := fun h => h.2.2.2 rfl
   rw [hset, Set.ncard_insert_of_notMem hnot (rootsGe2_finite.subset rootsGe2NeC_sub)]
 
+omit [Finite K] in
 private theorem card_heightSeries_two :
     Nat.card (heightSeries TwistTag.D4.tag K 2) =
       Nat.card K * Nat.card (rootSpan TwistTag.D4.tag K rootsGe2NeC) := by
@@ -120,6 +121,7 @@ private theorem card_heightSeries_two :
     _ = Nat.card K * Nat.card (rootSpan TwistTag.D4.tag K rootsGe2NeC) := by
         rw [card_rootSpan (K := K) (S := rootsGe2NeC) (fun _ h => ⟨h.1, h.2.1⟩) rootsGe2NeC_closed]
 
+omit [Finite K] in
 private theorem pinnedX_mem_heightSeries {γ : Fin TwistTag.D4.tag.rank → ℤ}
     (hγ : IsRoot TwistTag.D4.tag γ) (h2 : 2 ≤ height γ) (c : K) :
     pinnedX TwistTag.D4.tag K γ c ∈ heightSeries TwistTag.D4.tag K 2 :=
@@ -130,7 +132,7 @@ noncomputable abbrev coordKer : Subgroup (heightSeries TwistTag.D4.tag K 2) :=
 
 instance coordKer_normal : (coordKer (K := K)).Normal :=
   (positive_root_ideal_normality TwistTag.D4.tag K (J := rootsGe2NeC) (S := rootsGe2)
-    rootsGe2NeC_sub (fun α hα => ⟨hα.1, hα.2.1⟩)
+    rootsGe2NeC_sub (fun _α hα => ⟨hα.1, hα.2.1⟩)
     (fun _ hα _ hβ _ _ ha hb hr => rootsGe2NeC_comb hα (rootsGe2NeC_sub hβ) ha hb hr)).2
 
 private noncomputable def coordCHom :
@@ -145,6 +147,7 @@ private noncomputable def coordCHom :
     exact congrArg QuotientGroup.mk
       (Subtype.ext (pinnedX_add TwistTag.D4.tag K rootC c.toAdd d.toAdd))
 
+omit [Finite K] in
 private theorem coordCHom_surjective : Function.Surjective (coordCHom (K := K)) := by
   have hM : heightSeries TwistTag.D4.tag K 2 = Subgroup.closure
       {g : ModGL TwistTag.D4.tag K | ∃ β ∈ rootsGe2, ∃ c : K, pinnedX TwistTag.D4.tag K β c = g} :=
@@ -210,12 +213,12 @@ private theorem coordCFun_eq {x : ModGL TwistTag.D4.tag K}
       (QuotientGroup.mk ⟨x, hx⟩) = Multiplicative.ofAdd c := by
     rw [MulEquiv.symm_apply_eq]
     exact h
-  rw [coordCFun, dif_pos hx, h', toAdd_ofAdd]
+  rw [coordCFun, dite_eq_left hx, h', toAdd_ofAdd]
 
 private theorem coordCHom_coordCFun {x : ModGL TwistTag.D4.tag K}
     (hx : x ∈ heightSeries TwistTag.D4.tag K 2) :
     coordCHom (Multiplicative.ofAdd (coordCFun x)) = QuotientGroup.mk ⟨x, hx⟩ := by
-  rw [coordCFun, dif_pos hx, ofAdd_toAdd]
+  rw [coordCFun, dite_eq_left hx, ofAdd_toAdd]
   exact (MulEquiv.ofBijective _ coordCHom_bijective).apply_symm_apply _
 
 private theorem coordCFun_mul {x y : ModGL TwistTag.D4.tag K}
@@ -246,9 +249,9 @@ theorem exists_coordC : ∃ π : ModGL TwistTag.D4.tag K → K,
   refine ⟨coordCFun, fun x hx y hy => coordCFun_mul hx hy, fun γ hγ h2 c => ?_⟩
   by_cases hC : γ = rootC
   · subst hC
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     exact coordCFun_pinnedX_rootC c
-  · rw [if_neg hC]
+  · rw [ite_eq_right hC]
     exact coordCFun_pinnedX_of_ne hγ h2 hC c
 
 noncomputable def coordC : ModGL TwistTag.D4.tag K → K := (exists_coordC (K := K)).choose
@@ -283,7 +286,7 @@ private theorem coordC_eq_zero_of_mem {y : ModGL TwistTag.D4.tag K}
     | mem g hg =>
       obtain ⟨β, hβ, c, rfl⟩ := hg
       exact ⟨pinnedX_mem_heightSeries hβ.1 hβ.2.2.1 c,
-        by rw [coordC_pinnedX hβ.1 hβ.2.2.1 c, if_neg hβ.2.2.2]⟩
+        by rw [coordC_pinnedX hβ.1 hβ.2.2.1 c, ite_eq_right hβ.2.2.2]⟩
     | one => exact ⟨one_mem _, coordC_one⟩
     | mul x y hx hy ihx ihy =>
       exact ⟨mul_mem ihx.1 ihy.1, by rw [coordC_mul ihx.1 ihy.1, ihx.2, ihy.2, add_zero]⟩
@@ -359,8 +362,8 @@ private theorem perm_ne_rootC_of_ne {β : Fin TwistTag.D4.tag.rank → ℤ} (h :
   apply permLattice_injective_vec TwistTag.D4.perm
   rw [he, permLattice_rootC]
 
-private theorem coordC_twist_semilinear {f : ℕ} (hf : 1 ≤ f) {K : Type} [Field K] [Finite K]
-    [CharP K 3] (hK : Nat.card K = (3 ^ f) ^ 3) (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ (3 ^ f))
+private theorem coordC_twist_semilinear {f : ℕ} (_hf : 1 ≤ f) {K : Type} [Field K] [Finite K]
+    [CharP K 3] (_hK : Nat.card K = (3 ^ f) ^ 3) (σ : K ≃+* K) (_hσ : ∀ c, σ c = c ^ (3 ^ f))
     {x : ModGL TwistTag.D4.tag K} (hx : x ∈ heightSeries TwistTag.D4.tag K 2) :
     twistHom TwistTag.D4 K σ.toRingHom x ∈ heightSeries TwistTag.D4.tag K 2 ∧
       coordC (twistHom TwistTag.D4 K σ.toRingHom x) = σ (coordC x) := by
@@ -368,7 +371,7 @@ private theorem coordC_twist_semilinear {f : ℕ} (hf : 1 ≤ f) {K : Type} [Fie
   intro β hβ h2 c
   by_cases hC : β = rootC
   · subst hC
-    have hfix := twistHom_pinnedX_of_fixedRoot hf hK σ hσ isRoot_rootC permLattice_rootC c
+    have hfix := twistHom_pinnedX_of_fixedRoot σ isRoot_rootC permLattice_rootC c
     rw [hfix]
     refine ⟨pinnedX_mem_heightSeries isRoot_rootC (by decide) (σ c), ?_⟩
     rw [coordC_pinnedX isRoot_rootC (by decide) (σ c), coordC_pinnedX isRoot_rootC (by decide) c]
@@ -388,8 +391,8 @@ private theorem coordC_twist_semilinear {f : ℕ} (hf : 1 ≤ f) {K : Type} [Fie
       rw [height_permLattice_eq]; exact h2
     rw [hF]
     refine ⟨pinnedX_mem_heightSeries hρβ h2' _, ?_⟩
-    rw [coordC_pinnedX hρβ h2' _, if_neg (perm_ne_rootC_of_ne hC), coordC_pinnedX hβ h2 c,
-      if_neg hC, map_zero]
+    rw [coordC_pinnedX hρβ h2' _, ite_eq_right (perm_ne_rootC_of_ne hC), coordC_pinnedX hβ h2 c,
+      ite_eq_right hC, map_zero]
 
 theorem coordC_fieldActor {f : ℕ} (hf : 1 ≤ f) {K : Type} [Field K] [Finite K] [CharP K 3]
     (hK : Nat.card K = (3 ^ f) ^ 3) (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ (3 ^ f))

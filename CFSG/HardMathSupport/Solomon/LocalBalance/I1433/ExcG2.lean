@@ -21,7 +21,7 @@ open scoped commutatorElement
 
 theorem commutator_le_inner_of_isCyclic {Γ : Type*} [Group Γ] (h : IsCyclic (Outer Γ)) :
     commutator (MulAut Γ) ≤ inner Γ := by
-  letI : CommGroup (Outer Γ) := IsCyclic.commGroup
+  let : CommGroup (Outer Γ) := IsCyclic.commGroup
   rw [_root_.commutator_def, Subgroup.commutator_le]
   intro g₁ _ g₂ _
   rw [← QuotientGroup.eq_one_iff]
@@ -51,7 +51,7 @@ theorem false_of_i1433SCfg_G2 {S : Type} [Group S] [Finite S] (hs : IsSimpleGrou
     (he : Nonempty (S ≃* (TauCeti.CFSGIndex.lie ⟨.G2 r, hv⟩).Group))
     {Q : Subgroup (MulAut S)} {x : S} {J : Subgroup S} {q : ℕ} (c : I1433SCfg Q x J q) :
     False := by
-  haveI := hs
+  have := hs
   have hZ : Subgroup.center S = ⊥ := b3Lie_center_eq_bot hna
   obtain ⟨e0⟩ := he
   set X := (TauCeti.CFSGIndex.lie ⟨.G2 r, hv⟩).Group with hXdef
@@ -62,10 +62,10 @@ theorem false_of_i1433SCfg_G2 {S : Type} [Group S] [Finite S] (hs : IsSimpleGrou
       rwa [hr2]
     · exact CFSG.RankThree.PartTwo.Sec4.Census.chevalleyExceptionalModel_G2_of_odd r hv hr2
   obtain ⟨K, _, _, hK, ⟨e1⟩⟩ := CFSG.LieType.Chevalley.nonempty_mulEquiv_adjointGroup .G2 hmodel.2
-  haveI : Fact r.p.Prime := ⟨r.prime_p⟩
+  have : Fact r.p.Prime := ⟨r.prime_p⟩
   have hKc : Nat.card K = r.p ^ r.exponent := hK
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K r.p :=
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K r.p :=
     charP_of_card_eq_prime_pow (f := r.exponent) (by rw [← Nat.card_eq_fintype_card, hKc])
   have hringK : ringChar K = r.p := ringChar.eq K r.p
   have hK3 : (3 : K) ≠ 0 := by
@@ -95,7 +95,7 @@ theorem false_of_i1433SCfg_G2 {S : Type} [Group S] [Finite S] (hs : IsSimpleGrou
         e1 CFSG.LieType.Chevalley.center_adjointGroup_eq_bot
         (fun F hF => CFSG.RankThree.PartTwo.Sec21.Item223RankResProof.adjointG2_card_le_nine K hK2 hK3 F hF)
   have hcyc : IsCyclic (Outer (adjointGroup Tag.G2 K)) := by
-    haveI := CFSG.RankThree.PartTwo.KFacts.isCyclic_ringEquiv_of_finite K
+    have := CFSG.RankThree.PartTwo.KFacts.isCyclic_ringEquiv_of_finite K
     exact CFSG.RankThree.PartTwo.KFacts.isCyclic_outer_of_normalForm
       (CFSG.RankThree.PartTwo.KFacts.g2FieldHom K)
       (CFSG.RankThree.PartTwo.KFacts.g2_automorphism_normal_form (by rw [hringK]; exact hr3) hK4).1
@@ -103,7 +103,7 @@ theorem false_of_i1433SCfg_G2 {S : Type} [Group S] [Finite S] (hs : IsSimpleGrou
     exists_conj_of_mem_commutator_of_le (e0.trans e1) (commutator_le_inner_of_isCyclic hcyc)
       (c.derived hα)
   have h3 := c.three_le_pRank_of_inner hZ hin (IsSL3EpsOver.exists_noncentral_order_three c.sl3)
-  haveI : Finite X := Finite.of_equiv S e0.toEquiv
+  have : Finite X := Finite.of_equiv S e0.toEquiv
   have hZX : Subgroup.center X = ⊥ := by
     rw [← Subgroup.map_center_eq e0, hZ, Subgroup.map_bot]
   let f : S →* X ⧸ Subgroup.center X :=

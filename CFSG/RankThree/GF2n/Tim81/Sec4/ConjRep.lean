@@ -179,7 +179,7 @@ theorem repW_apply_piK_sub {X : Type} [Group X] (ψ : HBar V H ≃* X) (z : ↥H
     intro c x hx
     have hc : ∀ c : ZMod 2, c = 0 ∨ c = 1 := by decide
     rcases hc c with rfl | rfl
-    · simpa using E.one_mem
+    · simp
     · simpa using hx
 
 theorem mem_subW_iff (hW : Assembly.IsElemAbelian 2 (Tim79a.xOf V H))
@@ -197,7 +197,7 @@ theorem mem_subgroupOfSubW_iff (hW : Assembly.IsElemAbelian 2 (Tim79a.xOf V H))
 theorem subW_mono {hW : Assembly.IsElemAbelian 2 (Tim79a.xOf V H)}
     [Module (ZMod 2) (Additive (IntMod (Tim79a.xOf V H) hW))] {E F : Subgroup G}
     (hEF : E ≤ F) : subW hW E ≤ subW hW F :=
-  fun x hx => hEF hx
+  fun _x hx => hEF hx
 
 theorem subW_bot (hW : Assembly.IsElemAbelian 2 (Tim79a.xOf V H))
     [Module (ZMod 2) (Additive (IntMod (Tim79a.xOf V H) hW))] :
@@ -394,7 +394,6 @@ theorem commSub_repW {S : Subgroup G} (hS : S ≤ H) :
       change ⁅w, s⁆ ∈ subgroupOfSubW hW U
       rw [mem_subgroupOfSubW_iff]
       refine ⟨hWmem, ?_⟩
-      change ofW hW ⟨⁅w, s⁆, hWmem⟩ ∈ U
       have hgen : repW hW ψ (ψ (piK V H ⟨s, hS hs⟩)) (ofW hW ⟨w, hw⟩) -
           ofW hW ⟨w, hw⟩ ∈ U := by
         refine Submodule.mem_iSup_of_mem (ψ (piK V H ⟨s, hS hs⟩)) ?_
@@ -500,7 +499,6 @@ private theorem subW_commutator_le_commSub {W₀ : Subgroup G} (hW₀ : W₀ ≤
     change ⁅w, s⁆ ∈ subgroupOfSubW hW U
     rw [mem_subgroupOfSubW_iff]
     refine ⟨hWmem, ?_⟩
-    change ofW hW ⟨⁅w, s⁆, hWmem⟩ ∈ U
     let u : ↥X₀ := ⟨ofW hW ⟨w, hW₀ hw⟩, (mem_subW_iff hW).mpr hw⟩
     let a : X := ψ (piK V H ⟨s, hS hs⟩)
     have hgen : subRepW hW ψ hW₀ hN a u - u ∈ commSub ρ₀ A := by
@@ -544,7 +542,7 @@ theorem commSub_subRepW {W₀ : Subgroup G} (hW₀ : W₀ ≤ Tim79a.xOf V H)
 
 private theorem nontrivial_subW {W₀ : Subgroup G} (hW₀ : W₀ ≤ Tim79a.xOf V H)
     (hW₀ne : W₀ ≠ ⊥) : Nontrivial ↥(subW hW W₀) := by
-  haveI : Nontrivial ↥W₀ := (Subgroup.nontrivial_iff_ne_bot W₀).mpr hW₀ne
+  have : Nontrivial ↥W₀ := (Subgroup.nontrivial_iff_ne_bot W₀).mpr hW₀ne
   obtain ⟨w₀, hw₀⟩ := exists_ne (1 : ↥W₀)
   let w : ↥(Tim79a.xOf V H) := ⟨(w₀ : G), hW₀ w₀.2⟩
   have hw1 : w ≠ 1 := by

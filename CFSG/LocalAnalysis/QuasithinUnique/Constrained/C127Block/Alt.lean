@@ -42,7 +42,7 @@ private theorem symCoreWith_of_coreAct {W : Type} [CommGroup W] {L : Subgroup (M
 
 theorem isAltType_of_symCore {V K : Subgroup G} (hV : IsElemAbelian 2 V) {N : ℕ} (h5 : 5 ≤ N) (hodd : Odd N)
     (hKN : K ≤ Subgroup.normalizer (V : Set G)) (hshort : IsShort2 K) (hUV : blockU K ≤ V)
-    (hVK : ⁅V, K⁆ ≤ blockU K)
+    (_hVK : ⁅V, K⁆ ≤ blockU K)
     (hker : (toAutI hV K hKN).ker = CFSG.pCore 2 ↥K)
     {L : Subgroup (MulAut (IntMod V hV))} (hKL : autI hV K ≤ L)
     (θ : ↥L ≃* Equiv.Perm (Fin N)) (β : ↥(commV L) ≃* Multiplicative (evenWeight N))

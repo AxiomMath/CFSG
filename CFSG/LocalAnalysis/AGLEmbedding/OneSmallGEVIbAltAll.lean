@@ -29,7 +29,7 @@ theorem D1OneSmallData.card_rbar_inf_alt (hd : D1OneSmallData p P M H R Rbar K)
   have : Fact p.Prime := ⟨hp⟩
   obtain ⟨T₁, hT₁, -, -, -, hT₁nc, -⟩ := hd.exists_sylow
   rw [← hT₁, Subgroup.card_map_of_injective K.subtype_injective]
-  obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp T₁.isPGroup'
+  obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp T₁.isPGroup
   rw [hn]
   have hdvd : p ^ n ∣ Nat.card K := hn ▸ Subgroup.card_subgroup_dvd_card _
   obtain ⟨e⟩ := hA

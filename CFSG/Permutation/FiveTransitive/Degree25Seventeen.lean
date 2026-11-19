@@ -73,7 +73,7 @@ private theorem centralizer_card_le_two_thousand_one_hundred_seventy_six
       (hqcop : Nat.Coprime q 17)
       (hqnotEight : ¬q ∣ 8)
       (hqdvd : q ∣ Nat.card C) : False := by
-    letI : Fact q.Prime := ⟨hq⟩
+    let : Fact q.Prime := ⟨hq⟩
     obtain ⟨v, hv⟩ :=
       exists_prime_orderOf_dvd_card' q hqdvd
     let w : Equiv.Perm X := (v : P)
@@ -223,7 +223,7 @@ private theorem conjugacy_class_overfill_of_five_transitive
     False := by
   classical
   let A := MulAction.orbit (ConjAct P) u
-  letI : Fintype A := Fintype.ofFinite _
+  let : Fintype A := Fintype.ofFinite _
   let val : A → P := fun a => a.1
   have hvalInjective : Function.Injective val :=
     Subtype.val_injective
@@ -284,12 +284,12 @@ private theorem conjugacy_class_overfill_of_five_transitive
     refine ⟨g, ?_⟩
     ext i
     exact hg i
-  letI : MulAction.IsMultiplyPretransitive P X 5 := hP5
-  letI : Nonempty (Fin 5 ↪ X) :=
+  let : MulAction.IsMultiplyPretransitive P X 5 := hP5
+  let : Nonempty (Fin 5 ↪ X) :=
     Fintype.card_pos_iff.mp (by
       rw [Fintype.card_embedding_eq, Fintype.card_fin]
       exact Nat.descFactorial_pos.mpr hcardFive)
-  letI : Unique
+  let : Unique
       (MulAction.orbitRel.Quotient P (Fin 5 ↪ X)) :=
     Classical.choice
       ((MulAction.pretransitive_iff_unique_quotient_of_nonempty
@@ -335,7 +335,7 @@ theorem seventeen_not_dvd_card_of_not_alternating
     ¬17 ∣ Nat.card P := by
   classical
   intro hseventeen
-  letI : Fact (Nat.Prime 17) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 17) := ⟨by norm_num⟩
   obtain ⟨u, huorder⟩ :=
     exists_prime_orderOf_dvd_card' 17 hseventeen
   have hcentralizerLe :

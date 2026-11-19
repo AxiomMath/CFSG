@@ -42,7 +42,7 @@ theorem fldExc_twF4 (hG : FixGapTwF4) (hRig : GGLabelRigidInput) {S : Type} [Gro
   have ha : 1 ≤ (lab'.n - 1) / 2 := by omega
   have hne : ¬ (lab'.n - 1) / 2 = 0 := by omega
   obtain ⟨K, hKF, hKfin, hK, hQ⟩ := hraw
-  rw [if_neg hne] at hQ
+  rw [ite_eq_right hne] at hQ
   obtain ⟨hsR, hnaR, θ, -, ⟨i, hi, f, hf, hind⟩, hout⟩ := hQ
   have hconj := RecipeExcLang.ggRawFieldConj_twF4 (a := (lab'.n - 1) / 2) ha hK hp
   have hfix : ∀ f' ∈ LargeEvenChevFieldImage LargeEvenCartanF4 K
@@ -62,7 +62,7 @@ theorem fldExc_twF4 (hG : FixGapTwF4) (hRig : GGLabelRigidInput) {S : Type} [Gro
     rw [hT]
   exact fldExc_core hRig hp hcen hα hlabJ hJ hcanK θ hsR hnaR hi hf hind hout hconj hfix
 
-theorem fldExc_G2der {S : Type} [Group S] [Finite S] (p : ℕ) (α : MulAut S) (J : Subgroup S)
+theorem fldExc_G2der {S : Type} [Group S] [Finite S] (p : ℕ) (α : MulAut S) (_J : Subgroup S)
     (labK labJ : GLALabel) (hT : labK.tag = .G2der) (hfld : FieldKind S labK α) :
     (canonLabel labK).n = p * (canonLabel labJ).n ∧ (canonLabel labK).tag = (canonLabel labJ).tag ∧
       (canonLabel labK).rank = (canonLabel labJ).rank := by
@@ -79,7 +79,7 @@ theorem fldExc_G2der {S : Type} [Group S] [Finite S] (p : ℕ) (α : MulAut S) (
   subst hf1
   exact (hout ⟨i, hi, by simpa using hind⟩).elim
 
-theorem fldExc_twF4der {S : Type} [Group S] [Finite S] (p : ℕ) (α : MulAut S) (J : Subgroup S)
+theorem fldExc_twF4der {S : Type} [Group S] [Finite S] (p : ℕ) (α : MulAut S) (_J : Subgroup S)
     (labK labJ : GLALabel) (hT : labK.tag = .twF4der) (hfld : FieldKind S labK α) :
     (canonLabel labK).n = p * (canonLabel labJ).n ∧ (canonLabel labK).tag = (canonLabel labJ).tag ∧
       (canonLabel labK).rank = (canonLabel labJ).rank := by

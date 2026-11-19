@@ -18,6 +18,7 @@ variable {G : Type u} [Group G] [Fintype G]
 @[expose] def UniqueInvolutionIn (P : Subgroup G) (t : G) : Prop :=
   ∀ s : G, s ∈ P → s ≠ 1 → s * s = 1 → s = t
 
+omit [Fintype G] in
 theorem uniqueInvolutionIn_or_exists_distinct
     (P : Subgroup G) (t : G) :
     UniqueInvolutionIn P t ∨

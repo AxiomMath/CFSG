@@ -182,7 +182,7 @@ theorem e6A2OrbitThreeOuter_holds : E6A2OrbitThreeOuter := by
     rw [e]
     exact one_ne_zero
   have hc := prod_e6c_eq_one_of_ncard_eighteen h3L hap h18
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨ζ, hζ⟩ :=
     CFSG.LieType.SeitzGeneration.ExcHighThree.exists_primCubeRoot_of_charP (L := L) (p := 2)
       (by norm_num)
@@ -233,7 +233,7 @@ theorem e6A2OrbitThreeOuter_holds : E6A2OrbitThreeOuter := by
   obtain ⟨Fr, hFr, hcase⟩ := hS
   obtain ⟨w, hn⟩ := S.D.n_weyl
   obtain ⟨ω, hω, rfl⟩ := (coxeterSystem Tag.E6).exists_isReduced w
-  haveI : CharP K 2 := (ι.charP_iff_charP 2).2 inferInstance
+  have : CharP K 2 := (ι.charP_iff_charP 2).2 inferInstance
   obtain ⟨r, e, -, hchar, -, hqe⟩ := exists_char_pow S
   have hr2 : r = 2 := CharP.eq L hchar hL2
   subst hr2

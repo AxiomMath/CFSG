@@ -138,10 +138,10 @@ private theorem card_le_of_color [Finite W] {r cls : ℕ} {P : List ℕ}
   classical
   by_contra hlt
   rw [not_le] at hlt
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (W ≃ₗ[ZMod 2] W) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (W ≃ₗ[ZMod 2] W) :=
     Finite.of_injective (fun g : W ≃ₗ[ZMod 2] W => (g : W → W)) DFunLike.coe_injective
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hp : IsPGroup 2 F := fun x => ⟨1, Subtype.ext (by simpa [pow_two] using h2 x.1 x.2)⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 hp
   have hrk : r + 1 ≤ k := by
@@ -215,8 +215,8 @@ theorem card_le_of_cert [Finite W] {q : W → ZMod 2} {qt : ℕ}
     {E : Subgroup (W ≃ₗ[ZMod 2] W)} (hE : E ≤ timmesfeldIsometries q)
     (h2 : ∀ x ∈ E, x * x = 1) : Nat.card E ≤ 2 ^ r := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (W ≃ₗ[ZMod 2] W) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (W ≃ₗ[ZMod 2] W) :=
     Finite.of_injective (fun g : W ≃ₗ[ZMod 2] W => (g : W → W)) DFunLike.coe_injective
   obtain ⟨hGens, hTree, hIso, hC₁, hC₂⟩ := hP
   obtain ⟨hP0, hPnd, hPlen, hlen, hinfo, hsucc⟩ := hTree
@@ -505,7 +505,7 @@ private theorem card_isometries_plus3 :
   have h2 : (Nat.card (TauCeti.QuadraticMap.orthogonalGroup (quadPlus 3 (ZMod 2))) : ℤ) =
       ((2 ^ 7 * 315 : ℕ) : ℤ) := by
     rw [h, Nat.card_zmod]
-    first | decide | norm_num [Finset.prod_Icc_succ_top]
+    first | decide
   exact_mod_cast h2
 
 private theorem card_isometries_minus3 :
@@ -517,7 +517,7 @@ private theorem card_isometries_minus3 :
   have h2 : (Nat.card (TauCeti.QuadraticMap.orthogonalGroup (quadMinus 3 (ZMod 2) 1 1)) : ℤ) =
       ((2 ^ 7 * 405 : ℕ) : ℤ) := by
     rw [h, Nat.card_zmod]
-    first | decide | norm_num [Finset.prod_Icc_succ_top]
+    first | decide
   exact_mod_cast h2
 
 private theorem card_isometries_plus2 :
@@ -528,7 +528,7 @@ private theorem card_isometries_plus2 :
   have h2 : (Nat.card (TauCeti.QuadraticMap.orthogonalGroup (quadPlus 2 (ZMod 2))) : ℤ) =
       ((2 ^ 3 * 9 : ℕ) : ℤ) := by
     rw [h, Nat.card_zmod]
-    first | decide | norm_num [Finset.prod_Icc_succ_top]
+    first | decide
   exact_mod_cast h2
 
 private theorem card_isometries_minus2 :
@@ -540,7 +540,7 @@ private theorem card_isometries_minus2 :
   have h2 : (Nat.card (TauCeti.QuadraticMap.orthogonalGroup (quadMinus 2 (ZMod 2) 1 1)) : ℤ) =
       ((2 ^ 3 * 15 : ℕ) : ℤ) := by
     rw [h, Nat.card_zmod]
-    first | decide | norm_num [Finset.prod_Icc_succ_top]
+    first | decide
   exact_mod_cast h2
 
 private theorem core_plus3

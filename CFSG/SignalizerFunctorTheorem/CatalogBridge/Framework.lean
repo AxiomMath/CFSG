@@ -95,7 +95,7 @@ theorem exists_conj_fixed_eq {p : ℕ} (hp : p.Prime) {X : Type*} [Group X] [Fin
   have hmem : h⁻¹ * f * h ∈ (Q₀ : Subgroup (MulAut X)) :=
     (hh f).mp (hQ (Subgroup.mem_zpowers f))
   have hf₀mem : f₀ ∈ (Q₀ : Subgroup (MulAut X)) := hQ₀ (Subgroup.mem_zpowers f₀)
-  have : IsCyclic (Q₀ : Subgroup (MulAut X)) := hcyc _ Q₀.isPGroup'
+  have : IsCyclic (Q₀ : Subgroup (MulAut X)) := hcyc _ Q₀.isPGroup
   have hconj : orderOf (h⁻¹ * f * h) = p := by
     have := orderOf_conj_eq h⁻¹ f
     rwa [inv_inv, hf] at this

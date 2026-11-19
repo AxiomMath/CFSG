@@ -84,7 +84,7 @@ theorem rootGroup_isPGroup_twistedE6
     (hRr : Rr = ggRootSub (ggU .twistedE6 n f).D (MonoidHom.id (ggU .twistedE6 n f).K) β u) :
     IsPGroup 2 Rr := by
   subst hRr
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h : IsPGroup 2 ((twistedE6Datum 2 f).rootGroup β) :=
     isPGroup_two_twistedRootGroup (frobQ 2 f) hβ
   exact (h.map (MulAut.conj u).toMonoidHom).map (MonoidHom.id _)
@@ -99,7 +99,7 @@ private theorem coreOne_twistedE6_of_eq
     (hQ : Q = pCoreOf 2 (Subgroup.normalizer (Rr : Set L.K))) :
     Q ⊔ (Rr ⊔ Rm) = ⊤ := by
   subst hL
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hθ : ∀ c : GaloisField 2 (2 * f), frobQ 2 f (frobQ 2 f c) = c :=
     frobQ_frobQ 2 f (by omega)
   have hct := twistedDatum_isCTGroupDatum (frobQ 2 f) hθ
@@ -164,7 +164,7 @@ private theorem coreFourIrred_twistedE6_of_eq
       Subgroup.normalizer (Rr : Set L.K) ≤ Subgroup.normalizer (V : Set L.K) →
       V = ggCenterOf Q ∨ V = Q := by
   subst hL
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hθ : ∀ c : GaloisField 2 (2 * f), frobQ 2 f (frobQ 2 f c) = c :=
     frobQ_frobQ 2 f (by omega)
   have hct := twistedDatum_isCTGroupDatum (frobQ 2 f) hθ

@@ -24,8 +24,8 @@ private theorem s16c1_commutator_eq_top_of_simple {S : Type} [Group S] [IsSimple
 private theorem s16c1_commutator_quotient_eq_top {X : Type} [Group X] (N : Subgroup X)
     [N.Normal] (hA : UC22.IsAlt (X ⧸ N) 5) : commutator (X ⧸ N) = ⊤ := by
   obtain ⟨e⟩ := hA
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
-  haveI : IsSimpleGroup (X ⧸ N) := e.isSimpleGroup
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
+  have : IsSimpleGroup (X ⧸ N) := e.isSimpleGroup
   refine s16c1_commutator_eq_top_of_simple ?_
   obtain ⟨a, b, hab⟩ :=
     (by decide : ∃ a b : alternatingGroup (Fin 5), a * b ≠ b * a)
@@ -46,7 +46,7 @@ private theorem s16c1_card_fixedPoints_eq {X : Type} [Group X] (Y : Subgroup X) 
           (Subgroup.zpowers x).subtype);
       Nat.card (MulAction.fixedPoints ↥(Subgroup.zpowers x) ↥Y)) =
       Nat.card ↥(Y ⊓ Subgroup.centralizer ({x} : Set X)) := by
-  letI : MulAction ↥(Subgroup.zpowers x) ↥Y :=
+  let : MulAction ↥(Subgroup.zpowers x) ↥Y :=
     MulAction.compHom ↥Y ((MulAut.conjNormal : X →* MulAut ↥Y).comp
       (Subgroup.zpowers x).subtype)
   have hset : MulAction.fixedPoints ↥(Subgroup.zpowers x) (↥Y) =
@@ -116,14 +116,14 @@ theorem s16c1_hyperplane {X : Type} [Group X] [Finite X] (N : Subgroup X) [N.Nor
     intro htop
     rw [Subgroup.subgroupOf_eq_top] at htop
     exact hnotle (htop.trans hM₀X)
-  haveI : Fintype ↥N := Fintype.ofFinite ↥N
-  haveI : Fintype (Set ↥N) := Set.fintype
-  haveI : Fintype (Subgroup ↥N) :=
+  have : Fintype ↥N := Fintype.ofFinite ↥N
+  have : Fintype (Set ↥N) := Set.fintype
+  have : Fintype (Subgroup ↥N) :=
     Fintype.ofInjective (fun H : Subgroup ↥N => (H : Set ↥N))
       (fun _ _ h => SetLike.coe_injective h)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hNpg : IsPGroup 2 ↥N := IsPGroup.of_card (n := 4) (by rw [hcard]; norm_num)
-  haveI : Group.IsNilpotent ↥N := hNpg.isNilpotent
+  have : Group.IsNilpotent ↥N := hNpg.isNilpotent
   rcases IsCoatomic.eq_top_or_exists_le_coatom (M₀.subgroupOf N) with htop | ⟨C, hC, hle⟩
   · exact absurd htop hproper
   · have hCindex : C.index = 2 := (IsPGroup.isCoatom_iff_index_eq_prime hNpg).mp hC
@@ -161,16 +161,16 @@ theorem s16c1_order_five_centralizes {X : Type} [Group X] [Finite X] (N N₁ : S
   classical
   have hNcard : Nat.card ↥N = 16 := s16c1_card_of_isElemAbelianOfRank hN
   have hN₁card : Nat.card ↥N₁ = 8 := by omega
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hPcard : Nat.card ↥(Subgroup.zpowers x) = 5 := by
     rw [Nat.card_zpowers]
     exact hx
   have hPpg : IsPGroup 5 ↥(Subgroup.zpowers x) :=
     IsPGroup.of_card (n := 1) (by rw [hPcard]; norm_num)
-  letI actN : MulAction ↥(Subgroup.zpowers x) ↥N :=
+  let actN : MulAction ↥(Subgroup.zpowers x) ↥N :=
     MulAction.compHom ↥N ((MulAut.conjNormal : X →* MulAut ↥N).comp
       (Subgroup.zpowers x).subtype)
-  letI actN₁ : MulAction ↥(Subgroup.zpowers x) ↥N₁ :=
+  let actN₁ : MulAction ↥(Subgroup.zpowers x) ↥N₁ :=
     MulAction.compHom ↥N₁ ((MulAut.conjNormal : X →* MulAut ↥N₁).comp
       (Subgroup.zpowers x).subtype)
   have hD₁dvd : Nat.card ↥(N₁ ⊓ Subgroup.centralizer ({x} : Set X)) ∣ 8 := by
@@ -224,7 +224,7 @@ theorem s16c1_central_of_not_perfect {X : Type} [Group X] [Finite X] (N : Subgro
     N ≤ Subgroup.center X := by
   classical
   obtain ⟨N₁, hN₁N, hN₁normal, hidx⟩ := s16c1_hyperplane N hN hA hnp
-  haveI : N₁.Normal := hN₁normal
+  have : N₁.Normal := hN₁normal
   have hperf : commutator (X ⧸ N) = ⊤ := s16c1_commutator_quotient_eq_top N hA
   have hNcard : Nat.card ↥N = 16 := s16c1_card_of_isElemAbelianOfRank hN
   let K : Subgroup X := Subgroup.closure {y : X | orderOf y = 5}
@@ -243,7 +243,7 @@ theorem s16c1_central_of_not_perfect {X : Type} [Group X] [Finite X] (N : Subgro
       have hy5 : orderOf (MulAut.conj g y) = 5 := by rw [MulEquiv.orderOf_eq, hy]
       have hmem : MulAut.conj g y ∈ K := Subgroup.subset_closure hy5
       rwa [MulAut.conj_apply] at hmem
-    · simpa using K.one_mem
+    · simp
     · intro a b _ _ ha hb
       have hmul : g * (a * b) * g⁻¹ = (g * a * g⁻¹) * (g * b * g⁻¹) := by group
       rw [hmul]
@@ -253,15 +253,15 @@ theorem s16c1_central_of_not_perfect {X : Type} [Group X] [Finite X] (N : Subgro
       rw [hinv]
       exact K.inv_mem ha
   let Kbar : Subgroup (X ⧸ N) := K.map (QuotientGroup.mk' N)
-  haveI : Kbar.Normal :=
+  have : Kbar.Normal :=
     Subgroup.Normal.map hKnormal (QuotientGroup.mk' N) (QuotientGroup.mk'_surjective N)
   obtain ⟨e⟩ := hA
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
-  haveI : IsSimpleGroup (X ⧸ N) := e.isSimpleGroup
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
+  have : IsSimpleGroup (X ⧸ N) := e.isSimpleGroup
   have hKbar_ne_bot : Kbar ≠ ⊥ := by
     intro hbot
     have hXcard : Nat.card X = 960 := s16c1_card_of_isE16A5 ⟨N, inferInstance, hN, ⟨e⟩⟩
-    haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     have h5dvd : 5 ∣ Nat.card X := by rw [hXcard]; norm_num
     obtain ⟨g, hg5⟩ := exists_prime_orderOf_dvd_card' (G := X) 5 h5dvd
     have hgK : g ∈ K := Subgroup.subset_closure hg5

@@ -14,8 +14,8 @@ open CFSG.LocalAnalysis.RankThreeTheoremC.Generic41Spor
 
 theorem K7145_holds : K7145 := by
   intro X _ _ hK p hp hp2 L hL hq hr x hx hxL
-  haveI : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hq.1
-  haveI : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hq.2
+  have : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hq.1
+  have : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hq.2
   obtain ⟨N, hNn, hNp, hNi⟩ := (kFactI713Out_holds p hp hp2 (↥L ⧸ Subgroup.center ↥L)
     inferInstance (K7145Proof.quotient_center_nonabelian hq)
     (K7145Proof.isCatalogGroup_quotient_center hK L hq)

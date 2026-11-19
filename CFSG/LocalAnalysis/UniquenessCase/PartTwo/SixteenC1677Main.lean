@@ -48,7 +48,7 @@ theorem r16_57_62_not_case167_7F (D : Data G) (hSg : UC6S846.SigmaStd D)
 theorem r16_57F_holds (D : Data G) (hSg : UC6S846.SigmaStd D) (h1219 : D.sig = D.sig1)
     (hx : DataExt D) (h61 : UC6.R6_1 D) (h66 : UC6.R6_6 D) (h126 : R126 D) (h127 : R127 D)
     (h119 : F11.R119 D) (h183 : W3Thm183 G) (h145 : Thm145 D) (h21 : R1621 D)
-    (h129 : R129_1 D) : R16_57F D := fun _ V _ hV hS =>
+    (h129 : R129_1 D) : R16_57F D := fun _ _V _ hV hS =>
   r16_57_62_not_case167_7F D hSg h1219 hx h61 h66 h126 h127 h119 h183 h145 h21 h129 hV
     hS.setting.hyp16
 

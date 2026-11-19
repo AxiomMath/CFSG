@@ -58,7 +58,7 @@ theorem orderOf_mem_of_four_le_card (K : Type) [Field K] [Finite K] {p : ℕ} (h
     {A : Subgroup (adjointGroup Tag.E8 K)} (hA : IsElemAbelian p A) (hAc : p ^ 4 ≤ Nat.card A) :
     orderOf ((Nat.card K : ℕ) : ZMod p) = 3 ∨ orderOf ((Nat.card K : ℕ) : ZMod p) = 4 ∨
       orderOf ((Nat.card K : ℕ) : ZMod p) = 6 := by
-  haveI : Finite (adjointGroup Tag.E8 K) := generated_group_finite Tag.E8 K
+  have : Finite (adjointGroup Tag.E8 K) := generated_group_finite Tag.E8 K
   have hq1 : 1 ≤ Nat.card K := Nat.card_pos
   have h3 : 3 ≤ orderOf ((Nat.card K : ℕ) : ZMod p) :=
     PRankBounds.three_le_orderOf hp hpq hq1 h1 h2

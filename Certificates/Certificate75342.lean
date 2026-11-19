@@ -121,10 +121,10 @@ theorem hbB : ∀ i < co2BaseArr.size, ∃ t < (((co3FinList 2300 (by decide) ba
   decide
 
 theorem sepA : Sep 2300 SA ((co3FinList 2300 (by decide) baseAL).map Fin.val).toArray :=
-  CFSG.KS.Asch54.co2_sep (fun j hj => genA_mem (SA_size ▸ hj)) hbA
+  CFSG.KS.Asch54.co2_sep (fun _j hj => genA_mem (SA_size ▸ hj)) hbA
 
 theorem sepB : Sep 2300 SB ((co3FinList 2300 (by decide) baseBL).map Fin.val).toArray :=
-  CFSG.KS.Asch54.co2_sep (fun j hj => genB_mem (SB_size ▸ hj)) hbB
+  CFSG.KS.Asch54.co2_sep (fun _j hj => genB_mem (SB_size ▸ hj)) hbB
 
 theorem chainA : rawChainOK 2300 (SA.extract 0 6) SA
     ((co3FinList 2300 (by decide) baseAL).map Fin.val).toArray (wordsArr 6 6 Co2D.dNil) 4 = true :=

@@ -41,7 +41,7 @@ theorem exists_matrixTorus_of_sl2Pi [Finite K] [CharP K 2] {p k : ℕ} (hp : p.P
       (∀ c, X c ∈ H) ∧ X (Multiplicative.ofAdd 1) ∉ LargeEvenScalars ι K ∧
       (∀ c, X c ^ 2 = 1) ∧ (∀ f c, ∃ c', τ f * X c * (τ f)⁻¹ = X c') := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨s, n, hso, hn⟩ :=
     CFSG.StandardType.GGPlusLiftSL2.exists_order_p_inverting_sl2 hp hp2 hpq
   have hsp : s ^ p = 1 := by rw [← hso]; exact pow_orderOf_eq_one s
@@ -160,7 +160,7 @@ private lemma slBlocksExtend_injective {k : ℕ} (hk : k ≤ m) :
   funext i
   have hi := congrFun h (Fin.castLE hk i)
   have hlt : ((Fin.castLE hk i : Fin m) : ℕ) < k := by simp
-  rw [slBlocksExtend_apply, slBlocksExtend_apply, dif_pos hlt, dif_pos hlt] at hi
+  rw [slBlocksExtend_apply, slBlocksExtend_apply, dite_eq_left hlt, dite_eq_left hlt] at hi
   exact Matrix.SpecialLinearGroup.toGL_injective hi
 
 private lemma slBlocksExtend_det {k : ℕ} (a : Fin k → Matrix.SpecialLinearGroup (Fin 2) K)
@@ -168,9 +168,9 @@ private lemma slBlocksExtend_det {k : ℕ} (a : Fin k → Matrix.SpecialLinearGr
     ((slBlocksExtend m a j : GL (Fin 2) K) : Matrix (Fin 2) (Fin 2) K).det = 1 := by
   rw [slBlocksExtend_apply]
   by_cases h : (j : ℕ) < k
-  · rw [dif_pos h]
-    simpa using Matrix.SpecialLinearGroup.det_coe (a ⟨j, h⟩)
-  · rw [dif_neg h]
+  · rw [dite_eq_left h]
+    simp
+  · rw [dite_eq_right h]
     simp
 
 theorem exists_nsSpModelFin [CharP K 2] {k : ℕ} (hk : k < m) :
@@ -223,7 +223,7 @@ theorem exists_nsSpModelFin [CharP K 2] {k : ℕ} (hk : k < m) :
     rw [Pi.mul_apply, Pi.mul_apply]
     by_cases hj : j = i
     · have hik : ¬ ((i : ℕ) < k) := lt_irrefl k
-      rw [hj, Pi.mulSingle_eq_same, slBlocksExtend_apply, dif_neg hik, one_mul, mul_one]
+      rw [hj, Pi.mulSingle_eq_same, slBlocksExtend_apply, dite_eq_right hik, one_mul, mul_one]
     · rw [Pi.mulSingle_eq_of_ne hj, one_mul, mul_one]
 
 end Model

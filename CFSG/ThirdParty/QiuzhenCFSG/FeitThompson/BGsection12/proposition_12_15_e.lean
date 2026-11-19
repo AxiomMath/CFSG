@@ -45,7 +45,7 @@ private theorem CFSG.section12_prop1215e_complement
   have hPamb_p : IsPGroup q.val Pamb := by
     change IsPGroup q.val
       ((S : Subgroup (M ⊓ Mstar : Subgroup G)).map (M ⊓ Mstar : Subgroup G).subtype)
-    exact IsPGroup.map S.isPGroup' (M ⊓ Mstar : Subgroup G).subtype
+    exact IsPGroup.map S.isPGroup (M ⊓ Mstar : Subgroup G).subtype
   have hPamb_le_M : Pamb ≤ M := by
     intro x hx
     rcases Subgroup.mem_map.mp hx with ⟨y, _hy, rfl⟩
@@ -290,7 +290,7 @@ private theorem CFSG.section12_prop1215e_beta_subset
   have hPamb_p : IsPGroup q.val Pamb := by
     change IsPGroup q.val
       ((S : Subgroup (M ⊓ Mstar : Subgroup G)).map (M ⊓ Mstar : Subgroup G).subtype)
-    exact IsPGroup.map S.isPGroup' (M ⊓ Mstar : Subgroup G).subtype
+    exact IsPGroup.map S.isPGroup (M ⊓ Mstar : Subgroup G).subtype
   have hPamb_le_M : Pamb ≤ M := by
     intro x hx
     rcases Subgroup.mem_map.mp hx with ⟨y, _hy, rfl⟩
@@ -410,7 +410,7 @@ private theorem CFSG.section12_prop1215e_beta_subset
     let PG : Subgroup G := section10AmbientSylowSubgroup M P
     have hPGp : IsPGroup p.val PG := by
       change IsPGroup p.val ((P : Subgroup M).map M.subtype)
-      exact IsPGroup.map (p := p.val) (H := (P : Subgroup M)) P.isPGroup' M.subtype
+      exact IsPGroup.map (p := p.val) (H := (P : Subgroup M)) P.isPGroup M.subtype
     obtain ⟨Qσ, hQσ_cent_PG⟩ :=
       corollary_10_9_a_1
         (G := G) (M := M) (X := PG) (p := q) (q := p)

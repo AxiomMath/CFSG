@@ -42,7 +42,7 @@ theorem generationFromLine_of_hypCoord (hk : Nat.card k = 2) (hext : IsExtension
     have h1 := congrFun heq b
     by_cases hab : b = a
     · exact hba hab
-    · rw [Pi.single_apply, if_neg hab, Pi.single_eq_same] at h1
+    · rw [Pi.single_apply, ite_eq_right hab, Pi.single_eq_same] at h1
       exact zero_ne_one h1
   exact S.elementaryGroup_le_of_basic_line_T H hnd hH hrat (IsBasicT.single ha hb hbs) hne hline'
 
@@ -70,16 +70,16 @@ private theorem tail_single_mem (S : HypCoord Q) {a b c j : Fin d} (ha : a ∈ S
   have hsb_c : S.star b ≠ c := fun h => hc (h ▸ S.star_mem b hb)
   have hsa_sj : S.star a ≠ S.star j := fun h => hja (S.star_injective ha hj h).symm
   have hsb_sj : S.star b ≠ S.star j := fun h => hjb (S.star_injective hb hj h).symm
-  have hwa : (Pi.single c 1 : Fin d → K) (S.star j) = 0 := by simp [Pi.single_apply, hsj_c]
-  have hwj : (Pi.single c 1 : Fin d → K) j = 0 := by simp [Pi.single_apply, hj_c]
+  have hwa : (Pi.single c 1 : Fin d → K) (S.star j) = 0 := by simp [hsj_c]
+  have hwj : (Pi.single c 1 : Fin d → K) j = 0 := by simp [hj_c]
   have hzQ := S.Q_tail hj hwa hwj
   rw [hQc, one_smul] at hzQ
   have hz_rat : IsRat k (Pi.single j 1 + Pi.single c 1 - Pi.single (S.star j) 1 : Fin d → K) :=
     ((isRat_single k j).add (isRat_single k c)).sub (isRat_single k (S.star j))
   have hz_a : (Pi.single j 1 + Pi.single c 1 - Pi.single (S.star j) 1 : Fin d → K) (S.star a) = 0 := by
-    simp [Pi.single_apply, hsa_j, hsa_c, hsa_sj]
+    simp [hsa_j, hsa_c, hsa_sj]
   have hz_b : (Pi.single j 1 + Pi.single c 1 - Pi.single (S.star j) 1 : Fin d → K) (S.star b) = 0 := by
-    simp [Pi.single_apply, hsb_j, hsb_c, hsb_sj]
+    simp [hsb_j, hsb_c, hsb_sj]
   have hz_mem := AddSubgroup.subset_closure
     (show (Pi.single j 1 + Pi.single c 1 - Pi.single (S.star j) 1 : Fin d → K) ∈
       {z : Fin d → K | IsRat k z ∧ Q z = 0 ∧ z (S.star a) = 0 ∧ z (S.star b) = 0} from
@@ -87,13 +87,13 @@ private theorem tail_single_mem (S : HypCoord Q) {a b c j : Fin d} (ha : a ∈ S
   have hbj_mem := AddSubgroup.subset_closure
     (show (Pi.single j 1 : Fin d → K) ∈
       {z : Fin d → K | IsRat k z ∧ Q z = 0 ∧ z (S.star a) = 0 ∧ z (S.star b) = 0} from
-      ⟨isRat_single k j, S.Q_single j hj, by simp [Pi.single_apply, hsa_j],
-        by simp [Pi.single_apply, hsb_j]⟩)
+      ⟨isRat_single k j, S.Q_single j hj, by simp [hsa_j],
+        by simp [hsb_j]⟩)
   have hbs_mem := AddSubgroup.subset_closure
     (show (Pi.single (S.star j) 1 : Fin d → K) ∈
       {z : Fin d → K | IsRat k z ∧ Q z = 0 ∧ z (S.star a) = 0 ∧ z (S.star b) = 0} from
-      ⟨isRat_single k (S.star j), S.Q_single _ hjs, by simp [Pi.single_apply, hsa_sj],
-        by simp [Pi.single_apply, hsb_sj]⟩)
+      ⟨isRat_single k (S.star j), S.Q_single _ hjs, by simp [hsa_sj],
+        by simp [hsb_sj]⟩)
   have key : (Pi.single j 1 + Pi.single c 1 - Pi.single (S.star j) 1 : Fin d → K)
       + -(Pi.single j 1 : Fin d → K) + Pi.single (S.star j) 1 = Pi.single c 1 := by
     abel
@@ -101,7 +101,7 @@ private theorem tail_single_mem (S : HypCoord Q) {a b c j : Fin d} (ha : a ∈ S
   rwa [key] at hmem
 
 theorem coord_closure_perp (hk : Nat.card k = 2) (hext : IsExtension k Q₀ Q)
-    {a b : Fin d} (ha : a ∈ S.hyp) (hb : b ∈ S.hyp) (hba : b ≠ a) (hbs : b ≠ S.star a)
+    {a b : Fin d} (ha : a ∈ S.hyp) (hb : b ∈ S.hyp) (_hba : b ≠ a) (_hbs : b ≠ S.star a)
     {v : Fin d → K} (hv : IsRat k v) (hva : v (S.star a) = 0) (hvb : v (S.star b) = 0) :
     v ∈ AddSubgroup.closure {z : Fin d → K | IsRat k z ∧ Q z = 0 ∧ z (S.star a) = 0 ∧
       z (S.star b) = 0} := by
@@ -110,9 +110,9 @@ theorem coord_closure_perp (hk : Nat.card k = 2) (hext : IsExtension k Q₀ Q)
         z (S.star a) = 0 ∧ z (S.star b) = 0} := by
     intro c hca hcb
     have hz0a : (Pi.single c 1 : Fin d → K) (S.star a) = 0 := by
-      simp [Pi.single_apply, Ne.symm hca]
+      simp [Ne.symm hca]
     have hz0b : (Pi.single c 1 : Fin d → K) (S.star b) = 0 := by
-      simp [Pi.single_apply, Ne.symm hcb]
+      simp [Ne.symm hcb]
     by_cases hc : c ∈ S.hyp
     · exact AddSubgroup.subset_closure ⟨isRat_single k c, S.Q_single c hc, hz0a, hz0b⟩
     · by_cases hQc : Q (Pi.single c 1 : Fin d → K) = 0

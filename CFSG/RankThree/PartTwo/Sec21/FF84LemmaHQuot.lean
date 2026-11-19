@@ -46,7 +46,7 @@ theorem fpf_quot [Finite S] {ρ : K →* MulAut S} (hρ : Fpf ρ) (N : Subgroup 
   induction q using QuotientGroup.induction_on with
   | H u =>
     rw [quotAct_mk, QuotientGroup.eq_iff_div_mem, div_eq_mul_inv] at hq
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have h3' : ρ y ^ 3 = 1 := by rw [← map_pow, hy3, map_one]
     obtain ⟨v, hv, hfix⟩ := CFSG.GroupTheory.CoprimeActionSupport.CoprimeAutomorphismFixedQuotientLift.fixed_lift
       (ρ y) h3' N inferInstance (hN y) h3 u hq

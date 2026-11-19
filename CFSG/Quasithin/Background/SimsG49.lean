@@ -41,7 +41,7 @@ theorem exists_simple_normal_of_subfield [Finite F] [CharP F 2] (n : ℕ) (hn : 
   rcases Nat.lt_or_ge k 2 with hk2 | hk2
   ·
     obtain rfl : k = 1 := by omega
-    letI := Fintype.ofFinite (GaloisField 2 1)
+    let := Fintype.ofFinite (GaloisField 2 1)
     have hc2 : Fintype.card (GaloisField 2 1) = 2 := by
       rw [Fintype.card_eq_nat_card, GaloisField.card 2 1 one_ne_zero, pow_one]
     exact exists_index_two_simple_of_mulEquiv_perm
@@ -52,7 +52,7 @@ theorem exists_simple_normal_of_subfield [Finite F] [CharP F 2] (n : ℕ) (hn : 
       rw [GaloisField.card 2 k hk.ne']
       calc 4 = 2 ^ 2 := by norm_num
         _ ≤ 2 ^ k := Nat.pow_le_pow_right (by norm_num) hk2
-    haveI := CFSG.SeitzReduction.SymplecticPilot.isSimpleGroup_statedSp_of_four_le
+    have := CFSG.SeitzReduction.SymplecticPilot.isSimpleGroup_statedSp_of_four_le
       (K := GaloisField 2 k) (n := 2) h4 (by norm_num)
     exact ⟨G₀, le_rfl, fun g hg m hm => G₀.mul_mem (G₀.mul_mem hg hm) (G₀.inv_mem hg),
       e.isSimpleGroup, fun x hx g hg => G₀.mul_mem hx (G₀.mul_mem (G₀.mul_mem hg hx)
@@ -64,8 +64,8 @@ theorem g49_case1 {F : Type} [Field F] [Finite F] [CharP F 2] (n : ℕ) (hn : Na
     {V : Type} [AddCommGroup V] [Module F V] (B : LinearMap.BilinForm F V)
     (halt : ∀ x, B x x = 0) (hnd : ∀ x, (∀ y, B x y = 0) → x = 0)
     (hdim : Module.finrank F V = 4)
-    (G₀ : Subgroup (V ≃ₗ[F] V)) (hSp : G₀ ≤ spGroup B) (hirr : IsIrredOnV G₀)
-    (hprim : ¬ IsImprimitiveOnV G₀) (hD : (transvSet G₀).Nonempty)
+    (G₀ : Subgroup (V ≃ₗ[F] V)) (_hSp : G₀ ≤ spGroup B) (hirr : IsIrredOnV G₀)
+    (hprim : ¬ IsImprimitiveOnV G₀) (_hD : (transvSet G₀).Nonempty)
     (b : Module.Basis (Fin 4) F V) (F₀ : Subfield F) (hb : IsSympBasis B b)
     (hG : ∀ g : V ≃ₗ[F] V, g ∈ G₀ ↔ g ∈ spGroup B ∧ g ∈ subfieldSpOf b F₀) :
     IsSimpleGroup ↥(fStarOf (transvGen G₀)) ∧
@@ -73,8 +73,8 @@ theorem g49_case1 {F : Type} [Field F] [Finite F] [CharP F 2] (n : ℕ) (hn : Na
       (∃ i ∈ invSet B G₀, i ∈ fStarOf (transvGen G₀)) ∧
       IsIrredOnV (fStarOf (transvGen G₀)) := by
   obtain ⟨hfinV, heven⟩ := finite_even_card (F := F) (V := V) hdim
-  haveI : Finite V := hfinV
-  haveI : Finite (V ≃ₗ[F] V) :=
+  have : Finite V := hfinV
+  have : Finite (V ≃ₗ[F] V) :=
     Finite.of_injective (fun e : V ≃ₗ[F] V => (e : V → V)) DFunLike.coe_injective
   rw [transvGen_eq_self_of_subfield B G₀ b F₀ hb halt hnd hG]
   obtain ⟨N, hNG, hNn, hNs, hNx, hNsq, t, ht, hcos⟩ :=

@@ -28,7 +28,7 @@ theorem exists_markIso_nofb {E : Type} [Group E] [Finite E]
       (∀ x : E, x ∈ Gp → (Θ x ∈ CFSG.Quasithin.H13.F431.U42Aut.P1h ↔ x ∈ M₁)) ∧
       (∀ x : E, x ∈ Gp → (Θ x ∈ CFSG.Quasithin.H13.F431.U42Aut.P2h ↔ x ∈ M₂)) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcardK : Fintype.card K = Fintype.card F4 := by
     rw [← Nat.card_eq_fintype_card, hKcard, F4.card]
   let φ : K ≃+* F4 := FiniteField.ringEquivOfCardEq hcardK

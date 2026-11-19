@@ -10,7 +10,7 @@ namespace CFSG.RankThree.PartTwo.Sec15.ThmD
 open Subgroup
 
 theorem l3_fusion_core {M : Type*} [Group M] [Finite M] (N Y A : Subgroup M) [N.Normal]
-    (hN : ¬ 3 ∣ Nat.card N) (hNY : N ≤ Y) (hA3 : IsPGroup 3 A)
+    (hN : ¬ 3 ∣ Nat.card N) (_hNY : N ≤ Y) (hA3 : IsPGroup 3 A)
     (hAab : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a) (c : M) (hc : c ∈ A)
     (hAdec : ∀ a ∈ A, ∃ a₁ ∈ A ⊓ Y, ∃ i : ℕ, a = a₁ * c ^ i)
     (Ω : Set (Subgroup M)) (hcΩ : zpowers c ∈ Ω)
@@ -27,7 +27,7 @@ theorem l3_fusion_core {M : Type*} [Group M] [Finite M] (N Y A : Subgroup M) [N.
     (p : M) (hpY : p ∈ Y) (hpB : ∀ b ∈ B, p * b = b * p) (hp2 : ∃ k : ℕ, p ^ 2 ^ k = 1) :
     p ∈ N := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, hk⟩ := hp2
   have hAN : A ⊓ N = ⊥ := inf_eq_bot_of_isPGroup_of_not_dvd hN hA3
   have hinj : ∀ a ∈ A, QuotientGroup.mk' N a = 1 → a = 1 := by

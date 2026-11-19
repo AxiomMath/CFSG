@@ -64,8 +64,8 @@ theorem theoremA881 : ∀ (G : Type) [Group G] [Finite G] (A : Subgroup G) (c : 
       exact le_iSup_of_le Q (le_iSup_of_le ⟨hQ.2, hQA, hQc⟩ le_rfl)
     intro y hy
     exact ((le_of_eq hYdelta).trans hsup) hy
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hNO : CFSG.Open.IsTwoLocal
       (Subgroup.normalizer ((CFSG.Open.pCoreOf 2 Y : Subgroup G) : Set G)) :=
     ⟨CFSG.Open.pCoreOf 2 Y, hO2, CFSG.LieType.BorelTits.pCoreOf_isPGroup (r := 2) Y, rfl⟩

@@ -114,7 +114,7 @@ theorem c23a_block_map {L : Subgroup (MulAut V)} {E Z : Subgroup V} (h : C23ABlo
       have h1 : ((ρ' g : MulAut V)) (u : V) =
           φ ((N.ρ g : MulAut V) (φ.symm (u : V))) := by
         rw [hρ g]
-        simp [MulAut.mul_apply, MulAut.inv_apply_self]
+        simp [MulAut.mul_apply]
       rw [h1]
       exact Subgroup.mem_map.mpr ⟨(N.ρ g : MulAut V) (φ.symm (u : V)),
         N.inv g (φ.symm (u : V))
@@ -122,7 +122,7 @@ theorem c23a_block_map {L : Subgroup (MulAut V)} {E Z : Subgroup V} (h : C23ABlo
     have hval : φ.symm (((ρ' g : MulAut V)) (u : V)) =
         (N.ρ g : MulAut V) (φ.symm (u : V)) := by
       rw [hρ g]
-      simp [MulAut.mul_apply, MulAut.inv_apply_self]
+      simp [MulAut.mul_apply]
     have harg : (⟨φ.symm (((ρ' g : MulAut V)) (u : V)),
         (Subgroup.mem_map_equiv (f := φ) (K := E)).mp hmem⟩ : ↥E) =
         ⟨(N.ρ g : MulAut V) (φ.symm (u : V)),

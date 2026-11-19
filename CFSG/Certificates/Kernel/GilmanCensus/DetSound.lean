@@ -153,7 +153,7 @@ theorem d_step (n k : Nat) (hk : k + 1 < n) (s : Option Int × Array (Array Int)
   dsimp only
   rw [hkk]
   by_cases hz : (r0.getD above.length 0 == 0) = true
-  · rw [if_pos hz, if_pos hz, hF, findIn_spec]
+  · rw [ite_eq_left hz, ite_eq_left hz, hF, findIn_spec]
     cases hu : tl.findIdx? (fun r => r.getD above.length 0 != 0) with
     | none =>
       left
@@ -194,7 +194,7 @@ theorem d_step (n k : Nat) (hk : k + 1 < n) (s : Option Int × Array (Array Int)
         · rw [hD, List.append_assoc, List.singleton_append]
           rfl
   · have hz' : (r0.getD above.length 0 == 0) = false := by simpa using hz
-    rw [if_neg hz, hz']
+    rw [ite_eq_right hz, hz']
     right
     have hD := dElim_LLI n above.length pv A[above.length]! A above tl r0 hL rfl hn
     rw [hr0] at hD
@@ -243,12 +243,12 @@ theorem d_loop (n : Nat) : ∀ (len k : Nat) (s : Option Int × Array (Array Int
 theorem detInt_eq (M : Array (Array Int)) : detInt M = detIntK (LLI M) := by
   rw [detInt_fold]
   by_cases h0 : M.size = 0
-  · rw [if_pos h0]
+  · rw [ite_eq_left h0]
     have : LLI M = [] := by
       rw [← List.length_eq_zero_iff, length_LLI, h0]
     rw [this]
     rfl
-  · rw [if_neg h0]
+  · rw [ite_eq_right h0]
     have hn : (LLI M).length = M.size := length_LLI M
     have h0' : ((LLI M).length == 0) = false := by simpa [hn] using h0
     unfold detIntK

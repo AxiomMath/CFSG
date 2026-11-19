@@ -107,6 +107,7 @@ theorem theta_injective : Function.Injective h.theta := by
   rw [map_mul, h.fix_A hl ha, h.fix_B hr hb]
   rfl
 
+omit [Finite K] in
 theorem map_mem_A {α : MulAut K} (h0 : α (h.gen (Sum.inl 0)) ∈ A)
     (h1 : α (h.gen (Sum.inl 1)) ∈ A) {a : K} (ha : a ∈ A) : α a ∈ A := by
   obtain ⟨s, rfl⟩ := h.exists_embA ha

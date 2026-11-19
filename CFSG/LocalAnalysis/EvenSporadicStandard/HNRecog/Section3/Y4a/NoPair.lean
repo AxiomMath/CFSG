@@ -87,8 +87,8 @@ theorem y4a_no_pair {G : Type} [Group G] [Finite G] {Y M : Subgroup G} {B : Set 
     ¬ ∃ E : Subgroup G, E ≤ M ∧ IsElemTwo 2 E ∧ ∀ t ∈ E, t ≠ 1 → t ∈ B := by
   classical
   rintro ⟨E, hEM, hE2, hEB⟩
-  haveI : Fintype ↥M := Fintype.ofFinite ↥M
-  haveI : IsMulCommutative ↥M := hM.1.1
+  have : Fintype ↥M := Fintype.ofFinite ↥M
+  have : IsMulCommutative ↥M := hM.1.1
   set S : Finset ↥M := Finset.univ.filter (fun m => (m : G) ∈ B) with hSdef
   have hScard : S.card = Nat.card ↥B := by
     have h1 : S.card = Fintype.card {m : ↥M // (m : G) ∈ B} := by
@@ -131,7 +131,7 @@ theorem y4a_no_pair {G : Type} [Group G] [Finite G] {Y M : Subgroup G} {B : Set 
         simp [σ, MulAut.conj_apply]
       have hτ_apply : ∀ m : ↥M, (τ m : G) = l⁻¹ * (m : G) * (l⁻¹)⁻¹ := by
         intro m
-        simp [τ, MulAut.conj_apply]
+        simp [τ]
       have hperm : ∏ s ∈ S, σ s = ∏ s ∈ S, s := by
         refine Finset.prod_nbij' (s := S) (t := S) σ τ ?_ ?_ ?_ ?_ ?_
         · intro a ha
@@ -164,7 +164,7 @@ theorem y4a_no_pair {G : Type} [Group G] [Finite G] {Y M : Subgroup G} {B : Set 
     have h := hfree (p : G) p.2 hfix_all
     exact Subtype.ext h
   have hprod : ∏ s ∈ S, s = 1 := hp
-  haveI : Fintype ↥E := Fintype.ofFinite ↥E
+  have : Fintype ↥E := Fintype.ofFinite ↥E
   have hunivE : (Finset.univ : Finset ↥E).card = 4 := by
     rw [Finset.card_univ, ← Nat.card_eq_fintype_card, hE2.2]
     decide

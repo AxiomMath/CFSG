@@ -280,14 +280,14 @@ public theorem quotientCharacterInflation_rawCoordinateMulAction_eq_conjugateOnN
   let instAction : MulAction (U ⧸ C.subgroupOf U)
       (H0CLinearCandidateXthetaRawIndex_sec9.{u} p q) :=
     rawCoordinateMulAction_sec9 p q H hHcard ρ
-  letI : MulAction (U ⧸ C.subgroupOf U)
+  let : MulAction (U ⧸ C.subgroupOf U)
       (H0CLinearCandidateXthetaRawIndex_sec9.{u} p q) := instAction
   let HC : Subgroup G := MF ⊔ C
   let H0C : Subgroup G := H0 ⊔ C
   let Dm : Subgroup M := (ambientDerivedSubgroup M).subgroupOf M
   let HCm : Subgroup M := HC.subgroupOf M
   let HCD : Subgroup Dm := HCm.subgroupOf Dm
-  letI : HCD.Normal := hnormalHCD
+  let : HCD.Normal := hnormalHCD
   let e : (MF ⧸ H0.subgroupOf MF) ≃* (HC ⧸ H0C.subgroupOf HC) :=
     quotientInfSupEquiv_sec9 MF H0 HC H0C le_sup_left hH0CinfMF hsup
   let θH : H0CLinearCandidateXthetaRawIndex_sec9.{u} p q →
@@ -360,7 +360,7 @@ public theorem inducedCF_conjugateOnNormal_sec9
     Section1.inducedCF H (Section1.conjugateOnNormal H theta g) =
       Section1.inducedCF H theta := by
   classical
-  letI : Fintype G := Fintype.ofFinite G
+  let : Fintype G := Fintype.ofFinite G
   funext y
   let f : G → ℂ := fun z =>
     if hz : z * y * z⁻¹ ∈ H then
@@ -446,7 +446,7 @@ public theorem conjugateOnNormal_inducedCF_eq_of_source_conjugation_sec9
     Section1.conjugateOnNormal D (Section1.inducedCF H θ) g =
       Section1.inducedCF H η := by
   classical
-  letI : Fintype D := Fintype.ofFinite D
+  let : Fintype D := Fintype.ofFinite D
   funext y
   let c : D ≃ D :=
     { toFun := fun z =>
@@ -602,7 +602,7 @@ public theorem induced_eq_of_rawCoordinateMulAction_orbitRel_sec9
   let instAction : MulAction (U ⧸ C.subgroupOf U)
       (H0CLinearCandidateXthetaRawIndex_sec9.{u} p q) :=
     rawCoordinateMulAction_sec9 p q H hHcard ρ
-  letI : MulAction (U ⧸ C.subgroupOf U)
+  let : MulAction (U ⧸ C.subgroupOf U)
       (H0CLinearCandidateXthetaRawIndex_sec9.{u} p q) := instAction
   let HC : Subgroup G := MF ⊔ C
   let H0C : Subgroup G := H0 ⊔ C
@@ -610,7 +610,7 @@ public theorem induced_eq_of_rawCoordinateMulAction_orbitRel_sec9
   let Dm : Subgroup M := D.subgroupOf M
   let HCm : Subgroup M := HC.subgroupOf M
   let HCD : Subgroup Dm := HCm.subgroupOf Dm
-  letI : HCD.Normal := hnormalHCD
+  let : HCD.Normal := hnormalHCD
   let e : (MF ⧸ H0.subgroupOf MF) ≃* (HC ⧸ H0C.subgroupOf HC) :=
     quotientInfSupEquiv_sec9 MF H0 HC H0C le_sup_left hH0CinfMF hsup
   let θH : H0CLinearCandidateXthetaRawIndex_sec9.{u} p q →
@@ -871,14 +871,14 @@ public theorem rawCoordinateMulAction_eq_self_of_conjugateOnNormal_fixed_sec9
   let instAction : MulAction (U ⧸ C.subgroupOf U)
       (H0CLinearCandidateXthetaRawIndex_sec9.{u} p q) :=
     rawCoordinateMulAction_sec9 p q H hHcard ρ
-  letI : MulAction (U ⧸ C.subgroupOf U)
+  let : MulAction (U ⧸ C.subgroupOf U)
       (H0CLinearCandidateXthetaRawIndex_sec9.{u} p q) := instAction
   let HC : Subgroup G := MF ⊔ C
   let H0C : Subgroup G := H0 ⊔ C
   let Dm : Subgroup M := (ambientDerivedSubgroup M).subgroupOf M
   let HCm : Subgroup M := HC.subgroupOf M
   let HCD : Subgroup Dm := HCm.subgroupOf Dm
-  letI : HCD.Normal := hnormalHCD
+  let : HCD.Normal := hnormalHCD
   let e : (MF ⧸ H0.subgroupOf MF) ≃* (HC ⧸ H0C.subgroupOf HC) :=
     quotientInfSupEquiv_sec9 MF H0 HC H0C le_sup_left hH0CinfMF hsup
   let θH : H0CLinearCandidateXthetaRawIndex_sec9.{u} p q →
@@ -969,9 +969,9 @@ public theorem theorem_9_8_H0C_linear_candidate_Xtheta_thetaHC_concrete_fields_s
     rcases case_9_7_a_quotient_isElementaryAbelian_sec9 hcase with
       ⟨_hnormalH0', hElem⟩
     exact hElem
-  letI : IsElementaryAbelian p (MF ⧸ H0.subgroupOf MF) := hquotElem
+  let : IsElementaryAbelian p (MF ⧸ H0.subgroupOf MF) := hquotElem
   let hcomm : IsMulCommutative (MF ⧸ H0.subgroupOf MF) := inferInstance
-  letI : IsMulCommutative (MF ⧸ H0.subgroupOf MF) := hcomm
+  let : IsMulCommutative (MF ⧸ H0.subgroupOf MF) := hcomm
   let κ : Type u := H0CLinearCandidateXthetaRawIndex_sec9.{u} p q
   let HC : Subgroup G := MF ⊔ C
   let H0C : Subgroup G := H0 ⊔ C
@@ -979,7 +979,7 @@ public theorem theorem_9_8_H0C_linear_candidate_Xtheta_thetaHC_concrete_fields_s
     dsimp [H0C, HC]
     exact theorem_9_8_H0C_normal_HC_of_case_a_sec9
       M MF U W1 W2 H0 C p q a hcase
-  letI : (H0C.subgroupOf HC).Normal := hH0CnormalHC
+  let : (H0C.subgroupOf HC).Normal := hH0CnormalHC
   have hH0CinfMF : H0C ⊓ MF = H0 := by
     dsimp [H0C]
     rcases hcase with ⟨h92, hH0MF, hC, hpprime, _hqprime, hpData, _hrest⟩
@@ -1112,7 +1112,7 @@ public theorem H0CLinearCandidateXtheta_theta_orbit_entry_data_sec9
     fun i => Section1.subgroupOfClassFunction (ψHC (rep i))
   let θ : ι → Section1.ClassFunction Dm :=
     fun i => Section1.inducedCF HCD (Section1.subgroupOfClassFunction (ψ i))
-  letI : HCD.Normal := hnormalHCD
+  let : HCD.Normal := hnormalHCD
   have hHC_le_D : MF ⊔ C ≤ ambientDerivedSubgroup M :=
     theorem_9_8_HC_le_ambientDerived_of_case_a_sec9 M MF U W1 W2 H0 C p q a hcase
   have hH0C_le_HC : H0 ⊔ C ≤ MF ⊔ C :=
@@ -1143,17 +1143,17 @@ public theorem H0CLinearCandidateXtheta_theta_orbit_entry_data_sec9
       (case_9_7_a_quotientCentralizerIn_sec9 hcase)
       (case_9_7_a_p_prime_sec9 hcase)
       hpData
-  letI : ((H0 ⊔ C).subgroupOf M).Normal := hH0CnormalM
+  let : ((H0 ⊔ C).subgroupOf M).Normal := hH0CnormalM
   have hH0CDnormal : H0CD.Normal := by
     dsimp [H0CD, Dm]
     exact Section1.subgroupOf_normal_of_normal ((H0 ⊔ C).subgroupOf M)
       ((ambientDerivedSubgroup M).subgroupOf M)
-  letI : H0CD.Normal := hH0CDnormal
+  let : H0CD.Normal := hH0CDnormal
   have hMFDnormal : MFD.Normal := by
     simpa [MFD, Dm] using
       theorem_9_8_MF_subgroupOf_ambientDerived_normal_sec9
         M MF U W1 W2 H0 C p q a hcase
-  letI : MFD.Normal := hMFDnormal
+  let : MFD.Normal := hMFDnormal
   have hH0CD_le_HCD : H0CD ≤ HCD := by
     intro x hx
     have hxH0C : ((x : Dm) : M) ∈ (H0 ⊔ C).subgroupOf M := by
@@ -1345,9 +1345,9 @@ public theorem
     let instAction : MulAction (U ⧸ C.subgroupOf U)
         (H0CLinearCandidateXthetaRawIndex_sec9.{u} p q) :=
       rawCoordinateMulAction_sec9 p q H hHcard ρ
-    letI : MulAction (U ⧸ C.subgroupOf U)
+    let : MulAction (U ⧸ C.subgroupOf U)
         (H0CLinearCandidateXthetaRawIndex_sec9.{u} p q) := instAction
-    letI : (((MF ⊔ C).subgroupOf M).subgroupOf
+    let : (((MF ⊔ C).subgroupOf M).subgroupOf
         ((ambientDerivedSubgroup M).subgroupOf M)).Normal := hnormalHCD
     let κ : Type u := H0CLinearCandidateXthetaRawIndex_sec9.{u} p q
     let D : Subgroup G := ambientDerivedSubgroup M
@@ -1361,7 +1361,7 @@ public theorem
       fun k => Section1.subgroupOfClassFunction (ψHC k)
     let θ : κ → Section1.ClassFunction Dm :=
       fun k => Section1.inducedCF HCD (Section1.subgroupOfClassFunction (ψ k))
-    letI : HCD.Normal := by
+    let : HCD.Normal := by
       simpa [HC, D, HCm, Dm, HCD] using hnormalHCD
     have h92 := case_9_7_a_hypothesis_9_2_sec9 hcase
     have hMFDnormal : MFD.Normal := by
@@ -1680,9 +1680,9 @@ public theorem
   let instAction : MulAction (U ⧸ C.subgroupOf U)
       (H0CLinearCandidateXthetaRawIndex_sec9.{u} p q) :=
     rawCoordinateMulAction_sec9 p q H hHcard ρ
-  letI : MulAction (U ⧸ C.subgroupOf U)
+  let : MulAction (U ⧸ C.subgroupOf U)
       (H0CLinearCandidateXthetaRawIndex_sec9.{u} p q) := instAction
-  letI : (((MF ⊔ C).subgroupOf M).subgroupOf
+  let : (((MF ⊔ C).subgroupOf M).subgroupOf
       ((ambientDerivedSubgroup M).subgroupOf M)).Normal := hnormalHCD
   let κ : Type u := H0CLinearCandidateXthetaRawIndex_sec9.{u} p q
   let Dm : Subgroup M := (ambientDerivedSubgroup M).subgroupOf M
@@ -1776,7 +1776,7 @@ public theorem
   let instAction : MulAction (U ⧸ C.subgroupOf U)
       (H0CLinearCandidateXthetaRawIndex_sec9.{u} p q) :=
     rawCoordinateMulAction_sec9 p q H hHcard ρ
-  letI : MulAction (U ⧸ C.subgroupOf U)
+  let : MulAction (U ⧸ C.subgroupOf U)
       (H0CLinearCandidateXthetaRawIndex_sec9.{u} p q) := instAction
   refine ⟨hnormalC, instAction, ?_, ?_⟩
   · exact
@@ -1831,7 +1831,7 @@ public theorem
           M MF U H0 C p q ψHC := by
   -- coordinates must be derived from the displayed product-coordinate formula.
   classical
-  letI : (C.subgroupOf U).Normal := hnormalC
+  let : (C.subgroupOf U).Normal := hnormalC
   choose hnormalC' ρ hρcyc hρcard hρaction hρker using hfac
   exact
     theorem_9_8_H0C_linear_candidate_Xtheta_theta_coordinate_action_core_of_raw_action_source_core_sec9
@@ -1854,13 +1854,13 @@ public theorem
     ⟨hnormalC, instAction, hstab, hbarCard, hcoord⟩
   refine ⟨hnormalC, instAction, hstab, hbarCard, ?_⟩
   intro hnormalHCD
-  letI : (C.subgroupOf U).Normal := hnormalC
+  let : (C.subgroupOf U).Normal := hnormalC
   let κ : Type u := H0CLinearCandidateXthetaRawIndex_sec9.{u} p q
-  letI : MulAction (U ⧸ C.subgroupOf U) κ := instAction
+  let : MulAction (U ⧸ C.subgroupOf U) κ := instAction
   let Dm : Subgroup M := (ambientDerivedSubgroup M).subgroupOf M
   let HCm : Subgroup M := (MF ⊔ C).subgroupOf M
   let HCD : Subgroup Dm := HCm.subgroupOf Dm
-  letI : HCD.Normal := hnormalHCD
+  let : HCD.Normal := hnormalHCD
   let ι : Type u := Quotient (MulAction.orbitRel (U ⧸ C.subgroupOf U) κ)
   let ψRaw : κ → Section1.ClassFunction HCm :=
     fun k => Section1.subgroupOfClassFunction (ψHC k)

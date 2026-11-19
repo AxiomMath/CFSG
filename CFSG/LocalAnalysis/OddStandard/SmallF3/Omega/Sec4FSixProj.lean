@@ -14,6 +14,7 @@ open QuadraticMap
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma toProj_eq_or_eq_piOrth {a b : OGroup Q} (h : toProj Q a = toProj Q b) :
     a = b ∨ a = piOrth Q * b := by
   have hmem : a / b ∈ piGroup Q := by
@@ -52,8 +53,8 @@ private lemma invDim_mul_le_two {s t : OGroup Q} (hss : s * s = 1) (htt : t * t 
   omega
 
 private lemma mul_comm_of_toProj_mul_comm (hQ : Q.Nondegenerate)
-    (hdim : Module.finrank (ZMod 3) V = 7) {s t : OGroup Q} (hss : s * s = 1) (htt : t * t = 1)
-    (hs : invDim s = 6) (ht : invDim t = 6) (h : toProj Q (s * t) = toProj Q (t * s)) :
+    (hdim : Module.finrank (ZMod 3) V = 7) {s t : OGroup Q} (_hss : s * s = 1) (htt : t * t = 1)
+    (_hs : invDim s = 6) (ht : invDim t = 6) (h : toProj Q (s * t) = toProj Q (t * s)) :
     s * t = t * s := by
   rcases toProj_eq_or_eq_piOrth h with h1 | h1
   · exact h1

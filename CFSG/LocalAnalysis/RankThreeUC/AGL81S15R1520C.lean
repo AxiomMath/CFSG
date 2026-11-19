@@ -94,8 +94,8 @@ theorem centre_barO2_eq_bot_of_pRank_three_aux_quot {D : Type*} [Group D]
 theorem centre_barO2_eq_bot_of_pRank_three_aux_centre {S : Type} [Group S] (hS : commutator S = ⊤)
     {d : TauCeti.ValidLieTypeIndex} (e : S ≃* (TauCeti.CFSGIndex.lie d).Group) :
     Subgroup.center S = ⊥ := by
-  haveI : Group.IsPerfect S := ⟨hS⟩
-  haveI : Group.IsPerfect (TauCeti.CFSGIndex.lie d).Group :=
+  have : Group.IsPerfect S := ⟨hS⟩
+  have : Group.IsPerfect (TauCeti.CFSGIndex.lie d).Group :=
     Group.IsPerfect.ofSurjective (f := e.toMonoidHom) e.surjective
   have hc : Subgroup.center (TauCeti.CFSGIndex.lie d).Group = ⊥ :=
     centre_barO2_eq_bot_of_pRank_three_aux_quot
@@ -128,7 +128,7 @@ theorem centre_barO2_eq_bot_of_pRank_three_aux_over {S : Type} [Group S] (hS : c
 
 theorem centre_barO2_eq_bot_of_pRank_three_aux_classical {d : TauCeti.LieTypeIndex}
     (h : IsRankTwoPlus d) : IsClassicalOrG2Index d := by
-  cases d <;> first | exact h.1 | exact h | exact h.elim
+  cases d <;> first | exact h.1 | exact h
 
 theorem centre_barO2_eq_bot_of_pRank_three_aux_ne {d : TauCeti.LieTypeIndex} (h : RankThreeList d) :
     (∀ Q, d ≠ .A 2 Q) ∧ (∀ Q, d ≠ .twistedA 4 Q) := by
@@ -138,7 +138,7 @@ theorem centre_barO2_eq_bot_of_pRank_three_aux_sl3 {S : Type} [Group S] {n : ℕ
     (e : S ≃* Matrix.SpecialLinearGroup (Fin 3) (GaloisField 2 n)) :
     ∃ (d : TauCeti.ValidLieTypeIndex) (Q : TauCeti.PrimePower), Q.p = 2 ∧ Q.exponent = n ∧
       d.1 = .A 2 Q ∧ Nonempty ((S ⧸ Subgroup.center S) ≃* (TauCeti.CFSGIndex.lie d).Group) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let eP : (S ⧸ Subgroup.center S) ≃*
       Matrix.ProjectiveSpecialLinearGroup (Fin 3) (GaloisField 2 n) :=
     QuotientGroup.congr (Subgroup.center S)
@@ -168,8 +168,8 @@ theorem centre_barO2_eq_bot_of_pRank_three_aux_sl2 {S : Type} [Group S]
     (e : S ≃* Matrix.SpecialLinearGroup (Fin 3) (GaloisField 2 1)) :
     ∃ (d : TauCeti.ValidLieTypeIndex) (q : TauCeti.PrimePower), q.card = 7 ∧ d.1 = .A 1 q ∧
       Nonempty ((S ⧸ Subgroup.center S) ≃* (TauCeti.CFSGIndex.lie d).Group) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   let eP : (S ⧸ Subgroup.center S) ≃*
       Matrix.ProjectiveSpecialLinearGroup (Fin 3) (GaloisField 2 1) :=
     QuotientGroup.congr (Subgroup.center S)

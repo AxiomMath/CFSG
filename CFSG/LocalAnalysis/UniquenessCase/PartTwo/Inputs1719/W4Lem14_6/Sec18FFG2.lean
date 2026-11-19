@@ -23,18 +23,18 @@ theorem ffChiefG2_section
     (hA : ∃ A ∈ Pset Y, ⁅A, L⁆ ≠ ⊥) :
     IsIrrOn L (commV L) (commV L ⊓ fixV L) ∧ G2Natural L (commV L) (commV L ⊓ fixV L) n := by
   classical
-  letI : Module (ZMod 2) (Additive W) := CFSG.RankThree.FFModules.moduleOfSq hW
+  let : Module (ZMod 2) (Additive W) := CFSG.RankThree.FFModules.moduleOfSq hW
   have hLY : L ≤ Y := hL.1
   obtain ⟨hρ, hcomp', A', hA'cal, hA'L⟩ := ffSetup hL hA
   have hG2' : IsG2 ↥(L.subgroupOf Y) n :=
     LieModel.of_mulEquiv (Subgroup.subgroupOfEquivOfLe hLY).symm hG2
-  haveI : IsSimpleGroup ↥(L.subgroupOf Y) :=
+  have : IsSimpleGroup ↥(L.subgroupOf Y) :=
     CFSG.LocalAnalysis.EvenBN.G2.isSimpleGroup_of_lieModel_G2 hG2'
   have hCE := ((LieModel.chevalleyExceptional_iff (t := .G2) (p := 2) (f := n)
     (by decide)).1 hG2').2
   obtain ⟨-, K, _, _, _, hK, ⟨e⟩⟩ :=
     CFSG.Quasithin.B42G2Id.exists_cayleyGroup_of_chevalleyExceptionalModel hCE
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   obtain ⟨B, m, -, hBe, hBN, hm1, hm, hUinv, hXinv, hCB, hirr, hnt, hcost⟩ :=
     ffUnique_of_factorBound hρ hcomp' hA'cal hA'L (g2_factorBound hodd hn hG2')
   have hirrL := (g2_innerOnSec hodd hn hG2' hBe hBN inf_le_left hUinv hXinv hirr).2

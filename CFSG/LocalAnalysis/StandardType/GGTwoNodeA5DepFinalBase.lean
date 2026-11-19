@@ -33,7 +33,7 @@ theorem lr6A5DepAll_of_frame
   subst hp
   obtain ⟨ε, hεh, hεα, hεx⟩ := a5Dep_chart hV h α x hfr
   obtain ⟨T, hT⟩ := hfrm
-  haveI : Fact (a5DepPt ()).p.Prime := ⟨Nat.prime_three⟩
+  have : Fact (a5DepPt ()).p.Prime := ⟨Nat.prime_three⟩
   have hcard' : Nat.card ↥A ≤ (a5DepPt ()).bound := by
     rw [show (a5DepPt ()).bound = 3 ^ 6 * (6 * (3 - 1) * Nat.factorial 6) by
       decide +kernel]

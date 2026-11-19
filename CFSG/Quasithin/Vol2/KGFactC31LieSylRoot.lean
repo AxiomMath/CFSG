@@ -47,7 +47,7 @@ theorem cvL_combo (ℓ r : ℕ) (b : List ℤ) (gs : List (List ℤ)) :
     cvL ℓ r (Certificates.Data.LieSylRootWt.combo r b gs) = Matrix.mulVec (gmat ℓ r gs) (cvL ℓ r b) := by
   funext i
   have hi : (i : ℕ) < r := i.2
-  simp only [cvL, getD_combo, if_pos hi, cast_comboAt, Matrix.mulVec, dotProduct, gmat,
+  simp only [cvL, getD_combo, ite_eq_left hi, cast_comboAt, Matrix.mulVec, dotProduct, gmat,
     Matrix.of_apply]
   rw [Finset.sum_range]
 
@@ -86,7 +86,7 @@ theorem redV_eq_of_cvL_eq (ℓ r : ℕ) {X Y : List ℤ} (hX : X.length = r) (hY
     simp only [Certificates.Data.LieSylRootWt.redV, List.getElem_map]
     have hn : n < r := by simpa [Certificates.Data.LieSylRootWt.redV, hX] using h1
     have := congrFun h ⟨n, hn⟩
-    simp only [cvL, Fin.val_mk] at this
+    simp only [cvL] at this
     rw [List.getD_eq_getElem _ _ (by omega), List.getD_eq_getElem _ _ (by omega)] at this
     have hmod := (ZMod.intCast_eq_intCast_iff _ _ ℓ).1 this
     simp only [Certificates.Data.LieSylRootWt.red]
@@ -100,9 +100,9 @@ theorem le_level_foldl (b : List ℤ) (n : ℕ) : ∀ (acc j : ℕ), j < n → b
     intro acc j hj hb
     rw [List.range_succ, List.foldl_append, List.foldl_cons, List.foldl_nil]
     by_cases hn : b.getD n 0 ≠ 0
-    · rw [if_pos hn]
+    · rw [ite_eq_left hn]
       omega
-    · rw [if_neg hn]
+    · rw [ite_eq_right hn]
       have hjn : j ≠ n := fun h => hn (h ▸ hb)
       exact ih acc j (by omega) hb
 
@@ -152,14 +152,14 @@ theorem search_sound (ℓ e r : ℕ) (R gs : List (List ℤ)) (hlen : gs.length 
   | succ fuel ih =>
     intro k p hk hp hs
     have hkr : k < r := by omega
-    rw [Certificates.Data.LieSylRootWt.searchOK, if_pos hkr] at hs
+    rw [Certificates.Data.LieSylRootWt.searchOK, ite_eq_left hkr] at hs
     have hgk : gs.getD k [] ∈ gs := by
       rw [List.getD_eq_getElem _ _ (by omega)]
       exact List.getElem_mem _
     have h1 := List.all_eq_true.1 hs (gs.getD k []) (hmem _ hgk)
     have hpt : p ++ [gs.getD k []] = gs.take (k + 1) := by
       have hk' : k < gs.length := by omega
-      rw [hp, List.take_succ, List.getD_eq_getElem?_getD, List.getElem?_eq_getElem hk']
+      rw [hp, List.take_add_one, List.getD_eq_getElem?_getD, List.getElem?_eq_getElem hk']
       simp
     have hcl : (((List.range r).map fun k => R.filter fun b =>
         Certificates.Data.LieSylRootWt.level r b == k).getD k []).all
@@ -179,12 +179,12 @@ theorem search_sound (ℓ e r : ℕ) (R gs : List (List ℤ)) (hlen : gs.length 
       have hgs : ∀ j, j ≤ k → (p ++ [gs.getD k []]).getD j [] = gs.getD j [] := by
         intro j hj
         rw [hpt, List.getD_eq_getElem?_getD, List.getD_eq_getElem?_getD, List.getElem?_take,
-          if_pos (by omega)]
+          ite_eq_left (by omega)]
       rw [combo_congr r b gs (p ++ [gs.getD k []]) k hgs
         (fun j h1 h2 => getD_eq_zero_of_level hbk' h1 h2)]
       obtain ⟨c, hcR, hc⟩ := hclo b hbR
       rw [hc]
-      exact List.contains_iff.2 (List.mem_map.2 ⟨c, hcR, rfl⟩)
+      exact _root_.List.contains_iff_mem.2 (List.mem_map.2 ⟨c, hcR, rfl⟩)
     simp only [hcl, Bool.not_true, Bool.false_or] at h1
     exact ih (k + 1) (p ++ [gs.getD k []]) (by omega) hpt h1
 
@@ -357,21 +357,21 @@ theorem rootWeight_stab_pow (τ : Tag)
   have hu1 : IsUnit ((1 : ℤ) : ZMod 11) := by simp
   have hu4 : IsUnit ((4 : ℤ) : ZMod 11) := isUnit_iff_exists_inv.2 ⟨((3 : ℤ) : ZMod 11), by decide⟩
   rcases hτ with rfl | rfl | rfl
-  · rw [if_pos rfl]
+  · rw [ite_eq_left rfl]
     exact core_pow (ℓ := 11) (e := 6) (r := Tag.G2.rank)
       (Tag.G2.cartan.map (Int.cast : ℤ → ZMod 11))
       (isUnit_det_map_cartan Tag.G2 1 det_cartan_G2 hu1) (IsRoot Tag.G2)
       (Certificates.Data.LieSylRootWt.Ty.G2.roots)
       (isRoot_iff_mem_of_check _ rootCert_check_G2 rfl)
       (length_of_mem_roots _ rfl) (fun j => isRoot_single Tag.G2 j) hG2 B hB
-  · rw [if_neg (by decide)]
+  · rw [ite_eq_right (by decide)]
     exact core_pow (ℓ := 11) (e := 24) (r := Tag.D4.rank)
       (Tag.D4.cartan.map (Int.cast : ℤ → ZMod 11))
       (isUnit_det_map_cartan Tag.D4 4 det_cartan_D4 hu4) (IsRoot Tag.D4)
       (Certificates.Data.LieSylRootWt.Ty.D4.roots)
       (isRoot_iff_mem_of_check _ rootCert_check_D4 rfl)
       (length_of_mem_roots _ rfl) (fun j => isRoot_single Tag.D4 j) hD4 B hB
-  · rw [if_neg (by decide)]
+  · rw [ite_eq_right (by decide)]
     exact core_pow (ℓ := 11) (e := 24) (r := Tag.F4.rank)
       (Tag.F4.cartan.map (Int.cast : ℤ → ZMod 11))
       (isUnit_det_map_cartan Tag.F4 1 det_cartan_F4 hu1) (IsRoot Tag.F4)

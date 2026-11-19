@@ -48,12 +48,12 @@ theorem orb_facts : 0 < orb.sets.size ∧ orb.sets[0]! = pOf (pZero ()) (trData 
   trBFS_spec _ _ _ _ _ (by norm_num)
 
 noncomputable def cc (k : ℕ) : Equiv.Perm (Fin 31671) :=
-  if h : 0 < k ∧ ap orbLit.par k < k then
+  if _h : 0 < k ∧ ap orbLit.par k < k then
     (if ap orbLit.lab k = 1 then phiX wα else phiX wβ) * cc (ap orbLit.par k) *
       (if ap orbLit.lab k = 1 then phiX wα else phiX wβ)⁻¹
   else dEl (phiX wα) (phiX wβ)
 termination_by k
-decreasing_by exact h.2
+decreasing_by exact _h.2
 
 theorem cc_eq (k : ℕ) : cc k = if 0 < k ∧ ap orbLit.par k < k then
     (if ap orbLit.lab k = 1 then phiX wα else phiX wβ) * cc (ap orbLit.par k) *
@@ -184,7 +184,7 @@ theorem cc_cp : ∀ k < 31671, cc k = cp k := by
     rw [cc_eq]
     by_cases h0 : k = 0
     · subst h0
-      rw [if_neg (by omega), cp_zero, dEl]
+      rw [ite_eq_right (by omega), cp_zero, dEl]
       have e : phiX wD = phiX (dWord.map fun x => if x = 0 then wα else wβ).prod ^ 7 :=
         ActsAs.ext phiX_wD acts_dWord7
       rw [e, map_list_prod, List.map_map]
@@ -192,11 +192,11 @@ theorem cc_cp : ∀ k < 31671, cc k = cp k := by
     · have hp := (tr_pt hk h0).1
       have epar : ap orbLit.par k = tb G 91 k := ap_tabOf 91 hk
       have elb : ap orbLit.lab k = tb G 92 k := ap_tabOf 92 hk
-      rw [if_pos ⟨Nat.pos_of_ne_zero h0, by rw [epar]; exact hp⟩, epar, elb, ih _ hp (by omega),
+      rw [ite_eq_left ⟨Nat.pos_of_ne_zero h0, by rw [epar]; exact hp⟩, epar, elb, ih _ hp (by omega),
         cp_step hk h0]
       by_cases hl : tb G 92 k = 1
-      · simp only [labW, if_pos hl]
-      · simp only [labW, if_neg hl]
+      · simp only [labW, ite_eq_left hl]
+      · simp only [labW, ite_eq_right hl]
 
 theorem act_conj : ∀ k < 31671, ∀ m < 137632, tA k m < 137632 ∧ vS (tA k m) = tau (fp k) • vS m := by
   have hpa : ∀ k < 137632, ap orb.pa k < 137632 ∧ vS (ap orb.pa k) = phiX wα • vS k := fun k hk => by

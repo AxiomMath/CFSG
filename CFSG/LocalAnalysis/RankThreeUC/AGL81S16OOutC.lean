@@ -16,6 +16,7 @@ namespace OutLin
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {b c : F}
 
+omit [Finite F] [CharP F 2] in
 theorem outIsoConj_mem_omega {G : GL6 F}
     (hG : ∀ v : OW F, quadMinus 3 F b c (gv G v) = quadMinus 3 F b c v) {h : GL6 F}
     (hh : h ∈ StatedOmega (StatedQuadMinus 3 F b c)) :
@@ -62,7 +63,7 @@ theorem exists_eichler_move (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) {u y : O
     have h2 : polar (quadMinus 3 F b c) (eV F idx0) w = 0 := by
       rw [hw, polar_smul_right_eq, polar_sub_right, polar_comm _ (eV F idx0) y, polar_e_right, hy0,
         polar_e_right]
-      simp [eV_inr]
+      simp
     show (A : Matrix (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F) *ᵥ
       eV F idx0 = eV F idx0
     rw [hAx, eichler_apply_of_polar_eq_zero (hxu := h1) (hxw := h2)]
@@ -90,14 +91,14 @@ theorem exists_plane_iso (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) {u' : OW F}
     have hne01 : idx0 ≠ idx1 := by decide
     have hne10 : idx1 ≠ idx0 := by decide
     have hu1 : u (Sum.inl idx0) = 0 := by
-      simp [hu, eV_ne (i := idx1) (k := idx0) hne01, fV_inl, nVec_inl]
-    have hu2 : u (Sum.inl idx1) = 1 := by simp [hu, eV_self, fV_inl, nVec_inl]
+      simp [hu]
+    have hu2 : u (Sum.inl idx1) = 1 := by simp [hu]
     have hu3 : u (Sum.inr (Sum.inl idx0)) = 0 := by
-      simp [hu, eV_inr, fV_ne hne10, nVec_inr_inl]
+      simp [hu]
     have hu4 : u (Sum.inr (Sum.inl idx1)) = 1 := by
-      simp [hu, eV_inr, fV_self, nVec_inr_inl]
-    have hu5 : u (Sum.inr (Sum.inr 0)) = 1 := by simp [hu, eV_inr, fV_inr_inr, nVec_00]
-    have hu6 : u (Sum.inr (Sum.inr 1)) = 0 := by simp [hu, eV_inr, fV_inr_inr, nVec_01]
+      simp [hu]
+    have hu5 : u (Sum.inr (Sum.inr 0)) = 1 := by simp [hu]
+    have hu6 : u (Sum.inr (Sum.inr 1)) = 0 := by simp [hu]
     set y : OW F := (u' (Sum.inr (Sum.inl idx1)))⁻¹ • u' with hyd
     have hQu : quadMinus 3 F b c u = 0 := by
       rw [Q_coords, hu1, hu2, hu3, hu4, hu5, hu6]

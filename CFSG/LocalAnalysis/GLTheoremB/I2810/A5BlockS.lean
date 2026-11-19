@@ -29,6 +29,7 @@ section Setting
 variable {X : Type} [Group X] [Finite X] {W K S : Subgroup X} [W.Normal]
 variable {e : (↥(bar W K) ⧸ Subgroup.center ↥(bar W K)) ≃* ↥(alternatingGroup (Fin 7))}
 
+omit [Finite X] in
 theorem act_S (h : Setup28 W K S) {V : Subgroup ↥(alternatingGroup (Fin 7))}
     (hact : ActsLikeCQ (bar W S) (bar W K) e (V.map (MulAut.conj : _ →* _)))
     {s : X} (hs : s ∈ S) :
@@ -50,6 +51,7 @@ theorem act_S (h : Setup28 W K S) {V : Subgroup ↥(alternatingGroup (Fin 7))}
   rw [h1]
   rfl
 
+omit [Finite X] in
 theorem piOf_mem_of_mem_S (h : Setup28 W K S) {V : Subgroup ↥(alternatingGroup (Fin 7))}
     (hact : ActsLikeCQ (bar W S) (bar W K) e (V.map (MulAut.conj : _ →* _)))
     {x : ↥K} (hx : (x : X) ∈ S) : piOf e x ∈ V := by
@@ -62,6 +64,7 @@ theorem piOf_mem_of_mem_S (h : Setup28 W K S) {V : Subgroup ↥(alternatingGroup
   rw [eq_of_conj_eq key]
   exact hv
 
+omit [Finite X] in
 theorem exists_lift_of_mem_inf (h : Setup28 W K S) {t : X ⧸ W} (htS : t ∈ bar W S)
     (htK : t ∈ bar W K) : ∃ x : ↥K, (x : X) ∈ S ∧ QuotientGroup.mk' W (x : X) = t := by
   obtain ⟨s, hs, hst⟩ := htS
@@ -115,6 +118,7 @@ theorem cov_aux (h : Setup28 W K S) {V₄ : Subgroup ↥(alternatingGroup (Fin 7
   obtain ⟨x, hxS, hxt⟩ := exists_lift_of_mem_inf h t.2.1 t.2.2
   exact ⟨x, hxS, (hτx t x hxt).symm⟩
 
+omit [Finite X] in
 theorem dec_aux (h : Setup28 W K S) {V₄ : Subgroup ↥(alternatingGroup (Fin 7))}
     (hact : ActsLikeCQ (bar W S) (bar W K) e (V₄.map (MulAut.conj : _ →* _)))
     (hcov : ∀ v ∈ V₄, ∃ k : ↥K, (k : X) ∈ S ∧ piOf e k = v) :

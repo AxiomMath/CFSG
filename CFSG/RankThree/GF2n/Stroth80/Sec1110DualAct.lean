@@ -30,10 +30,12 @@ private noncomputable def piHom₂ (hXQ : X₂ ≤ Q) : ↥X₂ →* Multiplicat
     rw [Subgroup.coe_mul, M₀.π_mul (x : G) (hXQ x.2) (y : G) (hXQ y.2)]
     rfl
 
+omit [Finite G] [Finite K] in
 private theorem piHom₂_apply (hXQ : X₂ ≤ Q) (x : ↥X₂) :
     piHom₂ (M₀ := M₀) (X₂ := X₂) hXQ x =
       Multiplicative.ofAdd (M₀.π (x : G)) := rfl
 
+omit [Finite G] [Finite K] in
 private theorem le_ker_piHom₂ (hX₁ : X₁ = Z) (hXQ : X₂ ≤ Q) :
     X₁.subgroupOf X₂ ≤ (piHom₂ (M₀ := M₀) (X₂ := X₂) hXQ).ker := by
   intro z hz
@@ -47,6 +49,7 @@ private noncomputable def piQuot₂ [(X₁.subgroupOf X₂).Normal] (hX₁ : X�
   QuotientGroup.lift _ (piHom₂ (M₀ := M₀) (X₂ := X₂) hXQ)
     (le_ker_piHom₂ (M₀ := M₀) (X₁ := X₁) hX₁ hXQ)
 
+omit [Finite G] [Finite K] in
 private theorem piQuot₂_mk [(X₁.subgroupOf X₂).Normal] (hX₁ : X₁ = Z) (hXQ : X₂ ≤ Q)
     (x : ↥X₂) :
     piQuot₂ (M₀ := M₀) (X₁ := X₁) hX₁ hXQ (QuotientGroup.mk x) =
@@ -65,6 +68,7 @@ private noncomputable def coord₂ [(X₁.subgroupOf X₂).Normal] (hX₁ : X₁
   map_add' u v := by
     rw [ofAdd_add, map_mul, map_mul, toAdd_mul]
 
+omit [Finite G] [Finite K] in
 private theorem coord₂_mk [(X₁.subgroupOf X₂).Normal] (hX₁ : X₁ = Z) (hXQ : X₂ ≤ Q)
     (ψ : ↥X₂ ⧸ X₁.subgroupOf X₂ ≃* Multiplicative (Fin n → K)) (x : ↥X₂) :
     coord₂ (M₀ := M₀) (X₁ := X₁) hX₁ hXQ ψ
@@ -74,6 +78,7 @@ private theorem coord₂_mk [(X₁.subgroupOf X₂).Normal] (hX₁ : X₁ = Z) (
       (ψ.symm (Multiplicative.ofAdd (Multiplicative.toAdd (ψ (QuotientGroup.mk x)))))) = _
   rw [ofAdd_toAdd, ψ.symm_apply_apply, piQuot₂_mk, toAdd_ofAdd]
 
+omit [Finite G] [Finite K] in
 private theorem coord₂_theta_smul [(X₁.subgroupOf X₂).Normal]
     (hX₁ : X₁ = Z) (hXQ : X₂ ≤ Q) (hstable : PiImageStable M₀ X₂)
     (ψ : ↥X₂ ⧸ X₁.subgroupOf X₂ ≃* Multiplicative (Fin n → K)) (θ : K ≃+* K)
@@ -99,13 +104,14 @@ private theorem coord₂_theta_smul [(X₁.subgroupOf X₂).Normal]
     rw [hu', coord₂_mk]
   rw [hcoord', hcoord, hwπ]
 
+omit [Finite K] in
 theorem B_vanishes_on_X₂_of_naturalRep {n : ℕ} (hn : 3 ≤ n) {X₁ X₂ N : Subgroup G}
     (hX₁ : X₁ = Z) (hX₂Q : X₂ ≤ Q)
     (nat2 : NaturalRep (ι := Fin n) K (StatedSL n K) (XbarPre M Q Z B) X₂ X₁ N)
     (hc : Ctx M Q Z B) (hD : GlobalModelData M Q Z γ M₀) :
     ∀ x ∈ X₂, ∀ y ∈ X₂, M₀.B (M₀.π x) (M₀.π y) = 0 := by
   obtain ⟨φ, hrange, -, hNorm, hN, ψ, hψ⟩ := nat2
-  haveI := hN
+  have := hN
   let F : (Fin n → K) →+ (Fin n → K) →+ K :=
     { toFun := fun u =>
         (M₀.B (coord₂ (M₀ := M₀) (X₁ := X₁) hX₁ hX₂Q ψ u)).toAddMonoidHom.comp
@@ -164,6 +170,7 @@ theorem B_vanishes_on_X₂_of_naturalRep {n : ℕ} (hn : 3 ≤ n) {X₁ X₂ N :
   rw [hzero] at hxy
   exact hxy.symm
 
+omit [(Q.subgroupOf M).Normal] in
 private theorem commutatorElement_mul_right_of_class_two
     (hc : Ctx M Q Z B) {x a b : G} (hx : x ∈ Q) (ha : a ∈ Q) (hb : b ∈ Q) :
     ⁅x, a * b⁆ = ⁅x, a⁆ * ⁅x, b⁆ := by
@@ -184,6 +191,7 @@ private theorem commutatorElement_mul_right_of_class_two
     _ = ⁅x, a⁆ * (a * ⁅x, b⁆ * a⁻¹) := by group
     _ = ⁅x, a⁆ * ⁅x, b⁆ := by rw [hconj]
 
+omit [(Q.subgroupOf M).Normal] in
 private theorem commutatorElement_inv_right_eq_inv
     (hc : Ctx M Q Z B) {x q : G} (hx : x ∈ Q) (hq : q ∈ Q) :
     ⁅x, q⁻¹⁆ = ⁅x, q⁆⁻¹ := by
@@ -207,10 +215,11 @@ private theorem commutatorElement_inv_right_eq_inv
       _ = ⁅x, q⁆⁻¹ := by group
   rw [commutatorElement_inv_right, ← commutatorElement_inv, hconj]
 
+omit [(Q.subgroupOf M).Normal] in
 private theorem commutatorElement_conj_mul_right_of_class_two
     (hc : Ctx M Q Z B) {x c q : G} (hx : x ∈ Q) (hcQ : c ∈ Q) (hq : q ∈ Q) :
     ⁅x, q * c * q⁻¹⁆ = ⁅x, c⁆ := by
-  haveI : IsMulCommutative ↥Z := hc.hyp.maxAb.prop.2.2
+  have : IsMulCommutative ↥Z := hc.hyp.maxAb.prop.2.2
   have hmul₁ : ⁅x, q * c⁆ = ⁅x, q⁆ * ⁅x, c⁆ :=
     commutatorElement_mul_right_of_class_two hc hx hq hcQ
   have hmul₂ : ⁅x, (q * c) * q⁻¹⁆ = ⁅x, q * c⁆ * ⁅x, q⁻¹⁆ :=
@@ -302,7 +311,7 @@ private theorem exists_B_pairing_ne_zero {n : ℕ} (hn : 3 ≤ n)
     (hX₁ : X₁ = Z) (hX₂ : X₂ = Z ⊔ ⁅X₃, XbarPre M Q Z B⁆)
     (hX₃ : X₃ = X₂) (hX₄ : X₄ = Z ⊔ ⁅Q, XbarPre M Q Z B⁆)
     (h₁₂ : X₁ ≤ X₂) (h₂₃ : X₂ ≤ X₃) (h₃₄ : X₃ ≤ X₄) (h₄Q : X₄ ≤ Q)
-    (hc : Ctx M Q Z B) (hD : GlobalModelData M Q Z γ M₀)
+    (hc : Ctx M Q Z B) (_hD : GlobalModelData M Q Z γ M₀)
     (nat2 : NaturalRep (ι := Fin n) K (StatedSL n K) (XbarPre M Q Z B) X₂ X₁
       (Q)) :
     ∃ x ∈ X₂, ∃ y ∈ X₄, M₀.B (M₀.π x) (M₀.π y) ≠ 0 := by
@@ -418,8 +427,8 @@ theorem B_pairing_kernel {n : ℕ} (hn : 3 ≤ n)
   have hrange₂ : φ₂.range = StatedSL n K := (Classical.choose_spec nat2).1
   obtain ⟨hnorm₂, hN₂, ψ₂, hψ₂⟩ := (Classical.choose_spec nat2).2.2
   obtain ⟨φ₄, hrange₄, hker₄, hnorm₄, hN₄, ψ₄, hψ₄⟩ := nat4
-  haveI := hN₂
-  haveI := hN₄
+  have := hN₂
+  have := hN₄
   let S : AddSubgroup (Fin n → K) :=
     { carrier := { v | ∃ y : ↥X₄,
         Multiplicative.toAdd (ψ₄ (QuotientGroup.mk y)) = v ∧
@@ -585,25 +594,29 @@ theorem B_pairing_kernel {n : ℕ} (hn : 3 ≤ n)
 private noncomputable def thetaVec (θ : K ≃+* K) (u : Fin n → K) : Fin n → K :=
   fun i => θ (u i)
 
+omit [Finite K] in
 private theorem thetaVec_smul (θ : K ≃+* K) (c : K) (u : Fin n → K) :
     thetaVec (K := K) θ (c • u) = θ c • thetaVec (K := K) θ u := by
   ext i
   simp [thetaVec]
 
+omit [Finite K] in
 private theorem thetaVec_add (θ : K ≃+* K) (u v : Fin n → K) :
     thetaVec (K := K) θ (u + v) = thetaVec (K := K) θ u + thetaVec (K := K) θ v := by
   ext i
   simp [thetaVec]
 
+omit [Finite K] in
 private theorem thetaVec_mulVec (θ : K ≃+* K) (A : Matrix (Fin n) (Fin n) K)
     (u : Fin n → K) :
     thetaVec (K := K) θ (A *ᵥ u) = (A.map θ) *ᵥ thetaVec (K := K) θ u := by
   ext i
-  simp [thetaVec, Matrix.mulVec, dotProduct, Matrix.map_apply, map_sum, map_mul, mul_comm]
+  simp [thetaVec, Matrix.mulVec, dotProduct, Matrix.map_apply, map_sum, map_mul]
 
 private noncomputable def rieszVec (L : (Fin n → K) →ₗ[K] K) : Fin n → K :=
   fun i => L (Pi.single i 1)
 
+omit [Finite K] in
 private theorem rieszVec_spec (L : (Fin n → K) →ₗ[K] K) (u : Fin n → K) :
     L u = ∑ i, u i * rieszVec (K := K) L i := by
   have hu : u = ∑ i, u i • Pi.single i 1 := by
@@ -619,11 +632,13 @@ private theorem rieszVec_spec (L : (Fin n → K) →ₗ[K] K) (u : Fin n → K) 
       rw [map_smul, smul_eq_mul]
     _ = ∑ i, u i * rieszVec (K := K) L i := rfl
 
+omit [Finite K] in
 private theorem rieszVec_add (L M : (Fin n → K) →ₗ[K] K) :
     rieszVec (K := K) (L + M) = rieszVec (K := K) L + rieszVec (K := K) M := by
   ext i
   simp [rieszVec]
 
+omit [Finite K] in
 private theorem rieszVec_comp_mulVecLin (L : (Fin n → K) →ₗ[K] K)
     (A : Matrix (Fin n) (Fin n) K) :
     rieszVec (K := K) (L.comp (Matrix.mulVecLin A)) =
@@ -660,6 +675,7 @@ private noncomputable def dualCoord [(X₁.subgroupOf X₂).Normal]
     (y : G) : Fin n → K :=
   fun i => θ (rieszVec (K := K) (dualFun (M₀ := M₀) hX₁ hX₂Q hstable ψ θ hθ y) i)
 
+omit [Finite G] [Finite K] in
 private theorem dualFun_mul [(X₁.subgroupOf X₂).Normal]
     (hX₁ : X₁ = Z) (hX₂Q : X₂ ≤ Q) (hstable : PiImageStable M₀ X₂)
     (ψ : ↥X₂ ⧸ X₁.subgroupOf X₂ ≃* Multiplicative (Fin n → K)) (θ : K ≃+* K)
@@ -678,6 +694,7 @@ private theorem dualFun_mul [(X₁.subgroupOf X₂).Normal]
       M₀.B (coord₂ (M₀ := M₀) hX₁ hX₂Q ψ (thetaVec (K := K) θ u)) (M₀.π z)
   rw [M₀.π_mul y (hX₄Q hy) z (hX₄Q hz), map_add]
 
+omit [Finite G] [Finite K] in
 private theorem dualCoord_mul [(X₁.subgroupOf X₂).Normal]
     (hX₁ : X₁ = Z) (hX₂Q : X₂ ≤ Q) (hstable : PiImageStable M₀ X₂)
     (ψ : ↥X₂ ⧸ X₁.subgroupOf X₂ ≃* Multiplicative (Fin n → K)) (θ : K ≃+* K)
@@ -695,6 +712,7 @@ private theorem dualCoord_mul [(X₁.subgroupOf X₂).Normal]
   rw [dualFun_mul (M₀ := M₀) hX₁ hX₂Q hstable ψ θ hθ hX₄Q hy hz, rieszVec_add]
   simp [map_add]
 
+omit [Finite G] [Finite K] in
 private theorem dualCoord_one [(X₁.subgroupOf X₂).Normal]
     (hX₁ : X₁ = Z) (hX₂Q : X₂ ≤ Q) (hstable : PiImageStable M₀ X₂)
     (ψ : ↥X₂ ⧸ X₁.subgroupOf X₂ ≃* Multiplicative (Fin n → K)) (θ : K ≃+* K)
@@ -706,6 +724,7 @@ private theorem dualCoord_one [(X₁.subgroupOf X₂).Normal]
   change θ (rieszVec (K := K) (dualFun (M₀ := M₀) hX₁ hX₂Q hstable ψ θ hθ 1) i) = 0
   simp [dualFun, rieszVec, Tim79.QuadModel.pi_one]
 
+omit [Finite G] [Finite K] in
 private theorem dualCoord_eq_zero_of_mem_X₂ [(X₁.subgroupOf X₂).Normal]
     (hX₁ : X₁ = Z) (hX₂Q : X₂ ≤ Q) (hstable : PiImageStable M₀ X₂)
     (ψ : ↥X₂ ⧸ X₁.subgroupOf X₂ ≃* Multiplicative (Fin n → K)) (θ : K ≃+* K)
@@ -794,8 +813,8 @@ theorem sectionAct_dual_on_quotient {n : ℕ} (hn : 3 ≤ n)
   have hrange₂ : φ₂.range = StatedSL n K := (Classical.choose_spec nat2).1
   obtain ⟨hnorm₂, hN₂, ψ₂, hψ₂⟩ := (Classical.choose_spec nat2).2.2
   obtain ⟨φ₄, hrange₄, hker₄, hnorm₄, hN₄, ψ₄, hψ₄⟩ := nat4
-  haveI := hN₂
-  haveI := hN₄
+  have := hN₂
+  have := hN₄
   have hlin : ∀ r ∈ XbarPre M Q Z B, ∃ T : M₀.E →ₗ[K] M₀.E,
       ∀ x ∈ Q, M₀.π (r * x * r⁻¹) = T (M₀.π x) := by
     intro r hr
@@ -804,7 +823,7 @@ theorem sectionAct_dual_on_quotient {n : ℕ} (hn : 3 ≤ n)
       have h := Subgroup.mem_centralizer_iff.mp (XbarPre_le_H0 hc hr).2 z hz
       rw [← h]; group)
     exact ⟨T, hT⟩
-  haveI : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
+  have : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
   obtain ⟨θ, hθ⟩ := exists_ringEquiv_natural (K' := K) (Q := Q) (V := X₂) (Z := Z)
     (R := XbarPre M Q Z B) (X := StatedSL n K) (γ := γ) rfl M₀ hX₂Q
     (addCommutantScalar_statedSL (by omega)) hstable hlin φ₂ hrange₂ hnorm₂ ψ₂ hψ₂
@@ -863,12 +882,12 @@ theorem sectionAct_dual_on_quotient {n : ℕ} (hn : 3 ≤ n)
           ((QuotientGroup.mk y)⁻¹ * QuotientGroup.mk z) := by
         rw [h2, mul_one]
       _ = QuotientGroup.mk z := by group
-  haveI : Finite (↥X₄ ⧸ X₂.subgroupOf X₄) :=
+  have : Finite (↥X₄ ⧸ X₂.subgroupOf X₄) :=
     Finite.of_surjective (QuotientGroup.mk' (X₂.subgroupOf X₄))
       (QuotientGroup.mk'_surjective (X₂.subgroupOf X₄))
-  haveI : Finite (Multiplicative (Fin n → K)) := by infer_instance
-  haveI : Fintype (↥X₄ ⧸ X₂.subgroupOf X₄) := Fintype.ofFinite _
-  haveI : Fintype (Multiplicative (Fin n → K)) := Fintype.ofFinite _
+  have : Finite (Multiplicative (Fin n → K)) := by infer_instance
+  have : Fintype (↥X₄ ⧸ X₂.subgroupOf X₄) := Fintype.ofFinite _
+  have : Fintype (Multiplicative (Fin n → K)) := Fintype.ofFinite _
   have hcarddom : Nat.card (↥X₄ ⧸ X₂.subgroupOf X₄) = Nat.card K ^ n := by
     exact card_quotient_of_naturalDualRep (K := K) (m := n) nat4c
   have hcardcod : Nat.card (Multiplicative (Fin n → K)) = Nat.card K ^ n := by
@@ -973,6 +992,7 @@ theorem sectionAct_dual_on_quotient {n : ℕ} (hn : 3 ≤ n)
     simpa [ψe, ψd, dualQuot, dualHom, hA, hAinv] using hcoord
   simpa using hψe
 
+omit [Finite G] in
 theorem caseVICore_of_chain_with_complement {n : ℕ}
     {X₁ X₂ X₃ X₄ W : Subgroup G}
     (hK : Nat.card K = Nat.card Z)

@@ -318,7 +318,7 @@ theorem exists_spFrame_holds :
   have hζinj : Function.Injective ζ := by
     have hprimeD : Nat.Prime (Nat.card (Multiplicative (ZMod 3))) := by
       simpa using Nat.prime_three
-    haveI : Fact (Nat.Prime (Nat.card (Multiplicative (ZMod 3)))) := ⟨hprimeD⟩
+    have : Fact (Nat.Prime (Nat.card (Multiplicative (ZMod 3)))) := ⟨hprimeD⟩
     rcases Subgroup.eq_bot_or_eq_top_of_prime_card (MonoidHom.ker ζ) with hbot | htop
     · rw [MonoidHom.ker_eq_bot_iff] at hbot
       exact hbot

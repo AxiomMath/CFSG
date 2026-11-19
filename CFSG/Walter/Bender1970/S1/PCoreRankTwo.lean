@@ -111,7 +111,7 @@ theorem le_qCoreOf_of_pPrime_central (H : Subgroup G) {p : ℕ} (hp : p.Prime) {
     intro q hq hqp Q x hx
     rw [Subgroup.mem_center_iff]
     intro m
-    obtain ⟨k, hk⟩ := Q.isPGroup' ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := Q.isPGroup ⟨x, hx⟩
     have hdvd : orderOf (x : G) ∣ q ^ k := by
       have := orderOf_dvd_of_pow_eq_one hk
       rw [Subgroup.orderOf_mk] at this
@@ -141,7 +141,7 @@ theorem le_qCoreOf_of_pPrime_central (H : Subgroup G) {p : ℕ} (hp : p.Prime) {
     hP.of_equiv (Subgroup.subgroupOfEquivOfLe hPM).symm
   obtain ⟨S, hS⟩ := hPsub.exists_le_sylow
   have hSnorm : (S : Subgroup M).Normal := inferInstance
-  have hSle : (S : Subgroup M) ≤ pCore p M := le_sSup ⟨hSnorm, S.isPGroup'⟩
+  have hSle : (S : Subgroup M) ≤ pCore p M := le_sSup ⟨hSnorm, S.isPGroup⟩
   have hPq : P ≤ qCoreOf M p := by
     intro x hx
     exact Subgroup.mem_map.mpr ⟨⟨x, hPM hx⟩, hSle (hS hx), rfl⟩

@@ -434,7 +434,7 @@ theorem schur_frame (hK : Nat.card K = 2) {w₁ w₂ : List (Fin Tag.F4.rank)}
     funext j
     by_cases hj : j = a
     · subst hj
-      simp [nsmul_eq_mul, ZMod.natCast_zmod_val, mul_comm]
+      simp [nsmul_eq_mul, mul_comm]
     · simp [Pi.single_eq_of_ne hj]
   have hfull : ∀ v : Fin 4 → ZMod 3, fE v = fun j => c j * v j := by
     intro v
@@ -531,7 +531,7 @@ theorem secEltAt_frame (hK : Nat.card K = 2) {w₁ w₂ : List (Fin Tag.F4.rank)
   · refine ⟨nGen K 0, Or.inl ⟨0, rfl⟩, tGen K 0,
       ⟨Multiplicative.ofAdd (Pi.single 0 1), by rw [tE_single, tC_one]⟩, ?_⟩
     intro h
-    rw [← tC_one 0, nGen_conj_tC, if_pos rfl] at h
+    rw [← tC_one 0, nGen_conj_tC, ite_eq_left rfl] at h
     have h2 := tC_injective 0 h
     exact absurd h2 (by decide)
   · intro G hGE hGmul hGW

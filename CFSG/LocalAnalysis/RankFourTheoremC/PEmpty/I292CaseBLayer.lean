@@ -16,9 +16,9 @@ open scoped commutatorElement
 
 theorem eq_bot_of_perfect_isPGroup {p : ℕ} [Fact p.Prime] {Y : Type} [Group Y] [Finite Y]
     {J : Subgroup Y} (hJ : ⁅J, J⁆ = J) (hp : IsPGroup p J) : J = ⊥ := by
-  haveI : Group.IsPerfect ↥J := Subgroup.isPerfect_iff.2 hJ
+  have : Group.IsPerfect ↥J := Subgroup.isPerfect_iff.2 hJ
   by_contra hne
-  haveI : Nontrivial ↥J := (Subgroup.nontrivial_iff_ne_bot J).2 hne
+  have : Nontrivial ↥J := (Subgroup.nontrivial_iff_ne_bot J).2 hne
   exact Group.IsPerfect.not_isNilpotent ↥J hp.isNilpotent
 
 
@@ -35,9 +35,9 @@ theorem glaPLayer_normalizer_eq_bot {p : ℕ} (hp : p.Prime) {Y : Type} [Group Y
       ∀ t ∈ Tb, φ t = t) :
     GLAPLayer p (normalizer (T₀ : Set Y)) = ⊥ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set X : Subgroup Y := normalizer (T₀ : Set Y) with hXdef
-  haveI hDnormal : D.Normal := ⟨fun φ hφ ψ => hDn φ hφ ψ⟩
+  have hDnormal : D.Normal := ⟨fun φ hφ ψ => hDn φ hφ ψ⟩
   let Abar : Subgroup (MulAut P') :=
     { carrier := {φ | φ ∈ D ∧ ∀ t ∈ Tb, φ t = t}
       one_mem' := ⟨D.one_mem, fun t _ => rfl⟩
@@ -137,7 +137,7 @@ theorem glaPLayer_normalizer_eq_bot {p : ℕ} (hp : p.Prime) {Y : Type} [Group Y
     rw [commutatorElement_def] at h3
     calc j * w = (j * w * j⁻¹ * w⁻¹) * (w * j) := by group
       _ = w * j := by rw [h3, one_mul]
-  haveI : (D.comap θ).Normal := Subgroup.normal_comap θ
+  have : (D.comap θ).Normal := Subgroup.normal_comap θ
   have hJD : ⁅J, J⁆ ≤ D.comap θ := by
     refine Subgroup.commutator_le.2 fun a _ b _ => ?_
     show θ ⁅a, b⁆ ∈ D

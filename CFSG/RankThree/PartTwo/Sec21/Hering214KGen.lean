@@ -122,7 +122,7 @@ theorem exists_inner_of_cyclic_out (Φ : Γ →* MulAut X)
     ∃ g : X, MulAut.conj g ∈ Ē ∧ MulAut.conj g ∉ Subgroup.zpowers (Φ γ) := by
   classical
   set N : Subgroup (MulAut X) := (MulAut.conj : X →* MulAut X).range with hN
-  haveI : N.Normal := ⟨fun n hn a => by
+  have : N.Normal := ⟨fun n hn a => by
     obtain ⟨k, rfl⟩ := hn
     refine ⟨a k, ?_⟩
     ext x
@@ -206,7 +206,7 @@ theorem center_eq_bot_of_simple_of_not_prime {G : Type} [Group G] [Finite G]
   rcases hs.eq_bot_or_eq_top_of_normal (Subgroup.center G) with h | h
   · exact h
   · exfalso
-    letI : CommGroup G :=
+    let : CommGroup G :=
       { (inferInstance : Group G) with
         mul_comm := fun a b => Subgroup.mem_center_iff.mp (h ▸ Subgroup.mem_top b) a }
     exact hcard (IsSimpleGroup.prime_card (α := G))

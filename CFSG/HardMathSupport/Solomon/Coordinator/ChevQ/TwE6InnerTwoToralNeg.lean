@@ -42,8 +42,8 @@ theorem twE6ToralNegTwo_of_regularLangNeg (hO2 : TwE6RegularLangNeg) : TwE6Toral
     rw [h] at hqf
     have h3 : 3 ∣ 3 ^ f := dvd_pow_self 3 (by omega)
     omega
-  haveI : Fact (ringChar K).Prime := ⟨hp⟩
-  haveI : CharP (AlgebraicClosure K) (ringChar K) :=
+  have : Fact (ringChar K).Prime := ⟨hp⟩
+  have : CharP (AlgebraicClosure K) (ringChar K) :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective _
   have hFr : ∀ c, iterateFrobenius (AlgebraicClosure K) (ringChar K) f c = c ^ q := fun c => by
     rw [iterateFrobenius_def, hqf]
@@ -175,7 +175,7 @@ private theorem toralNeg_exponent_congr {q : ℕ} {K : Type} [Field K] [Finite K
     rw [hm]
     simp only [Finset.mul_sum]
     rw [Finset.sum_comm]
-    simp only [e, mul_ite, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+    simp only [e, mul_ite, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
     ring
   have hpar : e6RootParams (fun l => ζ ^ m l) = fun i => (ζ ^ 3) ^ k i := by
     refine (tw_e6RootParams_zpow ζ m).trans ?_
@@ -256,16 +256,16 @@ theorem twE6RegularLangNeg_of_cert : TwE6RegularLangNeg := by
   intro q K _ _ σ hK hσ hℓ3 hq E₀ hE₀ hcard Fr hFr v g0 hg0C hg0 hT hreg γ
   classical
   obtain ⟨hp, f, hf, hqf⟩ := exists_pow_ringChar_of_card_sq K q hK (by omega)
-  haveI : Fact (ringChar K).Prime := ⟨hp⟩
-  haveI : CharP (AlgebraicClosure K) (ringChar K) :=
+  have : Fact (ringChar K).Prime := ⟨hp⟩
+  have : CharP (AlgebraicClosure K) (ringChar K) :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective _
   have h9 : ((9 : ℕ) : AlgebraicClosure K) ≠ 0 := by
     intro h
     have hd : ringChar K ∣ 9 := (CharP.cast_eq_zero_iff (AlgebraicClosure K) (ringChar K) 9).1 h
     have h3 : ringChar K ∣ 3 := hp.dvd_of_dvd_pow (n := 2) (by norm_num; exact hd)
     exact hℓ3 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_three).1 h3)
-  haveI : NeZero ((9 : ℕ) : AlgebraicClosure K) := ⟨h9⟩
-  obtain ⟨ζ₀, hζ₀⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot (AlgebraicClosure K) 9
+  have : NeZero ((9 : ℕ) : AlgebraicClosure K) := ⟨h9⟩
+  obtain ⟨ζ₀, hζ₀⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot (AlgebraicClosure K) 9
   have hu : IsUnit ζ₀ := hζ₀.isUnit (by norm_num)
   have hζ : IsPrimitiveRoot hu.unit 9 :=
     IsPrimitiveRoot.coe_units_iff.1 (by rwa [IsUnit.unit_spec])
@@ -275,8 +275,8 @@ theorem twE6RegularLangNeg_of_cert : TwE6RegularLangNeg := by
     exact hζ.pow_eq_one
   choose k m hk hm hcl using fun x : E₀ => toralNeg_exponent_congr hK hσ hq hFr hg0C hg0 hζ
     (x : twistedE6RootGroup K σ) (hE₀.2 x x.2) (hT x x.2)
-  haveI : Finite E₀ := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
-  haveI : Fintype E₀ := Fintype.ofFinite E₀
+  have : Finite E₀ := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Fintype E₀ := Fintype.ofFinite E₀
   have hωpow : ∀ a : ℕ, (ζ ^ 3) ^ a = (ζ ^ 3) ^ (a % 3) := fun a => by
     conv_lhs => rw [← Nat.div_add_mod a 3, pow_add, pow_mul, hω3, one_pow, one_mul]
   have hinj : Function.Injective
@@ -298,7 +298,7 @@ theorem twE6RegularLangNeg_of_cert : TwE6RegularLangNeg := by
       ∃ x : E₀, ¬ (3 : ℤ) ∣ ∑ i, (k x i : ℤ) * a i := by
     intro a ha
     by_contra hall
-    push_neg at hall
+    push Not at hall
     refine hreg a ha fun x hx => ⟨_, hk ⟨x, hx⟩, ?_⟩
     refine (tw_rootChar_pow_exp (ζ ^ 3) (k ⟨x, hx⟩) a).trans ?_
     obtain ⟨c, hc⟩ := hall ⟨x, hx⟩

@@ -63,7 +63,7 @@ theorem sol78RankOne_proved : Sol78RankOne := by
       apply Subtype.ext
       show π t = 1
       exact (QuotientGroup.eq_one_iff t).2 htc
-    have hB := isCyclic_or_dihedral_of_gen (A := QuaternionGroup m) P'.isPGroup' g
+    have hB := isCyclic_or_dihedral_of_gen (A := QuaternionGroup m) P'.isPGroup g
       (ρ := QuaternionGroup.a 1) (σ := QuaternionGroup.xa 0)
       (by rw [quaternion_gen m, Subgroup.map_top_of_surjective g hg])
       (by rw [MonoidHom.mem_ker, QuaternionGroup.xa_sq]; exact hgt)

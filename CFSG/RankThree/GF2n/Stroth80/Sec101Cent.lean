@@ -17,13 +17,13 @@ private theorem fittingSubgroup_inf_bar_H0_eq_bot [(Q.subgroupOf M).Normal]
     (hno : NoA2 Q Z (LB M Q B)) (hgen : GenByB M Q B) :
     fittingSubgroup (Mbar M Q) ⊓ bar M Q (H0 M Z) = ⊥ := by
   classical
-  haveI hFn : (fittingSubgroup (Mbar M Q)).Normal := CFSG.fittingSubgroup_normal
-  haveI : Group.IsNilpotent ↥(fittingSubgroup (Mbar M Q)) := CFSG.fittingSubgroup_nilpotent
+  have hFn : (fittingSubgroup (Mbar M Q)).Normal := CFSG.fittingSubgroup_normal
+  have : Group.IsNilpotent ↥(fittingSubgroup (Mbar M Q)) := CFSG.fittingSubgroup_nilpotent
   have hodd : Odd (Nat.card ↥(fittingSubgroup (Mbar M Q))) :=
     odd_card_of_normal_nilpotent hc.pCore_two_Mbar _
-  haveI hHn : (bar M Q (H0 M Z)).Normal := hc.normal_bar_H0
+  have hHn : (bar M Q (H0 M Z)).Normal := hc.normal_bar_H0
   let A : Subgroup (Mbar M Q) := fittingSubgroup (Mbar M Q) ⊓ bar M Q (H0 M Z)
-  haveI hAn : A.Normal := inferInstance
+  have hAn : A.Normal := inferInstance
   have hA0 : A = ⊥ := h44 G M Q Z B hc n hw hn hno hgen A inf_le_right
     (fun x _ => by
       rw [Subgroup.normalizer_eq_top_iff.mpr hAn]
@@ -36,8 +36,8 @@ private theorem commute_of_mem_fittingSubgroup_of_mem_bar_H0 [(Q.subgroupOf M).N
     (hno : NoA2 Q Z (LB M Q B)) (hgen : GenByB M Q B) {f : Mbar M Q}
     (hf : f ∈ fittingSubgroup (Mbar M Q)) {h : Mbar M Q} (hh : h ∈ bar M Q (H0 M Z)) :
     f * h = h * f := by
-  haveI hFn : (fittingSubgroup (Mbar M Q)).Normal := CFSG.fittingSubgroup_normal
-  haveI hHn : (bar M Q (H0 M Z)).Normal := hc.normal_bar_H0
+  have hFn : (fittingSubgroup (Mbar M Q)).Normal := CFSG.fittingSubgroup_normal
+  have hHn : (bar M Q (H0 M Z)).Normal := hc.normal_bar_H0
   have hA0 := fittingSubgroup_inf_bar_H0_eq_bot h44 hc hw hn hno hgen
   have hfF : f * h * f⁻¹ * h⁻¹ ∈ fittingSubgroup (Mbar M Q) := by
     have := (fittingSubgroup (Mbar M Q)).mul_mem hf
@@ -83,9 +83,9 @@ theorem Ctx.eq_one_of_centralizes_layer [(Q.subgroupOf M).Normal] (h44 : Stroth4
     rw [Subgroup.mem_center_iff]
     intro y
     exact Subtype.ext (hcommFstar y y.2)
-  haveI hFchar : (generalizedFitting (Mbar M Q)).Characteristic :=
+  have hFchar : (generalizedFitting (Mbar M Q)).Characteristic :=
     (CFSG.LocalCores.generalized_fitting_characteristic (G := Mbar M Q)).1
-  haveI hFn : (generalizedFitting (Mbar M Q)).Normal := inferInstance
+  have hFn : (generalizedFitting (Mbar M Q)).Normal := inferInstance
   have hCn : C.Normal := ConjAct.normal_of_characteristic_of_normal
   have hCnil : Group.IsNilpotent ↥C :=
     (Group.isNilpotent_congr ((Subgroup.center ↥(generalizedFitting (Mbar M Q))).equivMapOfInjective

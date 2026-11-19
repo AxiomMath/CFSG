@@ -264,14 +264,14 @@ theorem F₀_eq (σ : Setting G) : σ.F₀ = (σ.S : Subgroup G) ⊓ σ.C := by
 
 theorem F₀_le_C : σ.F₀ ≤ σ.C := inf_le_right
 
-theorem isPGroup_D : IsPGroup 2 σ.D := σ.S.isPGroup'.to_le σ.D_le_S
+theorem isPGroup_D : IsPGroup 2 σ.D := σ.S.isPGroup.to_le σ.D_le_S
 
 theorem isPGroup_T [Finite G] (hσ : σ.IsValid) : IsPGroup 2 σ.T :=
-  σ.S.isPGroup'.to_le (σ.T_le_S hσ)
+  σ.S.isPGroup.to_le (σ.T_le_S hσ)
 
 theorem isSylowOf_S [Finite G] : IsSylowOf 2 (σ.S : Subgroup G) ⊤ := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  exact isSylowOf_iff.mpr ⟨le_top, σ.S.isPGroup',
+  exact isSylowOf_iff.mpr ⟨le_top, σ.S.isPGroup,
     by rw [Subgroup.relIndex_top_right]; exact σ.S.not_dvd_index⟩
 
 theorem isSylowOf_F₀_of_height_ne_one [Finite G] (hσ : σ.IsValid) (hh : σ.height ≠ 1) :

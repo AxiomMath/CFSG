@@ -25,6 +25,7 @@ private theorem oTwoP_normal (p : ℕ) (H : Type*) [Group H] : (Sec4.oTwoP p H).
   unfold Sec4.oTwoP
   exact Subgroup.Normal.comap CFSG.pCore_normal _
 
+omit [Finite G] in
 theorem oTwoP_conj_mem (H : Subgroup G) {h x : G} (hh : h ∈ H)
     (hx : x ∈ (Sec4.oTwoP 3 H).map H.subtype) :
     h * x * h⁻¹ ∈ (Sec4.oTwoP 3 H).map H.subtype := by
@@ -34,8 +35,8 @@ theorem oTwoP_conj_mem (H : Subgroup G) {h x : G} (hh : h ∈ H)
 
 theorem exists_normal_sylow_two_of_le_oTwoP (H N : Subgroup G)
     (hN : N ≤ (Sec4.oTwoP 3 H).map H.subtype) : ∃ P : Sylow 2 N, (P : Subgroup N).Normal := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hNH : N ≤ H := hN.trans (Subgroup.map_subtype_le _)
   let ψ : N →* H ⧸ CFSG.pCore 2 H :=
     (QuotientGroup.mk' (CFSG.pCore 2 H)).comp (Subgroup.inclusion hNH)
@@ -73,7 +74,7 @@ private theorem false_of_two_elements {H B : Subgroup G}
     (h2 : (u * ((h * u' * h⁻¹) * u'')) ^ 4 = 1)
     (h3 : (((h * u * h⁻¹) * u') * (u * ((h * u' * h⁻¹) * u''))) ^ 3 = 1)
     (h4 : ((h * u * h⁻¹) * u') * (u * ((h * u' * h⁻¹) * u'')) ≠ 1) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcu : h * u * h⁻¹ ∈ (Sec4.oTwoP 3 H).map H.subtype := oTwoP_conj_mem H hh (hB hu)
   have hcu' : h * u' * h⁻¹ ∈ (Sec4.oTwoP 3 H).map H.subtype := oTwoP_conj_mem H hh (hB hu')
   have hz1 : (h * u * h⁻¹) * u' ∈ (Sec4.oTwoP 3 H).map H.subtype :=
@@ -87,7 +88,7 @@ private theorem false_of_two_elements {H B : Subgroup G}
     rintro g (rfl | rfl)
     exacts [hz1, hz2]
   obtain ⟨Q, hQ⟩ := exists_normal_sylow_two_of_le_oTwoP H _ hNO
-  haveI := Sylow.unique_of_normal Q hQ
+  have := Sylow.unique_of_normal Q hQ
   have key : ∀ x : ↥(Subgroup.closure {z1, z2}), ∀ k : ℕ, x ^ 2 ^ k = 1 → x ∈ (Q : Subgroup _) := by
     intro x k hxk
     have hz : IsPGroup 2 (Subgroup.zpowers x) := IsPGroup.of_card_dvd_pow (n := k) (by
@@ -101,7 +102,7 @@ private theorem false_of_two_elements {H B : Subgroup G}
   let x2 : ↥(Subgroup.closure {z1, z2}) := ⟨z2, Subgroup.subset_closure (by simp)⟩
   have hx1 : x1 ∈ (Q : Subgroup _) := key x1 2 (Subtype.ext (by simpa [x1] using h1))
   have hx2 : x2 ∈ (Q : Subgroup _) := key x2 2 (Subtype.ext (by simpa [x2] using h2))
-  obtain ⟨k, hk⟩ := Q.isPGroup' ⟨x1 * x2, Subgroup.mul_mem _ hx1 hx2⟩
+  obtain ⟨k, hk⟩ := Q.isPGroup ⟨x1 * x2, Subgroup.mul_mem _ hx1 hx2⟩
   have hk' : (z1 * z2) ^ 2 ^ k = 1 := by
     have := congrArg (fun y : ↥(Q : Subgroup ↥(Subgroup.closure {z1, z2})) => ((y : _) : G)) hk
     simpa [x1, x2] using this
@@ -251,7 +252,7 @@ private theorem U38Data.of_map {G : Type} [Group G] [Finite G] (φ : G →* Equi
         ∀ b ∈ B, ∃ x ∈ P ⊓ Subgroup.centralizer (B : Set G), x * c * x⁻¹ = b * c))
     (hom : ∀ b ∈ B, φ b ∈ oTwoThreeCentX' (φ c)) (hout : c ∉ K) :
     U38Data (P.map φ) (A.map φ) (B.map φ) (φ c) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact
     { le_Γ := hΓ
       isPGroup := hP.map φ
@@ -717,7 +718,7 @@ private theorem facts_of_check {gs : Array (Array ℕ)} {cR : ArrCert} {ws : Arr
 private theorem false_of_check {gs : Array (Array ℕ)} {cR : ArrCert} {ws : Array (Array ℕ)}
     (hchk : U38Elim.checkWith gs cR ws = true) {P A B : Subgroup (Equiv.Perm (Fin 513))}
     {c : Equiv.Perm (Fin 513)} (hP : P ≤ arrClosure 513 gs) (h : U38Data P A B c) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hE, hsz, hgen, hT0, hfl, hhs, hd1, htr⟩ := checkWith_parts hchk
   obtain ⟨hmem, hcard, hval⟩ := enumOK_spec ps_lt hE
   obtain ⟨hS0card, hflag⟩ := inf_X'_facts hE hsz hfl

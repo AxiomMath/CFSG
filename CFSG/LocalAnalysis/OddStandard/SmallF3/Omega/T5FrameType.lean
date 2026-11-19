@@ -15,6 +15,7 @@ open QuadraticMap
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V} {ι : Type} [Fintype ι] [DecidableEq ι] {c : ZMod 3}
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem NFrame.norm_ne_zero (hQ : Q.Nondegenerate) (fr : NFrame Q ι c) {i : ι} :
     c ≠ 0 := by
   intro hc
@@ -28,6 +29,7 @@ private theorem NFrame.norm_ne_zero (hQ : Q.Nondegenerate) (fr : NFrame Q ι c) 
     · exact fr.orth i j (Ne.symm hji)
   exact fr.b.ne_zero i (hB.1 (fr.b i) fun y => by rw [hzero, LinearMap.zero_apply])
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem NFrame.commSp_signChange (fr : NFrame Q ι c) (J : Finset ι) :
     commSp (fr.signChange J) = Submodule.span (ZMod 3) (fr.b '' (J : Set ι)) := by
   ext v
@@ -39,7 +41,7 @@ private theorem NFrame.commSp_signChange (fr : NFrame Q ι c) (J : Finset ι) :
     have h1 : fr.b.repr (((fr.signChange J : OGroup Q) : V ≃ₗ[ZMod 3] V) v) i =
         fr.b.repr (-v) i := by rw [hv]
     rw [fr.repr_signChange J v i, map_neg, Finsupp.neg_apply,
-      if_neg (by simpa only [Finset.mem_coe] using hiJ)] at h1
+      ite_eq_right (by simpa only [Finset.mem_coe] using hiJ)] at h1
     have h2 : (2 : ZMod 3) * fr.b.repr v i = 0 := by
       rw [two_mul]
       exact eq_neg_iff_add_eq_zero.mp h1
@@ -57,6 +59,7 @@ private theorem NFrame.commSp_signChange (fr : NFrame Q ι c) (J : Finset ι) :
         exact hiJ (by simpa only [Finset.mem_coe] using hsupp hmem)
       simp [hiJ, h0]
 
+omit [FiniteDimensional (ZMod 3) V] [DecidableEq ι] in
 private theorem NFrame.finrank_span_frame (fr : NFrame Q ι c) (J : Finset ι) :
     Module.finrank (ZMod 3) (Submodule.span (ZMod 3) (fr.b '' (J : Set ι))) = J.card := by
   have hli : LinearIndependent (ZMod 3) (fun i : J => fr.b (i : ι)) :=
@@ -78,7 +81,7 @@ private theorem NFrame.quadSign_span_frame (hQ : Q.Nondegenerate) (fr : NFrame Q
       (-1) ^ (J.card / 2) := by
   rcases J.eq_empty_or_nonempty with rfl | hne
   · rw [Finset.coe_empty, Set.image_empty, Submodule.span_empty]
-    haveI : Subsingleton (⊥ : Submodule (ZMod 3) V) := by
+    have : Subsingleton (⊥ : Submodule (ZMod 3) V) := by
       rw [Submodule.subsingleton_iff_eq_bot]
     rw [quadSign_of_subsingleton]
     simp
@@ -182,7 +185,7 @@ theorem exists_nframe_six (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3)
       (TauCeti.presentedForm_eq_weightedSumSquares_coe (fun _ : Fin 6 => (1 : (ZMod 3)ˣ))).symm
     rw [heq, quadSign_eq_signOf _ (TauCeti.nondegenerate_presentedForm _),
       TauCeti.formClass_presentedForm, signOf_mk_diag]
-    simp <;> decide
+    simp; decide
   obtain ⟨e⟩ := equivalent_of_quadSign_eq hQ hQ₀ (hdim.trans hdim₀.symm) (hs.trans hsign₀.symm)
   let b : Module.Basis (Fin 6) (ZMod 3) V :=
     (Pi.basisFun (ZMod 3) (Fin 6)).map e.symm.toLinearEquiv
@@ -232,7 +235,7 @@ theorem exists_nframe_five (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3
       have h := DFunLike.congr_fun (DFunLike.congr_fun
         (QuadraticMap.two_nsmul_associated (S := ZMod 3) Q₀)
         (Pi.single i 1)) (Pi.single j 1)
-      simp only [LinearMap.smul_apply, Pi.smul_apply, nsmul_eq_mul] at h
+      simp only [LinearMap.smul_apply, nsmul_eq_mul] at h
       have hcast : (↑(2 : ℕ) : ZMod 3) = 2 := by norm_num
       rw [hcast] at h
       simpa only [smul_eq_mul] using h

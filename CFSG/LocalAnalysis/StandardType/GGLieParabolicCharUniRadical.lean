@@ -386,14 +386,14 @@ theorem isPGroup_uniRadical (h : UnitaryFieldData p f K) (W : Submodule K (HypIn
   have hp2 : G ^ (p ^ 2) = 1 := by
     obtain ⟨r', hr'⟩ := Commute.exists_add_pow_prime_pow_eq h.prime (Commute.one_left (G - 1)) 2
     have hp0 : ((p : ℕ) : Matrix (HypIndex r ε) (HypIndex r ε) K) = 0 := by
-      haveI : CharP K p := h.charP
+      have : CharP K p := h.charP
       rw [← Matrix.diagonal_natCast p, CharP.cast_eq_zero K p, Matrix.diagonal_zero]
     have hNnil : (G - 1) ^ (p ^ 2) = 0 := by
       have hp2ge : 3 ≤ p ^ 2 := by nlinarith [h.prime.two_le]
       obtain ⟨k, hk⟩ := Nat.exists_eq_add_of_le hp2ge
       rw [hk, pow_add, hN3, zero_mul]
     rw [add_sub_cancel] at hr'
-    simp only [one_pow, hNnil, hp0, zero_mul, mul_zero, mul_one, one_mul, add_zero, zero_add] at hr'
+    simp only [one_pow, hNnil, hp0, zero_mul, mul_one, add_zero] at hr'
     exact hr'
   simpa only [hG] using hp2
 
@@ -629,7 +629,7 @@ theorem exists_scalar_mul_mem_uniRadical (h : UnitaryFieldData p f K)
     rw [mem_gramSU_iff_isometry]
     refine ⟨fun x y => ?_, ?_⟩
     · rw [GeneralLinearGroup.coe_scalar, uniRad_scalar_mulVec, uniRad_scalar_mulVec]
-      simp only [map_smulₛₗ, LinearMap.smul_apply, RingHom.id_apply, smul_eq_mul, map_mul]
+      simp only [map_smulₛₗ, LinearMap.smul_apply, RingHom.id_apply, smul_eq_mul]
       rw [hu, Units.val_mk0]
       rw [← mul_assoc, show μ * h.bar μ = 1 by change h.norm μ = 1; exact hN, one_mul]
     · rw [GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, Matrix.det_diagonal]

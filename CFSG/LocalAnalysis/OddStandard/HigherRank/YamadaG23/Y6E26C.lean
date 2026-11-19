@@ -106,8 +106,8 @@ theorem y6e_secProp (c : Ctx5 G L) (hH : F33Hyp c.s c.e) :
   have hLE : normIn L c.s.fr.F ≤ normalizer (M3 c.s : Set G) := y6e_NL_le_normalizer_M3 c hH
   obtain ⟨hN, hP⟩ := hH.hLF.fact18.2.2.2.2.1
   obtain ⟨eGL⟩ := hP
-  haveI := Subgroup.normal_subgroupOf_of_le_normalizer hLE
-  haveI hnX := Subgroup.normal_subgroupOf_sup_of_le_normalizer hLE
+  have := Subgroup.normal_subgroupOf_of_le_normalizer hLE
+  have hnX := Subgroup.normal_subgroupOf_sup_of_le_normalizer hLE
   have heq : (M3 c.s).subgroupOf (normIn L c.s.fr.F) =
       (zL L ⊔ c.s.fr.F).subgroupOf (normIn L c.s.fr.F) := by
     rw [f3_zL_eq_bot hH, bot_sup_eq]
@@ -125,7 +125,7 @@ theorem y6e_secProp (c : Ctx5 G L) (hH : F33Hyp c.s c.e) :
 
 theorem y6e_cent (c : Ctx5 G L) (hH : F33Hyp c.s c.e) (hF : c.Facts5) :
     (normIn L c.s.fr.F ⊔ M3 c.s) ⊓ centralizer (M3 c.s : Set G) = M3 c.s := by
-  haveI := y6e_M3_comm c hF
+  have := y6e_M3_comm c hF
   have hLE : normIn L c.s.fr.F ≤ normalizer (M3 c.s : Set G) := y6e_NL_le_normalizer_M3 c hH
   refine le_antisymm ?_ ?_
   · intro x hx
@@ -168,7 +168,7 @@ theorem y6e_exists_sylow (c : Ctx5 G L) (hH : F33Hyp c.s c.e) :
     ∃ P : Sylow 2 ↥(normIn L c.s.fr.F ⊔ M3 c.s),
       (P : Subgroup ↥(normIn L c.s.fr.F ⊔ M3 c.s)) =
         (S3 c.s).subgroupOf (normIn L c.s.fr.F ⊔ M3 c.s) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hle : S3 c.s ≤ normIn L c.s.fr.F ⊔ M3 c.s := y6e_S3_le_X c hH
   have hp : IsPGroup 2 ↥((S3 c.s).subgroupOf (normIn L c.s.fr.F ⊔ M3 c.s)) :=
     (y6e_S3_pgroup c hH).of_equiv (Subgroup.subgroupOfEquivOfLe hle).symm
@@ -181,6 +181,7 @@ theorem y6e_exists_sylow (c : Ctx5 G L) (hH : F33Hyp c.s c.e) :
     decide
   exact ⟨hp.toSylow hidx, rfl⟩
 
+omit [Finite G] in
 theorem y6e_sylow_equiv {X S : Subgroup G} (hle : S ≤ X) (P : Sylow 2 ↥X)
     (hP : (P : Subgroup ↥X) = S.subgroupOf X) :
     ∃ φ : ↥P ≃* ↥S, ∀ x : ↥P, ((φ x : ↥S) : G) = (((x : ↥P) : ↥X) : G) :=

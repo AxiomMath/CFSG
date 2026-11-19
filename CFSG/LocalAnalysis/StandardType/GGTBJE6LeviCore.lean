@@ -530,7 +530,7 @@ theorem e6_class_levi
       rw [hCdef, KacData.rootsOf_eq_parabolicRoots kacE6 hnone]
       congr 1
       ext j
-      simp only [Set.mem_setOf_eq, Set.mem_univ, iff_true]
+      simp only [Set.mem_ofPred_eq, Set.mem_univ, iff_true]
       fin_cases j <;> decide +kernel
     have hmr : ∀ γ : Fin Tag.E6.rank → ℤ, IsRoot .E6 γ →
         γ ∈ kacE6.rootsOf (C : Set (Option (Fin Tag.E6.rank))) := by

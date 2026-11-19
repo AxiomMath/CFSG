@@ -73,7 +73,7 @@ theorem dickson_card_cases (hF : Nat.card F = 64) (H : Subgroup (PSL2 F)) :
     rw [Nat.card_congr e.toEquiv, nat_card_alternatingGroup, Nat.card_eq_fintype_card, Fintype.card_fin]
     decide
   · norm_num at ht
-    haveI := hEn
+    have := hEn
     have hcomp : E.IsComplement' C := by
       apply Subgroup.isComplement'_of_disjoint_and_mul_eq_univ hdisj
       rw [← Subgroup.normal_mul, hsup, Subgroup.coe_top]
@@ -154,7 +154,7 @@ theorem isCyclic_of_card_nine (hF : Nat.card F = 64) (H : Subgroup (PSL2 F))
 
 theorem isCyclic_of_isPGroup_three (hF : Nat.card F = 64) (R : Subgroup (PSL2 F))
     (hR : IsPGroup 3 R) : IsCyclic R := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, hk⟩ := hR.exists_card_eq
   have hdvd : 3 ^ k ∣ 262080 := by
     rw [← hk, ← card_psl2_sixtyfour hF]
@@ -205,7 +205,7 @@ theorem nonempty_fixSubgroup_psl2FieldAut (hF : Nat.card F = 64) {σ : F ≃+* F
 
 theorem aut_order_three_cases (hF : Nat.card F = 64) (β : MulAut (PSL2 F)) (hβ : orderOf β = 3) :
     (∃ t : PSL2 F, β = MulAut.conj t) ∨ Nonempty (fixSubgroup β ≃* alternatingGroup (Fin 5)) := by
-  haveI := charP_two_of_card_sixtyfour hF
+  have := charP_two_of_card_sixtyfour hF
   by_cases hD : β ∈ (pglAction F).range
   · left
     obtain ⟨g, rfl⟩ := hD
@@ -241,13 +241,13 @@ theorem fixSubgroup_congr {S T : Type*} [Group S] [Group T] (e : S ≃* T) (β :
   ext x
   rw [mem_fixSubgroup, Subgroup.mem_map_equiv, mem_fixSubgroup]
   show e (β (e.symm x)) = x ↔ β (e.symm x) = e.symm x
-  exact e.apply_eq_iff_eq_symm_apply
+  exact e.eq_symm_apply.symm
 
 theorem center_eq_bot_of_isCyclic {p : ℕ} (hp : p.Prime) {Y : Type*} [Group Y] [Finite Y]
     (hperf : commutator Y = ⊤) (hO : GLAPPrimeCore p Y = ⊥)
     (hcyc : ∀ R : Subgroup (Y ⧸ Subgroup.center Y), IsPGroup p R → IsCyclic R) :
     Subgroup.center Y = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hne
   have hpg := SchurFacts.isPGroup_center_of_glaPPrimeCore_eq_bot hp hO
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' p (SchurFacts.prime_dvd_card_of_isPGroup hp hpg hne)
@@ -263,7 +263,7 @@ theorem center_eq_bot_of_isCyclic {p : ℕ} (hp : p.Prime) {Y : Type*} [Group Y]
   refine CFSG.LocalAnalysis.RankThreeTheoremC.not_isMulCommutative_sylow_of_isPerfect ⟨hperf⟩ S
     z.2 hz1 hzp ?_
   have hRc : IsCyclic ((S : Subgroup Y).map (QuotientGroup.mk' (Subgroup.center Y))) :=
-    hcyc _ (S.isPGroup'.map _)
+    hcyc _ (S.isPGroup.map _)
   refine ⟨⟨fun a b => Subtype.ext ?_⟩⟩
   exact (CFSG.Timmesfeld.RankOne.commute_of_mem_comap_of_isCyclic le_rfl hRc
     (Subgroup.le_comap_map _ _ a.2) (Subgroup.le_comap_map _ _ b.2)).eq
@@ -276,13 +276,13 @@ theorem three_dvd_card_of_glaPComponent {G : Type} [Group G] [Finite G] {X J : S
     refine le_antisymm le_top (le_sSup ⟨inferInstance, ?_⟩)
     rw [Subgroup.card_top]
     exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).2 h
-  haveI : Subsingleton (↥J ⧸ GLAPPrimeCore 3 ↥J) := by
+  have : Subsingleton (↥J ⧸ GLAPPrimeCore 3 ↥J) := by
     rw [htop]
     exact QuotientGroup.subsingleton_quotient_top
-  haveI : Subsingleton (CFSG.Yardstones.Md0ec50421ce4.PQuot 3 J ⧸
+  have : Subsingleton (CFSG.Yardstones.Md0ec50421ce4.PQuot 3 J ⧸
       Subgroup.center (CFSG.Yardstones.Md0ec50421ce4.PQuot 3 J)) :=
     QuotientGroup.mk_surjective.subsingleton
-  haveI := hq.2
+  have := hq.2
   exact not_subsingleton (CFSG.Yardstones.Md0ec50421ce4.PQuot 3 J ⧸
     Subgroup.center (CFSG.Yardstones.Md0ec50421ce4.PQuot 3 J)) inferInstance
 
@@ -292,16 +292,19 @@ section Field64K
 
 variable {K : Type} [Group K] [Finite K] {F : Type} [Field F] [Finite F]
 
+omit [Finite K] in
 theorem card_of_equiv (hF : Nat.card F = 64) (e : K ≃* PSL2 F) : Nat.card K = 262080 :=
   (Nat.card_congr e.toEquiv).trans (card_psl2_sixtyfour hF)
 
+omit [Finite K] in
 theorem isCyclic_of_card_nine_of_equiv (hF : Nat.card F = 64) (e : K ≃* PSL2 F)
     (H : Subgroup K) (h9 : Nat.card H = 9) : IsCyclic H := by
-  haveI := isCyclic_of_card_nine hF (H.map e.toMonoidHom)
+  have := isCyclic_of_card_nine hF (H.map e.toMonoidHom)
     (by rw [Subgroup.card_map_of_injective e.injective, h9])
   exact isCyclic_of_surjective (H.equivMapOfInjective e.toMonoidHom e.injective).symm
     (MulEquiv.surjective _)
 
+omit [Finite K] in
 theorem eq_top_of_sixty_dvd_of_equiv (hF : Nat.card F = 64) (e : K ≃* PSL2 F)
     (H : Subgroup K) (h60 : 60 ∣ Nat.card H) (hne : Nat.card H ≠ 60) : H = ⊤ := by
   have h := eq_top_of_sixty_dvd hF (H.map e.toMonoidHom)
@@ -313,6 +316,7 @@ theorem eq_top_of_sixty_dvd_of_equiv (hF : Nat.card F = 64) (e : K ≃* PSL2 F)
   rw [Subgroup.mem_map_equiv, MulEquiv.symm_apply_apply] at hk
   exact hk
 
+omit [Finite K] in
 theorem aut_order_three_cases_of_equiv (hF : Nat.card F = 64) (e : K ≃* PSL2 F) (a : MulAut K)
     (ha : orderOf a = 3) :
     (∃ k : K, a = MulAut.conj k) ∨ Nonempty (fixSubgroup a ≃* alternatingGroup (Fin 5)) := by
@@ -332,7 +336,7 @@ theorem aut_order_three_cases_of_equiv (hF : Nat.card F = 64) (e : K ≃* PSL2 F
 theorem false_of_inner_comp (hF : Nat.card F = 64) (e : K ≃* PSL2 F)
     (hZ : Subgroup.center K = ⊥) {k : K} (ha : orderOf (MulAut.conj k) = 3) {J : Subgroup K}
     (hJ : GLAPComponent 3 (fixSubgroup (MulAut.conj k)) J) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hk3 : k ^ 3 = 1 := by
     have h1 : MulAut.conj (k ^ 3) = 1 := by rw [map_pow, ← ha, pow_orderOf_eq_one]
     have h2 : k ^ 3 ∈ Subgroup.center K := by
@@ -365,7 +369,7 @@ theorem false_of_inner_comp (hF : Nat.card F = 64) (e : K ≃* PSL2 F)
     obtain ⟨S⟩ := (inferInstance : Nonempty (Sylow 3 ↥J))
     apply CFSG.LocalAnalysis.RankThreeTheoremC.not_isMulCommutative_sylow_of_isPerfect
       ⟨commutator_eq_top_of_self hperf⟩ S hz hz1 hzp
-    obtain ⟨j, hj⟩ := S.isPGroup'.exists_card_eq
+    obtain ⟨j, hj⟩ := S.isPGroup.exists_card_eq
     have hdvd : 3 ^ j ∣ 262080 := by
       rw [← hj, ← card_of_equiv hF e]
       exact (Subgroup.card_subgroup_dvd_card (S : Subgroup ↥J)).trans (Subgroup.card_subgroup_dvd_card J)
@@ -374,9 +378,9 @@ theorem false_of_inner_comp (hF : Nat.card F = 64) (e : K ≃* PSL2 F)
       have : 3 ^ 3 ∣ 262080 := (pow_dvd_pow 3 (by omega)).trans hdvd
       norm_num at this
     interval_cases j
-    · haveI := isCyclic_of_card_dvd_prime (α := ↥(S : Subgroup ↥J)) (p := 3) (by rw [hj]; norm_num)
+    · have := isCyclic_of_card_dvd_prime (α := ↥(S : Subgroup ↥J)) (p := 3) (by rw [hj]; norm_num)
       exact IsCyclic.isMulCommutative
-    · haveI := isCyclic_of_card_dvd_prime (α := ↥(S : Subgroup ↥J)) (p := 3) (by rw [hj]; norm_num)
+    · have := isCyclic_of_card_dvd_prime (α := ↥(S : Subgroup ↥J)) (p := 3) (by rw [hj]; norm_num)
       exact IsCyclic.isMulCommutative
     · exact IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3) hj
   · obtain ⟨s, hs⟩ := exists_prime_orderOf_dvd_card' 3 h3J
@@ -408,7 +412,7 @@ section Field64
 theorem glaPComponent_self_of_alt5 {G : Type} [Group G] [Finite G] {J : Subgroup G}
     (e : ↥J ≃* alternatingGroup (Fin 5)) :
     GLAPComponent 3 J J ∧ IsAltType 5 (barOf 3 J) := by
-  haveI : IsSimpleGroup ↥J := (MulEquiv.isSimpleGroup_congr e).mpr inferInstance
+  have : IsSimpleGroup ↥J := (MulEquiv.isSimpleGroup_congr e).mpr inferInstance
   have h60 : Nat.card ↥J = 60 := (Nat.card_congr e.toEquiv).trans Inputs256b.card_alt5
   have hnc : ∃ a b : ↥J, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := Inputs256b.alt5_noncomm
@@ -431,14 +435,14 @@ theorem exists_equiv_psl2 {K : Type} [Group K] [Finite K]
   obtain ⟨q, hdq, hq64⟩ := hd64
   dsimp only at hdq
   subst hdq
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hF : Nat.card (GaloisField q.p q.exponent) = 64 := by
     rw [GaloisField.card q.p q.exponent q.exponent_pos.ne', ← TauCeti.PrimePower.card_def, hq64]
   let e : (K ⧸ Subgroup.center K) ≃* PSL2 (GaloisField q.p q.exponent) :=
     θ.trans (CFSG.ClassicalModels.linearCatalogCandidateEquivPSL 1 q hv)
   have hZ : Subgroup.center K = ⊥ := by
     refine center_eq_bot_of_isCyclic Nat.prime_three hK.1.1 hcore fun R hR => ?_
-    haveI := isCyclic_of_isPGroup_three hF (R.map e.toMonoidHom) (hR.map _)
+    have := isCyclic_of_isPGroup_three hF (R.map e.toMonoidHom) (hR.map _)
     exact isCyclic_of_surjective (R.equivMapOfInjective e.toMonoidHom e.injective).symm
       (MulEquiv.surjective _)
   refine ⟨GaloisField q.p q.exponent, inferInstance, inferInstance, hF, hZ, ⟨?_⟩⟩
@@ -446,7 +450,7 @@ theorem exists_equiv_psl2 {K : Type} [Group K] [Finite K]
 
 theorem chev2Field64_holds : Inputs256c.Chev2Field64 := by
   intro K _ _ hK hcore _ _ d _ hd64 hθ x hx L hL hL5 y hyL hy
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨F, _, _, hF, hZ, ⟨e⟩⟩ := exists_equiv_psl2 hK hcore hd64 hθ
   have hLx : L ≤ fixSubgroup x := hL.1
   have hL' : GLAPComponent 3 (fixSubgroup x) L := by rwa [Inputs256b.fixedSub_eq] at hL
@@ -560,7 +564,7 @@ theorem chev2On_of_noA5On {P : TauCeti.ValidLieTypeIndex → Prop} (h : NoA5On P
   intro K _ _ hK hcore hnotPi _ d hd2 hP hθ x hx L hL hL5 y _ _
   exfalso
   have hq := hK.1
-  haveI : IsSimpleGroup (K ⧸ Subgroup.center K) := hq.2
+  have : IsSimpleGroup (K ⧸ Subgroup.center K) := hq.2
   have hnab := CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian K hq
   have hx3 : x ^ 3 = 1 := hx ▸ pow_orderOf_eq_one x
   have hL' : GLAPComponent 3 (fixSubgroup x) L := by rwa [Inputs256b.fixedSub_eq] at hL

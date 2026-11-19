@@ -87,8 +87,8 @@ private theorem stab_eq : stabCheck = stabC := by
   have h1 : (keyF (ev y) = U0) ↔ (keyN y = orL u0L) := by
     rw [← kKey1, keyN_eq_iff, keyF_one]
   by_cases hc : keyF (ev y) = U0
-  · rw [if_pos hc, if_pos (h1.1 hc), sift_ev]
-  · rw [if_neg hc, if_neg (mt h1.2 hc), targets_bit]
+  · rw [ite_eq_left hc, ite_eq_left (h1.1 hc), sift_ev]
+  · rw [ite_eq_right hc, ite_eq_right (mt h1.2 hc), targets_bit]
 
 open CFSG.Certificates CFSG.RankThree.PartTwo.KFacts.L34Max in
 theorem certificate8034 : (QN0.check = true ∧ QN0.orderCertificate = 72)

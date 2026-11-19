@@ -79,7 +79,7 @@ theorem diagLin_add (c c' : Fin 6 → ZMod 3) :
     simp only [diagFun_lo, diagFun_hi, Pi.add_apply, omegaPow_add]
 
 @[expose] def diagE (c : Fin 6 → ZMod 3) : G12 :=
-  LinearEquiv.ofLinear (diagLin c) (diagLin (-c))
+  LinearEquiv.ofLinearMap (diagLin c) (diagLin (-c))
     (by rw [← diagLin_add, add_neg_cancel, diagLin_zero])
     (by rw [← diagLin_add, neg_add_cancel, diagLin_zero])
 
@@ -122,13 +122,13 @@ theorem permLin_mul (π π' : Equiv.Perm (Fin 6)) :
   refine ext_lo_hi (fun i => ?_) (fun i => ?_)
   · show permFun (π * π') x (lo i) = permFun π (permFun π' x) (lo i)
     rw [permFun_lo, permFun_lo, permFun_lo]
-    simp [Equiv.Perm.mul_def, Equiv.symm_trans_apply]
+    simp [Equiv.Perm.mul_def]
   · show permFun (π * π') x (hi i) = permFun π (permFun π' x) (hi i)
     rw [permFun_hi, permFun_hi, permFun_hi]
-    simp [Equiv.Perm.mul_def, Equiv.symm_trans_apply]
+    simp [Equiv.Perm.mul_def]
 
 @[expose] def permE (π : Equiv.Perm (Fin 6)) : G12 :=
-  LinearEquiv.ofLinear (permLin π) (permLin π⁻¹)
+  LinearEquiv.ofLinearMap (permLin π) (permLin π⁻¹)
     (by rw [← permLin_mul, mul_inv_cancel, permLin_one])
     (by rw [← permLin_mul, inv_mul_cancel, permLin_one])
 
@@ -164,12 +164,12 @@ theorem frobLin_frobLin : frobLin ∘ₗ frobLin = LinearMap.id := by
     rw [frobFun_hi, frobFun_hi]
 
 @[expose] def frobE : G12 :=
-  LinearEquiv.ofLinear frobLin frobLin frobLin_frobLin frobLin_frobLin
+  LinearEquiv.ofLinearMap frobLin frobLin frobLin_frobLin frobLin_frobLin
 
 @[simp] theorem frobE_apply (x : V12) : frobE x = frobFun x := rfl
 
 @[expose] def theta0e : G12 :=
-  LinearEquiv.ofLinear theta0 (theta0 ∘ₗ theta0)
+  LinearEquiv.ofLinearMap theta0 (theta0 ∘ₗ theta0)
     (LinearMap.ext fun x => theta0_theta0_theta0 x)
     (LinearMap.ext fun x => by
       show theta0 (theta0 (theta0 x)) = x

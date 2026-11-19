@@ -34,7 +34,7 @@ theorem commute_of_inf_commute {A : Type*} [Group A] {U N : Subgroup A} [N.Norma
   have h4 : (c * ε) ^ 3 = c ^ 3 * ε ^ 3 := Commute.mul_pow (show Commute c ε from hcε.symm) 3
   rw [h4, hε, mul_one] at h3
   have hc1 : c = 1 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp hU ⟨c, hcU⟩
     have hk' : orderOf c = 2 ^ k := by simpa using hk
     have hdvd : orderOf c ∣ 3 := orderOf_dvd_of_pow_eq_one h3
@@ -53,7 +53,7 @@ theorem u42CatAt_of_slevel (h1 : U42E81At) (h2 : U42E27At) (h3 : U42RankAt) (G :
     [Finite G] : U42CatAt G := by
   intro B x L D K hS hB4 hL hinner hStd hK hT₀
   obtain ⟨T₀, hT₀C, hT₀2, hT₀B, hT₀ne, hT₀O⟩ := hT₀
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hL' : catalogIs (PSimple 3 L) IsU42Host := hL
   have hBm := IsSStarMax.bmax hS
   have hBe : IsElemAbelian 3 B := hBm.1
@@ -223,7 +223,7 @@ theorem u42CatAt_of_slevel (h1 : U42E81At) (h2 : U42E27At) (h3 : U42RankAt) (G :
         intro s
         simp only [hU₀, Subgroup.mem_comap, map_mul, map_inv]
         exact Subgroup.mem_normalizer_iff.1 (hEnorm e he) _
-      haveI hNnormal : (MulAut.conj : PSimple 3 L →* MulAut (PSimple 3 L)).range.Normal := ⟨by
+      have hNnormal : (MulAut.conj : PSimple 3 L →* MulAut (PSimple 3 L)).range.Normal := ⟨by
         rintro _ ⟨s, rfl⟩ g
         refine ⟨g s, ?_⟩
         ext z
@@ -268,7 +268,7 @@ theorem u42CatAt_of_slevel (h1 : U42E81At) (h2 : U42E27At) (h3 : U42RankAt) (G :
         intro b hb
         rw [hStd.2.2.2.2.1]
         exact S12.mem_normalizer_glaLayer' (hBX hb)
-      haveI : IsSimpleGroup (PSimple 3 K) := S10.isSimple_of_isU4two hK
+      have : IsSimpleGroup (PSimple 3 K) := S10.isSimple_of_isU4two hK
       have hKs : Nontrivial (PSimple 3 K) := inferInstance
       obtain ⟨f, hf⟩ := exists_surj_chevTransfer hKL hKq
       obtain ⟨T', hT'K, hT'2, hT'E, hT'c, hT'8, hT'z⟩ := h2 (PSimple 3 L) hL' E U₀ hρelem hE27' hU₀2

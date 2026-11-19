@@ -75,7 +75,7 @@ theorem tFrame_cartanGen_bc
           ((G.d j s : ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom)) : ModGL TwistTag.E6.tag K) =
         g * torusElt Tag.E6 Ω j (s : Ωˣ) * g⁻¹ := by
   classical
-  haveI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
   let Ψ : ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom) →* ModGL Tag.E6 Ω :=
     (baseChangeGL (algebraMap K Ω) (τ := Tag.E6)).comp
       (graphFixedRootGroup TwistTag.E6 K σ.toRingHom).subtype

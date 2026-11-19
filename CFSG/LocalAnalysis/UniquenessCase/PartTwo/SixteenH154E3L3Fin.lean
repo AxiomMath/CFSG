@@ -37,7 +37,7 @@ theorem s16h_gl3_subgroup_seven_dvd {H : Subgroup (Matrix.GeneralLinearGroup (Fi
     Nat.card ↥H = 168 ∨ ((Nat.card ↥H = 7 ∨ Nat.card ↥H = 21) ∧
       ∃ P : Subgroup (Matrix.GeneralLinearGroup (Fin 3) (ZMod 2)), P ≤ H ∧ Nat.card ↥P = 7 ∧
         ∀ x ∈ H, P.map (MulAut.conj x).toMonoidHom = P) := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hdvd : Nat.card ↥H ∣ 168 := by
     rw [← CFSG.ComponentClassification.GHarris.card_GL32_gh]
     exact Subgroup.card_subgroup_dvd_card H
@@ -77,7 +77,7 @@ theorem s16h_gl3_subgroup_seven_dvd {H : Subgroup (Matrix.GeneralLinearGroup (Fi
     interval_cases m <;> omega
   · have hne : Nat.card (Sylow 7 ↥H) ≠ 1 := by
       intro h1
-      haveI : Subsingleton (Sylow 7 ↥H) := (Nat.card_eq_one_iff_unique.mp h1).1
+      have : Subsingleton (Sylow 7 ↥H) := (Nat.card_eq_one_iff_unique.mp h1).1
       exact hnorm (Sylow.normal_of_subsingleton S)
     have hmul : (S : Subgroup ↥H).index * 7 = Nat.card ↥H := by
       have h := (S : Subgroup ↥H).card_mul_index
@@ -117,7 +117,7 @@ theorem s16h_e3_l3_cover_three {H : Subgroup (Matrix.GeneralLinearGroup (Fin 3) 
       u ^ 3 = 1 ∧ h ^ 3 = 1 ∧ (u ≠ 1 ∨ h ≠ 1) ∧
         (u : Matrix (Fin 3) (Fin 3) (ZMod 2)) * M *
           (h : Matrix (Fin 3) (Fin 3) (ZMod 2)).transpose = M := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have h7H : 7 ∣ Nat.card ↥H := (by norm_num : (7 : ℕ) ∣ 21).trans hH
   rcases s16h_gl3_subgroup_seven_dvd h7H with h168 | ⟨hcard, P, hPle, hPcard, hPnorm⟩
   · have htop : H = ⊤ :=

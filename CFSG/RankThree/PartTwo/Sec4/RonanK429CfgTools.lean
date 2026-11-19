@@ -42,7 +42,7 @@ theorem descAut_mk (L : Subgroup G) (n : Subgroup.normalizer (L : Set G)) (l : L
 theorem descAut_eq_one_iff {L : Subgroup G} (hL : Group.IsPerfect L)
     (n : Subgroup.normalizer (L : Set G)) :
     descAut L n = 1 ↔ (n : G) ∈ Subgroup.centralizer (L : Set G) := by
-  haveI := hL
+  have := hL
   have hker : L.normalizerMonoidHom n = 1 ↔ (n : G) ∈ Subgroup.centralizer (L : Set G) := by
     rw [← MonoidHom.mem_ker, Subgroup.normalizerMonoidHom_ker, Subgroup.mem_subgroupOf]
   rw [← hker]
@@ -61,10 +61,12 @@ variable [Finite G]
     Subgroup (MulAut (L ⧸ Subgroup.center L)) :=
   ((descAut L).comp (Subgroup.inclusion hAN)).range
 
+omit [Finite G] in
 theorem descAut_mem_aBar {L A : Subgroup G} (hAN : A ≤ Subgroup.normalizer (L : Set G)) {a : G}
     (ha : a ∈ A) : descAut L ⟨a, hAN ha⟩ ∈ aBar hAN :=
   ⟨⟨a, ha⟩, rfl⟩
 
+omit [Finite G] in
 theorem mem_aBar_iff {L A : Subgroup G} (hAN : A ≤ Subgroup.normalizer (L : Set G))
     {x : MulAut (L ⧸ Subgroup.center L)} :
     x ∈ aBar hAN ↔ ∃ (a : G) (ha : a ∈ A), descAut L ⟨a, hAN ha⟩ = x := by
@@ -74,6 +76,7 @@ theorem mem_aBar_iff {L A : Subgroup G} (hAN : A ≤ Subgroup.normalizer (L : Se
   · rintro ⟨a, ha, rfl⟩
     exact descAut_mem_aBar hAN ha
 
+omit [Finite G] in
 theorem descAut_comp_inclusion_injective {L A : Subgroup G} (hL : Group.IsPerfect L)
     (hAN : A ≤ Subgroup.normalizer (L : Set G))
     (hAC : A ⊓ Subgroup.centralizer (L : Set G) = ⊥) :
@@ -85,6 +88,7 @@ theorem descAut_comp_inclusion_injective {L A : Subgroup G} (hL : Group.IsPerfec
   rw [hAC, Subgroup.mem_bot] at h2
   exact Subtype.ext h2
 
+omit [Finite G] in
 theorem isE27_aBar {L A : Subgroup G} (hL : Group.IsPerfect L)
     (hAN : A ≤ Subgroup.normalizer (L : Set G))
     (hAC : A ⊓ Subgroup.centralizer (L : Set G) = ⊥) (hA : Late.IsE27 A) :
@@ -122,15 +126,16 @@ theorem pCore_two_le_center {K : Type} [Group K] [Finite K] (hK : IsQuasisimple 
     have h2 : IsPGroup 2 (CFSG.pCore 2 K) := CFSG.pCore_isPGroup
     rw [h] at h2
     have hp : IsPGroup 2 K := h2.of_equiv Subgroup.topEquiv
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI := hK.1
-    haveI : Nontrivial K := by
-      haveI : Nontrivial (K ⧸ Subgroup.center K) := hK.2.1.toNontrivial
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have := hK.1
+    have : Nontrivial K := by
+      have : Nontrivial (K ⧸ Subgroup.center K) := hK.2.1.toNontrivial
       exact (QuotientGroup.mk'_surjective (Subgroup.center K)).nontrivial
     exact Group.IsPerfect.not_isNilpotent K hp.isNilpotent
   · exact h
 
-theorem inf_eq_bot_of_center_eq_bot {K P : Subgroup Γ} (hK : IsQuasisimple K)
+omit [Finite Γ] in
+theorem inf_eq_bot_of_center_eq_bot {K P : Subgroup Γ} (_hK : IsQuasisimple K)
     (hZ : Subgroup.center (K ⧸ CFSG.pCore 2 K) = ⊥) (hP : P ≤ Subgroup.center Γ)
     (hP3 : IsPGroup 3 P) : K ⊓ P = ⊥ := by
   rw [eq_bot_iff]
@@ -164,7 +169,7 @@ theorem mem_centralizer_of_conj_mem_pCoreOf {K : Subgroup Γ} (hK : IsQuasisimpl
     (ha : a ∈ Subgroup.normalizer (K : Set Γ))
     (h : ∀ k ∈ K, a * k * a⁻¹ * k⁻¹ ∈ CFSG.Open.pCoreOf 2 K) :
     a ∈ Subgroup.centralizer (K : Set Γ) := by
-  haveI : Group.IsPerfect K := hK.1
+  have : Group.IsPerfect K := hK.1
   have hO := pCore_two_le_center hK
   have hα : K.normalizerMonoidHom ⟨a, ha⟩ = 1 := by
     apply mulAut_eq_of_inv_mul_mem_center

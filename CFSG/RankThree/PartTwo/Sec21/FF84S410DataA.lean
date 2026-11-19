@@ -17,11 +17,14 @@ open CFSG.ComponentClassification.AS81 CFSG.ComponentClassification.AS81.Sec2Ome
 variable {G : Type} [Group G] [Finite G] {S : Subgroup G} {e : ↥S ≃* Multiplicative F6}
   {ψ : ↥(Nor S) →* OmG}
 
+omit [Finite G] in
 theorem toAdd_e_one : Multiplicative.toAdd (e (1 : ↥S)) = 0 := by simp
 
+omit [Finite G] in
 theorem eq_one_of_toAdd_e_zero {w : ↥S} (h : Multiplicative.toAdd (e w) = 0) : w = 1 :=
   (toAdd_e_eq_iff (e := e) w 1).1 (h.trans toAdd_e_one.symm)
 
+omit [Finite G] in
 theorem toAdd_e_mul (x y : ↥S) :
     Multiplicative.toAdd (e (x * y)) = Multiplicative.toAdd (e x) + Multiplicative.toAdd (e y) := by
   simp
@@ -41,6 +44,7 @@ theorem toAdd_e_mul (x y : ↥S) :
 
 variable {s t : ↥S}
 
+omit [Finite G] in
 theorem mem_T_of_vec (hes : Multiplicative.toAdd (e s) = sig0)
     (het : Multiplicative.toAdd (e t) = tau0) {w : ↥S}
     (hw : Multiplicative.toAdd (e w) = 0 ∨ Multiplicative.toAdd (e w) = sig0 ∨
@@ -62,8 +66,9 @@ theorem mem_T_of_vec (hes : Multiplicative.toAdd (e s) = sig0)
     rw [this]
     exact Subgroup.mul_mem _ (Subgroup.subset_closure (by simp)) (Subgroup.subset_closure (by simp))
 
-theorem vec_of_mem_T (H : OmSet S e ψ) (hes : Multiplicative.toAdd (e s) = sig0)
-    (het : Multiplicative.toAdd (e t) = tau0) {x : G}
+omit [Finite G] in
+theorem vec_of_mem_T (_H : OmSet S e ψ) (_hes : Multiplicative.toAdd (e s) = sig0)
+    (_het : Multiplicative.toAdd (e t) = tau0) {x : G}
     (hx : x ∈ Subgroup.closure ({(s : G), (t : G)} : Set G)) : x ∈ S :=
   (Subgroup.closure_le S).2 (by
     intro y hy
@@ -73,6 +78,7 @@ theorem vec_of_mem_T (H : OmSet S e ψ) (hes : Multiplicative.toAdd (e s) = sig0
       rw [hy]
       exact t.2) hx
 
+omit [Finite G] in
 theorem data_basic (H : OmSet S e ψ) (hes : Multiplicative.toAdd (e s) = sig0)
     (het : Multiplicative.toAdd (e t) = tau0) :
     (s : G) ≠ 1 ∧ (t : G) ≠ 1 ∧ (s : G) ≠ (t : G) ∧ S = Op 2 (Cen (s : G)) ∧
@@ -105,6 +111,7 @@ theorem data_basic (H : OmSet S e ψ) (hes : Multiplicative.toAdd (e s) = sig0)
     rw [toAdd_e_mul, hes, het, qMinus_sig0_add_tau0] at h2
     exact absurd h2 (by decide)
 
+omit [Finite G] in
 theorem M_le_nor (H : OmSet S e ψ) (hes : Multiplicative.toAdd (e s) = sig0)
     (het : Multiplicative.toAdd (e t) = tau0) :
     CenS (Subgroup.closure ({(s : G), (t : G)} : Set G)) ≤ Nor S := by
@@ -119,6 +126,7 @@ theorem M_le_nor (H : OmSet S e ψ) (hes : Multiplicative.toAdd (e s) = sig0)
 theorem mem_P2 {g : OmG} : g ∈ P2 ↔ g • sig0 = sig0 ∧ g • tau0 = tau0 := by
   rw [P2, Subgroup.mem_inf, MulAction.mem_stabilizer_iff, MulAction.mem_stabilizer_iff]
 
+omit [Finite G] in
 theorem M_psi (H : OmSet S e ψ) (hes : Multiplicative.toAdd (e s) = sig0)
     (het : Multiplicative.toAdd (e t) = tau0) (n : ↥(Nor S)) :
     (n : G) ∈ CenS (Subgroup.closure ({(s : G), (t : G)} : Set G)) ↔ ψ n ∈ P2 := by
@@ -130,11 +138,13 @@ theorem M_psi (H : OmSet S e ψ) (hes : Multiplicative.toAdd (e s) = sig0)
   (ψ.comp (Subgroup.inclusion (M_le_nor H hes het))).codRestrict P2
     (fun n => (M_psi H hes het ⟨n.1, M_le_nor H hes het n.2⟩).1 n.2)
 
+omit [Finite G] in
 theorem phiM_coe (H : OmSet S e ψ) (hes : Multiplicative.toAdd (e s) = sig0)
     (het : Multiplicative.toAdd (e t) = tau0)
     (n : ↥(CenS (Subgroup.closure ({(s : G), (t : G)} : Set G)))) :
     ((phiM H hes het n : ↥P2) : OmG) = ψ ⟨n.1, M_le_nor H hes het n.2⟩ := rfl
 
+omit [Finite G] in
 theorem phiM_surj (H : OmSet S e ψ) (hes : Multiplicative.toAdd (e s) = sig0)
     (het : Multiplicative.toAdd (e t) = tau0) : Function.Surjective (phiM H hes het) := by
   intro g
@@ -145,6 +155,7 @@ theorem phiM_surj (H : OmSet S e ψ) (hes : Multiplicative.toAdd (e s) = sig0)
   rw [phiM_coe]
   exact hn
 
+omit [Finite G] in
 theorem phiM_ker (H : OmSet S e ψ) (hes : Multiplicative.toAdd (e s) = sig0)
     (het : Multiplicative.toAdd (e t) = tau0) :
     (phiM H hes het).ker =
@@ -162,6 +173,7 @@ theorem phiM_ker (H : OmSet S e ψ) (hes : Multiplicative.toAdd (e s) = sig0)
     rw [phiM_coe]
     exact (H.psi_eq_one_iff _).2 h
 
+omit [Finite G] in
 theorem data_CM (H : OmSet S e ψ) (hes : Multiplicative.toAdd (e s) = sig0)
     (het : Multiplicative.toAdd (e t) = tau0) :
     S ⊓ CenS (CenS (Subgroup.closure ({(s : G), (t : G)} : Set G))) =
@@ -188,6 +200,7 @@ theorem data_CM (H : OmSet S e ψ) (hes : Multiplicative.toAdd (e s) = sig0)
     have hy' : y ∈ CenS (Subgroup.closure ({(s : G), (t : G)} : Set G)) := hy
     exact (Subgroup.mem_centralizer_iff.1 hy' x hx).symm
 
+omit [Finite G] in
 theorem data_max (H : OmSet S e ψ) (hes : Multiplicative.toAdd (e s) = sig0)
     (het : Multiplicative.toAdd (e t) = tau0) (W : Subgroup G)
     (hTW : Subgroup.closure ({(s : G), (t : G)} : Set G) ≤ W) (hWS : W ≤ S)

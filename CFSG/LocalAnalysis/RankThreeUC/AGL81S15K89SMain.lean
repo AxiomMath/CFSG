@@ -20,7 +20,7 @@ theorem K89Sp_of_inputs (hW : KFactThreeRankOneOvergroupL32) (hI : LThreeTwoCore
     (hCat : CFSG.AGLEmbedding.CatalogOuterSolvable) (hF1 : KFactL32SimpleNormalizerAll)
     (hF2 : KFactL32OddFix) : K89Sp := by
   intro X _ _ hK N L hN hr hLN hL
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Y, hYL, hY⟩ := exists_Y L hL
   have hYN : Y ≤ N := hYL.trans hLN
   have hodd : ¬ 2 ∣ N.index := oddIndex_noChar hW hI X hK N hN hr Y hYN hY

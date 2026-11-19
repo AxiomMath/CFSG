@@ -16,6 +16,7 @@ section Field
 
 variable {F : Type} [Field F] [Finite F]
 
+omit [Finite F] in
 theorem card_cubeRoots_le : Nat.card {y : F // y ^ 3 = 1} ≤ 3 := by
   classical
   have h : Nat.card {y : F // y ^ 3 = 1} = (Polynomial.nthRootsFinset 3 (1 : F)).card := by
@@ -76,11 +77,11 @@ variable {ℓ f : ℕ} {F : Type} [Field F]
     by
       rw [diagonal_mul_diagonal]
       ext i j
-      fin_cases i <;> fin_cases j <;> simp [diagonal_apply],
+      fin_cases i <;> fin_cases j <;> simp,
     by
       rw [diagonal_mul_diagonal]
       ext i j
-      fin_cases i <;> fin_cases j <;> simp [diagonal_apply]⟩
+      fin_cases i <;> fin_cases j <;> simp⟩
 
 theorem coe_diag3 (a b c : Fˣ) :
     ((diag3 a b c : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) = diagonal ![(a : F), b, c] :=
@@ -94,8 +95,8 @@ theorem diag3_mem_gramSU (h : UnitaryFieldData ℓ f F) {a b c : Fˣ} (ha : h.no
   refine ⟨?_, ?_⟩
   · ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [diagonal_apply, UnitaryFieldData.norm, mul_comm, ha, hb, hc] <;>
-      first | exact ha | exact hb | exact hc | skip
+      simp [mul_comm] <;>
+      first | exact ha | exact hb | exact hc
   · rw [det_diagonal, Fin.prod_univ_three]
     simpa using congrArg Units.val hdet
 
@@ -286,7 +287,7 @@ theorem exists_fixed_three_subgroup_of_dvd_U38 {K : Type} [Group K] [Finite K] (
   refine ⟨(P : Subgroup ↥(fixedSubgroup u)).map (fixedSubgroup u).subtype, ?_, ?_, ?_⟩
   · rintro _ ⟨y, -, rfl⟩
     exact y.2
-  · exact P.isPGroup'.map _
+  · exact P.isPGroup.map _
   · rw [Subgroup.card_map_of_injective (fixedSubgroup u).subtype_injective,
       Sylow.card_eq_multiplicity P]
     have h3 : 3 ^ 3 ∣ Nat.card (fixedSubgroup u) := by simpa using h

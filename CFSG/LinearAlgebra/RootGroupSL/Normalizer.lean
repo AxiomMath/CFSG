@@ -34,8 +34,8 @@ private lemma det_shearE_general (φ : E →ₗ[k] E) :
       h.of_surjective ((LinearMap.fst k X E).comp (LinearMap.snd k E (X × E)))
         ((LinearMap.fst_surjective (R := k) (M := X) (M₂ := E)).comp
           (LinearMap.snd_surjective (R := k) (M := E) (M₂ := X × E)))
-    haveI : Module.Finite k E := hE
-    haveI : Module.Finite k X := hX
+    have : Module.Finite k E := hE
+    have : Module.Finite k X := hX
     exact det_shearE (X := X) φ
   · apply Units.ext
     rw [LinearEquiv.coe_det, Units.val_one]

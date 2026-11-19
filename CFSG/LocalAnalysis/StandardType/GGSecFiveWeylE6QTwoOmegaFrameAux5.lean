@@ -106,11 +106,11 @@ theorem exists_rootRefl_not_mem_closure
     have hwsum : w = ∑ j : Fin 5, (1 : ZMod 3) • f j := by
       simp only [w, one_smul]
     rw [hwsum, map_sum]
-    simp only [LinearMap.sum_apply, LinearMap.BilinForm.smul_left, hf, smul_eq_mul]
+    simp only [LinearMap.sum_apply, LinearMap.BilinForm.smul_left, hf]
     rw [Finset.sum_eq_single i]
-    · rw [if_pos rfl, mul_one]
+    · rw [ite_eq_left rfl, mul_one]
     · intro j _ hji
-      rw [if_neg hji, mul_zero]
+      rw [ite_eq_right hji, mul_zero]
     · intro hi
       exact absurd (Finset.mem_univ i) hi
   have hw : B w w = 2 := by

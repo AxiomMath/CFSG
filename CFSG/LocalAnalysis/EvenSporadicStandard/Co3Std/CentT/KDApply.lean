@@ -18,6 +18,7 @@ namespace CentConfig
 
 variable {X : Type} [Group X] [Finite X] {a b : X} {E : Subgroup X} {Fus : X → Prop}
 
+omit [Finite X] in
 private theorem zpowers_sq_eq_one_or {x : X} (hx : x * x = 1) {c : X}
     (hc : c ∈ zpowers x) : c = 1 ∨ c = x := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hc
@@ -30,6 +31,7 @@ private theorem zpowers_sq_eq_one_or {x : X} (hx : x * x = 1) {c : X}
     obtain ⟨m, hm⟩ : ∃ m : ℤ, k = 2 * m + 1 := ⟨k / 2, by omega⟩
     rw [hm, zpow_add, zpow_mul, h2, one_zpow, one_mul, zpow_one]
 
+omit [Finite X] in
 private theorem exists_mul_of_mem_sup_of_le_centralizer {T C : Subgroup X}
     (hC : C ≤ centralizer (T : Set X)) {x : X} (hx : x ∈ T ⊔ C) :
     ∃ t ∈ T, ∃ c ∈ C, x = t * c := by
@@ -100,7 +102,7 @@ theorem isPGroup_center_component (h : CentConfig X a b E Fus) {L : Subgroup X}
 
 theorem catalog_center_quotient (h : CentConfig X a b E Fus) {L : Subgroup X}
     (hL : IsComponentOf L ⊤) : Catalog (↥L ⧸ center ↥L) := by
-  haveI : IsSimpleGroup (↥L ⧸ center ↥L) := hL.2.2.2
+  have : IsSimpleGroup (↥L ⧸ center ↥L) := hL.2.2.2
   exact CFSG.SectionRank.catalog_of_isKGroupCat_of_surjective h.kgroupCat L
     (QuotientGroup.mk' (center ↥L)) (QuotientGroup.mk'_surjective _)
 
@@ -109,7 +111,7 @@ theorem kd_facts (hKD : KDCo3Cat) (h : CentConfig X a b E Fus) {L : Subgroup X}
     (LieModel (↥L ⧸ center ↥L) .POmegaPlus 4 2 1 ∨ LieModel (↥L ⧸ center ↥L) .PSU 6 2 1 ∨
         NativeSporadic.IsSporadic (↥L ⧸ center ↥L) .Fi22) ∧
       ∀ g : ↥L, conjAut L a haL ≠ MulAut.conj g := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hζ : orderOf (conjAut L a haL) = 2 := by
     refine orderOf_eq_prime ?_ ?_
     · rw [pow_two]
@@ -127,7 +129,7 @@ theorem kd_facts (hKD : KDCo3Cat) (h : CentConfig X a b E Fus) {L : Subgroup X}
       have hCL : ⁅L, L⁆ ≤ E :=
         Subgroup.commutator_le.mpr fun l₁ hl₁ l₂ hl₂ =>
           commutator_mem_sup h (hsub hl₁) (hsub hl₂)
-      haveI : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hL.2.2.1
+      have : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hL.2.2.1
       have hLleE : L ≤ E := (Subgroup.commutator_eq_self (H := L)).ge.trans hCL
       exact hne (le_antisymm hEL hLleE)
   have hD1 : E.subgroupOf L ≤ fixedSubgroup (conjAut L a haL) := by

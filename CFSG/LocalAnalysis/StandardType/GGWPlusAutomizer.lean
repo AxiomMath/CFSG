@@ -49,8 +49,8 @@ theorem wplus_of_automizer {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.Pri
   let C : Subgroup G := Subgroup.centralizer (Eb : Set G)
   let X : Subgroup G := Inn ⊓ N0
   let K : Subgroup G := A ⊓ C
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI hE1A_normal : (E₁.subgroupOf A).Normal :=
+  have : Fact p.Prime := ⟨hp⟩
+  have hE1A_normal : (E₁.subgroupOf A).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hE1A).mpr hNE1
   have step1 : ∀ a ∈ A, (∃ k : ℕ, a ^ p ^ k = 1) → ∃ x ∈ X, ∃ c ∈ K, a = x * c := by
     intro a ha hap
@@ -83,7 +83,7 @@ theorem wplus_of_automizer {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.Pri
   by_contra hnot
   have hXnot : ¬ X ⊓ E₁ ≤ M₁ := fun hle => hnot (step2 hle)
   have hXnot' : ∃ x0, x0 ∈ X ⊓ E₁ ∧ x0 ∉ M₁ := by
-    rw [SetLike.le_def] at hXnot
+    rw [_root_.IsConcreteLE.le_iff] at hXnot
     push Not at hXnot
     exact hXnot
   obtain ⟨x0, hx0XE1, hx0M1⟩ := hXnot'
@@ -100,7 +100,7 @@ theorem wplus_of_automizer {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.Pri
       rw [hEq]
       exact Subgroup.mem_subgroupOf.mpr hx0E1
     exact hx0M1 (Subgroup.mem_subgroupOf.mp hmem)
-  haveI hK1normal : K₁.Normal := by
+  have hK1normal : K₁.Normal := by
     refine ⟨fun n hn g => ?_⟩
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     have hgnorm : (g : G) ∈ Subgroup.normalizer (M₁ : Set G) := hNM1 (hXA g.2)
@@ -134,7 +134,7 @@ theorem wplus_of_automizer {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.Pri
       have hker := (Subgroup.map_eq_bot_iff K₂ (f := QuotientGroup.mk' K₁)).mp hbot
       rwa [QuotientGroup.ker_mk'] at hker
     exact (le_antisymm hle hK12).symm
-  haveI : IsCyclic (A ⧸ E₁.subgroupOf A) := by
+  have : IsCyclic (A ⧸ E₁.subgroupOf A) := by
     refine IsCyclic.mk ⟨QuotientGroup.mk' (E₁.subgroupOf A) ⟨h, hhA⟩, ?_⟩
     intro y
     obtain ⟨a, rfl⟩ := QuotientGroup.mk'_surjective (E₁.subgroupOf A) y
@@ -180,12 +180,12 @@ theorem wplus_of_automizer {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.Pri
     rw [QuotientGroup.ker_map, hcomap]
   have hsolv : Group.IsSolvable (X ⧸ K₁) := by
     have hpker : IsPGroup p g.ker := hgker.symm ▸ hHp
-    haveI hnil : Group.IsNilpotent ↥g.ker := IsPGroup.isNilpotent (p := p) hpker
-    haveI : Group.IsSolvable ↥g.ker := IsNilpotent.to_isSolvable
-    haveI : Group.IsSolvable ↥g.range := by
-      haveI : IsCyclic ↥g.range := Subgroup.isCyclic g.range
+    have hnil : Group.IsNilpotent ↥g.ker := IsPGroup.isNilpotent (p := p) hpker
+    have : Group.IsSolvable ↥g.ker := IsNilpotent.to_isSolvable
+    have : Group.IsSolvable ↥g.range := by
+      have : IsCyclic ↥g.range := Subgroup.isCyclic g.range
       exact Group.isSolvable_of_comm fun a b => (IsCyclic.commGroup).mul_comm a b
-    haveI : Group.IsSolvable ((X ⧸ K₁) ⧸ g.ker) :=
+    have : Group.IsSolvable ((X ⧸ K₁) ⧸ g.ker) :=
       Group.isSolvable_of_isSolvable_injective
         (f := (QuotientGroup.quotientKerEquivRange g).toMonoidHom)
         (QuotientGroup.quotientKerEquivRange g).injective

@@ -19,9 +19,11 @@ variable {F : Type} [Field F] [CharP F 2]
     funext i
     simp [herm2_smul_right]
 
+omit [CharP F 2] in
 theorem phiHerm2_apply (w : Fin 3 → Fin 6 → F) (v : Fin 6 → F) (i : Fin 3) :
     phiHerm2 w v i = herm2 (w i) v := rfl
 
+omit [CharP F 2] in
 theorem eq_zero_of_herm2_forall {x : Fin 6 → F} (h : ∀ v : Fin 6 → F, herm2 x v = 0) : x = 0 := by
   funext j
   have h1 := h (fun k => if k = j then 1 else 0)
@@ -141,6 +143,7 @@ theorem fixed_no_kernel2 (hF4 : ∀ x : F, x ^ 4 = x)
     simpa [sub_eq_zero] using h
   exact ht0 (hPt'.symm.trans hPt)
 
+omit [CharP F 2] in
 theorem isometry_pow2 {Y : Matrix (Fin 6) (Fin 6) F}
     (hY : ∀ a b : Fin 6 → F, herm2 (Y *ᵥ a) (Y *ᵥ b) = herm2 a b) (k : ℕ) (a b : Fin 6 → F) :
     herm2 ((Y ^ k) *ᵥ a) ((Y ^ k) *ᵥ b) = herm2 a b := by

@@ -105,7 +105,7 @@ private lemma w162_grp_invariant_sylow_image {Γ : Type*} [Group Γ] [Finite Γ]
     (q : ℕ) (hq : q.Prime) :
     ∃ Y : Subgroup Γ, Y ≤ N ∧ P ≤ Subgroup.normalizer (Y : Set Γ) ∧
       Nat.card Y = q ^ (Nat.card N).factorization q ∧ (Y = N → IsPGroup q N) := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨R, hR⟩ := CFSG.OrderReductions.InvariantSylow.exists_invariant_sylow_of_coprime
     (actor := ↥P) (group := ↥N) 2 q hP hodd.not_two_dvd_nat
     ((MulAut.conjNormal (H := N)).comp P.subtype)
@@ -127,7 +127,7 @@ private lemma w162_grp_invariant_sylow_image {Γ : Type*} [Group Γ] [Finite Γ]
     exact Sylow.card_eq_multiplicity R
   · intro hY
     have hq' : IsPGroup q ((R : Subgroup ↥N).map N.subtype) :=
-      R.isPGroup'.map N.subtype
+      R.isPGroup.map N.subtype
     rwa [hY] at hq'
 
 private lemma w162_grp_zpowers_eq_one_or {Γ : Type*} [Group Γ] {t : Γ} (ht : t * t = 1)
@@ -141,10 +141,10 @@ private lemma w162_grp_zpowers_eq_one_or {Γ : Type*} [Group Γ] {t : Γ} (ht : 
   · right; rw [hmeq, hm, zpow_one]
 
 private lemma w162_grp_pow_closure_ne_top {N : Type*} [Group N] [Finite N] {p : ℕ}
-    [Fact p.Prime] (hp2 : p ≠ 2) (hN : IsPGroup p N) [Nontrivial N] :
+    [Fact p.Prime] (_hp2 : p ≠ 2) (hN : IsPGroup p N) [Nontrivial N] :
     Subgroup.closure (Set.range (fun x : N => x ^ p)) ≠ ⊤ := by
   intro htop
-  haveI : Group.IsNilpotent N := hN.isNilpotent
+  have : Group.IsNilpotent N := hN.isNilpotent
   have hcommlt : commutator N < (⊤ : Subgroup N) :=
     Group.IsSolvable.commutator_lt_top_of_nontrivial N
   have hAnontr : Nontrivial (Abelianization N) :=
@@ -264,9 +264,9 @@ theorem w162_exp_class_of_min {Γ : Type*} [Group Γ] [Finite Γ] {N P : Subgrou
     have : N ≤ ⊥ := hcommbot ▸ hgen
     exact hne (le_bot_iff.mp this)
   obtain ⟨p, hpprime, hPN⟩ := key
-  haveI : Fact p.Prime := ⟨hpprime⟩
-  haveI hNnt : Nontrivial ↥N := (Subgroup.nontrivial_iff_ne_bot N).mpr hne
-  haveI hNnil : Group.IsNilpotent ↥N := hPN.isNilpotent
+  have : Fact p.Prime := ⟨hpprime⟩
+  have hNnt : Nontrivial ↥N := (Subgroup.nontrivial_iff_ne_bot N).mpr hne
+  have hNnil : Group.IsNilpotent ↥N := hPN.isNilpotent
   have hp2 : p ≠ 2 := by
     rintro rfl
     obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hPN
@@ -373,7 +373,7 @@ theorem w162_exp_class_of_min {Γ : Type*} [Group Γ] [Finite Γ] {N P : Subgrou
               from rfl]
           rw [Subgroup.coe_mul, Subgroup.coe_inv, MulAut.conjNormal_apply,
             commutatorElement_def]
-          simp only [Subtype.coe_mk]
+          simp only
           group
         rwa [heq] at hmap
     have hNT : N ≤ T := hgen.trans hcommT

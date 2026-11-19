@@ -45,8 +45,8 @@ theorem ord7_card_mulAut_dvd_twistedB2
     · exact absurd ht (by decide)
     · exact hsz
   obtain ⟨-, a, ha, K, hKfld, hKfin, hf, hKcard, ⟨e⟩⟩ := hsz
-  letI : Field K := hKfld
-  letI : Finite K := hKfin
+  let : Field K := hKfld
+  let : Finite K := hKfin
   have hK : Nat.card K = 2 ^ (2 * a + 1) := hf ▸ hKcard
   have hOut_dvd : Nat.card
       (CFSG.ComponentClassification.OuterAutomorphisms.Outer (suzukiGroup a K)) ∣
@@ -86,10 +86,10 @@ theorem ord7Param_twistedB2 {f : ℕ} (h7 : ¬ 7 ∣ f) :
     · exact absurd ht (by decide)
     · exact hsz
   obtain ⟨-, a, ha, K, hKfld, hKfin, hf, hKcard, ⟨e⟩⟩ := hsz
-  letI : Field K := hKfld
-  letI : Finite K := hKfin
+  let : Field K := hKfld
+  let : Finite K := hKfin
   have hK : Nat.card K = 2 ^ (2 * a + 1) := hf ▸ hKcard
-  haveI : Finite (MulAut (suzukiGroup a K)) :=
+  have : Finite (MulAut (suzukiGroup a K)) :=
     Finite.of_injective
       (fun φ : MulAut (suzukiGroup a K) => (φ : suzukiGroup a K → suzukiGroup a K))
       DFunLike.coe_injective

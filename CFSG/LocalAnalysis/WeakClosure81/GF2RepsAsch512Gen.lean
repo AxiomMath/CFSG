@@ -31,7 +31,7 @@ theorem exists_mul_ne_of_isCalL1 {X : Type} [Group X] [Finite X] (h : IsCalL1 X)
     exact CFSG.LocalAnalysis.EvenBN.GMSK.exists_mul_ne_of_lieModel_twistedB2 hSz
   ·
     have hm : StatedClassicalModel X .PSL 3 2 n := hL3.statedClassicalModel (by decide)
-    haveI : IsSimpleGroup X := CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel hm
+    have : IsSimpleGroup X := CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel hm
     obtain ⟨⟨-, -, -⟩, F, _, _, hF, ⟨eF⟩⟩ := hm
     have hcard : Nat.card X = Nat.card (StatedProj (StatedSL 3 F)) := Nat.card_congr eF.toEquiv
     have hord :=
@@ -85,7 +85,7 @@ theorem isSolvable_of_forall_isCompositionFactor_comm (n : ℕ) :
         rw [ha, hb]
       obtain ⟨N, ⟨hNn, hNt⟩, hmax⟩ := Set.Finite.exists_maximalFor
         (fun K : Subgroup X => Nat.card K) S (Set.toFinite S) ⟨⊥, hbot⟩
-      haveI := hNn
+      have := hNn
       have hmax' : ∀ K : Subgroup X, K.Normal → N ≤ K → K = N ∨ K = ⊤ := by
         intro K hK hNK
         by_cases hKt : K = ⊤
@@ -93,7 +93,7 @@ theorem isSolvable_of_forall_isCompositionFactor_comm (n : ℕ) :
         · left
           have hle : Nat.card K ≤ Nat.card N := hmax ⟨hK, hKt⟩ (Subgroup.card_le_of_le hNK)
           exact (Subgroup.eq_of_le_of_card_ge hNK hle).symm
-      haveI hs : IsSimpleGroup (X ⧸ N) := isSimpleGroup_quotient_of_max' hNt hmax'
+      have hs : IsSimpleGroup (X ⧸ N) := isSimpleGroup_quotient_of_max' hNt hmax'
       have hsurj : Function.Surjective ((QuotientGroup.mk' N).comp (⊤ : Subgroup X).subtype) := by
         intro y
         obtain ⟨x, rfl⟩ := QuotientGroup.mk'_surjective N y
@@ -101,11 +101,11 @@ theorem isSolvable_of_forall_isCompositionFactor_comm (n : ℕ) :
       have hcfq : E1.IsCompositionFactor X (X ⧸ N) :=
         CFSG.Quasithin.H13.L829N.isCompositionFactor_of_subnormal_surjection
           Subgroup.IsSubnormal.top hs _ hsurj
-      haveI : Group.IsSolvable (X ⧸ N) := Group.isSolvable_of_comm (hcf _ hcfq)
+      have : Group.IsSolvable (X ⧸ N) := Group.isSolvable_of_comm (hcf _ hcfq)
       have hNlt : Nat.card N < Nat.card X := by
         have := Subgroup.card_lt_of_lt (lt_top_iff_ne_top.mpr hNt)
         rwa [Subgroup.card_top] at this
-      haveI : Group.IsSolvable N :=
+      have : Group.IsSolvable N :=
         ih (by omega) fun L _ hL => hcf L (kbr_isCompositionFactor_of_normal_subgroup N hL)
       exact Group.isSolvable_of_subgroup_quotient N
 
@@ -114,11 +114,12 @@ variable {G : Type} [Group G] [Finite G]
 theorem not_hasCompFactor_isCalL1_of_isSolvable {X : Subgroup G} [Group.IsSolvable ↥X] :
     ¬ HasCompFactor X IsCalL1 := by
   rintro ⟨L, hL, hcf, hP⟩
-  letI := hL
-  haveI : Finite L := isCompositionFactor_finite hcf
+  let := hL
+  have : Finite L := isCompositionFactor_finite hcf
   obtain ⟨a, b, hab⟩ := exists_mul_ne_of_isCalL1 hP
   exact hab (uc22p20b_simpSec_comm (uc22p20b_simpSec_of_cf hcf) a b)
 
+omit [Finite G] in
 theorem lGen_le {P : ∀ (X : Type) [Group X], Prop} {H T : Subgroup G} : lGen P H T ≤ H :=
   iSup₂_le fun _ hX => hX.2.1.le
 
@@ -144,7 +145,7 @@ theorem calNIn_eq_lGen_of_forall {P : ∀ (X : Type) [Group X], Prop} {H T : Sub
 theorem calNIn_eq_lGen_of_isSolvable {H T : Subgroup G} (hTH : T < H) [Group.IsSolvable ↥H]
     (hne : H ≠ lGen IsCalL1 H T) : calNIn H T = {lGen IsCalL1 H T} := by
   refine calNIn_eq_lGen_of_forall hTH hne fun M hM => ?_
-  haveI : Group.IsSolvable ↥M :=
+  have : Group.IsSolvable ↥M :=
     Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hM.2.1.le)
   exact not_hasCompFactor_isCalL1_of_isSolvable
 

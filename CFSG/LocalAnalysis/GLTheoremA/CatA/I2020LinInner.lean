@@ -27,13 +27,13 @@ open scoped commutatorElement Classical Pointwise
 
 private theorem exists_linear_of_good_primaryFactor
     {F : Type} [Field F] [Finite F] {q p n : ℕ} [CharP F q]
-    (hp : p.Prime) (hp2 : p ≠ 2) (hpq : (p : F) ≠ 0) (hpdvd : p ∣ Nat.card F - 1)
+    (hp : p.Prime) (hp2 : p ≠ 2) (_hpq : (p : F) ≠ 0) (hpdvd : p ∣ Nat.card F - 1)
     (hn : 3 ≤ n) (hn4 : n ≤ 4)
     {A : GL (Fin n) F} {c : Fˣ} (hA : A ^ p = Matrix.GeneralLinearGroup.scalar (Fin n) c)
     {h : Polynomial F} (hh : h ∈ primaryFactors (glA A : Module.End F (Fin n → F)))
     (hgood : IsGoodFactor A h) : ∃ lam : F, h = X - C lam := by
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fintype F := Fintype.ofFinite F
+  have : Fact p.Prime := ⟨hp⟩
   have hEval : aeval (glA A : Module.End F (Fin n → F)) (X ^ p - C (c : F)) = 0 := by
     rw [map_sub, map_pow, aeval_X, aeval_C]
     have h1 : ((glA A : LinearMap.GeneralLinearGroup F (Fin n → F)) :
@@ -65,7 +65,7 @@ private theorem exists_linear_of_good_primaryFactor
       eq_of_monic_of_associated (monic_of_mem_primaryFactors hh)
         (monic_X_pow_sub_C _ hp.pos.ne') hassoc
     have hdeg : h.natDegree = p := by rw [heq, Polynomial.natDegree_X_pow_sub_C]
-    haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+    have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
     have hm2 : 2 ≤ primaryMultiplicity (glA A : Module.End F (Fin n → F)) h := by
       rcases hgood with h3 | ⟨h2, -⟩ <;> omega
     have hdim : Module.finrank F (primaryComponent (glA A : Module.End F (Fin n → F)) h) =
@@ -88,7 +88,7 @@ private noncomputable def specialFactorBlockHom {F : Type} [Field F] {n : ℕ}
     specialFactor A h →* linearSpecialBlock (glA A) h :=
   { toFun := fun g => ⟨slGL n F (g : Matrix.SpecialLinearGroup (Fin n) F), g.2⟩
     map_one' := Subtype.ext (map_one _)
-    map_mul' := fun a b => Subtype.ext (map_mul _ _ _) }
+    map_mul' := fun _a _b => Subtype.ext (map_mul _ _ _) }
 
 private theorem specialFactorBlockHom_bijective {F : Type} [Field F] {n : ℕ}
     {A : GL (Fin n) F} {h : F[X]}
@@ -129,10 +129,9 @@ private theorem specialFactorRestrictHom_bijective {F : Type} [Field F] {n : ℕ
   exact Function.Bijective.comp hg hf
 
 theorem i2020LinInner : I2020LinInner := by
-  intro p q hp hp2 hq hq2 hqp F _ _ _ hpdvd n hn3 hn4 A c hA
-  intro J hJ _ T hT S hS2 hST hSβ hScomm s hs j hj
+  intro p q hp hp2 hq hq2 hqp F _ _ _ hpdvd n hn3 hn4 A c hA J hJ _ T hT S hS2 hST hSβ hScomm s hs j hj
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hpk : (p : F) ≠ 0 := by
     rw [Ne, CharP.cast_eq_zero_iff F q]
     intro hdvd
@@ -263,12 +262,12 @@ theorem i2020LinInner : I2020LinInner := by
     (LinearMap.GeneralLinearGroup.generalLinearEquiv F (Fin n → F)).injective.comp
       (Matrix.GeneralLinearGroup.toLin (n := Fin n) (R := F)).injective
   let TL : Subgroup ((Fin n → F) ≃ₗ[F] (Fin n → F)) := Tlift.map linHom
-  haveI : Fintype ((Fin n → F) ≃ₗ[F] (Fin n → F)) :=
+  have : Fintype ((Fin n → F) ≃ₗ[F] (Fin n → F)) :=
     Fintype.ofInjective (fun f : (Fin n → F) ≃ₗ[F] (Fin n → F) =>
       (f : (Fin n → F) → (Fin n → F))) DFunLike.coe_injective
-  haveI : Fintype TL := Fintype.ofFinite _
+  have : Fintype TL := Fintype.ofFinite _
   have hTL2 : IsPGroup 2 TL := hTlift2.map _
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   have hm2 : 2 ≤ Module.finrank (AdjoinRoot h) W := by
     rcases hgood with h3 | ⟨h2, -⟩
     · exact le_trans (by norm_num : 2 ≤ 3) h3
@@ -290,8 +289,8 @@ theorem i2020LinInner : I2020LinInner := by
     exact hTstarodd
   have hfixedzero : ∀ v ∈ W, (∀ t ∈ TL, (t : (Fin n → F) ≃ₗ[F] (Fin n → F)) v = v) → v = 0 := by
     intro v hv hfix
-    haveI : Finite (AdjoinRoot h) := Module.finite_of_finite F
-    haveI : Fintype (AdjoinRoot h) := Fintype.ofFinite _
+    have : Finite (AdjoinRoot h) := Module.finite_of_finite F
+    have : Fintype (AdjoinRoot h) := Fintype.ofFinite _
     have hch : ringChar (AdjoinRoot h) ≠ 2 := by
       rw [← Algebra.ringChar_eq F (AdjoinRoot h), ringChar.eq F q]
       exact hq2
@@ -371,7 +370,7 @@ theorem i2020LinInner : I2020LinInner := by
       rw [hFh_triv g₀ a ha' hah _ hp, sub_self]
       exact Submodule.zero_mem _
   have hTLcard : (Fintype.card TL : F) ≠ 0 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨k, hk⟩ := hTL2.exists_card_eq
     have h2F : (2 : F) ≠ 0 := by
       intro h

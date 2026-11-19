@@ -10,6 +10,7 @@ open CFSG.Timmesfeld
 
 variable {Y : Type} [Group Y] [Finite Y] {D : Set Y}
 
+omit [Finite Y] in
 theorem image_center_quotient_eq_bot
     (hsolv : ∀ N : Subgroup Y, N.Normal → Group.IsSolvable N → N ≤ Subgroup.center Y) :
     Subgroup.center (Y ⧸ Subgroup.center Y) = ⊥ := by
@@ -19,8 +20,9 @@ theorem image_center_quotient_eq_bot
   exact solvable_normal_eq_bot_quotient_center hsolv
     (Subgroup.center (Y ⧸ Subgroup.center Y)) hsolvZ
 
+omit [Finite Y] in
 theorem noSqE1_of_center_quotient
-    (hcls : ∃ d₀ : Y, D = {g | IsConj d₀ g})
+    (_hcls : ∃ d₀ : Y, D = {g | IsConj d₀ g})
     (hroot : IsRootInvolutionSet D)
     (hdeg : ∀ d ∈ D, ∀ e ∈ D, orderOf (d * e) ≠ 4)
     (hsolv : ∀ N : Subgroup Y, N.Normal → Group.IsSolvable N → N ≤ Subgroup.center Y)

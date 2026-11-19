@@ -89,6 +89,7 @@ theorem nonempty_mulEquiv_of_isComponentOf_centralizer
       rw [heq, Subgroup.map_comap_eq, inf_of_le_right hPψ]))
   exact ⟨(e.trans e'.symm).trans (Subgroup.subgroupOfEquivOfLe hX.1)⟩
 
+omit [Finite C] in
 theorem not_isComponentOf_of_isSolvable {D X : Subgroup C} [hD : Group.IsSolvable D]
     (hX : IsComponentOf X D) : False := by
   have hXq : CFSG.IsQuasisimple X :=

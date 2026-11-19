@@ -111,10 +111,10 @@ theorem exists_nor_conj {b : G} {B : Subgroup G} (hB : IsSylowOf 3 B (Cen b))
     _ = y := by rw [hhy]; group
 
 theorem exists_nor_move {b : G} {B : Subgroup G} (hb3 : orderOf b = 3)
-    (hB : IsSylowOf 3 B (Cen b)) (hbB : b ∈ B) (hcomm : ∀ x ∈ B, ∀ y ∈ B, x * y = y * x)
+    (hB : IsSylowOf 3 B (Cen b)) (_hbB : b ∈ B) (hcomm : ∀ x ∈ B, ∀ y ∈ B, x * y = y * x)
     (hnsc : FFNotStronglyClosed b) :
     ∃ n ∈ Nor B, n * b * n⁻¹ ∈ B ∧ n * b * n⁻¹ ∉ Subgroup.zpowers b := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨x, hx, g, hg1, hg2⟩ := hnsc
   have hx3 : x ^ 3 = 1 := by
     have hd : orderOf x ∣ 3 := hb3 ▸ orderOf_dvd_of_mem_zpowers hx
@@ -123,7 +123,7 @@ theorem exists_nor_move {b : G} {B : Subgroup G} (hb3 : orderOf b = 3)
     intro h
     apply hg2
     rw [h]
-    simpa using Subgroup.one_mem _
+    simp
   have hxo : orderOf x = 3 := orderOf_eq_prime hx3 hx1
   have hbx : b ∈ Subgroup.zpowers x := by
     have hle : Subgroup.zpowers x ≤ Subgroup.zpowers b := Subgroup.zpowers_le.mpr hx

@@ -233,7 +233,7 @@ theorem ggNbrLSideLin_block {K : Type} [Field K] [Finite K] (h2 : (2 : K) = 0) {
   have hd : 1 ≤ d := by
     by_contra hlt
     have hd0 : d = 0 := by omega
-    haveI : IsEmpty (Fin d) := by rw [hd0]; infer_instance
+    have : IsEmpty (Fin d) := by rw [hd0]; infer_instance
     have hcomm : ∀ a b : ↥M, a * b = b * a := by
       intro a b
       apply Subtype.ext
@@ -250,9 +250,9 @@ theorem ggNbrLSideLin_block {K : Type} [Field K] [Finite K] (h2 : (2 : K) = 0) {
     CFSG.LocalAnalysis.GLTheoremA.Y10GInnLin.cast_orderOf_ne_zero_of_odd h2 A hodd
   obtain ⟨r, D, blk, hFld, hFin, hAlg, Φ, θ, hblk, hΦ, hθ, hθA, hθΦ, i, hi, hMeq⟩ :=
     CFSG.LocalAnalysis.GLTheoremA.K1419.k1419ClsLinBlock_exists A hord M hM
-  letI : ∀ j, Field (D j) := hFld
-  letI : ∀ j, Finite (D j) := hFin
-  letI : ∀ j, Algebra K (D j) := hAlg
+  let : ∀ j, Field (D j) := hFld
+  let : ∀ j, Finite (D j) := hFin
+  let : ∀ j, Algebra K (D j) := hAlg
   let mS : GL (Fin (blk i)) (D i) →* (∀ j, GL (Fin (blk j)) (D j)) :=
     MonoidHom.mulSingle (fun j => GL (Fin (blk j)) (D j)) i
   have hms : Function.Injective mS := by
@@ -422,7 +422,7 @@ theorem ggNbrLSideLin_block {K : Type} [Field K] [Finite K] (h2 : (2 : K) = 0) {
       have hentry := congrFun (congrFun hcoord_i hp) hp
       rw [show ((algebraMap K (∀ j, Matrix (Fin (blk j)) (Fin (blk j)) (D j))) c₀) i
           = algebraMap K (Matrix (Fin (blk i)) (Fin (blk i)) (D i)) c₀ from rfl] at hentry
-      rw [Matrix.algebraMap_matrix_apply, if_pos rfl] at hentry
+      rw [Matrix.algebraMap_matrix_apply, ite_eq_left rfl] at hentry
       rw [← ha₀, ← map_pow, Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply,
         Matrix.diagonal_apply_eq] at hentry
       exact hentry
@@ -496,7 +496,7 @@ theorem ggNbrLSideLin_block {K : Type} [Field K] [Finite K] (h2 : (2 : K) = 0) {
           lblk_scalar_eq_smul_one, Matrix.smul_mul, Matrix.one_mul]
       have hμneK' : (μ : K) ≠ 1 := fun h => hμne (Units.ext h)
       exact absurd (lblk_mu_eq_one_of_eigen hABmat hu hAu hABu) hμneK'
-    haveI : FiniteDimensional K (D i) :=
+    have : FiniteDimensional K (D i) :=
       (Module.finite_iff_finite (R := K) (M := D i)).2 inferInstance
     have hμ3K : (μ : K) ^ 3 = 1 := by
       have h := congrArg (fun u : Kˣ => (u : K)) hμ3

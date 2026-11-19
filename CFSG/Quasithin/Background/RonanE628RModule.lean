@@ -31,11 +31,11 @@ theorem a5_bad_sum_not_bad : ∀ (p : Fin 5) (a b : Fin 5 → ZMod 2), a ≠ b �
   decide +kernel
 
 theorem a5Module_good_at (p : Fin 5) (a b : Fin 5 → ZMod 2) (ha : ∑ i, a i = 0) (hb : ∑ i, b i = 0)
-    (ha0 : a ≠ 0) (hb0 : b ≠ 0) (hab : a ≠ b) :
+    (_ha0 : a ≠ 0) (_hb0 : b ≠ 0) (hab : a ≠ b) :
     ∃ w ∈ ({a, b, a + b} : Set (Fin 5 → ZMod 2)), ∃ σ : Equiv.Perm (Fin 5),
       orderOf σ = 3 ∧ σ p ≠ p ∧ (fun i => w (σ i)) = w := by
-  clear ha0 hb0
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  clear _ha0 _hb0
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have key : ∀ w : Fin 5 → ZMod 2, a5GoodAt p w →
       ∃ σ : Equiv.Perm (Fin 5), orderOf σ = 3 ∧ σ p ≠ p ∧ (fun i => w (σ i)) = w := by
     rintro w ⟨σ, h3, h1, hp, hw⟩

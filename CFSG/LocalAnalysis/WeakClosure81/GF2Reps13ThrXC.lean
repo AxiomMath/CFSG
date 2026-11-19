@@ -19,8 +19,8 @@ variable {W : Type} [CommGroup W] [Finite W]
 
 private theorem w16g_odd_card_of_isElemAbelian {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {X : Subgroup (MulAut W)} (hX : IsElemAbelian p X) : Odd (Nat.card X) := by
-  haveI : Finite X := inferInstance
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Finite X := inferInstance
+  have : Fact p.Prime := ⟨hp⟩
   have hpg : IsPGroup p X := fun x => ⟨1, by
     rw [pow_one]
     exact Subtype.ext (hX.2 (x : MulAut W) x.2)⟩
@@ -34,12 +34,12 @@ private theorem w16g_exists_coord_one (hW : ∀ w : W, w * w = 1) {p : ℕ} (hp 
       ∀ x : ↥X, lam (Additive.ofMul x) = 0 ↔
         (x : MulAut W) ∈ s13KerOn X (U : Subgroup W) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsMulCommutative ↥X := hX.1
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsMulCommutative ↥X := hX.1
   obtain ⟨-, hHidx⟩ := s13KerOn_mem_hyperplanes hW hp hp2 hX U.2
   let K : Subgroup ↥X := (s13KerOn X (U : Subgroup W)).subgroupOf X
   have hcardK : Nat.card (↥X ⧸ K) = p := hHidx
-  haveI : IsCyclic (↥X ⧸ K) := isCyclic_of_prime_card hcardK
+  have : IsCyclic (↥X ⧸ K) := isCyclic_of_prime_card hcardK
   have hcardZ : Nat.card (Multiplicative (ZMod p)) = p := by
     rw [Nat.card_eq_fintype_card, Fintype.card_multiplicative, ZMod.card]
   let e : (↥X ⧸ K) ≃* Multiplicative (ZMod p) := mulEquivOfPrimeCardEq hcardK hcardZ
@@ -115,6 +115,7 @@ theorem coord_injective (hW : ∀ w : W, w * w = 1) {p : ℕ} (hp : p.Prime) (hp
   have hz1 : x * y⁻¹ = 1 := Subtype.ext hzg
   exact mul_inv_eq_one.mp hz1
 
+omit [Finite W] in
 theorem coord_ne_zero_iff {p : ℕ} {X : Subgroup (MulAut W)}
     {lam : s13IsoComps X → Additive ↥X →+ ZMod p} (hl : IsCoord X p lam) (x : ↥X)
     (U : s13IsoComps X) :
@@ -134,13 +135,14 @@ theorem coord_ne_zero_iff {p : ℕ} {X : Subgroup (MulAut W)}
     intro u hu
     exact (mem_fixV.mp ((commSub_eq_bot_iff.mp hbot) hu)) (x : MulAut W) (Subgroup.mem_zpowers _)
 
+omit [Finite W] in
 theorem mem_s13Supp_iff_coord {p : ℕ} {X : Subgroup (MulAut W)}
     {lam : s13IsoComps X → Additive ↥X →+ ZMod p} (hl : IsCoord X p lam)
     {L : Subgroup (MulAut W)} (hLX : L ≤ X) (U : s13IsoComps X) :
     (U : Subgroup W) ∈ s13Supp X L ↔
       ∃ x : ↥X, (x : MulAut W) ∈ L ∧ lam U (Additive.ofMul x) ≠ 0 := by
   have hUmem : (U : Subgroup W) ∈ s13IsoComps X := U.2
-  simp only [s13Supp, Set.mem_setOf_eq, hUmem, true_and]
+  simp only [s13Supp, Set.mem_ofPred_eq, hUmem, true_and]
   constructor
   · intro hne
     by_contra h
@@ -167,9 +169,9 @@ theorem rk_commSub_top_eq_sum (hW : ∀ w : W, w * w = 1) {p : ℕ} (hp : p.Prim
     rk ↥(commSub ⊤ L) = ∑ᶠ (U : Subgroup W) (_ : U ∈ s13Supp X L), rk ↥U := by
   classical
   have hodd : Odd (Nat.card X) := w16g_odd_card_of_isElemAbelian hp hp2 hX
-  haveI : Finite (Subgroup W) :=
+  have : Finite (Subgroup W) :=
     Finite.of_injective (fun S : Subgroup W => (S : Set W)) SetLike.coe_injective
-  haveI : Fintype {U : Subgroup W // U ∈ s13Supp X L} := Fintype.ofFinite _
+  have : Fintype {U : Subgroup W // U ∈ s13Supp X L} := Fintype.ofFinite _
   have hind : sSupIndep (s13Supp X L) :=
     (s13IsoComps_sSupIndep hW hodd).mono (fun U hU => hU.1)
   rw [commSub_top_eq_iSup_s13Supp hW hp hp2 hX hLX, iSup_subtype']

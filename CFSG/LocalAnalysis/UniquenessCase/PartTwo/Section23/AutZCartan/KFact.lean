@@ -68,10 +68,10 @@ private lemma lineTransitive_of_binaryNaturalSL {W : Type} [CommGroup W] [Finite
       ∀ w ∈ CFSG.fixedPointSubgroup ↥S W, v ≠ 1 → w ≠ 1 →
         ∃ k : ℤ, ((h ^ k : ↥H) : MulAut W) v = w := by
   obtain ⟨K, hField, hFinite, hK, hR⟩ := h
-  letI : Field K := hField
-  letI : Finite K := hFinite
-  haveI : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
-  haveI : NeZero d := ⟨by omega⟩
+  let : Field K := hField
+  let : Finite K := hFinite
+  have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
+  have : NeZero d := ⟨by omega⟩
   exact exists_zpowers_transitive_of_lineTorus (K := K) hR
     (KTabD.sylowFixedLine_statedSL (K := K) hd) (lineTorus_statedSL (K := K) hd) S
 
@@ -84,10 +84,10 @@ private lemma lineTransitive_of_natSpn {W : Type} [CommGroup W] [Finite W]
       ∀ w ∈ CFSG.fixedPointSubgroup ↥S W, v ≠ 1 → w ≠ 1 →
         ∃ k : ℤ, ((h ^ k : ↥H) : MulAut W) v = w := by
   obtain ⟨-, K, hField, hFinite, hK, hR⟩ := h
-  letI : Field K := hField
-  letI : Finite K := hFinite
-  haveI : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
-  haveI : NeZero (N / 2) := ⟨by omega⟩
+  let : Field K := hField
+  let : Finite K := hFinite
+  have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
+  have : NeZero (N / 2) := ⟨by omega⟩
   exact exists_zpowers_transitive_of_lineTorus (K := K) hR
     (KTabD.sylowFixedLine_statedSp (K := K) (N / 2))
     (lineTorus_statedSp (K := K) (N / 2)) S
@@ -101,9 +101,9 @@ private lemma lineTransitive_of_natOmegaMinus {W : Type} [CommGroup W] [Finite W
       ∀ w ∈ CFSG.fixedPointSubgroup ↥S W, v ≠ 1 → w ≠ 1 →
         ∃ k : ℤ, ((h ^ k : ↥H) : MulAut W) v = w := by
   obtain ⟨-, K, hField, hFinite, b, c, hK, hirr, hR⟩ := h
-  letI : Field K := hField
-  letI : Finite K := hFinite
-  haveI : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
+  let : Field K := hField
+  let : Finite K := hFinite
+  have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
   exact exists_zpowers_transitive_of_lineTorus (K := K) hR
     (KTabD.sylowFixedLine_omegaMinus (K := K) (m := N / 2) hm hirr)
     (lineTorus_omegaMinus (K := K) (m := N / 2) hm b c) S
@@ -117,9 +117,9 @@ private lemma lineTransitive_of_natOmegaPlusFour {W : Type} [CommGroup W] [Finit
       ∀ w ∈ CFSG.fixedPointSubgroup ↥S W, v ≠ 1 → w ≠ 1 →
         ∃ k : ℤ, ((h ^ k : ↥H) : MulAut W) v = w := by
   obtain ⟨-, K, hField, hFinite, hK, hR⟩ := h
-  letI : Field K := hField
-  letI : Finite K := hFinite
-  haveI : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
+  let : Field K := hField
+  let : Finite K := hFinite
+  have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
   have hK4 : 4 ≤ Nat.card K := by
     rw [hK]
     calc 4 = 2 ^ 2 := by norm_num
@@ -137,9 +137,9 @@ private lemma lineTransitive_of_natOmegaPlusSix {W : Type} [CommGroup W] [Finite
       ∀ w ∈ CFSG.fixedPointSubgroup ↥S W, v ≠ 1 → w ≠ 1 →
         ∃ k : ℤ, ((h ^ k : ↥H) : MulAut W) v = w := by
   obtain ⟨-, K, hField, hFinite, hK, hR⟩ := h
-  letI : Field K := hField
-  letI : Finite K := hFinite
-  haveI : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
+  let : Field K := hField
+  let : Finite K := hFinite
+  have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
   rw [show 6 / 2 = 3 by norm_num] at hR
   exact exists_zpowers_transitive_of_lineTorus (K := K) hR
     (KGenO6pProof.sylowFixedLine_omegaPlusSix K) (lineTorus_omegaPlus (K := K) 3) S
@@ -152,9 +152,9 @@ private lemma lineTransitive_of_natSUn {W : Type} [CommGroup W] [Finite W]
       ∀ w ∈ CFSG.fixedPointSubgroup ↥S W, v ≠ 1 → w ≠ 1 →
         ∃ k : ℤ, ((h ^ k : ↥H) : MulAut W) v = w := by
   obtain ⟨K, hField, hFinite, hK, hR⟩ := h
-  letI : Field K := hField
-  letI : Finite K := hFinite
-  haveI : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq
+  let : Field K := hField
+  let : Finite K := hFinite
+  have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq
     (hK.trans (pow_mul 2 a 2).symm)
   exact exists_zpowers_transitive_of_lineTorus (K := K) hR
     (KGenProof.sylowFixedLine_statedSU_four (K := K) hK)

@@ -18,7 +18,7 @@ private theorem isSylowTwoOf_of_maximal {G : Type*} [Group G] [Finite G] {A T : 
   have hT' : IsPGroup 2 (T.subgroupOf A) := hT.comap_subtype
   obtain ⟨P, hP⟩ := hT'.exists_le_sylow
   have hQ : (P : Subgroup A).map A.subtype = T := by
-    refine hmax _ (P.isPGroup'.map _) (map_subtype_le _) fun g hg => ?_
+    refine hmax _ (P.isPGroup.map _) (map_subtype_le _) fun g hg => ?_
     exact ⟨⟨g, hTA hg⟩, hP (mem_subgroupOf.mpr hg), rfl⟩
   have hPT : T.subgroupOf A = P := by
     rw [← hQ]
@@ -57,14 +57,14 @@ private theorem exists_mem_normalizer_not_mem_alternatingGroup' {β : Type} [Fin
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hTP⟩ := hT.exists_le_sylow
   have hPA : (P : Subgroup (Perm β)) ⊓ alternatingGroup β = T :=
-    hmax _ P.isPGroup'.to_inf_left inf_le_right (le_inf hTP hTA)
+    hmax _ P.isPGroup.to_inf_left inf_le_right (le_inf hTP hTA)
   have hodd : ¬ (P : Subgroup (Perm β)) ≤ alternatingGroup β := by
     intro hPle
     apply P.not_dvd_index
     have h := relIndex_mul_index hPle
     rw [alternatingGroup.index_eq_two] at h
     exact ⟨(P : Subgroup (Perm β)).relIndex (alternatingGroup β), by rw [← h, mul_comm]⟩
-  obtain ⟨g, hgP, hgA⟩ := SetLike.not_le_iff_exists.mp hodd
+  obtain ⟨g, hgP, hgA⟩ := IsConcreteLE.not_le_iff_exists.mp hodd
   refine ⟨g, mem_normalizer_fintype fun t ht => ?_, hgA⟩
   have ht' : t ∈ (P : Subgroup (Perm β)) ⊓ alternatingGroup β := by
     rw [hPA]

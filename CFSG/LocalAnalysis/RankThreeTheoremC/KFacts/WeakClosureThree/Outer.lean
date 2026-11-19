@@ -23,9 +23,9 @@ theorem outerThreeInner_of_fixedOrder (hLie : LieOrderFormulasInput)
     (hb : CFSG.HardMathSupport.Lang.Coordinator.OuterFixedOrderBoundCyc) : OuterThreeInner := by
   intro K _ _ hs hnab hcat S hSn hfac α hα3 hαS
   have : IsSimpleGroup K := hs
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hS3 : (Nat.card K).factorization 3 = 3 := by
-    have h1 := pow_three_le_card_of_nonabelian S.isPGroup' hSn
+    have h1 := pow_three_le_card_of_nonabelian S.isPGroup hSn
     rw [S.card_eq_multiplicity] at h1
     have : 3 ≤ (Nat.card K).factorization 3 := (Nat.pow_le_pow_iff_right (by norm_num)).1 h1
     omega
@@ -60,7 +60,7 @@ theorem outerThreeInner_of_fixedOrder (hLie : LieOrderFormulasInput)
         (hLie K t n ℓ f hadm hmodel).2.1
       obtain ⟨hdiv, hD4, hT3⟩ := three_lie_conditions hq2 hN hS3
       exact mem_inner_of_lie_model_cyc hLie hb hadm hmodel ht Nat.prime_three (by norm_num) hpK
-        hdiv (fun h => hD4 ⟨h.1, h.2.1⟩) (fun h => hT3 h.1) S.isPGroup' S.not_dvd_index hα3 hαS
+        hdiv (fun h => hD4 ⟨h.1, h.2.1⟩) (fun h => hT3 h.1) S.isPGroup S.not_dvd_index hα3 hαS
   · have hbr := CFSG.Sporadic.Bridge.nonempty_carrier_mulEquiv_group
     obtain ⟨e'⟩ := hbr s
     refine mem_inner_of_not_dvd_card_outer Nat.prime_three ?_ hα3

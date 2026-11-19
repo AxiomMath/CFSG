@@ -28,7 +28,7 @@ theorem s16h_e3_CycTwoCoreAG_isElemAbelian (F : s16h_CycFrameG q m Mb ψ z U)
       have h2 : (⟨ψ⁻¹ * n ^ q * ψ, F.conj_inv_mem F.psi_mem hnqN⟩ :
             ↥(s16h_CycN Mb z)) = (⟨ψ⁻¹ * n * ψ, hnψN⟩ : ↥(s16h_CycN Mb z)) ^ q :=
         Subtype.ext (by
-          simp only [Subgroup.coe_pow, Subtype.coe_mk]
+          simp only [Subgroup.coe_pow]
           rw [hψpow])
       rw [h2, map_pow]
       exact hD.2 _ (hn.2 ψ F.psi_mem hnψN)
@@ -42,7 +42,7 @@ theorem s16h_e3_CycTwoCoreAG_isElemAbelian (F : s16h_CycFrameG q m Mb ψ z U)
       have e : (⟨a * b * a⁻¹ * b⁻¹, hcN⟩ : ↥(s16h_CycN Mb z)) =
           ⟨a, ha.1⟩ * ⟨b, hb.1⟩ * (⟨a, ha.1⟩)⁻¹ * (⟨b, hb.1⟩)⁻¹ :=
         Subtype.ext (by
-          simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subtype.coe_mk])
+          simp only [Subgroup.coe_mul, Subgroup.coe_inv])
       rw [e]
       simp only [map_mul, map_inv]
       have hxy : F.rho ⟨a, ha.1⟩ * F.rho ⟨b, hb.1⟩ =
@@ -61,7 +61,7 @@ theorem s16h_e3_CycTwoCoreAG_isElemAbelian (F : s16h_CycFrameG q m Mb ψ z U)
           ⟨ψ⁻¹ * a * ψ, haψN⟩ * ⟨ψ⁻¹ * b * ψ, hbψN⟩ *
             (⟨ψ⁻¹ * a * ψ, haψN⟩)⁻¹ * (⟨ψ⁻¹ * b * ψ, hbψN⟩)⁻¹ := by
         apply Subtype.ext
-        simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subtype.coe_mk]
+        simp only [Subgroup.coe_mul, Subgroup.coe_inv]
         group
       rw [e]
       simp only [map_mul, map_inv]
@@ -158,7 +158,7 @@ theorem s16h_e3_CycTwoCoreAG_le_autSub [Finite X] [Finite (MulAut X)] (hq : q.Pr
   have hρn : F.rho ⟨n, hnN⟩ = d := by
     have hsub : (⟨n, hnN⟩ : ↥(s16h_CycN Mb z)) = n₀ ^ e := by
       apply Subtype.ext
-      simp only [Subgroup.coe_pow, Subtype.coe_mk]
+      simp only [Subgroup.coe_pow]
       exact hn_def
     rw [hsub, map_pow, hn₀, hd_pow]
   rw [mem_autSub]

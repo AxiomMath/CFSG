@@ -122,7 +122,7 @@ theorem prod5_mul {B : Type*} [CommGroup B] (x : Fin 5 → B) (hx : ∀ k, x k ^
   simp only [Fin.val_zero, Fin.val_one, Fin.val_two] at e0 e1 e2
   unfold prod5
   rw [e0, e1, e2, show c 3 = c (3 : Fin 5).val from rfl, e3, show c 4 = c (4 : Fin 5).val from rfl, e4]
-  simp only [mul_comm, mul_assoc, mul_left_comm]
+  simp only [mul_assoc, mul_left_comm]
   rfl
 
 theorem prod5_mul_of_commute {G : Type*} [Group G] (y : Fin 5 → G)
@@ -132,7 +132,7 @@ theorem prod5_mul_of_commute {G : Type*} [Group G] (y : Fin 5 → G)
   have hB : IsMulCommutative B := Subgroup.isMulCommutative_closure (by
     rintro _ ⟨k, rfl⟩ _ ⟨l, rfl⟩ _
     exact hc k l)
-  letI : CommGroup B := @IsMulCommutative.instCommGroup B _ hB
+  let : CommGroup B := @IsMulCommutative.instCommGroup B _ hB
   let x : Fin 5 → B := fun k => ⟨y k, Subgroup.subset_closure ⟨k, rfl⟩⟩
   have hx : ∀ k, x k ^ 3 = 1 := fun k => Subtype.ext (h3 k)
   have h := prod5_mul x hx a b c habc

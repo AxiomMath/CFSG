@@ -425,6 +425,7 @@ theorem mem_GR_iff (k : Fin 126) :
   rw [← hG, List.mem_filter, rt_eq, hok, inAS_iff hS hSR (g_mem k), Bool.and_eq_true]
   exact ⟨fun h => h.2, fun h => ⟨g_mem k, h⟩⟩
 
+omit [DecidablePred okD] in
 theorem cover1_iff (k : Fin 126) : cover1 okD S (rt k) ↔ cov okdc SR GR (g k) = true := by
   unfold cover1 cov
   constructor
@@ -472,6 +473,7 @@ theorem cover1_iff (k : Fin 126) : cover1 okD S (rt k) ↔ cov okdc SR GR (g k) 
     rw [rt_eq, rt_eq, rt_eq]
     exact (add_decode_iff _ _ _).2 h2
 
+omit [DecidablePred okD] in
 theorem A2pred_iff (k : Fin 126) :
     (okD (rt k) ∧ posR (rt k) ∧ inAS S (rt k) ∧ (cover1 okD S (rt k) ∨ inPerpS S (rt k))) ↔
       A2c okc okdc SR GR (g k) = true := by

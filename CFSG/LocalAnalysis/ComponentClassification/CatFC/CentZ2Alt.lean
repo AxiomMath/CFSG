@@ -59,7 +59,7 @@ theorem two_mul_card_centralizer_alt {n : ℕ} (hn : 2 ≤ n) (g : alternatingGr
     (hm : 1 ≤ m) (hc : (g : Equiv.Perm (Fin n)).cycleType = Multiset.replicate m 2) :
     2 * Nat.card (centralizer ({g} : Set (alternatingGroup (Fin n)))) =
       (n - 2 * m).factorial * (2 ^ m * m.factorial) := by
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr hn
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr hn
   have hS := nat_card_centralizer_perm_two (g : Equiv.Perm (Fin n)) hm hc
   have hmap : Nat.card ((centralizer ({g} : Set (alternatingGroup (Fin n)))).map
       (alternatingGroup (Fin n)).subtype) =
@@ -153,7 +153,7 @@ theorem alt_not_centralizer_Z2_alt {S : Type} [Group S] [Finite S] {n : ℕ} (hn
     (hz : orderOf z = 2) :
     ¬ Nonempty (↥(centralizer ({z} : Set S)) ≃* Multiplicative (ZMod 2) × alternatingGroup (Fin k)) := by
   rintro ⟨e⟩
-  haveI : Nontrivial (Fin k) := Fin.nontrivial_iff_two_le.mpr (by omega)
+  have : Nontrivial (Fin k) := Fin.nontrivial_iff_two_le.mpr (by omega)
   have hC : Nat.card (centralizer ({z} : Set S)) = 2 * (k.factorial / 2) := by
     rw [Nat.card_congr e.toEquiv, Nat.card_prod, nat_card_alternatingGroup, Nat.card_fin,
       natCard_multiplicative_zmod_two]
@@ -186,8 +186,8 @@ theorem alt_not_fixedSubgroup_alt {S : Type} [Group S] [Finite S] {n : ℕ} (hn 
     (θ : S ≃* alternatingGroup (Fin n)) {k : ℕ} (hk : k = 6 ∨ k = 7) {σ : MulAut S}
     (hσ : orderOf σ = 2) : ¬ Nonempty (↥(fixedSubgroup σ) ≃* alternatingGroup (Fin k)) := by
   rintro ⟨e⟩
-  haveI : Nontrivial (Fin k) := Fin.nontrivial_iff_two_le.mpr (by omega)
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
+  have : Nontrivial (Fin k) := Fin.nontrivial_iff_two_le.mpr (by omega)
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
   have hFix : Nat.card (fixedSubgroup σ) = k.factorial / 2 := by
     rw [Nat.card_congr e.toEquiv, nat_card_alternatingGroup, Nat.card_fin]
   have hS : Nat.card S = n.factorial / 2 := by

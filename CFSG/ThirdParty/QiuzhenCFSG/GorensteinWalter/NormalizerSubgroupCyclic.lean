@@ -74,7 +74,7 @@ public theorem isCyclic_normalizer_subgroupOf
     let eInf : I.subgroupOf J ≃* I :=
       Subgroup.subgroupOfEquivOfLe (H := I) (K := J) inf_le_left
     have hcycInf : IsCyclic I := by
-      letI : IsCyclic (Subgroup.normalizer (P : Set H)) := hNcyc
+      let : IsCyclic (Subgroup.normalizer (P : Set H)) := hNcyc
       exact Subgroup.isCyclic_of_le inf_le_right
     exact (MulEquiv.isCyclic eInf).mpr hcycInf
   exact (MulEquiv.isCyclic eN).mpr hInfcyc

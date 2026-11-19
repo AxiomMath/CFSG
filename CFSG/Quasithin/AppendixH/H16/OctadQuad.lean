@@ -31,7 +31,7 @@ private theorem div_two_mod_two_of (w w' : ℕ) (hw : w ≤ 8) (he : w % 2 = 0)
     (h : w' = w ∨ w' = 8 - w) : w' / 2 % 2 = w / 2 % 2 := by
   rcases h with rfl | rfl
   · rfl
-  · interval_cases w <;> simp_all <;> decide
+  · interval_cases w <;> simp_all
 
 theorem wtO_le (c : Fin 24 → ZMod 2) : wtO c ≤ 8 := by
   unfold wtO
@@ -101,7 +101,7 @@ theorem wtO_add_allOnes (c : Fin 24 → ZMod 2) : wtO (c + Ω) = 8 - wtO c := by
     congr 1
     apply Finset.filter_congr
     intro i _
-    simp only [Pi.add_apply, Ω, Pi.one_apply]
+    simp only [Pi.add_apply, Ω]
     exact zmod2_add_one_ne_zero_iff (c i)
   rw [hc, hc', card_filter_not, hAcard]
 

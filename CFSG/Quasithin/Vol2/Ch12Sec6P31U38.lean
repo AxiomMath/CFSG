@@ -121,7 +121,7 @@ theorem commutator_mem_pCore_of_le_normalizer {K L₁ T : Subgroup X} [K.Normal]
     (hLB : L₁ ⊓ K ≤ Subgroup.normalizer ((T ⊓ K : Subgroup X) : Set X)) :
     ∀ u ∈ T ⊓ K, ∀ k ∈ L₁ ⊓ K, u * k * u⁻¹ * k⁻¹ ∈ pCoreOf 2 L₁ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hN : (T ⊓ K) ⊓ (L₁ ⊓ K) ≤ pCoreOf 2 (L₁ ⊓ K) := by
     refine CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2 inf_le_right ?_ ?_
     · intro k hk
@@ -129,7 +129,7 @@ theorem commutator_mem_pCore_of_le_normalizer {K L₁ T : Subgroup X} [K.Normal]
       have h2 := Subgroup.mem_normalizer_iff.mp ((L₁ ⊓ K).le_normalizer hk)
       rw [Subgroup.mem_normalizer_iff]
       intro g
-      simp only [SetLike.mem_coe, Subgroup.mem_inf] at h1 h2 ⊢
+      simp only [Subgroup.mem_inf] at h1 h2 ⊢
       constructor
       · rintro ⟨⟨a, b⟩, c, d⟩
         exact ⟨(h1 g).mp ⟨a, b⟩, (h2 g).mp ⟨c, d⟩⟩
@@ -187,8 +187,8 @@ theorem false_of_borel_out2 {K L₁ T : Subgroup X} [K.Normal] [Finite X]
   let C : Subgroup X := Subgroup.centralizer (K : Set X)
   let W : Subgroup X := K ⊔ C
   let O : Subgroup X := pCoreOf 2 L₁
-  haveI : C.Normal := Subgroup.normal_centralizer
-  haveI : W.Normal := Subgroup.sup_normal K C
+  have : C.Normal := Subgroup.normal_centralizer
+  have : W.Normal := Subgroup.sup_normal K C
   have hKC : K ⊓ C = ⊥ := inf_centralizer_eq_bot_of_center_eq_bot hZ
   have hcomm : ∀ k ∈ K, ∀ c ∈ C, k * c = c * k := fun k hk c hc =>
     Subgroup.mem_centralizer_iff.mp hc k hk
@@ -319,7 +319,7 @@ theorem false_of_borel_out2 {K L₁ T : Subgroup X} [K.Normal] [Finite X]
     have hb1 : b ≠ 1 := fun h => h2 (congrArg Subtype.val h)
     have hab : a ≠ b := fun h => h12 (congrArg Subtype.val h)
     rcases Nat.lt_or_ge (Nat.card ↥P) 2 with hlt | hge
-    · haveI : Subsingleton ↥P := (Finite.card_le_one_iff_subsingleton).mp (by omega)
+    · have : Subsingleton ↥P := (Finite.card_le_one_iff_subsingleton).mp (by omega)
       exact ha1 (Subsingleton.elim _ _)
     · obtain ⟨y, -, hy⟩ := (Nat.card_eq_two_iff' (1 : ↥P)).mp (le_antisymm hP hge)
       exact hab ((hy a ha1).trans (hy b hb1).symm)
@@ -610,7 +610,7 @@ theorem cube_mem_pCoreOf_star_L1 (h1222 : Stmt12_2_2) {F : Frame126 T L V}
 theorem noU38_of (hU : U3BorelFacts) (hO : U38OutFacts) (hR : U38ThreeRank)
     (h1222 : Stmt12_2_2) : NoU38 := by
   intro h1229 G _ _ T L V _ F hH hZV H K hIs h918 hK₀ hZ hX
-  haveI : (star H K).Normal := P31A.normal_star_K F h918 hK₀
+  have : (star H K).Normal := P31A.normal_star_K F h918 hK₀
   have eK : (↥(star H K) ⧸ Subgroup.center ↥(star H K)) ≃* ↥(star H K) :=
     (QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot
   have hXq : IsPSU 3 2 3 (↥(star H K) ⧸ Subgroup.center ↥(star H K)) :=
@@ -744,10 +744,10 @@ theorem u38OutFacts_proof (X : Type) [Group X] [Finite X] (hX : IsPSU 3 2 3 X)
   have h18 : Nat.card (CFSG.ComponentClassification.OuterAutomorphisms.Outer X) = 18 := by
     rw [CFSG.LocalAnalysis.EvenBN.GMSK.SporadicBender.card_outer_of_lieModel_PSU3 hL]
     norm_num
-  haveI : Finite (CFSG.ComponentClassification.OuterAutomorphisms.Outer X) :=
+  have : Finite (CFSG.ComponentClassification.OuterAutomorphisms.Outer X) :=
     Nat.finite_of_card_ne_zero (by rw [h18]; norm_num)
   have hdvd : Nat.card ↥P ∣ 18 := h18 ▸ Subgroup.card_subgroup_dvd_card P
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := hP.exists_card_eq
   rw [hk] at hdvd ⊢
   have : k ≤ 1 := by

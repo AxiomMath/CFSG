@@ -26,7 +26,7 @@ theorem laurent_T_injective : Function.Injective (LaurentPolynomial.T (R := k)) 
   simp only [LaurentPolynomial.T_apply] at h
   by_cases hnm : n = m
   · exact hnm.symm
-  · rw [if_neg hnm] at h
+  · rw [ite_eq_right hnm] at h
     simp at h
 
 theorem bDer_kdeg_mem (ε : τ → Finset (Fin n)) (x : τ × Fin n × Fin n)
@@ -108,7 +108,7 @@ theorem bDer_kdeg_mem (ε : τ → Finset (Fin n)) (x : τ × Fin n × Fin n)
     rw [Matrix.mul_diagonal, Matrix.diagonal_mul, Matrix.smul_apply, smul_eq_mul]
     by_cases h : u = a ∧ v = b
     · obtain ⟨rfl, rfl⟩ := h
-      simp only [Matrix.single_apply, if_true, and_self,
+      simp only [Matrix.single_apply, ite_true, and_self,
         mul_one]
       dsimp only [T]
       change LaurentPolynomial.T (u : ℤ) * LaurentPolynomial.T (-(v : ℤ)) =
@@ -255,9 +255,9 @@ theorem bFirst_eq_sum_kronDer (ε : τ → Finset (Fin n)) (g : τ → Matrix (F
   simp only [map_sum, kronDerLin_apply]
   refine Finset.sum_congr rfl fun a _ => Finset.sum_congr rfl fun b _ => ?_
   by_cases h : (b : ℕ) = a + 1
-  · rw [if_pos h, if_pos h, kronDer_smul]
+  · rw [ite_eq_left h, ite_eq_left h, kronDer_smul]
     rfl
-  · rw [if_neg h, if_neg h, kronDer_zero]
+  · rw [ite_eq_right h, ite_eq_right h, kronDer_zero]
 
 theorem bFirst_apply_ne_zero [CharP k 2] (ε : τ → Finset (Fin n)) (g : τ → Matrix (Fin n) (Fin n) k)
     {s t : BIdx ε} (h : bFirst ε g s t ≠ 0) : kdeg s + 1 = kdeg t := by
@@ -268,7 +268,7 @@ theorem bFirst_apply_ne_zero [CharP k 2] (ε : τ → Finset (Fin n)) (g : τ �
   by_cases hb1 : (b : ℕ) = a + 1
   · have hder : bDer (k := k) ε (r, a, b) s t ≠ 0 := by
       intro h0
-      rw [if_pos hb1] at hb
+      rw [ite_eq_left hb1] at hb
       have hb' : g r a b * bDer (k := k) ε (r, a, b) s t ≠ 0 := by
         simpa [Matrix.smul_apply, smul_eq_mul] using hb
       exact (mul_ne_zero_iff.mp hb').2 h0
@@ -374,7 +374,7 @@ theorem kronMinor_one_add_eps_smul_twists {d : τ × Fin n → ℕ} (N : τ → 
     intro J
     induction J using Finset.induction_on with
     | empty =>
-      simp only [Finset.notMem_empty, if_false, Finset.sum_empty, kronMinor_one]
+      simp only [Finset.notMem_empty, ite_false, Finset.sum_empty, kronMinor_one]
       rw [Matrix.map_zero _ (TrivSqZeroExt.inl_zero k), smul_zero, add_zero]
     | insert r J hrJ ih =>
       have hfac : (fun p : τ × Fin n =>
@@ -384,10 +384,10 @@ theorem kronMinor_one_add_eps_smul_twists {d : τ × Fin n → ℕ} (N : τ → 
         funext p
         by_cases hp : p.1 = r
         · have hpJ : p.1 ∉ J := hp ▸ hrJ
-          rw [if_pos (Finset.mem_insert.mpr (Or.inl hp)), if_pos hp, if_neg hpJ, mul_one, hp]
+          rw [ite_eq_left (Finset.mem_insert.mpr (Or.inl hp)), ite_eq_left hp, ite_eq_right hpJ, mul_one, hp]
         · by_cases hpJ : p.1 ∈ J
-          · rw [if_pos (Finset.mem_insert.mpr (Or.inr hpJ)), if_neg hp, if_pos hpJ, one_mul]
-          · rw [if_neg (by simp [hp, hpJ]), if_neg hp, if_neg hpJ, one_mul]
+          · rw [ite_eq_left (Finset.mem_insert.mpr (Or.inr hpJ)), ite_eq_right hp, ite_eq_left hpJ, one_mul]
+          · rw [ite_eq_right (by simp [hp, hpJ]), ite_eq_right hp, ite_eq_right hpJ, one_mul]
       rw [hfac, kronMinor_mul, ih, kronMinor_one_add_eps_smul, Finset.sum_insert hrJ,
         one_add_smul_mul_one_add_smul DualNumber.eps_mul_eps]
       rw [Matrix.map_add _ (fun x y => TrivSqZeroExt.inl_add k x y)]
@@ -485,7 +485,7 @@ theorem sum_homComp_kdeg (ε : τ → Finset (Fin n)) (v : BIdx ε → k) :
   funext s
   rw [Finset.sum_apply]
   simp only [homComp]
-  rw [Finset.sum_ite_eq, if_pos (Finset.mem_image_of_mem _ (Finset.mem_univ s))]
+  rw [Finset.sum_ite_eq, ite_eq_left (Finset.mem_image_of_mem _ (Finset.mem_univ s))]
 
 theorem sub_smul_bvec_mem_bRad_of_homComp (ε : τ → Finset (Fin n)) {w : BIdx ε → k} (hw : w ∈ bCyc ε)
     (h : ∀ e : ℤ, (∀ e', e < e' → homComp (fun s : BIdx ε => (kdeg s : ℤ)) e' w ∈ bRad ε) →
@@ -504,7 +504,7 @@ theorem sub_smul_bvec_mem_bRad_of_homComp (ε : τ → Finset (Fin n)) {w : BIdx
     intro e he
     funext s
     simp only [homComp, Pi.zero_apply]
-    rw [if_neg]
+    rw [ite_eq_right]
     have := hle s
     omega
   have hbvec : ∀ e, e ≠ (kdeg (btop ε) : ℤ) → homComp deg e (bvec (k := k) ε) = 0 := by
@@ -512,7 +512,7 @@ theorem sub_smul_bvec_mem_bRad_of_homComp (ε : τ → Finset (Fin n)) {w : BIdx
     funext s
     simp only [homComp, Pi.zero_apply]
     split_ifs with hs
-    · rw [bvec, Pi.single_apply, if_neg]
+    · rw [bvec, Pi.single_apply, ite_eq_right]
       rintro rfl
       exact he hs.symm
     · rfl
@@ -536,7 +536,7 @@ theorem sub_smul_bvec_mem_bRad_of_homComp (ε : τ → Finset (Fin n)) {w : BIdx
       have hdot : homComp deg e w ⬝ᵥ bvec ε = 0 := by
         rw [bvec, dotProduct_single, mul_one]
         simp only [homComp]
-        rw [if_neg (by simp only [hdeg]; omega)]
+        rw [ite_eq_right (by simp only [hdeg]; omega)]
       rwa [hdot, zero_smul, sub_zero] at hsub
   have hcomp : ∀ e ∈ Finset.univ.image deg,
       homComp deg e (w - (w ⬝ᵥ bvec ε) • bvec ε) ∈ bRad ε := by
@@ -545,7 +545,7 @@ theorem sub_smul_bvec_mem_bRad_of_homComp (ε : τ → Finset (Fin n)) {w : BIdx
     · have h0 : homComp deg e (w - (w ⬝ᵥ bvec ε) • bvec ε) = 0 := by
         funext s
         simp only [homComp, Pi.zero_apply]
-        rw [if_neg]
+        rw [ite_eq_right]
         have := hge s
         omega
       rw [h0]

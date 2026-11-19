@@ -130,12 +130,12 @@ private theorem n1cA_reps_one : reps 1 = 2 • reps 0 := by
 
 private theorem n1cA_pairVec_two_smul (x : X3) (v : Fin Tag.E6.rank → ℤ) :
     pairVec (2 • x) v = 2 * pairVec x v := by
-  simp only [pairVec, Pi.smul_apply, smul_eq_mul, Finset.mul_sum]
+  simp only [pairVec, Pi.smul_apply, Finset.mul_sum]
   exact Finset.sum_congr rfl fun i _ => by ring
 
 private theorem n1cA_kerRoots_one_eq : kerRoots (reps 1) = kerRoots (reps 0) := by
   ext α
-  simp only [kerRoots, Set.mem_setOf_eq]
+  simp only [kerRoots, Set.mem_ofPred_eq]
   rw [n1cA_reps_one, n1cA_pairVec_two_smul]
   constructor
   · intro h
@@ -206,7 +206,7 @@ private theorem n1cA_prodDigs_sound {p g : ℕ} (h : ∀ d ∈ n1cA_prodDigs p g
     have hi : (i.val * 6 + k.val) / 6 = i.val := by omega
     have hk : (i.val * 6 + k.val) % 6 = k.val := by omega
     simp only [hi, hk]
-    rw [hP, n1cA_entry, if_pos h1, Int.toNat_sub]
+    rw [hP, n1cA_entry, ite_eq_left h1, Int.toNat_sub]
   · simp only [n1cA_inRange, List.all_eq_true, List.mem_ofFn, id_eq, forall_exists_index,
       forall_apply_eq_imp_iff, decide_eq_true_eq]
     intro i k
@@ -295,7 +295,7 @@ private theorem n1cA_PS_take {clos par gi gens : List ℕ} {b t : ℕ} (ht : t <
     (h : n1cA_PS (clos.take b) (par.take b) (gi.take b) gens t) : n1cA_PS clos par gi gens t := by
   have hg : ∀ (l : List ℕ) (i : ℕ), i < b → (l.take b).getD i 0 = l.getD i 0 := by
     intro l i hi
-    rw [List.getD_eq_getElem?_getD, List.getD_eq_getElem?_getD, List.getElem?_take, if_pos hi]
+    rw [List.getD_eq_getElem?_getD, List.getD_eq_getElem?_getD, List.getElem?_take, ite_eq_left hi]
   obtain ⟨h1, h2, h3, h4⟩ := h
   rw [hg par t ht] at h1 h3 h4
   rw [hg gi t ht] at h2 h3 h4

@@ -122,7 +122,7 @@ private lemma borelOvergroupCuts_subset_slAlphaCuts_G11
     LinearFlag.borelOvergroupCuts P' ⊆ slAlphaCuts k := by
   intro i hi
   have hmem := hi
-  simp only [LinearFlag.borelOvergroupCuts, Set.mem_setOf_eq] at hi
+  simp only [LinearFlag.borelOvergroupCuts, Set.mem_ofPred_eq] at hi
   obtain ⟨hi1, hik, -⟩ := hi
   have hne : i ≠ 1 := by
     intro h

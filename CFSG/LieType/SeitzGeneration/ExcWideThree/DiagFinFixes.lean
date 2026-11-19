@@ -51,7 +51,7 @@ theorem rfFx_R_lin (c x y : Fin Tag.E6.rank → ℤ) (a b : ℤ) (t : Fin Tag.E6
 
 theorem rfFx_getD_ofFn (k : Fin Tag.E6.rank → ℕ) (i : Fin Tag.E6.rank) :
     (List.ofFn fun j : Fin Tag.E6.rank => k j % 3).getD (i : ℕ) 0 = k i % 3 := by
-  simp [List.getD_eq_getElem?_getD, List.getElem?_ofFn]
+  simp [List.getD_eq_getElem?_getD]
 
 theorem rfFixes_comb (w : WeylGroup Tag.E6) {κ₁ κ₂ : List ℕ}
     (h₁ : κ₁.length = Tag.E6.rank) (h₂ : κ₂.length = Tag.E6.rank) (a b : ℕ)

@@ -17,7 +17,7 @@ private theorem s16h_H5O4a_quad_explicit {K : Type} [Field K] {b c : K}
       v (Sum.inl 0) * v (Sum.inr (Sum.inl 0)) + v (Sum.inr (Sum.inr 0)) ^ 2 +
         b * v (Sum.inr (Sum.inr 0)) * v (Sum.inr (Sum.inr 1)) +
         c * v (Sum.inr (Sum.inr 1)) ^ 2 := by
-  simp [StatedQuadMinus, CFSG.MatrixModel.minusQuadCore]
+  simp [StatedQuadMinus]
 
 private theorem s16h_H5O4a_quad_scale {K : Type} [Field K] {b c : K}
     (d : s16h_H5O4aCoord → K)
@@ -72,7 +72,7 @@ private theorem s16h_H5O4a_diagonal_mulVec_single {K : Type} [Field K]
   by_cases h : j = i
   · subst h
     simp
-  · simp [Pi.single_eq_of_ne (Ne.symm h), h]
+  · simp [h]
 
 theorem s16h_H5O4a_torus_proof {K : Type} [Field K] [Finite K] [CharP K 2]
     (hK : Nat.card K = 2 ^ 2) {b c : K} :
@@ -85,7 +85,7 @@ theorem s16h_H5O4a_torus_proof {K : Type} [Field K] [Finite K] [CharP K 2]
   have hcard : Nat.card Kˣ = 3 := by
     rw [Nat.card_units K, hK]
     norm_num
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨ω, hω⟩ := exists_prime_orderOf_dvd_card' (G := Kˣ) 3 (by rw [hcard])
   have hω3 : ω ^ 3 = 1 := by simpa [hω] using pow_orderOf_eq_one ω
   have hω1 : ω ≠ 1 := by

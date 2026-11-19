@@ -14,6 +14,7 @@ open scoped commutatorElement
 
 variable {K : Type} [Group K] [Finite K]
 
+omit [Finite K] in
 theorem threeComm_mem_zpowers {t g : K} (ht2 : t ^ 2 = 1) (hg : g ∈ zpowers t) : g = 1 ∨ g = t := by
   obtain ⟨n, rfl⟩ := hg
   have h1 : t ^ (2 : ℤ) = 1 := by exact_mod_cast ht2
@@ -30,25 +31,30 @@ theorem threeComm_mem_zpowers {t g : K} (ht2 : t ^ 2 = 1) (hg : g ∈ zpowers t)
     rw [h3]
     simp
 
+omit [Finite K] in
 theorem threeComm_mul_self {t g : K} (ht2 : t ^ 2 = 1) (hg : g ∈ zpowers t) : g * g = 1 := by
   rcases threeComm_mem_zpowers ht2 hg with rfl | rfl
   · simp
   · rw [← pow_two]
     exact ht2
 
+omit [Finite K] in
 theorem threeComm_inv_eq {t g : K} (ht2 : t ^ 2 = 1) (hg : g ∈ zpowers t) : g⁻¹ = g :=
   inv_eq_of_mul_eq_one_right (threeComm_mul_self ht2 hg)
 
+omit [Finite K] in
 theorem threeComm_cent {t r g : K} (hr : r * t = t * r) (hg : g ∈ zpowers t) : r * g = g * r := by
   obtain ⟨n, rfl⟩ := hg
   exact ((show Commute r t from hr).zpow_right n).eq
 
+omit [Finite K] in
 theorem threeComm_zpowers_comm {t g h : K} (hg : g ∈ zpowers t) (hh : h ∈ zpowers t) :
     g * h = h * g := by
   obtain ⟨m, rfl⟩ := hg
   obtain ⟨n, rfl⟩ := hh
   exact (Commute.zpow_zpow_self t m n).eq
 
+omit [Finite K] in
 theorem threeComm_coset {R : Subgroup K} {t : K} (hR : IsExt2 R t) {g h : K} (hg : g ∈ R)
     (hgh : g * h ∈ zpowers t) : h = g ∨ h = g * t := by
   have hsq : (g ^ 2)⁻¹ ∈ zpowers t := inv_mem (hR.sq_mem g hg)
@@ -63,6 +69,7 @@ theorem threeComm_coset {R : Subgroup K} {t : K} (hR : IsExt2 R t) {g h : K} (hg
     calc h = g * ((g ^ 2)⁻¹ * (g * h)) := e
       _ = g * t := by rw [h1]
 
+omit [Finite K] in
 theorem threeComm_nmem {t w : K} (ht2 : t ^ 2 = 1) {l : List K} (h1 : (1 : K) ∈ l) (ht : t ∈ l)
     (hw : w ∉ l) : w ∉ zpowers t := by
   intro h
@@ -70,6 +77,7 @@ theorem threeComm_nmem {t w : K} (ht2 : t ^ 2 = 1) {l : List K} (h1 : (1 : K) �
   · exact hw h1
   · exact hw ht
 
+omit [Finite K] in
 theorem threeComm_exists_not_mem {R : Subgroup K} (l : List K) (hl : l.length < Nat.card R) :
     ∃ w ∈ R, w ∉ l := by
   classical
@@ -84,6 +92,7 @@ theorem threeComm_exists_not_mem {R : Subgroup K} (l : List K) (hl : l.length < 
   have h2 := List.toFinset_card_le l
   omega
 
+omit [Finite K] in
 theorem threeComm_comm_mul_right {R : Subgroup K} {t : K} (hR : IsExt2 R t) {a b c : K} (ha : a ∈ R)
     (hb : b ∈ R) (hc : c ∈ R) : ⁅a, b * c⁆ = ⁅a, b⁆ * ⁅a, c⁆ := by
   have h1 : ⁅a, b * c⁆ = ⁅a, b⁆ * (b * ⁅a, c⁆ * b⁻¹) := by
@@ -94,6 +103,7 @@ theorem threeComm_comm_mul_right {R : Subgroup K} {t : K} (hR : IsExt2 R t) {a b
     simp
   rw [h1, h2]
 
+omit [Finite K] in
 theorem threeComm_comm_mul_left {R : Subgroup K} {t : K} (hR : IsExt2 R t) {a b c : K} (ha : a ∈ R)
     (hb : b ∈ R) (hc : c ∈ R) : ⁅a * b, c⁆ = ⁅a, c⁆ * ⁅b, c⁆ := by
   have h1 : ⁅a * b, c⁆ = (a * ⁅b, c⁆ * a⁻¹) * ⁅a, c⁆ := by
@@ -105,17 +115,20 @@ theorem threeComm_comm_mul_left {R : Subgroup K} {t : K} (hR : IsExt2 R t) {a b 
   rw [h1, h2]
   exact threeComm_zpowers_comm (hR.comm_mem b hb c hc) (hR.comm_mem a ha c hc)
 
+omit [Finite K] in
 theorem threeComm_comm_symm {R : Subgroup K} {t : K} (hR : IsExt2 R t) {a b : K} (ha : a ∈ R)
     (hb : b ∈ R) : ⁅b, a⁆ = ⁅a, b⁆ := by
   rw [← commutatorElement_inv a b]
   exact threeComm_inv_eq hR.t_sq (hR.comm_mem a ha b hb)
 
+omit [Finite K] in
 theorem threeComm_conj_comm (z : K) {a b : K} (h : a * b = b * a) :
     (z * a * z⁻¹) * (z * b * z⁻¹) = (z * b * z⁻¹) * (z * a * z⁻¹) := by
   have h1 : (z * a * z⁻¹) * (z * b * z⁻¹) = z * (a * b) * z⁻¹ := by group
   have h2 : (z * b * z⁻¹) * (z * a * z⁻¹) = z * (b * a) * z⁻¹ := by group
   rw [h1, h2, h]
 
+omit [Finite K] in
 theorem threeComm_conj3 {z : K} (hz : z ^ 3 = 1) (x : K) :
     z * (z * (z * x * z⁻¹) * z⁻¹) * z⁻¹ = x := by
   have h : z * (z * (z * x * z⁻¹) * z⁻¹) * z⁻¹ = z ^ 3 * x * (z ^ 3)⁻¹ := by
@@ -124,6 +137,7 @@ theorem threeComm_conj3 {z : K} (hz : z ^ 3 = 1) (x : K) :
   rw [h, hz]
   simp
 
+omit [Finite K] in
 theorem threeComm_triple_central {R : Subgroup K} {z x x₁ x₂ : K} (hz : z ^ 3 = 1)
     (hstar : ∀ A : Subgroup K, A ≤ R → (∀ a ∈ A, ∀ b ∈ A, a * b = b * a) →
       z ∈ normalizer (A : Set K) → ∀ a ∈ A, z * a = a * z)
@@ -170,7 +184,7 @@ theorem threeComm_triple_central {R : Subgroup K} {z x x₁ x₂ : K} (hz : z ^ 
     intro g hg
     induction hg using Subgroup.closure_induction with
     | mem s hs => exact hgen s hs
-    | one => simpa using one_mem _
+    | one => simp
     | mul a b _ _ ha hb =>
       have e : z * (a * b) * z⁻¹ = (z * a * z⁻¹) * (z * b * z⁻¹) := by group
       rw [e]
@@ -187,12 +201,13 @@ theorem threeComm_triple_central {R : Subgroup K} {z x x₁ x₂ : K} (hz : z ^ 
     rwa [threeComm_conj3 hz g] at h2
   have hAcomm : ∀ a ∈ closure ({x, x₁, x₂} : Set K), ∀ b ∈ closure ({x, x₁, x₂} : Set K),
       a * b = b * a := by
-    haveI := Subgroup.isMulCommutative_closure (k := ({x, x₁, x₂} : Set K))
+    have := Subgroup.isMulCommutative_closure (k := ({x, x₁, x₂} : Set K))
       (fun a ha b hb _ => (hcomm a ha b hb : Commute a b))
     intro a ha b hb
     exact setLike_mul_comm ha hb
   exact hstar _ hAR hAcomm hzA x (subset_closure (by simp))
 
+omit [Finite K] in
 theorem comm_conj_eq_t {R : Subgroup K} {t z : K} (hR : IsExt2 R t) (hz : z ^ 3 = 1)
     (hzR : z ∈ normalizer (R : Set K)) (hfix : ∀ r ∈ R, z * r = r * z → r ∈ zpowers t)
     (hstar : ∀ A : Subgroup K, A ≤ R → (∀ a ∈ A, ∀ b ∈ A, a * b = b * a) →
@@ -210,6 +225,7 @@ theorem comm_conj_eq_t {R : Subgroup K} {t z : K} (hR : IsExt2 R t) (hz : z ^ 3 
     commutatorElement_eq_one_iff_mul_comm.mp h1
   exact threeComm_triple_central hz hstar hx hx1 hx2 rfl rfl (threeComm_conj3 hz x) hc01
 
+omit [Finite K] in
 theorem triple_mem {R : Subgroup K} {t z : K} (hR : IsExt2 R t) (hz : z ^ 3 = 1)
     (hzR : z ∈ normalizer (R : Set K)) (hzt : z * t = t * z)
     (hfix : ∀ r ∈ R, z * r = r * z → r ∈ zpowers t) {x : K} (hx : x ∈ R) :
@@ -261,6 +277,7 @@ theorem triple_mem {R : Subgroup K} {t z : K} (hR : IsExt2 R t) (hz : z ^ 3 = 1)
     rwa [e2] at this
   exact hfix u huR (mul_inv_eq_iff_eq_mul.mp e3)
 
+omit [Finite K] in
 theorem comm_eq_t_of_three {R : Subgroup K} {t z : K} (hR : IsExt2 R t) (hz : z ^ 3 = 1)
     (hzR : z ∈ normalizer (R : Set K)) (hzt : z * t = t * z)
     (hfix : ∀ r ∈ R, z * r = r * z → r ∈ zpowers t)
@@ -296,12 +313,12 @@ theorem comm_eq_t_of_three {R : Subgroup K} {t z : K} (hR : IsExt2 R t) (hz : z 
       rcases threeComm_mem_zpowers hR.t_sq hQ with hQ' | hQ' <;> rw [hP', hQ'] at hC ⊢
     · exfalso
       simp [ht2'] at hC
-      first | exact hR.t_ne hC | exact hR.t_ne hC.symm
+      exact hR.t_ne hC.symm
     · simp
     · simp
     · exfalso
       simp [ht2'] at hC
-      first | exact hR.t_ne hC | exact hR.t_ne hC.symm
+      exact hR.t_ne hC.symm
   have hy3 : z * (z ^ 2 * y * (z ^ 2)⁻¹) * z⁻¹ = y := by
     have e : z * (z ^ 2 * y * (z ^ 2)⁻¹) * z⁻¹ = z ^ 3 * y * (z ^ 3)⁻¹ := by
       simp only [pow_succ, pow_zero, one_mul]
@@ -325,6 +342,7 @@ theorem comm_eq_t_of_three {R : Subgroup K} {t z : K} (hR : IsExt2 R t) (hz : z 
   rw [eq_inv_of_mul_eq_one_left hxw]
   exact inv_eq_of_mul_eq_one_right ht2'
 
+omit [Finite K] in
 theorem card_le_eight_of_three {R : Subgroup K} {t z : K} (hR : IsExt2 R t) (hz : z ^ 3 = 1)
     (hzR : z ∈ normalizer (R : Set K)) (hzt : z * t = t * z)
     (hfix : ∀ r ∈ R, z * r = r * z → r ∈ zpowers t)
@@ -370,6 +388,7 @@ open scoped commutatorElement
 
 variable {K : Type} [Group K] [Finite K]
 
+omit [Finite K] in
 theorem shapeThree_mem_zpowers {t : K} (ht2 : t ^ 2 = 1) {a : K} (ha : a ∈ zpowers t) :
     a = 1 ∨ a = t := by
   obtain ⟨n, rfl⟩ := mem_zpowers_iff.mp ha
@@ -384,12 +403,14 @@ theorem shapeThree_mem_zpowers {t : K} (ht2 : t ^ 2 = 1) {a : K} (ha : a ∈ zpo
   · right
     rw [hn, h, zpow_one]
 
+omit [Finite K] in
 theorem shapeThree_central {R : Subgroup K} {t : K} (hR : IsExt2 R t) {a r : K} (ha : a ∈ zpowers t)
     (hr : r ∈ R) : r * a = a * r := by
   rcases shapeThree_mem_zpowers hR.t_sq ha with rfl | rfl
   · simp
   · exact hR.t_comm r hr
 
+omit [Finite K] in
 theorem shapeThree_conj_fix {t z : K} (ht2 : t ^ 2 = 1) (hzt : z * t = t * z) {a : K}
     (ha : a ∈ zpowers t) : z * a * z⁻¹ = a := by
   rcases shapeThree_mem_zpowers ht2 ha with rfl | rfl
@@ -408,6 +429,7 @@ theorem shapeThree_exists_not_mem {R : Subgroup K} {t : K} (hR : IsExt2 R t)
     exact orderOf_eq_prime hR.t_sq hR.t_ne
   omega
 
+omit [Finite K] in
 theorem shapeThree_conj_mem {R : Subgroup K} {t z : K} (hR : IsExt2 R t) (hz : z ^ 3 = 1)
     (hzt : z * t = t * z) (hfix : ∀ r ∈ R, z * r = r * z → r ∈ zpowers t) {u : K} (hu : u ∈ R)
     (h : u⁻¹ * (z * u * z⁻¹) ∈ zpowers t) : u ∈ zpowers t := by
@@ -487,6 +509,7 @@ theorem shapeThree_comm_ne {R : Subgroup K} {t x y : K} (hR : IsExt2 R t) (hcard
   have hrC : r ∈ C := hCeq ▸ hr
   exact (mem_centralizer_iff.mp hrC.1) x (Set.mem_singleton x)
 
+omit [Finite K] in
 theorem shapeThree_sq_eq_t {R : Subgroup K} {t x y w : K} (hR : IsExt2 R t) (hxR : x ∈ R)
     (hyR : y ∈ R) (hcomm : x * y = t * (y * x)) (hy2 : y ^ 2 = x ^ 2) (hw2 : w ^ 2 = x ^ 2)
     (htriple : x * y * w ∈ zpowers t) : x ^ 2 = t := by

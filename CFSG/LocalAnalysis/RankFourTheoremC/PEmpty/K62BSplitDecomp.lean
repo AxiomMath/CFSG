@@ -25,9 +25,11 @@ variable {p : ℕ} {Y : Type} [Group Y] [Finite Y] {P : Subgroup Y} {x : Y}
     have := S.inv_mem (ha k)
     rwa [show ((x ^ k)⁻¹ * a * x ^ k)⁻¹ = (x ^ k)⁻¹ * a⁻¹ * x ^ k by group] at this
 
+omit [Finite Y] in
 theorem conjCore_le (S : Subgroup Y) : conjCore x S ≤ S := fun w hw => by
   simpa using hw 0
 
+omit [Finite Y] in
 theorem conj_mem_conjCore {S : Subgroup Y} (hx : x ^ p = 1) (hp : 0 < p) {w : Y}
     (hw : w ∈ conjCore x S) : x * w * x⁻¹ ∈ conjCore x S := by
   intro k
@@ -49,6 +51,7 @@ theorem conj_mem_conjCore {S : Subgroup Y} (hx : x ^ p = 1) (hp : 0 < p) {w : Y}
   L.1.normalizerMonoidHom.comp
     (Subgroup.inclusion (fun _ hg => mem_normalizer_of_mem_compKer hg L))
 
+omit [Finite Y] in
 theorem actHom_apply (L : ComponentIndex Y) (q : ↥(compKer P)) (c : ↥L.1) :
     (((actHom P L q) c : ↥L.1) : Y) = (q : Y) * (c : Y) * (q : Y)⁻¹ := rfl
 
@@ -56,11 +59,13 @@ theorem actHom_apply (L : ComponentIndex Y) (q : ↥(compKer P)) (c : ↥L.1) :
     (R : Subgroup (MulAut ↥L.1)) : Subgroup Y :=
   (R.comap (actHom P L)).map (compKer P).subtype
 
+omit [Finite Y] in
 theorem mem_Qsub {L : ComponentIndex Y} {R : Subgroup (MulAut ↥L.1)} {y : Y} :
     y ∈ Qsub P L R ↔ ∃ q : ↥(compKer P), actHom P L q ∈ R ∧ (q : Y) = y := by
   rw [Qsub, Subgroup.mem_map]
   simp only [Subgroup.mem_comap, Subgroup.coe_subtype]
 
+omit [Finite Y] in
 theorem Qsub_le {L : ComponentIndex Y} {R : Subgroup (MulAut ↥L.1)} : Qsub P L R ≤ compKer P := by
   intro y hy
   obtain ⟨q, -, rfl⟩ := mem_Qsub.mp hy
@@ -73,6 +78,7 @@ theorem actHom_layer (h : SplitCfg p P x) (L : ComponentIndex Y) {u : Y} (hu : u
   rw [actHom_apply]
   exact (conj_eq_π (hZ := h.centre) L hul c.2).symm
 
+omit [Finite Y] in
 theorem actHom_eq_one_iff (L : ComponentIndex Y) (q : ↥(compKer P)) :
     actHom P L q = 1 ↔ ∀ c ∈ L.1, (q : Y) * c = c * (q : Y) := by
   constructor
@@ -110,7 +116,7 @@ theorem exists_dec (h : SplitCfg p P x) (L0 : ComponentIndex Y) (R : Subgroup (M
       actHom P L0 q = MulAut.conj a * r)
     {q : Y} (hq : q ∈ compKer P) :
     ∃ a ∈ P ⊓ layer Y, a⁻¹ * q ∈ conjCore x (Qsub P L0 R) := by
-  letI := compAction Y
+  let := compAction Y
   obtain ⟨idx, hidx1, hidx2⟩ := exists_idx (G := Y) (Ω := ComponentIndex Y) h.prime h.card_comp
     h.x_pow (fun α β => h.trans α β) L0
   have hidx1' : ∀ C : ComponentIndex Y, cjComp (x ^ idx C) L0 = C := hidx1

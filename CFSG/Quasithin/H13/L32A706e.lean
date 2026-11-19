@@ -191,7 +191,7 @@ theorem exists_card_img_eq (h : HypF91 T V L V₁ Vp H) {Y : Subgroup G} (hYH : 
   obtain ⟨S⟩ : Nonempty (Sylow p ↥Y) := inferInstance
   set P := (S : Subgroup ↥Y).map Y.subtype with hP
   have hPY : P ≤ Y := Subgroup.map_subtype_le _
-  have hPp : IsPGroup p P := S.isPGroup'.map Y.subtype
+  have hPp : IsPGroup p P := S.isPGroup.map Y.subtype
   have hPcard : Nat.card P = Nat.card S := Subgroup.card_map_of_injective Y.subtype_injective
   have hinj : ∀ x ∈ P, x ∈ pCoreOf 2 H → x = 1 := by
     intro x hxP hxQ

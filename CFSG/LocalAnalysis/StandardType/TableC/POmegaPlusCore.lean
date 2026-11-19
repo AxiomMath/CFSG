@@ -71,10 +71,10 @@ private lemma o5b_adjoin_comm {ι F : Type} [Fintype ι] [DecidableEq ι] [Field
     show (s : Matrix ι ι F) * (s' : Matrix ι ι F) = (s' : Matrix ι ι F) * (s : Matrix ι ι F)
     rw [← Units.val_mul, ← Units.val_mul]
     exact congrArg Units.val (hS s hs s' hs').eq
-  haveI : IsMulCommutative (Algebra.adjoin F (Units.val '' S)) :=
+  have : IsMulCommutative (Algebra.adjoin F (Units.val '' S)) :=
     Algebra.isMulCommutative_adjoin F hcommS
   open scoped IsMulCommutative in
-  letI : CommSemiring (Algebra.adjoin F (Units.val '' S)) := inferInstance
+  let : CommSemiring (Algebra.adjoin F (Units.val '' S)) := inferInstance
   intro a b ha hb
   have h := mul_comm (⟨a, ha⟩ : Algebra.adjoin F (Units.val '' S))
     (⟨b, hb⟩ : Algebra.adjoin F (Units.val '' S))
@@ -623,7 +623,7 @@ theorem ggSixTCDstarPOmegaPlus_of_leaves
     have hdxp : (((d : ↥D) : X)) ^ p = 1 := hpos.elemAbelian.2 _ (hpos.D_le d.2)
     have hxp : x ^ p = 1 := hpos.elemAbelian.2 x (hpos.D_le hpos.x_mem)
     have hdx1 : ((d : ↥D) : X) ≠ 1 := fun h => hd1 (Subtype.ext h)
-    haveI : Fact p.Prime := ⟨hpos.prime⟩
+    have : Fact p.Prime := ⟨hpos.prime⟩
     have hord_dx : orderOf ((d : ↥D) : X) = p := orderOf_eq_prime hdxp hdx1
     have hord_x : orderOf x = p := orderOf_eq_prime hxp hpos.x_ne_one
     have hzp_le : Subgroup.zpowers ((d : ↥D) : X) ≤ Subgroup.zpowers x :=

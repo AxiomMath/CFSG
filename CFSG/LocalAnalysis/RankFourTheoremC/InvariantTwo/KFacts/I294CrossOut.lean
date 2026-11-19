@@ -187,7 +187,7 @@ theorem pRank_quotient_le_one_of_catalog {X : Type} [Group X] [Finite X] {p : �
     (hnab : ∃ a b : L, a * b ≠ b * a) (hcat : CFSG.Open.IsCatalogGroup L)
     (hl : ¬ IsLinearOrUnitaryAt p L) (hcen : centralizer (L : Set X) = ⊥) :
     CFSG.Open.pRank p (⊤ : Subgroup (X ⧸ L)) ≤ 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact (pRank_quotient_le_pRank_outer L hcen).trans
     (pRank_outer_le_one_of_catalog hs hnab hcat hp hp5 hl)
 

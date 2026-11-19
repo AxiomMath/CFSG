@@ -12,6 +12,7 @@ open CFSG.ComponentClassification.GSThmB.Catalog82A10
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem IsRep.exists_equiv {N₁ N₂ M : Subgroup X} {n₁ n₂ : ℕ} {φ₁ : ↥N₁ →* Perm (Fin n₁)}
     {φ₂ : ↥N₂ →* Perm (Fin n₂)} {A₁ : Subgroup (Perm (Fin n₁))} {A₂ : Subgroup (Perm (Fin n₂))}
     (h₁ : IsRep φ₁ M A₁) (h₂ : IsRep φ₂ M A₂) :
@@ -176,6 +177,7 @@ private theorem altOnSix_apply (e : ↥T ≃ Fin 6) (u : ↥(altOn T)) (x : Fin 
   change ((e.symm (e.permCongr (k : Perm ↥T) x) : ↥T) : α) = _
   rw [Equiv.permCongr_apply, Equiv.symm_apply_apply, hku, Perm.ofSubtype_apply_coe]
 
+omit [Fintype α] [DecidableEq α] in
 private theorem permCongr_subtypePerm_apply (e : ↥T ≃ Fin 6) {g : Perm α}
     (hg : ∀ i, g i ∈ T ↔ i ∈ T) (x : Fin 6) :
     ((e.symm (e.permCongr (g.subtypePerm hg) x) : ↥T) : α) = g (e.symm x) := by
@@ -262,7 +264,7 @@ theorem exists_fixed_moved {α β : Type*} [Fintype α]
     exact h1.symm
   · intro h
     apply hr2
-    rw [Equiv.permCongr_apply, Equiv.apply_eq_iff_eq_symm_apply]
+    rw [Equiv.permCongr_apply, ← _root_.Equiv.eq_symm_apply]
     exact Subtype.ext h
 
 end CFSG.ComponentClassification.GSThmB.A10T

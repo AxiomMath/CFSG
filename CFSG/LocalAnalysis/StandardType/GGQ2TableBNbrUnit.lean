@@ -126,7 +126,7 @@ private theorem tbnu_pairingQ {N n : ℕ} {s : Fin (n + 1) ↪o Fin N} (i j : Fi
       omega
     have h2 : ¬ (s i.succ = s i.castSucc) := fun h => h1 h.symm
     have hc : CartanMatrix.A n i i = 2 := by simp [CartanMatrix.A]
-    rw [hc, if_pos rfl, if_neg h1, if_neg h2, if_pos rfl]
+    rw [hc, ite_eq_left rfl, ite_eq_right h1, ite_eq_right h2, ite_eq_left rfl]
     norm_num
   · by_cases h1 : (i : ℕ) + 1 = (j : ℕ)
     · have hsc : s i.succ = s j.castSucc := (tbnu_succ_eq_castSucc).mpr h1
@@ -142,7 +142,7 @@ private theorem tbnu_pairingQ {N n : ℕ} {s : Fin (n + 1) ↪o Fin N} (i j : Fi
         omega
       have hc : CartanMatrix.A n i j = -1 := by
         simp [CartanMatrix.A, hij, h1]
-      rw [hc, if_neg hcc, if_neg hcs, if_pos hsc, if_neg hss]
+      rw [hc, ite_eq_right hcc, ite_eq_right hcs, ite_eq_left hsc, ite_eq_right hss]
       norm_num
     · by_cases h2 : (j : ℕ) + 1 = (i : ℕ)
       · have hcs : s i.castSucc = s j.succ := (tbnu_castSucc_eq_succ).mpr h2
@@ -158,7 +158,7 @@ private theorem tbnu_pairingQ {N n : ℕ} {s : Fin (n + 1) ↪o Fin N} (i j : Fi
           omega
         have hc : CartanMatrix.A n i j = -1 := by
           simp [CartanMatrix.A, hij, h2]
-        rw [hc, if_neg hcc, if_pos hcs, if_neg hsc, if_neg hss]
+        rw [hc, ite_eq_right hcc, ite_eq_left hcs, ite_eq_right hsc, ite_eq_right hss]
         norm_num
       · have hcc : ¬ (s i.castSucc = s j.castSucc) := fun h => hij ((tbnu_castSucc_inj).mp h)
         have hcs : ¬ (s i.castSucc = s j.succ) := by
@@ -176,7 +176,7 @@ private theorem tbnu_pairingQ {N n : ℕ} {s : Fin (n + 1) ↪o Fin N} (i j : Fi
           omega
         have hc : CartanMatrix.A n i j = 0 := by
           simp [CartanMatrix.A, hij, h1, h2]
-        rw [hc, if_neg hcc, if_neg hcs, if_neg hsc, if_neg hss]
+        rw [hc, ite_eq_right hcc, ite_eq_right hcs, ite_eq_right hsc, ite_eq_right hss]
         norm_num
 
 private theorem tbnu_swap_apply_sub {N : ℕ} {x y : Fin N} (hxy : x ≠ y) (w : UnitRaw.W N) :

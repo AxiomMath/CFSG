@@ -294,7 +294,7 @@ theorem conj_orbit_eq_of_relIndex_eq_nine (hA : IsE16 A) {Q : Subgroup G}
     have := hinv (A.normalizerMonoidHom ⟨g, hgN⟩) (Subgroup.mem_map_of_mem _ hg) _ hb'
     exact ⟨(mem_normalizer_iff.mp hgN b).mp hbA, (hfix _).mp this⟩
   · rw [show a = ((⟨a, haA⟩ : A) : G) from rfl, setOf_conj_eq_image_orbit hQ, ← hQ', horb,
-      Set.image_diff Subtype.val_injective, ← himg, Set.image_singleton]
+      Set.image_sdiff Subtype.val_injective, ← himg, Set.image_singleton]
     rfl
 
 theorem exists_conj_eq_of_relIndex_eq_nine (hA : IsE16 A) {Q : Subgroup G}
@@ -376,14 +376,14 @@ theorem conj_mem_of_commute_of_inf_centralizer (hA : IsE16 A) {u g : G}
   exact mem_subgroupOf.mp this
 
 omit [Finite G] in
-theorem conj_eq_of_commute_of_transvection (hA : IsE16 A) {f z g : G}
+theorem conj_eq_of_commute_of_transvection (_hA : IsE16 A) {f z g : G}
     (hfN : f ∈ normalizer (A : Set G)) (hz : z ∈ A)
     (h : ∀ a ∈ A, a⁻¹ * (f * a * f⁻¹) = 1 ∨ a⁻¹ * (f * a * f⁻¹) = z)
     (hf : f ∉ centralizer (A : Set G)) (hgN : g ∈ normalizer (A : Set G))
     (hgf : ∀ a ∈ A, g * (f * a * f⁻¹) * g⁻¹ = f * (g * a * g⁻¹) * f⁻¹) : g * z * g⁻¹ = z := by
   have hf1 : A.normalizerMonoidHom ⟨f, hfN⟩ ≠ 1 := fun h' =>
     hf ((normalizerMonoidHom_eq_one_iff hfN).mp h')
-  have := (apply_eq_of_commute_of_transvection (mul_self_eq_one_of_isE16 hA)
+  have := (apply_eq_of_commute_of_transvection
     (normalizerMonoidHom_transvection hfN hz h) hf1).2 (A.normalizerMonoidHom ⟨g, hgN⟩)
     ((normalizerMonoidHom_commute_iff hfN hgN).mpr hgf)
   exact congrArg Subtype.val this

@@ -16,8 +16,8 @@ theorem fixV_compl_bot_of_omega4_two {W : Type} [CommGroup W] [Finite W]
     fixV L' = ⊥ := by
   obtain ⟨K, fK, finK, hK, π, β, hπs, hd⟩ := CFSG.Quasithin.H13.A6.L2Om.exists_tensorData hΩ
   have hK4 : 4 ≤ Nat.card K := by rw [hK]; norm_num
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hchar : CharP K 2 := by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hchar : CharP K 2 := by
     have := Fintype.ofFinite K
     exact charP_of_card_eq_prime_pow (f := 2) (by rw [← Nat.card_eq_fintype_card, hK])
   rcases eq_factor_or2 hK4 hd hπs hMp hcomm hq hL1 with h | h

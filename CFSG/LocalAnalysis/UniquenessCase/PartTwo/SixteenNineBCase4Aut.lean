@@ -15,6 +15,7 @@ open CFSG.Quasithin CFSG.Open Subgroup
 
 variable {T : Type} [CommGroup T] [Finite T]
 
+omit [Finite T] in
 private lemma s16n9b_case4_aut_stab_of_map_eq {W : Subgroup T} {φ : MulAut T}
     (h : W.map φ.toMonoidHom = W) : φ ∈ stabSub W := by
   intro u
@@ -31,12 +32,12 @@ private lemma s16n9b_case4_aut_stab_of_map_eq {W : Subgroup T} {φ : MulAut T}
     exact hu'
 
 private lemma s16n9b_case4_aut_dParam_three : dParam 3 = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   unfold dParam
   exact orderOf_eq_prime (by decide) (by decide)
 
 private lemma s16n9b_case4_aut_dParam_seven : dParam 7 = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   unfold dParam
   exact orderOf_eq_prime (by decide) (by decide)
 
@@ -51,7 +52,7 @@ theorem s16n9b_case4_aut_index_le {p : ℕ} (hp : p = 3 ∨ p = 7) (hT : ∀ t :
     (hFY : ∀ f ∈ F, Y.map f.toMonoidHom = Y) :
     Nat.card F ≤ p * Nat.card ↥(F ⊓ centSub Y) := by
   classical
-  haveI : Fintype ↥Y := Fintype.ofFinite ↥Y
+  have : Fintype ↥Y := Fintype.ofFinite ↥Y
   have hprime : p.Prime := by rcases hp with rfl | rfl <;> norm_num
   have hcardY : Nat.card ↥Y = p + 1 := by
     rw [card_eq_two_pow hT Y, hY, s16n9b_case4_aut_two_pow_dParam hp]
@@ -152,7 +153,7 @@ theorem s16n9b_case4_aut_supp {p n : ℕ} (hp : p = 3 ∨ p = 7) (hT : ∀ t : T
     omega
   obtain ⟨ψ, hψne⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hne
   refine ⟨ψ.1, hF'le ψ.2, ?_, fun i hi y hy => hF'fix i hi ψ.1 ψ.2 y hy⟩
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   exact orderOf_eq_prime (hF.2 ψ.1 (hF'le ψ.2)) (fun h => hψne (Subtype.ext h))
 
 theorem s16n9b_case4_aut_norm7 (hT : ∀ t : T, t ^ 2 = 1) {Y : Subgroup T} (hY : rk ↥Y = 3)

@@ -75,7 +75,7 @@ theorem twE6U6Even_holds : TwE6U6Even := by
   have hkerK : (chevQuotHom 3 K).ker ≤ Subgroup.center ↥K := by
     refine le_center_of_normal_of_isQuasisimple hKcomp.2.2 (chevQuotHom 3 K).normal_ker
       fun htop => ?_
-    haveI := (chev_pSimple_simple_nonabelian hp hKd).1
+    have := (chev_pSimple_simple_nonabelian hp hKd).1
     obtain ⟨y, hy⟩ := exists_ne (1 : PSimple 3 K)
     obtain ⟨s, rfl⟩ := chevQuotHom_surjective 3 K y
     exact hy (by rw [← MonoidHom.mem_ker, htop]; exact Subgroup.mem_top s)

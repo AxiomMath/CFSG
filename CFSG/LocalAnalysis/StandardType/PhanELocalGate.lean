@@ -14,6 +14,7 @@ open CFSG.Monster.B.Geometry Module
 
 variable {K : Type} [Field K] [Finite K] (f : ℕ) [CharP K 2] {n : ℕ}
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_finrank_sup_of_disjoint {A B : Submodule K (Fin n → K)}
     (h : Disjoint A B) : finrank K ↥(A ⊔ B) = finrank K A + finrank K B := by
   have hsum := Submodule.finrank_sup_add_finrank_inf_eq A B
@@ -52,7 +53,7 @@ private theorem plh_hermLin_single_apply {lo hi : ℕ} {j : Fin n}
   · simp [hlj, hjh]
   · intro i _ hij
     by_cases h : lo ≤ i.val ∧ i.val < hi
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       rw [Pi.single_eq_of_ne' hij.symm]
       simp
     · simp [h]
@@ -77,8 +78,9 @@ private theorem plh_perpB_Vsub_inf {lo hi : ℕ} (hlh : lo ≤ hi) :
     rw [Submodule.mem_inf]
     exact ⟨Vsub_mono (K := K) hlh hv, plh_le_perpB_of_Vsub (f := f) _ hv⟩
 
+omit [Finite K] [CharP K 2] in
 theorem blockU_zero {d : List ℕ} (hle : ∀ i, i < d.length → d.getD i 0 ≤ n)
-    (hmono : ∀ i, i + 1 < d.length → d.getD i 0 ≤ d.getD (i + 1) 0) {x : FlagK K n}
+    (_hmono : ∀ i, i + 1 < d.length → d.getD i 0 ≤ d.getD (i + 1) 0) {x : FlagK K n}
     (hx : x ∈ farSet n d) {i : ℕ} (hi : i + 1 < d.length) :
     blockU K n d x.E i 0 = Vsub n (d.getD i 0) := by
   have hb : d.getD (i + 1) 0 ≤ n := hle (i + 1) hi
@@ -90,6 +92,7 @@ theorem blockU_zero {d : List ℕ} (hle : ∀ i, i < d.length → d.getD i 0 ≤
     Vsub n (d.getD i 0)
   rw [Nat.add_zero, hbot, bot_sup_eq]
 
+omit [Finite K] [CharP K 2] in
 theorem blockU_last {d : List ℕ} (hle : ∀ i, i < d.length → d.getD i 0 ≤ n)
     (hmono : ∀ i, i + 1 < d.length → d.getD i 0 ≤ d.getD (i + 1) 0) {x : FlagK K n}
     (hx : x ∈ farSet n d) {i : ℕ} (hi : i + 1 < d.length) :
@@ -98,7 +101,7 @@ theorem blockU_last {d : List ℕ} (hle : ∀ i, i < d.length → d.getD i 0 ≤
   have hb : d.getD (i + 1) 0 ≤ n := hle (i + 1) hi
   have hab : d.getD i 0 ≤ d.getD (i + 1) 0 := hmono i hi
   have hxf := hx
-  simp only [farSet, Set.mem_setOf_eq] at hxf
+  simp only [farSet, Set.mem_ofPred_eq] at hxf
   have hfinA : finrank K ↥(x.E (n - d.getD i 0) ⊓ Vsub n (d.getD (i + 1) 0)) =
       d.getD (i + 1) 0 - d.getD i 0 := by
     rw [hxf (i + 1) hi (n - d.getD i 0) (by omega)]
@@ -155,7 +158,7 @@ theorem blockOK_iff_of_far {d : List ℕ} {pol : List Bool}
     exact h r (by omega)
   · intro h r hr
     by_cases hp : pol.getD i false = true
-    · rw [if_pos hp]
+    · rw [ite_eq_left hp]
       by_cases hr0 : r = 0
       · subst hr0
         rw [hU0]
@@ -166,8 +169,8 @@ theorem blockOK_iff_of_far {d : List ℕ} {pol : List Bool}
           exact plh_perpB_Vsub_inf (f := f) hab
         · have h1 : 0 < r := by omega
           have h2 : r < d.getD (i + 1) 0 - d.getD i 0 := by omega
-          simpa only [if_pos hp] using h r h1 h2
-    · rw [if_neg hp]
+          simpa only [ite_eq_left hp] using h r h1 h2
+    · rw [ite_eq_right hp]
       by_cases hr0 : r = 0
       · subst hr0
         rw [hU0, Nat.sub_zero, hUm, sgS_Vsub]
@@ -179,7 +182,7 @@ theorem blockOK_iff_of_far {d : List ℕ} {pol : List Bool}
           exact inf_eq_right.mpr (Vsub_mono (K := K) hab)
         · have h1 : 0 < r := by omega
           have h2 : r < d.getD (i + 1) 0 - d.getD i 0 := by omega
-          simpa only [if_neg hp] using h r h1 h2
+          simpa only [ite_eq_right hp] using h r h1 h2
 
 theorem blockOK_of_size_one {d : List ℕ} {pol : List Bool}
     (hle : ∀ i, i < d.length → d.getD i 0 ≤ n)

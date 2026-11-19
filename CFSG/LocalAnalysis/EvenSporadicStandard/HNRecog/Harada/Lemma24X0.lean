@@ -44,7 +44,7 @@ theorem le_of_isPGroup_of_normal {p : ℕ} [Fact p.Prime] {Q : Type*} [Group Q] 
     have hP : Nat.card P = p ^ (Nat.card Q).factorization p := P.card_eq_multiplicity
     have hge : p ^ (Nat.card Q).factorization p ≤ Nat.card S := by
       rw [← hP]
-      exact hmax P.1 P.isPGroup'
+      exact hmax P.1 P.isPGroup
     exact le_antisymm (hP ▸ hle) hge
   let P₀ : Sylow p Q := Sylow.ofCard S hcardS
   have hP₀ : (P₀ : Subgroup Q) = S := Sylow.coe_ofCard S hcardS
@@ -73,7 +73,7 @@ theorem le_of_card_eq_480 {Q : Type*} [Group Q] [Finite Q] {X C M : Subgroup Q}
     norm_num
   have h32 : 32 ∣ Nat.card ↥(C ⊓ X) := by
     have hle : S.1.map C.subtype ≤ C ⊓ X :=
-      le_inf (Subgroup.map_subtype_le S.1) (h2 _ (S.isPGroup'.map C.subtype))
+      le_inf (Subgroup.map_subtype_le S.1) (h2 _ (S.isPGroup.map C.subtype))
     have hcard : Nat.card (S.1.map C.subtype) = 32 := by
       rw [Subgroup.card_subtype, hScard]
     rw [← hcard]

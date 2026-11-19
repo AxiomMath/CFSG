@@ -41,7 +41,7 @@ private theorem lemma311_conjugates_eq_inv_of_fixedPoint_free_involution
   have hdF : d ∈ F := F.mul_mem hx hzxF
   have hcommF : ∀ a b : G, a ∈ F → b ∈ F → a * b = b * a := by
     intro a b ha hb
-    letI : IsMulCommutative F := hFcomm
+    let : IsMulCommutative F := hFcomm
     exact congrArg Subtype.val (mul_comm (⟨a, ha⟩ : F) ⟨b, hb⟩)
   have hdFix : z * d * z⁻¹ = d := by
     dsimp [d]
@@ -109,8 +109,8 @@ private theorem lemma311_maximal_regular_core
   have hNsolv : Group.IsSolvable N := odd_order_theorem N hNodd
   obtain ⟨F, hFnorm, hFleN, hFne, hFmin⟩ :=
     exists_minimal_normal_le (G := G) N hNnormal hNne
-  letI : F.Normal := hFnorm
-  letI : IsMinimalNormal F := {
+  let : F.Normal := hFnorm
+  let : IsMinimalNormal F := {
     minimal := by
       intro K hKnormal hKF
       by_cases hKbot : K = ⊥
@@ -119,19 +119,19 @@ private theorem lemma311_maximal_regular_core
   }
   let FN : Subgroup N := F.subgroupOf N
   let eFN : FN ≃* F := Subgroup.subgroupOfEquivOfLe hFleN
-  letI : Group.IsSolvable N := hNsolv
+  let : Group.IsSolvable N := hNsolv
   have hFNsolv : Group.IsSolvable FN := inferInstance
-  letI : Group.IsSolvable FN := hFNsolv
+  let : Group.IsSolvable FN := hFNsolv
   have hFsolv : Group.IsSolvable F :=
     Group.isSolvable_of_surjective (f := eFN.toMonoidHom) eFN.surjective
-  letI : Group.IsSolvable F := hFsolv
+  let : Group.IsSolvable F := hFsolv
   obtain ⟨r, hr, hFelem⟩ := minimalNormal_solvable_exists_isElementaryAbelian F
-  letI : IsElementaryAbelian r F := hFelem
+  let : IsElementaryAbelian r F := hFelem
   have hFodd : Odd (Nat.card F) :=
     Odd.of_dvd_nat hNodd (Subgroup.card_dvd_of_le hFleN)
   have hOmegaNontriv : Nontrivial Omega := by
     rcases subsingleton_or_nontrivial Omega with hsub | hnon
-    · letI : Subsingleton Omega := hsub
+    · let : Subsingleton Omega := hsub
       have hstabTop : MulAction.stabilizer G alpha = ⊤ := by
         rw [eq_top_iff]
         intro g _
@@ -140,12 +140,12 @@ private theorem lemma311_maximal_regular_core
       apply hYproper
       rw [← hY, hstabTop]
     · exact hnon
-  letI : Nontrivial Omega := hOmegaNontriv
+  let : Nontrivial Omega := hOmegaNontriv
   have hcoatomStab : IsCoatom (MulAction.stabilizer G alpha) := by
     simpa [hY] using hmax
-  haveI : MulAction.IsPreprimitive G Omega :=
+  have : MulAction.IsPreprimitive G Omega :=
     (MulAction.isCoatom_stabilizer_iff_preprimitive (G := G) alpha).mp hcoatomStab
-  haveI : MulAction.IsQuasiPreprimitive G Omega :=
+  have : MulAction.IsQuasiPreprimitive G Omega :=
     MulAction.IsPreprimitive.isQuasiPreprimitive
   have hfixed_ne_univ : MulAction.fixedPoints F Omega ≠ Set.univ := by
     intro hfixed
@@ -167,7 +167,7 @@ private theorem lemma311_maximal_regular_core
     exact Subgroup.mem_bot.mpr hf_one
   have hFtrans : MulAction.IsPretransitive F Omega :=
     MulAction.IsQuasiPreprimitive.isPretransitive_of_normal hfixed_ne_univ
-  letI : MulAction.IsPretransitive F Omega := hFtrans
+  let : MulAction.IsPretransitive F Omega := hFtrans
   have hFregular : ∀ omega : Omega,
       MulAction.stabilizer F omega = ⊥ := by
     intro omega
@@ -244,7 +244,7 @@ private theorem lemma311_stabilizer_eq_centralizer
     (hcent : Subgroup.centralizer ({z} : Set G) ≤ Y)
     (hzinv : ∀ x : G, x ∈ F → z * x * z⁻¹ = x⁻¹) :
     Y = Subgroup.centralizer ({z} : Set G) := by
-  letI : MulAction.IsPretransitive F Omega := hFtrans
+  let : MulAction.IsPretransitive F Omega := hFtrans
   have hCFbot : Y ⊓ Subgroup.centralizer (F : Set G) = ⊥ := by
     apply le_antisymm
     · intro c hc
@@ -524,7 +524,7 @@ private theorem lemma311_zpowers_pow_eq_top_of_isPGroup_generator
     (R : Subgroup Q) (hP : IsPGroup r R) (hcyc : IsCyclic R)
     (hnot : ¬ r ∣ n) (x : R) (hx : ∀ y : R, y ∈ Subgroup.zpowers x) :
     Subgroup.zpowers (x ^ n) = (⊤ : Subgroup R) := by
-  letI : IsCyclic R := hcyc
+  let : IsCyclic R := hcyc
   let e : R ≃ R := hP.powEquiv' hnot
   obtain ⟨u, hu⟩ := e.surjective x
   have hun : u ^ n = x := by
@@ -556,7 +556,7 @@ private theorem lemma311_faithfulSMul_quotient_pointStabilizerCore
         quotientAction.toSMul (QuotientGroup.mk g) w = g • w) :
     @FaithfulSMul (G ⧸ pointStabilizerCore G Omega) Omega
       quotientAction.toSMul := by
-  letI : MulAction (G ⧸ pointStabilizerCore G Omega) Omega := quotientAction
+  let : MulAction (G ⧸ pointStabilizerCore G Omega) Omega := quotientAction
   refine { eq_of_smul_eq_smul := ?_ }
   intro a b hab
   obtain ⟨g, rfl⟩ :=
@@ -564,7 +564,6 @@ private theorem lemma311_faithfulSMul_quotient_pointStabilizerCore
   obtain ⟨h, rfl⟩ :=
     QuotientGroup.mk'_surjective (pointStabilizerCore G Omega) b
   apply QuotientGroup.eq_iff_div_mem.mpr
-  change g / h ∈ pointStabilizerCore G Omega
   simp only [pointStabilizerCore, Subgroup.mem_iInf,
     MulAction.mem_stabilizer_iff]
   intro w
@@ -594,14 +593,14 @@ private theorem lemma311_maximal_output
       hFregular, hdis, hsup, hzinv⟩ :=
     lemma311_maximal_regular_core
       Y z alpha hY hYproper hmax hz hcent hfactor
-  letI : Fact r.Prime := ⟨hr⟩
-  letI : IsElementaryAbelian r F := hFelem
+  let : Fact r.Prime := ⟨hr⟩
+  let : IsElementaryAbelian r F := hFelem
   obtain ⟨x, hxF, hxnotbot⟩ :=
-    SetLike.exists_of_lt (bot_lt_iff_ne_bot.mpr hFne)
+    _root_.IsConcreteLE.exists_of_lt (bot_lt_iff_ne_bot.mpr hFne)
   have hxne : x ≠ 1 := by
     intro hxone
     apply hxnotbot
-    simpa [hxone]
+    simp [hxone]
   have hxpow : x ^ r = 1 := elemPow_eq_one_of_isElementaryAbelian x hxF
   have hxorder : orderOf x = r := orderOf_eq_prime hxpow hxne
   let R : Subgroup G := Subgroup.zpowers x
@@ -779,7 +778,7 @@ private theorem lemma311_nonmaximal_transfer
   let OmegaM := MulAction.orbit M alpha
   let alphaM : OmegaM := ⟨alpha, MulAction.mem_orbit_self alpha⟩
   let zM : M := ⟨z, hzM⟩
-  letI : MulAction M OmegaM := inferInstance
+  let : MulAction M OmegaM := inferInstance
   have hrec' : lemma311Output
       (Y.comap M.subtype) zM alphaM := by
     simpa [OmegaM, alphaM, zM] using hrec
@@ -944,9 +943,9 @@ private theorem lemma311_factorization_subgroup
   have hOnormal : O.Normal := by
     dsimp [O]
     exact pPrimeCore_normal
-  letI : O.Normal := hOnormal
+  let : O.Normal := hOnormal
   have hOMnormal : OM.Normal := by infer_instance
-  letI : OM.Normal := hOMnormal
+  let : OM.Normal := hOMnormal
   have hOMmapLe : OM.map M.subtype ≤ O := by
     rw [Subgroup.map_le_iff_le_comap]
   have hOMcard : Nat.card OM ∣ Nat.card O := by
@@ -992,7 +991,7 @@ private theorem lemma311_odd_subgroup_eq_commutator_mul_centralizer
     (R : Set X) =
       (⁅R, A⁆ : Subgroup X) *
         ((R ⊓ Subgroup.centralizer (A : Set X) : Subgroup X) : Set X) := by
-  letI : Subgroup.Normalizes A R := ⟨hA_norm_R⟩
+  let : Subgroup.Normalizes A R := ⟨hA_norm_R⟩
   let Cfix : Subgroup R := fixedPointSubgroup A R
   let Ccomm : Subgroup R := commutatorAction (A := A) (G := R)
   have hcop : Nat.Coprime (Nat.card A) (Nat.card R) := by
@@ -1008,7 +1007,7 @@ private theorem lemma311_odd_subgroup_eq_commutator_mul_centralizer
     simpa [subgroupCentralizerIn] using
       fixedPointSubgroup_subgroup_conj_eq_subgroupCentralizerIn
         R A hA_norm_R
-  haveI : Ccomm.Normal :=
+  have : Ccomm.Normal :=
     (commutatorAction_normal_and_invariant (A := A) (G := R)).1
   apply Set.Subset.antisymm
   · intro x hxR
@@ -1050,11 +1049,11 @@ private theorem lemma311_z_not_mem_pointStabilizerCore
   have hNnormal : N.Normal := by
     dsimp [N]
     exact proposition_4_c_pointStabilizerCore_normal
-  letI : N.Normal := hNnormal
+  let : N.Normal := hNnormal
   have hOnormal : O.Normal := by
     dsimp [O]
     exact pPrimeCore_normal
-  letI : O.Normal := hOnormal
+  let : O.Normal := hOnormal
   have hAcard : Nat.card A = 2 := by
     have hzOrder : orderOf z = 2 :=
       orderOf_eq_prime hz.sq_eq_one hz.ne_one
@@ -1111,15 +1110,15 @@ private theorem lemma311_lift_quotient_output
     lemma311Output Y z alpha := by
   classical
   let q : G →* G ⧸ N := QuotientGroup.mk' N
-  letI : MulAction (G ⧸ N) Omega := quotientAction
+  let : MulAction (G ⧸ N) Omega := quotientAction
   have hrec' : lemma311Output (Y.map q) (q z) alpha := by
     simpa [q] using hrec
   rcases hrec' with
     ⟨Rbar, Gamma, hGammaBar, hPrimeBar, hRbarCyclic, hzinvBar,
       hzNormBar, hzGammaBar, hPointBar, _hSwapBar⟩
   obtain ⟨r, hrPrime, hrOdd, hRbarP, hGammaCard⟩ := hPrimeBar
-  letI : Fact r.Prime := ⟨hrPrime⟩
-  letI : IsCyclic Rbar := hRbarCyclic
+  let : Fact r.Prime := ⟨hrPrime⟩
+  let : IsCyclic Rbar := hRbarCyclic
   obtain ⟨xbar, hxbarGen⟩ := IsCyclic.exists_generator (α := Rbar)
   obtain ⟨g, hg⟩ := QuotientGroup.mk'_surjective N (xbar : G ⧸ N)
   let c : G := z * g * z⁻¹ * g⁻¹
@@ -1228,9 +1227,9 @@ private theorem lemma311_lift_quotient_output
     simpa [R, fC, Subgroup.map_map] using hPmapEq
   have hRp : IsPGroup r R := by
     dsimp [R]
-    exact P.isPGroup'.map C.subtype
+    exact P.isPGroup.map C.subtype
   have hPcyclic : IsCyclic (P : Subgroup C) := by
-    letI : IsCyclic C := hCcyclic
+    let : IsCyclic C := hCcyclic
     exact Subgroup.isCyclic_of_le le_top
   have hRcyclic : IsCyclic R := by
     exact (MulEquiv.isCyclic
@@ -1371,18 +1370,18 @@ private theorem lemma311_quotient_centralizer_le_map
   have hNnormal : N.Normal := by
     dsimp [N]
     exact proposition_4_c_pointStabilizerCore_normal
-  letI : N.Normal := hNnormal
+  let : N.Normal := hNnormal
   let q : G →* G ⧸ N := QuotientGroup.mk' N
   have hOnormal : O.Normal := by
     dsimp [O]
     exact pPrimeCore_normal
-  letI : O.Normal := hOnormal
+  let : O.Normal := hOnormal
   have hLnormal : L.Normal := by infer_instance
-  letI : L.Normal := hLnormal
+  let : L.Normal := hLnormal
   have hAnormO : A ≤ Subgroup.normalizer (O : Set G) := by
     rw [Subgroup.normalizer_eq_top_iff.mpr hOnormal]
     exact le_top
-  letI : Subgroup.Normalizes A O := ⟨hAnormO⟩
+  let : Subgroup.Normalizes A O := ⟨hAnormO⟩
   have hLinv : IsInvariant A O L := by
     refine ⟨?_⟩
     intro a x
@@ -1439,7 +1438,7 @@ private theorem lemma311_quotient_centralizer_le_map
     exact mul_right_cancel hcancel
   let oO : O := ⟨o, hoO⟩
   let az : A := ⟨z, Subgroup.mem_zpowers z⟩
-  letI : MulDistribMulAction A (O ⧸ L) :=
+  let : MulDistribMulAction A (O ⧸ L) :=
     quotientMulDistribMulAction (A := A) (G := O) L hLinv
   let qL : O →* O ⧸ L := QuotientGroup.mk' L
   have hgenFixed : az • qL oO = qL oO := by
@@ -1514,7 +1513,7 @@ private theorem lemma311_nonfaithful_quotient
   have hNnormal : N.Normal := by
     dsimp [N]
     exact proposition_4_c_pointStabilizerCore_normal
-  letI : N.Normal := hNnormal
+  let : N.Normal := hNnormal
   let q : G →* G ⧸ N := QuotientGroup.mk' N
   have hNker : N ≤ (MulAction.toPermHom G Omega).ker := by
     intro n hn
@@ -1529,7 +1528,7 @@ private theorem lemma311_nonfaithful_quotient
     QuotientGroup.lift N (MulAction.toPermHom G Omega) hNker
   let quotientAction : MulAction (G ⧸ N) Omega :=
     MulAction.compHom Omega quotientPermHom
-  letI : MulAction (G ⧸ N) Omega := quotientAction
+  let : MulAction (G ⧸ N) Omega := quotientAction
   have hsmul : ∀ (g : G) (w : Omega),
       @SMul.smul (G ⧸ N) Omega quotientAction.toSMul
         (QuotientGroup.mk g) w = g • w := by
@@ -1542,7 +1541,7 @@ private theorem lemma311_nonfaithful_quotient
         change @SMul.smul (G ⧸ N) Omega quotientAction.toSMul
           (QuotientGroup.mk g) w = g • w
         simpa [N] using hsmul g w)
-  letI : FaithfulSMul (G ⧸ N) Omega := hfaithQ
+  let : FaithfulSMul (G ⧸ N) Omega := hfaithQ
   have htransQ : MulAction.IsPretransitive (G ⧸ N) Omega := by
     constructor
     intro beta gamma
@@ -1550,7 +1549,7 @@ private theorem lemma311_nonfaithful_quotient
       @MulAction.IsPretransitive.exists_smul_eq G Omega
         inferInstance inferInstance beta gamma
     exact ⟨q g, (hsmul g beta).trans hg⟩
-  letI : MulAction.IsPretransitive (G ⧸ N) Omega := htransQ
+  let : MulAction.IsPretransitive (G ⧸ N) Omega := htransQ
   let Ybar : Subgroup (G ⧸ N) := Y.map q
   have hNY : N ≤ Y := by
     intro n hn
@@ -1617,7 +1616,7 @@ private theorem lemma311_nonfaithful_quotient
     have hOnormal : O.Normal := by
       dsimp [O]
       exact pPrimeCore_normal
-    letI : O.Normal := hOnormal
+    let : O.Normal := hOnormal
     have hObarNormal : Obar.Normal := by
       dsimp [Obar]
       exact Subgroup.Normal.map (inferInstance : O.Normal) q
@@ -1685,13 +1684,13 @@ private theorem lemma311_output_core_aux :
       classical
       by_cases hmax : IsCoatom Y
       · by_cases hfaith : FaithfulSMul G Omega
-        · letI : FaithfulSMul G Omega := hfaith
+        · let : FaithfulSMul G Omega := hfaith
           exact lemma311_maximal_output
             Y z alpha hY hYproper hmax hzY hz hcent hfactor
         · exact lemma311_nonfaithful_quotient
             Y z alpha hY hYproper hmax hzY hz hcent hfactor hfaith
       · rw [IsCoatom] at hmax
-        push_neg at hmax
+        push Not at hmax
         obtain ⟨M, hYltM, hMne⟩ := hmax hYproper
         have hMlt : M < (⊤ : Subgroup G) := lt_top_iff_ne_top.mpr hMne
         let OmegaM := MulAction.orbit M alpha
@@ -1699,8 +1698,8 @@ private theorem lemma311_output_core_aux :
         let YM : Subgroup M := Y.comap M.subtype
         have hzMmem : z ∈ M := hYltM.le hzY
         let zM : M := ⟨z, hzMmem⟩
-        letI : MulAction M OmegaM := inferInstance
-        letI : MulAction.IsPretransitive M OmegaM := inferInstance
+        let : MulAction M OmegaM := inferInstance
+        let : MulAction.IsPretransitive M OmegaM := inferInstance
         have hYstabM : MulAction.stabilizer M alphaM = YM := by
           ext m
           constructor

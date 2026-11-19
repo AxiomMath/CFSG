@@ -53,6 +53,7 @@ theorem exists_conj_zpowers {p : ℕ} [hp : Fact p.Prime] {x : H} (hx : orderOf 
   rw [Sylow.coe_subgroup_smul, Subgroup.pointwise_smul_def] at h1
   exact h1.symm
 
+omit [Finite H] in
 theorem mem_zpowers_iff_of_map {x g : H} {V : Subgroup H}
     (hV : V = (Subgroup.zpowers x).map (MulAut.conj g).toMonoidHom) (z : H) :
     z ∈ Subgroup.zpowers x ↔ g * z * g⁻¹ ∈ V := by
@@ -66,10 +67,12 @@ theorem mem_zpowers_iff_of_map {x g : H} {V : Subgroup H}
     rw [← hyz']
     exact hy
 
+omit [Finite H] in
 theorem isPGroup_of_pow_eq_one {p : ℕ} {K : Subgroup H} (h : ∀ y ∈ K, y ^ p = 1) :
     IsPGroup p K :=
   fun y => ⟨1, Subtype.ext (by simpa using h y y.2)⟩
 
+omit [Finite Ω] [Finite H] in
 theorem card_fix_eq_two {x g : H} {V : Subgroup H}
     (hV : V = (Subgroup.zpowers x).map (MulAut.conj g).toMonoidHom)
     (hxf : Nat.card {p : Ω // x • p = p} = 2) :
@@ -101,6 +104,7 @@ theorem card_fix_eq_two {x g : H} {V : Subgroup H}
       _ = g • (g⁻¹ * v * g) • q.1 := by rw [smul_smul]
       _ = g • q.1 := by rw [hfix]
 
+omit [Finite H] [Finite Ω] in
 theorem fixAct_mem {V E : Subgroup H} (hEV : E ≤ Subgroup.normalizer (V : Set H)) (e : E)
     (p : {p : Ω // ∀ v ∈ V, v • p = p}) : ∀ v ∈ V, v • (e : H) • p.1 = (e : H) • p.1 := by
   intro v hv
@@ -128,14 +132,14 @@ theorem no_E27_normalizes_seven
     {V E : Subgroup H} (hV : IsElemAbelian 7 V) (hV1 : V ≠ ⊥)
     (hE : IsElemAbelian 3 E) (hE27 : Nat.card E = 27)
     (hEV : E ≤ Subgroup.normalizer (V : Set H)) : False := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hfac7 : (Nat.card H).factorization 7 = 1 := by rw [hH]; exact factorization_seven
   have hV7 : Nat.card V = 7 :=
     card_eq_prime_of_isPGroup (isPGroup_of_pow_eq_one hV.2) hV1 hfac7
   obtain ⟨g, hg⟩ := exists_conj_zpowers hx hV7 hfac7
   have hcount := card_fix_eq_two hg hxf
-  letI := fixAct (Ω := Ω) V E hEV
+  let := fixAct (Ω := Ω) V E hEV
   have hmod := (isPGroup_of_pow_eq_one hE.2).card_modEq_card_fixedPoints
     {p : Ω // ∀ v ∈ V, v • p = p}
   rw [hcount] at hmod
@@ -152,7 +156,7 @@ theorem no_E27_normalizes_seven
 theorem card_le_three_of_pow {G' : Type*} [Group G'] [Finite G'] [IsCyclic G']
     (R : Subgroup G') (hR : ∀ r ∈ R, r ^ 3 = 1) : Nat.card R ≤ 3 := by
   classical
-  haveI : Fintype R := Fintype.ofFinite R
+  have : Fintype R := Fintype.ofFinite R
   have hall : ∀ a : R, a ^ 3 = 1 := fun a => Subtype.ext (by simpa using hR a a.2)
   have h := IsCyclic.card_pow_eq_one_le (α := R) (n := 3) (by norm_num)
   rw [Nat.card_eq_fintype_card]
@@ -176,6 +180,7 @@ noncomputable def conjHomZ (Y E : Subgroup H) (h : E ≤ Subgroup.normalizer (Y 
   map_one' := by ext y; simp [conjAutZ]
   map_mul' a b := by ext y; simp [conjAutZ, mul_assoc]
 
+omit [Finite H] in
 theorem conj_normalizes {x g : H} {V E : Subgroup H}
     (hV : V = (Subgroup.zpowers x).map (MulAut.conj g).toMonoidHom)
     (hEV : E ≤ Subgroup.normalizer (V : Set H)) :
@@ -196,14 +201,15 @@ theorem conj_normalizes {x g : H} {V E : Subgroup H}
   rw [hsimp]
   exact Subgroup.mem_normalizer_iff.mp (hEV he) (g * h * g⁻¹)
 
+omit [Finite H] in
 theorem exists_centralizing_nine {x : H} (hx : orderOf x = 19) {E' : Subgroup H}
     (hexp : ∀ e ∈ E', e ^ 3 = 1) (hcard : Nat.card E' = 27)
     (hN : E' ≤ Subgroup.normalizer ((Subgroup.zpowers x : Subgroup H) : Set H)) :
     ∃ K : Subgroup H, 9 ∣ Nat.card K ∧ K ≤ Subgroup.centralizer ({x} : Set H) := by
   have hYcard : Nat.card (Subgroup.zpowers x) = 19 := by rw [Nat.card_zpowers, hx]
   have hprime : Nat.Prime (Nat.card (Subgroup.zpowers x)) := by rw [hYcard]; norm_num
-  haveI : NeZero (Nat.card (Subgroup.zpowers x)) := ⟨hprime.ne_zero⟩
-  haveI : IsCyclic (ZMod (Nat.card (Subgroup.zpowers x)))ˣ := ZMod.isCyclic_units_prime hprime
+  have : NeZero (Nat.card (Subgroup.zpowers x)) := ⟨hprime.ne_zero⟩
+  have : IsCyclic (ZMod (Nat.card (Subgroup.zpowers x)))ˣ := ZMod.isCyclic_units_prime hprime
   let φ : E' →* MulAut (Subgroup.zpowers x) := conjHomZ (Subgroup.zpowers x) E' hN
   let Θ : E' →* (ZMod (Nat.card (Subgroup.zpowers x)))ˣ :=
     (IsCyclic.mulAutMulEquiv (Subgroup.zpowers x)).toMonoidHom.comp φ
@@ -246,7 +252,7 @@ theorem no_E27_normalizes_nineteen
     {V E : Subgroup H} (hV : IsElemAbelian 19 V) (hV1 : V ≠ ⊥)
     (hE : IsElemAbelian 3 E) (hE27 : Nat.card E = 27)
     (hEV : E ≤ Subgroup.normalizer (V : Set H)) : False := by
-  haveI : Fact (Nat.Prime 19) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 19) := ⟨by norm_num⟩
   have hfac19 : (Nat.card H).factorization 19 = 1 := by rw [hH]; exact factorization_nineteen
   have hV19 : Nat.card V = 19 :=
     card_eq_prime_of_isPGroup (isPGroup_of_pow_eq_one hV.2) hV1 hfac19

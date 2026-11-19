@@ -75,7 +75,7 @@ theorem comm_ofRankTwo (D : RankTwoSystem X 8) :
       simp only [commutatorElement_def]
       group
     rw [heq]
-    refine SetLike.le_def.mp (iSup₂_le fun t ht => ?_)
+    refine _root_.IsConcreteLE.le_iff.mp (iSup₂_le fun t ht => ?_)
       ((win (ofRankTwoU D) (2 * k + 1) (j - 1)).inv_mem hconj)
     have ht' : t ∈ Set.Ioo (2 * k) j := Set.mem_Ioo.2 (by
       simp only [Set.mem_Icc] at ht
@@ -118,7 +118,7 @@ theorem comm_ofRankTwo (D : RankTwoSystem X 8) :
       simp only [commutatorElement_def]
       group
     rw [heq]
-    refine SetLike.le_def.mp (iSup₂_le fun t ht => ?_) hconj
+    refine _root_.IsConcreteLE.le_iff.mp (iSup₂_le fun t ht => ?_) hconj
     have ht' : t ∈ Set.Ioo (2 * k + 1) j := Set.mem_Ioo.2 (by
       simp only [Set.mem_Icc] at ht
       omega)
@@ -341,8 +341,8 @@ theorem center_win_ne_bot (D : RankTwoSystem X 8) :
     have hroot : D.root 1 = ⊥ :=
       le_bot_iff.1 (h ▸ D.root_le_U (by norm_num) (by norm_num))
     exact D.roots.ne_bot 1 ⟨by norm_num, by norm_num⟩ hroot
-  haveI : Nontrivial ↥D.U := (Subgroup.nontrivial_iff_ne_bot D.U).2 hne
-  haveI : Group.IsNilpotent ↥D.U := D.isSplit.1
+  have : Nontrivial ↥D.U := (Subgroup.nontrivial_iff_ne_bot D.U).2 hne
+  have : Group.IsNilpotent ↥D.U := D.isSplit.1
   have hcenter : Subgroup.center ↥D.U ≠ ⊥ := Group.IsNilpotent.center_ne_bot (G := ↥D.U)
   apply hcenter
   rw [eq_bot_iff]

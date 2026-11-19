@@ -30,7 +30,7 @@ theorem alternatingGroup_le_of_nontrivial_support_le_seven
     Finite.one_lt_card_iff_nontrivial.mpr hZnontrivial
   obtain ⟨q, hq, hqdvd⟩ :=
     Nat.exists_prime_and_dvd (n := Nat.card Z) (by omega)
-  letI : Fact q.Prime := ⟨hq⟩
+  let : Fact q.Prime := ⟨hq⟩
   obtain ⟨v, hvorder⟩ :=
     exists_prime_orderOf_dvd_card' (G := Z) q hqdvd
   obtain ⟨z, hz⟩ :=

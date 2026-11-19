@@ -33,6 +33,7 @@ section UnitaryPairAll
 
 variable {Ω : Type} [Field Ω] [IsAlgClosed Ω] [CharP Ω 2]
 
+omit [IsAlgClosed Ω] [CharP Ω 2] in
 theorem algebraMap_pow_eq_self {k : Type} [Field k] [Finite k] [Algebra k Ω] {f : ℕ}
     (hk : Nat.card k = 2 ^ f) (t : k) :
     (algebraMap k Ω t) ^ (2 ^ f) = algebraMap k Ω t := by
@@ -44,6 +45,7 @@ theorem algebraMap_pow_eq_self {k : Type} [Field k] [Finite k] [Algebra k Ω] {f
       rw [← hcard]
       exact congrArg (algebraMap k Ω) (FiniteField.pow_card t)
 
+omit [IsAlgClosed Ω] [CharP Ω 2] in
 theorem kappaSU_pair_all
     {k : Type} [Field k] [Finite k] [Algebra k Ω] {f : ℕ} (hk : Nat.card k = 2 ^ f)
     (ρ : SL(3, Ω) →* ModGL Tag.F4 Ω) (H : SL(3, Ω))
@@ -191,6 +193,7 @@ section Unitary
 
 variable [IsAlgClosed Ω] [CharP Ω 2]
 
+omit [IsAlgClosed Ω] in
 theorem isQuasisimple_kappaSU_range {F : Subfield Ω} {f : ℕ} (hf : 2 ≤ f)
     (hFcard : Nat.card F = (2 ^ f) ^ 2)
     (ρ : SL(3, Ω) →* ModGL Tag.F4 Ω) (H : SL(3, Ω)) (hρinj : Function.Injective ρ) :
@@ -209,6 +212,7 @@ theorem isQuasisimple_kappaSU_range {F : Subfield Ω} {f : ℕ} (hf : 2 ≤ f)
   exact CFSG.IsQuasisimple.of_mulEquiv
     (MonoidHom.ofInjective (kappaSU_injective ρ H F 2 f hρinj)).symm hqs.1
 
+omit [IsAlgClosed Ω] in
 theorem isSolvable_kappaSU_range_one {F : Subfield Ω}
     (hFcard : Nat.card F = (2 ^ 1) ^ 2)
     (ρ : SL(3, Ω) →* ModGL Tag.F4 Ω) (H : SL(3, Ω)) (hρinj : Function.Injective ρ) :

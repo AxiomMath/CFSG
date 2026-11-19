@@ -17,7 +17,7 @@ theorem hasLabel_model {X : Type} [Group X] [Finite X] {lab : GLALabel}
   obtain ⟨hcomm, lab', hlam, R, _, I, F, θ, hs, -, ⟨rfl, hm⟩⟩ :=
     CFSG.StandardType.Canonical.largeEvenMarking_exists
       (CFSG.StandardType.Canonical.largeEvenMarking_markedModel h)
-  haveI := hs
+  have := hs
   exact ⟨hlam.1, ⟨hcomm, θ.isSimpleGroup⟩,
     CFSG.StandardType.MarkedModel.of_mulEquiv θ.symm hm⟩
 

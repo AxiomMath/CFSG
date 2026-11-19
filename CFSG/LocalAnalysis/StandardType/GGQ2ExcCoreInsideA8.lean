@@ -69,7 +69,7 @@ theorem rootChar_chainExp_a8Chain (hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8)
     intro k
     rw [chainExp]
     refine Finset.sum_congr rfl fun a _ => ?_
-    rw [if_pos a.isLt]
+    rw [ite_eq_left a.isLt]
   have hkey : ∑ k, chainExp (a8Chain d w) 8 k * d.γ t k =
       ∑ a : Fin 8, ((a : ℕ) + 1 : ℤ) * ExcRaw.pairing m t (w.b a) := by
     calc ∑ k, chainExp (a8Chain d w) 8 k * d.γ t k

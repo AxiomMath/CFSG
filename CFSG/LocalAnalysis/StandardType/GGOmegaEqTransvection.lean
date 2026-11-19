@@ -285,7 +285,7 @@ private theorem ggOmW5a_matrixOrthogonal_iff_orthogonalGroup {ι K : Type} [Fint
 private lemma ggOmW5aA_exists_ne_zero_ne_one_of_card_ne_two {K : Type} [Field K] [Fintype K]
     (hK : Nat.card K ≠ 2) : ∃ c : K, c ≠ 0 ∧ c ≠ 1 := by
   classical
-  haveI : Nontrivial K := ⟨0, 1, zero_ne_one⟩
+  have : Nontrivial K := ⟨0, 1, zero_ne_one⟩
   have h1 : 1 < Nat.card K := by
     rw [Nat.card_eq_fintype_card]
     exact Fintype.one_lt_card
@@ -316,7 +316,7 @@ private theorem ggOmW5aA_omegaGroup_le_commutator {ι K : Type} [Fintype ι]
   refine (CFSG.RankThree.GF2n.Smith81.omegaGroup_le_elementaryGroup_of_four_le
     (V := ι → K) hΦ h4').trans ?_
   by_cases hK2 : Nat.card K = 2
-  · haveI : CFSG.HardMathSupport.Timmesfeld.OrthogonalGeneration.IsF2 K :=
+  · have : CFSG.HardMathSupport.Timmesfeld.OrthogonalGeneration.IsF2 K :=
       CFSG.HardMathSupport.Timmesfeld.OrthogonalGeneration.IsF2.of_natCard_eq_two hK2
     exact CFSG.HardMathSupport.Timmesfeld.OrthogonalGeneration.elementaryGroup_le_commutator
       (V := ι → K) hΦ (Or.inl h5')
@@ -920,7 +920,7 @@ private lemma ggOmW5aC_adjoin_comm {ι F : Type} [Fintype ι] [DecidableEq ι] [
     (fun x y hx hy => ggOmW5aC_pair_comm S hS x hx y hy)
     (fun r₁ r₂ => by
       rw [Algebra.algebraMap_eq_smul_one]
-      simp only [smul_mul_assoc, mul_smul_comm, one_mul, mul_one, smul_smul, mul_comm])
+      simp only [smul_mul_assoc, mul_smul_comm, one_mul, mul_one])
     (fun r x hx => by
       rw [Algebra.algebraMap_eq_smul_one]
       simp only [smul_mul_assoc, mul_smul_comm, one_mul, mul_one])
@@ -1022,7 +1022,7 @@ private lemma ggOmW5aC_blk_val {ι F : Type} [Fintype ι] [DecidableEq ι] [Fiel
     (ggOmW5aC_blk x e : Matrix ι ι F) = (x : Matrix ι ι F) * e + (1 - e) := by
   have h : ∃ u : GL ι F, (u : Matrix ι ι F) = (x : Matrix ι ι F) * e + (1 - e) :=
     ⟨ggOmW5aC_blkAux x e hid hcomm, rfl⟩
-  rw [ggOmW5aC_blk, dif_pos h]
+  rw [ggOmW5aC_blk, dite_eq_left h]
   exact Classical.choose_spec h
 
 private lemma ggOmW5aC_blk_mem_centralizer {U ι F : Type} [Group U] [Fintype ι] [DecidableEq ι]
@@ -1412,14 +1412,14 @@ private lemma ggOmW5aC_diagonal_mem_GUFull {E : Type} [Field E] {m Q : ℕ} (hQ 
         ext i j
         rw [Matrix.diagonal_mul_diagonal, Matrix.diagonal_apply, Matrix.one_apply]
         by_cases hij : i = j
-        · subst hij; rw [if_pos rfl, if_pos rfl, mul_inv_cancel₀ (hd0 i)]
-        · rw [if_neg hij, if_neg hij])
+        · subst hij; rw [ite_eq_left rfl, ite_eq_left rfl, mul_inv_cancel₀ (hd0 i)]
+        · rw [ite_eq_right hij, ite_eq_right hij])
       (by
         ext i j
         rw [Matrix.diagonal_mul_diagonal, Matrix.diagonal_apply, Matrix.one_apply]
         by_cases hij : i = j
-        · subst hij; rw [if_pos rfl, if_pos rfl, inv_mul_cancel₀ (hd0 i)]
-        · rw [if_neg hij, if_neg hij])
+        · subst hij; rw [ite_eq_left rfl, ite_eq_left rfl, inv_mul_cancel₀ (hd0 i)]
+        · rw [ite_eq_right hij, ite_eq_right hij])
   have hDval : (D : Matrix (Fin m) (Fin m) E) = Matrix.diagonal d := rfl
   refine ⟨D, hDval, ?_⟩
   apply Subgroup.subset_closure
@@ -1439,9 +1439,9 @@ private lemma ggOmW5aC_diagonal_mem_GUFull {E : Type} [Field E] {m Q : ℕ} (hQ 
   rw [Matrix.diagonal_mul_diagonal, Matrix.diagonal_apply, Matrix.one_apply]
   by_cases hij : i = j
   · subst hij
-    rw [if_pos rfl, if_pos rfl, ← pow_succ]
+    rw [ite_eq_left rfl, ite_eq_left rfl, ← pow_succ]
     exact hd i
-  · rw [if_neg hij, if_neg hij]
+  · rw [ite_eq_right hij, ite_eq_right hij]
 
 private theorem ggOmW5aC_center_GL {E : Type} [Field E] [CharP E 2] {m : ℕ} (z : GL (Fin m) E)
     (hz : ∀ g : GL (Fin m) E, z * g = g * z) (hz2 : z * z = 1) : z = 1 := by
@@ -1450,7 +1450,7 @@ private theorem ggOmW5aC_center_GL {E : Type} [Field E] [CharP E 2] {m : ℕ} (z
     apply Units.ext
     ext i j
     exact Fin.elim0 i
-  · haveI : Nonempty (Fin m) := ⟨⟨0, Nat.pos_of_ne_zero hm⟩⟩
+  · have : Nonempty (Fin m) := ⟨⟨0, Nat.pos_of_ne_zero hm⟩⟩
     have hzmem : z ∈ Subgroup.center (GL (Fin m) E) :=
       Subgroup.mem_center_iff.mpr fun g => (hz g).symm
     have hval : (z : Matrix (Fin m) (Fin m) E) ∈ Set.range (Matrix.scalar (Fin m)) :=
@@ -1477,7 +1477,7 @@ private theorem ggOmW5aC_center_GU {E : Type} [Field E] [Fintype E] {m Q : ℕ}
     have h1 : 1 < Fintype.card E := Fintype.one_lt_card
     rw [hE, hQ0] at h1
     norm_num at h1
-  haveI : CharP E 2 := ggOmW5aC_charP_two hE hOdd
+  have : CharP E 2 := ggOmW5aC_charP_two hE hOdd
   obtain ⟨ζ, hζpow, hζne⟩ := ggOmW5aC_exists_normOne_ne_one hE
   let zgl : GL (Fin m) E := z
   have hzgl2 : zgl * zgl = 1 := by
@@ -1515,12 +1515,12 @@ private theorem ggOmW5aC_center_GU {E : Type} [Field E] [Fintype E] {m Q : ℕ}
     ext i j
     by_cases hij : i = j
     · subst hij; simp
-    · rw [hoff i j hij]; simp [Matrix.diagonal_apply, hij]
+    · rw [hoff i j hij]; simp [hij]
   have hdiag1 : ∀ i, (zgl : Matrix (Fin m) (Fin m) E) i i = 1 := by
     intro i
     have h := congrArg (fun N : Matrix (Fin m) (Fin m) E => N i i) hzgl2mat
     rw [hdiag, Matrix.diagonal_mul_diagonal, Matrix.diagonal_apply_eq, Matrix.one_apply,
-      if_pos rfl] at h
+      ite_eq_left rfl] at h
     exact CharTwo.sq_inj.mp (by rw [pow_two, pow_two, h, mul_one])
   apply Subtype.ext
   apply Units.ext
@@ -1682,7 +1682,7 @@ private theorem ggOmW5a_s_eq_one_on_com {ι K : Type} [Fintype ι] [DecidableEq 
             ggOmW5a_block_iso_linear Φ hΦ h8 b hb hodd (hPprim ε hεP) heprim he'
               hneadj.symm hεeq
           obtain ⟨φ⟩ := hφ
-          haveI : CharP E 2 := ggOmW5aC_charP_two_of_card_pow hd1 hEcard
+          have : CharP E 2 := ggOmW5aC_charP_two_of_card_pow hd1 hEcard
           have hφx2 : φ x * φ x = 1 := by rw [← map_mul, hx2, map_one]
           have hφxc : ∀ y : GL (Fin m) E, φ x * y = y * φ x := by
             intro y
@@ -1838,8 +1838,7 @@ private theorem ggOmW5aD_W_finrank (K : Type) [Field K] :
         intro c p
         funext j
         rcases j with j | j <;> fin_cases j <;>
-          simp [ggOmW5aD_basE, ggOmW5aD_basF, Pi.single_apply, smul_add, smul_smul,
-            smul_eq_mul] }
+          simp [ggOmW5aD_basE, ggOmW5aD_basF, smul_add, smul_eq_mul] }
   have hrange : ggOmW5aD_W K = LinearMap.range φ := by
     ext v
     constructor
@@ -1847,16 +1846,16 @@ private theorem ggOmW5aD_W_finrank (K : Type) [Field K] :
       refine ⟨(v (Sum.inl 0), v (Sum.inr 0)), ?_⟩
       funext j
       rcases j with j | j <;> fin_cases j <;>
-        simp [φ, ggOmW5aD_basE, ggOmW5aD_basF, Pi.single_apply, h1, h2]
+        simp [φ, ggOmW5aD_basE, ggOmW5aD_basF, h1, h2]
     · rintro ⟨p, rfl⟩
       refine ⟨?_, ?_⟩ <;>
-        simp [φ, ggOmW5aD_basE, ggOmW5aD_basF, Pi.single_apply]
+        simp [φ, ggOmW5aD_basE, ggOmW5aD_basF]
   rw [hrange, LinearMap.finrank_range_of_inj]
   · rw [Module.finrank_prod, Module.finrank_self]
   · intro p q hpq
     have h0 := congrFun hpq (Sum.inl 0)
     have h1 := congrFun hpq (Sum.inr 0)
-    simp [φ, ggOmW5aD_basE, ggOmW5aD_basF, Pi.single_apply] at h0 h1
+    simp [φ, ggOmW5aD_basE, ggOmW5aD_basF] at h0 h1
     exact Prod.ext h0 h1
 
 private theorem ggOmW5aD_fusionForm_isPlusType (K : Type) [Field K] [CharP K 2] :
@@ -1993,7 +1992,7 @@ private theorem ggOmW5aD_plane_omega_eq_bot {K W : Type} [Field K] [CharP K 2]
     (hsc : ∀ y ∈ CFSG.RankThree.OrthogonalInvolutions.omegaGroup Q hQ, s * y = y * s) :
     CFSG.RankThree.OrthogonalInvolutions.omegaGroup Q hQ = ⊥ := by
   classical
-  haveI : Nontrivial W := Module.nontrivial_of_finrank_pos (R := K) (by omega)
+  have : Nontrivial W := Module.nontrivial_of_finrank_pos (R := K) (by omega)
   obtain ⟨a, ha⟩ := CFSG.RankThree.OrthogonalInvolutions.exists_map_ne_zero (Q := Q) hQ
   have ha0 : a ≠ 0 := fun h => ha (by rw [h, QuadraticMap.map_zero])
   set r : W ≃ₗ[K] W := CFSG.ClassicalGroups.Orthogonal.reflect Q a with hr
@@ -2095,7 +2094,7 @@ private theorem ggOmW5a_plane_card_eq_two {K W : Type} [Field K] [Fintype K] [Ch
     Fintype.card K = 2 := by
   have hbot : CFSG.RankThree.OrthogonalInvolutions.omegaGroup Q hQ = ⊥ :=
     ggOmW5aD_plane_omega_eq_bot Q hQ h2 hs hsΩ hsc
-  haveI : Nontrivial W := Module.nontrivial_of_finrank_pos (R := K) (by omega)
+  have : Nontrivial W := Module.nontrivial_of_finrank_pos (R := K) (by omega)
   have hcardΩ : Nat.card ↥(CFSG.RankThree.OrthogonalInvolutions.omegaGroup Q hQ) = 1 := by
     rw [hbot]
     simp
@@ -2116,7 +2115,7 @@ private theorem ggOmW5a_plane_card_eq_two {K W : Type} [Field K] [Fintype K] [Ch
     · have hcard := CFSG.GroupTheory.WeirSylow.natCard_orthogonalGroup_of_type
         (K := K) (V := W) hQ (m := 0) (by rw [h2]) (ε := (-1 : ℤ)) (Or.inr ⟨rfl, hplus⟩)
       rw [hcardO] at hcard
-      have hmain : (2 : ℤ) = 2 * ((Nat.card K : ℤ) + 1) := by simpa using hcard
+      have hmain : (2 : ℤ) = 2 * ((Nat.card K : ℤ) + 1) := by simp at hcard
       have hq : (Nat.card K : ℤ) = 0 := by linarith
       have hq0 : Nat.card K = 0 := by exact_mod_cast hq
       have h1 := Finite.one_lt_card (α := K)
@@ -2387,7 +2386,7 @@ private theorem ggOmW5aE_restrict_centralizes {ι K : Type} [Fintype ι] [Decida
           ⟨(u : ι → K), ?_⟩
         rw [Submodule.subtype_apply, Submodule.coe_sub]
         have h := glue_apply hc y 1 u (0 : ggOmW5a_com b)
-        simp only [LinearEquiv.coe_one, id_eq, map_zero, add_zero, Submodule.coe_zero] at h
+        simp only [map_zero, add_zero, Submodule.coe_zero] at h
         rw [h]
     rw [hmap, Submodule.finrank_map_subtype_eq]
     exact hyeven
@@ -2476,7 +2475,7 @@ private theorem ggOmW5a_plane_structure {ι K : Type} [Fintype ι] [DecidableEq 
   have hpos : 0 < Module.finrank K (ggOmW5a_fix b) := by
     by_contra h
     have h0 : Module.finrank K (ggOmW5a_fix b) = 0 := by omega
-    haveI : Subsingleton (ggOmW5a_fix b) := Module.finrank_zero_iff.mp h0
+    have : Subsingleton (ggOmW5a_fix b) := Module.finrank_zero_iff.mp h0
     have hz : S₁ = 1 := Subsingleton.elim _ _
     exact hS₁Ω (hz ▸ Subgroup.one_mem _)
   have hfin : Module.finrank K (ggOmW5a_fix b) = 2 := by

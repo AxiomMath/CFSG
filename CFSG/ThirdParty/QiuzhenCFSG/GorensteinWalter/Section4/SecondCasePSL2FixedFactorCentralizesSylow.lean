@@ -130,7 +130,7 @@ private theorem sylow_two_unique_in_dihedral_join
   let RT : Sylow 2 T := Classical.choice Sylow.nonempty
   let R : Subgroup Q := (RT : Subgroup T).map T.subtype
   let V : Subgroup Q := R ⊔ Subgroup.zpowers r
-  have hRp : IsPGroup 2 R := RT.isPGroup'.map T.subtype
+  have hRp : IsPGroup 2 R := RT.isPGroup.map T.subtype
   have hr2 : r ^ 2 = 1 := hrI.2
   have hr2' : r * r = 1 := by simpa [pow_two] using hr2
   have hr_inv : r⁻¹ = r := inv_eq_of_mul_eq_one_right hr2'
@@ -168,7 +168,7 @@ private theorem sylow_two_unique_in_dihedral_join
       (huT : u ∈ T) (huP : u ∈ (P0 : Subgroup Q)) : u ∈ R := by
     let uT : T := ⟨u, huT⟩
     obtain ⟨k, hk⟩ :=
-      (IsPGroup.iff_orderOf.mp P0.isPGroup') (⟨u, huP⟩ : P0)
+      (IsPGroup.iff_orderOf.mp P0.isPGroup) (⟨u, huP⟩ : P0)
     have huord : orderOf u = 2 ^ k := by
       calc
         orderOf u = orderOf (⟨u, huP⟩ : P0) := by
@@ -478,9 +478,7 @@ public theorem secondCase_psl2_fixed_factor_centralizes_componentSylow
     psl2_odd_hasDihedralSylowTwo_model K hK Pmodel
   have hPmodel : (Pmodel : Subgroup (PSL2 K)) =
       (P : Subgroup Q).map e.some.toMonoidHom := by
-    simpa [Pmodel] using
-      (Sylow.coe_mapSurjective (f := e.some.toMonoidHom)
-        e.some.surjective P)
+    simp [Pmodel]
   let eP0 : P ≃* (P : Subgroup Q).map e.some.toMonoidHom :=
     e.some.subgroupMap (P : Subgroup Q)
   let eP : P ≃* (Pmodel : Subgroup (PSL2 K)) :=
@@ -657,7 +655,7 @@ public theorem secondCase_psl2_fixed_factor_centralizes_componentSylow
       Subgroup.orderOf_dvd_natCard (Subgroup.center (↥d.E)) hzcenter
     exact Odd.of_dvd_nat d.center_odd hzcard
   obtain ⟨k, hak⟩ :=
-    (IsPGroup.iff_orderOf.mp SE.isPGroup') (⟨aE, haSE⟩ : SE)
+    (IsPGroup.iff_orderOf.mp SE.isPGroup) (⟨aE, haSE⟩ : SE)
   have haord : orderOf aE = 2 ^ k := by
     calc
       orderOf aE = orderOf ((⟨aE, haSE⟩ : SE) : d.E) := rfl

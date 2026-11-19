@@ -14,7 +14,7 @@ variable
   {K : Type} [Field K]
 
 
-theorem move_normal_form [CharP K 2] {a : K} (ha : a ≠ 0) {δ : Fin (Tag.rank .E7) → ℤ}
+theorem move_normal_form [CharP K 2] {a : K} (_ha : a ≠ 0) {δ : Fin (Tag.rank .E7) → ℤ}
     (hδ : IsRoot .E7 δ) (hδne : δ ≠ -theta) (b : K) {q : V K}
     (hq : ∃ (g : G7 K) (c : K), c ≠ 0 ∧ q = c • act7 g (w0 : V K))
     (hqr : q ∈ LinearMap.range ((act7 (e7Data_valid.xm K theta a) : V K →ₗ[K] V K) - 1)) :
@@ -60,7 +60,7 @@ theorem move_normal_form [CharP K 2] {a : K} (ha : a ≠ 0) {δ : Fin (Tag.rank 
   have hval : act7 (n * u⁻¹) (c • act7 g (w0 : V K)) = c₀ • (Finsupp.single γ 1 : V K) := by
     rw [hline, map_smul, hN, hnμγ]
   have hfix : act7 (e7Data_valid.xm K δ b) (Finsupp.single γ 1 : V K) = Finsupp.single γ 1 := by
-    rw [act7_xm, rootOp_single (K := K) hδ γ, if_neg hγδ, smul_zero, add_zero]
+    rw [act7_xm, rootOp_single (K := K) hδ γ, ite_eq_right hγδ, smul_zero, add_zero]
   refine ⟨n * u⁻¹, ?_, ?_⟩
   · intro a'
     calc n * u⁻¹ * e7Data_valid.xm K theta a'

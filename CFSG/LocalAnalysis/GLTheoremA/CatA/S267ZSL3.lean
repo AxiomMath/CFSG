@@ -76,10 +76,10 @@ theorem coordBlockSL_le_centralizer_diag3' {I : Finset (Fin 3)}
   by_cases hiI : i ∈ I
   · by_cases hjI : j ∈ I
     · exact absurd (hI i hiI j hjI) hij
-    · rw [hg' i j (Or.inr hjI), if_neg]
+    · rw [hg' i j (Or.inr hjI), ite_eq_right]
       rintro rfl
       exact hij rfl
-  · rw [hg' i j (Or.inl hiI), if_neg]
+  · rw [hg' i j (Or.inl hiI), ite_eq_right]
     rintro rfl
     exact hij rfl
 
@@ -155,24 +155,24 @@ theorem mem_coordBlockSL_of_corner {g : SpecialLinearGroup (Fin 3) F}
   · by_cases hj : j = 0
     · subst hj
       simp [h1]
-    · rw [(corner_entries hd0 hg hj).1, if_neg (Ne.symm hj)]
+    · rw [(corner_entries hd0 hg hj).1, ite_eq_right (Ne.symm hj)]
   · by_cases hi : i = 0
     · subst hi
       simp [h1]
-    · rw [(corner_entries hd0 hg hi).2, if_neg hi]
+    · rw [(corner_entries hd0 hg hi).2, ite_eq_right hi]
 
 end Corner
 
 theorem corner_of_mem_coordBlockSL {g : SpecialLinearGroup (Fin 3) F}
     (hg : g ∈ coordBlockSL F blk) : (g : Matrix (Fin 3) (Fin 3) F) 0 0 = 1 := by
-  rw [mem_coordBlockSL_iff.1 hg 0 0 (Or.inl (by simp [mem_blk])), if_pos rfl]
+  rw [mem_coordBlockSL_iff.1 hg 0 0 (Or.inl (by simp)), ite_eq_left rfl]
 
 section Corner2
 
 variable (hd0 : ∀ j, j ≠ 0 → d 0 ≠ d j)
 include hd0
 
-theorem coordBlockSL_subgroupOf_eq_ker (h12 : d 1 = d 2) :
+theorem coordBlockSL_subgroupOf_eq_ker (_h12 : d 1 = d 2) :
     (coordBlockSL F blk).subgroupOf (cent d hd) = (cornerHom hd0).ker := by
   ext g
   rw [Subgroup.mem_subgroupOf, MonoidHom.mem_ker]
@@ -302,7 +302,7 @@ theorem diag3_mem_coordBlockSL {ζ : F} (hζ : ζ ≠ 0) :
   by_cases hij' : i = j
   · subst hij'
     rcases hi with rfl | rfl <;> simp
-  · rw [diagonal_apply_ne _ hij', if_neg hij']
+  · rw [diagonal_apply_ne _ hij', ite_eq_right hij']
 
 theorem diag3_mul_transvection_ne {d : Fin 3 → F} (hd : ∏ i, d i = 1) {a b : Fin 3}
     (hab : a ≠ b) (hd_ab : d a ≠ d b) :
@@ -314,7 +314,7 @@ theorem diag3_mul_transvection_ne {d : Fin 3 → F} (hd : ∏ i, d i = 1) {a b :
   simp only [Matrix.SpecialLinearGroup.coe_mul, coe_diag3,
     Matrix.SpecialLinearGroup.transvection_coe, diagonal_mul, mul_diagonal] at h1
   have e2 : (1 + Matrix.single a b (1 : F) : Matrix (Fin 3) (Fin 3) F) a b = 1 := by
-    rw [Matrix.add_apply, one_apply_ne hab, Matrix.single_apply, if_pos ⟨rfl, rfl⟩, zero_add]
+    rw [Matrix.add_apply, one_apply_ne hab, Matrix.single_apply, ite_eq_left ⟨rfl, rfl⟩, zero_add]
   rw [e2, mul_one, one_mul] at h1
   exact hd_ab h1
 
@@ -324,10 +324,11 @@ variable [Finite F] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {ζ : F} (hζ : IsP
   (hF : 4 ≤ Nat.card F)
 include hp hp2 hζ hF
 
+omit hp hp2 hζ in
 theorem isQuasisimple_coordBlockSL_blk : CFSG.Open.IsQuasisimple ↥(coordBlockSL F blk) :=
   isQuasisimple_coordBlockSL (J := blk) (by decide) hF
 
-omit hF in
+omit hF [Finite F] in
 theorem dvd_card_coordBlockSL_blk :
     p ∣ Nat.card (↥(coordBlockSL F blk) ⧸ Subgroup.center ↥(coordBlockSL F blk)) := by
   have hζ0 : ζ ≠ 0 := hζ.ne_zero hp.ne_zero
@@ -356,11 +357,12 @@ theorem dvd_card_coordBlockSL_blk :
     have := hp.two_le
     omega
 
+omit hp hp2 hζ in
 theorem isQuasisimple_J3 : CFSG.Open.IsQuasisimple ↥(J3 F) :=
   CFSG.ComponentClassification.Components.quasisimple_of_equiv
-    (mapProjEquiv _ le_rfl).symm (isQuasisimple_coordBlockSL_blk hp hp2 hζ hF)
+    (mapProjEquiv _ le_rfl).symm (isQuasisimple_coordBlockSL_blk hF)
 
-omit hF in
+omit hF [Finite F] in
 theorem dvd_card_J3 : p ∣ Nat.card (↥(J3 F) ⧸ Subgroup.center ↥(J3 F)) := by
   rw [← CFSG.LocalAnalysis.GLTheoremA.H81.LinA3.natCard_quotient_center_congr
     (mapProjEquiv _ le_rfl)]
@@ -370,6 +372,7 @@ variable {e : Fin 3 → F} (he : ∏ i, e i = 1) (he12 : e 1 = e 2) (he01 : e 0 
 include he he12 he01
 
 omit hp hp2 hζ hF in
+omit [Field F] [Finite F] he in
 private theorem he0_of (j : Fin 3) (hj : j ≠ 0) : e 0 ≠ e j := by
   fin_cases j
   · exact absurd rfl hj
@@ -380,16 +383,18 @@ private theorem he0_of (j : Fin 3) (hj : j ≠ 0) : e 0 ≠ e j := by
 theorem glaPComponent_cent_diag3 : GLAPComponent p (cent e he) (coordBlockSL F blk) :=
   CFSG.LocalAnalysis.GLTheoremA.S10.glaPComponent_of_quasisimple hp
     (IsSubnormal.step (coordBlockSL_le_centralizer_diag3 he12)
-      (coordBlockSL_normal (he0_of he he12 he01) he12) (IsSubnormal.refl _))
-    (isQuasisimple_coordBlockSL_blk hp hp2 hζ hF) (dvd_card_coordBlockSL_blk hp hp2 hζ)
+      (coordBlockSL_normal (he0_of he12 he01) he12) (IsSubnormal.refl _))
+    (isQuasisimple_coordBlockSL_blk hF) (dvd_card_coordBlockSL_blk hp hp2 hζ)
 
+omit hp hp2 hζ in
 theorem eq_of_glaPComponent_cent_diag3 {K : Subgroup (SpecialLinearGroup (Fin 3) F)}
     (hK : GLAPComponent p (cent e he) K) : K = coordBlockSL F blk :=
   CFSG.LocalAnalysis.GLTheoremA.H81.LinA3.eq_of_glaPComponent_of_commutator_le
-    (coordBlockSL_le_centralizer_diag3 he12) (isQuasisimple_coordBlockSL_blk hp hp2 hζ hF)
-    (commutator_centralizer_le_coordBlockSL (he0_of he he12 he01)) hK
+    (coordBlockSL_le_centralizer_diag3 he12) (isQuasisimple_coordBlockSL_blk hF)
+    (commutator_centralizer_le_coordBlockSL (he0_of he12 he01)) hK
 
 omit hp hp2 hζ hF he he12 he01 in
+omit [Finite F] in
 private theorem central_ker (X : Subgroup (SpecialLinearGroup (Fin 3) F)) :
     ∀ y ∈ X ⊓ (proj 3 F).ker, ∀ x ∈ X, x * y = y * x := fun y hy x _ =>
   Subgroup.mem_center_iff.1 (by rw [ker_proj] at hy; exact scalars_le_center 3 F hy.2) x
@@ -401,20 +406,21 @@ theorem glaPComponent_centralizer_proj_diag3 :
   exact (CFSG.glaPComponent_map_bijective_of_ker_le_center hp (proj 3 F)
     (central_ker _)).1 _ (glaPComponent_cent_diag3 hp hp2 hζ hF he he12 he01)
 
+omit hp2 hζ in
 theorem eq_of_glaPComponent_centralizer_proj_diag3 {K : Subgroup (projectiveSL 3 F)}
     (hK : GLAPComponent p (Subgroup.centralizer
       ({proj 3 F (diag3 e he)} : Set (projectiveSL 3 F))) K) : K = J3 F := by
   rw [centralizer_proj_diag3 he he12] at hK
   obtain ⟨K₀, hK₀, rfl⟩ := (CFSG.glaPComponent_map_bijective_of_ker_le_center hp (proj 3 F)
     (central_ker _)).2 K hK
-  rw [eq_of_glaPComponent_cent_diag3 hp hp2 hζ hF he he12 he01 hK₀]
+  rw [eq_of_glaPComponent_cent_diag3 hF he he12 he01 hK₀]
 
 theorem glaPLayer_centralizer_proj_diag3 :
     GLAPLayer p (Subgroup.centralizer ({proj 3 F (diag3 e he)} : Set (projectiveSL 3 F))) =
       J3 F :=
   CFSG.LocalAnalysis.GLTheoremA.H81.layer_eq_of_unique
     (glaPComponent_centralizer_proj_diag3 hp hp2 hζ hF he he12 he01)
-    (fun _ hK => eq_of_glaPComponent_centralizer_proj_diag3 hp hp2 hζ hF he he12 he01 hK)
+    (fun _ hK => eq_of_glaPComponent_centralizer_proj_diag3 hp hF he he12 he01 hK)
 
 end Root
 

@@ -76,6 +76,7 @@ private theorem frameE8_root_seven :
   ext i
   fin_cases i <;> decide +kernel
 
+omit [Finite k] [CharP k 2] in
 theorem coe_e8_nrep (w : WeylGroup .E8) :
     ((nrep (e8_isCTGroupDatum k) w : adjointGroup .E8 k) : ModGL .E8 k) =
       canonicalRep (coxeterSystem .E8) k w := by
@@ -84,6 +85,7 @@ theorem coe_e8_nrep (w : WeylGroup .E8) :
     SubmonoidClass.coe_list_prod, List.map_map, Function.comp_def,
     CFSG.LieType.Chevalley.weylElement]
 
+omit [Finite k] in
 private theorem e8N0_eq_frameProd :
     nrep (e8_isCTGroupDatum k) (e8W0 k) = frameProd k frameE8 (nSL 1) := by
   have hY : ((frameProd k frameE8 (nSL 1) : adjointGroup .E8 k) : ModGL .E8 k) =
@@ -108,6 +110,7 @@ private theorem e8N0_eq_frameProd :
   apply Subtype.ext
   rw [coe_e8_nrep, hw, hY, hprod]
 
+omit [Finite k] [CharP k 2] in
 private theorem range_rho_frameE8_seven :
     (rho k frameE8 (7 : Fin 8)).range =
       rootPairSL2 .E8 k (Pi.single (1 : Fin 8) 1) := by
@@ -168,6 +171,7 @@ section OriginalImages
 
 open CFSG.SeitzReduction.E8Pilot CFSG.LieType.BorelTits
 
+omit [Finite k] [CharP k 2] in
 theorem rankOne_e8Datum_eq_rootPairSL2 (i : Fin (Tag.rank .E8)) :
     rankOne (e8Datum k).rootGroup i = rootPairSL2 .E8 k (Pi.single i 1) := by
   apply Subgroup.map_injective (adjointGroup .E8 k).subtype_injective
@@ -176,6 +180,7 @@ theorem rankOne_e8Datum_eq_rootPairSL2 (i : Fin (Tag.rank .E8)) :
     Subgroup.map_subgroupOf_eq_of_le
       (sup_le (rootSubgroup_le_adjointGroup _) (rootSubgroup_le_adjointGroup _))]
 
+omit [Finite k] [CharP k 2] in
 theorem e8_frob_phi_eq_baseChangeHom (θ : k →+* k) (hθ : ∀ c, θ (θ c) = c) :
     (e8Frob θ hθ).φ = adjointBaseChangeHom .E8 θ := by
   apply DFunLike.ext

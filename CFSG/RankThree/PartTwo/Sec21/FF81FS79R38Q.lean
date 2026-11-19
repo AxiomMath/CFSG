@@ -22,6 +22,7 @@ section ZLemmas
 
 variable {S : Std b t b₁ b₂ J} {A₁ : Subgroup J6.S6} {c₀ : J6.S6} {J₁ : Subgroup J6.S6}
 
+omit [Finite H] in
 theorem mem_Zsub_iff {z : H} :
     z ∈ Zsub S A₁ ↔ ∃ o ∈ O1 S A₁, ∃ a ∈ Asub S A₁, o * a = z := by
   have hcomm : ∀ o ∈ O1 S A₁, ∀ a ∈ Asub S A₁, Commute o a := fun o ho a ha =>
@@ -29,7 +30,7 @@ theorem mem_Zsub_iff {z : H} :
   exact CFSG.mem_sup_of_commute hcomm
 
 theorem O1_inf_Asub (Fr : Frame A₁ c₀ J₁) : O1 S A₁ ⊓ Asub S A₁ = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [eq_bot_iff]
   rintro x ⟨hxO, hxA⟩
   have hx2 : x ^ (2 ^ 1) = 1 := by
@@ -37,6 +38,7 @@ theorem O1_inf_Asub (Fr : Frame A₁ c₀ J₁) : O1 S A₁ ⊓ Asub S A₁ = �
     exact Asub_sq Fr x hxA
   exact Subgroup.mem_bot.mpr (eq_one_of_pow_prime_pow (L14.Opp_coprime 2 _) hxO hx2)
 
+omit [Finite H] in
 theorem Zsub_le_C1 (Fr : Frame A₁ c₀ J₁) : Zsub S A₁ ≤ C1 S A₁ :=
   sup_le (L14.Opp_le 2 _) (Asub_le_C1 Fr)
 
@@ -66,6 +68,7 @@ theorem Zsub_cop (Fr : Frame A₁ c₀ J₁) (hcop : Nat.Coprime 3 (Nat.card (O1
   rw [hn]
   exact Nat.Coprime.mul_right hcop (Nat.Coprime.pow_right n (by norm_num))
 
+omit [Finite H] in
 theorem not_mem_of_orderOf_three {Z : Subgroup H} (hZ : Nat.Coprime 3 (Nat.card Z)) {x : H}
     (hx : orderOf x = 3) : x ∉ Z := by
   intro hxZ
@@ -89,7 +92,7 @@ theorem Zsub_inf_J (Fr : Frame A₁ c₀ J₁) {x : H} (hxJ : x ∈ J) (hxZ : x 
   exact ha
 
 theorem t_not_mem_Zsub (Fr : Frame A₁ c₀ J₁) : t ∉ Zsub S A₁ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro htZ
   have hA := S.hyp
   obtain ⟨o, ho, a, ha, hoa⟩ := mem_Zsub_iff.mp htZ
@@ -114,6 +117,7 @@ section JpLemmas
 
 variable {S : Std b t b₁ b₂ J} {A₁ : Subgroup J6.S6} {c₀ : J6.S6} {J₁ : Subgroup J6.S6}
 
+omit [Finite H] in
 theorem Jp_le_J : Jp S J₁ ≤ J := by
   rintro _ ⟨s, -, rfl⟩
   exact S.ι_mem s
@@ -125,18 +129,23 @@ theorem Jp_le_Nor (Fr : Frame A₁ c₀ J₁) {x : H} (hx : x ∈ Jp S J₁) : x
   rw [← map_mul, ← map_inv, ← map_mul]
   exact ⟨_, Fr.norm s hs u hu, rfl⟩
 
+omit [Finite H] in
 theorem ι_c₀_mem_Jp (Fr : Frame A₁ c₀ J₁) : S.ι c₀ ∈ Jp S J₁ := ⟨c₀, Fr.c_mem, rfl⟩
 
+omit [Finite H] in
 theorem Jp_iso (Fr : Frame A₁ c₀ J₁) : Nonempty (↥(Jp S J₁) ≃* Perm (Fin 3)) := by
   obtain ⟨e⟩ := Fr.iso
   exact ⟨(Subgroup.equivMapOfInjective J₁ S.ι S.ι_injective).symm.trans e⟩
 
+omit [Finite H] in
 theorem ι_c₀_pow_three (Fr : Frame A₁ c₀ J₁) : S.ι c₀ ^ 3 = 1 := by
   rw [← map_pow, Fr.c_pow, map_one]
 
+omit [Finite H] in
 theorem ι_c₀_ne_one (Fr : Frame A₁ c₀ J₁) : S.ι c₀ ≠ 1 := fun h =>
   Fr.c_ne (S.ι_injective (h.trans (map_one S.ι).symm))
 
+omit [Finite H] in
 theorem ι_c₀_orderOf (Fr : Frame A₁ c₀ J₁) : orderOf (S.ι c₀) = 3 :=
   orderOf_eq_prime (ι_c₀_pow_three Fr) (ι_c₀_ne_one Fr)
 
@@ -176,19 +185,22 @@ section Fields
 
 variable {S : Std b t b₁ b₂ J} {A₁ : Subgroup J6.S6} {c₀ : J6.S6} {J₁ : Subgroup J6.S6}
 
+omit [Finite H] in
 theorem conj_mem_Asub {g x : H} (hg : g ∈ Nor (Asub S A₁)) (hx : x ∈ Asub S A₁) :
     g * x * g⁻¹ ∈ Asub S A₁ := (Subgroup.mem_normalizer_iff.mp hg x).mp hx
 
+omit [Finite H] in
 theorem conj_inv_mem_Asub {g x : H} (hg : g ∈ Nor (Asub S A₁)) (hx : x ∈ Asub S A₁) :
     g⁻¹ * x * g ∈ Asub S A₁ := by
   have := (Subgroup.mem_normalizer_iff.mp ((Nor _).inv_mem hg) x).mp hx
   simpa using this
 
+omit [Finite H] in
 theorem Asub_le_Zsub : Asub S A₁ ≤ Zsub S A₁ := le_sup_right
 
-theorem b_mem_Nor (Fr : Frame A₁ c₀ J₁) : b ∈ Nor (Asub S A₁) := C1_le_Nor b_mem_C1
+theorem b_mem_Nor (_Fr : Frame A₁ c₀ J₁) : b ∈ Nor (Asub S A₁) := C1_le_Nor b_mem_C1
 
-theorem comm_aux (Fr : Frame A₁ c₀ J₁) {w z : H} (a : H) (hw : w ∈ Nor (Asub S A₁))
+theorem comm_aux (_Fr : Frame A₁ c₀ J₁) {w z : H} (a : H) (hw : w ∈ Nor (Asub S A₁))
     (hz : z ∈ Zsub S A₁) (ha : a ∈ Asub S A₁) :
     (w⁻¹ * z * w) * a * z⁻¹ ∈ Zsub S A₁ := by
   have h1 : w⁻¹ * z * w ∈ Zsub S A₁ := by
@@ -228,7 +240,7 @@ theorem q_struct_b (Fr : Frame A₁ c₀ J₁) (hcop : Nat.Coprime 3 (Nat.card (
       (∀ g ∈ Nor (Asub S A₁) ⊓ Nor (Subgroup.zpowers b ⊔ Zsub S A₁), ∃ w ∈ W,
         ∃ y ∈ Subgroup.closure ({b, t} : Set H), ∃ j ∈ Jp S J₁, ∃ z ∈ Zsub S A₁,
           g = w * y * j * z) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h := S.hyp
   have hKN : ∀ κ ∈ Opp 3 (Nor (Subgroup.zpowers b)), κ ∈ Nor (Asub S A₁) := fun κ hκ =>
     C1_le_Nor (K_le_C1 hκ)
@@ -259,7 +271,7 @@ theorem q_struct_b (Fr : Frame A₁ c₀ J₁) (hcop : Nat.Coprime 3 (Nat.card (
 theorem J_inf_Q_eq_one (Fr : Frame A₁ c₀ J₁) {x : H} (hxJ : x ∈ J)
     (hxQ : x ∈ Opp 3 (Nor (Subgroup.zpowers (S.ι c₀)))) : x = 1 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hx1
   set c : H := S.ι c₀ with hc
   have hc3 : c ^ 3 = 1 := ι_c₀_pow_three Fr
@@ -305,7 +317,7 @@ theorem key_nor (Fr : Frame A₁ c₀ J₁) {n₀ q n₁ : H} (hn₀ : n₀ ∈ 
     (hq : q ∈ Opp 3 (Nor (Subgroup.zpowers (S.ι c₀)))) (hn₁b : n₁ ∈ Nor (Subgroup.zpowers b))
     (hn₁c : n₁ ∈ Nor (Subgroup.zpowers (S.ι c₀))) (e : n₀ = q * n₁) : n₁ ∈ Nor (Asub S A₁) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h := S.hyp
   set c : H := S.ι c₀ with hc
   have hc3 : c ^ 3 = 1 := ι_c₀_pow_three Fr
@@ -392,7 +404,7 @@ theorem q_struct_c (Fr : Frame A₁ c₀ J₁) (hcop : Nat.Coprime 3 (Nat.card (
       (∀ g ∈ Nor (Asub S A₁) ⊓ Nor (Subgroup.zpowers (S.ι c₀) ⊔ Zsub S A₁), ∃ w ∈ Wc,
         ∃ n ∈ Nor (Asub S A₁) ⊓ Nor (Subgroup.zpowers (S.ι c₀) ⊔ Zsub S A₁) ⊓
           Nor (Subgroup.zpowers b ⊔ Zsub S A₁), ∃ z ∈ Zsub S A₁, g = w * n * z) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h := S.hyp
   have hcN : S.ι c₀ ∈ Nor (Asub S A₁) := Jp_le_Nor Fr (ι_c₀_mem_Jp Fr)
   have hfr : ∀ g ∈ Nor (Asub S A₁) ⊓ Nor (Subgroup.zpowers (S.ι c₀) ⊔ Zsub S A₁),
@@ -451,6 +463,7 @@ theorem perm3_two_pow (X : Perm (Fin 3)) (h : ∃ k : ℕ, X ^ (2 ^ k) = 1) : X 
 theorem perm3_prod_ne : ∀ G X : Perm (Fin 3), G ^ 3 = 1 → G ≠ 1 → X ^ 2 = 1 → X ≠ 1 →
     ((G * X * G⁻¹) * X) ^ 2 ≠ 1 := by decide +kernel
 
+omit [Finite H] in
 theorem Jp_two_trivial (Fr : Frame A₁ c₀ J₁) {P : Subgroup H} (hPJ : P ≤ Jp S J₁)
     (hP2 : IsPGroup 2 P) (hc : ∀ x ∈ P, S.ι c₀ * x * (S.ι c₀)⁻¹ ∈ P) : P = ⊥ := by
   obtain ⟨e⟩ := Jp_iso (S := S) Fr
@@ -500,7 +513,7 @@ theorem Jp_two_trivial (Fr : Frame A₁ c₀ J₁) {P : Subgroup H} (hPJ : P ≤
 theorem not_dvd_of_two_pow_mem {Z R : Subgroup H} (hZc : Nat.Coprime 3 (Nat.card Z))
     (hR2 : ∀ r ∈ R, ∃ k : ℕ, r ^ (2 ^ k) ∈ Z) : ¬ 3 ∣ Nat.card R := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro hd
   obtain ⟨r, hr⟩ := exists_prime_orderOf_dvd_card' (G := ↥R) 3 hd
   have hrG : orderOf (r : H) = 3 := by rw [Subgroup.orderOf_coe]; exact hr
@@ -529,7 +542,7 @@ theorem not_dvd_of_two_pow_mem {Z R : Subgroup H} (hZc : Nat.Coprime 3 (Nat.card
 theorem cen_two_mem_J (h : FS79Hyp b t b₁ b₂ J) {s : H} (hs : s ∈ Cen b) {m : ℕ}
     (hm : s ^ (2 ^ m) = 1) : s ∈ J := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hb3 : b ^ 3 = 1 := by
     rw [← h.ord_b]
     exact pow_orderOf_eq_one b
@@ -575,6 +588,7 @@ theorem cen_two_mem_J (h : FS79Hyp b t b₁ b₂ J) {s : H} (hs : s ∈ Cen b) {
   rw [hκ1, hbi1, one_mul, one_mul]
   exact hj
 
+omit [Finite H] in
 theorem isPGroup_Asub (Fr : Frame A₁ c₀ J₁) : IsPGroup 2 (Asub S A₁) := by
   intro x
   refine ⟨1, ?_⟩
@@ -592,8 +606,8 @@ theorem q_no2 (Fr : Frame A₁ c₀ J₁) (hcop : Nat.Coprime 3 (Nat.card (O1 S 
     (hR2 : ∀ r ∈ R, ∃ k : ℕ, r ^ (2 ^ k) ∈ Zsub S A₁)
     (hb : b ∈ Nor R) (hc : S.ι c₀ ∈ Nor R) : R ≤ Zsub S A₁ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h := S.hyp
   set c : H := S.ι c₀ with hcdef
   have hb3 : b ^ 3 = 1 := by
@@ -663,7 +677,7 @@ theorem q_no2 (Fr : Frame A₁ c₀ J₁) (hcop : Nat.Coprime 3 (Nat.card (O1 S 
   have hR₂Z : R₂ ≤ Zsub S A₁ := hR₂A.trans Asub_le_Zsub
   have hdvd : (Zsub S A₁).relIndex R ∣ R₂.relIndex R := Subgroup.relIndex_dvd_of_le_left R hR₂Z
   have hodd : ¬ 2 ∣ (Zsub S A₁).relIndex R := fun h2 => hR₂idx (h2.trans hdvd)
-  haveI hZnorm : ((Zsub S A₁).subgroupOf R).Normal := ⟨fun n hn g => by
+  have hZnorm : ((Zsub S A₁).subgroupOf R).Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     have := Zsub_norm (hRΓ g.2) hn
     simpa using this⟩

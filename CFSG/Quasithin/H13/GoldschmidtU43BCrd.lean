@@ -35,7 +35,7 @@ theorem comm4_mk {g0 g1 g2 g3 : G} (s0 : g0 * g0 = 1) (s1 : g1 * g1 = 1) (s2 : g
   refine ⟨fun i => ?_, fun i j => ?_⟩
   · fin_cases i <;> simpa
   · fin_cases i <;> fin_cases j <;> simp <;>
-      first | rfl | assumption | exact (by assumption : _ = _).symm
+      first | assumption | exact (by assumption : _ = _).symm
 
 namespace Comm4
 

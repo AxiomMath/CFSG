@@ -31,14 +31,14 @@ theorem eq_one_of_conjSL_diagUnitOne_fixed {F : Type} [Field F] [CharP F 2] (t :
   have hb : (t : F) * b = b := by
     have := congrFun (congrFun hmat 0) 1
     simp only [Matrix.mul_apply, Fin.sum_univ_two, Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero,
-      Matrix.cons_val_one, Matrix.head_cons, Matrix.empty_val', Matrix.cons_val_fin_one,
-      mul_zero, zero_mul, add_zero, zero_add, mul_one, one_mul] at this
+      Matrix.cons_val_one, Matrix.empty_val', Matrix.cons_val_fin_one,
+      mul_zero, zero_mul, add_zero, zero_add, mul_one] at this
     exact this
   have hc : (t : F)⁻¹ * c = c := by
     have := congrFun (congrFun hmat 1) 0
     simp only [Matrix.mul_apply, Fin.sum_univ_two, Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero,
-      Matrix.cons_val_one, Matrix.head_cons, Matrix.empty_val', Matrix.cons_val_fin_one,
-      mul_zero, zero_mul, add_zero, zero_add, mul_one, one_mul, Units.val_inv_eq_inv_val] at this
+      Matrix.cons_val_one, Matrix.empty_val', Matrix.cons_val_fin_one,
+      mul_zero, zero_mul, add_zero, zero_add, one_mul, Units.val_inv_eq_inv_val] at this
     rw [mul_comm]
     exact this
   rcases eq_one_of_conj_fixed (t : F) a b c d hdet haa hb hc with h1 | ⟨ha, hb0, hc0, hd⟩

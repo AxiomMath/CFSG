@@ -75,12 +75,12 @@ theorem slp_sound {S : List (Nat × Nat × List Nat)} {nb : Nat} {T : Nat → Na
     intro k hk hdef a
     by_cases h0 : k = 0
     · subst h0
-      rw [flat, if_pos rfl, hB 0 hnb, hB0]
+      rw [flat, ite_eq_left rfl, hB 0 hnb, hB0]
       rfl
     by_cases hb : k < nb
-    · rw [flat, if_neg h0, if_pos hb, hB k hb]
+    · rw [flat, ite_eq_right h0, ite_eq_left hb, hB k hb]
       simp [prodP]
-    · rw [flat, if_neg h0, if_neg hb]
+    · rw [flat, ite_eq_right h0, ite_eq_right hb]
       have hex : ∃ s ∈ S, s.1 = k := hdef.resolve_left hb
       obtain ⟨hmem, hout⟩ := findStep_spec hex
       set s := findStep S k

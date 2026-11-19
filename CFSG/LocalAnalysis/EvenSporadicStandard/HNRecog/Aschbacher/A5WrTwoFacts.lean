@@ -40,7 +40,7 @@ private theorem eq_coord_mul (g : A5WrTwo) (hg : g.right = 1) :
     rcases coord_cases q with rfl | rfl <;>
       simp [coordEmb, RegularWreathProduct.mul_def, inv_one, one_mul, mul_one,
         Pi.mulSingle_eq_same, Pi.mulSingle_eq_of_ne]
-  · simpa [coordEmb, RegularWreathProduct.mul_def, hg]
+  · simp [coordEmb, RegularWreathProduct.mul_def, hg]
 
 private def sigmaA5 : alternatingGroup (Fin 5) :=
   ⟨Equiv.swap 0 1 * Equiv.swap 1 2,
@@ -73,13 +73,13 @@ theorem A5WrTwo.commutator_eq_ker :
   have hcoord : ∀ x : Multiplicative (ZMod 2),
       (coordEmb x).range ≤ commutator A5WrTwo := by
     intro x
-    haveI : Group.IsPerfect (alternatingGroup (Fin 5)) := ⟨hperf⟩
-    haveI : Group.IsPerfect (coordEmb x).range := Group.IsPerfect.range (coordEmb x)
+    have : Group.IsPerfect (alternatingGroup (Fin 5)) := ⟨hperf⟩
+    have : Group.IsPerfect (coordEmb x).range := Group.IsPerfect.range (coordEmb x)
     calc (coordEmb x).range = ⁅(coordEmb x).range, (coordEmb x).range⁆ :=
           (Subgroup.commutator_eq_self (H := (coordEmb x).range)).symm
       _ ≤ ⁅(⊤ : Subgroup A5WrTwo), ⊤⁆ := Subgroup.commutator_mono le_top le_top
       _ = commutator A5WrTwo := (commutator_def A5WrTwo).symm
-  haveI : IsMulCommutative (Multiplicative (ZMod 2)) :=
+  have : IsMulCommutative (Multiplicative (ZMod 2)) :=
     IsMulCommutative.of_comm (fun a b => mul_comm a b)
   have hle : commutator A5WrTwo ≤
       (RegularWreathProduct.rightHom : A5WrTwo →* Multiplicative (ZMod 2)).ker :=

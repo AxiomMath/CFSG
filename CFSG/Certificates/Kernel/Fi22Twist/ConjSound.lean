@@ -22,13 +22,13 @@ theorem cjRep_spec {K X DF : ℕ → ℕ} {g j row t : ℕ} (h : cjRep K X DF g 
   unfold cjRep at h
   rw [sB_eq, sB_eq, bRec_eq] at h
   refine ⟨fun ht => ?_, fun ht => ?_⟩
-  · rw [if_pos (Eq.mpr Nat.blt_eq ht)] at h
+  · rw [ite_eq_left (Eq.mpr Nat.blt_eq ht)] at h
     obtain ⟨h1, h2⟩ := (CFSG.KS.bAnd_iff _ _).1 h
     exact ⟨blt_of h1, h2⟩
   · have hn : ¬ (Nat.blt t 3 = true) := by
       rw [Nat.blt_eq]
       omega
-    rw [if_neg hn, sB_eq, sB_eq] at h
+    rw [ite_eq_right hn, sB_eq, sB_eq] at h
     obtain ⟨h1, h⟩ := (CFSG.KS.bAnd_iff _ _).1 h
     obtain ⟨h2, h3⟩ := (CFSG.KS.bAnd_iff _ _).1 h
     exact ⟨blt_of h1, blt_of h2, h3⟩
@@ -68,7 +68,7 @@ theorem cjRC_spec {K M X DF CG RC : ℕ → ℕ} {nG c : ℕ} (h : cjRC K M X DF
     rw [testBit_shl1, decide_eq_true_eq] at hti
     exact ⟨t, ht, hti⟩
   · have e0 : Nat.beq (qpE (RC c) 0) 0 = true := by rw [h0]; rfl
-    rw [if_pos e0] at h
+    rw [ite_eq_left e0] at h
     obtain ⟨h1, h⟩ := (CFSG.KS.bAnd_iff _ _).1 h
     obtain ⟨h2, h⟩ := (CFSG.KS.bAnd_iff _ _).1 h
     rw [sB_eq] at h
@@ -76,14 +76,14 @@ theorem cjRC_spec {K M X DF CG RC : ℕ → ℕ} {nG c : ℕ} (h : cjRC K M X DF
   · have e0 : ¬ (Nat.beq (qpE (RC c) 0) 0 = true) := by
       rw [Nat.beq_eq]
       exact h0
-    rw [if_neg e0] at h
+    rw [ite_eq_right e0] at h
     obtain ⟨h1, h⟩ := (CFSG.KS.bAnd_iff _ _).1 h
     obtain ⟨h2, h⟩ := (CFSG.KS.bAnd_iff _ _).1 h
     obtain ⟨h3, h⟩ := (CFSG.KS.bAnd_iff _ _).1 h
     exact ⟨blt_of h1, blt_of h2, blt_of h3, fun t ht => CFSG.KS.allN_spec h t ht⟩
 
 theorem pt_val (ψ : G →* Equiv.Perm (Fin 3510)) (g : G) {z : ℕ} (hz : z < 3510) :
-    pt ψ g z = (ψ g ⟨z, hz⟩ : ℕ) := dif_pos hz
+    pt ψ g z = (ψ g ⟨z, hz⟩ : ℕ) := dite_eq_left hz
 
 theorem conj_of_full {ψ : G →* Equiv.Perm (Fin 3510)} (hψ : Function.Injective ψ)
     {Gk Xk : ℕ} {g x d : G} (hg : PRep 3510 12 ψ Gk g) (hx : PRep 3510 12 ψ Xk x)

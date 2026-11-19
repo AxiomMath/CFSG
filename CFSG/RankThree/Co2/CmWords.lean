@@ -35,9 +35,9 @@ theorem letterMat_mem_Cm {l : ℕ} (hl : l < 42) : rowsMat (letterRows l) ∈ Cm
   rcases Nat.lt_or_ge l 21 with h | h
   · have hu := letterMat_mem_Cm_of_ge (l := l + 21) (by omega) (by omega)
     have hx : rowsMat (letterRows l) = rowsMat candRows[l]! := by
-      rw [letterRows, if_pos h]
+      rw [letterRows, ite_eq_left h]
     have hu' : rowsMat (letterRows (l + 21)) = rowsMat invC[l]! := by
-      rw [letterRows, if_neg (by omega), show l + 21 - 21 = l by omega]
+      rw [letterRows, ite_eq_right (by omega), show l + 21 - 21 = l by omega]
     rw [hx]
     rw [hu'] at hu
     have hxu : rowsMat candRows[l]! * rowsMat invC[l]! = 1 := by

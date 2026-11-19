@@ -16,8 +16,8 @@ theorem card_le_of_involution_B (t : NativeSporadic.B) (ht : orderOf t = 2)
     (E : Subgroup NativeSporadic.B)
     (hEt : E ≤ centralizer ({t} : Set NativeSporadic.B)) (hE : IsElemAbelian 5 E) :
     Nat.card E ≤ 5 ^ 2 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 hE.isPGroup
   obtain ⟨k, hk⟩ := CFSG.Monster.Existence.babyTableIII.1 t ht
   have hdvd : 5 ^ n ∣ babyCentOrder k := by
@@ -30,7 +30,7 @@ theorem card_le_of_involution_B (t : NativeSporadic.B) (ht : orderOf t = 2)
     obtain ⟨g, hg⟩ := isConj_iff.1
       (CFSG.Monster.Existence.babyTableIII.2 1 t xB hk babyInv_one_xB)
     obtain ⟨F, hF, hker⟩ := exists_hom_centralizer_xB
-    haveI : Finite NativeSporadic.Co2 :=
+    have : Finite NativeSporadic.Co2 :=
       Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Co2.card_Co2]; norm_num)
     have hr := CFSG.AGLEmbedding.pRank_le_two_of_hasNoncommPair Nat.prime_five
       (by rw [CFSG.Sporadic.Co2.card_Co2]; decide) CFSG.RankThree.PartOne.CTP.hasNoncommPair_Co2

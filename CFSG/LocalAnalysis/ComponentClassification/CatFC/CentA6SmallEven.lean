@@ -20,7 +20,7 @@ theorem exists_involution_not_mem_of_sp42 {k : Type} [Field k] [Finite k] (hk : 
     {C : Type} [Group C] (Φ : C ≃* CFSG.Open.StatedSp 2 k) {D : Subgroup C}
     (hD : Nat.card ↥D = 360) : ∃ x : C, orderOf x = 2 ∧ x ∉ D := by
   by_contra hno
-  push_neg at hno
+  push Not at hno
   let ω : CFSG.ComponentClassification.PresentationLocal.sympFour ≃* Equiv.Perm (Fin 6) :=
     MulEquiv.ofBijective CFSG.ComponentClassification.PresentationLocal.omegaPerm
       ⟨CFSG.ComponentClassification.PresentationLocal.omegaPerm_injective,

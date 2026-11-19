@@ -12,7 +12,7 @@ namespace CFSG.StandardType.ReeB2Fixed
 @[expose] def SyncAt (e : ℕ) (A B : Finset (Fin e)) (p : Fin e) : Prop :=
   p ∉ A ∧ p ∉ B ∧ (succσ e p ∈ A ↔ succσ e p ∈ B)
 
-@[expose] def pstar (e : ℕ) (A B : Finset (Fin e)) (p : Fin e) (α β : Bool) : Bool :=
+@[expose] def pstar (e : ℕ) (_A B : Finset (Fin e)) (p : Fin e) (α β : Bool) : Bool :=
   let u := xor β (decide (succσ e p ∈ B))
   if p ∈ B then !u else α && !u
 

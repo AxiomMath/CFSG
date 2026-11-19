@@ -72,7 +72,7 @@ theorem mem_map_of_mem_centralizer (hp : p.Prime) (O : Subgroup G) [O.Normal]
     (hsc : ∀ y ∈ centralizer (B : Set G), y ^ p = 1 → y ∈ B) :
     ∀ y ∈ centralizer ((B.map (QuotientGroup.mk' O) : Subgroup (G ⧸ O)) : Set (G ⧸ O)),
       y ^ p = 1 → y ∈ B.map (QuotientGroup.mk' O) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hSC : IsSCp p ⊤ B := by
     refine ⟨le_top, hBel, fun E _ hE hBE => ?_⟩
     refine le_antisymm (fun y hy => ?_) hBE
@@ -101,6 +101,7 @@ section Normalizer
 
 variable {A : Type} [Group A] [Finite A]
 
+omit [Finite A] in
 theorem normalizer_subgroupOf_le {X Y : Subgroup A} (S : Subgroup ↥X)
     (h : normalizer ((S.map X.subtype : Subgroup A) : Set A) ⊓ X ≤ Y) :
     normalizer (S : Set ↥X) ≤ Y.subgroupOf X := by

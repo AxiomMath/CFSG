@@ -165,7 +165,7 @@ theorem spProjToPSL_stdInv [Finite F] (hF : Nat.card F = 3) (S : Finset (Fin 2))
     apply hne
     have hσ : σ₁ = σ₀ := by
       rcases hσ0 with h0 | h0 <;> rcases hσ1 with h1 | h1 <;> rw [h0, h1] at h ⊢ <;>
-        first | rfl | (exfalso; exact h (by norm_num))
+        (exfalso; exact h (by norm_num))
     rw [← MonoidHom.mem_ker, SymplecticHigher.ker_proj]
     have hσu : σ₀ ≠ 0 := by rcases hσ0 with h0 | h0 <;> rw [h0] <;> norm_num
     refine Subgroup.mem_subgroupOf.mpr ⟨Units.mk0 σ₀ hσu, ?_⟩

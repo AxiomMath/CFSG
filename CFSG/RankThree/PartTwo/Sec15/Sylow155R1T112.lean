@@ -40,7 +40,7 @@ theorem pPrimeCoreOf_two_host_le_n155_of_not_le {A : Subgroup G} {c : G} {L : Su
     (hUK : CFSG.Open.pCoreOf 2 X ≤ CFSG.Open.pCoreOf 2 K) :
     pPrimeCoreOf 2 (delta A (lB A) (CFSG.Open.pCoreOf 2 Y ⊔ pPrimeCoreOf 3 (u155 A M X))) ≤
       n155 A K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h : Sec14Std G A c L := hR.toSec14Std
   have hX4 : X ∈ scriptY4 A (lB A) := hC.res ▸ hC.isY.2.1
   have hK4 : K ∈ scriptY4 A (lB A) := hC.mem_k.prop.1
@@ -75,7 +75,7 @@ theorem pPrimeCoreOf_two_host_le_n155_of_not_le {A : Subgroup G} {c : G} {L : Su
     have h2 := Subgroup.mem_normalizer_iff.mp
       ((hX'K.trans (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 K)) hx)
     exact Subgroup.mem_normalizer_iff.mpr fun g => by
-      simp only [SetLike.mem_coe, Subgroup.mem_inf] at h1 h2 ⊢
+      simp only [Subgroup.mem_inf] at h1 h2 ⊢
       exact and_congr (h1 g) (h2 g)
   have hI : (X ⊔ L) ⊓ CFSG.Open.pCoreOf 2 K ≤ CFSG.Open.pCoreOf 2 (X ⊔ L) :=
     CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2 inf_le_left hnorm

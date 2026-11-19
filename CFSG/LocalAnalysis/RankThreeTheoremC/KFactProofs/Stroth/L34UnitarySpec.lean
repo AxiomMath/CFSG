@@ -184,7 +184,6 @@ private theorem borel_concrete :
     simp only [Bool.false_or, Bool.not_true] at hck
     have h1 := hck
     obtain ⟨j, hj, hall⟩ := anyBelow_eq_true.1 h1
-    beta_reduce at hall
     refine ⟨j, hj, fun v hv => ?_⟩
     obtain ⟨m, hm, hvrep⟩ := hS.exists_pos (hVS hv)
     have hmemC : (enumBFS 42 gensS 20160).tabs[m]! ∈

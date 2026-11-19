@@ -108,14 +108,14 @@ theorem action_one_of_orbit {A : Type*} [Group A] {V : Type*} [AddCommGroup V]
 theorem exists_orderOf_seven_Rder (D : Data S g t) (hCE : S4.CentralExtInput.{u}) :
     ∃ y₀ : ↥(Rder S g t), orderOf y₀ = 7 := by
   obtain ⟨-, -, -, -, -, -, -, hcardP, -, -, -, -, -⟩ := Rbar_structure_II D hCE
-  haveI : Fact (Nat.Prime 7) := ⟨by decide⟩
+  have : Fact (Nat.Prime 7) := ⟨by decide⟩
   exact exists_prime_orderOf_dvd_card' 7 (by rw [hcardP]; exact ⟨192, by norm_num⟩)
 
 theorem Sbar_fixed_eq_one (D : Data S g t) (hCE : S4.CentralExtInput.{u}) {y : S.O}
     (hyP : y ∈ Rder S g t) (hy7 : orderOf y = 7) :
     ∀ s ∈ Rder S g t ⊓ Nbar S g t, y * s * y⁻¹ = s → s = 1 := by
   obtain ⟨-, -, -, -, -, -, -, -, -, hcardS, -, -, hNsq⟩ := Rbar_structure_II D hCE
-  haveI : Fact (Nat.Prime 7) := ⟨by decide⟩
+  have : Fact (Nat.Prime 7) := ⟨by decide⟩
   have hy7p : y ^ 7 = 1 := by
     rw [← hy7]
     exact pow_orderOf_eq_one y
@@ -147,7 +147,7 @@ theorem exists_seven_Rder (D : Data S g t) (hCE : S4.CentralExtInput.{u}) :
       (∀ s ∈ Rder S g t ⊓ Nbar S g t, y * s * y⁻¹ = s → s = 1) ∧
       ∀ x ∈ Rder S g t, x * y = y * x → x ∈ Subgroup.zpowers y := by
   obtain ⟨-, -, -, hle, -, -, -, -, -, hcardS, -, -, hNsq⟩ := Rbar_structure_II D hCE
-  haveI : Fact (Nat.Prime 7) := ⟨by decide⟩
+  have : Fact (Nat.Prime 7) := ⟨by decide⟩
   obtain ⟨y₀, hy₀⟩ := exists_orderOf_seven_Rder D hCE
   have hy₀p : y₀ ^ 7 = 1 := by
     rw [← hy₀]
@@ -162,8 +162,8 @@ theorem exists_seven_Rder (D : Data S g t) (hCE : S4.CentralExtInput.{u}) :
   have hψ1 : psiP D.H.conj_mem t hle y₀ ≠ 1 := fun h1 =>
     hyN ((psiP_eq_one_iff D.H.conj_mem t hle y₀).mp h1)
   obtain ⟨-, horbV⟩ := seven_orbit_facts (Vt_card D) _ hψ7 hψ1
-  haveI : Finite (Vt S g t) := Module.finite_of_finite (ZMod 2) (M := Vt S g t)
-  haveI : Nontrivial (Vt S g t) :=
+  have : Finite (Vt S g t) := Module.finite_of_finite (ZMod 2) (M := Vt S g t)
+  have : Nontrivial (Vt S g t) :=
     (Finite.one_lt_card_iff_nontrivial).mp (by rw [Vt_card D]; norm_num)
   obtain ⟨v₀, hv₀⟩ := exists_ne (0 : Vt S g t)
   refine ⟨(y₀ : S.O), hyP, hy7, hfixS, ?_⟩
@@ -191,7 +191,7 @@ theorem exists_seven_Rder (D : Data S g t) (hCE : S4.CentralExtInput.{u}) :
   have h4 : ((y₀ : S.O) ^ k)⁻¹ * x = 1 := by
     have h5 : (z : S.O) = ((y₀ : S.O) ^ k)⁻¹ * x := by
       rw [← hz_eq]
-      simp [Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_pow]
+      simp [Subgroup.coe_mul]
     rw [← h5, hzone]
   rw [(inv_mul_eq_one.mp h4).symm]
   exact pow_mem (Subgroup.mem_zpowers _) k
@@ -199,7 +199,7 @@ theorem exists_seven_Rder (D : Data S g t) (hCE : S4.CentralExtInput.{u}) :
 theorem exists_six_Rder (D : Data S g t) (hCE : S4.CentralExtInput.{u}) :
     ∃ x ∈ Rder S g t, orderOf x = 6 := by
   obtain ⟨-, -, -, -, -, -, -, hcardP, -, hcardS, -, -, hNsq⟩ := Rbar_structure_II D hCE
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨y₃, hy₃⟩ : ∃ y₃ : ↥(Rder S g t), orderOf y₃ = 3 :=
     exists_prime_orderOf_dvd_card' 3 (by rw [hcardP]; exact ⟨448, by norm_num⟩)
   have hyP : (y₃ : S.O) ∈ Rder S g t := y₃.2

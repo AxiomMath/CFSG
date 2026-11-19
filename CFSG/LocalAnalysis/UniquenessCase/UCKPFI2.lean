@@ -12,7 +12,7 @@ open CFSG.ShultStronglyClosedTI.UnitaryModel CFSG.ShultStronglyClosedTI.TwoCoreG
   CFSG.BenderSuzuki.MatrixGroups
 open CFSG.LocalAnalysis.UniquenessCase.UC22
 
-theorem prime_dvd_torus_card {Q q : ℕ} (hq : q.Prime) (hq3 : 3 < q) (hqf : q ∣ Q + 1) (hQ : 1 ≤ Q) :
+theorem prime_dvd_torus_card {Q q : ℕ} (hq : q.Prime) (hq3 : 3 < q) (hqf : q ∣ Q + 1) (_hQ : 1 ≤ Q) :
     q ∣ (Q ^ 2 - 1) / Nat.gcd 3 (Q + 1) := by
   have hfactor : Q ^ 2 - 1 = (Q - 1) * (Q + 1) := by
     simpa [mul_comm] using Nat.sq_sub_sq Q 1
@@ -80,7 +80,7 @@ theorem fixed_inner_psu_model {K : Type} [Field K] [Finite K] (J : HermitianForm
   have hqT : q ∣ Nat.card (torusPSU J hJ).range := by
     rw [hTcard]
     exact prime_dvd_torus_card hq hq3 hqf Nat.one_le_two_pow
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨z₀, hz₀⟩ := exists_prime_orderOf_dvd_card' q hqT
   obtain ⟨g, hg⟩ := exists_conj_commute_of_fixed_points rho h2 hβα.symm hT hTc hr hr3 hΩmod hs
     (z₀ := (z₀ : ProjectiveSpecialUnitaryMatrixGroup J)) z₀.2

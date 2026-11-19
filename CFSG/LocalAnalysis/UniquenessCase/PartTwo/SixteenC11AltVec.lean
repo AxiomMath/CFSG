@@ -52,7 +52,7 @@ private lemma s16c11_altvec_bits_cons (n k : ℕ) :
 theorem s16c11_alt_cls_of_even {n : ℕ} {x : Fin n → ZMod 2} (h : ∑ i, x i = 0) :
     S16C11AltCls n x = s16c11AltVec n x h := by
   unfold S16C11AltCls
-  rw [dif_pos h]
+  rw [dite_eq_left h]
 
 theorem s16c11_alt_cls_surjective (n : ℕ) (q : (FFModel.altDn n).Mod) :
     ∃ x : Fin n → ZMod 2, ∑ i, x i = 0 ∧ q = S16C11AltCls n x := by

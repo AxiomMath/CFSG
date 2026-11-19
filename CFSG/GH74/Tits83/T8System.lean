@@ -49,8 +49,8 @@ private theorem leaves_case_same {X X' : Type u} [Group X] [Group X'] [Finite X]
       ((x : X) ∈ T.U j ↔ ((φ x : win T'.U 1 8) : X') ∈ T'.U j) := by
   obtain ⟨c⟩ := exists_octCoord T hN
   obtain ⟨c'⟩ := exists_octCoord T' hN'
-  haveI := c.finite; haveI := c'.finite
-  haveI := c.charP; haveI := c'.charP
+  have := c.finite; have := c'.finite
+  have := c.charP; have := c'.charP
   have hK : Nat.card c.K = Nat.card c'.K := by
     rw [← c.card_odd odd_one, ← c'.card_odd odd_one]
     exact h1

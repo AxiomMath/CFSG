@@ -179,7 +179,7 @@ theorem ggKGTc_mem_image_of_fixed_pow
     by_contra h
     have hn0 : n = 0 := by omega
     have hc : Nat.card K = 1 := by rw [hK, hn0]; norm_num
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     have : 1 < Nat.card K := by
       rw [Nat.card_eq_fintype_card]
       exact Fintype.one_lt_card
@@ -205,7 +205,7 @@ theorem ggKGTc_mem_image_of_fixed_pow
       rw [← hder', h1]
       exact Subgroup.comap_map_eq_self_of_injective (Subgroup.subtype_injective _) _
     rw [e]; infer_instance
-  haveI : (C'.subgroupOf R).Normal := hnormal
+  have : (C'.subgroupOf R).Normal := hnormal
   have hrR : r ∈ R := (mem_twistedFixedGroup_iff_twistHom TwistTag.E6 (AlgebraicClosure K) Fr).2
     ⟨hr, hrF⟩
   let P : Subgroup (ModGL TwistTag.E6.tag (AlgebraicClosure K)) := Subgroup.zpowers r
@@ -213,7 +213,7 @@ theorem ggKGTc_mem_image_of_fixed_pow
   have hPfin : Finite P := Nat.finite_of_card_ne_zero (by
     rw [Nat.card_zpowers]
     exact (Nat.pos_of_dvd_of_pos (orderOf_dvd_of_pow_eq_one hrp) hp.pos).ne')
-  haveI : Finite P := hPfin
+  have : Finite P := hPfin
   have hPp : IsPGroup p P := by
     rcases (Nat.dvd_prime hp).1 (orderOf_dvd_of_pow_eq_one hrp) with h | h
     · exact IsPGroup.of_card (n := 0) (by rw [Nat.card_zpowers, h, pow_zero])
@@ -380,13 +380,13 @@ theorem ggKGTwE6_centralizer_eq
   constructor
   · intro hxcent
     rw [Subgroup.mem_centralizer_iff] at hxcent
-    haveI : Fintype K := Fintype.ofFinite K
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
+    have : Fintype K := Fintype.ofFinite K
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
       (by rw [Fintype.card_eq_nat_card, hK, ← pow_mul, mul_comm])
-    haveI : CharP (AlgebraicClosure K) 2 :=
+    have : CharP (AlgebraicClosure K) 2 :=
       charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
-    haveI : IsAlgClosed (AlgebraicClosure K) := IsAlgClosure.isAlgClosed K
+    have : IsAlgClosed (AlgebraicClosure K) := IsAlgClosure.isAlgClosed K
     obtain ⟨ζu, hζu⟩ := exists_primitiveRoot_units (L := AlgebraicClosure K) (ℓ := 2)
       (by norm_num) hp (by omega)
     let ζ : AlgebraicClosure K := ζu

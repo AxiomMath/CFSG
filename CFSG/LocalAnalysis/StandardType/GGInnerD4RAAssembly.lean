@@ -39,12 +39,12 @@ theorem raComponentLabel_of_branches
   have hπ : Function.Surjective π := θ.surjective.comp (QuotientGroup.mk'_surjective _)
   have hkerEq : π.ker = Subgroup.center X := by
     ext x
-    simp [π, MonoidHom.mem_ker, QuotientGroup.eq_one_iff]
+    simp [π]
   have hker : π.ker ≤ Subgroup.center X := le_of_eq hkerEq
   have hcomm : ∀ x : X, π (σ x) = ggInducedAut θ σ (π x) := by
     intro x
     exact (ggInducedAut_apply θ σ x).symm
-  haveI : Finite R := Finite.of_surjective π hπ
+  have : Finite R := Finite.of_surjective π hπ
   obtain ⟨hJb, hequiv⟩ :=
     S2MathAs51600.centralFixedComponentTransfer_holds π hπ hker σ (ggInducedAut θ σ) hcomm J hJ
   obtain ⟨e⟩ := hequiv

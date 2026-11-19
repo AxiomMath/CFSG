@@ -25,7 +25,7 @@ theorem k33_hyps_of_sit {J : Type} [Group J] [Finite J] (hs : Sit J) :
       IsPGroup 3 (Subgroup.center J) ∧ CFSG.Open.pRank 3 (⊤ : Subgroup J) = 2 := by
   have hcen := center_eq_bot_of_sit hs
   obtain ⟨hsimple, ⟨a, b, hab⟩, hcat, hrank, -⟩ := hs
-  haveI := hsimple
+  have := hsimple
   have e : (J ⧸ Subgroup.center J) ≃* J :=
     (QuotientGroup.quotientMulEquivOfEq hcen).trans QuotientGroup.quotientBot
   refine ⟨⟨?_, e.isSimpleGroup⟩, ?_, ?_, hrank⟩

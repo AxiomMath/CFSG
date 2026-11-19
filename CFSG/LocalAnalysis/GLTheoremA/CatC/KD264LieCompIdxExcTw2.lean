@@ -31,11 +31,11 @@ theorem compIdxAt_cat_twistedE6_of_rational
     CompIdxAt p (.twistedE6 q) (TauCeti.CFSGIndex.lie ⟨.twistedE6 q, hv⟩).Group := by
   classical
   obtain ⟨K, _, σ, hK, hσ, ⟨eK⟩⟩ := CFSG.LieType.SeitzGeneration.exists_catEquiv_twistedE6 q hv
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by
+  have : Finite K := Nat.finite_of_card_ne_zero (by
     rw [hK]
     exact pow_ne_zero _ (pow_ne_zero _ q.prime_p.ne_zero))
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
-  haveI : Finite ↥(twistedE6RootGroup K σ) := Subtype.finite
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Finite ↥(twistedE6RootGroup K σ) := Subtype.finite
   refine compIdxAt_of_mulEquiv eK.symm ?_
   intro β hβ hβp hβ1 J hJ
   obtain ⟨-, -, -, -, -, -, -, -, ⟨Θ, -, -, hker, -⟩, -⟩ :=

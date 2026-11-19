@@ -13,6 +13,7 @@ section Rank
 
 variable {G : Type} [Group G] [Finite G] {T M H S : Subgroup G} {z : G}
 
+omit [Finite G] in
 theorem isElemAbelian_sup_of_commute {p : ℕ} {A B : Subgroup G}
     (hc : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a) (hA : IsElemAbelian p A) (hB : IsElemAbelian p B) :
     IsElemAbelian p (A ⊔ B) := CFSG.Open.IsElemAbelian.sup_of_commute hA hB hc

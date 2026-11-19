@@ -14,7 +14,7 @@ theorem perm5_stab2_aux {M X : Type*} [Group M] [Finite X] (hX : Nat.card X = 5)
     derivedSeries M 2 ≤ ρ.ker ∧
       ∀ P : Subgroup M, P.Normal → IsPGroup 2 P → P ≤ ρ.ker := by
   classical
-  haveI : Fintype X := Fintype.ofFinite X
+  have : Fintype X := Fintype.ofFinite X
   have hpres : ∀ (m : M) (x : X), (ρ m x ≠ a ∧ ρ m x ≠ b) ↔ (x ≠ a ∧ x ≠ b) := by
     intro m x
     constructor
@@ -61,7 +61,7 @@ theorem perm5_stab2_aux {M X : Type*} [Group M] [Finite X] (hX : Nat.card X = 5)
       congr 1
       ext q
       simp
-    rw [h1, Finset.card_univ_diff, Finset.card_pair hab, ← Nat.card_eq_fintype_card, hX]
+    rw [h1, Finset.card_univ_sdiff, Finset.card_pair hab, ← Nat.card_eq_fintype_card, hX]
   have hψ2 : derivedSeries (Equiv.Perm {q : X // q ≠ a ∧ q ≠ b}) 2 = ⊥ :=
     perm3_derivedSeries_two hcard
   refine ⟨?_, fun P hPn hPp => ?_⟩
@@ -75,7 +75,7 @@ theorem perm5_stab2_aux {M X : Type*} [Group M] [Finite X] (hX : Nat.card X = 5)
     rw [hψ2] at hle
     exact Subgroup.mem_bot.1 (hle (Subgroup.mem_map_of_mem ψ hx))
   ·
-    haveI : (P.map ψ).Normal := hPn.map ψ hψsurj
+    have : (P.map ψ).Normal := hPn.map ψ hψsurj
     have hbot : P.map ψ = ⊥ :=
       perm3_eq_bot_of_normal_pGroup hcard (P.map ψ) (hPp.map ψ)
     intro x hx

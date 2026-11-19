@@ -489,12 +489,12 @@ private theorem not_fixes_seven_of_mem_Z_zero (C : X.Comm48 s r d) (h12 : r = 12
 private theorem L_six_not_isPGroup (C : X.Comm48 s r d) :
     ¬ IsPGroup 2 ↥(X.L 6) := by
   intro hL
-  haveI : Finite ↥(X.L 6) := finite_of_le_stabilizer X.hyp (H := X.L 6) (X.L_le_Gi 6)
+  have : Finite ↥(X.L 6) := finite_of_le_stabilizer X.hyp (H := X.L 6) (X.L_le_Gi 6)
   have htop : CFSG.pCore 2 ↥(X.L 6) = ⊤ := by
     refine le_antisymm le_top ?_
     exact CFSG.BaerSuzuki.Helpers.le_pCore_of_normal_isPGroup Subgroup.normal_top (hL.to_subgroup (⊤ : Subgroup ↥(X.L 6)))
   have h1 : Nat.card (oTwoQuot ↥(X.L 6)) = 1 := by
-    haveI : Subsingleton (↥(X.L 6) ⧸ ⊤) := QuotientGroup.subsingleton_quotient_top
+    have : Subsingleton (↥(X.L 6) ⧸ ⊤) := QuotientGroup.subsingleton_quotient_top
     show Nat.card (↥(X.L 6) ⧸ CFSG.pCore 2 ↥(X.L 6)) = 1
     rw [htop]
     exact Nat.card_of_subsingleton (1 : ↥(X.L 6) ⧸ ⊤)
@@ -565,7 +565,7 @@ private theorem not_edgeSylow_five_le_edgeSylow_six (C : X.Comm48 s r d)
     simpa using X.isSylowTwoOf_edgeSylow_L_succ 5
   have hT6 : IsSylowTwoOf (X.edgeSylow 6) (X.L 6) := by
     simpa using X.isSylowTwoOf_edgeSylow_L 6
-  haveI : Finite ↥(X.edgeSylow 6) :=
+  have : Finite ↥(X.edgeSylow 6) :=
     finite_of_le_stabilizer X.hyp (H := X.edgeSylow 6) (hT6.1.trans (X.L_le_Gi 6))
   have hV6Q6 : X.Vk 6 ≤ X.Q 6 := Vk_six_le_Q_six C hH h12
   have hQ6T6 : X.Q 6 ≤ X.edgeSylow 6 := X.Q_le_edgeSylow_left 6
@@ -626,9 +626,9 @@ private theorem not_conjSub_edgeSylow_six_le (C : X.Comm48 s r d)
     have h := B6.isSylowTwoOf_conjSub hT6 x0
     change IsSylowTwoOf (conjSub x0 (X.edgeSylow 6)) (conjSub x0 (X.L 6)) at h
     rwa [conjSub_eq_of_mem hx0L6] at h
-  haveI : Finite ↥(X.edgeSylow 6) :=
+  have : Finite ↥(X.edgeSylow 6) :=
     finite_of_le_stabilizer X.hyp (H := X.edgeSylow 6) (hT6.1.trans (X.L_le_Gi 6))
-  haveI : Finite ↥(conjSub x0 (X.edgeSylow 6)) :=
+  have : Finite ↥(conjSub x0 (X.edgeSylow 6)) :=
     finite_of_le_stabilizer X.hyp (H := conjSub x0 (X.edgeSylow 6))
       (hT''.1.trans (X.L_le_Gi 6))
   have hEq : conjSub x0 (X.edgeSylow 6) = X.edgeSylow 6 :=
@@ -857,7 +857,7 @@ private theorem Z_six_le_relCent_sylow (C : X.Comm48 s r d)
   exact (X.Z 6).one_mem
 
 private theorem card_Z_six (C : X.Comm48 s r d)
-    (hH : X.ZQ d ≤ X.Q ((d : ℤ) + 2)) : Nat.card (X.Z 6) = 2 ^ X.n 0 := by
+    (_hH : X.ZQ d ≤ X.Q ((d : ℤ) + 2)) : Nat.card (X.Z 6) = 2 ^ X.n 0 := by
   have hcardZ0 : Nat.card (X.Z 0) = 2 ^ X.n 0 := (X.s48_2 C).2.2.2.2.1
   have hZ6conj : X.Z 6 = conjSub (X.τ ^ (3 : ℤ)) (X.Z 0) := by
     have := X.Z_add 3 0
@@ -891,9 +891,9 @@ private theorem card_relCent_sylow (C : X.Comm48 s r d)
   have hcardZ6 := card_Z_six C hH
   have hrelT := relIndex_relCent_sylow C hH hT
   have hrelR_le : relCent (X.Vk 6) (X.Z 6) T ≤ X.Vk 6 := fun x hx => hx.1
-  haveI : Finite ↥(X.Z 6) :=
+  have : Finite ↥(X.Z 6) :=
     finite_of_le_stabilizer X.hyp (H := X.Z 6) (X.Z_le_Gi 6)
-  haveI : Finite ↥(relCent (X.Vk 6) (X.Z 6) T) :=
+  have : Finite ↥(relCent (X.Vk 6) (X.Z 6) T) :=
     finite_of_le_stabilizer X.hyp (H := relCent (X.Vk 6) (X.Z 6) T)
       ((hrelR_le.trans hNat.E_le).trans (X.L_le_Gi 6))
   have h := Subgroup.relIndex_mul_card (H := X.Z 6) (K := relCent (X.Vk 6) (X.Z 6) T)
@@ -905,13 +905,13 @@ private theorem card_relCent_sylow (C : X.Comm48 s r d)
   ring
 
 private theorem Z_five_eq_relCent (C : X.Comm48 s r d)
-    (hH : X.ZQ d ≤ X.Q ((d : ℤ) + 2)) (h12 : r = 12) {T : Subgroup G}
+    (hH : X.ZQ d ≤ X.Q ((d : ℤ) + 2)) (_h12 : r = 12) {T : Subgroup G}
     (hT : IsSylowTwoOf T (X.L 6)) (hZ5le : X.Z 5 ≤ relCent (X.Vk 6) (X.Z 6) T) :
     X.Z 5 = relCent (X.Vk 6) (X.Z 6) T := by
   have hNat := NatQuot_six C hH
   have hZ6rel := Z_six_le_relCent_sylow C hH hT
   have hrelR_le : relCent (X.Vk 6) (X.Z 6) T ≤ X.Vk 6 := fun x hx => hx.1
-  haveI : Finite ↥(relCent (X.Vk 6) (X.Z 6) T) :=
+  have : Finite ↥(relCent (X.Vk 6) (X.Z 6) T) :=
     finite_of_le_stabilizer X.hyp (H := relCent (X.Vk 6) (X.Z 6) T)
       ((hrelR_le.trans hNat.E_le).trans (X.L_le_Gi 6))
   refine Subgroup.eq_of_le_of_card_ge hZ5le ?_
@@ -982,7 +982,7 @@ private theorem exists_smul_arc_six_eq_line (C : X.Comm48 s r d) (lam : Arc Γ 6
   exact ⟨h, hh'⟩
 
 private theorem exists_mem_arcStab_smul_eq
-    (C : X.Comm48 s r d) (hH : X.ZQ d ≤ X.Q ((d : ℤ) + 2)) (h12 : r = 12) {a : V}
+    (C : X.Comm48 s r d) (_hH : X.ZQ d ≤ X.Q ((d : ℤ) + 2)) (h12 : r = 12) {a : V}
     (hadja : Γ.Adj (X.vert 0) a) (hane : a ≠ X.vert 1) :
     ∃ q ∈ X.arcStab 0 12, q • a = X.vert (-1) := by
   subst r
@@ -1187,7 +1187,7 @@ private theorem exists_arc_six_through_six {z : G} (hz6 : z • X.vert 6 = X.ver
   let Q : Arc Γ 3 := X.line.arc 6 3
   have hPend : (smulArc X.hyp.adj_smul z P).vert 3 = Q.vert 0 := by
     have hL : (smulArc X.hyp.adj_smul z P).vert 3 = z • X.vert 6 := by
-      simp [P, Arc.rev_vert, Line.arc]
+      simp [P, Line.arc]
     have hR : Q.vert 0 = X.vert 6 := by simp [Q, Line.arc]
     rw [hL, hR]
     exact hz6
@@ -1212,7 +1212,7 @@ private theorem exists_arc_six_through_six {z : G} (hz6 : z • X.vert 6 = X.ver
     have h' : lam.vert 3 = (smulArc X.hyp.adj_smul z P).vert 3 := h
     rw [h']
     have hL : (smulArc X.hyp.adj_smul z P).vert 3 = z • X.vert 6 := by
-      simp [P, Arc.rev_vert, Line.arc]
+      simp [P, Line.arc]
     rw [hL, hz6]
   have lam6 : lam.vert 6 = X.vert 9 := by
     have h := Arc.append_vert_ge (smulArc X.hyp.adj_smul z P) Q hPend hPnb
@@ -1281,7 +1281,7 @@ private theorem exists_arc_six_through_four {z' : G} (hz4 : z' • X.vert 4 = X.
     have h' : lam'.vert 6 = (smulArc X.hyp.adj_smul z' Q').vert (6 - 3) := h
     rw [h']
     norm_num
-    simp [Q', Arc.rev_vert, Line.arc]
+    simp [Q', Line.arc]
   exact ⟨lam', lam'0, lam'1, lam'3, lam'5, lam'6⟩
 
 private theorem commutator_conj_mem_Z_six

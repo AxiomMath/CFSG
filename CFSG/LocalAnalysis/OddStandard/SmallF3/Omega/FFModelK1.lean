@@ -98,7 +98,7 @@ theorem ff_K1_prod (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V = 6)
       have hpi : invType (piOrth Q) = (6, 1) := by rw [invType_piOrth hQ, hdim, hsgn]
       rw [hh', hpi] at htype_mul
       exact absurd htype_mul (by decide)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have horder : orderOf (w * y) = 2 :=
     orderOf_eq_prime (p := 2) (by rwa [pow_two]) hwyne
   refine ⟨horder, ?_⟩

@@ -26,8 +26,8 @@ theorem ggRootNoCentral_spinPlus {n : ℕ} (hn : 4 ≤ n) {F : Type} [Field F] [
     (hβ : β ∈ (Spin.plusDatum n F (by omega)).roots) (u : ↥(spinGroup (Spin.quadPlus n F))) :
     GGRootNoCentralAt (⊤ : Subgroup ↥(spinGroup (Spin.quadPlus n F)))
       (((Spin.plusDatum n F (by omega)).rootGroup β).map (MulAut.conj u).toMonoidHom) := by
-  haveI : NeZero n := ⟨by omega⟩
-  haveI : Finite ↥(spinGroup (Spin.quadPlus n F)) :=
+  have : NeZero n := ⟨by omega⟩
+  have : Finite ↥(spinGroup (Spin.quadPlus n F)) :=
     CFSG.ClassicalInvolution.ModelFacts.finite_spinGroup_of_ker (Spin.quadPlus n F)
       (coe_ker_spinMatrix_quadPlus (n := n) (K := F))
   obtain ⟨h, hodd, hhN, hfix⟩ := NC.spinPlus_fpf hn hβ u
@@ -43,7 +43,7 @@ theorem ggRootNoCentral_spinMinus {n : ℕ} (hn : 4 ≤ n) {F : Type} [Field F] 
     (u : ↥(spinGroup (Spin.quadMinus n F b c))) :
     GGRootNoCentralAt (⊤ : Subgroup ↥(spinGroup (Spin.quadMinus n F b c)))
       (((Spin.Twisted.minusDatum n hirr).rootGroup β).map (MulAut.conj u).toMonoidHom) := by
-  haveI : Finite ↥(spinGroup (Spin.quadMinus n F b c)) :=
+  have : Finite ↥(spinGroup (Spin.quadMinus n F b c)) :=
     CFSG.ClassicalInvolution.ModelFacts.finite_spinGroup_of_ker (Spin.quadMinus n F b c)
       (coe_ker_spinMatrix_quadMinus (n := n) (K := F) hirr)
   obtain ⟨h, hodd, hhN, hfix⟩ := NC.spinMinus_fpf hn hirr hβ hl u

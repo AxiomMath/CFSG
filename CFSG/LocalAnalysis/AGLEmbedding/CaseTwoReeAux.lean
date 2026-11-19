@@ -96,7 +96,7 @@ theorem exists_isPGroup_le_map_eq [Finite X] {Z : Type*} [Group Z] {p : ℕ} [Fa
     rw [Sylow.coe_mapSurjective] at h
     exact le_antisymm le_top h
   refine ⟨(S : Subgroup V).map V.subtype, (Subgroup.map_subtype_le _).trans inf_le_left,
-    S.isPGroup'.map _, le_antisymm ?_ fun e he => ?_⟩
+    S.isPGroup.map _, le_antisymm ?_ fun e he => ?_⟩
   · rintro _ ⟨_, ⟨v, -, rfl⟩, rfl⟩
     exact v.2.2
   · obtain ⟨v, hv, hve⟩ : (⟨e, he⟩ : E) ∈ (S : Subgroup V).map ψ := htop ▸ Subgroup.mem_top _
@@ -224,7 +224,7 @@ theorem D1Extremal.odd_card_primeCore {H R : Subgroup G} (hext : D1Extremal p P 
   set OC := primeComplementCore (G := C) p
   have hOC := primeComplementCore_coprime (G := C) p
   set Pz : Subgroup G := (P' : Subgroup G) ⊓ C
-  have hPzp : IsPGroup p Pz := P'.isPGroup'.to_le inf_le_left
+  have hPzp : IsPGroup p Pz := P'.isPGroup.to_le inf_le_left
   have hPzM : Pz ≤ M := inf_le_left.trans hP'M
   have hRPz : R ≤ Pz := le_inf hRP' hRz
   have hPz4 : 4 ≤ Open.pRank p Pz := by

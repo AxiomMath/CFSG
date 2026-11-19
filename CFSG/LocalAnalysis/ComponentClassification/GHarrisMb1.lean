@@ -67,7 +67,7 @@ theorem piM_comp_injective : Function.Injective (D.piM.comp D.SM.subtype) := by
   have hsO : (s : ↥D.M) ∈ pPrimeCore 2 ↥D.M := (QuotientGroup.eq_one_iff _).mp hs
   have hP : IsPGroup 2 D.SM := by
     rw [← D.coe_sylowSM]
-    exact D.sylowSM.isPGroup'
+    exact D.sylowSM.isPGroup
   have h : (s : ↥D.M) ∈ D.SM ⊓ pPrimeCore 2 ↥D.M := ⟨s.2, hsO⟩
   rw [inf_pPrimeCore_eq_bot hP, mem_bot] at h
   exact Subtype.ext h

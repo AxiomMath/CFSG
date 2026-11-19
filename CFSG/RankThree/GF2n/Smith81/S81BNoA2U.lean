@@ -18,7 +18,7 @@ theorem card_statedProjSU_six_lt_card_statedSL_ten {K K' : Type} [Field K] [Fini
     [Finite K'] {f : ℕ} (hK : Nat.card K = 2 ^ f) (hK' : Nat.card K' = (2 ^ f) ^ 2)
     (hq : 4 ≤ 2 ^ f) :
     Nat.card (StatedProj (StatedSU 6 (2 ^ f) K')) < Nat.card (StatedSL 10 K) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set q := 2 ^ f with hqdef
   have hP : Nat.card (StatedProj (StatedSU 6 q K')) ≤ Nat.card (StatedSU 6 q K') := by
     have hpos : 0 < Nat.card (StatedSU 6 q K') := Nat.card_pos

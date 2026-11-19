@@ -26,7 +26,7 @@ theorem exists_mulEquiv_statedSp_of_component_B
     Nonempty (L ≃* StatedSp m (GaloisField 2 f)) := by
   classical
   let F := GaloisField 2 f
-  haveI : CharP F 2 := inferInstance
+  have : CharP F 2 := inferInstance
   have hcardF : Nat.card F = Q.card := by
     rw [show Nat.card F = 2 ^ f from GaloisField.card 2 f (by omega),
       TauCeti.PrimePower.card_def, hQ, hQexp]
@@ -89,9 +89,9 @@ theorem isSolvable_normalizer_sylow_of_component_B
     Group.IsSolvable ↥(Subgroup.normalizer (U : Set L)) := by
   classical
   let F := GaloisField 2 f
-  haveI : CharP F 2 := inferInstance
+  have : CharP F 2 := inferInstance
   obtain ⟨eL⟩ := exists_mulEquiv_statedSp_of_component_B hL hm hf hQ hQexp (hv := hv) e hne
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P₀, hP₀⟩ := exists_sylow_unipotent (K := F) 2 m
   have hUsyl : CFSG.QuasithinUnique.IsSylowTwoOf (unipotent m F) ⊤ :=
     hP₀ ▸ CFSG.QuasithinUnique.isSylowTwoOf_top_of_sylow P₀
@@ -104,12 +104,12 @@ theorem isSolvable_normalizer_sylow_of_component_B
       (Subgroup.normalizer (unipotent m F : Set (StatedSp m F))).map
         (MulAut.conj g).toMonoidHom := by
     rw [hg, ← Subgroup.map_equiv_normalizer_eq (unipotent m F) (MulAut.conj g)]
-  haveI hNUstd : Group.IsSolvable
+  have hNUstd : Group.IsSolvable
       ↥(Subgroup.normalizer (unipotent m F : Set (StatedSp m F))) := by
     rw [CFSG.LocalAnalysis.ComponentInitial.SymplecticHigher.normalizer_unipotent
       (r := m) (K := F)]
     exact isSolvable_borel_sp hm
-  haveI hNE : Group.IsSolvable ↥(Subgroup.normalizer
+  have hNE : Group.IsSolvable ↥(Subgroup.normalizer
       ((U.map eL.toMonoidHom : Subgroup (StatedSp m F)) : Set (StatedSp m F))) := by
     rw [hN]
     exact Group.isSolvable_of_surjective
@@ -118,7 +118,7 @@ theorem isSolvable_normalizer_sylow_of_component_B
         (MulAut.conj g).toMonoidHom (MulAut.conj g).injective).toMonoidHom)
       (MulEquiv.surjective _)
   have hmap := Subgroup.map_equiv_normalizer_eq (U : Subgroup L) eL
-  haveI : Group.IsSolvable ↥((Subgroup.normalizer (U : Set L)).map eL.toMonoidHom) :=
+  have : Group.IsSolvable ↥((Subgroup.normalizer (U : Set L)).map eL.toMonoidHom) :=
     hmap.symm ▸ hNE
   exact Group.isSolvable_of_isSolvable_injective
     (f := (Subgroup.equivMapOfInjective (Subgroup.normalizer (U : Set L))
@@ -139,9 +139,9 @@ theorem isMulCommutative_normalizer_quotient_pCore_of_component_B
         CFSG.pCore 2 ↥(Subgroup.normalizer (U : Set L))) := by
   classical
   let F := GaloisField 2 f
-  haveI : CharP F 2 := inferInstance
+  have : CharP F 2 := inferInstance
   obtain ⟨eL⟩ := exists_mulEquiv_statedSp_of_component_B hL hm hf hQ hQexp (hv := hv) e hne
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P₀, hP₀⟩ := exists_sylow_unipotent (K := F) 2 m
   have hUsyl : CFSG.QuasithinUnique.IsSylowTwoOf (unipotent m F) ⊤ :=
     hP₀ ▸ CFSG.QuasithinUnique.isSylowTwoOf_top_of_sylow P₀
@@ -189,17 +189,17 @@ theorem exists_hc_component_B
         (⟨TauCeti.LieTypeIndex.B m Q, hv⟩ : TauCeti.ValidLieTypeIndex)).Group)
     (hne : (m, f) ≠ (3, 1))
     {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2)
-    (hdvd : q ∣ Nat.card (GaloisField 2 f) - 1) (hQcard : 2 <= f)
+    (hdvd : q ∣ Nat.card (GaloisField 2 f) - 1) (_hQcard : 2 <= f)
     {U : Subgroup L} (hUmax : CFSG.QuasithinUnique.IsSylowTwoOf U ⊤) :
     ∃ Hc : Subgroup L, Hc ≤ Subgroup.normalizer (U : Set L) ∧
       IsPiSubgroup {p : Nat.Primes | (p : ℕ) ≠ 2} Hc ∧
       3 <= CFSG.Open.pRank q Hc := by
   classical
   let F := GaloisField 2 f
-  haveI : CharP F 2 := inferInstance
+  have : CharP F 2 := inferInstance
   obtain ⟨eL⟩ := exists_mulEquiv_statedSp_of_component_B hL hm hf hQ hQexp (hv := hv) e hne
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact q.Prime := ⟨hq⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hqodd : Odd q := hq.odd_of_ne_two hq2
   have hTrank : 3 ≤ CFSG.Open.pRank q (TauCeti.GLSymplecticFin.diagonalTorus F m) :=
     three_le_pRank_diagonalTorus_sp (m := m) hm hq hdvd
@@ -295,7 +295,7 @@ theorem k517_4b_sp_of_top_of_hall_uncond
     (e : (↥Ls ⧸ Subgroup.center ↥Ls) ≃* (TauCeti.CFSGIndex.lie
       (⟨TauCeti.LieTypeIndex.B m Q, hv⟩ : TauCeti.ValidLieTypeIndex)).Group)
     (hTinv : gnImg T T ≤ Subgroup.normalizer (Ls : Set (X ⧸ gnC T)))
-    {U : Subgroup ↥Ls} (hU2 : IsPGroup 2 U) (hUmax : CFSG.QuasithinUnique.IsSylowTwoOf U ⊤)
+    {U : Subgroup ↥Ls} (_hU2 : IsPGroup 2 U) (hUmax : CFSG.QuasithinUnique.IsSylowTwoOf U ⊤)
     (hqQ : q ∣ Q.card - 1) (hU : U = (gnImg T T ⊓ Ls).subgroupOf Ls) :
     1 < mS T T₁ q Ls ∨ 1 < mS T T₂ q Ls := by
   classical

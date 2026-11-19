@@ -304,8 +304,7 @@ private theorem ggK1Dz_omegaPlus_two_zmod2 :
     apply Units.ext
     rw [coe_tauConj, coe_tauConj]
     ext i j
-    simp [Matrix.submatrix_apply, tauPerm_symm, tauPerm_tauPerm, Equiv.apply_symm_apply,
-      Equiv.symm_apply_apply]
+    simp [Matrix.submatrix_apply, tauPerm_symm, tauPerm_tauPerm]
   have hj2t : j2 ggK1Dz_tau ∈ (orthGroup (StatedQuadPlus 2 (ZMod 2))) :=
     j2_mem_orthGroup ggK1Dz_tau
   have hPj : P * j2 ggK1Dz_tau = j1 ggK1Dz_tau * P := by
@@ -407,10 +406,10 @@ private theorem ggK1Dz_omegaPlus_two {K : Type} [Field K] [Finite K] [CharP K 2]
   exact (Subgroup.map_eq_bot_iff_of_injective _ eσ.injective).mp h
 
 theorem ggK1D_centreless_plus {p nf r : ℕ} {K : Type} [Field K] [Finite K]
-    (hp : p.Prime) (hp2 : p ≠ 2) (hdvd : p ∣ 2 ^ nf - 1 ∨ p ∣ 2 ^ nf + 1)
+    (_hp : p.Prime) (_hp2 : p ≠ 2) (_hdvd : p ∣ 2 ^ nf - 1 ∨ p ∣ 2 ^ nf + 1)
     (hnf : 1 ≤ nf) (hK : Nat.card K = 2 ^ nf) (h2 : 2 ≤ r) :
     Subgroup.center (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus K r))) = ⊥ := by
-  haveI : CharP K 2 := ggK1Dz_charP_two hnf hK
+  have : CharP K 2 := ggK1Dz_charP_two hnf hK
   have hscal : (LargeEvenScalars (Fin r ⊕ Fin r) K).subgroupOf
       (LargeEvenOmega (LargeEvenQPlus K r)) = ⊥ :=
     TableBOrth.scalars_subgroupOf_omegaPlus_eq_bot (K := K) (by omega)
@@ -432,11 +431,11 @@ theorem ggK1D_centreless_plus {p nf r : ℕ} {K : Type} [Field K] [Finite K]
   · exact ggK1Dz_center_proj hscal (ggK1Dz_omegaPlus_center hr)
 
 theorem ggK1D_centreless_minus {p nf r : ℕ} {K : Type} [Field K] [Finite K]
-    (hp : p.Prime) (hp2 : p ≠ 2) (hdvd : p ∣ 2 ^ nf - 1 ∨ p ∣ 2 ^ nf + 1)
+    (_hp : p.Prime) (_hp2 : p ≠ 2) (_hdvd : p ∣ 2 ^ nf - 1 ∨ p ∣ 2 ^ nf + 1)
     (hnf : 1 ≤ nf) (hK : Nat.card K = 2 ^ nf) (h2 : 2 ≤ r) {b c : K}
     (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
     Subgroup.center (LargeEvenProj (LargeEvenOmega (LargeEvenQMinus (r - 1) b c))) = ⊥ := by
-  haveI : CharP K 2 := ggK1Dz_charP_two hnf hK
+  have : CharP K 2 := ggK1Dz_charP_two hnf hK
   open CFSG.ComponentClassification.RankTwoClassical.ORigid in
   have hsimple := isSimpleGroup_statedOmega_quadMinus_of_two_le
       (K := K) (b := b) (c := c) h2 hirr

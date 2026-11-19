@@ -26,17 +26,17 @@ theorem ggLE3_three_nodes_keep {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p
   classical
   obtain ⟨Λ₀, i1₀, i2₀, M₀, C₀, V₀, i3₀, i4₀, ι₀, φ₀, h₀, α₀, e₀, hM₀, hW₀, hC₀,
     hlin₀, hrefl₀, hpair₀, hf₀ex, hclos₀⟩ := hXd
-  letI := i1₀
-  letI := i2₀
-  letI := i3₀
-  letI := i4₀
+  let := i1₀
+  let := i2₀
+  let := i3₀
+  let := i4₀
   obtain ⟨f₀, hf₀⟩ := hf₀ex
   obtain ⟨Λ, i1, i2, b₁, b₂, M, C, MJ, V, i3, i4, ι, φ, h, α, hb, hWM, hC, hWMJ, hMJ,
     hlin, hrefl, hpair, hfex, hclos, hfJex, hclosJ, hconj⟩ := hXs
-  letI := i1
-  letI := i2
-  letI := i3
-  letI := i4
+  let := i1
+  let := i2
+  let := i3
+  let := i4
   obtain ⟨f, hf⟩ := hfex
   obtain ⟨fJ, hfJ⟩ := hfJex
   obtain ⟨e, hM⟩ :=
@@ -45,10 +45,10 @@ theorem ggLE3_three_nodes_keep {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p
   obtain ⟨eJ, hMJ'⟩ := ggTW_twoNode_J_typeA hN5 e hM hb hWMJ hMJ
   obtain ⟨ΛY, i1Y, i2Y, S, MY, CY, MJY, VY, i3Y, i4Y, ιY, φY, hY, αY, hS1, hS2, hWMY,
     hCY, hWMJY, hMJY, hlinY, hreflY, hpairY, hfYex, hclosY, hfJYex, hclosJY, hconjY⟩ := hY
-  letI := i1Y
-  letI := i2Y
-  letI := i3Y
-  letI := i4Y
+  let := i1Y
+  let := i2Y
+  let := i3Y
+  let := i4Y
   obtain ⟨fY, hfY⟩ := hfYex
   obtain ⟨fJY, hfJY⟩ := hfJYex
   have hS3 : S.card = 3 := by
@@ -64,7 +64,7 @@ theorem ggLE3_three_nodes_keep {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p
     have h := (Fintype.card_congr eY).symm
     simpa using h
   have hcardS : Fintype.card {j : ΛY // j ∈ S} = S.card := by
-    simpa using Fintype.card_coe S
+    simp
   have hcard : Fintype.card ΛY = N := by
     have h := Fintype.card_subtype_compl (fun j : ΛY => j ∈ S)
     rw [hcardJ, hcardS, hS3] at h

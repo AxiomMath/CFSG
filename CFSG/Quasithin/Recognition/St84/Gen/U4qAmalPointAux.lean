@@ -14,14 +14,14 @@ section Model
 
 variable {m : ℕ} {K : Type} [Field K] (h : UnitaryFieldData 2 m K)
 
-theorem zRad_comm_radQ : ∀ z ∈ zRad h, ∀ x ∈ radQ h, z * x = x * z := fun z hz x hx =>
+theorem zRad_comm_radQ : ∀ _z ∈ zRad h, ∀ x ∈ radQ h, _z * x = x * _z := fun _z hz x hx =>
   ((mem_zRad_iff_comm h).mp hz).2 x hx
 
 theorem zRad_sq_eq_one : ∀ z ∈ zRad h, z ^ 2 = 1 := by
   rintro z ⟨c, -, hz⟩
   apply hypSU_ext h
   rw [pow_two, coe_mul_hypSU, hz, sMat_mul_self_u4]
-  simp only [map_zero, zero_mul, mul_zero, add_zero]
+  simp only [map_zero, mul_zero, add_zero]
   exact sMat_zero_u4 h
 
 theorem sq_mem_zRad_of_mem_radQ : ∀ x ∈ radQ h, x ^ 2 ∈ zRad h := by

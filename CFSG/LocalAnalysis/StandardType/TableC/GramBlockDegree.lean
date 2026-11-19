@@ -200,9 +200,9 @@ private lemma gbd_exists_ne_one_of_pow_prime {D K : Type} [Group D] [Field K] [F
     ∃ d : D, d ≠ 1 ∧ φ d = 1 := by
   classical
   have hDfin : Finite D := Nat.finite_of_card_ne_zero (by omega)
-  letI : Fintype D := Fintype.ofFinite D
-  letI : Fintype K := Fintype.ofFinite K
-  letI : Fintype Kˣ := Fintype.ofFinite Kˣ
+  let : Fintype D := Fintype.ofFinite D
+  let : Fintype K := Fintype.ofFinite K
+  let : Fintype Kˣ := Fintype.ofFinite Kˣ
   have hTcard : Nat.card {x : Kˣ // x ^ p = 1} ≤ p := by
     calc Nat.card {x : Kˣ // x ^ p = 1}
         = Fintype.card {x : Kˣ // x ^ p = 1} := Nat.card_eq_fintype_card
@@ -220,7 +220,7 @@ private lemma gbd_exists_ne_one_of_pow_prime {D K : Type} [Group D] [Field K] [F
     have hφ : φ a = φ b := congrArg Subtype.val hab
     have h1 : φ (a * b⁻¹) = 1 := by
       rw [map_mul, hφ]
-      simpa using mul_inv_cancel (φ b)
+      simp
     exact mul_inv_eq_one.mp (hker (a * b⁻¹) h1)
   have hle : Nat.card D ≤ Nat.card {x : Kˣ // x ^ p = 1} :=
     Nat.card_le_card_of_injective Φ hinj
@@ -239,8 +239,8 @@ private lemma gbd_blockDegree_eq_orderOf_of_exists_zeta_ne_one {ι F K : Type}
     blockDegree (Algebra.adjoin F (Units.val '' S)) e =
       orderOf ((Nat.card F : ℕ) : ZMod p) := by
   classical
-  letI : Fintype F := Fintype.ofFinite F
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype F := Fintype.ofFinite F
+  let : Fintype K := Fintype.ofFinite K
   let A : Subalgebra F (Matrix ι ι F) := Algebra.adjoin F (Units.val '' S)
   let π' : A →ₐ[F] K := π
   let ζ : (s : GL ι F) → s ∈ S → K := fun s hs =>
@@ -264,7 +264,7 @@ private lemma gbd_blockDegree_eq_orderOf_of_exists_zeta_ne_one {ι F K : Type}
     have h := hζpow s hs
     rw [h0, zero_pow (Nat.pos_iff_ne_zero.mp hp.pos)] at h
     exact zero_ne_one h
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hord0 : orderOf (ζ s0 hs0) = p := orderOf_eq_prime (hζpow s0 hs0) hζ0ne
   have hpowK : (ζ s0 hs0) ^ (Nat.card K - 1) = 1 := by
     simpa [Nat.card_eq_fintype_card] using
@@ -272,8 +272,8 @@ private lemma gbd_blockDegree_eq_orderOf_of_exists_zeta_ne_one {ι F K : Type}
   have hpdvd : p ∣ Nat.card K - 1 := by
     rw [← hord0]
     exact orderOf_dvd_of_pow_eq_one hpowK
-  haveI : Module.Finite F K := Module.Finite.of_finite
-  haveI : Algebra.IsAlgebraic F K := Algebra.IsAlgebraic.of_finite F K
+  have : Module.Finite F K := Module.Finite.of_finite
+  have : Algebra.IsAlgebraic F K := Algebra.IsAlgebraic.of_finite F K
   have hKcard : Nat.card K = q ^ d := by
     simpa [q, d] using Module.natCard_eq_pow_finrank (K := F) (V := K)
   have hpdvd_pow : p ∣ q ^ d - 1 := by
@@ -420,7 +420,7 @@ private lemma gbd_blockDegree_pos {ι F : Type} [Fintype ι] [DecidableEq ι] [F
   have hne : (⟨e, heM⟩ : M) ≠ 0 := by
     intro h
     exact he.2.2.1 (by simpa using congrArg Subtype.val h)
-  haveI : Nontrivial M := ⟨⟨⟨e, heM⟩, 0, hne⟩⟩
+  have : Nontrivial M := ⟨⟨⟨e, heM⟩, 0, hne⟩⟩
   change 0 < Module.finrank F M
   exact Module.finrank_pos_iff.mpr inferInstance
 
@@ -442,7 +442,7 @@ private lemma gbd_block_scalar {ι F : Type} [Fintype ι] [DecidableEq ι] [Fiel
 
 private lemma gbd_act_eq_of_formAdj_eq_of_blockDegree_one {ι F : Type} [Fintype ι]
     [DecidableEq ι] [Field F] [Finite F] {G : Matrix ι ι F} (hG : IsUnit G.det)
-    (hGh : Matrix.transpose (G.map (RingHom.id F)) = G) {S : Set (GL ι F)}
+    (_hGh : Matrix.transpose (G.map (RingHom.id F)) = G) {S : Set (GL ι F)}
     (hSU : ∀ s ∈ S, Matrix.transpose ((s : Matrix ι ι F).map (RingHom.id F)) * G *
       (s : Matrix ι ι F) = G)
     (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') {e : Matrix ι ι F}
@@ -578,7 +578,7 @@ private lemma gbd_formAdj_eq_self_of_exists_algEquiv {ι F K : Type} [Fintype ι
       (s : Matrix ι ι F) = G)
     (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') {e : Matrix ι ι F}
     (he : IsPrimIdemIn (Algebra.adjoin F (Units.val '' S)) e)
-    (π : Algebra.adjoin F (Units.val '' S) →ₐ[F] K) (hπsurj : Function.Surjective π)
+    (π : Algebra.adjoin F (Units.val '' S) →ₐ[F] K) (_hπsurj : Function.Surjective π)
     (hπker : ∀ a, π a = 0 ↔ (a : Matrix ι ι F) * e = 0)
     (τ : K ≃ₐ[F] K)
     (hτ : ∀ (s : GL ι F) (hs : s ∈ S),
@@ -682,7 +682,7 @@ theorem blockDegree_trivial_or_eq_orderOf_gram {ι : Type} [Fintype ι] [Decidab
         blockDegree (Algebra.adjoin F (Units.val '' S)) e = orderOf ((Nat.card F : ℕ) : ZMod p) ∧
         (formAdj (RingHom.id F) Jm e = e ↔ Even (orderOf ((Nat.card F : ℕ) : ZMod p)))) := by
   classical
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   have hG : IsUnit Jm.det := hJu
   have hGh : Matrix.transpose (Jm.map (RingHom.id F)) = Jm := by
     simpa [Matrix.map_id] using hJt
@@ -694,18 +694,18 @@ theorem blockDegree_trivial_or_eq_orderOf_gram {ι : Type} [Fintype ι] [Decidab
     gbd_odd_orderOf_of_pow_prime hp hp2 (hSp s hs)
   obtain ⟨K, fieldK, algK, finiteK, π, hπsurj, hπker, hπdeg⟩ :=
     exists_blockField hS hodd he
-  letI : Field K := fieldK
-  letI : Algebra F K := algK
-  letI : Finite K := finiteK
-  letI : Fintype K := Fintype.ofFinite K
-  haveI : Module.Finite F K := Module.Finite.of_finite
-  haveI : Algebra.IsAlgebraic F K := Algebra.IsAlgebraic.of_finite F K
+  let : Field K := fieldK
+  let : Algebra F K := algK
+  let : Finite K := finiteK
+  let : Fintype K := Fintype.ofFinite K
+  have : Module.Finite F K := Module.Finite.of_finite
+  have : Algebra.IsAlgebraic F K := Algebra.IsAlgebraic.of_finite F K
   let q : ℕ := Nat.card F
   let c : ℕ := orderOf ((q : ℕ) : ZMod p)
   let ζ : (s : GL ι F) → s ∈ S → K := fun s hs =>
     π ⟨(s : Matrix ι ι F),
       Algebra.subset_adjoin ⟨s, hs, rfl⟩⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hζpow : ∀ (s : GL ι F) (hs : s ∈ S), ζ s hs ^ p = 1 := by
     intro s hs
     have hs_pow : (⟨(s : Matrix ι ι F),
@@ -797,7 +797,7 @@ theorem blockDegree_trivial_or_eq_orderOf_gram {ι : Type} [Fintype ι] [Decidab
       obtain ⟨k, hk⟩ := heven
       have hc : c = k + k := hk
       have hqc : ((q : ZMod p) ^ c) = 1 := by
-        simpa [c] using (pow_orderOf_eq_one (((q : ℕ) : ZMod p)))
+        simp [c]
       have hqk_sq : (((q : ZMod p) ^ k) ^ 2) = 1 := by
         have h := hqc
         rw [hc, pow_add] at h
@@ -857,9 +857,9 @@ theorem exists_ne_one_fix_blockIdem_gl {ι : Type} [Fintype ι] [DecidableEq ι]
     exact gbd_odd_orderOf_of_pow_prime hp hp2 (hℓp d)
   obtain ⟨K, fieldK, algK, finiteK, π, hπsurj, hπker, hπdeg⟩ :=
     exists_blockField hS hodd he
-  letI : Field K := fieldK
-  letI : Algebra F K := algK
-  letI : Finite K := finiteK
+  let : Field K := fieldK
+  let : Algebra F K := algK
+  let : Finite K := finiteK
   let A : Subalgebra F (Matrix ι ι F) :=
     Algebra.adjoin F (Units.val '' S)
   let a : D → A := fun d =>

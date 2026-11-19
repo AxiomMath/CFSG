@@ -100,7 +100,7 @@ theorem excIsLongest_twE6W0 :
   intro α hα hpos i
   have h := congrFun (CFSG.HardMathSupport.Lang.E6Descent.twE6W0_smul α) i
   have h2 : (-(permLattice CFSG.RankThree.E6.e6Rho α)) i ≤ 0 := by
-    simp only [Pi.neg_apply, permLattice, Function.comp_apply]
+    simp only [permLattice]
     exact neg_nonpos.mpr (hpos _)
   exact h.le.trans h2
 

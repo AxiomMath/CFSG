@@ -17,8 +17,8 @@ theorem eq_parP2_of_borel (h : UnitaryFieldData 2 m K) {p : ℕ} (hp : p.Prime)
     (hBM : hypBorel h 2 0 ≤ M) (hne : M ≠ ⊤) {z : hypSU h 2 0} (hz : orderOf z = p)
     (hzM : z ∈ M) : M = parP2 h := by
   classical
-  haveI := h.finite
-  haveI : Finite (hypSU h 2 0) := CFSG.Quasithin.H13.U4Par.finite_hypSU h
+  have := h.finite
+  have : Finite (hypSU h 2 0) := CFSG.Quasithin.H13.U4Par.finite_hypSU h
   obtain ⟨c, hc, hc0⟩ := exists_mem_traceZero_ne_zero' h
   obtain ⟨hI, hMI, -, -⟩ :=
     UnitaryHigher.unitary_Borel_overgroups h (by norm_num) (by norm_num) hc hc0 M hBM
@@ -73,7 +73,7 @@ theorem eq_parP2_of_borel (h : UnitaryFieldData 2 m K) {p : ℕ} (hp : p.Prime)
 theorem two_le_pRank_of_hypSU {A : Type} [Group A] [Finite A] {K₁ : Subgroup A} {p : ℕ}
     (hp : p.Prime) (h : UnitaryFieldData 2 m K) (e0 : ↥K₁ ≃* hypSU h 2 0)
     (hr : 2 ≤ CFSG.Open.pRank p (⊤ : Subgroup (hypSU h 2 0))) : 2 ≤ CFSG.Open.pRank p K₁ := by
-  haveI : Finite (hypSU h 2 0) := CFSG.Quasithin.H13.U4Par.finite_hypSU h
+  have : Finite (hypSU h 2 0) := CFSG.Quasithin.H13.U4Par.finite_hypSU h
   have h3 := CFSG.SectionRank.pRank_top_eq_of_mulEquiv hp.one_lt e0.symm
   have h4 : CFSG.Open.pRank p K₁ = CFSG.Open.pRank p (⊤ : Subgroup ↥K₁) :=
     CFSG.SectionRank.pRank_eq_pRank_top_subgroup K₁
@@ -88,9 +88,9 @@ theorem u4_reduce {A : Type} [Group A] [Finite A] {K₁ K₀ : Subgroup A} {p : 
       ∃ (ε : hypSU h 2 0 ≃* ↥K₁) (z' : hypSU h 2 0), z' ∈ parP2 h ∧ orderOf z' = p ∧
         ((ε z' : ↥K₁) : A) = z ∧ (parP2 h).map ε.toMonoidHom = K₀.subgroupOf K₁ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := h.finite
-  haveI : Finite (hypSU h 2 0) := CFSG.Quasithin.H13.U4Par.finite_hypSU h
+  have : Fact p.Prime := ⟨hp⟩
+  have := h.finite
+  have : Finite (hypSU h 2 0) := CFSG.Quasithin.H13.U4Par.finite_hypSU h
   have hp2 : p ≠ 2 := by omega
   have hK₀K : K₀ ≤ K₁ := hpar.1
   have hzK : z ∈ K₁ := hK₀K hzK₀
@@ -111,7 +111,7 @@ theorem u4_reduce {A : Type} [Group A] [Finite A] {K₁ K₀ : Subgroup A} {p : 
       omega
   obtain ⟨-, U, hUsyl, hN⟩ := hpar
   obtain ⟨Q, hQU⟩ := hUsyl
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, ⟨P, hP⟩, -⟩ := unitary_order_and_Sylow h (r := 2) (ε := 0) (by norm_num) (by norm_num)
   obtain ⟨ε, hε⟩ := CFSG.ProperTwoGeneratedCore.RootCenter.exists_mulEquiv_map_eq e0 P Q
   set M : Subgroup (hypSU h 2 0) := (K₀.subgroupOf K₁).comap ε.toMonoidHom with hM
@@ -172,8 +172,8 @@ theorem u4_levi_of_equiv {A : Type} [Group A] [Finite A] {K₁ K₀ : Subgroup A
       LeviHom K₀ (Matrix.SpecialLinearGroup (Fin 2) K) := by
   classical
   obtain ⟨hpr, ε, z', hz'P, hz'ord, hεz0, hmap⟩ := u4_reduce hp hp5 hKr hpar hne hz hzK₀ h e0
-  haveI := h.finite
-  haveI : Finite (hypSU h 2 0) := CFSG.Quasithin.H13.U4Par.finite_hypSU h
+  have := h.finite
+  have : Finite (hypSU h 2 0) := CFSG.Quasithin.H13.U4Par.finite_hypSU h
   have hp2 : p ≠ 2 := by omega
   have hK₀K : K₀ ≤ K₁ := hpar.1
   obtain ⟨hsec, hhom⟩ := hypSU_parP2_levi h hm hp hp2 hpr hz'ord hz'P

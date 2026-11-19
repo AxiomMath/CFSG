@@ -61,7 +61,7 @@ private theorem orderOf_dvd_eight_of_dvd_pow24 {o m : ℕ} (h1 : o ∣ 2 ^ m) (h
   have h2' : 2 ^ k ∣ 24 := hk ▸ h2
   have hk3 : k ≤ 3 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have h16 : 2 ^ 4 ∣ 24 := (pow_dvd_pow 2 (by omega)).trans h2'
     norm_num at h16
   rw [hk, show (8 : ℕ) = 2 ^ 3 by norm_num]
@@ -99,7 +99,7 @@ theorem sec10T_exists_comm3 [Finite G] (hP5 : Asc82FactPockets5) (hC5 : Asc82Fac
   obtain ⟨c, i, hc3, hc1, hi4, hci1, hcineg1⟩ :=
     (by decide : ∃ c i : SL23, c ^ 3 = 1 ∧ c ≠ 1 ∧ i ^ 4 = 1 ∧
       c * i * c⁻¹ * i⁻¹ ≠ 1 ∧ c * i * c⁻¹ * i⁻¹ ≠ -1)
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have horder_c : orderOf c = 3 := orderOf_eq_prime hc3 hc1
   let k : ↥K1 := e.symm c
   let g0 : ↥K1 := e.symm i

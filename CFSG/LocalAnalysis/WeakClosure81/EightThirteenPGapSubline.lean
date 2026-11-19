@@ -47,7 +47,7 @@ private theorem wcgapsl_oTwoMod_bot_eq_bot {Y : Type} [Group Y] [Finite Y] (L : 
     intro w
     obtain ⟨k, hk⟩ := hW.2.2.2 (w : Y) w.2
     exact ⟨k, Subtype.ext (by simpa using hk)⟩
-  haveI := hWnorm
+  have := hWnorm
   rcases hsimple.eq_bot_or_eq_top_of_normal (W.subgroupOf L) with h | h
   · rw [← Subgroup.map_subgroupOf_eq_of_le hWL, h, Subgroup.map_bot]
   · exfalso
@@ -57,7 +57,7 @@ private theorem wcgapsl_oTwoMod_bot_eq_bot {Y : Type} [Group Y] [Finite Y] (L : 
       rw [← MonoidHom.range_eq_map, Subgroup.range_subtype] at h1
       exact h1
     have hPL : IsPGroup 2 ↥L := hWL' ▸ hW2
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card (p := 2) (G := ↥L)).mp hPL
     rw [hcard] at hn
     have h3 : 3 ∣ 2 ^ n := by rw [← hn]; norm_num
@@ -78,7 +78,7 @@ private theorem wcgapsl_relIndex_normalizer_eq_five
     (hSL : S ≤ L) (hP : IsPGroup 2 (S.subgroupOf L))
     (hnd : ¬ 2 ∣ (S.subgroupOf L).index) :
     (L ⊓ normalizer (S : Set Y)).relIndex L = 5 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e⟩ := CFSG.LocalAnalysis.ComponentInitial.PSL2_four_alternating_five_model ↥L hL2
   have hB : (L ⊓ normalizer (S : Set Y)).subgroupOf L =
       Subgroup.normalizer ((S.subgroupOf L : Subgroup ↥L) : Set ↥L) := by
@@ -148,7 +148,7 @@ theorem centralKData_of_subline {G : Type} [Group G] [Finite G]
     hSK2.of_equiv (Subgroup.subgroupOfEquivOfLe inf_le_right).symm
   obtain ⟨Q, hQle⟩ := hSK2K.exists_le_sylow
   have hQcard : Nat.card ↥Q = 4 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hmult : Nat.card ↥Q = 2 ^ (Nat.card ↥K).factorization 2 :=
       Sylow.card_eq_multiplicity Q
     rw [hmult, hcardK, wcgapsl_factorization_60_two]

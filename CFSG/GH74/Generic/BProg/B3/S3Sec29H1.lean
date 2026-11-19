@@ -48,6 +48,7 @@ theorem range_bAct {B J : Subgroup G} (hBN : B ≤ normalizer (J : Set G))
   · rintro ⟨m, hm, rfl⟩
     exact ⟨⟨m, hm⟩, rfl⟩
 
+omit [Finite G] in
 theorem two_mul_card_pre {B J : Subgroup G} (hBN : B ≤ normalizer (J : Set G))
     (e : kBar J ≃* alternatingGroup (Fin 7)) {F' : Subgroup (Equiv.Perm (Fin 7))}
     (hF'R : F' ≤ (bAct hBN e).range) (h2 : 2 * Nat.card ↥F' = Nat.card ↥(bAct hBN e).range) :

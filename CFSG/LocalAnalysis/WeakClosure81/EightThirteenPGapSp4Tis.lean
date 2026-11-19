@@ -30,7 +30,7 @@ private lemma wcgapst_sp4Z_add (b c b' c' : F) :
   rw [sp4Z, sp4Z, sp4Z, tau_mul_tau]
   refine tau_congr _ _ ?_
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [sym2, add_comm, add_left_comm]
+  fin_cases i <;> fin_cases j <;> simp [sym2]
 
 private lemma wcgapst_sp4Z_zero : sp4Z (0 : F) 0 = 1 := by
   apply statedSp_ext
@@ -120,7 +120,7 @@ private lemma wcgapst_isSylowIn_unipotent [Finite F] [CharP F 2] :
     IsSylowIn 2 (unipotent 2 F) ⊤ := by
   obtain ⟨P, hP⟩ := exists_sylow_unipotent (K := F) 2 2
   rw [← hP]
-  exact ⟨le_top, P.isPGroup', by rw [Subgroup.relIndex_top_right]; exact P.not_dvd_index⟩
+  exact ⟨le_top, P.isPGroup, by rw [Subgroup.relIndex_top_right]; exact P.not_dvd_index⟩
 
 private lemma wcgapst_isSylowIn_map_conj {G : Type*} [Group G]
     {P : Subgroup G} (hP : IsSylowIn 2 P ⊤) (g : G) :
@@ -250,8 +250,8 @@ theorem sp4_tis_axes {F : Type} [Field F] [Finite F] (hF : Nat.card F = 4)
     (hA4 : Nat.card ↥A = 4) (hT : TISIn (⊤ : Subgroup (StatedSp 2 F)) A) :
     ((∃ g ∈ A, g ≠ 1 ∧ ∃ b : F, g = sp4Z b 0) → ∀ g, g ∈ A ↔ ∃ b : F, g = sp4Z b 0) ∧
     ((∃ g ∈ A, g ≠ 1 ∧ ∃ c : F, g = sp4Z 0 c) → ∀ g, g ∈ A ↔ ∃ c : F, g = sp4Z 0 c) := by
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2) (by
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2) (by
     rw [← Nat.card_eq_fintype_card, hF]; norm_num)
   constructor
   · rintro ⟨g, hgA, hg1, b, hgb⟩

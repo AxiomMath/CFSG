@@ -109,7 +109,7 @@ theorem ffOutFFE8Frame_main (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 
       · intro k
         obtain ⟨c, hc⟩ := hsc e he k
         exact ⟨c, by simpa [fr, hBf] using hc⟩
-    haveI : Finite (ffE8Group fr) :=
+    have : Finite (ffE8Group fr) :=
       Nat.finite_of_card_ne_zero (by rw [ffE8Group_card fr]; norm_num)
     exact Subgroup.eq_of_le_of_card_ge hle (by rw [ffE8Group_card fr, h.elemAb.2]; norm_num)
   · refine ffOutFFE8Frame_t_eq fr ht (fun m => ?_) (fun k => ?_)

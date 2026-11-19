@@ -106,7 +106,7 @@ theorem two_core (S : Sylow 2 G) {M : Subgroup G} (hSM : (S : Subgroup G) ≤ M)
     rcases (Nat.dvd_prime Nat.prime_three).mp h3 with h | h <;> rw [h] <;> decide
   have hVS : V ≤ (S : Subgroup G) :=
     (le_pCoreOf_of_isTwoReducedIn hred).trans (pCoreOf_two_le_sylow M S hSM)
-  have hV2grp : IsPGroup 2 V := S.isPGroup'.to_le hVS
+  have hV2grp : IsPGroup 2 V := S.isPGroup.to_le hVS
   have hVX : V ≤ Subgroup.normalizer (X : Set G) :=
     le_normalizer_of_isSubnormal hX hXM hXs hVM hMV hV2grp
   have hXV : X ⊓ V ≤ V₁ := by
@@ -533,7 +533,7 @@ theorem false_of_wreath_aux (h1391 : Input1391) {G : Type} [Group G] [Finite G]
   have hRT16 : Nat.card ↥(R ⊓ (S : Subgroup G)) ≤ 16 := by
     have hdvd : Nat.card ↥(R ⊓ (S : Subgroup G)) ∣ 144 :=
       hcardR ▸ Subgroup.card_dvd_of_le inf_le_left
-    obtain ⟨n, hn⟩ := (S.isPGroup'.to_le (inf_le_right : R ⊓ (S : Subgroup G) ≤ S)).exists_card_eq
+    obtain ⟨n, hn⟩ := (S.isPGroup.to_le (inf_le_right : R ⊓ (S : Subgroup G) ≤ S)).exists_card_eq
     rw [hn] at hdvd ⊢
     have h16 : 2 ^ n ∣ 2 ^ 4 := by
       have hcop : Nat.Coprime (2 ^ n) 9 := Nat.Coprime.pow_left n (by norm_num)
@@ -564,7 +564,7 @@ theorem false_of_wreath_aux (h1391 : Input1391) {G : Type} [Group G] [Finite G]
     refine (Nat.bijective_iff_injective_and_card θ').mpr ⟨hθ'i, ?_⟩
     exact le_antisymm (Nat.card_le_card_of_injective θ' hθ'i)
       (card_wreathSFourTwo_le.trans hM1152)
-  exact (h1391 G (S : Subgroup G) ‹_› hnonab hqtke ⟨S.isPGroup', S.not_dvd_index⟩ M hM).false
+  exact (h1391 G (S : Subgroup G) ‹_› hnonab hqtke ⟨S.isPGroup, S.not_dvd_index⟩ M hM).false
     (MulEquiv.ofBijective θ' hθ'b)
 
 theorem false_of_wreath (h1391 : Input1391) {G : Type} [Group G] [Finite G]
@@ -594,7 +594,7 @@ theorem false_of_wreath (h1391 : Input1391) {G : Type} [Group G] [Finite G]
   have hMV : M ≤ Subgroup.normalizer (V : Set G) := hred.2.1
   have hVS : V ≤ (S : Subgroup G) :=
     (le_pCoreOf_of_isTwoReducedIn hred).trans (pCoreOf_two_le_sylow M S hSM)
-  have hcomm := commutator_eq_of_isSubnormal hX rfl hXM hXs hVM hMV (S.isPGroup'.to_le hVS) hXV
+  have hcomm := commutator_eq_of_isSubnormal hX rfl hXM hXs hVM hMV (S.isPGroup.to_le hVS) hXV
   have hXN : X ≤ Subgroup.normalizer (V₁ : Set G) ⊓ Subgroup.normalizer (V₂ : Set G) := by
     refine hX.le_of_forall_syl3_le fun P hP y hy => ?_
     have h3 : orderOf y ∣ 3 := by

@@ -25,7 +25,7 @@ theorem z2BigXPlusA_of_hweak (hw : Z2BigHweak r n) : Z2BigXPlusA r n := by
   have hxu' : x * u = u * x := Subgroup.mem_centralizer_singleton_iff.mp hxA.2
   obtain ⟨m, hm⟩ := hs.exists_conj_u
   have hQ2 : IsPGroup 2 ↥(conjSub g ((P : Subgroup Y) ⊓ Subgroup.centralizer ({x} : Set Y))) :=
-    (P.isPGroup'.to_le inf_le_left).map _
+    (P.isPGroup.to_le inf_le_left).map _
   have hQa : conjSub g ((P : Subgroup Y) ⊓ Subgroup.centralizer ({x} : Set Y)) ≤
       Subgroup.centralizer ({t * u} : Set Y) := by
     intro q hq
@@ -62,7 +62,7 @@ theorem z2BigXPlusA_of_hweak (hw : Z2BigHweak r n) : Z2BigXPlusA r n := by
     exact hkP u hs.u_mem_P hxu'.symm
   set Q' := conjSub k⁻¹ ((P : Subgroup Y) ⊓ Subgroup.centralizer ({k * t * k⁻¹} : Set Y) ⊓
     Subgroup.centralizer ({k * u * k⁻¹} : Set Y)) with hQ'
-  have hQ'2 : IsPGroup 2 ↥Q' := (P.isPGroup'.to_le (inf_le_left.trans inf_le_left)).map _
+  have hQ'2 : IsPGroup 2 ↥Q' := (P.isPGroup.to_le (inf_le_left.trans inf_le_left)).map _
   have hcomm_conj : ∀ {q a : Y}, k * q * k⁻¹ * (k * a * k⁻¹) = k * a * k⁻¹ * (k * q * k⁻¹) →
       q * a = a * q := by
     intro q a h

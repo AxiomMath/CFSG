@@ -26,7 +26,7 @@ theorem exists_elemAbelian_lift_of_ker {X Q : Type*} [Group X] [Finite X] [Group
     (f : X →* Q) (hker : IsPGroup 2 ↥f.ker) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {E : Subgroup Q} (hE : IsElemAbelian p E) (hEf : E ≤ f.range) :
     ∃ S : Subgroup X, IsElemAbelian p S ∧ Nat.card S = Nat.card E ∧ S.map f = E := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set P : Subgroup X := E.comap f with hP
   set f' : ↥P →* ↥E := (f.comp P.subtype).codRestrict E (fun x => x.2) with hf'
   have hf's : Function.Surjective f' := by
@@ -46,7 +46,7 @@ theorem exists_elemAbelian_lift_of_ker {X Q : Type*} [Group X] [Finite X] [Group
       have h := congrArg Subtype.val hs1
       exact h
     obtain ⟨m, hm⟩ := hker ⟨(s : X), hk⟩
-    obtain ⟨n, hn⟩ := S₀.isPGroup' ⟨s, hs⟩
+    obtain ⟨n, hn⟩ := S₀.isPGroup ⟨s, hs⟩
     have h2 : s ^ 2 ^ m = 1 := by
       apply Subtype.ext
       have := congrArg Subtype.val hm

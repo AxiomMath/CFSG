@@ -18,7 +18,7 @@ namespace OddCoreLiftF
 
 theorem odd_card_fusionOddCore (X : Type) [Group X] [Finite X] :
     Odd (Nat.card (fusionOddCore X)) := by
-  haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
+  have : Fact (Nat.Prime 2) := Nat.fact_prime_two
   have h : fusionOddCore X = CFSG.pPrimeCore 2 X := by
     unfold fusionOddCore CFSG.pPrimeCore
     congr 1
@@ -33,13 +33,13 @@ theorem map_conjSubgroup {G H : Type*} [Group G] [Group H] (f : G →* H) (A : S
   rw [Subgroup.map_map, Subgroup.map_map]
   congr 1
   ext x
-  simp [MulAut.conj_apply]
+  simp
 
 theorem conjSubgroup_zpowers {G : Type*} [Group G] (x g : G) :
     conjSubgroup (Subgroup.zpowers x) g = Subgroup.zpowers (g⁻¹ * x * g) := by
   unfold conjSubgroup
   rw [MonoidHom.map_zpowers]
-  simp [MulAut.conj_apply]
+  simp
 
 theorem perm3a : ∀ a b : Equiv.Perm (Fin 3), a * a = 1 → b * b = 1 → a ≠ 1 → b ≠ 1 → a ≠ b →
     (a * b) ^ 3 = 1 := by
@@ -174,6 +174,7 @@ section Quot
 
 variable {X : Type} [Group X] [Finite X] (N : Subgroup X) [N.Normal]
 
+omit [Finite X] in
 theorem conj_of_mk_eq (hodd : Odd (Nat.card N)) {t d : X} (ht : t * t = 1) (hd : d * d = 1)
     (h : QuotientGroup.mk' N t = QuotientGroup.mk' N d) : ∃ c ∈ N, t = c⁻¹ * d * c := by
   have hmem : d * t ∈ N := by
@@ -182,6 +183,7 @@ theorem conj_of_mk_eq (hodd : Odd (Nat.card N)) {t d : X} (ht : t * t = 1) (hd :
   obtain ⟨j, hj⟩ := dihedral_conj hd ht hodd (pow_card_eq_one_of_mem hmem)
   exact ⟨(d * t) ^ j, N.pow_mem hmem j, hj⟩
 
+omit [Finite X] in
 theorem lift_inv (hodd : Odd (Nat.card N)) {m d : X} (hd : d * d = 1)
     (h : QuotientGroup.mk' N m = QuotientGroup.mk' N d) :
     m ^ Nat.card N * m ^ Nat.card N = 1 ∧
@@ -198,7 +200,7 @@ theorem lift_inv (hodd : Odd (Nat.card N)) {m d : X} (hd : d * d = 1)
 
 theorem exists_full (Qh : Subgroup (X ⧸ N)) (hQh : IsPGroup 2 Qh) :
     ∃ Q : Subgroup X, IsPGroup 2 Q ∧ Q.map (QuotientGroup.mk' N) = Qh := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set R := Qh.comap (QuotientGroup.mk' N)
   let ρ : R →* Qh := ((QuotientGroup.mk' N).comp R.subtype).codRestrict Qh (fun x => x.2)
   have hρ : Function.Surjective ρ := by
@@ -215,7 +217,7 @@ theorem exists_full (Qh : Subgroup (X ⧸ N)) (hQh : IsPGroup 2 Qh) :
     · simpa using hk
     · exfalso; apply h2; rw [hk] at h1; exact (dvd_pow_self 2 (Nat.succ_ne_zero k)).trans h1
   rw [Subgroup.index_eq_one] at hidx
-  refine ⟨(S : Subgroup R).map R.subtype, S.isPGroup'.map _, le_antisymm ?_ ?_⟩
+  refine ⟨(S : Subgroup R).map R.subtype, S.isPGroup.map _, le_antisymm ?_ ?_⟩
   · rintro _ ⟨_, ⟨x, -, rfl⟩, rfl⟩
     exact x.2
   · intro y hy
@@ -227,7 +229,7 @@ theorem full_conj (Qh : Subgroup (X ⧸ N)) (hodd : Odd (Nat.card N)) {Q₁ Q₂
     (h₁ : IsPGroup 2 Q₁) (h₁' : Q₁.map (QuotientGroup.mk' N) = Qh)
     (h₂ : IsPGroup 2 Q₂) (h₂' : Q₂.map (QuotientGroup.mk' N) = Qh) :
     ∃ r : X, QuotientGroup.mk' N r ∈ Qh ∧ Q₂ = conjSubgroup Q₁ r := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set R := Qh.comap (QuotientGroup.mk' N) with hR
   have hmemR : ∀ {Q : Subgroup X}, Q.map (QuotientGroup.mk' N) = Qh → ∀ {x}, x ∈ Q → x ∈ R := by
     intro Q hQ x hx
@@ -237,8 +239,7 @@ theorem full_conj (Qh : Subgroup (X ⧸ N)) (hodd : Odd (Nat.card N)) {Q₁ Q₂
       ∃ S : Sylow 2 R, (S : Subgroup R) = Q.subgroupOf R := by
     intro Q hQ hQ'
     refine ⟨⟨Q.subgroupOf R, hQ.comap_of_injective R.subtype R.subtype_injective, ?_⟩, rfl⟩
-    intro K hK hle
-    intro k hk
+    intro K hK hle k hk
     have hkQh : QuotientGroup.mk' N (k : X) ∈ Q.map (QuotientGroup.mk' N) := by
       rw [hQ']; exact k.2
     obtain ⟨q, hq, hqk⟩ := hkQh
@@ -258,7 +259,7 @@ theorem full_conj (Qh : Subgroup (X ⧸ N)) (hodd : Odd (Nat.card N)) {Q₁ Q₂
   have key : ∀ y : R, y ∈ (S₂ : Subgroup R) ↔ g⁻¹ * y * g ∈ (S₁ : Subgroup R) := by
     intro y
     rw [← hg, Sylow.coe_subgroup_smul, Subgroup.mem_pointwise_smul_iff_inv_smul_mem]
-    simp [MulAut.smul_def, MulAut.conj_apply]
+    simp [MulAut.smul_def]
   refine ⟨(g : X)⁻¹, by rw [map_inv]; exact Qh.inv_mem g.2, ?_⟩
   ext x
   rw [CFSG.Quasithin.mem_conjSubgroup_iff, inv_inv]
@@ -333,7 +334,7 @@ theorem oddCoreLiftFischer :
         4 ≤ Set.ncard
           {W : Subgroup X | ∃ x ∈ pCoreOf 2 L, W = conjSubgroup (Subgroup.zpowers s) x} := by
   rintro X _ _ s hs hD ⟨Lh, hsZ, hsQ, hgenLh, ⟨Y, hYg, φ, hφs, hφk, ⟨eY⟩⟩, h4⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hodd : Odd (Nat.card (fusionOddCore X)) := odd_card_fusionOddCore X
   set π := QuotientGroup.mk' (fusionOddCore X) with hπ
   have hss : s * s = 1 := by rw [← pow_two, ← hs]; exact pow_orderOf_eq_one s

@@ -56,7 +56,7 @@ theorem dSign_apply (m : ℕ) (a b i : Fin m) :
   rw [dSign, ZS.diagMap_apply_basis]
   by_cases h : i = a ∨ i = b <;> simp [h, Units.val_neg]
 
-theorem dTau_apply_left (m : ℕ) (ε : Bool) {a b : Fin m} (hab : a ≠ b) :
+theorem dTau_apply_left (m : ℕ) (ε : Bool) {a b : Fin m} (_hab : a ≠ b) :
     dTau m ε a b (dBasis m a) = (if ε then (-1 : ZMod 3) else 1) • dBasis m b := by
   cases ε
   · rw [plh_dTau_false, dPerm_apply, Equiv.swap_apply_left]
@@ -72,7 +72,7 @@ theorem dTau_apply_right (m : ℕ) (ε : Bool) {a b : Fin m} (hab : a ≠ b) :
     simp
   · rw [plh_dTau_true, LinearEquiv.mul_apply, dSign_apply, map_smul, dPerm_apply,
       Equiv.swap_apply_right]
-    simp [hab, hab.symm]
+    simp [hab.symm]
 
 theorem dTau_apply_of_ne (m : ℕ) (ε : Bool) {a b i : Fin m} (hia : i ≠ a) (hib : i ≠ b) :
     dTau m ε a b (dBasis m i) = dBasis m i := by
@@ -109,8 +109,8 @@ private lemma plh_sign_comp (m : ℕ) (ρ : Equiv.Perm (Fin m)) (a b : Fin m) :
       · exact Or.inr ((congrArg ρ.symm h).trans (Equiv.symm_apply_apply ρ b))
   simp only [Function.comp_apply]
   by_cases h : ρ.symm k = a ∨ ρ.symm k = b
-  · rw [if_pos h, if_pos (hiff.mp h)]
-  · rw [if_neg h, if_neg (fun hh => h (hiff.mpr hh))]
+  · rw [ite_eq_left h, ite_eq_left (hiff.mp h)]
+  · rw [ite_eq_right h, ite_eq_right (fun hh => h (hiff.mpr hh))]
 
 private lemma plh_conj_mul {G : Type*} [Group G] (A B C : G) :
     A * B * A⁻¹ * (A * C * A⁻¹) = A * (B * C) * A⁻¹ := by

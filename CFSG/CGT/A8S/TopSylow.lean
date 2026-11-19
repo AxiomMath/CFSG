@@ -157,7 +157,7 @@ theorem exists_sylow_of_a8Hyp [Finite G] (h : A8Hyp T H) :
   have : Nontrivial ↥(S : Subgroup G) := by
     rw [← Finite.one_lt_card_iff_nontrivial, hcardS]
     norm_num
-  have := S.isPGroup'.center_nontrivial
+  have := S.isPGroup.center_nontrivial
   obtain ⟨z, hz1⟩ := exists_ne (1 : ↥(Subgroup.center ↥(S : Subgroup G)))
   have hzc : ∀ y ∈ (S : Subgroup G), ((z : ↥(S : Subgroup G)) : G) * y = y * z := fun y hy =>
     (congrArg Subtype.val (Subgroup.mem_center_iff.1 z.2 ⟨y, hy⟩)).symm

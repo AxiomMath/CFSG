@@ -17,7 +17,7 @@ private theorem sylow_five_card_eq_five_of_dvd_not_square
     (hnotFiveSq : ¬5 ^ 2 ∣ Nat.card G)
     (S : Sylow 5 G) :
     Nat.card S = 5 := by
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨m, hm⟩ := hfive
   have hmPos : m ≠ 0 := by
     intro hmZero
@@ -64,7 +64,7 @@ theorem five_point_stabilizer_card_cases_five_cubed
     simpa only [H, h] using
       five_point_stabilizer_card_cases_without_seven
         X P hcard h5 hnotAlt s hs
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   let S : Sylow 5 H := Sylow.nonempty.some
   have heliminate
       (hfive : 5 ∣ h)

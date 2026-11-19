@@ -34,7 +34,7 @@ variable {G : Type} [Group G]
   ∀ x ∈ X, y * x * y⁻¹ * x⁻¹ ∈ M
 
 theorem sec35_triv_mul {X M : Subgroup G} {y z : G} (hy : y ∈ normalizer (M : Set G))
-    (hz : z ∈ normalizer (M : Set G)) (hyt : Sec35Triv X M y) (hzt : Sec35Triv X M z) :
+    (_hz : z ∈ normalizer (M : Set G)) (hyt : Sec35Triv X M y) (hzt : Sec35Triv X M z) :
     Sec35Triv X M (y * z) := by
   intro x hx
   have key : y * z * x * (y * z)⁻¹ * x⁻¹ =
@@ -176,7 +176,7 @@ theorem sec35_normalizes_M
     (hb : b ∈ normalizer ((A ⊔ Ab : Subgroup G) : Set G)) : b ∈ normalizer (M : Set G) := by
   obtain ⟨hN, hO2, -⟩ := S.exists_models CFSG.CGT.T75N.benderCenterInput
     CFSG.CGT.T75N.unitaryTwoGenerationInput
-  haveI := hN
+  have := hN
   have hMX : A ⊔ Ab ≤ normalizer (M : Set G) := S.sup_le_normalizer_M
   have hMle : M ≤ A ⊔ Ab := by
     rw [S.hM]
@@ -255,7 +255,7 @@ theorem sec35_mem_normalizer_of_comm {a : G} {T : Subgroup G} (h : ∀ t ∈ T, 
   mul_mem' := by
     rintro _ _ ⟨h1, t1⟩ ⟨h2, t2⟩
     exact ⟨H.mul_mem h1 h2, sec35_triv_mul (hH _ h1).2 (hH _ h2).2 t1 t2⟩
-  one_mem' := ⟨H.one_mem, fun x _ => by simpa using M.one_mem⟩
+  one_mem' := ⟨H.one_mem, fun x _ => by simp⟩
   inv_mem' := by
     rintro _ ⟨h1, t1⟩
     exact ⟨H.inv_mem h1, sec35_triv_inv (hH _ h1).1 t1⟩
@@ -300,7 +300,7 @@ theorem sec35_core [Finite G] {A Ab L Lb M B : Subgroup G} (S : Prop24Setup A Ab
       obtain ⟨hnH, hnt⟩ := (hC _).1 hn
       exact (hC _).2 ⟨H.mul_mem (H.mul_mem g.2 hnH) (H.inv_mem g.2),
         sec35_triv_conj (hH _ g.2).1 (hH _ g.2).2 hnt⟩
-    haveI := hCn
+    have := hCn
     have hLC : L ≤ C := by
       intro l hl
       refine (hC l).2 ⟨⟨1, B.one_mem, l, S.L_le hl, by simp⟩, ?_⟩
@@ -445,7 +445,7 @@ theorem sec35_exists_fixed [Finite G] {W : Subgroup G} (hW : W ≠ ⊥)
     {t : G} (htW : t ∈ normalizer (W : Set G)) (ht2 : t * t = 1) :
     ∃ w ∈ W, w ≠ 1 ∧ t * w = w * t := by
   by_contra hno
-  push_neg at hno
+  push Not at hno
   have hτW : ∀ w ∈ W, t * w * t⁻¹ ∈ W := fun w hw =>
     (Subgroup.mem_normalizer_iff.1 htW w).1 hw
   have ht' : t⁻¹ = t := inv_eq_of_mul_eq_one_right ht2
@@ -511,7 +511,7 @@ theorem sec35_gen_dihedral [Finite G] {A Ab L Lb M : Subgroup G} (S : Prop24Setu
   have hTX : ∀ W ∈ s, W ≤ N := by
     intro W hW
     obtain ⟨hWM, hXW, hW1, hirr⟩ := hs W hW
-    obtain ⟨t, htA, htL⟩ := SetLike.exists_of_lt (lt_of_le_of_ne S.L_le S.ne)
+    obtain ⟨t, htA, htL⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne S.L_le S.ne)
     have htW : t ∈ normalizer (W : Set G) := hXW (Subgroup.mem_sup_left htA)
     obtain ⟨w, hwW, hw1, htw⟩ := sec35_exists_fixed hW1
       (fun w₁ h₁ w₂ h₂ => S.comm_M (hWM h₁) (hWM h₂))
@@ -572,7 +572,7 @@ theorem sec35_step1_of_inner (hInner : Prop24InnerStatement) [Finite G]
   obtain ⟨a, ha, hy⟩ := hInner G A Abar (Section3.A0 A Abar) (Section3.Abar0 A Abar)
     (Section3.M A Abar) h.setup hr b (conjSubgroup_eq_self_iff.2 hBX)
     (Subgroup.mem_centralizer_iff.2 fun c hc => (Subgroup.mem_centralizer_iff.1
-      (h.nota.le hb).2) c hc) (fun x _ => by rw [hbb]; simpa using (Section3.M A Abar).one_mem)
+      (h.nota.le hb).2) c hc) (fun x _ => by rw [hbb]; simp)
   refine ⟨a, ha, ?_⟩
   have hyN : a * b ∈ normalizer ((A ⊔ Abar : Subgroup G) : Set G) :=
     mul_mem ((le_trans le_sup_left Subgroup.le_normalizer) ha) hBX

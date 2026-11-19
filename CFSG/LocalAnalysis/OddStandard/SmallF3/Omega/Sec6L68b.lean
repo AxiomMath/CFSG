@@ -163,7 +163,7 @@ theorem sec68_no_order_four [Finite G] (h36 : Asc82Lemma36) (hM : Asc82Tab6M) {t
     rw [← pow_two]
     exact hB.1.2 b₀ hb₀B
   have hb₀2 : orderOf b₀ = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime (p := 2) (by rwa [pow_two]) hb₀1
   have hxt : x * t = t * x := by
     calc x * t = x * (x * x) := by rw [hxx]
@@ -232,7 +232,7 @@ theorem sec68_sylow [Finite G] (h36 : Asc82Lemma36) (h82 : Asc82Lemma82) (hM : A
       sec68_exists_sq hP.2.1 hcyc (hle (Subgroup.mem_zpowers t)) hS.involution hPeq
     exact (sec68_no_order_four h36 hM hS hL6 hB hBL hgt hgB hBLg (hP.1 hxP) hxx).elim
 
-theorem sec68_stabilizers [Finite G] (h36 : Asc82Lemma36) (hM : Asc82Tab6M) {t : G}
+theorem sec68_stabilizers [Finite G] (_h36 : Asc82Lemma36) (hM : Asc82Tab6M) {t : G}
     {L : Subgroup G} (hS : Sec3SettingLB G t L) (hL6 : IsOmega6Minus L) {B : Subgroup G}
     (hB : IsElemAb2 B 4) (hBL : B ≤ L) {g : G} (hgt : g⁻¹ * t * g ≠ t)
     (hgB : g⁻¹ * t * g ∈ cosetSet t B) (hBLg : B ≤ CFSG.conjugate L g) :
@@ -257,7 +257,7 @@ theorem sec68_stabilizers [Finite G] (h36 : Asc82Lemma36) (hM : Asc82Tab6M) {t :
     intro h
     exact hgt (by rw [hpb, h, mul_one])
   have hb₀2 : orderOf b₀ = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime (p := 2) (hB.1.2 b₀ hb₀B) hb₀1
   refine ⟨?_, ?_, ?_⟩
   · intro a ha ha_ne b hb hb_ne

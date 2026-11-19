@@ -275,7 +275,7 @@ theorem IsPPoint.conj_mem_sup_three {P : Sylow 3 G} {M : Subgroup G} {x : G}
       normalizes_O := hnormO
       normalizes_ZO := hnormZO }
   have hZp : Z ≤ CFSG.pCore 3 (M ⧸ O) := hdata.le_pCore hInn hWC h713
-  have hPsyl : IsSylowOf 3 (P : Subgroup G) M := isSylowOf_iff.mpr ⟨hPM, P.isPGroup', fun hdvd =>
+  have hPsyl : IsSylowOf 3 (P : Subgroup G) M := isSylowOf_iff.mpr ⟨hPM, P.isPGroup, fun hdvd =>
     P.not_dvd_index (hdvd.trans (Subgroup.relIndex_dvd_index_of_le hPM))⟩
   obtain ⟨R, hR⟩ : ∃ R : Sylow 3 (M ⧸ O), (R : Subgroup (M ⧸ O)) =
       ((P : Subgroup G).subgroupOf M).map π := by

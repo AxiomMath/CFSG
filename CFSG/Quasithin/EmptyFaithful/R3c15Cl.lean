@@ -338,7 +338,7 @@ theorem l_cl_case1 {T Mc M V₁ V₂ Yp I L : Subgroup G} {t : G} (h113 : StageL
   have hTsyl : IsSylowTwoOf (((Sgp153 T V₁ ⊓ L).subgroupOf L).map
       (QuotientGroup.mk' (Subgroup.center ↥L))) ⊤ := by
     rw [← hT]
-    exact K1.isSylowTwoOf_top_iff.mpr ⟨Tsyl.isPGroup', Tsyl.not_dvd_index⟩
+    exact K1.isSylowTwoOf_top_iff.mpr ⟨Tsyl.isPGroup, Tsyl.not_dvd_index⟩
   obtain ⟨h4₁, h2₁⟩ := quot_klein hV1L hV14 hV1sq hVz₁
   obtain ⟨h4₂, h2₂⟩ := quot_klein hV2L hV4 hV2sq hVz₂
   refine no_two_klein_psl hn hX hTsyl (Subgroup.map_mono fun x hx => Subgroup.mem_subgroupOf.mpr

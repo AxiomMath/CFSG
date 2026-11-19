@@ -30,8 +30,8 @@ variable {X : Type} [Group X]
 theorem exists_le_normalizer_of_odd [Finite X] {T : Subgroup X} (hT : IsPGroup 2 T)
     {S : Set (Subgroup X)} (hS : ∀ t ∈ T, ∀ E ∈ S, E.map (MulAut.conj t).toMonoidHom ∈ S)
     (hodd : Odd (Nat.card ↥S)) : ∃ E ∈ S, T ≤ normalizer (E : Set X) := by
-  letI : MulAction ↥T ↥S := conjAction T S hS
-  haveI : Finite (Subgroup X) :=
+  let : MulAction ↥T ↥S := conjAction T S hS
+  have : Finite (Subgroup X) :=
     Finite.of_injective (fun H : Subgroup X => (H : Set X)) SetLike.coe_injective
   have h2 : ¬ 2 ∣ Nat.card ↥S := fun h => (Nat.not_even_iff_odd.2 hodd) (even_iff_two_dvd.2 h)
   obtain ⟨⟨E, hE⟩, hfix⟩ := hT.nonempty_fixed_point_of_prime_not_dvd_card ↥S h2

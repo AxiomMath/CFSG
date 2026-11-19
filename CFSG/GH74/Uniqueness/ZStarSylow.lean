@@ -367,7 +367,7 @@ theorem exists_invariant_sylow {W P : Subgroup X} {t : X} {p : ℕ} (hp : p.Prim
       (hp.odd_of_ne_two hp2) hP'p huP' hfactor
   set Q : Subgroup X := (S : Subgroup A).map A.subtype with hQ
   have hQA : ABGLocalTools.IsSylowOf p Q A := ⟨S, rfl⟩
-  have hQp : IsPGroup p Q := S.isPGroup'.map A.subtype
+  have hQp : IsPGroup p Q := S.isPGroup.map A.subtype
   have hQW : Q ≤ W := by
     intro q hq
     have hqA : q ∈ A := by

@@ -19,6 +19,7 @@ variable {G : Type} [Group G] {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [F
     Submodule (ZMod 2) V :=
   (U.comap (Submodule.mkQ (W₂.comap W₁.subtype))).map W₁.subtype
 
+omit [Finite V] in
 theorem mem_secLift {W₁ W₂ : Submodule (ZMod 2) V} {U : Submodule (ZMod 2) (SecMod W₁ W₂)}
     {v : V} :
     v ∈ secLift W₁ W₂ U ↔
@@ -32,11 +33,13 @@ theorem mem_secLift {W₁ W₂ : Submodule (ZMod 2) V} {U : Submodule (ZMod 2) (
   · rintro ⟨h, hh⟩
     exact ⟨⟨v, h⟩, by rwa [Submodule.mem_comap, Submodule.mkQ_apply], rfl⟩
 
+omit [Finite V] in
 theorem secLift_le (W₁ W₂ : Submodule (ZMod 2) V) (U : Submodule (ZMod 2) (SecMod W₁ W₂)) :
     secLift W₁ W₂ U ≤ W₁ := by
   simpa [secLift] using
     Submodule.map_subtype_le W₁ (U.comap (Submodule.mkQ (W₂.comap W₁.subtype)))
 
+omit [Finite V] in
 theorem le_secLift {W₁ W₂ : Submodule (ZMod 2) V} (hW : W₂ ≤ W₁)
     (U : Submodule (ZMod 2) (SecMod W₁ W₂)) : W₂ ≤ secLift W₁ W₂ U := by
   intro v hv
@@ -48,6 +51,7 @@ theorem le_secLift {W₁ W₂ : Submodule (ZMod 2) V} (hW : W₂ ≤ W₁)
   rw [h0]
   exact Submodule.zero_mem U
 
+omit [Finite V] in
 theorem secLift_invariant (ρ : G →* LGL 2 V) {W₁ W₂ : Submodule (ZMod 2) V}
     (h₁ : ∀ g : G, ∀ w ∈ W₁, ρ g w ∈ W₁) (h₂ : ∀ g : G, ∀ w ∈ W₂, ρ g w ∈ W₂)
     {U : Submodule (ZMod 2) (SecMod W₁ W₂)}
@@ -60,6 +64,7 @@ theorem secLift_invariant (ρ : G →* LGL 2 V) {W₁ W₂ : Submodule (ZMod 2) 
   have hmem := hU g (Submodule.Quotient.mk (⟨v, hv₁⟩ : ↥W₁)) hvU
   rwa [sectionRep_mk] at hmem
 
+omit [Finite V] in
 private theorem b12_TwelveSumSec_mk_mem_iff (W₁ W₂ : Submodule (ZMod 2) V)
     (U : Submodule (ZMod 2) (SecMod W₁ W₂)) (x : ↥W₁) :
     (Submodule.Quotient.mk x : SecMod W₁ W₂) ∈ U ↔ (x : V) ∈ secLift W₁ W₂ U := by
@@ -70,6 +75,7 @@ private theorem b12_TwelveSumSec_mk_mem_iff (W₁ W₂ : Submodule (ZMod 2) V)
   · rintro ⟨h, hh⟩
     simpa using hh
 
+omit [Finite V] in
 private theorem b12_TwelveSumSec_secLift_injective (W₁ W₂ : Submodule (ZMod 2) V) :
     Function.Injective (secLift W₁ W₂) := by
   intro U U' h
@@ -77,6 +83,7 @@ private theorem b12_TwelveSumSec_secLift_injective (W₁ W₂ : Submodule (ZMod 
   obtain ⟨x, rfl⟩ := Submodule.Quotient.mk_surjective (W₂.comap W₁.subtype) u
   rw [b12_TwelveSumSec_mk_mem_iff, b12_TwelveSumSec_mk_mem_iff, h]
 
+omit [Finite V] in
 private theorem b12_TwelveSumSec_secLift_mono (W₁ W₂ : Submodule (ZMod 2) V)
     (U U' : Submodule (ZMod 2) (SecMod W₁ W₂)) (h : U ≤ U') :
     secLift W₁ W₂ U ≤ secLift W₁ W₂ U' := by
@@ -84,6 +91,7 @@ private theorem b12_TwelveSumSec_secLift_mono (W₁ W₂ : Submodule (ZMod 2) V)
   obtain ⟨hv₁, hvU⟩ := mem_secLift.mp hv
   exact mem_secLift.mpr ⟨hv₁, h hvU⟩
 
+omit [Finite V] in
 private theorem b12_TwelveSumSec_secLift_bot {W₁ W₂ : Submodule (ZMod 2) V} (hW : W₂ ≤ W₁) :
     secLift W₁ W₂ ⊥ = W₂ := by
   ext v
@@ -99,6 +107,7 @@ private theorem b12_TwelveSumSec_secLift_bot {W₁ W₂ : Submodule (ZMod 2) V} 
         Submodule.subtype_apply]
       exact hv⟩
 
+omit [Finite V] in
 private theorem b12_TwelveSumSec_secLift_top (W₁ W₂ : Submodule (ZMod 2) V) :
     secLift W₁ W₂ ⊤ = W₁ := by
   ext v
@@ -109,6 +118,7 @@ private theorem b12_TwelveSumSec_secLift_top (W₁ W₂ : Submodule (ZMod 2) V) 
   · intro hv
     exact ⟨hv, Submodule.mem_top⟩
 
+omit [Finite V] in
 private theorem b12_TwelveSumSec_secLift_inf (W₁ W₂ : Submodule (ZMod 2) V)
     (U U' : Submodule (ZMod 2) (SecMod W₁ W₂)) :
     secLift W₁ W₂ (U ⊓ U') = secLift W₁ W₂ U ⊓ secLift W₁ W₂ U' := by
@@ -121,6 +131,7 @@ private theorem b12_TwelveSumSec_secLift_inf (W₁ W₂ : Submodule (ZMod 2) V)
     refine ⟨h, Submodule.mem_inf.mpr ⟨hh, ?_⟩⟩
     simpa using hh'
 
+omit [Finite V] in
 private theorem b12_TwelveSumSec_secLift_sup {W₁ W₂ : Submodule (ZMod 2) V} (hW : W₂ ≤ W₁)
     (U U' : Submodule (ZMod 2) (SecMod W₁ W₂)) :
     secLift W₁ W₂ (U ⊔ U') = secLift W₁ W₂ U ⊔ secLift W₁ W₂ U' := by
@@ -148,6 +159,7 @@ private theorem b12_TwelveSumSec_secLift_sup {W₁ W₂ : Submodule (ZMod 2) V} 
   · exact sup_le (b12_TwelveSumSec_secLift_mono W₁ W₂ U (U ⊔ U') le_sup_left)
       (b12_TwelveSumSec_secLift_mono W₁ W₂ U' (U ⊔ U') le_sup_right)
 
+omit [Finite V] in
 private theorem b12_TwelveSumSec_secLift_finset_sup {W₁ W₂ : Submodule (ZMod 2) V}
     (hW : W₂ ≤ W₁) (s : Finset (Submodule (ZMod 2) (SecMod W₁ W₂))) :
     secLift W₁ W₂ (s.sup id) = (s.image (secLift W₁ W₂)).sup id ⊔ W₂ := by
@@ -161,9 +173,10 @@ private theorem b12_TwelveSumSec_secLift_finset_sup {W₁ W₂ : Submodule (ZMod
         b12_TwelveSumSec_secLift_sup hW, ih, sup_assoc]
       rfl
 
+omit [Finite V] in
 theorem isSumNatSection_of_family (ρ : G →* LGL 2 V) (N : Subgroup G) {n : ℕ}
-    {W₁ W₂ : Submodule (ZMod 2) V} (hW : W₂ ≤ W₁) (h₁ : ∀ g : G, ∀ w ∈ W₁, ρ g w ∈ W₁)
-    (h₂ : ∀ g : G, ∀ w ∈ W₂, ρ g w ∈ W₂) (s : Finset (Submodule (ZMod 2) (SecMod W₁ W₂)))
+    {W₁ W₂ : Submodule (ZMod 2) V} (hW : W₂ ≤ W₁) (_h₁ : ∀ g : G, ∀ w ∈ W₁, ρ g w ∈ W₁)
+    (_h₂ : ∀ g : G, ∀ w ∈ W₂, ρ g w ∈ W₂) (s : Finset (Submodule (ZMod 2) (SecMod W₁ W₂)))
     (hsup : s.sup id = ⊤) (hind : ∀ U ∈ s, U ⊓ (s.erase U).sup id = ⊥)
     (hnat : ∀ U ∈ s, IsNatSection ρ N (secLift W₁ W₂ U) W₂ n) :
     IsSumNatSection ρ N W₁ W₂ n := by
@@ -182,6 +195,7 @@ theorem isSumNatSection_of_family (ρ : G →* LGL 2 V) (N : Subgroup G) {n : �
       ← b12_TwelveSumSec_secLift_inf W₁ W₂ U ((s.erase U).sup id),
       hind U hU, b12_TwelveSumSec_secLift_bot hW]
 
+omit [Finite V] in
 theorem isNatSL2Section_secLift (ρ : G →* LGL 2 V) (N : Subgroup G) {n : ℕ}
     {W₁ W₂ : Submodule (ZMod 2) V} (hW : W₂ ≤ W₁) (h₁ : ∀ g : G, ∀ w ∈ W₁, ρ g w ∈ W₁)
     (h₂ : ∀ g : G, ∀ w ∈ W₂, ρ g w ∈ W₂) {U : Submodule (ZMod 2) (SecMod W₁ W₂)}
@@ -200,7 +214,7 @@ theorem isNatSL2Section_secLift (ρ : G →* LGL 2 V) (N : Subgroup G) {n : ℕ}
         ⟨Submodule.Quotient.mk (⟨(v : V), secLift_le W₁ W₂ U v.2⟩ : ↥W₁), hmem v⟩
       map_zero' := by
         apply Subtype.ext
-        simpa using Submodule.Quotient.mk_zero (W₂.comap W₁.subtype)
+        simp
       map_add' := fun a b => by
         apply Subtype.ext
         conv_rhs => rw [Submodule.coe_add]
@@ -246,7 +260,7 @@ theorem isSumNatSection_of_fpf_psl (hNat : NatSumL2Input) [Finite G] {n : ℕ}
     have hn_eq : n = 1 := by omega
     subst hn_eq
     exact hadm.2.2.2.1 (by simp)
-  haveI : Finite (SecMod W₁ W₂) :=
+  have : Finite (SecMod W₁ W₂) :=
     Finite.of_surjective (Submodule.mkQ (W₂.comap W₁.subtype))
       (Submodule.mkQ_surjective (W₂.comap W₁.subtype))
   let τ := sectionRep ρ W₁ W₂ h₁ h₂

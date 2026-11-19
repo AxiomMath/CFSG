@@ -31,7 +31,7 @@ theorem natCard_of_isExtNotation {PA PB : ∀ (V : Type) [Group V], Prop} {X : T
     ∃ (N : Subgroup X) (_ : N.Normal), PB ↥N ∧ PA (X ⧸ N) ∧
       Nat.card X = Nat.card N * Nat.card (X ⧸ N) := by
   obtain ⟨N, hN, hBN, hAN, -⟩ := h
-  haveI := hN
+  have := hN
   exact ⟨N, hN, hBN, hAN, natCard_eq_card_subgroup_mul_card_quotient N⟩
 
 theorem natCard_of_isExtNotation_alternating_seven_two {X : Type} [Group X]
@@ -39,7 +39,7 @@ theorem natCard_of_isExtNotation_alternating_seven_two {X : Type} [Group X]
       (fun B _ => Nat.card B = 2) X) :
     Nat.card X = 5040 := by
   obtain ⟨N, hN, hBN, hAN, hcard⟩ := natCard_of_isExtNotation h
-  haveI := hN
+  have := hN
   obtain ⟨e⟩ := hAN
   have hquot : Nat.card (X ⧸ N) = 2520 := by
     rw [Nat.card_congr e.toEquiv, natCard_alternatingGroup_fin_seven]
@@ -50,7 +50,7 @@ theorem natCard_of_isExtNotation_alternating_six_two {X : Type} [Group X]
       (fun B _ => Nat.card B = 2) X) :
     Nat.card X = 720 := by
   obtain ⟨N, hN, hBN, hAN, hcard⟩ := natCard_of_isExtNotation h
-  haveI := hN
+  have := hN
   obtain ⟨e⟩ := hAN
   have hquot : Nat.card (X ⧸ N) = 360 := by
     rw [Nat.card_congr e.toEquiv, natCard_alternatingGroup_fin_six]

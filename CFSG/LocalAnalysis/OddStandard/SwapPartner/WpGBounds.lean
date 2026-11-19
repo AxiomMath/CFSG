@@ -16,7 +16,7 @@ theorem card_centralizer_twoSec_le {x c : G} (hc : c ∈ centralizer ({x} : Set 
     Nat.card (centralizer ({(QuotientGroup.mk ⟨c, hc⟩ : TwoSec x)} : Set (TwoSec x))) ≤
       pairOrder c x := by
   let C : Subgroup G := centralizer ({x} : Set G)
-  haveI : Finite C := inferInstance
+  have : Finite C := inferInstance
   have hle := card_centralizer_quotient_le (Z := zpowers (selfC x)) (c := (⟨c, hc⟩ : C))
   have hcard : Nat.card (centralizer ({(⟨c, hc⟩ : C)} : Set C)) =
       Nat.card ↥(centralizer ({c} : Set G) ⊓ C) := by
@@ -37,6 +37,7 @@ theorem card_centralizer_twoSec_le {x c : G} (hc : c ∈ centralizer ({x} : Set 
   simp only [pairOrder]
   exact le_of_eq rfl
 
+omit [Finite G] in
 private lemma wp_mk_mul_self_eq_one {x c : G} (hc : c ∈ centralizer ({x} : Set G))
     (hc2 : c * c = 1) :
     (QuotientGroup.mk ⟨c, hc⟩ : TwoSec x) * QuotientGroup.mk ⟨c, hc⟩ = 1 := by
@@ -48,7 +49,7 @@ theorem two_mul_le_pairOrder_of_outer {x : G} {t : TwoSec x} {Sg V K : Subgroup 
     (H : WreathCase t Sg V K) {c : G} (hc : c ∈ centralizer ({x} : Set G)) (hc2 : c * c = 1)
     (hout : (QuotientGroup.mk ⟨c, hc⟩ : TwoSec x) ∉ normalizer (K : Set (TwoSec x))) :
     2 * 40320 ≤ pairOrder c x := by
-  haveI : Finite (TwoSec x) := inferInstance
+  have : Finite (TwoSec x) := inferInstance
   calc 2 * 40320
       ≤ Nat.card (centralizer ({(QuotientGroup.mk ⟨c, hc⟩ : TwoSec x)} : Set (TwoSec x))) :=
         WreathCase.two_mul_le_card_centralizer_of_not_mem_normalizer H
@@ -61,7 +62,7 @@ theorem allowedPair_of_inner {x : G} {t : TwoSec x} {Sg V K : Subgroup (TwoSec x
     (hcN : (QuotientGroup.mk ⟨c, hc⟩ : TwoSec x) ∈ normalizer (K : Set (TwoSec x))) {k : ℕ}
     (hk : pairOrder c x = N10 k) :
     AllowedPair (N10 k) (WreathCase.theta H e ⟨QuotientGroup.mk ⟨c, hc⟩, hcN⟩) := by
-  haveI : Finite (TwoSec x) := inferInstance
+  have : Finite (TwoSec x) := inferInstance
   have hy : (⟨QuotientGroup.mk ⟨c, hc⟩, hcN⟩ : normalizer (K : Set (TwoSec x))) *
       ⟨QuotientGroup.mk ⟨c, hc⟩, hcN⟩ = 1 := Subtype.ext (wp_mk_mul_self_eq_one hc hc2)
   obtain ⟨h1, h2⟩ := WreathCase.theta_mul_self H e hy

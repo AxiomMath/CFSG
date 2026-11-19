@@ -108,7 +108,7 @@ private theorem exists_mul_and_centralizes_of_mem_inf_sup_conj
   have hVH' : V ≤ H := hVH.trans (inSubgroup_pCore_two H).2.1
   have hWH : Tim79a.xOf V H ≤ H := Tim79a.xOf_le_H hVH'
   have hPyH : conjSubgroup y (Pc M V) ≤ H := by rw [hHy]; exact le_sup_right
-  haveI : ((Tim79a.xOf V H).subgroupOf H).Normal :=
+  have : ((Tim79a.xOf V H).subgroupOf H).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hWH).2 (Tim79a.H_le_normalizer_xOf V H)
   have hxH : x ∈ H := hPH hxP
   have hxsupH : (⟨x, hxH⟩ : ↥H) ∈ (Tim79a.xOf V H).subgroupOf H ⊔
@@ -261,6 +261,7 @@ private theorem exists_y_maps_of_imgK_ne
     exact Subgroup.map_injective ψ.injective h1
   exact ⟨y, hyH, a₀, hPy, hHy, hmapA, hne_yC, hne_gC⟩
 
+omit [Finite G] in
 private theorem exists_z_imgK_eq_of_F8
     (hPH : Pc M V ≤ H)
     {F : Type} [Field F] [Fintype F] [CharP F 2] (ψ : HBar V H ≃* SL(2, F))

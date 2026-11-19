@@ -90,16 +90,16 @@ private theorem w1369_commSub_invariant_of_normalizes {V : Type*} [CommGroup V]
 
 private theorem w1369_commSub_invariant_self {V : Type*} [CommGroup V]
     {R : Subgroup (MulAut V)} : StableUnder R (commSub ⊤ R) :=
-  fun r hr => w1369_commSub_invariant_of_normalizes
-    (fun s hs => R.mul_mem (R.mul_mem hr hs) (R.inv_mem hr))
+  fun _r hr => w1369_commSub_invariant_of_normalizes
+    (fun _s hs => R.mul_mem (R.mul_mem hr hs) (R.inv_mem hr))
 
 theorem w1369_moved_component_contradiction
-    {W : Type} [CommGroup W] [Finite W] (hw2 : ∀ w : W, w ^ 2 = 1)
-    {G X D : Subgroup (MulAut W)} {Y K : Subgroup (MulAut W)} {U A : Subgroup W}
+    {W : Type} [CommGroup W] [Finite W] (_hw2 : ∀ w : W, w ^ 2 = 1)
+    {G _X D : Subgroup (MulAut W)} {Y K : Subgroup (MulAut W)} {U A : Subgroup W}
     {d : MulAut W}
-    (hK : CFSG.Open.IsComponentOf K G) (hdD : d ∈ D)
-    (hY : Y = K ⊔ K.map (MulAut.conj d).toMonoidHom)
-    (hOmega : IsOmegaPlus ↥Y 4 2) (hNat : NatTensor Y U ⊥ 2 2) (hU : U = commSub ⊤ Y)
+    (_hK : CFSG.Open.IsComponentOf K G) (_hdD : d ∈ D)
+    (_hY : Y = K ⊔ K.map (MulAut.conj d).toMonoidHom)
+    (_hOmega : IsOmegaPlus ↥Y 4 2) (hNat : NatTensor Y U ⊥ 2 2) (hU : U = commSub ⊤ Y)
     (hVd : commSub ⊤ (Subgroup.zpowers d) ≤ U)
     (hDfaith : ∀ e ∈ D, (∀ y ∈ Y, e * y = y * e) → e = 1)
     (hDcard : 2 < Nat.card D)
@@ -231,7 +231,7 @@ theorem w1369_moved_component_contradiction_of_axis
         fixVSub (F := F₄) (M := M₄)
           (transportedAutHom ψ (restrictLinearOf e (hDU e he))) = Hax) :
     False := by
-  refine w1369_moved_component_contradiction (X := X) hw2 hK hdD hY hOmega hNat hU hVd hDfaith
+  refine w1369_moved_component_contradiction (_X := X) hw2 hK hdD hY hOmega hNat hU hVd hDfaith
     hDcard hDnorm haxis ?_
   exact huniq_of_axisOfTensorModel hYU hHY hψ D hD0 hDnorm hDU Hax hT
 
@@ -307,7 +307,7 @@ theorem Std139.lemmaC (h134 : W4Lem13_4) (hw2 : ∀ w : W, w ^ 2 = 1) (S : Std13
   have hcomm_el : ∀ a ∈ K, ∀ b ∈ Kd, a * b = b * a :=
     fun a ha b hb =>
       CFSG.LargeExtraspecial.S5.mul_comm_of_isComponentOf_ne hK hKdcomp hne ha hb
-  haveI hperf : Group.IsPerfect ↥K := ⟨hK.2.2.1⟩
+  have hperf : Group.IsPerfect ↥K := ⟨hK.2.2.1⟩
   have hStated : StatedClassicalModel ↥K .PSL 2 2 2 :=
     LieModel.statedClassicalModel hL2 (by decide)
   have hZ : Subgroup.center ↥K = ⊥ :=
@@ -352,7 +352,7 @@ theorem Std139.lemmaC (h134 : W4Lem13_4) (hw2 : ∀ w : W, w ^ 2 = 1) (S : Std13
       have hmem := Subgroup.mem_map_of_mem (MulAut.conj e).toMonoidHom hr
       rw [hDnorm e he] at hmem
       simpa [MulAut.conj_apply] using hmem)
-  letI : Module (ZMod 2) (Additive ↥(commSub ⊤ (swapPair K d))) :=
+  let : Module (ZMod 2) (Additive ↥(commSub ⊤ (swapPair K d))) :=
     moduleAdditiveSubgroup (commSub ⊤ (swapPair K d)) (fun u _ => hw2 u)
   obtain ⟨H, φ, ψ, hHY, hψ⟩ :=
     exists_tensorCoord_four_of_natTensor (W := W) hw2 (Y := swapPair K d)

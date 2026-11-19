@@ -19,8 +19,8 @@ theorem zBar_eq_vq (α : Finset (Fin 8)) (h : α.card = 4) : zBar α h = vq α :
   have : z ∈ Set.range (emb α h) ↔ z ∈ α := by rw [range_emb]; simp
   unfold ind
   by_cases hz : z ∈ α
-  · rw [if_pos (this.2 hz), if_pos hz]
-  · rw [if_neg (mt this.1 hz), if_neg hz]
+  · rw [ite_eq_left (this.2 hz), ite_eq_left hz]
+  · rw [ite_eq_right (mt this.1 hz), ite_eq_right hz]
 
 @[expose] def V4l : Finset (Equiv.Perm (Fin 4)) := {1, d₁, d₂, d₃}
 

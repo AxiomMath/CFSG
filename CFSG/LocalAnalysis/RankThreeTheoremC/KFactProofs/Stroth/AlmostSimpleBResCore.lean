@@ -20,6 +20,7 @@ private theorem card_join_dvd_mul {K : Type*} [Group K] (A B : Subgroup K) [B.No
   rw [← hmul, Subgroup.relIndex_sup_right (H := A) (K := B)]
   exact mul_dvd_mul (Subgroup.relIndex_dvd_card (H := B) (K := A)) dvd_rfl
 
+omit [Finite G] in
 private theorem coprime_card_join {H N₁ N₂ : Subgroup G} (h₁ : N₁ ≤ H) (h₂ : N₂ ≤ H)
     (hn₂ : (N₂.subgroupOf H).Normal) (c₁ : Nat.Coprime p (Nat.card N₁))
     (c₂ : Nat.Coprime p (Nat.card N₂)) : Nat.Coprime p (Nat.card (N₁ ⊔ N₂ : Subgroup G)) := by
@@ -38,6 +39,7 @@ private theorem coprime_card_join {H N₁ N₂ : Subgroup G} (h₁ : N₁ ≤ H)
   rw [e₀]
   exact Nat.Coprime.coprime_dvd_right hdvd (Nat.Coprime.mul_right c₁' c₂')
 
+omit [Finite G] in
 private theorem directedOn_normal_coprime (H : Subgroup G) :
     DirectedOn (· ≤ ·)
       {N : Subgroup G | N ≤ H ∧ (N.subgroupOf H).Normal ∧ Nat.Coprime p (Nat.card N)} := by
@@ -46,6 +48,7 @@ private theorem directedOn_normal_coprime (H : Subgroup G) :
   rw [Subgroup.subgroupOf_sup h₁ h₂]
   infer_instance
 
+omit [Finite G] in
 private theorem mem_relPPrimeCore_iff {H : Subgroup G} {x : G} :
     x ∈ relPPrimeCore p H ↔
       ∃ N : Subgroup G, (N ≤ H ∧ (N.subgroupOf H).Normal ∧ Nat.Coprime p (Nat.card N)) ∧ x ∈ N := by
@@ -54,6 +57,7 @@ private theorem mem_relPPrimeCore_iff {H : Subgroup G} {x : G} :
   unfold relPPrimeCore
   exact Subgroup.mem_sSup_of_directedOn hne (directedOn_normal_coprime H)
 
+omit [Finite G] in
 theorem relPPrimeCore_conj_mem {H : Subgroup G} {x : G} (hx : x ∈ relPPrimeCore p H) {h : G}
     (hh : h ∈ H) : h * x * h⁻¹ ∈ relPPrimeCore p H := by
   obtain ⟨N, ⟨hNH, hNn, hNc⟩, hxN⟩ := mem_relPPrimeCore_iff.1 hx
@@ -63,6 +67,7 @@ theorem relPPrimeCore_conj_mem {H : Subgroup G} {x : G} (hx : x ∈ relPPrimeCor
     hNn.conj_mem ⟨x, hxH⟩ (Subgroup.mem_subgroupOf.2 hxN) ⟨h, hh⟩
   exact Subgroup.mem_subgroupOf.1 hc
 
+omit [Finite G] in
 theorem coprime_orderOf_of_mem_relPPrimeCore {H : Subgroup G} {x : G}
     (hx : x ∈ relPPrimeCore p H) : Nat.Coprime p (orderOf x) := by
   obtain ⟨N, ⟨-, -, hNc⟩, hxN⟩ := mem_relPPrimeCore_iff.1 hx
@@ -70,10 +75,11 @@ theorem coprime_orderOf_of_mem_relPPrimeCore {H : Subgroup G} {x : G}
   rw [Subgroup.orderOf_mk] at hdvd
   exact Nat.Coprime.coprime_dvd_right hdvd hNc
 
+omit [Finite G] in
 theorem false_of_inverted_mem_relPPrimeCore (hp : p.Prime) (hp2 : p ≠ 2) {H : Subgroup G}
     {t y : G} (ht : t ∈ relPPrimeCore p H) (ht2 : t ^ 2 = 1) (hy : y ∈ H) (hyp : y ^ p = 1)
     (hy1 : y ≠ 1) (hty : t * y * t⁻¹ = y⁻¹) : False := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have ht_inv : t⁻¹ = t := inv_eq_of_mul_eq_one_right (by rw [← sq]; exact ht2)
   have hprod : t * (y * t * y⁻¹) ∈ relPPrimeCore p H :=
     (relPPrimeCore p H).mul_mem ht (relPPrimeCore_conj_mem ht hy)

@@ -43,8 +43,8 @@ theorem seven_le_card_of_valid_A_one {q : TauCeti.PrimePower}
 theorem crossSylowAbelianAt_linearOne {q : TauCeti.PrimePower}
     (hv : (TauCeti.LieTypeIndex.A 1 q).Valid) : CrossSylowAbelianAt ⟨.A 1 q, hv⟩ := by
   intro p hp hp5 hdp L _ _ hs ⟨e⟩ P
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hdp' : q.p ≠ p := by simpa using hdp
   have hK : Nat.card (GaloisField q.p q.exponent) = q.p ^ q.exponent := by
     rw [GaloisField.card _ _ q.exponent_pos.ne']

@@ -256,7 +256,7 @@ theorem GGTypeALocalCfg.bstar_inf_centralizer_J_le {G : Type} [Group G] [Finite 
     · exact ggActsVec_iff_mem_ggInducedPairs.1 hdy
   have hrng : Set.range ![x, y] = {x, y} := by
     ext g
-    simp [Fin.exists_fin_two, eq_comm]
+    simp [eq_comm]
     tauto
   have hDc : Subgroup.centralizer (D : Set G) = Subgroup.centralizer (Set.range ![x, y]) := by
     rw [hL.nbr.2.1, Subgroup.centralizer_closure, hrng]

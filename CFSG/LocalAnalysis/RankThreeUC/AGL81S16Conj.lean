@@ -86,7 +86,7 @@ theorem pRank_cj [Finite G] (p : ℕ) (g : G) (X : Subgroup G) :
   unfold CFSG.Open.pRank
   congr 1
   ext k
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   constructor
   · rintro ⟨E, hE, hab, hcard⟩
     refine ⟨cj g⁻¹ E, ?_, isElemAbelian_cj (g := g⁻¹) hab, ?_⟩

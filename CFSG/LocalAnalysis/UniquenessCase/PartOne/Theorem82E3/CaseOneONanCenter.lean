@@ -38,7 +38,7 @@ private lemma exists_perfect_le_inf_normalizer_of_onan
     obtain ⟨n, hnH, hnmk⟩ := c.exists_mem_normalizer_mk_eq_of_onan hON hP ℓ
     exact Subgroup.mem_map.mpr
       ⟨n, Subgroup.mem_subgroupOf.mpr (by simpa [H, Z] using hnH), by simpa [π] using hnmk⟩
-  haveI : Group.IsPerfect c.Lbar := Group.isPerfect_def.mpr hON.1.1
+  have : Group.IsPerfect c.Lbar := Group.isPerfect_def.mpr hON.1.1
   let f : ↥N →* c.Lbar := π.comp N.subtype
   have hfsurj : Function.Surjective f := by
     intro x
@@ -55,7 +55,7 @@ private lemma exists_perfect_le_inf_normalizer_of_onan
     exact (N.subtype y).2
   have hJleH : J ≤ H := by
     rintro x ⟨y, -, rfl⟩
-    have hy : N.subtype y ∈ H.subgroupOf c.L := by simpa [N] using y.2
+    have hy : N.subtype y ∈ H.subgroupOf c.L := by simp [N]
     exact Subgroup.mem_subgroupOf.mp hy
   have hJperf : ⁅J, J⁆ = J :=
     (Subgroup.map_commutator P₀ P₀ g).symm.trans (by rw [hP₀perf])
@@ -79,7 +79,7 @@ theorem normalizer_inf_centralizer_le_of_onan
   by_contra hHM
   have h7prime : Nat.Prime 7 := by norm_num
   have hHne : H ≠ ⊤ := by
-    haveI : IsSimpleGroup G := D.standing.simple
+    have : IsSimpleGroup G := D.standing.simple
     have hcard : Nat.card Z = 3 := c.card_inf_centralizer_of_onan hON hP
     exact CFSG.RankThree.PartOne.Sec9Excl.normalizer_ne_top_of_simple D.standing.nonab
       Nat.prime_three hcard

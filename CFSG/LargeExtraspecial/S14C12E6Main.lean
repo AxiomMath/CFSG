@@ -61,7 +61,7 @@ theorem card_centralizer_stdGroup
   obtain ⟨T⟩ : Nonempty (Sylow 2 (centralizer ({x} : Set stdGroup))) := inferInstance
   have hT36 : 2 ^ 36 ∣ Nat.card T := T.pow_dvd_card_of_pow_dvd_card hdvd
   have hT'p : IsPGroup 2 ((T : Subgroup _).map (centralizer ({x} : Set stdGroup)).subtype) :=
-    T.isPGroup'.map _
+    T.isPGroup.map _
   obtain ⟨Q, hQ⟩ := hT'p.exists_le_sylow
   have hQcard : Nat.card Q = 2 ^ 36 := by
     rw [Sylow.card_eq_multiplicity, ← Sylow.card_eq_multiplicity P, hPcard]

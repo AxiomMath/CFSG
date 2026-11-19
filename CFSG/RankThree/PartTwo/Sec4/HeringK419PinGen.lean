@@ -40,7 +40,7 @@ theorem size_contra {M P B L d dmax : ℕ} (hdm : 0 < dmax) (h1 : M ^ 2 < P ^ 5)
 
 theorem padicValNat_eq_of_exact {p k M : ℕ} (hp : p.Prime) (h1 : p ^ k ∣ M)
     (h2 : ¬ p ^ (k + 1) ∣ M) : padicValNat p M = k := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hM0 : M ≠ 0 := by rintro rfl; exact h2 (dvd_zero _)
   have a := (padicValNat_dvd_iff_le hM0).mp h1
   have b : ¬ k + 1 ≤ padicValNat p M := fun h => h2 ((padicValNat_dvd_iff_le hM0).mpr h)

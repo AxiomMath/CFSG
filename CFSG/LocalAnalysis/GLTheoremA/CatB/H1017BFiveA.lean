@@ -19,7 +19,7 @@ variable {K : Type*} [Group K] [Finite K]
 private theorem conj_mem_of_relIndex_le {E L : Subgroup K} (hsimple : IsSimpleGroup E)
     (hEL : E ≤ L) (hidx : E.relIndex L ≤ 14) (hbig : ¬ Nat.card E ∣ Nat.factorial 14) {c : K}
     (hc : c ∈ L) {e : K} (he : e ∈ E) : c * e * c⁻¹ ∈ E := by
-  haveI := hsimple
+  have := hsimple
   have hIL : E.map (MulAut.conj c).toMonoidHom ≤ L := by
     rintro _ ⟨y, hy, rfl⟩
     exact L.mul_mem (L.mul_mem hc (hEL hy)) (L.inv_mem hc)
@@ -57,7 +57,7 @@ private theorem not_mem_of_simple_le_centralizer {E : Subgroup K} (hsimple : IsS
     {s : K} (hEs : E ≤ centralizer ({s} : Set K)) (hs : s ≠ 1) (hcard : orderOf s < Nat.card E) :
     s ∉ E := by
   intro hsE
-  haveI := hsimple
+  have := hsimple
   have hZ : ((zpowers s).subgroupOf E).Normal := by
     refine ⟨fun n hn g => ?_⟩
     rw [mem_subgroupOf] at hn ⊢
@@ -78,7 +78,7 @@ private theorem card_mul_five_dvd {E : Subgroup K} {s w : K} (hs5 : orderOf s = 
     (hEs : E ≤ centralizer ({s} : Set K)) (hEw : E ≤ centralizer ({w} : Set K))
     (hsw : s ∈ centralizer ({w} : Set K)) :
     Nat.card E * 5 ∣ Nat.card (centralizer ({w} : Set K)) := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hconj : ∀ g ∈ E, s⁻¹ * g * s ∈ E := fun g hg => by
     rwa [mul_assoc, mem_centralizer_singleton_iff.1 (hEs hg), inv_mul_cancel_left]
   rw [← CFSG.Monster.B.Pinned.card_sup_zpowers hs5 hsE hconj]
@@ -96,8 +96,8 @@ private theorem false_of_hs_le_centralizer {Q : Type*} [Group Q] [Finite Q] {s :
     {F W : Subgroup Q} (hF : IsElemAbelian 5 F) (hFc : Nat.card F = 5 ^ 2) (hsF : s ∈ F)
     (hW : IsElemAbelian 2 W) (hWc : Nat.card W = 2 ^ 4) (hFW : F ≤ centralizer (W : Set Q)) :
     False := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsimpleHS : IsSimpleGroup NativeSporadic.HS := CFSG.Sporadic.HS.isSimpleGroup_HS
   have hsimple : IsSimpleGroup ↥E := @MulEquiv.isSimpleGroup _ _ NativeSporadic.HS _ hsimpleHS φ
   have hEcard : Nat.card ↥E = 44352000 := by
@@ -156,7 +156,7 @@ theorem false_of_fiveA_B
     {F W : Subgroup NativeSporadic.B} (hF : IsElemAbelian 5 F)
     (hFc : Nat.card F = 5 ^ 2) (hsF : sFiveA ∈ F) (hW : IsElemAbelian 2 W)
     (hWc : Nat.card W = 2 ^ 4) (hFW : F ≤ centralizer (W : Set NativeSporadic.B)) : False := by
-  haveI : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
+  have : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
   obtain ⟨E, hEC, ⟨φ⟩⟩ := CFSG.HardMathSupport.Dickson.I271.tabBFiveAHS_of_cert
   refine false_of_hs_le_centralizer orderOf_sFiveA hEC φ
     CFSG.HardMathSupport.Dickson.I271.TabBFiveCent.tabBFiveACard_holds (fun w hw => ?_) hF hFc

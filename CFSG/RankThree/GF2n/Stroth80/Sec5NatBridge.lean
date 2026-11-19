@@ -81,7 +81,7 @@ theorem stroth_2_1_ii_secSp {m : ℕ} (hm : 1 ≤ m) (φ : ↥R →* GL (Fin m �
     ∃ n : ℕ, Nat.card P = Nat.card I * Nat.card K ^ (2 ^ m * n) := by
   have hsec := SecHyp.of_isOppDecomp hd hP hI
   obtain ⟨M, iM, iA, κ, hκ, hker⟩ := exists_sectionModule_ker hNφ hsec hN
-  haveI : Finite M := hκ.finite
+  have : Finite M := hκ.finite
   obtain ⟨n, hn⟩ := stroth_2_1_ii_of_hom φ hφ hm hκ.two hker huu' hL₁ hL₂
     (isCompl_fixedSub_of_isOppDecomp hP hκ hd h₁ h₂)
   exact ⟨n, by rw [natCard_eq_of_isSecMod hsec.le hκ, hn]⟩
@@ -177,8 +177,8 @@ theorem stroth_2_2_secSp {m : ℕ} {Z V : Subgroup G} (hm : 2 ≤ m) (hK : 2 < N
     Nat.card P ≤ Nat.card K * Nat.card V := by
   obtain ⟨hnorm, hZn, ψ, hψ⟩ := hact
   obtain ⟨M, iM, iA, κ, hκ, hker⟩ := exists_sectionModule_ker hNφ hsec hN
-  haveI : Finite M := hκ.finite
-  haveI := hZn
+  have : Finite M := hκ.finite
+  have := hZn
   let κV : ↥V →* Multiplicative M := κ.comp (Subgroup.inclusion hVP)
   have hκV : ∀ v : ↥V, κV v = 1 ↔ (v : G) ∈ Z := fun v => hκ.ker ⟨v, hVP v.2⟩
   have hle : Z.subgroupOf V ≤ κV.ker := fun v hv =>
@@ -294,7 +294,7 @@ theorem stroth_2_1_ii_secOmegaMinus (E : ElemMatrixIso Q X) {m : ℕ} (hm : 2 �
     ∃ n : ℕ, Nat.card P = Nat.card I * Nat.card K ^ (2 ^ m * n) := by
   have hsec := SecHyp.of_isOppDecomp hd hP hI
   obtain ⟨M, iM, iA, κ, hκ, hker⟩ := exists_sectionModule_ker hNφ hsec hN
-  haveI : Finite M := hκ.finite
+  have : Finite M := hκ.finite
   obtain ⟨n, hn⟩ := stroth_2_1_ii_omegaMinus_of_hom E φ hφ hm h hκ.two hker hu hu' huu' hL₁ hL₂
     (isCompl_fixedSub_of_isOppDecomp hP hκ hd h₁ h₂)
   exact ⟨n, by rw [natCard_eq_of_isSecMod hsec.le hκ, hn]⟩
@@ -308,7 +308,7 @@ theorem stroth_2_1_ii_secOmegaPlus (E : ElemMatrixIso Q X) {m : ℕ} (hm : 3 ≤
     ∃ n : ℕ, Nat.card P = Nat.card I * Nat.card K ^ (2 ^ (m - 1) * n) := by
   have hsec := SecHyp.of_isOppDecomp hd hP hI
   obtain ⟨M, iM, iA, κ, hκ, hker⟩ := exists_sectionModule_ker hNφ hsec hN
-  haveI : Finite M := hκ.finite
+  have : Finite M := hκ.finite
   obtain ⟨n, hn⟩ := stroth_2_1_ii_omegaPlus_of_hom E φ hφ hm h hκ.two hker hu hu' huu' hL₁ hL₂
     (isCompl_fixedSub_of_isOppDecomp hP hκ hd h₁ h₂)
   exact ⟨n, by rw [natCard_eq_of_isSecMod hsec.le hκ, hn]⟩

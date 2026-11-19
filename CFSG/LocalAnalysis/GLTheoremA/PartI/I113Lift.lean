@@ -15,6 +15,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem closureIn_eq_bClosure (K B : Subgroup G) : closureIn K B = bClosure B K := by
   refine le_antisymm (iSup₂_le fun a ha => ?_) (iSup₂_le fun b hb => ?_)
   · have h : K.map (MulAut.conj a).toMonoidHom = GLBConj a⁻¹ K := by
@@ -102,10 +103,12 @@ theorem exists_two_abstract {Y : Type} [Group Y] [Finite Y] (N : Subgroup Y) [N.
     hT2' hA hAT'
   exact ⟨S, hS, hS2, hAS⟩
 
+omit [Finite G] in
 private theorem comap_subtype_map_subtype {X : Subgroup G} (S₀ : Subgroup ↥X) :
     (S₀.map X.subtype).subgroupOf X = S₀ :=
   Subgroup.comap_map_eq_self_of_injective X.subtype_injective S₀
 
+omit [Finite G] in
 theorem le_normalizer_map_subtype {X A : Subgroup G} (hAX : A ≤ X) {S₀ : Subgroup ↥X}
     (h : A.subgroupOf X ≤ Subgroup.normalizer (S₀ : Set ↥X)) :
     A ≤ Subgroup.normalizer ((S₀.map X.subtype : Subgroup G) : Set G) := by
@@ -120,7 +123,7 @@ theorem le_normalizer_map_subtype {X A : Subgroup G} (hAX : A ≤ X) {S₀ : Sub
 
 theorem not_dvd_card_glaPPrimeCore (X : Subgroup G) :
     ¬ 3 ∣ Nat.card (GLAPPrimeCore 3 ↥X) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).1 CFSG.pPrimeCore_coprime_card
 
 theorem exists_W {X D N : Subgroup G} (hDX : D ≤ X) (hNX : N ≤ X) (hD : IsPGroup 3 D)
@@ -151,6 +154,7 @@ theorem exists_W {X D N : Subgroup G} (hDX : D ≤ X) (hNX : N ≤ X) (hD : IsPG
     rw [comap_subtype_map_subtype]
     exact hW₀E
 
+omit [Finite G] in
 theorem barX_sup {X P R : Subgroup G} (hP : P ≤ X) (hR : R ≤ X) :
     barX 3 X (P ⊔ R) = barX 3 X P ⊔ barX 3 X R := by
   unfold barX
@@ -164,6 +168,7 @@ theorem eq_of_mk'_eq {X W : Subgroup G} (hW : IsPGroup 3 W) (hWX : W ≤ X) {x y
     (a₁ := (⟨x, hx⟩ : ↥(W.subgroupOf X))) (a₂ := ⟨y, hy⟩) h
   exact congrArg Subtype.val this
 
+omit [Finite G] in
 private theorem mk'_eq_one_of_mem_O {X : Subgroup G} {x : ↥X}
     (h : (x : G) ∈ GLAPPrimeCoreOf 3 X) :
     QuotientGroup.mk' (GLAPPrimeCore 3 ↥X) x = 1 := by
@@ -173,6 +178,7 @@ private theorem mk'_eq_one_of_mem_O {X : Subgroup G} {x : ↥X}
   subst this
   exact (mk'_eq_one_iff _ y).2 hy
 
+omit [Finite G] in
 private theorem mem_O_of_mk'_eq_one {X : Subgroup G} {x : ↥X}
     (h : QuotientGroup.mk' (GLAPPrimeCore 3 ↥X) x = 1) : (x : G) ∈ GLAPPrimeCoreOf 3 X :=
   ⟨x, (mk'_eq_one_iff _ x).1 h, rfl⟩
@@ -217,6 +223,7 @@ theorem mem_centMod_of_comm {X K : Subgroup G} (hK : GLAPComponent 3 X K) {x : �
   rw [← glaPPrimeCoreOf_inf_eq_of_isSubnormal Nat.prime_three hK.2.1]
   exact ⟨hk, hO⟩
 
+omit [Finite G] in
 theorem bClosure_le_X {X B K : Subgroup G} (hBX : B ≤ X) (hKX : K ≤ X) :
     bClosure B K ≤ X := by
   refine iSup₂_le fun g hg y hy => ?_
@@ -224,6 +231,7 @@ theorem bClosure_le_X {X B K : Subgroup G} (hBX : B ≤ X) (hKX : K ≤ X) :
   have := X.mul_mem (X.mul_mem (X.inv_mem (hBX hg)) h1) (hBX hg)
   simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem le_normalizer_bClosure' (B K : Subgroup G) :
     B ≤ Subgroup.normalizer (bClosure B K : Set G) := by
   have key : ∀ h ∈ B, ∀ y ∈ bClosure B K, h * y * h⁻¹ ∈ bClosure B K := by
@@ -246,6 +254,7 @@ theorem le_normalizer_bClosure' (B K : Subgroup G) :
   have := key h⁻¹ (B.inv_mem hh) _ hy
   simpa [mul_assoc] using this
 
+omit [Finite G] in
 private theorem comm_barX_bClosure {X B K : Subgroup G} (hB : IsElemAbelian 3 B) (hBX : B ≤ X)
     (hKX : K ≤ X) {z : ↥X ⧸ GLAPPrimeCore 3 ↥X} (hzB : z ∈ barX 3 X B)
     (hz : ∀ m ∈ barX 3 X K, z * m = m * z) :

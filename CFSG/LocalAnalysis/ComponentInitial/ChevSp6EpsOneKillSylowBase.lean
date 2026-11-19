@@ -53,7 +53,7 @@ namespace KillData
 variable {G : Type*} [Group G] {u : Bool} {Jh E : Subgroup G} {cV cE : G → ℕ}
   {z l₁ l₂ : G} (h : KillData u Jh E cV cE z l₁ l₂)
 
-@[expose] noncomputable def Kk : Subgroup G := (h.ρV.ker).map (normalizer (Jh : Set G)).subtype
+noncomputable def Kk : Subgroup G := (h.ρV.ker).map (normalizer (Jh : Set G)).subtype
 
 include h
 
@@ -104,10 +104,10 @@ section S
 
 variable [Finite G]
 
-@[expose] noncomputable def Ssyl : Sylow 2 (normalizer (Jh : Set G)) :=
+noncomputable def Ssyl : Sylow 2 (normalizer (Jh : Set G)) :=
   Classical.choose h.exists_Ssyl
 
-@[expose] noncomputable def SG : Subgroup G :=
+noncomputable def SG : Subgroup G :=
   (h.Ssyl : Subgroup (normalizer (Jh : Set G))).map (normalizer (Jh : Set G)).subtype
 
 theorem SG_le_X : h.SG ≤ normalizer (Jh : Set G) := map_subtype_le _

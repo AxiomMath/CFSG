@@ -97,10 +97,12 @@ variable {k F : Type} [Field k] [Field F] [Finite F]
 variable (θ : k →+* k) (hθ : ∀ c, θ (θ c) = c) (j : F →+* k) (hj : ∀ x, θ (j x) = j x)
   (hF2 : ringChar F = 2)
 
+omit [Finite F] in
 theorem te6SL2_orderOf (i : Fin 4) {g : Matrix.SpecialLinearGroup (Fin 2) F} {r : ℕ}
     (hg : orderOf g = r) : orderOf (te6SL2 θ j hj i g) = r := by
   rw [orderOf_injective (te6SL2 θ j hj i) (te6SL2_injective θ j hj i) g, hg]
 
+omit [Finite F] in
 theorem te6SL2_eq_one_of_centralizes (i : Fin 4) (hF2 : ringChar F = 2)
     {A : Matrix.SpecialLinearGroup (Fin 2) F}
     (h : ∀ B : Matrix.SpecialLinearGroup (Fin 2) F,
@@ -163,7 +165,7 @@ theorem te6TorusB_ne_one {t : kˣ} (ht : ((t : k)) ^ 2 ≠ 1) : te6TorusB θ hθ
 theorem te6Torus_orderOf {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) {μ : kˣ}
     (hμ : orderOf μ = r) :
     orderOf (te6Torus θ hθ μ) = r := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hμr : μ ^ r = 1 := by rw [← hμ]; exact pow_orderOf_eq_one μ
   refine orderOf_eq_prime ?_ ?_
   · rw [te6Torus_pow, hμr, te6Torus_one]
@@ -174,12 +176,13 @@ theorem te6Torus_orderOf {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) {μ : kˣ}
 theorem te6TorusB_orderOf {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) {μ : kˣ}
     (hμ : orderOf μ = r) :
     orderOf (te6TorusB θ hθ μ) = r := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hμr : μ ^ r = 1 := by rw [← hμ]; exact pow_orderOf_eq_one μ
   refine orderOf_eq_prime ?_ (te6TorusB_ne_one θ hθ
     (sq_ne_one_of_orderOf_eq_prime hr hr2 hμ))
   rw [te6TorusB_pow, hμr, te6TorusB_one]
 
+omit [Finite F] in
 theorem zpowers_te6SL2_commute {i i' : Fin 4} (hii : i ≠ i') {x : fixedGroup k θ}
     (hx : x ∈ Subgroup.zpowers (te6SL2 θ j hj i g))
     (B : Matrix.SpecialLinearGroup (Fin 2) F) :
@@ -189,6 +192,7 @@ theorem zpowers_te6SL2_commute {i i' : Fin 4} (hii : i ≠ i') {x : fixedGroup k
   exact (show Commute (te6SL2 θ j hj i g) (te6SL2 θ j hj i' B) from
     te6SL2_commute θ j hj hii g B).zpow_left n
 
+omit [Finite F] in
 theorem zpowers_te6Torus_commute {t : kˣ}
     (ht : t * Units.map (θ : k →* k) t = 1) {x : fixedGroup k θ}
     (hx : x ∈ Subgroup.zpowers (te6Torus θ hθ t)) (i : Fin 4)
@@ -199,6 +203,7 @@ theorem zpowers_te6Torus_commute {t : kˣ}
   exact (show Commute (te6Torus θ hθ t) (te6SL2 θ j hj i B) from
     te6Torus_commute θ j hj hθ ht i B).zpow_left n
 
+omit [Finite F] in
 theorem zpowers_te6TorusB_commute {t : kˣ}
     (ht : t * Units.map (θ : k →* k) t = 1) {x : fixedGroup k θ}
     (hx : x ∈ Subgroup.zpowers (te6TorusB θ hθ t)) (i : Fin 4)
@@ -209,6 +214,7 @@ theorem zpowers_te6TorusB_commute {t : kˣ}
   exact (show Commute (te6TorusB θ hθ t) (te6SL2 θ j hj i B) from
     te6TorusB_commute θ hθ j hj ht i B).zpow_left n
 
+omit [Finite F] in
 theorem eq_one_of_mem_zpowers_te6SL2 (hF2 : ringChar F = 2) {i : Fin 4}
     {A : Matrix.SpecialLinearGroup (Fin 2) F} {x : fixedGroup k θ}
     (hx : x ∈ Subgroup.zpowers (te6SL2 θ j hj i A))
@@ -222,6 +228,7 @@ theorem eq_one_of_mem_zpowers_te6SL2 (hF2 : ringChar F = 2) {i : Fin 4}
   have hA : A ^ n = 1 := te6SL2_eq_one_of_centralizes θ j hj i hF2 hcent
   rw [hA, map_one]
 
+omit [Finite F] in
 theorem eq_one_of_mem_sup_zpowers_te6SL2 (hF2 : ringChar F = 2) {x : fixedGroup k θ}
     (hx : x ∈ (Subgroup.zpowers (te6SL2 θ j hj (0 : Fin 4) g) ⊔
        Subgroup.zpowers (te6SL2 θ j hj (1 : Fin 4) g)) ⊔
@@ -336,14 +343,17 @@ variable {k F : Type} [Field k] [Finite k] [Field F] [Finite F]
   (θ : k →+* k) (hθ : ∀ c, θ (θ c) = c) (j : F →+* k) (hj : ∀ x, θ (j x) = j x)
   {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2)
 
+omit [Finite k] [Finite F] in
 theorem zpowers_te6SL2_order {g : SL(2, F)} (hg : orderOf g = r) (i : Fin 4) :
     orderOf (te6SL2 θ j hj i g) = r := te6SL2_orderOf θ j hj i hg
 
+omit [Finite k] [Finite F] in
 theorem card_zpowers_te6SL2 {g : SL(2, F)} (hg : orderOf g = r) (i : Fin 4) :
     Nat.card (Subgroup.zpowers (te6SL2 θ j hj i g)) = r := by
   rw [Nat.card_zpowers, zpowers_te6SL2_order θ j hj hg]
 
-theorem zpowers_te6SL2_disjoint (hF2 : ringChar F = 2) {g : SL(2, F)} (hg : orderOf g = r)
+omit [Finite k] [Finite F] in
+theorem zpowers_te6SL2_disjoint (hF2 : ringChar F = 2) {g : SL(2, F)} (_hg : orderOf g = r)
     {i i' : Fin 4} (hii : i ≠ i') :
     Subgroup.zpowers (te6SL2 θ j hj i g) ⊓ Subgroup.zpowers (te6SL2 θ j hj i' g) = ⊥ := by
   rw [eq_bot_iff]
@@ -355,6 +365,7 @@ theorem zpowers_te6SL2_disjoint (hF2 : ringChar F = 2) {g : SL(2, F)} (hg : orde
   intro C
   exact zpowers_te6SL2_commute θ j hj (g := g) (Ne.symm hii) hx2 C
 
+omit [Finite k] [Finite F] in
 theorem commute_zpowers_te6SL2 {g : SL(2, F)}
     {i i' : Fin 4} {x y : fixedGroup k θ}
     (hx : x ∈ Subgroup.zpowers (te6SL2 θ j hj i g))
@@ -376,6 +387,7 @@ variable {k F : Type} [Field k] [Finite k] [Field F] [Finite F]
   {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2)
   {g : SL(2, F)} {t : kˣ}
 
+omit [Finite F] in
 theorem card_sup_two_te6SL2 (hF2 : ringChar F = 2) (hg : orderOf g = r)
     (h01 : (0 : Fin 4) ≠ 1) :
     Nat.card ↥(Subgroup.zpowers (te6SL2 θ j hj 0 g) ⊔
@@ -386,7 +398,8 @@ theorem card_sup_two_te6SL2 (hF2 : ringChar F = 2) (hg : orderOf g = r)
     card_zpowers_te6SL2 θ j hj hg 0, card_zpowers_te6SL2 θ j hj hg 1]
   ring
 
-theorem inf_sup_two_te6SL2_eq_bot (hF2 : ringChar F = 2) (hg : orderOf g = r) :
+omit [Finite k] [Finite F] in
+theorem inf_sup_two_te6SL2_eq_bot (hF2 : ringChar F = 2) (_hg : orderOf g = r) :
     (Subgroup.zpowers (te6SL2 θ j hj 0 g) ⊔
       Subgroup.zpowers (te6SL2 θ j hj 1 g)) ⊓
       Subgroup.zpowers (te6SL2 θ j hj 2 g) = ⊥ := by
@@ -419,6 +432,7 @@ theorem inf_sup_two_te6SL2_eq_bot (hF2 : ringChar F = 2) (hg : orderOf g = r) :
     simpa [ha0'] using hx2
   exact zpowers_te6SL2_commute θ j hj (g := g) h21 ha1z C
 
+omit [Finite F] in
 theorem card_sup_three_te6SL2 (hF2 : ringChar F = 2) (hg : orderOf g = r) :
     Nat.card ↥((Subgroup.zpowers (te6SL2 θ j hj 0 g) ⊔
       Subgroup.zpowers (te6SL2 θ j hj 1 g)) ⊔
@@ -437,14 +451,17 @@ theorem card_sup_three_te6SL2 (hF2 : ringChar F = 2) (hg : orderOf g = r) :
     exact ((commute_zpowers_te6SL2 θ j hj ha0 hb).mul_left
       (commute_zpowers_te6SL2 θ j hj ha1 hb)).eq
 
+omit [Finite k] in
 theorem card_zpowers_te6Torus (hr : r.Prime) (hr2 : r ≠ 2) (hμ : orderOf t = r) :
     Nat.card (Subgroup.zpowers (te6Torus θ hθ t)) = r := by
   rw [Nat.card_zpowers, te6Torus_orderOf θ hθ hr hr2 hμ]
 
+omit [Finite k] in
 theorem card_zpowers_te6TorusB (hr : r.Prime) (hr2 : r ≠ 2) (hμ : orderOf t = r) :
     Nat.card (Subgroup.zpowers (te6TorusB θ hθ t)) = r := by
   rw [Nat.card_zpowers, te6TorusB_orderOf θ hθ hr hr2 hμ]
 
+omit [Finite k] in
 theorem commute_zpowers_tori {a b : fixedGroup k θ}
     (ha : a ∈ Subgroup.zpowers (te6Torus θ hθ t))
     (hb : b ∈ Subgroup.zpowers (te6TorusB θ hθ t)) : Commute a b := by
@@ -462,7 +479,8 @@ theorem card_sup_two_te6Torus (hr : r.Prime) (hr2 : r ≠ 2) (hμ : orderOf t = 
     card_zpowers_te6Torus θ hθ hr hr2 hμ, card_zpowers_te6TorusB θ hθ hr hr2 hμ]
   ring
 
-theorem inf_sup_three_te6SL2_sup_tori (hF2 : ringChar F = 2) (hg : orderOf g = r)
+omit [Finite k] [Finite F] in
+theorem inf_sup_three_te6SL2_sup_tori (hF2 : ringChar F = 2) (_hg : orderOf g = r)
     (ht : t * Units.map (θ : k →* k) t = 1) :
     ((Subgroup.zpowers (te6SL2 θ j hj 0 g) ⊔
       Subgroup.zpowers (te6SL2 θ j hj 1 g)) ⊔
@@ -511,6 +529,7 @@ noncomputable def te6WX {k : Type} [Field k] (θ : k →+* k) (u : fixedGroup k 
     Subgroup (fixedGroup k θ) :=
   Subgroup.zpowers u
 
+omit [Finite F] in
 theorem card_te6WA (hF2 : ringChar F = 2) (hg : orderOf g = r) :
     Nat.card (te6WA θ j hj g) = r ^ 3 :=
   card_sup_three_te6SL2 θ j hj hF2 hg
@@ -519,7 +538,8 @@ theorem card_te6WB (hr : r.Prime) (hr2 : r ≠ 2) (hμ : orderOf t = r) :
     Nat.card (te6WB θ hθ t) = r ^ 2 :=
   card_sup_two_te6Torus θ hθ hr hr2 hμ
 
-theorem isElemAbelian_te6WA (hF2 : ringChar F = 2) (hg : orderOf g = r) :
+omit [Finite k] [Finite F] in
+theorem isElemAbelian_te6WA (_hF2 : ringChar F = 2) (hg : orderOf g = r) :
     IsElemAbelian r (te6WA θ j hj g) := by
   have h0 : (te6SL2 θ j hj 0 g) ^ r = 1 := by
     rw [← zpowers_te6SL2_order θ j hj hg]; exact pow_orderOf_eq_one _
@@ -541,6 +561,7 @@ theorem isElemAbelian_te6WA (hF2 : ringChar F = 2) (hg : orderOf g = r) :
     exact ((commute_zpowers_te6SL2 θ j hj ha0 hb).mul_left
       (commute_zpowers_te6SL2 θ j hj ha1 hb)).eq
 
+omit [Finite k] in
 theorem isElemAbelian_te6WB (hr : r.Prime) (hr2 : r ≠ 2) (hμ : orderOf t = r) :
     IsElemAbelian r (te6WB θ hθ t) := by
   have h0 : (te6Torus θ hθ t) ^ r = 1 := by
@@ -553,6 +574,7 @@ theorem isElemAbelian_te6WB (hr : r.Prime) (hr2 : r ≠ 2) (hμ : orderOf t = r)
   intro a ha b hb
   exact (commute_zpowers_tori θ hθ ha hb).eq
 
+omit [Finite F] [Finite k] in
 theorem zpowers_te6SL2_le_centralizer_te6WB
     (ht : t * Units.map (θ : k →* k) t = 1) (i : Fin 4) :
     Subgroup.zpowers (te6SL2 θ j hj i g) ≤ Subgroup.centralizer (te6WB θ hθ t) := by
@@ -573,6 +595,7 @@ theorem zpowers_te6SL2_le_centralizer_te6WB
   rw [hxeq]
   exact ((e1.zpow_left n1).mul_left (e2.zpow_left n2)).zpow_right m
 
+omit [Finite F] [Finite k] in
 theorem te6WA_le_centralizer_te6WB (ht : t * Units.map (θ : k →* k) t = 1) :
     te6WA θ j hj g ≤ Subgroup.centralizer (te6WB θ hθ t) := by
   rw [te6WA]
@@ -581,12 +604,14 @@ theorem te6WA_le_centralizer_te6WB (ht : t * Units.map (θ : k →* k) t = 1) :
   · exact zpowers_te6SL2_le_centralizer_te6WB θ hθ j hj ht 1
   · exact zpowers_te6SL2_le_centralizer_te6WB θ hθ j hj ht 2
 
+omit [Finite F] [Finite k] in
 theorem commute_te6WA_te6WB (ht : t * Units.map (θ : k →* k) t = 1) :
     ∀ a ∈ te6WA θ j hj g, ∀ b ∈ te6WB θ hθ t, a * b = b * a := by
   intro a ha b hb
   exact (Subgroup.mem_centralizer_iff.1
     (te6WA_le_centralizer_te6WB θ hθ j hj ht ha) b hb).symm
 
+omit [Finite F] [Finite k] in
 theorem isElemAbelian_te6WE (hr : r.Prime) (hr2 : r ≠ 2) (hF2 : ringChar F = 2)
     (hg : orderOf g = r) (hμ : orderOf t = r)
     (ht : t * Units.map (θ : k →* k) t = 1) :
@@ -595,6 +620,7 @@ theorem isElemAbelian_te6WE (hr : r.Prime) (hr2 : r ≠ 2) (hF2 : ringChar F = 2
   exact IsElemAbelian.sup_of_commute (isElemAbelian_te6WA θ j hj hF2 hg)
     (isElemAbelian_te6WB θ hθ hr hr2 hμ) (commute_te6WA_te6WB θ hθ j hj ht)
 
+omit [Finite F] in
 theorem card_te6WE (hr : r.Prime) (hr2 : r ≠ 2) (hF2 : ringChar F = 2)
     (hg : orderOf g = r) (hμ : orderOf t = r)
     (ht : t * Units.map (θ : k →* k) t = 1) :
@@ -615,10 +641,12 @@ variable {k F : Type} [Field k] [Finite k] [Field F] [Finite F]
   {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) (hr5 : 5 ≤ r)
   {g : SL(2, F)} {t : kˣ}
 
+omit [Finite k] [Finite F] in
 theorem orderOf_te6Involution (hF2 : ringChar F = 2) :
     orderOf (te6SL2 θ j hj 3 (sl2Upper (1 : F))) = 2 := by
   rw [te6SL2_orderOf θ j hj 3 (orderOf_sl2Upper_one hF2)]
 
+omit [Finite k] [Finite F] in
 theorem te6WX_ne_bot (hF2 : ringChar F = 2) :
     te6WX θ (te6SL2 θ j hj 3 (sl2Upper (1 : F))) ≠ ⊥ := by
   rw [te6WX, Ne, Subgroup.zpowers_eq_bot]
@@ -627,12 +655,14 @@ theorem te6WX_ne_bot (hF2 : ringChar F = 2) :
   rw [h, orderOf_one] at h2
   omega
 
+omit [Finite k] [Finite F] in
 theorem isPGroup_te6WX (hF2 : ringChar F = 2) :
     IsPGroup 2 (te6WX θ (te6SL2 θ j hj 3 (sl2Upper (1 : F)))) := by
   refine IsPGroup.of_card (n := 1) ?_
   rw [te6WX, Nat.card_zpowers, orderOf_te6Involution θ j hj hF2, pow_one]
 
-theorem te6WA_le_centralizer_involution (hF2 : ringChar F = 2) :
+omit [Finite k] [Finite F] in
+theorem te6WA_le_centralizer_involution (_hF2 : ringChar F = 2) :
     te6WA θ j hj g ≤ Subgroup.centralizer
       ({te6SL2 θ j hj 3 (sl2Upper (1 : F))} : Set (fixedGroup k θ)) := by
   rw [te6WA]
@@ -659,6 +689,7 @@ theorem te6WA_le_centralizer_involution (hF2 : ringChar F = 2) :
     exact (zpowers_te6SL2_commute θ j hj (g := g) (i := 2) (i' := 3) (by decide) hx
       (sl2Upper 1)).eq.symm
 
+omit [Finite k] [Finite F] in
 theorem te6WB_le_centralizer_involution
     (ht : t * Units.map (θ : k →* k) t = 1) :
     te6WB θ hθ t ≤ Subgroup.centralizer
@@ -678,6 +709,7 @@ theorem te6WB_le_centralizer_involution
     subst hb
     exact (zpowers_te6TorusB_commute θ hθ j hj ht hx 3 (sl2Upper 1)).eq.symm
 
+omit [Finite k] [Finite F] in
 theorem te6WE_le_normalizer_te6WX (hF2 : ringChar F = 2)
     (ht : t * Units.map (θ : k →* k) t = 1) :
     te6WE θ hθ j hj g t ≤ Subgroup.normalizer
@@ -695,6 +727,7 @@ theorem te6WE_le_normalizer_te6WX (hF2 : ringChar F = 2)
   rw [← h_eq]
   exact Subgroup.centralizer_le_normalizer _
 
+omit [Finite F] [Finite k] in
 theorem te6WE_inf_center_eq_bot (hr : r.Prime) (hr2 : r ≠ 2) (hF2 : ringChar F = 2) (hg : orderOf g = r)
     (hμ : orderOf t = r) (ht : t * Units.map (θ : k →* k) t = 1)
     (hZ : ¬ r ∣ Nat.card (Subgroup.center (fixedGroup k θ))) :
@@ -710,6 +743,7 @@ theorem te6WE_inf_center_eq_bot (hr : r.Prime) (hr2 : r ≠ 2) (hF2 : ringChar F
   · exact orderOf_eq_one_iff.mp h1
   · exact absurd (hr' ▸ hdvdZ) hZ
 
+omit [Finite k] [Finite F] in
 theorem te6WX_inf_center_eq_bot (hF2 : ringChar F = 2)
     (hZodd : Odd (Nat.card (Subgroup.center (fixedGroup k θ)))) :
     te6WX θ (te6SL2 θ j hj 3 (sl2Upper (1 : F))) ⊓
@@ -729,6 +763,7 @@ theorem te6WX_inf_center_eq_bot (hF2 : ringChar F = 2)
     ((Nat.dvd_prime Nat.prime_two).1 hy2 |>.elim id
       (fun h => absurd (h ▸ hyodd) (by decide))))
 
+omit [Finite k] [Finite F] in
 theorem te6WA_inf_center_eq_bot (hF2 : ringChar F = 2) :
     te6WA θ j hj g ⊓ Subgroup.center (fixedGroup k θ) = ⊥ := by
   rw [eq_bot_iff]
@@ -773,9 +808,9 @@ theorem rk2_low_twe6_of_ne_three (K : Type) [Group K] [Finite K] (lab : GLALabel
   obtain ⟨-, hf, hT⟩ :=
     CFSG.HardMathSupport.Timmesfeld.Tables.T1b.twistedChevalleyModel_of_lieModel hM'
   obtain ⟨k, hkfield, hkfin, hkcard, σ, hσ, ⟨e⟩⟩ := hT
-  letI : Field k := hkfield
-  letI : Finite k := hkfin
-  letI : Fintype k := Fintype.ofFinite k
+  let : Field k := hkfield
+  let : Finite k := hkfin
+  let : Fintype k := Fintype.ofFinite k
   have hkcard' : Nat.card k = (2 ^ lab.n) ^ 2 := by
     rw [hkcard]
     rfl
@@ -794,7 +829,6 @@ theorem rk2_low_twe6_of_ne_three (K : Type) [Group K] [Finite K] (lab : GLALabel
     exact (hσ c).trans (hσ₀ c).symm
   have hθ : ∀ c, σ (σ c) = c := by
     intro c
-    change (σ : k →+* k) ((σ : k →+* k) c) = c
     rw [hσeq]
     have h2 := congrArg (fun f : k ≃+* k => f c) hσ₀2
     simpa [pow_two, RingAut.mul_apply] using h2
@@ -808,9 +842,9 @@ theorem rk2_low_twe6_of_ne_three (K : Type) [Group K] [Finite K] (lab : GLALabel
     have hx : (x : k) ∈ (σ : k →+* k).eqLocusField (RingHom.id k) := by
       rw [hSs]; exact x.2
     exact RingHom.mem_eqLocusField.mp hx
-  haveI : CharP k 2 := charP_of_card_eq_prime_pow (f := 2 * lab.n) (by
+  have : CharP k 2 := charP_of_card_eq_prime_pow (f := 2 * lab.n) (by
     rw [← Nat.card_eq_fintype_card, hkcard', ← pow_mul, mul_comm])
-  haveI : CharP S 2 := (RingHom.charP_iff S.subtype S.subtype.injective 2).mpr inferInstance
+  have : CharP S 2 := (RingHom.charP_iff S.subtype S.subtype.injective 2).mpr inferInstance
   have hF2 : ringChar S = 2 := ringChar.eq S 2
   obtain ⟨r, hrr, hr5, hrdvd⟩ :=
     CFSG.RankThree.PartTwo.Census.exists_prime_five_le_dvd_two_pow_add_one hn hn3
@@ -821,7 +855,7 @@ theorem rk2_low_twe6_of_ne_three (K : Type) [Group K] [Finite K] (lab : GLALabel
   have hdvd2 : r ∣ 2 ^ (2 * lab.n) - 1 := by
     rw [h2n]
     exact Dvd.dvd.mul_right hrdvd _
-  haveI : Fact r.Prime := ⟨hrr⟩
+  have : Fact r.Prime := ⟨hrr⟩
   obtain ⟨g, hg⟩ := CFSG.Quasithin.Vol2.Ch11.SecA.C10KH.exists_orderOf_sl2
     (K := S) (n := lab.n) (p := r) hScard hdvd2
   have hdvdK : r ∣ Nat.card k - 1 := by
@@ -873,7 +907,7 @@ theorem rk2_low_twe6_of_ne_three (K : Type) [Group K] [Finite K] (lab : GLALabel
       exact card_griessHopfMultiplier_twE6 (q := 2 ^ lab.n) (by
         calc 3 ≤ 2 ^ 2 := by norm_num
           _ ≤ 2 ^ lab.n := Nat.pow_le_pow_right (by norm_num) hn) hkcard' hσ
-    haveI : Finite (CFSG.Open.griessHopfMultiplier (K ⧸ Subgroup.center K)) :=
+    have : Finite (CFSG.Open.griessHopfMultiplier (K ⧸ Subgroup.center K)) :=
       Nat.finite_of_card_ne_zero (by rw [hcardM]; exact (Nat.gcd_pos_of_pos_left _ (by norm_num)).ne')
     have hdvd := CFSG.GH74.GLS.Stage2.Signalizer.Odd87.card_center_dvd_hopf hQ'
       (MulEquiv.refl (K ⧸ Subgroup.center K))
@@ -948,7 +982,7 @@ theorem liftDatum_twDerived_two {k : Type} [Field k] [Finite k]
     CFSG.HardMathSupport.Solomon.LocalBalance.Lemma27Ns.I1433.ExcRank.LiftDatum
       ↥(CFSG.HardMathSupport.Timmesfeld.Tables.T1b.twDerived σ) 2 := by
   classical
-  letI := Fintype.ofFinite k
+  let := Fintype.ofFinite k
   let ψ : ↥(fixedGroup k σ) →* ↥(CFSG.HardMathSupport.Timmesfeld.Tables.T1b.twDerived σ) :=
     CFSG.HardMathSupport.Timmesfeld.Tables.T1b.twIsog σ hθ hk
   have hinj : ∀ i : Fin 4, Function.Injective (ψ.comp (te6SL2 σ j hj i)) := by
@@ -1034,8 +1068,8 @@ theorem center_card_dvd_twelve {K : Type} [Group K] [Finite K] (lab : GLALabel)
       (K ⧸ Subgroup.center K) hM1
   have hcardM : Nat.card (CFSG.Open.griessHopfMultiplier (K ⧸ Subgroup.center K)) = 12 := by
     rw [Nat.card_congr eM.toEquiv]
-    simp [Nat.card_zmod]
-  haveI : Finite (CFSG.Open.griessHopfMultiplier (K ⧸ Subgroup.center K)) :=
+    simp
+  have : Finite (CFSG.Open.griessHopfMultiplier (K ⧸ Subgroup.center K)) :=
     Nat.finite_of_card_ne_zero (by rw [hcardM]; norm_num)
   have h := CFSG.GH74.GLS.Stage2.Signalizer.Odd87.card_center_dvd_hopf hQ'
     (MulEquiv.refl (K ⧸ Subgroup.center K))
@@ -1055,9 +1089,9 @@ theorem exists_twDerived_data_one (K : Type) [Group K] [Finite K] (lab : GLALabe
   obtain ⟨-, hf, hT⟩ :=
     CFSG.HardMathSupport.Timmesfeld.Tables.T1b.twistedChevalleyModel_of_lieModel hM'
   obtain ⟨k, hkfield, hkfin, hkcard, σ, hσ, ⟨e⟩⟩ := hT
-  letI : Field k := hkfield
-  letI : Finite k := hkfin
-  letI : Fintype k := Fintype.ofFinite k
+  let : Field k := hkfield
+  let : Finite k := hkfin
+  let : Fintype k := Fintype.ofFinite k
   have hkcard' : Nat.card k = (2 ^ lab.n) ^ 2 := by
     rw [hkcard]
     rfl
@@ -1074,7 +1108,6 @@ theorem exists_twDerived_data_one (K : Type) [Group K] [Finite K] (lab : GLALabe
     exact (hσ c).trans (hσ₀ c).symm
   have hθ : ∀ c, σ (σ c) = c := by
     intro c
-    change (σ : k →+* k) ((σ : k →+* k) c) = c
     rw [hσeq]
     have h2 := congrArg (fun f : k ≃+* k => f c) hσ₀2
     simpa [pow_two, RingAut.mul_apply] using h2
@@ -1088,9 +1121,9 @@ theorem exists_twDerived_data_one (K : Type) [Group K] [Finite K] (lab : GLALabe
     have hx : (x : k) ∈ (σ : k →+* k).eqLocusField (RingHom.id k) := by
       rw [hSs]; exact x.2
     exact RingHom.mem_eqLocusField.mp hx
-  haveI : CharP k 2 := charP_of_card_eq_prime_pow (f := 2 * lab.n) (by
+  have : CharP k 2 := charP_of_card_eq_prime_pow (f := 2 * lab.n) (by
     rw [← Nat.card_eq_fintype_card, hkcard', ← pow_mul, mul_comm])
-  haveI : CharP S 2 := (RingHom.charP_iff S.subtype S.subtype.injective 2).mpr inferInstance
+  have : CharP S 2 := (RingHom.charP_iff S.subtype S.subtype.injective 2).mpr inferInstance
   have hF2 : ringChar S = 2 := ringChar.eq S 2
   have hdvd : 3 ∣ Nat.card k - 1 := by
     rw [hkcard']
@@ -1128,12 +1161,12 @@ theorem odd_card_map_center_quotient_sylow (K : Type) [Group K] [Finite K]
     (hN : N = (P : Subgroup (Subgroup.center K)).map (Subgroup.center K).subtype) :
     Odd (Nat.card ((Subgroup.center K).map (QuotientGroup.mk' N))) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   subst hN
   let Z : Subgroup K := Subgroup.center K
   let N' : Subgroup K := (P : Subgroup Z).map Z.subtype
   have hNZ : N' ≤ Z := Subgroup.map_subtype_le _
-  haveI : N'.Normal := CFSG.GroupTheory.normal_of_le_center hNZ
+  have : N'.Normal := CFSG.GroupTheory.normal_of_le_center hNZ
   change Odd (Nat.card (Z.map (QuotientGroup.mk' N')))
   let f : Z →* (Z.map (QuotientGroup.mk' N')) :=
     ((QuotientGroup.mk' N').comp Z.subtype).codRestrict _
@@ -1180,7 +1213,7 @@ theorem four_le_localRank_three_of_twoPart_center (K : Type) [Group K] [Finite K
     (hodd : Odd (Nat.card ((Subgroup.center K).map (QuotientGroup.mk' N)))) :
     4 ≤ CFSG.Assembly.RankThreeEven.localRank 3 (K ⧸ N) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Z : Subgroup K := Subgroup.center K
   have hNZ' : N ≤ Z := hNZ
   have hNZid : N ≤ Subgroup.comap (MonoidHom.id K) Z := by simpa using hNZ'
@@ -1240,14 +1273,14 @@ private theorem four_le_evenRank_of_two_part_center (K : Type) [Group K] [Finite
     (hL : CFSG.HardMathSupport.Solomon.LocalBalance.Lemma27Ns.I1433.ExcRank.LiftDatum S 2) :
     4 ≤ evenRank K := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Z : Subgroup K := Subgroup.center K
   let P : Sylow 2 Z := default
   let N : Subgroup K := (P : Subgroup Z).map Z.subtype
   have hNZ : N ≤ Z := Subgroup.map_subtype_le _
   have hNnormal : N.Normal := CFSG.GroupTheory.normal_of_le_center hNZ
-  haveI : N.Normal := hNnormal
-  have hNP2 : IsPGroup 2 N := P.isPGroup'.map Z.subtype
+  have : N.Normal := hNnormal
+  have hNP2 : IsPGroup 2 N := P.isPGroup.map Z.subtype
   have hN3 : ¬ 3 ∣ Nat.card N := by
     obtain ⟨m, hm⟩ := IsPGroup.iff_card.mp hNP2
     rw [hm]
@@ -1268,8 +1301,8 @@ theorem rk2_low_twe6_one (K : Type) [Group K] [Finite K] (lab : GLALabel)
     4 ≤ evenRank K := by
   obtain ⟨k, hkfield, hkfin, σ, ⟨e⟩, hS, hL⟩ :=
     exists_twDerived_data_one K lab hK htag hn
-  letI : Field k := hkfield
-  letI : Finite k := hkfin
+  let : Field k := hkfield
+  let : Finite k := hkfin
   exact four_le_evenRank_of_two_part_center K
     (center_card_dvd_twelve lab hK htag hn) e hS hL
 

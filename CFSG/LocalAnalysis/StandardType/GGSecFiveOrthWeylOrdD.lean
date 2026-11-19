@@ -25,9 +25,9 @@ private theorem ct_od2_coxeterMatrixD_eq (r : ℕ) :
   simp only [coxeterMatrix, TauCeti.coxeterMatrixOfCartanMatrix_apply]
   by_cases hij : i = j
   · subst hij
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     simp [cartanD, TauCeti.coxeterOrder_four]
-  · rw [if_neg hij]
+  · rw [ite_eq_right hij]
     have hsymm : cartanD r j i = cartanD r i j := by
       rw [cartanD_eq]
       exact (CartanMatrix.D_isSymm r).apply i j
@@ -232,10 +232,10 @@ private theorem ct_od2_realizes_pure_sign (m : ℕ) (hm : 1 ≤ m) (t : Fin (m +
   have htS : t = fun c => if c ∈ S then (-1 : ℤ) else 1 := by
     funext c
     by_cases hc : c ∈ S
-    · rw [if_pos hc]
+    · rw [ite_eq_left hc]
       rw [hSdef, Finset.mem_filter] at hc
       exact hc.2
-    · rw [if_neg hc]
+    · rw [ite_eq_right hc]
       rw [hSdef, Finset.mem_filter] at hc
       push Not at hc
       have hc' : t c ≠ -1 := by simpa using hc
@@ -449,12 +449,12 @@ private theorem ct_od2_rep_unique (m : ℕ) (hm : 1 ≤ m)
     constructor
     · intro h1
       by_contra h2
-      rw [if_pos h1, if_neg h2] at H
+      rw [ite_eq_left h1, ite_eq_right h2] at H
       rcases hs c with hs1 | hs1 <;> rcases hs' c with hs2 | hs2 <;>
         rw [hs1, hs2] at H <;> norm_num at H
     · intro h2
       by_contra h1
-      rw [if_neg h1, if_pos h2] at H
+      rw [ite_eq_right h1, ite_eq_left h2] at H
       rcases hs c with hs1 | hs1 <;> rcases hs' c with hs2 | hs2 <;>
         rw [hs1, hs2] at H <;> norm_num at H
   have hπ : π = π' := by
@@ -469,7 +469,7 @@ private theorem ct_od2_rep_unique (m : ℕ) (hm : 1 ≤ m)
   have H := congrFun ((h v).symm.trans (h' v)) c
   rw [hv] at H
   simp only [Pi.smul_apply, Pi.single_apply, smul_eq_mul] at H
-  simp only [if_true] at H
+  simp only [ite_true] at H
   have h2 : s c * 2 = s' c * 2 := by simpa using H
   exact mul_right_cancel₀ (by norm_num : (2 : ℤ) ≠ 0) h2
 

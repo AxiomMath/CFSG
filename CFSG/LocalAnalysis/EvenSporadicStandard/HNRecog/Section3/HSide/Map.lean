@@ -122,7 +122,7 @@ theorem stabCard_map_iff {ι : Type} {f : A →* G} (hf : Function.Injective f) 
     rw [map_inf_Gx_of_injective hf K c₀, Subgroup.card_map_of_injective hf]
     exact h1
 
-theorem derivedOf_map_of_injective {f : A →* G} (hf : Function.Injective f) (K : Subgroup A) :
+theorem derivedOf_map_of_injective {f : A →* G} (_hf : Function.Injective f) (K : Subgroup A) :
     derivedOf (K.map f) = (derivedOf K).map f := by
   simp only [derivedOf, Subgroup.map_subtype_commutator]
   rw [Subgroup.map_commutator]

@@ -42,8 +42,8 @@ private theorem le_normalizer_omegaZ {R E : Subgroup X} {S : Set X}
 
 theorem twoLocalRankCriterion_holds : TwoLocalRankCriterion := by
   intro X _ _ p k m hp hp2 hm h1 h2
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine glaTwoLocalRank_le_of_card_le hp fun R E hR hR2 hER hE => ?_
   by_contra hlt
   push Not at hlt
@@ -53,7 +53,7 @@ theorem twoLocalRankCriterion_holds : TwoLocalRankCriterion := by
     exact absurd hlt (not_lt.2 (Nat.one_le_pow _ _ hp.pos))
   have hW2 : ∀ S, IsPGroup 2 (omegaZ R S) := fun S => hR2.to_le fun _ hw => hw.1
   obtain ⟨t, htW, ht1⟩ : ∃ t ∈ omegaZ R ∅, t ≠ 1 := by
-    haveI : Nontrivial R := (Subgroup.nontrivial_iff_ne_bot R).2 hR
+    have : Nontrivial R := (Subgroup.nontrivial_iff_ne_bot R).2 hR
     obtain ⟨n, hn0, hn⟩ :=
       (hR2.to_subgroup (Subgroup.center R)).nontrivial_iff_card.1 hR2.center_nontrivial
     obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := Subgroup.center R) 2

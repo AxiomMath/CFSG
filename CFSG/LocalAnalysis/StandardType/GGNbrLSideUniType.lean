@@ -25,7 +25,7 @@ theorem ggNbrLSideUni_typeSU {n a : ℕ} {E : Type} [Field E] [Finite E] {τ : E
     ∃ (t : StatedLieTag) (m : ℕ), ((t = .PSU ∧ m = a) ∨ (t = .PSL ∧ m = 2)) ∧
       CFSG.Blueprint.LieModel (M ⧸ Subgroup.center M) t m 2 n := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hqSU : CFSG.IsQuasisimple ↥(heldSU a E τ hτ) :=
     CFSG.LocalCores.isQuasisimple_of_mulEquiv φ hq
   have hperfSU : Group.IsPerfect ↥(heldSU a E τ hτ) := hqSU.1
@@ -61,14 +61,14 @@ theorem ggNbrLSideUni_typeSL {f b : ℕ} {E : Type} [Field E] [Finite E] {M : Ty
   have hqSL : CFSG.IsQuasisimple (Matrix.SpecialLinearGroup (Fin b) E) :=
     CFSG.LocalCores.isQuasisimple_of_mulEquiv e hq
   have hnotsolv : ¬ Group.IsSolvable (Matrix.SpecialLinearGroup (Fin b) E) := by
-    haveI : Nontrivial (Matrix.SpecialLinearGroup (Fin b) E) :=
+    have : Nontrivial (Matrix.SpecialLinearGroup (Fin b) E) :=
       CFSG.LocalCores.isQuasisimple_nontrivial hqSL
-    haveI : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin b) E) := hqSL.1
+    have : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin b) E) := hqSL.1
     exact Group.IsPerfect.not_isSolvable (Matrix.SpecialLinearGroup (Fin b) E)
   have hb2 : 2 ≤ b := by
     by_contra hlt
-    haveI : Subsingleton (Fin b) := Fin.subsingleton_iff_le_one.mpr (by omega)
-    haveI : Subsingleton (Matrix.SpecialLinearGroup (Fin b) E) :=
+    have : Subsingleton (Fin b) := Fin.subsingleton_iff_le_one.mpr (by omega)
+    have : Subsingleton (Matrix.SpecialLinearGroup (Fin b) E) :=
       Matrix.SpecialLinearGroup.subsingleton_of_subsingleton
     exact hnotsolv inferInstance
   have hbad1 : (b, 2 ^ f) ≠ (2, 2) := by
@@ -77,9 +77,9 @@ theorem ggNbrLSideUni_typeSL {f b : ℕ} {E : Type} [Field E] [Finite E] {M : Ty
     rw [hb] at hnotsolv
     have hcard : Nat.card E = 2 ∨ Nat.card E = 3 := by
       left; rw [hE, h2]
-    haveI : Group.IsSolvable (Matrix.GeneralLinearGroup (Fin 2) E) :=
+    have : Group.IsSolvable (Matrix.GeneralLinearGroup (Fin 2) E) :=
       CFSG.ComponentClassification.CatalogueBGeneralLinear.generalLinear_two_small_solvable E hcard
-    haveI : Group.IsSolvable (Matrix.SpecialLinearGroup (Fin 2) E) :=
+    have : Group.IsSolvable (Matrix.SpecialLinearGroup (Fin 2) E) :=
       Group.isSolvable_of_isSolvable_injective
         (f := Matrix.SpecialLinearGroup.toGL) Matrix.SpecialLinearGroup.toGL_injective
     exact hnotsolv inferInstance

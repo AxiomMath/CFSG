@@ -57,6 +57,7 @@ section Pair
 
 variable {hc : Ctx M Q Z B} {n : ℕ} {t : G} {Z0 : Subgroup G} {z : G}
 
+omit [Finite G] in
 theorem centre_le_conj_N1_95 (cfg : Cfg95 hc n t Z0) (hz : ZPair95 hc t Z0 z) :
     Z0 ≤ conjSubgroup z (N1 hc t) := by
   intro c hc0

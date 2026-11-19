@@ -201,18 +201,18 @@ theorem rawModel_eq {TH : Nat} (hTH : thOK TH = true) (k : Nat) :
     exact h0 (Nat.eq_of_beq_eq_true h)
   rw [hb0, lIf_false]
   unfold Model.rawModel
-  rw [if_neg h0]
+  rw [ite_eq_right h0]
   by_cases h22 : k ≤ 22
-  · rw [ble_true h22, lIf_true, if_pos h22]
+  · rw [ble_true h22, lIf_true, ite_eq_left h22]
     simp only [List.map_cons, List.map_nil, td]
     have hk1 : Nat.add k (nat_lit 1) < 4096 := by
       change k + 1 < 4096
       omega
     rw [kd_kc (by decide) hk1]
     rfl
-  rw [ble_false h22, lIf_false, if_neg h22]
+  rw [ble_false h22, lIf_false, ite_eq_right h22]
   by_cases h66 : k ≤ 66
-  · rw [ble_true h66, lIf_true, if_pos h66]
+  · rw [ble_true h66, lIf_true, ite_eq_left h66]
     unfold rawPair
     simp only [strictL_eq]
     have hi : Nat.add (Nat.shiftRight (Nat.sub k (nat_lit 23)) (nat_lit 1)) (nat_lit 2) = (k - 23) / 2 + 2 := by
@@ -223,21 +223,21 @@ theorem rawModel_eq {TH : Nat} (hTH : thOK TH = true) (k : Nat) :
     rw [hpar]
     simp only [List.map_cons, List.map_nil, td]
     rcases Nat.mod_two_eq_zero_or_one (k - 23) with h | h
-    · rw [if_pos h, h]
+    · rw [ite_eq_left h, h]
       rw [kd_kc (by decide) (by decide), kd_kc (by decide) (by decide)]
       rfl
-    · rw [if_neg (by omega), h]
+    · rw [ite_eq_right (by omega), h]
       rw [kd_kc (by decide) (by decide), kd_kc (by decide) (by decide)]
       rfl
-  rw [ble_false h66, lIf_false, if_neg h66]
+  rw [ble_false h66, lIf_false, ite_eq_right h66]
   by_cases h1090 : k ≤ 1090
-  · rw [ble_true h1090, lIf_true, if_pos h1090]
+  · rw [ble_true h1090, lIf_true, ite_eq_left h1090]
     simp only [strictL_eq, List.map_cons, List.map_nil, td]
     rw [oddCodes_get (by omega), oddKT_eq hTH (oddT_lt _), oddKT_eq hTH (oddT_lt _)]
     rfl
-  rw [ble_false h1090, lIf_false, if_neg h1090]
+  rw [ble_false h1090, lIf_false, ite_eq_right h1090]
   by_cases h2322 : k ≤ 2322
-  · rw [ble_true h2322, lIf_true, if_pos h2322]
+  · rw [ble_true h2322, lIf_true, ite_eq_left h2322]
     unfold octPair
     simp only [strictL_eq, List.map_cons, List.map_nil, td]
     have hq : Nat.shiftRight (Nat.sub k (nat_lit 1091)) (nat_lit 4) = (k - 1091) / 16 := by
@@ -249,7 +249,7 @@ theorem rawModel_eq {TH : Nat} (hTH : thOK TH = true) (k : Nat) :
     have hr16 : (k - 1091) % 16 < 16 := Nat.mod_lt _ (by decide)
     rw [hq, hr, octKT_eq hTH hq77, octKT_eq hTH hq77, octCoeffs_get hq77,
       (localPairs_tab _ hr16).1, (localPairs_tab _ hr16).2]
-  rw [ble_false h2322, lIf_false, if_neg h2322]
+  rw [ble_false h2322, lIf_false, ite_eq_right h2322]
   simp only [List.map_cons, List.map_nil, td]
   have hm : Nat.mod (Nat.sub k (nat_lit 2323)) (nat_lit 1024) = (k - 2323) % 1024 := rfl
   have hη : nIf(Nat.ble (nat_lit 3347) k, nat_lit 1, nat_lit 0) = (decide (3347 ≤ k)).toNat := by
@@ -319,31 +319,31 @@ theorem tauRow_eq {k : Nat} (hk : k < 4371) : Model.tauRow k = (tauT k).toArray 
     exact h0 (Nat.eq_of_beq_eq_true h)
   rw [hb0, lIf_false]
   unfold Model.tauRow
-  rw [if_neg h0]
+  rw [ite_eq_right h0]
   by_cases h22 : k ≤ 22
-  · rw [ble_true h22, lIf_true, if_pos h22]
+  · rw [ble_true h22, lIf_true, ite_eq_left h22]
     rfl
-  rw [ble_false h22, lIf_false, if_neg h22]
+  rw [ble_false h22, lIf_false, ite_eq_right h22]
   by_cases h66 : k ≤ 66
-  · rw [ble_true h66, lIf_true, if_pos h66]
+  · rw [ble_true h66, lIf_true, ite_eq_left h66]
     have hpar : Nat.land (Nat.sub k (nat_lit 23)) (nat_lit 1) = (k - 23) % 2 := Nat.and_one_is_mod _
     have hh : Nat.shiftRight (Nat.sub k (nat_lit 23)) (nat_lit 1) = (k - 23) / 2 := by
       change (k - 23) >>> 1 = _
       rw [Nat.shiftRight_eq_div_pow, Nat.pow_one]
     rw [hpar, hh]
     rcases Nat.mod_two_eq_zero_or_one (k - 23) with h | h
-    · rw [if_pos h, h]
+    · rw [ite_eq_left h, h]
       rfl
-    · rw [if_neg (by omega), h]
+    · rw [ite_eq_right (by omega), h]
       rfl
-  rw [ble_false h66, lIf_false, if_neg h66]
+  rw [ble_false h66, lIf_false, ite_eq_right h66]
   by_cases h1090 : k ≤ 1090
-  · rw [ble_true h1090, lIf_true, if_pos h1090, oddCodes_get (by omega), bitN_eq, wordT_eq,
+  · rw [ble_true h1090, lIf_true, ite_eq_left h1090, oddCodes_get (by omega), bitN_eq, wordT_eq,
       sgI_toNat]
     rfl
-  rw [ble_false h1090, lIf_false, if_neg h1090]
+  rw [ble_false h1090, lIf_false, ite_eq_right h1090]
   by_cases h2322 : k ≤ 2322
-  · rw [ble_true h2322, lIf_true, if_pos h2322]
+  · rw [ble_true h2322, lIf_true, ite_eq_left h2322]
     unfold tauOct
     simp only [strictL_eq]
     rw [buildL_eq]
@@ -360,11 +360,11 @@ theorem tauRow_eq {k : Nat} (hk : k < 4371) : Model.tauRow k = (tauT k).toArray 
     have hj16 : j < 16 := List.mem_range.mp hj
     rw [mentry_tab _ (Nat.mod_lt _ (by decide)) _ hj16, sgI_two]
     rfl
-  rw [ble_false h2322, lIf_false, if_neg h2322]
+  rw [ble_false h2322, lIf_false, ite_eq_right h2322]
   by_cases h3346 : k ≤ 3346
-  · rw [ble_true h3346, lIf_true, if_pos h3346, oddCodes_get (by omega), pT_model, sgI_toNat]
+  · rw [ble_true h3346, lIf_true, ite_eq_left h3346, oddCodes_get (by omega), pT_model, sgI_toNat]
     rfl
-  rw [ble_false h3346, lIf_false, if_neg h3346, oddCodes_get (by omega), bitN_eq, wordT_eq, pT_model,
+  rw [ble_false h3346, lIf_false, ite_eq_right h3346, oddCodes_get (by omega), bitN_eq, wordT_eq, pT_model,
     toNat_xor_eq, sgI_toNat]
   rfl
 

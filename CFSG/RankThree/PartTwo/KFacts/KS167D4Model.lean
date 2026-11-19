@@ -18,6 +18,7 @@ open CFSG CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley CFSG.Ra
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 private theorem d4Tuple_map_units (f : Kˣ →* Kˣ) (x₀ x₁ x₂ x₃ : Kˣ) :
     (fun i => f (d4Tuple x₀ x₁ x₂ x₃ i)) = d4Tuple (f x₀) (f x₁) (f x₂) (f x₃) := by
   funext i
@@ -197,7 +198,7 @@ theorem exists_map_conj_eq_d4Torsion_three {n : ℕ} (hev : Even n) (hn : 1 ≤ 
       congrArg (fun z : C => (z : ModGL TwistTag.D4.tag K)) (hF3 d hd)
     have e : ((g * d * g⁻¹ : C) : ModGL TwistTag.D4.tag K) =
         y * (x * (d : ModGL TwistTag.D4.tag K) * x⁻¹) * y⁻¹ := by
-      simp only [g, Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_mk]
+      simp only [g, Subgroup.coe_mul, Subgroup.coe_inv]
       group
     rw [e]
     refine ⟨hH, ?_⟩
@@ -267,7 +268,7 @@ theorem exists_fieldActor_fixed_mem_graphFixedRootTorus {n : ℕ} (hn : 3 ≤ n)
     · rw [h] at hm8; omega
     · rw [h] at hm8; omega
   obtain ⟨r, hr, hrdvd, hr3⟩ := hex
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have : Finite (trialityFixedField K σ.toRingHom) := Subtype.finite
   have hkr : r ∣ Nat.card ((trialityFixedField K σ.toRingHom)ˣ) := by
     rw [Nat.card_units, hk]

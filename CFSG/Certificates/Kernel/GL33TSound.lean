@@ -128,8 +128,7 @@ theorem zipK_mem {α β : Type} {p : α → β → Bool} {A : List α} {B : List
 theorem toM_eq_dec (c : ℕ) : toM c = dec c := by
   funext i j
   fin_cases i <;> fin_cases j <;>
-    simp only [toM, dec, decV, ent, dig, Matrix.of_apply, Matrix.cons_val_zero,
-      Matrix.cons_val_one, Matrix.cons_val, Fin.isValue] <;> congr 1 <;> norm_num <;> omega
+    simp only [toM, dec, decV, ent, dig, Matrix.of_apply] <;> congr 1 <;> norm_num <;> omega
 
 theorem good_iff_detT (c : ℕ) : Good c ↔ detT c = true := by
   have e : detT c = !Nat.beq (((((c % 27) % 3) * ((((c / 27) % 27) / 3) % 3) *
@@ -415,12 +414,12 @@ theorem memT_sound {gens : List ℕ} {M : ℕ} {R : List (ℕ × ℕ × ℕ)} (h
   carrier := {g | act33 g e0 = e0}
   mul_mem' := by
     intro a b ha hb
-    simp only [Set.mem_setOf_eq, act33, Units.val_mul] at *
+    simp only [Set.mem_ofPred_eq, act33, Units.val_mul] at *
     rw [← Matrix.vecMul_vecMul, ha, hb]
   one_mem' := by simp [act33]
   inv_mem' := by
     intro a ha
-    simp only [Set.mem_setOf_eq, act33] at *
+    simp only [Set.mem_ofPred_eq, act33] at *
     calc Matrix.vecMul e0 ((a⁻¹ : G) : Matrix (Fin 3) (Fin 3) (ZMod 3))
         = Matrix.vecMul (Matrix.vecMul e0 (a : Matrix (Fin 3) (Fin 3) (ZMod 3)))
             ((a⁻¹ : G) : Matrix (Fin 3) (Fin 3) (ZMod 3)) := by rw [ha]
@@ -465,7 +464,7 @@ theorem bitT_stabM (R : List (ℕ × ℕ × ℕ)) (c : ℕ) : bitT (stabM R) c =
     cases h : Nat.beq (r.1 % 27) 1
     · have : r.1 % 27 ≠ 1 := fun e => by rw [e] at h; exact absurd h (by decide)
       simp [this, ih]
-    · simp only [Nat.eq_of_beq_eq_true h, if_true]
+    · simp only [Nat.eq_of_beq_eq_true h, ite_true]
       rw [bitT_setT, ih, List.mem_cons]
       tauto
 
@@ -511,7 +510,7 @@ theorem stabL_sublist (R : List (ℕ × ℕ × ℕ)) :
   | cons r R ih =>
     rw [stabL_cons]
     split_ifs
-    · exact ih.cons₂ _
+    · exact ih.cons_cons _
     · exact ih.cons _
 
 theorem stabL_nodup {R : List (ℕ × ℕ × ℕ)} (h : (oneK :: R.map (·.1)).Nodup) :

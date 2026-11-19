@@ -328,7 +328,7 @@ theorem A7_every_normalized_central_cover_has_solvable_Sylow_generators [Finite 
             group
           rw [this]
           exact hl
-        exact T.isPGroup'.of_surjective _ hsurj
+        exact T.isPGroup.of_surjective _ hsurj
       have : Group.IsNilpotent (X ⧸ L.subgroupOf X) := hp.isNilpotent
       infer_instance
     let g : N →* X ⧸ L.subgroupOf X := (QuotientGroup.mk' (L.subgroupOf X)).comp N.subtype
@@ -358,7 +358,7 @@ theorem A7_every_normalized_central_cover_has_solvable_Sylow_generators [Finite 
   set TF : Subgroup F := ((T : Subgroup G).subgroupOf X).map ρ.rangeRestrict with hTF
   have hTFp : IsPGroup 2 TF := by
     refine IsPGroup.map ?_ _
-    exact IsPGroup.of_equiv T.isPGroup' (Subgroup.subgroupOfEquivOfLe hTX).symm
+    exact IsPGroup.of_equiv T.isPGroup (Subgroup.subgroupOfEquivOfLe hTX).symm
   obtain ⟨Q, hQ⟩ := hTFp.exists_le_sylow
   obtain ⟨f, hf⟩ := MulAction.exists_smul_eq F PF Q
   set c : Perm (Fin 7) →* Perm (Fin 7) := (MulAut.conj (f : Perm (Fin 7))).toMonoidHom with hc

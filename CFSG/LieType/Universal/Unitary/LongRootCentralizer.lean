@@ -23,13 +23,13 @@ theorem midIndexFun_injective (k : ℕ) : Function.Injective (midIndexFun k) := 
   have hi := i.isLt
   have hj := j.isLt
   by_cases hi' : (i : ℕ) < k / 2 <;> by_cases hj' : (j : ℕ) < k / 2
-  · simp only [midIndexFun, if_pos hi', if_pos hj', Fin.mk.injEq] at hij
+  · simp only [midIndexFun, ite_eq_left hi', ite_eq_left hj', Fin.mk.injEq] at hij
     exact Fin.ext hij
-  · simp only [midIndexFun, if_pos hi', if_neg hj', Fin.mk.injEq] at hij
+  · simp only [midIndexFun, ite_eq_left hi', ite_eq_right hj', Fin.mk.injEq] at hij
     omega
-  · simp only [midIndexFun, if_neg hi', if_pos hj', Fin.mk.injEq] at hij
+  · simp only [midIndexFun, ite_eq_right hi', ite_eq_left hj', Fin.mk.injEq] at hij
     omega
-  · simp only [midIndexFun, if_neg hi', if_neg hj', Fin.mk.injEq] at hij
+  · simp only [midIndexFun, ite_eq_right hi', ite_eq_right hj', Fin.mk.injEq] at hij
     exact Fin.ext (by omega)
 
 @[expose] def midIndex (k : ℕ) : Fin k ↪ Fin (k + 2) :=
@@ -90,7 +90,7 @@ theorem range_midIndex (k : ℕ) :
         refine ⟨⟨x - 2, by omega⟩, ?_⟩
         rw [midIndex_apply_of_ge (i := ⟨x - 2, by omega⟩) (by simpa using hx2)]
         ext
-        simp only [Fin.val_mk]
+        simp only
         omega
 
 theorem midIndex_rev {k : ℕ} (hk : Even k) (i : Fin k) :
@@ -105,14 +105,14 @@ theorem midIndex_rev {k : ℕ} (hk : Even k) (i : Fin k) :
     have hmid : (midIndex k i : ℕ) = i := by rw [midIndex_apply_of_lt h]
     apply Fin.ext
     rw [midIndex_apply_of_ge hge]
-    simp only [Fin.val_rev, Fin.val_mk]
+    simp only [Fin.val_rev]
     rw [hmid]
     omega
   · have hlt : (Fin.rev i : ℕ) < k / 2 := by rw [hrev]; omega
     have hmid : (midIndex k i : ℕ) = i + 2 := by rw [midIndex_apply_of_ge h]
     apply Fin.ext
     rw [midIndex_apply_of_lt hlt]
-    simp only [Fin.val_rev, Fin.val_mk]
+    simp only [Fin.val_rev]
     rw [hmid]
     omega
 
@@ -155,7 +155,7 @@ theorem commute_midBlockHom_rootGroup {F : Type} [Field F] {σ : F ≃+* F}
     unfold v
     congr 1
     apply Fin.ext
-    simp [lowIdx, hdiv]
+    simp [lowIdx]
   have hi : (⟨k / 2, by omega⟩ : Fin (k + 2)) ∉ Set.range (midIndex k) := by
     rw [range_midIndex]
     simp
@@ -184,7 +184,7 @@ theorem exists_ppd_commute_rootGroup_unitaryLongRoot {F : Type} [Field F] [Finit
       IsPrimitivePrimeDivisor r (2 * f * (m - 3)) ∧
       orderOf y = r ∧ y ∉ Subgroup.center (SU (unitaryInvolution F 2 f) m) ∧
       ∀ u ∈ (rootDatum hF m).rootGroup (unitaryLongRoot m (by omega)), Commute y u := by
-  haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
+  have : Fact (Nat.Prime 2) := Nat.fact_prime_two
   obtain ⟨k, rfl⟩ : ∃ k, m = k + 2 := ⟨m - 2, by omega⟩
   have hk : Even k := by
     obtain ⟨t, ht⟩ := he
@@ -250,7 +250,7 @@ theorem exists_ppd_commute_map_conjSub {X : Type*} [Group X] {f : ℕ} (hf : 2 �
       apply hzZ
       rw [← hker]
       exact MonoidHom.mem_ker.mpr h
-    haveI : Fact r.Prime := ⟨hr.prime⟩
+    have : Fact r.Prime := ⟨hr.prime⟩
     exact orderOf_eq_prime hypow hzne
   · intro v hv
     obtain ⟨a, ha, rfl⟩ := Subgroup.mem_map.mp hv

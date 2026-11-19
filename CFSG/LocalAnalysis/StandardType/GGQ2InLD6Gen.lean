@@ -79,18 +79,18 @@ private theorem qd6g_prod_sign (s : Fin 6 → ZMod 3) (hs : ∀ a, s a = 1 ∨ s
       · left; ring
   simpa using h Finset.univ
 
-private theorem qd6g_prod_update (s : Fin 6 → ZMod 3) (b : Fin 6) (hsb : s b ≠ 0) :
+private theorem qd6g_prod_update (s : Fin 6 → ZMod 3) (b : Fin 6) (_hsb : s b ≠ 0) :
     (∏ a, (if a = b then -s b else s a)) = -∏ a, s a := by
-  rw [Finset.prod_eq_mul_prod_diff_singleton_of_mem (Finset.mem_univ b)
+  rw [Finset.prod_eq_mul_prod_sdiff_singleton_of_mem (Finset.mem_univ b)
         (fun a => if a = b then -s b else s a),
-    Finset.prod_eq_mul_prod_diff_singleton_of_mem (Finset.mem_univ b) s]
+    Finset.prod_eq_mul_prod_sdiff_singleton_of_mem (Finset.mem_univ b) s]
   have hdiff : (∏ x ∈ Finset.univ \ {b}, (if x = b then -s b else s x)) =
       ∏ x ∈ Finset.univ \ {b}, s x := by
     apply Finset.prod_congr rfl
     intro x hx
     rw [Finset.mem_sdiff, Finset.mem_singleton] at hx
-    rw [if_neg hx.2]
-  rw [hdiff, if_pos rfl, neg_mul]
+    rw [ite_eq_right hx.2]
+  rw [hdiff, ite_eq_left rfl, neg_mul]
 
 private theorem qd6g_pair_flip (a b : Fin 6) (hab : a ≠ b) :
     ∃ f ∈ W6, f e0 = e0 ∧ f (epsVec a) = -epsVec a ∧ f (epsVec b) = -epsVec b ∧
@@ -169,25 +169,25 @@ private theorem qd6g_sign_exists (t : Finset (Fin 6)) (ht : Even t.card) :
         by_cases hca : c = a
         · subst hca
           have ha2 : c ∉ (t.erase c).erase b := by simp [Finset.mem_erase]
-          rw [hw2, if_neg ha2, one_smul, hfa, if_pos ha]
+          rw [hw2, ite_eq_right ha2, one_smul, hfa, ite_eq_left ha]
           simp
         · by_cases hcb : c = b
           · subst hcb
             have hb2 : c ∉ (t.erase a).erase c := by simp [Finset.mem_erase]
-            rw [hw2, if_neg hb2, one_smul, hfb, if_pos hb]
+            rw [hw2, ite_eq_right hb2, one_smul, hfb, ite_eq_left hb]
             simp
           · by_cases hct : c ∈ t
             · have hct2 : c ∈ (t.erase a).erase b := by
                 simp only [Finset.mem_erase]
                 exact ⟨hcb, hca, hct⟩
-              rw [hw2, if_pos hct2, if_pos hct]
+              rw [hw2, ite_eq_left hct2, ite_eq_left hct]
               simp [hfc c hca hcb]
             · have hct2 : c ∉ (t.erase a).erase b := by
                 intro h
                 have h' := h
                 simp only [Finset.mem_erase] at h'
                 exact hct h'.2.2
-              rw [hw2, if_neg hct2, if_neg hct]
+              rw [hw2, ite_eq_right hct2, ite_eq_right hct]
               simp [hfc c hca hcb]
 
 private theorem qd6g_prod_eq_one_even (s : Fin 6 → ZMod 3) (hs : ∀ a, s a = 1 ∨ s a = -1)
@@ -233,9 +233,9 @@ private theorem qd6g_mono_mem (g : V7 ≃ₗ[ZMod 3] V7) (σ : Equiv.Perm (Fin 6
       (-1 : ZMod 3) else 1) := by
     intro a
     by_cases h : a ∈ Finset.univ.filter (fun a => s a = -1)
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       exact (Finset.mem_filter.mp h).2
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       rcases hs a with h1 | h1
       · exact h1
       · exact absurd (Finset.mem_filter.mpr ⟨Finset.mem_univ a, h1⟩) h
@@ -278,12 +278,12 @@ theorem monomial_normal_form (T : V7 ≃ₗ[ZMod 3] V7) (σ : Equiv.Perm (Fin 6)
       · subst h
         change (if (5 : Fin 6) = 5 then -s 5 else s 5) = 1 ∨
           (if (5 : Fin 6) = 5 then -s 5 else s 5) = -1
-        rw [if_pos rfl]
+        rw [ite_eq_left rfl]
         rcases hs 5 with h5 | h5 <;> rw [h5]
         · right; rfl
         · left; rfl
       · change (if a = 5 then -s 5 else s a) = 1 ∨ (if a = 5 then -s 5 else s a) = -1
-        rw [if_neg h]
+        rw [ite_eq_right h]
         exact hs a
     have hs5 : s 5 ≠ 0 := by
       rcases hs 5 with h5 | h5 <;> rw [h5] <;> decide
@@ -302,13 +302,13 @@ theorem monomial_normal_form (T : V7 ≃ₗ[ZMod 3] V7) (σ : Equiv.Perm (Fin 6)
         rw [qd6g_kappa_eps, qd6g_tau_eps]
         by_cases h : a = 5
         · subst h
-          rw [if_pos rfl, map_neg, hT 5]
+          rw [ite_eq_left rfl, map_neg, hT 5]
           change - (s 5 • epsVec (σ 5)) = (if (5 : Fin 6) = 5 then -s 5 else s 5) •
             epsVec (σ 5)
-          rw [if_pos rfl, neg_smul]
-        · rw [if_neg h, hT a]
+          rw [ite_eq_left rfl, neg_smul]
+        · rw [ite_eq_right h, hT a]
           change s a • epsVec (σ a) = (if a = 5 then -s 5 else s a) • epsVec (σ a)
-          rw [if_neg h]
+          rw [ite_eq_right h]
     · intro i
       change T (hvec i) = T (qd6g_tau (qd6g_kappa lam hlam (hvec (swapD6 i))))
       rw [qd6g_kappa_hvec, qd6g_tau_hvec]

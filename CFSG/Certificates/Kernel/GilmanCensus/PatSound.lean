@@ -29,7 +29,7 @@ theorem aVec_toList (d : Nat) (dual : Array (Array Nat)) (code : Nat) :
   · intro i h1 h2
     simp only [Array.toList_ofFn, List.getElem_ofFn, List.getElem_map, List.getElem_range]
     simp only [Std.Legacy.Range.forIn_eq_forIn_range', Std.Legacy.Range.size, Nat.sub_zero,
-      Nat.add_sub_cancel, Nat.div_one, List.forIn_pure_yield_eq_foldl, Id.run_pure, getEnt]
+      Nat.add_sub_cancel, Nat.div_one, List.forIn_pure_yield_eq_foldl, getEnt]
     have := aLoop_eq i (LL dual) 0 code
     rw [length_LL, Nat.zero_add] at this
     rw [← this]
@@ -59,15 +59,15 @@ theorem sim_avail (dt : Data) (a : Array Nat) (cands : Array C4) :
       unfold badM tstM
       by_cases t : ((kerPure dt cands[j]!.2.1).size == 1 ||
           (kerPure dt cands[j]!.2.1).any fun k => dot3 a k != 0) = true
-      · rw [if_pos t, if_pos t, t, Bool.true_and]
+      · rw [ite_eq_left t, ite_eq_left t, t, Bool.true_and]
         by_cases u : ((kerPure dt cands[j]!.2.1).size != 1) = true
-        · rw [if_pos u, u]
+        · rw [ite_eq_left u, u]
           exact sim_bind (sim_markBad dt) (sim_pure dt _)
-        · rw [if_neg u]
+        · rw [ite_eq_right u]
           rw [Bool.not_eq_true] at u
           rw [u]
           exact sim_pure dt _
-      · rw [if_neg t, if_neg t]
+      · rw [ite_eq_right t, ite_eq_right t]
         rw [Bool.not_eq_true] at t
         rw [t, Bool.false_and]
         exact sim_pure dt _) (List.range' 0 cands.size) #[]
@@ -102,13 +102,13 @@ theorem sim_patBody (dt : Data) (cands : Array C4) (dual : Array (Array Nat)) (c
   generalize aVec dt.d dual code = a
   generalize a.any (fun x => x != 0) = nz
   by_cases c1 : dt.d - (if nz = true then 1 else 0) < 4
-  · rw [if_pos c1, if_pos c1, if_pos c1]
+  · rw [ite_eq_left c1, ite_eq_left c1, ite_eq_left c1]
     exact sim_pure dt _
-  rw [if_neg c1, if_neg c1, if_neg c1]
+  rw [ite_eq_right c1, ite_eq_right c1, ite_eq_right c1]
   by_cases c2 : (nz && line3 a != a) = true
-  · rw [if_pos c2, if_pos c2, if_pos c2]
+  · rw [ite_eq_left c2, ite_eq_left c2, ite_eq_left c2]
     exact sim_pure dt _
-  rw [if_neg c2, if_neg c2, if_neg c2]
+  rw [ite_eq_right c2, ite_eq_right c2, ite_eq_right c2]
   rw [← Bool.or_false ((List.range' 0 cands.size).any _)]
   refine sim_bind (sim_avail dt _ cands) ?_
   unfold availM
@@ -215,13 +215,13 @@ theorem pat_step {dt : Data} {dk : DK} (h : Rel dt dk) {cands : Array C4} {cs : 
   rw [h.d, ← ha, ← Array.any_toList, arr_bne, line3_eq]
   generalize hnz : (aVec dk.d dual code).toList.any (fun x => x != 0) = nz
   by_cases c1 : dk.d - (if nz = true then 1 else 0) < 4
-  · rw [if_pos c1, if_pos c1, if_pos c1]
+  · rw [ite_eq_left c1, ite_eq_left c1, ite_eq_left c1]
     exact ⟨hp, Bool.or_false _⟩
-  rw [if_neg c1, if_neg c1, if_neg c1]
+  rw [ite_eq_right c1, ite_eq_right c1, ite_eq_right c1]
   by_cases c2 : (nz && line3K (aVec dk.d dual code).toList != (aVec dk.d dual code).toList) = true
-  · rw [if_pos c2, if_pos c2, if_pos c2]
+  · rw [ite_eq_left c2, ite_eq_left c2, ite_eq_left c2]
     exact ⟨hp, Bool.or_false _⟩
-  rw [if_neg c2, if_neg c2, if_neg c2]
+  rw [ite_eq_right c2, ite_eq_right c2, ite_eq_right c2]
   have hav := availM_eq h hc (aVec dk.d dual code)
   have hlen := csize hc
   refine ⟨?_, ?_⟩

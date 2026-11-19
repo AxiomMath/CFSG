@@ -11,8 +11,10 @@ open CFSG.ClassicalGroups.Unitary CFSG.LieType.Universal.Unitary CFSG.RankThree.
 
 variable {F : Type} [Field F] {σ : F ≃+* F} {a b : Fin 3 → Fin 6 → F}
 
+omit [Field F] in
 private theorem b2_fam_inl (j : Fin 3) : fam a b (Sum.inl j) = a j := rfl
 
+omit [Field F] in
 private theorem b2_fam_inr (j : Fin 3) : fam a b (Sum.inr j) = b j := rfl
 
 @[expose] def Herm (σ : F ≃+* F) : Submodule (Fσ σ) (Matrix (Fin 3) (Fin 3) F) where
@@ -65,8 +67,7 @@ theorem levi_unitary (hσ : ∀ c, σ (σ c) = c) {A : Matrix (Fin 3) (Fin 3) F}
   have hX : cT σ A * (cT σ A)⁻¹ = 1 := Matrix.mul_nonsing_inv (cT σ A) (isUnit_iff_ne_zero.mpr hcA)
   rw [cT_fromBlocks, b2_cT_zero]
   unfold Jm
-  simp only [Matrix.fromBlocks_multiply, Matrix.mul_zero, Matrix.zero_mul, Matrix.one_mul,
-    Matrix.mul_one, zero_add, add_zero]
+  simp only [Matrix.fromBlocks_multiply, Matrix.mul_zero, Matrix.zero_mul, Matrix.mul_one, zero_add, add_zero]
   rw [hX, hY]
 
 theorem levi_det {A : Matrix (Fin 3) (Fin 3) F} (hA : A.det ≠ 0) (hdet : σ A.det = A.det) :
@@ -157,6 +158,7 @@ theorem uU_mem_PtStab [CharP F 2] (H : Matrix (Fin 3) (Fin 3) F) (hH : cT σ H =
     uU hσ hf H hH ∈ PtStab σ (Wa a) :=
   (mem_PtStab_iff hσ hf _).2 ⟨H, hH, rfl⟩
 
+omit hσ hf in
 theorem PtStab_le_Pstab [CharP F 2] : PtStab σ (Wa a) ≤ Pstab σ (Wa a) := by
   intro g hg
   show (Wa a).map (gLin g) = Wa a

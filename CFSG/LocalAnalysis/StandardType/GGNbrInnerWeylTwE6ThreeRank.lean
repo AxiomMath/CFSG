@@ -25,7 +25,7 @@ theorem exists_pGroup_lift {H M : Type*} [Group H] [Finite H] [Group M] (ρ : H 
     rw [Subgroup.mem_center_iff]
     intro g
     exact Subtype.ext (Subgroup.mem_center_iff.mp hy g.1)
-  haveI hYn : (Subgroup.zpowers ŷ).Normal :=
+  have hYn : (Subgroup.zpowers ŷ).Normal :=
     Subgroup.normal_of_le_center (Subgroup.zpowers_le.mpr hŷc)
   have hŷp : ŷ ^ p = 1 := Subtype.ext (by simpa [hŷ] using hyp)
   have hŷ1 : ŷ ≠ 1 := fun h => hy1 (congrArg Subtype.val h)
@@ -59,7 +59,7 @@ theorem exists_pGroup_lift {H M : Type*} [Group H] [Finite H] [Group M] (ρ : H 
   have hker : p ≤ Nat.card g.ker :=
     calc p = Nat.card (Subgroup.zpowers ŷ0) := hcardz.symm
       _ ≤ Nat.card g.ker := Subgroup.card_le_of_le (Subgroup.zpowers_le.mpr hŷ0)
-  refine ⟨(P₀ : Subgroup (E.comap ρ)).map (E.comap ρ).subtype, P₀.isPGroup'.map _, ?_, ?_⟩
+  refine ⟨(P₀ : Subgroup (E.comap ρ)).map (E.comap ρ).subtype, P₀.isPGroup.map _, ?_, ?_⟩
   · rintro _ ⟨a, -, rfl⟩
     exact a.2
   · rw [Subgroup.card_map_of_injective (E.comap ρ).subtype_injective, ← hcard]
@@ -96,7 +96,7 @@ theorem ggTwoLocalRankDom_ggGamma {p : ℕ} {B Bs : Subgroup G} {x : G} {L D J :
     GGTwoLocalRankDom p (ggGamma K hN).range := by
   classical
   obtain ⟨hp, hBs, -, -, -⟩ := hcfg.tableB_facts
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   intro E hEle hE hEloc
   obtain ⟨U, hU, hU2, hUE⟩ := hEloc
   have hS : LargeEvenSHat p B y K := hnb.1

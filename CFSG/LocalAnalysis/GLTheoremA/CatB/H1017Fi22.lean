@@ -15,7 +15,7 @@ open CFSG.LocalAnalysis.GLTheoremA.S8 CFSG.RankThree.PartTwo.Sec4.Census CFSG.Se
 
 private theorem comm_of_elemAbelian_fi {X : Type} [Group X] {p : ℕ} {E : Subgroup X}
     (hE : IsElemAbelian p E) {x y : X} (hx : x ∈ E) (hy : y ∈ E) : x * y = y * x := by
-  haveI := hE.1
+  have := hE.1
   have := congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : E) ⟨y, hy⟩)
   simpa using this
 

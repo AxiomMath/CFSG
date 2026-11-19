@@ -54,14 +54,14 @@ private lemma linShape_rank
     {Ā : Subgroup (MulAut (PSLg N K))}
     {δ' : MulAut (PSLg N K)}
     {J' : Subgroup (PSLg N K)} (hchar : CharP K 2) (hN : 2 ≤ N)
-    (hspl : 3 ∣ Nat.card K - 1 ∨ Nat.card K = 2) (hR : RDatum Ā δ' J')
+    (_hspl : 3 ∣ Nat.card K - 1 ∨ Nat.card K = 2) (hR : RDatum Ā δ' J')
     (hcardĀ : Nat.card Ā = Nat.card A)
     (hĀI : ∀ a ∈ Ā, a ∈ LargeEvenMatConjImage (LargeEvenProjMk (LargeEvenSLGroup (Fin N) K))
       Set.univ)
     {d : GL (Fin N) K}
     (hd : LargeEvenGraphAut (LargeEvenProjMk (LargeEvenSLGroup (Fin N) K))
         (fun h h' => (h' : GL (Fin N) K) = d * h * d⁻¹) δ')
-    (hd3 : d ^ 3 ∈ LargeEvenScalars (Fin N) K) (hdns : d ∉ LargeEvenScalars (Fin N) K)
+    (_hd3 : d ^ 3 ∈ LargeEvenScalars (Fin N) K) (hdns : d ∉ LargeEvenScalars (Fin N) K)
     {h : Polynomial K} (hh : h ∈ primaryFactors (glA d : Module.End K (Fin N → K))) (hgood : IsGoodFactor d h)
     {e : PSLg N K ≃* LinearFlag.projectiveSL N K}
     (heJ : J' = Subgroup.comap e.toMonoidHom ((specialFactor d h).map (LinearFlag.proj N K)))
@@ -102,8 +102,8 @@ theorem linShape_holds :
   obtain ⟨h, hh, hgood, e, E, hE, hFE, hcharE, m, j, f,
       hm_eq, hj_eq, heJ, h1, h2, h3, h4, h5, h6, h8, h9, hf, hker⟩ :=
     linShape_setup (K := K) (N := N) hchar hN hspl hR.comp hd hd3
-  letI : Field E := hE
-  letI : Finite E := hFE
+  let : Field E := hE
+  let : Finite E := hFE
   have hperfJ : commutator J = ⊤ := by
     have hcomp : IsComponentOf J (ggAutFixedSubgroup δ) := hKloc.1.2.2.2.1
     obtain ⟨-, -, hqs⟩ := hcomp

@@ -62,7 +62,7 @@ theorem lineKeys_lineIdx : ∀ u w, lineIdx u w < 365211 → lineKeys[lineIdx u 
   · simp [hc.1, hc.2]
   · have hc' : ¬((decide (i < 365211) && lineKeys[i]! == 4096 * u + w) = true) := by
       simpa using hc
-    rw [if_neg hc'] at h
+    rw [ite_eq_right hc'] at h
     exact absurd h (lt_irrefl _)
 
 theorem lineIdx_of_memB : ∀ u w, u < 4096 → w < 4096 → lineTree.memB (4096 * u + w) = true →
@@ -83,9 +83,8 @@ end PinnedModel
 
 theorem gensArr_eq : gensArr = (gensV.map fun p => lineOf p.1 p.2).toArray := by
   apply Array.toList_inj.1
-  simp only [gensArr, gensV, eV, fV, Array.toList_append, List.toList_toArray, List.map_cons,
-    List.map_nil, List.range_succ, List.range_zero, List.nil_append, List.flatMap_append,
-    List.flatMap_cons, List.flatMap_nil, List.cons_append, List.append_nil, List.singleton_append]
+  simp only [gensArr, gensV, eV, fV, Array.toList_append, List.map_cons,
+    List.map_nil, List.range_succ, List.range_zero, List.nil_append, List.flatMap_cons, List.flatMap_nil, List.cons_append, List.append_nil]
 
 theorem map_toArray_getElem! (f : ℕ → ℕ → ℕ) (L : List (ℕ × ℕ)) {g : ℕ} (hl : g < L.length) :
     (L.map fun p => f p.1 p.2).toArray[g]! = f (L.getD g (0, 0)).1 (L.getD g (0, 0)).2 := by

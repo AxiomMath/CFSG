@@ -27,7 +27,7 @@ private theorem kSub_le_of_mem_quotientCentralizer {M E H : Subgroup G}
       (kSub_le 3 M H) (hK 3 E H h)) :
     kSub 3 M H ≤ M := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   let O : Subgroup G := (CFSG.pPrimeCore 3 ↥(kSub 3 M H)).map (kSub 3 M H).subtype
   have hOH : O ≤ H :=
     (Subgroup.map_subtype_le (CFSG.pPrimeCore 3 ↥(kSub 3 M H))).trans (kSub_le 3 M H)
@@ -83,7 +83,7 @@ theorem o1521bAt_of_s14
     hypCGen_of_isMaxTwoLocal hC hM hσ hEM hE hEc hΓ hH2 hEH hHM
   have hC3 : CaseThree M H := hF.three H h.mem_H2StarAll
   obtain ⟨A, hA, hNA⟩ := hF.normalizerSylowKLe 3 E H h
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨x, hxord⟩ := exists_prime_orderOf_dvd_card' (G := ↥(H ⊓ M)) q hqdiv
   set w : G := (x : G) with hwdef
   have hwH : w ∈ H := by simpa [hwdef] using x.2.1

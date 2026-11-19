@@ -289,7 +289,7 @@ theorem perfect_le_normalizer_sylow_core {H : Type*} [Group H] [Finite H] (N O W
     have hoY : o ∈ Y' := by
       have : o * w * w⁻¹ ∈ Y' := Subgroup.mul_mem _ hxY (Subgroup.inv_mem _ (hY' hw))
       simpa using this
-    obtain ⟨k, hk⟩ := Y'.isPGroup' ⟨o, hoY⟩
+    obtain ⟨k, hk⟩ := Y'.isPGroup ⟨o, hoY⟩
     have : o = 1 := hO o ho ⟨k, by simpa using congrArg Subtype.val hk⟩
     subst this
     simpa using hw
@@ -383,7 +383,7 @@ theorem perfect_le_normalizer_sylow_eq_top {A : Type*} [Group A] [Finite A] [Gro
   have hT₀ : (T₀ : Subgroup A) ≤ S.normalCore := by
     intro a ha g
     apply hS
-    obtain ⟨k, hk⟩ := T₀.isPGroup' ⟨a, ha⟩
+    obtain ⟨k, hk⟩ := T₀.isPGroup ⟨a, ha⟩
     refine ⟨k, ?_⟩
     have h1 : a ^ 2 ^ k = 1 := by simpa using congrArg Subtype.val hk
     rw [conj_pow, h1]

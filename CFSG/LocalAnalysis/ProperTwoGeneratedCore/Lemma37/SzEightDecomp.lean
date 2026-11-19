@@ -102,7 +102,7 @@ theorem center_quotient_eq_bot : Subgroup.center (J ⧸ Subgroup.center J) = ⊥
 
 omit [J.Normal] in
 theorem isPGroup_sylowImage : IsPGroup 2 (escapingSylowImage S z) := by
-  have h := (sylowBarSylow hs.central).isPGroup'
+  have h := (sylowBarSylow hs.central).isPGroup
   rwa [coe_sylowBarSylow, sylowBar_range] at h
 
 variable (e : (J ⧸ Subgroup.center J) ≃* ↥(CFSG.Theory.Comparator.SzModel 1))

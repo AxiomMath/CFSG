@@ -97,7 +97,7 @@ private theorem eq_label_of_AParams {lab : GLALabel} {e : ℕ}
   cases tg <;>
     simp only [CFSG.StandardType.markTag, CFSG.StandardType.markRank,
       CFSG.StandardType.markChar, CFSG.StandardType.markDeg] at hP ⊢ <;>
-    (try split_ifs at hP ⊢) <;> simp_all <;> omega
+    (try split_ifs at hP ⊢) <;> simp_all
 
 private theorem eq_label_of_twAParams {lab : GLALabel} {e : ℕ}
     (hP : CFSG.StandardType.markTag lab = .PSU ∧
@@ -108,7 +108,7 @@ private theorem eq_label_of_twAParams {lab : GLALabel} {e : ℕ}
   cases tg <;>
     simp only [CFSG.StandardType.markTag, CFSG.StandardType.markRank,
       CFSG.StandardType.markChar, CFSG.StandardType.markDeg] at hP ⊢ <;>
-    (try split_ifs at hP ⊢) <;> simp_all <;> omega
+    (try split_ifs at hP ⊢) <;> simp_all
 
 section Label
 

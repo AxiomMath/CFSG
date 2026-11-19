@@ -112,7 +112,7 @@ theorem twoSzTable_of_data {K : Type} [Group K] [Finite K] (Q : Subgroup K)
       simpa using this
     · intro hx
       exact ⟨x, hx, rfl⟩
-  obtain ⟨hT1, hEcard⟩ := hbender (TS' : Subgroup (K ⧸ Z)) TS'.isPGroup' TS'.not_dvd_index
+  obtain ⟨hT1, hEcard⟩ := hbender (TS' : Subgroup (K ⧸ Z)) TS'.isPGroup TS'.not_dvd_index
   set E : Subgroup (K ⧸ Z) := (TS' : Subgroup (K ⧸ Z)) ⊓
     Subgroup.centralizer ((TS' : Subgroup (K ⧸ Z)) : Set (K ⧸ Z)) with hEdef
   set A : Subgroup K := E.comap π with hAdef

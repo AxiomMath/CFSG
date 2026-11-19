@@ -25,8 +25,8 @@ theorem ggLabel_n_eq_one_of_rk1
     lab.n = 1 := by
   obtain ⟨F, hF, hFfin, θ, -, hθinj, hθrange, -, -, -, hlabF⟩ :=
     hRk1 G p B Bs x L D J 𝒦 hcfg hns ι M e hP hle3 L (Or.inl rfl) r hrA hrC
-  letI : Field F := hF
-  haveI : Finite F := hFfin
+  let : Field F := hF
+  have : Finite F := hFfin
   have hcardSL : Nat.card (ggRankOneIn L Bs r) =
       Nat.card (Matrix.SpecialLinearGroup (Fin 2) F) := by
     rw [← hθrange]

@@ -11,6 +11,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {V T A K S X : Subgroup G} {p : ℕ} {g x : G}
 
+omit [Finite G] in
 private theorem nineThree_conj_iSup {ι : Sort*} (B : ι → Subgroup G) (g : G) :
     conjSubgroup (⨆ i, B i) g = ⨆ i, conjSubgroup (B i) g := by
   simp only [CFSG.Quasithin.conjSubgroup]
@@ -22,6 +23,7 @@ structure Nine3IFacts (V K S : Subgroup G) : Prop where
 
 namespace Nine3Core
 
+omit [Finite G] in
 theorem nineI_le_pCoreOf : nineI V K ≤ pCoreOf 2 K :=
   iSup₂_le fun _ _ => inf_le_right
 
@@ -32,6 +34,7 @@ theorem nineI_inf_eq (h : Nine3Core V T A K S X p) {B : Subgroup G}
   exact le_trans (le_inf_iff.mpr ⟨inf_le_left, inf_le_right⟩)
     (le_iSup₂_of_le B hBΩ le_rfl : B ⊓ pCoreOf 2 K ≤ nineI V K)
 
+omit [Finite G] in
 theorem conjSubgroup_nineI_le {k : G} (hk : k ∈ K) :
     conjSubgroup (nineI V K) k ≤ nineI V K := by
   unfold nineI
@@ -44,6 +47,7 @@ theorem conjSubgroup_nineI_le {k : G} (hk : k ∈ K) :
     rw [E3.conjSubgroup_inf, conjSubgroup_pCoreOf K hk]
   exact hle.trans (le_iSup₂_of_le (conjSubgroup U k) hU' le_rfl)
 
+omit [Finite G] in
 theorem conjSubgroup_nineI {k : G} (hk : k ∈ K) : conjSubgroup (nineI V K) k = nineI V K := by
   refine le_antisymm (conjSubgroup_nineI_le hk) ?_
   have h1 := E3.conjSubgroup_mono_left k (conjSubgroup_nineI_le (V := V) (K.inv_mem hk))
@@ -54,6 +58,7 @@ end Nine3Core
 
 namespace Nine3IFacts
 
+omit [Finite G] in
 theorem le_normalizer (hI : Nine3IFacts V K S) {B : Subgroup G} (hB : B ∈ nineOmegaIn V K S) :
     nineI V K ≤ normalizer (B : Set G) := by
   have hcomm : ∀ a ∈ nineI V K, ∀ b ∈ B, a * b * a⁻¹ ∈ B := by

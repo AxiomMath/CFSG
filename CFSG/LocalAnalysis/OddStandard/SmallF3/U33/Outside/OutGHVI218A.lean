@@ -87,6 +87,7 @@ theorem FpfNonab.commute_rho (h : FpfNonab S ρ) (x : S) : x * ρ x = ρ x * x :
   have hxy : x * y = y * x := commutatorElement_eq_one_iff_mul_comm.mp h1
   simpa [hy] using hxy
 
+omit [Finite S] in
 theorem FpfNonab.rho_sq_ne (h : FpfNonab S ρ) {x : S} (hx : orderOf x = 4) :
     ρ (x * x) ≠ x * x := by
   intro hfix
@@ -112,7 +113,7 @@ theorem FpfNonab.inf_zpowers_rho (h : FpfNonab S ρ) {x : S} (hx : orderOf x = 4
   obtain ⟨j, hj, hjx⟩ := Finset.mem_image.mp hx2y
   rw [Finset.mem_range, hry] at hj
   have hx2_ord : orderOf (x * x) = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     refine orderOf_eq_prime ?_ (fun h1 => by
       have hdvd : orderOf x ∣ 2 := by
         apply orderOf_dvd_of_pow_eq_one
@@ -155,7 +156,7 @@ theorem FpfNonab.center_le_sup (h : FpfNonab S ρ) {x : S} (hx : orderOf x = 4) 
   have hb1 : ρ (x * x) ≠ 1 := by
     intro h1
     exact ha1 (ρ.injective (by rw [h1, map_one]))
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have ha_ord : orderOf (x * x) = 2 :=
     orderOf_eq_prime (by rwa [pow_two]) ha1
   have hb_ord : orderOf (ρ (x * x)) = 2 :=

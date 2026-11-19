@@ -47,7 +47,7 @@ theorem sec5pe8m_cls_t_order {G : Type} [Group G] [Finite G] {X : Type} [Group X
       exact hpu
     rw [hyp.ker] at hker
     exact hyp.t_not_mem (Subgroup.mem_subgroupOf.mp hker)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact orderOf_eq_prime (p := 2) (by rw [pow_two]; exact hc_sq) hc_ne
 
 end CFSG.OddStandard.SmallF3.Omega

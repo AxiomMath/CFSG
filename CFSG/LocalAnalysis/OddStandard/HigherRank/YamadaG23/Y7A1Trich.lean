@@ -43,7 +43,7 @@ private lemma y7a_not_mem_zpowers_of_sq_z (h : Y7ACfg A C0 V a₁ b₁ a₂ b₂
     exact h.cfg.z_ne ha.symm
 
 private lemma y7a_mul_not_mem_zpowers (h : Y7ACfg A C0 V a₁ b₁ a₂ b₂ z t d) {x y : G}
-    (hx : x ∈ A) (hy : y ∈ A) (hxy : ⁅x, y⁆ = z) : x * y ∉ zpowers z := by
+    (hx : x ∈ A) (_hy : y ∈ A) (hxy : ⁅x, y⁆ = z) : x * y ∉ zpowers z := by
   intro hZ
   have hcomm := y7a_zpowers_comm_A h hZ hx
   have hyx : y * x = x * y := by
@@ -173,9 +173,9 @@ private lemma y7a_mixed_excl (h : Y7ACfg A C0 V a₁ b₁ a₂ b₂ z t d) {X : 
     · convert hq_notV using 1; simp [u]
     · convert hpq_inv_notV using 1; simp [u]
     · exact absurd rfl hij
-    · convert hconj_notV using 1 <;> simp [u] <;> group
+    · convert hconj_notV using 1; simp [u]; group
     · convert hqinv_notV using 1; simp [u]
-    · convert hconjinv_notV using 1 <;> simp [u] <;> group
+    · convert hconjinv_notV using 1; simp [u]
     · exact absurd rfl hij
   have hnO : ∀ i, u i * t ∉ y7aO X V t := by
     intro i

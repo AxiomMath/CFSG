@@ -207,8 +207,7 @@ theorem exists_inv_mem_normalizer {P V : Subgroup (Perm (Fin 7))} (hP : Nat.card
     · rw [h]
       exact tInv_mem_normalizer_vTwo
   refine ⟨g⁻¹ * tInv * g, ?_, ?_, ?_⟩
-  · change g⁻¹ * tInv * g ∈ alternatingGroup (Fin 7)
-    exact (alternatingGroup (Fin 7)).mul_mem
+  · exact (alternatingGroup (Fin 7)).mul_mem
       ((alternatingGroup (Fin 7)).mul_mem ((alternatingGroup (Fin 7)).inv_mem hgA)
         tInv_mem_alternatingGroup) hgA
   · intro e he
@@ -635,7 +634,6 @@ theorem exists_swap_of_fix_inv {P : Subgroup (Perm (Fin 7))} (hP : Nat.card P = 
     tInv_conj_eq_inv he'
   change r ^ 2 * e * (r ^ 2)⁻¹ = e⁻¹
   rw [hr2eq]
-  change (g⁻¹ * tInv * g) * e * (g⁻¹ * tInv * g)⁻¹ = e⁻¹
   calc (g⁻¹ * tInv * g) * e * (g⁻¹ * tInv * g)⁻¹
       = g⁻¹ * (tInv * MulAut.conj g e * tInv⁻¹) * g := by
         rw [MulAut.conj_apply]

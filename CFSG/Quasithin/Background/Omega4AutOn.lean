@@ -158,10 +158,10 @@ theorem IsOmega4MinusType.binaryOrthogonalFour_autOn {G : Type} [Group G] {L : S
     (hQU : CFSG.Open.pCoreOf 2 L ≤ Subgroup.centralizer (blockU L : Set G)) :
     BinaryOrthogonalFour (V := ↥(blockU L)) (autOn L (blockU L)) ⊤ ⊥ m := by
   obtain ⟨F, hFld, hFintype, hFcard, α, hα, hαker, β, hβim, hβker, hβeq⟩ := hT
-  letI := hFld
-  letI := hFintype
+  let := hFld
+  let := hFintype
   have hFchar : CharP F 2 := charP_of_card_eq_prime_pow (by simpa using hFcard)
-  letI := hFchar
+  let := hFchar
   have hFnat : Nat.card F = 2 ^ (2 * m) := by rw [Nat.card_eq_fintype_card, hFcard]
   have hβi : Function.Injective β := by
     rw [← MonoidHom.ker_eq_bot_iff, hβker, hZ, Subgroup.bot_subgroupOf]

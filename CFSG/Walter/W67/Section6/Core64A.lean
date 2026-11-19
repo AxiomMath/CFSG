@@ -174,7 +174,7 @@ theorem factorization_two_le [Fact r.Prime] (hr2 : r ≠ 2) {Q : Subgroup G}
     have h2le : 2 ≤ (Nat.card N).factorization 2 := hlt
     exact (show 4 ∣ 2 ^ 2 by norm_num).trans (pow_dvd_pow 2 h2le)
   set T' := (T : Subgroup N).map N.subtype with hT'
-  have hT'2 : IsPGroup 2 T' := T.isPGroup'.map _
+  have hT'2 : IsPGroup 2 T' := T.isPGroup.map _
   have hT'card : 4 ∣ Nat.card T' := by
     rw [hT', Subgroup.card_map_of_injective N.subtype_injective]
     exact hT4
@@ -241,7 +241,7 @@ theorem exists_sylow [Fact r.Prime] (hr2 : r ≠ 2) {J : G} (hJ : orderOf J = 2)
     intro x hx
     have := (hSr.comap_subtype (K := N)).le_sylow_of_normal R
     exact ⟨⟨x, Subgroup.le_normalizer hx⟩, this hx, rfl⟩
-  have hR'r : IsPGroup r R' := R.isPGroup'.map _
+  have hR'r : IsPGroup r R' := R.isPGroup.map _
   have hJR' : J ∈ Subgroup.normalizer (R' : Set G) := by
     apply JT.mem_normalizer_of_conj_mem
     rintro _ ⟨y, hy, rfl⟩

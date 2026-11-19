@@ -23,7 +23,7 @@ theorem rf_cartan_dot_mod3 (mL : List ℕ) (hlen : mL.length = Tag.E6.rank)
   have hrow : rfCartanMod3.getD (j : ℕ) [] =
       (List.ofFn (fun l : Fin Tag.E6.rank => Tag.E6.cartan j l)).map rfRes3 := by
     rw [rfCartanMod3_eq, rfCartanL_eq, List.map_ofFn, List.map_ofFn, List.getD_eq_getElem?_getD]
-    simp [List.getElem?_ofFn]
+    simp
   rw [hrow, rfDotN_comm (List.map rfRes3 _) mL]
   have h2 := rfDotN_res3 mL (List.ofFn fun l : Fin Tag.E6.rank => Tag.E6.cartan j l)
   rw [hmcast, rfDotL_ofFn] at h2

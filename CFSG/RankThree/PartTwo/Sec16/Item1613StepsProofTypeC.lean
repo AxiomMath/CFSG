@@ -122,7 +122,7 @@ theorem kS1613TypeC :
       CFSG.SignalizerFunctor.Helpers.normalized_subgroup_invariant_sylow_nontrivial
         3 2 Nat.prime_three Nat.prime_two W X (isPGroup_three_of_isElemAbelian hWab) hWX hX3 h2X
     have h4 := CFSG.RankThree.Theta.le_localRank_of_le_normalizer (q := 3) (k := 4)
-      (by norm_num) hT1 (T.isPGroup'.map _) hWab.1 hWab.2 (by rw [hW81]; norm_num) hWT
+      (by norm_num) hT1 (T.isPGroup.map _) hWab.1 hWab.2 (by rw [hW81]; norm_num) hWT
     have h3 := h.toTheoremFourHyp.localRank_three
     omega
   obtain ⟨F, hFP, hcF, hdF, hFab, hF27, hsec, hTC⟩ := Proof1613Type.exists_typeC_core hc3 hc1 hLc

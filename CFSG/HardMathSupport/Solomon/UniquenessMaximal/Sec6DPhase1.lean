@@ -107,7 +107,7 @@ theorem bClosure_conj_eq {B L : Subgroup G} {g : G} (hg : g ∈ B) :
   rwa [gLBConj_gLBConj, inv_mul_cancel, gLBConj_one] at h1
 
 theorem le_normalizer_bClosure (B L : Subgroup G) :
-    B ≤ Subgroup.normalizer (bClosure B L : Set G) := fun g hg =>
+    B ≤ Subgroup.normalizer (bClosure B L : Set G) := fun _g hg =>
   mem_normalizer_iff_gLBConj_eq.2 (bClosure_conj_eq hg)
 
 theorem le_bClosure_self {B : Subgroup G} (L : Subgroup G) : L ≤ bClosure B L := by
@@ -202,7 +202,7 @@ theorem phase1_sylow (hB : IsElemAbelian 3 B) (hBX : B ≤ X) (hK : GLAPComponen
     (h3 : (Subgroup.normalizer (K : Set G)).relIndex B = 3)
     {R : Subgroup G} (hRle : R ≤ bClosure B K) (hRp : IsPGroup 3 ↥R)
     (hRc : Nat.card R = 3 ^ (Nat.card ↥(bClosure B K)).factorization 3)
-    (hRB : B ≤ Subgroup.normalizer (R : Set G)) :
+    (_hRB : B ≤ Subgroup.normalizer (R : Set G)) :
     Nat.card ↥(R ⊓ K) = 3 ^ (Nat.card K).factorization 3 ∧
     Nat.card ↥(R ⊓ GLBConj y K) = 3 ^ (Nat.card ↥(GLBConj y K)).factorization 3 ∧
     Nat.card ↥(R ⊓ GLBConj y (GLBConj y K)) =

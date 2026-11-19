@@ -193,7 +193,7 @@ theorem q8RelC_iff {ci cj : List ℕ} {i j : H3} (hi : Rep ci i) (hj : Rep cj j)
   simp only [q8RelC, Bool.and_eq_true]
   rw [rep_beq (rep_mul (rep_sq hi) (rep_sq hi)) rep_one, hne,
     rep_beq (rep_sq hi) (rep_sq hj), rep_beq (rep_mul (rep_mul hi hj) hi) hj, hrel]
-  simp only [Q8Rel, sq, pow_succ, pow_zero, one_mul, mul_assoc, and_assoc]
+  simp only [Q8Rel, pow_succ, pow_zero, one_mul, mul_assoc, and_assoc]
 
 theorem mem_normalizer_of_normVC {cz cw ca : List ℕ} {z w a : H3} (hz : Rep cz z)
     (hw : Rep cw w) (ha : Rep ca a) (h : normVC cz cw ca = true) :
@@ -312,7 +312,7 @@ theorem q8InCheckC_sound {ci₁ cj₁ ci₂ cj₂ : List ℕ} {i₁ j₁ i₂ j�
   have ha4 := orderOf_eq_four_of_q8Rel hab
   have hb2 : b ^ 2 = a ^ 2 := hab.2.2.1.symm
   have hb4 : orderOf b = 4 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     refine orderOf_eq_prime_pow (p := 2) (n := 1) (by rw [pow_one, hb2]; exact hab.2.1) ?_
     rw [show 2 ^ (1 + 1) = 2 * 2 by rfl, pow_mul, hb2, ← pow_mul]
     exact hab.1
@@ -342,7 +342,7 @@ section Model
 
 
 theorem centralizer_tH : Subgroup.centralizer ({tH} : Set H3) = X0H := by
-  haveI : Finite H3 := Nat.finite_of_card_ne_zero (by rw [card_R3]; norm_num)
+  have : Finite H3 := Nat.finite_of_card_ne_zero (by rw [card_R3]; norm_num)
   refine (Subgroup.eq_of_le_of_card_ge X0H_le_centralizer ?_).symm
   have h := card_centralizer_mul_le (H := H3) (t := tH) orbitElt orbitElt_injective
     orbitElt_conj
@@ -391,7 +391,7 @@ theorem aEmpty_of_checks {ci cj : List ℕ} {i j : H3} (hi : Rep ci i) (hj : Rep
     (hnX : normAllC ci cj elemsX.toList = true) (hnS : normAllC ci cj elemsS.toList = true) :
     AEmpty (CoreAssembly.conjClass (Subgroup.closure ({i, j} : Set H3)))
       (Subgroup.closure ({i, j} : Set H3)) := by
-  haveI : Finite H3 := Nat.finite_of_card_ne_zero (by rw [card_R3]; norm_num)
+  have : Finite H3 := Nat.finite_of_card_ne_zero (by rw [card_R3]; norm_num)
   refine aEmpty_conjClass_of_sylow (S := S2H) (nonempty_closure_pair_mulEquiv h)
     (isUniqueInvolution_closure_pair h) (fun u hu hu4 => ?_) (fun c hc' => ?_)
     (fun u hu hu4 => ?_)
@@ -409,7 +409,7 @@ theorem aEmpty_of_checks {ci cj : List ℕ} {i j : H3} (hi : Rep ci i) (hj : Rep
     exact classCheckC_sound hi hj h hc hcu hr hu4
 
 theorem classes : ∀ T ∈ q8Fam H3, ∃ g : H3, T = conjSub g Q1 ∨ T = conjSub g Q2 := by
-  haveI : Finite H3 := Nat.finite_of_card_ne_zero (by rw [card_R3]; norm_num)
+  have : Finite H3 := Nat.finite_of_card_ne_zero (by rw [card_R3]; norm_num)
   intro T hT
   obtain ⟨h1, h2, -, -⟩ := basic_spec
   have hq := (Certificates.certificate517003).2.2.2.2
@@ -432,7 +432,7 @@ theorem classes : ∀ T ∈ q8Fam H3, ∃ g : H3, T = conjSub g Q1 ∨ T = conjS
     rw [hT'', h]
 
 theorem aEmpty_q8 : ∀ T ∈ q8Fam H3, AEmpty (CoreAssembly.conjClass T) T := by
-  haveI : Finite H3 := Nat.finite_of_card_ne_zero (by rw [card_R3]; norm_num)
+  have : Finite H3 := Nat.finite_of_card_ne_zero (by rw [card_R3]; norm_num)
   obtain ⟨h1, h2, hz1, hz2⟩ := basic_spec
   have hc1 := (Certificates.certificate517003).2.1
   have hc2 := (Certificates.certificate517003).2.2.1

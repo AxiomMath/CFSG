@@ -100,7 +100,7 @@ theorem s1611e3_components_of_iso_l3_or_sq {P : Type} [Group P] [Finite P]
     ∀ L0 : Subgroup P, CFSG.Open.IsComponentOf L0 X → IsL3 ↥L0 1 := by
   rcases h with h | h
   · obtain ⟨e⟩ := h
-    haveI hXsimple : IsSimpleGroup ↥X := e.isSimpleGroup_congr.mpr (isSimpleGroup_of_isL3 hL)
+    have hXsimple : IsSimpleGroup ↥X := e.isSimpleGroup_congr.mpr (isSimpleGroup_of_isL3 hL)
     intro L0 hL0
     have hKc : CFSG.IsComponent (L0.subgroupOf X) :=
       (CFSG.LocalAnalysis.ComponentInitial.isComponentOf_iff_isComponent_subgroupOf hL0.1).mp

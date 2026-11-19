@@ -44,7 +44,7 @@ private lemma lk0xlqpair_noG2_E8 :
 open CFSG.LieType.Steinberg.Adjoint in
 private lemma lk0xlqpair_axis
     {τ : Tag} (hτ : NoG2 τ) {γ : Fin τ.rank → ℤ} (hγ : IsRoot τ γ) {c : ℤ}
-    (hc : c ≠ 0) (h : IsRoot τ (c • γ)) : c • γ = γ ∨ c • γ = -γ := by
+    (_hc : c ≠ 0) (h : IsRoot τ (c • γ)) : c • γ = γ ∨ c • γ = -γ := by
   have hform : iform (c • γ) (c • γ) = c ^ 2 * iform γ γ := by
     rw [iform_smul_left, iform_smul_right]; ring
   have hc2 : c ^ 2 = 1 := by
@@ -109,7 +109,7 @@ private lemma lk0xlqpair_root_mem_span_single
     {τ : Tag} {α β : Fin τ.rank → ℤ} (hτ : NoG2 τ)
     (hα : IsRoot τ α) (hβ : IsRoot τ β) (hne : α ≠ β) (hne' : α ≠ -β)
     (hN : iform α α = iform β β) (h2S : 2 * iform α β = -(iform α α))
-    (hsum : IsRoot τ (α + β))
+    (_hsum : IsRoot τ (α + β))
     {v : Fin τ.rank → ℤ} (hv : IsRoot τ v)
     (hmem : v ∈ Submodule.span ℤ ({α, β} : Set (Fin τ.rank → ℤ))) :
     v = α ∨ v = β ∨ v = -α ∨ v = -β ∨ v = α + β ∨ v = -(α + β) := by
@@ -187,7 +187,7 @@ private lemma lk0xlqpair_root_mem_span_double
     {τ : Tag} {α β : Fin τ.rank → ℤ} (hτ : NoG2 τ)
     (hα : IsRoot τ α) (hβ : IsRoot τ β) (hne : α ≠ β) (hne' : α ≠ -β)
     (hA : iform α α = 4) (hB : iform β β = 2) (hS : iform α β = -2)
-    (hsum : IsRoot τ (α + β)) (hsum2 : IsRoot τ (α + 2 • β))
+    (_hsum : IsRoot τ (α + β)) (_hsum2 : IsRoot τ (α + 2 • β))
     {v : Fin τ.rank → ℤ} (hv : IsRoot τ v)
     (hmem : v ∈ Submodule.span ℤ ({α, β} : Set (Fin τ.rank → ℤ))) :
     v = α ∨ v = β ∨ v = -α ∨ v = -β ∨ v = α + β ∨ v = -(α + β) ∨
@@ -365,13 +365,9 @@ theorem lq_pair_ncard_table
     dsimp only [absTag] at ⊢
     interval_cases y <;> interval_cases x <;>
       (try (exfalso; exact absurd hadj (by decide))) <;>
-      (try (rw [if_pos (by decide)])) <;>
-      (try (rw [if_neg (by decide)])) <;>
-      (first | apply lk0xlqpair_ncard_six | apply lk0xlqpair_ncard_eight) <;>
-      (try (exact lk0xlqpair_noG2_F4)) <;>
-      (try (exact lk0xlqpair_noG2_E8)) <;>
+      (try (rw [ite_eq_left (by decide)])) <;>
+      (first | apply lk0xlqpair_ncard_six) <;>
       (try (exact lk0xlqpair_noG2_E6)) <;>
-      (try (exact lk0xlqpair_noG2_E7)) <;>
       (try decide) <;>
       (try (rw [isRoot_iff_mem_artifactRoots]; decide))
   case E7 =>
@@ -380,12 +376,8 @@ theorem lq_pair_ncard_table
     dsimp only [absTag] at ⊢
     interval_cases y <;> interval_cases x <;>
       (try (exfalso; exact absurd hadj (by decide))) <;>
-      (try (rw [if_pos (by decide)])) <;>
-      (try (rw [if_neg (by decide)])) <;>
-      (first | apply lk0xlqpair_ncard_six | apply lk0xlqpair_ncard_eight) <;>
-      (try (exact lk0xlqpair_noG2_F4)) <;>
-      (try (exact lk0xlqpair_noG2_E8)) <;>
-      (try (exact lk0xlqpair_noG2_E6)) <;>
+      (try (rw [ite_eq_left (by decide)])) <;>
+      (first | apply lk0xlqpair_ncard_six) <;>
       (try (exact lk0xlqpair_noG2_E7)) <;>
       (try decide) <;>
       (try (rw [isRoot_iff_mem_artifactRoots]; decide))
@@ -395,13 +387,9 @@ theorem lq_pair_ncard_table
     dsimp only [absTag] at ⊢
     interval_cases y <;> interval_cases x <;>
       (try (exfalso; exact absurd hadj (by decide))) <;>
-      (try (rw [if_pos (by decide)])) <;>
-      (try (rw [if_neg (by decide)])) <;>
-      (first | apply lk0xlqpair_ncard_six | apply lk0xlqpair_ncard_eight) <;>
-      (try (exact lk0xlqpair_noG2_F4)) <;>
+      (try (rw [ite_eq_left (by decide)])) <;>
+      (first | apply lk0xlqpair_ncard_six) <;>
       (try (exact lk0xlqpair_noG2_E8)) <;>
-      (try (exact lk0xlqpair_noG2_E6)) <;>
-      (try (exact lk0xlqpair_noG2_E7)) <;>
       (try decide) <;>
       (try (rw [isRoot_iff_mem_artifactRoots]; decide))
   case F4 =>
@@ -410,13 +398,10 @@ theorem lq_pair_ncard_table
     dsimp only [absTag] at ⊢
     interval_cases y <;> interval_cases x <;>
       (try (exfalso; exact absurd hadj (by decide))) <;>
-      (try (rw [if_pos (by decide)])) <;>
-      (try (rw [if_neg (by decide)])) <;>
+      (try (rw [ite_eq_left (by decide)])) <;>
+      (try (rw [ite_eq_right (by decide)])) <;>
       (first | apply lk0xlqpair_ncard_six | apply lk0xlqpair_ncard_eight) <;>
       (try (exact lk0xlqpair_noG2_F4)) <;>
-      (try (exact lk0xlqpair_noG2_E8)) <;>
-      (try (exact lk0xlqpair_noG2_E6)) <;>
-      (try (exact lk0xlqpair_noG2_E7)) <;>
       (try decide) <;>
       (try (rw [isRoot_iff_mem_artifactRoots]; decide))
 

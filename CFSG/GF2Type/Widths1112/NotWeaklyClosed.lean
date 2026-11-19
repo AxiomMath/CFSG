@@ -16,7 +16,7 @@ namespace CFSG.GF2Type.Widths1112
 variable {G : Type} [Group G] [Finite G]
 
 theorem exists_conj_mem_QG_of_card [IsSimpleGroup G] (S : Setting G)
-    (hAS : S14.AschbacherSmith35Input) (hw : 5 ≤ S.width) (hw4 : S.width ≠ 4)
+    (hAS : S14.AschbacherSmith35Input) (hw : 5 ≤ S.width) (_hw4 : S.width ≠ 4)
     (h2 : (Nat.card S.Mbar).factorization 2 + 1 + 2 * S.width <
       (S.width + 2) * (S.width + 1) / 2) :
     ∃ g : G, g * S.z * g⁻¹ ∈ S.QG ∧ g * S.z * g⁻¹ ≠ S.z := by

@@ -19,6 +19,7 @@ theorem le_normalizer_of_commute' {A B : Subgroup Y} (h : ∀ a ∈ A, ∀ b ∈
     rw [← h a ha b hb, mul_inv_cancel_right]
     exact ha
 
+omit [Finite Y] in
 theorem inf_zpowers_eq_bot_of_inverts {A : Subgroup Y} {c z : Y} (hc3 : c ^ 3 = 1)
     (hz : z * c * z⁻¹ = c⁻¹) (hA : ∀ a ∈ A, z * a = a * z) :
     A ⊓ Subgroup.zpowers c = ⊥ := by
@@ -37,6 +38,7 @@ theorem inf_zpowers_eq_bot_of_inverts {A : Subgroup Y} {c z : Y} (hc3 : c ^ 3 = 
       _ = 1 := mul_inv_cancel _
   exact eq_one_of_mul_self_of_pow_three h3 (zpow_cube_eq_one hc3 m)
 
+omit [Finite Y] in
 theorem card_zpowers_of_pow_three {a : Y} (ha3 : a ^ 3 = 1) (ha1 : a ≠ 1) :
     Nat.card (Subgroup.zpowers a) = 3 := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
@@ -189,11 +191,11 @@ theorem subgroupOf_closure_pair {J : Subgroup Y} {x y : Y} (hx : x ∈ J) (hy : 
   rw [MonoidHom.map_closure, Subgroup.map_subgroupOf_eq_of_le hcl]
   congr 1
   ext z
-  simp [Set.mem_image]
+  simp
 
 theorem subgroupOf_le_pCore {J R : Subgroup Y} (hRJ : R ≤ J) (hJR : J ≤ Subgroup.normalizer (R : Set Y))
     (hR2 : IsPGroup 2 R) : R.subgroupOf J ≤ CFSG.pCore 2 ↥J := by
-  haveI : (R.subgroupOf J).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hRJ).2 hJR
+  have : (R.subgroupOf J).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hRJ).2 hJR
   exact le_sSup ⟨inferInstance, hR2.of_equiv (Subgroup.subgroupOfEquivOfLe hRJ).symm⟩
 
 end Transfer

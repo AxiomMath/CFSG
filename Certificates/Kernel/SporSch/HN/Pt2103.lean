@@ -32,8 +32,8 @@ local notation "OM" => ordMat 5 133 13 1729
 theorem sIdx_eq (c : ℕ) : sIdx c = if c < 34 then 13 + c else c - 34 := by
   change Bool.rec (motive := fun _ => ℕ) (c - 34) (13 + c) (Nat.blt c 34) = _
   cases h : Nat.blt c 34
-  · rw [if_neg (fun hc => absurd (Nat.blt_eq.mpr hc) (by rw [h]; decide))]
-  · rw [if_pos (Nat.blt_eq.mp h)]
+  · rw [ite_eq_right (fun hc => absurd (Nat.blt_eq.mpr hc) (by rw [h]; decide))]
+  · rw [ite_eq_left (Nat.blt_eq.mp h)]
 
 theorem om_rows {W : ℕ} {Y : ℕ → ℕ} (h : lanesEq W Y = true) : OM W = toMat 5 133 (rows5 Y) := by
   ext i j
@@ -47,16 +47,16 @@ theorem R_mat {c : ℕ} (hc : c < 36) :
     OM (CFSG.KD.HNPt.R c) = matJ (genJ c) := by
   rw [om_rows (allN_spec bridge_R c hc), sIdx_eq, genJ]
   rcases Nat.lt_or_ge c 17 with h1 | h1
-  · rw [if_pos (by omega), if_pos h1, (mat_sL c h1).1]
+  · rw [ite_eq_left (by omega), ite_eq_left h1, (mat_sL c h1).1]
     rfl
   rcases Nat.lt_or_ge c 34 with h2 | h2
-  · rw [if_pos h2, if_neg (by omega), if_pos h2, (mat_sL (c - 17) (by omega)).2,
+  · rw [ite_eq_left h2, ite_eq_right (by omega), ite_eq_left h2, (mat_sL (c - 17) (by omega)).2,
       show 13 + c = 30 + (c - 17) by omega]
     rfl
-  rw [if_neg (by omega), if_neg (by omega), if_neg (by omega)]
+  rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by omega)]
   rcases (by omega : c = 34 ∨ c = 35) with rfl | rfl
-  · rw [if_pos rfl, mat_aJ, ← toMat_rowsA, HNStrong.rowsA_eq]
-  · rw [if_neg (by omega), mat_bJ, ← toMat_rowsB, HNStrong.rowsB_eq]
+  · rw [ite_eq_left rfl, mat_aJ, ← toMat_rowsA, HNStrong.rowsA_eq]
+  · rw [ite_eq_right (by omega), mat_bJ, ← toMat_rowsB, HNStrong.rowsB_eq]
 
 theorem mat_word {cs : List ℕ} (hcs : ∀ c ∈ cs, c < 36) :
     Canon 5 133 13 (wordC CFSG.KD.HNPt.R cs) ∧
@@ -82,8 +82,8 @@ theorem prod_scode : ∀ w : List ℤ, (∀ l ∈ w, l ≠ 0 ∧ l.natAbs ≤ 17
     congr 1
     unfold scode genJ lJ
     by_cases hp : 0 < l
-    · rw [if_pos hp, if_pos hp, if_pos (by omega)]
-    · rw [if_neg hp, if_neg hp, if_neg (by omega), if_pos (by omega),
+    · rw [ite_eq_left hp, ite_eq_left hp, ite_eq_left (by omega)]
+    · rw [ite_eq_right hp, ite_eq_right hp, ite_eq_right (by omega), ite_eq_left (by omega),
         show 16 + (-l).toNat - 17 = (-l).toNat - 1 by omega]
 
 theorem prod_seed : ∀ w : List ℕ, (∀ l ∈ w, l = 1 ∨ l = 2) →
@@ -95,8 +95,8 @@ theorem prod_seed : ∀ w : List ℕ, (∀ l ∈ w, l = 1 ∨ l = 2) →
     congr 1
     unfold genJ
     rcases hw l List.mem_cons_self with rfl | rfl
-    · rw [if_neg (by omega), if_neg (by omega), if_pos rfl, if_pos rfl]
-    · rw [if_neg (by omega), if_neg (by omega), if_neg (by omega), if_neg (by omega)]
+    · rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_left rfl, ite_eq_left rfl]
+    · rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by omega)]
 
 noncomputable abbrev K1J : JH := wJ sL PointwiseData.k1
 noncomputable abbrev K2J : JH := wJ sL PointwiseData.k2

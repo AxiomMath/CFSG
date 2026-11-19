@@ -303,15 +303,16 @@ theorem siegelN_herm_fb (hσ : IsUnitaryInvolution σ) {w : Fin 2 → W}
   rw [hN, herm_sum_right]
   rw [Finset.sum_eq_single i]
   · rw [herm_smul_right, herm_conj σ hσ.invol (w i : Fin 4 → F) (fb i : Fin 4 → F),
-      hpair i i, if_pos rfl, map_one, mul_one]
+      hpair i i, ite_eq_left rfl, map_one, mul_one]
   · intro k _ hk
     rw [herm_smul_right, herm_conj σ hσ.invol (w k : Fin 4 → F) (fb i : Fin 4 → F),
-      hpair k i, if_neg hk, map_zero, mul_zero]
+      hpair k i, ite_eq_right hk, map_zero, mul_zero]
   · intro hi
     simp at hi
 
 variable [Finite F]
 
+omit [Finite F] in
 theorem siegelSU_mem_PW [CharP F 2] (hσ : IsUnitaryInvolution σ)
     (hcompl : IsCompl W U) (w : Fin 2 → W) (P : U ≃ₗ[F] (Fin 2 → F))
     (hP : ∀ (u : U) (i : Fin 2), P u i = herm σ (w i : Fin 4 → F) (u : Fin 4 → F))
@@ -329,6 +330,7 @@ theorem siegelSU_mem_PW [CharP F 2] (hσ : IsUnitaryInvolution σ)
   · rw [siegelSU_smul hσ hcompl w P hP M hM hWiso]
     exact siegelT_fixes_W (hcompl := hcompl) ⟨x, hx⟩
 
+omit [Finite F] in
 theorem siegelSU_injective [CharP F 2] (hσ : IsUnitaryInvolution σ)
     {hcompl : IsCompl W U} {w : Fin 2 → W} {P : U ≃ₗ[F] (Fin 2 → F)}
     (hP : ∀ (u : U) (i : Fin 2), P u i = herm σ (w i : Fin 4 → F) (u : Fin 4 → F))

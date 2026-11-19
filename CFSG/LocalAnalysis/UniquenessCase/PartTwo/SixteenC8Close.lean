@@ -15,6 +15,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem sylowOf_ge {p : ℕ} [Fact p.Prime] {K Q : Subgroup G} (hQK : Q ≤ K)
     (hQ : IsPGroup p Q) : ∃ P : Subgroup G, CFSG.ABGLocalTools.IsSylowOf p P K ∧ Q ≤ P := by
   obtain ⟨S, hS⟩ := (hQ.comap_subtype (K := K)).exists_le_sylow
@@ -72,7 +73,7 @@ theorem c8_mem_pullSub_range_of_sq_eq_one (D : Data G) {V₀ V L T' : Subgroup G
     (hxP : actTil V₀ V hV ⟨x, hMs hxM⟩ ∈
       pullSub ψ (stabilizer 3 (ZMod 2) (lagrangianZero 3))) :
     actTil V₀ V hV ⟨x, hMs hxM⟩ ∈ pullSub ψ (tauSym 3).range := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set H : Subgroup G :=
     D.M ⊓ ((pullSub ψ (stabilizer 3 (ZMod 2) (lagrangianZero 3))).comap
       (actTil V₀ V hV)).map (stabTil V₀ V).subtype with hH

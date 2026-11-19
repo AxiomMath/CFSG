@@ -123,7 +123,7 @@ theorem HasS3Quot.of_surjective (ρ : E →* E') (hρ : Function.Surjective ρ)
   obtain ⟨π, hπ⟩ := h
   have hker : ρ.ker ≤ π.ker := by
     set N : Subgroup (Equiv.Perm (Fin 3)) := ρ.ker.map π with hN
-    haveI : N.Normal := Subgroup.Normal.map inferInstance π hπ
+    have : N.Normal := Subgroup.Normal.map inferInstance π hπ
     have hN2 : ∀ y ∈ N, y * y = 1 := by
       rintro _ ⟨x, hx, rfl⟩
       obtain ⟨k, hk⟩ := h2 x hx

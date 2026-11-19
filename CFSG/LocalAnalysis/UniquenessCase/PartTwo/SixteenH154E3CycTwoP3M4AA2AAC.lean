@@ -44,7 +44,7 @@ theorem s16h_e3_CycTwoP3M4AA2AAC_selfCentralizing
     (hPrel : ¬ 3 ∣ P.relIndex (Mbar D.M V₀ V hV))
     (hPgrp : IsPGroup 3 P) :
     Subgroup.centralizer (P : Set (MulAut (Vtil V₀ V hV))) ⊓ Mbar D.M V₀ V hV ≤ P := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hchar : CFSG.IsCharacteristicP 3 ↥(Mbar D.M V₀ V hV) :=
     s16h_e3_CycTwoP3M4AA2AACA_characteristicP D S hr3 hσ hV h hc hp hLp hχ hs2 hres hp3 hm hW
   have hle : P ≤ pCoreOf 3 (Mbar D.M V₀ V hV) :=

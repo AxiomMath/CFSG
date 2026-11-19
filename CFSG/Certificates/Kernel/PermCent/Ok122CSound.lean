@@ -19,7 +19,7 @@ theorem ok122_eq_G : ok122 = ok122G inv7 ord3 swaps7 fun σ => σ.support.card :
   simp only [swap_inv]
   simp only [inV]
   simp only [ite_true_eq, Bool.decide_and, decide_not, Bool.decide_or, Bool.decide_eq_true, List.any_filter,
-    List.all_filter, List.all_flatMap, List.all_map, Function.comp_def, swap_inv, Bool.not_and,
+    List.all_filter, List.all_flatMap, List.all_map, Function.comp_def, Bool.not_and,
     Bool.not_not, Bool.or_assoc]
 
 theorem ok122G_map {G H : Type*} [Group G] [DecidableEq G] [Group H] [DecidableEq H] (f : H → G)
@@ -32,6 +32,7 @@ theorem ok122G_map {G H : Type*} [Group G] [DecidableEq G] [Group H] [DecidableE
 
 variable {n : Nat} [Small n]
 
+omit [Small n] in
 theorem beq_val (a b : CV n) : Nat.beq a.1 b.1 = decide (a = b) := by
   rw [Bool.eq_iff_iff, Nat.beq_eq, decide_eq_true_iff, Subtype.ext_iff]
 
@@ -50,6 +51,7 @@ theorem ok122B_eq (I O S : List (CV 7)) :
 theorem decide_ev_one (x : CV n) [Decidable (ev x = 1)] : decide (ev x = 1) = decide (x = 1) := by
   simp only [one_eq_ev, ev_eq_iff]
 
+omit [Small n] in
 theorem sign_eq_one_iff (σ : Perm (Fin n)) : sign σ = 1 ↔ ¬ sign σ = -1 := by
   rcases Int.units_eq_one_or (sign σ) with h | h <;> rw [h] <;> decide
 

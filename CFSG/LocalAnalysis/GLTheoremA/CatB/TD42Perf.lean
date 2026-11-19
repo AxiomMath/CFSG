@@ -54,10 +54,10 @@ theorem perf_le_core_of_E9 {G : Type} [Group G] [Finite G] {X L F : Subgroup G}
     obtain ⟨d, rfl⟩ := MonoidHom.mem_range.1 hα
     rw [hφ]
     exact chevAut_fix_chevQuotHom hFN d.2 (hKL x.2) (hKC x.1 x.2)
-  haveI : Group.IsSolvable ↥(i269Fix φ.range) := hsolv
-  haveI : Group.IsSolvable ↥πK.range := isSolvable_of_le_isSolvable hrange
-  haveI hKp : Group.IsPerfect ↥K := Subgroup.isPerfect_iff.2 hKperf
-  haveI : Group.IsPerfect ↥πK.range := Group.IsPerfect.range πK
+  have : Group.IsSolvable ↥(i269Fix φ.range) := hsolv
+  have : Group.IsSolvable ↥πK.range := isSolvable_of_le_isSolvable hrange
+  have hKp : Group.IsPerfect ↥K := Subgroup.isPerfect_iff.2 hKperf
+  have : Group.IsPerfect ↥πK.range := Group.IsPerfect.range πK
   have hπ1 : πK = 1 := by
     by_contra hne
     have hbot : πK.range ≠ ⊥ := by
@@ -67,14 +67,14 @@ theorem perf_le_core_of_E9 {G : Type} [Group G] [Finite G] {X L F : Subgroup G}
       have : πK x ∈ πK.range := ⟨x, rfl⟩
       rw [h, Subgroup.mem_bot] at this
       simpa using this
-    haveI : Nontrivial ↥πK.range := (Subgroup.nontrivial_iff_ne_bot _).2 hbot
+    have : Nontrivial ↥πK.range := (Subgroup.nontrivial_iff_ne_bot _).2 hbot
     exact Group.IsPerfect.not_isSolvable (G := ↥πK.range) inferInstance
   let ψK : ↥K →* PQuot 3 L := (QuotientGroup.mk' (GLAPPrimeCore 3 ↥L)).comp (Subgroup.inclusion hKL)
   have hcent : ∀ x : ↥K, ψK x ∈ Subgroup.center (PQuot 3 L) := by
     intro x
     have h1 : πK x = 1 := by rw [hπ1]; rfl
     exact (QuotientGroup.eq_one_iff _).1 h1
-  haveI : Group.IsPerfect ↥ψK.range := Group.IsPerfect.range ψK
+  have : Group.IsPerfect ↥ψK.range := Group.IsPerfect.range ψK
   have hψ1 : ψK = 1 := by
     by_contra hne
     have hbot : ψK.range ≠ ⊥ := by
@@ -84,7 +84,7 @@ theorem perf_le_core_of_E9 {G : Type} [Group G] [Finite G] {X L F : Subgroup G}
       have : ψK x ∈ ψK.range := ⟨x, rfl⟩
       rw [h, Subgroup.mem_bot] at this
       simpa using this
-    haveI : Nontrivial ↥ψK.range := (Subgroup.nontrivial_iff_ne_bot _).2 hbot
+    have : Nontrivial ↥ψK.range := (Subgroup.nontrivial_iff_ne_bot _).2 hbot
     apply Group.IsPerfect.not_isMulCommutative (G := ↥ψK.range)
     refine ⟨⟨fun a b => ?_⟩⟩
     obtain ⟨x, hx⟩ := MonoidHom.mem_range.1 a.2

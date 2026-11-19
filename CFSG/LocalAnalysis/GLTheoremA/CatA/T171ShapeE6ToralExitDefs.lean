@@ -18,7 +18,7 @@ open CFSG.LieType.AlgebraicGroups CFSG.RankThree.PartOne.KE
     Prop :=
   ∀ (G : Type) [Group G] [Finite G] (L J A : Subgroup G) (d b : G) (n : ℕ)
     (K : Type) [Field K] [Finite K] [CharP (AlgebraicClosure K) 2]
-    (hn : 1 ≤ n) (hK : Nat.card K = 2 ^ n),
+    (_hn : 1 ≤ n) (_hK : Nat.card K = 2 ^ n),
     3 ∣ 2 ^ n - 1 → Setup 3 L J A d b →
     ∀ (θ : ↥L ⧸ Subgroup.center ↥L ≃* TableBExc.RecipeGroup Tag.E6 K)
       (wd wb : ↥(TableBExc.E6Three.hatGroup Tag.E6 K)),

@@ -158,7 +158,7 @@ theorem card_le_nine_of_isPGroup_centralizer_m0_inf_centralizer_beta_twD7
     (hS : S ≤ centralizer (twD7M0 K B : Set G) ⊓ centralizer ({B.b 0 * B.b 1} : Set G))
     (h3 : IsPGroup 3 S) : Nat.card S ≤ 9 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hspan, rfl, -⟩ := id hB
   obtain ⟨-, ⟨⟨-, hKC, -, -, -, -, -, -⟩, -, -, -, -, -⟩, -, -, hsup, -, -, -⟩ := id hstd
   have hM₀K : twD7M0 K B ≤ K := (commutator_le_self _).trans inf_le_right
@@ -303,12 +303,12 @@ theorem card_le_nine_of_isPGroup_centralizer_m0_inf_centralizer_beta_twD7
     hF3.comap_of_injective C₁.subtype C₁.subtype_injective
   obtain ⟨P, hFP⟩ := hF'3.exists_le_sylow
   have hPF : (P : Subgroup ↥C₁) ≤ F.subgroupOf C₁ := by
-    haveI : Group.IsNilpotent ↥(P : Subgroup ↥C₁) := P.isPGroup'.isNilpotent
+    have : Group.IsNilpotent ↥(P : Subgroup ↥C₁) := P.isPGroup.isNilpotent
     have hself : normalizer (((F.subgroupOf C₁).subgroupOf P : Subgroup ↥(P : Subgroup ↥C₁)) :
         Set ↥(P : Subgroup ↥C₁)) = (F.subgroupOf C₁).subgroupOf P := by
       refine le_antisymm (fun x hx => ?_) le_normalizer
       rw [mem_subgroupOf, mem_subgroupOf]
-      obtain ⟨k, hk⟩ := P.isPGroup' x
+      obtain ⟨k, hk⟩ := P.isPGroup x
       refine key _ (x : ↥C₁).2 k ?_ ?_
       · have := congrArg (fun y : ↥(P : Subgroup ↥C₁) => ((y : ↥C₁) : G)) hk
         simpa using this

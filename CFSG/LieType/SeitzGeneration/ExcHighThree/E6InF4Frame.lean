@@ -19,7 +19,7 @@ theorem not_le_normalizer_of_simple_centralizer {F : Subgroup G} [IsSimpleGroup 
       Group.IsSolvable ↥(P ⊓ X) → Group.IsSolvable ↥P) :
     ¬ F ≤ Subgroup.normalizer (X : Set G) := by
   intro hFN
-  haveI hnorm : ((F ⊓ X).subgroupOf F).Normal := by
+  have hnorm : ((F ⊓ X).subgroupOf F).Normal := by
     refine ⟨fun n hn g => ?_⟩
     have hn' : (n : G) ∈ F ⊓ X := Subgroup.mem_subgroupOf.1 hn
     rw [Subgroup.mem_inf] at hn'
@@ -35,7 +35,7 @@ theorem not_le_normalizer_of_simple_centralizer {F : Subgroup G} [IsSimpleGroup 
         Subgroup.mem_subgroupOf.2 hx
       rw [hbot, Subgroup.mem_bot] at hxmem
       exact congrArg Subtype.val hxmem
-    haveI : Subsingleton ↥(F ⊓ X) :=
+    have : Subsingleton ↥(F ⊓ X) :=
       ⟨fun a b => Subtype.ext ((hsub a a.2).trans (hsub b b.2).symm)⟩
     have hFsolv : Group.IsSolvable ↥F := hsolv F hFN inferInstance
     have hcomm : ∀ a b : F, a * b = b * a := IsSimpleGroup.comm_iff_isSolvable.2 hFsolv
@@ -276,10 +276,10 @@ theorem frame_two_of_three_le (hNR : LangPlaneKillsRoot Tag.F4) (hT : E6TwistedT
   obtain ⟨D₆, ω₆, hω₆, hbc⟩ := hT K hK h3 D₁ ω hω z hzbc
   have hC' := hC K h3 D₆ ω₆ hω₆ ((embE6F4 K z : adjointGroup .E6 K) : ModGL Tag.E6 K) hbc
   have hcent := e6Frame_centralizes K D₆ (embE6F4 K z) hC'
-  haveI hsimpleF4 : IsSimpleGroup (adjointGroup .F4 K) :=
+  have hsimpleF4 : IsSimpleGroup (adjointGroup .F4 K) :=
     CFSG.LieType.SeitzGeneration.ExcOuterLeOne.isSimpleGroup_adjointGroup_of_type
       (τ := Tag.F4) (K := K) (Or.inr (Or.inr (Or.inr rfl)))
-  haveI hsimpleF : IsSimpleGroup ↥(fixE6 K) := MulEquiv.isSimpleGroup (isoE6F4 K).symm
+  have hsimpleF : IsSimpleGroup ↥(fixE6 K) := MulEquiv.isSimpleGroup (isoE6F4 K).symm
   have hnc : ∃ a b : ↥(fixE6 K), a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := (opposite_simple_root_noncommutativity Tag.F4 K).2.2.1
     refine ⟨isoE6F4 K a, isoE6F4 K b, fun h => hab ?_⟩

@@ -128,7 +128,7 @@ theorem q1E7Model_holds
     rw [← map_pow, hwp, map_one]
   have hker : familyKernel (fun _ : Unit => a) = rootCharKernel a := by
     ext α
-    simp only [familyKernel, rootCharKernel, Set.mem_setOf_eq]
+    simp only [familyKernel, rootCharKernel, Set.mem_ofPred_eq]
     exact ⟨fun h => ⟨h.1, h.2 ()⟩, fun h => ⟨h.1, fun _ => h.2⟩⟩
   have hW :=
     CFSG.LocalAnalysis.GLTheoremA.T171Sh.rootCharStabilizerSubgroup_le_kernelReflectionGroup_of_odd

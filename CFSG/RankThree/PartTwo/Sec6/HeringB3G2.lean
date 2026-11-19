@@ -36,7 +36,7 @@ variable {K : Type} [Field K] [Finite K]
 theorem not_three_dvd_card_of_ringChar_ne_three (h : ringChar K ≠ 3) : ¬ 3 ∣ Nat.card K := by
   intro h3
   have : Fintype K := Fintype.ofFinite K
-  haveI := ringChar.charP K
+  have := ringChar.charP K
   obtain ⟨n, hp, hcard⟩ := FiniteField.card K (ringChar K)
   rw [Nat.card_eq_fintype_card, hcard] at h3
   exact h ((Nat.prime_dvd_prime_iff_eq Nat.prime_three hp).mp
@@ -56,7 +56,7 @@ theorem three_dvd_card_adjointG2 (h : ringChar K ≠ 3) :
 
 theorem exists_order_three_adjointG2 (h : ringChar K ≠ 3) :
     ∃ x : adjointGroup .G2 K, x ≠ 1 ∧ x ^ 3 = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 3 (three_dvd_card_adjointG2 h)
   exact ⟨x, fun h1 => by simp [h1] at hx, by rw [← hx]; exact pow_orderOf_eq_one x⟩
 
@@ -103,7 +103,7 @@ theorem b3Fix_g2_of_inner (hK3 : ringChar K ≠ 3) (hK4 : 4 ≤ Nat.card K)
 theorem card_eq_two_or_four_le_of_ringChar_two {k : Type} [Field k] [Finite k]
     (h : ringChar k = 2) : Nat.card k = 2 ∨ 4 ≤ Nat.card k := by
   have : Fintype k := Fintype.ofFinite k
-  haveI := ringChar.charP k
+  have := ringChar.charP k
   obtain ⟨n, hp, hcard⟩ := FiniteField.card k (ringChar k)
   rw [Nat.card_eq_fintype_card, hcard, h]
   rcases n with ⟨n, hn⟩
@@ -137,8 +137,8 @@ theorem b3Fix_g2_of_outer (hK2 : ringChar K = 2) (hK4 : 4 ≤ Nat.card K)
       have : k⁻¹ * (k * y * k⁻¹) * k = y := by group
       rw [this, hy]
   have hB : B3Fix (g2Incl σ).range := by
-    haveI : CharP K 2 := ringChar.of_eq hK2
-    haveI : CharP (fixSubfield σ) 2 :=
+    have : CharP K 2 := ringChar.of_eq hK2
+    have : CharP (fixSubfield σ) 2 :=
       RingHom.charP (fixSubfield σ).subtype (fixSubfield σ).subtype_injective 2
     have hk₀ : ringChar (fixSubfield σ) = 2 := ringChar.eq _ 2
     have hk₀3 : ringChar (fixSubfield σ) ≠ 3 := by rw [hk₀]; norm_num

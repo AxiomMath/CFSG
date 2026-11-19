@@ -20,7 +20,7 @@ theorem le_normalizer_inf {G : Type} [Group G] {H N : Subgroup G}
   have h2 := Subgroup.mem_normalizer_iff.mp (Subgroup.le_normalizer hg)
   rw [Subgroup.mem_normalizer_iff]
   intro x
-  simp only [SetLike.mem_coe, Subgroup.mem_inf] at h1 h2 ⊢
+  simp only [Subgroup.mem_inf] at h1 h2 ⊢
   exact and_congr (h1 x) (h2 x)
 
 section Char
@@ -66,7 +66,7 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
 theorem liftConj_apply (n : ModGL .E6 (FiniteField.Extension K 2 2)) (c : adjointGroup .E6 K) :
     liftConj n c = n⁻¹ * baseChangeGL (algebraMap K (FiniteField.Extension K 2 2)) c * n := by
-  simp [liftConj, MulAut.conj_apply]
+  simp [liftConj]
 
 theorem liftConj_injective (n : ModGL .E6 (FiniteField.Extension K 2 2)) :
     Function.Injective (liftConj (K := K) n) := fun c c' h => by

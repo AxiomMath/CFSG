@@ -25,7 +25,6 @@ theorem injective_torusDiag_un5 (g : Fˣ) (hg : orderOf g = 15) :
   fin_cases i <;> fin_cases j <;> simp only [Fin.zero_eta, Fin.mk_one, Fin.reduceFinMk,
     Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val] at hij ⊢ <;>
   first
-    | rfl
     | exact absurd (key _ _ hij) (by decide)
 
 theorem idBelow_unU5 {f : ℕ} (hF : Nat.card F = (2 ^ f) ^ 2) {y : SU (unitaryInvolution F 2 f) 5}

@@ -19,6 +19,7 @@ variable {G : Type} [Group G] [Finite G]
     Subgroup.centralizer ((barX p M L : Subgroup (↥M ⧸ GLAPPrimeCore p ↥M)) :
       Set (↥M ⧸ GLAPPrimeCore p ↥M))}
 
+omit [Finite G] in
 theorem Iof_eq_sSup (p : ℕ) (M D : Subgroup G) : Iof p M D = sSup (summands p M D) := by
   rw [sSup_eq_iSup]
   rfl

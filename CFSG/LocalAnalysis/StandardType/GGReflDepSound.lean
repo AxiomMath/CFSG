@@ -69,7 +69,7 @@ theorem classificationD
             rintro s' ⟨hsA', hsr'⟩
             exact (C.stage2 hwr hS2 hArep hsA' hsr').1
           · exact hleG
-        haveI : Fact (withExtra P0 [rp.r]).p.Prime := ‹Fact P0.p.Prime›
+        have : Fact (withExtra P0 [rp.r]).p.Prime := ‹Fact P0.p.Prime›
         have hWE : ZS.LinWeyl P0.p (withExtra P0 [rp.r]).group :=
           verifyWE6_sound (wfCheck_sound hvwf) hvwe6
         exact hW (by rw [hAeq]; exact hWE)

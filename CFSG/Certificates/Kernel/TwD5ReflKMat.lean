@@ -11,7 +11,7 @@ namespace CFSG.KC.TwD5R
 open scoped Matrix
 open CFSG.StandardType.FrameRoute.FS81
 
-theorem reflK_canonKey {a b : ℕ} (ha : a < 729) (hb : b < 729) :
+theorem reflK_canonKey {a b : ℕ} (_ha : a < 729) (hb : b < 729) :
     reflK (canonKey a b) = 1 + Matrix.vecMulVec (decV a) (decV b) := by
   unfold reflK
   cases hc : canon a
@@ -268,7 +268,7 @@ theorem vecMul_spMat_mulVec {σ : Equiv.Perm (Fin 6)} {s : Fin 6 → ZMod 3} (hs
   rw [spMat_mulVec]
   funext j
   simp only [Matrix.vecMul, dotProduct, spMat_apply, mul_ite, mul_zero, Finset.sum_ite_eq',
-    Finset.sum_ite_eq, Finset.mem_univ, if_true, Equiv.symm_apply_apply]
+    Finset.mem_univ, ite_true, Equiv.symm_apply_apply]
   rw [mul_comm (s j) (f j), mul_assoc, sign_sq (hs j), mul_one]
 
 @[expose] noncomputable def hcMat (hc : ℕ) : Matrix (Fin 6) (Fin 6) (ZMod 3) :=
@@ -298,8 +298,8 @@ theorem hcMat_spec {fx : Bool} {hc : ℕ} (h : validH fx hc = true) :
   change (if i.val = lane hc j.val then _ else _) = (if i = f j then _ else _)
   have e : i = f j ↔ i.val = lane hc j.val := Fin.ext_iff
   by_cases hij : i.val = lane hc j.val
-  · rw [if_pos hij, if_pos (e.mpr hij)]
-  · rw [if_neg hij, if_neg (fun h => hij (e.mp h))]
+  · rw [ite_eq_left hij, ite_eq_left (e.mpr hij)]
+  · rw [ite_eq_right hij, ite_eq_right (fun h => hij (e.mp h))]
 
 theorem hcMat_mem {fx : Bool} {hc : ℕ} (h : validH fx hc = true) : hcMat hc ∈ HS fx := by
   obtain ⟨σ, -, h0, he⟩ := hcMat_spec h
@@ -640,7 +640,6 @@ theorem HS_le_GS {fx : Bool} {M : Matrix (Fin 6) (Fin 6) (ZMod 3)} (hM : M ∈ H
   · rw [Equiv.prod_comp σ.symm s]
     exact hp
   · intro hfx
-    change s (σ.symm 0) = 1
     rw [h0', hf hfx]
 
 end CFSG.KC.TwD5R

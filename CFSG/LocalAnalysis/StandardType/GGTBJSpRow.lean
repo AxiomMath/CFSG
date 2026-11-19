@@ -69,7 +69,7 @@ theorem ggTBJTorusNoncomm_rowR3 (hRig : GGLabelRigidInput) :
     exact ⟨e g, by
       ext z
       simp [MulAut.congr_apply, MulAut.conj_apply]⟩) hTB
-  haveI : NeZero r := ⟨by omega⟩
+  have : NeZero r := ⟨by omega⟩
   exact ggTBJ_sp_torusJNoncomm hp hp2 hpq (e.toMonoidHom.comp (ggQuotHom θ)) _ hTB' y hy hJ'
     hcount
 

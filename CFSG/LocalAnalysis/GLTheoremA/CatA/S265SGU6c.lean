@@ -56,8 +56,8 @@ private theorem layer_congr_chevAut {Ω : Type} [Group Ω] [Finite Ω] {S B T : 
     refine Subgroup.mem_center_iff.2 fun k' => Subtype.ext ?_
     exact congrArg (fun s : ↥S => (s : Ω))
       (Subgroup.mem_center_iff.1 hk' (Subgroup.inclusion hKS k'))
-  haveI : Group.IsPerfect ↥K := ⟨hKc.2.2.1⟩
-  haveI := nontrivial_of_tyF hcat
+  have : Group.IsPerfect ↥K := ⟨hKc.2.2.1⟩
+  have := nontrivial_of_tyF hcat
   obtain ⟨eK⟩ := SF.nonempty_centerQuot_equiv_pSimple (p := 3) hKc.2.2
   obtain ⟨i, hi, ⟨f⟩⟩ := hcat
   exact ⟨i, hi, ⟨(CFSG.ComponentClassification.PerfectCentralQuotient.equivalence
